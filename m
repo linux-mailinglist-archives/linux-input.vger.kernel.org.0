@@ -1,74 +1,63 @@
-Return-Path: <linux-input+bounces-6205-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6206-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06D596C7D2
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 21:45:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AEA596C7DA
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 21:46:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D9D51C253E7
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 19:45:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 301E11C20BE2
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 19:46:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2D5F1E6DC0;
-	Wed,  4 Sep 2024 19:45:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27649146D53;
+	Wed,  4 Sep 2024 19:46:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cZIs9UUY"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="l4NlHtMR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54D712C54B;
-	Wed,  4 Sep 2024 19:44:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFC613AA2B;
+	Wed,  4 Sep 2024 19:46:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725479100; cv=none; b=prdB5KDQh2yHjIBSRn0PiWIEcUKnk1BG8on8BqzjKKwZt6hzV80Gz7yEFGbOdn+q6Wer0OgsyNIxmmsl7itmQtRvnEDr12GlE1bO7Ogl2yU+JXdC9o5DaUnZAH1UtJNrUg6mhJwZX62MNataxuAiB9mcOA8zdO4V/Zsfvveux6w=
+	t=1725479192; cv=none; b=mzDIZF9BFRlEv6ITKhNv7SlpOkQxMLb6medvfZa31ozxWlWc780Q1kwTCHlT3vu0icvghG3LGKJS572Om3Q8BbONkLFgMlpetimmSgtuLv9mluhEohrx52yGyWYQNZtXn65w+BTRNd+DdwcA8Y5MbjfDvCz41mddabR1WolPqE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725479100; c=relaxed/simple;
-	bh=VudqCsBqdRxgxiAbexoJ3cXbvuFBD8Sz3Th88LaZVLc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Nm9fOetuIfgogRD+vrxr597KcjXwz9P/xH2qAaimoupsaHlT2/K40qeWPT4M58+ChkC8FuhWdHR35YYjJElhNbeXLjuwy3qF4zRxbsHDIhpsqUUtuUeMVEDgP5/Oc7qDddBWDUmalnO6br/lz9fkPzh6H+tGC0GrjSe8zBZg4zA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cZIs9UUY; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5c26852af8fso3441580a12.2;
-        Wed, 04 Sep 2024 12:44:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725479097; x=1726083897; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ljJrsx/AOsvBxGZp0eo0tP3bDry9WRlzJyd8Xb3foIo=;
-        b=cZIs9UUY3/9ByHrN29hgX36z7kFjqr6KaHzttWdUM42HC37dWtb4Nto9Jq9pwfqAEJ
-         EnZHrE5Mfi07FH6kUJVhCeFKyUaAX0F1m+Ql2GZlWlqbhiZJ1l554XAPbSshqqJvmf5f
-         dsji3Cqb8WBA3C0vsVJsBGeLDZ6poJRnog//QYUUM70N2IfDU+kugsheJedwIixHdyIB
-         +yIpA3daT1pOeN7lrn3M3AbFCaV/KfQNX+K7/a1jGG/FNAhsFtQtjFHioBetSX+rC0iA
-         ni8Y35dBkrOHxOixRuAlEDiADvdfRlQjno61i/Nc/FOuTBFp1RYRJO/3ZXz7AAlrHPkh
-         O7SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725479097; x=1726083897;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ljJrsx/AOsvBxGZp0eo0tP3bDry9WRlzJyd8Xb3foIo=;
-        b=MoJxIsdrr+PkhNhNZZ4ArFZxK4R3V+KRJ0YOPqxfrijyzNPKNu7VZTs073w7wi84gC
-         j2swej1G+24J5KAm8FxjyXapWyX57dDBXMgK79Mp0xi6Mfr5B2svxSoX0uPlEOovZfXk
-         4WJahzcet+Jch8uQwh4mlkC8kzaX75sKBl3cd0+bI6uCLqTbBqHv+BdpRe8k9CVzgVKZ
-         p7cnCkZvNA+/6A686p0kZYTotEG8c1OPHo8C3GnfKbBEIZ+LD2UvsMWokcYgQezQOFHw
-         +Uz3TC4US6mmDZv6xevYWm4fvdswQCfHDNL/fBtP0jOLhv2quR0j7g6n/CSKhz/C782O
-         /sqg==
-X-Forwarded-Encrypted: i=1; AJvYcCVMDRYCbwW5tfnPcjfuXildpKBdTY8A0V27JKE4mKYyw2k5DGNKgtHg2vZdP+3OZMfuBvE+5f3kXAeoDw==@vger.kernel.org, AJvYcCXWsb7d+TUuCbHHu3FPLbirjFOmKum0vrWVSmnh4aSzhy0c6acRrbExd3YkjKruFJUDrOJ65+lCpIfBeGvf@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWp6kVgDzulHYwqyyjILQu7iAVm3Q8FscBW927K6Wzp/m69DDB
-	sRHC8aqbzx6ob2l6laj7FqgblvEfm8kwv+yTCsuNZ4KnsX1H41Cg
-X-Google-Smtp-Source: AGHT+IGYwG2QKIyfP9cCHw/aAUsj+eqGw1WyAihijQ9niMLQPmEFaOM7/L5h+HBnhd+zN6ahoZteag==
-X-Received: by 2002:a17:907:d90:b0:a86:b64e:bc4d with SMTP id a640c23a62f3a-a897fa74489mr1743651566b.44.1725479096986;
-        Wed, 04 Sep 2024 12:44:56 -0700 (PDT)
-Received: from [192.168.0.31] (84-115-213-37.cable.dynamic.surfer.at. [84.115.213.37])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8a623e3458sm28919066b.191.2024.09.04.12.44.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Sep 2024 12:44:56 -0700 (PDT)
-Message-ID: <83199f0f-67a9-4fe7-9cbe-f3821ad4c041@gmail.com>
-Date: Wed, 4 Sep 2024 21:44:54 +0200
+	s=arc-20240116; t=1725479192; c=relaxed/simple;
+	bh=e5YRCfHcSxajoDuqX351heIe3Wzdm2U2L0IQCNWWeXQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=AMpCSQfFOixEFdoOYSCH0ZMu8UCDLW+yBjF7XdBqvMTEl99MEc0GP4iiWzLZnbTe4a5CO9yN2H6F9m5lk91693J+sBXSN/A7UWPlduXzgpF4o5Fl9hBkxahrvO7fFPhKXc1m4U4qK7Y2tIqtCSNEeroXNKPh7egU1lTJ/9TRXqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=l4NlHtMR; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 484IoaCp028269;
+	Wed, 4 Sep 2024 19:46:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	4L5/ijFquyhl43s4ge7n4rzdYP9Bspig+YmhsVPizDQ=; b=l4NlHtMRF8vNO7MP
+	nOQCFcFhJ2p34IS3ayCQypwnosMjNNcY1PKjL2lmN+4U6e52LGqMnttmJHnMZ6Sk
+	tprRbJDmIDPf1A7LIrtMXJkT/SLsVAIWKE/3iqWfY/mJK0AHJ7syVBy7HwXAW+3P
+	k/YsDqdmGUX0MjtBMA8Okxj9PO5NZu13f0hJ0Ptl2vb7YPPRYGPfIFl2LvbiqU+8
+	z/3WnSZ+/k+LeqBkSYJFkT5y2J8LczrwNup0TWjbkAJowbTOnPLVtW3Ul3fmLvG+
+	YrieTiYgDm999u0Y9qoZYtf9XqKdE4Z/I+6FLDV6L8kFZEZl7q8YDrmdBHeVLUXx
+	lINI9g==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41btrxuu79-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Sep 2024 19:46:06 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 484Jk4kw023645
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 4 Sep 2024 19:46:04 GMT
+Received: from [10.71.114.155] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 4 Sep 2024
+ 12:46:03 -0700
+Message-ID: <93d2eecf-ed79-41cf-b38b-ede432093aec@quicinc.com>
+Date: Wed, 4 Sep 2024 12:46:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -76,290 +65,109 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/22] Input: cm109 - use guard notation when acquiring
- mutex and spinlock
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org
-Cc: Michael Hennerich <michael.hennerich@analog.com>,
- Ville Syrjala <syrjala@sci.fi>,
- Support Opensource <support.opensource@diasemi.com>,
- Eddie James <eajames@linux.ibm.com>, Andrey Moiseev <o2g.org.ru@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>, Jeff LaBundy <jeff@labundy.com>,
- linux-kernel@vger.kernel.org,
- Javier Carrasco Cruz <javier.carrasco.cruz@gmail.com>
-References: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
- <20240904044244.1042174-4-dmitry.torokhov@gmail.com>
-Content-Language: en-US, de-AT
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <20240904044244.1042174-4-dmitry.torokhov@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v26 30/33] ALSA: usb-audio: qcom: Use card and PCM index
+ from QMI request
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <tiwai@suse.com>, <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
+        <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
+References: <20240829194105.1504814-1-quic_wcheng@quicinc.com>
+ <20240829194105.1504814-31-quic_wcheng@quicinc.com>
+ <f8090415-e0ae-4923-bdc8-58622623fc9d@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <f8090415-e0ae-4923-bdc8-58622623fc9d@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: r8piAAQeh2qxXzfDR-ckpRBOOeNMPYga
+X-Proofpoint-ORIG-GUID: r8piAAQeh2qxXzfDR-ckpRBOOeNMPYga
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-04_17,2024-09-04_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ clxscore=1015 suspectscore=0 phishscore=0 impostorscore=0
+ priorityscore=1501 mlxscore=0 mlxlogscore=999 spamscore=0
+ lowpriorityscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2407110000 definitions=main-2409040149
 
-On 04/09/2024 06:42, Dmitry Torokhov wrote:
-> Using guard notation makes the code more compact and error handling
-> more robust by ensuring that locks are released in all code paths
-> when control leaves critical section.
-> 
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
->  drivers/input/misc/cm109.c | 167 ++++++++++++++++++-------------------
->  1 file changed, 79 insertions(+), 88 deletions(-)
-> 
-> diff --git a/drivers/input/misc/cm109.c b/drivers/input/misc/cm109.c
-> index 728325a2d574..0cfe5d4a573c 100644
-> --- a/drivers/input/misc/cm109.c
-> +++ b/drivers/input/misc/cm109.c
-> @@ -355,6 +355,35 @@ static void cm109_submit_buzz_toggle(struct cm109_dev *dev)
->  			__func__, error);
->  }
->  
-> +static void cm109_submit_ctl(struct cm109_dev *dev)
-> +{
-> +	int error;
-> +
-> +	guard(spinlock_irqsave)(&dev->ctl_submit_lock);
-> +
-> +	dev->irq_urb_pending = 0;
-> +
-> +	if (unlikely(dev->shutdown))
-> +		return;
-> +
-> +	if (dev->buzzer_state)
-> +		dev->ctl_data->byte[HID_OR0] |= BUZZER_ON;
-> +	else
-> +		dev->ctl_data->byte[HID_OR0] &= ~BUZZER_ON;
-> +
-> +	dev->ctl_data->byte[HID_OR1] = dev->keybit;
-> +	dev->ctl_data->byte[HID_OR2] = dev->keybit;
-> +
-> +	dev->buzzer_pending = 0;
-> +	dev->ctl_urb_pending = 1;
-> +
-> +	error = usb_submit_urb(dev->urb_ctl, GFP_ATOMIC);
-> +	if (error)
-> +		dev_err(&dev->intf->dev,
-> +			"%s: usb_submit_urb (urb_ctl) failed %d\n",
-> +			__func__, error);
-> +}
-> +
->  /*
->   * IRQ handler
->   */
-> @@ -362,8 +391,6 @@ static void cm109_urb_irq_callback(struct urb *urb)
->  {
->  	struct cm109_dev *dev = urb->context;
->  	const int status = urb->status;
-> -	int error;
-> -	unsigned long flags;
->  
->  	dev_dbg(&dev->intf->dev, "### URB IRQ: [0x%02x 0x%02x 0x%02x 0x%02x] keybit=0x%02x\n",
->  	     dev->irq_data->byte[0],
-> @@ -401,32 +428,7 @@ static void cm109_urb_irq_callback(struct urb *urb)
->  	}
->  
->   out:
-> -
-> -	spin_lock_irqsave(&dev->ctl_submit_lock, flags);
-> -
-> -	dev->irq_urb_pending = 0;
-> -
-> -	if (likely(!dev->shutdown)) {
-> -
-> -		if (dev->buzzer_state)
-> -			dev->ctl_data->byte[HID_OR0] |= BUZZER_ON;
-> -		else
-> -			dev->ctl_data->byte[HID_OR0] &= ~BUZZER_ON;
-> -
-> -		dev->ctl_data->byte[HID_OR1] = dev->keybit;
-> -		dev->ctl_data->byte[HID_OR2] = dev->keybit;
-> -
-> -		dev->buzzer_pending = 0;
-> -		dev->ctl_urb_pending = 1;
-> -
-> -		error = usb_submit_urb(dev->urb_ctl, GFP_ATOMIC);
-> -		if (error)
-> -			dev_err(&dev->intf->dev,
-> -				"%s: usb_submit_urb (urb_ctl) failed %d\n",
-> -				__func__, error);
-> -	}
-> -
-> -	spin_unlock_irqrestore(&dev->ctl_submit_lock, flags);
-> +	cm109_submit_ctl(dev);
->  }
->  
->  static void cm109_urb_ctl_callback(struct urb *urb)
-> @@ -434,7 +436,6 @@ static void cm109_urb_ctl_callback(struct urb *urb)
->  	struct cm109_dev *dev = urb->context;
->  	const int status = urb->status;
->  	int error;
-> -	unsigned long flags;
->  
->  	dev_dbg(&dev->intf->dev, "### URB CTL: [0x%02x 0x%02x 0x%02x 0x%02x]\n",
->  	     dev->ctl_data->byte[0],
-> @@ -449,35 +450,31 @@ static void cm109_urb_ctl_callback(struct urb *urb)
->  				    __func__, status);
->  	}
->  
-> -	spin_lock_irqsave(&dev->ctl_submit_lock, flags);
-> +	guard(spinlock_irqsave)(&dev->ctl_submit_lock);
->  
->  	dev->ctl_urb_pending = 0;
->  
-> -	if (likely(!dev->shutdown)) {
-> -
-> -		if (dev->buzzer_pending || status) {
-> -			dev->buzzer_pending = 0;
-> -			dev->ctl_urb_pending = 1;
-> -			cm109_submit_buzz_toggle(dev);
-> -		} else if (likely(!dev->irq_urb_pending)) {
-> -			/* ask for key data */
-> -			dev->irq_urb_pending = 1;
-> -			error = usb_submit_urb(dev->urb_irq, GFP_ATOMIC);
-> -			if (error)
-> -				dev_err(&dev->intf->dev,
-> -					"%s: usb_submit_urb (urb_irq) failed %d\n",
-> -					__func__, error);
-> -		}
-> -	}
-> +	if (unlikely(dev->shutdown))
-> +		return;
->  
-> -	spin_unlock_irqrestore(&dev->ctl_submit_lock, flags);
-> +	if (dev->buzzer_pending || status) {
-> +		dev->buzzer_pending = 0;
-> +		dev->ctl_urb_pending = 1;
-> +		cm109_submit_buzz_toggle(dev);
-> +	} else if (likely(!dev->irq_urb_pending)) {
-> +		/* ask for key data */
-> +		dev->irq_urb_pending = 1;
-> +		error = usb_submit_urb(dev->urb_irq, GFP_ATOMIC);
-> +		if (error)
-> +			dev_err(&dev->intf->dev,
-> +				"%s: usb_submit_urb (urb_irq) failed %d\n",
-> +				__func__, error);
-> +	}
->  }
->  
->  static void cm109_toggle_buzzer_async(struct cm109_dev *dev)
->  {
-> -	unsigned long flags;
-> -
-> -	spin_lock_irqsave(&dev->ctl_submit_lock, flags);
-> +	guard(spinlock_irqsave)(&dev->ctl_submit_lock);
->  
->  	if (dev->ctl_urb_pending) {
->  		/* URB completion will resubmit */
-> @@ -486,8 +483,6 @@ static void cm109_toggle_buzzer_async(struct cm109_dev *dev)
->  		dev->ctl_urb_pending = 1;
->  		cm109_submit_buzz_toggle(dev);
->  	}
-> -
-> -	spin_unlock_irqrestore(&dev->ctl_submit_lock, flags);
->  }
->  
->  static void cm109_toggle_buzzer_sync(struct cm109_dev *dev, int on)
-> @@ -556,32 +551,30 @@ static int cm109_input_open(struct input_dev *idev)
->  		return error;
->  	}
->  
-> -	mutex_lock(&dev->pm_mutex);
-> -
-> -	dev->buzzer_state = 0;
-> -	dev->key_code = -1;	/* no keys pressed */
-> -	dev->keybit = 0xf;
-> +	scoped_guard(mutex, &dev->pm_mutex) {
-> +		dev->buzzer_state = 0;
-> +		dev->key_code = -1;	/* no keys pressed */
-> +		dev->keybit = 0xf;
->  
-> -	/* issue INIT */
-> -	dev->ctl_data->byte[HID_OR0] = HID_OR_GPO_BUZ_SPDIF;
-> -	dev->ctl_data->byte[HID_OR1] = dev->keybit;
-> -	dev->ctl_data->byte[HID_OR2] = dev->keybit;
-> -	dev->ctl_data->byte[HID_OR3] = 0x00;
-> +		/* issue INIT */
-> +		dev->ctl_data->byte[HID_OR0] = HID_OR_GPO_BUZ_SPDIF;
-> +		dev->ctl_data->byte[HID_OR1] = dev->keybit;
-> +		dev->ctl_data->byte[HID_OR2] = dev->keybit;
-> +		dev->ctl_data->byte[HID_OR3] = 0x00;
->  
-> -	dev->ctl_urb_pending = 1;
-> -	error = usb_submit_urb(dev->urb_ctl, GFP_KERNEL);
-> -	if (error) {
-> -		dev->ctl_urb_pending = 0;
-> -		dev_err(&dev->intf->dev, "%s: usb_submit_urb (urb_ctl) failed %d\n",
-> -			__func__, error);
-> -	} else {
-> -		dev->open = 1;
-> +		dev->ctl_urb_pending = 1;
-> +		error = usb_submit_urb(dev->urb_ctl, GFP_KERNEL);
-> +		if (!error) {
-> +			dev->open = 1;
-> +			return 0;
-> +		}
->  	}
->  
-> -	mutex_unlock(&dev->pm_mutex);
-> +	dev->ctl_urb_pending = 0;
-> +	usb_autopm_put_interface(dev->intf);
->  
-> -	if (error)
-> -		usb_autopm_put_interface(dev->intf);
-> +	dev_err(&dev->intf->dev, "%s: usb_submit_urb (urb_ctl) failed %d\n",
-> +		__func__, error);
->  
->  	return error;
->  }
-> @@ -590,17 +583,15 @@ static void cm109_input_close(struct input_dev *idev)
->  {
->  	struct cm109_dev *dev = input_get_drvdata(idev);
->  
-> -	mutex_lock(&dev->pm_mutex);
-> -
-> -	/*
-> -	 * Once we are here event delivery is stopped so we
-> -	 * don't need to worry about someone starting buzzer
-> -	 * again
-> -	 */
-> -	cm109_stop_traffic(dev);
-> -	dev->open = 0;
-> -
-> -	mutex_unlock(&dev->pm_mutex);
-> +	scoped_guard(mutex, &dev->pm_mutex) {
-> +		/*
-> +		 * Once we are here event delivery is stopped so we
-> +		 * don't need to worry about someone starting buzzer
-> +		 * again
-> +		 */
-> +		cm109_stop_traffic(dev);
-> +		dev->open = 0;
-> +	}
->  
->  	usb_autopm_put_interface(dev->intf);
->  }
-> @@ -823,9 +814,9 @@ static int cm109_usb_suspend(struct usb_interface *intf, pm_message_t message)
->  
->  	dev_info(&intf->dev, "cm109: usb_suspend (event=%d)\n", message.event);
->  
-> -	mutex_lock(&dev->pm_mutex);
-> +	guard(mutex)(&dev->pm_mutex);
-> +
->  	cm109_stop_traffic(dev);
-> -	mutex_unlock(&dev->pm_mutex);
->  
->  	return 0;
->  }
-> @@ -836,9 +827,9 @@ static int cm109_usb_resume(struct usb_interface *intf)
->  
->  	dev_info(&intf->dev, "cm109: usb_resume\n");
->  
-> -	mutex_lock(&dev->pm_mutex);
-> +	guard(mutex)(&dev->pm_mutex);
-> +
->  	cm109_restore_state(dev);
-> -	mutex_unlock(&dev->pm_mutex);
->  
->  	return 0;
->  }
+Hi Pierre,
 
-Reviewed-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+On 8/30/2024 2:58 AM, Pierre-Louis Bossart wrote:
+>
+> On 8/29/24 21:41, Wesley Cheng wrote:
+>> Utilize the card and PCM index coming from the USB QMI stream request.
+>> This field follows what is set by the ASoC USB backend, and could
+>> potentially carry information about a specific device selected through the
+>> ASoC USB backend.  The backend also has information about the last USB
+>> sound device plugged in, so it can choose to select the last device plugged
+>> in, accordingly.
+>>
+>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> ---
+>>  sound/usb/qcom/qc_audio_offload.c | 8 ++------
+>>  1 file changed, 2 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+>> index 0bd533f539e4..a7ad15404fd1 100644
+>> --- a/sound/usb/qcom/qc_audio_offload.c
+>> +++ b/sound/usb/qcom/qc_audio_offload.c
+>> @@ -106,8 +106,6 @@ struct uaudio_qmi_dev {
+>>  	bool er_mapped;
+>>  	/* reference count to number of possible consumers */
+>>  	atomic_t qdev_in_use;
+>> -	/* idx to last udev card number plugged in */
+>> -	unsigned int last_card_num;
+>>  };
+>>  
+>>  struct uaudio_dev {
+>> @@ -1261,7 +1259,7 @@ static int prepare_qmi_response(struct snd_usb_substream *subs,
+>>  
+>>  	pcm_dev_num = (req_msg->usb_token & QMI_STREAM_REQ_DEV_NUM_MASK) >> 8;
+>>  	xfer_buf_len = req_msg->xfer_buff_size;
+>> -	card_num = uaudio_qdev->last_card_num;
+>> +	card_num = (req_msg->usb_token & QMI_STREAM_REQ_CARD_NUM_MASK) >> 16;
+>>  
+>>  	if (!uadev[card_num].ctrl_intf) {
+>>  		dev_err(&subs->dev->dev, "audio ctrl intf info not cached\n");
+>> @@ -1455,8 +1453,7 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
+>>  
+>>  	direction = (req_msg->usb_token & QMI_STREAM_REQ_DIRECTION);
+>>  	pcm_dev_num = (req_msg->usb_token & QMI_STREAM_REQ_DEV_NUM_MASK) >> 8;
+>> -	pcm_card_num = req_msg->enable ? uaudio_qdev->last_card_num :
+>> -				ffs(uaudio_qdev->card_slot) - 1;
+>> +	pcm_card_num = (req_msg->usb_token & QMI_STREAM_REQ_CARD_NUM_MASK) >> 16;
+>>  	if (pcm_card_num >= SNDRV_CARDS) {
+>>  		ret = -EINVAL;
+>>  		goto response;
+>> @@ -1706,7 +1703,6 @@ static void qc_usb_audio_offload_probe(struct snd_usb_audio *chip)
+>>  		sdev->card_idx = chip->card->number;
+>>  		sdev->chip_idx = chip->index;
+>>  
+>> -		uaudio_qdev->last_card_num = chip->card->number;
+>>  		snd_soc_usb_connect(usb_get_usb_backend(udev), sdev);
+>>  	}
+> This entire path seems like a bad split/merge, it removes stuff that was
+> done earlier. Also it's not clear what this has to do with 'QMI', card
+> and PCM device management is usually done at a higher level.
+>
+> not following, please be mindful of reviewer fatigue when adding such
+> changes in patch 30/33....
+
+I'll just add this as part of patch#28.  I think before I did the reordering of the series, this made a bit more sense to have as a patch on its own.  Now that the entire framework for the audio dsp to know about the card and pcm index is already done in previous patches, the plumbing is done for the qc_audio_offload to utilize the fields coming from the audio DSP, as they will carry valid values.
+
+Thanks
+
+Wesley Cheng
+
 
