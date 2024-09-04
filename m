@@ -1,159 +1,205 @@
-Return-Path: <linux-input+bounces-6211-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6212-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E20C96C9E5
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 23:57:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D2796CAA7
+	for <lists+linux-input@lfdr.de>; Thu,  5 Sep 2024 01:03:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B97DD1F28747
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 21:57:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3A5A1C21579
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 23:03:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B5FA153812;
-	Wed,  4 Sep 2024 21:56:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4EC515573D;
+	Wed,  4 Sep 2024 23:03:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="aQ+qBYP5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oJkuuYek"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F16A148FEC;
-	Wed,  4 Sep 2024 21:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF45B1372
+	for <linux-input@vger.kernel.org>; Wed,  4 Sep 2024 23:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725487017; cv=none; b=FFTA9rgl/IvwOxTN1PxM+YJn68NkLibb/phmtkQ204AMyuLcwnnst1R30zMiIaqZy/chaqMWpNd9nhg3aDfP/EEo99Rlw54rTDbpptNWBEwraTboEcWkyESHVZAzHuwwIF5V0mM6wyXauM18kEdOSbLBACjtGT0bdSb5GpTqR58=
+	t=1725491032; cv=none; b=HSvOjn2nVRjbiLXiKqqr0APb/TmuJiJesnj9kFL/XODfmcWyXBjg/YU0TuA8tUq/CEXQ2bIeTt8LlESBHmmWv0IYuQwAH4rv2FT9d1m8HADdcw3d4s5ZibSbjeRs19oSrJNmLV+Wn8Km/nJWdpDsrriBUmI3Kuf0INJ3RObd0Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725487017; c=relaxed/simple;
-	bh=E+Rgzio483xxU+JEVGgFsyQwHHi7k/yI10zOLscizJA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k4QJFSHF4/MADhHVU6oVml92DCGfqF1/EKB2UvRUYiLiuC4am6q3Iu97cY6LYkP0snhBhLKo0m948JfbaxYuJmbbQk5EVK25nHX/GAVJPG7f3OLlUPOtUnfPj+l2FjwF2WxJazzdrYnEU3wROkOY7aV291IkQpazfETBMCAZfes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=aQ+qBYP5; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 484HIVCD015193;
-	Wed, 4 Sep 2024 21:56:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=K
-	a0SM+/EsF9U7dI3SIKxZnLderdvpEctbCGmzYggbNw=; b=aQ+qBYP5FAmIcrSIM
-	nATbyYmYmNUyLTDyacDzUPMKxxAe8N2j+jaCILxqpFcmbax/c7c2jjGirorBYEzJ
-	qeh9S4dUBBfotx5thjB1fZcku0XOrSBR+/tYpD/YucdNt7gbanqmoNmHF9GpoiV/
-	DYZaHg/13swOtPxwXQkHf2oZvkbkLr7mJTRy4pWWhDGb5+P0cIYQpXunL9CYsRSm
-	L2o0GKxp+82WvwJrCwylr7Y0LKDWs7IvCB9EKj+vaxhM7tq1mj/oc0pgB0RmJHQG
-	MuH4NP9OXMqLDO2/fKNtI6KwVPH8hZZYyvo/doabx1zAENf8MRsdgv6UNwHPbMor
-	9JAAg==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41bskm5qyp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Sep 2024 21:56:47 +0000 (GMT)
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 484Luk1h022785;
-	Wed, 4 Sep 2024 21:56:46 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41bskm5qym-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Sep 2024 21:56:46 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 484L7HFk012058;
-	Wed, 4 Sep 2024 21:56:45 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 41cegq1sm7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Sep 2024 21:56:45 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
-	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 484LuiIf35586726
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 4 Sep 2024 21:56:45 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B29A05805D;
-	Wed,  4 Sep 2024 21:56:44 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2EA5458054;
-	Wed,  4 Sep 2024 21:56:44 +0000 (GMT)
-Received: from [9.61.11.70] (unknown [9.61.11.70])
-	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  4 Sep 2024 21:56:44 +0000 (GMT)
-Message-ID: <624b6761-c8b0-4e75-9799-0fd7bd9040f3@linux.ibm.com>
-Date: Wed, 4 Sep 2024 16:56:42 -0500
+	s=arc-20240116; t=1725491032; c=relaxed/simple;
+	bh=YKPWqqkjIILiByVRWjuFeXLEvGMbO5DqGY1OehJSmtU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=s9fwiojEIF9OywtaKauaxvCJiHz0Ihge1qXfsJyk9cpmTxpn6dwDfrsMJeBnmG8PNu8R09Xpf3YlT2dC1os72u8p2956Efj93zZ3/6KW8dv0VMXPr4N9DX+Pwx3aLbTe/lh3CYXzyPOvhSwD0mcIIT1CHxfAxXj6KzvuvRm0s+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oJkuuYek; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725491031; x=1757027031;
+  h=date:from:to:cc:subject:message-id;
+  bh=YKPWqqkjIILiByVRWjuFeXLEvGMbO5DqGY1OehJSmtU=;
+  b=oJkuuYekqRD/icwcWzJ7xYD6+6g1BW2SXe2UqinOjjYZD544LgFM28AB
+   8WMcQ696Gh1oaOgynxpuI66DiTdECrTwvof3WMKC3XcQ3qb0UQFr3FfaU
+   yyYtqpxYZJ79x0LH65/2TeNMErsRL5z9w1O1oheKd0UL69NMsAltev6rd
+   mSKOmrap31DJDo9ARR54mUKRg/i3bmDJXQcIO0f6i25u28rOWs+E/Jkcd
+   +850QVeQreH/6EsZh7iSxd34JXLP5bhqIK8gPn+uwLpJbMhqYOljIDvZi
+   ec8y8emytz4d/Gfk04jzp0EvDCvGlOOVMCNVHU8xkQrw6e0iKPRwy4Vtx
+   A==;
+X-CSE-ConnectionGUID: MRCCkyFjRvmaj8Ix3sNAXg==
+X-CSE-MsgGUID: l2uOSMzfQPatqLeQMxcSWA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="24042455"
+X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
+   d="scan'208";a="24042455"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 16:03:51 -0700
+X-CSE-ConnectionGUID: AatuIErISZ63d/GyjunZAw==
+X-CSE-MsgGUID: lxz7/k0hTzmucFvxx4DFGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
+   d="scan'208";a="65742512"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 04 Sep 2024 16:03:49 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1slz2R-0008fn-1J;
+	Wed, 04 Sep 2024 23:03:47 +0000
+Date: Thu, 05 Sep 2024 07:02:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ a790df272a20dcc88ffebe20eca34c54f528fcaa
+Message-ID: <202409050748.HqYJKvgo-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/22] Input: ibm-panel - use guard notation when
- acquiring spinlock
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org
-Cc: Michael Hennerich <michael.hennerich@analog.com>,
-        Ville Syrjala <syrjala@sci.fi>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Andrey Moiseev <o2g.org.ru@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-        Jeff LaBundy <jeff@labundy.com>, linux-kernel@vger.kernel.org
-References: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
- <20240904044735.1047285-1-dmitry.torokhov@gmail.com>
-Content-Language: en-US
-From: Eddie James <eajames@linux.ibm.com>
-In-Reply-To: <20240904044735.1047285-1-dmitry.torokhov@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: mp7mdMN7q5OAEpY89sY41q4-iQqKaGaN
-X-Proofpoint-ORIG-GUID: eMcpxFwFg_mvONTNaE6isx5ET5DfHd4e
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-04_19,2024-09-04_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
- mlxlogscore=999 clxscore=1011 phishscore=0 spamscore=0 bulkscore=0
- impostorscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2409040163
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: a790df272a20dcc88ffebe20eca34c54f528fcaa  Input: synaptics-rmi4 - fix crash when DPM query is not supported
 
-On 9/3/24 23:47, Dmitry Torokhov wrote:
-> Using guard notation makes the code more compact and error handling
-> more robust by ensuring that locks are released in all code paths
-> when control leaves critical section.
+elapsed time: 1445m
 
+configs tested: 112
+configs skipped: 2
 
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+tested configs:
+alpha                             allnoconfig   gcc-14.1.0
+alpha                               defconfig   gcc-14.1.0
+arc                              allmodconfig   clang-20
+arc                               allnoconfig   gcc-14.1.0
+arc                              allyesconfig   clang-20
+arc                                 defconfig   gcc-14.1.0
+arm                              allmodconfig   clang-20
+arm                               allnoconfig   gcc-14.1.0
+arm                              allyesconfig   clang-20
+arm                          collie_defconfig   gcc-14.1.0
+arm                                 defconfig   gcc-14.1.0
+arm                          gemini_defconfig   gcc-14.1.0
+arm                   milbeaut_m10v_defconfig   gcc-14.1.0
+arm                           omap1_defconfig   gcc-14.1.0
+arm                        spear3xx_defconfig   gcc-14.1.0
+arm                    vt8500_v6_v7_defconfig   gcc-14.1.0
+arm64                            allmodconfig   clang-20
+arm64                             allnoconfig   gcc-14.1.0
+arm64                               defconfig   gcc-14.1.0
+csky                              allnoconfig   gcc-14.1.0
+csky                                defconfig   gcc-14.1.0
+hexagon                           allnoconfig   gcc-14.1.0
+hexagon                             defconfig   gcc-14.1.0
+i386                             allmodconfig   clang-18
+i386                              allnoconfig   clang-18
+i386                             allyesconfig   clang-18
+i386                                defconfig   clang-18
+loongarch                        allmodconfig   gcc-14.1.0
+loongarch                         allnoconfig   gcc-14.1.0
+loongarch                           defconfig   gcc-14.1.0
+m68k                             allmodconfig   gcc-14.1.0
+m68k                              allnoconfig   gcc-14.1.0
+m68k                             allyesconfig   gcc-14.1.0
+m68k                                defconfig   gcc-14.1.0
+microblaze                       allmodconfig   gcc-14.1.0
+microblaze                        allnoconfig   gcc-14.1.0
+microblaze                       allyesconfig   gcc-14.1.0
+microblaze                          defconfig   gcc-14.1.0
+mips                              allnoconfig   gcc-14.1.0
+mips                     loongson1c_defconfig   gcc-14.1.0
+mips                      loongson3_defconfig   gcc-14.1.0
+nios2                             allnoconfig   gcc-14.1.0
+nios2                               defconfig   gcc-14.1.0
+openrisc                          allnoconfig   clang-20
+openrisc                         allyesconfig   gcc-14.1.0
+openrisc                            defconfig   gcc-12
+openrisc                    or1ksim_defconfig   gcc-14.1.0
+parisc                           allmodconfig   gcc-14.1.0
+parisc                            allnoconfig   clang-20
+parisc                           allyesconfig   gcc-14.1.0
+parisc                              defconfig   gcc-12
+parisc64                            defconfig   gcc-14.1.0
+powerpc                          allmodconfig   gcc-14.1.0
+powerpc                           allnoconfig   clang-20
+powerpc                          allyesconfig   gcc-14.1.0
+powerpc                      ep88xc_defconfig   gcc-14.1.0
+powerpc                 mpc836x_rdk_defconfig   gcc-14.1.0
+powerpc                         ps3_defconfig   gcc-14.1.0
+riscv                            allmodconfig   gcc-14.1.0
+riscv                             allnoconfig   clang-20
+riscv                            allyesconfig   gcc-14.1.0
+riscv                               defconfig   gcc-12
+s390                             allmodconfig   gcc-14.1.0
+s390                              allnoconfig   clang-20
+s390                             allyesconfig   gcc-14.1.0
+s390                                defconfig   gcc-12
+sh                               allmodconfig   gcc-14.1.0
+sh                                allnoconfig   gcc-14.1.0
+sh                               allyesconfig   gcc-14.1.0
+sh                                  defconfig   gcc-12
+sh                          polaris_defconfig   gcc-14.1.0
+sh                          r7785rp_defconfig   gcc-14.1.0
+sh                           se7750_defconfig   gcc-14.1.0
+sparc                            allmodconfig   gcc-14.1.0
+sparc64                             defconfig   gcc-12
+um                                allnoconfig   clang-20
+um                                  defconfig   gcc-12
+um                             i386_defconfig   gcc-12
+um                           x86_64_defconfig   gcc-12
+x86_64                            allnoconfig   clang-18
+x86_64                           allyesconfig   clang-18
+x86_64       buildonly-randconfig-001-20240904   clang-18
+x86_64       buildonly-randconfig-002-20240904   clang-18
+x86_64       buildonly-randconfig-003-20240904   clang-18
+x86_64       buildonly-randconfig-004-20240904   clang-18
+x86_64       buildonly-randconfig-005-20240904   clang-18
+x86_64       buildonly-randconfig-006-20240904   clang-18
+x86_64                              defconfig   clang-18
+x86_64                                  kexec   gcc-12
+x86_64                randconfig-001-20240904   clang-18
+x86_64                randconfig-002-20240904   clang-18
+x86_64                randconfig-003-20240904   clang-18
+x86_64                randconfig-004-20240904   clang-18
+x86_64                randconfig-005-20240904   clang-18
+x86_64                randconfig-006-20240904   clang-18
+x86_64                randconfig-011-20240904   clang-18
+x86_64                randconfig-012-20240904   clang-18
+x86_64                randconfig-013-20240904   clang-18
+x86_64                randconfig-014-20240904   clang-18
+x86_64                randconfig-015-20240904   clang-18
+x86_64                randconfig-016-20240904   clang-18
+x86_64                randconfig-071-20240904   clang-18
+x86_64                randconfig-072-20240904   clang-18
+x86_64                randconfig-073-20240904   clang-18
+x86_64                randconfig-074-20240904   clang-18
+x86_64                randconfig-075-20240904   clang-18
+x86_64                randconfig-076-20240904   clang-18
+x86_64                          rhel-8.3-rust   clang-18
+x86_64                               rhel-8.3   gcc-12
+xtensa                            allnoconfig   gcc-14.1.0
+xtensa                  audio_kc705_defconfig   gcc-14.1.0
+xtensa                         virt_defconfig   gcc-14.1.0
 
->
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
->   drivers/input/misc/ibm-panel.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/drivers/input/misc/ibm-panel.c b/drivers/input/misc/ibm-panel.c
-> index 867ac7aa10d2..aa48f62d7ea0 100644
-> --- a/drivers/input/misc/ibm-panel.c
-> +++ b/drivers/input/misc/ibm-panel.c
-> @@ -77,12 +77,11 @@ static void ibm_panel_process_command(struct ibm_panel *panel)
->   static int ibm_panel_i2c_slave_cb(struct i2c_client *client,
->   				  enum i2c_slave_event event, u8 *val)
->   {
-> -	unsigned long flags;
->   	struct ibm_panel *panel = i2c_get_clientdata(client);
->   
->   	dev_dbg(&panel->input->dev, "event: %u data: %02x\n", event, *val);
->   
-> -	spin_lock_irqsave(&panel->lock, flags);
-> +	guard(spinlock_irqsave)(&panel->lock);
->   
->   	switch (event) {
->   	case I2C_SLAVE_STOP:
-> @@ -114,8 +113,6 @@ static int ibm_panel_i2c_slave_cb(struct i2c_client *client,
->   		break;
->   	}
->   
-> -	spin_unlock_irqrestore(&panel->lock, flags);
-> -
->   	return 0;
->   }
->   
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
