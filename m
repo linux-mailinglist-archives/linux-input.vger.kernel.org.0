@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-6137-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6138-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CEDA96AFFF
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 06:44:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E6D96B001
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 06:44:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 79B1CB244B2
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 04:44:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C36B2B24777
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 04:44:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F06412FB37;
-	Wed,  4 Sep 2024 04:43:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE703136330;
+	Wed,  4 Sep 2024 04:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PJOANGwF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KHOkwgEJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9D512CDB0;
-	Wed,  4 Sep 2024 04:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A77612E1EE;
+	Wed,  4 Sep 2024 04:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725424991; cv=none; b=AqAyrJsvx8WNQzyzkK/Cztpi7Abj9NMfE8B0t7XgU5p/kbX+05Ivo0whBxtexxuA0cGNt3M/3jVgEgEo7vJWeZst/lYSZ3ZHAaVRE1JUe+pzNSI64XpCr/eTN+8YA5wwo0pqdrKWX4z6vpWDQ9QD6pOTfLoSdzAQ/A5w8uPfllw=
+	t=1725424992; cv=none; b=bac8GqCQnVsyjuomGN3+8gddw2jhuhIVNnAPegWOyVM+UwmsLwLKLR38QBzmoDFWCMA/FuwDamx/WhBM0Jr4uXXPwJUdjdxI4sKeOO99dgVwebppL86iD8eZaiwXFFTnksmaY4SJ2V2ARFWU4wPT6FoxT3Lr8F+XLVjDQekJkXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725424991; c=relaxed/simple;
-	bh=UTU0Q6nqcjXo8U72mkhmNRNfnaA6FZQfpIyIp/8HXS8=;
+	s=arc-20240116; t=1725424992; c=relaxed/simple;
+	bh=+QCYpClhTtmr9oxKcjIusJ3w9NUyshfTFgW/7Dfamok=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k57D3oGS3CH5PmpTc381DJ0fseLnnRex66fiWtx0KgO24mrhMXbXopONFdCrN6QTbsnFwYRANVbkV+IaTSiHC6ruKyyb/rlNxgqIXxU74D7m3NrBjGAdSWDVfA0WP4brELICx3Uq96yd4M+jIRcsf1PsvJzmRIBv5G3Sl8uvrqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PJOANGwF; arc=none smtp.client-ip=209.85.215.174
+	 MIME-Version; b=SiEOB3Sv4I3YArp8Tus46X6ObOS5/Fa2dhFnf+6zI1XOY5dWKOZgt1A+/sHBK3MbRnPKLZDFkVC7UmrDPY82h0GQeBMxdT0mY5JmxZZEpRcN/K9uk6AcxoqcEFcwKxLB7H9vFDO1ni6TDlDGcO1JB52okTTQoUDdtY780aBBgJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KHOkwgEJ; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7d4f85766f0so884870a12.2;
-        Tue, 03 Sep 2024 21:43:08 -0700 (PDT)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2068a7c9286so17730755ad.1;
+        Tue, 03 Sep 2024 21:43:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725424988; x=1726029788; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725424989; x=1726029789; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tnKUsf8sYZk0+1pS2fn63M21zdwO+i7FFD1dgf0fueU=;
-        b=PJOANGwF8D3ZPFH9qfENScR/mO5FOYI60iu8wVaeGqPf7OrCAu3IBBeudLVv3l1sl+
-         Y8G1h2sMTWSynnmvEL1VlaXxYchjf4M3k/mE3z8Xusz2Bq8oQ05chlm25cbJmjLzBSZw
-         DOJeMKsyM2pC/5QTPOZiVCNXeq3zNz+tPfIjXOHtdWimpNj48W1M3HlCslX3KXkqLVqh
-         meh9w7ypQrLtjoGP3zYYSKRw1Yu5fDhy0hvUwXQQxwe7pfSH50E64w4ltx0D6kQdiW7p
-         uIz9IBE/5KqOgjNTokpplz29g2rxL2000+Slgan1sbdHRlML4WF6SSveoQg609IogrBN
-         uJBA==
+        bh=2T8reovlUAD3Peiwe00gk1a2SyLBGNIf5F8eFsRkOIA=;
+        b=KHOkwgEJU5aZnW9w1eI4dO5oBcuRjvRyb42UWyb5xrEc4QyVwGUIlUaIt9HiJefnYo
+         jkGkMMLcrl7zk5pMSBhrTUBHWaWgeZNO0AabG2ydsTe5Ij+FnFEyoVghk0+GcFfc3bss
+         HJdfo9rLB6rLjRBUWGULvhQrog32IByYCVOYtD3/kHqY3CsouoVMoViaXB46NFFMQsyU
+         Y+tI+jRn6F6takSayA48c/tRiCbUo985XWx6Vq2amT+JwPfJcmDujGovbKTvaQVSDb6X
+         Ot9h5uOE+ypr5jmJNhL7RBJgo5weNASrPkqQI8W/DizUtZ0j1WNIYI/Vs6DVBUUwMFH/
+         iVsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725424988; x=1726029788;
+        d=1e100.net; s=20230601; t=1725424989; x=1726029789;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tnKUsf8sYZk0+1pS2fn63M21zdwO+i7FFD1dgf0fueU=;
-        b=sXz9r12YyG6nueEBVxfYI0HeFoJqWOZHLDZMh1n3M/eniFU46dfVOT3Bn2fDrcZPyP
-         txUFKRcmsAT8/7QqSWvUFTKHO/32pzdJBTp9PNkyLj3YDnU7LPMGBPBb5MwPplz/TTCC
-         /WQQYoxtiYtoxqaemXJpyOg67wuQbYY1agNusLGO9hv89sU6oKMIfG2YsqPS4FS3vgzC
-         sL4WZ5ZhPkdsBSE4+TKnqy+4fzy6tV3tWmHjyYoAWlbpMlOtkQJZ9hyd9koDpJ1giocu
-         jPE7N3DMjoAgzTSD82+L3EkQK1aDS3+/PfizbfBXArDih8IyoHYjU6XZhnLHCe+Lidj6
-         0MIg==
-X-Forwarded-Encrypted: i=1; AJvYcCVBFtGDmXzCL3DG9B3xzwFAEW0Q7TRMU+JGVLsC9jzmoFq9fTZkab8+m1EOZb8xE5Nsy3Zg3fc+CiHL1y0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxH/fz0wuk0Cj1kJtH+AjXIQ/UY3B9ItBRSjd1mSAGTHFFISfVd
-	IgjJxK5maom9YXFdGuFQKkM+CJahKgTZu4zurso9LMAERtc98BJRS/GcmQ==
-X-Google-Smtp-Source: AGHT+IEHc1zEMjCZ2hL7VhZi07U+zjl3L7wzRyGNxE8xUAoVUAt/IC74rbslg9f8MjNdBGjAqmdbyQ==
-X-Received: by 2002:a17:902:f606:b0:205:410c:f3b3 with SMTP id d9443c01a7336-205410cf6c0mr151781095ad.59.1725424988146;
-        Tue, 03 Sep 2024 21:43:08 -0700 (PDT)
+        bh=2T8reovlUAD3Peiwe00gk1a2SyLBGNIf5F8eFsRkOIA=;
+        b=oI4NyolpIx0rHcjoT+Coyglw2dcuxSi/VvL+A9ZoGv7oRTwa5C/Mp/R6xe21jAutXX
+         f34Ut5K1SnO+0tuy3dxUkQro3SvVcVXko7OSAspobPDhJSQKuF+nZ79fki/1FGfn58ar
+         +FZ++06S4wdxlQjykU/f/5AP7F/Yf+fcYLfp/UJto72f14n6YoXUQCgKcW4+J0+HEz0e
+         9La6qkvJ/BY50N7B4ylkGilVgywWwLO508CKTLzC27N85JbDQiFp6zaQy1JSZ2ArFn1r
+         WpROyneAKI6V8yF1SN4jR5LyGwjWkStZpsVoY1FkY5fY/tB5sCQF1X4F8FRrl85kOacZ
+         CPdg==
+X-Forwarded-Encrypted: i=1; AJvYcCVEFBaCU/pN3BZCUef4Z8Jt8XBr0gn3G9cArU+ZcxQvjZkVTPveT+fwbpQRbpdwZmwRcoeIcwhir8Tdjp8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHkEjIgki5G8lSogYEqAAccxreHDG+75kMKIKMQC+VtPGSXvTb
+	wvfByyACpF9BQhld7WXDecv+QVrHUmb1Yw0U+Y9W7/jfYZolH9xPuQgnAg==
+X-Google-Smtp-Source: AGHT+IGORmxL/SQuwsCZkQ3nC4/WLtFGKhEMLIfdw0V/9CXgLV5KYObwTLCund5/qyilAWA2un+ABA==
+X-Received: by 2002:a17:903:2286:b0:202:38d8:173 with SMTP id d9443c01a7336-205841a60ddmr81282225ad.29.1725424989323;
+        Tue, 03 Sep 2024 21:43:09 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:e682:e3dc:908:eef0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae951c13sm5727665ad.103.2024.09.03.21.43.07
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae951c13sm5727665ad.103.2024.09.03.21.43.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 21:43:07 -0700 (PDT)
+        Tue, 03 Sep 2024 21:43:08 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
 Cc: Michael Hennerich <michael.hennerich@analog.com>,
@@ -78,9 +78,9 @@ Cc: Michael Hennerich <michael.hennerich@analog.com>,
 	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
 	Jeff LaBundy <jeff@labundy.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 08/22] Input: drv2665 - use guard notation when acquiring mutex
-Date: Tue,  3 Sep 2024 21:42:28 -0700
-Message-ID: <20240904044244.1042174-9-dmitry.torokhov@gmail.com>
+Subject: [PATCH 09/22] Input: drv2667 - use guard notation when acquiring mutex
+Date: Tue,  3 Sep 2024 21:42:29 -0700
+Message-ID: <20240904044244.1042174-10-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
 References: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
@@ -98,17 +98,17 @@ when control leaves critical section.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/misc/drv2665.c | 44 +++++++++++++++++-------------------
+ drivers/input/misc/drv2667.c | 44 +++++++++++++++++-------------------
  1 file changed, 21 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/input/misc/drv2665.c b/drivers/input/misc/drv2665.c
-index f98e4d765307..77ec96c7db76 100644
---- a/drivers/input/misc/drv2665.c
-+++ b/drivers/input/misc/drv2665.c
-@@ -225,59 +225,57 @@ static int drv2665_probe(struct i2c_client *client)
- static int drv2665_suspend(struct device *dev)
+diff --git a/drivers/input/misc/drv2667.c b/drivers/input/misc/drv2667.c
+index ad49845374b9..906292625f84 100644
+--- a/drivers/input/misc/drv2667.c
++++ b/drivers/input/misc/drv2667.c
+@@ -402,59 +402,57 @@ static int drv2667_probe(struct i2c_client *client)
+ static int drv2667_suspend(struct device *dev)
  {
- 	struct drv2665_data *haptics = dev_get_drvdata(dev);
+ 	struct drv2667_data *haptics = dev_get_drvdata(dev);
 -	int ret = 0;
 +	int error;
  
@@ -116,11 +116,11 @@ index f98e4d765307..77ec96c7db76 100644
 +	guard(mutex)(&haptics->input_dev->mutex);
  
  	if (input_device_enabled(haptics->input_dev)) {
--		ret = regmap_update_bits(haptics->regmap, DRV2665_CTRL_2,
--					 DRV2665_STANDBY, DRV2665_STANDBY);
+-		ret = regmap_update_bits(haptics->regmap, DRV2667_CTRL_2,
+-					 DRV2667_STANDBY, DRV2667_STANDBY);
 -		if (ret) {
-+		error = regmap_update_bits(haptics->regmap, DRV2665_CTRL_2,
-+					   DRV2665_STANDBY, DRV2665_STANDBY);
++		error = regmap_update_bits(haptics->regmap, DRV2667_CTRL_2,
++					   DRV2667_STANDBY, DRV2667_STANDBY);
 +		if (error) {
  			dev_err(dev, "Failed to set standby mode\n");
  			regulator_disable(haptics->regulator);
@@ -134,8 +134,8 @@ index f98e4d765307..77ec96c7db76 100644
 +		if (error) {
  			dev_err(dev, "Failed to disable regulator\n");
  			regmap_update_bits(haptics->regmap,
- 					   DRV2665_CTRL_2,
- 					   DRV2665_STANDBY, 0);
+ 					   DRV2667_CTRL_2,
+ 					   DRV2667_STANDBY, 0);
 +			return error;
  		}
  	}
@@ -146,9 +146,9 @@ index f98e4d765307..77ec96c7db76 100644
 +	return 0;
  }
  
- static int drv2665_resume(struct device *dev)
+ static int drv2667_resume(struct device *dev)
  {
- 	struct drv2665_data *haptics = dev_get_drvdata(dev);
+ 	struct drv2667_data *haptics = dev_get_drvdata(dev);
 -	int ret = 0;
 +	int error;
  
@@ -165,11 +165,11 @@ index f98e4d765307..77ec96c7db76 100644
 +			return error;
  		}
  
--		ret = regmap_update_bits(haptics->regmap, DRV2665_CTRL_2,
--					 DRV2665_STANDBY, 0);
+-		ret = regmap_update_bits(haptics->regmap, DRV2667_CTRL_2,
+-					 DRV2667_STANDBY, 0);
 -		if (ret) {
-+		error = regmap_update_bits(haptics->regmap, DRV2665_CTRL_2,
-+					   DRV2665_STANDBY, 0);
++		error = regmap_update_bits(haptics->regmap, DRV2667_CTRL_2,
++					   DRV2667_STANDBY, 0);
 +		if (error) {
  			dev_err(dev, "Failed to unset standby mode\n");
  			regulator_disable(haptics->regulator);
@@ -185,7 +185,7 @@ index f98e4d765307..77ec96c7db76 100644
 +	return 0;
  }
  
- static DEFINE_SIMPLE_DEV_PM_OPS(drv2665_pm_ops, drv2665_suspend, drv2665_resume);
+ static DEFINE_SIMPLE_DEV_PM_OPS(drv2667_pm_ops, drv2667_suspend, drv2667_resume);
 -- 
 2.46.0.469.g59c65b2a67-goog
 
