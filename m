@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-6148-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6149-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728A396B01F
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 06:49:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C8C796B021
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 06:49:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C3162866BA
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 04:49:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 516111F2291A
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 04:49:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EA0B824A0;
-	Wed,  4 Sep 2024 04:49:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B66084039;
+	Wed,  4 Sep 2024 04:49:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jUQOagCW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cvUkLZzq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16E381AC6;
-	Wed,  4 Sep 2024 04:49:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0686A47A6A;
+	Wed,  4 Sep 2024 04:49:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725425346; cv=none; b=GWs2Ip9AFH1wJwWJcjmmzbKeoIfKi9ZlW0whEpFyAxCGuCeKahGMRlqXkSf1IhiJLYW+W3gSqr0vwfBjJqK4bg9f5zav8XDPsE3KgBRVwIaO6s6Qx1SwevQIMda656BLqt4z6XKotTzR/9oZ66+vasDT2T5aspp+NthcnmHzpqI=
+	t=1725425358; cv=none; b=FpYalDXWkqXg4M+k0GC2MFCNvxstH+Ds7CaSxKwPbZ2gsT2iXa9AV6K6A2O9cdHJdPKhmVjfDmCkvvVuK8UreeSYnWdC3MKs6Z89YMToxTXd6kUfhjYSK1H6OX0RLJz4UcYoI8zRE+6256ISAVo11M0apAbTsNJYPk2uqioZhCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725425346; c=relaxed/simple;
-	bh=6H2O+hymwVqCkSxF4BNUpyqoY9L8X4Xll/N219fJmT0=;
+	s=arc-20240116; t=1725425358; c=relaxed/simple;
+	bh=nUdcUk0n40QbjO8u1pYU6pVpuCTqIUYlN9e2hTZhJ0s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JADgHig4QZTeVpKOT8zW+1GhWtBBvVDf9OfVAxTik9ahviv9kb7cMtIdiFlyxMZfE18wyHkKr1+kJezvMX9HUnruqY+jqZcgBJlwMzF85kulH3U+ei900fKykE4l3GeywZbD/WWklJw1t9jJgIM6zW0pbN1MzDpp4mmvzxiaK3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jUQOagCW; arc=none smtp.client-ip=209.85.215.181
+	 MIME-Version; b=KSC15tk75TnBil+Ymu9AIBUbCj3hGpa1i9bgk7pBPB8Y2ZOoj0XErVtfdyByb9jToV25KF1jFydTKMn1DYE9iFI3JxYGFYoqGymPuNyX2wl7F6YgeanUfnmiM+OZP9+0NF8JZw00D4dn0Mp0Eo14xn9jjKZB39ggqQxvhpYpD0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cvUkLZzq; arc=none smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-7c6b4222fe3so4035216a12.3;
-        Tue, 03 Sep 2024 21:49:04 -0700 (PDT)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7d4fbe62bf5so429485a12.0;
+        Tue, 03 Sep 2024 21:49:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725425344; x=1726030144; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725425356; x=1726030156; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dcGffBkg5gfBz41muJc+ok399PNqaO5iRm+4RBz3HMU=;
-        b=jUQOagCWUCFBQaTNWChTAEarSzR3OxVkNgB7je/tPlJ/qLTJdJhls/l5J29oBu/Y2J
-         4CzgkoF+yXgjWQbsxRxPkYJmO9cjFdpNygSeZBQHWm/74ISdrajhIiilbEKV1xH1oSf6
-         gnJU36qf7ZBbzU9qhkaGwk23ae2OgZcKlimM/10Hne3BPkROyhohIbo4chHhwHeeYsqB
-         RfD0397jn4o5w9YBzVMMcv0l363Tn8nNRBBmaIXZrx6fqYjemy7Oa28U9uszB2z+O1/j
-         Uu6Lmyo6EZCN+Evr6JSllp3DZIYfiCz0/E6Bnx9MfZhvaRajs/ETrS5sL81PHxTyk9Lf
-         DgNg==
+        bh=VNM1TbwY3bzDwgc7KYSWOhzEj80svR9YA5h2CIzmPCA=;
+        b=cvUkLZzqt7Z57fPeen2zDEzFrmZUZIHB6utlGBSyXbELWc2Dzna8Ma0AdH8QW6ojbb
+         C/IxqWg4vjYB8zP4BCDFT7acmWxyGQeKzs4U57QoD2SYp81B5MrMBVfrWIi2lIE9GO1O
+         563MVlLZYJYu6y47uYkrw3f+zR+0uJ+b3Rb35NyJQKRGlwYkp7sHTWierH9xYm1vUa6L
+         h5a4KBd91BS99fXAL3Qekm4vw4JcmhFiWga90bUX7Wh8UT2rJG2TczZN/wMPO1kvfqpR
+         mlA88za5YJBPDXb9PRYKeIKpzZ/i94z3jv7WXNrKfoFD8huSucnGIlMXr5h9SKnGCPHX
+         kqOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725425344; x=1726030144;
+        d=1e100.net; s=20230601; t=1725425356; x=1726030156;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dcGffBkg5gfBz41muJc+ok399PNqaO5iRm+4RBz3HMU=;
-        b=F8yTcOCcDBt3xywUnP4x8oVjRo+3Bx3eihIt9qDeUDak+cL2vWvU0xfnAir4yqsGjb
-         CMFaZQfAD37WYjl0hXr9h8HF6IEfzZJ7WLLfHW39pPJdZpyfyRCL8p2hUzda6eeLp7EL
-         cF2BZfVeE8YNpmT7HN3hDQMc+UCTZz80nveXVfird9RErALgUEvGM6qO22lsLAjH+p56
-         TJbQ4Xm5QYHG9fSBFCaCJQgwXugAkc/9pXQCHwgYDJbG+6FbkgX7mG9Np/6clw7E5xuU
-         9g+xKE2CDt6giuqZhWoCu6M8sSEYVCH9TFiUwu8Rzygdy2dGC0a+hUGhoHWiEjX5POHy
-         Qwvg==
-X-Forwarded-Encrypted: i=1; AJvYcCVCFS+Tx/h27QO5hBb9+Z2RRibfsYv636jlQ+XtC8/Tx61ov0l7xpjdeifYhYVbexNKlcDEqNTUYBCTUyI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4LWPLrb+uX0e4L7qbod9hfhUeCEOA0aCasUWd3m0jKjInPx7r
-	L3EBVCyKeFl7Hb+9WyH7PXJ4CBZF8+O2l/+IB7pD2Z7gXJaP8zxaOU8MYQ==
-X-Google-Smtp-Source: AGHT+IErqCaBS207q6JPA9qp9bojr6rVBoZ9wVsgoquhlnGBD+lWPn4JgjSt08cHAwMFXSCSLgxUGw==
-X-Received: by 2002:a17:902:f650:b0:205:5de3:b964 with SMTP id d9443c01a7336-2055de3bbe9mr75798305ad.5.1725425343757;
-        Tue, 03 Sep 2024 21:49:03 -0700 (PDT)
+        bh=VNM1TbwY3bzDwgc7KYSWOhzEj80svR9YA5h2CIzmPCA=;
+        b=TgUS3VVsbGYwwRgZpP+LgOTh5Q0T14E5rSxvcUyZN1LHCRAdG1c1JDt501vV/L7lux
+         sN+tbnjnV5wUoTZuvJhlpKO/KQJmH1xZ+3tURMhdmbBSVoFFNiwi5eX42pBZh1Sgb2aQ
+         /2TFD8LLmq+BDQI1E9UugjNrBg0p/UflvMpUTLVApvdPkzKj1O0RM1CNkVVxtGMhkh1G
+         fGH/5/h2fwu3suAByFl3p2Z2cR0CptJJzjIoYhWfnBwEqBp8ADNbgdXpWvsZfjBYocbs
+         M9JPWrLYAAIt/6sBDgcYT6zb0p4GYCJs0UegB8XVJSHwWJwf+EJ1VLAsYQ1GksoGOfeR
+         VWLg==
+X-Forwarded-Encrypted: i=1; AJvYcCUGit5oJjMJDo80nSQ4EUrNIZCZxUCvBL4zmCqwqI32JDR1Jyj2YGW0UkWDvg0Q/iYUZxug2ScCzuWfhcw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyz20pEDDIIj4tkg1dIDgHO058HwBVs4Ykl9qubXGvJ5Egu5UYK
+	0l/NbPo7z0hVFTn3LRteg+m6mIpoJbReTHNKoJQsViAHsyX68gULFp49yg==
+X-Google-Smtp-Source: AGHT+IH96zZqHTBl+pedV3aEY995kllbLfzD8RbqaAZQdE55RmOvvfB7Lg1v1DedpcB2kFL41N/dqA==
+X-Received: by 2002:a05:6a21:3483:b0:1cc:de68:436b with SMTP id adf61e73a8af0-1cece503ad2mr11545611637.20.1725425355958;
+        Tue, 03 Sep 2024 21:49:15 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:e682:e3dc:908:eef0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206aea392cdsm5727045ad.156.2024.09.03.21.49.02
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae953d92sm5777595ad.73.2024.09.03.21.49.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 21:49:03 -0700 (PDT)
+        Tue, 03 Sep 2024 21:49:15 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
 Cc: Michael Hennerich <michael.hennerich@analog.com>,
@@ -78,9 +78,9 @@ Cc: Michael Hennerich <michael.hennerich@analog.com>,
 	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
 	Jeff LaBundy <jeff@labundy.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 18/22] Input: powermate - use guard notation when acquiring spinlock
-Date: Tue,  3 Sep 2024 21:49:00 -0700
-Message-ID: <20240904044902.1049017-1-dmitry.torokhov@gmail.com>
+Subject: [PATCH 19/22] Input: pwm-beeper - use guard notation when acquiring spinlock
+Date: Tue,  3 Sep 2024 21:49:12 -0700
+Message-ID: <20240904044914.1049280-1-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
 References: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
@@ -98,56 +98,39 @@ when control leaves critical section.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/misc/powermate.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ drivers/input/misc/pwm-beeper.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/input/misc/powermate.c b/drivers/input/misc/powermate.c
-index 4b039abffc4b..ecb92ee5ebbc 100644
---- a/drivers/input/misc/powermate.c
-+++ b/drivers/input/misc/powermate.c
-@@ -194,22 +194,18 @@ static void powermate_sync_state(struct powermate_device *pm)
- static void powermate_config_complete(struct urb *urb)
+diff --git a/drivers/input/misc/pwm-beeper.c b/drivers/input/misc/pwm-beeper.c
+index 5b9aedf4362f..0e19e97d98ec 100644
+--- a/drivers/input/misc/pwm-beeper.c
++++ b/drivers/input/misc/pwm-beeper.c
+@@ -203,9 +203,9 @@ static int pwm_beeper_suspend(struct device *dev)
+ 	 * beeper->suspended, but to ensure that pwm_beeper_event
+ 	 * does not re-submit work once flag is set.
+ 	 */
+-	spin_lock_irq(&beeper->input->event_lock);
+-	beeper->suspended = true;
+-	spin_unlock_irq(&beeper->input->event_lock);
++	scoped_guard(spinlock_irq, &beeper->input->event_lock) {
++		beeper->suspended = true;
++	}
+ 
+ 	pwm_beeper_stop(beeper);
+ 
+@@ -216,9 +216,9 @@ static int pwm_beeper_resume(struct device *dev)
  {
- 	struct powermate_device *pm = urb->context;
--	unsigned long flags;
+ 	struct pwm_beeper *beeper = dev_get_drvdata(dev);
  
- 	if (urb->status)
- 		printk(KERN_ERR "powermate: config urb returned %d\n", urb->status);
+-	spin_lock_irq(&beeper->input->event_lock);
+-	beeper->suspended = false;
+-	spin_unlock_irq(&beeper->input->event_lock);
++	scoped_guard(spinlock_irq, &beeper->input->event_lock) {
++		beeper->suspended = false;
++	}
  
--	spin_lock_irqsave(&pm->lock, flags);
-+	guard(spinlock_irqsave)(&pm->lock);
- 	powermate_sync_state(pm);
--	spin_unlock_irqrestore(&pm->lock, flags);
- }
- 
- /* Set the LED up as described and begin the sync with the hardware if required */
- static void powermate_pulse_led(struct powermate_device *pm, int static_brightness, int pulse_speed,
- 				int pulse_table, int pulse_asleep, int pulse_awake)
- {
--	unsigned long flags;
--
- 	if (pulse_speed < 0)
- 		pulse_speed = 0;
- 	if (pulse_table < 0)
-@@ -222,8 +218,7 @@ static void powermate_pulse_led(struct powermate_device *pm, int static_brightne
- 	pulse_asleep = !!pulse_asleep;
- 	pulse_awake = !!pulse_awake;
- 
--
--	spin_lock_irqsave(&pm->lock, flags);
-+	guard(spinlock_irqsave)(&pm->lock);
- 
- 	/* mark state updates which are required */
- 	if (static_brightness != pm->static_brightness) {
-@@ -245,8 +240,6 @@ static void powermate_pulse_led(struct powermate_device *pm, int static_brightne
- 	}
- 
- 	powermate_sync_state(pm);
--
--	spin_unlock_irqrestore(&pm->lock, flags);
- }
- 
- /* Callback from the Input layer when an event arrives from userspace to configure the LED */
+ 	/* Let worker figure out if we should resume beeping */
+ 	schedule_work(&beeper->work);
 -- 
 2.46.0.469.g59c65b2a67-goog
 
