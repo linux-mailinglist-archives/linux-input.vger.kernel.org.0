@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-6130-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6131-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A6B96AFE9
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 06:43:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB66F96AFEB
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 06:43:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C72B1F25079
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 04:43:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3CE45B2436F
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 04:43:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3388824A1;
-	Wed,  4 Sep 2024 04:42:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A85E781AB1;
+	Wed,  4 Sep 2024 04:43:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K7CPXjBP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IlmgBfr0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B10581AC6;
-	Wed,  4 Sep 2024 04:42:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2309181741;
+	Wed,  4 Sep 2024 04:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725424976; cv=none; b=BiGJ66KPugP4hsWpPdSx/ZONzB3mCVw2AwOkJ/Y7zWRL3z21dqmYGmBI+lis6pw8VKmwOa8XvV+gMVwaOoQFJwARfN7RmIfFg5FLg7+E2FSBLPlLOTOm3k/FjCB+ISS1C6XBWKT99Q4Be40RseXwggEMJGtBlzjF3F0+xcuciPc=
+	t=1725424983; cv=none; b=XolQXfRBij10eaaN1C+Lfv18Z3Yee7uFscyqfApd+QO1bEDB73kc3ZPDoG04PBjMpsSNiBOFYSxWdD2OkjB0PgYxxBfDBa2YTqSqsK/Zcvbe3ChNXwzYSfJBmK8F+CHdk+CH8sXhLqxoADbK16BlAATzZ8w3QwbpWkg817gqFAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725424976; c=relaxed/simple;
-	bh=NjT4MvQwByttEN8VVRSC2XF5TVXi28xU8cKD0k0ahyU=;
+	s=arc-20240116; t=1725424983; c=relaxed/simple;
+	bh=tcXR5AGz4pSzTcX36c+o18LWMgynX1S7b5Pv+4NspDs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ConfKugNBjZ1IFUXeIkVakA3VsbTjj7IMH2UyQ+Q8u44A70UuRYNsLKvaR2cFNS2cFgiOM555vpKbr1gagoQkqRS3Xc5B/JQPz519SeW5gImjFxCr6FtZ5/lxeBhLRRmXwnEF/9LXoCpPyS9pu7dwA7Ud4XelH7LoGF8XWSR+tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K7CPXjBP; arc=none smtp.client-ip=209.85.214.169
+	 MIME-Version; b=EuQ18HPOZtjY1DfGsdqZDrBP8DgzUAvcpORfDEcKrtSpLBhWsOu30/qLC6sSv6P+iFjbF794uYwNTj06KZXzEDAU4BxPPkOs1ZBVVURfGQP34NR7AAdguFvAfApVrp2nHciQaGIoIkMGfuA0BcHMI0Z1bAeO7TBauyBUxnWz+0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IlmgBfr0; arc=none smtp.client-ip=209.85.215.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-202508cb8ebso38000665ad.3;
-        Tue, 03 Sep 2024 21:42:54 -0700 (PDT)
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-70b2421471aso3541989a12.0;
+        Tue, 03 Sep 2024 21:43:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725424974; x=1726029774; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725424981; x=1726029781; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lDbTLvM6j/fXldgZ2pW2080JP3mjLaUhBxwYqY8D4GA=;
-        b=K7CPXjBPQCAZSWfpYefrMbwtvqdo9GUWdS7Et/sJVQaFYggk96IcL0NacjBC6VK8RM
-         5lapnmBCz2DG9v+Q9BGun97YBj/LweQgtVHOHVnuZWC85cLBHEzzLZRIJ2eUL7WuYN2p
-         VPzQXTnJqfdzO2oNbYu84yGAY2f3dPkncls+HZXW7yUJb9uD9SLfaqAkAKNtI8mQ4uv/
-         JivLGUe1/2QqZCym6oPSbRugY+pxq/cKXDYHksqgq5pSTSAdZr0YE2DrBSSe2C/27TG0
-         k758tVTsLw2+Ap9UZ7juSXcyQ1LKZh31oc/CWUCDLWbbrRtVWY683QIv1KuDmnF71wvb
-         jrRg==
+        bh=t3Pc0eyxDef3P0KBoPUQmWAHpcwzzIPRUi+2W2NqUf4=;
+        b=IlmgBfr0i4pjnE9TmuS4sdmvxrV18LbWX/HsQWI9IeYkqPKb0uvGKL45Y10kZFF4TP
+         ybT13nXk/Ck9FpfjqZHzGsMg5lv+2xQX6N0Tm5r/JPR1y36cx90g5vhYuRAvC4GmWLDB
+         iJkzKNrxYMtwwE2w3K6AcdLnH6pCW0oUKsuiDSqH0sS/9VSONrNsTOkLjMk9Glx7rT/p
+         A+kxOzoger2s5D446/loYlDbq1qJ5QFVSYyt9/VacJQJCRNvNLOU49Rn7AV/cSx2UCka
+         F/eEURLGkGRr66Cd6LzBDXyKem/1Wxw2FgDU8Ru1wYtobz6Itg/hwJX52G3ej/w5eRpV
+         IXjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725424974; x=1726029774;
+        d=1e100.net; s=20230601; t=1725424981; x=1726029781;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lDbTLvM6j/fXldgZ2pW2080JP3mjLaUhBxwYqY8D4GA=;
-        b=Wlu2k0w6TUpG5i6gb0cPjI8fmBeOrTxqo37vbZACMUFLesprT+KCSpmnQhvo+ZibpC
-         nzcquBQK4Spmfz+4HdtpcV0jnGDRbVsdrH6petojGYwOHXQa8SAXURsy44Kjd3zmgyY+
-         +vFnRe7HOK0C15U5mXg7szflgPjuweYHHdy01yaBtks1ysu8Si1sVfsoQYEuel28ZL8f
-         ca7v/Jr9oItmKFLqL2XLCrlzC+a2IgwLIKqiSsAW/mDqQqrdHNa0tfsEn91m+LfBKVG0
-         apR94dwhc4EOt4SCx1BNJEM/e7E+X6u10pzw6FrQXPs/rmAoyGm23BerK6XRdmzEvEmP
-         TVzA==
-X-Forwarded-Encrypted: i=1; AJvYcCWbIrf3hf8eFGbp2zuMVjZ7+Ol6LdjVEESiN48vA7QFlRH9sUIsGBA8ges1bKIMYsrkSuxYht8c8rXkSKo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwsgMiLfVbDF4bjp1jThW52pmN8XXkBfb9oLUCpMBDa+YRw1BVK
-	bylAmJXXJkJ+rvjR0Qi4bhVY06DlT5s6e8Xv5hVIJ1u6ybpAIjMiXZdTXw==
-X-Google-Smtp-Source: AGHT+IHJcwiKdFYmZKy5qiXng/r7t1eytZrl5m4cs0vmg/t3rVxsHeg7bqOfpnL6lEog1Mv6yvwBjA==
-X-Received: by 2002:a17:902:e741:b0:201:f8b4:3e3c with SMTP id d9443c01a7336-206b7aabc56mr8291685ad.12.1725424973777;
-        Tue, 03 Sep 2024 21:42:53 -0700 (PDT)
+        bh=t3Pc0eyxDef3P0KBoPUQmWAHpcwzzIPRUi+2W2NqUf4=;
+        b=W/AJ6zO/a80q6p9lJsv8hcVOUR77RgHv8vc77g1+lt+sCICbE5PXz5OFtdEs41q1q+
+         iOa3Y/VDCg4AOPQQGmTQVwrsDYBXFkP6SnrvZfSgbTYCxLYBRgXLF37JvkpPGSHhYjIG
+         l6wplHuaQyI7c0tNFeh99rnK/tSej9Tsp4cwNR05Z9hzDyce6Br5kmPgXseIgAecM5TM
+         h6k0NhQ8i8OO3GfoULhRL5143f9Ls+3diKXPbRdof/F+u422GqHez+E1/8a+16qjprgI
+         X8jrOGIT4F/xLgWZRxU+CeyC6cV/zSvez3qKy4JCTnM4rkxccAhQOqTfIQrDCYGStioO
+         tqAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV9YGQj/JrAx13vBwvLVQPk1OBnjvHSJlv2HL2RjrQJnx7zY6S2mGYDNGdV0WOYpV4gLPTUWraNjNu4fV4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRmycfnA3mfF7ELiLuO/+pZa/1Tl5GLOr+EU6nRctxAxdgIy8D
+	52vhHhgfURjfZjVMkqOlW2U0MYwPEoi0rn64sHAyyW2K/J26WnbNLrtRmg==
+X-Google-Smtp-Source: AGHT+IEzcHcvuKJ++miL0w6S6yT5dQk2bZhueChLCLRI1AK2ZIgPdeH0aB9Muw7TtIDLPGL/5F1h5w==
+X-Received: by 2002:a05:6a21:918c:b0:1c6:ba9c:5d7b with SMTP id adf61e73a8af0-1ced619532dmr9415520637.23.1725424980869;
+        Tue, 03 Sep 2024 21:43:00 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:e682:e3dc:908:eef0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae951c13sm5727665ad.103.2024.09.03.21.42.52
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae951c13sm5727665ad.103.2024.09.03.21.42.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 21:42:53 -0700 (PDT)
+        Tue, 03 Sep 2024 21:42:54 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
 Cc: Michael Hennerich <michael.hennerich@analog.com>,
@@ -78,9 +78,9 @@ Cc: Michael Hennerich <michael.hennerich@analog.com>,
 	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
 	Jeff LaBundy <jeff@labundy.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 01/22] Input: ad714x - use guard notation when acquiring mutex
-Date: Tue,  3 Sep 2024 21:42:21 -0700
-Message-ID: <20240904044244.1042174-2-dmitry.torokhov@gmail.com>
+Subject: [PATCH 02/22] Input: ati_remote2 - use guard notation when acquiring mutex
+Date: Tue,  3 Sep 2024 21:42:22 -0700
+Message-ID: <20240904044244.1042174-3-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
 References: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
@@ -98,62 +98,147 @@ when control leaves critical section.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/misc/ad714x.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ drivers/input/misc/ati_remote2.c | 57 +++++++++++---------------------
+ 1 file changed, 19 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/input/misc/ad714x.c b/drivers/input/misc/ad714x.c
-index 1acd8429c56c..d106f37df6bc 100644
---- a/drivers/input/misc/ad714x.c
-+++ b/drivers/input/misc/ad714x.c
-@@ -941,7 +941,7 @@ static irqreturn_t ad714x_interrupt_thread(int irq, void *data)
- 	struct ad714x_chip *ad714x = data;
- 	int i;
+diff --git a/drivers/input/misc/ati_remote2.c b/drivers/input/misc/ati_remote2.c
+index 795f69edb4b2..e84649af801d 100644
+--- a/drivers/input/misc/ati_remote2.c
++++ b/drivers/input/misc/ati_remote2.c
+@@ -244,29 +244,21 @@ static int ati_remote2_open(struct input_dev *idev)
+ 	if (r) {
+ 		dev_err(&ar2->intf[0]->dev,
+ 			"%s(): usb_autopm_get_interface() = %d\n", __func__, r);
+-		goto fail1;
++		return r;
+ 	}
  
--	mutex_lock(&ad714x->mutex);
-+	guard(mutex)(&ad714x->mutex);
+-	mutex_lock(&ati_remote2_mutex);
++	scoped_guard(mutex, &ati_remote2_mutex) {
++		if (!(ar2->flags & ATI_REMOTE2_SUSPENDED)) {
++			r = ati_remote2_submit_urbs(ar2);
++			if (r)
++				break;
++		}
  
- 	ad714x->read(ad714x, STG_LOW_INT_STA_REG, &ad714x->l_state, 3);
+-	if (!(ar2->flags & ATI_REMOTE2_SUSPENDED)) {
+-		r = ati_remote2_submit_urbs(ar2);
+-		if (r)
+-			goto fail2;
++		ar2->flags |= ATI_REMOTE2_OPENED;
+ 	}
  
-@@ -954,8 +954,6 @@ static irqreturn_t ad714x_interrupt_thread(int irq, void *data)
- 	for (i = 0; i < ad714x->hw->touchpad_num; i++)
- 		ad714x_touchpad_state_machine(ad714x, i);
- 
--	mutex_unlock(&ad714x->mutex);
+-	ar2->flags |= ATI_REMOTE2_OPENED;
 -
- 	return IRQ_HANDLED;
+-	mutex_unlock(&ati_remote2_mutex);
+-
+ 	usb_autopm_put_interface(ar2->intf[0]);
+ 
+-	return 0;
+-
+- fail2:
+-	mutex_unlock(&ati_remote2_mutex);
+-	usb_autopm_put_interface(ar2->intf[0]);
+- fail1:
+ 	return r;
  }
  
-@@ -1169,13 +1167,11 @@ static int ad714x_suspend(struct device *dev)
+@@ -276,14 +268,12 @@ static void ati_remote2_close(struct input_dev *idev)
  
- 	dev_dbg(ad714x->dev, "%s enter\n", __func__);
+ 	dev_dbg(&ar2->intf[0]->dev, "%s()\n", __func__);
  
--	mutex_lock(&ad714x->mutex);
-+	guard(mutex)(&ad714x->mutex);
+-	mutex_lock(&ati_remote2_mutex);
++	guard(mutex)(&ati_remote2_mutex);
  
- 	data = ad714x->hw->sys_cfg_reg[AD714X_PWR_CTRL] | 0x3;
- 	ad714x->write(ad714x, AD714X_PWR_CTRL, data);
+ 	if (!(ar2->flags & ATI_REMOTE2_SUSPENDED))
+ 		ati_remote2_kill_urbs(ar2);
  
--	mutex_unlock(&ad714x->mutex);
+ 	ar2->flags &= ~ATI_REMOTE2_OPENED;
+-
+-	mutex_unlock(&ati_remote2_mutex);
+ }
+ 
+ static void ati_remote2_input_mouse(struct ati_remote2 *ar2)
+@@ -713,16 +703,14 @@ static ssize_t ati_remote2_store_channel_mask(struct device *dev,
+ 		return r;
+ 	}
+ 
+-	mutex_lock(&ati_remote2_mutex);
+-
+-	if (mask != ar2->channel_mask) {
+-		r = ati_remote2_setup(ar2, mask);
+-		if (!r)
+-			ar2->channel_mask = mask;
++	scoped_guard(mutex, &ati_remote2_mutex) {
++		if (mask != ar2->channel_mask) {
++			r = ati_remote2_setup(ar2, mask);
++			if (!r)
++				ar2->channel_mask = mask;
++		}
+ 	}
+ 
+-	mutex_unlock(&ati_remote2_mutex);
+-
+ 	usb_autopm_put_interface(ar2->intf[0]);
+ 
+ 	return r ? r : count;
+@@ -892,15 +880,13 @@ static int ati_remote2_suspend(struct usb_interface *interface,
+ 
+ 	dev_dbg(&ar2->intf[0]->dev, "%s()\n", __func__);
+ 
+-	mutex_lock(&ati_remote2_mutex);
++	guard(mutex)(&ati_remote2_mutex);
+ 
+ 	if (ar2->flags & ATI_REMOTE2_OPENED)
+ 		ati_remote2_kill_urbs(ar2);
+ 
+ 	ar2->flags |= ATI_REMOTE2_SUSPENDED;
+ 
+-	mutex_unlock(&ati_remote2_mutex);
 -
  	return 0;
  }
  
-@@ -1184,7 +1180,7 @@ static int ad714x_resume(struct device *dev)
- 	struct ad714x_chip *ad714x = dev_get_drvdata(dev);
- 	dev_dbg(ad714x->dev, "%s enter\n", __func__);
+@@ -917,7 +903,7 @@ static int ati_remote2_resume(struct usb_interface *interface)
  
--	mutex_lock(&ad714x->mutex);
-+	guard(mutex)(&ad714x->mutex);
+ 	dev_dbg(&ar2->intf[0]->dev, "%s()\n", __func__);
  
- 	/* resume to non-shutdown mode */
+-	mutex_lock(&ati_remote2_mutex);
++	guard(mutex)(&ati_remote2_mutex);
  
-@@ -1197,8 +1193,6 @@ static int ad714x_resume(struct device *dev)
+ 	if (ar2->flags & ATI_REMOTE2_OPENED)
+ 		r = ati_remote2_submit_urbs(ar2);
+@@ -925,8 +911,6 @@ static int ati_remote2_resume(struct usb_interface *interface)
+ 	if (!r)
+ 		ar2->flags &= ~ATI_REMOTE2_SUSPENDED;
  
- 	ad714x->read(ad714x, STG_LOW_INT_STA_REG, &ad714x->l_state, 3);
- 
--	mutex_unlock(&ad714x->mutex);
+-	mutex_unlock(&ati_remote2_mutex);
 -
- 	return 0;
+ 	return r;
+ }
+ 
+@@ -943,11 +927,11 @@ static int ati_remote2_reset_resume(struct usb_interface *interface)
+ 
+ 	dev_dbg(&ar2->intf[0]->dev, "%s()\n", __func__);
+ 
+-	mutex_lock(&ati_remote2_mutex);
++	guard(mutex)(&ati_remote2_mutex);
+ 
+ 	r = ati_remote2_setup(ar2, ar2->channel_mask);
+ 	if (r)
+-		goto out;
++		return r;
+ 
+ 	if (ar2->flags & ATI_REMOTE2_OPENED)
+ 		r = ati_remote2_submit_urbs(ar2);
+@@ -955,9 +939,6 @@ static int ati_remote2_reset_resume(struct usb_interface *interface)
+ 	if (!r)
+ 		ar2->flags &= ~ATI_REMOTE2_SUSPENDED;
+ 
+- out:
+-	mutex_unlock(&ati_remote2_mutex);
+-
+ 	return r;
  }
  
 -- 
