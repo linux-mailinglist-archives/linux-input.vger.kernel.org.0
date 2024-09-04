@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-6131-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6132-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB66F96AFEB
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 06:43:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B29C96AFED
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 06:43:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3CE45B2436F
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 04:43:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E876E286CBC
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 04:43:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A85E781AB1;
-	Wed,  4 Sep 2024 04:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDF3E84A21;
+	Wed,  4 Sep 2024 04:43:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IlmgBfr0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m/b1ghwm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2309181741;
-	Wed,  4 Sep 2024 04:43:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D1681749;
+	Wed,  4 Sep 2024 04:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725424983; cv=none; b=XolQXfRBij10eaaN1C+Lfv18Z3Yee7uFscyqfApd+QO1bEDB73kc3ZPDoG04PBjMpsSNiBOFYSxWdD2OkjB0PgYxxBfDBa2YTqSqsK/Zcvbe3ChNXwzYSfJBmK8F+CHdk+CH8sXhLqxoADbK16BlAATzZ8w3QwbpWkg817gqFAs=
+	t=1725424984; cv=none; b=uGaqOH48gy9Y5AuC5HU6M4KPq33/G+W3IkYieDr19eKOCHUBKLWV2jgujBkn5SM3W3wWOjRrFBonRJcdCy+aXL2YU7zVdsX0SeY7VcanMPgZ5BpCIAeRdw59T8y+XDuKz5BHfeZ7Jj1keCSfg+tYdh3NvK+QUZsLzMNwHSms8/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725424983; c=relaxed/simple;
-	bh=tcXR5AGz4pSzTcX36c+o18LWMgynX1S7b5Pv+4NspDs=;
+	s=arc-20240116; t=1725424984; c=relaxed/simple;
+	bh=qfvlCrBeuMgTvWKCSq3+kjGo3PjVwBhBNztu9yeU170=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EuQ18HPOZtjY1DfGsdqZDrBP8DgzUAvcpORfDEcKrtSpLBhWsOu30/qLC6sSv6P+iFjbF794uYwNTj06KZXzEDAU4BxPPkOs1ZBVVURfGQP34NR7AAdguFvAfApVrp2nHciQaGIoIkMGfuA0BcHMI0Z1bAeO7TBauyBUxnWz+0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IlmgBfr0; arc=none smtp.client-ip=209.85.215.180
+	 MIME-Version; b=ZojKgbGxkkTNRJBIB5TX8dU6jPvwm1MrbfIEtmh6xYO/zbMRphfgoCiKkUcqmpWG0YLH2dfLX10U9q0TMcgL1lU4K915CrSEELGuwym72s6nza+KpAHpWoc2uxOrCQZ2Vh2ycpStY4/Nntq+4NhPybumO1Qwrckk2sEUnxejKmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m/b1ghwm; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-70b2421471aso3541989a12.0;
-        Tue, 03 Sep 2024 21:43:01 -0700 (PDT)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20693995f68so3055075ad.1;
+        Tue, 03 Sep 2024 21:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725424981; x=1726029781; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725424982; x=1726029782; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t3Pc0eyxDef3P0KBoPUQmWAHpcwzzIPRUi+2W2NqUf4=;
-        b=IlmgBfr0i4pjnE9TmuS4sdmvxrV18LbWX/HsQWI9IeYkqPKb0uvGKL45Y10kZFF4TP
-         ybT13nXk/Ck9FpfjqZHzGsMg5lv+2xQX6N0Tm5r/JPR1y36cx90g5vhYuRAvC4GmWLDB
-         iJkzKNrxYMtwwE2w3K6AcdLnH6pCW0oUKsuiDSqH0sS/9VSONrNsTOkLjMk9Glx7rT/p
-         A+kxOzoger2s5D446/loYlDbq1qJ5QFVSYyt9/VacJQJCRNvNLOU49Rn7AV/cSx2UCka
-         F/eEURLGkGRr66Cd6LzBDXyKem/1Wxw2FgDU8Ru1wYtobz6Itg/hwJX52G3ej/w5eRpV
-         IXjQ==
+        bh=JojHCZ9pdFR3fnOlIkAMjYzH0C7qL1RERgC3ObqXljU=;
+        b=m/b1ghwmmUMY8kGNfe2tQWE6PHBZfjjnM09PbTNL2M/ncvoUiLYcl7R4oEMZEpFjdA
+         VvGbjH0ti73pQV0KNW1nqPQebzzta2rKvapRCxn6e+t62eoc1SBUpWKNrffObat4DtCS
+         1s0ub8w/e631gJ2Qa5nGPZQEinLapOeWcHpYdhZKR4vHAAsf3/Ln0KP6LtcDoR1f3PmR
+         ZuTLY6PS8kEa+w2ErqCp4Uv7sKlP4o3ZXhLRoZMBfVIzQekeDiZASdliaG0j9ac9PAIT
+         Of6x8D3edaFAvazSIqmZ6P/2ObqOb+yB/IH6QBUJ61inNqUcmS3S7V2cpS5LGqfKurht
+         ERaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725424981; x=1726029781;
+        d=1e100.net; s=20230601; t=1725424982; x=1726029782;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=t3Pc0eyxDef3P0KBoPUQmWAHpcwzzIPRUi+2W2NqUf4=;
-        b=W/AJ6zO/a80q6p9lJsv8hcVOUR77RgHv8vc77g1+lt+sCICbE5PXz5OFtdEs41q1q+
-         iOa3Y/VDCg4AOPQQGmTQVwrsDYBXFkP6SnrvZfSgbTYCxLYBRgXLF37JvkpPGSHhYjIG
-         l6wplHuaQyI7c0tNFeh99rnK/tSej9Tsp4cwNR05Z9hzDyce6Br5kmPgXseIgAecM5TM
-         h6k0NhQ8i8OO3GfoULhRL5143f9Ls+3diKXPbRdof/F+u422GqHez+E1/8a+16qjprgI
-         X8jrOGIT4F/xLgWZRxU+CeyC6cV/zSvez3qKy4JCTnM4rkxccAhQOqTfIQrDCYGStioO
-         tqAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV9YGQj/JrAx13vBwvLVQPk1OBnjvHSJlv2HL2RjrQJnx7zY6S2mGYDNGdV0WOYpV4gLPTUWraNjNu4fV4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRmycfnA3mfF7ELiLuO/+pZa/1Tl5GLOr+EU6nRctxAxdgIy8D
-	52vhHhgfURjfZjVMkqOlW2U0MYwPEoi0rn64sHAyyW2K/J26WnbNLrtRmg==
-X-Google-Smtp-Source: AGHT+IEzcHcvuKJ++miL0w6S6yT5dQk2bZhueChLCLRI1AK2ZIgPdeH0aB9Muw7TtIDLPGL/5F1h5w==
-X-Received: by 2002:a05:6a21:918c:b0:1c6:ba9c:5d7b with SMTP id adf61e73a8af0-1ced619532dmr9415520637.23.1725424980869;
-        Tue, 03 Sep 2024 21:43:00 -0700 (PDT)
+        bh=JojHCZ9pdFR3fnOlIkAMjYzH0C7qL1RERgC3ObqXljU=;
+        b=svxGiQTu9FNKu75QrY0LkWhZSfO7eY3Slqh8pm0RL7fF7cGZyRN9U9foWkWcCSHVTM
+         BGRBCuJabjkRQoY88UH3b+rRF7FwVIgwmoJ1wgfm+djp6EDzG0/TDY9ZqCcPRWzx5DwW
+         IbqBD1IKjPvdfgMRXaa869H5i+v1osLibiev03Cx1xi2veuZvpP6Vbk9IsVfyHd+fpev
+         l20CYnwf+2nVQUh2/KBx8sCfTToBNbwJdIP9UjMCcY6wfJu0upxGZgjVUp5zo8ehn5mz
+         izvo6UI15fU+AE+I/s5gY8Y9A/PYeTYzJL/Yw16YTvetfhqE5XeqAdFGR+8XDOl7bMNL
+         ai8w==
+X-Forwarded-Encrypted: i=1; AJvYcCX0FYCll0Y2RmrkZq1GabVdD80Gds66R4IyZ9KtqSefD86cwStB9JarGQm4KAgEQdO40XJiNwrWAt3+Wl0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyS2XsPV0GN/LFnLfyJzIFiyeImNCp61jp1dLPbp7TvZS3i+LrQ
+	KgBu5sStZ40X66ZAIDlxzSDg9bVdnq70G+FjQnAlovG/aEPT+izBTgzvLw==
+X-Google-Smtp-Source: AGHT+IGOFFEns1wNokErTakojm3rlnCIKY69vUPMATabICZ8Hi+3xBILYaG/Vcr0BBQXHQu1oMKz/Q==
+X-Received: by 2002:a17:902:e852:b0:206:94f5:c2e6 with SMTP id d9443c01a7336-20694f5c61amr49940535ad.7.1725424982220;
+        Tue, 03 Sep 2024 21:43:02 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:e682:e3dc:908:eef0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae951c13sm5727665ad.103.2024.09.03.21.42.53
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae951c13sm5727665ad.103.2024.09.03.21.43.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 21:42:54 -0700 (PDT)
+        Tue, 03 Sep 2024 21:43:01 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
 Cc: Michael Hennerich <michael.hennerich@analog.com>,
@@ -78,9 +78,9 @@ Cc: Michael Hennerich <michael.hennerich@analog.com>,
 	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
 	Jeff LaBundy <jeff@labundy.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 02/22] Input: ati_remote2 - use guard notation when acquiring mutex
-Date: Tue,  3 Sep 2024 21:42:22 -0700
-Message-ID: <20240904044244.1042174-3-dmitry.torokhov@gmail.com>
+Subject: [PATCH 03/22] Input: cm109 - use guard notation when acquiring mutex and spinlock
+Date: Tue,  3 Sep 2024 21:42:23 -0700
+Message-ID: <20240904044244.1042174-4-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
 References: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
@@ -93,154 +93,270 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Using guard notation makes the code more compact and error handling
-more robust by ensuring that mutexes are released in all code paths
+more robust by ensuring that locks are released in all code paths
 when control leaves critical section.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/misc/ati_remote2.c | 57 +++++++++++---------------------
- 1 file changed, 19 insertions(+), 38 deletions(-)
+ drivers/input/misc/cm109.c | 167 ++++++++++++++++++-------------------
+ 1 file changed, 79 insertions(+), 88 deletions(-)
 
-diff --git a/drivers/input/misc/ati_remote2.c b/drivers/input/misc/ati_remote2.c
-index 795f69edb4b2..e84649af801d 100644
---- a/drivers/input/misc/ati_remote2.c
-+++ b/drivers/input/misc/ati_remote2.c
-@@ -244,29 +244,21 @@ static int ati_remote2_open(struct input_dev *idev)
- 	if (r) {
- 		dev_err(&ar2->intf[0]->dev,
- 			"%s(): usb_autopm_get_interface() = %d\n", __func__, r);
--		goto fail1;
-+		return r;
- 	}
- 
--	mutex_lock(&ati_remote2_mutex);
-+	scoped_guard(mutex, &ati_remote2_mutex) {
-+		if (!(ar2->flags & ATI_REMOTE2_SUSPENDED)) {
-+			r = ati_remote2_submit_urbs(ar2);
-+			if (r)
-+				break;
-+		}
- 
--	if (!(ar2->flags & ATI_REMOTE2_SUSPENDED)) {
--		r = ati_remote2_submit_urbs(ar2);
--		if (r)
--			goto fail2;
-+		ar2->flags |= ATI_REMOTE2_OPENED;
- 	}
- 
--	ar2->flags |= ATI_REMOTE2_OPENED;
--
--	mutex_unlock(&ati_remote2_mutex);
--
- 	usb_autopm_put_interface(ar2->intf[0]);
- 
--	return 0;
--
-- fail2:
--	mutex_unlock(&ati_remote2_mutex);
--	usb_autopm_put_interface(ar2->intf[0]);
-- fail1:
- 	return r;
+diff --git a/drivers/input/misc/cm109.c b/drivers/input/misc/cm109.c
+index 728325a2d574..0cfe5d4a573c 100644
+--- a/drivers/input/misc/cm109.c
++++ b/drivers/input/misc/cm109.c
+@@ -355,6 +355,35 @@ static void cm109_submit_buzz_toggle(struct cm109_dev *dev)
+ 			__func__, error);
  }
  
-@@ -276,14 +268,12 @@ static void ati_remote2_close(struct input_dev *idev)
++static void cm109_submit_ctl(struct cm109_dev *dev)
++{
++	int error;
++
++	guard(spinlock_irqsave)(&dev->ctl_submit_lock);
++
++	dev->irq_urb_pending = 0;
++
++	if (unlikely(dev->shutdown))
++		return;
++
++	if (dev->buzzer_state)
++		dev->ctl_data->byte[HID_OR0] |= BUZZER_ON;
++	else
++		dev->ctl_data->byte[HID_OR0] &= ~BUZZER_ON;
++
++	dev->ctl_data->byte[HID_OR1] = dev->keybit;
++	dev->ctl_data->byte[HID_OR2] = dev->keybit;
++
++	dev->buzzer_pending = 0;
++	dev->ctl_urb_pending = 1;
++
++	error = usb_submit_urb(dev->urb_ctl, GFP_ATOMIC);
++	if (error)
++		dev_err(&dev->intf->dev,
++			"%s: usb_submit_urb (urb_ctl) failed %d\n",
++			__func__, error);
++}
++
+ /*
+  * IRQ handler
+  */
+@@ -362,8 +391,6 @@ static void cm109_urb_irq_callback(struct urb *urb)
+ {
+ 	struct cm109_dev *dev = urb->context;
+ 	const int status = urb->status;
+-	int error;
+-	unsigned long flags;
  
- 	dev_dbg(&ar2->intf[0]->dev, "%s()\n", __func__);
- 
--	mutex_lock(&ati_remote2_mutex);
-+	guard(mutex)(&ati_remote2_mutex);
- 
- 	if (!(ar2->flags & ATI_REMOTE2_SUSPENDED))
- 		ati_remote2_kill_urbs(ar2);
- 
- 	ar2->flags &= ~ATI_REMOTE2_OPENED;
--
--	mutex_unlock(&ati_remote2_mutex);
- }
- 
- static void ati_remote2_input_mouse(struct ati_remote2 *ar2)
-@@ -713,16 +703,14 @@ static ssize_t ati_remote2_store_channel_mask(struct device *dev,
- 		return r;
+ 	dev_dbg(&dev->intf->dev, "### URB IRQ: [0x%02x 0x%02x 0x%02x 0x%02x] keybit=0x%02x\n",
+ 	     dev->irq_data->byte[0],
+@@ -401,32 +428,7 @@ static void cm109_urb_irq_callback(struct urb *urb)
  	}
  
--	mutex_lock(&ati_remote2_mutex);
+  out:
 -
--	if (mask != ar2->channel_mask) {
--		r = ati_remote2_setup(ar2, mask);
--		if (!r)
--			ar2->channel_mask = mask;
-+	scoped_guard(mutex, &ati_remote2_mutex) {
-+		if (mask != ar2->channel_mask) {
-+			r = ati_remote2_setup(ar2, mask);
-+			if (!r)
-+				ar2->channel_mask = mask;
+-	spin_lock_irqsave(&dev->ctl_submit_lock, flags);
+-
+-	dev->irq_urb_pending = 0;
+-
+-	if (likely(!dev->shutdown)) {
+-
+-		if (dev->buzzer_state)
+-			dev->ctl_data->byte[HID_OR0] |= BUZZER_ON;
+-		else
+-			dev->ctl_data->byte[HID_OR0] &= ~BUZZER_ON;
+-
+-		dev->ctl_data->byte[HID_OR1] = dev->keybit;
+-		dev->ctl_data->byte[HID_OR2] = dev->keybit;
+-
+-		dev->buzzer_pending = 0;
+-		dev->ctl_urb_pending = 1;
+-
+-		error = usb_submit_urb(dev->urb_ctl, GFP_ATOMIC);
+-		if (error)
+-			dev_err(&dev->intf->dev,
+-				"%s: usb_submit_urb (urb_ctl) failed %d\n",
+-				__func__, error);
+-	}
+-
+-	spin_unlock_irqrestore(&dev->ctl_submit_lock, flags);
++	cm109_submit_ctl(dev);
+ }
+ 
+ static void cm109_urb_ctl_callback(struct urb *urb)
+@@ -434,7 +436,6 @@ static void cm109_urb_ctl_callback(struct urb *urb)
+ 	struct cm109_dev *dev = urb->context;
+ 	const int status = urb->status;
+ 	int error;
+-	unsigned long flags;
+ 
+ 	dev_dbg(&dev->intf->dev, "### URB CTL: [0x%02x 0x%02x 0x%02x 0x%02x]\n",
+ 	     dev->ctl_data->byte[0],
+@@ -449,35 +450,31 @@ static void cm109_urb_ctl_callback(struct urb *urb)
+ 				    __func__, status);
+ 	}
+ 
+-	spin_lock_irqsave(&dev->ctl_submit_lock, flags);
++	guard(spinlock_irqsave)(&dev->ctl_submit_lock);
+ 
+ 	dev->ctl_urb_pending = 0;
+ 
+-	if (likely(!dev->shutdown)) {
+-
+-		if (dev->buzzer_pending || status) {
+-			dev->buzzer_pending = 0;
+-			dev->ctl_urb_pending = 1;
+-			cm109_submit_buzz_toggle(dev);
+-		} else if (likely(!dev->irq_urb_pending)) {
+-			/* ask for key data */
+-			dev->irq_urb_pending = 1;
+-			error = usb_submit_urb(dev->urb_irq, GFP_ATOMIC);
+-			if (error)
+-				dev_err(&dev->intf->dev,
+-					"%s: usb_submit_urb (urb_irq) failed %d\n",
+-					__func__, error);
+-		}
+-	}
++	if (unlikely(dev->shutdown))
++		return;
+ 
+-	spin_unlock_irqrestore(&dev->ctl_submit_lock, flags);
++	if (dev->buzzer_pending || status) {
++		dev->buzzer_pending = 0;
++		dev->ctl_urb_pending = 1;
++		cm109_submit_buzz_toggle(dev);
++	} else if (likely(!dev->irq_urb_pending)) {
++		/* ask for key data */
++		dev->irq_urb_pending = 1;
++		error = usb_submit_urb(dev->urb_irq, GFP_ATOMIC);
++		if (error)
++			dev_err(&dev->intf->dev,
++				"%s: usb_submit_urb (urb_irq) failed %d\n",
++				__func__, error);
++	}
+ }
+ 
+ static void cm109_toggle_buzzer_async(struct cm109_dev *dev)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&dev->ctl_submit_lock, flags);
++	guard(spinlock_irqsave)(&dev->ctl_submit_lock);
+ 
+ 	if (dev->ctl_urb_pending) {
+ 		/* URB completion will resubmit */
+@@ -486,8 +483,6 @@ static void cm109_toggle_buzzer_async(struct cm109_dev *dev)
+ 		dev->ctl_urb_pending = 1;
+ 		cm109_submit_buzz_toggle(dev);
+ 	}
+-
+-	spin_unlock_irqrestore(&dev->ctl_submit_lock, flags);
+ }
+ 
+ static void cm109_toggle_buzzer_sync(struct cm109_dev *dev, int on)
+@@ -556,32 +551,30 @@ static int cm109_input_open(struct input_dev *idev)
+ 		return error;
+ 	}
+ 
+-	mutex_lock(&dev->pm_mutex);
+-
+-	dev->buzzer_state = 0;
+-	dev->key_code = -1;	/* no keys pressed */
+-	dev->keybit = 0xf;
++	scoped_guard(mutex, &dev->pm_mutex) {
++		dev->buzzer_state = 0;
++		dev->key_code = -1;	/* no keys pressed */
++		dev->keybit = 0xf;
+ 
+-	/* issue INIT */
+-	dev->ctl_data->byte[HID_OR0] = HID_OR_GPO_BUZ_SPDIF;
+-	dev->ctl_data->byte[HID_OR1] = dev->keybit;
+-	dev->ctl_data->byte[HID_OR2] = dev->keybit;
+-	dev->ctl_data->byte[HID_OR3] = 0x00;
++		/* issue INIT */
++		dev->ctl_data->byte[HID_OR0] = HID_OR_GPO_BUZ_SPDIF;
++		dev->ctl_data->byte[HID_OR1] = dev->keybit;
++		dev->ctl_data->byte[HID_OR2] = dev->keybit;
++		dev->ctl_data->byte[HID_OR3] = 0x00;
+ 
+-	dev->ctl_urb_pending = 1;
+-	error = usb_submit_urb(dev->urb_ctl, GFP_KERNEL);
+-	if (error) {
+-		dev->ctl_urb_pending = 0;
+-		dev_err(&dev->intf->dev, "%s: usb_submit_urb (urb_ctl) failed %d\n",
+-			__func__, error);
+-	} else {
+-		dev->open = 1;
++		dev->ctl_urb_pending = 1;
++		error = usb_submit_urb(dev->urb_ctl, GFP_KERNEL);
++		if (!error) {
++			dev->open = 1;
++			return 0;
 +		}
  	}
  
--	mutex_unlock(&ati_remote2_mutex);
+-	mutex_unlock(&dev->pm_mutex);
++	dev->ctl_urb_pending = 0;
++	usb_autopm_put_interface(dev->intf);
+ 
+-	if (error)
+-		usb_autopm_put_interface(dev->intf);
++	dev_err(&dev->intf->dev, "%s: usb_submit_urb (urb_ctl) failed %d\n",
++		__func__, error);
+ 
+ 	return error;
+ }
+@@ -590,17 +583,15 @@ static void cm109_input_close(struct input_dev *idev)
+ {
+ 	struct cm109_dev *dev = input_get_drvdata(idev);
+ 
+-	mutex_lock(&dev->pm_mutex);
 -
- 	usb_autopm_put_interface(ar2->intf[0]);
- 
- 	return r ? r : count;
-@@ -892,15 +880,13 @@ static int ati_remote2_suspend(struct usb_interface *interface,
- 
- 	dev_dbg(&ar2->intf[0]->dev, "%s()\n", __func__);
- 
--	mutex_lock(&ati_remote2_mutex);
-+	guard(mutex)(&ati_remote2_mutex);
- 
- 	if (ar2->flags & ATI_REMOTE2_OPENED)
- 		ati_remote2_kill_urbs(ar2);
- 
- 	ar2->flags |= ATI_REMOTE2_SUSPENDED;
- 
--	mutex_unlock(&ati_remote2_mutex);
+-	/*
+-	 * Once we are here event delivery is stopped so we
+-	 * don't need to worry about someone starting buzzer
+-	 * again
+-	 */
+-	cm109_stop_traffic(dev);
+-	dev->open = 0;
 -
+-	mutex_unlock(&dev->pm_mutex);
++	scoped_guard(mutex, &dev->pm_mutex) {
++		/*
++		 * Once we are here event delivery is stopped so we
++		 * don't need to worry about someone starting buzzer
++		 * again
++		 */
++		cm109_stop_traffic(dev);
++		dev->open = 0;
++	}
+ 
+ 	usb_autopm_put_interface(dev->intf);
+ }
+@@ -823,9 +814,9 @@ static int cm109_usb_suspend(struct usb_interface *intf, pm_message_t message)
+ 
+ 	dev_info(&intf->dev, "cm109: usb_suspend (event=%d)\n", message.event);
+ 
+-	mutex_lock(&dev->pm_mutex);
++	guard(mutex)(&dev->pm_mutex);
++
+ 	cm109_stop_traffic(dev);
+-	mutex_unlock(&dev->pm_mutex);
+ 
  	return 0;
  }
+@@ -836,9 +827,9 @@ static int cm109_usb_resume(struct usb_interface *intf)
  
-@@ -917,7 +903,7 @@ static int ati_remote2_resume(struct usb_interface *interface)
+ 	dev_info(&intf->dev, "cm109: usb_resume\n");
  
- 	dev_dbg(&ar2->intf[0]->dev, "%s()\n", __func__);
+-	mutex_lock(&dev->pm_mutex);
++	guard(mutex)(&dev->pm_mutex);
++
+ 	cm109_restore_state(dev);
+-	mutex_unlock(&dev->pm_mutex);
  
--	mutex_lock(&ati_remote2_mutex);
-+	guard(mutex)(&ati_remote2_mutex);
- 
- 	if (ar2->flags & ATI_REMOTE2_OPENED)
- 		r = ati_remote2_submit_urbs(ar2);
-@@ -925,8 +911,6 @@ static int ati_remote2_resume(struct usb_interface *interface)
- 	if (!r)
- 		ar2->flags &= ~ATI_REMOTE2_SUSPENDED;
- 
--	mutex_unlock(&ati_remote2_mutex);
--
- 	return r;
+ 	return 0;
  }
- 
-@@ -943,11 +927,11 @@ static int ati_remote2_reset_resume(struct usb_interface *interface)
- 
- 	dev_dbg(&ar2->intf[0]->dev, "%s()\n", __func__);
- 
--	mutex_lock(&ati_remote2_mutex);
-+	guard(mutex)(&ati_remote2_mutex);
- 
- 	r = ati_remote2_setup(ar2, ar2->channel_mask);
- 	if (r)
--		goto out;
-+		return r;
- 
- 	if (ar2->flags & ATI_REMOTE2_OPENED)
- 		r = ati_remote2_submit_urbs(ar2);
-@@ -955,9 +939,6 @@ static int ati_remote2_reset_resume(struct usb_interface *interface)
- 	if (!r)
- 		ar2->flags &= ~ATI_REMOTE2_SUSPENDED;
- 
-- out:
--	mutex_unlock(&ati_remote2_mutex);
--
- 	return r;
- }
- 
 -- 
 2.46.0.469.g59c65b2a67-goog
 
