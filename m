@@ -1,63 +1,74 @@
-Return-Path: <linux-input+bounces-6206-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6207-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AEA596C7DA
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 21:46:36 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8709396C7FA
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 21:52:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 301E11C20BE2
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 19:46:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B3397B22D9A
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 19:52:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27649146D53;
-	Wed,  4 Sep 2024 19:46:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94CE61E6321;
+	Wed,  4 Sep 2024 19:52:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="l4NlHtMR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NN7xmuwm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFC613AA2B;
-	Wed,  4 Sep 2024 19:46:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98E340C03;
+	Wed,  4 Sep 2024 19:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725479192; cv=none; b=mzDIZF9BFRlEv6ITKhNv7SlpOkQxMLb6medvfZa31ozxWlWc780Q1kwTCHlT3vu0icvghG3LGKJS572Om3Q8BbONkLFgMlpetimmSgtuLv9mluhEohrx52yGyWYQNZtXn65w+BTRNd+DdwcA8Y5MbjfDvCz41mddabR1WolPqE8=
+	t=1725479546; cv=none; b=NY2V+SCJH16RhynY5pr9EKIHmJ4T4RFICMEufSeKilVh34AGiI1u1bO9mI5vryBA8a3UsNFFdvEHWzUc0S9rJgPdQno0+78TesKq+jOK6wYijGZr3qdZNi5PrIX4zDTQzwSsAcawMDOEprxMDCWMyHuqyWg7f0C4Ff0Z1kBo+5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725479192; c=relaxed/simple;
-	bh=e5YRCfHcSxajoDuqX351heIe3Wzdm2U2L0IQCNWWeXQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=AMpCSQfFOixEFdoOYSCH0ZMu8UCDLW+yBjF7XdBqvMTEl99MEc0GP4iiWzLZnbTe4a5CO9yN2H6F9m5lk91693J+sBXSN/A7UWPlduXzgpF4o5Fl9hBkxahrvO7fFPhKXc1m4U4qK7Y2tIqtCSNEeroXNKPh7egU1lTJ/9TRXqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=l4NlHtMR; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 484IoaCp028269;
-	Wed, 4 Sep 2024 19:46:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	4L5/ijFquyhl43s4ge7n4rzdYP9Bspig+YmhsVPizDQ=; b=l4NlHtMRF8vNO7MP
-	nOQCFcFhJ2p34IS3ayCQypwnosMjNNcY1PKjL2lmN+4U6e52LGqMnttmJHnMZ6Sk
-	tprRbJDmIDPf1A7LIrtMXJkT/SLsVAIWKE/3iqWfY/mJK0AHJ7syVBy7HwXAW+3P
-	k/YsDqdmGUX0MjtBMA8Okxj9PO5NZu13f0hJ0Ptl2vb7YPPRYGPfIFl2LvbiqU+8
-	z/3WnSZ+/k+LeqBkSYJFkT5y2J8LczrwNup0TWjbkAJowbTOnPLVtW3Ul3fmLvG+
-	YrieTiYgDm999u0Y9qoZYtf9XqKdE4Z/I+6FLDV6L8kFZEZl7q8YDrmdBHeVLUXx
-	lINI9g==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41btrxuu79-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Sep 2024 19:46:06 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 484Jk4kw023645
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 4 Sep 2024 19:46:04 GMT
-Received: from [10.71.114.155] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 4 Sep 2024
- 12:46:03 -0700
-Message-ID: <93d2eecf-ed79-41cf-b38b-ede432093aec@quicinc.com>
-Date: Wed, 4 Sep 2024 12:46:03 -0700
+	s=arc-20240116; t=1725479546; c=relaxed/simple;
+	bh=Z/VMfqanYFjI3q3ZnsYgwDCUPClsurgForHmfmr+Whc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WPqJDWjnCSth1dXV3/EbyKngoHHZV1eOqvWBTbqOiEgadGJo4JiXBgfmeBp5SSEFaZQU7f1FAsYCRHzo/e/WzXuEyCD8L/x+WoUrIlRqkfmMaJPTuDKxReAtcxq+z3zhxvDcw7C6y1NHogZsM9DkjgjXs+7jFRtHyQsJ0f/rA8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NN7xmuwm; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42bbd0a40faso48811815e9.1;
+        Wed, 04 Sep 2024 12:52:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725479543; x=1726084343; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=td9L9uL8QEgZmMDYezTAoB1Jhlil36yrfMrEVwDuq2g=;
+        b=NN7xmuwmM/TNIcUmn9OPFGT0vBdSon5JzoXe4rNSTtuRPM9X5JU2zhr5v0C/yVyb/M
+         mpjiSR5AWpjhTr0AJorC2bMacvby3il5twENV92LzpMvB5IJ7Y0DqBuqnzwmlQRs3PTx
+         OngqtmB/6mtfVjOMpYk5WqeXYwfe2h6H18ZapoLDltnCNRaQtErnnl6uyZH7eElccgqN
+         /PqTd9HjqjxneE74qcyS6I6VRql58jJuyM08Sl0Qa437FHJY11/PkQtEIT8y5nzFj3VL
+         XYiHGq1i8q2frCFkcySkuJBowgr3iHOyDi6bal9B2uroXrk0h8G096ZUaO/b1QuIhraA
+         /esA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725479543; x=1726084343;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=td9L9uL8QEgZmMDYezTAoB1Jhlil36yrfMrEVwDuq2g=;
+        b=tQLsxwZ16gO/LI0PRRwkMhVvQxMvmuo0pjVidpx3q1RlaYxk2Qh20dMXt4QMGeSbFv
+         gItnTxwjVQe7qABIDMezlBBkkTcTnWFWDHgru4NqbFe6EqOoqyhi4J7wfeQzUeSv6Zvl
+         y1gcXYTuf8R+o/zJS1DIW3i0ZyuYO7PjYw59a2Fqy6HAe45Uei76WK0EQufSAOvjdgTO
+         R5ZnWWUjVSBMHc0Hsl64sBQVNyqdDr0inmKXYoNvT335oVR+T9Lsa4JXchI8xVRdTgEx
+         Bld31aQtgr7IIvAzQlh4oiRz41A/S1FFfpKh/KU0uU3JAQuRAnEB60TTbrZ+VOBy0RJO
+         O9FQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX57JbaQ9b42cm7lFHrGwfwZyUtWSvFqswhYiPSLB6zwzHM2G75nUq3tkH0iQPGEiamm9pUW9ll7hS+Wg==@vger.kernel.org, AJvYcCXKFg3KmjrIHknwG3Hie1PislqazaSOWj5jvRtwTNCPaEmr/aCZEfcVLzfXBBf7MctOeZ3T/Rl61qrcaAT2@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4jxFh8/jXo9UPgcwTC4Iv0jP3y/k/GXd9SaI3HH0gA7cPlvVa
+	Y2pwrTpUJCpeS27a5kHbfMJ7RRVoSNHCVbPVYCJ0Z7jt+n5ernaI
+X-Google-Smtp-Source: AGHT+IE6wVWP11nzvH7yWHUyjKjlEpUgeB9KeWdrMZk2ykUYwvQGmGM9zpXoS2IjrKN6TWAlW/oMaA==
+X-Received: by 2002:a05:600c:45d1:b0:42b:afbb:1704 with SMTP id 5b1f17b1804b1-42c880ec5e4mr71119725e9.6.1725479543010;
+        Wed, 04 Sep 2024 12:52:23 -0700 (PDT)
+Received: from [192.168.0.31] (84-115-213-37.cable.dynamic.surfer.at. [84.115.213.37])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-374c07eed5dsm12421884f8f.116.2024.09.04.12.52.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Sep 2024 12:52:22 -0700 (PDT)
+Message-ID: <a41bb88a-b624-4b5b-a2ea-b49761c45a93@gmail.com>
+Date: Wed, 4 Sep 2024 21:52:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -65,109 +76,184 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v26 30/33] ALSA: usb-audio: qcom: Use card and PCM index
- from QMI request
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <tiwai@suse.com>, <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
-        <bgoswami@quicinc.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
-References: <20240829194105.1504814-1-quic_wcheng@quicinc.com>
- <20240829194105.1504814-31-quic_wcheng@quicinc.com>
- <f8090415-e0ae-4923-bdc8-58622623fc9d@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <f8090415-e0ae-4923-bdc8-58622623fc9d@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: r8piAAQeh2qxXzfDR-ckpRBOOeNMPYga
-X-Proofpoint-ORIG-GUID: r8piAAQeh2qxXzfDR-ckpRBOOeNMPYga
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-04_17,2024-09-04_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- clxscore=1015 suspectscore=0 phishscore=0 impostorscore=0
- priorityscore=1501 mlxscore=0 mlxlogscore=999 spamscore=0
- lowpriorityscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2407110000 definitions=main-2409040149
+Subject: Re: [PATCH 17/22] Input: pegasus_notetaker - use guard notation when
+ acquiring mutex
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org
+Cc: Michael Hennerich <michael.hennerich@analog.com>,
+ Ville Syrjala <syrjala@sci.fi>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Eddie James <eajames@linux.ibm.com>, Andrey Moiseev <o2g.org.ru@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>, Jeff LaBundy <jeff@labundy.com>,
+ linux-kernel@vger.kernel.org,
+ Javier Carrasco Cruz <javier.carrasco.cruz@gmail.com>
+References: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
+ <20240904044842.1048638-1-dmitry.torokhov@gmail.com>
+Content-Language: en-US, de-AT
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <20240904044842.1048638-1-dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Pierre,
+On 04/09/2024 06:48, Dmitry Torokhov wrote:
+> Using guard notation makes the code more compact and error handling
+> more robust by ensuring that mutexes are released in all code paths
+> when control leaves critical section.
+> 
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>  drivers/input/tablet/pegasus_notetaker.c | 86 +++++++++++++-----------
+>  1 file changed, 48 insertions(+), 38 deletions(-)
+> 
+> diff --git a/drivers/input/tablet/pegasus_notetaker.c b/drivers/input/tablet/pegasus_notetaker.c
+> index a68da2988f9c..e1dc8365bfe9 100644
+> --- a/drivers/input/tablet/pegasus_notetaker.c
+> +++ b/drivers/input/tablet/pegasus_notetaker.c
+> @@ -214,6 +214,28 @@ static void pegasus_init(struct work_struct *work)
+>  			error);
+>  }
+>  
+> +static int __pegasus_open(struct pegasus *pegasus)
+> +{
+> +	int error;
+> +
+> +	guard(mutex)(&pegasus->pm_mutex);
+> +
+> +	pegasus->irq->dev = pegasus->usbdev;
+> +	if (usb_submit_urb(pegasus->irq, GFP_KERNEL))
+> +		return -EIO;
+> +
+> +	error = pegasus_set_mode(pegasus, PEN_MODE_XY, NOTETAKER_LED_MOUSE);
+> +	if (error) {
+> +		usb_kill_urb(pegasus->irq);
+> +		cancel_work_sync(&pegasus->init);
+> +		return error;
+> +	}
+> +
+> +	pegasus->is_open = true;
 
-On 8/30/2024 2:58 AM, Pierre-Louis Bossart wrote:
->
-> On 8/29/24 21:41, Wesley Cheng wrote:
->> Utilize the card and PCM index coming from the USB QMI stream request.
->> This field follows what is set by the ASoC USB backend, and could
->> potentially carry information about a specific device selected through the
->> ASoC USB backend.  The backend also has information about the last USB
->> sound device plugged in, so it can choose to select the last device plugged
->> in, accordingly.
->>
->> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> ---
->>  sound/usb/qcom/qc_audio_offload.c | 8 ++------
->>  1 file changed, 2 insertions(+), 6 deletions(-)
->>
->> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
->> index 0bd533f539e4..a7ad15404fd1 100644
->> --- a/sound/usb/qcom/qc_audio_offload.c
->> +++ b/sound/usb/qcom/qc_audio_offload.c
->> @@ -106,8 +106,6 @@ struct uaudio_qmi_dev {
->>  	bool er_mapped;
->>  	/* reference count to number of possible consumers */
->>  	atomic_t qdev_in_use;
->> -	/* idx to last udev card number plugged in */
->> -	unsigned int last_card_num;
->>  };
->>  
->>  struct uaudio_dev {
->> @@ -1261,7 +1259,7 @@ static int prepare_qmi_response(struct snd_usb_substream *subs,
->>  
->>  	pcm_dev_num = (req_msg->usb_token & QMI_STREAM_REQ_DEV_NUM_MASK) >> 8;
->>  	xfer_buf_len = req_msg->xfer_buff_size;
->> -	card_num = uaudio_qdev->last_card_num;
->> +	card_num = (req_msg->usb_token & QMI_STREAM_REQ_CARD_NUM_MASK) >> 16;
->>  
->>  	if (!uadev[card_num].ctrl_intf) {
->>  		dev_err(&subs->dev->dev, "audio ctrl intf info not cached\n");
->> @@ -1455,8 +1453,7 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
->>  
->>  	direction = (req_msg->usb_token & QMI_STREAM_REQ_DIRECTION);
->>  	pcm_dev_num = (req_msg->usb_token & QMI_STREAM_REQ_DEV_NUM_MASK) >> 8;
->> -	pcm_card_num = req_msg->enable ? uaudio_qdev->last_card_num :
->> -				ffs(uaudio_qdev->card_slot) - 1;
->> +	pcm_card_num = (req_msg->usb_token & QMI_STREAM_REQ_CARD_NUM_MASK) >> 16;
->>  	if (pcm_card_num >= SNDRV_CARDS) {
->>  		ret = -EINVAL;
->>  		goto response;
->> @@ -1706,7 +1703,6 @@ static void qc_usb_audio_offload_probe(struct snd_usb_audio *chip)
->>  		sdev->card_idx = chip->card->number;
->>  		sdev->chip_idx = chip->index;
->>  
->> -		uaudio_qdev->last_card_num = chip->card->number;
->>  		snd_soc_usb_connect(usb_get_usb_backend(udev), sdev);
->>  	}
-> This entire path seems like a bad split/merge, it removes stuff that was
-> done earlier. Also it's not clear what this has to do with 'QMI', card
-> and PCM device management is usually done at a higher level.
->
-> not following, please be mindful of reviewer fatigue when adding such
-> changes in patch 30/33....
+Nit: blank line before return.
 
-I'll just add this as part of patch#28.  I think before I did the reordering of the series, this made a bit more sense to have as a patch on its own.  Now that the entire framework for the audio dsp to know about the card and pcm index is already done in previous patches, the plumbing is done for the qc_audio_offload to utilize the fields coming from the audio DSP, as they will carry valid values.
+> +	return 0;
+> +}
 
-Thanks
+Nit: multiple blank lines.
 
-Wesley Cheng
+> +
+> +
+>  static int pegasus_open(struct input_dev *dev)
+>  {
+>  	struct pegasus *pegasus = input_get_drvdata(dev);
+> @@ -223,39 +245,25 @@ static int pegasus_open(struct input_dev *dev)
+>  	if (error)
+>  		return error;
+>  
+> -	mutex_lock(&pegasus->pm_mutex);
+> -	pegasus->irq->dev = pegasus->usbdev;
+> -	if (usb_submit_urb(pegasus->irq, GFP_KERNEL)) {
+> -		error = -EIO;
+> -		goto err_autopm_put;
+> +	error = __pegasus_open(pegasus);
+> +	if (error) {
+> +		usb_autopm_put_interface(pegasus->intf);
+> +		return error;
+>  	}
+>  
+> -	error = pegasus_set_mode(pegasus, PEN_MODE_XY, NOTETAKER_LED_MOUSE);
+> -	if (error)
+> -		goto err_kill_urb;
+> -
+> -	pegasus->is_open = true;
+> -	mutex_unlock(&pegasus->pm_mutex);
+>  	return 0;
+> -
+> -err_kill_urb:
+> -	usb_kill_urb(pegasus->irq);
+> -	cancel_work_sync(&pegasus->init);
+> -err_autopm_put:
+> -	mutex_unlock(&pegasus->pm_mutex);
+> -	usb_autopm_put_interface(pegasus->intf);
+> -	return error;
+>  }
+>  
+>  static void pegasus_close(struct input_dev *dev)
+>  {
+>  	struct pegasus *pegasus = input_get_drvdata(dev);
+>  
+> -	mutex_lock(&pegasus->pm_mutex);
+> -	usb_kill_urb(pegasus->irq);
+> -	cancel_work_sync(&pegasus->init);
+> -	pegasus->is_open = false;
+> -	mutex_unlock(&pegasus->pm_mutex);
+> +	scoped_guard(mutex, &pegasus->pm_mutex) {
+> +		usb_kill_urb(pegasus->irq);
+> +		cancel_work_sync(&pegasus->init);
+> +
+> +		pegasus->is_open = false;
+> +	}
+>  
+>  	usb_autopm_put_interface(pegasus->intf);
+>  }
+> @@ -411,10 +419,10 @@ static int pegasus_suspend(struct usb_interface *intf, pm_message_t message)
+>  {
+>  	struct pegasus *pegasus = usb_get_intfdata(intf);
+>  
+> -	mutex_lock(&pegasus->pm_mutex);
+> +	guard(mutex)(&pegasus->pm_mutex);
+> +
+>  	usb_kill_urb(pegasus->irq);
+>  	cancel_work_sync(&pegasus->init);
+> -	mutex_unlock(&pegasus->pm_mutex);
+>  
+>  	return 0;
+>  }
+> @@ -422,31 +430,33 @@ static int pegasus_suspend(struct usb_interface *intf, pm_message_t message)
+>  static int pegasus_resume(struct usb_interface *intf)
+>  {
+>  	struct pegasus *pegasus = usb_get_intfdata(intf);
+> -	int retval = 0;
+>  
+> -	mutex_lock(&pegasus->pm_mutex);
+> +	guard(mutex)(&pegasus->pm_mutex);
+> +
+>  	if (pegasus->is_open && usb_submit_urb(pegasus->irq, GFP_NOIO) < 0)
+> -		retval = -EIO;
+> -	mutex_unlock(&pegasus->pm_mutex);
+> +		return -EIO;
+>  
+> -	return retval;
+> +	return 0;
+>  }
+>  
+>  static int pegasus_reset_resume(struct usb_interface *intf)
+>  {
+>  	struct pegasus *pegasus = usb_get_intfdata(intf);
+> -	int retval = 0;
+> +	int error;
+> +
+> +	guard(mutex)(&pegasus->pm_mutex);
+>  
+> -	mutex_lock(&pegasus->pm_mutex);
+>  	if (pegasus->is_open) {
+> -		retval = pegasus_set_mode(pegasus, PEN_MODE_XY,
+> +		error = pegasus_set_mode(pegasus, PEN_MODE_XY,
+>  					  NOTETAKER_LED_MOUSE);
+> -		if (!retval && usb_submit_urb(pegasus->irq, GFP_NOIO) < 0)
+> -			retval = -EIO;
+> +		if (error)
+> +			return error;
+> +
+> +		if (usb_submit_urb(pegasus->irq, GFP_NOIO) < 0)
+> +			return -EIO;
+>  	}
+> -	mutex_unlock(&pegasus->pm_mutex);
+>  
+> -	return retval;
+> +	return 0;
+>  }
+>  
+>  static const struct usb_device_id pegasus_ids[] = {
 
+Apart from the minor nitpicks,
+
+Reviewed-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
