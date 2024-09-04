@@ -1,74 +1,74 @@
-Return-Path: <linux-input+bounces-6199-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6200-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7799C96C736
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 21:12:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA3596C756
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 21:17:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA2741C22C7F
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 19:12:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFCD11F26696
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 19:17:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 711841E4136;
-	Wed,  4 Sep 2024 19:12:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B46591E5036;
+	Wed,  4 Sep 2024 19:16:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QqDmaGYx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ddh6PIQd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA741E4134;
-	Wed,  4 Sep 2024 19:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13A31E4921;
+	Wed,  4 Sep 2024 19:16:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725477175; cv=none; b=Rn9pjbWmExz1zJcfxVJo00EAYKA1Ncu7dwvC+Y7IFR2hQRJB80DZC6eHuxr5aXYmTBNL+8z6nNtfOlgX/0bTrGn+8drjGRnZ0Muq+rQTZcjie/MUbLHU5knLY5Auh+otsrzM930kkEtDGWDWgul7R26OogaEfK1eZ+GPRc1KMmk=
+	t=1725477386; cv=none; b=aXmIoguSV3Sv8y7tl26Cqv94TekTuLHZzFojZqixhtvFbRkQEswIwcNnsi8+C4hXAVj4p7p/QFGkOzBQuYnw4IcwmMQO81P9Bp6fGCdPWLLt7LEHiPCkCBoIZMovTvOXQ0yAbnEXT59kTwpAJAE+nns3+tdqWHrk1mpuoV+pnhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725477175; c=relaxed/simple;
-	bh=wCYCLUtZdmkEmE+1Wad9UcwehTklVDln9Rys9/ACRmw=;
+	s=arc-20240116; t=1725477386; c=relaxed/simple;
+	bh=nhsrHnEsMlnnTiCbTBVNHbb+/ULqv2U6DtGkCcLXKH4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oxgMEb102Ew+k1Xh+qdZksHUKV+nylq6Pqkxw0OEIggbNKlXb7IeZ2Fk+RW1GZq5WnS3v4MYMUiaQMCdwSsPs1xl69yntYNYXOcl3rAoqL4NHDiKeVDumJh4tbzDuYuRrR9ZUk1wNvLciUX4wG5x/U+m9jXnPCEt/nHbdll0Tz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QqDmaGYx; arc=none smtp.client-ip=209.85.208.47
+	 In-Reply-To:Content-Type; b=FqZFiCdSWxk0PsZbb/54HSln/JkTnvbWmAqrnx6QBCv7oTFw3TJ+1FBPT2RMsRIUCHfLdD2H5TfWadSxQTqtxcN5C1/jqeYyDRXmEYN6YGZMx01Dk+SHD+3ceJLTykyFaqgvyoZxDFyoaSRa2IMcJVsZCQ/7IyZeafO86c0FxlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ddh6PIQd; arc=none smtp.client-ip=209.85.208.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5c218866849so7478884a12.0;
-        Wed, 04 Sep 2024 12:12:53 -0700 (PDT)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2f50ca18a13so83934501fa.1;
+        Wed, 04 Sep 2024 12:16:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725477172; x=1726081972; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725477383; x=1726082183; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=gH2vs2W0YRDv0r05EvTEiZvNKk32s2QRA9UbMJtEfIc=;
-        b=QqDmaGYxVIg5DUDT4c2jFMjYhMiVNkas902A7t998sNy6fBAZnu2eD+Zgzhg5OoxXj
-         RJa7Ee+Ccrlm2X9s+iWgNatIAdksjjLgzz+/Bp8S8Zuz7J+CRarVxP93NA4ADyH6xFKA
-         KIa4GaWwBnetRnM5VGBM4iN8zXkT6rhZF+ISpRwwnX+lCyRx8BO28QI/LopiGnNCzMP9
-         LCXDbRkBmiLN+n4U1WAR2lIa6Nj49L0aQTso3uWxAAbk0C8HXr1xp3D54Hr7yhBXxGMP
-         768pvNMr8MLvGyeqv4hD0eNOi3Dos10zx1KG9Ryg6/YD+9F7xjS8nmVGRuAL4oonn19h
-         J8uA==
+        bh=ecWxmSdlEAY3T5UrX15kGaPsyAsRyZMUa4Di/cMCXFI=;
+        b=ddh6PIQdDuenxm3k3FHgVuj8hTVI+I83jz+CJkmVDJh/xk5cPfWs+aG4S+dAlXcmSS
+         UMzrelBoXOVtDB1ipn/TfoIJQFwhUeWBBL21wJ9CaS++yMuuTNptwlmA7SRSvIx8F8lR
+         dMiSgddZaWOR6ZdlYB5bkkOe3fMlqcWz0PyKPUEZDxnAj/yhTA1X73VLYh4j6K89Z8p7
+         uP/ZKitHmqIpWMYOeJxnlc/rvPjf+QLs0vyIKam94Z4/O/DSuiz5+5++xmXSD7diKO2M
+         +SWzwTkBy4UZeG5h2pXkx/V6JdwkDawUARPhvqrSnWbeEFDVRYp6FXPWibvlFmum8RYV
+         HyxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725477172; x=1726081972;
+        d=1e100.net; s=20230601; t=1725477383; x=1726082183;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gH2vs2W0YRDv0r05EvTEiZvNKk32s2QRA9UbMJtEfIc=;
-        b=ABMqRGWanbmRFGOZ+M7DLuE1347WHDYOGUMnjFPEl/uhDhAQrq+fKtDJTAdxFD6upf
-         gvas6PKk5ycjmaJRpE0UhNqV8xH6OdkjYrKgzaHX/AC64Qy514+XKMpmQePumag2SS5D
-         +BSo4lYapqtMnDsbxUz1W7iK6ePGxVa5HG8oeGVcF2WWM9zGfpqeeuAYfuj1weSLzCjF
-         qshv6lHCGw+D7PgbJJ3A1OLMNohzBDHuzn7IxSzfDkdskwFB8B+MWS/NgV8TzK6/Vm0w
-         82tBKPmrZsa9p8PWYdHaZ2IYEDQ1oOu9NO6T0hSR0q5LNsc2dnX8je+0y1vTesAjfkq/
-         rStw==
-X-Forwarded-Encrypted: i=1; AJvYcCV3zfaywQb4wKiSEGIvt1syX6iyVwTUKA/Ad2yG5uh9y8QP8qxSOH5zogGhUPTs7yxSKYLxsWWbgPLG3lb8@vger.kernel.org, AJvYcCVhckSgPsU1H+OyqNf97/KpwneOfN82Kf69k6LEDPUvjA7vaWm3DyQbYalPoPLxuY1tEX7Y62bAUhbMrA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwckjiA1PMyopO3P0nTRBM48xvo5Ui9mFuo2TpnJdcKO6aWHiRW
-	a0ORg6kb8U8F5vrVe6xRc6svegv48MsteSy5sRCnnoh7i1zU7v93
-X-Google-Smtp-Source: AGHT+IEmt4zEeI86HuhxjThHhCTgH58WPgsvbNY+5QG8P040d8PVvZsuJCPZG2HjFU8li7tRjEGzYA==
-X-Received: by 2002:a17:906:6a1e:b0:a86:83f8:f5a2 with SMTP id a640c23a62f3a-a89b94cef24mr1347679966b.19.1725477171955;
-        Wed, 04 Sep 2024 12:12:51 -0700 (PDT)
+        bh=ecWxmSdlEAY3T5UrX15kGaPsyAsRyZMUa4Di/cMCXFI=;
+        b=blk7vesi8fdUhgvZuPjWm9VG4KzaVxvYCz9/rYIuJrD4K1k75zNQyZGFJ+Qc48KJpH
+         LUUrZ3onlk2TY2ZjOZ5NPloeSC6WZxO7sY8BXmrX/9iIVRY5dNaI++eH1meh/cyfAVuh
+         YxkEdrTszDGHlMzUewJSLEQbPkOf+Dev+DpCvoNDqrxyg6RE8052XhecMJJiGwdf+FM3
+         sshvZxH0/mJbu+xGMNjQp5o89rp/++zABnfvqz63pID+zYyyYXk3D/A00d2MK4yFvMue
+         ngGIY6PygXHgKzTxQw1ZLBqGuDwWV3jhhdmeYDEDhP/pSl7XfOgee9Hy5RJhbpQqAHzM
+         U2/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW+h3tNV89CMFzWrLto5HZzY+lXaa+7Vhx/uyfDOfCw2DXnFw8cUdtazrlf1Hp71bQAegvwIj3prHyPyQ==@vger.kernel.org, AJvYcCWiSIbdgrFIZhgDl/88+9HW4LJXTL7UmEuXiqKsg8MEwFkMOmv858Tt6XAKmDYVzxP/bm/dqeEySDOIyJOX@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8pn30Jm3coWtGIOpD+txKO6XLHh0Xrqep5/aeAXpZ0NfOUxN4
+	qgCDqJ3SvzJys8WLu7aUqNbNFe62WfqLD/nP7VgaiEvGUsDa5oSy
+X-Google-Smtp-Source: AGHT+IGIRVLiKyEhxZ1uo9S8EscCI1mmCRNIj9YYobqVKCt+R5Y827KNmuZM1nTVb4rMFFpaX8s3LQ==
+X-Received: by 2002:a2e:461a:0:b0:2f6:4f17:aead with SMTP id 38308e7fff4ca-2f64f17b38cmr23257631fa.21.1725477382664;
+        Wed, 04 Sep 2024 12:16:22 -0700 (PDT)
 Received: from [192.168.0.31] (84-115-213-37.cable.dynamic.surfer.at. [84.115.213.37])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8a623a6fa6sm25601866b.170.2024.09.04.12.12.50
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c3cc54eafbsm238928a12.33.2024.09.04.12.16.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Sep 2024 12:12:51 -0700 (PDT)
-Message-ID: <c0040ed2-2877-4acd-9cf7-101d40cda642@gmail.com>
-Date: Wed, 4 Sep 2024 21:12:49 +0200
+        Wed, 04 Sep 2024 12:16:22 -0700 (PDT)
+Message-ID: <f2bc481b-8560-40b4-88a1-5517c21f5630@gmail.com>
+Date: Wed, 4 Sep 2024 21:16:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -76,8 +76,8 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 16/22] Input: max8997_haptic - use guard notation when
- acquiring mutex
+Subject: Re: [PATCH 18/22] Input: powermate - use guard notation when
+ acquiring spinlock
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org
 Cc: Michael Hennerich <michael.hennerich@analog.com>,
  Ville Syrjala <syrjala@sci.fi>,
@@ -87,81 +87,70 @@ Cc: Michael Hennerich <michael.hennerich@analog.com>,
  linux-kernel@vger.kernel.org,
  Javier Carrasco Cruz <javier.carrasco.cruz@gmail.com>
 References: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
- <20240904044834.1048468-1-dmitry.torokhov@gmail.com>
+ <20240904044902.1049017-1-dmitry.torokhov@gmail.com>
 Content-Language: en-US, de-AT
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <20240904044834.1048468-1-dmitry.torokhov@gmail.com>
+In-Reply-To: <20240904044902.1049017-1-dmitry.torokhov@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 04/09/2024 06:48, Dmitry Torokhov wrote:
+On 04/09/2024 06:49, Dmitry Torokhov wrote:
 > Using guard notation makes the code more compact and error handling
-> more robust by ensuring that mutexes are released in all code paths
+> more robust by ensuring that locks are released in all code paths
 > when control leaves critical section.
 > 
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 > ---
->  drivers/input/misc/max8997_haptic.c | 15 +++++----------
->  1 file changed, 5 insertions(+), 10 deletions(-)
+>  drivers/input/misc/powermate.c | 11 ++---------
+>  1 file changed, 2 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/input/misc/max8997_haptic.c b/drivers/input/misc/max8997_haptic.c
-> index 11cac4b7dddc..2853455daef2 100644
-> --- a/drivers/input/misc/max8997_haptic.c
-> +++ b/drivers/input/misc/max8997_haptic.c
-> @@ -153,19 +153,19 @@ static void max8997_haptic_enable(struct max8997_haptic *chip)
+> diff --git a/drivers/input/misc/powermate.c b/drivers/input/misc/powermate.c
+> index 4b039abffc4b..ecb92ee5ebbc 100644
+> --- a/drivers/input/misc/powermate.c
+> +++ b/drivers/input/misc/powermate.c
+> @@ -194,22 +194,18 @@ static void powermate_sync_state(struct powermate_device *pm)
+>  static void powermate_config_complete(struct urb *urb)
 >  {
->  	int error;
+>  	struct powermate_device *pm = urb->context;
+> -	unsigned long flags;
 >  
-> -	mutex_lock(&chip->mutex);
-> +	guard(mutex)(&chip->mutex);
+>  	if (urb->status)
+>  		printk(KERN_ERR "powermate: config urb returned %d\n", urb->status);
 >  
->  	error = max8997_haptic_set_duty_cycle(chip);
->  	if (error) {
->  		dev_err(chip->dev, "set_pwm_cycle failed, error: %d\n", error);
-> -		goto out;
-> +		return;
->  	}
->  
->  	if (!chip->enabled) {
->  		error = regulator_enable(chip->regulator);
->  		if (error) {
->  			dev_err(chip->dev, "Failed to enable regulator\n");
-> -			goto out;
-> +			return;
->  		}
->  		max8997_haptic_configure(chip);
->  		if (chip->mode == MAX8997_EXTERNAL_MODE) {
-> @@ -173,19 +173,16 @@ static void max8997_haptic_enable(struct max8997_haptic *chip)
->  			if (error) {
->  				dev_err(chip->dev, "Failed to enable PWM\n");
->  				regulator_disable(chip->regulator);
-> -				goto out;
-> +				return;
->  			}
->  		}
->  		chip->enabled = true;
->  	}
-> -
-> -out:
-> -	mutex_unlock(&chip->mutex);
+> -	spin_lock_irqsave(&pm->lock, flags);
+> +	guard(spinlock_irqsave)(&pm->lock);
+>  	powermate_sync_state(pm);
+> -	spin_unlock_irqrestore(&pm->lock, flags);
 >  }
 >  
->  static void max8997_haptic_disable(struct max8997_haptic *chip)
+>  /* Set the LED up as described and begin the sync with the hardware if required */
+>  static void powermate_pulse_led(struct powermate_device *pm, int static_brightness, int pulse_speed,
+>  				int pulse_table, int pulse_asleep, int pulse_awake)
 >  {
-> -	mutex_lock(&chip->mutex);
-> +	guard(mutex)(&chip->mutex);
->  
->  	if (chip->enabled) {
->  		chip->enabled = false;
-> @@ -194,8 +191,6 @@ static void max8997_haptic_disable(struct max8997_haptic *chip)
->  			pwm_disable(chip->pwm);
->  		regulator_disable(chip->regulator);
->  	}
+> -	unsigned long flags;
 > -
-> -	mutex_unlock(&chip->mutex);
+>  	if (pulse_speed < 0)
+>  		pulse_speed = 0;
+>  	if (pulse_table < 0)
+> @@ -222,8 +218,7 @@ static void powermate_pulse_led(struct powermate_device *pm, int static_brightne
+>  	pulse_asleep = !!pulse_asleep;
+>  	pulse_awake = !!pulse_awake;
+>  
+> -
+> -	spin_lock_irqsave(&pm->lock, flags);
+> +	guard(spinlock_irqsave)(&pm->lock);
+>  
+>  	/* mark state updates which are required */
+>  	if (static_brightness != pm->static_brightness) {
+> @@ -245,8 +240,6 @@ static void powermate_pulse_led(struct powermate_device *pm, int static_brightne
+>  	}
+>  
+>  	powermate_sync_state(pm);
+> -
+> -	spin_unlock_irqrestore(&pm->lock, flags);
 >  }
 >  
->  static void max8997_haptic_play_effect_work(struct work_struct *work)
+>  /* Callback from the Input layer when an event arrives from userspace to configure the LED */
 
 Reviewed-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
