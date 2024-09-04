@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-6133-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6134-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F38596AFEE
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 06:43:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B214A96AFF1
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 06:43:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C8A0287205
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 04:43:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1BC62B24690
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 04:43:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 971EF84A3F;
-	Wed,  4 Sep 2024 04:43:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 001E085260;
+	Wed,  4 Sep 2024 04:43:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rc1/nP7B"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SMkYk+fc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D75823AF;
-	Wed,  4 Sep 2024 04:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7870E84A32;
+	Wed,  4 Sep 2024 04:43:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725424985; cv=none; b=e7HB6Y0pBDs07Vj05Jo6tnk14NZrbOrjNUNqxeacrF6VFaH+G0lqPNZcZSvuD1CavB9OL3gk19GmefMlXLg3Z/EBaJn9t+KAzdNVghYgv9KKcK5fVVWvcbxSa8nhO6vwJxXGOsdFy0Ie5m/SqLgNQdFSZohxMT0N4DsPeYSjNDY=
+	t=1725424986; cv=none; b=IWDLxyWDd+1v4kIiXWd7Kjgu5PG9vAzooh/mE8aJhSWOzvcSCO5Z9MXYfN0g45ZxhfLnt9tuLZv1gfa66PzvR/sDAgTmyQdMYJQG60Xh7Xs4dSZNE6PmztTIdbV3TzNe1mgmgkghyYrCDrs0jMiMPpWNpSwfs3Ql7mu93vyBtOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725424985; c=relaxed/simple;
-	bh=Z7nsIGt5YhOtj9TKDzIi/YcNVdcAY9ONCb+aIMRoifs=;
+	s=arc-20240116; t=1725424986; c=relaxed/simple;
+	bh=ntJRQE7i5EHSpWxAGqsFMIM6I1u1MMOt+WMjZtKBSpA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aTpQzRkHBJ5PPCPSHDMYV/rQAUv2A42MJ5WOUTQpqh3xlfRkm+ui/BQdA4AvjnL21OLV6dJOhrkrdk38QB4CwWrX0gknO5gYdCRqkJEmR+wcUkKeEurcUJLLoNz5+ERzb1ki2F7a4zVeCgDihtpjU0Dwv1bEHO0PHrYNu9YYkbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rc1/nP7B; arc=none smtp.client-ip=209.85.214.172
+	 MIME-Version; b=lerNXQGqCbFod1IWFFmH02vEj8hDxbR982l1aYwr9wayYcy2X6kbyhHJwoHdRpiisnbvkPImJP7hN4IWyYRzxWdijfGWaw4x1Bjl47WhzU+3H0tcLT5xjschkKEowf0FRzzDxEpffiFRDAg8kLiCzgLTQL+C1Tf9XfEy5d6HzVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SMkYk+fc; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20570b42f24so28760645ad.1;
-        Tue, 03 Sep 2024 21:43:04 -0700 (PDT)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7143165f23fso4878838b3a.1;
+        Tue, 03 Sep 2024 21:43:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725424983; x=1726029783; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725424984; x=1726029784; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gQjFNREllbEtpcW9yUf75en1G/awvfMmLJq7sa9fQM8=;
-        b=Rc1/nP7BScWjw+nq9uXeeBX/fy3ybto+fVELz0OOHTynqvp9An+j2k7sayTNZkg0x8
-         LjSFc4tTu+oi0EqPgIV+gFUuJbSEur3u0KQ+Vy8zrYQ9A+IQ/naqIn9e23vEpRUyya9v
-         4yIDme3ue44vpzWrW1P76gIWlmpVRRZrN+yAwaXFQSQLe8hmYjUnD5H6GoFuqDixchN8
-         VoGjhCpLLRw0w0DtkPPzhfp8TAbVo/Vz3zsPAI27FXyoedsUkRf15bfOHvhzDV2obi8U
-         Z8oZXXXZON2dt+lQnAgsP5SRSgAv10QH+u512wLo52NSJYRF91cZ/2SxszpoCQpIUgNx
-         vnLQ==
+        bh=Qt3lIbqEzBLG2ARFdyUWJzIIEgp9iN6FwkL6CSsxPmo=;
+        b=SMkYk+fc2T5ZC3QYAzjoR6h1AGucQ+xleW7wAYjPm0pmjLazV04oaxkX4+3NzgC+65
+         GyzaPfGK4r8Y4wpKQNf3Ek5iRxvqDCjEiddOkPmQmQMsd7JqAJKtsrdhyMGx8W3G1JB8
+         TByOLiJaUKL+gDkyNa+nOyhy6F8/XPsQU+K49xXsXcIcBlRQTza1mOmV7VRi9ruo5RoG
+         GB/WyKfAJ3hplU/+/Lzw6gVm58IYMwbegtJ2rRbfEoj9j/aRKEfH0aBzzaLt4szuugj3
+         WLNAbZIZw7qlgUUlC6CgfWkZqQuAz3BChQZgdpV3X7vhqdcpYbHYJHnmRkpJBngUN9ts
+         EkWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725424983; x=1726029783;
+        d=1e100.net; s=20230601; t=1725424984; x=1726029784;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gQjFNREllbEtpcW9yUf75en1G/awvfMmLJq7sa9fQM8=;
-        b=OePAR00/5Ts5MW+l7Z338X5WO+pSudFVpXn6daXb63PsftemcJQ4H+BqnTXi0pZ5wJ
-         AklC0BMWA9lZoWvPRMxNI6+coB3SRhlHyc1AdAzemL2GfGnZvGtMNOAsOLsTZr6/9RUc
-         vhiTrz+TaGyaNYvm4U/IfFpROLnCgdIxiqIA/SlQS/noCkPu+TRDmUQ7ngwRS7LPn9jo
-         BduGPcYYHZg8/LCDa+rIAi+CYpE4ZiyUyTnQUEQNueVyMxUH4Qg61HGejRotC8uTPbbZ
-         6CkaEsvYhxmpSNFlQcpFe2Y9gnrgo/1Lvl9PXTgHs6ii40jt75zlmYcXsFSrssPo3mXN
-         IHrw==
-X-Forwarded-Encrypted: i=1; AJvYcCVLcoBODV5VH9RIl8J6KCTTmlL0IKV0wqM+tIwh1WtaJUmmXIyGBBjzv/P/Dafp7ZCDSVgEj7GKHRbZrxc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpfrNiIGXA8+mrfwfJbcTq3q6oQj/bxQc8gmEes4WeEEwpvoBa
-	drktu1gMqDqowNw8y0zOKvP8m1sEdJ+JOu6EQzWWkx7S84XqDVA3Qko1QA==
-X-Google-Smtp-Source: AGHT+IFz2IBREdG4bnpMKSTq9/1/sHY92r6ILi9UHKnQwI3cSc41SJgB8oji0+T//1jl3dDmedPW3A==
-X-Received: by 2002:a17:902:ce07:b0:206:ac11:f3bb with SMTP id d9443c01a7336-206ac11f49cmr33072625ad.47.1725424983330;
-        Tue, 03 Sep 2024 21:43:03 -0700 (PDT)
+        bh=Qt3lIbqEzBLG2ARFdyUWJzIIEgp9iN6FwkL6CSsxPmo=;
+        b=v2Hpns8YPo+VNrGezPnMKxZvdzzdjc9MuqKZI1KvyoSEAzMSQWWO4WeZBbJ05NHrcn
+         erltqVTYsrPoDlvLfFT8IP/j5rfwf/TeTYKUklgAra2LmBJTFtJspU1+uybyeMiks4Br
+         Qn5/Y6AviEmaHjj0h3sNToDurkZOm1SgKsEe5yuKQ5r+IKcPXQOMr7saTiJz2Lgoqh24
+         QhZHwM9PuY3+Ee7HB6IP54LLHN5ntGCJziXcP7QX0LbLWMnYKBqWaXlRoUWOpYGJbps8
+         cemZtXpEd9nSDLXQrW5uqhZtsDhUoOjMg3GFabXI88/Jqpk8nhBUG2DTqZNjRvwwKGz/
+         bCOw==
+X-Forwarded-Encrypted: i=1; AJvYcCXRJwmRNfMZqTzXeJEDLDcaq78pUkt9PMkE2W6KVo/8FARJrU/ILzRcyQegQffDjx03/IWAHDOORdE00d8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPuO9X3atnsnXFpp49eXiM7m7XeyH3N8ZTl8Tw3cjDcZSD/ksr
+	54FyjBN2CHmuQRl51rjRGSWuQH469dOh9gHbqcqrMjT3TycI+OKtlBeEXg==
+X-Google-Smtp-Source: AGHT+IFNC8TLv1cx88xGH3pwH1vAazusFQZm0bGvrQnQR0jeYN70CGQDBhRl7ZtFk2U7+lwmIWjtEA==
+X-Received: by 2002:a05:6a21:789f:b0:1cc:e1a2:4335 with SMTP id adf61e73a8af0-1ced058ab02mr11718585637.50.1725424984473;
+        Tue, 03 Sep 2024 21:43:04 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:e682:e3dc:908:eef0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae951c13sm5727665ad.103.2024.09.03.21.43.02
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae951c13sm5727665ad.103.2024.09.03.21.43.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 21:43:02 -0700 (PDT)
+        Tue, 03 Sep 2024 21:43:04 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
 Cc: Michael Hennerich <michael.hennerich@analog.com>,
@@ -78,9 +78,9 @@ Cc: Michael Hennerich <michael.hennerich@analog.com>,
 	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
 	Jeff LaBundy <jeff@labundy.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 04/22] Input: cma3000_d0x - use guard notation when acquiring mutex
-Date: Tue,  3 Sep 2024 21:42:24 -0700
-Message-ID: <20240904044244.1042174-5-dmitry.torokhov@gmail.com>
+Subject: [PATCH 05/22] Input: da7280 - use guard notation when acquiring mutex and spinlock
+Date: Tue,  3 Sep 2024 21:42:25 -0700
+Message-ID: <20240904044244.1042174-6-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
 References: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
@@ -93,79 +93,70 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Using guard notation makes the code more compact and error handling
-more robust by ensuring that mutexes are released in all code paths
+more robust by ensuring that locks are released in all code paths
 when control leaves critical section.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/misc/cma3000_d0x.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+ drivers/input/misc/da7280.c | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/input/misc/cma3000_d0x.c b/drivers/input/misc/cma3000_d0x.c
-index 0c68e924a1cc..cfc12332bee1 100644
---- a/drivers/input/misc/cma3000_d0x.c
-+++ b/drivers/input/misc/cma3000_d0x.c
-@@ -217,15 +217,13 @@ static int cma3000_open(struct input_dev *input_dev)
+diff --git a/drivers/input/misc/da7280.c b/drivers/input/misc/da7280.c
+index 1629b7ea4cbd..e4a605c6af15 100644
+--- a/drivers/input/misc/da7280.c
++++ b/drivers/input/misc/da7280.c
+@@ -1263,39 +1263,37 @@ static int da7280_suspend(struct device *dev)
  {
- 	struct cma3000_accl_data *data = input_get_drvdata(input_dev);
+ 	struct da7280_haptic *haptics = dev_get_drvdata(dev);
  
--	mutex_lock(&data->mutex);
-+	guard(mutex)(&data->mutex);
+-	mutex_lock(&haptics->input_dev->mutex);
++	guard(mutex)(&haptics->input_dev->mutex);
  
- 	if (!data->suspended)
- 		cma3000_poweron(data);
+ 	/*
+ 	 * Make sure no new requests will be submitted while device is
+ 	 * suspended.
+ 	 */
+-	spin_lock_irq(&haptics->input_dev->event_lock);
+-	haptics->suspended = true;
+-	spin_unlock_irq(&haptics->input_dev->event_lock);
++	scoped_guard(spinlock_irq, &haptics->input_dev->event_lock) {
++		haptics->suspended = true;
++	}
  
- 	data->opened = true;
+ 	da7280_haptic_stop(haptics);
  
--	mutex_unlock(&data->mutex);
+-	mutex_unlock(&haptics->input_dev->mutex);
 -
  	return 0;
  }
  
-@@ -233,40 +231,34 @@ static void cma3000_close(struct input_dev *input_dev)
+ static int da7280_resume(struct device *dev)
  {
- 	struct cma3000_accl_data *data = input_get_drvdata(input_dev);
+ 	struct da7280_haptic *haptics = dev_get_drvdata(dev);
+-	int retval;
++	int error;
  
--	mutex_lock(&data->mutex);
-+	guard(mutex)(&data->mutex);
+-	mutex_lock(&haptics->input_dev->mutex);
++	guard(mutex)(&haptics->input_dev->mutex);
  
- 	if (!data->suspended)
- 		cma3000_poweroff(data);
+-	retval = da7280_haptic_start(haptics);
+-	if (!retval) {
+-		spin_lock_irq(&haptics->input_dev->event_lock);
++	error = da7280_haptic_start(haptics);
++	if (error)
++		return error;
++
++	scoped_guard(spinlock_irq, &haptics->input_dev->event_lock) {
+ 		haptics->suspended = false;
+-		spin_unlock_irq(&haptics->input_dev->event_lock);
+ 	}
  
- 	data->opened = false;
--
--	mutex_unlock(&data->mutex);
+-	mutex_unlock(&haptics->input_dev->mutex);
+-	return retval;
++	return 0;
  }
  
- void cma3000_suspend(struct cma3000_accl_data *data)
- {
--	mutex_lock(&data->mutex);
-+	guard(mutex)(&data->mutex);
- 
- 	if (!data->suspended && data->opened)
- 		cma3000_poweroff(data);
- 
- 	data->suspended = true;
--
--	mutex_unlock(&data->mutex);
- }
- EXPORT_SYMBOL(cma3000_suspend);
- 
- 
- void cma3000_resume(struct cma3000_accl_data *data)
- {
--	mutex_lock(&data->mutex);
-+	guard(mutex)(&data->mutex);
- 
- 	if (data->suspended && data->opened)
- 		cma3000_poweron(data);
- 
- 	data->suspended = false;
--
--	mutex_unlock(&data->mutex);
- }
- EXPORT_SYMBOL(cma3000_resume);
- 
+ #ifdef CONFIG_OF
 -- 
 2.46.0.469.g59c65b2a67-goog
 
