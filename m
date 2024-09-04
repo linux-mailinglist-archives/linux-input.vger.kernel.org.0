@@ -1,259 +1,170 @@
-Return-Path: <linux-input+bounces-6207-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6208-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8709396C7FA
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 21:52:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7691196C900
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 22:55:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B3397B22D9A
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 19:52:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8E901C25539
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 20:55:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94CE61E6321;
-	Wed,  4 Sep 2024 19:52:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CC4E13B7A3;
+	Wed,  4 Sep 2024 20:55:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NN7xmuwm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O2UdEHPK"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98E340C03;
-	Wed,  4 Sep 2024 19:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C424AD530;
+	Wed,  4 Sep 2024 20:55:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725479546; cv=none; b=NY2V+SCJH16RhynY5pr9EKIHmJ4T4RFICMEufSeKilVh34AGiI1u1bO9mI5vryBA8a3UsNFFdvEHWzUc0S9rJgPdQno0+78TesKq+jOK6wYijGZr3qdZNi5PrIX4zDTQzwSsAcawMDOEprxMDCWMyHuqyWg7f0C4Ff0Z1kBo+5k=
+	t=1725483313; cv=none; b=nwDuJedh++bQ6nofkrTa7aVT4C6NCEgdpWFnLV7fD/UjWQyg6LfoAowpVj2epUKdOQxdHJN4RJshQkD53l4E8KN1Qlru1HZpcwKTiOG0hNwQN5HSFT5svSXQR0CqwUXSxGSlx4rkvqfz3LoUNV1d3+iYvb2KTQSFCQ4OJN6ESGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725479546; c=relaxed/simple;
-	bh=Z/VMfqanYFjI3q3ZnsYgwDCUPClsurgForHmfmr+Whc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WPqJDWjnCSth1dXV3/EbyKngoHHZV1eOqvWBTbqOiEgadGJo4JiXBgfmeBp5SSEFaZQU7f1FAsYCRHzo/e/WzXuEyCD8L/x+WoUrIlRqkfmMaJPTuDKxReAtcxq+z3zhxvDcw7C6y1NHogZsM9DkjgjXs+7jFRtHyQsJ0f/rA8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NN7xmuwm; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1725483313; c=relaxed/simple;
+	bh=LQTu8sC/kulEKMETw8TubpnUEdoK4OUoYt2IduwMQPQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fy0RwCqHIwJB9d6l2RNxUdxnvTD17Ap9nA+d3y9UsrJQLR9yyS7BtG/+0WUZOGFWJoLceP6rVi3xzfhOOZ71gigKkPPfxRD8WN911mMH81JJ6J8QfRLMJX/6glCPhqC3L9hphKVPKq6udY/sjXF8drOCXQGnFzw5orhfpIa4Gs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O2UdEHPK; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42bbd0a40faso48811815e9.1;
-        Wed, 04 Sep 2024 12:52:24 -0700 (PDT)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2059204f448so801735ad.0;
+        Wed, 04 Sep 2024 13:55:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725479543; x=1726084343; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=td9L9uL8QEgZmMDYezTAoB1Jhlil36yrfMrEVwDuq2g=;
-        b=NN7xmuwmM/TNIcUmn9OPFGT0vBdSon5JzoXe4rNSTtuRPM9X5JU2zhr5v0C/yVyb/M
-         mpjiSR5AWpjhTr0AJorC2bMacvby3il5twENV92LzpMvB5IJ7Y0DqBuqnzwmlQRs3PTx
-         OngqtmB/6mtfVjOMpYk5WqeXYwfe2h6H18ZapoLDltnCNRaQtErnnl6uyZH7eElccgqN
-         /PqTd9HjqjxneE74qcyS6I6VRql58jJuyM08Sl0Qa437FHJY11/PkQtEIT8y5nzFj3VL
-         XYiHGq1i8q2frCFkcySkuJBowgr3iHOyDi6bal9B2uroXrk0h8G096ZUaO/b1QuIhraA
-         /esA==
+        d=gmail.com; s=20230601; t=1725483311; x=1726088111; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sqrX7xKRsiUs8X7rmIdaWp7SWBsLihp3vVeII2DVLXw=;
+        b=O2UdEHPKqCtVktDRPJSxt52yZ3idu0nFQh3dxueapYBL7pNo0Eki6clUfkBaVwaqFN
+         k4dbDrVh9GsSC8GngoOn+t6OJErBFGmUdd8ngNQVEKcyVROjZD5VJ9cA4rbR8AXse7GB
+         dNX44joj7Q4qYo9E5rhTn5t5TU7WRn6eCCwbPVTjpR1BElI7N69X8e/+qlu+Tgy9VZAO
+         E8Bfrg4GNggAMEaZioBrSUiVR8NlWfAAfI9RzF2MQ3ya+a8g0ofQeShz452F0a9iTkwM
+         TWO0WAITbsrpo+QnVGY1OVkFammlfGGeRFvP4qhP7/71lpQwREPGmzbU3NHp398JsbOW
+         Vutg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725479543; x=1726084343;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=td9L9uL8QEgZmMDYezTAoB1Jhlil36yrfMrEVwDuq2g=;
-        b=tQLsxwZ16gO/LI0PRRwkMhVvQxMvmuo0pjVidpx3q1RlaYxk2Qh20dMXt4QMGeSbFv
-         gItnTxwjVQe7qABIDMezlBBkkTcTnWFWDHgru4NqbFe6EqOoqyhi4J7wfeQzUeSv6Zvl
-         y1gcXYTuf8R+o/zJS1DIW3i0ZyuYO7PjYw59a2Fqy6HAe45Uei76WK0EQufSAOvjdgTO
-         R5ZnWWUjVSBMHc0Hsl64sBQVNyqdDr0inmKXYoNvT335oVR+T9Lsa4JXchI8xVRdTgEx
-         Bld31aQtgr7IIvAzQlh4oiRz41A/S1FFfpKh/KU0uU3JAQuRAnEB60TTbrZ+VOBy0RJO
-         O9FQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX57JbaQ9b42cm7lFHrGwfwZyUtWSvFqswhYiPSLB6zwzHM2G75nUq3tkH0iQPGEiamm9pUW9ll7hS+Wg==@vger.kernel.org, AJvYcCXKFg3KmjrIHknwG3Hie1PislqazaSOWj5jvRtwTNCPaEmr/aCZEfcVLzfXBBf7MctOeZ3T/Rl61qrcaAT2@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4jxFh8/jXo9UPgcwTC4Iv0jP3y/k/GXd9SaI3HH0gA7cPlvVa
-	Y2pwrTpUJCpeS27a5kHbfMJ7RRVoSNHCVbPVYCJ0Z7jt+n5ernaI
-X-Google-Smtp-Source: AGHT+IE6wVWP11nzvH7yWHUyjKjlEpUgeB9KeWdrMZk2ykUYwvQGmGM9zpXoS2IjrKN6TWAlW/oMaA==
-X-Received: by 2002:a05:600c:45d1:b0:42b:afbb:1704 with SMTP id 5b1f17b1804b1-42c880ec5e4mr71119725e9.6.1725479543010;
-        Wed, 04 Sep 2024 12:52:23 -0700 (PDT)
-Received: from [192.168.0.31] (84-115-213-37.cable.dynamic.surfer.at. [84.115.213.37])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-374c07eed5dsm12421884f8f.116.2024.09.04.12.52.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Sep 2024 12:52:22 -0700 (PDT)
-Message-ID: <a41bb88a-b624-4b5b-a2ea-b49761c45a93@gmail.com>
-Date: Wed, 4 Sep 2024 21:52:21 +0200
+        d=1e100.net; s=20230601; t=1725483311; x=1726088111;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sqrX7xKRsiUs8X7rmIdaWp7SWBsLihp3vVeII2DVLXw=;
+        b=qQS6d0TGjBDxqTmkRl9kOzCfWT95z4sZLkUpmsQXVAPFJXRDqDTquLirJZ3jur9P57
+         MyCCsGSJvUM/noBj/kuy6XfnNpmSvIU5HicR0H+VSmQFOFz3c1DIra3poNvzKDuD4cvq
+         K1yvlUnUbMJ4FbtYxLq9No7AjYWhlbETrsRc4x1o8IRYZnjxRF+BhwNBOlFqbHue9aMN
+         Z8SzyItPaPMNH9owXo3AfSByJHeJIqqP2cdhJiLVboHtYHOtrqaMUkf7s6Z/sFeiFDAZ
+         4UcEfIoid/e/Tt5weBuoJtFSDvR6uZj6VlCl/CiLh/VzIWMnByYKP6k8mACSdCywvmEU
+         NQYA==
+X-Forwarded-Encrypted: i=1; AJvYcCXE+4G1/rkhAGCazTL5jU96yrRvu25wJjVCnsFx2e0bhlMA5OzcHIvfoYydhVF5W/9VTuGD1lyXxvqWsio=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxDoDkzm1JTNjLjCvzaE2L2LMqpvmpHGsU0rsxRp6W3+voEmHz
+	odLHMJ3XuVRfTVljI0v197U/chRdXLdafJ0zySvvDVZB1fpBDTcX
+X-Google-Smtp-Source: AGHT+IFN1IwonS31KRPHw1fKgP9hulUMBQG6IxgViZqWb3/daMJFpYfffDJkEKkxZZyCCacv3nOxtw==
+X-Received: by 2002:a17:902:c949:b0:205:5dfe:7be with SMTP id d9443c01a7336-2055dfe179fmr126258775ad.26.1725483310546;
+        Wed, 04 Sep 2024 13:55:10 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:13bd:b4e:4c0f:4c37])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae9525d6sm17598355ad.111.2024.09.04.13.55.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 13:55:10 -0700 (PDT)
+Date: Wed, 4 Sep 2024 13:55:07 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: linux-input@vger.kernel.org,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Ville Syrjala <syrjala@sci.fi>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Eddie James <eajames@linux.ibm.com>,
+	Andrey Moiseev <o2g.org.ru@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jeff LaBundy <jeff@labundy.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 20/22] Input: regulator-haptic - use guard notation when
+ acquiring mutex
+Message-ID: <ZtjJKxQRRzJE0aWZ@google.com>
+References: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
+ <20240904044922.1049488-1-dmitry.torokhov@gmail.com>
+ <3ff97fb3-27e0-496e-a8b0-0c2d69deeff2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 17/22] Input: pegasus_notetaker - use guard notation when
- acquiring mutex
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org
-Cc: Michael Hennerich <michael.hennerich@analog.com>,
- Ville Syrjala <syrjala@sci.fi>,
- Support Opensource <support.opensource@diasemi.com>,
- Eddie James <eajames@linux.ibm.com>, Andrey Moiseev <o2g.org.ru@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>, Jeff LaBundy <jeff@labundy.com>,
- linux-kernel@vger.kernel.org,
- Javier Carrasco Cruz <javier.carrasco.cruz@gmail.com>
-References: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
- <20240904044842.1048638-1-dmitry.torokhov@gmail.com>
-Content-Language: en-US, de-AT
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <20240904044842.1048638-1-dmitry.torokhov@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3ff97fb3-27e0-496e-a8b0-0c2d69deeff2@gmail.com>
 
-On 04/09/2024 06:48, Dmitry Torokhov wrote:
-> Using guard notation makes the code more compact and error handling
-> more robust by ensuring that mutexes are released in all code paths
-> when control leaves critical section.
-> 
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
->  drivers/input/tablet/pegasus_notetaker.c | 86 +++++++++++++-----------
->  1 file changed, 48 insertions(+), 38 deletions(-)
-> 
-> diff --git a/drivers/input/tablet/pegasus_notetaker.c b/drivers/input/tablet/pegasus_notetaker.c
-> index a68da2988f9c..e1dc8365bfe9 100644
-> --- a/drivers/input/tablet/pegasus_notetaker.c
-> +++ b/drivers/input/tablet/pegasus_notetaker.c
-> @@ -214,6 +214,28 @@ static void pegasus_init(struct work_struct *work)
->  			error);
->  }
->  
-> +static int __pegasus_open(struct pegasus *pegasus)
-> +{
-> +	int error;
-> +
-> +	guard(mutex)(&pegasus->pm_mutex);
-> +
-> +	pegasus->irq->dev = pegasus->usbdev;
-> +	if (usb_submit_urb(pegasus->irq, GFP_KERNEL))
-> +		return -EIO;
-> +
-> +	error = pegasus_set_mode(pegasus, PEN_MODE_XY, NOTETAKER_LED_MOUSE);
-> +	if (error) {
-> +		usb_kill_urb(pegasus->irq);
-> +		cancel_work_sync(&pegasus->init);
-> +		return error;
-> +	}
-> +
-> +	pegasus->is_open = true;
+Using guard notation makes the code more compact and error handling
+more robust by ensuring that mutexes are released in all code paths
+when control leaves critical section.
 
-Nit: blank line before return.
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
 
-> +	return 0;
-> +}
+v2: drop no linger used "error" variable in regulator_haptic_suspend()
 
-Nit: multiple blank lines.
+ drivers/input/misc/regulator-haptic.c |   24 ++++++++----------------
+ 1 file changed, 8 insertions(+), 16 deletions(-)
 
-> +
-> +
->  static int pegasus_open(struct input_dev *dev)
->  {
->  	struct pegasus *pegasus = input_get_drvdata(dev);
-> @@ -223,39 +245,25 @@ static int pegasus_open(struct input_dev *dev)
->  	if (error)
->  		return error;
->  
-> -	mutex_lock(&pegasus->pm_mutex);
-> -	pegasus->irq->dev = pegasus->usbdev;
-> -	if (usb_submit_urb(pegasus->irq, GFP_KERNEL)) {
-> -		error = -EIO;
-> -		goto err_autopm_put;
-> +	error = __pegasus_open(pegasus);
-> +	if (error) {
-> +		usb_autopm_put_interface(pegasus->intf);
-> +		return error;
->  	}
->  
-> -	error = pegasus_set_mode(pegasus, PEN_MODE_XY, NOTETAKER_LED_MOUSE);
-> -	if (error)
-> -		goto err_kill_urb;
-> -
-> -	pegasus->is_open = true;
-> -	mutex_unlock(&pegasus->pm_mutex);
->  	return 0;
-> -
-> -err_kill_urb:
-> -	usb_kill_urb(pegasus->irq);
-> -	cancel_work_sync(&pegasus->init);
-> -err_autopm_put:
-> -	mutex_unlock(&pegasus->pm_mutex);
-> -	usb_autopm_put_interface(pegasus->intf);
-> -	return error;
->  }
->  
->  static void pegasus_close(struct input_dev *dev)
->  {
->  	struct pegasus *pegasus = input_get_drvdata(dev);
->  
-> -	mutex_lock(&pegasus->pm_mutex);
-> -	usb_kill_urb(pegasus->irq);
-> -	cancel_work_sync(&pegasus->init);
-> -	pegasus->is_open = false;
-> -	mutex_unlock(&pegasus->pm_mutex);
-> +	scoped_guard(mutex, &pegasus->pm_mutex) {
-> +		usb_kill_urb(pegasus->irq);
-> +		cancel_work_sync(&pegasus->init);
-> +
-> +		pegasus->is_open = false;
-> +	}
->  
->  	usb_autopm_put_interface(pegasus->intf);
->  }
-> @@ -411,10 +419,10 @@ static int pegasus_suspend(struct usb_interface *intf, pm_message_t message)
->  {
->  	struct pegasus *pegasus = usb_get_intfdata(intf);
->  
-> -	mutex_lock(&pegasus->pm_mutex);
-> +	guard(mutex)(&pegasus->pm_mutex);
-> +
->  	usb_kill_urb(pegasus->irq);
->  	cancel_work_sync(&pegasus->init);
-> -	mutex_unlock(&pegasus->pm_mutex);
->  
->  	return 0;
->  }
-> @@ -422,31 +430,33 @@ static int pegasus_suspend(struct usb_interface *intf, pm_message_t message)
->  static int pegasus_resume(struct usb_interface *intf)
->  {
->  	struct pegasus *pegasus = usb_get_intfdata(intf);
-> -	int retval = 0;
->  
-> -	mutex_lock(&pegasus->pm_mutex);
-> +	guard(mutex)(&pegasus->pm_mutex);
-> +
->  	if (pegasus->is_open && usb_submit_urb(pegasus->irq, GFP_NOIO) < 0)
-> -		retval = -EIO;
-> -	mutex_unlock(&pegasus->pm_mutex);
-> +		return -EIO;
->  
-> -	return retval;
-> +	return 0;
->  }
->  
->  static int pegasus_reset_resume(struct usb_interface *intf)
->  {
->  	struct pegasus *pegasus = usb_get_intfdata(intf);
-> -	int retval = 0;
-> +	int error;
-> +
-> +	guard(mutex)(&pegasus->pm_mutex);
->  
-> -	mutex_lock(&pegasus->pm_mutex);
->  	if (pegasus->is_open) {
-> -		retval = pegasus_set_mode(pegasus, PEN_MODE_XY,
-> +		error = pegasus_set_mode(pegasus, PEN_MODE_XY,
->  					  NOTETAKER_LED_MOUSE);
-> -		if (!retval && usb_submit_urb(pegasus->irq, GFP_NOIO) < 0)
-> -			retval = -EIO;
-> +		if (error)
-> +			return error;
-> +
-> +		if (usb_submit_urb(pegasus->irq, GFP_NOIO) < 0)
-> +			return -EIO;
->  	}
-> -	mutex_unlock(&pegasus->pm_mutex);
->  
-> -	return retval;
-> +	return 0;
->  }
->  
->  static const struct usb_device_id pegasus_ids[] = {
-
-Apart from the minor nitpicks,
-
-Reviewed-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+diff --git a/drivers/input/misc/regulator-haptic.c b/drivers/input/misc/regulator-haptic.c
+index 02f73b7c0462..3666ba6d1f30 100644
+--- a/drivers/input/misc/regulator-haptic.c
++++ b/drivers/input/misc/regulator-haptic.c
+@@ -83,12 +83,10 @@ static void regulator_haptic_work(struct work_struct *work)
+ 	struct regulator_haptic *haptic = container_of(work,
+ 					struct regulator_haptic, work);
+ 
+-	mutex_lock(&haptic->mutex);
++	guard(mutex)(&haptic->mutex);
+ 
+ 	if (!haptic->suspended)
+ 		regulator_haptic_set_voltage(haptic, haptic->magnitude);
+-
+-	mutex_unlock(&haptic->mutex);
+ }
+ 
+ static int regulator_haptic_play_effect(struct input_dev *input, void *data,
+@@ -205,19 +203,15 @@ static int regulator_haptic_suspend(struct device *dev)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct regulator_haptic *haptic = platform_get_drvdata(pdev);
+-	int error;
+ 
+-	error = mutex_lock_interruptible(&haptic->mutex);
+-	if (error)
+-		return error;
+-
+-	regulator_haptic_set_voltage(haptic, 0);
++	scoped_guard(mutex_intr, &haptic->mutex) {
++		regulator_haptic_set_voltage(haptic, 0);
++		haptic->suspended = true;
+ 
+-	haptic->suspended = true;
+-
+-	mutex_unlock(&haptic->mutex);
++		return 0;
++	}
+ 
+-	return 0;
++	return -EINTR;
+ }
+ 
+ static int regulator_haptic_resume(struct device *dev)
+@@ -226,7 +220,7 @@ static int regulator_haptic_resume(struct device *dev)
+ 	struct regulator_haptic *haptic = platform_get_drvdata(pdev);
+ 	unsigned int magnitude;
+ 
+-	mutex_lock(&haptic->mutex);
++	guard(mutex)(&haptic->mutex);
+ 
+ 	haptic->suspended = false;
+ 
+@@ -234,8 +228,6 @@ static int regulator_haptic_resume(struct device *dev)
+ 	if (magnitude)
+ 		regulator_haptic_set_voltage(haptic, magnitude);
+ 
+-	mutex_unlock(&haptic->mutex);
+-
+ 	return 0;
+ }
+ 
 
