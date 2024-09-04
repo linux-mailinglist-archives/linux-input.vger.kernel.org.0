@@ -1,132 +1,192 @@
-Return-Path: <linux-input+bounces-6185-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6186-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4EC996C691
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 20:40:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2AAA96C699
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 20:42:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2385F1C225B3
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 18:40:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 309CC1C220B9
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 18:42:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EE2B1E1A37;
-	Wed,  4 Sep 2024 18:40:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0856B1E4117;
+	Wed,  4 Sep 2024 18:41:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lvkm/ITR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hsQ6RV4a"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9F91EB44;
-	Wed,  4 Sep 2024 18:40:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D235A1E203C;
+	Wed,  4 Sep 2024 18:41:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725475241; cv=none; b=PsYFRpKs98aV6eKxtO/s4yo7aXlXi5wZQQTh0jAm8EZg8q/aUGw/kPuNUsjSTpkl4xnZsoXtWV3v1+xJ40pQsnR0XQeUCQZC42r/JFCsdKlR70D009db+rFqLPOcXfdAriW3ji0PdpjPYEZNUrQjQTpmDyX07TcGE822t3gyPoA=
+	t=1725475297; cv=none; b=GrqHgL3zA881wj5WT7h2MiwV7LRJeyXCcwq2tMgRXuMDmQ7PJhsKawMBmNAxHOxXt1HBN/IgrGWmMTwRkCNYDGK59pol2cJndM7xvfAiWKocPhzvFHMO4diau3OtrechgZcIxO1XWZrMnecMTRRu1HwWdFb9UbTH8VZBMzNKItQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725475241; c=relaxed/simple;
-	bh=z7CTyBRQzHnhSsS7I4BEzf6MzWu1bOyaqgUKfYyEd4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dIZg2JyhRXVzgwKeKdISvl+Tk20YP4KqmibLMTcmCpHkR1fyt8B/B3EVqzG/93diwzLsfsua7yBatsvEJ15orOHgP0j9zb22S8SyQNYBf1PQmPX59xWejOvlBc2FaW7bULxiWJwSt5TxDxcH1DxpqxPmyDgxjoHikrCY2uQuKlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lvkm/ITR; arc=none smtp.client-ip=209.85.210.176
+	s=arc-20240116; t=1725475297; c=relaxed/simple;
+	bh=A3ro/nfnjAl4s81sSOoMnUR+2g5Ubu7GFMcfa1xCd/k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uYrRtQ26KMWD0oGdsANHVkYvD6tIUGAeNn33U2bdE6ZPrdGdOejNWw0tPPd94cD0K7Oin7dJgqgGEYG1OCPhTrxsOI4xwK9adBi2VJ6NBKT2Xf6xJIzVxSVvMiLEHIc7NqCPaImQhBNlZy0bYTjJgPhRCoIZjnifeHe4ZosFo1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hsQ6RV4a; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-714287e4083so6151386b3a.2;
-        Wed, 04 Sep 2024 11:40:39 -0700 (PDT)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a8695cc91c8so728703066b.3;
+        Wed, 04 Sep 2024 11:41:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725475239; x=1726080039; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gj90y9S4pmTQLI45I+wb2B5L5eIjkcLojwizD5xN0WQ=;
-        b=Lvkm/ITR5AtmZp6FiwG9+TFrgjJPx9kYuqokFsguxJFxr5z0xJ/A4982ycYKR9xaAE
-         Dy6HeV3siHcq0ulWkHqz+BGZm73wyj3BJNFhODdg/P/HRYOIttgVoo+2vivYY3TMx2RI
-         OPJbVIsbCR4cRCFOqqCCc3Zci4BKYIkb25XMonk/by/6Ue+7dGA9U7mRMT2rl5yCnOPH
-         XeQCngWLLmUXWi8hVQJ/RbAYWCmErjIQnKXmI+0ww2H2duBKa5HUmRoeSkdWICLHutGr
-         6ARHjMcSI8yZiZwnMpX/XmR+7rebEq/gxGDb0AzJ4IOo9k6p8By/31bop4ueC9XgT6b7
-         1BUA==
+        d=gmail.com; s=20230601; t=1725475293; x=1726080093; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GwUgBvho3B0QvIg0ctI8JPj/EWGRCH/IJjBVlNqiQsE=;
+        b=hsQ6RV4ann3zHyKjm3g52Vy5W6st/xSO7VUN8mRy4MdbSkB70y3w3iC/ElyDGSA8/a
+         sGrEvaCuIljHXEaLxQ6X+BGgWkfaiw6/j2NcsCnwv7jyNbq7GOtq9gjaDqArcQqLnaPT
+         SQgcN7FTEZO492lFTkM/ygak5WkgF6gZYsv4kahcGGT2xb5cH7kCLStk3KGoEIQyzxkZ
+         cpIqSfAfH/WO50N0n92sctkvy5bdUI+/JKb2BDT+skOIe7sF8+XzeF4KZMd0EkwxuSIG
+         lo4jOx0LDbTbcGWr3nRfElSpAtNsms5JFsN9W4o766OuzXvIY7st0sPdXAVe5aPrAoLe
+         4KmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725475239; x=1726080039;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gj90y9S4pmTQLI45I+wb2B5L5eIjkcLojwizD5xN0WQ=;
-        b=aUYiF7JU3YEMKduE+H9gd24Hktrh/g5/t0bDR3Xg7nocaOcaLEhFqdJQW9EJmReUfJ
-         UCgHLZ1AfD+RkBLvfJiGhUN+i2MBd8bkMeSkb8QcDcn1/68LqWJN61OpK7GdOr49bIxd
-         zgfJKyI4tYlNC6LLDNQUVxNyys87omRz4A/50LwwREKg3JWLFyubZgTi+dA83eNhloyL
-         J8MWmfjbNvnP3bQkcbJgDwGLPH548mrJmUatcRcs+T9twIxwuTCdn/SwdDRX08hw4EBV
-         DI+kxwzw6QpTGCX/Fy6rag9LGhtCFYZhSAgS5+Wv07eXnmQYS7W59J1zJlb2Abqb7K0q
-         BBVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVBMmPNWnvNkk+YNby73u9UdGvnmZ6DYboNYi7azsuePCW16/4EaFBBs6tl+9g4oZK+Iil9N3c5vE+cAw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCMc27Gl4/i4K39HTIhgmJdCflo1opxZxfEBwxPJUxv2sdX65o
-	SGt/BBWaMLWxvZLdMzvRL5mk/Wu6vo5BDxtD3RFytq2CFYzwUMlX
-X-Google-Smtp-Source: AGHT+IHOKRHHEkdMfEmxI/s51FTQAQpGZmY/NFE2K8WmfPY3IkxCFGoIQdTXaJY3OJK3RUeobukYGg==
-X-Received: by 2002:a05:6a20:d487:b0:1c6:fa4b:3648 with SMTP id adf61e73a8af0-1cecdf294b6mr21242034637.22.1725475239095;
-        Wed, 04 Sep 2024 11:40:39 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:13bd:b4e:4c0f:4c37])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7178bf574basm80429b3a.13.2024.09.04.11.40.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 11:40:38 -0700 (PDT)
-Date: Wed, 4 Sep 2024 11:40:36 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: "Tobita, Tatsunosuke" <tatsunosuke.tobita@wacom.com>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"Cheng, Ping" <Ping.Cheng@wacom.com>,
-	"Chen, Martin" <martin.chen@wacom.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linux Input <linux-input@vger.kernel.org>
-Subject: Re: Question for submitting a dt-binding besides an existing one
- covering enough for our device
-Message-ID: <ZtippHCTtiz29IVq@google.com>
-References: <PA4PR07MB7407FF98C5EA3F2E1CFA5D8E879C2@PA4PR07MB7407.eurprd07.prod.outlook.com>
+        d=1e100.net; s=20230601; t=1725475293; x=1726080093;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GwUgBvho3B0QvIg0ctI8JPj/EWGRCH/IJjBVlNqiQsE=;
+        b=qSGuDg1UB9PH929w8pvuQhJKnKalACU6mLXN4wnOeheB1ToapLSMfkIbpiEjvQn/66
+         VpzZ51fKzlYcWhWSY45jcPdjqkyteHjE/SfQWVBIOzmqTm3ausKc4bXvjdiMsC7WTf6Y
+         0WOEbgB2ACwO1FGtfWHU8ZlCAOTOUzzmqdn6Hc6YKZOxVMhku6J/Iu9A7z4Ie63OwdEx
+         /CSRGi5+5ZQJpmUG3k4sYdr/0tMBkASNeOiqi0vQewR/niX/8BPsSG4VL+n9RYjQ11Es
+         GQA6ObY08q6WVWLdeX+vJ9cYSgT/7OabiPVcdhj86WWzoR4Gc5nLEtqIovFc/PKULPIT
+         4rwA==
+X-Forwarded-Encrypted: i=1; AJvYcCVNXQPvoGZ4V6dGVdtTdlcf5IoCiFNEFiEYv1WgUVXQuN66RxoJJlToT9YiUHvcJ+LdjoaOybcUlqV5iKk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1ajr6C/T1/qFPYq5bgfHIIdOzr6GKCPLAs/SCQ9w04lB3HcpJ
+	OlUJYMn66ds79XLDTEeynwFIZrRCunjBMzjmnUyf7YSu1TrsV8Hp
+X-Google-Smtp-Source: AGHT+IG3U2Il4yRhkgfYtW8gFeMe/a6wnJ1Il0WFF8MHIJcPcXuD4ybYVAWrqJuVDFGfzd6OA+cU1w==
+X-Received: by 2002:a17:907:2d22:b0:a7a:bae8:f297 with SMTP id a640c23a62f3a-a897f84bd71mr1631202866b.15.1725475292693;
+        Wed, 04 Sep 2024 11:41:32 -0700 (PDT)
+Received: from [192.168.0.31] (84-115-213-37.cable.dynamic.surfer.at. [84.115.213.37])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8a61fd64e0sm23332966b.36.2024.09.04.11.41.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Sep 2024 11:41:32 -0700 (PDT)
+Message-ID: <818a1972-2862-460c-89b7-476ac0680db7@gmail.com>
+Date: Wed, 4 Sep 2024 20:41:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PA4PR07MB7407FF98C5EA3F2E1CFA5D8E879C2@PA4PR07MB7407.eurprd07.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/22] Input: iqs269a - use guard notation when acquiring
+ mutex
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Ville Syrjala <syrjala@sci.fi>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Eddie James <eajames@linux.ibm.com>, Andrey Moiseev <o2g.org.ru@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>, Jeff LaBundy <jeff@labundy.com>,
+ linux-kernel@vger.kernel.org
+References: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
+ <20240904044756.1047629-1-dmitry.torokhov@gmail.com>
+ <9cc5b106-88dc-4539-b831-3cc6cb3ef860@gmail.com>
+ <ZtilRLKICDSXKyEp@google.com>
+Content-Language: en-US, de-AT
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <ZtilRLKICDSXKyEp@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Tatsunosuke,
-
-On Wed, Sep 04, 2024 at 06:26:40AM +0000, Tobita, Tatsunosuke wrote:
-> Hi,
+On 04/09/2024 20:21, Dmitry Torokhov wrote:
+> Hi Javier,
 > 
-> Wacom is currently working on to add our dt-binding at
-> /Documentation/devicetree/bindings/input/touchscreen.  While doing
-> that, we found another dt-binding which was already sufficient to
-> detect our device and load the driver for it[1].
-
-You pointed to a whole directory of bindings, based on the context
-below I assume you are talking about this:
-
-Documentation/devicetree/bindings/input/hid-over-i2c.yaml
-
+> On Wed, Sep 04, 2024 at 03:53:40PM +0200, Javier Carrasco wrote:
+>> On 04/09/2024 06:47, Dmitry Torokhov wrote:
+>>> Using guard notation makes the code more compact and error handling
+>>> more robust by ensuring that mutexes are released in all code paths
+>>> when control leaves critical section.
+>>>
+>>> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+>>> ---
+>>>  drivers/input/misc/iqs269a.c | 46 +++++++++++++-----------------------
+>>>  1 file changed, 16 insertions(+), 30 deletions(-)
+>>>
+>>> diff --git a/drivers/input/misc/iqs269a.c b/drivers/input/misc/iqs269a.c
+>>> index 843f8a3f3410..c34d847fa4af 100644
+>>> --- a/drivers/input/misc/iqs269a.c
+>>> +++ b/drivers/input/misc/iqs269a.c
+>>
+>> ...
+>>
+>>> @@ -453,9 +449,9 @@ static int iqs269_ati_base_get(struct iqs269_private *iqs269,
+>>>  	if (ch_num >= IQS269_NUM_CH)
+>>>  		return -EINVAL;
+>>>  
+>>> -	mutex_lock(&iqs269->lock);
+>>> +	guard(mutex)(&iqs269->lock);
+>>> +
+>>>  	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
+>>
+>> maybe scoped_guard() to keep the scope of the mutex as it used to be?
 > 
-> In this case, what can we do?  hid-over-i2c dt-binding([1]) covers
-> information enough for our device to be used under I2C interface.
-> Therefore, the difference is seemingly going to be at "description".
-> Do we just provide a yaml file containing only the some of the
-> headers, such as id, schema, tiltle, and description items to submit
-> our dt-binding?
+> Thank you for looking over patches.
+> 
+> It is just a few computations extra, so I decided not to use
+> scoped_guard(). Note that original code was forced to release mutex
+> early to avoid having to unlock it in all switch branches.
+> 
+>>
+>>> -	mutex_unlock(&iqs269->lock);
+>>>  
+>>>  	switch (engine_b & IQS269_CHx_ENG_B_ATI_BASE_MASK) {
+>>>  	case IQS269_CHx_ENG_B_ATI_BASE_75:
+>>> @@ -491,7 +487,7 @@ static int iqs269_ati_target_set(struct iqs269_private *iqs269,
+>>>  	if (target > IQS269_CHx_ENG_B_ATI_TARGET_MAX)
+>>>  		return -EINVAL;
+>>>  
+>>> -	mutex_lock(&iqs269->lock);
+>>> +	guard(mutex)(&iqs269->lock);
+>>>  
+>>>  	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
+>>>  
+>>> @@ -501,8 +497,6 @@ static int iqs269_ati_target_set(struct iqs269_private *iqs269,
+>>>  	ch_reg[ch_num].engine_b = cpu_to_be16(engine_b);
+>>>  	iqs269->ati_current = false;
+>>>  
+>>> -	mutex_unlock(&iqs269->lock);
+>>> -
+>>>  	return 0;
+>>>  }
+>>>  
+>>> @@ -515,10 +509,9 @@ static int iqs269_ati_target_get(struct iqs269_private *iqs269,
+>>>  	if (ch_num >= IQS269_NUM_CH)
+>>>  		return -EINVAL;
+>>>  
+>>> -	mutex_lock(&iqs269->lock);
+>>> -	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
+>>> -	mutex_unlock(&iqs269->lock);
+>>> +	guard(mutex)(&iqs269->lock);
+>>
+>> same here?
+>>
+>>>  
+>>> +	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
+>>>  	*target = (engine_b & IQS269_CHx_ENG_B_ATI_TARGET_MASK) * 32;
+> 
+> Same here, calculating the line above will take no time at all...
+> 
+> Thanks.
+> 
 
-If your controller is fully covered by hid-over-i2c.yaml binding then
-I think you just need to add a new compatible to it. We already have
-"wacom,w9013" there.
+As you pointed out, in reality the extra locked instructions will not
+make any difference. But as the conversion added instructions to be
+locked by the mutex without mentioning it, I thought it should be either
+left as it used to be with scoped_guard(), or explicitly mentioned in
+the description.
 
-Otherwise follow examples such as:
+No strong feelings against it, but out of curiosity, why would you
+rather use guard()? I think scoped_guard() is a better way to
+self-document what has to be accessed via mutex, and what not.
 
-Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
-
-that are also hid-over-i2c devices but require special power up/down
-handling.
-
-Thanks.
-
--- 
-Dmitry
+Best regards,
+Javier Carrasco
 
