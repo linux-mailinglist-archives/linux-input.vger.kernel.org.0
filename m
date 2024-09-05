@@ -1,172 +1,166 @@
-Return-Path: <linux-input+bounces-6254-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6255-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3EA96DD0E
-	for <lists+linux-input@lfdr.de>; Thu,  5 Sep 2024 17:03:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D070096DE8A
+	for <lists+linux-input@lfdr.de>; Thu,  5 Sep 2024 17:40:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 85F5B289603
-	for <lists+linux-input@lfdr.de>; Thu,  5 Sep 2024 15:03:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F1AE1C22D5E
+	for <lists+linux-input@lfdr.de>; Thu,  5 Sep 2024 15:40:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 009E0C8FE;
-	Thu,  5 Sep 2024 14:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="R5CknzMA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B58519D895;
+	Thu,  5 Sep 2024 15:40:06 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6032AE7F;
-	Thu,  5 Sep 2024 14:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA3D19E7F6;
+	Thu,  5 Sep 2024 15:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725548385; cv=none; b=RiOwRKK0UywhAbfar900QbYfTd3eAQHhAFP9J/IwWJsPGjhcAl7V9jmKIMJIHOAN+ZBdcSeHNHU7Dz7sV+op2LM78dQwi8iYvim/mSDgY64qzCMk/IlnoHMXaA1agICaFSwJjkfNFewdbQyHlIA/UD5gK5vtMGzTgGsX3A8dGhA=
+	t=1725550806; cv=none; b=l0HULVZ+/Plj/M0mPdlB30hnOzKw/t6TjlEQCzP4QSKgNuPzcjOZ6LvllhIviGH1BOaH4GPegBwWTZHh4eQMipuiaL7bKi8bytWkxW1hnZ3WnJ4K7bY9gfVxDe7/k7dRAGD7HvIDoUjl5dioFGfEyXeO54jef97l173PGOi7QAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725548385; c=relaxed/simple;
-	bh=/WbqcSXKAZjuysETot0FJ/0bFCLuRSSb/Vdn2H3+D8A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qiw/nI3ltMLL36wBOT9UDR2/0sRt9YzCelovu0FjImNx5EX6PZd79RbVZAsNYV9whSuBUK8ZuS0+wQBDoztDKcTkuQhIbrohbm7Odf9nSpzR6cB8nqOGD3rm5fY+joAgvBhL4oMaZ9K2j3RIL9aqaZ7f+K1aYiGfNOPceso9UCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=R5CknzMA; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1725548377;
-	bh=/WbqcSXKAZjuysETot0FJ/0bFCLuRSSb/Vdn2H3+D8A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R5CknzMAYj1X8OWj8dL+PcoqDOfr30iEd5See+IhTxBbVp2Te3PVb6q6RYYJI8kl0
-	 uTLPHpFIQXlwlLde0Xqztl1EPk5oEXoUlxtWL+vz4EIYRnLEyAfDcolf0YAluH3TJM
-	 Kz78yCOoxn4J6nWVX7ntd3iAtjPfbGJPpVWa2bV4=
-Date: Thu, 5 Sep 2024 16:59:36 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, 
-	Marcus Folkesson <marcus.folkesson@gmail.com>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 13/14] HID: lg: constify fixed up report descriptor
-Message-ID: <d8cccb29-45a2-4ac8-8fbe-4de526c98135@t-8ch.de>
-References: <20240828-hid-const-fixup-2-v1-0-663b9210eb69@weissschuh.net>
- <20240828-hid-const-fixup-2-v1-13-663b9210eb69@weissschuh.net>
- <66uyx73trgi4m5iybuee5ka4vbulh433o4jpqc4uu4teaflaex@av7xsfwjypy5>
+	s=arc-20240116; t=1725550806; c=relaxed/simple;
+	bh=EPTiZwhQ37GUa+OpUKm+nEhH6DWaqYgDjs99p9Cje+U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=qLRtOrqzBEU1NBEPk0s3FhPso4qwnN4CMFat28Xl0nsRNnriljprPVLNVJy09w+B+QsxayiBOhLg6zVUlWWFvlS578hMDvlPzFzphYaMqZ/F3cIOw2syNpiU/t/2DCUyn0i/fw7VYUS/j0kSqD3ZuHSC7cf6QrXGQBtGAo1eVuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4X03S511L5zyR9y;
+	Thu,  5 Sep 2024 23:39:01 +0800 (CST)
+Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
+	by mail.maildlp.com (Postfix) with ESMTPS id 609C11800CF;
+	Thu,  5 Sep 2024 23:40:00 +0800 (CST)
+Received: from [10.67.111.176] (10.67.111.176) by
+ kwepemd500012.china.huawei.com (7.221.188.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Thu, 5 Sep 2024 23:39:59 +0800
+Message-ID: <0915517c-50ff-4867-9b6d-e55357d0ed0f@huawei.com>
+Date: Thu, 5 Sep 2024 23:39:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next 19/19] hwmon: (nzxt-smart2) Use
+ devm_hid_hw_start_and_open in nzxt_smart2_hid_probe()
+To: Guenter Roeck <linux@roeck-us.net>, <jikos@kernel.org>,
+	<bentiss@kernel.org>, <michael.zaidman@gmail.com>, <gupt21@gmail.com>,
+	<djogorchock@gmail.com>, <rrameshbabu@nvidia.com>,
+	<bonbons@linux-vserver.org>, <roderick.colenbrander@sony.com>,
+	<david@readahead.eu>, <savicaleksa83@gmail.com>, <me@jackdoan.com>,
+	<jdelvare@suse.com>, <mail@mariuszachmann.de>, <wilken.gottwalt@posteo.net>,
+	<jonas@protocubo.io>, <mezin.alexander@gmail.com>
+CC: <linux-input@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+	<linux-hwmon@vger.kernel.org>
+References: <20240904123607.3407364-1-lizetao1@huawei.com>
+ <20240904123607.3407364-20-lizetao1@huawei.com>
+ <eb7ffcbb-1e6c-448b-a09f-e10fd187a1ef@roeck-us.net>
+From: Li Zetao <lizetao1@huawei.com>
+In-Reply-To: <eb7ffcbb-1e6c-448b-a09f-e10fd187a1ef@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <66uyx73trgi4m5iybuee5ka4vbulh433o4jpqc4uu4teaflaex@av7xsfwjypy5>
+X-ClientProxiedBy: dggpeml500017.china.huawei.com (7.185.36.243) To
+ kwepemd500012.china.huawei.com (7.221.188.25)
 
-On 2024-09-05 16:51:48+0000, Benjamin Tissoires wrote:
-> As you can see in the b4 reply, I've now applied all of the patches but
-> this one. Please see below.
+Hi,
 
-Thanks!
-
-> On Aug 28 2024, Thomas Weißschuh wrote:
-> > Now that the HID core can handle const report descriptors,
-> > constify them where possible.
-> > 
-> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> > ---
-> >  drivers/hid/hid-lg.c | 31 +++++++++++++++++--------------
-> >  1 file changed, 17 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/drivers/hid/hid-lg.c b/drivers/hid/hid-lg.c
-> > index a9be918e2b5c..c1feeb1dd077 100644
-> > --- a/drivers/hid/hid-lg.c
-> > +++ b/drivers/hid/hid-lg.c
-> > @@ -58,7 +58,7 @@
-> >   * These descriptors remove the combined Y axis and instead report
-> >   * separate throttle (Y) and brake (RZ).
-> >   */
-> > -static __u8 df_rdesc_fixed[] = {
-> > +static const __u8 df_rdesc_fixed[] = {
-> >  0x05, 0x01,         /*  Usage Page (Desktop),                   */
-> >  0x09, 0x04,         /*  Usage (Joystick),                       */
-> >  0xA1, 0x01,         /*  Collection (Application),               */
-> > @@ -124,7 +124,7 @@ static __u8 df_rdesc_fixed[] = {
-> >  0xC0                /*  End Collection                          */
-> >  };
-> >  
-> > -static __u8 dfp_rdesc_fixed[] = {
-> > +static const __u8 dfp_rdesc_fixed[] = {
-> >  0x05, 0x01,         /*  Usage Page (Desktop),                   */
-> >  0x09, 0x04,         /*  Usage (Joystick),                       */
-> >  0xA1, 0x01,         /*  Collection (Application),               */
-> > @@ -172,7 +172,7 @@ static __u8 dfp_rdesc_fixed[] = {
-> >  0xC0                /*  End Collection                          */
-> >  };
-> >  
-> > -static __u8 fv_rdesc_fixed[] = {
-> > +static const __u8 fv_rdesc_fixed[] = {
-> >  0x05, 0x01,         /*  Usage Page (Desktop),                   */
-> >  0x09, 0x04,         /*  Usage (Joystick),                       */
-> >  0xA1, 0x01,         /*  Collection (Application),               */
-> > @@ -239,7 +239,7 @@ static __u8 fv_rdesc_fixed[] = {
-> >  0xC0                /*  End Collection                          */
-> >  };
-> >  
-> > -static __u8 momo_rdesc_fixed[] = {
-> > +static const __u8 momo_rdesc_fixed[] = {
-> >  0x05, 0x01,         /*  Usage Page (Desktop),               */
-> >  0x09, 0x04,         /*  Usage (Joystick),                   */
-> >  0xA1, 0x01,         /*  Collection (Application),           */
-> > @@ -285,7 +285,7 @@ static __u8 momo_rdesc_fixed[] = {
-> >  0xC0                /*  End Collection                      */
-> >  };
-> >  
-> > -static __u8 momo2_rdesc_fixed[] = {
-> > +static const __u8 momo2_rdesc_fixed[] = {
-> >  0x05, 0x01,         /*  Usage Page (Desktop),               */
-> >  0x09, 0x04,         /*  Usage (Joystick),                   */
-> >  0xA1, 0x01,         /*  Collection (Application),           */
-> > @@ -333,7 +333,7 @@ static __u8 momo2_rdesc_fixed[] = {
-> >  0xC0                /*  End Collection                      */
-> >  };
-> >  
-> > -static __u8 ffg_rdesc_fixed[] = {
-> > +static const __u8 ffg_rdesc_fixed[] = {
-> >  0x05, 0x01,         /*  Usage Page (Desktop),               */
-> >  0x09, 0x04,         /*  Usage (Joystik),                    */
-> >  0xA1, 0x01,         /*  Collection (Application),           */
-> > @@ -379,7 +379,7 @@ static __u8 ffg_rdesc_fixed[] = {
-> >  0xC0                /*  End Collection                      */
-> >  };
-> >  
-> > -static __u8 fg_rdesc_fixed[] = {
-> > +static const __u8 fg_rdesc_fixed[] = {
-> >  0x05, 0x01,         /*  Usage Page (Desktop),               */
-> >  0x09, 0x04,         /*  Usage (Joystik),                    */
-> >  0xA1, 0x01,         /*  Collection (Application),           */
-> > @@ -431,6 +431,7 @@ static const __u8 *lg_report_fixup(struct hid_device *hdev, __u8 *rdesc,
-> >  		unsigned int *rsize)
-> >  {
-> >  	struct lg_drv_data *drv_data = hid_get_drvdata(hdev);
-> > +	const __u8 *ret = NULL;
+在 2024/9/4 22:14, Guenter Roeck 写道:
+> On 9/4/24 05:36, Li Zetao wrote:
+>> Currently, the nzxt-smart2 module needs to maintain hid resources
+>> by itself. Consider using devm_hid_hw_start_and_open helper to ensure
 > 
-> Not really happy about this, usually "ret" is an int, and this makes
-> things slightly harder to read.
-
-Ack.
-
+> For all patches:
 > 
-> >  
-> >  	if ((drv_data->quirks & LG_RDESC) && *rsize >= 91 && rdesc[83] == 0x26 &&
-> >  			rdesc[84] == 0x8c && rdesc[85] == 0x02) {
-> > @@ -453,7 +454,7 @@ static const __u8 *lg_report_fixup(struct hid_device *hdev, __u8 *rdesc,
-> >  		if (*rsize == FG_RDESC_ORIG_SIZE) {
-> >  			hid_info(hdev,
-> >  				"fixing up Logitech Wingman Formula GP report descriptor\n");
-> > -			rdesc = fg_rdesc_fixed;
-> > +			ret = fg_rdesc_fixed;
+> s/Consider using/Use/
+ok
 > 
-> can't you just return fg_rdesc_fixed after setting *rsize, like you did
-> in the other patches?
-
-The code looked like it wanted to avoid multiple return sites.
-I tried to preserve that style, but indeed it looks wonky.
-I'll resend it with the changes.
+>> that hid resources are consistent with the device life cycle, and release
+>> hid resources before device is released. At the same time, it can avoid
+>> the goto-release encoding, drop the out_hw_close and out_hw_stop
+>> lables, and directly return the error code when an error occurs.
+>>
+>> Signed-off-by: Li Zetao <lizetao1@huawei.com>
+>> ---
+>>   drivers/hwmon/nzxt-smart2.c | 22 +++-------------------
+>>   1 file changed, 3 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/drivers/hwmon/nzxt-smart2.c b/drivers/hwmon/nzxt-smart2.c
+>> index df6fa72a6b59..b5721a42c0d3 100644
+>> --- a/drivers/hwmon/nzxt-smart2.c
+>> +++ b/drivers/hwmon/nzxt-smart2.c
+>> @@ -750,14 +750,10 @@ static int nzxt_smart2_hid_probe(struct 
+>> hid_device *hdev,
+>>       if (ret)
+>>           return ret;
+>> -    ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW);
+>> +    ret = devm_hid_hw_start_and_open(hdev, HID_CONNECT_HIDRAW);
+>>       if (ret)
+>>           return ret;
+>> -    ret = hid_hw_open(hdev);
+>> -    if (ret)
+>> -        goto out_hw_stop;
+>> -
+>>       hid_device_io_start(hdev);
+>>       init_device(drvdata, UPDATE_INTERVAL_DEFAULT_MS);
+>> @@ -765,19 +761,10 @@ static int nzxt_smart2_hid_probe(struct 
+>> hid_device *hdev,
+>>       drvdata->hwmon =
+>>           hwmon_device_register_with_info(&hdev->dev, "nzxtsmart2", 
+>> drvdata,
+>>                           &nzxt_smart2_chip_info, NULL);
+>> -    if (IS_ERR(drvdata->hwmon)) {
+>> -        ret = PTR_ERR(drvdata->hwmon);
+>> -        goto out_hw_close;
+>> -    }
+>> +    if (IS_ERR(drvdata->hwmon))
+>> +        return PTR_ERR(drvdata->hwmon);
+>>       return 0;
+> 
+>      return PTR_ERR_OR_ZERO(drvdata->hwmon);
+> 
+> Also, this can be optimized further.
+> 
+>      struct device *hwmon;    // and drop from struct drvdata
+>      ...
+>      hwmon = devm_hwmon_device_register_with_info(&hdev->dev, 
+> "nzxtsmart2", drvdata,
+>                               &nzxt_smart2_chip_info, NULL);
+> 
+>      return PTR_ERR_OR_ZERO(hwmon);
+> 
+> and drop the remove function entirely.
+Benjamin mentioned that there are unsafe scenarios in 
+hid_hw_close_and_stop, and it is necessary to ensure that the driver can 
+not use manual kzalloc/kfree. So, to be extra safe, I would delete 
+.remove in v2.
+> 
+> Thanks,
+> Guenter
+> 
+>> -
+>> -out_hw_close:
+>> -    hid_hw_close(hdev);
+>> -
+>> -out_hw_stop:
+>> -    hid_hw_stop(hdev);
+>> -    return ret;
+>>   }
+>>   static void nzxt_smart2_hid_remove(struct hid_device *hdev)
+>> @@ -785,9 +772,6 @@ static void nzxt_smart2_hid_remove(struct 
+>> hid_device *hdev)
+>>       struct drvdata *drvdata = hid_get_drvdata(hdev);
+>>       hwmon_device_unregister(drvdata->hwmon);
+>> -
+>> -    hid_hw_close(hdev);
+>> -    hid_hw_stop(hdev);
+>>   }
+>>   static const struct hid_device_id nzxt_smart2_hid_id_table[] = {
+> 
 
