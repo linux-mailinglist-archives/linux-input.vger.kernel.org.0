@@ -1,126 +1,107 @@
-Return-Path: <linux-input+bounces-6240-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6241-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 080A096D268
-	for <lists+linux-input@lfdr.de>; Thu,  5 Sep 2024 10:46:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3CB696D26D
+	for <lists+linux-input@lfdr.de>; Thu,  5 Sep 2024 10:46:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A5261C21C9B
-	for <lists+linux-input@lfdr.de>; Thu,  5 Sep 2024 08:46:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 73746287362
+	for <lists+linux-input@lfdr.de>; Thu,  5 Sep 2024 08:46:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 626EB189901;
-	Thu,  5 Sep 2024 08:46:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98F1819258A;
+	Thu,  5 Sep 2024 08:46:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UO77BStg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V9s5Ekrq"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C52539A;
-	Thu,  5 Sep 2024 08:46:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EC5194A60
+	for <linux-input@vger.kernel.org>; Thu,  5 Sep 2024 08:46:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725525968; cv=none; b=SHYU+XGEjToqJnNlK0rqb6AtQJbjZOEKT8tK6APQAoioKp6015V0dyzmRn8y2sdl7E9Mo2g7Dito4ZkPB7g0Tnx2KhuIvLOSgI47jQqniBrtoB+uwcicPvzYKb5cDQD//qr9v4KKGjKyG4BtUJ6WsrxXo6G4jDiwkibbvs5e+8U=
+	t=1725525990; cv=none; b=sPr+2hzMmCKcsfZFNNQlFX4NgJCrBd05v5AfhmFBPdUO8TBKXO/XK8XGOyKJQDJRIN2XvweVbWIBtCkET9tmnK0LY9ASGgz3W7a22u03zOG1rp4qQiqBaOl1kO7lbPTQeBvTLQMHhS9eqCrlmhzX1+vG3fiIltC/Xej7uaO+9nQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725525968; c=relaxed/simple;
-	bh=Y7iVD/QjKvwvPZ1+Ze+gyxwWEXK5EyodBiNStwdurpo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oCTj0N6AK66LdvHKiygo0q413jdsV5cH1aPLDbm7MaDaOKMHYEU6RxgE2nKUoJ00mJpR1PpL7PDZfOG5tvBDhxirCkNILktcns7gcBisI45lM/lT2NNwtPvRbPF5GCIPnrssC+5vKxo4zbVScRPfLBLWW4YoJZDS+LaBa7P6Cvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UO77BStg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94209C4CEC4;
-	Thu,  5 Sep 2024 08:46:05 +0000 (UTC)
+	s=arc-20240116; t=1725525990; c=relaxed/simple;
+	bh=e7F++L/dmZeqaqM4k2T8S0WCGy5DIvgs06Xt4KOVxjo=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=Ls6z5bkSSNw7FqHvnq+VEKHh8SVV3g63mSOSayHlYS6fgB29uRjaF58GhFx6FYxkEEifuloLZHrbGoRFCPAzybJXeeP+l691PQRRIRhClewXtSRVUmFtA57M2bUa+FHIa2TiN1mtFczkCoq1KpluL8sHF4qgQtxcTYG2spN165U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V9s5Ekrq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2A1AC4CEC3;
+	Thu,  5 Sep 2024 08:46:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725525967;
-	bh=Y7iVD/QjKvwvPZ1+Ze+gyxwWEXK5EyodBiNStwdurpo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UO77BStg9FERBJl5o74nsLd02eveiB0Kz5R1glJTZQW0Ew4Vw2qqwYctodhLUUcfB
-	 0lF1Lu24qxqSNmGKXV7P7fgShQx8HOgx0N9QqioYnYFjSGRo8tW6IhK5lLUsmr+MRg
-	 s+13A14baAPiqNQFqmx93UiIijEcmCtwE4uBTtLt0nBZ4odQmCQgN1jOFzoKaf3JlR
-	 b2BOd4F9e35BvGTFLVw08mxpKKA0jQ0xCkJf14cdWxD+Q3Dn7rugtiWCnvX7ubgsol
-	 Mdr8LTDmhayL4KTUhTWGV1s7CfpBYOqoxO04/J4lD5hRwdJM/1pzsH+nLzHU6Wet0t
-	 e3o6VQG6Wi97A==
-Message-ID: <46e4c658-9167-41d8-8eef-0761476dd15d@kernel.org>
-Date: Thu, 5 Sep 2024 10:46:03 +0200
+	s=k20201202; t=1725525990;
+	bh=e7F++L/dmZeqaqM4k2T8S0WCGy5DIvgs06Xt4KOVxjo=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=V9s5Ekrqgcmx3kqWnsUYYJv+NcPIKQMOj9foGc3b7OVly3o8RHKebf4pQyzu+oHeq
+	 p3rlo3Uq2Oe2HeHVEDcTtUIt/B2ZBmDHRDEvlBG6AeE4jdEoqPF4jrQLZZiX3yNPOM
+	 J8JaIX8FpHfjX7Yax9ycDJ6XW4g6k4koOGz92WGAe9zTfRCO85aWbQMBm3T/IZHl8P
+	 R/o7QqA74GAbG/erA+Ku1qSEQuIvxiW+Efy3V0BEgIeA6kQ+PlMpf4wcMNXVxabALC
+	 yj3CeBO7DRbMuh7/m2PMv5AGljjoYdPF8R0WgeJ8kY/iLYVNgYAXVM/0/ydQphlco4
+	 6hs4v6eU3yXJA==
+Date: Thu, 5 Sep 2024 10:46:27 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: "Gerecke, Jason" <killertofu@gmail.com>
+cc: linux-input@vger.kernel.org, 
+    Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+    Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+    Ping Cheng <pinglinux@gmail.com>, 
+    "Tobita, Tatsunosuke" <tatsunosuke.tobita@wacom.com>, 
+    Erin Skomra <skomra@gmail.com>, Joshua Dickens <Joshua@Joshua-Dickens.com>, 
+    Peter Hutterer <peter.hutterer@who-t.net>, 
+    Jason Gerecke <jason.gerecke@wacom.com>
+Subject: Re: [RFC PATCH] HID: wacom: Stop mangling tool IDs
+In-Reply-To: <20240903182633.870892-1-jason.gerecke@wacom.com>
+Message-ID: <nycvar.YFH.7.76.2409051045470.31206@cbobk.fhfr.pm>
+References: <20240903182633.870892-1-jason.gerecke@wacom.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: input: touchscreen: edt-ft5x06: Use generic
- node name
-To: Fabio Estevam <festevam@gmail.com>, dmitry.torokhov@gmail.com
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- Fabio Estevam <festevam@denx.de>
-References: <20240829134428.3347075-1-festevam@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240829134428.3347075-1-festevam@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-On 29/08/2024 15:44, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
+On Tue, 3 Sep 2024, Gerecke, Jason wrote:
+
+> From: Jason Gerecke <jason.gerecke@wacom.com>
 > 
-> Node names should be generic.
+> In ancient times, an off-by-one-nybble error resulted in the Wacom
+> driver sending "mangled" tool IDs to userspace. This mangling behavior
+> was later enshrined into a function so that devices using the then-new
+> generic codepath could share the same broken behavior. The mangled IDs
+> have not historically been a major problem for userspace since few
+> applications care about the exact numeric value of the IDs. As long as
+> the IDs were unique it didn't much matter. Some programs (cross-
+> platform and remote-desktop applications in particular) /do/ rely on
+> the IDs being correct, however.
 > 
-> Improve the binding example by using 'touchscreen' as the node name.
+> This patch rids the driver of the mangling behavior.
 > 
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> References: 493630b20389 ("Input: wacom - fix serial number handling on Cintiq 21UX2")
+> References: 82527da319ee ("HID: wacom: Read and internally use corrected Intuos tool IDs")
 > ---
+> I'd like to get the opinion of the kernel maintainers on making a
+> change like this at some point in the future. There are _very_ few
+> userspace uses of these IDs (primarily: drivers, compositors, and
+> tablet control panels) and my plan is to update those bits and then
+> give some time for the changes to roll out to users before re-
+> submitting this for real. I don't expect any kind of breakage since
+> we'll be taking our time with the rollout and userspace needs to
+> have handling for "unknown" IDs anyway (since Wacom periodically
+> releases new pens).
 
-There are other files in touschscreen with the same issue. This is
-trivial, non-functional change so do not do it one file per patch. It's
-way too much churn. Fix everything or just don't touch.
+As you are in control of the whole ecosystem anyway (because it's Wacom 
+specific), I don't see it as particularly problematic.
 
-Best regards,
-Krzysztof
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
 
 
