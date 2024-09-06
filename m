@@ -1,156 +1,118 @@
-Return-Path: <linux-input+bounces-6279-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6280-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DD896E974
-	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2024 07:49:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FDC596E979
+	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2024 07:52:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 02A552863D3
-	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2024 05:49:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A8C13B23377
+	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2024 05:52:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91C1D83A18;
-	Fri,  6 Sep 2024 05:49:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3A2883A18;
+	Fri,  6 Sep 2024 05:52:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FDuN2ABK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ntS5P2k6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18AE52941B;
-	Fri,  6 Sep 2024 05:49:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9E1208A4;
+	Fri,  6 Sep 2024 05:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725601790; cv=none; b=lMWCTJUkMxm4ezXbka3uBHWHwnqr85ceJ6uHZoSuJ6s8WDKKgqttIrd02+txFwZLH3KtHS2X9Mt4YpsycBFVNu5weWojIEoP6NtRwb0xDrX9Az3Aw2gRuwRhmKPZJTnQYLRnQFnkMgc1itiyQ26+/3aSBcCX1fxuOhBtpjbD4yA=
+	t=1725601922; cv=none; b=k/lYYX2jZoFGX9a0w3T5FLAc6Jb2kLndLVDuxqvw+OlOvmAie3iFiYk4c1KN7aQRBX9rcRyob1XqiusFuKLBc4otJn7jDF9aUAMc5aEg+MHcCKuMcxQ+vmuu/VMOa3W0r0BdvdZH9H+hz7VZYOG9bzVIzKrP8U6Zk0y5vzFTz5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725601790; c=relaxed/simple;
-	bh=VTMK80NSVXM+EogFAW/STROfe75Jb5gUQlF6p/SCq4A=;
+	s=arc-20240116; t=1725601922; c=relaxed/simple;
+	bh=o+b03M4oIh6T/mO1zYIw8vUKdX2iI+rnDxNrKZsmkNQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=damSVEIRWWcDt/q/8u+fDmwaNLjjQF0zjYLZWkDrZ1QXIvlyOvLcjx7a+XtY9CV5iHZQQnkmcMxcD4iPddF+0qijGjMQpn4uBzUW3BXjPJiDcd5YoqMyh0H+5/QLVf79Lnu7HeuzpgZ/ePR+quqXfdFFnZFbbUUGg/txK5xyhtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FDuN2ABK; arc=none smtp.client-ip=209.85.210.169
+	 Content-Type:Content-Disposition:In-Reply-To; b=WuzfVakyQteTkXC/lJd4I65qnATx3Bx+Q1ZqzvVhSMeK66O/4dCkjICQBlv4G/YvTIcDrQc+pPzyvl9GT+IzzPGxCqBWd/FxkVWiJWSAfTmumkkN8sxqQojS7WDI1g4D5QtJAKePwpcyoaZhBmKCl79kS0MpWXNpHfOE7YWO0Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ntS5P2k6; arc=none smtp.client-ip=209.85.215.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-71781f42f75so1287140b3a.1;
-        Thu, 05 Sep 2024 22:49:48 -0700 (PDT)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7d4fbe62bf5so1205772a12.0;
+        Thu, 05 Sep 2024 22:52:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725601788; x=1726206588; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aFxAoI+AmDB/7xZ2dXgpDS99xLnRaOzmM8IMypR71F8=;
-        b=FDuN2ABK+43neScKXiwi4xCLf2b+lSUoJINmRXOJ1ILViKgkUs3cBTuXMzvOzt6pch
-         fYvRaSSJt5AfHRRcz+4xLNxWQvHLY5pBVRBu6Kny0ro/nUQixFVkwXJOBVuqWYoB9YK4
-         PuTB4yizNuvI7Fu309fHJfZMOVoApcB6yQ9OX3byRtbHSYC6trJSYmow9ItEPLK6gWZC
-         w1VeWjUsQtSuGIrStAP+KRc39m2zOjSAfwvYgR6z/hh3+1R8pT6T6eSaoi6qZgKpNn6z
-         n0bK/drgKm+JgFgh3WfIil50ca0CDYO8Mbx9Y1nNyGVh1+xDcQstKWgPwuHtjQWrhhle
-         cmIA==
+        d=gmail.com; s=20230601; t=1725601920; x=1726206720; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=nGDegmUWUcAdJnXFrGeDVNzBYVl96Zdk2+FAxGKk5hc=;
+        b=ntS5P2k6am0puyC4FmhP61hVVrpUL5BLfRv/bvYMbe3CxLszOaF427IOUw6ifAjIyc
+         lkGj81KXI3E8FnLMFTNaT8BtQ69gjQIBaFe0sLKbDhsJ4Pbpp9e1yoXYY1TKRsgYM4qm
+         x6UAP7eqe2fCko2Y9N810LXbl5Rn5EL4NCDpXL9pNNwv9zTMXtv1Lke+Ln8g/LSeeM4m
+         0tbZlx8zNsMzl29Ujqyoy5V61qKeYM60KZHyDJ/XgH9gG/yrPmQTmKeYkwQqxevohfD0
+         j1UjATn897Y9713Cs/0WtG/FYWXLyMUeDph5FHAEQHxkg1MZdJjXIDHq8mlrheDnCrLy
+         oEFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725601788; x=1726206588;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aFxAoI+AmDB/7xZ2dXgpDS99xLnRaOzmM8IMypR71F8=;
-        b=Hxtt49IttN+koVv17iNLSTTttGMw4IuBTxOlFwZkc54gAyQfNdrNDUjvnRpwxhcFy5
-         Bcy38DKAlCUCs+kEw6TcNqUurZgobETy3KjM6ll5Ad/TnVz92fbwt76LPpsUqP74824t
-         HWDwojYf8ZudBaFoW3EGzpJZYuHYh3Ke62sp+Z+g6usnAwD3hSR448T+6v0Tfvn85IKz
-         Y0A5MpMX1V1gIRdNaBX9DSaUatGAV4tkcljbV2CKdjcBwheh8ZmgvI7kU1zowqWfuOp4
-         uX3cuUJD6/YQJ2EWy28Mc0wEb67hi9ruMyatMcTyI0H8VfR0cFTQ1WeYe1eonoNzlqI8
-         vCwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUh3bny9AmlstagJ6CF4s9c2rHCvFEI67Dalon+ee5jWxwkbLtXLjQmyZpcvk22YMwglwFwvt2oJMHs1XQj@vger.kernel.org, AJvYcCX6fbYGrAUM7YZKwqolsuM86z//5z4zRs+bwHjRxmrhxMNAxZCapcWmOtv9ZMHA2QUhYRp9Xc7h6JlkVA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzD/iwn8IFfRlIpH87tdVQboUPCK8vPpntTY2ERmnavYGk95SUt
-	MBiKddg5/SifBpqcxZFPsEQ5yEn4hFiTHYsaRpSb5b0DYNZ2JrzJ
-X-Google-Smtp-Source: AGHT+IFQPy+cE4PEV+mF55KxZABHttVp0OyMcBdlGTc5pIVFEqfE4gNMjmYFYweTGcDQXiFld6v3Yg==
-X-Received: by 2002:a05:6a00:845:b0:717:8a87:7d02 with SMTP id d2e1a72fcca58-718d5f068a4mr2085736b3a.23.1725601788190;
-        Thu, 05 Sep 2024 22:49:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725601920; x=1726206720;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nGDegmUWUcAdJnXFrGeDVNzBYVl96Zdk2+FAxGKk5hc=;
+        b=YHuaqIugsE9IoHqgtyAk2hXQnYUGLpWV1iGJxpIOAt+5kyold3LIba840ltofFJVsV
+         KI/SQzLrxLW0jcbpkcKBH6SXVgYwYQFLxv5EGbXNzQnuHlY18m2+CdZyFIdeOlmSSrvc
+         PnTDh1LAQIv9yujt+xijP+vk7Td1KqIE2WAQfcd3MYGFMQQmwsmYRizMixwhsJwmS4cA
+         Iw9RbyKN03Y6E7CrC6bi9fFEIpO3EecEW9xMFzv2jIacNhtYR5BaNCZXJK1JcCs59bqa
+         t+eEBTSitBMyD0R0ZqtYlGp2B2UUhi6WlSOJ2qdl/75JrqOvOdG9rUOBRg+n3Ir3HXuA
+         gZ2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXAfbV3lpWQawiMSg1KrdvmYM3BwS1OBF/p7kTwUAbpocKTb7zuXhVVv66N2ARVcq8NcVrnNCgfx+1pztM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy93GjrRuQykfKRBA/XgHIZ2UoKznzLbssipMAvZBtVXnsTAChq
+	aeb+OOoGI0RR6lWa1z77UhhfbszS2uRRo394Olz9bqNYOnDxZ3F9
+X-Google-Smtp-Source: AGHT+IHCPf22vLHlz0Jkjq2u5Bt7PWO3M24AOoZ31h1eFnUMqeI+HaLHKdtzt5JV/huU28aLFCzOoQ==
+X-Received: by 2002:a05:6a20:d50b:b0:1ca:db51:85df with SMTP id adf61e73a8af0-1cf1d05cc9dmr1472679637.8.1725601920431;
+        Thu, 05 Sep 2024 22:52:00 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:1de8:3062:3230:1a45])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71797560c7asm1323681b3a.141.2024.09.05.22.49.47
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae949f07sm36708595ad.68.2024.09.05.22.51.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2024 22:49:47 -0700 (PDT)
-Date: Thu, 5 Sep 2024 22:49:45 -0700
+        Thu, 05 Sep 2024 22:52:00 -0700 (PDT)
+Date: Thu, 5 Sep 2024 22:51:57 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Andreas Kemnade <andreas@kemnade.info>
-Cc: Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/18] zforse_ts: assorted cleanups
-Message-ID: <ZtqX-d-7jsetQp8J@google.com>
-References: <20240824055047.1706392-1-dmitry.torokhov@gmail.com>
- <20240902100805.2148ccea@akair>
+To: Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
+Cc: linux-input@vger.kernel.org, Erick Archer <erick.archer@outlook.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: alps - use guard notation when acquiring mutex
+Message-ID: <ZtqYfXzrJGif4zOE@google.com>
+References: <ZsrBkWIpyEqzClUG@google.com>
+ <20240825201347.pdphq33cmng4ltds@pali>
+ <ZtC2lcKuZd-NbDdl@google.com>
+ <20240905154414.5cnp5ozwflefp36l@pali>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240902100805.2148ccea@akair>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240905154414.5cnp5ozwflefp36l@pali>
 
-On Mon, Sep 02, 2024 at 10:08:05AM +0200, Andreas Kemnade wrote:
-> Hi Dmitry,
-> 
-> Am Fri, 23 Aug 2024 22:50:24 -0700
-> schrieb Dmitry Torokhov <dmitry.torokhov@gmail.com>:
-> 
-> > Hi,
+On Thu, Sep 05, 2024 at 05:44:14PM +0200, Pali Rohár wrote:
+> On Thursday 29 August 2024 10:57:41 Dmitry Torokhov wrote:
+> > Hi Pali,
 > > 
-> > This is a set of somewhat random cleanups for the zforce_ts driver. 
+> > On Sun, Aug 25, 2024 at 10:13:47PM +0200, Pali Rohár wrote:
+> > > 
+> > > Hello, I'm not familiar with new guards and their usage. But if this is
+> > > a preferred way for handling mutexes then go ahead.
+> > > 
+> > > I just looked at the code and I do not see any obvious error neither in
+> > > old nor in new version.
 > > 
-> > Heiko, Andreas, if you still have access to the hardware it would be
-> > great if you could give it a spin.
+> > Is this a Reviewed-by or Acked-by? If neither that is fine too, just
+> > want to make sure.
 > > 
-> > Thanks!
+> > Thanks.
 > > 
-> nice cleanup,
-> I tested a bit on the Toline Shine 2HD without gui (have not rebased my
-> other stuff to 6.11 yet)
+> > -- 
+> > Dmitry
 > 
-> A short move on the touchscreen gives this:
-> Event: time 1725264307.093542, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value 24
-> Event: time 1725264307.093542, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 1159
-> Event: time 1725264307.093542, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 596
-> Event: time 1725264307.093542, type 3 (EV_ABS), code 48 (ABS_MT_TOUCH_MAJOR), value 11
-> Event: time 1725264307.093542, type 3 (EV_ABS), code 49 (ABS_MT_TOUCH_MINOR), value 11
-> Event: time 1725264307.093542, type 3 (EV_ABS), code 52 (ABS_MT_ORIENTATION), value 0
-> Event: time 1725264307.093542, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
-> Event: time 1725264307.093542, type 3 (EV_ABS), code 0 (ABS_X), value 1159
-> Event: time 1725264307.093542, type 3 (EV_ABS), code 1 (ABS_Y), value 596
-> Event: time 1725264307.093542, -------------- SYN_REPORT ------------
-> Event: time 1725264307.096361, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 1039
-> Event: time 1725264307.096361, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 607
-> Event: time 1725264307.096361, type 3 (EV_ABS), code 0 (ABS_X), value 1039
-> Event: time 1725264307.096361, type 3 (EV_ABS), code 1 (ABS_Y), value 607
-> Event: time 1725264307.096361, -------------- SYN_REPORT ------------
-> Event: time 1725264307.112426, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 934
-> Event: time 1725264307.112426, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 637
-> Event: time 1725264307.112426, type 3 (EV_ABS), code 0 (ABS_X), value 934
-> Event: time 1725264307.112426, type 3 (EV_ABS), code 1 (ABS_Y), value 637
-> Event: time 1725264307.112426, -------------- SYN_REPORT ------------
-> Event: time 1725264307.131523, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 859
-> Event: time 1725264307.131523, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 661
-> Event: time 1725264307.131523, type 3 (EV_ABS), code 48 (ABS_MT_TOUCH_MAJOR), value 12
-> Event: time 1725264307.131523, type 3 (EV_ABS), code 0 (ABS_X), value 859
-> Event: time 1725264307.131523, type 3 (EV_ABS), code 1 (ABS_Y), value 661
-> Event: time 1725264307.131523, -------------- SYN_REPORT ------------
-> Event: time 1725264307.150540, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 795
-> Event: time 1725264307.150540, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 671
-> Event: time 1725264307.150540, type 3 (EV_ABS), code 48 (ABS_MT_TOUCH_MAJOR), value 13
-> Event: time 1725264307.150540, type 3 (EV_ABS), code 0 (ABS_X), value 795
-> Event: time 1725264307.150540, type 3 (EV_ABS), code 1 (ABS_Y), value 671
-> Event: time 1725264307.150540, -------------- SYN_REPORT ------------
-> Event: time 1725264307.169589, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 760
-> Event: time 1725264307.169589, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 675
-> Event: time 1725264307.169589, type 3 (EV_ABS), code 0 (ABS_X), value 760
-> Event: time 1725264307.169589, type 3 (EV_ABS), code 1 (ABS_Y), value 675
-> Event: time 1725264307.169589, -------------- SYN_REPORT ------------
-> Event: time 1725264307.188157, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value -1
-> Event: time 1725264307.188157, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 0
-> Event: time 1725264307.188157, -------------- SYN_REPORT ------------
-> 
-> So,
-> 
-> Tested-by: Andreas Kemnade <andreas@kemnade.info> # Tolino Shine2HD
+> Hello, I have looked at it again, and you can add my:
+> Acked-by: Pali Rohár <pali@kernel.org>
 
-Thank you for giving it a spin!
+Thanks Pali.
 
 -- 
 Dmitry
