@@ -1,166 +1,134 @@
-Return-Path: <linux-input+bounces-6272-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6273-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2799996E882
-	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2024 06:04:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F7E96E932
+	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2024 07:24:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C3D5A1F24CAA
-	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2024 04:04:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9EF82286489
+	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2024 05:24:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCB053EA83;
-	Fri,  6 Sep 2024 04:03:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 555E946447;
+	Fri,  6 Sep 2024 05:24:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="mswdmC2f"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QhUdV2eo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D428241E7
-	for <linux-input@vger.kernel.org>; Fri,  6 Sep 2024 04:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C269C3CF73;
+	Fri,  6 Sep 2024 05:24:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725595434; cv=none; b=E1oWesMqB43FFI0jd0e8lGT/hUWuHa4P3NZyGRyZr0JvYNdD/b4MzpMw8mSfIgT6dSKMa9FcTKlrnMlymr6XFzxRxG/+0q9R4A0MruoqakcAETToaLv3TFBHVjHpKWxIuVCTtpYHYEN6dtarQHF0/12NJdq7N9Dzp9JTGV2FGhQ=
+	t=1725600266; cv=none; b=oKPOLv/G3KzdQEFxySFnMmmcIfcjfHKbZ2tZ4lJjqk+M2hA7QQ0J3FZSKzaJPtSR2uIkrMz1tHHbTOmrmvAhEm/aHMD+DcUhajMQV5Z5QkK5QxnGs210y4SLtn3cwTePOzxmrUdGcIQxZTyqVhytjHWi2s/wnfHcpPIa0pCUChA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725595434; c=relaxed/simple;
-	bh=Cl+XZOT8hYc3b65NiZ1qivtNXFlq5W1ZUyAoyCh1HDg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G2vwQfvJztUgXEmW810fyja1RjXrqL9K1N/ck9waSp7OxP4XzZu1fRIeIHayT63+an3IpnOpmO7dljWQmeSpqdbiuvO+j1Qp4ZgXJfqil/F71uW8R+52w4Y6XfOhOp1O+n8gQDPF99VyWcnSy8oB37J9dNpcDXueszLlwPxsCTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=mswdmC2f; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id E214E240105
-	for <linux-input@vger.kernel.org>; Fri,  6 Sep 2024 06:03:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1725595423; bh=Cl+XZOT8hYc3b65NiZ1qivtNXFlq5W1ZUyAoyCh1HDg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:From;
-	b=mswdmC2fmYVjYwiROheRTF3zuvXiwLFHC8Idl/PllEgHkKzORWlHHzcfulipFPIsA
-	 0FPKPsTFQT3r1xTFiaC7JNf9ooEg83iZ9w0nYMK+8pboLO+ZYrtARkG1PUpQ2AeSUQ
-	 eKCRP38t4z8g8Lx7lpMw6Pi0PE2Q+UMFPpQ/olIdIpva7SBQYv3K+KVSa0G/cBpyN4
-	 jpvJ+bp9cpo0JK2FsmM6SvZFtS+puRTE1HFczcK99Ax5AiP8tq8FD48FLpIsoGkbgD
-	 5hNpp3ATpURw1tSuzjagsIkQpOLQQjFdxkvdr8eor7RCq/U6o/jR45httH+YmAdA0g
-	 y+GBCcYKL4mvA==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4X0MzG6gcxz6tvl;
-	Fri,  6 Sep 2024 06:03:38 +0200 (CEST)
-Date: Fri,  6 Sep 2024 04:03:38 +0000
-From: Wilken Gottwalt <wilken.gottwalt@posteo.net>
-To: Li Zetao <lizetao1@huawei.com>
-Cc: <jikos@kernel.org>, <bentiss@kernel.org>, <michael.zaidman@gmail.com>,
- <gupt21@gmail.com>, <djogorchock@gmail.com>, <rrameshbabu@nvidia.com>,
- <bonbons@linux-vserver.org>, <roderick.colenbrander@sony.com>,
- <david@readahead.eu>, <savicaleksa83@gmail.com>, <me@jackdoan.com>,
- <jdelvare@suse.com>, <linux@roeck-us.net>, <mail@mariuszachmann.de>,
- <jonas@protocubo.io>, <mezin.alexander@gmail.com>,
- <linux-input@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
- <linux-hwmon@vger.kernel.org>
-Subject: Re: [PATCH -next 15/19] hwmon: (corsair-psu) Use
- devm_hid_hw_start_and_open in corsairpsu_probe()
-Message-ID: <20240906060338.0e1aecdc@posteo.net>
-In-Reply-To: <20240904123607.3407364-16-lizetao1@huawei.com>
-References: <20240904123607.3407364-1-lizetao1@huawei.com>
-	<20240904123607.3407364-16-lizetao1@huawei.com>
+	s=arc-20240116; t=1725600266; c=relaxed/simple;
+	bh=wUtVHpZhYqSdiOvfq27tx8qTLyYDpQLKoLioMztavQE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uG+wIO18dCBmVO9u9rt+khaNrcDVshTObWxdXQ3DS3FDd5gwSJhbzr/xE/bmSznFJWJnfahGOFOtYIz8JXxiz9E2QUZbLkUSiIHGxKKT/6wLwIcpcvOVP/ZWtXDRXeqnDVszzbq9Sy1yHUkcJlIuoFGISG7tKy5yDYd1Isuiupc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QhUdV2eo; arc=none smtp.client-ip=209.85.160.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-26fda13f898so996790fac.1;
+        Thu, 05 Sep 2024 22:24:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725600264; x=1726205064; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=g0hUiLACmrvnz1yXtrSQ1wQ/roWbnuIi1O6fdmIhG60=;
+        b=QhUdV2eoZ3iwgtP4g7osdVFnhb0O3OHmVrmSoWpA7nCwtqHxLehSe6Nm1YS0p60TcI
+         YiD9xMejDoLxL70V10HFg2wdvaa6peOrvhBqU7cuFI5kP9gMBgpjCKibPsUl5EbiMY0P
+         5b2STxyXR4XYSikSFc7IUpx+r2T3vCuAEQPq3grGQfx724YHzVScBoQfk7e9IWmdZktQ
+         +9RI6GYIBmKiU7f+0yZX5ODUyHXBl4ZtG00fHx6ElOWK+x+aouhQ+hIyBqJ9Jf+i9nm1
+         9UddXQO4sx80jx1rCAD+oymstXjLLI93Flx+v06FMCXTK3cHC0tQ9KQ4SRRLiJZ4v+qE
+         YMvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725600264; x=1726205064;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g0hUiLACmrvnz1yXtrSQ1wQ/roWbnuIi1O6fdmIhG60=;
+        b=DX5k+QPtWWRGMQoduR0F9+2wv4xyY/kXRAAFWYcXkWa/Y/fBrU1L2oPW+OF/CLWqzS
+         OzYkGZjnJ/9qzsXqwMDyvmwSozVYj6bmuBhe5LDoyxe6FlSqiRxTWjHepX7qE22C6qVS
+         r15uPLl9SqCJh8VMYgvAFgkqYBFDGJEb1sgRzArj30OLfZANmZBP+svvVjAL39TQjisf
+         +/6525tgJtKhoPuk5j1QaRzXV+iuXU+QrfqXqQW++2xXEUZOMKsBzlNzMyuAWWUc+CGG
+         QkQs7U0a6Jz9J3LlTF6BfoMkF2hXAuko5ryT5kKvT3oGK7X6NZ1QP9/vgEHPsxQbUHuF
+         A6Lg==
+X-Forwarded-Encrypted: i=1; AJvYcCVGIuu7gtE24ExcXgZVoak51Vt4ETbHGsBPBLp00te2cEGssl1elWMgmZQ05kog5Kd7MjDIkfY9unHAhhwI@vger.kernel.org, AJvYcCVmgP2pPHnamJjf0PHq04Psh8eqcYovVAtL0DcKpyON08LFWNo9aYOOh6B6p9u5ktlXDWmtM+VueLe+ZA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZYqpoLK2WXZX4V+F86//c6DXD0P8yYivTWOaw5jkcPvJzWVEh
+	3BxG5E6tD1oPjRDmiNN9G6xd/4O1VOHmkm/6n+iW4mHgVcTeKuT8
+X-Google-Smtp-Source: AGHT+IGdYz//gUlPTOdJCgjsgIKN0yi8MM4ZuYXDy4L3MaGfGGYtupsSkoRabCZzG9XrbLK7/cYsYw==
+X-Received: by 2002:a05:6870:9111:b0:25e:940:e934 with SMTP id 586e51a60fabf-27b8302d160mr1610491fac.47.1725600263547;
+        Thu, 05 Sep 2024 22:24:23 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:1de8:3062:3230:1a45])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71778520e83sm4080229b3a.42.2024.09.05.22.24.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Sep 2024 22:24:23 -0700 (PDT)
+Date: Thu, 5 Sep 2024 22:24:20 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Daniel Mack <daniel@zonque.org>,
+	Robert Jarzmik <robert.jarzmik@free.fr>, soc@kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org
+Subject: Re: [PATCH 0/5] Remove support for platform data from matrix keypad
+ driver
+Message-ID: <ZtqSBLDeClX9Bq3U@google.com>
+References: <20240805014710.1961677-1-dmitry.torokhov@gmail.com>
+ <CACRpkdYFc8vuz__7DkFSMFxUC=LSwCJmEun2KXgUvPMq+_e17A@mail.gmail.com>
+ <ZsiygIj9SiP4O0OM@google.com>
+ <CACRpkdZ_y=2WKCLwi5or-=MasvNw2bcxht6a+bFjV=yAfvQhdQ@mail.gmail.com>
+ <513f718b-b964-4af1-9c51-9e0ba3809225@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <513f718b-b964-4af1-9c51-9e0ba3809225@app.fastmail.com>
 
-On Wed, 4 Sep 2024 20:36:03 +0800
-Li Zetao <lizetao1@huawei.com> wrote:
-
-> Currently, the corsair-psu module needs to maintain hid resources
-> by itself. Consider using devm_hid_hw_start_and_open helper to ensure
-> that hid resources are consistent with the device life cycle, and release
-> hid resources before device is released. At the same time, it can avoid
-> the goto-release encoding, drop the fail_and_close and fail_and_stop
-> lables, and directly return the error code when an error occurs.
+On Thu, Sep 05, 2024 at 02:36:15PM +0000, Arnd Bergmann wrote:
+> On Mon, Aug 26, 2024, at 08:52, Linus Walleij wrote:
+> > On Fri, Aug 23, 2024 at 6:02 PM Dmitry Torokhov
+> > <dmitry.torokhov@gmail.com> wrote:
+> >
+> >> I'm glad that we agree that we do not want the elaborate merge process
+> >> and instead push the changes through one tree in one shot we just need
+> >> to decide which one - soc or input. I am fine with using either.
+> >
+> > I'm also fine with either, but let's take the input tree because the
+> > you're in direct control of it so it will be easier.
 > 
-> Signed-off-by: Li Zetao <lizetao1@huawei.com>
-> ---
->  drivers/hwmon/corsair-psu.c | 24 +++++-------------------
->  1 file changed, 5 insertions(+), 19 deletions(-)
+> Sorry I dropped the ball here, I just saw that these five patches
+> are still in the patchwork waiting for me to apply them.
 > 
-> diff --git a/drivers/hwmon/corsair-psu.c b/drivers/hwmon/corsair-psu.c
-> index f8f22b8a67cd..b574ec9cd00f 100644
-> --- a/drivers/hwmon/corsair-psu.c
-> +++ b/drivers/hwmon/corsair-psu.c
-> @@ -787,14 +787,10 @@ static int corsairpsu_probe(struct hid_device *hdev, const struct
-> hid_device_id if (ret)
->  		return ret;
->  
-> -	ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW);
-> +	ret = devm_hid_hw_start_and_open(hdev, HID_CONNECT_HIDRAW);
->  	if (ret)
->  		return ret;
->  
-> -	ret = hid_hw_open(hdev);
-> -	if (ret)
-> -		goto fail_and_stop;
-> -
->  	priv->hdev = hdev;
->  	hid_set_drvdata(hdev, priv);
->  	mutex_init(&priv->lock);
-> @@ -805,13 +801,13 @@ static int corsairpsu_probe(struct hid_device *hdev, const struct
-> hid_device_id ret = corsairpsu_init(priv);
->  	if (ret < 0) {
->  		dev_err(&hdev->dev, "unable to initialize device (%d)\n", ret);
-> -		goto fail_and_stop;
-> +		return ret;
->  	}
->  
->  	ret = corsairpsu_fwinfo(priv);
->  	if (ret < 0) {
->  		dev_err(&hdev->dev, "unable to query firmware (%d)\n", ret);
-> -		goto fail_and_stop;
-> +		return ret;
->  	}
->  
->  	corsairpsu_get_criticals(priv);
-> @@ -820,20 +816,12 @@ static int corsairpsu_probe(struct hid_device *hdev, const struct
-> hid_device_id priv->hwmon_dev = hwmon_device_register_with_info(&hdev->dev, "corsairpsu", priv,
->  							  &corsairpsu_chip_info, NULL);
->  
-> -	if (IS_ERR(priv->hwmon_dev)) {
-> -		ret = PTR_ERR(priv->hwmon_dev);
-> -		goto fail_and_close;
-> -	}
-> +	if (IS_ERR(priv->hwmon_dev))
-> +		return PTR_ERR(priv->hwmon_dev);
->  
->  	corsairpsu_debugfs_init(priv);
->  
->  	return 0;
-> -
-> -fail_and_close:
-> -	hid_hw_close(hdev);
-> -fail_and_stop:
-> -	hid_hw_stop(hdev);
-> -	return ret;
->  }
->  
->  static void corsairpsu_remove(struct hid_device *hdev)
-> @@ -842,8 +830,6 @@ static void corsairpsu_remove(struct hid_device *hdev)
->  
->  	debugfs_remove_recursive(priv->debugfs);
->  	hwmon_device_unregister(priv->hwmon_dev);
-> -	hid_hw_close(hdev);
-> -	hid_hw_stop(hdev);
->  }
->  
->  static int corsairpsu_raw_event(struct hid_device *hdev, struct hid_report *report, u8 *data,
+> I'm also happy for them to go through the input tree, and have
+> marked them as not-for-us in patchwork now. Dmitry, please add
+> my
+> 
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> 
+> and pick them up in your tree. I've checked that there are no
+> conflicts against contents of the SoC tree. If you prefer me to
+> pick them up after all, that is also fine, but please resend in
+> that case.
 
-So far looks fine to me.
+I made an immutable branch off of 6.11-rc6 with the changesi and merged
+it into my 'next' branch for the upcoming merge window. Please feel free
+to also pull it - it does not have any unrelated changes:
 
-Reviewed-by: Wilken Gottwalt <wilken.gottwalt@posteo.net>
+	git pull git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git ib/6.11-rc6-matrix-keypad-spitz
 
-greetings,
-Wilken
+Thanks.
+
+-- 
+Dmitry
 
