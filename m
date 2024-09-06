@@ -1,108 +1,105 @@
-Return-Path: <linux-input+bounces-6274-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6275-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A365396E942
-	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2024 07:29:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C74B96E945
+	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2024 07:31:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 53D4B1F247CB
-	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2024 05:29:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 463C71F2479F
+	for <lists+linux-input@lfdr.de>; Fri,  6 Sep 2024 05:31:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5861E40879;
-	Fri,  6 Sep 2024 05:29:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5771A49638;
+	Fri,  6 Sep 2024 05:31:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kEhvc+b3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jBpUlW94"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC502A48;
-	Fri,  6 Sep 2024 05:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6460819;
+	Fri,  6 Sep 2024 05:31:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725600595; cv=none; b=Wt9GOMrIDK+m0rQL//+OdvNCyvF0krLWN6a87pQvpOfNx9lwMFUsCjU/YOL8hQGbXiv7VihKl7BTB7LjkQLEpjRwfVrD5gQ8urLJnvDhUQopmqD6lZlzZQ8cq7o8CXP9puYRzkZQeRP+cQV9Jq9B8wTAShTh+5fN3AB2sV8htyA=
+	t=1725600664; cv=none; b=Lz4VoRFGtIyGxdvkY+0cqq0Y4gz75bVVXVq7tgwChElNmhGPfoac5xuIgPmdPASuZTJv+YcsuDgPZ7g9lLJpKL8wh2yS8/BvRsgUJpCmSLlbYkUnm9Qhvy3rssKeVNUaMusC7U5qIKNhV5CZ/UnJxeGksallZMfBHlN91dwpmKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725600595; c=relaxed/simple;
-	bh=c5rG8W+UpJgiXdoTi/jU3jDWygp9pIrM3OecNI7yB74=;
+	s=arc-20240116; t=1725600664; c=relaxed/simple;
+	bh=xYRDfR7w4cvg0JE/SSRywsqcsK0ZVzCAWzanLbugdKA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UwXaO/IhQhdRQpaSmXsMNCUoB5Bb0sN8qbS/dnIimPPt64akR9yzZe7Qwftatw0nOLnuZoJBQNCXNsjS8VZw/wJwpCVtLyWeGiyWwvQ5oXBAaOYpEAYrJJDTwwPG89BW+PC8hM4i+aN8o+JcVlZucqv0KOQYlkEOzEXPGCdWkxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kEhvc+b3; arc=none smtp.client-ip=209.85.161.54
+	 Content-Type:Content-Disposition:In-Reply-To; b=ozeSsn/uQUIKJytVJvS3nCEOJ+sarkK8UQuuoMS8qlZvo2OSmZsVVdac3ZLrsn/1pCBIT9EYl9ZkAIVs0B5kq2KXnQ1j4GnfRW/lgYJab3uBwPIpMo1KyH01Mdfa4nPzeDwlz1wEBKRel9TK8i7VCX5wlF8I6Aj30sDQ2/qFnto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jBpUlW94; arc=none smtp.client-ip=209.85.160.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5dfa315ccf1so1018029eaf.3;
-        Thu, 05 Sep 2024 22:29:53 -0700 (PDT)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-27051f63018so807246fac.3;
+        Thu, 05 Sep 2024 22:31:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725600593; x=1726205393; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=WCyrXdUT4Wks/m84wqW9nphU1jA9e88xa4OHLtyB4dE=;
-        b=kEhvc+b30cwfwbGjShMgeHsKO/6txek//VO0phJpWZvtLMRo69iMGF11ChIEkVfHH6
-         avQWUT12s1FwO7y2yi0y/CLZHTuzgJL/jVyXuCFqAQfFBJM5JoFQ2osx4SpBwzFEi65T
-         upP8U2NKdRIzFQFZCIOkT/b1O+QNlYpZCw+SDGailwPEHoghMf/VpwJU/7EI9Ko4H2yW
-         rEfnNf5bw3z9wlIJWIVsQ+EDdp3pzgxXBT2KSVATRkKlHW1G+zQm0o7GpicZiZhPB7RS
-         hJuC4Eo2urVmStG+NpAzHwGYtGL9VCRcTA9n6AH5msir6VDr8bpkPBLcg1W+11undZXA
-         bvzg==
+        d=gmail.com; s=20230601; t=1725600662; x=1726205462; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6rlojunx8GHInoLGCMntB+ZOAAQdHr69FYIGEn6wPK4=;
+        b=jBpUlW94u2O00FJBeUjV2kg8BXGjxNNslSyhgHzr3RO8etnGQnxEMFC/8pW4CpemXR
+         yORi4qbRdk252AITaiWtlkpchRMr8H6S/uAuI8MsQyKJapTntKiXcnZv3jCm14yl+8lX
+         +Nc9OZSNGlQUzG0W1ygjpoJqMWl9i1GCYwtcxl3KktCdrEx6Z6tpgYyxYqz0j3h94VwJ
+         oPg/xQv1uzQLFrxh4BIj75wGAPL6APXnlKKJH/Xn2FA6zPNovGjV11COnZg34Fk3MN1a
+         iHjNDqYS6yI8li5pDtKlLzy+NmxyJ9xFsaDVWdB7K5NZ4euK5TAUiXqUNSSkjLRFzO68
+         Wa0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725600593; x=1726205393;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WCyrXdUT4Wks/m84wqW9nphU1jA9e88xa4OHLtyB4dE=;
-        b=rhoUKAZbbX3LF8DKj+Wab3txLLkN4ZlavoEPXZjMZR+DoB9Q9kwxRIsHQfkCU+ovgJ
-         q3ck0TBLZ61Hdq7fJnYRJIq/AfoMiuksAXi0CFy2CV7poNfSH1yN2CR5UQKjwxP8gJ3V
-         9/YIzMQJV89SPcl9xMmMr9OY1+98k+v1o7MrlVgDJHzgDTXjDN7/Bj8sspH/NY6dnsfP
-         2VxA5OFwfCM5ulcZ2Fc3u8i+bNEKyxdM5TUbobUwFO/Wo3pk97HBIzw5bxA5ByXW9oH8
-         d4r7aJWjPSf85LssLeqRxlXBazsD1WDgf0WBUm9nU0QR5lb1TBxhQHdjXuQ5Ageu1dnW
-         F8gA==
-X-Forwarded-Encrypted: i=1; AJvYcCWZ33bhVaTP2XbubpBDq2Nii8ySDO+rtvFtoeRM4Sz5eATe4S+p4azI5GWcQytl7IOln5jnFJUNj5fMKVrE@vger.kernel.org, AJvYcCXO7Lpb7Kp5T2G8YLRY0ucp856z/4R+pGvf2cfhT+e4wQPfSXxQb2MLwuIWMFpI5CgPQeCYSaJVXbsjUA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPihvi58jp+wjgOwAOP26pvlgVTe9qcHsHWz//tUuNsoSxbeLv
-	4wfxs+IYe2rnLbTnuVN/J9+CFTHgsz3ygOLYo8pzJnE3JVUQ6gR8
-X-Google-Smtp-Source: AGHT+IEIFBATCXcOsz9JD3+EPLtTHVM/0/bkvsqFStGZK3sxwyPyAnbV1+4aOVfihvhd2axqlF9BRA==
-X-Received: by 2002:a05:6358:5245:b0:1b8:203b:db89 with SMTP id e5c5f4694b2df-1b8203bdca2mr897095455d.5.1725600592679;
-        Thu, 05 Sep 2024 22:29:52 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725600662; x=1726205462;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6rlojunx8GHInoLGCMntB+ZOAAQdHr69FYIGEn6wPK4=;
+        b=a82bvOdAnp12TFRuTF+EIYjROxRyLL52xKj9aWWmhJ4mdwcZUK5bj82M/yiXdKoMLM
+         22LEKXIUChCaHmYeMFwDyFyCIh9bCM//051i2PJCJ2+FILfxmPJHSNgxnQYI1XWAvXBd
+         ajNEmPZDWygonpyV/Sd2NKTb9r4Sg1Kwh4l+8br5KtbPhfrI/5z2A3iX77XIqEVe7sIB
+         ZN5f5VmFQGQ+kfuDDu9qluALgDXNSmIX51x1ml3cEnZ3hlhP5lF8Evxaypif3RGi0zud
+         MI2Bss3ryIDVG2T0elAEM2fvH7HRuMFTlSw3zOginmhFtFeqVkdgaz4DnJ/UHXb+hLmN
+         KarQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW9YS5PTcJZfn1NQBuFoD+FBAoUApf5HPRBCJnLANkjb4FaE2VC4QgP+B1s0OMY7iox1SqUARFA08L+IPmh@vger.kernel.org, AJvYcCWMhiOFukfpPSTydgS6WKCKGRgrg6a9m8fZQ5tyQ2HyviDfOcdKZMzcF/80J1EFUniIn4YpVO94DnDR1Z4=@vger.kernel.org, AJvYcCWVTqoKx0lcXMDP4XQ0PdTwEZnFRhV+RSkryuBzgZBYPnGQ3ap0KgLJJVDq9zr1QJKSXUY9ah1n5B0Z@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1qi9YulzCGmo30zNECKEoegWiD4kQsLIWukBrGy/ZSqebTXCr
+	FGCFDmChosqIlbx20nVDgLshrvW7K9GSLAn/VHd/JWIFAbzy3Sf9
+X-Google-Smtp-Source: AGHT+IGJhDHSeGSMTpCmO/BHOqkArJRSxKtV4pDbBAprpmrun6J+Xrj7nn6JiGoluHx0bZKiryy6YA==
+X-Received: by 2002:a05:6871:580f:b0:260:e4ac:72e5 with SMTP id 586e51a60fabf-27b82edbfb5mr244718fac.25.1725600661782;
+        Thu, 05 Sep 2024 22:31:01 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:1de8:3062:3230:1a45])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7177858988bsm4072916b3a.105.2024.09.05.22.29.51
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d770499e7asm532882a12.91.2024.09.05.22.31.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2024 22:29:52 -0700 (PDT)
-Date: Thu, 5 Sep 2024 22:29:49 -0700
+        Thu, 05 Sep 2024 22:31:01 -0700 (PDT)
+Date: Thu, 5 Sep 2024 22:30:58 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Danila Tikhonov <danila@jiaxyga.com>
-Cc: hadess@hadess.net, hdegoede@redhat.com, neil.armstrong@linaro.org,
-	jeff@labundy.com, krzk@kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux@mainlining.org
-Subject: Re: [PATCH] Input: goodix-berlin - Fix VDDIO regulator name
- according to dt-bindings
-Message-ID: <ZtqTTZizT7nAaYzq@google.com>
-References: <20240805155806.16203-1-danila@jiaxyga.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
+Subject: Re: [PATCH 1/1] dt-bindings: input: convert rotary-encoder to yaml
+Message-ID: <ZtqTklejytV9n74t@google.com>
+References: <20240811214656.3773098-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240805155806.16203-1-danila@jiaxyga.com>
+In-Reply-To: <20240811214656.3773098-1-Frank.Li@nxp.com>
 
-Hi Danila,
-
-On Mon, Aug 05, 2024 at 06:58:06PM +0300, Danila Tikhonov wrote:
-> The dt-bindings specify the regulator as "vddio" instead of "iovdd".
+On Sun, Aug 11, 2024 at 05:46:55PM -0400, Frank Li wrote:
+> Convert binding doc rotary-encoder.txt to yaml format.
 > 
-> This patch fixes the regulator name from "iovdd" to "vddio" in the
-> driver code to align with the dt-bindings. Fixing the dt-bindings
-> would break ABI, hence the fix is made in the driver instead.
+> Additional change:
+> - Only keep one example.
 > 
-> There are no users of this regulator сurrently.
+> Fix below warning:
+> arch/arm64/boot/dts/freescale/imx8mn-dimonoff-gateway-evk.dtb: /rotary-encoder:
+>     failed to match any schema with compatible: ['rotary-encoder']
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 
-If there are no users (and the binding is pretty new) we should consider
-all options. Do you know the name of the supply in the datasheet?
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
