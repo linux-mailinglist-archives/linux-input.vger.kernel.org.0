@@ -1,139 +1,123 @@
-Return-Path: <linux-input+bounces-6294-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6293-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2669702F2
-	for <lists+linux-input@lfdr.de>; Sat,  7 Sep 2024 17:33:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9BED9702EF
+	for <lists+linux-input@lfdr.de>; Sat,  7 Sep 2024 17:31:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 351FBB219BF
-	for <lists+linux-input@lfdr.de>; Sat,  7 Sep 2024 15:33:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6D24DB21A8D
+	for <lists+linux-input@lfdr.de>; Sat,  7 Sep 2024 15:31:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16DF9157485;
-	Sat,  7 Sep 2024 15:33:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F985364BE;
+	Sat,  7 Sep 2024 15:31:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="GGFUtIn/"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="ecOlYvUg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
+Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8741B85DC;
-	Sat,  7 Sep 2024 15:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D2713C836
+	for <linux-input@vger.kernel.org>; Sat,  7 Sep 2024 15:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725723187; cv=none; b=uWTz9Ha1A+uePxD1S3i35O/SunBs5oMtjglaaaRnrevdKm+4p4o4nAXZmqgyl8nLLVRv1QC5u8Zm2o2AmS9BctlfFZTuTQeIb/pGHFJBoxdYfn+y7Qd5H68FX/zU9r6fgX8XSsQmFE7EIAf0XD1nic6ZJjMwYJE9Jk+9O9Q7T+E=
+	t=1725723093; cv=none; b=oaRH/wJg0dORPz/7g3jYKkE1ha6XafsiGxaaVNhVxN2at4eLQeCjTaJol6d5/G/oVtsUckHCNuaynu+2LppQyt5S/EoL/A64PtJFj9+ge8XrttJhT8WQpGNYbRi3T6ou/BzwUmRo1YVr38YiTeM5r3iflUIBAniu5JOu34zexOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725723187; c=relaxed/simple;
-	bh=oHjQ7HgK8Yd87EvRVT1orABFAc/Um0D/a3v5RRH/Ioc=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=CWQcxWqLtu3vHnQldC9a1DkB/e0kOFp1mdNXumrNPKzGc8Tftoa+tNw2ixWVxhp94frLhTith0YRdEKjARYESUrJmuUE0DK5j/0rIIEl+JoutnL9iB52VSUgf9BT18fRMn6fXflq2Z0qV17hg8CjqQO7/ChBSWcqFZidpArFmB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=GGFUtIn/; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1725723061; x=1726327861; i=markus.elfring@web.de;
-	bh=wihuS6INkOIDRJLvPODF0HceZ7BB6DFVMS4BkKX4s0g=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=GGFUtIn/x0Yjib7Y4e1yOKaA3LawIgwXzX4+GKFSTGPYUjXGu1bEp5Pk15O2AS4D
-	 hNSt0ZBKybXpdcw4wOc1oylU1eZEYWVRDBoAegl7RGmW3WZNvuAKsV1KB3RndXKlX
-	 UiTOOINChJQsj7EvLQaMrUjc1Iyg44nOWH7anByQrt2UEKJhZPXTwaS5GOs9d81Ft
-	 Ga9LCGrNGegL9Aow2/iieXG6w1UpTyiIMVC6vNMzt1kc4gupOROPPTggssKDBJnJz
-	 FMTROAglkrijureZi1maPvQedQtpa/n++HccI1BChPGuoKZvHxfHG/fPUBpOS7Mu6
-	 tmBfowHsaRnK4RshEQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.84.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mkmzl-1sKCU60TDL-00kWWt; Sat, 07
- Sep 2024 17:31:01 +0200
-Message-ID: <f60b0884-a7fa-4260-b9bb-ae680ff21150@web.de>
-Date: Sat, 7 Sep 2024 17:30:17 +0200
+	s=arc-20240116; t=1725723093; c=relaxed/simple;
+	bh=NEWvGIeL91jpBpunK2S29T+0yqo5H/Keu6U4rvEht0I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZjJpkmUsW92gCCkJBRTpSsQ9QSU2YrUmn9oOmsX+sTTuI9TxCqH8l6khXTQHTyvs/Di8tfKy2Iy8W17pLmjTyGPdza7nudVkkG+tBScYGm6j09rqZCrJNFJdRBwQy2mCai399cmdfca5qoYnAw7MFRXTNz8S1DpbbMjvI9PbRzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=ecOlYvUg; arc=none smtp.client-ip=52.59.177.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1725723069;
+	bh=LxPiNUB9BhE3lduZ6Kk6M4bSZo6yg3DHGi0OrDKW3+M=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=ecOlYvUgOgRQCe+wgiMSOPaoy0QS1Hjy4UK4OyfEBUpmvvJIjY3Hh13m56W0j6jFF
+	 LNmIDMu+PSWMvxtfS0iJnwuNM+uDGJKA19rCp+8Mg/4Mr5vfZFnOuyJ5QHj9xpTyM/
+	 tvMfkq3dt6yCTOT7ghQmQCsoAqOJv/M7wa6mOamM=
+X-QQ-mid: bizesmtpsz14t1725723065tb1cco
+X-QQ-Originating-IP: mf7GxU8B81MDKJ6OuSPbN3BCaC1VGy74z/w2qyx5suA=
+Received: from localhost.localdomain ( [221.226.144.218])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sat, 07 Sep 2024 23:31:00 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 11342779804925214705
+From: He Lugang <helugang@uniontech.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
+	He Lugang <helugang@uniontech.com>
+Subject: [PATCH] HID:replace BUG_ON() with WARN_ON()
+Date: Sat,  7 Sep 2024 23:30:58 +0800
+Message-ID: <08FEC98F56735FE3+20240907153058.22980-1-helugang@uniontech.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: WangYuli <wangyuli@uniontech.com>, linux-input@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Aaro Koskinen <aaro.koskinen@iki.fi>, Abhinav Kumar
- <abhinavk@codeaurora.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Andreas Kemnade <andreas@kemnade.info>,
- Andrew Morton <akpm@linux-foundation.org>,
- Anil Gurumurthy <anil.gurumurthy@qlogic.com>,
- Anil Ravindranath <anil_ravindranath@pmc-sierra.com>,
- Archit Taneja <architt@codeaurora.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>, Daniel Vetter <daniel@ffwll.ch>,
- Dasaratharaman Chandramouli <dasaratharaman.chandramouli@intel.com>,
- David Airlie <airlied@gmail.com>, David Woodhouse <dwmw2@infradead.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Dmitry Torokhov <dtor@mail.ru>,
- Don Hiatt <don.hiatt@intel.com>, Doug Ledford <dledford@redhat.com>,
- Eric Piel <eric.piel@tremplin-utc.net>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ira Weiny <ira.weiny@intel.com>, James Bottomley <James.Bottomley@suse.de>,
- James Bottomley <James.Bottomley@HansenPartnership.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Jiri Kosina <jkosina@suse.cz>,
- Jeykumar Sankaran <jsanka@codeaurora.org>,
- Jordan Crouse <jcrouse@codeaurora.org>, Kevin Hilman <khilman@baylibre.com>,
- Krishna Gudipati <kgudipat@brocade.com>, Leon Romanovsky <leon@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Masanari Iida <standby24x7@gmail.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Miloslav Trmac <mitr@volny.cz>,
- Richard Weinberger <richard@nod.at>, Rob Clark <robdclark@gmail.com>,
- Roger Quadros <rogerq@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Rajesh Yadav <ryadav@codeaurora.org>, Sean Paul <sean@poorly.run>,
- Sean Paul <seanpaul@chromium.org>,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>,
- Sudarsana Kalluru <sudarsana.kalluru@qlogic.com>,
- Tony Lindgren <tony@atomide.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- "Vijay Kumar B." <vijaykumar@bravegnu.org>,
- Wentao Guan <guanwentao@uniontech.com>, zhanjun@uniontech.com
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <63D0F870EE8E87A0+20240906054008.390188-1-wangyuli@uniontech.com>
-Subject: Re: [PATCH] treewide: Correct the typo 'retun'
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <63D0F870EE8E87A0+20240906054008.390188-1-wangyuli@uniontech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:0V/kSbOfOSES5ZSUPdgCZTIcGmmRZMm0Domxm/Q8KX7EnOO1CAN
- 00nVkeHP/BEhc1uiKtEI0+LLwINCEV1nSlgo1pINWJyZ22WHQIdvHMPhXX9Dibh9lp2E6i0
- v1vwafHYbTjBcj52zpJPNskLr5AxrCpCr2mgG1bc7EuYHcZ6DtYMYuIgT/B6+Q7EQLT5mR/
- k9m3SXUYG/qEkZWV6kXvg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:eJQeW9UGGk0=;BIskQXK25THsuKgfSEMHNrqzAWD
- Y//x4rspd7L6DZ58YgNNTXjYwoWbQTnTYp1kc1vMll0u7cPyuTLy3xEP/ReuRFGA77lqQAibK
- /6uOnBeNuRrYH6ZgTxfXm3636B2h8/1HnqFUp73R/R1+Ao69JPmTyHFLi2sr4ElRqoF2AjIKu
- a1GCqrIr85L4vXpL0fSmKckM347JgzuW4ti8xbzaxVA7BtM6zATY3AkH+V/K0cwEf4Iu6Nc7Z
- Z+/81Xl/ApcMmB3mtmIzo0h4W8KrDqvOpWvQ2Dkm+/35DGoZb/Gg7tTi2nNrUxnh7UWb44rIc
- dltxjmgSXtVPHyFjzB2A9I1ucJA5Ouly8qh9iPQKkax/VcYVN2IRH7UUfFfp9hR2V6oMsYlrF
- 6UHnxTjH4RpjyLjc7g63Dvh423vvN5KPDOeQf/w8wE/v5jJVBkm64wwCUL01y86qFtZoC/70c
- k8AkUqYGI08xMCJPT5v/QG7r1nYmjvvDTuIOP6aGw/0/LCNwFw3pp8uJk8FHiSiISgyl1C05C
- IK48cI9L+YLFJurUPze13oKlNambZVI0leiIyEdP0IstQTq4bAZkQBXv+U+SOV/IjOYe4kw/D
- q3fprWkvsM+xfSlOdzc/9vwKNZwkRQuaapTrX+xDzD1iRouYTIq7CW37H8CmkPpbUXMLmtvlz
- lTi2cYFS9sXE4yvAPx4OEnqrFEZOCiuLHwEPYGUlooyixxKr7l5kNU3Fttn6NlWU9zNxVdZDJ
- CTYRNkCsFkoz33K1beAdoI45/v6GjCAD1+D1Ov+hll037p+F42neH8RIJPbxRlzudy6O6UO2z
- MGr//iuh+hhfAAdwERNY/svA==
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz7a-0
 
-=E2=80=A6
-> should be instead of 'return'.
+There is no need to kill the system entirely in HID with BUG_ON,
+use WARN_ON to handle fault more gracefully which allow the system
+to keep running.
 
-            =E2=80=9Creturn=E2=80=9D instead?
+Signed-off-by: He Lugang <helugang@uniontech.com>
+---
+ drivers/hid/hid-cp2112.c | 3 ++-
+ drivers/hid/hid-lg4ff.c  | 3 ++-
+ drivers/hid/hid-sony.c   | 3 ++-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
+index 20a0d1315d90..03e11f15257f 100644
+--- a/drivers/hid/hid-cp2112.c
++++ b/drivers/hid/hid-cp2112.c
+@@ -852,7 +852,8 @@ static int cp2112_set_usb_config(struct hid_device *hdev,
+ {
+ 	int ret;
+ 
+-	BUG_ON(cfg->report != CP2112_USB_CONFIG);
++	if (WARN_ON(cfg->report != CP2112_USB_CONFIG))
++		return -EINVAL;
+ 
+ 	ret = cp2112_hid_output(hdev, (u8 *)cfg, sizeof(*cfg),
+ 				HID_FEATURE_REPORT);
+diff --git a/drivers/hid/hid-lg4ff.c b/drivers/hid/hid-lg4ff.c
+index e3fcf1353fb3..c0a138f21ca4 100644
+--- a/drivers/hid/hid-lg4ff.c
++++ b/drivers/hid/hid-lg4ff.c
+@@ -1350,7 +1350,8 @@ int lg4ff_init(struct hid_device *hid)
+ 
+ 	/* Initialize device properties */
+ 	if (mmode_ret == LG4FF_MMODE_IS_MULTIMODE) {
+-		BUG_ON(mmode_idx == -1);
++		if (WARN_ON(mmode_idx == -1))
++			return -EINVAL;
+ 		mmode_wheel = &lg4ff_multimode_wheels[mmode_idx];
+ 	}
+ 	lg4ff_init_wheel_data(&entry->wdata, &lg4ff_devices[i], mmode_wheel, real_product_id);
+diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
+index df29c614e490..c5db29456507 100644
+--- a/drivers/hid/hid-sony.c
++++ b/drivers/hid/hid-sony.c
+@@ -1379,7 +1379,8 @@ static int sony_leds_init(struct sony_sc *sc)
+ 	u8 max_brightness[MAX_LEDS] = { [0 ... (MAX_LEDS - 1)] = 1 };
+ 	u8 use_hw_blink[MAX_LEDS] = { 0 };
+ 
+-	BUG_ON(!(sc->quirks & SONY_LED_SUPPORT));
++	if (WARN_ON(!(sc->quirks & SONY_LED_SUPPORT)))
++		return -EINVAL;
+ 
+ 	if (sc->quirks & BUZZ_CONTROLLER) {
+ 		sc->led_count = 4;
+-- 
+2.45.2
 
-Can a corresponding imperative wording be preferred for a better change de=
-scription?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.11-rc6#n94
-
-Regards,
-Markus
 
