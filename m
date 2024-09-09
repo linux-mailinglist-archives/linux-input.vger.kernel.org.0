@@ -1,136 +1,123 @@
-Return-Path: <linux-input+bounces-6341-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6342-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ABC09712D3
-	for <lists+linux-input@lfdr.de>; Mon,  9 Sep 2024 11:03:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2FAB971327
+	for <lists+linux-input@lfdr.de>; Mon,  9 Sep 2024 11:18:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CE2B02854B2
-	for <lists+linux-input@lfdr.de>; Mon,  9 Sep 2024 09:03:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7157E281038
+	for <lists+linux-input@lfdr.de>; Mon,  9 Sep 2024 09:18:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD7401B29CD;
-	Mon,  9 Sep 2024 09:02:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC5E61B29D8;
+	Mon,  9 Sep 2024 09:18:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=maquefel.me header.i=@maquefel.me header.b="UCKyBw0t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ckdt45UO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from forward501a.mail.yandex.net (forward501a.mail.yandex.net [178.154.239.81])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF90113635E;
-	Mon,  9 Sep 2024 09:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265D342AAB;
+	Mon,  9 Sep 2024 09:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725872578; cv=none; b=fJVTyCkrH6fYJ62XW84FrVUmYMZ6ULZAbuKimWs3DTqrLaAaHN2yigN8C5q98ro35Z6QEhGV/niB+vHBwF2J7ld7noABvguVcmje9ETtydI+bY4929K5AKMhwXwXq8VhmJxKc+CDMvzoWO837qVbQwtDLo9J0IrOhlgUfDeidbk=
+	t=1725873485; cv=none; b=d1nE2V/P6EzkUQ23OUji9puA7lrPoJsz29i7rRA1ZkdYEcS+bmJLgguXiBMwdTD2MRx95JqTRkltWkUIkql03sx9MM5iz65YdzrjVvLCNq9dk2JwUpU59GEw2Gxfs5INCV9keCU3MFc5y7l9P/1yJC3zz3BenLXAB7fCsgLmvMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725872578; c=relaxed/simple;
-	bh=Qut1EyCSXF5XKk8lrf1jldw5ylJErkj1/nQaI3URoaw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=eoPfp7uIqQ6qTYo/9DP+LVLc75HHL+IXQ1bVe/76iO2k/R+8uI/cht9VYFVEOOtDni+JkNqsKmxi7rTlGKbBSkdI76+q6tSIaaCnuVmqUXlGxuNbJ6mh2A1HR5HRHHkkQtjoMrvWEw2JTZhw9htM2CCyWciwJdVn8x+SqS023Sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maquefel.me; spf=pass smtp.mailfrom=maquefel.me; dkim=pass (1024-bit key) header.d=maquefel.me header.i=@maquefel.me header.b=UCKyBw0t; arc=none smtp.client-ip=178.154.239.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maquefel.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maquefel.me
-Received: from mail-nwsmtp-smtp-production-main-49.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-49.vla.yp-c.yandex.net [IPv6:2a02:6b8:c1f:5e9c:0:640:b3f4:0])
-	by forward501a.mail.yandex.net (Yandex) with ESMTPS id 36D27613B6;
-	Mon,  9 Sep 2024 12:02:44 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-49.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id a2dHS5JKaSw0-Uuowlycf;
-	Mon, 09 Sep 2024 12:02:42 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail;
-	t=1725872562; bh=Qut1EyCSXF5XKk8lrf1jldw5ylJErkj1/nQaI3URoaw=;
-	h=References:Date:In-Reply-To:Cc:To:From:Subject:Message-ID;
-	b=UCKyBw0t6OLNpveKLHRyVdH4SZAFS1aM3i5JVQ8KQ5rIHiHlKcQKgkqrfFC6c8Kek
-	 R9zZ3ZAROjskp9kB0OrvKFjT8aa1lyzn42GuLR0RT8850GDMyebxN0ZKhcvu8dixES
-	 a/SqIJj456K3YYiyyxC8j7ouVj9XUUEG0040u5qg=
-Authentication-Results: mail-nwsmtp-smtp-production-main-49.vla.yp-c.yandex.net; dkim=pass header.i=@maquefel.me
-Message-ID: <0e3902c9a42b05b0227e767b227624c6fe8fd2bb.camel@maquefel.me>
-Subject: Re: [PATCH v12 00/38] ep93xx device tree conversion
-From: Nikita Shubin <nikita.shubin@maquefel.me>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Hartley Sweeten
- <hsweeten@visionengravers.com>, Alexander Sverdlin
- <alexander.sverdlin@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Lukasz Majewski <lukma@denx.de>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
- Vinod Koul <vkoul@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>, Thierry Reding
- <thierry.reding@gmail.com>, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
- <u.kleine-koenig@pengutronix.de>, Mark Brown <broonie@kernel.org>, "David
- S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Miquel Raynal
- <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, Vignesh
- Raghavendra <vigneshr@ti.com>, Damien Le Moal <dlemoal@kernel.org>, Sergey
- Shtylyov <s.shtylyov@omp.ru>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Ralf Baechle <ralf@linux-mips.org>,  "Wu,
- Aaron" <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>, Olof Johansson
- <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-pm@vger.kernel.org,  devicetree@vger.kernel.org,
- dmaengine@vger.kernel.org,  linux-watchdog@vger.kernel.org,
- linux-pwm@vger.kernel.org,  linux-spi@vger.kernel.org,
- netdev@vger.kernel.org, linux-mtd@lists.infradead.org, 
- linux-ide@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-sound@vger.kernel.org, Bartosz Golaszewski
- <bartosz.golaszewski@linaro.org>,  Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>
-Date: Mon, 09 Sep 2024 12:02:37 +0300
-In-Reply-To: <CAHp75Veusv=f6Xf9-gL3ctoO5Njn7wiWMw-aMN45KbZ=YB=mQw@mail.gmail.com>
-References: <20240909-ep93xx-v12-0-e86ab2423d4b@maquefel.me>
-	 <CAHp75Veusv=f6Xf9-gL3ctoO5Njn7wiWMw-aMN45KbZ=YB=mQw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 
+	s=arc-20240116; t=1725873485; c=relaxed/simple;
+	bh=bRUzjcP/zGtQgFprgafmcUwBu2d1rsV/7yCPCxzhatQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OxHzJTc2ahaYbQ7m9tje45teDRr4EZ07snDsLNJe9+0H04Z7WoFPNDPMJ1NamcKIb+ri0hr+20cH5WIBnn8KEIncOJy9bMsp1J1GXdQJs/OC3UyBOznxcQQOqdKAp966Vb0EW4BdbK5vsK8LozbBUy2SjJu99NhFIFXqyrOA9sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ckdt45UO; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725873484; x=1757409484;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bRUzjcP/zGtQgFprgafmcUwBu2d1rsV/7yCPCxzhatQ=;
+  b=Ckdt45UOl4Jb8TNNZDQZ1TOsqiaDN4QehnCNSs/pG2DX5OfH2UAESLc+
+   pO1o7oQ4be+pDNGGC7X46Y4Az5VsTqLbHSEwxFSbxPHitbeHqTW6OPxiU
+   /r/adF4PH7i6TEe5zod5tcT+6afD+Vd2oXSKkgeCj6u7l8hRt1F6+0TKe
+   gflIlIyDLDfOrX43QUiU89iH4sSYR+9BQhAl+fDBRPYBkaSUQ3bnhZVbn
+   2i/ewF+AIwzyranTT+Mbx6F1+JrUeE3ye3cNYIN2+kfCK8uky+/VRTZCb
+   DZSfyPsC5RzYAD+3VkswOMGwQAA5QzuX8VVq6pOjGsTD4LETudU9Hfz5x
+   w==;
+X-CSE-ConnectionGUID: QZ70ElW/QuC2t6pxHa+0kA==
+X-CSE-MsgGUID: MFvq/qNITECqoCJ2ZhTkng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24057265"
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
+   d="scan'208";a="24057265"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 02:18:03 -0700
+X-CSE-ConnectionGUID: Y/n4n6tLQfadAoFX+cVdPw==
+X-CSE-MsgGUID: nCFIc7inT+WI/Ro6gXl0pA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
+   d="scan'208";a="66657799"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 02:18:00 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1snaWz-00000006jMc-1Pae;
+	Mon, 09 Sep 2024 12:17:57 +0300
+Date: Mon, 9 Sep 2024 12:17:57 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Jinjie Ruan <ruanjinjie@huawei.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+	linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>
+Subject: Re: [PATCH v1 00/22] iio: use dev_get_platdata() to access
+ platform_data
+Message-ID: <Zt69RYzr5gmCELzw@smile.fi.intel.com>
+References: <20240902222824.1145571-1-andy.shevchenko@gmail.com>
+ <ZtdOB3VRN0QCGWU9@smile.fi.intel.com>
+ <20240907164258.70772206@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240907164258.70772206@jic23-huawei>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Andy!
+On Sat, Sep 07, 2024 at 04:42:58PM +0100, Jonathan Cameron wrote:
+> On Tue, 3 Sep 2024 20:57:27 +0300
+> Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> > On Tue, Sep 03, 2024 at 01:16:45AM +0300, Andy Shevchenko wrote:
+> > > Unify how IIO drivers access platform_data field of struct device.
+> > > In simple and straightforward cases constify the local variables.
+> > > 
+> > > (Not tested)  
+> > 
+> > Jonathan, in case you are fine with the series, feel free to squash, e.g.,
+> > changes against hid-sensor drivers.
+> I don't follow, but maybe that will become clear once I've looked
+> at rest of the stuff I haven't read yet.
 
-On Mon, 2024-09-09 at 11:49 +0300, Andy Shevchenko wrote:
-> On Mon, Sep 9, 2024 at 11:12=E2=80=AFAM Nikita Shubin via B4 Relay
-> <devnull+nikita.shubin.maquefel.me@kernel.org> wrote:
-> >=20
-> > The goal is to recieve ACKs for all patches in series to merge it
-> > via Arnd branch.
-> >=20
-> > It was decided from the very beginning of these series, mostly
-> > because
-> > it's a full conversion of platform code to DT and it seemed not
-> > convenient to maintain compatibility with both platform and DT.
-> >=20
-> > Following patches require attention from Stephen Boyd or clk
-> > subsystem:
->=20
-> Does it mean you still have a few patches without tags?
-> What are their respective numbers?
+I mean all the patches that starts with "iio: *: hid-sensor-*:" can be squashed
+into one with "iio: hid-sensor:"
 
-The clk is the last one as i think, all others can be ACKed by
-Alexander or by Arnd himself.
+> Anyhow, applied to the togreg branch of iio.git and pushed out as testing
+> for all the normal reasons.  Another series that will probably be 6.13 material.
 
->=20
-> > - clk: ep93xx: add DT support for Cirrus EP93xx:
-> > =C2=A0 - tristate
-> > =C2=A0 - drop MFD_SYSCON/REGMAP
-> > =C2=A0 - add AUXILIARY_BUS/REGMAP_MMIO
-> > =C2=A0 - prefixed all static with ep9xx_
-> > =C2=A0 - s/clk_hw_register_ddiv()/ep93xx_clk_register_ddiv()/
-> > =C2=A0 - s/clk_register_div()/ep93xx_clk_register_div()/
-> > =C2=A0 - dropped devm_ep93xx_clk_hw_register_fixed_rate_parent_data
-> > macro
-> > =C2=A0 -
-> > s/devm_ep93xx_clk_hw_register_fixed_rate_parent_data()/devm_clk_hw_
-> > register_fixed_rate_parent_data()/
->=20
+Thank you!
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
 
