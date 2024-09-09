@@ -1,105 +1,90 @@
-Return-Path: <linux-input+bounces-6347-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6348-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A4A6971433
-	for <lists+linux-input@lfdr.de>; Mon,  9 Sep 2024 11:46:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B20549714C6
+	for <lists+linux-input@lfdr.de>; Mon,  9 Sep 2024 12:05:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 02DF1B25D98
-	for <lists+linux-input@lfdr.de>; Mon,  9 Sep 2024 09:46:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5DBC71F2158D
+	for <lists+linux-input@lfdr.de>; Mon,  9 Sep 2024 10:05:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 251C11B5817;
-	Mon,  9 Sep 2024 09:45:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 151741B3B22;
+	Mon,  9 Sep 2024 10:05:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q0FnGanT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YMytIHwH"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E792F1B580C;
-	Mon,  9 Sep 2024 09:45:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D489F1B3B18;
+	Mon,  9 Sep 2024 10:05:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725875116; cv=none; b=CsSsLsYS5rg3P/cRK4/xCLHoFyw1ZYUPS067UekFIt5ajU+E/WZgAD8+1gJyHKoCLaUN/bh5O9+X9qidCCNT//YXoQZc33B3vUNnWEgxPqS8xnsrvYbRcXqBDB+0Jkj+kgpdRZrZDfEGgRtdKd/3AXjxtCHDISNbSd5rWXqYr8U=
+	t=1725876313; cv=none; b=KQh7jKnY7fGlUkZnsTxjAOikkJdDzVCjsgzffdNSszGwHD9uVghsm/wieK4AFrC37MJuZXQqL39TVDkmZCt6xLM7iBuL+igsFAgbs2RXHV3KNPthcf7Hzx/W1wxCOCXkpRQ+d1MJbG90bxaMzTxrUrjYggzWU3mI3LjuaYrJzk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725875116; c=relaxed/simple;
-	bh=ceArjcGYsq3z1p+osPTN+7TxR4F/n7BCCsTLHifo3n8=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=g8nirmJzhxhm3FVhRy8fOxFftBDpnyjbZ43OUUqv5pJa0RznKjzxPdxyEZv1peeudpyHApoSMACzCYuw2hlCUWiL43A3kBfUe++o8wVMUtWgZq/PA+Kc3hk+vWuErgQezxpCfin9iegSOMCjR33v9FYbj21zDwWBePY7z/CopAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q0FnGanT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 517EBC4CEC5;
-	Mon,  9 Sep 2024 09:45:15 +0000 (UTC)
+	s=arc-20240116; t=1725876313; c=relaxed/simple;
+	bh=yRFRZqHggJX0yWp4FW2ndlEU7TNI0ICDRu/OuOa5eKc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VyGR8w4W0dbmhKHSEuaokRHws/D7vL3w8YO0vi9E6wAK/L0ChvBbOExw8/QaemktBuHqU8cT5qaFwtO+mrl/drDsGS+POl1I7kXMbt3irlLBlRZKhFNEdgtWoMFYvEKXKoxiFdPjq6HCMrCdbAqlTJLVfghGLTsXdTB1oXDhbW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YMytIHwH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A511AC4CEC5;
+	Mon,  9 Sep 2024 10:05:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725875115;
-	bh=ceArjcGYsq3z1p+osPTN+7TxR4F/n7BCCsTLHifo3n8=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=Q0FnGanT93iur8ODEw141Mi0/ZGuRnJruupcJvkO0sjfqfaOHzmmkkyL4tHAsk+Gt
-	 X3sPUJccSjbI0+iKiRG0KkQuXPv8gQVEhICbrtiUCkQGd/BXikV1+AsAUmS2HBTWFY
-	 t6h/iHjz0XkrawteBwtHkCfc6NP2yM+j5gTR/5LR3eUeoav1O/8Wa4y4dT9XyxDVDb
-	 grOYzgd6Jj4UXvXtz9O47jisSQaaG+yxgwIcqqfN7mIlz1lkgRg6VoOTEch8iuNsMl
-	 +qlRRHBfZzdGcOLhsH9wH2FWatt735b9Dz6RDUfadLy6LbfdYVQKI7uw4zA0QC5zaL
-	 r7FgqnGiP59ew==
-Date: Mon, 09 Sep 2024 04:45:14 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1725876312;
+	bh=yRFRZqHggJX0yWp4FW2ndlEU7TNI0ICDRu/OuOa5eKc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YMytIHwHYKP5oJI5+gQ3VuHjybqEB5UzBA7MQ75qt0RDfnORi4pkClux2r88Fqc9t
+	 sHb5RLVSZBP2lacVArUwhbOLOk0JG2hm9OzKoKNDwQ8+BaDj5EcTIVcwuv3fSa7iJD
+	 RcYgkhzyr0we6pbx/UNi+ovvxvJVcmqi4lUKn9piz/LK6jixiSlKNSUjZgZIpFPyow
+	 oyiYzNazMKaMxnjKUhadllr+2QFS83WCHP7NDmY1fgrFBrbmgePW0teAUsu0wq5ZnS
+	 VZaROlKEehWAW5QJCGNFU90u916mSxXdPn6yea14J/t9+MI6tYAIIxHCLSraReoUzE
+	 Jq0yjxi5WIjuA==
+Date: Mon, 9 Sep 2024 12:05:08 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Michael Hennerich <michael.hennerich@analog.com>, 
+	Mark Brown <broonie@kernel.org>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] input: touchscreem: ad7877: add match table
+Message-ID: <amkfwj7etefj7oynjnymnmksva4ocu34fcemw46cyidrfzmnl6@t72ldl2qb6nk>
+References: <20240909093101.14113-1-antoniu.miclaus@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Nikita Shubin <nikita.shubin@maquefel.me>
-Cc: linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
- linux-input@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- devicetree@vger.kernel.org
-In-Reply-To: <20240909-ep93xx-v12-22-e86ab2423d4b@maquefel.me>
-References: <20240909-ep93xx-v12-0-e86ab2423d4b@maquefel.me>
- <20240909-ep93xx-v12-22-e86ab2423d4b@maquefel.me>
-Message-Id: <172587510454.3289288.3686389738563355045.robh@kernel.org>
-Subject: Re: [PATCH v12 22/38] dt-bindings: input: Add Cirrus EP93xx keypad
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240909093101.14113-1-antoniu.miclaus@analog.com>
 
-
-On Mon, 09 Sep 2024 11:10:47 +0300, Nikita Shubin wrote:
-> Add YAML bindings for ep93xx SoC keypad.
+On Mon, Sep 09, 2024 at 12:30:11PM +0300, Antoniu Miclaus wrote:
+> Add match table for the ad7877 driver and define the compatible string.
 > 
-> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
 > ---
->  .../bindings/input/cirrus,ep9307-keypad.yaml       | 87 ++++++++++++++++++++++
->  1 file changed, 87 insertions(+)
+> no changes in v3.
+>  drivers/input/touchscreen/ad7877.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
+> diff --git a/drivers/input/touchscreen/ad7877.c b/drivers/input/touchscreen/ad7877.c
+> index a0598e9c7aff..7886454a19c6 100644
+> --- a/drivers/input/touchscreen/ad7877.c
+> +++ b/drivers/input/touchscreen/ad7877.c
+> @@ -805,10 +805,17 @@ static int ad7877_resume(struct device *dev)
+>  
+>  static DEFINE_SIMPLE_DEV_PM_OPS(ad7877_pm, ad7877_suspend, ad7877_resume);
+>  
+> +static const struct of_device_id ad7877_of_match[] = {
+> +	{ .compatible = "adi,ad7877", },
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Bindings are before their users.
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/pwm/cirrus,ep9301-pwm.example.dts:18:18: fatal error: dt-bindings/clock/cirrus,ep9301-syscon.h: No such file or directory
-   18 |         #include <dt-bindings/clock/cirrus,ep9301-syscon.h>
-make[2]: *** [scripts/Makefile.lib:442: Documentation/devicetree/bindings/pwm/cirrus,ep9301-pwm.example.dtb] Error 1
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240909-ep93xx-v12-22-e86ab2423d4b@maquefel.me
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Best regards,
+Krzysztof
 
 
