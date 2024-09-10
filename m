@@ -1,153 +1,111 @@
-Return-Path: <linux-input+bounces-6380-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6381-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A753973060
-	for <lists+linux-input@lfdr.de>; Tue, 10 Sep 2024 12:01:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35EBB97364F
+	for <lists+linux-input@lfdr.de>; Tue, 10 Sep 2024 13:35:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 48920282DAC
-	for <lists+linux-input@lfdr.de>; Tue, 10 Sep 2024 10:01:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9164EB27172
+	for <lists+linux-input@lfdr.de>; Tue, 10 Sep 2024 11:35:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FA6318CBE0;
-	Tue, 10 Sep 2024 09:59:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F01218DF8F;
+	Tue, 10 Sep 2024 11:35:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="gDEaBBBa"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fKZsUSVr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD9718C344
-	for <linux-input@vger.kernel.org>; Tue, 10 Sep 2024 09:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5EA017BB08;
+	Tue, 10 Sep 2024 11:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725962379; cv=none; b=AEe9sfWi59dqVRK7vXofN6xvr9sr050X3F1Y7xUqQcRMMaRB7UAPsVk3p2aDCIzRsqQInqZ7m0LgmdTDenjQMvS34qna2k+YLVdzpEyQoXrHSJF8UYL6tHfSqJSUtHYEqe205YWOuw4aA7XuyiJwYsSK6dEWLM1xsgWdJjbwkhA=
+	t=1725968105; cv=none; b=JE+hNzgQpjCQyjYj1UNvJi9wQWo63xm0RGowuO8STrevDoM8ljuTWW8WBDX80pg+pv1WGOVKsyiGebkp+R0XWNJAxXgZYfsLUtNKCIIC73EJc/9cOXVpWtqpDbU2xL41pymXl8RrJrsz+UxhAJOjieL0C5mQgFp2AQyWZqcaBls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725962379; c=relaxed/simple;
-	bh=cPN+c5d1qbghZwAgbLbBKbGa0droBLNlCAHDEF+wklI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OSeB/glcGf7DxWZ3YlzferxeU2qBARByXCGn0JSndGC002h1TQ/nzamjR8bdWWcxziFheJqyO/RBNQQtFIt41zC2Eu18xKPOCRzCDsx/JGibtaBOZye1CQoEROEPtd+OrOqa7pQVMHBubH/Lt3fXGsmgdcj+oAxqixqCrFVCqDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=gDEaBBBa; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-374c7d14191so3510182f8f.0
-        for <linux-input@vger.kernel.org>; Tue, 10 Sep 2024 02:59:36 -0700 (PDT)
+	s=arc-20240116; t=1725968105; c=relaxed/simple;
+	bh=Rg5PN2PkV2Um3WGF1tS0FkDKm4Jao3qaAGmi5tBMgY0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jQgZHx3i80Gvvuhiz4dcfJNnzNdiN8DCrwgtrMDkaY1CNE78iLTANLRpR2u4Z+jnxG0Nz88/XcCKC9dvY3cEgY8IqG4CxBSeAH+m3clWDhSnXDCrVvA21t34nvRj9E7Y1Lw39UBTlIjkpAoeelP2KT5aPtDn65LA+qx/Wg39+tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fKZsUSVr; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-45832b2784bso5973201cf.3;
+        Tue, 10 Sep 2024 04:35:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725962375; x=1726567175; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OxZS7VLlvlNcdBPu4dATlqzqCH0SG09iCapcqr1ry4w=;
-        b=gDEaBBBaUoUF56F+rRo9PuyFWwCDXHMu9g8K4zUwzDGwMpXycdSh6VN8oSHKoKmQDX
-         CBycD7ciOZ1IR/0FyHTBJwSQFgwXanXz3ol8xbl5RK83QGEK0N3oWqobPdcp8bRdgAsN
-         zJRHd79Wx0r0r8VkECdsWZb8CG0MTWwIVMwwCsEcAmeXjwPTxuTluhZM7GsBiOTSBwrj
-         GicQeuUF2tjHfHAcuM2wfkPOGx4ZbqH0giOqp7i7zEgqh4hK1Pa1zjBQx5YIUhcLJEEI
-         cCWTNWPXEUubsUXMUR3rMj8TS/LnZJsaKYVFX+QI/MiP7LRzRAcFnOJ6btWsJUUwXo6H
-         JbkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725962375; x=1726567175;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1725968103; x=1726572903; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OxZS7VLlvlNcdBPu4dATlqzqCH0SG09iCapcqr1ry4w=;
-        b=GXCI3af1So2DrhnJ1fJn1bODuQdTJnX1VfS67qD9UEBEOmfA/aFoIjDru+NSifOGWs
-         9UnEJXMNHAo6R6huVSnUten+57vgNwgRbjUACDtCwETbvQjLbq3qqXWO/lI5dma95vS2
-         8UzioZGTs7jjF//rSHTPRRBw3ctrPH55faQ76S7V61/KYbS56FwVKaC2S0qLaixos+y/
-         LjM9jxn72EtGoYjSvtdmrYHDVdhMqDDilXbVfo/ADhY7iAzs2Y9+AadzTxlDdEdaIxte
-         QZb85NqAuNoteHre0SOgB5u7wZPMMhd3kSWpY5DyfmOYKlRLrAp/lAiYevbYU1xqyW8i
-         IH1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWapKb6Wste+7i5DPE6H9C065pBhLPWYKnpOUwpMiCBGTp3gOOJApWBC3MhTMigxDlVajVZZwJWtnrVpg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZ+R/xx8YlpH3Ovga6rtbYoETcWm+KRHssS8aCkcyAzMW/4748
-	X5E/6cPROfB5WeVmUNWXA1rsMbjdCKT7pRVlZCtgj/QButrOuIBTGAkg+34fqqw=
-X-Google-Smtp-Source: AGHT+IEtmAPvqyyaWuRoKy32eCJyGneGNTbPJN2tRd224P8AECPcesi7ike/qTX7P5GRwYiq+pSdJw==
-X-Received: by 2002:a5d:46ca:0:b0:374:c3e4:d6e3 with SMTP id ffacd0b85a97d-378a89fd45fmr1331874f8f.5.1725962375253;
-        Tue, 10 Sep 2024 02:59:35 -0700 (PDT)
-Received: from localhost (p5dc68d3d.dip0.t-ipconnect.de. [93.198.141.61])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3789564a072sm8465192f8f.2.2024.09.10.02.59.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 02:59:34 -0700 (PDT)
-Date: Tue, 10 Sep 2024 11:59:33 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: dmitry.baryshkov@linaro.org, Sebastian Reichel <sre@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Chanwoo Choi <cw00.choi@samsung.com>, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v4 27/28] gcc-sdm845: Add general purpose clock ops
-Message-ID: <uevafpb6r7rfutiqrm5asfvv7zfxcb3acrlxqpispele5er52x@eegonpzqlm7j>
-References: <20240719-starqltechn_integration_upstream-v4-0-a7f644821941@gmail.com>
- <20240719-starqltechn_integration_upstream-v4-27-a7f644821941@gmail.com>
+        bh=m4SZ8rld03euXTwsLUYIcEQpPdlukkUlkqr7Bv4R1+s=;
+        b=fKZsUSVr9i1uLAwuxne4EvRX49jPt3ZAe/ckca/Q07YKfZgQb0dHnqpGwoHQgBGcq6
+         A8cqGgmBCSPbxjVD99mTX4htZk/A8tA3bbkRSxghcdacPsyDeyLJeG/6xIngUuYrBSFj
+         /ex/8oVONFkn0Ot2JHJz2RJOMTAUguxzyatStBKR4Mis7IVwcCPYu19DYU1pgmCzF/5s
+         WOEp/KWPGBM24TkrgDha2xR/wgp/JckF8koH1GpjZq55kYb3dnKvBnVE5KcXZuI1i7Qk
+         VfnEO9UZq45HJrE9QyMe/27et6eGosd3HGp9drUrxfm9nIo9RSyuJSb1n+w4pp51M7ZA
+         1P1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725968103; x=1726572903;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m4SZ8rld03euXTwsLUYIcEQpPdlukkUlkqr7Bv4R1+s=;
+        b=IR0CRGdGdfFpvJJdRSj09nEYKs3llBoDxmzJtCi7J3xnHYc4Kh621rRdOXmjCsSdG+
+         UjuUBlRtUIaXO/E6n+rkrN5mpCcYY4Fhk075/b2Uwn3YmXBKVixKDSHjg8/lTts5nsLm
+         XtAQqInY3dEatxX2I0rkfyo1bnP18UFZorwbMv5KhJ/NUvDI2CkLvMPhpD4D85YYNHYw
+         FxdRAKeIIEBh/qDfn6/jSOE9g8e/p7UZofiDkGHhx457ipxbKNI+pxr+HCAdFVFUWfWA
+         hAU9ksNSKsmBKrf1YTdlKa5hNi+kG5DTuIO0msDNE6nZekRcTSfHUTcnN6Vk3ekO0TT4
+         9P6w==
+X-Forwarded-Encrypted: i=1; AJvYcCW57SMWc7xHzMpgyFRtpy8/v+apEzOLHx8Qtq8Nktbu9CTQ1Lyy6iNJbanoIYyHG4a9ImU62mlsAJFXN2k=@vger.kernel.org, AJvYcCWGZ9eTrAzuUzvd0tDsdyQUwXclLNeelFOsMbQxZhHp6sLQVew/DBakPkWSqi2TJsGvvkv6lIYt2lL3@vger.kernel.org, AJvYcCWgbgToYBHAlcR30vzDcChSES0QYCAOarfbHMeS6eJtUgRQAh96cddglnOJ/s8o1Q0cfrxpJcfIaocdFDnb@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3lreQimU/9tjrS3TyH7RaetMMSYCEJL+gVrUJMYDi8WinAXTw
+	PTA6uC8GsQnb+pyIHFV5hvZkuVopEpGdSLq+0YPpibZlvpLcohqBk4OqFhDKDBLct6Z8uXm3lUj
+	4eC/TrT1Ldr6g+URViWte1hZ5IJY=
+X-Google-Smtp-Source: AGHT+IHWVIW11vGept4eUOpnLCpX6Ts6tf++sRjP2wV6wU9eTwvRnbvwKXwKawRbLo4KHZrBWFC0ZynTgBiV1Om/KXU=
+X-Received: by 2002:a05:622a:6f0f:b0:458:23e5:1342 with SMTP id
+ d75a77b69052e-45823e5172bmr110385861cf.56.1725968102360; Tue, 10 Sep 2024
+ 04:35:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="d2rlzxmgwshy2k4w"
-Content-Disposition: inline
-In-Reply-To: <20240719-starqltechn_integration_upstream-v4-27-a7f644821941@gmail.com>
-
-
---d2rlzxmgwshy2k4w
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240908113027.69471-1-kuzhylol@gmail.com> <dcbpkytpp56vqewjjqagdj7zful7l4kprhc5bjnu656pwgy4bn@3op2dcj6o3e3>
+In-Reply-To: <dcbpkytpp56vqewjjqagdj7zful7l4kprhc5bjnu656pwgy4bn@3op2dcj6o3e3>
+From: Oleh Kuzhylnyi <kuzhylol@gmail.com>
+Date: Tue, 10 Sep 2024 13:34:52 +0200
+Message-ID: <CA+4v9GtB9_fnLXFcSUmpPdiSZOYfZB3OXq=ai6nUuwqmgw3FzA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] dt-bindings: input: touchscreen: add Hynitron CST816X
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Conor Dooley <conor.dooley@microchip.com>, igor.opaniuk@gmail.com, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Jeff LaBundy <jeff@labundy.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
-
-On Fri, Jul 19, 2024 at 03:55:04PM +0300, Dzmitry Sankouski wrote:
-> SDM845 has "General Purpose" clocks that can be muxed to
-> SoC pins to clock various external devices.
-> Those clocks may be used as e.g. PWM sources for external peripherals.
->=20
-> GPCLK can in theory have arbitrary value depending on the use case, so
-> the concept of frequency tables, used in rcg2 clock driver, is not
-> efficient, because it allows only defined frequencies.
->=20
-> Introduce clk_rcg2_gp_ops, which automatically calculate clock
-> mnd values for arbitrary clock rate.
->=20
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> ---
->  drivers/clk/qcom/clk-rcg.h    |   1 +
->  drivers/clk/qcom/clk-rcg2.c   | 162 ++++++++++++++++++++++++++++++++++++=
-++++--
->  drivers/clk/qcom/gcc-sdm845.c |  19 ++---
->  drivers/pwm/pwm-clk.c         |   5 ++
-
-I don't understand why a change to some qcom clk implementation detail
-needs a change to drivers/pwm/pwm-clk.c in the same commit. I guess if
-the change to drivers/pwm/pwm-clk.c is needed it should better go into a
-separate patch with an appropriate commit log?!
-
-Best regards
-Uwe
-
---d2rlzxmgwshy2k4w
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmbgGIIACgkQj4D7WH0S
-/k7x2AgAluuv/f/FtpsMhu/tAKjHUOr1Y+1vUefo+pFCKzhUDjMyHMtIz8by9GsE
-1pZ9fiw/to0h6iyEctQmMN3sqoMqkEwL4aKMYb9WOopkDgY36I7oAWjXs4mio6Ed
-DPguLwTovw/p+OJMmgb/ndu5GNyQCb9AsmjekXGIx4ZVDJPX3pc8v/DX5HQj2y3x
-sCi8NmmXABsckLz42oxrky2ZGcNmFddqBJxJdgjVcXfa5BEetdtLnUhmtmhiKyJy
-g1rWCprL53Lj1ZWKLdQgu6yiNCQK9LS45ETRzHX8idzAODnagfx6by+X58QljgMg
-i72ZlH212j1K035K3UHJar7Lo0D7FQ==
-=xssr
------END PGP SIGNATURE-----
-
---d2rlzxmgwshy2k4w--
+On Mon, Sep 9, 2024 at 8:25=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.org=
+> wrote:
+>
+> On Sun, Sep 08, 2024 at 01:30:26PM +0200, Oleh Kuzhylnyi wrote:
+> > Add documentation for the Hynitron CST816X touchscreen bindings.
+> >
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> > Signed-off-by: Oleh Kuzhylnyi <kuzhylol@gmail.com>
+> > ---
+> >  .../input/touchscreen/hynitron,cst816s.yaml   | 57 +++++++++++++++++++
+> >  1 file changed, 57 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/input/touchscreen=
+/hynitron,cst816s.yaml
+> >
+>
+> I asked to do some minor tweak if new version was going to be send...
+> eh...
+Wow, I just saw that. Thank you for bringing it to my attention.
+>
+> Best regards,
+> Krzysztof
+>
 
