@@ -1,102 +1,130 @@
-Return-Path: <linux-input+bounces-6422-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6423-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87269974647
-	for <lists+linux-input@lfdr.de>; Wed, 11 Sep 2024 01:15:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55381974705
+	for <lists+linux-input@lfdr.de>; Wed, 11 Sep 2024 01:59:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9395DB246BA
-	for <lists+linux-input@lfdr.de>; Tue, 10 Sep 2024 23:15:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D0DB287502
+	for <lists+linux-input@lfdr.de>; Tue, 10 Sep 2024 23:59:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B233E1AC884;
-	Tue, 10 Sep 2024 23:15:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FE941AC456;
+	Tue, 10 Sep 2024 23:51:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N69il8PN"
+	dkim=pass (2048-bit key) header.d=valdikss.org.ru header.i=@valdikss.org.ru header.b="4wfnEEVe"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.valdk.tel (mail.valdk.tel [185.177.150.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454C01AC885;
-	Tue, 10 Sep 2024 23:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FDB1AC434
+	for <linux-input@vger.kernel.org>; Tue, 10 Sep 2024 23:51:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.177.150.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726010107; cv=none; b=D07GtCjKDRvxavMYmSzRYbAacFeABzD8xD97yzpo6C+SiHjmg4LKV4fyDkeaSxcDMEaFfXkfPyoUtAbmFCrrabKd93q6oB4w7geTwXXyxqq9oewmUy2RBMiFrh3f0bHF0+KVGg7U8NHsS732lBM/IDjiZY/ZLCkk9W7dxqLfOWA=
+	t=1726012302; cv=none; b=ba9228p4bdjsz7j/tA1N2bcgRhO64xNzqFNnsVQr9hwoGYAv6cpV76IJpZWf+RnXSlCTGjBTv0bkCmsMdSBMM83VDEhZMk3/eqi7v90R5OQC67O4gYli3CUU9NwkY9NcLwLf2ZLjpooLzYlMI3a+GXTp/bzmYARXks8Xho+k8L0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726010107; c=relaxed/simple;
-	bh=Xz17c8ZNkLG3GzfZKVYYn9Zn/gMfAbV5LfJKpPdbJm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zs3keP0e98JcNrocnG3RVk07o3p98whL/9hQcPuy4214u6QgdFb79b2QWPoC6wxcP1HrL6YRygbzSvBOQwdEb2G/+Quzzxq0S79f7BIWDfxz6nTqcvgDvPxH/VpHMPYpCmAkDB4nLIyIR+smT8wIH7bqTKb76gtVeeehjIRvqso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N69il8PN; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-718da0821cbso3834909b3a.0;
-        Tue, 10 Sep 2024 16:15:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726010105; x=1726614905; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WXRzRZgIvpwyMg3sjBSFT+kmdwWGEUsQ1CH+K9qKY5g=;
-        b=N69il8PNFyCGmJbICSrAQxi9TV125EgAja0UJsC1VGS/n1ndEuGGOVG9s8tp1GAAiH
-         5J6OA6E8NH4kU7J779oJI0RHtlm59S5T1v1mg/89ps7EbnN/2iL9+YVgXmHG/YLGNKUm
-         UZhH8kFugO1ycKGRCRPhmDTCZTf1S+8xYq8w3us6Ql9CG7a75tJ/kx+4+44MCGWUnS0G
-         D0mP3/sYJV/tCqDMBElhgGv3Y/l4q2sWroYFT7xKe+B9UbkZpLK2CmOKWK/PFN4n0Eh4
-         TQMRjHtThxV+u+CQ+Ig0IDZ59NohLe0Cg5EGv5RD4aukUJVaVAX1xbW5LOZZ4EHKTPJt
-         7XlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726010105; x=1726614905;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WXRzRZgIvpwyMg3sjBSFT+kmdwWGEUsQ1CH+K9qKY5g=;
-        b=NcH5yWWcm1MM/D7VRaCfdVYeSX4syzqvAvYoNQjcbJ/9RrB0vLXTkgR2wGRUSdJt0K
-         YwhKjAnm2Rssb0s7fG5P6N0u83USa4DfbjmA9AW0o+Z7xyovzO5orb75d+OnMaKZRNSw
-         LmGG7tYxngeR41zEUstzCtOoFrUFX2v1ZRGigBfjeMDIrctLiR29ppJJOFPo+7fHmfnK
-         KGkq0dbyNw6mKsCFyv0A61eVGcOZibx8v6/ebf18DnKncQWSch7yMtoGF7csodFxHmbf
-         Wbccz+9K7tGWzXNAM9hV6hbM+Q+2lr3jmJBRIO5uwESfRRSbCSCBitBO2FFADsJooTz6
-         IWAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVjIZYNfNndjr0wA+vZ11t5LiiP6cYqsWrxS6QhE9+afN/VC/3cE0TaKV+/zwjIxOc/qOh/mO1FmN4z95I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFgR9PBo/azMUYPC699tgR7yCmcVTmXOjCF954eGOyatzObBQ6
-	7xnfg/eL2y6tcP2qRibwGhxHt1XsuRAmMQTf9xtxD/GhhTOk4ZXVSMTQ6g==
-X-Google-Smtp-Source: AGHT+IGhHvbYEcU+7D3tMQEZzYey8xjtw4xz062I7hRCrsigAz8j6ZoYTvTVjxhjjxNpfm56tIXdsg==
-X-Received: by 2002:a05:6a21:e8e:b0:1cf:2d2f:34fa with SMTP id adf61e73a8af0-1cf5e114c82mr3204273637.25.1726010105126;
-        Tue, 10 Sep 2024 16:15:05 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:7109:d564:e676:61bf])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d823cf3a2esm5277242a12.24.2024.09.10.16.15.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 16:15:04 -0700 (PDT)
-Date: Tue, 10 Sep 2024 16:15:02 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: ims-pcu - fix calling interruptible mutex
-Message-ID: <ZuDS9tfekWgHnFsp@google.com>
-References: <20240910-input-misc-ims-pcu-fix-mutex-intr-v1-1-bdd983685c43@baylibre.com>
+	s=arc-20240116; t=1726012302; c=relaxed/simple;
+	bh=N/yokp+Rr/bEdnxJR7G33/72rb2UJ/5MLXQVIhZsptU=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=fqFqgXO2dvciDH8EJfbhnRdxSbPB+51iRV3qgFMs9BeLRSZdhXFgd21/cAi5Z1DYRQf7W9SOsuZkTlNocUndL0Wy3yl5u2NPe3Bxa+Jplr1usTTQUzcy+vpKcYoVTGRqlT0GYtXH0yrY5xHiTXYJfyElzfYAN/h4sBmjv6v/2NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=valdikss.org.ru; spf=pass smtp.mailfrom=valdikss.org.ru; dkim=pass (2048-bit key) header.d=valdikss.org.ru header.i=@valdikss.org.ru header.b=4wfnEEVe; arc=none smtp.client-ip=185.177.150.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=valdikss.org.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valdikss.org.ru
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BE1611561B6A;
+	Wed, 11 Sep 2024 02:51:33 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valdikss.org.ru;
+	s=msrv; t=1726012294;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
+	bh=FL1gQTxYfsdWTkHrofaQGtP+yEF3vSZGtLbNrGcCbgM=;
+	b=4wfnEEVeWV8Pj4vOJRcGtp0gMHaPH/c5Sh/Rx3tpHhuaNSvY73rIFcULz10ffmiTVrZd6s
+	6/ydzViCVDdmd9iyQYDIra0a0cVqrdXOIktyLjy06rIa2UQSxT1dXjEyzpP/yCFyAvBMZe
+	QrQyjP8QdyPY2sQSv/y9voXKAdNEgbLQyEVnkXe1xgfC8N/OhmNrM8yVaIfLGH8sFZ+r2w
+	STz2psxuBqlVD6BDwXO2mZMYtkXeUNteisNPehGxn3ohEF5azRQStPXq9VWRuCouMUfT2f
+	kXS51fixAB5vz0Crc/uwhQ7SpNukfETU0x95HdbTVWl1Rm5eggJXcp+BTBcdVQ==
+Message-ID: <8359e8a4-c8bb-4ff7-aa70-c1e2d19f93c6@valdikss.org.ru>
+Date: Wed, 11 Sep 2024 02:51:27 +0300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240910-input-misc-ims-pcu-fix-mutex-intr-v1-1-bdd983685c43@baylibre.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: hid-lenovo breaks middle mouse button on tpIIkbd
+From: ValdikSS <iam@valdikss.org.ru>
+To: Harald Welte <laforge@gnumonks.org>
+Cc: linux-input@vger.kernel.org
+References: <Ztwoai8_1L0rJkYp@nataraja>
+ <8e4a1afd-f82c-4262-b05b-ff5a1c18bee6@valdikss.org.ru>
+Content-Language: ru, en-US
+Autocrypt: addr=iam@valdikss.org.ru; keydata=
+ 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
+ OEcVmRU/pw5/zoQyQg==
+In-Reply-To: <8e4a1afd-f82c-4262-b05b-ff5a1c18bee6@valdikss.org.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, Sep 10, 2024 at 04:58:47PM -0500, David Lechner wrote:
-> Fix calling scoped_cond_guard() with mutex instead of mutex_intr.
+On 11.09.2024 01:07, ValdikSS wrote:
+> You found a REGRESSION (and not in hid_lenovo)! Look below.
+ >
+> The keyboard correctly enters native mode only after pairing or full 
+> Bluetooth reloading. Middle button does not work for me if the keyboard 
+> is just disconnected or powered off/on.
 > 
-> scoped_cond_guard(mutex, ...) will call mutex_lock() instead of
-> mutex_lock_interruptible().
-> 
-> Fixes: 703f12672e1f ("Input: ims-pcu - switch to using cleanup functions")
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
+> This seems to be because Bluetooth layer does not disconnect the input 
+> device upon disconnecting Bluetooth, and reconnecting the keyboard just 
+> "resumes" the input device, but does not re-initialize it properly. You 
+> can see that by not-lid left LED indicator (ESC button). It should be 
+> lid by default if initialized properly.
+ >
+> Known good configuration from Fedora 39:
+> kernel 6.5.6
+> bluez 5.69
 
-Applied, thank you.
 
-Too bad it does not warn when incorrect type of guard object is being
-used with scoped_cond_guard()...
-
--- 
-Dmitry
+The regression is caused by bluez:
+https://github.com/bluez/bluez/issues/949
 
