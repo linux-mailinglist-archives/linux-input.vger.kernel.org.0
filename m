@@ -1,159 +1,102 @@
-Return-Path: <linux-input+bounces-6421-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6422-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E0B5974615
-	for <lists+linux-input@lfdr.de>; Wed, 11 Sep 2024 00:41:49 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87269974647
+	for <lists+linux-input@lfdr.de>; Wed, 11 Sep 2024 01:15:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AEF1CB22388
-	for <lists+linux-input@lfdr.de>; Tue, 10 Sep 2024 22:41:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9395DB246BA
+	for <lists+linux-input@lfdr.de>; Tue, 10 Sep 2024 23:15:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 566A71ABEB9;
-	Tue, 10 Sep 2024 22:41:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B233E1AC884;
+	Tue, 10 Sep 2024 23:15:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QfDRIZBm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N69il8PN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C5C1A76BE;
-	Tue, 10 Sep 2024 22:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454C01AC885;
+	Tue, 10 Sep 2024 23:15:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726008100; cv=none; b=WY3GYPZAcCub5Ghlz3pxAr8GWgP3Jm+3c/mjfN7kb0Q7S+d6UH9q71cdziZPP7ZxSQQXUvdFX+o+Y/0kfslEeciNTFQabWqnJVzOsYkIFJh2mEg41/0Svc0ra/0yhn3aZWg0S2ATxQZt8phnlSK2ja0Vn+ash4yoCab3kLeJcuE=
+	t=1726010107; cv=none; b=D07GtCjKDRvxavMYmSzRYbAacFeABzD8xD97yzpo6C+SiHjmg4LKV4fyDkeaSxcDMEaFfXkfPyoUtAbmFCrrabKd93q6oB4w7geTwXXyxqq9oewmUy2RBMiFrh3f0bHF0+KVGg7U8NHsS732lBM/IDjiZY/ZLCkk9W7dxqLfOWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726008100; c=relaxed/simple;
-	bh=bRYRG1YdSSBfG5SOFxpfbV7FJ/3+ErU3mg8gq30DZMA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NFW4QI8uSbOQNzWd2qZxTfscX3+YH3F+cBZb0Rr4IvgMcumiowezXv4KYMI+YYpKjeiSvfmdmSiac/jDxdCbMlSVxYwxZKHbrfyhB7Kvc0WgDUNKz61vfOlFsKYymJxlN7PyXtgJtCgbYP+m4tp/UNIb2avxEHjOz9EoYz72kpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QfDRIZBm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDE67C4CECD;
-	Tue, 10 Sep 2024 22:41:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726008099;
-	bh=bRYRG1YdSSBfG5SOFxpfbV7FJ/3+ErU3mg8gq30DZMA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=QfDRIZBmuKjHgPUwixShEmzzqEtP/ajV/StqF5aue4rlj/ivZ+nRB6TYvNz8KGrel
-	 Xg+cYcDcf2sAox5IUwz1r3tqBDiV+hohlC5mO3XgjKNXJ/KxuxeaNBo9YHAgcKExj0
-	 S1i7RjZy1mv4w+rnPOR1MDMazizG6oeEqZmoqSyd6h9b0clbMhs14abiGuq7rUj8c+
-	 Y0V7k1I/lAC62Vv9aKxgAiMODSESOcjMUrehpjNHVG8vpd2ffSQENB84NmKnmZj73+
-	 QYPcMs8lcQdHgvOxkRoS07ulN7zDq+jMwd2WHBIX1UIFYz6zH1rhe4UmYSag+mgDAL
-	 717L9iA+/1Ctw==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5365aec6fc1so5683082e87.3;
-        Tue, 10 Sep 2024 15:41:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW9h6+8MCXq5iYi9agN8R0kJqg5QZwdFmG3P6qkivOArPK4rrFdBB/5gbi8285vx5k//QemKEsGqNskcscQ@vger.kernel.org, AJvYcCXHthsSlUAG1PeXtpia3KVNlZvYM1Gyexll3ZpWFY87ZFh1BPp1rJcN4AaEi/vKjIpM4qC1q5SrKc/O@vger.kernel.org, AJvYcCXy7bCxOjt+2jpgrJmOwXwSI8pIbUJJmwy2ebIpnpoEIEyrh2ucNW6ST8U7tG8FSUNS8v9ii3d6qQrHfUU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTRic3HnSDiE35oTPV/GA8IYKRLQXB/66UMqp+hJ5spJ+E2r+z
-	0hd8toxWy/7E2kITVY36BhsnBqGjoYFwVadggCeUKBq/hof7GFyfWxPIZpojH4TuHR0Gw9+F2op
-	HYggWUz79bsjNqQUJB+puh0YoNw==
-X-Google-Smtp-Source: AGHT+IHcdk6LalhjtKRQr2LdWIrY818yRhKcp+0lcngVX+pIgcfNBt1PKKR6k7KgToEZ/dmBNiCCV4BsrnjrxC7jUPM=
-X-Received: by 2002:a05:6512:318c:b0:52e:9b4f:dd8c with SMTP id
- 2adb3069b0e04-536587c5fdamr10841069e87.35.1726008098142; Tue, 10 Sep 2024
- 15:41:38 -0700 (PDT)
+	s=arc-20240116; t=1726010107; c=relaxed/simple;
+	bh=Xz17c8ZNkLG3GzfZKVYYn9Zn/gMfAbV5LfJKpPdbJm4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zs3keP0e98JcNrocnG3RVk07o3p98whL/9hQcPuy4214u6QgdFb79b2QWPoC6wxcP1HrL6YRygbzSvBOQwdEb2G/+Quzzxq0S79f7BIWDfxz6nTqcvgDvPxH/VpHMPYpCmAkDB4nLIyIR+smT8wIH7bqTKb76gtVeeehjIRvqso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N69il8PN; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-718da0821cbso3834909b3a.0;
+        Tue, 10 Sep 2024 16:15:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726010105; x=1726614905; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WXRzRZgIvpwyMg3sjBSFT+kmdwWGEUsQ1CH+K9qKY5g=;
+        b=N69il8PNFyCGmJbICSrAQxi9TV125EgAja0UJsC1VGS/n1ndEuGGOVG9s8tp1GAAiH
+         5J6OA6E8NH4kU7J779oJI0RHtlm59S5T1v1mg/89ps7EbnN/2iL9+YVgXmHG/YLGNKUm
+         UZhH8kFugO1ycKGRCRPhmDTCZTf1S+8xYq8w3us6Ql9CG7a75tJ/kx+4+44MCGWUnS0G
+         D0mP3/sYJV/tCqDMBElhgGv3Y/l4q2sWroYFT7xKe+B9UbkZpLK2CmOKWK/PFN4n0Eh4
+         TQMRjHtThxV+u+CQ+Ig0IDZ59NohLe0Cg5EGv5RD4aukUJVaVAX1xbW5LOZZ4EHKTPJt
+         7XlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726010105; x=1726614905;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WXRzRZgIvpwyMg3sjBSFT+kmdwWGEUsQ1CH+K9qKY5g=;
+        b=NcH5yWWcm1MM/D7VRaCfdVYeSX4syzqvAvYoNQjcbJ/9RrB0vLXTkgR2wGRUSdJt0K
+         YwhKjAnm2Rssb0s7fG5P6N0u83USa4DfbjmA9AW0o+Z7xyovzO5orb75d+OnMaKZRNSw
+         LmGG7tYxngeR41zEUstzCtOoFrUFX2v1ZRGigBfjeMDIrctLiR29ppJJOFPo+7fHmfnK
+         KGkq0dbyNw6mKsCFyv0A61eVGcOZibx8v6/ebf18DnKncQWSch7yMtoGF7csodFxHmbf
+         Wbccz+9K7tGWzXNAM9hV6hbM+Q+2lr3jmJBRIO5uwESfRRSbCSCBitBO2FFADsJooTz6
+         IWAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVjIZYNfNndjr0wA+vZ11t5LiiP6cYqsWrxS6QhE9+afN/VC/3cE0TaKV+/zwjIxOc/qOh/mO1FmN4z95I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFgR9PBo/azMUYPC699tgR7yCmcVTmXOjCF954eGOyatzObBQ6
+	7xnfg/eL2y6tcP2qRibwGhxHt1XsuRAmMQTf9xtxD/GhhTOk4ZXVSMTQ6g==
+X-Google-Smtp-Source: AGHT+IGhHvbYEcU+7D3tMQEZzYey8xjtw4xz062I7hRCrsigAz8j6ZoYTvTVjxhjjxNpfm56tIXdsg==
+X-Received: by 2002:a05:6a21:e8e:b0:1cf:2d2f:34fa with SMTP id adf61e73a8af0-1cf5e114c82mr3204273637.25.1726010105126;
+        Tue, 10 Sep 2024 16:15:05 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:7109:d564:e676:61bf])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d823cf3a2esm5277242a12.24.2024.09.10.16.15.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Sep 2024 16:15:04 -0700 (PDT)
+Date: Tue, 10 Sep 2024 16:15:02 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: ims-pcu - fix calling interruptible mutex
+Message-ID: <ZuDS9tfekWgHnFsp@google.com>
+References: <20240910-input-misc-ims-pcu-fix-mutex-intr-v1-1-bdd983685c43@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240814024513.164199-1-charles.goodix@gmail.com>
- <20240814024513.164199-3-charles.goodix@gmail.com> <CAL_Jsq+QfTtRj_JCqXzktQ49H8VUnztVuaBjvvkg3fwEHniUHw@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+QfTtRj_JCqXzktQ49H8VUnztVuaBjvvkg3fwEHniUHw@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 10 Sep 2024 17:41:25 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKUDj6vrWMVVBHrDeXdb3ogsMb3NUbV6OjKR-EhLLZuGg@mail.gmail.com>
-Message-ID: <CAL_JsqKUDj6vrWMVVBHrDeXdb3ogsMb3NUbV6OjKR-EhLLZuGg@mail.gmail.com>
-Subject: Re: [PATCH v7 2/2] dt-bindings: input: Goodix SPI HID Touchscreen
-To: Charles Wang <charles.goodix@gmail.com>
-Cc: dmitry.torokhov@gmail.com, dianders@chromium.org, dan.carpenter@linaro.org, 
-	conor@kernel.org, krzk+dt@kernel.org, jikos@kernel.org, bentiss@kernel.org, 
-	hbarnor@chromium.org, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240910-input-misc-ims-pcu-fix-mutex-intr-v1-1-bdd983685c43@baylibre.com>
 
-On Fri, Sep 6, 2024 at 3:28=E2=80=AFPM Rob Herring <robh@kernel.org> wrote:
->
-> On Tue, Aug 13, 2024 at 9:45=E2=80=AFPM Charles Wang <charles.goodix@gmai=
-l.com> wrote:
-> >
-> > The Goodix GT7986U touch controller report touch data according to the
-> > HID protocol through the SPI bus. However, it is incompatible with
-> > Microsoft's HID-over-SPI protocol.
-> >
-> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> > Signed-off-by: Charles Wang <charles.goodix@gmail.com>
-> > ---
-> >  .../bindings/input/goodix,gt7986u.yaml        | 71 +++++++++++++++++++
-> >  1 file changed, 71 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/input/goodix,gt79=
-86u.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/input/goodix,gt7986u.yam=
-l b/Documentation/devicetree/bindings/input/goodix,gt7986u.yaml
-> > new file mode 100644
-> > index 000000000..a7d42a5d6
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/input/goodix,gt7986u.yaml
-> > @@ -0,0 +1,71 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/input/goodix,gt7986u.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: GOODIX GT7986U SPI HID Touchscreen
-> > +
-> > +maintainers:
-> > +  - Charles Wang <charles.goodix@gmail.com>
-> > +
-> > +description: Supports the Goodix GT7986U touchscreen.
-> > +  This touch controller reports data packaged according to the HID pro=
-tocol,
-> > +  but is incompatible with Microsoft's HID-over-SPI protocol.
-> > +
-> > +allOf:
-> > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - goodix,gt7986u
->
-> This is already documented in goodix,gt7375p.yaml. Now linux-next has war=
-nings:
->
-> /builds/robherring/linux-dt/Documentation/devicetree/bindings/input/goodi=
-x,gt7986u.example.dtb:
-> touchscreen@0: compatible: 'oneOf' conditional failed, one must be
-> fixed:
->         ['goodix,gt7986u'] is too short
->         'goodix,gt7375p' was expected
->         from schema $id:
-> http://devicetree.org/schemas/input/goodix,gt7375p.yaml#
-> /builds/robherring/linux-dt/Documentation/devicetree/bindings/input/goodi=
-x,gt7986u.example.dtb:
-> touchscreen@0: reg:0:0: 0 is not one of [93, 20]
->         from schema $id:
-> http://devicetree.org/schemas/input/goodix,gt7375p.yaml#
-> /builds/robherring/linux-dt/Documentation/devicetree/bindings/input/goodi=
-x,gt7986u.example.dtb:
-> touchscreen@0: 'vdd-supply' is a required property
->         from schema $id:
-> http://devicetree.org/schemas/input/goodix,gt7375p.yaml#
-> /builds/robherring/linux-dt/Documentation/devicetree/bindings/input/goodi=
-x,gt7986u.example.dtb:
-> touchscreen@0: 'goodix,hid-report-addr', 'spi-max-frequency' do not
-> match any of the regexes: 'pinctrl-[0-9]+'
->         from schema $id:
-> http://devicetree.org/schemas/input/goodix,gt7375p.yaml#
->
-> Please sort this out and send a fix.
+On Tue, Sep 10, 2024 at 04:58:47PM -0500, David Lechner wrote:
+> Fix calling scoped_cond_guard() with mutex instead of mutex_intr.
+> 
+> scoped_cond_guard(mutex, ...) will call mutex_lock() instead of
+> mutex_lock_interruptible().
+> 
+> Fixes: 703f12672e1f ("Input: ims-pcu - switch to using cleanup functions")
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
 
-I should add that it is intermittent whether you see this error or
-not. The tools select a single schema based on the compatible string
-and it is undefined which of the 2 schemas you will get.
+Applied, thank you.
 
-Rob
+Too bad it does not warn when incorrect type of guard object is being
+used with scoped_cond_guard()...
+
+-- 
+Dmitry
 
