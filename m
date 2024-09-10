@@ -1,459 +1,173 @@
-Return-Path: <linux-input+bounces-6383-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6384-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B9E973678
-	for <lists+linux-input@lfdr.de>; Tue, 10 Sep 2024 13:52:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FCA9973A38
+	for <lists+linux-input@lfdr.de>; Tue, 10 Sep 2024 16:44:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 31F49286B1E
-	for <lists+linux-input@lfdr.de>; Tue, 10 Sep 2024 11:52:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 811E21F266EF
+	for <lists+linux-input@lfdr.de>; Tue, 10 Sep 2024 14:44:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A61718FDA7;
-	Tue, 10 Sep 2024 11:52:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2313195F3B;
+	Tue, 10 Sep 2024 14:43:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eb0qxZRC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oz1zV4gw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C3E18C932;
-	Tue, 10 Sep 2024 11:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08E119597F;
+	Tue, 10 Sep 2024 14:43:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725969128; cv=none; b=NGkP1mKtPtGK/oZK2Ichx4x+r5UJUMbSgoIooMcikbeZ4au/F8A9onTal0RMuup8WNPT4USpiCJSmnhBtsxdOuMXPUKS5gPHUtApoBm4xQFOtXgB0jogFS/GO1ECcg1wM+KgG6c8jdug5x7nQHtNeRjT739HLfU1zJxyOJ8AtKU=
+	t=1725979430; cv=none; b=VDlK6wFHjxosCTm7BcCCZtM6dVEUNFSGAiUkgJPLYtbKRj/+FW7QGHhrjPziqu/uVzEKRph15L3tq1gs35JlaiTMzig73vQqkbFPfEIVM8/UwgMK5lbJ5xS/2IJkC/nkSnJvrD9jBsOuK63ZDWDnzW3AB4/JhcKcYyLttvXiNCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725969128; c=relaxed/simple;
-	bh=ZpqNG3urr23NEi4OonQDkHHBaoF6QUyS+kFx8zNria4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uOUvKrZkN9lNF+rmXHEM83pvGU86SYKTVWIS0FE/bFcrERdUl81rVOsdBGoUy91e9PsSkXFmEjzX0VL/in1bZ7stPJzmtp8lgPM7DhsDv079uZjGDEbaJeoZrcp2pvaIUZKiiZGB/p+IhJpF2otpCXZ+OP/e5pfgQysWZ0VYBGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eb0qxZRC; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-535dc4ec181so5037701e87.3;
-        Tue, 10 Sep 2024 04:52:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725969124; x=1726573924; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=95W4XCkHfmShfwc692ZJMWzRaVk4yLWxlXFSj911AOY=;
-        b=eb0qxZRCVQ0vmaHnrzcZl7g0CRGitAjMPpP+F//e3Q40si2+B2S0uKA0AvHeBE6zvH
-         ioW+EL1D71Bnqkwy7H0yTjqIStfIXXXSDTxiwx4q2+LiWhzALUuH5GTHBATvyhSdl436
-         J0zflHPGTrSdwuoTuX8qGWc4H+vl4oFhCGwLtPEhI21dWXzB61W5mKBuakEAillDqLdC
-         mKE/GrCG9lZEbRkgTi6YB6uHFZ3i0iDHtHG/OEVmSl1W3UAV/lLV41fFOwYAJfoJeoEj
-         WjsEF9Gu8dYNCvyLqRCxjulZinWttJ2xFEb7RmBOopxCtQEgZ6Zf7f7BduUq5Odu7kQh
-         h8BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725969124; x=1726573924;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=95W4XCkHfmShfwc692ZJMWzRaVk4yLWxlXFSj911AOY=;
-        b=AO7ZcHQiYwkoEquOXPAqfmFHGmkX6EGFL2DZ6CEkPw+zSo48rD/aAF1yvly+1GQ5G+
-         3Oa2NifDCMEEomzprznLXJbXDFIC78xpwncKE14Rabz/Xtm9gWOnuVKNK91rD0zTNeaF
-         Bc7CM0bIa3qtjn2/0DuoF9ocGVgXHJ9n8BtI2iSS2/jjYqByr3vzpmm7FJFmiCQMpv0+
-         zZvj0trql1BDqVb7cDx+UAezqwXSnT8r/4diHIiqDBTRqRD+GY679BpDfHe3rbyy21a1
-         y/YiqJ9hybx6vmqKQ6ZxoMB7K91k1Vjspsz4vH4i945Fg9vWcYnXlI7q94MttPi4g/+t
-         oVWw==
-X-Forwarded-Encrypted: i=1; AJvYcCUKZCxjHN95UtexJf+yxzNvEYfkEIVM70vL6TDm/zMl+ZX9SiRlgZqIA++2tHrFx10fKtbudm48HuzgXUAp@vger.kernel.org, AJvYcCUfbRVHr0DkMy4PLDs2dfMziNewEltB1rxLPM3GDoFn/vNYU28SixYG8cpmz8RnTIpYlP7GUvmHaLVF@vger.kernel.org, AJvYcCXct911qaETLtYt2AGuqbXr0T7TqeQrA2PIrwiXWP+riTP1HgP4brnhbB8opg5KOgxTgBBmlf7qYLAemKs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXmBZnle/lsAFmmpxCQxhA2HJtCdrUwPY8AxTgVshdlUOtBAJ3
-	py4pA+/xTgrfJZSsi7n7LBILjSNEfr5m6MFcp8k/5Qw1R7uA/bRK
-X-Google-Smtp-Source: AGHT+IET1w2zb8wa/Dv5kxxnYAfb7FbTi5pu0cOuW160xg/BNCQjR+F45gQpGfPrWdUzO618hjJtzA==
-X-Received: by 2002:a05:6512:3ba5:b0:533:4785:82a0 with SMTP id 2adb3069b0e04-536587a42eemr8414694e87.2.1725969124096;
-        Tue, 10 Sep 2024 04:52:04 -0700 (PDT)
-Received: from kuzhyl-vm.. (89-64-30-233.dynamic.chello.pl. [89.64.30.233])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5365f870ce0sm1122963e87.116.2024.09.10.04.52.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 04:52:03 -0700 (PDT)
-From: Oleh Kuzhylnyi <kuzhylol@gmail.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Oleh Kuzhylnyi <kuzhylol@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	igor.opaniuk@gmail.com,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jeff LaBundy <jeff@labundy.com>
-Subject: [PATCH v6 2/2] input: add driver for Hynitron CST816X touchscreen
-Date: Tue, 10 Sep 2024 13:51:58 +0200
-Message-Id: <20240910115158.74502-2-kuzhylol@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240910115158.74502-1-kuzhylol@gmail.com>
-References: <20240910115158.74502-1-kuzhylol@gmail.com>
+	s=arc-20240116; t=1725979430; c=relaxed/simple;
+	bh=odqAjkq4xYv9Ptm4wueHT0g6brChF+Ie68WJOCsQGoo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=q+0huvFF1JS+yjcvcKzPKKTrwgeXUzUT5FMCeYESX5Rv59jOPV9G/Gu8a0lem40rRXVf7t4qU/JirH0DuP4KXiNf6aBOrmeCsjSmfQ52xm4guC1pwG2dPVbWl2re6496QM76cmOLWeHIWWJc4A2w9bno2eB6jAFPnZfTjQBNECM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oz1zV4gw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 837C8C4CED0;
+	Tue, 10 Sep 2024 14:43:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725979430;
+	bh=odqAjkq4xYv9Ptm4wueHT0g6brChF+Ie68WJOCsQGoo=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Oz1zV4gwoVCRGURux3DjCviOB4c2AMjh9Bpe46QgaW0QGQcP3v7qPFvaFCUcC5oi2
+	 aAeAqEmRtyUZKIrtEWnw0uB+zuObcIRpqMLSMv9QybT7hI8Q8gDG425XkuC9ERu4WK
+	 VS3xWtpWhz3J6ES6Oaim/nrTLWFDSDxUd7UhTSEjwdamVzMyiQlcCE4nqKvvzOTyhL
+	 qJrFuSL9ia/mR3NoY18gyzAlaRViqnsXRaTPAcBysvzlyZs+V953nrVzj6O8M+rgre
+	 FurwXa2fjs1lfOLWBCT7XRegOLldVv7dl5b0SvnOgKXVABnekSAAuNQVpzJybRN/Uo
+	 ANvsKHonP8DNA==
+From: Benjamin Tissoires <bentiss@kernel.org>
+Subject: [PATCH HID v2 00/11] HID: bpf: add a new hook to control
+ hid-generic
+Date: Tue, 10 Sep 2024 23:43:36 +0900
+Message-Id: <20240910-hid-bpf-hid-generic-v2-0-083dfc189e97@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABhb4GYC/22NvQ7CMBCDX6W6maAk9AphYmCAZ0Ad+nNtT6CkS
+ lAEqvLuRJmZLNvy5w0CeaYA52oDT5EDO5uN3lUwLJ2dSfCYPWipa3nSRiw8in6dis5k83oQjcK
+ jmbBHUyPk5epp4k+hPuB2v0Kbw4XD2/lveYqqVAVq5OEvNCohhUGlOmyw12N3eZK39No7P0ObU
+ voB1uJqprwAAAA=
+To: Jiri Kosina <jikos@kernel.org>, 
+ Peter Hutterer <peter.hutterer@who-t.net>, Vicki Pfau <vi@endrift.com>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+ Benjamin Tissoires <bentiss@kernel.org>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1725979428; l=4808;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=odqAjkq4xYv9Ptm4wueHT0g6brChF+Ie68WJOCsQGoo=;
+ b=ilZMdUQr/msKvr6WZIKCbO+MMux0RDMSI65MfDhc/W39o4TFUOBumbo8zel1CCZRkshyURXkb
+ /RvKMEg+kqJAIGqgBzg99uOj3ykafzzRB1qxPtCW8Lxksn976mmzSku
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-Introduce support for the Hynitron CST816X touchscreen controller
-used for 240×240 1.28-inch Round LCD Display Module manufactured
-by Waveshare Electronics. The driver is designed based on an Arduino
-implementation marked as under MIT License. This driver is written
-for a particular round display based on the CST816S controller, which
-is not compatiable with existing driver for Hynitron controllers.
+This is a slight change from the fundamentals of HID-BPF.
+In theory, HID-BPF is abstract to the kernel itself, and makes
+only changes at the HID level (through report descriptors or
+events emitted to/from the device).
 
-Signed-off-by: Oleh Kuzhylnyi <kuzhylol@gmail.com>
+However, we have seen a few use cases where HID-BPF might interact with
+the running kernel when the target device is already handled by a
+specific device.
+
+For example, the XP-Pen/Huion/UC-Logic tablets are handled by
+hid-uclogic but this driver is also doing a report descriptor fixup
+without checking if the device has already been fixed by HID-BPF.
+
+In the same way, another recent example[0] was when a cheap foot pedal is
+used and tricks iPhones and Windows machines by presenting itself as a
+known Apple wireless keyboard. The problem is that this fake keyboard is
+not presenting a compatible report descriptor and hid-core merges all
+device nodes together making libinput ignore the keyboard part for
+historical reasons.
+
+Last, there has been a long standing request to allow to disable the
+input part of a given gamepad while SDL or Steam opens the device
+through hidraw.
+
+This series aims at tackling both of these problems:
+- first we had a new hook `hid_bpf_driver_probe` which allows the BPF
+  program to decide if the curently probed driver should be used or not
+- then this same hook can also change the ->driver_data of the struct
+  hid_device_id argument, and we teach hid-generic to use that field as
+  the connect mask.
+
+Basically, it means that when we insert a BPF program to fix a device,
+we can force hid-generic to handle the device, and thus preventing
+any other kernel driver to tamper with our device. We can also
+selectively decide to export the hidraw or input nodes when using
+hid-generic.
+
+In the SDL/Steam use case, this would means that the gaming application
+will load one BPF program per input device it wants to open through
+hidraw, that BPF program reassigns the input device to hid-generic and
+disables hid-input, then it can open the new hidraw node.
+Once that program terminates, the BPF program is removed (either
+automatically because no-one has the fd of the links open, or manually
+by SDL/Steam), and the normal driver rebinds to the HID device,
+restoring full input functionality.
+
+This branch is on top of the for-6.12/hidraw and for-6.12/constify-rdesc
+branches of hid.git, mainly because those branch would conflict otherwise.
+
+[0] https://gitlab.freedesktop.org/libinput/libinput/-/issues/1014
+
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
 ---
-
-Changes in v6:
- - No code changes
-
-Changes in v5:
- - Update commit based on Dmitry's feedback:
- - Make GPIO reset optional
- - Combine declaration and initialization for i2c_xfer
- - Return 0 explicitly where possible
- - Rename rc (return code) to error
- - Make Touch processing call return boolean
- - Improve error handling for i2c_transfer
- - Use get_unaligned_be16 for getting coordinates
- - Move touch event completeness upper to irq callback
-
-Changes in v4:
- - Update commit based on Dmitry's feedback:
- - Move abs_x and abs_y to u16
- - Remove __packed qualifier for touch_info struct
- - Hide tiny touch irq context to stack
- - Extend cst816x_i2c_read_register() with buf and buf_size
- - Remove loop from event lookup
-
-Changes in v3:
- - Drop timer and delayed work
- - Process touch in threaded IRQ context
- - Fix chip reset sequence
- - Move input_register() before devm_request_threaded_irq()
- - Re-arrange and document input reporting
- - Set u16 data type for event_code
- - Remove double tap event to prevent continuous double side sliding
-
 Changes in v2:
- - Apply dev_err_probe() for better error handling
- - Remove redundant printing, remove dev_warn() message spamming
- - Get rid of PM since the touchscreen goes into sleep mode automatically
- - Get rid of IRQ control and IRQF_NO_AUTOEN flag
- - Reduce timer timeout up to 10ms to handle touch events faster
- - Skip registering of non-gesture CST816X_SWIPE event
- - Shift input_register_device() as a final call in probe() callback
- - Specify name of i2c_device_id explicitly
- - Update module description and fix typo
- - Add necessary spaces between lines
- drivers/input/touchscreen/Kconfig            |  12 +
- drivers/input/touchscreen/Makefile           |   1 +
- drivers/input/touchscreen/hynitron-cst816x.c | 259 +++++++++++++++++++
- 3 files changed, 272 insertions(+)
- create mode 100644 drivers/input/touchscreen/hynitron-cst816x.c
+- Refactored the API to not use a new hook but hid_bpf_rdesc_fixup
+  instead
+- Some cleanups in hid-core.c probe() device to not kmemdup multiple
+  time the report descriptor when it's not required
+- I'm still not 100% sure the HID_QUIRK_IGNORE_HIDINPUT is that
+  required, but I can not think of anything else at the moment to
+  temporary disable any driver input device.
+- Link to v1: https://lore.kernel.org/r/20240903-hid-bpf-hid-generic-v1-0-9511a565b2da@kernel.org
 
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index c821fe3ee794..02f40d0fbac0 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -481,6 +481,18 @@ config TOUCHSCREEN_HYNITRON_CSTXXX
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called hynitron-cstxxx.
- 
-+config TOUCHSCREEN_HYNITRON_CST816X
-+	tristate "Hynitron CST816X touchscreen support"
-+	depends on I2C
-+	help
-+	  Say Y here if you have a touchscreen using a Hynitron
-+	  CST816X touchscreen controller.
-+
-+	  If unsure, say N.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called hynitron-cst816x.
-+
- config TOUCHSCREEN_ILI210X
- 	tristate "Ilitek ILI210X based touchscreen"
- 	depends on I2C
-diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-index a81cb5aa21a5..a92a87417a97 100644
---- a/drivers/input/touchscreen/Makefile
-+++ b/drivers/input/touchscreen/Makefile
-@@ -51,6 +51,7 @@ obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_CORE)	+= goodix_berlin_core.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_I2C)	+= goodix_berlin_i2c.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_SPI)	+= goodix_berlin_spi.o
- obj-$(CONFIG_TOUCHSCREEN_HIDEEP)	+= hideep.o
-+obj-$(CONFIG_TOUCHSCREEN_HYNITRON_CST816X)	+= hynitron-cst816x.o
- obj-$(CONFIG_TOUCHSCREEN_HYNITRON_CSTXXX)	+= hynitron_cstxxx.o
- obj-$(CONFIG_TOUCHSCREEN_ILI210X)	+= ili210x.o
- obj-$(CONFIG_TOUCHSCREEN_ILITEK)	+= ilitek_ts_i2c.o
-diff --git a/drivers/input/touchscreen/hynitron-cst816x.c b/drivers/input/touchscreen/hynitron-cst816x.c
-new file mode 100644
-index 000000000000..3886617e6a71
---- /dev/null
-+++ b/drivers/input/touchscreen/hynitron-cst816x.c
-@@ -0,0 +1,259 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Driver for I2C connected Hynitron CST816X Touchscreen
-+ *
-+ * Copyright (C) 2024 Oleh Kuzhylnyi <kuzhylol@gmail.com>
-+ */
-+#include <asm/unaligned.h>
-+#include <linux/delay.h>
-+#include <linux/err.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/input.h>
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+
-+enum cst816x_registers {
-+	CST816X_FRAME = 0x01,
-+	CST816X_MOTION = 0xEC,
-+};
-+
-+enum cst816x_gestures {
-+	CST816X_SWIPE_UP = 0x01,
-+	CST816X_SWIPE_DOWN = 0x02,
-+	CST816X_SWIPE_LEFT = 0x03,
-+	CST816X_SWIPE_RIGHT = 0x04,
-+	CST816X_SINGLE_TAP = 0x05,
-+	CST816X_LONG_PRESS = 0x0C,
-+	CST816X_RESERVED = 0xFF,
-+};
-+
-+struct cst816x_touch_info {
-+	u8 gesture;
-+	u8 touch;
-+	u16 abs_x;
-+	u16 abs_y;
-+};
-+
-+struct cst816x_priv {
-+	struct device *dev;
-+	struct i2c_client *client;
-+	struct gpio_desc *reset;
-+	struct input_dev *input;
-+};
-+
-+struct cst816x_event_mapping {
-+	enum cst816x_gestures gesture;
-+	u16 code;
-+};
-+
-+static const struct cst816x_event_mapping event_map[16] = {
-+	{CST816X_SWIPE_UP, BTN_FORWARD},
-+	{CST816X_SWIPE_DOWN, BTN_BACK},
-+	{CST816X_SWIPE_LEFT, BTN_LEFT},
-+	{CST816X_SWIPE_RIGHT, BTN_RIGHT},
-+	{CST816X_SINGLE_TAP, BTN_TOUCH},
-+	{CST816X_LONG_PRESS, BTN_TOOL_TRIPLETAP},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+};
-+
-+static int cst816x_i2c_read_register(struct cst816x_priv *priv, u8 reg,
-+				     void *buf, size_t len)
-+{
-+	int rc;
-+	struct i2c_msg xfer[] = {
-+		{
-+			.addr = priv->client->addr,
-+			.flags = 0,
-+			.buf = &reg,
-+			.len = sizeof(reg),
-+		},
-+		{
-+			.addr = priv->client->addr,
-+			.flags = I2C_M_RD,
-+			.buf = buf,
-+			.len = len,
-+		},
-+	};
-+
-+	rc = i2c_transfer(priv->client->adapter, xfer, ARRAY_SIZE(xfer));
-+	if (rc != ARRAY_SIZE(xfer)) {
-+		rc = rc < 0 ? rc : -EIO;
-+		dev_err(&priv->client->dev, "i2c rx err: %d\n", rc);
-+		return rc;
-+	}
-+
-+	return 0;
-+}
-+
-+static bool cst816x_process_touch(struct cst816x_priv *priv,
-+				  struct cst816x_touch_info *info)
-+{
-+	u8 raw[8];
-+
-+	if (cst816x_i2c_read_register(priv, CST816X_FRAME, raw, sizeof(raw)))
-+		return false;
-+
-+	info->gesture = raw[0];
-+	info->touch = raw[1];
-+	info->abs_x = get_unaligned_be16(&raw[2]) & GENMASK(11, 0);
-+	info->abs_y = get_unaligned_be16(&raw[4]) & GENMASK(11, 0);
-+
-+	dev_dbg(priv->dev, "x: %d, y: %d, t: %d, g: 0x%x\n", info->abs_x,
-+		info->abs_y, info->touch, info->gesture);
-+
-+	return true;
-+}
-+
-+static int cst816x_register_input(struct cst816x_priv *priv)
-+{
-+	priv->input = devm_input_allocate_device(priv->dev);
-+	if (!priv->input)
-+		return -ENOMEM;
-+
-+	priv->input->name = "Hynitron CST816X Touchscreen";
-+	priv->input->phys = "input/ts";
-+	priv->input->id.bustype = BUS_I2C;
-+	input_set_drvdata(priv->input, priv);
-+
-+	for (unsigned int i = 0; i < ARRAY_SIZE(event_map); i++)
-+		input_set_capability(priv->input, EV_KEY, event_map[i].code);
-+
-+	input_set_abs_params(priv->input, ABS_X, 0, 240, 0, 0);
-+	input_set_abs_params(priv->input, ABS_Y, 0, 240, 0, 0);
-+
-+	return input_register_device(priv->input);
-+}
-+
-+static void cst816x_reset(struct cst816x_priv *priv)
-+{
-+	if (priv->reset) {
-+		gpiod_set_value_cansleep(priv->reset, 1);
-+		msleep(50);
-+		gpiod_set_value_cansleep(priv->reset, 0);
-+		msleep(100);
-+	}
-+}
-+
-+static void report_gesture_event(const struct cst816x_priv *priv,
-+				 enum cst816x_gestures gesture, bool touch)
-+{
-+	u16 key = event_map[gesture & 0x0F].code;
-+
-+	if (key != KEY_RESERVED)
-+		input_report_key(priv->input, key, touch);
-+}
-+
-+/*
-+ * Supports five gestures: TOUCH, LEFT, RIGHT, FORWARD, BACK, and LONG_PRESS.
-+ * Reports surface interaction, sliding coordinates and finger detachment.
-+ *
-+ * 1. TOUCH Gesture Scenario:
-+ *
-+ * [x/y] [touch] [gesture] [Action] [Report ABS] [Report Key]
-+ *  x y   true    0x00      Touch    ABS_X_Y      BTN_TOUCH
-+ *  x y   true    0x00      Slide    ABS_X_Y
-+ *  x y   false   0x05      Gesture               BTN_TOUCH
-+ *
-+ * 2. LEFT, RIGHT, FORWARD, BACK, and LONG_PRESS Gestures Scenario:
-+ *
-+ * [x/y] [touch] [gesture] [Action] [Report ABS] [Report Key]
-+ *  x y   true    0x00      Touch    ABS_X_Y      BTN_TOUCH
-+ *  x y   true    0x01      Gesture  ABS_X_Y      BTN_FORWARD
-+ *  x y   true    0x01      Slide    ABS_X_Y
-+ *  x y   false   0x01      Detach                BTN_FORWARD | BTN_TOUCH
-+ */
-+static irqreturn_t cst816x_irq_cb(int irq, void *cookie)
-+{
-+	struct cst816x_priv *priv = cookie;
-+	struct cst816x_touch_info info;
-+
-+	if (!cst816x_process_touch(priv, &info))
-+		goto out;
-+
-+	if (info.touch) {
-+		input_report_abs(priv->input, ABS_X, info.abs_x);
-+		input_report_abs(priv->input, ABS_Y, info.abs_y);
-+		input_report_key(priv->input, BTN_TOUCH, 1);
-+	}
-+
-+	if (info.gesture) {
-+		report_gesture_event(priv, info.gesture, info.touch);
-+
-+		if (!info.touch)
-+			input_report_key(priv->input, BTN_TOUCH, 0);
-+	}
-+
-+	input_sync(priv->input);
-+
-+out:
-+	return IRQ_HANDLED;
-+}
-+
-+static int cst816x_probe(struct i2c_client *client)
-+{
-+	struct cst816x_priv *priv;
-+	struct device *dev = &client->dev;
-+	int error;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->dev = dev;
-+	priv->client = client;
-+
-+	priv->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(priv->reset))
-+		return dev_err_probe(dev, PTR_ERR(priv->reset),
-+				     "reset gpio not found\n");
-+
-+	cst816x_reset(priv);
-+
-+	error = cst816x_register_input(priv);
-+	if (error)
-+		return dev_err_probe(dev, error, "input register failed\n");
-+
-+	error = devm_request_threaded_irq(dev, client->irq, NULL, cst816x_irq_cb,
-+				       IRQF_ONESHOT, dev->driver->name, priv);
-+	if (error)
-+		return dev_err_probe(dev, error, "irq request failed\n");
-+
-+	return 0;
-+}
-+
-+static const struct i2c_device_id cst816x_id[] = {
-+	{ .name = "cst816s", 0 },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, cst816x_id);
-+
-+static const struct of_device_id cst816x_of_match[] = {
-+	{ .compatible = "hynitron,cst816s", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, cst816x_of_match);
-+
-+static struct i2c_driver cst816x_driver = {
-+	.driver = {
-+		.name = "cst816x",
-+		.of_match_table = cst816x_of_match,
-+	},
-+	.id_table = cst816x_id,
-+	.probe = cst816x_probe,
-+};
-+
-+module_i2c_driver(cst816x_driver);
-+
-+MODULE_AUTHOR("Oleh Kuzhylnyi <kuzhylol@gmail.com>");
-+MODULE_DESCRIPTION("Hynitron CST816X Touchscreen Driver");
-+MODULE_LICENSE("GPL");
+---
+Benjamin Tissoires (11):
+      HID: bpf: move HID-BPF report descriptor fixup earlier
+      HID: core: save one kmemdup during .probe()
+      HID: core: remove one more kmemdup on .probe()
+      HID: bpf: allow write access to quirks field in struct hid_device
+      selftests/hid: add dependency on hid_common.h
+      selftests/hid: cleanup C tests by adding a common struct uhid_device
+      selftests/hid: allow to parametrize bus/vid/pid/rdesc on the test device
+      HID: add per device quirk to force bind to hid-generic
+      selftests/hid: add test for assigning a given device to hid-generic
+      HID: add quirk to prevent hid-input to be used
+      selftests/hid: add test to disable hid-input
+
+ drivers/hid/bpf/hid_bpf_dispatch.c                 |   8 +-
+ drivers/hid/bpf/hid_bpf_struct_ops.c               |   1 +
+ drivers/hid/hid-core.c                             |  72 ++++++--
+ drivers/hid/hid-generic.c                          |   3 +
+ include/linux/hid.h                                |  22 ++-
+ include/linux/hid_bpf.h                            |   9 +-
+ tools/testing/selftests/hid/Makefile               |   2 +-
+ tools/testing/selftests/hid/hid_bpf.c              | 205 ++++++++++++++++-----
+ tools/testing/selftests/hid/hid_common.h           | 112 +++++++----
+ tools/testing/selftests/hid/hidraw.c               |  36 +---
+ tools/testing/selftests/hid/progs/hid.c            |  13 ++
+ .../testing/selftests/hid/progs/hid_bpf_helpers.h  |   7 +-
+ 12 files changed, 343 insertions(+), 147 deletions(-)
+---
+base-commit: e1370d5de7b755600df050979e19fbcd625fb4c6
+change-id: 20240829-hid-bpf-hid-generic-61579f5b5945
+
+Best regards,
 -- 
-2.34.1
+Benjamin Tissoires <bentiss@kernel.org>
 
 
