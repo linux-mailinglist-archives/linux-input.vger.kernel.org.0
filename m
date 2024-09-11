@@ -1,57 +1,66 @@
-Return-Path: <linux-input+bounces-6426-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6427-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E49C9751CB
-	for <lists+linux-input@lfdr.de>; Wed, 11 Sep 2024 14:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBC29751E5
+	for <lists+linux-input@lfdr.de>; Wed, 11 Sep 2024 14:21:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 049581F23BF7
-	for <lists+linux-input@lfdr.de>; Wed, 11 Sep 2024 12:19:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 708911F216B6
+	for <lists+linux-input@lfdr.de>; Wed, 11 Sep 2024 12:21:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54B901922CA;
-	Wed, 11 Sep 2024 12:18:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C553176FD2;
+	Wed, 11 Sep 2024 12:21:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RHjUVeCc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OxWCdQr2"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC8A1885B8;
-	Wed, 11 Sep 2024 12:18:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E25142E9D;
+	Wed, 11 Sep 2024 12:21:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726057133; cv=none; b=dIGx1qwAO9B6lIJab+wjEt7Wj1Y4kIy4+BBhQsXV+q1oOX7h0WmwX+MdormU5rKVFSYmH88uGllIkJgGN0j5oHYmmtsTy6X/FWAb4wcJORj5njLqEkKgdDGhHiGnGd3XbvE4Vlkp673mS61YbQlf+Xl56iy4P9f2aq1D9aGx9hI=
+	t=1726057287; cv=none; b=pa6tHqpSMTswA89WmNS3CyNIuEEDR8DV8HGbmsDFLshNPRtvKwN09NgvJHx612jaPtVVHPZrLKiC6VWhjk6ypEijAb3rgNZzulNq54OXjEpnq3vvKCTylQMhrRqUXFi179LQ8dYEFxhbnq9JGLkidaEh8R7MjWNbZ6CmEtU+cio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726057133; c=relaxed/simple;
-	bh=2Gd4IyOlJRLGKPqYuFtiJOzroEND9FKTMoC/fAjNs10=;
+	s=arc-20240116; t=1726057287; c=relaxed/simple;
+	bh=zkDvPHD9waoczVeuUBXDcIZtXJB7vVQr6OpezhAsA7M=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=VlB4R1kagXv8ti4/nvF885bhXJtAB6x9mzbfSYPHFClJqwVbHiR96UDn0OJb8zko2zbPL5VUJbtA7ckFos2acgxBnK8qK3cvGz50u44hEA3Ohz1pi9Dd5EaPLOKTsvSMOLiTFTj00r30iJsRtKXX1QmWdtDPXcwNngokiYWhi5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RHjUVeCc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B3B5C4CEC5;
-	Wed, 11 Sep 2024 12:18:52 +0000 (UTC)
+	 MIME-Version:Content-Type; b=kYXKVSn0rhbMdk1XCEdGlFIg4Rb/uCrsH66jVr6qTlfZAIbVh1oxszD3lPZvSGMf55Nnp3tJ/VVFnjofL3u4zcYiYtjHUD9Ks00AgRcXSh0XXAMNICGfTJ1aIhRYGHzbNa6qsyXlY3AKLrELlXCtuRtsR2wAqaeaIWCaYs8waPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OxWCdQr2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CE63C4CEC5;
+	Wed, 11 Sep 2024 12:21:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726057132;
-	bh=2Gd4IyOlJRLGKPqYuFtiJOzroEND9FKTMoC/fAjNs10=;
+	s=k20201202; t=1726057286;
+	bh=zkDvPHD9waoczVeuUBXDcIZtXJB7vVQr6OpezhAsA7M=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=RHjUVeCcSWR8KI+jzQfY6KRKbhenKgJMkSLASfMem5nZjbvjoZ7ptQ7OQQO/+CIsj
-	 zvHdbUcMp5HK+F3scynrmiyLTpPAfZAKdYXdWrvXKKaapHtlVEx2TzhqbZSpzKj7G+
-	 qXl6khXqyKD8ZYMfQ0oIt5SU68r7gzPkGBkPRVzzrfJiYidsNTaxhO5lXQXkPVSgEi
-	 TqNY5xMhUUhS1qIQXk1GH+UFb176Ky4U0+WJ2HneJtiPw8k+WIDDamaRQ8UZ245q4S
-	 gHxMAQK3wuLXBoZK1sc9q08nH3qrLFyqytjjeffMlb2WwDOriGCwKRpHbcLgPTqgLa
-	 IuMBFSLOOfmyQ==
-Date: Wed, 11 Sep 2024 14:18:50 +0200 (CEST)
+	b=OxWCdQr2Nm0/vPl2R1022IHDtP+rFkNsshVwj02hnbRH/pNEpV6Cc/TPmmT3kFB/D
+	 geRxpdp8cdVcFGXXGtixEaeD7RJHJjdhKakYPTnyOB2Cj5psLwbdq/c0wbT/3Inu2U
+	 bwZxhOZJL0KG9Fau8G/Wi3Il+NUoTgQe7vaP/+xNyQPU8Ivx4ars0WY44WSVmbs/38
+	 weCeT1zVccLLJSgUIW3fQbaWsVaeUprOJJQ6a0uHZ9CONHfhwLTsajOy8ujfA8UOuh
+	 cQzCth31qOT0Xs079KjOFEdTp529LUBIM0ooRVd3GHa7gPmNYJ9/qjh83A3SjgpIKP
+	 2C7Bxp3rF1K9Q==
+Date: Wed, 11 Sep 2024 14:21:24 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Vishnu Sankar <vishnuocv@gmail.com>
-cc: bentiss@kernel.org, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, mpearson-lenovo@squebb.ca, 
-    vsankar@lenovo.com
-Subject: Re: [PATCH] Adding Support for Thinkpad X12 Gen 2 Kbd Portfolio with
- 0x61AE as PID
-In-Reply-To: <CABxCQKtfFttYVpfZE0jsjt=xgO4EJ0vNeb4Wf-==xOr3XnKnxQ@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2409111418330.31206@cbobk.fhfr.pm>
-References: <20240818072729.33511-1-vishnuocv@gmail.com> <CABxCQKtfFttYVpfZE0jsjt=xgO4EJ0vNeb4Wf-==xOr3XnKnxQ@mail.gmail.com>
+To: Aditya Garg <gargaditya08@live.com>
+cc: "tzimmermann@suse.de" <tzimmermann@suse.de>, 
+    "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
+    "mripard@kernel.org" <mripard@kernel.org>, 
+    "airlied@gmail.com" <airlied@gmail.com>, 
+    "daniel@ffwll.ch" <daniel@ffwll.ch>, 
+    "bentiss@kernel.org" <bentiss@kernel.org>, 
+    =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <thomas@t-8ch.de>, 
+    Orlando Chamberlain <orlandoch.dev@gmail.com>, 
+    Kerem Karabay <kekrby@gmail.com>, 
+    Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+    "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, 
+    "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+    "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
+Subject: Re: [PATCH v5 0/10] Touch Bar support for T2 Macs
+In-Reply-To: <MA0P287MB02176175318B96135BE3E320B8902@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
+Message-ID: <nycvar.YFH.7.76.2409111420040.31206@cbobk.fhfr.pm>
+References: <DD9C41AD-6543-47CE-8504-69E4992229B2@live.com> <MA0P287MB02176175318B96135BE3E320B8902@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -61,13 +70,20 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Tue, 10 Sep 2024, Vishnu Sankar wrote:
+On Sat, 31 Aug 2024, Aditya Garg wrote:
 
-> Do we have any feedback or comments about this patch?
+> Hi Maintainers
+> 
+> It has been 2 weeks but I still haven't received a single reply on this 
+> version of the patch series. Consider this email as a friendly reminder.
 
-Sorry, this slipped in between cracks.
+I think it makes most sense to take this whole set through hid.git, but 
+for that, I'd like to get Acked-by/Reviewed-by for patches 9 and 10 (drm 
+bits).
 
-Now applied, thanks.
+Dave, Daniel, .. ?
+
+Thanks,
 
 -- 
 Jiri Kosina
