@@ -1,152 +1,100 @@
-Return-Path: <linux-input+bounces-6488-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6489-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1E4977969
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 09:19:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 446A39779C9
+	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 09:37:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4DB1A284934
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 07:19:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CE36DB25CC4
+	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 07:37:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA72C1BA86F;
-	Fri, 13 Sep 2024 07:19:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="imibRC3f"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 342AB1BC089;
+	Fri, 13 Sep 2024 07:37:29 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A6731B9822;
-	Fri, 13 Sep 2024 07:19:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5116E77107;
+	Fri, 13 Sep 2024 07:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726211975; cv=none; b=bzcoeg/Wzw3ECLzXnsSmAjvjFMp+bY9BZdFVL2moh8j6PgAzoI5pIvBVC302IwsZkQYJJ688+hofWb+xUUY8fKnGNtDuImuUPNTxSNEUu2/g/wKFd/xINt1fvowkoztCxmYAkmrFzndbaTDdhsS+Ct7U2yQNEJi/jdSwPxBjjhM=
+	t=1726213049; cv=none; b=MmEM3KL3ay0LFUtK6OfiT1gUBHqVycQ83qLaV3Jqs1PWeLE7qk58HEiRpdJ3aP7WHmGxW9feqTkrMFttZF05QSN+tdWpWFfVdh6+7cgrYch0y85C993VSUjiOpe+lfX0ybdk6Rh2CszbwubnseXwW6Y+pjYw5rqrWe2cKT+B5uE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726211975; c=relaxed/simple;
-	bh=Fqm5j5PqqykRHz2N46Qm0vMp5IoVJm/4hc1kAcp4CnI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XpOA5w0QMcqdI3RxEiBjOL0k4G4oDLeNKwu0iAQNDo8yrHWt6nSFzBc8xoo7yBdwgF5/ahZzMzV+0qQGwb3mGS0UazPZMgyR66/0b/u5HPlJg0rghsaVmWUyyuTDZ0yA6OF8HR7sZG1tI6qanZy/KMqV1hnk1o6eiUj9SmWYLbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=imibRC3f; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from [100.79.224.211] (unknown [4.194.122.170])
-	by linux.microsoft.com (Postfix) with ESMTPSA id A8C8020BE570;
-	Fri, 13 Sep 2024 00:19:30 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A8C8020BE570
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1726211973;
-	bh=FCp9C1OMLBEJyfEFicP99zjs2mgecvyy+xP/KU9OG8E=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=imibRC3frCTJ9zv/vE1JZvnbjZKWo+rZq52QVyLqrUgly/fraCylcM0EDt7wnVN8j
-	 pLFai2TO6psw+pKbNeCJhW8JB29eoO5grWJ1chy8laysKzIgdq7NnngWiF5edljDb+
-	 fgf4xdxcB19IfO+bkcCXPfFzcgMLAH3/DmeNNb6Y=
-Message-ID: <b480a355-dbfa-4422-ad3c-65ec931a3ba0@linux.microsoft.com>
-Date: Fri, 13 Sep 2024 12:49:27 +0530
+	s=arc-20240116; t=1726213049; c=relaxed/simple;
+	bh=ygXM6bE7jasdjGQ6vo8Hfb3kcdQ8JlLfufUUYvobN1M=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GT7Mc+Ngf9ath/kIHKbx2ZhZ+kL1XZbumEzgJRiXBml7RkYykRaCGeZRwnRDjmGWZi53qpYUN2l4QH4bdLxP6iNGcVc/ULDmy9Tu0VJ2g/2qhLVENOjj5g9q6/AvdHP/Kim66/ZQquuuq5yu/XamQlZxm+83C0P3EVpfZS4Q85E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4X4mNW3b5gz20nsT;
+	Fri, 13 Sep 2024 15:37:15 +0800 (CST)
+Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7E301140134;
+	Fri, 13 Sep 2024 15:37:23 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
+ (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 13 Sep
+ 2024 15:37:22 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <jikos@kernel.org>, <bentiss@kernel.org>, <linux-input@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH -next] hid: cp2112: Use irq_get_trigger_type() helper
+Date: Fri, 13 Sep 2024 15:46:32 +0800
+Message-ID: <20240913074632.3779321-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] Drivers: hv: vmbus: Disable Suspend-to-Idle for VMBus
-To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>, kys@microsoft.com,
- haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- jikos@kernel.org, bentiss@kernel.org, dmitry.torokhov@gmail.com,
- linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: ernis@microsoft.com, Saurabh Sengar <ssengar@linux.microsoft.com>
-References: <1726176470-13133-1-git-send-email-ernis@linux.microsoft.com>
- <1726176470-13133-2-git-send-email-ernis@linux.microsoft.com>
-Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <1726176470-13133-2-git-send-email-ernis@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemh500013.china.huawei.com (7.202.181.146)
 
+Use irq_get_trigger_type() to replace irq_get_irq_data() and then
+irqd_get_trigger_type(), if the irq data is NULL it will return 0.
 
+No functional changed.
 
-On 9/13/2024 2:57 AM, Erni Sri Satya Vennela wrote:
-> If the Virtual Machine Connection window is focused,
-> a Hyper-V VM user can unintentionally touch the keyboard/mouse
-> when the VM is hibernating or resuming, and consequently the
-> hibernation or resume operation can be aborted unexpectedly.
-> Fix the issue by no longer registering the keyboard/mouse as
-> wakeup devices (see the other two patches for the
-> changes to drivers/input/serio/hyperv-keyboard.c and
-> drivers/hid/hid-hyperv.c).
-> 
-> The keyboard/mouse were registered as wakeup devices because the
-> VM needs to be woken up from the Suspend-to-Idle state after
-> a user runs "echo freeze > /sys/power/state". It seems like
-> the Suspend-to-Idle feature has no real users in practice, so
-> let's no longer support that by returning -EOPNOTSUPP if a
-> user tries to use that.
-> 
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+---
+ drivers/hid/hid-cp2112.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-Maybe it would be good to capture here the kind of VMs that this is
-going to be not supported - HyperV based VMs. You mentioned it in cover
-letter, but it would be good to add it here as well, as cover letter
-does not go to git log.
+diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
+index 20a0d1315d90..dae2b84a1490 100644
+--- a/drivers/hid/hid-cp2112.c
++++ b/drivers/hid/hid-cp2112.c
+@@ -1094,7 +1094,6 @@ static void cp2112_gpio_poll_callback(struct work_struct *work)
+ {
+ 	struct cp2112_device *dev = container_of(work, struct cp2112_device,
+ 						 gpio_poll_worker.work);
+-	struct irq_data *d;
+ 	u8 gpio_mask;
+ 	u32 irq_type;
+ 	int irq, virq, ret;
+@@ -1111,12 +1110,10 @@ static void cp2112_gpio_poll_callback(struct work_struct *work)
+ 		if (!irq)
+ 			continue;
+ 
+-		d = irq_get_irq_data(irq);
+-		if (!d)
++		irq_type = irq_get_trigger_type(irq);
++		if (!irq_type)
+ 			continue;
+ 
+-		irq_type = irqd_get_trigger_type(d);
+-
+ 		if (gpio_mask & BIT(virq)) {
+ 			/* Level High */
+ 
+-- 
+2.34.1
 
-Also, the subject suggests that we are disabling suspend-to-idle for
-vmbus specifically, but from commit description, it suggests that
-"suspend to idle" feature itself is no longer supported on these
-particular VMs. Please rephrase it based on what exactly we are trying
-to do here. IIUC, we are now returning an error (EOPNOTSUPP) in vmbus
-driver callback, which insures that we don't support Suspend-to-Idle in
-these VMs.
-
-> Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
-> Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-> ---
->   drivers/hv/vmbus_drv.c | 15 ++++++++++++++-
->   1 file changed, 14 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> index 965d2a4efb7e..4efd8856392f 100644
-> --- a/drivers/hv/vmbus_drv.c
-> +++ b/drivers/hv/vmbus_drv.c
-> @@ -900,6 +900,19 @@ static void vmbus_shutdown(struct device *child_device)
->   }
->   
->   #ifdef CONFIG_PM_SLEEP
-> +/*
-> + * vmbus_freeze - Suspend-to-Idle
-> + */
-> +static int vmbus_freeze(struct device *child_device)
-> +{
-> +/*
-> + * Do not support Suspend-to-Idle ("echo freeze > /sys/power/state") as
-> + * that would require registering the Hyper-V synthetic mouse/keyboard
-> + * devices as wakeup devices, which can abort hibernation/resume unexpectedly.
-> + */
-> +	return -EOPNOTSUPP;
-> +}
-> +
->   /*
->    * vmbus_suspend - Suspend a vmbus device
->    */
-> @@ -969,7 +982,7 @@ static void vmbus_device_release(struct device *device)
->    */
->   
->   static const struct dev_pm_ops vmbus_pm = {
-> -	.suspend_noirq	= NULL,
-> +	.suspend_noirq  = vmbus_freeze,
->   	.resume_noirq	= NULL,
->   	.freeze_noirq	= vmbus_suspend,
-
-I am not sure if this is OK or how it works, but this naming scheme
-seems a bit confusing to me -
-*suspend* -> vmbus_*freeze*
-*freeze* -> vmbus_*suspend*
-and we are removing support for "freeze" by returning EOPNOTSUPP in
-suspend callback.
-
-I'll try to understand more on this, but just see if its OK.
-
->   	.thaw_noirq	= vmbus_resume,
-
-Regards,
-Naman
 
