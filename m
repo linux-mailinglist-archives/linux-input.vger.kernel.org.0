@@ -1,57 +1,55 @@
-Return-Path: <linux-input+bounces-6496-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6497-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5840978172
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 15:47:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 133E6978221
+	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 16:04:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B2171C2101E
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 13:47:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5BB0FB2276A
+	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 14:04:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBD281DB52E;
-	Fri, 13 Sep 2024 13:47:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 259221D9326;
+	Fri, 13 Sep 2024 14:01:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AVNi1oIH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YgXU3Q1a"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4321D86D6;
-	Fri, 13 Sep 2024 13:47:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC87F2E419;
+	Fri, 13 Sep 2024 14:01:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726235230; cv=none; b=LosxJOtb+QpYWtxeCOtQz2u5CyxFnA337i7zjhkp1kcsR/NVgSABU9vVfqBElHT1FvVR8H7F6nscpZjjFysej7oWdISqnzdYCs6cnP6jSkpJn5dM/kRwGFAXqPxBooZA/8L+RJLni6FvwfwSZh6VinxVgQoDhcPDivH9Nb2oN0E=
+	t=1726236080; cv=none; b=qRg4y/5XutSwGeGrkM6pTQYkqNNyoT32EP7wtV3J8Ky+V9rM1NMLGkuIpiPUuQokkLt9G0ZsX+YK0AIazC1m4NVfHieG8lDNg2mVVp8oK9O1fWaAOB5nM6Fr9aPzZf9Na5y3MT2/mUL7DCDhpWDs8ur6kGL0IUrsGqG2PBttveQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726235230; c=relaxed/simple;
-	bh=yf2GMxg1XefxfAsl9eGXYlqULarFfBfcXvs5DfHxdng=;
+	s=arc-20240116; t=1726236080; c=relaxed/simple;
+	bh=ZxGjiwZDKq8/YBFmAdBNCBZA8mh1AZpAUvogJCJMdAo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cnGEBDxLU06HOi9miDL84MBLeU3Ab8qPJu6038OZjrFiwwJY03BcN5Eu/H8XxYweAxRsaAMTUPD1kH87fD9qxRZxyoOfDZi3Tf9rVcLy7ytdfP72VtLaL6KlekcClI2fiTZRwIvuFfGHxeVHuviKFIb5yrmXG/hIJ2T12rgdIaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AVNi1oIH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8622EC4CEC5;
-	Fri, 13 Sep 2024 13:47:08 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=QTjKxlpwiZBAwGAAHHSWmqm9dIBd8ymOju31qHcsl4pGCgnOO3xNu6M1LYJh9PgTU+f2Z2z9tHtsab0hFC5nOZ8cU2WrJ8MLcQaclgtqrKLyM/23b42DNkczYXDZXbp4RfMgMBuuFAJ73weGAGB99JTJ8AoumuW1qhEggWqKlzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YgXU3Q1a; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A75FC4CEC7;
+	Fri, 13 Sep 2024 14:01:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726235230;
-	bh=yf2GMxg1XefxfAsl9eGXYlqULarFfBfcXvs5DfHxdng=;
+	s=k20201202; t=1726236079;
+	bh=ZxGjiwZDKq8/YBFmAdBNCBZA8mh1AZpAUvogJCJMdAo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AVNi1oIHTvjVZBxX2Dyg8MCcsk3lXAuSqrlA9K5OrCzoIFDt6wNYHaUYiK3dy/ncY
-	 q/fpJj1RUqB6PeYZdH+xH+6uE3P9mu2YryzYodrAiZpJ9QHv12db3RSfAE8C2Mo6PN
-	 5H7YCj5R27dV78eWk5IjDmuzNiVe9/JHPY4vFDVNLiwWw5PVed0fGbfRDCTt/xUL9a
-	 EtldTn6DHPqxjWMHiAAIBhYMe3MiQvTbag+PHw18hubLyD71dee5+9hDON6kxqN9bZ
-	 MbCVfMVO363XcdC31iu6FdtG4XM8rAZXPbC7yQuvuKuws1CTcW7P10dtqNlpGdDayI
-	 /n0FLFZlaadgQ==
-Date: Fri, 13 Sep 2024 15:47:05 +0200
+	b=YgXU3Q1ajx3+U30ahpa1or5YAv1B8ruilxqDwWPvhVpZLju7H/jHLmbmaVGiC3nCJ
+	 uXSrPolxON/+IcByaWhmZT9F7WwXglFCEez/QOP9l0FJE3fkcYrY5+ydVY0ORYDEQl
+	 KtpXdcWPciKfwZ5bJ8SgRx4Yb6Ze7fuJIlF8ZZr82Ocs8YdFFjtuHadz/CdRwDb0h/
+	 PHTUSKFJbkWH3xDGfbPBeqhUcsl9KO6XOAZ1N4I4FAvCLsH4fkYe2WmW5//X1ZsULI
+	 PGh5LoKTZENi/yMPqTzAMMotqK2muIlUANZvv9PL0BthhAFcf9gevBEWYuKOLS/S80
+	 Izs8l/aNqDmCQ==
+Date: Fri, 13 Sep 2024 16:01:15 +0200
 From: Benjamin Tissoires <bentiss@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>, 
-	Peter Hutterer <peter.hutterer@who-t.net>, Vicki Pfau <vi@endrift.com>, Shuah Khan <shuah@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: (subset) [PATCH HID v2 00/11] HID: bpf: add a new hook to
- control hid-generic
-Message-ID: <etbeblypdylnngwuwjfqkmkduk4iup7uq4c5zkwrssoi6u7jvg@gtf3gpzrloii>
-References: <20240910-hid-bpf-hid-generic-v2-0-083dfc189e97@kernel.org>
- <172623473588.1192461.11090201509053454593.b4-ty@kernel.org>
+To: Wade Wang <wade.wang@hp.com>
+Cc: jikos@kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] HID: plantronics: Additional PID for double volume key
+ presses quirk
+Message-ID: <kn7ykebpcapwnwhof2wlquko6zzjtfgn3xdwcfd2e6eyytzu32@wh3tck74weut>
+References: <20240913060710.1325640-1-wade.wang@hp.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -60,50 +58,105 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <172623473588.1192461.11090201509053454593.b4-ty@kernel.org>
+In-Reply-To: <20240913060710.1325640-1-wade.wang@hp.com>
 
-On Sep 13 2024, Benjamin Tissoires wrote:
-> On Tue, 10 Sep 2024 23:43:36 +0900, Benjamin Tissoires wrote:
-> > This is a slight change from the fundamentals of HID-BPF.
-> > In theory, HID-BPF is abstract to the kernel itself, and makes
-> > only changes at the HID level (through report descriptors or
-> > events emitted to/from the device).
-> > 
-> > However, we have seen a few use cases where HID-BPF might interact with
-> > the running kernel when the target device is already handled by a
-> > specific device.
-> > 
-> > [...]
+On Sep 13 2024, Wade Wang wrote:
+> Add the below headsets for double volume key presses quirk
+>         Plantronics EncorePro 500 Series  (047f:431e)
+>         Plantronics Blackwire_3325 Series (047f:430c)
 > 
-> Applied to hid/hid.git (for-6.12/bpf), thanks!
-> 
-> [01/11] HID: bpf: move HID-BPF report descriptor fixup earlier
->         https://git.kernel.org/hid/hid/c/f10a11b7b599
-> [02/11] HID: core: save one kmemdup during .probe()
->         https://git.kernel.org/hid/hid/c/6941754dbbc7
-> [03/11] HID: core: remove one more kmemdup on .probe()
->         https://git.kernel.org/hid/hid/c/4fe29f36d2a3
-> [04/11] HID: bpf: allow write access to quirks field in struct hid_device
->         https://git.kernel.org/hid/hid/c/b722f588adc6
-> [05/11] selftests/hid: add dependency on hid_common.h
->         https://git.kernel.org/hid/hid/c/3d816765e12e
-> [06/11] selftests/hid: cleanup C tests by adding a common struct uhid_device
->         https://git.kernel.org/hid/hid/c/28023a0f99d1
-> [07/11] selftests/hid: allow to parametrize bus/vid/pid/rdesc on the test device
->         https://git.kernel.org/hid/hid/c/10d3147f9bb1
-> [08/11] HID: add per device quirk to force bind to hid-generic
->         https://git.kernel.org/hid/hid/c/d030f826ea47
-> [09/11] selftests/hid: add test for assigning a given device to hid-generic
->         https://git.kernel.org/hid/hid/c/10929078201f
-> 
+> Quote from previous patch by Maxim Mikityanskiy and Terry Junge
+> 	'commit f567d6ef8606 ("HID: plantronics: Workaround for double volume
+> 	 key presses")'
+> 	'commit 3d57f36c89d8 ("HID: plantronics: Additional PIDs for double
+> 	 volume key presses quirk")'
+> These Plantronics Series headset sends an opposite volume key following
+> each volume key press. This patch adds a quirk to hid-plantronics for this
+> product ID, which will ignore the second opposite volume key press if it
+> happens within 250 ms from the last one that was handled.
 
-Just for completeness, I've dropped 10/11 and 11/11 when applying the
-series because even if they are working it's unclear if the use case is
-rock solid, like the first one is.
+This commit message is very confusing:
+- you mention that you are quoting 2 commits,
+- but then you don't quote them but slightly reword the content
+- and then, and most of all, you insert in the driver a new timeout of
+  250 ms, which seems to not be with the same bases than f567d6ef8606
+  where it is mentioned that "Auto-repeat (when a key is held pressed)
+  is not affected, because the rate is about 3 times per second, which
+  is far less frequent than once in 5 ms." -> 250 ms gets in the roughly
+  same range than 3 times per seconds, so some more explanations is
+  required
 
-The patches are still on the LKML, so if anyone believes they required
-it, we can alwasy pull them in later.
+Please also follow Greg's advice and, as you replied in your last message
+that didn't made the list (HTML), please resubmit the series with a
+clear v3 indicator and a description of changes.
+
+Ideally, I'd like to also have the other plantronics patch you sent
+today in the same series, so I know which order I should apply them, in
+case one rely on the other.
 
 Cheers,
 Benjamin
+  
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Wade Wang <wade.wang@hp.com>
+> ---
+>  drivers/hid/hid-ids.h         |  2 ++
+>  drivers/hid/hid-plantronics.c | 11 +++++++++++
+>  2 files changed, 13 insertions(+)
+> 
+> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> index 781c5aa29859..a0aaac98a891 100644
+> --- a/drivers/hid/hid-ids.h
+> +++ b/drivers/hid/hid-ids.h
+> @@ -1050,6 +1050,8 @@
+>  #define USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3220_SERIES	0xc056
+>  #define USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3215_SERIES	0xc057
+>  #define USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3225_SERIES	0xc058
+> +#define USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3325_SERIES	0x430c
+> +#define USB_DEVICE_ID_PLANTRONICS_ENCOREPRO_500_SERIES		0x431e
+>  
+>  #define USB_VENDOR_ID_PANASONIC		0x04da
+>  #define USB_DEVICE_ID_PANABOARD_UBT780	0x1044
+> diff --git a/drivers/hid/hid-plantronics.c b/drivers/hid/hid-plantronics.c
+> index 3d414ae194ac..2a19f3646ecb 100644
+> --- a/drivers/hid/hid-plantronics.c
+> +++ b/drivers/hid/hid-plantronics.c
+> @@ -38,8 +38,10 @@
+>  			    (usage->hid & HID_USAGE_PAGE) == HID_UP_CONSUMER)
+>  
+>  #define PLT_QUIRK_DOUBLE_VOLUME_KEYS BIT(0)
+> +#define PLT_QUIRK_FOLLOWED_VOLUME_UP_DN_KEYS BIT(1)
+>  
+>  #define PLT_DOUBLE_KEY_TIMEOUT 5 /* ms */
+> +#define PLT_FOLLOWED_KEY_TIMEOUT 250 /* ms */
+>  
+>  struct plt_drv_data {
+>  	unsigned long device_type;
+> @@ -134,6 +136,9 @@ static int plantronics_event(struct hid_device *hdev, struct hid_field *field,
+>  		cur_ts = jiffies;
+>  		if (jiffies_to_msecs(cur_ts - prev_ts) <= PLT_DOUBLE_KEY_TIMEOUT)
+>  			return 1; /* Ignore the repeated key. */
+> +		if ((drv_data->quirks & PLT_QUIRK_FOLLOWED_VOLUME_UP_DN_KEYS)
+> +		 && jiffies_to_msecs(cur_ts - prev_ts) <= PLT_FOLLOWED_KEY_TIMEOUT)
+> +			return 1; /* Ignore the followed volume key. */
+>  
+>  		drv_data->last_volume_key_ts = cur_ts;
+>  	}
+> @@ -210,6 +215,12 @@ static const struct hid_device_id plantronics_devices[] = {
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS,
+>  					 USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3225_SERIES),
+>  		.driver_data = PLT_QUIRK_DOUBLE_VOLUME_KEYS },
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS,
+> +					 USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3325_SERIES),
+> +		.driver_data = PLT_QUIRK_DOUBLE_VOLUME_KEYS|PLT_QUIRK_FOLLOWED_VOLUME_UP_DN_KEYS },
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS,
+> +					 USB_DEVICE_ID_PLANTRONICS_ENCOREPRO_500_SERIES),
+> +		.driver_data = PLT_QUIRK_DOUBLE_VOLUME_KEYS|PLT_QUIRK_FOLLOWED_VOLUME_UP_DN_KEYS },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS, HID_ANY_ID) },
+>  	{ }
+>  };
+> -- 
+> 2.34.1
+> 
 
