@@ -1,99 +1,56 @@
-Return-Path: <linux-input+bounces-6485-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6486-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141B29778CC
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 08:28:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A869778E3
+	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 08:38:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 75EFD1C20DAD
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 06:28:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51A9D1C24C1D
+	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 06:38:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C05B1AD26C;
-	Fri, 13 Sep 2024 06:28:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5E731AD25A;
+	Fri, 13 Sep 2024 06:38:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="GOHbq1PT";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AFkHrx4P"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="H+MkYNvV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com [103.168.172.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1723113D296;
-	Fri, 13 Sep 2024 06:28:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FCD41AC884;
+	Fri, 13 Sep 2024 06:38:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726208894; cv=none; b=uLunscnAPSEXn4ALsfWcRl6QwXwWhrej7c4jnvyMZiHunXon6bdsqjAHEolExsW6xCexl8yodzwXDeOr4J6QgkIHejKaupQ0mcN4J9lm/hOrOs3jZAL2WifoCsPGsg2nCWo7rGKUUtQ9TnMNnfCnw+dFdtrbisseNfOxfOHISKM=
+	t=1726209500; cv=none; b=sOc8GVrgqEL8jZnIy4/NpKPpm55ywCBRdbCWaNjU7s0LrVv6//ogetvVesc1K81u+EhNpcf1XPERMjhRYm+rFSSN3uzXIs4Xbt9gNNwT1+uk6jxZhI2c/Xoknm8+i8DnWR3+M8Ju3gPVF72Dilxmwugp1CSZNWaWA7ZxJp+Sv+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726208894; c=relaxed/simple;
-	bh=O+/sjBYLhm3mBdcT0xVhIY3U8O/2U8jos4sAjKlWCXs=;
+	s=arc-20240116; t=1726209500; c=relaxed/simple;
+	bh=4xHYKNWAjvmRzsKWIcW0kbbfOIXUycvAXoyxzueNQcw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GYsZx4Tmh9ETkYDgf4Mm0aUK3fdzXE0FbmKCakaj0iMnuBkBGiR02FYbK+6tOEyRO9bzrVjxRLKLuVE1xQ5qQmeEOfpNzI+AukabZDjMEL/DlZC8LyNAWRcyGZlsxm9RB3jBJYDtgnHGykXtPgvwphEu+aX7+yTiHMZ+zLxzlyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=GOHbq1PT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AFkHrx4P; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 2318313805E5;
-	Fri, 13 Sep 2024 02:28:11 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Fri, 13 Sep 2024 02:28:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1726208891; x=1726295291; bh=y+UY/L5U6r
-	LWQiKI0HbRdQ+AWB2/ztTvS8aCHnKzHSQ=; b=GOHbq1PT4DqVUlJIQvFDA5yLKB
-	uwEpeBP43ieZoA3+uzj3MtRqo9I/TgyV0af5Ah54c3v7F2oRTdgQYeTK/4T+E5NH
-	JbwYyHoHXoJPVcyJ8202b+uzDqr+XR+/xlKU4GRvmm70fZrXw99EfndCkONNlsJ9
-	Vu/ahHSkAhkndMXZ8ZyxGzT5k8vIVfmSwPuvHe5FUO3vSvwBci16YoeBrWxMljjp
-	KoiXyhd9XNqDm0F820KSZY9sPjkOPFGuRfbgb8QjXbbpMopCGL4don00tVzx6lfK
-	CRktUYig15qqoJ3/1F8PSzWgZ20kAYTqa+JYG2OEtMlb0cS8cKdbYII9rf7Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1726208891; x=1726295291; bh=y+UY/L5U6rLWQiKI0HbRdQ+AWB2/
-	ztTvS8aCHnKzHSQ=; b=AFkHrx4PG8/8v2jTpZx8UwwP9ZQevK3+kix/kcdGXFF0
-	YD5som2qdmMfthec8nv8jZIGbsaDw0wyBgh9saqEPhTiM6/6w8iwrvLmoMs3DgVe
-	pVa35TTwRxgeXHNo1CctlWJ22/NO0s96CA25gW0f4ysRRzP2KjIPWYbJykQc7mCC
-	0Ge4Wb/er1KLfyUU8PMl9MjIaXHBJKYuaThpBE6YC+RkD7Mjf2s8/N1xJCDfaKAG
-	/fTBg0CN+VGIK8j1bH5cMBL5pDi2NPXL8owlKtPgARdfPvMg8ApJfbjF4DLqwx8B
-	hY28zhj/a6XdtcrAerhawSrIOcVrwggauFyN1BNSuw==
-X-ME-Sender: <xms:etvjZtc5TsapdbglGS6X0p0NY8cVmAonFJ-pV7Gxb9DJljmOQ39eiA>
-    <xme:etvjZrPmb8M65j5DciV-bkyqAfWRtuF9JbM6naX_YaBSd9qMyatAYuB-xbg2S1Jzp
-    NXl6RtHTdg9jg>
-X-ME-Received: <xmr:etvjZmhkTp7oWHisv1SnZyj51uUgKXvaqCWFox3no_FnRD6PFHORtA9qlWEziR7bo_y2SyP5c1lZo5Y9Jif2sWiIqGfx991ym40Wbw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudejiedgvdekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
-    ucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrf
-    grthhtvghrnhepheegvdevvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefh
-    gfehkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epghhrvghgsehkrhhorghhrdgtohhmpdhnsggprhgtphhtthhopeduvddpmhhouggvpehs
-    mhhtphhouhhtpdhrtghpthhtohepfigruggvrdifrghngheshhhprdgtohhmpdhrtghpth
-    htohepjhhikhhosheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsggvnhhtihhsshes
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvghrrd
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghr
-    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehsthgrsghlvgesvhhgvghrrdhkvghrnh
-    gvlhdrohhrgh
-X-ME-Proxy: <xmx:etvjZm-cWdo-4DIQfwRvCuCwnMTQYwP_jDFwg45Kv-o-wydxSQeMBw>
-    <xmx:etvjZpsZSy_8XddwcuBj3m1wVshQ-DB8dbeVNiYkKHJNT7x47wiwHA>
-    <xmx:etvjZlHFxSEXbbLVRk8SVZOMMuSV-aVod_EFQkte3n84oJjTRJiBvQ>
-    <xmx:etvjZgNbxacMW8hFwUKrqZyrxaabkV0618dK3_KKpFWhsAunAkRBPw>
-    <xmx:e9vjZiEi2ieghyznf-RPsf05Hn1f-ZghRkNiK08kE8ZyAO_cgNQhZyzm>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 13 Sep 2024 02:28:10 -0400 (EDT)
-Date: Fri, 13 Sep 2024 08:28:07 +0200
-From: Greg KH <greg@kroah.com>
-To: Wade Wang <wade.wang@hp.com>
-Cc: jikos@kernel.org, bentiss@kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] HID: plantronics: Additional PID for double volume key
- presses quirk
-Message-ID: <2024091355-antitrust-retiree-1299@gregkh>
-References: <20240913060710.1325640-1-wade.wang@hp.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=sNQWk29P0CCI9YzEF77kvOE6HHreQ7tnizwgyMJhN5iORhx+Z1jmKDoZBbdqOSfdeRnnSeJN7l1OljzBJTbRFnKpCNpDInTkxJISUB5y5Vsp52gsyEf0Zhe4nV8Zgj7JVEub4ySh6zmWn46OVjwUh7h7/UsVyQF2F97nJoAtXFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=H+MkYNvV; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: by linux.microsoft.com (Postfix, from userid 1127)
+	id E6A5520BE55B; Thu, 12 Sep 2024 23:38:18 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E6A5520BE55B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1726209498;
+	bh=HC02RBfIp0A+4waF9qafyPOYDr2sSAzrqEirpU+qVKU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=H+MkYNvV6YQ+Tf7napCZM2V9ylDH7E7ybWVpHAEWL3UN5SyU3nPvsB++FOFiXf0lo
+	 v9mp4BR91R6QOszIt5D+j2gui6MVGl/HSfEOsVpswIx6s+FkG/6xmpcNjT7L30LMCZ
+	 QaB+/UndRMLw62EF6gDLw4DF/iCTtS6yTZlKJs18=
+Date: Thu, 12 Sep 2024 23:38:18 -0700
+From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, jikos@kernel.org, bentiss@kernel.org,
+	dmitry.torokhov@gmail.com, linux-hyperv@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	ernis@microsoft.com
+Subject: Re: [PATCH 1/3] Drivers: hv: vmbus: Disable Suspend-to-Idle for VMBus
+Message-ID: <20240913063818.GA18025@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1726176470-13133-1-git-send-email-ernis@linux.microsoft.com>
+ <1726176470-13133-2-git-send-email-ernis@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -102,111 +59,72 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240913060710.1325640-1-wade.wang@hp.com>
+In-Reply-To: <1726176470-13133-2-git-send-email-ernis@linux.microsoft.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 
-On Fri, Sep 13, 2024 at 02:07:10PM +0800, Wade Wang wrote:
-> Add the below headsets for double volume key presses quirk
->         Plantronics EncorePro 500 Series  (047f:431e)
->         Plantronics Blackwire_3325 Series (047f:430c)
+On Thu, Sep 12, 2024 at 02:27:48PM -0700, Erni Sri Satya Vennela wrote:
+> If the Virtual Machine Connection window is focused,
+> a Hyper-V VM user can unintentionally touch the keyboard/mouse
+> when the VM is hibernating or resuming, and consequently the
+> hibernation or resume operation can be aborted unexpectedly.
+> Fix the issue by no longer registering the keyboard/mouse as
+> wakeup devices (see the other two patches for the
+> changes to drivers/input/serio/hyperv-keyboard.c and
+> drivers/hid/hid-hyperv.c).
 > 
-> Quote from previous patch by Maxim Mikityanskiy and Terry Junge
-> 	'commit f567d6ef8606 ("HID: plantronics: Workaround for double volume
-> 	 key presses")'
-> 	'commit 3d57f36c89d8 ("HID: plantronics: Additional PIDs for double
-> 	 volume key presses quirk")'
-> These Plantronics Series headset sends an opposite volume key following
-> each volume key press. This patch adds a quirk to hid-plantronics for this
-> product ID, which will ignore the second opposite volume key press if it
-> happens within 250 ms from the last one that was handled.
+> The keyboard/mouse were registered as wakeup devices because the
+> VM needs to be woken up from the Suspend-to-Idle state after
+> a user runs "echo freeze > /sys/power/state". It seems like
+> the Suspend-to-Idle feature has no real users in practice, so
+> let's no longer support that by returning -EOPNOTSUPP if a
+> user tries to use that.
 > 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Wade Wang <wade.wang@hp.com>
+> Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+> Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+
+Can we have a fixes tag ?
+My vote is to backport this upto this commit atleast:
+https://lore.kernel.org/all/1586663435-36243-1-git-send-email-decui@microsoft.com/
+
+- Saurabh
+
 > ---
->  drivers/hid/hid-ids.h         |  2 ++
->  drivers/hid/hid-plantronics.c | 11 +++++++++++
->  2 files changed, 13 insertions(+)
+>  drivers/hv/vmbus_drv.c | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> index 781c5aa29859..a0aaac98a891 100644
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -1050,6 +1050,8 @@
->  #define USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3220_SERIES	0xc056
->  #define USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3215_SERIES	0xc057
->  #define USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3225_SERIES	0xc058
-> +#define USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3325_SERIES	0x430c
-> +#define USB_DEVICE_ID_PLANTRONICS_ENCOREPRO_500_SERIES		0x431e
+> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> index 965d2a4efb7e..4efd8856392f 100644
+> --- a/drivers/hv/vmbus_drv.c
+> +++ b/drivers/hv/vmbus_drv.c
+> @@ -900,6 +900,19 @@ static void vmbus_shutdown(struct device *child_device)
+>  }
 >  
->  #define USB_VENDOR_ID_PANASONIC		0x04da
->  #define USB_DEVICE_ID_PANABOARD_UBT780	0x1044
-> diff --git a/drivers/hid/hid-plantronics.c b/drivers/hid/hid-plantronics.c
-> index 3d414ae194ac..2a19f3646ecb 100644
-> --- a/drivers/hid/hid-plantronics.c
-> +++ b/drivers/hid/hid-plantronics.c
-> @@ -38,8 +38,10 @@
->  			    (usage->hid & HID_USAGE_PAGE) == HID_UP_CONSUMER)
+>  #ifdef CONFIG_PM_SLEEP
+> +/*
+> + * vmbus_freeze - Suspend-to-Idle
+> + */
+> +static int vmbus_freeze(struct device *child_device)
+> +{
+> +/*
+> + * Do not support Suspend-to-Idle ("echo freeze > /sys/power/state") as
+> + * that would require registering the Hyper-V synthetic mouse/keyboard
+> + * devices as wakeup devices, which can abort hibernation/resume unexpectedly.
+> + */
+> +	return -EOPNOTSUPP;
+> +}
+> +
+>  /*
+>   * vmbus_suspend - Suspend a vmbus device
+>   */
+> @@ -969,7 +982,7 @@ static void vmbus_device_release(struct device *device)
+>   */
 >  
->  #define PLT_QUIRK_DOUBLE_VOLUME_KEYS BIT(0)
-> +#define PLT_QUIRK_FOLLOWED_VOLUME_UP_DN_KEYS BIT(1)
->  
->  #define PLT_DOUBLE_KEY_TIMEOUT 5 /* ms */
-> +#define PLT_FOLLOWED_KEY_TIMEOUT 250 /* ms */
->  
->  struct plt_drv_data {
->  	unsigned long device_type;
-> @@ -134,6 +136,9 @@ static int plantronics_event(struct hid_device *hdev, struct hid_field *field,
->  		cur_ts = jiffies;
->  		if (jiffies_to_msecs(cur_ts - prev_ts) <= PLT_DOUBLE_KEY_TIMEOUT)
->  			return 1; /* Ignore the repeated key. */
-> +		if ((drv_data->quirks & PLT_QUIRK_FOLLOWED_VOLUME_UP_DN_KEYS)
-> +		 && jiffies_to_msecs(cur_ts - prev_ts) <= PLT_FOLLOWED_KEY_TIMEOUT)
-> +			return 1; /* Ignore the followed volume key. */
->  
->  		drv_data->last_volume_key_ts = cur_ts;
->  	}
-> @@ -210,6 +215,12 @@ static const struct hid_device_id plantronics_devices[] = {
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS,
->  					 USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3225_SERIES),
->  		.driver_data = PLT_QUIRK_DOUBLE_VOLUME_KEYS },
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS,
-> +					 USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3325_SERIES),
-> +		.driver_data = PLT_QUIRK_DOUBLE_VOLUME_KEYS|PLT_QUIRK_FOLLOWED_VOLUME_UP_DN_KEYS },
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS,
-> +					 USB_DEVICE_ID_PLANTRONICS_ENCOREPRO_500_SERIES),
-> +		.driver_data = PLT_QUIRK_DOUBLE_VOLUME_KEYS|PLT_QUIRK_FOLLOWED_VOLUME_UP_DN_KEYS },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS, HID_ANY_ID) },
->  	{ }
->  };
+>  static const struct dev_pm_ops vmbus_pm = {
+> -	.suspend_noirq	= NULL,
+> +	.suspend_noirq  = vmbus_freeze,
+>  	.resume_noirq	= NULL,
+>  	.freeze_noirq	= vmbus_suspend,
+>  	.thaw_noirq	= vmbus_resume,
 > -- 
 > 2.34.1
-> 
-> 
-
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
 
