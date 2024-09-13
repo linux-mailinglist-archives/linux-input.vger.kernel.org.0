@@ -1,76 +1,81 @@
-Return-Path: <linux-input+bounces-6540-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6541-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFD08978964
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 22:11:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85585978AF0
+	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 23:55:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 265951C22583
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 20:11:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 07E4B1F25D1E
+	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 21:55:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C155F1527AC;
-	Fri, 13 Sep 2024 20:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EFDE17C9B2;
+	Fri, 13 Sep 2024 21:55:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lwMJPFsk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WcQMUsYv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E040014C5A1
-	for <linux-input@vger.kernel.org>; Fri, 13 Sep 2024 20:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEA617BEC7;
+	Fri, 13 Sep 2024 21:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726258283; cv=none; b=At0tkn98Uvgr698i6S2QFu4uE8DaR3u/oODCq7MUNjOprnfVElL3VC6KTT5ZYQFLPPk5rlgCFPKTWQd7AeGjKfB+CJbC1bLWkqivvLho24a+GLcl5BN2Um9o/qMOG2JUFQ46GgRiI23i3fYnilIz2PygaTHmcCfog/sf8GlBMXY=
+	t=1726264523; cv=none; b=MVvSHcovw5Yi2KV6/lWKKPJ4C8zGS2BTTD0ZfClMlWEAROPZH2rpboO6sFjGwdFGvxY58i7SkIiSgJD/SvNAMRmhFfr3I+uEXv89vhpJrCqOyniuAu8qPgtR5ckrJcw/GHuRSWMdy8b6UpOdj3vDfiUmBgJuaz4Q1yd+pg4ekYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726258283; c=relaxed/simple;
-	bh=37zmhLCtKqG7TKlG85pauOW2o2uGwgvWSTZ7n9jX1ts=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eEZqkGJheEF8+PNkyiJFJCAvrpLtVYlZm37qxzHj9GoVzNeTkgb8ZICk+UabHn8CG2EsQX+pBWxNBBp0CYgzeEuBylv05H5Ap/CKCY9JKxKLm9AZqu4jWSitZBlJRJMZLc6wBQYUemv2zbIoEFlBvveg8hGoQSvWgsXxnShpK2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lwMJPFsk; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726258282; x=1757794282;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=37zmhLCtKqG7TKlG85pauOW2o2uGwgvWSTZ7n9jX1ts=;
-  b=lwMJPFskL+7XmqhkpHWrWh1b6YNHe/Hv07X9jxmTuCu5UnAstWGXqnVu
-   qiqBatiaoRO1i/+hBJH6F/mZLL+gNuCFIZcq4aDHajNZ7IHRPD2yb9zJb
-   BPOtUUExYmrGz57dwWqdIWpJna6c7w3lklz4mW10f9IvCTr5U2YydnQXN
-   4o8w3WLj1nGtZn3DuoBiKhblqGhnKvHBxfnWlIJlHzF9B9u2kJ88xK040
-   OgQdEKHmSeyhH344+rBOFvjt2r3unsWkIxocqosxIUJ/U2F663PfofqVY
-   19uchoR3JVQDIiSoAiPiJH84fN86kcnqTvIaXVnrAnAWpnVuUINKbRm6N
-   w==;
-X-CSE-ConnectionGUID: FKNVNMfUQbC/QzSIJ7N9pg==
-X-CSE-MsgGUID: GxKwJtkLRjyu9NRYKdFVGw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="24712396"
-X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
-   d="scan'208";a="24712396"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 13:11:22 -0700
-X-CSE-ConnectionGUID: UfcwDyL0RaK2m3h3O9E6Pw==
-X-CSE-MsgGUID: k0e7l04BR6S8qn7/AQ97qA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
-   d="scan'208";a="72774955"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 13 Sep 2024 13:11:20 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1spCdR-0006wV-2P;
-	Fri, 13 Sep 2024 20:11:17 +0000
-Date: Sat, 14 Sep 2024 04:10:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-input@vger.kernel.org,
-	Peter Hutterer <peter.hutterer@who-t.net>
-Subject: [hid:for-6.12/bpf 6/15] drivers/hid/hid-core.c:2689:52: error:
- passing 'const __u8 *' (aka 'const unsigned char *') to parameter of type
- 'u8 *' (aka 'unsigned char *') discards qualifiers
-Message-ID: <202409140413.DizXFslQ-lkp@intel.com>
+	s=arc-20240116; t=1726264523; c=relaxed/simple;
+	bh=q6149tWf9a83IHhHEMU2VwoiZlrZy13ezqBewO8qXZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dcsuYDbuWAUT87YcEqOy+FEPIAKObB1KrATnnyCW0rBG6ubFiXKzrgraCnr5P8DX2JQnMsWSK5/p9BGKIOCy0q0FRSOARE5xH4y9VRLbXCLXeZyNAsdyByWEfeZoV8JypDfeGWMZMdf7LWYjedBmjkfBPiRGjJrsctihbkobcmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WcQMUsYv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66B8EC4CECC;
+	Fri, 13 Sep 2024 21:55:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726264522;
+	bh=q6149tWf9a83IHhHEMU2VwoiZlrZy13ezqBewO8qXZM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WcQMUsYvo9iMfCXqKzz6WfBOeSf3QnxCe7qBB55jtluaLCdkajX3PK+h6pyWyBX07
+	 PnEet5lNBh2xMOHyEUtFlosiTzo3hwcMA6t3RS+egfoow2NGG+5Npxa7L2SoCr/Fwq
+	 +7PxDup8jdlmXiDh0wY+Xr8SAzjC+G1FGXhlQ9FtrV5qrJACiTJ7rzq5GLGeGaPylO
+	 GB8gfB5GU9GIUuRgX2zsW3uP0oSuG9V+oz/AGRvxv9tI7ACCSGFP0+5eFAjyG+icUO
+	 Rv2Mvreqixc/gkn8utok04BwajsZETiwRjz2Yoy/B6F6jeyNk8jWAZP9/okZ+fjhXI
+	 EJdZKnyjanX/A==
+Date: Fri, 13 Sep 2024 16:55:21 -0500
+From: Rob Herring <robh@kernel.org>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Sebastian Reichel <sre@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	cros-qcom-dts-watchers@chromium.org,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Simona Vetter <simona.vetter@ffwll.ch>, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v4 05/27] dt-bindings: mfd: add maxim,max77705
+Message-ID: <20240913215521.GA864207-robh@kernel.org>
+References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
+ <20240913-starqltechn_integration_upstream-v4-5-2d2efd5c5877@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -79,90 +84,248 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240913-starqltechn_integration_upstream-v4-5-2d2efd5c5877@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-6.12/bpf
-head:   d46a60c7a795ef0a115e27235b88dcecc78b8c26
-commit: f10a11b7b599467153f679d35ed4712bbbec918f [6/15] HID: bpf: move HID-BPF report descriptor fixup earlier
-config: arm-jornada720_defconfig (https://download.01.org/0day-ci/archive/20240914/202409140413.DizXFslQ-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bf684034844c660b778f0eba103582f582b710c9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140413.DizXFslQ-lkp@intel.com/reproduce)
+On Fri, Sep 13, 2024 at 06:07:48PM +0300, Dzmitry Sankouski wrote:
+> Add maxim,max77705 core binding part.
+> 
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> 
+> ---
+> Changes in v4:
+> - change dts example intendation from tabs
+>  to spaces
+> - remove interrupt-names property
+> - remove obvious reg description
+> - split long(>80) lines
+> ---
+>  .../devicetree/bindings/mfd/maxim,max77705.yaml    | 169 +++++++++++++++++++++
+>  MAINTAINERS                                        |   1 +
+>  2 files changed, 170 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml b/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml
+> new file mode 100644
+> index 000000000000..40a67d15e312
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml
+> @@ -0,0 +1,169 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/maxim,max77705.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Maxim MAX77705 Companion Power Management IC and USB Type-C interface IC
+> +
+> +maintainers:
+> +  - Dzmitry Sankouski <dsankouski@gmail.com>
+> +
+> +description: |
+> +  This is a part of device tree bindings for Maxim MAX77705 multi functional
+> +  device.
+> +
+> +  The Maxim MAX77705 is a Companion Power Management and Type-C
+> +  interface IC which includes charger, fuelgauge, LED, haptic motor driver and
+> +  Type-C management IC.
+> +
+> +properties:
+> +  compatible:
+> +    const: maxim,max77705
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  charger:
+> +    $ref: /schemas/power/supply/power-supply.yaml
+> +    additionalProperties: true
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409140413.DizXFslQ-lkp@intel.com/
+No, true is only valid for incomplete schemas (i.e. common ones included 
+by another complete schema).
 
-Note: the hid/for-6.12/bpf HEAD d46a60c7a795ef0a115e27235b88dcecc78b8c26 builds fine.
-      It only hurts bisectability.
+And since you reference another schema, you want 'unevaluatedProperties' 
+instead if you want to use any properties defined in power-supply.yaml.
 
-All errors (new ones prefixed by >>):
+> +    properties:
+> +      compatible:
+> +        const: maxim,max77705-charger
+> +
+> +    required:
+> +      - compatible
+> +      - monitored-battery
+> +
+> +  fuel_gauge:
 
-   In file included from drivers/hid/hid-core.c:21:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/hid/hid-core.c:2689:52: error: passing 'const __u8 *' (aka 'const unsigned char *') to parameter of type 'u8 *' (aka 'unsigned char *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-    2689 |                 hdev->bpf_rdesc = call_hid_bpf_rdesc_fixup(hdev, hdev->dev_rdesc,
-         |                                                                  ^~~~~~~~~~~~~~~
-   include/linux/hid_bpf.h:231:73: note: passing argument to parameter 'rdesc' here
-     231 | static inline u8 *call_hid_bpf_rdesc_fixup(struct hid_device *hdev, u8 *rdesc,
-         |                                                                         ^
-   1 warning and 1 error generated.
+fuel-gauge
 
+> +    $ref: /schemas/power/supply/power-supply.yaml
+> +    type: object
+> +    additionalProperties: true
+> +    description: MAX77705 fuel gauge with ModelGauge m5 EZ algorithm support.
 
-vim +2689 drivers/hid/hid-core.c
+blank line
 
-  2681	
-  2682	static int __hid_device_probe(struct hid_device *hdev, struct hid_driver *hdrv)
-  2683	{
-  2684		const struct hid_device_id *id;
-  2685		int ret;
-  2686	
-  2687		if (!hdev->bpf_rsize) {
-  2688			hdev->bpf_rsize = hdev->dev_rsize;
-> 2689			hdev->bpf_rdesc = call_hid_bpf_rdesc_fixup(hdev, hdev->dev_rdesc,
-  2690								   &hdev->bpf_rsize);
-  2691		}
-  2692	
-  2693		if (!hid_check_device_match(hdev, hdrv, &id))
-  2694			return -ENODEV;
-  2695	
-  2696		hdev->devres_group_id = devres_open_group(&hdev->dev, NULL, GFP_KERNEL);
-  2697		if (!hdev->devres_group_id)
-  2698			return -ENOMEM;
-  2699	
-  2700		/* reset the quirks that has been previously set */
-  2701		hdev->quirks = hid_lookup_quirk(hdev);
-  2702		hdev->driver = hdrv;
-  2703	
-  2704		if (hdrv->probe) {
-  2705			ret = hdrv->probe(hdev, id);
-  2706		} else { /* default probe */
-  2707			ret = hid_open_report(hdev);
-  2708			if (!ret)
-  2709				ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
-  2710		}
-  2711	
-  2712		/*
-  2713		 * Note that we are not closing the devres group opened above so
-  2714		 * even resources that were attached to the device after probe is
-  2715		 * run are released when hid_device_remove() is executed. This is
-  2716		 * needed as some drivers would allocate additional resources,
-  2717		 * for example when updating firmware.
-  2718		 */
-  2719	
-  2720		if (ret) {
-  2721			devres_release_group(&hdev->dev, hdev->devres_group_id);
-  2722			hid_close_report(hdev);
-  2723			hdev->driver = NULL;
-  2724		}
-  2725	
-  2726		return ret;
-  2727	}
-  2728	
+> +    properties:
+> +      compatible:
+> +        const: maxim,max77705-fuel-gauge
+> +
+> +      shunt-resistor-micro-ohms:
+> +        description: |
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Don't need '|'.
+
+> +          The value of current sense resistor in microohms.
+> +
+> +    required:
+> +      - compatible
+> +      - shunt-resistor-micro-ohms
+> +      - monitored-battery
+> +      - power-supplies
+> +
+> +  haptic:
+> +    type: object
+> +    additionalProperties: false
+
+blank line
+
+> +    properties:
+> +      compatible:
+> +        const: maxim,max77705-haptic
+> +
+> +      haptic-supply: true
+> +
+> +      pwms:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - compatible
+> +      - haptic-supply
+> +      - pwms
+> +
+> +  leds:
+> +    type: object
+> +    additionalProperties: false
+> +    description:
+> +      Up to 4 LEDs supported. One LED is represented by one child node.
+
+blank line
+
+> +    properties:
+> +      compatible:
+> +        const: maxim,max77705-led
+> +
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +    patternProperties:
+> +      "^led@[0-3]$":
+> +        type: object
+> +        $ref: /schemas/leds/common.yaml#
+
+blank line
+
+> +        properties:
+> +          reg:
+> +            description:
+> +              LED index.
+
+blank line
+
+> +        unevaluatedProperties: false
+
+blank line
+
+> +        required:
+> +          - reg
+> +
+> +    required:
+> +      - compatible
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        pmic@66 {
+> +            compatible = "maxim,max77705";
+> +            reg = <0x66>;
+> +            interrupt-parent = <&pm8998_gpios>;
+> +            interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
+> +            pinctrl-0 = <&chg_int_default>;
+> +            pinctrl-names = "default";
+> +
+> +            leds {
+> +                compatible = "maxim,max77705-led";
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                led@1 {
+> +                    reg = <1>;
+> +                    label = "red:usr1";
+> +                };
+> +
+> +                led@2 {
+> +                    reg = <2>;
+> +                    label = "green:usr2";
+> +                };
+> +
+> +                led@3 {
+> +                    reg = <3>;
+> +                    label = "blue:usr3";
+> +                };
+> +            };
+> +
+> +            max77705_charger: charger {
+> +                compatible = "maxim,max77705-charger";
+> +                monitored-battery = <&battery>;
+> +            };
+> +
+> +            fuel_gauge {
+> +                compatible = "maxim,max77705-fuel-gauge";
+> +                monitored-battery = <&battery>;
+> +                power-supplies = <&max77705_charger>;
+> +                rsense = <5>;
+
+Not documented.
+
+> +            };
+> +
+> +
+> +            haptic {
+> +                compatible = "maxim,max77705-haptic";
+> +                haptic-supply = <&vib_regulator>;
+> +                pwms = <&vib_pwm 0 50000>;
+> +            };
+> +        };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b65cfa1d322d..59d027591e34 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14064,6 +14064,7 @@ B:	mailto:linux-samsung-soc@vger.kernel.org
+>  F:	Documentation/devicetree/bindings/*/maxim,max14577.yaml
+>  F:	Documentation/devicetree/bindings/*/maxim,max77686.yaml
+>  F:	Documentation/devicetree/bindings/*/maxim,max77693.yaml
+> +F:	Documentation/devicetree/bindings/*/maxim,max77705*.yaml
+>  F:	Documentation/devicetree/bindings/*/maxim,max77843.yaml
+>  F:	Documentation/devicetree/bindings/clock/maxim,max77686.txt
+>  F:	drivers/*/*max77843.c
+> 
+> -- 
+> 2.39.2
+> 
 
