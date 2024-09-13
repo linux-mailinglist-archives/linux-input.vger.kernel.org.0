@@ -1,58 +1,54 @@
-Return-Path: <linux-input+bounces-6494-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6495-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 726EA978155
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 15:39:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03EE5978168
+	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 15:44:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CC641F261D9
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 13:39:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BE4BA282AE2
+	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 13:44:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E80B1DA62A;
-	Fri, 13 Sep 2024 13:38:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A50501DB945;
+	Fri, 13 Sep 2024 13:44:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bs/fFwqb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PgMcs7gE"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C231D6C7A;
-	Fri, 13 Sep 2024 13:38:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E70A1C2DAA;
+	Fri, 13 Sep 2024 13:44:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726234738; cv=none; b=MUZYsl3k4gBNfwOwaEKJ2TjoRyQSyAPaeby9/WPi9m5fqCvzBr0Ceiy+ZN1FsunKGslofnB/8BVaK9sVutMfZ2njcmEEaOnVZLN6r/jacwma8XhAkUzIkIw6RAVoUaTC1Ngp8tgFNpl1Nq5ouH/j+zrxQ3c/9W/NDuAdrdSD+e4=
+	t=1726235064; cv=none; b=tygatnt702HOMX6rNTLqgmsipkfil2Jq6Paw9yaiwyuBUt5aRF2s4ewE7PFMx3LYWUnqPUaTro0QjHC2wCEKuoTKH2ogS6L8OkUbtg9laurgGM/Y5lubDTTdxgSjoozD2e/IXhbLbVlQFHucgtnbJtg/Retj8xIPX3U7T1VoIyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726234738; c=relaxed/simple;
-	bh=/KYBSsDBCUsu+s6eKQzz/C+xxOtD1VUVkICShhczuto=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=PdhHl2bzhdJb5TXUPM/PmIqt76ySRJBp0k4DU0L89zGzqJf5b/QM8eN8od9d/NuQiU6nJC4dNwzgarXfzYzxT1NbIzZn+W5CEhXJ0Bq6rIms5Mg7T9Ys/qfMLj1aXKL8ZJA0zs6csFEDCKBWgfk40IGrs2yaV6BzaVXjunM4Ff8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bs/fFwqb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34808C4CEC0;
-	Fri, 13 Sep 2024 13:38:55 +0000 (UTC)
+	s=arc-20240116; t=1726235064; c=relaxed/simple;
+	bh=bIoXbLfwlGc0AcnLoearxQIaugkPFsXY6E5AZhdBT10=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OdlZs+1hDEVUpbx9UoJqIqUhic8z/UzpJXvruM/dLfyB66Avd6LLc4cd9zTTE51nqwgWTCY/ZdLEniu+QHuQ8muHHrpVDJwNiaHF1CzC/Rkx5Tb0RrEAKCW2JJwl6Q7v+RX/Bjd1CCb+31NCzh5R3faW1pBhrGilU8EF9MWM8jE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PgMcs7gE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5089EC4CEC5;
+	Fri, 13 Sep 2024 13:44:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726234738;
-	bh=/KYBSsDBCUsu+s6eKQzz/C+xxOtD1VUVkICShhczuto=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Bs/fFwqbdW6dlxBnItsXK36LvRQXPXcToYHuJUWFx6tvZ+ExVwLy+TlJyf+jFxlf0
-	 68TsjIdQub/qzqSm6R/Ym1o0APmC8da4YOjZOgiFrHMPvaoAFDTNyXnf2dpdDFRnQJ
-	 md/lYpfK1c1N0fV3phv+O+kGwE02CYfXL2IBShc7hbPsmaA/TWfbExj5Ji4GOyxRGh
-	 LQLWGUfT/Xz/oZYLO81dyF2eBXZsz8gqdtK9usPTcPGRUDDQcpoAW0qEMUedfirquF
-	 7i83vW4pBF0H8OiPYo6E8W8fQfM7wKjMzuqLAU61rjuq2g+Tv2tkrQMWYBgAkeHijU
-	 +I64sUZR7hjsQ==
+	s=k20201202; t=1726235064;
+	bh=bIoXbLfwlGc0AcnLoearxQIaugkPFsXY6E5AZhdBT10=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=PgMcs7gEgwqHE53v3SvoNMALM66xXZOylhjm/Jr+mBkU9ZjltsSMWodvFh8QiOXaX
+	 p44xZZwmWFqJzpnhp93b/76AKCOzi6Jgyk/tQvLgKm0WbIsTx4tWRHGHxFXhHfxz++
+	 snywpn8pe0gbIa62p1Ln4kChWf/v9jXu4eJgYHoI/nJcZv5/fOIoA8U2GU5ou0oZwE
+	 UW+lxwa/2C1hvRNZcmK5ogTJZdvltNSj/WTBvELqEw09wQN74bcOz4yxspnvvSTwb7
+	 XuPEpptbY26nHejaGk/anxJMqgUtd4URP/qvXunUXwZlu9nMYkJY3yGIn5CENh6jse
+	 i0keg2LETo06A==
 From: Benjamin Tissoires <bentiss@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>, 
- Peter Hutterer <peter.hutterer@who-t.net>, Vicki Pfau <vi@endrift.com>, 
- Shuah Khan <shuah@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-In-Reply-To: <20240910-hid-bpf-hid-generic-v2-0-083dfc189e97@kernel.org>
-References: <20240910-hid-bpf-hid-generic-v2-0-083dfc189e97@kernel.org>
-Subject: Re: (subset) [PATCH HID v2 00/11] HID: bpf: add a new hook to
- control hid-generic
-Message-Id: <172623473588.1192461.11090201509053454593.b4-ty@kernel.org>
-Date: Fri, 13 Sep 2024 15:38:55 +0200
+To: jikos@kernel.org, linux-input@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <20240913074632.3779321-1-ruanjinjie@huawei.com>
+References: <20240913074632.3779321-1-ruanjinjie@huawei.com>
+Subject: Re: [PATCH -next] hid: cp2112: Use irq_get_trigger_type() helper
+Message-Id: <172623506306.1194883.2350447718826983354.b4-ty@kernel.org>
+Date: Fri, 13 Sep 2024 15:44:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -63,38 +59,18 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14.1
 
-On Tue, 10 Sep 2024 23:43:36 +0900, Benjamin Tissoires wrote:
-> This is a slight change from the fundamentals of HID-BPF.
-> In theory, HID-BPF is abstract to the kernel itself, and makes
-> only changes at the HID level (through report descriptors or
-> events emitted to/from the device).
+On Fri, 13 Sep 2024 15:46:32 +0800, Jinjie Ruan wrote:
+> Use irq_get_trigger_type() to replace irq_get_irq_data() and then
+> irqd_get_trigger_type(), if the irq data is NULL it will return 0.
 > 
-> However, we have seen a few use cases where HID-BPF might interact with
-> the running kernel when the target device is already handled by a
-> specific device.
+> No functional changed.
 > 
-> [...]
+> 
 
-Applied to hid/hid.git (for-6.12/bpf), thanks!
+Applied to hid/hid.git (for-6.12/cp2112), thanks!
 
-[01/11] HID: bpf: move HID-BPF report descriptor fixup earlier
-        https://git.kernel.org/hid/hid/c/f10a11b7b599
-[02/11] HID: core: save one kmemdup during .probe()
-        https://git.kernel.org/hid/hid/c/6941754dbbc7
-[03/11] HID: core: remove one more kmemdup on .probe()
-        https://git.kernel.org/hid/hid/c/4fe29f36d2a3
-[04/11] HID: bpf: allow write access to quirks field in struct hid_device
-        https://git.kernel.org/hid/hid/c/b722f588adc6
-[05/11] selftests/hid: add dependency on hid_common.h
-        https://git.kernel.org/hid/hid/c/3d816765e12e
-[06/11] selftests/hid: cleanup C tests by adding a common struct uhid_device
-        https://git.kernel.org/hid/hid/c/28023a0f99d1
-[07/11] selftests/hid: allow to parametrize bus/vid/pid/rdesc on the test device
-        https://git.kernel.org/hid/hid/c/10d3147f9bb1
-[08/11] HID: add per device quirk to force bind to hid-generic
-        https://git.kernel.org/hid/hid/c/d030f826ea47
-[09/11] selftests/hid: add test for assigning a given device to hid-generic
-        https://git.kernel.org/hid/hid/c/10929078201f
+[1/1] hid: cp2112: Use irq_get_trigger_type() helper
+      https://git.kernel.org/hid/hid/c/e9a081c80cb3
 
 Cheers,
 -- 
