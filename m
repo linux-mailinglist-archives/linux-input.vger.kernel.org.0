@@ -1,114 +1,103 @@
-Return-Path: <linux-input+bounces-6493-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6494-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA4D977B1A
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 10:32:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 726EA978155
+	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 15:39:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 33DAB1C24B2D
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 08:32:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CC641F261D9
+	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 13:39:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 858C61D5CC4;
-	Fri, 13 Sep 2024 08:32:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E80B1DA62A;
+	Fri, 13 Sep 2024 13:38:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jhx/fTcJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bs/fFwqb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC7A1BD510;
-	Fri, 13 Sep 2024 08:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C231D6C7A;
+	Fri, 13 Sep 2024 13:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726216368; cv=none; b=GB4Z6Ja+NmWQG1gQi6BwOnJuJJ07Q/bBCha60r2WMom1HcrXzXg7QHfOi2dJahpK6tQv8z4IqYnJVoDNRKwNyBeDHIp8JnYPXMe+aIpwDBmv6Yhu5DSieO9EqSeZbqeceCLlYjO8TZneZ2zJN9OMGa3hH5rHMh64dhSzIDOjG3w=
+	t=1726234738; cv=none; b=MUZYsl3k4gBNfwOwaEKJ2TjoRyQSyAPaeby9/WPi9m5fqCvzBr0Ceiy+ZN1FsunKGslofnB/8BVaK9sVutMfZ2njcmEEaOnVZLN6r/jacwma8XhAkUzIkIw6RAVoUaTC1Ngp8tgFNpl1Nq5ouH/j+zrxQ3c/9W/NDuAdrdSD+e4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726216368; c=relaxed/simple;
-	bh=DmD/oFS9ztHwN6LHCihrKLQc89zTH//9v3d7Pudf0gE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:MIME-Version:
-	 Content-Type; b=ExR9PH9Cx3NzViorSwBLe9VVppdJWLLsAavJ8abUytViDxbY5D8f3gUr1irXBN5vLR5TZLGcDs/YpnUi+F/vyjz0HxlUSWzp1qcyo1Sjvd4K4HQbK4qJgY+hl5qW8SDVf+xGJK2OcoLdc/NcuhNamr8KwR7gDrGR/BrlVvTDZ68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jhx/fTcJ; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42bb7298bdeso8398455e9.1;
-        Fri, 13 Sep 2024 01:32:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726216364; x=1726821164; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:in-reply-to:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wp9Y737ViR4EfOInl3nplGoJAcdlB+yuFRrQ0BSzktk=;
-        b=Jhx/fTcJPNndRUuB9lLIkr6H2oVl3Y3IgpPLrXQ+E1a0nBioMhXnID93eZbuFyCWts
-         mG7zgAbtomkavBn8aZdut71HWvmuL0jnSka1+IgbriASbZudnlAihbnT7Ee10MBQhr0Z
-         fRCKmBjgb+G0rmPAnt7Cs0mXneVLBEyyumOOLwsYDOWS14TWfcQBoTK+MrSGbHKTdpF2
-         1xrXWzDvsn7t3SdZovQQVffRdpTFRoJsmyWqc7JS3svST+2mGmIdJUU6iP1fK+E7FEks
-         Q2ytItjS5b7uf5IYPjjdKMwtO/ltg8YmuXiqyEOoTI5+R7uDRewheb9X4LQuraJi8ogO
-         q9YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726216364; x=1726821164;
-        h=content-transfer-encoding:mime-version:in-reply-to:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wp9Y737ViR4EfOInl3nplGoJAcdlB+yuFRrQ0BSzktk=;
-        b=CC2kPq0NMpoQlyvwwQGJ5vEUO0TSKAQH1rh87lfmxyC95t99ic+JyaUzFove18EiD+
-         ZUyzw1cHZlmVFGc7x6gbOmzgPTvDP/EnhsnvP+DNeg3Xn+xyKYj+Ro8j1nkgK3EU0rVp
-         C4SDNyGL8cQBThaF115qzW7tr8DHYBlwhrCrnAIf9qsCOj0zvnrTq9jklqmXSD3cfBfK
-         BaQLmiwTbppqxkyALFKkBp86519C7zGjephYCDFMSUc1C03UMhUnPVSVtnbulhY6DcqP
-         9S3X1PNxNmeclJ9WZv88hOhncNnkITcT+XTlV1x5JM46e0hwrgilXFOQ00UKpC/7+0PA
-         jkZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVIlyw8Iqifmi6QO3W27gpL5Yps4Umbel6VfeHenqDICDkRCf4GOEb5uZgUTuXPvp+AdepMo5MD8tdKs01X@vger.kernel.org, AJvYcCVZhtCsE7fBQBoh9sEfBVptj41j3+fAbDhSJe69+D2YXrCjgfEVEgROnTtaxZyDNBxarIHYQ4f+7LQZ@vger.kernel.org, AJvYcCVgwjQVBFTp3C5NMyVk9yyRFMN8JuC3KojXOZIvdBAxBWLGLDQNGbcRHi3Fjtwb47nMOEXeHi16dQul@vger.kernel.org, AJvYcCWZm4I9Psi60SeNFjWZ7cFwDORxH+zRMM849RkJ8171oHYqXKjV7ZSjQ6wSq5YhvKr4SNlbtOdOLc+cYk9ARQ==@vger.kernel.org, AJvYcCWwEPwpvI3d+Q/A5RLV9L0UySQGRUzvaMqHrlJ0ym9jM6Ep1BoL81xWty5bwfnyezFEOd6CYJW9Fp5Y@vger.kernel.org, AJvYcCXAtFR1aRpti65x7wjtc1ykiku5SrqYe8c1YRRpzkbgBxjqBHUipS9Y+EHuE2LCcneUSH5O4X5pKln/IJs=@vger.kernel.org, AJvYcCXQ9Zm3YR3Wdqj/qTd4FAKG4E3bCHA0bxcdZfdJXQP/IXADUeyzUvVnJVBsWXLy7IjpiHW3p/rMzMXDHgg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoXlD9a7RE+14evReJdk7rJUMOEwqyQ5v3PaDxvLSfJe+SEOkd
-	Z3TnVu8LxefjBRrXOnnvBAyqaMlT9ZIRmNXhcySWedeVszspEWFq
-X-Google-Smtp-Source: AGHT+IE2Ku5Yqa7DnoqdH5xDY5dD9ozv14FV0pNO09UH2LmGbvbqmw1nTSHM8AvIojolJCXpaHwH8w==
-X-Received: by 2002:a5d:5150:0:b0:374:bd48:fae8 with SMTP id ffacd0b85a97d-378d61f090fmr1570895f8f.25.1726216363746;
-        Fri, 13 Sep 2024 01:32:43 -0700 (PDT)
-Received: from foxbook (bio60.neoplus.adsl.tpnet.pl. [83.28.130.60])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25cf03ccsm846921566b.183.2024.09.13.01.32.41
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 13 Sep 2024 01:32:43 -0700 (PDT)
-Date: Fri, 13 Sep 2024 10:32:37 +0200
-From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
-To: quic_wcheng@quicinc.com, mathias.nyman@linux.intel.com
-Cc: Thinh.Nguyen@synopsys.com, alsa-devel@alsa-project.org,
- bgoswami@quicinc.com, broonie@kernel.org, conor+dt@kernel.org,
- corbet@lwn.net, devicetree@vger.kernel.org, dmitry.torokhov@gmail.com,
- gregkh@linuxfoundation.org, krzk+dt@kernel.org, lgirdwood@gmail.com,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- mathias.nyman@intel.com, perex@perex.cz,
- pierre-louis.bossart@linux.intel.com, robh@kernel.org,
- srinivas.kandagatla@linaro.org, tiwai@suse.com
-Subject: Re: [PATCH v27 01/32] xhci: add helper to stop endpoint and wait
- for completion
-Message-ID: <20240913103237.2f5dc796@foxbook>
-In-Reply-To: <20240912193935.1916426-2-quic_wcheng@quicinc.com>
+	s=arc-20240116; t=1726234738; c=relaxed/simple;
+	bh=/KYBSsDBCUsu+s6eKQzz/C+xxOtD1VUVkICShhczuto=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=PdhHl2bzhdJb5TXUPM/PmIqt76ySRJBp0k4DU0L89zGzqJf5b/QM8eN8od9d/NuQiU6nJC4dNwzgarXfzYzxT1NbIzZn+W5CEhXJ0Bq6rIms5Mg7T9Ys/qfMLj1aXKL8ZJA0zs6csFEDCKBWgfk40IGrs2yaV6BzaVXjunM4Ff8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bs/fFwqb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34808C4CEC0;
+	Fri, 13 Sep 2024 13:38:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726234738;
+	bh=/KYBSsDBCUsu+s6eKQzz/C+xxOtD1VUVkICShhczuto=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Bs/fFwqbdW6dlxBnItsXK36LvRQXPXcToYHuJUWFx6tvZ+ExVwLy+TlJyf+jFxlf0
+	 68TsjIdQub/qzqSm6R/Ym1o0APmC8da4YOjZOgiFrHMPvaoAFDTNyXnf2dpdDFRnQJ
+	 md/lYpfK1c1N0fV3phv+O+kGwE02CYfXL2IBShc7hbPsmaA/TWfbExj5Ji4GOyxRGh
+	 LQLWGUfT/Xz/oZYLO81dyF2eBXZsz8gqdtK9usPTcPGRUDDQcpoAW0qEMUedfirquF
+	 7i83vW4pBF0H8OiPYo6E8W8fQfM7wKjMzuqLAU61rjuq2g+Tv2tkrQMWYBgAkeHijU
+	 +I64sUZR7hjsQ==
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Jiri Kosina <jikos@kernel.org>, 
+ Peter Hutterer <peter.hutterer@who-t.net>, Vicki Pfau <vi@endrift.com>, 
+ Shuah Khan <shuah@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+In-Reply-To: <20240910-hid-bpf-hid-generic-v2-0-083dfc189e97@kernel.org>
+References: <20240910-hid-bpf-hid-generic-v2-0-083dfc189e97@kernel.org>
+Subject: Re: (subset) [PATCH HID v2 00/11] HID: bpf: add a new hook to
+ control hid-generic
+Message-Id: <172623473588.1192461.11090201509053454593.b4-ty@kernel.org>
+Date: Fri, 13 Sep 2024 15:38:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.1
 
-Hi,
+On Tue, 10 Sep 2024 23:43:36 +0900, Benjamin Tissoires wrote:
+> This is a slight change from the fundamentals of HID-BPF.
+> In theory, HID-BPF is abstract to the kernel itself, and makes
+> only changes at the HID level (through report descriptors or
+> events emitted to/from the device).
+> 
+> However, we have seen a few use cases where HID-BPF might interact with
+> the running kernel when the target device is already handled by a
+> specific device.
+> 
+> [...]
 
-> Expose xhci_stop_endpoint_sync() which is a synchronous variant of
-> xhci_queue_stop_endpoint().  This is useful for client drivers that are
-> using the secondary interrupters, and need to stop/clean up the current
-> session.  The stop endpoint command handler will also take care of
-> cleaning up the ring.
+Applied to hid/hid.git (for-6.12/bpf), thanks!
 
-I'm not entirely sure what you meant by "cleaning up the ring" (maybe a
-comment would be in order?), but I see nothing being done here after the
-command completes and FYI xhci-ring.c will not run the default handler if
-the command is queued with a completion, like here.
+[01/11] HID: bpf: move HID-BPF report descriptor fixup earlier
+        https://git.kernel.org/hid/hid/c/f10a11b7b599
+[02/11] HID: core: save one kmemdup during .probe()
+        https://git.kernel.org/hid/hid/c/6941754dbbc7
+[03/11] HID: core: remove one more kmemdup on .probe()
+        https://git.kernel.org/hid/hid/c/4fe29f36d2a3
+[04/11] HID: bpf: allow write access to quirks field in struct hid_device
+        https://git.kernel.org/hid/hid/c/b722f588adc6
+[05/11] selftests/hid: add dependency on hid_common.h
+        https://git.kernel.org/hid/hid/c/3d816765e12e
+[06/11] selftests/hid: cleanup C tests by adding a common struct uhid_device
+        https://git.kernel.org/hid/hid/c/28023a0f99d1
+[07/11] selftests/hid: allow to parametrize bus/vid/pid/rdesc on the test device
+        https://git.kernel.org/hid/hid/c/10d3147f9bb1
+[08/11] HID: add per device quirk to force bind to hid-generic
+        https://git.kernel.org/hid/hid/c/d030f826ea47
+[09/11] selftests/hid: add test for assigning a given device to hid-generic
+        https://git.kernel.org/hid/hid/c/10929078201f
 
-At least that's the case for certain command types and there is probably
-a story behind each of them. I know that xhci_stop_device() queues a
-Stop EP with completion (and also a few without(?)). Maybe it's a bug...
+Cheers,
+-- 
+Benjamin Tissoires <bentiss@kernel.org>
 
-Regards,
-Michal
 
