@@ -1,81 +1,80 @@
-Return-Path: <linux-input+bounces-6532-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6533-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B95597868F
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 19:21:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E54978711
+	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 19:44:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 55A081C24247
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 17:21:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2231928C71B
+	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 17:44:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 946B863C;
-	Fri, 13 Sep 2024 17:21:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04D8984A4D;
+	Fri, 13 Sep 2024 17:44:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lqeAW/fx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d19BrIOi"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355017E563
-	for <linux-input@vger.kernel.org>; Fri, 13 Sep 2024 17:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D48282D83;
+	Fri, 13 Sep 2024 17:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726248096; cv=none; b=eM3l9u74NXbq1Rmf+g/3adxj3Pq6zpTMq5huDk5doNpo8Y6bI17bTmb8NbxpQkDP1wVGnYS5ntl1ZrXF4ShkM2fma45k/lvioLudMzT/dLItn7fiLdyPS86R5lUvoV6/vNQ3cyT5EvFm0h7+KMwvNjYcSW6T6K/AHV5clUae/6s=
+	t=1726249455; cv=none; b=nO4x9/UglDMxlHyDXDu+vsM/js2jFP3fvMXLk7CiaoY11DQhZ33LbqNf0qbKrrv4c6N/anxSHSvJVX8XVgrheBM/NdoPI4SIBiTGo5MBAPORbVlaPp9mYFwN8qO9GojS6XfNitSxjZzAmXfg5CVr5O5ArYlyAsThdU1dYnx8bMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726248096; c=relaxed/simple;
-	bh=JfFwAlgHPFZpDF7mFNsvMFI01ljY3S/H0SfyBfEGTUA=;
+	s=arc-20240116; t=1726249455; c=relaxed/simple;
+	bh=jGzGLS5jc1tgtr1VvrVQOwCVcOgKD27bW3hONB0me0s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JOBkWKDMZ+rsKNbZ7DZwUFPbLvYa34QmGbJIxeOnYTknswto6uj4eB02fbPsIAlziiG/g3qcVzPo40uxxNVMSV6CUHhVq/aQjxoXad0l62asTDv1EVFYcJ1UfvWncdtfRQOZKq+RysJnBG2GhHMW/0y/xjEU68DaiuUloZwBcU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lqeAW/fx; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-205909af9b5so11256425ad.3
-        for <linux-input@vger.kernel.org>; Fri, 13 Sep 2024 10:21:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726248094; x=1726852894; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aEMrGsah1xCmpa7lOihAKeMWCwAN5m1xCvYDO+E4f7Q=;
-        b=lqeAW/fxP7Hctn83FezSyU8MM0U1OU0h8WUD9c/fnhvMa/ek+o57qFfGjKY7NfuE2B
-         mQneBcDI9wNXNm9AhAfuAuTwj4io6+p+saGZoOzUGtE2TagE/zPfPoFj1XIcSKbNnxgG
-         QbRNGgF5pHfU0Qt34DptQ6vkwlwIkuP6Zdau/o0ehdgJcWNHBAMv9EZZeNtv7sC3cZWZ
-         SiEedQVG+8FRA8JmBOCB33lMGaVFAeTmADq7S3yQUuPEku6gDvBRb4cumKGcpp0PxiKJ
-         U9S1C+BFGzXNODlsJt+lDoLB0RkMlpfi2dF2ecMisd9PiUNPDkHXTGDFeigm3PG096i6
-         WRhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726248094; x=1726852894;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aEMrGsah1xCmpa7lOihAKeMWCwAN5m1xCvYDO+E4f7Q=;
-        b=cHBxfZYUmo0a38OkTAkP6cL3Xnh1VGu1gQ9EM89xLdPkPRA3A2SwvjiqDwRUNH/rjQ
-         rUsqtOcErsLv82dLvLyaW9nXiKbBvNTf5IzN1zn4+bZa2mbJi2HbkH3qri+gZsKiH54V
-         ClntZJqrdNme1f+gDuoEf/Xr0XSfoHJ9liT5i5Y6niCvZ+lfOkEgIBOHV5yWJ+QuTPdM
-         CJt2Oi5DR4r2rwX0TjbJWhvGXB9RBJlx3nYFEb8H2Ob3qyTXbwty8EKl5hH877deAiV4
-         Z61oBQXO4OW4Vc78S5HTlJlahbSG7t00ngjEAG6q1fjN0hRilA5RtVhWXcdY3y0B3wyr
-         FQtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVDOKNxEmd95lKQ1OisvnCTYRGF0BLG/b7rXQ0z3STBn6B14bDOKnerN7SskHyE7/I6VBt3nxKQHmct8g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyeVsQwYlxWyniLj5YpV0r5J2W+KB84LEm9LKdDDQdxucXULYtS
-	cqG9v0yS5OECdkZaalWRYV9Mt2d6uBJAchg+5BCtVqNYkJ+mHg9w
-X-Google-Smtp-Source: AGHT+IGdTMWBtiPW9lI2petsQZn5vre1X+S0dFbZVcj+WmTxY4aWlKEM+uoPI1xOFBZWsaO1bzNCVg==
-X-Received: by 2002:a17:903:234b:b0:207:6e9:2da1 with SMTP id d9443c01a7336-20781d628c5mr53716965ad.17.1726248093854;
-        Fri, 13 Sep 2024 10:21:33 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:4c0d:1024:4781:3234])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2076af47484sm30349745ad.88.2024.09.13.10.21.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Sep 2024 10:21:33 -0700 (PDT)
-Date: Fri, 13 Sep 2024 10:21:30 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: erick.archer@outlook.com, u.kleine-koenig@pengutronix.de,
-	danilokrummrich@dk-develop.de, linus.walleij@linaro.org,
-	robh@kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: ps2-gpio - Use IRQF_NO_AUTOEN flag in
- request_irq()
-Message-ID: <ZuR0mmeVH0lQ8HEC@google.com>
-References: <20240912033013.2610949-1-ruanjinjie@huawei.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=NcA71fIYfz+/dRdFulUNRK+Cwypu5bpB1aVaTIR/SPDYycaSYThMkuSKpzwXKN/vYnuupqH/zGE/+aYjvTLmkkVMrdASnp/A0E4YdPpoWubNTf4C9uOeMM9kcfHFxVFhZl7m6kDbvezqYqoe9T6/xT81T65h8QwTZmUEx78damE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d19BrIOi; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726249454; x=1757785454;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jGzGLS5jc1tgtr1VvrVQOwCVcOgKD27bW3hONB0me0s=;
+  b=d19BrIOiJWvB28tQvjgBwlX5DGQJL9gmcx6UewE0VmB3AgT5ZhpC+AC6
+   oY91oDS2jWkn1n2SRa8+W7Y891B437rvgSibfIH5O81Y8StQMOTXqgxIl
+   PFrA1Y8tLkUzp8aPfF8Nbinb9sCHZbLyz5hlfLBbVj/HgjQeRqcrTANNe
+   FFX/ymiL+ZKlcu21qX//Ip6CTp1Wl3Cp0vqKdZIVoQLDbzIYi3ohETIoI
+   UddVMWdufjHQeYolaRSM5y2cvJJZTk79a+N+y+ur4bsy/mm/IP3j4WLQh
+   /cME/hyPlhWsXf7ZHj6cNiX+TolAECJFiVQxVuyp3rAF3tqXg9kWZ3q/6
+   Q==;
+X-CSE-ConnectionGUID: D8T5PTAtTjKyymi0V7ts4g==
+X-CSE-MsgGUID: nY9kI+vqQwGXsAFxLkv5MA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="35829380"
+X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
+   d="scan'208";a="35829380"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 10:44:13 -0700
+X-CSE-ConnectionGUID: CpJnrJr1RpeKBeAlx1cR5Q==
+X-CSE-MsgGUID: mnDRyL3fS8Kw/nImH3rKAA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
+   d="scan'208";a="67761067"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 13 Sep 2024 10:44:10 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1spAL2-0006lY-0W;
+	Fri, 13 Sep 2024 17:44:08 +0000
+Date: Sat, 14 Sep 2024 01:43:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	jikos@kernel.org, bentiss@kernel.org, dmitry.torokhov@gmail.com,
+	linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ernis@microsoft.com,
+	Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>
+Subject: Re: [PATCH 1/3] Drivers: hv: vmbus: Disable Suspend-to-Idle for VMBus
+Message-ID: <202409140137.5jZxplAp-lkp@intel.com>
+References: <1726176470-13133-2-git-send-email-ernis@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -84,18 +83,63 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240912033013.2610949-1-ruanjinjie@huawei.com>
+In-Reply-To: <1726176470-13133-2-git-send-email-ernis@linux.microsoft.com>
 
-On Thu, Sep 12, 2024 at 11:30:13AM +0800, Jinjie Ruan wrote:
-> disable_irq() after request_irq() still has a time gap in which
-> interrupts can come. request_irq() with IRQF_NO_AUTOEN flag will
-> disable IRQ auto-enable when request IRQ.
-> 
-> Fixes: 9ee0a0558819 ("Input: PS/2 gpio bit banging driver for serio bus")
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+Hi Erni,
 
-Applied, thank you.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on dtor-input/next dtor-input/for-linus linus/master v6.11-rc7 next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Erni-Sri-Satya-Vennela/Drivers-hv-vmbus-Disable-Suspend-to-Idle-for-VMBus/20240913-053127
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/1726176470-13133-2-git-send-email-ernis%40linux.microsoft.com
+patch subject: [PATCH 1/3] Drivers: hv: vmbus: Disable Suspend-to-Idle for VMBus
+config: i386-randconfig-003-20240913 (https://download.01.org/0day-ci/archive/20240914/202409140137.5jZxplAp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140137.5jZxplAp-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409140137.5jZxplAp-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/hv/vmbus_drv.c:985:27: error: 'vmbus_freeze' undeclared here (not in a function); did you mean 'vmbus_remove'?
+     985 |         .suspend_noirq  = vmbus_freeze,
+         |                           ^~~~~~~~~~~~
+         |                           vmbus_remove
+
+
+vim +985 drivers/hv/vmbus_drv.c
+
+   973	
+   974	/*
+   975	 * Note: we must use the "noirq" ops: see the comment before vmbus_bus_pm.
+   976	 *
+   977	 * suspend_noirq/resume_noirq are set to NULL to support Suspend-to-Idle: we
+   978	 * shouldn't suspend the vmbus devices upon Suspend-to-Idle, otherwise there
+   979	 * is no way to wake up a Generation-2 VM.
+   980	 *
+   981	 * The other 4 ops are for hibernation.
+   982	 */
+   983	
+   984	static const struct dev_pm_ops vmbus_pm = {
+ > 985		.suspend_noirq  = vmbus_freeze,
+   986		.resume_noirq	= NULL,
+   987		.freeze_noirq	= vmbus_suspend,
+   988		.thaw_noirq	= vmbus_resume,
+   989		.poweroff_noirq	= vmbus_suspend,
+   990		.restore_noirq	= vmbus_resume,
+   991	};
+   992	
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
