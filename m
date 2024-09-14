@@ -1,158 +1,175 @@
-Return-Path: <linux-input+bounces-6548-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6549-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01B5B978F27
-	for <lists+linux-input@lfdr.de>; Sat, 14 Sep 2024 10:39:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E035978F93
+	for <lists+linux-input@lfdr.de>; Sat, 14 Sep 2024 11:45:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A8B01C21FB7
-	for <lists+linux-input@lfdr.de>; Sat, 14 Sep 2024 08:39:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 241AE286DDD
+	for <lists+linux-input@lfdr.de>; Sat, 14 Sep 2024 09:45:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 459D71465B4;
-	Sat, 14 Sep 2024 08:39:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86ACD153BD7;
+	Sat, 14 Sep 2024 09:45:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="UD9rh84s"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="dCTCFO0L"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3696433D5;
-	Sat, 14 Sep 2024 08:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726303157; cv=pass; b=srsmMcSIJ+W5XWJ+8EBBu2IyxZcU08+eYhSYu161+XANKyz6Pww7dm0ecBt8sfkvB2QkuDuMkuDeiSITkNGbV/cGQOfEXZKFvsOT9+6cEYhjzTnduRxzhRGbagPkRP5AjCQDjBbf6ke6dcNH1HV1ilNQfr9+zu2XYLkgZKYDBwU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726303157; c=relaxed/simple;
-	bh=pfSJVhTniD/TEI8prxwxup12Sbw+prmH32swhXL3LQ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=La1Z/G55fHQep/l+nANHaaft687CgjRp46uxOd4FJowgEEc448Z5M/opkHf3RtXzbsi0d0+yGb71V/rC4NPx6CNiqKpGqygyikG2qXfzk52snEyqHbJfboD0zkulcjdCBvNXmbgDjLpOGXr/gUZ+ZJ8+rPfeA6D/0luuF0FV14w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=UD9rh84s; arc=pass smtp.client-ip=136.143.188.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1726303126; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=MLOmakQrtsg4TH4ciQgVKKbaYfee0msm0gpHo0IRm2TCR1PjW/dhublzRh0fRtGTGALhk45SIBObhSMIdaclT1VZ9llt1dpmAWq4/rrRaZnP0TlystVIRu8JLbEtT5I9dAY40SMVINghKRE66+gmMtnaXLBPvrGwUkoll0SY1iU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1726303126; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Ej6QX9G1dmM07ksR/FVgVBTC5gPecCY6T1R8JXBXxZk=; 
-	b=QY6lMDWN3HqBg2CDOf4cd+x4CEh43tB3mXTwIHABzoMI9JNSgz3eCEZESG2I+hR6nX15ncOa5pdT8gmwe3yMArbB0phGyXskFZyfoOp4NyvlZWvqyKpCJ2GuN5ZhbcTzbw8Mtg8QOC6CbLtFeId2ZLx38RRRTlrcB5KrD33AbT0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726303126;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=Ej6QX9G1dmM07ksR/FVgVBTC5gPecCY6T1R8JXBXxZk=;
-	b=UD9rh84s/7G9dAEtd71GxxzLUEpLcscRJ47S8/+Pe+224BS1cdckHNW/uTnB9dg5
-	ie+cQG6VuPJdexJ7jiJPsrCstd7qabLh6ikWCE7quHAz3dCrzp0Zv10KpGsPVcL2ajR
-	EzZkbOiu/30stenQoIDwq5734cnSfpNxAyU85Jbc=
-Received: by mx.zohomail.com with SMTPS id 1726303124615201.60398788551277;
-	Sat, 14 Sep 2024 01:38:44 -0700 (PDT)
-Received: by mercury (Postfix, from userid 1000)
-	id 3FFFB1060578; Sat, 14 Sep 2024 10:38:28 +0200 (CEST)
-Date: Sat, 14 Sep 2024 10:38:28 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
-	Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Simona Vetter <simona@ffwll.ch>, cros-qcom-dts-watchers@chromium.org, 
-	Konrad Dybcio <konradybcio@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v4 01/27] power: supply: add undervoltage health status
- property
-Message-ID: <uta55qswxp43tdziertbwvopytx26kjanouxfffvkjfnhrkwj2@bwoyfygw3pp7>
-References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
- <20240913-starqltechn_integration_upstream-v4-1-2d2efd5c5877@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5206E13342F;
+	Sat, 14 Sep 2024 09:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726307152; cv=none; b=D8rwPPkYzZOxIKVPFDuNC+dNQaVD5YIMXkJ4fuCJjnsevLq3BwDgarasK6DZTZPI5tOVkbHiwx2Mm7+2LxGcexsSkpF4EDy3Fdh+CbVBYrettObcLe/9ov/a6mUrK4ylcvy2OZrlWndp+HJNi9z5E+lWctIGQSbQkuLRIT+THks=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726307152; c=relaxed/simple;
+	bh=IQt8YvLdgZK2Ul2Fo05K3SidoxgzyxbCVIohz8TUv3M=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
+	 In-Reply-To:Content-Type; b=rh373Bs1XEQZvNrTypdXd1c/14lUxEOb4wbDJ2PtVZ29g/mBaWCr65tn+ciqfG67RlrQWu1Hvowk2wCPW7eIX5Xi6zeu6dMcNkeK712wjKcaIwkAUfDs90HsyIq9baKoCVvpHdv1TshaiDA20IcNZqU52VBfJGgWdKvptMWuau4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=dCTCFO0L; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 1ade62d6727e11ef8b96093e013ec31c-20240914
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:CC:To:From:Subject:MIME-Version:Date:Message-ID; bh=td6W5BqS/w7GJGWIguOqNkiPUX+ROKcwQb3R/eDFAI0=;
+	b=dCTCFO0L1H0bx1lR4E4FH4Mbf5IxigQ5QTIMahA90uYSzPP/Ln24ubkmDOboP2skNe0A4e61h/88mPd18zRiOamP+uPZcQxv8+LDCLOmYX4ILPaMeX2k+r4bIR2TdwS/btNt8SqQe32H/uH//FG9INiCeQsRPKgK/jLz1YAI/50=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:967cd962-b5cf-4726-8a0d-fff50ef6ada8,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6dc6a47,CLOUDID:ffd7f5bf-d7af-4351-93aa-42531abf0c7b,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
+	l,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 1ade62d6727e11ef8b96093e013ec31c-20240914
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
+	(envelope-from <macpaul.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 546005059; Sat, 14 Sep 2024 17:45:41 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Sat, 14 Sep 2024 17:45:38 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
+ Transport; Sat, 14 Sep 2024 17:45:38 +0800
+Message-ID: <9a120bc4-f671-dd35-a1f9-b9ae7031bdd1@mediatek.com>
+Date: Sat, 14 Sep 2024 17:45:34 +0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="r7xlkoqbyyg5k4lc"
-Content-Disposition: inline
-In-Reply-To: <20240913-starqltechn_integration_upstream-v4-1-2d2efd5c5877@gmail.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.3.1/223.982.64
-X-ZohoMailClient: External
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 2/3] dt-bindings: mfd: mediatek: mt6397: Convert to DT
+ schema format
+Content-Language: en-US
+From: Macpaul Lin <macpaul.lin@mediatek.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Bear Wang <bear.wang@mediatek.com>, Conor Dooley <conor+dt@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Chen Zhong
+	<chen.zhong@mediatek.com>, <linux-leds@vger.kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Sen Chu <sen.chu@mediatek.com>, Lee Jones
+	<lee@kernel.org>, <linux-mediatek@lists.infradead.org>, Macpaul Lin
+	<macpaul@gmail.com>, Mark Brown <broonie@kernel.org>, Chris-qj chen
+	<chris-qj.chen@mediatek.com>, <linux-input@vger.kernel.org>, Dmitry Torokhov
+	<dmitry.torokhov@gmail.com>, <linux-rtc@vger.kernel.org>, "MediaTek
+ Chromebook Upstream" <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	Sean Wang <sean.wang@mediatek.com>, Pavel Machek <pavel@ucw.cz>,
+	<linux-pm@vger.kernel.org>, Chen-Yu Tsai <wenst@chromium.org>, "Sebastian
+ Reichel" <sre@kernel.org>, Alexandre Mergnat <amergnat@baylibre.com>,
+	<devicetree@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sound@vger.kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	Pablo Sun <pablo.sun@mediatek.com>
+References: <20240913175926.7443-1-macpaul.lin@mediatek.com>
+ <172625540069.478205.2893721075637493498.robh@kernel.org>
+ <099c4f3e-0772-3d30-79f7-8b996142cd7c@mediatek.com>
+ <4a396c65-2353-da09-4dd2-71b822237920@mediatek.com>
+In-Reply-To: <4a396c65-2353-da09-4dd2-71b822237920@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--18.448200-8.000000
+X-TMASE-MatchedRID: 6otD/cJAac0OwH4pD14DsPHkpkyUphL9meN8m2FdGic3xO2R3boBWFbu
+	qIY+/skQkABPgKBt/0r/bIpz2qRIjbvjKWK1iQnHSHCU59h5KrHWSrKtwxqWpU+u3rM3lFPnCkE
+	raFSKEBfgwC+tMY7byJTQ/2UxBcQVxAFMYEMzeR2+dJWHbg4ITpPFJV0Myxm8BUe+Zw5ql5RljC
+	/GdRjZi6wHHwdmt++AY44xtvjJ5nioB6BkKpx1kfSG/+sPtZVk4mC51qavDrQ2ANpk6Ruu/cJ0s
+	YMUJ2E10s4PPEfk7xPV55op6HGBQmyeGFxbrq7l5gCHftmwEMJ9LQinZ4QefL6qvLNjDYTwsuf7
+	RWbvUtyrusVRy4an8SAHAopEd76vF7r821BSEoHux3p95mrDUygbh3X/XOfuagda0wu3hd8CCEh
+	VFxWr8g==
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--18.448200-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: F43395B9D1A6CB275AE5AF30E52C01AC9CD434BD27F2C2F01DD624AA796E78802000:8
 
 
---r7xlkoqbyyg5k4lc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9/14/24 15:25, Macpaul Lin wrote:
+> On 9/14/24 15:06, Macpaul Lin wrote:
+>>
+>>
+>> On 9/14/24 03:23, Rob Herring (Arm) wrote:
+>>>
+>>>
+>>> External email : Please do not click links or open attachments until 
+>>> you have verified the sender or the content.
+>>>
+>>> On Sat, 14 Sep 2024 01:59:26 +0800, Macpaul Lin wrote:
+>>>> Convert the mfd: mediatek: mt6397 binding to DT schema format.
+>>>>
+>>
+>> [snip]
+>>
+>>>>
+>>>
+>>> My bot found errors running 'make dt_binding_check' on your patch:
+>>>
+>>> yamllint warnings/errors:
+>>>
+>>> dtschema/dtc warnings/errors:
+>>> Warning: Duplicate compatible "mediatek,mt6357" found in schemas 
+>>> matching "$id":
+>>
+>> I'm using dtschema 2024.09 and the dt_bindings_check didn't report 
+>> this issue even the full check has been run.
+> 
+> Hopefully I've found a way to update latest dtschema without bothering 
+> IT. ;)
+> 
+> pip3 install -U git+https://github.com/devicetree-org/dt-schema.git@main
+> 
+> I'll run latest dt_bindings_check for v4 version.
+> 
+Dear Rob,
 
-Hi,
+Just want to leave a note here.
 
-On Fri, Sep 13, 2024 at 06:07:44PM GMT, Dzmitry Sankouski wrote:
-> Add POWER_SUPPLY_HEALTH_UNDERVOLTAGE status for power supply
-> to report under voltage lockout failures.
->=20
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> ---
+After I've updated to dtschema 2024.10.dev3+gdc4787b,
+the 'make dt_bindings_check' still reported no error with this patch v3.
 
-This is missing updates to
-Documentation/ABI/testing/sysfs-class-power and
-drivers/power/supply/power_supply_sysfs.c
-(POWER_SUPPLY_HEALTH_TEXT).
+pip show dtschema
 
-Greetings,
+Name: dtschema
+Version: 2024.10.dev3+gdc4787b
+Summary: DeviceTree validation schema and tools
+Home-page: https://github.com/devicetree-org/dt-schema
 
--- Sebastian
+python: 3.10
+pip: 24.2
 
->  include/linux/power_supply.h | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/include/linux/power_supply.h b/include/linux/power_supply.h
-> index 910d407ebe63..8682e6466544 100644
-> --- a/include/linux/power_supply.h
-> +++ b/include/linux/power_supply.h
-> @@ -58,6 +58,7 @@ enum {
->  	POWER_SUPPLY_HEALTH_OVERHEAT,
->  	POWER_SUPPLY_HEALTH_DEAD,
->  	POWER_SUPPLY_HEALTH_OVERVOLTAGE,
-> +	POWER_SUPPLY_HEALTH_UNDERVOLTAGE,
->  	POWER_SUPPLY_HEALTH_UNSPEC_FAILURE,
->  	POWER_SUPPLY_HEALTH_COLD,
->  	POWER_SUPPLY_HEALTH_WATCHDOG_TIMER_EXPIRE,
->=20
-> --=20
-> 2.39.2
->=20
+If you have any clue about root cause or any other dependencies
+of this environment issue, please let me know. I'll try to check if
+there is a fix. Thanks.
 
---r7xlkoqbyyg5k4lc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmblS3wACgkQ2O7X88g7
-+prRCxAAlhYUU4yJX7NEhfMbNTVWhURSBhobZ62HayXzgdpD6Mq48r79Maug7GC9
-GT0mcYXyGLCZjLkte5Qn0695klYG9JsIWdZqOdQV7fgHhH6gDBkFYghMVv8NVnXF
-Pmcmwc1QOCjmDp37EkvxjXKOc+XNdnVuAlSwpnP3zkXKtexwe3kvZtD3qLToP7vs
-Q+6qA8/9KVvC83i5VqrHUoWdkR514ZI8YcPzjStj6FecIRitH0xtOm9inpeLj1tv
-fFcknMQkRSdNAarhfpZNzFLoyOSpImY/yeUEx3qFUqKNGtDZVkXvWNHVaEEEtxih
-+1mX44QV5thBOSuKfuIA0deafptEjaP/eXhQEwS619aqDJd7J+JBmnZAdlmiBLqK
-iEsBgTeThbx7RuOvBvRUVYPlUPG1jpYBgfWT4OT6w7x9tkkfemxU/JT1tXJNmKAp
-onm6UftL9rF/olPVoXIL4AZ8QhsLkGQ+2iDNWaUbcvhWdEAo0AFnJNIRJHdbUT4a
-fPlTrlZ5DO/ufGCPj7rbPehkVjKD/apDK84Dp8mQrIjlzuxqMacWFBv0Szrj9k4L
-ZpUae4iBOygN1fXd6M8w3SvZw+9JOixLL/1vm2Av8vJwMYUUt4eNInyN4Pr1cjMh
-Rd6zPpSmphSU+AgGnN70hqkRetW7+zUoyFzoKWtQeWApkEdHhVE=
-=Gfk0
------END PGP SIGNATURE-----
-
---r7xlkoqbyyg5k4lc--
+Regards,
+Macpaul Lin
 
