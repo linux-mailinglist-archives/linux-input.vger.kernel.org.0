@@ -1,129 +1,114 @@
-Return-Path: <linux-input+bounces-6543-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6544-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8045C978B47
-	for <lists+linux-input@lfdr.de>; Sat, 14 Sep 2024 00:14:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B5DA978DCF
+	for <lists+linux-input@lfdr.de>; Sat, 14 Sep 2024 07:29:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43FCB28223D
-	for <lists+linux-input@lfdr.de>; Fri, 13 Sep 2024 22:14:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BFE6B28CC49
+	for <lists+linux-input@lfdr.de>; Sat, 14 Sep 2024 05:29:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 541071714AA;
-	Fri, 13 Sep 2024 22:14:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7B8417625C;
+	Sat, 14 Sep 2024 05:26:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="fZG6TdZe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NTmTbFyc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907101465BD;
-	Fri, 13 Sep 2024 22:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99FD3171E76;
+	Sat, 14 Sep 2024 05:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726265666; cv=none; b=TcRpqRpJ9G1V2gJqrJo03MRdtYHwbOyTBH2SgoxxESKq6+FwDQkVBU4HL5OTYXNR8Ag136KKHJRdA31TeidrktMg3uof2svRrJuA/y2p/SQWsAWarZeiWemokU8qjFnZzE/DAq5nItMQg6vnQHg+20v4AW/JxIEtEY2z6NT404o=
+	t=1726291566; cv=none; b=Rvv6NGvRrY1X3wvh/Wp1aI/qdmXYinAJHX4LfQGDSerP1PqMKPNRQZtKxNJz6UTJDyMskL4iaMGD0HVZodMitEHa5il29BLzsl8GGEAbz8//iERqVyHT1+ie9THBpDRVfvp3DmDjYqAX21PtFZISw5VfpJNyQeYDxcf9SczR3rY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726265666; c=relaxed/simple;
-	bh=T9DzavKcLabQzYB5iHOUE1B4T8eJcT1KtWWq6NbNHbU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=PKSJBzGb5jeQ4bEmowRK/q0MeqDcy3N957W+b3ImBu5uPL9tSL3NGD31AZYudaOB5J5RdlnNiTOA/IDdeqpPvnSEsZXSxAlwoBzRnsYJDMncj2u7ExP+h6PF065eHUurliDV0vFgFUB8TzRMQZ9QRcpYDgEh2saLMgHSRmN0xkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=fZG6TdZe; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48DAslFN003394;
-	Fri, 13 Sep 2024 22:14:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	kYznQ95DJKtpP23L3CyjW0yB9e5K+e0VQ0yg2e7udL4=; b=fZG6TdZeibjZMWYK
-	4Mt/59sDFfv10g+Db8d9cdogdKEVpypoqkZtb7P/n5k9khLdFne5/VJWZTIRGMJ/
-	9s3GtW5PrrSJrBsD3XErYs5B6p8FnCksHW3MRrBjtAOI8ltcv4XF9zzf+oqrcYz6
-	aIPlvPiJoUntoqtiUkRrqJiCWghTukFk1qjf0gQ9nfNvaE12j1Bemy7kgU/KAXGX
-	vbiEYMh/+LJSGlvKq3glDDMn1lOD4AMtaYAOyai4WTG8xv0EP/B8Ot5fPD0sXjem
-	ZspgBYRJapjUa022af8m/KZVV38YY57G2LAUvqTWFvLsLik7FVqOoi+Yi3r2dQMF
-	CtDwnQ==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41gybq1xjd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 13 Sep 2024 22:14:02 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48DME1BI022104
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 13 Sep 2024 22:14:01 GMT
-Received: from [10.71.114.155] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 13 Sep
- 2024 15:14:01 -0700
-Message-ID: <a9dcaa5a-4f5d-451a-93aa-7457798fc243@quicinc.com>
-Date: Fri, 13 Sep 2024 15:14:00 -0700
+	s=arc-20240116; t=1726291566; c=relaxed/simple;
+	bh=SptWBzVXVMO961EGzmJjmAEgdxo1I93o+UdFRaq7ucE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=upYeUFOACZ/x/1x4IsppVElnbdIl3bPEY5Bj9GJScHjM3eZGBz6tJh+bvm7UPg1SKNeBt/Txb69jyssKs0/88S5XY/TNO6tPDHZ4XTzWqXVkxPhvG5iFGwt9khV6AWnqn4m96cBWf1ZXd2PcEbZELSTU+UsVZpEzTOA35f5We1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NTmTbFyc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B04DC4CEC0;
+	Sat, 14 Sep 2024 05:26:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726291566;
+	bh=SptWBzVXVMO961EGzmJjmAEgdxo1I93o+UdFRaq7ucE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NTmTbFycChuNMeGaHfPrZmdAbuR5rxnULYrzBMhnfK/wtKHPS/qqAmyyZeXvpq76l
+	 OZDesFb/Fk8aDRwmHVHmxht5iPzLdXFYWxrDuI0SXIYok06vZ306PCyMjzvvqUDf66
+	 jXxrfS9f5Qa/rZ8RsooguQeIAbcuy3+v6JIAd0Er2ICI71PnPiIit071LMRh3rcLDn
+	 MXJRDmnFZSsT6cpRAjBIGeGwuoxk68peuSdB0Rp8SzX7sBu7hcdv274Uu2I5OPc39R
+	 R0jU03EkR3UXdLvoJ19RrVmRogZ13XJGk+U+hEcDgtZ1Qiwf6MugG7PEgY7htLmJXX
+	 0vCmtwSocQ+sw==
+Date: Sat, 14 Sep 2024 07:26:01 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Jiri Kosina <jikos@kernel.org>, 
+	Peter Hutterer <peter.hutterer@who-t.net>, Vicki Pfau <vi@endrift.com>, Shuah Khan <shuah@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: (subset) [PATCH HID v2 00/11] HID: bpf: add a new hook to
+ control hid-generic
+Message-ID: <7al2grhs6qatjmxk2tft6widqfjwnklfljpppufy4ee62cehcy@peo2shxwyk5b>
+References: <20240910-hid-bpf-hid-generic-v2-0-083dfc189e97@kernel.org>
+ <172623473588.1192461.11090201509053454593.b4-ty@kernel.org>
+ <etbeblypdylnngwuwjfqkmkduk4iup7uq4c5zkwrssoi6u7jvg@gtf3gpzrloii>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v27 01/32] xhci: add helper to stop endpoint and wait for
- completion
-To: =?UTF-8?Q?Micha=C5=82_Pecio?= <michal.pecio@gmail.com>,
-        <mathias.nyman@linux.intel.com>
-CC: <Thinh.Nguyen@synopsys.com>, <alsa-devel@alsa-project.org>,
-        <bgoswami@quicinc.com>, <broonie@kernel.org>, <conor+dt@kernel.org>,
-        <corbet@lwn.net>, <devicetree@vger.kernel.org>,
-        <dmitry.torokhov@gmail.com>, <gregkh@linuxfoundation.org>,
-        <krzk+dt@kernel.org>, <lgirdwood@gmail.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <mathias.nyman@intel.com>, <perex@perex.cz>,
-        <pierre-louis.bossart@linux.intel.com>, <robh@kernel.org>,
-        <srinivas.kandagatla@linaro.org>, <tiwai@suse.com>
-References: <20240913103237.2f5dc796@foxbook>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <20240913103237.2f5dc796@foxbook>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Ea9Dy7IqYhLusQtkdmuC5WmSVcZRbLXp
-X-Proofpoint-GUID: Ea9Dy7IqYhLusQtkdmuC5WmSVcZRbLXp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 spamscore=0 adultscore=0
- lowpriorityscore=0 mlxlogscore=999 clxscore=1011 bulkscore=0
- impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409130157
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <etbeblypdylnngwuwjfqkmkduk4iup7uq4c5zkwrssoi6u7jvg@gtf3gpzrloii>
 
-Hi Michal,
+On Sep 13 2024, Benjamin Tissoires wrote:
+> On Sep 13 2024, Benjamin Tissoires wrote:
+> > On Tue, 10 Sep 2024 23:43:36 +0900, Benjamin Tissoires wrote:
+> > > This is a slight change from the fundamentals of HID-BPF.
+> > > In theory, HID-BPF is abstract to the kernel itself, and makes
+> > > only changes at the HID level (through report descriptors or
+> > > events emitted to/from the device).
+> > > 
+> > > However, we have seen a few use cases where HID-BPF might interact with
+> > > the running kernel when the target device is already handled by a
+> > > specific device.
+> > > 
+> > > [...]
+> > 
+> > Applied to hid/hid.git (for-6.12/bpf), thanks!
+> > 
+> > [01/11] HID: bpf: move HID-BPF report descriptor fixup earlier
+> >         https://git.kernel.org/hid/hid/c/f10a11b7b599
+> > [02/11] HID: core: save one kmemdup during .probe()
+> >         https://git.kernel.org/hid/hid/c/6941754dbbc7
+> > [03/11] HID: core: remove one more kmemdup on .probe()
+> >         https://git.kernel.org/hid/hid/c/4fe29f36d2a3
+> > [04/11] HID: bpf: allow write access to quirks field in struct hid_device
+> >         https://git.kernel.org/hid/hid/c/b722f588adc6
+> > [05/11] selftests/hid: add dependency on hid_common.h
+> >         https://git.kernel.org/hid/hid/c/3d816765e12e
+> > [06/11] selftests/hid: cleanup C tests by adding a common struct uhid_device
+> >         https://git.kernel.org/hid/hid/c/28023a0f99d1
+> > [07/11] selftests/hid: allow to parametrize bus/vid/pid/rdesc on the test device
+> >         https://git.kernel.org/hid/hid/c/10d3147f9bb1
+> > [08/11] HID: add per device quirk to force bind to hid-generic
+> >         https://git.kernel.org/hid/hid/c/d030f826ea47
+> > [09/11] selftests/hid: add test for assigning a given device to hid-generic
+> >         https://git.kernel.org/hid/hid/c/10929078201f
+> > 
+> 
+> Just for completeness, I've dropped 10/11 and 11/11 when applying the
+> series because even if they are working it's unclear if the use case is
+> rock solid, like the first one is.
+> 
+> The patches are still on the LKML, so if anyone believes they required
+> it, we can alwasy pull them in later.
 
-On 9/13/2024 1:32 AM, Michał Pecio wrote:
-> Hi,
->
->> Expose xhci_stop_endpoint_sync() which is a synchronous variant of
->> xhci_queue_stop_endpoint().  This is useful for client drivers that are
->> using the secondary interrupters, and need to stop/clean up the current
->> session.  The stop endpoint command handler will also take care of
->> cleaning up the ring.
-> I'm not entirely sure what you meant by "cleaning up the ring" (maybe a
-> comment would be in order?), but I see nothing being done here after the
-> command completes and FYI xhci-ring.c will not run the default handler if
-> the command is queued with a completion, like here.
->
-> At least that's the case for certain command types and there is probably
-> a story behind each of them. I know that xhci_stop_device() queues a
-> Stop EP with completion (and also a few without(?)). Maybe it's a bug...
+And I just dropped them from for-next, I had some KASAN issues in the
+testsuite, meaning that something is off in the memory allocation/free.
 
-Maybe the last sentence is not needed.  When we are using the secondary interrupters, at least in the offload use case that I've verified with, the XHCI is completely unaware of what TDs have been queued, etc...  So technically, even if we did call the default handler (ie xhci_handle_cmd_stop_ep), most of the routines to invalidate TDs are going to be no-ops.
-
-Thanks
-
-Wesley Cheng
-
+Cheers,
+Benjamin
 
