@@ -1,175 +1,205 @@
-Return-Path: <linux-input+bounces-6549-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6550-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E035978F93
-	for <lists+linux-input@lfdr.de>; Sat, 14 Sep 2024 11:45:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1B0979032
+	for <lists+linux-input@lfdr.de>; Sat, 14 Sep 2024 13:00:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 241AE286DDD
-	for <lists+linux-input@lfdr.de>; Sat, 14 Sep 2024 09:45:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 49E241F217B7
+	for <lists+linux-input@lfdr.de>; Sat, 14 Sep 2024 11:00:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86ACD153BD7;
-	Sat, 14 Sep 2024 09:45:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C2921CF29A;
+	Sat, 14 Sep 2024 11:00:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="dCTCFO0L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kPNk2ipE"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5206E13342F;
-	Sat, 14 Sep 2024 09:45:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5599E1CEAAC;
+	Sat, 14 Sep 2024 10:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726307152; cv=none; b=D8rwPPkYzZOxIKVPFDuNC+dNQaVD5YIMXkJ4fuCJjnsevLq3BwDgarasK6DZTZPI5tOVkbHiwx2Mm7+2LxGcexsSkpF4EDy3Fdh+CbVBYrettObcLe/9ov/a6mUrK4ylcvy2OZrlWndp+HJNi9z5E+lWctIGQSbQkuLRIT+THks=
+	t=1726311601; cv=none; b=PzUUOIBM3wXVEjtvaM3u5vlH/DBhOGz4IVfNLzmXjOhCwNWWrNH2FoEpb3VNdBbywhbL9RxyWB/JD/GxQNHRMSZTiHE07iqGaU3bqgEvurIBAg1tlZeK7FgWZ8ODqWsaEB81fdHsjGWSFGWomXl3aVHL+xu/Ty/lgYreHLannk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726307152; c=relaxed/simple;
-	bh=IQt8YvLdgZK2Ul2Fo05K3SidoxgzyxbCVIohz8TUv3M=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
-	 In-Reply-To:Content-Type; b=rh373Bs1XEQZvNrTypdXd1c/14lUxEOb4wbDJ2PtVZ29g/mBaWCr65tn+ciqfG67RlrQWu1Hvowk2wCPW7eIX5Xi6zeu6dMcNkeK712wjKcaIwkAUfDs90HsyIq9baKoCVvpHdv1TshaiDA20IcNZqU52VBfJGgWdKvptMWuau4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=dCTCFO0L; arc=none smtp.client-ip=210.61.82.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 1ade62d6727e11ef8b96093e013ec31c-20240914
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:CC:To:From:Subject:MIME-Version:Date:Message-ID; bh=td6W5BqS/w7GJGWIguOqNkiPUX+ROKcwQb3R/eDFAI0=;
-	b=dCTCFO0L1H0bx1lR4E4FH4Mbf5IxigQ5QTIMahA90uYSzPP/Ln24ubkmDOboP2skNe0A4e61h/88mPd18zRiOamP+uPZcQxv8+LDCLOmYX4ILPaMeX2k+r4bIR2TdwS/btNt8SqQe32H/uH//FG9INiCeQsRPKgK/jLz1YAI/50=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41,REQID:967cd962-b5cf-4726-8a0d-fff50ef6ada8,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6dc6a47,CLOUDID:ffd7f5bf-d7af-4351-93aa-42531abf0c7b,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
-	l,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
-	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: 1ade62d6727e11ef8b96093e013ec31c-20240914
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
-	(envelope-from <macpaul.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 546005059; Sat, 14 Sep 2024 17:45:41 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Sat, 14 Sep 2024 17:45:38 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
- Transport; Sat, 14 Sep 2024 17:45:38 +0800
-Message-ID: <9a120bc4-f671-dd35-a1f9-b9ae7031bdd1@mediatek.com>
-Date: Sat, 14 Sep 2024 17:45:34 +0800
+	s=arc-20240116; t=1726311601; c=relaxed/simple;
+	bh=RqagvQleKzznUmEAGUk3kJBskCidxziKVdoH64L73j4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MGlk5uRd66B0VhmoW5/yp10x5h4C4dIPM1VQT4dqOM/OEVcJ0OuMhoIn4cG5j/dlojPlzZRWOOv6YA1QQYuhKX2G8JKHWQzZgmxNmFk15szvwKXgm7ptkM2NCSOu032W0st/YYVBYYD2d+MmEfqN8SVJiWA4uB1r7ar6tEaLK6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kPNk2ipE; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726311600; x=1757847600;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RqagvQleKzznUmEAGUk3kJBskCidxziKVdoH64L73j4=;
+  b=kPNk2ipElCfIxuvzTU734SvruXM3iKVsD7VKukOqFpinIeTJQLTlpkhX
+   mGwQNrjs1sGkGbahWpw4+z3oz5o1TeIQWS/Tfk4jc8D/s+qPTstF7AxXN
+   zRFOEoO2+4IVTMU0Wkhp+8CyBbbV7pEouYUAUGxNuxTcjsvS8bpBrDKa/
+   KisK3XZEHwnj2o4/bvGV2kbrPxsE77feNisN0+I7iBeEk2fWFhD1wRf3r
+   Tjm4huQotrMfJYNrdUbMxqj+sdOnVBjGnMmkZgi2c6OXnznnt9iuuKxAX
+   Q/r8Eboc18QlduOvVw7F8/QOid4BtcLuZxl/PcMlHdt+bk8Au0a7BaXMk
+   Q==;
+X-CSE-ConnectionGUID: IVldnLavS9elPdKiyxBTVQ==
+X-CSE-MsgGUID: kGpZz281SNSh7lJCKXzBDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25148004"
+X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
+   d="scan'208";a="25148004"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 03:59:59 -0700
+X-CSE-ConnectionGUID: vS6oIURLS3S2LyICQh7zNw==
+X-CSE-MsgGUID: 3Elus/PHQPesz24am0+B+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
+   d="scan'208";a="72971200"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 14 Sep 2024 03:59:56 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1spQVN-0007f1-2j;
+	Sat, 14 Sep 2024 10:59:53 +0000
+Date: Sat, 14 Sep 2024 18:59:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Oleh Kuzhylnyi <kuzhylol@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Oleh Kuzhylnyi <kuzhylol@gmail.com>, igor.opaniuk@gmail.com,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jeff LaBundy <jeff@labundy.com>
+Subject: Re: [PATCH v7 2/2] input: add driver for Hynitron CST816X touchscreen
+Message-ID: <202409141849.QpkMdWlC-lkp@intel.com>
+References: <20240912132823.123409-2-kuzhylol@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v3 2/3] dt-bindings: mfd: mediatek: mt6397: Convert to DT
- schema format
-Content-Language: en-US
-From: Macpaul Lin <macpaul.lin@mediatek.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Bear Wang <bear.wang@mediatek.com>, Conor Dooley <conor+dt@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Chen Zhong
-	<chen.zhong@mediatek.com>, <linux-leds@vger.kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Sen Chu <sen.chu@mediatek.com>, Lee Jones
-	<lee@kernel.org>, <linux-mediatek@lists.infradead.org>, Macpaul Lin
-	<macpaul@gmail.com>, Mark Brown <broonie@kernel.org>, Chris-qj chen
-	<chris-qj.chen@mediatek.com>, <linux-input@vger.kernel.org>, Dmitry Torokhov
-	<dmitry.torokhov@gmail.com>, <linux-rtc@vger.kernel.org>, "MediaTek
- Chromebook Upstream" <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	Sean Wang <sean.wang@mediatek.com>, Pavel Machek <pavel@ucw.cz>,
-	<linux-pm@vger.kernel.org>, Chen-Yu Tsai <wenst@chromium.org>, "Sebastian
- Reichel" <sre@kernel.org>, Alexandre Mergnat <amergnat@baylibre.com>,
-	<devicetree@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sound@vger.kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	Pablo Sun <pablo.sun@mediatek.com>
-References: <20240913175926.7443-1-macpaul.lin@mediatek.com>
- <172625540069.478205.2893721075637493498.robh@kernel.org>
- <099c4f3e-0772-3d30-79f7-8b996142cd7c@mediatek.com>
- <4a396c65-2353-da09-4dd2-71b822237920@mediatek.com>
-In-Reply-To: <4a396c65-2353-da09-4dd2-71b822237920@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--18.448200-8.000000
-X-TMASE-MatchedRID: 6otD/cJAac0OwH4pD14DsPHkpkyUphL9meN8m2FdGic3xO2R3boBWFbu
-	qIY+/skQkABPgKBt/0r/bIpz2qRIjbvjKWK1iQnHSHCU59h5KrHWSrKtwxqWpU+u3rM3lFPnCkE
-	raFSKEBfgwC+tMY7byJTQ/2UxBcQVxAFMYEMzeR2+dJWHbg4ITpPFJV0Myxm8BUe+Zw5ql5RljC
-	/GdRjZi6wHHwdmt++AY44xtvjJ5nioB6BkKpx1kfSG/+sPtZVk4mC51qavDrQ2ANpk6Ruu/cJ0s
-	YMUJ2E10s4PPEfk7xPV55op6HGBQmyeGFxbrq7l5gCHftmwEMJ9LQinZ4QefL6qvLNjDYTwsuf7
-	RWbvUtyrusVRy4an8SAHAopEd76vF7r821BSEoHux3p95mrDUygbh3X/XOfuagda0wu3hd8CCEh
-	VFxWr8g==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--18.448200-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: F43395B9D1A6CB275AE5AF30E52C01AC9CD434BD27F2C2F01DD624AA796E78802000:8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240912132823.123409-2-kuzhylol@gmail.com>
 
+Hi Oleh,
 
-On 9/14/24 15:25, Macpaul Lin wrote:
-> On 9/14/24 15:06, Macpaul Lin wrote:
->>
->>
->> On 9/14/24 03:23, Rob Herring (Arm) wrote:
->>>
->>>
->>> External email : Please do not click links or open attachments until 
->>> you have verified the sender or the content.
->>>
->>> On Sat, 14 Sep 2024 01:59:26 +0800, Macpaul Lin wrote:
->>>> Convert the mfd: mediatek: mt6397 binding to DT schema format.
->>>>
->>
->> [snip]
->>
->>>>
->>>
->>> My bot found errors running 'make dt_binding_check' on your patch:
->>>
->>> yamllint warnings/errors:
->>>
->>> dtschema/dtc warnings/errors:
->>> Warning: Duplicate compatible "mediatek,mt6357" found in schemas 
->>> matching "$id":
->>
->> I'm using dtschema 2024.09 and the dt_bindings_check didn't report 
->> this issue even the full check has been run.
-> 
-> Hopefully I've found a way to update latest dtschema without bothering 
-> IT. ;)
-> 
-> pip3 install -U git+https://github.com/devicetree-org/dt-schema.git@main
-> 
-> I'll run latest dt_bindings_check for v4 version.
-> 
-Dear Rob,
+kernel test robot noticed the following build warnings:
 
-Just want to leave a note here.
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus robh/for-next krzk-dt/for-next linus/master v6.11-rc7 next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-After I've updated to dtschema 2024.10.dev3+gdc4787b,
-the 'make dt_bindings_check' still reported no error with this patch v3.
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleh-Kuzhylnyi/input-add-driver-for-Hynitron-CST816X-touchscreen/20240912-213044
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20240912132823.123409-2-kuzhylol%40gmail.com
+patch subject: [PATCH v7 2/2] input: add driver for Hynitron CST816X touchscreen
+config: sparc64-randconfig-r133-20240913 (https://download.01.org/0day-ci/archive/20240914/202409141849.QpkMdWlC-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240914/202409141849.QpkMdWlC-lkp@intel.com/reproduce)
 
-pip show dtschema
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409141849.QpkMdWlC-lkp@intel.com/
 
-Name: dtschema
-Version: 2024.10.dev3+gdc4787b
-Summary: DeviceTree validation schema and tools
-Home-page: https://github.com/devicetree-org/dt-schema
+sparse warnings: (new ones prefixed by >>)
+>> drivers/input/touchscreen/hynitron-cst816x.c:100:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] abs_x @@     got unsigned long @@
+   drivers/input/touchscreen/hynitron-cst816x.c:100:21: sparse:     expected restricted __be16 [usertype] abs_x
+   drivers/input/touchscreen/hynitron-cst816x.c:100:21: sparse:     got unsigned long
+>> drivers/input/touchscreen/hynitron-cst816x.c:101:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] abs_y @@     got unsigned long @@
+   drivers/input/touchscreen/hynitron-cst816x.c:101:21: sparse:     expected restricted __be16 [usertype] abs_y
+   drivers/input/touchscreen/hynitron-cst816x.c:101:21: sparse:     got unsigned long
+>> drivers/input/touchscreen/hynitron-cst816x.c:147:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int value @@     got restricted __be16 [addressable] [usertype] abs_x @@
+   drivers/input/touchscreen/hynitron-cst816x.c:147:58: sparse:     expected int value
+   drivers/input/touchscreen/hynitron-cst816x.c:147:58: sparse:     got restricted __be16 [addressable] [usertype] abs_x
+>> drivers/input/touchscreen/hynitron-cst816x.c:148:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int value @@     got restricted __be16 [addressable] [usertype] abs_y @@
+   drivers/input/touchscreen/hynitron-cst816x.c:148:58: sparse:     expected int value
+   drivers/input/touchscreen/hynitron-cst816x.c:148:58: sparse:     got restricted __be16 [addressable] [usertype] abs_y
 
-python: 3.10
-pip: 24.2
+vim +100 drivers/input/touchscreen/hynitron-cst816x.c
 
-If you have any clue about root cause or any other dependencies
-of this environment issue, please let me know. I'll try to check if
-there is a fix. Thanks.
+    93	
+    94	static bool cst816x_process_touch(struct cst816x_priv *priv,
+    95					  struct cst816x_touch_info *info)
+    96	{
+    97		if (cst816x_i2c_read_register(priv, CST816X_FRAME, info, sizeof(*info)))
+    98			return false;
+    99	
+ > 100		info->abs_x = get_unaligned_be16(&info->abs_x) & GENMASK(11, 0);
+ > 101		info->abs_y = get_unaligned_be16(&info->abs_y) & GENMASK(11, 0);
+   102	
+   103		dev_dbg(&priv->client->dev, "x: %d, y: %d, t: %d, g: 0x%x\n",
+   104			info->abs_x, info->abs_y, info->touch, info->gesture);
+   105	
+   106		return true;
+   107	}
+   108	
+   109	static int cst816x_register_input(struct cst816x_priv *priv)
+   110	{
+   111		priv->input = devm_input_allocate_device(&priv->client->dev);
+   112		if (!priv->input)
+   113			return -ENOMEM;
+   114	
+   115		priv->input->name = "Hynitron CST816X Touchscreen";
+   116		priv->input->phys = "input/ts";
+   117		priv->input->id.bustype = BUS_I2C;
+   118		input_set_drvdata(priv->input, priv);
+   119	
+   120		for (int i = 0; i < ARRAY_SIZE(priv->event_map); i++)
+   121			input_set_capability(priv->input, EV_KEY,
+   122					     priv->event_map[i].code);
+   123	
+   124		input_set_abs_params(priv->input, ABS_X, 0, 240, 0, 0);
+   125		input_set_abs_params(priv->input, ABS_Y, 0, 240, 0, 0);
+   126	
+   127		return input_register_device(priv->input);
+   128	}
+   129	
+   130	static void cst816x_reset(struct cst816x_priv *priv)
+   131	{
+   132		gpiod_set_value_cansleep(priv->reset, 1);
+   133		msleep(50);
+   134		gpiod_set_value_cansleep(priv->reset, 0);
+   135		msleep(100);
+   136	}
+   137	
+   138	static irqreturn_t cst816x_irq_cb(int irq, void *cookie)
+   139	{
+   140		struct cst816x_priv *priv = cookie;
+   141		struct cst816x_touch_info info;
+   142	
+   143		if (!cst816x_process_touch(priv, &info))
+   144			return IRQ_HANDLED;
+   145	
+   146		if (info.touch) {
+ > 147			input_report_abs(priv->input, ABS_X, info.abs_x);
+ > 148			input_report_abs(priv->input, ABS_Y, info.abs_y);
+   149			input_report_key(priv->input, BTN_TOUCH, 1);
+   150		}
+   151	
+   152		if (info.gesture) {
+   153			input_report_key(priv->input,
+   154					 priv->event_map[info.gesture & 0x0F].code,
+   155					 info.touch);
+   156	
+   157			if (!info.touch)
+   158				input_report_key(priv->input, BTN_TOUCH, 0);
+   159		}
+   160	
+   161		input_sync(priv->input);
+   162	
+   163		return IRQ_HANDLED;
+   164	}
+   165	
 
-Regards,
-Macpaul Lin
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
