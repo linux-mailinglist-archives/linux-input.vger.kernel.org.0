@@ -1,194 +1,200 @@
-Return-Path: <linux-input+bounces-6555-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6556-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CADBE97969E
-	for <lists+linux-input@lfdr.de>; Sun, 15 Sep 2024 14:40:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7D89797CA
+	for <lists+linux-input@lfdr.de>; Sun, 15 Sep 2024 18:15:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8A3932825E7
-	for <lists+linux-input@lfdr.de>; Sun, 15 Sep 2024 12:40:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 29C5C1F2184F
+	for <lists+linux-input@lfdr.de>; Sun, 15 Sep 2024 16:15:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB64B146A7A;
-	Sun, 15 Sep 2024 12:40:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37EC01C9DD1;
+	Sun, 15 Sep 2024 16:15:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="emTELU/W"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xf6zgAfb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B451E49B
-	for <linux-input@vger.kernel.org>; Sun, 15 Sep 2024 12:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082851C8FD3;
+	Sun, 15 Sep 2024 16:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726404045; cv=none; b=RnjCWtEN8VK+h037xatzDIH+qXOXvojKKKY2PBGyFo4I5FvkE0SnDD7xRaoMumLXoRJ52tAdanSZobOSlOy6cq6KPA90/iEaIsooAUbTCsux+7ky3xlNZKQdIgX2VsknOkp2/vUUb7TzMqZTUNV37ImmCp94Bq3c6bfVO+uCePc=
+	t=1726416902; cv=none; b=IKZ4xfsGu7q1TB9HzQDgcOsbMnLm7jQA1PgdgSHbMx6VKZylb0XpPiNyTkEgc10o6YZWIwaX7rGhVEopvnFK0UvH2EqII7qjE1gq9PZ1Q7/jVrL9Mqbmx9a0wmJbcpkj9UzuRFXrK6wFVCF3Kp7+EZna8yaWoC0iSDjvCFYlmX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726404045; c=relaxed/simple;
-	bh=WquTCLndPivn1C9pr3tbej+WsHdKZZqd4X04cziPo8c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tsJcOHYeEVqy9LPGBGogq4xM2AePC+mVY/DpBD2EsH5O9yg+8KcFUIDVJLS3Z68sz5UEeDTYk4lAuB76Z/Q+n7BOZUpwKQLpQSicELZzMIOGWAW9mUURjI1fn2/Wvmgy4YMcuALvNEH+rXn4AmbaTLC4nbsEP57PfaABa+YwtoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=emTELU/W; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726404044; x=1757940044;
-  h=date:from:to:cc:subject:message-id;
-  bh=WquTCLndPivn1C9pr3tbej+WsHdKZZqd4X04cziPo8c=;
-  b=emTELU/WLio0lr3tXXYaaJSLw+UJOSKREcJg0atq+PHuxg4FrQPk+SRq
-   QWZ7wy9+/KGu0vAfsu6Fw11I231RNy433Xu6wkLWCAYclANl3Go650esI
-   /h2bwFu7FM37hNqBLHYrqpC81AcG9vu9neWBOZeXDzw5523ASzzmTlWKA
-   S23aERsce0K1GwXIEDS/vXQ6Uc4dBBRkeI4l9I5PL4VS+s1D4+I82hBn+
-   /lOQp+ZhUDgqYYnlCyJxZ8FGsplCXUtwc1kKnDsQIbEsgxdZ8nTU3sFk+
-   JBsFNjKFuho59rsU2MdGzd5HS3f4ZgOmc9xsUKj9PwFzJAcazqLnxHkjh
-   A==;
-X-CSE-ConnectionGUID: DHUSKtdnRfOyfFGlONwRcg==
-X-CSE-MsgGUID: qH9XduSSQM6+W+YyCM+CRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="25347378"
-X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; 
-   d="scan'208";a="25347378"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 05:40:44 -0700
-X-CSE-ConnectionGUID: LPKKu3p4RPiD/OabBEtoNg==
-X-CSE-MsgGUID: 04vyD+43REeb/qIeiEVSUg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; 
-   d="scan'208";a="73388977"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 15 Sep 2024 05:40:42 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1spoYS-0008fy-0s;
-	Sun, 15 Sep 2024 12:40:40 +0000
-Date: Sun, 15 Sep 2024 20:40:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- 3870e2850b56306d1d1e435c5a1ccbccd7c59291
-Message-ID: <202409152002.qbJ12Sqv-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1726416902; c=relaxed/simple;
+	bh=ftHZY0JCaOKDjvNn1rQ2nWhluVfp9kaJPBVz0E9o7M4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SpkgELs/C/Yln8rscWnE6bJlAjpd1NuUKLYNbWGu8Meo4QSP6iJl1PVBrFulDzZcQde9P+hpMYi+UVNDiD5oXK26+TyMK35B8GglEPxhJf7r+FR6Wf5vaSBlejOjP7ECfpPQZJJTo/L8P3lq8v4ml7at9ewc/JvrhmdErNcGc+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xf6zgAfb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 345F5C4CEC3;
+	Sun, 15 Sep 2024 16:14:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726416901;
+	bh=ftHZY0JCaOKDjvNn1rQ2nWhluVfp9kaJPBVz0E9o7M4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Xf6zgAfbAn/PH/VOOHg/VpDP1xvqAFSonl6FWurJu4zkdzaBzUGRhrvLfWyS9RuGA
+	 Wld4aElKU5/+up+F7BQZTb2wZ7gC3G5wrHjQDq90Ya/NnhK0VodXbEzkFZXNFFafYP
+	 MYSeuWfnH3VWmd7WEWNoXHlSRRvgf8TIgGc2wFMXNNWxdGBtjZdCaCb4fNWI/xKr4X
+	 h6gKNU023fiQF4+/4JVAbWuCDjSRZs+ZkujAyiKhvljln5xXty4GQKrsBHffaU7/BF
+	 eRCif7VBM3IWu/OYxV0PDZXYKFPjWpKvGabMvcwh+msUeEySNVmhvvYP1lnoFoUkO7
+	 UbzyqUa0lBBiQ==
+Message-ID: <b3a1cf47-a47b-4b2c-bb2a-f6b8a58e3922@kernel.org>
+Date: Sun, 15 Sep 2024 18:14:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/2] dt-bindings: input: touchscreen: add Hynitron
+ CST816X
+To: Oleh Kuzhylnyi <kuzhylol@gmail.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Conor Dooley <conor.dooley@microchip.com>, igor.opaniuk@gmail.com,
+ Neil Armstrong <neil.armstrong@linaro.org>, Jeff LaBundy <jeff@labundy.com>
+References: <20240912132823.123409-1-kuzhylol@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240912132823.123409-1-kuzhylol@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: 3870e2850b56306d1d1e435c5a1ccbccd7c59291  Input: i8042 - add TUXEDO Stellaris 15 Slim Gen6 AMD to i8042 quirk table
+On 12/09/2024 15:28, Oleh Kuzhylnyi wrote:
+> Add documentation for the Hynitron CST816X touchscreen bindings.
+> 
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-elapsed time: 1743m
+Drop. This is significantly different binding. Like 100% rewrite.
 
-configs tested: 101
-configs skipped: 3
+> Signed-off-by: Oleh Kuzhylnyi <kuzhylol@gmail.com>
+> ---
+> 
+> Changes in v7:
+>  - Introduce the gestures field along with its sub-fields
+>  - Make reset-gpio property optional
+>  - Extend main description
+>  - Remove "touchscreen" reference
+> 
+> Changes in v6:
+>  - Fix minor tweak adviced by Krzysztof:
+>  - Move additionalProperties field after required
+> 
+> Changes in v5:
+>  - No code changes
+> 
+> Changes in v4:
+>  - Add Conor's Dooley "Reviewed-by" tag
+> 
+> Changes in v3:
+>  - Rename filename to hynitron,cst816s.yaml
+>  - Update description with display details
+> 
+> Changes in v2:
+>  - Apply pin definitions and DT headers
+>  - Use generic name for DT node
+>  - Drop status field
+> 
+>  .../input/touchscreen/hynitron,cst816s.yaml   | 126 ++++++++++++++++++
+>  1 file changed, 126 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816s.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816s.yaml b/Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816s.yaml
+> new file mode 100644
+> index 000000000000..99ac29da7a5a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816s.yaml
+> @@ -0,0 +1,126 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/hynitron,cst816s.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Hynitron CST816S Touchscreen controller
+> +
+> +description:
+> +  The CST816S is a touchscreen controller from Hynitron, which supports gesture
+> +  recognition for swipe directions, tap, and long-press actions. This binding
+> +  document defines the necessary properties for integrating the CST816S with
+> +  a Linux system.
+> +
+> +maintainers:
+> +  - Oleh Kuzhylnyi <kuzhylol@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - hynitron,cst816s
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description:
+> +      Optional GPIO line used to reset the touchscreen controller.
+> +    optional: true
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+??? Please test your patches before sending.
 
-tested configs:
-alpha                             allnoconfig    gcc-13.3.0
-alpha                            allyesconfig    gcc-13.3.0
-arc                              allmodconfig    gcc-13.2.0
-arc                               allnoconfig    gcc-13.2.0
-arc                              allyesconfig    gcc-13.2.0
-arc                   randconfig-001-20240915    gcc-13.2.0
-arc                   randconfig-002-20240915    gcc-13.2.0
-arm                               allnoconfig    clang-20
-arm                       aspeed_g5_defconfig    gcc-14.1.0
-arm                        clps711x_defconfig    clang-20
-arm                   randconfig-001-20240915    gcc-14.1.0
-arm                   randconfig-002-20240915    clang-17
-arm                   randconfig-003-20240915    clang-20
-arm                   randconfig-004-20240915    clang-20
-arm64                             allnoconfig    gcc-14.1.0
-arm64                 randconfig-001-20240915    clang-20
-arm64                 randconfig-002-20240915    gcc-14.1.0
-arm64                 randconfig-003-20240915    clang-20
-arm64                 randconfig-004-20240915    gcc-14.1.0
-csky                              allnoconfig    gcc-14.1.0
-csky                  randconfig-001-20240915    gcc-14.1.0
-csky                  randconfig-002-20240915    gcc-14.1.0
-hexagon                           allnoconfig    clang-20
-hexagon               randconfig-001-20240915    clang-20
-hexagon               randconfig-002-20240915    clang-16
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20240915    gcc-12
-i386        buildonly-randconfig-002-20240915    clang-18
-i386        buildonly-randconfig-003-20240915    clang-18
-i386        buildonly-randconfig-004-20240915    gcc-12
-i386        buildonly-randconfig-005-20240915    clang-18
-i386        buildonly-randconfig-006-20240915    gcc-12
-i386                                defconfig    clang-18
-i386                  randconfig-001-20240915    clang-18
-i386                  randconfig-002-20240915    clang-18
-i386                  randconfig-003-20240915    clang-18
-i386                  randconfig-004-20240915    clang-18
-i386                  randconfig-005-20240915    clang-18
-i386                  randconfig-006-20240915    clang-18
-i386                  randconfig-011-20240915    clang-18
-i386                  randconfig-012-20240915    gcc-12
-i386                  randconfig-013-20240915    gcc-12
-i386                  randconfig-014-20240915    clang-18
-i386                  randconfig-015-20240915    gcc-12
-i386                  randconfig-016-20240915    gcc-12
-loongarch                        allmodconfig    gcc-14.1.0
-loongarch                         allnoconfig    gcc-14.1.0
-loongarch             randconfig-001-20240915    gcc-14.1.0
-loongarch             randconfig-002-20240915    gcc-14.1.0
-m68k                             allmodconfig    gcc-14.1.0
-m68k                              allnoconfig    gcc-14.1.0
-m68k                             allyesconfig    gcc-14.1.0
-microblaze                       allmodconfig    gcc-14.1.0
-microblaze                        allnoconfig    gcc-14.1.0
-microblaze                       allyesconfig    gcc-14.1.0
-mips                              allnoconfig    gcc-14.1.0
-mips                          eyeq5_defconfig    gcc-14.1.0
-nios2                             allnoconfig    gcc-14.1.0
-nios2                 randconfig-001-20240915    gcc-14.1.0
-nios2                 randconfig-002-20240915    gcc-14.1.0
-openrisc                          allnoconfig    gcc-14.1.0
-openrisc                         allyesconfig    gcc-14.1.0
-openrisc                            defconfig    gcc-14.1.0
-parisc                           allmodconfig    gcc-14.1.0
-parisc                            allnoconfig    gcc-14.1.0
-parisc                              defconfig    gcc-14.1.0
-parisc                randconfig-001-20240915    gcc-14.1.0
-parisc                randconfig-002-20240915    gcc-14.1.0
-powerpc                          allmodconfig    gcc-14.1.0
-powerpc                           allnoconfig    gcc-14.1.0
-powerpc                          allyesconfig    clang-20
-powerpc               randconfig-001-20240915    gcc-14.1.0
-powerpc               randconfig-002-20240915    gcc-14.1.0
-powerpc               randconfig-003-20240915    gcc-14.1.0
-powerpc64             randconfig-001-20240915    clang-20
-powerpc64             randconfig-002-20240915    clang-20
-powerpc64             randconfig-003-20240915    gcc-14.1.0
-riscv                             allnoconfig    gcc-14.1.0
-riscv                               defconfig    clang-20
-riscv                 randconfig-001-20240915    clang-15
-riscv                 randconfig-002-20240915    clang-20
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.1.0
-s390                  randconfig-001-20240915    clang-20
-sh                               allmodconfig    gcc-14.1.0
-sh                                allnoconfig    gcc-14.1.0
-sh                               allyesconfig    gcc-14.1.0
-sh                                  defconfig    gcc-14.1.0
-sh                    randconfig-001-20240915    gcc-14.1.0
-sparc64                             defconfig    gcc-14.1.0
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-17
-um                               allyesconfig    gcc-12
-um                                  defconfig    clang-20
-x86_64                            allnoconfig    clang-18
-x86_64                           allyesconfig    clang-18
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-8.3-rust    clang-18
-xtensa                            allnoconfig    gcc-14.1.0
+Please run `make dt_binding_check` (see
+Documentation/devicetree/bindings/writing-schema.rst for instructions).
+Maybe you need to update your dtschema and yamllint.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Krzysztof
+
 
