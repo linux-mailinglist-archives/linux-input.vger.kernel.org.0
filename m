@@ -1,232 +1,127 @@
-Return-Path: <linux-input+bounces-6552-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6553-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBF94979163
-	for <lists+linux-input@lfdr.de>; Sat, 14 Sep 2024 16:28:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE3D97953D
+	for <lists+linux-input@lfdr.de>; Sun, 15 Sep 2024 09:55:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 002421C214A9
-	for <lists+linux-input@lfdr.de>; Sat, 14 Sep 2024 14:28:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B14ED28388A
+	for <lists+linux-input@lfdr.de>; Sun, 15 Sep 2024 07:55:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 173B41CFEB7;
-	Sat, 14 Sep 2024 14:28:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EA2422087;
+	Sun, 15 Sep 2024 07:55:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IUoKZe8n"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KhGp1eIz"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13301DFFB;
-	Sat, 14 Sep 2024 14:28:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89A421A1C;
+	Sun, 15 Sep 2024 07:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726324124; cv=none; b=NGcdGnJbxEa9gwjBHLuAV1OFfBI98hkC1SdlDCTV2RsYqAsyLiIhI/6fZt7Y5r7KAAZfXvBsxnob7qaMS3SWLBIzhYefLCSfqM2SKXi5LqHFjFnGSS16prYEzm6wJPHHUkigSGeLTHoidkZcw1OlHpV7dTtEYNvbMO3EQUUFRBQ=
+	t=1726386924; cv=none; b=dfOChXxGIyqxlsdeOqDSGTUFLj+7bK5SKadnkf0RCqztJSGfZtNacBjofdO1+H2NAOETkfs5ClO1A0xHu/Mz9Mjk3I9yHEmVewXB//NPGEG6cpa2I0/4E1KtZ+ENxDRB16W65YcVqJ6zzkgB76jluUR4xRjCs0i9ATl8GiSkxDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726324124; c=relaxed/simple;
-	bh=4xjjN/FzunBQlvB0oOPBJkRnVPxAo2hgjzmM4Jq3t/I=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=EpHevqitWTbU3k2AQudnM5GYSM6wDa2CSQ3E6MP0deo3Pkhsg6rhVkz719rSx4jKH+GvqCVf+qcIJyl2OquEo4Z3LzxbElm5TDjgbejbNcyXKsLB8QUQbLtBEeSiDqaPds/Dl1jgG6qSZ8eqMNzkJbMGioEHTcUhadcTQgXJ0vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IUoKZe8n; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 213C8C4CEC0;
-	Sat, 14 Sep 2024 14:28:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726324123;
-	bh=4xjjN/FzunBQlvB0oOPBJkRnVPxAo2hgjzmM4Jq3t/I=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=IUoKZe8noAfLS2cTl3E9YSYLt6N7ODam51q9U0Dp1qOmJNthDZrPS6q7UXn3ol2Pg
-	 RV0YwvB2w8eNg9bliXTz/NXfBBTd44MOuGj93zCspDYDmWWp1KI3fCWAzPtH3AX4Ge
-	 ixgu+J+HlFoV5kyWmmYvV8HNoITJSfBc9bU4VQ7Quhy/YuG3haZaLBtGvlVKz+Hgcj
-	 V0vp/l9OOuw+Xfn4QMIAPgd7vpUNipTvzlzm/SQ+94xyNBCiXBYYdbL36SX1yEM8IZ
-	 scKoI4/GsQmluEPWmuteIb4cfpWIjtesiSqFErjWeD3Dx28PNwXHv0LCBJC3KIq0Jx
-	 CkmClphrzqjOg==
-Date: Sat, 14 Sep 2024 09:28:42 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1726386924; c=relaxed/simple;
+	bh=QralsGpTk/VE7c1/yICJm16dg/6F7TBywR1ptd4plqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tb1/8fss8f8uXbZGmXbH5ecNq5u8yMiXos0R3p8DEGJ6EwGKnooabv7QUbcYIxikthCP2J2FA57CX5bQewoRzwlwptceTa2uXrYGSrw8uYdA/VkG8saxdqfxlKpBtyJDzjYaWsFjn3rpuo7RkTjJcTCxCBWK0Tdo+Tq6KJTM3LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KhGp1eIz; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a8a7596b7dfso508022966b.0;
+        Sun, 15 Sep 2024 00:55:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726386921; x=1726991721; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QralsGpTk/VE7c1/yICJm16dg/6F7TBywR1ptd4plqU=;
+        b=KhGp1eIzqWcE/Lp6mnIKvOQqqLM28ERUGXzJ3eXN0JNuhB1zd6idU56U7bC8u6xZe6
+         UPEu04DCcq+H7Hz2OnSyYLs/kc2Cbt/+P1rMF72tTloY1FtYxiu2Sc0Xpy7s7mbn2ADo
+         V3tLx/ndsYu7/NdkVhTwrLB0O2QLTfz33pj3atlclUFYvG2OO8W6a9kzaVExZkN2PWnQ
+         Z8mVYO+cbkT8udPqHndGpufnLRvY+Q8BMgw2IXYfPuaw2A4FTkELa1To5g3AEAkL04bX
+         ow90vXOc4jgG9eE6EDPkfN6sBDJrI0xGWoDgSdEdW+J6QKQW4Fe28lJyhCq8K/b41uip
+         W2Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726386921; x=1726991721;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QralsGpTk/VE7c1/yICJm16dg/6F7TBywR1ptd4plqU=;
+        b=XJ1gfevuzcvjE3qstTEqObQIGG+yEITA1TDLe95t07A5e29uoZqX8A213kA8hcC8XU
+         pbgLnZO+FQUcR5919DhR3pwLE3u16p5IOsDrATdpNQIALznhnFfmzsNEOTaIB1kE4Rz5
+         RDw0Zrl6iEdQw8u5VhvI7dhNV6ENWdssO1y+rzX6PFNZE3Q+Iz0AmD9+0SireqbWEUmb
+         P8re4j3KB6LDsll6vjIp638Be7MR2lta3X0AENsNzX1vXxomikdESMnTfgV2o8r9pkx4
+         hIMSBggya4VRlRFpXHiXqmnygj5y1mEfOcY/VVWU8M/CVBSqpxkI31JrszwQwbO6HYId
+         zpQA==
+X-Forwarded-Encrypted: i=1; AJvYcCVc+TUHyifB1I89sxc5k59dXzzi9kAlxq5Y2QIsF8Ez1wmiUMVAqBAW3EnopM8pkatQMHsubm8C46fMhWY=@vger.kernel.org, AJvYcCVhiSQX6E9Gpew/touNRm9Rvw9zPl3bTCPx3UJGHHN6oiGln4c24cBhqJOVnsx8/mLyhcoD694ZAr/JDdI=@vger.kernel.org, AJvYcCW/u8IyvMOSBw42bZt05uudpnuLYl9ZehS+c9WT3zVSOIHjX/b7elEFVLg8FdCmBNS0Hf6vWzlLwpCT@vger.kernel.org, AJvYcCWslBRVf9IGmPAmH/WmbaYlMUPCJEh6zXYNcbRrsf6Y4mLBq7AH9gZSW/QdGggXtZm54L8FParzoAn3bfY8Lw==@vger.kernel.org, AJvYcCXFDP2D5CjGAEBPRCxbNCmLdnhR9eJQy4D4UuI3cCWm4Otu8wQp/q4fkW+lc2iNt6gFsaJd1xu6MgUkW1QR@vger.kernel.org, AJvYcCXQ8laiwz/vTGWPyyvgaOOBraqMNqqM2jyg3BWRMnIrPs3SiIU8XhngqMmnOgvBMyTSdi0fEi9SS0bH@vger.kernel.org, AJvYcCXWZ2HdmcVMdGy8TCUxbq1Im47/EqIfnr6Ymzphb0dD9GRRpHjGOq/aXllmYZNVGFNBLC42lWEVBrEf@vger.kernel.org
+X-Gm-Message-State: AOJu0YybRTt05DmhFbqrBlqRpxOac/6E+UYSHvaRoeluwLe9VZ+aylng
+	Iafr3iL3nTk0zj3iFrHlO87toI8H0/WecHSW9MzYCEe28OKVpImg
+X-Google-Smtp-Source: AGHT+IGPQI+t4lYTwiuu4hyJoLvLouchr9DqQvDvbSEOgzDQJG8ZpceHMqTZzT7/DgMVYuW1CsOVDg==
+X-Received: by 2002:a17:906:259a:b0:a90:126f:bcbf with SMTP id a640c23a62f3a-a90126fd1c5mr1196022766b.10.1726386920479;
+        Sun, 15 Sep 2024 00:55:20 -0700 (PDT)
+Received: from foxbook (bin105.neoplus.adsl.tpnet.pl. [83.28.129.105])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610f4375sm166709266b.73.2024.09.15.00.55.18
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sun, 15 Sep 2024 00:55:20 -0700 (PDT)
+Date: Sun, 15 Sep 2024 09:55:14 +0200
+From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: <mathias.nyman@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
+ <alsa-devel@alsa-project.org>, <bgoswami@quicinc.com>,
+ <broonie@kernel.org>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+ <devicetree@vger.kernel.org>, <dmitry.torokhov@gmail.com>,
+ <gregkh@linuxfoundation.org>, <krzk+dt@kernel.org>, <lgirdwood@gmail.com>,
+ <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+ <mathias.nyman@intel.com>, <perex@perex.cz>,
+ <pierre-louis.bossart@linux.intel.com>, <robh@kernel.org>,
+ <srinivas.kandagatla@linaro.org>, <tiwai@suse.com>
+Subject: Re: [PATCH v27 01/32] xhci: add helper to stop endpoint and wait
+ for completion
+Message-ID: <20240915095514.6b01fefb@foxbook>
+In-Reply-To: <a9dcaa5a-4f5d-451a-93aa-7457798fc243@quicinc.com>
+References: <20240913103237.2f5dc796@foxbook>
+	<a9dcaa5a-4f5d-451a-93aa-7457798fc243@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Macpaul Lin <macpaul.lin@mediatek.com>
-Cc: Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, 
- linux-leds@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
- linux-mediatek@lists.infradead.org, Chen-Yu Tsai <wenst@chromium.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Pavel Machek <pavel@ucw.cz>, Bear Wang <bear.wang@mediatek.com>, 
- Sean Wang <sean.wang@mediatek.com>, devicetree@vger.kernel.org, 
- Sebastian Reichel <sre@kernel.org>, linux-input@vger.kernel.org, 
- linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org, 
- linux-sound@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- Chen Zhong <chen.zhong@mediatek.com>, 
- Chris-qj chen <chris-qj.chen@mediatek.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Sen Chu <sen.chu@mediatek.com>, 
- Lee Jones <lee@kernel.org>, Alexandre Mergnat <amergnat@baylibre.com>, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- linux-arm-kernel@lists.infradead.org, 
- MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-In-Reply-To: <20240914132811.9637-1-macpaul.lin@mediatek.com>
-References: <20240914132811.9637-1-macpaul.lin@mediatek.com>
-Message-Id: <172632412216.3158459.14043151462487699502.robh@kernel.org>
-Subject: Re: [PATCH v4 2/3] dt-bindings: mfd: mediatek: mt6397: Convert to
- DT schema format
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-On Sat, 14 Sep 2024 21:28:11 +0800, Macpaul Lin wrote:
-> Convert the mfd: mediatek: mt6397 binding to DT schema format.
-> 
-> MT6323, MT6358, and MT6397 are PMIC devices with multiple function
-> subdevices. They share a common PMIC design but have variations in
-> subdevice combinations.
-> 
-> Key updates in this conversion:
-> 
-> 1. RTC:
->    - Convert rtc-mt6397.txt and merge into parent MT6397 PMIC DT schema.
-> 
-> 2. Regulators:
->    - Align to generic name "regulators".
->    - Update references from .txt to .yaml for mt6323, mt6358, and mt6397
->      regulators.
->    - Simplify regulator name labels in device tree examples.
-> 
-> 3. Audio Codec:
->    - Convert sound/mt6358.txt and merge into parent MT6397 PMIC DT schema.
->    - Align to generic name "audio-codec" for codec and sound subdevices.
->    - Add "mediatek,dmic-mode" and "Avdd-supply" properties.
-> 
-> 4. Clocks:
->    - Align to generic name "clocks" for clockbuffer subdevices.
-> 
-> 5. LEDs:
->    - Convert leds-mt6323.txt and merge into parent MT6397 PMIC DT schema.
->    - Update LED binding.
-> 
-> 6. Keys:
->    - Add detailed descriptions for power and home keys.
->    - Add compatible: mediatek,mt6358-keys.
-> 
-> 7. Power Controller:
->    - Convert mt6323-poweroff.txt and merge into parent MT6397 PMIC DT
->      schema.
->    - Add #power-domain-cells property to fix dt-binding check error.
->    - Clarify "BBPU" as "Baseband power up".
-> 
-> 8. Pinctrl:
->    - Align to generic name "pinctrl" instead of "pin-controller".
-> 
-> 9. Compatible:
->    - Drop "mediatek,mt6357" since there is a separated DT Schema
->      for PMIC MT6357.
-> 
-> Additional updates:
-> - MAINTAINERS: Add co-maintainers and reference to
->   mfd/mediatek,mt6397.yaml for LED and power-controller drivers.
-> - input/mediatek,pmic-keys.yaml: Update reference to
->   mfd/mediatek,mt6397.yaml.
-> 
-> Signed-off-by: Sen Chu <sen.chu@mediatek.com>
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-> ---
->  .../bindings/input/mediatek,pmic-keys.yaml    |    2 +-
->  .../devicetree/bindings/leds/leds-mt6323.txt  |   63 -
->  .../bindings/mfd/mediatek,mt6397.yaml         | 1077 +++++++++++++++++
->  .../devicetree/bindings/mfd/mt6397.txt        |  110 --
->  .../bindings/power/reset/mt6323-poweroff.txt  |   20 -
->  .../devicetree/bindings/rtc/rtc-mt6397.txt    |   31 -
->  .../devicetree/bindings/sound/mt6358.txt      |   26 -
->  MAINTAINERS                                   |    8 +-
->  8 files changed, 1084 insertions(+), 253 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/leds/leds-mt6323.txt
->  create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml
->  delete mode 100644 Documentation/devicetree/bindings/mfd/mt6397.txt
->  delete mode 100644 Documentation/devicetree/bindings/power/reset/mt6323-poweroff.txt
->  delete mode 100644 Documentation/devicetree/bindings/rtc/rtc-mt6397.txt
->  delete mode 100644 Documentation/devicetree/bindings/sound/mt6358.txt
-> 
-> Changes for v1:
->  - This patch depends on conversion of mediatek,mt6397-regulator.yaml
->    [1] https://lore.kernel.org/lkml/20240807091738.18387-1-macpaul.lin@mediatek.com/T/
-> 
-> Changes for v2:
->  - This patch has been made base on linux-next/master git repo.
->  - Keep the parent and child relationship with mediatek,pwrap in description.
->    [2] https://lore.kernel.org/all/20240826-slurp-earphone-0d5173923ae8@spud/
->  - Keep the $ref for regulators since dt_binding_check didn't report any issue
->    based on linux-next/master repo.
->  - Fix description of mt6397/mt6323 devices, use "power management chip"
->    instead of "multifunction device"
->  - Drop unnecessary comments or description according to the review.
->  - Convert sub-modules to DT Schema:
->   - RTC, LEDs, power-controllers, regulators
->  - Drop duplicate sub node name and description for sub-modules
->   - RTC, Keys
->  - examples:
->   - drop parent pwrap node
->   - Add examples from mediatek,mt6323-regulator.yaml
->   - Add examples from mediatek,mt6358-regulator.yaml
->   - Add examples from mediatek,mt6397-regulator.yaml
->   - Complete the examples as could as possible.
-> 
-> Changes for v3:
->  - Rebased on linux-next/master git repo near next-20240906.
->  - Revise commit message.
->  - Regulators:
->   - Use "additionalProperties: true" and add "contains" for matching
->     $ref DT bindings.
->   - Simplify regulator name labels in device tree examples.
->  - LEDs:
->   - Use LED bindings.
->  - Squash following patches in v2 for removing old text format DT bindings
->    into this patch, includes:
->   - leds-mt6323.txt, mt6323-poweroff.txt, rtc-mt6397.txt, sound/mt6358.txt.
->  - Fix file format of DT schemas, add blank between properties.
->  - Fix 'make checkrefdoc' errors, update reference in mediatek,pmic-keys.yaml.
-> 
-> Changes for v4:
->  - Remove "mediatek,mt6357" from PMIC's compatible string since there is a
->    seperated DT schema for PMIC mt6357.
-> 
+> Maybe the last sentence is not needed.=C2=A0 When we are using the
+> secondary interrupters, at least in the offload use case that I've
+> verified with, the XHCI is completely unaware of what TDs have been
+> queued, etc...=C2=A0 So technically, even if we did call the default
+> handler (ie xhci_handle_cmd_stop_ep), most of the routines to
+> invalidate TDs are going to be no-ops.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Yes, the cancellation machinery will return immediately if there are
+no TDs queued by xhci_hcd itself.
 
-yamllint warnings/errors:
+But xhci_handle_cmd_stop_ep() does a few more things for you - it
+checks if the command has actually succeeded, clears any halt condition
+which may be preventing stopping the endpoint, and it sometimes retries
+the command (only on "bad" chips, AFAIK).
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/mediatek,mt6397.example.dtb: pmic: regulators: False schema does not allow {'compatible': ['mediatek,mt6323-regulator'], 'buck_vproc': {'regulator-name': ['vproc'], 'regulator-min-microvolt': [[700000]], 'regulator-max-microvolt': [[1350000]], 'regulator-ramp-delay': 12500, 'regulator-always-on': True, 'regulator-boot-on': True}, 'buck_vsys': {'regulator-name': ['vsys'], 'regulator-min-microvolt': [[1400000]], 'regulator-max-microvolt': [[2987500]], 'regulator-ramp-delay': 25000, 'regulator-always-on': True, 'regulator-boot-on': True}, 'buck_vpa': {'regulator-name': ['vpa'], 'regulator-min-microvolt': [[500000]], 'regulator-max-microvolt': [[3650000]]}, 'ldo_vtcxo': {'regulator-name': ['vtcxo'], 'regulator-min-microvolt': [[2800000]], 'regulator-max-microvolt': [[2800000]], 'regulator-enable-ramp-delay': 90, 'regulator-always-on': True, 'regulator-boot-on': True}, 'ldo_vcn28': {'regulator-name': ['vcn28'], 'r
- egulator-min-microvolt': [[2800000]], 'regulator-max-microvolt': [[2800000]], 'regulator-enable-ramp-delay': 185}, 'ldo_vcn33_bt': {'regulator-name': ['vcn33_bt'], 'regulator-min-microvolt': [[3300000]], 'regulator-max-microvolt': [[3600000]], 'regulator-enable-ramp-delay': 185}, 'ldo_vcn33_wifi': {'regulator-name': ['vcn33_wifi'], 'regulator-min-microvolt': [[3300000]], 'regulator-max-microvolt': [[3600000]], 'regulator-enable-ramp-delay': 185}, 'ldo_va': {'regulator-name': ['va'], 'regulator-min-microvolt': [[2800000]], 'regulator-max-microvolt': [[2800000]], 'regulator-enable-ramp-delay': 216, 'regulator-always-on': True, 'regulator-boot-on': True}, 'ldo_vcama': {'regulator-name': ['vcama'], 'regulator-min-microvolt': [[1500000]], 'regulator-max-microvolt': [[2800000]], 'regulator-enable-ramp-delay': 216}, 'ldo_vio28': {'regulator-name': ['vio28'], 'regulator-min-microvolt': [[2800000]], 'regulator-max-microvolt': [[2800000]], 'regulator-enable-ramp-delay': 216, 'regulator-always
- -on': True, 'regulator-boot-on': True}, 'ldo_vusb': {'regulator-name': ['vusb'], 'regulator-min-microvolt': [[3300000]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 216, 'regulator-boot-on': True}, 'ldo_vmc': {'regulator-name': ['vmc'], 'regulator-min-microvolt': [[1800000]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 36, 'regulator-boot-on': True}, 'ldo_vmch': {'regulator-name': ['vmch'], 'regulator-min-microvolt': [[3000000]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 36, 'regulator-boot-on': True}, 'ldo_vemc3v3': {'regulator-name': ['vemc3v3'], 'regulator-min-microvolt': [[3000000]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 36, 'regulator-boot-on': True}, 'ldo_vgp1': {'regulator-name': ['vgp1'], 'regulator-min-microvolt': [[1200000]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 216}, 'ldo_vgp2': {'regulator-name': ['vgp2'], 'regulator-min-mi
- crovolt': [[1200000]], 'regulator-max-microvolt': [[3000000]], 'regulator-enable-ramp-delay': 216}, 'ldo_vgp3': {'regulator-name': ['vgp3'], 'regulator-min-microvolt': [[1200000]], 'regulator-max-microvolt': [[1800000]], 'regulator-enable-ramp-delay': 216}, 'ldo_vcn18': {'regulator-name': ['vcn18'], 'regulator-min-microvolt': [[1800000]], 'regulator-max-microvolt': [[1800000]], 'regulator-enable-ramp-delay': 216}, 'ldo_vsim1': {'regulator-name': ['vsim1'], 'regulator-min-microvolt': [[1800000]], 'regulator-max-microvolt': [[3000000]], 'regulator-enable-ramp-delay': 216}, 'ldo_vsim2': {'regulator-name': ['vsim2'], 'regulator-min-microvolt': [[1800000]], 'regulator-max-microvolt': [[3000000]], 'regulator-enable-ramp-delay': 216}, 'ldo_vrtc': {'regulator-name': ['vrtc'], 'regulator-min-microvolt': [[2800000]], 'regulator-max-microvolt': [[2800000]], 'regulator-always-on': True, 'regulator-boot-on': True}, 'ldo_vcamaf': {'regulator-name': ['vcamaf'], 'regulator-min-microvolt': [[1200000
- ]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 216}, 'ldo_vibr': {'regulator-name': ['vibr'], 'regulator-min-microvolt': [[1200000]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 36}, 'ldo_vrf18': {'regulator-name': ['vrf18'], 'regulator-min-microvolt': [[1825000]], 'regulator-max-microvolt': [[1825000]], 'regulator-enable-ramp-delay': 187}, 'ldo_vm': {'regulator-name': ['vm'], 'regulator-min-microvolt': [[1200000]], 'regulator-max-microvolt': [[1800000]], 'regulator-enable-ramp-delay': 216, 'regulator-always-on': True, 'regulator-boot-on': True}, 'ldo_vio18': {'regulator-name': ['vio18'], 'regulator-min-microvolt': [[1800000]], 'regulator-max-microvolt': [[1800000]], 'regulator-enable-ramp-delay': 216, 'regulator-always-on': True, 'regulator-boot-on': True}, 'ldo_vcamd': {'regulator-name': ['vcamd'], 'regulator-min-microvolt': [[1200000]], 'regulator-max-microvolt': [[1800000]], 'regulator-enable-ramp-delay': 216}, 'ldo_vcamio':
-  {'regulator-name': ['vcamio'], 'regulator-min-microvolt': [[1800000]], 'regulator-max-microvolt': [[1800000]], 'regulator-enable-ramp-delay': 216}}
-	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/mediatek,mt6397.example.dtb: pmic: regulators: False schema does not allow {'compatible': ['mediatek,mt6397-regulator'], 'buck_vpca15': {'regulator-name': ['vpca15'], 'regulator-min-microvolt': [[850000]], 'regulator-max-microvolt': [[1350000]], 'regulator-ramp-delay': 12500, 'regulator-enable-ramp-delay': 200}, 'buck_vpca7': {'regulator-name': ['vpca7'], 'regulator-min-microvolt': [[850000]], 'regulator-max-microvolt': [[1350000]], 'regulator-ramp-delay': 12500, 'regulator-enable-ramp-delay': 115}, 'buck_vsramca15': {'regulator-name': ['vsramca15'], 'regulator-min-microvolt': [[850000]], 'regulator-max-microvolt': [[1350000]], 'regulator-ramp-delay': 12500, 'regulator-enable-ramp-delay': 115}, 'buck_vsramca7': {'regulator-name': ['vsramca7'], 'regulator-min-microvolt': [[850000]], 'regulator-max-microvolt': [[1350000]], 'regulator-ramp-delay': 12500, 'regulator-enable-ramp-delay': 115}, 'buck_vcore': {'regul
- ator-name': ['vcore'], 'regulator-min-microvolt': [[850000]], 'regulator-max-microvolt': [[1350000]], 'regulator-ramp-delay': 12500, 'regulator-enable-ramp-delay': 115}, 'buck_vgpu': {'regulator-name': ['vgpu'], 'regulator-min-microvolt': [[700000]], 'regulator-max-microvolt': [[1350000]], 'regulator-ramp-delay': 12500, 'regulator-enable-ramp-delay': 115}, 'buck_vdrm': {'regulator-name': ['vdrm'], 'regulator-min-microvolt': [[800000]], 'regulator-max-microvolt': [[1400000]], 'regulator-ramp-delay': 12500, 'regulator-enable-ramp-delay': 500}, 'buck_vio18': {'regulator-name': ['vio18'], 'regulator-min-microvolt': [[1500000]], 'regulator-max-microvolt': [[2120000]], 'regulator-ramp-delay': 12500, 'regulator-enable-ramp-delay': 500}, 'ldo_vtcxo': {'regulator-name': ['vtcxo'], 'regulator-min-microvolt': [[2800000]], 'regulator-max-microvolt': [[2800000]], 'regulator-enable-ramp-delay': 90}, 'ldo_va28': {'regulator-name': ['va28'], 'regulator-enable-ramp-delay': 218}, 'ldo_vcama': {'regul
- ator-name': ['vcama'], 'regulator-min-microvolt': [[1500000]], 'regulator-max-microvolt': [[2800000]], 'regulator-enable-ramp-delay': 218}, 'ldo_vio28': {'regulator-name': ['vio28'], 'regulator-enable-ramp-delay': 240}, 'ldo_vusb': {'regulator-name': ['vusb'], 'regulator-enable-ramp-delay': 218}, 'ldo_vmc': {'regulator-name': ['vmc'], 'regulator-min-microvolt': [[1800000]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 218}, 'ldo_vmch': {'regulator-name': ['vmch'], 'regulator-min-microvolt': [[3000000]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 218}, 'ldo_vemc3v3': {'regulator-name': ['vemc_3v3'], 'regulator-min-microvolt': [[3000000]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 218}, 'ldo_vgp1': {'regulator-name': ['vcamd'], 'regulator-min-microvolt': [[1220000]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 240}, 'ldo_vgp2': {'regulator-name': ['vcamio'], 'regulator-min-mic
- rovolt': [[1000000]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 218}, 'ldo_vgp3': {'regulator-name': ['vcamaf'], 'regulator-min-microvolt': [[1200000]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 218}, 'ldo_vgp4': {'regulator-name': ['vgp4'], 'regulator-min-microvolt': [[1200000]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 218}, 'ldo_vgp5': {'regulator-name': ['vgp5'], 'regulator-min-microvolt': [[1200000]], 'regulator-max-microvolt': [[3000000]], 'regulator-enable-ramp-delay': 218}, 'ldo_vgp6': {'regulator-name': ['vgp6'], 'regulator-min-microvolt': [[1200000]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 218}, 'ldo_vibr': {'regulator-name': ['vibr'], 'regulator-min-microvolt': [[1200000]], 'regulator-max-microvolt': [[3300000]], 'regulator-enable-ramp-delay': 218}}
-	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+This new code does none of the above, so in the general case it can't
+even guarantee that the endpoint is stopped when it returns zero. This
+should ideally be documented in some way, or fixed, before somebody is
+tempted to call it with unrealistically high expectations ;)
 
-doc reference errors (make refcheckdocs):
+As far as I see, it only works for you because isochronous never halts
+and Qualcomm HW is (hopefully) free of those stop-after-restart bugs.
+There will be problems if the SB tries to use any other endpoint type.
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240914132811.9637-1-macpaul.lin@mediatek.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Regards,
+Michal
 
