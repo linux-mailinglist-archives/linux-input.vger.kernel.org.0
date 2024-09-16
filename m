@@ -1,513 +1,182 @@
-Return-Path: <linux-input+bounces-6559-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6561-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4A3979CF6
-	for <lists+linux-input@lfdr.de>; Mon, 16 Sep 2024 10:39:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8353979DC8
+	for <lists+linux-input@lfdr.de>; Mon, 16 Sep 2024 11:04:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A58F1F23E31
-	for <lists+linux-input@lfdr.de>; Mon, 16 Sep 2024 08:39:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1531EB21FF9
+	for <lists+linux-input@lfdr.de>; Mon, 16 Sep 2024 09:04:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D889148FF2;
-	Mon, 16 Sep 2024 08:38:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D69B1487F4;
+	Mon, 16 Sep 2024 09:04:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MEtV6M4B"
+	dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b="F/j5Xpck"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-162.mimecast.com (us-smtp-delivery-162.mimecast.com [170.10.133.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9C014885B;
-	Mon, 16 Sep 2024 08:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D37A13CFA1
+	for <linux-input@vger.kernel.org>; Mon, 16 Sep 2024 09:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726475930; cv=none; b=EGzUuHy0n11xB8o28T0lVi47tt9Y1L8t3YUgt4E8hr/zLR4uEfPQJK7XBlg8IvEGuGN47KWSqcqEaQ5WxLV70fIwwOQVg+68921uVqfBcHfV6myX6AXwzMKHlckstsJzpN8ebDSfuFhAEcioLNuHy0DLfCPrDbhBImqvb/x1CX8=
+	t=1726477440; cv=none; b=TTCLAXZye9kjNIS2vXoAljdX8rp+UPhrwWj88ol10Re6LBhf2QdIEkXqoUuIWpyI7eBAd+qXlCNHKkkPRpCwWU+mynwX1ExVTit105+7DsNb5+MydFGJR4WWWg5OB+irLz47mLGYNv8G8nRP1mEN6VHfEUkL1UMu8COfmtAXS2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726475930; c=relaxed/simple;
-	bh=CdpVBfk41BeGQA2hFTIaHx5RVS7ilCziIa40PArZJlE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uk1bPGt5ngxbUtnHS8r3kzF27UsNllqOcyCgOaLPMzTVqMYUrqXv/NiL7vlwhWBj9C7sWnFXQ9Q9j7jgLnVH1gnkHol/xbWspRekQl4M3veBHXra8R/CJDgt0pvtgKnWBKrSj3+kDXg7UnDPL+t8GvGaQU7eFoT9yL1a+Js4RU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MEtV6M4B; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B329AC4CECD;
-	Mon, 16 Sep 2024 08:38:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726475929;
-	bh=CdpVBfk41BeGQA2hFTIaHx5RVS7ilCziIa40PArZJlE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MEtV6M4BB7qzsg5ILp347u3YL3JI9wFjMRly5tQrTc6B8ajSG0bMPU6O5+Ymb9Vv2
-	 92AXl7VbnwGOGqQLc8WSg9A1lCMt56wcs3B/S2PA7UzvGoNNFFJ3A+a7aHg7MX7H6c
-	 dqj1vNTdmZ3JeR3/kyoH3hhGh6cCgHLY/zwIGUia/ZGfXjJv3Xg/8C9WAiu2X+817i
-	 bDTlcY3iSwhaaaoHlCkKmcCyklin1QX26iAodOTfhnVLtIoxPQ19a6fsPzFDk++k/+
-	 a0X3KLQf1Ps2LvMFSX4uA7XOLDVf0AShb9yHBgtLPDjRTUOB0BZyMVNlZPK4/DC054
-	 8TS7EHRgsL9wQ==
-Date: Mon, 16 Sep 2024 10:38:46 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Macpaul Lin <macpaul.lin@mediatek.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sen Chu <sen.chu@mediatek.com>, 
-	Sean Wang <sean.wang@mediatek.com>, Sebastian Reichel <sre@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Chen Zhong <chen.zhong@mediatek.com>, 
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-sound@vger.kernel.org, Alexandre Mergnat <amergnat@baylibre.com>, 
-	Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>, 
-	Macpaul Lin <macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>, 
-	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH v4 2/3] dt-bindings: mfd: mediatek: mt6397: Convert to DT
- schema format
-Message-ID: <a6ufiqp4g7cbryggha3q5fnfr4deuf6abvxy24ttjoigadcgvm@h4xnbuxsv2hi>
-References: <20240914132811.9637-1-macpaul.lin@mediatek.com>
+	s=arc-20240116; t=1726477440; c=relaxed/simple;
+	bh=5oPEPxx3btISiu2HKpOI8h4G0Mq5rcLQYI86wc46wgA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=WTua/8ggzss507tnDMC99+I3p1L5MfA1o1eO7fjVPjSiMkb1spo2vIqoJF1eT2mb7VLe3kaklx0fAjdo33gHHSWDOWfTZlXV7uSuSCEIvWir9MwAovhZq5TFaoyvPgKL7XXgt8Xyj1gS62Q8fnGA1z4Kcvrl32pQu3X6+JVDjcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com; spf=pass smtp.mailfrom=hp.com; dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b=F/j5Xpck; arc=none smtp.client-ip=170.10.133.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hp.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hp.com; s=mimecast20180716;
+	t=1726477436;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=gx4WAWn0gDdOn3D6kua7ErNP0JPsHujFHwToAOT0YXM=;
+	b=F/j5Xpck4u6A+Oumay3OIbBf+iTLBwpYBynQi3BVMyIcudQQ8N6YZiiYFF1fLRWG+2hIW/
+	ZaajR6IwogVRb8vFLeI2W+Pt/Rz4GI/y58QsZ2hV65f0miveooQsdfC2zGcO/sRAiOg4SC
+	Jg34GERng49xAiyz8JIyWrPeIHeVTA8=
+Received: from g7t16454g.inc.hp.com (hpifallback.mail.core.hp.com
+ [15.73.128.143]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-446-dfc8iAKPMvqdM8G5pCHtmg-1; Mon, 16 Sep 2024 05:03:49 -0400
+X-MC-Unique: dfc8iAKPMvqdM8G5pCHtmg-1
+Received: from g8t13021g.inc.hpicorp.net (g8t13021g.inc.hpicorp.net [15.60.27.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by g7t16454g.inc.hp.com (Postfix) with ESMTPS id ECD0E60010EF;
+	Mon, 16 Sep 2024 09:03:48 +0000 (UTC)
+Received: from mail.hp.com (unknown [15.32.134.51])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by g8t13021g.inc.hpicorp.net (Postfix) with ESMTPS id 3DB4260000B6;
+	Mon, 16 Sep 2024 09:03:47 +0000 (UTC)
+Received: from cdc-linux-buildsrv17.. (localhost [127.0.0.1])
+	by mail.hp.com (Postfix) with ESMTP id 2ACAFA401C6;
+	Mon, 16 Sep 2024 16:56:03 +0800 (CST)
+From: Wade Wang <wade.wang@hp.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	wade.wang@hp.com
+Cc: stable@vger.kernel.org
+Subject: [PATCH] HID: plantronics: Workaround for an unexcepted opposite volume key
+Date: Mon, 16 Sep 2024 16:56:00 +0800
+Message-Id: <20240916085600.1387418-1-wade.wang@hp.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240914132811.9637-1-macpaul.lin@mediatek.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: hp.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 
-On Sat, Sep 14, 2024 at 09:28:11PM +0800, Macpaul Lin wrote:
-> Convert the mfd: mediatek: mt6397 binding to DT schema format.
-> 
-> MT6323, MT6358, and MT6397 are PMIC devices with multiple function
-> subdevices. They share a common PMIC design but have variations in
-> subdevice combinations.
-> 
-> Key updates in this conversion:
-> 
-> 1. RTC:
->    - Convert rtc-mt6397.txt and merge into parent MT6397 PMIC DT schema.
-> 
-> 2. Regulators:
->    - Align to generic name "regulators".
->    - Update references from .txt to .yaml for mt6323, mt6358, and mt6397
->      regulators.
->    - Simplify regulator name labels in device tree examples.
-> 
-> 3. Audio Codec:
->    - Convert sound/mt6358.txt and merge into parent MT6397 PMIC DT schema.
->    - Align to generic name "audio-codec" for codec and sound subdevices.
->    - Add "mediatek,dmic-mode" and "Avdd-supply" properties.
-> 
-> 4. Clocks:
->    - Align to generic name "clocks" for clockbuffer subdevices.
-> 
-> 5. LEDs:
->    - Convert leds-mt6323.txt and merge into parent MT6397 PMIC DT schema.
->    - Update LED binding.
-> 
-> 6. Keys:
->    - Add detailed descriptions for power and home keys.
->    - Add compatible: mediatek,mt6358-keys.
-> 
-> 7. Power Controller:
->    - Convert mt6323-poweroff.txt and merge into parent MT6397 PMIC DT
->      schema.
->    - Add #power-domain-cells property to fix dt-binding check error.
->    - Clarify "BBPU" as "Baseband power up".
-> 
-> 8. Pinctrl:
->    - Align to generic name "pinctrl" instead of "pin-controller".
-> 
-> 9. Compatible:
->    - Drop "mediatek,mt6357" since there is a separated DT Schema
->      for PMIC MT6357.
-> 
-> Additional updates:
-> - MAINTAINERS: Add co-maintainers and reference to
->   mfd/mediatek,mt6397.yaml for LED and power-controller drivers.
-> - input/mediatek,pmic-keys.yaml: Update reference to
->   mfd/mediatek,mt6397.yaml.
-> 
-> Signed-off-by: Sen Chu <sen.chu@mediatek.com>
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+Some Plantronics headset as the below send an unexcept opposite
+volume key's HID report for each volume key press after 200ms, like
+unecepted Volume Up Key following Volume Down key pressed by user.
+This patch adds a quirk to hid-plantronics for these devices, which
+will ignore the second unexcepted opposite volume key if it happens
+within 220ms from the last one that was handled.
+    Plantronics EncorePro 500 Series  (047f:431e)
+    Plantronics Blackwire_3325 Series (047f:430c)
 
+The patch was tested on the mentioned model, it shouldn't affect
+other models, however, this quirk might be needed for them too.
+Auto-repeat (when a key is held pressed) is not affected per test
+result.
 
-Limited review since this fails tests.
+Cc: stable@vger.kernel.org
+Signed-off-by: Wade Wang <wade.wang@hp.com>
+---
+ drivers/hid/hid-ids.h         |  2 ++
+ drivers/hid/hid-plantronics.c | 23 +++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
 
-> ---
->  .../bindings/input/mediatek,pmic-keys.yaml    |    2 +-
->  .../devicetree/bindings/leds/leds-mt6323.txt  |   63 -
->  .../bindings/mfd/mediatek,mt6397.yaml         | 1077 +++++++++++++++++
->  .../devicetree/bindings/mfd/mt6397.txt        |  110 --
->  .../bindings/power/reset/mt6323-poweroff.txt  |   20 -
->  .../devicetree/bindings/rtc/rtc-mt6397.txt    |   31 -
->  .../devicetree/bindings/sound/mt6358.txt      |   26 -
->  MAINTAINERS                                   |    8 +-
->  8 files changed, 1084 insertions(+), 253 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/leds/leds-mt6323.txt
->  create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml
->  delete mode 100644 Documentation/devicetree/bindings/mfd/mt6397.txt
->  delete mode 100644 Documentation/devicetree/bindings/power/reset/mt6323-poweroff.txt
->  delete mode 100644 Documentation/devicetree/bindings/rtc/rtc-mt6397.txt
->  delete mode 100644 Documentation/devicetree/bindings/sound/mt6358.txt
-> 
-> Changes for v1:
->  - This patch depends on conversion of mediatek,mt6397-regulator.yaml
->    [1] https://lore.kernel.org/lkml/20240807091738.18387-1-macpaul.lin@mediatek.com/T/
-> 
-> Changes for v2:
->  - This patch has been made base on linux-next/master git repo.
->  - Keep the parent and child relationship with mediatek,pwrap in description.
->    [2] https://lore.kernel.org/all/20240826-slurp-earphone-0d5173923ae8@spud/
->  - Keep the $ref for regulators since dt_binding_check didn't report any issue
->    based on linux-next/master repo.
->  - Fix description of mt6397/mt6323 devices, use "power management chip"
->    instead of "multifunction device"
->  - Drop unnecessary comments or description according to the review.
->  - Convert sub-modules to DT Schema:
->   - RTC, LEDs, power-controllers, regulators
->  - Drop duplicate sub node name and description for sub-modules
->   - RTC, Keys
->  - examples:
->   - drop parent pwrap node
->   - Add examples from mediatek,mt6323-regulator.yaml
->   - Add examples from mediatek,mt6358-regulator.yaml
->   - Add examples from mediatek,mt6397-regulator.yaml
->   - Complete the examples as could as possible.
-> 
-> Changes for v3:
->  - Rebased on linux-next/master git repo near next-20240906.
->  - Revise commit message.
->  - Regulators:
->   - Use "additionalProperties: true" and add "contains" for matching
->     $ref DT bindings.
->   - Simplify regulator name labels in device tree examples.
->  - LEDs:
->   - Use LED bindings.
->  - Squash following patches in v2 for removing old text format DT bindings
->    into this patch, includes:
->   - leds-mt6323.txt, mt6323-poweroff.txt, rtc-mt6397.txt, sound/mt6358.txt.
->  - Fix file format of DT schemas, add blank between properties.
->  - Fix 'make checkrefdoc' errors, update reference in mediatek,pmic-keys.yaml.
-> 
-> Changes for v4:
->  - Remove "mediatek,mt6357" from PMIC's compatible string since there is a
->    seperated DT schema for PMIC mt6357.
-> 
-
-...
-
-> +$id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek MT6397/MT6323 Multifunction Device (PMIC)
-
-s/Multifunction Device/PMIC/
-
-> +
-> +maintainers:
-> +  - Sen Chu <sen.chu@mediatek.com>
-> +  - Macpaul Lin <macpaul.lin@mediatek.com>
-> +
-> +description: |
-> +  MT6397/MT6323 is a power management system chip.
-> +  Please see the sub-modules below for supported features.
-> +
-> +  MT6397/MT6323 is a multifunction device with the following sub modules:
-> +  - Regulators
-> +  - RTC
-> +  - Audio codec
-> +  - GPIO
-> +  - Clock
-> +  - LED
-> +  - Keys
-> +  - Power controller
-> +
-> +  It is interfaced to host controller using SPI interface by a proprietary hardware
-> +  called PMIC wrapper or pwrap. MT6397/MT6323 PMIC is a child device of pwrap.
-> +  See the following for pwrap node definitions:
-> +  Documentation/devicetree/bindings/soc/mediatek/mediatek,pwrap.yaml
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - enum:
-> +          - mediatek,mt6323
-> +          - mediatek,mt6331 # "mediatek,mt6331" for PMIC MT6331 and MT6332.
-> +          - mediatek,mt6358
-> +          - mediatek,mt6359
-> +          - mediatek,mt6397
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt6366
-> +          - const: mediatek,mt6358
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  interrupt-controller: true
-> +
-> +  "#interrupt-cells":
-> +    const: 2
-> +
-> +  rtc:
-> +    type: object
-> +    $ref: /schemas/rtc/rtc.yaml#
-> +    unevaluatedProperties: false
-> +    description:
-> +      MT6397 Real Time Clock.
-> +
-> +    properties:
-> +      compatible:
-> +        oneOf:
-> +          - enum:
-> +              - mediatek,mt6323-rtc
-> +              - mediatek,mt6331-rtc
-> +              - mediatek,mt6358-rtc
-> +              - mediatek,mt6397-rtc
-> +          - items:
-> +              - enum:
-> +                  - mediatek,mt6366-rtc
-> +              - const: mediatek,mt6358-rtc
-> +
-> +      start-year: true
-
-Drop
-
-> +
-> +    required:
-> +      - compatible
-> +
-> +  regulators:
-> +    type: object
-> +    description:
-> +      List of child nodes that specify the regulators.
-> +    additionalProperties: true
-
-
-> +    properties:
-> +      compatible:
-> +        oneOf:
-> +          - enum:
-> +              - mediatek,mt6323-regulator
-> +              - mediatek,mt6358-regulator
-> +              - mediatek,mt6397-regulator
-> +          - items:
-> +              - enum:
-> +                  - mediatek,mt6366-regulator
-> +              - const: mediatek,mt6358-regulator
-> +
-> +    required:
-> +      - compatible
-> +
-> +    allOf:
-> +      - if:
-> +          properties:
-> +            compatible:
-> +              contains:
-> +                const: mediatek,mt6323-regulator
-> +
-> +        then:
-> +          $ref: /schemas/regulator/mediatek,mt6323-regulator.yaml
-> +
-> +      - if:
-> +          properties:
-> +            compatible:
-> +              contains:
-> +                const: mediatek,mt6358-regulator
-> +
-> +        then:
-> +          $ref: /schemas/regulator/mediatek,mt6358-regulator.yaml
-> +
-> +      - if:
-> +          properties:
-> +            compatible:
-> +              contains:
-> +                const: mediatek,mt6397-regulator
-> +
-> +        then:
-> +          $ref: /schemas/regulator/mediatek,mt6397-regulator.yaml
-
-Drop this entire allOf. Not really needed.
-
-> +
-> +  audio-codec:
-> +    type: object
-> +    additionalProperties: false
-> +    description:
-> +      Audio codec support with MT6397 and MT6358.
-> +    properties:
-> +      compatible:
-> +        oneOf:
-> +          - enum:
-> +              - mediatek,mt6397-codec
-> +              - mediatek,mt6358-sound
-> +          - items:
-> +              - enum:
-> +                  - mediatek,mt6366-sound
-> +              - const: mediatek,mt6358-sound
-> +
-> +      mediatek,dmic-mode:
-> +        description: |
-> +          Indicates how many data pins are used to transmit two channels of PDM
-> +          signal.
-> +          0 - two wires;
-> +          1 - one wire;
-> +          Default value is 0.
-> +        enum: [0, 1]
-> +        default: 0
-> +
-> +      Avdd-supply:
-> +        description: Power source of AVDD.
-> +
-> +    required:
-> +      - compatible
-> +
-> +  clocks:
-> +    type: object
-> +    additionalProperties: false
-> +    description: |
-
-Do not need '|' unless you need to preserve formatting.
-
-> +      This is a clock buffer node for mt6397. However, there are no sub nodes
-> +      or any public document exposed in public.
-
-Blank line
-
-> +    properties:
-> +      compatible:
-> +        const: mediatek,mt6397-clk
-> +      '#clock-cells':
-> +        const: 1
-
-Blank line
-
-> +    required:
-> +      - compatible
-> +
-> +  leds:
-> +    type: object
-> +    additionalProperties: false
-> +    description: |
-> +      MT6323 LED controller is subfunction provided by MT6323 PMIC, so the LED
-> +      controllers are defined as the subnode of the function node provided by MT6323
-> +      PMIC controller that is being defined as one kind of Muti-Function Device (MFD)
-> +      using shared bus called PMIC wrapper for each subfunction to access remote
-> +      MT6323 PMIC hardware.
-> +
-> +      Each led is represented as a child node of the mediatek,mt6323-led that
-> +      describes the initial behavior for each LED physically and currently only four
-> +      LED child nodes can be supported.
-> +
-> +    properties:
-> +      compatible:
-> +        enum:
-> +          - mediatek,mt6323-led
-> +          - mediatek,mt6331-led
-> +          - mediatek,mt6332-led
-> +
-> +      reg:
-> +        maxItems: 1
-> +
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +    patternProperties:
-> +      "^led@[0-3]$":
-> +        type: object
-> +        $ref: /schemas/leds/common.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          reg:
-> +            description:
-> +              LED channel number (0..3)
-> +            minimum: 0
-> +            maximum: 3
-> +
-> +        required:
-> +          - reg
-> +
-> +    required:
-> +      - compatible
-> +      - '#address-cells'
-> +      - '#size-cells'
-> +
-> +  keys:
-> +    type: object
-> +    $ref: /schemas/input/mediatek,pmic-keys.yaml
-> +    unevaluatedProperties: false
-> +    description:
-> +      Power and Home keys.
-> +    properties:
-> +      compatible:
-> +        enum:
-> +          - mediatek,mt6323-keys
-> +          - mediatek,mt6331-keys
-> +          - mediatek,mt6358-keys
-> +          - mediatek,mt6397-keys
-
-You have $ref so lisitng properties is confusing. What do you want to
-achieve here?
-
-> +
-> +  power-controller:
-> +    type: object
-> +    additionalProperties: false
-> +    description:
-> +      The power controller which could be found on PMIC is responsible for
-> +      externally powering off or on the remote MediaTek SoC through the
-> +      circuit BBPU (baseband power up).
-> +    properties:
-> +      compatible:
-> +        const: mediatek,mt6323-pwrc
-> +
-> +      '#power-domain-cells':
-> +        const: 0
-> +
-> +  pinctrl:
-> +    type: object
-> +    $ref: /schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml
-> +    unevaluatedProperties: false
-> +    description:
-> +      Pin controller
-> +    properties:
-> +      compatible:
-> +        const: mediatek,mt6397-pinctrl
-
-Also confusing. I don't think you got my point from previous review.
-
-> +
-> +required:
-> +  - compatible
-> +  - regulators
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    pmic {
-> +        compatible = "mediatek,mt6323";
-> +        interrupt-parent = <&pio>;
-> +        interrupts = <150 IRQ_TYPE_LEVEL_HIGH>;
-> +        interrupt-controller;
-> +        #interrupt-cells = <2>;
-> +
-> +        leds {
-> +                compatible = "mediatek,mt6323-led";
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-
-Messed indentation.
-
-> +        };
-
-Best regards,
-Krzysztof
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 781c5aa29859..b72d70bc5628 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1050,6 +1050,8 @@
+ #define USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3220_SERIES=090xc056
+ #define USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3215_SERIES=090xc057
+ #define USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3225_SERIES=090xc058
++#define USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3325_SERIES=090x430c
++#define USB_DEVICE_ID_PLANTRONICS_ENCOREPRO_500_SERIES=09=090x431e
+=20
+ #define USB_VENDOR_ID_PANASONIC=09=090x04da
+ #define USB_DEVICE_ID_PANABOARD_UBT780=090x1044
+diff --git a/drivers/hid/hid-plantronics.c b/drivers/hid/hid-plantronics.c
+index 3d414ae194ac..25cfd964dc25 100644
+--- a/drivers/hid/hid-plantronics.c
++++ b/drivers/hid/hid-plantronics.c
+@@ -38,8 +38,10 @@
+ =09=09=09    (usage->hid & HID_USAGE_PAGE) =3D=3D HID_UP_CONSUMER)
+=20
+ #define PLT_QUIRK_DOUBLE_VOLUME_KEYS BIT(0)
++#define PLT_QUIRK_FOLLOWED_OPPOSITE_VOLUME_KEYS BIT(1)
+=20
+ #define PLT_DOUBLE_KEY_TIMEOUT 5 /* ms */
++#define PLT_FOLLOWED_OPPOSITE_KEY_TIMEOUT 220 /* ms */
+=20
+ struct plt_drv_data {
+ =09unsigned long device_type;
+@@ -137,6 +139,21 @@ static int plantronics_event(struct hid_device *hdev, =
+struct hid_field *field,
+=20
+ =09=09drv_data->last_volume_key_ts =3D cur_ts;
+ =09}
++=09if (drv_data->quirks & PLT_QUIRK_FOLLOWED_OPPOSITE_VOLUME_KEYS) {
++=09=09unsigned long prev_ts, cur_ts;
++
++=09=09/* Usages are filtered in plantronics_usages. */
++
++=09=09if (!value) /* Handle key presses only. */
++=09=09=09return 0;
++
++=09=09prev_ts =3D drv_data->last_volume_key_ts;
++=09=09cur_ts =3D jiffies;
++=09=09if (jiffies_to_msecs(cur_ts - prev_ts) <=3D PLT_FOLLOWED_OPPOSITE_KE=
+Y_TIMEOUT)
++=09=09=09return 1; /* Ignore the followed opposite volume key. */
++
++=09=09drv_data->last_volume_key_ts =3D cur_ts;
++=09}
+=20
+ =09return 0;
+ }
+@@ -210,6 +227,12 @@ static const struct hid_device_id plantronics_devices[=
+] =3D {
+ =09{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS,
+ =09=09=09=09=09 USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3225_SERIES),
+ =09=09.driver_data =3D PLT_QUIRK_DOUBLE_VOLUME_KEYS },
++=09{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS,
++=09=09=09=09=09 USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3325_SERIES),
++=09=09.driver_data =3D PLT_QUIRK_FOLLOWED_OPPOSITE_VOLUME_KEYS },
++=09{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS,
++=09=09=09=09=09 USB_DEVICE_ID_PLANTRONICS_ENCOREPRO_500_SERIES),
++=09=09.driver_data =3D PLT_QUIRK_FOLLOWED_OPPOSITE_VOLUME_KEYS },
+ =09{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS, HID_ANY_ID) },
+ =09{ }
+ };
+--=20
+Change log:
+1. 2nd patch submission:
+   Add one Cc mail aoount in patch comment, per kernel test robot
+   required
+2. 3rd patch submission:
+   Code and comment change to Separate this patch with previous patch
+   'commit f567d6ef8606 ("HID: plantronics: Workaround for double
+   volume key presses")'
+2.34.1
 
 
