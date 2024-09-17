@@ -1,324 +1,156 @@
-Return-Path: <linux-input+bounces-6578-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6579-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3508197AE76
-	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2024 12:05:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0906A97AE79
+	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2024 12:06:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 599111C21025
-	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2024 10:05:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BE5BB284CD7
+	for <lists+linux-input@lfdr.de>; Tue, 17 Sep 2024 10:06:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9069815C138;
-	Tue, 17 Sep 2024 10:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9245F15A876;
+	Tue, 17 Sep 2024 10:06:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BWDkjFtK"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="JBmGb9XN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2089.outbound.protection.outlook.com [40.92.103.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB25D15A876;
-	Tue, 17 Sep 2024 10:05:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726567536; cv=none; b=TmNX8pILENb5hsFTmPQQwbQIW5wCvmBDd8PkhGFqen3lYBSVHn4yTQEVn8iTPfhh8/k4AlI+cfTi5aNRe8zrso2AutjxW7BmKdyQusJg4CZBn+dh+QBUo6EaNwyjVPUKXTPbfc53gh5EaVYA90+2jRQTJFyozwEfXYeJ/HBDSlI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726567536; c=relaxed/simple;
-	bh=/LpCZIRCjJEZxOcuU8A08ovsog+8/vTmnzNEXBX08Jo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UxVD+u/LXerG1zWQ3TV29EfFaKUzKAhioRANVXjKz3d9gcelbgwTFLyRBEZO+XwJC3qjuaUPZ1IjeigrVdHToJnPt69yXCxo1Hd5nh6s6+7Mx+CEJvMkhCmbvlHBbEZ552sKeT4QJKMmN19go/WtFpe2cg2CWzE0WrCsCjiX4cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BWDkjFtK; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-71923d87be4so2883690b3a.0;
-        Tue, 17 Sep 2024 03:05:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726567534; x=1727172334; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=c2xltqATgw2KK02jP7aHfFW3EbgnqGG2UjGS0NpdfPI=;
-        b=BWDkjFtKs5Y25Ywuja1SHRHUub4oIQk8d1V2wiyeLHAYghCmXjXuU5TYD7WafpoYI3
-         +pRjRtwiORfvQjTyeLNttPdDSdJllm9Ib2gPoRJvDFCheOe/AODXrKWBoJxrHSLrfVh2
-         H2mYm88w5Fzjue3PaDC9eyycK84Nj7KDwXQZaona2k1J0B7hGLcuI0N1G/zvyoRkf/4K
-         N9xP0L7YJ4JGZK26OgA+F1jkVro4Or33F5YTWZnuPhx+izBStAa4GEq0Mfy9xvo4SMkL
-         yc0j1kl90VocBUJo0/1QXPrjTeDCPdBjTcJOPs8NCLcXwfWQPi9S3SMT5Lnc9QH2NUYi
-         VP5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726567534; x=1727172334;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c2xltqATgw2KK02jP7aHfFW3EbgnqGG2UjGS0NpdfPI=;
-        b=FDgTcBia8DP6/ZoKdr7DzIPRDkyFoyOr3NjSC4LTSiLNQ/kY6k2T698GukdaFkNemP
-         DYk0uLCJ3BkI7CVzT+S+l5nOCQi7YjHV7c5nZY6++fiWYU1tG8n9lD+OP/f7u2ILJI5W
-         0tHd8qmPB4q3+ckPur5Gr7tsXLSNUw+K304OqfBXr2wbEfw0mn2Vb2BL1LxZMCYDLFvj
-         x/kJDjHkRdh2zC+ZUxL8u/emODX/93ts1uw98UJu+bIicVCQlZ0AejRzWJG5Y4QQRjFA
-         Cvp4oKeJ1RcYK3Vva8gwcYNSr3ExXaQ3Sq0gEd30YsfF/kFuV/ww/bmhqU2WDJ8PkExo
-         amKg==
-X-Forwarded-Encrypted: i=1; AJvYcCU4BpvOAH6Jeda2QQpTVSUgk/6fa+LRJu6kc7ngpeJJv3ckA5ExZrSWbp50SVNl7QUvl1FwXlm8GPKH8w==@vger.kernel.org, AJvYcCVbzzMPtGdB5FPY+dRC5ljOzjB8s9mpW8y+Thy+D0u12l2HFjQ8Z4yUEqtcILU/0aDw8UwYlmW7l0OlflwL@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9jfGKoKGo60rh72U7BZXtG391xd+oDqirX/VrqkaypXdkZCrG
-	RevnUFOIuy9Y2qGVMAetjKeiCuLjv3d1rCOoWPGkUvfBAOoKWTd0DVvnwEh6
-X-Google-Smtp-Source: AGHT+IEhgI1xC1jJZOD1de7YDbvwzkQMM+KNJgJUVBgyYHMuRqktpY+sgutcL88I3EGLOZ2U9+ua+A==
-X-Received: by 2002:a05:6a00:c8f:b0:70d:2ac8:c838 with SMTP id d2e1a72fcca58-71936a3ac34mr25472368b3a.4.1726567533892;
-        Tue, 17 Sep 2024 03:05:33 -0700 (PDT)
-Received: from hera-2-ThinkPad-X12-Detachable-Gen-2.. ([2404:7a80:b9a1:7100:38f5:6885:145f:ccf2])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-71944bc17edsm4915065b3a.184.2024.09.17.03.05.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Sep 2024 03:05:33 -0700 (PDT)
-From: Vishnu Sankar <vishnuocv@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: mpearson-lenovo@squebb.ca,
-	vsankar@lenovo.com,
-	Vishnu Sankar <vishnuocv@gmail.com>
-Subject: [PATCH] hid: hid-lenovo: Supporting TP-X12-TAB-1/2 Kbd Hotkeys using raw  events.
-Date: Tue, 17 Sep 2024 19:04:31 +0900
-Message-ID: <20240917100432.10887-1-vishnuocv@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B805F158D8F;
+	Tue, 17 Sep 2024 10:06:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.103.89
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726567614; cv=fail; b=YqIVqQKaoGE1InVsAHYhI/8B5SOWwngpk7z6SMsP6srm3gUBKTiDCOrYJZty6PIYo5pvhCG88uRN+/LolDxRXWA0FoDi0AXYveJw4fZ6wIistdyaWmwveD9DfSdTK3Yq8FGhW/xWsmW0OtPG4UQFZbIPmUHKGujSE4WJUVkeNVs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726567614; c=relaxed/simple;
+	bh=ooasFmULPObfFsVtnwiDjRiG/Ro7QhRut8Vilq58abA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=SkzmqWVutw7mXuTSBIfi/yTJaPIGMLvb8B2k7vaFvMhKIakj2ZThs/GKsxqWGbOLmEzrujJedglS2Y4OC6nB0D7pHs88QCCq7bWlZo1WUIV6NHKEf5ClhZuc2CSQf+NtPlziviTGV5MzplMtbRoqm0+zpXbUBqOKvyo8p6syISk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=JBmGb9XN; arc=fail smtp.client-ip=40.92.103.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=odDTX0eG6XevRohBnShxoEXluyey6udXxc4jXPZD4EFVKomDbAE6RakqkSLzzoTYzuwvvZSL787gD0OI4ozk++gEXWEipVNhihlPvqAs+QBk0bIyY3ttiH7HOv2IUlVoF16RWwpeh2HShk6Vcy7orwVFEm/Trpm42JrvmGZNlL4sbwOcmMq4P/AVAWvOip+AiEZZPKjMwH2Db+IJBiHPm2uVlty28me/t2eAfSrrSP+H0OHkTNlupxDvxns2YQflHKtI1mkeOm/wIvA3ITI7mblxN6g/QPawa2wF3bp77uiiiqAZzO15d+v61VK9f7Oa17IC3GhGIH5v7tF3XkIdGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ooasFmULPObfFsVtnwiDjRiG/Ro7QhRut8Vilq58abA=;
+ b=n7XoUfbuyziJOGjy+sutyArjBfydiMZm4QwhHuj1h28JiQAcsowexH54UZS3PAyfjhXExHvN9o/gxFDTdQ98t5goidZ52VaGZUT+tAvJTawqlJNHdwzoDBAsGZLAK3UHgc753YohaMU8hm7dUvWuiEiGvRwqFrdmb3z5/zG7nhN8nGLDkEFZpc0T+iPbbhA9ljR7ZZ3JS3zkjQ6DAI6pHU4JblQEBv2fPoDEGDQG+1HT4MWzX6eHBuvh+m2400xSPxKowuzvIOsbBy3TLKtORtIe8q/NLDxqfU9nfN/jB0lT6W1ASj3icODQrkHzyAIZT7jDEMPO3TrPTMKLF7TPjw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ooasFmULPObfFsVtnwiDjRiG/Ro7QhRut8Vilq58abA=;
+ b=JBmGb9XNBklpGrsaMQxwIf8zA7IEkSaleLE4iF/R7jFl84d6K11P+iPsKEAIdRBAziGHmuwlLj3H4Z8W9PrxATeGIiwtAILk9QSL8zbWQh813/QkMvDTVek3TAEOV10ub0dKP6UE1OZY97wRzaVxZyHOjGlZUYtiJaARvBahHHcNgqCxJnLZ55eqAD9ozOrXIJT/pzNCzIMFfrupEuryCph9vD+/r5Fvj1pSOrUNX36m5wVgOWxfFhl3OSy8/uK1qjWyef5YkehW4rqbvGl2sXlFI4CqWb3pUvl5+otQX7Br1TR7qoLYxs6PfNDd/mzl0J+OwvkvQIM+fLtjcvA7pA==
+Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:b3::9) by
+ PN2P287MB1280.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1b0::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7962.24; Tue, 17 Sep 2024 10:06:46 +0000
+Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+ ([fe80::98d2:3610:b33c:435a]) by MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+ ([fe80::98d2:3610:b33c:435a%6]) with mapi id 15.20.7962.022; Tue, 17 Sep 2024
+ 10:06:46 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Jiri Kosina <jikos@kernel.org>
+CC: "tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>, "airlied@gmail.com"
+	<airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+	"bentiss@kernel.org" <bentiss@kernel.org>,
+	=?utf-8?B?VGhvbWFzIFdlacOfc2NodWg=?= <thomas@t-8ch.de>, Orlando Chamberlain
+	<orlandoch.dev@gmail.com>, Kerem Karabay <kekrby@gmail.com>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>, "linux-input@vger.kernel.org"
+	<linux-input@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "torvalds@linux-foundation.org"
+	<torvalds@linux-foundation.org>
+Subject: Re: [PATCH v5 0/10] [DRM REVIEW NEEDED] Touch Bar support for T2 Macs
+Thread-Topic: [PATCH v5 0/10] [DRM REVIEW NEEDED] Touch Bar support for T2
+ Macs
+Thread-Index: AQHbCOlNl/wb8Ep2l0uFz7DSMCHiTw==
+Date: Tue, 17 Sep 2024 10:06:46 +0000
+Message-ID: <15CA7B10-6C4D-44C7-9C7F-246A70085016@live.com>
+References: <DD9C41AD-6543-47CE-8504-69E4992229B2@live.com>
+ <MA0P287MB02176175318B96135BE3E320B8902@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
+ <nycvar.YFH.7.76.2409111420040.31206@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2409111420040.31206@cbobk.fhfr.pm>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MA0P287MB0217:EE_|PN2P287MB1280:EE_
+x-ms-office365-filtering-correlation-id: 09cd316d-945b-44d9-c082-08dcd7007077
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|19110799003|8060799006|8022599003|7092599003|15080799006|461199028|102099032|440099028|3412199025;
+x-microsoft-antispam-message-info:
+ YknB1faK2XxTGObNZmesPCa4LRTTiPTQGCTvQumM7jJiPVmNRw/1L26fLgvDc8IlHX9OUOSOBMM6oP9C6lX1vVKDnVzLjev7sOiN+M9BcPOHX9KVAESEGT62JGxCqVEObvtu7ksncXYe3EQqCBAs3t+pKTbk7foawJKTlzlc3bM/ruEPy+ZHdd6r//zMoY/pdO9g6GcDnTsGJsg4Vcdpsq7ZNw7It5PfU5SmxrX0gYhCz88XPfs2Q19LYMao0di3GN3UJegqfGGT4tOct7ySrbloosse4Bl3PKTPwZSwYnDeTdyiTKxLFQMxEspsjmKJHAZbkADkNKr6n9qa1SIBLWicKp8mKT4fwF/AO3UfporgctJEG9eeWXTwBZc56CK1MMFNHmhs1IqLOnmFTrzxIl6tkHTeGmZMpkV4yJm8oJ1A8Aa3hzFXYsNlFQ4FgFvOElLQ9t9F/w2uVDaC42jyQO20nZQm7kvtsGbq7sThPwH2PH3jelNc0j+R/UPDDIx9fUCknaz6t436ZPEzULcypQPrMbRRl6NcpU4NKZP9jC9LifOJRekt1LfP0lauViTEfc0zed4ymLdiR2L/3VQ78acilMA1yFpecJQ+MgVu7zR8Yykp2Y513Iwwsjk4ACmJStGyknayvzWoCsb/CcZh5L68IAm17q9qt/wuA4htwsVCgwPO5TwSeuvXu572gH9cGQeQ//zs9FUavBV+Y8A4ekUzxunWD9vDAxW0vKYJwv0=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?UXhhcXRSZDQ1NTlmdTZ4dXFaTjdySDk0ZUVNdlQ4MDFKNFplUU92em43R1hR?=
+ =?utf-8?B?YUZsQkJzemliR0RMbTBZbVJpNWllL2tUcFhDY3QyOWxXOTZrTXdEb0hERmlt?=
+ =?utf-8?B?Z3lrS0Q1OUs2Qlh2NXIxMFpRV1p5NXBRRVcyamVyV1ZYam5LT2tWd1NFbG1k?=
+ =?utf-8?B?UkJaQjVjdHFKZE5Jck5BZzRLVUtnS01uVHNHSUEwQjMxRjJnNWVKVE40MHBh?=
+ =?utf-8?B?anQxQlI4eU9lRkVHM3pCdEpTdlVBUGlhRXB0ZGVqeG04NXpxTVVBRThvNE9S?=
+ =?utf-8?B?aXB0TDJpT0UxR2tLa3N2OEpnaEs5N0lrY2tFdklCd0pEb1J1RXQ4L2Zha1lB?=
+ =?utf-8?B?cGd4VThsUHBVcjlHR3FnczJybUNjSFJaek5UeGtiMHlPNTYwbUN4T1dnYkJu?=
+ =?utf-8?B?RS90UkIrMDB5ajJiV0pkNzlOZmZBeEV4MWhnZGk0ZVBGbW93Y2kyREhxS2F0?=
+ =?utf-8?B?WE5uMm45RlNxTUpYNG1pNWk0TngrL20wWHRjK2JXUTkzcEcwSkgrOENSWUJn?=
+ =?utf-8?B?YnVacGxBdnpDaUcrandQS2NMZjdEL3BzS3Y0enBzeWIzUGpocEhDdWYwTW5Q?=
+ =?utf-8?B?S1V6QUhFMnM0c29yMEdTUzF4QXJLWFhSUG82RGk4NSsraTRnODg1NytXUkZt?=
+ =?utf-8?B?RGttWXRqd2F1YXk3QmNKZmtuVmhWaG9UN0FDVldRMFphZXFBdVdXQk0yQ1dv?=
+ =?utf-8?B?aWp4OVQranpkZ29rY3JVZ3lyaFBmQWNiOERoZXRoMmdjTFJORElndksrY25F?=
+ =?utf-8?B?cWhvM2ZQNUZyNElTZEo0MjI0M2RneXJWaSsvM21GTHRQVS81UXZpdzB6MkRO?=
+ =?utf-8?B?TFNxNlRaOGVBd256a0xGZlo2V0tzMFhVRmJiM2FITFQ1SmJtd2VNY1JPZUgw?=
+ =?utf-8?B?VWIvbVRadGZQMjNCSU5OWVRvQWRGdEJEVldFYmpJSmpJOCt5SUh5VUJrYXN2?=
+ =?utf-8?B?Nm5hbHB1a1hhZUJzZzYxd3dmbjIyU1J6ZW8yUi9La1RVdmRDc1NhQUJRanA5?=
+ =?utf-8?B?VE0rckRQM0R3REl0WnQ5YndSL3VkUy8zUyttNW81VDl1QkZnSVl0UTUrUFdV?=
+ =?utf-8?B?bzhMRGExb3BMU1dqOS9nVUxvWW1YcWQyMmhLU0I2ZDNUbkcxZmI3dFhwd3dz?=
+ =?utf-8?B?Sk9vOFdIemUwT1FWWEJwWCszc0xWdWhLMlZiK3ZacUJtLzBJUll6emVSaTBB?=
+ =?utf-8?B?WnVHRndlSzRMaDFXNkpoMHY4U3NwUlBnVC8yRE1UY0hEQnBpL0wvQUlJbFhM?=
+ =?utf-8?B?cE0rZitPNmlOZ2RiYUVZWUYxWmE3RkhENzdNSEZRL21yM0lyRUl3STdFSU1k?=
+ =?utf-8?B?OFUzSDBFT2swZStSY2R4a0lyZ0ZxdkJWZ1gwNkNuVTB1Q1haaEpwZVdaNEY4?=
+ =?utf-8?B?K0poeHNrOEhlaFNKaWhLdGNyejlybGl4eHUxNEJMQ056TCtObk02QVRwYzlH?=
+ =?utf-8?B?blUwSUNuY1I4SThHUWpiUlhoL0VuNlloMmt5SnBuaVo5b3BCc3h0ZVZqdkpy?=
+ =?utf-8?B?NnRFbC8va3BzenNoY3lRalJkTmZTY0VrbVlCRkp0aGNqSjJTVFBDWkpIY1RY?=
+ =?utf-8?B?RkhZN3FERlExclFCOVRiVGxOaUdLTzNKS3pMUlFCSGxXOHlTMzcreDlVY2h3?=
+ =?utf-8?B?QUswU1p1YU13VHFMYW9rNUZyWDBWTWxMaXREanYvY0xIVllzQTFMckoybzNN?=
+ =?utf-8?B?ZWpTNFNEUWhwSzJsR0dpbnhHdTBDOXJvK2hsWVI0UlpzdjFQZDNnYlNWZnRH?=
+ =?utf-8?Q?094siRoK+X9yjpM7VnoWlEinDYD004qogPJPRYE?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <DEF2E0CFEADEE24B8832B0FC9E52A1B4@INDP287.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-24072.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09cd316d-945b-44d9-c082-08dcd7007077
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Sep 2024 10:06:46.6265
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB1280
 
-HID raw events being handled as Mic mute, Power Modes/Airplane mode,
-Selective screenshot/Pickup Phone, KBD Backlight, Display mode and
-star/Favourites has been added.
-Thinkpad X12 TAB 2 and TAB 1 Folio keyboard's raw events will get
-detected with this patch.
-
-Default fn_lock state for these Keyboard are OFF.
-
-Other than these changes, we follow TP10UKBD's processes.
-
-Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
-Signed-off-by: Vishnu Sankar <vsankar@lenovo.com>
-Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
----
- drivers/hid/hid-lenovo.c | 118 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 117 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-index e5e72aa52..db14b416f 100644
---- a/drivers/hid/hid-lenovo.c
-+++ b/drivers/hid/hid-lenovo.c
-@@ -31,12 +31,21 @@
- #include <linux/input.h>
- #include <linux/leds.h>
- #include <linux/workqueue.h>
-+#include <linux/platform_profile.h>
- 
- #include "hid-ids.h"
- 
- /* Userspace expects F20 for mic-mute KEY_MICMUTE does not work */
- #define LENOVO_KEY_MICMUTE KEY_F20
- 
-+/* HID raw events for ThinkPas X12 Tabs*/
-+#define TP_X12_RAW_HOTKEY_FN_F4		0x000200
-+#define TP_X12_RAW_HOTKEY_FN_F8		0x100038
-+#define TP_X12_RAW_HOTKEY_FN_F10	0x080000
-+#define TP_X12_RAW_HOTKEY_FN_F12	0x040000
-+#define TP_X12_RAW_HOTKEY_FN_SPACE	0x100018
-+#define TP_X12_RAW_HOTKEY_FN_F7		0x080013
-+
- struct lenovo_drvdata {
- 	u8 led_report[3]; /* Must be first for proper alignment */
- 	int led_state;
-@@ -71,6 +80,14 @@ struct lenovo_drvdata {
- #define TP10UBKBD_LED_OFF		1
- #define TP10UBKBD_LED_ON		2
- 
-+/* Function to report raw_events as key events*/
-+static inline void report_key_event(struct input_dev *input, int keycode)
-+{
-+	input_report_key(input, keycode, 1);
-+	input_report_key(input, keycode, 0);
-+	input_sync(input);
-+}
-+
- static int lenovo_led_set_tp10ubkbd(struct hid_device *hdev, u8 led_code,
- 				    enum led_brightness value)
- {
-@@ -472,6 +489,8 @@ static int lenovo_input_mapping(struct hid_device *hdev,
- 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
- 		return lenovo_input_mapping_tp10_ultrabook_kbd(hdev, hi, field,
- 							       usage, bit, max);
-+	case USB_DEVICE_ID_LENOVO_X12_TAB:
-+	case USB_DEVICE_ID_LENOVO_X12_TAB2:
- 	case USB_DEVICE_ID_LENOVO_X1_TAB:
- 		return lenovo_input_mapping_x1_tab_kbd(hdev, hi, field, usage, bit, max);
- 	default:
-@@ -581,6 +600,8 @@ static ssize_t attr_fn_lock_store(struct device *dev,
- 	case USB_DEVICE_ID_LENOVO_TPIIBTKBD:
- 		lenovo_features_set_cptkbd(hdev);
- 		break;
-+	case USB_DEVICE_ID_LENOVO_X12_TAB:
-+	case USB_DEVICE_ID_LENOVO_X12_TAB2:
- 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
- 	case USB_DEVICE_ID_LENOVO_X1_TAB:
- 		ret = lenovo_led_set_tp10ubkbd(hdev, TP10UBKBD_FN_LOCK_LED, value);
-@@ -678,9 +699,62 @@ static const struct attribute_group lenovo_attr_group_cptkbd = {
- 	.attrs = lenovo_attributes_cptkbd,
- };
- 
-+/* Function to handle Lenovo Thinkpad TAB X12's HID raw inputs for fn keys*/
-+static int lenovo_raw_event_TP_X12_tab(struct hid_device *hdev, u32 raw_data)
-+{
-+	struct hid_input *hidinput;
-+	struct input_dev *input = NULL;
-+
-+	/* Iterate through the associated inputs to find the correct input device */
-+	list_for_each_entry(hidinput, &hdev->inputs, list) {
-+		input = hidinput->input;
-+		if (input)
-+			break;  /* Use the first valid input device */
-+	}
-+
-+	switch (raw_data) {
-+		/* fn-F20 being used here for MIC mute*/
-+	case TP_X12_RAW_HOTKEY_FN_F4:
-+		report_key_event(input, LENOVO_KEY_MICMUTE);
-+		return 1;
-+		/* Power-mode or Airplane mode will be called based on the device*/
-+	case TP_X12_RAW_HOTKEY_FN_F8:
-+		/* TP X12 TAB uses Fn-F8 calls Airplanemode
-+		 * Whereas TP X12 TAB2 uses Fn-F8 for toggling
-+		 * Power modes
-+		 */
-+		(hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB) ?
-+			report_key_event(input, KEY_RFKILL) :
-+			platform_profile_cycle();
-+		return 1;
-+	case TP_X12_RAW_HOTKEY_FN_F10:
-+		/* TAB1 has PICKUP Phone and TAB2 use Snipping tool*/
-+		(hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB) ?
-+		report_key_event(input, KEY_PICKUP_PHONE) :
-+		report_key_event(input, KEY_SELECTIVE_SCREENSHOT);
-+		return 1;
-+	case TP_X12_RAW_HOTKEY_FN_F12:
-+		/* BookMarks/STAR key*/
-+		report_key_event(input, KEY_BOOKMARKS);
-+		return 1;
-+	case TP_X12_RAW_HOTKEY_FN_SPACE:
-+		/* Keyboard LED backlight toggle*/
-+		report_key_event(input, KEY_KBDILLUMTOGGLE);
-+		return 1;
-+	case TP_X12_RAW_HOTKEY_FN_F7:
-+		/* DISPLAY switching when connecting to external monitors*/
-+		report_key_event(input, KEY_SWITCHVIDEOMODE);
-+		return 1;
-+	default:
-+		break;
-+	}
-+	return 0;
-+}
-+
- static int lenovo_raw_event(struct hid_device *hdev,
- 			struct hid_report *report, u8 *data, int size)
- {
-+	u32 raw_data;
- 	/*
- 	 * Compact USB keyboard's Fn-F12 report holds down many other keys, and
- 	 * its own key is outside the usage page range. Remove extra
-@@ -695,6 +769,29 @@ static int lenovo_raw_event(struct hid_device *hdev,
- 		data[2] = 0x01;
- 	}
- 
-+	/* Lenovo TP X12 Tab KBD's Fn+XX is HID raw data defined. Report ID is 0x03
-+	 * For eg: Raw data received for MIC mute is 0x03000200.
-+	 */
-+	if (unlikely((hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB
-+			|| hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB2)
-+			&& size >= 3)) {
-+		/* data[0] is report ID and is same for all 4byte raw_events from this KBD
-+		 * for eg: Fn+F8 0x03,0x10,0x00,0x38
-+		 * report ID here for most of the keys are 0x03.
-+		 */
-+		if (report->id == 0x03)
-+			raw_data = (data[1] << 16) | (data[2] << 8) | data[3];
-+		/* For some Keys the raw data is 6 bytes long but the last 3 bytes
-+		 * will be always Zeros. There is no report-id documented.
-+		 * For eg: for Fn+F7: 0x08,0x00,0x13,0x00,0x00,0x00.
-+		 * In other words the last 3 bytes are dummy for now.
-+		 */
-+		else
-+			raw_data = (data[0] << 16) | (data[1] << 8) | data[2];
-+
-+		/* Calling function to generate Key events */
-+		lenovo_raw_event_TP_X12_tab(hdev, raw_data);
-+	}
- 	return 0;
- }
- 
-@@ -774,6 +871,8 @@ static int lenovo_event(struct hid_device *hdev, struct hid_field *field,
- 	case USB_DEVICE_ID_LENOVO_TPIIUSBKBD:
- 	case USB_DEVICE_ID_LENOVO_TPIIBTKBD:
- 		return lenovo_event_cptkbd(hdev, field, usage, value);
-+	case USB_DEVICE_ID_LENOVO_X12_TAB:
-+	case USB_DEVICE_ID_LENOVO_X12_TAB2:
- 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
- 	case USB_DEVICE_ID_LENOVO_X1_TAB:
- 		return lenovo_event_tp10ubkbd(hdev, field, usage, value);
-@@ -1054,6 +1153,8 @@ static int lenovo_led_brightness_set(struct led_classdev *led_cdev,
- 	case USB_DEVICE_ID_LENOVO_TPKBD:
- 		lenovo_led_set_tpkbd(hdev);
- 		break;
-+	case USB_DEVICE_ID_LENOVO_X12_TAB:
-+	case USB_DEVICE_ID_LENOVO_X12_TAB2:
- 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
- 	case USB_DEVICE_ID_LENOVO_X1_TAB:
- 		ret = lenovo_led_set_tp10ubkbd(hdev, tp10ubkbd_led[led_nr], value);
-@@ -1239,8 +1340,15 @@ static int lenovo_probe_tp10ubkbd(struct hid_device *hdev)
- 	 * We cannot read the state, only set it, so we force it to on here
- 	 * (which should be a no-op) to make sure that our state matches the
- 	 * keyboard's FN-lock state. This is the same as what Windows does.
-+	 *
-+	 * For X12 TAB and TAB2, the default windows behavious Fn-lock Off.
-+	 * Adding additional check to ensure the behaviour in case of
-+	 * Thinkpad X12 Tabs.
- 	 */
--	data->fn_lock = true;
-+
-+	data->fn_lock = !(hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB ||
-+			hdev->product == USB_DEVICE_ID_LENOVO_X12_TAB2);
-+
- 	lenovo_led_set_tp10ubkbd(hdev, TP10UBKBD_FN_LOCK_LED, data->fn_lock);
- 
- 	ret = sysfs_create_group(&hdev->dev.kobj, &lenovo_attr_group_tp10ubkbd);
-@@ -1284,6 +1392,8 @@ static int lenovo_probe(struct hid_device *hdev,
- 	case USB_DEVICE_ID_LENOVO_TPIIBTKBD:
- 		ret = lenovo_probe_cptkbd(hdev);
- 		break;
-+	case USB_DEVICE_ID_LENOVO_X12_TAB:
-+	case USB_DEVICE_ID_LENOVO_X12_TAB2:
- 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
- 	case USB_DEVICE_ID_LENOVO_X1_TAB:
- 		ret = lenovo_probe_tp10ubkbd(hdev);
-@@ -1370,6 +1480,8 @@ static void lenovo_remove(struct hid_device *hdev)
- 	case USB_DEVICE_ID_LENOVO_TPIIBTKBD:
- 		lenovo_remove_cptkbd(hdev);
- 		break;
-+	case USB_DEVICE_ID_LENOVO_X12_TAB:
-+	case USB_DEVICE_ID_LENOVO_X12_TAB2:
- 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
- 	case USB_DEVICE_ID_LENOVO_X1_TAB:
- 		lenovo_remove_tp10ubkbd(hdev);
-@@ -1421,6 +1533,10 @@ static const struct hid_device_id lenovo_devices[] = {
- 	 */
- 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
- 		     USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X1_TAB) },
-+	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-+		     USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X12_TAB) },
-+	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-+		     USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X12_TAB2) },
- 	{ }
- };
- 
--- 
-2.43.0
-
+SGkgSmlyaQ0KDQpEbyBJIGhhdmUgdG8gc2VuZCB0aGUgZHJtIHBhdGNoZXMgYWdhaW4gdG8gZ2V0
+IHRoZWlyIEFja2VkLWJ5L1Jldmlld2VkLWJ5Pw0KQWx0aG91Z2ggSSBoYXZlIGFscmVhZHkgY2Nl
+ZCB0aGUgRFJNIG1haW50YWluZXJzIGluIHRoaXMgcGF0Y2hzZXQuDQoNCj4gT24gMTEgU2VwIDIw
+MjQsIGF0IDU6NTHigK9QTSwgSmlyaSBLb3NpbmEgPGppa29zQGtlcm5lbC5vcmc+IHdyb3RlOg0K
+PiANCj4gT24gU2F0LCAzMSBBdWcgMjAyNCwgQWRpdHlhIEdhcmcgd3JvdGU6DQo+IA0KPj4gSGkg
+TWFpbnRhaW5lcnMNCj4+IA0KPj4gSXQgaGFzIGJlZW4gMiB3ZWVrcyBidXQgSSBzdGlsbCBoYXZl
+bid0IHJlY2VpdmVkIGEgc2luZ2xlIHJlcGx5IG9uIHRoaXMgDQo+PiB2ZXJzaW9uIG9mIHRoZSBw
+YXRjaCBzZXJpZXMuIENvbnNpZGVyIHRoaXMgZW1haWwgYXMgYSBmcmllbmRseSByZW1pbmRlci4N
+Cj4gDQo+IEkgdGhpbmsgaXQgbWFrZXMgbW9zdCBzZW5zZSB0byB0YWtlIHRoaXMgd2hvbGUgc2V0
+IHRocm91Z2ggaGlkLmdpdCwgYnV0IA0KPiBmb3IgdGhhdCwgSSdkIGxpa2UgdG8gZ2V0IEFja2Vk
+LWJ5L1Jldmlld2VkLWJ5IGZvciBwYXRjaGVzIDkgYW5kIDEwIChkcm0gDQo+IGJpdHMpLg0KPiAN
+Cj4gRGF2ZSwgRGFuaWVsLCAuLiA/DQo+IA0KPiBUaGFua3MsDQo+IA0KPiAtLSANCj4gSmlyaSBL
+b3NpbmENCj4gU1VTRSBMYWJzDQo+IA0KDQo=
 
