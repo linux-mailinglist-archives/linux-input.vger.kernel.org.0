@@ -1,123 +1,165 @@
-Return-Path: <linux-input+bounces-6594-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6595-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5564F97BA06
-	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2024 11:17:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE79E97BAFA
+	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2024 12:38:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87DAB1C21A50
-	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2024 09:17:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 200051C22ADA
+	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2024 10:38:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1E971304BA;
-	Wed, 18 Sep 2024 09:17:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F91A18951E;
+	Wed, 18 Sep 2024 10:37:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DWmZzSvP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SZ3UHD9l"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B18A4C8C;
-	Wed, 18 Sep 2024 09:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080231891C3;
+	Wed, 18 Sep 2024 10:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726651050; cv=none; b=u0tfYcDRqX/aT74Vaig6vhZjYOW/BF/q3FFBRd51hnkWJ7Y4Kgb7KLsbJiUv3b+TrcDsoMtGyKwwfrPg8WW4BLpqdyrP0nic61RtBdOFUrnFY2InPivYS0nFhd9lGS8wE13gQPgq6yZFhW7Tz0QNgUdv4qToN0167iweka2Pr50=
+	t=1726655866; cv=none; b=p0b4dRWoigMqW5PU6M92vHDRkreKudJrJO+fO8TjYLIN2atWWwsbZEiIgNXnZmMF+INg0TTgfnrTelkppOKBFIzLfWpcttt4F/DBjjOHnKhlnfrDcY8YstYtTgIzp6iQQpuBm0XRy333UtfHaVq8q/is/sFHgVGynpi3M9K2pQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726651050; c=relaxed/simple;
-	bh=gHVgazaMlap02rbz/N01EBqF3qRxYVTPMKxxVaCQlCs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BPutZVjrlzxb8TxuvKtf1z9k9rpGfFlK8lT2u/pPr92csxGVYzmTCQJoskLiCSIZV39WLf+Nsz7VlZF0+DYSlNapp9Fl7F7Nxc+qPNhTvRG1Lsihesccjl9BH8By6A2VgEIm7bUy7EGp4bg0lYRPGleZZVPD27CJ+UlZlRGDT0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DWmZzSvP; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2f75c6ed397so69935201fa.2;
-        Wed, 18 Sep 2024 02:17:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726651047; x=1727255847; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gHVgazaMlap02rbz/N01EBqF3qRxYVTPMKxxVaCQlCs=;
-        b=DWmZzSvP9AVx9LwWqFA4myjulDrq3OVcpEqGoxXaZLCmbi7mjkjE3WV9v94jRE0HkX
-         wt1Mn3XfZ11+HgXjWbIVI3z0CECnVKu/sgvuXfmjGUrpKjbzJf8N6XtM9co68qqIsmCc
-         HTyH0SDG7hF+UdagygEEcgRPrphHNieH0VnXruK0YK7tPiUkI/RsRUJnx0xpAJbOVZ0b
-         CGhZpzQOp+RbVV2FGWTG19v6SDmy1q0LwAcx7zAMzMqIZ4yPRjShYxNS8UHoBm0TjIq7
-         wBJGp+3E3tJhEuOg+XHPU4JrSWvbHjOmpRQU5RW6LxCtwfcAFn5+OBb+au5GKGYc0lbC
-         IZpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726651047; x=1727255847;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gHVgazaMlap02rbz/N01EBqF3qRxYVTPMKxxVaCQlCs=;
-        b=aJ5uGINz5YqkD93ufGSSzfkJFVQeieUsDlJU1Ob4awmP8GzvdQvjCju5cKr92nkUKW
-         /Qbj8seM1I0g9KHp0T2AvzgcTNPU+GtyVMNucCt28K7ygLYT+Yt9lQiX/5YXdkO1oX/y
-         PKwndgCfBk6ZCi2PuF/yJoRyq6nB15n2NqhPn8GtJXLY4TATe3/9zngpwN75TZagJf98
-         nwFWS8btP9VO+VKKQ3zx9CuwMFTiPX8+51bh4Zr7oGQDd76FEIdZQIcrJ6EK15IGsegx
-         6W7UUcoNLHEG4AIg3IB9MmAL8AMynOtFZ9ddTS2Yohejj+uJbo5mhh1HFdFDPieqvt+z
-         TLiw==
-X-Forwarded-Encrypted: i=1; AJvYcCWw0q/vuKWhDtvEbfLcemsF4CAPDnfrJeDEc9mz1xILo9lno+fqugYSe4laTp8KImdQoLh+n/f32AW0mkA2@vger.kernel.org, AJvYcCWy+jwQTiuEWomqmXKF6W80Sgzviu00IDVG4pyEWyDeMheXgns6ZrIgFYv7CtgC2OFOytEzNxUVwdqpVA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YymEN+o7N4xN0cMTFNSbBpW9YA1LgdNjnako2hflv0T/axx8kdJ
-	NeuaFJACjzq7s973oLdWDwb1x9yItL3nyZvs11xBLN0fIUJRqBp9rWnSJN9x
-X-Google-Smtp-Source: AGHT+IEaCVMll76ZZk+GatEityraYUqZlAkucugFbDrKNIQyfFFWL1rOr8B9BGZvl7SXtghoH8Ghyg==
-X-Received: by 2002:a05:6512:3c97:b0:533:901:e455 with SMTP id 2adb3069b0e04-53678fab595mr12187729e87.2.1726651046808;
-        Wed, 18 Sep 2024 02:17:26 -0700 (PDT)
-Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5369efc8be8sm251746e87.248.2024.09.18.02.17.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Sep 2024 02:17:25 -0700 (PDT)
-Date: Wed, 18 Sep 2024 11:17:21 +0200
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 07/14] HID: vrc2: constify fixed up report descriptor
-Message-ID: <ZuqaoRdJuujgLTZL@gmail.com>
-References: <20240828-hid-const-fixup-2-v1-0-663b9210eb69@weissschuh.net>
- <20240828-hid-const-fixup-2-v1-7-663b9210eb69@weissschuh.net>
+	s=arc-20240116; t=1726655866; c=relaxed/simple;
+	bh=CTOcKEgY8jlNQ+MQfkCHYV1DkzEiLwX7P5+oZbdhIgc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=stiGO2cEiXHBlKUcoanABldiDFEot6XmhCwKgVw4wCX7YveQNmnZn/BcXwdKYCwvFuIhyZXqWtJwhxytHBSRqM1ayXLw8AdE27709/rZfRT9MQfGjzKwI10Es6EeTzEfkPnDILTZdhFqmrKprcyyrLeicAYZyz4cN5dyurmFS/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SZ3UHD9l; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 042C8C4CEC7;
+	Wed, 18 Sep 2024 10:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726655865;
+	bh=CTOcKEgY8jlNQ+MQfkCHYV1DkzEiLwX7P5+oZbdhIgc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SZ3UHD9lG/YMqqUGJEJ77qacsEmbMTK3iXizTHgwF83KRCbDGCRVfsJQhPJQ6SoGx
+	 mbbXW8QcFZ7UXNJpDnPV/ohUkx9vNDYIxDwYmI36/PxEHkc+LDE/KM+X8Uqc8PTsTs
+	 76xuWD/qcgj2+3i2pgAMfGRgK+DgDZ/1RWzZTiw42kLQgi25r4F/Moud1816wkqC3o
+	 vwJzTqLUra8BRIgXtOYTqlDSkmpUmb1faj04JQUv2Y6irhZytq78FtymR8gJRkJzNz
+	 QvQUc4z+tXDM5SFnVaI78ru0LjvkAmgxzsPC/ZCYdzobXSqUfUGjfbfCeJoGvPTpa7
+	 GyVvRRRCHgzdw==
+Message-ID: <c50905e4-1f99-4b17-b932-f28aa6d1a7c3@kernel.org>
+Date: Wed, 18 Sep 2024 12:37:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="IYUNy8FbiPaQblw+"
-Content-Disposition: inline
-In-Reply-To: <20240828-hid-const-fixup-2-v1-7-663b9210eb69@weissschuh.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/3] regulator: dt-bindings: mt6397: move examples to
+ parent PMIC mt6397
+To: Macpaul Lin <macpaul.lin@mediatek.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>,
+ Vladimir Oltean <olteanv@gmail.com>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Sean Wang <sean.wang@mediatek.com>, Sen Chu <sen.chu@mediatek.com>,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Chen Zhong <chen.zhong@mediatek.com>, linux-input@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org,
+ Alexandre Mergnat <amergnat@baylibre.com>, Bear Wang
+ <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+ Macpaul Lin <macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
+ MediaTek Chromebook Upstream
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ Chen-Yu Tsai <wenst@chromium.org>
+References: <20240916151132.32321-1-macpaul.lin@mediatek.com>
+ <20240916151132.32321-3-macpaul.lin@mediatek.com>
+ <ev4kqtbjwglrti3mk2cnayilj4muy7ll7ux2uwlekcwu73dy5e@h4wvpucmyepw>
+ <9caff3d5-22af-3481-d2af-6afb4abd49d7@mediatek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <9caff3d5-22af-3481-d2af-6afb4abd49d7@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 18/09/2024 04:44, Macpaul Lin wrote:
+> 
+> On 9/17/24 15:01, Krzysztof Kozlowski wrote:
+>> 	
+>>
+>> External email : Please do not click links or open attachments until you 
+>> have verified the sender or the content.
+>>
+>> On Mon, Sep 16, 2024 at 11:11:32PM +0800, Macpaul Lin wrote:
+>>> Since the DT schema of multiple function PMIC mt6397 has been converted,
+>>> move the examples in "mediatek,mt6397-regulator.yaml" to the parent schema
+>>> "mediatek,mt6397.yaml".
+>>
+>> Is there any error otherwise? Why this cannot stay here, since it is
+>> already there?
+>>
+>> Best regards,
+>> Krzysztof
+>>
+> 
+> I previously thought that all regulator examples needed to have a 
+> complete version placed centrally in the main MFD. In that case, this 
+> patch 3/3 should not need to be required. This will be dropped in the 
+> next version.
 
---IYUNy8FbiPaQblw+
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That's the preference for new bindings, but there is no harm if existing
+and functional example stays, even if it is partial.
 
-On Wed, Aug 28, 2024 at 09:33:26AM +0200, Thomas Wei=DFschuh wrote:
-> Now that the HID core can handle const report descriptors,
-> constify them where possible.
->=20
-> Signed-off-by: Thomas Wei=DFschuh <linux@weissschuh.net>
-Reviewed-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+Best regards,
+Krzysztof
 
---IYUNy8FbiPaQblw+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmbqmpwACgkQiIBOb1ld
-UjKCxxAAmevoExDx49kPiEqS9H0/hT+JcrRXv3S/Xgq45MNSST9Y9rhEPzg4auaQ
-FLcB5bvT02rLWZa8gDFlti1ZZHFWpGYBsYWhiMD6oyjLyBVVi+oNsLaJqFvUa1LR
-Y8aTETFg1CTwVQaeaPo2SAdUVdD4tXYP9fbyqHIIMQam2+WzjANIqWoJmbL9wjNX
-BXvZok+PhChDH9DUFsj99L9wJmkgHrMiBrvUhFyl9YBSq22Oo+H33R2pPi3na/Jq
-gEA7hFGaBanIyOlPMiJujXH/j9Z8wRzFNxKbeUAA+CHGGt/ro8/gGTt0KLjFA+BS
-uCi4BY5jVqKUKfu+G0f9m+YIPxpfRJQuTJKQ/TT9btIuSLuhHZSMHgou9kUtktc0
-HdjU9hTj4TfifdO7mf26o7xH8YHOnqP5AzJXagid8xrFkyQxiX+4jvd8qFVRpJ+n
-ntcjORvStIg58rjYBCBPFjxpAZtYsidYpsYdvbyFwsZNRwWS9bOZ9MRllCA7FQiJ
-4pHrsjRGPjV/APoLf+y6N0anBtlRmbmGUyZPHlEV7lPh5iw9qXlB4iow4jTwhc2L
-CfVsN9EBvNOShNXNWIawA1it8t2rcAJY5jdaiJzv7egzgC17KLkYVu3c2FTLKMmP
-A6OS33Qk1BXyOl0fhi3rnxM8TUbWBYWegs986JnMdaK7kt5D/4A=
-=Mqcl
------END PGP SIGNATURE-----
-
---IYUNy8FbiPaQblw+--
 
