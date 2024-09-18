@@ -1,113 +1,121 @@
-Return-Path: <linux-input+bounces-6601-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6602-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4353497BC1D
-	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2024 14:21:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 808DD97BC8D
+	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2024 14:53:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CB78BB23446
-	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2024 12:21:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 41738284FC5
+	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2024 12:53:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6542189BBE;
-	Wed, 18 Sep 2024 12:20:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D9DB189F3E;
+	Wed, 18 Sep 2024 12:53:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="j3dIOswL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ah2XXmak"
 X-Original-To: linux-input@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B354189917;
-	Wed, 18 Sep 2024 12:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD482189BBE;
+	Wed, 18 Sep 2024 12:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726662056; cv=none; b=LhZ6sMxsT5NBwR02FM5hkWYja80u2zEakG2cnQG5T5sGm/w85FUKcmlVKq4t/hxQKgGQiiKxRA5aiqiZz0HAJm0kqdseTFMJCgj5HU1TLmwnM82xJOjDYQyAzHfE50zbgxT7jgxpBjeMNNzvlSVGn3OOimlfajEOMEVjFywsquk=
+	t=1726664029; cv=none; b=NvNLSnVCzT0VWwY8KZILof7q+ldO6Avzk1iD+PPUcJ99/0ONVoTsi6aLD9mCwctSQqD8PMByv2OPglQkKh2Qehgs9cHLhjjaYRljbyU3CdAmoGM+zzpDVno39LLurYlUoUjeI90op41ETWXOoP85SImiiV3mHux0dU1Av2i9Qz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726662056; c=relaxed/simple;
-	bh=uaxBNQZ24wHxZDGsXGGXNTCgB5EtT70uYStd4gW0wOk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TcIM1C7JZCXRq9YPuMKXrkx0BP/W03cnMz750Rat+o0ye4T2joruF0ERqrcs7fSFX8MXyQ4t2bNCJL93dDG06fM3BmSbfYn5EoSG5RJyOMdSbRTvv1p0WnOQpFAmuzcY3NF9PWyMMs8mkXjRu9jWlHDQVDQouk1Ja67GlpBE9sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=j3dIOswL; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1726662052;
-	bh=uaxBNQZ24wHxZDGsXGGXNTCgB5EtT70uYStd4gW0wOk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=j3dIOswL54bm/9LAze3PRBWNFol9hYTAT134274Q3r30vSryX1KOYWO3iVZ1JUIOG
-	 7VoW4DcAgaLnF1DxFmXQhHWjVzlbGhPpPOjEGIyqUCTk+xhNNJTzkpbguxEYzX4qT+
-	 +gjGxQLLSUMqzVj7DbMYZ3NxkmVSSkiE0ABQwCDaHjKYHjtT/xi9d39PfmhNNDyXIX
-	 D5zz/21TwPkt6WBbH/QlMqGeExQN9Qrb9M4F1cbp76LU2qFFAMTIGqDd3WvkLzsGwl
-	 F0xWYXFWHO+tB/pnZpsDjgvNpB2wyzjSdXS8wNBSxqbaxPsRcRWNf5IlfzSl6Qd50X
-	 ZEp2/etwzf6VQ==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id EBE7917E12D6;
-	Wed, 18 Sep 2024 14:20:50 +0200 (CEST)
-Message-ID: <bb82f7df-daf3-4162-a85d-0255b0f1cd0d@collabora.com>
-Date: Wed, 18 Sep 2024 14:20:50 +0200
+	s=arc-20240116; t=1726664029; c=relaxed/simple;
+	bh=o7BH08dOrugi4nkBMnNUfU+B6Wt6p41IPzWcjUkFlFA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=g6jc5iX9Bv/CJGXe4NI6UUh/uYFbzFU8z9DlGo48quLySjqNlmo1B65ya72bivZcTqZgmt29erKX6qCaTf1ca9indLi5zGJrmtzoK+xm8iWJ6YIHuTkUK9UZrpSpL/koMXA2Z6D50BzFNSQFI2O2ZMLy7DwzePVr8yKPaIhvlDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ah2XXmak; arc=none smtp.client-ip=209.85.217.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-49becc93d6aso1939784137.1;
+        Wed, 18 Sep 2024 05:53:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726664027; x=1727268827; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/g9NdqeVcPa5WEMV/Sz1b6LsprRcVfh5a8jA898vriU=;
+        b=ah2XXmakCk6CbSAzsfALS21qxd9YbB9mmTi0oNqb+oBOeWZr95K2sP9FBsCQLmlmfW
+         Q+zlmqcu9zx0vhlW69IixlnUJAuI+irIL7UEJCc9Dy/Lt2OpNrk5qkFlhBdup0ssffe7
+         6HszpG/+Op2qPmcoyoEVQd3m+SjOLLKJDxJ5Gosw5GrnwjdukXjVdxDf4vNcdknQvecT
+         5EGxNvHvHX5dP2enBQRN9H3/qGv30EOBRMqyYoFRGqn30k/6ZIDoNqtrX6OFCm3Q8HOS
+         GndmomhDYgiWfckSxotEhA0XIcfldzF7YgiobUWFQFccLEzdaBjHV1F7aYs4J+NohLhC
+         EqWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726664027; x=1727268827;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/g9NdqeVcPa5WEMV/Sz1b6LsprRcVfh5a8jA898vriU=;
+        b=V7NXa1+2lWJ5RVdpAaRTqzYXGFftJSrtXVN2YUMN38kNlLVp9TAnICvGiAxkEf9H/b
+         6mMyPcvghmAriCXKA9bUeldk13LNUefIbddtbwBUbuTRO/MWgo75jRC6IZt1TMoffRTp
+         lZ2/uhKDcbP+txWXaxWhP3Wi6UgQOotVSUMoHFewU+5BqoYsQJ7dq1bEwWahpKl4QqQF
+         nhQ1O5qbaVUWvMB+Cj5yx/iZADOLlbEYu9gw89O4Azbwi3bYtkx/bOoba0ZgMXsQP2xs
+         +aTL55QfznK9ySSp2G+xPC0KDlQAtw4UELwDhMVxGjvwwdKNiUHxFFOytuCxVnBusixO
+         gFeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVCJOVZQl1QNsfS0M/16wfo5P5OuIkB3YO9al3EdkIY9Y68GysOgBamPB7bSUNfFbHA7Sy0UILmIUn9PtPydpmQ8bQ=@vger.kernel.org, AJvYcCVHHyQrZQ7Fk8GNjfj8QQ3VKUGW59rAECEOC9fIE7sjbwpDVi5BsJ2wp6hdZR0Bs50VaFbH2KfshDSR@vger.kernel.org, AJvYcCVIuiqG5k+32dIVV/cEJ7GSNe+4gr26/1ygfW7dfTkmpIik8OHJDPuJmdIW8EZsmBA11w1Z03slFp5I@vger.kernel.org, AJvYcCVTEJE2TQWNx0suFmjtZ5a5IJh+TtQwfPTFFBhTvFxSZGQ+USN8Vyey8WLeNkXmR48Gl6BW4vHcw+kLC4U=@vger.kernel.org, AJvYcCW9oc8R/9q1zt8rszvbX+vreoeQk+dmNz/UX7Xr9Lbg+9E8uaMoKY/zpuWai9TthM/XOcy6/3YGnTU=@vger.kernel.org, AJvYcCWUdtMu6Q3rLt7XfF1aaIyq+OY5cv9+VkxU1z1pqNh15Fb6n+aY4N2c4ryWsJxbpwCGCNQroYss/NEPoA==@vger.kernel.org, AJvYcCWcrVvktCBo33ZCF0LVmXMIbSnBAjU3gMNhVuv4wdn33PnPh1+tTfCB/SpMHEpacTdmczG9AWxQnV2hpWr7eg==@vger.kernel.org, AJvYcCXWt2PCdpIxr+x6nCde8DTqXpHZ8kFFXF7VYMjTuVf3MCqDLdmPU1emZ6+rarXekCgPpJVVvlq55Vwn@vger.kernel.org, AJvYcCXd66fI7PXrKyenx49vANalHSGgVvFeFy2KX1E7OukAI+29UkpAKSBb88Lmu1TGegxbnkjVSNO6QBOwLLIQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxusXEQGUTWCeBe8DJ5WDw2Idow0JmE/o7y1754bFjU1kpGZohr
+	jPxxFqwO0qew1epPDn6TVbjdxlf4J+YPkVUyzEMg6Zdd7NQyrrk/PeoEMV4Jt6PnmL/5ibQBMa5
+	c+B3Q+LIidRAwTTkyrqhG6hFBW4o=
+X-Google-Smtp-Source: AGHT+IFGmph15ldtpeLTYgiO51oUhmQH5ahITzDspFrnSZzNrk9TuFGJLzehC4MTF6p1O8lGGsMcGjzI/fRVh7pjEYU=
+X-Received: by 2002:a05:6102:3746:b0:49b:facb:15f0 with SMTP id
+ ada2fe7eead31-49d4147e852mr16147058137.12.1726664026626; Wed, 18 Sep 2024
+ 05:53:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/2] regulator: dt-bindings: mt6323: Convert to DT
- schema
-To: Macpaul Lin <macpaul.lin@mediatek.com>, Andrew Lunn <andrew@lunn.ch>,
- Florian Fainelli <f.fainelli@gmail.com>, Vladimir Oltean
- <olteanv@gmail.com>, "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Sean Wang <sean.wang@mediatek.com>, Sen Chu <sen.chu@mediatek.com>,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Chen Zhong <chen.zhong@mediatek.com>, linux-input@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org,
- Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
- Macpaul Lin <macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
- MediaTek Chromebook Upstream
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- Chen-Yu Tsai <wenst@chromium.org>
-References: <20240918064955.6518-1-macpaul.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240918064955.6518-1-macpaul.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
+ <20240913-starqltechn_integration_upstream-v4-8-2d2efd5c5877@gmail.com> <wywp6vj2pqqe7to55k7ssh5sbqrmy7emvwruvm2waytancf3r4@aygtw3y6huwx>
+In-Reply-To: <wywp6vj2pqqe7to55k7ssh5sbqrmy7emvwruvm2waytancf3r4@aygtw3y6huwx>
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Date: Wed, 18 Sep 2024 15:53:34 +0300
+Message-ID: <CABTCjFAvXYrRJS3Dwf-TMq3OW_vN1hskk+qPjosbRym7xOvy1Q@mail.gmail.com>
+Subject: Re: [PATCH v4 08/27] mfd: max77693: remove unused declarations
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+	Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Simona Vetter <simona@ffwll.ch>, 
+	cros-qcom-dts-watchers@chromium.org, Konrad Dybcio <konradybcio@kernel.org>, 
+	Simona Vetter <simona.vetter@ffwll.ch>, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Il 18/09/24 08:49, Macpaul Lin ha scritto:
-> Convert the MT6323 regulator binding from the old text-based format to
-> the new DT schema style. The property "regulator-name" has been added
-> as required property to reflect current usage in mt6323.dtsi.
-> 
-> Examples have been streamlined and relocated to the parent schema file:
->    mfd/mediatek,mt6397.yaml.
-> 
-> Update maintainer and submitter information with new entries from MediaTek.
-> 
-> The reference document cited in "mediatek,mt7530.yaml" has been updated
-> to point to this new DT schema file
-> 
-> Signed-off-by: Sen Chu <sen.chu@mediatek.com>
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+=D0=BF=D0=BD, 16 =D1=81=D0=B5=D0=BD=D1=82. 2024=E2=80=AF=D0=B3. =D0=B2 12:1=
+0, Krzysztof Kozlowski <krzk@kernel.org>:
+>
+> On Fri, Sep 13, 2024 at 06:07:51PM +0300, Dzmitry Sankouski wrote:
+> > Remove `enum max77693_irq_source` declaration because unused.
+> >
+> > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> > ---
+> >  include/linux/mfd/max77693-private.h | 11 -----------
+> >  1 file changed, 11 deletions(-)
+>
+> Please split your patchset per subsystems. There is no dependency on MFD
+> bits from your DTS... (if there is, this needs to be fixed anyway)
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-
+Indeed, my dts has no dependency on this patch.
+However, my dts has dependency on MAX77705, so AFAIU,
+I should send this patch separately, while leaving other drivers in same
+patchset, right?
 
