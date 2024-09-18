@@ -1,54 +1,55 @@
-Return-Path: <linux-input+bounces-6600-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6601-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E02497BBD7
-	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2024 14:00:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4353497BC1D
+	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2024 14:21:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1A7A2B2301A
-	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2024 12:00:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CB78BB23446
+	for <lists+linux-input@lfdr.de>; Wed, 18 Sep 2024 12:21:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B44018594F;
-	Wed, 18 Sep 2024 12:00:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6542189BBE;
+	Wed, 18 Sep 2024 12:20:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="DQyEe+/6"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="j3dIOswL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3B017837E;
-	Wed, 18 Sep 2024 12:00:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B354189917;
+	Wed, 18 Sep 2024 12:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726660839; cv=none; b=oxzoRY3BPoJbhz/tI+rpGiJEmap7Brlr72bVwUphdwgBzexBQLc7XbTthwDjUpdkiCrvTLfgD+p0NNuOvkZyPO/JW/20Q4k+mg6irZOamAXwEFftyQ/xjykzSN6ndZbWIYIjtH9Eh78NiCPNWS9MLvmnHKC5qWmmqGLMKRorr8c=
+	t=1726662056; cv=none; b=LhZ6sMxsT5NBwR02FM5hkWYja80u2zEakG2cnQG5T5sGm/w85FUKcmlVKq4t/hxQKgGQiiKxRA5aiqiZz0HAJm0kqdseTFMJCgj5HU1TLmwnM82xJOjDYQyAzHfE50zbgxT7jgxpBjeMNNzvlSVGn3OOimlfajEOMEVjFywsquk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726660839; c=relaxed/simple;
-	bh=3tR/IOeSqrpHFyvBhs8OnciF3zB7uP8uP59YMBjOgOE=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=I69rgDjt0Moes9YdwA84LxYFTR5MXz1L0LtZTcggzvkfnC3QTZEGnzv+1DFD/m3bdIUF+L3HR1EHLJXDvw7+K4RRiLbWS0JAy/K21YjGLT3YQ3fmjCn/k7W2xfTUD3Jw4a3oWLiyIY9qnAncUMGi2vwd+YBAf4E/WAWEOqNBfLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=DQyEe+/6; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1726660820; x=1727265620; i=markus.elfring@web.de;
-	bh=frAse2uYJkdGq/c/XelvrZMT/tRnxPlt0GMx9SfWw9g=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
-	 Subject:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=DQyEe+/6dWyb/tIrNge0l5oZV+pS33y82ru/3rUGlEZ5Wsk/u6qtdcW0mTdbYn2k
-	 5AzDAaplbz6Rte+Fh7KzgeH1OGG7iD8nYfh9Hh2WauI39/HoMBiqNBdgy8Mg1J3dx
-	 S6tsqcFs3VlTTY82tY5+ZOM9raNEB6g2sDJ9Uc9R/8/t7esfTkTeb5SVv73+mtFIN
-	 wJiICmIYByo6tspXBrpTpp5HOKV+1I1AU0nrGVAx0F36pezW35mtojVgEygZ+OMLV
-	 ERUBF0JMHndcjm6ULK+nSYsajWxiCw+FlgOrSq5o/NA6kmVR9uYEvNzBV6x6epS3e
-	 kJfj2pIND9ZB3z6J1A==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N7xaR-1rvGhL0Khv-00tFEP; Wed, 18
- Sep 2024 14:00:20 +0200
-Message-ID: <d7dd0c6c-a840-4a90-8b80-b1cb36941bf6@web.de>
-Date: Wed, 18 Sep 2024 14:00:17 +0200
+	s=arc-20240116; t=1726662056; c=relaxed/simple;
+	bh=uaxBNQZ24wHxZDGsXGGXNTCgB5EtT70uYStd4gW0wOk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TcIM1C7JZCXRq9YPuMKXrkx0BP/W03cnMz750Rat+o0ye4T2joruF0ERqrcs7fSFX8MXyQ4t2bNCJL93dDG06fM3BmSbfYn5EoSG5RJyOMdSbRTvv1p0WnOQpFAmuzcY3NF9PWyMMs8mkXjRu9jWlHDQVDQouk1Ja67GlpBE9sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=j3dIOswL; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1726662052;
+	bh=uaxBNQZ24wHxZDGsXGGXNTCgB5EtT70uYStd4gW0wOk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=j3dIOswL54bm/9LAze3PRBWNFol9hYTAT134274Q3r30vSryX1KOYWO3iVZ1JUIOG
+	 7VoW4DcAgaLnF1DxFmXQhHWjVzlbGhPpPOjEGIyqUCTk+xhNNJTzkpbguxEYzX4qT+
+	 +gjGxQLLSUMqzVj7DbMYZ3NxkmVSSkiE0ABQwCDaHjKYHjtT/xi9d39PfmhNNDyXIX
+	 D5zz/21TwPkt6WBbH/QlMqGeExQN9Qrb9M4F1cbp76LU2qFFAMTIGqDd3WvkLzsGwl
+	 F0xWYXFWHO+tB/pnZpsDjgvNpB2wyzjSdXS8wNBSxqbaxPsRcRWNf5IlfzSl6Qd50X
+	 ZEp2/etwzf6VQ==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id EBE7917E12D6;
+	Wed, 18 Sep 2024 14:20:50 +0200 (CEST)
+Message-ID: <bb82f7df-daf3-4162-a85d-0255b0f1cd0d@collabora.com>
+Date: Wed, 18 Sep 2024 14:20:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -56,121 +57,57 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: linux-input@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>,
- David Rheinsberg <david@readahead.eu>, Jiri Kosina <jikos@kernel.org>
-Content-Language: en-GB
-Cc: LKML <linux-kernel@vger.kernel.org>
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] HID: wiimote: Improve error handling in two functions
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:KpOrsgrjp0wkaTr6Rg//Yrv7t60FVGMZLJXkLOmvmnua+w7Qjx2
- uAY43psf3aKTYSh2vx24C9mPj52G0Yc2WUif1iOlbFV/oVYhYrH3gkR/BOVjLuVy7HuhKKA
- goqsOFIBIWNuSyw+ghrVTwssNLZFZsGnQkNIIQyWAC89fGDoi35KF01l592Y6dAPXo/N7+S
- WVBdaZuwRCMFtEmObee9Q==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:nfc8sSsvyNY=;2HoQQf17aXMW2qIS7Yo3FE2M6JE
- 2RzPqM5VZ3eZJVn8FVQg7y0Lt4VSIz/Mc8Qi/BVwb4SrZK4h28i0E/AKKa6rZlchccz2hYIos
- kdvrQogNFqp5AlDfj/P1CwvV4gWIPBRQFdRCfDsElKRCoVno9ymoJ4iAWLXrHCqnd//ooL9Jp
- cn4boLxqYYMQp/yXxN1CJjdT6hxwD5RKB202eugBGLg0waari8sQ4R7vVUm7WJDp97x0RyxHv
- egLFRZkgy0upDPBZ5Yd2YW/vYV3CsOiz5yHWB24hk30z7w3e+MN9XC2LLSxYjVbvhjq/XneO8
- 6aZfTlML1YAwAvhnRGUnBxEkjoLbjOAsTxPtRNMP/O6SSBf7YpFtvvD60hCV8xLTZlmZWZuIe
- bdvDoEK4An2wT8YTzzdB0PU5Z50Js4pcjP1Z9r6g0wy3FoVHI30cZPGXpX9PmOK5dw48l84kJ
- I/djwwlJ87h4hI4hq/H8XrnZh9ZJqd+eKf9rnzJKBCn6E+rJz8Sj2LUs3USEEDYEYsuhi6u92
- 64x3C52y37AnDdylsaWHjcrV6xmxUuUTWTMW13C+RmQP1OWuH8lQVoXugGp+DkBbO82lCdXH8
- zOMPGcp/KJYrX/sJP3IJfy0JrMjSiskv96zEIEs5xIqO0Kf7ZkQXJkHPnzrg4/NDxMPZiGB6F
- eWQUFArq4U29ZUi9WCP8DnklORa1xNkGB33K9tLTbn6Q3/BsVCxkHG8eSU2NCqoWadAmBCTEI
- Rx0DC7QWPDeh6BKPUezOdg4jhx6BSBDNs3csOg10nLuQRcia+pgM0Yk5uG1HycOSupt4nWxgP
- ZjlNcybYfHQNHVuakan0LvlQ==
+Subject: Re: [PATCH v6 1/2] regulator: dt-bindings: mt6323: Convert to DT
+ schema
+To: Macpaul Lin <macpaul.lin@mediatek.com>, Andrew Lunn <andrew@lunn.ch>,
+ Florian Fainelli <f.fainelli@gmail.com>, Vladimir Oltean
+ <olteanv@gmail.com>, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Sean Wang <sean.wang@mediatek.com>, Sen Chu <sen.chu@mediatek.com>,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Chen Zhong <chen.zhong@mediatek.com>, linux-input@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org,
+ Alexandre Mergnat <amergnat@baylibre.com>
+Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+ Macpaul Lin <macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
+ MediaTek Chromebook Upstream
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ Chen-Yu Tsai <wenst@chromium.org>
+References: <20240918064955.6518-1-macpaul.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240918064955.6518-1-macpaul.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Wed, 18 Sep 2024 13:51:29 +0200
+Il 18/09/24 08:49, Macpaul Lin ha scritto:
+> Convert the MT6323 regulator binding from the old text-based format to
+> the new DT schema style. The property "regulator-name" has been added
+> as required property to reflect current usage in mt6323.dtsi.
+> 
+> Examples have been streamlined and relocated to the parent schema file:
+>    mfd/mediatek,mt6397.yaml.
+> 
+> Update maintainer and submitter information with new entries from MediaTek.
+> 
+> The reference document cited in "mediatek,mt7530.yaml" has been updated
+> to point to this new DT schema file
+> 
+> Signed-off-by: Sen Chu <sen.chu@mediatek.com>
+> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Add jump targets so that a bit of exception handling can be better reused
-at the end of two function implementations.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-This issue was detected by using the Coccinelle software.
-
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/hid/hid-wiimote-modules.c | 34 ++++++++++++++++---------------
- 1 file changed, 18 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/hid/hid-wiimote-modules.c b/drivers/hid/hid-wiimote-m=
-odules.c
-index dbccdfa63916..3c10b1c68984 100644
-=2D-- a/drivers/hid/hid-wiimote-modules.c
-+++ b/drivers/hid/hid-wiimote-modules.c
-@@ -1424,15 +1424,12 @@ static ssize_t wiimod_bboard_calib_show(struct dev=
-ice *dev,
- 		return ret;
-
- 	ret =3D wiimote_cmd_read(wdata, 0xa40024, buf, 12);
--	if (ret !=3D 12) {
--		wiimote_cmd_release(wdata);
--		return ret < 0 ? ret : -EIO;
--	}
-+	if (ret !=3D 12)
-+		goto release_wdata;
-+
- 	ret =3D wiimote_cmd_read(wdata, 0xa40024 + 12, buf + 12, 12);
--	if (ret !=3D 12) {
--		wiimote_cmd_release(wdata);
--		return ret < 0 ? ret : -EIO;
--	}
-+	if (ret !=3D 12)
-+		goto release_wdata;
-
- 	wiimote_cmd_release(wdata);
-
-@@ -1460,6 +1457,10 @@ static ssize_t wiimod_bboard_calib_show(struct devi=
-ce *dev,
- 	}
-
- 	return ret;
-+
-+release_wdata:
-+	wiimote_cmd_release(wdata);
-+	return ret < 0 ? ret : -EIO;
- }
-
- static DEVICE_ATTR(bboard_calib, S_IRUGO, wiimod_bboard_calib_show, NULL)=
-;
-@@ -1473,15 +1474,12 @@ static int wiimod_bboard_probe(const struct wiimod=
-_ops *ops,
- 	wiimote_cmd_acquire_noint(wdata);
-
- 	ret =3D wiimote_cmd_read(wdata, 0xa40024, buf, 12);
--	if (ret !=3D 12) {
--		wiimote_cmd_release(wdata);
--		return ret < 0 ? ret : -EIO;
--	}
-+	if (ret !=3D 12)
-+		goto release_wdata;
-+
- 	ret =3D wiimote_cmd_read(wdata, 0xa40024 + 12, buf + 12, 12);
--	if (ret !=3D 12) {
--		wiimote_cmd_release(wdata);
--		return ret < 0 ? ret : -EIO;
--	}
-+	if (ret !=3D 12)
-+		goto release_wdata;
-
- 	wiimote_cmd_release(wdata);
-
-@@ -1546,6 +1544,10 @@ static int wiimod_bboard_probe(const struct wiimod_=
-ops *ops,
- 	input_free_device(wdata->extension.input);
- 	wdata->extension.input =3D NULL;
- 	return ret;
-+
-+release_wdata:
-+	wiimote_cmd_release(wdata);
-+	return ret < 0 ? ret : -EIO;
- }
-
- static void wiimod_bboard_remove(const struct wiimod_ops *ops,
-=2D-
-2.46.0
 
 
