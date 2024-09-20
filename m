@@ -1,138 +1,119 @@
-Return-Path: <linux-input+bounces-6620-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6621-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448CB97D48D
-	for <lists+linux-input@lfdr.de>; Fri, 20 Sep 2024 13:07:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E33CB97D53C
+	for <lists+linux-input@lfdr.de>; Fri, 20 Sep 2024 14:09:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CCEE01F21485
-	for <lists+linux-input@lfdr.de>; Fri, 20 Sep 2024 11:07:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A72152819C8
+	for <lists+linux-input@lfdr.de>; Fri, 20 Sep 2024 12:09:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44E8A55887;
-	Fri, 20 Sep 2024 11:07:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85EE914A611;
+	Fri, 20 Sep 2024 12:08:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DfmUF6aC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jF53a+nN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC497DA76
-	for <linux-input@vger.kernel.org>; Fri, 20 Sep 2024 11:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414D313B2B0;
+	Fri, 20 Sep 2024 12:08:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726830456; cv=none; b=MuEzka1KqZ0gYSSzXvLaohruu+bjDsLy67LFJuDKk8vdNjyxvaobFNC9M1v9bFeqWnr3jHHHJgWez3p1/8slaiy2WleUSUZ5UDSfAKLOu6rYMrvoRzVjZdRqAO4ahhQVsG4TnRX5IrFst6TYSyuSyXNXVbRnwEotfLqMqL9MjU8=
+	t=1726834138; cv=none; b=WfPdV8jxjOU0I9gIsTMqyz98PUCXrimnhDEVOWTpqgp+tCWI0fGobcH3UOAyRaY2EGRHo8HCj/DYzKVlOwBhL4x8uW+UHaLK47OU3VZgnpo/ZHwi+hjuf6ZbTph6ocs8Ono9se9ITKx90+D8XF5/HQt1d6Evaet7SUgc5kFVlIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726830456; c=relaxed/simple;
-	bh=cBahrtGETIfhd+b8E2mk7qAN8VD3vHDAxqozrip9p+w=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fVzdrrgvWVP09uciB2nI/Ffzj0prQlbgj0pgfSR+3NsC8cKPDPj7OU6eRzDC2BkvivGq6rL7qq8UqSh0gzVTw6Cna8GUr0eT29o13ErOtTsPkRJ/ZAV4GvTxXspJedgPrQN/vnSsZNxCqUslajqlH0V73idrz5VymA1BWBrbvFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DfmUF6aC; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c46c2bf490so141760a12.3
-        for <linux-input@vger.kernel.org>; Fri, 20 Sep 2024 04:07:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726830453; x=1727435253; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=dgOY4tE3kU7F9+C2Yi7v4tE5jVqdyq3YYe65UcNH0DI=;
-        b=DfmUF6aCrok7n7+Dv43UfWZEtFC6e8nE6l1dlZ/c5O8MwqYQXPOtcVODbbiNUKNJOX
-         nLeMfGxGF+fJn822NoYgY05YBCpip+glX9nXzUyz6LSBzfDiIuf1njvSP2ArGmnmdkRg
-         DvPqV9Y59/kHmq3/kwVuOyQm0ozZqSISShgcb6SJT7zzjhjuRgG5i5ukKCcK9s9CpV7Y
-         HqHmaLQ1RJCSk3eJ0SXGpmmMz0oeIgFUPZVW1hx7zRKzBJB8RveteK9syWyneRzODPyB
-         eVxHcG1OHHahnb1HLtIiICTlD1acHk+1XHAkV0TwuJcr9gSSETBIwny5RcHH1s5OHfh2
-         Ty8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726830453; x=1727435253;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dgOY4tE3kU7F9+C2Yi7v4tE5jVqdyq3YYe65UcNH0DI=;
-        b=kgP+c2Wg99LblSEX2kne+Lwzl8nOQxoetwVNvUz4UcDZ4M+Z6qeQF9xeIm1PXXrOnr
-         vfxOXBtv1JYC7Ra3OzFELUhoq1I5Sw8cCdykF8reAgOJf9iGXD56e6ru4BiV+mUMy6JY
-         lcNbSv64zzYK36sIWbELYki7i1vt+9Wl6yrUQPf+Hf46l4oWH0BwwFQv7qBObEuRs4zb
-         YoLOt5RNPTejfkR3U7rmD2pItuZduN6L5T7Ycu7jlI7Q6Krd9UvwU2X67eKAGQi4PJci
-         YULlfc8LZrU8BijU6wBCv7rIsKshIQauJfB2qYHx12szsQrrdQpLy+5p5N+RfJI26Wv7
-         Y2nQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVLjMcihX8JdBzZY1mFiMLjqfw5aBhTOkcU5+iI1p2V3gsOvAZB0ccW4J1kZJUW6C3rKdfnnnwIvZZWqQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1rsb/+NiRGcT9dpU0SzSDa/2V0rHxi+/NRg4vuXNSnQIel1qq
-	l/mIPRsfFWTLF+iX7zy5YKwFzTWdJQI7a0nWoLpvz0LXDx0Ul9FH
-X-Google-Smtp-Source: AGHT+IFPpygd2xvK04BdB08xlDfg4+z6bKTOhqb1LIxhz4Wid4g19Y5yZNkqH0DUSOoTiD7kna03QA==
-X-Received: by 2002:a05:6402:358c:b0:5c4:23a4:ad5f with SMTP id 4fb4d7f45d1cf-5c46484f30bmr1862275a12.6.1726830452602;
-        Fri, 20 Sep 2024 04:07:32 -0700 (PDT)
-Received: from ?IPv6:2001:a61:341e:1201:c434:b5b1:98a6:efed? ([2001:a61:341e:1201:c434:b5b1:98a6:efed])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c42bc88d02sm7048975a12.80.2024.09.20.04.07.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 04:07:32 -0700 (PDT)
-Message-ID: <c7c72490d6d952c320d387be986c7016ac45cbde.camel@gmail.com>
-Subject: Re: [PATCH] Input: adp5588-keys: fix check on return code
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, nuno.sa@analog.com
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
- linux-input@vger.kernel.org,  Michael Hennerich
- <michael.hennerich@analog.com>
-Date: Fri, 20 Sep 2024 13:07:31 +0200
-In-Reply-To: <Zu0vq0ogr2HzXWv7@google.com>
-References: <20240920-fix-adp5588-err-check-v1-1-81f6e957ef24@analog.com>
-	 <Zu0vq0ogr2HzXWv7@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+	s=arc-20240116; t=1726834138; c=relaxed/simple;
+	bh=Dveo4hxEkYa0QfM+j/lxJ05ymd8w4pLl6DdgOtEoiLE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i3jtx32ST7AmDso8uf7FPhduIp9X/QVo16WEEuDPTcEB1av5nazcnr0YQ/2NjWu8daDgi/eFyfN4AcphPG4mAdpqzj+gtSGa7xWskQ88Dou8OOkNsGzWJHU0W7kwzmBhE4Ybf5ACxLNzReVJIOB4AycQp1cv7SSk4cBtZwbrHd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jF53a+nN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B78E8C4CEC3;
+	Fri, 20 Sep 2024 12:08:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726834137;
+	bh=Dveo4hxEkYa0QfM+j/lxJ05ymd8w4pLl6DdgOtEoiLE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jF53a+nNNaE4e1rFkQxXGSP2HCmw0KAgztnLogKOJM241gdQCkwZzetbpk40xcHfU
+	 i8kGbn3aIMAsyVE6uWJdj5s+Vwif+vST8JbsqSjvqeQZjj2f0l7HaO+3wimcQgF6nq
+	 4UEKLXtMvGcWT9IJaOO3Lj5b4Nupjk+c81awNXvESu4O/VWKXzS3jj/0q24+WAImgE
+	 wc1nhLAqRS4JAnOtYuEcZOP0KdNNiHWm4Fh9iPFEd5L6HCjA1FaKrY5U+BDZ/9Ogeb
+	 ep943ptCeoVmm7ri/L43JI2LaRpnV2BhHhmLUCz+7sUtapO/l1KZWjL/eAASKjH11W
+	 6qm95xrR9H77w==
+Date: Fri, 20 Sep 2024 14:08:53 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Macpaul Lin <macpaul.lin@mediatek.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Sean Wang <sean.wang@mediatek.com>, Sen Chu <sen.chu@mediatek.com>,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Chen Zhong <chen.zhong@mediatek.com>, linux-input@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	Bear Wang <bear.wang@mediatek.com>,
+	Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
+	Chris-qj chen <chris-qj.chen@mediatek.com>,
+	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH v6 1/2] regulator: dt-bindings: mt6323: Convert to DT
+ schema
+Message-ID: <Zu1l1Tx7OeJ_Sw9z@finisterre.sirena.org.uk>
+References: <20240918064955.6518-1-macpaul.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-
-On Fri, 2024-09-20 at 08:17 +0000, Dmitry Torokhov wrote:
-> On Fri, Sep 20, 2024 at 09:22:52AM +0200, Nuno Sa via B4 Relay wrote:
-> > From: Nuno Sa <nuno.sa@analog.com>
-> >=20
-> > During adp5588_setup(), we read all the events to clear the event FIFO.
-> > However, adp5588_read() just calls i2c_smbus_read_byte_data() which
-> > returns the byte read in case everything goes well. Hence, we need to
-> > explicitly check for a negative error code instead of checking for
-> > something different than 0.
-> >=20
-> > Fixes: e960309ce318 ("Input: adp5588-keys - bail out on returned error"=
-)
-> > Signed-off-by: Nuno Sa <nuno.sa@analog.com>
-> > ---
-> > =C2=A0drivers/input/keyboard/adp5588-keys.c | 2 +-
-> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/input/keyboard/adp5588-keys.c
-> > b/drivers/input/keyboard/adp5588-keys.c
-> > index b5f4becf5cb6f..d25d63a807f23 100644
-> > --- a/drivers/input/keyboard/adp5588-keys.c
-> > +++ b/drivers/input/keyboard/adp5588-keys.c
-> > @@ -620,7 +620,7 @@ static int adp5588_setup(struct adp5588_kpad *kpad)
-> > =C2=A0
-> > =C2=A0	for (i =3D 0; i < KEYP_MAX_EVENT; i++) {
-> > =C2=A0		ret =3D adp5588_read(client, KEY_EVENTA);
-> > -		if (ret)
-> > +		if (ret < 0)
-> > =C2=A0			return ret;
-> > =C2=A0	}
->=20
-> Hmm... There are a bunch of places where we do not check result of
-> adp5588_read(). I wonder if we should:
->=20
-> 1. add the checks
-> 2. change it to return error or 0 and return the value through a pointer
-> argument.
-
-It does make sense. I can take care of that.=C2=A0
-
-And similar work will be needed in the adp5589 driver. I'll include it in t=
-he series
-I'm preparing for the FW properties.
-
-- Nuno S=C3=A1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="WEu7YOiBPgD/ryln"
+Content-Disposition: inline
+In-Reply-To: <20240918064955.6518-1-macpaul.lin@mediatek.com>
+X-Cookie: Editing is a rewording activity.
 
 
+--WEu7YOiBPgD/ryln
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Wed, Sep 18, 2024 at 02:49:54PM +0800, Macpaul Lin wrote:
+> Convert the MT6323 regulator binding from the old text-based format to
+> the new DT schema style. The property "regulator-name" has been added
+> as required property to reflect current usage in mt6323.dtsi.
+
+Acked-by: Mark Brown <broonie@kernel.org>
+
+--WEu7YOiBPgD/ryln
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbtZdIACgkQJNaLcl1U
+h9D6ngf/VZ7i9q1LeXU8VJ3HxrkMAX0WECwtWNu9qZxhaPiMOepEhNtSpPFkUAn+
+++QnnA56FwzRbteydQ8KQAO5odIeuPue/fBbFYOyugnXuASOUrKPo9DrK0ndH3Tt
+gL3J5neZq38dtz5E0/+lvB5V0OfzVOG0h19AaHiY9dsompN0NpZfiQteFhuJb/nm
+o3Y5qYJc2fJg1fEUr+bW36AgyYutLsaCvL5Vqxp9B7kpxtkvnZTeLGM+NJtqMwCp
+elPRl6clsrLyQQk1LrPLLGBqrrmsXoeUVRgpQccT5Bl2q5iNdEGZw81W7Dv+hv7c
+232TH+zLfaBTiYpzLFHcD8BysoeOug==
+=j0pA
+-----END PGP SIGNATURE-----
+
+--WEu7YOiBPgD/ryln--
 
