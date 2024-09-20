@@ -1,129 +1,233 @@
-Return-Path: <linux-input+bounces-6616-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6617-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B6697D262
-	for <lists+linux-input@lfdr.de>; Fri, 20 Sep 2024 10:18:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38ED897D2C0
+	for <lists+linux-input@lfdr.de>; Fri, 20 Sep 2024 10:29:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E9AE1F21EB5
-	for <lists+linux-input@lfdr.de>; Fri, 20 Sep 2024 08:18:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E13E1C20F72
+	for <lists+linux-input@lfdr.de>; Fri, 20 Sep 2024 08:29:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1976770E8;
-	Fri, 20 Sep 2024 08:17:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55D4682498;
+	Fri, 20 Sep 2024 08:28:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZWTNzafI"
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="KnmMVOGi"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF0D76035
-	for <linux-input@vger.kernel.org>; Fri, 20 Sep 2024 08:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B817FBA2;
+	Fri, 20 Sep 2024 08:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726820273; cv=none; b=HCtt9vUYmMLlwDlxfV5V3kJAcdgPJ3iLrjbSMrSLUPSzqD5chxDdwi2kAtKZlkggIyFDoQQBrfCdCAvdQouabUo6LTGVDSxcYEi/A3bwSYiJocvh0NN6t0o15D39BAXGoJ6QsBlJrIeX9hs7k/1eRmKX/0FJwhnQREb085dJSu4=
+	t=1726820926; cv=none; b=Cf0yemZKf9XkT6cCVRepIUsVsQffZ4gz5AYpooCt3pXQrWweB2ysS376FWGuhAOmesLnrTXzDQGxLBkwQMI/XY+8gQ7lSXkaGWErPj0TxNM3WOO5nB1pTli03N82CJFJjCkOTY1htkOXqrD8ix19qhDngd7nFmdDAlK2cG9VSRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726820273; c=relaxed/simple;
-	bh=LjIeg39vin3lLB3XwI56Ye+w/fCM4yPHzD5OtacQ1qs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X7Ue4lBD/Vds5A5jbFACmHLwf31a/wu8Rt0ay+LQSmc46f1/Khmz2MhOixEJHQtnuSuDfESuqgDe7bEAiZiKSzW12gtH8rWFJhuPcbicr9GffLvSuHipHnIlktK+yfMSRURD82Nmz1ZQqeuztlVZ1wqXnug0TQGK5XNHlQTccxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZWTNzafI; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a8a7596b7dfso304534466b.0
-        for <linux-input@vger.kernel.org>; Fri, 20 Sep 2024 01:17:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726820270; x=1727425070; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EzAtoTRirDBabPSUNS8bXg0XOmEaqUMY9VYEvKPxhHU=;
-        b=ZWTNzafISHJrt4yDz54oWzap+ckbCa4It7ifmCk2jGYVala0lnnIzow3mD1YWbb+BC
-         4vCjKFt0JE+7GtsIi+9KYEL8GoI4Z5xQwpOCpwsSkKQPtakEzPqLEchdgx4PDvvI2WLf
-         FCUKK2BFtWz9bEWYCV6Wr3D8fcpGxPOryVXeMAwWgggJAzWkcmrE1qkB98j6LgdPVPNk
-         a3UzcclpmKGukuNtFnF6OAipjLcIpieBdYYTrWsYl66H6y4mjUTJMntXAX28rFXywDVm
-         5AgLZruVGCzALqStm0ZCZwUlJ1PI8pNjSFy0ppWXwn+qM3lpckfbd1fFkQZnivV2PWiX
-         vAfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726820270; x=1727425070;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EzAtoTRirDBabPSUNS8bXg0XOmEaqUMY9VYEvKPxhHU=;
-        b=gPSO0Zarp+GwBIMhkzVpa7nsBXVdfvO2G263m4OkZaFGPjx6+ok0o24R8PC1yOK3zA
-         uNCXjVTntjAkPNmlzvczKy+0PIKS2CzKmdcBEW1eTVRCI9pvOV7p3G44DCIr1PmS6fPr
-         A5fAvFync9IsBetEhg0NcEtdhqNPTAPeENKFZy1EXiMo0QrTtpumDkq4wXr1AxzquS8g
-         gChx8ZL9Pbvgn3M81MjlCZHZ45dkYg58gn7nBVLq/VbUZJuHKpQXxyWrp0UAmVteouWL
-         tM/0YkSB3pdJbEPqdFSa4SLnheAkUs45j/8Yej+g/zWK7oMxboYGQDSh8nFLwiFHNa7w
-         jcqg==
-X-Forwarded-Encrypted: i=1; AJvYcCW7y4b9EHT11GiRzKYbNJOBZ+gubD3q/qNF7ptdlmA12tYUtZ2LCjx9zKw/lcMb5pbjhh/Vs5uNMr3tNQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywp2R35ZO+EGdhu8vsLNPfXoq8IEgDpY+cSwkwG0nkRL5U7x1Xr
-	T7dO1Q/oQISFv7bTvdkhgcIyWSPtT/S2tXE02bHTrcEjBjgqVirG
-X-Google-Smtp-Source: AGHT+IH5u5OLLipuVVXzBwIzeL+4m2Op4enrQdHLlQBh+hIoOUwAQlbgJ0JRsPH/GVqpNuUXS4dwDw==
-X-Received: by 2002:a17:907:efd7:b0:a8d:63b5:e795 with SMTP id a640c23a62f3a-a90c1c384f7mr547570366b.3.1726820270017;
-        Fri, 20 Sep 2024 01:17:50 -0700 (PDT)
-Received: from google.com ([83.68.141.146])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90d21bc502sm87286966b.25.2024.09.20.01.17.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 01:17:49 -0700 (PDT)
-Date: Fri, 20 Sep 2024 08:17:47 +0000
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: nuno.sa@analog.com
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	linux-input@vger.kernel.org,
-	Michael Hennerich <michael.hennerich@analog.com>
-Subject: Re: [PATCH] Input: adp5588-keys: fix check on return code
-Message-ID: <Zu0vq0ogr2HzXWv7@google.com>
-References: <20240920-fix-adp5588-err-check-v1-1-81f6e957ef24@analog.com>
+	s=arc-20240116; t=1726820926; c=relaxed/simple;
+	bh=2R1Ih8SXvEFDRHrl2dzmGr32CbJTfUkNx9k6fUfJRmA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YhUE+BsGvqTLzWh/v1IFb+waE4KipvR8+tXXrEE4+W3xUSZCBo9nMxJ21yJ1CjIRPIxnJjzwp4htTAq9fTquhQm6HqGT5b5zSMCrAGvAUTVCp5BSV9zk57lBf4gog9rs1FDiP1b0ltNDuVpLKMZ7YSH0BxjkzO8ebmrQpN35ZKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=KnmMVOGi; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48K6V0u1028371;
+	Fri, 20 Sep 2024 04:28:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=o4KZcGa/zx5jVyvObTkpQwQSE59
+	FbIkwVSL6FKx99h8=; b=KnmMVOGi3NHSjBrgJoMN0fWLgH2Vanj1Gu66ZBealoI
+	rmfibrQUzJD8LGwOSwTDOluhmFwljQgvAOCZx/AJZzIK0vbNuiHcxadzAMGCAtsA
+	03qS1Sa0dqmzbhXf39ZveZnJ1mNoWTfyfTZO8RQ82XZ1FAOS4k3YzrHuzuLjTEdu
+	2ZrHsvxaOnWWqcZ1kWbjNWcpnrxw8NbHZRcd0VHjedMJTjgMNSwrue34OX2Z6dqq
+	C3yKX5oiYQTcl4+PllOsB7jgQbSH4rYVGYGZtz9RywOCIF8RrQXziv8rG/GJa2HW
+	cCPPWNsf8sxqo6mCzvktA7oewKCqWwu79w0nb5titpw==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 41n4c5jcsc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 20 Sep 2024 04:28:29 -0400 (EDT)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 48K8SSCm050502
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 20 Sep 2024 04:28:28 -0400
+Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+ ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Fri, 20 Sep 2024 04:28:28 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by
+ ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Fri, 20 Sep 2024 04:28:27 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Fri, 20 Sep 2024 04:28:27 -0400
+Received: from amiclaus-VirtualBox.ad.analog.com (AMICLAUS-L02.ad.analog.com [10.48.65.165])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 48K8SHAP025925;
+	Fri, 20 Sep 2024 04:28:19 -0400
+From: Antoniu Miclaus <antoniu.miclaus@analog.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        "Mark Brown" <broonie@kernel.org>,
+        Antoniu Miclaus
+	<antoniu.miclaus@analog.com>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-spi@vger.kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH v5 1/2] dt-bindings: touchscreen: add ad7877 support
+Date: Fri, 20 Sep 2024 11:24:43 +0300
+Message-ID: <20240920082520.10094-1-antoniu.miclaus@analog.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240920-fix-adp5588-err-check-v1-1-81f6e957ef24@analog.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: E6QAhWFJWQ_zsBl-fP3DwGEB1q845SMo
+X-Proofpoint-ORIG-GUID: E6QAhWFJWQ_zsBl-fP3DwGEB1q845SMo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 clxscore=1011 mlxlogscore=999 priorityscore=1501 spamscore=0
+ impostorscore=0 phishscore=0 malwarescore=0 adultscore=0 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409200059
 
-On Fri, Sep 20, 2024 at 09:22:52AM +0200, Nuno Sa via B4 Relay wrote:
-> From: Nuno Sa <nuno.sa@analog.com>
-> 
-> During adp5588_setup(), we read all the events to clear the event FIFO.
-> However, adp5588_read() just calls i2c_smbus_read_byte_data() which
-> returns the byte read in case everything goes well. Hence, we need to
-> explicitly check for a negative error code instead of checking for
-> something different than 0.
-> 
-> Fixes: e960309ce318 ("Input: adp5588-keys - bail out on returned error")
-> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
-> ---
->  drivers/input/keyboard/adp5588-keys.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
-> index b5f4becf5cb6f..d25d63a807f23 100644
-> --- a/drivers/input/keyboard/adp5588-keys.c
-> +++ b/drivers/input/keyboard/adp5588-keys.c
-> @@ -620,7 +620,7 @@ static int adp5588_setup(struct adp5588_kpad *kpad)
->  
->  	for (i = 0; i < KEYP_MAX_EVENT; i++) {
->  		ret = adp5588_read(client, KEY_EVENTA);
-> -		if (ret)
-> +		if (ret < 0)
->  			return ret;
->  	}
+Add device tree bindings for ad7877.
 
-Hmm... There are a bunch of places where we do not check result of
-adp5588_read(). I wonder if we should:
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+---
+changes in v5:
+ - add missing defaults for first-conv-delay-ns and stopacq-polarity
+ .../input/touchscreen/adi,ad7877.yaml         | 108 ++++++++++++++++++
+ 1 file changed, 108 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/adi,ad7877.yaml
 
-1. add the checks
-2. change it to return error or 0 and return the value through a pointer
-argument.
-
-In the meantime I'll apply this patch.
-
-Thanks.
-
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/adi,ad7877.yaml b/Documentation/devicetree/bindings/input/touchscreen/adi,ad7877.yaml
+new file mode 100644
+index 000000000000..be737cfbe471
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/adi,ad7877.yaml
+@@ -0,0 +1,108 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/adi,ad7877.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analog Devices AD7877 Touch Screen Controller
++
++maintainers:
++  - Antoniu Miclaus <antoniu.miclaus@analog.com>
++
++description: |
++  Analog Devices Touch Screen Controller
++  https://www.analog.com/media/en/technical-documentation/data-sheets/AD7877.pdf
++
++allOf:
++  - $ref: touchscreen.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    enum:
++      - adi,ad7877
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  spi-max-frequency:
++    description: AD7877 SPI bus clock frequency.
++    minimum: 10000
++    maximum: 20000000
++
++  adi,stopacq-polarity:
++    description: The polarity of the signal applied to the STOPACQ pin.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [low, high]
++    default: low
++
++  adi,first-conv-delay-ns:
++    description: Delay in ns before the first conversion.
++    enum: [500, 128000, 1000000, 8000000]
++    default: 500
++
++  adi,pen-down-acc-interval-us:
++    description: Enable the ADC to repeatedly perform conversions.
++    enum: [0, 500, 1000, 8000]
++    default: 0
++
++  adi,acquisition-time-us:
++    description: Select acquisition times in us for the ADC.
++    enum: [2, 4, 8, 16]
++    default: 2
++
++  adi,vref-delay-us:
++    description: Delay required for the SPI transfers depending on the VREF used.
++    default: 100
++
++  touchscreen-average-samples:
++    enum: [1, 4, 8, 16]
++
++  touchscreen-x-plate-ohms:
++    default: 400
++
++  touchscreen-min-x: true
++  touchscreen-min-y: true
++  touchscreen-size-x: true
++  touchscreen-size-y: true
++  touchscreen-max-pressure: true
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - touchscreen-average-samples
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    spi {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      touchscreen@0 {
++        compatible = "adi,ad7877";
++        reg = <0>;
++        spi-max-frequency = <20000000>;
++        interrupts = <21 IRQ_TYPE_EDGE_FALLING>;
++        interrupt-parent = <&gpio>;
++        adi,vref-delay-us = <100>;
++        adi,stopacq-polarity = "low";
++        adi,first-conv-delay-ns = <500>;
++        adi,pen-down-acc-interval-us = <0>;
++        adi,acquisition-time-us = <2>;
++        touchscreen-average-samples = <16>;
++        touchscreen-x-plate-ohms = <400>;
++        touchscreen-min-x = <0>;
++        touchscreen-min-y = <0>;
++        touchscreen-size-x = <800>;
++        touchscreen-size-y = <480>;
++        touchscreen-max-pressure = <4095>;
++      };
++    };
++...
 -- 
-Dmitry
+2.46.0
+
 
