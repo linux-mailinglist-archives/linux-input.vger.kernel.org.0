@@ -1,115 +1,117 @@
-Return-Path: <linux-input+bounces-6626-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6627-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E785B97D787
-	for <lists+linux-input@lfdr.de>; Fri, 20 Sep 2024 17:35:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6374097DAB4
+	for <lists+linux-input@lfdr.de>; Sat, 21 Sep 2024 01:08:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 62A261F2167D
-	for <lists+linux-input@lfdr.de>; Fri, 20 Sep 2024 15:35:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8AF211C211BA
+	for <lists+linux-input@lfdr.de>; Fri, 20 Sep 2024 23:08:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9942717BB3F;
-	Fri, 20 Sep 2024 15:35:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BA8518D63B;
+	Fri, 20 Sep 2024 23:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="mA4gFQXQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mR32iEPI"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F2CF4ED
-	for <linux-input@vger.kernel.org>; Fri, 20 Sep 2024 15:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8DF1C693;
+	Fri, 20 Sep 2024 23:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726846514; cv=none; b=jr9GF7l7uFqkYg+nZuxo4AQnxROg5/UfLaPQnuNsld7yOZimwxkbVbru5+gvRWwMM0AzwH2DiFJk0E/15yX+MO1I9+Ft4mdyE3oxWVd4Z82Ger7NkjVMWLLQ2POV35va3Kgl7Lh58K2hcMIRnXVLWXJnjjygLPRf1/nPQZNqFZQ=
+	t=1726873702; cv=none; b=TuQKxHLeAq8+PtNqhvP718lupet5CglME1avfgz4jUE/LZYDbsmhYsQTZYbholi6Jl/a7eyZfb659TMrT61bacyhzqvRn8abhfat52LxgabdsvLDNWxFRV5Sds1A5xoChAWjwTq1d4AggK7sst7M9yoKMwRxEsgX5/2DQw+cqHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726846514; c=relaxed/simple;
-	bh=/BtmwqZsz0UmckM5biM6wsthwrx8zUdW40Lyotvyy7g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VqYDrBEB7biz33/Z6+ZXEBJ2HDKC0vZClspDcoBFAZ1HeKYXdsgjgLSPKcnpCaBpNGOTwR4Ji9PZW+FAf8VrwM5KMWEHt8qSrbKYqYoL8y6Ku8YgE/TQB3zz1nzyeCSM7VPj/yfce89qVYBmZ4SWfyAQIbtgCJFa+77XBL0xKxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=mA4gFQXQ; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-374d29ad8a7so1406785f8f.2
-        for <linux-input@vger.kernel.org>; Fri, 20 Sep 2024 08:35:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726846511; x=1727451311; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LwHG4lvOA/K8mKSvlD813br78EUMxCFPc6SYxzaPWT8=;
-        b=mA4gFQXQGyfPybyYgSKIkCCpR5DFiZRE5wkf24TbLntNuzdeSV5ZYDj24SGYd77F+t
-         T6UoY9XBaH9o/qBKQca9aZUbSMWMLdFI+oNr+fVed+uula+MLtbx5CPn+3YTcaIOlUZx
-         WinwfteTPms28TvppaTh0xoGJhwrArVEgLFMyFik8Jt7F6t9uc7Cne2WdiVX3j9yrZzJ
-         MTb2r52SN5XHVS8OW0/tAo3W/CdaT7+bR7WUAJCGs02Ynt+KiY0LDWTm5JsV83MtDYYZ
-         zWlNsYx2GUmNleV2Vm6CF8sip3KfD3JoU3elBs8IFghWe/W0kTtfc4IsCmXCrnpH8XL3
-         cm/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726846511; x=1727451311;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LwHG4lvOA/K8mKSvlD813br78EUMxCFPc6SYxzaPWT8=;
-        b=PDKz7dt4ieIhmtFOIdySiG7QzS2+zsxhogdNriLu/6vy3uyMEzdldPS0vbHbRIPo5X
-         j02CVWBi5PQXplluVsueR5Qt+5Yo8OnliZtkt9UH+vTvZPtnjdywedTK154oUGR7Fi5z
-         GI5xVaaJDJYQclvg/Tbv7uhLb3NdY8x7QG0OFnEpR3nPE3KcTadZ7kmK/XjfDP6FMsGP
-         PALhWxLZeMxB7jbsUF97Wi/CSsgSLFaEXdE4P0hJz+skyA56Yf81GI6tMBA++aAcrAZQ
-         yzzLC/fR1rYBcTrLWjGcGwLQrFpXPBi+KHDWeErFWdukky0HY9I6jCfcpEU3CcjguUA4
-         3VRw==
-X-Gm-Message-State: AOJu0Yy2LGxi4XlbyxBuSMImfCBwhgjW0UgvaUyR3gY7h9hr5/g2hLSI
-	M1efYvCvhltkyiggRrcN4kolE2ZZNdkI80e7fGdTeeJOulPYOLEYzRP2UmKHkQU=
-X-Google-Smtp-Source: AGHT+IG3Hkdb5y6Yaq/hFE4APJMBMliawb3GzjjKpdkyWU3L/lThm12eUZfZ3PiYgai1kEIOp3UC1Q==
-X-Received: by 2002:adf:cf0d:0:b0:374:baeb:2ec with SMTP id ffacd0b85a97d-37a42271b1fmr1932098f8f.19.1726846510901;
-        Fri, 20 Sep 2024 08:35:10 -0700 (PDT)
-Received: from localhost (p5dc68d3d.dip0.t-ipconnect.de. [93.198.141.61])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e71f0683sm18033772f8f.13.2024.09.20.08.35.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 08:35:10 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [PATCH] Input: hynitron_cstxxx - Drop explicit initialization of struct i2c_device_id::driver_data to 0
-Date: Fri, 20 Sep 2024 17:34:30 +0200
-Message-ID: <20240920153430.503212-12-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1726873702; c=relaxed/simple;
+	bh=n56m61Kl9DwYCLtqidIMx41TFAMLRpqmR7mkeyGZe0c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l5jalBS4RGz0bFgIk123b1WmFk3W4YQex6b16+Gro0J50iGNCqZdMTOcIIafeuwmjJ7Y1Agfto8cJfDFNEBhQNawnamG3M4Fz93OAbqxcVMljP8icyhDktzYYZelnsWDfQL9WKzRPao6ghdsb/3FJAdvqtPGwQguHmDO/GysyBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mR32iEPI; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726873700; x=1758409700;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n56m61Kl9DwYCLtqidIMx41TFAMLRpqmR7mkeyGZe0c=;
+  b=mR32iEPI5jb+6OfXRCDs193q7qz9tLxkD1zMcb8RR4cxOdjh61GIAuYc
+   lB7MEYRHxLTH9breqOpaYzMJNThk+0EcLR+aHJpqSKgXhXsjcbVQ/ED68
+   F6JLML2tEemY1d/+gozV9s2kV+XhhdHwlzjd0S7kuTJiwmCw23IJAnaFF
+   D/yoPz6BUjSLvLjoL9DudJE27OTuf21MzS6lXU3LU9+pfuB16RYo98ZcZ
+   Bg/cv5F16UzAiWmgXMLRmHXW9tpPGxo6WPhPSXXO39ezhD3cKiOTLuGuj
+   HKOOpLcm9xKUggit0qSNsM+0bY/zDPql/YK6U0wOqCccjlBdUHtH6x8JU
+   w==;
+X-CSE-ConnectionGUID: gdRkb6gYRhmA8phCPaVzxQ==
+X-CSE-MsgGUID: wQALtvwLQrixIMvOme/sKA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11201"; a="29687670"
+X-IronPort-AV: E=Sophos;i="6.10,245,1719903600"; 
+   d="scan'208";a="29687670"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 16:08:19 -0700
+X-CSE-ConnectionGUID: mTeLW5O5TNG7Od4wLzJ+XA==
+X-CSE-MsgGUID: S9ImTKaTQASOh24ll39QOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,245,1719903600"; 
+   d="scan'208";a="70457327"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 20 Sep 2024 16:08:17 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1srmjW-000EvB-38;
+	Fri, 20 Sep 2024 23:08:14 +0000
+Date: Sat, 21 Sep 2024 07:08:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vishnu Sankar <vishnuocv@gmail.com>, jikos@kernel.org,
+	bentiss@kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mpearson-lenovo@squebb.ca,
+	vsankar@lenovo.com, Vishnu Sankar <vishnuocv@gmail.com>
+Subject: Re: [PATCH] hid: hid-lenovo: Supporting TP-X12-TAB-1/2 Kbd Hotkeys
+ using raw  events.
+Message-ID: <202409210619.eaTT5ACU-lkp@intel.com>
+References: <20240917100432.10887-1-vishnuocv@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1045; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=/BtmwqZsz0UmckM5biM6wsthwrx8zUdW40Lyotvyy7g=; b=owEBbAGT/pANAwAKAY+A+1h9Ev5OAcsmYgBm7ZYMOosW+7oJqqWNoIgt861I5RNi6vcesGnMB d7XTtH7466JATIEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZu2WDAAKCRCPgPtYfRL+ TjswB/jNzharFCFzJ+WY5d36Lng+taE7vPteMk5H9NPRbnYhQuuY3f/qGg01w8Upu4uIktgh0nj v9C43CfdEPr9SHNZqiFDQ1y80r0NgmNNufFHAbWesjrBfQtQQ1GBvkqicgB6UD8jQ9NG8/X1qpJ 0RITBC0f3ouErje5eUoeO2VVlUp+kSB4RUE+IDttElDGm500T5udpteoyC+B/keUnsZP/tyDBlh FgoJzv+/WAj+spyuyL/t6rsfsvmU2eL+xfAcwH27EDFJ0MrMRPiToLm7qIs5p6K5E1qqaLmUt7R DtWrwzXRlSSJ456Dknd+PIyvFOXbU4UvVipIyrnkBsSqySA=
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240917100432.10887-1-vishnuocv@gmail.com>
 
-These drivers don't use the driver_data member of struct i2c_device_id,
-so don't explicitly initialize this member.
+Hi Vishnu,
 
-This prepares putting driver_data in an anonymous union which requires
-either no initialization or named designators. But it's also a nice
-cleanup on its own.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
- drivers/input/touchscreen/hynitron_cstxxx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on linus/master next-20240920]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/input/touchscreen/hynitron_cstxxx.c b/drivers/input/touchscreen/hynitron_cstxxx.c
-index 05946fee4fd4..f72834859282 100644
---- a/drivers/input/touchscreen/hynitron_cstxxx.c
-+++ b/drivers/input/touchscreen/hynitron_cstxxx.c
-@@ -470,7 +470,7 @@ static const struct hynitron_ts_chip_data cst3xx_data = {
- };
- 
- static const struct i2c_device_id hyn_tpd_id[] = {
--	{ .name = "hynitron_ts", 0 },
-+	{ .name = "hynitron_ts" },
- 	{ /* sentinel */ },
- };
- MODULE_DEVICE_TABLE(i2c, hyn_tpd_id);
+url:    https://github.com/intel-lab-lkp/linux/commits/Vishnu-Sankar/hid-hid-lenovo-Supporting-TP-X12-TAB-1-2-Kbd-Hotkeys-using-raw-events/20240917-180639
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20240917100432.10887-1-vishnuocv%40gmail.com
+patch subject: [PATCH] hid: hid-lenovo: Supporting TP-X12-TAB-1/2 Kbd Hotkeys using raw  events.
+config: parisc-randconfig-r062-20240921 (https://download.01.org/0day-ci/archive/20240921/202409210619.eaTT5ACU-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240921/202409210619.eaTT5ACU-lkp@intel.com/reproduce)
 
-base-commit: 62f92d634458a1e308bb699986b9147a6d670457
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409210619.eaTT5ACU-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   hppa-linux-ld: drivers/hid/hid-lenovo.o: in function `lenovo_raw_event':
+>> hid-lenovo.c:(.text+0x1958): undefined reference to `platform_profile_cycle'
+
 -- 
-2.45.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
