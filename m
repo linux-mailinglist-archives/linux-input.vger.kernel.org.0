@@ -1,57 +1,93 @@
-Return-Path: <linux-input+bounces-6632-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6633-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1CA97DE75
-	for <lists+linux-input@lfdr.de>; Sat, 21 Sep 2024 21:09:36 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9173197DECA
+	for <lists+linux-input@lfdr.de>; Sat, 21 Sep 2024 22:35:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0457D281D88
-	for <lists+linux-input@lfdr.de>; Sat, 21 Sep 2024 19:09:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CA8B1B20FB6
+	for <lists+linux-input@lfdr.de>; Sat, 21 Sep 2024 20:34:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C72DC39AEB;
-	Sat, 21 Sep 2024 19:09:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AB6B126BEF;
+	Sat, 21 Sep 2024 20:34:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="TuYQD6N+"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aPreand0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38A891F957;
-	Sat, 21 Sep 2024 19:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018E818EA2
+	for <linux-input@vger.kernel.org>; Sat, 21 Sep 2024 20:34:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726945770; cv=none; b=VyGUOoHhsgSC8iFIUPcPLpPBllrYshPT6bljYO4a49BHhcxqp4OxwxFwcPbKYd6rzW3BhWmGL/BzhRh+sJFaRnBRCiXaoT2DgyNc57kCI2EmPLoek1qN7IB74VCbf/HgexfRRDHksgBu/P7FT2GZ3aUWVEK5LVVk10ybENHGWOQ=
+	t=1726950892; cv=none; b=bbaDF7kWZdXxp8wn+al+2YPqOJ2RfBB6OoPU9JgEy5rcQAN6AbTSvXnWGq7kRbuj8MEzG2nnFlBDUYBBMOqiCG/BPkKnUdB6BKf0O7kARCLSYBazRAd5gKNYdYibUari+PstrGKgUtdWk4yFeNkCRLE9dHw0o5yLaSe499x73aE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726945770; c=relaxed/simple;
-	bh=bM8CjX6wFQ8Be1toPLT9uT8VxmdOVIL5XsPCd/g3zyE=;
+	s=arc-20240116; t=1726950892; c=relaxed/simple;
+	bh=+W8Qz1UhS9Q8ewULcCM0Te1Gz8RQ/cbGfXwgsq9OmDM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gJl/6KPhRBUSMCK3zE3zlP0YdKSjy0PWsY1WDR4PrV/ARqpPLRmFLvCggXqeumQN2tDzX5m30nlVhutISm6INmDD3jZlDy4ZUamvVVArwTjZUQguWhk50gifM+WFEojt9WcJ6KEqA46RJ7QzFkWBdVE7aTz+Q+1zc8Zx4SVgH18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=TuYQD6N+; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: by linux.microsoft.com (Postfix, from userid 1173)
-	id 83A7820C0B23; Sat, 21 Sep 2024 12:09:23 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 83A7820C0B23
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1726945763;
-	bh=mGsaS4WWgoL9j1sfR45e27OZbsXf/DeYuDn6GLEWb9Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TuYQD6N+gKDZeOc2592AShr0s/4NKquhgvkQgavZqsCxi9gDKFIyImQRncTYFrq/9
-	 uFhj6ypWkAJHISLQDOUKfGA4N3PUeO3Df6a4LrFov1YpRMiyWeoFO15nD9q3ZYevXi
-	 8rNrIHisjNL6oPIvqvTtUjBWAhHfBQgeKyPl0eqM=
-Date: Sat, 21 Sep 2024 12:09:23 -0700
-From: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-To: Naman Jain <namjain@linux.microsoft.com>
-Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, jikos@kernel.org, bentiss@kernel.org,
-	dmitry.torokhov@gmail.com, linux-hyperv@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	ernis@microsoft.com, Saurabh Sengar <ssengar@linux.microsoft.com>
-Subject: Re: [PATCH 1/3] Drivers: hv: vmbus: Disable Suspend-to-Idle for VMBus
-Message-ID: <20240921190923.GA15748@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1726176470-13133-1-git-send-email-ernis@linux.microsoft.com>
- <1726176470-13133-2-git-send-email-ernis@linux.microsoft.com>
- <b480a355-dbfa-4422-ad3c-65ec931a3ba0@linux.microsoft.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=dsL7kFBnzneEpTTWSVfVYNumMKEIgpEy17TEB9Sco0SjdkI5WWdeCuj9Mbed7wu9wp8vmn9we1Efy+1o0gGTo5cWq5h+9/Dfm55UoAT3CM3wqo8m1HU4yYsh7Ajkmj5PKXtDmnLsz2UjBtQcWVlJEGyqg322IZJigpyiKCcExSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aPreand0; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2f761461150so37329361fa.0
+        for <linux-input@vger.kernel.org>; Sat, 21 Sep 2024 13:34:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1726950888; x=1727555688; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2Gql3kqz7EM8ilLOWYXvV3TIt4LvQ2I+BPfmeaKF7W8=;
+        b=aPreand0hgkwAc/Wpfgg9qMEfdoqcS1ibcxz6zCQWVtpk8COJxdQZheQHpK9cyll1O
+         zTaqGFXjRLusOCsFG0xwOHaPd5abwr0cRAdnGPBRAJ5f68xhgFKKb7pcfk11wWd9hAWg
+         vxJ9S9PgYONqqLtPyNi/BEQvw1VdaLohOw5AKG40R/jB1zbjrX+Wd3rUY1dnxMFmY3mX
+         LtZO0oPgoScgw8MZnyg4jaDxVT4Gue0TevvHzUpy9Cv+luqomIWMOD0lmom4PahMVwej
+         Aw8kvErH/RY1+MHaaifJc608nIhEt2dgQw0/OTsak10FyShFtgfvJz0Y9TlN0I2k8m0N
+         DMRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726950888; x=1727555688;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2Gql3kqz7EM8ilLOWYXvV3TIt4LvQ2I+BPfmeaKF7W8=;
+        b=lYAMJ8W7px0Snj5FjAH6bCRoKbdYKkwTvJesUB0fvsXExjXK7tpoR0sxL7wFdbx+BA
+         Ymd9lMldR1dfc+0WJjYh9rNEfu3G9/W/XPwvpH3kM0LUS98ZgrQVIyiRbVTXDhXlRBP4
+         Rx0i6+p2zvouleCIQLa0BL72d8tNLX76iABR5syNZshbuKFG1rfxsBt/+cZhOuezrUvR
+         qL+by85w1SJ6jia2X+0LsDGbAQAzE/aMkUxNrfrdAqnM7CP/osOW72e00CzKbomEMBDW
+         uQfdcAOsgvfy3eog38ek2542u1OOId+B8/jRkld55DSbBJg5SQpm/uGypKjNk5TcYgEr
+         cbEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWAAk2601toYbI0Tlri32/bNbdcEnNu8stI50ZJJ7V/TOpZNTHwzUQS5Wiavk2Vlb/CNw6m2Lw1w75ZxQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlgeyMCjppjaG7+DRhjs1ManKmpuWO6GqVtsA20DPkZX6+65DK
+	pv5BKF9vrCEGBEDIc5vMWuCioE7ostv6+be5vqrPqYkl9S4bvuO+K/hy48ezvrk=
+X-Google-Smtp-Source: AGHT+IGBg+idycoSLJi8M4Ssf7GjJth1HbXFrrBHCkpHwTQWQDDS0vHRktKuo9q8Gv49mMMKwkJl0Q==
+X-Received: by 2002:a2e:70a:0:b0:2f7:6869:3b55 with SMTP id 38308e7fff4ca-2f7cb31c9e4mr38171251fa.21.1726950888048;
+        Sat, 21 Sep 2024 13:34:48 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f79d59bab3sm23570481fa.129.2024.09.21.13.34.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Sep 2024 13:34:46 -0700 (PDT)
+Date: Sat, 21 Sep 2024 23:34:44 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Sebastian Reichel <sre@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, 
+	Simona Vetter <simona@ffwll.ch>, cros-qcom-dts-watchers@chromium.org, 
+	Konrad Dybcio <konradybcio@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v4 07/27] drm/panel: Add support for S6E3HA8 panel driver
+Message-ID: <slxeitknraechwzofwfq643ewy4ptmvy5oohxpdup5hf3rb5e4@lx32gcrjho4c>
+References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
+ <20240913-starqltechn_integration_upstream-v4-7-2d2efd5c5877@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -60,100 +96,457 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b480a355-dbfa-4422-ad3c-65ec931a3ba0@linux.microsoft.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20240913-starqltechn_integration_upstream-v4-7-2d2efd5c5877@gmail.com>
 
-On Fri, Sep 13, 2024 at 12:49:27PM +0530, Naman Jain wrote:
+On Fri, Sep 13, 2024 at 06:07:50PM GMT, Dzmitry Sankouski wrote:
+> Add support for MIPI-DSI based S6E3HA8 AMOLED panel
+> driver. This panel has 1440x2960 resolution, 5.8-inch physical
+> size, and can be found in starqltechn device.
+> Brightness regulation is not yet supported.
 > 
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
 > 
-> On 9/13/2024 2:57 AM, Erni Sri Satya Vennela wrote:
-> >If the Virtual Machine Connection window is focused,
-> >a Hyper-V VM user can unintentionally touch the keyboard/mouse
-> >when the VM is hibernating or resuming, and consequently the
-> >hibernation or resume operation can be aborted unexpectedly.
-> >Fix the issue by no longer registering the keyboard/mouse as
-> >wakeup devices (see the other two patches for the
-> >changes to drivers/input/serio/hyperv-keyboard.c and
-> >drivers/hid/hid-hyperv.c).
-> >
-> >The keyboard/mouse were registered as wakeup devices because the
-> >VM needs to be woken up from the Suspend-to-Idle state after
-> >a user runs "echo freeze > /sys/power/state". It seems like
-> >the Suspend-to-Idle feature has no real users in practice, so
-> >let's no longer support that by returning -EOPNOTSUPP if a
-> >user tries to use that.
-> >
+> Changes in v4:
+> - inline power related functions
+> - rework driver using new mipi_dsi_dcs_write_seq_multi macro
+> - use drm_connector_helper_get_modes_fixed for modes
+> - remove excessive compression setting
+> ---
+>  MAINTAINERS                                   |   1 +
+>  drivers/gpu/drm/panel/Kconfig                 |   7 +
+>  drivers/gpu/drm/panel/Makefile                |   1 +
+>  drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c | 350 ++++++++++++++++++++++++++
+>  4 files changed, 359 insertions(+)
 > 
-> Maybe it would be good to capture here the kind of VMs that this is
-> going to be not supported - HyperV based VMs. You mentioned it in cover
-> letter, but it would be good to add it here as well, as cover letter
-> does not go to git log.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 92135252264a..65cb2511ba22 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7385,6 +7385,7 @@ DRM DRIVER FOR SAMSUNG S6E3HA8 PANELS
+>  M:	Dzmitry Sankouski <dsankouski@gmail.com>
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml
+> +F:	drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c
+>  
+>  DRM DRIVER FOR SITRONIX ST7586 PANELS
+>  M:	David Lechner <david@lechnology.com>
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index d3a9a9fafe4e..65fb3a466e39 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -689,6 +689,13 @@ config DRM_PANEL_SAMSUNG_S6E3HA2
+>  	depends on BACKLIGHT_CLASS_DEVICE
+>  	select VIDEOMODE_HELPERS
+>  
+> +config DRM_PANEL_SAMSUNG_S6E3HA8
+> +	tristate "Samsung S6E3HA8 DSI video mode panel"
+> +	depends on OF
+> +	depends on DRM_MIPI_DSI
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	select VIDEOMODE_HELPERS
+> +
+>  config DRM_PANEL_SAMSUNG_S6E63J0X03
+>  	tristate "Samsung S6E63J0X03 DSI command mode panel"
+>  	depends on OF
+> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+> index 987a08702410..8ee28f5a2213 100644
+> --- a/drivers/gpu/drm/panel/Makefile
+> +++ b/drivers/gpu/drm/panel/Makefile
+> @@ -70,6 +70,7 @@ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D27A1) += panel-samsung-s6d27a1.o
+>  obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D7AA0) += panel-samsung-s6d7aa0.o
+>  obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E3FA7) += panel-samsung-s6e3fa7.o
+>  obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E3HA2) += panel-samsung-s6e3ha2.o
+> +obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E3HA8) += panel-samsung-s6e3ha8.o
+>  obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03) += panel-samsung-s6e63j0x03.o
+>  obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63M0) += panel-samsung-s6e63m0.o
+>  obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63M0_SPI) += panel-samsung-s6e63m0-spi.o
+> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c b/drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c
+> new file mode 100644
+> index 000000000000..e69943f0527e
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c
+> @@ -0,0 +1,350 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +//
+> +// Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree:
+> +//	Copyright (c) 2013, The Linux Foundation. All rights reserved.
+> +// Copyright (c) 2024 Dzmitry Sankouski <dsankouski@gmail.com>
+> +
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/regulator/consumer.h>
+> +
+> +#include <drm/display/drm_dsc.h>
+> +#include <drm/display/drm_dsc_helper.h>
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_probe_helper.h>
+> +#include <drm/drm_panel.h>
+> +
+> +struct s6e3ha8 {
+> +	struct drm_panel panel;
+> +	struct mipi_dsi_device *dsi;
+> +	struct drm_dsc_config dsc;
+> +	struct gpio_desc *reset_gpio;
+> +	struct regulator_bulk_data supplies[3];
+> +};
+> +
+> +static inline
+> +struct s6e3ha8 *to_s6e3ha8_amb577px01_wqhd(struct drm_panel *panel)
+> +{
+> +	return container_of(panel, struct s6e3ha8, panel);
+> +}
+> +
+> +#define s6e3ha8_test_key_on_lvl2(ctx) \
+> +	mipi_dsi_dcs_write_seq_multi(ctx, 0xf0, 0x5a, 0x5a)
+> +#define s6e3ha8_test_key_off_lvl2(ctx) \
+> +	mipi_dsi_dcs_write_seq_multi(ctx, 0xf0, 0xa5, 0xa5)
+> +#define s6e3ha8_test_key_on_lvl3(ctx) \
+> +	mipi_dsi_dcs_write_seq_multi(ctx, 0xfc, 0x5a, 0x5a)
+> +#define s6e3ha8_test_key_off_lvl3(ctx) \
+> +	mipi_dsi_dcs_write_seq_multi(ctx, 0xfc, 0xa5, 0xa5)
+> +#define s6e3ha8_test_key_on_lvl1(ctx) \
+> +	mipi_dsi_dcs_write_seq_multi(ctx, 0x9f, 0xa5, 0xa5)
+> +#define s6e3ha8_test_key_off_lvl1(ctx) \
+> +	mipi_dsi_dcs_write_seq_multi(ctx, 0x9f, 0x5a, 0x5a)
+> +#define s6e3ha8_afc_off(ctx) \
+> +	mipi_dsi_dcs_write_seq_multi(ctx, 0xe2, 0x00, 0x00)
+> +
+> +static void s6e3ha8_amb577px01_wqhd_reset(struct s6e3ha8 *priv)
+> +{
+> +	gpiod_set_value_cansleep(priv->reset_gpio, 1);
+> +	usleep_range(5000, 6000);
+> +	gpiod_set_value_cansleep(priv->reset_gpio, 0);
+> +	usleep_range(5000, 6000);
+> +	gpiod_set_value_cansleep(priv->reset_gpio, 1);
+> +	usleep_range(5000, 6000);
+> +}
+> +
+> +static int s6e3ha8_amb577px01_wqhd_on(struct s6e3ha8 *priv)
+> +{
+> +	struct mipi_dsi_device *dsi = priv->dsi;
+> +	struct device *dev = &dsi->dev;
+> +	struct mipi_dsi_multi_context ctx = { .dsi = dsi };
+> +	int ret;
+> +
+> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+> +
+> +	s6e3ha8_test_key_on_lvl1(&ctx);
+> +	s6e3ha8_test_key_on_lvl2(&ctx);
+> +
+> +	ret = mipi_dsi_compression_mode(dsi, true);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to set compression mode: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	s6e3ha8_test_key_off_lvl2(&ctx);
+> +
+> +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+> +		return ret;
+> +	}
+> +	usleep_range(5000, 6000);
+> +
+> +	s6e3ha8_test_key_on_lvl2(&ctx);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf2, 0x13);
+> +	s6e3ha8_test_key_off_lvl2(&ctx);
+> +
+> +	usleep_range(10000, 11000);
+> +
+> +	s6e3ha8_test_key_on_lvl2(&ctx);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf2, 0x13);
+> +	s6e3ha8_test_key_off_lvl2(&ctx);
+> +
+> +	/* OMOK setting 1 (Initial setting) - Scaler Latch Setting Guide */
+> +	s6e3ha8_test_key_on_lvl2(&ctx);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb0, 0x07);
+> +	/* latch setting 1 : Scaler on/off & address setting & PPS setting -> Image update latch */
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf2, 0x3c, 0x10);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb0, 0x0b);
+> +	/* latch setting 2 : Ratio change mode -> Image update latch */
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf2, 0x30);
+> +	/* OMOK setting 2 - Seamless setting guide : WQHD */
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x2a, 0x00, 0x00, 0x05, 0x9f); /* CASET */
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x2b, 0x00, 0x00, 0x0b, 0x8f); /* PASET */
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xba, 0x01); /* scaler setup : scaler off */
+> +	s6e3ha8_test_key_off_lvl2(&ctx);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x35, 0x00); /* TE Vsync ON */
+> +	s6e3ha8_test_key_on_lvl2(&ctx);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xed, 0x4c); /* ERR_FG */
+> +	s6e3ha8_test_key_off_lvl2(&ctx);
+> +	s6e3ha8_test_key_on_lvl3(&ctx);
+> +	/* FFC Setting 897.6Mbps */
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xc5, 0x0d, 0x10, 0xb4, 0x3e, 0x01);
+> +	s6e3ha8_test_key_off_lvl3(&ctx);
+> +	s6e3ha8_test_key_on_lvl2(&ctx);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb9,
+> +				   0x00, 0xb0, 0x81, 0x09, 0x00, 0x00, 0x00,
+> +				   0x11, 0x03); /* TSP HSYNC Setting */
+> +	s6e3ha8_test_key_off_lvl2(&ctx);
+> +	s6e3ha8_test_key_on_lvl2(&ctx);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb0, 0x03);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf6, 0x43);
+> +	s6e3ha8_test_key_off_lvl2(&ctx);
+> +	s6e3ha8_test_key_on_lvl2(&ctx);
+> +	/* Brightness condition set */
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xca,
+> +				   0x07, 0x00, 0x00, 0x00, 0x80, 0x80, 0x80,
+> +				   0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+> +				   0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+> +				   0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+> +				   0x80, 0x80, 0x80, 0x00, 0x00, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb1, 0x00, 0x0c); /* AID Set : 0% */
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb5,
+> +				   0x19, 0xdc, 0x16, 0x01, 0x34, 0x67, 0x9a,
+> +				   0xcd, 0x01, 0x22, 0x33, 0x44, 0x00, 0x00,
+> +				   0x05, 0x55, 0xcc, 0x0c, 0x01, 0x11, 0x11,
+> +				   0x10); /* MPS/ELVSS Setting */
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf4, 0xeb, 0x28); /* VINT */
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf7, 0x03); /* Gamma, LTPS(AID) update */
+> +	s6e3ha8_test_key_off_lvl2(&ctx);
+> +	s6e3ha8_test_key_off_lvl1(&ctx);
+> +
+> +	return 0;
+
+return ctx.accum_err;
+
+> +}
+> +
+> +static int s6e3ha8_enable(struct drm_panel *panel)
+> +{
+> +	struct s6e3ha8 *priv = to_s6e3ha8_amb577px01_wqhd(panel);
+> +	struct mipi_dsi_device *dsi = priv->dsi;
+> +	struct mipi_dsi_multi_context ctx = { .dsi = dsi };
+> +
+> +	s6e3ha8_test_key_on_lvl1(&ctx);
+> +	ctx.accum_err = mipi_dsi_dcs_set_display_on(dsi);
+> +	s6e3ha8_test_key_off_lvl1(&ctx);
+> +
+> +	return ctx.accum_err;
+> +}
+> +
+> +static int s6e3ha8_disable(struct drm_panel *panel)
+> +{
+> +	struct s6e3ha8 *priv = to_s6e3ha8_amb577px01_wqhd(panel);
+> +	struct mipi_dsi_device *dsi = priv->dsi;
+> +	struct mipi_dsi_multi_context ctx = { .dsi = dsi };
+> +
+> +	s6e3ha8_test_key_on_lvl1(&ctx);
+> +	ctx.accum_err = mipi_dsi_dcs_set_display_off(dsi);
+> +	s6e3ha8_test_key_off_lvl1(&ctx);
+> +	msleep(20);
+> +
+> +	s6e3ha8_test_key_on_lvl2(&ctx);
+> +	s6e3ha8_afc_off(&ctx);
+> +	s6e3ha8_test_key_off_lvl2(&ctx);
+> +
+> +	msleep(160);
+> +
+> +	return 0;
+> +}
+> +
+> +static int s6e3ha8_amb577px01_wqhd_prepare(struct drm_panel *panel)
+> +{
+> +	struct s6e3ha8 *priv = to_s6e3ha8_amb577px01_wqhd(panel);
+> +	struct mipi_dsi_device *dsi = priv->dsi;
+> +	struct device *dev = &dsi->dev;
+> +	struct mipi_dsi_multi_context ctx = { .dsi = dsi };
+> +	struct drm_dsc_picture_parameter_set pps;
+> +	int ret;
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(priv->supplies), priv->supplies);
+> +	if (ret < 0)
+> +		return ret;
+> +	msleep(120);
+> +	s6e3ha8_amb577px01_wqhd_reset(priv);
+
+empty line
+
+> +	ret = s6e3ha8_amb577px01_wqhd_on(priv);
+> +
+
+no empty line
+
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to initialize panel: %d\n", ret);
+
+_multi functions will say that for you already.
+
+> +		gpiod_set_value_cansleep(priv->reset_gpio, 1);
+> +		goto err;
+> +	}
+> +
+> +	drm_dsc_pps_payload_pack(&pps, &priv->dsc);
+> +
+> +	s6e3ha8_test_key_on_lvl1(&ctx);
+> +	ret = mipi_dsi_picture_parameter_set(priv->dsi, &pps);
+
+Probably we should add _multi version here, could you please add it?
+Otherwise you might have missed the fact that previous function has
+failed.
+
+> +	if (ret < 0) {
+> +		dev_err(panel->dev, "failed to transmit PPS: %d\n", ret);
+> +		return ret;
+> +	}
+> +	s6e3ha8_test_key_off_lvl1(&ctx);
+> +
+> +	msleep(28);
+
+mipi_dsi_msleep
+
+> +
+> +	return 0;
+
+
+handle ctx.accum_err please.
+
+
+> +err:
+> +	regulator_bulk_disable(ARRAY_SIZE(priv->supplies), priv->supplies);
+> +	return ret;
+> +}
+> +
+> +static int s6e3ha8_amb577px01_wqhd_unprepare(struct drm_panel *panel)
+> +{
+> +	struct s6e3ha8 *priv = to_s6e3ha8_amb577px01_wqhd(panel);
+> +
+> +	return regulator_bulk_disable(ARRAY_SIZE(priv->supplies), priv->supplies);
+> +}
+> +
+> +static const struct drm_display_mode s6e3ha8_amb577px01_wqhd_mode = {
+> +	.clock = (1440 + 116 + 44 + 120) * (2960 + 120 + 80 + 124) * 60 / 1000,
+> +	.hdisplay = 1440,
+> +	.hsync_start = 1440 + 116,
+> +	.hsync_end = 1440 + 116 + 44,
+> +	.htotal = 1440 + 116 + 44 + 120,
+> +	.vdisplay = 2960,
+> +	.vsync_start = 2960 + 120,
+> +	.vsync_end = 2960 + 120 + 80,
+> +	.vtotal = 2960 + 120 + 80 + 124,
+> +	.width_mm = 64,
+> +	.height_mm = 132,
+> +};
+> +
+> +static int s6e3ha8_amb577px01_wqhd_get_modes(struct drm_panel *panel,
+> +					     struct drm_connector *connector)
+> +{
+> +	return drm_connector_helper_get_modes_fixed(connector, &s6e3ha8_amb577px01_wqhd_mode);
+> +}
+> +
+> +static const struct drm_panel_funcs s6e3ha8_amb577px01_wqhd_panel_funcs = {
+> +	.prepare = s6e3ha8_amb577px01_wqhd_prepare,
+> +	.unprepare = s6e3ha8_amb577px01_wqhd_unprepare,
+> +	.get_modes = s6e3ha8_amb577px01_wqhd_get_modes,
+> +	.enable = s6e3ha8_enable,
+> +	.disable = s6e3ha8_disable,
+> +};
+> +
+> +static int s6e3ha8_amb577px01_wqhd_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct device *dev = &dsi->dev;
+> +	struct s6e3ha8 *priv;
+> +	int ret;
+> +
+> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->supplies[0].supply = "vdd3";
+> +	priv->supplies[1].supply = "vci";
+> +	priv->supplies[2].supply = "vddr";
+> +
+> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(priv->supplies),
+> +				      priv->supplies);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to get regulators: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	priv->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(priv->reset_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(priv->reset_gpio),
+> +				     "Failed to get reset-gpios\n");
+> +
+> +	priv->dsi = dsi;
+> +	mipi_dsi_set_drvdata(dsi, priv);
+> +
+> +	dsi->lanes = 4;
+> +	dsi->format = MIPI_DSI_FMT_RGB888;
+> +	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS |
+> +		MIPI_DSI_MODE_VIDEO_NO_HFP | MIPI_DSI_MODE_VIDEO_NO_HBP |
+> +		MIPI_DSI_MODE_VIDEO_NO_HSA | MIPI_DSI_MODE_NO_EOT_PACKET;
+> +
+> +	drm_panel_init(&priv->panel, dev, &s6e3ha8_amb577px01_wqhd_panel_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +	priv->panel.prepare_prev_first = true;
+> +
+> +	drm_panel_add(&priv->panel);
+> +
+> +	/* This panel only supports DSC; unconditionally enable it */
+> +	dsi->dsc = &priv->dsc;
+> +
+> +	priv->dsc.dsc_version_major = 1;
+> +	priv->dsc.dsc_version_minor = 1;
+> +
+> +	priv->dsc.slice_height = 40;
+> +	priv->dsc.slice_width = 720;
+> +	WARN_ON(1440 % priv->dsc.slice_width);
+> +	priv->dsc.slice_count = 1440 / priv->dsc.slice_width;
+> +	priv->dsc.bits_per_component = 8;
+> +	priv->dsc.bits_per_pixel = 8 << 4; /* 4 fractional bits */
+> +	priv->dsc.block_pred_enable = true;
+> +
+> +	ret = mipi_dsi_attach(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
+> +		drm_panel_remove(&priv->panel);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void s6e3ha8_amb577px01_wqhd_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	struct s6e3ha8 *priv = mipi_dsi_get_drvdata(dsi);
+> +	int ret;
+> +
+> +	ret = mipi_dsi_detach(dsi);
+> +	if (ret < 0)
+> +		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
+> +
+> +	drm_panel_remove(&priv->panel);
+> +}
+> +
+> +static const struct of_device_id s6e3ha8_amb577px01_wqhd_of_match[] = {
+> +	{ .compatible = "samsung,s6e3ha8" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, s6e3ha8_amb577px01_wqhd_of_match);
+> +
+> +static struct mipi_dsi_driver s6e3ha8_amb577px01_wqhd_driver = {
+> +	.probe = s6e3ha8_amb577px01_wqhd_probe,
+> +	.remove = s6e3ha8_amb577px01_wqhd_remove,
+> +	.driver = {
+> +		.name = "panel-s6e3ha8",
+> +		.of_match_table = s6e3ha8_amb577px01_wqhd_of_match,
+> +	},
+> +};
+> +module_mipi_dsi_driver(s6e3ha8_amb577px01_wqhd_driver);
+> +
+> +MODULE_AUTHOR("Dzmitry Sankouski <dsankouski@gmail.com>");
+> +MODULE_DESCRIPTION("DRM driver for S6E3HA8 panel");
+> +MODULE_LICENSE("GPL");
 > 
-Sure, I'll specify this in the next version of the patch.
-> Also, the subject suggests that we are disabling suspend-to-idle for
-> vmbus specifically, but from commit description, it suggests that
-> "suspend to idle" feature itself is no longer supported on these
-> particular VMs. Please rephrase it based on what exactly we are trying
-> to do here. IIUC, we are now returning an error (EOPNOTSUPP) in vmbus
-> driver callback, which insures that we don't support Suspend-to-Idle in
-> these VMs.
+> -- 
+> 2.39.2
 > 
-Yes, that's correct.
-> >Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
-> >Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-> >---
-> >  drivers/hv/vmbus_drv.c | 15 ++++++++++++++-
-> >  1 file changed, 14 insertions(+), 1 deletion(-)
-> >
-> >diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> >index 965d2a4efb7e..4efd8856392f 100644
-> >--- a/drivers/hv/vmbus_drv.c
-> >+++ b/drivers/hv/vmbus_drv.c
-> >@@ -900,6 +900,19 @@ static void vmbus_shutdown(struct device *child_device)
-> >  }
-> >  #ifdef CONFIG_PM_SLEEP
-> >+/*
-> >+ * vmbus_freeze - Suspend-to-Idle
-> >+ */
-> >+static int vmbus_freeze(struct device *child_device)
-> >+{
-> >+/*
-> >+ * Do not support Suspend-to-Idle ("echo freeze > /sys/power/state") as
-> >+ * that would require registering the Hyper-V synthetic mouse/keyboard
-> >+ * devices as wakeup devices, which can abort hibernation/resume unexpectedly.
-> >+ */
-> >+	return -EOPNOTSUPP;
-> >+}
-> >+
-> >  /*
-> >   * vmbus_suspend - Suspend a vmbus device
-> >   */
-> >@@ -969,7 +982,7 @@ static void vmbus_device_release(struct device *device)
-> >   */
-> >  static const struct dev_pm_ops vmbus_pm = {
-> >-	.suspend_noirq	= NULL,
-> >+	.suspend_noirq  = vmbus_freeze,
-> >  	.resume_noirq	= NULL,
-> >  	.freeze_noirq	= vmbus_suspend,
-> 
-> I am not sure if this is OK or how it works, but this naming scheme
-> seems a bit confusing to me -
-> *suspend* -> vmbus_*freeze*
-> *freeze* -> vmbus_*suspend*
-> and we are removing support for "freeze" by returning EOPNOTSUPP in
-> suspend callback.
-AFAIU, suspend_noirq is used for Suspend-to-Idle operation and we use
-"freeze > /sys/power/state" for the same. Maybe the naming convention
-comes that way. 
-The key point to understand here is suspend_noirq prepares the machine 
-to low power state and freeze_noirq prepares the machine for hibernation 
-(saving state to disk).
-> 
-> I'll try to understand more on this, but just see if its OK.
-> 
-> >  	.thaw_noirq	= vmbus_resume,
-> 
-> Regards,
-> Naman
-Yes, thaw_noirq is to restore devices from hibernation state. 
+
+-- 
+With best wishes
+Dmitry
 
