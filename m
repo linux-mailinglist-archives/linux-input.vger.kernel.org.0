@@ -1,102 +1,123 @@
-Return-Path: <linux-input+bounces-6636-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6637-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2301997E0C6
-	for <lists+linux-input@lfdr.de>; Sun, 22 Sep 2024 11:47:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCCB697E3E5
+	for <lists+linux-input@lfdr.de>; Mon, 23 Sep 2024 00:13:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 538A11C2061C
-	for <lists+linux-input@lfdr.de>; Sun, 22 Sep 2024 09:47:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E797A1C20ECA
+	for <lists+linux-input@lfdr.de>; Sun, 22 Sep 2024 22:13:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C4AE22094;
-	Sun, 22 Sep 2024 09:47:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F12861E885;
+	Sun, 22 Sep 2024 22:13:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NIFfR2PQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mrRshsmm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A71828F4
-	for <linux-input@vger.kernel.org>; Sun, 22 Sep 2024 09:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A584C2C1AC
+	for <linux-input@vger.kernel.org>; Sun, 22 Sep 2024 22:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726998459; cv=none; b=XvDwr+hhsQRGS+OIq0SKwwvgLdXwr3D99OsOoCukvx2z8/NFRXWnZC4trhxE1zzc//niQTEo3WRaipzLuw3ciGx/zeUPDrh9WCnfhVSNyKeccc94AvvaZHRaB+ww6U0pP3EGkSnCLBLsivybZgR/FXoGT5btuRBpthEMLaCjKsg=
+	t=1727043195; cv=none; b=Kf4+iesft8DM6SVFqV8WzkfqyuCjyCSJTxawiYhJ+EILsLgbcxeQEGDgOBARigBROMc5swbrHEBSRcf9KKZDjo2DEiE2w0NSM3t4FF3YY6pfqqWAOsRIgA0MXi3ka2i+nK1HHqWGUmH53vs0urf0lge44TFdmiHRLD1NrprPCdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726998459; c=relaxed/simple;
-	bh=h76XJMKXY6IsdQFinB19K3B4OMwXXbStloyfJI926ZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YqwJiKdLGfyPTNQ+78XJRqSbduTunYCxwYNqpxfDsgd0imJLqOmHeAMu45CaRXb5cnsdshVORfOLnN679Y+DQ9lPdHTqDD9CN2MELQf4NaHlRmpyfR29Fa3AC+OydOWi1J/O5C4iZOhs+8g5L/mEEVS0lXivgWF4WUptmnEcg7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NIFfR2PQ; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2068acc8b98so32197545ad.3
-        for <linux-input@vger.kernel.org>; Sun, 22 Sep 2024 02:47:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726998457; x=1727603257; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zsHHZKMbXhfhSZMoRnd9N2cBZSjDF11kicDfhdR4WS4=;
-        b=NIFfR2PQNLoQPevLZDHodzswPT9PEQK7Z+aSrKeLrTh8mONCxt/4LFOTUbg38sjVbC
-         LkLc0/+4pr77Vmiuz4PS4BCFFYwwJGYevmZPFzhmy3Uyy7/TCahLxKE04TBHfW2ojhqr
-         WvfWKn/Z2u+3NR0tnTrJ5jH9yIsbfQcHF5YX7MUVSAyjlfgsOKKFn5veq5MMaB/43v2B
-         YV8ogDRs9NPFiKiweQ8mGWwO6rDzGUzvVCTwoSdRdv7cDNEUN2Ncyi+kT+2yB0cK2IGs
-         SpPgoLrbsNszsJvUZ5g3JmrWWKbtPe4LDdnrLdP/ygJ2Y/yq7fgT/M3YikaGj83w7BTV
-         N3cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726998457; x=1727603257;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zsHHZKMbXhfhSZMoRnd9N2cBZSjDF11kicDfhdR4WS4=;
-        b=KeF5d6WmtbzFcfN3URuppfFfjuPcg37GI3gSEPDmuGV57eRovrIxIs3WEq7ihLessM
-         oOx4hJbd98ShNcTOb4JquLu42CeQVrqxdDwmeHMzpYPdtmjECrA00VtdUxziwzYm3b0x
-         Pod6XYidnH3MoqwiCtjUFr/PJFtqUuOna1gDTbCVLw4zKL9i/9yiyRm6/jy3USwlN+iH
-         wvUXgtmMcTYftwMVfF/PHM5IJ6UCUyJhBlrsrojOxLLxpq4pegFaOwIBOPCE316A8/k4
-         bf0fK2VzL9Znb4rxPTLv/bo1dzUm6Nmx07/KpzGpgxwIOA3qRF9rcSWAshiGEBv7ztBB
-         5sVg==
-X-Gm-Message-State: AOJu0YwNQaNl9xpgGopNYkuawSLYYZ/ZjMG59oIEnQOqYLcvnD3pdu00
-	VlkxPZwIrW59ObcUzXhZus7QjHHTQ3JarO2INaEr1799b2NqRnay
-X-Google-Smtp-Source: AGHT+IGaw69OBBiACoxRsPgginQuTUr7Z9POR/S6hYwlcmtcYc9utyiAImMCl6Z986ct2BYjAMawkg==
-X-Received: by 2002:a17:903:11c4:b0:205:43b8:1aa4 with SMTP id d9443c01a7336-208d8398d30mr119893735ad.19.1726998457025;
-        Sun, 22 Sep 2024 02:47:37 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:b28c:8c72:94bf:ec28])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-207945da66esm118321825ad.49.2024.09.22.02.47.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Sep 2024 02:47:36 -0700 (PDT)
-Date: Sun, 22 Sep 2024 02:47:33 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Cc: linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: hynitron_cstxxx - Drop explicit initialization of
- struct i2c_device_id::driver_data to 0
-Message-ID: <Zu_ntXO3OC2QwEKi@google.com>
-References: <20240920153430.503212-12-u.kleine-koenig@baylibre.com>
+	s=arc-20240116; t=1727043195; c=relaxed/simple;
+	bh=rh1rTo3Gj3cAig6/PEUTbSJgDwBmDMCizYcfTkGAyzA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=L3nWoZH74EViAqxGxks+MdOZ4dEwMGWbDPbGPlqvUO6IvKJ2q63OyOyGBvaJEFtN/8feH46S4uqHDkwFPqwzZViIsKmAur9WB2K3Ic/He986baa+rWw3URT4lvJl5XMX4evckZuAGuOiKHhnw1mw7hrdfg/OOvHeVwWevWVtqpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mrRshsmm; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727043194; x=1758579194;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rh1rTo3Gj3cAig6/PEUTbSJgDwBmDMCizYcfTkGAyzA=;
+  b=mrRshsmmk0hJQSEHG6pVPD2jIjlDiB+b+p+VVlf0h99b2ln0AevQCqoE
+   ZXqMNISomXTZ0Q0XtgF9OQErpTVR5s/cF7DxxPZa7mZ5yClqb5NuppyHu
+   KYZxH+LokAEQsaFvb+guQ8n8o4GjxcGlZqm15gfheoUfTZesFM05K6aSD
+   9ZxW/iIysTM5ifew+BfFG5ys1MA4sl3j9aSfTcgy8vyWiNhTbgZ/RCum/
+   0DAYtPG75QLAmXObHYsZNILWDMXjNwwnpiMUtR4LT2BYGA5qEMgEeJhHg
+   mw2SILAJ5lf+Cvs47Xvlp1jsv2f0E/uLR2x2wFXb9MiySx+7ivi0gsnSP
+   g==;
+X-CSE-ConnectionGUID: Kl8UiD+pTBeB9QBpZ9O6tw==
+X-CSE-MsgGUID: 5FiK1tW0TeyOtpwKj5d1Wg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="37351919"
+X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
+   d="scan'208";a="37351919"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 15:13:13 -0700
+X-CSE-ConnectionGUID: HVX19IhpQMOpr72Z5L/aRQ==
+X-CSE-MsgGUID: gvH42ND6RHm4FC0Ehkbe1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
+   d="scan'208";a="70473723"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 22 Sep 2024 15:13:12 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ssUpJ-000Ggw-2e;
+	Sun, 22 Sep 2024 22:13:09 +0000
+Date: Mon, 23 Sep 2024 06:12:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [dtor-input:for-linus 4/40] arch/arm/mach-pxa/spitz.c:406:9: error:
+ implicit declaration of function 'PROPERTY_ENTRY_ARRAY_U32'; did you mean
+ 'PROPERTY_ENTRY_U8_ARRAY_LEN'?
+Message-ID: <202409230614.BBJikfMj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240920153430.503212-12-u.kleine-koenig@baylibre.com>
 
-On Fri, Sep 20, 2024 at 05:34:30PM +0200, Uwe Kleine-König wrote:
-> These drivers don't use the driver_data member of struct i2c_device_id,
-> so don't explicitly initialize this member.
-> 
-> This prepares putting driver_data in an anonymous union which requires
-> either no initialization or named designators. But it's also a nice
-> cleanup on its own.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+head:   b2142a22ef22466575feaccc74a2995c62cae7e8
+commit: 1b05a701375107b2c2beae9c518b8e1a3819e086 [4/40] ARM: spitz: Use software nodes/properties for the matrix keypad
+config: arm-randconfig-001-20240923 (https://download.01.org/0day-ci/archive/20240923/202409230614.BBJikfMj-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409230614.BBJikfMj-lkp@intel.com/reproduce)
 
-Applied, thank you.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409230614.BBJikfMj-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> arch/arm/mach-pxa/spitz.c:406:9: error: implicit declaration of function 'PROPERTY_ENTRY_ARRAY_U32'; did you mean 'PROPERTY_ENTRY_U8_ARRAY_LEN'? [-Wimplicit-function-declaration]
+     406 |         PROPERTY_ENTRY_ARRAY_U32("linux,keymap", spitz_keymap),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         PROPERTY_ENTRY_U8_ARRAY_LEN
+>> arch/arm/mach-pxa/spitz.c:406:9: error: initialization of 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   arch/arm/mach-pxa/spitz.c:406:9: note: (near initialization for 'spitz_mkp_properties[0].name')
+>> arch/arm/mach-pxa/spitz.c:406:9: error: initializer element is not constant
+   arch/arm/mach-pxa/spitz.c:406:9: note: (near initialization for 'spitz_mkp_properties[0].name')
+
+
+vim +406 arch/arm/mach-pxa/spitz.c
+
+   404	
+   405	static const struct property_entry spitz_mkp_properties[] = {
+ > 406		PROPERTY_ENTRY_ARRAY_U32("linux,keymap", spitz_keymap),
+   407		PROPERTY_ENTRY_REF_ARRAY("row-gpios", spitz_mkp_row_gpios),
+   408		PROPERTY_ENTRY_REF_ARRAY("col-gpios", spitz_mkp_col_gpios),
+   409		PROPERTY_ENTRY_U32("col-scan-delay-us", 10),
+   410		PROPERTY_ENTRY_U32("debounce-delay-ms", 10),
+   411		PROPERTY_ENTRY_BOOL("wakeup-source"),
+   412		{ }
+   413	};
+   414	
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
