@@ -1,165 +1,116 @@
-Return-Path: <linux-input+bounces-6644-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6645-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD94697EA07
-	for <lists+linux-input@lfdr.de>; Mon, 23 Sep 2024 12:43:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7FB97EEDD
+	for <lists+linux-input@lfdr.de>; Mon, 23 Sep 2024 18:05:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3BD951F21917
-	for <lists+linux-input@lfdr.de>; Mon, 23 Sep 2024 10:43:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 443A0280FF4
+	for <lists+linux-input@lfdr.de>; Mon, 23 Sep 2024 16:05:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A179194C94;
-	Mon, 23 Sep 2024 10:43:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF70C8C07;
+	Mon, 23 Sep 2024 16:05:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="EmzD1NEH"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d2TH41g/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABA317543;
-	Mon, 23 Sep 2024 10:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DDC146A86
+	for <linux-input@vger.kernel.org>; Mon, 23 Sep 2024 16:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727088218; cv=none; b=fT06AN14CJrcymwCfJiiI64+GGhUU01l8NaRC7Zk0kFkvKwmVo34icrSNqIq3Xp9VHphLpRMrDJ90h0yH3OBjQWZYAQ10x6NU1K/hALNfM777FbWyx1UvsuFHkvsRFTpGo9wzG3ARmvS44L2SerDCr2GMQxCyaRL+0c1CYqGNU4=
+	t=1727107527; cv=none; b=aKGtj0HL9EU1XfB+gtZD7pWweSnVRXlljtZ8ZHRe09FIG4PAw4d+BQxukwyeHAGDsUf+bAE6mdT9fvK2kTX2axnWOitX0DGJXS9lTbkzxlLQsqufl1gRBB80jf/ltSL9GX21QFa2s60kcSRLLugcfoVm13BNpc6b3Cfbfak6BiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727088218; c=relaxed/simple;
-	bh=+xoSspNKJ5MEUo0tLVZmeEuaK5ipmpy6ZXvedGMFkMg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=cfwOW5pXUue36+6uNd7cdsBfwTIhajLzFxSkS1YbHsDpfKfnsc9h85Z2UzKGabazYbQznQkqil2kwSqfSHg4H4oCURl7hfsrHhNhOEXHB3Ss4ahxu4McF8EYd89Ll2/CYjq/psOmfK4dPtYtOVctJaydIyyyKcxtmQIZNS5e7OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=EmzD1NEH; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: ac46e808799811efb66947d174671e26-20240923
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:Message-ID; bh=lxJ2u/FvugU1hQiGyVxAGg7yfWlaUL7i8/K8f/CODxM=;
-	b=EmzD1NEHc00QO3MhkzE01AetGGypiXlLNuFwDv/+mf5KzfgIHWm/GRroijcpnlxvaLExCyYaymWknRde/ShztiAIRnciqIbjRd85HhxVq4xrQ3ME3gvh2juN95PR8QysuigX32l0+1Dx/TeOj7mQkDZzdprO1JdIDSzlOfOiRhI=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41,REQID:ab14257d-9121-42ff-9bcd-a013a3e0b8b0,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6dc6a47,CLOUDID:c9ca9fd0-7921-4900-88a1-3aef019a55ce,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: ac46e808799811efb66947d174671e26-20240923
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
-	(envelope-from <macpaul.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1160707181; Mon, 23 Sep 2024 18:43:30 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 23 Sep 2024 18:43:27 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkmbs13n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
- Transport; Mon, 23 Sep 2024 18:43:26 +0800
-Message-ID: <637aca9a-5d1e-6726-4b97-4d5db0ee30a3@mediatek.com>
-Date: Mon, 23 Sep 2024 18:43:23 +0800
+	s=arc-20240116; t=1727107527; c=relaxed/simple;
+	bh=3dm23d3UBr6AgbK1ZyfpkZ7ivEUB4+p5JXV2h+mGMCs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OkpqLe5gU79QUf1Ntb9pwHxx31YbPJQRGCgrpP3C4mkfDxeBCQfFJyShCdL++AX2KiTd+sQ+aDbUWuU8yjo+xra7Vjvkejee82K8E6NuExnAgiJcmtoZiNJVCuE5yCg+vb817pIYCQ/BhSnVlaKGwy6Hgfa5T5KUjcsFks+y20U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=d2TH41g/; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a8d64b27c45so843015366b.3
+        for <linux-input@vger.kernel.org>; Mon, 23 Sep 2024 09:05:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1727107524; x=1727712324; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2T5ThNOpQvmHVNlmYG5WFubjIFU1R+bynQv1DWPhuJ4=;
+        b=d2TH41g/a/BYELTlyWMKprPWO4CdHOd+o14WYntcvH4odFspJfo/BqRsTT8tgfJLwf
+         EARllfymz21EtHajL2X0Q8to+uVzE/C6Bj7CbGZLtMnO+WttwQje5nO8q7A7vI3Y8irJ
+         nvOnR2nIdlNZd7Z0Co7BHS3hHD8rLCekIGmfU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727107524; x=1727712324;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2T5ThNOpQvmHVNlmYG5WFubjIFU1R+bynQv1DWPhuJ4=;
+        b=AWkp1lM3r+gGW3IuZ7Fttri9n4+j+TxfIAtwVx4gXznfBaI84/NpGlcwdM0ZbcDBnQ
+         KLNb9LYWbkdu14NcW/SjJlJ4IPX+JoSIkV+WvdPqAKoUcgoGp84H5tyKAIw4L+GTY9Hl
+         /Z7BG9eBv8aY5eEUjLOpRGz2GXxJMA+KtepFDHkf6+W9mtrXPL3ORkwk7UaoYfECwePN
+         FBvBvCJee9psYJALkc34txUPpY0qeAwXea7WR7WoPZBtUsXoGtgphN9Wl5Gj2np5uxZj
+         EIjhPnA6pC4q6O+Uy5YeG0o+LIDWF+BovGDU72W5qSHqbn7RVXnWEud/H6zlk9vAdCyd
+         r+WA==
+X-Forwarded-Encrypted: i=1; AJvYcCVUcujWYuUrYQsawqHAzlTUdME8hZMVRLRbuHO/X3trqMkAxTNefAYpKRw2Oz8KcdkAzpSTjRLWxU3zBw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4mkBkny+i/KQYR4QuV18ZOt1gRdYzD4YB85bVA8EcEtYG8xv6
+	HZ1lTWulp7ODp3OXzbRPF/fjT0pVaRg84FSGu5qdYDyeN9DDnhuqisqcswLvNE5uK9yfGGvJWTP
+	ZCA==
+X-Google-Smtp-Source: AGHT+IHXL1hgsTdPRJgV3KUDmQSv4GF2ijxFI2Xh+Af/AIvSzFhmBD/yzfdRCL03akempSmG62DeJg==
+X-Received: by 2002:a17:906:7308:b0:a8d:29b7:ecea with SMTP id a640c23a62f3a-a90d5182575mr1216883666b.61.1727107523887;
+        Mon, 23 Sep 2024 09:05:23 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a906111aa91sm1246707066b.97.2024.09.23.09.05.22
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Sep 2024 09:05:22 -0700 (PDT)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3787f30d892so2622060f8f.0
+        for <linux-input@vger.kernel.org>; Mon, 23 Sep 2024 09:05:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWm96dycf2O7hCCIufSBXLFEBHA3bpTRm4WTr0JugdwkGyXEOo1OI1KTgaAxbaiShs3lZHtDQSOqnORsg==@vger.kernel.org
+X-Received: by 2002:a05:6000:11c8:b0:378:c887:5874 with SMTP id
+ ffacd0b85a97d-37a424939e8mr5134472f8f.59.1727107522244; Mon, 23 Sep 2024
+ 09:05:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v6 2/2] dt-bindings: mfd: mediatek: mt6397: Convert to DT
- schema format
-Content-Language: en-US
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>, "AngeloGioacchino Del
- Regno" <angelogioacchino.delregno@collabora.com>
-CC: Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>, "David S . Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, "Liam
- Girdwood" <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Sean Wang
-	<sean.wang@mediatek.com>, Sen Chu <sen.chu@mediatek.com>,
-	<netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, Dmitry Torokhov
-	<dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, Lee Jones
-	<lee@kernel.org>, Sebastian Reichel <sre@kernel.org>, Chen Zhong
-	<chen.zhong@mediatek.com>, <linux-input@vger.kernel.org>,
-	<linux-leds@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-	<linux-rtc@vger.kernel.org>, <linux-sound@vger.kernel.org>, Alexandre Mergnat
-	<amergnat@baylibre.com>, Bear Wang <bear.wang@mediatek.com>, Pablo Sun
-	<pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, Chris-qj chen
-	<chris-qj.chen@mediatek.com>, MediaTek Chromebook Upstream
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai
-	<wenst@chromium.org>
-References: <20240918064955.6518-1-macpaul.lin@mediatek.com>
- <20240918064955.6518-2-macpaul.lin@mediatek.com>
- <20240918115151c896f33f@mail.local> <20240918115651c1475d36@mail.local>
- <2af0621d-14ac-b7f3-b28d-2df698931121@mediatek.com>
- <d8b90ddf-efbc-4434-9ad0-4be6942d51a5@collabora.com>
- <202409201337500284902d@mail.local>
-From: Macpaul Lin <macpaul.lin@mediatek.com>
-In-Reply-To: <202409201337500284902d@mail.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--16.104600-8.000000
-X-TMASE-MatchedRID: QW5G6BKkLToOwH4pD14DsF2036HHwFm/C/ExpXrHizwJmdXzOhEMdq1X
-	iPUpd5urvhH72H3yPfRl52ofpDGzAUER5ddgnEDec2k2agnXN3xMkOX0Uoduuf5Ndkm9jGh5+k9
-	OmImxseHdNZBjAe+TD5j4oSfJftZ+Gmdo3OL/XyN17gHAyAFr0z49+ukeLY9133Nl3elSfspkDy
-	hB8FZCo0saY8ROPM6fB++TmiSdVlO6de0YULw0FnuTVkeYosXtYY0tNGdvli3qLnOUXH9QdIcqr
-	S3ZaIiqCEuVF6nuSDFftuJwrFEhTbew1twePJJB3QfwsVk0UbtuRXh7bFKB7n0Bw/xUOCRaQob8
-	Aj73RQ4BdZxBcFC/afKV0PghFKiIHIV02d1rpG8=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--16.104600-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 29BBBD91297B46FCBF23EA27127FA88C925FF1F3A72ACB71CB857985D524E1632000:8
+References: <20240920153430.503212-10-u.kleine-koenig@baylibre.com>
+In-Reply-To: <20240920153430.503212-10-u.kleine-koenig@baylibre.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 23 Sep 2024 09:05:09 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WV-wQOEfTFLhcHdhNuWreYGFbdXjmLG3iwW1UCiXujmg@mail.gmail.com>
+Message-ID: <CAD=FV=WV-wQOEfTFLhcHdhNuWreYGFbdXjmLG3iwW1UCiXujmg@mail.gmail.com>
+Subject: Re: [PATCH] HID: i2c-hid-of: Drop explicit initialization of struct
+ i2c_device_id::driver_data to 0
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Johan Hovold <johan+linaro@kernel.org>, linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-On 9/20/24 21:37, Alexandre Belloni wrote:
+On Fri, Sep 20, 2024 at 8:35=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@baylibre.com> wrote:
+>
+> These drivers don't use the driver_data member of struct i2c_device_id,
+> so don't explicitly initialize this member.
+>
+> This prepares putting driver_data in an anonymous union which requires
+> either no initialization or named designators. But it's also a nice
+> cleanup on its own.
+>
+> While touching the initializer, also remove the comma after the sentinel
+> entry.
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+> ---
+>  drivers/hid/i2c-hid/i2c-hid-of.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-[snip]
-
->> > > > >  - RTC:
->> > > > >   - Drop "start-year"
->> > > > 
-
-[snip]
-
->> > 
->> 
->> Alexandre, I definitely agree with you on the fact that the MTK PMIC RTC driver
->> can (and needs to) be improved, and that it can make use of some nice cleanup...
->> 
->> ... but!
->> 
->> This series performs a conversion to schema, and the previous txt file didn't
->> say anything about the start-year property - which was not mandatory to support
->> at that time (nor now, afaik?), so adding support for that is out of scope for
->> this series.
-> 
-> It is mandatory now. I agree this can be done in a subsequent series.
-> 
-
-Thanks you all for helping with the review and kindly understanding the
-situation. I see that Angelo has already submitted the RTC patch set.
-I'll check it with the internal driver owner. It seems okay with a quick 
-glance.
-
->> 
->> Eventually, that can come as a series on top, adding support for that in the
->> binding (and, of course, in the driver).
->> 
->> I should be able to tackle that... most probably next week - but still, the
->> improvements would come as a series on top of this one.
->> 
->> Cheers,
->> Angelo
-> 
-
-Thanks
-Macpaul Lin
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
