@@ -1,225 +1,130 @@
-Return-Path: <linux-input+bounces-6646-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6647-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B7D997F133
-	for <lists+linux-input@lfdr.de>; Mon, 23 Sep 2024 21:32:48 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD25983B85
+	for <lists+linux-input@lfdr.de>; Tue, 24 Sep 2024 05:26:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7E0FDB20FE5
-	for <lists+linux-input@lfdr.de>; Mon, 23 Sep 2024 19:32:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8D519B2262A
+	for <lists+linux-input@lfdr.de>; Tue, 24 Sep 2024 03:26:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8B0319F413;
-	Mon, 23 Sep 2024 19:32:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D80F18E1F;
+	Tue, 24 Sep 2024 03:26:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eN1patVj"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.b="O8SwsVsr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7F11CA84;
-	Mon, 23 Sep 2024 19:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4AF11CAF;
+	Tue, 24 Sep 2024 03:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.30.2.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727119960; cv=none; b=BmqaWg8T3qSZ2ZFJEy90D1gSrjZlXGQbAo3UbAcOoXQQYvWiVi+0lt0j3yERvoSMQiP3j8b7yrQgnRKnPKLTpz5e+x6m5F7xLKcsu6Xl4W1nmI0CLoaCkyb1hnYRIfE0LwvIzk6s+qKnf6zkcHtvj58tEZ0XfFWMTz6LjbMOU+4=
+	t=1727148386; cv=none; b=K3idLn5rv/U8Jt8I4oHlcEUcB8wIXejFOgheD5AGXgw6v0/GTs4qKsDkZla1Fx2uGuQy3eUPx1Z0mWcwrkqZ0kYIjxsnVoEqdbBZZqCD8R43rz/9wHljJ4rB+jIrWZ7NKBIKxqbqd1f1jc6Blg4rfNbvddiSTs6MiomkgC4GLOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727119960; c=relaxed/simple;
-	bh=DABQX/iCGMJU8NuVOhReQv5tbV8tfe8JZw5vnzcAeNo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=QX0B0ra02RYwVkqFwAxvs+pn8emdFOSIZQHxbdPsNUlL8+rAqOvjLaL+avdq74nfbUzIWCiIVlsU+1bOFXjvn+JmY6dYahAAh/3Day+zZyTfo3fF7/kaRnZPxJgkLUDG7hgKh14HmZ/S0lIsTn6UJQ7A3TLITqWj+9R40kcbBHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eN1patVj; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727119959; x=1758655959;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=DABQX/iCGMJU8NuVOhReQv5tbV8tfe8JZw5vnzcAeNo=;
-  b=eN1patVjzkDqgaxfqET6Va8rJ2tb8OQRLy/r/YExzzZA2bo2E6ga3C+X
-   hZpIvSR5EKpqcpnxgxLIxTOaILugFuaH9sh/1kBlfnKy1PCocnKOgaOxJ
-   98s7RuUKTJtegfTX5HpKdSGKgQ3e/d4gQws6UiWnHwf80ijwUH6AviXh4
-   nAqoX0XhQ9Ow0qmTS6cuJ3xnakOEI6APHG0MVO2t5PeWgLMRuAQ+4nb/7
-   3pcB928K9Dfe0Z+hWRfkXBpZA7HETOjC9m3ANqZh8nSE+0Lx5byFfDzgq
-   Hh5jomuwE45c8YD95w5NihJKzelbgNQ4cSNk0WJsbR9jgSfjztAVCbudc
-   A==;
-X-CSE-ConnectionGUID: kBX1Hn/fTN+zh/1Whnbp7A==
-X-CSE-MsgGUID: gC/O4xu4RECgfqjOZDPSSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="26181069"
-X-IronPort-AV: E=Sophos;i="6.10,252,1719903600"; 
-   d="scan'208";a="26181069"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 12:32:38 -0700
-X-CSE-ConnectionGUID: r5QOLSUETqmSPiXUBqiJxQ==
-X-CSE-MsgGUID: fJe58bA8S/ym19qMbLWPoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,252,1719903600"; 
-   d="scan'208";a="71440777"
-Received: from spandruv-desk1.amr.corp.intel.com ([10.125.110.193])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 12:32:38 -0700
-Message-ID: <c7c2665bf433a1648a3f7dff20ac9976ef1defe3.camel@linux.intel.com>
-Subject: Re: [PATCH v2] HID: ishtp-hid-client: replace fake-flex arrays with
- flex-array members
-From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To: Kees Cook <kees@kernel.org>
-Cc: Erick Archer <erick.archer@outlook.com>, Jiri Kosina <jikos@kernel.org>,
-  Benjamin Tissoires <bentiss@kernel.org>, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org,  linux-hardening@vger.kernel.org
-Date: Mon, 23 Sep 2024 12:32:37 -0700
-In-Reply-To: <20240923002249.it.617-kees@kernel.org>
-References: <20240923002249.it.617-kees@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	s=arc-20240116; t=1727148386; c=relaxed/simple;
+	bh=5do3pFCGviAlrYmjo+9gOkpJZ/1OrJuYNxeJZe4BR+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ykk3ju/GWP5lDwF3hX31AbBQfdEtz4JSte1RABsJI+pfVghoCm4TMyzQt16NmyugtRm2XFmiwjAHznOJngNv413wGp07fNFWgloaq8rX70KGXOnhw36ycqCk7M+5oijMJKVDq/zqsQvEr73FR/z367wKo+pAJYWhoD3pfLZc5A8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu; spf=pass smtp.mailfrom=csail.mit.edu; dkim=pass (2048-bit key) header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.b=O8SwsVsr; arc=none smtp.client-ip=128.30.2.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=outgoing.csail.mit.edu; s=test20231205; h=In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=cfKRFOqpf7Zq5W3HSKL69wx5R5uROv9DLNQhkhjGjN4=; t=1727148384; x=1728012384; 
+	b=O8SwsVsrrYzHHpqyySGIrKM62ss/557KWQmxJjslzHg/VQfeKwyGfmPVoW9df/G2DJzx+qE5v0I
+	MMijl75RAKEhbi3E9CMfD/QINt4vZ01xRlRMDzqp8kOste4gFYFJ7bt0+EP86EfbK+TlTDRn7VWJT
+	xUqrpXaDAETU+IGYg8bWVML+BPc5yt+WbiOCSDFQgf7AFPu1QT9mhM5r8+rDl/y7eAJXCm0sXl0hA
+	OG4lQETqHGsOfZtOJtgneAesli5sLRBLbSEC8VR8UPmJT47XJ/uI8Qtv+RpTvrCk4D7e3SRsy/a2O
+	fUcZtl6hkIGB1vJqKz8qjygYuhRlv/weq0GA==;
+Received: from [172.179.10.40] (helo=csail.mit.edu)
+	by outgoing2021.csail.mit.edu with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <srivatsa@csail.mit.edu>)
+	id 1sswBw-00EsUn-Nv;
+	Mon, 23 Sep 2024 23:26:20 -0400
+Date: Tue, 24 Sep 2024 03:26:14 +0000
+From: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
+To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, jikos@kernel.org, bentiss@kernel.org,
+	dmitry.torokhov@gmail.com, linux-hyperv@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	ernis@microsoft.com, rafael@kernel.org, pavel@ucw.cz,
+	lenb@kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH 0/3] Disable Suspend-to-Idle in Hyper-V and Fix
+ Hibernation Interruptions
+Message-ID: <ZvIxVn1NKWuJ4u2k@csail.mit.edu>
+References: <1726176470-13133-1-git-send-email-ernis@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1726176470-13133-1-git-send-email-ernis@linux.microsoft.com>
 
-T24gU3VuLCAyMDI0LTA5LTIyIGF0IDE3OjIyIC0wNzAwLCBLZWVzIENvb2sgd3JvdGU6Cj4gRnJv
-bTogRXJpY2sgQXJjaGVyIDxlcmljay5hcmNoZXJAb3V0bG9vay5jb20+Cj4gCj4gT25lLWVsZW1l
-bnQgYXJyYXlzIGFzIGZha2UgZmxleCBhcnJheXMgYXJlIGRlcHJlY2F0ZWRbMV0gYXMgdGhlCj4g
-a2VybmVsCj4gaGFzIHN3aXRjaGVkIHRvIEM5OSBmbGV4aWJsZS1hcnJheSBtZW1iZXJzIGluc3Rl
-YWQuIFRoaXMgY2FzZSwKPiBob3dldmVyLAo+IGhhcyBtb3JlIGNvbXBsZXhpdHkgYmVjYXVzZSBp
-dCBpcyBhIGZsZXhpYmxlIGFycmF5IG9mIGZsZXhpYmxlIGFycmF5cwo+IGFuZCB0aGlzIHBhdGNo
-IG5lZWRzIHRvIGJlIHJlYWR5IHRvIGVuYWJsZSB0aGUgbmV3IGNvbXBpbGVyIGZsYWcKPiAtV2Zs
-ZXgtYXJyYXktbWVtYmVyLW5vdC1hdC1lbmQgKGNvbWluZyBpbiBHQ0MtMTQpIGdsb2JhbGx5Lgo+
-IAo+IFNvLCBkZWZpbmUgYSBuZXcgc3RydWN0IHR5cGUgZm9yIHRoZSBzaW5nbGUgcmVwb3J0czoK
-PiAKPiBzdHJ1Y3QgcmVwb3J0IHsKPiDCoMKgwqDCoMKgwqDCoMKgdWludDE2X3Qgc2l6ZTsKPiDC
-oMKgwqDCoMKgwqDCoMKgc3RydWN0IGhvc3RpZl9tc2dfaGRyIG1zZzsKPiB9IF9fcGFja2VkOwo+
-IAo+IGJ1dCB3aXRob3V0IHRoZSBwYXlsb2FkIChmbGV4IGFycmF5KSBpbiBpdC4gQW5kIGFkZCB0
-aGlzIHBheWxvYWQgdG8KPiB0aGUKPiAiaG9zdGlmX21zZyIgc3RydWN0dXJlLiBUaGlzIHdheSwg
-aW4gdGhlICJyZXBvcnRfbGlzdCIgc3RydWN0dXJlIHdlCj4gY2FuCj4gZGVjbGFyZSBhIGZsZXgg
-YXJyYXkgb2Ygc2luZ2xlIHJlcG9ydHMgd2hpY2ggbm93IGRvIG5vdCBjb250YWluCj4gYW5vdGhl
-cgo+IGZsZXggYXJyYXkuCj4gCj4gc3RydWN0IHJlcG9ydF9saXN0IHsKPiDCoMKgwqDCoMKgwqDC
-oMKgWy4uLl0KPiDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgcmVwb3J0IHJlcG9ydHNbXTsKPiB9IF9f
-cGFja2VkOwo+IAo+IFRoZXJlZm9yZSwgdGhlICJzdHJ1Y3QgaG9zdGlmX21zZyIgaXMgbm93IG1h
-ZGUgdXAgb2YgYSBoZWFkZXIgYW5kIGEKPiBwYXlsb2FkLiBBbmQgdGhlICJzdHJ1Y3QgcmVwb3J0
-IiB1c2VzIG9ubHkgdGhlICJob3N0aWZfbXNnIiBoZWFkZXIuCj4gVGhlIHBlcmZlY3Qgc29sdXRp
-b24gd291bGQgYmUgZm9yIHRoZSAicmVwb3J0IiBzdHJ1Y3R1cmUgdG8gdXNlIHRoZQo+IHdob2xl
-ICJob3N0aWZfbXNnIiBzdHJ1Y3R1cmUgYnV0IHRoaXMgaXMgbm90IHBvc3NpYmxlIGR1ZSB0byBu
-ZXN0ZWQKPiBmbGV4aWJsZSBhcnJheXMuIEFueXdheSwgdGhlIGVuZCByZXN1bHQgaXMgZXF1aXZh
-bGVudCBzaW5jZSB0aGlzCj4gcGF0Y2gKPiBkb2VzIGF0dGVtcHQgdG8gY2hhbmdlIHRoZSBiZWhh
-dmlvdXIgb2YgdGhlIGNvZGUuCj4gCj4gTm93IGFzIHdlbGwsIHdlIGhhdmUgbW9yZSBjbGFyaXR5
-IGFmdGVyIHRoZSBjYXN0IGZyb20gdGhlIHJhdyBieXRlcwo+IHRvCj4gdGhlIG5ldyBzdHJ1Y3R1
-cmVzLiBSZWZhY3RvciB0aGUgY29kZSBhY2NvcmRpbmdseSB0byB1c2UgdGhlIG5ldwo+IHN0cnVj
-dHVyZXMuCj4gCj4gQWxzbywgdXNlICJjb250YWluZXJfb2YoKSIgd2hlbmV2ZXIgd2UgbmVlZCB0
-byByZXRyaWV2ZSBhIHBvaW50ZXIgdG8KPiB0aGUgZmxleGlibGUgc3RydWN0dXJlLCB0aHJvdWdo
-IHdoaWNoIHdlIGNhbiBhY2Nlc3MgdGhlIGZsZXhpYmxlCj4gYXJyYXkKPiBpZiBuZWVkZWQuCj4g
-Cj4gTGluazoKPiBodHRwczovL3d3dy5rZXJuZWwub3JnL2RvYy9odG1sL25leHQvcHJvY2Vzcy9k
-ZXByZWNhdGVkLmh0bWwjemVyby1sZW5ndGgtYW5kLW9uZS1lbGVtZW50LWFycmF5cwo+IMKgWzFd
-Cj4gQ2xvc2VzOiBodHRwczovL2dpdGh1Yi5jb20vS1NQUC9saW51eC9pc3N1ZXMvMzMzCj4gU2ln
-bmVkLW9mZi1ieTogRXJpY2sgQXJjaGVyIDxlcmljay5hcmNoZXJAb3V0bG9vay5jb20+Cj4gTGlu
-azoKPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9yL0FTOFBSMDJNQjcyMzc2MENCOTM5NDIzNzBF
-OTJGMDA2MzhCRjcyQEFTOFBSMDJNQjcyMzcuZXVycHJkMDIucHJvZC5vdXRsb29rLmNvbQo+IFtr
-ZWVzOiB0d2Vha2VkIGNvbW1pdCBsb2cgYW5kIGRyb3BwZWQgc3RydWN0X3NpemUoKSB1c2VzXQo+
-IFNpZ25lZC1vZmYtYnk6IEtlZXMgQ29vayA8a2Vlc0BrZXJuZWwub3JnPgpBY2tlZC1ieTogU3Jp
-bml2YXMgUGFuZHJ1dmFkYSA8c3Jpbml2YXMucGFuZHJ1dmFkYUBsaW51eC5pbnRlbC5jb20+Cgo+
-IC0tLQo+IMKgdjI6IC0gdXBkYXRlIGJhc2VkIG9uIGZlZWRiYWNrCj4gwqByZmM6Cj4gaHR0cHM6
-Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC9BUzhQUjAyTUI3MjM3NjBDQjkzOTQyMzcwRTkyRjAwNjM4
-QkY3MkBBUzhQUjAyTUI3MjM3LmV1cnByZDAyLnByb2Qub3V0bG9vay5jb20vCj4gLS0tCj4gwqBk
-cml2ZXJzL2hpZC9pbnRlbC1pc2gtaGlkL2lzaHRwLWhpZC1jbGllbnQuYyB8IDI1ICsrKysrKysr
-KystLS0tLS0tLQo+IC0tCj4gwqBkcml2ZXJzL2hpZC9pbnRlbC1pc2gtaGlkL2lzaHRwLWhpZC5o
-wqDCoMKgwqDCoMKgwqAgfCAxMSArKysrKy0tLS0KPiDCoDIgZmlsZXMgY2hhbmdlZCwgMTkgaW5z
-ZXJ0aW9ucygrKSwgMTcgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaGlk
-L2ludGVsLWlzaC1oaWQvaXNodHAtaGlkLWNsaWVudC5jCj4gYi9kcml2ZXJzL2hpZC9pbnRlbC1p
-c2gtaGlkL2lzaHRwLWhpZC1jbGllbnQuYwo+IGluZGV4IGZiZDRmOGVhMTk1MS4uY2IwNGNkMWQ5
-ODBiIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvaGlkL2ludGVsLWlzaC1oaWQvaXNodHAtaGlkLWNs
-aWVudC5jCj4gKysrIGIvZHJpdmVycy9oaWQvaW50ZWwtaXNoLWhpZC9pc2h0cC1oaWQtY2xpZW50
-LmMKPiBAQCAtNzAsMTAgKzcwLDEwIEBAIHN0YXRpYyB2b2lkIHByb2Nlc3NfcmVjdihzdHJ1Y3Qg
-aXNodHBfY2wKPiAqaGlkX2lzaHRwX2NsLCB2b2lkICpyZWN2X2J1ZiwKPiDCoMKgwqDCoMKgwqDC
-oMKgdW5zaWduZWQgY2hhciAqcGF5bG9hZDsKPiDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGRldmlj
-ZV9pbmZvICpkZXZfaW5mbzsKPiDCoMKgwqDCoMKgwqDCoMKgaW50IGksIGo7Cj4gLcKgwqDCoMKg
-wqDCoMKgc2l6ZV90wqDCoHBheWxvYWRfbGVuLCB0b3RhbF9sZW4sIGN1cl9wb3MsIHJhd19sZW47
-Cj4gK8KgwqDCoMKgwqDCoMKgc2l6ZV90wqDCoHBheWxvYWRfbGVuLCB0b3RhbF9sZW4sIGN1cl9w
-b3MsIHJhd19sZW4sIG1zZ19sZW47Cj4gwqDCoMKgwqDCoMKgwqDCoGludCByZXBvcnRfdHlwZTsK
-PiDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IHJlcG9ydF9saXN0ICpyZXBvcnRzX2xpc3Q7Cj4gLcKg
-wqDCoMKgwqDCoMKgY2hhciAqcmVwb3J0czsKPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgcmVwb3J0
-ICpyZXBvcnQ7Cj4gwqDCoMKgwqDCoMKgwqDCoHNpemVfdCByZXBvcnRfbGVuOwo+IMKgwqDCoMKg
-wqDCoMKgwqBzdHJ1Y3QgaXNodHBfY2xfZGF0YSAqY2xpZW50X2RhdGEgPQo+IGlzaHRwX2dldF9j
-bGllbnRfZGF0YShoaWRfaXNodHBfY2wpOwo+IMKgwqDCoMKgwqDCoMKgwqBpbnQgY3Vycl9oaWRf
-ZGV2ID0gY2xpZW50X2RhdGEtPmN1cl9oaWRfZGV2Owo+IEBAIC0yODAsMTQgKzI4MCwxMyBAQCBz
-dGF0aWMgdm9pZCBwcm9jZXNzX3JlY3Yoc3RydWN0IGlzaHRwX2NsCj4gKmhpZF9pc2h0cF9jbCwg
-dm9pZCAqcmVjdl9idWYsCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjYXNlIEhP
-U1RJRl9QVUJMSVNIX0lOUFVUX1JFUE9SVF9MSVNUOgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlcG9ydF90eXBlID0gSElEX0lOUFVUX1JFUE9SVDsK
-PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXBvcnRz
-X2xpc3QgPSAoc3RydWN0IHJlcG9ydF9saXN0ICopcGF5bG9hZDsKPiAtwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlcG9ydHMgPSAoY2hhciAqKXJlcG9ydHNf
-bGlzdC0+cmVwb3J0czsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoHJlcG9ydCA9IHJlcG9ydHNfbGlzdC0+cmVwb3J0czsKPiDCoAo+IMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGZvciAoaiA9IDA7IGogPCByZXBv
-cnRzX2xpc3QtPm51bV9vZl9yZXBvcnRzOwo+IGorKykgewo+IC3CoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlY3ZfbXNnID0gKHN0
-cnVjdCBob3N0aWZfbXNnCj4gKikocmVwb3J0cyArCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHNp
-emVvZih1aW50MTZfdCkpOwo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlcG9ydF9sZW4gPSAqKHVpbnQxNl90ICopcmVwb3J0
-czsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqBwYXlsb2FkID0gcmVwb3J0cyArIHNpemVvZih1aW50MTZfdCkKPiArCj4gLcKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoHNpemVvZihzdHJ1Y3QKPiBob3N0aWZfbXNnX2hkcik7Cj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgcmVjdl9tc2cgPSBjb250YWluZXJfb2YoJnJlcG9ydC0+bXNnLAo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdAo+IGhvc3RpZl9t
-c2csIGhkcik7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgcmVwb3J0X2xlbiA9IHJlcG9ydC0+c2l6ZTsKPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwYXls
-b2FkID0gcmVjdl9tc2ctPnBheWxvYWQ7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHBheWxvYWRfbGVuID0gcmVwb3J0X2xl
-biAtCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzaXplb2Yoc3RydWN0Cj4gaG9zdGlmX21zZ19o
-ZHIpOwo+IMKgCj4gQEAgLTMwNCw3ICszMDMsNyBAQCBzdGF0aWMgdm9pZCBwcm9jZXNzX3JlY3Yo
-c3RydWN0IGlzaHRwX2NsCj4gKmhpZF9pc2h0cF9jbCwgdm9pZCAqcmVjdl9idWYsCj4gwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgMCk7Cj4gwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqB9Cj4gwqAKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqByZXBvcnRzICs9IHNpemVvZih1aW50MTZfdCkgKwo+IHJlcG9y
-dF9sZW47Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgcmVwb3J0ICs9IHNpemVvZigqcmVwb3J0KSArCj4gcGF5bG9hZF9sZW47
-Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfQo+IMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGJyZWFrOwo+IMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZGVmYXVsdDoKPiBAQCAtMzE2LDEyICszMTUs
-MTIgQEAgc3RhdGljIHZvaWQgcHJvY2Vzc19yZWN2KHN0cnVjdCBpc2h0cF9jbAo+ICpoaWRfaXNo
-dHBfY2wsIHZvaWQgKnJlY3ZfYnVmLAo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqB9Cj4gwqAKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKCFjdXJfcG9z
-ICYmIGN1cl9wb3MgKyBwYXlsb2FkX2xlbiArCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc2l6ZW9mKHN0cnVjdCBob3N0aWZf
-bXNnKSA8Cj4gdG90YWxfbGVuKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBtc2df
-bGVuID0gcGF5bG9hZF9sZW4gKyBzaXplb2Yoc3RydWN0IGhvc3RpZl9tc2cpOwo+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoIWN1cl9wb3MgJiYgY3VyX3BvcyArIG1zZ19sZW4g
-PCB0b3RhbF9sZW4pCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgKytjbGllbnRfZGF0YS0+bXVsdGlfcGFja2V0X2NudDsKPiDCoAo+IC3CoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqBjdXJfcG9zICs9IHBheWxvYWRfbGVuICsgc2l6ZW9mKHN0cnVj
-dCBob3N0aWZfbXNnKTsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcGF5bG9hZCAr
-PSBwYXlsb2FkX2xlbiArIHNpemVvZihzdHJ1Y3QgaG9zdGlmX21zZyk7Cj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoGN1cl9wb3MgKz0gbXNnX2xlbjsKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgcGF5bG9hZCArPSBtc2dfbGVuOwo+IMKgCj4gwqDCoMKgwqDCoMKgwqDC
-oH0gd2hpbGUgKGN1cl9wb3MgPCB0b3RhbF9sZW4pOwo+IMKgfQo+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2hpZC9pbnRlbC1pc2gtaGlkL2lzaHRwLWhpZC5oCj4gYi9kcml2ZXJzL2hpZC9pbnRlbC1p
-c2gtaGlkL2lzaHRwLWhpZC5oCj4gaW5kZXggMzVkZGRjNTAxNWIzLi4yYmMxOWU4YmExM2UgMTAw
-NjQ0Cj4gLS0tIGEvZHJpdmVycy9oaWQvaW50ZWwtaXNoLWhpZC9pc2h0cC1oaWQuaAo+ICsrKyBi
-L2RyaXZlcnMvaGlkL2ludGVsLWlzaC1oaWQvaXNodHAtaGlkLmgKPiBAQCAtMzEsNiArMzEsNyBA
-QCBzdHJ1Y3QgaG9zdGlmX21zZ19oZHIgewo+IMKgCj4gwqBzdHJ1Y3QgaG9zdGlmX21zZyB7Cj4g
-wqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBob3N0aWZfbXNnX2hkcsKgwqDCoGhkcjsKPiArwqDCoMKg
-wqDCoMKgwqB1aW50OF90IHBheWxvYWRbXTsKPiDCoH0gX19wYWNrZWQ7Cj4gwqAKPiDCoHN0cnVj
-dCBob3N0aWZfbXNnX3RvX3NlbnNvciB7Cj4gQEAgLTUyLDE1ICs1MywxNyBAQCBzdHJ1Y3QgaXNo
-dHBfdmVyc2lvbiB7Cj4gwqDCoMKgwqDCoMKgwqDCoHVpbnQxNl90IGJ1aWxkOwo+IMKgfSBfX3Bh
-Y2tlZDsKPiDCoAo+ICtzdHJ1Y3QgcmVwb3J0IHsKPiArwqDCoMKgwqDCoMKgwqB1aW50MTZfdCBz
-aXplOwo+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBob3N0aWZfbXNnX2hkciBtc2c7Cj4gK30gX19w
-YWNrZWQ7Cj4gKwo+IMKgLyogc3RydWN0IGZvciBJU0hUUCBhZ2dyZWdhdGVkIGlucHV0IGRhdGEg
-Ki8KPiDCoHN0cnVjdCByZXBvcnRfbGlzdCB7Cj4gwqDCoMKgwqDCoMKgwqDCoHVpbnQxNl90IHRv
-dGFsX3NpemU7Cj4gwqDCoMKgwqDCoMKgwqDCoHVpbnQ4X3TCoG51bV9vZl9yZXBvcnRzOwo+IMKg
-wqDCoMKgwqDCoMKgwqB1aW50OF90wqBmbGFnczsKPiAtwqDCoMKgwqDCoMKgwqBzdHJ1Y3Qgewo+
-IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB1aW50MTZfdMKgwqDCoMKgwqDCoMKgwqBz
-aXplX29mX3JlcG9ydDsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdWludDhfdCBy
-ZXBvcnRbMV07Cj4gLcKgwqDCoMKgwqDCoMKgfSBfX3BhY2tlZCByZXBvcnRzWzFdOwo+ICvCoMKg
-wqDCoMKgwqDCoHN0cnVjdCByZXBvcnQgcmVwb3J0c1tdOwo+IMKgfSBfX3BhY2tlZDsKPiDCoAo+
-IMKgLyogSE9TVElGIGNvbW1hbmRzICovCgo=
+Hi Vennela,
 
+[+linux-pm, Rafael, Pavel, Len]
+
+Let's CC the linux-pm mailing list for discussions related to power
+management features (such as suspend/resume and hibernation).
+
+On Thu, Sep 12, 2024 at 02:27:47PM -0700, Erni Sri Satya Vennela wrote:
+> It has been reported that Hyper-V VM users can unintentionally abort
+> hibernation by mouse or keyboard movements. To address this issue,
+> we have decided to remove the wakeup events for the Hyper-V keyboard
+> and mouse driver.
+
+From the description of the problem, it doesn't occur to me that this
+is specific to Hyper-V. I was wondering if VMs on other hypervisor
+platforms wouldn't face the same issue? I'd like to recommend
+exploring how this problem has been solved for other platforms, so
+that we can reuse the same approach here. (If it turns out that
+removing keyboard and mouse wakeup events is the way to go, then
+great; otherwise, we can learn and apply the recommended solution).
+
+> However, this change introduces another problem: 
+> Suspend-to-Idle brings the system down with no method to wake it back up.
+> 
+> Given that there are no real users of Suspend-to-Idle in Hyper-V,
+> we have decided to disable this feature for VMBus. This results in:
+> 
+> $echo freeze > /sys/power/state
+> > bash: echo: write error: Operation not supported
+> 
+> The keyboard and mouse were previously registered as wakeup sources to
+> interrupt the freeze operation in a VM. Since the freeze operation itself
+> is no longer supported, we are disabling them as wakeup events.
+> 
+> This patchset ensures that the system remains stable and prevents
+> unintended interruptions during hibernation.
+> 
+> Erni Sri Satya Vennela (3):
+>   Drivers: hv: vmbus: Disable Suspend-to-Idle for VMBus
+>   Revert "Input: hyperv-keyboard - register as a wakeup source"
+>   Revert "HID: hyperv: register as a wakeup source"
+> 
+>  drivers/hid/hid-hyperv.c              |  6 ------
+>  drivers/hv/vmbus_drv.c                | 15 ++++++++++++++-
+>  drivers/input/serio/hyperv-keyboard.c | 12 ------------
+>  3 files changed, 14 insertions(+), 19 deletions(-)
+> 
+> -- 
+> 2.34.1
+> 
+> 
+
+Regards,
+Srivatsa
+Microsoft Linux Systems Group
 
