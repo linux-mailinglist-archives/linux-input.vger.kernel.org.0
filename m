@@ -1,388 +1,293 @@
-Return-Path: <linux-input+bounces-6654-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6655-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836FB98440F
-	for <lists+linux-input@lfdr.de>; Tue, 24 Sep 2024 12:59:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A99E984532
+	for <lists+linux-input@lfdr.de>; Tue, 24 Sep 2024 13:51:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 144A1281DAE
-	for <lists+linux-input@lfdr.de>; Tue, 24 Sep 2024 10:59:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A2311C22A47
+	for <lists+linux-input@lfdr.de>; Tue, 24 Sep 2024 11:51:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55C0318C93E;
-	Tue, 24 Sep 2024 10:59:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6036715099D;
+	Tue, 24 Sep 2024 11:51:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PPPnAmKP"
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="X8R5lBmU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2088.outbound.protection.outlook.com [40.107.117.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5FC1B85DD;
-	Tue, 24 Sep 2024 10:59:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727175558; cv=none; b=Y6QC0Ae+FUKVjS83cCEzmEmbeSflj5W2gX88D8pWO41i0NinOHgDjA0ysEvC8wQRcsc3PssK63PfRiOblgYy/+3l6kkLCAmCqyt28zInGSWxq8vmaglx7knuOpEL0PFqEuoGaQRjecCBC5vBPP64dur99F9cgpPnlEMPvJ16zVc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727175558; c=relaxed/simple;
-	bh=hzHojCeya+tURiQpzTpI5AD1Vo8zZzAWsYZs4q1g5SY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ca0FwWlu3vmRmENSthyu/JMCZH7L+0z/g1fyQrIb/CFUccTC+U9zsVDVXI2q4kObOpNAIhvT+emD+417eqHa/A57Tq/liLNwL6rhjSm4axwStkkfD5ddKUng6oAE0nhhpVmoulQixf6jsWKZgZLg0ztEgkJJfZPXbd27bBsYorY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PPPnAmKP; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-206aee40676so43169935ad.0;
-        Tue, 24 Sep 2024 03:59:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727175556; x=1727780356; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k/ndECuOcrEK8nYgSjGTpYgH+EQGrTGWUD3VcIga9SY=;
-        b=PPPnAmKP0fXilH54rMLClR6KBORfGpJr83WJ589jC7v5P8IZMxKP/GtdtnliHsr+F2
-         Ls/QMgXLGa/n/FDDE7hnZx9WtUsOa9bXvXJeAESy0ca3k7ZwsSGFv1DG5UiLz7/8AD5T
-         a9LnohxTe6JmolZOxkMOhtRH3NJlEgd2kv+HB7dVnGJVFMtx9GpxI6EYTp9Cx8CJjfFb
-         8iU1ZzPobsHGfdApAL1l5I9jbsDAnWQrFQzydyHHVOdyKT8J7LXTlyWgpYl3whWDBs+A
-         qfCphymxkjFxYSStygqAvc68RGc0YgIdQHH6YMUuuGzgcE1DMSwXEtAhs4fgoNXVflCm
-         SyRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727175556; x=1727780356;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=k/ndECuOcrEK8nYgSjGTpYgH+EQGrTGWUD3VcIga9SY=;
-        b=ax4CFQh9yCScR/KAeCby+ezy559TPOAMEHCVsGPIwotQaFJ71+yT/BlHAmrDeShJ0J
-         lsG6RvzeoXBtVrfcvKutVO6B3qt9gfn1uaCl9QhUhjR+xm6La3xErLJ+BH8NvTGB7ZM/
-         eiuwJskfvz7lr/DiPT3x51ga/SfT6nzHwqiXMtobBgwV+JQdWGhpLkIIHbqhzpt4Pym5
-         hcVnfixNp89DEC2lfTE6227cnvDtTIucyIg/8Zgtg56DauiMSOGnOL5W0HPXX9OIvLGj
-         N+BhCS/gHs0OquwctC8X66EwrVxzHNjpQy02zSI9uB7aNOyrzvuDzXtCGl+P9sFDgvkf
-         rUTg==
-X-Forwarded-Encrypted: i=1; AJvYcCWVAisLCWZCpfiCVGcb6ODDmvFwKupgPb0rl9cB1NPJZS+/EtZF28mKx8iO7QcmswlV8l+bGTZLm1Bjaw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxULqodIfCg2I41DU1I6QDiRHH1zcCoDb9P+sKghdiTKCWzlI4A
-	L8+ljNQiLoyCYCL70b7AZSYqw3QgpbHN8IztnnFvLPnUOt330lGd
-X-Google-Smtp-Source: AGHT+IHqUKJSj9oSfNaCqqbPuP18sx01+c/ZHEV8MYfSHPgWfe9m0vA9dq/wNM1bneViSLi43XL4dQ==
-X-Received: by 2002:a17:902:fc84:b0:205:9112:efc7 with SMTP id d9443c01a7336-208d83ac37amr228650025ad.30.1727175555517;
-        Tue, 24 Sep 2024 03:59:15 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:eb3f:d59:8f26:87ce])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20af1818a95sm8388965ad.204.2024.09.24.03.59.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Sep 2024 03:59:15 -0700 (PDT)
-Date: Tue, 24 Sep 2024 03:59:05 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v6.12-rc0
-Message-ID: <ZvKbeSkzyedREmXi@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCA312A14C;
+	Tue, 24 Sep 2024 11:50:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.117.88
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727178660; cv=fail; b=ofS3me+gVrP4CGfpSs/pPzdcjNhqL2mLQf4LE+MnD8NxvXbyv7fw3hyVT5LK41Y4wzDRle1dBGokMkDa3kI8zOSyJJ70A2KAafgLSDzduGL6CeyABcC7HEi5dQHjTiggeJA1NyKZWcpDYM05xL9RrZZqCM90uQuaEvi1VeNgCTc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727178660; c=relaxed/simple;
+	bh=GMtDNDnIFL12VaSgkBSOMP8B0Kf9+bGUIdw8u3JW2LY=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=Jvq4s4vEoJ5jUKJ4I1ZYAlp2QwBaInQd06H71bC+cPntytyRPmbowsi2mq3ULmkrqxZ/GLxUZo22F7dF/2RwjDwMp8TMnaOJP8x0LKLdd/C1/5QH5pIibli6xFA0aJ5cJzWhq3tiwCFcZUXkBkg3OKMZl/Y5udP0i5CddafELzE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=X8R5lBmU; arc=fail smtp.client-ip=40.107.117.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FWxjZo2zUAAhtg8gYVFPFrPm25KKYO5uJQ28XD2awYsoq9aaSgJOxrW6nwt+u2gwAvxBXVmrJwDIlLHb4AmiQ3JJbbEMMFsWrJvGibj7QR2Pys3AxBeO4XfhiMdDwSOLbxE+hG3VDyuPVqu02a3HsG3SMcJr4j2VNO4P0XdtdgLS6FONnSsywoLTaw5wVlrhU1DF5pi94GvCiCgMEszuNLcWv83H43jWWX9vQFbOWmv9Mz0c9lwW4ib1pRzED4LwZiNEZJcn9lqf2o/p1hdsEEW4YNSpZjQ9mJ9ORximZyURZwMs6e6dWiLKwLuboZLYiBCHZiFAHMl4MIMToqMYxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M6HcX+ZwQjCnDfPoRwcGkcjBOc4XTFzWA8VebOTo1Mo=;
+ b=WJSqO08i9VWEDGUUYLs//bL0DbSrx5QDwVSRcjH20HA3Fu06gYJGg6aVUDht6i20oyaXg6yAD0OMKOtTjc9Pom6ESgyqY28KG1qEv8xOdXzf7kkjN6MRdOhxdrKQjNdSdOr03Y857LvqtIPj/MevlKwN4+5urdtkf9c2kWZIaoI5nsDMo0d42pXmV7yywRZj1+GE3qdJ6OAl+7yze7CXXHFlokaoJpEvQeEIL1TVY5axJOrTUwMW+JjdN1lciXgw9KJh7AmeuNOyGYRh/NBZGidRAlpA2vfXdZhheKUeNIfDOUcozkol4Ru+aUlPq8iFRGqraXj7sD4ZNPTY+zLzPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M6HcX+ZwQjCnDfPoRwcGkcjBOc4XTFzWA8VebOTo1Mo=;
+ b=X8R5lBmUtF9o6q3PZJLKkpom4wAng27QF4nPm5k6Q3895UOU53NkRDMjAWwXVY5yV9HJucVa77FD9/tPZB4sPNwbXX/P7QkZuwCC2innSYi/NHvkcmjxf0Zyp2iKnSgwHt9GAee45iP4aPgkk+p99ATwaCDylrM5YPpvWq/2cjNwdI7j+84bq6Ld1LlH6hR7wE1jVPNQ+VlXQKa9RUnFCVwWFrJP2IRUBFQQVcL9mVaAwLFV9aq87sFn+dUWIYN9za0vfkhe8ErwmB9/uwfL+psFhIxY9zFdjyQCYdUpXfkNYKmDsPiHHt0FsVt88e9R8Uf0r3bFynUiFQnnKZXmbA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from KL1PR0601MB4113.apcprd06.prod.outlook.com (2603:1096:820:31::7)
+ by TYSPR06MB6471.apcprd06.prod.outlook.com (2603:1096:400:480::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.24; Tue, 24 Sep
+ 2024 11:50:54 +0000
+Received: from KL1PR0601MB4113.apcprd06.prod.outlook.com
+ ([fe80::7e85:dad0:3f7:78a1]) by KL1PR0601MB4113.apcprd06.prod.outlook.com
+ ([fe80::7e85:dad0:3f7:78a1%4]) with mapi id 15.20.7982.022; Tue, 24 Sep 2024
+ 11:50:53 +0000
+From: Yan Zhen <yanzhen@vivo.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org,
+	bonbons@linux-vserver.org,
+	jic23@kernel.org,
+	srinivas.pandruvada@linux.intel.com
+Cc: lains@riseup.net,
+	hadess@hadess.net,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	opensource.kernel@vivo.com,
+	Yan Zhen <yanzhen@vivo.com>
+Subject: [PATCH v1] HID: Fix typo in the comment
+Date: Tue, 24 Sep 2024 19:50:05 +0800
+Message-Id: <20240924115005.3130997-1-yanzhen@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYWPR01CA0043.jpnprd01.prod.outlook.com
+ (2603:1096:400:17f::17) To KL1PR0601MB4113.apcprd06.prod.outlook.com
+ (2603:1096:820:31::7)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: KL1PR0601MB4113:EE_|TYSPR06MB6471:EE_
+X-MS-Office365-Filtering-Correlation-Id: a88883c5-d201-4b26-05cf-08dcdc8f2486
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?KL70a3MpL5kZcgHIUjnxckeiILjsGcFpnxf5QEgutMT/XBhLZcOJYYf9tVYE?=
+ =?us-ascii?Q?p2BaIRrUiP3FMiCpu7GMwfKOsDl/ZJ4UBbysMp1MIRGWgQsl0Ka6n1qXB3/6?=
+ =?us-ascii?Q?BVJ4rjhwlY4YryYm7fH1ky5fAbRs8VDlj+9DfftGmAjNSEiJcn3A1igCKRoc?=
+ =?us-ascii?Q?j5SJwrJssILYw8xP81NKCBerCp9xkY8kT3OuM+BVha7uCI3ZybqmUxydMDxg?=
+ =?us-ascii?Q?ky1wKD5Fh8/Ldvdt5qzPHfnWiEI9JMv6e2DP4S4SeBd0bpQSCZWLTmZ/VDwt?=
+ =?us-ascii?Q?vZs8z2F+QFv5M4yTDtfG/rI7HN8oquD1RgCciQIQF9nrr5yX9a9gOKbN0keF?=
+ =?us-ascii?Q?0XwuXbBHSXayIyo6QcWjsYqZOL5JdYD476c/j3hNCTNruY7gp69wthgfN5lg?=
+ =?us-ascii?Q?2SylVfSr5befO+JJlc4xaRO71/RJriHxVtndgzmA/ZgJ6ZUdgQP/GFEEeH9O?=
+ =?us-ascii?Q?Iycw0NKIgJ5HfmzCUTLonDZllTjpHEe7vpgvCthEzEQJ6YWOT0obo0VDq5o9?=
+ =?us-ascii?Q?s/C6bRUVdrafOnACnpaEkDtmeiuLJDsOQOKDjYnYz6n+TAiv2Tp0ekzf0RD2?=
+ =?us-ascii?Q?p5ms+6YAnd0RDh9ybsTeeZ80UwDsoSvsVfpkVjCJnrpC9S69sM2CV/c2S2qc?=
+ =?us-ascii?Q?9EjjoASeWIv6HX8scXYgJrQqd7WVvD3ITLFkBgO7H8xbxQslBCaawZuvhwqs?=
+ =?us-ascii?Q?mCggMARBNj3mHU+/LQoZ9jBJpB37YRtm2QqrAxUVNkYH0F/2C6K7SoHNOlMM?=
+ =?us-ascii?Q?dAYtNMp1Y10nVX+0tuIcTskQ1FmK5daLYwgRmM71D2VY9v9HOOlZbm7PW+pL?=
+ =?us-ascii?Q?qc/z3hVnTSa9qjrhvkkzPwky1jSbtKlFhHExQFPhhhZUtMG34/WkAEDeZige?=
+ =?us-ascii?Q?breQu0Rywo33LWt7mMYKOY/m1b4KaLKInF0uhkDfDoaqUAgof7f58IptN/sP?=
+ =?us-ascii?Q?eypxKyxDbp0YiK4xXoMuU4g9y0eozkwFXJFmcgHf04JJKSXSGAlpCsOOJQkX?=
+ =?us-ascii?Q?IVqHq02PNXWU3sBybdZezGuAspGInQ6ORi5VMupfYpzuaWOiQmwUA5BSbO0t?=
+ =?us-ascii?Q?6NI9eSvDMo9rBy5d7r6rl4XxhiHDGpTJwcrRX4uteN+DrL3LqZGkoF5bI55w?=
+ =?us-ascii?Q?Q98zlBCllw/exQZxzFfVl3iH5MNHLowmZOgddkNRBB3nxgoNwYj4SFQeJ/yh?=
+ =?us-ascii?Q?UmmLEFxyQfxGzlq5oOXpYqL8x57TYERSHt6c/mIP9YasPmF58ghQ3GDYHC3j?=
+ =?us-ascii?Q?imb1pY5m2EgMJ1z/+qhjo7cvFswoCBisx+7ZH3MasFXIYwY43O3uwyjvFcS4?=
+ =?us-ascii?Q?JFZsRIbJZlsQCpB1RIbF76/SvxsRM6TsWa8KsRJ4iwf6lQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR0601MB4113.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?g8dFz7Jb0aB98kN7ZHxf6LWYwOSidI3STBrRSf1HSURA0JauCdf2WDfwyfZS?=
+ =?us-ascii?Q?JPBwFdE4LxcRhRHX4k1gxWtjmKXbHa2EmvdsyS84T0B6/fQUtsHCbQbIwo3a?=
+ =?us-ascii?Q?AdX+OeNHWwLBs5+31HC+PbYNAcFYakjDEu8Bsd9U78iFZXlo9AxmHY0DZOPm?=
+ =?us-ascii?Q?RhxmZLV4y2miciFXrYY6pgGdMfjL2HOMggD8B4gUkU4yCp1X6VZuqhKOBh9N?=
+ =?us-ascii?Q?QLZpQaLB6U8QWm0uCQlyfZElXDutskAVCXc1eEUsXD4n7k+HNmNZuz0lK+q5?=
+ =?us-ascii?Q?geGiNu7kwcAqqZERIeTUb252cnz8199ZGcwxzaq37NYnsP2EyZDrZ5v3xsmP?=
+ =?us-ascii?Q?AFvQWb08f/mlY7hI11a0Dn4kIU7CQE3SJQ9zB0Q86p4XQesYCGNs9CIvFXWb?=
+ =?us-ascii?Q?7tz9x+TOUVuJ5r+fJZBi8Oi4AoB1WFBoU+h6O6muEZMkgmWktIKp4iAiihIT?=
+ =?us-ascii?Q?ARWqpCdH2lyO0gU5JVKGmqeg1TjEDUQZUBeSYGOApA/na/jIPGz8Zc5u/up6?=
+ =?us-ascii?Q?J84ENRHzIvnsJUa8JIUUo/w3z7YqrnqblnJX9h44hjyYESvKIWEp/NIvE8xY?=
+ =?us-ascii?Q?TVe6DdPomgLNpzoJkxhjcDkzu5aXdsWSKkSF+pnp9AtKgJxvvyUKS9LleRrQ?=
+ =?us-ascii?Q?wiogxermQDOf5qjqlXHxJsZTJg7iau8XuLNIoCGIdBzk+/xk7obLeHBmibJG?=
+ =?us-ascii?Q?Ea0ZNZgccd9tMKqsKrjXJ5iYmTJqfTL7p5psLgfWnEF6Lkd9H5RedYqjaqIw?=
+ =?us-ascii?Q?faw/J7N4OyuEQYLEVOaCchndkKJo5X8ldN7uY3NXe7rmrwVucojhAsWP5FIG?=
+ =?us-ascii?Q?fM8a/dmsTGg++rufR7itvS1PxY2bvtwls+WqHU9Kgu7wNrUaYwU9bEk2D4lv?=
+ =?us-ascii?Q?HXqnUKYLRWvuXV9uHNOi8kWDbcd2qKfCJxoms1HZfRXVfgimIbe1tPolShoX?=
+ =?us-ascii?Q?RpuETmYcewc/0C9RsQ6/XhCuGQN2Y6D4f7WbPgo9bWQocn+NyISahSM89Zyx?=
+ =?us-ascii?Q?wdh+N0Elchhi5b3q7xRsYqBAwJZOgrUwJs/Xj8idfyDPVxG3izD9hxVF5QIP?=
+ =?us-ascii?Q?GlEfdQy+kUKS5yDjaaZWQ9iM8p+RrdO1N4xykSaKE2svmIczJ10DQLY6sIih?=
+ =?us-ascii?Q?94PLK6x/cMgKrzfXCM634vLfxmXqcyKLUBE3I7a0bx66YiKrutQeaCKINAtz?=
+ =?us-ascii?Q?jHQimIbo+XWfr5vvy1MRbVFOh2JzXzKot7ZQie+4UQ3zFTEcOXg1NKg/K8lg?=
+ =?us-ascii?Q?OjWdzGMQa4yJE1+p069YOHcYfgrhH4OlLnnFW88ZLf1GyOaIJufBzBzRLYey?=
+ =?us-ascii?Q?Jgz9AQSOYKqxZdxqOfeX8Edf9p9gVhLweIph/ZiVfVaaUJNH/nDIuUFhgGsf?=
+ =?us-ascii?Q?u/eS8zJyriW9G6qlCI2b381auyybBhRvfkZxvUjYucmwskoKmzT6Qn4+axmg?=
+ =?us-ascii?Q?TYAG3OzcJsTt/i2eDz9MbGTz+6kJWot0Ws6qFHbZ+knGow0SoddHqbryFUT0?=
+ =?us-ascii?Q?fyjHInJivqpxtsR8SjrxAykemxZ+c11IMsrLsOxAGwsQa/hdB7p1F29iyyeF?=
+ =?us-ascii?Q?ybfdFqMsgWtwSef7IhOLdN5uBP299ZjLvUJuEpOt?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a88883c5-d201-4b26-05cf-08dcdc8f2486
+X-MS-Exchange-CrossTenant-AuthSource: KL1PR0601MB4113.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 11:50:53.4030
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dKzizgV6SHUIstiI/SffoyA1Vb2+QA5JbMEGmbljt2ZwXJ+FHpAvo+y3ciZdsK5v8xw6q7d6QmeSYOIjXVQ7+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR06MB6471
 
-Hi Linus,
+Correctly spelled comments make it easier for the reader to understand
+the code.
 
-Please pull from:
+Fix typos:
+'mninum' -> 'minimum',
+'destoyed' -> 'destroyed',
+'thridparty' -> 'thirdparty',
+'lowcase' -> 'lowercase',
+'idenitifiers' -> 'identifiers',
+'exeuction' -> 'execution',
+'fregments' -> 'fragments',
+'devides' -> 'devices'.
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.12-rc0
+Signed-off-by: Yan Zhen <yanzhen@vivo.com>
+---
+ drivers/hid/hid-asus.c                      | 2 +-
+ drivers/hid/hid-logitech-hidpp.c            | 2 +-
+ drivers/hid/hid-picolcd_fb.c                | 2 +-
+ drivers/hid/hid-sensor-custom.c             | 2 +-
+ drivers/hid/hid-steam.c                     | 2 +-
+ drivers/hid/intel-ish-hid/ishtp-fw-loader.c | 2 +-
+ drivers/hid/intel-ish-hid/ishtp/client.c    | 2 +-
+ drivers/hid/usbhid/hid-core.c               | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
 
-to receive updates for the input subsystem. You will get:
-
-- support for PixArt PS/2 touchpad
-
-- updates to tsc2004/5, usbtouchscreen, and zforce_ts drivers 
-
-- support for GPIO-only mode for ADP55888 controller
-
-- support for touch keys in Zinitix driver
-
-- support for querying density of Synaptics sensors
-
-- sysfs interface for Goodex "Berlin" devices to read and write touch IC
-  registers
-
-- more quirks to i8042 to handle various Tuxedo laptops
-
-- a number of drivers have been converted to using "guard" notation
-  when acquiring various locks, as well as using other cleanup functions
-  to simplify releasing of resources (with more drivers to follow)
-
-- evdev will limit amount of data that can be written into an evdev
-  instance at a given time to 4096 bytes (170 input events) to avoid
-  holding evdev->mutex for too long and starving other users
-
-- Spitz has been converted to use software nodes/properties to describe
-  its matrix keypad and GPIO-connected LEDs
-
-- msc5000_ts, msc_touchkey and keypad-nomadik-ske drivers have been
-  removed since noone in mainline have been using them
-
-- other assorted cleanups and fixes.
-  
-Changelog:
----------
-
-Binbin Zhou (1):
-      Input: Add driver for PixArt PS/2 touchpad
-
-Cai Huoqing (1):
-      Input: colibri-vf50-ts - make use of the helper function dev_err_probe()
-
-Charles Wang (1):
-      Input: goodix-berlin - add sysfs interface for reading and writing touch IC registers
-
-Christophe JAILLET (1):
-      Input: spear-keyboard - switch to devm_clk_get_prepared()
-
-David Lechner (1):
-      Input: ims-pcu - fix calling interruptible mutex
-
-Dmitry Torokhov (59):
-      Input: usbtouchscreen - use driver core to instantiate device attributes
-      Input: usbtouchscreen - remove custom USB_DEVICE_HID_CLASS macro
-      Input: usbtouchscreen - move the driver ID table
-      Input: usbtouchscreen - move process_pkt() into main device structure
-      Input: usbtouchscreen - constify usbtouch_dev_info table
-      Input: usbtouchscreen - split device info table into individual pieces
-      Input: usbtouchscreen - use guard notation when acquiring mutexes
-      Input: usbtouchscreen - switch to using __free() cleanup facility
-      Input: msc5000_ts - remove the driver
-      Input: msc_touchkey - remove the driver
-      MAINTAINERS: update entry for Yealink driver
-      Input: tsc2004/5 - fix handling of VIO power supply
-      Input: tsc2004/5 - do not hard code interrupt trigger
-      Input: tsc2004/5 - fix reset handling on probe
-      Input: tsc2004/5 - do not use irq_set_irq_wake() directly
-      Input: tsc2004/5 - respect "wakeup-source" property
-      Input: tsc2004/5 - use guard notation when acquiring mutexes/locks
-      Input: ilitek_ts_i2c - stop including gpio.h
-      Input: cyttsp - stop including gpio.h
-      Input: cyttsp - use devm_regulator_bulk_get_enable()
-      Input: cyttsp4 - remove driver
-      Input: keypad-nomadik-ske - remove the driver
-      Input: evdev - limit amount of data for writes
-      Input: mt6779-keypad - use devm_clk_get_enabled()
-      Input: adp5588-keys - use guard notation when acquiring mutexes
-      Input: matrix-keymap - switch to using __free() cleanup facility
-      Input: bcm5974 - use guard notation when acquiring mutex
-      MAINTAINERS: add gameport.h, serio.h and uinput.h to INPUT section
-      MAINTAINERS: add i8042.h and libps2.h to INPUT section
-      Input: snvs_pwrkey - use devm_clk_get_optional_enabled()
-      Input: synaptics-rmi4 - fix crash when DPM query is not supported
-      Input: matrix_keypad - remove support for clustered interrupt
-      Input: matrix_keypad - switch to gpiod API and generic device properties
-      ARM: spitz: Use software nodes/properties for the GPIO-driven buttons
-      ARM: spitz: Use software nodes/properties for the matrix keypad
-      Input: matrix_keypad - remove support for platform data
-      Input: alps - use guard notation when acquiring mutex
-      Input: atkbd - use guard notation when acquiring mutex
-      Input: gpio-keys - switch to using cleanup functions
-      Input: iqs62x-keys - use cleanup facility for fwnodes
-      Input: tegra-kbc - use guard notation when acquiring mutex and spinlock
-      Input: zforce_ts - simplify reporting of slot state
-      Input: zforce_ts - remove support for platfrom data
-      Input: zforce_ts - do not explicitly set EV_SYN, etc bits
-      Input: zforce_ts - handle errors from input_mt_init_sots()
-      Input: zforce_ts - remove unneeded locking
-      Input: zforce_ts - ensure that pm_stay_awake() and pm_relax() are balanced
-      Input: zforce_ts - use guard notation when acquiring mutexes
-      Input: zforce_ts - switch to using get_unaligned_le16
-      Input: zforce_ts - make parsing of contacts less confusing
-      Input: zforce_ts - do not ignore errors when acquiring regulator
-      Input: zforce_ts - use dev_err_probe() where appropriate
-      Input: zforce_ts - make zforce_idtable constant
-      Input: zforce_ts - stop treating VDD regulator as optional
-      Input: zforce_ts - switch to using devm_regulator_get_enable()
-      Input: zforce_ts - do not hardcode interrupt level
-      Input: zforce_ts - remove assert/deassert wrappers
-      Input: zforce_ts - switch to using asynchronous probing
-      ARM: spitz: fix compile error when matrix keypad driver is enabled
-
-Emanuele Ghidoli (2):
-      Input: ilitek_ts_i2c - avoid wrong input subsystem sync
-      Input: ilitek_ts_i2c - add report id message validation
-
-Fabio Estevam (1):
-      dt-bindings: input: touchscreen: Use generic node name
-
-Frank Li (4):
-      dt-bindings: input: touchscreen: convert ad7879 to yaml format
-      dt-bindings: input: touchscreen: convert colibri-vf50-ts.txt to yaml
-      dt-bindings: input: touchscreen: convert ads7846.txt to yaml
-      dt-bindings: input: convert rotary-encoder to yaml
-
-Jacky Bai (1):
-      Input: bbnsm_pwrkey - fix missed key press after suspend
-
-Javier Carrasco (6):
-      Input: iqs269a - use device_for_each_child_node_scoped()
-      Input: qt1050 - use device_for_each_child_node_scoped()
-      Input: gpio_keys - use device_for_each_child_node_scoped()
-      Input: gpio_keys_polled - use device_for_each_child_node_scoped()
-      Input: adc-keys - use device_for_each_child_node_scoped()
-      Input: adc-joystick - use device_for_each_child_node_scoped()
-
-Jinjie Ruan (1):
-      Input: ps2-gpio - use IRQF_NO_AUTOEN flag in request_irq()
-
-Liao Chen (1):
-      Input: mt6779-keypad - fix module autoloading
-
-Linus Walleij (2):
-      Input: zinitix - read and cache device version numbers
-      Input: zinitix - varying icon status registers
-
-Lukas Bulwahn (1):
-      MAINTAINERS: remove unneeded file entry in INPUT section
-
-Marge Yang (1):
-      Input: synaptics-rmi4 - add support for querying DPM value (F12)
-
-Nikita Travkin (2):
-      dt-bindings: input: zinitix: Document touch-keys support
-      Input: zinitix - add touchkey support
-
-Nuno Sa (1):
-      Input: adp5588-keys - fix check on return code
-
-Rob Herring (Arm) (2):
-      Input: tc3589x - use of_property_present()
-      Input: tegra-kbc - use of_property_read_variable_u32_array() and of_property_present()
-
-Shen Lichuan (2):
-      Input: wistron_btns - use kmemdup_array instead of kmemdup for multiple allocation
-      Input: Convert comma to semicolon
-
-Sudip Mukherjee (1):
-      Input: zforce_ts - use devm_add_action_or_reset()
-
-Utsav Agarwal (2):
-      Input: adp5588-keys - add support for pure gpio
-      dt-bindings: input: pure gpio support for adp5588
-
-Uwe Kleine-König (1):
-      Input: hynitron_cstxxx - drop explicit initialization of struct i2c_device_id::driver_data to 0
-
-Werner Sembach (3):
-      Input: i8042 - add TUXEDO Stellaris 16 Gen5 AMD to i8042 quirk table
-      Input: i8042 - add another board name for TUXEDO Stellaris Gen5 AMD line
-      Input: i8042 - add TUXEDO Stellaris 15 Slim Gen6 AMD to i8042 quirk table
-
-Diffstat:
---------
-
- .../devicetree/bindings/input/adi,adp5588.yaml     |   38 +-
- .../devicetree/bindings/input/rotary-encoder.txt   |   50 -
- .../devicetree/bindings/input/rotary-encoder.yaml  |   90 +
- .../bindings/input/touchscreen/ad7879.txt          |   71 -
- .../bindings/input/touchscreen/adi,ad7879.yaml     |  150 ++
- .../bindings/input/touchscreen/ads7846.txt         |  107 -
- .../bindings/input/touchscreen/azoteq,iqs7211.yaml |    4 +-
- .../bindings/input/touchscreen/colibri-vf50-ts.txt |   34 -
- .../bindings/input/touchscreen/edt-ft5x06.yaml     |    2 +-
- .../bindings/input/touchscreen/goodix.yaml         |    2 +-
- .../bindings/input/touchscreen/ti,ads7843.yaml     |  183 ++
- .../touchscreen/toradex,vf50-touchscreen.yaml      |   77 +
- .../bindings/input/touchscreen/zinitix,bt400.yaml  |   10 +
- .../devicetree/bindings/power/wakeup-source.txt    |    2 +-
- MAINTAINERS                                        |    8 +-
- arch/arm/mach-pxa/spitz.c                          |  163 +-
- drivers/input/evdev.c                              |    7 +
- drivers/input/input.c                              |    2 +-
- drivers/input/joystick/adc-joystick.c              |   16 +-
- drivers/input/keyboard/Kconfig                     |   23 -
- drivers/input/keyboard/Makefile                    |    2 -
- drivers/input/keyboard/adc-keys.c                  |    5 +-
- drivers/input/keyboard/adp5588-keys.c              |   99 +-
- drivers/input/keyboard/atkbd.c                     |   37 +-
- drivers/input/keyboard/gpio_keys.c                 |   48 +-
- drivers/input/keyboard/gpio_keys_polled.c          |    4 +-
- drivers/input/keyboard/iqs62x-keys.c               |    7 +-
- drivers/input/keyboard/matrix_keypad.c             |  334 ++-
- drivers/input/keyboard/mcs_touchkey.c              |  268 ---
- drivers/input/keyboard/mt6779-keypad.c             |   19 +-
- drivers/input/keyboard/nomadik-ske-keypad.c        |  378 ----
- drivers/input/keyboard/qt1050.c                    |   15 +-
- drivers/input/keyboard/snvs_pwrkey.c               |   24 +-
- drivers/input/keyboard/spear-keyboard.c            |   16 +-
- drivers/input/keyboard/tc3589x-keypad.c            |    3 +-
- drivers/input/keyboard/tegra-kbc.c                 |  117 +-
- drivers/input/matrix-keymap.c                      |   25 +-
- drivers/input/misc/ims-pcu.c                       |    2 +-
- drivers/input/misc/iqs269a.c                       |    7 +-
- drivers/input/misc/nxp-bbnsm-pwrkey.c              |   38 +
- drivers/input/misc/wistron_btns.c                  |    4 +-
- drivers/input/mouse/Kconfig                        |   12 +
- drivers/input/mouse/Makefile                       |    1 +
- drivers/input/mouse/alps.c                         |   48 +-
- drivers/input/mouse/bcm5974.c                      |   35 +-
- drivers/input/mouse/pixart_ps2.c                   |  300 +++
- drivers/input/mouse/pixart_ps2.h                   |   36 +
- drivers/input/mouse/psmouse-base.c                 |   17 +
- drivers/input/mouse/psmouse.h                      |    3 +-
- drivers/input/rmi4/rmi_f12.c                       |   43 +-
- drivers/input/serio/i8042-acpipnpio.h              |   37 +
- drivers/input/serio/ps2-gpio.c                     |    6 +-
- drivers/input/touchscreen/Kconfig                  |   42 -
- drivers/input/touchscreen/Makefile                 |    6 +-
- drivers/input/touchscreen/colibri-vf50-ts.c        |   10 +-
- drivers/input/touchscreen/cyttsp4_core.c           | 2174 --------------------
- drivers/input/touchscreen/cyttsp4_core.h           |  448 ----
- drivers/input/touchscreen/cyttsp4_i2c.c            |   72 -
- drivers/input/touchscreen/cyttsp4_spi.c            |  187 --
- drivers/input/touchscreen/cyttsp_core.c            |   39 +-
- drivers/input/touchscreen/cyttsp_core.h            |    5 -
- drivers/input/touchscreen/cyttsp_i2c.c             |   55 +
- drivers/input/touchscreen/cyttsp_i2c_common.c      |   86 -
- drivers/input/touchscreen/goodix_berlin.h          |    1 +
- drivers/input/touchscreen/goodix_berlin_core.c     |   43 +
- drivers/input/touchscreen/goodix_berlin_i2c.c      |    1 +
- drivers/input/touchscreen/goodix_berlin_spi.c      |    1 +
- drivers/input/touchscreen/hynitron_cstxxx.c        |    2 +-
- drivers/input/touchscreen/ilitek_ts_i2c.c          |   19 +-
- drivers/input/touchscreen/mcs5000_ts.c             |  288 ---
- drivers/input/touchscreen/tsc2004.c                |    6 -
- drivers/input/touchscreen/tsc2005.c                |    6 -
- drivers/input/touchscreen/tsc200x-core.c           |  249 +--
- drivers/input/touchscreen/tsc200x-core.h           |    1 -
- drivers/input/touchscreen/usbtouchscreen.c         |  956 ++++-----
- drivers/input/touchscreen/zforce_ts.c              |  474 ++---
- drivers/input/touchscreen/zinitix.c                |  134 +-
- include/linux/input/matrix_keypad.h                |   48 -
- include/linux/platform_data/cyttsp4.h              |   62 -
- include/linux/platform_data/keypad-nomadik-ske.h   |   50 -
- include/linux/platform_data/mcs.h                  |   30 -
- include/linux/platform_data/zforce_ts.h            |   15 -
- 82 files changed, 2501 insertions(+), 6038 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/rotary-encoder.txt
- create mode 100644 Documentation/devicetree/bindings/input/rotary-encoder.yaml
- delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/ad7879.txt
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/adi,ad7879.yaml
- delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/ads7846.txt
- delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/colibri-vf50-ts.txt
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/ti,ads7843.yaml
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/toradex,vf50-touchscreen.yaml
- delete mode 100644 drivers/input/keyboard/mcs_touchkey.c
- delete mode 100644 drivers/input/keyboard/nomadik-ske-keypad.c
- create mode 100644 drivers/input/mouse/pixart_ps2.c
- create mode 100644 drivers/input/mouse/pixart_ps2.h
- delete mode 100644 drivers/input/touchscreen/cyttsp4_core.c
- delete mode 100644 drivers/input/touchscreen/cyttsp4_core.h
- delete mode 100644 drivers/input/touchscreen/cyttsp4_i2c.c
- delete mode 100644 drivers/input/touchscreen/cyttsp4_spi.c
- delete mode 100644 drivers/input/touchscreen/cyttsp_i2c_common.c
- delete mode 100644 drivers/input/touchscreen/mcs5000_ts.c
- delete mode 100644 include/linux/platform_data/cyttsp4.h
- delete mode 100644 include/linux/platform_data/keypad-nomadik-ske.h
- delete mode 100644 include/linux/platform_data/mcs.h
- delete mode 100644 include/linux/platform_data/zforce_ts.h
-
-Thanks.
-
-
+diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+index a4b47319ad8e..506c6f377e7d 100644
+--- a/drivers/hid/hid-asus.c
++++ b/drivers/hid/hid-asus.c
+@@ -1183,7 +1183,7 @@ static const __u8 *asus_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 
+ 	if (drvdata->quirks & QUIRK_G752_KEYBOARD &&
+ 		 *rsize == 75 && rdesc[61] == 0x15 && rdesc[62] == 0x00) {
+-		/* report is missing usage mninum and maximum */
++		/* report is missing usage minimum and maximum */
+ 		__u8 *new_rdesc;
+ 		size_t new_size = *rsize + sizeof(asus_g752_fixed_rdesc);
+ 
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 0e33fa0eb8db..d6d066c89c0b 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -2522,7 +2522,7 @@ static void hidpp_ff_work_handler(struct work_struct *w)
+ 			/* regular effect destroyed */
+ 			data->effect_ids[wd->params[0]-1] = -1;
+ 		else if (wd->effect_id >= HIDPP_FF_EFFECTID_AUTOCENTER)
+-			/* autocenter spring destoyed */
++			/* autocenter spring destroyed */
+ 			data->slot_autocenter = 0;
+ 		break;
+ 	case HIDPP_FF_SET_GLOBAL_GAINS:
+diff --git a/drivers/hid/hid-picolcd_fb.c b/drivers/hid/hid-picolcd_fb.c
+index 83e3409d170c..f8b16a82faef 100644
+--- a/drivers/hid/hid-picolcd_fb.c
++++ b/drivers/hid/hid-picolcd_fb.c
+@@ -296,7 +296,7 @@ static void picolcd_fb_destroy(struct fb_info *info)
+ 	/* make sure no work is deferred */
+ 	fb_deferred_io_cleanup(info);
+ 
+-	/* No thridparty should ever unregister our framebuffer! */
++	/* No thirdparty should ever unregister our framebuffer! */
+ 	WARN_ON(fbdata->picolcd != NULL);
+ 
+ 	vfree((u8 *)info->fix.smem_start);
+diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
+index 66f0675df24b..617ae240396d 100644
+--- a/drivers/hid/hid-sensor-custom.c
++++ b/drivers/hid/hid-sensor-custom.c
+@@ -946,7 +946,7 @@ hid_sensor_register_platform_device(struct platform_device *pdev,
+ 
+ 	memcpy(real_usage, match->luid, 4);
+ 
+-	/* usage id are all lowcase */
++	/* usage id are all lowercase */
+ 	for (c = real_usage; *c != '\0'; c++)
+ 		*c = tolower(*c);
+ 
+diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
+index bf8b633114be..6439913372a8 100644
+--- a/drivers/hid/hid-steam.c
++++ b/drivers/hid/hid-steam.c
+@@ -253,7 +253,7 @@ enum
+ 	ID_CONTROLLER_DECK_STATE = 9
+ };
+ 
+-/* String attribute idenitifiers */
++/* String attribute identifiers */
+ enum {
+ 	ATTRIB_STR_BOARD_SERIAL,
+ 	ATTRIB_STR_UNIT_SERIAL,
+diff --git a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
+index e157863a8b25..750bfdd26ddb 100644
+--- a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
++++ b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
+@@ -793,7 +793,7 @@ static int load_fw_from_host(struct ishtp_cl_data *client_data)
+ 	if (rv < 0)
+ 		goto end_err_fw_release;
+ 
+-	/* Step 3: Start ISH main firmware exeuction */
++	/* Step 3: Start ISH main firmware execution */
+ 
+ 	rv = ish_fw_start(client_data);
+ 	if (rv < 0)
+diff --git a/drivers/hid/intel-ish-hid/ishtp/client.c b/drivers/hid/intel-ish-hid/ishtp/client.c
+index 8a7f2f6a4f86..e61b01e9902e 100644
+--- a/drivers/hid/intel-ish-hid/ishtp/client.c
++++ b/drivers/hid/intel-ish-hid/ishtp/client.c
+@@ -863,7 +863,7 @@ static void ipc_tx_send(void *prm)
+ 			/* Send ipc fragment */
+ 			ishtp_hdr.length = dev->mtu;
+ 			ishtp_hdr.msg_complete = 0;
+-			/* All fregments submitted to IPC queue with no callback */
++			/* All fragments submitted to IPC queue with no callback */
+ 			ishtp_write_message(dev, &ishtp_hdr, pmsg);
+ 			cl->tx_offs += dev->mtu;
+ 			rem = cl_msg->send_buf.size - cl->tx_offs;
+diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+index cb687ea7325c..956b86737b07 100644
+--- a/drivers/hid/usbhid/hid-core.c
++++ b/drivers/hid/usbhid/hid-core.c
+@@ -1100,7 +1100,7 @@ static int usbhid_start(struct hid_device *hid)
+ 
+ 		interval = endpoint->bInterval;
+ 
+-		/* Some vendors give fullspeed interval on highspeed devides */
++		/* Some vendors give fullspeed interval on highspeed devices */
+ 		if (hid->quirks & HID_QUIRK_FULLSPEED_INTERVAL &&
+ 		    dev->speed == USB_SPEED_HIGH) {
+ 			interval = fls(endpoint->bInterval*8);
 -- 
-Dmitry
+2.34.1
+
 
