@@ -1,130 +1,191 @@
-Return-Path: <linux-input+bounces-6697-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6698-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C90A9856DD
-	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 12:04:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 567F4985ADC
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 14:15:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 19C271F25323
-	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 10:04:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 79A271C23EC0
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 12:15:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89556189BA8;
-	Wed, 25 Sep 2024 10:03:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53E8218FC7E;
+	Wed, 25 Sep 2024 11:46:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PyRjc3Vi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JniDXSH6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260D4186E57;
-	Wed, 25 Sep 2024 10:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291E218FC74;
+	Wed, 25 Sep 2024 11:46:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727258609; cv=none; b=SDnONZlV0KXvT0Vd9JWwUCsMLKvSKbEY0qEf4WDEMeMO2hOOixxYWOXi6MD5F4ju50aMp9LkrDBuQYIIZYqqryaEygfAHqOSvNXbUqwbex/77/cebsWtVgazjjuTkl//CGL9yCqSC32v+YtMJo2YNZaNIjeuSZiW2ykT2mzkj88=
+	t=1727264762; cv=none; b=scxoP1wAybgqXQPzORvZdY9Qb6anBGS0imZpo3jC9+bIustyMAGgbIjcesuDnd34AtyDM174Ilik+wQdEABo9fU/PIvVkLWI4aZ1S6hEO94Qy8THYon5iZRw6Wj19ueaEUr6sB9z+ZUJKosqpS4+LDZRu1+q7Q2fkJq8PiK/fbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727258609; c=relaxed/simple;
-	bh=KS+wcQ5/2bQLSmXDSLBEXi59cp/2TPdoiegryyueNcQ=;
+	s=arc-20240116; t=1727264762; c=relaxed/simple;
+	bh=SW7PU2WdimJ4gHFwg7uw/EbHyN5KiO3AXMYHLsUw23A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tDHZZd3AiCe48/38EpLCwLKDGz41euKke77dwzb72/JmJa7TTb7yGkMwnl5+nl1Exp/6X4r2b9YC0xYJ30WwqCxr4U3niBoa3/CeS1sOUKHz/oI2UbWNoOocZjM+NzPEo+PA/DuM+p+HLL3C56bif7FlcflZwyKVOY+1wvFYjis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PyRjc3Vi; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-71b0d1c74bbso368006b3a.0;
-        Wed, 25 Sep 2024 03:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727258607; x=1727863407; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a/z6OoeWeOO+JZ6GztQP6f37z0vBheTgUHQgTElxq/g=;
-        b=PyRjc3VitluzJj6fpaSQQtyX60yIY+Dpja2WTmvI/BvX7qBBvxdXBf1mYN92Jmi1zl
-         mk3bCV/rvAREgbkOUG/+XzGmJ8+ahLHH8fduW6wSZ7JnHNxnn0GiUili8rVrt9bEU/jI
-         sGaWfgkmQJr+gFzQNPJ2dwQFKEclKgI8nWyfuIKmkDOHYC987tBh032cSk17lEaUrwFH
-         Ybv6VZ6VfKb2eWNJKTmYd0hTFjgqgKuCj+dgwuwbiYzEbPo3Wd47oIkMunZRl/GLX48Y
-         uJyNusc4oyygKE9bnES1XINdhEP64VKqxxnbGjzD0IvMeHJ1d+y/Fc+YxHF9lDD0Y4ze
-         1t1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727258607; x=1727863407;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a/z6OoeWeOO+JZ6GztQP6f37z0vBheTgUHQgTElxq/g=;
-        b=gJfhHn72n8tIUX3mLo7vPDmHBKu0ALN9lNTgrVwfe4+aFBjALSnl2+LjsKVGGjKktr
-         +yI6ZTNoj317jv+mTQpuav4Lxhf4Diwo9f4EwPyjlNizGCR5KspiXy7rPHcxJfaUGn9V
-         c0V561ne6MbA2lv54a+pT5FsCB41LCWtmgnoqekio7cLKNdEyeKEdWTvoOV076u8CdIw
-         ivJ3MdzHdUVVU8HBkitT9g/YI3EpefJYMU7X65toALwGr7jbRD1ttW1RX/yJDaVvYXep
-         R04YksEGkN516XhAhBmuczW+qF1gOki8u1jATPCHw/VFp9B0QcJYYwPbCzlcWTml6Yt/
-         Ut0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU3QUWjA1fkMPZnDlSr995Y/HEUNmL3xu5e/As76V7YZ2O1xbRt/y65GqMPGg/M4doJ2TukjisgSYQKcvg2@vger.kernel.org, AJvYcCWsLQTNJIUehOlk7tF9Cq6n5MDOMmCfSbYhawXYXhT/z8ZRBY4TW8YjHPXsexe7/uu+IZIXW0Kplhiymw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyG61NgajGQ/MEyu/KbfbG/6IdX7XeOEUk4dd0ounDfsV63GRzH
-	3N71N9Ns1pStOzD8yzOO6uJWnZNBVSlelzxyz4CgYkgiTUVuGS8=
-X-Google-Smtp-Source: AGHT+IGs5o7Mf1ub+jT02yLfEoCW4MJzJbjfluElSdE9oeBI4YgvQep48FtbEP48tx+fL73ne6CeQA==
-X-Received: by 2002:a05:6a00:170d:b0:718:dd89:a1db with SMTP id d2e1a72fcca58-71b0ac7ff5fmr2995908b3a.28.1727258607204;
-        Wed, 25 Sep 2024 03:03:27 -0700 (PDT)
-Received: from localhost.. ([42.116.8.116])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71afc9390adsm2462546b3a.134.2024.09.25.03.03.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2024 03:03:26 -0700 (PDT)
-From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Benjamin Tissoires <bentiss@kernel.org>,
-	Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-Subject: [PATCH v1 2/2] HID: i2c-hid: introduce qtec vendor, enable re-power-on quirk
-Date: Wed, 25 Sep 2024 12:02:00 +0200
-Message-ID: <20240925100303.9112-3-alex.vinarskis@gmail.com>
+	 MIME-Version; b=DA+CTQElEUWf/L6TgUcVPL9M4IkZyy6vSYCmyrS7ol6UviXgcG/PkJstGm7gKGdbM/WtMR59+hAD0Jk4nPweJly38ykoYkkLMyHePRyTBjGu3MQwAFhJh7sGUgMB2VyBysDDpXbVwWhGEZjUWIPzwFCftanZ1NTcVQ0ECQio6+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JniDXSH6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF4DDC4CEC3;
+	Wed, 25 Sep 2024 11:46:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727264762;
+	bh=SW7PU2WdimJ4gHFwg7uw/EbHyN5KiO3AXMYHLsUw23A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=JniDXSH6Vp0yLudy7GMu08NixmXeG3hea9HBau2eH3kYDASNYahYCndGiUa4qYhUG
+	 7zY2i0pfKFun81XY+YnYQlpCgMN8TpamZXaCR6J4q3xB6o0hZJQHpm40Lszd+u4Neb
+	 cVUpBlk+mVA0R4CVIMIIt5uuD6+bbr4hP/BNY5wLcmNJVR/J5jaJkXFFY36rYtdhcm
+	 hMh4p5ya4JmJwt1I+C44Ia8Fpehp/aWZkUQ4sPZgrpfXNQPXx9g9Ic24C4cPi5vePk
+	 KPJ+3L/tUC99YrhCpUMtyrGmB6mtDipXifQCTW/UZCReVCtwZWqCVD3rx8rmVzOKHY
+	 pnPGh5II1AWPw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Louis Dalibard <ontake@ontake.dev>,
+	Jiri Kosina <jkosina@suse.com>,
+	Sasha Levin <sashal@kernel.org>,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.11 149/244] HID: Ignore battery for all ELAN I2C-HID devices
+Date: Wed, 25 Sep 2024 07:26:10 -0400
+Message-ID: <20240925113641.1297102-149-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240925100303.9112-1-alex.vinarskis@gmail.com>
-References: <20240925100303.9112-1-alex.vinarskis@gmail.com>
+In-Reply-To: <20240925113641.1297102-1-sashal@kernel.org>
+References: <20240925113641.1297102-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.11
 Content-Transfer-Encoding: 8bit
 
-This solves keyboard not working until suspend&resume issue  on Dell XPS
-9345 13" (codenamed 'tributo').
+From: Hans de Goede <hdegoede@redhat.com>
 
-Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+[ Upstream commit bcc31692a1d1e21f0d06c5f727c03ee299d2264e ]
+
+Before this change there were 16 vid:pid based quirks to ignore the battery
+reported by Elan I2C-HID touchscreens on various Asus and HP laptops.
+
+And a report has been received that the 04F3:2A00 I2C touchscreen on
+the HP ProBook x360 11 G5 EE/86CF also reports a non present battery.
+
+Since I2C-HID devices are always builtin to laptops they are not battery
+owered so it should be safe to just ignore the battery on all Elan I2C-HID
+devices, rather then adding a 17th quirk for the 04F3:2A00 touchscreen.
+
+As reported in the changelog of commit a3a5a37efba1 ("HID: Ignore battery
+for ELAN touchscreens 2F2C and 4116"), which added 2 new Elan touchscreen
+quirks about a month ago, the HID reported battery seems to be related
+to a stylus being used. But even when a stylus is in use it does not
+properly report the charge of the stylus battery, instead the reported
+battery charge jumps from 0% to 1%. So it is best to just ignore the
+HID battery.
+
+Closes: https://bugzilla.redhat.com/show_bug.cgi?id=2302776
+Cc: Louis Dalibard <ontake@ontake.dev>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-ids.h              | 2 ++
- drivers/hid/i2c-hid/i2c-hid-core.c | 5 +++++
- 2 files changed, 7 insertions(+)
+ drivers/hid/hid-ids.h   | 16 ----------------
+ drivers/hid/hid-input.c | 37 +++++--------------------------------
+ 2 files changed, 5 insertions(+), 48 deletions(-)
 
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 72d56ee7ce1b..a99b5a138128 100644
+index 781c5aa298598..53655f81d9950 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
-@@ -1091,6 +1091,8 @@
- #define USB_VENDOR_ID_PRODIGE		0x05af
- #define USB_DEVICE_ID_PRODIGE_CORDLESS	0x3062
+@@ -417,24 +417,8 @@
+ #define USB_DEVICE_ID_TOSHIBA_CLICK_L9W	0x0401
+ #define USB_DEVICE_ID_HP_X2		0x074d
+ #define USB_DEVICE_ID_HP_X2_10_COVER	0x0755
+-#define I2C_DEVICE_ID_HP_ENVY_X360_15	0x2d05
+-#define I2C_DEVICE_ID_HP_ENVY_X360_15T_DR100	0x29CF
+-#define I2C_DEVICE_ID_HP_ENVY_X360_EU0009NV	0x2CF9
+-#define I2C_DEVICE_ID_HP_SPECTRE_X360_15	0x2817
+-#define I2C_DEVICE_ID_HP_SPECTRE_X360_13_AW0020NG  0x29DF
+-#define I2C_DEVICE_ID_ASUS_TP420IA_TOUCHSCREEN 0x2BC8
+-#define I2C_DEVICE_ID_ASUS_GV301RA_TOUCHSCREEN 0x2C82
+-#define I2C_DEVICE_ID_ASUS_UX3402_TOUCHSCREEN 0x2F2C
+-#define I2C_DEVICE_ID_ASUS_UX6404_TOUCHSCREEN 0x4116
+ #define USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN	0x2544
+ #define USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN	0x2706
+-#define I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN	0x261A
+-#define I2C_DEVICE_ID_SURFACE_GO2_TOUCHSCREEN	0x2A1C
+-#define I2C_DEVICE_ID_LENOVO_YOGA_C630_TOUCHSCREEN	0x279F
+-#define I2C_DEVICE_ID_HP_SPECTRE_X360_13T_AW100	0x29F5
+-#define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V1	0x2BED
+-#define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V2	0x2BEE
+-#define I2C_DEVICE_ID_HP_ENVY_X360_15_EU0556NG		0x2D02
+ #define I2C_DEVICE_ID_CHROMEBOOK_TROGDOR_POMPOM	0x2F81
  
-+#define I2C_VENDOR_ID_QTEC              0x6243
-+
- #define USB_VENDOR_ID_QUANTA		0x0408
- #define USB_DEVICE_ID_QUANTA_OPTICAL_TOUCH		0x3000
- #define USB_DEVICE_ID_QUANTA_OPTICAL_TOUCH_3001		0x3001
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 087ca2474176..1e4f478cf878 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -134,6 +134,11 @@ static const struct i2c_hid_quirks {
- 		I2C_HID_QUIRK_BAD_INPUT_SIZE },
- 	{ I2C_VENDOR_ID_CIRQUE, I2C_PRODUCT_ID_CIRQUE_1063,
- 		I2C_HID_QUIRK_NO_SLEEP_ON_SUSPEND },
+ #define USB_VENDOR_ID_ELECOM		0x056e
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index c9094a4f281e9..fda9dce3da998 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -373,14 +373,6 @@ static const struct hid_device_id hid_battery_quirks[] = {
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH,
+ 		USB_DEVICE_ID_LOGITECH_DINOVO_EDGE_KBD),
+ 	  HID_BATTERY_QUIRK_IGNORE },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_ASUS_TP420IA_TOUCHSCREEN),
+-	  HID_BATTERY_QUIRK_IGNORE },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_ASUS_GV301RA_TOUCHSCREEN),
+-	  HID_BATTERY_QUIRK_IGNORE },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_ASUS_UX3402_TOUCHSCREEN),
+-	  HID_BATTERY_QUIRK_IGNORE },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_ASUS_UX6404_TOUCHSCREEN),
+-	  HID_BATTERY_QUIRK_IGNORE },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN),
+ 	  HID_BATTERY_QUIRK_IGNORE },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN),
+@@ -391,32 +383,13 @@ static const struct hid_device_id hid_battery_quirks[] = {
+ 	  HID_BATTERY_QUIRK_AVOID_QUERY },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE, USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO_PRO_SW),
+ 	  HID_BATTERY_QUIRK_AVOID_QUERY },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15),
+-	  HID_BATTERY_QUIRK_IGNORE },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15T_DR100),
+-	  HID_BATTERY_QUIRK_IGNORE },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_EU0009NV),
+-	  HID_BATTERY_QUIRK_IGNORE },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_15),
+-	  HID_BATTERY_QUIRK_IGNORE },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_13_AW0020NG),
+-	  HID_BATTERY_QUIRK_IGNORE },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN),
+-	  HID_BATTERY_QUIRK_IGNORE },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_SURFACE_GO2_TOUCHSCREEN),
+-	  HID_BATTERY_QUIRK_IGNORE },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_LENOVO_YOGA_C630_TOUCHSCREEN),
+-	  HID_BATTERY_QUIRK_IGNORE },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_13T_AW100),
+-	  HID_BATTERY_QUIRK_IGNORE },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V1),
+-	  HID_BATTERY_QUIRK_IGNORE },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V2),
+-	  HID_BATTERY_QUIRK_IGNORE },
+-	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15_EU0556NG),
+-	  HID_BATTERY_QUIRK_IGNORE },
+ 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_CHROMEBOOK_TROGDOR_POMPOM),
+ 	  HID_BATTERY_QUIRK_AVOID_QUERY },
 +	/*
-+	 * Without additional power on command, at least some QTEC devices send garbage
++	 * Elan I2C-HID touchscreens seem to all report a non present battery,
++	 * set HID_BATTERY_QUIRK_IGNORE for all Elan I2C-HID devices.
 +	 */
-+	{ I2C_VENDOR_ID_QTEC, HID_ANY_ID,
-+		I2C_HID_QUIRK_RE_POWER_ON },
- 	/*
- 	 * Sending the wakeup after reset actually break ELAN touchscreen controller
- 	 */
++	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, HID_ANY_ID), HID_BATTERY_QUIRK_IGNORE },
+ 	{}
+ };
+ 
 -- 
 2.43.0
 
