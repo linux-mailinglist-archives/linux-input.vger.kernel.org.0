@@ -1,134 +1,135 @@
-Return-Path: <linux-input+bounces-6709-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6710-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6542985F86
-	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 16:00:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8EB598634E
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 17:23:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 22A0A1C2529E
-	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 14:00:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E9CFD1C26284
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 15:23:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E62031D358D;
-	Wed, 25 Sep 2024 12:16:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF46A1D5AB9;
+	Wed, 25 Sep 2024 15:05:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="okaVJrcL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9Fe9Oh8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9FEE1D3586;
-	Wed, 25 Sep 2024 12:16:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08141D5AAA;
+	Wed, 25 Sep 2024 15:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727266586; cv=none; b=mcSdJAbg4ikYx1st/nyxFDPsTZTd9LgCXHXcs6SStbP/1Nj49YCAta60DMxXUq9wwPvpYs6bSXKr1BboCRzmy41xgsji4RfxYsSSjVNGT5sOdCXJfC/bejArUxwYcmKh2X36aa52vhx4exlIhh1bXkOGZGw5NdoGF3n+Xc1i4Tc=
+	t=1727276708; cv=none; b=fMYRLdOblJbZDD+MbTiFhC8KRIAPH4/v3TpoC0I3pChTA9lrAEcEWikq5tnezkzrPEItiKxebdqlm6XVHXwWBRmvy4XNojYyh+8HsMgxwb2xn0FslqWmlWYwz88gFO2IrBE6D9wNbLlSALtpV/dAyM/1qsJMwNP52xCHUxLzKEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727266586; c=relaxed/simple;
-	bh=2sCL9w3aGSXasarMLkUqCUiWFdQaWGl2HXSuOS/diQ4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZYg/EiRqCB5dMALgBDKwgI3EokKxABQAqoCC6N89XVXrE3wylk4Vo1E3DRTs5XTFwo3m1hxP9+yinjxN0msfqFv7GWy+sMqgJbJCngK9oWAOaBucPz6A+BzmpsJL2/M2o1ORPjAQvMAX4nhgjmNA5XoZI3nM6XvcoCmlibn8lJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=okaVJrcL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C946C4CECE;
-	Wed, 25 Sep 2024 12:16:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727266586;
-	bh=2sCL9w3aGSXasarMLkUqCUiWFdQaWGl2HXSuOS/diQ4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=okaVJrcLFzodkQcb2J8YXct98GwZZvAnOmx3LIBYoCzySHJd2xWQUN9iVwGDHeXW+
-	 eZj8ZVWZAhJgLL3N7mR8BluAXGsuvHoURJT4SGKQ/ghZpUbJO3ji9K5VL9GOzlvi33
-	 RCqi0q5qIb9IAjtO6V0cg0npPU3/pbAQnbT1UINaBnDGPMqP4hDvTvWxARFFG8BIJa
-	 YrAZb/76wYlq1WNlZ3gTbwYh9omaYa+OIYQAEbhXvFekJgQP8NIYAqfxIqdbSJzR/e
-	 iKyjxD0puI6nRKayi6QikovXUtSIQyZU3xqxKt6WRnSc8A8EM3EO324SKOhf0xEU+E
-	 xlg3XzMH8Tt1A==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Ckath <ckath@yandex.ru>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Sasha Levin <sashal@kernel.org>,
-	ilpo.jarvinen@linux.intel.com,
-	linux-input@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 105/139] platform/x86: touchscreen_dmi: add nanote-next quirk
-Date: Wed, 25 Sep 2024 08:08:45 -0400
-Message-ID: <20240925121137.1307574-105-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240925121137.1307574-1-sashal@kernel.org>
-References: <20240925121137.1307574-1-sashal@kernel.org>
+	s=arc-20240116; t=1727276708; c=relaxed/simple;
+	bh=7vCwXwDG+bsxtvd02iytviiUSMi6iO6Ybyp3t8WIe5Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EQu8t/nznrNR3OkpPm6MsAyiFJv4qtrSfl63IbksG79098MUJJAQGF5apIT32M5yxf7DTU+/qv3K1WbeJ6EADbYo8zcuUVphfpBSv62zKej6/VJLMxx/a6vjzygD8AAD1z3pYvHJCb4BVHAi8UlGtgO3BqkXB8kF65K3WyF0JiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9Fe9Oh8; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727276707; x=1758812707;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=7vCwXwDG+bsxtvd02iytviiUSMi6iO6Ybyp3t8WIe5Y=;
+  b=U9Fe9Oh85bH/PdB5ZG1jCEY+QRRj55hwj7XIodC22A7jYo4Avc+wg1mO
+   PGMKuVlUAk2Yp5qlPefe8EQdkgRtupzwPWIcsCkpdcxTJA86bMYKunnBY
+   0BhcRhC9H13g8i/TvbEMBS8B5UEMqZUWaGkeCRnCRlP2zFI7FWfUOq/Uu
+   DPXzVp1MPW4DZkBiWIxamV+QfzF9setHH/7SDNONg3wVw91hAwssItPVR
+   e4lVtB4qJsUaXtnSa1sweti1avul1ZL7dNvtl0yhuMFIsELtciHHRhyNj
+   grt1cIIuCfbZsx+h4CN5cqrePfF7gLO2suIhGO5RRfarndugLf/vbd+Ms
+   Q==;
+X-CSE-ConnectionGUID: dhq0LvMBQ+SbeGGKCscbqQ==
+X-CSE-MsgGUID: 8a9LlwOmQGekzzPceke9SQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="26482876"
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="26482876"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 08:05:06 -0700
+X-CSE-ConnectionGUID: KkJZz6O4SrW69iXt+QA+QQ==
+X-CSE-MsgGUID: dfMikm4UR6+Y2DTcJrvcFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="76317626"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.246.30]) ([10.245.246.30])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 08:05:01 -0700
+Message-ID: <52f10356-ecf7-4c92-b0c3-78f7a63ae85c@linux.intel.com>
+Date: Wed, 25 Sep 2024 16:22:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.52
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v28 12/32] ALSA: usb-audio: Save UAC sample size
+ information
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
+ lgirdwood@gmail.com, tiwai@suse.com, krzk+dt@kernel.org,
+ Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, robh@kernel.org,
+ gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
+References: <20240925010000.2231406-1-quic_wcheng@quicinc.com>
+ <20240925010000.2231406-13-quic_wcheng@quicinc.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20240925010000.2231406-13-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Ckath <ckath@yandex.ru>
 
-[ Upstream commit c11619af35bae5884029bd14170c3e4b55ddf6f3 ]
 
-Add touschscreen info for the nanote next (UMPC-03-SR).
+On 9/25/24 02:59, Wesley Cheng wrote:
+> Within the UAC descriptor, there is information describing the size of a
+> sample (bSubframeSize/bSubslotSize) and the number of relevant bits
+> (bBitResolution).  Currently, fmt_bits carries only the bit resolution,
+> however, some offloading entities may also require the overall size of the
+> sample.  Save this information in a separate parameter, as depending on the
+> UAC format type, the sample size can not easily be decoded from other
+> existing parameters.
+> 
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 
-After checking with multiple owners the DMI info really is this generic.
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-Signed-off-by: Ckath <ckath@yandex.ru>
-Link: https://lore.kernel.org/r/e8dda83a-10ae-42cf-a061-5d29be0d193a@yandex.ru
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/touchscreen_dmi.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 06ebab520f271..30c05a9948319 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -885,6 +885,21 @@ static const struct ts_dmi_data rwc_nanote_p8_data = {
- 	.properties = rwc_nanote_p8_props,
- };
- 
-+static const struct property_entry rwc_nanote_next_props[] = {
-+	PROPERTY_ENTRY_U32("touchscreen-min-x", 5),
-+	PROPERTY_ENTRY_U32("touchscreen-min-y", 5),
-+	PROPERTY_ENTRY_U32("touchscreen-size-x", 1785),
-+	PROPERTY_ENTRY_U32("touchscreen-size-y", 1145),
-+	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
-+	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-rwc-nanote-next.fw"),
-+	{ }
-+};
-+
-+static const struct ts_dmi_data rwc_nanote_next_data = {
-+	.acpi_name = "MSSL1680:00",
-+	.properties = rwc_nanote_next_props,
-+};
-+
- static const struct property_entry schneider_sct101ctm_props[] = {
- 	PROPERTY_ENTRY_U32("touchscreen-size-x", 1715),
- 	PROPERTY_ENTRY_U32("touchscreen-size-y", 1140),
-@@ -1648,6 +1663,17 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_SKU, "0001")
- 		},
- 	},
-+	{
-+		/* RWC NANOTE NEXT */
-+		.driver_data = (void *)&rwc_nanote_next_data,
-+		.matches = {
-+			DMI_MATCH(DMI_PRODUCT_NAME, "To be filled by O.E.M."),
-+			DMI_MATCH(DMI_BOARD_NAME, "To be filled by O.E.M."),
-+			DMI_MATCH(DMI_BOARD_VENDOR, "To be filled by O.E.M."),
-+			/* Above matches are too generic, add bios-version match */
-+			DMI_MATCH(DMI_BIOS_VERSION, "S8A70R100-V005"),
-+		},
-+	},
- 	{
- 		/* Schneider SCT101CTM */
- 		.driver_data = (void *)&schneider_sct101ctm_data,
--- 
-2.43.0
+> ---
+>  sound/usb/card.h   | 1 +
+>  sound/usb/format.c | 1 +
+>  2 files changed, 2 insertions(+)
+> 
+> diff --git a/sound/usb/card.h b/sound/usb/card.h
+> index 4f4f3f39b7fa..b65163c60176 100644
+> --- a/sound/usb/card.h
+> +++ b/sound/usb/card.h
+> @@ -15,6 +15,7 @@ struct audioformat {
+>  	unsigned int channels;		/* # channels */
+>  	unsigned int fmt_type;		/* USB audio format type (1-3) */
+>  	unsigned int fmt_bits;		/* number of significant bits */
+> +	unsigned int fmt_sz;		/* overall audio sub frame/slot size */
+>  	unsigned int frame_size;	/* samples per frame for non-audio */
+>  	unsigned char iface;		/* interface number */
+>  	unsigned char altsetting;	/* corresponding alternate setting */
+> diff --git a/sound/usb/format.c b/sound/usb/format.c
+> index 3b45d0ee7693..5fde543536a8 100644
+> --- a/sound/usb/format.c
+> +++ b/sound/usb/format.c
+> @@ -80,6 +80,7 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
+>  	}
+>  
+>  	fp->fmt_bits = sample_width;
+> +	fp->fmt_sz = sample_bytes;
+>  
+>  	if ((pcm_formats == 0) &&
+>  	    (format == 0 || format == (1 << UAC_FORMAT_TYPE_I_UNDEFINED))) {
 
 
