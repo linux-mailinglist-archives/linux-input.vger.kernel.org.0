@@ -1,170 +1,123 @@
-Return-Path: <linux-input+bounces-6693-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6694-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADA4985181
-	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 05:39:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DAA49852E5
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 08:29:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 519AD1C22E1F
-	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 03:39:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BFA0B28442E
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 06:29:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFAEC148849;
-	Wed, 25 Sep 2024 03:39:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5072D14F9FA;
+	Wed, 25 Sep 2024 06:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="SfBK8XFZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from cosmicgizmosystems.com (cosgizsys.com [63.249.102.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC01B126F0A;
-	Wed, 25 Sep 2024 03:39:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4503D647
+	for <linux-input@vger.kernel.org>; Wed, 25 Sep 2024 06:29:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727235553; cv=none; b=VZQ6l9yqlkz2dyKr1JP5NzBn4ugi1/yjINTzGj16wvj9tHv/eXJCFfF7x5le63QU7J1MJXbcG5Mzxi3bCMvuaQOJz3/Rd2qfhBXTMbgQfU1Ql/d7m2vzRgxug+gu0P96iY5RtOgTFlfBXK6kow88Bkz+RzdUYqrhLLyC+ll1Gf0=
+	t=1727245750; cv=none; b=rIon0aFlElgijSEMsSwKUyBYsmE4BlovsmyuvP1umL6MqTdQ83CMCvdex2pALzpD+HbXc3/spsBD2QdJRr5mHOhzkUYZfxIsfQxFyb6BXOIGcDxUiZSUg07NwkdBFJhlGDGmSV/IBKw7BTZ4pxeQBzk7mwISqgRnyEn3OJCMMJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727235553; c=relaxed/simple;
-	bh=O8dcmWK12jDj45THMNSloukaqsnGeoFrg8LqafZuYZE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YDRZn/rwswENrsjypT++9nRi+YPB0qPiol6C7zn6D75ETOgZrgwPaM17pdfxb8CFrjchOqiJe0hGdiAhvRiWOd8KvvjsMfTCYsGPcBj3CLjdKF8BiPOQIKLB7T1YpxpLKB6LTF7JsC927c5bnXPHyGHQJyTBgBC6Aq8ucMlYhEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
-Received: from [10.0.0.101] (c-73-190-111-195.hsd1.wa.comcast.net [73.190.111.195])
-	by host11.cruzio.com (Postfix) with ESMTPSA id 15B012240453;
-	Tue, 24 Sep 2024 20:32:05 -0700 (PDT)
-Message-ID: <bc92e409-cebe-4da1-a225-c48915c5dcba@cosmicgizmosystems.com>
-Date: Tue, 24 Sep 2024 20:31:58 -0700
+	s=arc-20240116; t=1727245750; c=relaxed/simple;
+	bh=eDR197VobWf6yFEX9ecTPpxMoBJ0o+e5LKT3piyrNvM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AHK5Ksi4gZwLakXgwZvEKqsNeYl6RikO/DtJvHjhsVgm9VMfaGezJ3VjhcySgItuKlVGX60XG3PHjApKaUI1K9MQD0ImOhFmZFU3zx5tCGpJDPWRnNxFGZ/3W2XSjB++zX11ty+NhEGBF2fesXrg7mP14GWL1ofUoA7Ec228s54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=SfBK8XFZ; arc=none smtp.client-ip=18.132.163.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1727245714;
+	bh=xNMytTSff+WK4ABbsypYlqUxhtR801wMLItKXwAebwc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=SfBK8XFZ4LuzvJFrPdc+YZpzrpxKOqXIzprnk7hzb43Eo9u7N0ZoL0D03AvU4OUaS
+	 k8e9ZWOAZQkCvtD+y91Sv5ptYzErW2tY1g7UmJTQL32Gnn03ZtKF8sa44DlC52Efeo
+	 ogD1SsVCM0ncCvSChcQjVNtjCoz0dbtcfJqEyFog=
+X-QQ-mid: bizesmtp89t1727245710t7gdauh5
+X-QQ-Originating-IP: QNzL495HAYnRHmKmbMjB7SLvxXjrDgb7GY1bQ5n4LCE=
+Received: from localhost.localdomain ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 25 Sep 2024 14:28:25 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 15060643244381459545
+From: He Lugang <helugang@uniontech.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
+	He Lugang <helugang@uniontech.com>
+Subject: [RESEND PATCH] HID:replace BUG_ON() with WARN_ON()
+Date: Wed, 25 Sep 2024 14:28:24 +0800
+Message-ID: <60AAFF285046F56C+20240925062824.731446-1-helugang@uniontech.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] HID: plantronics: Update to map micmute controls
-To: "Wang, Wade" <wade.wang@hp.com>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: "jikos@kernel.org" <jikos@kernel.org>,
- "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-References: <20240913060800.1325954-1-wade.wang@hp.com>
- <s36bnt7ptdarrxpejm6n62gf3rvvwfagmmpyq4unpv3hn7v2jf@up2vjv7shl2q>
- <EA2PR84MB378051BB14F857BA84E662818B602@EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM>
- <EA2PR84MB378082C6FA58AA25258DC74B8B682@EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM>
-Content-Language: en-US
-From: Terry Junge <linuxhid@cosmicgizmosystems.com>
-In-Reply-To: <EA2PR84MB378082C6FA58AA25258DC74B8B682@EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz7a-0
 
-Hi Wade,
+There is no need to kill the system entirely in HID with BUG_ON,
+use WARN_ON to handle fault more gracefully which allow the system
+to keep running.
 
-I retired from Plantronics in 2020. The original driver did not allow 
-mute button to be mapped as there were mute synchronization issues.
+Signed-off-by: He Lugang <helugang@uniontech.com>
+---
+ drivers/hid/hid-cp2112.c | 3 ++-
+ drivers/hid/hid-lg4ff.c  | 3 ++-
+ drivers/hid/hid-sony.c   | 3 ++-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
-The headset needs to receive some type of feedback from the host when it 
-sends the mute event in order to synchronize with the host, ideally the 
-host setting or clearing the mute control in the audio control interface 
-but setting/clearing the mute LED would also work.
+diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
+index dae2b84a1490..f4c8d981aa0a 100644
+--- a/drivers/hid/hid-cp2112.c
++++ b/drivers/hid/hid-cp2112.c
+@@ -852,7 +852,8 @@ static int cp2112_set_usb_config(struct hid_device *hdev,
+ {
+ 	int ret;
+ 
+-	BUG_ON(cfg->report != CP2112_USB_CONFIG);
++	if (WARN_ON(cfg->report != CP2112_USB_CONFIG))
++		return -EINVAL;
+ 
+ 	ret = cp2112_hid_output(hdev, (u8 *)cfg, sizeof(*cfg),
+ 				HID_FEATURE_REPORT);
+diff --git a/drivers/hid/hid-lg4ff.c b/drivers/hid/hid-lg4ff.c
+index e3fcf1353fb3..c0a138f21ca4 100644
+--- a/drivers/hid/hid-lg4ff.c
++++ b/drivers/hid/hid-lg4ff.c
+@@ -1350,7 +1350,8 @@ int lg4ff_init(struct hid_device *hid)
+ 
+ 	/* Initialize device properties */
+ 	if (mmode_ret == LG4FF_MMODE_IS_MULTIMODE) {
+-		BUG_ON(mmode_idx == -1);
++		if (WARN_ON(mmode_idx == -1))
++			return -EINVAL;
+ 		mmode_wheel = &lg4ff_multimode_wheels[mmode_idx];
+ 	}
+ 	lg4ff_init_wheel_data(&entry->wdata, &lg4ff_devices[i], mmode_wheel, real_product_id);
+diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
+index df29c614e490..c5db29456507 100644
+--- a/drivers/hid/hid-sony.c
++++ b/drivers/hid/hid-sony.c
+@@ -1379,7 +1379,8 @@ static int sony_leds_init(struct sony_sc *sc)
+ 	u8 max_brightness[MAX_LEDS] = { [0 ... (MAX_LEDS - 1)] = 1 };
+ 	u8 use_hw_blink[MAX_LEDS] = { 0 };
+ 
+-	BUG_ON(!(sc->quirks & SONY_LED_SUPPORT));
++	if (WARN_ON(!(sc->quirks & SONY_LED_SUPPORT)))
++		return -EINVAL;
+ 
+ 	if (sc->quirks & BUZZ_CONTROLLER) {
+ 		sc->led_count = 4;
+-- 
+2.45.2
 
-At the time Ubuntu and Chromebooks did not feedback mute state and it 
-was possible to mute from the headset and then unmute from the mixer or 
-keyboard and the headset would stay muted. The only way to unmute was 
-with the headset button. This was an unacceptable user experience so we 
-blocked mapping.
-
-If you want to try mapping mute event then you also need to allow 
-mapping the mute LED for possible host feedback.
-
-(HID_UP_TELEPHONY | 0x2f) is telephony page mute button
-(HID_UP_LED | 0x09) is LED page mute LED
-
-Then you need to test more than just the event getting to user space. 
-You need to check mute synchronization with the host mixer under all 
-mute/unmute use cases.
-
-Regards,
-Terry Junge
-
-
-On 9/24/24 2:00 AM, Wang, Wade wrote:
-> Hi Benjamin and Greg,
-> 
-> May I know the review progress and anything I need to change? Thanks
-> 
-> Regards
-> Wade
-> 
-> -----Original Message-----
-> From: Wang, Wade
-> Sent: Monday, September 16, 2024 4:13 PM
-> To: Benjamin Tissoires <bentiss@kernel.org>
-> Cc: jikos@kernel.org; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; stable@vger.kernel.org
-> Subject: RE: [PATCH] HID: plantronics: Update to map micmute controls
-> 
-> Hi Benjamin,
-> 
-> This patch is for all Poly HS devices, and it does not depends on other patches, it can apply directly by " git am -3".
-> 
-> With this patch, MicMute button key event will be send to user space, I have tested on the below Poly devices:
->          Plantronics EncorePro 500 Series
->          Plantronics Blackwire_3325 Series
->          Poly Voyager 4320 HS + BT700 Dongle
-> 
-> Regards
-> Wade
-> 
-> -----Original Message-----
-> From: Benjamin Tissoires <bentiss@kernel.org>
-> Sent: Friday, September 13, 2024 10:04 PM
-> To: Wang, Wade <wade.wang@hp.com>
-> Cc: jikos@kernel.org; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; stable@vger.kernel.org
-> Subject: Re: [PATCH] HID: plantronics: Update to map micmute controls
-> 
-> CAUTION: External Email
-> 
-> On Sep 13 2024, Wade Wang wrote:
->> telephony page of Plantronics headset is ignored currently, it caused
->> micmute button no function, Now follow native HID key mapping for
->> telephony page map, telephony micmute key is enabled by default
-> 
-> For which devices this patch is required? Is it related to the other patch you sent today? If so please make a mention of the concerned devices and make sure both patches are sent in a single v3 series.
-> 
-> Also, have you tested this change with other Plantronics headsets? Where there any changes in behavior from them?
-> 
-> Cheers,
-> Benjamin
-> 
->>
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Wade Wang <wade.wang@hp.com>
->> ---
->>   drivers/hid/hid-plantronics.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/hid/hid-plantronics.c
->> b/drivers/hid/hid-plantronics.c index 2a19f3646ecb..2d17534fce61
->> 100644
->> --- a/drivers/hid/hid-plantronics.c
->> +++ b/drivers/hid/hid-plantronics.c
->> @@ -77,10 +77,10 @@ static int plantronics_input_mapping(struct hid_device *hdev,
->>                }
->>        }
->>        /* handle standard types - plt_type is 0xffa0uuuu or 0xffa2uuuu */
->> -     /* 'basic telephony compliant' - allow default consumer page map */
->> +     /* 'basic telephony compliant' - allow default consumer &
->> + telephony page map */
->>        else if ((plt_type & HID_USAGE) >= PLT_BASIC_TELEPHONY &&
->>                 (plt_type & HID_USAGE) != PLT_BASIC_EXCEPTION) {
->> -             if (PLT_ALLOW_CONSUMER)
->> +             if (PLT_ALLOW_CONSUMER || (usage->hid & HID_USAGE_PAGE)
->> + == HID_UP_TELEPHONY)
->>                        goto defaulted;
->>        }
->>        /* not 'basic telephony' - apply legacy mapping */
->> --
->> 2.34.1
->>
-> 
-> 
 
