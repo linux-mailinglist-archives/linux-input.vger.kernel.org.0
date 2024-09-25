@@ -1,59 +1,59 @@
-Return-Path: <linux-input+bounces-6707-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6708-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF0D985F61
-	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 15:56:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 646A5985F82
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 15:59:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0DB6A1F25C36
-	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 13:56:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 94EA01C2134D
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 13:59:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93BF5223EE6;
-	Wed, 25 Sep 2024 12:15:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DD621D356B;
+	Wed, 25 Sep 2024 12:16:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cfka6DFP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ODXtqwG+"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B34522315C;
-	Wed, 25 Sep 2024 12:15:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750B71D3566;
+	Wed, 25 Sep 2024 12:16:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727266538; cv=none; b=APKhvFlK2O1XxUsGDtojXt+LRr7ZdiF+MR1DSUcAuqjfW9wMRmnnQqINJtHVN0z1jW3r1fKSTUXw0almoetSUuo66JJaaAaT410MqcqH7R6IrN7yDuhwakCZ6GmnMBpyV/E3p9opIclMLJj5SZwrEIMbjbz9AGlmlh9JE5DeTe0=
+	t=1727266585; cv=none; b=HZQTPTkwyVliOGir7Ny3Ov98sSc8lPf/ovpAnRCgatJ4JYbo/cYeYOqogiLLl3adaFwPqaZPhRuDS7YPOWLnSXClUtus2texBnd7WjiviojNm/9zCpS6YKl25XPFdJxzoZWNiI6tOVI8n80jhzbNxOwARejcFXm2M/48ZHynKLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727266538; c=relaxed/simple;
-	bh=kvyju/kigoKn+hsJz+3swqa1Eu8vgeIhMIOEK1XD+3M=;
+	s=arc-20240116; t=1727266585; c=relaxed/simple;
+	bh=AHPXr8YKzjWBvpnPv9rXURtZuaHbB76qeYlqku5w/5Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fG+pSjlcvglvIUgcK575P+Mif8VAly3WqnzyiU1OeSgbbcVj+AIBpBFWxU8bSvdUs9dLRBAUhQ565njwtMyHrrr7b5Kr98eGjfKniioRAgAGqXBNDOl8jmBZCbo3TBBrfRyOtlBhyPHqX3ww5CoUacG0CzBlKylE9BGH967sM5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cfka6DFP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 285CBC4CEC3;
-	Wed, 25 Sep 2024 12:15:37 +0000 (UTC)
+	 MIME-Version; b=DM3YDyfmDcaZajw9x/TCGs/TR8sXXkUP6BvAhmfb1R0hq0iMD+2flw77T9QEhQL4vInnfBa71VuocZwqVNbGaGlxCrRvMqGFb3XKpe3+O+WwB0zQRnSX/Fg0oT4vqA4R/+nizw2GO9Di1VZwKK90rUchFGfpgWO8pgsRiHX0gQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ODXtqwG+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0BA2C4CEC7;
+	Wed, 25 Sep 2024 12:16:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727266538;
-	bh=kvyju/kigoKn+hsJz+3swqa1Eu8vgeIhMIOEK1XD+3M=;
+	s=k20201202; t=1727266585;
+	bh=AHPXr8YKzjWBvpnPv9rXURtZuaHbB76qeYlqku5w/5Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cfka6DFPBbI2kwDFTk/X34IsFoeCIbSP8xc7WBU10vzkvOsq4aPr58/7j/7ZGx0tV
-	 +29v/9V0FS62VhMl0NIYs2zp27b+OzmwA1bJXJro4w4+39vWlrw2y85hrM2CNIzJbu
-	 Wf+5d4IHummjKl93u4WRJZac969OkxFLGhBY+Cmywz6o94ZfrZ2pan+YtpsqM2+lY6
-	 cwUu/lgT5noyAPJhS3XClgGIXlgPgcNpN6NNaW3wAw2IvivYZGSFisJaZJeceuP3ye
-	 IXq8kpIzv4cyPaAVH1jw9GblKHJkDLuB1yciqbM26sFnW51JhsT848LWysrRYD7CJ9
-	 Ro7ThKGTHhmDQ==
+	b=ODXtqwG+S6Qpe4eFSLJeCoVOTcu3QjggfFIsX/8FzF670T3HWLa4049xxi8e7YrdV
+	 87XBn+xTTauvDN7WSONYg282+DfpRS6yrppPmDOXQIml8Gg9O30uZrU3xeXdHORDNI
+	 7uhIVELeEXiaGH4ZhAxQ2bm/CpU33bOdUX8NDnWGm9S/pELGRlA+/vbCOd/c3+O21/
+	 48ku/Z8injkSW0aC8b4U1y3UDlRrubjk6HMucRhPzhCG5B0SsZu2S6j0DIlaFf9Oag
+	 m1gbmp+Rvs3+7fkyN5BU+rT+F1weRpHkKm7PeE3LJ39gIX3zMZh6rohlOTE5OS2ePP
+	 doSF651HsJ/JA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Louis Dalibard <ontake@ontake.dev>,
+Cc: Vishnu Sankar <vishnuocv@gmail.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
 	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
 	bentiss@kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 090/139] HID: Ignore battery for all ELAN I2C-HID devices
-Date: Wed, 25 Sep 2024 08:08:30 -0400
-Message-ID: <20240925121137.1307574-90-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 104/139] HID: multitouch: Add support for Thinkpad X12 Gen 2 Kbd Portfolio
+Date: Wed, 25 Sep 2024 08:08:44 -0400
+Message-ID: <20240925121137.1307574-104-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925121137.1307574-1-sashal@kernel.org>
 References: <20240925121137.1307574-1-sashal@kernel.org>
@@ -68,124 +68,52 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.52
 Content-Transfer-Encoding: 8bit
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Vishnu Sankar <vishnuocv@gmail.com>
 
-[ Upstream commit bcc31692a1d1e21f0d06c5f727c03ee299d2264e ]
+[ Upstream commit 65b72ea91a257a5f0cb5a26b01194d3dd4b85298 ]
 
-Before this change there were 16 vid:pid based quirks to ignore the battery
-reported by Elan I2C-HID touchscreens on various Asus and HP laptops.
+This applies similar quirks used by previous generation device, so that
+Trackpoint and buttons on the touchpad works.  New USB KBD PID 0x61AE for
+Thinkpad X12 Tab is added.
 
-And a report has been received that the 04F3:2A00 I2C touchscreen on
-the HP ProBook x360 11 G5 EE/86CF also reports a non present battery.
-
-Since I2C-HID devices are always builtin to laptops they are not battery
-owered so it should be safe to just ignore the battery on all Elan I2C-HID
-devices, rather then adding a 17th quirk for the 04F3:2A00 touchscreen.
-
-As reported in the changelog of commit a3a5a37efba1 ("HID: Ignore battery
-for ELAN touchscreens 2F2C and 4116"), which added 2 new Elan touchscreen
-quirks about a month ago, the HID reported battery seems to be related
-to a stylus being used. But even when a stylus is in use it does not
-properly report the charge of the stylus battery, instead the reported
-battery charge jumps from 0% to 1%. So it is best to just ignore the
-HID battery.
-
-Closes: https://bugzilla.redhat.com/show_bug.cgi?id=2302776
-Cc: Louis Dalibard <ontake@ontake.dev>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
+Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-ids.h   | 16 ----------------
- drivers/hid/hid-input.c | 37 +++++--------------------------------
- 2 files changed, 5 insertions(+), 48 deletions(-)
+ drivers/hid/hid-ids.h        | 1 +
+ drivers/hid/hid-multitouch.c | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 4246348ca16e9..ad4e5c5a38ad2 100644
+index ad4e5c5a38ad2..62e879fc2390b 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
-@@ -411,24 +411,8 @@
- #define USB_DEVICE_ID_TOSHIBA_CLICK_L9W	0x0401
- #define USB_DEVICE_ID_HP_X2		0x074d
- #define USB_DEVICE_ID_HP_X2_10_COVER	0x0755
--#define I2C_DEVICE_ID_HP_ENVY_X360_15	0x2d05
--#define I2C_DEVICE_ID_HP_ENVY_X360_15T_DR100	0x29CF
--#define I2C_DEVICE_ID_HP_ENVY_X360_EU0009NV	0x2CF9
--#define I2C_DEVICE_ID_HP_SPECTRE_X360_15	0x2817
--#define I2C_DEVICE_ID_HP_SPECTRE_X360_13_AW0020NG  0x29DF
--#define I2C_DEVICE_ID_ASUS_TP420IA_TOUCHSCREEN 0x2BC8
--#define I2C_DEVICE_ID_ASUS_GV301RA_TOUCHSCREEN 0x2C82
--#define I2C_DEVICE_ID_ASUS_UX3402_TOUCHSCREEN 0x2F2C
--#define I2C_DEVICE_ID_ASUS_UX6404_TOUCHSCREEN 0x4116
- #define USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN	0x2544
- #define USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN	0x2706
--#define I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN	0x261A
--#define I2C_DEVICE_ID_SURFACE_GO2_TOUCHSCREEN	0x2A1C
--#define I2C_DEVICE_ID_LENOVO_YOGA_C630_TOUCHSCREEN	0x279F
--#define I2C_DEVICE_ID_HP_SPECTRE_X360_13T_AW100	0x29F5
--#define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V1	0x2BED
--#define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V2	0x2BEE
--#define I2C_DEVICE_ID_HP_ENVY_X360_15_EU0556NG		0x2D02
- #define I2C_DEVICE_ID_CHROMEBOOK_TROGDOR_POMPOM	0x2F81
+@@ -786,6 +786,7 @@
+ #define USB_DEVICE_ID_LENOVO_X1_TAB	0x60a3
+ #define USB_DEVICE_ID_LENOVO_X1_TAB3	0x60b5
+ #define USB_DEVICE_ID_LENOVO_X12_TAB	0x60fe
++#define USB_DEVICE_ID_LENOVO_X12_TAB2	0x61ae
+ #define USB_DEVICE_ID_LENOVO_OPTICAL_USB_MOUSE_600E	0x600e
+ #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D	0x608d
+ #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019	0x6019
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 17efe6e2a1a44..8ddfa4548f7c5 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -2084,6 +2084,12 @@ static const struct hid_device_id mt_devices[] = {
+ 			   USB_VENDOR_ID_LENOVO,
+ 			   USB_DEVICE_ID_LENOVO_X12_TAB) },
  
- #define USB_VENDOR_ID_ELECOM		0x056e
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index c9094a4f281e9..fda9dce3da998 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -373,14 +373,6 @@ static const struct hid_device_id hid_battery_quirks[] = {
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH,
- 		USB_DEVICE_ID_LOGITECH_DINOVO_EDGE_KBD),
- 	  HID_BATTERY_QUIRK_IGNORE },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_ASUS_TP420IA_TOUCHSCREEN),
--	  HID_BATTERY_QUIRK_IGNORE },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_ASUS_GV301RA_TOUCHSCREEN),
--	  HID_BATTERY_QUIRK_IGNORE },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_ASUS_UX3402_TOUCHSCREEN),
--	  HID_BATTERY_QUIRK_IGNORE },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_ASUS_UX6404_TOUCHSCREEN),
--	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN),
- 	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN),
-@@ -391,32 +383,13 @@ static const struct hid_device_id hid_battery_quirks[] = {
- 	  HID_BATTERY_QUIRK_AVOID_QUERY },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE, USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO_PRO_SW),
- 	  HID_BATTERY_QUIRK_AVOID_QUERY },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15),
--	  HID_BATTERY_QUIRK_IGNORE },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15T_DR100),
--	  HID_BATTERY_QUIRK_IGNORE },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_EU0009NV),
--	  HID_BATTERY_QUIRK_IGNORE },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_15),
--	  HID_BATTERY_QUIRK_IGNORE },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_13_AW0020NG),
--	  HID_BATTERY_QUIRK_IGNORE },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN),
--	  HID_BATTERY_QUIRK_IGNORE },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_SURFACE_GO2_TOUCHSCREEN),
--	  HID_BATTERY_QUIRK_IGNORE },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_LENOVO_YOGA_C630_TOUCHSCREEN),
--	  HID_BATTERY_QUIRK_IGNORE },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_13T_AW100),
--	  HID_BATTERY_QUIRK_IGNORE },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V1),
--	  HID_BATTERY_QUIRK_IGNORE },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V2),
--	  HID_BATTERY_QUIRK_IGNORE },
--	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15_EU0556NG),
--	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_CHROMEBOOK_TROGDOR_POMPOM),
- 	  HID_BATTERY_QUIRK_AVOID_QUERY },
-+	/*
-+	 * Elan I2C-HID touchscreens seem to all report a non present battery,
-+	 * set HID_BATTERY_QUIRK_IGNORE for all Elan I2C-HID devices.
-+	 */
-+	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, HID_ANY_ID), HID_BATTERY_QUIRK_IGNORE },
- 	{}
- };
- 
++	/* Lenovo X12 TAB Gen 2 */
++	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU,
++		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
++			   USB_VENDOR_ID_LENOVO,
++			   USB_DEVICE_ID_LENOVO_X12_TAB2) },
++
+ 	/* Logitech devices */
+ 	{ .driver_data = MT_CLS_NSMU,
+ 		HID_DEVICE(BUS_BLUETOOTH, HID_GROUP_MULTITOUCH_WIN_8,
 -- 
 2.43.0
 
