@@ -1,151 +1,170 @@
-Return-Path: <linux-input+bounces-6674-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6693-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1421F98500E
-	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 03:06:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ADA4985181
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 05:39:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3CACE1C20365
-	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 01:06:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 519AD1C22E1F
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 03:39:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1353157E61;
-	Wed, 25 Sep 2024 01:01:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="pjldD4f9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFAEC148849;
+	Wed, 25 Sep 2024 03:39:13 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cosmicgizmosystems.com (cosgizsys.com [63.249.102.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF56157469;
-	Wed, 25 Sep 2024 01:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC01B126F0A;
+	Wed, 25 Sep 2024 03:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727226084; cv=none; b=TkWadC7bC1vD5t2E825/3R924n6BKRsmjYCoKcR+e6bi/jJqFDxALEJmmS+IdWfZKnxTl7Ex31ogTSVWCfwDDYHihj67LJRFBy0NGKHIHLbynVd1BlnMdSS7BMlZd9OPRLu1Nw8k5lku7LmxTKEwojhcPCpr3zOCOk2nWXUpBVc=
+	t=1727235553; cv=none; b=VZQ6l9yqlkz2dyKr1JP5NzBn4ugi1/yjINTzGj16wvj9tHv/eXJCFfF7x5le63QU7J1MJXbcG5Mzxi3bCMvuaQOJz3/Rd2qfhBXTMbgQfU1Ql/d7m2vzRgxug+gu0P96iY5RtOgTFlfBXK6kow88Bkz+RzdUYqrhLLyC+ll1Gf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727226084; c=relaxed/simple;
-	bh=prnyaP8xdPvgf7lPSdgoOnTFSQEEfdLilloaJUXm1RE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kl5rjkOEDANeZGK0kS0a/pcoC4zsnFan+QyH7OjC7kHworObx8AEfPfHJzHwQPsPNY2RyUwsXJjh9+2NQpDHfhIpi5kOG6MPxdPK9zBhgzTe7J1EGpjU4Wx19Z3ohhxMzHh3nSr6ZyPO32gCyyExhUWheBYNIhK5DXdw3VX1w7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=pjldD4f9; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48OIJGAj001625;
-	Wed, 25 Sep 2024 01:00:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	IHuzCQGYpXyTPH0RihFbQD623zcQRcB8CUdC3cqWdMA=; b=pjldD4f9IXUoQo+6
-	v0DhTrFEJMo29LhW+GBGrrCDkdYe00bE7NcqwI+9FiM4djrz0OYEDpDczfE8hVOS
-	3C4ivw4yDwn+gJEkjIdkLy9uf0kfmgkki+u+Q8lGxIs346X47HAtcOYfwHf6tlii
-	nKkIuAjL9QutcCbd6MiS8pNOBegMxhWwd3107CTRhcnMeL7GXmsi1EwgCvzGSqFL
-	pJODt2TPVDdE4uDtOhKtyhRE+WF1b/32DaW0U275vhBMnKZVfTvwlRmnMyJ4sPut
-	MKHLvDF1hPGGlDdjZ7xTIhQeGkAoIoZft1FFbAoD6XVdMhTnvz8CtXkNMpsfYD/+
-	XpGafg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41snqyjg40-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Sep 2024 01:00:21 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48P10Kac022123
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Sep 2024 01:00:20 GMT
-Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 24 Sep 2024 18:00:20 -0700
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <tiwai@suse.com>, <krzk+dt@kernel.org>,
-        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
-        <bgoswami@quicinc.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        Wesley Cheng
-	<quic_wcheng@quicinc.com>
-Subject: [PATCH v28 32/32] ASoC: usb: Rediscover USB SND devices on USB port add
-Date: Tue, 24 Sep 2024 18:00:00 -0700
-Message-ID: <20240925010000.2231406-33-quic_wcheng@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240925010000.2231406-1-quic_wcheng@quicinc.com>
-References: <20240925010000.2231406-1-quic_wcheng@quicinc.com>
+	s=arc-20240116; t=1727235553; c=relaxed/simple;
+	bh=O8dcmWK12jDj45THMNSloukaqsnGeoFrg8LqafZuYZE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YDRZn/rwswENrsjypT++9nRi+YPB0qPiol6C7zn6D75ETOgZrgwPaM17pdfxb8CFrjchOqiJe0hGdiAhvRiWOd8KvvjsMfTCYsGPcBj3CLjdKF8BiPOQIKLB7T1YpxpLKB6LTF7JsC927c5bnXPHyGHQJyTBgBC6Aq8ucMlYhEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
+Received: from [10.0.0.101] (c-73-190-111-195.hsd1.wa.comcast.net [73.190.111.195])
+	by host11.cruzio.com (Postfix) with ESMTPSA id 15B012240453;
+	Tue, 24 Sep 2024 20:32:05 -0700 (PDT)
+Message-ID: <bc92e409-cebe-4da1-a225-c48915c5dcba@cosmicgizmosystems.com>
+Date: Tue, 24 Sep 2024 20:31:58 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: vKi0Sn_XlvQ3aFwyj_s_nRXk2lodc4I0
-X-Proofpoint-ORIG-GUID: vKi0Sn_XlvQ3aFwyj_s_nRXk2lodc4I0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 adultscore=0 bulkscore=0 phishscore=0 mlxlogscore=999
- spamscore=0 lowpriorityscore=0 clxscore=1015 mlxscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409250005
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] HID: plantronics: Update to map micmute controls
+To: "Wang, Wade" <wade.wang@hp.com>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: "jikos@kernel.org" <jikos@kernel.org>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
+References: <20240913060800.1325954-1-wade.wang@hp.com>
+ <s36bnt7ptdarrxpejm6n62gf3rvvwfagmmpyq4unpv3hn7v2jf@up2vjv7shl2q>
+ <EA2PR84MB378051BB14F857BA84E662818B602@EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM>
+ <EA2PR84MB378082C6FA58AA25258DC74B8B682@EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM>
+Content-Language: en-US
+From: Terry Junge <linuxhid@cosmicgizmosystems.com>
+In-Reply-To: <EA2PR84MB378082C6FA58AA25258DC74B8B682@EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In case the USB backend device has not been initialized/probed, USB SND
-device connections can still occur.  When the USB backend is eventually
-made available, previous USB SND device connections are not communicated to
-the USB backend.  Call snd_usb_rediscover_devices() to generate the connect
-callbacks for all USB SND devices connected.  This will allow for the USB
-backend to be updated with the current set of devices available.
+Hi Wade,
 
-The chip array entries are all populated and removed while under the
-register_mutex, so going over potential race conditions:
+I retired from Plantronics in 2020. The original driver did not allow 
+mute button to be mapped as there were mute synchronization issues.
 
-Thread#1:
-  q6usb_component_probe()
-    --> snd_soc_usb_add_port()
-      --> snd_usb_rediscover_devices()
-        --> mutex_lock(register_mutex)
+The headset needs to receive some type of feedback from the host when it 
+sends the mute event in order to synchronize with the host, ideally the 
+host setting or clearing the mute control in the audio control interface 
+but setting/clearing the mute LED would also work.
 
-Thread#2
-  --> usb_audio_disconnect()
-    --> mutex_lock(register_mutex)
+At the time Ubuntu and Chromebooks did not feedback mute state and it 
+was possible to mute from the headset and then unmute from the mixer or 
+keyboard and the headset would stay muted. The only way to unmute was 
+with the headset button. This was an unacceptable user experience so we 
+blocked mapping.
 
-So either thread#1 or thread#2 will complete first.  If
+If you want to try mapping mute event then you also need to allow 
+mapping the mute LED for possible host feedback.
 
-Thread#1 completes before thread#2:
-  SOC USB will notify DPCM backend of the device connection.  Shortly
-  after, once thread#2 runs, we will get a disconnect event for the
-  connected device.
+(HID_UP_TELEPHONY | 0x2f) is telephony page mute button
+(HID_UP_LED | 0x09) is LED page mute LED
 
-Thread#2 completes before thread#1:
-  Then during snd_usb_rediscover_devices() it won't notify of any
-  connection for that particular chip index.
+Then you need to test more than just the event getting to user space. 
+You need to check mute synchronization with the host mixer under all 
+mute/unmute use cases.
 
-Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
----
- sound/soc/soc-usb.c | 2 ++
- 1 file changed, 2 insertions(+)
+Regards,
+Terry Junge
 
-diff --git a/sound/soc/soc-usb.c b/sound/soc/soc-usb.c
-index f88ccf90df32..3457bb51a0a1 100644
---- a/sound/soc/soc-usb.c
-+++ b/sound/soc/soc-usb.c
-@@ -252,6 +252,8 @@ void snd_soc_usb_add_port(struct snd_soc_usb *usb)
- 	mutex_lock(&ctx_mutex);
- 	list_add_tail(&usb->list, &usb_ctx_list);
- 	mutex_unlock(&ctx_mutex);
-+
-+	snd_usb_rediscover_devices();
- }
- EXPORT_SYMBOL_GPL(snd_soc_usb_add_port);
- 
+
+On 9/24/24 2:00 AM, Wang, Wade wrote:
+> Hi Benjamin and Greg,
+> 
+> May I know the review progress and anything I need to change? Thanks
+> 
+> Regards
+> Wade
+> 
+> -----Original Message-----
+> From: Wang, Wade
+> Sent: Monday, September 16, 2024 4:13 PM
+> To: Benjamin Tissoires <bentiss@kernel.org>
+> Cc: jikos@kernel.org; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; stable@vger.kernel.org
+> Subject: RE: [PATCH] HID: plantronics: Update to map micmute controls
+> 
+> Hi Benjamin,
+> 
+> This patch is for all Poly HS devices, and it does not depends on other patches, it can apply directly by " git am -3".
+> 
+> With this patch, MicMute button key event will be send to user space, I have tested on the below Poly devices:
+>          Plantronics EncorePro 500 Series
+>          Plantronics Blackwire_3325 Series
+>          Poly Voyager 4320 HS + BT700 Dongle
+> 
+> Regards
+> Wade
+> 
+> -----Original Message-----
+> From: Benjamin Tissoires <bentiss@kernel.org>
+> Sent: Friday, September 13, 2024 10:04 PM
+> To: Wang, Wade <wade.wang@hp.com>
+> Cc: jikos@kernel.org; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; stable@vger.kernel.org
+> Subject: Re: [PATCH] HID: plantronics: Update to map micmute controls
+> 
+> CAUTION: External Email
+> 
+> On Sep 13 2024, Wade Wang wrote:
+>> telephony page of Plantronics headset is ignored currently, it caused
+>> micmute button no function, Now follow native HID key mapping for
+>> telephony page map, telephony micmute key is enabled by default
+> 
+> For which devices this patch is required? Is it related to the other patch you sent today? If so please make a mention of the concerned devices and make sure both patches are sent in a single v3 series.
+> 
+> Also, have you tested this change with other Plantronics headsets? Where there any changes in behavior from them?
+> 
+> Cheers,
+> Benjamin
+> 
+>>
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Wade Wang <wade.wang@hp.com>
+>> ---
+>>   drivers/hid/hid-plantronics.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/hid/hid-plantronics.c
+>> b/drivers/hid/hid-plantronics.c index 2a19f3646ecb..2d17534fce61
+>> 100644
+>> --- a/drivers/hid/hid-plantronics.c
+>> +++ b/drivers/hid/hid-plantronics.c
+>> @@ -77,10 +77,10 @@ static int plantronics_input_mapping(struct hid_device *hdev,
+>>                }
+>>        }
+>>        /* handle standard types - plt_type is 0xffa0uuuu or 0xffa2uuuu */
+>> -     /* 'basic telephony compliant' - allow default consumer page map */
+>> +     /* 'basic telephony compliant' - allow default consumer &
+>> + telephony page map */
+>>        else if ((plt_type & HID_USAGE) >= PLT_BASIC_TELEPHONY &&
+>>                 (plt_type & HID_USAGE) != PLT_BASIC_EXCEPTION) {
+>> -             if (PLT_ALLOW_CONSUMER)
+>> +             if (PLT_ALLOW_CONSUMER || (usage->hid & HID_USAGE_PAGE)
+>> + == HID_UP_TELEPHONY)
+>>                        goto defaulted;
+>>        }
+>>        /* not 'basic telephony' - apply legacy mapping */
+>> --
+>> 2.34.1
+>>
+> 
+> 
 
