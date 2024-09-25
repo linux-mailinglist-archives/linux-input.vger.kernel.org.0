@@ -1,59 +1,60 @@
-Return-Path: <linux-input+bounces-6720-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6721-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CAD19867DB
-	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 22:51:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E2F5986812
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 23:08:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADB6C1C2370E
-	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 20:51:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D62001F23ACF
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 21:08:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64671142E6F;
-	Wed, 25 Sep 2024 20:51:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6E101741F0;
+	Wed, 25 Sep 2024 21:07:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JuLbMVFD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eruObcYr"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 378AD130E58;
-	Wed, 25 Sep 2024 20:51:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0EC1714C6;
+	Wed, 25 Sep 2024 21:07:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727297467; cv=none; b=ZhcUS+3jUltxHxVSDd9uqAeFvi6KQL12vX8RV8edxDrQcAhm3BabJjEIO0ZYHRjBorzSN4Z8k1tXOzm1pwQ8QffrR5g8As2h/V2xl4yzkVHOZMYdofwVD5aN90kNZJADjvYlZ4MyNoQcg/64Up0VUvsBxjNWmv/mLb7yDI5vKPQ=
+	t=1727298432; cv=none; b=HPh06YEDfKYWI+20iSXahQmmDXTEyVewVqmnh4mCI+wtoZu1OeoHu3iJYkvGQR+wERmWSuZUCX84ACKgh5OMNUR5Y3hewLLSIfV+5zLFIZb/7dDhh/gP6NaiHHdAlQq3jQUIHWUUNtRvhqhBc65Xbq54+NiKLnZWGvackkXkG88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727297467; c=relaxed/simple;
-	bh=qlNOe+qn/Ih8XUFiyDGvR6ThhF6SmLlkMOkHMZ1MnNo=;
+	s=arc-20240116; t=1727298432; c=relaxed/simple;
+	bh=vg0Qbh6dRJHvsnKUbYwHG6ZblNViGT9pGTEnf3e+Ox0=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=sPKEJoIkEaw1OHRqGKf60JZjmUItgebNPmyvVR+V/Yg8osyWwBChdRd44ZrryUMrcFVJOKjYcEC9DF+ZXBb6DYg8ysIxYf2EFslc3aqGT/yQmarYrIHI2riK9CINfSIujDrAISHrjet+ioG6PyeuHaoBlFhAjE5lO/gqYUFRqqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JuLbMVFD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A619C4CEC3;
-	Wed, 25 Sep 2024 20:51:05 +0000 (UTC)
+	 MIME-Version:Content-Type; b=jE/EV1quxvWdGzxkq/eWcNwbk+ITwbequdAhtpFW4aFuR8r6FJWZ7Gy5w2Dy4/UpqaA+8UJx/QTNzeKxpbuefnsbgd7ldcraA2MeyJ52oA6dLeecaXVHkSqBT/fYcI8s+p0430mksUu1zMOTAb2iN1aNnvAg78xhni14I7VaEio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eruObcYr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D681C4CED0;
+	Wed, 25 Sep 2024 21:07:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727297466;
-	bh=qlNOe+qn/Ih8XUFiyDGvR6ThhF6SmLlkMOkHMZ1MnNo=;
+	s=k20201202; t=1727298432;
+	bh=vg0Qbh6dRJHvsnKUbYwHG6ZblNViGT9pGTEnf3e+Ox0=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=JuLbMVFD5V8Pf4ELlUfOk42/PSwr5/GvUNSrDNrWBIqlr2hT0oAex80mOUcVO6elF
-	 3KVT9DN1kK+eaA+mkCuzIFIU59UFMLDRZAabfyMmFb/AcQUa1wUX20qlH5Pd/b8vON
-	 EHOZRDY4o8IPiuPvUFz3U8GYEka33rPR0e2JF3ZjM6eRC56naBUT5doDml5YL9qkOz
-	 AilTwOfvjE+gwC4pTsRvkjTb/xQTe505Olw7zOpKvrsWeFXHGcjVpB8jLQgFe/GbO4
-	 6zI3y7Bm2e+zPMGCOCz54vZxE29pk6fJ92U/uPo9Kug8QqWbi1bSqsM++hriUoNw3N
-	 gqpGTs9a1AW+w==
-Date: Wed, 25 Sep 2024 22:51:04 +0200 (CEST)
+	b=eruObcYroKITrx3RC1p+AI1vJ5f/xVq1TubrwhrXfNMrBkwa+rrktt11XzjMEnPnW
+	 +F4tqXo0DdVKyscXVakDYl+P/83OLSkV7Qv5D0wumGreWanrgv70TqvLBKyunxBXcY
+	 IZSk4P7wxtVV3GyJp4Zg+HUyYhqnkxL8JoA3Ex4fdthgK1bHD79Y71/+jc9DasU20h
+	 DJv5zWb88debvkTfRMi3zriSWkUYl8vJl+ZLHNc37v1ShbOGSkF2JQ7Sd/sv/LX++S
+	 yir+tsjCKFa7Q4MpJ5b/d9ZujgBCPBpkLuvCQVl1/4UH58lc6Pf/dA/6ZdACrkTd7T
+	 7GM2PSi2r3rkA==
+Date: Wed, 25 Sep 2024 23:07:09 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Rob Herring <robh@kernel.org>
-cc: Charles Wang <charles.goodix@gmail.com>, dmitry.torokhov@gmail.com, 
-    dianders@chromium.org, dan.carpenter@linaro.org, conor@kernel.org, 
-    krzk+dt@kernel.org, bentiss@kernel.org, hbarnor@chromium.org, 
-    linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v7 2/2] dt-bindings: input: Goodix SPI HID Touchscreen
-In-Reply-To: <CAL_Jsq+6fvCaxLexo9c6zs+8vwyfPAOCCVsejw_uKURVU-Md9w@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2409252250330.31206@cbobk.fhfr.pm>
-References: <20240814024513.164199-1-charles.goodix@gmail.com> <20240814024513.164199-3-charles.goodix@gmail.com> <CAL_Jsq+QfTtRj_JCqXzktQ49H8VUnztVuaBjvvkg3fwEHniUHw@mail.gmail.com> <CAL_JsqKUDj6vrWMVVBHrDeXdb3ogsMb3NUbV6OjKR-EhLLZuGg@mail.gmail.com>
- <CAL_Jsq+6fvCaxLexo9c6zs+8vwyfPAOCCVsejw_uKURVU-Md9w@mail.gmail.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+    Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+    Conor Dooley <conor+dt@kernel.org>, 
+    Benjamin Tissoires <bentiss@kernel.org>, 
+    Charles Wang <charles.goodix@gmail.com>, linux-input@vger.kernel.org, 
+    devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] dt-bindings: input: Revert "dt-bindings: input:
+ Goodix SPI HID Touchscreen"
+In-Reply-To: <20240925194921.18933-2-krzysztof.kozlowski@linaro.org>
+Message-ID: <nycvar.YFH.7.76.2409252306420.31206@cbobk.fhfr.pm>
+References: <20240925194921.18933-1-krzysztof.kozlowski@linaro.org> <20240925194921.18933-2-krzysztof.kozlowski@linaro.org>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -63,14 +64,29 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Wed, 25 Sep 2024, Rob Herring wrote:
+On Wed, 25 Sep 2024, Krzysztof Kozlowski wrote:
 
-> Still an issue and no response. Please fix or revert the series.
+> This reverts commit 9184b17fbc23 ("dt-bindings: input: Goodix SPI HID
+> Touchscreen") because it duplicates existing binding leadings to errors:
+> 
+>   goodix,gt7986u.example.dtb:
+>   touchscreen@0: compatible: 'oneOf' conditional failed, one must be fixed:
+>         ['goodix,gt7986u'] is too short
+>         'goodix,gt7375p' was expected
+> 
+> This was reported on mailing list on 6th of September, but no reaction
+> happened from contributor or maintainer to fix it.
+> 
+> Therefore let's drop binding which breaks and duplicates existing one.
+> 
+> Fixes: 9184b17fbc23 ("dt-bindings: input: Goodix SPI HID Touchscreen")
+> Reported-by: Rob Herring <robh@kernel.org>
+> Closes: https://lore.kernel.org/all/CAL_Jsq+QfTtRj_JCqXzktQ49H8VUnztVuaBjvvkg3fwEHniUHw@mail.gmail.com/
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Reverts are now queued in hid.git#for-6.12/upstream-fixes and I will be 
-sending them to Linus ASAP.
+I've applied both patches now and will expedite them to Linus.
 
-Sorry for the delay,
+Thanks,
 
 -- 
 Jiri Kosina
