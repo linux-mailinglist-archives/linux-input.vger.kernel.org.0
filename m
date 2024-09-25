@@ -1,204 +1,131 @@
-Return-Path: <linux-input+bounces-6716-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6717-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56B6986705
-	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 21:38:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D5A9986727
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 21:49:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A2EA11C213C2
-	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 19:38:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD94028430F
+	for <lists+linux-input@lfdr.de>; Wed, 25 Sep 2024 19:49:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B29D71448E6;
-	Wed, 25 Sep 2024 19:38:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AF631465A2;
+	Wed, 25 Sep 2024 19:49:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="OdC+XLrF"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="grVfBDWT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6823145323;
-	Wed, 25 Sep 2024 19:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5262A145323
+	for <linux-input@vger.kernel.org>; Wed, 25 Sep 2024 19:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727293092; cv=none; b=FIlsM1vzxt9uqToLZ+kOKZmK9SwfMGBn/EKW/LDasug1Tm/LxGTl/NwyoH2MCNLnx8Vj2DTUIUxvJV8WUqKnokjp2cmpu7PwKgIgCcKmnX+4bncuX0XC1CQ569QvJo2gBmohBkpVLe4tOhZK5+k6jgcmqwiXzULhUB+cooK7N3g=
+	t=1727293769; cv=none; b=UkR4uXuzIeVnqTSF9hfvefExoux0/+XC178o/s0KeT3IM0JBTWGCA0IMr8//hgk6I9EIMvMgzqFDfj3SOC1oFchQGKSD+JsUpG6OIvua+caUBTWd7nX6yckj1jl6rfkbfFievFO3jSJJQtFZy8JhuR2ob2MANHJJmy2rO41t9is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727293092; c=relaxed/simple;
-	bh=L9UkjFM/t+HZ0+yEiCMKoS3dswfBRu7l2ZkM2TfB1OY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=FLfJRlQAs/XPkyYysDmgSKqWZfUURe9BDH9t6TS5j5nq4swFV5M6lhvXKAo/2bDmWCER4aKeRh6ttRze2OvlS++z9LDXjOictinnSIIaSrJBUK+IsoZvhmiEjuoMo+88LIpGG3g4JbZd0mNAagnUc6xt+yTNTB29kaOQ1xs/8fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=OdC+XLrF; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48PH5Khx032247;
-	Wed, 25 Sep 2024 19:37:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	s3AUR6RT3W7ulZeQVB8mK8Whtlk2Nz8uCdeZZVxJqR0=; b=OdC+XLrF6+MAEd4I
-	UdBLUurgC2n9ERvqbhydfmELwTI1Zl47ONV5wHIouDAUvPWYSh8sGjIlM+PmC5Dq
-	UKPlqraCjBdyht+iZ/NVu+LOLfIoQM8gIjuHM4UJW27rolrkYT/+9UWb1VTWy7U9
-	WJeOJTPgNyymyodDOxC8LzfaA3mTewzXHsi3CKIcPufUWd1zYfcpKlyPRqGonBVZ
-	0iVbOy4LoxyL5IoolwDtm1TY/XS6dgJKWk++AwOSuonGlNn3g23y1jIZwKTPcao6
-	jIMPKqL6WcFg7TFt6WwcPVmheVtmDyweq6Sjt+9Suf+y0vZJTHziGuqhDpKhUczO
-	epgKuw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sp7unf8e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Sep 2024 19:37:48 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48PJbkX3019291
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Sep 2024 19:37:46 GMT
-Received: from [10.71.115.66] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 25 Sep
- 2024 12:37:46 -0700
-Message-ID: <818bb1b9-facc-4d2a-9959-5e1b4befafbd@quicinc.com>
-Date: Wed, 25 Sep 2024 12:37:45 -0700
+	s=arc-20240116; t=1727293769; c=relaxed/simple;
+	bh=wHlt1UDNUW4EyY1KSNP5pOfctY2UPWgFJlLnpzAPVic=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X5Jg2H4xyvEz4y6EKXGVfbuU5op319gIs+QD571UE176TBfYL/5Bswhe/8hsB+Fzx/McjWgIce6tiEqYA5SV2N7oSXdaL9ESF0VhePQdfLcuCtUyhLGGoegdP7+O1oPuBg7p/2IAAgVx/iiCAnKpBuj3QzMc5Qs9k4Urb22Xlt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=grVfBDWT; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42e6dbc8c7dso254005e9.1
+        for <linux-input@vger.kernel.org>; Wed, 25 Sep 2024 12:49:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727293764; x=1727898564; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5oZ8xiwz/Qw/3jSJKzIG7b4TVIP0JKJXyRmrBm+owVg=;
+        b=grVfBDWTvg+0ZccImOzuO3SpkJtcD2xwY/UeVorcSEwUr4ZGVzPUQDnhApb1LUAKsU
+         Qks7mFrAj7OlE/gy7MCPc4asSFRu8Oep3Rg7rrXtpH4ZolrJaTH0/GOTWhFXAtCZ90Ct
+         dVQLbg5LDf5fKoM07RirFqrBjuh5PN+CNV3JauhHq5ObIY96EKYPIPhc6ZD6pJpelpe+
+         rGGkiosq6uCvkDi/F+F926sQSaJGVQgxZwMUPM1UO5gJddIysECSjVGzRk/RRLV4C7k6
+         HRRcdTuqjuTvXepkfvAtKsmZ7V9dO2Ac7YJjT0qCuhw/OUep2Iecq9RBy46k6GWL+X4j
+         bA2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727293764; x=1727898564;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5oZ8xiwz/Qw/3jSJKzIG7b4TVIP0JKJXyRmrBm+owVg=;
+        b=sFMCwOlC69roBa79ycggPahXk5VcdTB5jnvXZM2FGViKoXqZPIW5jkVCy2+a9DymBR
+         oQOxJ9qmBxMSgF/H8u2s2yIO9W5VwIFzYlG8e4a7+9wXKUkDgFHbWS9MDsn1pEeepzoY
+         SKZCE4GEgGgrZ0cpb3kJX02YY4ELVw6Os+BgJMxM1aXIJeOGZBV88mmZ52NHOSvOuVcx
+         LHZ3CXI6uF0+GuMdGjeT0FsCm4ZhFfXtUVVm/wQAJ32+/5jIPkm6FtBF6cvALf+ASgqk
+         E/wZx14vvwMuCtwrnA0EBFKjyJtPG6yM9rNFZP7QsSdf4wRp74m0gWmllCP+vzePq1vT
+         JQoA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQm0+PwjNCh1ljMzJNDpCfzaTyFPz02GDCx/9L5YeVM8qk9AbEhCZHXNeh9ebci/vD11M4NE6ITW51Eg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhrJcwJsJt2OwXNxsUMXbDQs6JRpZVbsugqp4G2EWdQtoi7zXI
+	ZjgKDlfOXyGxB6zp34nVFJAuCQVBETDh8uTm5hrmN/Y8sr3WTJEDmUGWojey+14=
+X-Google-Smtp-Source: AGHT+IFYrMPT2ZaVL6xIu/354c9a0twdXDBSySfzuoKJtCPGg1FhbJnjlrx7JBdLQuBd2QTVnVH3aA==
+X-Received: by 2002:a5d:5888:0:b0:378:9560:330 with SMTP id ffacd0b85a97d-37cc24d0103mr1210030f8f.13.1727293764382;
+        Wed, 25 Sep 2024 12:49:24 -0700 (PDT)
+Received: from krzk-bin.. (78-11-220-99.static.ip.netia.com.pl. [78.11.220.99])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9392f50078sm252268766b.59.2024.09.25.12.49.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Sep 2024 12:49:23 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Charles Wang <charles.goodix@gmail.com>,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/2] HID: hid-goodix: drop unsupported and undocumented DT part
+Date: Wed, 25 Sep 2024 21:49:20 +0200
+Message-ID: <20240925194921.18933-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v28 30/32] ALSA: usb-audio: Add USB offload route kcontrol
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <tiwai@suse.com>, <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
-        <bgoswami@quicinc.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
-References: <20240925010000.2231406-1-quic_wcheng@quicinc.com>
- <20240925010000.2231406-31-quic_wcheng@quicinc.com>
- <8bb65adc-e995-443e-80c9-36e9b5d8eee3@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <8bb65adc-e995-443e-80c9-36e9b5d8eee3@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: J5pod1Ub2q3G-aVUEEhvipnr7QZjPzhz
-X-Proofpoint-ORIG-GUID: J5pod1Ub2q3G-aVUEEhvipnr7QZjPzhz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- clxscore=1015 bulkscore=0 mlxlogscore=999 mlxscore=0 phishscore=0
- suspectscore=0 impostorscore=0 spamscore=0 malwarescore=0
- priorityscore=1501 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2408220000 definitions=main-2409250139
 
-Hi Pierre,
+Drop support for Devicetree from, because the binding is being reverted
+(on basis of duplicating existing binding) and property was not added to
+the original binding.
 
-On 9/25/2024 7:54 AM, Pierre-Louis Bossart wrote:
->
->
->> +static int
->> +snd_usb_offload_route_get(struct snd_kcontrol *kcontrol,
->> +			  struct snd_ctl_elem_value *ucontrol)
->> +{
->> +	struct device *sysdev = snd_kcontrol_chip(kcontrol);
->> +	int ret;
->> +
->> +	ret = snd_soc_usb_update_offload_route(sysdev,
->> +					       CARD_IDX(kcontrol->private_value),
->> +					       PCM_IDX(kcontrol->private_value),
->> +					       SNDRV_PCM_STREAM_PLAYBACK,
->> +					       ucontrol->value.integer.value);
->> +	if (ret < 0) {
->> +		ucontrol->value.integer.value[0] = -1;
->> +		ucontrol->value.integer.value[1] = -1;
->> +	}
-> well this invalidates again what I understood from the last patch and
-> goes back to what I understood initially: the error code is never
-> returned to higher levels - when offload is not supported the kcontrol
-> values are encoded to the -1 magic value.
-Yes, higher levels won't get an error code when they try to fetch for the kcontrol value, and if say...there is no callback to update the offload route then the -1 values are passed back.  I don't think we would want to return an error code.  We just want to communicate the current mapping of the offload path.
->> +	return 0;
-> and this begs the question if this helper should return a void value.
-This is the registered callback for the .get() call for the kcontrol, so it has to follow the definition below:
-    typedef int (snd_kcontrol_get_t) (struct snd_kcontrol * kcontrol, struct snd_ctl_elem_value * ucontrol)
->> +}
->> +
->> +static int snd_usb_offload_route_info(struct snd_kcontrol *kcontrol,
->> +				      struct snd_ctl_elem_info *uinfo)
->> +{
->> +	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
->> +	uinfo->count = 2;
->> +	uinfo->value.integer.min = -1;
->> +	/* Arbitrary max value, as there is no 'limit' on number of PCM devices */
->> +	uinfo->value.integer.max = 0xff;
->> +
->> +	return 0;
->> +}
->> +
->> +static struct snd_kcontrol_new snd_usb_offload_mapped_ctl = {
->> +	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
->> +	.access = SNDRV_CTL_ELEM_ACCESS_READ,
->> +	.info = snd_usb_offload_route_info,
->> +	.get = snd_usb_offload_route_get,
->> +};
->> +
->> +/**
->> + * snd_usb_offload_create_ctl() - Add USB offload bounded mixer
->> + * @chip - USB SND chip device
->> + *
->> + * Creates a sound control for a USB audio device, so that applications can
->> + * query for if there is an available USB audio offload path, and which
->> + * card is managing it.
->> + */
->> +int snd_usb_offload_create_ctl(struct snd_usb_audio *chip)
->> +{
->> +	struct usb_device *udev = chip->dev;
->> +	struct snd_kcontrol_new *chip_kctl;
->> +	struct snd_usb_substream *subs;
->> +	struct snd_usb_stream *as;
->> +	char ctl_name[37];
-> that's quite a magic value.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ drivers/hid/hid-goodix-spi.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-Ah, will fix this.  Should be 34 ("USB Offload Playback Route PCM#" [31] + max pcm index[3]).  From past discussions, technically there isn't an upper limit defined for PCM devices, but the above snd_usb_offload_route_info() has it set to 0xff, so I'll be consistent here as well and assume that if we have more than 255 PCM devices for one device, then we won't create further kcontrols. (probably still overkill, but who knows what USB audio devices are out there)
+diff --git a/drivers/hid/hid-goodix-spi.c b/drivers/hid/hid-goodix-spi.c
+index de655f745d3f..0e59663814dd 100644
+--- a/drivers/hid/hid-goodix-spi.c
++++ b/drivers/hid/hid-goodix-spi.c
+@@ -786,14 +786,6 @@ static const struct acpi_device_id goodix_spi_acpi_match[] = {
+ MODULE_DEVICE_TABLE(acpi, goodix_spi_acpi_match);
+ #endif
+ 
+-#ifdef CONFIG_OF
+-static const struct of_device_id goodix_spi_of_match[] = {
+-	{ .compatible = "goodix,gt7986u", },
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(of, goodix_spi_of_match);
+-#endif
+-
+ static const struct spi_device_id goodix_spi_ids[] = {
+ 	{ "gt7986u" },
+ 	{ },
+@@ -804,7 +796,6 @@ static struct spi_driver goodix_spi_driver = {
+ 	.driver = {
+ 		.name = "goodix-spi-hid",
+ 		.acpi_match_table = ACPI_PTR(goodix_spi_acpi_match),
+-		.of_match_table = of_match_ptr(goodix_spi_of_match),
+ 		.pm = pm_sleep_ptr(&goodix_spi_pm_ops),
+ 	},
+ 	.probe =	goodix_spi_probe,
+-- 
+2.43.0
 
-Thanks
-
-Wesley Cheng
-
-
->> +	int ret;
->> +
->> +	list_for_each_entry(as, &chip->pcm_list, list) {
->> +		subs = &as->substream[SNDRV_PCM_STREAM_PLAYBACK];
->> +		if (!subs->ep_num)
->> +			continue;
->> +
->> +		chip_kctl = &snd_usb_offload_mapped_ctl;
->> +		chip_kctl->count = 1;
->> +		/*
->> +		 * Store the associated USB SND card number and PCM index for
->> +		 * the kctl.
->> +		 */
->> +		chip_kctl->private_value = as->pcm_index |
->> +					  chip->card->number << 16;
->> +		sprintf(ctl_name, "USB Offload Playback Route PCM#%d",
->> +			as->pcm_index);
->> +		chip_kctl->name = ctl_name;
->> +		ret = snd_ctl_add(chip->card, snd_ctl_new1(chip_kctl,
->> +				  udev->bus->sysdev));
->> +		if (ret < 0)
->> +			break;
->> +	}
->> +
->> +	return ret;
->> +}
 
