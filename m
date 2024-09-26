@@ -1,298 +1,184 @@
-Return-Path: <linux-input+bounces-6737-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6738-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47050986E4E
-	for <lists+linux-input@lfdr.de>; Thu, 26 Sep 2024 09:55:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0DC5987025
+	for <lists+linux-input@lfdr.de>; Thu, 26 Sep 2024 11:30:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F0FAB282DFD
-	for <lists+linux-input@lfdr.de>; Thu, 26 Sep 2024 07:55:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89290285D04
+	for <lists+linux-input@lfdr.de>; Thu, 26 Sep 2024 09:30:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9D46193408;
-	Thu, 26 Sep 2024 07:55:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDA3A1A42AB;
+	Thu, 26 Sep 2024 09:30:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="LPhjxhuF"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="BveS5WCI";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="YZEQu2z3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2049.outbound.protection.outlook.com [40.107.117.49])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7EE1925A5;
-	Thu, 26 Sep 2024 07:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.117.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727337331; cv=fail; b=fBUd9nA77lGKcIAQE2OqojoEFKwMDOTBcVLXsU+zsQTAUQYoRRSKtHD89ErqCpMnr0U1yn2AWhsQCWVCinDBZy/uPac+E2IokgCs3wdZLdR4C0AKepEP64zsl9b64g8jHnnNYtZRjfW3cWn9VUMKvmAQm93ig9CBUiURQ/XRI7Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727337331; c=relaxed/simple;
-	bh=FPdyB0bZjkt+TxR2P9FGYYqhTT/RoDXPxD5+Xt2L0Xg=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=cMzzbL5LM5N9Lt93gfjjj5UJh+8/MDKw8Ha4SEzZRuVfBczJAek1kxtIhJyLAzSdZPvfawIlOTCPghf5eh9msjmMbJkcvCzk4ZZiqKjjwidxRDCAvawD8WxpOTQXc11UC/gQSoTesZJ/PqaOxgXa8EkOVtuMOOVpH3cu2qmYR1I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=LPhjxhuF; arc=fail smtp.client-ip=40.107.117.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=P6tv2AaOzqvzhwSgt62KuLNAlQGAVP5pZHxpzLPFn1bxz364+fVxVSilf6Ls+8qd64qRp82GtELnd8Ptdytb+oDdaEgtbvCtffAVdfqqD0ss+JYTP3uSCWlMdf16FVG90pokIlcMpk526+Z72sJAmnH2c0rCJi9D9guL+NukEaeXIWENOzvJbCX7hKUG/wgLcheVc6xxPVIs21EbtOszO3+vGbSZz6vtN/MJsqmP3U3oGUtEaOKgGTr2TTiqWZxMQAnrkYv67mCNNuOMau/fonV3mxuEGapFduO5+yQrK23eIJNdkTd5COfC/96OD862T5cujF/l3JlOgMV0bJi0Yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JUgF8esQ8FjKnMHs/NnNqk/29b5jxRKs49WwTfl9HzE=;
- b=CpKIXQ4f63mmnpAFVPfJuXS9PcMVGal40mtOYN1WB27YJPh+UKfBQIT6tsfyPQ14ns0pagv6wnjHllvg4pjoB++3o309kdiNFA51HnL+GohPg39kp4fRHyQzjbJKtjcugzn8t988Ahv+9gIecpxSrsnKwf69V7YJpTTc/QM91ZC0HgaMu+6iVhxOIpYmcKCtsM7JQsJMTrpQ5UjsgL5pTLpDILFcCHom/11QfxUATgSaRhtftfiWFFAb1s2twG3Kocv0XUdeSXaMwBTTwP8jzT3qJrcHVa0GwWgEY/r7X4bqcKSng+lLNWAEClQYbiwQye5edZkg/mPK7xIYid0i0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JUgF8esQ8FjKnMHs/NnNqk/29b5jxRKs49WwTfl9HzE=;
- b=LPhjxhuFSpM9x1YX66mFLxol5tgEwMMxT2mzcMT55rOpQYYjS6mpmY/X3QsQpvcNTwiuT7gVFhQhtWBAH9ogLy6JmJViU4/+EoeMGe7nePXKd7U9FOnyyH0hW3c1YyJaqdVwJd3UyQTx0jaEeQlRiaYt7SXhNQ5XSfHTmkbwIMZv7jcSQwUDCKgfUbmfcAuqGh0Zo3LC8glqOKN45dc4YnyZzSfg/BiXe/wo6zRbf8yFlrR2W+bFkbUaMY2vEa0kMuyNtIJZdAbofm1WYQSeCYTEiJof4WE/WHMib9LKjfYtMP8TF/nWThy88GH7ArNuxZvmUTTapqSdEEqRv+VMjQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5899.apcprd06.prod.outlook.com (2603:1096:101:e3::16)
- by SEYPR06MB6484.apcprd06.prod.outlook.com (2603:1096:101:171::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.25; Thu, 26 Sep
- 2024 07:55:26 +0000
-Received: from SEZPR06MB5899.apcprd06.prod.outlook.com
- ([fe80::8bfc:f1ee:8923:77ce]) by SEZPR06MB5899.apcprd06.prod.outlook.com
- ([fe80::8bfc:f1ee:8923:77ce%3]) with mapi id 15.20.7982.022; Thu, 26 Sep 2024
- 07:55:26 +0000
-From: Shen Lichuan <shenlichuan@vivo.com>
-To: dmitry.torokhov@gmail.com,
-	o2g.org.ru@gmail.com,
-	mitr@volny.cz,
-	Henk.Vergonet@gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58AE01AB6EE;
+	Thu, 26 Sep 2024 09:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727343005; cv=none; b=s7WhLbUqXRlnoCFsxnkF0DxJeByW2DSR7xqzC32xkrT596rIXlFh70iC/JenQzg76HLybDBH2wvRazFN8MzDyEY7ejpUvy/dKy8uKBfhsXaJqhXJPNypqRNZvbNzBkoU1Qe5RVMhF2ULZey9uxgE/367hfc6gLbdKW/0WXQl4Kw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727343005; c=relaxed/simple;
+	bh=iIHzXOx0pFk7jwvksvnKP2lN8/sMzdyxEPKPJMcowRA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ByE33WWF91lG6QjsIGGQHHCKby+FgOUNfXIWkKyuVWoDeLw1UQ4u68ty7wjtj+Jp8UtwGt223Z+PBIoW7lqM2aVCij0bMQN/mgDjg7cdUCFm4aTDP1HGzC261MpPyNrJO30BFuG44Hl/8ddVNhMuA74stjkzBuoX5/129BDYblQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=BveS5WCI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=YZEQu2z3; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 591181380552;
+	Thu, 26 Sep 2024 05:30:02 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 26 Sep 2024 05:30:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1727343002; x=1727429402; bh=3p
+	y0WN0ig/hJCQGZ38PUAlfLE4IxkpXsSiSv6aahmBE=; b=BveS5WCIFwJPubF9rx
+	XRf3i1SEUACtQsVMpHIcaDdXcIs8jn3+TW9ndjSDyaQDBZI+HAlbl/SsuQe6VH0Q
+	XKgB/2fZH1VO3UemV3ZUkDYRlGyY57K7UINWOoTdeXvv99U+QaG8k4kAZOooqszb
+	gPU6BTcegBSJSv+8Y4cKik75V0LADj/z10yx1MOEsdwDX7aHgv9uSqGUFZxSNg+o
+	cGeQ1BdXKH9dv+k+XpJ59np5DADHHVhIldJFPNS3kfrjSo0Wh8k/NchORj0X7F9B
+	KKdwRQlH2AkivYtc58ziiVDtmCgLpFtCUbPrFCqFQJkajdOIYOzUrBbiXcRXjU54
+	2HwQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1727343002; x=1727429402; bh=3py0WN0ig/hJC
+	QGZ38PUAlfLE4IxkpXsSiSv6aahmBE=; b=YZEQu2z36daOhKyJthLN1pf1pOjG8
+	xs4MBhVLCy1SZ9N9Wx1TFr/DA/V1P0/lTGw1R4guTEI3wpBLSxcEpBDRbC4Q3AHw
+	vT0qwwO54FzlvIsq4aZ0iIrW3V8r7L5eRvkpwK+bMSFCzqTYddzEnTWFehzM3gFg
+	GulTD6XOnNvj6Ijk3YhPlYe2e3AVCp4HfYf17PNwK7dkK7EsI7wV1INn3KfSRolH
+	0W3CQx428hilx3hvQ5Qcjud30XWL0TPFYoBvFczmmeCSX2810WjSF/9Lg3Ne5Ql1
+	rTcoGM+pc9X8r8giYlk6K4EC8t8bV0b47yebfoWH2t5gMy+TavoZUQSyA==
+X-ME-Sender: <xms:mSn1Ziqmx7_hhixfCPuBm-dpb02hHxcykObpeA5WZRxSnaPYnVFKoA>
+    <xme:mSn1ZgqY-ekks4ihwtdogkE8py5V2m_wHr7WNBDJDJPEYn-UwLx9glTWuTl1sI_AF
+    q94h91MUvLSlGfLPLU>
+X-ME-Received: <xmr:mSn1ZnMQd6ptm0b6m4t283huGKrg-VIgv9TCWmW7doyRg7JITGnZ369gsEkOJA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddtjedgudeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevuf
+    ffkffogggtgfesthekredtredtjeenucfhrhhomhepfdfnuhhkvgcuffdrucflohhnvghs
+    fdcuoehluhhkvgeslhhjohhnvghsrdguvghvqeenucggtffrrghtthgvrhhnpeejtdfhhe
+    ffkefhteekleduteegudfgleekheejuedvueefvdeltdehuefgveekkeenucffohhmrghi
+    nhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvhdpnhgspghrtghpthhtohep
+    uddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlh
+    esvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhinhhpuhht
+    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsggvnhhtihhssheskhgvrh
+    hnvghlrdhorhhgpdhrtghpthhtohepjhhikhhosheskhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtohepphhlrghtfhhorhhmqdgurhhivhgvrhdqgiekieesvhhgvghrrdhkvghrnhgvlh
+    drohhrghdprhgtphhtthhopehilhhpohdrjhgrrhhvihhnvghnsehlihhnuhigrdhinhht
+    vghlrdgtohhmpdhrtghpthhtohephhguvghgohgvuggvsehrvgguhhgrthdrtghomhdprh
+    gtphhtthhopegtohhrvghnthhinhdrtghhrghrhiesghhmrghilhdrtghomhdprhgtphht
+    thhopehsuhhpvghrmhdusehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:mSn1Zh6_YLYj9xDW1Gjt7rDQWrQoQg5VK0q6ktvzov3BWQ4tgeYeww>
+    <xmx:mSn1Zh4Y0gKR0ldA1o41dItM0TIAsNF3YyrCcLKhEJ6qFb--Xwq4iw>
+    <xmx:mSn1ZhjVrbXJdPQjyxOswnywbs7o8H0xWsyw1AUY6cMmEZ_bUKTa-g>
+    <xmx:mSn1Zr7cND1GULWxVthATwouowaexuo_s-iYyxB7ygs-wjm33HqLSw>
+    <xmx:min1ZmHjuwa5xvoicyz-0LQ9-qdTTSbkHcnCfHSdNyKT94SoRfYeIXva>
+Feedback-ID: i5ec1447f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 26 Sep 2024 05:29:57 -0400 (EDT)
+From: "Luke D. Jones" <luke@ljones.dev>
+To: linux-kernel@vger.kernel.org
 Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	opensource.kernel@vivo.com,
-	Shen Lichuan <shenlichuan@vivo.com>
-Subject: [PATCH v1] input: misc: Correct typos in multiple comments across various files
-Date: Thu, 26 Sep 2024 15:55:15 +0800
-Message-Id: <20240926075515.10042-1-shenlichuan@vivo.com>
-X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR01CA0009.apcprd01.prod.exchangelabs.com
- (2603:1096:4:191::18) To SEZPR06MB5899.apcprd06.prod.outlook.com
- (2603:1096:101:e3::16)
+	bentiss@kernel.org,
+	jikos@kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com,
+	corentin.chary@gmail.com,
+	superm1@kernel.org,
+	"Luke D. Jones" <luke@ljones.dev>
+Subject: [PATCH v4 0/9] platform/x86: introduce asus-armoury driver
+Date: Thu, 26 Sep 2024 21:29:43 +1200
+Message-ID: <20240926092952.1284435-1-luke@ljones.dev>
+X-Mailer: git-send-email 2.46.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5899:EE_|SEYPR06MB6484:EE_
-X-MS-Office365-Filtering-Correlation-Id: 88ded886-227c-43e9-1a71-08dcde0094e7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?/h7cR0qvgf7x31RIY5yGHvGZQJo4ocsRsUjy7s+u5qj9b7Wl6p6VQ8ZA8biP?=
- =?us-ascii?Q?OF7z6W1q5c7uIbwNMQliI1ZX/kFWBXb9pZV4cSSxesMqR5LCvOZLNdgZbeCk?=
- =?us-ascii?Q?p82I/BxdEYymyKFK+4wq8i33f8whTMmHfcz1TCAJgBaO9a3zoRJQTz4Yv61A?=
- =?us-ascii?Q?/1Rb3drn+Bh+qopoWHciNWGwjmBsDraj5JXHxqDWOAr2pDitT6I0KKEHvndY?=
- =?us-ascii?Q?Eb9HjuF1BABkXq2IcfWXVZegorLX3y7HZZ6S9RRIw4ei0G6KIY7XXHWtXgh1?=
- =?us-ascii?Q?conNQO5TjkVw2/0MPxSeaqY0wI9U+eVDuEQSVi+JT8JByRESVXtZ+GwhG8aJ?=
- =?us-ascii?Q?1jR0MTfrt+7u7dGCuK+xPqoSc7KzX3Uq6GjRncN0EMZiHsSsIl6Ml0w4zoDk?=
- =?us-ascii?Q?kE5+m6Ir4OZ3eIXvo/c5bKxwmZnJVR5W3GDfkXPNffAA+VuKUaIuith/w+Xp?=
- =?us-ascii?Q?r+1eGSyxxwoG2jsPhgBK2uwBdkt28f5974BMIA0/+8IvHEwXKoIytutOnpJa?=
- =?us-ascii?Q?49jDd6DFwF5eth0BfSIJOM/3Mleh13LI3B/u2/hGlCaDIst8WKwN7oVpeiIQ?=
- =?us-ascii?Q?qvLmieabZHdo7ExtTe+Mqizhqos4kjQRpJJJARPQz0EBd1dJJjXDaDLOzEEE?=
- =?us-ascii?Q?Wg1Rc43s6+3sdUCy50I8qpM4hT3XtIoobhzCjK+GtDwmI8S64quXBhIkCBgY?=
- =?us-ascii?Q?j1gUu1lM9Picq4VOjvjrS46P8S47DdmunMC8Yg52mGVTK3tE0rQgHilDl3wn?=
- =?us-ascii?Q?GjKT+cVVpbjHpkpCDc7oO1J+aP8rSK7CuJeba5WJRd4BgTOPMhMRB1NYPtIe?=
- =?us-ascii?Q?engnMn2A4X5Zngj2GmiNBDpCgRz73QlmXpvaTcJrxgMCZp2XI1rrCE+dwTh2?=
- =?us-ascii?Q?0R5xCvlmPqfdRM56J0YJSnTDcYwEqRXzG7DcurTQI4WY++CclloiacYHW0kW?=
- =?us-ascii?Q?TuIf8EZ3jSLGWjq5o3+N7G9fHB7qAQZaFRPVABtWezxi89emiYBgmiTuiaUs?=
- =?us-ascii?Q?SQZPeijRyrzPOti0SvDlejZ+Hf1VncfsoaRPyLYcQBL7rEQUTcBhrESya7xL?=
- =?us-ascii?Q?LScvTMz+LLTUUtvo6q7CfEzXgNpaFWX8AmBLQ3l5KPLJYDnjacstM/0MBbm8?=
- =?us-ascii?Q?wXxF6QvdTg7s6z+sBJ6RrVEifx3iMYkBLN2qC3oIGttcRUd07czZurcU8V/i?=
- =?us-ascii?Q?SbtBhJIsUgdb8kuh1fjvKa2Zk5owU3x9d3m7IvWBSoXoTUca+QT547RDK4yd?=
- =?us-ascii?Q?Mzwf8nX9TiSmOMXJlF4oGya5Bljz11DqNnDU1FcZvBU5/HiuyxeL7fqLYONj?=
- =?us-ascii?Q?fcQ7guwqVx+NUYN+hdxWznXPNzEkteF53F7eD2UKkW8wMeY74nYfL/cYPSdP?=
- =?us-ascii?Q?ONp4KCY48ZhaL8FXuzHAH2owu9SRVfiSFNiWLMswPR3YbUhhKw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5899.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Z5K0QlKKuNvANWODWuuTfPbPAqecIRsyBNko5uoPUbmI0qHD+EET0oOuNeZn?=
- =?us-ascii?Q?azcJ5TCFrwm/U8dWPvXPOfbg1xb30i0BJtNbfrt0QjZ1Bb4UX0W+pLqi5YJU?=
- =?us-ascii?Q?gU0S6fTyUgeznVEIP0y2kkdWPnnWWSjA7gPkP3mdhj5/MOy4odTerujcvA/I?=
- =?us-ascii?Q?hYqIKTmMfOt5St/zu/BnlaJMuBEKsV77awIPf+3BwvS9bs1AlxqDUrL5WCfP?=
- =?us-ascii?Q?cDYzhdBrBua+gmpq4u+b2jt4BbE24vVhrRGuQXo0yoG8GAXcLtGxyqi6Mt6G?=
- =?us-ascii?Q?h5rP601iVQ0PpW8JERVOEJKvgiIFtxkJlOrXxlxmbFsCoLBCGbgSXK53GHse?=
- =?us-ascii?Q?EZi9kO+VetbncZQx83O00AX0SNa3UwGQskmPIJwJnaqlEfdyyqzbNQ6iSIpD?=
- =?us-ascii?Q?kZ8kMsDRJoY08p4N1xtGB+ppKtJ0g/JM3Kufzaun7d3oAEqQ/j7fYUvsjoO1?=
- =?us-ascii?Q?fMTmq1b52WXrV1ZBDKNCNAWvywLk7reucBtpz95S4EAUzo9hkg8WD+gwWUSO?=
- =?us-ascii?Q?Eu/ueOZfZdvj6qoyzZuX2Q7mhj+aFETSXUGguuYSgkCTdes3nrDv29M/I9A4?=
- =?us-ascii?Q?5+896fA93ikbv99l8JS2+7hKFP/UeaARn1Mo+cGOrXeztg1t92sPXQJ6MjTz?=
- =?us-ascii?Q?3Tyc5LQxvHRcD6nkUPmHcnRm/7JZdkY5idn2DC8tyGE2BU6D32wMzJCrEq91?=
- =?us-ascii?Q?95WiziKQg0lImRySSwvozX5lCdX+rpyahgrqOwAjwjZXv5BJGdF+Bnx3HzmJ?=
- =?us-ascii?Q?Esii9LRTcO2S9nl8W7ExbWb/WazZtoKhSa01fT0uTMIG9YUckyUOsb2YF8iK?=
- =?us-ascii?Q?Ztouxaq2hoGbqKRZF1NotZAV9QGxdk+Xmi2WtclfKJNvq8w3YUqry15xg6MR?=
- =?us-ascii?Q?rjewmm6O5UyNohZjHjf6Y9lM/5tqt802QucB1T5LH/MSm/sTqRqDmRmaq9pY?=
- =?us-ascii?Q?ONFRHSubDOoiMYmKBi66L+Pn5fKlg3JXbFiRot60+1anTt2s3Y51xaJQ7pUs?=
- =?us-ascii?Q?yYMKJFrdZI3K6oWDPH7tvB6fbosrhcc+gQ1Mv2JrONu16m2vsbfV7cE2eCtn?=
- =?us-ascii?Q?cW+JccsCDmtuyfl15DRuTyo8CQmfPVYihx3R6UYXkFBqnNJUmREtEbKr6mB3?=
- =?us-ascii?Q?HHkLOd/xAzLda5yYWSS/tXd0ZTgk50c5XHKE6LczcD3UGHHK64+EsDRtuAGV?=
- =?us-ascii?Q?YYptzWxUPS/S8P3CN6iU8hLloFbWSinO15x/kleq8znWXb7zWWSDovTLEWSB?=
- =?us-ascii?Q?anrvKIUbcLisbYG8Q5XiTH1MJyzyIokNsV8dJGmds+FMGAuBUl/Upml4oWEM?=
- =?us-ascii?Q?0nsCRoUpfPX2arfFnOXBbk6ITx0ip8lNZ5bf2wSmChIWUop+JMcyp2v+cFQ/?=
- =?us-ascii?Q?mO6C60YCKSFgyZEefLxILLbScTYj0PUG6w5xNkcX+xAi8M4dwqg3lIbQnZ/i?=
- =?us-ascii?Q?qXh7ETwIWCyJ0w8svjWVVMxyeefgWwYit3wwc9S8muqWtEQfDkT53q0usc0i?=
- =?us-ascii?Q?5r7frzFj519IzRnuK3dcSOXDunnRVkL3NuN62oi69WZUkffhCzgYGpgfB3n1?=
- =?us-ascii?Q?S6xbB47uLe+bkaSQZ55oApYCtA1tCncXfhqaoCmI?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88ded886-227c-43e9-1a71-08dcde0094e7
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5899.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2024 07:55:26.1263
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ljK5op5YznV/Uj3JCqUHWrSfndnlc3roQSVvrhBYHDRIDd2Ejy40sm0quDonhgmi5XIrtvHz0a+RBRahvN7aOg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6484
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Fixed some confusing typos that were currently identified witch codespell,
-the details are as follows:
+his is the first major patch I've ever done with the intention of
+introducing a new module, so it's highly likely I've made some mistakes
+or misunderstood something.
 
--in the code comments:
-drivers/input/misc/drv2665.c:18: Contol ==> Control
-drivers/input/misc/drv2667.c:19: Contol ==> Control
-drivers/input/misc/ideapad_slidebar.c:26: meaningfull ==> meaningful
-drivers/input/misc/ims-pcu.c:742: bootoloader ==> bootloader
-drivers/input/misc/kxtj9.c:28: funtion ==> function
-drivers/input/misc/soc_button_array.c:518: indentical ==> identical
-drivers/input/misc/wistron_btns.c:274: satelite ==> satellite
-drivers/input/misc/yealink.c:380: singe ==> single
-drivers/input/misc/yealink.c:617: coresponding ==> corresponding
+TL;DR:
+1. introduce new module to contain bios attributes, using fw_attributes_class
+2. deprecate all possible attributes from asus-wmi that were added ad-hoc
+3. remove those in the next LTS cycle
 
-Signed-off-by: Shen Lichuan <shenlichuan@vivo.com>
----
- drivers/input/misc/drv2665.c          | 2 +-
- drivers/input/misc/drv2667.c          | 2 +-
- drivers/input/misc/ideapad_slidebar.c | 2 +-
- drivers/input/misc/ims-pcu.c          | 2 +-
- drivers/input/misc/kxtj9.c            | 2 +-
- drivers/input/misc/soc_button_array.c | 2 +-
- drivers/input/misc/wistron_btns.c     | 2 +-
- drivers/input/misc/yealink.c          | 4 ++--
- 8 files changed, 9 insertions(+), 9 deletions(-)
+The idea for this originates from a conversation with Mario Limonciello
+https://lore.kernel.org/platform-driver-x86/371d4109-a3bb-4c3b-802f-4ec27a945c99@amd.com/
 
-diff --git a/drivers/input/misc/drv2665.c b/drivers/input/misc/drv2665.c
-index f98e4d765307..59ad69912bfd 100644
---- a/drivers/input/misc/drv2665.c
-+++ b/drivers/input/misc/drv2665.c
-@@ -15,7 +15,7 @@
- #include <linux/delay.h>
- #include <linux/regulator/consumer.h>
- 
--/* Contol registers */
-+/* Control registers */
- #define DRV2665_STATUS	0x00
- #define DRV2665_CTRL_1	0x01
- #define DRV2665_CTRL_2	0x02
-diff --git a/drivers/input/misc/drv2667.c b/drivers/input/misc/drv2667.c
-index ad49845374b9..b53231d41b09 100644
---- a/drivers/input/misc/drv2667.c
-+++ b/drivers/input/misc/drv2667.c
-@@ -16,7 +16,7 @@
- #include <linux/delay.h>
- #include <linux/regulator/consumer.h>
- 
--/* Contol registers */
-+/* Control registers */
- #define DRV2667_STATUS	0x00
- #define DRV2667_CTRL_1	0x01
- #define DRV2667_CTRL_2	0x02
-diff --git a/drivers/input/misc/ideapad_slidebar.c b/drivers/input/misc/ideapad_slidebar.c
-index fa4e7f67d713..7f1b3690b7e2 100644
---- a/drivers/input/misc/ideapad_slidebar.c
-+++ b/drivers/input/misc/ideapad_slidebar.c
-@@ -23,7 +23,7 @@
-  *
-  * The value is in byte range, however, I only figured out
-  * how bits 0b10011001 work. Some other bits, probably,
-- * are meaningfull too.
-+ * are meaningful too.
-  *
-  * Possible states:
-  *
-diff --git a/drivers/input/misc/ims-pcu.c b/drivers/input/misc/ims-pcu.c
-index 058f3470b7ae..f687e8832fd3 100644
---- a/drivers/input/misc/ims-pcu.c
-+++ b/drivers/input/misc/ims-pcu.c
-@@ -739,7 +739,7 @@ static int ims_pcu_switch_to_bootloader(struct ims_pcu *pcu)
- {
- 	int error;
- 
--	/* Execute jump to the bootoloader */
-+	/* Execute jump to the bootloader */
- 	error = ims_pcu_execute_command(pcu, JUMP_TO_BTLDR, NULL, 0);
- 	if (error) {
- 		dev_err(pcu->dev,
-diff --git a/drivers/input/misc/kxtj9.c b/drivers/input/misc/kxtj9.c
-index 837682cb2a7d..2f301ebb2fb8 100644
---- a/drivers/input/misc/kxtj9.c
-+++ b/drivers/input/misc/kxtj9.c
-@@ -25,7 +25,7 @@
- /* CONTROL REGISTER 1 BITS */
- #define PC1_OFF			0x7F
- #define PC1_ON			(1 << 7)
--/* Data ready funtion enable bit: set during probe if using irq mode */
-+/* Data ready function enable bit: set during probe if using irq mode */
- #define DRDYE			(1 << 5)
- /* DATA CONTROL REGISTER BITS */
- #define ODR12_5F		0
-diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-index 5c5d407fe965..e8f373715e50 100644
---- a/drivers/input/misc/soc_button_array.c
-+++ b/drivers/input/misc/soc_button_array.c
-@@ -515,7 +515,7 @@ static const struct soc_device_data soc_device_INT33D3 = {
- };
- 
- /*
-- * Button info for Microsoft Surface 3 (non pro), this is indentical to
-+ * Button info for Microsoft Surface 3 (non pro), this is identical to
-  * the PNP0C40 info except that the home button is active-high.
-  *
-  * The Surface 3 Pro also has a MSHW0028 ACPI device, but that uses a custom
-diff --git a/drivers/input/misc/wistron_btns.c b/drivers/input/misc/wistron_btns.c
-index 5a64557920fa..81f34b96c611 100644
---- a/drivers/input/misc/wistron_btns.c
-+++ b/drivers/input/misc/wistron_btns.c
-@@ -271,7 +271,7 @@ static struct key_entry keymap_fs_amilo_pro_v8210[] __initdata = {
- 	{ KE_BLUETOOTH, 0x30 },                      /* Fn+F10 */
- 	{ KE_KEY,       0x31, {KEY_MAIL} },          /* mail button */
- 	{ KE_KEY,       0x36, {KEY_WWW} },           /* www button */
--	{ KE_WIFI,      0x78 },                      /* satelite dish button */
-+	{ KE_WIFI,      0x78 },                      /* satellite dish button */
- 	{ KE_END,       FE_WIFI_LED }
- };
- 
-diff --git a/drivers/input/misc/yealink.c b/drivers/input/misc/yealink.c
-index 8866bf65d347..08dc53ae1b3c 100644
---- a/drivers/input/misc/yealink.c
-+++ b/drivers/input/misc/yealink.c
-@@ -377,7 +377,7 @@ static int yealink_do_idle_tasks(struct yealink_dev *yld)
- 		if (len > sizeof(yld->ctl_data->data))
- 			len = sizeof(yld->ctl_data->data);
- 
--		/* Combine up to <len> consecutive LCD bytes in a singe request
-+		/* Combine up to <len> consecutive LCD bytes in a single request
- 		 */
- 		yld->ctl_data->cmd	= CMD_LCD;
- 		yld->ctl_data->offset	= cpu_to_be16(ix);
-@@ -614,7 +614,7 @@ static ssize_t show_line3(struct device *dev, struct device_attribute *attr,
- 	return show_line(dev, buf, LCD_LINE3_OFFSET, LCD_LINE4_OFFSET);
- }
- 
--/* Writing to /sys/../lineX will set the coresponding LCD line.
-+/* Writing to /sys/../lineX will set the corresponding LCD line.
-  * - Excess characters are ignored.
-  * - If less characters are written than allowed, the remaining digits are
-  *   unchanged.
+It is without a doubt much cleaner to use, easier to discover, and the
+API is well defined as opposed to the random clutter of attributes I had
+been placing in the platform sysfs.
+
+There is some discussion on-going regarding the way tuning knobs such as
+the PPT_* should work with platform_profile. This may result in the creation
+of an extra profile type "Custom" to signify that the user has adjusted
+things away from the defaults used by profiles such as "balanced" or "quiet".
+
+Regards,
+Luke
+
+Changelog:
+- v1
+  - Initial submission
+- v2
+  - Too many changes to list, but all concerns raised in previous submission addressed.
+  - History: https://lore.kernel.org/platform-driver-x86/20240716051612.64842-1-luke@ljones.dev/
+- v3
+  - All concerns addressed.
+  - History: https://lore.kernel.org/platform-driver-x86/20240806020747.365042-1-luke@ljones.dev/
+- v4
+  - Use EXPORT_SYMBOL_NS_GPL() for the symbols required in this patch series
+  - Add patch for hid-asus due to the use of EXPORT_SYMBOL_NS_GPL()
+  - Split the PPT knobs out to a separate patch
+  - Split the hd_panel setting out to a new patch
+  - Clarify some of APU MEM configuration and convert int to hex
+  - Rename deprecated Kconfig option to ASUS_WMI_DEPRECATED_ATTRS
+  - Fixup cyclic dependency in Kconfig
+
+Luke D. Jones (9):
+  platform/x86: asus-wmi: export symbols used for read/write WMI
+  hid-asus: Add MODULE_IMPORT_NS(ASUS_WMI)
+  platform/x86: asus-armoury: move existing tunings to asus-armoury
+    module
+  platform/x86: asus-armoury: add panel_hd_mode attribute
+  platform/x86: asus-armoury: add the ppt_* and nv_* tuning knobs
+  platform/x86: asus-armoury: add dgpu tgp control
+  platform/x86: asus-armoury: add apu-mem control support
+  platform/x86: asus-armoury: add core count control
+  platform/x86: asus-wmi: deprecate bios features
+
+ .../ABI/testing/sysfs-platform-asus-wmi       |   17 +
+ drivers/hid/hid-asus.c                        |    1 +
+ drivers/platform/x86/Kconfig                  |   22 +
+ drivers/platform/x86/Makefile                 |    1 +
+ drivers/platform/x86/asus-armoury.c           | 1051 +++++++++++++++++
+ drivers/platform/x86/asus-armoury.h           |  257 ++++
+ drivers/platform/x86/asus-wmi.c               |  185 ++-
+ include/linux/platform_data/x86/asus-wmi.h    |   19 +
+ 8 files changed, 1520 insertions(+), 33 deletions(-)
+ create mode 100644 drivers/platform/x86/asus-armoury.c
+ create mode 100644 drivers/platform/x86/asus-armoury.h
+
 -- 
-2.17.1
+2.46.1
 
 
