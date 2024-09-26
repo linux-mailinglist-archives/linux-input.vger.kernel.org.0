@@ -1,77 +1,77 @@
-Return-Path: <linux-input+bounces-6742-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6743-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2FC7987034
-	for <lists+linux-input@lfdr.de>; Thu, 26 Sep 2024 11:31:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4E26987036
+	for <lists+linux-input@lfdr.de>; Thu, 26 Sep 2024 11:31:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 79B6CB2681A
-	for <lists+linux-input@lfdr.de>; Thu, 26 Sep 2024 09:31:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 75BF82862E9
+	for <lists+linux-input@lfdr.de>; Thu, 26 Sep 2024 09:31:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 786FD1AD40D;
-	Thu, 26 Sep 2024 09:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C8471AD9D2;
+	Thu, 26 Sep 2024 09:30:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="BAvpBJ8j";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OU+7rxxk"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="v6B2Ff11";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RnleNrkh"
 X-Original-To: linux-input@vger.kernel.org
 Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD3F1AC8A7;
-	Thu, 26 Sep 2024 09:30:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928D31AD5EB;
+	Thu, 26 Sep 2024 09:30:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727343023; cv=none; b=SH2zxku3TNRp6GeYLglFf63I5dgR46Ymx2Y3EZjwcPQJOzm4EzraMo68gYzZjxOtBzCZ1M7DsvlsQWqWRHsUp5cB46VTFkt84j6oIv2ZAcqbNwQ3OMzrdNKeQtJvJ0B32jaH16TSpMaMfQqIXsd2Vy0yuOWu6dXKB2K4/TGk8hQ=
+	t=1727343028; cv=none; b=aTDREDMzYJ8tCXYH9Ef3mr0m/nQ18cqCKlFFLxXPh7B2SRFEJJpGRtqHhW0mgAQtwfkQrgl/kMIw/shtep9onCAAyh5K7Rjv3WVH9PI0/Jil92JSgbpwvyJHAIF7ru8MWIO6QNrrxu5kevIjxGRzbf9kMmriBqVUYkIsSN50GYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727343023; c=relaxed/simple;
-	bh=yoTFO0FozM4+uByHYrpdnUVLEMckofUuomAAnblgtDw=;
+	s=arc-20240116; t=1727343028; c=relaxed/simple;
+	bh=Kx1xBvt8A9Y67VPVZSM7lqr73m+mTBpQBs/frutQuks=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KKZphTfbp5TBTmRtso03yollwj0/iz5LRzvnBrRFidVMr2m9ZhMiwJrqToaQ4bCB6Y90k1FxWnBcSV0f9jnnnBO5kIJejiOF7FiF8eH2niWxJ8AU3xro82Pxbz6GIbzAg5esBRao+LIn2gAe6/K0CyKz8WoK+stHm+bUHcIWjyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=BAvpBJ8j; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OU+7rxxk; arc=none smtp.client-ip=103.168.172.156
+	 MIME-Version; b=b4LqaRxAnRR9qXUZbc9XpalijYW2Az/bLlTPEWMJgJpDLVj6KP70aNIPOI9Zr5PcRIemD/lFMW8jDCwHfWEASRmPKT9u8daZ+splkjhAOXLD8NlfMrJ3d07hU5STmResrljrR05AK4B37vczycnnPUo1E3nlBT66nkpJRsLbktM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=v6B2Ff11; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RnleNrkh; arc=none smtp.client-ip=103.168.172.156
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id B8EBD1140289;
-	Thu, 26 Sep 2024 05:30:20 -0400 (EDT)
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 87B851140249;
+	Thu, 26 Sep 2024 05:30:25 -0400 (EDT)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Thu, 26 Sep 2024 05:30:20 -0400
+  by phl-compute-10.internal (MEProxy); Thu, 26 Sep 2024 05:30:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
 	:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1727343020; x=
-	1727429420; bh=aHFJ7oapOv24VJBRGsmbRS93O8yyP06cxrLYAGD1vUE=; b=B
-	AvpBJ8jCp7ktkOnV5nU+QbzFFX1PFJrcdF+TuFSe3oPx/6TTUNh/IW/em38hhv3+
-	BIvBItkJu30ZIaNZc53X2ZcNESTkt4mAzgt5ch/5ChFR5raZ8cJfwnaiYcizUo7Q
-	g0pAXqA/tdHVkvSRjPmzMXMxMKK/2bgDZPsD9ODSG1bbT2yD3nHIwC0w1OwxrmYY
-	LypNVgkoLrVOEPIngcovChiFv+6OXCtkFfnpYiyXDcsFRKBNSEmi0WSg41MbCxHz
-	FnrVKucNf2PpkUAdUihNSm5hYJG0jsnqPZfguIJG4yW8IAupCm3o8SImqDD5TKW1
-	1ZRWhI+/Olu1JUDO0kXiA==
+	:reply-to:subject:subject:to:to; s=fm3; t=1727343025; x=
+	1727429425; bh=l6Dwx/N019beLIS5KBhyFeriUD5bIddes97JJcjAMzc=; b=v
+	6B2Ff11RJB7LfR4otzYFe3ampFr4/QsCfJ8UD+2rV9Cy8TJqTtQRkPC5sr5DCOCc
+	wYjBFOTXFqtu4JtOgMEzaJS/S5WszgP63aUgHJo6L+n3NXqGOCvehrLln3z6xpBC
+	mbs2SmB2xHFZmojV6dxWaAp7mx4xUX+CzOV662cz3uGTILHG8bZ3FZPThkh+uOYy
+	wTahwMJhZw8PzRXvBEKpB0b5QcJyf0Mud6w4cZ8ZRWWj6xOBiiLvGJXRTYgeB8/N
+	eoCHGBcC5JsTy8mc6hv1NVN4lapKq+LSg+5+RxWnW70wID37KfpRQgWA0hK3z5vP
+	6wgzwAHiZ+TabDwXW0ANA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1727343020; x=
-	1727429420; bh=aHFJ7oapOv24VJBRGsmbRS93O8yyP06cxrLYAGD1vUE=; b=O
-	U+7rxxkq3QTXCK0ZWjwilgHSItgnAiV6i7MT9/spB3eCzN+EQJNyvRx2L1eshZ/I
-	840drglQiG0z/mWS+FyKYdAuI6vKV6nC03OD3SrgKCPoD4Y0v4QsX9E4/SZ7zHil
-	pYg+xD7nGdn6bXNfa5BbPRErdICvL4gf/Qf53w0kREb5RNmzRZpyYlFK6fiHKIjO
-	RJvcQLZDV8zqzrhxnN79cb6cb86LO/06K70j+hAhskfY0SfZWgqpM5zkB8gRwLiC
-	bU1sAs3QsUjVaa1O3AlpQ2xz0UO7k1vLpVKfwvMYjFkTRv9NUqeDwnPoAUojI+4H
-	UINBsPbN2OUVjMHi+mEKg==
-X-ME-Sender: <xms:rCn1ZojvXrCfxbo0XO4lt3kiWX3pkWN-gy894KbMN5URIBh6AWLWkw>
-    <xme:rCn1ZhBJ9mwptcH0ixj6Ws3RZHqvkN2qn4fpt3zM4TFAtoZTvHfXUNpSgMEA-2OQB
-    SUkk6mCkgzkwokqww8>
-X-ME-Received: <xmr:rCn1ZgHUodwg0HCKI3KRV4k-xBhJDdbMwMKXaZlOUHCgSsClLgQOoOAOO98cTA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddtjedgudeiucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1727343025; x=
+	1727429425; bh=l6Dwx/N019beLIS5KBhyFeriUD5bIddes97JJcjAMzc=; b=R
+	nleNrkhfuHZDnoTTn8UfdFG9xNNGoURsF+qxxr3kyJHPog7+3Q+Z5496Is8ZX4z5
+	UsnFkZU2FsSMGChroMtc8NC+AhL0qbyGSdXNjCHZsWqQsXpmjt57LcqYmM2aL6Oq
+	pylDZaeQksu0asYaMnN8B08FN6xo99+c8u+nuWtl4eoafPTYUiA9vNC2TFh5CqYB
+	Xt877XlMzNUpRyo6jbQfey5iTDpQ4iRH49TA7NtsTPMRPzL1bdskqB7b9CZYFV7l
+	4LnR/AF3rpSbjZmXBeE5lA7rSokRwnyO0bif2S1CN44r/0qzSkNrT60ts3iOBly5
+	UlO0DydtsExyaG8GmQAug==
+X-ME-Sender: <xms:sSn1ZnXuBCpVSFtbfwzXF5yr_MVtKCEszRIq0D6OwZfcfppbq-Golw>
+    <xme:sSn1ZvnBKOTxunN-H1_4aHzieTfKYnJixqxjYwu41iP-u93N6vFSoLDbd4DHgrg5k
+    _p9yKJkrQM-LVrnaQQ>
+X-ME-Received: <xmr:sSn1ZjaljHpIR5FB9P4xyq-Y06CUcZdyjbXV44U3cLc2LyLVRzhPuDEMMGgKCg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddtjedgudejucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
     rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevuf
     ffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgv
     shdfuceolhhukhgvsehljhhonhgvshdruggvvheqnecuggftrfgrthhtvghrnhepgfetfe
     dugfetudeuheetjefhuefggfelleetvdevtefhueeujeefvdegleevhefgnecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonh
+    thgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonh
     gvshdruggvvhdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgt
     phhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
     gtphhtthhopehlihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
@@ -82,14 +82,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddtjedgudeiucetufdoteggod
     ohgvuggvsehrvgguhhgrthdrtghomhdprhgtphhtthhopegtohhrvghnthhinhdrtghhrg
     hrhiesghhmrghilhdrtghomhdprhgtphhtthhopehsuhhpvghrmhdusehkvghrnhgvlhdr
     ohhrgh
-X-ME-Proxy: <xmx:rCn1ZpSWL-m9vaDACjdzA_WzKtXfBFET_ysslQFFphOqEtMHYjp3OQ>
-    <xmx:rCn1ZlzZP29or8PxQC_MEIrJKVbmPTdpTCLOo4kZvVyzpE8HzQa8eA>
-    <xmx:rCn1Zn7QLmXyNkNbG4PabOazhqrpLjuNn51WMPGA8VSiYNwK3KpENg>
-    <xmx:rCn1ZiyLBQ-jcrqBWqASAcoyF1aqeDj3VUozETA74Qn-vvwyBos40Q>
-    <xmx:rCn1ZleEZ2zdtWpYFFShdi8ud2VicbgoUAMfdWUhO9h9UifGjUyZTv_i>
+X-ME-Proxy: <xmx:sSn1ZiVI_PDhQ1Am9GZbZkrPlwyax2sGHeIttCKLu8Z4hsx3R630fA>
+    <xmx:sSn1Zhm6mxjPoSecGqEbGWlkCaSzuFcUSiYqwtdTAOVKygzEgVydww>
+    <xmx:sSn1ZvdOcyE61ajiySlB_AVZ6Xi-azzD7fGQFM1ErVM5mr5gjF7cmg>
+    <xmx:sSn1ZrEaXEcYHrjVxSROlTzYoJ0njlLxhbgZVl7yY6sRhKUoQwaGfg>
+    <xmx:sSn1Zii8d9YIbXxuLi2E5QrCYE8-jSEL-RyIRPl6nN1PncMCqH7Fl3wG>
 Feedback-ID: i5ec1447f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Sep 2024 05:30:16 -0400 (EDT)
+ 26 Sep 2024 05:30:21 -0400 (EDT)
 From: "Luke D. Jones" <luke@ljones.dev>
 To: linux-kernel@vger.kernel.org
 Cc: linux-input@vger.kernel.org,
@@ -101,9 +101,9 @@ Cc: linux-input@vger.kernel.org,
 	corentin.chary@gmail.com,
 	superm1@kernel.org,
 	"Luke D. Jones" <luke@ljones.dev>
-Subject: [PATCH v4 4/9] platform/x86: asus-armoury: add panel_hd_mode attribute
-Date: Thu, 26 Sep 2024 21:29:47 +1200
-Message-ID: <20240926092952.1284435-5-luke@ljones.dev>
+Subject: [PATCH v4 5/9] platform/x86: asus-armoury: add the ppt_* and nv_* tuning knobs
+Date: Thu, 26 Sep 2024 21:29:48 +1200
+Message-ID: <20240926092952.1284435-6-luke@ljones.dev>
 X-Mailer: git-send-email 2.46.1
 In-Reply-To: <20240926092952.1284435-1-luke@ljones.dev>
 References: <20240926092952.1284435-1-luke@ljones.dev>
@@ -115,58 +115,270 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add panel_hd_mode to toggle the panel mode between single and high
-definition modes.
+Adds the ppt_* and nv_* tuning knobs that are available via WMI methods
+and adds proper min/max levels plus defaults.
 
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
- drivers/platform/x86/asus-armoury.c        | 6 +++++-
- include/linux/platform_data/x86/asus-wmi.h | 1 +
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ drivers/platform/x86/asus-armoury.c | 130 ++++++++++++++++++++++++++++
+ drivers/platform/x86/asus-armoury.h |  65 ++++++++++++++
+ 2 files changed, 195 insertions(+)
 
 diff --git a/drivers/platform/x86/asus-armoury.c b/drivers/platform/x86/asus-armoury.c
-index 39e422b16b8e..15eab4d45b81 100644
+index 15eab4d45b81..766f944d0233 100644
 --- a/drivers/platform/x86/asus-armoury.c
 +++ b/drivers/platform/x86/asus-armoury.c
-@@ -106,7 +106,8 @@ static struct kobj_attribute pending_reboot = __ATTR_RO(pending_reboot);
+@@ -52,12 +52,40 @@
+ #define NVIDIA_TEMP_MIN 75
+ #define NVIDIA_TEMP_MAX 87
  
- static bool asus_bios_requires_reboot(struct kobj_attribute *attr)
- {
--	return !strcmp(attr->attr.name, "gpu_mux_mode");
-+	return !strcmp(attr->attr.name, "gpu_mux_mode") ||
-+	       !strcmp(attr->attr.name, "panel_hd_mode");
- }
++/* Tunables provided by ASUS for gaming laptops */
++struct rog_tunables {
++	u32 cpu_default;
++	u32 cpu_min;
++	u32 cpu_max;
++
++	u32 platform_default;
++	u32 platform_min;
++	u32 platform_max;
++
++	u32 ppt_pl1_spl; // cpu
++	u32 ppt_pl2_sppt; // cpu
++	u32 ppt_apu_sppt; // plat
++	u32 ppt_platform_sppt; // plat
++	u32 ppt_fppt; // cpu
++
++	u32 nv_boost_default;
++	u32 nv_boost_min;
++	u32 nv_boost_max;
++	u32 nv_dynamic_boost;
++
++	u32 nv_temp_default;
++	u32 nv_temp_min;
++	u32 nv_temp_max;
++	u32 nv_temp_target;
++};
++
+ static const struct class *fw_attr_class;
  
- /**
-@@ -429,6 +430,8 @@ ATTR_GROUP_BOOL_RW(mcu_powersave, "mcu_powersave", ASUS_WMI_DEVID_MCU_POWERSAVE,
- 		   "Set MCU powersaving mode");
- ATTR_GROUP_BOOL_RW(panel_od, "panel_overdrive", ASUS_WMI_DEVID_PANEL_OD,
- 		   "Set the panel refresh overdrive");
-+ATTR_GROUP_BOOL_RW(panel_hd_mode, "panel_hd_mode", ASUS_WMI_DEVID_PANEL_HD,
-+		   "Set the panel HD mode to UHD<0> or FHD<1>");
- ATTR_GROUP_BOOL_RO(egpu_connected, "egpu_connected", ASUS_WMI_DEVID_EGPU_CONNECTED,
- 		   "Show the eGPU connection status");
+ struct asus_armoury_priv {
+ 	struct device *fw_attr_dev;
+ 	struct kset *fw_attr_kset;
  
-@@ -442,6 +445,7 @@ static const struct asus_attr_group armoury_attr_groups[] = {
++	struct rog_tunables *rog_tunables;
+ 	u32 mini_led_dev_id;
+ 	u32 gpu_mux_dev_id;
+ 
+@@ -421,6 +449,25 @@ WMI_SHOW_INT(egpu_enable_current_value, "%d\n", ASUS_WMI_DEVID_EGPU);
+ ATTR_GROUP_BOOL_CUSTOM(egpu_enable, "egpu_enable", "Enable the eGPU (also disables dGPU)");
+ 
+ /* Simple attribute creation */
++ATTR_GROUP_ROG_TUNABLE(ppt_pl1_spl, "ppt_pl1_spl", ASUS_WMI_DEVID_PPT_PL1_SPL, cpu_default,
++		       cpu_min, cpu_max, 1, "Set the CPU slow package limit");
++ATTR_GROUP_ROG_TUNABLE(ppt_pl2_sppt, "ppt_pl2_sppt", ASUS_WMI_DEVID_PPT_PL2_SPPT, cpu_default,
++		       cpu_min, cpu_max, 1, "Set the CPU fast package limit");
++ATTR_GROUP_ROG_TUNABLE(ppt_apu_sppt, "ppt_apu_sppt", ASUS_WMI_DEVID_PPT_APU_SPPT,
++		       platform_default, platform_min, platform_max, 1,
++		       "Set the CPU slow package limit");
++ATTR_GROUP_ROG_TUNABLE(ppt_platform_sppt, "ppt_platform_sppt", ASUS_WMI_DEVID_PPT_PLAT_SPPT,
++		       platform_default, platform_min, platform_max, 1,
++		       "Set the CPU slow package limit");
++ATTR_GROUP_ROG_TUNABLE(ppt_fppt, "ppt_fppt", ASUS_WMI_DEVID_PPT_FPPT, cpu_default, cpu_min,
++		       cpu_max, 1, "Set the CPU slow package limit");
++ATTR_GROUP_ROG_TUNABLE(nv_dynamic_boost, "nv_dynamic_boost", ASUS_WMI_DEVID_NV_DYN_BOOST,
++		       nv_boost_default, nv_boost_min, nv_boost_max, 1,
++		       "Set the Nvidia dynamic boost limit");
++ATTR_GROUP_ROG_TUNABLE(nv_temp_target, "nv_temp_target", ASUS_WMI_DEVID_NV_THERM_TARGET,
++		       nv_temp_default, nv_boost_min, nv_temp_max, 1,
++		       "Set the Nvidia max thermal limit");
++
+ ATTR_GROUP_ENUM_INT_RO(charge_mode, "charge_mode", ASUS_WMI_DEVID_CHARGE_MODE, "0;1;2",
+ 		       "Show the current mode of charging");
+ 
+@@ -441,6 +488,14 @@ static const struct asus_attr_group armoury_attr_groups[] = {
+ 	{ &egpu_enable_attr_group, ASUS_WMI_DEVID_EGPU },
+ 	{ &dgpu_disable_attr_group, ASUS_WMI_DEVID_DGPU },
+ 
++	{ &ppt_pl1_spl_attr_group, ASUS_WMI_DEVID_PPT_PL1_SPL },
++	{ &ppt_pl2_sppt_attr_group, ASUS_WMI_DEVID_PPT_PL2_SPPT },
++	{ &ppt_apu_sppt_attr_group, ASUS_WMI_DEVID_PPT_APU_SPPT },
++	{ &ppt_platform_sppt_attr_group, ASUS_WMI_DEVID_PPT_PLAT_SPPT },
++	{ &ppt_fppt_attr_group, ASUS_WMI_DEVID_PPT_FPPT },
++	{ &nv_dynamic_boost_attr_group, ASUS_WMI_DEVID_NV_DYN_BOOST },
++	{ &nv_temp_target_attr_group, ASUS_WMI_DEVID_NV_THERM_TARGET },
++
+ 	{ &charge_mode_attr_group, ASUS_WMI_DEVID_CHARGE_MODE },
  	{ &boot_sound_attr_group, ASUS_WMI_DEVID_BOOT_SOUND },
  	{ &mcu_powersave_attr_group, ASUS_WMI_DEVID_MCU_POWERSAVE },
- 	{ &panel_od_attr_group, ASUS_WMI_DEVID_PANEL_OD },
-+	{ &panel_hd_mode_attr_group, ASUS_WMI_DEVID_PANEL_HD },
- };
+@@ -532,12 +587,87 @@ static int asus_fw_attr_add(void)
  
- static int asus_fw_attr_add(void)
-diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index 6ea4dedfb85e..7caf2c7ed8c9 100644
---- a/include/linux/platform_data/x86/asus-wmi.h
-+++ b/include/linux/platform_data/x86/asus-wmi.h
-@@ -73,6 +73,7 @@
- #define ASUS_WMI_DEVID_THROTTLE_THERMAL_POLICY_VIVO 0x00110019
+ /* Init / exit ****************************************************************/
  
- /* Misc */
-+#define ASUS_WMI_DEVID_PANEL_HD		0x0005001C
- #define ASUS_WMI_DEVID_PANEL_OD		0x00050019
- #define ASUS_WMI_DEVID_CAMERA		0x00060013
- #define ASUS_WMI_DEVID_LID_FLIP		0x00060062
++/* Set up the min/max and defaults for ROG tunables */
++static void init_rog_tunables(struct rog_tunables *rog)
++{
++	const char *product;
++	u32 max_boost = NVIDIA_BOOST_MAX;
++	u32 cpu_default = PPT_CPU_LIMIT_DEFAULT;
++	u32 cpu_max = PPT_CPU_LIMIT_MAX;
++	u32 platform_default = PPT_PLATFORM_DEFAULT;
++	u32 platform_max = PPT_PLATFORM_MAX;
++
++	/*
++	 * ASUS product_name contains everything required, e.g,
++	 * "ROG Flow X16 GV601VV_GV601VV_00185149B"
++	 */
++	product = dmi_get_system_info(DMI_PRODUCT_NAME);
++
++	if (strstr(product, "GA402R")) {
++		cpu_default = 125;
++	} else if (strstr(product, "13QY")) {
++		cpu_max = 250;
++	} else if (strstr(product, "X13")) {
++		cpu_max = 75;
++		cpu_default = 50;
++	} else if (strstr(product, "RC71") || strstr(product, "RC72")) {
++		cpu_max = 50;
++		cpu_default = 30;
++	} else if (strstr(product, "G814") || strstr(product, "G614") ||
++		   strstr(product, "G834") || strstr(product, "G634")) {
++		cpu_max = 175;
++	} else if (strstr(product, "GA402X") || strstr(product, "GA403") ||
++		   strstr(product, "FA507N") || strstr(product, "FA507X") ||
++		   strstr(product, "FA707N") || strstr(product, "FA707X")) {
++		cpu_max = 90;
++	}
++
++	if (strstr(product, "GZ301ZE"))
++		max_boost = 5;
++	else if (strstr(product, "FX507ZC4"))
++		max_boost = 15;
++	else if (strstr(product, "GU605"))
++		max_boost = 20;
++
++	/* ensure defaults for tunables */
++	rog->cpu_default = cpu_default;
++	rog->cpu_min = PPT_CPU_LIMIT_MIN;
++	rog->cpu_max = cpu_max;
++
++	rog->platform_default = platform_default;
++	rog->platform_max = PPT_PLATFORM_MIN;
++	rog->platform_max = platform_max;
++
++	rog->ppt_pl1_spl = cpu_default;
++	rog->ppt_pl2_sppt = cpu_default;
++	rog->ppt_apu_sppt = cpu_default;
++
++	rog->ppt_platform_sppt = platform_default;
++	rog->ppt_fppt = cpu_default;
++
++	rog->nv_boost_default = NVIDIA_BOOST_MAX;
++	rog->nv_boost_max = NVIDIA_BOOST_MIN;
++	rog->nv_boost_max = max_boost;
++	rog->nv_dynamic_boost = NVIDIA_BOOST_MIN;
++
++	rog->nv_temp_default = NVIDIA_TEMP_MAX;
++	rog->nv_temp_max = NVIDIA_TEMP_MIN;
++	rog->nv_temp_max = NVIDIA_TEMP_MAX;
++	rog->nv_temp_target = NVIDIA_TEMP_MIN;
++}
++
+ static int __init asus_fw_init(void)
+ {
+ 	int err;
+ 
+ 	fw_attrs.pending_reboot = false;
+ 
++	asus_armoury.rog_tunables = kzalloc(sizeof(struct rog_tunables), GFP_KERNEL);
++	if (!asus_armoury.rog_tunables)
++		return -ENOMEM;
++
++	init_rog_tunables(asus_armoury.rog_tunables);
++
+ 	err = asus_fw_attr_add();
+ 	if (err)
+ 		return err;
+diff --git a/drivers/platform/x86/asus-armoury.h b/drivers/platform/x86/asus-armoury.h
+index b99fd136abf1..9e63ea0d9d44 100644
+--- a/drivers/platform/x86/asus-armoury.h
++++ b/drivers/platform/x86/asus-armoury.h
+@@ -17,6 +17,12 @@ static ssize_t attr_int_store(struct kobject *kobj, struct kobj_attribute *attr,
+ 			      const char *buf, size_t count, u32 min, u32 max,
+ 			      u32 *store_value, u32 wmi_dev);
+ 
++static ssize_t int_type_show(struct kobject *kobj, struct kobj_attribute *attr,
++			     char *buf)
++{
++	return sysfs_emit(buf, "integer\n");
++}
++
+ static ssize_t enum_type_show(struct kobject *kobj, struct kobj_attribute *attr,
+ 			      char *buf)
+ {
+@@ -143,4 +149,63 @@ static ssize_t enum_type_show(struct kobject *kobj, struct kobj_attribute *attr,
+ 		.name = _fsname, .attrs = _attrname##_attrs               \
+ 	}
+ 
++/*
++ * ROG PPT attributes need a little different in setup as they
++ * require rog_tunables members.
++ */
++
++#define __ROG_TUNABLE_RW(_attr, _min, _max, _wmi)                             \
++	static ssize_t _attr##_current_value_store(                           \
++		struct kobject *kobj, struct kobj_attribute *attr,            \
++		const char *buf, size_t count)                                \
++	{                                                                     \
++		return attr_int_store(kobj, attr, buf, count,                 \
++				      asus_armoury.rog_tunables->_min,        \
++				      asus_armoury.rog_tunables->_max,        \
++				      &asus_armoury.rog_tunables->_attr,      \
++				      _wmi);                                  \
++	}                                                                     \
++	static ssize_t _attr##_current_value_show(                            \
++		struct kobject *kobj, struct kobj_attribute *attr, char *buf) \
++	{                                                                     \
++		return sysfs_emit(buf, "%u\n",                                \
++				  asus_armoury.rog_tunables->_attr);          \
++	}                                                                     \
++	static struct kobj_attribute attr_##_attr##_current_value =           \
++		__ASUS_ATTR_RW(_attr, current_value)
++
++#define __ROG_TUNABLE_SHOW(_prop, _attrname, _val)                            \
++	static ssize_t _attrname##_##_prop##_show(                            \
++		struct kobject *kobj, struct kobj_attribute *attr, char *buf) \
++	{                                                                     \
++		return sysfs_emit(buf, "%d\n",                                \
++				  asus_armoury.rog_tunables->_val);           \
++	}                                                                     \
++	static struct kobj_attribute attr_##_attrname##_##_prop =             \
++		__ASUS_ATTR_RO(_attrname, _prop)
++
++#define ATTR_GROUP_ROG_TUNABLE(_attrname, _fsname, _wmi, _default, _min, _max, \
++			       _incstep, _dispname)                            \
++	__ROG_TUNABLE_SHOW(default_value, _attrname, _default);                \
++	__ROG_TUNABLE_RW(_attrname, _min, _max, _wmi);                         \
++	__ROG_TUNABLE_SHOW(min_value, _attrname, _min);                        \
++	__ROG_TUNABLE_SHOW(max_value, _attrname, _max);                        \
++	__ATTR_SHOW_FMT(scalar_increment, _attrname, "%d\n", _incstep);        \
++	__ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);           \
++	static struct kobj_attribute attr_##_attrname##_type =                 \
++		__ASUS_ATTR_RO_AS(type, int_type_show);                        \
++	static struct attribute *_attrname##_attrs[] = {                       \
++		&attr_##_attrname##_current_value.attr,                        \
++		&attr_##_attrname##_default_value.attr,                        \
++		&attr_##_attrname##_min_value.attr,                            \
++		&attr_##_attrname##_max_value.attr,                            \
++		&attr_##_attrname##_scalar_increment.attr,                     \
++		&attr_##_attrname##_display_name.attr,                         \
++		&attr_##_attrname##_type.attr,                                 \
++		NULL                                                           \
++	};                                                                     \
++	static const struct attribute_group _attrname##_attr_group = {         \
++		.name = _fsname, .attrs = _attrname##_attrs                    \
++	}
++
+ #endif /* _ASUS_BIOSCFG_H_ */
 -- 
 2.46.1
 
