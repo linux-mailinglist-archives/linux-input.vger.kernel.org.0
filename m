@@ -1,126 +1,110 @@
-Return-Path: <linux-input+bounces-6735-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6736-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27321986D89
-	for <lists+linux-input@lfdr.de>; Thu, 26 Sep 2024 09:26:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C00986DFC
+	for <lists+linux-input@lfdr.de>; Thu, 26 Sep 2024 09:47:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D6E61F24E24
-	for <lists+linux-input@lfdr.de>; Thu, 26 Sep 2024 07:26:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D6D6D1C21444
+	for <lists+linux-input@lfdr.de>; Thu, 26 Sep 2024 07:47:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44BDB188A32;
-	Thu, 26 Sep 2024 07:26:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AE5F188A25;
+	Thu, 26 Sep 2024 07:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LykKmUkC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kaq3xLT0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95EE185B55;
-	Thu, 26 Sep 2024 07:26:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7788D14F10E;
+	Thu, 26 Sep 2024 07:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727335603; cv=none; b=syUn1AOBZAcEk9zRdlkusLrr7167HQ9VgOZnHKotSObioQIunfGy1M7CpZb88NwWs0SuPtZPFoxuDPQDMWUEB5WP3YCu+kQo+rTBebnK3zdMZEotgMJ6J8ukoZGpsJV5wvRcdO4xTqcpDpksSY6OqJAtbrtu0Vb6M4mLYQezEZI=
+	t=1727336845; cv=none; b=J5HWxIXMQ6Z2Vj3zNhsUxaah9L5qozsARmfU5lAt/UHl1sCAm61HX+X/9EKGFuHhsDSMG+3bIGHWs1yX/sNP/8VBCkwQnPStgjRkMvwNHGaKT0ex89dWowyKqsnCWZGOm1/D7SMKTAjNglc8WLW0Lu5/PZo0vf8i5g9BR6SW9fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727335603; c=relaxed/simple;
-	bh=juqhsBDgk/qJ2OoFwalVGkUMzZ8OxYXE80kYUkcez+s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T7qUlsmx06j1m2U+UH5ULGQUqWqtNVOdAHluV0m+zTV0v7y4bTZzLYKtiNmyE1R2/t7ps0NDn46U3HBQz5nmZDDRrKfPcIoUVhScRnk+tNM/G4eCz9XSTuQAYiM0zMYJg/TVj43eavsz0T1KeSFVlO/bzChshAC8hKxRG1iBHEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LykKmUkC; arc=none smtp.client-ip=209.85.210.45
+	s=arc-20240116; t=1727336845; c=relaxed/simple;
+	bh=sbp35loG1dkiN3K6+DS+J207tNv9+/xCv8SXqYl3Gjs=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BgMHCKvJsOgfO0+L/qCs7lDuW9+i/pxpX3zJ5308OONrRmp2fWN8AoW91SMu1nTAlpZAp+aU9O4o9JwgytD4WAC2wZVzF2w1yDmyxPVwdhrcwzyBQBD8KZYKrVGktPnzw+gYp8sXEgYUCHtxgShWKYNAxqHISqy8LJybibNm2bM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kaq3xLT0; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-710e910dd7dso408554a34.2;
-        Thu, 26 Sep 2024 00:26:41 -0700 (PDT)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a8a7b1c2f2bso102621466b.0;
+        Thu, 26 Sep 2024 00:47:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727335600; x=1727940400; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BCku12FFLOCaOziMj0MbSv/94Oa74+TUIaChEUsPCYg=;
-        b=LykKmUkCF8y3RHYYlbVFNTuIxXHzlDWr1+xDQ2wExGDDMM7QnogX8zgQs/GNZpNruC
-         Vk8D5uPPX+q7mlVaaRX+9Ipm2+F46LCeQHX2LDQIP7lRcZG8GLWpQ2kjCjYAAUbZeQoh
-         brfmaghMaI/1x88bP+d9b8GGcJsdBtCd4phc3ZHjDcVSfRQzsktIFZWNL3fyZ5fW0MNE
-         Kpnn7H71r9xDZXOyebpynzrOqHo+OldBQtOHfQ7dZ3BM0FBmquO6jw/dE5Vy0D/CweOq
-         0jVknt8v90FxGFEpzkGJe96Dd/k1PFKLKgKgrd4SJIu1e1cbRwhIHdGbxN+66pvY2E7L
-         DgaQ==
+        d=gmail.com; s=20230601; t=1727336841; x=1727941641; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VXgcQt/t3gCBiL6CrVkztXkAMt0TnTUvjHyyD1p//ys=;
+        b=kaq3xLT0qYKCIME2Gl8lgp/SceSTZZFSP6gzEqM8VrX0/SoBDsMI1BF+Mh3XG4LGw7
+         Il2ziRzpzg8eqSv7WZEI50J6vfBU1Zzn97jf6pKuj+mbPx8h1DnvLg0PAcF8RNeS4gOv
+         h8bxqNatGoZEDb7i78RaMmBKjwq1G2h7lrCxTWaeY0SrBBPCHw3FCoalWQ0lrBx8mEhl
+         vauJGKw7+aifeVnsoyrb7ASbVyP3vrd0vGyB0+X/o1vYpvrbmuUDcOzm+WZfQGbGWfVI
+         swqMaOiKlqKCEUncIFshM/wZUfJGr+gN7PuUsC5oURINxWcYg3rgR9+k2I8njqzYSKh3
+         r8hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727335600; x=1727940400;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BCku12FFLOCaOziMj0MbSv/94Oa74+TUIaChEUsPCYg=;
-        b=hOq+EKRBeWrls62Jv/0iWGVigdNlI7YfV6NQp0uozMWJYlHIohBJTV9k8wWu9VPxEs
-         79vFW/fvEzSbiHWdq09NQadtjH20tHtPwaaAZT5pALYI6KKbt1Nzx7u70rtqnsmgPJ4z
-         S23I98voBsAPFpu+nti98+qsn/Pfyj1efU7KJaW5+9x3QYzOt0AP7jrDCpPe1CNViOt2
-         RyqxG5btUpit/Gj7Hhs/Ub/AajqOpqx5+2BtxYSUjaSKb6OOm3IxOTqcDxjxVXrBN9jA
-         KxR0XlpsFuNsq6xPk0G1IKEnB8AuSsiyvGw1NNe3JAkPebzyetDg7j7qN5T3XNBwP6xz
-         tQVA==
-X-Forwarded-Encrypted: i=1; AJvYcCVqc3UKVXaRKh3Ht4BGdGc4u/33XCvRv4p9hlMpQiEw3Z1K+sjVArCZ2hYfEgX4eLk2oVfGQ2+t5fTBZGXH@vger.kernel.org, AJvYcCWgnB3zfEXpBK3UJ27eDCZAKSGzk7U80JtejCh/SdPNKik+325NO1avrbVSSDECNa4M6MQdqoXVH3lvZg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5U7sao1EmYHHMqJac/JYh1ek7D0W897rdzabo7M4wCk6gbXLb
-	05/P5Bii4HGmvuzCPaNwK0cwDrbnEW/DXvu4Xn5fcMYSHtoNdXSQ
-X-Google-Smtp-Source: AGHT+IFpp0aO2P1B8GMYF8tHd6ozNiC6/E6EZFKELYRx2rZeoWtrD+VyBcOu2IxWQF2JR5BsSDHgCQ==
-X-Received: by 2002:a05:6830:6206:b0:710:e61c:7a4c with SMTP id 46e09a7af769-713c7f344ffmr5085007a34.29.1727335600670;
-        Thu, 26 Sep 2024 00:26:40 -0700 (PDT)
-Received: from localhost.localdomain ([240d:1a:13a:f00:4b94:68e0:2d8b:3983])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71afc9c78eesm3708899b3a.210.2024.09.26.00.26.38
+        d=1e100.net; s=20230601; t=1727336841; x=1727941641;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VXgcQt/t3gCBiL6CrVkztXkAMt0TnTUvjHyyD1p//ys=;
+        b=xEnKsJ8RFl+zYuMWu4ujXwMFaNK3LrddKzGGevju6+wLzNdfNkfx+/gH8VipKKvgod
+         vPr5tdRYJcsGNmoagIIfeAgAP8xhB8vS5YRHS3+l2YfkAWF/ZK7FCMZUO+5VOb0pSrUG
+         hkZp01Ev4wA30aXGNfu6dCJAdw/CNaVCn054SXjTDrfOQ8vXCE4p6CSIqs0P+pTh64LY
+         2t7y6phwlPLsr5Fch/ms6xEOUz9UTGToSS7IDh7EFlpLEetyFjYZtsHd9rfp99AZRlaH
+         frbm7om7tl3a6aOyp3DNRNA6EADbPqoPtT1yeVz10CajBALaVSMaEYlmERFkjMZW+Qor
+         sdfw==
+X-Forwarded-Encrypted: i=1; AJvYcCW/eGt6j6JtvmFZfqAkQkuzO9DmLCtcV3mjPxnsI/HEmYmXKa65M7QY6qKge+hQ3ZNK4yoRfbdW83108g==@vger.kernel.org, AJvYcCXWO1VW0CTNbXM+tzPNIDsPzURARpQKk0mzbN0YiahGY2YiDOr8X4pDQQf+hggZYmFo+U/cBu6Tj2AMUazj@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3HVs3V0AMP6/jY5Sq5sLIfcRMWhhEZbbKUTtcVs0BzC5AmpVj
+	36/Q552jnu3urEZx4HA1wEp1pGlBGW7cChXSp/n9zPgveV+TtlQj
+X-Google-Smtp-Source: AGHT+IEJXaXg4njtPdRpa2+FF2h/xySF67hNU5lrTkwJ03kFktgRk6Pd9eooA6tbBFdzJPIFxUaJFw==
+X-Received: by 2002:a17:907:31c9:b0:a83:94bd:d913 with SMTP id a640c23a62f3a-a93a03202f3mr572242566b.10.1727336841193;
+        Thu, 26 Sep 2024 00:47:21 -0700 (PDT)
+Received: from localhost ([217.151.144.138])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93930c8a98sm317428966b.124.2024.09.26.00.47.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Sep 2024 00:26:40 -0700 (PDT)
-From: Tatsuya S <tatsuya.s2862@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: Tatsuya S <tatsuya.s2862@gmail.com>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: Add reserved item tag for main items
-Date: Thu, 26 Sep 2024 16:25:40 +0900
-Message-ID: <20240926072541.109493-1-tatsuya.s2862@gmail.com>
-X-Mailer: git-send-email 2.46.1
+        Thu, 26 Sep 2024 00:47:20 -0700 (PDT)
+From: Oliver Graute <oliver.graute@gmail.com>
+X-Google-Original-From: Oliver Graute <oliver.graute@kococonnector.com>
+Date: Thu, 26 Sep 2024 09:46:18 +0200
+To: Yu Jiaoliang <yujiaoliang@vivo.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Joel Selvaraj <joelselvaraj.oss@gmail.com>,
+	ye xingchen <ye.xingchen@zte.com.cn>,
+	Felix Kaechele <felix@kaechele.ca>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	John Keeping <jkeeping@inmusicbrands.com>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	patches@opensource.cirrus.com, opensource.kernel@vivo.com
+Subject: Re: [PATCH v1] input: Fix typos in comments across various files
+Message-ID: <ZvURSswZLdAakNU6@graute-think>
+References: <20240926031457.3479350-1-yujiaoliang@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240926031457.3479350-1-yujiaoliang@vivo.com>
 
-For main items, separate warning of reserved item tag from
-warning of unknown item tag.
----
- drivers/hid/hid-core.c | 6 +++++-
- include/linux/hid.h    | 2 ++
- 2 files changed, 7 insertions(+), 1 deletion(-)
+On 26/09/24, Yu Jiaoliang wrote:
+> This commit fixes several typographical errors in comments within
+> the driver/input directory. No functional changes are made.
+> 
+> Detected using codespell.
+> 
+> Signed-off-by: Yu Jiaoliang <yujiaoliang@vivo.com>
 
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 30de92d0bf0f..1793edb6239d 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -629,7 +629,11 @@ static int hid_parser_main(struct hid_parser *parser, struct hid_item *item)
- 		ret = hid_add_field(parser, HID_FEATURE_REPORT, data);
- 		break;
- 	default:
--		hid_warn(parser->device, "unknown main item tag 0x%x\n", item->tag);
-+		if (item->tag >= HID_MAIN_ITEM_TAG_RESERVED_MIN &&
-+			item->tag <= HID_MAIN_ITEM_TAG_RESERVED_MAX)
-+			hid_warn(parser->device, "reserved main item tag 0x%x\n", item->tag);
-+		else
-+			hid_warn(parser->device, "unknown main item tag 0x%x\n", item->tag);
- 		ret = 0;
- 	}
- 
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 121d5b8bc867..e3894f38bd96 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -81,6 +81,8 @@ struct hid_item {
- #define HID_MAIN_ITEM_TAG_FEATURE		11
- #define HID_MAIN_ITEM_TAG_BEGIN_COLLECTION	10
- #define HID_MAIN_ITEM_TAG_END_COLLECTION	12
-+#define HID_MAIN_ITEM_TAG_RESERVED_MIN		13
-+#define HID_MAIN_ITEM_TAG_RESERVED_MAX		15
- 
- /*
-  * HID report descriptor main item contents
--- 
-2.46.1
-
+Reviewed-by: Oliver Graute <oliver.graute@kococonnector.com>
 
