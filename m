@@ -1,47 +1,47 @@
-Return-Path: <linux-input+bounces-6818-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6819-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B619988869
-	for <lists+linux-input@lfdr.de>; Fri, 27 Sep 2024 17:39:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3EB598889B
+	for <lists+linux-input@lfdr.de>; Fri, 27 Sep 2024 17:56:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF21D1F21F26
-	for <lists+linux-input@lfdr.de>; Fri, 27 Sep 2024 15:39:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2D041C20A26
+	for <lists+linux-input@lfdr.de>; Fri, 27 Sep 2024 15:56:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DBEF1C0DF9;
-	Fri, 27 Sep 2024 15:39:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 470FF18C021;
+	Fri, 27 Sep 2024 15:56:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="twUpRTJf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="riyQJO5r"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C4B1E4AE;
-	Fri, 27 Sep 2024 15:39:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE4118B1A;
+	Fri, 27 Sep 2024 15:56:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727451550; cv=none; b=S+i9YeI7tyYD6HTxNd9JF80SWWaYodmsihzPUAVrTQ/0PQuxdXLioToraRt9k9Pz270mMBa8wg3Zkm54D94Q3odHL10XJ216qFT+05+5ByxbU5qFAaqAlLYcmcfyxNxDUStgI2Sm71lwtmK1gjm8HV2LyKYJi++s7fZPnZCtuN4=
+	t=1727452585; cv=none; b=WBePpuxecTmz2Md6NMuDjJwpdIUBRhZcdKNBfYaYgiG8LlU9wl8utXCEO8V49/mAFse5P0k1BeUNdsvNs2653BU380K+VjM4hp6Njyv/5M2JndHFaZj4MinYbqyk0GKaYxsgMTefXHwDYqOeLat+ct2ySIXjX0ZQp5Qn4G2HdkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727451550; c=relaxed/simple;
-	bh=MfMhGynU4JvxQVteRfbW8LAV4G55LKO/5OpCwaX9w0w=;
+	s=arc-20240116; t=1727452585; c=relaxed/simple;
+	bh=LDGGmgVf9JJZZvlWGW82IbklqNVGYZgzG1K6LHijCQQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oEqu+3T7KJt8HxXoTTejErXWV/jg0sDhYhSIGFE+HiWNqdTz0dwNw5A5vW3NHUxQDxtXF5cLwsplYfPqPN9TD76Fv1aGZ6P3Jw/aeRScojPcg6xtJEaXuyP3e/BiN4p7Zj53e3nVGvLvwFoM3CV55jiaU5rsBC+f4K65w4YpgYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=twUpRTJf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFDDCC4CEC4;
-	Fri, 27 Sep 2024 15:39:06 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=H3u5s0ysm9yPpzxTyZlWf/dJuz8jSByaq5ibJzWO26CwTGjQLlsiS0jCj7TE6o2mByxyo5GKK0lbt0FAViX/GAt/XQjBKZiOlOOa8m+Riu7MGxAQ0CK6myydeO45bNQrmQCcevegh/VtBuSrUIf36QOA56pSZqV3aFqS1CXS2Xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=riyQJO5r; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E677EC4CEC4;
+	Fri, 27 Sep 2024 15:56:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727451550;
-	bh=MfMhGynU4JvxQVteRfbW8LAV4G55LKO/5OpCwaX9w0w=;
+	s=k20201202; t=1727452584;
+	bh=LDGGmgVf9JJZZvlWGW82IbklqNVGYZgzG1K6LHijCQQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=twUpRTJfy6Z4b9NHI5mYsH7NhFHIljHDYjs+Ea9xre+kBESToco94DothumvXG4sS
-	 /jTNKQ5hS1oTTXJ4/fqZyWAbkaDbhpDc6vwd43weyUX7lLo6YwUfhqrH4G50pVpsdp
-	 hj1NqUpmMl2rCm6xzXr7v8vIIDBGnm9LPQ+wRaJGgMdXmeBoUoWwo86KPmzSttDuzo
-	 1iY+cHdNHzABI+9TW/kuDo1nCE7PyYzcqc2YpOjwsAnn0/88QfaB3ib/EEaOv5fiwq
-	 Kv4nxCCgcWYY4TT+7Y9QjonVFmmrMLiglalSAEvff7Zd99Fwwrzvxa99e6dwsN7K1+
-	 OIFFbl9YXsQTg==
-Date: Fri, 27 Sep 2024 17:39:03 +0200
+	b=riyQJO5rRdwj+aBpiHRdqdHYmGu738xPfJAF38WjjCIL2wNPMu6yTL1J2ZtishcXG
+	 TWyjy9RNjzVFR5f32GFGduMzUYorFgRAguQwz6gaHHBvcXbgEGyowzZ/5Ncpr6dYfE
+	 hA4qO2aKABag5k4bBq6SC2U0xOOL/+GcBrL4Vi29xOP93ZOWHzBSAew4Xi4/1R3CPq
+	 7AK8SPC2jKUxkunxd8JJh0d5IeRtxz3POsUJQ8R+j0A0yDwbkLPJThfiSPSd9L/XNI
+	 NgvM8wmUOXRHX4J39fvR2SnbUev4EO4KXOH3kCHIsOZ8ZHTqXPIigTyS01Qi5crY7t
+	 +ZvQQ4lPKrQRA==
+Date: Fri, 27 Sep 2024 17:56:19 +0200
 From: Benjamin Tissoires <bentiss@kernel.org>
 To: Aditya Garg <gargaditya08@live.com>
 Cc: "tzimmermann@suse.de" <tzimmermann@suse.de>, 
@@ -51,449 +51,67 @@ Cc: "tzimmermann@suse.de" <tzimmermann@suse.de>,
 	Orlando Chamberlain <orlandoch.dev@gmail.com>, Kerem Karabay <kekrby@gmail.com>, 
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, 
 	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v5 2/10] HID: hid-appletb-kbd: add driver for the
- keyboard mode
-Message-ID: <i4kn5ftusya5ins2gliea33gkfsoubd6cxcy7lhw5zpxsww4ct@m5cg7prilvfj>
+Subject: Re: [PATCH v5 4/10] HID: multitouch: support getting the contact ID
+ from HID_DG_TRANSDUCER_INDEX fields
+Message-ID: <xdkn2y6wpnqjrngem3xjxjn2a7cykhrb6dj56w6avz4noj7itu@xlknbwmp63h7>
 References: <DD9C41AD-6543-47CE-8504-69E4992229B2@live.com>
- <0B505E00-A1D6-4D0E-BE04-311E231874C5@live.com>
+ <BD919A98-0D44-42F9-867F-B936BBB8267A@live.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0B505E00-A1D6-4D0E-BE04-311E231874C5@live.com>
+In-Reply-To: <BD919A98-0D44-42F9-867F-B936BBB8267A@live.com>
 
 On Aug 17 2024, Aditya Garg wrote:
 > From: Kerem Karabay <kekrby@gmail.com>
 > 
-> The Touch Bars found on x86 Macs support two USB configurations: one
-> where the device presents itself as a HID keyboard and can display
-> predefined sets of keys, and one where the operating system has full
-> control over what is displayed. This commit adds a driver for the
-> display functionality of the first configuration.
-> 
-> Note that currently only T2 Macs are supported.
-> 
-> This driver is based on previous work done by Ronald Tschalär
-> <ronald@innovation.ch>.
+> This is needed to support Apple Touch Bars, where the contact ID is
+> contained in fields with the HID_DG_TRANSDUCER_INDEX usage.
 > 
 > Signed-off-by: Kerem Karabay <kekrby@gmail.com>
-> Co-developed-by: Aditya Garg <gargaditya08@live.com>
 > Signed-off-by: Aditya Garg <gargaditya08@live.com>
 > ---
->  .../ABI/testing/sysfs-driver-hid-appletb-kbd  |  13 +
->  drivers/hid/Kconfig                           |  11 +
->  drivers/hid/Makefile                          |   1 +
->  drivers/hid/hid-appletb-kbd.c                 | 304 ++++++++++++++++++
->  drivers/hid/hid-quirks.c                      |   4 +-
->  5 files changed, 332 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/ABI/testing/sysfs-driver-hid-appletb-kbd
->  create mode 100644 drivers/hid/hid-appletb-kbd.c
+>  drivers/hid/hid-multitouch.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-driver-hid-appletb-kbd b/Documentation/ABI/testing/sysfs-driver-hid-appletb-kbd
-> new file mode 100644
-> index 000000000..2a19584d0
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-driver-hid-appletb-kbd
-> @@ -0,0 +1,13 @@
-> +What:		/sys/bus/hid/drivers/hid-appletb-kbd/<dev>/mode
-> +Date:		September, 2023
-> +KernelVersion:	6.5
-> +Contact:	linux-input@vger.kernel.org
-> +Description:
-> +		The set of keys displayed on the Touch Bar.
-> +		Valid values are:
-> +		== =================
-> +		0  Escape key only
-> +		1  Function keys
-> +		2  Media/brightness keys
-> +		3  None
-> +		== =================
-> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> index 4988c1fb2..72b665eda 100644
-> --- a/drivers/hid/Kconfig
-> +++ b/drivers/hid/Kconfig
-> @@ -158,6 +158,17 @@ config HID_APPLETB_BL
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called hid-appletb-bl.
+> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+> index 56fc78841..3e92789ed 100644
+> --- a/drivers/hid/hid-multitouch.c
+> +++ b/drivers/hid/hid-multitouch.c
+> @@ -635,7 +635,9 @@ static struct mt_report_data *mt_allocate_report_data(struct mt_device *td,
 >  
-> +config HID_APPLETB_KBD
-> +	tristate "Apple Touch Bar Keyboard Mode"
-> +	depends on USB_HID
-> +	help
-> +	  Say Y here if you want support for the keyboard mode (escape,
-> +	  function, media and brightness keys) of Touch Bars on x86 MacBook
-> +	  Pros.
+>  		if (field->logical == HID_DG_FINGER || td->hdev->group != HID_GROUP_MULTITOUCH_WIN_8) {
+>  			for (n = 0; n < field->report_count; n++) {
+> -				if (field->usage[n].hid == HID_DG_CONTACTID) {
+> +				unsigned int hid = field->usage[n].hid;
 > +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called hid-appletb-kbd.
-> +
->  config HID_ASUS
->  	tristate "Asus"
->  	depends on USB_HID
-> diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-> index 1d825a474..d903c9a26 100644
-> --- a/drivers/hid/Makefile
-> +++ b/drivers/hid/Makefile
-> @@ -30,6 +30,7 @@ obj-$(CONFIG_HID_ACRUX)		+= hid-axff.o
->  obj-$(CONFIG_HID_APPLE)		+= hid-apple.o
->  obj-$(CONFIG_HID_APPLEIR)	+= hid-appleir.o
->  obj-$(CONFIG_HID_APPLETB_BL)	+= hid-appletb-bl.o
-> +obj-$(CONFIG_HID_APPLETB_KBD)	+= hid-appletb-kbd.o
->  obj-$(CONFIG_HID_CREATIVE_SB0540)	+= hid-creative-sb0540.o
->  obj-$(CONFIG_HID_ASUS)		+= hid-asus.o
->  obj-$(CONFIG_HID_AUREAL)	+= hid-aureal.o
-> diff --git a/drivers/hid/hid-appletb-kbd.c b/drivers/hid/hid-appletb-kbd.c
-> new file mode 100644
-> index 000000000..ecac68fc7
-> --- /dev/null
-> +++ b/drivers/hid/hid-appletb-kbd.c
-> @@ -0,0 +1,304 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Apple Touch Bar Keyboard Mode Driver
-> + *
-> + * Copyright (c) 2017-2018 Ronald Tschalär
-> + * Copyright (c) 2022-2023 Kerem Karabay <kekrby@gmail.com>
-> + * Copyright (c) 2024 Aditya Garg <gargaditya08@live.com>
-> + */
-> +
-> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> +
-> +#include <linux/hid.h>
-> +#include <linux/usb.h>
-> +#include <linux/input.h>
-> +#include <linux/sysfs.h>
-> +#include <linux/bitops.h>
-> +#include <linux/module.h>
-> +#include <linux/string.h>
-> +#include <linux/input/sparse-keymap.h>
-> +
-> +#include "hid-ids.h"
-> +
-> +#define APPLETB_KBD_MODE_ESC	0
-> +#define APPLETB_KBD_MODE_FN	1
-> +#define APPLETB_KBD_MODE_SPCL	2
-> +#define APPLETB_KBD_MODE_OFF	3
-> +#define APPLETB_KBD_MODE_MAX	APPLETB_KBD_MODE_OFF
-> +
-> +#define HID_USAGE_MODE		0x00ff0004
-> +
-> +static int appletb_tb_def_mode = APPLETB_KBD_MODE_SPCL;
-> +module_param_named(mode, appletb_tb_def_mode, int, 0444);
-> +MODULE_PARM_DESC(mode, "Default touchbar mode:\n"
-> +			 "    0 - escape key only\n"
-> +			 "    1 - function-keys\n"
-> +			 "    [2] - special keys");
-> +
-> +struct appletb_kbd {
-> +	struct hid_field *mode_field;
-> +
-> +	u8 saved_mode;
-> +	u8 current_mode;
-> +};
-> +
-> +static const struct key_entry appletb_kbd_keymap[] = {
-> +	{ KE_KEY, KEY_ESC, { KEY_ESC } },
-> +	{ KE_KEY, KEY_F1,  { KEY_BRIGHTNESSDOWN } },
-> +	{ KE_KEY, KEY_F2,  { KEY_BRIGHTNESSUP } },
-> +	{ KE_KEY, KEY_F3,  { KEY_RESERVED } },
-> +	{ KE_KEY, KEY_F4,  { KEY_RESERVED } },
-> +	{ KE_KEY, KEY_F5,  { KEY_KBDILLUMDOWN } },
-> +	{ KE_KEY, KEY_F6,  { KEY_KBDILLUMUP } },
-> +	{ KE_KEY, KEY_F7,  { KEY_PREVIOUSSONG } },
-> +	{ KE_KEY, KEY_F8,  { KEY_PLAYPAUSE } },
-> +	{ KE_KEY, KEY_F9,  { KEY_NEXTSONG } },
-> +	{ KE_KEY, KEY_F10, { KEY_MUTE } },
-> +	{ KE_KEY, KEY_F11, { KEY_VOLUMEDOWN } },
-> +	{ KE_KEY, KEY_F12, { KEY_VOLUMEUP } },
-> +	{ KE_END, 0 }
-> +};
-> +
-> +static int appletb_kbd_set_mode(struct appletb_kbd *kbd, u8 mode)
-> +{
-> +	struct hid_report *report = kbd->mode_field->report;
-> +	struct hid_device *hdev = report->device;
-> +	int ret;
-> +
-> +	ret = hid_hw_power(hdev, PM_HINT_FULLON);
-> +	if (ret) {
-> +		hid_err(hdev, "Device didn't resume (%pe)\n", ERR_PTR(ret));
-> +		return ret;
-> +	}
-> +
-> +	ret = hid_set_field(kbd->mode_field, 0, mode);
-> +	if (ret) {
-> +		hid_err(hdev, "Failed to set mode field to %u (%pe)\n", mode, ERR_PTR(ret));
-> +		goto power_normal;
-> +	}
-> +
-> +	hid_hw_request(hdev, report, HID_REQ_SET_REPORT);
-> +
-> +	kbd->current_mode = mode;
-> +
-> +power_normal:
-> +	hid_hw_power(hdev, PM_HINT_NORMAL);
-> +
-> +	return ret;
-> +}
-> +
-> +static ssize_t mode_show(struct device *dev,
-> +			 struct device_attribute *attr, char *buf)
-> +{
-> +	struct appletb_kbd *kbd = dev_get_drvdata(dev);
-> +
-> +	return sysfs_emit(buf, "%d\n", kbd->current_mode);
-> +}
-> +
-> +static ssize_t mode_store(struct device *dev,
-> +			  struct device_attribute *attr,
-> +			  const char *buf, size_t size)
-> +{
-> +	struct appletb_kbd *kbd = dev_get_drvdata(dev);
-> +	u8 mode;
-> +	int ret;
-> +
-> +	ret = kstrtou8(buf, 0, &mode);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (mode > APPLETB_KBD_MODE_MAX)
-> +		return -EINVAL;
-> +
-> +	ret = appletb_kbd_set_mode(kbd, mode);
-> +
-> +	return ret < 0 ? ret : size;
-> +}
-> +static DEVICE_ATTR_RW(mode);
-> +
-> +struct attribute *appletb_kbd_attrs[] = {
-> +	&dev_attr_mode.attr,
-> +	NULL
-> +};
-> +ATTRIBUTE_GROUPS(appletb_kbd);
-> +
-> +static int appletb_tb_key_to_slot(unsigned int code)
-> +{
-> +	switch (code) {
-> +	case KEY_ESC:
-> +		return 0;
-> +	case KEY_F1 ... KEY_F10:
-> +		return code - KEY_F1 + 1;
-> +	case KEY_F11 ... KEY_F12:
-> +		return code - KEY_F11 + 11;
-> +
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static int appletb_kbd_hid_event(struct hid_device *hdev, struct hid_field *field,
-> +				      struct hid_usage *usage, __s32 value)
-> +{
-> +	struct appletb_kbd *kbd = hid_get_drvdata(hdev);
-> +	struct key_entry *translation;
-> +	struct input_dev *input;
-> +	int slot;
-> +
-> +	if ((usage->hid & HID_USAGE_PAGE) != HID_UP_KEYBOARD || usage->type != EV_KEY)
-> +		return 0;
-> +
-> +	input = field->hidinput->input;
-> +
-> +	/*
-> +	 * Skip non-touch-bar keys.
-> +	 *
-> +	 * Either the touch bar itself or usbhid generate a slew of key-down
-> +	 * events for all the meta keys. None of which we're at all interested
-> +	 * in.
-> +	 */
-> +	slot = appletb_tb_key_to_slot(usage->code);
-> +	if (slot < 0)
-> +		return 0;
-> +
-> +	translation = sparse_keymap_entry_from_scancode(input, usage->code);
+> +				if (hid == HID_DG_CONTACTID || hid == HID_DG_TRANSDUCER_INDEX) {
 
-You are missing a Kconfig depends or select here because when enabling
-this module, we can get
-
-ERROR: modpost: "sparse_keymap_setup" [drivers/hid/hid-appletb-kbd.ko] undefined!
-ERROR: modpost: "sparse_keymap_entry_from_scancode" [drivers/hid/hid-appletb-kbd.ko] undefined!
-
-FWIW, I tried "depend on INPUT_SPARSEKMAP" and "select
-INPUT_SPARSEKMAP", but in both cases the error was there, so I suspect
-there is one extra config to select (could be my script but if I can
-enter this state, I believe others will get into it as well).
+I'm not super happy about this. The HID spec specifically mentions
+CONTACTID to be related to multitouch, when TRANSDUCER is not
+specifically for multitouch. I would rather have this hidden behind a
+quirk, because I don't think this is standard (the device comes from an
+environment where both the hardware and the software stack is
+controlled, which already gave some fun decisions from Apple).
 
 Cheers,
 Benjamin
 
-> +
-> +	if (translation && kbd->current_mode == APPLETB_KBD_MODE_SPCL) {
-> +		input_event(input, usage->type, translation->keycode, value);
-> +
-> +		return 1;
-> +	}
-> +
-> +	return kbd->current_mode == APPLETB_KBD_MODE_OFF;
-> +}
-> +
-> +static int appletb_kbd_input_configured(struct hid_device *hdev, struct hid_input *hidinput)
-> +{
-> +	int idx;
-> +	struct input_dev *input = hidinput->input;
-> +
-> +	/*
-> +	 * Clear various input capabilities that are blindly set by the hid
-> +	 * driver (usbkbd.c)
-> +	 */
-> +	memset(input->evbit, 0, sizeof(input->evbit));
-> +	memset(input->keybit, 0, sizeof(input->keybit));
-> +	memset(input->ledbit, 0, sizeof(input->ledbit));
-> +
-> +	__set_bit(EV_REP, input->evbit);
-> +
-> +	sparse_keymap_setup(input, appletb_kbd_keymap, NULL);
-> +
-> +	for (idx = 0; appletb_kbd_keymap[idx].type != KE_END; idx++) {
-> +		input_set_capability(input, EV_KEY, appletb_kbd_keymap[idx].code);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int appletb_kbd_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> +{
-> +	struct appletb_kbd *kbd;
-> +	struct device *dev = &hdev->dev;
-> +	struct hid_field *mode_field;
-> +	int ret;
-> +
-> +	ret = hid_parse(hdev);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "HID parse failed\n");
-> +
-> +	mode_field = hid_find_field(hdev, HID_OUTPUT_REPORT,
-> +				    HID_GD_KEYBOARD, HID_USAGE_MODE);
-> +	if (!mode_field)
-> +		return -ENODEV;
-> +
-> +	kbd = devm_kzalloc(dev, sizeof(*kbd), GFP_KERNEL);
-> +	if (!kbd)
-> +		return -ENOMEM;
-> +
-> +	kbd->mode_field = mode_field;
-> +
-> +	ret = hid_hw_start(hdev, HID_CONNECT_HIDINPUT);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "HID hw start failed\n");
-> +
-> +	ret = hid_hw_open(hdev);
-> +	if (ret) {
-> +		dev_err_probe(dev, ret, "HID hw open failed\n");
-> +		goto stop_hw;
-> +	}
-> +
-> +	ret = appletb_kbd_set_mode(kbd, appletb_tb_def_mode);
-> +	if (ret) {
-> +		dev_err_probe(dev, ret, "Failed to set touchbar mode\n");
-> +		goto close_hw;
-> +	}
-> +
-> +	hid_set_drvdata(hdev, kbd);
-> +
-> +	return 0;
-> +
-> +close_hw:
-> +	hid_hw_close(hdev);
-> +stop_hw:
-> +	hid_hw_stop(hdev);
-> +	return ret;
-> +}
-> +
-> +static void appletb_kbd_remove(struct hid_device *hdev)
-> +{
-> +	struct appletb_kbd *kbd = hid_get_drvdata(hdev);
-> +
-> +	appletb_kbd_set_mode(kbd, APPLETB_KBD_MODE_OFF);
-> +
-> +	hid_hw_close(hdev);
-> +	hid_hw_stop(hdev);
-> +}
-> +
-> +#ifdef CONFIG_PM
-> +static int appletb_kbd_suspend(struct hid_device *hdev, pm_message_t msg)
-> +{
-> +	struct appletb_kbd *kbd = hid_get_drvdata(hdev);
-> +
-> +	kbd->saved_mode = kbd->current_mode;
-> +	appletb_kbd_set_mode(kbd, APPLETB_KBD_MODE_OFF);
-> +
-> +	return 0;
-> +}
-> +
-> +static int appletb_kbd_reset_resume(struct hid_device *hdev)
-> +{
-> +	struct appletb_kbd *kbd = hid_get_drvdata(hdev);
-> +
-> +	appletb_kbd_set_mode(kbd, kbd->saved_mode);
-> +
-> +	return 0;
-> +}
-> +#endif
-> +
-> +static const struct hid_device_id appletb_kbd_hid_ids[] = {
-> +	/* MacBook Pro's 2018, 2019, with T2 chip: iBridge Display */
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(hid, appletb_kbd_hid_ids);
-> +
-> +static struct hid_driver appletb_kbd_hid_driver = {
-> +	.name = "hid-appletb-kbd",
-> +	.id_table = appletb_kbd_hid_ids,
-> +	.probe = appletb_kbd_probe,
-> +	.remove = appletb_kbd_remove,
-> +	.event = appletb_kbd_hid_event,
-> +	.input_configured = appletb_kbd_input_configured,
-> +#ifdef CONFIG_PM
-> +	.suspend = appletb_kbd_suspend,
-> +	.reset_resume = appletb_kbd_reset_resume,
-> +#endif
-> +	.driver.dev_groups = appletb_kbd_groups,
-> +};
-> +module_hid_driver(appletb_kbd_hid_driver);
-> +
-> +MODULE_AUTHOR("Ronald Tschalär");
-> +MODULE_AUTHOR("Kerem Karabay <kekrby@gmail.com>");
-> +MODULE_DESCRIPTION("MacBookPro Touch Bar Keyboard Mode Driver");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-> index 818d41a35..7c576d654 100644
-> --- a/drivers/hid/hid-quirks.c
-> +++ b/drivers/hid/hid-quirks.c
-> @@ -328,7 +328,6 @@ static const struct hid_device_id hid_have_special_driver[] = {
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER1_TP_ONLY) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021) },
-> -	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
->  #endif
->  #if IS_ENABLED(CONFIG_HID_APPLEIR)
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_IRCONTROL) },
-> @@ -340,6 +339,9 @@ static const struct hid_device_id hid_have_special_driver[] = {
->  #if IS_ENABLED(CONFIG_HID_APPLETB_BL)
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) },
->  #endif
-> +#if IS_ENABLED(CONFIG_HID_APPLETB_KBD)
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
-> +#endif
->  #if IS_ENABLED(CONFIG_HID_ASUS)
->  	{ HID_I2C_DEVICE(USB_VENDOR_ID_ASUSTEK, USB_DEVICE_ID_ASUSTEK_I2C_KEYBOARD) },
->  	{ HID_I2C_DEVICE(USB_VENDOR_ID_ASUSTEK, USB_DEVICE_ID_ASUSTEK_I2C_TOUCHPAD) },
+>  					rdata->is_mt_collection = true;
+>  					break;
+>  				}
+> @@ -814,6 +816,7 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+>  			MT_STORE_FIELD(tip_state);
+>  			return 1;
+>  		case HID_DG_CONTACTID:
+> +		case HID_DG_TRANSDUCER_INDEX:
+>  			MT_STORE_FIELD(contactid);
+>  			app->touches_by_report++;
+>  			return 1;
 > -- 
 > 2.43.0
 > 
