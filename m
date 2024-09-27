@@ -1,57 +1,85 @@
-Return-Path: <linux-input+bounces-6821-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6822-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455E99888C5
-	for <lists+linux-input@lfdr.de>; Fri, 27 Sep 2024 18:09:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE1B98892C
+	for <lists+linux-input@lfdr.de>; Fri, 27 Sep 2024 18:37:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E4B221F24D20
-	for <lists+linux-input@lfdr.de>; Fri, 27 Sep 2024 16:09:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D02FA1C2245F
+	for <lists+linux-input@lfdr.de>; Fri, 27 Sep 2024 16:37:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5D451C1725;
-	Fri, 27 Sep 2024 16:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FC1E173347;
+	Fri, 27 Sep 2024 16:37:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qMLLcB0C"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WOaOpdkA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA35A17ADF0;
-	Fri, 27 Sep 2024 16:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3532B9B5;
+	Fri, 27 Sep 2024 16:37:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727453338; cv=none; b=WCVxTm50fJrWDaomgkeQTFFgAX9U6Jdl71R9t+4jPI4J5PP/fkxuRqdq+GNSgQkWVqA6ARbZJPSSz4ZEwmmdafR2OdNO70QOcILW2ETfN3B7nWmO5KAgEUR7xAOKb1PNXYij4VusULwjoLpWvGaNngt4+DV0oJt3lUMucHG61uI=
+	t=1727455023; cv=none; b=pOGUHT9eM4GAoTGGj2FNuPD2/YfMfr4TF/1oEYW2mN1z50rXTtfC5KuhCOSQ2BRmylyOxnIC9B26wP0RZ+dGrqMdtev+zcKe4s4ohi1xvSpW4DHdjFk2MmHMa0X8+1iAjYeHZyD0cEn4v4SlbOubKjr9BehB3y5V+5n3icMQHis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727453338; c=relaxed/simple;
-	bh=Jgeva35jung0HLChJS3oHaOxrwYCVGeyPtkdlN1SI6Y=;
+	s=arc-20240116; t=1727455023; c=relaxed/simple;
+	bh=cE8uc4ERdsDeAe0swAxQQjjpJ7tIrnHlCwPdCs8T6xI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EbnlkY3re71kj3232J3vHPsSFUo+NaComKlrAmTNSOgv81rcZTnBT5jIPZwRalr2kzw5QNOezZ+nsr6qjHEsC2sqCgZ0wMHJ+osaRAbzWF0apqE3lD6CvqMH2t5i2dbRlZYPyW6Ig58ga+vqO2AQIoa8MhYmfQpFIf6Z5/Bh9uE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qMLLcB0C; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EA5CC4CEC6;
-	Fri, 27 Sep 2024 16:08:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727453338;
-	bh=Jgeva35jung0HLChJS3oHaOxrwYCVGeyPtkdlN1SI6Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qMLLcB0CPeYXnWoJ+M+VV6LO8BtP0Cc8lJPeDm249puTHgDZ2cRWWBj2u4QGF0qF4
-	 CQOnXklJBdNnkBCLkUroki95BnrC/3VpkQ58i8CRHt+AibtwysDxxvLiwbvXEEvwjT
-	 YGRGTDvheXGgWQFGoOcv/HXC+UeSDVdR/MxIwiAiaiNr1JszVkKfavLxg3pyfVDWiC
-	 jYSW7hNFoJARle0f+oQD6Ne1DW1jyWVgmspfSZ/YE+TiiJU6645ZbJ7bgJONwC9lrx
-	 8ODbH5pVVga89H6WV//VxeNDSfi+6smL5YcYSjGNjSnCensPmQw/kgIlAkn3dfG5lm
-	 b/BlSxiTm0f9w==
-Date: Fri, 27 Sep 2024 18:08:52 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: dri-devel@lists.freedesktop.org, hdegoede@redhat.com, jelle@vdwaa.nl, 
-	jikos@kernel.org, lee@kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com, 
-	ojeda@kernel.org, onitake@gmail.com, pavel@ucw.cz
-Subject: Re: [PATCH 0/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO NB04
-Message-ID: <et3cv7i2lhsjoq26toweh4uv72yo34u3wqrj3q2urfnx2bhiq3@fdtkag4bcekh>
-References: <20240926174405.110748-1-wse@tuxedocomputers.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=bm3RpFJiiA1UiWRkm/x7pmWadSCpOWnH2bw+iYxRSU1fSZe1wIGqacz8IE+CswE79uVYbdqhRXGrAkY+AWTIfAmA/P6Be1K5dFdl3o2P1yf13338lKKBjLk09v9NRZQ4kKX0qQ5UUawNdrZt4euRXeoByNWhJggYBBasSaNGn/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WOaOpdkA; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-719b17b2da1so1810902b3a.0;
+        Fri, 27 Sep 2024 09:37:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727455021; x=1728059821; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hX7TXSm7HZD9cV3ml+iTrVb9NoOlNFaOVSppEddhipY=;
+        b=WOaOpdkAR761rtNmm6UjUAdURKcLdzM5CZPOQWwrfQR5XG63cO9eMvifDGizuhxCc6
+         4WIFzPCVW9K1T6zFlQZ618tgt+glnkwPNByLJTnpbFzzsMptdcwKepH/NE1SuDKMpJvx
+         fwb5sRxxTTrRug45M3wXwpq6ZY9+EuRoFbvdYBrd2wcasIGEbQZueTZlr8lKN5GQnyOm
+         EawwxtW4XLXHWVv+HcbcukKPrevKu37gmPplNM696KAgwSI/2doMci95MPXRSMBOnduG
+         wchFOsk8KrYGiWTan5k56mCMoAA8Y6hIgXqy0S2nCT5i5KQqd8KmzbauSgghwGeZWm1v
+         FAng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727455021; x=1728059821;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hX7TXSm7HZD9cV3ml+iTrVb9NoOlNFaOVSppEddhipY=;
+        b=St4ljMwBwWG0Qmn6FwQRYooeLn2Phmn3Pd6CgNJaMId3oRArYLuxO9SRO3dniOta5M
+         iAciDvEuF3jKSdN3AffAcD7KpxD8AU9J2ua535s5bWLWEL7sBOMsdN/LRaIUEUTpxk0F
+         ISJ9MCRnKg7PBFzbQlpUXCIzk1AgqQ45hJg6LwSxk7Frv1XHAG0SYAjI5PuHDfeOMrt8
+         LfMzYF3gIamXXwpFnZ6cJWAPEvOxXR/NKPPS1cDiTx+Da0Dj+WHy5lm6PJdsmlzxKSrE
+         2kRqrlRnF1vWBikMrQ5TWXFmfULc+kHRalJvPfSnS7YVWDefKFFtg951C/p97/kiliLU
+         FoLg==
+X-Forwarded-Encrypted: i=1; AJvYcCUC5B5ITAT6bay27IVIrIivOx84LzZx8YHg57fm2VGaRjU462T5YlNEQdaCBSPv8B8WsNQPnxEJIvzuCFIg@vger.kernel.org, AJvYcCVyLQb1ThB+LnhxGLKu9I+Ak6z79DxJCA3sqk1iGDViJxI6sAEdW/+yOZoqyvVVOs2UDcQaZjghBKVvVQ==@vger.kernel.org, AJvYcCWKmAAdp8loo3Tc9zWIv6u9Xlqcq7fi0DfCbCf34sFuH4S+Py69yB8YrJjxiC35UKck+jwYW6lvN7Q=@vger.kernel.org, AJvYcCWjsMzKLp6YQlwS6jwEJTuflWIrqUrmNSfXbD+tjJ3imaN4iLC4slGOq9e0O7aN90cuJ88v8G7m4aV8@vger.kernel.org, AJvYcCX/+GJf6cCfjPwr6rxjadY5O5W0HlyNRiMcmpaQ0+59FCM/ub8XgMjPHijJLhJKsxU6oVe6w8g0qgV5HfA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOo6SnEeq+gTXdFpTMQXXeEy7LTxlAKYKNY7pHgOVAO9g07iV+
+	XSG775yWd5R8SwLk1/Bm2Ev+Oe+yEiuBQvwdHwyIcj+R+gsOtwNM
+X-Google-Smtp-Source: AGHT+IEeARVPhOy+ZJtNDQUG53/4F2XBj3wGbkkU+quIvtrYPGMk2XQVoJuGGTyDFU4zckOCztmghA==
+X-Received: by 2002:a05:6a00:4612:b0:713:e3f9:b58e with SMTP id d2e1a72fcca58-71b26044023mr7221845b3a.17.1727455019211;
+        Fri, 27 Sep 2024 09:36:59 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:dbce:5230:fa9a:bfd2])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b264b7db0sm1791133b3a.49.2024.09.27.09.36.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Sep 2024 09:36:58 -0700 (PDT)
+Date: Fri, 27 Sep 2024 09:36:55 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Sebastian Reichel <sre@kernel.org>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v5 4/7] input: max77693: add max77705 haptic support
+Message-ID: <ZvbfJxGJdTV965r6@google.com>
+References: <20240617-starqltechn_integration_upstream-v5-0-e0033f141d17@gmail.com>
+ <20240617-starqltechn_integration_upstream-v5-4-e0033f141d17@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -60,64 +88,124 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240926174405.110748-1-wse@tuxedocomputers.com>
+In-Reply-To: <20240617-starqltechn_integration_upstream-v5-4-e0033f141d17@gmail.com>
 
-On Sep 26 2024, Werner Sembach wrote:
-> Hi,
-> took some time but now a first working draft of the suggested new way of
-> handling per-key RGB keyboard backlights is finished. See:
-> https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com/
-> First time for me sending a whole new driver to the LKML, so please excuse
-> mistakes I might have made.
+On Thu, Sep 26, 2024 at 01:20:21PM +0300, Dzmitry Sankouski wrote:
+> Add support for haptic controller on MAX77705 Multifunction
+> device.
 > 
-> Known bugs:
-> - The device has a lightbar which is currently not implemented and
->   therefore stuck to blue once the first backlight control command is send.
+> This driver supports external pwm and LRA (Linear Resonant Actuator) motor.
+> User can control the haptic device via force feedback framework.
 > 
-> What is still missing:
-> - The leds fallback
-> - Lightbar control
-> 
-> Some general noob questions:
-> 
-> Initially I though it would be nice to have 2 modules, one jsut being the
-> wmi initialization and utility stuff and one just being the backlight logic
-> stuff, being loaded automatically via module_alias, but that would still
-> require me to create the virtual hid device during the wmi_ab probe, and
-> that already needs the ll_driver, so i guess I have to do it statically
-> like i did now?
-> Or in other words: I would have liked to have a module dependency graph
-> like this:
->     tuxedo_nb04_lamp_array depends on tuxedo_nb04_platform (combining *_wmi_init and *_wmi_utility)
-> but if i currently split it into modules i would get this:
->     tuxedo_nb04_wmi_ab_init dpends on tuxedo_nb04_wmi_ab_lamp_array depends on tuxedo_nb04_wmi_utility
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
 
-On more general question to you: how much confident are you about your
-LampArray implementation?
-
-If you still need to add/fix stuff in it, I would advise you to have a
-simple HID device, with bare minimum functionality, and then add the
-LampArray functionality on top through HID-BPF. This way you can fix
-LampArray out of band with the kernel, while having a more stable kernel
-module. This should be possible with v6.11+.
-
-Another solution is to still have your wmi-to-hid module, and then a
-HID kernel module in drivers/hid that supports LampArray.
-
-But I would strongly suggest while you are figuring out the userspace
-part to stick to HID-BPF, and then once you are happy we can move to a
-full kernel module.
-
-Cheers,
-Benjamin
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
 > 
-> Currently after creating the virtual hdev in the wmi init probe function I
-> have to keep track of it and manually destroy it during the wmi init
-> remove. Can this be automated devm_kzalloc-style?
+> ---
+> Changes in v4:
+> - add max77705 haptic support to max77693 driver
+> - delete max77705-haptic
+> ---
+>  drivers/input/misc/Kconfig           |  4 ++--
+>  drivers/input/misc/Makefile          |  1 +
+>  drivers/input/misc/max77693-haptic.c | 15 ++++++++++++++-
+>  3 files changed, 17 insertions(+), 3 deletions(-)
 > 
-> Kind regards,
-> Werner Sembach
+> diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+> index 6a852c76331b..b4515c4e5cf6 100644
+> --- a/drivers/input/misc/Kconfig
+> +++ b/drivers/input/misc/Kconfig
+> @@ -241,11 +241,11 @@ config INPUT_MAX77650_ONKEY
+>  
+>  config INPUT_MAX77693_HAPTIC
+>  	tristate "MAXIM MAX77693/MAX77843 haptic controller support"
+> -	depends on (MFD_MAX77693 || MFD_MAX77843) && PWM
+> +	depends on (MFD_MAX77693 || MFD_MAX77705 || MFD_MAX77843) && PWM
+>  	select INPUT_FF_MEMLESS
+>  	help
+>  	  This option enables support for the haptic controller on
+> -	  MAXIM MAX77693 and MAX77843 chips.
+> +	  MAXIM MAX77693, MAX77705 and MAX77843 chips.
+>  
+>  	  To compile this driver as module, choose M here: the
+>  	  module will be called max77693-haptic.
+> diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+> index 4f7f736831ba..3e3532b27990 100644
+> --- a/drivers/input/misc/Makefile
+> +++ b/drivers/input/misc/Makefile
+> @@ -53,6 +53,7 @@ obj-$(CONFIG_INPUT_KXTJ9)		+= kxtj9.o
+>  obj-$(CONFIG_INPUT_M68K_BEEP)		+= m68kspkr.o
+>  obj-$(CONFIG_INPUT_MAX77650_ONKEY)	+= max77650-onkey.o
+>  obj-$(CONFIG_INPUT_MAX77693_HAPTIC)	+= max77693-haptic.o
+> +obj-$(CONFIG_INPUT_MAX77705_HAPTIC)	+= max77705-haptic.o
+>  obj-$(CONFIG_INPUT_MAX8925_ONKEY)	+= max8925_onkey.o
+>  obj-$(CONFIG_INPUT_MAX8997_HAPTIC)	+= max8997_haptic.o
+>  obj-$(CONFIG_INPUT_MC13783_PWRBUTTON)	+= mc13783-pwrbutton.o
+> diff --git a/drivers/input/misc/max77693-haptic.c b/drivers/input/misc/max77693-haptic.c
+> index 0e646f1b257b..c3b9d33608d7 100644
+> --- a/drivers/input/misc/max77693-haptic.c
+> +++ b/drivers/input/misc/max77693-haptic.c
+> @@ -23,6 +23,7 @@
+>  #include <linux/mfd/max77693.h>
+>  #include <linux/mfd/max77693-common.h>
+>  #include <linux/mfd/max77693-private.h>
+> +#include <linux/mfd/max77705-private.h>
+>  #include <linux/mfd/max77843-private.h>
+>  
+>  #define MAX_MAGNITUDE_SHIFT	16
+> @@ -115,6 +116,13 @@ static int max77693_haptic_configure(struct max77693_haptic *haptic,
+>  			MAX77693_HAPTIC_PWM_DIVISOR_128);
+>  		config_reg = MAX77693_HAPTIC_REG_CONFIG2;
+>  		break;
+> +	case TYPE_MAX77705:
+> +		value = ((haptic->type << MAX77693_CONFIG2_MODE) |
+> +			(enable << MAX77693_CONFIG2_MEN) |
+> +			(haptic->mode << MAX77693_CONFIG2_HTYP) |
+> +			MAX77693_HAPTIC_PWM_DIVISOR_128);
+> +		config_reg = MAX77705_PMIC_REG_MCONFIG;
+> +		break;
+>  	case TYPE_MAX77843:
+>  		value = (haptic->type << MCONFIG_MODE_SHIFT) |
+>  			(enable << MCONFIG_MEN_SHIFT) |
+> @@ -312,6 +320,9 @@ static int max77693_haptic_probe(struct platform_device *pdev)
+>  	case TYPE_MAX77693:
+>  		haptic->regmap_haptic = max77693->regmap_haptic;
+>  		break;
+> +	case TYPE_MAX77705:
+> +		haptic->regmap_haptic = max77693->regmap;
+> +		break;
+>  	case TYPE_MAX77843:
+>  		haptic->regmap_haptic = max77693->regmap;
+>  		break;
+> @@ -407,6 +418,7 @@ static DEFINE_SIMPLE_DEV_PM_OPS(max77693_haptic_pm_ops,
+>  
+>  static const struct platform_device_id max77693_haptic_id[] = {
+>  	{ "max77693-haptic", },
+> +	{ "max77705-haptic", },
+>  	{ "max77843-haptic", },
+>  	{},
+>  };
+> @@ -414,6 +426,7 @@ MODULE_DEVICE_TABLE(platform, max77693_haptic_id);
+>  
+>  static const struct of_device_id of_max77693_haptic_dt_match[] = {
+>  	{ .compatible = "maxim,max77693-haptic", },
+> +	{ .compatible = "maxim,max77705-haptic", },
+>  	{ .compatible = "maxim,max77843-haptic", },
+>  	{ /* sentinel */ },
+>  };
+> @@ -432,5 +445,5 @@ module_platform_driver(max77693_haptic_driver);
+>  
+>  MODULE_AUTHOR("Jaewon Kim <jaewon02.kim@samsung.com>");
+>  MODULE_AUTHOR("Krzysztof Kozlowski <krzk@kernel.org>");
+> -MODULE_DESCRIPTION("MAXIM 77693/77843 Haptic driver");
+> +MODULE_DESCRIPTION("MAXIM 77693/77705/77843 Haptic driver");
+>  MODULE_LICENSE("GPL");
 > 
+> -- 
+> 2.39.2
 > 
+
+-- 
+Dmitry
 
