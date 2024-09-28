@@ -1,54 +1,48 @@
-Return-Path: <linux-input+bounces-6841-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6842-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B558988E40
-	for <lists+linux-input@lfdr.de>; Sat, 28 Sep 2024 09:40:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22ADE988E48
+	for <lists+linux-input@lfdr.de>; Sat, 28 Sep 2024 09:49:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C36451F21E47
-	for <lists+linux-input@lfdr.de>; Sat, 28 Sep 2024 07:40:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 769581F21165
+	for <lists+linux-input@lfdr.de>; Sat, 28 Sep 2024 07:49:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDD5319DFA3;
-	Sat, 28 Sep 2024 07:40:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDD9319CD02;
+	Sat, 28 Sep 2024 07:49:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="Bd3yNL+o"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oZvOVF7o"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410FD19DF98;
-	Sat, 28 Sep 2024 07:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B0812E75;
+	Sat, 28 Sep 2024 07:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727509234; cv=none; b=VWMpdBrsdYqLMRC/Ao9zbgBpJ++Wi4oKfmJ4LAMp+su1MLQltgQDwpi0XokFd35ejpZ9RkIoOSM0vbyQ/egkykPwNftt8JRgZOKiwXgIdFFBD98S9HmCvlOWCctRIg3EkKwvEB5qhFtChQ/eimhEgkT5QWcw6/iizAKM3RUhJTk=
+	t=1727509750; cv=none; b=KPKGWLgFJ7vQJywJaiAb7EgxOijRCLER0w8HR9lryzRImPmryhcTm0TT7LJ9iPqmdqjMSVxVgiCtlJAYkZ2q/R16ZMzlDqD8XRK7fkAcmQNBh2WltUAemhCsk7naQwLPxNKXm7Fq+sbyksHDCZPD4bnbfVhDvP4VQIZhInMtApU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727509234; c=relaxed/simple;
-	bh=WiHi+8A8AcUloQzJPM++xYrcHmkSdaWV/c2K5j5sYgA=;
+	s=arc-20240116; t=1727509750; c=relaxed/simple;
+	bh=c1IDKLm02EA5K7xI98m22tdfwag8mjjOWwF+gmFUCqA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kyypFB5i9eIgMP3Cmj9QWiIpUfxxL6YLkkoJD6DKn7g+UHDTXovwyQkRKuipFuMRefMnZmKv8A9UxuEuU48NiqMFWYCO2Yg0oIYMOctAOqdmjSOTnZjjvUZVPPvm46jDj8sB01sbHq/TGYA+AOVrJ2TX6VFmsK0KL5eeRkCTeOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=Bd3yNL+o; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.27] (pd9e59da1.dip0.t-ipconnect.de [217.229.157.161])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id D46982FC004A;
-	Sat, 28 Sep 2024 09:40:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1727509229;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8kC/eRWIHnVWlkxzZZ/FKnPuBi+ZrUHo8bPEJjkftMU=;
-	b=Bd3yNL+oZCK9jBewlU/VEi5BLgg6t7w24T1Bt08FhneXbzdN2ms6dgoZOVwavfBuQR+QD9
-	+D1hIuPfauBQeSPZNMyrWVMYKsM31J+zGJq7nQEJw2V2lMSZLxQe+7js9OrziBdjOq67ZT
-	epNZPXEMgt1K4aS8oV9J1TBXc6o5Svg=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <540c87b1-39aa-4311-b34a-a505556a501a@tuxedocomputers.com>
-Date: Sat, 28 Sep 2024 09:40:28 +0200
+	 In-Reply-To:Content-Type; b=Wvski+Ty1c9/ALKb8RArpyucCpJKKrvWN+RQ2ahTVdY6cArBwn8QxtVSjyw/64DSLvuc6Ons1Q9xOn2RmMsQk5sMTWbRaOqgcuxPuEAmGhWE73BDxUBsKFMYvkF8+TT+3BLJXibVFGEREX8M5e8e2ZOHQRyBNgfxtfN2HsUBAhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oZvOVF7o; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2099EC4CEC3;
+	Sat, 28 Sep 2024 07:49:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727509750;
+	bh=c1IDKLm02EA5K7xI98m22tdfwag8mjjOWwF+gmFUCqA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oZvOVF7oRWnswVRQe1ByBJBheyqcd1oWyEW4x8FYTAx5e47tId8xetME5xnjtASEM
+	 hOn+/PUDCw0D2ZQHLNPlsXRyp+wwsYINyab+sEb0kygUF8V4F3fyWr+I0sec7I64EB
+	 WSO7jmroLsrzJPGP+UZKt1g56vFM/hOkBnNHmuePjlLAWErRJN/smQmYPF9+g9Zz5K
+	 UZe+4tQTXwKRO2/sk5xjDKVyUAxB+ZODdClgIn3yJKH4qUzx9Uos7KjQwkFIYX4eDb
+	 luKb0qLgDgHsgNDMXJTqRZfExaf9nYuHu8vkQpiLo1HMd+b9BAVIVqA5Cohk7AW/0+
+	 2KaFZxWxrV3MQ==
+Message-ID: <1e43c2e2-4859-4452-a4d3-433aeea1fcef@kernel.org>
+Date: Sat, 28 Sep 2024 09:49:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -56,101 +50,89 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-To: Armin Wolf <W_Armin@gmx.de>, Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: bentiss@kernel.org, dri-devel@lists.freedesktop.org, jelle@vdwaa.nl,
- jikos@kernel.org, lee@kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com,
- pavel@ucw.cz, platform-driver-x86@vger.kernel.org
-References: <20240926174405.110748-1-wse@tuxedocomputers.com>
- <20240926174405.110748-2-wse@tuxedocomputers.com>
- <ad01bc38-3834-44c9-a5e3-540a09a20643@gmx.de>
- <3dde4572-78a0-4a93-916a-563b7150f078@tuxedocomputers.com>
- <3e5630c0-2ab4-49fc-8b91-988b327bdcf8@tuxedocomputers.com>
- <95d1342d-f2a1-4f55-b8f9-d1ede1207aaa@gmx.de>
-Content-Language: de-DE
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <95d1342d-f2a1-4f55-b8f9-d1ede1207aaa@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v5 0/3] novatek-nvt-ts: add support for NT36672A
+ touchscreen
+To: Joel Selvaraj <joelselvaraj.oss@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+References: <20240601-nvt-ts-devicetree-regulator-support-v5-0-aa9bf986347d@gmail.com>
+ <a0e00c43-a879-4a4c-a3b4-26c485e0c261@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <a0e00c43-a879-4a4c-a3b4-26c485e0c261@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 28/09/2024 07:45, Joel Selvaraj wrote:
+> Hi,
+> 
+> A gentle ping to the maintainers/reviewers. I was initially hoping this 
+> patch would land in 6.11. And it got kind of missed. So I am currently 
+> hoping it would land in 6.12. But I haven't seen any update in the 
+> patch. There is no hurry and can wait for 6.13 or future. Just don't 
+> want the patch to be forgotten/lost/missed. Kindly let me know if any 
+> further changes are required! I will be happy to fix them.
 
-Am 27.09.24 um 19:18 schrieb Armin Wolf:
-> Am 27.09.24 um 13:24 schrieb Werner Sembach:
->
->> Hi,
->>
->> an additional question below
->>
->> Am 27.09.24 um 08:59 schrieb Werner Sembach:
->>> Hi,
->>>
->>> Am 26.09.24 um 20:39 schrieb Armin Wolf:
->>>> Am 26.09.24 um 19:44 schrieb Werner Sembach:
->>>>
->>>>> [...]
->>>>> +// We don't know if the WMI API is stable and how unique the GUID
->>>>> is for this ODM. To be on the safe
->>>>> +// side we therefore only run this driver on tested devices
->>>>> defined by this list.
->>>>> +static const struct dmi_system_id tested_devices_dmi_table[] = {
->>>>> +    {
->>>>> +        // TUXEDO Sirius 16 Gen1
->>>>> +        .matches = {
->>>>> +            DMI_EXACT_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
->>>>> +            DMI_EXACT_MATCH(DMI_BOARD_NAME, "APX958"),
->>>>> +        },
->>>>> +    },
->>>>> +    {
->>>>> +        // TUXEDO Sirius 16 Gen2
->>>>> +        .matches = {
->>>>> +            DMI_EXACT_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
->>>>> +            DMI_EXACT_MATCH(DMI_BOARD_NAME, "AHP958"),
->>>>> +        },
->>>>> +    },
->>>>> +    { }
->>>>> +};
->>>>> +
->>>>> +static int probe(struct wmi_device *wdev, const void
->>>>> __always_unused *context)
->>>>> +{
->>>>> +    struct tuxedo_nb04_wmi_driver_data_t *driver_data;
->>>>> +
->>>>> +    if (dmi_check_system(tested_devices_dmi_table))
->>>>> +        return -ENODEV;
->>>>
->>>> Hi,
->>>>
->>>> please do this DMI check during module initialization. This avoids
->>>> having an useless WMI driver
->>>> on unsupported machines and allows for marking
->>>> tested_devices_dmi_table as __initconst.
->> I wonder how to do it since I don't use module_init manually but
->> module_wmi_driver to register the module.
->
-> In this case you cannot use module_wmi_driver. You have to manually 
-> call wmi_driver_register()/wmi_driver_unregister()
-> in module_init()/module_exit().
-ack
->
->>>>
->>>> Besides that, maybe a "force" module parameter for overriding the
->>>> DMI checking could be
->>>> useful?
->>
->> Considering the bricking potential i somewhat want for people to look
->> in the source first, so i would not implementen a force module 
->> parameter.
->>
-> Ok.
->
->> Kind regards,
->>
->> Werner
->>
->>
+We are still in merge window, so nothing can happen with your patches.
+Pinging during merge window is not welcomed, just unnecessary noise.
+Wait till merge window finishes and then ping, or better resend.
+
+Your patch waited indeed way too long, but if you wanted it to reach
+v6.12, then you should have done something earlier. No one has it in
+their inbox anymore.
+
+Please resend with accumulated tags, assuming there is no outstanding
+review comments, after the merge window.
+
+Best regards,
+Krzysztof
+
 
