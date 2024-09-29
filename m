@@ -1,131 +1,125 @@
-Return-Path: <linux-input+bounces-6853-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6854-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F804989234
-	for <lists+linux-input@lfdr.de>; Sun, 29 Sep 2024 02:57:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F48989322
+	for <lists+linux-input@lfdr.de>; Sun, 29 Sep 2024 07:19:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5238D2859D5
-	for <lists+linux-input@lfdr.de>; Sun, 29 Sep 2024 00:57:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F0DD1B22F5F
+	for <lists+linux-input@lfdr.de>; Sun, 29 Sep 2024 05:19:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 038AB5680;
-	Sun, 29 Sep 2024 00:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55BD529CEB;
+	Sun, 29 Sep 2024 05:19:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IyzTwTTP"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="fQVEmKsX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC3E469D;
-	Sun, 29 Sep 2024 00:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E97225A8;
+	Sun, 29 Sep 2024 05:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727571431; cv=none; b=jnpwz0XAnzluUJ4Aij+Q1ldZHO0zisneD75Umg1+BxJd2KIFroMcliHcr5/8BqB/wXv2QaC7Kt3wKqLPwqsC64qQshvyBE7V6uOBPznTs19Cen83xeGtjGIB4mUn3UWhDcZkR2cZh7c7MJIVu4eNEYz7YZ5HYFvPcXKNqPcoTCk=
+	t=1727587182; cv=none; b=N2sRCk3VrbuqJAiicIprg9W4hhd9wF66CplpQmo11GjDF3Y8YtK6WSHvGu9e7WzsXuhnt9yeg3+p9IHsBVcAe62AQgXnzCNuUFXDe4TArJFYWSHdmDdk3A7ZAPbkmsHXPHwMA7y7iuPDVNywAozEP9D1ZEom5GgurtA3QpDfiVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727571431; c=relaxed/simple;
-	bh=NiLVv74q1BE9keWXYGZl2tbxpA/ZRjXFnF8/A2XkZTI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CP0Pk6Y+bYewhLQ+xoFSI4szWuCMqb9s/PJnPpdC8anavOZTfuq5fWKSidUMxvDgsyj8usHMFiJJWvivpYqtMRIsO6rVQpDIEXcarWkCwalj+UJl+aliWFBgH1PwREOlJ7MOvsids6cPeYD3/suSlutpQ7Fkmk+HAeOHsmd9MKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IyzTwTTP; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727571430; x=1759107430;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NiLVv74q1BE9keWXYGZl2tbxpA/ZRjXFnF8/A2XkZTI=;
-  b=IyzTwTTPOZULmB18dA0ukleP2H9M9H9fMh6eWwxRLV9wF/BOosXr1SLl
-   xxobyB/Y5XwGcCD7Z8VP00TVN9cOcVMb9C9Tgnkx7FuZfflYjtBFAAm/d
-   CHP4I7VrjuZZwrU9KYxbMEleE1hNtJJ71GyDWtpV0oSh2JtUrm/au5gm3
-   TcUY15sAdHI5Uy/vJsRp9yyChhz7OmkjBje3Re378CYfhRWhuDMH0gXF3
-   hgwZE9DMcx70tU8ZqMpI9FmzdtDo0HiDpRsZJWPA//nZn5juu2o4mJicp
-   jf3pyFkeJlw0Pf8VV9D7PgA4cJDF367CKO5MJgsW5Hir24i4vTKo4TAYC
-   w==;
-X-CSE-ConnectionGUID: q8TUixXSQWSz6xiuXzNo5A==
-X-CSE-MsgGUID: KWSOFkLIQqaaMqaGykgP1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="38044598"
-X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="38044598"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 17:57:09 -0700
-X-CSE-ConnectionGUID: /wU22n8jQGS3lz6zq1CGAA==
-X-CSE-MsgGUID: p+KE2/Q7Sle4Xk2MbDO4IQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="73068033"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Sep 2024 17:57:05 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1suiFD-000Nmr-17;
-	Sun, 29 Sep 2024 00:57:03 +0000
-Date: Sun, 29 Sep 2024 08:56:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Werner Sembach <wse@tuxedocomputers.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, bentiss@kernel.org,
-	dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
-	lee@kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
-	onitake@gmail.com, pavel@ucw.cz, cs@tuxedo.de,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO
-Message-ID: <202409290814.OGfHXRw7-lkp@intel.com>
-References: <20240927124152.139099-2-wse@tuxedocomputers.com>
+	s=arc-20240116; t=1727587182; c=relaxed/simple;
+	bh=M8Y4q9KqH8ynxCMxOjXWrgx59MwZDuSBaCxSv18wS24=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hZM6JG6hNWBk5nvqVFxQrpmc+A7fcge6Pz/rUqcGV6Zp9Ne40OIbnDuqKFZKrFAsngRGc2P6v4iar7H/V0bmhD/gIrz3cQ7vNSbQyNgorma/2c7VFfDEGv/VVW1k7riZd0xBDsBor8kMwM6HNdI7m4CAV+OOtXM7UoH7bSfhgXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=fQVEmKsX; arc=none smtp.client-ip=54.204.34.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1727587154;
+	bh=/EWWFZsUKKFI1kZ/I3oRmkSVcmx9Zzb8RUBnibFGZa4=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=fQVEmKsXCOG2ETnYRZndloovk0mGG2IoAHLve1xdVhzeYNZDWVOwiV5xgKjpr+ypf
+	 n0plPVQ+ofY5lUJ/3CKcattnPwu22FdelvGCGFNKipLyAkqsEWyVEmyhmM4nvIwR5k
+	 8FRO0gBNRv+A723Nu6QKk2V8vc4NbKotvgRARqpQ=
+X-QQ-mid: bizesmtp90t1727587124tn0iekvg
+X-QQ-Originating-IP: qUnavW/MdKiQQ97GShvSuZbUAcpkgGf2oSlnELyWzjU=
+Received: from localhost.localdomain ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sun, 29 Sep 2024 13:18:42 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 12449184197820123976
+From: WangYuli <wangyuli@uniontech.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org,
+	guanwentao@uniontech.com
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	zhanjun@uniontech.com,
+	WangYuli <wangyuli@uniontech.com>
+Subject: [PATCH] HID: multitouch: Add quirk for HONOR MagicBook Art 14 touchpad
+Date: Sun, 29 Sep 2024 13:18:32 +0800
+Message-ID: <293F58F16AA131CA+20240929051832.869861-1-wangyuli@uniontech.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240927124152.139099-2-wse@tuxedocomputers.com>
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: ONNbXhDT8KJ/G1sua7Cjgnw3kvGXRlfuuVGel6n7ZWgept6C/faJIqJG
+	QEh405Ao11kK5zLvzco9MWtAl2aH5eFv/xJChMMV17rjmGnzYRoOb/R/UVV/vlI4kYZuNyr
+	HDI1M5P6x1Eyb2IkWtzTGG8a/8tMavvMfqVtNcDFbVbaXMdiCX8fpUHviFwkk+xdjWFMqny
+	blqiNfiI+XSxjtJ28Dy87N6DJmaRoDtIHJ8tEEqP3y0oREAtnR47BMgVq/wdCLv7diUPdJp
+	JhVZVTVHsz8mFioR170t7Z+cTwAKNn9FFua7DIQj5UWU6e5jcylA7QsAdrA7huEvvIG+fj5
+	UoKAHS5HDKxE+BWO5tH860HK7Je4Bmkz70xlomGbVB9o2gFWIzok0ibiPOgYXGtb0B7h2u7
+	ilAWT/+IHxtdoen/4MkduG3Xwcjl3BJkZB+/70T+Dah/f9pNmHrDJNs8zooBdFirKW0oI2h
+	KCau7IRfhERTDZc2bUMCGo7lH5eX5g7XaKVWdWqd6C1rrwDVAGpA5F2kleSIagpiQZn0BS8
+	vyjdcLLRlUHv0SqtZ9XmQe0jsPKowN/Oip7r8Oa/Xwmca2I5gvZFq+vhgiLpuvwm2H4af1L
+	z0iiz2g+AnvwZYlQpY6vph6UFreogVOq4efJLoiUJ88WQV83GuMwi90+wkfNK/SKxmXG9SA
+	Sv+UhgJ+1RsTHLwwQnNGft76GR6Eped+mjCPfOjl+Cx0Z7aElIAOlZgrr/QRQ3TLIBxTPn0
+	uSR8WkATCk6VzXKAEWWMS4QL7CtCL5H91CmSh2/kar2Bq3vY1ttAsUGtXTsiy5xC2L/1JHI
+	ISyjd/5iw8EHFh1+IRMLACAQd6cklw6bfdKv6D5kdbkL9kCdwEZaPbw8ZazdVYcwIXPSyek
+	9EVJxpQKx74hQbHeTkpLyAyluXUJ7/8qzdg6p8uD5oWFL/Xdcg8hwoWH3tYvm7nsmDE9U5W
+	HcreKepzvsE2FJuJ9gMIiNQT0/N7kDbr0ADPzYo4eKJWuXqPU1hX+MoQ89WKuIS6wNfYYJ3
+	LkIzQ4Hw0eViZzh1nm
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-RECHKSPAM: 0
 
-Hi Werner,
+[Problem]
+It sometimes after reboot change output from Touchpad to Mouse,
+evtest show it output from "TOPS0102:00 35CC:0104 Touchpad"
+to "TOPS0102:00 35CC:0104 Mouse",and it works as A mouse.
 
-kernel test robot noticed the following build errors:
+[Solution]
+Like GLO-GXXX,As a workaround, it is possible to call
+MT_QUIRK_FORCE_GET_FEATURE to force set feature in mt_set_input_mode
+for such special touchpad device.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.11 next-20240927]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/1040
+Link: https://gitlab.freedesktop.org/guanwentao/libinput/-/commit/8624bc6d7539ba01e996fefb58ce393e6f129db8
+Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
+Signed-off-by: WangYuli <wangyuli@uniontech.com>
+---
+ drivers/hid/hid-multitouch.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Werner-Sembach/platform-x86-tuxedo-Add-virtual-LampArray-for-TUXEDO/20240927-214157
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240927124152.139099-2-wse%40tuxedocomputers.com
-patch subject: [PATCH v2 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
-config: x86_64-randconfig-161-20240928 (https://download.01.org/0day-ci/archive/20240929/202409290814.OGfHXRw7-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240929/202409290814.OGfHXRw7-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409290814.OGfHXRw7-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: wmidev_evaluate_method
-   >>> referenced by tuxedo_nb04_wmi_util.c:26 (drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_util.c:26)
-   >>>               vmlinux.o:(__wmi_method_buffer_out)
---
->> ld.lld: error: undefined symbol: __wmi_driver_register
-   >>> referenced by tuxedo_nb04_wmi_ab_init.c:86 (drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.c:86)
-   >>>               vmlinux.o:(tuxedo_nb04_wmi_ab_driver_init)
---
->> ld.lld: error: undefined symbol: wmi_driver_unregister
-   >>> referenced by tuxedo_nb04_wmi_ab_init.c:86 (drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.c:86)
-   >>>               vmlinux.o:(tuxedo_nb04_wmi_ab_driver_exit)
-
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 99812c0f830b..a1e0c3db3d4c 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -2082,6 +2082,11 @@ static const struct hid_device_id mt_devices[] = {
+ 		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
+ 			0x347d, 0x7853) },
+ 
++	/* HONOR MagicBook Art 14 touchpad */
++	{ .driver_data = MT_CLS_VTL,
++		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
++			0x35cc, 0x0104) },
++
+ 	/* Ilitek dual touch panel */
+ 	{  .driver_data = MT_CLS_NSMU,
+ 		MT_USB_DEVICE(USB_VENDOR_ID_ILITEK,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.45.2
+
 
