@@ -1,77 +1,77 @@
-Return-Path: <linux-input+bounces-6865-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6866-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3FBF989401
-	for <lists+linux-input@lfdr.de>; Sun, 29 Sep 2024 11:10:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4E4D989403
+	for <lists+linux-input@lfdr.de>; Sun, 29 Sep 2024 11:10:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 872E7B24384
-	for <lists+linux-input@lfdr.de>; Sun, 29 Sep 2024 09:10:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 53F16286120
+	for <lists+linux-input@lfdr.de>; Sun, 29 Sep 2024 09:10:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 022BF15C14E;
-	Sun, 29 Sep 2024 09:08:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B30916B3B7;
+	Sun, 29 Sep 2024 09:08:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="ej6urqb/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="f0YxBfau"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="RYdRd3e+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Axn6FUV9"
 X-Original-To: linux-input@vger.kernel.org
 Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609A413E05F;
-	Sun, 29 Sep 2024 09:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E2014EC64;
+	Sun, 29 Sep 2024 09:08:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727600930; cv=none; b=ENLgZmXyUkjQo1w0AwS6XVL8HXhAwMtw8AB2kfa++3dMNMQZcG8V4fzhDmO/+2BZz59M5tJIxp8Vsb6SsTemuJd0J+CCNaxykEnf2rQ1EbK1K7OFHAVgakjBgSxRAee1jn2Y69aUwTBLLmyP5TE+rs+GgSap1ZgOGXyBP+xKOZQ=
+	t=1727600935; cv=none; b=idSBMXW78ik69GKwXHY/v7HSJT46tp/7AeJBtuRB3/eztKIjbPLTHcVSbhje3r21OAIdnJTYLjnYM18jtjQoK5dCwIPDShzdfY83zx9tDdNDoASb29dSCBDtpetaLtvpGyRaM81He9mCtJkq0/R/8ob9WUJXptdkv0m1ceFCj/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727600930; c=relaxed/simple;
-	bh=TzNiGzVk5hHoeUPGixFIDoWLIGvlPo16hvmDInalBZI=;
+	s=arc-20240116; t=1727600935; c=relaxed/simple;
+	bh=3LcCZdceHvyNOBrUxi9w41S+RS8SMzGh+YR2EzLsz90=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AJqlHw2HZlZ5sSsK5CZ2jZDvGDp+iI5//nOf2KzTQzW/cSEiUIWqpLOH6VBz+u3KTV10tyjk38ivS9MUmeYcHYA8Jx2kQ9O9ZoIL8RzAa8KpgzmfExvZxU0/XLCLc7+cooqYFDNE+8oAfIYP9V1c5hUxyIVcuBu/6m9lxjInhJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=ej6urqb/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=f0YxBfau; arc=none smtp.client-ip=103.168.172.146
+	 MIME-Version; b=YVNHtlcGY96JR3AZrTKGsmDN/LBjGOir5uMNUNx9Ewak6FluV8CuC7NsoC/ex2UbiR5N+5GuuKGolW+lI+vnii20CP8mwM3W5fKe4sf6G3j1I6DeY1VM8cUcnD4ZD7grxvlwJZ+ut0ZN+XG8G9vPt5EnsoXpBJ1EEzDp98q8d0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=RYdRd3e+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Axn6FUV9; arc=none smtp.client-ip=103.168.172.146
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 83F46138064E;
-	Sun, 29 Sep 2024 05:08:48 -0400 (EDT)
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id AF18F138069C;
+	Sun, 29 Sep 2024 05:08:52 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Sun, 29 Sep 2024 05:08:48 -0400
+  by phl-compute-04.internal (MEProxy); Sun, 29 Sep 2024 05:08:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
 	:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1727600928; x=
-	1727687328; bh=AMuxT5Rsexi/58FYK5HjHnQTWfhRpu62BDp5KCnPK/c=; b=e
-	j6urqb/knFL9euY59KZUW2kStMMIikyh7PzV2tOUXFhXUTj1tnyeTrqe8hmDhBhC
-	bwrkFFwzewkm3wi7IMGjjz4LRNaYZMU5BL5WHkhnfDuZ3pFgZI1Lcu0AgoEzRo9D
-	RudwQbh0HdLVc5FIXNMB9N5qXIyq500BowCkwAPnQ0B0QziWFYyqN2ZIZU6pQEGX
-	8VhSVisYktvnYokOY/SPrzMncHlD/5S01pfmyiftqS+mJhzG2m9eDAIUVLdYLnFS
-	Q5XJ/dYRhCse7TPiozH0u4hqYIZvOCIwE90tg2cPAZ1/SLql5fVmw13wqVdSyIaC
-	KH5ZDgK6cEBsoGsfVcCdg==
+	:reply-to:subject:subject:to:to; s=fm3; t=1727600932; x=
+	1727687332; bh=mQ4GQzfJVKAr4ETscixOQhgAeHqJ59mhKuB3UGjlAKo=; b=R
+	YdRd3e+hdxW3hHxdif+zEyv3yZ/pWUV7GDqjKfNLWZYgZdrkXFGU/pZz+CBmDHaY
+	Hzb8/F9DPFPySGqnm3vvU0gs/wst/dHthqrt7bdBLPyXx0GdqQk3E1bP0/EVCvem
+	1RC/AZWr1rlos4BFHCReD+UewAlAzlWTRNXefGpMdfgdRmuZwKE9GCsq/32cnS4u
+	0K2shVIThlSV9Ji7LAeeBwX3JitvSlhug/zM65o3lsCsDsXwwucrQYUoku6bOjxf
+	1JtQoUwGj35ppw1+0+IcoC3WpN/ah5XDP0GgvtGzJ1AuUlJA2wedHhJnqTn5rgPs
+	igyNy1qxQX3ugHH+SaEyg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1727600928; x=
-	1727687328; bh=AMuxT5Rsexi/58FYK5HjHnQTWfhRpu62BDp5KCnPK/c=; b=f
-	0YxBfaus948Y/hpTtWEE0+7cqkGTbwsHIIZi1Z+zh9/eO1k3Tb1ouzD5pxBMIbMB
-	pmZbakbNz/uiwuqI2eOYgx2xwW0gnFsx7SHkDBUK/KwrTaqjgrgiu6LaXGh9ck27
-	gqFmkTHgNfGUEUpneG8TFqDCAkGzkLT94vY+E6ewlNT6msNDcxX3fjoqFr4Cwirr
-	aHSZxaP7uFWbKr7lvMB2fTsMP3GEPoqMJN0S/uuvGgClC1UBeN1Vk0wsnOr1fNOt
-	DyqLaXGQUg9l+zIn4ByDWMSHDgdUC8VDr4MIUWG06bR80KlgQsJVxvSDpqanweK0
-	iT8Iq3Mnssi+d+vyzYUVA==
-X-ME-Sender: <xms:IBn5ZjaM8RbCbZw4KTP0gR0OfzpVV6IrT6vyVDE5fV1xmc8nuxvyqg>
-    <xme:IBn5ZiZTjyY9a2BRp3XoWShvcFb_zaBkaZkDz1Sb12W1hr7U327-6EBzm4jZYjLep
-    _IiTOcrRLttv81_YRo>
-X-ME-Received: <xmr:IBn5Zl_jIsIDcwEIuv8K_rMVPjdBi-QSLL0Xv8-rp2s88x_uu8UQdMXza1PR0Q>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1727600932; x=
+	1727687332; bh=mQ4GQzfJVKAr4ETscixOQhgAeHqJ59mhKuB3UGjlAKo=; b=A
+	xn6FUV9VAoIQRwmPwv5v9T/MZkXtmNbu/Avxtd7y4mihiT9K0rs0GkEQgwdyFgPx
+	hxxAcMsHVsy4cC7FYbN6UdYC9OWLpcc1sVXZcGU9hWSolQoYwzMw406lfBslrs8D
+	yV6IAtRjoGZPQBrhuf0v+MyOZ9S4E2XMTwvi1Iq3ObMRLLzY6ejCECsJSYfEWmRB
+	GawSDE5JcwGX8nkcTyo9NnDrU0ueEJQDZTt+tRBEt1GKeJ9wsaxOF6cZ4j9RgRYb
+	p1k9VM8jquRNNaA9rY6xjjh+bdKwPnBhjqpiyRobPMVPzEadIlMnMzwiNAdJL+1r
+	9iynrARMb/8Y0TF/8JKjA==
+X-ME-Sender: <xms:JBn5ZlPSk83S_8jxkvXnryYwpTUS28lRqv0TxPXhPHez3VVSnnTdTw>
+    <xme:JBn5Zn87YX1qarqDZ1zTAYI6zm-cVW2rQNuMwjY_8YY_2dmYAbD8ia7x4aKvZrAZt
+    3jXOt4uCouCBu94HPA>
+X-ME-Received: <xmr:JBn5ZkTHTrCkfQ0QNPKSfRqQ1Lb0rlDrRY64KVQ6fT8SVowh1VajmpIWfQBxkg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddufedgudefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
     rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
     htshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttden
     ucfhrhhomhepfdfnuhhkvgcuffdrucflohhnvghsfdcuoehluhhkvgeslhhjohhnvghsrd
     guvghvqeenucggtffrrghtthgvrhhnpefgteefudfgteduueehteejhfeugffgleeltedv
-    veethfeuueejfedvgeelveehgfenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmh
+    veethfeuueejfedvgeelveehgfenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmh
     epmhgrihhlfhhrohhmpehluhhkvgeslhhjohhnvghsrdguvghvpdhnsggprhgtphhtthho
     pedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvg
     hlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqihhnphhu
@@ -82,14 +82,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddufedgudefucetufdoteggod
     ughhrghtrdgtohhmpdhrtghpthhtoheptghorhgvnhhtihhnrdgthhgrrhihsehgmhgrih
     hlrdgtohhmpdhrtghpthhtohepshhuphgvrhhmudeskhgvrhhnvghlrdhorhhgpdhrtghp
     thhtoheplhhukhgvsehljhhonhgvshdruggvvh
-X-ME-Proxy: <xmx:IBn5ZpqVmUMNeYt6grv35LTjztwZnhtaaOYbXSzmrNjMMoIPrn7fzg>
-    <xmx:IBn5ZurSCHfuCJ6OGFbk9lC5eju-a7tKthSSTSs-KvLtPy6U1_p6xw>
-    <xmx:IBn5ZvSl3niqwdbcdmuJCX9DW8d0wGDA9Nvzgr8gJJmTdKIuIbjhGg>
-    <xmx:IBn5Zmpyc4dWfRYTV0fKTK3QcwbiZGeqvbuEfTF9mdYXC9h5m0BC_Q>
-    <xmx:IBn5Zt1QBwTIM2YVsOZK6wVFINn40M1vh5F4Hb0JQrlArpLUXCACd9jp>
+X-ME-Proxy: <xmx:JBn5ZhtcJcgrnbxhRxzD9Fbk0g8CAeESAVL93zsQUz1fd9_CRvFLwA>
+    <xmx:JBn5Ztc90FdEPdNElz6XjUshTeZjlCKTHVXlrqyXd_aFtgSDEUYK-w>
+    <xmx:JBn5Zt0aVHDzwIpP47M0V4byWckZNFKxkPG7M-2sA7-kq1xmw4YOcg>
+    <xmx:JBn5Zp-PS0DKNFQaC0CTBUfWfDqiOkYXO9GjIK_uk-g9rqsTERtPgA>
+    <xmx:JBn5Zp65hRVub-U6Kf6kpgz8GjZnrPOsGcASyAI-EISEqK9ciHbS6PYS>
 Feedback-ID: i5ec1447f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 29 Sep 2024 05:08:44 -0400 (EDT)
+ 29 Sep 2024 05:08:48 -0400 (EDT)
 From: "Luke D. Jones" <luke@ljones.dev>
 To: linux-kernel@vger.kernel.org
 Cc: linux-input@vger.kernel.org,
@@ -101,9 +101,9 @@ Cc: linux-input@vger.kernel.org,
 	superm1@kernel.org,
 	"Luke D. Jones" <luke@ljones.dev>,
 	Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v5 6/9] platform/x86: asus-armoury: add dgpu tgp control
-Date: Sun, 29 Sep 2024 22:08:10 +1300
-Message-ID: <20240929090813.7888-7-luke@ljones.dev>
+Subject: [PATCH v5 7/9] platform/x86: asus-armoury: add apu-mem control support
+Date: Sun, 29 Sep 2024 22:08:11 +1300
+Message-ID: <20240929090813.7888-8-luke@ljones.dev>
 X-Mailer: git-send-email 2.46.1
 In-Reply-To: <20240929090813.7888-1-luke@ljones.dev>
 References: <20240929090813.7888-1-luke@ljones.dev>
@@ -115,127 +115,163 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Implement the dgpu TGP control under the asus-armoury module using the
-fw_attributes class.
+Implement the APU memory size control under the asus-armoury module using
+the fw_attributes class.
 
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+This allows the APU allocated memory size to be adjusted depending on
+the users priority. A reboot is required after change.
+
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- drivers/platform/x86/asus-armoury.c        | 21 +++++++++++++++++++++
- drivers/platform/x86/asus-armoury.h        | 18 ++++++++++++++++++
- include/linux/platform_data/x86/asus-wmi.h |  3 +++
- 3 files changed, 42 insertions(+)
+ drivers/platform/x86/asus-armoury.c        | 114 +++++++++++++++++++++
+ include/linux/platform_data/x86/asus-wmi.h |   1 +
+ 2 files changed, 115 insertions(+)
 
 diff --git a/drivers/platform/x86/asus-armoury.c b/drivers/platform/x86/asus-armoury.c
-index aadeb2a41ca6..2a9f4b626f12 100644
+index 2a9f4b626f12..c4c79a33c56e 100644
 --- a/drivers/platform/x86/asus-armoury.c
 +++ b/drivers/platform/x86/asus-armoury.c
-@@ -45,6 +45,9 @@
- #define NVIDIA_BOOST_MAX 25
- #define NVIDIA_TEMP_MIN 75
- #define NVIDIA_TEMP_MAX 87
-+#define NVIDIA_POWER_MIN 0
-+#define NVIDIA_POWER_MAX 70
-+#define NVIDIA_POWER_DEFAULT 70
- #define PPT_CPU_LIMIT_MIN 5
- #define PPT_CPU_LIMIT_MAX 150
- #define PPT_CPU_LIMIT_DEFAULT 80
-@@ -77,6 +80,11 @@ struct rog_tunables {
- 	u32 nv_temp_min;
- 	u32 nv_temp_max;
- 	u32 nv_temp_target;
-+
-+	u32 dgpu_tgp_default;
-+	u32 dgpu_tgp_min;
-+	u32 dgpu_tgp_max;
-+	u32 dgpu_tgp;
- };
+@@ -466,6 +466,119 @@ static ssize_t egpu_enable_current_value_store(struct kobject *kobj, struct kobj
+ WMI_SHOW_INT(egpu_enable_current_value, "%d\n", ASUS_WMI_DEVID_EGPU);
+ ATTR_GROUP_BOOL_CUSTOM(egpu_enable, "egpu_enable", "Enable the eGPU (also disables dGPU)");
  
- static const struct class *fw_attr_class;
-@@ -477,6 +485,12 @@ ATTR_GROUP_ROG_TUNABLE(nv_dynamic_boost, "nv_dynamic_boost", ASUS_WMI_DEVID_NV_D
- ATTR_GROUP_ROG_TUNABLE(nv_temp_target, "nv_temp_target", ASUS_WMI_DEVID_NV_THERM_TARGET,
- 		       nv_temp_default, nv_boost_min, nv_temp_max, 1,
- 		       "Set the Nvidia max thermal limit");
-+ATTR_GROUP_ROG_TUNABLE(dgpu_tgp, "dgpu_tgp", ASUS_WMI_DEVID_DGPU_SET_TGP, dgpu_tgp_default,
-+		       dgpu_tgp_min, dgpu_tgp_max, 1,
-+		       "Set the additional TGP on top of the base TGP");
++/* Device memory available to APU */
 +
-+ATTR_GROUP_INT_VALUE_ONLY_RO(dgpu_base_tgp, "dgpu_base_tgp", ASUS_WMI_DEVID_DGPU_BASE_TGP,
-+			     "Read the base TGP value");
- 
- ATTR_GROUP_ENUM_INT_RO(charge_mode, "charge_mode", ASUS_WMI_DEVID_CHARGE_MODE, "0;1;2",
- 		       "Show the current mode of charging");
-@@ -505,6 +519,8 @@ static const struct asus_attr_group armoury_attr_groups[] = {
- 	{ &ppt_fppt_attr_group, ASUS_WMI_DEVID_PPT_FPPT },
- 	{ &nv_dynamic_boost_attr_group, ASUS_WMI_DEVID_NV_DYN_BOOST },
++static ssize_t apu_mem_current_value_show(struct kobject *kobj, struct kobj_attribute *attr,
++					  char *buf)
++{
++	int err;
++	u32 mem;
++
++	err = asus_wmi_get_devstate_dsts(ASUS_WMI_DEVID_APU_MEM, &mem);
++	if (err)
++		return err;
++
++	switch (mem) {
++	case 0x100:
++		mem = 0;
++		break;
++	case 0x102:
++		mem = 1;
++		break;
++	case 0x103:
++		mem = 2;
++		break;
++	case 0x104:
++		mem = 3;
++		break;
++	case 0x105:
++		mem = 4;
++		break;
++	case 0x106:
++		/* This is out of order and looks wrong but is correct */
++		mem = 8;
++		break;
++	case 0x107:
++		mem = 5;
++		break;
++	case 0x108:
++		mem = 6;
++		break;
++	case 0x109:
++		mem = 7;
++		break;
++	default:
++		mem = 4;
++		break;
++	}
++
++	return sysfs_emit(buf, "%u\n", mem);
++}
++
++static ssize_t apu_mem_current_value_store(struct kobject *kobj, struct kobj_attribute *attr,
++					   const char *buf, size_t count)
++{
++	int result, err;
++	u32 requested, mem;
++
++	result = kstrtou32(buf, 10, &requested);
++	if (result)
++		return result;
++
++	switch (requested) {
++	case 0:
++		mem = 0x000;
++		break;
++	case 1:
++		mem = 0x102;
++		break;
++	case 2:
++		mem = 0x103;
++		break;
++	case 3:
++		mem = 0x104;
++		break;
++	case 4:
++		mem = 0x105;
++		break;
++	case 5:
++		mem = 0x107;
++		break;
++	case 6:
++		mem = 0x108;
++		break;
++	case 7:
++		mem = 0x109;
++		break;
++	case 8:
++		/* This is out of order and looks wrong but is correct */
++		mem = 0x106;
++		break;
++	default:
++		return -EIO;
++	}
++
++	err = asus_wmi_set_devstate(ASUS_WMI_DEVID_APU_MEM, mem, &result);
++	if (err) {
++		pr_warn("Failed to set apu_mem: %d\n", err);
++		return err;
++	}
++
++	pr_info("APU memory changed to %uGB, reboot required\n", requested);
++	sysfs_notify(kobj, NULL, attr->attr.name);
++
++	asus_set_reboot_and_signal_event();
++
++	return count;
++}
++
++static ssize_t apu_mem_possible_values_show(struct kobject *kobj, struct kobj_attribute *attr,
++					    char *buf)
++{
++	return sysfs_emit(buf, "0;1;2;3;4;5;6;7;8\n");
++}
++ATTR_GROUP_ENUM_CUSTOM(apu_mem, "apu_mem", "Set available system RAM (in GB) for the APU to use");
++
+ /* Simple attribute creation */
+ ATTR_GROUP_ROG_TUNABLE(ppt_pl1_spl, "ppt_pl1_spl", ASUS_WMI_DEVID_PPT_PL1_SPL, cpu_default,
+ 		       cpu_min, cpu_max, 1, "Set the CPU slow package limit");
+@@ -521,6 +634,7 @@ static const struct asus_attr_group armoury_attr_groups[] = {
  	{ &nv_temp_target_attr_group, ASUS_WMI_DEVID_NV_THERM_TARGET },
-+	{ &dgpu_base_tgp_attr_group, ASUS_WMI_DEVID_DGPU_BASE_TGP },
-+	{ &dgpu_tgp_attr_group, ASUS_WMI_DEVID_DGPU_SET_TGP },
+ 	{ &dgpu_base_tgp_attr_group, ASUS_WMI_DEVID_DGPU_BASE_TGP },
+ 	{ &dgpu_tgp_attr_group, ASUS_WMI_DEVID_DGPU_SET_TGP },
++	{ &apu_mem_attr_group, ASUS_WMI_DEVID_APU_MEM },
  
  	{ &charge_mode_attr_group, ASUS_WMI_DEVID_CHARGE_MODE },
  	{ &boot_sound_attr_group, ASUS_WMI_DEVID_BOOT_SOUND },
-@@ -673,6 +689,11 @@ static void init_rog_tunables(struct rog_tunables *rog)
- 	rog->nv_temp_max = NVIDIA_TEMP_MIN;
- 	rog->nv_temp_max = NVIDIA_TEMP_MAX;
- 	rog->nv_temp_target = NVIDIA_TEMP_MIN;
-+
-+	rog->dgpu_tgp_default = NVIDIA_POWER_DEFAULT;
-+	rog->dgpu_tgp_min = NVIDIA_POWER_MIN;
-+	rog->dgpu_tgp_max = NVIDIA_POWER_MAX;
-+	rog->dgpu_tgp = NVIDIA_POWER_MAX;
- }
- 
- static int __init asus_fw_init(void)
-diff --git a/drivers/platform/x86/asus-armoury.h b/drivers/platform/x86/asus-armoury.h
-index ca570ed9c8ef..e08459cad942 100644
---- a/drivers/platform/x86/asus-armoury.h
-+++ b/drivers/platform/x86/asus-armoury.h
-@@ -89,6 +89,20 @@ static ssize_t enum_type_show(struct kobject *kobj, struct kobj_attribute *attr,
- 	static struct kobj_attribute attr_##_attrname##_##_prop =             \
- 		__ASUS_ATTR_RO(_attrname, _prop)
- 
-+/* Requires current_value_show */
-+#define __ATTR_GROUP_INT_VALUE_ONLY(_attrname, _fsname, _dispname)     \
-+	__ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);   \
-+	static struct kobj_attribute attr_##_attrname##_type =         \
-+		__ASUS_ATTR_RO_AS(type, int_type_show);                \
-+	static struct attribute *_attrname##_attrs[] = {               \
-+		&attr_##_attrname##_current_value.attr,                \
-+		&attr_##_attrname##_display_name.attr,                 \
-+		&attr_##_attrname##_type.attr, NULL                    \
-+	};                                                             \
-+	static const struct attribute_group _attrname##_attr_group = { \
-+		.name = _fsname, .attrs = _attrname##_attrs            \
-+	}
-+
- /* Boolean style enumeration, base macro. Requires adding show/store */
- #define __ATTR_GROUP_ENUM(_attrname, _fsname, _possible, _dispname)     \
- 	__ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);    \
-@@ -106,6 +120,10 @@ static ssize_t enum_type_show(struct kobject *kobj, struct kobj_attribute *attr,
- 		.name = _fsname, .attrs = _attrname##_attrs             \
- 	}
- 
-+#define ATTR_GROUP_INT_VALUE_ONLY_RO(_attrname, _fsname, _wmi, _dispname) \
-+	__ATTR_CURRENT_INT_RO(_attrname, _wmi);                           \
-+	__ATTR_GROUP_INT_VALUE_ONLY(_attrname, _fsname, _dispname)
-+
- #define ATTR_GROUP_BOOL_RO(_attrname, _fsname, _wmi, _dispname) \
- 	__ATTR_CURRENT_INT_RO(_attrname, _wmi);                 \
- 	__ATTR_GROUP_ENUM(_attrname, _fsname, "0;1", _dispname)
 diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index a6064995c2cc..8c755799eb60 100644
+index 8c755799eb60..88bf250dc8ca 100644
 --- a/include/linux/platform_data/x86/asus-wmi.h
 +++ b/include/linux/platform_data/x86/asus-wmi.h
-@@ -137,6 +137,9 @@
- /* dgpu on/off */
- #define ASUS_WMI_DEVID_DGPU		0x00090020
+@@ -139,6 +139,7 @@
  
-+#define ASUS_WMI_DEVID_DGPU_BASE_TGP	0x00120099
-+#define ASUS_WMI_DEVID_DGPU_SET_TGP	0x00120098
-+
+ #define ASUS_WMI_DEVID_DGPU_BASE_TGP	0x00120099
+ #define ASUS_WMI_DEVID_DGPU_SET_TGP	0x00120098
++#define ASUS_WMI_DEVID_APU_MEM		0x000600C1
+ 
  /* gpu mux switch, 0 = dGPU, 1 = Optimus */
  #define ASUS_WMI_DEVID_GPU_MUX		0x00090016
- #define ASUS_WMI_DEVID_GPU_MUX_VIVO	0x00090026
 -- 
 2.46.1
 
