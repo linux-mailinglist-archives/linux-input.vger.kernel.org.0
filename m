@@ -1,264 +1,230 @@
-Return-Path: <linux-input+bounces-6908-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6909-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB8B398A857
-	for <lists+linux-input@lfdr.de>; Mon, 30 Sep 2024 17:21:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 422BC98A8CB
+	for <lists+linux-input@lfdr.de>; Mon, 30 Sep 2024 17:40:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE8271C22B1A
-	for <lists+linux-input@lfdr.de>; Mon, 30 Sep 2024 15:21:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B15DCB28D4A
+	for <lists+linux-input@lfdr.de>; Mon, 30 Sep 2024 15:40:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EE8819049B;
-	Mon, 30 Sep 2024 15:21:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35F431940A2;
+	Mon, 30 Sep 2024 15:35:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NPZ2K02j"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="ZvMz3dLX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1707D20B0F
-	for <linux-input@vger.kernel.org>; Mon, 30 Sep 2024 15:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DE618FDCE;
+	Mon, 30 Sep 2024 15:35:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727709682; cv=none; b=gI55CcaqkYjaLbytDboOtnp2I0JrgIgzzbstbfD0vAkvKyfh1k6F3fyI0F8FNpJcaRVVvg6jNFLZunvva2GJgCSuTInkU7OYya5EkepVETC0l/aDcPc55zhV/XiH9aQCW68/+R2VvmyKPD6nBSL4ij6WwhWTr/M3hSIe328CSOg=
+	t=1727710545; cv=none; b=iJ9SijirP23V1rt4oxbb5gUWBG/mGzralVxPHtMXX+oVXtTCOMcbzB5gJoh6Lw5rfj6fEZ3f1eShOi+ot0aFho8z73kZ1l/FVLqFKWziqoiSfBAuBXNkCR9D4OymDTVSvEGEcCzfmcm8jzOkDCI9HCmINDdwLBPuovLXpc07fxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727709682; c=relaxed/simple;
-	bh=g/+Q+NCNpHqpg4gk0wkobkW5jB2rhP3mXG9xIoPap1A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jFUlJ3aqHRGthUR5mmWS5U/BZanMPAI/8KR+NYACNZhWhXDXAyvJSStAtI9OzxF34nz4sNnsyx2qzBjtmDrRv+U0a7vZwPW0vH9WUQCczIkJSY7KPGNZY3H+hfEMfOdpCN/ttejNN6FH+4jW3fIYeMO0khQLxP0JsF/7IL3rLew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NPZ2K02j; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727709680; x=1759245680;
-  h=date:from:to:cc:subject:message-id;
-  bh=g/+Q+NCNpHqpg4gk0wkobkW5jB2rhP3mXG9xIoPap1A=;
-  b=NPZ2K02jsGtQf4QC+j3t1oUSOvokrNxUTxIsbC18Wnq7KZzufRfERPGI
-   FGXWzAY/yQh9kGuV/SK+HxrveW1qFpdSN6NEJ8y+qJE0fhovXM3cSR9Qd
-   2UVnly8q1KaKoCRvo6d8PVp1gMpio/egdeOhKTMT8YGbnaHZOo/VFEkmT
-   kSVybHht1qtFKn4479nZYls084tJmz37wM+NI2/jlXFlJuLJIfdi5612W
-   sPWN0s+pf5U257yH7adZ7l/2AJgkJaKPTCAnViAL/m9bfYj+nKw9ikjSi
-   mZCd3atlmQ0I5vojOQu0aSk42VT1gJ87Jwn+VHf3t5rgeybzSoS0XYdkw
-   g==;
-X-CSE-ConnectionGUID: 7vdVSGEZRjON9v7Vsf+E2w==
-X-CSE-MsgGUID: petD0Pw9Tce7B6zgEOOi3w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26932081"
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; 
-   d="scan'208";a="26932081"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 08:21:19 -0700
-X-CSE-ConnectionGUID: 4ms46xPLRfKChnfaLTD+Aw==
-X-CSE-MsgGUID: AiiJpP0xQhyvnzkAYKW8ZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; 
-   d="scan'208";a="73606126"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 30 Sep 2024 08:21:18 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1svID5-000PaH-1R;
-	Mon, 30 Sep 2024 15:21:15 +0000
-Date: Mon, 30 Sep 2024 23:20:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- c7bf046925dc5885d9c4d8fbcbb7e4e73665bfcf
-Message-ID: <202409302344.Yo1KYqs1-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1727710545; c=relaxed/simple;
+	bh=SH+KUgztZt9fkG7f6tJPS+ViWsHQH/J+YcML1FRE4Dw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fukL1l90LtvbW+wpzYgPccNoA3g+ZKQWzywEntcBle0WOPwLW4xD20AU4eDj+wFLiZVrxFtDzFiNqgWuSsOhwkvLk3VdZHfvi7zan6J71EZZ9jzlaFdGcXIsAEk6tGJ32Uej0wkyt7znjLPIOf9Kxd3P8fYDbJdjsmkPc3ENlpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=ZvMz3dLX; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.96] (pd9e59da1.dip0.t-ipconnect.de [217.229.157.161])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id CFF902FC0050;
+	Mon, 30 Sep 2024 17:35:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1727710533;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9ZpK+j/6C4S5liKRtSBbbKrFQDQKzRJ5e1FaI5e//BU=;
+	b=ZvMz3dLXi4Kmt0SAm0au2kBhsb6u4ITPeIW7S64cJZ7mGk4p0ALmHsLOhFb5GeavLCEhCs
+	9N3sClT4X4PtWH9cFLDY5ctNmqAdzLKO9NECexZZsL6YsgKh8iXIc/WicHrTd9vpZH60Zu
+	b5cQ6LU4fSOAQvDyQ6NoY+sW+3JziYs=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <586a1c41-bbe0-4912-b7c7-1716d886c198@tuxedocomputers.com>
+Date: Mon, 30 Sep 2024 17:35:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
+ NB04 devices
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
+References: <20240926174405.110748-1-wse@tuxedocomputers.com>
+ <20240926174405.110748-2-wse@tuxedocomputers.com>
+ <ZvcdNXQJmc8cjifw@amd.ucw.cz> <bea39077-6104-4b59-8757-9cbe0e703e5c@gmx.de>
+ <7r3zg4tcmp5ozjwyiusstgv7g4dha4wuh4kwssxpk3tkurpgo3@36laqab7lsxp>
+ <58cf1777-222f-4156-9079-bcbba4a32c96@tuxedocomputers.com>
+ <45qkbpaxhrv2r32hghjqoexkenktymzyjgpx2xnnxt6dmfawjt@44lrhgcnozh3>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <45qkbpaxhrv2r32hghjqoexkenktymzyjgpx2xnnxt6dmfawjt@44lrhgcnozh3>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: c7bf046925dc5885d9c4d8fbcbb7e4e73665bfcf  Input: novatek-nvt-ts - add support for NT36672A touchscreen
+Am 28.09.24 um 12:05 schrieb Benjamin Tissoires:
+> On Sep 28 2024, Werner Sembach wrote:
+>> Hi,
+>>
+>> Am 28.09.24 um 09:27 schrieb Benjamin Tissoires:
+>>> On Sep 28 2024, Armin Wolf wrote:
+>>>> Am 27.09.24 um 23:01 schrieb Pavel Machek:
+>>>>
+>>>>> Hi!
+>>>>>
+>>>>>> The TUXEDO Sirius 16 Gen1 and TUXEDO Sirius 16 Gen2 devices have a per-key
+>>>>>> controllable RGB keyboard backlight. The firmware API for it is implemented
+>>>>>> via WMI.
+>>>>> Ok.
+>>>>>
+>>>>>> To make the backlight userspace configurable this driver emulates a
+>>>>>> LampArray HID device and translates the input from hidraw to the
+>>>>>> corresponding WMI calls. This is a new approach as the leds subsystem lacks
+>>>>>> a suitable UAPI for per-key keyboard backlights, and like this no new UAPI
+>>>>>> needs to be established.
+>>>>> Please don't.
+>>>>>
+>>>>> a) I don't believe emulating crazy HID interface si right thing to
+>>>>> do. (Ton of magic constants. IIRC it stores key positions with
+>>>>> micrometer accuracy or something that crazy. How is userland going to
+>>>>> use this? Will we update micrometers for every single machine?)
+>>> This is exactly why I suggest to make use of HID-BPF. The machine
+>>> specifics is going to be controlled by userspace, leaving out the crazy
+>>> bits out of the kernel.
+>>  From just a quick look at
+>> https://www.kernel.org/doc/html/latest/hid/hid-bpf.html HID-BPF is some kind
+>> HID remapping?
+> Yes. HID-BPF allows to customize a HID device by changing the report
+> descriptor and/or the events, and the requests made from hidraw.
+>
+> It's a HID -> HID conversion, but controlled by userspace.
+>
+> See [0] for a tutorial.
+>
+>> But the device in question nativly does not have a hid interface for the
+>> backlight. It is controlled via WMI calls.
+>>
+>> Afaik userspace on linux has no access to WMI? How could HID-BPF implement
+>> the WMI calls?
+> You'll need a thin WMI to HID wrapper, but without LampArray.
+> Then you load the HID-BPF program from userspace, that program knows
+> about the specifics of the device, and can do the LampArray transform.
+>
+> Which means that once the wmi-to-hid driver specific to this device is
+> built in the kernel, you can adjust your LampArray implementation (the
+> device specifics micrometers and what not) from usersapce.
+>
+>>>>> Even if it is,
+>>>>>
+>>>>> b) The emulation should go to generic layer, it is not specific to
+>>>>> your hardware.
+>>> Well, there is not so much about an emulation here. It's a different way
+>>> of presenting the information.
+>>> But given that HID LampArray is a HID standard, userspace is able to
+>>> implement it once for all the operating systems, which is why this is so
+>>> appealing for them. For reference, we have the same issue with SDL and
+>>> Steam regarding advanced game controller: they very much prefer to
+>>> directly use HID(raw) to talk to the device instead of having a Linux
+>>> specific interface.
+>>>
+>>> Also, starting with v6.12, systemd (logind) will be able to provide
+>>> hidraw node access to non root applications (in the same way you can
+>>> request an input evdev node). So HID LampArray makes a lot of sense IMO.
+>>>
+>>>> Maybe introducing a misc-device which provides an ioctl-based API similar
+>>>> to the HID LampArray would be a solution?
+>>>>
+>>>> Basically we would need:
+>>>> - ioctl for querying the supported LEDs and their properties
+>>>> - ioctl for enabling/disabling autonomous mode
+>>>> - ioctl for updating a range of LEDs
+>>>> - ioctl for updating multiple LEDs at once
+>>> You'll definitely get the API wrong at first, then you'll need to adapt
+>>> for a new device, extend it, etc... But then, you'll depend on one
+>>> userspace application that can talk to your custom ioctls, because cross
+>>> platform applications will have to implement LampArray, and they'ĺl
+>>> probably skip your custom ioctls. And once that userspace application is
+>>> gone, you'll still have to maintain this forever.
+>>>
+>>> Also, the application needs to have root access to that misc device, or
+>>> you need to add extra support for it in systemd...
+>>>
+>>>> If we implement this as a separate subsystem ("illumination subsystem"), then different
+>>>> drivers could use this. This would also allow us to add additional ioctl calls later
+>>>> for more features.
+>>> Again, I strongly advise against this.
+>>>
+>>> I'll just reiterate what makes the more sense to me:
+>>> - provide a thin wmi-to-hid layer that creates a normal regular HID
+>>>     device from your device (could be using vendor collections)
+>> This is what this driver tries to be.
+> Except that your current implementation also does the LampArray
+> conversion. I think it'll make more sense to provide an almost raw
+> access to the underlying protocol (think of it like your own Tuxedo
+> vendor collection in HID), and handle the LampArray weirdeness in bpf:
+> definition of the device physicals, conversion from HID LampArray
+> commands into Tuxedo specifics.
+>
+>>> - deal with the LampArray bits in the HID stack, that we can reuse for
+>>>     other devices (I was planing on getting there for my Corsair and
+>>>     Logitech keyboads).
+>> If a greater efford in the hid stack is planed here i would be all for it.
+> That's what makes more sense to me at least. Other operating systems
+> export the HID nodes directly, so userspace prefers to talk to the
+> device directly. So I'd rather rely on a standard than trying to fit the
+> current use case in a new interface that will probably fail.
+>
+>> On my todolist i would try to integrate the leds subsystem with the
+>> LampArray interface next, just a simple implementation treating the whole
+>> keyboard as a single led.
+> That could be done in HID-core as well. Making it part of HID-core also
+> means that once we get an actual LampArray device, we'll get support for
+> it from day one.
+>
+>>> - Meanwhile, while prototyping the LampArray support in userspace and
+>>>     kernelspace, make use of HID-BPF to transform your vendor protocol
+>>>     into LampArray. This will allow to fix things without having to
+>>>     support them forever. This is why HID-BPF exists: so we can create
+>>>     crazy but safe kernel interfaces, without having to support them
+>>>     forever.
+>> I guess i have to do some readup xD.
+>>
+> Please have a look at the tutorial[0]. That tutorial is missing the
+> couple of new hooks you'll need to change the requests emitted from
+> hidraw as LampArray into Tuxedo, but I can also give you a help into
+> making it happening.
+>
+> Basically, you also need to define a .hid_hw_request callback in your
+> HID_BPF_OPS and extract all of the code you have here into that bpf
+> program (which is roughly C code).
+>
+> Cheers,
+> Benjamin
+>
+>
+> [0] https://libevdev.pages.freedesktop.org/udev-hid-bpf/tutorial.html
+>
+2 question left on my side:
 
-Warning ids grouped by kconfigs:
+- Does the BPF approach have performance/latency impact?
 
-recent_errors
-`-- x86_64-allnoconfig
-    `-- drivers-input-keyboard-matrix_keypad.c:linux-gpio-consumer.h-is-included-more-than-once.
+- Does it work during boot? (e.g. early control via the leds subsystem to stop 
+firmware induced rainbow puke)
 
-elapsed time: 750m
-
-configs tested: 165
-configs skipped: 4
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig    gcc-13.3.0
-alpha                             allnoconfig    gcc-14.1.0
-alpha                            allyesconfig    clang-20
-alpha                            allyesconfig    gcc-13.3.0
-alpha                               defconfig    gcc-14.1.0
-arc                              allmodconfig    clang-20
-arc                              allmodconfig    gcc-13.2.0
-arc                               allnoconfig    gcc-13.2.0
-arc                               allnoconfig    gcc-14.1.0
-arc                              allyesconfig    clang-20
-arc                              allyesconfig    gcc-13.2.0
-arc                                 defconfig    gcc-14.1.0
-arc                     haps_hs_smp_defconfig    clang-20
-arc                     haps_hs_smp_defconfig    gcc-14.1.0
-arc                           tb10x_defconfig    clang-20
-arc                    vdk_hs38_smp_defconfig    gcc-14.1.0
-arm                              allmodconfig    clang-20
-arm                              allmodconfig    gcc-14.1.0
-arm                               allnoconfig    clang-20
-arm                               allnoconfig    gcc-14.1.0
-arm                              allyesconfig    clang-20
-arm                              allyesconfig    gcc-14.1.0
-arm                                 defconfig    gcc-14.1.0
-arm                          ep93xx_defconfig    clang-20
-arm                      integrator_defconfig    clang-20
-arm                       omap2plus_defconfig    gcc-14.1.0
-arm                         orion5x_defconfig    clang-20
-arm                        realview_defconfig    clang-20
-arm                          sp7021_defconfig    clang-20
-arm64                            allmodconfig    clang-20
-arm64                             allnoconfig    gcc-14.1.0
-arm64                               defconfig    gcc-14.1.0
-csky                              allnoconfig    gcc-14.1.0
-csky                                defconfig    gcc-14.1.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    clang-20
-hexagon                           allnoconfig    gcc-14.1.0
-hexagon                          allyesconfig    clang-20
-hexagon                             defconfig    gcc-14.1.0
-i386                             allmodconfig    clang-18
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    clang-18
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    clang-18
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20240930    clang-18
-i386        buildonly-randconfig-001-20240930    gcc-12
-i386        buildonly-randconfig-002-20240930    clang-18
-i386        buildonly-randconfig-003-20240930    clang-18
-i386        buildonly-randconfig-004-20240930    clang-18
-i386        buildonly-randconfig-004-20240930    gcc-12
-i386        buildonly-randconfig-005-20240930    clang-18
-i386        buildonly-randconfig-006-20240930    clang-18
-i386                                defconfig    clang-18
-i386                  randconfig-001-20240930    clang-18
-i386                  randconfig-002-20240930    clang-18
-i386                  randconfig-003-20240930    clang-18
-i386                  randconfig-003-20240930    gcc-12
-i386                  randconfig-004-20240930    clang-18
-i386                  randconfig-005-20240930    clang-18
-i386                  randconfig-006-20240930    clang-18
-i386                  randconfig-011-20240930    clang-18
-i386                  randconfig-012-20240930    clang-18
-i386                  randconfig-013-20240930    clang-18
-i386                  randconfig-013-20240930    gcc-12
-i386                  randconfig-014-20240930    clang-18
-i386                  randconfig-014-20240930    gcc-12
-i386                  randconfig-015-20240930    clang-18
-i386                  randconfig-016-20240930    clang-18
-i386                  randconfig-016-20240930    gcc-12
-loongarch                        allmodconfig    gcc-14.1.0
-loongarch                         allnoconfig    gcc-14.1.0
-loongarch                           defconfig    gcc-14.1.0
-loongarch                 loongson3_defconfig    clang-20
-m68k                             allmodconfig    gcc-14.1.0
-m68k                              allnoconfig    gcc-14.1.0
-m68k                             allyesconfig    gcc-14.1.0
-m68k                                defconfig    gcc-14.1.0
-m68k                            mac_defconfig    gcc-14.1.0
-m68k                            q40_defconfig    clang-15
-m68k                           sun3_defconfig    gcc-14.1.0
-m68k                          sun3x_defconfig    clang-20
-microblaze                       allmodconfig    gcc-14.1.0
-microblaze                        allnoconfig    gcc-14.1.0
-microblaze                       allyesconfig    gcc-14.1.0
-microblaze                          defconfig    gcc-14.1.0
-mips                              allnoconfig    gcc-14.1.0
-mips                       bmips_be_defconfig    gcc-14.1.0
-mips                           ci20_defconfig    clang-20
-mips                     decstation_defconfig    clang-15
-mips                      fuloong2e_defconfig    gcc-14.1.0
-mips                     loongson1b_defconfig    gcc-14.1.0
-mips                        omega2p_defconfig    clang-15
-mips                      pic32mzda_defconfig    gcc-14.1.0
-mips                          rb532_defconfig    gcc-14.1.0
-mips                        vocore2_defconfig    clang-15
-nios2                             allnoconfig    gcc-14.1.0
-nios2                               defconfig    gcc-14.1.0
-openrisc                          allnoconfig    gcc-14.1.0
-openrisc                         allyesconfig    gcc-14.1.0
-openrisc                            defconfig    gcc-12
-parisc                           allmodconfig    gcc-14.1.0
-parisc                            allnoconfig    gcc-14.1.0
-parisc                           allyesconfig    gcc-14.1.0
-parisc                              defconfig    gcc-12
-parisc64                            defconfig    gcc-14.1.0
-powerpc                          allmodconfig    gcc-14.1.0
-powerpc                           allnoconfig    gcc-14.1.0
-powerpc                          allyesconfig    clang-20
-powerpc                          allyesconfig    gcc-14.1.0
-powerpc                   bluestone_defconfig    clang-20
-powerpc                 canyonlands_defconfig    clang-15
-powerpc                      cm5200_defconfig    clang-20
-powerpc                     ep8248e_defconfig    clang-20
-powerpc                    gamecube_defconfig    clang-15
-powerpc                  iss476-smp_defconfig    clang-15
-powerpc                      katmai_defconfig    clang-15
-powerpc                   lite5200b_defconfig    clang-15
-powerpc                      tqm8xx_defconfig    clang-15
-powerpc                        warp_defconfig    clang-15
-riscv                            allmodconfig    clang-20
-riscv                            allmodconfig    gcc-14.1.0
-riscv                             allnoconfig    gcc-14.1.0
-riscv                            allyesconfig    clang-20
-riscv                            allyesconfig    gcc-14.1.0
-riscv                               defconfig    gcc-12
-s390                             allmodconfig    clang-20
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.1.0
-s390                                defconfig    gcc-12
-sh                               allmodconfig    gcc-14.1.0
-sh                                allnoconfig    gcc-14.1.0
-sh                               allyesconfig    gcc-14.1.0
-sh                                  defconfig    gcc-12
-sh                             espt_defconfig    gcc-14.1.0
-sh                            hp6xx_defconfig    clang-20
-sh                 kfr2r09-romimage_defconfig    gcc-14.1.0
-sh                          r7780mp_defconfig    clang-15
-sh                          rsk7201_defconfig    clang-15
-sh                           se7619_defconfig    clang-20
-sh                           se7724_defconfig    clang-15
-sh                             shx3_defconfig    gcc-14.1.0
-sparc                            allmodconfig    gcc-14.1.0
-sparc64                          alldefconfig    clang-15
-sparc64                             defconfig    gcc-12
-um                               alldefconfig    clang-20
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-17
-um                               allyesconfig    clang-20
-um                               allyesconfig    gcc-12
-um                                  defconfig    gcc-12
-um                             i386_defconfig    clang-20
-um                             i386_defconfig    gcc-12
-um                             i386_defconfig    gcc-14.1.0
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-18
-x86_64                           allyesconfig    clang-18
-x86_64                              defconfig    clang-18
-x86_64                              defconfig    gcc-11
-x86_64                                  kexec    clang-18
-x86_64                               rhel-8.3    gcc-12
-x86_64                          rhel-8.3-rust    clang-18
-xtensa                            allnoconfig    gcc-14.1.0
-xtensa                  audio_kc705_defconfig    clang-15
-xtensa                       common_defconfig    gcc-14.1.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
