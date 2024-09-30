@@ -1,126 +1,112 @@
-Return-Path: <linux-input+bounces-6904-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6905-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E71E98A1EB
-	for <lists+linux-input@lfdr.de>; Mon, 30 Sep 2024 14:18:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 216C798A7FB
+	for <lists+linux-input@lfdr.de>; Mon, 30 Sep 2024 16:59:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 364101C21B65
-	for <lists+linux-input@lfdr.de>; Mon, 30 Sep 2024 12:18:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CDF691F23828
+	for <lists+linux-input@lfdr.de>; Mon, 30 Sep 2024 14:59:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4045519047F;
-	Mon, 30 Sep 2024 12:09:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A51291922D5;
+	Mon, 30 Sep 2024 14:58:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aStAWMxj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZK66Ung9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD40F18E341;
-	Mon, 30 Sep 2024 12:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43187191F99;
+	Mon, 30 Sep 2024 14:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727698145; cv=none; b=tY1Vfl5O/kh3/2yxp2lyudqR04A6FRYeWyEIn+7VaRmoZnMhmUn0CcJY5Nn0xzhKHPcCutRmd8ktaC5RUhG+zx6pKuz1P5usFfiD+Dcju7RN90vCW4dId4Gq6nIWUORDBnol7S+CpBpvlw3rJcM/Ma4CEE8eeFNH9g/6uP1eKn4=
+	t=1727708324; cv=none; b=DB10/fKuRArc5AZKunVogH108Z9F3eC4Hkf7glsdcHm4Q3uOW1kaq4wc+uL2Tbsh7nSZENsanfIvF6K+013CTlvgzW0bY7g6vWfWysnGS6o6yUZvpUNpKFNN+fIICsv1uVs18MTsDZPimgHcSSUKWlYD5nOjZjmFY1soQTgG/64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727698145; c=relaxed/simple;
-	bh=v9q3x7z8QvhX052EYW3xZ+X0Rw9aY0rzg99yCATyEtY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aOfPCpIFFQQGdct2prJzi/pWmDiUSS0BBTkvkjMkGBrLK+xfV7wP+W0223Cv8sQp9dgprRMaeuPdr7lMXRndpG+HfKSmJmtVezaAYIpwRl7mXoi8ymDcvH9BRZamMQiZPDm8yCtXt57ypx8ZJtrlc03D4tJnXkMs3yicR23NqRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aStAWMxj; arc=none smtp.client-ip=209.85.215.170
+	s=arc-20240116; t=1727708324; c=relaxed/simple;
+	bh=uAcUUF3nDJ05QCqguDIzNnY2Lo1Vw0b5QLq5s8L02og=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MzJhU3XRYd5mRba1BCZ2tN6dNGa439F+odOuAUjWazde2vO3QTAafyzjw2hN/DL37uIyBt9lwGdlZg4ZZSnhNXSiKL7squSsYXBWow3H4WOUh+XG4F5AtJk4WJosfUZD8zHQaL9iiOgSG1ugci1bFgZUoXhCgjIsCsG3VLbJJhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZK66Ung9; arc=none smtp.client-ip=209.85.215.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-7db12af2f31so3564495a12.1;
-        Mon, 30 Sep 2024 05:09:03 -0700 (PDT)
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7e6bb2aa758so1710322a12.2;
+        Mon, 30 Sep 2024 07:58:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727698143; x=1728302943; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VLCfsAOM/sf8jX6lMsEq45E9J6koxN4fTvlUf2fHSJk=;
-        b=aStAWMxj4akqmcYkxAIgo29WES1QOgtpxwKyKtEW4u863G5DaSCPG7MYV+plkG3B7m
-         cP/IiVcU29My4iRaCrGWaeac9ZZRQvfIW1VdgXFrj5OmEqfPBKIcbMrS0EYT2TkZ1+Sx
-         DZe1PPwGs/zuvRSiBjevwbgJXJ9av/fsL2Xu5etBEa54aTQMh0RiLTbBCwfE7PT07iFD
-         UGTEqIb1Ktj8bpAoqibf5C4gydYNXW21zWMV4gEUBQZBZDTS5Jq52wPaT01w7H0y7uwi
-         Ml3YGjewK6LvsgKpVU+BtykUN6yOAIaGccE+4VXhuyCpZZtSEeBsZF5ZrFQbPYurWBzv
-         e0AQ==
+        d=gmail.com; s=20230601; t=1727708322; x=1728313122; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Uq6kqoFKN3iUQrNTZUafncGjrGuFhq23v+UUWt2olZk=;
+        b=ZK66Ung9TvqZn2+k51JyXbL4lQmsZjA2lF012omNiboJuVAgHaVu7jBdydzzHsyC3J
+         tOtPSJ9gqSBhcmQbbvEFmqSjgzNcYZy4KjZpb+AoeP7Hgs1DUEgDgXZ6+tSx7K0Q6tzx
+         0K0pCWKGNwYYeBofbCbvm3KX4/vc/4gzGZGBXc1DunoQElURmJW21ZWtLbE1ZRXH3+wi
+         4RTNh/viYv2jXly1OBSqSQ6ygMq5auU2j/H1B6hFH8bedGxXpxXDpAE+huonuNijXYoG
+         9R456Ke16NC1yQ/c1txGZf8i7s+SqCpiE/+QxDsl6CjvP5Or1Xphoc2qgZ40xI9zCFMC
+         nuQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727698143; x=1728302943;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VLCfsAOM/sf8jX6lMsEq45E9J6koxN4fTvlUf2fHSJk=;
-        b=YhTbgw/0HWWQ6m4TwzDSlbm8FZMKjE3OjjMTMyB1n3ZwmDUGS6cClaj+JHPJpVWNIn
-         CXnjd+NVa5k4jlXFWgh8GLhhSVt6EUY2r1HeB7Oi4wNFQggxRFJDoBroONKWLOJTzjSV
-         LrCsAtmQvjnjshhnll0ZLHsZW7Gzea1LKyOoMdEq1c5+ubpxZWGQQrU3InmUJtCMWVRC
-         7IIMwGNIK9M0/cnd+ckvI/r8iil1ubAg9njzDT5OtsWxtRE/VNURY48SINKaAtmnAhwf
-         KKkkU4HQuDy1TMyuHfZuZpdBW0NYnkfXAHBJJGGd0h6HRLP+Ok2b4vGPOYbcjvOxOUkL
-         qG9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW58Z7zinNPvfR86HbOozRihili0kdGT/yZJ5c4WX/bsT/WrUh3Aq/vCLCZW3zwP76hyIV8uF0oUoaGDyeG@vger.kernel.org, AJvYcCXLBURdbW8Z0vDuzP9/OWikxn2yQ3d0uP2Hx3/0L7FMXO6T/KoedVzpp2x69Gvzd6XhI6ypZ5jvoGjCoQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSbAybi7ua6vsNv3Phxz/nULteilCGDytwC8RFDfb+0Os7HlLH
-	XyfDr0hreshqMtegAfB6G9RApy4EU3dO0hNufuG1MQJy7A3fCSgCJDOrMVHY0bO7YUMG/W4/HN5
-	prqwF6Kqrkxg9neuQnvb+u5gsa3YobH0MKgc=
-X-Google-Smtp-Source: AGHT+IGVtNKUzCfcnZJqltrJXhGmWKupIdnDAgKWSurVkc3n976IsCMk9heB4JmhBC5qqsWzjb/F2Hjgwcy9W2a8kfs=
-X-Received: by 2002:a17:90a:8a17:b0:2da:d2a2:4a71 with SMTP id
- 98e67ed59e1d1-2e0b8ee9508mr11239187a91.40.1727698142969; Mon, 30 Sep 2024
- 05:09:02 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727708322; x=1728313122;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Uq6kqoFKN3iUQrNTZUafncGjrGuFhq23v+UUWt2olZk=;
+        b=BJjigGv0V2xDvmgZeOkXqCgFaq+f67C4BKIIWE+TAjb+ys8MkMAgzJ8yAPS5N02qQr
+         +A1Whf2DuqLCrQE0M9krb8XMSmH3pr+RX04/QHmO92FR+dgVfBVdcldY0UtzAcFymrnl
+         HZocdfhqErn9oSrPwMpakmBANoTtP24rARiqp12WeMFIwsMWFO6Csbmx7hklHKTW1/DV
+         iGSvyvbIOr3Hy47SB0o3dVQXgJ02xStHCAqnRR4HWT7THxJvvzSoAEoXBet6GJcmZwoU
+         ToKzWIDlELXaYgeaZtNnvCoY//JZAtXh4F5hMJVKNNrz2h7SKtlZly9IZ636oOCgzooC
+         hDFA==
+X-Forwarded-Encrypted: i=1; AJvYcCVY9S2hnfRcMziSFvlpPzIAM0HevkIOaGBPUq4ogo5n5rM4XQl69YtgjGy8gIv6+MtzPZ8SeT30mriV+UYC@vger.kernel.org, AJvYcCVjmHqtvwn5pZYJ2R9bP37Wo+Vj2eZQtTwWTp+/ClNFSZGuaZJoHlumN2AvbNXSBITVnml7jMFcy2VfzA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCLEWMDXb6mxBnLERnoVq40EkHVINCtXiL/TfmzoQTN+cOuGxk
+	/98AhvxUDl3r8oxRM4nh8lOIv/n+7blKF8RQ9BSn/5pwVdPjIEXK
+X-Google-Smtp-Source: AGHT+IFyJOOjU1KJ81Si3MHB0VgW8MUJv70DoRQShJ2l2z2+eyBm7ib27FpM+fTfozEjJyGEGLwkFw==
+X-Received: by 2002:a05:6a21:1583:b0:1d4:e418:c2b6 with SMTP id adf61e73a8af0-1d4fa64d8c6mr19293735637.10.1727708322414;
+        Mon, 30 Sep 2024 07:58:42 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:671d:78af:f80f:975b])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b2652b50fsm6538735b3a.141.2024.09.30.07.58.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Sep 2024 07:58:42 -0700 (PDT)
+Date: Mon, 30 Sep 2024 07:58:38 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Yu Jiaoliang <yujiaoliang@vivo.com>
+Cc: Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Oliver Graute <oliver.graute@kococonnector.com>,
+	Joel Selvaraj <joelselvaraj.oss@gmail.com>,
+	ye xingchen <ye.xingchen@zte.com.cn>,
+	Felix Kaechele <felix@kaechele.ca>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	John Keeping <jkeeping@inmusicbrands.com>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	patches@opensource.cirrus.com, opensource.kernel@vivo.com
+Subject: Re: [PATCH v1] input: Fix typos in comments across various files
+Message-ID: <Zvq8nn-uygJFZVHU@google.com>
+References: <20240926031457.3479350-1-yujiaoliang@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240917100432.10887-1-vishnuocv@gmail.com> <202409211318.ZsE7JGOi-lkp@intel.com>
- <CABxCQKuya7HUWPPw+3vSigddHa84hGZdtuN-02mxvNdfieLXZQ@mail.gmail.com> <nycvar.YFH.7.76.2409272018370.31206@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2409272018370.31206@cbobk.fhfr.pm>
-From: Vishnu Sankar <vishnuocv@gmail.com>
-Date: Mon, 30 Sep 2024 21:08:26 +0900
-Message-ID: <CABxCQKvWsKVoHtz3vkuwePSpQuJpWCkCch5RxXdYM7b0_sY-Zg@mail.gmail.com>
-Subject: Re: [PATCH] hid: hid-lenovo: Supporting TP-X12-TAB-1/2 Kbd Hotkeys
- using raw events.
-To: Jiri Kosina <jikos@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, bentiss@kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
-	mpearson-lenovo@squebb.ca, vsankar@lenovo.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240926031457.3479350-1-yujiaoliang@vivo.com>
 
-Thank you.
+On Thu, Sep 26, 2024 at 11:14:43AM +0800, Yu Jiaoliang wrote:
+> This commit fixes several typographical errors in comments within
+> the driver/input directory. No functional changes are made.
+> 
+> Detected using codespell.
+> 
+> Signed-off-by: Yu Jiaoliang <yujiaoliang@vivo.com>
 
-I will resubmit the patch rebasing on hid.git#for-6.13/lenovo.
+Applied, thank you.
 
-On Sat, Sep 28, 2024 at 3:19=E2=80=AFAM Jiri Kosina <jikos@kernel.org> wrot=
-e:
->
-> On Tue, 24 Sep 2024, Vishnu Sankar wrote:
->
-> > Sorry for the inconvenience.
-> > The base I used was the Master branch.
-> >
-> > Should I resubmit this patch again with the base as linus/master next-2=
-024xxxx?
->
-> Please ideally base your patches on:
->
-> - topic branch in hid.git for the particular driver you are touching (in
->   this case it'd be called hid.git#for-6.13/lenovo)
->
-> - hid.git#master if a topic branch for your particular driver doesn't
->   exist in hid.git
->
-> Thanks,
->
-> --
-> Jiri Kosina
-> SUSE Labs
->
-
-
---=20
-
-Regards,
-
-      Vishnu Sankar
-     +817015150407 (Japan)
+-- 
+Dmitry
 
