@@ -1,104 +1,96 @@
-Return-Path: <linux-input+bounces-6897-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6898-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9188989CE0
-	for <lists+linux-input@lfdr.de>; Mon, 30 Sep 2024 10:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74548989D05
+	for <lists+linux-input@lfdr.de>; Mon, 30 Sep 2024 10:41:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9BC092848A2
-	for <lists+linux-input@lfdr.de>; Mon, 30 Sep 2024 08:37:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 36CDF280E8F
+	for <lists+linux-input@lfdr.de>; Mon, 30 Sep 2024 08:41:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6013317B506;
-	Mon, 30 Sep 2024 08:37:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DDA617C219;
+	Mon, 30 Sep 2024 08:41:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=swemel.ru header.i=@swemel.ru header.b="xLEGHhGw"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="WQ7N/4gy"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx.swemel.ru (mx.swemel.ru [95.143.211.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6184F3FB0E;
-	Mon, 30 Sep 2024 08:36:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.143.211.150
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9DB517BB34;
+	Mon, 30 Sep 2024 08:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727685424; cv=none; b=TW4k99y+MvK6LAeQ2yVF6aN1hvfDlGkcRLR1aQdqzz/AW6tR4bL688pT3qNa/vjPg4FDpXbIMQMyYLvIJDu9mermaJp5cGhhFCZycGr8qBWGtXNm2EjVR0sM0GFbcQUe+WQLg4uIjLqfeRcstEd+l287DTv7SemJTJG4CnQyoQY=
+	t=1727685711; cv=none; b=U8wG1lsGAoKiG493Q+MHTePV+GbMsFziXVix1xqvIZ7UQw34aLx+RE/FO/xhOJ7Sj5+KR5BazrhK33FbDbs8rJot+GBC1TGC+H+dsnHHou1LH/s1etb2UjhbUbiMLBFRisZ1ZIkLQzN4erJIAq9rzZtriR6vXSgM3qyNafxxrCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727685424; c=relaxed/simple;
-	bh=WIx/fRG8zTNvrhzIOSrLiujEGU5deiNFiroFWb3C3Jo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kgU0Z4P/HdXMoWG3cvlbnPfMlGuududaZXw6yOilhIQyIEPnQnGm55efyG5ou5KT2U4T30Zbi3j4ZfdflVA85q++pVabcz4FgtvLYdBHTq5Nm/IrOSCXh637ssgckzeFbSFAE5+bGoAg9i3K6K4gBHmhYTh0I3Kb12oLh4F53Zw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=swemel.ru; spf=pass smtp.mailfrom=swemel.ru; dkim=pass (1024-bit key) header.d=swemel.ru header.i=@swemel.ru header.b=xLEGHhGw; arc=none smtp.client-ip=95.143.211.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=swemel.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=swemel.ru
-From: Denis Arefev <arefev@swemel.ru>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=swemel.ru; s=mail;
-	t=1727685409;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=FvX83hEQwH4oAEgwBRFc52ilKHcvmwibc9uxwlkcfQQ=;
-	b=xLEGHhGwruI/bxO+3cmqXkoSVBTrW6UUQkL8uD9v/TtphByICQ+aX0DxpIa6NMypjBzpW5
-	fwPO0Uwsq4leHjPLGS8vR0qh6Bt8k4iQmGY7JZjVWSwOGsUb3z/zQNvnEmpj/CNLHZvrsc
-	B9wwZ4msMfLElg0VYoUEGo3GSIwFHcg=
-To: Michael Hennerich <michael.hennerich@analog.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	s=arc-20240116; t=1727685711; c=relaxed/simple;
+	bh=k0inenRsQdLM8kjq3Vtb89hksJy4Iy07Cnuk6LFCDH4=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=NKBRQ5NzonTHPI9Bt9uY4Ycmk8KV0ebfcPo9nzSEF+aPzlKURZWEGcMCV+BDwE7aNHX5xo/ksXeiTUOv2CRJFwB4+cBGAUzQ2KhJmaHJH7sdKxf57lqtF+4jTnlOXrppdI1J0abEvgOJg4tkSAXvmnKf4iwZhSN41A06f2127v0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=WQ7N/4gy; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: by linux.microsoft.com (Postfix, from userid 1173)
+	id 826A320C8BD6; Mon, 30 Sep 2024 01:41:49 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 826A320C8BD6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1727685709;
+	bh=Uo3K65bEBS5TlGxxZy7heiLcFXhjzPHT12XW0+LyZ0Y=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WQ7N/4gyoMscG232xbIFkPUfAGBtoEmm7ntXs9JJ09fsrnaTrsCk6nuS+wA+TaiON
+	 sDHbjI56mkD2WkxFXGu2xYXp3xrOLNv3yhOrnDPFu553RgNgcW6twE4joWs6kDX1fH
+	 UcHTnkJ5FPGu4CRSfRVn5mWu4wzbUh2GL5WyGs44=
+From: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+To: kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	dmitry.torokhov@gmail.com,
+	mikelley@microsoft.com,
+	linux-hyperv@vger.kernel.org,
 	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	stable@vger.kernel.org
-Subject: [PATCH] Input: adp5588-keys - Added checking of key and key_val variables
-Date: Mon, 30 Sep 2024 11:36:49 +0300
-Message-Id: <20240930083649.4703-1-arefev@swemel.ru>
+	linux-kernel@vger.kernel.org
+Cc: ernis@microsoft.com,
+	Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+Subject: [PATCH v3 0/3] Disable Suspend-to-Idle in Hyper-V and Fix Hibernation Interruptions
+Date: Mon, 30 Sep 2024 01:41:45 -0700
+Message-Id: <1727685708-3524-1-git-send-email-ernis@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-If the adp5588_read function returns 0, then there will be an
-overflow of the kpad->keycode buffer.
+It has been reported that Hyper-V VM users can unintentionally abort
+hibernation by mouse or keyboard movements. To address this issue,
+we have decided to remove the wakeup events for the Hyper-V keyboard
+and mouse driver. However, this change introduces another problem: 
+Suspend-to-Idle brings the system down with no method to wake it back up.
 
-If the adp5588_read function returns a negative value, then the
-logic is broken - the wrong value is used as an index of
-the kpad->keycode array.
+Given that there are no real users of Suspend-to-Idle in Hyper-V,
+we have decided to disable this feature for VMBus. This results in:
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+$echo freeze > /sys/power/state
+> bash: echo: write error: Operation not supported
 
-Cc: stable@vger.kernel.org # v5.10+
-Signed-off-by: Denis Arefev <arefev@swemel.ru>
----
- drivers/input/keyboard/adp5588-keys.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+The keyboard and mouse were previously registered as wakeup sources to
+interrupt the freeze operation in a VM. Since the freeze operation itself
+is no longer supported, we are disabling them as wakeup events.
 
-diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
-index 1b0279393df4..d05387f9c11f 100644
---- a/drivers/input/keyboard/adp5588-keys.c
-+++ b/drivers/input/keyboard/adp5588-keys.c
-@@ -526,14 +526,17 @@ static void adp5588_report_events(struct adp5588_kpad *kpad, int ev_cnt)
- 	int i;
- 
- 	for (i = 0; i < ev_cnt; i++) {
--		int key = adp5588_read(kpad->client, KEY_EVENTA + i);
--		int key_val = key & KEY_EV_MASK;
--		int key_press = key & KEY_EV_PRESSED;
-+		int key, key_val, key_press;
- 
-+		key = adp5588_read(kpad->client, KEY_EVENTA + i);
-+		if (key < 0)
-+			continue;
-+		key_val = key & KEY_EV_MASK;
-+		key_press = key & KEY_EV_PRESSED;
- 		if (key_val >= GPI_PIN_BASE && key_val <= GPI_PIN_END) {
- 			/* gpio line used as IRQ source */
- 			adp5588_gpio_irq_handle(kpad, key_val, key_press);
--		} else {
-+		} else if (key_val > 0) {
- 			int row = (key_val - 1) / ADP5588_COLS_MAX;
- 			int col =  (key_val - 1) % ADP5588_COLS_MAX;
- 			int code = MATRIX_SCAN_CODE(row, col, kpad->row_shift);
+This patchset ensures that the system remains stable and prevents
+unintended interruptions during hibernation.
+
+Erni Sri Satya Vennela (3):
+  Drivers: hv: vmbus: Disable Suspend-to-Idle for VMBus
+  Revert "Input: hyperv-keyboard - register as a wakeup source"
+  Revert "HID: hyperv: register as a wakeup source"
+
+ drivers/hid/hid-hyperv.c              |  6 ------
+ drivers/hv/vmbus_drv.c                | 16 +++++++++++++++-
+ drivers/input/serio/hyperv-keyboard.c | 12 ------------
+ 3 files changed, 15 insertions(+), 19 deletions(-)
+
 -- 
-2.25.1
-
+2.34.1
 
