@@ -1,105 +1,123 @@
-Return-Path: <linux-input+bounces-6941-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6942-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C9D98BD0B
-	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 15:06:28 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AF198BD11
+	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 15:09:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 84C591C231C2
-	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 13:06:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 31966B210F3
+	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 13:09:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A684EEC5;
-	Tue,  1 Oct 2024 13:06:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F2B81EB29;
+	Tue,  1 Oct 2024 13:09:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qDh1XgYu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JiGcYhHR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50C14A06;
-	Tue,  1 Oct 2024 13:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F62188A01;
+	Tue,  1 Oct 2024 13:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727787984; cv=none; b=ZA4XxdD5Gu3tWUJQEvoA+ykwuwc7sf3ErDsnnSe+cHnvpTrnhpDQULoGw42+xrVJDrjuk+OrolpMVKBwqE4hB9HgBsHamW4rrSzVV3t29gIR4DMYToXD5mRi3pMNO/0rjS4Ffi0+GmgJ5Uxmn7MyFpAqIsoUsHnSlwoXi4QWu/0=
+	t=1727788186; cv=none; b=hCMPUplUNmpu0s2t1UXAe7J2BiMNDnSAc1a58Z4wgok69uUjKpcDdVEYV5Q5UhsHDIRuNUjGKixENmriOONUA69sHMlt2u6+y7uWER8tWfTHR/xpwa3DQWzoRPg1M8uJBy4u2AUfhbtvQoOQEFhNPZ0kId2l2TAcRHMleFc9W2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727787984; c=relaxed/simple;
-	bh=cFOTlNXs9lvP/XXg2/XHyR4LIBvLe3YCumZ4xkyzg6s=;
+	s=arc-20240116; t=1727788186; c=relaxed/simple;
+	bh=V2B5gxFUBvFeeJmaqXKJNNqVrKbIfRdYxDnjeJFiJRQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NPY/xeQUCxvnAee5tg5KGKFHZLV5jFiqsGG1xCU99CfLCSyRNxfBE0LT6yQV6hzs6/H6rJUvfTZV+/Q/mFBS11HuvVQG9QnmR8cvTIw7+03j1aekrRSqV5RsSOXEt99O00FCfM8+mYpxduJRfeGJufvqup7Qm+jGS5XxFlB/NC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qDh1XgYu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 354A0C4CEC6;
-	Tue,  1 Oct 2024 13:06:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727787983;
-	bh=cFOTlNXs9lvP/XXg2/XHyR4LIBvLe3YCumZ4xkyzg6s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qDh1XgYuwiZxQx/AJCeypD0C93AMDEUh87R4p9LcQ3eqNcvzurmHFyMUjKwkrh3RW
-	 DwiDtWa3j1UsZL6gLI9T6GBThbrVnZdYFME2t9rEd0Sf6ZP9p8GS43TWdkDPFFqGjg
-	 G9fHX11SHBUrOXWnxyyQD63aqR8DHdWIQq4jhu3sjnPs7fu35uzGxBM1xqZjwCNy+e
-	 H0WbWZuoUFaxOeVUF+mtXBdmNLjhM2At92X0YCHJEKme50cmv0PJ0mqBzhYVaOjMrR
-	 h6LVUXQCTGn2fGGlmsqYSHIY1dKadkdXSNF8RtU0DsDk3f8Z0zQZbUL82KfTcfSVXK
-	 6/F/F+trOs+VA==
-Date: Tue, 1 Oct 2024 14:06:19 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH] Input: elan_i2c - Wait for initialization after enabling
- regulator supply
-Message-ID: <7db1299f-f925-4689-806f-f1ea4191fd4c@sirena.org.uk>
-References: <20241001093815.2481899-1-wenst@chromium.org>
- <ZvvHdlD6E5bzsWwV@google.com>
- <ZvvX5KcKaVBLedD1@finisterre.sirena.org.uk>
- <ZvvyEux8f2ylRQOn@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=gLligxKtMNz3AJ7K9sg669DFTQ0ogQQ6PgDNCEfLXAZXOCa938+tizYZjeAZtIkMNXPfiUigzWJXfB7F81X54d8UDTzmEj9ik3Vk7u8vnAk/Cz5KuBe0/Gijx02ZYVq0zBSJ65Y73X+2Q+yDka9yvzKKErbK5zdVGJWI3L+RaNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JiGcYhHR; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-71c702b2d50so1744058b3a.1;
+        Tue, 01 Oct 2024 06:09:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727788184; x=1728392984; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=asrMT1XHHCINBnl4Pr8rF5qdt9HybBBUmfOzTNNvOis=;
+        b=JiGcYhHRr796qtTV7Era93tufHYGGgyWgLGrpzU31TfUwVI22BhOM8aBBCuH/Rq/7V
+         wWbpIDiaeieHUAdA2fMWWtwbNmxNHIe6gjkgWRfZFkOEMrCoWgjaDOtg99zeN1vBE/na
+         rT+33nuK3smCBRdfo3cjlLndJgtNTqRHqK1Ip/cbRHPd403EtuvkqLprwzYL5+nkZ4my
+         /sbXLeRznnBDosZTwVwGB4Xr5qrPm5xjoOZfvUDtZj0MGNhdTwFywfj5C2OLT2WPjhTn
+         byWjAk25BnvIcIiG7O17/9DBYkv50cN55XIqHGgmrupxUfZL3MAkcNFCba1CCHhQbVXX
+         ReLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727788184; x=1728392984;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=asrMT1XHHCINBnl4Pr8rF5qdt9HybBBUmfOzTNNvOis=;
+        b=TJ3hsHbCjbHOl2lwn1zjcbOcei3gT5oD+91ioPQTdUmRABlJtLJrYgDxVz7eWZ6cxD
+         xDqxZLkuiuKHfwUWGaYA9d4g2ZpYOzbrrqisiwMq76hkj2dmzN24w90XTGi6efac21dO
+         iL3GvdyvSsY2vcPzqz2BcKZQblFMLcrxlLYF41Nm2890L6IKyuvbbYIRZXCQ7axqrC2u
+         c36sXJ10hSOt2V67gRF2UyTZNNnLNMa+ezGvCkCDg0y+PnaZGgnmhmQT44RbAyEnUZQV
+         wMakMRM5s3KI28QieOKegZqSoBQdYOdTzsNsjejUQojYy9WCN0Gf/6VmBfhlzplI8hAy
+         37Xw==
+X-Forwarded-Encrypted: i=1; AJvYcCW8pwvVm7cfManBAdYN648oTDVFX2t6q7eXombMtduzVziUmtKHXzPQhUk56RCug3neT5GMFqebIsdW3g==@vger.kernel.org, AJvYcCXdg51lSulYHNQkr5ffj1JmA8V1zjBwG01SeS5urFaiqhVWpCQwtqlBE1MbzI4cO/yH1HutpboFLEbbwe+1@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTtROPnaxbGZpmS0NMVynZDLmSJj6ccfnbVSz0M4sARkFDkSbz
+	anJK2FlXz5bzBJnP5i6wm9oTx+jX7P7m/QTRMEpHYaDySKImzpK8
+X-Google-Smtp-Source: AGHT+IEg1Hj2OlndnWsV/eEGVB1CEjsddBvTXahUlqXja/7Qw3mPZ4yWkdmqwG3iHq0W7nHRfIrlAQ==
+X-Received: by 2002:a05:6a00:b43:b0:70a:fb91:66d7 with SMTP id d2e1a72fcca58-71b2604609emr23073894b3a.20.1727788183914;
+        Tue, 01 Oct 2024 06:09:43 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:70a4:8eee:1d3f:e71d])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b2649a2cesm7936740b3a.43.2024.10.01.06.09.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2024 06:09:43 -0700 (PDT)
+Date: Tue, 1 Oct 2024 06:09:40 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Alessandro Zanni <alessandro.zanni87@gmail.com>
+Cc: erick.archer@outlook.com, zhoubinbin@loongson.cn, jay_lee@pixart.com,
+	jon_xie@pixart.com, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	anupnewsmail@gmail.com
+Subject: Re: [PATCH] input: psmouse: Add unlock mutex before to exit
+ psmouse_attr_set_protocol
+Message-ID: <Zvv0lDZZVDM2CbHf@google.com>
+References: <20241001110839.44762-1-alessandro.zanni87@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9FG04CYkkI4pyKXe"
-Content-Disposition: inline
-In-Reply-To: <ZvvyEux8f2ylRQOn@google.com>
-X-Cookie: Even a hawk is an eagle among crows.
-
-
---9FG04CYkkI4pyKXe
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241001110839.44762-1-alessandro.zanni87@gmail.com>
 
-On Tue, Oct 01, 2024 at 05:58:58AM -0700, Dmitry Torokhov wrote:
-> On Tue, Oct 01, 2024 at 12:07:16PM +0100, Mark Brown wrote:
+Hi Alessandro,
 
-> > availalbe when a regulator is turned on?  There's also no difference
-> > between DT and ACPI systems here, both could have the regulator fixed on
-> > and I'd certainly not want to rely on an ACPI system implementing a
-> > device specific delay after power on given the sort of stuff they like
-> > to put into machine specific drivers.
+On Tue, Oct 01, 2024 at 01:08:38PM +0200, Alessandro Zanni wrote:
+> In error handling code for "no such device" or memory already used,
+> release the mutex before to return.
+> 
+> Found with Coccinelle static analisys tool,
+> script: https://coccinelle.gitlabpages.inria.fr/website/rules/mut.cocci
+> 
+> Signed-off-by: Alessandro Zanni <alessandro.zanni87@gmail.com>
+> ---
+>  drivers/input/mouse/psmouse-base.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
+> index 5a4defe9cf32..cb3a125d8d7c 100644
+> --- a/drivers/input/mouse/psmouse-base.c
+> +++ b/drivers/input/mouse/psmouse-base.c
+> @@ -1930,11 +1930,13 @@ static ssize_t psmouse_attr_set_protocol(struct psmouse *psmouse, void *data, co
+>  
+>  		if (serio->drv != &psmouse_drv) {
+>  			input_free_device(new_dev);
+> +			mutex_unlock(&psmouse_mutex);
 
-> Well with Elan in native mode ACPI FW does do proper power sequencing,
-> that is why this commit mentions failures observed on Mediatek devices.
+I am sorry, bit this makes absolutely no sense. This mutex is taken
+(and then released) in psmouse_attr_set_helper() wrapper.
+psmouse_attr_set_protocol() momentarily drops and then reacquires it,
+but it should not release it either failure or success parts.
 
-Yeah, but that's got to get washed through the individual system
-firmwares to get deployed and my confidence in vendors is not high.
+Thanks.
 
---9FG04CYkkI4pyKXe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmb788oACgkQJNaLcl1U
-h9Brogf/TJNU2WRZY2mkqAck0/ybRptVqwd2DVZdO6y6WsZB4PZsj1lwGL5WY2/j
-7xotH4A4gcYmQXH9uBO/tWkVR7XSQev8e8/8ZTUiqhvPwrE8s3UEs8mA7IIiHTsL
-GLPCNqN2b0UZbJ6n4L8s6YpZ9/nmh/mmYIKHgVHouVjYIU6IzcpPVJBNENmQ9clK
-VLajmL2IVHsFYFez27PdQdSjvvO8wW5Q6a7EVQDfHb9zvSzz+SrXbnIqFtzgsfW1
-DwWlM1rD/F3k4hhHofiUMph/xE+jvrRQZTeFeDZD5WdEx2EiHnj71OKR/SEEgNRJ
-VZhln3AkvKTHzHpEfupY+2qYpmLJ+Q==
-=ZiUy
------END PGP SIGNATURE-----
-
---9FG04CYkkI4pyKXe--
+-- 
+Dmitry
 
