@@ -1,181 +1,143 @@
-Return-Path: <linux-input+bounces-6927-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6928-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574F998B82A
-	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 11:19:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D81C98B83C
+	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 11:21:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D98661F23323
-	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 09:19:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 491091F22D8E
+	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 09:21:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CE0C19DF9A;
-	Tue,  1 Oct 2024 09:19:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44B501C693;
+	Tue,  1 Oct 2024 09:21:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bniC7btZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aN2dIGqG"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD5319D88B;
-	Tue,  1 Oct 2024 09:19:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D37B67D
+	for <linux-input@vger.kernel.org>; Tue,  1 Oct 2024 09:21:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727774373; cv=none; b=mWromkobNSdDf32R2uEOYOKYL00DD6o1pBLzrT/oCm6KHuJpu8as+dLCIMiuupF6BAzDMBVawGB0B9Ka2lBsP8ZzuTYeN5jT5T+dx/ob0lMYoVPulSATLAYKzqZQRT3X0ajLhpNuZxi2vwQs3tIU8g+fBqE3rPEMMhEiDNflpH4=
+	t=1727774476; cv=none; b=GEUsY0y27llpZmYXBlGejQqf8oeohXF2aEVJusSM7nuceSnLzmfpnUuo/hxDjMDJ8GIw3t0GTjNGN72furn7UC/bdmLtNSl/ctMVmn4jj9Spaba9fKvN7YVBVOKzmieAWl5+tS6A3s0194zod9vLyG4nAuziWnanJ7sU8Z6uiR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727774373; c=relaxed/simple;
-	bh=0+zqq8I71YD8M7Pz4rGT1nU7HRi8uRpkJ2RPt7fmdjA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bIaULyBZ5gmdJUrp4CUgl9rHLYYiFsfxkR3zp9wwJJBZmPTrAdz7PYv6DLJR44g9RLDE4EBIzKxZ79A6aiqt+5RCaIKZ5kx+fYK2vtj0ZAjsNSAr01FZ1r9bxWoNKQm1CsElCsCIRQ5VbsBL8iSLaDVT5FJCbmUiFjn4b0kaiAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bniC7btZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2044C4CEC6;
-	Tue,  1 Oct 2024 09:19:20 +0000 (UTC)
+	s=arc-20240116; t=1727774476; c=relaxed/simple;
+	bh=rXCD+JoZ/qmR2mRPqjBjPwLw/sAH/g4JY4fxrdPUrNY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BHsHgLu7dPJ6PNLZELnR7OYZmp7QoDYTUlX2HbN5tBQ6ODmlrBqgN1Ch/BTpoTsLM2D71fpOlibBzEvx60T57jxIwHbZf60IKUbTkrjr4tK2i5Xo6laAkV+KojseWhBVcrjIdwhRm70qaEbWWduUqtqTDEEObwEoPWgIgZk/IIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aN2dIGqG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0960C4CEC6;
+	Tue,  1 Oct 2024 09:21:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727774372;
-	bh=0+zqq8I71YD8M7Pz4rGT1nU7HRi8uRpkJ2RPt7fmdjA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bniC7btZlUHkCtMRf0aGPtEX3e8TvkmBGT5ALusS0Qwh4dOskRdfJZJPnZjp1BSIV
-	 NliuEjW1maWMizkE2jmY/C69iEcCz1E1Ii8efDMtofgF4BUBOKWsQpY9PHf1iRoleh
-	 tUDOCRyyDivLcXgp3tmXax3Ii9arnA8kVh1MSmkmzwj7udPvNDm8RdNyo8TcMkT0U0
-	 7+uG1p3OHBjlha52YZQQKigchEIgISHVonylkKz5foit0T/MvtUXD2WfqRjdMmMApV
-	 1d01SoPTlHdyXZIlRoFo1AUqaDWSyvXXS5MMAJvDq+qIXzEExukq9MdCgUdiVZsv3q
-	 hK92KL9EKT+UQ==
-Message-ID: <79204678-166b-4009-b8d2-86d6cb120705@kernel.org>
-Date: Tue, 1 Oct 2024 11:19:18 +0200
+	s=k20201202; t=1727774475;
+	bh=rXCD+JoZ/qmR2mRPqjBjPwLw/sAH/g4JY4fxrdPUrNY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aN2dIGqGwUjfTHIUS/AtLFME4nR48b3xhlTVou0bMEgAGGXMFg2tGNwEUOwNtsVa6
+	 QnI0aHKIInzogzwHYcmcynXEnyx8gt3WKwGqaryQY2BcPLehsYj6wbVGUw4UqwGeKi
+	 af7QWuJMfuqh6vC2pCOs+r0TQxounE/8E+Lbx+mgDiqcdKE6fMwnO8BnNAsJWldvNf
+	 qK6X9OjpnSFhLV2RCqg+wXAkO59yyTgQCb0yWLTWVk6Kq4alRRkPt65rSNlMAXeJHX
+	 EjcnDB589Q26ariHAUY+yZbPDVyrs0fWX3Ej14KyKzx3VzCn8r0tVI9JUK6lB9Rs2x
+	 x69sXnI2EJeFw==
+Date: Tue, 1 Oct 2024 11:21:10 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>, 
+	Binbin Zhou <zhoubb.aaron@gmail.com>, Huacai Chen <chenhuacai@loongson.cn>, 
+	Jon Xie <jon_xie@pixart.com>, Jay Lee <jay_lee@pixart.com>, 
+	Huacai Chen <chenhuacai@kernel.org>, linux-input@vger.kernel.org, 
+	Xiaotian Wu <wuxiaotian@loongson.cn>
+Subject: Re: [PATCH v4] Input: Add driver for PixArt PS/2 touchpad
+Message-ID: <ykmhjrx7wrwqmhsyi6hawbobwfmwi2mkzyykgprlrq7iss7zet@a5hlj7qyqxxj>
+References: <20240704125243.3633569-1-zhoubinbin@loongson.cn>
+ <tbhy6xk4tjuza7rgsv55xss5woysyv4wlg46m6sxfq6y5nk7da@7hyl7cf5ehus>
+ <Zvu4mMaOzuL3tDTW@google.com>
+ <Zvu7JOw0N6XB4ON6@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/3] ASoC: dt-bindings: mt6358: Convert to DT Schema
-To: Macpaul Lin <macpaul.lin@mediatek.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
- Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>,
- Vladimir Oltean <olteanv@gmail.com>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Sebastian Reichel <sre@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-pm@vger.kernel.org, netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-sound@vger.kernel.org, Alexandre Mergnat <amergnat@baylibre.com>,
- Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
- Macpaul Lin <macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
- MediaTek Chromebook Upstream
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- Chen-Yu Tsai <wenst@chromium.org>
-References: <20240930073311.1486-1-macpaul.lin@mediatek.com>
- <20240930073311.1486-2-macpaul.lin@mediatek.com>
- <6l6hb264yvhd6e6neurd5t4gmv5z5c5gpg27icijif3hq4cuu7@pbhfkdxb2eam>
- <42dc4e9a-efcd-e166-b4fd-d4fe0dcd3c77@mediatek.com>
- <c2fb40cc-491f-1c1a-7343-c70a60b3a031@mediatek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <c2fb40cc-491f-1c1a-7343-c70a60b3a031@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zvu7JOw0N6XB4ON6@google.com>
 
-On 01/10/2024 09:50, Macpaul Lin wrote:
+On Oct 01 2024, Dmitry Torokhov wrote:
+> On Tue, Oct 01, 2024 at 01:53:44AM -0700, Dmitry Torokhov wrote:
+> > On Mon, Sep 30, 2024 at 05:59:01PM +0200, Benjamin Tissoires wrote:
+> > > Hi,
+> > > 
+> > > On Jul 04 2024, Binbin Zhou wrote:
+> > > > This patch introduces a driver for the PixArt PS/2 touchpad, which
+> > > > supports both clickpad and touchpad types.
+> > > > 
+> > > > At the same time, we extended the single data packet length to 16,
+> > > > because according to the current PixArt hardware and FW design, we need
+> > > > 11 bytes/15 bytes to represent the complete three-finger/four-finger data.
+> > > > 
+> > > > Co-developed-by: Jon Xie <jon_xie@pixart.com>
+> > > > Signed-off-by: Jon Xie <jon_xie@pixart.com>
+> > > > Co-developed-by: Jay Lee <jay_lee@pixart.com>
+> > > > Signed-off-by: Jay Lee <jay_lee@pixart.com>
+> > > > Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+> > > 
+> > > It looks like this new driver made in v6.12-rc1 but is already breaking
+> > > other touchpads in fedora:
+> > > 
+> > > https://bugzilla.redhat.com/show_bug.cgi?id=2314756
+> > > 
+> > > The reported touchpads used to work properly but are now directed to use
+> > > the PixArt PS2 driver instead of the old one (I would say it should be
+> > > using Synaptics).
+> > > 
+> > > I haven't touched PS/2 in a long time, so it's going to be hard to
+> > > pinpoint the error from my side, but it seems that the new driver is a
+> > > little bit too greedy.
+> > 
+> > OK, I gonna revert it and hope PixArt folks will figure out less greedy
+> > probing sequence (or maybe we need to push it down a few sports).
 > 
+> Although, as I am trying to read the referenced bug, one of the
+> reporters are saying that they touchpad is USB:
 > 
-> On 10/1/24 15:05, Macpaul Lin wrote:
->> On 10/1/24 14:34, Krzysztof Kozlowski wrote:
->>
->> [snip]
->>
->>>> +description: |
->>>> +  The communication between MT6358 and SoC is through Mediatek PMIC 
->>>> wrapper.
->>>> +  For more detail, please visit Mediatek PMIC wrapper documentation.
->>>> +  Must be a child node of PMIC wrapper.
->>>> +
->>>> +properties:
->>>> +  compatible:
->>>> +    enum:
->>>> +      - mediatek,mt6366-sound
->>>> +      - mediatek,mt6358-sound
->>>> +    const: mediatek,mt6358-sound
->>>
->>> This wasn't ever tested.
->>
->> Hum, I have indeed tested it with linux-next/master branch.
->> Ran dt_binding_check with dtschema trunk with this single file
->> but didn't get any warning or errors.
->> 'make dt_binding_check DT_SCHEMA_FILES=mt6358.yaml'
->>
->> Could you please help to paste the error log for me?
->> If there are new errors, I need to check if there is any
->> environment issue.
+> SysFS ID: /devices/pci0000:00/0000:00:14.0/usb3/3-3/3-3:1.0
+> ysFS BusID: 3-3:1.0
+> Hardware Class: unknown
+> Model: "Synaptics Unclassified device"
+> Hotplug: USB
+> Vendor: usb 0x06cb "Synaptics, Inc."
+
+I guess this must be the fingerprint reader or some other synaptics
+device.
+
+In the 6.11 logs (now publicly available), we can see:
+[    1.601507] psmouse serio1: trackpoint: Elan TrackPoint firmware: 0x92, buttons: 3/3
+[    1.614026] input: TPPS/2 Elan TrackPoint as /devices/platform/i8042/serio1/input/input5
+...
+[    2.286700] input: ELAN0672:00 04F3:3187 Mouse as /devices/pci0000:00/0000:00:15.0/i2c_designware.0/i2c-0/i2c-ELAN0672:00/0018:04F3:3187.0002/input/input7
+[    2.286834] input: ELAN0672:00 04F3:3187 Touchpad as /devices/pci0000:00/0000:00:15.0/i2c_designware.0/i2c-0/i2c-ELAN0672:00/0018:04F3:3187.0002/input/input9
+[    2.286873] hid-generic 0018:04F3:3187.0002: input,hidraw1: I2C HID v1.00 Mouse [ELAN0672:00 04F3:3187] on i2c-ELAN0672:00
+...
+[    2.337123] input: ELAN0672:00 04F3:3187 Mouse as /devices/pci0000:00/0000:00:15.0/i2c_designware.0/i2c-0/i2c-ELAN0672:00/0018:04F3:3187.0002/input/input10
+[    2.337173] input: ELAN0672:00 04F3:3187 Touchpad as /devices/pci0000:00/0000:00:15.0/i2c_designware.0/i2c-0/i2c-ELAN0672:00/0018:04F3:3187.0002/input/input12
+[    2.337212] hid-multitouch 0018:04F3:3187.0002: input,hidraw1: I2C HID v1.00 Mouse [ELAN0672:00 04F3:3187] on i2c-ELAN0672:00
+
+
+So the touchpad seems to have the PS/2 fallback, and then switches to
+i2c-HID. However, with PixArt the PS/2 touchpad isn't initialized, and
+doesn't answered to i2c-hid (or is too much initialized, not sure).
+
 > 
-> I've both tested both of the following format pass dt_binding_check.
-> #1.
-> properties:
->    compatible:
->      items:
->        - enum:
->            - mediatek,mt6366-sound
->            - mediatek,mt6358-sound
->        - const: mediatek,mt6358-sound
+> so I am not sure how PS/2 device would interfere with that.
+> 
+> Could you give me access to the attachments on the bug so I can take a
+> closer look? And hopefully the original reporter will submit their data.
 
-I don't understand what you wanted here. neither oneOf nor ietms make
-any sense. Why "mediatek,mt6358-sound", "mediatek,mt6358-sound" is a
-correct compatible?
+Sure, done!
 
-Best regards,
-Krzysztof
-
+Cheers,
+Benjamin
 
