@@ -1,113 +1,113 @@
-Return-Path: <linux-input+bounces-6976-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6977-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50CE198C0EF
-	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 16:59:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D655898C188
+	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 17:26:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 082661F22C58
-	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 14:59:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 143841C23D4C
+	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 15:26:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 490B21C8FC1;
-	Tue,  1 Oct 2024 14:59:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACDA61C7B98;
+	Tue,  1 Oct 2024 15:26:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RIV3pJIJ"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="IsRCdtlk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40851C7B64;
-	Tue,  1 Oct 2024 14:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD69B645;
+	Tue,  1 Oct 2024 15:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727794771; cv=none; b=saxECyo1h6qAZ1HV8FVGwwdU+TRu7h+iEXdDUkCTjo33I5mbbhgqAyeajIi2CermutgkoHjz+ZJH7TMIuecBkLRRtmtyf6L7s7KLNW68RiHq6pAw8yhAaYBi9zOZ302C3tnnjyLZeoWaQIlt0lsQ7eHJqfU6srlBpJ3aad9H/6w=
+	t=1727796368; cv=none; b=mGZ0AuJzQoHuM9PejuY5QP4gQooH4WG+TdvEi9BDVStWk0dZB4nNqN1f8E1Ep6Uy8ipQpktGxyye6nBeUkFScjTdqVompceUjRnHEnV+l9UNeKfzVM1khfRAJehV/t0iBi/IZbUe4ZQKYuBUJed8jN7NcVptNestcD/MotNsNV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727794771; c=relaxed/simple;
-	bh=oX+ZoVYR1UZ3QIYpImxL6FfA9F7kvzaFziIrP/eyB3k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UI+ke0uSopjVgT1KP8uLnclQghCjWm6lHO0CTQpx5rnMkndTmgWlhXs+Y3m9mtA92bLh6M8cq5JwoTxVu650AnIWoWmiRgJxCXi0SxC5xWe99zTG3SllsB9okDMocveK5x681k2QL1km0wCHIp8+18dvuwuDfl482d0dAUa/fso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RIV3pJIJ; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7198cb6bb02so4172774b3a.3;
-        Tue, 01 Oct 2024 07:59:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727794769; x=1728399569; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o5l0E+4hxhFOsv13SPLc7kqgr9gH7QPF5GIhtAbQx9U=;
-        b=RIV3pJIJfWqR4Rg5OPqy46CZBnK0MmSVGZJK2SA8P0URVZgw3q0FD+Z4D3/EtuACyn
-         UHMkppcrvL1c6hdb4w+3/GJJHO63yDNprJqFDTE0m5irYYAmWMbJ8xK2aIqepNqy7DX4
-         bnyyy18RyhXXZqnjVd4K8qQUPZLiZ3AXpnOFXpmiNCXL3+4U6TR47euA+6M+Z9L8xzlh
-         V5krvnEd+iworUr0vSdZ4ErdiB+lor3fLVO6R1Hy25j+ajK8AWXo3iNI/kw1xRiSfSLp
-         Zcoj4cBQqDeCJVgFIslzjMleWWYKeZYAhudHrtakOarjHMNWeX8sINcVNnNlZX3CLSxr
-         eHlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727794769; x=1728399569;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o5l0E+4hxhFOsv13SPLc7kqgr9gH7QPF5GIhtAbQx9U=;
-        b=nTgp0Tj1QgyI9CLKJrfxelI2adSATWpJuXrS33De000yxaUk/bSEFmBnwomq3gdnqK
-         RtN0FPi72yIu0RNW/LYULmjdFI6fpYbc2NfAnhHQKk5MNZQ0UgcIMUDbEnj32Tej1YLF
-         rmVzBMsTkV7eJvD0mAdJqn9IfNeriGyDA92V/NR7cXuCjCL0Bacti4hcrr+lB9REnESX
-         srQFJFRGs2TbeYwQNB8Avq47Y3npHwmElRtHrngQLITilagAjabMRQr1JNp6Jm7Ox4Oh
-         F+jS0w9KcPrX6vfvThKJG+L5CqWQo6sT1ri/E7ZnvVmkY8Oj0PNR+reIeP7ZQ1IkYWzu
-         vmAA==
-X-Forwarded-Encrypted: i=1; AJvYcCV1gU8KL4rJaLGbS7uG7P0l7rNQyvGTJyIjwaLUSslf/mlz1rWsp78LT/DKGG+Yz8iFmf3yUkS/VzEN@vger.kernel.org, AJvYcCWkVzbsvGu0n/F679lI3l58/9GeyZZnUeCCZJ+gFDvYwmBEGtEG/WnAkHEH5H2494b8xUs5+469FiVqfnk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZCtkHhnUIcyp9fxBfQ4QLuNqM5r0x6JaZ4M+nNdbiem1NY6s2
-	acdggUo6yvU2ntFULev+KVTe2ZEDOtlJbUdJLjeNrr9JGb84H5eRV1wFnEC7
-X-Google-Smtp-Source: AGHT+IEI0IEK9o+qRiTIAC9UPt2r8AkfVozCbfogrFUvEKChmzJ4fjapSQLdI63HKciRhtFp6iZxlA==
-X-Received: by 2002:a05:6a20:b598:b0:1d4:e66c:2a05 with SMTP id adf61e73a8af0-1d5db0cc696mr92489637.7.1727794769189;
-        Tue, 01 Oct 2024 07:59:29 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:70a4:8eee:1d3f:e71d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b264b63d9sm8125186b3a.52.2024.10.01.07.59.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 07:59:28 -0700 (PDT)
-Date: Tue, 1 Oct 2024 07:59:26 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Nuno Sa <nuno.sa@analog.com>
-Cc: Mike Frysinger <vapier@gentoo.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 06/13] Input: adp5589-keys: add support for fw properties
-Message-ID: <ZvwOTox14Za3XJE3@google.com>
-References: <20241001-b4-dev-adp5589-fw-conversion-v1-0-fca0149dfc47@analog.com>
- <20241001-b4-dev-adp5589-fw-conversion-v1-6-fca0149dfc47@analog.com>
+	s=arc-20240116; t=1727796368; c=relaxed/simple;
+	bh=+YZZSxfbdyiIr93tIMUZDxqaYcghUxhFXzEBtAfe9Sw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KO6SYNQfkuGY/Y33xFzaMGeWP2McpihAovPxVgW/3SdQFJG2HtNvM6nBWkajzZN5o//9CqzVE5rkF8HgFdwWIGnj8G0Q/mN0OdzjP8j9OvDn3qg4EBTteP5z1nsFcdcat70RorInKYx4hHByM4Zz1x2XhSBI2fTmHNUTvGgdjmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=IsRCdtlk; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1727796364;
+	bh=+YZZSxfbdyiIr93tIMUZDxqaYcghUxhFXzEBtAfe9Sw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=IsRCdtlkZPMbwZhF685OXK4Jrwj57OtfDIQHj1ZDuS1AA3K5BX0ZP7O0HY8uDgHna
+	 Ej9yVcpiofM61HL21cd/KWYTTG2XmHoQIbJw7PznJ8mJQbT2GCInkt4SLh65yLIgyv
+	 vD+5Sf3esOwjR3PIhtzxULPXDsWeHX2eyLV10QW1jsAqU5tQqLu8lQPTPBjFcp7j5m
+	 8UvMF9Z1ApUljwa9IkHvwwYMrbP+eaKpqnMiDV4++YPNdyqvuwhp4adlvQkxPvIQpn
+	 ShnMZmveHuhDrVOB1oV5YCJHVEmEqyhf+jw1fB1Pd5B9trw/EdBfFOdrAeLh50tW50
+	 phIwzx9zBxqhA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9B21417E0FDC;
+	Tue,  1 Oct 2024 17:26:03 +0200 (CEST)
+Message-ID: <a3089f16-bc43-4ee0-b313-94e5a37cb449@collabora.com>
+Date: Tue, 1 Oct 2024 17:26:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241001-b4-dev-adp5589-fw-conversion-v1-6-fca0149dfc47@analog.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/3] regulator: dt-bindings: mt6323: Convert to DT
+ schema
+To: Macpaul Lin <macpaul.lin@mediatek.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
+ Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>,
+ Vladimir Oltean <olteanv@gmail.com>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Sebastian Reichel <sre@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-pm@vger.kernel.org, netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+ linux-sound@vger.kernel.org, Alexandre Mergnat <amergnat@baylibre.com>
+Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+ Macpaul Lin <macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
+ MediaTek Chromebook Upstream
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ Chen-Yu Tsai <wenst@chromium.org>
+References: <20241001104145.24054-1-macpaul.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20241001104145.24054-1-macpaul.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 01, 2024 at 03:41:37PM +0200, Nuno Sa wrote:
-> +
-> +	switch (cfg) {
-> +	case PIN_CONFIG_BIAS_PULL_UP:
-> +		fallthrough;
-> +	case PIN_CONFIG_BIAS_PULL_DOWN:
-> +		fallthrough;
-> +	case PIN_CONFIG_BIAS_DISABLE:
-> +		return adp5589_gpio_set_bias(kpad, pin, cfg);
+Il 01/10/24 12:41, Macpaul Lin ha scritto:
+> Convert the MT6323 regulator binding from the old text-based format to
+> the new DT schema style. The property "regulator-name" has been added
+> as required property to reflect current usage in mt6323.dtsi.
+> 
+> Examples have been streamlined and relocated to the parent schema file:
+>    mfd/mediatek,mt6397.yaml.
+> 
+> Update maintainer and submitter information with new entries from MediaTek.
+> 
+> The reference document cited in "mediatek,mt7530.yaml" has been updated
+> to point to this new DT schema file
+> 
+> Signed-off-by: Sen Chu <sen.chu@mediatek.com>
+> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Acked-by: Mark Brown <broonie@kernel.org>
 
-I don't think you need to use "fallhrough" here, saying:
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-	case PIN_CONFIG_BIAS_PULL_UP:
-	case PIN_CONFIG_BIAS_PULL_DOWN:
-	case PIN_CONFIG_BIAS_DISABLE:
-		return adp5589_gpio_set_bias(kpad, pin, cfg);
 
-should not result in any warnings.
-
-Thanks.
-
--- 
-Dmitry
 
