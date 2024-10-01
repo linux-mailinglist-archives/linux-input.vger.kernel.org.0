@@ -1,143 +1,141 @@
-Return-Path: <linux-input+bounces-6928-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6929-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D81C98B83C
-	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 11:21:25 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA89E98B874
+	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 11:38:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 491091F22D8E
-	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 09:21:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 251F0B20E15
+	for <lists+linux-input@lfdr.de>; Tue,  1 Oct 2024 09:38:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44B501C693;
-	Tue,  1 Oct 2024 09:21:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A165519D8BC;
+	Tue,  1 Oct 2024 09:38:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aN2dIGqG"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cf8919jl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D37B67D
-	for <linux-input@vger.kernel.org>; Tue,  1 Oct 2024 09:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3198B2B9B0
+	for <linux-input@vger.kernel.org>; Tue,  1 Oct 2024 09:38:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727774476; cv=none; b=GEUsY0y27llpZmYXBlGejQqf8oeohXF2aEVJusSM7nuceSnLzmfpnUuo/hxDjMDJ8GIw3t0GTjNGN72furn7UC/bdmLtNSl/ctMVmn4jj9Spaba9fKvN7YVBVOKzmieAWl5+tS6A3s0194zod9vLyG4nAuziWnanJ7sU8Z6uiR8=
+	t=1727775502; cv=none; b=sgviD3aXNnRESI1JfpbV6oy48PRW2BhZXEsblptu81Ry+aaTgSOqHjRM9sRofBegrr/5gtvSuQPtoXXXGQ+ipTD5LoO1CT9KasyZNPHiXUpx1rT4S7CGlPfp8tsBuqT3TUwT6ai3fhjdKTE3CwxsT3zixxINqsutPXlY8c8NxHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727774476; c=relaxed/simple;
-	bh=rXCD+JoZ/qmR2mRPqjBjPwLw/sAH/g4JY4fxrdPUrNY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BHsHgLu7dPJ6PNLZELnR7OYZmp7QoDYTUlX2HbN5tBQ6ODmlrBqgN1Ch/BTpoTsLM2D71fpOlibBzEvx60T57jxIwHbZf60IKUbTkrjr4tK2i5Xo6laAkV+KojseWhBVcrjIdwhRm70qaEbWWduUqtqTDEEObwEoPWgIgZk/IIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aN2dIGqG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0960C4CEC6;
-	Tue,  1 Oct 2024 09:21:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727774475;
-	bh=rXCD+JoZ/qmR2mRPqjBjPwLw/sAH/g4JY4fxrdPUrNY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aN2dIGqGwUjfTHIUS/AtLFME4nR48b3xhlTVou0bMEgAGGXMFg2tGNwEUOwNtsVa6
-	 QnI0aHKIInzogzwHYcmcynXEnyx8gt3WKwGqaryQY2BcPLehsYj6wbVGUw4UqwGeKi
-	 af7QWuJMfuqh6vC2pCOs+r0TQxounE/8E+Lbx+mgDiqcdKE6fMwnO8BnNAsJWldvNf
-	 qK6X9OjpnSFhLV2RCqg+wXAkO59yyTgQCb0yWLTWVk6Kq4alRRkPt65rSNlMAXeJHX
-	 EjcnDB589Q26ariHAUY+yZbPDVyrs0fWX3Ej14KyKzx3VzCn8r0tVI9JUK6lB9Rs2x
-	 x69sXnI2EJeFw==
-Date: Tue, 1 Oct 2024 11:21:10 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
+	s=arc-20240116; t=1727775502; c=relaxed/simple;
+	bh=Cpx3AeJyQwnuEuBnEmjNQ88jDDc8nnxpY5yUvChiiDY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S30y+FlM2SZ23RA/oYIkmzHWadscqHSFiSmHo1peX3IzhCNkYhQw5HEVcUhDPOU7ziwHnDL4/l91o+yafcGE/ZnctGk0ZlGzyV6HgLvFaU5zQs6/RQ5NoPoB/0tlTfopJaygcDji3pHIab6yx/yyXPVDKjb0qjK8pSpxP+qCaes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cf8919jl; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20b7a4336easo15275785ad.3
+        for <linux-input@vger.kernel.org>; Tue, 01 Oct 2024 02:38:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1727775500; x=1728380300; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6ziXpabWoT+cHo2FMgHSApxGngpcxDuLrv8V1LP1luA=;
+        b=cf8919jljsZ6kktQPow+qFAI77L7FWrzZX1tEmqzXNi6aAXKcozEDtVrVH5plCmTtL
+         3RoWmywb7leUA3nJthmVrqbIKGA1LgVXq1d+X9IP9bAJaLNK82tc3SfRQa0gof7vx5PZ
+         VV+i8pvBsq5ix5TsOptIa7AHlIq4Kr7pTmxtE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727775500; x=1728380300;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6ziXpabWoT+cHo2FMgHSApxGngpcxDuLrv8V1LP1luA=;
+        b=TorGxoNYN1zIyO2eK1OpvDaT8iWeKMYU2HUBRgmrt+BGahQAXS60lAWzm8NnHbQRtI
+         gI+haywESnD4dkhM8Av5CZvjJeRDELu7CRrmq54UzMETGOLrHlhpPzbn+ezhwl0NuXKS
+         8PEEdjZt77opnnP/6cMgmZPjcLOPBJdror+4PWUr3aM6LNWDmOJQDnJNt5QAPzgnHTo2
+         9juIy19LiOxmO+0HsCVEbTiPpRquSCt0TEwhCEPUkc2c3jA0JyMRYYrpAQIU04s/Cfpg
+         LRK7+MnrR4Eqnq1kr8iX/U1drOqwLA7US+cIuHyP9iVdoswG19by7KcD0XfQsOUx8dyl
+         0gQA==
+X-Forwarded-Encrypted: i=1; AJvYcCVAz7mA7pHpc6bBdBtDQ8lC47VmyqnuCawbI8IYfPGGNv8fwPechTAov1T/9+5HxKcfXLjdZ0ncahcLeg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3fMA5QseAQfdLW66TNQfBn5+VsYRxvQoU+abPQuh9+Egv0cvj
+	/cjihmovOWgzIaizExfTZDgQ3EhxNQ9RbBtNqfxlcGK4rVzQu2Ytt8R7Pkw25Q==
+X-Google-Smtp-Source: AGHT+IF24jB+QWOJMW7Lc40JtllgUfd6H5l1orvGNaAB/Xbwklif8b/5HjnAkM9TxmV3LP6xto3+TQ==
+X-Received: by 2002:a17:902:c403:b0:20b:4d4c:43e with SMTP id d9443c01a7336-20b4d4c057emr188965825ad.15.1727775500570;
+        Tue, 01 Oct 2024 02:38:20 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:6e0e:9591:90bc:e522])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37e5ecc1sm66591385ad.268.2024.10.01.02.38.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2024 02:38:20 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Binbin Zhou <zhoubinbin@loongson.cn>, 
-	Binbin Zhou <zhoubb.aaron@gmail.com>, Huacai Chen <chenhuacai@loongson.cn>, 
-	Jon Xie <jon_xie@pixart.com>, Jay Lee <jay_lee@pixart.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, linux-input@vger.kernel.org, 
-	Xiaotian Wu <wuxiaotian@loongson.cn>
-Subject: Re: [PATCH v4] Input: Add driver for PixArt PS/2 touchpad
-Message-ID: <ykmhjrx7wrwqmhsyi6hawbobwfmwi2mkzyykgprlrq7iss7zet@a5hlj7qyqxxj>
-References: <20240704125243.3633569-1-zhoubinbin@loongson.cn>
- <tbhy6xk4tjuza7rgsv55xss5woysyv4wlg46m6sxfq6y5nk7da@7hyl7cf5ehus>
- <Zvu4mMaOzuL3tDTW@google.com>
- <Zvu7JOw0N6XB4ON6@google.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH] Input: elan_i2c - Wait for initialization after enabling regulator supply
+Date: Tue,  1 Oct 2024 17:38:14 +0800
+Message-ID: <20241001093815.2481899-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.46.1.824.gd892dcdcdd-goog
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zvu7JOw0N6XB4ON6@google.com>
+Content-Transfer-Encoding: 8bit
 
-On Oct 01 2024, Dmitry Torokhov wrote:
-> On Tue, Oct 01, 2024 at 01:53:44AM -0700, Dmitry Torokhov wrote:
-> > On Mon, Sep 30, 2024 at 05:59:01PM +0200, Benjamin Tissoires wrote:
-> > > Hi,
-> > > 
-> > > On Jul 04 2024, Binbin Zhou wrote:
-> > > > This patch introduces a driver for the PixArt PS/2 touchpad, which
-> > > > supports both clickpad and touchpad types.
-> > > > 
-> > > > At the same time, we extended the single data packet length to 16,
-> > > > because according to the current PixArt hardware and FW design, we need
-> > > > 11 bytes/15 bytes to represent the complete three-finger/four-finger data.
-> > > > 
-> > > > Co-developed-by: Jon Xie <jon_xie@pixart.com>
-> > > > Signed-off-by: Jon Xie <jon_xie@pixart.com>
-> > > > Co-developed-by: Jay Lee <jay_lee@pixart.com>
-> > > > Signed-off-by: Jay Lee <jay_lee@pixart.com>
-> > > > Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
-> > > 
-> > > It looks like this new driver made in v6.12-rc1 but is already breaking
-> > > other touchpads in fedora:
-> > > 
-> > > https://bugzilla.redhat.com/show_bug.cgi?id=2314756
-> > > 
-> > > The reported touchpads used to work properly but are now directed to use
-> > > the PixArt PS2 driver instead of the old one (I would say it should be
-> > > using Synaptics).
-> > > 
-> > > I haven't touched PS/2 in a long time, so it's going to be hard to
-> > > pinpoint the error from my side, but it seems that the new driver is a
-> > > little bit too greedy.
-> > 
-> > OK, I gonna revert it and hope PixArt folks will figure out less greedy
-> > probing sequence (or maybe we need to push it down a few sports).
-> 
-> Although, as I am trying to read the referenced bug, one of the
-> reporters are saying that they touchpad is USB:
-> 
-> SysFS ID: /devices/pci0000:00/0000:00:14.0/usb3/3-3/3-3:1.0
-> ysFS BusID: 3-3:1.0
-> Hardware Class: unknown
-> Model: "Synaptics Unclassified device"
-> Hotplug: USB
-> Vendor: usb 0x06cb "Synaptics, Inc."
+Elan trackpad controllers require some delay after enabling power to
+the controller for the hardware and firmware to initialize:
 
-I guess this must be the fingerprint reader or some other synaptics
-device.
+  - 2ms for hardware initialization
+  - 100ms for firmware initialization
 
-In the 6.11 logs (now publicly available), we can see:
-[    1.601507] psmouse serio1: trackpoint: Elan TrackPoint firmware: 0x92, buttons: 3/3
-[    1.614026] input: TPPS/2 Elan TrackPoint as /devices/platform/i8042/serio1/input/input5
-...
-[    2.286700] input: ELAN0672:00 04F3:3187 Mouse as /devices/pci0000:00/0000:00:15.0/i2c_designware.0/i2c-0/i2c-ELAN0672:00/0018:04F3:3187.0002/input/input7
-[    2.286834] input: ELAN0672:00 04F3:3187 Touchpad as /devices/pci0000:00/0000:00:15.0/i2c_designware.0/i2c-0/i2c-ELAN0672:00/0018:04F3:3187.0002/input/input9
-[    2.286873] hid-generic 0018:04F3:3187.0002: input,hidraw1: I2C HID v1.00 Mouse [ELAN0672:00 04F3:3187] on i2c-ELAN0672:00
-...
-[    2.337123] input: ELAN0672:00 04F3:3187 Mouse as /devices/pci0000:00/0000:00:15.0/i2c_designware.0/i2c-0/i2c-ELAN0672:00/0018:04F3:3187.0002/input/input10
-[    2.337173] input: ELAN0672:00 04F3:3187 Touchpad as /devices/pci0000:00/0000:00:15.0/i2c_designware.0/i2c-0/i2c-ELAN0672:00/0018:04F3:3187.0002/input/input12
-[    2.337212] hid-multitouch 0018:04F3:3187.0002: input,hidraw1: I2C HID v1.00 Mouse [ELAN0672:00 04F3:3187] on i2c-ELAN0672:00
+Until then, the hardware will not respond to I2C transfers. This was
+observed on the MT8173 Chromebooks after the regulator supply for the
+trackpad was changed to "not always on".
 
+Add proper delays after regulator_enable() calls.
 
-So the touchpad seems to have the PS/2 fallback, and then switches to
-i2c-HID. However, with PixArt the PS/2 touchpad isn't initialized, and
-doesn't answered to i2c-hid (or is too much initialized, not sure).
+Fixes: 6696777c6506 ("Input: add driver for Elan I2C/SMbus touchpad")
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+This will unfortunately slightly slow down the driver probe and resume.
+An optimization would be to check if the regulator is enabled already,
+and shorten or skip the delay if it is. This would require a new API
+though.
+---
+ drivers/input/mouse/elan_i2c_core.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-> 
-> so I am not sure how PS/2 device would interfere with that.
-> 
-> Could you give me access to the attachments on the bug so I can take a
-> closer look? And hopefully the original reporter will submit their data.
+diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+index ce96513b34f6..89556f61004e 100644
+--- a/drivers/input/mouse/elan_i2c_core.c
++++ b/drivers/input/mouse/elan_i2c_core.c
+@@ -46,6 +46,8 @@
+ #define ETP_FWIDTH_REDUCE	90
+ #define ETP_FINGER_WIDTH	15
+ #define ETP_RETRY_COUNT		3
++/* H/W init 2 ms + F/W init 100 ms w/ round up */
++#define ETP_POWER_ON_DELAY	110
+ 
+ /* quirks to control the device */
+ #define ETP_QUIRK_QUICK_WAKEUP	BIT(0)
+@@ -1237,6 +1239,8 @@ static int elan_probe(struct i2c_client *client)
+ 		return error;
+ 	}
+ 
++	msleep(ETP_POWER_ON_DELAY);
++
+ 	/* Make sure there is something at this address */
+ 	error = i2c_smbus_read_byte(client);
+ 	if (error < 0) {
+@@ -1374,6 +1378,8 @@ static int elan_resume(struct device *dev)
+ 			dev_err(dev, "error %d enabling regulator\n", error);
+ 			goto err;
+ 		}
++
++		msleep(ETP_POWER_ON_DELAY);
+ 	}
+ 
+ 	error = elan_set_power(data, true);
+-- 
+2.46.1.824.gd892dcdcdd-goog
 
-Sure, done!
-
-Cheers,
-Benjamin
 
