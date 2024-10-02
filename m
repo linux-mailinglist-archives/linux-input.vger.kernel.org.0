@@ -1,126 +1,141 @@
-Return-Path: <linux-input+bounces-6996-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6997-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567DA98CF66
-	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 11:01:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F72D98CFD8
+	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 11:13:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 082611F22E22
-	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 09:01:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D4951C211AC
+	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 09:13:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EB821974F4;
-	Wed,  2 Oct 2024 09:01:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B85BA19645C;
+	Wed,  2 Oct 2024 09:13:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BkusTJ2c"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B/d5gYMA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D67195FEF;
-	Wed,  2 Oct 2024 09:01:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114DE12DD90;
+	Wed,  2 Oct 2024 09:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727859696; cv=none; b=aHHwqpGYMYc7vEDFvSFBH6Q+yjSIpU4fmZjRPOm5Z0jiVbDyES2yvqe3kcFBLZrMmj0kpuzL/KpbC4heMgam45yW1yT1hhj8w4qbW8n8jiCDBKWbIDw4TLviWw4CpkXOBIVlKpjXMyvejjeu7Gpa4fYxbfBXiqVqDxxcFHjmjvY=
+	t=1727860389; cv=none; b=HBw4nZ8ZFeW7ACNv9evJcI7a7cQ4aTdQCIVKPrcJ59n/pMwTNX4a9lsSU+okiq2nfA/PAWBsLaKWpXy1Z2J87XnLV/23aNfc4KlA7CfaSzjTuPnbRQgmSmqfZS579zeVGv097ADwWIWRdux33tdJbELRpxNq7o1cf0SdAlyMA9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727859696; c=relaxed/simple;
-	bh=X18HVSgvMnmjdQuPetWwp/DWJtcJMZb+wnJxJSl4sws=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CHBmrms04lTpqWrBA5FHTc3t2B6OfNUyAuOPETiCLnrOAxBbjPo8LaXk5XF3NotkwbzxQ4aHLR5vr30sBDNRZ0zrKwgxrqGQ/Cd8vrKccaFV+PdwdpbBrcfEeV5ksKMImPMlVQXX9tHBNZk2xf/P4YSNl45G3qC4rqRcPNDgVdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BkusTJ2c; arc=none smtp.client-ip=209.85.214.174
+	s=arc-20240116; t=1727860389; c=relaxed/simple;
+	bh=5I5mldIJzdW8ANKclnGu0nHw5GefTnyB3NHWqrKtqzM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=awHhp95aAn6JwtYzLknTO1ji1kK+3cnmiNqMFqzEatdlPvc9wGd50cmK30LHYu3XocaJyNtg9chuFofOS/BWRWq6lkwW3Q2/CHmmQkToTj3f4gv/r7I2o1gi2lmh/uj4g5IzVENCY+vJr2b1BuyXdOBBaJm8tmctoBEXSWcxVLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B/d5gYMA; arc=none smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-20aff65aa37so51288045ad.1;
-        Wed, 02 Oct 2024 02:01:34 -0700 (PDT)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5c896b9b4e0so4730797a12.3;
+        Wed, 02 Oct 2024 02:13:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727859694; x=1728464494; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EJnaeRTtnCOnXwkwaIDxDLw+kNh3wmshf5pg+t20Z84=;
-        b=BkusTJ2cTL9f21UQiC4oSq0MMF3GggVKLDjFe+dtxWsB2YC37WhCTY5OjpsKSp8T52
-         Xj2xIqCK6jqE3F5Taa7VqAF0FiXWqotty7S/jjB43ikcSX1+usJQ4MU15u1pJjm6fpaP
-         COzJHylKWQ9KRdSIho+puv4LrdoLlA2VWugdn71yQYCrbUZF6yxu+mCTWRvbjgvyq1b2
-         KYPHYXLz29h0ebQeTkZZtNyxZuKwXkig3bjD/GJ/27M3+fUfDJSucJsd/6Ymz1qIT5gm
-         khZV6tpy4aqHlxFqSANEa5xhJPVPBp5qmyS/aFkGWWQX9S1k4ZGtbVjf1qda8Zlzz9nG
-         gCUw==
+        d=gmail.com; s=20230601; t=1727860386; x=1728465186; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=QDt4wkIAqycH/8EbIQQz964AqPmfjsiKJTHguvRyM3E=;
+        b=B/d5gYMA4YWmy8CIItVconsfSZM7VdmzB+ZWYia5npLn87a/MSspI3ci7YLOGFZV5M
+         rhiXnrInm9zeRMCxIx0eMbs5DfzwNbM3cw3+Z+tQXEibgNWS/sbrW6/eFn+DyKSK30HX
+         Cvb0kD/7M3puFBCATC41VTqP7Q2Oqi4Vu5mlK9IZ8zTKUPpiszK+1SgyZiOoYEAsdiS6
+         KqDzMfNenquSVURj3RhWvFAZOXmS6UQGscGZZ5VcRNVWNmqApbX16d8XqJNT8lJjaBDU
+         LwF5NjQo3RUROv6pfi/RsYTF0DOyhRC++x3DNwiCB7cdE445CDHQV4FXGCx1NUgh42km
+         38dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727859694; x=1728464494;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EJnaeRTtnCOnXwkwaIDxDLw+kNh3wmshf5pg+t20Z84=;
-        b=h8tRFCmXK9HSvmMBI/yxMYKJ4NlmpUuHHnqT1CHO5P6G2kIpHQfELZ6wiNREGBt+Q8
-         ENgbjkqtI67XF15iUhF5B7KlR4lEV5GdOdb9QPf7HrImjBarAVsgh+U5QMCKtSxr4G+8
-         vwXzIyTC1tR2SfxxNmk8ukV0Lq2SoUc2daL9Op/an5LNNb7fNVR/wJB+GQda+ofClis3
-         NIXSVzBp3pw1sZH+U+nkej4VGf3ZQY7aBNGqYBXAJJ9uim1kn+AcUCdpBBQIjTy/Ni7f
-         D7+DVz8+1RTfFttIER3pG05RELwZ7iUyY1mrgxIUSHjy+svX7Wzar5Os8qZthEOPOGdB
-         h4HQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW1g44PyEZU7EjeD6HKNaaFDPXjDeg/+OXE/68ZAnC6vkZQrs81fCEevrDuti7+El44WFgmWsL5Qq61Bw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5Nbqawc8K+3q0rNeN+Ftw6/nXoXnB0aWcAwFjuCGuC5BxwZX4
-	U0AMrvAFnizGN2JBgoP38vyBg931yCqU495is8xUmgcL1OVSV8jY
-X-Google-Smtp-Source: AGHT+IE5MZg+r4Glo96eqPG5MnC4HqvwFZi39KIGVQJBuf25GHvR6zqSmylxDwpkDfRCiXLEssMomQ==
-X-Received: by 2002:a17:902:e80f:b0:20b:a10c:9be3 with SMTP id d9443c01a7336-20bc5a1f226mr30131395ad.21.1727859694312;
-        Wed, 02 Oct 2024 02:01:34 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:59b3:a140:3cbe:62fc])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37e36fe7sm80247385ad.211.2024.10.02.02.01.33
+        d=1e100.net; s=20230601; t=1727860386; x=1728465186;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QDt4wkIAqycH/8EbIQQz964AqPmfjsiKJTHguvRyM3E=;
+        b=uKJBCqXfkQIKY6Zwi94bHk7jmr5NRyRE2SHvT7yFbPwU7tzu5sDGyzPAl/c44JQY5k
+         jKbuJ/SQDD/uLa5embLLqwEm5B+VGl8kSCKT4AmNBdujUMJCVlXNWdVMjZF7ds1ZW7hN
+         nZNaDQxc2K570EvXq4yiPWUlAyEjBnHKkEBHbgfCnmQ8BEClAR3oANe3IaABON8XOyMg
+         YUEi/7crmexem4H7EaIW8u12ytJ4UQQuOoXUZmtRt5UDdAgDmHFTG+mjCAC/KOg4/C2o
+         TYzxqUYCiVPov59dp+Cp0UThipyT3L8N+nZWO5rhIxN9tD6zGc3jzuVNmcyhaAV2Gpy/
+         djHA==
+X-Forwarded-Encrypted: i=1; AJvYcCVLXdv2Dh/Q+ZHT71YBRlB0u58dzpBpJk32rM/IUc8tIyA7i08YaqJ242vjReWzdm9dbMJGrArW8gc4@vger.kernel.org, AJvYcCWu5EIJvnzcVg/Fj1dPP5Zc4RHRN8YLHWIrnMGZ8/kACfoxaY7Ec/KzmuV6qfSoTpP2DftAUZ9XhuVnleA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDLc0Sh6+3uAtHz+YWAM3nIXSGRg0wbeYU25gm5zk2ZVy8jv6Y
+	yY4CsVHWVB18W75M+fYncQmziQqVkZRHDTiLQb7H09mM7JY6mvgu
+X-Google-Smtp-Source: AGHT+IGJGYXsCmI1lgv7ZHOpY/4Rl26rSnqpLeSH2YqQvxowGgmN4A4UPSgGlCA55J5GgRGAv6ekvw==
+X-Received: by 2002:a17:907:94c3:b0:a86:94e2:2a47 with SMTP id a640c23a62f3a-a98f824db54mr226428566b.15.1727860386078;
+        Wed, 02 Oct 2024 02:13:06 -0700 (PDT)
+Received: from nsa.fritz.box ([2001:a61:341e:1201:c434:b5b1:98a6:efed])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27758dcsm835978366b.37.2024.10.02.02.13.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2024 02:01:33 -0700 (PDT)
-Date: Wed, 2 Oct 2024 02:01:31 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v6.12-rc1
-Message-ID: <Zv0L62ULdkkweejQ@google.com>
+        Wed, 02 Oct 2024 02:13:05 -0700 (PDT)
+Message-ID: <22f246a0809e2d1fc738178400f8a3d67fc4dc56.camel@gmail.com>
+Subject: Re: [PATCH 03/13] Input: adp5589-keys: add chip_info structure
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Nuno Sa <nuno.sa@analog.com>
+Cc: Mike Frysinger <vapier@gentoo.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski
+	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Date: Wed, 02 Oct 2024 11:13:05 +0200
+In-Reply-To: <ZvwNV4zor-MTKigP@google.com>
+References: 
+	<20241001-b4-dev-adp5589-fw-conversion-v1-0-fca0149dfc47@analog.com>
+	 <20241001-b4-dev-adp5589-fw-conversion-v1-3-fca0149dfc47@analog.com>
+	 <ZvwNV4zor-MTKigP@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Hi Linus,
+On Tue, 2024-10-01 at 07:55 -0700, Dmitry Torokhov wrote:
+> On Tue, Oct 01, 2024 at 03:41:34PM +0200, Nuno Sa wrote:
+> > Add a more natural chip_info structure and add it to the i2c id table
+> > driver data so that we do not need an enum a switch() to get the
+> > specific bits of each device.
+> >=20
+> > Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+> > ---
+> > =C2=A0drivers/input/keyboard/adp5589-keys.c | 181 ++++++++++++++++++---=
+-------------
+> > =C2=A01 file changed, 95 insertions(+), 86 deletions(-)
+> >=20
+> > diff --git a/drivers/input/keyboard/adp5589-keys.c
+> > b/drivers/input/keyboard/adp5589-keys.c
+> > index
+> > 922d3ab998f3a5dfbaf277f10eb19e5cd1b35415..eaa5440d4f9e14352409dd880cd25=
+4354612bf3
+> > e 100644
+> > --- a/drivers/input/keyboard/adp5589-keys.c
+> > +++ b/drivers/input/keyboard/adp5589-keys.c
+> > @@ -228,16 +228,20 @@ struct adp_constants {
+> > =C2=A0	u8 (*reg) (u8 reg);
+> > =C2=A0};
+> > =C2=A0
+> > +struct adp5589_info {
+> > +	const struct adp_constants *var;
+> > +	bool support_row5;
+>=20
+> Is it possible to derive "row5" data from keymap information to avoid
+> having this fake "adp5585-02-keys" device?
+>=20
 
-Please pull from:
+This is not a fake device. Looking at the adp5585 datasheet you can see the=
+re's
+module with 25 keys (without GPIO5) and another with 11 GPIOS. From the dat=
+asheet:
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.12-rc1
+"- 10 configurable I/Os allowing functions such as Key pad decoding for a m=
+atrix of=20
+up to 5 =C3=97 5
+- 11 GPIOs (5 =C3=97 6) with ADP5585ACxZ-01-R7 models"
 
-to receive updates for the input subsystem. You will get:
+Why its named adp5585-02 in the driver I'm not sure. I kept the same name a=
+s the i2c
+id? Should I call it ADP5585-1 instead? Or even ADP5585-1-r7?
 
-- a couple fixups for adp5589-keys driver
-
-- recently added driver for PixArt PS/2 touchpads is dropped temporarily
-  because its detection routine is too greedy and mis-identifies devices
-  from other vendors as PixArt devices.
-
-Changelog:
----------
-
-Dmitry Torokhov (1):
-      Revert "Input: Add driver for PixArt PS/2 touchpad"
-
-Nuno Sa (2):
-      Input: adp5589-keys - fix NULL pointer dereference
-      Input: adp5589-keys - fix adp5589_gpio_get_value()
-
-Diffstat:
---------
-
- drivers/input/keyboard/adp5589-keys.c |  22 ++-
- drivers/input/mouse/Kconfig           |  12 --
- drivers/input/mouse/Makefile          |   1 -
- drivers/input/mouse/pixart_ps2.c      | 300 ----------------------------------
- drivers/input/mouse/pixart_ps2.h      |  36 ----
- drivers/input/mouse/psmouse-base.c    |  17 --
- drivers/input/mouse/psmouse.h         |   3 +-
- 7 files changed, 14 insertions(+), 377 deletions(-)
- delete mode 100644 drivers/input/mouse/pixart_ps2.c
- delete mode 100644 drivers/input/mouse/pixart_ps2.h
-
-Thanks.
-
-
--- 
-Dmitry
+- Nuno S=C3=A1
 
