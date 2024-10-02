@@ -1,47 +1,47 @@
-Return-Path: <linux-input+bounces-6993-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6994-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1E198CEC3
-	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 10:31:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A348A98CF13
+	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 10:42:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 005C3281E4D
-	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 08:31:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D55541C21B3A
+	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 08:42:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFE9B18EFF8;
-	Wed,  2 Oct 2024 08:31:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF679196C67;
+	Wed,  2 Oct 2024 08:42:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YPplkk6K"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ARNjMQCZ"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C614745F4;
-	Wed,  2 Oct 2024 08:31:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF911195FE5;
+	Wed,  2 Oct 2024 08:42:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727857868; cv=none; b=h8c+FIRiflOR/aDxsbQ01Kd8HLzN+R0eoVxUulfao0790PGly7P7GkLxps+ImUFzKOK4jezOndXcGbFSJHQbx2ylk1PP9Ye172wB3oA6rD88pce4X9cfin+hei+OmpjXKRR1yUhROtSHHaKZfSIfIhPSjjXXUwgmzlehlMMUh+k=
+	t=1727858544; cv=none; b=Sy8vHWiS990ov8W/4MNnxh2/kEuY258LA9un+MXUcuQIF4OuibFuGPfEYP0f30wtEYVDvv30vDQGP3fNb0Tk9NFGZcerfHeBnB6qWQ1XiX0FE0DUKBxr4KX1xZWxcnnF+NNZm/702kYXRNeLafrFoh8CmIGGZK5BauhFHC0C/lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727857868; c=relaxed/simple;
-	bh=Ahs6Cr4gOcOeWg9nG1zhez1O0eh7GoDSU0boAR/4hiQ=;
+	s=arc-20240116; t=1727858544; c=relaxed/simple;
+	bh=3ueS52L8QZS2DfLyIS2b9kZP/6k4L0nHiCRuImoSG1k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ncMOWD5ls0s5AnH6tyDVbtL69K8F7bek2YBiXxsCDi6c+heslMQwhmJN9a5gaGaM7/ZNtuYqj1gEnykHsGph1f+Yyjy6GMDSVdXgBJgvW8+rCa/19aRpzs4DahYMcA0nUY1aGos00jXQwicrmt1BQO2EblFArjT4TTtXFsfFwlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YPplkk6K; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60DFEC4CEC5;
-	Wed,  2 Oct 2024 08:31:04 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=B0vDo83KPzJ/ayp0NbnTR+RKUVVnPlKXEmyWVJVpzgSpYoOch6tbTAD5K9cFp6aLOBGUqelb/vdJi0Crd/YkyKJ6gTetkl6HvECyFFVehh5Z7PKp4ZN6qcP1XIBX3BzjiYa3rTtmOBwSf/8Xag40bW5nZL5+BaUaNiHTXZk+dg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ARNjMQCZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1755C4CEC5;
+	Wed,  2 Oct 2024 08:42:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727857868;
-	bh=Ahs6Cr4gOcOeWg9nG1zhez1O0eh7GoDSU0boAR/4hiQ=;
+	s=k20201202; t=1727858544;
+	bh=3ueS52L8QZS2DfLyIS2b9kZP/6k4L0nHiCRuImoSG1k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YPplkk6KMxfKxwzUEf5PhSMWRJ2rVKoaRJ3T3iGKYeOmKx6BDuVD8xr8gJDHfFzpz
-	 VEc5+2NE4omIpxy8W+6WzGBiBdaSE6/EIO2ZHG88ph4wl/2e+MGUR13nWpwLwVz6iS
-	 sVy3qd/pusNN1SY8Z6IbOb9BrN6uykfHEzMeO2COx6xIybqDPKv4/4CDTyAVoTVe1k
-	 nLPuIj0nARTvVA2ZYWOikVdDugs26BnQiKY/xHfMPJezFLiUmFS1qzOOTuVcjBOuzg
-	 id928e9Hq3bGQo1++tOpa41/epJFr7ae0IxL7/92jK3MF3r33KR2IgkcNOgVvwYu9+
-	 UOVezeZXq2usQ==
-Date: Wed, 2 Oct 2024 10:31:01 +0200
+	b=ARNjMQCZBDs2S3m8ixpLZcLtNd4JwPeiEFMTnnouZ0Kmfkq6Lk0MBwaindxIq0YBu
+	 6kt9KuRmEfwEGdzGesI5EF+hTxO5bKbuNEJSgs5mklZlx0vwcpWBzOmDEtWXIOPorm
+	 IR6/0arBVeurFdxFJx7RBlnZe+zGA8Z0hy+ZnDvOb0MVFW6XL5PLUj+BJaiUTwLD+H
+	 mQvzskc2lfGL5DoR5g680Q5n5CfBcjEbpYvMZHMQGBDELzPDWZ83x7PC58h5kFTBba
+	 62aRUeaLr/ow4OGsmLVLyi8vwGMc0s1LouVAJ+izsjNz2dgfx4ntvJzz1Vms0KmnWm
+	 D6S95a3rVyyMg==
+Date: Wed, 2 Oct 2024 10:42:18 +0200
 From: Benjamin Tissoires <bentiss@kernel.org>
 To: Werner Sembach <wse@tuxedocomputers.com>
 Cc: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>, 
@@ -52,9 +52,8 @@ Cc: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>,
 	platform-driver-x86@vger.kernel.org
 Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
  TUXEDO NB04 devices
-Message-ID: <d7gk2mgihtg6242l3isnhw3xpdt745ehpu2kvim2xxgmxdhat7@g5cqei7uqujj>
-References: <7r3zg4tcmp5ozjwyiusstgv7g4dha4wuh4kwssxpk3tkurpgo3@36laqab7lsxp>
- <58cf1777-222f-4156-9079-bcbba4a32c96@tuxedocomputers.com>
+Message-ID: <swb45gt3vvctsmwgevo3ay6vkwoksasc64poj3tnaxsapxlsbg@kkmactexmclj>
+References: <58cf1777-222f-4156-9079-bcbba4a32c96@tuxedocomputers.com>
  <45qkbpaxhrv2r32hghjqoexkenktymzyjgpx2xnnxt6dmfawjt@44lrhgcnozh3>
  <586a1c41-bbe0-4912-b7c7-1716d886c198@tuxedocomputers.com>
  <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
@@ -62,272 +61,63 @@ References: <7r3zg4tcmp5ozjwyiusstgv7g4dha4wuh4kwssxpk3tkurpgo3@36laqab7lsxp>
  <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
  <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
  <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
- <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
+ <c4e0beb6-acd1-45fa-ad47-f5cf9df89b11@gmx.de>
+ <74f8bd23-d85a-4f12-b8db-ebde59f3abe3@tuxedocomputers.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
+In-Reply-To: <74f8bd23-d85a-4f12-b8db-ebde59f3abe3@tuxedocomputers.com>
 
 On Oct 01 2024, Werner Sembach wrote:
-> Hi Benjamin,
+> Hi Armin,
 > 
-> Am 01.10.24 um 15:41 schrieb Benjamin Tissoires:
-> > On Oct 01 2024, Werner Sembach wrote:
-> > > (sorry resend because thunderbird made it a html mail)
-> > > 
-> > > Hi,
-> > > 
-> > > Am 30.09.24 um 19:06 schrieb Benjamin Tissoires:
-> > > > On Sep 30 2024, Werner Sembach wrote:
-> > > > > [...]
-> > > > > Thinking about it, maybe it's not to bad that it only changes once udev is
-> > > > > ready, like this udev could decide if leds should be used or if it should
-> > > > > directly be passed to OpenRGB for example, giving at least some consistency
-> > > > > only changing once: i.e. firmware -> OpenRGB setting and not firmware->leds
-> > > > > setting->OpenRGB setting.
-> > > > That would work if OpenRGB gets to ship the LampArray bpf object (not
-> > > > saying that it should). Because if OpenRGB is not installed, you'll get
-> > > > a led class device, and if/when OpenRGB is installed, full LampArray
-> > > > would be presented.
-> > > The idea in my head is still that there is some kind of sysfs switch to
-> > > enable/disable leds.
-> > FWIW, I'm never a big fan of sysfs. They become UAPI and we are screwed
-> > without possibility to change them...
+> Am 01.10.24 um 18:45 schrieb Armin Wolf:
+[...snipped...]
+> > Why not having a simple led driver for HID LampArray devices which exposes the
+> > whole LampArray as a single LED?
+> Yes that is my plan, but see my last reply to Benjamin, it might not be
+> trivial as different leds in the same LampArray might have different max
+> values for red, green, blue, and intensity. And the LampArray spec even
+> allows to mix RGB and non-RGB leds.
 > > 
-> > > My idea is then that a udev rule shipped with OpenRGB sets this switch to
-> > > disable before loading the BPF driver so leds never get initialized for the
-> > > final LampArray device.
-> > FWIW, udev-hid-bpf can inject a udev property into a HID-BPF. So
-> > basically we can have a udev property set (or not) by openrgb which
-> > makes the BPF program decide whether to present the keyboard as
-> > LampArray or not.
-> > 
-> > > > But anyway, BPF allows to dynamically change the behaviour of the
-> > > > device, so that's IMO one bonus point of it.
-> > > > 
-> > > > > > FWIW, the use of BPF only allows you to not corner yourself. If you
-> > > > > > failed at your LampArray implementation, you'll have to deal with it
-> > > > > > forever-ish. So it's perfectly sensible to use BPF as an intermediate step
-> > > > > > where you develop both userspace and kernel space and then convert back
-> > > > > > the BPF into a proper HID driver.
-> > > > > I don't really see this point: The LampArray API is defined by the HID Usage
-> > > > > Table and the report descriptor, so there is not API to mess up and
-> > > > > everything else has to be parsed dynamically by userspace anyway, so it can
-> > > > > easily be changed and userspace just adopts automatically.
-> > > > > 
-> > > > > And for this case the proper HID driver is already ready.
-> > > > Yeah, except we don't have the fallback LED class. If you are confident
-> > > > enough with your implementation, then maybe yes we can include it as a
-> > > > driver from day one, but that looks like looking for troubles from my
-> > > > point of view.
-> > > To be on the safe side that we don't talk about different things: My current
-> > > plan is that the leds subsystem builds on top of the LampArray
-> > > implementation.
-> > I would say that the HID subsystem knows how to translate LampArray into
-> > a subset of LEDs. But I think that's what you are saying.
-> > 
-> > > Like this the leds part has to be only implemented once for all LampArray
-> > > devices be it emulated via a driver or native via firmware in the device
-> > > itself.
-> > yep, that's the plan. However, not sure how to fit LampArray into LED.
-> 
-> My idea was that all leds just get treated as a singular led only allowing
-> to set a singular color and brightness, but I just looked it up again:
-> LampArray allows different color and brightness ranges per key, so the
-> grouping might not be possible in a sensible way ...
+> > If userspace wants to have direct control over the underlying LampArray device,
+> > it just needs to unbind the default driver (maybe udev can be useful here?).
+> There was something in the last discussion why this might not work, but i
+> can't put my finger on it.
 
-maybe we can use that information to group per "color and brightness"?
+We recently have the exact same problem, so it's still fresh in my
+memory. And here are what is happening:
+- you can unbind the driver with a sysfs command for sure
+- but then the device is not attached to a driver so HID core doesn't
+  expose the hidraw node
+- you'd think "we can just rebind it to hid-generic", but that doesn't
+  work because hid-generic sees that there is already a loaded driver
+  that can handle the device and it'll reject itself because it gives
+  priority over the other driver
+- what works is that you might be able to unload the other driver, but
+  if it's already used by something else (like hid-multitouch), you
+  don't want to do that. And also if you unload that driver, whenever
+  the driver gets re-inserted, hid-generic will unbind itself, so back
+  to square one
 
-> 
-> Maybe the leds integration is a bad idea after all and we should just nudge
-> the DEs and/or UPower to implement LampArray directly? But that's just
-> kicking the complexity down the road, at least as long as there is not
-> universal easy to use library (haven't looked into the library build of
-> OpenRGB yet).
-
-I think that LED integration is not a bad thing if we can approximate
-the keyboard backlight. We might not be able to provide RGB, but at
-least some "light up, light down" from the system would certainly make
-sense.
-
-FWIW, I know people using libratbag as a CLI to just turn off the LEDs
-on their mouse. So we have already users for that exact use case.
-
-
-[...snipped... (because I don't disagree on the WMI discussion)]
-
-> > > To sum up the architechture (not mutally exclusive technically)
-> > > 
-> > > /- leds
-> > > WMI <- WMI to LampArray Kernel driver <-switch-|
-> > >                                                 \- OpenRGB
-> > > 
-> > > /- leds
-> > > WMI <- WMI to Custom HID Kernel driver <- Custom HID to LampArray BPF
-> > > driver<-switch-|
-> > > \- OpenRGB
-> > > 
-> > > With the "switch" and "leds" implemented in hid core, automatically
-> > > initialized every time a LampArray device pops up (regardless if it is from
-> > > native firmware, a bpf driver or a kernel driver)
-> > > 
-> > > Writing this down I think it was never decided how the switch should look like:
-> > > 
-> > > It should not be a sysfs attribute of the leds device as the leds device
-> > > should disappear when the switch is set away from it, but should it be a
-> > > sysfs variable of the hid device? This would mean that hid core needs to add
-> > > that switch variable to every hid device having a LampArray section in the
-> > > descriptor.
-> > Again, not a big fan of the sysfs, because it's UAPI and need root to
-> > trigger it (though the udev rule sort this one out).
-> > BPF allows already to re-enumerate the device with a different look and
-> > feel, so it seems more appropriate to me.
-> > 
-> > Also, having a sysfs that depends on the report descriptor basically
-> > means that we will lose it whenever we re-enumerate it (kind of what the
-> > LED problem you mentioned above). So we would need to have a sysfs on
-> > *every* HID devices???
-> > 
-> > Actually, what would work is (ignoring the BPF bikeshedding for Tuxedos
-> > HW):
-> > - a device presents a report descriptor with LampArray (wherever it
-> >    comes from)
-> > - hid-led.c takes over it (assuming we extend it for LampArray), and
-> >    creates a few LEDs based on the Input usage (one global rgb color for
-> >    regular keys, another one for the few other LEDs known to userspace)
-> > - when openRGB is present (special udev property), a BPF program is
-> >    inserted that only contains a report descriptor fixup that prevent the
-> >    use of hid-led.c
-> 
-> How would that look like? just a custom bit in a "Vendor defined" usage page?
-
-not a vendor (the code will be in the hid selftests once my v3 series is merged[0]):
-
-```
-SEC("?struct_ops/hid_rdesc_fixup")
-int BPF_PROG(hid_test_driver_probe, struct hid_bpf_ctx *hid_ctx)
-{
-	hid_ctx->hid->quirks |= HID_QUIRK_IGNORE_SPECIAL_DRIVER;
-	return 0;
-}
-
-SEC(".struct_ops.link")
-struct hid_bpf_ops test_driver_probe = {
-	.hid_rdesc_fixup = (void *)hid_test_driver_probe,
-};
-```
-
-This has basically no overhead, because it's a one time operation, no
-change in the event processing.
-
-That code will probably need to be enhanced by comparing a
-UDEV_PROP_* static char that udev-hid-bpf fills in when loading the
-device.
-
-We can also have a dynamic quirk on the boot cmd line that sets that
-quirk, but it just doesn't scale when multiple devices are supported.
-
-> 
-> But this is still UAPI just hidden inside a BFP program instead of sysfs.
-> But it would avoid the re-enumeration problem.
-
-Yep, completely agree, but that UAPI is not set in stone. It's
-controlled by userspace, and if there are no users, we can drop it much
-more easily than having a sysfs.
-
-The other advantage of using BPF is you have free re-enumeration of the
-device. Because the quirks sysfs API for HID doesn't support it (maybe
-we can fix that as well, but I don't see the point given how simple BPF
-is).
-
-> 
-> > - the device gets re-enumerated, cleaning the in-kernel leds, and only
-> >    present the LampArray through hidraw, waiting for OpenRGB to take
-> >    over.
-> > - at any time we can remove the BPF and restore the LEDs functionality
-> >    of hid-led.c
-> > 
-> > > > > > Being able to develop a kernel driver without having to reboot and
-> > > > > > being sure you won't crash your kernel is a game changer ;)
-> > > > > > 
-> > > > > > Cheers,
-> > > > > > Benjamin
-> > > Best regards and sorry for the many questions,
-> > > 
-> > > Werner Sembach
-> > > 
-> > > PS: on a side node: How does hid core handle HID devices with a broken HID
-> > > implementation fixed by bpf, if bpf is loaded after hid-core? Does the hid
-> > > device get reinitialized by hid core once the bpf driver got loaded? If yes,
-> > > is there a way to avoid side effects by this double initialization or is
-> > > there a way to avoid this double initialization, like marking the device id
-> > > as broken so that hid core- does not initialize it unless it's fixed by bpf?
-> > - broken HID device:
-> >    it depends on what you call "broken" HID device. If the report
-> >    descriptor is boggus, hid-core will reject the device and will not
-> >    present it to user space (by returning -EINVAL).
-> >    If the device is sensible in terms of HID protocol, it will present it
-> >    to userspace, but the fact that it creates an input node or LED or
-> >    whatever just depends on what is inside the report descriptor.
-> > 
-> > - HID-BPF:
-> >    HID-BPF is inserted between the device itself and the rest of the
-> >    in-kernel HID stack.
-> >    Whenever you load and attach (or detach) a BPF program which has a
-> >    report descriptor fixup, HID-core will reconnect the device,
-> >    re-enumerate it (calling ->probe()), and will re-present it to
-> >    userspace as if it were a new device (you get all uevents).
-> > 
-> > - double initialization:
-> >    nowadays hid-generic doesn't do anything on the device itself except
-> >    calling the powerup/powerdown, by calling ->start and ->stop on the
-> >    HID transport driver. It's not a problem on 99% of the devices AFAICT.
-> >    technically, if the report descriptor is bogus, start/stop won't be
-> >    called, but you'll get an error in the dmesg. So if you really want to
-> >    rely on that "broken" scenario we can always add a specific quirk in
-> >    HID to not spew that error.
-> > 
-> > Cheers,
-> > Benjamin
-> > 
-> > PPS: sorry for pushing that hard on HID-BPF, but I can see that it fits
-> > all of the requirements here:
-> > - need to be dynamic
-> > - still unsure of the userspace implementation, meaning that userspace
-> >    might do something wrong, which might require kernel changes
-> 
-> Well the reference implementetion for the arduiono macropad from microsoft
-> ignores the intensity (brightness) channel on rgb leds contrary to the HID
-> spec, soo yeah you have a point here ...
-
-Heh :)
-
-> 
-> > - possibility to extend later the kernel API
-> > - lots of fun :)
-> 
-> You advertise it good ;). More work for me now but maybe less work for me
-> later, I will look into it.
-
-Again, I'm pushing this because I see the benefits and because I can
-probably reuse the same code on my Corsair and Logitech keyboards. But
-also, keep in mind that it's not mandatory because you can actually
-attach the BPF code on top of your existing driver to change the way it
-behaves. It'll be slightly more complex if you don't let a couple of
-vendor passthrough reports that we can use to directly talk to the
-device without any tampering, but that's doable. But if you want to keep
-the current implementation and have a different layout, this can easily
-be done in BPF on top.
+So unless we find a way to forward the "manual" binding to hid-generic,
+and/or we can also quirk the device with
+HID_QUIRK_IGNORE_SPECIAL_DRIVER[0] just unbinding the device doesn't
+work.
 
 Cheers,
 Benjamin
 
+PS: brain fart:
+if HID LampArray support (whatever the implementation, through Pavel's
+new API or simple LED emulation) is in hid-input, we can also simply add
+a new HID quirk to enable this or not, and use that quirk dynamically
+(yes, with BPF :-P ) to rebind the device...
 
 [0] https://lore.kernel.org/linux-input/20241001-hid-bpf-hid-generic-v3-0-2ef1019468df@kernel.org/T/#t
 
