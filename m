@@ -1,114 +1,168 @@
-Return-Path: <linux-input+bounces-7033-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7034-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C533098E4CD
-	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 23:21:02 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F2E98E633
+	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2024 00:43:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 821E9286100
-	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 21:21:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EA4A7B232EA
+	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 22:43:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DEF0216A3D;
-	Wed,  2 Oct 2024 21:20:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4B0C19D081;
+	Wed,  2 Oct 2024 22:43:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="knovUlSm"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gUchvAEH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B452141D6
-	for <linux-input@vger.kernel.org>; Wed,  2 Oct 2024 21:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85612199934
+	for <linux-input@vger.kernel.org>; Wed,  2 Oct 2024 22:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727904057; cv=none; b=pUt8u5d6tHWgLkx8Xvbav2Z4EIwFHTvtJnhr6eMYoL5Y8bisQSSFQK/PCjcEnfRvMW6yYL1r0bI5+mkGHNXHtkwWxKnzW9LNKv5Xyrb27LyJoyf747bQOWawKRj6PLVWKtVjFK8s3rVhzhMT2jFOEj3SNX7vhytSWMhB6RySh+w=
+	t=1727909000; cv=none; b=AnqQwjEjqnMOaUJXsP7vSXpT+SOO4sbRufn47sN7RBfL1C3bTFGpK2df0xqjJt1jX6fcSx7fKPPqQ2FOGqriW9oudd3NPzGDuspEhOmLPHGp2JsBnwrDzwePYX1Jx3is//OlOWLcScVBoZpCzwm/OSGDVM6aGoFCr+69SH6eP9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727904057; c=relaxed/simple;
-	bh=73IOJeQNO2jRGPysszj7T+K8Fx+/mkFyvUd2/qXGo+Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZJEEWgn/RGEuy5+u43T32Fc1anhtoSJ8wfN6qwsjPmTvmpNM9OFoAYHQ/q7RZyJw7NSGfdViouG7sAB5t0mlnd1CRpi6vd2CfRIk79Mn9KmZhrkNK6nZVg59ewxkONKXzcfSNDV9egb4J/QZXL+bgOamD4Os4XtHWhYgYQyXAAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=knovUlSm; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fad75b46a3so2839311fa.2
-        for <linux-input@vger.kernel.org>; Wed, 02 Oct 2024 14:20:55 -0700 (PDT)
+	s=arc-20240116; t=1727909000; c=relaxed/simple;
+	bh=j6t8tk7Z//+2Is6i3VUUm0aYAVTeRD5a2UMG2eI0ATY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=L35Q4cmbEs/W3YjWPF9NH/eRN31a9xRhKWxMXiPK+TJaMIAo1E9AsC3YeoYIJVT4fs/ECSDfGbj0FNymRDiWCWvJksGM4by9J3S7R2CkDgrXLkakU/eEp8yACMNmL+AYg/Eb5b/rXkzO3/Ccm7gOF+7UrInA7y2UEnzA/+bTpMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=gUchvAEH; arc=none smtp.client-ip=209.85.166.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-82cd872755dso16401239f.1
+        for <linux-input@vger.kernel.org>; Wed, 02 Oct 2024 15:43:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727904053; x=1728508853; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=73IOJeQNO2jRGPysszj7T+K8Fx+/mkFyvUd2/qXGo+Y=;
-        b=knovUlSmYtx4tOl37lRRaS0Ux0VWf4sfrHlIkQazjWXA7cP8jsFT1steiUiNhMINXO
-         k+Gn/jQ30KfG2lu/geK8dzBz614gytscdE4qj6fqNMYAY/3R9ApJRbArGuUiQFpfwZsL
-         db0f6zHZR4B3rd5U421KFqLn6GTCZww0PCAUp3wjsYi3WgR3IEyPDrSqtVu9GlMaWqtq
-         +W4u2iNR/RUnKSkPKh7wd70xPwe8yblWkGot1QzpksTDyyvbwt82MhHEGQNkIKb7ym1E
-         zC7yH/rnhS2m475ITEnmbm+m/105A2+nuQMUYZ10rW2vIURxDyJ+2VJaC9Ryur7BHa8d
-         Xvpw==
+        d=linuxfoundation.org; s=google; t=1727908996; x=1728513796; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x3ilwW6cK4QI7nkKPfL57rY6tVRa1T4n8ruZSd7gO4c=;
+        b=gUchvAEHJSH0hLbv3OtCwqew2nqDy9GLdhWArdnNmGO0eos8j/p1a6+iNRh90nvhb0
+         e96QEinpPBagoDMvI2O5ioG2188zpfOz++N9k+/z62XJKsY9344uOJO67RPrycNjOGBt
+         mkjj8TM14u30zm5au5TJEskki7oaTIlBPED3Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727904053; x=1728508853;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=73IOJeQNO2jRGPysszj7T+K8Fx+/mkFyvUd2/qXGo+Y=;
-        b=bfpLaoUYF0KMEOuHJQmGWCvNgFuuf4O6fTleAO6UOmJ7TdfpMgbejwWSzHBLCw6VO8
-         xQAzQvDoCufUrqLD3OHWa7CpVKGJronAKzf86u7Gcaxxef1FNgmgZC48koQYmh3fBojq
-         MAZhBSpv6X+dBNQrCJx2jz49pLt+3tXCjBOQRWpOPXSw6juWGH+K5WwfzACCS9W5MNJu
-         /ERL1uWqSvcWKkDwHxFMoLB9AtRXGjUrakqul18jkA3zRwcF9INjh6R2ngYoeOXqB1kl
-         Q9VT+YoTIrC5oWQNqcuxC6oxepdbHygGjwY/MqS0i3N49Z8NWW1syD6suv0Ki9V8LVvL
-         rI0w==
-X-Forwarded-Encrypted: i=1; AJvYcCWVs/grUT9Zkcn6vrQIsI0JH29Ur0PIW81oDPwHRrd2mUFrBQjeVJ1lG7iROQ6fUxv9oU7Ua0i4ej+x/Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6YGM14llWmBv9LSnX190AGTtWxHL+I/mxNiCPZyc+q9MQh3bc
-	emiQIq7lUN4AJ6u3O2UQe5RdBPOBs8VrylT7cuzXSBHlmcoX5wK0UVbkCrwbEoq1TJcrU/zy1yj
-	WI0PUCwLlOtY+XCxJDv+aSOe/79JQpscnnuWWPQoJuVCPB5Df
-X-Google-Smtp-Source: AGHT+IHgPq6jsvUU3hV6GNS2J0rDfWJNW1OOn+us9N3edzguKRahKt3EKGkINd7bQSjtE0kx1rL0AcSSWIU6TWVp3s0=
-X-Received: by 2002:a2e:be90:0:b0:2fa:d3d8:e991 with SMTP id
- 38308e7fff4ca-2fae1003b3bmr28418661fa.6.1727904053354; Wed, 02 Oct 2024
- 14:20:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727908996; x=1728513796;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x3ilwW6cK4QI7nkKPfL57rY6tVRa1T4n8ruZSd7gO4c=;
+        b=sOZrCqieRpfMfBc8LrKY2rQDy1qohV0n94W6YQfG6xa4ZD8kp3z96Eqawaz7Qc/pTP
+         /foE3S9R2gknNI/0Cu/62L2omh6z0zKl46i+feuQ8mstYiVu4erdA8sbDPxbsmJ5Eg6M
+         bO3bkzaypMlJXnlEgbGMIneJg9daqtbgHTMnrLr/ZfGVGH89APF5SJhVmgy+GVOkemii
+         xJw3zc1dO2CKWmzWYV5BEg1QSDS0A2oPlFBQdJv7Vzy8qUKw4QEp0cPnipst7A18rRLT
+         /aKpWqc83pxOOdStVoj3fE3NIQPs6w9XfF2364P5Y2OA0CM4JalRsGf/G4HoUitJfDof
+         7xZg==
+X-Gm-Message-State: AOJu0Yw2FbAq/5BNEge02cRzwT8p/pKMBi/bSZJntyc5OOYkSur2V+aI
+	SIHuscqLyUqoc3wOg23FJoJBjry9/t4YpShG3BcgcjvcLHRNCBoVWndGdO54D1U=
+X-Google-Smtp-Source: AGHT+IG7ncSQ5cx0L4TiFYzd75wjkYvgQW/jpvx2/bj9FPfBqI0KRbv1UTT6Cok8YzgBkusExy0uDQ==
+X-Received: by 2002:a05:6602:601b:b0:82c:967b:6f96 with SMTP id ca18e2360f4ac-834d8411337mr547748739f.8.1727908996579;
+        Wed, 02 Oct 2024 15:43:16 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-834936b4e97sm350364539f.6.2024.10.02.15.43.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Oct 2024 15:43:16 -0700 (PDT)
+Message-ID: <1fd8fd72-2439-4497-a18a-fdc06628eb1e@linuxfoundation.org>
+Date: Wed, 2 Oct 2024 16:43:14 -0600
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241002-zinitix-no-keycodes-v1-1-e84029601491@trvn.ru>
- <CACRpkdZj57_jGDJiXgeatntUMKLdUV-GWCN=crkDRD2sUgQ95w@mail.gmail.com> <4b37b70b52234017e0ade2710c276f3f@trvn.ru>
-In-Reply-To: <4b37b70b52234017e0ade2710c276f3f@trvn.ru>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 2 Oct 2024 23:20:41 +0200
-Message-ID: <CACRpkda99fSxMbuQPsTqinJFxN8F07o94YFM5deSMGGDb+2_4g@mail.gmail.com>
-Subject: Re: [PATCH] Input: zinitix - Don't fail if linux,keycodes prop is absent
-To: Nikita Travkin <nikita@trvn.ru>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Jakob Hauser <jahau@rocketmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH HID v3 0/9] HID: bpf: add a new hook to control
+ hid-generic
+To: Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ Peter Hutterer <peter.hutterer@who-t.net>, Vicki Pfau <vi@endrift.com>,
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20241001-hid-bpf-hid-generic-v3-0-2ef1019468df@kernel.org>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20241001-hid-bpf-hid-generic-v3-0-2ef1019468df@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 2, 2024 at 4:48=E2=80=AFPM Nikita Travkin <nikita@trvn.ru> wrot=
-e:
+On 10/1/24 08:30, Benjamin Tissoires wrote:
+> This is a slight change from the fundamentals of HID-BPF.
+> In theory, HID-BPF is abstract to the kernel itself, and makes
+> only changes at the HID level (through report descriptors or
+> events emitted to/from the device).
+> 
+> However, we have seen a few use cases where HID-BPF might interact with
+> the running kernel when the target device is already handled by a
+> specific device.
+> 
+> For example, the XP-Pen/Huion/UC-Logic tablets are handled by
+> hid-uclogic but this driver is also doing a report descriptor fixup
+> without checking if the device has already been fixed by HID-BPF.
+> 
+> In the same way, another recent example[0] was when a cheap foot pedal is
+> used and tricks iPhones and Windows machines by presenting itself as a
+> known Apple wireless keyboard. The problem is that this fake keyboard is
+> not presenting a compatible report descriptor and hid-core merges all
+> device nodes together making libinput ignore the keyboard part for
+> historical reasons.
+> 
+> This series aims at tackling this problem:
+> - first, we promote hid_bpf_report_descriptor_fixup to be called before
+>    any driver is even matched for the device
+> - then we allow hdev->quirks to be written during report_fixup and add a
+>    new quirk to force hid-core to ignore any non hid-generic driver.
+> 
+> Basically, it means that when we insert a BPF program to fix a device,
+> we can force hid-generic to handle the device, and thus preventing
+> any other kernel driver to tamper with our device.
+> 
+> This branch is on top of the for-6.12/upstream-fixes branch of hid.git.
+> 
+> [0] https://gitlab.freedesktop.org/libinput/libinput/-/issues/1014
+> 
+> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+> ---
+> Changes in v3:
+> - dropped the last 2 patches with hid-input control, as I'm not 100%
+>    sure of it
+> - changed the first patch to avoid a double free on cleanup of a device
+>    when a HID-BPF program was attached
+> - kept Peter's rev-by for all but patches 1 and 6
+> - Link to v2: https://lore.kernel.org/r/20240910-hid-bpf-hid-generic-v2-0-083dfc189e97@kernel.org
+> 
 
-> > BTW: Nikita have you noticed and weird offsets in your Zinitix
-> > touchscreens? Mine seem to be off and I need to put my
-> > fingers a bit below the actual target on the screen, consistently.
-> > I was thinking maybe calibration support is necessary.
->
-> I for sure noticed this in the context of touchkeys: On the device I
-> have, if you don't enable the touchkeys, the controller assigns
-> the lines connected to them to the touch grid, which offsets
-> the real touchscreen by two lines. Effectively this means that
-> touch surface is stretched a bit below the screen, and i.e. touching
-> at the very bottom will produce a touch event a bit above
-> the actual touch point. Enabling touchkeys reassigns those lines
-> and then the display is working correctly.
->
-> This was the prime reason why I've even made the tkey series in
-> the first place :D
+>        HID: bpf: move HID-BPF report descriptor fixup earlier
+>        HID: core: save one kmemdup during .probe()
+>        HID: core: remove one more kmemdup on .probe()
+>        HID: bpf: allow write access to quirks field in struct hid_device
+>        selftests/hid: add dependency on hid_common.h
+>        selftests/hid: cleanup C tests by adding a common struct uhid_device
+>        selftests/hid: allow to parametrize bus/vid/pid/rdesc on the test device
+>        HID: add per device quirk to force bind to hid-generic
+>        selftests/hid: add test for assigning a given device to hid-generic
 
-It's embarrassing that I was so focused on just testing the touchkey
-support to not notice that it actually fixes this issue for me too :D
+> 
+>   drivers/hid/bpf/hid_bpf_dispatch.c                 |   9 +-
+>   drivers/hid/bpf/hid_bpf_struct_ops.c               |   1 +
+>   drivers/hid/hid-core.c                             |  84 +++++++++---
+>   drivers/hid/hid-generic.c                          |   3 +
+>   include/linux/hid.h                                |  20 +--
+>   include/linux/hid_bpf.h                            |  11 +-
+>   tools/testing/selftests/hid/Makefile               |   2 +-
+>   tools/testing/selftests/hid/hid_bpf.c              | 151 ++++++++++++++-------
+>   tools/testing/selftests/hid/hid_common.h           | 112 ++++++++++-----
+>   tools/testing/selftests/hid/hidraw.c               |  36 ++---
+>   tools/testing/selftests/hid/progs/hid.c            |  12 ++
+>   .../testing/selftests/hid/progs/hid_bpf_helpers.h  |   6 +-
+>   12 files changed, 296 insertions(+), 151 deletions(-)
 
-Excellent, two problems solved.
+I am assuming selftests go with the driver changes.
+For selftests:
 
-Yours,
-Linus Walleij
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+
+thanks,
+-- Shuah
 
