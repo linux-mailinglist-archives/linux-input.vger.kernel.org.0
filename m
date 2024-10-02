@@ -1,126 +1,129 @@
-Return-Path: <linux-input+bounces-7013-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7014-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2E498D22C
-	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 13:23:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A49098D232
+	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 13:28:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D44CE1F20F0B
-	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 11:23:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 26B51B21B0C
+	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 11:28:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 821321E7646;
-	Wed,  2 Oct 2024 11:23:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0F4C1E7646;
+	Wed,  2 Oct 2024 11:28:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cxmtGRhR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H6wxxkdj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB47C1E6DD4
-	for <linux-input@vger.kernel.org>; Wed,  2 Oct 2024 11:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA381E6DD4
+	for <linux-input@vger.kernel.org>; Wed,  2 Oct 2024 11:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727868202; cv=none; b=lfX/DSnN0nVKmwfOCwoZhXMv1Um88R2wTh6JR+ROOiZQ+LvbeHD2JxXVDb//9LTP4RwAb7sYnLSpyVGiEH5QyRVhs19e4rwdXQmX5IWuMjIquDQ2iqwLa9EPDVizQm8vrjW2nXktb8fl+Z1VR3uj3ty3ueC1VtnmkQsPkA5mYIE=
+	t=1727868501; cv=none; b=G4pNljMVcAvOgIPx8J+gpaukqBAxIcVsaMTv1XpnOBNMq8vXYVOtcnkngB/V/iOoq+pSws6lZddQFwdG8T7jWuZ68y1xVekuXfPElX4q45AEXGeB0Ae4B3eYru+PSFyHKZIifv8bNoErRCkxl5nhIlvQK2smbW9DajTRIyfYZeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727868202; c=relaxed/simple;
-	bh=7+BCouCb4FcqZ6JS63XRH+ToOXPyxfmDJNWVyusEN0U=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uTtrXfnmulmPsfN6US7wZWibct009aTa/uxTG0ZPT0mwCffgtgQdD7o1d0vgr/y5JKvMYyAZ0jzQEPw+mEPh7nP7gIPpv7tGcoTb3+czE2bnkd1V0EnfsDePpQ3GpXs2Wp5CCFIk25gGGeh19p1Qzyb79VJe7oh+2DegkoZhxak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cxmtGRhR; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1727868501; c=relaxed/simple;
+	bh=xo+oBDeBFnvA5nmTYcV67LvOa+i4s/0IhoyeknTKOfg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=shGkmirCOZe0m/VJeyYygMpOheOsS1unot3a2ZbdfCF6NmRnT8xEQNNceG/T1yfaW77UEPmurnzBvk9gEdPhjdneWDmBayTFieVR+muG5BN2XB5ck5hCOtNYTq0uLlxl16t0V0QFWVQqpjWPYPbtjfCAixskVehC3sYnZBdo0TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H6wxxkdj; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42f6bec84b5so28471715e9.1
-        for <linux-input@vger.kernel.org>; Wed, 02 Oct 2024 04:23:20 -0700 (PDT)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2e07d91f78aso4936587a91.1
+        for <linux-input@vger.kernel.org>; Wed, 02 Oct 2024 04:28:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727868199; x=1728472999; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=pJ0LI5otDtnzHwV8FxEn8qRWsAhpkdOjyFHhx3xtMxY=;
-        b=cxmtGRhRKuKDrODVip3poJWYVwjTp73D8xeJE/eXJkO0XKhxdeS3zy0wlt1UifwXdU
-         dSMD5S0+c+0C1MKOYCAUR1XI+rWbW5yzyt+eZP6ShFHDOQxbWEHLvGjoxgpnYt2a6pY1
-         1d9CiUJTvV3DzOC261KSlzl6DzGkJYo+jZp6FJq0ufNv1/vkJgA7mQHhz3UmKFN0HKU2
-         8mkOOuxR7ifjVz2Eueb6dSGV7kA8w3AEj7Tjh3a9diweG+1+QHZ2eKrHT540Y+IOYkOq
-         +0KJhZ++gv5WJZjohs1DLeNPAj7PL9ugKk0CmWaTljOWkgYh88RJNozQ4J1AlyzqU2IN
-         s14A==
+        d=gmail.com; s=20230601; t=1727868499; x=1728473299; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=AdtHqpPmHUdiLup/75DGUiY8zsZpqPCyoOBhA9PP9nQ=;
+        b=H6wxxkdjghvnpv4ftNH+ve132YWgUZLpGUsWR9sX15+YsW69/yJRsmS6adLsoO4V0Q
+         /l9edi3+y4HwZp4peZNM4hepwhYW/ZRMzNdTKKnrvKhkE06WxIA6eEewQunlpNAIvEot
+         qhQNW8P/X/x7lGxVkELES2DTCxJ2aLXk0OpxnmHI5uHR4rrzcHi36zaqcRwxSL3daMei
+         6lKozFkykn0W1kx2BYa5v7E1qlu8748nelcN6gwpeGD3tbMqIr1D5OOgpxLrmRYOoYDu
+         OBj9M+b+RXQapGbCOSY49Gblb9a7s00jsau98b6v3S/NSV0K14c426x1kBgYA7qeK9vE
+         aU6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727868199; x=1728472999;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pJ0LI5otDtnzHwV8FxEn8qRWsAhpkdOjyFHhx3xtMxY=;
-        b=Epffbcbih8Mn68Oh1mkjamaiumKeR4ru+Ji0WREx8H5V/acndw16k6lU/N0MBblkSU
-         SyAF3XJngUyZI+FTX3ph49T3AbY92UYA/TXVSs4s4sAJLCcfVyE9dzlwxaZ3cs/fGWiG
-         X9omScPX4/3a/gZteajsZ3iaMavMX13IOlI6I2H59uaohnD4aocNjAJidp1Oaxs4KwE4
-         Eor//YfQOAGDzeFGIRtkJ8KF6rBhncpGLh+ezXlIsFuLUK4R0fA+J/6rMgNbjCbc5xMI
-         sKRBZIDYnIDP+VYBsxGZFmsjHrrThVGeCt9gVK3WzJOAvqNu9WDeLS8V3kV5X8cL1onm
-         kxSw==
-X-Forwarded-Encrypted: i=1; AJvYcCUqRaHB2HD0FHIGvBf1Q6Ys7er34neZgEc8UjY5tqQBayjTWg2aG3xzEvoj9cScTfVsQqdRdJBzkm+RRg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXBUkhGrXTakMn9JpdOhY0R9ZkCGuni2DboZqZpRv4kc9ouwxc
-	JNyU9KJkF3L+NaRckpatxjVj8oA6GmM/lUm5yz5ZILkR7IZCgor0
-X-Google-Smtp-Source: AGHT+IHnz/dot9E6WGZ2JmExFXBCZY79OjM0kcS8WVupBAOiqIfNI4QdNAKshvl/nYu0mqKNg0E94A==
-X-Received: by 2002:a05:600c:3b05:b0:42c:acb0:ddb6 with SMTP id 5b1f17b1804b1-42f777b7325mr19871505e9.9.1727868199071;
-        Wed, 02 Oct 2024 04:23:19 -0700 (PDT)
-Received: from nsa.fritz.box ([2001:a61:341e:1201:c434:b5b1:98a6:efed])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f7a02ef22sm15965585e9.45.2024.10.02.04.23.18
+        d=1e100.net; s=20230601; t=1727868499; x=1728473299;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AdtHqpPmHUdiLup/75DGUiY8zsZpqPCyoOBhA9PP9nQ=;
+        b=UjMdJfk2g/TvpG4XyHPhtAD5+YXKjXf+FYl9HqhJMNhC7XOcc4Pl+E3qGimgd/gwFc
+         t237+YKPutBWZSyWJ/uqrknocWhLZyWg8fYdHglSToNisFvUIZpFBplQ7lqF1X27PQZ0
+         VpmdSpGpC32tSksOv2RdzLAlPaCH88IPWxCYJMVKYYVc9XiqQ2RJd6erLqSiLPTSsOX9
+         9bTjP3ZeJQo2V1o6/orbWXYQaRTa3255/Oqjhui55qRGCIdA3dATqPTOp4ngcHosmc/A
+         5VV6I0Py6/U8N6aUuizMBled1vJxfG11hO+y6Bd+wWmuwXqCImpydm6XPHmftgNRmSX1
+         HVGw==
+X-Forwarded-Encrypted: i=1; AJvYcCXJUfySptYSA1UIPULpS7gFsA62kRV2u3BjA2Lu+ciRu5R3zRP4aTZdOlORtMdoMS5FCzbnOZy2HtiM4w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0CfdXD5kCHK9TdYWZA81x4JLMlp4TlRoosGyQKVAVsuAmsRRa
+	sAuKUJ3I8qHAhbQTXJ6Ef+R14BtpKF2EUMwPdjFnan5dyu+3Odt3
+X-Google-Smtp-Source: AGHT+IG8BK+h9Qkr5j9a2ZsL0ysRN+Ps+xSX8qWGz8MuEWtsv0QEZNmO5Xw261Shnyz9KRKUwuK55g==
+X-Received: by 2002:a17:90b:1e42:b0:2d8:ebef:547 with SMTP id 98e67ed59e1d1-2e18496989dmr3400566a91.35.1727868499544;
+        Wed, 02 Oct 2024 04:28:19 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:59b3:a140:3cbe:62fc])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e18f8c7cf5sm1305834a91.41.2024.10.02.04.28.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2024 04:23:18 -0700 (PDT)
-Message-ID: <58d1af4cddbbf5f96cc5f3d08eae4250b636b257.camel@gmail.com>
-Subject: Re: [PATCH 1/4] Input: adp5588-keys: bail on returned error
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, nuno.sa@analog.com
-Cc: Michael Hennerich <michael.hennerich@analog.com>, 
+        Wed, 02 Oct 2024 04:28:19 -0700 (PDT)
+Date: Wed, 2 Oct 2024 04:28:16 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+Cc: nuno.sa@analog.com, Michael Hennerich <michael.hennerich@analog.com>,
 	linux-input@vger.kernel.org
-Date: Wed, 02 Oct 2024 13:23:18 +0200
-In-Reply-To: <Zv0pzelCZJpI0dxa@google.com>
-References: 
-	<20241002-fix-adp5588-read-refactor-v1-0-28800f1b9773@analog.com>
-	 <20241002-fix-adp5588-read-refactor-v1-1-28800f1b9773@analog.com>
-	 <Zv0pzelCZJpI0dxa@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+Subject: Re: [PATCH 1/4] Input: adp5588-keys: bail on returned error
+Message-ID: <Zv0uUH6dV_bFK6M-@google.com>
+References: <20241002-fix-adp5588-read-refactor-v1-0-28800f1b9773@analog.com>
+ <20241002-fix-adp5588-read-refactor-v1-1-28800f1b9773@analog.com>
+ <Zv0pzelCZJpI0dxa@google.com>
+ <58d1af4cddbbf5f96cc5f3d08eae4250b636b257.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <58d1af4cddbbf5f96cc5f3d08eae4250b636b257.camel@gmail.com>
 
-On Wed, 2024-10-02 at 04:09 -0700, Dmitry Torokhov wrote:
-> Hi Nuno,
->=20
-> On Wed, Oct 02, 2024 at 12:51:50PM +0200, Nuno Sa via B4 Relay wrote:
-> > @@ -455,8 +457,16 @@ static int adp5588_gpio_add(struct adp5588_kpad *k=
-pad)
-> > =C2=A0	for (i =3D 0; i <=3D ADP5588_BANK(ADP5588_MAXGPIO); i++) {
-> > =C2=A0		kpad->dat_out[i] =3D adp5588_read(kpad->client,
-> > =C2=A0						GPIO_DAT_OUT1 + i);
-> > +		if (kpad->dat_out[i] < 0)
-> > +			return kpad->dat_out[i];
-> > +
-> > =C2=A0		kpad->dir[i] =3D adp5588_read(kpad->client, GPIO_DIR1 + i);
-> > +		if (kpad->dir[i] < 0)
-> > +			return kpad->dir[i];
-> > +
-> > =C2=A0		kpad->pull_dis[i] =3D adp5588_read(kpad->client, GPIO_PULL1 + i=
-);
-> > +		if (kpad->pull_dis[i] < 0)
-> > +			return kpad->pull_dis[i];
->=20
->=20
-> Unfortunately all these are u8 so they will never be negative. You need
-> to do the adp5588_read() refactor first and then (or maybe together) add
-> error checking.
->=20
+On Wed, Oct 02, 2024 at 01:23:18PM +0200, Nuno Sá wrote:
+> On Wed, 2024-10-02 at 04:09 -0700, Dmitry Torokhov wrote:
+> > Hi Nuno,
+> > 
+> > On Wed, Oct 02, 2024 at 12:51:50PM +0200, Nuno Sa via B4 Relay wrote:
+> > > @@ -455,8 +457,16 @@ static int adp5588_gpio_add(struct adp5588_kpad *kpad)
+> > >  	for (i = 0; i <= ADP5588_BANK(ADP5588_MAXGPIO); i++) {
+> > >  		kpad->dat_out[i] = adp5588_read(kpad->client,
+> > >  						GPIO_DAT_OUT1 + i);
+> > > +		if (kpad->dat_out[i] < 0)
+> > > +			return kpad->dat_out[i];
+> > > +
+> > >  		kpad->dir[i] = adp5588_read(kpad->client, GPIO_DIR1 + i);
+> > > +		if (kpad->dir[i] < 0)
+> > > +			return kpad->dir[i];
+> > > +
+> > >  		kpad->pull_dis[i] = adp5588_read(kpad->client, GPIO_PULL1 + i);
+> > > +		if (kpad->pull_dis[i] < 0)
+> > > +			return kpad->pull_dis[i];
+> > 
+> > 
+> > Unfortunately all these are u8 so they will never be negative. You need
+> > to do the adp5588_read() refactor first and then (or maybe together) add
+> > error checking.
+> > 
+> 
+> Ahh crap... Completely missed that. Yeah, will see what looks better... Thanks for
+> catching this.
+> 
+> BTW, this is also wrong in the adp5589 series.
 
-Ahh crap... Completely missed that. Yeah, will see what looks better... Tha=
-nks for
-catching this.
+I didn't get that far there ;)
 
-BTW, this is also wrong in the adp5589 series.
+Thanks.
 
-- Nuno S=C3=A1
+-- 
+Dmitry
 
