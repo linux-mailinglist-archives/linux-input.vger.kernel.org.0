@@ -1,172 +1,83 @@
-Return-Path: <linux-input+bounces-7015-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7016-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44B298D342
-	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 14:30:14 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1910598D3AA
+	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 14:52:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86313280FB9
-	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 12:30:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 99A31B20E29
+	for <lists+linux-input@lfdr.de>; Wed,  2 Oct 2024 12:52:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 575DF1CEEA7;
-	Wed,  2 Oct 2024 12:30:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2F611CFED7;
+	Wed,  2 Oct 2024 12:52:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="kgh2kqmq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hl8KVgTC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCE0372;
-	Wed,  2 Oct 2024 12:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7BE61CFED4;
+	Wed,  2 Oct 2024 12:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727872211; cv=none; b=HpBFfM68gPvQlqGClzTa8Vx0KJZkUfZXN4J6RVXwwOLEooPkAD/vpP86x4FH57zsbWEcCAaYEWEYohwUnTMrPoxIsdkullSV195EXYHlZMSPdpKvsEstNZau11k/lPFk1A2aFwZGe413Mx+FXIOXlZCEmxSWRMtjvEdgrgQGwnQ=
+	t=1727873569; cv=none; b=pE5gwNgp9CCNJY23fnS9SB/+Vq+/NWt7q2HQDLFpIIhkn5PEfjtMs4WfXkAA7J9R3FKskpyBSHWZCTIslOzCkYWSFInsroSTZ7ypqy2AutdE9mcYCVJjkBmqQhfIU9aHFt4psuB5+Bmx3RD9Jc5x1y/rfzqEiHAxfWOo/QheDqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727872211; c=relaxed/simple;
-	bh=5te1jA6MZJm94aFg74XhdSUmGAaw6U6NUmCvJZ6ELro=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KTRIGkZLsrEN13VVpmKP3besQes/1l8j0IJLwP8L2eBpAvLzQ5SV3T6zOwyPpV+btdOzEXja40wGiH1EBXD7oszFg2Q0pcGGgZQXtLUDajWeOfpZPw53+dMctbuHqwvbrEvPcn1/OidV0pLV9eBU4gHrIVgcmwm8DfMKbDnI46o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=kgh2kqmq; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
-	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
-	In-Reply-To:References; bh=IykoVkNuqPqaFqRA7nQuLR7DdnoOJ5S/uNaQK0BCEko=;
-	t=1727872209; x=1728304209; b=kgh2kqmqecfUcG2dGU71kNc8ArmTEV1wYX1+vzLeMiPS21q
-	m4j+ugKlCnB5SMFbdvp//ZzKe6QjI9si2zOugFierz2fee9ueBEY0L+sCO1r4GVtSULIf9ppuVJv5
-	Yk0uBC585q43SWBpR5Fz2mzyG8enniy0YSLEya8cYoz2GjiRNTKH9lxZ8C2nn6XHulGWAsedgctep
-	z+R2Qn7LBlexsq5Il9MMqjT7UmQdFb/FFfU+IhGnpdIXQo0TxZ91n2YPHz4MLFxtaPBTDICT/t05r
-	hvudt4N84S3pbjn5xna+iRj/LxNEIh9KLMdHAy+SC/MrNFwSuP+oZQ9I6yVhBXBw==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1svyUS-00015H-Nb; Wed, 02 Oct 2024 14:30:00 +0200
-Message-ID: <056770ff-90e6-4140-b964-862a1503fa3b@leemhuis.info>
-Date: Wed, 2 Oct 2024 14:29:59 +0200
+	s=arc-20240116; t=1727873569; c=relaxed/simple;
+	bh=9BXVLPB5HL/AsiVffyG7sDFN9avsIyuqjYR1AJyxW7M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AZQXPj9eLGAy/ZjI0nmZLPEKdoBAvubMxYvS/Oj0fsy0tn+VF8/WPRcxadqy6lQCgq5meRZJBCNA5EF+obflvGs1+X0zrIgiY05xWIbzIYK9g30xjXlOGJLMIFvEm01rN2MlT8hRu0WF3TsH5jjIVNgMii5NHn6WhHvKucna3EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hl8KVgTC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73086C4CEC5;
+	Wed,  2 Oct 2024 12:52:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727873569;
+	bh=9BXVLPB5HL/AsiVffyG7sDFN9avsIyuqjYR1AJyxW7M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hl8KVgTClzNo+tWKSp8NuYXy2c0je8FrSMEARnkkUhBf6tGk3zK/3lo89nHIW/Cj7
+	 BrCEU54Mihj5XdZbk3D1+l4y+RHtBJk7FpGtNzelThC0/vQau86VNvsjqCGExAIyGh
+	 D53oYInyk+Eis4/U3RuqLF9x6SBsPesOsvqo4ggPSgTwRonv9T/dFmyreO79zuEqzn
+	 4ze2vmjmIeS/l/FS9pA8C1lgJNTkBTVBHpRWdRYBmQTpYTv47bOsb8O9ktk9TDjfe/
+	 ovs5EKE3yGKMcdpdlu+D7IXg2xlQsWqSqnC0ucagvRYMP7yg9C/67hwIJP/WpGWHjP
+	 6AaGq3Ri15xjQ==
+Date: Wed, 2 Oct 2024 13:52:43 +0100
+From: Lee Jones <lee@kernel.org>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: bentiss@kernel.org, dri-devel@lists.freedesktop.org,
+	hdegoede@redhat.com, jelle@vdwaa.nl, jikos@kernel.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+	ojeda@kernel.org, onitake@gmail.com, pavel@ucw.cz, cs@tuxedo.de
+Subject: Re: [PATCH v2 1/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO
+Message-ID: <20241002125243.GC7504@google.com>
+References: <20240927124152.139099-1-wse@tuxedocomputers.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [regression] AMD SFH Driver Causes Memory Errors / Page Faults /
- btrfs on-disk corruption [Was: .../ btrfs going read-only]
-To: linux-kernel-bugs@hixontech.com,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Cc: Jiri Kosina <jkosina@suse.com>, linux-input@vger.kernel.org,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- akshata.mukundshetty@amd.com, LKML <linux-kernel@vger.kernel.org>,
- Skyler <skpu@pm.me>, Richard <hobbes1069@gmail.com>,
- linux-btrfs <linux-btrfs@vger.kernel.org>,
- "Limonciello, Mario" <Mario.Limonciello@amd.com>
-References: <90f6ee64-df5e-43b2-ad04-fa3a35efc1d5@leemhuis.info>
- <3a9b2925-57fb-4139-8cf5-a761209c03cc@hixontech.com>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Content-Language: en-US, de-DE
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <3a9b2925-57fb-4139-8cf5-a761209c03cc@hixontech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1727872209;2a400154;
-X-HE-SMSGID: 1svyUS-00015H-Nb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240927124152.139099-1-wse@tuxedocomputers.com>
 
-[CCing Richard, who apparently faces the same problem according to a
-recent comment in the bugzilla ticket mentioned earlier:
-https://bugzilla.kernel.org/show_bug.cgi?id=219331#c8
+On Fri, 27 Sep 2024, Werner Sembach wrote:
 
-CCing Mario, who might be interested in this and is a good contact when
-it comes to issues with AMD stuff like this.
-
-CCing the Btrfs list as JFYI, as all three reporters afaics see Btrfs
-misbehavior or corruptions due to this.
-
-Considered to bring Linus in, but decided to wait a bit before doing so.]
-
-On 01.10.24 23:40, Chris Hixon wrote:
-> On 10/1/2024, 12:56:49 PM, "Linux regression tracking (Thorsten Leemhuis)" wrote:
-
->> Basavaraj Natikar, I noticed a report about a regression in
->> bugzilla.kernel.org that appears to be caused by a change of yours:
->>
->> 2105e8e00da467 ("HID: amd_sfh: Improve boot time when SFH is available")
->> [v6.9-rc1]
->>
->> As many (most?) kernel developers don't keep an eye on the bug tracker,
->> I decided to write this mail. To quote from
->> https://bugzilla.kernel.org/show_bug.cgi?id=219331 :
->>
->>> I am getting bad page map errors on kernel version 6.9 or newer.
->>> They always appear within a few minutes of the system being on, if
->>> not immediately upon booting. My system is a Dell Inspiron 7405.
-> [...]
->>> [   23.234632] systemd-journald[611]: File /var/log/journal/a4e3170bc5be4f52a2080fb7b9f93cf0/user-1000.journal corrupted or uncleanly shut down, renaming and replacing.
->>> [   23.580724] rfkill: input handler enabled
->>> [   25.652067] rfkill: input handler disabled
+> Hi,
+> first revision integrating Armins feedback.
 > 
->>> [   34.222362] pcie_mp2_amd 0000:03:00.7: Failed to discover, sensors not enabled is 0
->>> [   34.222379] pcie_mp2_amd 0000:03:00.7: amd_sfh_hid_client_init failed err -95
+> Stuff I did not yet change and did not comment on previously:
+> - Still have to ask Christoffer why the mutex is required
+> - Still using acpi_size instad of size_t in the util functions, because the value is put directly into a struct using acpi_size
+> - Error messages for __wmi_method_acpi_object_out still in that method because they reference method internal variables
 > 
-> No sensors detected - do we all have that in common?
+> Let me know if my reasoning is flawed
 
-Skyler, Richard?
+Use `git format-patch`'s --annotate and --compose next time please.
 
->>> [...]
->> See the ticket for more details and the bisection result. Skyler, the
->> reporter (CCed), later also added:
->>
->>> Occasionally I will not get the usual bad page map error, but
->>> instead some BTRFS  errors followed by the file system going read-only.
->>
->> Note, we had and earlier regression caused by this change reported by
->> Chris Hixon that maybe was not solved completely:
->> https://lore.kernel.org/all/3b129b1f-8636-456a-80b4-0f6cce0eef63@hixontech.com/
-> 
-> This looks like the same issue I reported.
-
-And sounds a lot like what Richard sees, who also sees disk corruption
-with Btrfs (see https://bugzilla.redhat.com/show_bug.cgi?id=2314331 ).
-
->> Chris Hixon: do you still encounter errors, or was your issue
->> resolved/vanished somehow?
-> 
-> I still encounter errors with every kernel/patch I've tested. I've blacklisted 
-> the amd_sfh module as a workaround, but when the module is inserted, a crash
-> similar to those reported will happen soon after the (45 second?) 
-> detection/initialization timeout. It seems to affect whatever part of the
-> kernel next becomes active. I've had disk corruption as well, when BTRFS is
-> affected by the memory corruption,
-
-Skyler, did you see btrfs disk corruption as well, just like Chris and
-Richard did?
-
-> so I've ended up testing on a USB stick I
-> can reformat if necessary. I haven't tested new patches/kernels in a while
-> though. I'll get back to you after I've tried the latest mainline. Also note
-> that I've tried Fedora Rawhide's debug kernel,
-
-From what I see it seems all three of you are using Fedora. Wonder if
-that is a coincidence.
-
-> which has a ton of debugging
-> options including KASAN, but nothing seems to point the finger at something
-> originating in amd_sfh code. Is it possible the hardware itself (the mp2/sfh
-> chip) is corrupting memory somehow after some misstep in
-> initialization/de-initialization? Also if you look at my report, you'll see I
-> have no devices/sensors detected by amd_sfh - I wonder if other reporters all
-> have this in common? (noted in dmesg output above from another user)   
-
-Given that Basavaraj Natikar never really addressed Chris earlier report
-from months ago and the severeness of the problem I'd wonder if we
-should revert the culprit to resolve this quickly, unless some proper
-fix comes into sight soon. Sadly from a quick look that would require
-multiple reverts afaics. :-/
-
-Ciao, Thorsten
+-- 
+Lee Jones [李琼斯]
 
