@@ -1,79 +1,68 @@
-Return-Path: <linux-input+bounces-7050-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7051-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C4E98F2DE
-	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2024 17:44:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99DFE98F36D
+	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2024 18:01:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 267BAB23382
-	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2024 15:44:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CB0F61C215AB
+	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2024 16:01:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 093DB1A4E98;
-	Thu,  3 Oct 2024 15:43:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C50B11A4F15;
+	Thu,  3 Oct 2024 16:01:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OY4zqSNU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nlUuerq6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968911A3AB7;
-	Thu,  3 Oct 2024 15:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955E219C56A;
+	Thu,  3 Oct 2024 16:01:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727970186; cv=none; b=iiokSl2wMp/JUmo5uARMd1meDjvUHTWDvxWNmaQFl21v9Okxrwprupu3U5IvCBRTrqHF4ZrZQjBnek86RS/T5PAlBawacRFugVq38fMaZtRSjSeZBlofBUXZ5S5kOM6jpLpI6AwI4x9wRAk34SPE9MMAETFydkahYd9etQyUcME=
+	t=1727971296; cv=none; b=b7BSerdqs1JfKPeNKTy0+g/Ay/em0tBwaihmZNgefB4IngF8bNsOCtOTSAWQAT2WL5ItZRAJD++KmOOlNGE6BFOvvCravPXVSocOUtxulEj6dEFwtUyoYRnNKOe9DlWnbzUV5dcFHn6Zda+ch/PAU1F4JIDbWtzDmbTJYkd6ahM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727970186; c=relaxed/simple;
-	bh=prZshJkfmabyyRAwyGJtJ5vXD8y51RYE0suunTDUwzg=;
+	s=arc-20240116; t=1727971296; c=relaxed/simple;
+	bh=N1KpW62xffrI1xTNzdpqLWPuaaxVmpXQlBykvBKOYos=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X8m4Wbh9PNiF0LjbhQtF2sadzpEJ5dtaY9SrEYvXceMCZ27EsGLH9BHwPei3CeV18xVdxEIVsUq+hoalqu+t6c86kKDhRZ9KP8vTNMRL0LcJXCX6oHpyb5A/Dywb4bu2XSmS9LDGkIRIMHmNGmhTacmj2fN10DgZEgJLjycK/PY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OY4zqSNU; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2e0b9bca173so883469a91.0;
-        Thu, 03 Oct 2024 08:43:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727970185; x=1728574985; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hURBY1lzO7REooK5mjNAS8KwXTStCTB1Lf5ingG7fcI=;
-        b=OY4zqSNUv7nK8yWbxxUKqd6p2PJja3aDqKmPMFfy/L7TzjVuaVUIkQ/ijIYQ8rEP3o
-         xX3EIRZspOFKrnPSwZWGqlhVs6TYy8481o95WxW/jw0g94lrXUG5GhKpIgsyKYOYj8gZ
-         djFY5iNeT7zjdiS4UQqngVteYVq0R3FhL5X/TSJOR/zmiyI6rply4s7GIP4OJLp99vZk
-         w5Ku2Ke0JoJSOL1zQJLAKF3YhQgfMW90lzb6kaXasCuSFNyyIg9cgJJhKJBrvTI+2UP1
-         oYjhJWS6ja3W/+huqSRAECrKVOhDs5bKHK6iR+H/PTquAAtsy3ISdCXr6G/bJ9MB5hpl
-         vhew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727970185; x=1728574985;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hURBY1lzO7REooK5mjNAS8KwXTStCTB1Lf5ingG7fcI=;
-        b=EL5sTlxB+XQZBC6cuija4uU97ffCPXfCyS7qK1XJ10rGjbWfzZoiySayox7byYoD9C
-         YlvIZYpV2m7Rg9LB9aHmq6Gm5ItQOTKQKA1ttaP0GAlmTAtwY4lZMTMtTx//FhR0f3Nc
-         PwCf1MflIcW9zqsbspxMkXsqRzqPuSDS9ABHipy7dgS5xTTfrrzKcqWcAnfYlxwuJOqj
-         IuZHd7Zi2QdfUffEPdywSqy3e5FsfZKkpCrRfCBelcUEvjRR8BET/TaOEQ8ksJDL6Mxv
-         Aft+TPnVCPaRCNV5sxsfMWH6KXYLrsqdqLg3B6rQAy8rqqbFVMWFKw2YSjGocNZXsLnY
-         Sd5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX+4RO1wkir1PCfMBUOQjzgBg6H59ztC1QnqFzA0iKFrDvoHpmwPNFY1JdULWQ8VlIbbFbfML1A4uDuHzw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCYNoB6ZC0QoYuo4yYwwuluCmwSrKAEUBPNHIRJO84iUTqaPit
-	CzGjz0XrKQu/w26HuRDOn7BDlqwizIpVMGyXHIPtbuLI3nj7yVzonl1nGTiT
-X-Google-Smtp-Source: AGHT+IEIVgdQOv2W2/X46FmWBKGioeSwRMlz1/K7+Yl1EL+XxNm5Yp9DJAbwAm9JTMiGtaBP4UFqpw==
-X-Received: by 2002:a17:90a:66c8:b0:2d8:7804:b3a with SMTP id 98e67ed59e1d1-2e1849613d9mr7746895a91.26.1727970184586;
-        Thu, 03 Oct 2024 08:43:04 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:fba0:f631:4ed6:4411])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e18fa55002sm3917096a91.50.2024.10.03.08.43.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Oct 2024 08:43:04 -0700 (PDT)
-Date: Thu, 3 Oct 2024 08:43:01 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: linux-input@vger.kernel.org
-Cc: jingle.wu@emc.com.tw, josh.chen@emc.com.tw,
-	Phoenix Huang <phoenix@emc.com.tw>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: elan_i2c - switch to using cleanup functions
-Message-ID: <Zv67hbO1gDqgwxNK@google.com>
-References: <ZsrBC7qDbOvAaI-W@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CCXSG+6OiWgG31XfW7kuw/Q1mg2OAoVVtMcDe5M73sXQEzvujPLPhmuv+2dBCc0clz2TrtTAeGsh41cKBjbRb58Al4FLYZixNEv74Xs76FoLE4HHlr83py7WwqJKnDROIJVvZh2FkDdugMbWLKcPgw9PYQJ+Pb4VszlCP+Zcu0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nlUuerq6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF5DAC4CEC5;
+	Thu,  3 Oct 2024 16:01:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727971296;
+	bh=N1KpW62xffrI1xTNzdpqLWPuaaxVmpXQlBykvBKOYos=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nlUuerq6jbWlISvrN32hO7SexdrK03YY9JjbQN6uws4xuKYvBvihbcXTT9a9l5cHK
+	 pgguUwi+UAlqdOwiGtP+WPf88+D+hTQrTGq7bVjSoFwygpOQDegCToHeMaUrfQ9zPL
+	 TAFr4PDnJARhiYi62iuUl0ccT2fiwCLFAWBz1PmfZWWXngFtmQ+h1yiOMK3lD/vVO3
+	 EKUVNSE4Eiip8BSVk1iTVHvNkpSII5cib+lvnAhjjLS0Nfo/CWvAHcHwR5lWqx354J
+	 Df1fx1ilq9gb866aewtZ3zJTcjRRQayOe90l7mabPI0XvTtLrglCAONHdxgui35Hak
+	 u4M9kp0lRTlxQ==
+Date: Thu, 3 Oct 2024 18:01:30 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Werner Sembach <wse@tuxedocomputers.com>, Pavel Machek <pavel@ucw.cz>, 
+	Hans de Goede <hdegoede@redhat.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org, lee@kernel.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
+	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com, 
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+Message-ID: <cpt37kj2xqv6f5pb6bxgl53rxmmew6jdd647rsnrhowlphjq7i@dhp2655sl2sn>
+References: <586a1c41-bbe0-4912-b7c7-1716d886c198@tuxedocomputers.com>
+ <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
+ <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
+ <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
+ <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
+ <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
+ <c4e0beb6-acd1-45fa-ad47-f5cf9df89b11@gmx.de>
+ <74f8bd23-d85a-4f12-b8db-ebde59f3abe3@tuxedocomputers.com>
+ <swb45gt3vvctsmwgevo3ay6vkwoksasc64poj3tnaxsapxlsbg@kkmactexmclj>
+ <f2f013b9-6891-4aa0-9124-95775580f84e@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -82,21 +71,79 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZsrBC7qDbOvAaI-W@google.com>
+In-Reply-To: <f2f013b9-6891-4aa0-9124-95775580f84e@gmx.de>
 
-On Sat, Aug 24, 2024 at 10:28:43PM -0700, Dmitry Torokhov wrote:
-> Start using __free() and guard() primitives to simplify the code
-> and error handling. This makes the code more compact and error
-> handling more robust by ensuring that locks are released in all
-> code paths when control leaves critical section and all allocated
-> memory is freed.
+On Oct 02 2024, Armin Wolf wrote:
+> Am 02.10.24 um 10:42 schrieb Benjamin Tissoires:
 > 
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > On Oct 01 2024, Werner Sembach wrote:
+> > > Hi Armin,
+> > > 
+> > > Am 01.10.24 um 18:45 schrieb Armin Wolf:
+> > [...snipped...]
+> > > > Why not having a simple led driver for HID LampArray devices which exposes the
+> > > > whole LampArray as a single LED?
+> > > Yes that is my plan, but see my last reply to Benjamin, it might not be
+> > > trivial as different leds in the same LampArray might have different max
+> > > values for red, green, blue, and intensity. And the LampArray spec even
+> > > allows to mix RGB and non-RGB leds.
+> > > > If userspace wants to have direct control over the underlying LampArray device,
+> > > > it just needs to unbind the default driver (maybe udev can be useful here?).
+> > > There was something in the last discussion why this might not work, but i
+> > > can't put my finger on it.
+> > We recently have the exact same problem, so it's still fresh in my
+> > memory. And here are what is happening:
+> > - you can unbind the driver with a sysfs command for sure
+> > - but then the device is not attached to a driver so HID core doesn't
+> >    expose the hidraw node
+> > - you'd think "we can just rebind it to hid-generic", but that doesn't
+> >    work because hid-generic sees that there is already a loaded driver
+> >    that can handle the device and it'll reject itself because it gives
+> >    priority over the other driver
+> > - what works is that you might be able to unload the other driver, but
+> >    if it's already used by something else (like hid-multitouch), you
+> >    don't want to do that. And also if you unload that driver, whenever
+> >    the driver gets re-inserted, hid-generic will unbind itself, so back
+> >    to square one
+> > 
+> > So unless we find a way to forward the "manual" binding to hid-generic,
+> > and/or we can also quirk the device with
+> > HID_QUIRK_IGNORE_SPECIAL_DRIVER[0] just unbinding the device doesn't
+> > work.
+> > 
+> > Cheers,
+> > Benjamin
+> 
+> I see, maybe we can add support for the driver_override mechanism to the HID bus?
 
-Applied since there were no objections.
+hmm, we can, but only a couple of drivers would be valid: hid-multitouch
+and hid-generic AFAICT. All of the others are device specific, so
+allowing anybody to map a device to it might not work (if the driver
+requires driver_data).
 
-Thanks.
+> Basically userspace could use the driver_override mechanism to forcefully bind hid-generic
+> to a given HID device even if a compatible HID driver already exists.
+> 
 
--- 
-Dmitry
+that coud be an option. But in that case, I wonder if the LampArray
+implementation should be done in hid-led or in hid-input.c (the generic
+part). I don't know if the new devices will export one HID device for
+LampArray and one other for the rest, when the rest might need a
+specific driver.
+
+Anyway, thanks for the tip :)
+
+Cheers,
+Benjamin
+
+> Thanks,
+> Armin Wolf
+> 
+> > PS: brain fart:
+> > if HID LampArray support (whatever the implementation, through Pavel's
+> > new API or simple LED emulation) is in hid-input, we can also simply add
+> > a new HID quirk to enable this or not, and use that quirk dynamically
+> > (yes, with BPF :-P ) to rebind the device...
+> > 
+> > [0] https://lore.kernel.org/linux-input/20241001-hid-bpf-hid-generic-v3-0-2ef1019468df@kernel.org/T/#t
 
