@@ -1,80 +1,68 @@
-Return-Path: <linux-input+bounces-7043-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7044-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12FBE98EE60
-	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2024 13:46:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B73998EFC1
+	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2024 14:55:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A53D8B23E3B
-	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2024 11:46:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D5AA1C216AF
+	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2024 12:54:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9406514F12D;
-	Thu,  3 Oct 2024 11:46:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DFCF195F28;
+	Thu,  3 Oct 2024 12:54:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="larTJzim"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KEl8PKRa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD4713D245;
-	Thu,  3 Oct 2024 11:46:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDCB155314;
+	Thu,  3 Oct 2024 12:54:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727956001; cv=none; b=a7u0ypEg+p20zOekeAjcdHSJmOwDwf8rnWSpxtDrQJg82jF6IaieVLPBb+W/N6gPopxzh+ZDKOo1R+FoXEI/O5Z0X17hMkWk0OqHk+pSMFGuZiODcALY7O9fSb3uPSaVt9Ez3OGznbiMbdao32D1BumyLx3y/D3tdF0bKrp0has=
+	t=1727960094; cv=none; b=HYuC3VlwY/G/B7U6G02Ket8DMX0imOx7SVaQkl5pn3NgQjVPM3YRQ5ssxjr56LHNo7kY7RxA0x60kUwnWxaGhTeX9VnCX0lV0rmvHngSikUy6rKf19ON0FxOt4R68adadUfCwyzuzxxCpB+DqPvtE6EiVWnkbmqnLOZBe0WNR8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727956001; c=relaxed/simple;
-	bh=sBxW+KZU+ioaWiugsFWBycVCH29FrwaIOZPhAdwh4+8=;
+	s=arc-20240116; t=1727960094; c=relaxed/simple;
+	bh=jQAcHVSSj5IEV8CkJIYNkBOVkifIG505tJlB5w5mV4g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nit/r1s0feFxHu3VFc62yMM6mRVtDMIqQcm71CsupfliPvTMcBRouyQs399bZX8pMunOKNLPBfR3Mv1lRWbvgF2izko3K26JxHahZapoyUY0/rgTeP3SZmzctD4rO0wOdz9FdCzsUewMrBTlMTXut24ZpBa+B/IXhlBjJZJaMe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=larTJzim; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20b7463dd89so8609145ad.2;
-        Thu, 03 Oct 2024 04:46:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727955999; x=1728560799; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dxoosp2XHhfn2bD9oac9bz/JCfWimb3Tn75xzIZVdsM=;
-        b=larTJzimcrt6DRId/duJJfJvQju4LOPuxjBA35J9PxY7PqIYjhexaL7Qx8azFOT88O
-         BaILYh90u5nKlVIed6uYYMtdxJ/w352JlV9mDkUVaHFB9wuiFxPq1jLKePatZ6wBrv1i
-         bNyefSDo0HZm0f3vb6VujGVW1NxKFcYwSOaaYbWvsCSEB60/BEtCq/BU+8HvnsHGRJMQ
-         NhqUnf+FNm0T1unhTNBwR+0s8E0YSfZxvnCKm96w+E/wgUo95mor+NM/hMVKCuFn1zAY
-         wX3Yby9t0J0fIOSfS4DCknK4cPlm4ssKNf2OHgR5t5YQGfIyRb0by3KrOTarupSYa+Lq
-         dhVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727955999; x=1728560799;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dxoosp2XHhfn2bD9oac9bz/JCfWimb3Tn75xzIZVdsM=;
-        b=TzUJuHkYXmVV7NataGRkXUk+GUL6TVp9Rdwor2Th5MlWS4m6CUnfRuVB684Cs/Xv5I
-         6U2cKbXT5vExp85+RYmDRPPpxp5g7RYeK31jkIqtVr9P8naJqLpct0XnTpJsxPqQBGnU
-         1Er+O0OlmRP/idVL2CoS7SD1tCxQxKvuogsFly/ZmItT4gOspcSmus4fu+RcJykZ4eHt
-         +7odbD50Stt+2nNmOpJywrdoCsL6uhsjIJLVjhfx17VXtsmJ1TZADHgRGzHzOvgep3dH
-         jYO1IIjeGSVPq1n+G7DkYg4Fu6+/o+PMiLx9+eTJ++eK7NQ7R9xo094dVLdDrm3Y/fHS
-         SiQg==
-X-Forwarded-Encrypted: i=1; AJvYcCX4YOuAbGXC6wCDkWhMh2J0+ChuNi3A0VkAoIzoL4Z+vsSI7to7yAkomcRqctSodu3lCefCGLMxrq+4px2B@vger.kernel.org, AJvYcCX7/NO8qp4iBb34H2QMClfsfdw+6/PWI1r2Vj15ccC+u4BW35GU7+rIMhLcHEfrvv57l61l4/KgMs8+pQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaXl3ZLDwzSWVH9E+c70QRLG3b8tvRGeXVN8xL+2e8ReGc0h0n
-	St1v2RIlJvKTUGDWQgQYedtDbk8l3O/dEdq0RuYB3c7Uph4UvaZb
-X-Google-Smtp-Source: AGHT+IE/nZh0I7/GCo28tPCNxTDPgf1eXfIKjjF4dp2s5mm77ovbV0hIFr+dPxydoiidBwnomT1TWQ==
-X-Received: by 2002:a17:902:c405:b0:20b:84be:712c with SMTP id d9443c01a7336-20bc5a875e7mr107331865ad.55.1727955999406;
-        Thu, 03 Oct 2024 04:46:39 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:fba0:f631:4ed6:4411])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20beeca6fb0sm7659275ad.75.2024.10.03.04.46.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Oct 2024 04:46:39 -0700 (PDT)
-Date: Thu, 3 Oct 2024 04:46:35 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Giulio Benetti <giulio.benetti@benettiengineering.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: hycon-hy46xx - add missing dependency on
- REGMAP_I2C
-Message-ID: <Zv6EG6EYRJTFuf2o@google.com>
-References: <20241002-input-hycon-hy46xx-select-remap-i2c-v1-1-08f6e83b268a@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zg1gUIxNlOKRyspO3ON3eWJ0S7pK/9vf8lMpQOU3D/8p0r7yd0qcHZvA/0/ovZlA1rxE2Xkv0jXaymv+nQ68tToQVEtGgEP5Dww0nGTUgRP6W1l8aS9LSC16QP2ZfHsmWTHhOWlMWo1THRowSwE2i1el6PEkBIN/bxKlA9/PiG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KEl8PKRa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55D8EC4CEC5;
+	Thu,  3 Oct 2024 12:54:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727960093;
+	bh=jQAcHVSSj5IEV8CkJIYNkBOVkifIG505tJlB5w5mV4g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KEl8PKRamd+RdDBI2RD8Z/e4/D7pfJ4E5rGZFR4DNlzmuTKsoB/7cKhjZYq8J9z7s
+	 sfpRthwojqLH76Th5UzTpp7jd2Cs9PgFAC4O9X+e/6ukr9lghJbvAjui6VnZM8mhNq
+	 OWkf4WXxUsDd+c2RIoPxb8sq5ZC/Yc94jd2e8k4s5IsPmrk2wFy5DSy59RrbX6s3zc
+	 Hle7UA5a/MnORU0HfbvSSG59/AA7vlFGLd7vYsNBP08HhAkAYsQDTnW2YPtt4qt8Pt
+	 pVCxmYKOkj3RhHODhydc6DLqhPaV8R8ZlkXn+elbcVl2YJYTiy/u5Ju6aYEhgOyfsI
+	 7KjSTmi4kTgtQ==
+Date: Thu, 3 Oct 2024 14:54:47 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Werner Sembach <wse@tuxedocomputers.com>, Armin Wolf <W_Armin@gmx.de>, 
+	Hans de Goede <hdegoede@redhat.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org, lee@kernel.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
+	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com, 
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+Message-ID: <ysidntvhwmqwe5o6rpshtoam674lwnkook747ni5dbf4z5sf3a@vdf44xu2ydjz>
+References: <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
+ <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
+ <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
+ <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
+ <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
+ <Zvxjo/CYXmKw2jjM@duo.ucw.cz>
+ <rdo2yyy5dxsxrfm7bweuuvsqjzjelyevo5xvufixuiyrdlf7pc@mprc7pzbpnla>
+ <Zv0YI3qIEg88Dx4c@duo.ucw.cz>
+ <hdahq2vfi3bnvaqswwdtave2kc2qm3ngvcwn6cgfiirfjfbqnz@zk77mbs3yktp>
+ <Zv54/T+6znqZB3X9@duo.ucw.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -83,17 +71,206 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241002-input-hycon-hy46xx-select-remap-i2c-v1-1-08f6e83b268a@gmail.com>
+In-Reply-To: <Zv54/T+6znqZB3X9@duo.ucw.cz>
 
-On Wed, Oct 02, 2024 at 10:56:37PM +0200, Javier Carrasco wrote:
-> hideep makes use of regmap_i2c, and it has to be selected within its
-> Kconfig entry to compile successfully.
+On Oct 03 2024, Pavel Machek wrote:
+> Hi!
 > 
-> Fixes: aa2f62cf211a ("Input: add driver for the Hycon HY46XX touchpanel series")
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> > > (Hint: it is LEDs below regular keyboard.)
+> > 
+> > Yes, I know, and if you read this email and the few others, you'll read
+> > that I own a few of them already (for a long time), and I worked on a
+> > cross vendor userspace API to configure them. So I know what I am
+> > talking about.
+> 
+> Ok.
+> 
+> > > > The positions of the pixels also depend on the physical layout of the
+> > > > keyboard itself. So with the same vendor ID/Product ID, you might have
+> > > > different pixel positions if the device is sold in Europe, or in the
+> > > > US.
+> > > 
+> > > If vendor sells different hardware with same IDs, well 1) that's a
+> > > nono, a 2) that's what kernel parameters are for.
+> > 
+> > This is already the case (hello hid-uclogic), and no, kernel parameters
+> > are not helping. In that case (uclogic), we ask the device a specific
+> > USB string which has the information, but is not part of HID. This is
+> > dumb, but we don't control hardware makers.
+> 
+> Well, good you find other solution. Kernel parameter would have worked
+> as a fallback.
 
-Applied, thank you.
+This is probably a side topic, but IMO, kernel parameter are most of the
+time the worst solution. Basically we are asking people to look for
+solutions on random forums and they have to manually add the parameter
+in their bootcmd. But that's a different topic.
 
--- 
-Dmitry
+Of course, I'm not saying kernel parameters are just a bad thing: being
+able to enable specific debug or some per user configuration (like
+enabling disabling a feature) is a whole different story. It's just
+"kernel parameter to fix a device" that I dislike.
+
+> 
+> > > > But that's just the "easy" part. We can define a kernel API, for sure,
+> > > > but then we need users. And there are several problems here:
+> > > > 
+> > > > - first, users of this new kernel API need to be root to address the
+> > > >   LEDs. They probably won't, so they'll rely on a third party daemon for
+> > > >   that, or just use uaccess (yay!). But that part is easy
+> > > 
+> > > Eventually, desktop environment should talk the interface. (Plus, how
+> > > does HID or BPF craziness help with his?)
+> > 
+> > HID helps because we already have the case with game controllers. Steam
+> > and SDL (both widely use), put rules giving uaccess to hidraw nodes on
+> > those controllers. So we finally made the jump and now provide in v6.12
+> > a new hidraw ioctl to allow logind to revoke the hidraw node. This
+> > should allow us to not give uaccess to those hidraw nodes.
+> > 
+> > So in the near future, there will be a portal available, that says
+> > "please give me a fd for this hidraw node", the compositor will then ask
+> > logind to open the file for it and then will pass that fd to the final
+> > application. Once there is a vt-switch, logind will revoke the fd,
+> > meaning that the application will not have access to the device.
+> 
+> Yes, you can work around kernel not providing abstractions. But you
+> should not have to.
+> 
+> > > > - but then, even if you make everyones happy, the GUI project is
+> > > >   actually cross-platform (OpenRGB is, Steam is, SDL is). And what is
+> > > >   done on Windows is simple: raw access to the HID device. And the
+> > > >   raw
+> > > 
+> > > Yes, Windows is a mess. We don't want to emulate them.
+> > > 
+> > > > I've been through this exact same process with Input and game
+> > > > controllers, and even for libratbag for configuring gaming devices. In
+> > > > the end, the kernel developer never wins, but the userspace
+> > > 
+> > > Yes, we have been in this exact situation. Userland was directly
+> > > accessing mice. It was called "gpm" and we moved away from that for
+> > > good reasons.
+> > 
+> > There is a slight difference between mouse support and LEDs on your
+> > keyboard. The former is actually required to bring up the machine and to
+> > use it, the latter is nice to have.
+> 
+> But that's not the difference that matters. Linux is not microkernel,
+> and is trying to provide hardware abstractions. (Except for printers,
+> I guess that's because printers are often network devices).
+> 
+> Besides, mouse was not required to bring up a machine "back then".
+> 
+> Besides,
+> 
+> 1) using those keyboards in dark room without backlight is hard,
+> because their labels are translucent and not having enough contrast.
+> 
+> 2) rainbow effects make people ill.
+
+And I agree with you here. And that's also why I agree with Werner's
+plan: have a minimum support in kernel for that with the already
+supported LED class, which is supported by UPower and others, and let
+the ones who want the fancy effects be in charge of their mess.
+
+To me, there is no value in designing a new API, gather all the
+requirements, try to make it perfect, when the users will just say
+"nope, we rather talk to hidraw because we can have the same code on
+Linux, Windows and Mac".
+
+This is what happened to us with SDL and Steam. We added support for the
+PlayStation controllers, the XBox ones, the Wii, and many others,
+through the regular input and FF stacks. But all they want is being able
+to disable what the kernel is doing because they are using the device
+differently and in the same way on Windows, Mac and Linux.
+
+And if you look at OpenRGB (or any other tool that configures multiple
+crazy LEDs devices), they are all doing the same thing, *already*. So if
+we come to them with a new fancy interface, they'll just laugh at us.
+
+(and no, it's not just a hidraw problem, they are actually dettaching
+the USB device entirely, having a userspace USB library and then on top
+of it parse the HID data with a userspace HID library).
+
+> 
+> Note how we have drivers for audio, LEDs, cameras, dunno, iio sensors,
+> none of that is required to bring system up.
+> 
+> We need driver for the WMI stuff in kernel. And that point it should
+> be pretty clear proper driver/subsystem should be done.
+
+Yes, and again, I never said we need to provide WMI to userspace.
+
+What I want is:
+- provide a minimum support on Linux using already existing APIs (LED
+  class)
+- allow crazy people to do their thing if they want to have a rainbow
+  initiated by every key press
+- ensure the minimum support of the LED class is not messed up when
+  people start using the HID LampArray API.
+
+HID LampArray is a ratified standard by a few hardware makers already[0]
+(Acer, Asus, HP, Logitech, Razer, SteelSeries and Twinkly apparently).
+They already made the job of knowing their requirements. From the
+kernel, we probably don't need all of this. But they have users who
+cares. So providing the minimum support in Linux and a way to forward
+more advanced usage seems like a good way to me.
+
+> 
+> > > > If you want a 100 lines of code program to control your keyboard, with
+> > > > LampArray, you can, as long as you don't require a GUI and don't require
+> > > > to be generic. Just write the values directly on the hidraw device,
+> > > > and
+> > > 
+> > > Haha, no. Kernel part was 400+ lines, no way you can parse that in 100
+> > > lines.
+> > 
+> > I'm not saying "parsing", I mean adapt to your use case. If you know
+> > your device, your simple CLI is just writing a static array of bytes to
+> > the hidraw interface.
+> 
+> No. Hardware abstraction is kernel work, my application should work
+> everywhere.
+
+So when you say "Kernel part was 400+ lines" you mean the HID parsing of
+the report descriptor? You don't want to use a already existing HID
+parsing library?
+
+Because if you want a plain C program without anything outside stdlib,
+then yes, 100 LoC is going to be tricky. But if you can cope with a HID
+parsing library, setting the color of a keyboard driven by LampArray is
+a single write to the hidraw node (see page 345 of HID HUT 1.5[1]):
+
+LampRangeUpdateReport(LampIdStart==0, LampIdEnd==(LampCount-1),
+RGBI==color)
+
+where LampCount is found in the report descriptor and color a simple
+(r,g,b) value.
+
+> 
+> > > What is relevant that these crazy arrays are not going to be merged,
+> > > and better solution is needed.
+> > 
+> > Again, you seemn to miss the point: those crazy arrays should have been
+> > in the firmware from day one. They are not, so the idea is to convert
+> > proprietary protocol into a standard. Then we can start thinking what
+> > comes next.
+> 
+> Firmware is what it is and we have to deal with that.
+> 
+> (Not to mention that "standard" you are citing is not used by anyone
+> and is ugly as hell. So not even open hardware such as MNT Reform uses
+> it).
+
+See Microsoft's pledge[0] and the list of vendors I quoted. And again, I
+don't care if it's ugly as long as we have minimal support in the kernel
+and can let userspace deal with this, if they want.
+
+
+Cheers,
+Benjamin
+
+[0] https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/dynamic-lighting-devices
+[1] https://www.usb.org/sites/default/files/hut1_5.pdf
 
