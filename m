@@ -1,198 +1,113 @@
-Return-Path: <linux-input+bounces-7055-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7056-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E18C98F58F
-	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2024 19:49:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D4C98FC98
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 05:58:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9139280F51
-	for <lists+linux-input@lfdr.de>; Thu,  3 Oct 2024 17:49:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B6A652839AA
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 03:58:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B4691A7AF5;
-	Thu,  3 Oct 2024 17:49:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5A064965B;
+	Fri,  4 Oct 2024 03:58:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hixontech.com header.i=linux-kernel-bugs@hixontech.com header.b="DXKfSwHc"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="muhJ49DD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0922A1AAE00;
-	Thu,  3 Oct 2024 17:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727977794; cv=pass; b=JTzBE+0JSw0p2EWe+j6zVzQMWmlIvfMMHWqzBgZo1uD7puu5xy/WC+o6qHxWtGprwN3DUibfjcifNrHm9DvxrhNIl947H82TE6r93pGoeUyh4qv+gcgn7sjhB4hPDsw02CWEkqdvwd82wn2T95QspZxMv/cS0tHm+QZw7d1p8uc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727977794; c=relaxed/simple;
-	bh=hR+e9OePYExvP7EAJ37urcVKISLWEHPPc8qnvYj/dC4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bz1GBKeZJpL68z1fcmFVNNvglVhw0V3+S7lSUTEM9xRXpzLNRLKwDa7HGcIKJBRnbxDTLfSzdiD1Q9iY4ITv0iuCujZODdCCh6UfEJPHLTlWTXko5K2vvFYf6biPRemXik4mJyndOy22+ElpdRZXEKD1IbjuzG/LAiMKUrQI5kY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hixontech.com; spf=pass smtp.mailfrom=hixontech.com; dkim=pass (1024-bit key) header.d=hixontech.com header.i=linux-kernel-bugs@hixontech.com header.b=DXKfSwHc; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hixontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hixontech.com
-ARC-Seal: i=1; a=rsa-sha256; t=1727977769; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=SM7zHObONjfOGxTVyBdB92QGHoZf8cIKyrR21kXVFsKgvLp8KZgdaJ204n9iKrRWcwnNLKH2PAhW4p6+TmaNVs7Kk1ajYHNpR6H0yZQrPMHlwcvUMR5LmdCjFXmC5oxHAXzPtfejLlfk7nZ5vElmWP2BhgMXNcudwRUrGb757a0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1727977769; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Reply-To:References:Subject:Subject:To:To:Message-Id; 
-	bh=kkUScEqJNg9brIJOi0NUV5FRWLz61DIRBIQvF/UZTqQ=; 
-	b=U6MBgqV4UmI9ApNvWDdqkmPM5n0ZHoNSdvmB52icRBd7CrzOCM0PfWxIgYKZiwyt/D+coUrEWlLi2xGQMVxCK3EUPfyBCb00yB+dts4LOfeN0177b4QuV/qyDv03/qCmw4ROoNFh80/2X0oPZ98PQu/WVBF06HE74sZATYyuDjo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=hixontech.com;
-	spf=pass  smtp.mailfrom=linux-kernel-bugs@hixontech.com;
-	dmarc=pass header.from=<linux-kernel-bugs@hixontech.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1727977769;
-	s=zoho; d=hixontech.com; i=linux-kernel-bugs@hixontech.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:Reply-To:Reply-To:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id;
-	bh=kkUScEqJNg9brIJOi0NUV5FRWLz61DIRBIQvF/UZTqQ=;
-	b=DXKfSwHcOD7UIFp+KXqaKMtWuBC3eDoWY9R2L6t2Cdmomz8dNim8L9q7ca5b4Jtf
-	uoXUR6CImcZPS4EYNpV9Xv8GiA2kvyUJPXwqEN07MF6yn7vvnt15CH/N0fxLcV56G+F
-	uZdxuLvUHu1Oga/S8GqImd7IiMw5zTHTjQ8LPonQ=
-Received: by mx.zohomail.com with SMTPS id 1727977767705568.6452099080866;
-	Thu, 3 Oct 2024 10:49:27 -0700 (PDT)
-Message-ID: <58fac815-e630-4ece-9dba-18dc255a0d1b@hixontech.com>
-Date: Thu, 3 Oct 2024 11:49:25 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310632E646
+	for <linux-input@vger.kernel.org>; Fri,  4 Oct 2024 03:58:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728014286; cv=none; b=kNnYq1t6q3dQO3xBrB/vXrJILGOo4Ki54dEUIoHRfZgkTTcdtGN70wkGL9dgzcGHwSwoH+1Yiwogkchya56mtoaacnzUH6b9ebEKUV0LHR5QJrakI8xNJ72+qX3dnYRjyhFgO6gdguIYPScPybkZyLyy9mJT/eZIel0voRxeVXc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728014286; c=relaxed/simple;
+	bh=kjYW+QziEcVJXhaCqljSKWk/0TU8L4We7FSabEho0l8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BqrVP/Swh7QXRRVNig+EnlPUSM1w3H2gouOfW1TmVv5D56Wx5Lcdcvu/oRHPeIecXlQMYqKCw4kVBjNGy1+tyxeGM6tDJyx0cRVfjrVlW3K790WaOsVeKoAda6WSm8jY2I1tcpoUtDzShBq0U55FaLY2rKcBYgTWxmLmz2B3FHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=muhJ49DD; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-53993c115cfso2199863e87.2
+        for <linux-input@vger.kernel.org>; Thu, 03 Oct 2024 20:58:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1728014283; x=1728619083; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kjYW+QziEcVJXhaCqljSKWk/0TU8L4We7FSabEho0l8=;
+        b=muhJ49DDdDv70KFp+KUb7EQGohzret80q3sPOsidq508tJGnblLU8S7/GQ5NbBnKyl
+         5ogCjedh0afteJm1S5fHanT2vem3iVTht+kAac0o4+CSlTrevaF4Njf4l9yZL7WFtZ+I
+         Iz7Oldrytx8OqpccbVXGxoF+6GNgNQFh9vcVU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728014283; x=1728619083;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kjYW+QziEcVJXhaCqljSKWk/0TU8L4We7FSabEho0l8=;
+        b=sTiP/PrXfvZgjXHy8pdw3mzjpbN+T4GO42GxvZRztv0hiCVRAOkY3WM9X1gKWRvG3g
+         9MI7Ms31mCTNPwzfx1c8dEif+dXl+Czc00gP1sCAEqMbqUvlKmf4KiEW33ssOIjwVZis
+         /XFx8JdxpJANVKJl6bS3d5A+rsLwJLx/m+MC08Ys1az60Kn9g3E7j0IIDEom7Q064SyJ
+         vaJM/OrZ140OcKXV0MOSHVuRTyPvQl7GijZrHV/j/RBEOjWVb1KJlAA81mmGU/bMCFB9
+         EdMvaAejWiim2S47rV2dGRFtrkDp30+SWSFabZt9C7dFByL5+RqSLQY9yBFTc+nFM/11
+         CgpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW0QDGKzaeT2GhtlPYV5XXShCNqDcZdI87JTC8+1JIGG9c2OVRQGOrDqo35BO34nziZSVAn+ajmbiLTKA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXrHtL0xaUnMzV6oS60CcAo0iVos52dg6ga8+1C4kgOCsodzSc
+	M19vDEa+7JwDFtR3ETftCk79JUR2XnjwySyrIk5sfqLNaS878l7XfybDc42/iwZrJkDdFj0MAZ9
+	gPprrFonzEd3GYkhH17dmJxMgMiPyq8/qU6CC
+X-Google-Smtp-Source: AGHT+IGCSauXsJLec2oJrPfkYs9NEcva9UvjTHFkP+w1oM/AcTWaw9QXjbewWHBIo/wx6d90jb2ssOchDoJfghPpNZY=
+X-Received: by 2002:a05:6512:282b:b0:539:8b1d:80b2 with SMTP id
+ 2adb3069b0e04-539ab88c3e8mr685562e87.33.1728014283144; Thu, 03 Oct 2024
+ 20:58:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [regression] AMD SFH Driver Causes Memory Errors / Page Faults /
- btrfs on-disk corruption [Was: .../ btrfs going read-only]
-To: Linux regressions mailing list <regressions@lists.linux.dev>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Cc: Jiri Kosina <jkosina@suse.com>, linux-input@vger.kernel.org,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- akshata.mukundshetty@amd.com, LKML <linux-kernel@vger.kernel.org>,
- Skyler <skpu@pm.me>, Richard <hobbes1069@gmail.com>,
- linux-btrfs <linux-btrfs@vger.kernel.org>,
- "Limonciello, Mario" <Mario.Limonciello@amd.com>
-References: <90f6ee64-df5e-43b2-ad04-fa3a35efc1d5@leemhuis.info>
- <3a9b2925-57fb-4139-8cf5-a761209c03cc@hixontech.com>
- <056770ff-90e6-4140-b964-862a1503fa3b@leemhuis.info>
-From: Chris Hixon <linux-kernel-bugs@hixontech.com>
-Content-Language: en-US
-Reply-To: linux-kernel-bugs@hixontech.com
-In-Reply-To: <056770ff-90e6-4140-b964-862a1503fa3b@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241001093815.2481899-1-wenst@chromium.org> <ZvvHdlD6E5bzsWwV@google.com>
+ <ZvvX5KcKaVBLedD1@finisterre.sirena.org.uk> <ZvvyEux8f2ylRQOn@google.com>
+ <7db1299f-f925-4689-806f-f1ea4191fd4c@sirena.org.uk> <Zvv1FuXBZpjDefb8@google.com>
+ <6626b1f3-7c3a-4531-b006-9e29155025f0@sirena.org.uk>
+In-Reply-To: <6626b1f3-7c3a-4531-b006-9e29155025f0@sirena.org.uk>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Fri, 4 Oct 2024 11:57:51 +0800
+Message-ID: <CAGXv+5HYv3v3MMknjPvOf_hKEHM_UEmz7R3ATmpindebcK_FKQ@mail.gmail.com>
+Subject: Re: [PATCH] Input: elan_i2c - Wait for initialization after enabling
+ regulator supply
+To: Mark Brown <broonie@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Oct 1, 2024 at 9:13=E2=80=AFPM Mark Brown <broonie@kernel.org> wrot=
+e:
+>
+> On Tue, Oct 01, 2024 at 06:11:50AM -0700, Dmitry Torokhov wrote:
+> > On Tue, Oct 01, 2024 at 02:06:19PM +0100, Mark Brown wrote:
+>
+> > > Yeah, but that's got to get washed through the individual system
+> > > firmwares to get deployed and my confidence in vendors is not high.
+>
+> > I think native Elan is only used in Chromebooks where firmware is
+> > decent, the rest are I2C-HID.
+>
+> Ah, OK - in that case I agree there should be no problems with ACPI.
+
+FWIW all the users on ARM (at least in kernel) are also Chromebooks,
+and all their supplies are either missing or marked as always on.
+
+So I suppose to avoid affecting the power sequencing time, we should delay
+this until there is proper support to handle wait times with the regulator
+API.
+
+I might find time to work on that but I make no promises at the moment.
 
 
-On 10/2/2024, 6:29:59 AM, "Linux regression tracking (Thorsten Leemhuis)" wrote:
-> [CCing Richard, who apparently faces the same problem according to a
-> recent comment in the bugzilla ticket mentioned earlier:
-> https://bugzilla.kernel.org/show_bug.cgi?id=219331#c8
-> 
-> CCing Mario, who might be interested in this and is a good contact when
-> it comes to issues with AMD stuff like this.
-> 
-> CCing the Btrfs list as JFYI, as all three reporters afaics see Btrfs
-> misbehavior or corruptions due to this.
-> 
-> Considered to bring Linus in, but decided to wait a bit before doing so.]
-
-This patch from Basavaraj Natikar seems to solve the issue for me:
-
-https://lore.kernel.org/linux-input/20241003160454.3017229-1-Basavaraj.Natikar@amd.com/
-
-Tested-by: Chris Hixon <linux-kernel-bugs@hixontech.com>
-
-
-My original report:
-
-https://lore.kernel.org/all/3b129b1f-8636-456a-80b4-0f6cce0eef63@hixontech.com/
-
-Reported-by: Chris Hixon <linux-kernel-bugs@hixontech.com>
-
-
-Thanks!
-
-> 
-> On 01.10.24 23:40, Chris Hixon wrote:
->> On 10/1/2024, 12:56:49 PM, "Linux regression tracking (Thorsten Leemhuis)" wrote:
-> 
->>> Basavaraj Natikar, I noticed a report about a regression in
->>> bugzilla.kernel.org that appears to be caused by a change of yours:
->>>
->>> 2105e8e00da467 ("HID: amd_sfh: Improve boot time when SFH is available")
->>> [v6.9-rc1]
->>>
->>> As many (most?) kernel developers don't keep an eye on the bug tracker,
->>> I decided to write this mail. To quote from
->>> https://bugzilla.kernel.org/show_bug.cgi?id=219331 :
->>>
->>>> I am getting bad page map errors on kernel version 6.9 or newer.
->>>> They always appear within a few minutes of the system being on, if
->>>> not immediately upon booting. My system is a Dell Inspiron 7405.
->> [...]
->>>> [   23.234632] systemd-journald[611]: File /var/log/journal/a4e3170bc5be4f52a2080fb7b9f93cf0/user-1000.journal corrupted or uncleanly shut down, renaming and replacing.
->>>> [   23.580724] rfkill: input handler enabled
->>>> [   25.652067] rfkill: input handler disabled
->>
->>>> [   34.222362] pcie_mp2_amd 0000:03:00.7: Failed to discover, sensors not enabled is 0
->>>> [   34.222379] pcie_mp2_amd 0000:03:00.7: amd_sfh_hid_client_init failed err -95
->>
->> No sensors detected - do we all have that in common?
-> 
-> Skyler, Richard?
-> 
->>>> [...]
->>> See the ticket for more details and the bisection result. Skyler, the
->>> reporter (CCed), later also added:
->>>
->>>> Occasionally I will not get the usual bad page map error, but
->>>> instead some BTRFS  errors followed by the file system going read-only.
->>>
->>> Note, we had and earlier regression caused by this change reported by
->>> Chris Hixon that maybe was not solved completely:
->>> https://lore.kernel.org/all/3b129b1f-8636-456a-80b4-0f6cce0eef63@hixontech.com/
->>
->> This looks like the same issue I reported.
-> 
-> And sounds a lot like what Richard sees, who also sees disk corruption
-> with Btrfs (see https://bugzilla.redhat.com/show_bug.cgi?id=2314331 ).
-> 
->>> Chris Hixon: do you still encounter errors, or was your issue
->>> resolved/vanished somehow?
->>
->> I still encounter errors with every kernel/patch I've tested. I've blacklisted 
->> the amd_sfh module as a workaround, but when the module is inserted, a crash
->> similar to those reported will happen soon after the (45 second?) 
->> detection/initialization timeout. It seems to affect whatever part of the
->> kernel next becomes active. I've had disk corruption as well, when BTRFS is
->> affected by the memory corruption,
-> 
-> Skyler, did you see btrfs disk corruption as well, just like Chris and
-> Richard did?
-> 
->> so I've ended up testing on a USB stick I
->> can reformat if necessary. I haven't tested new patches/kernels in a while
->> though. I'll get back to you after I've tried the latest mainline. Also note
->> that I've tried Fedora Rawhide's debug kernel,
-> 
-> From what I see it seems all three of you are using Fedora. Wonder if
-> that is a coincidence.
-
-Note: I don't think it's a Fedora issue. I've had the problem on multiple
-distros, with any kernel >= 6.9 - anything with the "bad" commit.
- 
->> which has a ton of debugging
->> options including KASAN, but nothing seems to point the finger at something
->> originating in amd_sfh code. Is it possible the hardware itself (the mp2/sfh
->> chip) is corrupting memory somehow after some misstep in
->> initialization/de-initialization? Also if you look at my report, you'll see I
->> have no devices/sensors detected by amd_sfh - I wonder if other reporters all
->> have this in common? (noted in dmesg output above from another user)   
-> 
-> Given that Basavaraj Natikar never really addressed Chris earlier report
-> from months ago and the severeness of the problem I'd wonder if we
-> should revert the culprit to resolve this quickly, unless some proper
-> fix comes into sight soon. Sadly from a quick look that would require
-> multiple reverts afaics. :-/
-> 
-> Ciao, Thorsten
-> 
-
+ChenYu
 
