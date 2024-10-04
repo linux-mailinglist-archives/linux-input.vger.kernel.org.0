@@ -1,113 +1,143 @@
-Return-Path: <linux-input+bounces-7056-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7057-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D4C98FC98
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 05:58:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D915998FCD6
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 06:52:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B6A652839AA
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 03:58:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D1FA81C21D39
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 04:52:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5A064965B;
-	Fri,  4 Oct 2024 03:58:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 823D82AD11;
+	Fri,  4 Oct 2024 04:52:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="muhJ49DD"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="NJxNx4jD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310632E646
-	for <linux-input@vger.kernel.org>; Fri,  4 Oct 2024 03:58:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4699475;
+	Fri,  4 Oct 2024 04:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728014286; cv=none; b=kNnYq1t6q3dQO3xBrB/vXrJILGOo4Ki54dEUIoHRfZgkTTcdtGN70wkGL9dgzcGHwSwoH+1Yiwogkchya56mtoaacnzUH6b9ebEKUV0LHR5QJrakI8xNJ72+qX3dnYRjyhFgO6gdguIYPScPybkZyLyy9mJT/eZIel0voRxeVXc=
+	t=1728017520; cv=none; b=UkqyAfWOqtCVcgBBrTS4j/HAKofvb3y9eAsInk0/aTn+1l15+BJELSPxI3xq9yAzsPRYQ7GHn5ZExxFPOlJkmm8PxVOWCjTf2WiWJCjm47pbq8dQp1WOJQp0ynwtGfIrEA5in9CKiZQw/UEMuASH+q5+COzPWpi8YYOWqHtuH7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728014286; c=relaxed/simple;
-	bh=kjYW+QziEcVJXhaCqljSKWk/0TU8L4We7FSabEho0l8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BqrVP/Swh7QXRRVNig+EnlPUSM1w3H2gouOfW1TmVv5D56Wx5Lcdcvu/oRHPeIecXlQMYqKCw4kVBjNGy1+tyxeGM6tDJyx0cRVfjrVlW3K790WaOsVeKoAda6WSm8jY2I1tcpoUtDzShBq0U55FaLY2rKcBYgTWxmLmz2B3FHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=muhJ49DD; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-53993c115cfso2199863e87.2
-        for <linux-input@vger.kernel.org>; Thu, 03 Oct 2024 20:58:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1728014283; x=1728619083; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kjYW+QziEcVJXhaCqljSKWk/0TU8L4We7FSabEho0l8=;
-        b=muhJ49DDdDv70KFp+KUb7EQGohzret80q3sPOsidq508tJGnblLU8S7/GQ5NbBnKyl
-         5ogCjedh0afteJm1S5fHanT2vem3iVTht+kAac0o4+CSlTrevaF4Njf4l9yZL7WFtZ+I
-         Iz7Oldrytx8OqpccbVXGxoF+6GNgNQFh9vcVU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728014283; x=1728619083;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kjYW+QziEcVJXhaCqljSKWk/0TU8L4We7FSabEho0l8=;
-        b=sTiP/PrXfvZgjXHy8pdw3mzjpbN+T4GO42GxvZRztv0hiCVRAOkY3WM9X1gKWRvG3g
-         9MI7Ms31mCTNPwzfx1c8dEif+dXl+Czc00gP1sCAEqMbqUvlKmf4KiEW33ssOIjwVZis
-         /XFx8JdxpJANVKJl6bS3d5A+rsLwJLx/m+MC08Ys1az60Kn9g3E7j0IIDEom7Q064SyJ
-         vaJM/OrZ140OcKXV0MOSHVuRTyPvQl7GijZrHV/j/RBEOjWVb1KJlAA81mmGU/bMCFB9
-         EdMvaAejWiim2S47rV2dGRFtrkDp30+SWSFabZt9C7dFByL5+RqSLQY9yBFTc+nFM/11
-         CgpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW0QDGKzaeT2GhtlPYV5XXShCNqDcZdI87JTC8+1JIGG9c2OVRQGOrDqo35BO34nziZSVAn+ajmbiLTKA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXrHtL0xaUnMzV6oS60CcAo0iVos52dg6ga8+1C4kgOCsodzSc
-	M19vDEa+7JwDFtR3ETftCk79JUR2XnjwySyrIk5sfqLNaS878l7XfybDc42/iwZrJkDdFj0MAZ9
-	gPprrFonzEd3GYkhH17dmJxMgMiPyq8/qU6CC
-X-Google-Smtp-Source: AGHT+IGCSauXsJLec2oJrPfkYs9NEcva9UvjTHFkP+w1oM/AcTWaw9QXjbewWHBIo/wx6d90jb2ssOchDoJfghPpNZY=
-X-Received: by 2002:a05:6512:282b:b0:539:8b1d:80b2 with SMTP id
- 2adb3069b0e04-539ab88c3e8mr685562e87.33.1728014283144; Thu, 03 Oct 2024
- 20:58:03 -0700 (PDT)
+	s=arc-20240116; t=1728017520; c=relaxed/simple;
+	bh=H3bcColyjMwsCKDiO+ZtAlYvnTL8WuE1r4e2/6liiPw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=cyKZOXKYSID3N9OQzXIYhMmUwEawybrDQdOG4X4uoE6pAyoMeCZQix5n4P302cjX8ZAj5KZC7TBWmDCBnxA+nnq7bMfa/g0ZYfmQ1ac1kcDUHT50qevqwSP/4RZv9Zx2GM1iE1ES/hLRc88UhYujpib0U5HmxhiYqkTaW82WZ80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=NJxNx4jD; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:To:Subject:Reply-To:MIME-Version:Date:Message-ID:
+	From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=lkzFRaxiEWD9m5LIbq8rywqh1Z61f9CsIVIICeQwVGY=; t=1728017518;
+	x=1728449518; b=NJxNx4jDFYdUs9a+pML+X3AX0V4G2h7dqya6iHYdMkaq33+fKKWTYW3zQxY0g
+	tBccnPmwq06lqrdue3Hv2cSJQG/sKYJXS7ByV1vmi6FAL/gbBFqFMYoWleEHtxVknEE4I1ceHa8C3
+	0IZaTZLOV+RH3rRsO48g981qYh8PIg7w4aJhefAbkclRLw2uPhYnzYI7ANd9XrEoPlfVPbiJFXq+e
+	eSd9+0REcLDAjLNIqmB0PYi8NjntafbdZNIpSc2DoIPEXRGVkJDGGHm6l9V6KuWCOFFlfJ3U8o8Ui
+	WFq7GDncR5dhfA1rAnsI4Kbe8obIGFqLg1PxD2AB+BsWiuZi2A==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1swaIF-00033C-Jc; Fri, 04 Oct 2024 06:51:55 +0200
+Message-ID: <a3fb27a2-5167-4880-9102-eaf0f47df398@leemhuis.info>
+Date: Fri, 4 Oct 2024 06:51:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241001093815.2481899-1-wenst@chromium.org> <ZvvHdlD6E5bzsWwV@google.com>
- <ZvvX5KcKaVBLedD1@finisterre.sirena.org.uk> <ZvvyEux8f2ylRQOn@google.com>
- <7db1299f-f925-4689-806f-f1ea4191fd4c@sirena.org.uk> <Zvv1FuXBZpjDefb8@google.com>
- <6626b1f3-7c3a-4531-b006-9e29155025f0@sirena.org.uk>
-In-Reply-To: <6626b1f3-7c3a-4531-b006-9e29155025f0@sirena.org.uk>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 4 Oct 2024 11:57:51 +0800
-Message-ID: <CAGXv+5HYv3v3MMknjPvOf_hKEHM_UEmz7R3ATmpindebcK_FKQ@mail.gmail.com>
-Subject: Re: [PATCH] Input: elan_i2c - Wait for initialization after enabling
- regulator supply
-To: Mark Brown <broonie@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: Re: [PATCH] HID: amd_sfh: Return immediately if no sensor is found
+To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>, jikos@kernel.org,
+ bentiss@kernel.org, linux-input@vger.kernel.org,
+ Chris Hixon <linux-kernel-bugs@hixontech.com>, Skyler <skpu@pm.me>,
+ Richard <hobbes1069@gmail.com>,
+ Linux kernel regressions list <regressions@lists.linux.dev>
+References: <20241003160454.3017229-1-Basavaraj.Natikar@amd.com>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Content-Language: en-US, de-DE
+In-Reply-To: <20241003160454.3017229-1-Basavaraj.Natikar@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1728017518;bd9a7455;
+X-HE-SMSGID: 1swaIF-00033C-Jc
 
-On Tue, Oct 1, 2024 at 9:13=E2=80=AFPM Mark Brown <broonie@kernel.org> wrot=
-e:
->
-> On Tue, Oct 01, 2024 at 06:11:50AM -0700, Dmitry Torokhov wrote:
-> > On Tue, Oct 01, 2024 at 02:06:19PM +0100, Mark Brown wrote:
->
-> > > Yeah, but that's got to get washed through the individual system
-> > > firmwares to get deployed and my confidence in vendors is not high.
->
-> > I think native Elan is only used in Chromebooks where firmware is
-> > decent, the rest are I2C-HID.
->
-> Ah, OK - in that case I agree there should be no problems with ACPI.
+[CCing the three reporters and the regressions list]
 
-FWIW all the users on ARM (at least in kernel) are also Chromebooks,
-and all their supplies are either missing or marked as always on.
+On 03.10.24 18:04, Basavaraj Natikar wrote:
+> There is no need for additional cleanup, as all resources are managed.
+> Additionally, if no sensor is found, there will be no initialization of
+> HID devices. Therefore, return immediately if no sensor is detected.
 
-So I suppose to avoid affecting the power sequencing time, we should delay
-this until there is proper support to handle wait times with the regulator
-API.
+I'm not a reviewer, so feel free to ignore the follow comment:
 
-I might find time to work on that but I make no promises at the moment.
+I think the patch description should mentioned that this bug caused
+Memory Errors / Page Faults / btrfs going read-only / btrfs disk
+corruption, as that is a crucial detail for later and downstreams that
+need to consider when deciding about backporting.
 
+> Fixes: 8031b001da70 ("HID: amd_sfh: Move sensor discovery before HID device initialization")
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=219331
 
-ChenYu
+Some reported-by tags IMHO would be appropriate to give credit; all
+three reporters already agreed to use their email address in public.
+
+There meanwhile is also one comment in the bugzilla ticket that could be
+read as a tested-by tag.
+
+Maybe a Link: to
+https://lore.kernel.org/all/90f6ee64-df5e-43b2-ad04-fa3a35efc1d5@leemhuis.info/
+might be appropriate as well.
+
+Ohh, and participation in stable is optional, but given the severeness
+on the problem: would you maybe be willing to add a stable tag to the
+commit to ensure this is backported to affected stable series quickly?
+
+Ciao, Thorsten
+
+> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+> ---
+>  drivers/hid/amd-sfh-hid/amd_sfh_client.c | 3 +--
+>  drivers/hid/amd-sfh-hid/amd_sfh_pcie.c   | 4 +++-
+>  2 files changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+> index 4b59687ff5d8..3fcb971d5fda 100644
+> --- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+> @@ -297,8 +297,7 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
+>  	    (mp2_ops->discovery_status && mp2_ops->discovery_status(privdata) == 0)) {
+>  		dev_warn(dev, "Failed to discover, sensors not enabled is %d\n",
+>  			 cl_data->is_any_sensor_enabled);
+> -		rc = -EOPNOTSUPP;
+> -		goto cleanup;
+> +		return -EOPNOTSUPP;
+>  	}
+>  
+>  	for (i = 0; i < cl_data->num_hid_devices; i++) {
+> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+> index 0c28ca349bcd..1300f122b524 100644
+> --- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+> @@ -351,7 +351,9 @@ static void sfh_init_work(struct work_struct *work)
+>  
+>  	rc = amd_sfh_hid_client_init(mp2);
+>  	if (rc) {
+> -		amd_sfh_clear_intr(mp2);
+> +		if (rc != -EOPNOTSUPP)
+> +			amd_sfh_clear_intr(mp2);
+> +
+>  		dev_err(&pdev->dev, "amd_sfh_hid_client_init failed err %d\n", rc);
+>  		return;
+>  	}
+
 
