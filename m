@@ -1,55 +1,57 @@
-Return-Path: <linux-input+bounces-7075-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7076-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1290399029E
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 14:05:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 152849902A0
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 14:05:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B814E1F21948
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 12:05:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB07C1F21F7D
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 12:05:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51B01158534;
-	Fri,  4 Oct 2024 12:05:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE37615CD54;
+	Fri,  4 Oct 2024 12:05:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DRbz4z3u"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tpdB7NcN"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CA5157466;
-	Fri,  4 Oct 2024 12:05:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A588615C15C;
+	Fri,  4 Oct 2024 12:05:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728043513; cv=none; b=T5I4bz2c6VC2wAgQbk1hmb8WW9mz1hNKMm9IXAqTRrEqbsZ2rWGkR0uxFq3uDQPIjK5BNYHXmn4h0njdwNAkewCHfXsqPWERlbU57f/JcsdKbpkp2FEO7ymDwNQF8iNpAxn6AJRt38vbQFex9JBEVJ1JJqg63kszKwmS/GPDrBs=
+	t=1728043515; cv=none; b=UwIQuWxQPcnyAiZYuwjOVjsrw6g8uoGKGbg9qyoJ9ty3QWHvH6/4M94g2avBcgpyGxMForvkqW0uIlSMnCkPmQ/hrm98n2a6HhKiOfku2XJigkpwbxK9dk+qJ7AhCIrFx81VdBUcOpJqoshDPeNSTPoJFw45tuFu3guF+R/9TvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728043513; c=relaxed/simple;
-	bh=usyeVIrQPsTwxLugich3Q6f9lTvY0qfgkmQc3oVFmpM=;
+	s=arc-20240116; t=1728043515; c=relaxed/simple;
+	bh=6oRFHKvnNGQ24oCMoi6tq54XurS/Y72vq8LcKQauZio=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=tjTkh5W0gOcXzc+Z8TAZvKfMgIxai6WNbygmOVwljc1GiwbEqAGR4r2evaVPhoWEZDlfF/1yuMRPIhyR6IRopnRMcO73nm4u1lb1hC+EZJtjAcJakRuNKoxVvlnhZaYr/eCNCsxZ+FsNRbDZWOsKnOzghVpk51Nj1vN94f2Z8b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DRbz4z3u; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC97AC4CEC6;
-	Fri,  4 Oct 2024 12:05:11 +0000 (UTC)
+	 MIME-Version:Content-Type; b=bYLD4aax9/oEwWmqlnff2jwcB5uMdNoYTUiwjxHM7H5jBYvHPiW/3+lOl9Mc/114r9tVWGYYzoi+Os+f9DAN74CTrZiDjqzGBhFY1zPZn7IloeFbv515tGlK0Z0ylGqiHTrrPFZJwOGRDPgDfPli6c50dktWT5lLJ9V+NhvKCHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tpdB7NcN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24545C4CECE;
+	Fri,  4 Oct 2024 12:05:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728043512;
-	bh=usyeVIrQPsTwxLugich3Q6f9lTvY0qfgkmQc3oVFmpM=;
+	s=k20201202; t=1728043514;
+	bh=6oRFHKvnNGQ24oCMoi6tq54XurS/Y72vq8LcKQauZio=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DRbz4z3uAhxnjzO3kanLfPftYiIKAcIBVOg7LNWy3l/v8fw7bi/6psafpqZc0hjTf
-	 NaaDfG14fM0+MP/n0FAdzCGF0wf/3+C58y+o9k5Qu3lzoFu4/hehfy9XUy+iD6QTUe
-	 GGSmhcKcbYUTRR1UcjQv3ZrDShRv+zLdR66v6R6bnfUyMPJIagZniaV0u1JNb+mDTO
-	 SSmsX1OGmYngk/lh8RO21lgo39vLpCHSAlJtVy7Buvs6HaCVYVyyB/9TYiVfNYU7UX
-	 002umceCmwYqWFLpbzRCyidpQeMn04hHOydGxfsAzGEa3Px05FgOxNndx2CYXRbwd1
-	 AyGFThkdS6n8g==
+	b=tpdB7NcND1qZKh+dGmCXY0JwHJPYzh9N+NvGyuwhJ8628CoSGs9Pi6eQbajI14Ndn
+	 N951rLSI4NLLkG6X+cKscDSEWRkkpkYAUdjga9vXEcmU5QUMnFHVm8Q/pUXBToHfVj
+	 2om8ST5zhKnAtNreMoyqlZTo4gl/e5vL0Cg6ertPto9N+WI0vmGn8jYetKPyTTvWiX
+	 r2uWJ1N0vy9cFU8zZETVJfsSpcgH/NWmWB64sZWbsuYpgCfjgGFBACzOIoEMxsioir
+	 PpN0jHPpsaNvvV2aHlaRChG9hnTxJTiEekUn41bUkiMmFG3uBAWMx83REq9Yfme8df
+	 k1RVM25f8Kylg==
 From: Benjamin Tissoires <bentiss@kernel.org>
 To: Jiri Kosina <jikos@kernel.org>, 
  Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <ZvwYbESMZ667QZqY@google.com>
-References: <ZvwYbESMZ667QZqY@google.com>
-Subject: Re: [PATCH] HID: simplify code in fetch_item()
-Message-Id: <172804351156.292746.460758059139588756.b4-ty@kernel.org>
-Date: Fri, 04 Oct 2024 14:05:11 +0200
+Cc: =?utf-8?q?Filipe_La=C3=ADns?= <lains@riseup.net>, 
+ Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20241003144656.3786064-1-dmitry.torokhov@gmail.com>
+References: <20241003144656.3786064-1-dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH 1/2] HID: simplify snto32()
+Message-Id: <172804351288.292746.16655039610911027501.b4-ty@kernel.org>
+Date: Fri, 04 Oct 2024 14:05:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -60,17 +62,19 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14.1
 
-On Tue, 01 Oct 2024 08:42:36 -0700, Dmitry Torokhov wrote:
-> We can easily calculate the size of the item using arithmetic (shifts).
-> This allows to pull duplicated code out of the switch statement, making
-> it cleaner.
+On Thu, 03 Oct 2024 07:46:50 -0700, Dmitry Torokhov wrote:
+> snto32() does exactly what sign_extend32() does, but handles
+> potentially malformed data coming from the device. Keep the checks,
+> but then call sign_extend32() to perform the actual conversion.
 > 
 > 
 
 Applied to hid/hid.git (for-6.13/core), thanks!
 
-[1/1] HID: simplify code in fetch_item()
-      https://git.kernel.org/hid/hid/c/61595012f280
+[1/2] HID: simplify snto32()
+      https://git.kernel.org/hid/hid/c/ae9b956cb26c
+[2/2] HID: stop exporting hid_snto32()
+      https://git.kernel.org/hid/hid/c/c653ffc28340
 
 Cheers,
 -- 
