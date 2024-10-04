@@ -1,129 +1,103 @@
-Return-Path: <linux-input+bounces-7082-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7083-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86134990550
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 16:07:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51EF599059F
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 16:13:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 200831F226CC
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 14:07:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14F87285866
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 14:13:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 165DE2141A1;
-	Fri,  4 Oct 2024 14:07:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 557FE2178E8;
+	Fri,  4 Oct 2024 14:12:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j9bnCF9b"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hs/rGzpg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16001D365A;
-	Fri,  4 Oct 2024 14:07:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229492139B2;
+	Fri,  4 Oct 2024 14:12:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728050834; cv=none; b=h5mGynEVFmiuyuTFdTOSXlE43KD4DdhCpW0sIA3hacFPgOtgqKDCeAuHgIJs+2fD/6bR61A2+0F+vINeuVOckqRkE3u+eMUXarpMUqmkCoA3+jhFNEGBbmIugFVqLSjkMtRxy1dF2Wfet5bIMv9z7tDUl5mdNzf9R7E0++/JXGM=
+	t=1728051136; cv=none; b=O1tqYw7zdHOBBx/oleRphqmK7V46XQEhDUJBp6Pbn76MrUDLVRZC5glm69ium0yd9Cq6aBx+dKl8ssAk+RIXCNCNL1b1adXml9Aefz/Sr2PyL+NyaxQBycwV0zN++o5d+FLPdwJZiVJLXoAmUojzzgVJdo0vRPMab0OboUyod80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728050834; c=relaxed/simple;
-	bh=rr76t+eNUFUu22tXb5MX5QD++j2YLcuNv+jV/Zy6IE8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SVPZ/X7eDDfSZRyQL6BTEqZj6kX8P3ChjSAt+britrgBf/s7RkLpTeO2zO1zh/3tCWd4jTgNWGAseJrDkRfHWRw4UzlqI6aFWSWdALzhPr9W2InFBVuVa6gAo/7EMbzq/CdlR2YuIiU9pfnSsfMgJMIHiL7SpGUlC4LLvm5RrJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j9bnCF9b; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-71b8d10e9b3so1664392b3a.3;
-        Fri, 04 Oct 2024 07:07:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728050832; x=1728655632; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cCrO2ENXGB+obQ8ppHzPkSfNMb0RVRrSN6ueUlMlRkE=;
-        b=j9bnCF9bVaqggkgNCjrPhFGcsIQ2wsqxILTfCoVdQ4uHZKPTt5/HfBOHheQfODHfXT
-         jj2cDAN+Xij+RRK0GlUSChyYAgWki74pOxDYVZSj/OwOFs3MS2QSQKNzOcSVJP26nYc8
-         JmU+OGCqOCsdocaug+D0py2DmMTg/Paprj2twZZXxnf1QUDCXa8Nz6dJNdw57ueA3dYa
-         FXbGENh8Ao/fj9e71ERdz3QkyB7p+fhozssRJjl5StgvoR/NlDBCOfgZgsLGUTdtjGRJ
-         zNHAKAqAR0tltSs+MV8IWgUEHolXcvvy4t956ROVeaG/sw6EUXNa22S9ExgvfBK+9gv0
-         1z4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728050832; x=1728655632;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cCrO2ENXGB+obQ8ppHzPkSfNMb0RVRrSN6ueUlMlRkE=;
-        b=UEm93BVYfgbxeZboIXOygvtRXeYUIaJj0GEKNI2JlxeOnXMHfUWihOhyxsIFiLCzbJ
-         8XUh5UK3N8CiZzKUWzxiD0EM6GBD+YKn0DdedkvP3m404TMLC9n9peTM0wxtjwvUeDog
-         pj0moi/dM30eTipxDGfJNaWTuJpLLHiJaSyYAQeLlX8pgsL7k/3aHcjjpVLw8i0qQTZ0
-         4KVqLXXMkHULe9gw77LAG/dT6YdeWRwFZgopjV/OvdvgcJpIDaPz4IiQo1d5gSRWRTcR
-         jJRVUOBjFmY8RzyDf5Ll2jL8jWeKelkPj/xQ6T8rPG1jj/E2yKMg67281vxrMmYC0DRy
-         p2dA==
-X-Forwarded-Encrypted: i=1; AJvYcCVKf0TE6Y2XEdz3NQiS8N2fH0ZmU9WO8ZZNROjCAn6mNxpCM5BOXI6kXz9tS3JaLtrJeS8Nr1V2pXzT35jD@vger.kernel.org, AJvYcCXOk3IMGImDBinv8T4kTWVAat0jm9mB7k6YkhW3fhV9Vep11zoEu29gP1QU0I2R1a3ui62deo3sQEt5Aw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyr3xJKEFaaSqk2up9kxF7qKxWvxgKXSWV6hk6nwxixjGarVJU1
-	hpjN4zoSlo37esVtAwO085bd+vhGfdye95E4gOuSKoqq2tnS7RNGb1LiZ4Al
-X-Google-Smtp-Source: AGHT+IHrf7BKXWDRmVPpd9hRJMmRKjPvLv+YOwYBaIHsB0oterAf1OB7S4lryeDYv456lAWVsOcd3A==
-X-Received: by 2002:a05:6a00:23d4:b0:714:1bd8:35f7 with SMTP id d2e1a72fcca58-71de23e8e45mr4349226b3a.15.1728050831799;
-        Fri, 04 Oct 2024 07:07:11 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:1b2:add:2542:c298])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71dedcdb3d7sm662238b3a.26.2024.10.04.07.07.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Oct 2024 07:07:11 -0700 (PDT)
-Date: Fri, 4 Oct 2024 07:07:08 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Michael Hennerich <michael.hennerich@analog.com>,
-	Nuno Sa <nuno.sa@analog.com>
-Cc: Utsav Agarwal <utsav.agarwal@analog.com>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: adp5588-keys - do not try to disable interrupt 0
-Message-ID: <Zv_2jEMYSWDw2gKs@google.com>
+	s=arc-20240116; t=1728051136; c=relaxed/simple;
+	bh=F1SQlcp5IkLNO1H2vORA9XiW8hozZMZLQRqYlz5sTkI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=GJkv0GzCIy6pxoU5XbaIwCRI9oUr4HV3EW3owlts0IDWKUyq97hYFjrqiw5pX3eBv/R0OoF0tQuPS8ohOzZWkC7v1V7JuYYeyemwCBeOZzc/8+UzYuu1tIDbLJwACFIv4DJ7ifWE6+zpVeetPflnvMSGG627B1b64IFNAywmMMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hs/rGzpg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E587CC4CECE;
+	Fri,  4 Oct 2024 14:12:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728051135;
+	bh=F1SQlcp5IkLNO1H2vORA9XiW8hozZMZLQRqYlz5sTkI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Hs/rGzpg5Bl6ZC0v3dD6ZT6tvuOAlGRBcwmF+gLfitzEmtK0p7bIihKbCBC4W9atx
+	 Kpd2s+6NHcweWkzft1Q1gpgSvvtnXKNA6CkvUloVgDc78cRfKL6FFJrbjq/ypHOih3
+	 xnb7Ho09eQghGrWOYZclP3BZIopujd4L4LqGYEo4ak/5to1OxfvoDXbLwpvKxNpgyu
+	 C9TavjClxwUkgXmzjkptBZTWtRYxyBIV0RlqD66xF1CgB3TgUDH8e5bzNl2s7h29PS
+	 zPo+hUgaW5aM0bhzwb5ID1nZW0ccJHzWC4fcJO3e0kd+1OWu0Qq8jtWmOscv1reeyf
+	 eL5vFUpb1R2oA==
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Jiri Kosina <jikos@kernel.org>, 
+ Peter Hutterer <peter.hutterer@who-t.net>, Vicki Pfau <vi@endrift.com>, 
+ Shuah Khan <shuah@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+In-Reply-To: <20241001-hid-bpf-hid-generic-v3-0-2ef1019468df@kernel.org>
+References: <20241001-hid-bpf-hid-generic-v3-0-2ef1019468df@kernel.org>
+Subject: Re: [PATCH HID v3 0/9] HID: bpf: add a new hook to control
+ hid-generic
+Message-Id: <172805113364.312675.1594218264039046838.b4-ty@kernel.org>
+Date: Fri, 04 Oct 2024 16:12:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.1
 
-Commit dc748812fca0 ("Input: adp5588-keys - add support for pure gpio")
-made having interrupt line optional for the device, however it neglected
-to update suspend and resume handlers that try to disable interrupts
-for the duration of suspend.
+On Tue, 01 Oct 2024 16:30:04 +0200, Benjamin Tissoires wrote:
+> This is a slight change from the fundamentals of HID-BPF.
+> In theory, HID-BPF is abstract to the kernel itself, and makes
+> only changes at the HID level (through report descriptors or
+> events emitted to/from the device).
+> 
+> However, we have seen a few use cases where HID-BPF might interact with
+> the running kernel when the target device is already handled by a
+> specific device.
+> 
+> [...]
 
-Fix this by checking if interrupt number assigned to the i2c device is
-not 0 before trying to disable or reenable it.
+Applied to hid/hid.git (for-6.13/bpf), thanks!
 
-Fixes: dc748812fca0 ("Input: adp5588-keys - add support for pure gpio")
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/keyboard/adp5588-keys.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+[1/9] HID: bpf: move HID-BPF report descriptor fixup earlier
+      https://git.kernel.org/hid/hid/c/8b7fd6a15f8c
+[2/9] HID: core: save one kmemdup during .probe()
+      https://git.kernel.org/hid/hid/c/52cd1906ef6b
+[3/9] HID: core: remove one more kmemdup on .probe()
+      https://git.kernel.org/hid/hid/c/7316fef4b993
+[4/9] HID: bpf: allow write access to quirks field in struct hid_device
+      https://git.kernel.org/hid/hid/c/6fd47effe92b
+[5/9] selftests/hid: add dependency on hid_common.h
+      https://git.kernel.org/hid/hid/c/0b838d768ccd
+[6/9] selftests/hid: cleanup C tests by adding a common struct uhid_device
+      https://git.kernel.org/hid/hid/c/4fb41dfde069
+[7/9] selftests/hid: allow to parametrize bus/vid/pid/rdesc on the test device
+      https://git.kernel.org/hid/hid/c/72c55473fc8c
+[8/9] HID: add per device quirk to force bind to hid-generic
+      https://git.kernel.org/hid/hid/c/645c224ac5f6
+[9/9] selftests/hid: add test for assigning a given device to hid-generic
+      https://git.kernel.org/hid/hid/c/e14e0eaeb040
 
-diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
-index d25d63a807f2..dc734974ce06 100644
---- a/drivers/input/keyboard/adp5588-keys.c
-+++ b/drivers/input/keyboard/adp5588-keys.c
-@@ -822,7 +822,8 @@ static int adp5588_suspend(struct device *dev)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
- 
--	disable_irq(client->irq);
-+	if (client->irq)
-+		disable_irq(client->irq);
- 
- 	return 0;
- }
-@@ -831,7 +832,8 @@ static int adp5588_resume(struct device *dev)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
- 
--	enable_irq(client->irq);
-+	if (client->irq)
-+		enable_irq(client->irq);
- 
- 	return 0;
- }
+Cheers,
 -- 
-2.47.0.rc0.187.ge670bccf7e-goog
+Benjamin Tissoires <bentiss@kernel.org>
 
-
--- 
-Dmitry
 
