@@ -1,159 +1,110 @@
-Return-Path: <linux-input+bounces-7087-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7088-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE89F9906B4
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 16:51:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F739906E7
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 16:58:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2516EB26734
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 14:51:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BF6C81C223F7
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 14:58:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9287521D2D8;
-	Fri,  4 Oct 2024 14:47:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 739471D9A72;
+	Fri,  4 Oct 2024 14:58:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RBhXcd1A"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fBxKL3Ds"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EA421D2CD;
-	Fri,  4 Oct 2024 14:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412C91D9A6D;
+	Fri,  4 Oct 2024 14:58:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728053223; cv=none; b=Bjtxrc8Aw2nNBtdC/Iq7hDd5QU1Cqd46pp6B4qyZ2oVeupoB/AeGj0nCw0gu3DR4Xe8iuQff7ng7W4pR7IaAUWPICihGppd+GUNTpc3vK0MHKBdRUmEs6S0dV+0S9AObO1c7IhXtuWeRaYz8F5unrRk8yABxmlIEIUkLC52HBdw=
+	t=1728053900; cv=none; b=HA7f2rmiC0HASJEj5EzUWD35i1tLokB6QsJBqByqbsrLJvwsr4oyWmdKDD+fIPVWEsquT8qFkk2v9MmiXGrAg3kSm7nNmt923ZwApAx6LGkJ0q73R8soSFs+V/35n6V+fIY9yS208QzODMz+1kDGPbqgC73mKHihlnOmoom8sKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728053223; c=relaxed/simple;
-	bh=gpDESdIH7u+B964YQBozH7uDbFJdt+fik9h9olFCT6A=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=kPg+8BC2TKT9tNhmxaoxEnJWatbKnWwdLYWnyjQ/WQyAV4REGhFHUerMVPJZhutyha0bo54gNwIBkdZJkXKYX5I62zekud+iMRZqlnJlDehTsfgOdwk4GIg4AcDtKmOYs+cfPtFyWZV7OT5ObLNgd0DYKCezTj5AZTnPlp5hYok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RBhXcd1A; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728053220; x=1759589220;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=gpDESdIH7u+B964YQBozH7uDbFJdt+fik9h9olFCT6A=;
-  b=RBhXcd1AbS6A3HLUoc9KL+DoaEztpIybxq5fmNqPOksTFQYsRTtN2AcE
-   fbeNsn2UB8gcD4V+lVS82eChr0NPt+AkLVleA7e5Zqiojdr+MVCC0fRY2
-   aV66Pbxy1b0ff5MUP2w/w0hNcYantt/6aPFeJIK2NBP8bxrE6vhTNF8Ie
-   dz5xN7C0IsuTorQFPXYmAYkf8TLl3rr7YHi6VOKFAUX6LEc5XrfkjX5HW
-   22Mc7FQTrnrvovxKejNIgm3EJqacHAbiEE0O+ZN7JA3rvHLiadHfkQII+
-   gGJRhYPTYpgDAkIQ7IZ/5bvom+f7vXXGhA8mWeAO51ui4pROd1+x50+MF
-   w==;
-X-CSE-ConnectionGUID: TJ3Dv57CSZmNXD3AAo42FA==
-X-CSE-MsgGUID: zV6ofEreQdSk06W+jPKCgw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37847128"
-X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="37847128"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 07:46:59 -0700
-X-CSE-ConnectionGUID: C1Gf8WVtQEKW3bGkYuLaDg==
-X-CSE-MsgGUID: ADnZZNiHRwSvD8wgaZf9KQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="78717018"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.148])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 07:46:52 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 4 Oct 2024 17:46:46 +0300 (EEST)
-To: Werner Sembach <wse@tuxedocomputers.com>
-cc: Hans de Goede <hdegoede@redhat.com>, bentiss@kernel.org, 
-    dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org, 
-    lee@kernel.org, linux-input@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org, 
-    miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com, 
-    pavel@ucw.cz, cs@tuxedo.de, platform-driver-x86@vger.kernel.org
-Subject: Re: [RFC PATCH v4 1/1] platform/x86/tuxedo: Add virtual LampArray
- for TUXEDO NB04 devices
-In-Reply-To: <98883fb1-c895-4aad-842b-ed525d4c42f6@tuxedocomputers.com>
-Message-ID: <07e29712-4c33-efa2-c8c6-ae19e21376fa@linux.intel.com>
-References: <20241001180658.76396-1-wse@tuxedocomputers.com> <20241001180658.76396-2-wse@tuxedocomputers.com> <bc3f5f2b-252e-0a66-df0f-f01197a5a17d@linux.intel.com> <fdfaaad5-59e7-4825-bc06-db44831ac741@tuxedocomputers.com> <49beebf1-db73-a3a1-3376-e1822ce2e569@linux.intel.com>
- <98883fb1-c895-4aad-842b-ed525d4c42f6@tuxedocomputers.com>
+	s=arc-20240116; t=1728053900; c=relaxed/simple;
+	bh=hdx+Nlnqh49HdIrn5ECqFiAYUAa+WEBCnBFbH03L0U8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mtsndAeGhjRaw3bW/h8hfDdU8/DQRLg3Vp+YHFOVvtFlTH18ez/NyJ2lbiBg2TSA7Ssqi3dbykO9b45Sq6CfX11WX+r7fhJvZanZm+h5ihgulwfl2UZenxGbJlCH2jMKPkHSiAxTYd7CU2rBsBYyBSUt3aFsFACb/xhfUAnR96Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fBxKL3Ds; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6FC3C4CEC6;
+	Fri,  4 Oct 2024 14:58:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728053899;
+	bh=hdx+Nlnqh49HdIrn5ECqFiAYUAa+WEBCnBFbH03L0U8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fBxKL3DsUpoP+JinPpudeiel+njsclMIT6jbhTpYmITwoloJRv9FKqNNiD5ph0hnu
+	 5faD0whmMiBTR7Nz/88Ak18WYLsE52Q0uhymh0x7AxkJxDrgD8PCQ3S3QSiigRHpyF
+	 W59ARwSudAfO8NEOcYPGa3y9zAaFpx4nwpjuHCIvSQDLrQJO9x2o+aMJRdbMuh/S09
+	 1fKHViikT4dbYtVAl9zB50rJO6gMV60zYIamcgyGcXBMNEBz1ens/7gegntv9w9Y1V
+	 Ab0tV7vj5FC6h4pWus2y3EcBzwyKUVPfPnck+Bab7BsyVIMAZCRO/XCJwQIMLh7gOP
+	 yIJtfLjjUBOsA==
+Date: Fri, 4 Oct 2024 15:58:15 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH 00/14] Remove support for platform data from samsung
+ keypad
+Message-ID: <76d98587-3623-4ff2-89eb-a5fe8c535293@sirena.org.uk>
+References: <20240819045813.2154642-1-dmitry.torokhov@gmail.com>
+ <803e3902-cec9-49ed-baff-d26e578a8ab7@app.fastmail.com>
+ <Zv_vuSrJzpN9IvXV@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323328-558844353-1728053094=:957"
-Content-ID: <12779ba9-89e7-dc78-8aa4-3e38be204c34@linux.intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2O90PREKokAOuISY"
+Content-Disposition: inline
+In-Reply-To: <Zv_vuSrJzpN9IvXV@google.com>
+X-Cookie: A bachelor is an unaltared male.
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323328-558844353-1728053094=:957
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <1a604cdc-a092-b688-97b7-2cd68c9b909e@linux.intel.com>
+--2O90PREKokAOuISY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 4 Oct 2024, Werner Sembach wrote:
-> Am 03.10.24 um 12:54 schrieb Ilpo J=E4rvinen:
-> > On Wed, 2 Oct 2024, Werner Sembach wrote:
-> > > Am 02.10.24 um 11:52 schrieb Ilpo J=E4rvinen:
-> > > > On Tue, 1 Oct 2024, Werner Sembach wrote:
-> > > >=20
-> > > > > The TUXEDO Sirius 16 Gen1 and TUXEDO Sirius 16 Gen2 devices have =
-a
-> > > > > per-key
-> > > > > controllable RGB keyboard backlight. The firmware API for it is
-> > > > > implemented
-> > > > > via WMI.
-> > > > >=20
-> > > > > To make the backlight userspace configurable this driver emulates=
- a
-> > > > > LampArray HID device and translates the input from hidraw to the
-> > > > > corresponding WMI calls. This is a new approach as the leds subsy=
-stem
-> > > > > lacks
-> > > > > a suitable UAPI for per-key keyboard backlights, and like this no=
- new
-> > > > > UAPI
-> > > > > needs to be established.
-> > > > >=20
-> > > > > v2: Integrated Armins feedback and fixed kernel test robot warnin=
-gs.
-> > > > > v3: Fixed borked subject line of v2.
-> > > > > v4: Remove unrequired WMI mutex.
-> > > > >       Move device checking from probe to init.
-> > > > >       Fix device checking working exactly reverse as it should.
-> > > > >       Fix null pointer dereference because, hdev->driver_data !=
-=3D
-> > > > > hdev->dev.driver_data.
-> > > > >=20
-> > > > > Co-developed-by: Christoffer Sandberg <cs@tuxedo.de>
-> > > > > Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
-> > > > > Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> > > > > Link:
-> > > > > https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@=
-tuxedocomputers.com/
-> > > > > ---
+On Fri, Oct 04, 2024 at 06:38:01AM -0700, Dmitry Torokhov wrote:
+> On Mon, Aug 19, 2024 at 11:40:56AM +0200, Arnd Bergmann wrote:
 
-> > > That why i choose the rather generic names of just the input and outp=
-ut
-> > > length
-> > > because there is no semantic connection between the wmi methods in
-> > > tuxedo_nb04_wmi_8_b_in_80_b_out and tuxedo_nb04_wmi_496_b_in_80_b_out
-> > > respectively that would make for a good name.
-> > So the only valuable characters are prefix + 8/496/80 the rest doesn't
-> > really tell much despite all its characters :-). Details like which of =
-the
-> > numbers is in/out and that the numbers are in bytes could IMO be left t=
-o
-> > struct's comment without loss of much information value.
-> >=20
-> tuxedo_nb04_wmi_8_80 kinda looks strange to me, what about
-> tuxedo_nb04_wmi_8_in_80_out? but that's on 4 chars shorter.
+> > I had a (brief) look at the patches, everything looks fine to
+> > me, thanks for working on this! Let's see what Mark and=20
+> > Krzysztof think.
 
-Perhaps just tuxedo_nb04_wmi_8in_80out ?
+> Mark, were you able to give this a spin? Or should I address the DT
+> binding comments from Krzysztof and Connor and resent for merge?
 
-I can see you like to use underscores a lot so I can understand if that=20
-feels a step too far :-) (no offence meant).
+Sorry, no - I've been some combination of ill, travelling and super busy
+since you posted it (sadly the bootloader for the board only supports
+booting from SD card so until I port u-boot it's not in my board farm
+and I need to specifically set it up on my desk whenver I want to do
+anything with it, especially for this where I need to poke at the
+keypad).  I've got one more week of travel next week and one of the
+major sources of super busy just got better so I'm reasonably hopeful
+I'll get to it week of the 14th but probably worth respinning.
 
---=20
- i.
---8323328-558844353-1728053094=:957--
+--2O90PREKokAOuISY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcAAoYACgkQJNaLcl1U
+h9CIyAf/UT+SvU5Yxhj17iZJ3+MFGVgNHn0JN6vrsQBXrossVlgZ1JP7vbl1RobZ
+cw1/99nUqLGDjOHkNBSx/2/GjaZz1gEUDCbDeVaIMifsrGd4BbtoMTfwnclyCsp6
+fvvMKx0WAzcRmvm+FdQ5KGgt6mzZDsT/u3Q15ZOJ5GHunnP+njEkRY8SzaRZZteP
+EgGtc1FFI+tDVsoIQ6DNA23I0DVy2j/HZB23y/mYEOF1JiIspwhM+JjVUKJVgU57
+piRknEy0k2sO3sJ26HhyngwWT30Zg+ud+oSB64uO4RqnGqP9B6coPbCzow4vvENE
+zTfKRFshRCxw25+aDBoBxDxERSyLew==
+=jObm
+-----END PGP SIGNATURE-----
+
+--2O90PREKokAOuISY--
 
