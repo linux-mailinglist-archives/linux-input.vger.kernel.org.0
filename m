@@ -1,227 +1,129 @@
-Return-Path: <linux-input+bounces-7081-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7082-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74AAA9904C1
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 15:47:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86134990550
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 16:07:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03C771F22CA3
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 13:47:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 200831F226CC
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 14:07:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 768B62141A0;
-	Fri,  4 Oct 2024 13:46:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 165DE2141A1;
+	Fri,  4 Oct 2024 14:07:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bidOoLtR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j9bnCF9b"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A7E212EF5
-	for <linux-input@vger.kernel.org>; Fri,  4 Oct 2024 13:46:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16001D365A;
+	Fri,  4 Oct 2024 14:07:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728049617; cv=none; b=RmsJON4h8du5hjikKwnPvcvv5jenZp7rQ05k6zbDg61pyjIXhqfERldQitvhwyVlAXWVLXTOWyLYzTDglhtTbPfyiUrd9caN1BN6hSCrps/OFh1+St9kNnttn508ZrSQIo2opvbH/RwAOWHX7u0KxNcuDmikwW91qDaXs8gygsA=
+	t=1728050834; cv=none; b=h5mGynEVFmiuyuTFdTOSXlE43KD4DdhCpW0sIA3hacFPgOtgqKDCeAuHgIJs+2fD/6bR61A2+0F+vINeuVOckqRkE3u+eMUXarpMUqmkCoA3+jhFNEGBbmIugFVqLSjkMtRxy1dF2Wfet5bIMv9z7tDUl5mdNzf9R7E0++/JXGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728049617; c=relaxed/simple;
-	bh=GaGVBlUAZAzixzMPjr2GKd8qLJQJTfvw7fhOCSOmZbc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Hhpu5Mcg21KDSuVdah3V8bHxOs9A1bvcNmDftpxZLCucvf0Ui0p4bWtEMZLm9A+tVp7ijMDPO9HlSuHinzl7Q9+Bx4w/GMy5wqkCRSV2N9ZAa4MtH9rUCW/GZ6fnNRNwWFcKAIAAoYiLkbjROMJ00cklfWjzSl8Dd+GHHVh/bCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bidOoLtR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DC557C4CECF;
-	Fri,  4 Oct 2024 13:46:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728049616;
-	bh=GaGVBlUAZAzixzMPjr2GKd8qLJQJTfvw7fhOCSOmZbc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=bidOoLtRJsexYyg3ZsTsv8KZaq2UiDPzlIb5UfOAaeB64y3ju4TLoYA7vM76SSVGT
-	 VAchmtTPYH+wR255Rl3M7RIVTs3gHbmxD2ddtvLCq3rVcBqim/HKvbves3kiuxyDEC
-	 aZuQfWpjxmZmLM71lVw5u3191Q1Nsc7mrY7zm4IrPYMi87db97W/RuTSkdq3C9gRYN
-	 +DmkeQ6ftQJMmjrfpP6X1JJWefwOP72iCoixuN2ihjVq17hHX7sNvS8FqpTKwexaW9
-	 SkvGGjPvo2r4Esv/hJwpmbaaQ1ygOpZwgmHVDzQl5Z0xOtpxpMyj+OwQFPn5v9TpKT
-	 n1B68FdGIE7FA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E1FCFA77F;
-	Fri,  4 Oct 2024 13:46:56 +0000 (UTC)
-From: Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>
-Date: Fri, 04 Oct 2024 15:46:52 +0200
-Subject: [PATCH v2 3/3] Input: adp5588-keys: make use of dev_err_probe()
+	s=arc-20240116; t=1728050834; c=relaxed/simple;
+	bh=rr76t+eNUFUu22tXb5MX5QD++j2YLcuNv+jV/Zy6IE8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SVPZ/X7eDDfSZRyQL6BTEqZj6kX8P3ChjSAt+britrgBf/s7RkLpTeO2zO1zh/3tCWd4jTgNWGAseJrDkRfHWRw4UzlqI6aFWSWdALzhPr9W2InFBVuVa6gAo/7EMbzq/CdlR2YuIiU9pfnSsfMgJMIHiL7SpGUlC4LLvm5RrJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j9bnCF9b; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-71b8d10e9b3so1664392b3a.3;
+        Fri, 04 Oct 2024 07:07:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728050832; x=1728655632; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cCrO2ENXGB+obQ8ppHzPkSfNMb0RVRrSN6ueUlMlRkE=;
+        b=j9bnCF9bVaqggkgNCjrPhFGcsIQ2wsqxILTfCoVdQ4uHZKPTt5/HfBOHheQfODHfXT
+         jj2cDAN+Xij+RRK0GlUSChyYAgWki74pOxDYVZSj/OwOFs3MS2QSQKNzOcSVJP26nYc8
+         JmU+OGCqOCsdocaug+D0py2DmMTg/Paprj2twZZXxnf1QUDCXa8Nz6dJNdw57ueA3dYa
+         FXbGENh8Ao/fj9e71ERdz3QkyB7p+fhozssRJjl5StgvoR/NlDBCOfgZgsLGUTdtjGRJ
+         zNHAKAqAR0tltSs+MV8IWgUEHolXcvvy4t956ROVeaG/sw6EUXNa22S9ExgvfBK+9gv0
+         1z4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728050832; x=1728655632;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cCrO2ENXGB+obQ8ppHzPkSfNMb0RVRrSN6ueUlMlRkE=;
+        b=UEm93BVYfgbxeZboIXOygvtRXeYUIaJj0GEKNI2JlxeOnXMHfUWihOhyxsIFiLCzbJ
+         8XUh5UK3N8CiZzKUWzxiD0EM6GBD+YKn0DdedkvP3m404TMLC9n9peTM0wxtjwvUeDog
+         pj0moi/dM30eTipxDGfJNaWTuJpLLHiJaSyYAQeLlX8pgsL7k/3aHcjjpVLw8i0qQTZ0
+         4KVqLXXMkHULe9gw77LAG/dT6YdeWRwFZgopjV/OvdvgcJpIDaPz4IiQo1d5gSRWRTcR
+         jJRVUOBjFmY8RzyDf5Ll2jL8jWeKelkPj/xQ6T8rPG1jj/E2yKMg67281vxrMmYC0DRy
+         p2dA==
+X-Forwarded-Encrypted: i=1; AJvYcCVKf0TE6Y2XEdz3NQiS8N2fH0ZmU9WO8ZZNROjCAn6mNxpCM5BOXI6kXz9tS3JaLtrJeS8Nr1V2pXzT35jD@vger.kernel.org, AJvYcCXOk3IMGImDBinv8T4kTWVAat0jm9mB7k6YkhW3fhV9Vep11zoEu29gP1QU0I2R1a3ui62deo3sQEt5Aw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyr3xJKEFaaSqk2up9kxF7qKxWvxgKXSWV6hk6nwxixjGarVJU1
+	hpjN4zoSlo37esVtAwO085bd+vhGfdye95E4gOuSKoqq2tnS7RNGb1LiZ4Al
+X-Google-Smtp-Source: AGHT+IHrf7BKXWDRmVPpd9hRJMmRKjPvLv+YOwYBaIHsB0oterAf1OB7S4lryeDYv456lAWVsOcd3A==
+X-Received: by 2002:a05:6a00:23d4:b0:714:1bd8:35f7 with SMTP id d2e1a72fcca58-71de23e8e45mr4349226b3a.15.1728050831799;
+        Fri, 04 Oct 2024 07:07:11 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:1b2:add:2542:c298])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71dedcdb3d7sm662238b3a.26.2024.10.04.07.07.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Oct 2024 07:07:11 -0700 (PDT)
+Date: Fri, 4 Oct 2024 07:07:08 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Michael Hennerich <michael.hennerich@analog.com>,
+	Nuno Sa <nuno.sa@analog.com>
+Cc: Utsav Agarwal <utsav.agarwal@analog.com>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: adp5588-keys - do not try to disable interrupt 0
+Message-ID: <Zv_2jEMYSWDw2gKs@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241004-fix-adp5588-read-refactor-v2-3-275a093758ae@analog.com>
-References: <20241004-fix-adp5588-read-refactor-v2-0-275a093758ae@analog.com>
-In-Reply-To: <20241004-fix-adp5588-read-refactor-v2-0-275a093758ae@analog.com>
-To: Michael Hennerich <michael.hennerich@analog.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728049615; l=5144;
- i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
- bh=gt3jhPKFLDsBuarU+NtzbRqk71V3bunZcxmUsG25ZIQ=;
- b=0zjhhTtwyPOawLFp+Or7GywbXi577wNF/msX2A0anWmqpASw+FALS8e+MEo/CLiqfnE2pjXSh
- yc7C14dMxcnAaqUXVZ28wYOlVixJmwkoUinMjBIx95RDVsrca8XX8ma
-X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
- pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
-X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
- auth_id=100
-X-Original-From: Nuno Sa <nuno.sa@analog.com>
-Reply-To: nuno.sa@analog.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Nuno Sa <nuno.sa@analog.com>
+Commit dc748812fca0 ("Input: adp5588-keys - add support for pure gpio")
+made having interrupt line optional for the device, however it neglected
+to update suspend and resume handlers that try to disable interrupts
+for the duration of suspend.
 
-Simplify the probe error path by using dev_err_probe().
+Fix this by checking if interrupt number assigned to the i2c device is
+not 0 before trying to disable or reenable it.
 
-Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+Fixes: dc748812fca0 ("Input: adp5588-keys - add support for pure gpio")
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/keyboard/adp5588-keys.c | 70 +++++++++++++++--------------------
- 1 file changed, 29 insertions(+), 41 deletions(-)
+ drivers/input/keyboard/adp5588-keys.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
-index 0152e4fa088c..60a7cb040af7 100644
+index d25d63a807f2..dc734974ce06 100644
 --- a/drivers/input/keyboard/adp5588-keys.c
 +++ b/drivers/input/keyboard/adp5588-keys.c
-@@ -439,10 +439,9 @@ static int adp5588_gpio_add(struct adp5588_kpad *kpad)
- 	kpad->gc.owner = THIS_MODULE;
+@@ -822,7 +822,8 @@ static int adp5588_suspend(struct device *dev)
+ {
+ 	struct i2c_client *client = to_i2c_client(dev);
  
- 	if (device_property_present(dev, "interrupt-controller")) {
--		if (!kpad->client->irq) {
--			dev_err(dev, "Unable to serve as interrupt controller without interrupt");
--			return -EINVAL;
--		}
-+		if (!kpad->client->irq)
-+			return dev_err_probe(dev, -EINVAL,
-+					     "Unable to serve as interrupt controller without interrupt");
+-	disable_irq(client->irq);
++	if (client->irq)
++		disable_irq(client->irq);
  
- 		girq = &kpad->gc.irq;
- 		gpio_irq_chip_set_chip(girq, &adp5588_irq_chip);
-@@ -453,10 +452,8 @@ static int adp5588_gpio_add(struct adp5588_kpad *kpad)
- 	mutex_init(&kpad->gpio_lock);
+ 	return 0;
+ }
+@@ -831,7 +832,8 @@ static int adp5588_resume(struct device *dev)
+ {
+ 	struct i2c_client *client = to_i2c_client(dev);
  
- 	error = devm_gpiochip_add_data(dev, &kpad->gc, kpad);
--	if (error) {
--		dev_err(dev, "gpiochip_add failed: %d\n", error);
--		return error;
--	}
-+	if (error)
-+		return dev_err_probe(dev, error, "gpiochip_add failed\n");
+-	enable_irq(client->irq);
++	if (client->irq)
++		enable_irq(client->irq);
  
- 	for (i = 0; i <= ADP5588_BANK(ADP5588_MAXGPIO); i++) {
- 		error = adp5588_read(kpad->client,
-@@ -680,21 +677,19 @@ static int adp5588_fw_parse(struct adp5588_kpad *kpad)
- 		return 0;
- 	}
- 
--	if (!client->irq) {
--		dev_err(&client->dev, "Keypad configured but no IRQ present\n");
--		return -EINVAL;
--	}
-+	if (!client->irq)
-+		return dev_err_probe(&client->dev, -EINVAL,
-+				     "Keypad configured but no IRQ present\n");
- 
- 	ret = matrix_keypad_parse_properties(&client->dev, &kpad->rows,
- 					     &kpad->cols);
- 	if (ret)
- 		return ret;
- 
--	if (kpad->rows > ADP5588_ROWS_MAX || kpad->cols > ADP5588_COLS_MAX) {
--		dev_err(&client->dev, "Invalid nr of rows(%u) or cols(%u)\n",
--			kpad->rows, kpad->cols);
--		return -EINVAL;
--	}
-+	if (kpad->rows > ADP5588_ROWS_MAX || kpad->cols > ADP5588_COLS_MAX)
-+		return dev_err_probe(&client->dev, -EINVAL,
-+				     "Invalid nr of rows(%u) or cols(%u)\n",
-+				     kpad->rows, kpad->cols);
- 
- 	ret = matrix_keypad_build_keymap(NULL, NULL, kpad->rows, kpad->cols,
- 					 kpad->keycode, kpad->input);
-@@ -714,11 +709,10 @@ static int adp5588_fw_parse(struct adp5588_kpad *kpad)
- 		return 0;
- 	}
- 
--	if (kpad->nkeys_unlock > ARRAY_SIZE(kpad->unlock_keys)) {
--		dev_err(&client->dev, "number of unlock keys(%d) > (%zu)\n",
--			kpad->nkeys_unlock, ARRAY_SIZE(kpad->unlock_keys));
--		return -EINVAL;
--	}
-+	if (kpad->nkeys_unlock > ARRAY_SIZE(kpad->unlock_keys))
-+		return dev_err_probe(&client->dev, -EINVAL,
-+				     "number of unlock keys(%d) > (%zu)\n",
-+				     kpad->nkeys_unlock, ARRAY_SIZE(kpad->unlock_keys));
- 
- 	ret = device_property_read_u32_array(&client->dev, "adi,unlock-keys",
- 					     kpad->unlock_keys,
-@@ -735,11 +729,10 @@ static int adp5588_fw_parse(struct adp5588_kpad *kpad)
- 		 * part of keypad matrix to be used and if a reliable way of
- 		 * using GPIs is found, this condition can be removed/lightened.
- 		 */
--		if (kpad->unlock_keys[i] >= kpad->cols * kpad->rows) {
--			dev_err(&client->dev, "Invalid unlock key(%d)\n",
--				kpad->unlock_keys[i]);
--			return -EINVAL;
--		}
-+		if (kpad->unlock_keys[i] >= kpad->cols * kpad->rows)
-+			return dev_err_probe(&client->dev, -EINVAL,
-+					     "Invalid unlock key(%d)\n",
-+					     kpad->unlock_keys[i]);
- 
- 		/*
- 		 * Firmware properties keys start from 0 but on the device they
-@@ -761,10 +754,9 @@ static int adp5588_probe(struct i2c_client *client)
- 	u8 id;
- 
- 	if (!i2c_check_functionality(client->adapter,
--				     I2C_FUNC_SMBUS_BYTE_DATA)) {
--		dev_err(&client->dev, "SMBUS Byte Data not Supported\n");
--		return -EIO;
--	}
-+				     I2C_FUNC_SMBUS_BYTE_DATA))
-+		return dev_err_probe(&client->dev, -EIO,
-+				     "SMBUS Byte Data not Supported\n");
- 
- 	kpad = devm_kzalloc(&client->dev, sizeof(*kpad), GFP_KERNEL);
- 	if (!kpad)
-@@ -814,11 +806,9 @@ static int adp5588_probe(struct i2c_client *client)
- 	input->id.version = revid;
- 
- 	error = input_register_device(input);
--	if (error) {
--		dev_err(&client->dev, "unable to register input device: %d\n",
--			error);
--		return error;
--	}
-+	if (error)
-+		return dev_err_probe(&client->dev, error,
-+				     "unable to register input device\n");
- 
- 	error = adp5588_setup(kpad);
- 	if (error)
-@@ -833,11 +823,9 @@ static int adp5588_probe(struct i2c_client *client)
- 						  adp5588_hard_irq, adp5588_thread_irq,
- 						  IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
- 						  client->dev.driver->name, kpad);
--		if (error) {
--			dev_err(&client->dev, "failed to request irq %d: %d\n",
--				client->irq, error);
--			return error;
--		}
-+		if (error)
-+			return dev_err_probe(&client->dev, error,
-+					     "failed to request irq %d\n", client->irq);
- 	}
- 
- 	dev_info(&client->dev, "Rev.%d controller\n", revid);
+ 	return 0;
+ }
+-- 
+2.47.0.rc0.187.ge670bccf7e-goog
+
 
 -- 
-2.46.1
-
-
+Dmitry
 
