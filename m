@@ -1,125 +1,105 @@
-Return-Path: <linux-input+bounces-7077-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7078-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D05D1990494
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 15:38:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 728B69904BE
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 15:47:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D0E11F22916
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 13:38:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 285C0284480
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 13:47:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0893F212EE1;
-	Fri,  4 Oct 2024 13:38:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A75B212EEE;
+	Fri,  4 Oct 2024 13:46:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WV4vQLOO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sij535pq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6E215B97E;
-	Fri,  4 Oct 2024 13:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06EDC2101A8
+	for <linux-input@vger.kernel.org>; Fri,  4 Oct 2024 13:46:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728049086; cv=none; b=bvE1GgZDIwfziq6g9cZM1/FwEzQhDXdD3AS3ASIOEbx9FwLN4SNjB4gMYa5u5U6mC54VhvkDZ0ENVrtejJTtZGkydfsJp2NaE3FGv0txMy1dt8mHAxSZegCFblD/bO77xuQp77RVopSDOBxF9clweegvofg4jVVKg4j9qx3MMyA=
+	t=1728049617; cv=none; b=XGFbd0Vtcd0kBjE3DL0fHynOQM1Yms5SG5ZtGBXDv3P53Y8eX0tWXoCow3OaXeNJBu2Zxn3aKVFlzpPC4j5tTpI3zSCHYAzYUNbzqchqOj1j6SmfkxyhBB00W4MuLLCSZAPfWkFD3pw54UGfCgHMZZ7NXeZt9Pg2BLIY9Jb92ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728049086; c=relaxed/simple;
-	bh=mVBO5k105eWD0yEN7U6lJL6b+1SCBIusfw11IwgJtPU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uIPnIM7hW77QmCkiyMIVxl6gqphv43vbNVjBPWWsP6XzFB8KI3DQuYeG05HqTpH4l8CGdwRkF8ECSHyg7ofRU7P/pp0dOcsojAvRwbiL/QqFZL9PVZ1HorIm8g9W3iKE1/zzlGoDVwRjwjIQtly3jUCa1JHGkOMeCsMEpZK1RCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WV4vQLOO; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-71dea49e808so480667b3a.1;
-        Fri, 04 Oct 2024 06:38:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728049085; x=1728653885; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TVLq22bs+1l9xY9JOZ8imSDy5KmOLVk2kQhCSbpcWNE=;
-        b=WV4vQLOOWUtxnVRWvgQe+/5Mn44GrJebxYIjZhAd4TdM+3ngkhCghXZbF01rxeI0DY
-         orEoJf7ephi2DH7zeiavAcq/rFfETbKHHNTV+qtixEh0VZBpClCtgUwHtT7mcQZgWubk
-         6LARIch/Qbp0Ox4O8IFOswNotjHHYwUZF9NUMwsyhxYWqxwJYmubywIKCp3F814KaVjq
-         zleMSz6K3Dm7SsXh+3AawPCwFSFQR+zrTMXIAzrmMkGcc7z7+wIW4FTHR59VYB5LL5GE
-         2H9alEWEFVGP2btHSF8k4p9mil2S9z4rpieNuwrUmWBxxrNXgKjPgV6BUX3/u2Iqz08q
-         zDIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728049085; x=1728653885;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TVLq22bs+1l9xY9JOZ8imSDy5KmOLVk2kQhCSbpcWNE=;
-        b=J+eRbU/FQlQH8myjPOpKmsU2G774ewA5N7L0UTJC74rda+BClJycrmL+t4Vo/WkDlz
-         8bc+c7IZDfNQanyamLqwMC3D+/y5rhoMDHM3pMYbkRclvxU4nTELr3VlNtbnk7K8L+5U
-         yA/ENawAYqqe9LwDuk0XyLtR89bxjkVKmhqcXCx2671fiLXk8jtXfQoaXRbGlb+xzXd+
-         ca14oStDmQrPrgpBSW4DtXXZwGXxtyG451VPTOGfKDdV4rWp+C7W2AJ88RbjZMA6UGJY
-         oNjgx0coR1RL4/LxT6AnXe3nfpGBr5iCv0hdYJjMvHsdQcatG2w1UYXKNn0vk3wbM8sR
-         q5gA==
-X-Forwarded-Encrypted: i=1; AJvYcCUKORlfR47rSn7fKoQ7dVP/cDy6lYgidfgBfA+DAkjU9klwrmXPqoMLETwqC2gIk2JY6qRtqbq1R9bnKlZnKy+OIsc=@vger.kernel.org, AJvYcCWJ5SS/n1cB03HNWnFNfNQA8snz4MtavwyzKK+EVg42VhdJ9+WtUhK2q2R2m7FzLiQQagl7Yg682oOg@vger.kernel.org, AJvYcCX4vVNTphmVXkFZdmOZk/+xDZ74Q/c+oWD4MkuNZVDtYo5ZuX7LImcwXjRO0JvB7p+LOJLhOoqgQ9c7vvGv@vger.kernel.org, AJvYcCXQniSoFx4uFCJmKeIwTvmSOKFLV07zyM7kptqVJemTo9PtWRiP3vexdvZdCFdnElbZO4z7TZPnf+NMHjY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywl8eGKrC+n/sX2T8s6j9EtvGbHDbN0nZxPEo8JlLmfUggWYhBp
-	ft3bB772+hLmg8v4hLL221OBjcFYxHQn5v5MJ1l3XBH3usQGipXj
-X-Google-Smtp-Source: AGHT+IGhEdASi+MxAhYr/5O4xJ1vTIjCaytgyNSnCaXtwTaIfB45CRoPQcP/88bkABWIesSJDpwwIg==
-X-Received: by 2002:a05:6a21:9204:b0:1d3:b38:891 with SMTP id adf61e73a8af0-1d6dfa22f7cmr5043217637.6.1728049084632;
-        Fri, 04 Oct 2024 06:38:04 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:1b2:add:2542:c298])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71dd9def6ddsm3181637b3a.154.2024.10.04.06.38.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Oct 2024 06:38:04 -0700 (PDT)
-Date: Fri, 4 Oct 2024 06:38:01 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH 00/14] Remove support for platform data from samsung
- keypad
-Message-ID: <Zv_vuSrJzpN9IvXV@google.com>
-References: <20240819045813.2154642-1-dmitry.torokhov@gmail.com>
- <803e3902-cec9-49ed-baff-d26e578a8ab7@app.fastmail.com>
+	s=arc-20240116; t=1728049617; c=relaxed/simple;
+	bh=oZbY7cjUlUXs+rZdZPhUrlKHoQ+v6J/LO/oK31lbn4A=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=PgvdJVbAgizT6VKQ/U71COa35r8wV0Uv37+2t8TpLN67zFu+b/MFj14BOG/fRbmB27PDUPPFeXE40eyxYXr6b4rCTte2a+DUpXqJ+ocM5elBh8RHJKGmrm54XDi9yysNtfUQASwJ7YwwKXRJd8pJwJce8nkaOl2W1orl7S1meS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sij535pq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8A1D5C4CEC6;
+	Fri,  4 Oct 2024 13:46:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728049616;
+	bh=oZbY7cjUlUXs+rZdZPhUrlKHoQ+v6J/LO/oK31lbn4A=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=Sij535pqe2DD4Zm3C96yS1cR6Pf/OoGNM9YCNdZ9rSG6pW6ALTgZ6LdlItMoJqZXk
+	 1OO4zaG+blB/XVSXSimFbLeBNhNInDbLHsMqOhZ7Xc3Vj12vs5+rIwnZK56zyg8vYW
+	 Z2xzV8TyDkVJgkHOWzLTqE0bwO8eA2ES7EltYY9mcYvV4NSYe2iJVGAUWHCsanAnfr
+	 1HEa4eZnwGeOPcF0cLjVXviQMNEiuFj2VqQiJ7pevqjvPcZvzgv69cnJnfCPLOoLPZ
+	 6PiIQGIe+x7qG2k2xAHA/gjOCQxN+FFUUqCTHgP5f5eAxlwncH9VJsn40lYoE1ELGc
+	 v5IjTFcP1sj8w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B323CFA779;
+	Fri,  4 Oct 2024 13:46:56 +0000 (UTC)
+From: Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>
+Subject: [PATCH v2 0/3] Input: adp5588-keys: refactor adp5588_read()
+Date: Fri, 04 Oct 2024 15:46:49 +0200
+Message-Id: <20241004-fix-adp5588-read-refactor-v2-0-275a093758ae@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <803e3902-cec9-49ed-baff-d26e578a8ab7@app.fastmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMnx/2YC/42N0Q6CMAxFf4X02ZptMqk++R+Ghzo2aKKMbIZgC
+ P/u5At8aXJ6b09XyD6Jz3CtVkh+lixxLGAOFbiBx96jdIXBKFNrpQwGWZC7yVoiTJ67MgK7d0z
+ IZB0Rh1qdDZT7qSSy7O57W3iQXGqf/dWsf9t/rLNGhYZIqaAfl6Y53XjkZ+yPLr6g3bbtC7Cfo
+ yzDAAAA
+To: Michael Hennerich <michael.hennerich@analog.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728049615; l=767;
+ i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
+ bh=oZbY7cjUlUXs+rZdZPhUrlKHoQ+v6J/LO/oK31lbn4A=;
+ b=XHBzVocNO/baFkv19sn1LrVqmxrRKLvUQHt+7x0VVkAJyqYwBHVTTzYA1qtBkdoiu7QX2GkSZ
+ vOz35NoCgkkDfq6avibKeeaCAfxbDuwSBpU7FtRgKxPSzXiNAKVXKP9
+X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
+ pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
+X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
+ auth_id=100
+X-Original-From: Nuno Sa <nuno.sa@analog.com>
+Reply-To: nuno.sa@analog.com
 
-On Mon, Aug 19, 2024 at 11:40:56AM +0200, Arnd Bergmann wrote:
-> On Mon, Aug 19, 2024, at 06:57, Dmitry Torokhov wrote:
-> >
-> > This series attempts to rework samsumg=keypad driver to stop using
-> > platform data and instead rely on generic device properties only.
-> >
-> > The first 8 patches are general cleanup/facelift patches.
-> >
-> > The 9th patch introduces alternative binding that is more compact that
-> > the original one, which makes it more suitable for use in legacy (non
-> > DT) boards with static device properties. Note that the "new" binding is
-> > the standard binding for matrix keypads.
-> >
-> > Patch #10 implements the new binding in the driver, #11 converts the
-> > only user of platform data in the mainline tree to the static device
-> > properties, and #12 drops support for platform data from the driver.
-> >
-> > Patches #13 and #14 are "bonus" converting the rest of crag6410 to use
-> > software nodes/properties to describe GPIO keys, LEDs and other
-> > peripherals. Note that I believe they fix and issue with recent
-> > conversion to GPIO lookup tables - the names of gpiochip structures I
-> > think are "GP<N>" ("GPK", "GPL", etc) and not "GPIO<N>".
-> 
-> I had a (brief) look at the patches, everything looks fine to
-> me, thanks for working on this! Let's see what Mark and 
-> Krzysztof think.
+Hi Dmitry,
 
-Mark, were you able to give this a spin? Or should I address the DT
-binding comments from Krzysztof and Connor and resent for merge?
+Here it goes v2. I ended up squashing the patches as the patch is still fairly
+simple.
 
-Thanks.
+---
+Changes in v2:
+- Link to v1: https://lore.kernel.org/r/20241002-fix-adp5588-read-refactor-v1-0-28800f1b9773@analog.com
+- Squashed patch 1 and 2 so that we don't return an int into an u8.
 
--- 
-Dmitry
+---
+Nuno Sa (3):
+      Input: adp5588-keys: bail on returned error
+      Input: adp5588-keys: error out if no IRQ is given
+      Input: adp5588-keys: make use of dev_err_probe()
+
+ drivers/input/keyboard/adp5588-keys.c | 151 +++++++++++++++++++---------------
+ 1 file changed, 86 insertions(+), 65 deletions(-)
+---
+base-commit: c684771630e64bc39bddffeb65dd8a6612a6b249
+change-id: 20241002-fix-adp5588-read-refactor-a85c88af4062
+--
+
+Thanks!
+- Nuno Sá
+
+
 
