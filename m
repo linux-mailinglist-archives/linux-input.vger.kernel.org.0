@@ -1,110 +1,162 @@
-Return-Path: <linux-input+bounces-7088-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7089-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F739906E7
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 16:58:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 240399908E5
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 18:19:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BF6C81C223F7
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 14:58:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B60FF1F22510
+	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 16:19:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 739471D9A72;
-	Fri,  4 Oct 2024 14:58:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 448E61C727F;
+	Fri,  4 Oct 2024 16:17:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fBxKL3Ds"
+	dkim=pass (2048-bit key) header.d=trvn.ru header.i=@trvn.ru header.b="U2ByiIus"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from box.trvn.ru (box.trvn.ru [45.141.101.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412C91D9A6D;
-	Fri,  4 Oct 2024 14:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7571C3047;
+	Fri,  4 Oct 2024 16:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.141.101.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728053900; cv=none; b=HA7f2rmiC0HASJEj5EzUWD35i1tLokB6QsJBqByqbsrLJvwsr4oyWmdKDD+fIPVWEsquT8qFkk2v9MmiXGrAg3kSm7nNmt923ZwApAx6LGkJ0q73R8soSFs+V/35n6V+fIY9yS208QzODMz+1kDGPbqgC73mKHihlnOmoom8sKU=
+	t=1728058678; cv=none; b=t8n1v9Df1+T44k5CPPe+w/UY4LLdlkhNM9mP2nIeeNxwYIGbS86edwamYALL8YAa0wpn920BN3m4LLeKegcjjAqzZpCDtzPEOU+JH9SU2BNUvGU/QWnpg4l21/9Ov34nxKdmRIvoC/bQQpXbaOQbviyr/6QK95lZGgVwOj9y5f4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728053900; c=relaxed/simple;
-	bh=hdx+Nlnqh49HdIrn5ECqFiAYUAa+WEBCnBFbH03L0U8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mtsndAeGhjRaw3bW/h8hfDdU8/DQRLg3Vp+YHFOVvtFlTH18ez/NyJ2lbiBg2TSA7Ssqi3dbykO9b45Sq6CfX11WX+r7fhJvZanZm+h5ihgulwfl2UZenxGbJlCH2jMKPkHSiAxTYd7CU2rBsBYyBSUt3aFsFACb/xhfUAnR96Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fBxKL3Ds; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6FC3C4CEC6;
-	Fri,  4 Oct 2024 14:58:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728053899;
-	bh=hdx+Nlnqh49HdIrn5ECqFiAYUAa+WEBCnBFbH03L0U8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fBxKL3DsUpoP+JinPpudeiel+njsclMIT6jbhTpYmITwoloJRv9FKqNNiD5ph0hnu
-	 5faD0whmMiBTR7Nz/88Ak18WYLsE52Q0uhymh0x7AxkJxDrgD8PCQ3S3QSiigRHpyF
-	 W59ARwSudAfO8NEOcYPGa3y9zAaFpx4nwpjuHCIvSQDLrQJO9x2o+aMJRdbMuh/S09
-	 1fKHViikT4dbYtVAl9zB50rJO6gMV60zYIamcgyGcXBMNEBz1ens/7gegntv9w9Y1V
-	 Ab0tV7vj5FC6h4pWus2y3EcBzwyKUVPfPnck+Bab7BsyVIMAZCRO/XCJwQIMLh7gOP
-	 yIJtfLjjUBOsA==
-Date: Fri, 4 Oct 2024 15:58:15 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH 00/14] Remove support for platform data from samsung
- keypad
-Message-ID: <76d98587-3623-4ff2-89eb-a5fe8c535293@sirena.org.uk>
-References: <20240819045813.2154642-1-dmitry.torokhov@gmail.com>
- <803e3902-cec9-49ed-baff-d26e578a8ab7@app.fastmail.com>
- <Zv_vuSrJzpN9IvXV@google.com>
+	s=arc-20240116; t=1728058678; c=relaxed/simple;
+	bh=H0MnowX7nwTqasbChirFtQh7Hmkp0r7mgb/om6B8so0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CLjDJ41a/WwpDYwvxuk0oUByELiJhRTBRdiVjuExNtPXUVw1nR5g9l9evBgo1lWxA/cjt8fJ++EZEw40duyTjqBRnsWKR6RCgsIHfdL8JlaWZlLWKxTEen8MxIRkrQ/4F0Ts3wTE+vd87nE5oUGRwE7n8ZwTk5MiofUNxuu3Q6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trvn.ru; spf=pass smtp.mailfrom=trvn.ru; dkim=pass (2048-bit key) header.d=trvn.ru header.i=@trvn.ru header.b=U2ByiIus; arc=none smtp.client-ip=45.141.101.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trvn.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trvn.ru
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trvn.ru; s=mail;
+	t=1728058663; bh=H0MnowX7nwTqasbChirFtQh7Hmkp0r7mgb/om6B8so0=;
+	h=From:Date:Subject:To:Cc:From;
+	b=U2ByiIuseHsVCeqmSivPZ/iRoHDlC8SjxPQvTmxBuTjPEBM6AIR8jlLPhzOkIjkUG
+	 wR+QbHtWbqY6406F6/vbgyPglV7oAW3+uG0dx54IlxIeu/Bp7RExgx0QlLpSHlMwSu
+	 6+eJeh/6EmmfSCn4av8Kd9r/wYCrcXDGOuP/fCjfJZGtn+bzDialpytMegSeD4/0o5
+	 wZtn7gBk9vUchFxMhoMJI0xphvDZXaSwmWgNd6dPAOgI2JEEP8q8+3jlxXCMmHncn8
+	 JWrOzN7iDyBuwDeagfjBCvrUjNpBdqz32VxCrNV0JFNdq5cimBUnpnmqmRKmVt0vIT
+	 CY9PY4i06w4SA==
+Received: from authenticated-user (box.trvn.ru [45.141.101.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by box.trvn.ru (Postfix) with ESMTPSA id 78E202617;
+	Fri,  4 Oct 2024 21:17:41 +0500 (+05)
+From: Nikita Travkin <nikita@trvn.ru>
+Date: Fri, 04 Oct 2024 21:17:30 +0500
+Subject: [PATCH v2] Input: zinitix - Don't fail if linux,keycodes prop is
+ absent
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2O90PREKokAOuISY"
-Content-Disposition: inline
-In-Reply-To: <Zv_vuSrJzpN9IvXV@google.com>
-X-Cookie: A bachelor is an unaltared male.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241004-zinitix-no-keycodes-v2-1-876dc9fea4b6@trvn.ru>
+X-B4-Tracking: v=1; b=H4sIABkVAGcC/32NQQrCMBBFr1Jm7UgmBLGuvId00aYTOwiJJGloL
+ b27sQdw+R789zdIHIUT3JoNIhdJEnwFfWrATr1/MspYGbTShpTS+BEvWRb0AV+82jByQqcc0zD
+ 21g4a6vId2clyVB9d5UlSDnE9Tgr97P9eISTkq1G6vSgyLd1zLP4cZ+j2ff8CNkJSrrQAAAA=
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Jakob Hauser <jahau@rocketmail.com>, Nikita Travkin <nikita@trvn.ru>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2847; i=nikita@trvn.ru;
+ h=from:subject:message-id; bh=H0MnowX7nwTqasbChirFtQh7Hmkp0r7mgb/om6B8so0=;
+ b=owEBbQKS/ZANAwAIAUMc7O4oGb91AcsmYgBnABUgY6l+kVbcWDny/A7E2Z7SNrVmdl6hGDFX7
+ FIhEi2aeF2JAjMEAAEIAB0WIQTAhK9UUj+qg34uxUdDHOzuKBm/dQUCZwAVIAAKCRBDHOzuKBm/
+ dW0cEACSb5XIfxWFCULLbMl7PX1bkH1mR5KhJDmQviQyDOzLq6qYoAwpxY/9P8EfTjRSVgo4FHb
+ /DPO3YQ2PhUHbDiu67WRryEjfRfnjtmVaQegh9rXpEfWRSSw5D1pnU9VYX44YbfojcfjfUvw227
+ lXu6z+wCEJq3aIsiIo6+MCiSYMgnEQM4o3p2cV0gSNTmI6d3kJ8M0CAJ3ui5RbAoJjCh6ZRLUfF
+ zqzEmxpRn320XPptaz4Cv7R3OuRz2NHFg6MFFJiMCq8eZh4/TnTZDNf09MWCNBsQIenrrFlC3gq
+ 55JwdU3obQg7z86PujUuCMNF4mgF6Ho4FEzmJRoYt6UcB+YVpoCfvd9XHJ27/kMLR0YkhCxTDoD
+ WAjF9BiVAmeHct9dDiWzse3/PfLL3n0EA9BY/CVNBooaGHEX2NTw1VhZK55lLd45kveUKYLGwDy
+ gAAfHYIZ7dEtOhJy2QYRVIm9rHHU6nW7ouGChnS6da833Hh+7xXKxLSJ37kvg7gjTBx1CHfjRJu
+ /eVfD0qY/UomElDaZXMfweU5VtCTeDO4g6rE36et3E0pOwqYnnfmABluLEjB+ilVlYp1w1ITSn+
+ u8MI53SnLcK0jY1b8RRZOYFljxIpHepvQ9IYfbpDlMTv0ef3EPyT1dK+/B9IH8ybvFXinPJqm9T
+ /Qt1Rp+Kncq6h0A==
+X-Developer-Key: i=nikita@trvn.ru; a=openpgp;
+ fpr=C084AF54523FAA837E2EC547431CECEE2819BF75
 
+When initially adding the touchkey support, a mistake was made in the
+property parsing code. The possible negative errno from
+device_property_count_u32() was never checked, which was an oversight
+left from converting to it from the of_property as part of the review
+fixes.
 
---2O90PREKokAOuISY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Re-add the correct handling of the absent property, in which case zero
+touchkeys should be assumed, which would disable the feature.
 
-On Fri, Oct 04, 2024 at 06:38:01AM -0700, Dmitry Torokhov wrote:
-> On Mon, Aug 19, 2024 at 11:40:56AM +0200, Arnd Bergmann wrote:
+Reported-by: Jakob Hauser <jahau@rocketmail.com>
+Tested-by: Jakob Hauser <jahau@rocketmail.com>
+Fixes: 075d9b22c8fe ("Input: zinitix - add touchkey support")
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Nikita Travkin <nikita@trvn.ru>
+---
+Changes in v2:
+- Refactored the change to simplify the code (Dmitry)
+- Link to v1: https://lore.kernel.org/r/20241002-zinitix-no-keycodes-v1-1-e84029601491@trvn.ru
+---
+ drivers/input/touchscreen/zinitix.c | 34 ++++++++++++++++++++++------------
+ 1 file changed, 22 insertions(+), 12 deletions(-)
 
-> > I had a (brief) look at the patches, everything looks fine to
-> > me, thanks for working on this! Let's see what Mark and=20
-> > Krzysztof think.
+diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
+index 52b3950460e2..716d6fa60f86 100644
+--- a/drivers/input/touchscreen/zinitix.c
++++ b/drivers/input/touchscreen/zinitix.c
+@@ -645,19 +645,29 @@ static int zinitix_ts_probe(struct i2c_client *client)
+ 		return error;
+ 	}
+ 
+-	bt541->num_keycodes = device_property_count_u32(&client->dev, "linux,keycodes");
+-	if (bt541->num_keycodes > ARRAY_SIZE(bt541->keycodes)) {
+-		dev_err(&client->dev, "too many keys defined (%d)\n", bt541->num_keycodes);
+-		return -EINVAL;
+-	}
++	if (device_property_present(&client->dev, "linux,keycodes")) {
++		bt541->num_keycodes = device_property_count_u32(&client->dev,
++								"linux,keycodes");
++		if (bt541->num_keycodes < 0) {
++			dev_err(&client->dev, "Failed to count keys (%d)\n",
++				bt541->num_keycodes);
++			return bt541->num_keycodes;
++		} else if (bt541->num_keycodes > ARRAY_SIZE(bt541->keycodes)) {
++			dev_err(&client->dev, "Too many keys defined (%d)\n",
++				bt541->num_keycodes);
++			return -EINVAL;
++		}
+ 
+-	error = device_property_read_u32_array(&client->dev, "linux,keycodes",
+-					       bt541->keycodes,
+-					       bt541->num_keycodes);
+-	if (error) {
+-		dev_err(&client->dev,
+-			"Unable to parse \"linux,keycodes\" property: %d\n", error);
+-		return error;
++		error = device_property_read_u32_array(&client->dev,
++						       "linux,keycodes",
++						       bt541->keycodes,
++						       bt541->num_keycodes);
++		if (error) {
++			dev_err(&client->dev,
++				"Unable to parse \"linux,keycodes\" property: %d\n",
++				error);
++			return error;
++		}
+ 	}
+ 
+ 	error = zinitix_init_input_dev(bt541);
 
-> Mark, were you able to give this a spin? Or should I address the DT
-> binding comments from Krzysztof and Connor and resent for merge?
+---
+base-commit: fe21733536749bb1b31c9c84e0b8d2ab8d82ce13
+change-id: 20241002-zinitix-no-keycodes-f0fe1bdaccb2
 
-Sorry, no - I've been some combination of ill, travelling and super busy
-since you posted it (sadly the bootloader for the board only supports
-booting from SD card so until I port u-boot it's not in my board farm
-and I need to specifically set it up on my desk whenver I want to do
-anything with it, especially for this where I need to poke at the
-keypad).  I've got one more week of travel next week and one of the
-major sources of super busy just got better so I'm reasonably hopeful
-I'll get to it week of the 14th but probably worth respinning.
+Best regards,
+-- 
+Nikita Travkin <nikita@trvn.ru>
 
---2O90PREKokAOuISY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcAAoYACgkQJNaLcl1U
-h9CIyAf/UT+SvU5Yxhj17iZJ3+MFGVgNHn0JN6vrsQBXrossVlgZ1JP7vbl1RobZ
-cw1/99nUqLGDjOHkNBSx/2/GjaZz1gEUDCbDeVaIMifsrGd4BbtoMTfwnclyCsp6
-fvvMKx0WAzcRmvm+FdQ5KGgt6mzZDsT/u3Q15ZOJ5GHunnP+njEkRY8SzaRZZteP
-EgGtc1FFI+tDVsoIQ6DNA23I0DVy2j/HZB23y/mYEOF1JiIspwhM+JjVUKJVgU57
-piRknEy0k2sO3sJ26HhyngwWT30Zg+ud+oSB64uO4RqnGqP9B6coPbCzow4vvENE
-zTfKRFshRCxw25+aDBoBxDxERSyLew==
-=jObm
------END PGP SIGNATURE-----
-
---2O90PREKokAOuISY--
 
