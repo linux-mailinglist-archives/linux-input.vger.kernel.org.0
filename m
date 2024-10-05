@@ -1,131 +1,123 @@
-Return-Path: <linux-input+bounces-7090-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7091-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9673D990A19
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 19:24:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF365991382
+	for <lists+linux-input@lfdr.de>; Sat,  5 Oct 2024 02:32:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 05F4CB22934
-	for <lists+linux-input@lfdr.de>; Fri,  4 Oct 2024 17:24:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 85989B220CE
+	for <lists+linux-input@lfdr.de>; Sat,  5 Oct 2024 00:31:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F11F157492;
-	Fri,  4 Oct 2024 17:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D9524C91;
+	Sat,  5 Oct 2024 00:31:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kqi93/3c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A+5HWJ/e"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A1E1C877E
-	for <linux-input@vger.kernel.org>; Fri,  4 Oct 2024 17:24:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC50E4C9F;
+	Sat,  5 Oct 2024 00:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728062680; cv=none; b=HnpCMwyJRitKY+LAwpX+dPkZepZfEM/ZZ156ckaQbLOgXSVzOOimo30fyV5Erd5yi3Leic3KBhVJJc7zbbqodYdGyUfABdtf8DhP9aIwbr6lCYmLioD8RWSNZ4PgySq+vtiycu/XcrXCBLo09x/iB6xggfsGO7x7ZWUKZfaiNnM=
+	t=1728088311; cv=none; b=I2/HuGzTX1HWBlt0pWIkTsL8EDb8BsXw4yPI5yu+mZFS+49H1jY15HctJSyIgi3gPd/TLXRlTaVR5R4ShdCWwBzJ6El1fnZyl0MMn7jEANtMWrN9CQiOtycDcf1X/ovD5OjqieE4+UrCMm9Hv+GOuQSASAzV7WO22JexWDSh5hQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728062680; c=relaxed/simple;
-	bh=WBUEm231XggB4DjsI1kKzX6lb6Qv2wdaTxUXmNFPvqM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FEzMaIFpxglyLopk347gl63t+KM/+U3J23gEmwQ+x40GUMLtmaYLNT20P3CRTKxA5SMDs6Jcz6o/IZ4ShfD0ieEcLfH2BKOXgXxtUExjMYCPsIrbybhZEPtb+kxOGDa3J9Ug7Pt6BerfT28HZV4aqQ4x4qxQvOXGGtT4O1R15Jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kqi93/3c; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-20aff65aa37so20989395ad.1
-        for <linux-input@vger.kernel.org>; Fri, 04 Oct 2024 10:24:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1728062678; x=1728667478; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JfPDqk3U8PSTNFTg3vYc/v2JFHCSEwqe3iTNavlxTFQ=;
-        b=kqi93/3c4IIXzIMP0rp3o6hQ4KBr0OlZJKuOsduKyvZkRuZvKqRVh5P3i+BQNlM65s
-         Vn0vfjyf9h4mBtwRep/5ioRJ+ZupZaOfk0z5a4Phj2f6wkEnIsdYrr8uLi6Js/HxdTGY
-         tizCRqapjXYIcgl/sJvgQKkiYYuv1ospNZ8HI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728062678; x=1728667478;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JfPDqk3U8PSTNFTg3vYc/v2JFHCSEwqe3iTNavlxTFQ=;
-        b=N13/B0djYy5N3xFY2nGRiVi2UPkqO/nIxPVOadNj8TVLRnjecTBbKf4WhKazhMc73P
-         JNjaypbRP2AFwM6m9DZtQJKDl5eOV9UliPlNIbrUFmr05YjspvEMuKAxbriugrtv0UHo
-         SLZ9oZ12/Zmn8B0wStSnZgm31OKLSedoqy3c0tYAcft0VCo2NJ0M84/cDguAWOqeVcVK
-         88ib9prhsKLJJfBGi16St+7bs/JocTGVoyVCjBnNX8klJJpqNQuUR7hYdUbI7wx5D22V
-         iSGf24AoXF0lYusoFcbja8tFwcO6mpAL5vtqlQS7TJsv/zhoSLICfJEM5CTCOBe9SrJK
-         rqEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXXOHbDR3XDhbwCLbthZLoQWqbE5KldgcWfd5UwpSXVwAVUiHwkTt+HQFlg+I5iqJCy04mmEVokFijXPg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6rJxKYeWu3b39J1Y+W0qvzUIy/XlyGK1+GUzfguzGZiSAKDQO
-	J5PwO8bhL08husc/+5HZzRRrqBflFKAhBCvDuCiA2VbSoKqYoN1s4w2VrbnurQ==
-X-Google-Smtp-Source: AGHT+IFObaZACplJiv5YkoEQsCoFpl7ig2wihQyzVdhraEPOdDKHeKEPUCKLTtF4FtiqLiFmW4JozA==
-X-Received: by 2002:a17:903:18a:b0:20b:7d09:8c86 with SMTP id d9443c01a7336-20bfe49666fmr56055665ad.38.1728062678433;
-        Fri, 04 Oct 2024 10:24:38 -0700 (PDT)
-Received: from localhost ([2620:15c:9d:2:df8:441c:aa40:f4b0])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-20c139a408csm899515ad.307.2024.10.04.10.24.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Oct 2024 10:24:37 -0700 (PDT)
-From: Kenneth Albanowski <kenalba@chromium.org>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	"Sean O'Brien" <seobrien@chromium.org>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kenneth Albanowski <kenalba@chromium.org>
-Subject: [PATCH] HID: Add quirk for Logitech Bolt receiver w/ Casa touchpad
-Date: Fri,  4 Oct 2024 10:24:29 -0700
-Message-ID: <20241004172434.854601-1-kenalba@chromium.org>
-X-Mailer: git-send-email 2.47.0.rc0.187.ge670bccf7e-goog
+	s=arc-20240116; t=1728088311; c=relaxed/simple;
+	bh=MWATiQ5I6VIj3BVzjkw3ESahCCu58nlThuw47mMQ8ng=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kV96yRB7XqXjv3AptvFDWQIN/33sVA+ZtSTtpDiS4aTaCOiIEqvt7VD5uWSJN5ywLXCKjzQZkuZq/2lGKXcXdqVXMiICdIUdxHADyUFXvPNOjt9oEuUOJvWpbxwcYvOJKkrBWaF3plff25z30Dn1zPt50U23sc8NnNUUZAW4R9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A+5HWJ/e; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728088309; x=1759624309;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MWATiQ5I6VIj3BVzjkw3ESahCCu58nlThuw47mMQ8ng=;
+  b=A+5HWJ/euCDajhTwIbZKsvIa/OUjcslPBQGO2WgNQd0X7JOdL3xy0Qlk
+   dkSfuu5Az8np8rP3HL1MAWRKz81Q3/qPHF/KhH1336ufZDjeML3gQQMmM
+   KDaCmmG7evxtz+3pALv9GvWKXNzXy6XWkD3jZWYHHoxkyq8ZDRhiuVbql
+   Uy6TA61yyCbCFxtc3JXxN5GLfqN2qD6z74rdg6szlf6J8EfE29U3sX6tH
+   XoQwndaobYGsRzjfJ6Msm6+uKa7VOWvVGugp0RrhdrVJn4XqBtiZ+F76P
+   6Ighj2PLlyLMTSc9J5W0qVFIUwGv0jlUYUFlCv7QXdPvl7niQRgIc0Ibk
+   w==;
+X-CSE-ConnectionGUID: LIeA783WQ02AyvCwN9tOFA==
+X-CSE-MsgGUID: yzwQ/gKPRYq6JdDS6MLjUQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="26789030"
+X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
+   d="scan'208";a="26789030"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 17:31:49 -0700
+X-CSE-ConnectionGUID: jXYCXlquSZagKbT/nUbuEg==
+X-CSE-MsgGUID: 21n+kBPpRgy2h1ApTOAzxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
+   d="scan'208";a="75684749"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 04 Oct 2024 17:31:48 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1swsi0-0002NQ-2q;
+	Sat, 05 Oct 2024 00:31:44 +0000
+Date: Sat, 5 Oct 2024 08:30:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vishnu Sankar <vishnuocv@gmail.com>, jikos@kernel.org,
+	bentiss@kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mpearson-lenovo@squebb.ca,
+	vsankar@lenovo.com, Vishnu Sankar <vishnuocv@gmail.com>
+Subject: Re: [PATCH] hid-lenovo: Support for TP-X12-TAB-1/2 Kbd Fn keys that
+ use HID raw events.
+Message-ID: <202410050809.Rgpf9KE6-lkp@intel.com>
+References: <20241003095124.7611-1-vishnuocv@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241003095124.7611-1-vishnuocv@gmail.com>
 
-The Logitech Casa Touchpad does not reliably send touch release signals
-when communicating through the Logitech Bolt wireless-to-USB receiver.
+Hi Vishnu,
 
-Adjusting the device class to add MT_QUIRK_NOT_SEEN_MEANS_UP to make
-sure that no touches become stuck, MT_QUIRK_FORCE_MULTI_INPUT is not
-needed, but harmless.
+kernel test robot noticed the following build errors:
 
-Linux does not have information on which devices are connected to the
-Bolt receiver, so we have to enable this for the entire device.
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on linus/master v6.12-rc1 next-20241004]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Kenneth Albanowski <kenalba@chromium.org>
----
- drivers/hid/hid-ids.h        | 1 +
- drivers/hid/hid-multitouch.c | 4 ++++
- 2 files changed, 5 insertions(+)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vishnu-Sankar/hid-lenovo-Support-for-TP-X12-TAB-1-2-Kbd-Fn-keys-that-use-HID-raw-events/20241003-175338
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20241003095124.7611-1-vishnuocv%40gmail.com
+patch subject: [PATCH] hid-lenovo: Support for TP-X12-TAB-1/2 Kbd Fn keys that use HID raw events.
+config: i386-buildonly-randconfig-005-20241005 (https://download.01.org/0day-ci/archive/20241005/202410050809.Rgpf9KE6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050809.Rgpf9KE6-lkp@intel.com/reproduce)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 86820a3d9766..ff3c17f76aa2 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -868,6 +868,7 @@
- #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1	0xc539
- #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_1	0xc53f
- #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_POWERPLAY	0xc53a
-+#define USB_DEVICE_ID_LOGITECH_BOLT_RECEIVER	0xc548
- #define USB_DEVICE_ID_SPACETRAVELLER	0xc623
- #define USB_DEVICE_ID_SPACENAVIGATOR	0xc626
- #define USB_DEVICE_ID_DINOVO_DESKTOP	0xc704
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 638e36c6d0f1..481d2b798633 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -2137,6 +2137,10 @@ static const struct hid_device_id mt_devices[] = {
- 		HID_DEVICE(BUS_BLUETOOTH, HID_GROUP_MULTITOUCH_WIN_8,
- 			USB_VENDOR_ID_LOGITECH,
- 			USB_DEVICE_ID_LOGITECH_CASA_TOUCHPAD) },
-+	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU,
-+		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
-+			USB_VENDOR_ID_LOGITECH,
-+			USB_DEVICE_ID_LOGITECH_BOLT_RECEIVER) },
- 
- 	/* MosArt panels */
- 	{ .driver_data = MT_CLS_CONFIDENCE_MINUS_ONE,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410050809.Rgpf9KE6-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: drivers/hid/hid-lenovo.o: in function `lenovo_raw_event':
+>> hid-lenovo.c:(.text+0x1297): undefined reference to `platform_profile_cycle'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
 -- 
-2.46.1.824.gd892dcdcdd-goog
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
