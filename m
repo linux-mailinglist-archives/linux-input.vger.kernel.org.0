@@ -1,281 +1,196 @@
-Return-Path: <linux-input+bounces-7105-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7106-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA72C991E42
-	for <lists+linux-input@lfdr.de>; Sun,  6 Oct 2024 14:40:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B69991EA1
+	for <lists+linux-input@lfdr.de>; Sun,  6 Oct 2024 15:44:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9645EB2092F
-	for <lists+linux-input@lfdr.de>; Sun,  6 Oct 2024 12:40:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6EEFC1C20BF9
+	for <lists+linux-input@lfdr.de>; Sun,  6 Oct 2024 13:44:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B21BC173355;
-	Sun,  6 Oct 2024 12:40:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB550176ADF;
+	Sun,  6 Oct 2024 13:44:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="G2KajWk8"
+	dkim=pass (2048-bit key) header.d=valdikss.org.ru header.i=@valdikss.org.ru header.b="y2jYy87A"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2072.outbound.protection.outlook.com [40.107.220.72])
+Received: from mail.valdk.tel (mail.valdk.tel [185.177.150.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D449F54F95
-	for <linux-input@vger.kernel.org>; Sun,  6 Oct 2024 12:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.72
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728218427; cv=fail; b=hjZ61OWe2UuWTix0tggBdg5qpiQPdQQ59I3NNXVwXL7DdcBn/3/SNQ1TcpSM7Bhir2ro3AGTOYTlznME4HK4waaqIVhYN92vUGJs1o/Dr14Kv7kmN9yaHu39uFEj1M8qvmGjM1YC6AacaQdAFH7ph/DmKIhMelg3iJD0vieWstA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728218427; c=relaxed/simple;
-	bh=wHgz/e+nADWyLCloyGFK+9tBDzs7n5jXCeIMTi3eIC8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=KE7FyiQ9QJNUm6RRaQpAPX4DOcwUheGXSbdK21yICun9to0QLPN6eiEGEaJp/tbwluTlWAg97Dwd4XeKCZDS+FqkAuAbg15iANNianYvLmpUYxRFdbM5byKP4oeXsncXlFrU8s9ZTflAN9GmBpZysCUZGToB5SCvrJSc0msoHr0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=G2KajWk8; arc=fail smtp.client-ip=40.107.220.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Hsbx78HLIu9UjQMsxYPS+uZ3a27JKCmHgC1rrjvzrWHx6ZDoR13uFqoqTx6WEGY1CFuCYsrjwlUe8EAniHT6XYciVTHI/tA3z+Didks+WSMT8s5qk7s2nGHaqYCNLQz+DOhuhfEH1Xu9YlBod7mRQXeCshlLkdo5HdVRLE56Gu5p7ri+yz9IdKR2tpfks/FmAMtnLdE4PQHHsynP6kNRcNq4AQZ2MptOo2dS1Ggnx4+/voG8WwUbs/4z/+1MqG264b5kT9GYVb+ApX0vLjENVg9YhMB/g4EC74cI8Vudjyk9XHKLRIfhDWsf6BNBIPSumtKdj7dNMM4/QcQ+4gIliQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MJumcfFRewvORL8YnitBTma7KXhj+lfyGu1egkvLTUA=;
- b=WEk0EuwgcnfmvzzhDww9wo5sTTQ3s+DETi4Xcw02yls6FlkqfRXfYvl/bKBDbbPJjeCuNqqlOA+x/gyLZB7t1F663drZHKW19ysytU/2uv3ZSkcNJ3djeXNWEtbaNEWLpVdEkg2SXLhAFq73LeyJODRXvfdOmDBEAm/3BI8r62mGyQ4bgfg5I5GkddsOw/rAfFlehc2ko5Y6fwh9rQGpvx2tP3Lzdqij9m1r3bk05GYx4w3P0M0B/jGihrdbRPIBFrWWHzcIGWSjiAg3/RTO0s/nyMx+YKfG+gpsg5qeQuekcTEZVvpLy4m5rPs6zfL1g0w0T+whVm9uaRw/Yc+kjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MJumcfFRewvORL8YnitBTma7KXhj+lfyGu1egkvLTUA=;
- b=G2KajWk8v6piGpZa8Z7m2Ft9qAYPV1/HwHkposmcLrAaEeR4vd9QlLsCDxiWywPS6OGH01Oo4DbAp9wbFJn/XWY6fVGd0ORN76ghb0CFY82K7sAxMG/hw03bv68Ox67gN4wj/p0qtuLJbxDid/TNljo6LrRSDHhrO3d/ElDM+Ak=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by IA0PR12MB8983.namprd12.prod.outlook.com (2603:10b6:208:490::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.20; Sun, 6 Oct
- 2024 12:40:22 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::a3dc:7ea1:9cc7:ce0f]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::a3dc:7ea1:9cc7:ce0f%6]) with mapi id 15.20.8026.020; Sun, 6 Oct 2024
- 12:40:22 +0000
-Message-ID: <763d1d87-754a-3e2b-f8c1-74e4fb4a18e5@amd.com>
-Date: Sun, 6 Oct 2024 18:10:13 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] HID: amd_sfh: Return immediately if no sensor is found
-To: Benjamin Tissoires <bentiss@kernel.org>,
- Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: Basavaraj Natikar <Basavaraj.Natikar@amd.com>, jikos@kernel.org,
- linux-input@vger.kernel.org, Chris Hixon <linux-kernel-bugs@hixontech.com>,
- Skyler <skpu@pm.me>, Richard <hobbes1069@gmail.com>
-References: <20241003160454.3017229-1-Basavaraj.Natikar@amd.com>
- <a3fb27a2-5167-4880-9102-eaf0f47df398@leemhuis.info>
- <uupvw2jw6j5wkwtfwljipmpx4kynv6k3wqgy6sg3crw5r27rtm@mudhwifihmtw>
-Content-Language: en-US
-From: Basavaraj Natikar <bnatikar@amd.com>
-In-Reply-To: <uupvw2jw6j5wkwtfwljipmpx4kynv6k3wqgy6sg3crw5r27rtm@mudhwifihmtw>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BMXPR01CA0088.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:54::28) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A01D176AB6
+	for <linux-input@vger.kernel.org>; Sun,  6 Oct 2024 13:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.177.150.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728222282; cv=none; b=ek9EL1rV+scUEZ/ch6aNuV0CIzTaEfaJUKcTGo+JsHSlc6o4TyBarofGS3njOR37asRLuUw4GrI/x+ium5GJF1KT2z7mdk7aQzivVcC6FGoo2HiKzSu0ts1nGHsref7CjmKPu7x3v798seieJ0dzNgTgVppXhL3S2eCi1YFYXgk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728222282; c=relaxed/simple;
+	bh=C2M3Xg0+l9C709R1DfYEX9IQKRdtV1Ih7aB9pOJdsTc=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=lV/zIU7WXTeT9mkCh8VDxg57rdiP0kyCzCELOVikdxCHNknUg8KRWw8qu4pC2qHtpjr2nnKtCKFFbCvH/VpIFJ1HzRfa/iubYgUcaticlPM6dhr7i1gQIMT8L5z2FM+A/rFr7KMNk5nDW6agH6hcVD07wezir6Bwm9zoxjW0l7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=valdikss.org.ru; spf=pass smtp.mailfrom=valdikss.org.ru; dkim=pass (2048-bit key) header.d=valdikss.org.ru header.i=@valdikss.org.ru header.b=y2jYy87A; arc=none smtp.client-ip=185.177.150.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=valdikss.org.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valdikss.org.ru
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 926FD15FF4E4;
+	Sun,  6 Oct 2024 16:44:23 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valdikss.org.ru;
+	s=msrv; t=1728222266;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-language:in-reply-to:references:autocrypt;
+	bh=C2M3Xg0+l9C709R1DfYEX9IQKRdtV1Ih7aB9pOJdsTc=;
+	b=y2jYy87A224iK/emGRBB8EEmZeJAHbmOJkqDlAs0ZGrIhG9dS2lqe9Es5GTDI3Y2NjDEP6
+	CarNFsmEtXmipnME1foQ0jXN63OSljJNsE9mJTDmvC80Q6x+Imyw0A85RZ3wQEA8RRXHHa
+	OFkiZt2ZNJmTTr0QCzZc8ajMrQT8X+Bqm73zKMsQjsf1cOi4r0yRUyvNRqcT2IMh0aGLqw
+	wl4uAEYxPSbZV/IBDzDncwlCtdvlNjXKjWMmLtPdcHUBuz2qVNyr/k3TNDgO/ATdksXcNQ
+	m1R5ZSTXtfpcnQ/ECuUJp+BYkBkAAoAJ4afKMqKpbr6/FfkVjwOEiU4u+873Vg==
+Message-ID: <222f1501-70fe-43f1-8bce-81a7667a5927@valdikss.org.ru>
+Date: Sun, 6 Oct 2024 16:44:14 +0300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|IA0PR12MB8983:EE_
-X-MS-Office365-Filtering-Correlation-Id: 43cb23d5-0c6b-4626-c11c-08dce6040af5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?c0NSYkVubDg0SnZyWVdSckR1U1BkZDVjcGk5dEdrd2Z6SWc1dUV6bnUxZlVr?=
- =?utf-8?B?b0x3SWVqNS95M0NyVUFpdnczdHg4VlYwZ0pvODZwcytpUHpralZmcGQxUGdM?=
- =?utf-8?B?RVcvdlFOZU91OGxtTVdsbkNMaEtNb1BnYU9iZ1BmYitZajBNakxvaWRRdXQ4?=
- =?utf-8?B?eEhhdDRZcW5lWEdoTFRZNzd5bDRjb01LcDBmSjlOUml0b1pLM1UyWDNqazI3?=
- =?utf-8?B?VWYza3J2bnlKWEcvaFdubzREVlU4N09uemhCdHd6OE9RRUdTNWhaNE5XaENR?=
- =?utf-8?B?TUI5ZUt2VlJLZXpUVElqTjVKQnc2OFJUNStkdWY4dDd1MmhyMmx5Q0lvMG9k?=
- =?utf-8?B?RUhzZFNEd2I0WTNWNVI2dS9uRlZYa25YNHFPNkszSUJuVzdpN0pxYXFiOUZu?=
- =?utf-8?B?YTE2dTFmUWcrM2NwZVM2M3JKMXFLbVgvandyNFpvK2MyWlJaZDNFMXBsRkVY?=
- =?utf-8?B?bi9JcmpXZFVIaS9YTHg4ZVNsVmd5dWNkaDVtWnJ6TXpZSmhFUTdpSFNZRFZW?=
- =?utf-8?B?d2RhVDBXRFQxOG9kUmtQeFBiTHpjdldpWnB2MTFBaXJRcVZlYUV3M2xYYWJ2?=
- =?utf-8?B?TnZDSFE4YTd4Z2NzYjlsamdLL1NqUkJLNGExbG5VcVZpT3JZUEh1ZEhOazlT?=
- =?utf-8?B?Vzc3T2tYQ211RFBWRGZibWwxdG12VzB3eU5wTEtnZkY2OGM4NXhBNm5uenBa?=
- =?utf-8?B?Z3RCMzNtQzgvamwxOUFIUmdMOG5JTU1jVGV1ZDIxWUg0aU5ZWHZKSjRIdzdJ?=
- =?utf-8?B?Zy9nT25ic2M5UnRIME85ZFFYTGtDRktHR0pWZndRREtzS3ZFOTNhWm9RQ1Mw?=
- =?utf-8?B?a3UrcGpzVDByUWRxeHg4bzRjenlwaEptUFBaQ1BObTJnS1NNaXN3WHhoRkV5?=
- =?utf-8?B?M3JJM2dzNDRKNFdvZWFEN0dBK2lJcHVFeXRkaTE3NCtHS3FGb0NuQUJocEdF?=
- =?utf-8?B?WjFQcWFkcTN5bmdKeFJLYVJkdjkxaFp1OUJIZXgwdFRMSFBqQkl6VlR0V0Qw?=
- =?utf-8?B?aUo4UTFqczJ5TmNQSE1hY3AzcTlVYVA0SnNtdnFJalo5UFhjakpDQ21nSEdu?=
- =?utf-8?B?RTVQRUJ0YU5GdE03WUp1cFF3K09RdldJZ2pWS0RtTFNlM3NRODFTYjNZZjBW?=
- =?utf-8?B?bXNsVnZCd2pTdUkzcEVGbnNPcExQUEwwSytzY0tLU2EyRzlZNzZIczFNN1BX?=
- =?utf-8?B?dzV5NzQwMzgvQ1ZZcFV5TWEwZnlFWXl5d2JweXhZNlk3UUszQVlMMnQzRnFY?=
- =?utf-8?B?V0xQUjZvdUx5d09CN1V1VXB5VWtrZVBoL1dkWC9Hb0R4UnNPcnd1SHh0K0JG?=
- =?utf-8?B?YW1ROU1LcUwyZGh5Y1BMOEFUU1VkWFJ3VkxNN0lEd0NwcDRIOTJDZ1ovNWdU?=
- =?utf-8?B?Q0lnQkJPRDN3ZXJHeG5IU1BNNkM3dHN4YkEwT05aMCs2RW1TS1VHTGM2MC9H?=
- =?utf-8?B?aUE1K2tWOHc5SGRwVjRpdDJhT0pGd0pyaG5hM2JUVzVZTVk5a2M0N21PY1VK?=
- =?utf-8?B?VDhkR1lCaUhJM2VrT3l0YVhaTFlJa2NNQUJpeXRIMkFLVUhyUWRZSlh4Y2dR?=
- =?utf-8?B?bENqSEtMb1cycVRSRHFMMHFKckppbFBQanUzUHRjK2Fwa25ocjQ0Q2RJcW5V?=
- =?utf-8?B?L3pNT2xjdngyOHpqU05QQnpzbTI0SkJ4MTB2SzR6NUZtZ2VZb1g0dk1IR0Jl?=
- =?utf-8?B?MUpBZ2l2T1lrMTdpWWk1Wk9hRi9zZTRVdXIvc3Fpa0E2NzZxeHY3NEpsakNK?=
- =?utf-8?Q?qKjBcIKIWWbtK6M8GM=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MG5lbkNsVi9QWk9PdFl4QTdXbCtoNHF4bHZIeFVOQW1PQ1dyMEZTbnFnQVp5?=
- =?utf-8?B?SXJ0SmloS203NEcvaTFQRHVsbC9WSUErUENEY0ZxeGVNVUNpekMweldwQTF2?=
- =?utf-8?B?cTRaK2YyanNwOUNRVTlva2xxakxhTjNUWEJYNWhZUTFLZEpwMisyNnByaUdQ?=
- =?utf-8?B?RnNZSTc5bU5qZU40UnFQL2xKTGlWRXpwM0tYWWMvS1VNeFByMk9GM01iZzRF?=
- =?utf-8?B?ZjVIN0pVU2l3R2h5dG9kQ0kwY2RqYVhIc0p3a2plcm9NN05iKy94cFBvcWhE?=
- =?utf-8?B?ZzlUK091NXU0bnF1Z25OYVlqdHpISEJNV01acjJGZytQc2lZcFlCKzAzU3ly?=
- =?utf-8?B?VHJMejJ2VGdZbjU1VTNRWTl0TWduamh5Sy9WMnQveWkxRHJEQXVmTzBaay9I?=
- =?utf-8?B?ZEV1L042VTRBY1pueUErcnBJVmI3RWpZemdnUWhMUTdsNUZkVjhGWFlkVEpU?=
- =?utf-8?B?a2d0c1J4OG9IR0ZHaWRmNEFybS92eXRYTjRyWmRvYTBqTWo5MTVPK0gxWFkx?=
- =?utf-8?B?RDNOTUtRY0lid2VzU1Ztd3pMRVVnajBLY3NxMmt6VVBBZ25sdW1lTTR1aDgz?=
- =?utf-8?B?NWVZTTcxMmFxQStxcGQwcXBURFJGWEovYjJKcXVQekhlOFdTUWg3RVBwbUlH?=
- =?utf-8?B?NngwRlZxZHljRUx0c2VSMExVNHY2K2ttRllLTUUwUEJjWTYwQTU4a3JZeDFV?=
- =?utf-8?B?ek5rQnduZVl1UGVzTHFiZm1Ra3I1T2gzQUtaUkxNdXF4OHdjQ0RyQ0hRd2x4?=
- =?utf-8?B?UWlmLzhNVHZNWTBJejB1d29nSFZGYldZbjUyd0VuWEs0eEljRldJY0NWVWw5?=
- =?utf-8?B?TXY1LzU4Nkx3MFVpOTFDTkZkNEhEalZURG5HQThLV3JDODZ1YnZRenExWlln?=
- =?utf-8?B?ZXRSVjhDZEk5ZjlVNXZxWU1JY2JNNlJndlpWVWxqNUtDWHhEaHovTHhKRnZl?=
- =?utf-8?B?RGkvWnpkVncxRmtKR1pQUElMMi84NEpGaWc4dnVETjJQZGdYR0l5Q2N4Z0ly?=
- =?utf-8?B?YWRoUS91TWtycVNWQ0VYTWRpam1LYWNZMmZMK2tTbWNXUUUzeEtnV2FrenBR?=
- =?utf-8?B?OE9TdE5pR0tybzQ1YkkwTTVIbjRGZlk0bXFsYXdXbHFqMmdXUVdiSzNaL1VN?=
- =?utf-8?B?cGxKNkVOQTd2SUNKNzZJL2xpUmJGUzc1RXpQQ09mRHRHNWlkV1AwNU9UdmpR?=
- =?utf-8?B?cC9vcDIzOWVzQTZKQWFzOFZNVUFpL3FFUTJ5UGZaL2ZhcGZ0VnVSdUxuRUtu?=
- =?utf-8?B?THRGVjZtNkx5R0grV2pac09tOHRhclZrL3F1aGZUc05NWTY3U25DL3YvbmYv?=
- =?utf-8?B?b2ZubjBrZ0huS3VONmlCKzFaVUhNSnVQbm14SG94bS9rM2orWG9nS3JyczBl?=
- =?utf-8?B?UElqOWJIa0ZDRlRQbGZqSG45bmNUWmV2NVNES0lLVlpFQU44Zit0d21JUnho?=
- =?utf-8?B?M3g2dnpCK001cHJmenNpSW9xWVNkVXZJSGRlanNGeGNqVVF2UUJaTWZGN3Ni?=
- =?utf-8?B?emRXUEtsSEdMQkRDYkdKV1RTVzVGTng2UW9USWg0YUVYNkQyWms0ci9ramlo?=
- =?utf-8?B?Z2VNWUdmMC8vaGtldDZESHVoZTZyTEhld0NIeW9LWVNLRFNPdFcvdWxWZ1kv?=
- =?utf-8?B?emQyR1YxbS9ncmk1L1ZneXE3VVZVNDAxWjh3RXVYbHg1RFl5WnhEelZjWTNV?=
- =?utf-8?B?bXl2Y29IbjJ4VXMvVXB5UDN0dHVpVm9YdEVnUk1YeTJLajRwQUVRVGRXTVND?=
- =?utf-8?B?UlBISlV3OHVOc1dTRmZoeU9XWkhhQ0orV3RUYzBmakRFOGdBNURiODFDeXUz?=
- =?utf-8?B?eDdrb2dMenh5MS9idlV1VWtheloyVlNuejNSVUlWZmc3VkRoTHJzZUNseFZ1?=
- =?utf-8?B?WlFDMmd2K0VEMnExUE9Qb3c2Kyt6Rm04cmwrMk5PUXpHYW5tdkY1VzZBMVNw?=
- =?utf-8?B?VDl0N2c1bTB1VzBWc3huc25VeXdTZk5uSnpoSnJkaUg3Rjg3b1o1ZXdXenlw?=
- =?utf-8?B?bFcxenpzY3ZhRzBwellIeXFkV0VQQXh6TFJraTZNcGpBck5yR2czTUtLY1lL?=
- =?utf-8?B?VjUxWHU4cDBKQ2RiNTRxYW0zeEFKL25hK09IRkNwUjRjNFF1WUV2RkpoZXZZ?=
- =?utf-8?Q?w+H0Oxu5PPPeeSLhB9/vfOKIS?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43cb23d5-0c6b-4626-c11c-08dce6040af5
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2024 12:40:22.1366
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PTQIdVB3bdQBGd/WbCxA2TiUn3p61jKLcjyKjdgvEmZrPMJ+DD+26SU6xLs4kUBbMVkkU/KZemQxJD2rOePbJw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8983
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] HID: lenovo: fix Fn-Lock on Lenovo TrackPoint
+ Keyboard II in USB mode
+From: ValdikSS <iam@valdikss.org.ru>
+To: Jiri Kosina <jikos@kernel.org>
+Cc: linux-input@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>,
+ Rodrigo Aguilera <rodrigoaguileraparraga@gmail.com>
+References: <20240725004934.301342-1-iam@valdikss.org.ru>
+ <nycvar.YFH.7.76.2408131128230.12664@cbobk.fhfr.pm>
+ <d3d71c5b-da20-4358-84e9-59295da2863f@valdikss.org.ru>
+Content-Language: ru, en-US
+Autocrypt: addr=iam@valdikss.org.ru; keydata=
+ xsFNBFPBBkkBEADaww9j8CxzrWLEe+Ho9ZsoTFThdb3NZA3F+vRMoMyvBuy6so9ZQZgCXoz+
+ Fl8jRF6CYOxoe2iHgC3VisT6T0CivyRQexGQ8bga6vvuXHDfZKt1R6nxPoBJLeyk/dFQk0eC
+ RB81SQ+KHh2AUaTHZueS4m7rWg42gGKr57s+SkyqNYQ3/8sk1pw+p+PmJ0t4B1xRsTmdJEfO
+ RPq+hZp8NfAzmJ4ORWeuopDRRwNmlHrvAqQfsNPwzfKxpT1G4bab4i7JAfZku2Quiiml1cI3
+ VKVf7FdR+HauuDXECEUh5vsoYR2h8DyfJQLOBi3kbAJpDlkc/C/9atEubOI/blxshxA8Cv/B
+ Gkpf//aAthFEBnbQHFn40jSDIB+QY2SLcpUvSWmu5fKFICyOCDh6K/RQbaeCDQD0L2W6S/65
+ 28EOHALSFqkF6RkAKXBDgT9qEBcQk9CNWkA6HcpsTCcNqEdsIlsHXVaVLQggBvvvJRiWzJY0
+ QFRxPePnwuHCbnFqpMFP7BQKJyw0+hSo4K3o+zm/+/UZANjHt3S126pScFocEQVIXWVhlDrH
+ 2WuOlRrvfh6cTiD4VKPRiii2EJxA+2tRZzmZiHAeYePq0LD8a0cDkI3/7gtPbMbtgVv2JgpR
+ RZubPS3On+CWbcp9UPqsOnhp6epXPHkcHokGYkLo7xzUBsjENQARAQABzR5WYWxkaWtTUyA8
+ aWFtQHZhbGRpa3NzLm9yZy5ydT7CwY4EEwEIADgWIQQyKiC9dymZLfa/vWBc1yAu74j3cgUC
+ XqmcAgIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRBc1yAu74j3coeKD/9FKRS1CcO6
+ 54uChXmsgtoZjkexjagl2kTXtde5FFPh8Hxub+tNRYIUOYilx5R8pidmKZpVGVlPP3Rzf/Vf
+ tr9YiEhSinQ1waWV5VfU43R5qTo0/I7Ni/vjbboAGULg1bPv0N3lnC5NOEq34WauuXJbfQBl
+ uQpHaG6gGrJyy9hmD0LI9he3JpGItjqicJ4MS3XJO/YmC0UNsvpeuh1Fi6Y+QiJ+AgpYWCgX
+ t8VaoGuinQePLu/Iy+gp5Ie+JTPWt2AKOJylCs6473VdY8m+geJD8yot1uL9mXtRdL8uKXKv
+ 2R4EbEaGVJ0/ls0v0TAohfeFQDdwzGQjk1aBBfdbhDcVmo8slb0ry53AbzO/nxS0pEycvPXu
+ 4pC3pJKCe2pPUuNrCj6Qoijtv0abLN1VocJ2dTsXNgOVHnrEvu032kjTyiGJeQVRgl90Sv/H
+ S/17JHUdTGfoEkTHfivqZOYv/ccYpqh0M1TUE5xgPVnWX13uoBswVZimLKkIPfOxtmQ8Wge2
+ WlDR/QLwIkGm2b9fBI68lNgBBPv7k16dQL/5ugSDvZNWSThGoYL6i8a3jUJfK8JilIJhsh+D
+ 90MfCAbfiECALc0HOmC4KVRY/zIVMZgwFm0PjNtID0TmWHoFb8rt5sVyLf//Xco4SVk80wPQ
+ /TRnOGM2InosX3l2YoxBrT5Epc7BTQRTwQZJARAAo5h4vuxyV04K1mhVsqoY05kruPrMVptv
+ +uopIlteLfn/9EM0Mn10FJA5WHLWqTT/TuFN+wxkGa1KRnziLpbc/Zq2L/AWthDEb9+pNEjr
+ 3HfT7H71Rjsa3GEYiFgVtPYIQZ8RwuvYv31FgXedHBEXYrhm+kKh8d0A76nHc9jUJJKZyja6
+ Wtz2SP6QFYnlf9rCXMiyB5d4l0xZgbWWok8Fol9tZbRte+Lwn1QtmpNhtDbEb28I3W3VVYnk
+ LYtWaTWo8udVyngjGCM3zLV4VMVDZi77Fycel1UGNQTCyjeNuhRyL6Ms9IOGVcKWURJWXbzZ
+ BSBzqc/PGvRi+A1ytJtEKWyZHrx1Yf5va3vDqRKYBxhOtnf5Fh+nd0e37V8yUb3ofLXgG30A
+ mR14xobjaF3ziS0D5w03611YpPlIKwWogQeOVHlinYySIlQtKEsx5pQYgdQ0PzFy53xUsx47
+ EVLeRKw5PG4uyH79mgyNEFhn+tGMUlSOYDngIIiSm0k0v8+hyP+T1XLDy4Uo4IQXTdRZ5/tN
+ AIlhNEftQyvI3wZC9IZoiZLOgw7qsCrBJ5VMwweZzi94PYCjQPUACr8yF5taJ1lQKuUfltR1
+ iGYb6Vdf9hnNs5E0Flo2WZfaywfMjAh5I9GhUKRC6BgfpYtmgFbGzDbhr1idSH3NbMUD3wg+
+ TP0AEQEAAcLBXwQYAQIACQUCU8EGSQIbDAAKCRBc1yAu74j3coMhD/wJiHIe7DuvhWr39An/
+ yA9zAqNTvQEdm3vUIw5UQjqn45IOnn/R+leps31hVrROSzhpXeeGtOh17+jjt2hbw3KRrgYi
+ V+qWiNBx7Ux3UOGOCqeAhnztTn0uHJUiarEYPhTm6K4tJB1Ob6RG7+ftIBrD/fUCCDWIEOT8
+ 7Q0xj0IH94Gxo1s+iRrRnNwyQXa821EzqqZgsv4fKvQmGtGX3sPDrXV057tNaF7jmrWBkJZt
+ heU8LaH4EAmcJc1k30k1ql8T4kXO1qKlJvMdLji39fq7kWA6xdgpjwI5EHaIAj6R2T48iWVw
+ Fu2vLSZPR983j+Eh7VwGnvAh9Tj19uXYPUBqgAzIYDWWOGiM2FsezzWQ8rADAcXNMyV+/a4S
+ Kcur0yPLYbL5mP5TWLb4ucCF/6eDgcNG6u1U1kKslRXzVc/3l8ZoX4Djs0nIyjwsbhuwiL8x
+ rvpQq1VvOlkpyypS8w5t4U12yEeO2XKiHUcnCdFCk5yd1Vg77EulqY06nCJgaVMDSxLowtqL
+ 6V6G7SxBEhcsR4fmpY7nj4GoymEGom3dLqe2JjTpVTJcuuFleHHI/lbcBa5hiN8a7+c8A9K2
+ FzgxriVWpfwm0XovNBjugipYItle3p/18YCjVnUoXEsgrjUOgAaQ2RVHJzRz07tKX1DBhFRD
+ OEcVmRU/pw5/zoQyQg==
+In-Reply-To: <d3d71c5b-da20-4358-84e9-59295da2863f@valdikss.org.ru>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------kVaBAh9onjtkHQxyA1jAi0Si"
+X-Last-TLS-Session-Version: TLSv1.3
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------kVaBAh9onjtkHQxyA1jAi0Si
+Content-Type: multipart/mixed; boundary="------------oDCu09m7weDnUPEuq94jZpFH";
+ protected-headers="v1"
+From: ValdikSS <iam@valdikss.org.ru>
+To: Jiri Kosina <jikos@kernel.org>
+Cc: linux-input@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>,
+ Rodrigo Aguilera <rodrigoaguileraparraga@gmail.com>
+Message-ID: <222f1501-70fe-43f1-8bce-81a7667a5927@valdikss.org.ru>
+Subject: Re: [PATCH RESEND] HID: lenovo: fix Fn-Lock on Lenovo TrackPoint
+ Keyboard II in USB mode
+References: <20240725004934.301342-1-iam@valdikss.org.ru>
+ <nycvar.YFH.7.76.2408131128230.12664@cbobk.fhfr.pm>
+ <d3d71c5b-da20-4358-84e9-59295da2863f@valdikss.org.ru>
+In-Reply-To: <d3d71c5b-da20-4358-84e9-59295da2863f@valdikss.org.ru>
 
-On 10/4/2024 2:42 PM, Benjamin Tissoires wrote:
-> On Oct 04 2024, Linux regression tracking (Thorsten Leemhuis) wrote:
->> [CCing the three reporters and the regressions list]
->>
->> On 03.10.24 18:04, Basavaraj Natikar wrote:
->>> There is no need for additional cleanup, as all resources are managed.
->>> Additionally, if no sensor is found, there will be no initialization of
->>> HID devices. Therefore, return immediately if no sensor is detected.
->> I'm not a reviewer, so feel free to ignore the follow comment:
->>
->> I think the patch description should mentioned that this bug caused
->> Memory Errors / Page Faults / btrfs going read-only / btrfs disk
->> corruption, as that is a crucial detail for later and downstreams that
->> need to consider when deciding about backporting.
->>
->>> Fixes: 8031b001da70 ("HID: amd_sfh: Move sensor discovery before HID device initialization")
->>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=219331
->> Some reported-by tags IMHO would be appropriate to give credit; all
->> three reporters already agreed to use their email address in public.
->>
->> There meanwhile is also one comment in the bugzilla ticket that could be
->> read as a tested-by tag.
->>
->> Maybe a Link: to
->> https://lore.kernel.org/all/90f6ee64-df5e-43b2-ad04-fa3a35efc1d5@leemhuis.info/
->> might be appropriate as well.
->>
->> Ohh, and participation in stable is optional, but given the severeness
->> on the problem: would you maybe be willing to add a stable tag to the
->> commit to ensure this is backported to affected stable series quickly?
-> Fully agree here. It would definitely help if the submitter of the patch
-> keeps track of all of these instead of relying on the maintainers or
-> Thorsten to do the tedious work.
->
-> I was about to apply the patch, but I still have one remark on the fix
-> itself.
->
->
->> Ciao, Thorsten
->>
->>> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
->>> ---
->>>   drivers/hid/amd-sfh-hid/amd_sfh_client.c | 3 +--
->>>   drivers/hid/amd-sfh-hid/amd_sfh_pcie.c   | 4 +++-
->>>   2 files changed, 4 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
->>> index 4b59687ff5d8..3fcb971d5fda 100644
->>> --- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
->>> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
->>> @@ -297,8 +297,7 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
->>>   	    (mp2_ops->discovery_status && mp2_ops->discovery_status(privdata) == 0)) {
->>>   		dev_warn(dev, "Failed to discover, sensors not enabled is %d\n",
->>>   			 cl_data->is_any_sensor_enabled);
->>> -		rc = -EOPNOTSUPP;
->>> -		goto cleanup;
->>> +		return -EOPNOTSUPP;
-> so cleanup is doing:
-> cleanup:
-> 	amd_sfh_hid_client_deinit(privdata);
-> 	for (i = 0; i < cl_data->num_hid_devices; i++) {
-> 		devm_kfree(dev, cl_data->feature_report[i]);
-> 		devm_kfree(dev, in_data->input_report[i]);
-> 		devm_kfree(dev, cl_data->report_descr[i]);
-> 	}
-> 	return rc;
->
-> Would that means that the memory corruption appears during
-> amd_sfh_hid_client_deinit(), or...
->
->>>   	}
->>>   
->>>   	for (i = 0; i < cl_data->num_hid_devices; i++) {
->>> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
->>> index 0c28ca349bcd..1300f122b524 100644
->>> --- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
->>> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
->>> @@ -351,7 +351,9 @@ static void sfh_init_work(struct work_struct *work)
->>>   
->>>   	rc = amd_sfh_hid_client_init(mp2);
->>>   	if (rc) {
->>> -		amd_sfh_clear_intr(mp2);
->>> +		if (rc != -EOPNOTSUPP)
->>> +			amd_sfh_clear_intr(mp2);
-> ... or during amd_sfh_clear_intr()?
->
-> This very much looks like a band-aid (I know it is because you can not
-> reproduce, not blaming anyone), but I'd like to know a little bit more
-> if the bug is not appearing anywhere else in the normal processing of
-> the driver itself.
->
-> Also a comment explaining why this is the only case where
-> amd_sfh_clear_intr() should not be called would be appreciated.
->
-> So all in all, I have a feeling one of these 2 functions is not making a
-> proper check and I would rather fix the root cause, not the symptoms.
+--------------oDCu09m7weDnUPEuq94jZpFH
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Sure Benjamin, I have added the latest cleanup patch in the bug ID to see
-if that helps resolve the issue and to find the root cause analysis.
+T24gMTMuMDguMjAyNCAxMjozOCwgVmFsZGlrU1Mgd3JvdGU6DQo+IE9uIDEzLjA4LjIwMjQg
+MTI6MjgsIEppcmkgS29zaW5hIHdyb3RlOg0KPj4+IFdoZW4gRm4tTG9jayBpcyBwcmVzc2Vk
+IG9uIExlbm92byBUcmFja1BvaW50IEtleWJvYXJkIElJIGluIFVTQiBtb2RlLA0KPj4+IHRo
+ZSBrZXlib2FyZCBvbmx5IHNlbmRzIHRoZSBzY2FuY29kZSB0byB0aGUgaG9zdCBhbmQgZG9l
+cyBub3QgdG9nZ2xlDQo+Pj4gdGhlIG1vZGUgYnkgaXRzZWxmLCBjb250cmFyeSB0byBCbHVl
+dG9vdGggbW9kZS4NCj4+Pg0KPj4+IFRoaXMgcmVzdWx0cyBpbiBub24td29ya2luZyBGbi1M
+b2NrIHN3aXRjaGluZy4NCj4+Pg0KPj4+IEZpeCB0aGlzIGlzc3VlIGJ5IHNlbmRpbmcgc3dp
+dGNoaW5nIGNvbW1hbmQgdXBvbiByZWNlaXZpbmcgRm4tTG9jaw0KPj4+IHNjYW5jb2RlLg0K
+Pj4+DQo+Pj4gU2lnbmVkLW9mZi1ieTogVmFsZGlrU1MgPGlhbUB2YWxkaWtzcy5vcmcucnU+
+DQo+Pg0KPj4gQ291bGQgeW91IHBsZWFzZSBjb250cmlidXRlIHVzaW5nIHlvdXIgcmVhbCBu
+YW1lPw0KPiANCj4gSSBwcmVmZXIgdG8gdXNlIG15IG5pY2tuYW1lIG9uIHRoZSBpbnRlcm5l
+dCwgYW5kIGFzIGZhciBhcyBJIGtub3csIHRoZSANCj4gcGF0Y2ggYWNjZXB0aW5nIHBvbGlj
+eSBoYXMgYmVlbiBsaWZ0ZWQgdG8gYWxsb3cgbmlja25hbWVzIChwc2V1ZG9ueW1zKSANCj4g
+c2luY2UgbXkgbGFzdCBjb250cmlidXRpb24uDQo+IA0KPiBodHRwczovL3d3dy5rZXJuZWwu
+b3JnL2RvYy9odG1sL2xhdGVzdC9wcm9jZXNzL3N1Ym1pdHRpbmctcGF0Y2hlcy5odG1sI2Rl
+dmVsb3Blci1zLWNlcnRpZmljYXRlLW9mLW9yaWdpbi0xLTENCj4gDQo+PiB0aGVuIHlvdSBq
+dXN0IGFkZCBhIGxpbmUgc2F5aW5nIFsuLi5dIHVzaW5nIGEgX2tub3duIGlkZW50aXR5XyAo
+c29ycnksIA0KPj4gbm8gYW5vbnltb3VzIGNvbnRyaWJ1dGlvbnMuKQ0KPiANCj4gSXQgdXNl
+ZCB0byBiZToNCj4gDQo+PiB1c2luZyB5b3VyIHJlYWwgbmFtZSAoc29ycnksIG5vIHBzZXVk
+b255bXMgb3IgYW5vbnltb3VzIGNvbnRyaWJ1dGlvbnMuKQ0KPiANCj4gSWYgSSdtIHJlYWRp
+bmcgdGhpcyB3cm9uZywgcGxlYXNlIGZlZWwgZnJlZSB0byByZXN1Ym1pdCBpdCB1bmRlciB5
+b3VyIA0KPiBuYW1lLCBhcyBoYXMgYmVlbiBkb25lIHdpdGggbXkgcHJldmlvdXMgcGF0Y2gu
+DQoNCkNoZWNrZWQgdGhlIGNvbW1pdCB3aGljaCBoYXZlIGNoYW5nZWQgdGhlIGtlcm5lbCBw
+b2xpY3kgcmVnYXJkaW5nIA0KaWRlbnRpdGllczoNCmh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcv
+cHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC9jb21taXQvP2lk
+PWQ0NTYzMjAxZjMzYTAyMmZjMDM1MzAzM2Q5ZGZlYjE2MDZhODgzMzANCg0KQW5kIENOQ0Yg
+Y2xhcmlmaWNhdGlvbiBsaW5rZWQgaW4gdGhlIGNvbW1pdDoNCmh0dHBzOi8vZ2l0aHViLmNv
+bS9jbmNmL2ZvdW5kYXRpb24vYmxvYi82NTlmZDMyYzg2ZGMvZGNvLWd1aWRlbGluZXMubWQN
+Cg0KPiBBIHJlYWwgbmFtZSBkb2VzIG5vdCByZXF1aXJlIGEgbGVnYWwgbmFtZSwgbm9yIGEg
+YmlydGggbmFtZSwgbm9yIGFueSBuYW1lIHRoYXQgYXBwZWFycyBvbiBhbiBvZmZpY2lhbCBJ
+RCAoZS5nLiBhIHBhc3Nwb3J0KS4gWW91ciByZWFsIG5hbWUgaXMgdGhlIG5hbWUgeW91IGNv
+bnZleSB0byBwZW9wbGUgaW4gdGhlIGNvbW11bml0eSBmb3IgdGhlbSB0byB1c2UgdG8gaWRl
+bnRpZnkgeW91IGFzIHlvdS4gVGhlIGtleSBjb25jZXJuIGlzIHRoYXQgeW91ciBpZGVudGlm
+aWNhdGlvbiBpcyBzdWZmaWNpZW50IGVub3VnaCB0byBjb250YWN0IHlvdSBpZiBhbiBpc3N1
+ZSB3ZXJlIHRvIGFyaXNlIGluIHRoZSBmdXR1cmUgYWJvdXQgeW91ciBjb250cmlidXRpb24u
+DQoNCkh1bWJseSBhc2tpbmcgdG8gcmV2aWV3IHRoZSBwYXRjaCB3aGVuIHRoZSB0aW1lIGFs
+bG93cywgSmnFmcOtLg0K
 
-Thanks
---
-Basavaraj
-  
+--------------oDCu09m7weDnUPEuq94jZpFH--
 
+--------------kVaBAh9onjtkHQxyA1jAi0Si
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEEMiogvXcpmS32v71gXNcgLu+I93IFAmcClC4FAwAAAAAACgkQXNcgLu+I93Iu
+SRAA02XDdC7Fmgzn1bzQ0AUROVkvW/5ipJwkVORr6cuBKP62EHz1asAwuqFtQbiUdRKDpUK7jAaQ
+msRySjWGt9WlboIHClz6U5hOyBZfJL7fw/LFYGMO3x/Kw++CmFLhnsdTBHfrYrSiK0nwBZPNqGcL
+N+eHNW+QI5Uh+YKU/PJeUmC+Fm3/G03hIg/0nUSyeQB68KwxCbS4uBHSfoF7UBbAd/MBIzQ/SJdX
+X7l+DPSgTrHYve+tLdcA7JvV4HKC38WNA8MmYcErDLJv4dqE6HDypPQr0VMvxEbZ7ZAvfNlA7+pB
+W8Tw18n7dS9Qe5RofrsilCnrKsgC2Qw1r7ROKq7pod63zwyRc6Rtoa1HRpX/ro7uMJUpbk5aUmT5
+ma3DGsbtPZeV9lKud9Gd3xVL6pmw6qXlFh/v7XEzSddw/SC/Q/Pq1dINqiTpT2GcifKhnOiQcgLw
+ProjauJN7gET5qi1oSemd5bHmjvKVKaSmDQd8KOLHZmHyBZfFnNN2TyGsEVFVPMr5S93jfWE/VrE
+KKECYWdTwyY5ptieXJDgU68ocPT2Kx8wjy3Ca7bouZe/qcr8oJdlzEr2siYH5TODVScMW0AmlFfE
+o42rXKjV0l79wlGoL3rGFJCW/jRav7MYwNcQucGhyWELDwYTQgLN8QKinAeQyadolWZnYDT9o1X2
+hQE=
+=jySo
+-----END PGP SIGNATURE-----
+
+--------------kVaBAh9onjtkHQxyA1jAi0Si--
 
