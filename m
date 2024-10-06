@@ -1,72 +1,74 @@
-Return-Path: <linux-input+bounces-7103-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7104-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA633991D1C
-	for <lists+linux-input@lfdr.de>; Sun,  6 Oct 2024 10:12:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A34EE991D3A
+	for <lists+linux-input@lfdr.de>; Sun,  6 Oct 2024 10:29:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 700C2282B89
-	for <lists+linux-input@lfdr.de>; Sun,  6 Oct 2024 08:12:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C5CEF1C21362
+	for <lists+linux-input@lfdr.de>; Sun,  6 Oct 2024 08:29:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED15879D1;
-	Sun,  6 Oct 2024 08:12:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 761B916F0CA;
+	Sun,  6 Oct 2024 08:28:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nH5PECIz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fn7aLROt"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C90615A85E
-	for <linux-input@vger.kernel.org>; Sun,  6 Oct 2024 08:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F133153814;
+	Sun,  6 Oct 2024 08:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728202364; cv=none; b=CwHS04otVyJkQvtIBDMkS67EuCkBCxdPhD6mYnhm8/0Te27mhtcxbNpN8knIX4GGygXQkJRZGi0w9Mn1/jbudnKxX09u3mimFgQdwt6wY5bQpBuyej0/qtthBa2Z9Pbo9KcW3+K+TbI0BXnf0/RhQ/5Nx7Mwh9zhHNYsU1KrbCI=
+	t=1728203339; cv=none; b=aVjukLqOHRGJa0WOhJqTHsyTLrkzqzPK5qvhTggFl4B4snVJWhhTlFaLH06uHIFZQaUG6fAc3+8m7jF1AJhK9hvifAU6kM1a6njYGrmrCo+twVZk6gRXQlS/ZYVmv1TVptWwkooD8fCGzcK4FV+CAKo2SPyJQi3xWgnprJXqfrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728202364; c=relaxed/simple;
-	bh=KD7UHE9mz88zfmNXNjlGzqnTCABN4J6sPdgUTXbn4xo=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=lzI/pD9BwELfgUkHllGLR3zM1Ct8zrIbT4Dj+3zk+WZr8B0UrRcQxys/Gx8DJyLSQrbifFLPcMVUGYPN8CzOk3EA8zfiIfr5FYipYbkIaD0CHV/Q34pzM2KwujdLf0ORE4pDJYej0KywtwBqW1QVfSzKTnda66uSgE0sY4U71zw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nH5PECIz; arc=none smtp.client-ip=209.85.128.43
+	s=arc-20240116; t=1728203339; c=relaxed/simple;
+	bh=bRszkLFQ6+eC/BQ20gGJlgy57D/VgufvdZJVgc18ibw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ghFlFcLZMdy9J41oHPYOzuY+kRjEN1l30El0i9VePpMKW+i85Uv9uZx35zTV5/2GTKkjU6yMYLlumeP1FG41xo4FAP7N7/QilwIO/Z1/5zIhJTFvfVK4ecinNmv6DvPb1bmVoSq8PLlOQouoUz25ivH/dm+el2xWefExsD8L0zA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fn7aLROt; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42cbface8d6so44443665e9.3
-        for <linux-input@vger.kernel.org>; Sun, 06 Oct 2024 01:12:42 -0700 (PDT)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a8d6d0fe021so595779366b.1;
+        Sun, 06 Oct 2024 01:28:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728202361; x=1728807161; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mUzIAr4QJbEJmQTNXTBARxjvnFV0LoOo5q5XpEHeoIM=;
-        b=nH5PECIzopDRPOK3sMx8v44jk2oFoyQo4UsYAU2EArAJWGbCmeM/6SrjtTtFYh082c
-         mQXt6r2+Ktz0Xr4lj4gZKGXfXSBHIhmVmwMFAcHDV69ypch4bpyNptuucd3zROy4m/1y
-         j1ZIIc78S3LNm3/Se4kbWY8jBLa6Ba3E9QUBgdwKvoo42uLhNl78/t0MJpQv3Zc1bSX5
-         3Di4/08RwF1Jh/88TGeW3ehDBRLiU7r7v4I0e/3YgPF1P917eXm7zffkZppBwdp95pLc
-         2+YLAHAMt9oY8j/gl+DTGHr+KywICn0/M7MEVDN+f2k0tbsRfZFm6Cs79wAms8xMZ2Ud
-         Zk4w==
+        d=gmail.com; s=20230601; t=1728203336; x=1728808136; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=luc6tGLvhHVsfASvYGPZIDDNooQTCshdprtz+dgEevY=;
+        b=Fn7aLROtPFPuDwVyIvTKLjHrQhphIbjBAPbAS+r+TGPSTmtVZxa9VDCysNxXHhSHf3
+         whV6pP8pm7PCWfeTsWDzmOTscRRDIJBQ/XEqsU4Vx2MvL1nwrmB5Z1E9lunyOK+4pjs2
+         pb0bIH/grp+S/oJciLYufGduRL8c/AYX3xf/FS8h93ijwt+Io7U8V5a32xI9Rmf/5pWn
+         OxuqJf3eM/An7AIp4W4DdWjhusrMsxsmt7ESquw6yvXHhrazDZFwd4XVkBltpLj6nA+U
+         LqUzWdJayKsWaOpWBDdAjc8lSzahxanWJgEC+XyGrdxIH4TYIQdU+T80NUSfygxLReJM
+         y2Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728202361; x=1728807161;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mUzIAr4QJbEJmQTNXTBARxjvnFV0LoOo5q5XpEHeoIM=;
-        b=JTaj3drIQGGmznPLroBY6cfmls9sb9dWxrKqCUEY+/h3QD766189OgPjUmO6F6fNS6
-         P4/Ia52dGLXT8TFoxMCkfr0n1M5urZLxUhEjB1oLK2C9ULBwmIvRNfPKxJrQYmNkw64j
-         4ORexRxGPZBq16qr3f4sB1xvvrdra1bnZ84OoZ5GCFsD+x/ZxTrhRQd5FU9jUvTPDMTz
-         IyqqsvU8u7OYQ40YANbpySQJzPnwIiBEz20AcM+8fchZXd/mxfumWxmm1AhM5KVzd8TF
-         sxWzI+nkQPzlpNB1Ne/72JfKjMtHqUV0YGfypdGRtvla4Lcm4TTs8YN3Mydik98JMBzr
-         oVWg==
-X-Gm-Message-State: AOJu0Yxt1uQuahrhMDJ/PfVmTwst2IPiuLgIZgCa1yGgT5oh0aoK2YQ+
-	SRj9kkIpLaSS/UjcB1oilIeQ6Bg5E8Qt+9y1iQ6txJu2b7TYvuiU
-X-Google-Smtp-Source: AGHT+IHOnCtNSOdRD5emktb51pbsKhcaPBE8LnWXpPBMWGQ58+6JJpdAEG+LiC6RI7Usy3xsJiy/ig==
-X-Received: by 2002:a05:600c:1f96:b0:42c:bbd5:727b with SMTP id 5b1f17b1804b1-42f85ae974emr80177505e9.25.1728202361289;
-        Sun, 06 Oct 2024 01:12:41 -0700 (PDT)
-Received: from [192.168.178.62] (p5b3cf506.dip0.t-ipconnect.de. [91.60.245.6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f89e89624sm40852055e9.12.2024.10.06.01.12.40
+        d=1e100.net; s=20230601; t=1728203336; x=1728808136;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=luc6tGLvhHVsfASvYGPZIDDNooQTCshdprtz+dgEevY=;
+        b=ee88k0aHNYSVkibsp7WaxYdwLR4+XtoZWqK5GrDs+nsmABgOxguv6wxYUmrYDCePa0
+         YCvy8Gm/4eq75iUjcycBLhMSn7dzH2BSY+6NIy6CarhVre9q21m556rG2t8s2wYY5mQe
+         27KUFGYBp6KDqD2u0yQ3QcdNtgs/L8kHhhvS729Y6AGzJB6sPlhK4Myp46x7uZvRjKUh
+         /WQPb38ux5GMpcoxeZtVqdRMqJ2Dw9HhcibpWSnKswIjPB10+R+sKzh5YTULdkGC0lKI
+         LzzyupE+KTgxGJwY07Yo5Piv+3CZ02F5xW5LxbQI+05fVSrSuntI2q8bBKzhb0yGBADL
+         B4XQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUaUDTKZzxEpMNMilzXU6JKMyi7gYHY/VRJ5UgD+6EqD7pYBPNMFNA1Zoe9rADMuYbayGbbB0X8jXGakWE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxO512zjxpnUtKJ/x3sZunAtOwUMspHnxEnrwjtgjGwHbwIAJo8
+	Ar/8i6EI15JSp7xjTGWit6bMyZa+QYNgp8wz7eCrXq0c7GmOlecm
+X-Google-Smtp-Source: AGHT+IGAL1Ndr1M6KLVYgsEmuO35omalB/CeUKr7JW/b9jdvSywdIEZ2JcAVYmLJq2EKBxjW8T+HvA==
+X-Received: by 2002:a17:907:2d90:b0:a86:6fb3:fda5 with SMTP id a640c23a62f3a-a99514f06aamr51349866b.32.1728203335686;
+        Sun, 06 Oct 2024 01:28:55 -0700 (PDT)
+Received: from [10.32.3.23] ([95.183.227.32])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c8e05ecafbsm1844381a12.70.2024.10.06.01.28.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Oct 2024 01:12:40 -0700 (PDT)
-Message-ID: <1917062e-1c6e-43bd-b33a-5d40eb5c261c@gmail.com>
-Date: Sun, 6 Oct 2024 10:12:23 +0200
+        Sun, 06 Oct 2024 01:28:53 -0700 (PDT)
+Message-ID: <26eaccf4-f1c3-4d98-a123-4577c5b7530b@gmail.com>
+Date: Sun, 6 Oct 2024 11:28:50 +0300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -74,50 +76,101 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Input: zinitix - Don't fail if linux,keycodes prop is
+ absent
+To: Nikita Travkin <nikita@trvn.ru>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jakob Hauser <jahau@rocketmail.com>,
+ Yassine Oudjana <y.oudjana@protonmail.com>
+References: <20241004-zinitix-no-keycodes-v2-1-876dc9fea4b6@trvn.ru>
 Content-Language: en-US
-To: jikos@kernel.org, bentiss@kernel.org
-Cc: linux-input@vger.kernel.org
-From: Stefan Blum <stefanblum2004@gmail.com>
-Subject: [PATCH] HID: multitouch: Add support for B2402FVA track point
-Content-Type: text/plain; charset=UTF-8
+From: Yassine Oudjana <yassine.oudjana@gmail.com>
+In-Reply-To: <20241004-zinitix-no-keycodes-v2-1-876dc9fea4b6@trvn.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hello,
+From: Yassine Oudjana <y.oudjana@protonmail.com>
 
-By default the track point does not work on the Asus Expertbook B2402FVA.
+On 04/10/2024 7:17 pm, Nikita Travkin wrote:
+> When initially adding the touchkey support, a mistake was made in the
+> property parsing code. The possible negative errno from
+> device_property_count_u32() was never checked, which was an oversight
+> left from converting to it from the of_property as part of the review
+> fixes.
+> 
+> Re-add the correct handling of the absent property, in which case zero
+> touchkeys should be assumed, which would disable the feature.
+> 
+> Reported-by: Jakob Hauser <jahau@rocketmail.com>
+> Tested-by: Jakob Hauser <jahau@rocketmail.com>
+> Fixes: 075d9b22c8fe ("Input: zinitix - add touchkey support")
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Nikita Travkin <nikita@trvn.ru>
 
-From libinput record i got the ID of the track point device:
-  evdev:
-    # Name: ASUE1201:00 04F3:32AE
-    # ID: bus 0x18 vendor 0x4f3 product 0x32ae version 0x100
+Tested-by: Yassine Oudjana <y.oudjana@protonmail.com>
 
-I found that the track point is functional, when i set the MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU class for the reported device.
+> ---
+> Changes in v2:
+> - Refactored the change to simplify the code (Dmitry)
+> - Link to v1: https://lore.kernel.org/r/20241002-zinitix-no-keycodes-v1-1-e84029601491@trvn.ru
+> ---
+>   drivers/input/touchscreen/zinitix.c | 34 ++++++++++++++++++++++------------
+>   1 file changed, 22 insertions(+), 12 deletions(-)
+> 
+> 
+> ---
+> base-commit: fe21733536749bb1b31c9c84e0b8d2ab8d82ce13
+> change-id: 20241002-zinitix-no-keycodes-f0fe1bdaccb2
+> 
+> Best regards,
+> 
+> diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
+> index 52b3950460e2..716d6fa60f86 100644
+> --- a/drivers/input/touchscreen/zinitix.c
+> +++ b/drivers/input/touchscreen/zinitix.c
+> @@ -645,19 +645,29 @@ static int zinitix_ts_probe(struct i2c_client *client)
+>   		return error;
+>   	}
+>   
+> -	bt541->num_keycodes = device_property_count_u32(&client->dev, "linux,keycodes");
+> -	if (bt541->num_keycodes > ARRAY_SIZE(bt541->keycodes)) {
+> -		dev_err(&client->dev, "too many keys defined (%d)\n", bt541->num_keycodes);
+> -		return -EINVAL;
+> -	}
+> +	if (device_property_present(&client->dev, "linux,keycodes")) {
+> +		bt541->num_keycodes = device_property_count_u32(&client->dev,
+> +								"linux,keycodes");
+> +		if (bt541->num_keycodes < 0) {
+> +			dev_err(&client->dev, "Failed to count keys (%d)\n",
+> +				bt541->num_keycodes);
+> +			return bt541->num_keycodes;
+> +		} else if (bt541->num_keycodes > ARRAY_SIZE(bt541->keycodes)) {
+> +			dev_err(&client->dev, "Too many keys defined (%d)\n",
+> +				bt541->num_keycodes);
+> +			return -EINVAL;
+> +		}
+>   
+> -	error = device_property_read_u32_array(&client->dev, "linux,keycodes",
+> -					       bt541->keycodes,
+> -					       bt541->num_keycodes);
+> -	if (error) {
+> -		dev_err(&client->dev,
+> -			"Unable to parse \"linux,keycodes\" property: %d\n", error);
+> -		return error;
+> +		error = device_property_read_u32_array(&client->dev,
+> +						       "linux,keycodes",
+> +						       bt541->keycodes,
+> +						       bt541->num_keycodes);
+> +		if (error) {
+> +			dev_err(&client->dev,
+> +				"Unable to parse \"linux,keycodes\" property: %d\n",
+> +				error);
+> +			return error;
+> +		}
+>   	}
+>   
+>   	error = zinitix_init_input_dev(bt541);
 
-With kind regards,
-
-Stefan
-
-Signed-off-by: Stefan Blum <stefan.blum@gmail.com>
-
----
- drivers/hultitouch.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 56fc78841..3f93c5ef6 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -1992,6 +1992,10 @@ static const struct hid_device_id mt_devices[] = {
- 		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
- 			USB_VENDOR_ID_ELAN, 0x3148) },
- 
-+	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU,
-+		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-+			USB_VENDOR_ID_ELAN, 0x32ae) },
-+
- 	/* Elitegroup panel */
- 	{ .driver_data = MT_CLS_SERIAL,
- 		MT_USB_DEVICE(USB_VENDOR_ID_ELITEGROUP,
--- 
-2.39.5
 
