@@ -1,158 +1,162 @@
-Return-Path: <linux-input+bounces-7127-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7128-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDCC4993A23
-	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 00:25:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE860993A34
+	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 00:26:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B1C7828189E
-	for <lists+linux-input@lfdr.de>; Mon,  7 Oct 2024 22:25:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C46E61C23D87
+	for <lists+linux-input@lfdr.de>; Mon,  7 Oct 2024 22:26:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE89118D621;
-	Mon,  7 Oct 2024 22:25:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3914518CBE6;
+	Mon,  7 Oct 2024 22:26:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Vt/jQpsJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D1yjyZfp"
 X-Original-To: linux-input@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D888D3FB9F;
-	Mon,  7 Oct 2024 22:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C33718C333;
+	Mon,  7 Oct 2024 22:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728339912; cv=none; b=axG+L3OO+DBVyR87CBXsj3A92NhlVABgHOwelzzYUporYk9NwCwb99xsikY9Jka9FvFtO9av4O6/a7sz9hzQl1rkz4LQ/poSeMUHT2CIf4g9kWwADF7U6CzqCG72cI6e5CzoPpbUuKojT6OWRfQ+VPpaUfQXXbNuB1kL/KDLfXs=
+	t=1728340006; cv=none; b=ff57VExyMvfatQO4gz+pRoLbNxe8ADnSMLPnZPVR3uvdnEDLhvqdnn3Ailf1xBppoYedeOyGwV1E+ZtfD5BSv7wiM91f1evCTy7qCJGjZyPZfj9D61MO5zohj3PVNMrdH3h/YMC44ZJiEkRItjs3MMEvQiQrnBciRkW2MHfQpL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728339912; c=relaxed/simple;
-	bh=dP+7pB+yKyOf0NQhF4Ey5QlbknqrHAfw9DP+SkAi1ag=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AlrpIROybiHt4wDp3Kfxbs1b65qf2s5nlwQoWP6D+JhseLEPMfuJ7j+oIsf5TXB4upLO0EUCAbhZbpiD3Jip5eQPCrojzmdbhmzInElVd5I7cMZmmnoqdyLp91AbKpkchYLHd0pV3bGcmQUv2SG6fNmP6d4VSrxRpmXR68ZVij8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Vt/jQpsJ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (unknown [132.205.230.14])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3BF2C2E0;
-	Tue,  8 Oct 2024 00:23:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1728339812;
-	bh=dP+7pB+yKyOf0NQhF4Ey5QlbknqrHAfw9DP+SkAi1ag=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Vt/jQpsJvHUxjmrGDOx6XdDb5/eYcmNOZ+fqGvfgmsCX/Gb8xh5L8MF7/XiaHHs5d
-	 yKwoK1M07KNVU8k6VzBH5mlVNl0fsdfcm8rX4+3gQCvlKP9vNnMhm8hVpFB58jMlbq
-	 3JlQ6yo4ObX+z3BTaIVDayxCEaIiiFVwmh4Cxqis=
-Date: Tue, 8 Oct 2024 01:25:02 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-gpio@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
-	linux-i3c@lists.infradead.org, linux-iio@vger.kernel.org,
-	linux-input@vger.kernel.org, patches@opensource.cirrus.com,
-	iommu@lists.linux.dev, imx@lists.linux.dev,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-serial@vger.kernel.org, greybus-dev@lists.linaro.org,
-	asahi@lists.linux.dev, rafael@kernel.org,
-	Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH 00/51] treewide: Switch to __pm_runtime_put_autosuspend()
-Message-ID: <20241007222502.GG30699@pendragon.ideasonboard.com>
-References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
- <CAPDyKFp0N6UJhnHS164Tdf=xkWB0jzq65L9TdvYazeBQ-6WjeQ@mail.gmail.com>
- <20241007184924.GH14766@pendragon.ideasonboard.com>
- <CAPDyKFpQVnF7eQv3dup8k-3EijnMjuveCG9sZ=Rpey1Y6MBJEg@mail.gmail.com>
+	s=arc-20240116; t=1728340006; c=relaxed/simple;
+	bh=s1chuupEFHKJUenoqKBKV9drZcUicju1+fwNELE5Pbk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XzbWwWPwCn7SBRgpxXP/HT4eeh/5s8BAWuZt9L/4586uQegim2TamLwcxuOCNW0daa0oQKJ/JBqkPx/yA5mdhhad/cGjvVHC6CcOJ5bGG9HdvqBOtsutPc089HB2EQaF0YCGtFgI2UkGI/QKwJc44Iu7lr02lyuZAzU4isRdb5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D1yjyZfp; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a99650da839so75872566b.2;
+        Mon, 07 Oct 2024 15:26:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728340003; x=1728944803; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=n/CGUkd/GhgN2cUAcq2ngCPNBjuX5m2rLE3sQnCAUPk=;
+        b=D1yjyZfpanllwHdn4gCu6cQsYOyyn+vRruc4lk1USlosXG8bT2LeZkZCAGE0YghdkC
+         bHViQIlL9fnQA8Y/lsaNtIlBnTvsKKw4FKeFDEQjvzipybEguGwP9qRDalbOPTqjhfpa
+         y16bXt9OWo+x+Y7A3v2UEou8y3OYxR4Zl9HauVOruo7SQvvO3f2NrsaAyI53lwOAc6GQ
+         ggCwTTanVrkpRAQa9ZiGrTv37Cght67znyQOnpyOWZUD4D6G0dkEwhMqrq/rSqfwO8s5
+         MjJP6yoWZ9NVbcXUZOJmv6eXBIFMLMKARNvCLSd4tJY4GihTi+l3c2UfmJSSxB7pVUfM
+         ZQPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728340003; x=1728944803;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=n/CGUkd/GhgN2cUAcq2ngCPNBjuX5m2rLE3sQnCAUPk=;
+        b=WCFi6GqwPFEbTm/qOKPwW6SMWOA2qY3TqXyivQ8FGTdDDa3K5lxct3HevTdqGcFOCL
+         FBynpl2ssAFPvo8EEQWAX+YUUzv28HAVhAvM5IT18YiU/9MvY47A1MA/70wmdtPU3vyg
+         H1NiquZQMYUpuag/LgVOLzQudPdIolXuqg4mwRH/gaEyMqcKz4IP/mAlnM6KEe1KiC3W
+         fgg9KESbtQTCcdM2/JnrDtl70iwIChJGlKms5lG447wMGJHVbF1LUI6tWS/sEnYSMz8d
+         N379FJwkIVjhkYE4B1k8ZFHSUwc7do8oGfn9sSl8AtKNBxofw5OiNZguBa+sfdiQgud9
+         xlTw==
+X-Forwarded-Encrypted: i=1; AJvYcCVjufb37gjJ7ETNF+uesoA6blmrvgReIVpvxpbZuz3QJNWicq8y8+Xcc6un3/IhSq4knJsK5FWy25YhQxE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgGzXWX60PPjMC0ijr0Vy1iM7TY0nLfjR/sitHOXhNnkgyBRKh
+	Y4bXW0URN7ObKIq69McHPIsq3dVik0sa3atfsL4tiqczJwSpGg5sEaOSVtOB
+X-Google-Smtp-Source: AGHT+IHlVl3OOFzjVznzFE4NYNRwcpNycMWIQvcE4qqive3GnmFuzPTxrV0Z7Iz8Lyw5JJp//0RTAA==
+X-Received: by 2002:a17:906:99c1:b0:a86:789f:c756 with SMTP id a640c23a62f3a-a991c04e6d0mr1198459566b.53.1728340002668;
+        Mon, 07 Oct 2024 15:26:42 -0700 (PDT)
+Received: from fedora.. (apn-78-30-66-171.dynamic.gprs.plus.pl. [78.30.66.171])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a993f866da4sm354358966b.192.2024.10.07.15.26.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2024 15:26:42 -0700 (PDT)
+From: =?UTF-8?q?Bart=C5=82omiej=20Mary=C5=84czak?= <marynczakbartlomiej@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Bart=C5=82omiej=20Mary=C5=84czak?= <marynczakbartlomiej@gmail.com>
+Subject: [PATCH] HID: i2c-hid: Delayed i2c resume wakeup for Goodix touchpads
+Date: Tue,  8 Oct 2024 00:25:42 +0200
+Message-ID: <20241007222629.172047-1-marynczakbartlomiej@gmail.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFpQVnF7eQv3dup8k-3EijnMjuveCG9sZ=Rpey1Y6MBJEg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Ulf,
+Patch for Goodix 27c6:0d42 touchpads found in Inspiron 5515 laptops.
 
-On Tue, Oct 08, 2024 at 12:08:24AM +0200, Ulf Hansson wrote:
-> On Mon, 7 Oct 2024 at 20:49, Laurent Pinchart wrote:
-> > On Fri, Oct 04, 2024 at 04:38:36PM +0200, Ulf Hansson wrote:
-> > > On Fri, 4 Oct 2024 at 11:41, Sakari Ailus wrote:
-> > > >
-> > > > Hello everyone,
-> > > >
-> > > > This set will switch the users of pm_runtime_put_autosuspend() to
-> > > > __pm_runtime_put_autosuspend() while the former will soon be re-purposed
-> > > > to include a call to pm_runtime_mark_last_busy(). The two are almost
-> > > > always used together, apart from bugs which are likely common. Going
-> > > > forward, most new users should be using pm_runtime_put_autosuspend().
-> > > >
-> > > > Once this conversion is done and pm_runtime_put_autosuspend() re-purposed,
-> > > > I'll post another set to merge the calls to __pm_runtime_put_autosuspend()
-> > > > and pm_runtime_mark_last_busy().
-> > >
-> > > That sounds like it could cause a lot of churns.
-> > >
-> > > Why not add a new helper function that does the
-> > > pm_runtime_put_autosuspend() and the pm_runtime_mark_last_busy()
-> > > things? Then we can start moving users over to this new interface,
-> > > rather than having this intermediate step?
-> >
-> > I think the API would be nicer if we used the shortest and simplest
-> > function names for the most common use cases. Following
-> > pm_runtime_put_autosuspend() with pm_runtime_mark_last_busy() is that
-> > most common use case. That's why I like Sakari's approach of repurposing
-> > pm_runtime_put_autosuspend(), and introducing
-> > __pm_runtime_put_autosuspend() for the odd cases where
-> > pm_runtime_mark_last_busy() shouldn't be called.
-> 
-> Okay, so the reason for this approach is because we couldn't find a
-> short and descriptive name that could be used in favor of
-> pm_runtime_put_autosuspend(). Let me throw some ideas at it and maybe
-> you like it - or not. :-)
+After resume from suspend, one can communicate with this device just fine.
+We can read data from it or request a reset,
+but for some reason the interrupt line will not go up
+when new events are available.
+(it can correctly respond to a reset with an interrupt tho)
 
-I like the idea at least :-)
+The only way I found to wake this device up
+is to send anything to it after ~1.5s mark,
+for example a simple read request, or power mode change.
 
-> I don't know what options you guys discussed, but to me the entire
-> "autosuspend"-suffix isn't really that necessary in my opinion. There
-> are more ways than calling pm_runtime_put_autosuspend() that triggers
-> us to use the RPM_AUTO flag for rpm_suspend(). For example, just
-> calling pm_runtime_put() has the similar effect.
+In this patch, I simply delay the resume steps with msleep,
+this will cause the set_power request to happen after
+the ~1.5s barrier causing the device to resume its event interrupts.
 
-To be honest, I'm lost there. pm_runtime_put() calls
-__pm_runtime_idle(RPM_GET_PUT | RPM_ASYNC), while
-pm_runtime_put_autosuspend() calls __pm_runtime_suspend(RPM_GET_PUT |
-RPM_ASYNC | RPM_AUTO).
+Sleep was used rather than delayed_work
+to make this workaround as non-invasive as possible.
 
-> 
-> Moreover, it's similar for pm_runtime_mark_last_busy(), it's called
-> during rpm_resume() too, for example. So why bother about having
-> "mark_last_busy" in the new name too.
-> 
-> That said, my suggestion is simply "pm_runtime_put_suspend".
+Signed-off-by: Bartłomiej Maryńczak <marynczakbartlomiej@gmail.com>
+---
+ drivers/hid/hid-ids.h              |  1 +
+ drivers/hid/i2c-hid/i2c-hid-core.c | 10 ++++++++++
+ 2 files changed, 11 insertions(+)
 
-Can we do even better, and make pm_runtime_put() to handle autosuspend
-automatically when autosuspend is enabled ?
-
-> If you don't like it, I will certainly not object to your current
-> approach, even if I think it leads to unnecessary churns.
-> 
-> [...]
-> 
-> Kind regards
-> Uffe
-
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 86820a3d9766..8d21d250a258 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -509,6 +509,7 @@
+ #define I2C_DEVICE_ID_GOODIX_01E8	0x01e8
+ #define I2C_DEVICE_ID_GOODIX_01E9	0x01e9
+ #define I2C_DEVICE_ID_GOODIX_01F0	0x01f0
++#define I2C_DEVICE_ID_GOODIX_0D42	0x0d42
+ 
+ #define USB_VENDOR_ID_GOODTOUCH		0x1aad
+ #define USB_DEVICE_ID_GOODTOUCH_000f	0x000f
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index be5d342d5d13..43664a24176f 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -50,6 +50,7 @@
+ #define I2C_HID_QUIRK_BAD_INPUT_SIZE		BIT(3)
+ #define I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET	BIT(4)
+ #define I2C_HID_QUIRK_NO_SLEEP_ON_SUSPEND	BIT(5)
++#define I2C_HID_QUIRK_DELAY_WAKEUP_AFTER_RESUME BIT(6)
+ 
+ /* Command opcodes */
+ #define I2C_HID_OPCODE_RESET			0x01
+@@ -140,6 +141,8 @@ static const struct i2c_hid_quirks {
+ 	{ USB_VENDOR_ID_ELAN, HID_ANY_ID,
+ 		 I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET |
+ 		 I2C_HID_QUIRK_BOGUS_IRQ },
++	{ I2C_VENDOR_ID_GOODIX, I2C_DEVICE_ID_GOODIX_0D42,
++		 I2C_HID_QUIRK_DELAY_WAKEUP_AFTER_RESUME },
+ 	{ 0, 0 }
+ };
+ 
+@@ -981,6 +984,13 @@ static int i2c_hid_core_resume(struct i2c_hid *ihid)
+ 		return -ENXIO;
+ 	}
+ 
++	/* On Goodix 27c6:0d42 wait extra time before device wakeup.
++	 * It's not clear why but if we send wakeup too early, the device will
++	 * never trigger input interrupts.
++	 */
++	if (ihid->quirks & I2C_HID_QUIRK_DELAY_WAKEUP_AFTER_RESUME)
++		msleep(1500);
++
+ 	/* Instead of resetting device, simply powers the device on. This
+ 	 * solves "incomplete reports" on Raydium devices 2386:3118 and
+ 	 * 2386:4B33 and fixes various SIS touchscreens no longer sending
 -- 
-Regards,
+2.46.2
 
-Laurent Pinchart
 
