@@ -1,122 +1,138 @@
-Return-Path: <linux-input+bounces-7107-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7108-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5779A99235D
-	for <lists+linux-input@lfdr.de>; Mon,  7 Oct 2024 06:11:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA3A992460
+	for <lists+linux-input@lfdr.de>; Mon,  7 Oct 2024 08:27:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0162282647
-	for <lists+linux-input@lfdr.de>; Mon,  7 Oct 2024 04:11:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 51BE0282430
+	for <lists+linux-input@lfdr.de>; Mon,  7 Oct 2024 06:27:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 846BF2261D;
-	Mon,  7 Oct 2024 04:11:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C4BF13C807;
+	Mon,  7 Oct 2024 06:27:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="SDrzGfJB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Za6B2cmi"
 X-Original-To: linux-input@vger.kernel.org
-Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.155.80.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D1F3C2F;
-	Mon,  7 Oct 2024 04:10:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.155.80.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D781842077;
+	Mon,  7 Oct 2024 06:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728274262; cv=none; b=KyKONs/o1nCBnOmXd6RzpIXpAbhshflvLCexRl52QwJRq61xuJ8c6ZX3ytjlK3FwIu7+vBEAKbo17gKIQFYWgLimnwxWp9SnPiwRNGoED89L2Wfcm9SOirteHpjZ8n0mPXdGcIHImAZAUhqQ0n3RXAw3Lx/xJmLQo+zyeuH4WPk=
+	t=1728282452; cv=none; b=T7eGl/bcFecG8PbbVaT+1cwDpYCWgnw7upfXyGbmEYoTe82Z9VajqfG7dun13UeEwWAptGlMe0z5Yorvh2BLfNh4Zq7yh3qYRGsiJOjkJ+yeF18A+sAqfKnsphgGSzvj/jQnYzS18m9DKfbbvjuwOai19eJ7MlLt9yE/SRBRKP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728274262; c=relaxed/simple;
-	bh=kdLJV4jPMQR0YmUaJahbxYPtDAXEVTC0gnJSvEmyKKg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KqvDDUx25fvcVvlCeDKy2L2GhmbIbbIgjYmDrnHD+Jh6sc4+jNPgTk5di2k5iCldHGgGMb+Ru8YmfP/kn/2oRNTWTCDTsHttc963kAkGR1OcudYoUg6BUj7HiVpgEqfZBUCki1/agWCL234unm/OR7i8ZnWIX4gij8jUDqhnp0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=SDrzGfJB; arc=none smtp.client-ip=43.155.80.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1728274231;
-	bh=f0bfXAMgZ1bZqb171JWN9isr0dbCdWyTuujwC2isf/Y=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=SDrzGfJB9a9TteO+0vN6wc1gsq+KwlNuwCquePuLe77DhIKyP1qGi0UlgRpAr4BgH
-	 /A2LGY2NvQqkn+FNgG80OweBd9zvn1361vdUEnbhQq9K9yvimfeG3pe1zGZuh0AKS4
-	 BnnDhTJcWPnGpcWEHPNqHS5J4dILLdY+WHrEjmLM=
-X-QQ-mid: bizesmtp81t1728274088t8y7z34a
-X-QQ-Originating-IP: B9rIpp4W0xjv5XTsydH0Wq8+HdW6PE0Ed6KNpJrNxWI=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 07 Oct 2024 12:08:06 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 2877473253527766312
-From: WangYuli <wangyuli@uniontech.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org,
-	guanwentao@uniontech.com
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zhanjun@uniontech.com,
-	WangYuli <wangyuli@uniontech.com>
-Subject: [PATCH v2] HID: multitouch: Add quirk for HONOR MagicBook Art 14 touchpad
-Date: Mon,  7 Oct 2024 12:08:03 +0800
-Message-ID: <43824FB10AAAE5DD+20241007040803.205047-1-wangyuli@uniontech.com>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1728282452; c=relaxed/simple;
+	bh=dez3qDZTCR7aj0lyd+8859UYCldz7p/KR65EToBPfFs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=BNq2vbmIsfGj2H0hle0nW6jKU+donTg5TkkDNR5dTpZ4/BPFBuwfldowL0vCXraJ5Tbi6P40h/HbjC73CYIaPpjUKb7mWr5EAWbudTHs7ZjNQ/xirl9lML1ti7I5pBUdnfr9fQEHGxpR6xDsaVJd2YtxTZ7EkpgcEc9ziNiIFTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Za6B2cmi; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42cb60aff1eso41056455e9.0;
+        Sun, 06 Oct 2024 23:27:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728282449; x=1728887249; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=3ljP640KoG3Wu+LMoLRmzVfghnukxnk+FpxQaSkZ3Ns=;
+        b=Za6B2cmiJ6aByhjrcX94MwyrUpwJlR+pOrk5dUROemf3WUgWgpwcjFfQ8/7MGSr6co
+         Lnf2D6KIOORQni2Z7o0rKK0/RVn5fJLOLzjBRvS0NfGFiwgLjG75P0z5gesqrJAChPZT
+         TjFVCMXlumrhKnKvrRH30bg4s5PDii976wZN8GuduWoeVFkpx6qpjCh44XlSuptlDLYd
+         PK2XiQp1yHZvJ0V+syrWgXm6DZVQU8PxMeyx4d1jTFpxfZ/nOBvqZtYqAck6IjSJ9xeE
+         pEn8H05iueSQfqFVP78pwD+OR++7bsdbF/8DyV5oH/JOmqDnbgR99TWvu3BE4+keHqE3
+         9ELg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728282449; x=1728887249;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3ljP640KoG3Wu+LMoLRmzVfghnukxnk+FpxQaSkZ3Ns=;
+        b=JnrHxLQmVE+4J8NIKYksMEGjrqEe0sJJ9FtkwaNq/Mu9jFpscd4u3ZXT008Gzox9Qt
+         6q4SQHELzxuCaeNo1FdInhCt1oDEWB2ta/hS3MobjyakRDphntE9uldAUmWvId0+q1S1
+         Qhd3/vfOBNVZEWha0rWocRRFR9U0P7tsxlaZIiPHrCsyihalHVVFRVKpSguYh71yaNuo
+         ySuTbTxsnA5Jhhq/O1l/TWbQinMzVwhcuLEHOudCwbJBS2Dt0I3mtmAm/R27+nE7/knr
+         EmFDwDm8P7QWDyj3eSZIpKwBIqXy4DGiZTXQqMJaDG/XbiMnj5t8E/al9HgzmZhkDTvk
+         tUfg==
+X-Forwarded-Encrypted: i=1; AJvYcCUwiPVSfFZPnXRAtBDMswe0k/OQL723WFVUCwSHx3Kv+Da5NOIU7vm9h4TmlUNSf+5tyv1ymTaMupAJKw==@vger.kernel.org, AJvYcCV1EoDr0o/QrljuEbVEnni8i1044ui6dYfazJZo2iI/mFeRtPQz2Fro2wjBP25xTbBOrlOwPpdfzEsnbyxj@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7SjLmVSRPXytG8us1hbQkbiJII7ujh75XyrK11XmdpnXWGZLQ
+	0QyKspJkDKTkJ/3LmlMoj+2+XK5vpLTWJFRy2ob1+v/X9pNJm/eAN2JC53Ey
+X-Google-Smtp-Source: AGHT+IEJuaZzmFUqMGyp1nNOAu+2KlDOEmzixod+fsMzI+qUmA9SsCWoKQPzrceyuBdhATO/hsz4Ig==
+X-Received: by 2002:a05:600c:3ba9:b0:42c:ba83:3f0e with SMTP id 5b1f17b1804b1-42f85a6d73amr73294305e9.7.1728282448958;
+        Sun, 06 Oct 2024 23:27:28 -0700 (PDT)
+Received: from nsa.fritz.box ([2001:a61:34c9:ea01:14b4:7ed9:5135:9381])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f86a20393sm82128795e9.12.2024.10.06.23.27.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Oct 2024 23:27:28 -0700 (PDT)
+Message-ID: <6cd859e9f307c9358d81e5d8d7856496d8c69b6b.camel@gmail.com>
+Subject: Re: [PATCH] Input: adp5588-keys - do not try to disable interrupt 0
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Michael Hennerich
+	 <michael.hennerich@analog.com>, Nuno Sa <nuno.sa@analog.com>
+Cc: Utsav Agarwal <utsav.agarwal@analog.com>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 07 Oct 2024 08:27:28 +0200
+In-Reply-To: <Zv_2jEMYSWDw2gKs@google.com>
+References: <Zv_2jEMYSWDw2gKs@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MBN1Gf7pvZQZL9zHsyFYXqFNrhGVYwdnvxPWyyly9GMD4YbkxWNQpCov
-	9CHVLjgNF580+OSs7jloJSWXmQLbi0rd2+2toyMJV1tW/Tr2wed3crhNYoTRd6bSmHlYZx2
-	F9uvQOqwma2dnbzhf7GupIsdyeHqfQpH41TUfzzlNCDmLsZ1LV57s+uvcSRM3zaNFJvRaXT
-	t+sYYPcII/RkzI/Gz8xFkv3PLG3BjcZBD4LG5BGSJM3prlml7oPh7RcqwX3Pyy/VCv8V9EJ
-	tZESMRhlMgCumNgxJp042IZeGstrAzFIfdWHaTOGzsUr8paWqvya85/x5KER29UE8vKvqnv
-	PZLyAD6WVnoVtMIunFZjeV52juxN1P0b8rz5TqaTtYdcEi8mWNMa4WgbCBXzO+J0kCuZ6RP
-	TrmKVhji7RXus+v5CTS7UwSazNoq35EHD3QIJfcwE+mwVxf74exrywi3dU+fjqsGJNG2q90
-	gdPY27/65kHBKWIP3UH8wmdE6nQd00o7CT+siansZ4JnoqM9VM29H5RRk3G3Jqza0bB7hvA
-	DWFeFDi8yjVIBOXgV1IfQXya/AxV44wHyz4IoG2oY38G9K7aZ0k91y0NSkW6W9slKY/FUzS
-	aqoKWu17x/pN3VxBU+dCVNtXUdaFKb/dp64Y6O8mYJow4gosBFqV/+vPZaM1je6Dk4cI1Le
-	c4FLy+qi7RFUNNHiBebKBvAd1jYO49MYUI4yRdZpgBjFACSCJe+txofhCsqJx1KtQcDFC2o
-	d9WdeYpA6vkxRzXom+mrDwNZQv16jfmLj9wpkYzwK+u68ieqWD1oJWFv00HxbNb564FqsHq
-	Pq8n+fQMHLqMcHNL8bCF2wnsN2NQ5DbVtErexwQ3eOs+68l1nsYe8q8Ne1fSDvPXuYiWfWC
-	ZZFxMxwdUHpXTOBPuCHk2nMiMveP5KNVyjOECRaQ2aJXlOwZpTQVrzjCB/bUTBj1BFLqPPF
-	DhuuVaB4lqfu63zPK9eStwA0/TjqdUc0UnI+U5xPPF1qicgmO8oKFGL95
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
-X-QQ-RECHKSPAM: 0
 
-It sometimes after reboot change output from Touchpad to Mouse,
-evtest show it output from "TOPS0102:00 35CC:0104 Touchpad"
-to "TOPS0102:00 35CC:0104 Mouse",and it works as A mouse.
+On Fri, 2024-10-04 at 07:07 -0700, Dmitry Torokhov wrote:
+> Commit dc748812fca0 ("Input: adp5588-keys - add support for pure gpio")
+> made having interrupt line optional for the device, however it neglected
+> to update suspend and resume handlers that try to disable interrupts
+> for the duration of suspend.
+>=20
+> Fix this by checking if interrupt number assigned to the i2c device is
+> not 0 before trying to disable or reenable it.
+>=20
+> Fixes: dc748812fca0 ("Input: adp5588-keys - add support for pure gpio")
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
 
-Like GLO-GXXX, as a workaround, it is possible to call
-MT_QUIRK_FORCE_GET_FEATURE to force set feature in mt_set_input_mode
-for such special touchpad device.
+Reviewed-by: Nuno Sa <nuno.sa@analog.com>
 
-Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/1040
-Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
-Signed-off-by: WangYuli <wangyuli@uniontech.com>
-Reviewed-by: Benjamin Tissoires <bentiss@kernel.org>
----
- drivers/hid/hid-multitouch.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 99812c0f830b..a1e0c3db3d4c 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -2082,6 +2082,11 @@ static const struct hid_device_id mt_devices[] = {
- 		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
- 			0x347d, 0x7853) },
- 
-+	/* HONOR MagicBook Art 14 touchpad */
-+	{ .driver_data = MT_CLS_VTL,
-+		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-+			0x35cc, 0x0104) },
-+
- 	/* Ilitek dual touch panel */
- 	{  .driver_data = MT_CLS_NSMU,
- 		MT_USB_DEVICE(USB_VENDOR_ID_ILITEK,
--- 
-2.45.2
+> =C2=A0drivers/input/keyboard/adp5588-keys.c | 6 ++++--
+> =C2=A01 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/input/keyboard/adp5588-keys.c
+> b/drivers/input/keyboard/adp5588-keys.c
+> index d25d63a807f2..dc734974ce06 100644
+> --- a/drivers/input/keyboard/adp5588-keys.c
+> +++ b/drivers/input/keyboard/adp5588-keys.c
+> @@ -822,7 +822,8 @@ static int adp5588_suspend(struct device *dev)
+> =C2=A0{
+> =C2=A0	struct i2c_client *client =3D to_i2c_client(dev);
+> =C2=A0
+> -	disable_irq(client->irq);
+> +	if (client->irq)
+> +		disable_irq(client->irq);
+> =C2=A0
+> =C2=A0	return 0;
+> =C2=A0}
+> @@ -831,7 +832,8 @@ static int adp5588_resume(struct device *dev)
+> =C2=A0{
+> =C2=A0	struct i2c_client *client =3D to_i2c_client(dev);
+> =C2=A0
+> -	enable_irq(client->irq);
+> +	if (client->irq)
+> +		enable_irq(client->irq);
+> =C2=A0
+> =C2=A0	return 0;
+> =C2=A0}
+> --=20
+> 2.47.0.rc0.187.ge670bccf7e-goog
+>=20
+>=20
 
 
