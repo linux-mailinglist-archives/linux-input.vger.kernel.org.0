@@ -1,54 +1,56 @@
-Return-Path: <linux-input+bounces-7138-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7139-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5DC993F8F
-	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 09:35:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7EA994084
+	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 10:06:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D4E5D1F23668
-	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 07:35:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59115287552
+	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 08:06:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 642161CCB3E;
-	Tue,  8 Oct 2024 07:11:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EE3E1FF7DE;
+	Tue,  8 Oct 2024 07:15:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzdSSPhy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iHnww3WP"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404741C230A
-	for <linux-input@vger.kernel.org>; Tue,  8 Oct 2024 07:11:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57440208A7;
+	Tue,  8 Oct 2024 07:15:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728371501; cv=none; b=PMOWyQpTML/bGMAVltGYArlj67jel940CBT65WKy0Vbv2BCdTY8/X0hgQxWVXA/d3e2I3dUPc3kyJSsMzRqtuAh0kQhXu5wQ09EYVQe2bCQhXQHXgebZAgLh1hNY3nEUy2sq0wiH+9VnSJ8JAHJmCGL7iQJkmeQr8XDfRsJJv+I=
+	t=1728371755; cv=none; b=EU8avcF6EKQaTq//EjQETrRQMJ4lUSnZtA9RzTn1ZnfBDpC9df3v+fpSIB57yF0GJyua0RpVY0mZWozJq1zThRg0F0AJsTxnVOhDMSmHrwo1d+6xk1eSpfiD7Ze2YM+kRrXSKh41lziK5+sr6vw7CBXECpfFr6UmqRU1FBqRfUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728371501; c=relaxed/simple;
-	bh=vSAhI6utc46bgXE8SR4heNf/PQz6JEuNBkGM7Y3lkZU=;
+	s=arc-20240116; t=1728371755; c=relaxed/simple;
+	bh=Kj9xot+Cc5gXKsItGYymzN0HhpTgvCvZ2UPo9Mfh0eY=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=oa7n2zRgJaJ1I/MiAmNc94ilyNS860acRspvt/iKwykUN7KGJ2uUX1ecTCiu0Qw2MZ6BCFaWs8j6/aWjnV1kiCTuTauDSuuc32brmCSgBLUi2cGnLm3SsKnj0QGVkjbTJY0hAbE+ZMkugwAbvA7ue0ax1WTIiRKp5AkDV84+Pds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzdSSPhy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7147AC4CEC7;
-	Tue,  8 Oct 2024 07:11:40 +0000 (UTC)
+	 MIME-Version:Content-Type; b=HDh1k/PbolWt6qR9arGEphzqr6r2CEFBvoVPyyBemD+pQWpCSbg4eFfo8+QQTYybB+KBRyfGKXXwS4G0QSZxeBvypNChObvixCMZ+ttRtO3B8z0tHGcd3oV1lmh28x6q+UJvl4V6F86VAoUlPcV29CwTvFh2fgUXs5INRXvtc10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iHnww3WP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95795C4CECC;
+	Tue,  8 Oct 2024 07:15:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728371500;
-	bh=vSAhI6utc46bgXE8SR4heNf/PQz6JEuNBkGM7Y3lkZU=;
+	s=k20201202; t=1728371755;
+	bh=Kj9xot+Cc5gXKsItGYymzN0HhpTgvCvZ2UPo9Mfh0eY=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=OzdSSPhyej2P1oCYParP8BxkxRb8IM1XDndvrIOX9qiDRjEj10slt3MqgSg8bOAkl
-	 u0SocWNahj7e5dCG5wrf5rZFfdAxaHtsctmQzRLS37s38EZ7Qv9wRHFw2WCr2SXNtm
-	 Ae1gPy2MV+nnfNcpqw5+dVHgXvRmc/T6wO+b8J9f7dqRzTZ7qrmpiuNl/2sN4pNO2n
-	 zAAtgQUkStJ0PhS/DA8EHgEb0rFnPqLLFM4RnbHWit4CFMlVpsi2YiqhF6dzCeqFFd
-	 SyB/a/W7k3Nb6dt2jiy31xntemcVXIKDJ1C0AwEOMdTV2VAa1QtDpv6Kp/tIeUV/GH
-	 CBmlwdbPTzZ0g==
-Date: Tue, 8 Oct 2024 09:11:38 +0200 (CEST)
+	b=iHnww3WPpKHuxyiog2qMUFN45L/GLVeUObWK6ckRnmOVfm0fkXYm7qNJpUftLwU29
+	 7dexTiLS9P1inQT7g+G/WTdsLf0UpxSKOlQTIIFecf7oxnZd+cQYxo46HdIUsVLmKh
+	 /EEZNJRQV/ieEQ1tosIgbp7DvyMDj/o+RLYZmcBHqFTKhuMYb4EXreQvGDM/n0Xfz5
+	 5KvRDm1j4ybLwvf2JU5/d8pM5SvthjKGyuQR2JYGit6nGVpfS1iI6QRWYV/LUZYWnH
+	 6u/7CMrPhxuqP+g8K1OOv7ZYhLlTNqvgLxF7twuT+p7ZRLUOy0+et6fBU0eejpc//R
+	 IQ029XqdhbRvA==
+Date: Tue, 8 Oct 2024 09:15:52 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Stefan Blum <stefanblum2004@gmail.com>
-cc: bentiss@kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: multitouch: Add support for B2402FVA track point
-In-Reply-To: <1917062e-1c6e-43bd-b33a-5d40eb5c261c@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2410080911200.20286@cbobk.fhfr.pm>
-References: <1917062e-1c6e-43bd-b33a-5d40eb5c261c@gmail.com>
+To: WangYuli <wangyuli@uniontech.com>
+cc: bentiss@kernel.org, guanwentao@uniontech.com, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, zhanjun@uniontech.com
+Subject: Re: [PATCH v2] HID: multitouch: Add quirk for HONOR MagicBook Art
+ 14 touchpad
+In-Reply-To: <43824FB10AAAE5DD+20241007040803.205047-1-wangyuli@uniontech.com>
+Message-ID: <nycvar.YFH.7.76.2410080915450.20286@cbobk.fhfr.pm>
+References: <43824FB10AAAE5DD+20241007040803.205047-1-wangyuli@uniontech.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -58,27 +60,42 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Sun, 6 Oct 2024, Stefan Blum wrote:
+On Mon, 7 Oct 2024, WangYuli wrote:
 
-> Hello,
+> It sometimes after reboot change output from Touchpad to Mouse,
+> evtest show it output from "TOPS0102:00 35CC:0104 Touchpad"
+> to "TOPS0102:00 35CC:0104 Mouse",and it works as A mouse.
 > 
-> By default the track point does not work on the Asus Expertbook B2402FVA.
+> Like GLO-GXXX, as a workaround, it is possible to call
+> MT_QUIRK_FORCE_GET_FEATURE to force set feature in mt_set_input_mode
+> for such special touchpad device.
 > 
-> >From libinput record i got the ID of the track point device:
->   evdev:
->     # Name: ASUE1201:00 04F3:32AE
->     # ID: bus 0x18 vendor 0x4f3 product 0x32ae version 0x100
+> Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/1040
+> Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
+> Signed-off-by: WangYuli <wangyuli@uniontech.com>
+> Reviewed-by: Benjamin Tissoires <bentiss@kernel.org>
+> ---
+>  drivers/hid/hid-multitouch.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> I found that the track point is functional, when i set the MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU class for the reported device.
-> 
-> With kind regards,
-> 
-> Stefan
-> 
-> Signed-off-by: Stefan Blum <stefan.blum@gmail.com>
+> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+> index 99812c0f830b..a1e0c3db3d4c 100644
+> --- a/drivers/hid/hid-multitouch.c
+> +++ b/drivers/hid/hid-multitouch.c
+> @@ -2082,6 +2082,11 @@ static const struct hid_device_id mt_devices[] = {
+>  		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
+>  			0x347d, 0x7853) },
+>  
+> +	/* HONOR MagicBook Art 14 touchpad */
+> +	{ .driver_data = MT_CLS_VTL,
+> +		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
+> +			0x35cc, 0x0104) },
+> +
+>  	/* Ilitek dual touch panel */
+>  	{  .driver_data = MT_CLS_NSMU,
+>  		MT_USB_DEVICE(USB_VENDOR_ID_ILITEK,
 
-I have reformatted the changelog a little bit to match kernel standards :) 
-and applied, thanks.
+Applied, thanks.
 
 -- 
 Jiri Kosina
