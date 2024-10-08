@@ -1,68 +1,64 @@
-Return-Path: <linux-input+bounces-7157-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7158-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1C0995348
-	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 17:22:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 817D9995370
+	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 17:33:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DC2DE1F262F9
-	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 15:22:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 32A7D1F210DF
+	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 15:33:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB4EA1E0B64;
-	Tue,  8 Oct 2024 15:21:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F5D71DF27C;
+	Tue,  8 Oct 2024 15:33:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YQbPZTKz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FDPxO4xK"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD171E04BA;
-	Tue,  8 Oct 2024 15:21:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E4F84E18;
+	Tue,  8 Oct 2024 15:33:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728400904; cv=none; b=PYViYk3f4/NuqHpj4ORbuK9nOPhugbOe6FMPz9dBDdqxsZ5LFo6XJtUJigLS123hjLYD3gz3Qh2+VNVqHjnC5DMVuhjE2BxKDRkLJ9BZGhjmp4ofSOH1uy8Aj0VR0FV2K26NY33t+/W+W8ybAd0InHBi8xw6uSKcjkGk8Dt18H4=
+	t=1728401586; cv=none; b=UuWyU+QYW9H8tTrjlJaJ7ZUiz99xUCJOFijNmu/CP97KZzxouFk4qKukNQc3ePSI78IUnnvKbK/CKi463UTAnnbolP+CXWxi8/FpEu5Gwkz5aB1Y+ChePToBjpwwjVHlvPk8Roj12i3AWeof44IzLQGgNZ9ovDGnJ+hjkRam+kI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728400904; c=relaxed/simple;
-	bh=UWc2qvCFSN/lJ4nXoiViC2Mk+bdUrVpTctmrpmU2MX0=;
+	s=arc-20240116; t=1728401586; c=relaxed/simple;
+	bh=ouKxO2/IjmSZBjM+1Fc7/vlcAqQ4Vq4MlFM+ug7u5Ls=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H7UMhtIq6fmUO6Clf0JroMQV1zgzifVeGwlADd1764vzBRh3uH7Irlr2NQiwNi7D33gGx0+bRuEbhvzBFdc4OxW6ysot7PpjYQz9pudrjk5ywFMKWA7CEI9RtajNHK8XA15wfoInDDoaMhvVMh0PXA3xbI1rPRc9ujXjIG+FA3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YQbPZTKz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 110A0C4CEC7;
-	Tue,  8 Oct 2024 15:21:40 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=YAVgI/wm+C43h29NGuMjGPRvS3/Cds21x3uPi0jJ7ycDRTpbIpsd22eegEzcNqfGPqVtsv74vpqrLUe+RHa5Rosa0n0MrAdsfv+5AeqH1Uc0jfQTrc6JqJBhnmG3nMMu5m5aVuQ1Ile1VhkN6NNLQgPX0VQsnnzehLUkM7yzr5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FDPxO4xK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46229C4CEC7;
+	Tue,  8 Oct 2024 15:33:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728400904;
-	bh=UWc2qvCFSN/lJ4nXoiViC2Mk+bdUrVpTctmrpmU2MX0=;
+	s=k20201202; t=1728401586;
+	bh=ouKxO2/IjmSZBjM+1Fc7/vlcAqQ4Vq4MlFM+ug7u5Ls=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YQbPZTKznkz7snGmIxfOlgvGNOndnoQnAWFbJQxWppnNqX6GBWTaH9DU7Urk7MzD8
-	 PY6pO2AqN0z2PzWkbsvnGiQ7qY95i2wXOsHRpjKmMLPUlbjJXSC07HFkKLpKc2sb9t
-	 c3uknU7lxFoX5PgFVyiKp0OC4fW8mYcfNPeDBooeLnhaaiOT9qfE7hk83ztTxrFMhq
-	 vC2dT9sF25uVaWxvmNV9cA3dMvB/iROZpxsj5L+CdXcT1MadHF74rRcM6+7lk0bHy6
-	 DSuqDRqXmgYllQ1DcDYFsPqZQlo7M5QlKyI7hUkSL1moYICCgI6FacPsKFHVpVc8em
-	 RE5NjkMyuWqtw==
-Date: Tue, 8 Oct 2024 17:21:38 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
+	b=FDPxO4xKf5YTLi8ThQ5IZbwJ0MIuwcFrt1RTRpClUWqh3vmZaEuRd7txTc4759o9Y
+	 w1aIsLD0U6dwsSG3ZtFIw0+BfkdWsnhsN8keW436leHeHRL2UAWOdN1IsxMSzbYHJk
+	 /QE9RukogSs8D39YaxIrEssFYKJBmOQCcDXGRuPQn+S5p8ApWd3HlOuczSnjJ9hPBi
+	 pGxKZsOKoMtvhyBzg5D/tivcnnuBtMTqTUvlOjR9d8Vwvqzbo540Qvjvf+YoxdDAQk
+	 rZ+qz4acRRW8zGVEXbSwdsCyh7thp9luSLkkVwDcEW/GMu2SYIVNvuLE+c0V3bJFiR
+	 DnieADb2SODyQ==
+Date: Tue, 8 Oct 2024 16:33:00 +0100
+From: Lee Jones <lee@kernel.org>
 To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>, 
-	Hans de Goede <hdegoede@redhat.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org, lee@kernel.org, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
-	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com, 
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO NB04 devices
-Message-ID: <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
-References: <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
- <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
- <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
- <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
- <d7gk2mgihtg6242l3isnhw3xpdt745ehpu2kvim2xxgmxdhat7@g5cqei7uqujj>
- <39f84cfe-bb89-4194-81a9-e178c93e5309@tuxedocomputers.com>
- <sih5i2ausorlpiosifvj2vvlut4ok6bbgt6cympuxhdbjljjiw@gg2r5al552az>
- <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
- <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
- <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
+Cc: bentiss@kernel.org, dri-devel@lists.freedesktop.org,
+	hdegoede@redhat.com, jelle@vdwaa.nl, jikos@kernel.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+	ojeda@kernel.org, onitake@gmail.com, pavel@ucw.cz, cs@tuxedo.de
+Subject: Re: [PATCH v2 1/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO
+Message-ID: <20241008153300.GA11264@google.com>
+References: <20240927124152.139099-1-wse@tuxedocomputers.com>
+ <20241002125243.GC7504@google.com>
+ <4bfc188c-0873-490f-bfef-119c7fa74be5@tuxedocomputers.com>
+ <20241003075927.GI7504@google.com>
+ <8874c084-20b2-44d8-9a0d-67aedad4b456@tuxedocomputers.com>
+ <20241007125813.GA17897@google.com>
+ <86936252-f3b6-46c2-9244-ce0cfebf3c42@tuxedocomputers.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -72,206 +68,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
+In-Reply-To: <86936252-f3b6-46c2-9244-ce0cfebf3c42@tuxedocomputers.com>
 
-On Oct 08 2024, Werner Sembach wrote:
+On Mon, 07 Oct 2024, Werner Sembach wrote:
+
 > 
-> Am 08.10.24 um 14:18 schrieb Benjamin Tissoires:
-> > On Oct 08 2024, Werner Sembach wrote:
-> > > Am 08.10.24 um 11:53 schrieb Benjamin Tissoires:
-> > > > On Oct 07 2024, Werner Sembach wrote:
+> Am 07.10.24 um 14:58 schrieb Lee Jones:
+> > On Fri, 04 Oct 2024, Werner Sembach wrote:
+> > 
+> > > Am 03.10.24 um 09:59 schrieb Lee Jones:
+> > > > On Wed, 02 Oct 2024, Werner Sembach wrote:
+> > > > 
 > > > > > Hi,
 > > > > > 
-> > > > > Am 02.10.24 um 10:31 schrieb Benjamin Tissoires:
-> > > > > > On Oct 01 2024, Werner Sembach wrote:
-> > > > > > > Hi Benjamin,
+> > > > > Am 02.10.24 um 14:52 schrieb Lee Jones:
+> > > > > > On Fri, 27 Sep 2024, Werner Sembach wrote:
+> > > > > > 
+> > > > > > > Hi,
+> > > > > > > first revision integrating Armins feedback.
 > > > > > > > 
-> > > > > > > Am 01.10.24 um 15:41 schrieb Benjamin Tissoires:
-> > > > > > > > [...]
-> > > > > > > > PPS: sorry for pushing that hard on HID-BPF, but I can see that it fits
-> > > > > > > > all of the requirements here:
-> > > > > > > > - need to be dynamic
-> > > > > > > > - still unsure of the userspace implementation, meaning that userspace
-> > > > > > > >       might do something wrong, which might require kernel changes
-> > > > > > > Well the reference implementetion for the arduiono macropad from microsoft
-> > > > > > > ignores the intensity (brightness) channel on rgb leds contrary to the HID
-> > > > > > > spec, soo yeah you have a point here ...
-> > > > > > Heh :)
+> > > > > > > Stuff I did not yet change and did not comment on previously:
+> > > > > > > - Still have to ask Christoffer why the mutex is required
+> > > > > > > - Still using acpi_size instad of size_t in the util functions, because the value is put directly into a struct using acpi_size
+> > > > > > > - Error messages for __wmi_method_acpi_object_out still in that method because they reference method internal variables
+> > > > > > > 
+> > > > > > > Let me know if my reasoning is flawed
+> > > > > > Use `git format-patch`'s --annotate and --compose next time please.
 > > > > > > 
-> > > > > > > > - possibility to extend later the kernel API
-> > > > > > > > - lots of fun :)
-> > > > > > > You advertise it good ;). More work for me now but maybe less work for me
-> > > > > > > later, I will look into it.
-> > > > > > Again, I'm pushing this because I see the benefits and because I can
-> > > > > > probably reuse the same code on my Corsair and Logitech keyboards. But
-> > > > > > also, keep in mind that it's not mandatory because you can actually
-> > > > > > attach the BPF code on top of your existing driver to change the way it
-> > > > > > behaves. It'll be slightly more complex if you don't let a couple of
-> > > > > > vendor passthrough reports that we can use to directly talk to the
-> > > > > > device without any tampering, but that's doable. But if you want to keep
-> > > > > > the current implementation and have a different layout, this can easily
-> > > > > > be done in BPF on top.
-> > > > > > 
-> > > > > > Cheers,
-> > > > > > Benjamin
-> > > > > > 
-> > > > > > 
-> > > > > > [0] https://lore.kernel.org/linux-input/20241001-hid-bpf-hid-generic-v3-0-2ef1019468df@kernel.org/T/#t
-> > > > > Thinking about the minimal WMI to HID today, but found a problem: a HID
-> > > > > feature report is either strictly input or output afaik, but the WMI
-> > > > > interface has both in some functions.
-> > > > Not sure you are talking about feature reports, because they are
-> > > > read/write. It's just that they are synchronous over the USB control
-> > > > endpoint (on USB).
-> > > I'm confused about the split between get and send feature reports
-> > > https://www.kernel.org/doc/html/latest/hid/hidraw.html
-> > > 
-> > > I guess then a get feature report can also carry input data and the
-> > > difference is that a send feature report doesn't wait for a reply? but then
-> > > what is it's reason of existence in contrast to an output report?
-> > I'm under the impression you are mixing the 3 types of reports (just
-> > re-stating that here in case I wasn't clear).
-> > 
-> > - Input reports:
-> >    `Input()` in the report descriptor
-> >    -> data emitted by the device to the host, and notified through an IRQ
-> >    mechanism
-> >    -> obtained in hidraw through a blocking read() operation
-> > - Output reports:
-> >    `Output()` in the report descriptor
-> >    -> data sent asynchronously by the host to the device.
-> >    -> sent from hidraw by calling write() on the dev node (no feedback
-> >    except how many bytes were sent)
-> > - Feature reports:
-> >    `Feature()` in the report descriptor
-> >    -> way to synchronously configure the device. Think of it like a
-> >    register on the device: you can read it, write it, but you never get
-> >    an interrupt when there is a change
-> >    -> read/written by using an ioctl on the hidraw node
-> 
-> From userspace there are the HIDIOCSFEATURE and HIDIOCGFEATURE ioctls.
-> 
-> From the hid 1.11 spec:
-> 
-> "
-> 
-> 7.2.2 Set_Report Request
-> 
-> [...]
-> 
-> The meaning of the request fields for the Set_Report request is the same as for
-> the Get_Report request, however the data direction is reversed and the Report
-> Data is sent from host to device.
-> 
-> "
-> 
-> and from the hut 1.5, some of the LampArray feature reports are meant to be
-> used with set report and some with get report
-
-Yeah, it just means that you can query or send the data. You can also
-use HIDIOCGINPUT() and HIDIOCSOUTPUT() to get a current input report and
-set an output report through the hidraw ioctl...
-
-Internally, HIDIOCGINPUT() uses the same code path than
-HIDIOCGFEATURE(), but with the report type being an Input instead of a
-Feature. Same for HIDIOCSOUTPUT() and HIDIOCSFEATURE().
-
-> 
-> (well as far as I can tell the hut doesn't actual specify, if they need to
-> be feature reports, or am I missing something?)
-
-They can be both actually. The HUT is missing what's expected here :(.
-
-However, looking at the HUT RR 84:
-https://www.usb.org/sites/default/files/hutrr84_-_lighting_and_illumination_page.pdf
-
-There is an example of a report descriptor, and they are using Features.
-Not Input+Output.
-
-And looking even further (above), in 3.5 Usage Definitions:
-3.5.2, 3.5.3 and 3.5.5 all of them are meant to be a feature, like:
-LampArrayAttributesReport CL – Feature -
-LampAttributesRequestReport CL – Feature –
-LampAttributesResponseReport CL – Feature –
-LampArrayControlReport CL – Feature –
-
-3.5.4: can be either feature or output, like:
-LampMultiUpdateReport CL – Feature/Output –
-LampRangeUpdateReport CL – Feature/ Output –
-
-So I guess the MS implementation can handle Feature only for all but the
-update commands.
-
-> 
-> and there is the pair with LampAttributesRequestReport and
-> LampAttributesResponseReport.
-
-Yeah, not a big deal. The bold IN and OUT are just to say that calling a
-setReport on a LampAttributesResponseReport is just ignored AFAIU.
-
-> 
-> Sorry for my confusion over the hid spec.
-
-No worries. It is definitely confusing :)
-
-Cheers,
-Benjamin
-
-> 
-> > 
-> > And BTW, it's perfectly fine to have a dedicated report ID which has
-> > Input, Output and Feature attached to it :)
-> > 
-> > > > An input report is strictly directed from the device, and an output
-> > > > report is from the host to the device.
+> > > > > I did but --compose does not automatically insert the subject line, that's
+> > > > > why i copied it but forgot to change it to 0/1
+> > > > > 
+> > > > > Sorry for the flawed subject line
+> > > > And the missing diff-stat?
 > > > > 
-> > > > But a feature report is bidirectional.
-> > > > 
-> > > > > How would I map that?
-> > > > Depending on the WMI interface, if you want this to be synchronous,
-> > > > defining a Feature report is correct, otherwise (if you don't need
-> > > > feedback from WMI), you can declare the commands to WMI as Output
-> > > > reports.
-> > > Thanks for reminding me that output reports exist xD.
-> > hehe
+> > > Also not automatically created by git send-email --compose. is there a flag
+> > > I'm not aware of?
+> > As above.  I use "--annotate --compose".  See if that works.
 > > 
-> > > > > If I split everything in input and output the new interface wouldn't
-> > > > > actually be much smaller.
-> > > > The HID report descriptor doesn't need to be smaller. The fact that by
-> > > > default it exposes only one or two LEDs so we don't have the micrometers
-> > > > arrays is the only purpose.
-> > > > 
-> > > > But if we also implement a not-full HID implementation of LampArray, we
-> > > > should be able to strip out the parts that we don't care in the LED
-> > > > class implementation, like the exact positioning, or the multiupdate.
-> > > > 
-> > > > > Also what would I write for the usage for the reserved padding in the report
-> > > > > descriptor. Usage: 0x00?
-> > > > padding are ignored by HID. So whatever current usage you have is fine.
-> > > > 
-> > > > However, if you are talking about the custom WMI vendor access, I'd go
-> > > > with a vendor collection (usage page 0xff00, usage 0x08 for the 8 bytes
-> > > > long WMI command for instance, 0x10 for the 16 bytes long one).
-> > > > 
-> > > > Side note: in drivers/hid/bpf/progs/hid_report_helpers.h we have some
-> > > > autogenerated macros to help writing report descriptors (see
-> > > > drivers/hid/bpf/progs/Huion__Dial-2.bpf.c for an example of usage). It's
-> > > > in the hid-bpf tree but I think we might be able to include this in
-> > > > other drivers (or do a minimal rewrite/move into include).
-> > > > I'm not asking you to use it on your code right now, but this has the
-> > > > advantage of becoming less "binary blob" in your code, and prevent
-> > > > mistakes where you edit the comments but not the values.
-> > > I will look into it.
-> > > 
-> > > Since the interface is fixed I don't need to flesh out the whole descriptor
-> > > (which i thought i must do) and usage page (0xff42, because NB04 and the wmi
-> > > has 2 other ec controlling wmi interfaces besides the AB one), report usage
-> > > (matching the wmi comand id's) and report size should be enough.
-> > I'm a little confused by that last sentence. But yeah, I would expect
-> > some minimal sanity check before handing over the HID report to the WMI
-> > interface :)
-> > 
-> > Cheers,
-> > Benjamin
-> > 
+> nope, the cover letter has no change summary with these options
+
+Oh, my mistake.  I'm getting confused with `git send-email`.
+
+You want this:
+
+  `mkdir patches && git format-patch --cover-letter -M -o patches`
+
+-- 
+Lee Jones [李琼斯]
 
