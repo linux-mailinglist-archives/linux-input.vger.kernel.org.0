@@ -1,194 +1,88 @@
-Return-Path: <linux-input+bounces-7129-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7130-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B6A993A49
-	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 00:35:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A68993F61
+	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 09:33:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 485FD1C225BF
-	for <lists+linux-input@lfdr.de>; Mon,  7 Oct 2024 22:35:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 112A61F24DA2
+	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 07:33:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55A8F190693;
-	Mon,  7 Oct 2024 22:35:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0061F1B6536;
+	Tue,  8 Oct 2024 06:46:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="e3VL5Ud8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RSjHYS/V"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621F818C929
-	for <linux-input@vger.kernel.org>; Mon,  7 Oct 2024 22:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B5E18E37C;
+	Tue,  8 Oct 2024 06:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728340531; cv=none; b=e0lxNSFnJZDk5IZS5xi+S1r1sYWWY5gZ4FUmAGhjLzXSS1KUTQteDWOcBGbNKIcCvHUTv2XYdLBG7C9Z/mGsIkm8HiFa2YV+++/90kK7TnJlniaPLxHnbjJt8DogmHYzu6XvX9ga4qUyaMEGQWuyKztz8ogqogn2EJ/t+5ZjAuA=
+	t=1728370010; cv=none; b=dlp4MUq1PlNVsEsmLpyf2ZLOEuIydpMd+85F0btNsd18t+poJaHNAUzGKfq/vJuo3LNFLIWKU/Otwv2otUGulJUURDox2ZHY0UKXVqj2tXwI1J5KsGcmKlN5MNKNO6OObSL1y36JDFBpFm7BiugKNmJz7fN/a82bVidvqqMA9/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728340531; c=relaxed/simple;
-	bh=gesjil9Y0RZgbcjmX5qHd/S97rHztDCcedkOm+1cl0k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Bu5AdPzC+HFly0hwh3yMhT3CE7IbdOl8/uD/k23dKZcOJl4eZyRStdFppLGy8flHl5xYxJty478Gc0/QL+UQq9ffo5Z1Ybvo/lxyTDurszvSnnGc2znfnnxTNy0ik0B9+v+BD6eF2PjZpTwFGOS1FBx9AOBH50wW9Ng2eJVR47s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=e3VL5Ud8; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e25d164854dso4139033276.2
-        for <linux-input@vger.kernel.org>; Mon, 07 Oct 2024 15:35:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728340526; x=1728945326; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gesjil9Y0RZgbcjmX5qHd/S97rHztDCcedkOm+1cl0k=;
-        b=e3VL5Ud84GLI+E2x3bA8ztpqvuFMv57yd9aYEVQJXCzdGLPTTmXpQqv3Opq72bJmux
-         KBHMo3MVO1HOzdmTO8H+pcTCfVPqaiTDnPTpbQzl0qQR7IL44jHkwS4bzBufrjeR8qhe
-         DDLiaWivcex7UxcVlthWRdgNLBWzi+M8qTeDx57baSkDWFH1agIYPgvRPadbYLCLtjZu
-         06qTHbdte5aRDCOnGRwQe0feCJbqguEWevqetTaa5WoZI91EWlvvh0bLcBUS4nMqHsf9
-         D1KWrNcsh7YIcTiYbXUJhkPijHa5aKTMIfa20aY8luGYazLflzR5ecy/UydbOSAfiQM/
-         3TDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728340526; x=1728945326;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gesjil9Y0RZgbcjmX5qHd/S97rHztDCcedkOm+1cl0k=;
-        b=Pms0li78BJA2SZ6ax3JMj6SG/s+Jl+Uy6EHTclJ5QPFzokx5fyPumF/yu94biUzW3k
-         uolGaGLwKPSH/qjcbEDefTmx9KF2oXENKq8axAOZYVscnEu6qYd03M/Dkr7hfUt3/Ghd
-         7Z5migQoaSg699g/hwmoNDq0eDYKWSONCPLD5d7VQaNhOj69bwFV5kKHL+y+vmtpZePK
-         zoR6+/RUaKoFsiUcjBC51p/xZPtd+o3F0073KksmAMk4Wm9wXYJfjpbVmKWsynJmRH6E
-         y2y5QnES/IKANRnWwSrJBgYDVx+lOSos92XptZdxm3mtVQ9rBRpQ92/jU6zrS564Ep6u
-         8rHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUHO0Rs/Fwg0FuEtf5CSQBFHIf2SUbGRmbhCSqyvAXBQkGQE8Diw5NRBQr4QLrUSQe1RnxULJR4DD4IAA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyz1dZ/tI0gVUIha0cKBQhRVc2iZB7ZnOzYqSHtUo7ny5oGAiWv
-	FsJh/p5n7JO0zTsaE3CaJNXjBE/F6ISuMaDANaG1xs1OPbEwyH8ZGzUv9lPz8o7K7VNfn9P9DdO
-	NDb98zJ9oPiTlmv7RULg39+zBpprzjzf7PIDE3w==
-X-Google-Smtp-Source: AGHT+IGYLLRVc3CeXKReIUVnntYlZ+ULRb29gPUl3UTx4hoqAUGdx6q2aFDzdnacRWqcM/cOYseo4GoEdp7e3a8qLZE=
-X-Received: by 2002:a05:6902:2305:b0:e28:6ec7:4353 with SMTP id
- 3f1490d57ef6-e2893964043mr10612649276.54.1728340526338; Mon, 07 Oct 2024
- 15:35:26 -0700 (PDT)
+	s=arc-20240116; t=1728370010; c=relaxed/simple;
+	bh=LQwzrxVR0VxE3bim0rHs1rPyV5wQKH57LwW6Kr5/fv8=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=sDhoQxpF7qKITrJbV5stAFb2tWK8KOFVO5biC0Q4qbZTgRxO5RJ7kCM8HYtSbBtVxkOie1fyQpQ/kWQ2gM/VkLbkP/7xmkMMgLOLNwH/DeVyi90WadB1NoqFdRfy/MSfnv3oOFKL/prWbik2juYMLp6DKLdbx12qnk0ei9IVuF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RSjHYS/V; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F0A3C4CEC7;
+	Tue,  8 Oct 2024 06:46:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728370010;
+	bh=LQwzrxVR0VxE3bim0rHs1rPyV5wQKH57LwW6Kr5/fv8=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=RSjHYS/VUWRtLyYrOaHajZNZ1Kdemd52i8k0KHHfgQ6Le5Mvbw2sqE6Gn3fl0a+Gw
+	 xoWzgYOc6EhYAAeSpFBHMOS0xNrFPHLp4+4arXIhR3JI7IU63eabZcqFEWY5cc70i3
+	 ysYbw5+M+M35HgdpzwR/jERSF50EDtLgcEUYSiST7LOdfHCz+U7t6NcRXIvu80+DDn
+	 c69UmFeAFFcWS/5+DeqIPA4F7ZUTMBEMFzo8UJnfSoru0HHjVOOtnuqsrKRHqB/rNE
+	 Dn9n+JRV+rfrMNabpFYYa378H0WqWVzAZo8au3qv4/1BQiVJZ4rUMV+BS+trEQYjDE
+	 rlj9tM8eCiY2g==
+Date: Tue, 8 Oct 2024 08:46:48 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Wade Wang <wade.wang@hp.com>
+cc: bentiss@kernel.org, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] HID: plantronics: Workaround for an unexcepted opposite
+ volume key
+In-Reply-To: <20240916085600.1387418-1-wade.wang@hp.com>
+Message-ID: <nycvar.YFH.7.76.2410080846370.20286@cbobk.fhfr.pm>
+References: <20240916085600.1387418-1-wade.wang@hp.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
- <CAPDyKFp0N6UJhnHS164Tdf=xkWB0jzq65L9TdvYazeBQ-6WjeQ@mail.gmail.com>
- <20241007184924.GH14766@pendragon.ideasonboard.com> <CAPDyKFpQVnF7eQv3dup8k-3EijnMjuveCG9sZ=Rpey1Y6MBJEg@mail.gmail.com>
- <20241007222502.GG30699@pendragon.ideasonboard.com>
-In-Reply-To: <20241007222502.GG30699@pendragon.ideasonboard.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 8 Oct 2024 00:34:49 +0200
-Message-ID: <CAPDyKFrGNwna6Y2pqSRaBbRYHKRaD2ayqQHLtoqLPOu9Et7qTg@mail.gmail.com>
-Subject: Re: [PATCH 00/51] treewide: Switch to __pm_runtime_put_autosuspend()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
-	linux-i3c@lists.infradead.org, linux-iio@vger.kernel.org, 
-	linux-input@vger.kernel.org, patches@opensource.cirrus.com, 
-	iommu@lists.linux.dev, imx@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org, 
-	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
-	linux-serial@vger.kernel.org, greybus-dev@lists.linaro.org, 
-	asahi@lists.linux.dev, rafael@kernel.org, 
-	Andy Shevchenko <andy.shevchenko@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 
-On Tue, 8 Oct 2024 at 00:25, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ulf,
->
-> On Tue, Oct 08, 2024 at 12:08:24AM +0200, Ulf Hansson wrote:
-> > On Mon, 7 Oct 2024 at 20:49, Laurent Pinchart wrote:
-> > > On Fri, Oct 04, 2024 at 04:38:36PM +0200, Ulf Hansson wrote:
-> > > > On Fri, 4 Oct 2024 at 11:41, Sakari Ailus wrote:
-> > > > >
-> > > > > Hello everyone,
-> > > > >
-> > > > > This set will switch the users of pm_runtime_put_autosuspend() to
-> > > > > __pm_runtime_put_autosuspend() while the former will soon be re-purposed
-> > > > > to include a call to pm_runtime_mark_last_busy(). The two are almost
-> > > > > always used together, apart from bugs which are likely common. Going
-> > > > > forward, most new users should be using pm_runtime_put_autosuspend().
-> > > > >
-> > > > > Once this conversion is done and pm_runtime_put_autosuspend() re-purposed,
-> > > > > I'll post another set to merge the calls to __pm_runtime_put_autosuspend()
-> > > > > and pm_runtime_mark_last_busy().
-> > > >
-> > > > That sounds like it could cause a lot of churns.
-> > > >
-> > > > Why not add a new helper function that does the
-> > > > pm_runtime_put_autosuspend() and the pm_runtime_mark_last_busy()
-> > > > things? Then we can start moving users over to this new interface,
-> > > > rather than having this intermediate step?
-> > >
-> > > I think the API would be nicer if we used the shortest and simplest
-> > > function names for the most common use cases. Following
-> > > pm_runtime_put_autosuspend() with pm_runtime_mark_last_busy() is that
-> > > most common use case. That's why I like Sakari's approach of repurposing
-> > > pm_runtime_put_autosuspend(), and introducing
-> > > __pm_runtime_put_autosuspend() for the odd cases where
-> > > pm_runtime_mark_last_busy() shouldn't be called.
-> >
-> > Okay, so the reason for this approach is because we couldn't find a
-> > short and descriptive name that could be used in favor of
-> > pm_runtime_put_autosuspend(). Let me throw some ideas at it and maybe
-> > you like it - or not. :-)
->
-> I like the idea at least :-)
->
-> > I don't know what options you guys discussed, but to me the entire
-> > "autosuspend"-suffix isn't really that necessary in my opinion. There
-> > are more ways than calling pm_runtime_put_autosuspend() that triggers
-> > us to use the RPM_AUTO flag for rpm_suspend(). For example, just
-> > calling pm_runtime_put() has the similar effect.
->
-> To be honest, I'm lost there. pm_runtime_put() calls
-> __pm_runtime_idle(RPM_GET_PUT | RPM_ASYNC), while
-> pm_runtime_put_autosuspend() calls __pm_runtime_suspend(RPM_GET_PUT |
-> RPM_ASYNC | RPM_AUTO).
+On Mon, 16 Sep 2024, Wade Wang wrote:
 
-__pm_runtime_idle() ends up calling rpm_idle(), which may call
-rpm_suspend() - if it succeeds to idle the device. In that case, it
-tags on the RPM_AUTO flag in the call to rpm_suspend(). Quite similar
-to what is happening when calling pm_runtime_put_autosuspend().
+> Some Plantronics headset as the below send an unexcept opposite
+> volume key's HID report for each volume key press after 200ms, like
+> unecepted Volume Up Key following Volume Down key pressed by user.
+> This patch adds a quirk to hid-plantronics for these devices, which
+> will ignore the second unexcepted opposite volume key if it happens
+> within 220ms from the last one that was handled.
+>     Plantronics EncorePro 500 Series  (047f:431e)
+>     Plantronics Blackwire_3325 Series (047f:430c)
+> 
+> The patch was tested on the mentioned model, it shouldn't affect
+> other models, however, this quirk might be needed for them too.
+> Auto-repeat (when a key is held pressed) is not affected per test
+> result.
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Wade Wang <wade.wang@hp.com>
 
->
-> >
-> > Moreover, it's similar for pm_runtime_mark_last_busy(), it's called
-> > during rpm_resume() too, for example. So why bother about having
-> > "mark_last_busy" in the new name too.
-> >
-> > That said, my suggestion is simply "pm_runtime_put_suspend".
->
-> Can we do even better, and make pm_runtime_put() to handle autosuspend
-> automatically when autosuspend is enabled ?
+Applied, thanks.
 
-As stated above, this is already the case.
+-- 
+Jiri Kosina
+SUSE Labs
 
->
-> > If you don't like it, I will certainly not object to your current
-> > approach, even if I think it leads to unnecessary churns.
-> >
-> > [...]
-> >
-> > Kind regards
-> > Uffe
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-Kind regards
-Uffe
 
