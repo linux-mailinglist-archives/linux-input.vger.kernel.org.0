@@ -1,104 +1,99 @@
-Return-Path: <linux-input+bounces-7139-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7140-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC7EA994084
-	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 10:06:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 505C4994111
+	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 10:20:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59115287552
-	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 08:06:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EDAB91F29448
+	for <lists+linux-input@lfdr.de>; Tue,  8 Oct 2024 08:20:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EE3E1FF7DE;
-	Tue,  8 Oct 2024 07:15:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26CB11DF258;
+	Tue,  8 Oct 2024 07:41:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iHnww3WP"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QFoxrTOW"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57440208A7;
-	Tue,  8 Oct 2024 07:15:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A657DA76;
+	Tue,  8 Oct 2024 07:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728371755; cv=none; b=EU8avcF6EKQaTq//EjQETrRQMJ4lUSnZtA9RzTn1ZnfBDpC9df3v+fpSIB57yF0GJyua0RpVY0mZWozJq1zThRg0F0AJsTxnVOhDMSmHrwo1d+6xk1eSpfiD7Ze2YM+kRrXSKh41lziK5+sr6vw7CBXECpfFr6UmqRU1FBqRfUY=
+	t=1728373304; cv=none; b=AVbvYJZnJSaqDwjmjeu4lRJjqrVr7g/QXXFRrX+LGyaOWSuqHO5PDz8B02leB3qeCbPa3MQdUvWpU6N28fPnja20O7PBi0/RVD7ef/G9h9VcI4gRdV+yOHtgB0PXEi36GQyYh3OZM8IVx/dK0Yl/o3BAUPrc0v/vfKruXYY8fNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728371755; c=relaxed/simple;
-	bh=Kj9xot+Cc5gXKsItGYymzN0HhpTgvCvZ2UPo9Mfh0eY=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=HDh1k/PbolWt6qR9arGEphzqr6r2CEFBvoVPyyBemD+pQWpCSbg4eFfo8+QQTYybB+KBRyfGKXXwS4G0QSZxeBvypNChObvixCMZ+ttRtO3B8z0tHGcd3oV1lmh28x6q+UJvl4V6F86VAoUlPcV29CwTvFh2fgUXs5INRXvtc10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iHnww3WP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95795C4CECC;
-	Tue,  8 Oct 2024 07:15:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728371755;
-	bh=Kj9xot+Cc5gXKsItGYymzN0HhpTgvCvZ2UPo9Mfh0eY=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=iHnww3WPpKHuxyiog2qMUFN45L/GLVeUObWK6ckRnmOVfm0fkXYm7qNJpUftLwU29
-	 7dexTiLS9P1inQT7g+G/WTdsLf0UpxSKOlQTIIFecf7oxnZd+cQYxo46HdIUsVLmKh
-	 /EEZNJRQV/ieEQ1tosIgbp7DvyMDj/o+RLYZmcBHqFTKhuMYb4EXreQvGDM/n0Xfz5
-	 5KvRDm1j4ybLwvf2JU5/d8pM5SvthjKGyuQR2JYGit6nGVpfS1iI6QRWYV/LUZYWnH
-	 6u/7CMrPhxuqP+g8K1OOv7ZYhLlTNqvgLxF7twuT+p7ZRLUOy0+et6fBU0eejpc//R
-	 IQ029XqdhbRvA==
-Date: Tue, 8 Oct 2024 09:15:52 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: WangYuli <wangyuli@uniontech.com>
-cc: bentiss@kernel.org, guanwentao@uniontech.com, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, zhanjun@uniontech.com
-Subject: Re: [PATCH v2] HID: multitouch: Add quirk for HONOR MagicBook Art
- 14 touchpad
-In-Reply-To: <43824FB10AAAE5DD+20241007040803.205047-1-wangyuli@uniontech.com>
-Message-ID: <nycvar.YFH.7.76.2410080915450.20286@cbobk.fhfr.pm>
-References: <43824FB10AAAE5DD+20241007040803.205047-1-wangyuli@uniontech.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	s=arc-20240116; t=1728373304; c=relaxed/simple;
+	bh=35lBvv2CjlMGxk3oBL24soVgpmlLJ5Mwe/JfBWF/hcI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ImXqdGEXvr2S3SUUaAdiso7s+5Rz0bE8xvtnoqYp9W9a498oVxweYnjW6XSED3mKRfdW2LXfU8jJ8WZNE3khBDpWkaDLB3YfbJGp58ILd6MiFUr8AjNHe8zoKjWRMsZgv8j4R9j3sumBDeeB9W8Q4ybAcQmw3WXvW7hqvcbJwDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QFoxrTOW; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1728373299;
+	bh=35lBvv2CjlMGxk3oBL24soVgpmlLJ5Mwe/JfBWF/hcI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QFoxrTOW486KUimq4VCS/qdNu49Grm6OwUq17dgMSgs2Cpk9oCTO2KsGEQtZjaeeP
+	 4AR5QPJ7JAJDlIyqrairIs7gY4UFqayzgAMFs/pFCElkrsjD3sxqR5UoIZsvRZFYvd
+	 JqHq72pXv6vBc6A6nhRb7FVkV0xNORnSMT+pHxd/mH/7ysmSTjfJsVlPYQArMic/Dk
+	 tNA6us5bR9fPX+vAZB3GpFGDtiD2y35QrbZbpLBMlhA9F0uipaD4g1QJQeyg1Vl5mV
+	 WsmG9WDZy8ye1FDLwot9zMTwGwcwgfn7x+9JLO1dqa5uhk7pW0ZjK38XVZJF1ddbEL
+	 QHkRIb8JCQawA==
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 50A1C17E107A;
+	Tue,  8 Oct 2024 09:41:39 +0200 (CEST)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: dmitry.torokhov@gmail.com
+Cc: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	chen.zhong@mediatek.com,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	macpaul.lin@mediatek.com,
+	kernel@collabora.com
+Subject: [PATCH] dt-bindings: input: mediatek,pmic-keys: Add compatible for MT6359 keys
+Date: Tue,  8 Oct 2024 09:41:37 +0200
+Message-ID: <20241008074137.20269-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.46.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-On Mon, 7 Oct 2024, WangYuli wrote:
+Add a compatible for the keys found on the MT6359 PMIC.
 
-> It sometimes after reboot change output from Touchpad to Mouse,
-> evtest show it output from "TOPS0102:00 35CC:0104 Touchpad"
-> to "TOPS0102:00 35CC:0104 Mouse",and it works as A mouse.
-> 
-> Like GLO-GXXX, as a workaround, it is possible to call
-> MT_QUIRK_FORCE_GET_FEATURE to force set feature in mt_set_input_mode
-> for such special touchpad device.
-> 
-> Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/1040
-> Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
-> Signed-off-by: WangYuli <wangyuli@uniontech.com>
-> Reviewed-by: Benjamin Tissoires <bentiss@kernel.org>
-> ---
->  drivers/hid/hid-multitouch.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> index 99812c0f830b..a1e0c3db3d4c 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -2082,6 +2082,11 @@ static const struct hid_device_id mt_devices[] = {
->  		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
->  			0x347d, 0x7853) },
->  
-> +	/* HONOR MagicBook Art 14 touchpad */
-> +	{ .driver_data = MT_CLS_VTL,
-> +		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-> +			0x35cc, 0x0104) },
-> +
->  	/* Ilitek dual touch panel */
->  	{  .driver_data = MT_CLS_NSMU,
->  		MT_USB_DEVICE(USB_VENDOR_ID_ILITEK,
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Applied, thanks.
-
+diff --git a/Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml b/Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml
+index 70567d92c746..bba55a81e6cc 100644
+--- a/Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml
++++ b/Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml
+@@ -28,6 +28,7 @@ properties:
+       - mediatek,mt6331-keys
+       - mediatek,mt6357-keys
+       - mediatek,mt6358-keys
++      - mediatek,mt6359-keys
+       - mediatek,mt6397-keys
+ 
+   power-off-time-sec: true
 -- 
-Jiri Kosina
-SUSE Labs
+2.46.1
 
 
