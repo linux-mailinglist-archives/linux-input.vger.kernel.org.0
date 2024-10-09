@@ -1,45 +1,45 @@
-Return-Path: <linux-input+bounces-7177-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7178-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7A3995F1D
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 07:42:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A28995F1C
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 07:42:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9E447B24FC8
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 05:42:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BD741C23C2F
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 05:42:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C766B16631C;
-	Wed,  9 Oct 2024 05:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F4D0161313;
+	Wed,  9 Oct 2024 05:41:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jYKRwKD9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OkITHGAd"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0410165F11;
-	Wed,  9 Oct 2024 05:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D28156242;
+	Wed,  9 Oct 2024 05:41:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728452499; cv=none; b=UiLlN2ujvdn5F1i1aOjt7/jT47GgwXCqLguG7YDr2+5CJbEEK8nbOifZqWZc7Btf0gngOm+7nYiUcNTnqUjapZ5z7vaFUttqrcHmk/rCpxQnpR0LCv1On8e31WIWeNAjnjZKroSiWAEIswUIGGetAGjG/byHxFc0oeRs7hPA+Wc=
+	t=1728452517; cv=none; b=k4VgQPkaQwG+eBGfdVkWDOrnIjbfsVoeNaE9CmfprYVEE2ccUwqSERmqC1KtQRJECs6LmeZLwGjxI0dnmxE4gPXzGIkn8bvmy2ZmEDda6d7qyyKxSZUJZLi+/I2A9rVhIJnjulJNcvHJpbXSwLS5WTUkY69WXlwWSaBhTGMdtw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728452499; c=relaxed/simple;
-	bh=eqJynpLoeGodXKjZkZZDk73g9zlKez4h89uHXqhd4w4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vn82fUPhnv/fxfvvu3N0N+poE9JBMJ/a8m77+ZMyv2zpPLhZefOkRe66MmXH/+NuhwApydQWEXJ0N+MUsk/zB1rDy8b2trjh1+/nQ6Z8u1pPdvl1tZusJkRNol18uRQaKGw27yzzybkv6yv+o0A9cFvhlq73116+RhorN8pWVkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jYKRwKD9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE3D8C4CEC5;
-	Wed,  9 Oct 2024 05:41:37 +0000 (UTC)
+	s=arc-20240116; t=1728452517; c=relaxed/simple;
+	bh=Lxgp/rSE9UhxKcum2AYKZrpsOKdT4QfLqPo3XKoz63c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qy4Dioe4bA4inMZEZemlkKhGMUnZXkdLbWNcqesmlrDnbwSLAaBINVypB9XHS6LxlL5Lg6LAjHMHQGy4xQ+9XTypfIQVIyxXbQ93zkGPZW32zjo4DDIHHMPc5iq3sp/JC4/IUzhyLflhMEHWF4Rdp6UKOqo0hSzFLdgY3VnHyFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OkITHGAd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23495C4CEC5;
+	Wed,  9 Oct 2024 05:41:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728452499;
-	bh=eqJynpLoeGodXKjZkZZDk73g9zlKez4h89uHXqhd4w4=;
+	s=k20201202; t=1728452516;
+	bh=Lxgp/rSE9UhxKcum2AYKZrpsOKdT4QfLqPo3XKoz63c=;
 	h=From:To:Cc:Subject:Date:From;
-	b=jYKRwKD9M/Ty6YS472P3RtUnvR8w2fYv+4wLEl4Uf5XyFkltgONDNBUGNpOlBV9ix
-	 sPTTSpk5vddABthj4Ofr8YCabw5XvdE3v78nVA+7R9iMbFEg/o0HgKv4eqNs0HQK4g
-	 pjUKL44cKVaapYAuj4gReLoLVEcZe0giKVOVetZzMGPTE/hguwEZsd40nrNT+9J8nu
-	 9f/ejxWZ0PV8qOTO++FC39gpDymZIGWDzY7L49eNxMsisW5SPqxdZ2s2o+5ZFDDRHV
-	 4B3bHOaRr8RJKtatHYS76hHiCgYgmodt+aO4e2NIdOQ/VZqGortG1VXbv/pOy/Sxrv
-	 FxVNrbS69k6Jg==
+	b=OkITHGAdsBEDwFGErIQP7mmFz/ptZNcpVAz80rDt16tdK/0Q+GosdHn46IdMwo0fJ
+	 X3z0Y+SikeBJ5oxyqxWsUzE0pcDWRRo1EZiyVrcA4ds/+AdsVEvQjfAwpIXXF+Qd32
+	 COwOS77kbVzDS2zNwAzCIg/RVdrnq2pIM84DDzSCId1XjvAGimd6EgcZ0FOHOSSbS7
+	 /vAOjYJYjjiaX7zHC8D5veRWllt+/Z17A203bsj3nGzyJ2fOZyD621/7wtKEcek8Ci
+	 5NInTILiVZSXeuCw5RBprubPVriO7yK7kqCS+fKB6o7gM9dGNeJnNP7fGZ8zXZXq0E
+	 uofVceHffqg+Q==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: stable@vger.kernel.org,
 	gregkh@linuxfoundation.org,
@@ -51,9 +51,9 @@ Cc: tzungbi@kernel.org,
 	torsten.hilbrich@secunet.com,
 	minipli@grsecurity.net,
 	linux-input@vger.kernel.org
-Subject: [PATCH 6.1.y] Input: synaptics-rmi4 - fix UAF of IRQ domain on driver removal
-Date: Wed,  9 Oct 2024 05:41:32 +0000
-Message-ID: <20241009054133.3815768-1-tzungbi@kernel.org>
+Subject: [PATCH 5.15.y] Input: synaptics-rmi4 - fix UAF of IRQ domain on driver removal
+Date: Wed,  9 Oct 2024 05:41:48 +0000
+Message-ID: <20241009054148.3815799-1-tzungbi@kernel.org>
 X-Mailer: git-send-email 2.47.0.rc0.187.ge670bccf7e-goog
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -86,7 +86,7 @@ Link: https://lore.kernel.org/r/20240222142654.856566-1-minipli@grsecurity.net
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 ---
-
+ 
 Commit 24d28e4f1271 ("Input: synaptics-rmi4 - convert irq distribution to
 irq_domain") was first seen in v4.18-rc3.  While the fix fbf8d7174255 ("Input:
 synaptics-rmi4 - fix UAF of IRQ domain on driver removal") was first seen in
