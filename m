@@ -1,115 +1,129 @@
-Return-Path: <linux-input+bounces-7175-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7176-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D0B0995E36
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 05:38:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68498995F17
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 07:41:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63D5A2817E4
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 03:38:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B03D1F218AA
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 05:41:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCFDC7710C;
-	Wed,  9 Oct 2024 03:38:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBE7013C9C4;
+	Wed,  9 Oct 2024 05:41:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FuOdP+us"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vHMEAUpg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B2D26AEC
-	for <linux-input@vger.kernel.org>; Wed,  9 Oct 2024 03:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FB310FF;
+	Wed,  9 Oct 2024 05:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728445080; cv=none; b=OUmMwbOnNPNV+pxCPOz+fh4uWDTvnXMlqvT8btuSlb6t8QhXKMk+dNC+rRQw5S7NONMVhC/u592WtrmekC3ycltenhUPu+PIvnOKaxrR8zmU+ZD7LaFLKlvhxYP9rdKRbtapIY+46Q4kGDDwriRTYg4T6/yMWbP8iouL0rQnF1c=
+	t=1728452460; cv=none; b=QMCL+mdARMD7GcrbDr2ljW6ah8ZzK8VQaZYcdjkRqOva/YOZMQjG3uWY2PTFwxS+k+GadQTIX6ltcCuVmiOnspReTbehvkTqy21YyEjfTPF6pu3X3L2m2WYseSbxSY2bHkNtXwXaHEYS8DETdtz4jONXfzFUkNJFHxOUB96BEaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728445080; c=relaxed/simple;
-	bh=jyO5bJ4ANX7KDtLXjHmfHJJFbtq5+QmwG1gHtZgmBsY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OqdORhWtJgsS4DIMrxZjod8sHwRnCDocnZr3zW0sWB8yPlagTxx02eZKx6Wje0jhx/IuAF1qusMxsZH+xT5oVq23S6aX56p0QMB3iji84N6tWuMALaFoL16cMlx4JrvkxNFuVMppLMTM18sMdchpcY8hjupHSILra/cp7sAp7r0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FuOdP+us; arc=none smtp.client-ip=95.215.58.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Tue, 8 Oct 2024 21:37:46 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1728445076;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qbFXlyNMc3xiprR3Z60KWrRnLtV9YfsEkIq4tFkSo0k=;
-	b=FuOdP+us6k7mhGuVP9aoNvMT3ofYMgLjRh7WJ4fUpKaX3udl1daFqINYulIq/iOPCJBVZX
-	jvUfHo91//l9qbQiNcZYFXTmiMCwcFoJxD/m0CvNuxm7VXN8mesmWV+RuqohCXDDSwHBIu
-	T1S+mNARDg4HfgQWMSkvuYSUByD4JMA=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Jose Fernandez <jose.fernandez@linux.dev>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>, 
-	Jiri Kosina <jikos@kernel.org>, Douglas Anderson <dianders@chromium.org>, 
-	Hans de Goede <hdegoede@redhat.com>, Kenny Levinsen <kl@kl.wtf>, 
-	Kai-Heng Feng <kai.heng.feng@canonical.com>, Johan Hovold <johan+linaro@kernel.org>, 
-	Nam Cao <namcao@linutronix.de>, linux-input@vger.kernel.org
-Subject: Re: [REGRESSION] HID: i2c-hid: Touchpad not working on Thinkpad Z16
- Gen 2
-Message-ID: <chxb4iha4mgurg5gaablt2g4r5lphntg5wmvbpei7x25vibsz3@sbxypsvs2wbr>
-References: <gbvkokf7rpsayfqv4l5mvk347lal72q54jgxfvwu7bmx7olngm@e3tcy6oyaas3>
- <5c666a9c-e10b-4eea-b2e7-3f781e177c19@leemhuis.info>
- <c5020404-2d48-47ad-a75b-f2d37897f57c@leemhuis.info>
- <hffdmqx4binr6tpc7lqfzah3mwn75h2lifoqcy72gr2hvc3ath@lugoxeaf444z>
+	s=arc-20240116; t=1728452460; c=relaxed/simple;
+	bh=eqJynpLoeGodXKjZkZZDk73g9zlKez4h89uHXqhd4w4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VnzwHCQqQGMwfnYPJvRS2UB94KtLzG6xDUkCtupTJ/EFJbwJtXXlHqc9x+YipjrocckH9Du3JLJ2wZOBI19VcmLU2KkMumoaWfaej5WSUIAo8DiJdzHXqKQ3pTceKLrhppO9cRTh0xr7dxZXQOvRjrwoxLFkpEf2dN9XYpxBEyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vHMEAUpg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B52E9C4CEC5;
+	Wed,  9 Oct 2024 05:40:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728452460;
+	bh=eqJynpLoeGodXKjZkZZDk73g9zlKez4h89uHXqhd4w4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=vHMEAUpg3G79qjuYnpO3RzXDPetyUK8tcWqHeFdKoEPn7xJ7Yk0ZwB7VMB5UiTYS7
+	 cpTMkdyvo1qUwocgnj05A3V1P7doyvdAIFYUFgYICAYNfewRTcQpGi1XSisEqA/mzS
+	 d3K5SjDdt75YLtr7/Jk+QdoZyf89KUKa2cLgDhwmtaPlTBLQlwaHk7e2lbLP2OzLRm
+	 5Tfqybwyno7OgPOPWhZd36S6FpDr7ucCJrROWNASpc8U8a6ngxsk2O6hWupP/KWBLC
+	 vIC+UBlWydDC+/m4GrEYQc8usMJ2QU9trANnx8hsLe2rGaxceUrpCndn+FcWXkwqDl
+	 Js5h4mOMs+/Tg==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: stable@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	sashal@kernel.org
+Cc: tzungbi@kernel.org,
+	nick@shmanahar.org,
+	cheiny@synaptics.com,
+	dmitry.torokhov@gmail.com,
+	torsten.hilbrich@secunet.com,
+	minipli@grsecurity.net,
+	linux-input@vger.kernel.org
+Subject: [PATCH 6.6.y] Input: synaptics-rmi4 - fix UAF of IRQ domain on driver removal
+Date: Wed,  9 Oct 2024 05:40:12 +0000
+Message-ID: <20241009054013.3815601-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.47.0.rc0.187.ge670bccf7e-goog
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <hffdmqx4binr6tpc7lqfzah3mwn75h2lifoqcy72gr2hvc3ath@lugoxeaf444z>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On 24/10/08 08:47AM, Benjamin Tissoires wrote:
-> On Oct 07 2024, Thorsten Leemhuis wrote:
-> > On 06.10.24 05:46, Linux regression tracking (Thorsten Leemhuis) wrote:
-> > > On 06.10.24 01:01, Jose Fernandez wrote:
-> > >> I'm using Fedora 40 with the vanilla kernel built from the 6.12-RC1 [1]. There
-> > >> is a regression that causes the touchpad to stop working on my Thinkpad Z16 Gen
-> > >> 2 (Sensil touchpad). dmesg shows this on 6.12-rc1 when filtering by `hid`:
-> > > 
-> > > Could you try latest git instead of rc1 if you haven't yet? E.g. the
-> > > latest packages from your "[1]". I wonder if this is
-> > > https://bugzilla.redhat.com/show_bug.cgi?id=2314756
-> > > which is fixed by a3f9a74d210bf5 ("Revert "Input: Add driver for PixArt
-> > > PS/2 touchpad"") [v6.12-rc1-post]
-> > > (https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a3f9a74d210bf5b80046a840d3e9949b5fe0a67c
-> > > ).
-> > 
-> > Those two are apparently different problems, as from
-> > https://bugzilla.redhat.com/show_bug.cgi?id=2314756
-> > it seems that it might be not kernel regression after all, but a change
-> > in the Fedora's .config that causes your problems.
-> > 
-> 
-> There were 2 problems happening at the same time.
-> 
-> There is a high chance the whole issue was because of this config change
-> in the Fedora kernel, because of automation. However, the PixArt driver
-> was still bogus and interfered in PS/2 capable touchpads: we couldn't
-> have a PS/2 fallback.
+From: Mathias Krause <minipli@grsecurity.net>
 
-I believe it was the Fedora config regression. The touchpad is now working with
-the latest mainline-wo-mergew kernel: 
-6.12.0-0.rc2.20241008gt87d6aab2.324.vanilla.fc40.x86_64
+commit fbf8d71742557abaf558d8efb96742d442720cc2 upstream.
 
-> IIRC, in the PixArt thread, they mentioned that they had something like
-> "if that command fails, return a touchscreen, no matter what kind of
-> failure it was".
-> 
-> Anyway, we should be fine in the next Fedora builds, so I guess we can
-> close these regressions.
+Calling irq_domain_remove() will lead to freeing the IRQ domain
+prematurely. The domain is still referenced and will be attempted to get
+used via rmi_free_function_list() -> rmi_unregister_function() ->
+irq_dispose_mapping() -> irq_get_irq_data()'s ->domain pointer.
 
-+1
+With PaX's MEMORY_SANITIZE this will lead to an access fault when
+attempting to dereference embedded pointers, as in Torsten's report that
+was faulting on the 'domain->ops->unmap' test.
 
-> 
-> Cheers,
-> Benjamin
+Fix this by releasing the IRQ domain only after all related IRQs have
+been deactivated.
+
+Fixes: 24d28e4f1271 ("Input: synaptics-rmi4 - convert irq distribution to irq_domain")
+Reported-by: Torsten Hilbrich <torsten.hilbrich@secunet.com>
+Signed-off-by: Mathias Krause <minipli@grsecurity.net>
+Link: https://lore.kernel.org/r/20240222142654.856566-1-minipli@grsecurity.net
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+
+Commit 24d28e4f1271 ("Input: synaptics-rmi4 - convert irq distribution to
+irq_domain") was first seen in v4.18-rc3.  While the fix fbf8d7174255 ("Input:
+synaptics-rmi4 - fix UAF of IRQ domain on driver removal") was first seen in
+v6.8.
+
+In the field test, we observed the UAF which was triggered via re-probing
+hid_rmi driver.
+
+linux-6.6.y, linux-6.1.y, linux-5.15.y, linux-5.10.y, linux-5.4.y, and
+linux-4.19.y haven't backported commit fbf8d7174255.  Let's backport it.
+
+---
+
+ drivers/input/rmi4/rmi_driver.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
+index aa32371f04af..ef9ea295f9e0 100644
+--- a/drivers/input/rmi4/rmi_driver.c
++++ b/drivers/input/rmi4/rmi_driver.c
+@@ -978,12 +978,12 @@ static int rmi_driver_remove(struct device *dev)
+ 
+ 	rmi_disable_irq(rmi_dev, false);
+ 
+-	irq_domain_remove(data->irqdomain);
+-	data->irqdomain = NULL;
+-
+ 	rmi_f34_remove_sysfs(rmi_dev);
+ 	rmi_free_function_list(rmi_dev);
+ 
++	irq_domain_remove(data->irqdomain);
++	data->irqdomain = NULL;
++
+ 	return 0;
+ }
+ 
+-- 
+2.47.0.rc0.187.ge670bccf7e-goog
+
 
