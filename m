@@ -1,98 +1,111 @@
-Return-Path: <linux-input+bounces-7217-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7222-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FDC997037
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 18:00:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A98997085
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 18:07:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 46FC11C22603
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 16:00:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE5482821C5
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 16:07:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2EA11A38C2;
-	Wed,  9 Oct 2024 15:34:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C840F1E1031;
+	Wed,  9 Oct 2024 15:44:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fmzfqk5e"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="KtGo64TP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9991A1A255A;
-	Wed,  9 Oct 2024 15:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4731D359E;
+	Wed,  9 Oct 2024 15:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728488092; cv=none; b=CJ0pBSGSrdXoriYjvf8sahOHWBpnI3UGofipFXHtzSkslh6NdpVcZX+tVMRoNL1wJ4m+yiINCzwqqrr7U1cLCUxNlM8M2l2YnYFaf1wYS6sdQLCii3Q6CACJfLSxATEKY2BVTIa0DdmK75KguZ77CXn7lOd9CDQkaQ16mJ49e8A=
+	t=1728488680; cv=none; b=HaNXgnrkddWhGJNfBsfRRbEg6oEEyS45Q3Vg42Mf8byAR/pL4elbCGoaWaFzrCFRS0/pk17ctb7ubbsUN0XZK0KMhJccbiXeGHfDc1cKpEjGdOYikkvUnGLsdkjwhW38xs5mhGM+1dYTqJnR+J9ooA877RNlvz57suupuJgC0QI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728488092; c=relaxed/simple;
-	bh=4PNzgfGogduGWQPu+MHgim+P8zX6H6O5QWyC5G289Ho=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=GXxmpdHsuPkE6U/cv4UrCztVwhkSrtjGo2yCnsP7Y/xww8voY49nljnrkHq5IFmhPZWA2bhRWPwcvfCHaPPEuNbyvYLSyQVvgOZs6PUzXB8SjrCNz9hZxl8x2+Zs/jSydfCUjHVJoB0Toq+ZYyMTgckqaHge6rdRracuUtZ6K70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fmzfqk5e; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBD8FC4CECE;
-	Wed,  9 Oct 2024 15:34:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728488092;
-	bh=4PNzgfGogduGWQPu+MHgim+P8zX6H6O5QWyC5G289Ho=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=Fmzfqk5e101K7Llaiaf85bSK+T4tMqa8R8Y1FN8tSUWXVAN3s5htDgb6dicZahs09
-	 6S+4tU2+8Zn6oM2Qp3qu2MGI1w7HWmfHdh8UqeGxLw1snuHPejQTu+l3ZYyi/q5LEL
-	 CGJJ5IAoKi3ZWCgrjnrpiTuBVpHEa08Nkx5yb2k4mciElAJgEjvRQzjrQTMSsbP4on
-	 QfAOXqFOB4oZdJGKOUs47MmTW04TnGpupMLP+U1CdPtSN+9T5R2ikEF/2Cfij5PeCK
-	 OLWfDt7TGszKAQk3k5V1rkglPOog8s2b+9eEm8egw7fS7Ac15Z/EE4CW/zlJBd6/wl
-	 vX7QpfqzBnnMg==
-Date: Wed, 9 Oct 2024 17:34:49 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Linux regressions mailing list <regressions@lists.linux.dev>
-cc: Basavaraj Natikar <bnatikar@amd.com>, 
-    Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-input@vger.kernel.org, 
-    Chris Hixon <linux-kernel-bugs@hixontech.com>, Skyler <skpu@pm.me>, 
-    Richard <hobbes1069@gmail.com>, Benjamin Tissoires <bentiss@kernel.org>
-Subject: Re: [PATCH] HID: amd_sfh: Return immediately if no sensor is found
-In-Reply-To: <5b352033-2738-4804-86f8-d99b7701d655@leemhuis.info>
-Message-ID: <nycvar.YFH.7.76.2410091734010.20286@cbobk.fhfr.pm>
-References: <20241003160454.3017229-1-Basavaraj.Natikar@amd.com> <a3fb27a2-5167-4880-9102-eaf0f47df398@leemhuis.info> <uupvw2jw6j5wkwtfwljipmpx4kynv6k3wqgy6sg3crw5r27rtm@mudhwifihmtw> <79320190-8461-4a92-bde2-29a3988a6782@leemhuis.info>
- <2214cdc6-2384-dc6a-f77c-fbbe53d979a1@amd.com> <5b352033-2738-4804-86f8-d99b7701d655@leemhuis.info>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	s=arc-20240116; t=1728488680; c=relaxed/simple;
+	bh=hNNoS3Kj/B2bKaituE7QLZaNM10cqzDk5p7c7ApO2GM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cj+dOfOsQb0esGNrbXKOb5yEqlwo3BYn0LWT6jrxshcA0vlDhZSvnkTppnkyJfrBbJPXbv/oxrUNQYis9wP97d0gnxov8MJ8my4Z08hX3vygJJm9tqJHDTeSBVrYobZ0QbuM9MMCkblTNk5idnoBgrxolygEvGltwIyJrkp9/0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=KtGo64TP; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4994USGe019251;
+	Wed, 9 Oct 2024 10:40:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=v7D5OK1F2vkHYZzM
+	H/wqdmPxU26UrCk9Ppqj2hXcn04=; b=KtGo64TPhd6HATbmfUoaITaKMmcUZiC6
+	bGDp/tt3uQ8MRSklnTNXNdFXocoEkz3E582IucWGIWtlE3hspd2zlQb7kixWusHY
+	0Lyx26Nqme6U0x7MRqW4tjAbmYFU7zvyhp7NzNh3wFetf7qZtN9+GAJm0amYrRFo
+	6qGAcT2Vb+hx3N4r37cuqg+3I3cP6wAzgejoHNnQ2XIqx/KQJjZVS9YB7NNCn6cD
+	izjuqMLZYeSIkV0x3Rqosj4rASskGE7Il17DQxGp8+x7u954GSM5gjKr9DiMFGNh
+	vqO3r4B8zjSZNx+x9LMOufnecNQjpAZmUH3AAaEehXd6eQ2Anp+4hg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4231vhwgnw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 09 Oct 2024 10:40:56 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 9 Oct 2024
+ 16:40:55 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 9 Oct 2024 16:40:55 +0100
+Received: from aus-sw-rshr002.ad.cirrus.com (aus-sw-rshr002.ad.cirrus.com [141.131.145.15])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id C911782024A;
+	Wed,  9 Oct 2024 15:40:53 +0000 (UTC)
+From: James Ogletree <jogletre@opensource.cirrus.com>
+To: <jikos@kernel.org>, <bentiss@kernel.org>, <dmitry.torokhov@gmail.com>
+CC: <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        James Ogletree
+	<jogletre@opensource.cirrus.com>
+Subject: [RFC PATCH 0/6] Separate notions of max concurrent playbacks and
+Date: Wed, 9 Oct 2024 15:40:40 +0000
+Message-ID: <20241009154046.1011226-1-jogletre@opensource.cirrus.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 1780pHll5wWSikdqtcLcr0dCJOhKld3S
+X-Proofpoint-ORIG-GUID: 1780pHll5wWSikdqtcLcr0dCJOhKld3S
+X-Proofpoint-Spam-Reason: safe
 
-On Wed, 9 Oct 2024, Linux regression tracking (Thorsten Leemhuis) wrote:
+Currently the notion of maximum number of effects a device can
+keep in its memory is tied to the number of effects a device
+can play at the same time. The same value that EVIOCGEFFECTS
+ioctl reports also acts as a ceiling on the number of effects
+that can be uploaded.
 
-> >>> PS: sorry, I know this is a long standing issue, but I'd rather not
-> >>> paper over a bigger issue :/
-> >
-> >> Yeah, me to!
-> >>
-> >> There was a new patch in bugzilla and people tested it (see
-> >> https://bugzilla.kernel.org/show_bug.cgi?id=219331 for details) , but
-> >> nothing has happened now for 48 hours, so please allow me to ask:
-> >>
-> >> Basavaraj Natikar, is there any hope that a proper fix will emerge soon?
-> > 
-> > Yes , please find link for the fix as mentioned in bugid.
-> > 
-> > https://lore.kernel.org/all/20241009144757.3577625-1-
-> > Basavaraj.Natikar@amd.com/
-> 
-> Great, many thx!
-> 
-> Nitpicking: still no stable tag though. :-/ And ideally Richard and
-> Skyler would get a "Reported-by" as well.
+In order to support devices with the ability to store a
+different number of effects than can be simultaneously played,
+it appears necessary to separate these notions.
 
-I don't care all that much about stable tag, but if there are more 
-Reported-by:s, I like to give credit where it's due, and I don't think 
-rebasing for-6.12/upstream-fixes because of that would break anybody.
+James Ogletree (6):
+  Input: Add variable to track maximum concurrent playbacks
+  HID: logitech-hidpp: Assign max concurrent playbacks
+  HID: pidff: Assign max concurrent playbacks
+  Input: cs40l50 - Assign max concurrent playbacks
+  Input: da7280 - Assign max concurrent playbacks
+  Input: uinput - Assign max concurrent playbacks
 
-So please feel free to send additional tags, and I'll rewrite it.
+ drivers/hid/hid-logitech-hidpp.c   | 1 +
+ drivers/hid/usbhid/hid-pidff.c     | 1 +
+ drivers/input/evdev.c              | 2 +-
+ drivers/input/misc/cs40l50-vibra.c | 3 ++-
+ drivers/input/misc/da7280.c        | 1 +
+ drivers/input/misc/uinput.c        | 1 +
+ include/linux/input.h              | 2 ++
+ 7 files changed, 9 insertions(+), 2 deletions(-)
 
 -- 
-Jiri Kosina
-SUSE Labs
+2.43.0
 
 
