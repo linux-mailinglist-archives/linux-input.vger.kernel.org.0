@@ -1,47 +1,47 @@
-Return-Path: <linux-input+bounces-7172-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7173-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9CE995C33
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 02:14:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A1A5995C38
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 02:14:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 927E81F23C78
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 00:14:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E7B42B24578
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 00:14:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 223A6370;
-	Wed,  9 Oct 2024 00:14:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3095318028;
+	Wed,  9 Oct 2024 00:14:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DiUkj4qM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="puEFSkBz"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F876FB6;
-	Wed,  9 Oct 2024 00:14:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F061812B94;
+	Wed,  9 Oct 2024 00:14:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728432846; cv=none; b=CXCM5VPqA/g2kvAPXqmViJxDOS1XacGPAS0eSLeN5YbVvdL6Oqs24EMUvwjWvn8eMfvC+zdv/V7nSeErfpCxY6ieB4JYIs0T52/dfKDAA4JV+HH9Hwsbt8IvXHfhkEgdXssekNyFwf88aJ5K9Bq3roB+18vhBk+nX8mYAbljzRE=
+	t=1728432847; cv=none; b=MkpBlCAgqXvJuQWPjw/stZKNjhkt1qoUOCONIoK7T0CanTKeHuy539+gVarya8XuXv+zX3oNQ1Cj4IYETu6WhUW+ccbxZhQInng0OBSeNH6LhW9mHOox018Qz07Jj1+8+Jv3qlgTzIJzB0BOtKnz7+XA7UKlIcGzcCK1AHi6BZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728432846; c=relaxed/simple;
-	bh=E4VZjjRDfN+lhZZkbKwkkKuro9DYs1y1+b1/HbjnHI8=;
+	s=arc-20240116; t=1728432847; c=relaxed/simple;
+	bh=0qjVzVNij6Q7rJVM+vtOkErT499UlI/yKNhtwMaoh0g=;
 	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=gV/jSPFhvFHpWr46BcgteGTglJNnap8OZMBmzJWMdgrCCVuahSU/kh61WqzrBVopKAMeB4beUg2cg0xD/pXUcBEiXHVkxrgTx1ucKbMdKeXKc/Psrz+lWTzNN2iNRtF3d/w/4PPAQ6WG0jGPC3xk/7qQkMCNengHAVu4qWJ3McM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DiUkj4qM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C43FC4CED0;
-	Wed,  9 Oct 2024 00:14:05 +0000 (UTC)
+	 Message-Id:Subject; b=NIIjOJeEiuWbu2lHeM3ETUjAj3CsYqmecr+QGDfTry40LDcdgmF9EMBVON0JrU79xQn2HAGUvfxMCa/fn3DheVlrbSeGxC1ly3I3HlejXlWaxh06VLhlLUDD1YTMlZC804YWi5vd5K+imI8vmc8GPJlUPCpozZefgsEO9qetCh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=puEFSkBz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FBB3C4AF11;
+	Wed,  9 Oct 2024 00:14:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728432845;
-	bh=E4VZjjRDfN+lhZZkbKwkkKuro9DYs1y1+b1/HbjnHI8=;
+	s=k20201202; t=1728432846;
+	bh=0qjVzVNij6Q7rJVM+vtOkErT499UlI/yKNhtwMaoh0g=;
 	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=DiUkj4qMgM52IWkz+RMubs33FfZ4zJSQeVQMXLQ/0xbv4JFXLDfmhJ0Ojl1Qame0Q
-	 kIA+JAuqwOhaLuieycJGEtObjWhC9zhCkhd/74yNWyUeMh/8u3tPWPScpxYaYeTQh3
-	 Ek6EiWmFANvRdrYAdeE1LYhTK4tNd901hIOYY6fGP6jrvtfvF3rE5+68hwP8e0wHWh
-	 zFC3dYiaUmXpnNBOo0ogWJ8W7EXt5Vwvq70+NkZzbNX48/AJ0pXIEFgFs+dUNU9Ivk
-	 2yFOuePvCbBJAGwo6hHlLuPdv6DGSiuyaiIn8qHaHCXATu95sz5E1kpuLsIo55TsXs
-	 RGbwVBi0muz4w==
-Date: Tue, 08 Oct 2024 19:14:04 -0500
+	b=puEFSkBzWgvk/zmDjShuQjw7OOadqpBUmWf4OlBffZHx4dN5tYkG86koRo6HSzM5T
+	 LVfoSWEaHOTjUfucK8K/hxP6XkwEAb9wontZF9kKx0lhgsxfSHkPlRSdVQxYrBrpj5
+	 tvSs5jDI51vWVrAmiMQtF0AApi+XQ0lwE7jaPeEaOhWxjxqlpHWug1kNpfMIjPDHqp
+	 EG4h86navGeGQvgw2RASLujNDEzTZsyUyVZeGb0JMB15Fi6fcpKoUF5kH2e3zJ0kjh
+	 vs2NQq6Q8dFvvkhLxI7pbsynPslRqwdCqXBDuSrNZfvrN1fWGkeA8l1yAdDnru5qyg
+	 1PUiG7mlxJJAw==
+Date: Tue, 08 Oct 2024 19:14:05 -0500
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -52,37 +52,37 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Frank Li <Frank.Li@nxp.com>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>, 
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
  Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
- dri-devel@lists.freedesktop.org, Guenter Roeck <linux@roeck-us.net>, 
- linux-leds@vger.kernel.org, linux-watchdog@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
- Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Jingoo Han <jingoohan1@gmail.com>, 
+ Pavel Machek <pavel@ucw.cz>, linux-watchdog@vger.kernel.org, 
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-In-Reply-To: <20241008-zii_yaml-v1-3-d06ba7e26225@nxp.com>
+ linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
+ Guenter Roeck <linux@roeck-us.net>, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Daniel Thompson <daniel.thompson@linaro.org>
+In-Reply-To: <20241008-zii_yaml-v1-4-d06ba7e26225@nxp.com>
 References: <20241008-zii_yaml-v1-0-d06ba7e26225@nxp.com>
- <20241008-zii_yaml-v1-3-d06ba7e26225@nxp.com>
-Message-Id: <172843284230.2657753.15437804090200858713.robh@kernel.org>
-Subject: Re: [PATCH 3/5] dt-bindings: nvmem: convert zii,rave-sp-eeprom.txt
+ <20241008-zii_yaml-v1-4-d06ba7e26225@nxp.com>
+Message-Id: <172843284314.2657793.15106714372363156953.robh@kernel.org>
+Subject: Re: [PATCH 4/5] dt-bindings: watchdog: convert zii,rave-sp-wdt.txt
  to yaml format
 
 
-On Tue, 08 Oct 2024 18:00:59 -0400, Frank Li wrote:
-> Convert device tree binding doc zii,rave-sp-eeprom.txt to yaml format.
+On Tue, 08 Oct 2024 18:01:00 -0400, Frank Li wrote:
+> Convert device binding doc zii,rave-sp-wdt.txt to yaml format.
 > Additional changes:
-> - Add ref to nvme.yaml.
-> - Add reg property.
-> - Remove mfd at example.
+> - Ref to watchdog.yaml.
+> - Remove mfd node in example.
+> - Remove eeprom part in example.
 > 
 > Signed-off-by: Frank Li <Frank.Li@nxp.com>
 > ---
->  .../bindings/nvmem/zii,rave-sp-eeprom.txt          | 40 ----------------
->  .../bindings/nvmem/zii,rave-sp-eeprom.yaml         | 54 ++++++++++++++++++++++
->  2 files changed, 54 insertions(+), 40 deletions(-)
+>  .../bindings/watchdog/zii,rave-sp-wdt.txt          | 39 ------------------
+>  .../bindings/watchdog/zii,rave-sp-wdt.yaml         | 47 ++++++++++++++++++++++
+>  2 files changed, 47 insertions(+), 39 deletions(-)
 > 
 
 My bot found errors running 'make dt_binding_check' on your patch:
@@ -93,10 +93,10 @@ dtschema/dtc warnings/errors:
 
 
 doc reference errors (make refcheckdocs):
-Warning: Documentation/devicetree/bindings/nvmem/zii,rave-sp-eeprom.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
-Documentation/devicetree/bindings/nvmem/zii,rave-sp-eeprom.yaml: Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
+Warning: Documentation/devicetree/bindings/watchdog/zii,rave-sp-wdt.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
+Documentation/devicetree/bindings/watchdog/zii,rave-sp-wdt.yaml: Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241008-zii_yaml-v1-3-d06ba7e26225@nxp.com
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241008-zii_yaml-v1-4-d06ba7e26225@nxp.com
 
 The base for the series is generally the latest rc1. A different dependency
 should be noted in *this* patch.
