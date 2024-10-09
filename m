@@ -1,142 +1,128 @@
-Return-Path: <linux-input+bounces-7198-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7199-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57813996481
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 11:10:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCED89965A0
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 11:38:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C5584B21E6B
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 09:10:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 951E21F22E48
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 09:38:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 682E5189B9D;
-	Wed,  9 Oct 2024 09:10:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8289418B465;
+	Wed,  9 Oct 2024 09:38:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="apgg8LYb"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="AcLymq+h"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4F0137C2A;
-	Wed,  9 Oct 2024 09:10:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A4C18A92C;
+	Wed,  9 Oct 2024 09:38:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728465049; cv=none; b=NA+iMhkOQLp7Z+0Ztu+dFwvsr2rzz2jUNimp2UBLErZYTBL4ljoskOCPkX+cNDL4UDuGU1iURZg0E6XqKtrf+tyZLpDF1dQKxRhn/kiZZ1Y65AH6m0pTwFH1GQeEBjfNF8o6oE5RV1794OUnG6jdf5CkysHb9o7xlpt4SxNCv9Q=
+	t=1728466729; cv=none; b=prFeuXZjxjZBc93wv8edNPbqcUY1KofiAl5gt6F1U2olnTZJTVY7jBw0FAp1AH+Jtmz3qOitdoP5botYwkKbfXAtgai+BMC4YUUNhLYpkII8cQnbCd7JqpmMbACAT84AYuY6e30o/UgM0a2NpudWHZITDXhXhddnwoFDsVleVjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728465049; c=relaxed/simple;
-	bh=SeiKUnM1DO48iG3Gr3JzhpZfh6fszoAqw+yG9jEe454=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aSTU9xhoZlwWrsDLTczz6mH6j/s3JFHC4ZDXX7HpVn03m0it4QI5lINv4BYsERaiTPaJE4upeb3Ax6p+hHxdZ9W3/9WBH6fO9J5k9YkK0WSg3UFkyWIZyaBhzroWFBQxjbuUxJjGh8wEb5vKKXnpbp6lv1ranLwJ2StGlq0VQ7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=apgg8LYb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C87BC4CEC5;
-	Wed,  9 Oct 2024 09:10:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728465048;
-	bh=SeiKUnM1DO48iG3Gr3JzhpZfh6fszoAqw+yG9jEe454=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=apgg8LYblMD4qcg07qq3Mkgt0ywwQuc+3xw0JHmyyo9R1mWrfGxw8wTc4OdVdv86c
-	 9NvoStQW9y9swxeftz9Y/d+2+eWrhl8IJ+ehaoOKL5kcWGNnsVpJgR/dEBQtmS3u1T
-	 rdBzExB9GsjgYbIOJpmcB5A2VggPdQMDCHWytgB566ZNT/uK6NwYLIDILg88BAHeQz
-	 vk/SHdbAb6yjKubsySQAdtJ9+53NgxwB7giJMbQu+dDrvvT9iCnDXeZaC9YE6mq48L
-	 2OdUXj462FwW5nDBk2woP+WbDOgZfiJhnt/gsiFXjp+bfi2iB8hwnrHQlGtidEcPDH
-	 jr9p8eMo3AZKg==
-Message-ID: <5f785dda-b2d7-466f-96c3-23faf0b80975@kernel.org>
-Date: Wed, 9 Oct 2024 18:10:39 +0900
+	s=arc-20240116; t=1728466729; c=relaxed/simple;
+	bh=Jw9m9MFXObg+vZ7wq05G3wqyWtyj3AK1eBeQfJJK90U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FBlxEih2Csikk9VWf4y7W32fhYH4ScQE7t2bYKCeDP3giTH2VRNUpP9HVnbJmTsdAAEc1U9vteu+PNRk6E1rZBJsHb748tm6n5wVcPCDGwXrjBbuHGus/jVA863Kve8xMVKb3t9GLN7RA3XKnJ7MPKhq4ScYwVtTEUw39Ma8gGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=AcLymq+h; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B808BC4CEC5;
+	Wed,  9 Oct 2024 09:38:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1728466728;
+	bh=Jw9m9MFXObg+vZ7wq05G3wqyWtyj3AK1eBeQfJJK90U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AcLymq+hoDLhN3h3N8nHp58BgFOa4jDynBqk5dzipxHtlbGOU9EoJHZr1xWIGUvqd
+	 1/8BzU9GNB5AWykOOa82//nU/OkQpZ2Tl07ETsLRXZZMd4MYEMeaOwuFdvt3dbdEkn
+	 E0Fd5uSJFrxi3J4FjD1qWeIfBp1sHnDUf7i3tpjk=
+Date: Wed, 9 Oct 2024 11:38:45 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Basavaraj Natikar <basavaraj.natikar@amd.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Alex Dubov <oakad@yahoo.com>,
+	Sudarsana Kalluru <skalluru@marvell.com>,
+	Manish Chopra <manishc@marvell.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Igor Mitsyanko <imitsyanko@quantenna.com>,
+	Sergey Matyukevich <geomatsi@gmail.com>,
+	Kalle Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Chen Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>,
+	Al Viro <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Mostafa Saleh <smostafa@google.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hannes Reinecke <hare@suse.de>,
+	John Garry <john.g.garry@oracle.com>,
+	Soumya Negi <soumya.negi97@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Eric Auger <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>,
+	Marek =?iso-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Rui Salvaterra <rsalvaterra@gmail.com>,
+	Marc Zyngier <maz@kernel.org>, linux-ide@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+	ntb@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-staging@lists.linux.dev, kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
+Subject: Re: [RFC PATCH 10/13] staging: rts5280: Use always-managed version
+ of pci_intx()
+Message-ID: <2024100936-brunette-flannels-0d82@gregkh>
+References: <20241009083519.10088-1-pstanner@redhat.com>
+ <20241009083519.10088-11-pstanner@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 01/13] PCI: Prepare removing devres from pci_intx()
-To: Philipp Stanner <pstanner@redhat.com>, Niklas Cassel <cassel@kernel.org>,
- Sergey Shtylyov <s.shtylyov@omp.ru>,
- Basavaraj Natikar <basavaraj.natikar@amd.com>, Jiri Kosina
- <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov
- <oakad@yahoo.com>, Sudarsana Kalluru <skalluru@marvell.com>,
- Manish Chopra <manishc@marvell.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
- Igor Mitsyanko <imitsyanko@quantenna.com>,
- Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
- Sanjay R Mehta <sanju.mehta@amd.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>,
- Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Alex Williamson <alex.williamson@redhat.com>, Juergen Gross
- <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Mario Limonciello <mario.limonciello@amd.com>, Chen Ni <nichen@iscas.ac.cn>,
- Ricky Wu <ricky_wu@realtek.com>, Al Viro <viro@zeniv.linux.org.uk>,
- Breno Leitao <leitao@debian.org>, Kevin Tian <kevin.tian@intel.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Mostafa Saleh <smostafa@google.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Hannes Reinecke <hare@suse.de>, John Garry <john.g.garry@oracle.com>,
- Soumya Negi <soumya.negi97@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yi Liu <yi.l.liu@intel.com>, "Dr. David Alan Gilbert" <linux@treblig.org>,
- Christian Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>,
- Reinette Chatre <reinette.chatre@intel.com>,
- Eric Auger <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>,
- =?UTF-8?Q?Marek_Marczykowski-G=C3=B3recki?=
- <marmarek@invisiblethingslab.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Rui Salvaterra <rsalvaterra@gmail.com>, Marc Zyngier <maz@kernel.org>
-Cc: linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
- linux-pci@vger.kernel.org, linux-staging@lists.linux.dev,
- kvm@vger.kernel.org, xen-devel@lists.xenproject.org,
- linux-sound@vger.kernel.org
-References: <20241009083519.10088-1-pstanner@redhat.com>
- <20241009083519.10088-2-pstanner@redhat.com>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <20241009083519.10088-2-pstanner@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241009083519.10088-11-pstanner@redhat.com>
 
-On 10/9/24 17:35, Philipp Stanner wrote:
-> pci_intx() is a hybrid function which sometimes performs devres
-> operations, depending on whether pcim_enable_device() has been used to
-> enable the pci_dev. This sometimes-managed nature of the function is
-> problematic. Notably, it causes the function to allocate under some
-> circumstances which makes it unusable from interrupt context.
+On Wed, Oct 09, 2024 at 10:35:16AM +0200, Philipp Stanner wrote:
+> pci_intx() is a hybrid function which can sometimes be managed through
+> devres. To remove this hybrid nature from pci_intx(), it is necessary to
+> port users to either an always-managed or a never-managed version.
 > 
-> To, ultimately, remove the hybrid nature from pci_intx(), it is first
-> necessary to provide an always-managed and a never-managed version
-> of that function. Then, all callers of pci_intx() can be ported to the
-> version they need, depending whether they use pci_enable_device() or
-> pcim_enable_device().
+> rts5208 enables its PCI-Device with pcim_enable_device(). Thus, it needs the
+> always-managed version.
 > 
-> An always-managed function exists, namely pcim_intx(), for which
-> __pcim_intx(), a never-managed version of pci_intx() had been
-
-s/had/has ? Not sure about this, English is not my first language :)
-
-> implemented.
-> 
-> Make __pcim_intx() a public function under the name
-> pci_intx_unmanaged(). Make pcim_intx() a public function.
+> Replace pci_intx() with pcim_intx().
 > 
 > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> ---
+>  drivers/staging/rts5208/rtsx.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regardless of the above nit, looks OK to me.
-
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-
--- 
-Damien Le Moal
-Western Digital Research
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
