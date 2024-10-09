@@ -1,45 +1,45 @@
-Return-Path: <linux-input+bounces-7178-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7179-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A28995F1C
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 07:42:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C6E995F1F
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 07:42:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BD741C23C2F
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 05:42:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E9C31F22A29
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 05:42:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F4D0161313;
-	Wed,  9 Oct 2024 05:41:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A11A3155316;
+	Wed,  9 Oct 2024 05:42:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OkITHGAd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rw4gv2/t"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D28156242;
-	Wed,  9 Oct 2024 05:41:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763F414E2D6;
+	Wed,  9 Oct 2024 05:42:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728452517; cv=none; b=k4VgQPkaQwG+eBGfdVkWDOrnIjbfsVoeNaE9CmfprYVEE2ccUwqSERmqC1KtQRJECs6LmeZLwGjxI0dnmxE4gPXzGIkn8bvmy2ZmEDda6d7qyyKxSZUJZLi+/I2A9rVhIJnjulJNcvHJpbXSwLS5WTUkY69WXlwWSaBhTGMdtw0=
+	t=1728452528; cv=none; b=mwUjJA9RazpMOVWUU6kzquBP8heGAZMAXBwB7bfu3tMbQh6Umhwn/CRbQbaR0bUoLl0fILy1lu3ovzKzqsMuQ5yLAH9nXcc/PIcDvcfsm0SJ9lLgRo6W0hWHFrorTXemyb9+W4J1mQ5OYTtLsSfv5tGJOEb4zEkRDQEvhfWHxZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728452517; c=relaxed/simple;
+	s=arc-20240116; t=1728452528; c=relaxed/simple;
 	bh=Lxgp/rSE9UhxKcum2AYKZrpsOKdT4QfLqPo3XKoz63c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qy4Dioe4bA4inMZEZemlkKhGMUnZXkdLbWNcqesmlrDnbwSLAaBINVypB9XHS6LxlL5Lg6LAjHMHQGy4xQ+9XTypfIQVIyxXbQ93zkGPZW32zjo4DDIHHMPc5iq3sp/JC4/IUzhyLflhMEHWF4Rdp6UKOqo0hSzFLdgY3VnHyFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OkITHGAd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23495C4CEC5;
-	Wed,  9 Oct 2024 05:41:55 +0000 (UTC)
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mE27h3ANYD7XxfhAKkv+WbGLs9QkK6cJx/Sg1ie+tSRGzyH3jVpAgR8HU78Eb56vy7PJcZ3rSuStZnbxqXJo+aw5eXV9mnMahnpi11NJRWzPwj1M+WK8M5Wn0JB20QGLmz6f1x45tkn6s6sGIy67J79nv8okRIdsglzqV8e9rUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rw4gv2/t; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D498C4CEC5;
+	Wed,  9 Oct 2024 05:42:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728452516;
+	s=k20201202; t=1728452528;
 	bh=Lxgp/rSE9UhxKcum2AYKZrpsOKdT4QfLqPo3XKoz63c=;
 	h=From:To:Cc:Subject:Date:From;
-	b=OkITHGAdsBEDwFGErIQP7mmFz/ptZNcpVAz80rDt16tdK/0Q+GosdHn46IdMwo0fJ
-	 X3z0Y+SikeBJ5oxyqxWsUzE0pcDWRRo1EZiyVrcA4ds/+AdsVEvQjfAwpIXXF+Qd32
-	 COwOS77kbVzDS2zNwAzCIg/RVdrnq2pIM84DDzSCId1XjvAGimd6EgcZ0FOHOSSbS7
-	 /vAOjYJYjjiaX7zHC8D5veRWllt+/Z17A203bsj3nGzyJ2fOZyD621/7wtKEcek8Ci
-	 5NInTILiVZSXeuCw5RBprubPVriO7yK7kqCS+fKB6o7gM9dGNeJnNP7fGZ8zXZXq0E
-	 uofVceHffqg+Q==
+	b=rw4gv2/tZs1Te2CbfFC+c03tYoXpOQ1YASRRIauJ5jbXtUoORGd4IzkzO3BhgL2m9
+	 ycgrrutgQv1qG16JNd4FrxBz9yl/tC81PsxwQBrOiPJGL1tLSELzLxG42Kxs28tyYM
+	 X2orqT9+BWU7SlwkoZnqi5lEKAXypn4xxwLPoXBRp8jEPa8dNiaIqqqkHLUFcHpoxU
+	 6uP53fHeeYCQKEPqxQAXI2qliF9z8tzig1XS1vb7lZCbWokiuP7d7PeKXp9TB6KieV
+	 V245Oj0Te8+GFSRrNJOrCtxWNOLNnBmnvQWrN19fsqeREV0OSNjgiyjhgBH+Qk96zt
+	 s4oRSeK/O0g6w==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: stable@vger.kernel.org,
 	gregkh@linuxfoundation.org,
@@ -51,9 +51,9 @@ Cc: tzungbi@kernel.org,
 	torsten.hilbrich@secunet.com,
 	minipli@grsecurity.net,
 	linux-input@vger.kernel.org
-Subject: [PATCH 5.15.y] Input: synaptics-rmi4 - fix UAF of IRQ domain on driver removal
-Date: Wed,  9 Oct 2024 05:41:48 +0000
-Message-ID: <20241009054148.3815799-1-tzungbi@kernel.org>
+Subject: [PATCH 5.10.y] Input: synaptics-rmi4 - fix UAF of IRQ domain on driver removal
+Date: Wed,  9 Oct 2024 05:42:01 +0000
+Message-ID: <20241009054201.3815829-1-tzungbi@kernel.org>
 X-Mailer: git-send-email 2.47.0.rc0.187.ge670bccf7e-goog
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
