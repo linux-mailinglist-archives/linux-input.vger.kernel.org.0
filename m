@@ -1,78 +1,78 @@
-Return-Path: <linux-input+bounces-7189-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7190-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1977299634D
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 10:43:17 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8551D996354
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 10:43:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28A661C23473
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 08:43:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C9300B22C36
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 08:43:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B06D18DF7D;
-	Wed,  9 Oct 2024 08:37:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 178B019882B;
+	Wed,  9 Oct 2024 08:37:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AcP49GSi"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fC4DWxGO"
 X-Original-To: linux-input@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7C718E039
-	for <linux-input@vger.kernel.org>; Wed,  9 Oct 2024 08:37:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5026718E05D
+	for <linux-input@vger.kernel.org>; Wed,  9 Oct 2024 08:37:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728463067; cv=none; b=eD6fLy1a88+czb56ZxEPMYCWHz4omr7fe62d5l3hWTncwxdLwOAWL3+J4KaIkgkjhbnZSCL2H/4kLdSOXKcxRLZiOsEiQssEtjG7e7v8Bi25xtQO4NF+MPSLGfi2FG5+eCd+TgxjKRaAfyf6WlJl3ntq8JSak5SXm4+aZbTAWDQ=
+	t=1728463076; cv=none; b=DrYLDjjalFRcBQfOWqwEF3iudnCc0gtnqJt6blGtHjl8vwkxalIfw/uTD27jSQTN51d/gDaz2+ednhW+mlqds3O9CZqEAWo1/WmwJKn8k3Hm1mbwYPnnandwLwahhAOHTx/y8T1G7lWSn4uStRrzyeE5Jd2ALOek0jQ+ohxVkzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728463067; c=relaxed/simple;
-	bh=EpcjpNUPxDJfeNBdK7OSbEE2nGoSE5GNXjSmcKadEZI=;
+	s=arc-20240116; t=1728463076; c=relaxed/simple;
+	bh=1G+pEtntUe6ZQw3bO6bhaoH2cS+X3nDY9vjN4pE1htc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X8QrHd8sBBXYB2duJ5n+knV9+aqTZbrprEs/+7OOfpnz7Jj3YMqp6WjrRaCvZM3wIjxTr/Zilr40q3SYivaa9597aQ9gV+mUS+XTZjX+TwHwPVz3s0mq14Q9pvUyAqD7yCAw87IvyDqo6SgkMvvQ/pgT+nkvvKHF3cBUJk+/AaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AcP49GSi; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=RRqoPhRnOU+5EndxILAGljjwHAgQy/9LU2AZ7IU0rjTwFy7DlymWk5b7U+WwIsWh+q9m3Ycm6fEIHimcsUOi981+PDQX8Nux5dMyebse6sL09G7jkk/czNbvmkplwBZ7zcsocX+ofljsgK5HYae7OyQcjSt1VhR9PJKot0PlFp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fC4DWxGO; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728463065;
+	s=mimecast20190719; t=1728463074;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JsGvGJm9MmViCmQHy+rwDTsxwdGI+an22CjgwnYtt0I=;
-	b=AcP49GSi+0YKdiVR9D0PvqGMrX+1tqaLXAJcEMR4AtuBm4wV9MvhZfFSwNIBiyB2J1vovw
-	DecWHjUuH0ejMcAdMndeAHWGxIJ6WjlAPMUEeqmkUg4+URSLBhTTWqh/zQb/mXpRFbWoLp
-	7iarfN3/5TFKY1r+39tHA6vUYK72bzE=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=QnZVeWBmT+J+LidRf6mImSoyv0oTiirkxqtpTQtBia8=;
+	b=fC4DWxGO06507Q9t9nbUCj8a6w4abBJiI25IG5mtjuO6Xcufr6yj5YjAjZbMSwT3/sOkmM
+	vU90pqOKVuGI7DP+4f9dNseps+LVKIF7CrHwBXuDKBurnbdX+zedy3KIA0WjcTPSPDXBzS
+	TdAhQ7287H5GnsMsqS1S8Q0pn3EFu8c=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-663-_xj5_jsKO-eTClbkwc9Iyg-1; Wed, 09 Oct 2024 04:37:44 -0400
-X-MC-Unique: _xj5_jsKO-eTClbkwc9Iyg-1
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7afc3f4faaaso255755385a.0
-        for <linux-input@vger.kernel.org>; Wed, 09 Oct 2024 01:37:44 -0700 (PDT)
+ us-mta-217-bDlZt6oJNOy2lXpvkesdKQ-1; Wed, 09 Oct 2024 04:37:53 -0400
+X-MC-Unique: bDlZt6oJNOy2lXpvkesdKQ-1
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7afc3f4faaaso255772585a.0
+        for <linux-input@vger.kernel.org>; Wed, 09 Oct 2024 01:37:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728463063; x=1729067863;
+        d=1e100.net; s=20230601; t=1728463073; x=1729067873;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JsGvGJm9MmViCmQHy+rwDTsxwdGI+an22CjgwnYtt0I=;
-        b=ThpQji59BbRqSMFzXV/HSEqMivk+ktq/wLYYlHPbhwh8ghrRpBYJyPVAVBjcKIuGBP
-         HVOX4ldoEhGn8SGYX82jA/5LWP0BEkv8pw/2csUI33qLeVycg1MwAgPCs3LP50dezj6N
-         p/Mgr/RvZHQuNqJqSlK01GJBqk4gxKIW0AkPZgJM5vZSKvVqmz6EVlDEE62WuwbnIR5m
-         rHDA+yJ9KHJ2FE8AsIUfOiFApIEr2aQ+JOZCHtOhsRRlkgxHohI2vU4ijJ844vJrSSa1
-         YnuBk82k+Ja4xkaWm6cPDF0bOw5/oxepAZ2aE05AXMg257AUgkvODfiMM4hdWF9WAufK
-         mlYA==
-X-Forwarded-Encrypted: i=1; AJvYcCWA02N+fQNT20P2uwMHArMddDRv5OBV3n++sNEW8JX5BiuJZpBCtbstdn96h8HJy1ipKZFEOq2i5Wfx8g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKaSqelw3NTVNEyB/YwYM7ug4lLj/vCSxuXz/fmmXWJziNqeah
-	VPmDcxOyIcrzn+DZPcX7KN6oC3gVTyzdoVVvjPwrV3ovs5re21xAaUICqH9JacH2eVF08SPpxYM
-	tNTIvk+ntXkK1uOjygz0zXhM6o1JikhFp0ou2RS65+jKozxl6JcZ7CGnuCvhB
-X-Received: by 2002:a05:620a:2a0e:b0:7ac:a6f9:2986 with SMTP id af79cd13be357-7b0874d79cdmr228241385a.56.1728463063338;
-        Wed, 09 Oct 2024 01:37:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFImvB9Qv7o17NV9RNqrUwhslSwlEiuBLwjyyln/SL0KXDFR9AO0zKFsp8+HNe0WvD5hbb1TQ==
-X-Received: by 2002:a05:620a:2a0e:b0:7ac:a6f9:2986 with SMTP id af79cd13be357-7b0874d79cdmr228232385a.56.1728463062845;
-        Wed, 09 Oct 2024 01:37:42 -0700 (PDT)
+        bh=QnZVeWBmT+J+LidRf6mImSoyv0oTiirkxqtpTQtBia8=;
+        b=TQmwiuA8eT+buMIvEZhZK6s1bfyCUV/p4x+sFZKHLvU0qxwBYt2GObCHOOISJXYf81
+         6/eoaVkyMPMImXN9Y3L1UThCxQ9l1FhcerhpqHErk+pSg5CP9aFVay43YAP+xWGk1Kaw
+         EA2+fY0GK770KFVvStcIVr6Hq9hkjvgsra1CVU/gYt02cYblznCdVmQ5fk7eFoAsfiqI
+         mTEoxo1Yf/jCvkpY4Yhor2XSsctpEIBsaGubc7RvAg6F7mUhj8Lj49/Icpo5xaZaIx0x
+         nsa0gqTE3hOodoAe05tO7gNKz0LoVvQhzfYqS+pyieCsET2h1MAtCKWM349wKGRqiWaj
+         +wKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWs9Tjtxw0nOJWc2hqafhFrBY6DvQUmgNqly41zp1Us0Cw7LA0WFpruqNF/wukzu/TUXA4VP49YjMMZZw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjWP9fsEc8xLrQF7MRtzWIHW6sgui1euXKqzeWjC0W4aHDGYCM
+	b4VbtwxQTiUI/19oJvC4Tr0qS6buxIw8xS+pyEZlfKcwmrsvvZtBzgmY+GR7Y82a0sHwh546mgb
+	XzOxB+MewzYmbIqML0eLWlkGWSKHFu0DpsWjtXqTeUIXnLlHrddZnuYmK6mzi
+X-Received: by 2002:a05:620a:40a:b0:7a7:fdef:27a with SMTP id af79cd13be357-7b0874d7cdemr203382085a.58.1728463072688;
+        Wed, 09 Oct 2024 01:37:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHVcvq1l/JiYDRYGcvT0xuobZAhQYwMoKmOoPhvJp1jfhxUy6a6lyXKK7lz5Kz5T1IwGDIQGw==
+X-Received: by 2002:a05:620a:40a:b0:7a7:fdef:27a with SMTP id af79cd13be357-7b0874d7cdemr203375485a.58.1728463072097;
+        Wed, 09 Oct 2024 01:37:52 -0700 (PDT)
 Received: from eisenberg.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ae75615aa2sm439643585a.14.2024.10.09.01.37.33
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ae75615aa2sm439643585a.14.2024.10.09.01.37.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2024 01:37:42 -0700 (PDT)
+        Wed, 09 Oct 2024 01:37:51 -0700 (PDT)
 From: Philipp Stanner <pstanner@redhat.com>
 To: Damien Le Moal <dlemoal@kernel.org>,
 	Niklas Cassel <cassel@kernel.org>,
@@ -146,9 +146,9 @@ Cc: linux-ide@vger.kernel.org,
 	kvm@vger.kernel.org,
 	xen-devel@lists.xenproject.org,
 	linux-sound@vger.kernel.org
-Subject: [RFC PATCH 07/13] vfio/pci: Use never-managed version of pci_intx()
-Date: Wed,  9 Oct 2024 10:35:13 +0200
-Message-ID: <20241009083519.10088-8-pstanner@redhat.com>
+Subject: [RFC PATCH 08/13] PCI: MSI: Use never-managed version of pci_intx()
+Date: Wed,  9 Oct 2024 10:35:14 +0200
+Message-ID: <20241009083519.10088-9-pstanner@redhat.com>
 X-Mailer: git-send-email 2.46.1
 In-Reply-To: <20241009083519.10088-1-pstanner@redhat.com>
 References: <20241009083519.10088-1-pstanner@redhat.com>
@@ -164,79 +164,51 @@ pci_intx() is a hybrid function which can sometimes be managed through
 devres. To remove this hybrid nature from pci_intx(), it is necessary to
 port users to either an always-managed or a never-managed version.
 
-vfio enables its PCI-Device with pci_enable_device(). Thus, it
-needs the never-managed version.
+MSI sets up its own separate devres callback implicitly in
+pcim_setup_msi_release(). This callback ultimately uses pci_intx(),
+which is problematic since the callback of course runs on driver-detach.
 
-Replace pci_intx() with pci_intx_unmanaged().
+That problem has last been described here:
+https://lore.kernel.org/all/ee44ea7ac760e73edad3f20b30b4d2fff66c1a85.camel@redhat.com/
+
+Replace the call to pci_intx() with one to the never-managed version
+pci_intx_unmanaged().
 
 Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 ---
- drivers/vfio/pci/vfio_pci_core.c  |  2 +-
- drivers/vfio/pci/vfio_pci_intrs.c | 10 +++++-----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+This MSI part here is probably the part of the series that needs most
+attention.
+---
+ drivers/pci/msi/api.c | 2 +-
+ drivers/pci/msi/msi.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-index 1ab58da9f38a..90240c8d51aa 100644
---- a/drivers/vfio/pci/vfio_pci_core.c
-+++ b/drivers/vfio/pci/vfio_pci_core.c
-@@ -498,7 +498,7 @@ int vfio_pci_core_enable(struct vfio_pci_core_device *vdev)
- 		if (vfio_pci_nointx(pdev)) {
- 			pci_info(pdev, "Masking broken INTx support\n");
- 			vdev->nointx = true;
--			pci_intx(pdev, 0);
-+			pci_intx_unmanaged(pdev, 0);
- 		} else
- 			vdev->pci_2_3 = pci_intx_mask_supported(pdev);
+diff --git a/drivers/pci/msi/api.c b/drivers/pci/msi/api.c
+index b956ce591f96..c95e2e7dc9ab 100644
+--- a/drivers/pci/msi/api.c
++++ b/drivers/pci/msi/api.c
+@@ -289,7 +289,7 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
+ 			 */
+ 			if (affd)
+ 				irq_create_affinity_masks(1, affd);
+-			pci_intx(dev, 1);
++			pci_intx_unmanaged(dev, 1);
+ 			return 1;
+ 		}
  	}
-diff --git a/drivers/vfio/pci/vfio_pci_intrs.c b/drivers/vfio/pci/vfio_pci_intrs.c
-index 8382c5834335..40abb0b937a2 100644
---- a/drivers/vfio/pci/vfio_pci_intrs.c
-+++ b/drivers/vfio/pci/vfio_pci_intrs.c
-@@ -118,7 +118,7 @@ static bool __vfio_pci_intx_mask(struct vfio_pci_core_device *vdev)
- 	 */
- 	if (unlikely(!is_intx(vdev))) {
- 		if (vdev->pci_2_3)
--			pci_intx(pdev, 0);
-+			pci_intx_unmanaged(pdev, 0);
- 		goto out_unlock;
- 	}
- 
-@@ -132,7 +132,7 @@ static bool __vfio_pci_intx_mask(struct vfio_pci_core_device *vdev)
- 		 * mask, not just when something is pending.
- 		 */
- 		if (vdev->pci_2_3)
--			pci_intx(pdev, 0);
-+			pci_intx_unmanaged(pdev, 0);
- 		else
- 			disable_irq_nosync(pdev->irq);
- 
-@@ -178,7 +178,7 @@ static int vfio_pci_intx_unmask_handler(void *opaque, void *data)
- 	 */
- 	if (unlikely(!is_intx(vdev))) {
- 		if (vdev->pci_2_3)
--			pci_intx(pdev, 1);
-+			pci_intx_unmanaged(pdev, 1);
- 		goto out_unlock;
- 	}
- 
-@@ -296,7 +296,7 @@ static int vfio_intx_enable(struct vfio_pci_core_device *vdev,
- 	 */
- 	ctx->masked = vdev->virq_disabled;
- 	if (vdev->pci_2_3) {
--		pci_intx(pdev, !ctx->masked);
-+		pci_intx_unmanaged(pdev, !ctx->masked);
- 		irqflags = IRQF_SHARED;
- 	} else {
- 		irqflags = ctx->masked ? IRQF_NO_AUTOEN : 0;
-@@ -569,7 +569,7 @@ static void vfio_msi_disable(struct vfio_pci_core_device *vdev, bool msix)
- 	 * via their shutdown paths.  Restore for NoINTx devices.
- 	 */
- 	if (vdev->nointx)
--		pci_intx(pdev, 0);
-+		pci_intx_unmanaged(pdev, 0);
- 
- 	vdev->irq_type = VFIO_PCI_NUM_IRQS;
+diff --git a/drivers/pci/msi/msi.c b/drivers/pci/msi/msi.c
+index 3a45879d85db..53f13b09db50 100644
+--- a/drivers/pci/msi/msi.c
++++ b/drivers/pci/msi/msi.c
+@@ -268,7 +268,7 @@ EXPORT_SYMBOL_GPL(pci_write_msi_msg);
+ static void pci_intx_for_msi(struct pci_dev *dev, int enable)
+ {
+ 	if (!(dev->dev_flags & PCI_DEV_FLAGS_MSI_INTX_DISABLE_BUG))
+-		pci_intx(dev, enable);
++		pci_intx_unmanaged(dev, enable);
  }
+ 
+ static void pci_msi_set_enable(struct pci_dev *dev, int enable)
 -- 
 2.46.1
 
