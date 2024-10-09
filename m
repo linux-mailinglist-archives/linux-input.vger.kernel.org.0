@@ -1,100 +1,90 @@
-Return-Path: <linux-input+bounces-7214-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7215-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA97F996F1F
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 17:02:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC028996FB7
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 17:29:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ABF7E2878E6
-	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 15:02:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EDEBF1C20C16
+	for <lists+linux-input@lfdr.de>; Wed,  9 Oct 2024 15:29:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20CEF1940A2;
-	Wed,  9 Oct 2024 15:02:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 205DB1E131F;
+	Wed,  9 Oct 2024 15:19:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oOM32IBO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aUSAMP6Y"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1D64084D;
-	Wed,  9 Oct 2024 15:02:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C1919DF9E
+	for <linux-input@vger.kernel.org>; Wed,  9 Oct 2024 15:19:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728486151; cv=none; b=MRf7KkvFVdMnIsKQ7Q21Y8Yff9OZOpPqQh2tFWYwa7nXpyo6z3iTqPym6aMn5ENki6zq3fQn5z+9IqgI9j20Q7qyZaY4XLisFhG/v3luSxXOwOb8aQASmly5+ooNhvyOXyrXl1aBwrlnRXazFpIYt2KnDaKJsgkdA+8lAXgsoiM=
+	t=1728487182; cv=none; b=W3kfqhV5fPhrLWbHZmdrjZXbmbv8S8WHX1xm4gSoNh2coT036XWaFb14V8vJQibI44fokmvZU/su6IktXdUhkkTsXYokG4beLWs9D5vp77fMBPVKwEvPv6oVgir0WGotGbWPuFtitvvQdl4frE5PGg0P9LleH7vOg14ARs6xWEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728486151; c=relaxed/simple;
-	bh=YijPQnFRilQWRtLvvdo5y8s95IoL47EEoI6aPDUbRg8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N7RcxjsotHMQxPMeMUCGBaVz7xBG8A56TTG4+3Zm48rHL7lq7ClAiYi7vOUkUubO1lTaZlQa/7cO19Tc5S7tIWt2d5hSxl4JxChQimd/9ErtKRzf7jN1Ldb6H7fVVGxM/qXRK5vrWs1nwA3fNIU83WiM/B9dBVudQ9rrfv1WmYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oOM32IBO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81F2AC4CEC3;
-	Wed,  9 Oct 2024 15:02:30 +0000 (UTC)
+	s=arc-20240116; t=1728487182; c=relaxed/simple;
+	bh=4QhgkII//cyS0Dl3I7E9WMwnea7IWxLO7BsSFxPSgS0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=Zh612SsuawY4pxQn0AaE7tDjN7hKUWBXKWpguDFVo5U2Q/YSN+8Uzt6J90rI1tqTSGM+NrunhH+Mkny0A8Alg3bVXm7xHFX8pApbjpDEksdOcGkKcg42upc/RiHd4cucaAOuWhfj4lu5SiS+TM/9wlTk4DdhXPviinEq8kjtc+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aUSAMP6Y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C2C1C4CEC3;
+	Wed,  9 Oct 2024 15:19:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728486150;
-	bh=YijPQnFRilQWRtLvvdo5y8s95IoL47EEoI6aPDUbRg8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oOM32IBOekQCh583Xv7JBTXXjGSGt2wiWSi5G5Vm0PCPDbsJolFYePCS0OVH04/Ni
-	 ftaxp2RWcWQ/fUzPu5bG2JHkteD4AmFOv07W9KmW5z2aUcWgZKqKvlYJcDXMlrCOsH
-	 hgc7i291Q3Eev3H2ywjGqVu2JrFRHOsyggEqwp3rOu7LQ69CRg5AZvGHam08EGbbHM
-	 UTtOVbLFRE0ZQF0XRYj6XsgW1q+5a+7+duAyfl6UjcCUqa87iUc8xGXEVZ8oaDUHT9
-	 1AdY46RGoiD4S08D4n6SA6O8LCxnjkSc/Af91uZuqzwPJmeFl+i3c9LT6Pj7LCn/sj
-	 jdwilatPoP4WQ==
-Date: Wed, 9 Oct 2024 10:02:28 -0500
-From: Rob Herring <robh@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-	linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH 0/5] dt-bindings: mfd: convert zii,rave-sp.txt and child
- txt to yaml format
-Message-ID: <20241009150228.GB465237-robh@kernel.org>
-References: <20241008-zii_yaml-v1-0-d06ba7e26225@nxp.com>
+	s=k20201202; t=1728487181;
+	bh=4QhgkII//cyS0Dl3I7E9WMwnea7IWxLO7BsSFxPSgS0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=aUSAMP6Y9HY9PRAJjbyR/cvenD7V8HorkYHEF3GWZtQ3mL5Xa3HyfS0qKFZPy7oRj
+	 9GD16qEhv+4XxlnO9soys6WAQlj3XzJ+A93z14VQZWeIIAcxa/XxdRs9bFC11zbeTK
+	 n1LAUNFCgEMgkg52ifgXcO/A936bPKQl8LyxJDDgWrczUHLvIc9MnQdu9xrSJD9elz
+	 gPOoHER7V+A3srI7KYONYDUIO36isn2+JBb+gVgYZE0EYm7BmM/EjzaydhbBrZprZH
+	 pMX1cFwH4nNnZtE03Q3+o6r2Czi3HVDIymQ+w5xJW0s5Xy3c3E2sgSd0sJCrzZR2eZ
+	 Oc0H593GSVZOQ==
+Date: Wed, 9 Oct 2024 17:19:39 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+cc: bentiss@kernel.org, linux-input@vger.kernel.org, 
+    Chris Hixon <linux-kernel-bugs@hixontech.com>, 
+    Richard <hobbes1069@gmail.com>, Skyler <skpu@pm.me>
+Subject: Re: [PATCH] HID: amd_sfh: Switch to device-managed
+ dmam_alloc_coherent()
+In-Reply-To: <20241009144757.3577625-1-Basavaraj.Natikar@amd.com>
+Message-ID: <nycvar.YFH.7.76.2410091719200.20286@cbobk.fhfr.pm>
+References: <20241009144757.3577625-1-Basavaraj.Natikar@amd.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241008-zii_yaml-v1-0-d06ba7e26225@nxp.com>
+Content-Type: text/plain; charset=US-ASCII
 
-On Tue, Oct 08, 2024 at 06:00:56PM -0400, Frank Li wrote:
-> Fixed below warnings:
+On Wed, 9 Oct 2024, Basavaraj Natikar wrote:
+
+> Using the device-managed version allows to simplify clean-up in probe()
+> error path.
 > 
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu: failed to match any schema with compatible: ['zii,rave-sp-rdu2']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/watchdog: failed to match any schema with compatible: ['zii,rave-sp-watchdog']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/backlight: failed to match any schema with compatible: ['zii,rave-sp-backlight']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/pwrbutton: failed to match any schema with compatible: ['zii,rave-sp-pwrbutton']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a3: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a4: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu: failed to match any schema with compatible: ['zii,rave-sp-rdu2']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/watchdog: failed to match any schema with compatible: ['zii,rave-sp-watchdog']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/backlight: failed to match any schema with compatible: ['zii,rave-sp-backlight']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/pwrbutton: failed to match any schema with compatible: ['zii,rave-sp-pwrbutton']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a3: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
-> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a4: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
+> Additionally, this device-managed ensures proper cleanup, which helps to
+> resolve memory errors, page faults, btrfs going read-only, and btrfs
+> disk corruption.
 > 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> Frank Li (5):
->       dt-bindings: input: convert zii,rave-sp-pwrbutton.txt to yaml
->       dt-bindings: backlight: convert zii,rave-sp-backlight.txt to yaml
->       dt-bindings: nvmem: convert zii,rave-sp-eeprom.txt to yaml format
->       dt-bindings: watchdog: convert zii,rave-sp-wdt.txt to yaml format
->       dt-bindings: mfd: convert zii,rave-sp.txt to yaml format
+> Fixes: 4b2c53d93a4b ("SFH:Transport Driver to add support of AMD Sensor Fusion Hub (SFH)")
+> Tested-by: Chris Hixon <linux-kernel-bugs@hixontech.com>
+> Tested-by: Richard <hobbes1069@gmail.com>
+> Tested-by: Skyler <skpu@pm.me>
+> Reported-by: Chris Hixon <linux-kernel-bugs@hixontech.com>
+> Closes: https://lore.kernel.org/all/3b129b1f-8636-456a-80b4-0f6cce0eef63@hixontech.com/
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=219331
+> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 
-All looks fine except for the maintainers.
+Applied, and will expedite it to Linus.
 
-Rob
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
+
 
