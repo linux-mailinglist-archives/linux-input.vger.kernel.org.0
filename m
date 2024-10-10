@@ -1,75 +1,75 @@
-Return-Path: <linux-input+bounces-7268-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7269-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A01999462
-	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 23:26:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0FB999464
+	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 23:26:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 76C5A1F242CB
-	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 21:26:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3F3221F23AB6
+	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 21:26:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2C6C1E47A7;
-	Thu, 10 Oct 2024 21:26:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B43E1E572C;
+	Thu, 10 Oct 2024 21:26:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aOLqmQMq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IWY9iM3H"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E761E2841;
-	Thu, 10 Oct 2024 21:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB851E2317;
+	Thu, 10 Oct 2024 21:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728595563; cv=none; b=Skroe7M3kfbnjrBI6TZX+hxhygofcF73v8YJ5i23sEHhzJk7tk8nzMJ71sCuV3gZxjQwBZNdpA+clXyvZgTz7nFmgmxtcSNKRTXYVKLKfOzYZ07G3rX89graUfB29h9sNwrDtS6/nJh0lI0vJL07KnVji739N5OFL9rBOw9WMhA=
+	t=1728595566; cv=none; b=IxresxcbuDubKB5zgfXCjUR5sZZgGgZRD9hXxRAyfGC8senkub/jZC4MfQOcorRBdFXQzNztqhN0Xvd3kxav+nWD8fCrrIvT9ja7Hie1RZ8Cf846pSyZlJ2JlF9npJAzYBpVxXijSpnlcu18ihCtCY7W4vh4kooJHFWrAk3i698=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728595563; c=relaxed/simple;
-	bh=t9fa1o1a5Sgyy/pkELwXsraoor0CZUbJK+3ORgewgNE=;
+	s=arc-20240116; t=1728595566; c=relaxed/simple;
+	bh=VnsjVhq/mttVM6JYsQsLgW4CuzOsRfVPLIHizOJxOgE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kJ1pko8TZXtgNiNxCdipun22CUcJgAGfk4g8cyTBBt9KFMybGNl3kVPstqgMYlZpVDkP3bYAWChhZ34ErK5ofoIxoKgqu/iuObUqpNa5UnN+m491X3RJ5WQW0HLP1eEqY70p+3NplLnqJQTjiEsjeHLw9iI1O9horM9kPr9mKcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aOLqmQMq; arc=none smtp.client-ip=209.85.128.54
+	 In-Reply-To:To:Cc; b=IbOydjSjs36esoMEPqA+T5g+UMc835F7/J7DvkU4FU9dqrHgfMLWS4OISm0f5I9x3fl4ZoT+wRm+jkdigHcM9mJsXRjV9JbmAQcWX4/Wzd+RncLRZpzzQtXIlN4+SKylbZTC7Vrm0eGXdRrsZT8aDXrmKZjqVW2nZSGgUbKaW6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IWY9iM3H; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43117ed8adbso11821965e9.2;
-        Thu, 10 Oct 2024 14:26:01 -0700 (PDT)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37d461162b8so850820f8f.1;
+        Thu, 10 Oct 2024 14:26:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728595560; x=1729200360; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1728595563; x=1729200363; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NP8lfF3+tt2bERQMe+43qAzEv8h11+8hyUY3IsdG9dE=;
-        b=aOLqmQMqdSamYsfthRnWg+yuD0U4OPVRH9TvnSRurf4N+NdL2ZY+oISxez4atTorWO
-         1qCN4l5DQEHgqK5FObQ6/qb5PtZVfvUO40+IkZRfA1ccvbkzsurBlFwxpmSLOs7TvYYN
-         DNpBTryZLItXnRBeG1hKovD2e554wlowleSMKOkUwrpKu+rgYhya15/2buT08GxN/C+U
-         tK0JRd7KduwyG1QIaSihwm3iKetbw8aNsLlvZnDOcAOy0Hm81FZCTJLeg2ACgDeMkUgp
-         BTc1eWLau/ifXigAWt4Qu+xI6qSpvG+3/6xEU+triXjsRfg6zVuZaSjFfGPELo5SV862
-         tAWg==
+        bh=82HiPSULHr+FUteMSvvyK8noRcXFrMRkdAs1zK1bpjI=;
+        b=IWY9iM3HSKIwMavySQMAYzo9M6ihDashvYIeZgkuKx9wQ02OO7kPlvrnCVbtX1QzDy
+         n6Zd3XgPudVws9HRICd23Gibhl1D8FJEC5+JPpCDqNgI4Bptkw9+VbSSYKoWsPQRS2mc
+         apCV9ATzvXxtQZ6g18HUkQEbZ33JIQSKsvLAIX+UCnmB7sPUYOvS/cm419welkeNu60n
+         0TJRHAzwlkvuMzCzAGJNJ48VR9gt/9FBzOL/dbcLC71OEXhOAgSMRYocnKkE1V0+ozW8
+         bxJzsu113qMBXDW13BgioLdBjsXp1/wH8SNWYNF3hwzvWwdiYcKCzy/kc5zj6yVM/pVj
+         MTBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728595560; x=1729200360;
+        d=1e100.net; s=20230601; t=1728595563; x=1729200363;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NP8lfF3+tt2bERQMe+43qAzEv8h11+8hyUY3IsdG9dE=;
-        b=f6fNST3+VBM2plj5IhPQ2xBR52sU/ETg3VkHckpzJQ+fGBr7HahMaDK57z9LgWP+7T
-         eofcDZyw4xfDChrR7ClKO7uL5iZYyCvSauL8Yo0MJYRAiqdhWD7jFVCMZZ0/aE3qG93t
-         F5UjHM7zehDoqB7Yzuu4+GNqFxfM8HwCoHNa2ebUcc8Xh73aIa7x9r9PNUusqgS+tiOr
-         Q9x/oissdHV1+pOb9sbMv0HGTEci77gXwXG4bDL5ao1onzJMkOs7doczIofP0IOdOmkc
-         3X0cB+LcMzHf2iNFazi1SbGAiMJ8PdLAAIiiA5SqTCEOw9NCq6OYPaSEJiwAjH+JDkxY
-         7p2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUg31Zfs+bUXDBhj+6QgZsFzR6hwOxMhmKuFsazwaeNxU1jFQ0+q6JpL4JmBiUdR6Z9HciVbv1GWdKRX+Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzlx6tL+GB4izT76LL6ZyCmSGnvG23A2NZ4Mug/flKO2XiGOye8
-	7Q6bJ9DdKJnQfYY833WUsYpKbw43SGDxqRR3Ohfom7dY8TnMYIIW
-X-Google-Smtp-Source: AGHT+IE4KFtceqWgFI5Exk1ggU7gG6fN1lLUM7411oUgT6YiAdrbwe1U80pIh0+6rzapsH7z+JsyYQ==
-X-Received: by 2002:adf:f585:0:b0:37c:d1ea:f1ce with SMTP id ffacd0b85a97d-37d551d53dbmr354861f8f.25.1728595560283;
-        Thu, 10 Oct 2024 14:26:00 -0700 (PDT)
+        bh=82HiPSULHr+FUteMSvvyK8noRcXFrMRkdAs1zK1bpjI=;
+        b=gOgKxObgZ1G+/nlr+st3EXwdql2C7tna2t9jSeskgWT1KXRGErgQwweXsScOfnTqKq
+         XWA8MGsfzSlMJ2KGU1tu0c3EwodNauIHjCaBAzMM9z9p8NC9mupOp7jH6CiGgk8N8PxM
+         NeEUM7xCwY0IKfV2gAnuLhBs24sfYY6lDaVR6kjOfLkFGz4lYx+pqX5KB3HmR0dOTxKU
+         ltU/YwXSlgtrE+gvKPGYdUHb0vTxwWW2Nzsi2addRb6KzUQZ/qfOcY4WARSjtRSLTlse
+         2etfCWYGz6pkgcx0ZHQxstUFdtOrE2C4dSyEe3Jnosem86HUYlEzd9Zdq3R0XyBHOsmu
+         tWmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU6RuO1CUrydlNRXFwlLWOUgRk7U5Q2pN2N3fwC7+aZG406AiuJjJzpgGJfJPIpE1hntTxoD/T3VPGc3mU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyA8U3CZt+QiyntJ3ZzJDAVhzwCwiYalQe7T4uixD1Y6DU3qTg5
+	k1mtlUFx+WgNSYVW4v4kdYIm7PwzjdN3c+c4lTD6qKGXKKw9jsJZ
+X-Google-Smtp-Source: AGHT+IGXFqB+Zazmp7zehHYuM+XL6z61pYXfmG/3rSEoRILp6KFB73i+GbynVFHLtM/y3xRgpb0hmg==
+X-Received: by 2002:a05:6000:459b:b0:37d:37b2:385d with SMTP id ffacd0b85a97d-37d5519118amr285252f8f.12.1728595562834;
+        Thu, 10 Oct 2024 14:26:02 -0700 (PDT)
 Received: from [127.0.1.1] (2a02-8389-41cf-e200-3d08-841a-0562-b7b5.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:3d08:841a:562:b7b5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6a8940sm2402083f8f.6.2024.10.10.14.25.57
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6a8940sm2402083f8f.6.2024.10.10.14.26.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 14:25:59 -0700 (PDT)
+        Thu, 10 Oct 2024 14:26:02 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Thu, 10 Oct 2024 23:25:51 +0200
-Subject: [PATCH 01/10] Input: cap11xx - switch to
+Date: Thu, 10 Oct 2024 23:25:52 +0200
+Subject: [PATCH 02/10] Input: mtk-pmic-keys - switch to
  for_each_child_of_node_scoped
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -79,7 +79,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241010-input_automate_of_node_put-v1-1-ebc62138fbf8@gmail.com>
+Message-Id: <20241010-input_automate_of_node_put-v1-2-ebc62138fbf8@gmail.com>
 References: <20241010-input_automate_of_node_put-v1-0-ebc62138fbf8@gmail.com>
 In-Reply-To: <20241010-input_automate_of_node_put-v1-0-ebc62138fbf8@gmail.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
@@ -95,11 +95,11 @@ Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
  Javier Carrasco <javier.carrasco.cruz@gmail.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728595555; l=1675;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728595555; l=2458;
  i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=t9fa1o1a5Sgyy/pkELwXsraoor0CZUbJK+3ORgewgNE=;
- b=b31gP7WKvaxSGCe8LGxC0VFmrQkeU9+dZDzn0FUk6fhSEtR5GsZSn0RkT3Hsunh8on+1vLtSE
- bY5XwOwbB/8CemBxLFfFlFJk8eGyd/NjIzj/SvQvHebIoHP0HzSadpD
+ bh=VnsjVhq/mttVM6JYsQsLgW4CuzOsRfVPLIHizOJxOgE=;
+ b=ZS797SMZjCf7D8Lm77tFOx/ESKZizmB8NLX/9NtgZRCNy1/Qe09aBZ6jGgwJT+aYB75Bagai0
+ S9JU5B7IeC2D7sgZK2eq4Xtr8wWKCnkMDiB1XWjLJ0wpWwKDsfmLIhB
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
@@ -109,53 +109,70 @@ the child node is always freed.
 
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
- drivers/input/keyboard/cap11xx.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ drivers/input/keyboard/mtk-pmic-keys.c | 17 +++++------------
+ 1 file changed, 5 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/input/keyboard/cap11xx.c b/drivers/input/keyboard/cap11xx.c
-index b21ef9d6ff9d..0c17cbaa3d27 100644
---- a/drivers/input/keyboard/cap11xx.c
-+++ b/drivers/input/keyboard/cap11xx.c
-@@ -416,7 +416,7 @@ static int cap11xx_led_set(struct led_classdev *cdev,
- static int cap11xx_init_leds(struct device *dev,
- 			     struct cap11xx_priv *priv, int num_leds)
- {
--	struct device_node *node = dev->of_node, *child;
-+	struct device_node *node = dev->of_node;
- 	struct cap11xx_led *led;
- 	int cnt = of_get_child_count(node);
- 	int error;
-@@ -445,7 +445,7 @@ static int cap11xx_init_leds(struct device *dev,
- 	if (error)
- 		return error;
+diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
+index 4364c3401ff1..5ad6be914160 100644
+--- a/drivers/input/keyboard/mtk-pmic-keys.c
++++ b/drivers/input/keyboard/mtk-pmic-keys.c
+@@ -307,7 +307,7 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
+ 	int error, index = 0;
+ 	unsigned int keycount;
+ 	struct mt6397_chip *pmic_chip = dev_get_drvdata(pdev->dev.parent);
+-	struct device_node *node = pdev->dev.of_node, *child;
++	struct device_node *node = pdev->dev.of_node;
+ 	static const char *const irqnames[] = { "powerkey", "homekey" };
+ 	static const char *const irqnames_r[] = { "powerkey_r", "homekey_r" };
+ 	struct mtk_pmic_keys *keys;
+@@ -343,24 +343,20 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
  
 -	for_each_child_of_node(node, child) {
 +	for_each_child_of_node_scoped(node, child) {
- 		u32 reg;
+ 		keys->keys[index].regs = &mtk_pmic_regs->keys_regs[index];
  
- 		led->cdev.name =
-@@ -458,19 +458,15 @@ static int cap11xx_init_leds(struct device *dev,
- 		led->cdev.brightness = LED_OFF;
- 
- 		error = of_property_read_u32(child, "reg", &reg);
--		if (error != 0 || reg >= num_leds) {
+ 		keys->keys[index].irq =
+ 			platform_get_irq_byname(pdev, irqnames[index]);
+-		if (keys->keys[index].irq < 0) {
 -			of_node_put(child);
-+		if (error != 0 || reg >= num_leds)
- 			return -EINVAL;
++		if (keys->keys[index].irq < 0)
+ 			return keys->keys[index].irq;
 -		}
  
- 		led->reg = reg;
- 		led->priv = priv;
+ 		if (of_device_is_compatible(node, "mediatek,mt6358-keys")) {
+ 			keys->keys[index].irq_r = platform_get_irq_byname(pdev,
+ 									  irqnames_r[index]);
  
- 		error = devm_led_classdev_register(dev, &led->cdev);
+-			if (keys->keys[index].irq_r < 0) {
+-				of_node_put(child);
++			if (keys->keys[index].irq_r < 0)
+ 				return keys->keys[index].irq_r;
+-			}
+ 		}
+ 
+ 		error = of_property_read_u32(child,
+@@ -369,7 +365,6 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
+ 			dev_err(keys->dev,
+ 				"failed to read key:%d linux,keycode property: %d\n",
+ 				index, error);
+-			of_node_put(child);
+ 			return error;
+ 		}
+ 
+@@ -377,10 +372,8 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
+ 			keys->keys[index].wakeup = true;
+ 
+ 		error = mtk_pmic_key_setup(keys, &keys->keys[index]);
 -		if (error) {
 -			of_node_put(child);
 +		if (error)
  			return error;
 -		}
  
- 		priv->num_leds++;
- 		led++;
+ 		index++;
+ 	}
 
 -- 
 2.43.0
