@@ -1,156 +1,165 @@
-Return-Path: <linux-input+bounces-7264-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7265-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7031E99916B
-	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 20:59:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C8D999303
+	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 21:48:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 731321C218BC
-	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 18:59:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 34BA61C2242D
+	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 19:48:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 542341F12F6;
-	Thu, 10 Oct 2024 18:35:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 552381E9085;
+	Thu, 10 Oct 2024 19:45:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SbJseFfK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NjD19mG2"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B62D1F12F0
-	for <linux-input@vger.kernel.org>; Thu, 10 Oct 2024 18:34:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F9D1D0DC9;
+	Thu, 10 Oct 2024 19:45:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728585301; cv=none; b=ETzru2+J+oFBdXD8i+LkUarA+wYzNa/BQVudbMlfHj61sX7vv7cmNDUPmeilY73lppdthgHyDJzMo5KJfdqdz179oEUCuC18EG6OEI2z9uoDoQYspCTU27G14q9gew1il3M4dl7k2UbmNbMCmBSYKZwYtPWuRfzA8CRfDJqgLrw=
+	t=1728589536; cv=none; b=t+7JSbO2xHE4lEKFoTp2xKG+s1uRY15pqnvlaQXxkmtdF6wYP37DgwWZaN4wQ3h0Jv8dPPDe1XIsoeSkGuAJH99ePbJamSJVsqAhCygohn08tfdRyMQ/NXy7qPRekK7RTFaHG65p95agaFJUa0hlijopBxAlpHOE2SmjEj0WUIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728585301; c=relaxed/simple;
-	bh=5H0TXKb7vdMMBfioB1w565xsNdpUuNNsw5k1MJOU+qc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bmzxj0FXZ9V6mwh872FfukrNJJ90PMnCtcGkuUSip9VjgIefU9z384C+Msv1SCvetVwtlw4KofpLqz6KMNegQppPivz7Q/kfoiJyUUa+KLaY4sqcIv6/tUcGelaf9jnVVCoL1eUHNAfwGMu6gJl0x7hmzschlgE7BFANbxBDnzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SbJseFfK; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43057f4a16eso10494655e9.1
-        for <linux-input@vger.kernel.org>; Thu, 10 Oct 2024 11:34:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728585297; x=1729190097; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ytCziD1c5I5FhCXF5EK5g0FeePvbLPZ6YQt0NDF0j9M=;
-        b=SbJseFfKB5iTfiX6Q+huR0onyNzE3nj9ar6pMNaTyUeaj1Ukm2/6KVHBPIbpbhefdN
-         FCaJnJ0XXcGNZb9WnyKF+dygNphBCMKUjYJKEVanq4IiL6QEjfOWDdVXXVgr7AhbHxkt
-         shZ5Uc50rQp22ihdNjuzJaRvHxATDoi7NLjUeFKqN/3U+euQhEU3jnZ811Ah77r9RnhJ
-         1r+5G7E0OWJNSNGAbZ/f9BkGV8BjrhCvo10KO/KeYVhyNgL0ZHw5vAP/6rLjJ2/bU4+c
-         G9E772X9u7u1UVpu7ERvlJIKkuj5jpjSi2l6KrK3O+M4rqUnhpypLMlp/c2ADJlHdgMQ
-         VBTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728585297; x=1729190097;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ytCziD1c5I5FhCXF5EK5g0FeePvbLPZ6YQt0NDF0j9M=;
-        b=ZWOGmDbIvqgSJ09T1Vxs1asDtPU+A/2ZOvJB9T0OyPKQnxdUG36AsUgdwtsLrwABTA
-         cKV9YdBcC5Tq59+Jx83BdIzO8Uo1/1ZymCOwos924deW2GmKhzaIarGN2XFaFv6Zd0Gs
-         KIEWmSei7cpK+J+kL7caL5DgMPL15TuXpbWpy/WrW/a11+yaWbStdfm01ew6+qANteVs
-         KWQLjq6yd5a3ahwyLEDlh2bhDsXT7gTJBGNmIls7r/9d7ON7H1u4wPCdukActyxx/whu
-         +sWlquJkhJd5duWZrPKdt08oFrfgs2ivFx7wh6qSEbmZDYkiJZPQVDQw5Wjqi+FCZYoz
-         wb8w==
-X-Forwarded-Encrypted: i=1; AJvYcCV2NBBjwCXh5G29OS5tmwt0d/++Wd4I4XOGDoQA4fVpcEFbceaeN+GaTnQwitM+YExvVrgtSDct8m4FCQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTRifrGYwGXk7pjbiHHN4/02AmMM4TOPh6oETrxsftBVWSSSeN
-	qezgLtpfoteVFK0byiywehZnAewiwbqbLrgiys9qZGstByMnK0ovv4ABfQqDGd8=
-X-Google-Smtp-Source: AGHT+IGrQtiU9KkPJvVdlsqZUQMKOCUeX11EZAgMHCeWVATX5aFzmtkTu4Efnh91V5tJdIM1vfefqw==
-X-Received: by 2002:a05:600c:46c9:b0:42c:c401:6d86 with SMTP id 5b1f17b1804b1-431157e56e5mr37151355e9.27.1728585297410;
-        Thu, 10 Oct 2024 11:34:57 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4311835696esm23005225e9.37.2024.10.10.11.34.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 11:34:56 -0700 (PDT)
-Date: Thu, 10 Oct 2024 21:34:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: Philipp Stanner <pstanner@redhat.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Basavaraj Natikar <basavaraj.natikar@amd.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Dubov <oakad@yahoo.com>,
-	Sudarsana Kalluru <skalluru@marvell.com>,
-	Manish Chopra <manishc@marvell.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
-	Igor Mitsyanko <imitsyanko@quantenna.com>,
-	Sergey Matyukevich <geomatsi@gmail.com>,
-	Kalle Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Chen Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>,
-	Al Viro <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mostafa Saleh <smostafa@google.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Hannes Reinecke <hare@suse.de>,
-	John Garry <john.g.garry@oracle.com>,
-	Soumya Negi <soumya.negi97@gmail.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Eric Auger <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>,
-	Marek =?iso-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Rui Salvaterra <rsalvaterra@gmail.com>,
-	Marc Zyngier <maz@kernel.org>, linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-	ntb@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-staging@lists.linux.dev, kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Subject: Re: [RFC PATCH 13/13] Remove devres from pci_intx()
-Message-ID: <0990d9f9-cab9-44c2-b2e3-bd8fa556cc02@stanley.mountain>
-References: <20241009083519.10088-1-pstanner@redhat.com>
- <20241009083519.10088-14-pstanner@redhat.com>
- <7f624c83-115b-4045-b068-0813a18c8200@stanley.mountain>
- <f42bb5de4c9aca307a3431dd15ace4c9cade1cb9.camel@redhat.com>
- <20241010114314.296db535.alex.williamson@redhat.com>
+	s=arc-20240116; t=1728589536; c=relaxed/simple;
+	bh=fC6e+HOlGju5RcSXlGfj2Cl4wtqqEoSiLxJ4MTzXUxc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=srET88humDuviwX3LcaUCxlL5goKdL8hBYXgwA21walVbMQEia0yhU4NxymspJGvWZwdp9jMG8k87WE5f4TybU5J8+RnPeZxoEU3O2nvolrdGa2JnnJ4sgtXWx5SeqpS441HqZj+bWU0sCsxamDhVKWl+s86o6WOHa20msvtibg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NjD19mG2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7467BC4CECC;
+	Thu, 10 Oct 2024 19:45:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728589535;
+	bh=fC6e+HOlGju5RcSXlGfj2Cl4wtqqEoSiLxJ4MTzXUxc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=NjD19mG2aWWowxO4lFiSKKhvgV+HjLCAOa22Kwfr/eYs2kN31ut3y7oMTGrapNAoE
+	 rm0agtMbmy7IUTutZW/+7izZZ6XjvCcQ8Ypz/4p/CaPl9Ik9PSRlWS9J9mNViV23Bv
+	 TPwab6so3VwAP1vwOBOf8TDVyPLZlbdOhFG9KKsODlMYll29HI04oHq1p4EwLWHRFY
+	 Nq7jgwgfWX7gE7YpH3OAZN9gDBYqcsq3/llgb0vqufVyhMefwjqJc3WkKXUG/DdF9Q
+	 sbyPWODUBvh/zOC98oLRyccnYs8U+ucn6uWRsE9kDELWM07r48xQm0u3uRG3l9NOLd
+	 thYYR1fqfAa9w==
+Date: Thu, 10 Oct 2024 14:45:33 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH 1/1] PCI: Move no_pci_devices() to the only driver using
+ it
+Message-ID: <20241010194533.GA575181@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241010114314.296db535.alex.williamson@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241009105218.7798-1-ilpo.jarvinen@linux.intel.com>
 
-On Thu, Oct 10, 2024 at 11:43:14AM -0600, Alex Williamson wrote:
-> FWIW, I think pcim_intx() and pci_intx() align better to our naming
-> convention for devres interfaces.  Would it be sufficient if pci_intx()
-> triggered a WARN_ON if called for a pci_is_managed() device?  Thanks,
+On Wed, Oct 09, 2024 at 01:52:18PM +0300, Ilpo Järvinen wrote:
+> Core PCI code provides no_pci_devices() that is only used in the
+> pc110pad driver during init to detect cases when PC110 definitely cannot
+> be present. Move this legacy detection trickery/hack into the pc110pad
+> driver.
 > 
+> Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
-To be honest, I also don't mind if you also just merge the patchset as-is.  I
-was mostly just throwing out ideas.
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
-regards,
-dan carpenter
+Thanks, this is indeed a gross hack, and I'd be glad to eradicate it
+from PCI.
+
+> ---
+>  drivers/input/mouse/pc110pad.c | 19 +++++++++++++++++++
+>  drivers/pci/probe.c            | 17 -----------------
+>  include/linux/pci.h            |  3 ---
+>  3 files changed, 19 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/input/mouse/pc110pad.c b/drivers/input/mouse/pc110pad.c
+> index efa58049f746..f4167a7e71c8 100644
+> --- a/drivers/input/mouse/pc110pad.c
+> +++ b/drivers/input/mouse/pc110pad.c
+> @@ -87,6 +87,25 @@ static int pc110pad_open(struct input_dev *dev)
+>   * that the PC110 is not a PCI system. So if we find any
+>   * PCI devices in the machine, we don't have a PC110.
+>   */
+> +#ifdef CONFIG_PCI
+> +static int __init no_pci_devices(void)
+> +{
+> +	struct device *dev;
+> +	int no_devices;
+> +
+> +	dev = bus_find_next_device(&pci_bus_type, NULL);
+> +	no_devices = (dev == NULL);
+> +	put_device(dev);
+> +	return no_devices;
+> +}
+> +#else
+> +static int __init no_pci_devices(void)
+> +{
+> +	return 1;
+> +}
+> +#endif
+> +
+> +
+>  static int __init pc110pad_init(void)
+>  {
+>  	int err;
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index 4f68414c3086..2704503fa8fb 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -65,23 +65,6 @@ static struct resource *get_pci_domain_busn_res(int domain_nr)
+>  	return &r->res;
+>  }
+>  
+> -/*
+> - * Some device drivers need know if PCI is initiated.
+> - * Basically, we think PCI is not initiated when there
+> - * is no device to be found on the pci_bus_type.
+> - */
+> -int no_pci_devices(void)
+> -{
+> -	struct device *dev;
+> -	int no_devices;
+> -
+> -	dev = bus_find_next_device(&pci_bus_type, NULL);
+> -	no_devices = (dev == NULL);
+> -	put_device(dev);
+> -	return no_devices;
+> -}
+> -EXPORT_SYMBOL(no_pci_devices);
+> -
+>  /*
+>   * PCI Bus Class
+>   */
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 573b4c4c2be6..4757ce7ccd53 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -1107,8 +1107,6 @@ extern const struct bus_type pci_bus_type;
+>  /* Do NOT directly access these two variables, unless you are arch-specific PCI
+>   * code, or PCI core code. */
+>  extern struct list_head pci_root_buses;	/* List of all known PCI buses */
+> -/* Some device drivers need know if PCI is initiated */
+> -int no_pci_devices(void);
+>  
+>  void pcibios_resource_survey_bus(struct pci_bus *bus);
+>  void pcibios_bus_add_device(struct pci_dev *pdev);
+> @@ -1969,7 +1967,6 @@ static inline struct pci_dev *pci_get_base_class(unsigned int class,
+>  static inline int pci_dev_present(const struct pci_device_id *ids)
+>  { return 0; }
+>  
+> -#define no_pci_devices()	(1)
+>  #define pci_dev_put(dev)	do { } while (0)
+>  
+>  static inline void pci_set_master(struct pci_dev *dev) { }
+> -- 
+> 2.39.5
+> 
 
