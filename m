@@ -1,93 +1,84 @@
-Return-Path: <linux-input+bounces-7253-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7254-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D005998C11
-	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 17:45:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C46CB998D4E
+	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 18:25:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7FD2A1F2283A
-	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 15:45:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E63271C20CB4
+	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 16:25:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CEB21CEEA4;
-	Thu, 10 Oct 2024 15:43:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 286077DA62;
+	Thu, 10 Oct 2024 16:25:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ZVwtjTI9"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="P28AFl/Y"
 X-Original-To: linux-input@vger.kernel.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11013033.outbound.protection.outlook.com [52.101.67.33])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2074.outbound.protection.outlook.com [40.107.92.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C721CEE9A;
-	Thu, 10 Oct 2024 15:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.67.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB6B1CBEB9;
+	Thu, 10 Oct 2024 16:25:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.74
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728575027; cv=fail; b=sh3JCRTxxDijfEZTLWNb2OaYSXuRTpdLASFxYec6yJEYmpJJ+gX6bUHVCIckzaqlW48X1oE6TCW26Ji15jE4yPYbYDlEWUvQuYsFwAOIo0AUYkEl7ITnlx811GfsXGYP6gYNK9cnMGiPIpphWwOopGwAqgY0rHAF9q5yJSlSeMg=
+	t=1728577523; cv=fail; b=I/ywoHjTJ1BQOzFfJLgGDCXQfznkgJooTww8/Yz3g0Gwe49+3dgmwjkk2MYoSEyR9KSylyDmncRykbWE5GALQfbLllqi5KFRRp97pieH8SkbjBSt0bPQ4+5dE/JpNIhj+okCKpK97ErRr2CKfs7nP8DIpd0jnnT7cZ/CAONnI1c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728575027; c=relaxed/simple;
-	bh=QgZ4qpuBe2Iuf+86t5wdsnelCC4x9/FyyKlFxjiYoLE=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=JJEBN8mALQhNIQvU8prfKDWnrfFcILjzjZv/VoCUeWGpU8uKh9tDcn9Th/j6PDq1sbMBtubdA3eiGYJLQDaQzVJPF/MLUIzhMvOXAZwRrpvcutFEACfn6ONxROQ+olJuFONY1bFd+ZvXIUaB3uD0a99751nZsPPftze1Er6jeBA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ZVwtjTI9; arc=fail smtp.client-ip=52.101.67.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	s=arc-20240116; t=1728577523; c=relaxed/simple;
+	bh=S4tVmweDF5lQLlFiqwpaklKiBzDpgpPTqQcCZ9QXnO0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=RwH8+y8N40XG4ta5DcB8r3XKX7LdQ82sKczYXhdfkiL4+JrbVZcap5CCQvCxjMDSFMCxIOGcw8jI0aUKNIX2kyYtPRO02wPkpC0DO7bc3cIUG32gMwVzMXj4DRuwVr8yyZhg90kQEdnsVR9dnj5v3CZQNFQUSxPO78SXzbkkXps=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=P28AFl/Y; arc=fail smtp.client-ip=40.107.92.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nmw4lffN9KasulZ5QIlg2RGQhF52b3Lb0WRAQNlXfxx7SltPwfY6hXx0qTOr7x+u5XaOmi6nxqhjDP+defVBF5E1jDsHaa/2zUia93UBYIe5cs5VBb5EVFOX3VJG4KNvnUfa4DZc4TCg18mZyD1Gi7oYqE1li4NUtjMHin55EFCx+nzU4dG0jaW8GbjiIBpYTpg1SHPXEo7IkDOQgp9sG0ESUghcCZJG4UUabwLB+XqxKbipOdg2KAdJYYe30XIm8ThCSQc0XwhM5HmYXAxfVklYiiNpWmt3CHAAfPfIMpWf+UJz/7rOZCOPBXOuTZGLKn38lhFQgH5qcapW/MMTiA==
+ b=EjrIU0zy4kfatcYdQzlbM4eS+PIgxDkZ6LzsMB5UH+V+S1BT68b2zpai21BGwBbvdRDJj70CwIufdJqx9rtCeRpa9LEWO0A2czTm8Nu1MG7qSwneqNVmpiuL0JxT0eGuu96cYDoRIpd2q5ss7fXoWq7bHeciGKMWokDbddCH4/gPsutWIh9XznYjOIPPVAqx+QE/vG1+TU7xFxdh3KcOhEbJAqW4KPncRcha/DFY6O8en5DaEhhAdL65r71OFjzaviYiNmn7d8teodzwo4EBc8VlmWAL5PGCRNGAealeXO23xRqggauVdKeeivPr+Xgjxomp/e7LXEytLOmaKtQFWw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/5yBaguEH7/lRAPP2avNlNp0tYwa0TnmzDd43PItTlY=;
- b=uQm4grj75S5YEVBa3SZkjqjOvshv+34XJEkH4bDR8/y1atvObHF7MXUlOMeWTfUTS7gXptZ/6bsiiCsfRcLbbm46uC/1Cw7mdtPwld6roqdo7/OToJvNMQoylkoG7BlFYv9QRWxSQOQSHiJPI+YFRCSnQbuGEOQO/Hajd4kU7Ddd5gKfsJlw8xrVUkZj8h/FYNAgQnp3EHA1nTPy4db6Tj7fL0uBWyG9bfCdc9QMbCAefeiNxquONBevM5ZwSK5S+rZ7nL5cyXleu5kJrLElDhWaGtPspDnSdFktk6ydzhhTN2djMFKMgZfDw2W9xm9P7MRqa+8iUQKK3keaLngvJw==
+ bh=Zlg4cMC8wI6mM+IBED67GFgducUrFwgohlolzCWLYLI=;
+ b=zEJWVRmLiLmCg20hXEpvyibefAOP6hWH6xYtipyZZTxIaeQ/qcdczyQlO2ksJvOwFt1hnvIXuLWiw6JhiCZuQ1h/Ozq4dLjQMqMzTsVuqjUnEIEWYDPDB503/QPhM3ac0PmjWY4jwp2A61CtVf1o2csVZbZP++VYoZgcWXTcB/JgQmkQ2icjUpE8sQO8KXAZe3lDA5WRSW+n7QCJPX4ysYSXXOZdrwRYSQ+iWenIbO+VGq4wpr+LNJKmtLoEy8F/f23CUlDR1oUMhWqqrUJh6/AMo3ynbkGa/xnE2u/OOW0R8hT02+BGTQ5bkLQiKKmUxgZijvAklhpIpJ3GLJn1Gg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/5yBaguEH7/lRAPP2avNlNp0tYwa0TnmzDd43PItTlY=;
- b=ZVwtjTI905LcTjv1H29DZXwpjc+6loB+u8W5drIo/ZZcYUM0blZH0Xqkg76FWNr8GK+nLEbhy4vsuTRW2T28FjhfVXpBYotRXnQ0Z1MmMTWaBb//ga8xdebJMWCDiwP7Ahdd7046rw58KchF4GKnVOn4ips/j8jDaMsXp3gKCKzl8Iw5a/5dmtplXELavn5La7EYXWNhJ/lglCvQ31jzhWhRZJUTTFNiZYQIu05uNEBRtwXDpvCINZsEkY0bizpGMofUk9eXwCToP+3Ot3Xdse+tijriKKHdJBdIS/Sm7Q5pJeYW2k0AVVSJi2Oi5LhucYrQ7ZnYazJM0wVZukki9g==
+ bh=Zlg4cMC8wI6mM+IBED67GFgducUrFwgohlolzCWLYLI=;
+ b=P28AFl/Ys2O+zc4m2AT01Z5ojgpsEWArK5p//sWKOsJY25Jo869Xgbhl61iQct54y0fz9oPQoizZs6XFwIQgtvNtCVQ8txFlB5aNOA1mzaWreoOzKLendj1zKl/Scxo46x+gvGdKcEUT3EQKbCtaR7MsVIUaJXfik2VMcj8f9N0=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by DU2PR04MB8984.eurprd04.prod.outlook.com (2603:10a6:10:2e3::8) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by BL1PR12MB5924.namprd12.prod.outlook.com (2603:10b6:208:39b::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.18; Thu, 10 Oct
- 2024 15:43:41 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%4]) with mapi id 15.20.8048.013; Thu, 10 Oct 2024
- 15:43:41 +0000
-From: Frank Li <Frank.Li@nxp.com>
-Date: Thu, 10 Oct 2024 11:42:42 -0400
-Subject: [PATCH v2 5/5] dt-bindings: mfd: convert zii,rave-sp.txt to yaml
- format
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241010-zii_yaml-v2-5-0ab730607422@nxp.com>
-References: <20241010-zii_yaml-v2-0-0ab730607422@nxp.com>
-In-Reply-To: <20241010-zii_yaml-v2-0-0ab730607422@nxp.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Guenter Roeck <linux@roeck-us.net>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-leds@vger.kernel.org, linux-watchdog@vger.kernel.org, 
- Frank Li <Frank.Li@nxp.com>
-X-Mailer: b4 0.13-dev-e586c
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728574994; l=3530;
- i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=QgZ4qpuBe2Iuf+86t5wdsnelCC4x9/FyyKlFxjiYoLE=;
- b=FwvYC2wbbYrnZIu/cKhwgmJuKtMJgH8bOQDFnzE8CrQQ5sOacTcY7/t2hQyMrQJHC9bVS95gz
- VyqB5JixYsaAnTyP3D9UZpGIn/VzS8p05s3pwEGqA5rbi8/X3eSEgBK
-X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
- pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
-X-ClientProxiedBy: SJ2PR07CA0022.namprd07.prod.outlook.com
- (2603:10b6:a03:505::24) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+ 2024 16:25:17 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%6]) with mapi id 15.20.8048.017; Thu, 10 Oct 2024
+ 16:25:17 +0000
+Message-ID: <3409c03e-35fb-428a-9784-0069b63a83bb@amd.com>
+Date: Thu, 10 Oct 2024 11:25:14 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: Wrong piix4_smbus address / slow trackpoint on Thinkpad P14s gen
+ 2 (AMD)
+To: =?UTF-8?Q?Miroslav_Bend=C3=ADk?= <miroslav.bendik@gmail.com>,
+ linux-i2c@vger.kernel.org, linux-input@vger.kernel.org
+Cc: Andrew Duggan <aduggan@synaptics.com>,
+ Benjamin Tissoires <btissoir@redhat.com>, Hans de Goede
+ <hdegoede@redhat.com>, Wolfram Sang <wsa@kernel.org>,
+ Andrea Ippolito <andrea.ippo@gmail.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+References: <CAPoEpV0ZSidL6aMXvB6LN1uS-3CUHS4ggT8RwFgmkzzCiYJ-XQ@mail.gmail.com>
+ <5105b392-dee9-85fb-eeba-75c7c951d295@gmail.com>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <5105b392-dee9-85fb-eeba-75c7c951d295@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA0PR13CA0018.namprd13.prod.outlook.com
+ (2603:10b6:806:130::23) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -95,222 +86,190 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DU2PR04MB8984:EE_
-X-MS-Office365-Filtering-Correlation-Id: 74b50f0e-e150-4beb-e3b6-08dce94250f3
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|BL1PR12MB5924:EE_
+X-MS-Office365-Filtering-Correlation-Id: dc137c7c-1b91-4908-4769-08dce94820a1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|52116014|1800799024|921020|38350700014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WWRTaGlNS2o5c01yRlBXTTFlMXA4TVdLREJ1VHc2YXBvazhtcWREWGxtOFZX?=
- =?utf-8?B?bkIySGU4dTVzOGI5OEFqbFM1eHBERjQ4U3U2VjJWZHBJcEZRY0k5STBoWDZH?=
- =?utf-8?B?Y2ZFQjBJYmROZXBKc04vbmliNVdXM29jZ3VYM2I1WlFsbWs0TEdwcWo0bVc3?=
- =?utf-8?B?L0x1UEJGRVBNRGE5elRDdnliYk9IMFM4ekV5WEFsVUxXbXZTbUg4OEc4YXlE?=
- =?utf-8?B?a1cwbmdaME5VRHdJYVNLb2hDbVZ6VHp3OUxYZlloUE5nVFZmNngwSnVsVHdV?=
- =?utf-8?B?NzFWWnMwZmtnY1JicnlEWVpYWnQ1YVdTc3dHV3NZNXo0c2tiTEIva0EzQWZt?=
- =?utf-8?B?aG1FSHdyd05uTXc1YkhBb252RlVraEtubXRmMERYRTBFYWVuVzVSSXE5MTZV?=
- =?utf-8?B?NXRMWm83cWtEVGxyYStPdG5Yd0pndHpHOWNUV3VMaTlUYUZMMTNyYVcyNjlx?=
- =?utf-8?B?cEp5UEplVlhaSXJiSVFWejFHZWZSNCtKZmNWRXMzVVdIejhydlYyR24zQ3kw?=
- =?utf-8?B?V0VYUDZiUTBsM0pzT2IxYXY5alY5djhsMU1LQUtyVmdKRXJTTUg1aUp0UWVa?=
- =?utf-8?B?RVgzQWFmTFkwVHBFQU9TZm11cXEvNFk5Z0pZNXdSTjFNWEgyZVM0L0hkWkdF?=
- =?utf-8?B?ZTFCeTZXQUoxdXpWSzBYR1hRbk9aWmlrcEJXWmVTODVMODNBUzhocU1YWTdN?=
- =?utf-8?B?cStyVTRtNk1NbVNmb1VoQjVWSmxLZmVrNmdaQUNNVXR6V2Q0S1ZLenRKb1V2?=
- =?utf-8?B?TXFMR2pJVEovWndlOEhMcGxTM3NOZUFSemRod2NBWE5UZTJNTldMTnBTTUhy?=
- =?utf-8?B?TjBmaSsyZ3MzWi9WaEhRR0plNTVlZzhQUkdMcnphMTFDdTJXeG5BVkgzU2Vo?=
- =?utf-8?B?RElMRkw4NVlHR3N3QUk4UEtEZjJOQzl2eXVzTTZMaHFQMCs5TGdQYUVZbk4v?=
- =?utf-8?B?SmpoejBjenN5WjRQb1FHbmU4YkZGRnFwczNhOUFreStCVk9QYndwVjl5cURp?=
- =?utf-8?B?b2NoYjVqcmIxWkh3MGFPdG1MOE5Vb2dPUHJvU1dZMkFOQWptMDBLbi9uVU5U?=
- =?utf-8?B?UnpCOFFaRHNMYU1DMnB0OUFRT3dZQloybG55T2wzVk5BdllDNGphdlUzQ05i?=
- =?utf-8?B?WnZNT1NlR09GWTdWZEVrRUUwSHppSHc5RFF6dll0NWdBUVJBN0l3dVFscU8x?=
- =?utf-8?B?dUpHTjNOMkxDK1A3ckdwM1MwaFlLZG45WnhsclJaM1c4Q2dQUi9QVWdNNFBs?=
- =?utf-8?B?RnpVK3ROK3J6dWh1cnA3Nlc0ZndPMzM2RnBLd284Y2k1a3k0QS9qdk44WEt3?=
- =?utf-8?B?M0oxNlZpZ1RvcklUd2hyc3NzV21OWDExQ0R4MnJnT3lMVjZoTG0xMUs5bXBp?=
- =?utf-8?B?bWdFSExheGQ1OFZZUDJ0Vm02ZmtFeVdiVXU1R01FZm84WTZLTDJPVjdiVkxD?=
- =?utf-8?B?a2NPVzBwakI3TmgvMUdva1dwaXBoRk1XcXI0TmRRT3hidS9DQnRRR0NvVk16?=
- =?utf-8?B?TUdLeGJ5ZEIrZGFiWkFRMzJjQ1Y5MmpTVDlWWU9GdmlBSVpMWFpLQUsxS2Ra?=
- =?utf-8?B?eEo3dElKSE5LMTRVQ0JIRUN4SDQyODFPNFNoMURoUXNQZUgyR0h5K3JraFI2?=
- =?utf-8?B?aGEraTZmZWZaTTlQRFR1cWdoUGU1Q29nbU9tNzQrM2h2eDZKdzFRL2dPR3dY?=
- =?utf-8?B?WkdsS2Z1V0wySit6aXFPTmI2RmMyV01xMy81OVZmQy9meWI2TDNsUGVERWli?=
- =?utf-8?Q?Kd1aJ4JHeEkoIwOgbQ=3D?=
+	=?utf-8?B?c3VRL2p4ZU9iMHphNmxDaFJEOU0xZ0JRaXR4RFF3M1BkMmpTQjNOdEdETUZI?=
+ =?utf-8?B?dlBHaCtvSllnRkFIdXAva3lwYzNyUnBhUFQ5YUNNRWpIYmJjTEF3ZWdIb0Nk?=
+ =?utf-8?B?Wm1nM2tYbkMyRzNxaWNXN0RGM1hjQ3FvdThOMThTV3BUazhPWmJVY2gxVWhz?=
+ =?utf-8?B?TkUvZlNSU2pkNmUxc3RLbzNpemFrR1gxdjlaMXR0a204SjB0VHpNckZLZGpl?=
+ =?utf-8?B?TFJxNFNsbWdTVjd5L2VlaHhJbi9sNWxnYVM1ZENhUkhzNTJyYkg0N3dkTmps?=
+ =?utf-8?B?V1lwUnJnWjFWZ1ZNM0pmS0FVQnRMaUhiWG1Ud1hjdFh4bTB3alBWOUhxK2ZQ?=
+ =?utf-8?B?cmJZaDdFcWNuaU1jS2JhbmdXN2phaHJpaVQ3WFZTdTVUbk16R2J2bVA0ay9Q?=
+ =?utf-8?B?WFZrRmI4Y3hjWXMxNGZWUVhHQmJMYU4vWHhQbmVUbFpOUU1GYUIrOStjNDNo?=
+ =?utf-8?B?RnRpVU5KaU54M0FkUG1PMk5aa0RQUFphdXVwTFFMbTRvWFNwWWNZNjA1cmpw?=
+ =?utf-8?B?b21rc29mVXVaVDJzbTdKMXp1NVJkaTlBL3hROWZEV3MrbVJCODdOaElzVzZh?=
+ =?utf-8?B?emJmR2d2NmRJVDJLaENMeGN1VUw0SVFRWlN6ZHlvTjlzbmFoL3p2c2RqL3I4?=
+ =?utf-8?B?WXNhYmI4U2duYm9JUTRQdzI1ZTQxN1p0UmY4QkZCMWYwTGNRenRZdFVCYWxj?=
+ =?utf-8?B?OFUvaXF0YmtaL2lwNElNVTBsVGgxWTA5RVcwTWM2WHRsc01YTzA5NENoMGhH?=
+ =?utf-8?B?YmdoZEpFd1dNU25VcVpCYldQYXdQYmVyR2NjYzNzaWhva0NaYlpDWXFwbnZh?=
+ =?utf-8?B?NVc2ajJ2ZGEwamNDbk5oeVpSZTdoNWNSYTdVUmk0ZmNsWDI0MW5wQnc4aHZh?=
+ =?utf-8?B?SzhJaVl5SzFveXNnTkRucGJPNGg3L2dDMC9RcjFqbkQwVkNPSlZLbThvUHhP?=
+ =?utf-8?B?blVzaFdsVXBUWlc1MHNhRTZpQ0kwU2FlZXZRbEF5REljSm83ZE5CYWN5OS9a?=
+ =?utf-8?B?OElDTkJTZUl6ZlN4Yndpc3pldTBkWmltc1FJVTh4NGRVVDB1Q2Y0NzJPYnc3?=
+ =?utf-8?B?Z3M3bFhIcW5ueS9IalRPaXJyLzNETjFXemowSk5PTjBqWHhEOFgwTkpqSnNM?=
+ =?utf-8?B?NEJrZjdHWGF4dFpqeTEwaHdRbll3ZkVmVzVkWDU3ZVdFc01lUmdrV1RDSi9H?=
+ =?utf-8?B?K3o1Z0lDMWpCRVJwK0Vxb1ByTkNlZnU4MDBReXMxTkFIYit5dTBLbzdVVkRD?=
+ =?utf-8?B?NXdRUzk4VC9Kbzg5UG5rS2J4Rmo4MWhGNldPS3pQWTlIOU54b3lLTzI0R015?=
+ =?utf-8?B?QVNFbzM5SHhSK1ovMGdMQmd1U1J0aDRoaFRYdVlGRjlqdFpTVGVnZmVQUHdn?=
+ =?utf-8?B?S0ZRMUs2bTRKR0loV2xUK3gzSTFPRTJZeXVxWVc5OGl2OTJSekErNzFMNUF4?=
+ =?utf-8?B?WWpRWTRBNnNTSlFmLzdBREhMRVZmUHhucTl4c0EycGN0aWQyNFkvbFZrTTZw?=
+ =?utf-8?B?NG9aWnpvcVlaRlpITkJiMzhvKzBmL3ZJV0ZjK05tUEYyelFDc21ldEg0ZkJY?=
+ =?utf-8?B?WFBqdkkvbStPOXBsaXdyeFZqZVJST1JxMmlnUGhMNmFrTTJES0pFRk5Hdm53?=
+ =?utf-8?Q?juW1HUBbeOkwaH2s79aMqYZufV73I13DuDW2M2IpX94A=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(52116014)(1800799024)(921020)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aEhPSjIvemI4ZjZvQnFwZlRNZmUzMHZCTWk2cGRFOVlMQVU1bXg4N3Bpb3Bv?=
- =?utf-8?B?L1pLdUZ5SXloRzJnQjFJeFVLR3JDRkltUURVZEZJeWdIQmwzU0xVUDFZWkJD?=
- =?utf-8?B?UGlrN0t0Y3VXYnRSa2FBbUhiK0Q2bEF6dk5OYzl0ZXppM2JJQzlZaUlRQXFs?=
- =?utf-8?B?cGh1OVd6QnBPWFM1SHVQRW02Vk9SNXZpM2lqclRJWDNZYWxtUDg4R2d1TkM1?=
- =?utf-8?B?VmpUU2xQOGdEVU5INVdEcHNjOVRXOFVDZkFDbUVoTTlsbVFYN0dvTzEwbzBk?=
- =?utf-8?B?WDUvdDlxampuaGQvWjc1ajBRcllNUWZaWDd3b3lXWnUyUmVGOU5XMlBRREk5?=
- =?utf-8?B?U2JTd0F2cFNwbisxNWxNa2JVK0N2S0JjL0IxcEZrS0V1dVZQbE13RHJjM0RP?=
- =?utf-8?B?UWtxUXBvTFZWVFFuOGNGQ2JBVmt2WFUrbFVFeGFGckh1ekN5bjVqNksvM3N5?=
- =?utf-8?B?NWpCZHlack9BR1pwazA2M0lKd0FxVkJZYmc5eTJ2MzNibmVSdWMyM0swUXND?=
- =?utf-8?B?NEE4Sm1FZ0JDbXlyOXNhaXFZZ3pad24rRTJ2VCtobUphcklCNmtHSFFOcTRH?=
- =?utf-8?B?ZENiWUdXY0hWVXU4aUQycXFod1FSQkNqbHdJQytVSWhzTjFIcThpaVlrS0RO?=
- =?utf-8?B?bnlFUHFYaGQxcy9vRXRYMUg2bDJyU3dZT2QwcmtlRjFBcGE2cjFVTDlLNjdK?=
- =?utf-8?B?Y2pLNkQvRmU2NG5sN21YeEp0MU4yNy94NjZWREk2MHlKRXB1ZVEwQk5VdHZw?=
- =?utf-8?B?cW5DM0Z1M2J3cjZIVkpzK0xLQ3phcXpNYzBQVjJTaUp0T1FpdzBoL0t1S0l4?=
- =?utf-8?B?UmxybElaNFZUMEcxVlozS3p4TEY5bmdrUjZqSUVuUlNpa1hscFFqSlhLV0lz?=
- =?utf-8?B?OXN3MXZJZ3R6ZXJwekNMWlQ0bEx0YmF4WE5WeXVSOU9rWmtrRmVRNjFENG9L?=
- =?utf-8?B?czkxVmdZU1JwN1dOdklIZGg4ZmlNM29FMCtEMUt0d2tpSGgvWVlyeThXbFQ0?=
- =?utf-8?B?aGxuU2Mwd0twcmxNQnFyNzlFTS9QdHdIMnJ3UmN1YnVIam5qNEgwcTBUdDhL?=
- =?utf-8?B?eXprRFJ2WnU5Ui9RTkNtR1ZEZzRQeWZZOG0rV1RsdHRtTEFVVk9GRnk5T1Vo?=
- =?utf-8?B?ODVvcFE4WDlHSitWWVJNUWk4aTRRQ1BsRWpESlRNRnFXZFJSbEp0aEhXb0pP?=
- =?utf-8?B?WVhqWTdZL2QxaUk4ejFSRlZGQUxEbGN0emZmekVIZ2lCQzRvbEw0ZHZQblU4?=
- =?utf-8?B?UG01NzRvU0pFNkZ4OWNaeGdMbmRKb1BUNzhFUHJUNGlwTDQ2Y2UzMmtwYmtS?=
- =?utf-8?B?SkF6cEVxVzFIZ2ZPcEFMQWdkQytGQ05BbGU3VSt3UlpiMjdVd2VaaUp1NFpF?=
- =?utf-8?B?ZTZNMDF0TDZBRldMYWZxYWNPbnBRTGs2NU9pOHdvcHpidzFwWGFvalU5V2g1?=
- =?utf-8?B?V2YzcFhwZWYyZFRIMXluZFdaUkpzRHNEZkNZK05jWUJhdlcxWnc1VFRiUWRR?=
- =?utf-8?B?QlFrSnczeUg3aHh3amQyRUszc1cxWVVybmxzL1lIUkd5aktYUkZPTDhoVW1Z?=
- =?utf-8?B?d0pUeXhldWFmYlF5anN4WGU0TTU1bnkyWEFJMmZaYnN0VGZJOVlIUVFaY1Vx?=
- =?utf-8?B?NTZNUTJENDNabzVyeDN6eUlTZVNoSzAwc0l6UitGUjhObnBRL3phVU1aUTRt?=
- =?utf-8?B?YmVMSFpWRDJLQkhnSUNrTHpzVE1tWWI2REUyRHBUcWhQYkxkS3RNekI1Kzk2?=
- =?utf-8?B?bXhUM0x5WjdtV2Z6eUgzYnlycnl0S3FMeWhjL251WGpHbnAyR0hTU0c1U0VG?=
- =?utf-8?B?VGNvTVFtNjB2MElSTmZvN2ZEM2NtMWx0d2FuTXllbWVYd25TRW5XUmRzR0xC?=
- =?utf-8?B?MGVWU0pNUGljUVBkejFTTnZFd3lWZ1d5cDhtU3E4dVVZN3hNaG5IWUNubEJj?=
- =?utf-8?B?OG91RE5xWVh2bVphMkFCanBqYjllcnIzLzVXK0pqREM0WE5UcUJaOFBiRHRV?=
- =?utf-8?B?djJtSm11T0tHaEJqK0RSY0JVR05jbmkzR1luckxpdEtjdDliVmpvSHk5dHNr?=
- =?utf-8?B?akVheWhCVmM1Q3h4UE1xeDdCOFBrS0FEcWlsYzhIWUZIanFncWZ0NUg5am1h?=
- =?utf-8?Q?CVOA=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74b50f0e-e150-4beb-e3b6-08dce94250f3
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+	=?utf-8?B?ZTh2dXJrcGVjT1dRMWprOWljNUZ3Q29JcU0xTGlqNGYrejZkaDlISG9zb0FT?=
+ =?utf-8?B?MERPR0VZaGp0NC9zM3B2Z25oSGFlWDZ2VG01eXhPVGVCQkJLZWNoVjZweXFV?=
+ =?utf-8?B?MTNMakNmbEhSQTZEeFNSc3JGOHV2dG10ZHZaZm9BZEJHUmpqbUEvZFBPZW1i?=
+ =?utf-8?B?TkdYd1phdFhrNWs2YXowd3Q5VlJTSkdXalY1UHExcDNieGpHQytOdFFiaFZn?=
+ =?utf-8?B?eVQvMnJSVTVqMWZXZE1GWVFVTnJuZHpydVBXVlBobVM1dmMwNUFrWFJJVzB3?=
+ =?utf-8?B?YUEzM2lLejlQdXhhcmRLd1pCWjBwN04xdmpBK214RHk4bzBjc1RTYng5UmNq?=
+ =?utf-8?B?ZDZ4MC84REx5Zk9kQ09sblNITzkybTB3L2JTMWducWNzT0JaMHVsTkZ2RHgw?=
+ =?utf-8?B?MFROY3lJQUNld0tQZkgwcFJMODJxK3BrbWo5ckQ2UUlWSDd0cERmNnIxZ3py?=
+ =?utf-8?B?d1grb0FGL1RmRFBkcTFIdFQzY1Rjd2pWTTFhN1ozR3lWTHp2eXJhSFZJRk04?=
+ =?utf-8?B?eU1ISXJsVzBRTVMvc2NmYzRGUll2VjloaVppVGRGUkVGYndjWUVoMkF3OEpl?=
+ =?utf-8?B?THdDbjIzQm05cWFEUUFCbjRhamthSEhpdXgvdkFZNmZGTEVTOWludVNjYlJm?=
+ =?utf-8?B?NXRIV1NNZzlkNGlYTXFmcWQ0N2V4ZFFOeDFFVWJUSmQ4K2I2dmhVaVgxbmlh?=
+ =?utf-8?B?OXhVZ2diQURiTlJQTVFEMjdMczZEQ2lmMjlQVWtNY0NNQndwVzdmNDJEbUo2?=
+ =?utf-8?B?ZkhnTVAvZmNyWFdGa3hwYmE4ZExNTkVyT3B6akd6ckxoNm9IK3RKdHVPekpD?=
+ =?utf-8?B?Q0kySFZ6aXRKTmZkWkROdU1iUWtmR21RaFNJV3Y2QVNsU0p5aFVWQ214RW5V?=
+ =?utf-8?B?WVFwMnVHUkVnbGZkVmtSeklMRWE3K1AvUU5PQmZSY3NxYzZtKzBBNm9ldDdQ?=
+ =?utf-8?B?TlBpcU5hVVRURHJHcHkwQzZIVk9udXdxQ2g0cGhhNVJZazFOaUMrSFV3Mloz?=
+ =?utf-8?B?bjVOWUZpbTErRlFib0t5Mm5XaUtVZGNhRThFYkZoUFh2Mjh3aGpLTUJLdXN0?=
+ =?utf-8?B?b3dIZGVRUEpiUG81Mkg5RUxJbGpKaEJad3h2UjJkcUlMRUlLNmJFUEhUdDNF?=
+ =?utf-8?B?UEhoY2pjZkp3ajZTQzZOaFh6aXkrOGVUU0U1d2tDZWlGa3dveXc2cFR5QXdX?=
+ =?utf-8?B?UE41VVhkUHdvM0MyWHZGTk5VR3BPbVdwT295WHo3UXNMSEF1WEd3WUtiS0Zm?=
+ =?utf-8?B?NmZWc0lVdkIvZUJveHZvbjBJYktZMmZhT3ppSUsvb0o0SW5tRi9TOHJtMi9N?=
+ =?utf-8?B?ejBFQXZZQ0Y0STN1bXhEMmRVRGhBZXVzeDE4UWZab3JwWjlXYjQrSGd5anRB?=
+ =?utf-8?B?enE1TE5EWDczR1NZS1VZZjNaaVdmVTVCZFhNZXhRUi90WUp4SnM1cWN6NkRv?=
+ =?utf-8?B?cFRlMkZ5RjFQa2ozYiswRVQ4akFCd0NZcFpkSGE3enNxQTY3aDJsdkZ5cm1v?=
+ =?utf-8?B?OUY4THhXNlZQWnJkbDRHVkczbkZBNlpqcXU0V3BuaytHRllUTjl5ZFR1eVVB?=
+ =?utf-8?B?L0dkZHZMWGN4S3RoUmFiOGoyY0VJSmhJMjFRemFnZUE5blNudGdnTFhFYmRh?=
+ =?utf-8?B?SUNmaDFXc2doN3NhcDZPakZQY0FuZVhvdERLZVJtdWpNNXlvaHlnTHFQUzRV?=
+ =?utf-8?B?ZFllVEs2ZlM4d0U1UjlZWkxaQzVLTzFoOXNRWkdMTFhadFMyMzAvWTNJL2NT?=
+ =?utf-8?B?VVUyQ0F1Y3FlQzlYcFRMMmxMaElabm5WODhaSFlRL1NCWWRPOVVDSmlLY2tq?=
+ =?utf-8?B?MWhVM2RzekxGQ3pCa3lRN1gzeDJnWmJyQklSdWpiNFhoMmpJWTc2YWFYZ1JT?=
+ =?utf-8?B?UmlRM0IrY2p2QU9CSEY4SVAzUHV2bTJNODhHdjhoNVJPRVBJWWpEYzZ0TFNP?=
+ =?utf-8?B?VG4xZ3hnUklPV2paTGNmUk80Sm1iWnZyZlA0cmhGaGlKUzBwbTJWajNjWGVB?=
+ =?utf-8?B?S0Rpb2hoQ0pkM0dzMHcraEpXdmhuVTNZR2laZldtbmI3TEg2ZVZGcDNubmlT?=
+ =?utf-8?B?R2IxaU9OeTlIeURWNmNDMXdiK0VyRjVXYWI2WWswdjdOaFl5YmQ4U2k1TWVj?=
+ =?utf-8?Q?ioPPSn//1NudFvjW19MtbufBj?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc137c7c-1b91-4908-4769-08dce94820a1
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2024 15:43:41.6121
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2024 16:25:17.6446
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MXTd1nB1CLe1KLUN5UvDatwx6W+DFlr1sgB62EofxRPc8cBIdxBuZ0PBRdwtfg5gc0yX0U0GA3mHt52tQn4HfA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8984
+X-MS-Exchange-CrossTenant-UserPrincipalName: X45e44XmWf7FeLUZmmFHQYUv56pnbGAtjow2SREz7BKV0ah25mSfuiXGKtb4HvM3Z1uaRB4TbLCPXHU7Uetf5A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5924
 
-Convert device binding doc zii,rave-sp.txt to yaml format.
-Additional change:
-- ref to other zii yaml files.
-- remove rave-sp-hwmon and rave-sp-leds.
+On 2/12/2022 11:42, Miroslav Bendík wrote:
+> Hello,
+> i think, that SMBus works now pretty good and last problem is screaming 
+> interrupt from synaptics (1000 irq/s). I need little help to solve this 
+> problem.
+> 
+> Little summary first:
+> 
+> On this thinkpad is synaptics trackpoint/touchpad connected to PIIX4. To 
+> enable RMI4 mode, SMBus driver should support host notify protocol. I 
+> have added support of host notify and replaced active waiting 
+> transaction with completer + interrupt. Driver is now pretty stable and 
+> works way better, than old implementation. For example i2c-detect shows 
+> real devices (previous transaction code showed all addresses from 0x1c 
+> as active). Patch on following link is still hack, has hardcoded IRQ and 
+> supports host notifications and interrupts only on auxiliary port. I can 
+> implement other ports later.
+> 
+> Patch: https://lore.kernel.org/all/c9b0b147-2907- 
+> ff41-4f13-464b3b891c50@wisdomtech.sk/
+> This patch includes PM register access using MMIO: https:// 
+> lore.kernel.org/all/20210715221828.244536-1-Terry.Bowman@amd.com/
+> 
+> Now i can load psmouse synaptics_intertouch=1 and everything works 
+> great, but it uses 5% CPU and interrupt is called 1000/s. I have changed 
+> interrupt from rising edge to active low (it's PCIE, PCIE has active 
+> low) and i have many times checked if all interrupt bits are cleared in 
+> interrupt request. Yes, they are always cleared. Interrupts are 
+> generated only after first touch if i have compiled only F12. If i 
+> compile F03, then interrupts are generated immediately after load of 
+> psmouse. After unload, interrupts are not generated (i2c-piix4 still 
+> loaded).
+> 
+> On this machine I2C is accessible using GPIO 19(SCL), 20(SDA). Using 
+> kernel thread with RT priority on isolated core i have tried to record 
+> pin values on GPIO pins. Latency is too high to record all transferred 
+> data. Some state changes are lost (approximately 1/50 bits). Not too low 
+> to read reliably all data, but good enough to see what happens at bus 
+> level. Here is recorded file: https://mireq.linuxos.sk/kernel/ 
+> thinkpad_p14s/i2c_scl_sda.xz.
+> 
+> Every byte is sample, first bit is SCL, second SDA. Sample rate is cca 
+> 500 000 Hz, but often drops under 100 000 (lost bit).
+> 
+> On this screenshot is typical activity on bus: https://mireq.linuxos.sk/ 
+> kernel/thinkpad_p14s/i2c_1.png (pulseview with imported raw file)
+> 
+> Zoom to two packet is here: https://mireq.linuxos.sk/kernel/ 
+> thinkpad_p14s/i2c_2.png
+> 
+> First packet is SMBus host notify. Address 0x08 is SMBus host address 
+> and 0x58 is address of synaptics (0x2c << 1). Second packet is reading 
+> of interrupt status registers. Data 02 is length of interrupt status 
+> register (9 bits) and last 2 bytes are zero (idle, when moving cursor, 
+> then interrupt status register contains one bit set).
+> 
+> Zoomed out: https://mireq.linuxos.sk/kernel/thinkpad_p14s/i2c_3.png
+> 
+> Before transaction SMBus slave state machine is disabled and after 
+> transaction enabled. If notification is received when state machine is 
+> disabled, then device writes only address and don't get response. If 
+> driver runs with always enabled slave state machine, then output will 
+> contain only notify + read interrupt status pairs and no separate 
+> addresses, but with this mode bus collisions occur more often.
+> 
+> Here is dmesg output: https://pastebin.com/RdDYHJn0
+> 
+> Cursor is moved until 2862.8, then i have not touched trackpoint.
+> 
+> Idle device don't produce bus collisions. Moving cursor produces 
+> collisions, but sample rate is stable 100Hz, which is way better, than 
+> <40 Hz with PS/2 mode. I don't know how to solve collisions. Maybe they 
+> are related to not silenced host notifications.
+> 
+> If i were to be optimistic, then i would say that clearing interrupt 
+> vector will solve all problems. According old RMI4 documentation, 
+> reading from interrupt status register should clear interrupts (status 
+> register is cleared), but this don't prevent device form sending host 
+> notifications. Maybe exists new way to disable interrupts. I don't know, 
+> i have no access to current documentation.
+> 
+> My device has this signature:
+> Synaptics, product: TM3471-030, fw id: 3418235
+> 
+> Any help welcome.
+> 
 
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
----
- .../devicetree/bindings/mfd/zii,rave-sp.txt        | 39 --------------
- .../devicetree/bindings/mfd/zii,rave-sp.yaml       | 63 ++++++++++++++++++++++
- 2 files changed, 63 insertions(+), 39 deletions(-)
+Sorry to bump such an old thread, but AFAIK you never came up with a 
+good solution here.  I did want to point out that there was a very 
+recent submission by Shyam (CC'ed) [1] that adds an ASF driver (which is 
+an extension to PIIX4).  By default it's going to bind to an ACPI ID 
+that isn't present on your system (present on newer systems only) but 
+the hardware for ASF /should/ be present even on yours.
 
-diff --git a/Documentation/devicetree/bindings/mfd/zii,rave-sp.txt b/Documentation/devicetree/bindings/mfd/zii,rave-sp.txt
-deleted file mode 100644
-index e0f901edc0635..0000000000000
---- a/Documentation/devicetree/bindings/mfd/zii,rave-sp.txt
-+++ /dev/null
-@@ -1,39 +0,0 @@
--Zodiac Inflight Innovations RAVE Supervisory Processor
--
--RAVE Supervisory Processor communicates with SoC over UART. It is
--expected that its Device Tree node is specified as a child of a node
--corresponding to UART controller used for communication.
--
--Required parent device properties:
--
-- - compatible: Should be one of:
--	- "zii,rave-sp-niu"
--	- "zii,rave-sp-mezz"
--	- "zii,rave-sp-esb"
--	- "zii,rave-sp-rdu1"
--	- "zii,rave-sp-rdu2"
--
-- - current-speed: Should be set to baud rate SP device is using
--
--RAVE SP consists of the following sub-devices:
--
--Device				 Description
--------				 -----------
--rave-sp-wdt			: Watchdog
--rave-sp-nvmem			: Interface to onboard EEPROM
--rave-sp-backlight		: Display backlight
--rave-sp-hwmon			: Interface to onboard hardware sensors
--rave-sp-leds			: Interface to onboard LEDs
--rave-sp-input			: Interface to onboard power button
--
--Example of usage:
--
--	rdu {
--		compatible = "zii,rave-sp-rdu2";
--		current-speed = <1000000>;
--
--		watchdog {
--			compatible = "zii,rave-sp-watchdog";
--		};
--	};
--
-diff --git a/Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml b/Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
-new file mode 100644
-index 0000000000000..1d078c5ef1689
---- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
-@@ -0,0 +1,63 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mfd/zii,rave-sp.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Zodiac Inflight Innovations RAVE Supervisory Processor
-+
-+maintainers:
-+  - Frank Li <Frank.Li@nxp.com>
-+
-+description:
-+  RAVE Supervisory Processor communicates with SoC over UART. It is
-+  expected that its Device Tree node is specified as a child of a node
-+  corresponding to UART controller used for communication.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - zii,rave-sp-niu
-+      - zii,rave-sp-mezz
-+      - zii,rave-sp-esb
-+      - zii,rave-sp-rdu1
-+      - zii,rave-sp-rdu2
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 1
-+
-+  watchdog:
-+    $ref: /schemas/watchdog/zii,rave-sp-wdt.yaml
-+
-+  backlight:
-+    $ref: /schemas/leds/backlight/zii,rave-sp-backlight.yaml
-+
-+  pwrbutton:
-+    $ref: /schemas/input/zii,rave-sp-pwrbutton.yaml
-+
-+patternProperties:
-+  '^eeprom@[0-9a-f]+$':
-+    $ref: /schemas/nvmem/zii,rave-sp-eeprom.yaml
-+
-+required:
-+  - compatible
-+
-+allOf:
-+  - $ref: /schemas/serial/serial-peripheral-props.yaml
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    mfd {
-+        compatible = "zii,rave-sp-rdu2";
-+        current-speed = <1000000>;
-+
-+        watchdog {
-+            compatible = "zii,rave-sp-watchdog";
-+        };
-+    };
-+
+So I was going to suggest if you still are interested in this to play 
+with that series and come up with a way to force using ASF (perhaps by a 
+DMI match for your system) and see how that goes.
 
--- 
-2.34.1
-
+[1] 
+https://lore.kernel.org/all/20240923080401.2167310-1-Shyam-sundar.S-k@amd.com/
 
