@@ -1,233 +1,236 @@
-Return-Path: <linux-input+bounces-7247-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7248-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC63C998BEE
-	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 17:41:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E68E1998BF5
+	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 17:43:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC5D11C24956
-	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 15:41:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7613C1F223A6
+	for <lists+linux-input@lfdr.de>; Thu, 10 Oct 2024 15:43:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B6641CBEAF;
-	Thu, 10 Oct 2024 15:41:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61BEF1C6F6E;
+	Thu, 10 Oct 2024 15:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="IxI7xerN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11012030.outbound.protection.outlook.com [52.101.66.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F13188CAD;
-	Thu, 10 Oct 2024 15:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728574860; cv=none; b=HSiFOWNYQIgPMXqACAPE4EBZXrCsQ/5OGI+/+32vNGmDMUA3bRrUt91uklXZQpj9gBd/Cdrt80/YgnkQeYAmIe1UreWFhp9fOoAM0lnLSb8Goap3HsBnxFS+bpn84tz+8Ozr3hecLuOWlJa/btCC5g+qqTBCPyJoqHdbLxeDZh0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728574860; c=relaxed/simple;
-	bh=Ema+f7OxkHzYngA/e7dmo+PAXT5IYRXJkiSuCkFyKDQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=chvJ/zSds6UqUe/aU3l/QflJWekDfj5161909e97GY5ZqwzM9XvId27ewgt7UKtXoVHHtlnsKpNIlCs4jZkF4xYTRRgx4dahIfSJ58rZUOv/vrAGnn33o0SJ+Yf+aQf6OfjSMO12lGVOBsvTF1i5H+rt+Qmb5w0aligshJmCXnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4XPYnl5nDpzpWbs;
-	Thu, 10 Oct 2024 23:38:51 +0800 (CST)
-Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
-	by mail.maildlp.com (Postfix) with ESMTPS id 586251800CF;
-	Thu, 10 Oct 2024 23:40:51 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
- (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Thu, 10 Oct
- 2024 23:40:50 +0800
-From: Li Zetao <lizetao1@huawei.com>
-To: <dmitry.torokhov@gmail.com>, <oliver.graute@kococonnector.com>,
-	<u.kleine-koenig@pengutronix.de>, <felix@kaechele.ca>,
-	<ye.xingchen@zte.com.cn>, <joelselvaraj.oss@gmail.com>,
-	<andreas@kemnade.info>, <viro@zeniv.linux.org.uk>,
-	<dario.binacchi@amarulasolutions.com>
-CC: <lizetao1@huawei.com>, <linux-input@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] Input: edt-ft5x06 - fix memleak when rmmod edt_ft5x06
-Date: Thu, 10 Oct 2024 23:40:10 +0800
-Message-ID: <20241010154010.3228450-1-lizetao1@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCF9664C6;
+	Thu, 10 Oct 2024 15:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.30
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728575004; cv=fail; b=Q9J+Njh9k0w/uCEFvLBeg555WrHU4WCPxulmVtoKGpkElJQX43gJMlbjD1vOJVd70naFB5VEXp/5u4v/H4pbd11DhEOrt2+SqtemtBBNuVSVNs6NKCSV9CZRH8fJdtcD8g/nRSfjcK/+Z0ngzjFg+zgoxYPOyrKraHTWDnj6Z80=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728575004; c=relaxed/simple;
+	bh=FFW9vTTfu+1LclL+1qqt/RPtoMWa7YWs4PSsGztXa/s=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=MOZY0TW+93cG2lQ6xSKG9NYRFAXBu8mEtWD4ADZAgSbYY62SuU0kVP/45YS61XsRU4xZasl/DNlS4OgPRT/YCEFwp0r17ysEIaA9bbqIPt9jqo+fRFsyiov5CBu3LXfssfyDdziZk2mEi/M6M7HVtJzY+nPuyjx9TEmJrDtpBdE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=IxI7xerN; arc=fail smtp.client-ip=52.101.66.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Z7+y+iEJYZKzdmzJ6A2IZ7rwb27sXbmxYth8HfbMrutpj1jmwI4jwfGGo5Ty+pw63BqRP23w9aQn7Zj5VaOEwwZyLAXzzKWiAggdSAS25cq0YM/TaLHoOkxDjiGeVWzG4dWzdHySXFQ2HSuPUEynEe48w1WJGVzJiveykqku3sPLy+hBE7HyBgG0SNRWzm6+cwtMhxCBwXAzlDcTVteEfRPmPNEy1WSdkqFg5oVUvCeEKt9qzoWwidmL/w4BzzkMNKTNaAEkMmvj5TPLchlBoQUefaRUnAlTf+9DLiS1Xk4Hby8OV3JYFZ1tVscWNmxevM8r8QFlbAzsde0RfoDg0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jOvTxzuTGn680qRYZEX29BxqJgSy50gXYhp8nBEANtQ=;
+ b=F8LxNksYVOXJmTSIKZibXGF5QgnOEsV9Vibs7m+VCNR9S5Ya0Pzuk1C15FK8YgQDS7DruwMugPSlDkq6xmVg8vB9RMNLpPNl3ghJkUm06ohbR1wJX9OSuFEpttBHcJGccaUHOOX96UYiEjgZpZRMgPLHMO8ya5tieU5T0Tn8ePjnh4LpAOnedt5Hh9uP4qEhPA81N4Q5VGlFpAoLv7xE4M4yE4TBBwSawoCQ5s8lI9quxEY/tZmBpjspb9tNfxtB5bS4JNg2AR5gkhX5Bj5ZN1aE/0OMWQM5uHBz5hXwJgG9bZZk0u14zjL/62gl02B4154svvLvI9Rla26q5QRphg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jOvTxzuTGn680qRYZEX29BxqJgSy50gXYhp8nBEANtQ=;
+ b=IxI7xerNKHa9hZS130oDgKMt01Kvm8TnkvJuflemmiKYra8e0wbU4Z6tFJm019LzN0qt6U4Il/1lFYaqYuB2qqQAOQV7xDFbPotlmgMCLFspEyqvd17hwI7qWDUHkPTY6hHvJdZFgoHSyHVlTj7cb1KpqTA4tlEaStWTsEFbg/S3dCDavmpPQm9qAhW4Huf3opEAJqmwQ0KiyO4lJvrf4+JIPXHK1GFn5jtLJXdSrUaVqmd8jq+MrXOU6vTJ1ZQt3kU7oAhuuaBW5gU8hJ3gwpbHzG0YClMY9BBn22Z/ftj9FgVwypxK653ENz+ORCPpLw8HIa729UFZoMs9+jCqlA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by DU2PR04MB8984.eurprd04.prod.outlook.com (2603:10a6:10:2e3::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.18; Thu, 10 Oct
+ 2024 15:43:19 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%4]) with mapi id 15.20.8048.013; Thu, 10 Oct 2024
+ 15:43:18 +0000
+From: Frank Li <Frank.Li@nxp.com>
+Subject: [PATCH v2 0/5] dt-bindings: mfd: convert zii,rave-sp.txt and child
+ txt to yaml format
+Date: Thu, 10 Oct 2024 11:42:37 -0400
+Message-Id: <20241010-zii_yaml-v2-0-0ab730607422@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAO31B2cC/22MQQ6CMBAAv0L2bM12RVo5+Q9DTIEqmwglrWlA0
+ r9bOXucyWQ2CNazDVAXG3gbObCbMtChgG4w09MK7jMDIZUSUYsP830140uottSY9UWrE+R89vb
+ By766NZkHDm/n1/0c5c/+mUQpUPRYtUZZqojO12mZj50boUkpfQF/AlKRngAAAA==
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Daniel Thompson <daniel.thompson@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Guenter Roeck <linux@roeck-us.net>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-leds@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+ Frank Li <Frank.Li@nxp.com>
+X-Mailer: b4 0.13-dev-e586c
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728574994; l=3634;
+ i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
+ bh=FFW9vTTfu+1LclL+1qqt/RPtoMWa7YWs4PSsGztXa/s=;
+ b=8Nvc42lR5QBNJ7txTr4fwA9aJRDpDJW2m1gbpeWChi2U+uVeQ96hFOBzEtMqDvQBCzeyaICv0
+ LaRaxSVOf0SBFgg7MtlG8Rf0+ozJNXH5UXUuvZ9q8bY8vl2SyaIubLp
+X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
+ pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
+X-ClientProxiedBy: SJ2PR07CA0022.namprd07.prod.outlook.com
+ (2603:10b6:a03:505::24) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemd500012.china.huawei.com (7.221.188.25)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DU2PR04MB8984:EE_
+X-MS-Office365-Filtering-Correlation-Id: a5630e25-b258-4bc8-fc27-08dce9424360
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|52116014|1800799024|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?OStRbEwyNks3bTMrRHhlTE5NK0dTVllDZlAzNUQwSjFaMCthMENtY1NteDND?=
+ =?utf-8?B?RmVEWFBNUjU0Y3ptYUFreTdYTCtJRVVjU3h3V1FYOFdBZ1k5aUp2VW5HcjN0?=
+ =?utf-8?B?MElmYnF5N1Rrb21YMEhvVndkZ2dKVUdXalo5Z0VZeWNWcGVLWXc3cVV4YkY0?=
+ =?utf-8?B?ZElPekV6MXRuaHl2Qko0MnhHRFloRFJnQm1BOUlSTjhROWNhWXI3a2JKeFVN?=
+ =?utf-8?B?WGRIY21JQWNGUVBaT2NDeWk1bmFyVU5Dak0xWDQxV0ZWQ0pZUFFZenNXck9C?=
+ =?utf-8?B?RUE1QktEVHoreS9yaXg5a1pkV0hDVXpSUnl6U0ZVSXlWNTJ6UFNZQ3BROHhi?=
+ =?utf-8?B?Z1h2amJTNkI4TU5KbEZqYVBuU1dSQmFjMG1wY3JmS09wTmJ4THNlSk8xRmI2?=
+ =?utf-8?B?dllWUHliL0xZZjBkV1J1SUxyQ3dpazRDUEpZQ0thVlQrcVJ2dFdlQnlWcUFT?=
+ =?utf-8?B?SUJNUWZ4UEFuT01EdURlS2dQL2hqMDFEUjFkOFFQbUxUdUxFMmVaSThveDY2?=
+ =?utf-8?B?TWg4azZrdndXZnZHNnJTSHNnTmlkNHE2dEM3dGs1b0hDWThaTG5hS05ud1Jo?=
+ =?utf-8?B?UlBJcUk2TkVST09HMnNFY05sR21BOUlES0doK3FWTFo4bGVXeWRZVGw0U3BD?=
+ =?utf-8?B?MVpreWJWbWRVMzlRWDkwajRsTk9MOG8vWU9VQm1IKzRwcWRpVkc5Mk5ndzh1?=
+ =?utf-8?B?cXFCbUt2Y0YrRlZYU3VTTjg1NkRGdTJjYzV1K1B4MTFuRkpDdVRNQ1ZKdm1J?=
+ =?utf-8?B?M2h4dVF3MzM4N21vcUgxYVZIcllWTWs4TTJkS0xlWDliTjRCdDRzaFJSeG1v?=
+ =?utf-8?B?N3hTQjhGWHBXZXlpTmwwOENLRXhLRVFIRG1mSUgwbGR1Sm9Qd21jTzU0dmNl?=
+ =?utf-8?B?YUNYaDBIazFWZCthdTdkMHMzaVF6dTR2by9xNE9vakswcnVlVG9la2FOWHJQ?=
+ =?utf-8?B?WDY5L0RnY0tBNitPdE14WEQrSmMzSVB4RjhMSS9pU1dFaHEzU2orQm1hMFpX?=
+ =?utf-8?B?RDdROFZIWi9wa3ZxL2VDL01YeTJkbytRYTBPaUR5dm1yWldaK2N0SlJDd0xy?=
+ =?utf-8?B?RFdYZ2UvWUpvS3oraXdYaVpHRFY0dVNkMk14L1YxZU5WN3F5TXJTOUphVnd2?=
+ =?utf-8?B?bEZER3VnQ0lwWkhsYms2MVlZb2NZeUNiTnhQR1dhM3RBdXBMaUkrcWxUSTRq?=
+ =?utf-8?B?V3dqbkYvQmhtcUtKT2tvRmJlUlluMzlZZmdnMlQ0dGQxTmpucm1TNnN6OUU5?=
+ =?utf-8?B?VkowbzM2cllhT1FmLzhsNnpiUjYxM2ZEb0pxZDZ0d2pxZENBaVloT2lEbnI1?=
+ =?utf-8?B?TmlIQzN4cXViM1MvNDdVb1dZR25qR0hsMTloNFNtblZXWFcrTFFheW1uZXI3?=
+ =?utf-8?B?Y2I3VWtlQmNMTU5VMWY2N0l1U0lPRjFnMmZ3cjgxRFozQTJGV3dCN0lqdU9F?=
+ =?utf-8?B?TCsvcVg2ZWQ1YVhrUXNRTmVvSWFDQ3ZqWTZWYjIxOEZEQy82WHhvbGtCMm5W?=
+ =?utf-8?B?ODVQeXVEQVdQRDMvTjZyNVNjaUd3dzRzYzExd2RDTjZiUFRJWm9XaysreVNw?=
+ =?utf-8?B?Qnl5LzR1aFNBYzF3ZGJIRE9SZm1yMDVPb2R4ZzdhY1QrRW9IalFFb0h0WnVu?=
+ =?utf-8?B?djhWWTZIRFdVYlFZZTluV2JuU1RmUThlZjdYU042Z3hOZnJOU2VXdUhvQ09J?=
+ =?utf-8?B?bGtPa2t2UnZKU0FLdDdKYnlodmRYcy8vTzR5SGRoT05EYncrdHdSWTNyeHVJ?=
+ =?utf-8?B?NjJuOVJVWVB4T3V2NmhRQldUUTBKWWZpY1Bzd1lxOUs5ejVHcXJyMEJxRHRY?=
+ =?utf-8?Q?8g/X6LmqpzxA2G+YDE4ucZPztQl3TlausPTlg=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(52116014)(1800799024)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZVhrRXdsNnpFV1hLc3Vsa09BM2JmTjF1a2FSaS8vbzVkcG9HL2NuL0tBVFE4?=
+ =?utf-8?B?cmw0RS9NTlUzNDNGdStWZnVzZlVXWlNxZVUySjl1WitjMFZlQ1ZnUWdOS0RB?=
+ =?utf-8?B?YWpQS2FQNzE2ajJIQ3Jxc05YNzBQdmN1dnpzMy9ENEo5Rld2UC92eHc4L3BP?=
+ =?utf-8?B?WHJrb081bldwZEdvZGZ2NjloTk00QWpLMnhwUU9FKytXVHhYU0FsSmNiRkx3?=
+ =?utf-8?B?eDRqVWM5bG8rdjN5UTBHTXZYOE81YzZJcldta2YrV2o0QlFEbitNZmZXZ1ll?=
+ =?utf-8?B?SmwwVk9rbE1XaE5wNitIRm1Dd1dNanBraHNwdnpFVG9STUFBZGx4dUFwdXB3?=
+ =?utf-8?B?Tk9OT3ozWTlVVFEzUm1aNHZVdUJOMTlkZ3Z2SVo5dlVOaE9HeFRWNiswcVph?=
+ =?utf-8?B?YUI5S3EzQjRiSFZ2R0hBeVFJMi9MWGExRzVyT2N5Zmd0Q2luN3hHK3NtSGFk?=
+ =?utf-8?B?UEhXdVd6dmlicDh6MzljeUhxQVFtSDhIeTQ1bVlDSkFPMEpTb0cxS2tXSWpT?=
+ =?utf-8?B?RE1scFc1TEFJYWtWNTMxaWdad1A0SnpNb3duWkFDUTl1K1didExkcnFqS2po?=
+ =?utf-8?B?cVcrZmJFbUZ4UEEySk5mSnZYOUZSZTY0clNQSzVIdEE5U205QkdHZFVrVWdw?=
+ =?utf-8?B?MG01OHBaTUhjZlFVdHZNYmdxMUF1bUd6TWJtMGdJZ0tyQ21TWFRNb3h0Zldt?=
+ =?utf-8?B?WFZTaytucDhGWSswcnZVRlJtbXMvRTFMRUMwejB5Z1JJMmt2d0xUNkdjVkZr?=
+ =?utf-8?B?bWRQKzlwYnU3OHlraUM0bGNuVXFzWHd5QjVqNVpuZlkvRnNTVCtXaXlaak1y?=
+ =?utf-8?B?dzI0RmdUUkRaN2w4MDhIbjMzL1NiSXdjTDNCYzBHeXFNZnorRnYyb1ZiMG14?=
+ =?utf-8?B?a2hvczZTNUgwWHJGSkFKSWR3QnVMTGRrVzVHMjdXdUh3c3FQSW5KaFJURGJn?=
+ =?utf-8?B?UDgvdW9oeGYrMGtGMmRJNEp3eE1mVExRdmo5ZHF1aHBaOW9UZ1RRSXhPQ3NH?=
+ =?utf-8?B?SEU1cGNOajhxUFN1Y1Z1Z200ekR1Ym85K1RJZ0hrYTJYblhMOU43VHcvRUsr?=
+ =?utf-8?B?ZThSNkwyQi93SWlhYjBEKzVUMGtGU1BQelFaWXdycWIrQzhYbHVDNGZOY2hX?=
+ =?utf-8?B?TzU0b3JxTDd1M2RTQmdjODd4c041R1QwcVBEaTJ6SXNpRWJzeW1nSnFPU1ND?=
+ =?utf-8?B?MU10ei9GUklEN3I5UWtZT25xNFBjTURQU3lUVDQxcUJHOWhEeC9TZ090WVdC?=
+ =?utf-8?B?bWYwbVVjd0FtdlhhaWs2M2pCZmI1MHk5TzYxUTlmTW1UNkcxYUdmS2U5OTVu?=
+ =?utf-8?B?eVliRnNGUkZSTXMzdTJEUmdRVjlzU3VVUng1eG8rdktHWVFTWVQyZUZrMDhX?=
+ =?utf-8?B?d0ZqUmJ4SUhMTFNSa2hPZ040QjI0ajUxeGFOQmFYTW9kY0xicVBpRWhKM1VH?=
+ =?utf-8?B?ZVFFdnUzM0lqVW5oZy9ZRmQyN0t4RlV2K2VTa0VHR3BuczVENGhHdFBKcEt0?=
+ =?utf-8?B?MEYyUFQrNlJ0Wnd6S0p4bFFNTnU2RWg2N3FZc0MxNzR1YVRDVkNWM2FpNVZn?=
+ =?utf-8?B?VG9wUldES0xUbXBkZHNPb0FRaXFLdXZxVHE4SDdBNEVRK1NiREpRM01ZMWlL?=
+ =?utf-8?B?SjAzWXg3MXdPcndlM2MyNHRJSHlmeGlydW5JL0pXZGFGbDRvNS81akZJamZi?=
+ =?utf-8?B?cnlBYnRaTGt2c1htVjBZb0w5UHpocHdPMklpVzlSb3pVWHhER0NqWktZREpT?=
+ =?utf-8?B?YlZvUWxldS9TN0ltUjhnSGRHS20vMHNBQUhmVktkKzFDNG15Ym5ZbzBkVnRt?=
+ =?utf-8?B?ZnNrQytJYVRuaTBGYkF0aEtwcFFiQW00Ynp2NkJqMmptSDhEcng4WVlLL2dH?=
+ =?utf-8?B?cmdqYmE5c2ZySlBya2NPays1cUM1UHhTUUgzM3lPRWhZOFE5bE9jMVh3UW9t?=
+ =?utf-8?B?dk5jek1RRnFhczYvSzNJUlhoRjZqVVkyd3ozZHFhaU5mS0htcUZ1R25Cc25z?=
+ =?utf-8?B?YVlmcDdVc3ZNMjAySFRxSmhKNW1nSkVlWTZnQ2ZoRGNvTm1mcHd3QXJISUJ4?=
+ =?utf-8?B?aWxVYmtRS2dWbUJoYks1N21nYnA3TXoweURSSkQ2bnpvb3NlbG4yRUdSSTNz?=
+ =?utf-8?Q?J8gc=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5630e25-b258-4bc8-fc27-08dce9424360
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2024 15:43:18.8433
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CnEq11VNAPKtbXXqPBKu3oIQd9M0hB1t5IHExss74nqFhyFpruOfGmOabt66ED9VpzMPAGInp3j+kWb6lpzcLA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8984
 
-When insmod and rmmod the edt_ft5x06 driver, kmemleak reported a
-memory leak issue:
-  $ modprobe edt-ft5x06
-    edt_ft5x06 0-0004: touchscreen probe failed
-  $ modprobe -r edt-ft5x06
+Fixed below warnings:
 
-  unreferenced object 0xffff88810b38c8a0 (size 8):
-    comm "modprobe", pid 23672, jiffies 4295355205
-    hex dump (first 8 bytes):
-      93 00 00 00 00 00 00 00                          ........
-    backtrace (crc a10fb312):
-      [<ffffffff81e12f70>] __kmalloc_noprof+0x2f0/0x3d0
-      [<ffffffff8368c3b6>] __regmap_init+0x2d26/0x4810
-      [<ffffffffc06b4875>] __regmap_init_i2c+0x65/0x80 [regmap_i2c]
-      [<ffffffffc07108a6>] edt_ft5x06_ts_probe+0xd6/0x3410 [edt_ft5x06]
-      [<ffffffff83bd85d1>] i2c_device_probe+0x3c1/0x8b0
-	...
+arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu: failed to match any schema with compatible: ['zii,rave-sp-rdu2']
+arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/watchdog: failed to match any schema with compatible: ['zii,rave-sp-watchdog']
+arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/backlight: failed to match any schema with compatible: ['zii,rave-sp-backlight']
+arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/pwrbutton: failed to match any schema with compatible: ['zii,rave-sp-pwrbutton']
+arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a3: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
+arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a4: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
+arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu: failed to match any schema with compatible: ['zii,rave-sp-rdu2']
+arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/watchdog: failed to match any schema with compatible: ['zii,rave-sp-watchdog']
+arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/backlight: failed to match any schema with compatible: ['zii,rave-sp-backlight']
+arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/pwrbutton: failed to match any schema with compatible: ['zii,rave-sp-pwrbutton']
+arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a3: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
+arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a4: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
 
-This is caused by not releasing the tsdata->regmap resource in time on
-the probe failure path. By adding the err_regmap_exit label, execute
-regmap_exit on the error path to release map resources. However, it
-should be noted that during the ts identify stage, regmap_exit may be
-performed first and then regmap may be reinitialized, so when
-edt_ft5x06_ts_identify() returns an error, it need to check whether the
-regmap initialization failed.
-
-Fixes: 9dfd9708ffba ("Input: edt-ft5x06 - convert to use regmap API")
-Signed-off-by: Li Zetao <lizetao1@huawei.com>
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
- drivers/input/touchscreen/edt-ft5x06.c | 40 ++++++++++++++++----------
- 1 file changed, 25 insertions(+), 15 deletions(-)
+Changes in v2:
+- change all maintainer to frank li.
+- Link to v1: https://lore.kernel.org/r/20241008-zii_yaml-v1-0-d06ba7e26225@nxp.com
 
-diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index fda49b2fe088..c2004f6e2317 100644
---- a/drivers/input/touchscreen/edt-ft5x06.c
-+++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -1159,15 +1159,18 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client)
- 		chip_data = (const struct edt_i2c_chip_data *)id->driver_data;
- 	if (!chip_data || !chip_data->max_support_points) {
- 		dev_err(&client->dev, "invalid or missing chip data\n");
--		return -EINVAL;
-+		error = -EINVAL;
-+		goto err_regmap_exit;
- 	}
- 
- 	tsdata->max_support_points = chip_data->max_support_points;
- 
- 	tsdata->vcc = devm_regulator_get(&client->dev, "vcc");
--	if (IS_ERR(tsdata->vcc))
--		return dev_err_probe(&client->dev, PTR_ERR(tsdata->vcc),
--				     "failed to request regulator\n");
-+	if (IS_ERR(tsdata->vcc)) {
-+		error = dev_err_probe(&client->dev, PTR_ERR(tsdata->vcc),
-+				      "failed to request regulator\n");
-+		goto err_regmap_exit;
-+	}
- 
- 	tsdata->iovcc = devm_regulator_get(&client->dev, "iovcc");
- 	if (IS_ERR(tsdata->iovcc)) {
-@@ -1175,13 +1178,13 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client)
- 		if (error != -EPROBE_DEFER)
- 			dev_err(&client->dev,
- 				"failed to request iovcc regulator: %d\n", error);
--		return error;
-+		goto err_regmap_exit;
- 	}
- 
- 	error = regulator_enable(tsdata->iovcc);
- 	if (error < 0) {
- 		dev_err(&client->dev, "failed to enable iovcc: %d\n", error);
--		return error;
-+		goto err_regmap_exit;
- 	}
- 
- 	/* Delay enabling VCC for > 10us (T_ivd) after IOVCC */
-@@ -1191,14 +1194,14 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client)
- 	if (error < 0) {
- 		dev_err(&client->dev, "failed to enable vcc: %d\n", error);
- 		regulator_disable(tsdata->iovcc);
--		return error;
-+		goto err_regmap_exit;
- 	}
- 
- 	error = devm_add_action_or_reset(&client->dev,
- 					 edt_ft5x06_disable_regulators,
- 					 tsdata);
- 	if (error)
--		return error;
-+		goto err_regmap_exit;
- 
- 	tsdata->reset_gpio = devm_gpiod_get_optional(&client->dev,
- 						     "reset", GPIOD_OUT_HIGH);
-@@ -1206,7 +1209,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client)
- 		error = PTR_ERR(tsdata->reset_gpio);
- 		dev_err(&client->dev,
- 			"Failed to request GPIO reset pin, error %d\n", error);
--		return error;
-+		goto err_regmap_exit;
- 	}
- 
- 	tsdata->wake_gpio = devm_gpiod_get_optional(&client->dev,
-@@ -1215,7 +1218,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client)
- 		error = PTR_ERR(tsdata->wake_gpio);
- 		dev_err(&client->dev,
- 			"Failed to request GPIO wake pin, error %d\n", error);
--		return error;
-+		goto err_regmap_exit;
- 	}
- 
- 	/*
-@@ -1246,7 +1249,8 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client)
- 	input = devm_input_allocate_device(&client->dev);
- 	if (!input) {
- 		dev_err(&client->dev, "failed to allocate input device.\n");
--		return -ENOMEM;
-+		error = -ENOMEM;
-+		goto err_regmap_exit;
- 	}
- 
- 	mutex_init(&tsdata->mutex);
-@@ -1258,7 +1262,9 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client)
- 	error = edt_ft5x06_ts_identify(client, tsdata);
- 	if (error) {
- 		dev_err(&client->dev, "touchscreen probe failed\n");
--		return error;
-+		if (IS_ERR(tsdata->regmap))
-+			return error;
-+		goto err_regmap_exit;
- 	}
- 
- 	/*
-@@ -1311,7 +1317,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client)
- 				    INPUT_MT_DIRECT);
- 	if (error) {
- 		dev_err(&client->dev, "Unable to init MT slots.\n");
--		return error;
-+		goto err_regmap_exit;
- 	}
- 
- 	irq_flags = irq_get_trigger_type(client->irq);
-@@ -1324,12 +1330,12 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client)
- 					  client->name, tsdata);
- 	if (error) {
- 		dev_err(&client->dev, "Unable to request touchscreen IRQ.\n");
--		return error;
-+		goto err_regmap_exit;
- 	}
- 
- 	error = input_register_device(input);
- 	if (error)
--		return error;
-+		goto err_regmap_exit;
- 
- 	edt_ft5x06_ts_prepare_debugfs(tsdata, dev_driver_string(&client->dev));
- 
-@@ -1340,6 +1346,10 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client)
- 		tsdata->reset_gpio ? desc_to_gpio(tsdata->reset_gpio) : -1);
- 
- 	return 0;
-+
-+err_regmap_exit:
-+	regmap_exit(tsdata->regmap);
-+	return error;
- }
- 
- static void edt_ft5x06_ts_remove(struct i2c_client *client)
--- 
-2.34.1
+---
+Frank Li (5):
+      dt-bindings: input: convert zii,rave-sp-pwrbutton.txt to yaml
+      dt-bindings: backlight: convert zii,rave-sp-backlight.txt to yaml
+      dt-bindings: nvmem: convert zii,rave-sp-eeprom.txt to yaml format
+      dt-bindings: watchdog: convert zii,rave-sp-wdt.txt to yaml format
+      dt-bindings: mfd: convert zii,rave-sp.txt to yaml format
+
+ .../bindings/input/zii,rave-sp-pwrbutton.txt       | 22 --------
+ .../bindings/input/zii,rave-sp-pwrbutton.yaml      | 36 +++++++++++++
+ .../leds/backlight/zii,rave-sp-backlight.txt       | 23 --------
+ .../leds/backlight/zii,rave-sp-backlight.yaml      | 36 +++++++++++++
+ .../devicetree/bindings/mfd/zii,rave-sp.txt        | 39 --------------
+ .../devicetree/bindings/mfd/zii,rave-sp.yaml       | 63 ++++++++++++++++++++++
+ .../bindings/nvmem/zii,rave-sp-eeprom.txt          | 40 --------------
+ .../bindings/nvmem/zii,rave-sp-eeprom.yaml         | 54 +++++++++++++++++++
+ .../bindings/watchdog/zii,rave-sp-wdt.txt          | 39 --------------
+ .../bindings/watchdog/zii,rave-sp-wdt.yaml         | 47 ++++++++++++++++
+ 10 files changed, 236 insertions(+), 163 deletions(-)
+---
+base-commit: 2c1dd8a45abe738d15a9ebe015a17eeac9a3b13f
+change-id: 20241008-zii_yaml-7b4802029873
+
+Best regards,
+---
+Frank Li <Frank.Li@nxp.com>
 
 
