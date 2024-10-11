@@ -1,190 +1,134 @@
-Return-Path: <linux-input+bounces-7366-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7367-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39A899A3DD
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 14:28:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B317399A447
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 14:59:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D61091C21E49
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 12:28:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6192628543E
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 12:59:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AFE8218591;
-	Fri, 11 Oct 2024 12:27:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B811F21858E;
+	Fri, 11 Oct 2024 12:59:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fp6KMWPa"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ate7Vk07"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE997216A11
-	for <linux-input@vger.kernel.org>; Fri, 11 Oct 2024 12:27:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3D2218D6A;
+	Fri, 11 Oct 2024 12:59:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728649677; cv=none; b=V+j4sDYaB1bB3vZss3Pq824VAScpZ6kgRYlaq0e/9nfoqfD9tEdoqSJChAiTJGS3ipsKLC737wqJyK5sXCvFCpxx+0eAHVBPO0OX0zB1CxSk9d8QPnRq6ca1HE9+JSAKyFrb7SQQsmLRCajhAuyYmpWadP5WN9zVzghGTasWANE=
+	t=1728651588; cv=none; b=UWli9K42WIpXJ4aKRwwncL+RlE9aeYSZ5fkaA75QqoSbdXoTiJvI0KkcUvb7Knc2UqK0OXmb/6/YyA4MQg4h4xCdCwD6s13FblsvnXorLCVeGMcGRTFyJGsEaLcslmJYSCo4Aggjn796yC05NHNsWg4DoRqseg521vlhg0qrHns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728649677; c=relaxed/simple;
-	bh=ULnSG4geb8Txl5Cj3WsAJjHU3fohxOMG1UD3Gjc1u5Y=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fM0LkuhYRNBO/RZAQggbKHk7WZMXVBd/y49QxETsbHlJgGXkgvhvZ9RqbpLlNsPOz6q0mFSeIwAQOAo3iyt8gTh+rB9/0yybmbmyhz9K36OF76speTaMF6sHKa+RE6+NADTsrfLTyJ/HYM7NN2GQ2rCbLAWftVUI7vNJG663gmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fp6KMWPa; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728649674;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OvgPP8URR3aRLLAeRhIGd9GfEadFvbPu0wTLuyU+TtY=;
-	b=fp6KMWPanTJLYlJUNx65p4DGmVtecsomSgEDF+ivbF5NeUvydKp19dLwtIwo5u/Nm3zxwa
-	dMp9UrbMIwsOSTdEmDlpuTZGYmSYW1USKh7euU4hgrSbbtYFodJ/uINX8yvZAvbJM+jmPY
-	qHkBYqHfCs0YDCWQbLODd5x4w5aam/0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-379-7WgkkUHXOjmH1g_Fledj4w-1; Fri, 11 Oct 2024 08:27:53 -0400
-X-MC-Unique: 7WgkkUHXOjmH1g_Fledj4w-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-43111c47d0bso9790915e9.2
-        for <linux-input@vger.kernel.org>; Fri, 11 Oct 2024 05:27:53 -0700 (PDT)
+	s=arc-20240116; t=1728651588; c=relaxed/simple;
+	bh=zJji73vQPQjjdllOwp1GIgkznEC5tEAxyK776Syuxqw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=n7cKhnxZrCJa9ZBZI6OVGMX/5zlGzxMxpgRes7JXYvncAV7LagkwbixhLKUBgHbYFbHHs6CIOGzG93UbAYftiuv6mA2w2cIpGhZxImTIInj1bRmLbGjlnfQCmmdk9PGJeFEGJgPUIQJkSAWEwcnoQIYH1LbhP9n7aqBF4sJ1RoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ate7Vk07; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-71df04d3cd1so1756830b3a.2;
+        Fri, 11 Oct 2024 05:59:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728651586; x=1729256386; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tMHj9QgZWz/4wdSSYdaInX5JeYDfd1EUXIF74GbVMX4=;
+        b=Ate7Vk07hNKoKGSEtFKg82albT+ddN3ZS5bM08L5/9eihCgK+a8fkGjY8mQRCLIUmf
+         3ywxAmJfofTQXwqtQ4CpfjZ+Kf5xUwCLR1/nTSVeKFAxRTGDybH0qyr7huakVVISw074
+         JeFjYLY9cYoOtfWCYPlt7qcUMLlhe493eiM+dmoQo25IDXctLjiksDTnstOCmnV4HrMv
+         G9LktDnp8mslsk3lIJjhr89wm+TrpqdWaqJrTbtKPtbxACxzMBoKi1qgvu9znpUkfGUr
+         Gsgmfr6eaiHOlp03BiLCXVZFj9+JT4NmafWePpcDtXgRTPEqZHE/ektoye7nedq2TxEU
+         rJjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728649672; x=1729254472;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OvgPP8URR3aRLLAeRhIGd9GfEadFvbPu0wTLuyU+TtY=;
-        b=Xqrkro8pHJuGhZ+AoDnJMl0so4PMNP1+aLIaJpxBCtU7paQZyuVU38/WCvXUxYNLvQ
-         8VcLpqenZLSfDhPvxtwgAO8K/jnROtqThB4MXqi5At+tEhTYxTFvXJCovpXvZdOWSzKN
-         8DpSpGKzoqoyixSonzMsUlYN3aNGdiZ/0o/eHfnQMh5LfcWCb9PADI36xnAynOOHg5IG
-         wUUd82qlUxPeV6pWygnKXcoLuyVE5NhCC4i8oqP5DAFNjxEAwn+68dOYYOvkM0HrinRT
-         GmZPwwHmtYOr5Q/W1eyqie0My7w2JcRRaMYBUy7wlD8uZP+PjieXuw8GvXkbUN0YNK7S
-         0Gzg==
-X-Forwarded-Encrypted: i=1; AJvYcCV9oD4TVi85bbY4u8YWSILigl2IFxrU4uYEU5wzVhkcogfT/JuvqUx/am9k36dvhUC58fkbDWodgy1kQw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqG3HN/Rjl4cbu1jbE1Fn6XsRjLxJBAhp8AmVSdWp99DF5Jw8F
-	+BYKV0xXNMmJydNqDn+nN9vRGwfXAEnvndualt/Q+DRPMSVQZecUudDnV3URyH6Lf4V0a8GiJoP
-	D/+fRWtk6MipwG4yiJyZiBmZrMTTpLzv4Z24thcpfc3LmrnupjgsIWAHUSoZ/
-X-Received: by 2002:a05:600c:1f8c:b0:430:c3a5:652a with SMTP id 5b1f17b1804b1-4311ded53cbmr16268215e9.12.1728649672185;
-        Fri, 11 Oct 2024 05:27:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEgVv3RNAOR2FC6mKD8YlkQf/6eOtik4XN5FWpHDbbO6uoNEPOtTgURod1/yDncIWXirvGTnQ==
-X-Received: by 2002:a05:600c:1f8c:b0:430:c3a5:652a with SMTP id 5b1f17b1804b1-4311ded53cbmr16267425e9.12.1728649671758;
-        Fri, 11 Oct 2024 05:27:51 -0700 (PDT)
-Received: from eisenberg.fritz.box ([2001:16b8:3d05:4700:3e59:7d70:cabd:144b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4311835d95bsm40843965e9.47.2024.10.11.05.27.48
+        d=1e100.net; s=20230601; t=1728651586; x=1729256386;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=tMHj9QgZWz/4wdSSYdaInX5JeYDfd1EUXIF74GbVMX4=;
+        b=UT/y9sjxksDgWVtaD6hSJQNIyA4/Ssx0yOFRs8Y0hqiInWgz9KrvBIFTWotOCia7xF
+         tZ5J33v8ucwdVAtqkKIqs0idfiyeR6TwQ8J5THvUzEYvbCy0aW1nVxcFUDYgu1w3pAEs
+         4jf+k6g9DhfRYFSQNIFj0oV6ROSzPWnizNKlksEWjzLv3CZwmf0SD+Q7fqLCaE/MAaQX
+         XqtIMWMz+KlCVBpOkIxfMAU/rP5nWjHB7DKv6fbe6XCrohekm3JLueE6he5oWrh7gttk
+         BvXs+n7wU+kzy7deEvBuZDcMdg/NpkE4WDHVLkFkgu86cusugQw+vR+zu5DqmEsw+lHe
+         3QpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUuFHG5nmCCVkb2rJ1KCC+572bAPPkXWGRwssCcNmROmOwRfxiRV7TKs5Ho4dEZ9EPboMiUnP17diMpQFZY@vger.kernel.org, AJvYcCWrw/wTGZnIs8I9cOzWpoi+aLL78JGQu7kNq3lkcDuNqG+rI7BNFYviSWPX7iAHW5VkkLRktjECA1r5Sw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxo+/f/DiYRu9qM9YVc833L6UK/rsuGQTeD2dGz1kQYlfZXDUbW
+	vl1d5FNUhyIziVp6vwoUoZTNYFnG7pCWgT780F7yLuWyOIkr4cCRSanLdukv
+X-Google-Smtp-Source: AGHT+IEoVIvXrUVoQSfmpspSNOUJ2G0rUIAIERSQdMipbXdV9EywaGyK8upKQ3vx3GNKO50XDKdRYA==
+X-Received: by 2002:a05:6a00:2e85:b0:71d:fd28:70a3 with SMTP id d2e1a72fcca58-71e3809044emr4578241b3a.24.1728651586387;
+        Fri, 11 Oct 2024 05:59:46 -0700 (PDT)
+Received: from localhost ([2600:6c51:4c3f:8886::b19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e2a9e9709sm2535227b3a.20.2024.10.11.05.59.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2024 05:27:51 -0700 (PDT)
-Message-ID: <b13b75ae16b5238ab8b6e6d6e7a0797ed8415e80.camel@redhat.com>
-Subject: Re: [RFC PATCH 02/13] ALSA: hda: hda_intel: Use always-managed
- version of pcim_intx()
-From: Philipp Stanner <pstanner@redhat.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
- Sergey Shtylyov <s.shtylyov@omp.ru>, Basavaraj Natikar
- <basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>,  Benjamin
- Tissoires <bentiss@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov <oakad@yahoo.com>,
- Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
- <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Rasesh Mody <rmody@marvell.com>,
- GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko <imitsyanko@quantenna.com>,
- Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
- Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar S K
- <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
- <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>, Oleksandr Tyshchenko
- <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Mario Limonciello <mario.limonciello@amd.com>, Chen
- Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
- <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
- <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Mostafa Saleh
- <smostafa@google.com>, Hannes Reinecke <hare@suse.de>, John Garry
- <john.g.garry@oracle.com>, Soumya Negi <soumya.negi97@gmail.com>, Jason
- Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>, "Dr. David Alan
- Gilbert" <linux@treblig.org>, Christian Brauner <brauner@kernel.org>, Ankit
- Agrawal <ankita@nvidia.com>, Reinette Chatre <reinette.chatre@intel.com>,
- Eric Auger <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>, Marek
- =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,  Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Rui Salvaterra <rsalvaterra@gmail.com>,
- Marc Zyngier <maz@kernel.org>, linux-ide@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-input@vger.kernel.org,
- netdev@vger.kernel.org,  linux-wireless@vger.kernel.org,
- ntb@lists.linux.dev, linux-pci@vger.kernel.org, 
- linux-staging@lists.linux.dev, kvm@vger.kernel.org, 
- xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Date: Fri, 11 Oct 2024 14:27:48 +0200
-In-Reply-To: <Zwfo4dr4bfqQGGyl@smile.fi.intel.com>
-References: <20241009083519.10088-1-pstanner@redhat.com>
-	 <20241009083519.10088-3-pstanner@redhat.com>
-	 <Zwfo4dr4bfqQGGyl@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+        Fri, 11 Oct 2024 05:59:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 11 Oct 2024 05:59:42 -0700
+Message-Id: <D4SZUDRTK0LN.2I9S7T660S7IM@gmail.com>
+Subject: Re: [PATCH v1 1/1] Input: xpad - add support for MSI Claw A1M
+From: "Christopher Snowhill" <kode54@gmail.com>
+To: "John Edwards" <uejji@uejji.net>, "Dmitry Torokhov"
+ <dmitry.torokhov@gmail.com>
+Cc: "Derek J . Clark" <derekjohn.clark@gmail.com>,
+ <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20241010232020.3292284-2-uejji@uejji.net>
+ <20241010232020.3292284-4-uejji@uejji.net>
+In-Reply-To: <20241010232020.3292284-4-uejji@uejji.net>
 
-On Thu, 2024-10-10 at 17:46 +0300, Andy Shevchenko wrote:
-> On Wed, Oct 09, 2024 at 10:35:08AM +0200, Philipp Stanner wrote:
-> > pci_intx() is a hybrid function which can sometimes be managed
-> > through
-> > devres. To remove this hybrid nature from pci_intx(), it is
-> > necessary to
-> > port users to either an always-managed or a never-managed version.
-> >=20
-> > hda_intel enables its PCI-Device with pcim_enable_device(). Thus,
-> > it needs
-> > the always-managed version.
-> >=20
-> > Replace pci_intx() with pcim_intx().
->=20
-> ...
->=20
-> > =C2=A0	bus->irq =3D chip->pci->irq;
-> > =C2=A0	chip->card->sync_irq =3D bus->irq;
-> > -	pci_intx(chip->pci, !chip->msi);
-> > +	pcim_intx(chip->pci, !chip->msi);
-> > =C2=A0	return 0;
->=20
-> I believe each driver needs an individual approach. Looking at the
-> above
-> I would first to understand why this one is being used and why we
-> can't
-> switch to pci{m}_alloc_irq_vectors(). (Yeah, managed
-> pci_alloc_irq_vectors()
-> is probably still missing, I don't remember if you introduced it or
-> not.
->=20
+On Thu Oct 10, 2024 at 4:09 PM PDT, John Edwards wrote:
+> Add MSI Claw A1M controller to xpad_device match table when in xinput mod=
+e.
+> Add MSI VID as XPAD_XBOX360_VENDOR.
+>
+> Signed-off-by: John Edwards <uejji@uejji.net>
+> Reviewed-by: Derek J. Clark <derekjohn.clark@gmail.com>
 
-Alright alright =E2=80=93 we touched it in the other mail briefly, but let =
-me
-point out another specific problem:
+Um, I may have erred with my contribution of a R-b? Do I have to test
+the patch on the device in question to review it? If so, I'll just Ack
+the patch as looking properly drafted, and applying cleanly. Sorry for
+the noise.
 
-pci_alloc_irq_vectors() *uses* pci_intx(). And pci_intx() can be
-managed sometimes.
-
-See the problem? :(
-
-So it's not just that I couldn't port the driver Alex is concerned
-about, it's also that MSI itself is a user of pci_intx().
-
-So a pcim_alloc_irq_vectors() might end up doing double-devres or God
-knows what else. Only once pci_intx() is clean one can start thinking
-about the code in pci/msi/
-
-It's the biggest reason why I want to clean it up as suggested here,
-and also why the only patch I'm really nervous about is number 8.
-
-
-P.
+> ---
+>  drivers/input/joystick/xpad.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.=
+c
+> index 4eda18f4f..9f44669df 100644
+> --- a/drivers/input/joystick/xpad.c
+> +++ b/drivers/input/joystick/xpad.c
+> @@ -218,6 +218,7 @@ static const struct xpad_device {
+>  	{ 0x0c12, 0x8810, "Zeroplus Xbox Controller", 0, XTYPE_XBOX },
+>  	{ 0x0c12, 0x9902, "HAMA VibraX - *FAULTY HARDWARE*", 0, XTYPE_XBOX },
+>  	{ 0x0d2f, 0x0002, "Andamiro Pump It Up pad", MAP_DPAD_TO_BUTTONS, XTYPE=
+_XBOX },
+> +	{ 0x0db0, 0x1901, "Micro Star International Xbox360 Controller for Wind=
+ows", 0, XTYPE_XBOX360 },
+>  	{ 0x0e4c, 0x1097, "Radica Gamester Controller", 0, XTYPE_XBOX },
+>  	{ 0x0e4c, 0x1103, "Radica Gamester Reflex", MAP_TRIGGERS_TO_BUTTONS, XT=
+YPE_XBOX },
+>  	{ 0x0e4c, 0x2390, "Radica Games Jtech Controller", 0, XTYPE_XBOX },
+> @@ -492,6 +493,7 @@ static const struct usb_device_id xpad_table[] =3D {
+>  	XPAD_XBOX360_VENDOR(0x07ff),		/* Mad Catz Gamepad */
+>  	XPAD_XBOXONE_VENDOR(0x0b05),		/* ASUS controllers */
+>  	XPAD_XBOX360_VENDOR(0x0c12),		/* Zeroplus X-Box 360 controllers */
+> +	XPAD_XBOX360_VENDOR(0x0db0),		/* Micro Star International X-Box 360 con=
+trollers */
+>  	XPAD_XBOX360_VENDOR(0x0e6f),		/* 0x0e6f Xbox 360 controllers */
+>  	XPAD_XBOXONE_VENDOR(0x0e6f),		/* 0x0e6f Xbox One controllers */
+>  	XPAD_XBOX360_VENDOR(0x0f0d),		/* Hori controllers */
 
 
