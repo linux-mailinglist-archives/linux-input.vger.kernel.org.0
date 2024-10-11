@@ -1,225 +1,242 @@
-Return-Path: <linux-input+bounces-7363-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7364-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DB7099A365
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 14:09:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB0C99A3A4
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 14:15:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA55528537E
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 12:09:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFFE81F21E82
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 12:15:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 267D5218D8A;
-	Fri, 11 Oct 2024 12:07:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78EE4216A3B;
+	Fri, 11 Oct 2024 12:15:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Prh5z9Ch"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="FUorwyPo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7C1218D60
-	for <linux-input@vger.kernel.org>; Fri, 11 Oct 2024 12:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD56212F13;
+	Fri, 11 Oct 2024 12:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728648477; cv=none; b=Xd9oakQQOfoe9Lb5sHz2Xp2OBLWcw4E9GXb8W9HpZWhWDvIi+lm5TYj2MjkEs4CZ2hpBfQQ+3FTcdKMtm6PGIdNjdC6FyW3MNj64e+X4Np+rd/CFZ0Ixp4jJjDmgWFAd/QEu/knsrXVBoTtjWzOOHKqPWaQt+/C2shIwoahdQaw=
+	t=1728648901; cv=none; b=nXplRustCiBhYhxw4cxcfigA6Gre+T8uOU86feMBO3kcpcaBwy84+MyEQfLag+TnWUiR7qKlCvqDHFtOMEg0l/oWtGiw9jvTygsloQ9Atp/QUc18Ik3ujNF92KFA61kO8TZU3nYiu9cjOg+HSXImHBuNX4GvCCMczfqA9A+Qfm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728648477; c=relaxed/simple;
-	bh=MwKBr4MW13REKEdZEAqTL7D+rRGFsGjM7n9xGoHUCEw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=HneK7fIuR/4fYPfHHfkbCfRwj8EZS2yXKUg6gvGy7PL+J2XGmMfJuA+RVzMmJP7IY0ju1QtrbOanQ1SKBCeDdOj03Nm+/KnZAjzjrcej0CN5yQDwpctL0/1FcSXMrPxwqsWDBB1e+KIkPUHUqMYOfErmWWhF2mFaGDdQQS8Ee4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Prh5z9Ch; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728648474;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MwKBr4MW13REKEdZEAqTL7D+rRGFsGjM7n9xGoHUCEw=;
-	b=Prh5z9Ch4Obg+vN9I0GUDr9uLmOGW5i1k9JsPMtpIOOEVIC8RHQAeNTH44HLR4LtC0lxKa
-	CAWpDlWvHpa6C+/1JDeBO5ISRvIbK5a/AySAO8siZdJVhFjDZA7QtU9swzHoHdkLURlnDD
-	dLfysmvU2ftmf6Q4Nso3HR1IWWhl4Qc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-482-vYbCxCYuO_21tBHdImIypw-1; Fri, 11 Oct 2024 08:07:53 -0400
-X-MC-Unique: vYbCxCYuO_21tBHdImIypw-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-430581bd920so12153795e9.3
-        for <linux-input@vger.kernel.org>; Fri, 11 Oct 2024 05:07:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728648472; x=1729253272;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MwKBr4MW13REKEdZEAqTL7D+rRGFsGjM7n9xGoHUCEw=;
-        b=oNOVUSNiROy7Af3HTUN592lHk0AgYtP5qtRia43E5BxpAX2TPXGi0k9p6/tchrY90F
-         CfcLHp/53JJLufcsG93PNtqsz+5U79ezkME53IJfTFEuKfb2sfprhjWHb6jQn0Wg+oG9
-         8kx5cs188DCaj9jpMFkWSFcG0Fh/Okfqv6EwYJv/BVeZv9ypfmq4qbj8BwEcYuWvljOb
-         uaDDLFkRw2j3RMveXjXF+PMk5od+1XYLclYt6Q6EezJjSWflHp6uqbXqdPRRG9RljYJw
-         uiZUB2SnDugMSiN7kXjUQS8jowYSotD3y1foXwTI9GcDAWnKcqDYdX28rHEztXGVjKG7
-         CkIw==
-X-Forwarded-Encrypted: i=1; AJvYcCWEwjBkC1l181zb1nznh1S5BhwPV3HVoeVr610P+6cpMWLVFkDL91+Md0IojSC4Vdz2bSaNorYx037U7A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuMwWhw0CMW0v+YmgPBaLzpscgRXnAgRR2ToRMizJACV8N2B3r
-	VKxlPuqWTtLl+oRRreD1qflOAi/kjrl5iMNBQLVmkjjobbwzpBsbhyu4uzwoTiUI6lHe8OViSYN
-	4XlAZt3KtJ2ZOT5Dyf8AiKLCQKRgd03FSkO61auc3IPAZ+R9r+DD3O4g/xv/H
-X-Received: by 2002:a05:600c:1d26:b0:42f:75cd:2566 with SMTP id 5b1f17b1804b1-4311deaea05mr17631895e9.2.1728648472008;
-        Fri, 11 Oct 2024 05:07:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGfafWJbYY7XgafIoUBODjA0mqAG0Im27BYfV9oETn5/NEqgGUi/qx3b+BLDWe06kqudkM50g==
-X-Received: by 2002:a05:600c:1d26:b0:42f:75cd:2566 with SMTP id 5b1f17b1804b1-4311deaea05mr17631395e9.2.1728648471511;
-        Fri, 11 Oct 2024 05:07:51 -0700 (PDT)
-Received: from eisenberg.fritz.box ([2001:16b8:3d05:4700:3e59:7d70:cabd:144b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431182d7929sm40692135e9.4.2024.10.11.05.07.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2024 05:07:50 -0700 (PDT)
-Message-ID: <a688a4109e292d7510ebd7206bd3296e23ca1e3b.camel@redhat.com>
-Subject: Re: [RFC PATCH 13/13] Remove devres from pci_intx()
-From: Philipp Stanner <pstanner@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, Damien Le Moal
- <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, Sergey Shtylyov
- <s.shtylyov@omp.ru>, Basavaraj Natikar <basavaraj.natikar@amd.com>, Jiri
- Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Arnd
- Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alex Dubov <oakad@yahoo.com>, Sudarsana Kalluru <skalluru@marvell.com>,
- Manish Chopra <manishc@marvell.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rasesh Mody
- <rmody@marvell.com>,  GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko
- <imitsyanko@quantenna.com>,  Sergey Matyukevich <geomatsi@gmail.com>, Kalle
- Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar
- S K <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
- <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>, Oleksandr Tyshchenko
- <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Mario Limonciello <mario.limonciello@amd.com>, Chen
- Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
- <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
- <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Mostafa Saleh
- <smostafa@google.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Hannes Reinecke <hare@suse.de>, John Garry <john.g.garry@oracle.com>,
- Soumya Negi <soumya.negi97@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, Yi
- Liu <yi.l.liu@intel.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, 
- Christian Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>,
- Reinette Chatre <reinette.chatre@intel.com>, Eric Auger
- <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>, Marek
- =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,  Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Rui Salvaterra <rsalvaterra@gmail.com>,
- Marc Zyngier <maz@kernel.org>, linux-ide@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-input@vger.kernel.org,
- netdev@vger.kernel.org,  linux-wireless@vger.kernel.org,
- ntb@lists.linux.dev, linux-pci@vger.kernel.org, 
- linux-staging@lists.linux.dev, kvm@vger.kernel.org, 
- xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Date: Fri, 11 Oct 2024 14:07:48 +0200
-In-Reply-To: <20241010114314.296db535.alex.williamson@redhat.com>
-References: <20241009083519.10088-1-pstanner@redhat.com>
-	 <20241009083519.10088-14-pstanner@redhat.com>
-	 <7f624c83-115b-4045-b068-0813a18c8200@stanley.mountain>
-	 <f42bb5de4c9aca307a3431dd15ace4c9cade1cb9.camel@redhat.com>
-	 <20241010114314.296db535.alex.williamson@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+	s=arc-20240116; t=1728648901; c=relaxed/simple;
+	bh=2Lx4BjqOxemSrgiJcPsQW8BTG3E3pVcNlidalXKGTeM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aDyzLSkv8v6TgmhliE988DDFlKDy8R+X8W/kCVhnUAlWsoGprHmX5Zyps8jPgskzWhJpsxefuAbSLMNpXgGkOhp2ZBxoZdCJCJlLyMZCU/EuKTbm0XeaDtOlrYsMQgRHT2/sgkA6U9kiKIXBbJWwxESPN+/OxchC9+XJ4MOZt7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=FUorwyPo; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1728648876; x=1729253676; i=w_armin@gmx.de;
+	bh=2Lx4BjqOxemSrgiJcPsQW8BTG3E3pVcNlidalXKGTeM=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=FUorwyPoauO+1cCYbWAPION23PF9d3IfcHTiJHMzkce9y3Db8CDYL4z3/f04EN4/
+	 TDcQZzzDGnyL4bus9bQwe3eAlFe/L6TzoTIXZtAF3xeqtIHx/iQ8mCRNK7/zE8gf/
+	 B5qzw6Md/zYSrXXv74OTr29SrdHa/AgjwYHv2farxLOs0+y4UFplGK8HY1WK/d98E
+	 tyKOkSY/tH0paNjHrDwZyKzyAkaOffed0Xd/Xo7zx0xLY+sKzhC6G/YbIeTWfdh0/
+	 HDn9Swpux5Gn0x5wVpj5tu7S87u1X2g4k+im9RVZFi9SdrtHnPp3Wg+SQ/gAwcvI3
+	 t+kcruN0JZ02a3MEJA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [172.16.154.201] ([141.76.185.172]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MfpOT-1taUAU3uif-00dHkO; Fri, 11
+ Oct 2024 14:14:36 +0200
+Message-ID: <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de>
+Date: Fri, 11 Oct 2024 14:14:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
+ NB04 devices
+To: Werner Sembach <wse@tuxedocomputers.com>,
+ Benjamin Tissoires <bentiss@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
+References: <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
+ <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
+ <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
+ <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
+ <d7gk2mgihtg6242l3isnhw3xpdt745ehpu2kvim2xxgmxdhat7@g5cqei7uqujj>
+ <39f84cfe-bb89-4194-81a9-e178c93e5309@tuxedocomputers.com>
+ <sih5i2ausorlpiosifvj2vvlut4ok6bbgt6cympuxhdbjljjiw@gg2r5al552az>
+ <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
+ <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
+ <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
+ <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
+ <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:LOHS+CHWlk5R5g0WJIRAcpU4DziE7QkscDFMqDJyROhn82Qi4Sk
+ B/OuZvYhdKFAsxXBu275P8ufMqEg0Dk/ajd8VYEpquFAnxUMOJ2bWpDVpi9HK1OOcn+yaSR
+ UNAUuHN4z0nrPslbHjlrnA3xKPeOLqFdDLMjF53yTu68AFpt7OGCZJBMZaUsDlE/n/MDBUq
+ HfxIM0sr1ehDdMmIKvnyQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:HfTPthU7cqU=;GG1fQbSAwJwoGB5clOYbHj/LRjA
+ RMa7WsJzUWxiY01RkIjs1CcZTwGqqqApE93/2Xn93/g65Qn66jkWngD9Jaxc9cgVXIXlhtZlQ
+ UerrMzYTMWwRredbTbyatBTuEEjzWplDa5/YWp7xTzr7CIDKVKP3uRftZqXMOpDQKaOWvMS/V
+ GWujDjSPWWUUBddFyKgW4xubShh6jO9VlxOy3N1Ex+L1oXnbvnrkuBnvN2EcYY4LQ3NHQX0v+
+ lbRRPUcrnqqeDC83t1CmYgwFScGwOuoTxuC57ZsYyZ/+vpyBEgwAhRAxDya9vPUMS/JeK2ILA
+ sYL83jcIzEOM7cXeYPwUXhqVrHQsQ8rhWQAuN2sXdJJVMEpTbyKlKJYLAJfkLGojt7h54qe2t
+ peUjBu3xu+EezY/hgTzCx+fFD6+IDAv+iWtFe1IhoKJ9U+ULP21stqpMWgKGykJBxkzbDrUdI
+ 544fa4/VDw8Zi88DC9Q9hYmJQNXVR0vxQ5EfoP7YKC9FISjwPD9FsvNgYG1aoR9tB8mcrJW/L
+ SAqsGxsPWhEGnQ5pu6WCNbcxIfPsIesRQyQmfANY/WGoYb7GXUUn1q4SBEii4X8Lyw+PrssAX
+ ZKwZ8JLDFfFHdBB3v8bRGcdAhqZVovT5P0xtas9SZXMvpOxWZu0tsfvPOGCEZYhnm4qhi51H4
+ RLzXO1JZrgrBIV55jwZ69KsKZjAWv8FkyySkVGKOWv00uw5LxsjaVaK1F7OM6jvpwf/CpCPrU
+ r9GlfBCpJoHqtPadThp86PLpembWyXneDjwAYIXgkbreidL3YAKKzAtqoEXog4x6m1qHtVURx
+ QNzI9CFifHtbD24kvk1ctPp+OJVsaWO7ygR+v7l3kTuDA=
 
-On Thu, 2024-10-10 at 11:43 -0600, Alex Williamson wrote:
-> On Thu, 10 Oct 2024 11:11:36 +0200
-> Philipp Stanner <pstanner@redhat.com> wrote:
->=20
-> > On Thu, 2024-10-10 at 11:50 +0300, Dan Carpenter wrote:
-> > > On Wed, Oct 09, 2024 at 10:35:19AM +0200, Philipp Stanner wrote:=C2=
-=A0
-> > > > pci_intx() is a hybrid function which can sometimes be managed
-> > > > through
-> > > > devres. This hybrid nature is undesirable.
-> > > >=20
-> > > > Since all users of pci_intx() have by now been ported either to
-> > > > always-managed pcim_intx() or never-managed
-> > > > pci_intx_unmanaged(),
-> > > > the
-> > > > devres functionality can be removed from pci_intx().
-> > > >=20
-> > > > Consequently, pci_intx_unmanaged() is now redundant, because
-> > > > pci_intx()
-> > > > itself is now unmanaged.
-> > > >=20
-> > > > Remove the devres functionality from pci_intx(). Remove
-> > > > pci_intx_unmanaged().
-> > > > Have all users of pci_intx_unmanaged() call pci_intx().
-> > > >=20
-> > > > Signed-off-by: Philipp Stanner <pstanner@redhat.com>=C2=A0=20
-> > >=20
-> > > I don't like when we change a function like this but it still
-> > > compiles fine.
-> > > If someone is working on a driver and hasn't pushed it yet, then
-> > > it's
-> > > probably
-> > > supposed to be using the new pcim_intx() but they won't discover
-> > > that
-> > > until they
-> > > detect the leaks at runtime.=C2=A0=20
-> >=20
-> > There wouldn't be any *leaks*, it's just that the INTx state would
-> > not
-> > automatically be restored. BTW the official documentation in its
-> > current state does not hint at pci_intx() doing anything
-> > automatically,
-> > but rather actively marks it as deprecated.
-> >=20
-> > But you are right that a hypothetical new driver and OOT drivers
-> > could
-> > experience bugs through this change.
-> >=20
-> > >=20
-> > > Why not leave the pci_intx_unmanaged() name.=C2=A0 It's ugly and that
-> > > will
-> > > discorage
-> > > people from introducing new uses.=C2=A0=20
-> >=20
-> > I'd be OK with that. Then we'd have to remove pci_intx() as it has
-> > new
-> > users anymore.
-> >=20
-> > Either way should be fine and keep the behavior for existing
-> > drivers
-> > identical.
-> >=20
-> > I think Bjorn should express a preference
->=20
-> FWIW, I think pcim_intx() and pci_intx() align better to our naming
-> convention for devres interfaces.
+Am 09.10.24 um 11:55 schrieb Werner Sembach:
 
-Yup, also my personal preference. But we can mark those functions as
-deprecated via docstring-comment. That should fullfill Damien's goal.
+> Resend because HTML mail ..., but I think I now know when Thunderbird
+> does it: Every time I include a link it gets converted.
+>
+> Hi
+>
+> Am 08.10.24 um 17:21 schrieb Benjamin Tissoires:
+>> On Oct 08 2024, Werner Sembach wrote:
+>>> [...]
+>> Yeah, it just means that you can query or send the data. You can also
+>> use HIDIOCGINPUT() and HIDIOCSOUTPUT() to get a current input report an=
+d
+>> set an output report through the hidraw ioctl...
+>>
+>> Internally, HIDIOCGINPUT() uses the same code path than
+>> HIDIOCGFEATURE(), but with the report type being an Input instead of a
+>> Feature. Same for HIDIOCSOUTPUT() and HIDIOCSFEATURE().
+>
+> Ok so just a difference in definition not in implementation.
+>
+> Then I use a get feature report for the device status function and use
+> it as input and output at the same time, and use a set output report
+> for the led update function (which technically has a return value but
+> i think it's always 0 anyway).
+>
+> I scoured the old thread about exposing WMI calls to userspace,
+> because I remembered that something here came up already.
+>
+> 1.
+> https://lore.kernel.org/all/6b32fb73-0544-4a68-95ba-e82406a4b188@gmx.de/
+> -> Should be no problem? Because this is not generally exposing wmi
+> calls, just mapping two explicitly with sanitized input (whitelisting
+> basically).
 
-> =C2=A0 Would it be sufficient if pci_intx()
-> triggered a WARN_ON if called for a pci_is_managed() device?
+It would be OK to expose a selected set of WMI calls to userspace and sani=
+tizing the input of protect potentially buggy firmware from userspace.
 
-No, I don't think that's a good idea; reason being that
-pci_is_managed() just checks that global boolean which we inherited
-from the old implementation and which should not be necessary with
-proper devres.
-The boolean is used for making functions such as pci_intx() and
-__pci_request_region() hybrid. So with our non-hybrid version we never
-need it.
+>
+> 2.
+> https://lore.kernel.org/all/b6d79727-ae94-44b1-aa88-069416435c14@redhat.=
+com/
+> -> Do this concerns this apply here? The actual API to be used is
+> LampArray and the HID mapped WMI calls are just an "internal"
+> interface for the BPF driver, but technically UAPI.
+>
+I see no benefit of using BPF for creating the whole HID reports. Otherwis=
+e the HID interface exported by the driver to userspace would be a HID-map=
+ped IOCTL interface
+with no real benefit.
 
-P.
+I think it would make more sense for the driver to export a generic HID La=
+mpArray interface, which contains placeholder values for the dimensions. T=
+hose values can then
+be supplied by a HID-BPF snipped for each individual machine model. This w=
+ould indeed be a suitable use of HID-BPF, as this would allow us to omit h=
+aving a large quirk
+table inside the kernel driver.
 
-> =C2=A0 Thanks,
->=20
-> Alex
->=20
+Regarding the basic idea of having a virtual HID interface: i would prefer=
+ to create a illumination subsystem instead, but i have to agree that we s=
+hould be doing this
+only after enough drivers are inside the kernel, so we can design a suitab=
+le interface for them. For now, creating a virtual HID interface seems to =
+be good enough.
 
+Thanks,
+Armin Wolf
+
+> Also at Armin and Hans: Do you have comments on this approach?
+>
+>>> (well as far as I can tell the hut doesn't actual specify, if they
+>>> need to
+>>> be feature reports, or am I missing something?)
+>> They can be both actually. The HUT is missing what's expected here :(.
+>>
+>> However, looking at the HUT RR 84:
+>> https://www.usb.org/sites/default/files/hutrr84_-_lighting_and_illumina=
+tion_page.pdf
+>>
+>>
+>> There is an example of a report descriptor, and they are using Features=
+.
+>> Not Input+Output.
+>>
+>> And looking even further (above), in 3.5 Usage Definitions:
+>> 3.5.2, 3.5.3 and 3.5.5 all of them are meant to be a feature, like:
+>> LampArrayAttributesReport CL =E2=80=93 Feature -
+>> LampAttributesRequestReport CL =E2=80=93 Feature =E2=80=93
+>> LampAttributesResponseReport CL =E2=80=93 Feature =E2=80=93
+>> LampArrayControlReport CL =E2=80=93 Feature =E2=80=93
+>>
+>> 3.5.4: can be either feature or output, like:
+>> LampMultiUpdateReport CL =E2=80=93 Feature/Output =E2=80=93
+>> LampRangeUpdateReport CL =E2=80=93 Feature/ Output =E2=80=93
+>>
+>> So I guess the MS implementation can handle Feature only for all but th=
+e
+>> update commands.
+> Thanks for the link, I guess for the BPF driver I will stick to
+> feature reports for the LampArray part until there is actually a hid
+> descriptor spotted in the wild defining LampMultiUpdateReport and
+> LampRangeUpdateReport as Output and not feature.
+>>> and there is the pair with LampAttributesRequestReport and
+>>> LampAttributesResponseReport.
+>> Yeah, not a big deal. The bold IN and OUT are just to say that calling =
+a
+>> setReport on a LampAttributesResponseReport is just ignored AFAIU.
+>>
+>>> Sorry for my confusion over the hid spec.
+>> No worries. It is definitely confusing :)
+>
+> On this note as I fathom:
+>
+> Input Report (usually always get report): Interrupts (the ioctl just
+> there to repeat the last one?)
+>
+> Output Report (usually always set report): Async write, no return
+> value (Buffer should stay untouched)
+>
+> Feature report set: Sync write, no return value (Buffer should stay
+> untouched)
+>
+> Feature report get: Sync read/write (intended only for read, but not
+> limited to it, uses singular buffer for both input and output)
+>
+> I kind of don't get why feature report set exists, but well it's the
+> specs ^^.
+>
+> Regards,
+>
+> Werner
+>
+> [*snip*]
+>
 
