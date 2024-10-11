@@ -1,55 +1,55 @@
-Return-Path: <linux-input+bounces-7342-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7341-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4AB999767
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 02:21:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F91999761
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 02:21:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6B5DE1C23029
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 00:21:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2528C28759E
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 00:21:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC3E01F8915;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 352EB1F709A;
 	Fri, 11 Oct 2024 00:07:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="KFiwVBZ2"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BEsYq3J7"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028171E9068;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D08F1E7C30;
 	Fri, 11 Oct 2024 00:07:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728605272; cv=none; b=PitUQ3mMjoWQ8Q9eR47JPyhsSFtSgp67BnJQgM3YUqHNg/oWvMTFl8mGaNelPxNOeicP0Npgzd/7p9ickPj88vabS9apg+DBlAVR0qgHGQutY1SQHITrai5yjNJa2DlU3ADcn0zV4sfRXPrkRZZr+RUJKof9pr67eQOvNgjghFY=
+	t=1728605272; cv=none; b=hD5qiLaBtZ0VZ22Ojxu9Yri1MJQCg9XD4K7+01ih/mLXUoxwI/rkkGeH0Ht4BDUA/bTwjEYf0DkMVkQg9TiaetFNo+QyW/4FVBeZ41lOn8Hay4D3bil65wqhz147lPI/ujtUpCWUR9rHWYGxEZZ1pjImqeFQbKGXsdR7bevKpYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1728605272; c=relaxed/simple;
 	bh=9cdnbJPdjIkgUwVVDViOSctU4pwRwxYTjPMbwEvbRI8=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NMcBBUnSO52HqgW7J2vH3AFoImt5uXfSdw8CIk4KSdqBxWKSWPqwRfngKuEaw8gltzwOi1T50Xt858OlD5ZXf8hx1/IoRKdJ+T/UyZI10mHYiH0uEwILAli4+toOPMHYQNfjU20QsLmOnaArEin8FmZM3QKtCN6qQ4RxqX4pikE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=KFiwVBZ2; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version:Content-Type; b=Zc6s8ttaHDImq5eF+nUa2+Z4ItpmEiRydxZ8h4eK9gb/G/ofnZq7WrIYk1ZJpNVArJYkw3sR6iAXDxy+z1m6KJDvRqX5fWBq0WsMAiVjDp3Nmya2MWfUzMKQWIxSX1Hb0FkZHsf10MhJ+3G7TktIYjIH3lt4gEVyMPe3HFlf12c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=BEsYq3J7; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49ACPw2T000772;
-	Fri, 11 Oct 2024 00:07:19 GMT
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49ACZXC1026260;
+	Fri, 11 Oct 2024 00:07:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	/iXWyJ+VSbDCGIDrA8mF4MYZ6p5L8xVjpkuwHayJnho=; b=KFiwVBZ2mn0jinFq
-	nUaGqhRpqW/4m+8NGXf+H4Zz186RW2kpn9SZNTIKUtQtL0YGeiNOQTX2vLfuRrkh
-	iAJQrvHdXdh4AFYnu9szT/TPJEr2W/viAupTEqEf547NPwFDSFcjkl4+I4AjCp81
-	RESpdLmyPBBOicCcQ33KDZ5VuS2mUfkTA+8jU8DKro41PvQ/2uTJqWD0N7eTyn1l
-	Ex+LTob4WJjEFjcUB6HWy7MvIQbBYHQW6VGTLQB5x8S2LV+ZiwsG1U5fxn7HPKSF
-	u9hXv5fc3a8aejddBCXbjQmej1wI2XomJjjt3FbLUspV0acs505X/S+L8Ra0zWft
-	FNKB1w==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 424cy7mjyx-1
+	/iXWyJ+VSbDCGIDrA8mF4MYZ6p5L8xVjpkuwHayJnho=; b=BEsYq3J7PAEMPFUR
+	pJY/HGpcBTgatJQXOHnoJm/Kpknfd5gNhUFUU3sY9hWVZIRraiALP8Qo+MejE1G5
+	l0bdYLhxYAiPblQQTnuvozjekG23MDye7SX7jJtlLZ/jFIYswFl5N9kS3XwXWlbx
+	5XA9s8PDY+gDng5s/ub0OMOjoD86YqmnI7uQsx1KFTDjzxRaKPSt0HD0uhUHvef5
+	16BQYyNg6MTSg0sAE8VImZsFjntq6C1xmqK9Ycw0dTKYu6cx3MM+g/N6Ap28O6/r
+	h8MlmdLCIxK9lWqJ3/mwXl8XMjBuHpuNxWzg134ZymjGk74oaL0YeVlbyLT8OcZi
+	ToEL8g==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 425c8qydrp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Fri, 11 Oct 2024 00:07:19 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49B07IL2003458
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49B07IcZ016418
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Fri, 11 Oct 2024 00:07:18 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
@@ -70,9 +70,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>,
         Wesley Cheng
 	<quic_wcheng@quicinc.com>
-Subject: [PATCH v28 27/32] ALSA: usb-audio: qcom: Add USB QMI definitions
-Date: Thu, 10 Oct 2024 17:06:39 -0700
-Message-ID: <20241011000650.2585600-55-quic_wcheng@quicinc.com>
+Subject: [PATCH v28 28/33] ALSA: usb-audio: qcom: Add USB QMI definitions
+Date: Thu, 10 Oct 2024 17:06:40 -0700
+Message-ID: <20241011000650.2585600-56-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241011000650.2585600-1-quic_wcheng@quicinc.com>
 References: <20241011000650.2585600-1-quic_wcheng@quicinc.com>
@@ -88,16 +88,16 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: aFBJ3_dkUACOrqQfXXqGdZIPxCpM7v4q
-X-Proofpoint-GUID: aFBJ3_dkUACOrqQfXXqGdZIPxCpM7v4q
+X-Proofpoint-GUID: P_S3VkJUYDtdThCLhMDNLaHloZHAyZ0T
+X-Proofpoint-ORIG-GUID: P_S3VkJUYDtdThCLhMDNLaHloZHAyZ0T
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
- adultscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0 spamscore=0
- priorityscore=1501 clxscore=1015 bulkscore=0 malwarescore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410100159
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ lowpriorityscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0
+ priorityscore=1501 mlxscore=0 spamscore=0 phishscore=0 clxscore=1015
+ bulkscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2409260000 definitions=main-2410100159
 
 The Qualcomm USB audio offload driver utilizes the QMI protocol to
 communicate with the audio DSP.  Add the necessary QMI header and field
