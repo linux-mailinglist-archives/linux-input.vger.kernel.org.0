@@ -1,57 +1,57 @@
-Return-Path: <linux-input+bounces-7291-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7310-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E10B5999609
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 02:08:08 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A77399968F
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 02:13:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F62C1F2372F
-	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 00:08:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E7B0FB2461A
+	for <lists+linux-input@lfdr.de>; Fri, 11 Oct 2024 00:13:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C691D8F58;
-	Fri, 11 Oct 2024 00:07:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BAF219FA9D;
+	Fri, 11 Oct 2024 00:07:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="iHdILfIT"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="gj+voW+r"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DC62FB2;
-	Fri, 11 Oct 2024 00:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16AC619597F;
+	Fri, 11 Oct 2024 00:07:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728605250; cv=none; b=Q7x7u5leHHSPihdCMsK6WAEZUdwG+UcD6IePpZk+hR9zdXZuTGs9nlyf4bG6PHQSB/EYg0BRrzPOU59DI/v8IbkgGiJ6n/dzbOq9tKMZpYjDve5BGiaeyzhU3dUshoS/j46K9xbBRsYPe7qTnT9wJaoOeg5gmBKD+NumPHlgjD0=
+	t=1728605258; cv=none; b=iiGeav0Oy43aJbiAkco5WIkf44XC7Rk11xuyy040/PRPKd6ItXQjdgdAmpKJQxcL099Li2WX1PPkdCO7ooCYU1gHes3V9090RWbTfqiCsdw83GA10/LwxapMO54j2AkkGShUY/ih8eUPF3BfVY4yz/b6z7MleVmb5VNCC/usdr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728605250; c=relaxed/simple;
+	s=arc-20240116; t=1728605258; c=relaxed/simple;
 	bh=29VWA0DxT8hK6fkCwQrxvdJBmifY1Kc1/JCR3kgrfD8=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I6vVManzep+xIzSwVIoVrKJS+QpztJ1IrGmuyEAZQdK/0NDx8Ox/Lo8ih5Mw5vyCJ5wAZ2WxEuAie6X8xHW2pfn7QLFIbgwB0LS5TChAWXa2igWPSB7az6T/6XYuV6xrI86HyS0FHs8wo2RTzGZyhL+Rmh5OkWEXUrkX9ilJx0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=iHdILfIT; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version:Content-Type; b=nBNjIAzSUssC3c1TDTOYMKQn7nwGPOZDSZWo2/l8dgy6+8TYQX2mxHVs46wPffvnz6oNXkF3Ef+SkTbm+VGTo7hCVKXWUrkaRrRkF0js2IwU5pkUjwLmFVOSqyQz5tCR5FlyfrfHEEMmJM4cw7EELiSbon6sY4Oglaq6diOXpSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=gj+voW+r; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49AD9A7p027275;
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49ABuv92009168;
 	Fri, 11 Oct 2024 00:07:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	s/OTeliDf1Ah9/XP4Pomi7vIYaEPF2MJpZ2JrUJEjg8=; b=iHdILfITSDq358Lt
-	vil86If3/POivGAzkN76O/jsZt1hzca1zySSqT+4vdwiUZdlKpItD8qAHdqUampC
-	AicIF/BXhdoLhdihBSwKEVWgzhKGOTb4RPVHJKSnOIAu7UW14zUqXcMOpIo5isF6
-	7lKqZffRZJlThLFHsnt8HsoDMEnHd1tE4TkhE984WojhouRXORW7oxLQuyfY4QD3
-	xOcjORqZDIi402WF8H13g+7IIKzOncuaZ/JHRFN+suUQh+guQdlLRxZhn2HWF5Jd
-	eHPX8k83vDaMsEqkVxXLPvl0HEpydldZzH5WLJdMDwt3JLobW0/iJv9CoUhkNZfU
-	kVLuFA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 426fj6sf5m-1
+	s/OTeliDf1Ah9/XP4Pomi7vIYaEPF2MJpZ2JrUJEjg8=; b=gj+voW+r08KwxkIC
+	ZJFADwP7AwcCPpcgxGH0nYN9tIS3HomWl01OUw4Fjo/dfmXpUeFV0ZNc4ytJWw1+
+	eyOFim/h3UGPz7LrjaQlFhurLkFQxhtB+yAX9HfOD6tHzq0F3Jpa/lgSFgzbSLnV
+	7dps6LF8Tmimjlu1sQDL6LCttUFIdrXC3Ol5tP8QedVOK7a/kM/HuFSBsu99Y/X5
+	cZjUVfFjiYELABvPNdb2Oe+8pUbpMALiHXGByuM8RfblL6fln++6m84x8yYI0QP5
+	IRyNTeMRqgMZilenrfQj9G7aKv5CUPlCYX6V3ZKDYwXPOpZnEQlbw0D8YwXn0z22
+	JC3WHg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 425tn150w1-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Fri, 11 Oct 2024 00:07:09 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49B078H4016316
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49B079SI009245
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Oct 2024 00:07:08 GMT
+	Fri, 11 Oct 2024 00:07:09 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -70,9 +70,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>,
         Wesley Cheng
 	<quic_wcheng@quicinc.com>
-Subject: [PATCH v28 11/32] ALSA: usb-audio: Check for support for requested audio format
-Date: Thu, 10 Oct 2024 17:06:06 -0700
-Message-ID: <20241011000650.2585600-22-quic_wcheng@quicinc.com>
+Subject: [PATCH v28 12/33] ALSA: usb-audio: Check for support for requested audio format
+Date: Thu, 10 Oct 2024 17:06:08 -0700
+Message-ID: <20241011000650.2585600-24-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241011000650.2585600-1-quic_wcheng@quicinc.com>
 References: <20241011000650.2585600-1-quic_wcheng@quicinc.com>
@@ -88,16 +88,16 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Ck3mA5w2C0WkZkAZcFXcVXeSWrgizyAX
-X-Proofpoint-ORIG-GUID: Ck3mA5w2C0WkZkAZcFXcVXeSWrgizyAX
+X-Proofpoint-ORIG-GUID: Z1e5i6km9UarNA2b2XY_TIjkZW_bGGou
+X-Proofpoint-GUID: Z1e5i6km9UarNA2b2XY_TIjkZW_bGGou
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
- lowpriorityscore=0 spamscore=0 malwarescore=0 adultscore=0 suspectscore=0
- clxscore=1015 mlxscore=0 impostorscore=0 priorityscore=1501 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410100159
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ suspectscore=0 priorityscore=1501 mlxlogscore=999 impostorscore=0
+ spamscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 malwarescore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410100159
 
 Allow for checks on a specific USB audio device to see if a requested PCM
 format is supported.  This is needed for support when playback is
