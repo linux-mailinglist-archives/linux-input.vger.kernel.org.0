@@ -1,744 +1,915 @@
-Return-Path: <linux-input+bounces-7391-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7392-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E12DB99D54A
-	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2024 19:09:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBEAD99D8B7
+	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2024 23:04:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 44DEEB21A50
-	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2024 17:09:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE52B1C21403
+	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2024 21:04:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21F5F1C0DD6;
-	Mon, 14 Oct 2024 17:09:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jUwJnbgz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 479731D26F7;
+	Mon, 14 Oct 2024 21:04:22 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2A23CF73;
-	Mon, 14 Oct 2024 17:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E831D14F3
+	for <linux-input@vger.kernel.org>; Mon, 14 Oct 2024 21:04:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728925771; cv=none; b=evPpN00w6HofwlxNrnRIXT7rQcR5rAahUYflZEIDcFtXfaIt7T53fknBmFMHQnw0mNsy4902ab3H7hP8iBzheSDH8OdLjAE3gxcCjkLMmCYvOK5aPjLDhpj/Ub2H7c5N8iCCNfQchX443kaptVwq9UNiTNOKbTwwqncQwh34jQQ=
+	t=1728939862; cv=none; b=YEHGcR9XrSUqB7aXTEs8kEbG5CJ/0IrKcb2uH8r3DnouSLmLd3HlDkBIwAWhW9YracZlZ4HvHr/230eytHKf35HvjGbBEWx1GSO9WXE5x/kl/GoQPFgN/ur65Fa1muN7BnRv3VKGpv2l7W01Pttj8pDXHcDDiL0AE03CXM1lVnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728925771; c=relaxed/simple;
-	bh=IELIuT33cYWvegxx4KYJkNhsSXmX29Zze+BFfpJiw8M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=VidjfY4UfFJLioq6FDzjt2gdY+U0eADwPWQ86w5fQIfPMApd8bAWX9dOYf8vCf8G3Sb0DYnMvIw8FYCxo/c3XE/bVnmkqRwOIXODo6CQ7zkc15eXufgkOn4BKp8Qt5RIpBZ3QvB1rpkZoPUmV96PknN2mpNDcCVVZAIt4OE+/oA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=jUwJnbgz; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49EBXYT3012649;
-	Mon, 14 Oct 2024 17:09:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	E+MX8qPAfh+8MFfYpl+Y3pLxpTPpsVSbSTxX6ye/StE=; b=jUwJnbgzmFw2GZ+a
-	IY7TDOWCgp+2a8WM3QLXKRQJwsvf8PXo+7r0dMOty6eEa2rpr6ATVqL6fOMRc2WU
-	t0atzi0Hxs57dpWNU1Fcix02QnypwnvMpMLO7DaR3TTp4nPsPGh5OfYejrVxlunP
-	fjz8hGIz+hUa3EaqhAd57jmwOILsq7cRDKxh9IG+8TtWTZ54hqzbf8fGpmpTIA4y
-	zrbwY+hOSEX9gQ7da0XRE4ok0l7UeQptCdltyPw/U7SpD0Blvr7JWDwPdDpBPDk8
-	brM+Ym4+3zu+KvNmGcq3PqtJ3UtXZ19YNGnk6vxMfGMcRDk5bzmfE3xaNcLFVbuJ
-	rkvuCg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 427eted8d8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 14 Oct 2024 17:09:03 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49EH91Gk017448
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 14 Oct 2024 17:09:01 GMT
-Received: from [10.110.95.242] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 14 Oct
- 2024 10:09:00 -0700
-Message-ID: <dec26205-2bdc-4e2e-8732-eb0d68dde129@quicinc.com>
-Date: Mon, 14 Oct 2024 10:08:55 -0700
+	s=arc-20240116; t=1728939862; c=relaxed/simple;
+	bh=xA13InwbyzOZYmg4vwB5X4W2258du1K3Gr6EjB+iunA=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ur9SQmuykc8Z0NRdZYASNE6tDbWwNEiycvAhZ1HXZk/5j3fk+rkVwDILYSeZ8C+Vu1xWxxeodzALe3u04qDVeSoYv9g4jvPT6pdxqrGIxFdCJOchDDWvUgkEoSFuwWbgs2vfzXf9OzWesJVVbKYnVCDOCHuhYMPNjoTammtGgGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-3a3c24f3111so16303885ab.1
+        for <linux-input@vger.kernel.org>; Mon, 14 Oct 2024 14:04:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728939858; x=1729544658;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZTuStqAKtNINPmKhIH086lTeVbtmu0DplKUbQJRLhbE=;
+        b=RMijh7/1Ee4b3mjMQy0RbQ2+YzYMRokFE00Kz5c/Xi4KUWSVEWovqASyvKUX8wUh4Z
+         Nxc3rl3Vicz86vU/sZ5JHnfSfHcD4VyWjRBk9B0AW8nh3TzRi+38jWz2W52ySl3IXpdb
+         miUBchOZNCD739Zp05uCzvtyzpNbqBE1P2X7n9AKNLlCsz/RtxWMfMJtJaDdAjW7h+Hy
+         BxQTEAjfhZvOjXWiN0/N6fZb3KyaLx58s+nO0KMmsbjB+Lu2Pqc8amTqMNCidadxNOdp
+         rSDiKwpKdGHiuicFvif4MStDfTuy+rPxNy+nGID4W0asf0hmVVuyQEOviBE0179lxphE
+         yUfw==
+X-Gm-Message-State: AOJu0Yz3blpzr12pkwZtaIZ4uNpGxkOZ7Q5A9xPvwtAjhlQdmnZbQ9/r
+	BSzPxyNrKU7Qn1JV/QHF6mg4Ofx8GhlYTrW19U+XBIiqFgVbeskVEBB9B7gU6dyxShelbwPFYLK
+	e73XlREeJNaUs2rf/1cg6duC8bUKvf4MLntULLnfbdTxRoQ3+yLNDBMw=
+X-Google-Smtp-Source: AGHT+IHurmahiUrscpOGppQgJ8NCI1+CeyXbB9kexhrPP7BaXUNDY8X0G4kG/0gO7fTHS74P6Lxei7oH60TbCkpZto77xpuAhmAc
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v28 00/33] Introduce QC USB SND audio offloading support
-To: Christopher Snowhill <kode54@gmail.com>, <srinivas.kandagatla@linaro.org>,
-        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
-        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
-        <lgirdwood@gmail.com>, <tiwai@suse.com>, <krzk+dt@kernel.org>,
-        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
-        <bgoswami@quicinc.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
-References: <20241011000650.2585600-1-quic_wcheng@quicinc.com>
- <D4SXH1FKFQVL.184F0TQOCJWVR@gmail.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <D4SXH1FKFQVL.184F0TQOCJWVR@gmail.com>
+X-Received: by 2002:a05:6e02:168e:b0:3a0:451b:ade3 with SMTP id
+ e9e14a558f8ab-3a3b5f6b26bmr106327105ab.10.1728939858567; Mon, 14 Oct 2024
+ 14:04:18 -0700 (PDT)
+Date: Mon, 14 Oct 2024 14:04:18 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <670d8752.050a0220.3798c8.012f.GAE@google.com>
+Subject: [syzbot] [input?] [usb?] INFO: rcu detected stall in
+ sys_rt_sigprocmask (2)
+From: syzbot <syzbot+702ae87d7174a3a4d759@syzkaller.appspotmail.com>
+To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, luto@kernel.org, peterz@infradead.org, 
+	syzkaller-bugs@googlegroups.com, tglx@linutronix.de
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: R6rl_otm-lHQKdoQdQ1i6eQurBYe2dp3
-X-Proofpoint-GUID: R6rl_otm-lHQKdoQdQ1i6eQurBYe2dp3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- lowpriorityscore=0 adultscore=0 phishscore=0 spamscore=0 malwarescore=0
- impostorscore=0 clxscore=1011 priorityscore=1501 mlxscore=0
- mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2410140125
 
-Hi Chris,
+Hello,
 
-On 10/11/2024 4:08 AM, Christopher Snowhill wrote:
-> Comment posted below, after the commit listing.
->
-> On Thu Oct 10, 2024 at 5:05 PM PDT, Wesley Cheng wrote:
->> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
->>
->> Several Qualcomm based chipsets can support USB audio offloading to a
->> dedicated audio DSP, which can take over issuing transfers to the USB
->> host controller.  The intention is to reduce the load on the main
->> processors in the SoC, and allow them to be placed into lower power modes.
->> There are several parts to this design:
->>   1. Adding ASoC binding layer
->>   2. Create a USB backend for Q6DSP
->>   3. Introduce XHCI interrupter support
->>   4. Create vendor ops for the USB SND driver
->>
->>       USB                          |            ASoC
->> --------------------------------------------------------------------
->>                                    |  _________________________
->>                                    | |sm8250 platform card     |
->>                                    | |_________________________|
->>                                    |         |           |
->>                                    |      ___V____   ____V____
->>                                    |     |Q6USB   | |Q6AFE    |  
->>                                    |     |"codec" | |"cpu"    |
->>                                    |     |________| |_________|
->>                                    |         ^  ^        ^
->>                                    |         |  |________|
->>                                    |      ___V____    |
->>                                    |     |SOC-USB |   |
->>    ________       ________               |        |   |
->>   |USB SND |<--->|QC offld|<------------>|________|   |
->>   |(card.c)|     |        |<----------                |
->>   |________|     |________|___     | |                |
->>       ^               ^       |    | |    ____________V_________
->>       |               |       |    | |   |APR/GLINK             |
->>    __ V_______________V_____  |    | |   |______________________|
->>   |USB SND (endpoint.c)     | |    | |              ^
->>   |_________________________| |    | |              |
->>               ^               |    | |   ___________V___________
->>               |               |    | |->|audio DSP              |
->>    ___________V_____________  |    |    |_______________________|
->>   |XHCI HCD                 |<-    |
->>   |_________________________|      |
->>
->>
->> Adding ASoC binding layer
->> =========================
->> soc-usb: Intention is to treat a USB port similar to a headphone jack.
->> The port is always present on the device, but cable/pin status can be
->> enabled/disabled.  Expose mechanisms for USB backend ASoC drivers to
->> communicate with USB SND.
->>
->> Create a USB backend for Q6DSP
->> ==============================
->> q6usb: Basic backend driver that will be responsible for maintaining the
->> resources needed to initiate a playback stream using the Q6DSP.  Will
->> be the entity that checks to make sure the connected USB audio device
->> supports the requested PCM format.  If it does not, the PCM open call will
->> fail, and userspace ALSA can take action accordingly.
->>
->> Introduce XHCI interrupter support
->> ==================================
->> XHCI HCD supports multiple interrupters, which allows for events to be routed
->> to different event rings.  This is determined by "Interrupter Target" field
->> specified in Section "6.4.1.1 Normal TRB" of the XHCI specification.
->>
->> Events in the offloading case will be routed to an event ring that is assigned
->> to the audio DSP.
->>
->> Create vendor ops for the USB SND driver
->> ========================================
->> qc_audio_offload: This particular driver has several components associated
->> with it:
->> - QMI stream request handler
->> - XHCI interrupter and resource management
->> - audio DSP memory management
->>
->> When the audio DSP wants to enable a playback stream, the request is first
->> received by the ASoC platform sound card.  Depending on the selected route,
->> ASoC will bring up the individual DAIs in the path.  The Q6USB backend DAI
->> will send an AFE port start command (with enabling the USB playback path), and
->> the audio DSP will handle the request accordingly.
->>
->> Part of the AFE USB port start handling will have an exchange of control
->> messages using the QMI protocol.  The qc_audio_offload driver will populate the
->> buffer information:
->> - Event ring base address
->> - EP transfer ring base address
->>
->> and pass it along to the audio DSP.  All endpoint management will now be handed
->> over to the DSP, and the main processor is not involved in transfers.
->>
->> Overall, implementing this feature will still expose separate sound card and PCM
->> devices for both the platform card and USB audio device:
->>  0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
->>                       SM8250-MTP-WCD9380-WSA8810-VA-DMIC
->>  1 [Audio          ]: USB-Audio - USB Audio
->>                       Generic USB Audio at usb-xhci-hcd.1.auto-1.4, high speed
->>
->> This is to ensure that userspace ALSA entities can decide which route to take
->> when executing the audio playback.  In the above, if card#1 is selected, then
->> USB audio data will take the legacy path over the USB PCM drivers, etc...
->>
->> The current limitation is that the latest USB audio device that is identified
->> will be automatically selected by the Q6USB BE DAI for offloading.  Future
->> patches can be added to possibly add for more flexibility, but until the userpace
->> applications can be better defined, having these mechanisms will complicate the
->> overall implementation.
->>
->> USB offload Kcontrols
->> =====================
->> Part of the vendor offload package will have a mixer driver associated with it
->> (mixer_usb_offload.c).  This entity will be responsible for coordinating with
->> SOC USB and the Q6USB backend DAI to fetch information about the sound card
->> and PCM device indices associated with the offload path.  The logic is done
->> based on the current implementation of how paths are controlled within the QC
->> ASoC implementation.
->>
->> QC ASoC Q6Routing
->> -----------------
->> Within the Q6 ASOC design, the registered ASoC platform card will expose a set
->> of kcontrols for enabling the BE DAI links to the FE DAI link.  For example:
->>
->> tinymix -D 0 contents
->> Number of controls: 1033
->> ctl     type    num     name                                    value
->> ...
->> 1025    BOOL    1       USB Mixer MultiMedia1                   Off
->> 1026    BOOL    1       USB Mixer MultiMedia2                   Off
->> 1027    BOOL    1       USB Mixer MultiMedia3                   Off
->> 1028    BOOL    1       USB Mixer MultiMedia4                   Off
->> 1029    BOOL    1       USB Mixer MultiMedia5                   Off
->> 1030    BOOL    1       USB Mixer MultiMedia6                   Off
->> 1031    BOOL    1       USB Mixer MultiMedia7                   Off
->> 1032    BOOL    1       USB Mixer MultiMedia8                   Off
->>
->> Each of these kcontrols will enable the USB BE DAI link (q6usb) to be connected
->> to a FE DAI link (q6asm).  Since each of these controls are DAPM widgets, when
->> it is enabled, the DAPM widget's "connect" flag is updated accordingly.
->>
->> USB Offload Mapping
->> -------------------
->> Based on the Q6routing, the USB BE DAI link can determine which sound card and
->> PCM device is enabled for offloading.  Fetching the ASoC platform sound card's
->> information is fairly straightforward, and the bulk of the work goes to finding
->> the corresponding PCM device index.  As mentioned above, the USB BE DAI can
->> traverse the DAPM widgets to find the DAPM path that is related to the control
->> for the "USB Mixer."  Based on which "USB Mixer" is enabled, it can find the
->> corresponding DAPM widget associated w/ the FE DAI link (Multimedia*).  From there
->> it can find the PCM device created for the Multimedia* stream.
->>
->> Only one BE DAI link can be enabled per FE DAI.  For example, if the HDMI path is
->> enabled for Multimedia1, the USB Mixer will be disabled and switched over.
->>
->> Examples of kcontrol
->> --------------------
->> tinymix -D 0 contents
->> Number of controls: 1033
->> ctl     type    num     name 
->> ...
->> 1025    BOOL    1       USB Mixer MultiMedia1                   Off
->> 1026    BOOL    1       USB Mixer MultiMedia2                   On
->> 1027    BOOL    1       USB Mixer MultiMedia3                   Off
->> 1028    BOOL    1       USB Mixer MultiMedia4                   Off
->> 1029    BOOL    1       USB Mixer MultiMedia5                   Off
->> 1030    BOOL    1       USB Mixer MultiMedia6                   Off
->> 1031    BOOL    1       USB Mixer MultiMedia7                   Off
->> 1032    BOOL    1       USB Mixer MultiMedia8                   Off
->>
->> tinymix -D 2 contents
->> Number of controls: 7
->> ctl     type    num     name                                    value
->> 0       INT     2       Playback Channel Map                    0, 0 (range 0->36)
->> 1       BOOL    2       MDR-1ADAC  Playback Switch              On, On
->> 2       BOOL    1       MDR-1ADAC  Playback Switch              On
->> 3       INT     2       MDR-1ADAC  Playback Volume              127, 127 (range 0->127)
->> 4       INT     1       MDR-1ADAC  Playback Volume              127 (range 0->127)
->> 5       BOOL    1       Sony Internal Clock Validity            On
->> 6       INT     2       USB Offload Playback Route PCM#0        0, 1 (range -1->255)
->>
->> The example highlights that the userspace/application can utilize the offload path
->> for the USB device on card#0 PCM device#1.
->>
->> When dealing with multiple USB audio devices, only the latest USB device identified
->> is going to be selected for offload capable.
->>
->> tinymix -D 1 contents
->> Number of controls: 9
->> ctl     type    num     name                                    value
->> 0       INT     2       Capture Channel Map                     0, 0 (range 0->36)
->> 1       INT     2       Playback Channel Map                    0, 0 (range 0->36)
->> 2       BOOL    1       Headset Capture Switch                  On
->> 3       INT     1       Headset Capture Volume                  1 (range 0->4)
->> 4       BOOL    1       Sidetone Playback Switch                On
->> 5       INT     1       Sidetone Playback Volume                4096 (range 0->8192)
->> 6       BOOL    1       Headset Playback Switch                 On
->> 7       INT     2       Headset Playback Volume                 20, 20 (range 0->24)
->> 8       INT     2       USB Offload Playback Route PCM#0        -1, -1 (range -1->255)
->>
->> "-1, -1" shows that this device has no route to the offload path.
->>
->> This feature was validated using:
->> - tinymix: set/enable the multimedia path to route to USB backend
->> - tinyplay: issue playback on platform card
->>
->> Changelog
->> --------------------------------------------
->> Changes in v28:
->> - Fixed some phrases/wording within the SOC USB documentation, and also added an output
->> with aplay -l for the example output.
->> - Fixed allocated string buffer for creating the USB SND offload mixer, and added
->> a PCM index check to ensure that the pcm index is less than the expected number.
->> - Added a complement enable jack call if USB backend DAI link drivers need access
->> to it.
->>
->> Changes in v27:
->> - Added some comments and notes about the offload design.  Enforcing the q6routing
->> to only allow one USB mixer (PCM device) to be enabled at a time.
->> - Modified SND_JACK_USB notifications for all USB audio offloadable devices plugged
->> in
->> - Rebased on latest XHCI secondary interrupter IMOD changes upstream.  Modified the
->> change in this series to allow for XHCI sideband to set the IMOD for sideband
->> clients.
->> - Updated documentation on how USB SND kcontrols are involved in the overall design.
->> - Remove mutex locking from suspend/resume platform ops, as USB core ensures that the
->> interface and device are in the RPM_ACTIVE state while disconnect is handled.
->>
->> Changes in v26:
->> - Cleaned up drivers based on errors from checkpatch
->> - Fixed several typos using codespell
->> - Removed any vendor specific notation from USB SND offload mixer patch
->>
->> Changes in v25:
->> - Cleanups on typos mentioned within the xHCI layers
->> - Modified the xHCI interrupter search if clients specify interrupter index
->> - Moved mixer_usb_offload into its own module, so that other vendor offload USB
->> modules can utilize it also.
->> - Added support for USB audio devices that may have multiple PCM streams, as
->> previous implementation only assumed a single PCM device.  SOC USB will be
->> able to handle an array of PCM indexes supported by the USB audio device.
->> - Added some additional checks in the QC USB offload driver to check that device
->> has at least one playback stream before allowing to bind
->> - Reordered DT bindings to fix the error found by Rob's bot.  The patch that
->> added USB_RX was after the example was updated.
->> - Updated comments within SOC USB to clarify terminology and to keep it consistent
->> - Added SND_USB_JACK type for notifying of USB device audio connections
->>
->> Changes in v24:
->> - Simplified the kcontrols involved in determining how to utilize the offload
->> path.
->>     - There is one kcontrol registered to each USB audio device that will
->>       output which card/pcm device it is mapped to for the offload route.
->>     - Removed kcontrols to track offload status and device selection.
->>     - Default to last USB audio device plugged in as offload capable.
->>     - kcontrol will reside on USB SND device.
->> - Reworked the tracking of connected USB devices from the Q6USB BE DAI link.
->> Previously, it was convoluted by doing it over an array, but moved to using
->> a list made it much simpler.  Logic is still unchanged in that the last USB
->> headset plugged in will be selected for offloading.
->> - Updated the USB SOC RST documentation accordingly with new kcontrol updates.
->> - Added logic to fetch mapped ASoC card and pcm device index that the offload
->> path is mapped to for the USB SND kcontrol (for offload route).
->> - Re-ordered series to hopefully make reviews more readable by combining
->> patches based on the layer modified (ie QC ASoC, ASoC, USB sound, and USB XHCI).
->>
->> Changes in v23:
->> - Added MODULE_DESCRIPTION() fields to drivers that needed it.
->>
->> Changes in v22:
->> - Removed components tag for the ASoC platform card, as the USB SND kcontrol for
->> notifying userspace of offload capable card achieves similar results.
->> - Due to the above, had to remove the review-by tag for the RST documentation,
->> as changes were made to remove the components tag section.
->> - Took in feedback to make the SOC USB add/remove ports void.
->> - Fixed an issue w/ the USB SND kcontrol management for devices that have multi
->> UAC interfaces. (would attempt to create the kcontrol more than once)
->> - Modified SOC USB card and PCM index select to be based off the num_supported
->> streams that is specified by the USB BE DAI.
->> - Modified comments on selecting the latest USB headset for offloading.
->>
->> Changes in v21:
->> - Added an offload jack disable path from the ASoC platform driver and SOC USB.
->> - Refactored some of the existing SOC USB context look up APIs and created some
->> new helpers to search for the USB context.
->> - Renamed snd_soc_usb_find_format to snd_soc_usb_find_supported_format
->> - Removed some XHCI sideband calls that would allow clients to actually enable
->> the IRQ line associated w/ the secondary interrupter.  This is removed because
->> there are other dependencies that are required for that to happen, which are not
->> covered as part of this series, and to avoid confusion.
->> - Due to the above, removed the need to export IMOD setting, and enable/disable
->> interrupter APIs.
->>
->> Changes in v20:
->> - Fixed up some formatting changes pointed out in the usb.rst
->> - Added SB null check during XHCI sideband unregister in case caller passes
->> improper argument (xhci_sideband_unregister())
->>
->> Changes in v19:
->> - Rebased to usb-next to account for some new changes in dependent drivers.
->>
->> Changes in v18:
->> - Rebased to usb-next, which merged in part of the series.  Removed these patches.
->> - Reworked Kconfigs for the ASoC USB related components from QCOM Q6DSP drivers
->>   to keep dependencies in place for SoC USB and USB SND.
->> - Removed the repurposing of the stop ep sync API into existing XHCI operations.
->>   This will be solely used by the XHCI sideband for now.
->>
->> Changes in v17:
->> - Fixed an issue where one patch was squashed into another.
->> - Re-added some kconfig checks for helpers exposed in USB SND for the soc usb
->>   driver, after running different kconfigs.
->>
->> Changes in v16:
->> - Modified some code layer dependencies so that soc usb can be split as a separate
->>   module.
->>   - Split the kcontrols from ASoC QCOM common layer into a separate driver
->> - Reworked SOC USB kcontrols for controlling card + pcm offload routing and status
->>   so that there are individual controls for card and pcm devices.
->> - Added a kcontrol remove API in SOC USB to remove the controls on the fly.  This
->>   required to add some kcontrol management to SOC USB.
->> - Removed the disconnect work and workqueue for the QC USB offload as it is not
->>   required, since QMI interface driver ensures events are handled in its own WQ.
->>
->> Changes in v15:
->> - Removed some already merged XHCI changes
->> - Separated SOC USB driver from being always compiled into SOC core.  Now
->>   configurable from kconfig.
->> - Fixed up ASoC kcontrol naming to fit guidelines.
->> - Removed some unnecessary dummy ifdefs.
->> - Moved usb snd offload capable kcontrol to be initialized by the platform offloading
->>   driver.
->>
->> Changes in v14:
->> - Cleaned up some USB SND related feedback:
->>   - Renamed SNDUSB OFFLD playback available --> USB offload capable card
->>   - Fixed locking while checking if stream is in use
->>   - Replaced some mutex pairs with guard(mutex)
->>
->> Changes in v13:
->> - Pulled in secondary/primary interrupter rework from Mathias from:
->>   https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/drivers/usb/host?h=fix_eventhandling
->>   - Did some cleanup and commit message updates, and tested on current code base.
->> - Added mutex locking to xhci sideband to help prevent any race conditions, esp. for when accessing shared
->>   references.
->> - Addressed concerns from Hillf about gfp_flags and locking used in qc_usb_audio_offload.
->> - Rebased onto usb-next
->>
->> Changes in v12:
->> - Updated copyright year to 2024.  Happy new years!
->> - Fixed newline format on mixer offload driver.
->>
->> Changes in v11:
->> - Modified QMI format structures to be const
->>
->> Changes in v10:
->> - Added new mixer for exposing kcontrol for sound card created by USB SND.  This
->> allows for applications to know which platform sound card has offload support.
->> Will return the card number.
->> - Broke down and cleaned up some functions/APIs within qc_audio_offload driver.
->> - Exported xhci_initialize_ring_info(), and modified XHCI makefile to allow for
->> the XHCI sideband to exist as a module.
->> - Reworked the jack registration and moved it to the QCOM platform card driver,
->> ie sm8250.
->> - Added an SOC USB API to fetch a standard component tag that can be appended to
->> the platform sound card.  Added this tag to sm8250 if any USB path exists within
->> the DT node.
->> - Moved kcontrols that existed in the Q6USB driver, and made it a bit more generic,
->> so that naming can be standardized across solutions.  SOC USB is now responsible
->> for creation of these kcontrols.
->> - Added a SOC USB RST document explaining some code flows and implementation details
->> so that other vendors can utilize the framework.
->> - Addressed a case where USB device connection events are lost if usb offload driver
->> (qc_audio_offload) is not probed when everything else has been initialized, ie 
->> USB SND, SOC USB and ASoC sound card.  Add a rediscover device call during module
->> init, to ensure that connection events will be propagated.
->> - Rebased to usb-next.
->>
->> Changes in v9:
->> - Fixed the dt binding check issue with regards to num-hc-interrupters.
->>
->> Changes in v8:
->> - Cleaned up snd_soc_usb_find_priv_data() based on Mark's feedback.  Removed some of
->> the duplicate looping code that was present on previous patches.  Also renamed the API.
->> - Integrated Mathias' suggestions on his new sideband changes:
->> https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=feature_interrupters
->> - Addressed some of Mathias' fixme tags, such as:
->>  - Resetting transfer ring dequeue/enqueue pointers
->>  - Issuing stop endpoint command during ep removal
->>  - Reset ERDP properly to first segment ring during interrupter removal. (this is currently
->>    just being cleared to 0, but should be pointing to a valid segment if controller is still
->>    running.
->>
->> Changes in v7:
->> - Fixed dt check error for q6usb bindings
->> - Updated q6usb property from qcom,usb-audio-intr-num --> qcom,usb-audio-intr-idx
->> - Removed separate DWC3 HC interrupters num property, and place limits to XHCI one.
->> - Modified xhci_ring_to_sgtable() to use assigned IOVA/DMA address to fetch pages, as
->> it is not ensured event ring allocated is always done in the vmalloc range.
->>
->> Changes in v6:
->> - Fixed limits and description on several DT bindings (XHCI and Q6USB)
->> - Fixed patch subjects to follow other ALSA/ASoC notations.
->>
->> USB SND
->> - Addressed devices which expose multiple audio (UAC) interfaces.  These devices will
->> create a single USB sound card with multiple audio streams, and receive multiple
->> interface probe routines.  QC offload was not properly considering cases with multiple
->> probe calls.
->> - Renamed offload module name and kconfig to fit within the SND domain.
->> - Renamed attach/detach endpoint API to keep the hw_params notation.
->>
->> Changes in v5:
->> - Removed some unnecessary files that were included
->> - Fixed some typos mentioned
->> - Addressed dt-binding issues and added hc-interrupters definition to usb-xhci.yaml
->>
->> XHCI:
->> - Moved secondary skip events API to xhci-ring and updated implementation
->>    - Utilized existing XHCI APIs, such as inc_deq and xhci_update_erst_dequeue()
->>
->> USB SND
->> - Renamed and reworked the APIs in "sound: usb: Export USB SND APIs for modules" patch to
->> include suggestions to utilize snd_usb_hw_params/free and to avoid generic naming.
->> - Added a resume_cb() op for completion sake.
->> - Addressed some locking concerns with regards to when registering for platform hooks.
->> - Added routine to disconnect all offloaded devices during module unbind.
->>
->> ASoC
->> - Replaced individual PCM parameter arguments in snd_soc_usb_connect() with new
->> snd_soc_usb_device structure to pass along PCM info.
->> - Modified snd_jack set report to notify HEADPHONE event, as we do not support record path.
->>
->> Changes in v4:
->> - Rebased to xhci/for-usb-next
->> - Addressed some dt-bindings comments
->>
->> XHCI:
->> - Pulled in latest changes from Mathias' feature_interrupters branch:
->> https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=feature_interrupters
->>
->> - Fixed commit text and signage for the XHCI sideband/interrupter related changes
->> - Added some logic to address the FIXME tags mentioned throughout the commits, such
->> as handling multi segment rings and building the SGT, locking concerns, and ep
->> cleanup operations.
->> - Removed some fixme tags for conditions that may not be needed/addressed.
->> - Repurposed the new endpoint stop sync API to be utilized in other places.
->> - Fixed potential compile issue if XHCI sideband config is not defined.
->>
->> ASoC:
->> - Added sound jack control into the Q6USB driver.  Allows for userspsace to know when
->> an offload capable device is connected.
->>
->> USB SND:
->> - Avoided exporting _snd_pcm_hw_param_set based on Takashi's recommendation.
->> - Split USB QMI packet header definitions into a separate commit.  This is used to
->> properly allow the QMI interface driver to parse and route QMI packets accordingly
->> - Added a "depends on" entry when enabling QC audio offload to avoid compile time
->> issues.
->>
->> Changes in v3:
->> - Changed prefix from RFC to PATCH
->> - Rebased entire series to usb-next
->> - Updated copyright years
->>
->> XHCI:
->> - Rebased changes on top of XHCI changes merged into usb-next, and only added
->> changes that were still under discussion.
->> - Added change to read in the "num-hc-interrupters" device property.
->>
->> ASoC:
->> - qusb6 USB backend
->>   - Incorporated suggestions to fetch iommu information with existing APIs
->>   - Added two new sound kcontrols to fetch offload status and offload device
->>     selection.
->>     - offload status - will return the card and pcm device in use
->>         tinymix -D 0 get 1 --> 1, 0 (offload in progress on card#1 pcm#0)
->>
->>     - device selection - set the card and pcm device to enable offload on. Ex.:
->>         tinymix -D 0 set 1 2 0  --> sets offload on card#2 pcm#0
->>                                     (this should be the USB card)
->>
->> USB SND:
->> - Fixed up some locking related concerns for registering platform ops.
->>    - Moved callbacks under the register_mutex, so that 
->> - Modified APIs to properly pass more information about the USB SND device, so
->> that the Q6USB backend can build a device list/map, in order to monitor offload
->> status and device selection.
->>
->> Changes in v2:
->>
->> XHCI:
->> - Replaced XHCI and HCD changes with Mathias' XHCI interrupter changes
->> in his tree:
->> https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=feature_interrupters
->>
->> Adjustments made to Mathias' changes:
->>   - Created xhci-intr.h to export/expose interrupter APIs versus exposing xhci.h.
->>     Moved dependent structures to this file as well. (so clients can parse out
->>     information from "struct xhci_interrupter")
->>   - Added some basic locking when requesting interrupters.
->>   - Fixed up some sanity checks.
->>   - Removed clearing of the ERSTBA during freeing of the interrupter. (pending
->>     issue where SMMU fault occurs if DMA addr returned is 64b - TODO)
->>
->> - Clean up pending events in the XHCI secondary interrupter.  While testing USB
->> bus suspend, it was seen that on bus resume, the xHCI HC would run into a command
->> timeout.
->> - Added offloading APIs to xHCI to fetch transfer and event ring information.
->>
->> ASoC:
->> - Modified soc-usb to allow for multiple USB port additions.  For this to work,
->> the USB offload driver has to have a reference to the USB backend by adding
->> a "usb-soc-be" DT entry to the device saved into XHCI sysdev.
->> - Created separate dt-bindings for defining USB_RX port.
->> - Increased APR timeout to accommodate the situation where the AFE port start
->> command could be delayed due to having to issue a USB bus resume while
->> handling the QMI stream start command.
->>
->> Mathias Nyman (3):
->>   xhci: support setting interrupt moderation IMOD for secondary
->>     interrupters
->>   xhci: add helper to stop endpoint and wait for completion
->>   xhci: sideband: add initial api to register a sideband entity
->>
->> Wesley Cheng (30):
->>   usb: host: xhci: Repurpose event handler for skipping interrupter
->>     events
->>   usb: xhci: xhci-sideband: Set IMOD for xHCI sideband clients
->>   usb: host: xhci-mem: Cleanup pending secondary event ring events
->>   usb: host: xhci-mem: Allow for interrupter clients to choose specific
->>     index
->>   usb: host: xhci-plat: Set XHCI max interrupters if property is present
->>   usb: dwc3: Specify maximum number of XHCI interrupters
->>   ALSA: Add USB audio device jack type
->>   ALSA: usb-audio: Export USB SND APIs for modules
->>   ALSA: usb-audio: Check for support for requested audio format
->>   ALSA: usb-audio: Save UAC sample size information
->>   ALSA: usb-audio: Prevent starting of audio stream if in use
->>   ASoC: Add SOC USB APIs for adding an USB backend
->>   ASoC: usb: Add PCM format check API for USB backend
->>   ASoC: usb: Create SOC USB SND jack kcontrol
->>   ASoC: usb: Fetch ASoC card and pcm device information
->>   ASoC: doc: Add documentation for SOC USB
->>   ASoC: dt-bindings: qcom,q6dsp-lpass-ports: Add USB_RX port
->>   ASoC: dt-bindings: Update example for enabling USB offload on SM8250
->>   ASoC: qcom: qdsp6: Introduce USB AFE port to q6dsp
->>   ASoC: qcom: qdsp6: q6afe: Increase APR timeout
->>   ASoC: qcom: qdsp6: Add USB backend ASoC driver for Q6
->>   ASoC: qcom: qdsp6: Add headphone jack for offload connection status
->>   ASoC: qcom: qdsp6: Fetch USB offload mapped card and PCM device
->>   ALSA: usb-audio: Introduce USB SND platform op callbacks
->>   ALSA: usb-audio: qcom: Add USB QMI definitions
->>   ALSA: usb-audio: qcom: Introduce QC USB SND offloading support
->>   ALSA: usb-audio: qcom: Don't allow USB offload path if PCM device is
->>     in use
->>   ALSA: usb-audio: Add USB offload route kcontrol
->>   ALSA: usb-audio: Allow for rediscovery of connected USB SND devices
->>   ASoC: usb: Rediscover USB SND devices on USB port add
-> Maybe increment your patch version before reposting next time? At least
-> you gave an interesting test case for Aerc's threading. It managed to
-> confuse your 01-32 series with the 00-33 series, and interleaved the
-> whole lot under the one cover letter. I wonder what lore thinks of it,
-> heh.
->
-Ah...I lost track of my revisions on my end, sorry for the mix up.  In these cases, should I resubmit this series as v29?  Thanks for the advice in advanced.
+syzbot found the following issue on:
 
-Thanks
+HEAD commit:    4a9fe2a8ac53 dt-bindings: usb: dwc3-imx8mp: add compatible..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=13f3805f980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4510af5d637450fb
+dashboard link: https://syzkaller.appspot.com/bug?extid=702ae87d7174a3a4d759
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10542f07980000
 
-Wesley Cheng
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/883c5319cb52/disk-4a9fe2a8.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/caf4421ed2ef/vmlinux-4a9fe2a8.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/d8e3beb01d49/bzImage-4a9fe2a8.xz
 
->>  .../bindings/sound/qcom,sm8250.yaml           |   15 +
->>  Documentation/sound/soc/index.rst             |    1 +
->>  Documentation/sound/soc/usb.rst               |  491 ++++
->>  drivers/usb/dwc3/core.c                       |   12 +
->>  drivers/usb/dwc3/core.h                       |    2 +
->>  drivers/usb/dwc3/host.c                       |    3 +
->>  drivers/usb/host/Kconfig                      |    9 +
->>  drivers/usb/host/Makefile                     |    2 +
->>  drivers/usb/host/xhci-mem.c                   |   37 +-
->>  drivers/usb/host/xhci-plat.c                  |    2 +
->>  drivers/usb/host/xhci-ring.c                  |   54 +-
->>  drivers/usb/host/xhci-sideband.c              |  425 ++++
->>  drivers/usb/host/xhci.c                       |   51 +-
->>  drivers/usb/host/xhci.h                       |   19 +-
->>  .../sound/qcom,q6dsp-lpass-ports.h            |    1 +
->>  include/linux/mod_devicetable.h               |    2 +-
->>  include/linux/usb/xhci-sideband.h             |   70 +
->>  include/sound/jack.h                          |    4 +-
->>  include/sound/q6usboffload.h                  |   20 +
->>  include/sound/soc-usb.h                       |  147 ++
->>  include/uapi/linux/input-event-codes.h        |    3 +-
->>  sound/core/jack.c                             |    6 +-
->>  sound/soc/Kconfig                             |   10 +
->>  sound/soc/Makefile                            |    2 +
->>  sound/soc/qcom/Kconfig                        |   15 +
->>  sound/soc/qcom/Makefile                       |    2 +
->>  sound/soc/qcom/qdsp6/Makefile                 |    1 +
->>  sound/soc/qcom/qdsp6/q6afe-dai.c              |   60 +
->>  sound/soc/qcom/qdsp6/q6afe.c                  |  194 +-
->>  sound/soc/qcom/qdsp6/q6afe.h                  |   36 +-
->>  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c      |   23 +
->>  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h      |    1 +
->>  sound/soc/qcom/qdsp6/q6routing.c              |   32 +-
->>  sound/soc/qcom/qdsp6/q6usb.c                  |  391 ++++
->>  sound/soc/qcom/sm8250.c                       |   24 +-
->>  sound/soc/qcom/usb_offload_utils.c            |   56 +
->>  sound/soc/qcom/usb_offload_utils.h            |   30 +
->>  sound/soc/soc-usb.c                           |  369 +++
->>  sound/usb/Kconfig                             |   25 +
->>  sound/usb/Makefile                            |    4 +-
->>  sound/usb/card.c                              |  106 +
->>  sound/usb/card.h                              |   17 +
->>  sound/usb/endpoint.c                          |    1 +
->>  sound/usb/format.c                            |    1 +
->>  sound/usb/helper.c                            |    1 +
->>  sound/usb/mixer_usb_offload.c                 |  102 +
->>  sound/usb/mixer_usb_offload.h                 |   17 +
->>  sound/usb/pcm.c                               |  104 +-
->>  sound/usb/pcm.h                               |   11 +
->>  sound/usb/qcom/Makefile                       |    2 +
->>  sound/usb/qcom/qc_audio_offload.c             | 1974 +++++++++++++++++
->>  sound/usb/qcom/usb_audio_qmi_v01.c            |  863 +++++++
->>  sound/usb/qcom/usb_audio_qmi_v01.h            |  164 ++
->>  53 files changed, 5957 insertions(+), 57 deletions(-)
->>  create mode 100644 Documentation/sound/soc/usb.rst
->>  create mode 100644 drivers/usb/host/xhci-sideband.c
->>  create mode 100644 include/linux/usb/xhci-sideband.h
->>  create mode 100644 include/sound/q6usboffload.h
->>  create mode 100644 include/sound/soc-usb.h
->>  create mode 100644 sound/soc/qcom/qdsp6/q6usb.c
->>  create mode 100644 sound/soc/qcom/usb_offload_utils.c
->>  create mode 100644 sound/soc/qcom/usb_offload_utils.h
->>  create mode 100644 sound/soc/soc-usb.c
->>  create mode 100644 sound/usb/mixer_usb_offload.c
->>  create mode 100644 sound/usb/mixer_usb_offload.h
->>  create mode 100644 sound/usb/qcom/Makefile
->>  create mode 100644 sound/usb/qcom/qc_audio_offload.c
->>  create mode 100644 sound/usb/qcom/usb_audio_qmi_v01.c
->>  create mode 100644 sound/usb/qcom/usb_audio_qmi_v01.h
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+702ae87d7174a3a4d759@syzkaller.appspotmail.com
+
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: {
+ 1-...D } 2685 jiffies s: 1333 root: 0x2/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 0 to CPUs 1:
+NMI backtrace for cpu 1
+CPU: 1 UID: 0 PID: 2533 Comm: acpid Not tainted 6.12.0-rc1-syzkaller-00027-g4a9fe2a8ac53 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
+RIP: 0010:io_serial_out+0x8f/0xb0 drivers/tty/serial/8250/8250_port.c:413
+Code: 48 8d 7d 40 44 89 e1 48 b8 00 00 00 00 00 fc ff df 48 89 fa d3 e3 48 c1 ea 03 80 3c 02 00 75 1c 66 03 5d 40 44 89 e8 89 da ee <5b> 5d 41 5c 41 5d c3 cc cc cc cc e8 f1 eb 0d ff eb a0 e8 7a ec 0d
+RSP: 0018:ffffc900001b80e8 EFLAGS: 00000006
+RAX: 0000000000000000 RBX: 00000000000003f9 RCX: 0000000000000000
+RDX: 00000000000003f9 RSI: ffffffff82a076c5 RDI: ffffffff936356a0
+RBP: ffffffff93635660 R08: 0000000000000001 R09: 000000000000001f
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: ffffffff936356b0 R15: 000000000000001f
+FS:  00007f7d8d393740(0000) GS:ffff8881f5900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fbcf1d1d4b8 CR3: 00000001159ac000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ serial_out drivers/tty/serial/8250/8250.h:142 [inline]
+ serial8250_clear_IER+0x9b/0xc0 drivers/tty/serial/8250/8250_port.c:699
+ serial8250_console_write+0x243/0x17c0 drivers/tty/serial/8250/8250_port.c:3358
+ console_emit_next_record kernel/printk/printk.c:3092 [inline]
+ console_flush_all+0x800/0xc60 kernel/printk/printk.c:3180
+ __console_flush_and_unlock kernel/printk/printk.c:3239 [inline]
+ console_unlock+0xd9/0x210 kernel/printk/printk.c:3279
+ vprintk_emit+0x424/0x6f0 kernel/printk/printk.c:2407
+ vprintk+0x7f/0xa0 kernel/printk/printk_safe.c:68
+ _printk+0xc8/0x100 kernel/printk/printk.c:2432
+ printk_stack_address arch/x86/kernel/dumpstack.c:72 [inline]
+ show_trace_log_lvl+0x1b7/0x3d0 arch/x86/kernel/dumpstack.c:285
+ sched_show_task kernel/sched/core.c:7582 [inline]
+ sched_show_task+0x3f0/0x5f0 kernel/sched/core.c:7557
+ show_state_filter+0xee/0x320 kernel/sched/core.c:7627
+ k_spec drivers/tty/vt/keyboard.c:667 [inline]
+ k_spec+0xed/0x150 drivers/tty/vt/keyboard.c:656
+ kbd_keycode drivers/tty/vt/keyboard.c:1522 [inline]
+ kbd_event+0xcbd/0x17a0 drivers/tty/vt/keyboard.c:1541
+ input_handler_events_default+0x116/0x1b0 drivers/input/input.c:2549
+ input_pass_values+0x777/0x8e0 drivers/input/input.c:126
+ input_event_dispose drivers/input/input.c:341 [inline]
+ input_handle_event+0xf0b/0x14d0 drivers/input/input.c:369
+ input_event drivers/input/input.c:398 [inline]
+ input_event+0x83/0xa0 drivers/input/input.c:390
+ input_sync include/linux/input.h:451 [inline]
+ hidinput_report_event+0xb2/0x100 drivers/hid/hid-input.c:1736
+ hid_report_raw_event+0x274/0x11c0 drivers/hid/hid-core.c:2047
+ __hid_input_report.constprop.0+0x341/0x440 drivers/hid/hid-core.c:2110
+ hid_irq_in+0x35e/0x870 drivers/hid/usbhid/hid-core.c:285
+ __usb_hcd_giveback_urb+0x389/0x6e0 drivers/usb/core/hcd.c:1650
+ usb_hcd_giveback_urb+0x396/0x450 drivers/usb/core/hcd.c:1734
+ dummy_timer+0x17c3/0x38d0 drivers/usb/gadget/udc/dummy_hcd.c:1988
+ __run_hrtimer kernel/time/hrtimer.c:1691 [inline]
+ __hrtimer_run_queues+0x20a/0xae0 kernel/time/hrtimer.c:1755
+ hrtimer_run_softirq+0x17d/0x350 kernel/time/hrtimer.c:1772
+ handle_softirqs+0x206/0x8d0 kernel/softirq.c:554
+ __do_softirq kernel/softirq.c:588 [inline]
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:637 [inline]
+ irq_exit_rcu+0xac/0x110 kernel/softirq.c:649
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1037 [inline]
+ sysvec_apic_timer_interrupt+0x90/0xb0 arch/x86/kernel/apic/apic.c:1037
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:__raw_spin_unlock_irq include/linux/spinlock_api_smp.h:160 [inline]
+RIP: 0010:_raw_spin_unlock_irq+0x29/0x50 kernel/locking/spinlock.c:202
+Code: 90 f3 0f 1e fa 53 48 8b 74 24 08 48 89 fb 48 83 c7 18 e8 8a 91 42 fa 48 89 df e8 a2 0e 43 fa e8 ed d0 6c fa fb bf 01 00 00 00 <e8> 62 51 37 fa 65 8b 05 23 0e 13 79 85 c0 74 06 5b c3 cc cc cc cc
+RSP: 0018:ffffc900016dfdc8 EFLAGS: 00000206
+RAX: 000000000000f47b RBX: ffff888115950940 RCX: 1ffffffff14ac111
+RDX: 0000000000000000 RSI: ffffffff8727f1c0 RDI: 0000000000000001
+RBP: ffff88811591ba80 R08: 0000000000000001 R09: 0000000000000001
+R10: ffffffff8a56418f R11: 0000000000000000 R12: 1ffff920002dbfbb
+R13: 0000000000000000 R14: ffff88811591ba80 R15: dffffc0000000000
+ spin_unlock_irq include/linux/spinlock.h:401 [inline]
+ __set_current_blocked kernel/signal.c:3107 [inline]
+ sigprocmask+0x230/0x330 kernel/signal.c:3141
+ __do_sys_rt_sigprocmask kernel/signal.c:3218 [inline]
+ __se_sys_rt_sigprocmask kernel/signal.c:3201 [inline]
+ __x64_sys_rt_sigprocmask+0x1a6/0x290 kernel/signal.c:3201
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f7d8d409773
+Code: 00 f3 a5 48 8d 74 24 88 48 b9 ff ff ff 7f fe ff ff ff 48 21 c8 48 89 44 24 88 41 ba 08 00 00 00 44 89 c7 b8 0e 00 00 00 0f 05 <45> 31 c0 3d 00 f0 ff ff 76 06 41 89 c0 41 f7 d8 44 89 c0 5a c3 41
+RSP: 002b:00007ffc81e982e0 EFLAGS: 00000246 ORIG_RAX: 000000000000000e
+RAX: ffffffffffffffda RBX: 000055fc54c9c906 RCX: 00007f7d8d409773
+RDX: 0000000000000000 RSI: 000055fc54ca2480 RDI: 0000000000000000
+RBP: 0000000000000007 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000008 R11: 0000000000000246 R12: 00007ffc81e983e8
+R13: 000055fc54c9c178 R14: 0000000000000001 R15: 000000000000000a
+ </TASK>
+ </TASK>
+task:kworker/u8:0    state:R  running task     stack:28784 pid:9774  tgid:9774  ppid:11     flags:0x00004000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9795  tgid:9795  ppid:46     flags:0x00000002
+Call Trace:
+ <TASK>
+ </TASK>
+task:modprobe        state:R  running task     stack:25136 pid:9796  tgid:9796  ppid:37     flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ </TASK>
+task:kworker/u8:0    state:R  running task     stack:32568 pid:9802  tgid:9802  ppid:11     flags:0x00004000
+Call Trace:
+ <TASK>
+ __switch_to_asm+0x70/0x70
+ </TASK>
+task:modprobe        state:R  running task     stack:24704 pid:9807  tgid:9807  ppid:1325   flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9811  tgid:9811  ppid:1325   flags:0x00000000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9817  tgid:9817  ppid:11     flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f955142fa90
+RSP: 002b:00007ffea44d9828 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f9551520860 RCX: 00007f955142fa90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f9551520860 R08: 0000000000000001 R09: 7bc75a20ba26ebb1
+R10: 00007ffea44d96e0 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f9551524658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:24704 pid:9822  tgid:9822  ppid:37     flags:0x00000002
+Call Trace:
+ <TASK>
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9831  tgid:9831  ppid:37     flags:0x00000002
+Call Trace:
+ <TASK>
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9832  tgid:9832  ppid:11     flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9834  tgid:9834  ppid:37     flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7ff6c0cc4a90
+RSP: 002b:00007ffc5ea12c78 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007ff6c0db5860 RCX: 00007ff6c0cc4a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007ff6c0db5860 R08: 0000000000000001 R09: 8129a6e5919db952
+R10: 00007ffc5ea12b30 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007ff6c0db9658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9840  tgid:9840  ppid:37     flags:0x00000000
+Call Trace:
+ <TASK>
+ </TASK>
+task:modprobe        state:Z  running task     stack:24704 pid:9841  tgid:9841  ppid:1325   flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f51094d4a90
+RSP: 002b:00007ffd99d87b68 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f51095c5860 RCX: 00007f51094d4a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f51095c5860 R08: 0000000000000001 R09: 5945d8a9bcb3a755
+R10: 00007ffd99d87a20 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f51095c9658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9846  tgid:9846  ppid:1325   flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fa62c104a90
+RSP: 002b:00007ffc644b68c8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007fa62c1f5860 RCX: 00007fa62c104a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007fa62c1f5860 R08: 0000000000000001 R09: 8f093f03e5abc1f1
+R10: 00007ffc644b6780 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007fa62c1f9658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9851  tgid:9851  ppid:11     flags:0x00004002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f3796f60a90
+RSP: 002b:00007ffc4962f2e8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f3797051860 RCX: 00007f3796f60a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f3797051860 R08: 0000000000000001 R09: df19dfcc35aaad5c
+R10: 00007ffc4962f1a0 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f3797055658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9856  tgid:9856  ppid:1325   flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f9e02b77a90
+RSP: 002b:00007ffd6d2f1278 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f9e02c68860 RCX: 00007f9e02b77a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f9e02c68860 R08: 0000000000000001 R09: 01538452257bb23f
+R10: 00007ffd6d2f1130 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f9e02c6c658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9862  tgid:9862  ppid:1325   flags:0x00000000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9865  tgid:9865  ppid:1325   flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f87bf69da90
+RSP: 002b:00007ffd16a9bee8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f87bf78e860 RCX: 00007f87bf69da90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f87bf78e860 R08: 0000000000000001 R09: 49fa25bab3fd9255
+R10: 00007ffd16a9bda0 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f87bf792658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9872  tgid:9872  ppid:1325   flags:0x00000000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f190d742a90
+RSP: 002b:00007fff15f87e68 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f190d833860 RCX: 00007f190d742a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f190d833860 R08: 0000000000000001 R09: abe120035995b0ac
+R10: 00007fff15f87d20 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f190d837658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25136 pid:9877  tgid:9877  ppid:1325   flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f6034cd3a90
+RSP: 002b:00007ffe2d69ac18 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f6034dc4860 RCX: 00007f6034cd3a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f6034dc4860 R08: 0000000000000001 R09: 11de2efcc8ed89d5
+R10: 00007ffe2d69aad0 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f6034dc8658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9883  tgid:9883  ppid:11     flags:0x00000002
+Call Trace:
+ <TASK>
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9889  tgid:9889  ppid:37     flags:0x00000000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fc8e8cd6a90
+RSP: 002b:00007ffe95b30038 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007fc8e8dc7860 RCX: 00007fc8e8cd6a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007fc8e8dc7860 R08: 0000000000000001 R09: fb27cddea10e562b
+R10: 00007ffe95b2fef0 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007fc8e8dcb658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:24704 pid:9895  tgid:9895  ppid:37     flags:0x00000002
+Call Trace:
+ <TASK>
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9896  tgid:9896  ppid:11     flags:0x00000000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f7fa6392a90
+RSP: 002b:00007ffd3f8d2e98 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f7fa6483860 RCX: 00007f7fa6392a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f7fa6483860 R08: 0000000000000001 R09: ec26742ef1324bc5
+R10: 00007ffd3f8d2d50 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f7fa6487658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:24704 pid:9902  tgid:9902  ppid:11     flags:0x00000002
+Call Trace:
+ <TASK>
+ </TASK>
+task:modprobe        state:R  running task     stack:24416 pid:9904  tgid:9904  ppid:37     flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f865aea4a90
+RSP: 002b:00007ffdbafcc1a8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f865af95860 RCX: 00007f865aea4a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f865af95860 R08: 0000000000000001 R09: 6519921b7d932ea4
+R10: 00007ffdbafcc060 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f865af99658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9910  tgid:9910  ppid:11     flags:0x00000002
+Call Trace:
+ <TASK>
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9912  tgid:9912  ppid:1325   flags:0x00000002
+Call Trace:
+ <TASK>
+ </TASK>
+task:modprobe        state:R  running task     stack:25136 pid:9916  tgid:9916  ppid:11     flags:0x00000002
+Call Trace:
+ <TASK>
+ </TASK>
+task:modprobe        state:R  running task     stack:26144 pid:9922  tgid:9922  ppid:11     flags:0x00000000
+Call Trace:
+ <TASK>
+ </TASK>
+task:modprobe        state:R  running task     stack:27088 pid:9928  tgid:9928  ppid:11     flags:0x00004002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ __schedule_loop kernel/sched/core.c:6752 [inline]
+ schedule+0xe7/0x350 kernel/sched/core.c:6767
+ exit_to_user_mode_loop kernel/entry/common.c:102 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0xec/0x260 kernel/entry/common.c:218
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9929  tgid:9929  ppid:46     flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f3790ee9a90
+RSP: 002b:00007ffd6af0bb58 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f3790fda860 RCX: 00007f3790ee9a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f3790fda860 R08: 0000000000000001 R09: e230ef76183efab5
+R10: 00007ffd6af0ba10 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f3790fde658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9934  tgid:9934  ppid:11     flags:0x00000000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ </TASK>
+task:modprobe        state:R  running task     stack:25952 pid:9937  tgid:9937  ppid:46     flags:0x00000000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ </TASK>
+task:modprobe        state:R  running task     stack:24704 pid:9943  tgid:9943  ppid:11     flags:0x00004002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f6f934a7a90
+RSP: 002b:00007ffd406a7828 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f6f93598860 RCX: 00007f6f934a7a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f6f93598860 R08: 0000000000000001 R09: 96be0cbae33c7ca9
+R10: 00007ffd406a76e0 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f6f9359c658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9949  tgid:9949  ppid:11     flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fee521cda90
+RSP: 002b:00007fffcefe6ec8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007fee522be860 RCX: 00007fee521cda90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007fee522be860 R08: 0000000000000001 R09: 17ed4309c950e542
+R10: 00007fffcefe6d80 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007fee522c2658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9955  tgid:9955  ppid:46     flags:0x00000000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9958  tgid:9958  ppid:46     flags:0x00000002
+Call Trace:
+ <TASK>
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9959  tgid:9959  ppid:1325   flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f0131c60a90
+RSP: 002b:00007ffc4499f548 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f0131d51860 RCX: 00007f0131c60a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f0131d51860 R08: 0000000000000001 R09: a68ea4d3eed0dfeb
+R10: 00007ffc4499f400 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f0131d55658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9965  tgid:9965  ppid:1325   flags:0x00000000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f82fc758a90
+RSP: 002b:00007ffe9e392c98 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f82fc849860 RCX: 00007f82fc758a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f82fc849860 R08: 0000000000000001 R09: 36cf7fe4c3043a73
+R10: 00007ffe9e392b50 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f82fc84d658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:24704 pid:9970  tgid:9970  ppid:46     flags:0x00000002
+Call Trace:
+ <TASK>
+ </TASK>
+task:modprobe        state:R  running task     stack:24704 pid:9972  tgid:9972  ppid:11     flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f958683ca90
+RSP: 002b:00007fffb78714d8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f958692d860 RCX: 00007f958683ca90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f958692d860 R08: 0000000000000001 R09: f39a6e51b3f16eac
+R10: 00007fffb7871390 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f9586931658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9976  tgid:9976  ppid:46     flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f200dea2a90
+RSP: 002b:00007fff07ade368 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f200df93860 RCX: 00007f200dea2a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f200df93860 R08: 0000000000000001 R09: 5b1cf2d2011f693e
+R10: 00007fff07ade220 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f200df97658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9982  tgid:9982  ppid:1325   flags:0x00000000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ __schedule_loop kernel/sched/core.c:6752 [inline]
+ schedule+0xe7/0x350 kernel/sched/core.c:6767
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9985  tgid:9985  ppid:46     flags:0x00000000
+Call Trace:
+ <TASK>
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:9993  tgid:9993  ppid:46     flags:0x00000002
+Call Trace:
+ <TASK>
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:10000 tgid:10000 ppid:46     flags:0x00000000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f9881536a90
+RSP: 002b:00007fff40012198 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f9881627860 RCX: 00007f9881536a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f9881627860 R08: 0000000000000001 R09: dd436b2e179cb5d0
+R10: 00007fff40012050 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f988162b658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:10006 tgid:10006 ppid:46     flags:0x00000000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ </TASK>
+task:modprobe        state:R  running task     stack:23984 pid:10013 tgid:10013 ppid:46     flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f20c23d6a90
+RSP: 002b:00007fffae80cb98 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f20c24c7860 RCX: 00007f20c23d6a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f20c24c7860 R08: 0000000000000001 R09: ca35b3432b44a533
+R10: 00007fffae80ca50 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f20c24cb658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:10019 tgid:10019 ppid:11     flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ do_task_dead+0xd6/0x110 kernel/sched/core.c:6691
+ do_exit+0x1de7/0x2ce0 kernel/exit.c:990
+ do_group_exit+0xd3/0x2a0 kernel/exit.c:1088
+ __do_sys_exit_group kernel/exit.c:1099 [inline]
+ __se_sys_exit_group kernel/exit.c:1097 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1097
+ x64_sys_call+0x14a9/0x16a0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f3cf0dc1a90
+RSP: 002b:00007ffe227e87d8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f3cf0eb2860 RCX: 00007f3cf0dc1a90
+RDX: 00000000000000e7 RSI: 000000000000003c RDI: 0000000000000001
+RBP: 00007f3cf0eb2860 R08: 0000000000000001 R09: 301bff6f62b389bf
+R10: 00007ffe227e8690 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000001 R14: 00007f3cf0eb6658 R15: 0000000000000001
+ </TASK>
+task:modprobe        state:R  running task     stack:25408 pid:10025 tgid:10025 ppid:1325   flags:0x00000002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ </TASK>
+
+Showing all locks held in the system:
+3 locks held by kworker/0:1H/295:
+ #0: ffff8881026e7d48 ((wq_completion)kblockd){+.+.}-{0:0}, at: process_one_work+0x129b/0x1ba0 kernel/workqueue.c:3204
+ #1: ffffc900016efd80 ((work_completion)(&q->timeout_work)){+.+.}-{0:0}, at: process_one_work+0x921/0x1ba0 kernel/workqueue.c:3205
+ #2: ffffffff88ec6a78 (rcu_state.exp_mutex){+.+.}-{3:3}, at: exp_funnel_lock+0x1a4/0x3b0 kernel/rcu/tree_exp.h:329
+4 locks held by acpid/2533:
+ #0: ffff88811ee7f230 (&dev->event_lock){..-.}-{2:2}, at: input_event drivers/input/input.c:397 [inline]
+ #0: ffff88811ee7f230 (&dev->event_lock){..-.}-{2:2}, at: input_event+0x70/0xa0 drivers/input/input.c:390
+ #1: ffffffff88ebb100 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
+ #1: ffffffff88ebb100 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #1: ffffffff88ebb100 (rcu_read_lock){....}-{1:2}, at: input_pass_values+0x8b/0x8e0 drivers/input/input.c:118
+ #2: ffffffff89387ad8 (kbd_event_lock){..-.}-{2:2}, at: spin_lock include/linux/spinlock.h:351 [inline]
+ #2: ffffffff89387ad8 (kbd_event_lock){..-.}-{2:2}, at: kbd_event+0x8a/0x17a0 drivers/tty/vt/keyboard.c:1535
+ #3: ffffffff88ebb100 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
+ #3: ffffffff88ebb100 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #3: ffffffff88ebb100 (rcu_read_lock){....}-{1:2}, at: debug_show_all_locks+0x7f/0x390 kernel/locking/lockdep.c:6720
+2 locks held by getty/2608:
+ #0: ffff888113e500a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x24/0x80 drivers/tty/tty_ldisc.c:243
+ #1: ffffc900000432f0 (&ldata->atomic_read_lock){+.+.}-{3:3}, at: n_tty_read+0xfba/0x1480 drivers/tty/n_tty.c:2211
+3 locks held by syz-executor/8254:
+ #0: ffff888113f9c3f8 (sb_writers#5){.+.+}-{0:0}, at: filename_create+0x10d/0x530 fs/namei.c:4019
+ #1: ffff88811807c8a8 (&type->i_mutex_dir_key#3/1){+.+.}-{3:3}, at: inode_lock_nested include/linux/fs.h:850 [inline]
+ #1: ffff88811807c8a8 (&type->i_mutex_dir_key#3/1){+.+.}-{3:3}, at: filename_create+0x1c2/0x530 fs/namei.c:4026
+ #2: ffff888113fa0958 (jbd2_handle){++++}-{0:0}, at: start_this_handle+0xf6c/0x1430 fs/jbd2/transaction.c:448
+3 locks held by syz-executor/8257:
+ #0: ffff888113f9c3f8 (sb_writers#5){.+.+}-{0:0}, at: filename_create+0x10d/0x530 fs/namei.c:4019
+ #1: ffff88811807dc48 (&type->i_mutex_dir_key#3/1){+.+.}-{3:3}, at: inode_lock_nested include/linux/fs.h:850 [inline]
+ #1: ffff88811807dc48 (&type->i_mutex_dir_key#3/1){+.+.}-{3:3}, at: filename_create+0x1c2/0x530 fs/namei.c:4026
+ #2: ffff888113fa0958 (jbd2_handle){++++}-{0:0}, at: start_this_handle+0xf6c/0x1430 fs/jbd2/transaction.c:448
+1 lock held by syz-executor/8261:
+ #0: ffffffff88ec6a78 (rcu_state.exp_mutex){+.+.}-{3:3}, at: exp_funnel_lock+0x282/0x3b0 kernel/rcu/tree_exp.h:297
+3 locks held by modprobe/10042:
+
+=============================================
+
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
