@@ -1,245 +1,310 @@
-Return-Path: <linux-input+bounces-7380-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7381-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15D799BCE1
-	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2024 02:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52ECA99BF37
+	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2024 06:54:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4335B20FA5
-	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2024 00:17:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A3C40B21898
+	for <lists+linux-input@lfdr.de>; Mon, 14 Oct 2024 04:54:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3E73139B;
-	Mon, 14 Oct 2024 00:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U4hTK+jD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EC0D49620;
+	Mon, 14 Oct 2024 04:54:15 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from cosmicgizmosystems.com (beyond-windows.com [63.249.102.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6D94A1C;
-	Mon, 14 Oct 2024 00:16:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F53D4A1C;
+	Mon, 14 Oct 2024 04:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728865018; cv=none; b=jUJDf3exBfktKdYwdr8MpufGIWwqRcJJxvc8V2wmJ81Pr4AuB0T2/xKhi2cGhpVLml1JjnWwuCZFK/xQTp0ANXflK9kucTaQyjVASNeUdYeG1eQ9EfSKVd+To9KGNBRStHksQYLPlUAwRzPHlozMFq2qcTgk2k6pEveeeIWwxcc=
+	t=1728881655; cv=none; b=PDemHl7SR3+1YnWEv2/dZHmtClE6lG6JqnUNpRG74D1EpfVugbKwM7UMFNUITK95ltn22f3kY4DgEGXy4nrEx4dMPeUZ84+Om/owEcOnc53WJSmc8K2uXyAq6qYvzVM//IN4MfSCNm6cWvazrgCeIAUyLsFnmjulKXQH37ZCEIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728865018; c=relaxed/simple;
-	bh=H8LxFpLQGQlVeBckQzM3hRiLd9BKZU8Ty5mnHd1LooY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aoK4KvYii0XtkvInLXLoNDZG24veXD54SL6XH1OJQgIb1ikDAu2udwe2qvJ9v9pOyDTkMO2h0ZVYjryb6jXvzwomqpZe0lu/5MytnJY6S4PlEMVkcs6T2Z8UBPBIx5/2QZSeYcBUEt6WxPEzAYyWBB/TxeyMdwipwkzCvOL3yeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U4hTK+jD; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-37d4ac91d97so3163853f8f.2;
-        Sun, 13 Oct 2024 17:16:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728865015; x=1729469815; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ji81C34IVdT9C8xuuIvF1XCFX9JFwMotyJlYw7dOsL0=;
-        b=U4hTK+jDlqSQq7q2n1yrsa6rNX2ZA9+nisss+pjKT7WmespnizUPH44GezCPt1hjy3
-         lWSK78hKxW+nARjC1zrJ+9QllYfi8ejx85orPfoovQwruj1DskhCgPJ/3B+Ep7EH41kl
-         WV1hIk8oE3Fo+JqaMCCfbYkZNp6cdsblCb6iNct7Kv9hyIWajYC71IbZJBMR5GBXyq95
-         q8Pq8bacpkFF2vAiaRAf3tqk4YdP7kmmfMq4qcettSpWvMUiQFwrT93pyYazYegHyaZf
-         MLrcXIp1DUvDBynW4ADVEfyKJQ6DTdpklZACggXnsYsNf+BMDLog090LBE0fTt/yE85p
-         HV8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728865015; x=1729469815;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ji81C34IVdT9C8xuuIvF1XCFX9JFwMotyJlYw7dOsL0=;
-        b=GMxO9Nv27Q7ggGB59y2zTehcfeBwFihinlXHfoqmOnWnNW4wy/K9ZF5yU9+ikD8KfU
-         k8xtYe9nhvtxRMkOP7ijqRXRUUkgLpchw5KSe2HauuZNeZxNXtWSNQ6y5GfI3I56omKH
-         76w6KL5FfWCGO3Ifnb+VZjz2m0uFwtyntDF6qabqMglCnb4Qm1iqhPEJzolcY+2wEPFl
-         mChXaxtoI88HB6onj2oLrJeQSDufT9Zz7EptPLZW5VYm6ZHZT67A2RChUJelaSTa3pdO
-         wjQEgrS8aPDHytENxxB5JUkwmmx71u5Y3Z3dmfRnVEBlGjjkNwOXihCdSdro4aGxRrHR
-         Rx1A==
-X-Forwarded-Encrypted: i=1; AJvYcCWY1csCKIyLNu4FyMmqHYQ/TJy2CXRV+oSVBfUCJFRCJhZC2p3v+0MSYRsAngLaEDiDuOxvrGPAwgyb2g==@vger.kernel.org, AJvYcCXdJgEvyOnKLzSUXKyGRSi3M/8gKonyHJJVree600V++okylJGfZwU2+mYUlU1P/UmsghiynqXhEa3QdcpZ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8Ppf65ZEDszP4nCS2ybAQHFTGbVenghhvEhCM1CI83CuDpb8d
-	rIKMxKWdt2J8uDxSKlouN5OTPtG9/oW+cueemXkLqye9asdJ3kbkENuClZQKIVg/mwq1RRXpAYS
-	V3GdQijvKfQlpKJ+vWedizgB9W07Jj90=
-X-Google-Smtp-Source: AGHT+IE94o4RcEzV+yHpUgBK0EBhLOjDSLOep2wdDVS0V8FUM9VsdXWy7fZDuHMO20nJ685e0qJBID78AoE60xIsHu4=
-X-Received: by 2002:a05:6000:1c1:b0:37c:cfa4:d998 with SMTP id
- ffacd0b85a97d-37d601db8d0mr5668700f8f.49.1728865014504; Sun, 13 Oct 2024
- 17:16:54 -0700 (PDT)
+	s=arc-20240116; t=1728881655; c=relaxed/simple;
+	bh=WTSxNEFV87UUOCvE3AFLbbV3O/wp3BlqSEnenjaV7xE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hi/3JVcmTHr5QvN9yAQ9v2ofsJoupm0HV53S8i/vzs3PdRppk7+eHbv4qZZ4eLJbD76oiVMZrx8Q3rrBV/9+L5QxoMnqT1S17PuvM0piiDNm4RbVwLBuQ6avvIAgwc4q8q+ADXjuQLNupmvHSSJm7waYL9IOdzbbdyD+2PBsqls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
+Received: from [10.0.0.101] (c-73-190-111-195.hsd1.wa.comcast.net [73.190.111.195])
+	by host11.cruzio.com (Postfix) with ESMTPSA id 5FB2E275BF53;
+	Sun, 13 Oct 2024 21:47:38 -0700 (PDT)
+Message-ID: <234020be-e030-4271-9cc1-a1f6d04eeeed@cosmicgizmosystems.com>
+Date: Sun, 13 Oct 2024 21:47:37 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240925100303.9112-1-alex.vinarskis@gmail.com>
- <20240925100303.9112-2-alex.vinarskis@gmail.com> <2xb4vqlt2gdrmioyx7tjaw2vfw55pmhvz54q7f2ldrkikzzxge@737bp5ms6gwc>
-In-Reply-To: <2xb4vqlt2gdrmioyx7tjaw2vfw55pmhvz54q7f2ldrkikzzxge@737bp5ms6gwc>
-From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-Date: Mon, 14 Oct 2024 02:16:43 +0200
-Message-ID: <CAMcHhXoKdXODc+4Bs-o2WXvxXiWpJHLBupnoqLyTa9m5KrNWbA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] HID: i2c-hid: introduce re-power-on quirk
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] HID: plantronics: Update to map micmute controls
+To: "Wang, Wade" <wade.wang@hp.com>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: "jikos@kernel.org" <jikos@kernel.org>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
+References: <20240913060800.1325954-1-wade.wang@hp.com>
+ <s36bnt7ptdarrxpejm6n62gf3rvvwfagmmpyq4unpv3hn7v2jf@up2vjv7shl2q>
+ <EA2PR84MB378051BB14F857BA84E662818B602@EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM>
+ <EA2PR84MB378082C6FA58AA25258DC74B8B682@EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM>
+ <bc92e409-cebe-4da1-a225-c48915c5dcba@cosmicgizmosystems.com>
+ <EA2PR84MB37807C9F2191AFE41F9372328B6A2@EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM>
+ <EA2PR84MB378022DD0D3D06901404BEDB8B792@EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM>
+Content-Language: en-US
+From: Terry Junge <linuxhid@cosmicgizmosystems.com>
+In-Reply-To: <EA2PR84MB378022DD0D3D06901404BEDB8B792@EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 25 Sept 2024 at 13:54, Benjamin Tissoires <bentiss@kernel.org> wrote:
->
-> On Sep 25 2024, Aleksandrs Vinarskis wrote:
-> > It appears some keyboards from vendor 'QTEC' will not work properly until
-> > suspend & resume.
-> >
-> > Empirically narrowed down to solution of re-sending power on command
-> > _after_ initialization was completed before the end of initial probing.
-> >
-> > Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-> > ---
-> >  drivers/hid/i2c-hid/i2c-hid-core.c | 7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-> > index 632eaf9e11a6..087ca2474176 100644
-> > --- a/drivers/hid/i2c-hid/i2c-hid-core.c
-> > +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-> > @@ -50,6 +50,7 @@
-> >  #define I2C_HID_QUIRK_BAD_INPUT_SIZE         BIT(3)
-> >  #define I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET  BIT(4)
-> >  #define I2C_HID_QUIRK_NO_SLEEP_ON_SUSPEND    BIT(5)
-> > +#define I2C_HID_QUIRK_RE_POWER_ON            BIT(6)
-> >
-> >  /* Command opcodes */
-> >  #define I2C_HID_OPCODE_RESET                 0x01
-> > @@ -1048,7 +1049,11 @@ static int i2c_hid_core_register_hid(struct i2c_hid *ihid)
-> >               return ret;
-> >       }
-> >
-> > -     return 0;
-> > +     /* At least some QTEC devices need this after initialization */
-> > +     if (ihid->quirks & I2C_HID_QUIRK_RE_POWER_ON)
-> > +             ret = i2c_hid_set_power(ihid, I2C_HID_PWR_ON);
->
-> I'd rather not have this in i2c-hid-core.c, TBH.
->
-> We do have a nice split separation of i2c-hid which allows to add vendor
-> specific i2c-hid-of drivers. We currently have 2 (goodix and elan) and a
-> third wouldn't be much of an issue.
+Hi Wade,
 
-Hi,
+Short answer is no, not until some fix is put into the kernel or user 
+space so the majority of Plantronics/Poly/HP headsets bind to the mixer 
+so the host feeds back settings on the audio control interface for the 
+volume level and mute state. The problem is in the names that the kernel 
+creates for the various controls.
 
-Thanks for the input.
-I did some further digging, as I did not understand how to implement
-your suggestion right away, and in addition I think I am a bit short
-on data about this keyboard to create a dedicated driver. I am still
-not 100% sure how to proceed, so would like to share my findings
-first, perhaps you would have something else to add.
+After a couple of weeks torture and two days to repair/recover my system 
+after following Ubuntu's instructions on building and installing the 
+kernel, I was able to test the behavior with a modified hid-plantronics 
+driver. I removed all the quirks that have been added since I retired 
+and just added allowing the telephony mute event to be mapped by the core.
 
-Firstly, I am not quite sure what/who is the 'QTEC' manufacturer. I
-could not find it online by VID. In DSDT tables it's listed as
-'QTEC0001', which sounds very generic. Only existing reference to QTEC
-that I could find in the kernel was in this [1] patch, where it
-appears to be a combo Elan touchpad+keyboard device, at least based on
-VID, though it was listed in ACPI as 'QTEC0001' as well. This is not
-the case with this device, as VID is a new, never seen before value.
-Which in turn means we could not use ACPI ID matching in case of a
-dedicated driver.
+The quirks, by the way, are just masking the as designed behavior of the 
+headsets. Both the repeated *same* volume event and the *opposite* 
+volume event can occur depending on feedback (or lack of feedback) from 
+the host on the audio control interface. Blame Windows...
 
-For reference, XPS 9345 has also a somewhat combo solution - the
-keyboard has a separate touchbar-like Functions keys row. I opened up
-the device to inspect it - keyboard's IC is marked as ECE117, which
-appears to be a Microchip keyboard IC [2]. Touchbar is routed to the
-motherboard via a different connector, which may be routed back to the
-same IC via the keyboard's connector (based on the amount of wires in
-the keyboard-motherboard connector being way more than just
-sda/scl/gnd/3v3/5v), but I cannot be sure without in-detail electrical
-tests. This puzzles me a bit, as in addition, IC's datasheet refers to
-being connected to 'host EC' rather than just host - perhaps then
-otherwise, the onboard EC (present on this laptop, but no drivers
-available for linux at present) is acting like a bridge that is
-presented as this 'combo' device. Either way, neither of this explains
-what is actually from QTEC, and rather points it to be an embedded
-firmware from Dell, if I interpret my findings correctly, but please
-correct me if you think otherwise.
+I don't have many headsets around to test with but I'll describe the 
+mute behavior with a DA80. It's PID is AF01 but I would expect all AFxx 
+and 43xx PID devices would do the same as the control names are the same 
+for all.
 
-Finally, during the BIOS update, one of the stages mentioned 'updating
-ELAN touchbar firmware' (not keyboard). Which confirms suspicion that
-the 'combo' device may be created by onboard EC, since any press of
-keyboard's usual or Function keys sends data from the same 'QTEC'
-keyboard as if it was one device, and it certainly does not identify
-as ELAN.
+1. Plug in the headset.
+2. Open Ubuntu Settings menu and select Sound.
+3. Select the headset as the output and input devices.
+4. Mute the Input Volume by clicking on the microphone icon.
+5. Start pressing the mute button on the headset.
 
->
-> I'm not really happy of this admittely simple solution in this patch
-> because:
-> - what if QTEC "fixes" that behavior in the future?
+Note that the mute state in the mixer is now out of synchronization with 
+the headset. Every time you press the headset mute button they both 
+toggle so one or the other is always muted and the microphone is useless.
 
-That is a very valid point indeed. Especially with PID being rather
-useless, and ACPI ID apparently being shared with other devices, this
-may become an issue, as only VID stays unique - at least for now.
-However, I did not fully understand how making a dedicated driver is
-advantageous over a quirk, if we are limited by VID matching either
-way? Or did you mean to only have that keyboard selectable by dt via
-compatible?
+Also, if you unplug the headset when the mixer is muted but the headset 
+is unmuted, when you plug it in again the mixer is still muted. So the 
+microphone is still useless. You have to go back to the Sound Settings 
+dialog and set the mute to match the headset state to resynchronize them.
 
-> - what if you actually need to enable/disable regulators like goodix and
->   elan do
+I also tested a BT600 Bluetooth dongle which binds to the mixer volume 
+and mute controls. Mute synchronization works as expected.
 
-At least at the moment it seems there is no need for that.
+So before we uncork the telephony mute event and hope user space will 
+fix something in the future, let's fix it so the headsets all bind to 
+the mixer and things just work before we pull the cork. The issue is in 
+the names...
 
->
-> So to me, a better solution would be to create a i2c-hid-of-qtec.c,
-> assign a new compatible for this keyboard, and try to fix up the initial
-> powerup in .power_up in that particular driver. This way, we can extend
+Of the headsets I have these are the names that don't bind.
 
-If I managed to narrow down the issue correctly, fixing the
-'.power_up' stage won't resolve the particular issue unfortunately. As
-per my original patch, re-running power on command has to be done
-_after_ device registration (which in turn is after power up phase).
-If I would be to move re-power up any earlier, eg, between power up
-and `i2c_hid_init_irq`, it would have no effect again, the keyboard
-won't work until suspend & resume. In other words it appears that the
-process of registering hid what 'breaks' the controller, and power-up
-command has to be resent only after it. This is also how I discovered
-the solution in the first place - suspending the laptop and resuming
-it magically 'fixed' the keyboard. Given that due to lack of
-schematics no regulators are defined in device tree at the moment, I
-deduced that it was software init that broke the keyboard, and
-pm_resume 'fixed' it, which then allowed me to narrow it down to the
-proposed patch. But again, please correct me if you think I
-interpreted it wrong.
+Control: name="Headset Earphone Playback Volume"
+Control: name="Headset Microphone Capture Switch"
+Control: name="Receive Playback Volume"
+Control: name="Transmit Capture Switch"
 
-I thus tried to implement this quirk similarly to existing
-`I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET`, which is used for ELAN
-touchscreens and is present in this core file, and not in
-i2c-hid-of-elan.c. I do agree that making a dedicated i2c-hid-of-
-driver is cleaner, though I am not sure I understood full advantage of
-it in this context, and not sure it will actually solve a particular
-issue as its not the problem with power up itself. On the other hand,
-perhaps as you mentioned enabling/disabling regulators first would in
-turn fix this weird behaviour? Though sadly I have no way to test it,
-since only got a  using a dummy regulator for this keyboard...
+These are the names that do bind.
 
-Would like to hear your thoughts,
-Thanks in advance,
-Alex
+Control: name="Headset Capture Switch"
+Control: name="PCM Playback Volume"
 
-[1] https://patchwork.kernel.org/project/linux-input/patch/20190415161108.16419-1-jeffrey.l.hugo@gmail.com/#22595417
-[2] https://ww1.microchip.com/downloads/en/DeviceDoc/00001860D.pdf
+These names are created by the kernel in:
 
-> the driver for the regulators, and we can also fix this issue while being
-> sure we do not touch at anything else.
->
-> Anyway, glad to see the bringup of the new arm based XPS-13 taking
-> shape!
->
-> Cheers,
-> Benjamin
->
->
-> > +
-> > +     return ret;
-> >  }
-> >
-> >  static int i2c_hid_core_probe_panel_follower(struct i2c_hid *ihid)
-> > --
-> > 2.43.0
-> >
+sound/usb/mixer.c function __build_feature_ctl
+
+I have a patch I am trying to test that will clean up the names only for 
+VID=047F (Plantronics) devices so the broken names will come out as 
+"Headset Capture Switch" and "Headset Playback Volume". I was able to 
+modprobe the hid_plantronics module into the running kernel to test it 
+but modprobe fails loading the snd_usb_audio module (which contains the 
+patch) so I will have to install the full kernel. The last time I tried 
+that it broke the kernel. I think some of the packages that the build 
+created are not supposed to be installed? Not sure which ones to install 
+and in what order.
+
+Here's what a full build
+
+fakeroot debian/rules binary
+
+created:
+
+linux-buildinfo-6.8.0-45-generic_6.8.0-45.45+test1_amd64.deb
+linux-cloud-tools-6.8.0-45_6.8.0-45.45+test1_amd64.deb
+linux-cloud-tools-6.8.0-45-generic_6.8.0-45.45+test1_amd64.deb
+linux-cloud-tools-common_6.8.0-45.45+test1_all.deb
+linux-doc_6.8.0-45.45+test1_all.deb
+linux-headers-6.8.0-45_6.8.0-45.45+test1_all.deb
+linux-headers-6.8.0-45-generic_6.8.0-45.45+test1_amd64.deb
+linux-image-unsigned-6.8.0-45-generic_6.8.0-45.45+test1_amd64.deb
+linux-libc-dev_6.8.0-45.45+test1_amd64.deb
+linux-lib-rust-6.8.0-45-generic_6.8.0-45.45+test1_amd64.deb
+linux-modules-6.8.0-45-generic_6.8.0-45.45+test1_amd64.deb
+linux-modules-extra-6.8.0-45-generic_6.8.0-45.45+test1_amd64.deb
+linux-modules-ipu6-6.8.0-45-generic_6.8.0-45.45+test1_amd64.deb
+linux-modules-iwlwifi-6.8.0-45-generic_6.8.0-45.45+test1_amd64.deb
+linux-modules-usbio-6.8.0-45-generic_6.8.0-45.45+test1_amd64.deb
+linux-source-6.8.0_6.8.0-45.45+test1_all.deb
+linux-tools-6.8.0-45_6.8.0-45.45+test1_amd64.deb
+linux-tools-6.8.0-45-generic_6.8.0-45.45+test1_amd64.deb
+linux-tools-common_6.8.0-45.45+test1_all.deb
+linux-tools-host_6.8.0-45.45+test1_all.deb
+
+I'm going to git the ALSA branch tomorrow so I can create an actual 
+patch. Maybe I can pass it to you to build and test on your machines 
+with as many headsets as possible?
+
+Thanks and regards,
+Terry
+
+On 10/10/24 9:03 PM, Wang, Wade wrote:
+> Hi Terry,
+> 
+> Is it OK to apply? At least we will have a chance to improve user experience in userspace after apply this patch. Looking forward to your comments. Thanks
+> 
+> Regards
+> Wade
+> 
+> -----Original Message-----
+> From: Wang, Wade
+> Sent: Thursday, September 26, 2024 9:58 AM
+> To: Terry Junge <linuxhid@cosmicgizmosystems.com>; Benjamin Tissoires <bentiss@kernel.org>
+> Cc: jikos@kernel.org; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; stable@vger.kernel.org
+> Subject: RE: [PATCH] HID: plantronics: Update to map micmute controls
+> 
+> Hi Terry,
+> 
+> 1. Per our testing, Poly headset will maintain Mute status at headset side, whatever host send feedback or not.
+> 2. Mute led is off when Poly USB headset connect to host, so host will keep same Mute status with headset because of toggle Mute key event.
+> 3. Even Ubuntu and Chromebooks have to feedback Poly headset mute state, it should be done at user space instead of kernel. The precondition is kernel should report Mute key event first, then user space has chance to do this kind of improvement in future
+> 
+> So following standard HID rule is necessary.
+> 
+> BTW, on MSFT Windows, After receive mute key, the host switch the mute control status of the audio control interface, whatever mute status in headset FW is correct or not. I think it make sense than LED page mute LED.
+> 
+> Thanks,
+> Wade
+> 
+> -----Original Message-----
+> From: Terry Junge <linuxhid@cosmicgizmosystems.com>
+> Sent: Wednesday, September 25, 2024 11:32 AM
+> To: Wang, Wade <wade.wang@hp.com>; Benjamin Tissoires <bentiss@kernel.org>
+> Cc: jikos@kernel.org; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; stable@vger.kernel.org
+> Subject: Re: [PATCH] HID: plantronics: Update to map micmute controls
+> 
+> CAUTION: External Email
+> 
+> Hi Wade,
+> 
+> I retired from Plantronics in 2020. The original driver did not allow mute button to be mapped as there were mute synchronization issues.
+> 
+> The headset needs to receive some type of feedback from the host when it sends the mute event in order to synchronize with the host, ideally the host setting or clearing the mute control in the audio control interface but setting/clearing the mute LED would also work.
+> 
+> At the time Ubuntu and Chromebooks did not feedback mute state and it was possible to mute from the headset and then unmute from the mixer or keyboard and the headset would stay muted. The only way to unmute was with the headset button. This was an unacceptable user experience so we blocked mapping.
+> 
+> If you want to try mapping mute event then you also need to allow mapping the mute LED for possible host feedback.
+> 
+> (HID_UP_TELEPHONY | 0x2f) is telephony page mute button (HID_UP_LED | 0x09) is LED page mute LED
+> 
+> Then you need to test more than just the event getting to user space.
+> You need to check mute synchronization with the host mixer under all mute/unmute use cases.
+> 
+> Regards,
+> Terry Junge
+> 
+> 
+> On 9/24/24 2:00 AM, Wang, Wade wrote:
+>> Hi Benjamin and Greg,
+>>
+>> May I know the review progress and anything I need to change? Thanks
+>>
+>> Regards
+>> Wade
+>>
+>> -----Original Message-----
+>> From: Wang, Wade
+>> Sent: Monday, September 16, 2024 4:13 PM
+>> To: Benjamin Tissoires <bentiss@kernel.org>
+>> Cc: jikos@kernel.org; linux-input@vger.kernel.org;
+>> linux-kernel@vger.kernel.org; stable@vger.kernel.org
+>> Subject: RE: [PATCH] HID: plantronics: Update to map micmute controls
+>>
+>> Hi Benjamin,
+>>
+>> This patch is for all Poly HS devices, and it does not depends on other patches, it can apply directly by " git am -3".
+>>
+>> With this patch, MicMute button key event will be send to user space, I have tested on the below Poly devices:
+>>           Plantronics EncorePro 500 Series
+>>           Plantronics Blackwire_3325 Series
+>>           Poly Voyager 4320 HS + BT700 Dongle
+>>
+>> Regards
+>> Wade
+>>
+>> -----Original Message-----
+>> From: Benjamin Tissoires <bentiss@kernel.org>
+>> Sent: Friday, September 13, 2024 10:04 PM
+>> To: Wang, Wade <wade.wang@hp.com>
+>> Cc: jikos@kernel.org; linux-input@vger.kernel.org;
+>> linux-kernel@vger.kernel.org; stable@vger.kernel.org
+>> Subject: Re: [PATCH] HID: plantronics: Update to map micmute controls
+>>
+>> CAUTION: External Email
+>>
+>> On Sep 13 2024, Wade Wang wrote:
+>>> telephony page of Plantronics headset is ignored currently, it caused
+>>> micmute button no function, Now follow native HID key mapping for
+>>> telephony page map, telephony micmute key is enabled by default
+>>
+>> For which devices this patch is required? Is it related to the other patch you sent today? If so please make a mention of the concerned devices and make sure both patches are sent in a single v3 series.
+>>
+>> Also, have you tested this change with other Plantronics headsets? Where there any changes in behavior from them?
+>>
+>> Cheers,
+>> Benjamin
+>>
+>>>
+>>> Cc: stable@vger.kernel.org
+>>> Signed-off-by: Wade Wang <wade.wang@hp.com>
+>>> ---
+>>>    drivers/hid/hid-plantronics.c | 4 ++--
+>>>    1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/hid/hid-plantronics.c
+>>> b/drivers/hid/hid-plantronics.c index 2a19f3646ecb..2d17534fce61
+>>> 100644
+>>> --- a/drivers/hid/hid-plantronics.c
+>>> +++ b/drivers/hid/hid-plantronics.c
+>>> @@ -77,10 +77,10 @@ static int plantronics_input_mapping(struct hid_device *hdev,
+>>>                 }
+>>>         }
+>>>         /* handle standard types - plt_type is 0xffa0uuuu or 0xffa2uuuu */
+>>> -     /* 'basic telephony compliant' - allow default consumer page map */
+>>> +     /* 'basic telephony compliant' - allow default consumer &
+>>> + telephony page map */
+>>>         else if ((plt_type & HID_USAGE) >= PLT_BASIC_TELEPHONY &&
+>>>                  (plt_type & HID_USAGE) != PLT_BASIC_EXCEPTION) {
+>>> -             if (PLT_ALLOW_CONSUMER)
+>>> +             if (PLT_ALLOW_CONSUMER || (usage->hid & HID_USAGE_PAGE)
+>>> + == HID_UP_TELEPHONY)
+>>>                         goto defaulted;
+>>>         }
+>>>         /* not 'basic telephony' - apply legacy mapping */
+>>> --
+>>> 2.34.1
+>>>
+>>
+>>
+> 
+
 
