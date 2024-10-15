@@ -1,102 +1,89 @@
-Return-Path: <linux-input+bounces-7400-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7401-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD5899E468
-	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 12:44:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E8699E7DC
+	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 13:58:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D42F12837B1
-	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 10:44:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E258D1F2182B
+	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 11:58:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3275E1E412E;
-	Tue, 15 Oct 2024 10:44:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E835E1E633E;
+	Tue, 15 Oct 2024 11:58:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Js9Ceq/O";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="oI5txcas"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ehYmhQAd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2075.outbound.protection.outlook.com [40.107.92.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0664683;
-	Tue, 15 Oct 2024 10:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6401D8DEA;
+	Tue, 15 Oct 2024 11:58:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.75
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728989077; cv=fail; b=izBXMxjCb+03afXzb9BVrlKxWj1WmKHH5eBt+L7udz9HVh93HqjlRD2LAotWrnaFlzncGwCfnrJJHWPxqzl9pLfzeCXRrN90m8QXQa9LkzmPU2QTy7KCttsJITqgfaTzPw+Bj/ZG1P73CWnbA0cQidZTgBWfWC2XVr/0aufWfDo=
+	t=1728993536; cv=fail; b=by9aWuN42GzGbFvuDsbam0TbATypxt2f0aZ5UeOZXY0Nlev2CLEWXqJGCrDDBw2TyBXdaNrZaKITOnOHpGQDaCo4J7tyazLky7u1no2yRWBk070LqURXPqOXrCzRO5IWCb1G5lCK29k0ADBOc3arLZtMqa0q/ij2Tl1KqHjvBIw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728989077; c=relaxed/simple;
-	bh=iJbljleRu0Q1/MMyYAA3ejtCVnJlCrB1VbuVa3Nceeg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Jg/Y++veiAH4YT2GxT5GoxSm3snEBbeZy+oW5ZMzNwLFBBWjmHmd4cvq69dxer0Encjbq6nopJQwR2Ge+EWjsLXzcSNXTVq5w7Scf5rBNjxBCK1Nmw7tq1RAGGZ4CREJ9a61gbilyJO6fSFTDmGQVn8Sh51aiIri/Q/vaW6e9xw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Js9Ceq/O; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=oI5txcas; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49FAFxo8012603;
-	Tue, 15 Oct 2024 10:44:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=pHlxfqIYiymkIJTw06
-	2VUmU5O4yR1zRQOZfdc708Mtg=; b=Js9Ceq/OOQDtUulKHqQiLnyJEHEP5UQZnh
-	AJkQO9NZu5WXHQdtUihj3RQ1bPfFW2yExYPfWmrKGHGjHNFAkqELmpsqgHwBqeV5
-	nyePm9HSO02s8FNSfMvNfpSmOJj+Ps0NykyaFK0x8bz+Z+EsdQC+ka/P0tNMwgPQ
-	Dn4UmIWwrXyM8hCjCvfThOhYoK9FuBO1B67mMiS9CH/1qc1aJGmWEaqVNHHnRzGG
-	QIru+1AjYXXw4Tq504T0jS940gstdm9/V39/jCrbvvc/UD57PDyTx8e6iq6zubnJ
-	j2gejBytqBnzsnUGmrdMGAF9+a4tNy4KqaQODffx5tzeYIvESi2g==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 427h5ch11t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Oct 2024 10:44:25 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49F9q2A4014817;
-	Tue, 15 Oct 2024 10:44:24 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2046.outbound.protection.outlook.com [104.47.58.46])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 427fj787eh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Oct 2024 10:44:23 +0000
+	s=arc-20240116; t=1728993536; c=relaxed/simple;
+	bh=qBNV1qZBR/qvUrNk5/6Yv9OYYN/VzSP0QO5nqFrCKVY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=iU5cXn6ZQQaY/kKJGH/i2R9tUnzclFKo4/HGmPeD6/5gFizOf190RusBo8Z77LR3DyPEESh4sRLSUH1iB7FGbFm3HGP1oJYLRaL5ZBEW+KGN+tWULV65vQptWz0+GYihJ2j8To/DPI9wDgJz+McEUEdnBT4Ub1nqvAHP62MaATY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ehYmhQAd; arc=fail smtp.client-ip=40.107.92.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Gx0S5ZjxSnfi1JzMaivJaR+Yo/Vx0G6OqLoiTchHmmBypa6SojUXjPSJ2GeyISL+VJCnmWofxoLL1tbdQWwKVKm8m2003g0ZMsn1hI8lPWuqD1b+gHNbxGsFeJoNP8rJMJat7BsAFvAzJVPvPwETuVmK7P7rJh2hOq4zH5/nN555KwP9AkHmHEM9EnJ0KT+3nvlB1nSB1AdzDYqxH0P8jkLLy+zE6lX+mUAuu0r71G57belMRUE6bcBdaAwapGko7eWwo7hsBoOzeYphOElmENpsS3W/JJRpoeJ4lFhvhrhky3ciUoShYIO/n/VQZmbKJfZ8gaB0PueDcc5RO+VxuA==
+ b=v0EkxHrYhmthkvmhTSHDJ9gLASqSwS1fC50suObxq9al6Gunv5Y+c/r5xipl8T6Wet8t3Z/uj0HAJ/IamjzcpXrjxKRkuHrbNmimsZVreWC8x+dSUPWPY62LmUGuiSGE4MsK5f5oXQMmEjGLexdR/nPMGJVwPLiUApiVcLMbYYgjLJgFVrwysTQPuNOTaY3v/qFSJtRctFt5Y79X8+YBW6FRmHCIqqEtOvI2aEPDm05qjv6Tt29G+QPwd3L/hS/Luj/EiFUVLO1U0DrQCFKm20lEmzsjgfjrrKd/ZvKaDw0InEvdh137UzfOZfJypsaxqv4LlGG1VHkjAmNhOdiAyQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pHlxfqIYiymkIJTw062VUmU5O4yR1zRQOZfdc708Mtg=;
- b=uGJx2SjnAL9avBWqNxLCKgNl/R7TB+mW8e+BJNSJGmhdqdJGn4BiZ9pdxpikShLdJF9rk6M02VUpFqfJ/CZniGuiUT84+Z7Ssdr0KQZ7qa12F/ng7V4W5vxTQGJwwzEJgUmPp3I+RsRhnZXU3Ptt3vES3jY0QWqzqw+PTtGRJkDvyM53aCoGyGbCkuSEp+Ku/TOSTle6wzLdTO38/DPdCsTRblYyHqKAaANqi4Wjut7Xzgt5vd5A1GEql2Cc2OjldqjysnMLozwlPsws1U5NT7NXpRROrrZJD8KoaDukH9LdGoMvrWsGjhkh4k+AZ8mXgYByWR156BLg+nCUihsybg==
+ bh=WqVBjKv0foac99hQW/wYAxtYLiUA5c0/4L4dvqSWt84=;
+ b=itcOfo1vjF0WqqiIf1u5JFj6084E5zodv4F/FYH1E8wNrbdKzQnBNM9vMvAGelyzPfslM74It+g7Tg926lKyIEupiJDavCNc2ABem3YRXcQTfIgr9HDzOebCsRJO0jBzU6pzKcJIJYXaIi4UygSaytBwOob/g9SoNgKDyyZESGtXio6KmRKoaThEFOO744Brh+yjiJlkqfgs89EmEwf0Qez6iOMhYWbmvfSd57SKOjarNHW6Dmaz/mIE434enIRe1O1FIEzcaswj0F5+HoLKd99X5LB2WM+ICUtj/WaWL0Bxdinm63hnmCM7nQ/gAT50TcbP27yCoF2Y6+V0LmX3aw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pHlxfqIYiymkIJTw062VUmU5O4yR1zRQOZfdc708Mtg=;
- b=oI5txcasy3pnkVYCgPNKRA6V03kZGk1KA3CsL2hRKRjyMpFP/CzJ/PyLkI9f6DpIp6jQssKD1fAC6OOpQo2lcHLo+XpE+40otrBW3lqlTb0x25ATRgtEATVXG79E4cQbJ+ms1AHQJX67YCdkOhx5h6aJ7q3C9zuV164OfP0dsKA=
-Received: from SJ0PR10MB5613.namprd10.prod.outlook.com (2603:10b6:a03:3d0::5)
- by CY8PR10MB7242.namprd10.prod.outlook.com (2603:10b6:930:79::8) with
+ bh=WqVBjKv0foac99hQW/wYAxtYLiUA5c0/4L4dvqSWt84=;
+ b=ehYmhQAdtx7LaV/tiA5tuK3fMdO6mXYihx7nZANj4Tbv8VzMBddQK67aQO49eNRTrPx9k3QpXia9wBxEuqNMVxxirwFz8YRT2fOfkUH7Z8ehgMY8RAvjQRrsVRFN/YKfvRTbcr9pcqehcy3T9K0W0x5NqeLi3yvNQW7gpVUJiZo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5176.namprd12.prod.outlook.com (2603:10b6:208:311::19)
+ by MN2PR12MB4343.namprd12.prod.outlook.com (2603:10b6:208:26f::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.26; Tue, 15 Oct
- 2024 10:44:02 +0000
-Received: from SJ0PR10MB5613.namprd10.prod.outlook.com
- ([fe80::4239:cf6f:9caa:940e]) by SJ0PR10MB5613.namprd10.prod.outlook.com
- ([fe80::4239:cf6f:9caa:940e%5]) with mapi id 15.20.8048.020; Tue, 15 Oct 2024
- 10:44:01 +0000
-Date: Tue, 15 Oct 2024 11:43:58 +0100
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: syzbot <syzbot+ce483fd06e2061f44f5d@syzkaller.appspotmail.com>
-Cc: akpm@linux-foundation.org, liam.howlett@oracle.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-usb@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com, vbabka@suse.cz
-Subject: Re: [syzbot] [input?] [usb?] [mm?] INFO: rcu detected stall in
- vma_link_file
-Message-ID: <63c90757-54ca-4f7d-8e7c-055ea1e4d071@lucifer.local>
-References: <2442e7bd-bf62-4a1e-af45-8b36c088b071@lucifer.local>
- <670e44a3.050a0220.f16b.000c.GAE@google.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <670e44a3.050a0220.f16b.000c.GAE@google.com>
-X-ClientProxiedBy: LO4P123CA0506.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:272::19) To SJ0PR10MB5613.namprd10.prod.outlook.com
- (2603:10b6:a03:3d0::5)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.27; Tue, 15 Oct
+ 2024 11:58:51 +0000
+Received: from BL1PR12MB5176.namprd12.prod.outlook.com
+ ([fe80::ed5b:dd2f:995a:bcf4]) by BL1PR12MB5176.namprd12.prod.outlook.com
+ ([fe80::ed5b:dd2f:995a:bcf4%5]) with mapi id 15.20.8069.016; Tue, 15 Oct 2024
+ 11:58:51 +0000
+Message-ID: <3d6f7f74-3214-4c03-b352-a2a0d27ea42b@amd.com>
+Date: Tue, 15 Oct 2024 17:28:43 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: Wrong piix4_smbus address / slow trackpoint on Thinkpad P14s gen
+ 2 (AMD)
+Content-Language: en-US
+To: =?UTF-8?Q?Miroslav_Bend=C3=ADk?= <miroslav.bendik@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, linux-i2c@vger.kernel.org,
+ linux-input@vger.kernel.org
+Cc: Andrew Duggan <aduggan@synaptics.com>,
+ Benjamin Tissoires <btissoir@redhat.com>, Wolfram Sang <wsa@kernel.org>,
+ Andrea Ippolito <andrea.ippo@gmail.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+References: <CAPoEpV0ZSidL6aMXvB6LN1uS-3CUHS4ggT8RwFgmkzzCiYJ-XQ@mail.gmail.com>
+ <5105b392-dee9-85fb-eeba-75c7c951d295@gmail.com>
+ <3409c03e-35fb-428a-9784-0069b63a83bb@amd.com>
+ <a77c83fb-45f2-4f77-846c-df441bc15436@gmail.com>
+ <788ae95e-12d4-441e-a417-d04049cb8e2e@redhat.com>
+ <e345c93e-224d-425e-9ebf-efe02d6b6718@amd.com>
+ <2130afb8-8bf7-49da-b349-e99194042865@gmail.com>
+From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+In-Reply-To: <2130afb8-8bf7-49da-b349-e99194042865@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN2P287CA0005.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:21b::20) To BL1PR12MB5176.namprd12.prod.outlook.com
+ (2603:10b6:208:311::19)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -104,374 +91,316 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB5613:EE_|CY8PR10MB7242:EE_
-X-MS-Office365-Filtering-Correlation-Id: 376b1277-b258-469a-f689-08dced06481a
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5176:EE_|MN2PR12MB4343:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9905d335-d06e-4a10-6d87-08dced10bc42
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?UjY2lHU6ICnRQYDGYnKl5Un+Vnw/hE6KsxBkuVt/2tn219mh2JmAJA4CLwWz?=
- =?us-ascii?Q?Ycdzk6dE+W6SK1K7Ir+yiv0HZzuqn04mhlXTFwcTiEgBSFu5feDBjLUMY/tW?=
- =?us-ascii?Q?umpXpwvUyydaMBWH8z+1vLLjG6BfJzS7noHH4JHKBSvgDlACknEQm731mVb8?=
- =?us-ascii?Q?b46oYtUbkPZ2SfHz0yhnst1dHUVIKfyCH5jJjjx7PRMF3D/YIsr8ic+QU/gy?=
- =?us-ascii?Q?IY+oBVWN4HHiGgjfP5Hznrob1vYe5c+Vzd260pRQQXxPLLWySztPZ12soX7l?=
- =?us-ascii?Q?XKL5nFW+Z7+LBGxxTAxxo/pGYf6P0JQhZqfiyNDpy7yxdwlNbe5FUQ7Vf4cm?=
- =?us-ascii?Q?bVdKbM8xpxjbuVizfShIrJN6v0XtU/JTZOZhXyXfTsfoDHRpyC+zYC6kzirB?=
- =?us-ascii?Q?5iHFCPuejK9lxB5x8RsacpJILQZW3qErR8szMIqaS+fvUZ02484iFt0kApOp?=
- =?us-ascii?Q?q1b9IRz+0ufTkWojGNUuw6iymEPPkut+RnjfDl6QJN7MCKahMSl/L59/3shb?=
- =?us-ascii?Q?sffX0n5iyqfymkI2e+pOGHTb1fna3wsR2usT+SoUmuoegI9dPo3u6kv54/sp?=
- =?us-ascii?Q?00M6I3iAAJBZDJ/Ic1PuViiqBJt7ayjVPeKT130tlfyRIg7oNM+E5VEkib+b?=
- =?us-ascii?Q?xjbtdD1w+NqCMh6NqGkJC9gCEn3ARc+Cs/gQ1wdv7NhPVWc/BjE9LLUA5KHP?=
- =?us-ascii?Q?g1BLaTBOulYahbrV9h/SJ9ZINix0cmOhVY5vbqpBTdT7n8KebjxJhwGTFdkR?=
- =?us-ascii?Q?0uBiodnBSNU67KNgCM8uuc4tty+qpbrNkmwqtGFioOPLs1ERmRe4yXUpB/cX?=
- =?us-ascii?Q?PNK8kK/89tDnrSSb9wft3U/aeoGx02J+FbH224Ku/3QieY2nEH86DIKCOraK?=
- =?us-ascii?Q?l9ZXGMy4IM/x+4akXagf++/7hQQAstzOrt2lcyRKDZ5Zzq/I6jFZJBlcZAJc?=
- =?us-ascii?Q?iR5pVL3cW4J7NTwyos0HMyqYepyQRHeNOShn9GMp74xb2bvgzg0YzuWsrsg9?=
- =?us-ascii?Q?4Oh8oNNqBDKG2dknEcNWJLiSNKTqgLywnMz3JiryzZtoMRjc9ImxWDwmbUvt?=
- =?us-ascii?Q?byG/EkGwLgnX3B7UpLZV5VX0DfYEHdIc8KHcxZMlzX6u7VdvDdDzXUA77PBk?=
- =?us-ascii?Q?jWpwbLm22wJODefsi7n1Z3TM7QhvAb0pp71gS69LVtYKjD3IAFMyXCE9e5s8?=
- =?us-ascii?Q?M9fAt5CvE1g1esppLRbKD+2RWD50py/T3feTZDIFUfXJKCaXOcpb/P8SooQ?=
- =?us-ascii?Q?=3D?=
+	=?utf-8?B?MEJ2K2xZMGRLRFg1Zi9wTjFuNjZJWnJON2NSQndJMkFIMkRSYW4xUEoxUkg3?=
+ =?utf-8?B?SGd5NnV5OGNEV3BOai9TQ3VPWjFYMEtQbUQwOGdsaWJUYzFFbXg2WXBXMURG?=
+ =?utf-8?B?Uy8ybEYydVpkYi96V3BJcFAwTEhPTHhGRzMwdjRnQi90WCtTWXREaTRiQlVn?=
+ =?utf-8?B?RzJwdDdjTWNoQmRtNnZrQkdzU2NnS0JsVmFUeTkzUUhlb0dKeGJkVHdpdFlY?=
+ =?utf-8?B?d1llbDdwQ3FYWTI5SlEyMllmTHliSFp6OU0zWWN6RDRxUm1GQ1dLN3QwL1RP?=
+ =?utf-8?B?ZllqaEtiaHlrMHRwNGxZMVEyd2g3Qlc4bFk1ekRHRElaMVBiMlN0S3kwUjdw?=
+ =?utf-8?B?bHpBMzhtaTYzMVZSMWxydHhuU0dCSkptK3hETEFMUzdzcWlrOHFlTXZiQzhh?=
+ =?utf-8?B?aVk0RjRIQk1peDF1bHgyd3liYVk4ZnlndjluNnlnMTVCUlFJNXRnc3lqY2VT?=
+ =?utf-8?B?TDFPaVN3bkwvVjVML3JIaG1lZ21mc0JEWFhJQXE1R3YzUnZVYjI4b0k2VDFp?=
+ =?utf-8?B?cVJURm5BNHRIQTBjWlN3VnVTQnNBQkFaMmY2ZlM0TEZZV0xIY3dOczdSTExk?=
+ =?utf-8?B?d0xqejkzNWVDakxyK3JlUFBOQVAwMWhoRUZ2TkY0TDFxZ2N0RkpkK21EOU9M?=
+ =?utf-8?B?VEhkTFlWVlU5N1RHdzlTelV6WEpQdFMxeW1keGtiZHNJZlNWeTlod1ZCQjU0?=
+ =?utf-8?B?R1hxdlBQa3YvV05DTnRLaFg2dXJCQ0xKZ0NNZG8zMXB2WGxabVR4RnBXdFlk?=
+ =?utf-8?B?bXpwdkROMzBvcFAxV3ZLRjRTcFJZaGtHc0pyUnkxSldOTGY2YUJWVzZubnQx?=
+ =?utf-8?B?UjEvcjBtaVMwamhUcDF4S25LNXpheS9CNjR3dVZzOGQ5MWFpNFFoZi9vWE4v?=
+ =?utf-8?B?N3h1bFV2aHFud1JsZU1oUDVoWGJYZTlyOVVaZStNT0dObm5qQ2Vqb1pDWEw5?=
+ =?utf-8?B?ckdoQ2VuSnYzeEQ3Z3RaeklYMnhObGtMV3VoM0JNd2xsYzdacERWQUxhc2pz?=
+ =?utf-8?B?dHMrT3VTUVJrMVRzZzE5ZS9zcVdzRFJhVDVhTFJiR3RiNUplWXlzR0Z0Z1Va?=
+ =?utf-8?B?VjBzR0dVNWhEWHd2MzJCVnJZSHFEa05YbFM2WXRXaHBEaGFHa0JyN3ludVRj?=
+ =?utf-8?B?N1pCTi96YVhvNlZKTTdISXVyc3ZyQ0xXYlZKK080YnJzZzBBYTZhZlVYbVdG?=
+ =?utf-8?B?QjNDMWMvdCtNTUpmWGx5RVR5aTNOUWIwWFRVZi95TGxDdytFRmYyUktlR1ZC?=
+ =?utf-8?B?ZHJubjZQTFZwMDM5d3BSVjgzZnlYbUpKRllIVUdWenU3ZWFnb2ZpNWdaNWth?=
+ =?utf-8?B?VHo5SWF2S1FZejBFN216c3ZhRnpjaXdvU0lBZ2ZWOUY5ZTE1RzBVYko4czA3?=
+ =?utf-8?B?eEpycTZkcDhkSGVFVnBlQjBzenFFbm9CSGtUSUNRdzROcXJlU0FGbUNZcFRT?=
+ =?utf-8?B?TVd2elVqZmRyRUFRdDZlWHJUbm1lcHRnMU1KdzhYSFR3dFNTb0VKdGprd2Q4?=
+ =?utf-8?B?VGdXTGdiOHB6bnBuQ0U4WlZnRzBjQzFLbFRJTzRxYjNIZzZlWFU5V0Q4ajQ4?=
+ =?utf-8?B?NllnMFdVVTBnTFFXbnZaRUxlK3pyaCtOMlF3TkEyRXd6M0M2Q2JBM0ZsQWRq?=
+ =?utf-8?Q?5FBqU7rqDMrwStvH88RIHcl3MwhA4uyQYuA2J2bJF7MY=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5613.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5176.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?zU1AO8O+H6vuryOV75lSxwfI8zc17Yyu8ha3wxIoesCtjE4yDherxLrd6btM?=
- =?us-ascii?Q?I7Lx2MiTgTV2166kbXPMQ7DdK6gp015W4BeR9vW6vO/QuTE0G+mdTanM5Lw0?=
- =?us-ascii?Q?mzGS17n6d0i45QP0FynQL8WuDGHZAz/Rwt+kL59pk8e7T5RtifE4woI6gzV5?=
- =?us-ascii?Q?1el/AmnChV2W+tbp4/6E6hw6DBq0SZw2PIOTqSKVyMp/+oyaHVVcnamE7KB7?=
- =?us-ascii?Q?9++0oaTiw7dhSL6mBbZadeMGhF8mu4y+QMINT0Cv49CkhkSWk/rJSSWumtZr?=
- =?us-ascii?Q?Q4/COiCrcjqv89/lmWVtmjh+a8qcQQRgVvMV5aD9q0Tiq9E2UvMx7s14KfJl?=
- =?us-ascii?Q?HStQ0sHtBdJBsKV+auE2FY3+RPZ/onP9I2gU1mxjR+tyMB+UKZRxo0NLSD3l?=
- =?us-ascii?Q?zMDOCQAgWFzI4q/Vexs547kSSh4p6NFI+3/TWg1LP361AMg0GVFB91uhGFxX?=
- =?us-ascii?Q?j1zQ/etL5tkkkKr10qwaJqSKGTLOnWJ1AYXrjPFZOZzVfgUwrIZJMRMptsWi?=
- =?us-ascii?Q?WpePVp5eSvcqUBQP8tT6gwb65hbbCuj56Qmm6NIEE92+9g0kAowER5IAut1w?=
- =?us-ascii?Q?JBRBmgnXwdgrwKSfU9vLN5gqAkDMQcRI4OThMI3oq19tsyg0wSSGTSAqtsug?=
- =?us-ascii?Q?mwraAp4iI763YoUdHlOlkQlYXjktVnRxIvcXpPYt9lTjJe0vAT0IlWQn9uJ8?=
- =?us-ascii?Q?TsFAD0QeKp1m54A2lV+dsWixRI49UWHFDdYdG3OIcHVGiutEIPT/l67H7R4X?=
- =?us-ascii?Q?yNAQG8tpx7/tT5wf4L8rrwSvaBh2yao37TpRMz4q4O2iCOuOKPqbPGs139+M?=
- =?us-ascii?Q?6iTEI7uKaDwO6iU2dO3yMMbsT/EMvuRcAna8s8vB08ZoM9kerodXANM2XNzm?=
- =?us-ascii?Q?iVnNCX/5YtLyyRbHSGcMOMlBiyzjSM2slgOOVZpRG2SefEEygzHAN0cYUvEx?=
- =?us-ascii?Q?cVVtcNtVhuXssTMqRceN+Ykps9O/ozauYpXzRsoIP7fF9UvvOTIQKO3SSYJU?=
- =?us-ascii?Q?rSLFx1VUEVbMTcTRMHZK9z+ByYioZjvVF/TaGecgnwLLgH7MkhjEPpjKgYVq?=
- =?us-ascii?Q?3TgJtxUN1+p9dJiFo7fKPPWkS/OkBd/gHmzd8GrgmkxKK/dWU+3z+a03THvX?=
- =?us-ascii?Q?ftwFm4j7ou0CmIOVLSAUZ5YciZ3rUr94Ubi/7R08rdfPV8Jcd21OSWLG1GnL?=
- =?us-ascii?Q?exZjghfxusyQZbLsTpqPFWy86e8meyZIROm6qLTzuxfpoH4yhy9pQkLyuUxU?=
- =?us-ascii?Q?QJiElAynd8IC1Em00EV7Y3jD2Mw8kOe1liGvGalrzzLt+10dOBsghx8GjLn3?=
- =?us-ascii?Q?ohmMY80bybpsEk9+YiQfQiNOwif3rWDsJb0JR4nwTDPUZ09enobgVd5uax/x?=
- =?us-ascii?Q?NWNERI1Psb8oeW4vEAlY4DpUQU1Q0U20J6mN165XKkaHn1mZC3GyJ6uoDt05?=
- =?us-ascii?Q?n4Toa2TvlA8zx6y1w4SccfvEQuVHcDsQGLloQUnt6bdJ3IhL0dNCzJKPpEqv?=
- =?us-ascii?Q?WcSksZX3y+UHU615kWFx4h5BspXtat0Th9bXIKcYbNrBSulMRt+qniuf8ejp?=
- =?us-ascii?Q?YjvG3dv4yAqIbGgLSek6w8xn5uBE5fkxbfzwlKaCH43Pd3PLVtfKAO8uvLOM?=
- =?us-ascii?Q?Mg=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	xYl9woCuPWeqkp+DqotMcv9vYUrat+KHPbpjPge1f6F5IOD0QIFBCp3MesCfJbeuYVFX64NicXqJxwG4ro5AyGYgn0QZ/7fFbQb/ucieuIJHqW+C7h+R6EE+h9vTYUo6V3KW2tnLfJI5x6R3WNboxQEs/tFJhPM9IIgXs5SMckYrmRaKd3k1JljqZ1PTABik0jfnBBOMMTfqjUK3MjtXbq5S8khBciosDOQowPhZNRr9/NNWvroLXp93HmWLvfwduI8q+kPpahRiWm9eoPzn5EV4cqYZUE2in54AdYE5cEUT4qDF/bC3rMk9HfnqAoWDnDOgpSs6FLe1i6EwdbJEGxBlc7j+5s/VLsvRpmdIxGYJtg8iGgPoSVqhT9zkd/A0WFA98PsQgpFjgbu3tRQCwDJ/dVXPDLeh3BGq1TgZNvYnRVO1KDgv79EFJ5Lvx888UM2CVEszCeD6NASsaNQLqciJ7QIcSS+B0OmPI/5UZ+N5YtVCgywyE9fJTR9p7QxxXOIua+3UcRjPv87FBCxgl8DXPdodyOg9u1F8wvbtlvmPRAhHQPhvmXBVXiSlxKDELAnCtYfJTsDjUsV9kK4HToFeg2JktYqbYCkw8DZd0lw=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 376b1277-b258-469a-f689-08dced06481a
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5613.namprd10.prod.outlook.com
+	=?utf-8?B?eHF6Z2RWUDdlc3ZLNElnWmNJcjZad3RBbm85eGFuazB6TVVQamwrS2RXRGIw?=
+ =?utf-8?B?djZDU25PZGpGbm8vRUhHWUUyR1F5cE4xSVMzYkZCRG8yVnRJOHhScVppWjRY?=
+ =?utf-8?B?a2FDaHpGeWxISXVGVy9ZMC84emRXMTB0OGNiZHZueHV6TGsyQjQxMmVyalZG?=
+ =?utf-8?B?REoreWc2UGtYTHM3dnN0WWlIL1F6M3BWblhGZCtVdENGckU4dE9ZYVZPNk00?=
+ =?utf-8?B?amR4QjU0aVY5amJRT2EwUkhZaU9yaWQwa1U4UHJ1NmRhZWcrdFc4UmZBWGQ4?=
+ =?utf-8?B?cWJOakcxOStzbnlvaDB1R2hCYnBvU3FqVi9XYzJNSDRJbEttdmVzVk53bHFZ?=
+ =?utf-8?B?T0ErdUV2OGkwQjJIekdiQzBpMDIrNXZobUdlb2REMUJ5eTVxTElXTHBzbUJL?=
+ =?utf-8?B?eUxDcmR5dnp4bWxESkYwY2xKVU9CN0xFYXFrUUdKUGRrUzJtSjZJT25obXpE?=
+ =?utf-8?B?MFJiYzFhWFBuZE1XdFdSbXJLcEJ4WEMyOEpuUG5FMjE4algxc1RUMDcrT0xp?=
+ =?utf-8?B?QysreE1Wd2pabDVGNzBCak8vcUVFUWZ5cmtlZTg3dnlTdFlHK1JEWVVSWVgx?=
+ =?utf-8?B?b1hRVjI2c1BkcHRRRFJNQjE2SEFGNE9LVGZ0T25GNzVRVkpCc1FQYmpicXQ4?=
+ =?utf-8?B?dVUvOUlkVG5aL2xHdWtNWEZpNHBNNm9LUmY2VFlveFF0cEM3WURGbC8rOTEz?=
+ =?utf-8?B?c3RaWmliTkM2R0JwNjVhdUVXS1Z6UC9sZGhObXJiV2hONlRiWTJWMmFGaEtZ?=
+ =?utf-8?B?Vis4bnVoMVRpc2pVYlBYNjd6Lzc4YkdoQm9mNktzaDZ5a0RNa1JBd1Z5ajlT?=
+ =?utf-8?B?M2RCR0FMT3YzeDVtaEtFWTcvRmZ5RmR3NUE4NzczdkhwM1prdGNCU0p2UW1k?=
+ =?utf-8?B?SHl3bGpnR1pXN1JwNkZPRXBxcVJ6azNHR05wRHJjZmtEc0UvcEFQbUxnZFhz?=
+ =?utf-8?B?SlZHSTVkK3V0bUdNa1FMSmxsY1ZhTHpQN1ZrRjlYOUxlaVoxelhqT2s1azdB?=
+ =?utf-8?B?QUpBVTNsUXFwSkFqeG02Z3Fyc1JjdWJ5RWM4YWdFdXIxZjdUYzlOVkl1Tnlu?=
+ =?utf-8?B?cXQra3pvME1HRkVpTXZWSXpQNGFYcDBwUmpQVFppMXQvQm1rbzlrUXhDeDQz?=
+ =?utf-8?B?dmNlbit2S3h6R1dZWFJ4aUZ5Uk1EZ0hBdWkrTGZCdVhNM0xtMmQ3SzRzYklw?=
+ =?utf-8?B?dld4Um5NSHFJVFM2ZU5KT0Rub3B0UHQvUlNRdE45VGRDQUpmTU9CSUVkNkJx?=
+ =?utf-8?B?MHN4M3ZsSjBGZjB1WjlUVTNTQ0tSbTF0SjZ2SktKQTVtL0hYa0Zwc3N6V216?=
+ =?utf-8?B?V2svNW15ekxrb0NzcjRUcDVTK29pRll3Q0JyRGRwWWo3dmphYVBJZnc0aXhs?=
+ =?utf-8?B?MS83dUFKTGEwTHRQTmRjREV6U3dFT1hPQjlmNE93MFpLVC93QjRCZlJ2aHg2?=
+ =?utf-8?B?MkFxRGVFN1Uxb0ZpT1Y2UXFHREowa0tEMU1PNWswSG0zNm5HR1pRdGw5dkhs?=
+ =?utf-8?B?YlNEbnBRV0tuUk5vRFlzMGxtcWxHYXlzVmhIK2dQb2JVS3Y4ME56aWowTng0?=
+ =?utf-8?B?OW93VjgwMG5vWnJHdk1BcThEck9VbThJb2RYdmdyeDNSeFQ4WGRwYmhhWHlY?=
+ =?utf-8?B?Ny9SVkNNcGl2alkrK055TEJGVzVBZGIrN283eW1hNGpvWFNRT3VseFVZL2Rj?=
+ =?utf-8?B?YVBLcHVnc2t0dnA4T2Q2SU5RTGxCMlVsRmhoMXhSOUJ4Qi9nbkhNeGZ1M3FG?=
+ =?utf-8?B?K3FjRU1uWXhYZUlkWnZEdm5OTTFaRSt1UU1TT0JYek5uSnczcGEwSUFwKzBB?=
+ =?utf-8?B?eUltVk5OVWY3YmNSSmZiWGFWOUEyZ3hEUGRXTWhSbU9yZDR0Q3JzVTBiNng4?=
+ =?utf-8?B?ZzFyWGh4UUZHeWcrVHZpd3B2TUQ2WCtKeWFERW9nb3dMR1BaRFVQeHFkWi9n?=
+ =?utf-8?B?MjBwbWlaWUs4N3hBS1p3aGZERnhVSGRzMTE4cFVDbklidHdKTnlHQ0JHQXBQ?=
+ =?utf-8?B?eE1Ic3dvS3NURDRoQ3ppOUI3Z0V5bWZ0dU9TeWF1cldmZ1o4LzRkYmhLbFpl?=
+ =?utf-8?B?RWY4VXlSMnp2c3B3NnN0YUZ1QVZJZnVYZ2l5eElRb2VYS0k3Y1dldFRTQUQx?=
+ =?utf-8?Q?CcBF7MdLXLY4Lryyq3q0A3Gff?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9905d335-d06e-4a10-6d87-08dced10bc42
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5176.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2024 10:44:01.7837
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2024 11:58:51.6576
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: H2aAmtru+c8eK+U+jBOlQRroCoNl7+N2hNBMZetNqjQW8VNm4cvklAuhQzfj3qI/Og2tSk0ForRmzwV5VHEj3y96hmWFhrOdLiAZLcffSsE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB7242
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_06,2024-10-15_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 phishscore=0 mlxscore=0
- mlxlogscore=999 bulkscore=0 spamscore=0 suspectscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
- definitions=main-2410150073
-X-Proofpoint-ORIG-GUID: MvcC73u9ekFGrwFgCocxr5-1xI4Y8jdq
-X-Proofpoint-GUID: MvcC73u9ekFGrwFgCocxr5-1xI4Y8jdq
+X-MS-Exchange-CrossTenant-UserPrincipalName: Gbwfg5JY42mYjEXX0v4NR+uSujmyZrP1ahSvF9dqffcFeyWrQGrYvoFLS7xo0iEODeP/2QmRncIMxpwoxLwQ1A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4343
 
-On Tue, Oct 15, 2024 at 03:32:03AM -0700, syzbot wrote:
+
+
+On 10/14/2024 22:13, Miroslav Bendík wrote:
+> On 14. 10. 2024 18:01, Shyam Sundar S K wrote:
+>>
+>> On 10/13/2024 23:23, Hans de Goede wrote:
+>>> Hi,
+>>>
+>>> On 13-Oct-24 7:20 PM, Miroslav Bendík wrote:
+>>>> On 10. 10. 2024 18:25, Mario Limonciello wrote:
+>>>>> On 2/12/2022 11:42, Miroslav Bendík wrote:
+>>>>>> Hello,
+>>>>>> i think, that SMBus works now pretty good and last problem is
+>>>>>> screaming interrupt from synaptics (1000 irq/s). I need little
+>>>>>> help to solve this problem.
+>>>>>>
+>>>>>> Little summary first:
+>>>>>>
+>>>>>> On this thinkpad is synaptics trackpoint/touchpad connected to
+>>>>>> PIIX4. To enable RMI4 mode, SMBus driver should support host
+>>>>>> notify protocol. I have added support of host notify and
+>>>>>> replaced active waiting transaction with completer + interrupt.
+>>>>>> Driver is now pretty stable and works way better, than old
+>>>>>> implementation. For example i2c-detect shows real devices
+>>>>>> (previous transaction code showed all addresses from 0x1c as
+>>>>>> active). Patch on following link is still hack, has hardcoded
+>>>>>> IRQ and supports host notifications and interrupts only on
+>>>>>> auxiliary port. I can implement other ports later.
+>>>>>>
+>>>>>> Patch: https://lore.kernel.org/all/c9b0b147-2907-
+>>>>>> ff41-4f13-464b3b891c50@wisdomtech.sk/
+>>>>>> This patch includes PM register access using MMIO: https://
+>>>>>> lore.kernel.org/all/20210715221828.244536-1-Terry.Bowman@amd.com/
+>>>>>>
+>>>>>> Now i can load psmouse synaptics_intertouch=1 and everything
+>>>>>> works great, but it uses 5% CPU and interrupt is called 1000/s.
+>>>>>> I have changed interrupt from rising edge to active low (it's
+>>>>>> PCIE, PCIE has active low) and i have many times checked if all
+>>>>>> interrupt bits are cleared in interrupt request. Yes, they are
+>>>>>> always cleared. Interrupts are generated only after first touch
+>>>>>> if i have compiled only F12. If i compile F03, then interrupts
+>>>>>> are generated immediately after load of psmouse. After unload,
+>>>>>> interrupts are not generated (i2c-piix4 still loaded).
+>>>>>>
+>>>>>> On this machine I2C is accessible using GPIO 19(SCL), 20(SDA).
+>>>>>> Using kernel thread with RT priority on isolated core i have
+>>>>>> tried to record pin values on GPIO pins. Latency is too high to
+>>>>>> record all transferred data. Some state changes are lost
+>>>>>> (approximately 1/50 bits). Not too low to read reliably all
+>>>>>> data, but good enough to see what happens at bus level. Here is
+>>>>>> recorded file: https://mireq.linuxos.sk/kernel/
+>>>>>> thinkpad_p14s/i2c_scl_sda.xz.
+>>>>>>
+>>>>>> Every byte is sample, first bit is SCL, second SDA. Sample rate
+>>>>>> is cca 500 000 Hz, but often drops under 100 000 (lost bit).
+>>>>>>
+>>>>>> On this screenshot is typical activity on bus:
+>>>>>> https://mireq.linuxos.sk/ kernel/thinkpad_p14s/i2c_1.png
+>>>>>> (pulseview with imported raw file)
+>>>>>>
+>>>>>> Zoom to two packet is here: https://mireq.linuxos.sk/kernel/
+>>>>>> thinkpad_p14s/i2c_2.png
+>>>>>>
+>>>>>> First packet is SMBus host notify. Address 0x08 is SMBus host
+>>>>>> address and 0x58 is address of synaptics (0x2c << 1). Second
+>>>>>> packet is reading of interrupt status registers. Data 02 is
+>>>>>> length of interrupt status register (9 bits) and last 2 bytes
+>>>>>> are zero (idle, when moving cursor, then interrupt status
+>>>>>> register contains one bit set).
+>>>>>>
+>>>>>> Zoomed out: https://mireq.linuxos.sk/kernel/thinkpad_p14s/i2c_3.png
+>>>>>>
+>>>>>> Before transaction SMBus slave state machine is disabled and
+>>>>>> after transaction enabled. If notification is received when
+>>>>>> state machine is disabled, then device writes only address and
+>>>>>> don't get response. If driver runs with always enabled slave
+>>>>>> state machine, then output will contain only notify + read
+>>>>>> interrupt status pairs and no separate addresses, but with this
+>>>>>> mode bus collisions occur more often.
+>>>>>>
+>>>>>> Here is dmesg output: https://pastebin.com/RdDYHJn0
+>>>>>>
+>>>>>> Cursor is moved until 2862.8, then i have not touched trackpoint.
+>>>>>>
+>>>>>> Idle device don't produce bus collisions. Moving cursor produces
+>>>>>> collisions, but sample rate is stable 100Hz, which is way
+>>>>>> better, than <40 Hz with PS/2 mode. I don't know how to solve
+>>>>>> collisions. Maybe they are related to not silenced host
+>>>>>> notifications.
+>>>>>>
+>>>>>> If i were to be optimistic, then i would say that clearing
+>>>>>> interrupt vector will solve all problems. According old RMI4
+>>>>>> documentation, reading from interrupt status register should
+>>>>>> clear interrupts (status register is cleared), but this don't
+>>>>>> prevent device form sending host notifications. Maybe exists new
+>>>>>> way to disable interrupts. I don't know, i have no access to
+>>>>>> current documentation.
+>>>>>>
+>>>>>> My device has this signature:
+>>>>>> Synaptics, product: TM3471-030, fw id: 3418235
+>>>>>>
+>>>>>> Any help welcome.
+>>>>>>
+>>>>> Sorry to bump such an old thread, but AFAIK you never came up
+>>>>> with a good solution here.  I did want to point out that there
+>>>>> was a very recent submission by Shyam (CC'ed) [1] that adds an
+>>>>> ASF driver (which is an extension to PIIX4).  By default it's
+>>>>> going to bind to an ACPI ID that isn't present on your system
+>>>>> (present on newer systems only) but the hardware for ASF /should/
+>>>>> be present even on yours.
+>>>>>
+>>>>> So I was going to suggest if you still are interested in this to
+>>>>> play with that series and come up with a way to force using ASF
+>>>>> (perhaps by a DMI match for your system) and see how that goes.
+>>>>>
+>>>>> [1]
+>>>>> https://lore.kernel.org/all/20240923080401.2167310-1-Shyam-sundar.S-k@amd.com/
+>>>> Hello.
+>>>>
+>>>> Thanks for the update. It looks good as a separate driver. I had
+>>>> intended to split this driver, replace polling with interrupts,
+>>>> and convert all I/O calls to MMIO, similar to how a Windows driver
+>>>> operates. I paused the work because I needed documentation and
+>>>> fixes from other companies, and I resolved my issue using a
+>>>> different approach:
+>>>>
+>>>> - I have not received a response from Synaptics.
+>>>> - I have not received a response from Lenovo.
+>>>> - I have fixed the original issue -
+>>>> https://patchwork.kernel.org/project/linux-input/patch/71d9dc66-9576-c26f-c9d9-129217f50255@gmail.com/#24848525
+>>>> - Too many subsystems are affected, some of which are currently
+>>>> hardly fixable.
+>>>>
+>>>> The biggest issue is interrupt support, which cannot be resolved
+>>>> with quirks alone.
+>> Do you mean the interrupt support from SMBus controller which happens
+>> via the piix4 driver?
+>>
+>> Note that SMBus controller do not support interrupt and the same has
+>> been documented in the datasheet:
+>>
+>> D14F0x03C [Interrupt Line] (FCH::SMBUSPCI::IntLine)
+>>
+>> 15:8 InterruptPin: Interrupt Pin. Read. Reset: Fixed,00h.
+>>
+>> ValidValues:
+>>
+>>
+>> Value             Description
+>> -------------        -------------
+>> 00h             This module does not generate interrupts.
+>> FFh-01h            Interrupt pin.
+>>
+>> Thanks,
+>> Shyam
+> 
 > Hello,
->
-> syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-> INFO: rcu detected stall in do_syscall_64
+> 
+> i am using ASF documentation (48751 Rev 3.03 - February 19, 2015 BKDG
+> for AMD Family 16h Models 00h-0Fh Processors -
+> https://www.amd.com/en/search/documentation/hub.html#q=BKDG%2048751).
 
-OK I think we can rule out the maple tree bug.
+Hi,
 
-I don't see vma_link_file() in the splats below so I'm thinking this is
-unrelated to mm, probably?
+You are referring the right document.
+> 
+> There is a ASFx0A ASFStatus with SlaveIntr bit. Pointing device on my
+> machine triggers interrupt 7 and it can be cleared using ASF when i
+> move cursor using touchpad or trackpoint. It's possible to implement
+> and enable I2C_CLIENT_HOST_NOTIFY flag on this hardware.
 
-USB guys? :)
+if you want I2C_CLIENT_HOST_NOTIFY flag, then that has to come via a
+software_node property and I don't think we have near future thoughts
+about having this in BIOS.
 
->
-> rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 1-...D } 2664 jiffies s: 1445 root: 0x2/.
-> rcu: blocking rcu_node structures (internal RCU debug):
->
-> Sending NMI from CPU 0 to CPUs 1:
-> NMI backtrace for cpu 1
-> CPU: 1 UID: 0 PID: 2532 Comm: acpid Not tainted 6.12.0-rc2-syzkaller-00039-g00c5e66c934c #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
-> RIP: 0010:io_serial_in+0x87/0xb0 drivers/tty/serial/8250/8250_port.c:407
-> Code: 79 b5 fe 48 8d 7d 40 44 89 e1 48 b8 00 00 00 00 00 fc ff df 48 89 fa d3 e3 48 c1 ea 03 80 3c 02 00 75 1a 66 03 5d 40 89 da ec <5b> 0f b6 c0 5d 41 5c c3 cc cc cc cc e8 f8 f4 0d ff eb a2 e8 81 f5
-> RSP: 0018:ffffc900001b7f08 EFLAGS: 00000002
-> RAX: dffffc0000000060 RBX: 00000000000003fd RCX: 0000000000000000
-> RDX: 00000000000003fd RSI: ffffffff82a065b0 RDI: ffffffff93633660
-> RBP: ffffffff93633620 R08: 0000000000000001 R09: 000000000000001f
-> R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-> R13: 0000000000000020 R14: fffffbfff26c671e R15: dffffc0000000000
-> FS:  00007fce9143b740(0000) GS:ffff8881f5900000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000001b2ce5ffff CR3: 0000000115abe000 CR4: 00000000003506f0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> Call Trace:
->  <NMI>
->  </NMI>
->  <IRQ>
->  serial_in drivers/tty/serial/8250/8250.h:137 [inline]
->  serial_lsr_in drivers/tty/serial/8250/8250.h:159 [inline]
->  wait_for_lsr+0xda/0x180 drivers/tty/serial/8250/8250_port.c:2068
->  serial8250_console_fifo_write drivers/tty/serial/8250/8250_port.c:3315 [inline]
->  serial8250_console_write+0xf5a/0x17c0 drivers/tty/serial/8250/8250_port.c:3393
->  console_emit_next_record kernel/printk/printk.c:3092 [inline]
->  console_flush_all+0x800/0xc60 kernel/printk/printk.c:3180
->  __console_flush_and_unlock kernel/printk/printk.c:3239 [inline]
->  console_unlock+0xd9/0x210 kernel/printk/printk.c:3279
->  vprintk_emit+0x424/0x6f0 kernel/printk/printk.c:2407
->  vprintk+0x7f/0xa0 kernel/printk/printk_safe.c:68
->  _printk+0xc8/0x100 kernel/printk/printk.c:2432
->  printk_stack_address arch/x86/kernel/dumpstack.c:72 [inline]
->  show_trace_log_lvl+0x1b7/0x3d0 arch/x86/kernel/dumpstack.c:285
->  sched_show_task kernel/sched/core.c:7582 [inline]
->  sched_show_task+0x3f0/0x5f0 kernel/sched/core.c:7557
->  show_state_filter+0xee/0x320 kernel/sched/core.c:7627
->  k_spec drivers/tty/vt/keyboard.c:667 [inline]
->  k_spec+0xed/0x150 drivers/tty/vt/keyboard.c:656
->  kbd_keycode drivers/tty/vt/keyboard.c:1522 [inline]
->  kbd_event+0xcbd/0x17a0 drivers/tty/vt/keyboard.c:1541
->  input_handler_events_default+0x116/0x1b0 drivers/input/input.c:2549
->  input_pass_values+0x777/0x8e0 drivers/input/input.c:126
->  input_event_dispose drivers/input/input.c:352 [inline]
->  input_handle_event+0xb30/0x14d0 drivers/input/input.c:369
->  input_event drivers/input/input.c:398 [inline]
->  input_event+0x83/0xa0 drivers/input/input.c:390
->  hidinput_hid_event+0xa12/0x2410 drivers/hid/hid-input.c:1719
->  hid_process_event+0x4b7/0x5e0 drivers/hid/hid-core.c:1540
->  hid_input_array_field+0x535/0x710 drivers/hid/hid-core.c:1652
->  hid_process_report drivers/hid/hid-core.c:1694 [inline]
->  hid_report_raw_event+0xa02/0x11c0 drivers/hid/hid-core.c:2040
->  __hid_input_report.constprop.0+0x341/0x440 drivers/hid/hid-core.c:2110
->  hid_irq_in+0x35e/0x870 drivers/hid/usbhid/hid-core.c:285
->  __usb_hcd_giveback_urb+0x389/0x6e0 drivers/usb/core/hcd.c:1650
->  usb_hcd_giveback_urb+0x396/0x450 drivers/usb/core/hcd.c:1734
->  dummy_timer+0x17c3/0x38d0 drivers/usb/gadget/udc/dummy_hcd.c:1988
->  __run_hrtimer kernel/time/hrtimer.c:1691 [inline]
->  __hrtimer_run_queues+0x20a/0xae0 kernel/time/hrtimer.c:1755
->  hrtimer_run_softirq+0x17d/0x350 kernel/time/hrtimer.c:1772
->  handle_softirqs+0x206/0x8d0 kernel/softirq.c:554
->  __do_softirq kernel/softirq.c:588 [inline]
->  invoke_softirq kernel/softirq.c:428 [inline]
->  __irq_exit_rcu kernel/softirq.c:637 [inline]
->  irq_exit_rcu+0xac/0x110 kernel/softirq.c:649
->  instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1037 [inline]
->  sysvec_apic_timer_interrupt+0x90/0xb0 arch/x86/kernel/apic/apic.c:1037
->  </IRQ>
->  <TASK>
->  asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:702
-> RIP: 0010:do_syscall_x64 arch/x86/entry/common.c:51 [inline]
-> RIP: 0010:do_syscall_64+0xc0/0x250 arch/x86/entry/common.c:83
-> Code: c6 bf 15 79 48 8b 50 08 f6 c2 3f 0f 85 3c 01 00 00 90 90 41 81 fc ce 01 00 00 0f 87 43 01 00 00 41 81 fc cf 01 00 00 48 19 c0 <44> 89 e6 48 89 df 21 c6 e8 d3 4b 12 fa 48 89 43 50 90 48 89 df e8
-> RSP: 0018:ffffc9000182ff28 EFLAGS: 00000297
-> RAX: ffffffffffffffff RBX: ffffc9000182ff58 RCX: 1ffffffff14ac131
-> RDX: 0000000000000000 RSI: ffffffff8727f1c0 RDI: ffffffff8746eb40
-> RBP: ffffc9000182ff48 R08: 0000000000000001 R09: 0000000000000001
-> R10: ffffffff8a56428f R11: 0000000000000000 R12: 000000000000000e
-> R13: 000000000000000e R14: 0000000000000000 R15: 0000000000000000
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7fce914b1773
-> Code: 00 f3 a5 48 8d 74 24 88 48 b9 ff ff ff 7f fe ff ff ff 48 21 c8 48 89 44 24 88 41 ba 08 00 00 00 44 89 c7 b8 0e 00 00 00 0f 05 <45> 31 c0 3d 00 f0 ff ff 76 06 41 89 c0 41 f7 d8 44 89 c0 5a c3 41
-> RSP: 002b:00007ffc56b7f150 EFLAGS: 00000246 ORIG_RAX: 000000000000000e
-> RAX: ffffffffffffffda RBX: 0000557975a80906 RCX: 00007fce914b1773
-> RDX: 0000000000000000 RSI: 0000557975a86480 RDI: 0000000000000000
-> RBP: 0000000000000007 R08: 0000000000000000 R09: 0000000000000001
-> R10: 0000000000000008 R11: 0000000000000246 R12: 00007ffc56b7f258
-> R13: 0000557975a80178 R14: 0000000000000001 R15: 000000000000000a
->  </TASK>
->  </TASK>
->
-> Showing all locks held in the system:
-> 7 locks held by kworker/0:1/9:
->  #0: ffff8881066e5948 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work+0x129b/0x1ba0 kernel/workqueue.c:3204
->  #1: ffffc9000009fd80 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0x921/0x1ba0 kernel/workqueue.c:3205
->  #2: ffff8881097a7190 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:1014 [inline]
->  #2: ffff8881097a7190 (&dev->mutex){....}-{3:3}, at: hub_event+0x1be/0x4f40 drivers/usb/core/hub.c:5849
->  #3: ffff888106ab5190 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:1014 [inline]
->  #3: ffff888106ab5190 (&dev->mutex){....}-{3:3}, at: __device_attach+0x7f/0x4b0 drivers/base/dd.c:1005
->  #4: ffff88812c375160 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:1014 [inline]
->  #4: ffff88812c375160 (&dev->mutex){....}-{3:3}, at: __device_attach+0x7f/0x4b0 drivers/base/dd.c:1005
->  #5: ffff888119b1da20 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:1014 [inline]
->  #5: ffff888119b1da20 (&dev->mutex){....}-{3:3}, at: __device_attach+0x7f/0x4b0 drivers/base/dd.c:1005
->  #6: ffffffff89bd6b08 (input_mutex){+.+.}-{3:3}, at: input_register_device+0x98a/0x1110 drivers/input/input.c:2463
-> 2 locks held by kworker/u8:4/54:
->  #0: ffff888100089148 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x129b/0x1ba0 kernel/workqueue.c:3204
->  #1: ffffc90000547d80 ((work_completion)(&sub_info->work)){+.+.}-{0:0}, at: process_one_work+0x921/0x1ba0 kernel/workqueue.c:3205
-> 2 locks held by kworker/u8:5/236:
->  #0: ffff888100089148 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x129b/0x1ba0 kernel/workqueue.c:3204
->  #1: ffffc9000163fd80 ((work_completion)(&sub_info->work)){+.+.}-{0:0}, at: process_one_work+0x921/0x1ba0 kernel/workqueue.c:3205
-> 7 locks held by kworker/0:2/679:
->  #0: ffff8881066e5948 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work+0x129b/0x1ba0 kernel/workqueue.c:3204
->  #1: ffffc90001c1fd80 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0x921/0x1ba0 kernel/workqueue.c:3205
->  #2: ffff88810977f190 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:1014 [inline]
->  #2: ffff88810977f190 (&dev->mutex){....}-{3:3}, at: hub_event+0x1be/0x4f40 drivers/usb/core/hub.c:5849
->  #3: ffff888105a8d190 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:1014 [inline]
->  #3: ffff888105a8d190 (&dev->mutex){....}-{3:3}, at: __device_attach+0x7f/0x4b0 drivers/base/dd.c:1005
->  #4: ffff88812c377160 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:1014 [inline]
->  #4: ffff88812c377160 (&dev->mutex){....}-{3:3}, at: __device_attach+0x7f/0x4b0 drivers/base/dd.c:1005
->  #5: ffff88812bf35a20 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:1014 [inline]
->  #5: ffff88812bf35a20 (&dev->mutex){....}-{3:3}, at: __device_attach+0x7f/0x4b0 drivers/base/dd.c:1005
->  #6: ffffffff89bd6b08 (input_mutex){+.+.}-{3:3}, at: input_register_device+0x98a/0x1110 drivers/input/input.c:2463
-> 4 locks held by acpid/2532:
->  #0: ffff8881082a5230 (&dev->event_lock){..-.}-{2:2}, at: input_event drivers/input/input.c:397 [inline]
->  #0: ffff8881082a5230 (&dev->event_lock){..-.}-{2:2}, at: input_event+0x70/0xa0 drivers/input/input.c:390
->  #1: ffffffff88ebb100 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
->  #1: ffffffff88ebb100 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
->  #1: ffffffff88ebb100 (rcu_read_lock){....}-{1:2}, at: input_pass_values+0x8b/0x8e0 drivers/input/input.c:118
->  #2: ffffffff89387a98 (kbd_event_lock){..-.}-{2:2}, at: spin_lock include/linux/spinlock.h:351 [inline]
->  #2: ffffffff89387a98 (kbd_event_lock){..-.}-{2:2}, at: kbd_event+0x8a/0x17a0 drivers/tty/vt/keyboard.c:1535
->  #3: ffffffff88ebb100 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
->  #3: ffffffff88ebb100 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
->  #3: ffffffff88ebb100 (rcu_read_lock){....}-{1:2}, at: debug_show_all_locks+0x7f/0x390 kernel/locking/lockdep.c:6720
-> 2 locks held by getty/2605:
->  #0: ffff88810f74d0a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x24/0x80 drivers/tty/tty_ldisc.c:243
->  #1: ffffc900000432f0 (&ldata->atomic_read_lock){+.+.}-{3:3}, at: n_tty_read+0xfba/0x1480 drivers/tty/n_tty.c:2211
-> 11 locks held by kworker/0:3/6516:
->  #0: ffff8881066e5948 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work+0x129b/0x1ba0 kernel/workqueue.c:3204
->  #1: ffffc900026cfd80 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0x921/0x1ba0 kernel/workqueue.c:3205
->  #2: ffff888109797190 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:1014 [inline]
->  #2: ffff888109797190 (&dev->mutex){....}-{3:3}, at: hub_event+0x1be/0x4f40 drivers/usb/core/hub.c:5849
->  #3: ffff888130c4e190 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:1014 [inline]
->  #3: ffff888130c4e190 (&dev->mutex){....}-{3:3}, at: __device_attach+0x7f/0x4b0 drivers/base/dd.c:1005
->  #4: ffff88812c376160 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:1014 [inline]
->  #4: ffff88812c376160 (&dev->mutex){....}-{3:3}, at: __device_attach+0x7f/0x4b0 drivers/base/dd.c:1005
->  #5: ffff888131021a20 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:1014 [inline]
->  #5: ffff888131021a20 (&dev->mutex){....}-{3:3}, at: __device_attach+0x7f/0x4b0 drivers/base/dd.c:1005
->  #6: ffffffff89bd6b08 (input_mutex){+.+.}-{3:3}, at: input_register_device+0x98a/0x1110 drivers/input/input.c:2463
->  #7: ffff88811aa2e2f0 (&led_cdev->led_access){+.+.}-{3:3}, at: led_classdev_register_ext+0x51b/0x9e0 drivers/leds/led-class.c:515
->  #8: ffffffff892bb7d0 (triggers_list_lock){++++}-{3:3}, at: led_trigger_set_default drivers/leds/led-triggers.c:284 [inline]
->  #8: ffffffff892bb7d0 (triggers_list_lock){++++}-{3:3}, at: led_trigger_set_default+0x5c/0x2a0 drivers/leds/led-triggers.c:276
->  #9: ffff88811aa2e208 (&led_cdev->trigger_lock){+.+.}-{3:3}, at: led_trigger_set_default drivers/leds/led-triggers.c:285 [inline]
->  #9: ffff88811aa2e208 (&led_cdev->trigger_lock){+.+.}-{3:3}, at: led_trigger_set_default+0x70/0x2a0 drivers/leds/led-triggers.c:276
->  #10: ffffffff88ec69f8 (rcu_state.exp_mutex){+.+.}-{3:3}, at: exp_funnel_lock+0x282/0x3b0 kernel/rcu/tree_exp.h:297
-> 1 lock held by syz.3.23/8804:
->  #0: ffffffff88ec69f8 (rcu_state.exp_mutex){+.+.}-{3:3}, at: exp_funnel_lock+0x1a4/0x3b0 kernel/rcu/tree_exp.h:329
-> 3 locks held by syz-executor/8833:
->  #0: ffff888113c743f8 (sb_writers#5){.+.+}-{0:0}, at: filename_create+0x10d/0x530 fs/namei.c:4019
->  #1: ffff88811061b508 (&type->i_mutex_dir_key#3/1){+.+.}-{3:3}, at: inode_lock_nested include/linux/fs.h:850 [inline]
->  #1: ffff88811061b508 (&type->i_mutex_dir_key#3/1){+.+.}-{3:3}, at: filename_create+0x1c2/0x530 fs/namei.c:4026
->  #2: ffff888113c88958 (jbd2_handle){++++}-{0:0}, at: start_this_handle+0xf6c/0x1430 fs/jbd2/transaction.c:448
-> 2 locks held by syz-executor/8851:
->  #0: ffff888113c743f8 (sb_writers#5){.+.+}-{0:0}, at: filename_create+0x10d/0x530 fs/namei.c:4019
->  #1: ffff88811061b508 (&type->i_mutex_dir_key#3/1){+.+.}-{3:3}, at: inode_lock_nested include/linux/fs.h:850 [inline]
->  #1: ffff88811061b508 (&type->i_mutex_dir_key#3/1){+.+.}-{3:3}, at: filename_create+0x1c2/0x530 fs/namei.c:4026
-> 2 locks held by syz-executor/8852:
->  #0: ffff888113c743f8 (sb_writers#5){.+.+}-{0:0}, at: filename_create+0x10d/0x530 fs/namei.c:4019
->  #1: ffff88811061b508 (&type->i_mutex_dir_key#3/1){+.+.}-{3:3}, at: inode_lock_nested include/linux/fs.h:850 [inline]
->  #1: ffff88811061b508 (&type->i_mutex_dir_key#3/1){+.+.}-{3:3}, at: filename_create+0x1c2/0x530 fs/namei.c:4026
-> 1 lock held by modprobe/9577:
->
-> =============================================
->
-> task:init            state:S stack:22000 pid:1     tgid:1     ppid:0      flags:0x00000002
-> Call Trace:
->  <TASK>
->  context_switch kernel/sched/core.c:5315 [inline]
->  __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
->  __schedule_loop kernel/sched/core.c:6752 [inline]
->  schedule+0xe7/0x350 kernel/sched/core.c:6767
->  schedule_hrtimeout_range_clock+0x369/0x3b0 kernel/time/hrtimer.c:2272
->  do_sigtimedwait+0x42f/0x5c0 kernel/signal.c:3665
->  __do_sys_rt_sigtimedwait kernel/signal.c:3709 [inline]
->  __se_sys_rt_sigtimedwait kernel/signal.c:3687 [inline]
->  __x64_sys_rt_sigtimedwait+0x1ec/0x2e0 kernel/signal.c:3687
->  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
->  do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7fd5ca08a23c
-> RSP: 002b:00007ffc7f2936d0 EFLAGS: 00000246 ORIG_RAX: 0000000000000080
-> RAX: ffffffffffffffda RBX: 00007fd5ca2c013c RCX: 00007fd5ca08a23c
-> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00007fd5ca2c54a8
-> RBP: 0000000000000000 R08: 0000000000000003 R09: 0000000000000000
-> R10: 0000000000000008 R11: 0000000000000246 R12: 0000000000000000
-> R13: 00007ffc7f293738 R14: 000055ff5f932169 R15: 00007fd5ca2fca80
->  </TASK>
-> task:kthreadd        state:S stack:27024 pid:2     tgid:2     ppid:0      flags:0x00004000
-> Call Trace:
->  <TASK>
->  context_switch kernel/sched/core.c:5315 [inline]
->  __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
->  __schedule_loop kernel/sched/core.c:6752 [inline]
->  schedule+0xe7/0x350 kernel/sched/core.c:6767
->  kthreadd+0x5ba/0x7d0 kernel/kthread.c:755
->  ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
->  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
->  </TASK>
-> task:pool_workqueue_ state:S stack:30464 pid:3     tgid:3     ppid:2      flags:0x00004000
-> Call Trace:
->  <TASK>
->  context_switch kernel/sched/core.c:5315 [inline]
->  __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
->  __schedule_loop kernel/sched/core.c:6752 [inline]
->  schedule+0xe7/0x350 kernel/sched/core.c:6767
->  kthread_worker_fn+0x502/0xba0 kernel/kthread.c:851
->  kthread+0x2c1/0x3a0 kernel/kthread.c:389
->  ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
->  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
->  </TASK>
-> task:kworker/R-rcu_g state:I stack:30288 pid:4     tgid:4     ppid:2      flags:0x00004000
-> Call Trace:
->  <TASK>
->  context_switch kernel/sched/core.c:5315 [inline]
->  __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
->  __schedule_loop kernel/sched/core.c:6752 [inline]
->  schedule+0xe7/0x350 kernel/sched/core.c:6767
->  rescuer_thread+0x946/0xe20 kernel/workqueue.c:3541
->  kthread+0x2c1/0x3a0 kernel/kthread.c:389
->  ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
->  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
->  </TASK>
-> task:kworker/R-sync_ state:I stack:30832 pid:5     tgid:5     ppid:2      flags:0x00004000
-> Call Trace:
->  <TASK>
->  context_switch kernel/sched/core.c:5315 [inline]
->  __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
->  __schedule_loop kernel/sched/core.c:6752 [inline]
->  schedule+0xe7/0x350 kernel/sched/core.c:6767
->  rescuer_thread+0x946/0xe20 kernel/workqueue.c:3541
->  kthread+0x2c1/0x3a0 kernel/kthread.c:389
->  ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
->  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
->  </TASK>
-> task:kworker/R-slub_ state:I stack:30832 pid:6     tgid:6     ppid:2      flags:0x00004000
-> Call Trace:
->  <TASK>
->  context_switch kernel/sched/core.c:5315 [inline]
->  __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
->  __schedule_loop kernel/sched/core.c:6752 [inline]
->  schedule+0xe7/0x350 kernel/sched/core.c:6767
->  rescuer_thread+0x946/0xe20 kernel/workqueue.c:3541
->  kthread+0x2c1/0x3a0 kernel/kthread.c:389
->  ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
->  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
->  </TASK>
-> task:kworker/R-netns state:I stack:30832 pid:7     tgid:7     ppid:2      flags:0x00004000
->
->
-> Tested on:
->
-> commit:         00c5e66c MAINTAINERS: kasan, kcov: add bugzilla links
-> git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/ mm-hotfixes-unstable
-> console output: https://syzkaller.appspot.com/x/log.txt?x=127a045f980000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=e56f1fcedfd0b54e
-> dashboard link: https://syzkaller.appspot.com/bug?extid=ce483fd06e2061f44f5d
-> compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
->
-> Note: no patches were applied.
+> 
+> Another interrupt bit Intr from ASFx00 HostStatus is 1 after transfer
+> (interrupt 7 is triggered). Transfer can be implemented without timers
+> and active waiting on HostBusy status (there is a loop in
+> piix4_transaction).
+
+Yeah, but this is what is being documented in the ASF databook and we
+have to look at the SMBHSTSTS, based on that the further ASF packets
+are processed.
+
+Thanks,
+Shyam
+
+> 
+> With regards
+> Miroslav Bendík
+> 
+>>
+>>>> My device has this DSDT ACPI entry:
+>>>>
+>>>>   Name (_HID, "SMB0001")  // _HID: Hardware ID
+>>>>   Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+>>>>   {
+>>>>       IO (Decode16,
+>>>>           0x0B20,             // Range Minimum
+>>>>           0x0B20,             // Range Maximum
+>>>>           0x20,               // Alignment
+>>>>           0x20,               // Length
+>>>>           )
+>>>>       IRQ (Level, ActiveLow, Shared, )
+>>>>           {7}
+>>>>   })
+>>>>
+>>>> This entry defines the IRQ number, trigger, and polarity. However,
+>>>> the kernel ignores this entry and only uses the "Interrupt Source
+>>>> Override" from the MADT table.
+>>> Note that we already have a quirk table for this because this hits
+>>> more
+>>> interrupts in the legacy ISA interrupt range, see:
+>>>
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/acpi/resource.c#n659
+>>>
+>>> note that the MADT table is already alway skipped on AMD systems,
+>>> but currently only for IRQs 1/12 which are the PS/2 kbd + mouse
+>>> IRQs.
+>>>
+>>> Regards,
+>>>
+>>> Hans
+>>>
+>>>
 
