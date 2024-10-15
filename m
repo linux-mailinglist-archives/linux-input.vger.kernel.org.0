@@ -1,303 +1,181 @@
-Return-Path: <linux-input+bounces-7405-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7407-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0BF099EA5A
-	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 14:53:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF7C99EDFC
+	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 15:42:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2007B1C21B01
-	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 12:53:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C30FB1C21225
+	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 13:42:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B36EE1C07F6;
-	Tue, 15 Oct 2024 12:53:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8531F1B2186;
+	Tue, 15 Oct 2024 13:39:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AfC8smwn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t4EyHoVh"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8794F1C07E5;
-	Tue, 15 Oct 2024 12:53:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55EB519B3FF;
+	Tue, 15 Oct 2024 13:39:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728996812; cv=none; b=RWDq5uwHdlO5fAKJV1kNDfOHqsJYPq3FIeCdWlRnaJ85ZG3rqa4Q3OZy3gXoJK1JpSaWORRo2Xi7YqEC35gc7QRy4ail8ZWecqqnaS0SBtoA7o67Xblxus7Ug4Wg44EoNhh9XzP7iE0+X7NCX5m3MrXTP4JSr4W3fyLWq9JbZy8=
+	t=1728999560; cv=none; b=rYdsbbbkx9UZHTNXpOKGbOUGqTzlpi3egABTev5pjtOujbCcTuO/Va1YHbyipgauX/4s3ttbW+/MN4njKqdAHnluhMxn6QpvqsKwf2ipy7rP9Y/ZIC4qTy1uDLbasTWeUqlQQdid6UCtTHwwwiKyQ2qcGxgcpK4Gq3YEA6XSri4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728996812; c=relaxed/simple;
-	bh=Udnv1koDwbInVk0nEtEsG9PIAwZTO9fQsSD5ERFyx0Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VemFn+q2ufe1aXCqrIpPVHrkO74vDYsO0Plw8U6BSx3jx61TeRJl27q5aNXNlqEw9PhP+vtRaoHAgpsdLA4Sn/e2KSot/0/KLmGDgCR8KGe1dMPLQTJdsClti2JAzaCpb88f7xYPg3ZJhnxAEJwgnORok0QqO8LgEUeL5YFh4C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AfC8smwn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 29C2CC4CED2;
-	Tue, 15 Oct 2024 12:53:32 +0000 (UTC)
+	s=arc-20240116; t=1728999560; c=relaxed/simple;
+	bh=bTR48j1g4dx5AtyOntoopUuO8cq9v0ZkN5DjIQDaZYQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qTe61eepDGu9/vDkDL2Sa+MTvIwEchWMJjDR/jg+oR5oPNaBYX1l1gbh94i/ifSCcQU+ZtH375EidZBi02EIiXM6xhmDeH/qFhMxg1H80xgveyHQxHmp5yv4qRXERNqVRvHPzb5dCZh6SPIB0yO3IC/kzurIQOGjDVFKyQaKLzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t4EyHoVh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2909C4CEC6;
+	Tue, 15 Oct 2024 13:39:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728996812;
-	bh=Udnv1koDwbInVk0nEtEsG9PIAwZTO9fQsSD5ERFyx0Q=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=AfC8smwnmghjBAVSSws9C+MKUkIKkYWPsE7UTBzl7Q3hpSImONJ70FotEYB2Z5y4m
-	 sz72barFcKYLrtP+1dG6e7uq1XDqvBHJxupt2nCpPenvJ9gIBn10bl9WQlzMeqlhO1
-	 BDbFnJEkLPKdKrLZMFTF1zDfh0SzXmecpvBwLFkHA9x3Zr8k6Iju98UZ5Hekxw/Lxr
-	 woZa874ilKx7Yc+4tRol1Q3u4QAaOVK29947kGYaTqebw1v+V9+Vj4ORBx5ZGs5uBj
-	 ZGOcpM1TmXlS5N3zt/Xvq6tYUYf/xS5yjRBBdBYRI5JCUYaL6j433btFB3qtLqodpu
-	 C3z0gtsB9rXZQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EDDBD216A2;
-	Tue, 15 Oct 2024 12:53:32 +0000 (UTC)
-From: George Chan via B4 Relay <devnull+gchan9527.gmail.com@kernel.org>
-Date: Tue, 15 Oct 2024 20:53:31 +0800
-Subject: [PATCH RFC/RFT 3/3] dts: sm7125-xiaomi-joyeuse: Sample device tree
- for reference
+	s=k20201202; t=1728999559;
+	bh=bTR48j1g4dx5AtyOntoopUuO8cq9v0ZkN5DjIQDaZYQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=t4EyHoVhEP+VEniDqzNanjchFTMY7GYdH2h0z6efjMxlHVbKQv8V0Oqmq1M2l5r6i
+	 w6jS2jbkRkI6TBKc6O4C3mggNm2A7Izi19TUjx2R91GHlHsQsUziOR1Bn7VelzR2/U
+	 epKu1UOdKjyWGxm/QN6js2MvozmLefFSu9NqC6lX1jF3CY03din2Hq0uD0keCjm9ED
+	 rSeCYpAxD46covPcFhqQvZzvi/FFIWAQ1Tp2XC3ftOJsHsO4qFNlfd701EfOpgJdrM
+	 J7tvdh740hQ0x4dAUCKUUG1+58+zeHKzCcCq9IwjYgQb1WggBiEWO7hcBjnczeeJ3f
+	 W8jbXRr16FKwA==
+Message-ID: <c10b0b99-5bf2-47d3-b879-872f80e6883d@kernel.org>
+Date: Tue, 15 Oct 2024 15:39:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241015-nt36xxx-v1-3-3919d0bffee6@gmail.com>
-References: <20241015-nt36xxx-v1-0-3919d0bffee6@gmail.com>
-In-Reply-To: <20241015-nt36xxx-v1-0-3919d0bffee6@gmail.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Del Regno <kholk11@gmail.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC/RFT 1/3] dt-bindings: touchscreen: Add binding for
+ Novatek NT36xxx series driver
+To: gchan9527@gmail.com, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Del Regno <kholk11@gmail.com>,
  Henrik Rydberg <rydberg@bitmath.org>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, George Chan <gchan9527@gmail.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728996810; l=6157;
- i=gchan9527@gmail.com; s=20241015; h=from:subject:message-id;
- bh=tWQZcmPANb4gyYg3Iy7tm37YDTp8/euoXHalxbM18xI=;
- b=LpMt6KwLQJJNw2ApXjiVTFev3urGDEjLrV4ifAm4rghDhKju/6l5pSvCF1By3ymwJAdwDXGAl
- 4I6CBpnVE/IACDBLermLo56NxcrYbTBr/dDOEjn2heqvCAV/cAjwTXP
-X-Developer-Key: i=gchan9527@gmail.com; a=ed25519;
- pk=dscYWhT+BiQOBMpPE19NFQAjBBmcpipc6zdf2MTze/U=
-X-Endpoint-Received: by B4 Relay for gchan9527@gmail.com/20241015 with
- auth_id=248
-X-Original-From: George Chan <gchan9527@gmail.com>
-Reply-To: gchan9527@gmail.com
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241015-nt36xxx-v1-0-3919d0bffee6@gmail.com>
+ <20241015-nt36xxx-v1-1-3919d0bffee6@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20241015-nt36xxx-v1-1-3919d0bffee6@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: George Chan <gchan9527@gmail.com>
+On 15/10/2024 14:53, George Chan via B4 Relay wrote:
+> From: George Chan <gchan9527@gmail.com>
+> 
+> Add binding for the Novatek NT36xxx series touchscreen driver.
 
-Provide a include-made-easy devicetree file for demo.
-This sample file aimed including novatek touch support.
+Several issues here.
+1. A nit, subject: drop second/last, redundant "bindings". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
 
-Reviewers please ignore this patch.
+2. Commit msg: Bindings are about hardware, not driver.
 
-The full device tree is at below:
-https://github.com/99degree/linux/tree/working-20241015/arch/arm64/boot/dts/qcom
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
 
-Signed-off-by: George Chan <gchan9527@gmail.com>
----
- arch/arm64/boot/dts/qcom/Makefile                  |   1 +
- .../boot/dts/qcom/sm7125-xiaomi-joyeuse-touch.dts  | 183 +++++++++++++++++++++
- 2 files changed, 184 insertions(+)
+That's odd sequence.
 
-diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-index aea1d69db5..ba9786555b 100644
---- a/arch/arm64/boot/dts/qcom/Makefile
-+++ b/arch/arm64/boot/dts/qcom/Makefile
-@@ -235,6 +235,7 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sm6350-sony-xperia-lena-pdx213.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= sm6375-sony-xperia-murray-pdx225.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= sm7125-xiaomi-curtana.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= sm7125-xiaomi-joyeuse.dtb
-+dtb-$(CONFIG_ARCH_QCOM)	+= sm7125-xiaomi-joyeuse-touch.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= sm7225-fairphone-fp4.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= sm8150-hdk.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= sm8150-microsoft-surface-duo.dtb
-diff --git a/arch/arm64/boot/dts/qcom/sm7125-xiaomi-joyeuse-touch.dts b/arch/arm64/boot/dts/qcom/sm7125-xiaomi-joyeuse-touch.dts
-new file mode 100644
-index 0000000000..4a43db701d
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/sm7125-xiaomi-joyeuse-touch.dts
-@@ -0,0 +1,183 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+
-+#ifndef SM7125_XIAOMI_JOYEUSE_TOUCH_DTS
-+#define SM7125_XIAOMI_JOYEUSE_TOUCH_DTS
-+
-+#include <dt-bindings/dma/qcom-gpi.h>
-+#include <dt-bindings/gpio/gpio.h>
-+
-+#include "sm7125-xiaomi-joyeuse-display.dts"
-+
-+&soc {
-+	gpi_dma0: dma-controller@800000  {
-+		compatible = "qcom,sm7125-gpi-dma", "qcom,sm6350-gpi-dma";
-+		reg = <0 0x00800000 0 0x60000>;
-+		interrupts = <GIC_SPI 244 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 245 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 246 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 247 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 248 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 249 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 250 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 251 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 252 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 253 IRQ_TYPE_LEVEL_HIGH>;
-+		dma-channels = <10>;
-+		dma-channel-mask = <0x1f>;
-+		iommus = <&apps_smmu 0x56 0x0>;
-+		#dma-cells = <3>;
-+		
-+		status = "disabled";
-+	};
-+
-+	gpi_dma1: dma-controller@a00000 {
-+		compatible = "qcom,sm7125-gpi-dma", "qcom,sm6350-gpi-dma";
-+		reg = <0 0x00a00000 0 0x60000>;
-+		interrupts = <GIC_SPI 645 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 646 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 647 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 648 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 649 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 650 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 651 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 652 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 653 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 654 IRQ_TYPE_LEVEL_HIGH>;
-+		dma-channels = <10>;
-+		dma-channel-mask = <0x3f>;
-+		iommus = <&apps_smmu 0x4d6 0x0>;
-+		#dma-cells = <3>;
-+		
-+		status = "disabled";
-+	};
-+};
-+
-+//spi@880000
-+&spi0 {
-+	dmas = <&gpi_dma0 0 0 QCOM_GPI_SPI>,
-+		<&gpi_dma0 1 0 QCOM_GPI_SPI>;
-+	dma-names = "tx", "rx";
-+};
-+
-+//spi@884000
-+&spi1 {
-+	dmas = <&gpi_dma0 0 1 QCOM_GPI_SPI>,
-+		<&gpi_dma0 1 1 QCOM_GPI_SPI>;
-+	dma-names = "tx", "rx";
-+};
-+//spi@88c000
-+&spi3 {
-+	dmas = <&gpi_dma0 0 3 QCOM_GPI_SPI>,
-+		<&gpi_dma0 1 3 QCOM_GPI_SPI>;
-+	dma-names = "tx", "rx";
-+};
-+
-+//spi@88c000
-+&spi3 {
-+	dmas = <&gpi_dma0 0 3 QCOM_GPI_SPI>,
-+		<&gpi_dma0 1 3 QCOM_GPI_SPI>;
-+	dma-names = "tx", "rx";
-+};
-+
-+//spi@894000
-+&spi5 {
-+        dmas = <&gpi_dma0 0 5 QCOM_GPI_SPI>,
-+                <&gpi_dma0 1 5 QCOM_GPI_SPI>;
-+        dma-names = "tx", "rx";
-+};
-+
-+//spi@a80000
-+&spi6 {
-+	dmas = <&gpi_dma1 0 0 QCOM_GPI_SPI>,
-+		<&gpi_dma1 1 0 QCOM_GPI_SPI>;
-+	dma-names = "tx", "rx";
-+};
-+
-+//spi@a88000
-+&spi8 {
-+	dmas = <&gpi_dma1 0 2 QCOM_GPI_SPI>,
-+		<&gpi_dma1 1 2 QCOM_GPI_SPI>;
-+	dma-names = "tx", "rx";
-+};
-+
-+//spi@a90000
-+&spi10 {
-+	dma-names = "tx", "rx";
-+        dmas = <&gpi_dma1 0 4 QCOM_GPI_SPI>,
-+                <&gpi_dma1 1 4 QCOM_GPI_SPI>;
-+};
-+
-+//spi@a94000
-+&spi11 {
-+	dma-names = "tx", "rx";
-+	dmas = <&gpi_dma1 0 5 QCOM_GPI_SPI>,
-+		<&gpi_dma1 1 5 QCOM_GPI_SPI>;
-+};
-+
-+&spi11 {
-+        status = "okay";
-+
-+        touchscreen: touchscreen@0 {
-+                compatible = "novatek,nt36675-spi",
-+				"novatek,nt36xxx-spi",
-+				"novatek,NVT-ts-spi";
-+			
-+                reg = <0>;
-+
-+                /* caught from joyeuse dtb*/
-+                spi-max-frequency = <4000000>;
-+
-+                /* ts->irq report 194 */
-+                /* interrupts = <&tlmm 194 IRQ_TYPE_EDGE_FALLING>; */
-+                /* interrupt= <&tlmm 13 2>; */ //dtb specified, but GPIO13 is CAM_MCLK0
-+
-+                novatek,reset-gpio = <&tlmm 8 0x00>;
-+                novatek,irq-gpio = <&tlmm 9 0x2001>;
-+
-+                /* 672C */
-+                novatek,swrst-n8-addr = <0x03F0FE>;
-+                novatek,spi-rd-fast-addr = <0x03F310>;
-+
-+                reset-gpio = <&tlmm 8 0x00>;
-+                /* dtb show <&tlmm 13 2>*/
-+                irq-gpio = <&tlmm 9 0x2001>;
-+
-+/*
-+                touch_ibb-supply = <0x241>; //lcdb_ncp
-+                touch_lab-supply = <0x240>; //qcom,qpnp-lcdb-regulator ldo
-+                touch_vddio-supply = <0x33c>; //pm6150_l18
-+*/
-+
-+                vio-supply = <&vreg_l18a_3p0>;
-+                vdd-supply = <&vreg_l18a_3p0>;
-+
-+                panel = <&panel0>;
-+                status = "okay";
-+        };
-+};
-+
-+
-+&qup_spi11_spi {
-+        drive-strength = <2>;
-+        //bias-disable;
-+};
-+
-+&qup_spi11_cs {
-+        drive-strength = <2>;
-+        //bias-disable;
-+};
-+
-+&qup_spi11_cs_gpio {
-+        drive-strength = <2>;
-+        bias-disable;
-+};
-+
-+&gpi_dma0 {
-+	status = "okay";
-+};
-+
-+&gpi_dma1 {
-+        status = "okay";
-+};
-+
-+#endif
+> Signed-off-by: George Chan <gchan9527@gmail.com>
+> ---
+>  .../bindings/input/touchscreen/nt36xxx.yaml        | 70 ++++++++++++++++++++++
+>  1 file changed, 70 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/nt36xxx.yaml b/Documentation/devicetree/bindings/input/touchscreen/nt36xxx.yaml
+> new file mode 100644
+> index 0000000000..3919f0d026
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/nt36xxx.yaml
 
--- 
-2.43.0
+Use compatible as filename.
 
+> @@ -0,0 +1,70 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/nt36xxx.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Novatek NT36xxx series touchscreen controller Bindings
+
+Not tested.
+
+
+> +
+> +maintainers:
+> +  - AngeloGioacchino Del Regno <kholk11@gmail.com>
+> +  - George Chan <gchan9527@gmail.com>
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +        - novatek,nt36525-spi
+> +        - novatek,nt36672a-spi
+> +        - novatek,nt36675-spi
+> +        - novatek,nt36676f-spi
+> +        - novatek,nt36772-spi
+
+This just does not work and was not tested... Limited review follows:
+
+Drop spi and explain why this cannot be part of existing nt36672a.
+
+I finished review here.
+
+Best regards,
+Krzysztof
 
 
