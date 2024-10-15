@@ -1,216 +1,184 @@
-Return-Path: <linux-input+bounces-7430-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7431-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29ECC99F688
-	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 20:57:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3809699F6A7
+	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 20:59:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC831284A21
-	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 18:57:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E3B051F25086
+	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 18:59:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D6783DABE0;
-	Tue, 15 Oct 2024 18:52:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 389AE1F5836;
+	Tue, 15 Oct 2024 18:56:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZpEQlPAs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uBrfsuQw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5872296D7
-	for <linux-input@vger.kernel.org>; Tue, 15 Oct 2024 18:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17D21D5152;
+	Tue, 15 Oct 2024 18:56:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729018347; cv=none; b=tBurp/SpbdaB5zxrfccZSiujW2YcuCdKHV+Th3kmr8nJgQdo+KWXC+/if4nRx4XSXKgUS9fZ+IXe55kvH2hD76xQIiELurSw3yN016je3WL0w+4C6enkbUuA+krddkORZVey80ytK6yyt/jOJg11tjJApDNNimHJCiXE/IFQ9/U=
+	t=1729018602; cv=none; b=oViv4/m1EvWirwreDc2qqMmuIl1Qv7xNKTrqTIr7hVli7+RvMFtxfusO3dgkAcjBJb6dWuZowu8j+sq4qBsVurdhBmbkzIy+0s6TCUTjmBS9JCGn5J+Snu/Z7i35rw+3hwyvO/S/N1vJBczpWhJjfpWtpEITWePQmn2Smwbj1Ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729018347; c=relaxed/simple;
-	bh=ZGl79UfjjHp/dbanoMIKpsfiBb1RGuN8b5mG9T34Oqg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=n8hWaNW4NS9Pu/vyc4b+KAtyXd5k7p8u02qsk1Qnsf/+4CuGXhX9jUD+CjNpvAV5c0dj6KAGj24UIS71rMhLEmjfNwYj+yhpAfABCSHFmvexyzrQzo/WXQz5zA2uU6FFRMY00rPvFe4P0Wvnkj74DF7IJIvRd/DhfwalosDAgDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZpEQlPAs; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729018344;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GXTMrjROGaTcKBpC5zD8IzpbS8kTElR36tpy9F32tfY=;
-	b=ZpEQlPAsYeOvXntrSbW0ABh7+2tSnwXa7WDwEHLDoPzkzPlltrF8A4RHQEjn0jScLBUlis
-	wmd0W+PAX8Yx9bEeoXRDah/Ys1P/curCYyNwbglXIlutUGsLFDcqyRME90m3ZSCtEYFUp5
-	H9moGF9JCYMYdcT+qjaQvzQDOz9LTZQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-137-K02_8lPUOV2JSYcnqvgK7w-1; Tue, 15 Oct 2024 14:52:22 -0400
-X-MC-Unique: K02_8lPUOV2JSYcnqvgK7w-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-5c935cc6a96so4298120a12.1
-        for <linux-input@vger.kernel.org>; Tue, 15 Oct 2024 11:52:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729018342; x=1729623142;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GXTMrjROGaTcKBpC5zD8IzpbS8kTElR36tpy9F32tfY=;
-        b=gnoVfEhHFw2x6SxWYrOwh8QqZcdnd4D9h4LniIlZpzyVVZJqoIYUzRFw694KGQDxM9
-         8U/j99qi9khQC6WlSvClHwNEv/coUQcppq00gSSvM/EjeNSbjmsu2lqt7px+OGTjtpUw
-         MRV43czKcn6jq3sP64RXNCsCJY3COAkHRV1aJXYJvz01GWEMC+cif2lx6wTfw3nLLXe2
-         tS0LKocRal5PxiWp3wTB4S+7sW56j7WBUNetqZGc1yekkd/NVELtTckIgUma+34MoL4n
-         HSlP75slUOKnmGjUSrbCR31q1RbCyAmqrF6S20EXaT6UWi/4f9tBtcYDYrprX2e3RBgN
-         L22g==
-X-Forwarded-Encrypted: i=1; AJvYcCXKKfMDvRkY01mu18M0/u04tC0Ob1qNS8lTQ2limA4falAlhM1EHCK6iQq8i+or35Uu+a1l4VE9IIZb1w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfAGvtUA3CXIIDbFOMfMTmXebrjb5yJWQWMoxWOo4RbpkXl98S
-	2C0kVVmFjle4uujH8KQXIcDINQUFiyuLZm2U2Hf453cPxlTBALwxvoWMB04GHIOU6HcKphq2OkX
-	MSVusiaER9on01foM5HAYXiDkXBL7IAHikum6CRr/zfTePkSa8gZuxRyPN8AG
-X-Received: by 2002:a05:6402:520f:b0:5c5:ba82:c3b1 with SMTP id 4fb4d7f45d1cf-5c95ac4e471mr9746988a12.29.1729018341568;
-        Tue, 15 Oct 2024 11:52:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH4IRS8nhPSbHHMGAr1esFr/1sORzxV4dHhLUSla/ENaT5Qe2x1SJKm+qMzu8Ky2rtxd6imbQ==
-X-Received: by 2002:a05:6402:520f:b0:5c5:ba82:c3b1 with SMTP id 4fb4d7f45d1cf-5c95ac4e471mr9746938a12.29.1729018341069;
-        Tue, 15 Oct 2024 11:52:21 -0700 (PDT)
-Received: from eisenberg.fritz.box (200116b82d5d5a0006e2615320d1d4db.dip.versatel-1u1.de. [2001:16b8:2d5d:5a00:6e2:6153:20d1:d4db])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c98d39a9a2sm974438a12.0.2024.10.15.11.52.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 11:52:20 -0700 (PDT)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Basavaraj Natikar <basavaraj.natikar@amd.com>,
-	Jiri Kosina <jikos@kernel.org>,
+	s=arc-20240116; t=1729018602; c=relaxed/simple;
+	bh=kuYHadpRDCGe/ZwW/bqcFD3qY9po7lfFGs8NnInWIVY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IUBZcEWaw4O0M20I8oKO+259LHMMfhujOl8d011kCi8xEAejhZFkSeG6BL+8RkBTAzyD+SKH2ecr+LVGnYcx7bNY40r40JFfRDk526yzDgtDLx8EFfynksegT48uq1p9lh9dXUGvSS08gvRQRixkoT7JBEr5+XYLtSLX/uYpJxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uBrfsuQw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C6E7C4CEC6;
+	Tue, 15 Oct 2024 18:56:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729018600;
+	bh=kuYHadpRDCGe/ZwW/bqcFD3qY9po7lfFGs8NnInWIVY=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=uBrfsuQwhZKBqWuSMMOpiQPRAro0nYKwoVzfHlGrRXoB0uQUSm4cIBRqPafAZNQir
+	 J9LhSXtYqrvva32NVINZ7cH6Z2cdUnaJ/hDKlda2E15aetWXs1CSYH3X6Qsu//KZCS
+	 hJNxy29lLILzjZCJ+NMc2T+kB9hCdQwqY+OCNDdK8ZYLSTXAF0A2XulYyGbIZnWQld
+	 z7QjfQiMQqgHWEQ5c3Rx2TMsHgaV6QAGgazsW4C8czUBnpzX9MyqBUoYP7PlHKV4BO
+	 8oNQP7klHb9EwYTbWlgFoFaYb1qJLbgPc+pINZSbz7RPB0/mePm/p6cMZQXRn3+scX
+	 4zc6I7WoT9OvA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 05022CE098E; Tue, 15 Oct 2024 11:56:40 -0700 (PDT)
+Date: Tue, 15 Oct 2024 11:56:40 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Dubov <oakad@yahoo.com>,
-	Sudarsana Kalluru <skalluru@marvell.com>,
-	Manish Chopra <manishc@marvell.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Rasesh Mody <rmody@marvell.com>,
-	GR-Linux-NIC-Dev@marvell.com,
-	Igor Mitsyanko <imitsyanko@quantenna.com>,
-	Sergey Matyukevich <geomatsi@gmail.com>,
-	Kalle Valo <kvalo@kernel.org>,
-	Sanjay R Mehta <sanju.mehta@amd.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Jon Mason <jdmason@kudzu.us>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Chen Ni <nichen@iscas.ac.cn>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Philipp Stanner <pstanner@redhat.com>,
-	Ricky Wu <ricky_wu@realtek.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Breno Leitao <leitao@debian.org>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Mostafa Saleh <smostafa@google.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Yi Liu <yi.l.liu@intel.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Eric Auger <eric.auger@redhat.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Ye Bin <yebin10@huawei.com>,
-	=?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Rui Salvaterra <rsalvaterra@gmail.com>
-Cc: linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	ntb@lists.linux.dev,
-	linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH 13/13] PCI: Deprecate pci_intx(), pcim_intx()
-Date: Tue, 15 Oct 2024 20:51:23 +0200
-Message-ID: <20241015185124.64726-14-pstanner@redhat.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241015185124.64726-1-pstanner@redhat.com>
-References: <20241015185124.64726-1-pstanner@redhat.com>
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, sfr@canb.auug.org.au, jpoimboe@kernel.org,
+	linux-toolchains@vger.kernel.org
+Subject: Re: [PATCH] HID: simplify code in fetch_item()
+Message-ID: <e5ccd299-3afd-40c0-9de6-125deeee2ed5@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <ZvwYbESMZ667QZqY@google.com>
+ <20241010222451.GA3571761@thelio-3990X>
+ <Zw60Sj-iFh1KWwWG@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zw60Sj-iFh1KWwWG@google.com>
 
-pci_intx() and its managed counterpart pcim_intx() only exist for older
-drivers which have not been ported yet for various reasons. Future
-drivers should preferably use pci_alloc_irq_vectors().
+On Tue, Oct 15, 2024 at 11:28:26AM -0700, Dmitry Torokhov wrote:
+> Hi Nathan,
+> 
+> On Thu, Oct 10, 2024 at 03:24:51PM -0700, Nathan Chancellor wrote:
+> > Hi Dmitry,
+> > 
+> > On Tue, Oct 01, 2024 at 08:42:36AM -0700, Dmitry Torokhov wrote:
+> > > We can easily calculate the size of the item using arithmetic (shifts).
+> > > This allows to pull duplicated code out of the switch statement, making
+> > > it cleaner.
+> > > 
+> > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > > ---
+> > >  drivers/hid/hid-core.c | 31 ++++++++++++++-----------------
+> > >  1 file changed, 14 insertions(+), 17 deletions(-)
+> > > 
+> > > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > > index 988d0acbdf04..00942d40fe08 100644
+> > > --- a/drivers/hid/hid-core.c
+> > > +++ b/drivers/hid/hid-core.c
+> > > @@ -754,35 +754,32 @@ static u8 *fetch_item(__u8 *start, __u8 *end, struct hid_item *item)
+> > >  	}
+> > >  
+> > >  	item->format = HID_ITEM_FORMAT_SHORT;
+> > > -	item->size = b & 3;
+> > > +	item->size = BIT(b & 3) >> 1; /* 0, 1, 2, 3 -> 0, 1, 2, 4 */
+> > > +
+> > > +	if (end - start < item->size)
+> > > +		return NULL;
+> > >  
+> > >  	switch (item->size) {
+> > >  	case 0:
+> > > -		return start;
+> > > +		break;
+> > >  
+> > >  	case 1:
+> > > -		if ((end - start) < 1)
+> > > -			return NULL;
+> > > -		item->data.u8 = *start++;
+> > > -		return start;
+> > > +		item->data.u8 = *start;
+> > > +		break;
+> > >  
+> > >  	case 2:
+> > > -		if ((end - start) < 2)
+> > > -			return NULL;
+> > >  		item->data.u16 = get_unaligned_le16(start);
+> > > -		start = (__u8 *)((__le16 *)start + 1);
+> > > -		return start;
+> > > +		break;
+> > >  
+> > > -	case 3:
+> > > -		item->size++;
+> > > -		if ((end - start) < 4)
+> > > -			return NULL;
+> > > +	case 4:
+> > >  		item->data.u32 = get_unaligned_le32(start);
+> > > -		start = (__u8 *)((__le32 *)start + 1);
+> > > -		return start;
+> > > +		break;
+> > > +
+> > > +	default:
+> > > +		unreachable();
+> > >  	}
+> > >  
+> > > -	return NULL;
+> > > +	return start + item->size;
+> > >  }
+> > 
+> > I am noticing some interesting behavior when building with clang, namely
+> > some objtool warnings and a failed boot when LTO is enabled, which I
+> > bisected to this change as commit 61595012f280 ("HID: simplify code in
+> > fetch_item()"), such as:
+> > 
+> >   $ make -skj"$(nproc)" ARCH=x86_64 LLVM=1 mrproper defconfig vmlinux
+> >   vmlinux.o: warning: objtool: hid_open_report() falls through to next function hid_parser_main()
+> >   vmlinux.o: warning: objtool: hid_scan_report() falls through to next function hid_allocate_device()
+> > 
+> > With LTO enabled, the warning becomes:
+> > 
+> >   vmlinux.o: warning: objtool: hid_open_report+0x21b: can't find jump dest instruction at .text.hid_open_report+0x40f
+> > 
+> > A bare unreachable(), especially in the default case of a switch
+> > statement, is generally considered harmful in my experience, as it can
+> > introduce undefined behavior, which can mess up how a compiler might
+> > optimize a function. Commit d652d5f1eeeb ("drm/edid: fix objtool warning
+> > in drm_cvt_modes()") and commit 3764647b255a ("bcachefs: Remove
+> > undefined behavior in bch2_dev_buckets_reserved()") have some good
+> > commit messages talking about it.
+> > 
+> > Getting rid of the unreachable() in some way resolves the issue. I
+> > tested using BUG() in lieu of unreachable() like the second change I
+> > mentioned above, which resolves the issue cleanly, as the default case
+> > clearly cannot happen. Another option I tested was some sort of printk
+> > statement and returning NULL, which some maintainers prefer, even in
+> > spite of impossible conditions. I am happy to send a patch with one of
+> > those changes or open to other suggestions.
+> 
+> Oh well, if our toolchain does not like "unreachable()" then we can
+> simply remove it - the switch does cover all possible values and the
+> "return" statement should be valid even if compiler somehow decides that
+> "switch" statement can be skipped.
+> 
+> If you can send a patch that would be great.
+> 
+> I'm adding Paul and a few others to CC who apparently seeing the same
+> issue.
 
-Mark pci_intx() and pcim_intx() as deprecated and encourage usage of
-pci_alloc_irq_vectors() in its place.
+Commenting out the unreachable() fixes things for me, as does
+replacing the unreachable() with BUG().  So, for either solution:
 
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
----
- drivers/pci/devres.c | 5 ++++-
- drivers/pci/pci.c    | 5 ++++-
- 2 files changed, 8 insertions(+), 2 deletions(-)
+Tested-by: Paul E. McKenney <paulmck@kernel.org>
 
-diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
-index 6f8f712fe34e..4c76fc063104 100644
---- a/drivers/pci/devres.c
-+++ b/drivers/pci/devres.c
-@@ -435,7 +435,7 @@ static struct pcim_intx_devres *get_or_create_intx_devres(struct device *dev)
- }
- 
- /**
-- * pcim_intx - managed pci_intx()
-+ * pcim_intx - managed pci_intx() (DEPRECATED)
-  * @pdev: the PCI device to operate on
-  * @enable: boolean: whether to enable or disable PCI INTx
-  *
-@@ -443,6 +443,9 @@ static struct pcim_intx_devres *get_or_create_intx_devres(struct device *dev)
-  *
-  * Enable/disable PCI INTx for device @pdev.
-  * Restore the original state on driver detach.
-+ *
-+ * This function is DEPRECATED. Do not use it in new code.
-+ * Use pci_alloc_irq_vectors() instead (there is no managed version, currently).
-  */
- int pcim_intx(struct pci_dev *pdev, int enable)
- {
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 7ce1d0e3a1d5..dc69e23b8982 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -4477,11 +4477,14 @@ void pci_disable_parity(struct pci_dev *dev)
- }
- 
- /**
-- * pci_intx - enables/disables PCI INTx for device dev
-+ * pci_intx - enables/disables PCI INTx for device dev (DEPRECATED)
-  * @pdev: the PCI device to operate on
-  * @enable: boolean: whether to enable or disable PCI INTx
-  *
-  * Enables/disables PCI INTx for device @pdev
-+ *
-+ * This function is DEPRECATED. Do not use it in new code.
-+ * Use pci_alloc_irq_vectors() instead.
-  */
- void pci_intx(struct pci_dev *pdev, int enable)
- {
--- 
-2.47.0
-
+							Thanx, Paul
 
