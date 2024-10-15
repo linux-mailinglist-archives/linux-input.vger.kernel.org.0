@@ -1,52 +1,53 @@
-Return-Path: <linux-input+bounces-7403-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7404-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0BA99EA57
-	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 14:53:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DCC499EA59
+	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 14:53:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1547B28A9A4
-	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 12:53:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC3BD1C223EB
+	for <lists+linux-input@lfdr.de>; Tue, 15 Oct 2024 12:53:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D1D71C07D9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C9181C07EF;
 	Tue, 15 Oct 2024 12:53:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H5gm2GLF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AmGBVFFU"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5531C07C4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696F01C07CD;
 	Tue, 15 Oct 2024 12:53:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728996812; cv=none; b=eGXiCnIvbG5U71kPSvosSHJTaoAacCsZNspKKZrKbqsEvAvyn3eKwpd4e+qnSadLCRCKPdH12XnZ6cOaEu/zQ9CO+UdnTkaX5JQNGesXTMy9x2xu+ajHSGRPCCWu7X/5jTeJ5d5uGwi/1ZjhViwvcYmp3wnu/TkerJH2As1H7Ms=
+	t=1728996812; cv=none; b=ILsCAwUTKi6fWTzQqYqLXe7+sYCYhjZiubpVVy5bvy12OO/m/xrryDmXNfTKCzyd4wMCCy7HxWUliYyow/1J82l5MXMcRgWlqGQDzB9AlwsSfAOegMGThHFPdCYuev2QlXK+M+CzBGnB++AlRPGPz7SnAevOF6SrJNy4N1szeaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1728996812; c=relaxed/simple;
-	bh=ZKf9/CxVREmj132u1cKYBcG4ddSqcH0nUrjmlXb6ajg=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WYmCez6Ava7K/3P1c0g9LeXWb8qxWljxrjOQ4wipImivF0lT79UxKbeRU+pfk/v3EXzuTb8alPjB1Y8xrWp7OfgCF0AMjnx3HvJW0V74Og2OwgVP8GHTKUneHpiXLS5CrALpID04g0rau1fFHuClDXgxLIIUytXiYHQJ/QYNIOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H5gm2GLF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F33CEC4CEC6;
-	Tue, 15 Oct 2024 12:53:31 +0000 (UTC)
+	bh=k4sHN8F0vEpbhstI4pP9YlVgxqXHlxI77MHkEXqdZ2Q=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=TfYa1IbYxxoWZeQlAT1taJt/g3nq2Vlhjy5W1UcSY00JjcRcAzWu7Dk2dMKy00ftc0B333oX+8fR7eQR7rDg0XgnttuVECNxdczBtTOdDCzYxAtwodOPebIDZtb3rj17VSGip+b5LT87ir4dSlQ+/ufil9QoZ/3ZtQxW2x52lsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AmGBVFFU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0A3EFC4CECF;
+	Tue, 15 Oct 2024 12:53:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1728996812;
-	bh=ZKf9/CxVREmj132u1cKYBcG4ddSqcH0nUrjmlXb6ajg=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=H5gm2GLFdq6bMu2FyuM8677593LfAO53e7QBMwnqvhVxNjuDtQMAg5G78UiA6DEv0
-	 /4CHRvC8DqK35jsNbnP7tPGtrrAIvLqrSNaXryxqgJOSq0/dJz01pO1l3JvU+BoXqe
-	 Bta7d8xzOVjKuTzzbXYbd4hyTT2RBeSXRXqoqiIyjcO8IwCBG+DKTEa6qTgKUVbNfy
-	 d8FIsEO/edvVSQS7LMMxAw1QrtCwdKRy8oaBgkFd6ItmMLyl2Q3dkKkZqsnvoRuuEH
-	 u000lyJ+Ioi9dWxqGlrGMe8sZNRzaJ+nJFmhG/TlSFXyATJQq+E27/s/idyH9yoWIZ
-	 YjewrCUzFy9rw==
+	bh=k4sHN8F0vEpbhstI4pP9YlVgxqXHlxI77MHkEXqdZ2Q=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=AmGBVFFUhDFf9q0SM1LLzat+P7WqsQzZLhYDcBg3hgko2cGkggQOuJmcjfVVjrsuz
+	 R/iBFzOvaMcC3BbQR/ffQt41gUJtXBbEY4xtuVveKUdxipqi4d73CeZnXNvdaNFZ+j
+	 3DbWop7M3NRkYW598qwtD0EcHLLhibAMMng4s6a1Uwp7ma8oSEjGsbxGv+nWSt4Q+z
+	 /ZTTnAjC+sgzvaGreg6UPIviY69KDNCePp/wpOxQxx8stT8phNbwYoAXOwyfVBAUOR
+	 K54ZBt5YiCZQtBgCSAbPsfTNGb/O8AtOnMlI+TocwUr1F9SwK0JTzAkcHfJ3nnjUCt
+	 JwrrFiIJaFvnA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB459D2169C;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB0E0D21690;
 	Tue, 15 Oct 2024 12:53:31 +0000 (UTC)
 From: George Chan via B4 Relay <devnull+gchan9527.gmail.com@kernel.org>
-Subject: [PATCH RFC/RFT 0/3] Add support to Novatek's touch IC nt36xxx
-Date: Tue, 15 Oct 2024 20:53:28 +0800
-Message-Id: <20241015-nt36xxx-v1-0-3919d0bffee6@gmail.com>
+Date: Tue, 15 Oct 2024 20:53:29 +0800
+Subject: [PATCH RFC/RFT 1/3] dt-bindings: touchscreen: Add binding for
+ Novatek NT36xxx series driver
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -55,9 +56,9 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAMhlDmcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxNDA0NT3bwSY7OKigpdA/NUE1OLpEQjC3NzJaDqgqLUtMwKsEnRsbW1AFr
- uf6xZAAAA
+Message-Id: <20241015-nt36xxx-v1-1-3919d0bffee6@gmail.com>
+References: <20241015-nt36xxx-v1-0-3919d0bffee6@gmail.com>
+In-Reply-To: <20241015-nt36xxx-v1-0-3919d0bffee6@gmail.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Del Regno <kholk11@gmail.com>, 
@@ -65,11 +66,11 @@ To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, George Chan <gchan9527@gmail.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728996810; l=2271;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728996810; l=2336;
  i=gchan9527@gmail.com; s=20241015; h=from:subject:message-id;
- bh=ZKf9/CxVREmj132u1cKYBcG4ddSqcH0nUrjmlXb6ajg=;
- b=S7DiFUAoX5Tavd4PRUkeZlzJGf/fPE5DU3MYMBVaHeQCigqYlYYD5vEs5HinxCLbv3MgupxqE
- 9XZQcrs3z+tCypOMVonTRvFsy9GHySqSNuW27mOhh5rqCGptG1iH31T
+ bh=6oXy8utpLvYCjX6FpS5vMO4JWOmudlGhgWpN7w1GKpA=;
+ b=CWp38R0kg4uaRnXXylbmhUTfN0jCdb9ZlwmWTWEB23Q+QeTeiwx1ni+IxplTJCJ1KKwRp0uKk
+ X7ejSsE16zZA5e6/vpxusNPxamsZPsFqVl7osdTto0WB7CYSF86tKyR
 X-Developer-Key: i=gchan9527@gmail.com; a=ed25519;
  pk=dscYWhT+BiQOBMpPE19NFQAjBBmcpipc6zdf2MTze/U=
 X-Endpoint-Received: by B4 Relay for gchan9527@gmail.com/20241015 with
@@ -77,66 +78,95 @@ X-Endpoint-Received: by B4 Relay for gchan9527@gmail.com/20241015 with
 X-Original-From: George Chan <gchan9527@gmail.com>
 Reply-To: gchan9527@gmail.com
 
-Initially support for nt36xxx series spi device. Below 
-list all supported varients:
+From: George Chan <gchan9527@gmail.com>
 
- - NT36675
- - NT36672A
- - NT36772(?)
- - NT36525
- - NT36676F
+Add binding for the Novatek NT36xxx series touchscreen driver.
 
-I had tested it with Redmi note 9 pro, aka NT36675 chip.
-
-This series is based on my repo below:
-https://github.com/99degree/linux/tree/nt36xxx
-
-There is a boot-and-functional tree for miatoll device:
-https://github.com/99degree/linux/tree/working-20241015
-
-And the older dev history:
-https://github.com/99degree/linux/tree/nt36xxx_old
-https://github.com/99degree/linux/tree/working-20230528/drivers/input/touchscreen
-
-This driver is based on 
-AngeloGioacchino Del Regno for i2c based drive
-https://patchwork.kernel.org/project/linux-input/cover/20201028221302.66583-1-kholk11@gmail.com/#24831734
-
-_AND_
-Neil Armstrong for the spi device codes
-https://patchwork.kernel.org/project/linux-input/patch/20231213-topic-goodix-berlin-upstream-initial-v13-2-5d7a26a5eaa2@linaro.org/
-
-Download fw function is adapted from original vendor driver
-https://github.com/LineageOS/android_kernel_xiaomi_sm6250/tree/lineage-21/drivers/input/touchscreen/nt36xxx_spi/
-
-Panel follower functionality is finally added.
-
-Since the driver is split into core+spi so i2c function is relatively
-easily to add.
-
+Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
 Signed-off-by: George Chan <gchan9527@gmail.com>
 ---
-George Chan (3):
-      dt-bindings: touchscreen: Add binding for Novatek NT36xxx series driver
-      [RFC/RFT]Input: Add Novatek NT36xxx touchscreen driver
-      dts: sm7125-xiaomi-joyeuse: Sample device tree for reference
+ .../bindings/input/touchscreen/nt36xxx.yaml        | 70 ++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
- .../bindings/input/touchscreen/nt36xxx.yaml        |   70 +
- arch/arm64/boot/dts/qcom/Makefile                  |    1 +
- .../boot/dts/qcom/sm7125-xiaomi-joyeuse-touch.dts  |  183 +++
- drivers/input/touchscreen/Kconfig                  |   13 +
- drivers/input/touchscreen/Makefile                 |    2 +
- drivers/input/touchscreen/nt36xxx.h                |  142 ++
- drivers/input/touchscreen/nt36xxx_core.c           | 1422 ++++++++++++++++++++
- drivers/input/touchscreen/nt36xxx_spi.c            |  256 ++++
- 8 files changed, 2089 insertions(+)
----
-base-commit: b852e1e7a0389ed6168ef1d38eb0bad71a6b11e8
-change-id: 20241015-nt36xxx-07e458ba2877
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/nt36xxx.yaml b/Documentation/devicetree/bindings/input/touchscreen/nt36xxx.yaml
+new file mode 100644
+index 0000000000..3919f0d026
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/nt36xxx.yaml
+@@ -0,0 +1,70 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/nt36xxx.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Novatek NT36xxx series touchscreen controller Bindings
++
++maintainers:
++  - AngeloGioacchino Del Regno <kholk11@gmail.com>
++  - George Chan <gchan9527@gmail.com>
++
++allOf:
++  - $ref: touchscreen.yaml#
++
++properties:
++  compatible:
++    enum:
++        - novatek,nt36525-spi
++        - novatek,nt36672a-spi
++        - novatek,nt36675-spi
++        - novatek,nt36676f-spi
++        - novatek,nt36772-spi
++
++  reg:
++    maxItems: 1
++
++  irq-gpio:
++    maxItems: 1
++
++  vdd-supply:
++    description: Power supply regulator for VDD pin
++
++  vio-supply:
++    description: Power supply regulator on VDD-IO pin
++
++  firmware-name:
++    description: Firmware for device initialization, if unspecify, all
++                  other IC treat as no firmware needed. For nt36675, default
++                  to "novatek_ts_tianma_fw.bin".
++
++  spi-max-frequency:
++    description: Set max frequency to spi bus communication. This is optional.
++
++unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - irq-gpio
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/gpio/gpio.h>
++
++    spi {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      touchscreen@0 {
++        compatible = "novatek,nt36675-spi";
++        reg = <0>;
++        spi-max-frequency = <4000000>;
++        irq-gpio = <&tlmm 9 0x2001>;
++        firmware-name = "novatek_ts_tianma_fw.bin";
++      };
++    };
++
++...
 
-Best regards,
 -- 
-George Chan <gchan9527@gmail.com>
+2.43.0
 
 
 
