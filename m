@@ -1,82 +1,80 @@
-Return-Path: <linux-input+bounces-7492-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7493-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 884AC9A07E2
-	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2024 12:56:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9CC09A0B87
+	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2024 15:35:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9AC1B1C28802
-	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2024 10:56:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2775F1C22805
+	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2024 13:35:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E48A02071F7;
-	Wed, 16 Oct 2024 10:55:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0E461FCC67;
+	Wed, 16 Oct 2024 13:35:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=synaptics.com header.i=@synaptics.com header.b="AS+gAO+O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TvunK528"
 X-Original-To: linux-input@vger.kernel.org
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11020081.outbound.protection.outlook.com [52.101.193.81])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C881CC14C;
-	Wed, 16 Oct 2024 10:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.81
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729076159; cv=fail; b=a1TwikdJ6NzL5klUen/0LiPGTtZ9stg1W93JYeCeKpXqmQfZV3VcyGN30MEFrsooxCI2kuMO4R0K3LdXb0Xz41P7TXwJuieluB6Zyw78d8tZSp6kQsxcl7opt6CZeDuODxMuYZvrmSEno+25UMQb5js8QUyxGPCShuRajJZ5LC8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729076159; c=relaxed/simple;
-	bh=4FaxxgYDbnoLkPiQihb7k7+62uIjkRq39aDdHaYKaCc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ae6xS1yODE26lEnIBMFISflvL0syVmIB59gfUbyzVqbm1qEDdsAnt0pw6aO0fDHduaFzAzWTu5nT93tGGwD0aszTa3D59tWIzTqhANKuYmcnEhIuj8lWFs4HZSdJLvi4m1X03HAN8WU5j4jUYKINP1NIMSpVkwKFvF3sU6KxrBU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=synaptics.com; spf=pass smtp.mailfrom=tw.synaptics.com; dkim=pass (1024-bit key) header.d=synaptics.com header.i=@synaptics.com header.b=AS+gAO+O; arc=fail smtp.client-ip=52.101.193.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=synaptics.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tw.synaptics.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uWrozu1dUCWmXI9arR8QxtbZDGWckBP2UcJOhIPx1pusW3WdiFhDkv/H89i5ffz3eT/e2gHXUFCCkZY3eqwAz4XfHNVJDe00mH4ZTNUgnXJxeuGswIgPud8CEiEuH/DMTC0vrr0rHlhLGrU+/UpKI7V43/N8jZbr8pgWAxWfpsZvqOhzicD+GjftqGCXlAUngnXNQL//ezRj4bxFytPcdbFt1RuRz/t2rhmPDnuinQ5nlkA2L29tvsWQV7J9r5/o8bROeMsWYLiey5PNPEUiBRkFAH1O9cevG9apuJ1LM4tpvGe3rcGsE9PNedvEOIK1VK1A47LQXetLSS/AmzOE6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H5LaKSvtPJG7Dsp+N5IJ6pO92lZmaW2aytVhXK8nuL8=;
- b=WvpRVIVLLBLJK+uwjKnok3e+q90s/SaII3G9yEW5SfLCQ7GkhVVZUglw+htq18W/i0iLVuBApKgjmInpgy+76aQBz76fxCAqKdgjWVPUXNU+aUouIDDIa0DmvAYlRr8MohMa65xtlTgRdFus63RK39rrTpNtXTbTitCkvfvG5qiWP8qRZB0UFiQKy7rB6F+MfYsc0do36ei25hQW5/T4gr7yQrEFj3iyLkxO+gGILuykea9jhRg1B7E6u1/XEXQ1CVY+YlP7IQel1PnJwpf0PDHCux+KiUtxnlNjb2QSZp0ptxe/wNHyPqhQDxgN4dJoDsUV+Wq8pMFxbFXHbSx+jw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.147.44.87) smtp.rcpttodomain=kernel.org smtp.mailfrom=synaptics.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=synaptics.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synaptics.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H5LaKSvtPJG7Dsp+N5IJ6pO92lZmaW2aytVhXK8nuL8=;
- b=AS+gAO+O56gokb7r8A4+kIMh3C16kc49keR1EGVKWheIWhOrE6hVbpd/75BeeQRFuNmOQMS73GiYui5KdM9qen1mKnUbbuCbhKolzgPlE8ciUtwJaj/bCSHUDKyODKfAWAJ8KetvYl2OKsz3WPYVC2dWstd7l8p/Bijmp1r5Rgs=
-Received: from BYAPR02CA0047.namprd02.prod.outlook.com (2603:10b6:a03:54::24)
- by SJ0PR03MB6518.namprd03.prod.outlook.com (2603:10b6:a03:38e::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.18; Wed, 16 Oct
- 2024 10:55:55 +0000
-Received: from SJ5PEPF0000020A.namprd05.prod.outlook.com
- (2603:10b6:a03:54:cafe::7c) by BYAPR02CA0047.outlook.office365.com
- (2603:10b6:a03:54::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.18 via Frontend
- Transport; Wed, 16 Oct 2024 10:55:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.147.44.87)
- smtp.mailfrom=synaptics.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=synaptics.com;
-Received-SPF: Pass (protection.outlook.com: domain of synaptics.com designates
- 192.147.44.87 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.147.44.87; helo=sjc1uvd-bld04.synaptics.com; pr=C
-Received: from sjc1uvd-bld04.synaptics.com (192.147.44.87) by
- SJ5PEPF0000020A.mail.protection.outlook.com (10.167.244.43) with Microsoft
- SMTP Server id 15.20.8069.17 via Frontend Transport; Wed, 16 Oct 2024
- 10:55:53 +0000
-From: Vincent Huang <vincenth@synaptics.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-input@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC931D8E1D;
+	Wed, 16 Oct 2024 13:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729085733; cv=none; b=G+it5ZK69KywwXqFOrwreCf3dsYHWx7Apal2Ne9c471pdt3lqpgtYep0I2qvvbfTObwhdueIFTnd6kvxJlNnj9nZvj781H2xImpIOonvJmEr0gvy21jt/uBmmn6FXLnJKx3BDC1Fu6Q2pqcQVLQv1SaDxqvEz76pbcY8MwRRNjA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729085733; c=relaxed/simple;
+	bh=FzAlRA8pLPeLqTdYnVhbuzSLx+1InD1DoZ5BCd9/5w8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cKE90jTZQcvSG4pBZRp8DASxDwgOsVt3jrjEG2WG1gcZ/lJHiGtmRxW1pXmmWRSI9TtwG4ujaopNvx/l7oI0ZAdaqM2z/LPRF0EObkh+cqD1LfGuyyZRiX4Ij/8JdCu6rREzjZ0uz0iSY7pNLGVKUT2FGcicFvAXEhVsjzLtnxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TvunK528; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729085732; x=1760621732;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=FzAlRA8pLPeLqTdYnVhbuzSLx+1InD1DoZ5BCd9/5w8=;
+  b=TvunK528zYZ1sfUeP2e1P9fj14HSYMgq9cJuXTGg7QEtwgY9d5j2edYW
+   5nnpC3Kc3ENZIjOmqlaTDTZ6J2qr+T01iMtxK67i5vR9Pd7z8z5qZa3kH
+   qKRD0nLxzn25Qpi0SCMjDPgclZ8zHIThbx8hW0x7FuTe9UowsGuxw/eRH
+   EKYyn9myTpbXupW2wk9CKglaD57Z3KRJry3WNVzzBCGI5ewSd3fpVwHXj
+   iO7FzZkTS4RefBfMxUIa9UrDYWauRywUjslPgFpo/Q7HhGpUgwcqEohC7
+   VEoWc9By+VS74WUl4YsYsjmLl/4kZIPi9ZcLPyZI8Okfk7D4V3EcRtCuw
+   Q==;
+X-CSE-ConnectionGUID: nIvRfgwsReme/wKLxvVCVg==
+X-CSE-MsgGUID: I6tv6b86RAu5DCSqQ5B+7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="32333965"
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; 
+   d="scan'208";a="32333965"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 06:35:32 -0700
+X-CSE-ConnectionGUID: +fk8pQQYTMO5/oV9c5J9Zw==
+X-CSE-MsgGUID: L7IWNxReRwuBJdeHS+ZKSg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; 
+   d="scan'208";a="77905325"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa007.fm.intel.com with ESMTP; 16 Oct 2024 06:35:29 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 8B267165; Wed, 16 Oct 2024 16:35:27 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Thomas Kuehne <thomas.kuehne@gmx.li>,
+	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Marge Yang <marge.yang@tw.synaptics.com>,
-	Vincent Huang <vincenth@synaptics.com>
-Subject: [PATCH] HID: rmi: Add select RMI4_F3A in Kconfig
-Date: Wed, 16 Oct 2024 10:55:49 +0000
-Message-Id: <20241016105549.250515-1-vincenth@synaptics.com>
-X-Mailer: git-send-email 2.25.1
+	llvm@lists.linux.dev
+Cc: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 1/1] HID: debug: Remove duplicates from 'keys'
+Date: Wed, 16 Oct 2024 16:32:40 +0300
+Message-ID: <20241016133523.899754-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -84,76 +82,65 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF0000020A:EE_|SJ0PR03MB6518:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: da476475-2aa1-446f-7287-08dcedd11b15
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700013|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?7CPl2jkFrxY9CQX3UnN/eyTLTdMR0BWmjthFhrFAl8Q0zEM0vgG6QvFE1Hpb?=
- =?us-ascii?Q?4Da8jlBZgG+8q/91iZ7s+QVOY5O2g0W1l4YV7jQHI772rmFwp+ux8oqzOkBa?=
- =?us-ascii?Q?bLwHLfrgfeOvkHR0z4egJUnem+Xw/lBZ4SnLWtNKswjfoRrhTZA/P3nwtmoQ?=
- =?us-ascii?Q?pcISOPlPZa8R67qWzMrQKnxuDBYRo00mDtDlzzWvSgbKgZ7tvXpfratJqd0C?=
- =?us-ascii?Q?OSpcT+HnkTS4bSpiaWxftlQoInNAWdG00vH9G9PawwEy568x7njCSc1jf+nj?=
- =?us-ascii?Q?UJkigzddd7Tdjy0dXaAdD97ygAbUovcBjktU+pRrVNIZwWb5Ik+gOb9fEWpb?=
- =?us-ascii?Q?AnCs/HXhpo8A2W/GYtoFlAs9/It3yYWlMLhm/en1gbMH4JIAAViQeVSQBrFw?=
- =?us-ascii?Q?+xECoLoUcgZlPvDxYK4lbGXNcdniQGW1TIBi6WNHrZJKu/xCgH5ZVTGUyXh8?=
- =?us-ascii?Q?jwouv76864TPt31VveBinw5XgvEhTgbV/qza2iWbtYwawDMV2SkXnN+YLWuf?=
- =?us-ascii?Q?lR7RTVLdJa7mr52ndjhWCMCDzhYBLfeBS1u7btnl8YPdGXlYnbnk19dgBwHT?=
- =?us-ascii?Q?/Dk+1sZ7YJj37csYla31DHgJFlrxZE27r0sc2EGHfmX3JzZ3GHng7HCp8ufR?=
- =?us-ascii?Q?g3npr6yAyTSny96dkp3o1S+UfqoFUduBgSARoKmn8h0P6aKXJYTWkSoxZLXZ?=
- =?us-ascii?Q?LovQi7fSdcuiMrq6lrn0YensE1g4KfV2bne5sNDY5wRiyYk8eZtYUmoU8l94?=
- =?us-ascii?Q?Bkurie2lkVDxx1rUARVNi5LJsCKcdSHsZdExymuIN9Kdk8m5e6MYa3yY1e4t?=
- =?us-ascii?Q?DE2sRQ56K407GnKU76w6vqB9UAgFl6xVV0fJskLJGRJykRCHqyfY+SFw0TmG?=
- =?us-ascii?Q?RE5uo1tqBAxttxYvgp9m9yb4wDoVCHw7pllzqkvabS2hG1VR0uZmte68UOD9?=
- =?us-ascii?Q?8Tk+Gd2V284Px+uOW8DgLdmN4KlVZzmCXCXwbyypFZ4n8Vqe//nGFOHp0rZJ?=
- =?us-ascii?Q?D/hz39MAwlQq0wVnp7oVaqTRWj6hIHp9UxBkwPNkxqqw6C7yiAtQZxo5Sjdp?=
- =?us-ascii?Q?+SLcDOKvHUGYmr/+KIE82O7U+Zqb6iY4VUf1CbaWbwEKcdoNIOWJe2a2lIby?=
- =?us-ascii?Q?qipRDP6a5mxfnjjY3xuvjekxN6jQ18Obar9A1P46EAvg67W1+1TicNSszicE?=
- =?us-ascii?Q?NMfeqswrSVy7pJPPqT67lN7aovY0op/9MurzvdAzrHdoC1dDbLTMuX/3w2k6?=
- =?us-ascii?Q?oMSy3SUGkaPlw+Ah1SoXDi2sM6thFEF75d9n/JOD2UsJEQbho94cUJ7Ruouj?=
- =?us-ascii?Q?YseDPk86HaFlK/O6VOZ7iCTbawaAwkWYNGkIVAox/kpeai6vEDRjnYEB2OPE?=
- =?us-ascii?Q?kfkX/Gb4HbpaYS6KeJgZAWvdRknY?=
-X-Forefront-Antispam-Report:
-	CIP:192.147.44.87;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:sjc1uvd-bld04.synaptics.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1102;
-X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2024 10:55:53.7481
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: da476475-2aa1-446f-7287-08dcedd11b15
-X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=335d1fbc-2124-4173-9863-17e7051a2a0e;Ip=[192.147.44.87];Helo=[sjc1uvd-bld04.synaptics.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF0000020A.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR03MB6518
 
-Add `select RMI4_F3A` under `HID_RMI` in Kconfig to support buttons and GPIOs
-on newer Synaptics HID RMI devices. Future devices will use F3A instead of F30,
-but F30 is still selected for backward compatibility.
+Duplicates in 'keys prevents kernel builds with clang, `make W=1` and
+CONFIG_WERROR=y, for example:
 
-Signed-off-by: Vincent Huang <vincenth@synaptics.com>
+drivers/hid/hid-debug.c:3443:18: error: initializer overrides prior initialization of this subobject [-Werror,-Winitializer-overrides]
+ 3443 |         [KEY_HANGEUL] = "HanGeul",              [KEY_HANGUP_PHONE] = "HangUpPhone",
+      |                         ^~~~~~~~~
+drivers/hid/hid-debug.c:3217:18: note: previous initialization is here
+ 3217 |         [KEY_HANGUEL] = "Hangeul",              [KEY_HANJA] = "Hanja",
+      |                         ^~~~~~~~~
+
+Fix this by removing them.
+
+The logic of removal is that, remove...
+1) if there is a constant that uses another defined constant, OR
+2) the one that appears later in the list.
+
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/hid/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+v2: fixed which one to remove for KEY_HANGEUL (Jiri)
+ drivers/hid/hid-debug.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index f8a56d631242..f2c4f9e89cac 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -1096,6 +1096,7 @@ config HID_RMI
- 	select RMI4_F11
- 	select RMI4_F12
- 	select RMI4_F30
-+	select RMI4_F3A
- 	help
- 	Support for Synaptics RMI4 touchpads.
- 	Say Y here if you have a Synaptics RMI4 touchpads over i2c-hid or usbhid
+diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+index d5abfe652fb5..541d682af15a 100644
+--- a/drivers/hid/hid-debug.c
++++ b/drivers/hid/hid-debug.c
+@@ -3309,9 +3309,9 @@ static const char *keys[KEY_MAX + 1] = {
+ 	[KEY_EPG] = "EPG",			[KEY_PVR] = "PVR",
+ 	[KEY_MHP] = "MHP",			[KEY_LANGUAGE] = "Language",
+ 	[KEY_TITLE] = "Title",			[KEY_SUBTITLE] = "Subtitle",
+-	[KEY_ANGLE] = "Angle",			[KEY_ZOOM] = "Zoom",
++	[KEY_ANGLE] = "Angle",
+ 	[KEY_MODE] = "Mode",			[KEY_KEYBOARD] = "Keyboard",
+-	[KEY_SCREEN] = "Screen",		[KEY_PC] = "PC",
++	[KEY_PC] = "PC",
+ 	[KEY_TV] = "TV",			[KEY_TV2] = "TV2",
+ 	[KEY_VCR] = "VCR",			[KEY_VCR2] = "VCR2",
+ 	[KEY_SAT] = "Sat",			[KEY_SAT2] = "Sat2",
+@@ -3409,8 +3409,7 @@ static const char *keys[KEY_MAX + 1] = {
+ 	[BTN_TRIGGER_HAPPY35] = "TriggerHappy35", [BTN_TRIGGER_HAPPY36] = "TriggerHappy36",
+ 	[BTN_TRIGGER_HAPPY37] = "TriggerHappy37", [BTN_TRIGGER_HAPPY38] = "TriggerHappy38",
+ 	[BTN_TRIGGER_HAPPY39] = "TriggerHappy39", [BTN_TRIGGER_HAPPY40] = "TriggerHappy40",
+-	[BTN_DIGI] = "Digi",			[BTN_STYLUS3] = "Stylus3",
+-	[BTN_TOOL_QUINTTAP] = "ToolQuintTap",	[BTN_WHEEL] = "Wheel",
++	[BTN_STYLUS3] = "Stylus3",		 [BTN_TOOL_QUINTTAP] = "ToolQuintTap",
+ 	[KEY_10CHANNELSDOWN] = "10ChannelsDown",
+ 	[KEY_10CHANNELSUP] = "10ChannelsUp",
+ 	[KEY_3D_MODE] = "3DMode",		[KEY_ADDRESSBOOK] = "Addressbook",
+@@ -3440,7 +3439,7 @@ static const char *keys[KEY_MAX + 1] = {
+ 	[KEY_FN_RIGHT_SHIFT] = "FnRightShift",	[KEY_FRAMEBACK] = "FrameBack",
+ 	[KEY_FRAMEFORWARD] = "FrameForward",	[KEY_FULL_SCREEN] = "FullScreen",
+ 	[KEY_GAMES] = "Games",			[KEY_GRAPHICSEDITOR] = "GraphicsEditor",
+-	[KEY_HANGEUL] = "HanGeul",		[KEY_HANGUP_PHONE] = "HangUpPhone",
++	[KEY_HANGUP_PHONE] = "HangUpPhone",
+ 	[KEY_IMAGES] = "Images",		[KEY_KBD_LCD_MENU1] = "KbdLcdMenu1",
+ 	[KEY_KBD_LCD_MENU2] = "KbdLcdMenu2",	[KEY_KBD_LCD_MENU3] = "KbdLcdMenu3",
+ 	[KEY_KBD_LCD_MENU4] = "KbdLcdMenu4",	[KEY_KBD_LCD_MENU5] = "KbdLcdMenu5",
 -- 
-2.25.1
+2.43.0.rc1.1336.g36b5255a03ac
 
 
