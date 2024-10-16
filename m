@@ -1,85 +1,127 @@
-Return-Path: <linux-input+bounces-7482-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7483-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FE439A0237
-	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2024 09:14:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 785CC9A0358
+	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2024 09:58:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 49EC21F24940
-	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2024 07:14:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A76DB1C28140
+	for <lists+linux-input@lfdr.de>; Wed, 16 Oct 2024 07:58:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5036E1AF0AE;
-	Wed, 16 Oct 2024 07:14:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B7771CBA0D;
+	Wed, 16 Oct 2024 07:58:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Fkn+hu38"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fE1nfrPW"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFB117C9FA;
-	Wed, 16 Oct 2024 07:14:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2168F189F3F;
+	Wed, 16 Oct 2024 07:58:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729062872; cv=none; b=dZ4FjuFyQkh3KAgl4FpfG/0tajT/88ueugnwkDmzQRoVQEQveq0DhY+bWLk4zIdHOeQRhzr3KGlNlVlHP79+GdKX/PsMTvqzDu2v9XxkFIwb5j6FwdNuUmFQqZEOp3rnCD89UGqKg6S99ge2Opa+t8AE4UftzN0ink+3/Y2YUJI=
+	t=1729065499; cv=none; b=Fv08HjI1GUYpEaxSy2LECth8nogkuMOV02AEhSSqc6gg7JM+Mdqlsf9pONuXNFVjWmJkgt89fUHjtIFEQ9fOC6kAq3Z3FTw51ObQFmeotIBj1yHT09X3v3KtS1yxEzPDgWxBZmgEpPT+ud9WVznGSnx2edak+pVHKI1FBw9DkpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729062872; c=relaxed/simple;
-	bh=Q3kHXLQbSrondJ+e0RuvEzqQ7FhbPieKfYcghLcIaCo=;
+	s=arc-20240116; t=1729065499; c=relaxed/simple;
+	bh=nsM60+cNuES1C+fqTbnc5ooJ0hP520KLGK9VFBCBDGI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uTuVEwswqITng4qUHrWX2r9Yz7ATdvUWQjxRKLTx5hT8s+GX6YfQ24ALpa+J8xaNlzUA84HBqMy6cOX1ow4E4CNbYQ1f33JjYe4iRlNIjTi+cXtHU6EMP6s3inRgeH0CwoC1UqKjvTjLP1Ga1rltEbXYdHpJnamaYGjFtMrFV+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Fkn+hu38; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 130ACC4CEC5;
-	Wed, 16 Oct 2024 07:14:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1729062870;
-	bh=Q3kHXLQbSrondJ+e0RuvEzqQ7FhbPieKfYcghLcIaCo=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=drXepBJETda9u3LJedyxC6BqtTvNmAfhsSYOSPsjxAK99fQvg5ZNPqHEFYCgQ7XQe2Am7dcjou/AhHc/WrkaQLi5ShW4r/EQxpLckZ7YmVrsL2+ybbsSVeCx20UJGACV3TN+p7O4eDXe6V5E32Hw/VK8Kek8OGpjbIrvddYRheo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fE1nfrPW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4D67C4CEC5;
+	Wed, 16 Oct 2024 07:58:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729065498;
+	bh=nsM60+cNuES1C+fqTbnc5ooJ0hP520KLGK9VFBCBDGI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Fkn+hu38z7AP8NlYdvO8HyOhHOiyzDgVchxtkIsLL+158xNsQ0+t1g/fzt+121x2A
-	 vi1TEBsEEfVpLJrihR3Tu04P+/oKK/akV1RcJpcoXwQ9+EHiTaQXJtgvRjqLJZsHCJ
-	 gRa3w/06F7B1h2GxsG7xPmOENsXINTvn+c8oSOQs=
-Date: Wed, 16 Oct 2024 09:14:27 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: syzbot <syzbot+ce483fd06e2061f44f5d@syzkaller.appspotmail.com>,
-	akpm@linux-foundation.org, liam.howlett@oracle.com,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-usb@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com, vbabka@suse.cz,
-	Marcello Sylvester Bauer <sylv@sylv.io>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Subject: Re: [syzbot] [input?] [usb?] [mm?] INFO: rcu detected stall in
- vma_link_file
-Message-ID: <2024101602-skintight-crawfish-ebab@gregkh>
-References: <ji3zt22xdnr2wieepeudioxg6uqthwxtbut6w2ec55lmnnzghv@c4jwoow5u2gg>
- <670ed017.050a0220.d9b66.0156.GAE@google.com>
- <bacc4301-be1a-4f3f-9da3-1543cbf9874c@lucifer.local>
+	b=fE1nfrPWvmps83biOQkLKuOrEbyoX9F+oYZZR4MyCkhnTWXLfurI4YDDnEgp3i07b
+	 VRYqDkPXIU+qUtKDWJ717mNrRjaZqikw3+etM/jDuz+SlyxnvznHnDKrAlDX0CzJ7e
+	 fINBIZ+D9Zp09Ppusrp8Fb0ZqNgnLr3Jdt9Q8ncBHGtElLWB9ESeQ5b5BDNqyqrPHs
+	 CtV1sq/qM1ERfGyqIll+x8X3NR+ZGI4q/LTpO0Q+uyL0JEmPhyTYdi0Xyt3NDfgwb3
+	 N7NtwUeILsWm6XGFTmTz4KTjWwUil3aV5cQPTDvmG6RV280Yh47SXf5mfG97vA2mxx
+	 vkzZ51zg7DMLg==
+Date: Wed, 16 Oct 2024 08:58:08 +0100
+From: Lee Jones <lee@kernel.org>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	Macpaul Lin <macpaul.lin@mediatek.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
+	netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	Bear Wang <bear.wang@mediatek.com>,
+	Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
+	Chris-qj chen <chris-qj.chen@mediatek.com>,
+	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH v8 3/3] dt-bindings: mfd: mediatek: mt6397: Convert to DT
+ schema format
+Message-ID: <20241016075808.GM8348@google.com>
+References: <20241001104145.24054-1-macpaul.lin@mediatek.com>
+ <20241001104145.24054-3-macpaul.lin@mediatek.com>
+ <5nvshurbpmjkqysphfrfxhekq3c6od6a2uqai4rfxns64mdvf7@ftjvgjnivr3k>
+ <20241009155222.GB637580@google.com>
+ <vb324yv7s7yew6m74lfvdv6wnuo6e4rxtiu2q7okypttw46ox2@lgfdkie6o3t2>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <bacc4301-be1a-4f3f-9da3-1543cbf9874c@lucifer.local>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <vb324yv7s7yew6m74lfvdv6wnuo6e4rxtiu2q7okypttw46ox2@lgfdkie6o3t2>
 
-On Wed, Oct 16, 2024 at 08:06:20AM +0100, Lorenzo Stoakes wrote:
-> + some people from USB/HID subsystem.
+On Tue, 15 Oct 2024, Sebastian Reichel wrote:
+
+> Hi,
 > 
-> This is really not looking mm-related, as for a second time we've asked
-> syzbot to re-run and for a second time it's not hit any mm-specific code -
-> I think this is misattributed - could somebody from the USB/HID side take a
-> look?
+> On Wed, Oct 09, 2024 at 04:52:22PM +0100, Lee Jones wrote:
+> > On Wed, 02 Oct 2024, Krzysztof Kozlowski wrote:
+> > 
+> > > On Tue, Oct 01, 2024 at 06:41:45PM +0800, Macpaul Lin wrote:
+> > > > Convert the mfd: mediatek: mt6397 binding to DT schema format.
+> > > > 
+> > > > MT6323, MT6358, and MT6397 are PMIC devices with multiple function
+> > > > subdevices. They share a common PMIC design but have variations in
+> > > > subdevice combinations.
+> > > > 
+> > > > Key updates in this conversion:
+> > > > 
+> > > > 1. RTC:
+> > > >    - Convert rtc-mt6397.txt and merge into parent MT6397 PMIC DT schema.
+> > > 
+> > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > 
+> > Everyone okay with me taking this without a pull-request?
 > 
-> It looks to be something that isn't reproduced by a specific C program but
-> by a syzkaller USB configuration [0]?
+> Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-There's a lot of odd usb syzbot issues right now dealing with the dummy
-hcd controller, so maybe this is another one of them...
+Thanks Sebastian.
 
-thanks,
+I have a bunch of things that depend on this, so I'm going to whip it in.
 
-greg k-h
+-- 
+Lee Jones [李琼斯]
 
