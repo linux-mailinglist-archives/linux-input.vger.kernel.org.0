@@ -1,98 +1,130 @@
-Return-Path: <linux-input+bounces-7504-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7505-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E9399A1C49
-	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2024 10:02:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3234F9A242C
+	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2024 15:44:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C2EEB23F66
-	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2024 08:02:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 637DA1C21671
+	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2024 13:44:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46B791C1ABD;
-	Thu, 17 Oct 2024 08:01:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1BC21DE2CF;
+	Thu, 17 Oct 2024 13:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="pwipJPgh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp237.sjtu.edu.cn (smtp237.sjtu.edu.cn [202.120.2.237])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 381AD1D2B0E;
-	Thu, 17 Oct 2024 08:01:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.120.2.237
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79CD71DDC13;
+	Thu, 17 Oct 2024 13:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729152110; cv=none; b=PrWUWTXxHosqlhoalSGGYoqjog3+L1sVD9sZuzefFIozuTrHDApMpxqc1AiitNrsS9namFCdRy3l1b7rmr3RtejV1KiarIM9X2Qhl/pjtH7SXav9x1ZVfeTuaxwY1JzUsdP0td8NvnitpGu23dKGuzwzvlB0nZjBZcRtAYasMB4=
+	t=1729172679; cv=none; b=fGwbvzuhtEveNuDdQWiIe8cw9iRbLSCx4hVeA4QcwrxVoGcPMNMY7XRW5sKuVieoE9m93Qh492tp2mwOnDVDhShUXyO8vPteh7ag5qcKy/fQf/ntp2UMMdKlnGVy/KKmZjZOZr5BwCUg0ZYiOJuMQBf+N4842jMWoDX34IBwYQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729152110; c=relaxed/simple;
-	bh=HWZUAZqDMbT3PA3BFAf/Z2391nEHNSaP2ul4+iiXDdE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=iCj9IOwDd83xzDCjlFBny+GTpduaW5kZj02Ur8kb+oNECpfbhAx31OqJ4hL2cT5QOrwXJ9Cs8L73SswbC+upvl1DmiRYegBpBIPxTfuqIQ5OCTuyVsov1hBRESMNPk0MKWFqf4Ojp1E8M1x3r0HvFZYDyx+XtVdhwZoP2Ja3WgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sjtu.edu.cn; spf=pass smtp.mailfrom=sjtu.edu.cn; arc=none smtp.client-ip=202.120.2.237
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sjtu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sjtu.edu.cn
-Received: from proxy189.sjtu.edu.cn (smtp189.sjtu.edu.cn [202.120.2.189])
-	by smtp237.sjtu.edu.cn (Postfix) with ESMTPS id 902C27FFC2;
-	Thu, 17 Oct 2024 16:01:37 +0800 (CST)
-Received: from localhost.localdomain (unknown [58.247.120.90])
-	by proxy189.sjtu.edu.cn (Postfix) with ESMTPSA id 7B5913FC4F6;
-	Thu, 17 Oct 2024 16:01:31 +0800 (CST)
-From: itewqq <shipeiqu@sjtu.edu.cn>
-To: shipeiqu@sjtu.edu.cn
-Cc: dmitry.torokhov@gmail.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	viro@zeniv.linux.org.uk,
-	ye.xingchen@zte.com.cn
-Subject: [PATCH v2] Input/mouse: cyapa - fix potential buffer overflow in cyapa_gen3.c
-Date: Thu, 17 Oct 2024 16:01:04 +0800
-Message-Id: <20241017080104.1817636-1-shipeiqu@sjtu.edu.cn>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20241012100801.1774302-1-shipeiqu@sjtu.edu.cn>
-References: <20241012100801.1774302-1-shipeiqu@sjtu.edu.cn>
+	s=arc-20240116; t=1729172679; c=relaxed/simple;
+	bh=n2EFG63bGzW9S581rBsKFCEcX4yWMCHqi4dxGIAZZi4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QF10jIlraPwu3Hf9vRa9l8HqC79h9gFquFx4qiinuRN8dIJ91rjTAjVbO2/d8zekuQb82J4CBQ1dFMp2XIhJFqqfPXIJ231YGqgP0H6m8RHsf+nlkaJ9jk071+8NvXW6gb0xLU0vcDmSyMdQkmK3T54A/A3rbCPV7397heEdCIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=pwipJPgh; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: by linux.microsoft.com (Postfix, from userid 1173)
+	id 1862620F9C35; Thu, 17 Oct 2024 06:44:38 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1862620F9C35
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1729172678;
+	bh=qx/YBdba0jv89H/1hhUhVBDc8FvxlfjK8tVIcDA3Ols=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pwipJPgh22Ep7TQ93uBIHGTulYAC4DEGZTcGyd7E7q+CqC4EoPcLJox8sg14H299I
+	 tJTRutjLyXndztFBG+tdfSsuhY6HxypobtINLE40VXHXU+0HQZV8MVlW6ReV2GJ5jj
+	 Xd2nVsgek7kenZAoNP5S9ifLPOt9H4yJB9H77Lxo=
+Date: Thu, 17 Oct 2024 06:44:38 -0700
+From: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	jikos@kernel.org, bentiss@kernel.org, linux-hyperv@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	ernis@microsoft.com, rafael@kernel.org, pavel@ucw.cz,
+	lenb@kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH 2/3] Revert "Input: hyperv-keyboard - register as a
+ wakeup source"
+Message-ID: <20241017134438.GA14386@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1726176470-13133-1-git-send-email-ernis@linux.microsoft.com>
+ <1726176470-13133-3-git-send-email-ernis@linux.microsoft.com>
+ <ZvIx85NmYB/HzKtI@csail.mit.edu>
+ <Zv-j0qtWXsDz4Hah@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zv-j0qtWXsDz4Hah@google.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 
-The i2c_smbus_read_block_data function receives up to I2C_SMBUS_BLOCK_MAX
-bytes, which is defined as 32. This exceeds the size of the struct
-cyapa_reg_data, which will be provided to cyapa_read_block as an input
-buffer and finally reach i2c_smbus_read_block_data. When the cyapa module
-is enabled (CONFIG_MOUSE_CYAPA=m), this bug could result in potential
-denial-of-service for invalid or malicious I2C data. Pad the size of the
-cyapa_reg_data structure from 27 to I2C_SMBUS_BLOCK_MAX=32 bytes to
-address this issue.
+On Fri, Oct 04, 2024 at 01:14:10AM -0700, Dmitry Torokhov wrote:
+> On Tue, Sep 24, 2024 at 03:28:51AM +0000, Srivatsa S. Bhat wrote:
+> > [+linux-pm, Rafael, Len, Pavel]
+> > 
+> > On Thu, Sep 12, 2024 at 02:27:49PM -0700, Erni Sri Satya Vennela wrote:
+> > > This reverts commit 62238f3aadc9bc56da70100e19ec61b9f8d72a5f.
+> > > 
+> > > Remove keyboard as wakeup source since Suspend-to-Idle feature
+> > > is disabled.
+> > > 
+> > > Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+> > > ---
+> > >  drivers/input/serio/hyperv-keyboard.c | 12 ------------
+> > >  1 file changed, 12 deletions(-)
+> > > 
+> > > diff --git a/drivers/input/serio/hyperv-keyboard.c b/drivers/input/serio/hyperv-keyboard.c
+> > > index 31d9dacd2fd1..b42c546636bf 100644
+> > > --- a/drivers/input/serio/hyperv-keyboard.c
+> > > +++ b/drivers/input/serio/hyperv-keyboard.c
+> > > @@ -162,15 +162,6 @@ static void hv_kbd_on_receive(struct hv_device *hv_dev,
+> > >  			serio_interrupt(kbd_dev->hv_serio, scan_code, 0);
+> > >  		}
+> > >  		spin_unlock_irqrestore(&kbd_dev->lock, flags);
+> > > -
+> > > -		/*
+> > > -		 * Only trigger a wakeup on key down, otherwise
+> > > -		 * "echo freeze > /sys/power/state" can't really enter the
+> > > -		 * state because the Enter-UP can trigger a wakeup at once.
+> > > -		 */
+> > > -		if (!(info & IS_BREAK))
+> > > -			pm_wakeup_hard_event(&hv_dev->device);
+> > > -
+> > >  		break;
+> > >  
+> > >  	default:
+> > > @@ -356,9 +347,6 @@ static int hv_kbd_probe(struct hv_device *hv_dev,
+> > >  		goto err_close_vmbus;
+> > >  
+> > >  	serio_register_port(kbd_dev->hv_serio);
+> > > -
+> > > -	device_init_wakeup(&hv_dev->device, true);
+> 
+> If you do not want the keyboard to be a wakeup source by default maybe
+> change this to:
+> 
+> 	device_set_wakeup_capable(&hv_dev->device, true);
+> 
+> and leave the rest of the driver alone?
+> 
+> Same for the HID change.
+> 
+> Thanks.
+>
+device_set_wakeup_capable() sets the @dev's power.can_wakeup flag and
+adds wakeup-related attributes in sysfs.
 
-Signed-off-by: itewqq <shipeiqu@sjtu.edu.cn>
----
- drivers/input/mouse/cyapa_gen3.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Could you please help me understand why explicitly calling this function 
+can be helpful in our use case?
 
-diff --git a/drivers/input/mouse/cyapa_gen3.c b/drivers/input/mouse/cyapa_gen3.c
-index fc3fb954523b..6297d1376bbe 100644
---- a/drivers/input/mouse/cyapa_gen3.c
-+++ b/drivers/input/mouse/cyapa_gen3.c
-@@ -31,7 +31,7 @@
- 
- /* Macro for register map group offset. */
- #define PRODUCT_ID_SIZE  16
--#define QUERY_DATA_SIZE  27
-+#define QUERY_DATA_SIZE  32
- #define REG_PROTOCOL_GEN_QUERY_OFFSET  20
- 
- #define REG_OFFSET_DATA_BASE     0x0000
-@@ -114,6 +114,8 @@ struct cyapa_reg_data {
- 	u8 finger_btn;
- 	/* CYAPA reports up to 5 touches per packet. */
- 	struct cyapa_touch touches[5];
-+	/* padding up to size I2C_SMBUS_BLOCK_MAX. */
-+	u8 padding[5];
- } __packed;
- 
- struct gen3_write_block_cmd {
--- 
-2.30.2
-
+> -- 
+> Dmitry
 
