@@ -1,57 +1,60 @@
-Return-Path: <linux-input+bounces-7532-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7533-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDFF19A3BB9
-	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2024 12:39:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 814EC9A3C00
+	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2024 12:50:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A6BA1F214A9
-	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2024 10:39:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 35AB21F24D21
+	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2024 10:50:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8FB7201109;
-	Fri, 18 Oct 2024 10:39:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADB04201245;
+	Fri, 18 Oct 2024 10:49:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eiyx96dr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jSJKqk3L"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904E72010F7;
-	Fri, 18 Oct 2024 10:39:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882712010F2
+	for <linux-input@vger.kernel.org>; Fri, 18 Oct 2024 10:49:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729247949; cv=none; b=Ue5rR4sHdB7dyIhxld0rxd3SQ+3zphI6df+1ExW7nKnFlJlWA20nVoO7+381K0DYmocrrEnMgCNZL4ZbnO1b8d1rd3hFIB+Hw6wVUSNReVFlRHMwgBllt0V2LJkjprx5iZxjLNPNeCCd4k+6OeeK1VyQs4ri9EsRZoqQX1HwAfE=
+	t=1729248557; cv=none; b=TrU63z1xtJHoRJuRo+BLIjhnruIhvHQv0g2Pn6CewXCNQWHDdjOSS0jHPBs+26BwzIWhWg1tittisyHsKXgbBO9QRKhkHAUSaPk1TbqsF/sBfv9cj9tUfGw84l368uREFGkA26fQNZugRK+dTAdRfy5Vc8CbH8wmkyLsJVfNf2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729247949; c=relaxed/simple;
-	bh=pnvMpKpm8lg+Npieq10yqbwYs67uQybysE8OyAUFSVA=;
+	s=arc-20240116; t=1729248557; c=relaxed/simple;
+	bh=ik7DM4NiwqM8ENigLD0DxXmNgfgKwGLFxxrAHbngeac=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Pt6y6lfjTg6p1ym3qJe9ic+uMrMgWc3N7CwQSjkfeOAXo8+/Q/2An3Ck0a5dzf5mtVwi4pzvpyKb6faZkxOTl644TaRv26CtQY2F2o+M25Tzna3NYbuZ35mDVTumDW4XhMClJ1D7mOWnjwTat3CkQCoTJmgfqjj8a3aCM59wY80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eiyx96dr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD3EDC4CED1;
-	Fri, 18 Oct 2024 10:39:08 +0000 (UTC)
+	 MIME-Version:Content-Type; b=fv51afOa8FC0l/ivwNev9H2scKqk64E7Lk01x63EZtabGqepzqGWYtu1+uouwB+fPwRDOhrKooop+xSfu+e0/40uhs8UMNtJNMTWAaZxRNHWoQzFkppAj6SR1A6DBWAkH2mq85O+1WdQrJ5yQT/b3T2pe6RoBwuoSj9BOjYzTkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jSJKqk3L; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC356C4CEC3;
+	Fri, 18 Oct 2024 10:49:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729247949;
-	bh=pnvMpKpm8lg+Npieq10yqbwYs67uQybysE8OyAUFSVA=;
+	s=k20201202; t=1729248557;
+	bh=ik7DM4NiwqM8ENigLD0DxXmNgfgKwGLFxxrAHbngeac=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=Eiyx96dr+uUryvDhSFBAGwxpevwAa+R+5eBQYgB3DHPLxBQ98Zh3A0x4RfbhfQIpK
-	 24X/1Uh/Hwv+ykvHh+4Dp14vWjE+E63jbVsOYNASGscTdmiASLVTENxq5gVvf1TddQ
-	 WUKpvn/XBvImLv+Dlzx/sECME1ipJNk7iqTO/jgfrtsp9CApaxFZjc+rSA1bk4jLOh
-	 CVnu58mtH8FQk8a4dwkQokD4nn+DSBCQP4KH4BuTJJFdaq/oBwJjBZLX0BE7vxYhU+
-	 mKAEEKVmfUfEtgloqG4oTnx+OJOMZ5WJE7UyRLo0TlRbIYrlG2sC1qSUnP0yiNTgGR
-	 VKL+gdtIc0tzw==
-Date: Fri, 18 Oct 2024 12:39:06 +0200 (CEST)
+	b=jSJKqk3LOR97GWPYa5aIkkwMsCSJmWRSxBZlm+3U1W73RIsH9pLBwqPoC8fIL+9ej
+	 EUzA8sPZQmvatOG6vsLv6J9SNd7+LR8yHnOxW28X83xc4dOqi2igDxaiN7/ll4PPhu
+	 4peWiPXmjMMGY67+0BGPPwtYAyMYO8hwBfHBk3DZBW4f359Ys9a7P8bZlgTfb0gLXE
+	 GnnkfbyfHEfvRujiP5fOFzON83Y+lX31N9Jye8aJrXdOS3bUBXUHOdwANA+9hTMR99
+	 9lXHlR4dyTxJXH5oyqDgUUrnMIu3bnPM0XXXDeiCNNeTqfrapzew0Lrn34O0i+cyC3
+	 8NvulXjz5B6VQ==
+Date: Fri, 18 Oct 2024 12:49:14 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Benjamin Tissoires <bentiss@kernel.org>
-cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
-    Tatsuyuki Ishi <ishitatsuyuki@gmail.com>, 
-    =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>, 
-    Peter Hutterer <peter.hutterer@who-t.net>
-Subject: Re: [PATCH v2 0/3] HID: bpf: add a couple of HID-BPF device fixes
-In-Reply-To: <20241017-import_bpf_6-13-v2-0-6a7acb89a97f@kernel.org>
-Message-ID: <nycvar.YFH.7.76.2410181238450.20286@cbobk.fhfr.pm>
-References: <20241017-import_bpf_6-13-v2-0-6a7acb89a97f@kernel.org>
+To: "Gerecke, Jason" <killertofu@gmail.com>
+cc: linux-input@vger.kernel.org, 
+    Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+    Ping Cheng <pinglinux@gmail.com>, Erin Skomra <skomra@gmail.com>, 
+    Joshua Dickens <Joshua@Joshua-Dickens.com>, 
+    "Tobita, Tatsunosuke" <tatsunosuke.tobita@wacom.com>, 
+    Jason Gerecke <jason.gerecke@wacom.com>
+Subject: Re: [PATCH] HID: wacom: Set eraser status when either 'Eraser' or
+ 'Invert' usage is set
+In-Reply-To: <20241017183113.631272-1-jason.gerecke@wacom.com>
+Message-ID: <nycvar.YFH.7.76.2410181249010.20286@cbobk.fhfr.pm>
+References: <20241017183113.631272-1-jason.gerecke@wacom.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -61,32 +64,44 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Thu, 17 Oct 2024, Benjamin Tissoires wrote:
+On Thu, 17 Oct 2024, Gerecke, Jason wrote:
 
-> Both files have been in udev-hid-bpf for too long.
-> Both files are actually simple report descriptor fixups, so
-> there is not a lot to explain here :)
+> From: Jason Gerecke <jason.gerecke@wacom.com>
 > 
-> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> ---
-> Changes in v2:
-> - Sorry, while preparing the udev-hid-bpf tree I realized we had a
->   change in hid_report_helpers.h, so added the third commit
-> - Link to v1: https://lore.kernel.org/r/20241017-import_bpf_6-13-v1-0-197d882ade37@kernel.org
+> Microsoft defines two slightly different behaviors for pens that are
+> being used to erase. The first one, for pens that can be used while
+> inverted specifies that both 'Invert' and 'Eraser' usages should be
+> set while the pen is in contact and erasing. For pens that use an
+> eraser button though, they specify that only the 'Eraser' usage should
+> be set (while hovering, only the 'Invert' usage is to be set).
 > 
+> We used our internal 'invert_state' flag to determine if a pen has an
+> intent to erase (whether hovering or not). That flag was previously
+> only depending on the 'Invert' usage, which was sufficient for the
+> first type of pen (EMR) but not the second type (AES). This commit
+> makes the flag depend on either usage being set, and also renames it
+> to make its function more clear.
+> 
+> This change should not normally have an impact on userspace due to
+> both the existing driver and firmware design. The driver already only
+> determines tool type based on the first event in an interaction (e.g.
+> it will see the 'Invert' bit set when the eraser comes into prox and
+> then report BTN_TOOL_RUBBER for the rest of the interaction, even if
+> 'Invert' is cleared). AES firmware is also careful to send reports
+> that work through a set of defined state transitions, even in the
+> corner-case where the eraser button is pressed when the pen is already
+> in contact with the display (Prox|Tip -> Prox -> 0 -> Invert -> Eraser).
+> Regardless, it seems reasonable to ensure the driver's state variables
+> match programmer expectation.
+> 
+> Link: https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/windows-pen-states
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
 > ---
-> Benjamin Tissoires (3):
->       HID: bpf: Fix NKRO on Mistel MD770
->       HID: bpf: Fix Rapoo M50 Plus Silent side buttons
->       HID: bpf: drop use of Logical|Physical|UsageRange
+>  drivers/hid/wacom_wac.c | 7 +++++--
+>  drivers/hid/wacom_wac.h | 2 +-
+>  2 files changed, 6 insertions(+), 3 deletions(-)
 
-FWIW:
-
-	Acked-by: Jiri Kosina <jkosina@suse.com>
-
-for the series.
-
-Thanks,
+Applied to hid.git#for-6.13/wacom. Thanks,
 
 -- 
 Jiri Kosina
