@@ -1,82 +1,95 @@
-Return-Path: <linux-input+bounces-7541-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7542-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B207E9A4665
-	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2024 21:01:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDCAE9A4683
+	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2024 21:09:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C64628114B
-	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2024 19:01:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 00B211C225F7
+	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2024 19:09:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DD6B188596;
-	Fri, 18 Oct 2024 19:01:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5636204942;
+	Fri, 18 Oct 2024 19:09:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FhP321k+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cPPgRW+N"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8200015E8B;
-	Fri, 18 Oct 2024 19:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175182040A5;
+	Fri, 18 Oct 2024 19:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729278101; cv=none; b=SqVgDdeDJIJb6VpaB2kZ9tlQfr5W2tuuRVOu1S8++0MEFXz2BQRRNZ7k1SBWWeCAbw41BBl1Q9ZjmToLfmg5KKBGWMRyX5M/Lmg6QkZ8TlHa3Y7ONvKhQPpRsVbr/v+qJNLAIlm/ZOFKeIWalOgcWRzMsR8pyjZGWZxr5T42z8E=
+	t=1729278562; cv=none; b=rhCqpVlGvxSKtfdi9iApuH7BP6/m9N0+6Pgla3/35zlhQJv5lerSlgGPpnrOqJjuOcWrqdcDnO1d3VPqULKfTfxt8HN1MGF5fYE+d9oIags2VQTmmR8Pd0PtSt2mN/1K06+/gC/Tr56tsQoqKsrwCFZHlIdXPlayK+owc6L3KEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729278101; c=relaxed/simple;
-	bh=bBK3G71rlhHcLMyqsep8Yy/JTXCI1YwMqCKDTkhJEs0=;
+	s=arc-20240116; t=1729278562; c=relaxed/simple;
+	bh=D99S00RyTTISFxr8e+C424y45Q8rUv8zo9O97MdVQnQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sd+DytuPFErUFaqC1SSIs1YIwEfB+RmPUWZYGJdSOK83oFrbCc84AczzD8O+06x25HYo/PvE+lZNe9UCU5wB7F6E31NAV4N11d/D7ezS9BVrx+T7cbkw8zV7q5M6vOn0vRcStGaeR9dAc/pek+CWl2h66z2C47JSR4gN/sNaN64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FhP321k+; arc=none smtp.client-ip=209.85.210.177
+	 Content-Type:Content-Disposition:In-Reply-To; b=o+oH98LbhHlca1D8ksMROjdPWpzYY+h9I1SRNTvMyQH1IRxrmOEvyW+a+Gw7kO/xgjS/xwU3+9qiErHJ14R6QHE9bXxoBh8xA0oWvl4ZBzSFs9mkkNWjOy1jrC4Ux3R1ppQO1J6zE+uubOVGM3laBzt21a8ieiOxs205tR4wPd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cPPgRW+N; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-71e61b47c6cso1974782b3a.2;
-        Fri, 18 Oct 2024 12:01:39 -0700 (PDT)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20ce65c8e13so21979445ad.1;
+        Fri, 18 Oct 2024 12:09:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729278099; x=1729882899; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1729278560; x=1729883360; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=f1JLOrMI9Ab2CEEJTwJMNYNIhkArN3p05bozHHeHC/A=;
-        b=FhP321k+eP3EYdN5McK273ifqup0bybFvMolvT5ia/tftOqwpnfxa/CMgLIsD+PVU3
-         1EKc5Lvg6L7OKs7XV/BwOf7IGUVtbOhzpoELUOjAGGpoKjbgk2HzplETalbmgUCPrV8I
-         fJYaH70/Qe2bYJxHwf9+rXMgBIPP1SJfoXltapO13+YbqY2V9A82HTFLpU9WGDm48vKg
-         v+uIEQQhMf1UdpBLn9CetMu9to4vzejqfOn5yhN5fPBw0yhOAzjIXKHNZOLVTj7VzAHm
-         xrowlxwkrfg+SmTgOLmhTjoCe64L4VR/y5cf5DMBB4LjGLjCTLRhMhRfZWWXjWcCCZo0
-         MAbQ==
+        bh=tCWiI7Mk5Pc1ToBG0yRJeA7emmBaVqdcvJdezV41wZ8=;
+        b=cPPgRW+NqLUSBdTYly8D7mH4DjyCvWptTypxAKuda0+fAoEEurPml6SaFnov1JxlRt
+         wiVI3DvoMZ3ycVkP8NqeMQhCtxBx8acEbqF8T5jj5vqpNOXhdvUKRXil3t2oq+svzEPZ
+         LJLcL4qWv0eFSSVStwDpIKK1ZaCnAIzM56pu/tJtHmo9Ncu87K/q+OZWKwn1VRtelve5
+         p51oPd/kwR0pqMJIan1IyJwAy/kyZiiAvwLgCs1LqkaDgLBZrB0mnm7hqG+/ZRXAFOcB
+         5dFp5dIlVLugwTZk1uyZSzrxHO9RDX/mNKln3Qk58QajLVnTmK6618A2JXE0ZMwr8nXM
+         D3vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729278099; x=1729882899;
+        d=1e100.net; s=20230601; t=1729278560; x=1729883360;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f1JLOrMI9Ab2CEEJTwJMNYNIhkArN3p05bozHHeHC/A=;
-        b=hKoahk2V6MsKGBg3ttIP7Z8qX93/yhq91w5YMyXwE9PCvILNl1IZX6x2MC51ju6XBk
-         BNDGRtdQXloQ+nMC7wewIIqPjP/qjHIT5oD7zk2EILsjOFSdXNiINqTyzxF8eyEhLZNo
-         2qQoR8SZNOke831HliEYCy/aiv/N8zj3VP34e3wAhSnY8c7+by7CI2jgeygWZfRuwU2O
-         +SXX5ZVuIHxTlqIY8kNL0guZbYkv2cKVQYSjCAZGd1RxkW7ZEmpNDH6bCLs7ZBv0Gfcf
-         7l5VDV566SJyndT3D8opvuwdAepEtXZ6g7YhJ4V1Vam9kc8tAM5EzmCSedDDHp7xY3cL
-         Barw==
-X-Forwarded-Encrypted: i=1; AJvYcCV5xLne7Y4Y4vrDNrV6t1X6j25QRI4sDTQz1bur73bASU35jW9UyD25AReukC/M8dxW48eSpaRr/LYlO7B6@vger.kernel.org, AJvYcCW7ucGZYTf6iSeRNVmIGS0PpzZY7B+FYX9B1Az6oJ5Rl7aIfmqinlcERQEJUfSoOmmAChe3fpgp3gFyJXoj@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvRXbp+x8ZOBMW3+tMhXqn7JLC7NZj2tfJ9prxAqZV7H8PLoik
-	Y+7dv7NUM7/s6y/438lv4hhF4vEhXqqW3Q4QyRYBTIlooNHOpFPwSW/PuQ==
-X-Google-Smtp-Source: AGHT+IHGq5mY3FeO9wE1luTog2VAFD9RsRW1psaVcgDUtjFqGR80bBXJoEFW4dodP/RUuUDuKzyVng==
-X-Received: by 2002:a05:6a00:391e:b0:71e:2a0:b0d0 with SMTP id d2e1a72fcca58-71ea315a361mr4587527b3a.13.1729278098447;
-        Fri, 18 Oct 2024 12:01:38 -0700 (PDT)
+        bh=tCWiI7Mk5Pc1ToBG0yRJeA7emmBaVqdcvJdezV41wZ8=;
+        b=EFSPKABCPYSAa5iXtnMkBy2IIH6GIV6pj2uhR2ZEH8PBl9APbRL9FDGlEv2r5IT/nb
+         8fkbKhAc+3HM2XxWowomNm74vCimcGmwExwJaiSEE8pvmmmectQgvN5MzHXAW80CC1RF
+         oyd9tnz90b7q3Q/ySOhm3kQpRUpNNFMXz/UDGN4GyKzk6GsYGdu4UvmO5iIrmjdFivl+
+         F+0Sg2PazTCF6S3agAYxnbR5igkABbw9YmBxYne2GYM04ugAYBKn/+Ow25w6K9YKZI3d
+         rITi5g5XOsCuBjqqrBrIAM1cAwzPem4ky834htR9eBQoB8eMaaNjpDhABrcHOvjy18YX
+         mcPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUE4zGPjzvESE0GC2lwzQarM4rDbTYJtypFpoAyl8Uj3y7cLPoNoHs82BizXmmMLuAzg0VTV8TdqDdenx6U@vger.kernel.org, AJvYcCUoX7ew7OkdThWBirB+oCaHe6xtkBOi/nNnHbTq8x8ySTz7PJ+A3E/gsrLN7xWAu4X286W3n3UqOomygAQ=@vger.kernel.org, AJvYcCVWf+YeMy0NBMrIpfE47w9WgAKiJ2jNl8fjlxaKrmIkGQusvArrz+FalGvlXET8kST7uok05RmTXzk=@vger.kernel.org, AJvYcCXc+r0DrKnVI41gKR9WETHKUSxdHCKz1mryNoF3jrSe3yd/UkvI6X5S0rpQIZNySRdMl3DkSW7sjfvi@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywr8+S+c4azvyz5OXbPVv+6O0bBk01F9IaJVI9cK2xrA5v6Mjus
+	eb/WmvM+WMiF7YtyWMPDZrctKLaN3XMJWq/JAiRfl1f4br9Lc9mv
+X-Google-Smtp-Source: AGHT+IEruX+cxyVH+gwEEsGDweblTcIgnGhNv3IgeQH5Htuac5wGmq7mHQTOxWYmy6TV37BjA3ZgmQ==
+X-Received: by 2002:a17:902:c94e:b0:20c:dd71:c94f with SMTP id d9443c01a7336-20e5a95110fmr44504275ad.41.1729278560033;
+        Fri, 18 Oct 2024 12:09:20 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:351c:e27f:10e5:484c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ea340969dsm1849847b3a.99.2024.10.18.12.01.37
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e5a71eae8sm16052525ad.45.2024.10.18.12.09.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2024 12:01:38 -0700 (PDT)
-Date: Fri, 18 Oct 2024 12:01:35 -0700
+        Fri, 18 Oct 2024 12:09:19 -0700 (PDT)
+Date: Fri, 18 Oct 2024 12:09:16 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Kamal Wadhwa <quic_kamalw@quicinc.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jishnu Prakash <quic_jprakash@quicinc.com>,
-	Rakesh Kota <quic_kotarake@quicinc.com>,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] Input: gpio-keys - fix un-responsive keys issue on
- hibernate exit
-Message-ID: <ZxKwj8RFXFmdiVi2@google.com>
-References: <20241018-unresponsive-gpio-keys-hibernate-v1-1-12f5e9962054@quicinc.com>
+To: Yassine Oudjana <yassine.oudjana@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Sen Chu <sen.chu@mediatek.com>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Macpaul Lin <macpaul.lin@mediatek.com>, Lee Jones <lee@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	jason-ch chen <Jason-ch.Chen@mediatek.com>,
+	Chen Zhong <chen.zhong@mediatek.com>,
+	Flora Fu <flora.fu@mediatek.com>,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	Yassine Oudjana <y.oudjana@protonmail.com>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 6/6] Input: mtk-pmic-keys - Add support for MT6328
+Message-ID: <ZxKyXFZFFNwD6Tsg@google.com>
+References: <20241018081050.23592-1-y.oudjana@protonmail.com>
+ <20241018081050.23592-7-y.oudjana@protonmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -85,28 +98,19 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241018-unresponsive-gpio-keys-hibernate-v1-1-12f5e9962054@quicinc.com>
+In-Reply-To: <20241018081050.23592-7-y.oudjana@protonmail.com>
 
-Hi Kamal,
-
-On Fri, Oct 18, 2024 at 06:22:35PM +0530, Kamal Wadhwa wrote:
-> GPIO IRQ setting may get reset during hibernate mode, as device
-> is completely powered off. This can cause the GPIO keys to become
-> un-responsive after hibernate-exit.
+On Fri, Oct 18, 2024 at 11:10:48AM +0300, Yassine Oudjana wrote:
+> From: Yassine Oudjana <y.oudjana@protonmail.com>
 > 
-> To fix this problem, re-request IRQs in restore() callback, in the
-> hibernate exit flow.
+> Add a compatible string and related data for the PMIC keys on the
+> MT6328 PMIC.
+> 
+> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
 
-No, absolutely not. GPIO state and configuration is owned by GPIO
-controller and it should be the entity tasked with restoring the
-configuration after hibernation. Individual GPIO consumers need not do
-that. Same goes for coprocessor and what's not.
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Also, as a side statement: whenever you call devm API outside of probe
-and remove path you are likely introduce bugs, because that interferes
-with the original order of acquisition of the resources so order of
-releasing them during unbinding of the device from the driver will
-likely be wrong.
+Feel free to merge with the rest of the patches.
 
 Thanks.
 
