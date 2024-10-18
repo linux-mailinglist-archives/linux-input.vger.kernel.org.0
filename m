@@ -1,138 +1,111 @@
-Return-Path: <linux-input+bounces-7515-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7516-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E25CA9A3192
-	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2024 02:07:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 711809A31AA
+	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2024 02:32:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A591728471E
-	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2024 00:07:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6450A1C21EE8
+	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2024 00:32:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D12DB2F46;
-	Fri, 18 Oct 2024 00:07:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E17F2BD04;
+	Fri, 18 Oct 2024 00:32:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RX9Ouqrq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VaO1SkEJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FC72F29;
-	Fri, 18 Oct 2024 00:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C0920E309;
+	Fri, 18 Oct 2024 00:32:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729210062; cv=none; b=p+/22HvTwi3Hx0KLc+zs8ht6bcT86kE7MVQMYX800nvkfIXh7yBgJdSaimAi0NoGznWDIMkOGGF8Ar4yIS8yTfQtHY5Cu3Hb3ewfn81TPiK96FuGUz+XDOfhDaNj9siM4CJ4y1JvQaT5WkoD+1kaoinXl/SpMs7i+mBHTUEWEBk=
+	t=1729211523; cv=none; b=Vt1HHu0a3GSjKk88ISxw8tUNioLyWCM+iVOwooNU+Jz2t/dn8FEU+pCRrowcyzcboyT3Ml5sf/qbGIiAw4QtYPY3RFkqmpp59F4GMH73zuX6Cnz0rExQ+/lZAoGDny1tFTlw8+q3vdPpYwrALglusiSSWa3IWLr26XFCCssckps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729210062; c=relaxed/simple;
-	bh=D9ULUqk+TbUqMTKGR0bFo25YiiZ2cs6nBE1a1b8WqFQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=YdYec5faevHtXowN9MxcrRc4Umqg616XfKG4Vn9DjkHEh6oqBy2/8tdvgMT73kUkTs8UPK/WwVCUYdy6f73qp3dmhtOkyXVney8BgyovzFS6dzxQdhkPU2f6UrMPKt+FPtCBg6gyluFW55Ae07dhSDFA51EZIXCu0zFLH7+Ekfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=RX9Ouqrq; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49HDcuMX016699;
-	Fri, 18 Oct 2024 00:07:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	uxBavpTgL71vWYYy2sA8sf5j3chQYVV9GD147SGaeIE=; b=RX9Ouqrq4NFVay6j
-	q4ttG0ZDVQRxiFHqWMz1ETLYdt9a14mSskOsu4TE50T7xoN7Yz1fi1sDfPZMXDCw
-	Nid3g40KR97d0eIZ6brHzq3xJa0t7AKSCcSoS1FsTDUta85y2SVt5RKKQm0XC+UZ
-	ftQLUofQozfcyUcqlpajRTWKzTMpeConXTyXCrqh/KO8LjdXl+5S0psOcWaD3SwG
-	eOo+yjKkMRzwm4hTVhc4CuOPc0GaEqSVtAgn1QRp3uyc4I+1HGARPsbBQgpR7NKS
-	e8ZqYMKHlVOTbVP2mGtD6UeD4JYw2esaE4AGL3vN9Ffk9mC3fy0oma7dgzZ3FTyN
-	IRBG3A==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42a8w6pdcw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 18 Oct 2024 00:07:15 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49I07EUv021198
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 18 Oct 2024 00:07:14 GMT
-Received: from [10.71.112.85] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 17 Oct
- 2024 17:07:13 -0700
-Message-ID: <5847c380-75ce-492a-9a30-0899b7ebe98c@quicinc.com>
-Date: Thu, 17 Oct 2024 17:07:12 -0700
+	s=arc-20240116; t=1729211523; c=relaxed/simple;
+	bh=Z2CHYFX90bPOgNfDMKo6F3dhYoZWbpNldEFmCWByjzo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i4A+koC0uWX1Q5NMH+JglkWkL1rAs0lmQH2ZBSqSQkqDpRJvae5sgxK3+D+4QFye88qNggzZ/v0Dx3oy6ddqglUER2/umk0zAFagsIFmwgedZKkTGj7VwwPgZT5JsKwYIiLlaqEC6P66z9TEK9/iMj3iBadDsCeh7mgvZ47R/Es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VaO1SkEJ; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-71ea2643545so275837b3a.3;
+        Thu, 17 Oct 2024 17:32:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729211521; x=1729816321; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=J9TaQ9jLKsHthLkNEyMhi5newVAYD+QTVeRFDRUl6h8=;
+        b=VaO1SkEJXo56nNoHnn8/q/xZ0vLjQNUru7WBnOVaIg6KP5M/SOpCSyLhHhwhpC9vR4
+         bzEj53Bzd1Lsd8HkCTFFuELwBfXEjaZJwr6oHk20Uq/66TP2EVJ7CnIUAgJwXBQm/WIA
+         1AwGKv/wRqSX6YDATydMJzCrQcWQKGk9jg6F5APrZbNF+gT5G4vwGeJHqniGiSbPnAmc
+         pwyPHpHHGJckAO5+9wx6P/naE35nJMx75jUeQAMW671qFTBk69DmqYCheOfMV/x2EpdQ
+         ocPFRZw2jmAoywNOGhdV6HvpIId88rgiYLmI0/V+cMPfwIaVrCvf9UbRC0fDaglAYPlr
+         6ocQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729211521; x=1729816321;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J9TaQ9jLKsHthLkNEyMhi5newVAYD+QTVeRFDRUl6h8=;
+        b=u+Wfl/vYZtkOJmaEIV+Vt/Pga71WnCEgNs691893qz3OgMkPIvUyUU3z3wAVO1xcja
+         78zfqbfs4UTX+a84pKPsCn8/DdPh2J0faNvBVTLu9n/XILt6QMn+N4uu9kMVldeXjzhy
+         UA8Z8/THW/y5ipvhdIUiS7muMlk8gqQU3iXYJtx8YOePxf8kl+RI9NGsxviFP6ZMQRD/
+         mLd+Pbu1e4xHPP0a9CQtl9FYNYeJbdX2cnvvpaPhKz/PdXZkx411cS/3nlOJyDEkfBSG
+         ctl6MVDGNaImHRQyOZAQjqGzUEodfJ6lNU12cKYmD3litLL8b6iqUGZvaSMdbgK8WZwD
+         Rg3w==
+X-Forwarded-Encrypted: i=1; AJvYcCV/OnapHRYAMn0QkLYTefCRRUCut/07s/dKdQDcOrzO+sdqA1/BBdUu+QS29kZVKKySQwBfdwykFly/pl0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9aBQcUaPpGN88DVndIf+d9BVv4mNWbJ+eTntGGTsxF2pvBL4Z
+	hC0XEtZ7BMq1hhHyY4i0YeziUpXCpBZmN1+mz1rl+4X7Rb/ovWC8
+X-Google-Smtp-Source: AGHT+IGbcGq1bF9rYC90X4JCirz1BO+pZbDtvk5/pyTvyfQ3p4K0FuzsuclvjFtaOoKEPcir8tIJZg==
+X-Received: by 2002:a05:6a00:2302:b0:71e:5a1d:ecdc with SMTP id d2e1a72fcca58-71ea31d2c22mr1343853b3a.17.1729211521085;
+        Thu, 17 Oct 2024 17:32:01 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:136e:2635:ea46:fe25])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7eacc29bacbsm201445a12.82.2024.10.17.17.32.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Oct 2024 17:32:00 -0700 (PDT)
+Date: Thu, 17 Oct 2024 17:31:58 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: itewqq <shipeiqu@sjtu.edu.cn>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	viro@zeniv.linux.org.uk, ye.xingchen@zte.com.cn
+Subject: Re: [PATCH v2] Input/mouse: cyapa - fix potential buffer overflow in
+ cyapa_gen3.c
+Message-ID: <ZxGsfjTpw8KkbXtt@google.com>
+References: <20241012100801.1774302-1-shipeiqu@sjtu.edu.cn>
+ <20241017080104.1817636-1-shipeiqu@sjtu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v29 01/33] xhci: support setting interrupt moderation IMOD
- for secondary interrupters
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <lgirdwood@gmail.com>, <tiwai@suse.com>,
-        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <robh@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
- <20241015212915.1206789-2-quic_wcheng@quicinc.com>
- <2024101747-defog-squiggly-ef54@gregkh>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <2024101747-defog-squiggly-ef54@gregkh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: IbNrRGE8x9UV4v1k3a1frmTMQ3tDVf0N
-X-Proofpoint-ORIG-GUID: IbNrRGE8x9UV4v1k3a1frmTMQ3tDVf0N
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
- phishscore=0 lowpriorityscore=0 clxscore=1015 mlxlogscore=607
- malwarescore=0 impostorscore=0 priorityscore=1501 suspectscore=0
- bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410170163
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241017080104.1817636-1-shipeiqu@sjtu.edu.cn>
 
-Hi Greg,
+Hi,
 
-On 10/16/2024 11:40 PM, Greg KH wrote:
-> On Tue, Oct 15, 2024 at 02:28:43PM -0700, Wesley Cheng wrote:
->> From: Mathias Nyman <mathias.nyman@linux.intel.com>
->>
->> Allow creators of xHCI secondary interrupters to specify the interrupt
->> moderation interval value in nanoseconds when creating the interrupter.
->>
->> If not sure what value to use then use the xhci driver default
->> xhci->imod_interval
->>
->> Suggested-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
->> Link: https://lore.kernel.org/r/20240905143300.1959279-13-mathias.nyman@linux.intel.com
->> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> ---
->>  drivers/usb/host/xhci-mem.c | 8 +++++++-
->>  drivers/usb/host/xhci.c     | 4 ++--
->>  drivers/usb/host/xhci.h     | 5 ++++-
->>  3 files changed, 13 insertions(+), 4 deletions(-)
-> This is already in 6.12-rc1, which makes me confused as to what tree you
-> made this series against.
+On Thu, Oct 17, 2024 at 04:01:04PM +0800, itewqq wrote:
+> The i2c_smbus_read_block_data function receives up to I2C_SMBUS_BLOCK_MAX
+> bytes, which is defined as 32. This exceeds the size of the struct
+> cyapa_reg_data, which will be provided to cyapa_read_block as an input
+> buffer and finally reach i2c_smbus_read_block_data. When the cyapa module
+> is enabled (CONFIG_MOUSE_CYAPA=m), this bug could result in potential
+> denial-of-service for invalid or malicious I2C data. Pad the size of the
+> cyapa_reg_data structure from 27 to I2C_SMBUS_BLOCK_MAX=32 bytes to
+> address this issue.
 
-Sorry, I didn't fetch the latest changes from usb-next.  In this case, should I rebase and resbumit?
+No, I don't think padding all buffers is a good idea. We need to change
+i2c_smbus_read_block_data() to accept the buffer size so that it does
+not copy more than it should.
 
-Thanks
+I sent a patch to i2c list and CCed you.
 
-Wesley Cheng
+Thanks.
 
-> thanks,
->
-> greg k-h
+-- 
+Dmitry
 
