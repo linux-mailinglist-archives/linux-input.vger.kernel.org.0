@@ -1,174 +1,138 @@
-Return-Path: <linux-input+bounces-7514-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7515-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E7F9A2C33
-	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2024 20:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E25CA9A3192
+	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2024 02:07:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3159E284253
-	for <lists+linux-input@lfdr.de>; Thu, 17 Oct 2024 18:31:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A591728471E
+	for <lists+linux-input@lfdr.de>; Fri, 18 Oct 2024 00:07:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EAEF1802AB;
-	Thu, 17 Oct 2024 18:31:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D12DB2F46;
+	Fri, 18 Oct 2024 00:07:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IDA90Rhr"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RX9Ouqrq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A442742AB9
-	for <linux-input@vger.kernel.org>; Thu, 17 Oct 2024 18:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FC72F29;
+	Fri, 18 Oct 2024 00:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729189884; cv=none; b=Geul7lXXHMHxqWeJOQlGrXKXx+E/Gs5hYB9V+/aP8LVsSyty7MfN0XDJ9O2KsdxGjPhDaRGeWEPWq+p5ymBXi3mLJBlaotxMR6yoVv7BMMbiIOrT9PD0oeHn4e2fNb+3z08xaf7qMe7SxeSho7q5wJzinkFXkjVOmWyUeuOod3A=
+	t=1729210062; cv=none; b=p+/22HvTwi3Hx0KLc+zs8ht6bcT86kE7MVQMYX800nvkfIXh7yBgJdSaimAi0NoGznWDIMkOGGF8Ar4yIS8yTfQtHY5Cu3Hb3ewfn81TPiK96FuGUz+XDOfhDaNj9siM4CJ4y1JvQaT5WkoD+1kaoinXl/SpMs7i+mBHTUEWEBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729189884; c=relaxed/simple;
-	bh=QsZkGcWPpR+lrBcNO34pa7K4nnXImPy0zKAWolFW7oM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E9BOuibnSIjEO/lknDIZit9OpZYdPUAvRvUllUb5pY77S4zwffZuZUfboU0xJ2B2nZ9VX3AHsulvBgY+DAjL5h9jAHydcpABL3SzY0MdpE6MMCIvqF+uiwyLuCCSbQm8hsE7mRZAzdHrG2XprRqydRITGfwoDK/G0WYtTgku3Dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IDA90Rhr; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7db637d1e4eso1376717a12.2
-        for <linux-input@vger.kernel.org>; Thu, 17 Oct 2024 11:31:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729189878; x=1729794678; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WDxPGYmVkoLe4apJd49l1Qr6trGQLdEGeW53l/1fSZE=;
-        b=IDA90Rhr3A/PnkanEaK8H0CNoa4NlDzzX1YVjAQ5dkngMp6nmrjKni9pgCt8A3+t4y
-         10bqZxM7HUi57jnCWKmeIY5g1TuUwfxnbOlLH5Utt6Ld4Onrm9p/SPuXo0DLqu7qQBb/
-         8Nlube4PWaFl8FSOnqIbTGKHWWObFhcbXthbhC2tZ3dct3qSk/gOb/AUzxBFjt1ckY9W
-         wI/k4aCmp8YRK+s9saHcA/ZZyG/Q+3LYjW/7swsMmkONQ+g9FNrfQ+oONCRFGnjF5al5
-         JHvSjbac4snLcyW1ZUMs33Qks3jsgnoZqek3i2A1h/qG9k32jn2jP6V41LS5qLa3l/hX
-         LqHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729189878; x=1729794678;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WDxPGYmVkoLe4apJd49l1Qr6trGQLdEGeW53l/1fSZE=;
-        b=ViIXXPSmE3mVUVwSY4WyIQvRs2r/ZwrxFe4dKscdw8RaYu6QxZp3oMUqC5SaynQxDR
-         5hhgMlxUK7rXcqu/HDNiO47pRnPAvENNpetCOP3qT37doW818A8dwNzvJOKlGwkbfRJN
-         pHpEjW0kTmaXnJl+Sfai05jzRY4JCfE4BhPVQJtkBHBoxcNcxtuBR9v6NrCR/nuFpirQ
-         6RHXbJDZ60B8tLXNMmJh7ED13XyJYLYkfXtVlKBvA8TJj68g+jeSKjM88rOuL7Bt2zkh
-         He7rE1EVIVDXWl0RlHlhiSQs6gnL0uDK7A2D/4U/BvDexVUcKGephxbLDZAAxamm13JK
-         D+zg==
-X-Gm-Message-State: AOJu0YyQOHLH+o88hyOo/Vo4CtrrbFjJ1CCThsegpqh74WPX1VcT1iuf
-	O1xvC8XUEpTkdadTi8BcwMAkP0e0vNyERFMVCb6xsUP80kYLYKuYxltmOA==
-X-Google-Smtp-Source: AGHT+IEdvZkQ1iqYvgwXSBTee3wg6+GIQhzogo8tL0Oa2sZ56o7iddHGSatrK8eUv17OGRKO3E+50Q==
-X-Received: by 2002:a05:6a20:c992:b0:1cf:4da0:d95c with SMTP id adf61e73a8af0-1d905efd2d3mr12739538637.23.1729189878075;
-        Thu, 17 Oct 2024 11:31:18 -0700 (PDT)
-Received: from localhost.localdomain (75-164-192-68.ptld.qwest.net. [75.164.192.68])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e77509e09sm5047907b3a.194.2024.10.17.11.31.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 11:31:17 -0700 (PDT)
-From: "Gerecke, Jason" <killertofu@gmail.com>
-X-Google-Original-From: "Gerecke, Jason" <jason.gerecke@wacom.com>
-To: linux-input@vger.kernel.org,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Jiri Kosina <jikos@kernel.org>
-Cc: Ping Cheng <pinglinux@gmail.com>,
-	Erin Skomra <skomra@gmail.com>,
-	Joshua Dickens <Joshua@Joshua-Dickens.com>,
-	"Tobita, Tatsunosuke" <tatsunosuke.tobita@wacom.com>,
-	Jason Gerecke <jason.gerecke@wacom.com>
-Subject: [PATCH] HID: wacom: Set eraser status when either 'Eraser' or 'Invert' usage is set
-Date: Thu, 17 Oct 2024 11:31:13 -0700
-Message-ID: <20241017183113.631272-1-jason.gerecke@wacom.com>
-X-Mailer: git-send-email 2.47.0
+	s=arc-20240116; t=1729210062; c=relaxed/simple;
+	bh=D9ULUqk+TbUqMTKGR0bFo25YiiZ2cs6nBE1a1b8WqFQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=YdYec5faevHtXowN9MxcrRc4Umqg616XfKG4Vn9DjkHEh6oqBy2/8tdvgMT73kUkTs8UPK/WwVCUYdy6f73qp3dmhtOkyXVney8BgyovzFS6dzxQdhkPU2f6UrMPKt+FPtCBg6gyluFW55Ae07dhSDFA51EZIXCu0zFLH7+Ekfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=RX9Ouqrq; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49HDcuMX016699;
+	Fri, 18 Oct 2024 00:07:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	uxBavpTgL71vWYYy2sA8sf5j3chQYVV9GD147SGaeIE=; b=RX9Ouqrq4NFVay6j
+	q4ttG0ZDVQRxiFHqWMz1ETLYdt9a14mSskOsu4TE50T7xoN7Yz1fi1sDfPZMXDCw
+	Nid3g40KR97d0eIZ6brHzq3xJa0t7AKSCcSoS1FsTDUta85y2SVt5RKKQm0XC+UZ
+	ftQLUofQozfcyUcqlpajRTWKzTMpeConXTyXCrqh/KO8LjdXl+5S0psOcWaD3SwG
+	eOo+yjKkMRzwm4hTVhc4CuOPc0GaEqSVtAgn1QRp3uyc4I+1HGARPsbBQgpR7NKS
+	e8ZqYMKHlVOTbVP2mGtD6UeD4JYw2esaE4AGL3vN9Ffk9mC3fy0oma7dgzZ3FTyN
+	IRBG3A==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42a8w6pdcw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 18 Oct 2024 00:07:15 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49I07EUv021198
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 18 Oct 2024 00:07:14 GMT
+Received: from [10.71.112.85] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 17 Oct
+ 2024 17:07:13 -0700
+Message-ID: <5847c380-75ce-492a-9a30-0899b7ebe98c@quicinc.com>
+Date: Thu, 17 Oct 2024 17:07:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v29 01/33] xhci: support setting interrupt moderation IMOD
+ for secondary interrupters
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <lgirdwood@gmail.com>, <tiwai@suse.com>,
+        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
+ <20241015212915.1206789-2-quic_wcheng@quicinc.com>
+ <2024101747-defog-squiggly-ef54@gregkh>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <2024101747-defog-squiggly-ef54@gregkh>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: IbNrRGE8x9UV4v1k3a1frmTMQ3tDVf0N
+X-Proofpoint-ORIG-GUID: IbNrRGE8x9UV4v1k3a1frmTMQ3tDVf0N
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ phishscore=0 lowpriorityscore=0 clxscore=1015 mlxlogscore=607
+ malwarescore=0 impostorscore=0 priorityscore=1501 suspectscore=0
+ bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410170163
 
-From: Jason Gerecke <jason.gerecke@wacom.com>
+Hi Greg,
 
-Microsoft defines two slightly different behaviors for pens that are
-being used to erase. The first one, for pens that can be used while
-inverted specifies that both 'Invert' and 'Eraser' usages should be
-set while the pen is in contact and erasing. For pens that use an
-eraser button though, they specify that only the 'Eraser' usage should
-be set (while hovering, only the 'Invert' usage is to be set).
+On 10/16/2024 11:40 PM, Greg KH wrote:
+> On Tue, Oct 15, 2024 at 02:28:43PM -0700, Wesley Cheng wrote:
+>> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+>>
+>> Allow creators of xHCI secondary interrupters to specify the interrupt
+>> moderation interval value in nanoseconds when creating the interrupter.
+>>
+>> If not sure what value to use then use the xhci driver default
+>> xhci->imod_interval
+>>
+>> Suggested-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+>> Link: https://lore.kernel.org/r/20240905143300.1959279-13-mathias.nyman@linux.intel.com
+>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> ---
+>>  drivers/usb/host/xhci-mem.c | 8 +++++++-
+>>  drivers/usb/host/xhci.c     | 4 ++--
+>>  drivers/usb/host/xhci.h     | 5 ++++-
+>>  3 files changed, 13 insertions(+), 4 deletions(-)
+> This is already in 6.12-rc1, which makes me confused as to what tree you
+> made this series against.
 
-We used our internal 'invert_state' flag to determine if a pen has an
-intent to erase (whether hovering or not). That flag was previously
-only depending on the 'Invert' usage, which was sufficient for the
-first type of pen (EMR) but not the second type (AES). This commit
-makes the flag depend on either usage being set, and also renames it
-to make its function more clear.
+Sorry, I didn't fetch the latest changes from usb-next.  In this case, should I rebase and resbumit?
 
-This change should not normally have an impact on userspace due to
-both the existing driver and firmware design. The driver already only
-determines tool type based on the first event in an interaction (e.g.
-it will see the 'Invert' bit set when the eraser comes into prox and
-then report BTN_TOOL_RUBBER for the rest of the interaction, even if
-'Invert' is cleared). AES firmware is also careful to send reports
-that work through a set of defined state transitions, even in the
-corner-case where the eraser button is pressed when the pen is already
-in contact with the display (Prox|Tip -> Prox -> 0 -> Invert -> Eraser).
-Regardless, it seems reasonable to ensure the driver's state variables
-match programmer expectation.
+Thanks
 
-Link: https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/windows-pen-states
-Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
----
- drivers/hid/wacom_wac.c | 7 +++++--
- drivers/hid/wacom_wac.h | 2 +-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+Wesley Cheng
 
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 413606bdf476d..fd0de9bae3d9a 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -2422,9 +2422,11 @@ static void wacom_wac_pen_event(struct hid_device *hdev, struct hid_field *field
- 			wacom_wac->hid_data.sense_state = value;
- 		return;
- 	case HID_DG_INVERT:
--		wacom_wac->hid_data.invert_state = value;
-+		wacom_wac->hid_data.eraser |= value;
- 		return;
- 	case HID_DG_ERASER:
-+		wacom_wac->hid_data.eraser |= value;
-+		fallthrough;
- 	case HID_DG_TIPSWITCH:
- 		wacom_wac->hid_data.tipswitch |= value;
- 		return;
-@@ -2565,7 +2567,7 @@ static void wacom_wac_pen_report(struct hid_device *hdev,
- 
- 	if (entering_range) { /* first in range */
- 		/* Going into range select tool */
--		if (wacom_wac->hid_data.invert_state)
-+		if (wacom_wac->hid_data.eraser)
- 			wacom_wac->tool[0] = BTN_TOOL_RUBBER;
- 		else if (wacom_wac->features.quirks & WACOM_QUIRK_AESPEN)
- 			wacom_wac->tool[0] = BTN_TOOL_PEN;
-@@ -2619,6 +2621,7 @@ static void wacom_wac_pen_report(struct hid_device *hdev,
- 		}
- 
- 		wacom_wac->hid_data.tipswitch = false;
-+		wacom_wac->hid_data.eraser = false;
- 
- 		input_sync(input);
- 	}
-diff --git a/drivers/hid/wacom_wac.h b/drivers/hid/wacom_wac.h
-index c8803d5c6a71e..0c3c6a6aaae95 100644
---- a/drivers/hid/wacom_wac.h
-+++ b/drivers/hid/wacom_wac.h
-@@ -300,7 +300,7 @@ struct hid_data {
- 	__s16 inputmode_index;	/* InputMode HID feature index in the report */
- 	bool sense_state;
- 	bool inrange_state;
--	bool invert_state;
-+	bool eraser;
- 	bool tipswitch;
- 	bool barrelswitch;
- 	bool barrelswitch2;
--- 
-2.47.0
-
+> thanks,
+>
+> greg k-h
 
