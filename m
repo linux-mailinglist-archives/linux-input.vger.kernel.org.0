@@ -1,279 +1,169 @@
-Return-Path: <linux-input+bounces-7571-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7572-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E6B9A5555
-	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2024 19:28:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE889A55D3
+	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2024 20:27:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C2BE1C20941
-	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2024 17:28:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ACCBFB21172
+	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2024 18:27:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D00B1194137;
-	Sun, 20 Oct 2024 17:27:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C722194C61;
+	Sun, 20 Oct 2024 18:27:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jIwgJZjW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nlUuEk/E"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CECEAF6
-	for <linux-input@vger.kernel.org>; Sun, 20 Oct 2024 17:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5A982877;
+	Sun, 20 Oct 2024 18:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729445279; cv=none; b=MrL9Lq3bQgcgoBetrbc3cB0BtvY1JCZ3fd7ZutTqt+qyNqEYpH2qtG1zBmBxyHR/S+h7lgo6F6RTVHTrOtFXEtX8Xdj/liofrXNZrlP3BuOXtuj32VlMrpVP1yv+lMVFYwh2140wFYiQqYSvQ+gqZuktRenMSq1kX6ys9Jr4Pns=
+	t=1729448841; cv=none; b=s1zO95Pdg/I3QjFX/cwNhp1ObJbp63hoA93VBrdnfOVFDQhbJhx2BGfRcCwqDqPgogVk8DNyfLAOg8wcWU68MySk5EHzZvFlE2wMHjJjySlRD1XP9neE/50e2URCd5bzL8K3+awEyZXZwu8uk7PJYZ7PP2H37nXGGe9ODj5rYLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729445279; c=relaxed/simple;
-	bh=e6FykECXXlskvtlMdJeofqvxkWbiYBkXHxiRwy/dz3I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=IfboGSW3pqjykLigsmSA0I8/0Bm74aiY/vJcUpnkILrgkQRMlqcCMkz+vGWKUMlXttDYOhSSCSn4Xml1J2aQptJdUeStGha7hgW9IsSb+A8lkaMs6/zDi35+mDAnl7Y5fT55Fl/tgLkqDsHpnMqODspbLwjGHpRklPyoThPUWA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jIwgJZjW; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729445277; x=1760981277;
-  h=date:from:to:cc:subject:message-id;
-  bh=e6FykECXXlskvtlMdJeofqvxkWbiYBkXHxiRwy/dz3I=;
-  b=jIwgJZjWVXPCZIzrmYII37Asx2Urjz/Fq6xOSI4b5DP6QlEYmyeNmXK3
-   uMfdHUreTg9ijCTPiMSt/rVDf68eumBZqBhGi1pTlFus6+PWgDAAa7S27
-   pUrrRSBoiSNjBfWbFnLpTdI4zYSJjmnCNejV6a6/yWgpc5HYup5exIxl1
-   CMMJCFUy6Sc9mIJg6prko6ps2O8dIXc9wKXByiBkEOUp+KYSDS+MKY0sc
-   Iyn2f4j65E9n2T5qH5s2VB4LalZg5XSvZAqf4jYpmtzlNyuzwIISWwnxt
-   rljs/sQznmK0BMCgzHYLPkWBgc6x+aZQQren5HV4x5AJkm7AoB+ipgLJ9
-   A==;
-X-CSE-ConnectionGUID: P/P3v17xSv2dqXARPXUmEw==
-X-CSE-MsgGUID: 9RQcGbsIQqO5AF7VXPYe1w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40050082"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40050082"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 10:27:57 -0700
-X-CSE-ConnectionGUID: NT7L72YLRP+16Agv+noTqg==
-X-CSE-MsgGUID: 97HsEpwpTbmV4+epi9THtA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,218,1725346800"; 
-   d="scan'208";a="102629950"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Oct 2024 10:27:55 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t2Zib-000QXB-1f;
-	Sun, 20 Oct 2024 17:27:53 +0000
-Date: Mon, 21 Oct 2024 01:27:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS WITH WARNING
- 00850d7b542aa4a8240cf977d43dc6d2158e48d7
-Message-ID: <202410210130.mJLALjXu-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1729448841; c=relaxed/simple;
+	bh=Ww13dvSbpLS1CRSU7TPVVRBFuyPAJT0QbJBdP+1IZ8s=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=GI08/75RnWCRFI0VWMhwoQV6UQxPJmxv/ClTAcvYkQtsgJtDO3vn7oay/nM6uaEAeHyHiMLRoZm4TDcosOCfJLGbInaXxO6GLXPLEj8TjwHzbjQdl7XI6ot1Imfij7/vn0JiqZ6eho0QvuWcb/2RPWxf6Xt59+lOIi8VUVU3mao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nlUuEk/E; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43155afca99so26689135e9.1;
+        Sun, 20 Oct 2024 11:27:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729448837; x=1730053637; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oC94XqAfObW7gsifgeU8sWbkg+sAsaXMzC798gctVto=;
+        b=nlUuEk/E2BZpWIweYVTE6zKPeXpDSzX+jrx9ZK2CdKkQ/fsBhfQaoSHExtsbv0RLv4
+         GLoH/GuDFPDAkY1/OOU6eZfrh0vwrw0d6OkX75eWR+PRjm9yVYeJR739HGT1EP7hGrWK
+         KuZQJNqOaF1h690M94howEKVhgX2tJLnFBiVvuRRLEKeHz3/wRPBReySNyNSzA9MqcjX
+         CUcEq2XouBTMQXHpauLtkpZGoDaQ63vXJZQp8xZAQA4K8tDj58W84H34LvEmDWyQ/5Jq
+         uo1jWrx7wcDYuBWeu4+us9Z+MtGeyAMu0Ephx/QeFXpvKD+378WMwE6zXeYmhSlQH5I+
+         5fBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729448837; x=1730053637;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oC94XqAfObW7gsifgeU8sWbkg+sAsaXMzC798gctVto=;
+        b=oZFfy306b06GrAd29DExVlxbt5P5niTvmCgvxSBGzqNTgagTCCp3z8kCyM8SsM9XHn
+         KrWWiM3mFPQr55czxjBaESY7nBwe5A70uGzRed1UOxUkaAZBc7J0gTfCPHF//eTC0c3p
+         NJAVTawl9F/qkgYu/gUzfZhgC6eOZoLRA8jy1JkVh0dSBbJi9KqVQ0PBFlSFJvBhkOcj
+         BQZ+uOXkaU/Vl0JrjuUsDCY9LZsfLt9ArpYVX3kejw5GglsKl2K5WBor0O0fWocbY8gd
+         WS9onFDMsbzZ162yJUR4cVAFz1qbPYKet3VLyj8GnXHs4jErAOxglwuSqTUwZhV592y9
+         U32g==
+X-Forwarded-Encrypted: i=1; AJvYcCX7iX53G2yMa1kEEzz0//Bk+e3wRzGTVT0s1Y6n+9yGTfzPsl2TaRodAoHg0ZfT3j0rg4VqybABlBqX7uA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaYQ4QR8RFUEEX++UJhT/rhqeQPOpLNT8dkRztfc8b3M6GTg6V
+	DzMN6kwjoCYoEUvOLyGtS/kkUFTvVHVj9HWOjiS2RNDu379AlHkN
+X-Google-Smtp-Source: AGHT+IEM3cXnu7Szl4hCwHLN8wVFsmNZ4NIEh7q1lVGN/TNryiPhzRMZ+nRPrTxss73+eZIvE3gk5w==
+X-Received: by 2002:a05:600c:1d27:b0:431:44aa:ee2c with SMTP id 5b1f17b1804b1-4316163bb0bmr55994265e9.9.1729448837337;
+        Sun, 20 Oct 2024 11:27:17 -0700 (PDT)
+Received: from [127.0.1.1] (2a02-8389-41cf-e200-6b9f-98af-2a5c-6ed2.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:6b9f:98af:2a5c:6ed2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f58af90sm31023845e9.21.2024.10.20.11.27.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Oct 2024 11:27:16 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Date: Sun, 20 Oct 2024 20:27:13 +0200
+Subject: [PATCH v2] Input: sparcspkr - use cleanup facility for device_node
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241020-input_automate_of_node_put-v2-1-ddec58b4b99e@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAIBLFWcC/33NSw6DIBSF4a2YOy4N0Ee0o+6jMQTxojepYABNG
+ 8PeS03HHf5n8J0NIgbCCLdqg4ArRfKuhDxUYEbtBmTUlwbJ5Vlw3jBy85KUXpKfdELlrXK+R1V
+ GJjqNjb0YLvsGCjAHtPTa8UdbeqSYfHjvX6v4rj9W8H/sKhhn2JmrFKfadra+D5Om59H4Cdqc8
+ wc8IiUWxAAAAA==
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Hans de Goede <hdegoede@redhat.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1729448835; l=1854;
+ i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
+ bh=Ww13dvSbpLS1CRSU7TPVVRBFuyPAJT0QbJBdP+1IZ8s=;
+ b=4JJ/8rNbRS5CDLSsjceGOzrXN95Je/MHjDmrnycsm3LBmxcv6W1rD4Kud8D3RuxIWD1xGrIml
+ i4ByO0r4793Bt9BGAEzqktKDKifH7g0va6oGud7Buk3Csn5Wl2gpBxs
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 00850d7b542aa4a8240cf977d43dc6d2158e48d7  Input: ts4800-ts - use cleanup facility for device_node
+Use the 'free(device_node)' macro to simplify the code by automatically
+freeing the device node, which removes the need for explicit calls to
+'of_node_put()'.
 
-Warning (recently discovered and may have been fixed):
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+---
+Changes in v2:
+- rebase onto input/next, drop applied patches.
+- sparcspkr: drop goto before node declaration and return -ENOMEM.
+- Link to v1: https://lore.kernel.org/r/20241010-input_automate_of_node_put-v1-0-ebc62138fbf8@gmail.com
+---
+ drivers/input/misc/sparcspkr.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-    https://lore.kernel.org/oe-kbuild-all/202410201730.ItNhUTIv-lkp@intel.com
-    https://lore.kernel.org/oe-kbuild/202410201759.qnyACw46-lkp@intel.com
+diff --git a/drivers/input/misc/sparcspkr.c b/drivers/input/misc/sparcspkr.c
+index ff7b6291894a..66ddea9a203a 100644
+--- a/drivers/input/misc/sparcspkr.c
++++ b/drivers/input/misc/sparcspkr.c
+@@ -182,25 +182,23 @@ static int bbc_beep_probe(struct platform_device *op)
+ {
+ 	struct sparcspkr_state *state;
+ 	struct bbc_beep_info *info;
+-	struct device_node *dp;
+-	int err = -ENOMEM;
++	int err;
+ 
+ 	state = kzalloc(sizeof(*state), GFP_KERNEL);
+ 	if (!state)
+-		goto out_err;
++		return -ENOMEM;
+ 
+ 	state->name = "Sparc BBC Speaker";
+ 	state->event = bbc_spkr_event;
+ 	spin_lock_init(&state->lock);
+ 
+-	dp = of_find_node_by_path("/");
+ 	err = -ENODEV;
++	struct device_node *dp __free(device_node) = of_find_node_by_path("/");
+ 	if (!dp)
+ 		goto out_free;
+ 
+ 	info = &state->u.bbc;
+ 	info->clock_freq = of_getintprop_default(dp, "clock-frequency", 0);
+-	of_node_put(dp);
+ 	if (!info->clock_freq)
+ 		goto out_free;
+ 
+@@ -221,7 +219,6 @@ static int bbc_beep_probe(struct platform_device *op)
+ 
+ out_free:
+ 	kfree(state);
+-out_err:
+ 	return err;
+ }
+ 
 
-    drivers/input/serio/serio_raw.c:204:12: warning: variable 'written' is uninitialized when used here [-Wuninitialized]
+---
+base-commit: 00850d7b542aa4a8240cf977d43dc6d2158e48d7
+change-id: 20241009-input_automate_of_node_put-1bae9f5c02d9
 
-Unverified Warning (likely false positive, kindly check if interested):
+Best regards,
+-- 
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-    drivers/input/serio/serio_raw.c:204 serio_raw_write() error: uninitialized symbol 'written'.
-
-Warning ids grouped by kconfigs:
-
-recent_errors
-|-- alpha-randconfig-r072-20241020
-|   `-- drivers-input-serio-serio_raw.c-serio_raw_write()-error:uninitialized-symbol-written-.
-|-- arm64-allmodconfig
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- arm64-randconfig-001-20241020
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- hexagon-allmodconfig
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- hexagon-allyesconfig
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- hexagon-randconfig-r061-20241020
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- i386-buildonly-randconfig-002-20241019
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- i386-buildonly-randconfig-002-20241020
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- i386-buildonly-randconfig-004-20241020
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- i386-randconfig-002-20241020
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- i386-randconfig-012-20241020
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- i386-randconfig-141-20241020
-|   `-- drivers-input-serio-serio_raw.c-serio_raw_write()-error:uninitialized-symbol-written-.
-|-- powerpc-allyesconfig
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- riscv-allmodconfig
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- riscv-allyesconfig
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- s390-allmodconfig
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- sparc64-randconfig-r073-20241020
-|   `-- drivers-input-serio-serio_raw.c-serio_raw_write()-error:uninitialized-symbol-written-.
-|-- um-allmodconfig
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- x86_64-allyesconfig
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- x86_64-buildonly-randconfig-001-20241020
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- x86_64-buildonly-randconfig-001-20241021
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- x86_64-buildonly-randconfig-002-20241021
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- x86_64-buildonly-randconfig-004-20241020
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- x86_64-buildonly-randconfig-005-20241020
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- x86_64-buildonly-randconfig-006-20241020
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- x86_64-randconfig-001-20241020
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- x86_64-randconfig-101-20241020
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- x86_64-randconfig-102-20241020
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- x86_64-randconfig-103-20241020
-|   `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-|-- x86_64-randconfig-161-20241020
-|   `-- drivers-input-serio-serio_raw.c-serio_raw_write()-error:uninitialized-symbol-written-.
-`-- x86_64-rhel-8.3-rust
-    `-- drivers-input-serio-serio_raw.c:warning:variable-written-is-uninitialized-when-used-here
-
-elapsed time: 746m
-
-configs tested: 112
-configs skipped: 3
-
-tested configs:
-alpha                            alldefconfig    clang-20
-alpha                             allnoconfig    gcc-14.1.0
-alpha                            allyesconfig    clang-20
-alpha                               defconfig    gcc-14.1.0
-arc                              allmodconfig    clang-20
-arc                               allnoconfig    gcc-14.1.0
-arc                              allyesconfig    clang-20
-arc                                 defconfig    gcc-14.1.0
-arc                        nsimosci_defconfig    clang-20
-arm                              allmodconfig    clang-20
-arm                               allnoconfig    gcc-14.1.0
-arm                              allyesconfig    clang-20
-arm                                 defconfig    gcc-14.1.0
-arm                          moxart_defconfig    clang-20
-arm                        neponset_defconfig    clang-20
-arm                         nhk8815_defconfig    clang-20
-arm                        spear6xx_defconfig    clang-20
-arm64                            allmodconfig    clang-20
-arm64                             allnoconfig    gcc-14.1.0
-arm64                               defconfig    gcc-14.1.0
-csky                              allnoconfig    gcc-14.1.0
-csky                                defconfig    gcc-14.1.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    gcc-14.1.0
-hexagon                          allyesconfig    clang-20
-hexagon                             defconfig    gcc-14.1.0
-i386                             allmodconfig    clang-18
-i386                              allnoconfig    clang-18
-i386                             allyesconfig    clang-18
-i386        buildonly-randconfig-001-20241020    gcc-12
-i386        buildonly-randconfig-002-20241020    gcc-12
-i386        buildonly-randconfig-003-20241020    gcc-12
-i386        buildonly-randconfig-004-20241020    gcc-12
-i386        buildonly-randconfig-005-20241020    gcc-12
-i386        buildonly-randconfig-006-20241020    gcc-12
-i386                                defconfig    clang-18
-i386                  randconfig-001-20241020    gcc-12
-i386                  randconfig-002-20241020    gcc-12
-i386                  randconfig-003-20241020    gcc-12
-i386                  randconfig-004-20241020    gcc-12
-i386                  randconfig-005-20241020    gcc-12
-i386                  randconfig-006-20241020    gcc-12
-i386                  randconfig-011-20241020    gcc-12
-i386                  randconfig-012-20241020    gcc-12
-i386                  randconfig-013-20241020    gcc-12
-i386                  randconfig-014-20241020    gcc-12
-i386                  randconfig-015-20241020    gcc-12
-i386                  randconfig-016-20241020    gcc-12
-loongarch                        allmodconfig    gcc-14.1.0
-loongarch                         allnoconfig    gcc-14.1.0
-loongarch                           defconfig    gcc-14.1.0
-m68k                             allmodconfig    gcc-14.1.0
-m68k                              allnoconfig    gcc-14.1.0
-m68k                             allyesconfig    gcc-14.1.0
-m68k                                defconfig    gcc-14.1.0
-m68k                           sun3_defconfig    clang-20
-microblaze                       allmodconfig    gcc-14.1.0
-microblaze                        allnoconfig    gcc-14.1.0
-microblaze                       allyesconfig    gcc-14.1.0
-microblaze                          defconfig    gcc-14.1.0
-mips                              allnoconfig    gcc-14.1.0
-mips                         bigsur_defconfig    clang-20
-mips                     loongson1b_defconfig    clang-20
-mips                          rb532_defconfig    clang-20
-nios2                             allnoconfig    gcc-14.1.0
-nios2                               defconfig    gcc-14.1.0
-openrisc                          allnoconfig    clang-20
-openrisc                         allyesconfig    gcc-14.1.0
-openrisc                            defconfig    gcc-12
-parisc                           allmodconfig    gcc-14.1.0
-parisc                            allnoconfig    clang-20
-parisc                           allyesconfig    gcc-14.1.0
-parisc                              defconfig    gcc-12
-parisc64                            defconfig    gcc-14.1.0
-powerpc                          allmodconfig    gcc-14.1.0
-powerpc                           allnoconfig    clang-20
-powerpc                          allyesconfig    gcc-14.1.0
-powerpc                     asp8347_defconfig    clang-20
-riscv                            allmodconfig    gcc-14.1.0
-riscv                             allnoconfig    clang-20
-riscv                            allyesconfig    gcc-14.1.0
-riscv                               defconfig    gcc-12
-s390                             allmodconfig    gcc-14.1.0
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.1.0
-s390                                defconfig    gcc-12
-sh                               allmodconfig    gcc-14.1.0
-sh                                allnoconfig    gcc-14.1.0
-sh                               allyesconfig    gcc-14.1.0
-sh                                  defconfig    gcc-12
-sh                          rsk7264_defconfig    clang-20
-sh                           se7712_defconfig    clang-20
-sparc                            allmodconfig    gcc-14.1.0
-sparc64                             defconfig    gcc-12
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-20
-um                               allyesconfig    clang-20
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-18
-x86_64                           allyesconfig    clang-18
-x86_64                              defconfig    clang-18
-x86_64                                  kexec    clang-18
-x86_64                                  kexec    gcc-12
-x86_64                               rhel-8.3    gcc-12
-x86_64                           rhel-8.3-bpf    clang-18
-x86_64                    rhel-8.3-kselftests    gcc-12
-x86_64                         rhel-8.3-kunit    clang-18
-x86_64                           rhel-8.3-ltp    clang-18
-x86_64                          rhel-8.3-rust    clang-18
-xtensa                            allnoconfig    gcc-14.1.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
