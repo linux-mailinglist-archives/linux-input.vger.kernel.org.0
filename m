@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-7567-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7568-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858EA9A5264
-	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2024 06:20:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C1569A5267
+	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2024 06:20:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AB8001C211BA
-	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2024 04:20:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D88F282D1F
+	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2024 04:20:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CB93B666;
-	Sun, 20 Oct 2024 04:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A7766FB0;
+	Sun, 20 Oct 2024 04:20:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z4yhR0NJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="djgnRDCx"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E731FC0A;
-	Sun, 20 Oct 2024 04:20:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724CB11187;
+	Sun, 20 Oct 2024 04:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729398017; cv=none; b=ek9fSvus6QyFOVaqab7OmuS3cx3S3D92QbyqCnvnoN6tcLNBXEX53pqr0iYllq7PyTbos2stO5uFcJXeh8Sd6zbNfdj0PVKeBDrx7nKRCPMA8E93dnX2RqKOXfVc4grUTVE4pIi1yo0zVWI9/HCTNkXmmAHwOqx5KJY78SBH9sg=
+	t=1729398027; cv=none; b=hxXTVSYqSysVKG5clxY83EbQOPBeo/G0y1y8JRby+1+J1NbPob4FS8+xde5DMvaOFHCD8rhv46AJ9l7tkBVIHUVRQbVFuw1gs0SDlyyqPS09xPxPBiyb7SgUGh0uTxkgTBq/METGwycMMu3aC+y0O5u2V5aszVv1l6fFSBN6UoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729398017; c=relaxed/simple;
-	bh=ucoKzAfhP4N1DBoA72ymTI/rTVDTjLWtsVOIvJWbPsI=;
+	s=arc-20240116; t=1729398027; c=relaxed/simple;
+	bh=LNHACedYQbx0cjfOb2FnneuefkB12VYRlcpJPj8EcVc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XMoryxJjvvlQ4gBrgfF8bOMQcak9ZkyZ5P3aYhnJau40dvGCmLtHj1/6c+bdxDS/YSphKX0aEEpEvPU6TZgoqGouN700QIN/+kz6CAFWevWuO3L5W/OTsL4b9qqmPBnPOjgLUO2cDNnu8UYwWLv1DrRsXr5WcOuaJrhh4WhOEnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z4yhR0NJ; arc=none smtp.client-ip=209.85.214.177
+	 Content-Type:Content-Disposition:In-Reply-To; b=H2elpwCeuWGuqpNiKkcp2xuq+nTuGxwuEM3iO7XIOl/D+LlAJxaF961J3XoHfL1aZ9yL89D0SOgZZRmloCpWBPN9HrKXatVa5nnl6O+dq3P/8PmR5NmTMoVLhRWpfQPec3tvVfKaAtGfbtWnGV2HVD2+xRrNd8Q6dLRdqokeD8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=djgnRDCx; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20cd76c513cso29377625ad.3;
-        Sat, 19 Oct 2024 21:20:14 -0700 (PDT)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2e2eb9dde40so2784929a91.0;
+        Sat, 19 Oct 2024 21:20:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729398013; x=1730002813; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1729398025; x=1730002825; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tptjKfYEQQF+U0/Q+FaHDkTW1qtsrHC+9O21DSZ+nB4=;
-        b=Z4yhR0NJjNanVbll735lp6QbtbMwtg0VT4+I9JwiF0Z8L9ssDUesTp86EZfXjFLRLS
-         hmC09C6ue389GyeUJBrP++0vAQeU5wIh1IpynpQ04wyYd7tspBm6GpaMCY2CzkVv0GZj
-         OpQYLUIPe1U76coH4ZW+LOhRxJegF3cHngXRIP+FoTGeyPGF+qsYiZn+YwhBdPKJL6lG
-         XhqMh4K4NZCk4MBFFuzir/rNVvCaLG87XUORLT9LF3MQIqodPXb/viONJlAsSZ/nT5MG
-         4N97zf2jU2a1EM2mcbkb/i82WNlxCdTAWtQLw5wX5qF+gtTm5gbALr4j61WzDMQmx9q+
-         9VdQ==
+        bh=rPX042dJwNsDd6EwKBGzToksDykTZ4Q22JDteLvPDCA=;
+        b=djgnRDCx1CSaSNGhCX8jgDmBNh/Lx58TkJFayZYbAic7QzptarBtvnop3YnDA2+BLw
+         77clRFJeWlW1/8dL8BkFg6yxaopsRPhMxsZDJc/UHtOb+lmCcGKpVDvkC6ZGO1W1dF5I
+         NHaHCkU88ReIX6lg+m+9AJgeGYwSFFQh/DNmtCivyYbbzinDlvOPSEfPf4fmUhwCqrlG
+         f2v/Uq5lTVvQWt+pO/td619t2ObJ2AR5Cp3IHbs9Len6CXPom5WFIk43SRh4AXs/iEDi
+         OmqJu60ZymjnoCJSI2skrV3x1owgA8wU8e2AMKg/yRwUFB/XVNT6fIHgPoyR5i6/c5x9
+         VT7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729398013; x=1730002813;
+        d=1e100.net; s=20230601; t=1729398025; x=1730002825;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tptjKfYEQQF+U0/Q+FaHDkTW1qtsrHC+9O21DSZ+nB4=;
-        b=EaAnmD1RSYQgMybEgMGFPdedjGEoXIjqqiChu+XX3yKtOUiGYKdWtdLAPLmsDN+zyS
-         3GOiDSmSDnX/RH5qbZL7AIz3u5dch/9dw5YjbopVAemFCdXO5DdH+Hu5rTJSFE78mTnR
-         dKGr1J6sZeb9Gr3GEYs7zjo14L5h7AbsIJA4nhtG45K+2IYWdrRmRBHE7/mEQvAlkHo4
-         Iz7Tg9cQgHL3SFJ4SYhQ0+mW1Xa3yJZ8gBEqL22oRda7PvkOfPdbgiSC/TOx6cItZ+m9
-         pThcRvft9idxTxTZbYl0trn0mQ9237lBhXQFyUxVESaHPyFNXaZwKztYQ0I+odnoymS9
-         a30w==
-X-Forwarded-Encrypted: i=1; AJvYcCW0BxExHkNyWXraSrf/rfeFxfefVBkinD19YLE0nkZUVcKYSIsP8divq/YMP7LKgGk8K+aBRCwBaem+3A==@vger.kernel.org, AJvYcCWttrj8N+cVao+gPnao98AWqMdxdkNZfAXfGMRvsaB4DNE6AnX2c3ggkLI1VOGRiQos9S+pNWzD0rmTWWjt@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhiPEihIE2Tc9jEejyay2jQxSGiP4kusYJ6TZ1WzKR7Eund9Ya
-	vap9RDk/TBFEh/1gzD5MCm44i+0BlnfavU4H7DBnuEcNQeHPkMeX
-X-Google-Smtp-Source: AGHT+IH4soPnB60xIfxMOaiMsildnpr5Xj1NAwq8oNtm2eFEI+8djQ/DtBOvtVOIoBtzygMoxkZyLg==
-X-Received: by 2002:a17:903:22d1:b0:20c:5cdd:a91 with SMTP id d9443c01a7336-20e5a9338b3mr105516805ad.41.1729398013446;
-        Sat, 19 Oct 2024 21:20:13 -0700 (PDT)
+        bh=rPX042dJwNsDd6EwKBGzToksDykTZ4Q22JDteLvPDCA=;
+        b=BiSCRIsDaJsJOssPmTYJXAqX/4LV7KU3lTpdKuTS/QhRAAbejvo7qkuBxFL7AH4ork
+         9gesTwQeq8dgXVXQOvEfXUaSGwXYyx2ise6GSPm7iWj+L8zx+R4EuVKI858cMIc17A90
+         y/56kkOKYrDdytg/f2qfCKDXAX8WxB28ocEc9wW7UilwEfKsL+27/DrsJ3eZLoesI8t2
+         R/ukdqIFVixERuBzitMeosujFJ5o5KwCebRqVupIZ/WL+r7okfFPjqZVQq6a/I541skM
+         UNADFekNx4S3hIveaVXVK/Z2Weq7Nlyz0aq+Z9i4eCb/ASCa7yln2BoFpBC97rRSNdZ1
+         pB1w==
+X-Forwarded-Encrypted: i=1; AJvYcCWi85j5Jpap3p/nPuZj2Uc2Jv+fnXbr978UXMNh7mk3KgbuUNm+OHBtF6HieUfx2eCjouMRum/DJuonXg==@vger.kernel.org, AJvYcCXSb2+8OZZFFpC7Fwv/vT1jTj3bGyRY3MXjDsSBlaIHem023bgOciaYox30ZWhBxpNjdJEi49cSWYFCNkkc@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkOBTOvbFd849fUpzVAlxMpJh5hOhwr2e12ixng6M6JBZpIgNF
+	7WyfwopI9mHBpsfJe0Rv28WFnNZSIgy2MhFjuypQyDaczTlTX5Lv
+X-Google-Smtp-Source: AGHT+IHA6YFEqEtg61PXYGVgACwL+Cintoefuk4OglOjvjRf+3hwgSbRVFqdWX6TDCZbDfVBCqjZbw==
+X-Received: by 2002:a17:90b:4b03:b0:2dd:6969:2096 with SMTP id 98e67ed59e1d1-2e561a230ddmr8389123a91.38.1729398024690;
+        Sat, 19 Oct 2024 21:20:24 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:2ce:a853:5ea4:fdb6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7eee3c88sm4452675ad.43.2024.10.19.21.20.12
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e5ad4ee3b0sm644120a91.42.2024.10.19.21.20.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Oct 2024 21:20:13 -0700 (PDT)
-Date: Sat, 19 Oct 2024 21:20:10 -0700
+        Sat, 19 Oct 2024 21:20:24 -0700 (PDT)
+Date: Sat, 19 Oct 2024 21:20:21 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 Cc: Matthias Brugger <matthias.bgg@gmail.com>,
@@ -80,11 +80,11 @@ Cc: Matthias Brugger <matthias.bgg@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-rpi-kernel@lists.infradead.org
-Subject: Re: [PATCH 09/10] Input: raspberrypi-ts - use cleanup facility for
+Subject: Re: [PATCH 10/10] Input: ts4800-ts - use cleanup facility for
  device_node
-Message-ID: <ZxSE-iBTWc2ZRfik@google.com>
+Message-ID: <ZxSFBbo5sO3w_9sl@google.com>
 References: <20241010-input_automate_of_node_put-v1-0-ebc62138fbf8@gmail.com>
- <20241010-input_automate_of_node_put-v1-9-ebc62138fbf8@gmail.com>
+ <20241010-input_automate_of_node_put-v1-10-ebc62138fbf8@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -93,9 +93,9 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241010-input_automate_of_node_put-v1-9-ebc62138fbf8@gmail.com>
+In-Reply-To: <20241010-input_automate_of_node_put-v1-10-ebc62138fbf8@gmail.com>
 
-On Thu, Oct 10, 2024 at 11:25:59PM +0200, Javier Carrasco wrote:
+On Thu, Oct 10, 2024 at 11:26:00PM +0200, Javier Carrasco wrote:
 > Use the '__free(device_node)' macro to automatically free the device
 > node, removing the need for explicit calls to 'of_node_put()' to
 > decrement its refcount.
