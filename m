@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-7558-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7559-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8DC9A512E
-	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2024 00:06:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C009A51C0
+	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2024 02:15:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8A63C283FCB
-	for <lists+linux-input@lfdr.de>; Sat, 19 Oct 2024 22:06:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88DA9283814
+	for <lists+linux-input@lfdr.de>; Sun, 20 Oct 2024 00:15:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AD3E13C816;
-	Sat, 19 Oct 2024 22:06:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4805F3232;
+	Sun, 20 Oct 2024 00:15:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fNL9w7vt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V242XX0f"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48DFE190685
-	for <linux-input@vger.kernel.org>; Sat, 19 Oct 2024 22:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703331FA4
+	for <linux-input@vger.kernel.org>; Sun, 20 Oct 2024 00:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729375566; cv=none; b=PdKFxtNXQ/Uf4iNNSjejojj1nEliX4MmI9OzeNxdO+hA7mBiLCb0a297RBNSTCiaVSessAG3R0F4sNef6M225uyvxwuwsJBhk6zUz4chPeBrhEanNehk1dEm6y/qxMjOSxj+SuGlV8TJA3JP49bVlx/xsqa2vdq1qvEYbgkI4Ms=
+	t=1729383311; cv=none; b=HS6wS0LGfGF2CAOJxGTilrw91NJFiH4fNtgy9awucY5aXhs3/7zAzU5vUlf3smMkfPbPCHcC9pg9egiVHSCLWLWQmU/+Q21AlSNjpc+A3wSmRHWYuSrx7uSB3/am7ij8RoWrXk3NNdR4R16rIUaxKkESIcfFu4EmolU0G/t2ZhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729375566; c=relaxed/simple;
-	bh=zZwZkg/cp2iwoRHZBnlEWuWywpYAjDNAMYan51lRASQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sN0vj+0fB3m5Wh7kKAizo/zTXdU1x9v6PVl9crwmSUb5ZER+AEpmn8XPdtwR48ao5wZqvkrtfnrU/fFg4qPcwkbUXR00ji87z4xeN79i78OBMadDNK/lb4+N1OJsOChSipwtbXh+jo3yNb7IAJnEnk4yzoQ0Nw7WjyWPPwKFkGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fNL9w7vt; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1729383311; c=relaxed/simple;
+	bh=0Mq+hyEc+cCtNRbqI2yCacuEjgHUUNCPVQjr44YWwt4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PAiIxFIKNKQ6AIm5K9naKsRZZjmZfXaQgHrAOtTKjzgrFFdnG8yeB3HMCfbzX+rbDS1wyTGV4WtLTPmukwjgb7csdNwMDbfXDPhOAojASmzbpWfwHIvijSXEmHtVrfVSv2v/A/3I+TsOqrCfSh359F7HuGedGqBZbPqTQh6mtzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V242XX0f; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729375564; x=1760911564;
+  t=1729383308; x=1760919308;
   h=date:from:to:cc:subject:message-id;
-  bh=zZwZkg/cp2iwoRHZBnlEWuWywpYAjDNAMYan51lRASQ=;
-  b=fNL9w7vtUPjPur8KaMD0Gzl/K+Ekx9eXzN+JCo5pDjI9upOVpDuVxQ+c
-   7gYHgwZyn7Cfp/oo9FBaH4uPScAYXtfCjz3qDVsS+du0LxARWpB6yMPrj
-   odXvpKNVUbdYx3e5ruChh+LQmU5aHB8Mto6rw7ih8/IxgNgDU92jBjpQY
-   yu9tbLhAHiwNYilrOBWO0QdW5IzGN6VUCfiZkO8JDXSZqh7O/r6d1IW9p
-   8IPoJZgfDzifgqHjzhaJxheTuRwWZ+KZnuTf0jzwurC/Rjfeqv7u+w227
-   voeCd0BIHTrKx0e9NfWSFvK9W3sYLrQ5zg00pyr2HsPJVFCa3hSAYR1HE
-   A==;
-X-CSE-ConnectionGUID: 9LNc8zftTKm40YtEyXDpiQ==
-X-CSE-MsgGUID: WMWyT2MkTd+C1VYsdL+7fQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="40281480"
+  bh=0Mq+hyEc+cCtNRbqI2yCacuEjgHUUNCPVQjr44YWwt4=;
+  b=V242XX0fzGGxY3FGPpZ9kn4GXYj8HMV+kelIb09fA9b19zmabFWJmaOX
+   JSRKaq99A/bdvY2h6XwbcOwNbFj1j7bwRyqmaMZZqLwwWsfpKgWKO3QoI
+   N9bHx3YLzA49N9fF0VtBJWvvQ9y71iZdQtL442vx/3EGi+d3uRadNX5b2
+   BYmk43SdSSIPJJKnJbD4oIrKfRfTO4XrB3OjLsheTQAZdu/Lyh39JlxP4
+   oeGqA5Aj/D4UPUdI+vTPxP/4XiECxU7jCWiboiSX0vbWZiJ7177pilezT
+   7isfRPNY8WIUiRnMD56tnTc7RgvTxo8uSs/rynWsLrBK8lgjL1LMiqa/8
+   w==;
+X-CSE-ConnectionGUID: XvlMqzIEQ9WAZCRU3IIPjg==
+X-CSE-MsgGUID: 424f5GTpRGGtF0sjHbPJgA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="39513551"
 X-IronPort-AV: E=Sophos;i="6.11,217,1725346800"; 
-   d="scan'208";a="40281480"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 15:06:04 -0700
-X-CSE-ConnectionGUID: F388tskoQM2j37r78X+LyQ==
-X-CSE-MsgGUID: Szg77i1TTNO0shTCIeHeDA==
+   d="scan'208";a="39513551"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 17:15:08 -0700
+X-CSE-ConnectionGUID: fl41eIK/Q5ivNeVKqpM82Q==
+X-CSE-MsgGUID: GY0Cir71TiCEi3SaDy3MJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,217,1725346800"; 
-   d="scan'208";a="79579774"
+   d="scan'208";a="79523255"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 19 Oct 2024 15:06:03 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 19 Oct 2024 17:15:06 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2HaC-000Paj-1D;
-	Sat, 19 Oct 2024 22:06:00 +0000
-Date: Sun, 20 Oct 2024 06:05:02 +0800
+	id 1t2Jb6-000PhN-2g;
+	Sun, 20 Oct 2024 00:15:04 +0000
+Date: Sun, 20 Oct 2024 08:14:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD REGRESSION
- 2c19d0159944f3aef1c0ebbd9d7fc6c2523e4307
-Message-ID: <202410200653.2J3VXv80-lkp@intel.com>
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 2de01e0e57f3ebe7f90b08f6bca5ce0f3da3829f
+Message-ID: <202410200858.oxKdcRWF-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -74,192 +74,107 @@ List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 2c19d0159944f3aef1c0ebbd9d7fc6c2523e4307  Input: switch back to struct platform_driver::remove()
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 2de01e0e57f3ebe7f90b08f6bca5ce0f3da3829f  Input: zinitix - don't fail if linux,keycodes prop is absent
 
-Error/Warning (recently discovered and may have been fixed):
+elapsed time: 1470m
 
-    https://lore.kernel.org/oe-kbuild-all/202410192242.GL0CoAbv-lkp@intel.com
+configs tested: 89
+configs skipped: 6
 
-    drivers/input/serio/gscps2.c:201:23: warning: unused variable 'flags' [-Wunused-variable]
-    drivers/input/serio/gscps2.c:221:50: error: 'struct <anonymous>' has no member named 'ste'; did you mean 'str'?
-
-Error/Warning ids grouped by kconfigs:
-
-recent_errors
-|-- parisc-allmodconfig
-|   |-- drivers-input-serio-gscps2.c:error:struct-anonymous-has-no-member-named-ste
-|   `-- drivers-input-serio-gscps2.c:warning:unused-variable-flags
-|-- parisc-allyesconfig
-|   |-- drivers-input-serio-gscps2.c:error:struct-anonymous-has-no-member-named-ste
-|   `-- drivers-input-serio-gscps2.c:warning:unused-variable-flags
-|-- parisc-defconfig
-|   |-- drivers-input-serio-gscps2.c:error:struct-anonymous-has-no-member-named-ste
-|   `-- drivers-input-serio-gscps2.c:warning:unused-variable-flags
-|-- parisc-generic-32bit_defconfig
-|   |-- drivers-input-serio-gscps2.c:error:struct-anonymous-has-no-member-named-ste
-|   `-- drivers-input-serio-gscps2.c:warning:unused-variable-flags
-|-- parisc-randconfig-001-20241019
-|   |-- drivers-input-serio-gscps2.c:error:struct-anonymous-has-no-member-named-ste
-|   `-- drivers-input-serio-gscps2.c:warning:unused-variable-flags
-|-- parisc-randconfig-002-20241019
-|   |-- drivers-input-serio-gscps2.c:error:struct-anonymous-has-no-member-named-ste
-|   `-- drivers-input-serio-gscps2.c:warning:unused-variable-flags
-|-- parisc-randconfig-r054-20241019
-|   |-- drivers-input-serio-gscps2.c:error:struct-anonymous-has-no-member-named-ste
-|   `-- drivers-input-serio-gscps2.c:warning:unused-variable-flags
-|-- parisc-randconfig-r112-20241019
-|   |-- drivers-input-serio-gscps2.c:error:struct-anonymous-has-no-member-named-ste
-|   `-- drivers-input-serio-gscps2.c:warning:unused-variable-flags
-`-- parisc64-defconfig
-    |-- drivers-input-serio-gscps2.c:error:struct-anonymous-has-no-member-named-ste
-    `-- drivers-input-serio-gscps2.c:warning:unused-variable-flags
-
-elapsed time: 1484m
-
-configs tested: 139
-configs skipped: 5
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
 tested configs:
-alpha                             allnoconfig    gcc-14.1.0
-alpha                            allyesconfig    clang-20
-alpha                               defconfig    gcc-14.1.0
-arc                              allmodconfig    clang-20
-arc                               allnoconfig    gcc-14.1.0
-arc                              allyesconfig    clang-20
-arc                                 defconfig    gcc-14.1.0
-arc                   randconfig-001-20241019    clang-16
-arc                   randconfig-002-20241019    clang-16
-arc                        vdk_hs38_defconfig    clang-20
-arm                              allmodconfig    clang-20
-arm                               allnoconfig    gcc-14.1.0
-arm                              allyesconfig    clang-20
-arm                                 defconfig    gcc-14.1.0
-arm                         nhk8815_defconfig    clang-20
-arm                       omap2plus_defconfig    clang-20
-arm                   randconfig-001-20241019    clang-16
-arm                   randconfig-002-20241019    clang-16
-arm                   randconfig-003-20241019    clang-16
-arm                   randconfig-004-20241019    clang-16
-arm64                            allmodconfig    clang-20
-arm64                             allnoconfig    gcc-14.1.0
-arm64                               defconfig    gcc-14.1.0
-arm64                 randconfig-001-20241019    clang-16
-arm64                 randconfig-002-20241019    clang-16
-arm64                 randconfig-003-20241019    clang-16
-arm64                 randconfig-004-20241019    clang-16
-csky                              allnoconfig    gcc-14.1.0
-csky                                defconfig    gcc-14.1.0
-csky                  randconfig-001-20241019    clang-16
-csky                  randconfig-002-20241019    clang-16
-hexagon                          alldefconfig    clang-20
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    gcc-14.1.0
-hexagon                          allyesconfig    clang-20
-hexagon                             defconfig    gcc-14.1.0
-hexagon               randconfig-001-20241019    clang-16
-hexagon               randconfig-002-20241019    clang-16
-i386                             allmodconfig    clang-18
-i386                              allnoconfig    clang-18
-i386                             allyesconfig    clang-18
-i386        buildonly-randconfig-001-20241019    clang-18
-i386        buildonly-randconfig-002-20241019    clang-18
-i386        buildonly-randconfig-003-20241019    clang-18
-i386        buildonly-randconfig-004-20241019    clang-18
-i386        buildonly-randconfig-005-20241019    clang-18
-i386        buildonly-randconfig-006-20241019    clang-18
-i386                                defconfig    clang-18
-i386                  randconfig-001-20241019    clang-18
-i386                  randconfig-002-20241019    clang-18
-i386                  randconfig-003-20241019    clang-18
-i386                  randconfig-004-20241019    clang-18
-i386                  randconfig-005-20241019    clang-18
-i386                  randconfig-006-20241019    clang-18
-i386                  randconfig-011-20241019    clang-18
-i386                  randconfig-012-20241019    clang-18
-i386                  randconfig-013-20241019    clang-18
-i386                  randconfig-014-20241019    clang-18
-i386                  randconfig-015-20241019    clang-18
-i386                  randconfig-016-20241019    clang-18
-loongarch                        allmodconfig    gcc-14.1.0
-loongarch                         allnoconfig    gcc-14.1.0
-loongarch                           defconfig    gcc-14.1.0
-loongarch             randconfig-001-20241019    clang-16
-loongarch             randconfig-002-20241019    clang-16
-m68k                             allmodconfig    gcc-14.1.0
-m68k                              allnoconfig    gcc-14.1.0
-m68k                             allyesconfig    gcc-14.1.0
-m68k                                defconfig    gcc-14.1.0
-m68k                        m5307c3_defconfig    clang-20
-m68k                          sun3x_defconfig    clang-20
-microblaze                       allmodconfig    gcc-14.1.0
-microblaze                        allnoconfig    gcc-14.1.0
-microblaze                       allyesconfig    gcc-14.1.0
-microblaze                          defconfig    gcc-14.1.0
-mips                              allnoconfig    gcc-14.1.0
-mips                          eyeq5_defconfig    clang-20
-mips                         rt305x_defconfig    clang-20
-nios2                             allnoconfig    gcc-14.1.0
-nios2                               defconfig    gcc-14.1.0
-nios2                 randconfig-001-20241019    clang-16
-nios2                 randconfig-002-20241019    clang-16
-openrisc                          allnoconfig    clang-20
-openrisc                            defconfig    gcc-12
-parisc                            allnoconfig    clang-20
-parisc                              defconfig    gcc-12
-parisc                generic-32bit_defconfig    clang-20
-parisc                randconfig-001-20241019    clang-16
-parisc                randconfig-002-20241019    clang-16
-parisc64                            defconfig    gcc-14.1.0
-powerpc                           allnoconfig    clang-20
-powerpc                   currituck_defconfig    clang-20
-powerpc                       holly_defconfig    clang-20
-powerpc                    mvme5100_defconfig    clang-20
-powerpc               randconfig-001-20241019    clang-16
-powerpc               randconfig-002-20241019    clang-16
-powerpc               randconfig-003-20241019    clang-16
-powerpc                     tqm8541_defconfig    clang-20
-powerpc64             randconfig-001-20241019    clang-16
-powerpc64             randconfig-002-20241019    clang-16
-powerpc64             randconfig-003-20241019    clang-16
-riscv                             allnoconfig    clang-20
-riscv                               defconfig    gcc-12
-riscv                 randconfig-001-20241019    clang-16
-riscv                 randconfig-002-20241019    clang-16
-s390                             allmodconfig    gcc-14.1.0
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.1.0
-s390                                defconfig    gcc-12
-s390                  randconfig-001-20241019    clang-16
-s390                  randconfig-002-20241019    clang-16
-sh                               allmodconfig    gcc-14.1.0
-sh                                allnoconfig    gcc-14.1.0
-sh                               allyesconfig    gcc-14.1.0
-sh                                  defconfig    gcc-12
-sh                    randconfig-001-20241019    clang-16
-sh                    randconfig-002-20241019    clang-16
-sh                      rts7751r2d1_defconfig    clang-20
-sparc                            allmodconfig    gcc-14.1.0
-sparc64                             defconfig    gcc-12
-sparc64               randconfig-001-20241019    clang-16
-sparc64               randconfig-002-20241019    clang-16
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-20
-um                               allyesconfig    clang-20
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20241019    clang-16
-um                    randconfig-002-20241019    clang-16
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-18
-x86_64                           allyesconfig    clang-18
-x86_64                              defconfig    clang-18
-x86_64                                  kexec    gcc-12
-x86_64                               rhel-8.3    gcc-12
-xtensa                            allnoconfig    gcc-14.1.0
-xtensa                  cadence_csp_defconfig    clang-20
-xtensa                randconfig-001-20241019    clang-16
-xtensa                randconfig-002-20241019    clang-16
+alpha                   allnoconfig    gcc-14.1.0
+alpha                  allyesconfig    clang-20
+alpha                     defconfig    gcc-14.1.0
+arc                    allmodconfig    clang-20
+arc                     allnoconfig    gcc-14.1.0
+arc                    allyesconfig    clang-20
+arc                       defconfig    gcc-14.1.0
+arm                    allmodconfig    clang-20
+arm                     allnoconfig    gcc-14.1.0
+arm                    allyesconfig    clang-20
+arm               at91_dt_defconfig    gcc-14.1.0
+arm                       defconfig    gcc-14.1.0
+arm                gemini_defconfig    gcc-14.1.0
+arm                 sama5_defconfig    gcc-14.1.0
+arm                 stm32_defconfig    gcc-14.1.0
+arm64                  allmodconfig    clang-20
+arm64                   allnoconfig    gcc-14.1.0
+arm64                     defconfig    gcc-14.1.0
+csky                    allnoconfig    gcc-14.1.0
+csky                      defconfig    gcc-14.1.0
+hexagon                allmodconfig    clang-20
+hexagon                 allnoconfig    gcc-14.1.0
+hexagon                allyesconfig    clang-20
+hexagon                   defconfig    gcc-14.1.0
+i386                   allmodconfig    clang-18
+i386                    allnoconfig    clang-18
+i386                   allyesconfig    clang-18
+i386                      defconfig    clang-18
+loongarch              allmodconfig    gcc-14.1.0
+loongarch               allnoconfig    gcc-14.1.0
+loongarch                 defconfig    gcc-14.1.0
+m68k                   allmodconfig    gcc-14.1.0
+m68k                    allnoconfig    gcc-14.1.0
+m68k                   allyesconfig    gcc-14.1.0
+m68k                      defconfig    gcc-14.1.0
+m68k                 sun3_defconfig    gcc-14.1.0
+microblaze             allmodconfig    gcc-14.1.0
+microblaze              allnoconfig    gcc-14.1.0
+microblaze             allyesconfig    gcc-14.1.0
+microblaze                defconfig    gcc-14.1.0
+mips                    allnoconfig    gcc-14.1.0
+mips                 ci20_defconfig    gcc-14.1.0
+mips                 mtx1_defconfig    gcc-14.1.0
+nios2               3c120_defconfig    gcc-14.1.0
+nios2                   allnoconfig    gcc-14.1.0
+nios2                     defconfig    gcc-14.1.0
+openrisc                allnoconfig    clang-20
+openrisc               allyesconfig    gcc-14.1.0
+openrisc                  defconfig    gcc-12
+parisc                 allmodconfig    gcc-14.1.0
+parisc                  allnoconfig    clang-20
+parisc                 allyesconfig    gcc-14.1.0
+parisc                    defconfig    gcc-12
+parisc      generic-32bit_defconfig    gcc-14.1.0
+parisc64                  defconfig    gcc-14.1.0
+powerpc                allmodconfig    gcc-14.1.0
+powerpc                 allnoconfig    clang-20
+powerpc                allyesconfig    gcc-14.1.0
+powerpc         bluestone_defconfig    gcc-14.1.0
+powerpc        mpc866_ads_defconfig    gcc-14.1.0
+powerpc           taishan_defconfig    gcc-14.1.0
+riscv                  allmodconfig    gcc-14.1.0
+riscv                   allnoconfig    clang-20
+riscv                  allyesconfig    gcc-14.1.0
+riscv                     defconfig    gcc-12
+s390                   allmodconfig    gcc-14.1.0
+s390                    allnoconfig    clang-20
+s390                   allyesconfig    gcc-14.1.0
+s390                      defconfig    gcc-12
+sh                     allmodconfig    gcc-14.1.0
+sh                      allnoconfig    gcc-14.1.0
+sh                     allyesconfig    gcc-14.1.0
+sh               apsh4a3a_defconfig    gcc-14.1.0
+sh                        defconfig    gcc-12
+sh              sh7785lcr_defconfig    gcc-14.1.0
+sparc                  allmodconfig    gcc-14.1.0
+sparc64                   defconfig    gcc-12
+um                     allmodconfig    clang-20
+um                      allnoconfig    clang-20
+um                     allyesconfig    clang-20
+um                        defconfig    gcc-12
+um                   i386_defconfig    gcc-12
+um                 x86_64_defconfig    gcc-12
+x86_64                  allnoconfig    clang-18
+x86_64                 allyesconfig    clang-18
+x86_64                    defconfig    clang-18
+x86_64                        kexec    gcc-12
+x86_64                     rhel-8.3    gcc-12
+xtensa                  allnoconfig    gcc-14.1.0
 
 --
 0-DAY CI Kernel Test Service
