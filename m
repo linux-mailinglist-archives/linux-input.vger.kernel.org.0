@@ -1,124 +1,112 @@
-Return-Path: <linux-input+bounces-7588-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7589-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97DD19A6C5D
-	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2024 16:40:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D9F49A6C66
+	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2024 16:41:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58F122828B0
-	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2024 14:40:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 533971F232CD
+	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2024 14:41:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAA6C1FA249;
-	Mon, 21 Oct 2024 14:40:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6E8D1F9A9A;
+	Mon, 21 Oct 2024 14:41:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RjcJR89Q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GXuBW79+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6D41FA245;
-	Mon, 21 Oct 2024 14:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978A41F6661;
+	Mon, 21 Oct 2024 14:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729521601; cv=none; b=HROehtWyhhGtg/Bx8mKnaw6RPwbRNMNx9cz5FxY0CwhbpDqdAN5mEniAE3AF06Mrb+QQsZt8IJICgcoh+Z3v0riLaRUEcndbryyT/9OBNK/F+sIV2ytswRGHhDEp2NwfkKkHo/Pv4pfPj7miomYycPuBK1vD2Gb4/Bq4e4ombqY=
+	t=1729521669; cv=none; b=TPJLOp9wiOXfBCWJAAzid8n07nwiHtLwKWeef6b+eVRDKfxNKEpiwjCibM96BpAIX9jV5cLysbW9JI1kabOX7jiPRXmx197maud+1se/uRJJuGHrOv32aghBUXnYLYpyi0RkA1i2TJFPl5JB/dfcdnXViK3qXu3lYoY4ZA6uuEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729521601; c=relaxed/simple;
-	bh=srAtMSjBSzwRyI4CrAwKM3mPjctYEK/k/pj45vbucFA=;
-	h=Date:From:Subject:To:Cc:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gy+y3AfsvpRCCbIVVWnQn708A6Ke7sPv6W8JsBx86q4XZ2SOHolxdfPKOOGi1fEBWhP/JjBeIjGiFCXnIjPJrViVA3Pb0pHi/kDwTsrkAytBLEvb+Xy3zzeDtigYAk3yzQoefMh4Ubp5hvI8nMn55bVuzK7ZCCBgmjMxi4bmaek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RjcJR89Q; arc=none smtp.client-ip=209.85.167.41
+	s=arc-20240116; t=1729521669; c=relaxed/simple;
+	bh=wEJWjkfmcIKHp4iFivlAhHssAMAlpxNOvJ38VUX1szw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=aJxSzTPlw5oAyiLtTMr1wd6n8A0iH5dkdcKHu/2lVwhXTQ+o3Bgw3M+0zsFFnAPWpyzPV3oIRZa1jh3HzwzwIlrXH/AH9KbZW3PpbuO8BIgLTVmRGXdKZxVVFOiIesMnoew8ptqKCDKpOmo/Rxl7Q8EanH59hRBiPvCt3OF3b/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GXuBW79+; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539e1543ab8so7600761e87.2;
-        Mon, 21 Oct 2024 07:39:59 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43161c0068bso31709165e9.1;
+        Mon, 21 Oct 2024 07:41:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729521597; x=1730126397; darn=vger.kernel.org;
-        h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jdnEF4MP3z9LmQ+YWnGEuDQLrVcu+Y+YkXjsN21Vacw=;
-        b=RjcJR89Qq25H/b8mLDVQfFr31mMLZoxjVRrjC8bD0lXhCZT6DIOGTQQfqUAd11JvWq
-         U2U3RWSM43DiZBkm8v3wCFG31HI/IR1JRbDc7lkIz6nYrfZ8OnMS/mz7sipUlPkF0nFx
-         7Qq3QSl2/dCOmSPbxqpwKp23PRUzN8w2QFiVbaIJ860CEcmVLmp2wpTVO+5wUWKGGXLu
-         FE+m5lSjqGnUrLASTbUBMXCSi6f9czAxczSHF+e0IW48HcCtz4nsb7fYzDSjjr9GbOV7
-         IF54utK/Z0rdDQ0dZtlQ4b85MjUCmvpq9rpBE357lVHjo2yB/zlBwg5ZjwAoRiE7629S
-         +CIg==
+        d=gmail.com; s=20230601; t=1729521666; x=1730126466; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uH4DYrdYY8L09XhmIMIGq2jeejoQelZaPPckG7Z0QvY=;
+        b=GXuBW79+4Gr935ZVMGhGM66/NGFeL0AMBNNZyt2zTnKlUU6Zz5SElUHIBQRJAGruLU
+         t9cwmCaW/Pe7DTPfMIz2HfXcrzlS+4gAQ/sP7lL6tBQHtiC/Xk1DCLVOZ/ZBZdvlIsyk
+         nxeI3NJ0bz/6FDi1YvdtxMZalCRZ+Nis+FQvxUgzsJeBAD39vZda07mY1gy3YaVd0cIF
+         G9iUMUrAjtzjs10GVqXEY/ttmLVua7sWhs8/sD22XXKJ6y95P0QfWnpoQOImZnK3+9qm
+         u5TWrV89emxdruCE8F5s1qm6lAs1xrAaKY6a+DChrkW/XndrFqDj2kkJXJHfcmyLibN4
+         UtmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729521597; x=1730126397;
-        h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jdnEF4MP3z9LmQ+YWnGEuDQLrVcu+Y+YkXjsN21Vacw=;
-        b=J9jMytF8QCbcdGe2Ve2wT+jRrtnCluZJ/+UepIZAuSskBi1QCxfS7Pg3G35UIvmdRy
-         qo6Qze5+xwv9/V5cFA9T22c1p3+unggxmA15kt8tuyWyPR65bQl9ho70GbKmCtBz7om7
-         3ygD57TcRJBhtAZHFDcacjsjoysyqMxqRnY1CaJq5gtQ2LJeewdSFy0aF6+FKPfksYNm
-         CWFqSgyjROxNRaR3zP+55+z2nTAv6p8gxy3wGn2PXAZciRei9HL7k7R3Daec3gQP+vzl
-         Gq4+u4WvA7Tsqdfrat9Csc4fqBfSXERmVVuEgjq6vGBvKmcjmwaCBZsbA/LBUP+fiR2p
-         ZfSA==
-X-Forwarded-Encrypted: i=1; AJvYcCVaIFVEwoYZoXXen0wght53QD2msBsv3xfV+ZX1xrovqrAXf3k8tBdv+rSqZxzTezXeYbbDUz4FyAuzu41C@vger.kernel.org, AJvYcCWdlqZgcCx9TR2mO7Aslu73MPD9qMjNmpu26PiI3qI9U6zvrARd7/a0M2lxnAdjF9DwDv/Aa/+zZKI=@vger.kernel.org, AJvYcCWp5po+8cowy9NcrBiV7pQZst9oEVrqbXTxBMDgB3EmkJIdg9ZsF+pD5wIpV9uNWeyen49BWlgGv8SMeD8=@vger.kernel.org, AJvYcCXT8OANiJRp8O8z7j3Ag1kdoqXOyafpr8E5aozNZitL3IFt6aCx+oJ43Y9oIVvkwEz7UwZHdZL3/jGi@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVciVV3QUp64WIv04fim4Nih7OVlHgLoRFmoMTw7UgeG1VEZLS
-	BEzvTPmvjllBt2SLPOnZZFnZKn8wsXJkoVUI6N5she/pOAW539gu
-X-Google-Smtp-Source: AGHT+IFL60DydO7Av+sfeNcrf7sWojkZTRh14YqR9IlCxxqK5nbQT1J0lusnZXVd2ELtK5zqE3wQSQ==
-X-Received: by 2002:a05:6512:e9a:b0:535:6951:9e1c with SMTP id 2adb3069b0e04-53a15444616mr8301354e87.15.1729521596991;
-        Mon, 21 Oct 2024 07:39:56 -0700 (PDT)
-Received: from [10.50.4.74] ([95.183.227.50])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a912f67e6sm209033166b.82.2024.10.21.07.39.54
+        d=1e100.net; s=20230601; t=1729521666; x=1730126466;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uH4DYrdYY8L09XhmIMIGq2jeejoQelZaPPckG7Z0QvY=;
+        b=beH14Y+nLgtIAnZ4OU0pWmgvTfPBilSUTPw3y9udK9UzbTIazkUqDDeMdwNrSDaXdK
+         8lX4aEK8hPyEZra91/5O92ptUe4AI5++EpKnvXHyZ2w0cqhv0quvrT+Z1lZz9cGxZyoV
+         dtR6PMKYLs5DEcG9B7jrSbF9gr108gcwkdbLoZZXiUTsdmpVcWpfKyqMTiBJhJxua74w
+         yYT0aYsUzaINCpn7WDvvxIsZJCB1ykpazemNcPDM3HXcEOqBjQ0a38Ky7AcWvuW4mY6p
+         iEIhZ9RvhECszoOwa8/wD2qQXNnpqQe5kUPn//OjFDli5iS1YAmz5ccjypmU4WIy/UBE
+         2gVA==
+X-Forwarded-Encrypted: i=1; AJvYcCUaX9f+rgLszwfNwOSks772unKHcTRHTZmFjjFcSihOFNq2QyYasuFAYOtbBx0i6vdWuBjLV1MUzpplUw==@vger.kernel.org, AJvYcCXcgl01oechym9XqRKMdgkCJMvqJs9btTI3D/K0kIj2HVRwzZS9LH1WbJHHTeP3vb0+ELmLtigZIFMxJYKE@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJz9GYT+3930+fvLX52aIWQzF6EoaP5aO/KVVnp3IohfMIZIbj
+	u10+wYhk+NMPCmK1TdVMiMc7SLWLSxkobVwfZ/C9MvVHYUoHEQlWQvtKzQ==
+X-Google-Smtp-Source: AGHT+IED1aGCt1yMsc3SxJEZZdr6y+3uXzAWdgpu65AhZbo4N+sbPYfiaV0ZPST7QuCCjvgI8LLCzQ==
+X-Received: by 2002:adf:f88d:0:b0:371:82ec:206f with SMTP id ffacd0b85a97d-37ea2174e92mr6426192f8f.16.1729521665691;
+        Mon, 21 Oct 2024 07:41:05 -0700 (PDT)
+Received: from localhost ([194.120.133.34])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b9bd6esm4483177f8f.104.2024.10.21.07.41.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 07:39:56 -0700 (PDT)
-Date: Mon, 21 Oct 2024 17:39:48 +0300
-From: Yassine Oudjana <yassine.oudjana@gmail.com>
-Subject: Re: [PATCH 4/6] mfd: mt6397: Add initial support for MT6328
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Sen Chu <sen.chu@mediatek.com>, Sean Wang
-	<sean.wang@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>, Lee Jones
-	<lee@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, jason-ch chen
-	<Jason-ch.Chen@mediatek.com>, Chen Zhong <chen.zhong@mediatek.com>, Flora Fu
-	<flora.fu@mediatek.com>, Alexandre Mergnat <amergnat@baylibre.com>,
-	Yassine Oudjana <y.oudjana@protonmail.com>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Message-Id: <CENPLS.CE17IF58CL3J@gmail.com>
-In-Reply-To: <9fbe6e8e-623a-4c8c-b6ea-c3aea8a5a56d@collabora.com>
-References: <20241018081050.23592-1-y.oudjana@protonmail.com>
-	<20241018081050.23592-5-y.oudjana@protonmail.com>
-	<9fbe6e8e-623a-4c8c-b6ea-c3aea8a5a56d@collabora.com>
-X-Mailer: geary/46.0
+        Mon, 21 Oct 2024 07:41:04 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] Input: serio_raw: Fix uninitialized variable 'written'
+Date: Mon, 21 Oct 2024 15:41:03 +0100
+Message-Id: <20241021144103.928386-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+The variable written is not initialized and subsequent increments of the
+variable are using an uninitialized value. Fix this by initializating it
+at the start of the function.
 
-On Mon, Oct 21 2024 at 15:24:54 +02:00:00, AngeloGioacchino Del Regno 
-<angelogioacchino.delregno@collabora.com> wrote:
-> Il 18/10/24 10:10, Yassine Oudjana ha scritto:
->> From: Yassine Oudjana <y.oudjana@protonmail.com>
->> 
->> The MT6328 PMIC is commonly used with the MT6735 SoC. Add initial
->> support for this PMIC.
->> 
->> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
-> 
-> You're sending this from another email... and you have to add or 
-> change the signoff
-> to the other email....
+Fixes: 5b53a9d40c4f ("Input: serio_raw - use guard notation for locks and other resources")
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/input/serio/serio_raw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I was using that email for a while to send patches but then I started 
-having issues with it so I switched to the current email. Since I 
-already had the old email in a few places in MAINTAINERS and I was 
-always signing off with it I kept doing so while sending with the new 
-email. I had this conversation with another maintainer when I first 
-switched and they suggested that I add the From tag with the same email 
-as the signoff, and I've been doing that ever since and it has been 
-fine.
-
-
+diff --git a/drivers/input/serio/serio_raw.c b/drivers/input/serio/serio_raw.c
+index e058fef07f57..4d6395088986 100644
+--- a/drivers/input/serio/serio_raw.c
++++ b/drivers/input/serio/serio_raw.c
+@@ -185,7 +185,7 @@ static ssize_t serio_raw_write(struct file *file, const char __user *buffer,
+ {
+ 	struct serio_raw_client *client = file->private_data;
+ 	struct serio_raw *serio_raw = client->serio_raw;
+-	int written;
++	int written = 0;
+ 	unsigned char c;
+ 
+ 	scoped_guard(mutex_intr, &serio_raw_mutex) {
+-- 
+2.39.5
 
 
