@@ -1,164 +1,137 @@
-Return-Path: <linux-input+bounces-7596-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7597-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999049A9127
-	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2024 22:27:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B94D09A912A
+	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2024 22:28:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B9DD51C22386
-	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2024 20:27:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7162C2833C2
+	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2024 20:28:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48BD71FCF5B;
-	Mon, 21 Oct 2024 20:27:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5708A1FCF53;
+	Mon, 21 Oct 2024 20:28:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="HBnoie6+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X2HoDqgB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1ACF1C8FDB;
-	Mon, 21 Oct 2024 20:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB141C8FDB;
+	Mon, 21 Oct 2024 20:28:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729542440; cv=none; b=mNBavwrokGaxgAoSVvXEg9eFKErf7Gd4cWEVOAlNJp3c5eQU+AMNF1B0bjyG5zYq7WKPGUs6i19WHAXrkFMHWyHEqHTUHaYDuMjkO0fM3wNATXpwBqVppw6BxtnUmNvpuxJxQPv8tm0DkgEVcG4a08/kxDhz9hl2ypIYfoh7cN4=
+	t=1729542510; cv=none; b=CHnqMA0ldpGWIF2rireSdFkXZlridY5EIfVztyHWmx5b3+NmACzSsvcBG1SxuZcDutr1OqMBrADuONMYV118eCNlYgX9FSCwiJQ1WZfoJeoYeR9Gnxha5JOAQY6zfnK5I6pzrXaUPBD+ni6/F2YHahnlak9gOPfHkv+7VPvseFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729542440; c=relaxed/simple;
-	bh=3g3ulzUEILj6Ab6SKjBWHtGnUwVU/KgosIKltudjBYA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SjZvV0b/rNh+AWjEpcA90arMcLEZxefOs3AD7PJLnP4o+uIKAPEcaX7gXy4FxG04/okvBuIJEccVNfR1N3QCsXoM0p/KkTsMInlNRCTnRnHL1uvPPgsqeOYLXb97B05nU9mppgDNr79nZqTUEmo5kIqjT7tnHtQpPi59QZIkKNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=HBnoie6+; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1729542416; x=1730147216; i=w_armin@gmx.de;
-	bh=e9QbNuLAuXgzKvnSaHT2dAq3xYZ/W2rd0vmM7cmicmQ=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=HBnoie6+Eni1+RAqebH7JvbR6KXTStsKsuLhcPhUNN/HBs5M4bMHPQ3O7Yy4f8aW
-	 2OyTuvfMadMULQBvI8s0b68cbFcL3um2IOhiSRpDA+7KeNJ/V44slXuQsTIltiLr5
-	 y9G+lHvF7TM1E+sADntfaz7vcFOsOCTFxpGR2Urh7j5OBOD6nX1WC/FlUadBFKAk9
-	 BJyZugpNBkj0nSHG/hikbExCkoa2dbfeWXuVF36W3HQZKyCB9GtBQPohuBuac7UuZ
-	 h8yqGTjU5ijpRIZClm89OJafN+Ze8hIlJcHc8Rr/5P0vT9r6VGhMAIAJAKlXruGcP
-	 bAH/TDavJlSK0KAHiQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MysRu-1tokLq117a-00w12Z; Mon, 21
- Oct 2024 22:26:56 +0200
-Message-ID: <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
-Date: Mon, 21 Oct 2024 22:26:54 +0200
+	s=arc-20240116; t=1729542510; c=relaxed/simple;
+	bh=1qMfZzt/NOP0BK2K2RoHBVzgF0yz/1K6FGAfAOL2CFA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CdSqLcja/1IthmJjaYh+VEbrRnM73bbkZZtCwboQfNt9zNcmbl/F67ZDxNNeWCnBmXSyqf5HmZRo7tT9UyzBPeXFxl1dficDR8fH3AOFGYysFitd0jOgsKbUuYNDjQbacwtYqxARE6iPZ0S6u+4U1ea24gy6YD/BGibUB3/lGwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X2HoDqgB; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-37d462c91a9so3547336f8f.2;
+        Mon, 21 Oct 2024 13:28:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729542507; x=1730147307; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=i5o7EeCdMvEzq7yRLdAkRH1iPr5pT3dVlwDWigc6fCw=;
+        b=X2HoDqgBVsFskozFdakGb6T9/cznngKWebN9x5mg1JpJLAvYDWapT9qdzwuQHXKoUS
+         cuoUnZpb7+Ld3v9uPhHMAjWvcIn5mJNBkEhHQj1UtfwYBzUu/IP+uc6Q37OtULm5j9XC
+         IGV7RotJvim5u97rg3s8mgUvokj5QhbkKKjkbXZG8TB6W11/karE9WkKawjj7J7KQNP1
+         meiZmP+NXxFgTFxSRmn/z9m708FJDNqGYylk+fkiBoi9gO5rOvZmkb8TzUMbylho4fhH
+         7+JFtgYXmKFUXMlLBqrM9LUih1T40InxuAmy6BUE3D5SjsIo7xxmuovqgVawxn4yyYYR
+         3Nuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729542507; x=1730147307;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=i5o7EeCdMvEzq7yRLdAkRH1iPr5pT3dVlwDWigc6fCw=;
+        b=k9/w0UOU2gwfdJH8jSBxFb07kHMtqDKQNDLUykXHGhoyc9C5iKsEcLO2PJLKZ7Bur8
+         0yR5hJ9MVCfAMuCMcgqENXEZJ3sEztwmi5nQysX5H6ZOAavoZ0TOX2JnqrApApU+/FyN
+         LtVQNEw/HpjAHfV3KPsIXqHl4DdgB5LZYkuwg9gbLkBAFtogevfiEM1molei/ixfRqI4
+         mGLc67EgEJJ8HBFdb+LMp5eBtwqBTvHQpes5YU2zQ31lr5PQtJ8GxR8kAeEPkLBYDDPZ
+         b/Yo5hX3QuXbYvpzlMdkG2p23N3LFzFj4B30xgtwu5lSGBY17lagkZDnVGrEvJlj1MMw
+         9YLw==
+X-Forwarded-Encrypted: i=1; AJvYcCUEGCqBdsts/DFzVW8myZqOWqog4huPVj1l/+ZtDSNuie5U+xtZIYRMIqNVrO3WlQboQDkj9sRoS2Z7NNc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YycnM+PVz6+O73/hjjxruvuF/0XmUALt8IXN+oILk+adncEt2MT
+	IjegebyXpW8dQCPiBprNMYdxnU+EeEscF2oT1py1b5kWDk53A4Ln
+X-Google-Smtp-Source: AGHT+IHrlU3klozvzeCVSF9Ythhy9wGpMdSW2YhVNiW7ShV97wNTQiTfKFg7ugD/+MD3/YZLWARfDg==
+X-Received: by 2002:a05:6000:dcb:b0:37d:46f4:35 with SMTP id ffacd0b85a97d-37ef0bf74b4mr689047f8f.45.1729542506871;
+        Mon, 21 Oct 2024 13:28:26 -0700 (PDT)
+Received: from [127.0.1.1] (2a02-8389-41cf-e200-023d-d91a-ee8e-da73.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:23d:d91a:ee8e:da73])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a5b98asm5093263f8f.61.2024.10.21.13.28.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2024 13:28:26 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Subject: [PATCH v3 0/2] input: automate of_node_put() calls for device_node
+Date: Mon, 21 Oct 2024 22:28:22 +0200
+Message-Id: <20241021-input_automate_of_node_put-v3-0-cc73f636e1bc@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-To: Pavel Machek <pavel@ucw.cz>
-Cc: Werner Sembach <wse@tuxedocomputers.com>,
- Benjamin Tissoires <bentiss@kernel.org>, Hans de Goede
- <hdegoede@redhat.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- jelle@vdwaa.nl, jikos@kernel.org, lee@kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
-References: <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
- <d7gk2mgihtg6242l3isnhw3xpdt745ehpu2kvim2xxgmxdhat7@g5cqei7uqujj>
- <39f84cfe-bb89-4194-81a9-e178c93e5309@tuxedocomputers.com>
- <sih5i2ausorlpiosifvj2vvlut4ok6bbgt6cympuxhdbjljjiw@gg2r5al552az>
- <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
- <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
- <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
- <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
- <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
- <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de> <ZwlDpCPhieF3tezX@duo.ucw.cz>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <ZwlDpCPhieF3tezX@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:3UMk7ZMRiG7KwkFqWRpMUf9HSa5Kej0YUjCRMm78uvohH0r57Db
- NagZcni7LAn/QyXuhwv5M3Mj7tDVTx0RNnEkYnM7QOeBRscIkVx4Y7n0AjicHLNAuRDYi45
- qrbUQd6FzewuS90QL4lsQBE7ApYx4+uzWisL9H8/gokYmwXheZ3PYed9n0raiMHbXj4S3aU
- q/QhfvfTgh9FFsvxOIvZA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:YkNcCmVhFIg=;TW3OJSZTcOHLE/RkcCQciQ7OVw9
- CFIxdo5Aoe6bYbK5ID+klKg7e5S6efm7oiCgvmUItL835L5FAD1ncJWdBVAEvwxnKYxA6aj6r
- hHfKJhwr02GhQ/XJ4HNOA+Bf+DD5Lvs8zZU6NYNEJXwNR99zA/QpcT0cLfM4luIWaHvvNhbL5
- Qj34WGp/1Ajq0SotkyOyfYu5X0KRSrkooA5ySIppPj6ghSmESgsml0ge1cf828seXOhWzgwfP
- LTUDb7+TlttV5+PQlRF8llDbg2z+sNHYI8iFXmQZe7H7iEkpAGcF6c6EnwzF08Cmhm0PuVlZ+
- 8r/yrBXlKQcc6djkb9vzXC7v4WSWdrGi5PL1JSWpi2+9cJU6WkLjsWZ9v4hU+HIuY0RnkFCov
- JjTpYL/2RlRhack6g8VE1CjJxO5TrHVlUXIX2SpknhxsVVazTBk2g+TQwPDnjUtCQb5dye+LC
- K9kDF7OXxe+hkqv2OvLsJy8WmhAXBkIwW66ah+Rm3WwaWhw9RQ5NRlXi6CLj7M6gkgX1M4Snh
- VaY0BvQVh33Q44U79yLehRyb3rkcJaeQP8x4Uby4+q9Jg+pb+Uamda/edV8eqN583lgawOdGK
- m2pozh0n9hwLla2Ip83zigs/DGdBSVUVb0P2ac5MKTHecUMh2wwZaiRVkWVuGzy7iZyWjGtIi
- Ct2EooV5PGaoXBlWFVtPzY9Xlp26h7/G5pLkPBmpxAZ3UuDF1ubVNaixfToBxOexSCbzWlJ+n
- 6OieTfsdUkhAWvfmbGEQZjEtsNX9KC+wElfjei3HwgE+Ifrq4deEy3F6Sfq07SGHy0NeqhDDw
- 7AkxX6ZRe8wg96COrLhplymqFwLN0Unw2M+teLY76xe3s=
+X-B4-Tracking: v=1; b=H4sIAGa5FmcC/33NSwqDMBSF4a1Ixk1JohbTUfdRiuRxoxeqkUSlR
+ dx7o3TgyOF/Bt9ZSISAEMk9W0iAGSP6PkV+yYhpVd8ARZuaCCYKzpik2A/TWKtp9J0aofau7r2
+ FOo2UawXSlYYJK0kChgAOPzv+fKVuMY4+fPevmW/rn+XsjJ05ZRS0uQmeV0676tF0Ct9X4zuys
+ bM4UOKcEpRTa8GUlS60lHCk1nX9AbPbcuQPAQAA
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Hans de Goede <hdegoede@redhat.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1729542504; l=1269;
+ i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
+ bh=1qMfZzt/NOP0BK2K2RoHBVzgF0yz/1K6FGAfAOL2CFA=;
+ b=2bwV68x9h4TkspBN1svwKfo8p5XoTWoZFgQB3pz8uj2Wwx1r5Q4ZIAmKXsmu57guPApCKi5ro
+ 8cjJGS1XCxfDuiQpm4fvUGJBQfGeRsbUpsQHbxMnvD5GJ/OwC90vYRD
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-Am 11.10.24 um 17:26 schrieb Pavel Machek:
+The first patch of the series provides device managed memory, which
+simplifies bbc_bee_probe() and removes the need for the goto
+instructions That also prepares the function for the second patch where
+the cleanup attribute is used for 'dp'.
 
-> Hi!
->
->>> 1.
->>> https://lore.kernel.org/all/6b32fb73-0544-4a68-95ba-e82406a4b188@gmx.de/
->>> -> Should be no problem? Because this is not generally exposing wmi
->>> calls, just mapping two explicitly with sanitized input (whitelisting
->>> basically).
->> It would be OK to expose a selected set of WMI calls to userspace and sanitizing the input of protect potentially buggy firmware from userspace.
->>
-> I don't believe this is good idea. Passthrough interfaces where
-> userland talks directly to hardware are very tricky.
->
->> Regarding the basic idea of having a virtual HID interface: i would prefer to create a illumination subsystem instead, but i have to agree that we should be doing this
->> only after enough drivers are inside the kernel, so we can design a
->> suitable interface for them. For now, creating a virtual HID
->> interface seems to be good enough.
-> I have an RGB keyboard, and would like to get it supported. I already
-> have kernel driver for LEDs (which breaks input functionality). I'd
-> like to cooperate on "illumination" subsystem.
->
-> Best regards,
-> 								Pavel
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+---
+Changes in v3:
+- Add patch to use device managed memory and simplify the code by
+  dropping labels in bbc_beep_probe().
+- Link to v2: https://lore.kernel.org/r/20241020-input_automate_of_node_put-v2-1-ddec58b4b99e@gmail.com
 
-Sorry for taking a bit long to respond.
+Changes in v2:
+- rebase onto input/next, drop applied patches.
+- sparcspkr: drop goto before node declaration and return -ENOMEM.
+- Link to v1: https://lore.kernel.org/r/20241010-input_automate_of_node_put-v1-0-ebc62138fbf8@gmail.com
 
-This "illumination" subsystem would (from my perspective) act like some sort of LED subsystem
-for devices with a high count of LEDs, like some RGB keyboards.
+---
+Javier Carrasco (2):
+      Input: sparcspkr - use device managed memory for 'state'
+      Input: sparcspkr - use cleanup facility for device_node
 
-This would allow us too:
-- provide an abstract interface for userspace applications like OpenRGB
-- provide an generic LED subsystem emulation on top of the illumination device (optional)
-- support future RGB controllers in a generic way
+ drivers/input/misc/sparcspkr.c | 45 ++++++++++++++----------------------------
+ 1 file changed, 15 insertions(+), 30 deletions(-)
+---
+base-commit: d0c3a7aa814c091843ccca467c02078db9da4e1e
+change-id: 20241009-input_automate_of_node_put-1bae9f5c02d9
 
-Advanced features like RGB effects, etc can be added later should the need arise.
-
-I would suggest that we model it after the HID LampArray interface:
-
-- interface for querying:
-  - number of LEDs
-  - supported colors, etc of those LEDs
-  - position of those LEDs if available
-  - kind (keyboard, ...)
-  - latency, etc
-- interface for setting multiple LEDs at once
-- interface for setting a range of LEDs at once
-- interface for getting the current LED colors
-
-Since sysfs has a "one value per file" rule, i suggest that we use a chardev interface
-for querying per-LED data and for setting/getting LED colors.
-
-I do not know if mixing sysfs (for controller attributes like number of LEDs, etc) and IOCTL
-(for setting/getting LED colors) is a good idea, any thoughts?
-
-Thanks,
-Armin Wolf
+Best regards,
+-- 
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
 
