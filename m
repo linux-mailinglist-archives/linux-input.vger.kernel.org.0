@@ -1,291 +1,117 @@
-Return-Path: <linux-input+bounces-7574-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7575-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A8A9A5AE9
-	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2024 08:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C75ED9A5C47
+	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2024 09:15:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2EB781F213FE
-	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2024 06:50:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B0D11F22963
+	for <lists+linux-input@lfdr.de>; Mon, 21 Oct 2024 07:15:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF4C21DFD93;
-	Mon, 21 Oct 2024 06:47:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D29641D0F74;
+	Mon, 21 Oct 2024 07:15:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H6yyz7ZQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dkdcFhNm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270A81D14E2
-	for <linux-input@vger.kernel.org>; Mon, 21 Oct 2024 06:47:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5C81D131F;
+	Mon, 21 Oct 2024 07:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729493277; cv=none; b=qKmxjsewObUAUssSuBlvOb7rwg3Z74uf0cBD0Y7E1Eaa72etL7Q84P93lGs8JiUknYjuUmaipl5eCu/WGaYlcvgL/zYKXp5L1v0bzBUTu7jTHfrhpEetZ8MBJIVMHROPsX/v6CE+r86S4+VCdK/DcNpoJ32kFQcldgJlf1I/Fts=
+	t=1729494910; cv=none; b=dEh2SehwhEM6bHH3HUw3PJoYmgCwTTpcIaqvUiyeJ1Zx829TSTtiqjOjhSdjJOSHrCrTsgV8zwWTOCl+/k1UO/hgz2Xk72PoeFI0baAlI/H4pWWwqHH0oCpvqyYavxVcpWjqlQaamjOW/lT1JBF9ykTI4q/u0EFrHW5ViSN6CAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729493277; c=relaxed/simple;
-	bh=teyMIfpNNQjSsb5MbXyVqzP1VIlH5kdTfogRdrP4p8U=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=X6P+QYHeUQL0vS2YcVsvbYL79H0PbLueski8yWVjSySOY7rzi9mHi2bFoQ2RvvyFDC7/nVeLdSR0MH0q3vh8J8o+IlAFpVINjpIo/5qZvxwyIP0Lc/qL72yxJQMSVMR1aorOfS73t01bTOL+3ma2mJHwVc0SufCjZlKRm/NNDcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H6yyz7ZQ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729493274;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=teyMIfpNNQjSsb5MbXyVqzP1VIlH5kdTfogRdrP4p8U=;
-	b=H6yyz7ZQHfOJWxDQybm0UBGe0/oNi9DhJrT6zT7tpjtTexTcwOt0JzQY8Amy4NLVvnVbjA
-	Xi2DatgmBicfvR3VXskiKwJhoV3hy3sOnt5UHDm3IIVCiL+6grEtWOk5WBE54nubgIXcXi
-	QBWW19Wvy8uPGrR8ZoWXTz7SD4722Ao=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-404-fpJwFZRmM_mrvL4-gOrEqQ-1; Mon, 21 Oct 2024 02:47:50 -0400
-X-MC-Unique: fpJwFZRmM_mrvL4-gOrEqQ-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4316300bb15so20468185e9.2
-        for <linux-input@vger.kernel.org>; Sun, 20 Oct 2024 23:47:50 -0700 (PDT)
+	s=arc-20240116; t=1729494910; c=relaxed/simple;
+	bh=dc6pUqfdXdJQEF4Ix0lfWE493NJoqbb52K8H6be4mb0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wu3Ys3Tm3FiBaUcLjhUjmCx4YMZhOSuJG4N7WdzRIggAxwBdYudyUOM02nN5WG1RubP05B4MqUDYQbaPxAHyK1qNRJGxK6fOJW11j7sR2xbFlc21i6C0r54G6d/BoVr9umDNyospFvUBOGNmA/uDqbAXdzP2KcODCsbfwxT74jE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dkdcFhNm; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-208cf673b8dso39942615ad.3;
+        Mon, 21 Oct 2024 00:15:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729494908; x=1730099708; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=smZfrGjVtvMSg3iZLlvbi89YS5i9FVGvaFb9EE1aWv8=;
+        b=dkdcFhNmgMaYq+ztsg0/diFgBKAX5+yQ2rTl5t0HFvSgBZnG8GCzZXuMfPjXRCvtQR
+         hDkICX3RCdq11krlMuIMTgeobRYTOV0lSQNUb7T6ZEHU5zFg8iZ8cjKt5WQXdS8JX5dI
+         Z7r5aXIQyJH2nqv93+ydku3jM0KGpjkTAG5lCt0CI3I0HCdtg5iQg5xig8fYsOy6dQzr
+         EopM1QLS+p0cdRLenN6iXEQoIszIV3JBUEzFQH/1mLmvfIym3jwXfKeFddNC3D1VanV3
+         9cVp/e3TznuaoDQ92uShts8tVyvonSho7q9N6LMx07uA0rqQx1QdiDN2mH37A4j0GKVT
+         +4wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729493269; x=1730098069;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=teyMIfpNNQjSsb5MbXyVqzP1VIlH5kdTfogRdrP4p8U=;
-        b=fyiGu9e23E11dPXOb/pRz2Lg4UM6JAg25yGe0KCCtxVjpQ+TeK4Szh2b38g7YClmAL
-         wN95hwxvRSnMGGNs+7/gjrQJOCORZ4K/T85CTA9L3D224joTnKc04K2uPplIoQ6jFhcv
-         dgMo0SWxRCyWyRqxpXDQdWD+xNs0V+HJIu8fezbTFiM6Sut0FIB/hrQ3+AMZw6r4bvFo
-         JYh4M810tABwSlbJHfskIwH5PId4+d6tJpQNpAQmrMtTJhBbX0brzKJ4+NZs1BNt7JI2
-         Wxah8ubEi6/6ZZSl4+wl5KH0CE1FFvJmh9hzO0TlX2tr7CFtiiWLoW5hzJw+0UJrsHec
-         kY8w==
-X-Forwarded-Encrypted: i=1; AJvYcCVATasFZZMTe5UjeWYxgmijAo+BolP2QeCQT4hulOUsh1Zy5JQGMRkDje6WI2KePCHUMelK4FVnO6TANw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnnLXq8KykoymyMatw7AfuaIDRveLx0YmfTAIkCSl4yiWrQa5T
-	HK5lBOPRfNTiDDKOJ3NyD1IIhGF4cFEjE0oslX/OBm1uHlI31IhY6XzlTk3p7+CY8oy7F5+TutW
-	x3ObYpxcLVKzVOlajwuzCI13Xm4Y6O8ltpVPtDcHadb0WyPHmOzp4UMNApPEo
-X-Received: by 2002:a05:600c:3591:b0:431:4c14:abf4 with SMTP id 5b1f17b1804b1-4316163a1b2mr84025785e9.14.1729493269433;
-        Sun, 20 Oct 2024 23:47:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFVZgn1S+/IbVUHVqZogTbkz5rvgpgAowACslYYkYZ99T9pAyCEi5NExPZQP+nHcWcbmjh9Bw==
-X-Received: by 2002:a05:600c:3591:b0:431:4c14:abf4 with SMTP id 5b1f17b1804b1-4316163a1b2mr84025225e9.14.1729493268971;
-        Sun, 20 Oct 2024 23:47:48 -0700 (PDT)
-Received: from eisenberg.fritz.box (200116b82d449800aee93296d73e68da.dip.versatel-1u1.de. [2001:16b8:2d44:9800:aee9:3296:d73e:68da])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f570f89sm45821675e9.7.2024.10.20.23.47.46
+        d=1e100.net; s=20230601; t=1729494908; x=1730099708;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=smZfrGjVtvMSg3iZLlvbi89YS5i9FVGvaFb9EE1aWv8=;
+        b=TSJSpSVG0HlmT8MsfLA8fUqq0o+s+721W7AWesbRjaxhzV+ch2ESalQZS3GivnpYBk
+         YMTC2i9FR1JYUIKMFlMqYtRstinls8fWTzivE7HH8bCD++i/b4OiPnztXHKZ6BNXe3KE
+         426fmg/22mQjSokolqQagKbYS7RZiIGVTqqYixGWePyP+HRuZ0lTgv0akPWaxv0/fhZS
+         7Ue4JadkGvaUpUqkpWjemgGKssx5on0GwYrQFxZv0N2Slrbs3/5IMUrXJTjeaaOi4gWe
+         p7t+nzc8fhTplt02+MHnaus2vvUKLNO6486856T+V2ZDDPZHzfDMPStpZRGV1n6eeCdI
+         hq0g==
+X-Forwarded-Encrypted: i=1; AJvYcCWdtuWQXVzuLgyk1EG3sf4YfuAIW68YFcML5r0Rw3i+qhgiEeefI0+MH+J7cLwEGBBwn3w2YdNVrMHtBw==@vger.kernel.org, AJvYcCXiIfWQeI04a5Qxob7BbfKtZ+XGiCaL9JNI5HTIpW2Td9jhJtCHphzBeJ2zmaUd9M11WK8Mh/wT9AxPSXWQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YzdDDpQ8xOxPewreoN2UrMa63n6Yh8EI3TzkMIiZnIrkTxjaynx
+	GJn/EwdxLkDNROg+bu1hbHMwmhnPWqtPajCqg34sPHGr6EbYp3fc
+X-Google-Smtp-Source: AGHT+IHy2ChbQeyZrKCx28/8OkE6XbQjadUgTgmofH8VjxpMdlc/BulLZcrsT3LIRUIu1mJy2aFspg==
+X-Received: by 2002:a17:902:ce07:b0:20c:c9db:7c45 with SMTP id d9443c01a7336-20e5a7604famr168254115ad.20.1729494908190;
+        Mon, 21 Oct 2024 00:15:08 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:6e21:7092:f7c7:3951])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7ef0d6besm19607365ad.104.2024.10.21.00.15.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Oct 2024 23:47:48 -0700 (PDT)
-Message-ID: <1f90d885f0e8dc2e8d9b2b7e88700b4cdb19d84c.camel@redhat.com>
-Subject: Re: [PATCH 13/13] PCI: Deprecate pci_intx(), pcim_intx()
-From: Philipp Stanner <pstanner@redhat.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>, Alex Williamson
- <alex.williamson@redhat.com>, Damien Le Moal <dlemoal@kernel.org>, Niklas
- Cassel <cassel@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, Basavaraj
- Natikar <basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov
- <oakad@yahoo.com>, Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
- <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Rasesh Mody <rmody@marvell.com>,
- GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko <imitsyanko@quantenna.com>,
- Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
- Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar S K
- <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
- <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>, Oleksandr Tyshchenko
- <oleksandr_tyshchenko@epam.com>,  Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Chen Ni <nichen@iscas.ac.cn>,  Mario Limonciello
- <mario.limonciello@amd.com>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
- <viro@zeniv.linux.org.uk>,  Breno Leitao <leitao@debian.org>, Kevin Tian
- <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>,  Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Mostafa Saleh
- <smostafa@google.com>,  Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu
- <yi.l.liu@intel.com>, Christian Brauner <brauner@kernel.org>, Ankit Agrawal
- <ankita@nvidia.com>, Eric Auger <eric.auger@redhat.com>, Reinette Chatre
- <reinette.chatre@intel.com>, Ye Bin <yebin10@huawei.com>, Marek
- =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,  Rui Salvaterra <rsalvaterra@gmail.com>,
- linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-input@vger.kernel.org, netdev@vger.kernel.org, 
- linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
- linux-pci@vger.kernel.org,  kvm@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Date: Mon, 21 Oct 2024 08:47:46 +0200
-In-Reply-To: <20241018234537.GA770692@bhelgaas>
-References: <20241018234537.GA770692@bhelgaas>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+        Mon, 21 Oct 2024 00:15:07 -0700 (PDT)
+Date: Mon, 21 Oct 2024 00:15:04 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans de Goede <hdegoede@redhat.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] Input: sparcspkr - use cleanup facility for
+ device_node
+Message-ID: <ZxX_eL_hs-_eKW0h@google.com>
+References: <20241020-input_automate_of_node_put-v2-1-ddec58b4b99e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241020-input_automate_of_node_put-v2-1-ddec58b4b99e@gmail.com>
 
-On Fri, 2024-10-18 at 18:45 -0500, Bjorn Helgaas wrote:
-> On Wed, Oct 16, 2024 at 10:53:16AM +0200, Philipp Stanner wrote:
-> > On Wed, 2024-10-16 at 10:43 +0200, Heiner Kallweit wrote:
-> > > On 16.10.2024 08:57, Philipp Stanner wrote:
-> > > > On Tue, 2024-10-15 at 13:53 -0600, Alex Williamson wrote:
-> > > > > On Tue, 15 Oct 2024 20:51:23 +0200
-> > > > > Philipp Stanner <pstanner@redhat.com> wrote:
-> > > > >=20
-> > > > > > pci_intx() and its managed counterpart pcim_intx() only
-> > > > > > exist
-> > > > > > for
-> > > > > > older
-> > > > > > drivers which have not been ported yet for various reasons.
-> > > > > > Future
-> > > > > > drivers should preferably use pci_alloc_irq_vectors().
-> > > > > >=20
-> > > > > > Mark pci_intx() and pcim_intx() as deprecated and encourage
-> > > > > > usage
-> > > > > > of
-> > > > > > pci_alloc_irq_vectors() in its place.
-> > > > >=20
-> > > > > I don't really understand this.=C2=A0 As we've discussed
-> > > > > previously
-> > > > > pci_alloc_irq_vectors() is, unsurprisingly, for allocating
-> > > > > PCI
-> > > > > IRQ
-> > > > > vectors while pci_intx() is for manipulating the INTx disable
-> > > > > bit
-> > > > > on
-> > > > > PCI devices.=C2=A0 The latter is a generic mechanism for
-> > > > > preventing
-> > > > > PCI
-> > > > > devices from generating INTx, regardless of whether there's a
-> > > > > vector
-> > > > > allocated for it.=C2=A0 How does the former replace the latter an=
-d
-> > > > > why
-> > > > > do
-> > > > > we
-> > > > > feel the need to deprecate the latter?
-> > > > >=20
-> > > > > It feels like this fits some narrow narrative and makes all
-> > > > > users
-> > > > > of
-> > > > > these now deprecated functions second class citizens.=C2=A0 Why?=
-=C2=A0
-> > > > > At
-> > > > > it's
-> > > > > root these are simply providing mask and set or mask and
-> > > > > clear
-> > > > > register
-> > > > > bit operations.=C2=A0 Thanks,
-> > > >=20
-> > > > I got the feeling from the RFC discussion that that was
-> > > > basically
-> > > > the
-> > > > consensus: people should use pci_alloc_irq_vectors(). Or did I
-> > > > misunderstand Andy and Heiner?
-> > > >=20
-> > > I think there are two different use cases for pci_intx().
-> > > At first there are several drivers where the direct usage of
-> > > pci_intx()
-> > > can be eliminated by switching to the pci_alloc_irq_vectors()
-> > > API.
-> > >=20
-> > > And then there's usage of pci_intx() in
-> > > drivers/vfio/pci/vfio_pci_intrs.c
-> > > drivers/xen/xen-pciback/conf_space_header.c
-> > > There we have to keep the (AFAICS unmanaged) pci_intx() calls.
-> >=20
-> > There is also the usage within PCI itself, in MSI. Patch =E2=84=968 tou=
-ches
-> > that.
-> >=20
-> > It's why I think this series should land before anyone should port
-> > direct pci_intx() users to the irq vectors function, because the
-> > latter
-> > also uses pci_intx() and its own devres, which sounds explosive to
-> > me.
-> >=20
-> > > > I'm perfectly happy with dropping this patch and continue
-> > > > offering
-> > > > pci{m}_intx() to users, since after removing that hybrid
-> > > > hazzard I
-> > > > don't see any harm in them anymore.
->=20
-> So is the bottom line that we should drop *this* patch and apply the
-> rest of the series?
+Hi Javier,
 
-Yes Sir, that's the idea
+On Sun, Oct 20, 2024 at 08:27:13PM +0200, Javier Carrasco wrote:
+> Use the 'free(device_node)' macro to simplify the code by automatically
+> freeing the device node, which removes the need for explicit calls to
+> 'of_node_put()'.
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> ---
+> Changes in v2:
+> - rebase onto input/next, drop applied patches.
+> - sparcspkr: drop goto before node declaration and return -ENOMEM.
 
-Regards,
-P.
+Can we switch the driver to devm so that issues with cleanup and gotos
+will have less chances of resurfacing?
 
->=20
-> > > > > > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> > > > > > ---
-> > > > > > =C2=A0drivers/pci/devres.c | 5 ++++-
-> > > > > > =C2=A0drivers/pci/pci.c=C2=A0=C2=A0=C2=A0 | 5 ++++-
-> > > > > > =C2=A02 files changed, 8 insertions(+), 2 deletions(-)
-> > > > > >=20
-> > > > > > diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
-> > > > > > index 6f8f712fe34e..4c76fc063104 100644
-> > > > > > --- a/drivers/pci/devres.c
-> > > > > > +++ b/drivers/pci/devres.c
-> > > > > > @@ -435,7 +435,7 @@ static struct pcim_intx_devres
-> > > > > > *get_or_create_intx_devres(struct device *dev)
-> > > > > > =C2=A0}
-> > > > > > =C2=A0
-> > > > > > =C2=A0/**
-> > > > > > - * pcim_intx - managed pci_intx()
-> > > > > > + * pcim_intx - managed pci_intx() (DEPRECATED)
-> > > > > > =C2=A0 * @pdev: the PCI device to operate on
-> > > > > > =C2=A0 * @enable: boolean: whether to enable or disable PCI INT=
-x
-> > > > > > =C2=A0 *
-> > > > > > @@ -443,6 +443,9 @@ static struct pcim_intx_devres
-> > > > > > *get_or_create_intx_devres(struct device *dev)
-> > > > > > =C2=A0 *
-> > > > > > =C2=A0 * Enable/disable PCI INTx for device @pdev.
-> > > > > > =C2=A0 * Restore the original state on driver detach.
-> > > > > > + *
-> > > > > > + * This function is DEPRECATED. Do not use it in new code.
-> > > > > > + * Use pci_alloc_irq_vectors() instead (there is no
-> > > > > > managed
-> > > > > > version, currently).
-> > > > > > =C2=A0 */
-> > > > > > =C2=A0int pcim_intx(struct pci_dev *pdev, int enable)
-> > > > > > =C2=A0{
-> > > > > > diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> > > > > > index 7ce1d0e3a1d5..dc69e23b8982 100644
-> > > > > > --- a/drivers/pci/pci.c
-> > > > > > +++ b/drivers/pci/pci.c
-> > > > > > @@ -4477,11 +4477,14 @@ void pci_disable_parity(struct
-> > > > > > pci_dev
-> > > > > > *dev)
-> > > > > > =C2=A0}
-> > > > > > =C2=A0
-> > > > > > =C2=A0/**
-> > > > > > - * pci_intx - enables/disables PCI INTx for device dev
-> > > > > > + * pci_intx - enables/disables PCI INTx for device dev
-> > > > > > (DEPRECATED)
-> > > > > > =C2=A0 * @pdev: the PCI device to operate on
-> > > > > > =C2=A0 * @enable: boolean: whether to enable or disable PCI INT=
-x
-> > > > > > =C2=A0 *
-> > > > > > =C2=A0 * Enables/disables PCI INTx for device @pdev
-> > > > > > + *
-> > > > > > + * This function is DEPRECATED. Do not use it in new code.
-> > > > > > + * Use pci_alloc_irq_vectors() instead.
-> > > > > > =C2=A0 */
-> > > > > > =C2=A0void pci_intx(struct pci_dev *pdev, int enable)
-> > > > > > =C2=A0{
-> > > > >=20
-> > > >=20
-> > > >=20
-> > >=20
-> >=20
->=20
+Thanks.
 
+-- 
+Dmitry
 
