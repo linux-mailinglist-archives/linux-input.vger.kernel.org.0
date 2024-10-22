@@ -1,198 +1,115 @@
-Return-Path: <linux-input+bounces-7616-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7617-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840D49A9F28
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 11:50:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD249AA13C
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 13:39:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A4ECF1C2453B
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 09:50:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C83CBB22245
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 11:39:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4CD6199EBB;
-	Tue, 22 Oct 2024 09:49:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C20BE19ADA4;
+	Tue, 22 Oct 2024 11:39:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="oldtT6Yk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EBaBTpjP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA96C1991B9;
-	Tue, 22 Oct 2024 09:49:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD3119AD73;
+	Tue, 22 Oct 2024 11:39:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729590596; cv=none; b=Lw63zT53p5G9hesMb4d84EIhKXSBt65VJtYEfp0wVspGwBP1GIEFYKHhkbnFxeuxkUwh5Kcw/EVeE+gVL1Q3BaXJmuJ0Ns7iYyFOmUhwS/9Sx2JJTug1tXDnliDev608wtpulFYrIdgtXchVQ5D4yyJ9Dw0Zx3tbffafNts4As4=
+	t=1729597145; cv=none; b=RO/RzML06nqy5TbhsAgTZ4bzMQguASqKW/E8FmznypGfTnvF3ccPSuZ6flXtl2K1fEqGcSsZ1MNSdziv1WB3w8raxrB+Rj9UWWlBv5I+asqb5vJsDE2PaooHRW7NPBro5LTJbnsy6hviR+0TVYA3FTKC7wbeLQFyMrLVtHvrfmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729590596; c=relaxed/simple;
-	bh=nCzRJ1LbBCDjOWEeoH9yNZbsyD6ffv5nqZxpGDEu7+0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MbmCFVbxS55CItMXZYvlVuv+4ddpRIRFe1ARSf83glphfVgaJkStQvyEdLAzeOa8xXvXiOLmLXGggLvGdDuZqf+bechHy/c9PDAEA4FHxxn2InTi//5x70Oalfc6PVevb5T2kIWSSmZtwsSb6fTlD/nzzqqxCXcDPC4YsESj9p8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=oldtT6Yk; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1729590592;
-	bh=nCzRJ1LbBCDjOWEeoH9yNZbsyD6ffv5nqZxpGDEu7+0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oldtT6YkN+poyFUM3an948NAQ1vDUR9PXYx8Qgv9gP5MHbb1W1mZu2iAFx14HSKB2
-	 rS9EViKhZhwDXQ5qdRG/h217QlNRCqgoZC8TcONj7xsgn+2ZEBXUnVwCeUgdCC+gln
-	 KhNNujVzPfCozkAeZoegEdGNwR4xOAK3j7X2iPZYXH3Pu96ixLlioAFsEoUhaOuGSm
-	 TJB0NOXo/eLxJiByF4hShfPhZ3By4L5k7r+kViNBZDIh4jBLrC0a1Q+eU/MbsGeM5z
-	 f35kokcURoJos2ZG/mk1Sx6gOqCAhzc3bk1cAaHvOpuRyUPsFwFcuVxP8CBGv+xXsy
-	 90v9rUIofjJdA==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0D6F917E139E;
-	Tue, 22 Oct 2024 11:49:52 +0200 (CEST)
-Message-ID: <52a7c00a-6638-420b-a65b-208491c55074@collabora.com>
-Date: Tue, 22 Oct 2024 11:49:51 +0200
+	s=arc-20240116; t=1729597145; c=relaxed/simple;
+	bh=xsLOdvTIt+hKikDGyYUAdrz3/I92fSsEZ5rZ8b7IO1Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l+uPVBVTsWdUSxnquawf7DN+kVi7PVjr3EV3exrTNKHoaIDIF4g6GDkRYBEdfJINOmKQYSG4ZOMokU7++BvmWWNbwUjDxQpETIgy92lZ24sSBa9aM8rb/42Fjc2Gc6wOJFBgPHk3GwLr/UBxmWBF3J8H42xQYf03BRCBeZUQerg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EBaBTpjP; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53a0c160b94so4024341e87.2;
+        Tue, 22 Oct 2024 04:39:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729597142; x=1730201942; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=G6fP1oVfvbBEWYTyzY/rcgPKAc7qrRN1SO5D1jI8RPY=;
+        b=EBaBTpjPvOq7z3f+RNXUMw8+elYQ35bhVhPR7FNr2SrBg8TXBkgzhJ9urHO6kV51k4
+         6rg/PiOekpvcfbNeEJ0o/wO/28nk5NtyqZ2MhPdirCKWgiXelM6V7uFEKquZyGancIEc
+         vU5Pm8ud48kyAoEaHkdoQ+zpFbyhZEeC7I96eSFi/GKYDwdTUAzouMaamENsg6o6Ca+K
+         73QHYfieY4T1uUUwAavHgaYUTWAJ4jwYQgR6pEnWeT41vEHuK9j4VWxw9+IhN/qptyE6
+         4o9A/Ul0537dtV/agWANBcZbhlcakPwDDPJKheWWoVDkkJPLgk2NiQ/fLPe3lY/fs0jS
+         P+qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729597142; x=1730201942;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G6fP1oVfvbBEWYTyzY/rcgPKAc7qrRN1SO5D1jI8RPY=;
+        b=hVxsditpo5k2OTQl7bVBEW+Zv3DtA0dFVLyeMg7QXQDY0do66lOGUNQuQMWS2jIKIS
+         Bk3QnnQw2KoiTdMYcFIcP4B4ZkXDleZf8UADqWf/opPGN+Def467iI5vC6X/zSpKjDlw
+         zWqTxJyJ4IWKNpAzZT+8tlkJHc9yUQkaFNuPzULmgtTJtNGuOE9Xohk6gfMOwvLLFZyX
+         4aXTqU5+3r/Xp9McSU8X1j4FVx9DYzX++0OVN2Np4CUKCiwq12MUESnZMWrC99dlPXQi
+         SiAryjKIrLqT2I+DkVQgu1qWwTJDlmgUWrCHfNKnmW5mJKBi0a+xyKQRX3NTpzqtbKBZ
+         wScg==
+X-Forwarded-Encrypted: i=1; AJvYcCUUkflXXnhSY9mHtTQFkOBd8J1vI71v8xc0+nsV1ZEGuNCr0k7eMhVQQtU0tLvhhFA6BNF+kQ69v4O8bkk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIMUhcgyFYU6J/7VEf53qUYSVAk41zO77cj0As5WbH16hD3cnT
+	v9KIgW+Qfln5chWYABoHQtuaieubrC0HuotTmrBcej265sfn6TWin4gAoludsQ0=
+X-Google-Smtp-Source: AGHT+IEk2MXOmTku98IlZ0eH4/uCPAgeWFROOJZVqG6Jf5Mh3NEdqJ5RcvoNeqHSOu0JbKwfHKFhrQ==
+X-Received: by 2002:a05:6512:6d1:b0:539:a2f5:2f1d with SMTP id 2adb3069b0e04-53a154afc13mr7199216e87.61.1729597141842;
+        Tue, 22 Oct 2024 04:39:01 -0700 (PDT)
+Received: from gi4n-KLVL-WXX9.. ([2a01:e11:5400:7400:850c:5867:abe5:b8c9])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cb675eb1bdsm2991006a12.10.2024.10.22.04.38.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Oct 2024 04:39:01 -0700 (PDT)
+From: Gianfranco Trad <gianf.trad@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Gianfranco Trad <gianf.trad@gmail.com>
+Subject: [PATCH] HID: core: fix inconsistent indenting hid_add_device
+Date: Tue, 22 Oct 2024 13:38:30 +0200
+Message-ID: <20241022113829.1423194-2-gianf.trad@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] regulator: Add driver for MediaTek MT6328 PMIC
- regulators
-To: Yassine Oudjana <yassine.oudjana@gmail.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Sen Chu <sen.chu@mediatek.com>,
- Sean Wang <sean.wang@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>,
- Lee Jones <lee@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- jason-ch chen <Jason-ch.Chen@mediatek.com>,
- Chen Zhong <chen.zhong@mediatek.com>, Flora Fu <flora.fu@mediatek.com>,
- Alexandre Mergnat <amergnat@baylibre.com>,
- Yassine Oudjana <y.oudjana@protonmail.com>, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-References: <20241018081050.23592-1-y.oudjana@protonmail.com>
- <20241018081050.23592-6-y.oudjana@protonmail.com>
- <4cf5a3d0-97a2-4a43-a91a-0a35aa2bc7e4@collabora.com>
- <04OPLS.YYQIIIW9J73R3@gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <04OPLS.YYQIIIW9J73R3@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Il 21/10/24 16:55, Yassine Oudjana ha scritto:
-> 
-> On Mon, Oct 21 2024 at 15:24:51 +02:00:00, AngeloGioacchino Del Regno 
-> <angelogioacchino.delregno@collabora.com> wrote:
->> Il 18/10/24 10:10, Yassine Oudjana ha scritto:
->>> From: Yassine Oudjana <y.oudjana@protonmail.com>
->>>
->>> Add a driver for the regulators on the MT6328 PMIC.
->>>
->>> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
->>> ---
->>>   drivers/regulator/Kconfig                  |   9 +
->>>   drivers/regulator/Makefile                 |   1 +
->>>   drivers/regulator/mt6328-regulator.c       | 479 +++++++++++++++++++++
->>>   include/linux/regulator/mt6328-regulator.h |  49 +++
->>>   4 files changed, 538 insertions(+)
->>>   create mode 100644 drivers/regulator/mt6328-regulator.c
->>>   create mode 100644 include/linux/regulator/mt6328-regulator.h
->>>
->>> diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
->>> index 249933d6388dd..e9b9faff67f3a 100644
->>> --- a/drivers/regulator/Kconfig
->>> +++ b/drivers/regulator/Kconfig
->>> @@ -862,6 +862,15 @@ config REGULATOR_MT6323
->>>         This driver supports the control of different power rails of device
->>>         through regulator interface.
->>>   +config REGULATOR_MT6328
->>> +    tristate "MediaTek MT6328 PMIC"
->>> +    depends on MFD_MT6397
->>> +    help
->>> +      Say y here to select this option to enable the power regulator of
->>> +      MediaTek MT6328 PMIC.
->>> +      This driver supports the control of different power rails of device
->>> +      through regulator interface.
->>> +
->>>   config REGULATOR_MT6331
->>>       tristate "MediaTek MT6331 PMIC"
->>>       depends on MFD_MT6397
->>> diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
->>> index 9b69546fb3f65..c1a5a44413198 100644
->>> --- a/drivers/regulator/Makefile
->>> +++ b/drivers/regulator/Makefile
->>> @@ -103,6 +103,7 @@ obj-$(CONFIG_REGULATOR_MPQ7920) += mpq7920.o
->>>   obj-$(CONFIG_REGULATOR_MT6311) += mt6311-regulator.o
->>>   obj-$(CONFIG_REGULATOR_MT6315) += mt6315-regulator.o
->>>   obj-$(CONFIG_REGULATOR_MT6323)    += mt6323-regulator.o
->>> +obj-$(CONFIG_REGULATOR_MT6328)    += mt6328-regulator.o
->>>   obj-$(CONFIG_REGULATOR_MT6331)    += mt6331-regulator.o
->>>   obj-$(CONFIG_REGULATOR_MT6332)    += mt6332-regulator.o
->>>   obj-$(CONFIG_REGULATOR_MT6357)    += mt6357-regulator.o
->>> diff --git a/drivers/regulator/mt6328-regulator.c b/drivers/regulator/mt6328- 
->>> regulator.c
->>> new file mode 100644
->>> index 0000000000000..e15a64404f494
->>> --- /dev/null
->>> +++ b/drivers/regulator/mt6328-regulator.c
->>> @@ -0,0 +1,479 @@
->>> +// SPDX-License-Identifier: GPL-2.0
->>> +/*
->>> + * MediaTek MT6328 regulator driver
->>> + * Based on MT6323 driver.
->>> + *
->>> + * Copyright (c) 2016 MediaTek Inc.
->>> + * Copyright (c) 2022 Yassine Oudjana <y.oudjana@protonmail.com>
->>> + */
->>> +
->>
->> ..snip..
->>
->>> +/* The array is indexed by id(MT6328_ID_XXX) */
->>> +static struct mt6328_regulator_info mt6328_regulators[] = {
->>> +    MT6328_BUCK("buck_vpa", VPA, 500000, 3650000, 50000,
->>> +        buck_volt_range1, MT6328_VPA_CON9, MT6328_VPA_CON11, 0x3f,
->>> +        MT6328_VPA_CON12, MT6328_VPA_CON7),
->>
->> Can you please fix the indentation?
->>
->> Also, all of those entries do fit in two lines, I checked a couple of those
->> and always ended up with less than 90 columns anyway.
-> 
-> I can't seem to fit even the first one in 2 lines in under 90 columns :/
-> That is unless I don't indent the second line:
-> 
->      MT6328_BUCK("buck_vpa", VPA, 500000, 3650000, 50000, buck_volt_range1,
->      MT6328_VPA_CON9, MT6328_VPA_CON11, 0x3f, MT6328_VPA_CON12, MT6328_VPA_CON7),
-> 
-> Which I don't think is what you meant by fixing the indentation. Can you show me an 
-> example? With 100 columns on the other hand it seems like they should fit.
+Smatch reports an inconsistent indenting in hid_add_device() [1]. Fix it.
 
-I can get that one specifically to 96 columns... it's okay.
-Just don't get over 100 columns please: if a few need 3 lines, they just do.
+[1] hid/hid-core.c:2847 hid_add_device() warn: inconsistent indenting
 
-Anyway, here's an example:
+Signed-off-by: Gianfranco Trad <gianf.trad@gmail.com>
+---
+ drivers/hid/hid-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-MT6328_BUCK("buck_vpa", VPA, 500000, 3650000, 50000, buck_volt_range1, MT6328_VPA_CON9,
-	    MT6328_VPA_CON11, 0x3f, MT6328_VPA_CON12, MT6328_VPA_CON7),
-
-...since I'm not sure that this will render correctly in the outgoing email, here's
-another example:
-
-MT6328_BUCK("buck_something", SOMETHING, params, blahblah, thisandthat,
-             something_else),
-
-Cheers,
-Angelo
-
->>
-> 
-> 
-
-
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 612ee6ddfc8d..8f08ca1ba92d 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -2844,10 +2844,10 @@ int hid_add_device(struct hid_device *hdev)
+ 	/*
+ 	 * Check for the mandatory transport channel.
+ 	 */
+-	 if (!hdev->ll_driver->raw_request) {
++	if (!hdev->ll_driver->raw_request) {
+ 		hid_err(hdev, "transport driver missing .raw_request()\n");
+ 		return -EINVAL;
+-	 }
++	}
+ 
+ 	/*
+ 	 * Read the device report descriptor once and use as template
+-- 
+2.43.0
 
 
