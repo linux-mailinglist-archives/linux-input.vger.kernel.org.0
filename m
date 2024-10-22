@@ -1,141 +1,113 @@
-Return-Path: <linux-input+bounces-7603-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7604-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0821D9A9814
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 06:57:37 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D709E9A99D2
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 08:32:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A79721F2140D
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 04:57:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 63423B2154C
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 06:32:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 363AC824AF;
-	Tue, 22 Oct 2024 04:57:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67A82142E9F;
+	Tue, 22 Oct 2024 06:32:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R1r2s5bA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF781C27;
-	Tue, 22 Oct 2024 04:57:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D1C126C02;
+	Tue, 22 Oct 2024 06:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729573052; cv=none; b=eLSTRh6li8ORIq1XUH0hs9Vm7NOnBLxd4BnYIhSFpME1h2u11V9nF3GkGqNsTGbBaGb6B4RaSBz8wXctfQTIIhWGEZvFEvBvjjGLIISs5FyRdMDylI0YwzjrERDjdyYsUxaMm3BYNZMhptG/X2u8pen6almk5LqUOiMMpX11y38=
+	t=1729578729; cv=none; b=VnQ+pZ2GsXtr58OKt/TguwAV1YiHfrBRuKx1iXo8FasuEOj4nWuwc7kEVtVghbhIDBfXiB+PTrHqDVAacXkosXi/mzoHKHcQySXZ90ILMgOLyrn90kjSiewxPmxoroBp+DLPbva+XOMryj3ujdsf+eFzOv+m4vk3Bl7MRZI+3Vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729573052; c=relaxed/simple;
-	bh=5bT90VHYpTm313NrIpd4fKVtZ40irZW3FExZLtrjQQI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YRXEIygmfXSHtQ6A5iQAXl+M5Qm3thCmtEE0PehwFRLPg0LhY4WUnjrdBcluCANQn4yU4O5Ulmm3h8PnsC3wGezJ1/Sd+R4tW/Jz52B53Shv2/785OFU6iqvKh3OT3Gobcbs3GZU/YRoHKdBvQoAz04ZZT4lPUfjF+ctElO0hj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+	s=arc-20240116; t=1729578729; c=relaxed/simple;
+	bh=fRv3QAZ5GTT1Ytn6SNlfvUscWQW7sf1SPvVZnk5xV1w=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=oA4M3njBxL1AnzVwvVhQqRjkZcjA9VILn7EvH4e31h9yq+yuz1Al81sc43ZjVR/F/++YJ7c30hI71zoYgwia1eDcQVXeLoVuVYtKVUegWTn3NvMzuwAlBUos4puupS3vYuZWX/TXjmTc0rMPaKTWYUMPcWV5HuqkZLYx7my5B0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R1r2s5bA; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fb3110b964so45334341fa.1;
-        Mon, 21 Oct 2024 21:57:29 -0700 (PDT)
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2e2e2d09decso4385524a91.1;
+        Mon, 21 Oct 2024 23:32:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729578727; x=1730183527; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=s0ZVg94ADVSlaDxa+1PXOL3bzB11GUZscW4ia7W/tYk=;
+        b=R1r2s5bA02z11dBb3XB/QVXOgONzJjPWuk3oEWtyy7rcUh4ckdAERlvrRti/RGaCUo
+         UnUwNc33tsBXSY8e3g5nYjGFYoT7G4Phgmvj+U/8a1JmbJsdgzeU85yontapHHmAR3Eb
+         pLqVT4zNKAfgTm2hyRkiHIA4MyFLQHDyKWBR9dxdZtxV9vdNadgI/iZa95ubGXpL+0Zo
+         ApziIhH66iy/Vmr8ZhDkYG6k2gv60snJC/vQKIlusPypkU9sfe16zujufluEVj2+k91Q
+         QT7ELLvhZnd+ig5VXRoPh+uZR8hBG9gAYtK6KL7mumrXm1iIHJZivV/+eLDm0aeXSiBk
+         bP8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729573047; x=1730177847;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MtKhiSbi539gpYrHXAAkHxczz0yx9HoWEP1SfArti/I=;
-        b=DbY0rJFc+5xojeD/fzAq7A66qPjvAXYn5GVg+fJzL8i0NXnxaj6tC/QiuazlkvzmdT
-         36nOaaaJbXzdNAP3OvBo8mNeZvcX2XQrqMrjmvJMrYuUDAeCkP7JkBzuEEeWjHLzsC05
-         wLR0bEaJSEfRi8NTPWffFuTAy9RkaGBKS59B3pgqdwbZ6GotzUNX75HBoQxNuBXwT+2I
-         97Uv3otYAL/+4AQyRcOhKF/aBbq3GEfR+jww0ErcVlJ0q4Up+ZiHP8Xa/GwxSf4Ps0WX
-         5bpQyuIWKJZOLYawx4fcDQZY0V+FZjBBBC4e3pS+GJ3zTi+OaPoiloZjfp4qMOTukIhW
-         PbRg==
-X-Forwarded-Encrypted: i=1; AJvYcCVqqX8iXR7eCe5Ll49N2lJCrR2DvdS3rvWyOAsNpUXE6bzA4nil7JPfnrjNebfeUpQYrPdHFuGqdB93MnOM@vger.kernel.org, AJvYcCWTxM7cL5Tq+G0S+6mO4gowS51a2JEqlHVREkBdjUOyt1EP6PYqwdT2+26KA/W81BVX0bBAYWHZXE13XA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSnWgU/ZCKy0+Rz7/O03sy2Ixsa1Yy1W8c6yA1e+WDuRvloPcc
-	h0PqiFSWC05MlqWi9CMpkAMy5aBJxEDTUEyBKy3lg5f1p7+e5WNb2wpREL0v
-X-Google-Smtp-Source: AGHT+IEYVfSQ312S0qihhADV8AtGmuna+qr+naVmvQGIDSeI069I8mbZzavdy4noinZSxNKZuilVeg==
-X-Received: by 2002:a2e:4e02:0:b0:2fb:2f7c:28e0 with SMTP id 38308e7fff4ca-2fb82ea1cd1mr49145971fa.18.1729573047038;
-        Mon, 21 Oct 2024 21:57:27 -0700 (PDT)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com. [209.85.208.178])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fb9ad907a2sm6781201fa.71.2024.10.21.21.57.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Oct 2024 21:57:26 -0700 (PDT)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2fb5014e2daso52404041fa.0;
-        Mon, 21 Oct 2024 21:57:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWg/oabaLfP8PbtLXgeJ8LZ3MEPwh49DjQY5Kyp30rEh4mJahK/jBcjSR6Gs9qCzssurjpTOoYZfwsbERq4@vger.kernel.org, AJvYcCXviGlcLcArDajIutkHEmD7J3SvMCOp/E9oqL/EHGcpo+VB8N17VknXISYNri61i0QMKhoEVmRbM+qwLg==@vger.kernel.org
-X-Received: by 2002:a05:651c:551:b0:2fa:d4ef:f222 with SMTP id
- 38308e7fff4ca-2fb8320b662mr54455541fa.38.1729573045773; Mon, 21 Oct 2024
- 21:57:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729578727; x=1730183527;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s0ZVg94ADVSlaDxa+1PXOL3bzB11GUZscW4ia7W/tYk=;
+        b=EsBm9glCneEs4/p25+NQLVmZoY7bsq7r1iOE3W2Lf+rjp4dnVVdJ+w6+8cOCwesHeL
+         xKlxM05y7hW+yPmqAezcCysWt+3sqg9tW+z5AvUJjRmR5CJtjF5SlyDDjj5mfa/NNnrm
+         2rNYrJ85Sw3jFsmG+8RV7GKE2e3C2swEr3WpmLg5WyhPiHxaPX6rkIxrabTcfdFJot4h
+         8/WEHx6ewhuYs0inIG9D0FGi/IBoyA1iTCj1Km4BJFc2/MTo3/eL1sC9F6M0WpI1ucdq
+         n0F9VM39oyIdk/uR0i4J9mG1ZZ2uhur4sTRLUK8FD7Gjrg2CBhPuKhoiAtcuStfnC+6b
+         0DLA==
+X-Forwarded-Encrypted: i=1; AJvYcCV05w5WkU2QudI+MoxdjOb6A0JsFRWXqAduUF2V2QOCtOcttq/26c4x8++Y7qlH+n0ijkc3Dc1dBclg1fw=@vger.kernel.org, AJvYcCXOF5P18FYF/Hiu6OGrguGmrKh9oIEGRdclEta0gTUP2fpNfzb4WAcG2KqoiHh3Z8XjMt7j4qutpHRE@vger.kernel.org
+X-Gm-Message-State: AOJu0Yys3GGpxNb9z6VdxQQiga8nGf3XrUQK0wErhCg+WTHRWtJv0NSB
+	cYzNUOe9Oe48ZGEl4nw9C98SPhbfOLRC4ukUSX9wk0jvWrFt0m3n5zv8fKfc
+X-Google-Smtp-Source: AGHT+IFXgTBiFgFsXxOg631XJW9inf5ov3uskzvCNIx2xVHr9SuSJamqxyvMEirBwTsGX8DTDMZajQ==
+X-Received: by 2002:a17:90b:f0c:b0:2e2:c2b0:d03e with SMTP id 98e67ed59e1d1-2e5db94f135mr3456580a91.5.1729578726704;
+        Mon, 21 Oct 2024 23:32:06 -0700 (PDT)
+Received: from localhost.localdomain (60-250-192-107.hinet-ip.hinet.net. [60.250.192.107])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e5ad355bebsm5227508a91.7.2024.10.21.23.32.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2024 23:32:06 -0700 (PDT)
+From: mjchen <mjchen0829@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	mjchen0829@gmail.com,
+	mjchen@nuvoton.com,
+	peng.fan@nxp.com,
+	sudeep.holla@arm.com,
+	arnd@arndb.de,
+	conor+dt@kernel.org,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	dmitry.torokhov@gmail.com
+Subject: [PATCH 0/2] Add support for nuvoton ma35d1 keypad controller
+Date: Tue, 22 Oct 2024 06:31:56 +0000
+Message-Id: <20241022063158.5910-1-mjchen0829@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241021-input_automate_of_node_put-v3-0-cc73f636e1bc@gmail.com> <20241021-input_automate_of_node_put-v3-2-cc73f636e1bc@gmail.com>
-In-Reply-To: <20241021-input_automate_of_node_put-v3-2-cc73f636e1bc@gmail.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Tue, 22 Oct 2024 12:57:13 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66b60moJjOP9Fo6NRAC=WA3fTBd-EJ0JifTsgz2Kocq0A@mail.gmail.com>
-Message-ID: <CAGb2v66b60moJjOP9Fo6NRAC=WA3fTBd-EJ0JifTsgz2Kocq0A@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] Input: sparcspkr - use cleanup facility for device_node
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Hans de Goede <hdegoede@redhat.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-rpi-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 22, 2024 at 4:28=E2=80=AFAM Javier Carrasco
-<javier.carrasco.cruz@gmail.com> wrote:
->
-> Use the 'free(device_node)' macro to simplify the code by automatically
-> freeing the device node, which removes the need for explicit calls to
-> 'of_node_put()'.
->
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+From: mjchen <mjchen@nuvoton.com>
 
-Not sure why I received this patch, but given my recent experience
-with the cleanup stuff,
+This patch series adds keypad driver for the nuvoton ma35 ARMv8 SoC.
+It includes DT binding documentation and the ma35d1 keypad driver.
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+mjchen (2):
+  dt-bindings: input: Add Nuvoton MA35D1 keypad
+  input: keypad: add new keypad driver for MA35D1
 
-> ---
->  drivers/input/misc/sparcspkr.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/input/misc/sparcspkr.c b/drivers/input/misc/sparcspk=
-r.c
-> index e484d79b5597..8d7303fc13bc 100644
-> --- a/drivers/input/misc/sparcspkr.c
-> +++ b/drivers/input/misc/sparcspkr.c
-> @@ -182,7 +182,6 @@ static int bbc_beep_probe(struct platform_device *op)
->  {
->         struct sparcspkr_state *state;
->         struct bbc_beep_info *info;
-> -       struct device_node *dp;
->         int err;
->
->         state =3D devm_kzalloc(&op->dev, sizeof(*state), GFP_KERNEL);
-> @@ -193,13 +192,12 @@ static int bbc_beep_probe(struct platform_device *o=
-p)
->         state->event =3D bbc_spkr_event;
->         spin_lock_init(&state->lock);
->
-> -       dp =3D of_find_node_by_path("/");
-> +       struct device_node *dp __free(device_node) =3D of_find_node_by_pa=
-th("/");
->         if (!dp)
->                 return -ENODEV;
->
->         info =3D &state->u.bbc;
->         info->clock_freq =3D of_getintprop_default(dp, "clock-frequency",=
- 0);
-> -       of_node_put(dp);
->         if (!info->clock_freq)
->                 return -ENODEV;
->
->
-> --
-> 2.43.0
->
+ .../bindings/input/nvt,ma35d1-keypad.yaml     |  88 +++++
+ drivers/input/keyboard/Kconfig                |  10 +
+ drivers/input/keyboard/Makefile               |   1 +
+ drivers/input/keyboard/ma35d1_keypad.c        | 312 ++++++++++++++++++
+ 4 files changed, 411 insertions(+)
+ create mode 100755 Documentation/devicetree/bindings/input/nvt,ma35d1-keypad.yaml
+ create mode 100644 drivers/input/keyboard/ma35d1_keypad.c
+
+-- 
+2.17.1
+
 
