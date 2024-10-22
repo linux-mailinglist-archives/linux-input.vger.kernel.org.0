@@ -1,125 +1,170 @@
-Return-Path: <linux-input+bounces-7621-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7622-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 690539AB18A
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 17:01:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4929AB196
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 17:03:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2240285509
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 15:01:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3DCE21C217C2
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 15:03:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 102371A0BDC;
-	Tue, 22 Oct 2024 15:01:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 518471A00C9;
+	Tue, 22 Oct 2024 15:03:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OYZJZqMX"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="bz7VkP3a"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8197A13A865;
-	Tue, 22 Oct 2024 15:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9AC85C5E;
+	Tue, 22 Oct 2024 15:03:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729609265; cv=none; b=F2GR4HU2gsiuFXEMzDtXCHnSQUSw4FIr+ZwBJuuBybB/7j3f1ZF08N2bgApH6R2xSaSO5eznRlgCp5kypd2X8xYjYkqACwP0S2KkXtq7tFIDl89MYofV+xEpQfZtVjzy1wVIf77aZVVn+1mTktZUBU1cvxxsocskt/0esPWcou8=
+	t=1729609396; cv=none; b=b02jaEDY7DwvqrKbnZnM4ybkGeH+/V3lXMcdmQM9JpKa3P/+iacedslKaOf+rBIl46iD3tEvo/ieGkqN8AUMKK/seixdjFgdFuzhhQV9UKrA6Bexchs08+C9I2j7vMZpd1EltVr3s8H1mmPwGSMp8sJS5fG7A1yDc3RXGYd3CmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729609265; c=relaxed/simple;
-	bh=bm58zMeK6d0PMqj87NIHPoN7oaHDMA679yeWU0dMt7Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C/JSWMgPANIlqOpoJWQXnzr8LRYHi0O6EbaWtLtuVN7qbWHIV6CHMIgxVhfYN/l45AvrY7hDKFZsirI8wrjUNHe0TjgqV7bj8ZN4QrriYBqRtBFmvRQvyv+7UkEZkSQ/L6JxOAraQcX7x9Rgwx1G3Afd2Hbs9NlElqQGn95TRFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OYZJZqMX; arc=none smtp.client-ip=209.85.166.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3a39cabb9faso19704585ab.3;
-        Tue, 22 Oct 2024 08:01:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729609262; x=1730214062; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IP69QrjKIvgdLN3I+u548pC2BXnb7qD0PJFFBg5pzfc=;
-        b=OYZJZqMX08HnyULiwaZxKTfDjxAws1tYT1GHdJcA204FTfklaWdrc3nuX3SyBesjBa
-         DujILnvE2NATqmTvxqdSLPEXscD3FwJxFy7avvcSU/Eis1k55Sm4i8hBlpDot2GCoE59
-         WVQUJt+8AKnJIh9lTD18WlgfERJfeXA86XHkO8I3R2Q5wGwyhA1pmfEiqSblSlok8aFh
-         KVlRPMzqeKpzhxFTHCzVrbFdJyPBKoO7qTCs3oTTyt/cBUph2Q24St8uCPKSSAm6gWoi
-         UQ7r90r132/xUAEO4rSeGlNIH1mgeIYk381raM31ouygV3+6K1kL2YSf/jhhIblVbI56
-         UPTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729609262; x=1730214062;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IP69QrjKIvgdLN3I+u548pC2BXnb7qD0PJFFBg5pzfc=;
-        b=XYP5LbONpcvdmSHe0B30xM3CA4/kVvz+gYzoqsOgxq+p6xgZqPwA8JKd4uX6cQzOw9
-         a2rTi78+WlbpHi4WvYaiLuJJ0OluXJvgBPK7XpsXaoNhfW3R+SFONqfaI6kiG7xtIR/C
-         ehTjdEtNcqlHiUl+trrSxd/wggTUR3RLIMoPJcC9DcJ9Ffmq8XJWydiJ1HJo5r/d5sgm
-         goVALS5z3h3GUoDjryzdbfrEJ/HUvSbQ0bkEnPw7iecTekiOV79W2QxmgUZUqKRVqEiD
-         EZifEJuK6cXpJm/BW3SWvb5R0lZ4qbBTgf85dJvCw4XmC7uNwQd9l0f/rtsI0Lr4LtGS
-         v7vA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8+mUKd0247flwXgbrUXEMfsHTYORWvMi6xUcKocHEZXIDabp8YKoRjv5Q/Rg+FUCq4dWE57B7iCjlfpsD@vger.kernel.org, AJvYcCWAX1dtx03mVqB8UrniGSaoV8sBjEZ9N09SSvJa7A7ZUy5XI+NdoeTpkVuZRJ/GdNc695G2BeMa/Ldy@vger.kernel.org, AJvYcCWQ+F1RoUhPpqnM45p6pGi/CDZBMnt/gbBKTBgozmBnloFh4MxAXrjiDZS8bDJpwf3dZz/XXw2jvDzgrA==@vger.kernel.org, AJvYcCWk1MqgWxFItr7kzuE63ONUe2GFZM4VkxwXec9TKRuNQDbw5/5XdFB10r0T3M8usCQV4R8a+cmKTRNsSK0=@vger.kernel.org, AJvYcCXHC8pRsLuuoVehduDiVKYdzfN1WWTD2t7y4whhiU70ZAJsCVuSf+QVq/9hxUbZIG/p5xj3viM9z60=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKfK2BFi/Dpmny+ykM+gQWvUWdvjMDdnLbSJGY6D0vHNMugXku
-	PSeb0U/SU3PluYus/G3hWO+22JTq9ac23NTkKVTdcs4bshPRyED5uYunQXvBsmIY242SA199pID
-	itE2iF523GZH/ai1ut9XbqHbIsy1Z4yTd6tM=
-X-Google-Smtp-Source: AGHT+IEeuB3yHQ+efDPfikQckQ3B8TFoP4EuLV4GrGAYD8B2BtElQVwkA7TIw+O2jGhd0Ao/mhTvjxwYg9t7GrlgIDc=
-X-Received: by 2002:a05:6102:3e8f:b0:4a5:ba70:1c6e with SMTP id
- ada2fe7eead31-4a742e72fd9mr3282746137.29.1729609251362; Tue, 22 Oct 2024
- 08:00:51 -0700 (PDT)
+	s=arc-20240116; t=1729609396; c=relaxed/simple;
+	bh=h4PzYrDPgx/dA0UY/qsvB8n6XSfdbkTqKIvL1amIuCQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CoxwHtJ/bL/9Gtb9gDCopGxKuKgeyWcWsQPCS2GCsCxlE1BKj2aBD/lj+2JRlQUxqeJbpTiPxzdu7DML5lcsIFYCAY2Y67QzngDK9t6Jww+F/UkdHcV3ExFxn0E83imsKkTjnMbYp1mjVfk2quy8mr8ezyylnGnKX54+ros0gRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=bz7VkP3a; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1729609372; x=1730214172; i=w_armin@gmx.de;
+	bh=iyTVaz4YZToxUrhmRQO6zFXlT9G5B63Ll4lLI9zE4as=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=bz7VkP3a3IQVdIp3zlcVTsy+Ja1vxLRTaOt9Fk6ClTJ1jpnjcsoNPOrvLaNhyTs+
+	 A2F9oLpIlpDa/tdYxImMp4FOmwDKjL15ggnt200F0MICpkkpuU7DXkfdWxUugsPeO
+	 t40x9EfYHiCLv29siKCJxN2SSaiI4rt5v2FBg7v97e23grsEZoOb8cw/w6GASQvRK
+	 CNuI12DRduFj9ij+V2lj9BOpGFlDpL/2YoNNgF8MEuiOW24WhCY+xhwc48QUwH4Uk
+	 +GwzZn1G1pn3clezQi86lycWLqNu91MQJnZP2CGv7GIL7es354gLIoAhFBEsQEgEt
+	 NU5xfR5aLeT2t+Lc/w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MfYPY-1ta67A18Qq-00fzBl; Tue, 22
+ Oct 2024 17:02:52 +0200
+Message-ID: <eb829c6c-cee0-4d65-b9d6-3df7fd1096a7@gmx.de>
+Date: Tue, 22 Oct 2024 17:02:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241007-starqltechn_integration_upstream-v6-0-0d38b5090c57@gmail.com>
- <20241007-starqltechn_integration_upstream-v6-7-0d38b5090c57@gmail.com> <20241015143329.GJ8348@google.com>
-In-Reply-To: <20241015143329.GJ8348@google.com>
-From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Tue, 22 Oct 2024 18:00:40 +0300
-Message-ID: <CABTCjFCtFbFht2ZyBADuxhOfHZqiUmNKnAu4rwAS=kNgdqeS+w@mail.gmail.com>
-Subject: Re: [PATCH v6 7/7] leds: max77705: Add LEDs support
-To: Lee Jones <lee@kernel.org>
-Cc: Sebastian Reichel <sre@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
+ NB04 devices
+To: Pavel Machek <pavel@ucw.cz>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Werner Sembach <wse@tuxedocomputers.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
+References: <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
+ <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
+ <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
+ <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
+ <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
+ <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de> <ZwlDpCPhieF3tezX@duo.ucw.cz>
+ <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
+ <c52019d7-01b4-4585-a2d1-b44b0a773fc9@redhat.com>
+ <kywhqw5ef6hioemoydwub57dcmfuu3bwqpz3vjur4pkabboydo@2hrqj3zy4txv>
+ <ZxdyQFMRIRusMD6S@duo.ucw.cz>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <ZxdyQFMRIRusMD6S@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:buvMcpt7UqADbxglDvv1br4rnAVjoyNl6mJL2vRW0OAmw2ePwSV
+ rf6Ll7E5y7hUFY8h+S69VdRzhAK6FJrBDkWuDKXKFhK77jdPTHe+NE9ZqHnHvQECtmI0F2z
+ /KWGhRaUwogFJg9BTpU9CdYsCV78RW+7xsu2ADL9LGmqFtOwmybulAE7KneqNomdp2w37N/
+ je1oxtigOzTX0vHYyiSYg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:WfBvh+JhZ4Q=;OXt0JGNMGHC98/Pjb7oNflPVIwA
+ NVlBkaUMMzTEewvxxYGDTpVYglg1VJCqXHe9BqwG4fHQezZ1TE0NWxbUlXY5p19/Nbw7SzCHq
+ b664sJ6NDXBtMF8OD/C+mHMsPFsf/KRc2zztj+KNysD30jG/W7itgAgMp8UgzD3FSf3uP2Q/+
+ CIHLlkSBrskBey2D8UBbuZoD3JPSDtdOF2bv/TIoMnJe72Fb17VKbV1WLqaPlCQ18LSst4DYu
+ Md0nmKdIDcCqIAizHoSPe9x9a4dy+zm7AMzqdabac8Lm/gheA+RE9QK8kXiEUnUlFeXHxane/
+ YzqtWr7tyTI6gBc2k9eBCQU5KSJ5p9RI5vVaZkCHDqA8SNYsV0dp2lOBJ2/QFXNt1iRE0exPd
+ ilHSLTz/CqNRWXhbh7Q7p6OKxNU1ZNV7fjz10dk0hlNdPpUFdqJb2XqFHuJmY4bZ6ZM4bAuso
+ gcueega+td3x34j0oWL9AqohaDbhndfRIBdzAnURMrhJRLhcA5wBtmI0tpbu9NweZ+NHivSIs
+ f7ZePNOodMo99Qf2RdXph2GzeJVGsSZllc+bBp36Ad6zIz1Z8tuEq0bcxTH0ptHqXZveXxvi7
+ IKN3C+1cqTBM906T7RRnqv11FZE43F0Z+w5OM6NiKXF9tTrOhzfnrHpFWDccQglbkPevoMyry
+ 0mlCoiKGA1PrVUvS+kkxasRUtyuq1/jud3OSMdop8sYZdYDRRLgBEHjtG/gYdj3Hvcj0VrYNX
+ /jX758Mck6PLhrlispKzHqTU2ssPSdfSzu5CcIDHC03I1ZmJO47WH1bZTvYfhk9uc2xPzOaDx
+ kX8r3zY3z6MIAiJ7bZ6fyYEBmnYuLnVUSFRXRfDF7MImM=
 
-(...)
-> >  drivers/leds/leds-max77705.c | 157 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Am 22.10.24 um 11:37 schrieb Pavel Machek:
+
+> Hi!
 >
-> Lol!  How big is your terminal? :)
+>>> Personally I really like the idea to just emulate a HID LampArray device
+>>> for this instead or rolling our own API.  I believe there need to be
+>>> strong arguments to go with some alternative NIH API and I have not
+>>> heard such arguments yet.
+
+Using a virtual HID LampArray already creates two issues:
+
+1. We have to supply device size data (length, width, height), but the driver
+cannot know this.
+
+2. It is very difficult to extend the HID LampArray interface, for example
+there is no way to read the current LED color from the hardware or switch
+between different modes.
+
+A sysfs- and/or ioctl-based interface would allow us to:
+
+1. Threat some data as optional.
+
+2. Extend the interface later should the need arise.
+
+Looking at the tuxedo-drivers code, it seems that the WMI interface also reports:
+
+- preset color
+- device type (touchpad, keyboard, ...)
+- keyboard type (US/UK)
+
+Making this information available through the HID LampArray protocol would be
+difficult (except for the device type information).
+
+>> Agreed on everything Hans said.
+>>
+>> I'll personnaly fight against any new "illumination" API as long as we
+>> don't have committed users. This is the same policy the DRM folks
+>>> are
+> Well, and I'll personally fight against user<->kernel protocol as
+> crazy as HID LampArray is.
 >
+> OpenRGB is not suitable hardware driver.
+> 								Pavel
 
-Dunno actually, this was generated by b4
+I agree.
 
-(...)
+The point is that we need to design a userspace API since we cannot just allow
+userspace to access the raw device like with HID devices.
 
+And since we are already forced to come up with a userspace API, then maybe it would
+make sense to build a extendable userspace API or else we might end up in the exact
+same situation later should another similar driver appear.
 
-> No C++ comments please.
->
+Since the HID LampArray is a hardware interface standard, we AFAIK cannot easily extend it.
 
-This conflicts with https://patchwork.kernel.org/comment/25898728/
+Also i like to point out that OpenRGB seems to be willing to use this new "illumination" API
+as long as the underlying hardware interface is properly documented so that they can implement
+support for it under Windows.
 
-> > +             ret = regmap_update_bits(led->regmap,
-> > +                                     MAX77705_RGBLED_REG_LEDEN,
-> > +                                     MAX77705_LED_EN_MASK << led->en_shift, 0);
-> > +             max77705_rgb_blink(cdev, &blink_default, &blink_default);
-> > +     } else {
-> > +             // Set current
-> > +             ret = regmap_write(led->regmap,
-> > +                                led->reg_brightness, brightness);
->
-> Line wrap at 100-chars.
->
+I would even volunteer to write the necessary OpenRGB backend since i already contributed to
+the project in the past.
 
-From coding-style.rst:
-`The preferred limit on the length of a single line is 80 columns.`
-I only exceed 80 chars, when there's no good wrapping.
+Thanks,
+Armin Wolf
 
-
--- 
-
-Best regards,
-Dzmitry
 
