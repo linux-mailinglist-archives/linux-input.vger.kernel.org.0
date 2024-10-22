@@ -1,161 +1,198 @@
-Return-Path: <linux-input+bounces-7615-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7616-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BA499A9F0C
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 11:47:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 840D49A9F28
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 11:50:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C861E2841C1
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 09:47:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A4ECF1C2453B
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 09:50:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 205991993B2;
-	Tue, 22 Oct 2024 09:47:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4CD6199EBB;
+	Tue, 22 Oct 2024 09:49:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="nH1wjtTA"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="oldtT6Yk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9209618E02D;
-	Tue, 22 Oct 2024 09:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA96C1991B9;
+	Tue, 22 Oct 2024 09:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729590440; cv=none; b=Jde0+LXy9Sgh1RwoQ9e7yBy6Oh6mKeepf+xGLhggT58sZYNc+9eRZdNxLr8gQ3SFVVDlk2elV0ztUoB8gQamS1i++a3aANmr1++Zc29OeioIVxKgYe6m+qUGEt/cTjmDtVIaetDMb8BOyL7BcyN0cty7Xt1VykY241wCPCjNgQE=
+	t=1729590596; cv=none; b=Lw63zT53p5G9hesMb4d84EIhKXSBt65VJtYEfp0wVspGwBP1GIEFYKHhkbnFxeuxkUwh5Kcw/EVeE+gVL1Q3BaXJmuJ0Ns7iYyFOmUhwS/9Sx2JJTug1tXDnliDev608wtpulFYrIdgtXchVQ5D4yyJ9Dw0Zx3tbffafNts4As4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729590440; c=relaxed/simple;
-	bh=y3d+vpZ5OIL31Ye8Fi+k/NP/hj+C+n9jcuCpILHGGag=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ss5i+1a7ku+foSuPpAadLgP4c4dbv0KwFWbs1xFIsnsXjwC84VK8ccBrqdTmxmozT2sKjduRqlhjBbzcWYXYfKM3OMEB30BmvF7XQ8+EVI4+wyArO3tr4lj4sQaVZlaBK92ah/3o64Mn6+0jeI3DKqNq/exh6gdac4mezN+8r6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=nH1wjtTA; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 77B1F1C006B; Tue, 22 Oct 2024 11:47:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1729590434;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dSDlBFL2PfLrCn7v33SNOWjYPKjIXUgPATj3s3TfkA4=;
-	b=nH1wjtTAj8yQYgCeyr1tt1HHFMgJGRTOPK0nYBPoQDvGWRsmWzZ+LatoIuhPpo7mXgbwMQ
-	gWnEHoCWc9Bcj289IQUTt0vyHVQnOPGpn+WzPEP7UHJ5NUru96PIJHKMt9UwjpxPMgEeAB
-	PB0MZmQIqC/FibFK/knAgmvJy76HwoU=
-Date: Tue, 22 Oct 2024 11:47:14 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Armin Wolf <W_Armin@gmx.de>, Werner Sembach <wse@tuxedocomputers.com>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
-	lee@kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
-	onitake@gmail.com, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO NB04 devices
-Message-ID: <Zxd0ou7GpCRu0K5a@duo.ucw.cz>
-References: <sih5i2ausorlpiosifvj2vvlut4ok6bbgt6cympuxhdbjljjiw@gg2r5al552az>
- <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
- <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
- <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
- <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
- <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
- <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de>
- <ZwlDpCPhieF3tezX@duo.ucw.cz>
- <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
- <c52019d7-01b4-4585-a2d1-b44b0a773fc9@redhat.com>
+	s=arc-20240116; t=1729590596; c=relaxed/simple;
+	bh=nCzRJ1LbBCDjOWEeoH9yNZbsyD6ffv5nqZxpGDEu7+0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MbmCFVbxS55CItMXZYvlVuv+4ddpRIRFe1ARSf83glphfVgaJkStQvyEdLAzeOa8xXvXiOLmLXGggLvGdDuZqf+bechHy/c9PDAEA4FHxxn2InTi//5x70Oalfc6PVevb5T2kIWSSmZtwsSb6fTlD/nzzqqxCXcDPC4YsESj9p8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=oldtT6Yk; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1729590592;
+	bh=nCzRJ1LbBCDjOWEeoH9yNZbsyD6ffv5nqZxpGDEu7+0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oldtT6YkN+poyFUM3an948NAQ1vDUR9PXYx8Qgv9gP5MHbb1W1mZu2iAFx14HSKB2
+	 rS9EViKhZhwDXQ5qdRG/h217QlNRCqgoZC8TcONj7xsgn+2ZEBXUnVwCeUgdCC+gln
+	 KhNNujVzPfCozkAeZoegEdGNwR4xOAK3j7X2iPZYXH3Pu96ixLlioAFsEoUhaOuGSm
+	 TJB0NOXo/eLxJiByF4hShfPhZ3By4L5k7r+kViNBZDIh4jBLrC0a1Q+eU/MbsGeM5z
+	 f35kokcURoJos2ZG/mk1Sx6gOqCAhzc3bk1cAaHvOpuRyUPsFwFcuVxP8CBGv+xXsy
+	 90v9rUIofjJdA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0D6F917E139E;
+	Tue, 22 Oct 2024 11:49:52 +0200 (CEST)
+Message-ID: <52a7c00a-6638-420b-a65b-208491c55074@collabora.com>
+Date: Tue, 22 Oct 2024 11:49:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="VyjLwRGdYiDTANtH"
-Content-Disposition: inline
-In-Reply-To: <c52019d7-01b4-4585-a2d1-b44b0a773fc9@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/6] regulator: Add driver for MediaTek MT6328 PMIC
+ regulators
+To: Yassine Oudjana <yassine.oudjana@gmail.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Sen Chu <sen.chu@mediatek.com>,
+ Sean Wang <sean.wang@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>,
+ Lee Jones <lee@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ jason-ch chen <Jason-ch.Chen@mediatek.com>,
+ Chen Zhong <chen.zhong@mediatek.com>, Flora Fu <flora.fu@mediatek.com>,
+ Alexandre Mergnat <amergnat@baylibre.com>,
+ Yassine Oudjana <y.oudjana@protonmail.com>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+References: <20241018081050.23592-1-y.oudjana@protonmail.com>
+ <20241018081050.23592-6-y.oudjana@protonmail.com>
+ <4cf5a3d0-97a2-4a43-a91a-0a35aa2bc7e4@collabora.com>
+ <04OPLS.YYQIIIW9J73R3@gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <04OPLS.YYQIIIW9J73R3@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Il 21/10/24 16:55, Yassine Oudjana ha scritto:
+> 
+> On Mon, Oct 21 2024 at 15:24:51 +02:00:00, AngeloGioacchino Del Regno 
+> <angelogioacchino.delregno@collabora.com> wrote:
+>> Il 18/10/24 10:10, Yassine Oudjana ha scritto:
+>>> From: Yassine Oudjana <y.oudjana@protonmail.com>
+>>>
+>>> Add a driver for the regulators on the MT6328 PMIC.
+>>>
+>>> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
+>>> ---
+>>>   drivers/regulator/Kconfig                  |   9 +
+>>>   drivers/regulator/Makefile                 |   1 +
+>>>   drivers/regulator/mt6328-regulator.c       | 479 +++++++++++++++++++++
+>>>   include/linux/regulator/mt6328-regulator.h |  49 +++
+>>>   4 files changed, 538 insertions(+)
+>>>   create mode 100644 drivers/regulator/mt6328-regulator.c
+>>>   create mode 100644 include/linux/regulator/mt6328-regulator.h
+>>>
+>>> diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
+>>> index 249933d6388dd..e9b9faff67f3a 100644
+>>> --- a/drivers/regulator/Kconfig
+>>> +++ b/drivers/regulator/Kconfig
+>>> @@ -862,6 +862,15 @@ config REGULATOR_MT6323
+>>>         This driver supports the control of different power rails of device
+>>>         through regulator interface.
+>>>   +config REGULATOR_MT6328
+>>> +    tristate "MediaTek MT6328 PMIC"
+>>> +    depends on MFD_MT6397
+>>> +    help
+>>> +      Say y here to select this option to enable the power regulator of
+>>> +      MediaTek MT6328 PMIC.
+>>> +      This driver supports the control of different power rails of device
+>>> +      through regulator interface.
+>>> +
+>>>   config REGULATOR_MT6331
+>>>       tristate "MediaTek MT6331 PMIC"
+>>>       depends on MFD_MT6397
+>>> diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
+>>> index 9b69546fb3f65..c1a5a44413198 100644
+>>> --- a/drivers/regulator/Makefile
+>>> +++ b/drivers/regulator/Makefile
+>>> @@ -103,6 +103,7 @@ obj-$(CONFIG_REGULATOR_MPQ7920) += mpq7920.o
+>>>   obj-$(CONFIG_REGULATOR_MT6311) += mt6311-regulator.o
+>>>   obj-$(CONFIG_REGULATOR_MT6315) += mt6315-regulator.o
+>>>   obj-$(CONFIG_REGULATOR_MT6323)    += mt6323-regulator.o
+>>> +obj-$(CONFIG_REGULATOR_MT6328)    += mt6328-regulator.o
+>>>   obj-$(CONFIG_REGULATOR_MT6331)    += mt6331-regulator.o
+>>>   obj-$(CONFIG_REGULATOR_MT6332)    += mt6332-regulator.o
+>>>   obj-$(CONFIG_REGULATOR_MT6357)    += mt6357-regulator.o
+>>> diff --git a/drivers/regulator/mt6328-regulator.c b/drivers/regulator/mt6328- 
+>>> regulator.c
+>>> new file mode 100644
+>>> index 0000000000000..e15a64404f494
+>>> --- /dev/null
+>>> +++ b/drivers/regulator/mt6328-regulator.c
+>>> @@ -0,0 +1,479 @@
+>>> +// SPDX-License-Identifier: GPL-2.0
+>>> +/*
+>>> + * MediaTek MT6328 regulator driver
+>>> + * Based on MT6323 driver.
+>>> + *
+>>> + * Copyright (c) 2016 MediaTek Inc.
+>>> + * Copyright (c) 2022 Yassine Oudjana <y.oudjana@protonmail.com>
+>>> + */
+>>> +
+>>
+>> ..snip..
+>>
+>>> +/* The array is indexed by id(MT6328_ID_XXX) */
+>>> +static struct mt6328_regulator_info mt6328_regulators[] = {
+>>> +    MT6328_BUCK("buck_vpa", VPA, 500000, 3650000, 50000,
+>>> +        buck_volt_range1, MT6328_VPA_CON9, MT6328_VPA_CON11, 0x3f,
+>>> +        MT6328_VPA_CON12, MT6328_VPA_CON7),
+>>
+>> Can you please fix the indentation?
+>>
+>> Also, all of those entries do fit in two lines, I checked a couple of those
+>> and always ended up with less than 90 columns anyway.
+> 
+> I can't seem to fit even the first one in 2 lines in under 90 columns :/
+> That is unless I don't indent the second line:
+> 
+>      MT6328_BUCK("buck_vpa", VPA, 500000, 3650000, 50000, buck_volt_range1,
+>      MT6328_VPA_CON9, MT6328_VPA_CON11, 0x3f, MT6328_VPA_CON12, MT6328_VPA_CON7),
+> 
+> Which I don't think is what you meant by fixing the indentation. Can you show me an 
+> example? With 100 columns on the other hand it seems like they should fit.
+
+I can get that one specifically to 96 columns... it's okay.
+Just don't get over 100 columns please: if a few need 3 lines, they just do.
+
+Anyway, here's an example:
+
+MT6328_BUCK("buck_vpa", VPA, 500000, 3650000, 50000, buck_volt_range1, MT6328_VPA_CON9,
+	    MT6328_VPA_CON11, 0x3f, MT6328_VPA_CON12, MT6328_VPA_CON7),
+
+...since I'm not sure that this will render correctly in the outgoing email, here's
+another example:
+
+MT6328_BUCK("buck_something", SOMETHING, params, blahblah, thisandthat,
+             something_else),
+
+Cheers,
+Angelo
+
+>>
+> 
+> 
 
 
---VyjLwRGdYiDTANtH
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi!
-
-> > Sorry for taking a bit long to respond.
-> >=20
-> > This "illumination" subsystem would (from my perspective) act like some=
- sort of LED subsystem
-> > for devices with a high count of LEDs, like some RGB keyboards.
-> >=20
-> > This would allow us too:
-> > - provide an abstract interface for userspace applications like OpenRGB
-> > - provide an generic LED subsystem emulation on top of the illumination=
- device (optional)
-> > - support future RGB controllers in a generic way
-> >=20
-> > Advanced features like RGB effects, etc can be added later should the n=
-eed arise.
-> >=20
-> > I would suggest that we model it after the HID LampArray interface:
-> >=20
-> > - interface for querying:
-> > =A0- number of LEDs
-> > =A0- supported colors, etc of those LEDs
-> > =A0- position of those LEDs if available
-> > =A0- kind (keyboard, ...)
-> > =A0- latency, etc
-> > - interface for setting multiple LEDs at once
-> > - interface for setting a range of LEDs at once
-
-How are LEDs ordered? I don't believe range makes much sense.
-
-> > I do not know if mixing sysfs (for controller attributes like number of=
- LEDs, etc) and IOCTL
-> > (for setting/getting LED colors) is a good idea, any thoughts?
->=20
-> I wonder what the advantage of this approach is over simply using HID Lam=
-pArray
-> (emulation), openRGB is already going to support HID LampArray and since =
-Microsoft
-> is pushing this we will likely see it getting used more and more.
-
-There's nothing simple about "HID LampArray". Specification is long
-ang ugly... and we don't want to be stuck with with OpenRGB (links to QT!).
-
-> Using HID LampArray also has the advantage that work has landed and is la=
-nding
-> to allow safely handing over raw HID access to userspace programs or even
-> individual graphical apps with the option to revoke that access when it is
-> no longer desired for the app to have access.
-
-HID raw is not suitable kernel interface.=20
-
-> Personally I really like the idea to just emulate a HID LampArray device
-> for this instead or rolling our own API.  I believe there need to be
-> strong arguments to go with some alternative NIH API and I have not
-> heard such arguments yet.
-
-If you don't want "some alternative API", we already have perfectly
-working API for 2D arrays of LEDs. I believe I mentioned it before
-:-). Senzrohssre.
-
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---VyjLwRGdYiDTANtH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZxd0ogAKCRAw5/Bqldv6
-8m6sAJ0YT3KbWDAvOAdjM55GB5oXYxhp9ACdEtOhCVRhzSDt8MHjQdKfqxkRBy8=
-=9vbl
------END PGP SIGNATURE-----
-
---VyjLwRGdYiDTANtH--
 
