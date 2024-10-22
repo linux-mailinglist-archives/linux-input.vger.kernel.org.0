@@ -1,184 +1,200 @@
-Return-Path: <linux-input+bounces-7608-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7609-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AE949A9ACB
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 09:19:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB499A9BAE
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 09:59:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C51C1C22277
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 07:19:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 136EE1F22116
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 07:59:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 443FF1494AB;
-	Tue, 22 Oct 2024 07:19:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B297116F85E;
+	Tue, 22 Oct 2024 07:58:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZPAP34ri"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="W7sLrsqR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E25413D882;
-	Tue, 22 Oct 2024 07:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2681547C0
+	for <linux-input@vger.kernel.org>; Tue, 22 Oct 2024 07:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729581562; cv=none; b=RYfxG62lqzcSvop/Yra3BOvYmlH8+iNJ2NTHGKA0lKMB+YYBD6C3PRf9EiPKhf6I/5D5tqxseZK3rYu7xX6IcPtow071jhhudgvFeWY0/zQa3f7y+4iJGIjUWELfV5TDDzZW4oRgKflpxoepV9abdKrVMX+nEBWeDK/J9FsX2iE=
+	t=1729583937; cv=none; b=UskJM6IQLvjY3/fl4EZ0fe/2/MbeEb0TmnIMPgtjYvlbMtQ5zUmx/uDlwkHutMlpBYPmWOVwSwrmelKKa5Nio8OyzeYmV4FAWpF2w3Avhdmugz7ZdGnKk6awCr7yO5Qu/Fw8wbutcL7X/99dzZVyHywrsaUHmaPfCPyuBVjPeCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729581562; c=relaxed/simple;
-	bh=ZijgXv2TM6YWiupi5TuKGeeesw3ZN88Ht0fCGQ0XX1w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rmqEcWUjuSZGOywZjwSsHrTwh2BGMXpOYJYKHopFLe9q9clhQzGre7odOOTpNnc4PzZOYYBrEIaZaEjlHOddsDGrlT8OB1znx9vKURyCtJa5gGZUQ9p5LRKa/W1kYZzBLBvCI9RHrwEQR6Hb+W9IgmgVmxBRU1hx4I1CJRIw5vE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZPAP34ri; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20e576dbc42so37436805ad.0;
-        Tue, 22 Oct 2024 00:19:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729581560; x=1730186360; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=XrY5a8w2eF5hqkiN1ay+aD3AseD3qSj3rX8OoR3oJKI=;
-        b=ZPAP34rimC7nG1Ne6QXGz2vm9E/emcW3McWQ0v50ElRo82TtkBa6pFQyY3HoMBgMwN
-         2Y8JX2QV+JLCQhO2B0BuBoTly47zbFY2vP8qK6bt8V5UBHHVp2/KN8rsPiMDuE7Z9hlL
-         B1Rm23MhHek8o3gC5ptvpxrHtJDbyhOou2Fp/EdPP9HWTSut4hLmbFrSEkhvcYwG6LvB
-         bJ7nyagCORjvz15CLcdQom7hVjQGcbVbG+/r6pzvBIwQ0ooI3QC2NyGL5AMAo9vziiwl
-         KSYE99AgpTklsz1HXBjXsRRPf+Cw5GbCnqvNKfJ6BVAxijV6gPn+kNqPs17xyNEwUqq4
-         Yonw==
+	s=arc-20240116; t=1729583937; c=relaxed/simple;
+	bh=lASjZqRy8DWUdG/x3b3JyJoeoS2+o+iWUvtizrQ9F9A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rRijzWmmbUcmNK2SC3XZgJg93g5ag1qCxWHC7477aSUaD2kqzuNA3WeUnJtI+x0HjKgdox54/kD0Jn3MMUiqMEDGCPQ8NYrhUSO7LU+3tE5s9/yz4x5YsYWMGCZ/5VK/Z10cyOQYXOVH5IzqOVZ4wQ7wr1U6wzu9zChl+x/fTGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=W7sLrsqR; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1729583935;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/toOIhDFxtm2KiH53yytgdrHcc4/hOCbQgrRu1IsbBM=;
+	b=W7sLrsqR8ZiNtLEbDBSgXwTYLDnr+36YNX8ppqYnFXTTgrjjA/S5pwTP4tM/czYNcRoMDT
+	G/mpjvhb8H491pE+bxdly3B+zBhdEKmdBkvnYv4z0LYvVgMUgFSTWU3UBRjoH6guix3u0T
+	/l+uxMrh0/Kphj8rtkTl+cS230nqdAU=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-148-T3J5pz2SN_6K0qNuwHPSUw-1; Tue, 22 Oct 2024 03:58:53 -0400
+X-MC-Unique: T3J5pz2SN_6K0qNuwHPSUw-1
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-53a0b48e8d4so4950998e87.3
+        for <linux-input@vger.kernel.org>; Tue, 22 Oct 2024 00:58:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729581560; x=1730186360;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1729583932; x=1730188732;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XrY5a8w2eF5hqkiN1ay+aD3AseD3qSj3rX8OoR3oJKI=;
-        b=bqjXXtOm7kX61cIxuwyJxzEoQGRWdRzs25zMLIfFLLIkvXqtv4XyNo2XC4SMXWrnk4
-         Vtw1/CnBPyx55Ql6Q7rs8V+ovNlUl0HO6UavUr3IvL/7etBwON+nwBVGKZwg5ckSywrc
-         jnGPrpdL+sMLJKsLBnv9EL3I5qIgGp8r8dA/vyq360xJozv5GFX1mprjUu0oev3rg3wi
-         UhAveDc16q7JtFcvI4qfITh2NyPs7HW3nIGVEy0M3Zu+nju+nYYmGl8lZMSGCswu+k3R
-         URFcVmTaGAKouj4cEzyWfKlYBwnPjWID4IBEriXFdv/z3HTbLbSqoMMuWH+37qKN4Bz6
-         6Itg==
-X-Forwarded-Encrypted: i=1; AJvYcCVFpoaxItbXUsF21xl7vx5MravY8XGIML6e7ek/1LbPiw3U4F21yGGlb5qBqMCtbroW8JIsIunAvDKn@vger.kernel.org, AJvYcCXNl15X2/6gXOAu50qmJj6fegtdLqCwTipja9JFvOUVuCCejlsuM37n3TR/BXlE7Fqwp9dna5/lbegxU0dL@vger.kernel.org, AJvYcCXbZQAhug/lDK0L2CPXccjsF6kJYSUPkvxYnyAjlquyhLH0jBFJp/R/TCMmr0h2PALz9sVhabGgMn8qxNU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YztGI6HaWelij0flP+G0i8CoErEMErgZyvRmvXT3kQincAh4pOY
-	xgun5mUkdSrdhfTQWJZGR6MOKqMxflWs9nziNz13Qi3mtNlRGs48
-X-Google-Smtp-Source: AGHT+IF971eN1XW/0cnJQ0Xzkjpk9q0IGwL5BsrxQpmOzncKIjssOO7/GR2M8uI66dtXtBMqphhnmA==
-X-Received: by 2002:a17:902:f544:b0:20c:9821:6997 with SMTP id d9443c01a7336-20e983eff6bmr25662825ad.8.1729581559751;
-        Tue, 22 Oct 2024 00:19:19 -0700 (PDT)
-Received: from ux-UP-WHL01 ([120.237.109.178])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0db9bfsm36666475ad.211.2024.10.22.00.19.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 00:19:19 -0700 (PDT)
-Date: Tue, 22 Oct 2024 15:19:04 +0800
-From: Charles Wang <charles.goodix@gmail.com>
-To: Doug Anderson <dianders@chromium.org>
-Cc: krzk@kernel.org, dmitry.torokhov@gmail.com, hbarnor@chromium.org,
-	conor.dooley@microchip.com, jikos@kernel.org, bentiss@kernel.org,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: input: Goodix SPI HID Touchscreen
-Message-ID: <ZxdRaaCR7eTOCQkB@ux-UP-WHL01>
-References: <20241018020815.3098263-2-charles.goodix@gmail.com>
- <CAD=FV=UFrk4QCxWzV9zUZnjhwiFf22Fji5KH83svdwba2mPVBA@mail.gmail.com>
- <ZxMfu4yxk961mZWB@ux-UP-WHL01>
- <fbde8a3a-3adc-4c1a-8529-fde0fa149c8e@kernel.org>
- <CAD=FV=VphXewyk_mpGHUZKw8_aK8HnH8T-YumwM70eyz22S+Aw@mail.gmail.com>
+        bh=/toOIhDFxtm2KiH53yytgdrHcc4/hOCbQgrRu1IsbBM=;
+        b=MDsU3sKqMDURF4iSGkzMwRfPG7bzpBNY3KwstIL8eGLE4JlrX5EwRYVvvUBr25ac2Y
+         lFJ0qIdd1xP9prSdtydqWv0QijhpeP3O/q1CfUWtOq4X3Cn6mkA+hz52f1enTVTvPCq9
+         FIw3HZk1HWNJycEeSb6tG19Sb+mO2D12c7lU+bp5LLx+us2ypXey2E74gWwDfkjRlNhO
+         t5tEsWUjxItQYae4w+iUPGaAmXqRfrhW30VPcV+7Fap27z7GcMdYs1UiPBUidoVDSVNX
+         upcS2ho82Bg4KiX0aIO3uaW2V6ZxeYMAHTkZVURuIiBZO6vJwDVxJgFSjMJB7yJegHr4
+         ul9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXPYFBqr10Gvl9fuAMd8DhGCZwG1rMAmQGQPslcAdMC+jEwj5g91FQZg1cYkgJk7LfTrxAdxi3nnky6Tw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5I/+WE51gnU2g1twPKIO7hjH692rTBA6TfxlgGT2gbnT8QkQY
+	Yg3ENy+rrmz5F9IlWHI7vPtRL6j/kd3QKRBYJedZfiDio3SBGvErrnFhLL8SkMk5lQhWxPnG8Fv
+	Lrqzoqz0lH+eBQaF1AxypoclVeK48/b2UkeIJwUDOCe1iScrVxCPQ6szeZNPO2nnP7+nIpu4=
+X-Received: by 2002:a05:6512:1396:b0:539:e873:6e6 with SMTP id 2adb3069b0e04-53a15445fbbmr6176920e87.43.1729583931678;
+        Tue, 22 Oct 2024 00:58:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFHZkuY2o29BsH2nW9fSeox5DGzjxId3xF7ANCRMftKPLZng9BBjKBjW/HI8QrQjL7hrhqDkQ==
+X-Received: by 2002:a05:6512:1396:b0:539:e873:6e6 with SMTP id 2adb3069b0e04-53a15445fbbmr6176880e87.43.1729583930939;
+        Tue, 22 Oct 2024 00:58:50 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cb66a6a729sm2841670a12.54.2024.10.22.00.58.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Oct 2024 00:58:50 -0700 (PDT)
+Message-ID: <c52019d7-01b4-4585-a2d1-b44b0a773fc9@redhat.com>
+Date: Tue, 22 Oct 2024 09:58:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
+ NB04 devices
+To: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>
+Cc: Werner Sembach <wse@tuxedocomputers.com>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
+References: <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
+ <d7gk2mgihtg6242l3isnhw3xpdt745ehpu2kvim2xxgmxdhat7@g5cqei7uqujj>
+ <39f84cfe-bb89-4194-81a9-e178c93e5309@tuxedocomputers.com>
+ <sih5i2ausorlpiosifvj2vvlut4ok6bbgt6cympuxhdbjljjiw@gg2r5al552az>
+ <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
+ <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
+ <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
+ <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
+ <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
+ <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de> <ZwlDpCPhieF3tezX@duo.ucw.cz>
+ <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=VphXewyk_mpGHUZKw8_aK8HnH8T-YumwM70eyz22S+Aw@mail.gmail.com>
 
-Hi Doug,
+Hi Armin,
 
-On Mon, Oct 21, 2024 at 08:37:32AM -0700, Doug Anderson wrote:
-> Hi,
+On 21-Oct-24 10:26 PM, Armin Wolf wrote:
+> Am 11.10.24 um 17:26 schrieb Pavel Machek:
 > 
-> On Mon, Oct 21, 2024 at 2:43 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> >
-> > On 19/10/2024 04:55, Charles Wang wrote:
-> > > Hi Doug
-> > >
-> > > On Fri, Oct 18, 2024 at 01:48:56PM -0700, Doug Anderson wrote:
-> > >>
-> > >> On Thu, Oct 17, 2024 at 7:09 PM Charles Wang <charles.goodix@gmail.com> wrote:
-> > >>>
-> > >>> The Goodix GT7986U touch controller report touch data according to the
-> > >>> HID protocol through the SPI bus. However, it is incompatible with
-> > >>> Microsoft's HID-over-SPI protocol.
-> > >>>
-> > >>> Signed-off-by: Charles Wang <charles.goodix@gmail.com>
-> > >>> ---
-> > >>>  .../bindings/input/goodix,gt7375p.yaml        | 68 ++++++++++++++++---
-> > >>>  1 file changed, 58 insertions(+), 10 deletions(-)
-> > >>
-> > >> I'm happy to let device tree folks make the call here, but IMO it
-> > >> would be much cleaner to just consider the I2C-connected GT7986U and
-> > >> the SPI-connected GT7986U to be different things and just use a
-> >
-> > Same device, you cannot have different compatibles. The way how the same
-> > (literally same chip) device sits on the bus is not part of the binding,
-> > thus no different compatibles.
+>> Hi!
+>>
+>>>> 1.
+>>>> https://lore.kernel.org/all/6b32fb73-0544-4a68-95ba-e82406a4b188@gmx.de/
+>>>> -> Should be no problem? Because this is not generally exposing wmi
+>>>> calls, just mapping two explicitly with sanitized input (whitelisting
+>>>> basically).
+>>> It would be OK to expose a selected set of WMI calls to userspace and sanitizing the input of protect potentially buggy firmware from userspace.
+>>>
+>> I don't believe this is good idea. Passthrough interfaces where
+>> userland talks directly to hardware are very tricky.
+>>
+>>> Regarding the basic idea of having a virtual HID interface: i would prefer to create a illumination subsystem instead, but i have to agree that we should be doing this
+>>> only after enough drivers are inside the kernel, so we can design a
+>>> suitable interface for them. For now, creating a virtual HID
+>>> interface seems to be good enough.
+>> I have an RGB keyboard, and would like to get it supported. I already
+>> have kernel driver for LEDs (which breaks input functionality). I'd
+>> like to cooperate on "illumination" subsystem.
+>>
+>> Best regards,
+>>                                 Pavel
 > 
-> I don't want to belabour the point too much, but this doesn't feel
-> completely black and white here.
+> Sorry for taking a bit long to respond.
 > 
-> "Same chip": a whole lot of laptops and phones all use the "same chip"
-> (same SoC) yet are different products. ...or you can look at the fact
-> that many peripherals have the same STM32 or Nuvoton chip in them but
-> are wildly different peripherals.
+> This "illumination" subsystem would (from my perspective) act like some sort of LED subsystem
+> for devices with a high count of LEDs, like some RGB keyboards.
 > 
-> In this case, Goodix may have made an ASIC called "GT7986U" that has
-> some type of CPU on it that can run firmware that can talk as an I2C
-> device or a SPI device. This ASIC may be intended to be used as a
-> touchscreen controller, but fundamentally it doesn't feel that
-> different from an STM32. You can build different boards designs with
-> the "GT7986U" on it and those boards are intended to run different
-> firmware.
+> This would allow us too:
+> - provide an abstract interface for userspace applications like OpenRGB
+> - provide an generic LED subsystem emulation on top of the illumination device (optional)
+> - support future RGB controllers in a generic way
 > 
-> People manufacturing touch controller boards presumably put this
-> "GT7986U" on their touch controller board, maybe set certain
-> strappings telling it that it's talking over SPI or I2C or maybe just
-> decide which pins they're going to wire out to the board-to-board
-> connector on the touch controller board. A touch controller board
-> intended to talk over SPI may look 98% the same as a touch controller
-> board intended to talk over I2C, but what percentage of "sameness"
-> means that we need the same compatible string?
+> Advanced features like RGB effects, etc can be added later should the need arise.
 > 
-> Would things be different if Goodix decided to manufacture touch
-> controller boards themselves and sold two SKUs: a GT7986U-S and a
-> GT7986U-I?
+> I would suggest that we model it after the HID LampArray interface:
 > 
-> I would also note that (reading back in previous conversations) I
-> think Charles said that they run different firmware on the SPI vs. I2C
-> touch controllers. As I understand it, the firmware running on a
-> device can make it a different device from a device tree perspective.
-> The device tree does its best to describe just the hardware but it can
-> get fuzzy. For instance the "VID/PID" of a USB device is usually
-> something programmable and could be updateable by a firmware change
-> but we still may need to encode the VID/PID of the firmware that is
-> intended to run on the device in the device tree.
+> - interface for querying:
+>  - number of LEDs
+>  - supported colors, etc of those LEDs
+>  - position of those LEDs if available
+>  - kind (keyboard, ...)
+>  - latency, etc
+> - interface for setting multiple LEDs at once
+> - interface for setting a range of LEDs at once
+> - interface for getting the current LED colors
 > 
-> Anyway, I'm happy to be quiet about this and fine if folks want to
-> continue to work towards a "unified" binding. It makes me a little
-> uncomfortable that I'll still end up listed as a "maintainer" of the
-> unified binding because I don't totally agree with it, but I'm also
-> pragmatic and I'd rather have something that can land.
+> Since sysfs has a "one value per file" rule, i suggest that we use a chardev interface
+> for querying per-LED data and for setting/getting LED colors.
 > 
+> I do not know if mixing sysfs (for controller attributes like number of LEDs, etc) and IOCTL
+> (for setting/getting LED colors) is a good idea, any thoughts?
 
-Thank you very much for your attention. Your understanding of the GT7986U
-SPI and I2C devices is correct. There is no fundamental difference between
-them and the STM32, as they are all ASIC devices. The functionality of the
-device is determined by the firmware that is loaded, although the GT7986U
-is an ASIC specifically designed for touchscreens.
+I wonder what the advantage of this approach is over simply using HID LampArray
+(emulation), openRGB is already going to support HID LampArray and since Microsoft
+is pushing this we will likely see it getting used more and more.
 
-Additionally, the firmware and devices are generally bound to specific touch
-panels, meaning that firmware intended for SPI will not function properly on
-an I2C touch panel.
+Using HID LampArray also has the advantage that work has landed and is landing
+to allow safely handing over raw HID access to userspace programs or even
+individual graphical apps with the option to revoke that access when it is
+no longer desired for the app to have access.
 
-Best regards,
-Charles
+HID LampArray gives us a well designed API + a safe way to give direct access
+to e.g. games to control the lighting. I really don't see the advantage of
+inventing our own API here only to then also have to design + code some way to
+safely give access to sandboxed apps.
+
+Note that giving access to sandboxed apps is a lot of work, it is not just
+kernel API it also requires designing a portal interface + implementing
+that portal for at least GNOME, KDE and wlroots.
+
+Personally I really like the idea to just emulate a HID LampArray device
+for this instead or rolling our own API.  I believe there need to be
+strong arguments to go with some alternative NIH API and I have not
+heard such arguments yet.
+
+Regards,
+
+Hans
+
+
+
+
 
