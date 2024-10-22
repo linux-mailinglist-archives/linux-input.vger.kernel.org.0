@@ -1,115 +1,215 @@
-Return-Path: <linux-input+bounces-7617-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7618-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD249AA13C
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 13:39:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C34D9AB02D
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 15:56:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C83CBB22245
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 11:39:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1ECF8283CBD
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 13:56:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C20BE19ADA4;
-	Tue, 22 Oct 2024 11:39:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65E4319F47E;
+	Tue, 22 Oct 2024 13:56:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EBaBTpjP"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zYP90jaF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vIs0nCwm";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="B5TBZtQQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ERVik9h3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD3119AD73;
-	Tue, 22 Oct 2024 11:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF5319F133;
+	Tue, 22 Oct 2024 13:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729597145; cv=none; b=RO/RzML06nqy5TbhsAgTZ4bzMQguASqKW/E8FmznypGfTnvF3ccPSuZ6flXtl2K1fEqGcSsZ1MNSdziv1WB3w8raxrB+Rj9UWWlBv5I+asqb5vJsDE2PaooHRW7NPBro5LTJbnsy6hviR+0TVYA3FTKC7wbeLQFyMrLVtHvrfmA=
+	t=1729605364; cv=none; b=scyLnSoFSHExt8s0rSwuQmJvgPV3me57zSMNMtrstHkwtUhqg/GEn2DI4RxhUcGHAfkKhIO3Rv1/7BbceIkgTkD94k0FI7xZ51pooRTB2oaFll/R+fT5V1jYd3Z4HbScZdWiHn5VfJWcsOMJ1dSb2FI4o7OcJ06iKpJTFrlsjsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729597145; c=relaxed/simple;
-	bh=xsLOdvTIt+hKikDGyYUAdrz3/I92fSsEZ5rZ8b7IO1Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l+uPVBVTsWdUSxnquawf7DN+kVi7PVjr3EV3exrTNKHoaIDIF4g6GDkRYBEdfJINOmKQYSG4ZOMokU7++BvmWWNbwUjDxQpETIgy92lZ24sSBa9aM8rb/42Fjc2Gc6wOJFBgPHk3GwLr/UBxmWBF3J8H42xQYf03BRCBeZUQerg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EBaBTpjP; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53a0c160b94so4024341e87.2;
-        Tue, 22 Oct 2024 04:39:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729597142; x=1730201942; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=G6fP1oVfvbBEWYTyzY/rcgPKAc7qrRN1SO5D1jI8RPY=;
-        b=EBaBTpjPvOq7z3f+RNXUMw8+elYQ35bhVhPR7FNr2SrBg8TXBkgzhJ9urHO6kV51k4
-         6rg/PiOekpvcfbNeEJ0o/wO/28nk5NtyqZ2MhPdirCKWgiXelM6V7uFEKquZyGancIEc
-         vU5Pm8ud48kyAoEaHkdoQ+zpFbyhZEeC7I96eSFi/GKYDwdTUAzouMaamENsg6o6Ca+K
-         73QHYfieY4T1uUUwAavHgaYUTWAJ4jwYQgR6pEnWeT41vEHuK9j4VWxw9+IhN/qptyE6
-         4o9A/Ul0537dtV/agWANBcZbhlcakPwDDPJKheWWoVDkkJPLgk2NiQ/fLPe3lY/fs0jS
-         P+qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729597142; x=1730201942;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G6fP1oVfvbBEWYTyzY/rcgPKAc7qrRN1SO5D1jI8RPY=;
-        b=hVxsditpo5k2OTQl7bVBEW+Zv3DtA0dFVLyeMg7QXQDY0do66lOGUNQuQMWS2jIKIS
-         Bk3QnnQw2KoiTdMYcFIcP4B4ZkXDleZf8UADqWf/opPGN+Def467iI5vC6X/zSpKjDlw
-         zWqTxJyJ4IWKNpAzZT+8tlkJHc9yUQkaFNuPzULmgtTJtNGuOE9Xohk6gfMOwvLLFZyX
-         4aXTqU5+3r/Xp9McSU8X1j4FVx9DYzX++0OVN2Np4CUKCiwq12MUESnZMWrC99dlPXQi
-         SiAryjKIrLqT2I+DkVQgu1qWwTJDlmgUWrCHfNKnmW5mJKBi0a+xyKQRX3NTpzqtbKBZ
-         wScg==
-X-Forwarded-Encrypted: i=1; AJvYcCUUkflXXnhSY9mHtTQFkOBd8J1vI71v8xc0+nsV1ZEGuNCr0k7eMhVQQtU0tLvhhFA6BNF+kQ69v4O8bkk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIMUhcgyFYU6J/7VEf53qUYSVAk41zO77cj0As5WbH16hD3cnT
-	v9KIgW+Qfln5chWYABoHQtuaieubrC0HuotTmrBcej265sfn6TWin4gAoludsQ0=
-X-Google-Smtp-Source: AGHT+IEk2MXOmTku98IlZ0eH4/uCPAgeWFROOJZVqG6Jf5Mh3NEdqJ5RcvoNeqHSOu0JbKwfHKFhrQ==
-X-Received: by 2002:a05:6512:6d1:b0:539:a2f5:2f1d with SMTP id 2adb3069b0e04-53a154afc13mr7199216e87.61.1729597141842;
-        Tue, 22 Oct 2024 04:39:01 -0700 (PDT)
-Received: from gi4n-KLVL-WXX9.. ([2a01:e11:5400:7400:850c:5867:abe5:b8c9])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cb675eb1bdsm2991006a12.10.2024.10.22.04.38.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 04:39:01 -0700 (PDT)
-From: Gianfranco Trad <gianf.trad@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: linux-input@vger.kernel.org,
+	s=arc-20240116; t=1729605364; c=relaxed/simple;
+	bh=Y7HT68PXYjz7d0Br/DnftiWOw45gz2zuwSv4S657zF4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eGe7TvekAaJJoPFjpVTUraJCVi25y3BU24Atn4v25UgbAMS2UHSBbaLn/Q7d6k7qstmNl8RIjTzGHjsDCRtZrj+iAyilironWuYpi8SWEoGAFT0yo+ulKOb8UOXaGKhixXiiCXT2zcYD8ELJRvKsLQuS+7bZMr8NcPcYBXzeIHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zYP90jaF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vIs0nCwm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=B5TBZtQQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ERVik9h3; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D6F6D1FD13;
+	Tue, 22 Oct 2024 13:55:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729605359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdcbEOWzL6eyI2kQxh26Goo1tOGvWeIqXTumtwk51No=;
+	b=zYP90jaFV5Pb19n9JW5vzlWwFSGAe0FYGkbu+Cfa+verVBwzWQkpkwgHO33ZFE1a1dvdZK
+	0tuttYC1/ND40gdt/oVuioznRPistLudIU9xk6Zdof6abOgPA7P/swYId5Xclt2KqFkUPn
+	faS1AQNksTyS2I8MJkUgpI7CfoJCs9Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729605359;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdcbEOWzL6eyI2kQxh26Goo1tOGvWeIqXTumtwk51No=;
+	b=vIs0nCwm9UqtOTXXFO9pD/BP3RbeOj6NRCQ/HfioJ6yWSWynK/EOKscWg2EUYRGgcMo+x4
+	vQLfd+I0xAxQduAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=B5TBZtQQ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ERVik9h3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729605358; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdcbEOWzL6eyI2kQxh26Goo1tOGvWeIqXTumtwk51No=;
+	b=B5TBZtQQGPrR/TbPsDqk7IKz5X7Tmi0z8yWulsHmNXfN58NXJ7pLzmeTOndtyhgQYMDGux
+	Jhn5TKi5cbmYtWR3p10EYoWsI7n5dizutXWa+Q0ru1VZjUVhTK/eHUtBqUewhTzBQ8rmi6
+	WUSrnL82ebJ0sAg8lV98eb4e0td5tnc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729605358;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdcbEOWzL6eyI2kQxh26Goo1tOGvWeIqXTumtwk51No=;
+	b=ERVik9h3/yqOOJhof89a2VZZjwOFO1icKKHLZh4yt4bADxjSZ5iuEx8HZ24zLD+hyEGHWK
+	EX0IGujbRuv0oXAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 98B1B13AC9;
+	Tue, 22 Oct 2024 13:55:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id M/jDJO6uF2epZwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 22 Oct 2024 13:55:58 +0000
+Date: Tue, 22 Oct 2024 15:56:44 +0200
+Message-ID: <87wmi02qcj.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	srinivas.kandagatla@linaro.org,
+	mathias.nyman@intel.com,
+	perex@perex.cz,
+	conor+dt@kernel.org,
+	dmitry.torokhov@gmail.com,
+	corbet@lwn.net,
+	lgirdwood@gmail.com,
+	tiwai@suse.com,
+	krzk+dt@kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	Thinh.Nguyen@synopsys.com,
+	broonie@kernel.org,
+	bgoswami@quicinc.com,
+	robh@kernel.org,
 	linux-kernel@vger.kernel.org,
-	Gianfranco Trad <gianf.trad@gmail.com>
-Subject: [PATCH] HID: core: fix inconsistent indenting hid_add_device
-Date: Tue, 22 Oct 2024 13:38:30 +0200
-Message-ID: <20241022113829.1423194-2-gianf.trad@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v29 01/33] xhci: support setting interrupt moderation IMOD for secondary interrupters
+In-Reply-To: <2024101824-hammock-elastic-8d38@gregkh>
+References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
+	<20241015212915.1206789-2-quic_wcheng@quicinc.com>
+	<2024101747-defog-squiggly-ef54@gregkh>
+	<5847c380-75ce-492a-9a30-0899b7ebe98c@quicinc.com>
+	<2024101824-hammock-elastic-8d38@gregkh>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: D6F6D1FD13
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TAGGED_RCPT(0.00)[dt];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,linaro.org,intel.com,perex.cz,kernel.org,gmail.com,lwn.net,suse.com,linux.intel.com,synopsys.com,quicinc.com,vger.kernel.org,alsa-project.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:dkim,suse.de:mid];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.01
+X-Spam-Flag: NO
 
-Smatch reports an inconsistent indenting in hid_add_device() [1]. Fix it.
+On Fri, 18 Oct 2024 07:52:35 +0200,
+Greg KH wrote:
+> 
+> On Thu, Oct 17, 2024 at 05:07:12PM -0700, Wesley Cheng wrote:
+> > Hi Greg,
+> > 
+> > On 10/16/2024 11:40 PM, Greg KH wrote:
+> > > On Tue, Oct 15, 2024 at 02:28:43PM -0700, Wesley Cheng wrote:
+> > >> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+> > >>
+> > >> Allow creators of xHCI secondary interrupters to specify the interrupt
+> > >> moderation interval value in nanoseconds when creating the interrupter.
+> > >>
+> > >> If not sure what value to use then use the xhci driver default
+> > >> xhci->imod_interval
+> > >>
+> > >> Suggested-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> > >> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> > >> Link: https://lore.kernel.org/r/20240905143300.1959279-13-mathias.nyman@linux.intel.com
+> > >> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > >> ---
+> > >>  drivers/usb/host/xhci-mem.c | 8 +++++++-
+> > >>  drivers/usb/host/xhci.c     | 4 ++--
+> > >>  drivers/usb/host/xhci.h     | 5 ++++-
+> > >>  3 files changed, 13 insertions(+), 4 deletions(-)
+> > > This is already in 6.12-rc1, which makes me confused as to what tree you
+> > > made this series against.
+> > 
+> > Sorry, I didn't fetch the latest changes from usb-next.
+> 
+> It wasn't even usb-next, it was 6.12-rc1, so I don't know what tree you
+> based this on :(
+> 
+> > In this case, should I rebase and resbumit?
+> 
+> As the series can't be applied as-is, probably.  But I think you might
+> want to collect some acks from the sound people and xhci developers, as
+> I can't do anything with this until they look at the changes.
 
-[1] hid/hid-core.c:2847 hid_add_device() warn: inconsistent indenting
+Honestly speaking, I couldn't follow fully the discussions about the
+fundamental design -- IIRC, Pierre and others had concerns to the way
+to manage the offload device via kcontrols.  Did we get consensus?
 
-Signed-off-by: Gianfranco Trad <gianf.trad@gmail.com>
----
- drivers/hid/hid-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I believe that's the biggest obstacle in the audio side, i.e. what's
+visible to users.  The kernel internals can be corrected at any time
+later.
 
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 612ee6ddfc8d..8f08ca1ba92d 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -2844,10 +2844,10 @@ int hid_add_device(struct hid_device *hdev)
- 	/*
- 	 * Check for the mandatory transport channel.
- 	 */
--	 if (!hdev->ll_driver->raw_request) {
-+	if (!hdev->ll_driver->raw_request) {
- 		hid_err(hdev, "transport driver missing .raw_request()\n");
- 		return -EINVAL;
--	 }
-+	}
- 
- 	/*
- 	 * Read the device report descriptor once and use as template
--- 
-2.43.0
 
+thanks,
+
+Takashi
 
