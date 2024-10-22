@@ -1,122 +1,148 @@
-Return-Path: <linux-input+bounces-7627-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7628-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5940B9AB40C
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 18:31:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E10C9AB691
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 21:15:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC0691F21355
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 16:31:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CEEB11F22141
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 19:15:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C64E91B140D;
-	Tue, 22 Oct 2024 16:31:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FC511C9EAA;
+	Tue, 22 Oct 2024 19:15:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dXREBZhn"
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="XrtlY3vA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E8D19AA53;
-	Tue, 22 Oct 2024 16:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 767391C2307;
+	Tue, 22 Oct 2024 19:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729614680; cv=none; b=dzcQBo+NtVD1/pEPOLubAdKZOgs5e0KBqiwM7J08MK1rc++j/6ByMFhd73JkDxzZ8TTGL2Z/vPYeLDP4wXOUIGsGnavJlzNek6YuJxV3pvLke4P+dxJRXof73mjycJPJpwS0eNauouvWaI3cagvtzVAncKWDgnkpA7J6v5dHBZ4=
+	t=1729624514; cv=none; b=VgOfVraTy5rTeatFFjO/e3FrNh67hhvrGdDam16yJfvocPoI8Fbbll8I+WNUa9oYF1+UzoncfxoxYVUB1VGVjeQtCxrT/TjOsz2Vc+3App1qtTj2vbULKhKgsuPI/AN6iZ1D7pj1XW1j1O+9Lr4RBsfmnOYUR7jQtJKTsCYsGP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729614680; c=relaxed/simple;
-	bh=KVLjpT7ZX9iWAD/24xl4Rm7ljfOUWX5ZNEqXbQPnM3w=;
+	s=arc-20240116; t=1729624514; c=relaxed/simple;
+	bh=T7gPmV3BL3uI/JaGeniCY4Q8fWIeFw/i0yB2GzHEDuQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WlYzZRtSP9FDL0ScAS9yTbnND3vj71lyWk3h9Vld4k5PalFe+fU+xT4ANqNEjr6ygMnXI2/VbM/7NjiLzxh7lisb7p/Fr76NLH3Hcfoo6n1c1WSlOMqUC++2XnaAlI9Zw2YhmnAk3i6AmSqS1er+j0inBrPuuQtgU2DVaUVmd/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dXREBZhn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D9B1C4CEC3;
-	Tue, 22 Oct 2024 16:31:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729614679;
-	bh=KVLjpT7ZX9iWAD/24xl4Rm7ljfOUWX5ZNEqXbQPnM3w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dXREBZhnbOCRyRJEiURpCXE06H6GgDVmaDwtKIv+czCXlz1h/52ulbmftS6fG+Tnx
-	 dCqMNvASD8vVoYHQuGjLuqnhuKgGT8YDa0kOiJrDe35i2qr8Xh7/WrZmIU/bQIj1Ja
-	 u30hBzV0fpl90CzpENJ2z/BI6VyMbl71Yerxkvgzd8zsB2t35BZoH4heOmmCy9BY8Q
-	 0x7oCYfVw9yi5tpbQnalxiSW58VaD+NMdTcur4P28wR9wzlnUBUAaesH5UAqDhbsnn
-	 XyVe6/bHCA3EvoAZYBCp7ayqhIy3gaKahLp8UPxoMAOTZ5y32gz4Kr5ULC1fgxFVw+
-	 XBDrdYm83U25Q==
-Date: Tue, 22 Oct 2024 17:31:10 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Yassine Oudjana <yassine.oudjana@gmail.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Sen Chu <sen.chu@mediatek.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Macpaul Lin <macpaul.lin@mediatek.com>, Lee Jones <lee@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	jason-ch chen <Jason-ch.Chen@mediatek.com>,
-	Chen Zhong <chen.zhong@mediatek.com>,
-	Flora Fu <flora.fu@mediatek.com>,
-	Alexandre Mergnat <amergnat@baylibre.com>,
-	Yassine Oudjana <y.oudjana@protonmail.com>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 5/6] regulator: Add driver for MediaTek MT6328 PMIC
- regulators
-Message-ID: <8b4814d7-15da-4c0d-8d6d-0707a8c2eb74@sirena.org.uk>
-References: <20241018081050.23592-1-y.oudjana@protonmail.com>
- <20241018081050.23592-6-y.oudjana@protonmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uxdpo9dnL96Ili4tazPY7jpZlfIHtEhXC8ZojBDxu2010cQCLJH412fBmu3Crhvi5sbbq6eFTTuRmLmCNU6ow45GytB9jsd1s/q5JKWPsx4Nt3r19cZHRpN4Q7MuSYSJVvZSf5uOVUorFjeIhmqPBJt5dBnH9GIPV7phE3/uEJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=XrtlY3vA; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 2E0C51C00A3; Tue, 22 Oct 2024 21:15:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1729624508;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CSRAwYmK7fXBE3MDYN9n7SN2HDXCRGyc+2wEC32lJkE=;
+	b=XrtlY3vAfOT1BqsnBU+LLjz62pQAgedi4kIaZVAj/Uqw4pK1WUY73KpFF+3paol+MYNBdd
+	ihrGXzzEU12uHUV4mVZ5SfkMwQZZZbdWQgfh9m8QwW7dK0z+oTjdTdeovz8qpllzn7yzWD
+	SzvIRgqsNrodUtxa2hK/hrBw+1d1+0U=
+Date: Tue, 22 Oct 2024 21:15:07 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+	lee@kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
+	onitake@gmail.com, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+Message-ID: <Zxf5u9jgmt9vpz2u@duo.ucw.cz>
+References: <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
+ <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
+ <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
+ <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
+ <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de>
+ <ZwlDpCPhieF3tezX@duo.ucw.cz>
+ <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
+ <c52019d7-01b4-4585-a2d1-b44b0a773fc9@redhat.com>
+ <Zxd0ou7GpCRu0K5a@duo.ucw.cz>
+ <35a98b67-d1eb-4aa9-9d3f-025c94cd6b0f@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="33tXnPvbLYFDgAR7"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="eG5jjja+GiFRKCEw"
 Content-Disposition: inline
-In-Reply-To: <20241018081050.23592-6-y.oudjana@protonmail.com>
-X-Cookie: Surprise due today.  Also the rent.
+In-Reply-To: <35a98b67-d1eb-4aa9-9d3f-025c94cd6b0f@gmx.de>
 
 
---33tXnPvbLYFDgAR7
+--eG5jjja+GiFRKCEw
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 18, 2024 at 11:10:47AM +0300, Yassine Oudjana wrote:
+Hi!
 
-> +static int mt6328_ldo_table_set_mode(struct regulator_dev *rdev, unsigned int mode)
-> +{
-> +	int ret, val = 0;
-> +	struct mt6328_regulator_info *info = rdev_get_drvdata(rdev);
-> +
-> +	if (!info->modeset_mask) {
-> +		dev_err(&rdev->dev, "regulator %s doesn't support set_mode\n",
-> +			info->desc.name);
-> +		return -EINVAL;
-> +	}
+> > > > - interface for setting multiple LEDs at once
+> > > > - interface for setting a range of LEDs at once
+> > How are LEDs ordered? I don't believe range makes much sense.
+>=20
+> Range would allow for efficiently changing the color of all LEDs. But i a=
+gree
+> that this can be considered optional and can be added later.
 
-If the regulator doesn't support setting modes it shouldn't have any
-mode operations, then the core will take care of handling things
-appropriately.
+Yep, setting all of them makes sense. We should probably provide
+backward-compatible interface for keyboards with single backlight, so
+this would likely be LED class.
 
-Otherwise this looks good.
+> > > Personally I really like the idea to just emulate a HID LampArray dev=
+ice
+> > > for this instead or rolling our own API.  I believe there need to be
+> > > strong arguments to go with some alternative NIH API and I have not
+> > > heard such arguments yet.
+> > If you don't want "some alternative API", we already have perfectly
+> > working API for 2D arrays of LEDs. I believe I mentioned it before
+> > :-). Senzrohssre.
+>=20
+> We may have to support 3D arrays of LEDs, so using a simple framebuffer
+> would likely cause trouble.
 
---33tXnPvbLYFDgAR7
+Do you have pointer for device that is 3D?
+
+OpenRGB manages to map keyboard into plane... so what I'd propose is
+this:
+
+Framebuffer
+Information for each pixel:
+	    present ? (displays with missing pixels are pretty common)
+	    list of keys related to this pixel
+	    width, height, length (if we know them)
+
+Pixels map to keys M:N.
+
+Yes, we'll have some number of non-present pixels, but again, I
+believe that's not uncommon due to round screens, etc.
+
+(But I'm fine with other interfaces, as long as they are "normal")=20
+
+Best regards,
+								Pavel
+
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--eG5jjja+GiFRKCEw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcX000ACgkQJNaLcl1U
-h9Ce+wf/ZIulqT3K3IhJ+KVWRcq3tjdhPl/Mej1+R59I03LxzaQpb8o43HQxSAxe
-SU0os389dSUkyF+kdhdT9f6YnIbW+vKIYPS38wU/5vfJN83xndKz8fBXDIxypF+W
-p9CnJwD0oQdITaqwTv3R5hfguCOZjh4YZLOgF4lLnhrxE5n3xHTAd3xaDK8gFhDb
-3igU5G1wWXv1t4bo88lF+fVeV/UvAllmm/cMimxvkDXpC+0rVwyVE+TMXZ6+70j0
-HzjxF8MNukQREubLvlekRPkCKzcNJ69HTiMYsDNN8YEf2YNWgbfzTJIap31+vm1U
-wiwCOzsm/3hF/CDv5/gVqprY892Ehw==
-=zs8D
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZxf5uwAKCRAw5/Bqldv6
+8q0mAJ91eWOz0MgRjTqc4HtPnsjYg+FiygCfR3ZbO7aiuqKWYt4u+YrYz6VHOSY=
+=iFlQ
 -----END PGP SIGNATURE-----
 
---33tXnPvbLYFDgAR7--
+--eG5jjja+GiFRKCEw--
 
