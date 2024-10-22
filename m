@@ -1,56 +1,65 @@
-Return-Path: <linux-input+bounces-7622-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7623-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4929AB196
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 17:03:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF7F9AB19F
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 17:04:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3DCE21C217C2
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 15:03:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 348BF285668
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 15:04:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 518471A00C9;
-	Tue, 22 Oct 2024 15:03:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44E251A0BC0;
+	Tue, 22 Oct 2024 15:04:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="bz7VkP3a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LlAbotyQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9AC85C5E;
-	Tue, 22 Oct 2024 15:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402AF85C5E;
+	Tue, 22 Oct 2024 15:04:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729609396; cv=none; b=b02jaEDY7DwvqrKbnZnM4ybkGeH+/V3lXMcdmQM9JpKa3P/+iacedslKaOf+rBIl46iD3tEvo/ieGkqN8AUMKK/seixdjFgdFuzhhQV9UKrA6Bexchs08+C9I2j7vMZpd1EltVr3s8H1mmPwGSMp8sJS5fG7A1yDc3RXGYd3CmM=
+	t=1729609459; cv=none; b=Ew5x7TSkhoCkvyL6hcbDibsw/rpZhXI3FiC+wtLMHVJujSW3a9m3hAQ8pzGKImrfpmLgTJAouWiQBJUrTSdy67lsEfLez13NOnYBcqp8GcZRjo6kL4RCqoOFmdfxBglip9/OYVWL9ePwBqSc5mb5eZnxHjSwW53O3B0H8qt//ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729609396; c=relaxed/simple;
-	bh=h4PzYrDPgx/dA0UY/qsvB8n6XSfdbkTqKIvL1amIuCQ=;
+	s=arc-20240116; t=1729609459; c=relaxed/simple;
+	bh=QUUBW21t3BimnstQVgGZ0SBenbQzNgaGQZcFRj4mm8Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CoxwHtJ/bL/9Gtb9gDCopGxKuKgeyWcWsQPCS2GCsCxlE1BKj2aBD/lj+2JRlQUxqeJbpTiPxzdu7DML5lcsIFYCAY2Y67QzngDK9t6Jww+F/UkdHcV3ExFxn0E83imsKkTjnMbYp1mjVfk2quy8mr8ezyylnGnKX54+ros0gRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=bz7VkP3a; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1729609372; x=1730214172; i=w_armin@gmx.de;
-	bh=iyTVaz4YZToxUrhmRQO6zFXlT9G5B63Ll4lLI9zE4as=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=bz7VkP3a3IQVdIp3zlcVTsy+Ja1vxLRTaOt9Fk6ClTJ1jpnjcsoNPOrvLaNhyTs+
-	 A2F9oLpIlpDa/tdYxImMp4FOmwDKjL15ggnt200F0MICpkkpuU7DXkfdWxUugsPeO
-	 t40x9EfYHiCLv29siKCJxN2SSaiI4rt5v2FBg7v97e23grsEZoOb8cw/w6GASQvRK
-	 CNuI12DRduFj9ij+V2lj9BOpGFlDpL/2YoNNgF8MEuiOW24WhCY+xhwc48QUwH4Uk
-	 +GwzZn1G1pn3clezQi86lycWLqNu91MQJnZP2CGv7GIL7es354gLIoAhFBEsQEgEt
-	 NU5xfR5aLeT2t+Lc/w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MfYPY-1ta67A18Qq-00fzBl; Tue, 22
- Oct 2024 17:02:52 +0200
-Message-ID: <eb829c6c-cee0-4d65-b9d6-3df7fd1096a7@gmx.de>
-Date: Tue, 22 Oct 2024 17:02:50 +0200
+	 In-Reply-To:Content-Type; b=IP8QphdTMuHcOH9BIOQmHLbXQNDhKunDNnWEgbg64WUXmb8Dpq7cLyKKd8WTQCyhLrqxd+Ddj6wmGvpOGutYtnaQQMn+8EoRc5ZYeGei46hreYoeUmBAjVJev5jJzsHAY8Qq9CozF3lbHCifH5CTh7+CLfev8OdJv16ppGM8SS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LlAbotyQ; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729609458; x=1761145458;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=QUUBW21t3BimnstQVgGZ0SBenbQzNgaGQZcFRj4mm8Y=;
+  b=LlAbotyQHbEfEsioiJ3aQZ7TI9wfh7PQCpGxBC9h3LyU8IV+SMLrXkNs
+   j1eTwNLqVKRog8k2HHSI62ZLo54/gPCpZLVUmkE4bWS4DCfHhpIZwq3h4
+   1ATIwvylkm1QCfCl7FAu1lOTw5nTnB6J4HWIpjVf/NY3da0yxGRoDTJW5
+   v57a5tWSWagvWzEaIFtvzZOOELaL7SIMVNvV70l8RXEMjq9nAiHsPMLrK
+   ZroN1JbRJlO6cOPk4Yz2pNOI5KP6drmz1IDrhS8Xkuz06fCy7DginxC4l
+   2v1KeTm+wFbSKG+85lhsdrXFB2tC1TY0ekePYvfBr1DHRDrxzqucSRemH
+   A==;
+X-CSE-ConnectionGUID: qkAPX3eSReqtCbTygba2Xw==
+X-CSE-MsgGUID: yWmVD47TSXqDjIgq7AoTaA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="33079480"
+X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
+   d="scan'208";a="33079480"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 08:04:16 -0700
+X-CSE-ConnectionGUID: t2EfxH96Ts+ZMKuBfhIFQA==
+X-CSE-MsgGUID: JAHYnJKXTd6WFkKNAaIiYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
+   d="scan'208";a="80072066"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 08:04:10 -0700
+Message-ID: <8795c4ad-e3ac-47aa-92dd-f899042cefc0@linux.intel.com>
+Date: Tue, 22 Oct 2024 17:04:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -58,113 +67,99 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-To: Pavel Machek <pavel@ucw.cz>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Werner Sembach <wse@tuxedocomputers.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
-References: <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
- <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
- <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
- <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
- <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
- <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de> <ZwlDpCPhieF3tezX@duo.ucw.cz>
- <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
- <c52019d7-01b4-4585-a2d1-b44b0a773fc9@redhat.com>
- <kywhqw5ef6hioemoydwub57dcmfuu3bwqpz3vjur4pkabboydo@2hrqj3zy4txv>
- <ZxdyQFMRIRusMD6S@duo.ucw.cz>
+Subject: Re: [PATCH v29 01/33] xhci: support setting interrupt moderation IMOD
+ for secondary interrupters
+To: Greg KH <gregkh@linuxfoundation.org>, Takashi Iwai <tiwai@suse.de>
+Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ dmitry.torokhov@gmail.com, corbet@lwn.net, lgirdwood@gmail.com,
+ tiwai@suse.com, krzk+dt@kernel.org, pierre-louis.bossart@linux.intel.com,
+ Thinh.Nguyen@synopsys.com, broonie@kernel.org, bgoswami@quicinc.com,
+ robh@kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-doc@vger.kernel.org, alsa-devel@alsa-project.org,
+ Mathias Nyman <mathias.nyman@linux.intel.com>
+References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
+ <20241015212915.1206789-2-quic_wcheng@quicinc.com>
+ <2024101747-defog-squiggly-ef54@gregkh>
+ <5847c380-75ce-492a-9a30-0899b7ebe98c@quicinc.com>
+ <2024101824-hammock-elastic-8d38@gregkh> <87wmi02qcj.wl-tiwai@suse.de>
+ <2024102240-gag-famished-245c@gregkh>
 Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <ZxdyQFMRIRusMD6S@duo.ucw.cz>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <2024102240-gag-famished-245c@gregkh>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:buvMcpt7UqADbxglDvv1br4rnAVjoyNl6mJL2vRW0OAmw2ePwSV
- rf6Ll7E5y7hUFY8h+S69VdRzhAK6FJrBDkWuDKXKFhK77jdPTHe+NE9ZqHnHvQECtmI0F2z
- /KWGhRaUwogFJg9BTpU9CdYsCV78RW+7xsu2ADL9LGmqFtOwmybulAE7KneqNomdp2w37N/
- je1oxtigOzTX0vHYyiSYg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:WfBvh+JhZ4Q=;OXt0JGNMGHC98/Pjb7oNflPVIwA
- NVlBkaUMMzTEewvxxYGDTpVYglg1VJCqXHe9BqwG4fHQezZ1TE0NWxbUlXY5p19/Nbw7SzCHq
- b664sJ6NDXBtMF8OD/C+mHMsPFsf/KRc2zztj+KNysD30jG/W7itgAgMp8UgzD3FSf3uP2Q/+
- CIHLlkSBrskBey2D8UBbuZoD3JPSDtdOF2bv/TIoMnJe72Fb17VKbV1WLqaPlCQ18LSst4DYu
- Md0nmKdIDcCqIAizHoSPe9x9a4dy+zm7AMzqdabac8Lm/gheA+RE9QK8kXiEUnUlFeXHxane/
- YzqtWr7tyTI6gBc2k9eBCQU5KSJ5p9RI5vVaZkCHDqA8SNYsV0dp2lOBJ2/QFXNt1iRE0exPd
- ilHSLTz/CqNRWXhbh7Q7p6OKxNU1ZNV7fjz10dk0hlNdPpUFdqJb2XqFHuJmY4bZ6ZM4bAuso
- gcueega+td3x34j0oWL9AqohaDbhndfRIBdzAnURMrhJRLhcA5wBtmI0tpbu9NweZ+NHivSIs
- f7ZePNOodMo99Qf2RdXph2GzeJVGsSZllc+bBp36Ad6zIz1Z8tuEq0bcxTH0ptHqXZveXxvi7
- IKN3C+1cqTBM906T7RRnqv11FZE43F0Z+w5OM6NiKXF9tTrOhzfnrHpFWDccQglbkPevoMyry
- 0mlCoiKGA1PrVUvS+kkxasRUtyuq1/jud3OSMdop8sYZdYDRRLgBEHjtG/gYdj3Hvcj0VrYNX
- /jX758Mck6PLhrlispKzHqTU2ssPSdfSzu5CcIDHC03I1ZmJO47WH1bZTvYfhk9uc2xPzOaDx
- kX8r3zY3z6MIAiJ7bZ6fyYEBmnYuLnVUSFRXRfDF7MImM=
 
-Am 22.10.24 um 11:37 schrieb Pavel Machek:
-
-> Hi!
->
->>> Personally I really like the idea to just emulate a HID LampArray device
->>> for this instead or rolling our own API.  I believe there need to be
->>> strong arguments to go with some alternative NIH API and I have not
->>> heard such arguments yet.
-
-Using a virtual HID LampArray already creates two issues:
-
-1. We have to supply device size data (length, width, height), but the driver
-cannot know this.
-
-2. It is very difficult to extend the HID LampArray interface, for example
-there is no way to read the current LED color from the hardware or switch
-between different modes.
-
-A sysfs- and/or ioctl-based interface would allow us to:
-
-1. Threat some data as optional.
-
-2. Extend the interface later should the need arise.
-
-Looking at the tuxedo-drivers code, it seems that the WMI interface also reports:
-
-- preset color
-- device type (touchpad, keyboard, ...)
-- keyboard type (US/UK)
-
-Making this information available through the HID LampArray protocol would be
-difficult (except for the device type information).
-
->> Agreed on everything Hans said.
+On 10/22/2024 4:02 PM, Greg KH wrote:
+> On Tue, Oct 22, 2024 at 03:56:44PM +0200, Takashi Iwai wrote:
+>> On Fri, 18 Oct 2024 07:52:35 +0200,
+>> Greg KH wrote:
+>>>
+>>> On Thu, Oct 17, 2024 at 05:07:12PM -0700, Wesley Cheng wrote:
+>>>> Hi Greg,
+>>>>
+>>>> On 10/16/2024 11:40 PM, Greg KH wrote:
+>>>>> On Tue, Oct 15, 2024 at 02:28:43PM -0700, Wesley Cheng wrote:
+>>>>>> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+>>>>>>
+>>>>>> Allow creators of xHCI secondary interrupters to specify the interrupt
+>>>>>> moderation interval value in nanoseconds when creating the interrupter.
+>>>>>>
+>>>>>> If not sure what value to use then use the xhci driver default
+>>>>>> xhci->imod_interval
+>>>>>>
+>>>>>> Suggested-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>>>>>> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+>>>>>> Link: https://lore.kernel.org/r/20240905143300.1959279-13-mathias.nyman@linux.intel.com
+>>>>>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>>>>>> ---
+>>>>>>   drivers/usb/host/xhci-mem.c | 8 +++++++-
+>>>>>>   drivers/usb/host/xhci.c     | 4 ++--
+>>>>>>   drivers/usb/host/xhci.h     | 5 ++++-
+>>>>>>   3 files changed, 13 insertions(+), 4 deletions(-)
+>>>>> This is already in 6.12-rc1, which makes me confused as to what tree you
+>>>>> made this series against.
+>>>>
+>>>> Sorry, I didn't fetch the latest changes from usb-next.
+>>>
+>>> It wasn't even usb-next, it was 6.12-rc1, so I don't know what tree you
+>>> based this on :(
+>>>
+>>>> In this case, should I rebase and resbumit?
+>>>
+>>> As the series can't be applied as-is, probably.  But I think you might
+>>> want to collect some acks from the sound people and xhci developers, as
+>>> I can't do anything with this until they look at the changes.
 >>
->> I'll personnaly fight against any new "illumination" API as long as we
->> don't have committed users. This is the same policy the DRM folks
->>> are
-> Well, and I'll personally fight against user<->kernel protocol as
-> crazy as HID LampArray is.
->
-> OpenRGB is not suitable hardware driver.
-> 								Pavel
+>> Honestly speaking, I couldn't follow fully the discussions about the
+>> fundamental design -- IIRC, Pierre and others had concerns to the way
+>> to manage the offload device via kcontrols.  Did we get consensus?
+> 
+> I don't think so.
+> 
+>> I believe that's the biggest obstacle in the audio side, i.e. what's
+>> visible to users.  The kernel internals can be corrected at any time
+>> later.
+> 
+> I would like to see that agreed on before I even look at the usb side.
 
-I agree.
+My main concern is still that one USB audio device can be accessed via 
+two different cards exposed in userspace. Usual USB one, and the one 
+from device which does "offload". Suggested implementation achieves it 
+by adding additional controls, which need to be set in specific way to 
+achieve offload. Overall while I understand the mechanism, I'm not 
+exactly convinced that it is the best way from end user point of view.
 
-The point is that we need to design a userspace API since we cannot just allow
-userspace to access the raw device like with HID devices.
+"Implementation" part in Documentation added in patch 19 shows how it 
+looks in userspace now.
 
-And since we are already forced to come up with a userspace API, then maybe it would
-make sense to build a extendable userspace API or else we might end up in the exact
-same situation later should another similar driver appear.
+If you don't mind two sound cards being used to access same piece of HW, 
+current implementation looks ok to me.
 
-Since the HID LampArray is a hardware interface standard, we AFAIK cannot easily extend it.
-
-Also i like to point out that OpenRGB seems to be willing to use this new "illumination" API
-as long as the underlying hardware interface is properly documented so that they can implement
-support for it under Windows.
-
-I would even volunteer to write the necessary OpenRGB backend since i already contributed to
-the project in the past.
-
-Thanks,
-Armin Wolf
-
+See also:
+https://lore.kernel.org/linux-sound/75ffde3a-7fef-4c15-bfc8-87756e1c3f11@linux.intel.com/
+where I described how I would prefer it to look.
 
