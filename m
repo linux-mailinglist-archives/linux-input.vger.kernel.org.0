@@ -1,69 +1,72 @@
-Return-Path: <linux-input+bounces-7604-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7605-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D709E9A99D2
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 08:32:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE7E9A99D5
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 08:32:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 63423B2154C
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 06:32:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CA4C1B2149E
+	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 06:32:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67A82142E9F;
-	Tue, 22 Oct 2024 06:32:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35F931465B1;
+	Tue, 22 Oct 2024 06:32:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R1r2s5bA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kJFko04M"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D1C126C02;
-	Tue, 22 Oct 2024 06:32:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0224145B27;
+	Tue, 22 Oct 2024 06:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729578729; cv=none; b=VnQ+pZ2GsXtr58OKt/TguwAV1YiHfrBRuKx1iXo8FasuEOj4nWuwc7kEVtVghbhIDBfXiB+PTrHqDVAacXkosXi/mzoHKHcQySXZ90ILMgOLyrn90kjSiewxPmxoroBp+DLPbva+XOMryj3ujdsf+eFzOv+m4vk3Bl7MRZI+3Vc=
+	t=1729578732; cv=none; b=BmJF23iuRrcX7Z0OaAUc3fhLuo/SmnYBZFwg7CtLK1zI1QQbTm5rfekDX2No6SayJKhHtZ79hHRbSyhaa7xR4iDbkR/sMU8fWERiSnOfMhI7iivfBCz0XhUgzThrD5vEOB2/87XT1xmkPKn8BMFpXPW/FQUIa/15jPTI7g1gR9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729578729; c=relaxed/simple;
-	bh=fRv3QAZ5GTT1Ytn6SNlfvUscWQW7sf1SPvVZnk5xV1w=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=oA4M3njBxL1AnzVwvVhQqRjkZcjA9VILn7EvH4e31h9yq+yuz1Al81sc43ZjVR/F/++YJ7c30hI71zoYgwia1eDcQVXeLoVuVYtKVUegWTn3NvMzuwAlBUos4puupS3vYuZWX/TXjmTc0rMPaKTWYUMPcWV5HuqkZLYx7my5B0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R1r2s5bA; arc=none smtp.client-ip=209.85.216.53
+	s=arc-20240116; t=1729578732; c=relaxed/simple;
+	bh=3wNVy9kHqRa5tDi93MkIX3E6i54+ih92cr8/cz6Bigk=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=oL16mvxWsIace3VB+7RyK97flZTcxtkLGt6uu6oJ7GgGBG5CMykjfWfy28oXYqPI3K90OtxBu0jXCZh/zb9b2gvkPzJmcKGiGVbcPQpgiQ8fN3JLsoRmAiPoj/Ez8lQsLIErQ7Ty2jX+wyWNmvMB2qSWbC7GNTQfUFZfXr5+lPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kJFko04M; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2e2e2d09decso4385524a91.1;
-        Mon, 21 Oct 2024 23:32:07 -0700 (PDT)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2e3010478e6so4183820a91.1;
+        Mon, 21 Oct 2024 23:32:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729578727; x=1730183527; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=s0ZVg94ADVSlaDxa+1PXOL3bzB11GUZscW4ia7W/tYk=;
-        b=R1r2s5bA02z11dBb3XB/QVXOgONzJjPWuk3oEWtyy7rcUh4ckdAERlvrRti/RGaCUo
-         UnUwNc33tsBXSY8e3g5nYjGFYoT7G4Phgmvj+U/8a1JmbJsdgzeU85yontapHHmAR3Eb
-         pLqVT4zNKAfgTm2hyRkiHIA4MyFLQHDyKWBR9dxdZtxV9vdNadgI/iZa95ubGXpL+0Zo
-         ApziIhH66iy/Vmr8ZhDkYG6k2gv60snJC/vQKIlusPypkU9sfe16zujufluEVj2+k91Q
-         QT7ELLvhZnd+ig5VXRoPh+uZR8hBG9gAYtK6KL7mumrXm1iIHJZivV/+eLDm0aeXSiBk
-         bP8Q==
+        d=gmail.com; s=20230601; t=1729578729; x=1730183529; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JhZnFvvf8Id6PGMcwnAZsntULqiyWtz+J0PFKo90yqI=;
+        b=kJFko04MgSObyy4efyAwe+/recdEIpFDD8GMKRgpDf7IsQuI9yjTk905HnnjgbCebr
+         JV6NhPlrWn/zwKBIAN3lPZZIdowCJjzHUM0qzscKx1WrHy7TKrBsWA0KErclZihQxDKN
+         eZc0LdFexpLKwaE1o2WNxpCghlmrAi3xKtaQFUTcRbtqhA1YxjrE6v5Dw/SdSue6iA12
+         E3Sgznmi7e3YQHINurv4Ed7u0bFZ9Oewr273Wau1ducGe8eRP1Icji/vOGsF8wXa3YcK
+         p190gVaDlI6UeZX4PKJuLOSf4A+qE2if4Ksh7xX/Ms18lwZn+cLnDv4h7H9Xa0KfYOOs
+         JDCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729578727; x=1730183527;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s0ZVg94ADVSlaDxa+1PXOL3bzB11GUZscW4ia7W/tYk=;
-        b=EsBm9glCneEs4/p25+NQLVmZoY7bsq7r1iOE3W2Lf+rjp4dnVVdJ+w6+8cOCwesHeL
-         xKlxM05y7hW+yPmqAezcCysWt+3sqg9tW+z5AvUJjRmR5CJtjF5SlyDDjj5mfa/NNnrm
-         2rNYrJ85Sw3jFsmG+8RV7GKE2e3C2swEr3WpmLg5WyhPiHxaPX6rkIxrabTcfdFJot4h
-         8/WEHx6ewhuYs0inIG9D0FGi/IBoyA1iTCj1Km4BJFc2/MTo3/eL1sC9F6M0WpI1ucdq
-         n0F9VM39oyIdk/uR0i4J9mG1ZZ2uhur4sTRLUK8FD7Gjrg2CBhPuKhoiAtcuStfnC+6b
-         0DLA==
-X-Forwarded-Encrypted: i=1; AJvYcCV05w5WkU2QudI+MoxdjOb6A0JsFRWXqAduUF2V2QOCtOcttq/26c4x8++Y7qlH+n0ijkc3Dc1dBclg1fw=@vger.kernel.org, AJvYcCXOF5P18FYF/Hiu6OGrguGmrKh9oIEGRdclEta0gTUP2fpNfzb4WAcG2KqoiHh3Z8XjMt7j4qutpHRE@vger.kernel.org
-X-Gm-Message-State: AOJu0Yys3GGpxNb9z6VdxQQiga8nGf3XrUQK0wErhCg+WTHRWtJv0NSB
-	cYzNUOe9Oe48ZGEl4nw9C98SPhbfOLRC4ukUSX9wk0jvWrFt0m3n5zv8fKfc
-X-Google-Smtp-Source: AGHT+IFXgTBiFgFsXxOg631XJW9inf5ov3uskzvCNIx2xVHr9SuSJamqxyvMEirBwTsGX8DTDMZajQ==
-X-Received: by 2002:a17:90b:f0c:b0:2e2:c2b0:d03e with SMTP id 98e67ed59e1d1-2e5db94f135mr3456580a91.5.1729578726704;
-        Mon, 21 Oct 2024 23:32:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729578729; x=1730183529;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JhZnFvvf8Id6PGMcwnAZsntULqiyWtz+J0PFKo90yqI=;
+        b=azTNF4y9Vz15bwRyfcRWpKO4o//++BN2ImgkpdLrfdut/qUy2XQ+D1a+4erx+cVUBG
+         VkWGNl/+1X6aGL+JoZEGsJ+XTnxkTsqY0umEHOiNmtAl37Bgv9mZ91f69Vw3sNzwYN8c
+         fiFAwOQWxrfYLeg4+QP+cUavKfRNuddU57VLbrFldHBOqG4cU6vZ9X4BF5jXA7fcSdBV
+         voj3lggP8hd1pNAKAeiGG0I4HV5o8LZ5eAjE4D4eLP8vyIT0ULs9pPZXlmULlf2jk1dr
+         qbNNByMVSaKE8u0yS5o6/zlHf1MhEFfjiZ1pxdckavBDQuh6t3Ju9TJlXsJpQsAZk39F
+         wbSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVTw6qyR4dluVjdwaIN745eBIs8CzNvm0hfItECi8A24MII8sgU1NKTUA5x8cJ6xH7GHReztkzEC6uKKvk=@vger.kernel.org, AJvYcCWuwJrT2qp1BrJ+04BQO/rM0w8AQiDz69dDkpM0owhuANr12RIR+XzTU09Ryp9+PT6ll/cUbGfHNon7@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6WeYq9GqpAaPP38eHrS3ry4IXd89xzB01DEYHZ2vWom7kme9z
+	R5opuRs+6LmTKdTAgWnHmied5B/NeZPA9qpQjoOqOxt5mTIQmzHR79h1TX05
+X-Google-Smtp-Source: AGHT+IGN8i3mOey7VdZPPlZdjGYJJmkHvvSelu321aCwFvVAEV3cURA9WTE75dCfPDQ8v06QzorsLg==
+X-Received: by 2002:a17:90b:3013:b0:2e2:d181:6809 with SMTP id 98e67ed59e1d1-2e561a178e6mr16626201a91.39.1729578729488;
+        Mon, 21 Oct 2024 23:32:09 -0700 (PDT)
 Received: from localhost.localdomain (60-250-192-107.hinet-ip.hinet.net. [60.250.192.107])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e5ad355bebsm5227508a91.7.2024.10.21.23.32.04
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e5ad355bebsm5227508a91.7.2024.10.21.23.32.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 23:32:06 -0700 (PDT)
+        Mon, 21 Oct 2024 23:32:09 -0700 (PDT)
 From: mjchen <mjchen0829@gmail.com>
 To: linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -78,10 +81,12 @@ To: linux-kernel@vger.kernel.org,
 	krzk+dt@kernel.org,
 	robh@kernel.org,
 	dmitry.torokhov@gmail.com
-Subject: [PATCH 0/2] Add support for nuvoton ma35d1 keypad controller
-Date: Tue, 22 Oct 2024 06:31:56 +0000
-Message-Id: <20241022063158.5910-1-mjchen0829@gmail.com>
+Subject: [PATCH 1/2] dt-bindings: input: Add Nuvoton MA35D1 keypad
+Date: Tue, 22 Oct 2024 06:31:57 +0000
+Message-Id: <20241022063158.5910-2-mjchen0829@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20241022063158.5910-1-mjchen0829@gmail.com>
+References: <20241022063158.5910-1-mjchen0829@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -92,21 +97,108 @@ Content-Transfer-Encoding: 8bit
 
 From: mjchen <mjchen@nuvoton.com>
 
-This patch series adds keypad driver for the nuvoton ma35 ARMv8 SoC.
-It includes DT binding documentation and the ma35d1 keypad driver.
+Add YAML bindings for MA35D1 SoC keypad.
 
-mjchen (2):
-  dt-bindings: input: Add Nuvoton MA35D1 keypad
-  input: keypad: add new keypad driver for MA35D1
-
- .../bindings/input/nvt,ma35d1-keypad.yaml     |  88 +++++
- drivers/input/keyboard/Kconfig                |  10 +
- drivers/input/keyboard/Makefile               |   1 +
- drivers/input/keyboard/ma35d1_keypad.c        | 312 ++++++++++++++++++
- 4 files changed, 411 insertions(+)
+Signed-off-by: mjchen <mjchen@nuvoton.com>
+---
+ .../bindings/input/nvt,ma35d1-keypad.yaml     | 88 +++++++++++++++++++
+ 1 file changed, 88 insertions(+)
  create mode 100755 Documentation/devicetree/bindings/input/nvt,ma35d1-keypad.yaml
- create mode 100644 drivers/input/keyboard/ma35d1_keypad.c
 
+diff --git a/Documentation/devicetree/bindings/input/nvt,ma35d1-keypad.yaml b/Documentation/devicetree/bindings/input/nvt,ma35d1-keypad.yaml
+new file mode 100755
+index 000000000000..3d9fc26cc132
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/nvt,ma35d1-keypad.yaml
+@@ -0,0 +1,88 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/nvt,ma35d1-keypad.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NVT MA35D1 Keypad
++
++maintainers:
++  - Ming-jen Chen <mjchen0829@gmail.com>
++
++allOf:
++  - $ref: /schemas/input/matrix-keymap.yaml#
++
++properties:
++  compatible:
++    const: nuvoton,ma35d1-kpi
++
++  debounce-period:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: |
++      key debounce period select
++      0  = 0 clock
++      1  = 0 clock
++      2  = 0 clock
++      3  = 8 clocks
++      4  = 16 clocks
++      5  = 32 clocks
++      6  = 64 clocks
++      7  = 128 clocks
++      8  = 256 clocks
++      9  = 512 clocks
++      10 = 1024 clocks
++      11 = 2048 clocks
++      12 = 4096 clocks
++      13 = 8192 clocks
++
++  per-scale:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Row Scan Cycle Pre-scale Value (1 to 256).
++
++  per-scalediv:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Per-scale divider (1 to 256).
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - linux,keymap
++  - debounce-period
++  - per-scale
++  - per-scalediv
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/input/input.h>
++    keypad: keypad@404A0000 {
++      compatible = "nuvoton,ma35d1-kpi";
++      reg = <0x404A0000 0x10000>;
++      interrupts = <79>;
++      clocks = <&clk>;
++      keypad,num-rows = <2>;
++      keypad,num-columns = <2>;
++
++      linux,keymap = <
++         MATRIX_KEY(0,  0, KEY_ENTER)
++         MATRIX_KEY(0,  1, KEY_ENTER)
++         MATRIX_KEY(1,  0, KEY_SPACE)
++         MATRIX_KEY(1,  1, KEY_Z)
++     >;
++
++     debounce-period = <1>;
++     per-scale = <1>;
++     per-scalediv = <24>;
++    };
 -- 
 2.17.1
 
