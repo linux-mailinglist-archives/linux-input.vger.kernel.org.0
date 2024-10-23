@@ -1,159 +1,178 @@
-Return-Path: <linux-input+bounces-7633-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7634-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92F499ABFA9
-	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 09:03:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C50C69AC191
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 10:27:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 225FC28316B
-	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 07:03:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 20595B230FF
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 08:27:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45E8D14A609;
-	Wed, 23 Oct 2024 07:03:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2452015ADA1;
+	Wed, 23 Oct 2024 08:27:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="T4GWh7sj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ffWO/D+Q"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F983A8D0;
-	Wed, 23 Oct 2024 07:03:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4682F487BE;
+	Wed, 23 Oct 2024 08:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729667032; cv=none; b=dq/ZB/5nWsVQwVNGZeJncwFMN8QBE3BYqCqit4kuk3m4lUI7oWxRowHZ777tP3XwW4OXkIIMmUpOQ4vkiRVITHUUz3p9n7Adja2f8GXqYFg4x6EMUbo0g/Uid6NJ9L4wNspVd/7Z4dz3SULKbOJx8/h62aSSuTg5JSa4NQdQLCY=
+	t=1729672046; cv=none; b=PMRtAdc5uQdtnRnFWMZoqtAWYtdsLCVYdypfIXC2EOHuQGO/rL/n/QDu3cFN2zLmc/T0i1olKBmou+26gK+84M+hTfQa2q8HZ8Nu8d0g1Ol+nKzU8lT3ZQ0WOgxcZSMBTJ5SEm3bOe+EOObKx/6QNHs/ABC6ABanLWz0jbCFg6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729667032; c=relaxed/simple;
-	bh=kXnezDBNSe442Wp0C9s+qIN4YJtpiOtN2RsiZGhRlms=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j92oDKACPynwClZSf5JYthyYDlLBSqqyCn6ktQglLp/T6e/KEwXO8dM1Pl2pB5b2bfzwdVthXNI1pb0580GIjLa2PcYHoIZdZDsxewaCRyS14MLoS926epgFgDw12q8dqGGJyLkxjh67efkTwl2RE4G8qJYY/99bwMBbQXvajrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=T4GWh7sj; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1729667008; x=1730271808; i=w_armin@gmx.de;
-	bh=lITTQi1+xpDe/eRs5y9aBbZ20hdHWc0TWoYNWU0Bu/k=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=T4GWh7sj0kt2R+sHcQgs/R5eo+U2lAtSWTdSHhXN7lg8aUmRCtJ3Vi3Zf0cslCh8
-	 gir/069k0TZTC9YoXPbKdLw6RZ/+ef+c7mO1FH3lzytJQS7Dsexq+xo4S1v2UQ9Zf
-	 MLrWKAa875uMO75y5ppO7/inH5SAmh5yyYnF0BD9T6OrjmeG5QOouxx/bYR9YEgxF
-	 lZQ23hhM2aqb9X/cdi8E32lyls0Rt29+xbT7F3DV7FEUotQfkeiZy5XMga0kO2jKL
-	 fh8FGLygIDzvD/0rzWCu2CnDtYTtPWsj1vFZl/Pzb4R7408kkvmvDwbtSdgJmVO6P
-	 gk7hJcGyA4G+r05g6Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MVvLB-1tVNOX2WnN-00RqJg; Wed, 23
- Oct 2024 09:03:28 +0200
-Message-ID: <e029404c-88f7-4e8a-affa-40d589412e61@gmx.de>
-Date: Wed, 23 Oct 2024 09:03:25 +0200
+	s=arc-20240116; t=1729672046; c=relaxed/simple;
+	bh=iF8BvHGOmK/GtG0JmpxdEl6XsEVz5deY1YEwYQAigpg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hB8FxsJw4YRnAH7uIff60NF0qeAmkC1kEMlzBZFb4epb70FmWthvub0G8CQOtJ3Z6dbrD9jJTWMEeqRc8HpJlfuzu0ugjEmQuQffSeB/OTLZWPhj5HqBYwsB1Gzq4e/p6xUzNsQ9xwRWuGCq08XjL2TlECRnaU/BWAINm+HONok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ffWO/D+Q; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5cb6b2b7127so2830367a12.1;
+        Wed, 23 Oct 2024 01:27:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729672042; x=1730276842; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UYyMOmA52LEv1T2cV+rhiVwnY88B+0PjgFOPjFMPd7o=;
+        b=ffWO/D+QwD1iLZ0H56Hc8Z2zEuIyuRVKffod9OIn/T1RPx8Ct62BLXaGNRtaigkXpb
+         Y/idhDMynzIPSvhdnaBNubMGMhQCLgObLuHZanHu1uUW9DcnAL+Ram7WoM/9fZccYcsh
+         O6vge42Osarda+wmcvfqK3s/mmqFTC2PhjPPUpvi9djsFAJIjgGeFcpyD4tZMALCdujf
+         zdkhTDSU4zOQi+oVU7kH0sd7xdB+4XJ85EPfkBRiAE4f0OT1HX2m9vdUjJlP9Mg8pTRS
+         xE+kPGVm2iPMF2dHaG4bo6YCHHdMOT5rjAGXJ96vj5k4991JvIcppsyrmeWOy4ldj2r8
+         McFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729672042; x=1730276842;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UYyMOmA52LEv1T2cV+rhiVwnY88B+0PjgFOPjFMPd7o=;
+        b=pYXwxqa1d9ByVcTh00AdJlPz0psUkE3qpB0u3zi4UE1Lc9D1qNaLvpVG8xR8nn1u1m
+         tZ2Q5082DfnlS5wVDuXYY/zdZDS0Wth05LBIRqStWOkK+K68EzF8QGSrjuYEpTLylbtY
+         lRWypNdWm1iuBz/a4I2cvoEVScfGZXuqIG3DQ0SrFq/Js6SRig4TadU2O2yYimLkCZ1M
+         tfO2BdGfLa0oNRageppYTrd1bywrym6Dn+g3v9fd6vFEPKlpaeBvl/1u6h/aJa6eTnA9
+         2QMqpsEbYmYrJQ/rk6Vje0giN5TAxz/LDW+x44L0Sivq/K85P3hVSjn9NfxdaVqEE60I
+         HzWg==
+X-Forwarded-Encrypted: i=1; AJvYcCXC7FHzyR52KQwIRhBbgm133AEHnmql0CcUaZwiCkO0QsptYJ20TiF3tPlHURM1zmsTRl+Hdo8MPwoPhtJq@vger.kernel.org, AJvYcCXvc+8D0qizjos+6AdGAxo7Tx8ROdpCaPrSKSrurC2FlGHKCg9NV/cutbzuLUzEA0iplXb7mOIx4yYAOw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkVcIwBKPS/kMsy5HfBYjviV9pjTeVI0E9KetruUejbT7q0bHq
+	2kIATpGOV09O+Md0+elHOU2H0R2V5Ta5MLYLUOMAFGsHiqA/8IMm
+X-Google-Smtp-Source: AGHT+IEKQSJ49Uku+y5p6QgfLDgFyk3vriJ0TDr9bFKLGvLU9Tj07i5Yq7Tx1gMmc2KHREWVt7/15A==
+X-Received: by 2002:a17:906:da87:b0:a9a:eca:f7c4 with SMTP id a640c23a62f3a-a9abf967d5cmr141268466b.54.1729672042202;
+        Wed, 23 Oct 2024 01:27:22 -0700 (PDT)
+Received: from ux-UP-WHL01.. (mailgw01.gttektw.com. [45.117.96.243])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a91571f2bsm437926666b.163.2024.10.23.01.27.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2024 01:27:21 -0700 (PDT)
+From: Charles Wang <charles.goodix@gmail.com>
+To: dmitry.torokhov@gmail.com,
+	hbarnor@chromium.org
+Cc: jikos@kernel.org,
+	bentiss@kernel.org,
+	dianders@chromium.org,
+	dan.carpenter@linaro.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Charles Wang <charles.goodix@gmail.com>
+Subject: [PATCH] HID: hid-goodix: Improve handling of HID feature reports
+Date: Wed, 23 Oct 2024 16:27:03 +0800
+Message-ID: <20241023082703.23525-1-charles.goodix@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-To: Pavel Machek <pavel@ucw.cz>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Werner Sembach <wse@tuxedocomputers.com>,
- Benjamin Tissoires <bentiss@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
-References: <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
- <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
- <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
- <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
- <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de> <ZwlDpCPhieF3tezX@duo.ucw.cz>
- <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
- <c52019d7-01b4-4585-a2d1-b44b0a773fc9@redhat.com>
- <Zxd0ou7GpCRu0K5a@duo.ucw.cz> <35a98b67-d1eb-4aa9-9d3f-025c94cd6b0f@gmx.de>
- <Zxf5u9jgmt9vpz2u@duo.ucw.cz>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <Zxf5u9jgmt9vpz2u@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:cuXi8m4Br6nrlYzivR7wZJwXSlMK5QyjD1PQlgXa70bII4xYI1U
- kJda8SCxdeZiizmfIeODCMFWO/j6fI0IVQkYygtQ8SjLfdkbXvvkPWwkEOnuJBwSmi0tnFo
- kw0TqdoX7Q5sxqq3XY65CHUnLle9h+2hGP6AKyILbxYu41yYOr2wmPaa8Ukx4sPokK13SCH
- 7MAiATwmgVrq1uqCTqLtA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:jTr3/4093ac=;w0fY4nHWFtbC/hjK2YYpqhZXS+3
- ZRWHmBZQwTsgcwbKsgeZSaq6I3MKbSTJMNkr4v+fdzZOPGHlZZ/BdfCJe19zxp9/tRyoXG2e6
- syfVfCQJwOdnhWUhzQ9t+Omgjr0k7qG/b/vj82iiDiV9Fo1qdKuVLFpigjdTJKwsvmYTksJp1
- x7d4QaphkRTL5Nj30Y3zNyECkrbVisLdEyJHop5D1Tue2qNx3D/5Qie2PQXeivDobZAEXqU6o
- R+wPWDtoU2df2ulGBTFFDYCdSSOVAnUIuQnv1y2K/vDqnaRN5AjUOXRgvUkaGhRnCjkRaLmYe
- hWZs/UZ/WhCu1n4+w9r7mJfXXimp1X73ALsp1YdN8HNmrQkO4jEaP2uZviFSIFJmbpOjTX4Gg
- JjOgLAtxRmUgX6Nw5XUT/fhS0eyizJg0K53ishDAESdizDXKaUes2by97id917zGXK4ArdzkZ
- n49fzkAsh4nhZEOmdKbY3a1uXPast54gfYTygBTe4FiCVlV8U3IYiHDPkC6cGD4C7nfw+TrBN
- 4wbIV8bkoUwYbqlcrE8hQxQBqTO8e9fHyYgSI19pYcW2NWn9BWEQcIP0C0CRjx3bygPUJ64nM
- prt+bV6A4VLcsmh79kyN+NiQLOYTAYJnOIQOqpV5QtyNNHOn1yWL3hjPnoAzA2eHIfAz9IWWM
- qvc+C8JiHFKQbLMtXXcwpd3pgf39vdoFR1fuf5o3hWgj2RjRLO5jbsv18mh8MfKSugRwhUecY
- lkKfxnBtrBOG/T8Jg9RRRzGEUdzB7Wf51DQA+SxJJ5CizIvkuR/58txj83Caw6+ZOtFYfy2fo
- CnRKDGt+XBgGU8crz5B9OL/FHAa1ygdXRKj8Gl0tGkR7Y=
+Content-Transfer-Encoding: 8bit
 
-Am 22.10.24 um 21:15 schrieb Pavel Machek:
+1) Align with the i2c-hid driver by returning 0 instead of -EINVAL when
+an empty response is received, ensuring that userspace programs utilizing
+the hidraw node receive consistent return values.
 
-> Hi!
->
->>>>> - interface for setting multiple LEDs at once
->>>>> - interface for setting a range of LEDs at once
->>> How are LEDs ordered? I don't believe range makes much sense.
->> Range would allow for efficiently changing the color of all LEDs. But i agree
->> that this can be considered optional and can be added later.
-> Yep, setting all of them makes sense. We should probably provide
-> backward-compatible interface for keyboards with single backlight, so
-> this would likely be LED class.
->
-Good idea, the LED device could also be provided by the illumination subsystem code.
+2) Implement the hid get/set feature report function using a separate
+address, rather than sharing an address with coordinate reporting, to
+prevent feature events from being overwritten by coordinate events.
 
->>>> Personally I really like the idea to just emulate a HID LampArray device
->>>> for this instead or rolling our own API.  I believe there need to be
->>>> strong arguments to go with some alternative NIH API and I have not
->>>> heard such arguments yet.
->>> If you don't want "some alternative API", we already have perfectly
->>> working API for 2D arrays of LEDs. I believe I mentioned it before
->>> :-). Senzrohssre.
->> We may have to support 3D arrays of LEDs, so using a simple framebuffer
->> would likely cause trouble.
-> Do you have pointer for device that is 3D?
+Signed-off-by: Charles Wang <charles.goodix@gmail.com>
+---
+ drivers/hid/hid-goodix-spi.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-Maybe a PC case with LEDs on each corner.
-
->
-> OpenRGB manages to map keyboard into plane... so what I'd propose is
-> this:
->
-> Framebuffer
-> Information for each pixel:
-> 	    present ? (displays with missing pixels are pretty common)
-> 	    list of keys related to this pixel
-> 	    width, height, length (if we know them)
->
-> Pixels map to keys M:N.
->
-> Yes, we'll have some number of non-present pixels, but again, I
-> believe that's not uncommon due to round screens, etc.
->
-> (But I'm fine with other interfaces, as long as they are "normal")
->
-> Best regards,
-> 								Pavel
-
-Using an ID-based interface would allow for more flexibility and allow
-us to support 3D-arrays.
-
-Thanks,
-Armin Wolf
+diff --git a/drivers/hid/hid-goodix-spi.c b/drivers/hid/hid-goodix-spi.c
+index 0f87bf9c6..6ae2300a6 100644
+--- a/drivers/hid/hid-goodix-spi.c
++++ b/drivers/hid/hid-goodix-spi.c
+@@ -19,6 +19,7 @@
+ #define GOODIX_HID_DESC_ADDR		0x1058C
+ #define GOODIX_HID_REPORT_DESC_ADDR	0x105AA
+ #define GOODIX_HID_SIGN_ADDR		0x10D32
++#define GOODIX_HID_CMD_ADDR		0x10364
+ 
+ #define GOODIX_HID_GET_REPORT_CMD	0x02
+ #define GOODIX_HID_SET_REPORT_CMD	0x03
+@@ -348,7 +349,7 @@ static int goodix_hid_check_ack_status(struct goodix_ts_data *ts, u32 *resp_len)
+ 		 * - byte 0:    Ack flag, value of 1 for data ready
+ 		 * - bytes 1-2: Response data length
+ 		 */
+-		error = goodix_spi_read(ts, ts->hid_report_addr,
++		error = goodix_spi_read(ts, GOODIX_HID_CMD_ADDR,
+ 					&hdr, sizeof(hdr));
+ 		if (!error && (hdr.flag & GOODIX_HID_ACK_READY_FLAG)) {
+ 			len = le16_to_cpu(hdr.size);
+@@ -356,7 +357,7 @@ static int goodix_hid_check_ack_status(struct goodix_ts_data *ts, u32 *resp_len)
+ 				dev_err(ts->dev, "hrd.size too short: %d", len);
+ 				return -EINVAL;
+ 			}
+-			*resp_len = len;
++			*resp_len = len - GOODIX_HID_PKG_LEN_SIZE;
+ 			return 0;
+ 		}
+ 
+@@ -431,7 +432,7 @@ static int goodix_hid_get_raw_report(struct hid_device *hid,
+ 	tx_len += args_len;
+ 
+ 	/* Step1: write report request info */
+-	error = goodix_spi_write(ts, ts->hid_report_addr, tmp_buf, tx_len);
++	error = goodix_spi_write(ts, GOODIX_HID_CMD_ADDR, tmp_buf, tx_len);
+ 	if (error) {
+ 		dev_err(ts->dev, "failed send read feature cmd, %d", error);
+ 		return error;
+@@ -446,9 +447,12 @@ static int goodix_hid_get_raw_report(struct hid_device *hid,
+ 	if (error)
+ 		return error;
+ 
+-	len = min(len, response_data_len - GOODIX_HID_PKG_LEN_SIZE);
++	/* Empty reprot response */
++	if (!response_data_len)
++		return 0;
++	len = min(len, response_data_len);
+ 	/* Step3: read response data(skip 2bytes of hid pkg length) */
+-	error = goodix_spi_read(ts, ts->hid_report_addr +
++	error = goodix_spi_read(ts, GOODIX_HID_CMD_ADDR +
+ 				GOODIX_HID_ACK_HEADER_SIZE +
+ 				GOODIX_HID_PKG_LEN_SIZE, buf, len);
+ 	if (error) {
+@@ -518,7 +522,7 @@ static int goodix_hid_set_raw_report(struct hid_device *hid,
+ 	memcpy(tmp_buf + tx_len, buf, len);
+ 	tx_len += len;
+ 
+-	error = goodix_spi_write(ts, ts->hid_report_addr, tmp_buf, tx_len);
++	error = goodix_spi_write(ts, GOODIX_HID_CMD_ADDR, tmp_buf, tx_len);
+ 	if (error) {
+ 		dev_err(ts->dev, "failed send report: %*ph", tx_len, tmp_buf);
+ 		return error;
+@@ -749,7 +753,7 @@ static int goodix_spi_set_power(struct goodix_ts_data *ts, int power_state)
+ 	power_control_cmd[5] = power_state;
+ 
+ 	guard(mutex)(&ts->hid_request_lock);
+-	error = goodix_spi_write(ts, ts->hid_report_addr, power_control_cmd,
++	error = goodix_spi_write(ts, GOODIX_HID_CMD_ADDR, power_control_cmd,
+ 				 sizeof(power_control_cmd));
+ 	if (error) {
+ 		dev_err(ts->dev, "failed set power mode: %s",
+-- 
+2.43.0
 
 
