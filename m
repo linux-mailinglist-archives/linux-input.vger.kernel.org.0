@@ -1,380 +1,657 @@
-Return-Path: <linux-input+bounces-7637-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7638-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC259AC208
-	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 10:45:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 552529AC236
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 10:52:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B167284453
-	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 08:45:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 75B481C249DC
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 08:52:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94601160783;
-	Wed, 23 Oct 2024 08:45:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A86B215C15F;
+	Wed, 23 Oct 2024 08:52:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L74W8wR7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mpFG6nGa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695AC158845;
-	Wed, 23 Oct 2024 08:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D61A165EFA
+	for <linux-input@vger.kernel.org>; Wed, 23 Oct 2024 08:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729673106; cv=none; b=naZy7p1iqcgW/t7TM/xmMlvre/Lej13E0l3FKMF0BhOzT7WVoCJSAyKeikkuoduzDm40KoUPXzFtGU2JPb/jyGKNw/v7tWGtCqM8qw2yfmpvF92m0eb4Pfx7Ecm2dbGMszEDOXMmTRpH3m50MT9dJoUvqB1Q50h8AydhSNaRy9k=
+	t=1729673541; cv=none; b=O5K0hN+xW2oOCj6K1dtej9fcvBHp7dOQlaNpde1oVvfh8ufoJ3IardIx2ktPoMSVToE9NZhxGDFPCywpoc9SqhXSa7Hl0IRU0lIo2Kj0vxb8UPIGKAA6FSudkm7rF8o0I/VuB+0QNLtCE+vEmM9pDWUSibysucDvxYml3103mxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729673106; c=relaxed/simple;
-	bh=Q9+IdA9z1jSogaUNnaqvsX9oNHR9qfz1Kp31tdfvIe4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b782uS4CaTJLMWZYxC+7aaEOoE1pfxUDxQrbmsFgCfAgY69Jys3ahmgylI/OdZg1nRqkitEPF14HL7GFGelIiC7bHUBM8TTUsdflziR5FMwreXq6kAJZst55wTXgtdfUY0IdK+Dv8KG1lBlwlaaJtQQLed8LKPDQZu+X1DY1Wsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L74W8wR7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64F55C4CEC6;
-	Wed, 23 Oct 2024 08:45:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729673105;
-	bh=Q9+IdA9z1jSogaUNnaqvsX9oNHR9qfz1Kp31tdfvIe4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L74W8wR7dEGjhg7mqQsrCfoItRsWtistWNuC715+d2hurgcotx+yTHo/QC/rpMeDb
-	 IHbOCSWlwND2rmdED/ORaqTWgslPmiVEUpVuqDUntO24Vf5P+0x1tQHHzFy4xm4dEQ
-	 oShCdmNK1DV9/+vBO/jCegTqEnYjW+ZTlNmJMv8I49Abqtnd36t+L1RCqtiXz6D55F
-	 aL46N13Jn/gKDLTBkkS5vNaRdVyvPHXrJDtdUEvoa8OVIoJB8WX9/HPJoG8AB2qrdH
-	 BcASLfc6aNS7+F5R/zMRuczD9MNMi/GCSbhgpDdVXMHVra0bqyPqL1tpjeVYGJ7FG+
-	 14KNkDI89SYuA==
-Date: Wed, 23 Oct 2024 10:45:03 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: mjchen <mjchen0829@gmail.com>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org, mjchen@nuvoton.com, 
-	peng.fan@nxp.com, sudeep.holla@arm.com, arnd@arndb.de, conor+dt@kernel.org, 
-	krzk+dt@kernel.org, robh@kernel.org, dmitry.torokhov@gmail.com
-Subject: Re: [PATCH 2/2] input: keypad: add new keypad driver for MA35D1
-Message-ID: <xveh2z7at7ion3fljdcvbhuvfij7m54bb66rlhclmxot3l5ea5@nzgzed6jwhlt>
-References: <20241022063158.5910-1-mjchen0829@gmail.com>
- <20241022063158.5910-3-mjchen0829@gmail.com>
+	s=arc-20240116; t=1729673541; c=relaxed/simple;
+	bh=+l/SFWeyR80Z4IdpFsoaxOhz8sHgpkmIbfCL5lUggzM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FSmVXqZSHBEVFeK2z0DU40SgA2zaJrw0Loffo0tsOl++a6N1ZKZAsTEb3p8fD1SWYfPbgJJQ8W0kUsKNbRblPYRV5fLj4GFCjgklUroO6yHIWCgu4Qqzbw/HXS5Ph1urERcwlyW1X73aId5kTowE9UVOe4j6CCh51i/0RRcc7LA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mpFG6nGa; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2fb443746b8so68491531fa.0
+        for <linux-input@vger.kernel.org>; Wed, 23 Oct 2024 01:52:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729673537; x=1730278337; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Dt3BJqTm80aYgmB31B2JvtPvjLuB8HZAvSue3okDGAM=;
+        b=mpFG6nGarizFzLV/7IVVvjBunFSj4EXvqsLDwLIZmwDOAqGCb7Qv1x26vz11M59bmE
+         9ljspe7iKyvtguky++jbhQP6TZAgdR4HuKyX1tOXhZY2UkYNmE1MY7hjtZGaM6rISLaO
+         RzjL2U9ZtdzRivjzj4P9T4nzNaINuMnCNgSHDzwHh8qzRF5o5qOcxFQGmUEkbye5ECD+
+         MvThMqawHWurvzf42P1XjGatE4C15345Hgw79nYHdr3QWd+dBqCsLu/1G9V7O5n/nFK1
+         X4uA2LqWJYr2i+39skIjTH0NGMqhAvT2gfrCasfV/T3wdp5OrFE+LEmLfi36pRxWN+5k
+         A+cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729673537; x=1730278337;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Dt3BJqTm80aYgmB31B2JvtPvjLuB8HZAvSue3okDGAM=;
+        b=JcEQ11oB0VeMgeO1H5t4tjIcpevvqxgAMe1Sx4zxzs1LhCZca+lixJwrhWplg6K1zf
+         uOg71s6sJ12Bal8DJdenP+rg02Qfu09l6C4YRO9bDVQG8YOloG61m0RVkFP1DGudSIpo
+         MoowEeR2C4VWK0HvZB5orE4NzVWzemVBTxiAlcrqtbRxTSsmWCjtjjqkY7TtqpHKZHYc
+         qWgZWuv2VEPDhjiqc0ZWUuykCaiCM4Sw8LvnppYx8edV085Rj/gNyCoolSQiHicouYCU
+         c0fnstv3HE0xD+NlOuJYIJCyk0qIpla98u43H1fCnmGJddM+Khljv2K+gJXsr3ck8Vxu
+         oRwg==
+X-Forwarded-Encrypted: i=1; AJvYcCVct/JL+6Rj3wU+JekZ6NNp1cJwAk2MkU7IP5NLMNu9+N/MLgRdMBa1tz0QRoy+Anb/LLSvEe9a29oynQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzinMWyO1EE5oyur7e3h8vfVpKrkFKKDCsRrn9Qza4aPyHQJdu
+	C/Msdxegv3V4hfsipb2mJNYU5KMBoWL2cX6KiWkH5DC92umcqV4pA1VWgK60k6ohfKr5wF1FO0J
+	aPWQIpH8yb77jxMscTwVx+d4PcB8=
+X-Google-Smtp-Source: AGHT+IGnTgkhM6M9hRFNPjUfbUGyauXb4JsjX3PphIu/xLgGuNh1NoIoUWRa3MKgdJYn8yfypdFckv+1M5DRk1oFL9w=
+X-Received: by 2002:a2e:9e4c:0:b0:2fb:5ac6:90f0 with SMTP id
+ 38308e7fff4ca-2fc9d379ceemr7030601fa.34.1729673536893; Wed, 23 Oct 2024
+ 01:52:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241022063158.5910-3-mjchen0829@gmail.com>
+References: <20241023083805.2164641-1-zhoubinbin@loongson.cn>
+In-Reply-To: <20241023083805.2164641-1-zhoubinbin@loongson.cn>
+From: Binbin Zhou <zhoubb.aaron@gmail.com>
+Date: Wed, 23 Oct 2024 14:52:03 +0600
+Message-ID: <CAMpQs4+KDsKrV6086LZ22h8z87J3x7sdR-UNLnz0x0QB=4Y5hA@mail.gmail.com>
+Subject: Re: [PATCH v5] Input: Add driver for PixArt PS/2 touchpad
+To: Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: Huacai Chen <chenhuacai@loongson.cn>, Jon Xie <jon_xie@pixart.com>, 
+	Jay Lee <jay_lee@pixart.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Huacai Chen <chenhuacai@kernel.org>, linux-input@vger.kernel.org, 
+	Xiaotian Wu <wuxiaotian@loongson.cn>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Kexy Biscuit <kexybiscuit@aosc.io>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 22, 2024 at 06:31:58AM +0000, mjchen wrote:
-> From: mjchen <mjchen@nuvoton.com>
-> 
-> Adds a new keypad driver for the MA35D1 platform.
-> The driver supports key scanning and interrupt handling.
-> 
-> Signed-off-by: mjchen <mjchen@nuvoton.com>
+On Wed, Oct 23, 2024 at 2:38=E2=80=AFPM Binbin Zhou <zhoubinbin@loongson.cn=
+> wrote:
+>
+> This patch introduces a driver for the PixArt PS/2 touchpad, which
+> supports both clickpad and touchpad types.
+>
+> At the same time, we extended the single data packet length to 16,
+> because according to the current PixArt hardware and FW design, we need
+> 11 bytes/15 bytes to represent the complete three-finger/four-finger data=
+.
+>
+> Co-developed-by: Jon Xie <jon_xie@pixart.com>
+> Signed-off-by: Jon Xie <jon_xie@pixart.com>
+> Co-developed-by: Jay Lee <jay_lee@pixart.com>
+> Signed-off-by: Jay Lee <jay_lee@pixart.com>
+> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+> Tested-by: Kexy Biscuit <kexybiscuit@aosc.io>
 > ---
->  drivers/input/keyboard/Kconfig         |  10 +
->  drivers/input/keyboard/Makefile        |   1 +
->  drivers/input/keyboard/ma35d1_keypad.c | 312 +++++++++++++++++++++++++
->  3 files changed, 323 insertions(+)
->  create mode 100644 drivers/input/keyboard/ma35d1_keypad.c
-> 
-> diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
-> index 721ab69e84ac..ce9bd5cc13a1 100644
-> --- a/drivers/input/keyboard/Kconfig
-> +++ b/drivers/input/keyboard/Kconfig
-> @@ -797,4 +797,14 @@ config KEYBOARD_CYPRESS_SF
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called cypress-sf.
->  
-> +config KEYBOARD_MA35D1
-> +	tristate "Nuvoton MA35D1 keypad driver"
-> +	depends on ARCH_MA35
+> V5:
+>  - Rebased on input/for-linus;
+>  - Fix wide PixArt TP type judgment in pixart_read_tp_type().
+>    Each type has a unique FW return value to avoid non-pixart touchpads
+>    being misjudged.
+>  - Thanks to Kexy for testing on non-pixart devices.
+>    The List of tested touchpad devices:
+>      - TPPS/2(broken on V4)
+>      - SynPS/2 Synaptics TouchPad
 
-|| COMPILE_TEST
+Hi Benjamin:
 
-> +	select INPUT_MATRIXKMAP
-> +	help
-> +	  Say Y here if you want to use Nuvoton MA35D1 keypad.
+I've rewritten the PixArt TP type judgment condition to avoid false
+positives for non-PixArt devices. I tested it on several PS/2 devices
+without problems.
+To be more rigorous, if it's convenient for you, please help me test
+the previously problematic devices based on this patch.
+
+Thanks.
+Binbin
+
+>
+> Link to V4:
+> https://lore.kernel.org/all/20240704125243.3633569-1-zhoubinbin@loongson.=
+cn/
+>
+> V4:
+>  - Thanks Dmitry for the review.
+>    - Just return what ps2_command() reports, instead of replacing it with
+>      -EIO;
+>    - Refact pixart_read_tp_mode/pixart_read_tp_type(), to separate mode
+>      value and errors/success;
+>    - Pass the INPUT_MT_POINTER flag to input_mt_init_slots() and remove
+>      some redundant code, like the call to input_mt_report_finger_count()
+>      and the setting of bits in the touchpad section.
+>
+> Link to V3:
+> https://lore.kernel.org/all/20240701094953.3195501-1-zhoubinbin@loongson.=
+cn/
+>
+> V3:
+>  - Rebased on input/next;
+>  - Added comment to msleep() in pixart_reset() as suggested by Aseda, no
+> functional change, thanks.
+>
+> Link to V2:
+> https://lore.kernel.org/all/20240624065359.2985060-1-zhoubinbin@loongson.=
+cn/
+>
+> V2:
+>  - Rebased on input/next;
+>  - Merge two patches from the V1 patchset;
+>  - Initialize local variables to prevent random garbage;
+>  - Remove some noisy debug message;
+>  - Check ps2_command() return value;
+>  - Use macros to represent bit operations for better readability, such
+>    as abs_x;
+>  - Remove the code related to rel packets, for the normal
+>    intellimouse detection is well in PixArt.
+>
+> Link to V1:
+> https://lore.kernel.org/all/cover.1715224143.git.zhoubinbin@loongson.cn/
+>
+>  drivers/input/mouse/Kconfig        |  12 ++
+>  drivers/input/mouse/Makefile       |   1 +
+>  drivers/input/mouse/pixart_ps2.c   | 310 +++++++++++++++++++++++++++++
+>  drivers/input/mouse/pixart_ps2.h   |  36 ++++
+>  drivers/input/mouse/psmouse-base.c |  17 ++
+>  drivers/input/mouse/psmouse.h      |   3 +-
+>  6 files changed, 378 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/input/mouse/pixart_ps2.c
+>  create mode 100644 drivers/input/mouse/pixart_ps2.h
+>
+> diff --git a/drivers/input/mouse/Kconfig b/drivers/input/mouse/Kconfig
+> index 833b643f0616..8a27a20d04b0 100644
+> --- a/drivers/input/mouse/Kconfig
+> +++ b/drivers/input/mouse/Kconfig
+> @@ -69,6 +69,18 @@ config MOUSE_PS2_LOGIPS2PP
+>
+>           If unsure, say Y.
+>
+> +config MOUSE_PS2_PIXART
+> +       bool "PixArt PS/2 touchpad protocol extension" if EXPERT
+> +       default y
+> +       depends on MOUSE_PS2
+> +       help
+> +         This driver supports the PixArt PS/2 touchpad found in some
+> +         laptops.
+> +         Say Y here if you have a PixArt PS/2 TouchPad connected to
+> +         your system.
 > +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called ma35d1-keypad.
+> +         If unsure, say Y.
 > +
->  endif
-> diff --git a/drivers/input/keyboard/Makefile b/drivers/input/keyboard/Makefile
-> index 1e0721c30709..9b858cdd1b6b 100644
-> --- a/drivers/input/keyboard/Makefile
-> +++ b/drivers/input/keyboard/Makefile
-> @@ -70,3 +70,4 @@ obj-$(CONFIG_KEYBOARD_TEGRA)		+= tegra-kbc.o
->  obj-$(CONFIG_KEYBOARD_TM2_TOUCHKEY)	+= tm2-touchkey.o
->  obj-$(CONFIG_KEYBOARD_TWL4030)		+= twl4030_keypad.o
->  obj-$(CONFIG_KEYBOARD_XTKBD)		+= xtkbd.o
-> +obj-$(CONFIG_KEYBOARD_MA35D1)		+= ma35d1_keypad.o
-> diff --git a/drivers/input/keyboard/ma35d1_keypad.c b/drivers/input/keyboard/ma35d1_keypad.c
+>  config MOUSE_PS2_SYNAPTICS
+>         bool "Synaptics PS/2 mouse protocol extension" if EXPERT
+>         default y
+> diff --git a/drivers/input/mouse/Makefile b/drivers/input/mouse/Makefile
+> index a1336d5bee6f..563029551529 100644
+> --- a/drivers/input/mouse/Makefile
+> +++ b/drivers/input/mouse/Makefile
+> @@ -32,6 +32,7 @@ psmouse-$(CONFIG_MOUSE_PS2_ELANTECH)  +=3D elantech.o
+>  psmouse-$(CONFIG_MOUSE_PS2_OLPC)       +=3D hgpk.o
+>  psmouse-$(CONFIG_MOUSE_PS2_LOGIPS2PP)  +=3D logips2pp.o
+>  psmouse-$(CONFIG_MOUSE_PS2_LIFEBOOK)   +=3D lifebook.o
+> +psmouse-$(CONFIG_MOUSE_PS2_PIXART)     +=3D pixart_ps2.o
+>  psmouse-$(CONFIG_MOUSE_PS2_SENTELIC)   +=3D sentelic.o
+>  psmouse-$(CONFIG_MOUSE_PS2_TRACKPOINT) +=3D trackpoint.o
+>  psmouse-$(CONFIG_MOUSE_PS2_TOUCHKIT)   +=3D touchkit_ps2.o
+> diff --git a/drivers/input/mouse/pixart_ps2.c b/drivers/input/mouse/pixar=
+t_ps2.c
 > new file mode 100644
-> index 000000000000..20b5b1b91127
+> index 000000000000..d5cd00936171
 > --- /dev/null
-> +++ b/drivers/input/keyboard/ma35d1_keypad.c
-> @@ -0,0 +1,312 @@
-> +// SPDX-License-Identifier: GPL-2.0+
+> +++ b/drivers/input/mouse/pixart_ps2.c
+> @@ -0,0 +1,310 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
 > +/*
-> + *  MA35D1 keypad driver
-> + *  Copyright (C) 2024 Nuvoton Technology Corp.
+> + * Pixart Touchpad Controller 1336U PS2 driver
+> + *
+> + * Author: Jon Xie <jon_xie@pixart.com>
+> + *         Jay Lee <jay_lee@pixart.com>
+> + * Further cleanup and restructuring by:
+> + *         Binbin Zhou <zhoubinbin@loongson.cn>
+> + *
+> + * Copyright (C) 2021-2024 Pixart Imaging.
+> + * Copyright (C) 2024 Loongson Technology Corporation Limited.
+> + *
 > + */
 > +
-> +#include <linux/interrupt.h>
+> +#include <linux/bitfield.h>
+> +#include <linux/delay.h>
+> +#include <linux/device.h>
 > +#include <linux/input.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/input/matrix_keypad.h>
-> +#include <linux/clk.h>
-> +#include <linux/of.h>
+> +#include <linux/input/mt.h>
+> +#include <linux/libps2.h>
+> +#include <linux/serio.h>
+> +#include <linux/slab.h>
 > +
-> +/* Keypad Interface Registers */
-> +#define KPI_CONF		0x00
-> +#define KPI_3KCONF		0x04
-> +#define KPI_STATUS		0x08
-> +#define KPI_RSTC		0x0C
-> +#define KPI_KEST		0x10
-> +#define KPI_KPE0		0x18
-> +#define KPI_KPE1		0x1C
-> +#define KPI_KRE0		0x20
-> +#define KPI_KRE1		0x24
-> +#define KPI_PRESCALDIV	0x28
+> +#include "pixart_ps2.h"
 > +
-> +/* KPI_CONF - Keypad Configuration Register */
-> +#define KROW		GENMASK(30, 28) /* Keypad Matrix ROW number */
-> +#define KCOL		GENMASK(26, 24) /* Keypad Matrix COL Number */
-> +#define DB_CLKSEL	GENMASK(19, 16) /* De-bounce sampling cycle selection */
-> +#define PRESCALE	GENMASK(15, 8)  /* Row Scan Cycle Pre-scale Value */
-> +#define WAKEUP		BIT(5) /* Lower Power Wakeup Enable */
-> +#define INTEN		BIT(3) /* Key Interrupt Enable Control */
-> +#define RKINTEN		BIT(2) /* Release Key Interrupt Enable */
-> +#define PKINTEN		BIT(1) /* Press Key Interrupt Enable Control */
-> +#define ENKP		BIT(0) /* Keypad Scan Enable */
+> +static int pixart_read_tp_mode(struct ps2dev *ps2dev, u8 *mode)
+> +{
+> +       int error;
+> +       u8 param[1] =3D { 0 };
 > +
-> +/* KPI_STATUS - Keypad Status Register */
-> +#define PKEY_INT	BIT(4) /* Press key interrupt */
-> +#define RKEY_INT	BIT(3) /* Release key interrupt */
-> +#define KEY_INT		BIT(2) /* Key Interrupt */
-> +#define RST_3KEY	BIT(1) /* 3-Keys Reset Flag */
-> +#define PDWAKE		BIT(0) /* Power Down Wakeup Flag */
+> +       error =3D ps2_command(ps2dev, param, PIXART_CMD_REPORT_FORMAT);
+> +       if (error)
+> +               return error;
 > +
-> +#define DEFAULT_DEBOUNCE		1
-> +#define DEFAULT_PRE_SCALE		1
-> +#define DEFAULT_PRE_SCALEDIV	32
+> +       *mode =3D param[0] =3D=3D 1 ? PIXART_MODE_ABS : PIXART_MODE_REL;
 > +
-> +struct ma35d1_keypad {
-> +	struct clk *clk;
-> +	struct input_dev *input_dev;
-> +	void __iomem *mmio_base;
-> +	int irq;
-> +	unsigned int kpi_row;
-> +	unsigned int kpi_col;
-> +	unsigned int debounce_val;
-> +	unsigned int pre_scale;
-> +	unsigned int pre_scale_divider;
+> +       return 0;
+> +}
+> +
+> +static int pixart_read_tp_type(struct ps2dev *ps2dev, u8 *type)
+> +{
+> +       int error;
+> +       u8 param[3] =3D { 0 };
+> +
+> +       param[0] =3D 0xa;
+> +       error =3D ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
+> +       if (error)
+> +               return error;
+> +
+> +       param[0] =3D 0x0;
+> +       error =3D ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
+> +       if (error)
+> +               return error;
+> +
+> +       error =3D ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
+> +       if (error)
+> +               return error;
+> +
+> +       error =3D ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
+> +       if (error)
+> +               return error;
+> +
+> +       param[0] =3D 0x3;
+> +       error =3D ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
+> +       if (error)
+> +               return error;
+> +
+> +       error =3D ps2_command(ps2dev, param, PSMOUSE_CMD_GETINFO);
+> +       if (error)
+> +               return error;
+> +
+> +       switch (param[0]) {
+> +       case 0xc:
+> +               *type =3D PIXART_TYPE_CLICKPAD;
+> +               break;
+> +       case 0xe:
+> +               *type =3D PIXART_TYPE_TOUCHPAD;
+> +               break;
+> +       default:
+> +               return -EIO;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static void pixart_reset(struct psmouse *psmouse)
+> +{
+> +       ps2_command(&psmouse->ps2dev, NULL, PSMOUSE_CMD_RESET_DIS);
+> +
+> +       /* according to PixArt, 100ms is required for the upcoming reset =
+*/
+> +       msleep(100);
+> +       psmouse_reset(psmouse);
+> +}
+> +
+> +static void pixart_process_packet(struct psmouse *psmouse)
+> +{
+> +       struct pixart_data *priv =3D psmouse->private;
+> +       struct input_dev *dev =3D psmouse->dev;
+> +       const u8 *pkt =3D psmouse->packet;
+> +       unsigned int contact_cnt =3D FIELD_GET(CONTACT_CNT_MASK, pkt[0]);
+> +       unsigned int i, id, abs_x, abs_y;
+> +       bool tip;
+> +
+> +       for (i =3D 0; i < contact_cnt; i++) {
+> +               const u8 *p =3D &pkt[i * 3];
+> +
+> +               id =3D FIELD_GET(SLOT_ID_MASK, p[3]);
+> +               abs_y =3D FIELD_GET(ABS_Y_MASK, p[3]) << 8 | p[1];
+> +               abs_x =3D FIELD_GET(ABS_X_MASK, p[3]) << 8 | p[2];
+> +
+> +               if (i =3D=3D PIXART_MAX_FINGERS - 1)
+> +                       tip =3D pkt[14] & BIT(1);
+> +               else
+> +                       tip =3D pkt[3 * contact_cnt + 1] & BIT(2 * i + 1)=
+;
+> +
+> +               input_mt_slot(dev, id);
+> +               if (input_mt_report_slot_state(dev, MT_TOOL_FINGER, tip))=
+ {
+> +                       input_report_abs(dev, ABS_MT_POSITION_Y, abs_y);
+> +                       input_report_abs(dev, ABS_MT_POSITION_X, abs_x);
+> +               }
+> +       }
+> +
+> +       input_mt_sync_frame(dev);
+> +
+> +       if (priv->type =3D=3D PIXART_TYPE_CLICKPAD) {
+> +               input_report_key(dev, BTN_LEFT, pkt[0] & 0x03);
+> +       } else {
+> +               input_report_key(dev, BTN_LEFT, pkt[0] & BIT(0));
+> +               input_report_key(dev, BTN_RIGHT, pkt[0] & BIT(1));
+> +       }
+> +
+> +       input_sync(dev);
+> +}
+> +
+> +static psmouse_ret_t pixart_protocol_handler(struct psmouse *psmouse)
+> +{
+> +       u8 *pkt =3D psmouse->packet;
+> +       u8 contact_cnt;
+> +
+> +       if ((pkt[0] & 0x8c) !=3D 0x80)
+> +               return PSMOUSE_BAD_DATA;
+> +
+> +       contact_cnt =3D FIELD_GET(CONTACT_CNT_MASK, pkt[0]);
+> +       if (contact_cnt > PIXART_MAX_FINGERS)
+> +               return PSMOUSE_BAD_DATA;
+> +
+> +       if (contact_cnt =3D=3D PIXART_MAX_FINGERS &&
+> +           psmouse->pktcnt < psmouse->pktsize) {
+> +               return PSMOUSE_GOOD_DATA;
+> +       }
+> +
+> +       if (contact_cnt =3D=3D 0 && psmouse->pktcnt < 5)
+> +               return PSMOUSE_GOOD_DATA;
+> +
+> +       if (psmouse->pktcnt < 3 * contact_cnt + 2)
+> +               return PSMOUSE_GOOD_DATA;
+> +
+> +       pixart_process_packet(psmouse);
+> +
+> +       return PSMOUSE_FULL_PACKET;
+> +}
+> +
+> +static void pixart_disconnect(struct psmouse *psmouse)
+> +{
+> +       pixart_reset(psmouse);
+> +       kfree(psmouse->private);
+> +       psmouse->private =3D NULL;
+> +}
+> +
+> +static int pixart_reconnect(struct psmouse *psmouse)
+> +{
+> +       struct ps2dev *ps2dev =3D &psmouse->ps2dev;
+> +       u8 mode;
+> +       int error;
+> +
+> +       pixart_reset(psmouse);
+> +
+> +       error =3D pixart_read_tp_mode(ps2dev, &mode);
+> +       if (error)
+> +               return error;
+> +
+> +       if (mode !=3D PIXART_MODE_ABS)
+> +               return -EIO;
+> +
+> +       error =3D ps2_command(ps2dev, NULL, PIXART_CMD_SWITCH_PROTO);
+> +       if (error)
+> +               return error;
+> +
+> +       return 0;
+> +}
+> +
+> +static int pixart_set_input_params(struct input_dev *dev,
+> +                                  struct pixart_data *priv)
+> +{
+> +       /* No relative support */
+> +       __clear_bit(EV_REL, dev->evbit);
+> +       __clear_bit(REL_X, dev->relbit);
+> +       __clear_bit(REL_Y, dev->relbit);
+> +       __clear_bit(BTN_MIDDLE, dev->keybit);
+> +
+> +       /* Buttons */
+> +       __set_bit(EV_KEY, dev->evbit);
+> +       __set_bit(BTN_LEFT, dev->keybit);
+> +       if (priv->type =3D=3D PIXART_TYPE_CLICKPAD)
+> +               __set_bit(INPUT_PROP_BUTTONPAD, dev->propbit);
+> +       else
+> +               __set_bit(BTN_RIGHT, dev->keybit);
+> +
+> +       /* Absolute position */
+> +       input_set_abs_params(dev, ABS_X, 0, PIXART_PAD_WIDTH, 0, 0);
+> +       input_set_abs_params(dev, ABS_Y, 0, PIXART_PAD_HEIGHT, 0, 0);
+> +
+> +       input_set_abs_params(dev, ABS_MT_POSITION_X,
+> +                            0, PIXART_PAD_WIDTH, 0, 0);
+> +       input_set_abs_params(dev, ABS_MT_POSITION_Y,
+> +                            0, PIXART_PAD_HEIGHT, 0, 0);
+> +
+> +       return input_mt_init_slots(dev, PIXART_MAX_FINGERS,
+> +                                  INPUT_MT_POINTER | INPUT_MT_DROP_UNUSE=
+D);
+> +}
+> +
+> +static int pixart_query_hardware(struct ps2dev *ps2dev, u8 *mode, u8 *ty=
+pe)
+> +{
+> +       int error;
+> +
+> +       error =3D pixart_read_tp_type(ps2dev, type);
+> +       if (error)
+> +               return error;
+> +
+> +       error =3D pixart_read_tp_mode(ps2dev, mode);
+> +       if (error)
+> +               return error;
+> +
+> +       return 0;
+> +}
+> +
+> +int pixart_detect(struct psmouse *psmouse, bool set_properties)
+> +{
+> +       u8 type;
+> +       int error;
+> +
+> +       pixart_reset(psmouse);
+> +
+> +       error =3D pixart_read_tp_type(&psmouse->ps2dev, &type);
+> +       if (error)
+> +               return error;
+> +
+> +       if (set_properties) {
+> +               psmouse->vendor =3D "PixArt";
+> +               psmouse->name =3D (type =3D=3D PIXART_TYPE_TOUCHPAD) ?
+> +                               "touchpad" : "clickpad";
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +int pixart_init(struct psmouse *psmouse)
+> +{
+> +       int error;
+> +       struct pixart_data *priv;
+> +
+> +       priv =3D kzalloc(sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       psmouse->private =3D priv;
+> +       pixart_reset(psmouse);
+> +
+> +       error =3D pixart_query_hardware(&psmouse->ps2dev,
+> +                                     &priv->mode, &priv->type);
+> +       if (error) {
+> +               psmouse_err(psmouse, "init: Unable to query PixArt touchp=
+ad hardware.\n");
+> +               goto err_exit;
+> +       }
+> +
+> +       /* Relative mode follows standard PS/2 mouse protocol */
+> +       if (priv->mode !=3D PIXART_MODE_ABS) {
+> +               error =3D -EIO;
+> +               goto err_exit;
+> +       }
+> +
+> +       /* Set absolute mode */
+> +       error =3D ps2_command(&psmouse->ps2dev, NULL, PIXART_CMD_SWITCH_P=
+ROTO);
+> +       if (error) {
+> +               psmouse_err(psmouse, "init: Unable to initialize PixArt a=
+bsolute mode.\n");
+> +               goto err_exit;
+> +       }
+> +
+> +       error =3D pixart_set_input_params(psmouse->dev, priv);
+> +       if (error) {
+> +               psmouse_err(psmouse, "init: Unable to set input params.\n=
+");
+> +               goto err_exit;
+> +       }
+> +
+> +       psmouse->pktsize =3D 15;
+> +       psmouse->protocol_handler =3D pixart_protocol_handler;
+> +       psmouse->disconnect =3D pixart_disconnect;
+> +       psmouse->reconnect =3D pixart_reconnect;
+> +       psmouse->cleanup =3D pixart_reset;
+> +       /* resync is not supported yet */
+> +       psmouse->resync_time =3D 0;
+> +
+> +       return 0;
+> +
+> +err_exit:
+> +       pixart_reset(psmouse);
+> +       kfree(priv);
+> +       psmouse->private =3D NULL;
+> +       return error;
+> +}
+> diff --git a/drivers/input/mouse/pixart_ps2.h b/drivers/input/mouse/pixar=
+t_ps2.h
+> new file mode 100644
+> index 000000000000..47a1d040f2d1
+> --- /dev/null
+> +++ b/drivers/input/mouse/pixart_ps2.h
+> @@ -0,0 +1,36 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +#ifndef _PIXART_PS2_H
+> +#define _PIXART_PS2_H
+> +
+> +#include "psmouse.h"
+> +
+> +#define PIXART_PAD_WIDTH               1023
+> +#define PIXART_PAD_HEIGHT              579
+> +#define PIXART_MAX_FINGERS             4
+> +
+> +#define PIXART_CMD_REPORT_FORMAT       0x01d8
+> +#define PIXART_CMD_SWITCH_PROTO                0x00de
+> +
+> +#define PIXART_MODE_REL                        0
+> +#define PIXART_MODE_ABS                        1
+> +
+> +#define PIXART_TYPE_CLICKPAD           0
+> +#define PIXART_TYPE_TOUCHPAD           1
+> +
+> +#define CONTACT_CNT_MASK               GENMASK(6, 4)
+> +
+> +#define SLOT_ID_MASK                   GENMASK(2, 0)
+> +#define ABS_Y_MASK                     GENMASK(5, 4)
+> +#define ABS_X_MASK                     GENMASK(7, 6)
+> +
+> +struct pixart_data {
+> +       u8 mode;
+> +       u8 type;
+> +       int x_max;
+> +       int y_max;
 > +};
 > +
-> +static void ma35d1_keypad_scan_matrix(struct ma35d1_keypad *keypad,	unsigned int status)
-> +{
-> +	struct input_dev *input_dev = keypad->input_dev;
-> +	unsigned int i, j;
-> +	unsigned int row_add = 0;
-> +	unsigned int code;
-> +	unsigned int key;
-> +	unsigned int press_key;
-> +	unsigned long KeyEvent[4];
-
-No Windows or C++ code, please.
-
-> +	unsigned int row_shift = get_count_order(keypad->kpi_col);
-> +	unsigned short *keymap = input_dev->keycode;
+> +int pixart_detect(struct psmouse *psmouse, bool set_properties);
+> +int pixart_init(struct psmouse *psmouse);
 > +
-
-...
-
-> +static int ma35d1_keypad_probe(struct platform_device *pdev)
-> +{
-> +	struct ma35d1_keypad *keypad;
-> +	struct input_dev *input_dev;
-> +	struct resource *res;
-> +	int error = 0;
+> +#endif  /* _PIXART_PS2_H */
+> diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psm=
+ouse-base.c
+> index a2c9f7144864..5a4defe9cf32 100644
+> --- a/drivers/input/mouse/psmouse-base.c
+> +++ b/drivers/input/mouse/psmouse-base.c
+> @@ -36,6 +36,7 @@
+>  #include "focaltech.h"
+>  #include "vmmouse.h"
+>  #include "byd.h"
+> +#include "pixart_ps2.h"
+>
+>  #define DRIVER_DESC    "PS/2 mouse driver"
+>
+> @@ -905,6 +906,15 @@ static const struct psmouse_protocol psmouse_protoco=
+ls[] =3D {
+>                 .detect         =3D byd_detect,
+>                 .init           =3D byd_init,
+>         },
+> +#endif
+> +#ifdef CONFIG_MOUSE_PS2_PIXART
+> +       {
+> +               .type           =3D PSMOUSE_PIXART,
+> +               .name           =3D "PixArtPS/2",
+> +               .alias          =3D "pixart",
+> +               .detect         =3D pixart_detect,
+> +               .init           =3D pixart_init,
+> +       },
+>  #endif
+>         {
+>                 .type           =3D PSMOUSE_AUTO,
+> @@ -1172,6 +1182,13 @@ static int psmouse_extensions(struct psmouse *psmo=
+use,
+>                         return ret;
+>         }
+>
+> +       /* Try PixArt touchpad */
+> +       if (max_proto > PSMOUSE_IMEX &&
+> +           psmouse_try_protocol(psmouse, PSMOUSE_PIXART, &max_proto,
+> +                                set_properties, true)) {
+> +               return PSMOUSE_PIXART;
+> +       }
 > +
-> +	keypad = devm_kzalloc(&pdev->dev, sizeof(*keypad), GFP_KERNEL);
-> +	if (!keypad)
-> +		return -ENOMEM;
-> +
-> +
-> +	input_dev = input_allocate_device();
-> +	if (!input_dev) {
-> +		dev_err(&pdev->dev, "failed to allocate input device\n");
-> +		return -ENOMEM;
-> +	}
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	if (!res) {
-> +		dev_err(&pdev->dev, "failed to get I/O memory\n");
-> +		error = -ENXIO;
-> +		goto failed_free_input;
-> +	}
-> +
-> +	keypad->mmio_base = devm_ioremap_resource(&pdev->dev, res);
-> +	if (IS_ERR(keypad->mmio_base)) {
-> +		dev_err(&pdev->dev, "failed to remap I/O memory\n");
-> +		return PTR_ERR(keypad->mmio_base);
-> +	}
-> +
-> +	keypad->irq = platform_get_irq(pdev, 0);
-> +	if (keypad->irq < 0) {
-> +		dev_err(&pdev->dev, "failed to get IRQ\n");
-> +		return keypad->irq;
-> +	}
-> +
-> +	keypad->clk = devm_clk_get(&pdev->dev, NULL);
-> +	if (IS_ERR(keypad->clk)) {
-> +		dev_err(&pdev->dev, "failed to get core clk: %ld\n", PTR_ERR(keypad->clk));
-
-Syntax is: return dev_err_probe, except that your error handling code is a mess.
-Earlier you have gotos, now return. Organize it nicely, so this will
-follow some logical concept.
-
-> +		return PTR_ERR(keypad->clk);
-> +	}
-> +
-> +	error = matrix_keypad_parse_properties(&pdev->dev,
-> +										   &(keypad->kpi_row),
-> +										   &(keypad->kpi_col));
-
-How did you aligned it?
-
-> +	if (error) {
-> +		dev_err(&pdev->dev, "failed to parse kp params\n");
-> +		return error;
-> +	}
-> +
-> +	error = matrix_keypad_build_keymap(NULL, NULL,
-> +									   keypad->kpi_row,
-> +									   keypad->kpi_col,
-> +									   NULL, input_dev);
-> +	if (error) {
-> +		dev_err(&pdev->dev, "failed to build keymap\n");
-> +		return error;
-> +	}
-> +
-> +	keypad->input_dev = input_dev;
-> +	input_dev->name = pdev->name;
-> +	input_dev->id.bustype = BUS_HOST;
-> +	input_dev->open = ma35d1_keypad_open;
-> +	input_dev->close = ma35d1_keypad_close;
-> +	input_dev->dev.parent = &pdev->dev;
-> +
-> +	if (of_property_read_u32(pdev->dev.of_node, "debounce-period", &(keypad->debounce_val)))
-> +		keypad->debounce_val = DEFAULT_DEBOUNCE;
-
-This is not used anywhere. Drop dead code.
-
-> +
-> +	if (of_property_read_u32(pdev->dev.of_node, "per-scale", &(keypad->pre_scale)))
-> +		keypad->pre_scale = DEFAULT_PRE_SCALE;
-
-Not better...
-
-> +
-> +	if (of_property_read_u32(pdev->dev.of_node, "per-scalediv", &(keypad->pre_scale_divider)))
-> +		keypad->pre_scale_divider = DEFAULT_PRE_SCALEDIV;
-
-Still not better...
-
-So there are defaults? Why these are required by bindings? Why bindings do not say
-defaults?
-
-> +
-> +	__set_bit(EV_REP, input_dev->evbit);
-> +	input_set_drvdata(input_dev, keypad);
-> +	input_set_capability(input_dev, EV_MSC, MSC_SCAN);
-> +
-> +	error = input_register_device(input_dev);
-> +	if (error) {
-> +		dev_err(&pdev->dev, "failed to register input device\n");
-> +		goto failed_free_input;
-> +	}
-> +
-> +	error = devm_request_irq(&pdev->dev, keypad->irq,
-> +							 ma35d1_keypad_interrupt,
-> +							 IRQF_NO_SUSPEND, pdev->name, keypad);
-
-Totally mesed alignment.
-
-> +	if (error) {
-> +		dev_err(&pdev->dev, "failed to request IRQ\n");
-> +		goto failed_unregister_input;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, keypad);
-> +	device_init_wakeup(&pdev->dev, 1);
-> +	clk_prepare_enable(keypad->clk);
-> +
-> +	return 0;
-> +
-> +failed_unregister_input:
-> +	input_unregister_device(input_dev);
-> +failed_free_input:
-> +	input_free_device(input_dev);
-> +	return error;
-> +}
-> +
-> +static void ma35d1_keypad_remove(struct platform_device *pdev)
-> +{
-> +	struct ma35d1_keypad *keypad = platform_get_drvdata(pdev);
-> +
-> +	input_unregister_device(keypad->input_dev);
-> +	clk_disable_unprepare(keypad->clk);
-
-Why aren't you using devm_clk_get_enabled()?
-
-> +}
-> +
-> +static int ma35d1_keypad_suspend(struct platform_device *pdev,
-> +									pm_message_t state)
-> +{
-> +	struct ma35d1_keypad *keypad = platform_get_drvdata(pdev);
-> +
-> +	if (device_may_wakeup(&pdev->dev)) {
-> +		writel(readl(keypad->mmio_base + KPI_CONF) | WAKEUP, keypad->mmio_base + KPI_CONF);
-> +		enable_irq_wake(keypad->irq);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int ma35d1_keypad_resume(struct platform_device *pdev)
-> +{
-> +	struct ma35d1_keypad *keypad = platform_get_drvdata(pdev);
-> +
-> +	if (device_may_wakeup(&pdev->dev)) {
-> +		writel(readl(keypad->mmio_base + KPI_CONF) & ~(WAKEUP),
-> +						keypad->mmio_base + KPI_CONF);
-> +		disable_irq_wake(keypad->irq);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id ma35d1_kpi_of_match[] = {
-> +	{ .compatible = "nuvoton,ma35d1-kpi"},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, ma35d1_kpi_of_match);
-> +
-> +static struct platform_driver ma35d1_keypad_driver = {
-> +	.probe		= ma35d1_keypad_probe,
-> +	.remove		= ma35d1_keypad_remove,
-> +	.suspend	= ma35d1_keypad_suspend,
-> +	.resume		= ma35d1_keypad_resume,
-> +	.driver		= {
-> +		.name	= "ma35d1-kpi",
-> +		.of_match_table = of_match_ptr(ma35d1_kpi_of_match),
-
-Drop of_match_ptr(), you have warnings here.
-
-Best regards,
-Krzysztof
-
+>         if (max_proto > PSMOUSE_IMEX) {
+>                 if (psmouse_try_protocol(psmouse, PSMOUSE_GENPS,
+>                                          &max_proto, set_properties, true=
+))
+> diff --git a/drivers/input/mouse/psmouse.h b/drivers/input/mouse/psmouse.=
+h
+> index 4d8acfe0d82a..23f7fa7243cb 100644
+> --- a/drivers/input/mouse/psmouse.h
+> +++ b/drivers/input/mouse/psmouse.h
+> @@ -69,6 +69,7 @@ enum psmouse_type {
+>         PSMOUSE_BYD,
+>         PSMOUSE_SYNAPTICS_SMBUS,
+>         PSMOUSE_ELANTECH_SMBUS,
+> +       PSMOUSE_PIXART,
+>         PSMOUSE_AUTO            /* This one should always be last */
+>  };
+>
+> @@ -94,7 +95,7 @@ struct psmouse {
+>         const char *vendor;
+>         const char *name;
+>         const struct psmouse_protocol *protocol;
+> -       unsigned char packet[8];
+> +       unsigned char packet[16];
+>         unsigned char badbyte;
+>         unsigned char pktcnt;
+>         unsigned char pktsize;
+>
+> base-commit: 2de01e0e57f3ebe7f90b08f6bca5ce0f3da3829f
+> --
+> 2.43.5
+>
 
