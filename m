@@ -1,109 +1,228 @@
-Return-Path: <linux-input+bounces-7631-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7632-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D6D9AB817
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 22:59:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D2C9ABF14
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 08:44:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE24E1C21011
-	for <lists+linux-input@lfdr.de>; Tue, 22 Oct 2024 20:59:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C9285281AAB
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 06:44:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C72C1CCB4B;
-	Tue, 22 Oct 2024 20:59:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3646914A614;
+	Wed, 23 Oct 2024 06:44:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h0+tW1at"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cXNQO7f3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DEF1BDA80;
-	Tue, 22 Oct 2024 20:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BA5481B7;
+	Wed, 23 Oct 2024 06:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729630754; cv=none; b=CVxzIls4TSKQqSbw3KvOW/ot8RWlOhPPN3xfOQlHYbhRunq6qgiFidMPk5XLLmbAPSqx704Tbt13PHYial6dS3aeJkcpLvu9KLi4NjgsQl5kZRKvkQGE36FUPzNbAh6Fu66ypqrEqvUftddbiIDKLvRarz5esLnUf370hImhf6o=
+	t=1729665878; cv=none; b=HxYXWThKJSecvVc4U6RaPpq9scHOc4W4xT0dYyXY2ktV8TgnvOPzdHpoPg8dVs8tBAVwmqCNYQLbrc+8stT+4g6nZc+0CukqHYcNrGIct09r1hwGpEJkxUMWHWVZCdONod2xYOvvKXGAENccm0O2Cz5LKrT40JY4Luju5f65x2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729630754; c=relaxed/simple;
-	bh=hYznU99Gz6lDB78306nnP2N0S1YYbOsW3FeJCrSQz88=;
+	s=arc-20240116; t=1729665878; c=relaxed/simple;
+	bh=fOKFshdQzxgGUEGpFtjZ568FZYT4tRvvkIuNir9RK+A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gs7lz+P52l6C7Vo2PtsMKRn7orPNNYLHlJv42MXwuuk1Llrzyhx70jo85O/PdX7h/hQNpnKQvrLDQbMEtzAYmZabjbwOxJ7tWouHOtgMyQPx8f8kelWHiRJMMPCEwQGBZYcPRqxT8UhV4AY1hJ1mi0E6D9WdbfPB13I8IFN/JH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h0+tW1at; arc=none smtp.client-ip=209.85.214.169
+	 Content-Type:Content-Disposition:In-Reply-To; b=A4CSZktLQvHfATUapbI4VRUvRm6k5GPn2Qyye8YVMF+Xbq5CuQ0eUgbLmlL4xYNgmcWQFSfB/iujPtrb3NdowwYYymOLNZn6/VffGeqtnoXqGaPPkSSAzf8acmWFsZrdeGDQELnQHZ+PG93OcoJ/efMyYwzDcSDA+0KfpIeBYb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cXNQO7f3; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-208cf673b8dso59501035ad.3;
-        Tue, 22 Oct 2024 13:59:12 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a9a156513a1so879396666b.0;
+        Tue, 22 Oct 2024 23:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729630752; x=1730235552; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rGcVubgeABd0/PmmPiE/7qXUdJE2sMJ6ZOzH8qpp0iI=;
-        b=h0+tW1atFExNN3sR68L63uvwl0EaIshwGAjzVxcTusVBbxI+vRHWA3fdAj6JaXJrRE
-         g1FCSAy6hIkRwAwFtidPBfcAu2OsX/Of+auSalMKCYtDUsR5S6uJZ2Rrvd2OX584Q8Zq
-         rIVk/kb2xTfwxshHWSh/+2Ef26xUu4MhnTnELYjP8iCOs0cwIvbxNyrqcDj/ykbknOe+
-         lMRROY4GAVE851aeDb4k3vE9kzjfKsGPRw/embkqIjthaciTFnPuvfUoLk2/FXJowwe7
-         ov83Tx37c8px6rO+0GBScc39ExPsUJwhBwou/QicHw/uMHNURD3GGiUnIL2woQ8WGwlc
-         GCzA==
+        d=gmail.com; s=20230601; t=1729665874; x=1730270674; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jsdVuQK0tqplZr5d1PpgO1JpvQuxio4Fj5Kb6xdlEIw=;
+        b=cXNQO7f37w9PezUiDzxlIz+rPcMmLYMaefE9aiW9IOHCB4RiVp6AnPpnOne0G/VSTA
+         IqrYvQ2y30zXb2nDmmLGNW5fXC9BmG/wQq+SFDI9wj3BsyOL8++cSFdIZYfPjqXBcZZv
+         jfXZGKnrrxPDX49ap+7nIXAMonJNUePJn7dcfEA7PQLzP0V5TpdIP2c/t9JyRVILA2dO
+         ax3tNvzal0nMOh4Qj2e6ZyatdLvIHfvTiUII6DIVP14d1lG5hEm7ikDhS3MWk5oew2wX
+         jXnT+WxWjvjuXY7LeSUJDUcPbLJ/ln9I7ec+mMjen8EUm7IbzYvB3BPpQzm/R8EEfyzO
+         pAHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729630752; x=1730235552;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rGcVubgeABd0/PmmPiE/7qXUdJE2sMJ6ZOzH8qpp0iI=;
-        b=otPH7IxU0bM+NzWp/++R9jeatnUJq/HnexrZHpqhZjVtK9ezPY5Zr1NnAu8FAIECtU
-         QshVLsc1THXpIey4Us9ld+/ADVxSFymtOf5xT85Q5841LZ3A8apGvDQzQ3xQoES0Ad0o
-         PyHoqQ9f0oG+6DbOAX1xKRmfBO4ooZLn+nr+tohkwpNjJuy0TaBMHlhq6Z+mdEInOTiV
-         l5ClmtmOkgrATJ2MctNUz3dUKp6gRjB/UoHvfYkPIVvy/t/V/fop4tVD7YIAzu1Yl9CZ
-         t87yJxoZIYaQVUbOJ7dzvYOTh+6W9PUy5yw6JJdeFGnnendLZr46QP8mlklNVH6UTv7Q
-         lKmA==
-X-Forwarded-Encrypted: i=1; AJvYcCUPxY1818/vBsY5gZ6ZYi3jAmHdZuIWMigk4DTqFjxJ7wiQBrUGtM73ldHYShvLAOw5RXk+oHxGo4ved1ax@vger.kernel.org, AJvYcCXWmjt2qmPW7tb05dlC5Ru3b3+yfjnIL9D0nZ/CdaAySaLZDE5H2rjcyNBwDxULj+VMFcjamkI4DK8tIg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4lLb7Dk/1eD98fWPxDlU3NJEoxOjoFtkNnG7wXPopXCmXP6Gk
-	qVW9ILVJC7MhDk1ffkqdc1yis0r1ZTbOgtrdGChtTEKpYCHRyBh+
-X-Google-Smtp-Source: AGHT+IGJNU/cLwbWsuoQCsE3dJTP2JypH6Hr2f1MS7P2CbI5aJ0sG6TzIyW1dqVhAweQ4wLOdWoaaQ==
-X-Received: by 2002:a17:903:2312:b0:20c:ceb4:aa7f with SMTP id d9443c01a7336-20fa9e298c1mr6239915ad.11.1729630750519;
-        Tue, 22 Oct 2024 13:59:10 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:94ec:f4e5:1552:e2cc])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0c0e2dsm46581055ad.123.2024.10.22.13.59.09
+        d=1e100.net; s=20230601; t=1729665874; x=1730270674;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jsdVuQK0tqplZr5d1PpgO1JpvQuxio4Fj5Kb6xdlEIw=;
+        b=Zxb0uLEewPabNfVdJ55j1zCc5UGRxG7EKnoHLZZ598hWEGu4sd4OwwBx32Nc6LpoQ7
+         MU98e09sLqeEkptqj83chPk0mrUgUvLNAlMNHiMTUQzRwp/yW9a7rYeUKiEMkMZHorDA
+         p+YRJPk04TalA1w40EFGz9tb3My3I/bHokC+LnipGJA84DX8epq/bGI6m0zOTmRbnjET
+         9tW47gFoq3hvi1Ffl86g7nx/AloTn17oKsGSwKXnGUrsGB/xW5yuf72YwxpjfNsGoblX
+         vs3TIChA/DB7O3cU8UatAhTFDEsFgQR1JfCPQ4FfmxX7INmYcSim2DcdYP3Ak2aM/5ge
+         n5Ug==
+X-Forwarded-Encrypted: i=1; AJvYcCW+mzzjNqtORzX+cqyIstvQDDR8sBMXNmmPrQu8fVqITKWQ61RfXqOj+2oy4IKpZwuhj8p3OLMHASBv5UEd@vger.kernel.org, AJvYcCW9ijrQq4N9ihDBgEm0pXLNs/daA9s0PGqliCyi/8IxQssRxB83GQKYHw5B2+6OKcszKWkVHaPL/T0G@vger.kernel.org, AJvYcCXOmLTL4nbiDr0Gd36uKmKITZc8CLH3UCninkUcVoe4K8ZID0wxxCeNnxeww5cti7FnAsYpftVZhKuUMP4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgkHQm5+rgUqoK2iTueFI8Vixd32fKqNxgFrPUV83D+IU4g9RT
+	G+Sayw8ZevqGuTSfNi2iUoUkb/TnTYu/G5lEVc82Y5k8nB0WsaJFUs9towB1J84=
+X-Google-Smtp-Source: AGHT+IHBPfa3kbMGCdAdDe5QU8hIr3I5hl7fBCe0GeJaGxy0b8pTP8y7QpFyoCU/+b6YeL3oJksWDw==
+X-Received: by 2002:a17:906:c150:b0:a9a:2afc:e4e3 with SMTP id a640c23a62f3a-a9abf92d226mr131024166b.50.1729665874190;
+        Tue, 22 Oct 2024 23:44:34 -0700 (PDT)
+Received: from ux-UP-WHL01 (mailgw01.gttektw.com. [45.117.96.243])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a91572c0dsm433914466b.177.2024.10.22.23.44.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 13:59:10 -0700 (PDT)
-Date: Tue, 22 Oct 2024 13:59:07 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans de Goede <hdegoede@redhat.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 0/2] input: automate of_node_put() calls for
- device_node
-Message-ID: <ZxgSG55LUbw08mp8@google.com>
-References: <20241021-input_automate_of_node_put-v3-0-cc73f636e1bc@gmail.com>
+        Tue, 22 Oct 2024 23:44:33 -0700 (PDT)
+Date: Wed, 23 Oct 2024 14:44:26 +0800
+From: Charles Wang <charles.goodix@gmail.com>
+To: Doug Anderson <dianders@chromium.org>
+Cc: krzk@kernel.org, dmitry.torokhov@gmail.com, hbarnor@chromium.org,
+	conor.dooley@microchip.com, jikos@kernel.org, bentiss@kernel.org,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: input: Goodix SPI HID Touchscreen
+Message-ID: <ZxiZXeQzIaDYuu1F@ux-UP-WHL01>
+References: <20241018020815.3098263-2-charles.goodix@gmail.com>
+ <CAD=FV=UFrk4QCxWzV9zUZnjhwiFf22Fji5KH83svdwba2mPVBA@mail.gmail.com>
+ <ZxMfu4yxk961mZWB@ux-UP-WHL01>
+ <fbde8a3a-3adc-4c1a-8529-fde0fa149c8e@kernel.org>
+ <CAD=FV=VphXewyk_mpGHUZKw8_aK8HnH8T-YumwM70eyz22S+Aw@mail.gmail.com>
+ <ZxdRaaCR7eTOCQkB@ux-UP-WHL01>
+ <CAD=FV=UFonOVHUP5_9+BfJp71CFX7KKA1Gx=boN0=3_4cCKnZw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241021-input_automate_of_node_put-v3-0-cc73f636e1bc@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD=FV=UFonOVHUP5_9+BfJp71CFX7KKA1Gx=boN0=3_4cCKnZw@mail.gmail.com>
 
-On Mon, Oct 21, 2024 at 10:28:22PM +0200, Javier Carrasco wrote:
-> The first patch of the series provides device managed memory, which
-> simplifies bbc_bee_probe() and removes the need for the goto
-> instructions That also prepares the function for the second patch where
-> the cleanup attribute is used for 'dp'.
+Hi,
+
+On Tue, Oct 22, 2024 at 09:12:33AM -0700, Doug Anderson wrote:
+> Hi,
 > 
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> On Tue, Oct 22, 2024 at 12:19 AM Charles Wang <charles.goodix@gmail.com> wrote:
+> >
+> > Hi Doug,
+> >
+> > On Mon, Oct 21, 2024 at 08:37:32AM -0700, Doug Anderson wrote:
+> > > Hi,
+> > >
+> > > On Mon, Oct 21, 2024 at 2:43 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > > >
+> > > > On 19/10/2024 04:55, Charles Wang wrote:
+> > > > > Hi Doug
+> > > > >
+> > > > > On Fri, Oct 18, 2024 at 01:48:56PM -0700, Doug Anderson wrote:
+> > > > >>
+> > > > >> On Thu, Oct 17, 2024 at 7:09 PM Charles Wang <charles.goodix@gmail.com> wrote:
+> > > > >>>
+> > > > >>> The Goodix GT7986U touch controller report touch data according to the
+> > > > >>> HID protocol through the SPI bus. However, it is incompatible with
+> > > > >>> Microsoft's HID-over-SPI protocol.
+> > > > >>>
+> > > > >>> Signed-off-by: Charles Wang <charles.goodix@gmail.com>
+> > > > >>> ---
+> > > > >>>  .../bindings/input/goodix,gt7375p.yaml        | 68 ++++++++++++++++---
+> > > > >>>  1 file changed, 58 insertions(+), 10 deletions(-)
+> > > > >>
+> > > > >> I'm happy to let device tree folks make the call here, but IMO it
+> > > > >> would be much cleaner to just consider the I2C-connected GT7986U and
+> > > > >> the SPI-connected GT7986U to be different things and just use a
+> > > >
+> > > > Same device, you cannot have different compatibles. The way how the same
+> > > > (literally same chip) device sits on the bus is not part of the binding,
+> > > > thus no different compatibles.
+> > >
+> > > I don't want to belabour the point too much, but this doesn't feel
+> > > completely black and white here.
+> > >
+> > > "Same chip": a whole lot of laptops and phones all use the "same chip"
+> > > (same SoC) yet are different products. ...or you can look at the fact
+> > > that many peripherals have the same STM32 or Nuvoton chip in them but
+> > > are wildly different peripherals.
+> > >
+> > > In this case, Goodix may have made an ASIC called "GT7986U" that has
+> > > some type of CPU on it that can run firmware that can talk as an I2C
+> > > device or a SPI device. This ASIC may be intended to be used as a
+> > > touchscreen controller, but fundamentally it doesn't feel that
+> > > different from an STM32. You can build different boards designs with
+> > > the "GT7986U" on it and those boards are intended to run different
+> > > firmware.
+> > >
+> > > People manufacturing touch controller boards presumably put this
+> > > "GT7986U" on their touch controller board, maybe set certain
+> > > strappings telling it that it's talking over SPI or I2C or maybe just
+> > > decide which pins they're going to wire out to the board-to-board
+> > > connector on the touch controller board. A touch controller board
+> > > intended to talk over SPI may look 98% the same as a touch controller
+> > > board intended to talk over I2C, but what percentage of "sameness"
+> > > means that we need the same compatible string?
+> > >
+> > > Would things be different if Goodix decided to manufacture touch
+> > > controller boards themselves and sold two SKUs: a GT7986U-S and a
+> > > GT7986U-I?
+> > >
+> > > I would also note that (reading back in previous conversations) I
+> > > think Charles said that they run different firmware on the SPI vs. I2C
+> > > touch controllers. As I understand it, the firmware running on a
+> > > device can make it a different device from a device tree perspective.
+> > > The device tree does its best to describe just the hardware but it can
+> > > get fuzzy. For instance the "VID/PID" of a USB device is usually
+> > > something programmable and could be updateable by a firmware change
+> > > but we still may need to encode the VID/PID of the firmware that is
+> > > intended to run on the device in the device tree.
+> > >
+> > > Anyway, I'm happy to be quiet about this and fine if folks want to
+> > > continue to work towards a "unified" binding. It makes me a little
+> > > uncomfortable that I'll still end up listed as a "maintainer" of the
+> > > unified binding because I don't totally agree with it, but I'm also
+> > > pragmatic and I'd rather have something that can land.
+> > >
+> >
+> > Thank you very much for your attention. Your understanding of the GT7986U
+> > SPI and I2C devices is correct. There is no fundamental difference between
+> > them and the STM32, as they are all ASIC devices. The functionality of the
+> > device is determined by the firmware that is loaded, although the GT7986U
+> > is an ASIC specifically designed for touchscreens.
+> >
+> > Additionally, the firmware and devices are generally bound to specific touch
+> > panels, meaning that firmware intended for SPI will not function properly on
+> > an I2C touch panel.
+> 
+> Just to get clarity: how is GT7986U delivered? For instance:
+> 
+> 1. Maybe Goodix produces touchscreen controller boards and ships them
+> to customers for use in their products. In this case, does Goodix ship
+> a single board with two connectors, or a separate board for SPI vs.
+> I2C? I would have to believe that maybe a "dev" board might have both
+> connectors and a bunch of jumpers/switches to choose which ones to
+> use, but it feels unlikely someone would ship that in any quantity.
+> 
+> 2. Maybe Goodix provides schematics for customers to produce their own
+> touchscreen controller boards and they tell customers to either hook
+> up the SPI lines and load the SPI firmware or hook up the I2C lines
+> and load the I2C firmware. In this case the assumption is that
+> customers using the same communication method are following the
+> schematics closely enough that they all behave the same and thus we
+> don't need some extra distinction.
+> 
+> In either case it seems like a touchscreen controller board that talks
+> over SPI and one that talks over I2C are two different products and
+> thus (to me) should have two distinct compatible strings. This is not
+> one device that merely has multiple interfaces.
+> 
 
-Applied the series, thank you.
+Goodix's approach is similar to Method 2. First, Goodix provides the
+schematics and the chips (including initial firmware, no touch function)
+to customers, and customers design their touchscreen controller boards and
+decide whether to use the I2C or SPI interface. Then, Goodix modifies and
+debugs the firmware based on the customer's design and provides the final
+firmware for customers to upgrade.
 
--- 
-Dmitry
+It is important to note that the type of driver used by the final device
+is related not only to the bus type but also to the final firmware. Even
+when using the same I2C bus, different drivers may be needed, such as
+hid-i2c or a customer-specific driver.
+
+Best regards,
+Charles
 
