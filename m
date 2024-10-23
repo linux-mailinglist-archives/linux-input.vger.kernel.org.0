@@ -1,179 +1,318 @@
-Return-Path: <linux-input+bounces-7666-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7667-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F8F89AD438
-	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 20:45:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D4F9AD4EB
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 21:35:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6486BB244A7
-	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 18:45:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0BA241C2292C
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 19:35:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B1EE1D1F46;
-	Wed, 23 Oct 2024 18:45:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 052E01D9A68;
+	Wed, 23 Oct 2024 19:35:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IofE27Ek"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RrLkSy9e"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096C31D049A;
-	Wed, 23 Oct 2024 18:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16311CDFD1
+	for <linux-input@vger.kernel.org>; Wed, 23 Oct 2024 19:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729709130; cv=none; b=jq3OgnVr7BCFB99uQMV1tb8YB/1Qh/JNiPETlhI1puPZ8SK2vIsDDnSANMWLZ9wzEJM4FEF+knofF7MlWKMiBQTTxx+2frYxXr1lnE0zM8FPD6+TYrUAinzKfRGUIvqAHE91j0Kx6KgTRqjXCp+P6gqB4PPfPUYaK6uDeZxGt+4=
+	t=1729712134; cv=none; b=OSSfT70qPt5O50ZpZlOxtJv2uQgAa9XTtvYtho/o32ghB/YWKvXVZjeezZUt6lOebnfJ41R8nSpg4FCNDT2IMiXi5GFGQKdzWd0GA9El6sI/+yRCBaPtHnC6D5/d6O6Rlczw0XZHcghjOtxQJOIfCyvFOWZm/t7l7tAaRN8GIIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729709130; c=relaxed/simple;
-	bh=6nUgEdTr+tzSukKurFYskrMjyhTFHfwqugC64agyt+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CY724EHvzw7LdI9U9jAcDBRvDjSwRwa0srsyxaVRj5iNShJAhA701hdhP8qU0gHN2qSjoimBed4cnOaCJaqg1+Vf6ma8b3NnWLEy8NWL5rGQkE5OnfPiNv4dGV48ZVqeWQp9/FxmuUciF9Z4FRVOzs9eQuxtJmI5sY9/mOVHCYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IofE27Ek; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2e59746062fso133233a91.2;
-        Wed, 23 Oct 2024 11:45:28 -0700 (PDT)
+	s=arc-20240116; t=1729712134; c=relaxed/simple;
+	bh=wNYfSW+eYGJvx5KJp4suRILJhQZ0Ag7C+qU/GxQTLA0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pJB4U0Xt/+Rji1R4wERuENWrbpRcNzIeFHHCyR6t2zU8AaL/lAKED/iKfZvm2N3OJvnID9E1a7gSGQtH3mYrsYlxJy9VxrIvAe7ZMv4GS4N7aoAKlNSp+PO3hjIND86pvGf4R2s4VKFlVsMpNeoHv3gbMvN+sbzi+5ym2sPBPpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RrLkSy9e; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-539fbe22ac0so138998e87.2
+        for <linux-input@vger.kernel.org>; Wed, 23 Oct 2024 12:35:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729709128; x=1730313928; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ov2xAXMB6p30jTkaVMNKHZxZEIOcYKxnx7FzrQpE6GE=;
-        b=IofE27EkJQBbHdSNC/bnyCPI4D/nzV65xFTeVRkJo7JSaMk+ONC7UJB8kSLaXVrp91
-         ur+ez0zvgra9WPgOZVWLVQ61yKtii46iCYfCo2eBixmwkwqRwl6nbUuBWNvHO07SCCbY
-         awyjOo87xraXTk7/0x0zDIiT42WLGP0AG/ygeF8LXwqhGy1uQQ9CbwekGOwmrdPmewYH
-         BCcS2/KIC/nFqwZDQprt3ZuWv/DHVyusnDNy2SPoN8zzPx2oes00/noH+d44zPCway9p
-         gnCbdfdSKRkMQi4dcgZrZCf1GSWOgz9NoPv3h5jZwwvHnY9eVb2f7zI+T1GUahy8cQ+g
-         6B4A==
+        d=chromium.org; s=google; t=1729712129; x=1730316929; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JIcRJaC4tkNbBKQG9JrVDAOe7hOw1yVBfVB1/wPO5XQ=;
+        b=RrLkSy9eZ7jCy+9b5ifUcS54Dn+CuUcQebuoXPDmDyj1bMOyuwT+K4BslRecg8FSiz
+         bQxXJq4pOMCya8zcZ5El2UEWUIbMQr4MB0OMCHYS8cMVcm6aPK6G0vMPY7ET/VXOlJAn
+         syNi8+Pio/9T8SCo2/58mG4psl0L1b5nd5xIk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729709128; x=1730313928;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ov2xAXMB6p30jTkaVMNKHZxZEIOcYKxnx7FzrQpE6GE=;
-        b=kNyD8Qcp/zNUjYELdY0YdlzMtA5t0o1EOOpX9L0ojN+jl7GSN1SiEPKyiH3RMg412R
-         NinVDYM935GHSC1+ir8w9nmlhk0tRll40fv+IMDhCMF1t8Bn5AoSdj/MUcVKrycdZSM0
-         GulXFKbJvANNpxOYbppur5uROdMfbx1WBfFF5wR+WdNf0MuEZwiWPj05cNl0X7ifEeE5
-         hMFCv8Ft8yBptFOEMUu6EMyoWwWE2EmmptVzslFturHBkgwIhungbSS7lrN0iiH5hCLE
-         8NN0nQfIl3DoPrnlSXx8wOJeIBDDG48/fJ/XdqmJOooX5cMI76AL7dCqXRGxjkWHeb3x
-         XRwA==
-X-Forwarded-Encrypted: i=1; AJvYcCUz2GiWk9EiQ923DvCRZdR0SOVVaaKD2d+EKj0BYEXVgl/GlI0COlfiBe2Mn4xFFJrknnrm2jZfC5/nbDo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtbpI1IatpE/vIH+0lX7/J6BTQfZGhueVNKgi4mdcw6TIDu/Lt
-	0eweGniXKms4ObRaVGWEFAigYifSa5qAyqRHIBaydA5H/6u5Ib9G
-X-Google-Smtp-Source: AGHT+IG4l64bzbzLLU+UIi8xMJh/O3V1IttypIFpwfkTAisoWEZ99kL1wFcEcs7j980J8mn/qefubQ==
-X-Received: by 2002:a17:90a:17aa:b0:2e0:a47a:5eb0 with SMTP id 98e67ed59e1d1-2e76b72189bmr3551829a91.38.1729709128122;
-        Wed, 23 Oct 2024 11:45:28 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:84b7:953b:674b:513c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e76e059423sm1783133a91.43.2024.10.23.11.45.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2024 11:45:27 -0700 (PDT)
-Date: Wed, 23 Oct 2024 11:45:24 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Benjamin Tissoires <bentiss@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Maxim Mikityanskiy <maxtram95@gmail.com>
-Cc: Linux Input <linux-input@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] Input: introduce notion of passive observers for input
- handlers
-Message-ID: <ZxlEROX7bMo5cbZP@google.com>
+        d=1e100.net; s=20230601; t=1729712129; x=1730316929;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JIcRJaC4tkNbBKQG9JrVDAOe7hOw1yVBfVB1/wPO5XQ=;
+        b=hlwrnp+6hsfltoyfbYxoXlbDWSNQs5eamTPig0XKEOV1QPNr5Nq4Vu15HUHETAj/iF
+         pdzdZY+nXNl8eRMbOAzRRtxKHbNC+YJru9ejVmiJxnvGVCPgprcCc7pH0csNVzMuoNNy
+         jCSkEmXGDnyEG+CSUYkFEYCBIW44WslAlsBng8PIM7FnGR+bUUrSmP7VR6OfbrcHBSZj
+         Rp7bpBkz/ZWSO9VDTVPpoLbqAmXB+i8Nz2Wi12YPeAC1b7RnGVQNIEJ6kj/tiQDARB17
+         NlIUPg4NcG0gK/Q30qDTBF3V/SqRiKUD3++OOKhoLt2e6wEpFjpdeAJam3LncI1YzDfY
+         hZcA==
+X-Forwarded-Encrypted: i=1; AJvYcCXg89HprGYSvdIEuhpN5J7BUiEn443lpEvZRpusFdVkNzOtlakIVnidaWAaTwF0KCh1ArrKeJc4EZssLQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw75xok8ZYwr6TvTxol+1eiYf+Laggp0oRRX24aVRJtcg/+edam
+	UgLTyPY8eUE5R23+ekQwGuyYVCLCy4Dbde4EErqPHXnKJcsEGA5ZgdXYisSHoZ0z23Hx276qjiD
+	GAQ==
+X-Google-Smtp-Source: AGHT+IG6FYTw7F0JTFXLdUOfkd8q9/pkcWEWVGZ2j1NukXE2dSa1fYk8/QM3bTlWeGdaGpUwzFmFUg==
+X-Received: by 2002:a05:6512:3185:b0:530:c212:4a5a with SMTP id 2adb3069b0e04-53b1a30505dmr2511799e87.22.1729712128638;
+        Wed, 23 Oct 2024 12:35:28 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a223f00ddsm1133002e87.114.2024.10.23.12.35.26
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Oct 2024 12:35:28 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539fbe22ac0so138930e87.2
+        for <linux-input@vger.kernel.org>; Wed, 23 Oct 2024 12:35:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWyW1od54RArGI9GyeR3jhWPiwrUoGEdLS8pqnb+jDfgp2Er/Hi3kMa0sVLsFCRRtMNxOBT+FJnU0xiqw==@vger.kernel.org
+X-Received: by 2002:a05:6512:2355:b0:539:fa43:fc36 with SMTP id
+ 2adb3069b0e04-53b1a2f42abmr1785628e87.12.1729712126300; Wed, 23 Oct 2024
+ 12:35:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20241018020815.3098263-2-charles.goodix@gmail.com>
+ <CAD=FV=UFrk4QCxWzV9zUZnjhwiFf22Fji5KH83svdwba2mPVBA@mail.gmail.com>
+ <ZxMfu4yxk961mZWB@ux-UP-WHL01> <fbde8a3a-3adc-4c1a-8529-fde0fa149c8e@kernel.org>
+ <CAD=FV=VphXewyk_mpGHUZKw8_aK8HnH8T-YumwM70eyz22S+Aw@mail.gmail.com>
+ <ZxdRaaCR7eTOCQkB@ux-UP-WHL01> <CAD=FV=UFonOVHUP5_9+BfJp71CFX7KKA1Gx=boN0=3_4cCKnZw@mail.gmail.com>
+ <ZxiZXeQzIaDYuu1F@ux-UP-WHL01>
+In-Reply-To: <ZxiZXeQzIaDYuu1F@ux-UP-WHL01>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 23 Oct 2024 12:35:09 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WSUrjbEzG83kYt50FRQ-Bu+bQP17JY_wPAEBf_GxGTJg@mail.gmail.com>
+Message-ID: <CAD=FV=WSUrjbEzG83kYt50FRQ-Bu+bQP17JY_wPAEBf_GxGTJg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: input: Goodix SPI HID Touchscreen
+To: Charles Wang <charles.goodix@gmail.com>
+Cc: krzk@kernel.org, dmitry.torokhov@gmail.com, hbarnor@chromium.org, 
+	conor.dooley@microchip.com, jikos@kernel.org, bentiss@kernel.org, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sometimes it is useful to observe (and maybe modify) data coming from
-an input device, but only do that if there are other users of such input
-device. An example is touchpad switching functionality on Lenovo IdeaPad
-Z570 where it is desirable to suppress events coming from the touchpad
-if user toggles touchpad on/off button (on this laptop the firmware does
-not stop the device).
+Hi,
 
-Introduce notion of passive observers for input handlers to solve this
-issue. An input handler marked as passive observer behaves exactly like
-any other input handler or filter, but with one exception: it does not
-open/start underlying input device when attaching to it.
+On Tue, Oct 22, 2024 at 11:44=E2=80=AFPM Charles Wang <charles.goodix@gmail=
+.com> wrote:
+>
+> Hi,
+>
+> On Tue, Oct 22, 2024 at 09:12:33AM -0700, Doug Anderson wrote:
+> > Hi,
+> >
+> > On Tue, Oct 22, 2024 at 12:19=E2=80=AFAM Charles Wang <charles.goodix@g=
+mail.com> wrote:
+> > >
+> > > Hi Doug,
+> > >
+> > > On Mon, Oct 21, 2024 at 08:37:32AM -0700, Doug Anderson wrote:
+> > > > Hi,
+> > > >
+> > > > On Mon, Oct 21, 2024 at 2:43=E2=80=AFAM Krzysztof Kozlowski <krzk@k=
+ernel.org> wrote:
+> > > > >
+> > > > > On 19/10/2024 04:55, Charles Wang wrote:
+> > > > > > Hi Doug
+> > > > > >
+> > > > > > On Fri, Oct 18, 2024 at 01:48:56PM -0700, Doug Anderson wrote:
+> > > > > >>
+> > > > > >> On Thu, Oct 17, 2024 at 7:09=E2=80=AFPM Charles Wang <charles.=
+goodix@gmail.com> wrote:
+> > > > > >>>
+> > > > > >>> The Goodix GT7986U touch controller report touch data accordi=
+ng to the
+> > > > > >>> HID protocol through the SPI bus. However, it is incompatible=
+ with
+> > > > > >>> Microsoft's HID-over-SPI protocol.
+> > > > > >>>
+> > > > > >>> Signed-off-by: Charles Wang <charles.goodix@gmail.com>
+> > > > > >>> ---
+> > > > > >>>  .../bindings/input/goodix,gt7375p.yaml        | 68 +++++++++=
++++++++---
+> > > > > >>>  1 file changed, 58 insertions(+), 10 deletions(-)
+> > > > > >>
+> > > > > >> I'm happy to let device tree folks make the call here, but IMO=
+ it
+> > > > > >> would be much cleaner to just consider the I2C-connected GT798=
+6U and
+> > > > > >> the SPI-connected GT7986U to be different things and just use =
+a
+> > > > >
+> > > > > Same device, you cannot have different compatibles. The way how t=
+he same
+> > > > > (literally same chip) device sits on the bus is not part of the b=
+inding,
+> > > > > thus no different compatibles.
+> > > >
+> > > > I don't want to belabour the point too much, but this doesn't feel
+> > > > completely black and white here.
+> > > >
+> > > > "Same chip": a whole lot of laptops and phones all use the "same ch=
+ip"
+> > > > (same SoC) yet are different products. ...or you can look at the fa=
+ct
+> > > > that many peripherals have the same STM32 or Nuvoton chip in them b=
+ut
+> > > > are wildly different peripherals.
+> > > >
+> > > > In this case, Goodix may have made an ASIC called "GT7986U" that ha=
+s
+> > > > some type of CPU on it that can run firmware that can talk as an I2=
+C
+> > > > device or a SPI device. This ASIC may be intended to be used as a
+> > > > touchscreen controller, but fundamentally it doesn't feel that
+> > > > different from an STM32. You can build different boards designs wit=
+h
+> > > > the "GT7986U" on it and those boards are intended to run different
+> > > > firmware.
+> > > >
+> > > > People manufacturing touch controller boards presumably put this
+> > > > "GT7986U" on their touch controller board, maybe set certain
+> > > > strappings telling it that it's talking over SPI or I2C or maybe ju=
+st
+> > > > decide which pins they're going to wire out to the board-to-board
+> > > > connector on the touch controller board. A touch controller board
+> > > > intended to talk over SPI may look 98% the same as a touch controll=
+er
+> > > > board intended to talk over I2C, but what percentage of "sameness"
+> > > > means that we need the same compatible string?
+> > > >
+> > > > Would things be different if Goodix decided to manufacture touch
+> > > > controller boards themselves and sold two SKUs: a GT7986U-S and a
+> > > > GT7986U-I?
+> > > >
+> > > > I would also note that (reading back in previous conversations) I
+> > > > think Charles said that they run different firmware on the SPI vs. =
+I2C
+> > > > touch controllers. As I understand it, the firmware running on a
+> > > > device can make it a different device from a device tree perspectiv=
+e.
+> > > > The device tree does its best to describe just the hardware but it =
+can
+> > > > get fuzzy. For instance the "VID/PID" of a USB device is usually
+> > > > something programmable and could be updateable by a firmware change
+> > > > but we still may need to encode the VID/PID of the firmware that is
+> > > > intended to run on the device in the device tree.
+> > > >
+> > > > Anyway, I'm happy to be quiet about this and fine if folks want to
+> > > > continue to work towards a "unified" binding. It makes me a little
+> > > > uncomfortable that I'll still end up listed as a "maintainer" of th=
+e
+> > > > unified binding because I don't totally agree with it, but I'm also
+> > > > pragmatic and I'd rather have something that can land.
+> > > >
+> > >
+> > > Thank you very much for your attention. Your understanding of the GT7=
+986U
+> > > SPI and I2C devices is correct. There is no fundamental difference be=
+tween
+> > > them and the STM32, as they are all ASIC devices. The functionality o=
+f the
+> > > device is determined by the firmware that is loaded, although the GT7=
+986U
+> > > is an ASIC specifically designed for touchscreens.
+> > >
+> > > Additionally, the firmware and devices are generally bound to specifi=
+c touch
+> > > panels, meaning that firmware intended for SPI will not function prop=
+erly on
+> > > an I2C touch panel.
+> >
+> > Just to get clarity: how is GT7986U delivered? For instance:
+> >
+> > 1. Maybe Goodix produces touchscreen controller boards and ships them
+> > to customers for use in their products. In this case, does Goodix ship
+> > a single board with two connectors, or a separate board for SPI vs.
+> > I2C? I would have to believe that maybe a "dev" board might have both
+> > connectors and a bunch of jumpers/switches to choose which ones to
+> > use, but it feels unlikely someone would ship that in any quantity.
+> >
+> > 2. Maybe Goodix provides schematics for customers to produce their own
+> > touchscreen controller boards and they tell customers to either hook
+> > up the SPI lines and load the SPI firmware or hook up the I2C lines
+> > and load the I2C firmware. In this case the assumption is that
+> > customers using the same communication method are following the
+> > schematics closely enough that they all behave the same and thus we
+> > don't need some extra distinction.
+> >
+> > In either case it seems like a touchscreen controller board that talks
+> > over SPI and one that talks over I2C are two different products and
+> > thus (to me) should have two distinct compatible strings. This is not
+> > one device that merely has multiple interfaces.
+> >
+>
+> Goodix's approach is similar to Method 2. First, Goodix provides the
+> schematics and the chips (including initial firmware, no touch function)
+> to customers, and customers design their touchscreen controller boards an=
+d
+> decide whether to use the I2C or SPI interface. Then, Goodix modifies and
+> debugs the firmware based on the customer's design and provides the final
+> firmware for customers to upgrade.
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
+OK, thanks!
 
- v2: fix incorrect handling in input_close_device() - we still need to
-     decrement handle's open count and ensure that no more events will
-     come through the handle even if the handler is an observer.
- v1: original posting:
-     https://lore.kernel.org/all/ZteiClP9jabjHFkG@google.com
+From the above that means that if someone uses the "goodix,gt7986u"
+compatible today (with what's landed in mainline) then by that they
+mean "This is a touchscreen that's compatible with a Goodix-defined
+standard way of talking to i2c-based touchscreens built atop a GT7986U
+touchscreen controller". With what's landed in mainline that "standard
+way" is the "i2c-hid" protocol plus a reset line (which IIRC is not
+part of the i2c-hid standard) plus a defined power up/power down
+sequence.
 
-Maxim, I did not add "tested-by" by you because this version is
-different from V1.
+I suppose one conclusion one might make is that we never should have
+used "goodix,gt7986u" as a compatible string in the first place and
+should have instead added a new compatible string for every actual
+instantiation of a touchscreen. So when Vendor1 made touchscreen 1234
+based on GT7986U then we could have used the compatible
+"vendor1,touchscreen1234" and then when Vendor2 made touchscreen 5678
+based on GT7986U we could have used the compatible
+"vendor2,touchscreen5678". Should we have done this / should we do it
+in the future? I don't know. If everyone using GT7986U is adhering to
+the same interface then it doesn't buy us a ton and adds lots more
+bindings. I think I ended up originally adding the Goodix GT7375P
+bindings because someone gave me a datasheet with all the power
+sequencing and timings that came from Goodix and said it was for the
+"Goodix GT7375P". Given the fact that Goodix provides such a datasheet
+and it includes power sequencing is a strong indicator that there
+truly is a standard and we can use that.
 
-Thanks!
+In any case, if we _had_ used a different compatible for each actual
+touchscreen implementation then we wouldn't be having this discussion.
+Those touchscreens that shipped with a controller board that had SPI
+connections and SPI firmware would have had obviously different
+compatible strings than the touchscreens that shipped with a
+controller board designed for I2C.
 
- drivers/input/input.c | 15 ++++++++++-----
- include/linux/input.h |  5 +++++
- 2 files changed, 15 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/input/input.c b/drivers/input/input.c
-index 3c321671793f..3b1e88ead97e 100644
---- a/drivers/input/input.c
-+++ b/drivers/input/input.c
-@@ -605,6 +605,9 @@ int input_open_device(struct input_handle *handle)
- 
- 	handle->open++;
- 
-+	if (handle->handler->passive_observer)
-+		goto out;
-+
- 	if (dev->users++ || dev->inhibited) {
- 		/*
- 		 * Device is already opened and/or inhibited,
-@@ -668,11 +671,13 @@ void input_close_device(struct input_handle *handle)
- 
- 	__input_release_device(handle);
- 
--	if (!--dev->users && !dev->inhibited) {
--		if (dev->poller)
--			input_dev_poller_stop(dev->poller);
--		if (dev->close)
--			dev->close(dev);
-+	if (!handle->handler->passive_observer) {
-+		if (!--dev->users && !dev->inhibited) {
-+			if (dev->poller)
-+				input_dev_poller_stop(dev->poller);
-+			if (dev->close)
-+				dev->close(dev);
-+		}
- 	}
- 
- 	if (!--handle->open) {
-diff --git a/include/linux/input.h b/include/linux/input.h
-index 89a0be6ee0e2..6437c35f0796 100644
---- a/include/linux/input.h
-+++ b/include/linux/input.h
-@@ -286,6 +286,10 @@ struct input_handle;
-  * @start: starts handler for given handle. This function is called by
-  *	input core right after connect() method and also when a process
-  *	that "grabbed" a device releases it
-+ * @passive_observer: set to %true by drivers only interested in observing
-+ *	data stream from devices if there are other users present. Such
-+ *	drivers will not result in starting underlying hardware device
-+ *	when input_open_device() is called for their handles
-  * @legacy_minors: set to %true by drivers using legacy minor ranges
-  * @minor: beginning of range of 32 legacy minors for devices this driver
-  *	can provide
-@@ -321,6 +325,7 @@ struct input_handler {
- 	void (*disconnect)(struct input_handle *handle);
- 	void (*start)(struct input_handle *handle);
- 
-+	bool passive_observer;
- 	bool legacy_minors;
- 	int minor;
- 	const char *name;
--- 
-2.47.0.105.g07ac214952-goog
+If we _do_ want to keep using a compatible like "goodix,gt7986u" then,
+IMO, it's beneficial to also have a SPI-variant compatible like
+"goodix,gt7986u-spi". This is not a second interface to one device but
+it's actually a distinct interface compared to the Goodix I2C
+interface. Note: this assumes there isn't some hidden benefit to
+having a combined "I2C/SPI" bindings file. I find having the combined
+file buys me nothing and just makes it more confusing / adds
+complexity. Is there some benefit I'm missing other than towing the
+line of "one chip, one compatible"?
 
 
--- 
-Dmitry
+> It is important to note that the type of driver used by the final device
+> is related not only to the bus type but also to the final firmware. Even
+> when using the same I2C bus, different drivers may be needed, such as
+> hid-i2c or a customer-specific driver.
+
+Right. ...the firmware that's on the device matters and distinct
+firmware can make a distinct device, and IMO a GT7986U loaded with I2C
+firmware is a distinct device than a GT7986U loaded with SPI firmware.
+They are not the same and thus don't need the same compatible.
+
+
+-Doug
 
