@@ -1,123 +1,107 @@
-Return-Path: <linux-input+bounces-7639-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7640-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 253979AC24C
-	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 10:53:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 855D29AC6B6
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 11:34:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 45B3E1C246DA
-	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 08:53:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4678A28574D
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 09:34:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C42D16190B;
-	Wed, 23 Oct 2024 08:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qealQ/A4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EA6218E34A;
+	Wed, 23 Oct 2024 09:34:52 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C278157E78;
-	Wed, 23 Oct 2024 08:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E612014F9ED;
+	Wed, 23 Oct 2024 09:34:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729673602; cv=none; b=kU5Qs80cQR4cLr2/PWy9vBEw/vdxYj4s19UYSBMIX31uG01dWZ5ozq72+LnK+8IALWVp1u/S1BlAT7d2Uck+ZB8cvAGeNQnynYm0oXj7HDJr2ys9JX9HdXrH3n16jyKMCA9ONQC1RmY7KS/mcdLHhkpnT1l6aym9u7HyeMZ8Wdc=
+	t=1729676092; cv=none; b=PxIW8d60uKf9d8AAvSJdcUSiCDsS/uByKiwyBzFj6RW4K42dLQc8JFO8pygHRnlrN8kRKIrgGgUfTNq7bqDU2TExrVRW8WO/8gGOjcttZ69fKbQ9d0swS5g9NTI5I3KUxvXz8dApA1nit8DwC8QcIMwbjzvKPE98BHL3lXpD8Ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729673602; c=relaxed/simple;
-	bh=K7vq94wfd6+rOC5hpKLO2DE8q9QNC5fud9DSHoVTpTA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=DSyh2XukZP7xkGIA5hZNnQeLWFzBo0zwSMsNnctgO2s0nAs95uGKw0kRYHFLhzkJl4f3N0IbQzYfTZ8aKLaUbgT3iatqQelJ063KYfPJwQvJ24RxQYqXiR+zbUv6eVY1xyEgMplbU8gRD415AraV1f7FHSHDqUkunolFwc8qiiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qealQ/A4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26A1CC4CEC6;
-	Wed, 23 Oct 2024 08:53:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729673602;
-	bh=K7vq94wfd6+rOC5hpKLO2DE8q9QNC5fud9DSHoVTpTA=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=qealQ/A4cy917UudAmi7hmo9uY5PZ3KJTWy5Dz84XBtYf9x3jJVvNNUUDraYbapxl
-	 ZK3lr/Yxu0JR+Hqq9YfAS/3c/J4sMwFBMl2PUsZs4x0kYTW86R31ZDcjXjpDeUpPbd
-	 L6XWQZ80o6pZQM5n0f3rgF1iBsFz1YxwBwvD8a+CbGGhONjJ7cY7vw7zfzJmzKcdPa
-	 xBnKhjMI04vEvrNfRAtozBqqBk+HPhBFzfHRzZUc4y9sIshAo76uEu0iM/95wR6Bab
-	 2dF/lh3wTHq4bnVTwE4JupbqTemdrW3UYeh4VpcM4U/SPrGdwS/l66KD0OWNuqOn/v
-	 uThGtPs4W7uUA==
-Message-ID: <7be1dcea-3fbf-419d-8458-53ee621b7a1b@kernel.org>
-Date: Wed, 23 Oct 2024 10:53:17 +0200
+	s=arc-20240116; t=1729676092; c=relaxed/simple;
+	bh=t6B5b3AVVJ4QXRbI1MLQOW+02n+pMTKVviKx7HGfHvc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QnpzQdUVyb40U7k9ycsfgwBLbYHbKgGjNVX3z36zWKNwA15KvRhQZBcU29xbR1Biqfh9JtLRQOjOX9sJrpKKQ4+LoEUiKNdHRB9rf7oMU6f/4CuFZgqrTPP8n9EX6ipYq71vd7kfFWmABdXO+BV3yj27KGD7jbQUczBv0I6nXdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4XYP3K2R2Lz10N6K;
+	Wed, 23 Oct 2024 17:32:45 +0800 (CST)
+Received: from kwepemf100008.china.huawei.com (unknown [7.202.181.222])
+	by mail.maildlp.com (Postfix) with ESMTPS id 3A1691401E0;
+	Wed, 23 Oct 2024 17:34:47 +0800 (CST)
+Received: from huawei.com (10.175.103.91) by kwepemf100008.china.huawei.com
+ (7.202.181.222) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 23 Oct
+ 2024 17:34:46 +0800
+From: Zeng Heng <zengheng4@huawei.com>
+To: <raymondhackley@protonmail.com>, <dmitry.torokhov@gmail.com>,
+	<markuss.broks@gmail.com>
+CC: <linux-input@vger.kernel.org>, <bobo.shaobowang@huawei.com>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] input/touchscreen: imagis: Fix not used variable 'imagis_3038_data'
+Date: Wed, 23 Oct 2024 17:48:31 +0800
+Message-ID: <20241023094831.1680214-1-zengheng4@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: input: Add Nuvoton MA35D1 keypad
-To: mjchen <mjchen0829@gmail.com>, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-input@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, mjchen@nuvoton.com, peng.fan@nxp.com,
- sudeep.holla@arm.com, arnd@arndb.de, conor+dt@kernel.org,
- krzk+dt@kernel.org, robh@kernel.org, dmitry.torokhov@gmail.com
-References: <20241022063158.5910-1-mjchen0829@gmail.com>
- <20241022063158.5910-2-mjchen0829@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241022063158.5910-2-mjchen0829@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemf100008.china.huawei.com (7.202.181.222)
 
-On 22/10/2024 08:31, mjchen wrote:
-> From: mjchen <mjchen@nuvoton.com>
-> 
-> Add YAML bindings for MA35D1 SoC keypad.
-> 
-> Signed-off-by: mjchen <mjchen@nuvoton.com>
+Fix the following compilation warnings:
+drivers/input/touchscreen/imagis.c:422:39: warning: ‘imagis_3038c_data’
+defined but not used [-Wunused-const-variable=]
+  422 | static const struct imagis_properties imagis_3038c_data = {
+drivers/input/touchscreen/imagis.c:415:39: warning: ‘imagis_3038b_data’
+defined but not used [-Wunused-const-variable=]
+  415 | static const struct imagis_properties imagis_3038b_data = {
+drivers/input/touchscreen/imagis.c:407:39: warning: ‘imagis_3038_data’
+defined but not used [-Wunused-const-variable=]
+  407 | static const struct imagis_properties imagis_3038_data = {
+drivers/input/touchscreen/imagis.c:398:39: warning: ‘imagis_3032c_data’
+defined but not used [-Wunused-const-variable=]
+  398 | static const struct imagis_properties imagis_3032c_data = {
 
-Don't use your login name as name, but use your known identity or full
-legal name.
+Only define the variables 'imagis_303*_data' when the CONFIG_OF
+is enabled.
 
-Best regards,
-Krzysztof
+Fixes: 1e48ee99f603 ("Input: imagis - add supports for Imagis IST3038")
+Signed-off-by: Zeng Heng <zengheng4@huawei.com>
+---
+ drivers/input/touchscreen/imagis.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/input/touchscreen/imagis.c b/drivers/input/touchscreen/imagis.c
+index aeabf8d057de..abeae9102323 100644
+--- a/drivers/input/touchscreen/imagis.c
++++ b/drivers/input/touchscreen/imagis.c
+@@ -395,6 +395,7 @@ static int imagis_resume(struct device *dev)
+ 
+ static DEFINE_SIMPLE_DEV_PM_OPS(imagis_pm_ops, imagis_suspend, imagis_resume);
+ 
++#ifdef CONFIG_OF
+ static const struct imagis_properties imagis_3032c_data = {
+ 	.interrupt_msg_cmd = IST3038C_REG_INTR_MESSAGE,
+ 	.touch_coord_cmd = IST3038C_REG_TOUCH_COORD,
+@@ -427,7 +428,6 @@ static const struct imagis_properties imagis_3038c_data = {
+ 	.protocol_b = true,
+ };
+ 
+-#ifdef CONFIG_OF
+ static const struct of_device_id imagis_of_match[] = {
+ 	{ .compatible = "imagis,ist3032c", .data = &imagis_3032c_data },
+ 	{ .compatible = "imagis,ist3038", .data = &imagis_3038_data },
+-- 
+2.25.1
 
 
