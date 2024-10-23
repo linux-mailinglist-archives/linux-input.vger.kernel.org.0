@@ -1,318 +1,178 @@
-Return-Path: <linux-input+bounces-7667-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7668-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D4F9AD4EB
-	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 21:35:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E7F9AD4F8
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 21:43:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0BA241C2292C
-	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 19:35:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9ECBC2832C3
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 19:43:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 052E01D9A68;
-	Wed, 23 Oct 2024 19:35:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2AC21D5AB6;
+	Wed, 23 Oct 2024 19:43:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RrLkSy9e"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l1sQxlQP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16311CDFD1
-	for <linux-input@vger.kernel.org>; Wed, 23 Oct 2024 19:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17D81D0E2B;
+	Wed, 23 Oct 2024 19:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729712134; cv=none; b=OSSfT70qPt5O50ZpZlOxtJv2uQgAa9XTtvYtho/o32ghB/YWKvXVZjeezZUt6lOebnfJ41R8nSpg4FCNDT2IMiXi5GFGQKdzWd0GA9El6sI/+yRCBaPtHnC6D5/d6O6Rlczw0XZHcghjOtxQJOIfCyvFOWZm/t7l7tAaRN8GIIg=
+	t=1729712582; cv=none; b=l6clTOU3CvNVNdqw8lZ+Sp4FVNMzoyddOhc5usQPf3VoqEw4hCuG8J1lLnjQjGie9NpCreCcxqNaBbWWJ25QeOmsrR3fZ/BTpitaGRxIhrczbUQlXxHebW0G4Z4IjGqcVnw6cCXiFcHN1g5C/zduA1+bKyWX0QQFFrzTACiU0DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729712134; c=relaxed/simple;
-	bh=wNYfSW+eYGJvx5KJp4suRILJhQZ0Ag7C+qU/GxQTLA0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pJB4U0Xt/+Rji1R4wERuENWrbpRcNzIeFHHCyR6t2zU8AaL/lAKED/iKfZvm2N3OJvnID9E1a7gSGQtH3mYrsYlxJy9VxrIvAe7ZMv4GS4N7aoAKlNSp+PO3hjIND86pvGf4R2s4VKFlVsMpNeoHv3gbMvN+sbzi+5ym2sPBPpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RrLkSy9e; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-539fbe22ac0so138998e87.2
-        for <linux-input@vger.kernel.org>; Wed, 23 Oct 2024 12:35:32 -0700 (PDT)
+	s=arc-20240116; t=1729712582; c=relaxed/simple;
+	bh=tCA6fw7MBrhr9mOrTf8+DhdJnsHnrQsEXArVWZBBlrk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=l+HNoj7WYVBa9tLJ09y5ijofkaUT2SSYrG1CRJueAjsqquAjEKkx6r3f40A7xPfa2yuCopwyW6urd2CG1Fpzq8ORfaKp/dwtCFSRd6QXsC9/gQqERL+c8IrQkwkpKmHulXL7sdsoqzu3gyJvRtjvy/2Id4GyGydviGkBhtwVVpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l1sQxlQP; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2fb50e84ec7so987221fa.1;
+        Wed, 23 Oct 2024 12:43:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729712129; x=1730316929; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JIcRJaC4tkNbBKQG9JrVDAOe7hOw1yVBfVB1/wPO5XQ=;
-        b=RrLkSy9eZ7jCy+9b5ifUcS54Dn+CuUcQebuoXPDmDyj1bMOyuwT+K4BslRecg8FSiz
-         bQxXJq4pOMCya8zcZ5El2UEWUIbMQr4MB0OMCHYS8cMVcm6aPK6G0vMPY7ET/VXOlJAn
-         syNi8+Pio/9T8SCo2/58mG4psl0L1b5nd5xIk=
+        d=gmail.com; s=20230601; t=1729712579; x=1730317379; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RhbLCrIKCahQuoN9WUphMNRLJJ3fa6OTKAHMEZIGPB0=;
+        b=l1sQxlQPRGf55GS9v7XWLR5fybatJ9b3ZFqsbEAAa0tmgcvJ8ba5eM9EfuXaS+9vnm
+         JCb4c51vIdqBLBojSRBtKZ3pa0meqzMoOqsJyt8Fyw264G6p8AIyWyCICd8AaoH4HtCA
+         gQKGbCegKQIODdoMjq4bL6xjQ22g/C3qjpXPhGpyssm19xMKyYsoe90nYkVSkqn7GNoZ
+         41oysLNUyn+NED2gTJ0znLaNEmfVCMqyg7Ry+xzyfGcm1njvfcGsOiWjMGS3qZ/lVYPi
+         GDxxHAllxecXDAmN+ssN/SHXrW0LQwKYFLFQ333Th6tbPNOL6gAADQtXuJ01g/C3l7JH
+         SN9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729712129; x=1730316929;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JIcRJaC4tkNbBKQG9JrVDAOe7hOw1yVBfVB1/wPO5XQ=;
-        b=hlwrnp+6hsfltoyfbYxoXlbDWSNQs5eamTPig0XKEOV1QPNr5Nq4Vu15HUHETAj/iF
-         pdzdZY+nXNl8eRMbOAzRRtxKHbNC+YJru9ejVmiJxnvGVCPgprcCc7pH0csNVzMuoNNy
-         jCSkEmXGDnyEG+CSUYkFEYCBIW44WslAlsBng8PIM7FnGR+bUUrSmP7VR6OfbrcHBSZj
-         Rp7bpBkz/ZWSO9VDTVPpoLbqAmXB+i8Nz2Wi12YPeAC1b7RnGVQNIEJ6kj/tiQDARB17
-         NlIUPg4NcG0gK/Q30qDTBF3V/SqRiKUD3++OOKhoLt2e6wEpFjpdeAJam3LncI1YzDfY
-         hZcA==
-X-Forwarded-Encrypted: i=1; AJvYcCXg89HprGYSvdIEuhpN5J7BUiEn443lpEvZRpusFdVkNzOtlakIVnidaWAaTwF0KCh1ArrKeJc4EZssLQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw75xok8ZYwr6TvTxol+1eiYf+Laggp0oRRX24aVRJtcg/+edam
-	UgLTyPY8eUE5R23+ekQwGuyYVCLCy4Dbde4EErqPHXnKJcsEGA5ZgdXYisSHoZ0z23Hx276qjiD
-	GAQ==
-X-Google-Smtp-Source: AGHT+IG6FYTw7F0JTFXLdUOfkd8q9/pkcWEWVGZ2j1NukXE2dSa1fYk8/QM3bTlWeGdaGpUwzFmFUg==
-X-Received: by 2002:a05:6512:3185:b0:530:c212:4a5a with SMTP id 2adb3069b0e04-53b1a30505dmr2511799e87.22.1729712128638;
-        Wed, 23 Oct 2024 12:35:28 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a223f00ddsm1133002e87.114.2024.10.23.12.35.26
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Oct 2024 12:35:28 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539fbe22ac0so138930e87.2
-        for <linux-input@vger.kernel.org>; Wed, 23 Oct 2024 12:35:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWyW1od54RArGI9GyeR3jhWPiwrUoGEdLS8pqnb+jDfgp2Er/Hi3kMa0sVLsFCRRtMNxOBT+FJnU0xiqw==@vger.kernel.org
-X-Received: by 2002:a05:6512:2355:b0:539:fa43:fc36 with SMTP id
- 2adb3069b0e04-53b1a2f42abmr1785628e87.12.1729712126300; Wed, 23 Oct 2024
- 12:35:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729712579; x=1730317379;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RhbLCrIKCahQuoN9WUphMNRLJJ3fa6OTKAHMEZIGPB0=;
+        b=OB9iJEZZBVDM8g2mFnVe8XxUAtDht50370UFtWcNwFDeUTIgGmToPibIMzlNQm49zW
+         Ke3mhLMD5PIFn3MV9VTGJA9NYOZtQyGfN3hE4VDGwgngHNArMBMoaC0Yuy/xels8+gDN
+         f0dRYx5XD6cMVxXINP+oqHJX8pQRQ8yyHFjLqFN0rO3ZbFXGjufAyvkEolNGFBDXxkJG
+         WI6WC0sunGF0njqkIk/4wPAn+186Iog7aJGFVnx8gabEgrM2oN3TqU61Il75QC/WUsxf
+         EstUJZjkgnDukkqg1sHuKAPDx+TxNOuTDJRxGzQtJ4Im1Jj+p5QXcEjZVgHI032kpxpi
+         8evg==
+X-Forwarded-Encrypted: i=1; AJvYcCUE+NMKEd+0PHJ7d1DKXf7XPBQL3jg+xKAxQpMoyt1Fe/s45MZgM4f+vIWz3FAZyqeJG5TR4umfk/Nu@vger.kernel.org, AJvYcCUomC/cmyhZq7GA1SQGBDheiwxjc9//sUaWWbM7r97fZ8lBqaaW3P/SbA74BOv7+Z+ClE9+9ChReWcqLSTn@vger.kernel.org, AJvYcCV/6wPDlzq6SNiLaGuhlO1RukCE+7TMAflPXBMWZTVSaIvPlujq1+0cryy8RDwZR9B92kf8N3sQp5DDLQ==@vger.kernel.org, AJvYcCWfrDd/s2F92hrWsZ9/hM2tMxHA1hA8sZtoz5U6jdGo3Kroij+fBekbwL0MAGDcimG3FYW3CmnBXQ/h8jQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCtBQZ846R5rk/FOBfAH0bdntYbSjIKYZ0hnSnhZyOYpY1k86L
+	OijbGZaLAIlEq10s3OjXl52z71tumITGFVBwFDXe4uEDPCdO5sx1pIMYhg==
+X-Google-Smtp-Source: AGHT+IGoOK01spO2Q3H9lmeaZa4e6Rq/V0S5zzHLf/ni1DhBL8Y8pIZE9kHVeUw88+6Hktw7qtRsNA==
+X-Received: by 2002:a2e:a288:0:b0:2fb:57d6:f464 with SMTP id 38308e7fff4ca-2fc9d30ef7bmr18046541fa.20.1729712578385;
+        Wed, 23 Oct 2024 12:42:58 -0700 (PDT)
+Received: from [127.0.1.1] ([46.53.244.166])
+        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-5cb66c6b1d8sm4803940a12.72.2024.10.23.12.42.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2024 12:42:57 -0700 (PDT)
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Subject: [PATCH v7 0/7] Add support for Maxim Integrated MAX77705 PMIC
+Date: Wed, 23 Oct 2024 22:42:48 +0300
+Message-Id: <20241023-starqltechn_integration_upstream-v7-0-9bfaa3f4a1a0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241018020815.3098263-2-charles.goodix@gmail.com>
- <CAD=FV=UFrk4QCxWzV9zUZnjhwiFf22Fji5KH83svdwba2mPVBA@mail.gmail.com>
- <ZxMfu4yxk961mZWB@ux-UP-WHL01> <fbde8a3a-3adc-4c1a-8529-fde0fa149c8e@kernel.org>
- <CAD=FV=VphXewyk_mpGHUZKw8_aK8HnH8T-YumwM70eyz22S+Aw@mail.gmail.com>
- <ZxdRaaCR7eTOCQkB@ux-UP-WHL01> <CAD=FV=UFonOVHUP5_9+BfJp71CFX7KKA1Gx=boN0=3_4cCKnZw@mail.gmail.com>
- <ZxiZXeQzIaDYuu1F@ux-UP-WHL01>
-In-Reply-To: <ZxiZXeQzIaDYuu1F@ux-UP-WHL01>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 23 Oct 2024 12:35:09 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WSUrjbEzG83kYt50FRQ-Bu+bQP17JY_wPAEBf_GxGTJg@mail.gmail.com>
-Message-ID: <CAD=FV=WSUrjbEzG83kYt50FRQ-Bu+bQP17JY_wPAEBf_GxGTJg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: input: Goodix SPI HID Touchscreen
-To: Charles Wang <charles.goodix@gmail.com>
-Cc: krzk@kernel.org, dmitry.torokhov@gmail.com, hbarnor@chromium.org, 
-	conor.dooley@microchip.com, jikos@kernel.org, bentiss@kernel.org, 
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIALhRGWcC/43QzWrEIBQF4FcZXNdy1WicrvoepQzGXBMhMVN1p
+ GXIu9cM9H/RLM8Fv3PwShJGj4k8HK4kYvHJL6GG9u5A7GjCgNT3NRMOvAHFWpqyiS9TRjuGkw8
+ Zh2hyfXO6nFOOaGbaWa20hI47FKQynUlIu2iCHSsULtNUj+eIzr/eep+eax59ykt8u80oYrt+N
+ Or/G4ugQFE4pRQH1hr7OMzGT/d2mcmGl+YLPDKxA2wqyHuOrpdW6rb9DcrvC3f8SZHbQgAhHGt
+ Yz/6A6hNkAHtAVUHohe4kHMHKH+C6ru+MW0Pn2AEAAA==
+To: Sebastian Reichel <sre@kernel.org>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-leds@vger.kernel.org, Dzmitry Sankouski <dsankouski@gmail.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1729712576; l=3825;
+ i=dsankouski@gmail.com; s=20240619; h=from:subject:message-id;
+ bh=tCA6fw7MBrhr9mOrTf8+DhdJnsHnrQsEXArVWZBBlrk=;
+ b=iJCye/ip5nY1sYZWNwja3osS5QzB0nWVM549PsVhEyPmegK/xYuwk7wAmjXeAXX6RVKVo+dLm
+ gE2GyWUYoeABW8ueEEt9EQAakLg4Ch1O5EJs6V789i/dMfTJWXmX6T9
+X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
+ pk=YJcXFcN1EWrzBYuiE2yi5Mn6WLn6L1H71J+f7X8fMag=
 
-Hi,
+The Maxim MAX77705 is a Companion Power Management and Type-C
+interface IC which includes charger, fuelgauge, LED, haptic motor driver and
+Type-C management IC. It's used in Samsung S series smart phones
+starting from S9 model.
 
-On Tue, Oct 22, 2024 at 11:44=E2=80=AFPM Charles Wang <charles.goodix@gmail=
-.com> wrote:
->
-> Hi,
->
-> On Tue, Oct 22, 2024 at 09:12:33AM -0700, Doug Anderson wrote:
-> > Hi,
-> >
-> > On Tue, Oct 22, 2024 at 12:19=E2=80=AFAM Charles Wang <charles.goodix@g=
-mail.com> wrote:
-> > >
-> > > Hi Doug,
-> > >
-> > > On Mon, Oct 21, 2024 at 08:37:32AM -0700, Doug Anderson wrote:
-> > > > Hi,
-> > > >
-> > > > On Mon, Oct 21, 2024 at 2:43=E2=80=AFAM Krzysztof Kozlowski <krzk@k=
-ernel.org> wrote:
-> > > > >
-> > > > > On 19/10/2024 04:55, Charles Wang wrote:
-> > > > > > Hi Doug
-> > > > > >
-> > > > > > On Fri, Oct 18, 2024 at 01:48:56PM -0700, Doug Anderson wrote:
-> > > > > >>
-> > > > > >> On Thu, Oct 17, 2024 at 7:09=E2=80=AFPM Charles Wang <charles.=
-goodix@gmail.com> wrote:
-> > > > > >>>
-> > > > > >>> The Goodix GT7986U touch controller report touch data accordi=
-ng to the
-> > > > > >>> HID protocol through the SPI bus. However, it is incompatible=
- with
-> > > > > >>> Microsoft's HID-over-SPI protocol.
-> > > > > >>>
-> > > > > >>> Signed-off-by: Charles Wang <charles.goodix@gmail.com>
-> > > > > >>> ---
-> > > > > >>>  .../bindings/input/goodix,gt7375p.yaml        | 68 +++++++++=
-+++++++---
-> > > > > >>>  1 file changed, 58 insertions(+), 10 deletions(-)
-> > > > > >>
-> > > > > >> I'm happy to let device tree folks make the call here, but IMO=
- it
-> > > > > >> would be much cleaner to just consider the I2C-connected GT798=
-6U and
-> > > > > >> the SPI-connected GT7986U to be different things and just use =
-a
-> > > > >
-> > > > > Same device, you cannot have different compatibles. The way how t=
-he same
-> > > > > (literally same chip) device sits on the bus is not part of the b=
-inding,
-> > > > > thus no different compatibles.
-> > > >
-> > > > I don't want to belabour the point too much, but this doesn't feel
-> > > > completely black and white here.
-> > > >
-> > > > "Same chip": a whole lot of laptops and phones all use the "same ch=
-ip"
-> > > > (same SoC) yet are different products. ...or you can look at the fa=
-ct
-> > > > that many peripherals have the same STM32 or Nuvoton chip in them b=
-ut
-> > > > are wildly different peripherals.
-> > > >
-> > > > In this case, Goodix may have made an ASIC called "GT7986U" that ha=
-s
-> > > > some type of CPU on it that can run firmware that can talk as an I2=
-C
-> > > > device or a SPI device. This ASIC may be intended to be used as a
-> > > > touchscreen controller, but fundamentally it doesn't feel that
-> > > > different from an STM32. You can build different boards designs wit=
-h
-> > > > the "GT7986U" on it and those boards are intended to run different
-> > > > firmware.
-> > > >
-> > > > People manufacturing touch controller boards presumably put this
-> > > > "GT7986U" on their touch controller board, maybe set certain
-> > > > strappings telling it that it's talking over SPI or I2C or maybe ju=
-st
-> > > > decide which pins they're going to wire out to the board-to-board
-> > > > connector on the touch controller board. A touch controller board
-> > > > intended to talk over SPI may look 98% the same as a touch controll=
-er
-> > > > board intended to talk over I2C, but what percentage of "sameness"
-> > > > means that we need the same compatible string?
-> > > >
-> > > > Would things be different if Goodix decided to manufacture touch
-> > > > controller boards themselves and sold two SKUs: a GT7986U-S and a
-> > > > GT7986U-I?
-> > > >
-> > > > I would also note that (reading back in previous conversations) I
-> > > > think Charles said that they run different firmware on the SPI vs. =
-I2C
-> > > > touch controllers. As I understand it, the firmware running on a
-> > > > device can make it a different device from a device tree perspectiv=
-e.
-> > > > The device tree does its best to describe just the hardware but it =
-can
-> > > > get fuzzy. For instance the "VID/PID" of a USB device is usually
-> > > > something programmable and could be updateable by a firmware change
-> > > > but we still may need to encode the VID/PID of the firmware that is
-> > > > intended to run on the device in the device tree.
-> > > >
-> > > > Anyway, I'm happy to be quiet about this and fine if folks want to
-> > > > continue to work towards a "unified" binding. It makes me a little
-> > > > uncomfortable that I'll still end up listed as a "maintainer" of th=
-e
-> > > > unified binding because I don't totally agree with it, but I'm also
-> > > > pragmatic and I'd rather have something that can land.
-> > > >
-> > >
-> > > Thank you very much for your attention. Your understanding of the GT7=
-986U
-> > > SPI and I2C devices is correct. There is no fundamental difference be=
-tween
-> > > them and the STM32, as they are all ASIC devices. The functionality o=
-f the
-> > > device is determined by the firmware that is loaded, although the GT7=
-986U
-> > > is an ASIC specifically designed for touchscreens.
-> > >
-> > > Additionally, the firmware and devices are generally bound to specifi=
-c touch
-> > > panels, meaning that firmware intended for SPI will not function prop=
-erly on
-> > > an I2C touch panel.
-> >
-> > Just to get clarity: how is GT7986U delivered? For instance:
-> >
-> > 1. Maybe Goodix produces touchscreen controller boards and ships them
-> > to customers for use in their products. In this case, does Goodix ship
-> > a single board with two connectors, or a separate board for SPI vs.
-> > I2C? I would have to believe that maybe a "dev" board might have both
-> > connectors and a bunch of jumpers/switches to choose which ones to
-> > use, but it feels unlikely someone would ship that in any quantity.
-> >
-> > 2. Maybe Goodix provides schematics for customers to produce their own
-> > touchscreen controller boards and they tell customers to either hook
-> > up the SPI lines and load the SPI firmware or hook up the I2C lines
-> > and load the I2C firmware. In this case the assumption is that
-> > customers using the same communication method are following the
-> > schematics closely enough that they all behave the same and thus we
-> > don't need some extra distinction.
-> >
-> > In either case it seems like a touchscreen controller board that talks
-> > over SPI and one that talks over I2C are two different products and
-> > thus (to me) should have two distinct compatible strings. This is not
-> > one device that merely has multiple interfaces.
-> >
->
-> Goodix's approach is similar to Method 2. First, Goodix provides the
-> schematics and the chips (including initial firmware, no touch function)
-> to customers, and customers design their touchscreen controller boards an=
-d
-> decide whether to use the I2C or SPI interface. Then, Goodix modifies and
-> debugs the firmware based on the customer's design and provides the final
-> firmware for customers to upgrade.
+Add features:
+  - charger
+  - fuelgauge
+  - haptic
+  - led
 
-OK, thanks!
+Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+---
+Changes in v7:
+- Fix review comments
+- Link to v6: https://lore.kernel.org/r/20241007-starqltechn_integration_upstream-v6-0-0d38b5090c57@gmail.com
 
-From the above that means that if someone uses the "goodix,gt7986u"
-compatible today (with what's landed in mainline) then by that they
-mean "This is a touchscreen that's compatible with a Goodix-defined
-standard way of talking to i2c-based touchscreens built atop a GT7986U
-touchscreen controller". With what's landed in mainline that "standard
-way" is the "i2c-hid" protocol plus a reset line (which IIRC is not
-part of the i2c-hid standard) plus a defined power up/power down
-sequence.
+Changes in v6:
+- fix binding review comments
+- update trailers
+- Link to v5: https://lore.kernel.org/r/20240617-starqltechn_integration_upstream-v5-0-e0033f141d17@gmail.com
 
-I suppose one conclusion one might make is that we never should have
-used "goodix,gt7986u" as a compatible string in the first place and
-should have instead added a new compatible string for every actual
-instantiation of a touchscreen. So when Vendor1 made touchscreen 1234
-based on GT7986U then we could have used the compatible
-"vendor1,touchscreen1234" and then when Vendor2 made touchscreen 5678
-based on GT7986U we could have used the compatible
-"vendor2,touchscreen5678". Should we have done this / should we do it
-in the future? I don't know. If everyone using GT7986U is adhering to
-the same interface then it doesn't buy us a ton and adds lots more
-bindings. I think I ended up originally adding the Goodix GT7375P
-bindings because someone gave me a datasheet with all the power
-sequencing and timings that came from Goodix and said it was for the
-"Goodix GT7375P". Given the fact that Goodix provides such a datasheet
-and it includes power sequencing is a strong indicator that there
-truly is a standard and we can use that.
+Changes in v5:
+- Split patchset per subsystem
+- Link to v4: https://lore.kernel.org/r/20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com
 
-In any case, if we _had_ used a different compatible for each actual
-touchscreen implementation then we wouldn't be having this discussion.
-Those touchscreens that shipped with a controller board that had SPI
-connections and SPI firmware would have had obviously different
-compatible strings than the touchscreens that shipped with a
-controller board designed for I2C.
+Changes in v4:
+- Rewrite max77705, max77705_charger, max77705_fuel_gauge from scratch
+- Reorder patches:
+  - squash max77705 subdevice bindings in core file because
+    no resources there
+  - split device tree changes
+- Use _ as space for filenames in power/supply like the majority
+- Link to v3: https://lore.kernel.org/r/20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com
 
-If we _do_ want to keep using a compatible like "goodix,gt7986u" then,
-IMO, it's beneficial to also have a SPI-variant compatible like
-"goodix,gt7986u-spi". This is not a second interface to one device but
-it's actually a distinct interface compared to the Goodix I2C
-interface. Note: this assumes there isn't some hidden benefit to
-having a combined "I2C/SPI" bindings file. I find having the combined
-file buys me nothing and just makes it more confusing / adds
-complexity. Is there some benefit I'm missing other than towing the
-line of "one chip, one compatible"?
+---
+Dzmitry Sankouski (7):
+      power: supply: add undervoltage health status property
+      dt-bindings: mfd: add maxim,max77705
+      mfd: Add new driver for MAX77705 PMIC
+      input: max77693: add max77705 haptic support
+      power: supply: max77705: Add charger driver for Maxim 77705
+      power: supply: max77705: Add fuel gauge driver for Maxim 77705
+      leds: max77705: Add LEDs support
 
+ Documentation/ABI/testing/sysfs-class-power               |   2 +-
+ Documentation/devicetree/bindings/mfd/maxim,max77705.yaml | 174 +++++++++++++++++++++++++++++++++++
+ MAINTAINERS                                               |   4 +
+ drivers/input/misc/Kconfig                                |   4 +-
+ drivers/input/misc/Makefile                               |   1 +
+ drivers/input/misc/max77693-haptic.c                      |  15 +++-
+ drivers/leds/Kconfig                                      |   6 ++
+ drivers/leds/Makefile                                     |   1 +
+ drivers/leds/leds-max77705.c                              | 168 ++++++++++++++++++++++++++++++++++
+ drivers/mfd/Kconfig                                       |  12 +++
+ drivers/mfd/Makefile                                      |   2 +
+ drivers/mfd/max77705.c                                    | 224 ++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/power/supply/Kconfig                              |  13 +++
+ drivers/power/supply/Makefile                             |   2 +
+ drivers/power/supply/max77705_charger.c                   | 602 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/power/supply/max77705_fuel_gauge.c                | 364 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/power/supply/power_supply_sysfs.c                 |   1 +
+ include/linux/mfd/max77693-common.h                       |   5 +-
+ include/linux/mfd/max77705-private.h                      | 198 ++++++++++++++++++++++++++++++++++++++++
+ include/linux/power/max77705_charger.h                    | 215 ++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/power/max77705_fuelgauge.h                  |  60 +++++++++++++
+ include/linux/power_supply.h                              |   1 +
+ 22 files changed, 2069 insertions(+), 5 deletions(-)
+---
+base-commit: 63b3ff03d91ae8f875fe8747c781a521f78cde17
+change-id: 20240617-starqltechn_integration_upstream-bc86850b2fe3
 
-> It is important to note that the type of driver used by the final device
-> is related not only to the bus type but also to the final firmware. Even
-> when using the same I2C bus, different drivers may be needed, such as
-> hid-i2c or a customer-specific driver.
+Best regards,
+-- 
+Dzmitry Sankouski <dsankouski@gmail.com>
 
-Right. ...the firmware that's on the device matters and distinct
-firmware can make a distinct device, and IMO a GT7986U loaded with I2C
-firmware is a distinct device than a GT7986U loaded with SPI firmware.
-They are not the same and thus don't need the same compatible.
-
-
--Doug
 
