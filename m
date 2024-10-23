@@ -1,191 +1,179 @@
-Return-Path: <linux-input+bounces-7665-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7666-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C119AD35A
-	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 19:54:48 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F8F89AD438
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 20:45:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F448283F6C
-	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 17:54:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6486BB244A7
+	for <lists+linux-input@lfdr.de>; Wed, 23 Oct 2024 18:45:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68A961CF7D3;
-	Wed, 23 Oct 2024 17:54:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B1EE1D1F46;
+	Wed, 23 Oct 2024 18:45:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="L57meQvR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IofE27Ek"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA2D15EFA0;
-	Wed, 23 Oct 2024 17:54:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096C31D049A;
+	Wed, 23 Oct 2024 18:45:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729706085; cv=none; b=BWQwLBN6aqaDhdgS5z89TawdUwF30h6uvnX7JMn2IR2O+JVP3Xh0tDtgPlrgytaUi9jRcJ4jiGctoWrzkw+JiHtBGrSVkg73GD1lUY6wMjdvvniKDqM3hyR8BBhIrqd6nO+BEjs3GFJY8lR4xE1tdZ71tEwgVYwMBmTDjirZFWM=
+	t=1729709130; cv=none; b=jq3OgnVr7BCFB99uQMV1tb8YB/1Qh/JNiPETlhI1puPZ8SK2vIsDDnSANMWLZ9wzEJM4FEF+knofF7MlWKMiBQTTxx+2frYxXr1lnE0zM8FPD6+TYrUAinzKfRGUIvqAHE91j0Kx6KgTRqjXCp+P6gqB4PPfPUYaK6uDeZxGt+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729706085; c=relaxed/simple;
-	bh=FeQrnl/Qbqd5tte+UM4+fj/8ecOkjXc/c7EqWD06SD0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pZ7EVxe7Zk/FqTi6athZOOHY2FVE4L1eWrsDY7Xk2GiE4pO78x3GSOajNvHbQtGbrEpvwNM8dMGNaDcptMMKoD28VVDsy1Ske/7cmsjKNA8En4qwIAwND4JBOaWkIecjg+NvL+oayvOVOkrEuxDFuvSepQcgLu/ggYSMe0li3NU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=L57meQvR; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.96] (p5de457db.dip0.t-ipconnect.de [93.228.87.219])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 4C25D2FC004A;
-	Wed, 23 Oct 2024 19:54:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1729706080;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qg6J2ZKjKuT4NxpJxzY+/4uhSMmE1FV8vXNLyqWjSwU=;
-	b=L57meQvRSn7NFM0dls4nqJzDyda9eeYwdS3HS23gutt88rjXInhg+hgsce9YkuDFNsHZhM
-	r+VvwxPvLdEBP/gpHU0noFZrQ5PyiwOtT3+B0tu1NpWPHygJXhTwahz2jKOLzxmFnLeny+
-	t5DMP+scGYbBMOV+Gxm8nW85au0Es48=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <73c36418-34d6-46cf-9f10-6ca5e569274f@tuxedocomputers.com>
-Date: Wed, 23 Oct 2024 19:54:39 +0200
+	s=arc-20240116; t=1729709130; c=relaxed/simple;
+	bh=6nUgEdTr+tzSukKurFYskrMjyhTFHfwqugC64agyt+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CY724EHvzw7LdI9U9jAcDBRvDjSwRwa0srsyxaVRj5iNShJAhA701hdhP8qU0gHN2qSjoimBed4cnOaCJaqg1+Vf6ma8b3NnWLEy8NWL5rGQkE5OnfPiNv4dGV48ZVqeWQp9/FxmuUciF9Z4FRVOzs9eQuxtJmI5sY9/mOVHCYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IofE27Ek; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2e59746062fso133233a91.2;
+        Wed, 23 Oct 2024 11:45:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729709128; x=1730313928; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ov2xAXMB6p30jTkaVMNKHZxZEIOcYKxnx7FzrQpE6GE=;
+        b=IofE27EkJQBbHdSNC/bnyCPI4D/nzV65xFTeVRkJo7JSaMk+ONC7UJB8kSLaXVrp91
+         ur+ez0zvgra9WPgOZVWLVQ61yKtii46iCYfCo2eBixmwkwqRwl6nbUuBWNvHO07SCCbY
+         awyjOo87xraXTk7/0x0zDIiT42WLGP0AG/ygeF8LXwqhGy1uQQ9CbwekGOwmrdPmewYH
+         BCcS2/KIC/nFqwZDQprt3ZuWv/DHVyusnDNy2SPoN8zzPx2oes00/noH+d44zPCway9p
+         gnCbdfdSKRkMQi4dcgZrZCf1GSWOgz9NoPv3h5jZwwvHnY9eVb2f7zI+T1GUahy8cQ+g
+         6B4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729709128; x=1730313928;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ov2xAXMB6p30jTkaVMNKHZxZEIOcYKxnx7FzrQpE6GE=;
+        b=kNyD8Qcp/zNUjYELdY0YdlzMtA5t0o1EOOpX9L0ojN+jl7GSN1SiEPKyiH3RMg412R
+         NinVDYM935GHSC1+ir8w9nmlhk0tRll40fv+IMDhCMF1t8Bn5AoSdj/MUcVKrycdZSM0
+         GulXFKbJvANNpxOYbppur5uROdMfbx1WBfFF5wR+WdNf0MuEZwiWPj05cNl0X7ifEeE5
+         hMFCv8Ft8yBptFOEMUu6EMyoWwWE2EmmptVzslFturHBkgwIhungbSS7lrN0iiH5hCLE
+         8NN0nQfIl3DoPrnlSXx8wOJeIBDDG48/fJ/XdqmJOooX5cMI76AL7dCqXRGxjkWHeb3x
+         XRwA==
+X-Forwarded-Encrypted: i=1; AJvYcCUz2GiWk9EiQ923DvCRZdR0SOVVaaKD2d+EKj0BYEXVgl/GlI0COlfiBe2Mn4xFFJrknnrm2jZfC5/nbDo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtbpI1IatpE/vIH+0lX7/J6BTQfZGhueVNKgi4mdcw6TIDu/Lt
+	0eweGniXKms4ObRaVGWEFAigYifSa5qAyqRHIBaydA5H/6u5Ib9G
+X-Google-Smtp-Source: AGHT+IG4l64bzbzLLU+UIi8xMJh/O3V1IttypIFpwfkTAisoWEZ99kL1wFcEcs7j980J8mn/qefubQ==
+X-Received: by 2002:a17:90a:17aa:b0:2e0:a47a:5eb0 with SMTP id 98e67ed59e1d1-2e76b72189bmr3551829a91.38.1729709128122;
+        Wed, 23 Oct 2024 11:45:28 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:84b7:953b:674b:513c])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e76e059423sm1783133a91.43.2024.10.23.11.45.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2024 11:45:27 -0700 (PDT)
+Date: Wed, 23 Oct 2024 11:45:24 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Benjamin Tissoires <bentiss@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Maxim Mikityanskiy <maxtram95@gmail.com>
+Cc: Linux Input <linux-input@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] Input: introduce notion of passive observers for input
+ handlers
+Message-ID: <ZxlEROX7bMo5cbZP@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-To: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>,
- Benjamin Tissoires <bentiss@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
-References: <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
- <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
- <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
- <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
- <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
- <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de> <ZwlDpCPhieF3tezX@duo.ucw.cz>
- <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
- <c52019d7-01b4-4585-a2d1-b44b0a773fc9@redhat.com>
- <kywhqw5ef6hioemoydwub57dcmfuu3bwqpz3vjur4pkabboydo@2hrqj3zy4txv>
- <ZxdyQFMRIRusMD6S@duo.ucw.cz> <eb829c6c-cee0-4d65-b9d6-3df7fd1096a7@gmx.de>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <eb829c6c-cee0-4d65-b9d6-3df7fd1096a7@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+Sometimes it is useful to observe (and maybe modify) data coming from
+an input device, but only do that if there are other users of such input
+device. An example is touchpad switching functionality on Lenovo IdeaPad
+Z570 where it is desirable to suppress events coming from the touchpad
+if user toggles touchpad on/off button (on this laptop the firmware does
+not stop the device).
 
-Am 22.10.24 um 17:02 schrieb Armin Wolf:
-> Am 22.10.24 um 11:37 schrieb Pavel Machek:
->
->> Hi!
->>
->>>> Personally I really like the idea to just emulate a HID LampArray device
->>>> for this instead or rolling our own API.  I believe there need to be
->>>> strong arguments to go with some alternative NIH API and I have not
->>>> heard such arguments yet.
->
-> Using a virtual HID LampArray already creates two issues:
->
-> 1. We have to supply device size data (length, width, height), but the driver
-> cannot know this.
->
-> 2. It is very difficult to extend the HID LampArray interface, for example
-> there is no way to read the current LED color from the hardware or switch
-> between different modes.
->
-> A sysfs- and/or ioctl-based interface would allow us to:
->
-> 1. Threat some data as optional.
->
-> 2. Extend the interface later should the need arise.
->
-> Looking at the tuxedo-drivers code, it seems that the WMI interface also reports:
->
-> - preset color
-> - device type (touchpad, keyboard, ...)
-> - keyboard type (US/UK)
->
-> Making this information available through the HID LampArray protocol would be
-> difficult (except for the device type information).
->
->>> Agreed on everything Hans said.
->>>
->>> I'll personnaly fight against any new "illumination" API as long as we
->>> don't have committed users. This is the same policy the DRM folks
->>>> are
->> Well, and I'll personally fight against user<->kernel protocol as
->> crazy as HID LampArray is.
->>
->> OpenRGB is not suitable hardware driver.
->>                                 Pavel
->
-> I agree.
->
-> The point is that we need to design a userspace API since we cannot just allow
-> userspace to access the raw device like with HID devices.
->
-> And since we are already forced to come up with a userspace API, then maybe it 
-> would
-> make sense to build a extendable userspace API or else we might end up in the 
-> exact
-> same situation later should another similar driver appear.
->
-> Since the HID LampArray is a hardware interface standard, we AFAIK cannot 
-> easily extend it.
->
-> Also i like to point out that OpenRGB seems to be willing to use this new 
-> "illumination" API
-> as long as the underlying hardware interface is properly documented so that 
-> they can implement
-> support for it under Windows.
->
-> I would even volunteer to write the necessary OpenRGB backend since i already 
-> contributed to
-> the project in the past.
+Introduce notion of passive observers for input handlers to solve this
+issue. An input handler marked as passive observer behaves exactly like
+any other input handler or filter, but with one exception: it does not
+open/start underlying input device when attaching to it.
 
-Just wanting to leave my 2 cents here: I'm in theory fine with both approaches 
-(hidraw LampArray or wrapping it in some kind of new UAPI which at least has the 
-LampArray feature set).
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
 
-I also don't think that OpenRGB has a problem with a new Linux exclusive API as 
-long as someone is doing the implementation work. After all the reason why 
-OpenRGB was started is to unify all the different vendor APIs under one UI. So 
-one more or less doesn't matter.
+ v2: fix incorrect handling in input_close_device() - we still need to
+     decrement handle's open count and ensure that no more events will
+     come through the handle even if the handler is an observer.
+ v1: original posting:
+     https://lore.kernel.org/all/ZteiClP9jabjHFkG@google.com
 
-BUT: I already did work for the hidraw LampArray approach and OpenRGB already 
-did work for that as well (albeit I didn't yet managed to get the draft running) 
-and we already had a lengthy discussion about this in the last thread. (This one 
-https://lore.kernel.org/all/20231011190017.1230898-1-wse@tuxedocomputers.com/) 
-with all the same arguments.
+Maxim, I did not add "tested-by" by you because this version is
+different from V1.
 
-e.g. Expansion of the API: How should that look like? It would have to be 
-basically an own extension for every keyboard manufacturer because every one 
-supports different built in modes with different values to tweak.
+Thanks!
 
-So I'm siding with Hans and Benjamin on this one.
+ drivers/input/input.c | 15 ++++++++++-----
+ include/linux/input.h |  5 +++++
+ 2 files changed, 15 insertions(+), 5 deletions(-)
 
-My only plan for the current patch besides some more code beautification: Move 
-the device-sku specific values (key map, and key positions) to a bpf driver.
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index 3c321671793f..3b1e88ead97e 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -605,6 +605,9 @@ int input_open_device(struct input_handle *handle)
+ 
+ 	handle->open++;
+ 
++	if (handle->handler->passive_observer)
++		goto out;
++
+ 	if (dev->users++ || dev->inhibited) {
+ 		/*
+ 		 * Device is already opened and/or inhibited,
+@@ -668,11 +671,13 @@ void input_close_device(struct input_handle *handle)
+ 
+ 	__input_release_device(handle);
+ 
+-	if (!--dev->users && !dev->inhibited) {
+-		if (dev->poller)
+-			input_dev_poller_stop(dev->poller);
+-		if (dev->close)
+-			dev->close(dev);
++	if (!handle->handler->passive_observer) {
++		if (!--dev->users && !dev->inhibited) {
++			if (dev->poller)
++				input_dev_poller_stop(dev->poller);
++			if (dev->close)
++				dev->close(dev);
++		}
+ 	}
+ 
+ 	if (!--handle->open) {
+diff --git a/include/linux/input.h b/include/linux/input.h
+index 89a0be6ee0e2..6437c35f0796 100644
+--- a/include/linux/input.h
++++ b/include/linux/input.h
+@@ -286,6 +286,10 @@ struct input_handle;
+  * @start: starts handler for given handle. This function is called by
+  *	input core right after connect() method and also when a process
+  *	that "grabbed" a device releases it
++ * @passive_observer: set to %true by drivers only interested in observing
++ *	data stream from devices if there are other users present. Such
++ *	drivers will not result in starting underlying hardware device
++ *	when input_open_device() is called for their handles
+  * @legacy_minors: set to %true by drivers using legacy minor ranges
+  * @minor: beginning of range of 32 legacy minors for devices this driver
+  *	can provide
+@@ -321,6 +325,7 @@ struct input_handler {
+ 	void (*disconnect)(struct input_handle *handle);
+ 	void (*start)(struct input_handle *handle);
+ 
++	bool passive_observer;
+ 	bool legacy_minors;
+ 	int minor;
+ 	const char *name;
+-- 
+2.47.0.105.g07ac214952-goog
 
-The question in my mind currently is: Is the patch merge ready with just that? 
-Or must the OpenRGB implemenation also be finished before the merge?
 
-Best regards,
-
-Werner
-
->
-> Thanks,
-> Armin Wolf
->
+-- 
+Dmitry
 
