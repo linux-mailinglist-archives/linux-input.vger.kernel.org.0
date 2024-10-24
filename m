@@ -1,349 +1,302 @@
-Return-Path: <linux-input+bounces-7685-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7686-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD3F9AE6A2
-	for <lists+linux-input@lfdr.de>; Thu, 24 Oct 2024 15:34:46 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B279AEAE0
+	for <lists+linux-input@lfdr.de>; Thu, 24 Oct 2024 17:42:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D12DC2877FD
-	for <lists+linux-input@lfdr.de>; Thu, 24 Oct 2024 13:34:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6736FB21CB0
+	for <lists+linux-input@lfdr.de>; Thu, 24 Oct 2024 15:42:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16C771EABCF;
-	Thu, 24 Oct 2024 13:29:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 032441F583F;
+	Thu, 24 Oct 2024 15:42:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EVJMBPte"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nf7+XH/L";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bUCNy+kH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nf7+XH/L";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bUCNy+kH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A741E32A5
-	for <linux-input@vger.kernel.org>; Thu, 24 Oct 2024 13:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159671B3937;
+	Thu, 24 Oct 2024 15:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729776555; cv=none; b=jssiWbruYV9p5XOHOQESjZ2g1Fyf7sQxrVKq6Lu39T7/hRi7rpYDE7d0rCTxyP7cKfDlaYMbfruXbEkc4pEH1LWfWCMKRHH6gFbw4BJnEJqy2KHwdhIj2MkAlLIq4zCW0hnVIij7B2xzBeeM87rgSMTREeA4Dv/CRq4W/9OdLx8=
+	t=1729784538; cv=none; b=u2x6hY5iFPEpzmOBL3Rd1kirNw4hDk3EhHFT0N5Gw6tCUyc0MbvclggUbmt2wk243pnfsmWtpYGvhdYec6gYjfbZZzWouoE/qWMr4/EINFeroqMz4VjbITo2fOx+oDPyFFmJi5XhWTK7E+1t3MeePu4fcnGoO+6SXAqnITr+1yI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729776555; c=relaxed/simple;
-	bh=TNFGg/CYQGxNs+Ld3XxJZ5IfmtwWB2COK0LRP9AdQLs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YiMijSZ0k8nvD6OVgCIKQeAMbK6sg1KWinJAjLoeqXpDpaslaek/MQI29aufXpCCTgKNgq38KGa5rG6oGyIRlVUVWrjmS9LC9IFwjw3TfzIJFaQAJZve+5X7K9j6HaBZpsoag7nhgmSTs9BlUOzLNmwEK/Njg9GGwSPBKmJLtlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EVJMBPte; arc=none smtp.client-ip=209.85.222.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7b14f3927ddso56405285a.3
-        for <linux-input@vger.kernel.org>; Thu, 24 Oct 2024 06:29:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729776550; x=1730381350; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2mADvfbNearZia5yRK0i07ANDp2oc6aBLBYcSmlyDG4=;
-        b=EVJMBPteZafBmJap6zDFwn8Z+zsrfzDjto8H3WRlNBNkpzz2XqMSTS2ws2kdzGlgc+
-         e4ScBYtOzT1IhMS2UMzXS8mUH8kJQh17+MX9y3MRSMhkj5bBR+tweuQrV5MeAWEVrWx2
-         TI9dPpRCLjMJKDtT8H3qZ364tD9RLfze+473g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729776550; x=1730381350;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2mADvfbNearZia5yRK0i07ANDp2oc6aBLBYcSmlyDG4=;
-        b=YbgBimr3vsYN4pwnedj2S7aHJQlzr17kNKH7edRCIcNwPXhwcaXjK+buRsEcUWky8e
-         IgUeSIPvwgVIEsvsn6CHDXCwyp34QegUObzKigFEz/EhwOCK6tRXsQsiFfm/s4x7DHUW
-         eYE4UpQkdMPYMu4/3BDFSslhm5emjvUWe5Tbq0s+f+oziYns5lH48vLe4+20GxN7zBTF
-         ObWm2J6g9maMCkffZTef48V+K05l6TygMdpugZGD067iRc/uVwsIbq7Rw6baF9GZbjep
-         938MUmppF8Pq0esQV5BzFIKbv4kCehTyzCOK4SghQl1XRDq4egmYEsbp0t/2DcejjuuM
-         AHrw==
-X-Forwarded-Encrypted: i=1; AJvYcCXXZeEaLIhzUIpvop3zP5wva754cjZkfxJP9Fe38JGtf41M8DETr6Vcem1YLkj61ybuNyA67llWP+0dEg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyinl/MqyS0u0zf0wh95nsECk7gAwVRW6Wbg1Rf2SPYFRTwinOj
-	9aT0i4329imQLSY0ELl2XIjydJ/9vlrjCKJeW5ZVm/erApdkHiT+8bQVS0vWXg==
-X-Google-Smtp-Source: AGHT+IGLbXLa5kyweKu7WefNH+VU10qvs7wfcV2860hFBGJU+bW6CxA3VhN5gpV4uuydTUUtEpHUDQ==
-X-Received: by 2002:a05:620a:4720:b0:7a1:62ad:9d89 with SMTP id af79cd13be357-7b186d12a38mr205596785a.64.1729776549881;
-        Thu, 24 Oct 2024 06:29:09 -0700 (PDT)
-Received: from denia.c.googlers.com (189.216.85.34.bc.googleusercontent.com. [34.85.216.189])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b165a5d663sm484204885a.94.2024.10.24.06.29.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 06:29:09 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 24 Oct 2024 13:29:07 +0000
-Subject: [PATCH 3/3] iio: hid-sensor-prox: Add support for more channels
+	s=arc-20240116; t=1729784538; c=relaxed/simple;
+	bh=fyCVM0H3wBChDlsqqMqAVhOen98CNN27wwnpuqoJWHs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=umg6neifYt6aw9zUMsT6DbmqnlPTW9gQhf7D68Qxb+bAAQ0UNXz4H8GxsqcDtqGbOd3GldsagF+/Lnq1sVISDumaaKiJBfxlsz6vbyMByMZWqREv+nksFhTbF5qvLF6MNM3sPCy4lCf4OjiCwa5TRwo1OCclZ05wEBQkukWeXWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nf7+XH/L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bUCNy+kH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nf7+XH/L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bUCNy+kH; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2A8A422129;
+	Thu, 24 Oct 2024 15:42:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729784533; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e/3cTOJeo8U10J73FzqEOoczI8O2ncrtc0XB23zkv5s=;
+	b=nf7+XH/LuqrxkP91/yVelJSCFw67hxyf6AXFWk3zyABwq4t50EjV4OpunUzQwKh4O0X2HJ
+	4nMIH+IkWiV+OyB9+2lpXXEkxEb6F9xe7EmRT51s93pHP7VGseNAqLpWkAnTMF4e/9a33H
+	jIwPZWttZWt/MbrLD+5eKYCd75VNgto=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729784533;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e/3cTOJeo8U10J73FzqEOoczI8O2ncrtc0XB23zkv5s=;
+	b=bUCNy+kHeragGzzLpfz4PtWaPc3dFKTrYqlZNmv+RbyR7CQspcjxEUACIPOU4RaAWi7ash
+	i5YJ2tGAyzT1zcBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="nf7+XH/L";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bUCNy+kH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729784533; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e/3cTOJeo8U10J73FzqEOoczI8O2ncrtc0XB23zkv5s=;
+	b=nf7+XH/LuqrxkP91/yVelJSCFw67hxyf6AXFWk3zyABwq4t50EjV4OpunUzQwKh4O0X2HJ
+	4nMIH+IkWiV+OyB9+2lpXXEkxEb6F9xe7EmRT51s93pHP7VGseNAqLpWkAnTMF4e/9a33H
+	jIwPZWttZWt/MbrLD+5eKYCd75VNgto=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729784533;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e/3cTOJeo8U10J73FzqEOoczI8O2ncrtc0XB23zkv5s=;
+	b=bUCNy+kHeragGzzLpfz4PtWaPc3dFKTrYqlZNmv+RbyR7CQspcjxEUACIPOU4RaAWi7ash
+	i5YJ2tGAyzT1zcBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A023D1368E;
+	Thu, 24 Oct 2024 15:42:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id g9J2JdNqGmebSAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 24 Oct 2024 15:42:11 +0000
+Date: Thu, 24 Oct 2024 17:43:12 +0200
+Message-ID: <875xphzeun.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Takashi Iwai <tiwai@suse.de>,	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Basavaraj Natikar <basavaraj.natikar@amd.com>,	Jiri Kosina
+ <jikos@kernel.org>,	Benjamin Tissoires <bentiss@kernel.org>,	Arnd Bergmann
+ <arnd@arndb.de>,	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,	Alex
+ Dubov <oakad@yahoo.com>,	Sudarsana Kalluru <skalluru@marvell.com>,	Manish
+ Chopra <manishc@marvell.com>,	"David S. Miller" <davem@davemloft.net>,	Eric
+ Dumazet <edumazet@google.com>,	Jakub Kicinski <kuba@kernel.org>,	Paolo
+ Abeni <pabeni@redhat.com>,	Rasesh Mody <rmody@marvell.com>,
+	GR-Linux-NIC-Dev@marvell.com,	Igor Mitsyanko <imitsyanko@quantenna.com>,
+	Sergey Matyukevich <geomatsi@gmail.com>,	Kalle Valo <kvalo@kernel.org>,
+	Sanjay R Mehta <sanju.mehta@amd.com>,	Shyam Sundar S K
+ <Shyam-sundar.S-k@amd.com>,	Jon Mason <jdmason@kudzu.us>,	Dave Jiang
+ <dave.jiang@intel.com>,	Allen Hubbe <allenbh@gmail.com>,	Bjorn Helgaas
+ <bhelgaas@google.com>,	Alex Williamson <alex.williamson@redhat.com>,
+	Juergen Gross <jgross@suse.com>,	Stefano Stabellini
+ <sstabellini@kernel.org>,	Oleksandr Tyshchenko
+ <oleksandr_tyshchenko@epam.com>,	Jaroslav Kysela <perex@perex.cz>,	Takashi
+ Iwai <tiwai@suse.com>,	Chen Ni <nichen@iscas.ac.cn>,	Mario Limonciello
+ <mario.limonciello@amd.com>,	Ricky Wu <ricky_wu@realtek.com>,	Al Viro
+ <viro@zeniv.linux.org.uk>,	Breno Leitao <leitao@debian.org>,	Kevin Tian
+ <kevin.tian@intel.com>,	Thomas Gleixner <tglx@linutronix.de>,	Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,	Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>,	Mostafa Saleh
+ <smostafa@google.com>,	Jason Gunthorpe <jgg@ziepe.ca>,	Yi Liu
+ <yi.l.liu@intel.com>,	Christian Brauner <brauner@kernel.org>,	Ankit Agrawal
+ <ankita@nvidia.com>,	Eric Auger <eric.auger@redhat.com>,	Reinette Chatre
+ <reinette.chatre@intel.com>,	Ye Bin <yebin10@huawei.com>,	Marek
+ =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,	Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>,	Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,	Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,	Rui Salvaterra <rsalvaterra@gmail.com>,
+	linux-ide@vger.kernel.org,	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,	ntb@lists.linux.dev,
+	linux-pci@vger.kernel.org,	kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org,	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 02/13] ALSA: hda_intel: Use always-managed version of pcim_intx()
+In-Reply-To: <aec23bb79b9ff7dd7f13eb67460e0605eac22912.camel@redhat.com>
+References: <20241015185124.64726-1-pstanner@redhat.com>
+	<20241015185124.64726-3-pstanner@redhat.com>
+	<87v7xk2ps5.wl-tiwai@suse.de>
+	<6f3db65fe9a5dcd1a7a8d9bd5352ecb248ef57b1.camel@redhat.com>
+	<87ttd2276j.wl-tiwai@suse.de>
+	<aec23bb79b9ff7dd7f13eb67460e0605eac22912.camel@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241024-hpd-v1-3-2a125882f1f8@chromium.org>
-References: <20241024-hpd-v1-0-2a125882f1f8@chromium.org>
-In-Reply-To: <20241024-hpd-v1-0-2a125882f1f8@chromium.org>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
- Jonathan Cameron <jic23@kernel.org>, 
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
- Lars-Peter Clausen <lars@metafoo.de>
-Cc: Harvey Yang <chenghaoyang@google.com>, linux-input@vger.kernel.org, 
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.13.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 2A8A422129
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[yahoo.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,kernel.org,omp.ru,amd.com,arndb.de,linuxfoundation.org,yahoo.com,marvell.com,davemloft.net,google.com,redhat.com,quantenna.com,gmail.com,kudzu.us,intel.com,suse.com,epam.com,perex.cz,iscas.ac.cn,realtek.com,zeniv.linux.org.uk,debian.org,linutronix.de,linux.intel.com,ziepe.ca,nvidia.com,huawei.com,invisiblethingslab.com,linux.dev,vger.kernel.org,lists.linux.dev,lists.xenproject.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[67];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Egis620 supports 3 channels: presense, proximity and attention.
+On Thu, 24 Oct 2024 10:02:59 +0200,
+Philipp Stanner wrote:
+> 
+> On Wed, 2024-10-23 at 17:03 +0200, Takashi Iwai wrote:
+> > On Wed, 23 Oct 2024 15:50:09 +0200,
+> > Philipp Stanner wrote:
+> > > 
+> > > On Tue, 2024-10-22 at 16:08 +0200, Takashi Iwai wrote:
+> > > > On Tue, 15 Oct 2024 20:51:12 +0200,
+> > > > Philipp Stanner wrote:
+> > > > > 
+> > > > > pci_intx() is a hybrid function which can sometimes be managed
+> > > > > through
+> > > > > devres. To remove this hybrid nature from pci_intx(), it is
+> > > > > necessary to
+> > > > > port users to either an always-managed or a never-managed
+> > > > > version.
+> > > > > 
+> > > > > hda_intel enables its PCI-Device with pcim_enable_device().
+> > > > > Thus,
+> > > > > it needs
+> > > > > the always-managed version.
+> > > > > 
+> > > > > Replace pci_intx() with pcim_intx().
+> > > > > 
+> > > > > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> > > > > ---
+> > > > >  sound/pci/hda/hda_intel.c | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/sound/pci/hda/hda_intel.c
+> > > > > b/sound/pci/hda/hda_intel.c
+> > > > > index b4540c5cd2a6..b44ca7b6e54f 100644
+> > > > > --- a/sound/pci/hda/hda_intel.c
+> > > > > +++ b/sound/pci/hda/hda_intel.c
+> > > > > @@ -786,7 +786,7 @@ static int azx_acquire_irq(struct azx
+> > > > > *chip,
+> > > > > int do_disconnect)
+> > > > >  	}
+> > > > >  	bus->irq = chip->pci->irq;
+> > > > >  	chip->card->sync_irq = bus->irq;
+> > > > > -	pci_intx(chip->pci, !chip->msi);
+> > > > > +	pcim_intx(chip->pci, !chip->msi);
+> > > > >  	return 0;
+> > > > >  }
+> > > > >  
+> > > > 
+> > > > Hm, it's OK-ish to do this as it's practically same as what
+> > > > pci_intx()
+> > > > currently does.  But, the current code can be a bit inconsistent
+> > > > about
+> > > > the original intx value.  pcim_intx() always stores !enable to
+> > > > res->orig_intx unconditionally, and it means that the orig_intx
+> > > > value
+> > > > gets overridden at each time pcim_intx() gets called.
+> > > 
+> > > Yes.
+> > > 
+> > > > 
+> > > > Meanwhile, HD-audio driver does release and re-acquire the
+> > > > interrupt
+> > > > after disabling MSI when something goes wrong, and pci_intx()
+> > > > call
+> > > > above is a part of that procedure.  So, it can rewrite the
+> > > > res->orig_intx to another value by retry without MSI.  And after
+> > > > the
+> > > > driver removal, it'll lead to another state.
+> > > 
+> > > I'm not sure that I understand this paragraph completely. Still,
+> > > could
+> > > a solution for the driver on the long-term just be to use
+> > > pci_intx()?
+> > 
+> > pci_intx() misses the restore of the original value, so it's no
+> > long-term solution, either.
+> 
+> Sure that is missing – I was basically asking whether the driver could
+> live without that feature.
+> 
+> Consider that point obsolete, see below
+> 
+> > 
+> > What I meant is that pcim_intx() blindly assumes the negative of the
+> > passed argument as the original state, which isn't always true.  e.g.
+> > when the driver calls it twice with different values, a wrong value
+> > may be remembered.
+> 
+> Ah, I see – thoguh the issue is when it's called several times with the
+> *same* value, isn't it?
+> 
+> E.g.
+> 
+> pcim_intx(pdev, 1); // 0 is remembered as the old value
+> pcim_intx(pdev, 1); // 0 is falsely remembered as the old value
+> 
+> Also, it would seem that calling the function for the first time like
+> that:
+> 
+> pcim_intx(pdev, 0); // old value: 1
+> 
+> is at least incorrect, because INTx should be 0 per default, shouldn't
+> it? Could then even be a 1st class bug, because INTx would end up being
+> enabled despite having been disabled all the time.
 
-Modify the driver so it can read those channels as well.
+Yeah, and the unexpected restore can happen even with a single call of
+pcim_intx(), if the driver calls it unnecessarily.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/iio/light/hid-sensor-prox.c | 161 ++++++++++++++++++++----------------
- 1 file changed, 89 insertions(+), 72 deletions(-)
+> > That said, I thought of something like below.
+> 
+> At first glance that looks like a good idea to me, thanks for working
+> this out!
+> 
+> IMO you can submit that as a patch so we can discuss it separately.
 
-diff --git a/drivers/iio/light/hid-sensor-prox.c b/drivers/iio/light/hid-sensor-prox.c
-index d38564fe22df..97550d0d21a9 100644
---- a/drivers/iio/light/hid-sensor-prox.c
-+++ b/drivers/iio/light/hid-sensor-prox.c
-@@ -13,16 +13,26 @@
- #include <linux/iio/buffer.h>
- #include "../common/hid-sensors/hid-sensor-trigger.h"
- 
--#define CHANNEL_SCAN_INDEX_PRESENCE 0
-+static const u32 prox_usage_ids[] = {
-+	HID_USAGE_SENSOR_HUMAN_PRESENCE,
-+	HID_USAGE_SENSOR_HUMAN_PROXIMITY,
-+	HID_USAGE_SENSOR_HUMAN_ATTENTION,
-+};
-+
-+#define MAX_USAGE ARRAY_SIZE(prox_usage_ids)
- 
- struct prox_state {
- 	struct hid_sensor_hub_callbacks callbacks;
- 	struct hid_sensor_common common_attributes;
--	struct hid_sensor_hub_attribute_info prox_attr;
--	u32 human_presence;
-+	struct hid_sensor_hub_attribute_info prox_attr[MAX_USAGE];
-+	struct iio_chan_spec channels[MAX_USAGE];
-+	u32 channel2usage[MAX_USAGE];
-+	u32 human_presence[MAX_USAGE];
- 	int scale_pre_decml;
- 	int scale_post_decml;
- 	int scale_precision;
-+	unsigned long scan_mask[2];
-+	int num_channels;
- };
- 
- static const u32 prox_sensitivity_addresses[] = {
-@@ -30,17 +40,23 @@ static const u32 prox_sensitivity_addresses[] = {
- 	HID_USAGE_SENSOR_DATA_PRESENCE,
- };
- 
--/* Channel definitions */
--static const struct iio_chan_spec prox_channels[] = {
--	{
--		.type = IIO_PROXIMITY,
--		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),
--		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_OFFSET) |
--		BIT(IIO_CHAN_INFO_SCALE) |
--		BIT(IIO_CHAN_INFO_SAMP_FREQ) |
--		BIT(IIO_CHAN_INFO_HYSTERESIS),
--		.scan_index = CHANNEL_SCAN_INDEX_PRESENCE,
-+#define PROX_CHANNEL(_indexed, _channel) \
-+	{\
-+		.type = IIO_PROXIMITY,\
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),\
-+		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_OFFSET) |\
-+		BIT(IIO_CHAN_INFO_SCALE) |\
-+		BIT(IIO_CHAN_INFO_SAMP_FREQ) |\
-+		BIT(IIO_CHAN_INFO_HYSTERESIS),\
-+		.indexed = _indexed,\
-+		.channel = _channel,\
- 	}
-+
-+/* Channel definitions (same order as prox_usage_ids) */
-+static const struct iio_chan_spec prox_channels[] = {
-+	PROX_CHANNEL(false, 0), // PRESENCE
-+	PROX_CHANNEL(true, 1), // PROXIMITY
-+	PROX_CHANNEL(true, 2), // ATTENTION
- };
- 
- /* Adjust channel real bits based on report descriptor */
-@@ -62,7 +78,7 @@ static int prox_read_raw(struct iio_dev *indio_dev,
- {
- 	struct prox_state *prox_state = iio_priv(indio_dev);
- 	struct hid_sensor_hub_device *hsdev;
--	int report_id = -1;
-+	int report_id;
- 	u32 address;
- 	int ret_type;
- 	s32 min;
-@@ -71,29 +87,22 @@ static int prox_read_raw(struct iio_dev *indio_dev,
- 	*val2 = 0;
- 	switch (mask) {
- 	case IIO_CHAN_INFO_RAW:
--		switch (chan->scan_index) {
--		case  CHANNEL_SCAN_INDEX_PRESENCE:
--			report_id = prox_state->prox_attr.report_id;
--			min = prox_state->prox_attr.logical_minimum;
--			address = HID_USAGE_SENSOR_HUMAN_PRESENCE;
--			hsdev = prox_state->common_attributes.hsdev;
--			break;
--		default:
--			report_id = -1;
--			break;
--		}
--		if (report_id >= 0) {
--			hid_sensor_power_state(&prox_state->common_attributes,
--						true);
--			*val = sensor_hub_input_attr_get_raw_value(
--				hsdev, hsdev->usage, address, report_id,
--				SENSOR_HUB_SYNC, min < 0);
--			hid_sensor_power_state(&prox_state->common_attributes,
--						false);
--		} else {
-+		if (chan->scan_index >= prox_state->num_channels) {
- 			*val = 0;
- 			return -EINVAL;
- 		}
-+		address = prox_state->channel2usage[chan->scan_index];
-+		report_id = prox_state->prox_attr[chan->scan_index].report_id;
-+		hsdev = prox_state->common_attributes.hsdev;
-+		min = prox_state->prox_attr[chan->scan_index].logical_minimum;
-+		hid_sensor_power_state(&prox_state->common_attributes, true);
-+		*val = sensor_hub_input_attr_get_raw_value(hsdev,
-+							   hsdev->usage,
-+							   address,
-+							   report_id,
-+							   SENSOR_HUB_SYNC,
-+							   min < 0);
-+		hid_sensor_power_state(&prox_state->common_attributes, false);
- 		ret_type = IIO_VAL_INT;
- 		break;
- 	case IIO_CHAN_INFO_SCALE:
-@@ -103,7 +112,7 @@ static int prox_read_raw(struct iio_dev *indio_dev,
- 		break;
- 	case IIO_CHAN_INFO_OFFSET:
- 		*val = hid_sensor_convert_exponent(
--				prox_state->prox_attr.unit_expo);
-+			prox_state->prox_attr[chan->scan_index].unit_expo);
- 		ret_type = IIO_VAL_INT;
- 		break;
- 	case IIO_CHAN_INFO_SAMP_FREQ:
-@@ -178,48 +187,63 @@ static int prox_capture_sample(struct hid_sensor_hub_device *hsdev,
- {
- 	struct iio_dev *indio_dev = platform_get_drvdata(priv);
- 	struct prox_state *prox_state = iio_priv(indio_dev);
--	int ret = -EINVAL;
--
--	switch (usage_id) {
--	case HID_USAGE_SENSOR_HUMAN_PRESENCE:
--		switch (raw_len) {
--		case 1:
--			prox_state->human_presence = *(u8 *)raw_data;
--			return 0;
--		case 4:
--			prox_state->human_presence = *(u32 *)raw_data;
--			return 0;
--		default:
-+	int chan;
-+
-+	for (chan = 0; chan < prox_state->num_channels; chan++)
-+		if (prox_state->channel2usage[chan] == usage_id)
- 			break;
--		}
-+	if (chan == prox_state->num_channels)
-+		return -EINVAL;
-+
-+	switch (raw_len) {
-+	case 1:
-+		prox_state->human_presence[chan] = *(u8 *)raw_data;
-+		break;
-+	case 4:
-+		prox_state->human_presence[chan] = *(u32 *)raw_data;
- 		break;
- 	}
- 
--	return ret;
-+	return 0;
- }
- 
- /* Parse report which is specific to an usage id*/
- static int prox_parse_report(struct platform_device *pdev,
- 				struct hid_sensor_hub_device *hsdev,
--				struct iio_chan_spec *channels,
--				unsigned usage_id,
- 				struct prox_state *st)
- {
-+	struct iio_chan_spec *channels = st->channels;
-+	int index = 0;
- 	int ret;
-+	int i;
-+
-+	for (i = 0; i < MAX_USAGE; i++) {
-+		u32 usage_id = prox_usage_ids[i];
-+
-+		ret = sensor_hub_input_get_attribute_info(hsdev,
-+							  HID_INPUT_REPORT,
-+							  hsdev->usage,
-+							  usage_id,
-+							  &st->prox_attr[index]);
-+		if (ret < 0)
-+			continue;
-+		st->channel2usage[index] = usage_id;
-+		st->scan_mask[0] |= BIT(index);
-+		channels[index] = prox_channels[i];
-+		channels[index].scan_index = index;
-+		prox_adjust_channel_bit_mask(channels, index,
-+					     st->prox_attr[index].size);
-+		dev_dbg(&pdev->dev, "prox %x:%x\n", st->prox_attr[index].index,
-+			st->prox_attr[index].report_id);
-+		index++;
-+	}
- 
--	ret = sensor_hub_input_get_attribute_info(hsdev, HID_INPUT_REPORT,
--			usage_id,
--			HID_USAGE_SENSOR_HUMAN_PRESENCE,
--			&st->prox_attr);
--	if (ret < 0)
-+	if (!index)
- 		return ret;
--	prox_adjust_channel_bit_mask(channels, CHANNEL_SCAN_INDEX_PRESENCE,
--					st->prox_attr.size);
- 
--	dev_dbg(&pdev->dev, "prox %x:%x\n", st->prox_attr.index,
--			st->prox_attr.report_id);
-+	st->num_channels = index;
- 
--	return ret;
-+	return 0;
- }
- 
- /* Function to initialize the processing for usage id */
-@@ -250,22 +274,15 @@ static int hid_prox_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	indio_dev->channels = devm_kmemdup(&pdev->dev, prox_channels,
--					   sizeof(prox_channels), GFP_KERNEL);
--	if (!indio_dev->channels) {
--		dev_err(&pdev->dev, "failed to duplicate channels\n");
--		return -ENOMEM;
--	}
--
--	ret = prox_parse_report(pdev, hsdev,
--				(struct iio_chan_spec *)indio_dev->channels,
--				hsdev->usage, prox_state);
-+	ret = prox_parse_report(pdev, hsdev, prox_state);
- 	if (ret) {
- 		dev_err(&pdev->dev, "failed to setup attributes\n");
- 		return ret;
- 	}
- 
--	indio_dev->num_channels = ARRAY_SIZE(prox_channels);
-+	indio_dev->num_channels = prox_state->num_channels;
-+	indio_dev->channels = prox_state->channels;
-+	indio_dev->available_scan_masks = prox_state->scan_mask;
- 	indio_dev->info = &prox_info;
- 	indio_dev->name = name;
- 	indio_dev->modes = INDIO_DIRECT_MODE;
+Sure, I'm going to submit later.
 
--- 
-2.47.0.163.g1226f6d8fa-goog
 
+thanks,
+
+Takashi
 
