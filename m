@@ -1,76 +1,76 @@
-Return-Path: <linux-input+bounces-7687-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7688-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83319AF719
-	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2024 03:44:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F39C9AF71B
+	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2024 03:44:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 55604B21C23
-	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2024 01:44:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9066A281F82
+	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2024 01:44:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93F9F12B143;
-	Fri, 25 Oct 2024 01:43:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 498F2AD21;
+	Fri, 25 Oct 2024 01:44:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dmesicOA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MBtP72A7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1381339A4;
-	Fri, 25 Oct 2024 01:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8D522B644;
+	Fri, 25 Oct 2024 01:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729820630; cv=none; b=PEJnX1OyQ5m4ZT+4V87CVLyyDuI672iKEtl+FrBXVdU7GhcQ32iVoki4X8N1ThEP8XeIOy7OX4zzqt7Qo/8CQUXE05DIDzKCFVC48w4h5LE0a8Oe/ROftsMigfc44DG0g5RHTL7TnKAnp7sc8hL+Zba7zjI+4f+weVb5Z9n8KCA=
+	t=1729820678; cv=none; b=V1XC5UHGv5cqVezTeI3/oxBN/JMzFrG1m3H6HZeGfO0+ztLCFwGSFaCvtmEB5gbhpZ1OfHO+DEpc1Y+nGC+2mTJ26aO5aPVOZtvrNRShyG67LXXA2d3GCzaLJU7+Jzo6RhrCuP2cLkiPlFiWZK33QQm62OJlDDm3JyD9RsnxB78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729820630; c=relaxed/simple;
-	bh=AYdbDzYteBMJENppX6/EUKrwUvFettDvvcZ4FaF+xqg=;
+	s=arc-20240116; t=1729820678; c=relaxed/simple;
+	bh=8y5j6C6mvOIAKvddsFRC1CgVPy7GdLlrGigrshbMcy4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MnCMGWrRJSnN1Zp/6KPIqJZbcaZKvtj6iPkQSxQqMm3+ZceqUNe8aSG7xlcJg6X0jCGBTs1XLktx1KKJv+REIACTHKeDCI3RapOWl0ibvVNMsUyCArXbCT1L6ISLh9jwNkGgdnBPUgXKuDoca5zNx38g8gz/sAwRAhV7Rya0V3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dmesicOA; arc=none smtp.client-ip=209.85.128.172
+	 Content-Disposition; b=AXTE2Orj2iK5jmFTAVikE5LtBQz51eAne+tZLFYw/QkmWOZAk7loVmoe9Cij/QtP57CQHj6UkhkHsdmn0aZd/IRwcq+25vrGjjTN31C2cCH+tNwjLWAzqpci2eGCDOph4LOhNC3Z7nCKUg9pgi9Pr3SCnKM8wqreVb3PpKua+4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MBtP72A7; arc=none smtp.client-ip=209.85.215.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6e5ef7527deso18202737b3.0;
-        Thu, 24 Oct 2024 18:43:48 -0700 (PDT)
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7ea7e2ff5ceso1007833a12.2;
+        Thu, 24 Oct 2024 18:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729820627; x=1730425427; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1729820675; x=1730425475; darn=vger.kernel.org;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=N2HiBsa0ajxk+aOOy2ifb/DFIXKGzhQ2omglgYUqaPE=;
-        b=dmesicOAqtfVqqkoB42wWXeHhKl83tdkja24F+Z4ZDW2mPXLub6JGdoNiVKw0fRtl4
-         wxAtDSkVvHa63NyuyD0p6swPg8RrgalH4KpWV/sLMWk6OQF7/7LTbqmGva0weQBHYXar
-         9BoImIJmePzmMHDTidT5RdCV5bCcn+iXYrs3EKqeNFPE9fFAAjppm85FV8CZDRdfDw61
-         dGEq7H8nD4n5UB5HtbckBogFvLpiIv2D8+51ZlZJNUAluqgPM3wfnPdIU2DO8aHdAskQ
-         Wltvpd7ztzjRIv+yAY8nEocX52tGBj8DY+d+CeY8xIRSwCe67mVR0ShHLqF9oax7bIP6
-         OShw==
+        bh=IhXSiTjX7JgkrNu1pYu+npyBqROxL+T9IaiQMyzUh40=;
+        b=MBtP72A7sWuvDEZswSVELPUO8llC/+6NG2bweKQ9eOeYtwfd2TJzKqxVaZEiMmZ3KI
+         RVkl7tbBAOeafUCNa7q3pHh/9LS2mg0l+2Of88wriZIEwX3YLZUF7uSbRbR2xHko9VJX
+         8WMqj1EHKwSSpzCjpoDmAWvP7mU0Ay/OiUcn1qvAWcxEBxND0ASLp9bawmyXZaGfhzpJ
+         6n3/9pZ1xbA2ubaYzbcMU6kt0glEyhQjI494buFXpdNeVIHRsBOq6erCgkda2DWpTlTe
+         7WTyv4Y9A8FpfdFsxf/d7wTXyKqhwXkJC6Zv1DhafLjzNPQIIT7OLO3YkZRk/6QKCUwc
+         3fKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729820627; x=1730425427;
+        d=1e100.net; s=20230601; t=1729820675; x=1730425475;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N2HiBsa0ajxk+aOOy2ifb/DFIXKGzhQ2omglgYUqaPE=;
-        b=saLNqMWxDJ53HEP2QZc+kTqKcqJQFO+9A8diwJtuu221Pwt3HZSNkrTacFOpygLieO
-         2YvnWiW1s5udcohwithKOTbzkXL3NRz9EcdRV57xDtd03m1+0XcTOXPEaVMIvCZDxhy5
-         wNJfonsaYyE9N5D7isUudiIP30QR125FAYBb/gP5rcG+TqlVC7L5BN3icRMNUpICPVka
-         SxYdXK16HONfrlBHBCAFvOyNTfTfeO2BV9DKSVSmPcy4+Dx7K81/oZ8/rflJyJGezIiC
-         O/a64jVRpHeDQFglIgjzbfDXhodgE0XZV5eHCT91hiDkU1L4zmpkA0xU5YfkvzS8DDfD
-         3gJA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8QdVTqSQo0seimq1QAZh5ux8AG/uy+Hj5rd80UK10kP5AH7gdG9MFAXUYn5Of/vfoqLsXbQ+0iV/Lk2k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyg/6fruM9X8VlSZJvJKj9b9Ynq5X1+wZ2ORQokyKwbRs4rejUu
-	FzD/qDN5xf/PhyoXV0Seva82Iqjz3RlEZfyY/vZjlnfj1FTgLtszWfjPTQ==
-X-Google-Smtp-Source: AGHT+IH800DcZdVuCht4HznqfakBPKE41IOUTnqOUQ9esvpayVFiAA44Ox56JKM8vHL9c3F+H3nVcA==
-X-Received: by 2002:a05:690c:91:b0:6e3:116c:ebf3 with SMTP id 00721157ae682-6e7f0fac744mr84307797b3.28.1729820627496;
-        Thu, 24 Oct 2024 18:43:47 -0700 (PDT)
+        bh=IhXSiTjX7JgkrNu1pYu+npyBqROxL+T9IaiQMyzUh40=;
+        b=DnicPXnpNw97uh8OOGjQ6HlKsigS3YRahwLShc5bLA/Y/2KclRBTyTmWZ5OEM/QKtz
+         +zV+yuZPORKAJpV0SYXycUZa/VENzVj0I2FlAc++7e/ADDOcHTHCq5/sq5R+KiPed+Oj
+         VUiXWIJ/v0GAJUGzNak836cSCluP7an1dNVKXQ4E/O9emALK8eB78UgEyGd7IWuseHdl
+         iI5RVN2UTtAlbCwM3yvdxXF6J4HH9l8Vg7gBilMd7ggCKG9BjDIKiZxsc/poy0Ta3T7d
+         eRugbDWdGaCUPodU/bW6YUoVk21BD3u0aPFYUS2fx+DEFhf6LSk7DjZd7fR+kzvVxTCd
+         JQaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUpRqJsFe2KLk84zQZlZCYhWXOsrGJhg0Wdcu0++4gRs0i+3pGCzuHN7WGzXlww2jjCky1z+sjEuslCSDk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3TpiE9QEc1+pQIksgiYb+xedi1Hbn8lNjmyKYSLbySwvRg9oT
+	HtrHlB/jZJPg7NLg4RlWQN6WrdeJULdf7Pc/8lh7BJRsg7APsfEwC+yLjg==
+X-Google-Smtp-Source: AGHT+IF++62h7vZ8340L/6rHyMK1GfUkNkVMyVv1yPg5Zvb9LPtZ09cAMrW7ofUSXIeD7x3L71CE+g==
+X-Received: by 2002:a17:902:d2c2:b0:20c:d5d9:95dc with SMTP id d9443c01a7336-20fa9e99cc5mr118645365ad.40.1729820675170;
+        Thu, 24 Oct 2024 18:44:35 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:a810:a864:e2e2:2651])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-720579397d8sm82391b3a.86.2024.10.24.18.43.46
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-210bbf44344sm852305ad.62.2024.10.24.18.44.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 18:43:47 -0700 (PDT)
-Date: Thu, 24 Oct 2024 18:43:44 -0700
+        Thu, 24 Oct 2024 18:44:34 -0700 (PDT)
+Date: Thu, 24 Oct 2024 18:44:32 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Helge Deller <deller@gmx.de>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: hilkbd - use guard notation when acquiring spinlock
-Message-ID: <Zxr30BpPobpM65vO@google.com>
+To: linux-input@vger.kernel.org
+Cc: Erick Archer <erick.archer@outlook.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: locomokbd - use guard notation when acquiring spinlock
+Message-ID: <Zxr4AMJrzhZlHAlf@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -86,32 +86,35 @@ when control leaves critical section.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/keyboard/hilkbd.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/input/keyboard/locomokbd.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/input/keyboard/hilkbd.c b/drivers/input/keyboard/hilkbd.c
-index c1a4d5055de6..c8d8d0ea35b0 100644
---- a/drivers/input/keyboard/hilkbd.c
-+++ b/drivers/input/keyboard/hilkbd.c
-@@ -180,9 +180,8 @@ static irqreturn_t hil_interrupt(int irq, void *handle)
- /* send a command to the HIL */
- static void hil_do(unsigned char cmd, unsigned char *data, unsigned int len)
+diff --git a/drivers/input/keyboard/locomokbd.c b/drivers/input/keyboard/locomokbd.c
+index 4b0f8323c492..c501a93a4417 100644
+--- a/drivers/input/keyboard/locomokbd.c
++++ b/drivers/input/keyboard/locomokbd.c
+@@ -112,11 +112,10 @@ static inline void locomokbd_reset_col(unsigned long membase, int col)
+ static void locomokbd_scankeyboard(struct locomokbd *locomokbd)
  {
+ 	unsigned int row, col, rowd;
 -	unsigned long flags;
-+	guard(spinlock_irqsave)(&hil_dev.lock);
+ 	unsigned int num_pressed;
+ 	unsigned long membase = locomokbd->base;
  
--	spin_lock_irqsave(&hil_dev.lock, flags);
- 	while (hil_busy())
- 		/* wait */;
- 	hil_command(cmd);
-@@ -191,7 +190,6 @@ static void hil_do(unsigned char cmd, unsigned char *data, unsigned int len)
- 			/* wait */;
- 		hil_write_data(*(data++));
- 	}
--	spin_unlock_irqrestore(&hil_dev.lock, flags);
+-	spin_lock_irqsave(&locomokbd->lock, flags);
++	guard(spinlock_irqsave)(&locomokbd->lock);
+ 
+ 	locomokbd_charge_all(membase);
+ 
+@@ -167,8 +166,6 @@ static void locomokbd_scankeyboard(struct locomokbd *locomokbd)
+ 		mod_timer(&locomokbd->timer, jiffies + SCAN_INTERVAL);
+ 	else
+ 		locomokbd->count_cancel = 0;
+-
+-	spin_unlock_irqrestore(&locomokbd->lock, flags);
  }
  
- 
+ /*
 -- 
 2.47.0.163.g1226f6d8fa-goog
 
