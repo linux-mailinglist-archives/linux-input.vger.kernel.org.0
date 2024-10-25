@@ -1,285 +1,321 @@
-Return-Path: <linux-input+bounces-7691-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7692-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9769AF92E
-	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2024 07:37:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DCE9AFCC3
+	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2024 10:38:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C647E1F22D7C
-	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2024 05:37:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 045AE1F2104B
+	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2024 08:38:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B85418E02E;
-	Fri, 25 Oct 2024 05:36:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5051C1D3581;
+	Fri, 25 Oct 2024 08:38:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YxNxtX3s"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bTMd15cy"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55375176AAD;
-	Fri, 25 Oct 2024 05:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98901D2215
+	for <linux-input@vger.kernel.org>; Fri, 25 Oct 2024 08:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729834616; cv=none; b=r701zmOBiVmtTFUNgecTIl2rByvXbBjg6hCh4aK0Lrztuf4wo+gL2lKBGtU8l5rvcrfsoUvV9cQ99CVfMvLYH7RYSM44WsWDdneZBtIS/2+yF6UTs2NBB2m9nz/KNXJcQLUhK2A0Juu69joR7fltqtnPou0j5qQ2u3phH4KMj8Q=
+	t=1729845489; cv=none; b=d1aze6yBWbeRWg5Gs5h+ev1S8Fr/r3gAUOukF452VKeUcqGWIdgrniQTV38KPo6tFhSbqa9iQe4rvqvP7NWeRDghGlP1N3RSq2YQ3QUxp6BkoA/VFeVQmmXhceV+wPp7GnEUBCgoJm297x+qvqOd8UveIC0Qdl85on5C2XZkong=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729834616; c=relaxed/simple;
-	bh=i3/s0UBOE+JpqQinyKWy7NDxsOZT5rbIizN4f+s4GoM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ItEwBZ8JJCGXvHKPaY0Amf0+24R7Pl5EkZEEuKu0BIFy+p2QQWr501l+sYgnzdiqyOQQGbyeY6+8xj48TVB6MUGVbW5pI8/ctJCiY/X0/fBYXjLTLSxw76PK8e1oUKsunjQ/kA9PfMm8MljdXuUE86fMLbFTWJOx2PGZVS/Pon4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YxNxtX3s; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-71e8235f0b6so1211090b3a.3;
-        Thu, 24 Oct 2024 22:36:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729834613; x=1730439413; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HvCggmtLdEUI172Y83XNX/Onv4GEKVaPGfEZwS/XjT8=;
-        b=YxNxtX3s5xS6Lp1TMJw/nQNd+Ffcq5Cq7zp3EUVCSXZbEjWcNXBXzgCyrs3IhSQWC3
-         x9/HwwVRNP/zb4G7rbCjLV4KPBAp7sgCGz5y0n79ldSLTG7H2RaqxXbOntbkZCTG5jdy
-         nILcW5vHEAu202PHVvSfkySzdU0mPVN9mzrIsIbXs3B2FWDCj3JKaRMNSWUhLMyduvrW
-         2HIylshShKiMSDchI9nWv5PETzAEgtlFmGVlmshdh84dU7ABhCNm4xxAcojnHTBNjeU/
-         N3GqTdfb9pmvrVyZWn8nb5V6o4ceA4+71DC2vogxc8toJ6LsBV0rFKpIzDDnzvmPlhXu
-         uH6A==
+	s=arc-20240116; t=1729845489; c=relaxed/simple;
+	bh=Kj+t7bUL5B0QKM5IwQHw3NNDOxblEb5Nefz9XwGv6eA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=TfOeiCTknorGkl23CrZEBHu2r/STpKSIvro/uOYZcdYuJSg+Rwul/8yo6/bt9BFwzOAFgFJYJjSiJgfhXpThpNacw3k4TLZuRyH6MoCxPSqNvyesag5098UFTYnUpnm3FBOAKvXCHGy4sl/TnkT8JiLPbvBrjhRgstmPfuKN1kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bTMd15cy; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1729845486;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=t5SfsCaa6OQtbrocW2yvj8So2+UMhrgJURtFbTDl4+U=;
+	b=bTMd15cyaumcZs7yiqSSFssbLbFe3lwJbfb3swzHJFfThqpY/zjNVxlSWpP67iKvTxd2Ub
+	8goW/INV3g/KxxheIVctAKjzz3spRoJ9zDecZpvXCBfdN7Il6qgECkIe7DsdqAFNBcNZ3W
+	q8wTr9EOLOJ5ZZoK/w/ZuGdX+CKVaQs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-507-GL0bvm22OOybFWnpTpf8Lg-1; Fri, 25 Oct 2024 04:38:02 -0400
+X-MC-Unique: GL0bvm22OOybFWnpTpf8Lg-1
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-37d5a3afa84so1054140f8f.3
+        for <linux-input@vger.kernel.org>; Fri, 25 Oct 2024 01:38:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729834613; x=1730439413;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HvCggmtLdEUI172Y83XNX/Onv4GEKVaPGfEZwS/XjT8=;
-        b=A5gYzqq9r9wcPzYetjqlEN5XQLNo+Rcw/GiFToSTYcx/FE8sfS2P3HjSUp5FP0saEQ
-         ix0+Yg0JrOANjfazHeERYLRIejX9VQTZPAS2InkPZN1RsKr4cvLEML8K/CvlJGGU+UAK
-         82AIZU9w8w2pXDM+PXwzqSweUUZFZJFGGlWxEKG4V2ArVNqkaKKqD7Z8X/BXCIPFhcwF
-         ASx9BMqPExDn2dilkiL4ozPgsCGNsu72eMzPHWWP5UOgwaaMuUrgGTdbrQiovokFaryO
-         Hcg5rDsL6YhMjSQjT4+pRbN6/dSO+1oDXp691xHDlV1ybzrLZmlMD+1a+4Mfwmlnhpmz
-         UaiA==
-X-Forwarded-Encrypted: i=1; AJvYcCWe3jKM7RlDadiDtJE595Ttq/TSZdELAT2lT6lraKeH+bxzQs5+24kHgc+fW6l3AN+5tHUZ5e8xXytqi1o=@vger.kernel.org, AJvYcCXdP3UszEySahSfjWWW0Sk2XnRGuvfQEKMtSX11KAjiGRaarqIhxl++SmVIYS70pzkbwe7fuUVyEXrT@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyk/uvW3g1M4TluyyLOOWjfgTl7Ok3QtgH9TjuhCRNhf3ssQXwq
-	KAd/n6O3VZIEEKUe+I+QWluESqvQ2PpeHqoN3alaiDsp56+pBFXPiu4GwMur
-X-Google-Smtp-Source: AGHT+IGzbzwpbOrc+GHYvSHu/3iAhi85esxI7itU+Q8udNFbHIvIFqzfKJoIJUw9BF55+RUzypHRzw==
-X-Received: by 2002:a05:6a00:3c94:b0:71e:7a56:3eaf with SMTP id d2e1a72fcca58-72030bba11fmr11795617b3a.24.1729834613433;
-        Thu, 24 Oct 2024 22:36:53 -0700 (PDT)
-Received: from [172.19.1.43] (60-250-192-107.hinet-ip.hinet.net. [60.250.192.107])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7edc8660dd1sm333486a12.14.2024.10.24.22.36.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Oct 2024 22:36:53 -0700 (PDT)
-Message-ID: <871e9a4c-7a3c-4a24-8829-a079983033da@gmail.com>
-Date: Fri, 25 Oct 2024 13:36:48 +0800
+        d=1e100.net; s=20230601; t=1729845481; x=1730450281;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=t5SfsCaa6OQtbrocW2yvj8So2+UMhrgJURtFbTDl4+U=;
+        b=tmFW5J5WQajANmR6zfz0bhBf9xFD6UtY0rdVTrMRzWYvrwOq4eiqJZVtKMK6SnscET
+         RK5FvcFBbe31bUn++QAG+95MA3wBOLQcJEQtWvDPI/y8rQga4DcJuG9XcpScGiDBAsUH
+         fKjn+gEgbwS6vqzYguwzjRMnTSKduDsQG+3gGGlTVL6GjaAjnO24k2aqV+p5LS7UxryU
+         goCXRK6c10VwjgdFEfyFWruczOVN20iezpifvPqMg7rm/Ji51PbUeRiEt4UvSgaj6ten
+         rqHnxXekouHag3JHvdXabtZsGa8X+x61r7MeYA91qcBmPmWI9v2eFiX9PkA+G4UKG/co
+         B05g==
+X-Forwarded-Encrypted: i=1; AJvYcCWcRdXycf+PGBZkEA/rSwigN/tBZZWapqlTLvTruLjWLK10MgsReY6N7ctUopWALl1WMu7k6oeu2+smtg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjU0vjlN4e6ImgbCvndDU62/ftTTf9a0/ZauG8XZuDutytamp3
+	qSypqMXoXsQTd0sGk3hwzQ86tTvvALhO59TXPyBC21iX8Jftk8rk/kEfP/rtoO9RmmWWCmHqUwi
+	TNK+aCb0T9qn2g4swCfUogN6CFxMAqZooA5dvqQpF1sNX6nqTgC9U9V0YY6kr
+X-Received: by 2002:a5d:45d2:0:b0:37d:5103:8894 with SMTP id ffacd0b85a97d-37efcf78dadmr5976770f8f.42.1729845481077;
+        Fri, 25 Oct 2024 01:38:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGcYWpz+kQZdr3vU0ccyDv2e4lUiNEwepdTyBtEeS9wkTJkf/x/0hfBIa/kJv59+/PzqJJV1A==
+X-Received: by 2002:a5d:45d2:0:b0:37d:5103:8894 with SMTP id ffacd0b85a97d-37efcf78dadmr5976745f8f.42.1729845480512;
+        Fri, 25 Oct 2024 01:38:00 -0700 (PDT)
+Received: from ?IPv6:2001:16b8:2de5:ba00:738a:c8da:daac:7543? (200116b82de5ba00738ac8dadaac7543.dip.versatel-1u1.de. [2001:16b8:2de5:ba00:738a:c8da:daac:7543])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b70c44sm932452f8f.80.2024.10.25.01.37.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Oct 2024 01:38:00 -0700 (PDT)
+Message-ID: <ae081c36c49733b007a8946dceeec0af94fc449a.camel@redhat.com>
+Subject: Re: [PATCH 02/13] ALSA: hda_intel: Use always-managed version of
+ pcim_intx()
+From: Philipp Stanner <pstanner@redhat.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Basavaraj Natikar
+ <basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>,  Benjamin
+ Tissoires <bentiss@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov <oakad@yahoo.com>,
+ Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
+ <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Rasesh Mody <rmody@marvell.com>,
+ GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko <imitsyanko@quantenna.com>,
+ Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
+ Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar S K
+ <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
+ <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>, Oleksandr Tyshchenko
+ <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Chen Ni <nichen@iscas.ac.cn>, Mario Limonciello
+ <mario.limonciello@amd.com>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
+ <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
+ <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>, Mostafa Saleh
+ <smostafa@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu
+ <yi.l.liu@intel.com>,  Christian Brauner <brauner@kernel.org>, Ankit
+ Agrawal <ankita@nvidia.com>, Eric Auger <eric.auger@redhat.com>, Reinette
+ Chatre <reinette.chatre@intel.com>, Ye Bin <yebin10@huawei.com>, Marek
+ =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,  Rui Salvaterra <rsalvaterra@gmail.com>,
+ linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-input@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
+ linux-pci@vger.kernel.org,  kvm@vger.kernel.org,
+ xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
+Date: Fri, 25 Oct 2024 10:37:57 +0200
+In-Reply-To: <875xphzeun.wl-tiwai@suse.de>
+References: <20241015185124.64726-1-pstanner@redhat.com>
+	 <20241015185124.64726-3-pstanner@redhat.com> <87v7xk2ps5.wl-tiwai@suse.de>
+	 <6f3db65fe9a5dcd1a7a8d9bd5352ecb248ef57b1.camel@redhat.com>
+	 <87ttd2276j.wl-tiwai@suse.de>
+	 <aec23bb79b9ff7dd7f13eb67460e0605eac22912.camel@redhat.com>
+	 <875xphzeun.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: input: Add Nuvoton MA35D1 keypad
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- mjchen@nuvoton.com, peng.fan@nxp.com, sudeep.holla@arm.com, arnd@arndb.de,
- conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
- dmitry.torokhov@gmail.com
-References: <20241022063158.5910-1-mjchen0829@gmail.com>
- <20241022063158.5910-2-mjchen0829@gmail.com>
- <csbechg6iarxx52z2gqidszhvgjdvaraoumpfcsozelhuuhmtb@ec7es3txuzxc>
-Content-Language: en-US
-From: Ming-Jen Chen <mjchen0829@gmail.com>
-In-Reply-To: <csbechg6iarxx52z2gqidszhvgjdvaraoumpfcsozelhuuhmtb@ec7es3txuzxc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+
+On Thu, 2024-10-24 at 17:43 +0200, Takashi Iwai wrote:
+> On Thu, 24 Oct 2024 10:02:59 +0200,
+> Philipp Stanner wrote:
+> >=20
+> > On Wed, 2024-10-23 at 17:03 +0200, Takashi Iwai wrote:
+> > > On Wed, 23 Oct 2024 15:50:09 +0200,
+> > > Philipp Stanner wrote:
+> > > >=20
+> > > > On Tue, 2024-10-22 at 16:08 +0200, Takashi Iwai wrote:
+> > > > > On Tue, 15 Oct 2024 20:51:12 +0200,
+> > > > > Philipp Stanner wrote:
+> > > > > >=20
+> > > > > > pci_intx() is a hybrid function which can sometimes be
+> > > > > > managed
+> > > > > > through
+> > > > > > devres. To remove this hybrid nature from pci_intx(), it is
+> > > > > > necessary to
+> > > > > > port users to either an always-managed or a never-managed
+> > > > > > version.
+> > > > > >=20
+> > > > > > hda_intel enables its PCI-Device with pcim_enable_device().
+> > > > > > Thus,
+> > > > > > it needs
+> > > > > > the always-managed version.
+> > > > > >=20
+> > > > > > Replace pci_intx() with pcim_intx().
+> > > > > >=20
+> > > > > > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> > > > > > ---
+> > > > > > =C2=A0sound/pci/hda/hda_intel.c | 2 +-
+> > > > > > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > >=20
+> > > > > > diff --git a/sound/pci/hda/hda_intel.c
+> > > > > > b/sound/pci/hda/hda_intel.c
+> > > > > > index b4540c5cd2a6..b44ca7b6e54f 100644
+> > > > > > --- a/sound/pci/hda/hda_intel.c
+> > > > > > +++ b/sound/pci/hda/hda_intel.c
+> > > > > > @@ -786,7 +786,7 @@ static int azx_acquire_irq(struct azx
+> > > > > > *chip,
+> > > > > > int do_disconnect)
+> > > > > > =C2=A0	}
+> > > > > > =C2=A0	bus->irq =3D chip->pci->irq;
+> > > > > > =C2=A0	chip->card->sync_irq =3D bus->irq;
+> > > > > > -	pci_intx(chip->pci, !chip->msi);
+> > > > > > +	pcim_intx(chip->pci, !chip->msi);
+> > > > > > =C2=A0	return 0;
+> > > > > > =C2=A0}
+> > > > > > =C2=A0
+> > > > >=20
+> > > > > Hm, it's OK-ish to do this as it's practically same as what
+> > > > > pci_intx()
+> > > > > currently does.=C2=A0 But, the current code can be a bit
+> > > > > inconsistent
+> > > > > about
+> > > > > the original intx value.=C2=A0 pcim_intx() always stores !enable
+> > > > > to
+> > > > > res->orig_intx unconditionally, and it means that the
+> > > > > orig_intx
+> > > > > value
+> > > > > gets overridden at each time pcim_intx() gets called.
+> > > >=20
+> > > > Yes.
+> > > >=20
+> > > > >=20
+> > > > > Meanwhile, HD-audio driver does release and re-acquire the
+> > > > > interrupt
+> > > > > after disabling MSI when something goes wrong, and pci_intx()
+> > > > > call
+> > > > > above is a part of that procedure.=C2=A0 So, it can rewrite the
+> > > > > res->orig_intx to another value by retry without MSI.=C2=A0 And
+> > > > > after
+> > > > > the
+> > > > > driver removal, it'll lead to another state.
+> > > >=20
+> > > > I'm not sure that I understand this paragraph completely.
+> > > > Still,
+> > > > could
+> > > > a solution for the driver on the long-term just be to use
+> > > > pci_intx()?
+> > >=20
+> > > pci_intx() misses the restore of the original value, so it's no
+> > > long-term solution, either.
+> >=20
+> > Sure that is missing =E2=80=93 I was basically asking whether the drive=
+r
+> > could
+> > live without that feature.
+> >=20
+> > Consider that point obsolete, see below
+> >=20
+> > >=20
+> > > What I meant is that pcim_intx() blindly assumes the negative of
+> > > the
+> > > passed argument as the original state, which isn't always true.=C2=A0
+> > > e.g.
+> > > when the driver calls it twice with different values, a wrong
+> > > value
+> > > may be remembered.
+> >=20
+> > Ah, I see =E2=80=93 thoguh the issue is when it's called several times =
+with
+> > the
+> > *same* value, isn't it?
+> >=20
+> > E.g.
+> >=20
+> > pcim_intx(pdev, 1); // 0 is remembered as the old value
+> > pcim_intx(pdev, 1); // 0 is falsely remembered as the old value
+> >=20
+> > Also, it would seem that calling the function for the first time
+> > like
+> > that:
+> >=20
+> > pcim_intx(pdev, 0); // old value: 1
+> >=20
+> > is at least incorrect, because INTx should be 0 per default,
+> > shouldn't
+> > it? Could then even be a 1st class bug, because INTx would end up
+> > being
+> > enabled despite having been disabled all the time.
+>=20
+> Yeah, and the unexpected restore can happen even with a single call
+> of
+> pcim_intx(), if the driver calls it unnecessarily.
+>=20
+> > > That said, I thought of something like below.
+> >=20
+> > At first glance that looks like a good idea to me, thanks for
+> > working
+> > this out!
+> >=20
+> > IMO you can submit that as a patch so we can discuss it separately.
+>=20
+> Sure, I'm going to submit later.
+
+I just took a look into the old implementation of pci_intx() (there was
+no pcim_intx() back then), before I started cleaning up PCI's devres.
+This what it looked like before
+25216afc9db53d85dc648aba8fb7f6d31f2c8731:
+
+void pci_intx(struct pci_dev *pdev, int enable)
+{
+	u16 pci_command, new;
+
+	pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
+
+	if (enable)
+		new =3D pci_command & ~PCI_COMMAND_INTX_DISABLE;
+	else
+		new =3D pci_command | PCI_COMMAND_INTX_DISABLE;
+
+	if (new !=3D pci_command) {
+		struct pci_devres *dr;
+
+		pci_write_config_word(pdev, PCI_COMMAND, new);
+
+		dr =3D find_pci_dr(pdev);
+		if (dr && !dr->restore_intx) {
+			dr->restore_intx =3D 1;
+			dr->orig_intx =3D !enable;
+		}
+	}
+}
+EXPORT_SYMBOL_GPL(pci_intx);
+
+If I'm not mistaken the old version did not have the problem because
+the value to be restored only changed if new !=3D pci_command.
+
+That should always be correct, what do you think?
+
+If so, only my commit 25216afc9db53d85dc648aba8fb7f6d31f2c8731 needs to
+be fixed.
+
+Thanks,
+P.
 
 
-On 2024/10/23 下午 04:40, Krzysztof Kozlowski wrote:
-> On Tue, Oct 22, 2024 at 06:31:57AM +0000, mjchen wrote:
->> From: mjchen <mjchen@nuvoton.com>
->>
->> Add YAML bindings for MA35D1 SoC keypad.
->>
->> Signed-off-by: mjchen <mjchen@nuvoton.com>
->> ---
->>   .../bindings/input/nvt,ma35d1-keypad.yaml     | 88 +++++++++++++++++++
->>   1 file changed, 88 insertions(+)
->>   create mode 100755 Documentation/devicetree/bindings/input/nvt,ma35d1-keypad.yaml
->>
-> Please run scripts/checkpatch.pl and fix reported warnings. Then please
-> run 'scripts/checkpatch.pl --strict' and (probably) fix more warnings.
-> Some warnings can be ignored, especially from --strict run, but the code
-> here looks like it needs a fix. Feel free to get in touch if the warning
-> is not clear.
-Sorry, I will remember to run checkpatch.pl before uploading the
-subsequent patches and fix all errors and warnings
->> diff --git a/Documentation/devicetree/bindings/input/nvt,ma35d1-keypad.yaml b/Documentation/devicetree/bindings/input/nvt,ma35d1-keypad.yaml
->> new file mode 100755
->> index 000000000000..3d9fc26cc132
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/input/nvt,ma35d1-keypad.yaml
-> Filename based on compatible. There is no nvt prefix. Entire filename is
-> somehowdifferent than compatible.
-I will modify it to: nuvoton,ma35d1-keypad.yaml
->> @@ -0,0 +1,88 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/input/nvt,ma35d1-keypad.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: NVT MA35D1 Keypad
-> NVT? Nuvoton?
-I will change NVT to Nuvoton
->
->> +
->> +maintainers:
->> +  - Ming-jen Chen <mjchen0829@gmail.com>
->> +
->> +allOf:
->> +  - $ref: /schemas/input/matrix-keymap.yaml#
->> +
->> +properties:
->> +  compatible:
->> +    const: nuvoton,ma35d1-kpi
->> +
->> +  debounce-period:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
-> Missing vendor prefix... or why are you not using existing properties?
->
->> +    description: |
->> +      key debounce period select
-> select? or clock cycles? I don't understand this. Say something useful
-> here.
->
->
->> +      0  = 0 clock
->> +      1  = 0 clock
->> +      2  = 0 clock
-> Heh? So this is just 0
->
->> +      3  = 8 clocks
-> This is 8
->
->> +      4  = 16 clocks
-> 16, not 4
->
->> +      5  = 32 clocks
->> +      6  = 64 clocks
->> +      7  = 128 clocks
->> +      8  = 256 clocks
->> +      9  = 512 clocks
->> +      10 = 1024 clocks
->> +      11 = 2048 clocks
->> +      12 = 4096 clocks
->> +      13 = 8192 clocks
-> Use proper enum
-I will update the definition to specify the debounce period in terms of 
-keypad IP clock cycles, as follow:
-
-nuvoton,debounce-period:
-     type: integer
-     enum: [0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-     description: |
-         Key debounce period select, specified in terms of keypad IP 
-clock cycles.
-         This value corresponds to the register setting for the keypad 
-interface.
-         The following values indicate the debounce time:
-         - 0 = 0 clock cycles (no debounce)
-         - 3 = 8 clock cycles
-         - 4 = 16 clock cycles
-         - 5 = 32 clock cycles
-         - 6 = 64 clock cycles
-         - 7 = 128 clock cycles
-         - 8 = 256 clock cycles
-         - 9 = 512 clock cycles
-         - 10 = 1024 clock cycles
-         - 11 = 2048 clock cycles
-         - 12 = 4096 clock cycles
-         - 13 = 8192 clock cycles
->
->
->> +
->> +  per-scale:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description: Row Scan Cycle Pre-scale Value (1 to 256).
-> Missing constraints
->
->> +
->> +  per-scalediv:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description: Per-scale divider (1 to 256).
-> Missing constraints
->
-> Both properties are unexpected... aren't you duplicating existing
-> properties?
-pre-scale:
-This value configures the IC register for the row scan cycle 
-pre-scaling, with valid values ranging from 1 to 256
-per-scalediv:(I will change pre-scalediv to pre-scale-div)
-This will describe its role in setting the divisor for the row scan 
-cycle pre-scaling, allowing for finer control over the keypad scanning 
-frequency
-
-I will change it to the following content:
-nuvoton,pre-scale:
-     type: uint32
-     description: |
-         Row Scan Cycle Pre-scale Value, used to pre-scale the row scan 
-cycle. The valid range is from 1 to 256.
-     minimum: 1
-     maximum: 256
-
-nuvoton,pre-scale-div:
-     type: uint32
-     description: |
-         Divider for the pre-scale value, further adjusting the scan 
-frequency for the keypad.
-     minimum: 1
-     maximum: 256
->
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +  - clocks
->> +  - linux,keymap
->> +  - debounce-period
->> +  - per-scale
->> +  - per-scalediv
->> +
->> +unevaluatedProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/input/input.h>
->> +    keypad: keypad@404A0000 {
-> Lowercase hex and drop the unused label
-I will modify it to: keypad@404a0000 {
->
->> +      compatible = "nuvoton,ma35d1-kpi";
->> +      reg = <0x404A0000 0x10000>;
-> Lowercase hex
-I will modify it to: reg = <0x404a0000 0x10000>
->
-> Best regards,
-> Krzysztof
-Thank you for your guidance!
-I look forward to your further comments.
-
-Best regards,
-
-Ming-Jen Chen
-
+>=20
+>=20
+> thanks,
+>=20
+> Takashi
+>=20
 
 
