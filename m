@@ -1,76 +1,79 @@
-Return-Path: <linux-input+bounces-7689-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7690-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD089AF723
-	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2024 03:46:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 786A19AF728
+	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2024 03:47:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0A11282429
-	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2024 01:45:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F0361F22797
+	for <lists+linux-input@lfdr.de>; Fri, 25 Oct 2024 01:47:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35EC62BD19;
-	Fri, 25 Oct 2024 01:45:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FAC3AD21;
+	Fri, 25 Oct 2024 01:47:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BJ2GGNs9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZscfSg+D"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48300E552;
-	Fri, 25 Oct 2024 01:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF16A945;
+	Fri, 25 Oct 2024 01:47:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729820755; cv=none; b=HmxncdiNXn6vCNSRprFVQjexvOZxTJ6zeih1rFeuB4f2L+i6XiYZXFzgUSzo5XLQXiEv1tzse5h7n5kUrILybEznZvhRhy+k6MiQGqNDa/KDIBNHrqSiUD/xycK3nBN7+mZLWcZVkSl1c7m/b0opM0IVXinNMiXac09UBGv672o=
+	t=1729820834; cv=none; b=bwHw6WRVF4aByMcblosCy5VfjFNbcYOB+jkqQoU4R3rJgkcJCvB37NG+2x5FtVdk+7hsLGrWnuecjuYGeSZ5c9yjGHUl6S0qBHSQXty/Cn7yDohu88RomrZsMSDvjQ67IturpMHMv65PVyopmPVMO0D3Ltcm6LdWzSqIyRwaPxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729820755; c=relaxed/simple;
-	bh=XW2jYSTFBUjqC5EplPs5/BY/OWniAToUsBie0lGfkMo=;
+	s=arc-20240116; t=1729820834; c=relaxed/simple;
+	bh=nCYOGwRi6T1hua2jxqfGvK/htaH/o5K3TS2cHwG+M1I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qzwUhe+Pnfoco/qYh+n+zY6TJBcbXY1cWIdSuCPr+yT9UP4UFCDR9b7KZk4dc/eaMeMYAXFY3/51633x8SASidDpMn0EzfDZMUuYL1e2hym9YgwOCensACWQCum3PT3v+AUZqBoEu1NDueVe0aeU5nv7g4keR8w8g5WR5H06piM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BJ2GGNs9; arc=none smtp.client-ip=209.85.215.170
+	 Content-Disposition; b=eefTmkJlxLmF+c1F2zpJnSCYLHW3Eotj6Bxly3czZtbz3MbxUw/UcU6iFK0/pN+evOngkjGJ5AwqmHk9WQJ9PqjjgiVblS0ArZztKCWrWN0E6w095snWzt/EWj8g5GVOo+sHVsFv9sz4qmk3kkqxDRpi/P7ZN3NY28pC9D4f+a0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZscfSg+D; arc=none smtp.client-ip=209.85.166.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-7eab7622b61so959275a12.1;
-        Thu, 24 Oct 2024 18:45:53 -0700 (PDT)
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3a3c00f2c75so6184245ab.2;
+        Thu, 24 Oct 2024 18:47:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729820752; x=1730425552; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1729820831; x=1730425631; darn=vger.kernel.org;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=b8o4bWTvDrlArCGcSn7H7BijnezBVYBgrxJXeEiYNVo=;
-        b=BJ2GGNs9T/7vb068nt2XCJoIvTvFLMunaIpY9InQw4J+kOkfT10PfHwl4F3rBrskf9
-         im00+YceM2AfyQ8mMnnrT7OjvFSRyLH1p3imKDb16/CndwMxDf/XhKFKyOQiaH4SknHo
-         qNB3DiQqtEvDiQFSQu01+zitQtb+AxyjO4EWR8lHrG3bZewJLegGOb6cVloncMChm4Ch
-         9aVJOehov/sIV7ZiP/JB+0E+OdfkQavkTt+czWVBJWaPxLw5IpX33/T6aO9JIWtsHOhn
-         3fXssctOx1PL6qTBkdGPUTUMwBQtB02XK+jzPiu7oP9ttX1f9jZpOfR/Sqk+QBV2m/37
-         O5Ww==
+        bh=B7ypO3fZr1Fv0qMRjUVel6CxXBF/wSwiq+a1pizXNrg=;
+        b=ZscfSg+DJE6bCAfITEcR31oQgJkMEAhdlIZLkZc8/YLfPlrlTTWa+aMSkxfLx8AWS0
+         8eOteQzoHU0UH91iRVdHK9zIMkbN1ID7wsJg8Damy3W5yiM6jvT8VpB7uSdt7Ufkn2Eu
+         uYIrrs5PZecUmf90fHOD0H8cSqhjGQAnd6T0ow6rJAXkV7uDKPTgesI+DVnPuv7wu4rq
+         rGw/fni+A/WyyTje6+4gV/qJxu1CMSQLV3JnV0YqZccAUXX/HauOhhuMAMJCrJLZvY+a
+         dTuY82kOnMaORCCKPkUWYZrOZXdi4vLLE2k/cvvdNzYlaqxtcyyUaavGsOGxxKNWsQ9A
+         EzUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729820752; x=1730425552;
+        d=1e100.net; s=20230601; t=1729820831; x=1730425631;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b8o4bWTvDrlArCGcSn7H7BijnezBVYBgrxJXeEiYNVo=;
-        b=HKqbWqEVnItkex1zQVyIWRPnz8JbgOsuxUQtBL89BysOERv8enQg6oOUxyCInCxK6w
-         JpQWnFc4Rk7M8agil6N2fmbqA9a+igbp55f60izQw9uHfN1TtyspB6EBsshSCIK84S6m
-         bLoNezwuJHIorA+ZlWaBcsIdgADuWfc2qgju+7HtK76p9F2L31+tD1JoGaOwsNrz8Jyi
-         2VcBDkfdgDMzPLm31EcaJdZwtNfyIMsnSvKSTfRzMeo8oqtqbleA6oXptU2LfbEBru4n
-         NQuepSogovFc3uHyrPqg3FdNGGfxVqfuw+/VivWRMo62B9zy7blso4rxp/zXy+47cgsB
-         6n2g==
-X-Forwarded-Encrypted: i=1; AJvYcCXI7tJxW66RKarvci/CoMKe6GL5IG0PWJ0PGewB8TB4gPNcNeJGFscIxSUP6psjSGUr9mRqETwycqV/QeI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOQljmlGpCeW3VdRiOx0A/oj4qrNjJifdZVb7AGojcN+NYczlV
-	g6AI+x4dv34oWUXUXGgad9dBQGDaA1JblcoIUBaqDmnGnVHKaWUc4+Tvbw==
-X-Google-Smtp-Source: AGHT+IFj6T46o8s1/RAHjEaNpYkK5EOQE2QbPwdDR1Z4iOfCS95qEbE9vKVBO2uHe9UYsJI9BvTKnA==
-X-Received: by 2002:a05:6a21:9983:b0:1d9:3456:b794 with SMTP id adf61e73a8af0-1d989cc915emr5915887637.38.1729820752250;
-        Thu, 24 Oct 2024 18:45:52 -0700 (PDT)
+        bh=B7ypO3fZr1Fv0qMRjUVel6CxXBF/wSwiq+a1pizXNrg=;
+        b=Enl4QYOoGr+74s4sxPpmDr3U/6VYMr35OUD40aqz70b0PnQ+EoM1qdGXFHhKDoJ7ZW
+         Ogxec/8KdOQJrualTta8UQVFHnC11Y4CGy99Z+wA04zOh39tasoXsj5F770dTXDIaj4W
+         8Dpe12wVcSVjcHRbaVlOnso5LaXw1KI6fkUHb4FbXYe8YorMv1GM7CC5/b6xTpaKox67
+         6RSwa80Q+Zr1ZK+VZEfPks97dZIjWaWj7i9xUDsy0TaRkdpTPJUChGUmq0oSvSfN6Xas
+         qDXMT64wa20aJRrHRTNBp+G466gSrUUzaaNQ1aNUTu7wxQ7bXygFzXWgbkLibI5KC6Ga
+         Ns1g==
+X-Forwarded-Encrypted: i=1; AJvYcCXKtqXM4NA0tcvwgc3AxYTZTHa8dTfDHv+QyuNaep4JpA/ZjC9V5l8mP1smoioMpb4SUw8OIdeY6CV64zE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1lgkQ7xBpfsUGLi92L9Y5CzH6S/c3b0KCaQqKOkFOuq/nYGnk
+	nzuCVt7LBX6JrJtVPbCj6myybYv35Czyz1MZO8h6NxCSxnIc4WsnIK92Zw==
+X-Google-Smtp-Source: AGHT+IFG69RdXlviIVvtARm9U+8zf/3PDiyOkYfVeAxMlrTKpUSj6ucrfjbnBPQ5XD5ZAGTHVc1zpQ==
+X-Received: by 2002:a05:6e02:1a82:b0:3a0:bc39:2d8c with SMTP id e9e14a558f8ab-3a4d59d04b8mr77566585ab.25.1729820831184;
+        Thu, 24 Oct 2024 18:47:11 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:a810:a864:e2e2:2651])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-210bc044f82sm787765ad.258.2024.10.24.18.45.51
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7edc8a3d2easm77995a12.85.2024.10.24.18.47.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 18:45:51 -0700 (PDT)
-Date: Thu, 24 Oct 2024 18:45:49 -0700
+        Thu, 24 Oct 2024 18:47:10 -0700 (PDT)
+Date: Thu, 24 Oct 2024 18:47:08 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
-Cc: Erick Archer <erick.archer@outlook.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: maple_keyb - use guard notation when acquiring mutex
-Message-ID: <Zxr4TeGwDGIIyzwH@google.com>
+Cc: Tony Lindgren <tony@atomide.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: omap-keypad - use guard notation when acquiring mutex
+Message-ID: <Zxr4nF-igbrmgq85@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -86,45 +89,37 @@ when control leaves critical section.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/keyboard/maple_keyb.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ drivers/input/keyboard/omap-keypad.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/input/keyboard/maple_keyb.c b/drivers/input/keyboard/maple_keyb.c
-index 91a1d2958109..fca7df1e3ae3 100644
---- a/drivers/input/keyboard/maple_keyb.c
-+++ b/drivers/input/keyboard/maple_keyb.c
-@@ -132,14 +132,11 @@ static void dc_kbd_callback(struct mapleq *mq)
- 	 * We should always get the lock because the only
- 	 * time it may be locked is if the driver is in the cleanup phase.
- 	 */
--	if (likely(mutex_trylock(&maple_keyb_mutex))) {
--
-+	scoped_guard(mutex_try, &maple_keyb_mutex) {
- 		if (buf[1] == mapledev->function) {
- 			memcpy(kbd->new, buf + 2, 8);
- 			dc_scan_kbd(kbd);
- 		}
--
--		mutex_unlock(&maple_keyb_mutex);
+diff --git a/drivers/input/keyboard/omap-keypad.c b/drivers/input/keyboard/omap-keypad.c
+index 33df8885b599..9e13f3f70a81 100644
+--- a/drivers/input/keyboard/omap-keypad.c
++++ b/drivers/input/keyboard/omap-keypad.c
+@@ -156,15 +156,15 @@ static ssize_t omap_kp_enable_store(struct device *dev, struct device_attribute
+ 	if ((state != 1) && (state != 0))
+ 		return -EINVAL;
+ 
+-	mutex_lock(&kp_enable_mutex);
+-	if (state != kp_enable) {
+-		if (state)
+-			enable_irq(omap_kp->irq);
+-		else
+-			disable_irq(omap_kp->irq);
+-		kp_enable = state;
++	scoped_guard(mutex, &kp_enable_mutex) {
++		if (state != kp_enable) {
++			if (state)
++				enable_irq(omap_kp->irq);
++			else
++				disable_irq(omap_kp->irq);
++			kp_enable = state;
++		}
  	}
+-	mutex_unlock(&kp_enable_mutex);
+ 
+ 	return strnlen(buf, count);
  }
- 
-@@ -211,14 +208,12 @@ static int remove_maple_kbd(struct device *dev)
- 	struct maple_device *mdev = to_maple_dev(dev);
- 	struct dc_kbd *kbd = maple_get_drvdata(mdev);
- 
--	mutex_lock(&maple_keyb_mutex);
-+	guard(mutex, &maple_keyb_mutex);
- 
- 	input_unregister_device(kbd->dev);
- 	kfree(kbd);
- 
- 	maple_set_drvdata(mdev, NULL);
--
--	mutex_unlock(&maple_keyb_mutex);
- 	return 0;
- }
- 
 -- 
 2.47.0.163.g1226f6d8fa-goog
 
