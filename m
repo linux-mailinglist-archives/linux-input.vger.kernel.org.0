@@ -1,157 +1,206 @@
-Return-Path: <linux-input+bounces-7716-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7717-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA07F9B1E06
-	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2024 15:07:09 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E21779B1F1F
+	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2024 16:38:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 71E041F21730
-	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2024 14:07:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A13B1C20AD5
+	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2024 15:38:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87F3016B3B7;
-	Sun, 27 Oct 2024 14:06:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFC2616F8F5;
+	Sun, 27 Oct 2024 15:37:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b="AsyQpyZw"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=ps.report@gmx.net header.b="Uf1Q3rTH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992CF16F8EF;
-	Sun, 27 Oct 2024 14:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D8BB640;
+	Sun, 27 Oct 2024 15:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730037995; cv=none; b=oJziin6/c7utTW+d4aQqn7zlxmGx+/z29NoSiyox6MrFfw1GZIvyaXpUVyLcR2CtqtdBa4gwUAl35nxn0ib58wmJZaMV/HMU9mN21B0T6h7YzpDK3bgrEmHVZBpmtTtrI7o5jlanGOAAFq+MWA5tm1Eq/lZFq261eNwR1XXaFjo=
+	t=1730043478; cv=none; b=DzRZvKx/z2gOUAoJGysjWjCZ0Y7AXMdUwjpRrL3M+/2vIYUrV6W0Ow+hPccarFlS+xyn1aFuzIE3QnyvGmAA9IViQAgbp7gPu6TWvJ1AHZjGpebekSiM4ojDH3tPcFx20XadgQQCY6wH/gGWWJBYnJ4elKBjvZkD3X7F1yvi8rA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730037995; c=relaxed/simple;
-	bh=shzMhA1ShIAzT/nl39/7faxKV6dT0AWJD5xF0gYTwuc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C+pTFRjcuZ0K6iPulQnF2KmVr4Nu15Oktg1SiAhkq6AEnI87duYVOtZ9XlLz1E2tpre3bhg7gYuoTENRZwRC5uHnzNlCioApvK2LoGfSibP+nqR6o5o9xqJC6sQuh652BZMTYHN8Rw1bLT7hFyi+RDm7IInW2cP5cEGltU4yJ+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu; spf=pass smtp.mailfrom=heusel.eu; dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b=AsyQpyZw; arc=none smtp.client-ip=212.227.17.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=heusel.eu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=heusel.eu;
-	s=s1-ionos; t=1730037971; x=1730642771; i=christian@heusel.eu;
-	bh=jClmXAlUGXYrZ7D0GspMoXRQShIjacF/nvZ/v7Jg9oA=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To:cc:
+	s=arc-20240116; t=1730043478; c=relaxed/simple;
+	bh=aMqM3/9s8d9LV0yWPG7wkoQZ5rqAivQmGr2aPzn6kVQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Nvu/yYdAt27Bha3YnR771pGDyzEcgUCYNgUhn4HRdK3pfO096gWlJ2PtxdtOMWmeM7glju5OQoDjsr1aiMZgtF2olyB5+5JRkC0JCG5JoVK2GM+CW0zi1fRAkQpjAugWBi/BtM7AEOLIv/GTF3VOUI2YhuruwiryLsGoksLyRQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=ps.report@gmx.net header.b=Uf1Q3rTH; arc=none smtp.client-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1730043466; x=1730648266; i=ps.report@gmx.net;
+	bh=RubjZSxE8AGnSNfV7sB96uuCUx0J27w5smtNhwXneeY=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:
+	 References:MIME-Version:Content-Type:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=AsyQpyZwUbrIy+LY5pWQZH7Qyzc48geigQrSR2a0ZbvnnvcEME2RxK4VP/+lW2SH
-	 gkQTwBqitfK4pjUlXwFikk3hgBY9+pHMwzsxBiP97Ks0hjZ8kdzK9QYusO+pK3Ki2
-	 SlnXedkDhBVjW+Rq/CPC2pGhbg9XEfzPfAlLzHdzslxhqoK/7GrQSMuuxaskE1VPM
-	 oemlH4iASedrrX7YH8DKgHqphRrY01Sqq70IPuBbFrmH3mS+OCNjOlNHshmEb0Lj1
-	 BqAiVUh2e2IY3gmccJq4R22bGdkOj0GMsAFaDLHgG5xXSxdvkVdUVGjRnkwzF/+KC
-	 HVtzAgbSdb5cslSk9A==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from localhost ([141.70.80.5]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MKc0o-1tJHuI3ZWO-00NhJl; Sun, 27
- Oct 2024 15:06:10 +0100
-Date: Sun, 27 Oct 2024 15:06:09 +0100
-From: Christian Heusel <christian@heusel.eu>
-To: "Ned T. Crigler" <crigler@gmail.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, regressions@lists.linux.dev, 
-	Jeff LaBundy <jeff@labundy.com>, Benjamin Tissoires <bentiss@kernel.org>
+	b=Uf1Q3rTHH4unirV/gdcAaPJGM0ipV+lrUe26h36vXXyMm45SAcKC4p1ChRFmRNEj
+	 xAQrhC0sO7z0S0dI6sF1st79xlM2AxVwf+z6OeoFclTNBfESvcPolXS8zEhUnJNL1
+	 +0pKJDWa4ZeLrRSrXU3sV4bMrAWmwhY6A1WKQDJLlayWvrtds94BHV8TSZcUSzo/K
+	 fd9RlsQvsxYuu6AmjRtfzPW1f8/kdTibgx3qzBgFZjRo64Tk9QgN/pEoKvrj1n57C
+	 GTTuwKBm3xRBFpy9WBXQIdkEbodqFsm47T1mthThAe57xDsZ+GdVSi+O2xlYFMBWD
+	 AF2DkNa1xRC6eCVc4A==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from localhost ([82.135.81.151]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MNt0C-1tFzPt3JH6-00StcE; Sun, 27
+ Oct 2024 16:37:45 +0100
+Date: Sun, 27 Oct 2024 16:37:44 +0100
+From: Peter Seiderer <ps.report@gmx.net>
+To: Christian Heusel <christian@heusel.eu>
+Cc: "Ned T. Crigler" <crigler@gmail.com>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, regressions@lists.linux.dev, Jeff LaBundy
+ <jeff@labundy.com>, Benjamin Tissoires <bentiss@kernel.org>
 Subject: Re: [REGRESSION] disabling and re-enabling magic sysrq fails after
  kernel 6.11
-Message-ID: <69b6119c-3c3a-406f-9375-3e55fba9b732@heusel.eu>
+Message-ID: <20241027163744.2d396c61@gmx.net>
+In-Reply-To: <69b6119c-3c3a-406f-9375-3e55fba9b732@heusel.eu>
 References: <Zx2iQp6csn42PJA7@xavtug>
+	<69b6119c-3c3a-406f-9375-3e55fba9b732@heusel.eu>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6ltj3y347njtiyc7"
-Content-Disposition: inline
-In-Reply-To: <Zx2iQp6csn42PJA7@xavtug>
-X-Provags-ID: V03:K1:bcEW9OKSDcBN6iBJVT1IxSn0dhS4niUXkbBATWCvAS/NBbUxjJY
- Z3U3r2AUtpIW8o+uKSENCloX8B1NS9WxK0ftmtonYDROog7N386GJWdcnEl7nGCf+9u1deT
- ffHvWqhKOxr3tqN76jso3hbaAF3JWWTn87il7JwSjd6fxVQ+l4/TPNbgwHR7bLj/QMTqQ36
- 2fT8BkhgXis4YLwPCe+iA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:caUVJ2Omcak=;WNv1/VZRLTlqtc4h3php6RNqUdS
- r8poFdSan4gIt2JasRh72OQEoN9MmrvV6wJIDseSAWDPEMgGPDk9cVSeCzgefNxRz5laGerXY
- Rp29Q0XCrE0m48Lt1+O+kDC4K7/AAQd4BDB60l4HnoF88uVVfBPylIDzuHzTm42nYW2D9WcYa
- yfAU/zhfiM45rMrV7vU2U3GnfMlVXvtkq3f+pHk+iiCwyd4R7ptOizEn5ZPnulbGC0LGZdo8X
- 6HFWfXf4EKOO6bdAkwVwL/rGCqY8uGyhhVFp0YzA33lahwWHIiFG9zahdpfTOEZzDFExCrd0T
- SX4PtH72kCG2d31w0VB3+AKO3iVhCumaTJ4nGLZ9B8Jv5i+GFudJDOlS1b8bkT8UC8vRfYtTc
- iuwizEccItXSBSqtwuWZN1oNzmhpsyRb7BWInCPct2NHE46Bw3VnU1kZ9cvI0z15uw/1wrAOD
- MN4z+vBWQPe74Im8vnevUDl9KONWWVr0c9R0vLCh/kzu/31vpgZ+lqrLRpmnZqrelk0Y2F6j2
- O04oCD5YZxcdxPnc1UcAL3e9DOoJSQdkOewlXbRLERVi3Qe+kmkLThXRxdMi96JnUl8IIpBsj
- cwG/AHu95n9p1/BZtPwNQFE2ic0QZFw1jKg7TMLd/5x1OuFkKJOCZY9olGB6s9UvDDWkzTxTY
- 0P702eTc2wgTGkQQS9IQNcu+AGoFQoTFIHfGOyEEEOHgSdDY0aIHu1vnRvTnXJwogmf3cqagr
- Pp+kw/fZ9f6+ZxueYRvtfmY0EaLqIpjnA==
-
-
---6ltj3y347njtiyc7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [REGRESSION] disabling and re-enabling magic sysrq fails after
- kernel 6.11
-MIME-Version: 1.0
+X-Provags-ID: V03:K1:x6Ej45qEVG36VIlMVNp9H7pB/diSB9t4AZM3pUa/7+gX/vMGutH
+ xVFrMSR2xdkE2AqP7FCxo6YeJcu7qJsQi7WebaJq8zbGAxoqFj8YyZihOgPxlFi4o+f+T4+
+ 6MRlrmpWni9WBR7mtE6aXVzQ2AeQIktaDC/YMwITPf3cCsGZQ3MJOqIpTywSVArjgoMS2ww
+ WDMC9siawWxce3DYJL1Gw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Bkr3ymwo2hA=;bLCXZjt6sYcWROPGK+CQNGWr4jG
+ ywaAPAUD8naTEi3hXc1oWUd7SmlFeQO1A9a6/xb9gcR4XDaVxMRvTIpUYaZqEQjLcbVzaMmqj
+ fnmJp67vNhl1BchK/LY/KY4lUc03zNLKqgCf0LcfUMi3MuoLczxeq2iNehNpLh0cRO0XKfp30
+ QRPFn9dYNPcVzuIaasll0NFdO859KpOg5w42ebUw0YNyKud5+6QZkH/U7aT0N4HYZHz4jScqN
+ 1QtSXpgtdYuzHgEhGX5WuZf6pnsiPQo318lmNpQ7Dg6v/Qb74RB/CqyMSXNK9XDfyPbkeEd/u
+ oDFRymx3GS8GfGp21c4zZ1dXjllbSJYN24it9+zUI9/qdbTsbMGtGFm9GBltEn0hOOHSWsOEq
+ eoNu6b7QJBkF8rXbvtIT2YX5G4+jo3ISLTNLftC/IT/nLdOAs5yFw+iTCFKKPhAPpAafGBLsI
+ lAJGd1e9FL3HgBuSI3xPMIaEURTjj6YCntAgb7TN8K7Zg6lQAM/j5LfjbPiwmGkVlx+5OvRFb
+ aFBCamyMJsJFL48m8Fn0X0sH02Pv8PlfEq8nm5nTM690QB7Mn1uwvLVf4TD5IwgFRMzOQci3N
+ c8yJjbwZlZzbNBE9ZhpvfLu6kogNUIb+SUezkeFKApHpyq083mbAM54OpG68mam1w2n7G/fb1
+ 7bY0NWmHzUxnzy6rcl3jycCsvCBmLl6siidZJCO3rphfMk9jLF1DxFmxVN8+pFiuohnsj1MND
+ V4I/NXuJE9OsSvkAyjTKjvIM7FzC+bMfSfbgMzjmmPzGs+baNTaZ096Dzl5J7sBDRyDhtTeNj
+ PpJmvCk3hgeN4ELCAH1wE4xg==
 
-On 24/10/26 07:15PM, Ned T. Crigler wrote:
-> Hi,
+Hello Ned, Christian, *,
 
-Hey Ned,
+On Sun, 27 Oct 2024 15:06:09 +0100, Christian Heusel <christian@heusel.eu>=
+ wrote:
 
-> It looks like starting with kernel 6.11, disabling and re-enabling
-> magic
-> sysrq fails with these errors in dmesg:
->=20
-> kernel: input: input_handler_check_methods: only one event processing
-> method can be defined (sysrq)
-> kernel: sysrq: Failed to register input handler, error -22
->=20
-> after doing:
->=20
-> # echo 0 > /proc/sys/kernel/sysrq
-> # echo 438 > /proc/sys/kernel/sysrq
-> # echo 0 > /proc/sys/kernel/sysrq
-> # echo 438 > /proc/sys/kernel/sysrq
-> # echo 0 > /proc/sys/kernel/sysrq
-> # echo 438 > /proc/sys/kernel/sysrq
+> On 24/10/26 07:15PM, Ned T. Crigler wrote:
+> > Hi,
+>
+> Hey Ned,
+>
+> > It looks like starting with kernel 6.11, disabling and re-enabling
+> > magic
+> > sysrq fails with these errors in dmesg:
+> >
+> > kernel: input: input_handler_check_methods: only one event processing
+> > method can be defined (sysrq)
+> > kernel: sysrq: Failed to register input handler, error -22
+> >
+> > after doing:
+> >
+> > # echo 0 > /proc/sys/kernel/sysrq
+> > # echo 438 > /proc/sys/kernel/sysrq
+> > # echo 0 > /proc/sys/kernel/sysrq
+> > # echo 438 > /proc/sys/kernel/sysrq
+> > # echo 0 > /proc/sys/kernel/sysrq
+> > # echo 438 > /proc/sys/kernel/sysrq
+>
+> I have found that this issue is also present in the latest mainline
+> release and bisected it to the following commit:
+>
+>     d469647bafd9 ("Input: simplify event handling logic")
+>
 
-I have found that this issue is also present in the latest mainline
-release and bisected it to the following commit:
+After the mentioned commit a call sysrq_register_handler() -->
+input_register_handler(&sysrq_handler) with sysrq_handler.filter set
+will result in sysrq_handler.events set to input_handler_events_filter,
+see drivers/input/input.c (line 2607 to 2608):
 
-    d469647bafd9 ("Input: simplify event handling logic")
+2596 int input_register_handler(struct input_handler *handler)
+2597 {
+2598         struct input_dev *dev;
+2599         int error;
+2600
+2601         error =3D input_handler_check_methods(handler);
+2602         if (error)
+2603                 return error;
+2604
+2605         INIT_LIST_HEAD(&handler->h_list);
+2606
+2607         if (handler->filter)
+2608                 handler->events =3D input_handler_events_filter;
+2609         else if (handler->event)
+2610                 handler->events =3D input_handler_events_default;
+2611         else if (!handler->events)
+2612                 handler->events =3D input_handler_events_null;
 
-The additional authors / maintainers have been added to the recipients
-lists.
+So the second call will fail at the check 'input_handler_check_methods(han=
+dler)'
+which only allows one method to be set, see drivers/input/input.c:
 
-I hope I didn't overlook any pending fixes.
+2517 static int input_handler_check_methods(const struct input_handler *ha=
+ndler)
+2518 {
+2519         int count =3D 0;
+2520
+2521         if (handler->filter)
+2522                 count++;
+2523         if (handler->events)
+2524                 count++;
+2525         if (handler->event)
+2526                 count++;
+2527
+2528         if (count > 1) {
+2529                 pr_err("%s: only one event processing method can be d=
+efined      (%s)\n",
+2530                        __func__, handler->name);
+2531                 return -EINVAL;
+2532         }
+2533
+2534         return 0;
+2535 }
 
-> --=20
-> Ned T. Crigler
 
-Cheers,
-Chris
+A quick fix/hack for the sysrq case:
 
---6ltj3y347njtiyc7
-Content-Type: application/pgp-signature; name="signature.asc"
+=2D-- a/drivers/tty/sysrq.c
++++ b/drivers/tty/sysrq.c
+@@ -1045,7 +1045,7 @@ static inline void sysrq_register_handler(void)
+        int error;
 
------BEGIN PGP SIGNATURE-----
+        sysrq_of_get_keyreset_config();
+-
++       sysrq_handler.events =3D NULL;
+        error =3D input_register_handler(&sysrq_handler);
+        if (error)
+                pr_err("Failed to register input handler, error %d", error=
+);
+lines 1-13/13 (END)
 
-iQIzBAABCAAdFiEEb3ea3iR6a4oPcswTwEfU8yi1JYUFAmceSNEACgkQwEfU8yi1
-JYXzXA/9GvWBON+9+wLDs4ZyBFbK2Vj514B0nAODEVNVS4+DlS9eg8/IKst/iybB
-YfEy/8NF6uRcyk74E36HOWQVe2BkG6bDK0ZzudNkLJy6ej3r1Z6ivAyJs8tLRGrV
-IoUBY0W4HzVo3cUb/tMoRkVTo/8XAroaB2iE/Znkq2VKe2ma6NEvnjuJgFbIE6aq
-NP8LXOH1XYnzrJLB/O2n5ejs+4vOO+AdKiQ/pptf9F1uWA3QLscLGY+BhLpyVPG8
-CxttSjehC/oyV0PcCXfDLvRaNPlbY3LyLmCYMqfFDVWK7kUVqZ5cnlOW78kmIOro
-gyi9EdP7jqu1HGsSU9xc6YXUe3ZEcrT2M3TRrbNn6C5rGOoIK1KXQy0+h8ru0cEq
-TgxixZDfuljKoGkDeMUZP+htIw3mLbkQK2CcHOoFxBZx49UaC3wR5cF7NPR4FeM/
-fSQNwmcsGnXBdENcjTWOcZIoujKA/AK1j4mPYAgseJC4CheUfQqFViApE1m2tehC
-/LN3c3VYxq4HcQYCIHOCyCPreQQgPCZ5P0n+xNTikklaJiR2m+zFddVTPBcyx86q
-MaRC6cWxDUnipA/T5qzVkpSIwlzuBQ7mAYa5F7Xo7wnRfV3RAcBV10M6zY3wjsiG
-UNy/Lo68/HiwHoa9JeJ2clU+DzB8IPgD0D4WkcyRVx9r02TvS/4=
-=+itq
------END PGP SIGNATURE-----
+Regards,
+Peter
 
---6ltj3y347njtiyc7--
+
+> The additional authors / maintainers have been added to the recipients
+> lists.
+>
+> I hope I didn't overlook any pending fixes.
+>
+> > --
+> > Ned T. Crigler
+>
+> Cheers,
+> Chris
+
 
