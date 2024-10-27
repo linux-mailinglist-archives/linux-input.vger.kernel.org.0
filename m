@@ -1,104 +1,277 @@
-Return-Path: <linux-input+bounces-7713-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7714-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABDF59B1BE0
-	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2024 03:15:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E43B9B1D63
+	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2024 12:30:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B1F3F1C20BC6
-	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2024 02:15:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D98C11F210DE
+	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2024 11:30:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55F76E555;
-	Sun, 27 Oct 2024 02:15:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2C79136341;
+	Sun, 27 Oct 2024 11:30:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LWEk783Q"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cv+xgXHv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF213D9E;
-	Sun, 27 Oct 2024 02:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35113F9D2;
+	Sun, 27 Oct 2024 11:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729995341; cv=none; b=o+9SOcLauaOD+N/fx8A+kBebWZ79sBViYHm5ZoSlXTxE1+2iscb0loEMxt/UTEb8mq5dmZbE9OnPrim6pOwv78uhGAVw2HddqzeLzU/4t7a7zhl0gt8JpDgK+FUKkKh/BEB5i3xtI0V3VAI6NcYYJKlS+ZTNY+dRIXwpKP5uJ2A=
+	t=1730028619; cv=none; b=o/BR495Nk3/LgY8Tj4ycCjxAezw6YB0/H7VNlYoEcLfsB8vtG7fFus4mlPbfX3SCpeEC1vpRcQhxBGUR/NCI7Ip9Eqcv9g8M1dFCC9Tb/YSq0q9K/Bck8pT8yFLtrjxEBSAN3MO/tuKIkWTvs1v3dN1AqjspPATsvp3olBJX4Y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729995341; c=relaxed/simple;
-	bh=hxyYesuKW8UwIewwsEyAhRB8GZYN0soW/MiwfKG+nlM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cDPQPA68Pa8ogAnc+iTqzkpGn62BlUh3jqqxWd0kYIdU1nGO0PCgeURv8qov0Inf5Spg6Wxh7KYj29gj5Gtd8WeKzuod6RBcGIxUuOr0VHrbrwu162A2Rhm9AvJ+53vE5mhYgEqDtWFV9Z1Zp7V/IGpIikfxUltw4aDgLKY9Gno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LWEk783Q; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2e2b549799eso2402249a91.3;
-        Sat, 26 Oct 2024 19:15:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729995339; x=1730600139; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kn7556O2AaB8qeM5FvO18kqRJQd5qATE5xO+xdeHALg=;
-        b=LWEk783QE3qHZtortmxS92pfnvms7D8I89gXWKOR4zMw14mQpO7nipn8rb6f98Wko7
-         fzCva+amTAV/cFoPai0aNsgyudKY7/ZoD02Y/MWkFojztXWVomqKHegH1LM77bU9aE9s
-         wUmlK35wIhvZQaTKIDMkAcORg/lV1ey8FJ3QjhvRVKsi3FdtIjAhf5SGouqXQVKy1aIJ
-         QDlC/r8bYEX1Hu9WBsSa/dL4u1XWKZOjy7nSQp0vJPcrsVJE54jpJk7OWszWDur8btF3
-         G5u064PGHPYsDXXBA0pH+9QslAXCCJrwnYAfbyCwFH/gSMIsDEjfI53/iSOnwGhEp3yb
-         vlpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729995339; x=1730600139;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kn7556O2AaB8qeM5FvO18kqRJQd5qATE5xO+xdeHALg=;
-        b=wMmY8wndX4t4BHfn3AmmvxEbQupvZq5sBITQ3V4KQZ4s7aitqzqs4sLaBVvKM9GY7T
-         URt/S0Y/t1kqGmgN44z2rQix3GUSo7+3xE2+LEYO5U9u0Et3kxmeZTn/Af9cL5mzAtxL
-         5Gv+OJeJbd/sra9prXPpgox0ZQ6w/bf7lS05KdJZiNP+IwZu8rucXwNHQIhXjdoNxIjl
-         2YXCuRHE6MZxgqLUyo+/X6OQ6SSyTd4AnIgJ+f6ft+L1/SYMbn8MQqH+xhrt2HKYHk+l
-         mH8aFvVn/FjiIeWnK0izs3K+enPTRxwvFnH84hlW7ytUgqhMsvPR5S/RKdCKeARLcovu
-         OOyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWzNNK77N+TwTzK0qTB5TQsA1XCNjgHd/smSdTjzJ6l8LJ8QWNYczh4TV4kIA/HzFKC3uo/O/6GGxUyljs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzbtU0g9wiJ9jl1+dPBkYqupxzMrsF3sn7RmQKitBX8q3CaSXq
-	DT4mw3BHesgo9CW67aBqSINfLUCm4dj2eg3CwDLwFM5l8Og1DyHI
-X-Google-Smtp-Source: AGHT+IENEg89SvDTJCqpYtjzefuJS1rHwhjH3fDPuTP5uGu9fpxx8xMfiIHHToJFRdh1bmKSuWC1JQ==
-X-Received: by 2002:a17:90a:f301:b0:2e2:b211:a4da with SMTP id 98e67ed59e1d1-2e8f1070126mr4604251a91.14.1729995338616;
-        Sat, 26 Oct 2024 19:15:38 -0700 (PDT)
-Received: from xavtug (2603-9008-1600-2265-a236-bcff-feba-a919.inf6.spectrum.com. [2603:9008:1600:2265:a236:bcff:feba:a919])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e77e4e631esm6201983a91.27.2024.10.26.19.15.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Oct 2024 19:15:38 -0700 (PDT)
-Date: Sat, 26 Oct 2024 19:15:30 -0700
-From: "Ned T. Crigler" <crigler@gmail.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: [REGRESSION] disabling and re-enabling magic sysrq fails after
- kernel 6.11
-Message-ID: <Zx2iQp6csn42PJA7@xavtug>
+	s=arc-20240116; t=1730028619; c=relaxed/simple;
+	bh=SqiAejqnwtdMsmclrn3s3s+9fkQcLWUueQtnzHdx0AI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Iji4S5UTAu8lRzupTC2fBzZ37aKaJX4NoYAfEOCxblXwnR0m6r8kST6vfziO095a2HRWkaeCvc7pe2AETw95JKmIBXVXTb1noDoRJfhFRVo/Ev37Y6SnjXlAUHe7DuLoJtbWVvw7XXx807PYpYt9qV+Amaxf9m3MER2m9cOAX/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cv+xgXHv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEA78C4CEC3;
+	Sun, 27 Oct 2024 11:30:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730028619;
+	bh=SqiAejqnwtdMsmclrn3s3s+9fkQcLWUueQtnzHdx0AI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Cv+xgXHvPfbO+FS5+P9ATOUIb8PDSTq12CZrA0rtoo9SzxQ1aTmfDVLQDWSeBisHp
+	 gt4LFxyc+Lnk339mrQI3WrrlZWxuLWXXXl761sSLEUQidSsp7TY1c0k2CYU2Ryl/Jk
+	 8yiO6fb5j445UYozxq7gikZTwxafLs+Zv5ag4lpbM6of9UHdT376Sac0QyPA79cA9Q
+	 ChOkdvzyuhv+taDHbDP/2WW06ur9XerqXx5icy9GfAqjcfQUDJnMIRPU3RiSJH2oaB
+	 wu6pSKds0mNH1Af+TzCCkE5VE78Bxh7lZJqvvW/VJgZWzjhqh7iRgbxmzaEjE7Ms0z
+	 SLzB1mSMbJawg==
+Date: Sun, 27 Oct 2024 11:30:10 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Lars-Peter
+ Clausen <lars@metafoo.de>, Harvey Yang <chenghaoyang@google.com>,
+ linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] iio: hid-sensor-prox: Add support for more channels
+Message-ID: <20241027113010.153fab2b@jic23-huawei>
+In-Reply-To: <20241024-hpd-v1-3-2a125882f1f8@chromium.org>
+References: <20241024-hpd-v1-0-2a125882f1f8@chromium.org>
+	<20241024-hpd-v1-3-2a125882f1f8@chromium.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Thu, 24 Oct 2024 13:29:07 +0000
+Ricardo Ribalda <ribalda@chromium.org> wrote:
 
-It looks like starting with kernel 6.11, disabling and re-enabling magic
-sysrq fails with these errors in dmesg:
+> Egis620 supports 3 channels: presense, proximity and attention.
 
-kernel: input: input_handler_check_methods: only one event processing method can be defined (sysrq)
-kernel: sysrq: Failed to register input handler, error -22
+It's not obvious to me that these should necessarily be represented
+as proximity channels.
 
-after doing:
+Presence and proximity perhaps though I'm confused as to why
+both make sense on a device, but maybe there are two forms of sensor.
 
-# echo 0 > /proc/sys/kernel/sysrq
-# echo 438 > /proc/sys/kernel/sysrq
-# echo 0 > /proc/sys/kernel/sysrq
-# echo 438 > /proc/sys/kernel/sysrq
-# echo 0 > /proc/sys/kernel/sysrq
-# echo 438 > /proc/sys/kernel/sysrq
+Attention is an oddity and not the same as proximity from the definition
+(see patch 1 review).
 
--- 
-Ned T. Crigler
+So for that we probably need a new channel type.
+
+Jonathan
+
+
+> 
+> Modify the driver so it can read those channels as well.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/iio/light/hid-sensor-prox.c | 161 ++++++++++++++++++++----------------
+>  1 file changed, 89 insertions(+), 72 deletions(-)
+> 
+> diff --git a/drivers/iio/light/hid-sensor-prox.c b/drivers/iio/light/hid-sensor-prox.c
+> index d38564fe22df..97550d0d21a9 100644
+> --- a/drivers/iio/light/hid-sensor-prox.c
+> +++ b/drivers/iio/light/hid-sensor-prox.c
+> @@ -13,16 +13,26 @@
+>  #include <linux/iio/buffer.h>
+>  #include "../common/hid-sensors/hid-sensor-trigger.h"
+>  
+> -#define CHANNEL_SCAN_INDEX_PRESENCE 0
+> +static const u32 prox_usage_ids[] = {
+> +	HID_USAGE_SENSOR_HUMAN_PRESENCE,
+> +	HID_USAGE_SENSOR_HUMAN_PROXIMITY,
+> +	HID_USAGE_SENSOR_HUMAN_ATTENTION,
+> +};
+Use an enum so that you can set these as entries you can later index.
+
+[HID_HUMAN_PRESENCE] = HID_USAGE_...
+etc
+
+> +
+> +#define MAX_USAGE ARRAY_SIZE(prox_usage_ids)
+Name that something more specific or just use
+the ARRAY_SIZE inline.
+
+>  
+>  struct prox_state {
+>  	struct hid_sensor_hub_callbacks callbacks;
+>  	struct hid_sensor_common common_attributes;
+> -	struct hid_sensor_hub_attribute_info prox_attr;
+> -	u32 human_presence;
+> +	struct hid_sensor_hub_attribute_info prox_attr[MAX_USAGE];
+> +	struct iio_chan_spec channels[MAX_USAGE];
+> +	u32 channel2usage[MAX_USAGE];
+> +	u32 human_presence[MAX_USAGE];
+>  	int scale_pre_decml;
+>  	int scale_post_decml;
+>  	int scale_precision;
+> +	unsigned long scan_mask[2];
+
+Perhaps add a comment that this is one entry plus a terminator.
+
+> +	int num_channels;
+>  };
+>  
+>  static const u32 prox_sensitivity_addresses[] = {
+> @@ -30,17 +40,23 @@ static const u32 prox_sensitivity_addresses[] = {
+>  	HID_USAGE_SENSOR_DATA_PRESENCE,
+>  };
+>  
+> -/* Channel definitions */
+> -static const struct iio_chan_spec prox_channels[] = {
+> -	{
+> -		.type = IIO_PROXIMITY,
+> -		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),
+> -		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_OFFSET) |
+> -		BIT(IIO_CHAN_INFO_SCALE) |
+> -		BIT(IIO_CHAN_INFO_SAMP_FREQ) |
+> -		BIT(IIO_CHAN_INFO_HYSTERESIS),
+> -		.scan_index = CHANNEL_SCAN_INDEX_PRESENCE,
+> +#define PROX_CHANNEL(_indexed, _channel) \
+> +	{\
+> +		.type = IIO_PROXIMITY,\
+> +		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),\
+> +		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_OFFSET) |\
+> +		BIT(IIO_CHAN_INFO_SCALE) |\
+> +		BIT(IIO_CHAN_INFO_SAMP_FREQ) |\
+> +		BIT(IIO_CHAN_INFO_HYSTERESIS),\
+> +		.indexed = _indexed,\
+> +		.channel = _channel,\
+>  	}
+> +
+> +/* Channel definitions (same order as prox_usage_ids) */
+> +static const struct iio_chan_spec prox_channels[] = {
+> +	PROX_CHANNEL(false, 0), // PRESENCE
+With a suitable enum as suggested above can use
+[HID_HUMAN_PRESENCE] = PROX_CHANNEL(false, 0) etc
+
+Combining index and not is unusual. If we have to do this
+I think we should consider the technical ABI breakage of adding
+an index to the first one.  It 'shouldn't' break code using the ABI
+correctly but it is a risk.
+
+> +	PROX_CHANNEL(true, 1), // PROXIMITY
+> +	PROX_CHANNEL(true, 2), // ATTENTION
+>  };
+>  
+>  /* Adjust channel real bits based on report descriptor */
+> @@ -62,7 +78,7 @@ static int prox_read_raw(struct iio_dev *indio_dev,
+>  {
+>  	struct prox_state *prox_state = iio_priv(indio_dev);
+>  	struct hid_sensor_hub_device *hsdev;
+> -	int report_id = -1;
+> +	int report_id;
+>  	u32 address;
+>  	int ret_type;
+>  	s32 min;
+> @@ -71,29 +87,22 @@ static int prox_read_raw(struct iio_dev *indio_dev,
+>  	*val2 = 0;
+>  	switch (mask) {
+>  	case IIO_CHAN_INFO_RAW:
+> -		switch (chan->scan_index) {
+> -		case  CHANNEL_SCAN_INDEX_PRESENCE:
+> -			report_id = prox_state->prox_attr.report_id;
+> -			min = prox_state->prox_attr.logical_minimum;
+> -			address = HID_USAGE_SENSOR_HUMAN_PRESENCE;
+> -			hsdev = prox_state->common_attributes.hsdev;
+> -			break;
+> -		default:
+> -			report_id = -1;
+> -			break;
+> -		}
+> -		if (report_id >= 0) {
+> -			hid_sensor_power_state(&prox_state->common_attributes,
+> -						true);
+> -			*val = sensor_hub_input_attr_get_raw_value(
+> -				hsdev, hsdev->usage, address, report_id,
+> -				SENSOR_HUB_SYNC, min < 0);
+> -			hid_sensor_power_state(&prox_state->common_attributes,
+> -						false);
+> -		} else {
+> +		if (chan->scan_index >= prox_state->num_channels) {
+>  			*val = 0;
+No need to set this in an error path. Not sure why original code did.
+
+>  			return -EINVAL;
+>  		}
+> +		address = prox_state->channel2usage[chan->scan_index];
+> +		report_id = prox_state->prox_attr[chan->scan_index].report_id;
+> +		hsdev = prox_state->common_attributes.hsdev;
+> +		min = prox_state->prox_attr[chan->scan_index].logical_minimum;
+> +		hid_sensor_power_state(&prox_state->common_attributes, true);
+> +		*val = sensor_hub_input_attr_get_raw_value(hsdev,
+> +							   hsdev->usage,
+> +							   address,
+> +							   report_id,
+> +							   SENSOR_HUB_SYNC,
+> +							   min < 0);
+> +		hid_sensor_power_state(&prox_state->common_attributes, false);
+>  		ret_type = IIO_VAL_INT;
+>  		break;
+
+> @@ -178,48 +187,63 @@ static int prox_capture_sample(struct hid_sensor_hub_device *hsdev,
+>  {
+>  	struct iio_dev *indio_dev = platform_get_drvdata(priv);
+>  	struct prox_state *prox_state = iio_priv(indio_dev);
+> -	int ret = -EINVAL;
+> -
+> -	switch (usage_id) {
+> -	case HID_USAGE_SENSOR_HUMAN_PRESENCE:
+> -		switch (raw_len) {
+> -		case 1:
+> -			prox_state->human_presence = *(u8 *)raw_data;
+> -			return 0;
+> -		case 4:
+> -			prox_state->human_presence = *(u32 *)raw_data;
+> -			return 0;
+> -		default:
+> +	int chan;
+> +
+> +	for (chan = 0; chan < prox_state->num_channels; chan++)
+> +		if (prox_state->channel2usage[chan] == usage_id)
+>  			break;
+> -		}
+> +	if (chan == prox_state->num_channels)
+> +		return -EINVAL;
+> +
+> +	switch (raw_len) {
+> +	case 1:
+> +		prox_state->human_presence[chan] = *(u8 *)raw_data;
+> +		break;
+Might as well return here.
+> +	case 4:
+> +		prox_state->human_presence[chan] = *(u32 *)raw_data;
+>  		break;
+and here.
+
+>  	}
+>  
+> -	return ret;
+> +	return 0;
+>  }
+>
+>
 
