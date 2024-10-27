@@ -1,128 +1,157 @@
-Return-Path: <linux-input+bounces-7715-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7716-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FED9B1D73
-	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2024 12:35:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA07F9B1E06
+	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2024 15:07:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D38D1F21716
-	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2024 11:35:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 71E041F21730
+	for <lists+linux-input@lfdr.de>; Sun, 27 Oct 2024 14:07:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA82215098F;
-	Sun, 27 Oct 2024 11:35:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87F3016B3B7;
+	Sun, 27 Oct 2024 14:06:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ngRFPaqx"
+	dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b="AsyQpyZw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B971413A271;
-	Sun, 27 Oct 2024 11:35:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992CF16F8EF;
+	Sun, 27 Oct 2024 14:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730028911; cv=none; b=MW8NcH/6/K9/L3zEXs17zx3QcKXEDoMuqrGIyJCZOxHn3Vgu1cDT6XKcHo9XOGsTqP/Cd54jkYlYSDv/FQ5mqknbkRZQ8gkuPli7G34esFu3IIkO0eQxgAsM129o2L37c9qmnc+EYcZiD0T2Mx2jAuw90++3NSnOjyOa0IxL/ik=
+	t=1730037995; cv=none; b=oJziin6/c7utTW+d4aQqn7zlxmGx+/z29NoSiyox6MrFfw1GZIvyaXpUVyLcR2CtqtdBa4gwUAl35nxn0ib58wmJZaMV/HMU9mN21B0T6h7YzpDK3bgrEmHVZBpmtTtrI7o5jlanGOAAFq+MWA5tm1Eq/lZFq261eNwR1XXaFjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730028911; c=relaxed/simple;
-	bh=JReu1xcGfgvNjfc3VfFr0yDDrk9ygK7CxuWJXwEGef4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=snhJxfktXojkCbMh8dW0652ooMGT5p9Ax681S1+T91Hr/IQpNzB6LaphNCQvhHg0zooqNJEj4yZ94nUC5H7XwDJtG3AR8fJEPiuUKuacx0MmPP08kz4Oi9LYkHPVyLcrZNsMj4YRh9hREaNld+5rlIqP+aYXCKb0XttY1GeJtu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ngRFPaqx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5327C4CEC3;
-	Sun, 27 Oct 2024 11:35:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730028911;
-	bh=JReu1xcGfgvNjfc3VfFr0yDDrk9ygK7CxuWJXwEGef4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ngRFPaqxBDi5khNin4veLdaGMPsxEidhCh18K4tA7kNcInRkv4vXvK5LB25e2CKUH
-	 ptLkN4mruadSGsgdNpyFhRnOwN4uNT/54nFNjT0nUdRkweHucXVt0hiMOd/M/ob43T
-	 PxJATbMl30tOGVQMQFfW8+BhIW+vTU+Bm/b6QiVEx1bA3XyntaevkFqYoMCBfn/KCV
-	 +hox1rQE0bLbl67dRgf+74mSvdBj4wDsvxLeOCQJGjETaz80Ds+Tw22oDpziuOf/Ry
-	 4msXKVIHdpwEDiezKzG9oMA1rtvop0bo9qFMJ34q5Y+A+A3z3D6vlFfIeBlZIB7hH7
-	 3MWFR4SOWuLAw==
-Date: Sun, 27 Oct 2024 11:35:03 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Lars-Peter
- Clausen <lars@metafoo.de>, Harvey Yang <chenghaoyang@google.com>,
- linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] iio: hid-sensors: Add proximity and attention IDs
-Message-ID: <20241027113503.46113bcc@jic23-huawei>
-In-Reply-To: <20241024-hpd-v1-1-2a125882f1f8@chromium.org>
-References: <20241024-hpd-v1-0-2a125882f1f8@chromium.org>
-	<20241024-hpd-v1-1-2a125882f1f8@chromium.org>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1730037995; c=relaxed/simple;
+	bh=shzMhA1ShIAzT/nl39/7faxKV6dT0AWJD5xF0gYTwuc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C+pTFRjcuZ0K6iPulQnF2KmVr4Nu15Oktg1SiAhkq6AEnI87duYVOtZ9XlLz1E2tpre3bhg7gYuoTENRZwRC5uHnzNlCioApvK2LoGfSibP+nqR6o5o9xqJC6sQuh652BZMTYHN8Rw1bLT7hFyi+RDm7IInW2cP5cEGltU4yJ+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu; spf=pass smtp.mailfrom=heusel.eu; dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b=AsyQpyZw; arc=none smtp.client-ip=212.227.17.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=heusel.eu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=heusel.eu;
+	s=s1-ionos; t=1730037971; x=1730642771; i=christian@heusel.eu;
+	bh=jClmXAlUGXYrZ7D0GspMoXRQShIjacF/nvZ/v7Jg9oA=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=AsyQpyZwUbrIy+LY5pWQZH7Qyzc48geigQrSR2a0ZbvnnvcEME2RxK4VP/+lW2SH
+	 gkQTwBqitfK4pjUlXwFikk3hgBY9+pHMwzsxBiP97Ks0hjZ8kdzK9QYusO+pK3Ki2
+	 SlnXedkDhBVjW+Rq/CPC2pGhbg9XEfzPfAlLzHdzslxhqoK/7GrQSMuuxaskE1VPM
+	 oemlH4iASedrrX7YH8DKgHqphRrY01Sqq70IPuBbFrmH3mS+OCNjOlNHshmEb0Lj1
+	 BqAiVUh2e2IY3gmccJq4R22bGdkOj0GMsAFaDLHgG5xXSxdvkVdUVGjRnkwzF/+KC
+	 HVtzAgbSdb5cslSk9A==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from localhost ([141.70.80.5]) by mrelayeu.kundenserver.de (mreue107
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MKc0o-1tJHuI3ZWO-00NhJl; Sun, 27
+ Oct 2024 15:06:10 +0100
+Date: Sun, 27 Oct 2024 15:06:09 +0100
+From: Christian Heusel <christian@heusel.eu>
+To: "Ned T. Crigler" <crigler@gmail.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, regressions@lists.linux.dev, 
+	Jeff LaBundy <jeff@labundy.com>, Benjamin Tissoires <bentiss@kernel.org>
+Subject: Re: [REGRESSION] disabling and re-enabling magic sysrq fails after
+ kernel 6.11
+Message-ID: <69b6119c-3c3a-406f-9375-3e55fba9b732@heusel.eu>
+References: <Zx2iQp6csn42PJA7@xavtug>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="6ltj3y347njtiyc7"
+Content-Disposition: inline
+In-Reply-To: <Zx2iQp6csn42PJA7@xavtug>
+X-Provags-ID: V03:K1:bcEW9OKSDcBN6iBJVT1IxSn0dhS4niUXkbBATWCvAS/NBbUxjJY
+ Z3U3r2AUtpIW8o+uKSENCloX8B1NS9WxK0ftmtonYDROog7N386GJWdcnEl7nGCf+9u1deT
+ ffHvWqhKOxr3tqN76jso3hbaAF3JWWTn87il7JwSjd6fxVQ+l4/TPNbgwHR7bLj/QMTqQ36
+ 2fT8BkhgXis4YLwPCe+iA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:caUVJ2Omcak=;WNv1/VZRLTlqtc4h3php6RNqUdS
+ r8poFdSan4gIt2JasRh72OQEoN9MmrvV6wJIDseSAWDPEMgGPDk9cVSeCzgefNxRz5laGerXY
+ Rp29Q0XCrE0m48Lt1+O+kDC4K7/AAQd4BDB60l4HnoF88uVVfBPylIDzuHzTm42nYW2D9WcYa
+ yfAU/zhfiM45rMrV7vU2U3GnfMlVXvtkq3f+pHk+iiCwyd4R7ptOizEn5ZPnulbGC0LGZdo8X
+ 6HFWfXf4EKOO6bdAkwVwL/rGCqY8uGyhhVFp0YzA33lahwWHIiFG9zahdpfTOEZzDFExCrd0T
+ SX4PtH72kCG2d31w0VB3+AKO3iVhCumaTJ4nGLZ9B8Jv5i+GFudJDOlS1b8bkT8UC8vRfYtTc
+ iuwizEccItXSBSqtwuWZN1oNzmhpsyRb7BWInCPct2NHE46Bw3VnU1kZ9cvI0z15uw/1wrAOD
+ MN4z+vBWQPe74Im8vnevUDl9KONWWVr0c9R0vLCh/kzu/31vpgZ+lqrLRpmnZqrelk0Y2F6j2
+ O04oCD5YZxcdxPnc1UcAL3e9DOoJSQdkOewlXbRLERVi3Qe+kmkLThXRxdMi96JnUl8IIpBsj
+ cwG/AHu95n9p1/BZtPwNQFE2ic0QZFw1jKg7TMLd/5x1OuFkKJOCZY9olGB6s9UvDDWkzTxTY
+ 0P702eTc2wgTGkQQS9IQNcu+AGoFQoTFIHfGOyEEEOHgSdDY0aIHu1vnRvTnXJwogmf3cqagr
+ Pp+kw/fZ9f6+ZxueYRvtfmY0EaLqIpjnA==
+
+
+--6ltj3y347njtiyc7
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [REGRESSION] disabling and re-enabling magic sysrq fails after
+ kernel 6.11
+MIME-Version: 1.0
 
-On Thu, 24 Oct 2024 13:29:05 +0000
-Ricardo Ribalda <ribalda@chromium.org> wrote:
+On 24/10/26 07:15PM, Ned T. Crigler wrote:
+> Hi,
 
-> The HID Usage Table at https://usb.org/sites/default/files/hut1_5.pdf=09
+Hey Ned,
+
+> It looks like starting with kernel 6.11, disabling and re-enabling
+> magic
+> sysrq fails with these errors in dmesg:
 >=20
-> - 0x4b2 for Human Proximity Range
-
-Add more here from the references the above has.
-https://www.usb.org/sites/default/files/hutrr39b_0.pdf
-
-Distance between a human and the computer. Default unit of
-measure is meters;
-
-
-
-> - 0x4bd for Human Attention Detected
+> kernel: input: input_handler_check_methods: only one event processing
+> method can be defined (sysrq)
+> kernel: sysrq: Failed to register input handler, error -22
 >=20
-Human-Presence sensors detect the presence of humans in the sensor=E2=80=99=
-s field-of-view using
-diverse and evolving technologies. Some presence sensors are implemented wi=
-th low
-resolution video cameras, which can additionally track a subject=E2=80=99s =
-attention (i.e. if the
-user is =E2=80=98looking=E2=80=99 at the system with the integrated sensor).
-A Human-Presence sensor, providing a Host with the user=E2=80=99s attention=
- state, allows the
-Host to optimize its behavior. For example, to brighten/dim the system disp=
-lay, based on
-the user=E2=80=99s attention to the system (potentially prolonging battery =
-life).
-
-This one is a 0/1 signal if I read the schema right.  Which is also true for
-the existing HUMAN_PRESENCE. Not a problem but worth mentioning in this des=
-cription.
- =20
-https://www.usb.org/sites/default/files/hutrr107-humanpresenceattention_1.p=
-df
-
-
-
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  include/linux/hid-sensor-ids.h | 2 ++
->  1 file changed, 2 insertions(+)
+> after doing:
 >=20
-> diff --git a/include/linux/hid-sensor-ids.h b/include/linux/hid-sensor-id=
-s.h
-> index 6730ee900ee1..8a03d9696b1c 100644
-> --- a/include/linux/hid-sensor-ids.h
-> +++ b/include/linux/hid-sensor-ids.h
-> @@ -30,6 +30,8 @@
->  #define HID_USAGE_SENSOR_PROX                                   0x200011
->  #define HID_USAGE_SENSOR_DATA_PRESENCE                          0x2004b0
->  #define HID_USAGE_SENSOR_HUMAN_PRESENCE                         0x2004b1
-> +#define HID_USAGE_SENSOR_HUMAN_PROXIMITY                        0x2004b2
-> +#define HID_USAGE_SENSOR_HUMAN_ATTENTION                        0x2004bd
-> =20
->  /* Pressure (200031) */
->  #define HID_USAGE_SENSOR_PRESSURE                               0x200031
->=20
+> # echo 0 > /proc/sys/kernel/sysrq
+> # echo 438 > /proc/sys/kernel/sysrq
+> # echo 0 > /proc/sys/kernel/sysrq
+> # echo 438 > /proc/sys/kernel/sysrq
+> # echo 0 > /proc/sys/kernel/sysrq
+> # echo 438 > /proc/sys/kernel/sysrq
 
+I have found that this issue is also present in the latest mainline
+release and bisected it to the following commit:
+
+    d469647bafd9 ("Input: simplify event handling logic")
+
+The additional authors / maintainers have been added to the recipients
+lists.
+
+I hope I didn't overlook any pending fixes.
+
+> --=20
+> Ned T. Crigler
+
+Cheers,
+Chris
+
+--6ltj3y347njtiyc7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEb3ea3iR6a4oPcswTwEfU8yi1JYUFAmceSNEACgkQwEfU8yi1
+JYXzXA/9GvWBON+9+wLDs4ZyBFbK2Vj514B0nAODEVNVS4+DlS9eg8/IKst/iybB
+YfEy/8NF6uRcyk74E36HOWQVe2BkG6bDK0ZzudNkLJy6ej3r1Z6ivAyJs8tLRGrV
+IoUBY0W4HzVo3cUb/tMoRkVTo/8XAroaB2iE/Znkq2VKe2ma6NEvnjuJgFbIE6aq
+NP8LXOH1XYnzrJLB/O2n5ejs+4vOO+AdKiQ/pptf9F1uWA3QLscLGY+BhLpyVPG8
+CxttSjehC/oyV0PcCXfDLvRaNPlbY3LyLmCYMqfFDVWK7kUVqZ5cnlOW78kmIOro
+gyi9EdP7jqu1HGsSU9xc6YXUe3ZEcrT2M3TRrbNn6C5rGOoIK1KXQy0+h8ru0cEq
+TgxixZDfuljKoGkDeMUZP+htIw3mLbkQK2CcHOoFxBZx49UaC3wR5cF7NPR4FeM/
+fSQNwmcsGnXBdENcjTWOcZIoujKA/AK1j4mPYAgseJC4CheUfQqFViApE1m2tehC
+/LN3c3VYxq4HcQYCIHOCyCPreQQgPCZ5P0n+xNTikklaJiR2m+zFddVTPBcyx86q
+MaRC6cWxDUnipA/T5qzVkpSIwlzuBQ7mAYa5F7Xo7wnRfV3RAcBV10M6zY3wjsiG
+UNy/Lo68/HiwHoa9JeJ2clU+DzB8IPgD0D4WkcyRVx9r02TvS/4=
+=+itq
+-----END PGP SIGNATURE-----
+
+--6ltj3y347njtiyc7--
 
