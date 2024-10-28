@@ -1,223 +1,137 @@
-Return-Path: <linux-input+bounces-7749-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7750-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A599B3A20
-	for <lists+linux-input@lfdr.de>; Mon, 28 Oct 2024 20:10:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7749B3BCF
+	for <lists+linux-input@lfdr.de>; Mon, 28 Oct 2024 21:35:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80A402837F2
-	for <lists+linux-input@lfdr.de>; Mon, 28 Oct 2024 19:10:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D55501F22D60
+	for <lists+linux-input@lfdr.de>; Mon, 28 Oct 2024 20:35:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE1BE1DFD9E;
-	Mon, 28 Oct 2024 19:07:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BB3D1F7575;
+	Mon, 28 Oct 2024 20:29:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ytu8K62a"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kVBKeMRv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E341DFE03;
-	Mon, 28 Oct 2024 19:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2611E0DC4;
+	Mon, 28 Oct 2024 20:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730142477; cv=none; b=Qu0cvJyiTu8jD9x+2P/6wsIjYIJf1UCSGg0zQG8E5r0+H+ucevdewOq/Pr0YsVDlXjeh+33I2zEgrSiCPSwiOKkcP+nKnUurOShLF7qvFOxXXlX7DntiPDVYEU2f8/Fa9j+g/kxOsoKwz2fAGOYRzmFhB261/iQz4apEKftg4f4=
+	t=1730147383; cv=none; b=J+Gz79yvOCCIa/KhYuXrZDWkzI/w+tMIGNXw1i7KFxoK+A6FZgpM2UbQpwgu8+n3SBEWpQMnmMtJdyElEVmjn+CwOx+HtgB1KVDXeGCkJli/zwrxcbqYrG5GxDMjSL53zw0RpU61nj/POoFqrnzxisW0Eq4p1Y7SRqW/+4x/m9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730142477; c=relaxed/simple;
-	bh=4mrE76SH2ADhhWWJMiFkSEwGaF/rQ4QWelV/nR8cWGk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lExX0Kir8w1+32aWJ09DbylZRG4Z3dAoU/+6BgojATr84hmvoDoZjwlb50ypCDRduQFuRxO3k2xrURuVS1r3jOhsJerhJ21Yh1BB4qrBLqEgDZYlpvtMcXxHbtzc2HTVRu4AWrlbyb1Ma40tATKNMuiClFZFxJiMN04qw2U+Fho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ytu8K62a; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2e2e23f2931so3628047a91.0;
-        Mon, 28 Oct 2024 12:07:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730142475; x=1730747275; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RfqKflibAOK4FzgsJVQND/t/yyaMuTbNCQ7z0yk1g8s=;
-        b=Ytu8K62aNZJttACL86cP0df1K918Rl07VGA/V8wf1FqD46oMeOA5L3F1AnH/jv5zQS
-         PEAmeq5LwqmqgisSsidHqfLQzuuE2Vces1x3Sd38JXFoK8mPlj3S+gpdAOa6kIrl4HeW
-         VgzcOb8f140M+ugyOGkj0VoLbOlHvgTyy7a8EgMi2XWBlcH64fAlvtfOeRmk16vZAETh
-         iV1Hi9vQK7rOSeY7PZsTX+19jqF3WulCUBdsMp7E8H2mUeengmixCf0NYcwLSZWduOcp
-         uv2H8TqiRw65S66+Z+82rH6SXcNhM31C5q0aKSZpmBJiuVak+pFyuO1y7YjIAjKS2Bfm
-         0TmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730142475; x=1730747275;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RfqKflibAOK4FzgsJVQND/t/yyaMuTbNCQ7z0yk1g8s=;
-        b=UQO+Don/xYDbqO/awpDCMoKhHmUi8lujkL4wVzR3ZSOXFk23vI/W42icDVwBwgiI7e
-         GK1zMKnCZKyqpDCJ9iEUUIyxP17AkfJqlS1hHoiWIzKBSlkI4FGitmadfyVzc7rcDE1r
-         dCI9REglt/aEPriDPZyeft49ZKH67eMRKPE7YMXT8wEfT4SMgSxeA3MIkay/0XWtyH+K
-         PVuBcgR2VLq63kn/RaiRX2G4lCd4+07B/+JrNQ10PR2fkIqoF1/SgTdnwS6+kJVdE67W
-         VmNtfwnbl4Cs3TahslOWcvny8kutMBAv6UkLq1WyNHzhTO8Xxkdx19lP2YqBTYixMg+b
-         K0nA==
-X-Forwarded-Encrypted: i=1; AJvYcCWruazmmE1H5DqbKAPgXzGutYlBj8qkwlonMtaUc4fHvoGzeMrQpBk1cshrnK0fG8enrbPCwsmkH65CMEY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyptk1OwDx4GN8M1WGGoW3Uj09k4/80MG7wBqJfPE/gsnj145or
-	jol0V/vMLXnzOQBZGVtZ+HbeSmwxfxIom/h5+7v+HXJdfAizrI1O
-X-Google-Smtp-Source: AGHT+IEXrh+v2vKqurlhGEFbipOq2vHe/woTzzE/OY5V4kUw87A/sLqLvZMkJGIeV3vV/GYZktTEtQ==
-X-Received: by 2002:a17:90a:600f:b0:2e2:e159:8f7b with SMTP id 98e67ed59e1d1-2e8f1049fecmr10347611a91.3.1730142473204;
-        Mon, 28 Oct 2024 12:07:53 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:e9ba:17cc:78fe:499e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e7867fe396sm9015065a91.51.2024.10.28.12.07.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2024 12:07:52 -0700 (PDT)
-Date: Mon, 28 Oct 2024 12:07:50 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] HID: multitouch: make mt_set_mode() less cryptic
-Message-ID: <Zx_hBvg5Qa3KU3ta@google.com>
+	s=arc-20240116; t=1730147383; c=relaxed/simple;
+	bh=dqwS4XaQFmoeo/SXHv13sETXrTAW8zi3udIref74ZGo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jDRDb8yVQWrNrKrjjboAkSxBk12/yj4lnnmdyy2luA9K1uQBhPpQF6aEOVQouabM1PCKeKPPfXC39MUGC8nU6Fb/5i4OqJ0kr+zV+PgCQo5kwihdhghSEpPsAO8Xf4asKcKr6wcFduleNAk0UDK86l/x9Zt6xYLJ5/QeHVnsqSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kVBKeMRv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A531CC4CEE7;
+	Mon, 28 Oct 2024 20:29:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730147383;
+	bh=dqwS4XaQFmoeo/SXHv13sETXrTAW8zi3udIref74ZGo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kVBKeMRvflS9wLXtOqnM2Uh4BHGYw8Wy9uE8M1cGSOacqAyyoN6QRVo5S3VbhcKHu
+	 Cm61SjQXDtYRZuh4FL6NY+S8qg5w335nfpmcCJsUKUns04+E+Hv67fLyaCthq92iZ1
+	 t1luqkDFRDsiCOQ/mA1S0E4MgVhKhksImQqJi09dXHMnPHgIFHy4Mjq+Fxn+X/j+BF
+	 NzCv9q2pdc0CHnpKUJFA03dZwxkJzIDSjggY/Z9wQwzImo7OveFG3C3AHWr4TXTgd7
+	 XCkQZrxw0HXEFgnRHUhqgm615hmpsEtqec53TVNWeaddkVqE3RlPp4EY84h2yX4Nep
+	 fMYjI7ATcvwRQ==
+Date: Mon, 28 Oct 2024 20:29:34 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Lars-Peter
+ Clausen <lars@metafoo.de>, Harvey Yang <chenghaoyang@google.com>,
+ linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 5/5] iio: hid-sensor-prox: Add support for more
+ channels
+Message-ID: <20241028202934.3894a141@jic23-huawei>
+In-Reply-To: <20241028-hpd-v2-5-18f6e79154d7@chromium.org>
+References: <20241028-hpd-v2-0-18f6e79154d7@chromium.org>
+	<20241028-hpd-v2-5-18f6e79154d7@chromium.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-mt_set_mode() accepts 2 boolean switches indicating whether the device
-(if it follows Windows Precision Touchpad specification) should report
-hardware buttons and/or surface contacts. For a casual reader it is
-completely not clear, as they look at the call site, which exact mode
-is being requested.
+On Mon, 28 Oct 2024 10:12:25 +0000
+Ricardo Ribalda <ribalda@chromium.org> wrote:
 
-Define report_mode enum and change mt_set_mode() to accept is as
-an argument instead. This allows to write:
+> Egis620 supports 3 channels: presense, proximity and attention.
+> 
+> Modify the driver so it can read those channels as well.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Hi Ricardo, one comment inline that I'm fine fixing up if nothing else
+comes up. 
 
-	mt_set_modes(hdev, HID_LATENCY_NORMAL, TOUCHPAD_REPORT_ALL);
+Given this series is introducing a new channel type, I'd like to leave
+it on the list for a little while to see if there are any comments on that
+definition beyond the one I had...
 
-or
+Jonathan
 
-	mt_set_modes(hdev, HID_LATENCY_HIGH, TOUCHPAD_REPORT_BUTTONS);
+> ---
+>  drivers/iio/light/hid-sensor-prox.c | 171 ++++++++++++++++++++----------------
+>  1 file changed, 95 insertions(+), 76 deletions(-)
+> 
+> diff --git a/drivers/iio/light/hid-sensor-prox.c b/drivers/iio/light/hid-sensor-prox.c
+> index 0f12a8a83790..e6f81d40a492 100644
+> --- a/drivers/iio/light/hid-sensor-prox.c
+> +++ b/drivers/iio/light/hid-sensor-prox.c
+> @@ -13,16 +13,31 @@
+>  #include <linux/iio/buffer.h>
+>  #include "../common/hid-sensors/hid-sensor-trigger.h"
+>  
+> -#define CHANNEL_SCAN_INDEX_PRESENCE 0
+> +static const u32 prox_usage_ids[] = {
+> +	HID_USAGE_SENSOR_HUMAN_PRESENCE,
+> +	HID_USAGE_SENSOR_HUMAN_PROXIMITY,
+> +	HID_USAGE_SENSOR_HUMAN_ATTENTION,
+> +};
+> +#define MAX_CHANNELS ARRAY_SIZE(prox_usage_ids)
+> +
+> +enum {
+> +	HID_HUMAN_PRESENCE,
+> +	HID_HUMAN_PROXIMITY,
+> +	HID_HUMAN_ATTENTION,
+> +};
+>  
+>  struct prox_state {
+>  	struct hid_sensor_hub_callbacks callbacks;
+>  	struct hid_sensor_common common_attributes;
+> -	struct hid_sensor_hub_attribute_info prox_attr;
+> -	u32 human_presence;
+> +	struct hid_sensor_hub_attribute_info prox_attr[MAX_CHANNELS];
+> +	struct iio_chan_spec channels[MAX_CHANNELS];
+> +	u32 channel2usage[MAX_CHANNELS];
+> +	u32 human_presence[MAX_CHANNELS];
+>  	int scale_pre_decml;
+>  	int scale_post_decml;
+>  	int scale_precision;
+> +	unsigned long scan_mask[2]; // One entry plus one terminator.
+Really trivial, but in IIO and most of the kernel comment are still
+'c style' /* One entry plus one terminator */
 
-which makes intent much more clear.
+> +	int num_channels;
+>  };
+>  
+>  static const u32 prox_sensitivity_addresses[] = {
+> @@ -30,18 +45,23 @@ static const u32 prox_sensitivity_addresses[] = {
+>  	HID_USAGE_SENSOR_DATA_PRESENCE,
+>  };
 
-Reviewed-by: Benjamin Tissoires <bentiss@kernel.org>
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
+> 
 
-v2: addressed Benjamin's comments, added his reviewed-by.
-
- drivers/hid/hid-multitouch.c | 30 ++++++++++++++++++------------
- 1 file changed, 18 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 99812c0f830b..53fb92453e88 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -31,6 +31,7 @@
-  * [1] https://gitlab.freedesktop.org/libevdev/hid-tools
-  */
- 
-+#include <linux/bits.h>
- #include <linux/device.h>
- #include <linux/hid.h>
- #include <linux/module.h>
-@@ -83,6 +84,13 @@ enum latency_mode {
- 	HID_LATENCY_HIGH = 1,
- };
- 
-+enum report_mode {
-+	TOUCHPAD_REPORT_NONE = 0,
-+	TOUCHPAD_REPORT_BUTTONS = BIT(0),
-+	TOUCHPAD_REPORT_CONTACTS = BIT(1),
-+	TOUCHPAD_REPORT_ALL = TOUCHPAD_REPORT_BUTTONS | TOUCHPAD_REPORT_CONTACTS,
-+};
-+
- #define MT_IO_FLAGS_RUNNING		0
- #define MT_IO_FLAGS_ACTIVE_SLOTS	1
- #define MT_IO_FLAGS_PENDING_SLOTS	2
-@@ -1486,8 +1494,7 @@ static bool mt_need_to_apply_feature(struct hid_device *hdev,
- 				     struct hid_field *field,
- 				     struct hid_usage *usage,
- 				     enum latency_mode latency,
--				     bool surface_switch,
--				     bool button_switch,
-+				     enum report_mode report_mode,
- 				     bool *inputmode_found)
- {
- 	struct mt_device *td = hid_get_drvdata(hdev);
-@@ -1542,11 +1549,11 @@ static bool mt_need_to_apply_feature(struct hid_device *hdev,
- 		return true;
- 
- 	case HID_DG_SURFACESWITCH:
--		field->value[index] = surface_switch;
-+		field->value[index] = !!(report_mode & TOUCHPAD_REPORT_CONTACTS);
- 		return true;
- 
- 	case HID_DG_BUTTONSWITCH:
--		field->value[index] = button_switch;
-+		field->value[index] = !!(report_mode & TOUCHPAD_REPORT_BUTTONS);
- 		return true;
- 	}
- 
-@@ -1554,7 +1561,7 @@ static bool mt_need_to_apply_feature(struct hid_device *hdev,
- }
- 
- static void mt_set_modes(struct hid_device *hdev, enum latency_mode latency,
--			 bool surface_switch, bool button_switch)
-+			 enum report_mode report_mode)
- {
- 	struct hid_report_enum *rep_enum;
- 	struct hid_report *rep;
-@@ -1579,8 +1586,7 @@ static void mt_set_modes(struct hid_device *hdev, enum latency_mode latency,
- 							     rep->field[i],
- 							     usage,
- 							     latency,
--							     surface_switch,
--							     button_switch,
-+							     report_mode,
- 							     &inputmode_found))
- 					update_report = true;
- 			}
-@@ -1820,7 +1826,7 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		dev_warn(&hdev->dev, "Cannot allocate sysfs group for %s\n",
- 				hdev->name);
- 
--	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
-+	mt_set_modes(hdev, HID_LATENCY_NORMAL, TOUCHPAD_REPORT_ALL);
- 
- 	return 0;
- }
-@@ -1832,9 +1838,9 @@ static int mt_suspend(struct hid_device *hdev, pm_message_t state)
- 	/* High latency is desirable for power savings during S3/S0ix */
- 	if ((td->mtclass.quirks & MT_QUIRK_DISABLE_WAKEUP) ||
- 	    !hid_hw_may_wakeup(hdev))
--		mt_set_modes(hdev, HID_LATENCY_HIGH, false, false);
-+		mt_set_modes(hdev, HID_LATENCY_HIGH, TOUCHPAD_REPORT_NONE);
- 	else
--		mt_set_modes(hdev, HID_LATENCY_HIGH, true, true);
-+		mt_set_modes(hdev, HID_LATENCY_HIGH, TOUCHPAD_REPORT_ALL);
- 
- 	return 0;
- }
-@@ -1842,7 +1848,7 @@ static int mt_suspend(struct hid_device *hdev, pm_message_t state)
- static int mt_reset_resume(struct hid_device *hdev)
- {
- 	mt_release_contacts(hdev);
--	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
-+	mt_set_modes(hdev, HID_LATENCY_NORMAL, TOUCHPAD_REPORT_ALL);
- 	return 0;
- }
- 
-@@ -1854,7 +1860,7 @@ static int mt_resume(struct hid_device *hdev)
- 
- 	hid_hw_idle(hdev, 0, 0, HID_REQ_SET_IDLE);
- 
--	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
-+	mt_set_modes(hdev, HID_LATENCY_NORMAL, TOUCHPAD_REPORT_ALL);
- 
- 	return 0;
- }
--- 
-2.47.0.163.g1226f6d8fa-goog
-
-
--- 
-Dmitry
 
