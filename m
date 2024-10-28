@@ -1,74 +1,48 @@
-Return-Path: <linux-input+bounces-7723-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7724-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8EB9B2533
-	for <lists+linux-input@lfdr.de>; Mon, 28 Oct 2024 07:23:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B409B2852
+	for <lists+linux-input@lfdr.de>; Mon, 28 Oct 2024 08:04:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7C8F41C20F7E
-	for <lists+linux-input@lfdr.de>; Mon, 28 Oct 2024 06:23:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 84DD9280A85
+	for <lists+linux-input@lfdr.de>; Mon, 28 Oct 2024 07:04:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 153E618DF8B;
-	Mon, 28 Oct 2024 06:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F33418E05A;
+	Mon, 28 Oct 2024 07:04:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WVNmEvqR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s4JENpki"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6996518DF71;
-	Mon, 28 Oct 2024 06:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD77156960;
+	Mon, 28 Oct 2024 07:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730096622; cv=none; b=uU6h0Bl0e1yglrHpB0Bqgst0skXD1bRbSOv67zPSYYpzfpoURl0VwshKNqw+JRX7SzQ6UHl52Z5nMaMVfCc1bnWdUcrgxF4MC+AYqYrrvgUZavV97+Et+4wmHu453ikO17iSsHSE6Wso7uvxtb8+QEVlQhetDVUPx8tqlitrjeE=
+	t=1730099057; cv=none; b=Ot5x8nBE2tSzv9zV/VeQW92bK6zXoRfv2HYwE1J8rONTG3bK/iqVPXdXCivaEJGYBCThSvLxfVOooFpI1qjBNvJcOhX0eaC1z6HWhmF9q3wGWobFB4NChQtlQn7e7ulekZVjYrFYXgw4WZu9bLf2LlIsDk4xuGZYChO0+OubmiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730096622; c=relaxed/simple;
-	bh=3lz0JUUs+Gpv70VHTpW0CdmkIq5Jan62FO8fyLCIxMs=;
+	s=arc-20240116; t=1730099057; c=relaxed/simple;
+	bh=IFtzioYoMCrWC81G9MYTULX0ymqOZQrC+0Er2G6w02s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D/XeeG7SeK/muyJi9h35P8TtGDDACPcZXqAH2zdd7qWUeoLNRtNVajUQZBouE/JdazYEW/trOZ7JWkkVoGSEBZ+KKl2/0UIVMksy9w16HYAJt1V406AgXWA/d+gCAAh3Es8Nod/R0B2V7gVocuglTYfboca13vAeL1mqBeBss14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WVNmEvqR; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-208cf673b8dso35114855ad.3;
-        Sun, 27 Oct 2024 23:23:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730096619; x=1730701419; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rRVy7DUai2fxFK9mh+tB9AyWJ8hxKfsvG30fRZxPNmA=;
-        b=WVNmEvqRyAswPMWv/Z+4AclVk6whddesDXYo6DIugbwAF0L251MOJg2pIEbB6nWybv
-         5jGOtuNGGuWLrSz5UHdP6BeM7ev8TEAY/MZb9F6lopWwUV4VdomtTA+vsqB6HwNUC8wI
-         vP52Ov/gyyXB+cjPA7Alv+j3K7bw+cx/OVdBq3l3lJDkMSv79U5ahk662Xwoztvi+zFP
-         q1ME+PPjCn/nGXX/P7K3/XeAqunNBNrGlGxiEa/RmMF1cd6G8rq70qekQICDv8LERUjW
-         St0SsponLEZp04byXyRMfi3HY4rNOlTx01mdGWDNrlmFVH3+1z4fYkA6V3JD4niB/VbC
-         mfMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730096619; x=1730701419;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rRVy7DUai2fxFK9mh+tB9AyWJ8hxKfsvG30fRZxPNmA=;
-        b=XtXbefWkrXwQOxzIUOT2m+rp0qMoWiqFnrtU5r/tXF8TlMonh8kShJK+YpKrmFS/wI
-         q9+bYuVAJssPB3htE6eZ+E+O8/bOFheLdKJ4cTtT8e0nbWiPCnmW+S6mgvGLqFApl2XL
-         WuB7zviStlX8/c9kvqYaZ6C0kNyQJVofI8G2hI0PvR5Syr2sSjxuHhdZyQBrJzKe4jex
-         j1NzffnFZ3AJHBjCKkWBb7h25gz+O+fHoTyKSEJ6b878ovh8aextxSORNAul4aaUCzzY
-         3s6hVmzaerzoKEjU5QJOO5thez6GlNHxcoCBZood6L/KdZCKy6mFmwIL4vzj3scoetJi
-         IAsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+gDMJGvXC+rdpGicGznxyZsg/TofmsT3c9o5wpJO2NG1Q64M07OF3sdXr98k9ourgnMIhLjmob4sp+Wk=@vger.kernel.org, AJvYcCVrvlmK/4/NAjgjiwZ/EuoD69NjC/uA9lRsf5QmTFgoWtVneC20McPOYweGSlsDkOi6Qs+G33N2S3ji@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywk9fIOrx5u5LOUuN6ukU8WPDdmfLl4zucDK8KvpYZOB0RdX8+c
-	PNh4QUDaUtmwVq9FVQzs8B+b5W34oBWPpfFNGXqq9utKRQQ55nSK
-X-Google-Smtp-Source: AGHT+IFJkDIyhBUI7lRSK3XPqc2b6hPLfZfRYqu6uCKR3bI+jjCdKuefAE13VYYLgL17H7Q8XAvh0A==
-X-Received: by 2002:a17:903:283:b0:20c:6bff:fc84 with SMTP id d9443c01a7336-210c67271e3mr105693855ad.0.1730096618603;
-        Sun, 27 Oct 2024 23:23:38 -0700 (PDT)
-Received: from [172.19.1.43] (60-250-192-107.hinet-ip.hinet.net. [60.250.192.107])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-210bc013410sm44405685ad.173.2024.10.27.23.23.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 27 Oct 2024 23:23:38 -0700 (PDT)
-Message-ID: <4964ab4f-58cc-42da-b0a6-56b79a7bb4b3@gmail.com>
-Date: Mon, 28 Oct 2024 14:23:34 +0800
+	 In-Reply-To:Content-Type; b=IuApfcckmZbGloVzkzSGMlPqOTxnIuQwMCDlDx7IfZ4MQr+NajTCyo9HLre0giE2G1I6LapJxrEdehdDQAQH9qxhGnggdBcza7AHM3T/2kMRba1rYrvVAkQVr5t9r2kvWnwJIXZuOyRfLbU5epcT12cwG9vGwTx7DgjHTCd5qoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s4JENpki; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B18AC4CEC3;
+	Mon, 28 Oct 2024 07:04:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730099056;
+	bh=IFtzioYoMCrWC81G9MYTULX0ymqOZQrC+0Er2G6w02s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=s4JENpkiaVagP4ja3lR3I/+eQ6q0RnPMxEF0weztAm4glUbkwNhX6ODVee7gm34aB
+	 54k/A7nxVQjMkDPBsRrWLzBXwZ8Lq7ZcTULRvGwBe5tHuDSdyZLS201prRhaTVauoM
+	 VY8SuVXmzHbZVK/pjChwG4MYIFPfKGP5fZcXkgTEIfftnd1KBUUOkPpmOrfmn+FtgR
+	 Z+6zw/ioIE92FHeeVxNdS/f6z13dclVmSOAKOV/9ICygTPBwOzVJ2W5OZ2VRTiV2SE
+	 cBFGFdtFy4H0f5sbmbLuhS1cJQd0oifmfnNJe749lULfjkHFwvEhgJwg/7smM4nmvL
+	 aK54ya6O5Pe0A==
+Message-ID: <9b0a508e-d9ae-45ab-882f-5bc1f03e13db@kernel.org>
+Date: Mon, 28 Oct 2024 08:04:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -76,362 +50,157 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] input: keypad: add new keypad driver for MA35D1
-To: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: input: Add Nuvoton MA35D1 keypad
+To: Ming-Jen Chen <mjchen0829@gmail.com>
 Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  mjchen@nuvoton.com, peng.fan@nxp.com, sudeep.holla@arm.com, arnd@arndb.de,
  conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
  dmitry.torokhov@gmail.com
 References: <20241022063158.5910-1-mjchen0829@gmail.com>
- <20241022063158.5910-3-mjchen0829@gmail.com>
- <xveh2z7at7ion3fljdcvbhuvfij7m54bb66rlhclmxot3l5ea5@nzgzed6jwhlt>
+ <20241022063158.5910-2-mjchen0829@gmail.com>
+ <csbechg6iarxx52z2gqidszhvgjdvaraoumpfcsozelhuuhmtb@ec7es3txuzxc>
+ <871e9a4c-7a3c-4a24-8829-a079983033da@gmail.com>
+ <ef407e89-950f-4874-9dca-474d107f6a52@kernel.org>
+ <984781ba-9f4c-4179-84d5-4ab8bbe4c3c6@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Ming-Jen Chen <mjchen0829@gmail.com>
-In-Reply-To: <xveh2z7at7ion3fljdcvbhuvfij7m54bb66rlhclmxot3l5ea5@nzgzed6jwhlt>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <984781ba-9f4c-4179-84d5-4ab8bbe4c3c6@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+On 28/10/2024 02:15, Ming-Jen Chen wrote:
+> 
+> On 2024/10/25 下午 07:42, Krzysztof Kozlowski wrote:
+>> On 25/10/2024 07:36, Ming-Jen Chen wrote:
+>>>>> +      0  = 0 clock
+>>>>> +      1  = 0 clock
+>>>>> +      2  = 0 clock
+>>>> Heh? So this is just 0
+>>>>
+>>>>> +      3  = 8 clocks
+>>>> This is 8
+>>>>
+>>>>> +      4  = 16 clocks
+>>>> 16, not 4
+>>>>
+>>>>> +      5  = 32 clocks
+>>>>> +      6  = 64 clocks
+>>>>> +      7  = 128 clocks
+>>>>> +      8  = 256 clocks
+>>>>> +      9  = 512 clocks
+>>>>> +      10 = 1024 clocks
+>>>>> +      11 = 2048 clocks
+>>>>> +      12 = 4096 clocks
+>>>>> +      13 = 8192 clocks
+>>>> Use proper enum
+>>> I will update the definition to specify the debounce period in terms of
+>>> keypad IP clock cycles, as follow:
+>>>
+>>> nuvoton,debounce-period:
+>>>       type: integer
+>>>       enum: [0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+>>>       description: |
+>>>           Key debounce period select, specified in terms of keypad IP
+>>> clock cycles.
+>>>           This value corresponds to the register setting for the keypad
+>>> interface.
+>>>           The following values indicate the debounce time:
+>>>           - 0 = 0 clock cycles (no debounce)
+>>>           - 3 = 8 clock cycles
+>>>           - 4 = 16 clock cycles
+>>>           - 5 = 32 clock cycles
+>>>           - 6 = 64 clock cycles
+>>>           - 7 = 128 clock cycles
+>>>           - 8 = 256 clock cycles
+>>>           - 9 = 512 clock cycles
+>>>           - 10 = 1024 clock cycles
+>>>           - 11 = 2048 clock cycles
+>>>           - 12 = 4096 clock cycles
+>>>           - 13 = 8192 clock cycles
+>> No. 0, 8, 16, 32 , 64 etc.
+> 
+> I will change it to the following content:
+> 
+> nuvoton,debounce-period:
+>    type:  integer
+>    enum:  [0,8,16,32,64,128,256,512,1024,2048,4096,8192]
+>    description:  | Key debounce period select, specified in terms of keypad IP clock 
+> cycles. Valid values include 0 (no debounce) and specific clock cycle 
+> values: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, and 8192.
+> 
+>>>>
+>>>>> +
+>>>>> +  per-scale:
+>>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>>>> +    description: Row Scan Cycle Pre-scale Value (1 to 256).
+>>>> Missing constraints
+>>>>
+>>>>> +
+>>>>> +  per-scalediv:
+>>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>>>> +    description: Per-scale divider (1 to 256).
+>>>> Missing constraints
+>>>>
+>>>> Both properties are unexpected... aren't you duplicating existing
+>>>> properties?
+>>> pre-scale:
+>>> This value configures the IC register for the row scan cycle
+>>> pre-scaling, with valid values ranging from 1 to 256
+>>> per-scalediv:(I will change pre-scalediv to pre-scale-div)
+>> Please look for matching existing properties first.
+> 
+> I will change it to the following content:
+> 
+> nuvoton,scan-time:
 
-On 2024/10/23 下午 04:45, Krzysztof Kozlowski wrote:
-> On Tue, Oct 22, 2024 at 06:31:58AM +0000, mjchen wrote:
->> From: mjchen <mjchen@nuvoton.com>
->>
->> Adds a new keypad driver for the MA35D1 platform.
->> The driver supports key scanning and interrupt handling.
->>
->> Signed-off-by: mjchen <mjchen@nuvoton.com>
->> ---
->>   drivers/input/keyboard/Kconfig         |  10 +
->>   drivers/input/keyboard/Makefile        |   1 +
->>   drivers/input/keyboard/ma35d1_keypad.c | 312 +++++++++++++++++++++++++
->>   3 files changed, 323 insertions(+)
->>   create mode 100644 drivers/input/keyboard/ma35d1_keypad.c
->>
->> diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
->> index 721ab69e84ac..ce9bd5cc13a1 100644
->> --- a/drivers/input/keyboard/Kconfig
->> +++ b/drivers/input/keyboard/Kconfig
->> @@ -797,4 +797,14 @@ config KEYBOARD_CYPRESS_SF
->>   	  To compile this driver as a module, choose M here: the
->>   	  module will be called cypress-sf.
->>   
->> +config KEYBOARD_MA35D1
->> +	tristate "Nuvoton MA35D1 keypad driver"
->> +	depends on ARCH_MA35
-> || COMPILE_TEST
+Why? What about my request?
 
-
-I will modify to: depends on ARCH_MA35 || COMPILE_TEST
-
->
->> +	select INPUT_MATRIXKMAP
->> +	help
->> +	  Say Y here if you want to use Nuvoton MA35D1 keypad.
->> +
->> +	  To compile this driver as a module, choose M here: the
->> +	  module will be called ma35d1-keypad.
->> +
->>   endif
->> diff --git a/drivers/input/keyboard/Makefile b/drivers/input/keyboard/Makefile
->> index 1e0721c30709..9b858cdd1b6b 100644
->> --- a/drivers/input/keyboard/Makefile
->> +++ b/drivers/input/keyboard/Makefile
->> @@ -70,3 +70,4 @@ obj-$(CONFIG_KEYBOARD_TEGRA)		+= tegra-kbc.o
->>   obj-$(CONFIG_KEYBOARD_TM2_TOUCHKEY)	+= tm2-touchkey.o
->>   obj-$(CONFIG_KEYBOARD_TWL4030)		+= twl4030_keypad.o
->>   obj-$(CONFIG_KEYBOARD_XTKBD)		+= xtkbd.o
->> +obj-$(CONFIG_KEYBOARD_MA35D1)		+= ma35d1_keypad.o
->> diff --git a/drivers/input/keyboard/ma35d1_keypad.c b/drivers/input/keyboard/ma35d1_keypad.c
->> new file mode 100644
->> index 000000000000..20b5b1b91127
->> --- /dev/null
->> +++ b/drivers/input/keyboard/ma35d1_keypad.c
->> @@ -0,0 +1,312 @@
->> +// SPDX-License-Identifier: GPL-2.0+
->> +/*
->> + *  MA35D1 keypad driver
->> + *  Copyright (C) 2024 Nuvoton Technology Corp.
->> + */
->> +
->> +#include <linux/interrupt.h>
->> +#include <linux/input.h>
->> +#include <linux/platform_device.h>
->> +#include <linux/input/matrix_keypad.h>
->> +#include <linux/clk.h>
->> +#include <linux/of.h>
->> +
->> +/* Keypad Interface Registers */
->> +#define KPI_CONF		0x00
->> +#define KPI_3KCONF		0x04
->> +#define KPI_STATUS		0x08
->> +#define KPI_RSTC		0x0C
->> +#define KPI_KEST		0x10
->> +#define KPI_KPE0		0x18
->> +#define KPI_KPE1		0x1C
->> +#define KPI_KRE0		0x20
->> +#define KPI_KRE1		0x24
->> +#define KPI_PRESCALDIV	0x28
->> +
->> +/* KPI_CONF - Keypad Configuration Register */
->> +#define KROW		GENMASK(30, 28) /* Keypad Matrix ROW number */
->> +#define KCOL		GENMASK(26, 24) /* Keypad Matrix COL Number */
->> +#define DB_CLKSEL	GENMASK(19, 16) /* De-bounce sampling cycle selection */
->> +#define PRESCALE	GENMASK(15, 8)  /* Row Scan Cycle Pre-scale Value */
->> +#define WAKEUP		BIT(5) /* Lower Power Wakeup Enable */
->> +#define INTEN		BIT(3) /* Key Interrupt Enable Control */
->> +#define RKINTEN		BIT(2) /* Release Key Interrupt Enable */
->> +#define PKINTEN		BIT(1) /* Press Key Interrupt Enable Control */
->> +#define ENKP		BIT(0) /* Keypad Scan Enable */
->> +
->> +/* KPI_STATUS - Keypad Status Register */
->> +#define PKEY_INT	BIT(4) /* Press key interrupt */
->> +#define RKEY_INT	BIT(3) /* Release key interrupt */
->> +#define KEY_INT		BIT(2) /* Key Interrupt */
->> +#define RST_3KEY	BIT(1) /* 3-Keys Reset Flag */
->> +#define PDWAKE		BIT(0) /* Power Down Wakeup Flag */
->> +
->> +#define DEFAULT_DEBOUNCE		1
->> +#define DEFAULT_PRE_SCALE		1
->> +#define DEFAULT_PRE_SCALEDIV	32
->> +
->> +struct ma35d1_keypad {
->> +	struct clk *clk;
->> +	struct input_dev *input_dev;
->> +	void __iomem *mmio_base;
->> +	int irq;
->> +	unsigned int kpi_row;
->> +	unsigned int kpi_col;
->> +	unsigned int debounce_val;
->> +	unsigned int pre_scale;
->> +	unsigned int pre_scale_divider;
->> +};
->> +
->> +static void ma35d1_keypad_scan_matrix(struct ma35d1_keypad *keypad,	unsigned int status)
->> +{
->> +	struct input_dev *input_dev = keypad->input_dev;
->> +	unsigned int i, j;
->> +	unsigned int row_add = 0;
->> +	unsigned int code;
->> +	unsigned int key;
->> +	unsigned int press_key;
->> +	unsigned long KeyEvent[4];
-> No Windows or C++ code, please.
-
-
-I will modify to:unsigned long key_event[4];
-
->
->> +	unsigned int row_shift = get_count_order(keypad->kpi_col);
->> +	unsigned short *keymap = input_dev->keycode;
->> +
-> ...
->
->> +static int ma35d1_keypad_probe(struct platform_device *pdev)
->> +{
->> +	struct ma35d1_keypad *keypad;
->> +	struct input_dev *input_dev;
->> +	struct resource *res;
->> +	int error = 0;
->> +
->> +	keypad = devm_kzalloc(&pdev->dev, sizeof(*keypad), GFP_KERNEL);
->> +	if (!keypad)
->> +		return -ENOMEM;
->> +
->> +
->> +	input_dev = input_allocate_device();
->> +	if (!input_dev) {
->> +		dev_err(&pdev->dev, "failed to allocate input device\n");
->> +		return -ENOMEM;
->> +	}
->> +
->> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->> +	if (!res) {
->> +		dev_err(&pdev->dev, "failed to get I/O memory\n");
->> +		error = -ENXIO;
->> +		goto failed_free_input;
->> +	}
->> +
->> +	keypad->mmio_base = devm_ioremap_resource(&pdev->dev, res);
->> +	if (IS_ERR(keypad->mmio_base)) {
->> +		dev_err(&pdev->dev, "failed to remap I/O memory\n");
->> +		return PTR_ERR(keypad->mmio_base);
->> +	}
->> +
->> +	keypad->irq = platform_get_irq(pdev, 0);
->> +	if (keypad->irq < 0) {
->> +		dev_err(&pdev->dev, "failed to get IRQ\n");
->> +		return keypad->irq;
->> +	}
->> +
->> +	keypad->clk = devm_clk_get(&pdev->dev, NULL);
->> +	if (IS_ERR(keypad->clk)) {
->> +		dev_err(&pdev->dev, "failed to get core clk: %ld\n", PTR_ERR(keypad->clk));
-> Syntax is: return dev_err_probe, except that your error handling code is a mess.
-> Earlier you have gotos, now return. Organize it nicely, so this will
-> follow some logical concept.
-
-
-I will refactor the error handling in my driver to consistently use either the return dev_err_probe() statement
-or the goto method, ensuring a clearer and more logical flow in the code.
-
->
->> +		return PTR_ERR(keypad->clk);
->> +	}
->> +
->> +	error = matrix_keypad_parse_properties(&pdev->dev,
->> +										   &(keypad->kpi_row),
->> +										   &(keypad->kpi_col));
-> How did you aligned it?
->
->> +	if (error) {
->> +		dev_err(&pdev->dev, "failed to parse kp params\n");
->> +		return error;
->> +	}
->> +
->> +	error = matrix_keypad_build_keymap(NULL, NULL,
->> +									   keypad->kpi_row,
->> +									   keypad->kpi_col,
->> +									   NULL, input_dev);
->> +	if (error) {
->> +		dev_err(&pdev->dev, "failed to build keymap\n");
->> +		return error;
->> +	}
->> +
->> +	keypad->input_dev = input_dev;
->> +	input_dev->name = pdev->name;
->> +	input_dev->id.bustype = BUS_HOST;
->> +	input_dev->open = ma35d1_keypad_open;
->> +	input_dev->close = ma35d1_keypad_close;
->> +	input_dev->dev.parent = &pdev->dev;
->> +
->> +	if (of_property_read_u32(pdev->dev.of_node, "debounce-period", &(keypad->debounce_val)))
->> +		keypad->debounce_val = DEFAULT_DEBOUNCE;
-> This is not used anywhere. Drop dead code.
-
-
-In|ma35d1_keypad_open()|, I used|keypad->debounce_val|  to set the debounce length.
-
->
->> +
->> +	if (of_property_read_u32(pdev->dev.of_node, "per-scale", &(keypad->pre_scale)))
->> +		keypad->pre_scale = DEFAULT_PRE_SCALE;
-> Not better...
->
->> +
->> +	if (of_property_read_u32(pdev->dev.of_node, "per-scalediv", &(keypad->pre_scale_divider)))
->> +		keypad->pre_scale_divider = DEFAULT_PRE_SCALEDIV;
-> Still not better...
->
-> So there are defaults? Why these are required by bindings? Why bindings do not say
-> defaults?
-
-
-I will remove the default values for pre-scale and pre-scalediv.
-
->
->> +
->> +	__set_bit(EV_REP, input_dev->evbit);
->> +	input_set_drvdata(input_dev, keypad);
->> +	input_set_capability(input_dev, EV_MSC, MSC_SCAN);
->> +
->> +	error = input_register_device(input_dev);
->> +	if (error) {
->> +		dev_err(&pdev->dev, "failed to register input device\n");
->> +		goto failed_free_input;
->> +	}
->> +
->> +	error = devm_request_irq(&pdev->dev, keypad->irq,
->> +							 ma35d1_keypad_interrupt,
->> +							 IRQF_NO_SUSPEND, pdev->name, keypad);
-> Totally mesed alignment.
-
-
-I will review the editor settings and make the necessary adjustments to resolve this problem.
-
->
->> +	if (error) {
->> +		dev_err(&pdev->dev, "failed to request IRQ\n");
->> +		goto failed_unregister_input;
->> +	}
->> +
->> +	platform_set_drvdata(pdev, keypad);
->> +	device_init_wakeup(&pdev->dev, 1);
->> +	clk_prepare_enable(keypad->clk);
->> +
->> +	return 0;
->> +
->> +failed_unregister_input:
->> +	input_unregister_device(input_dev);
->> +failed_free_input:
->> +	input_free_device(input_dev);
->> +	return error;
->> +}
->> +
->> +static void ma35d1_keypad_remove(struct platform_device *pdev)
->> +{
->> +	struct ma35d1_keypad *keypad = platform_get_drvdata(pdev);
->> +
->> +	input_unregister_device(keypad->input_dev);
->> +	clk_disable_unprepare(keypad->clk);
-> Why aren't you using devm_clk_get_enabled()?
-
-
-I will update the code to utilize devm_clk_get_enabled() and remove the clk_disable_unprepare(keypad->clk)
-
->
->> +}
->> +
->> +static int ma35d1_keypad_suspend(struct platform_device *pdev,
->> +									pm_message_t state)
->> +{
->> +	struct ma35d1_keypad *keypad = platform_get_drvdata(pdev);
->> +
->> +	if (device_may_wakeup(&pdev->dev)) {
->> +		writel(readl(keypad->mmio_base + KPI_CONF) | WAKEUP, keypad->mmio_base + KPI_CONF);
->> +		enable_irq_wake(keypad->irq);
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int ma35d1_keypad_resume(struct platform_device *pdev)
->> +{
->> +	struct ma35d1_keypad *keypad = platform_get_drvdata(pdev);
->> +
->> +	if (device_may_wakeup(&pdev->dev)) {
->> +		writel(readl(keypad->mmio_base + KPI_CONF) & ~(WAKEUP),
->> +						keypad->mmio_base + KPI_CONF);
->> +		disable_irq_wake(keypad->irq);
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static const struct of_device_id ma35d1_kpi_of_match[] = {
->> +	{ .compatible = "nuvoton,ma35d1-kpi"},
->> +	{},
->> +};
->> +MODULE_DEVICE_TABLE(of, ma35d1_kpi_of_match);
->> +
->> +static struct platform_driver ma35d1_keypad_driver = {
->> +	.probe		= ma35d1_keypad_probe,
->> +	.remove		= ma35d1_keypad_remove,
->> +	.suspend	= ma35d1_keypad_suspend,
->> +	.resume		= ma35d1_keypad_resume,
->> +	.driver		= {
->> +		.name	= "ma35d1-kpi",
->> +		.of_match_table = of_match_ptr(ma35d1_kpi_of_match),
-> Drop of_match_ptr(), you have warnings here.
-
-
-I will remove this line of code.
-
->
-> Best regards,
-> Krzysztof
 
 Best regards,
-Ming-Jen Chen
+Krzysztof
 
 
