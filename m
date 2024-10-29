@@ -1,63 +1,74 @@
-Return-Path: <linux-input+bounces-7760-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7761-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E5899B5243
-	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2024 19:58:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8ECD9B55BE
+	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2024 23:26:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B1D751F2478D
-	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2024 18:58:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 732EB1F21806
+	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2024 22:26:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06913205E2D;
-	Tue, 29 Oct 2024 18:58:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B52220ADD5;
+	Tue, 29 Oct 2024 22:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="GM6laftD"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="xClEgT+q"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32CC205159;
-	Tue, 29 Oct 2024 18:58:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE6C20ADC5
+	for <linux-input@vger.kernel.org>; Tue, 29 Oct 2024 22:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730228317; cv=none; b=fP5f6nM263CHXhgPI35zzcIzaBNQeuvO2kQmmNwQLh0yL6SbhVlN51Uf5X+DxCl2v3emvQtfr8IzDDsvpfQEjiQNBcNPtSx7hzSODI0NJg2vyypa48gKPxV2acVuh3T7jPgrMuOVsHxTe6eeXgRDu2lLr+IJ85d80sTx8uzzYDY=
+	t=1730240772; cv=none; b=VA7mFU+9oQyCu8Uzid5F2M78/NFv11lvMGTZgiVLksNInblBlY/+A4Esnmq/RQ7TT93ZvPQ7XWLMBrGKmxw+OSW0EEoeiNhB+dRCzBD2SN0pgO00VQJaEE32WlV51VPVstPsuPzCRgFmAjvrZ4LOxfo297fgwaJH7GAepBRvGN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730228317; c=relaxed/simple;
-	bh=4W0HlC2Kj2crp2BfxjlLbRWtQ2TtBDLWnNobKyX3lLw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=F7BBQ93qm50d6KS6JDoEGnx9b8yLlg33gK3n58yH480fvQWpxs41RHD2eWU9vpW4K+ep7dR0SLDyGsHnPNrj+bRdgbOYgpdpkVWQtLg46nQzm588OCWEztdtAUuUnPrzOYsDY899x7q9+FBlo4+vfG5yu3dzzB27CxGdPUkaiS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=GM6laftD; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49T8kLjZ028808;
-	Tue, 29 Oct 2024 18:58:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	mMCcaLZmre/30OJO8WljAYdE/vnQtOlJelWRG+D9fQ4=; b=GM6laftDmoACMeta
-	BGKsZRxJqJKeXyKxqGjSiNchu2K5PA15B3h46GOvrHwp6Wtv6zSVqGsQv5URM09L
-	UlyvGyeJusABpXzGrTci4IJP8MoqqwvAtZdAobJwEw8MDbXHTnXpAvFLbShPFZMN
-	cGM2oWendTaWZDn3aue/EDMztyOZVzBtvmLaPFHg87vugWVzvKkZZedct0jN1jjL
-	LsSWcbxL+0pRjInhfRZ9avM2w2QQ0PUu61MNeYTrUsrh0r1znk3aCbLZffibCSBi
-	5bw1eOVXJEXBoh0PUO4MMhnYrQuRS5QjcepsdWgBnrL9JhxhtilF3KdZyXkA/uib
-	J7zDCw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42gsq8heue-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Oct 2024 18:58:04 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49TIw3DJ014208
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Oct 2024 18:58:03 GMT
-Received: from [10.71.115.184] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 29 Oct
- 2024 11:58:03 -0700
-Message-ID: <52ea0b32-79c7-42e8-8e2c-192d08f41e64@quicinc.com>
-Date: Tue, 29 Oct 2024 11:58:03 -0700
+	s=arc-20240116; t=1730240772; c=relaxed/simple;
+	bh=t5+4Q8OWpVdp/0RgGYt6wGLBd/T5QhCCqDsGYRkkzmo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iF8oS0Rw91CnuicuWkguKQ393CkWBV/YfPP4fupvVbMhHNwltT3vYGzveLVUelSqX8q4s/FxdIAL1UgYkHRMTcqZfNn/dzRHJ4gyzz88Wght5/DfaVLpFCKRz1XWi5w3YUdDYqtJdnP3BxLXObkb59Mlhkr72y8N8vtZO5hgD5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=xClEgT+q; arc=none smtp.client-ip=209.85.167.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3e601b6a33aso3509593b6e.0
+        for <linux-input@vger.kernel.org>; Tue, 29 Oct 2024 15:26:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730240769; x=1730845569; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JlW02YBV+5dPho8DkByoe+gPa11gJkbgA1l/C1eYeW4=;
+        b=xClEgT+qYhpknxBOr3R27bCuYGRvNZTX8SlqE/R3uqZauJBKBhzcl+SStQG3JJWN5B
+         +W5oa+DrNkXM3kNtnE4JC7Lc4gaG1s9u+7VzAHct2byk0/fmbo3jcNdYHxEem8yAcvDl
+         MbG7DUIHxjtL6WSuK3xYZMWhk94YHJ2xXiA1bnedsOA7tO/QCEscxiXk5EhiFIRE0lCA
+         5CtUEL9kfPCJuZZEqyPn9XypA70rfVcNbzRVXSRhnUcu0Y2PAiHRrZTRv8s0mfowvsyZ
+         K3AimnEYPmb8CgivA1wXkS6tUIJ+Axjhu6X4gkUm/wC1Y3XehH8cpFCbc/I8GSqnJBpf
+         JAEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730240769; x=1730845569;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JlW02YBV+5dPho8DkByoe+gPa11gJkbgA1l/C1eYeW4=;
+        b=f58zy7BUeOPYHr0gW+FDvSsq1yMR5w5dqnhfbOc4fIWA3autkM2ZVbbr9cUz0rIyFd
+         52k0hux/X1PBiCqghFW1ABlt9Om1s6em9WcoI0QoK/Gdnejb4QbzZ7lqX/oEcU8uj+aB
+         cRHnMZgbpGz6nGJZpiYhuz4qPBcOtKwkQBv6DEs8o/pjZFMSijZqDb2ohFzxtYSqiJb4
+         C+uQIAfzf7bj5nvEPLfSuzr/hcuipr9hZSEiTyAD+pOxDJlZFuCj1zcNkjR4FjmAakfA
+         oxj3tCP9XUOIUPGK83/lknxLDavacolh65ZHB8VEkMP8mxZ+xcSgvTT7v6yGBqnfeF7l
+         KAzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUiu3zeWnC/gTqrAANKMt+T22BDRtdwkuaflDX6odd7iQtvLnLJ5duUgk1RcTh6vvhGW1nT4WEJJxTfBw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHN+dAtFlgHSn0YHiDQ7aGAn0SL2GXJU8MA+kUT6D3MIJ5kIwE
+	UKRZNC2ZGovR36wBcOyXuyh/6g8EXdPe/+aWXFEmtoljRnIwSWfn4IIx/QJyFyw=
+X-Google-Smtp-Source: AGHT+IH+xL4WkT7PHq4e4eGpDTEdBuUhuyNcG6ApkM+ymrg3d/hbpgqXXO+NZSR4pqqXg7V3HUjnJg==
+X-Received: by 2002:a05:6808:22a6:b0:3e5:fc09:7f51 with SMTP id 5614622812f47-3e63823916cmr11524333b6e.9.1730240768711;
+        Tue, 29 Oct 2024 15:26:08 -0700 (PDT)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3e6340bbb20sm2221777b6e.7.2024.10.29.15.26.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Oct 2024 15:26:08 -0700 (PDT)
+Message-ID: <b9da1c5e-3177-4bd1-abb2-5e92b0c2fb4c@baylibre.com>
+Date: Tue, 29 Oct 2024 17:26:06 -0500
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -65,140 +76,92 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v29 04/33] xhci: sideband: add initial api to register a
- sideband entity
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-CC: "srinivas.kandagatla@linaro.org" <srinivas.kandagatla@linaro.org>,
-        "mathias.nyman@intel.com" <mathias.nyman@intel.com>,
-        "perex@perex.cz"
-	<perex@perex.cz>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "corbet@lwn.net"
-	<corbet@lwn.net>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "tiwai@suse.com" <tiwai@suse.com>,
-        "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-        "pierre-louis.bossart@linux.intel.com"
-	<pierre-louis.bossart@linux.intel.com>,
-        "broonie@kernel.org"
-	<broonie@kernel.org>,
-        "bgoswami@quicinc.com" <bgoswami@quicinc.com>,
-        "robh@kernel.org" <robh@kernel.org>,
-        "gregkh@linuxfoundation.org"
-	<gregkh@linuxfoundation.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>,
-        "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>,
-        "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>,
-        "alsa-devel@alsa-project.org"
-	<alsa-devel@alsa-project.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
- <20241015212915.1206789-5-quic_wcheng@quicinc.com>
- <20241025232252.wsk4lviqzyzqjzuh@synopsys.com>
+Subject: Re: [PATCH v2 3/5] iio: Add channel type for attention
+To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
+ Ricardo Ribalda <ribalda@chromium.org>
+Cc: Jonathan Cameron <jic23@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Harvey Yang <chenghaoyang@google.com>,
+ linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241028-hpd-v2-0-18f6e79154d7@chromium.org>
+ <20241028-hpd-v2-3-18f6e79154d7@chromium.org>
+ <20241028203437.3eb5268d@jic23-huawei>
+ <CANiDSCu7G8gDKaY5jJR+JGyqGDobkDPRG+9NOfpXvVviqkQizA@mail.gmail.com>
+ <20241029143847.00004392@Huawei.com>
 Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <20241025232252.wsk4lviqzyzqjzuh@synopsys.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 47BSqjjk7MLktpZ_JdwbGROYbtTP0iEy
-X-Proofpoint-ORIG-GUID: 47BSqjjk7MLktpZ_JdwbGROYbtTP0iEy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
- adultscore=0 mlxscore=0 priorityscore=1501 mlxlogscore=893 impostorscore=0
- lowpriorityscore=0 malwarescore=0 clxscore=1015 spamscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410290142
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20241029143847.00004392@Huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Thinh,
-
-On 10/25/2024 4:22 PM, Thinh Nguyen wrote:
-> Hi,
->
-> On Tue, Oct 15, 2024, Wesley Cheng wrote:
->> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+On 10/29/24 9:38 AM, Jonathan Cameron wrote:
+> On Tue, 29 Oct 2024 13:20:06 +0100
+> Ricardo Ribalda <ribalda@chromium.org> wrote:
+> 
+>> Hi Jonathan
 >>
->> Introduce XHCI sideband, which manages the USB endpoints being requested by
->> a client driver.  This is used for when client drivers are attempting to
->> offload USB endpoints to another entity for handling USB transfers.  XHCI
->> sideband will allow for drivers to fetch the required information about the
->> transfer ring, so the user can submit transfers independently.  Expose the
->> required APIs for drivers to register and request for a USB endpoint and to
->> manage XHCI secondary interrupters.
+>> On Mon, 28 Oct 2024 at 21:34, Jonathan Cameron <jic23@kernel.org> wrote:
+>>>
+>>> On Mon, 28 Oct 2024 10:12:23 +0000
+>>> Ricardo Ribalda <ribalda@chromium.org> wrote:
+>>>  
+>>>> Add a new channel type representing if the user's attention state to the
+>>>> the system. This usually means if the user is looking at the screen or
+>>>> not.
+>>>>
+>>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>>>> ---
+>>>>  Documentation/ABI/testing/sysfs-bus-iio | 7 +++++++
+>>>>  drivers/iio/industrialio-core.c         | 1 +
+>>>>  include/uapi/linux/iio/types.h          | 1 +
+>>>>  tools/iio/iio_event_monitor.c           | 2 ++
+>>>>  4 files changed, 11 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
+>>>> index 89943c2d54e8..d5a2f93bd051 100644
+>>>> --- a/Documentation/ABI/testing/sysfs-bus-iio
+>>>> +++ b/Documentation/ABI/testing/sysfs-bus-iio
+>>>> @@ -2339,3 +2339,10 @@ KernelVersion: 6.10
+>>>>  Contact:     linux-iio@vger.kernel.org
+>>>>  Description:
+>>>>               The value of current sense resistor in Ohms.
+>>>> +
+>>>> +What:                /sys/.../iio:deviceX/in_attention_raw
+>>>> +KernelVersion:       6.13
+>>>> +Contact:     linux-iio@vger.kernel.org
+>>>> +Description:
+>>>> +             Boolean value representing the user's attention to the system.
+>>>> +             This usually means if the user is looking at the screen or not.  
+>>>
+>>> Hmm. I should have thought of this when I replied to suggest a new channel type.
+>>> The question is 'units' for a decision.
+>>>
+>>> Last time we hit something like this where processing is used to make a decision
+>>> we decided to at least allow for the concept of 'certainty'.
+>>>
+>>> The idea being that smarter sensors would tell us something about how sure they
+>>> are that the attention is on the device.
+>>> The analogy being with activity detection. See in_activity_walking_input
+>>> in Documentation/ABI/testing/sysfs-bus-iio
+>>>
+>>> Do you think that would be appropriate here as well?  For this device
+>>> it would take the values 0 and 100 rather than 0 and 1.  
 >>
->> Multiple ring segment page linking, proper endpoint clean up, and allowing
->> module compilation added by Wesley Cheng to complete original concept code
->> by Mathias Nyman.
+>> For the particular device that I want to support, they are giving me a
+>> value of 1 and 0, and the example from usb.org seems to work the same
+>> way (Logical Maximum of 1)
+>> https://www.usb.org/sites/default/files/hutrr107-humanpresenceattention_1.pdf
 >>
->> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
->> Co-developed-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> ---
->>  drivers/usb/host/Kconfig          |   9 +
->>  drivers/usb/host/Makefile         |   2 +
->>  drivers/usb/host/xhci-sideband.c  | 424 ++++++++++++++++++++++++++++++
->>  drivers/usb/host/xhci.h           |   4 +
->>  include/linux/usb/xhci-sideband.h |  70 +++++
->>  5 files changed, 509 insertions(+)
->>  create mode 100644 drivers/usb/host/xhci-sideband.c
->>  create mode 100644 include/linux/usb/xhci-sideband.h
->>
->> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
->> index 4448d0ab06f0..96659efa4be5 100644
->> --- a/drivers/usb/host/Kconfig
->> +++ b/drivers/usb/host/Kconfig
->> @@ -104,6 +104,15 @@ config USB_XHCI_RZV2M
->>  	  Say 'Y' to enable the support for the xHCI host controller
->>  	  found in Renesas RZ/V2M SoC.
->>  
->> +config USB_XHCI_SIDEBAND
->> +	tristate "xHCI support for sideband"
->> +	help
->> +	  Say 'Y' to enable the support for the xHCI sideband capability.
->> +	  Provide a mechanism for a sideband datapath for payload associated
-> Please correct me if I'm wrong, but this doesn't look like the actual
-> xHCI Audio Sideband capability described in the xHCI spec section 7.9
-> but rather a specific implementation for Qcom right? For the xHCI Audio
-> Sideband xHCI capability, the driver should detect this capability
-> through the xHCI get extended capability. If this is not xHCI Audio
-> Sideband capability, we should properly clarify this in the
-> documentation and the naming of things to avoid any confusion.
+>> I have no problem multiplying my value by 100 if you think there will
+>> be a use case for that. It will not have a major performance impact on
+>> the driver.
+> Same was true (0 or 1) for the activity classification but I'm not
+> keen on certainty :)  So lets' copy that precedence and *100
+> 
+> 
+And I assume we would want this to be in_attention_input (processed),
+not in_attention_raw.
 
-Sure, that's a good point.  It does still currently rely on utilizing the system memory for USB IO transfers.  I can add some comments and update some of the documentation to reflect that this is different. 
-
-Thanks
-
-Wesley Cheng
-
-> I believe your implementation still needs to provide the data to the
-> host controller through the system memory right? The xHCI Audio Sideband
-> capability may pass the data to the xHC other than the main memory.
->
-> BR,
-> Thinh
->
->> +	  with audio class endpoints. This allows for an audio DSP to use
->> +	  xHCI USB endpoints directly, allowing CPU to sleep while playing
->> +	  audio.
->> +
->>  config USB_XHCI_TEGRA
->>  	tristate "xHCI support for NVIDIA Tegra SoCs"
->>  	depends on PHY_TEGRA_XUSB
 
