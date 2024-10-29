@@ -1,207 +1,174 @@
-Return-Path: <linux-input+bounces-7757-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7758-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678AF9B498A
-	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2024 13:20:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E72A89B4AC6
+	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2024 14:19:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 94145B238E3
-	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2024 12:20:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A77F928411B
+	for <lists+linux-input@lfdr.de>; Tue, 29 Oct 2024 13:19:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92124206041;
-	Tue, 29 Oct 2024 12:20:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54757204F92;
+	Tue, 29 Oct 2024 13:19:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KzilBobj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jupVmOOT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2CE1DF985
-	for <linux-input@vger.kernel.org>; Tue, 29 Oct 2024 12:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A7E7FD;
+	Tue, 29 Oct 2024 13:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730204424; cv=none; b=XbfhqXGKIpDo2JmiRsMSJ/uWmC+5av0u2O90S2TUyuMZEzvdY6iExg0/BkHru773xL26JIxghcsvRXHRUzcqGlk50zXubwnkgTN5tyTH68vYqAudxygf0jXBxCUAyFH21085QlG+h46yxNKTo60j9mD8fJ8r1zg0t97kJc75cfc=
+	t=1730207982; cv=none; b=d8SRU2dm5RJjE7dCvrGhX0EhgNi86PU5XIED77MUvGs6MMO92BnUkZMJ92NhRZJ41XzLdwcdOUIGqoTmQNfzW52sKwTy6Ed+3f7kF3sBhDq/bLJ8CZ0xm0G6Ha9FXfWXUVKh4biyJqeyPgDu7SY/SNPXHYnbU2fADMJikPS4igQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730204424; c=relaxed/simple;
-	bh=ALNpfuYu8YjEgDCmT13LYtKo+Ht8dICxX9CtbVBeHaM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kblhoA4OexmG5/sBzVkYCOeT1S2Fq1/F3mQFIYy7Gxgj7Bq60WA5Xs3TGhqh9XXnKJG0NBC51oyw9kaaZPP0Kv4D+4Rii6VNHmi9vzZNwQkCDC0BbxYtmqwpPLQKnLzXFCfVuBdNRU4Ei15CmoHQU/By15qt7aYK6KHaWtO5aPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KzilBobj; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7206304f93aso2665741b3a.0
-        for <linux-input@vger.kernel.org>; Tue, 29 Oct 2024 05:20:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730204421; x=1730809221; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=62g7Pp/7Y21i31lD0JuePq5yK0xXKJofoigz9znaSi0=;
-        b=KzilBobjORw9IRidHox7GcfvTg17MZQvBxy/sANEMpVh9chw8OKSPRnVhuajxBHp2C
-         SLZl/uOSIOaNc9cnfcwner0kFMtPsgGxA1XZBDXYqQAnD0V2tKggwTp7C1b8djlWlq8H
-         dgjxJLgzTrhfPbr/+wAHgyIMFiVyD1dN4rLd8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730204421; x=1730809221;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=62g7Pp/7Y21i31lD0JuePq5yK0xXKJofoigz9znaSi0=;
-        b=eYRAR/lwTzZzMUfpNDNbrel3tyc1bHiyEnLh3RCYiA7/HD5VP74SKpOLN8Jioa0co3
-         6aJkgeecWYXgLC4FfLe3Lmg4fu4/cgnl8rorp2l3IaEH4fIG8BKCkKRosxThK5E44I4H
-         HqyH4DJekX5gfYXjOIYSj8yPFxLySaJ5TwI/1pzGhgNlDM1Jd5mQ9b502zV1FmEZyfV/
-         EwOqG82lqV+eOQk8yMjyVRpHxQp4Z9VGmJeft6hb+aoklRTJhfFZBE8WhF924YeBYSjR
-         RAoxa2esQFZ1x/YJr5zLMOzmGT28pXSdqnJo1osaGWdmPUqE5xU9FLhlLEyGQunVuulM
-         uZ5g==
-X-Forwarded-Encrypted: i=1; AJvYcCXQMcZ9T030AWJcmvUBzLXuzlDsrlPAFiig0/eKnwFXPtqe5Kr3GI3LVlZ5LI6/3rI53dasFeYfn9hzVQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzpggkUZ/IVsHJB6mwRHPVysbcfqLV/pONyDrEo1tGMuAje2IM
-	W8hi57/iOzukJpUAd+O+t7cwVrVdSBBlEmavDqaCoonK3yZxAUl8boMqLyo+Px4MXa1F5bny5V8
-	=
-X-Google-Smtp-Source: AGHT+IExR9xepDHNJmsnx5CL/x7TmtGEj6k6Y9tsul0Iz7vEINbNdT6ExRQukLemp9aD6ml1X4Sqpw==
-X-Received: by 2002:a05:6a00:2e20:b0:71d:ea77:e954 with SMTP id d2e1a72fcca58-72062fc37a7mr18308457b3a.14.1730204421517;
-        Tue, 29 Oct 2024 05:20:21 -0700 (PDT)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com. [209.85.210.181])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7edc89f28absm7354692a12.68.2024.10.29.05.20.19
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Oct 2024 05:20:19 -0700 (PDT)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-71e4e481692so4356028b3a.1
-        for <linux-input@vger.kernel.org>; Tue, 29 Oct 2024 05:20:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVjVxAEojGnp/csuGAswhawr5qHFAWmT3cx5JHomh7iThiE/7U9dwOSAjYhsEZyWVpN312Jd+iikD/A/g==@vger.kernel.org
-X-Received: by 2002:a05:6a20:4b11:b0:1d9:c6c8:b354 with SMTP id
- adf61e73a8af0-1d9c6c8bb78mr6513354637.15.1730204418853; Tue, 29 Oct 2024
- 05:20:18 -0700 (PDT)
+	s=arc-20240116; t=1730207982; c=relaxed/simple;
+	bh=yg/o1pe2Ydem/63Sibmmgle3CvzHEGCl6k/yPdISXbk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Dw5H3HHIGkPmvdoLA7UIIe+KCAETGXq3Qm5pnkY1Rd3I7Y+xW4Y/dVack6VOAxe9Z55ecEQZZVRqUxyaAwI4whs8XZQUo0EdamOCUPPVPXSFnNumaHGQWYjKxWsPz+IozrNqlHUHbnqqjNlDWRhA+Ea7KZT03SMzKfUteyOtxO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jupVmOOT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADA34C4CECD;
+	Tue, 29 Oct 2024 13:19:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730207980;
+	bh=yg/o1pe2Ydem/63Sibmmgle3CvzHEGCl6k/yPdISXbk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=jupVmOOT8viCJlgqgUFEUb27OtVVigrZ2pJhd9iKCvB/10zyWTxrrzIb7njfq6/vf
+	 MQllhg/MbOysT8NMUtBOTqR/2Ek9G+MVnJEYWk/kpnr5soxAKqnskqAZGrxT1o39ew
+	 HY5urIBcjDWGtW0+mZ9Tkvwu3iJrf+l+kxt5McLseuj5Pc0OpSdOo4YAqB7xU4Cjsk
+	 lww0ry/GuIG7t7bp6z7pMeghTQ9KhXKt3usVje54KSXG6sbmK2TLj12eDOyMq5o+kF
+	 RNUVGU5Yva+wybnFnxXYd/1wUpugFZhfHVhpddH4UKJnz9pNkkXv6ypdT83PhmBS1h
+	 Tph6H33g14mMQ==
+Message-ID: <844798ab-2910-458e-a9c5-dc69f5c8e368@kernel.org>
+Date: Tue, 29 Oct 2024 14:19:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241028-hpd-v2-0-18f6e79154d7@chromium.org> <20241028-hpd-v2-3-18f6e79154d7@chromium.org>
- <20241028203437.3eb5268d@jic23-huawei>
-In-Reply-To: <20241028203437.3eb5268d@jic23-huawei>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 29 Oct 2024 13:20:06 +0100
-X-Gmail-Original-Message-ID: <CANiDSCu7G8gDKaY5jJR+JGyqGDobkDPRG+9NOfpXvVviqkQizA@mail.gmail.com>
-Message-ID: <CANiDSCu7G8gDKaY5jJR+JGyqGDobkDPRG+9NOfpXvVviqkQizA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] iio: Add channel type for attention
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Harvey Yang <chenghaoyang@google.com>, linux-input@vger.kernel.org, 
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: input: Add Nuvoton MA35D1 keypad
+To: Ming-Jen Chen <mjchen0829@gmail.com>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ mjchen@nuvoton.com, peng.fan@nxp.com, sudeep.holla@arm.com, arnd@arndb.de,
+ conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
+ dmitry.torokhov@gmail.com
+References: <20241022063158.5910-1-mjchen0829@gmail.com>
+ <20241022063158.5910-2-mjchen0829@gmail.com>
+ <csbechg6iarxx52z2gqidszhvgjdvaraoumpfcsozelhuuhmtb@ec7es3txuzxc>
+ <871e9a4c-7a3c-4a24-8829-a079983033da@gmail.com>
+ <ef407e89-950f-4874-9dca-474d107f6a52@kernel.org>
+ <984781ba-9f4c-4179-84d5-4ab8bbe4c3c6@gmail.com>
+ <9b0a508e-d9ae-45ab-882f-5bc1f03e13db@kernel.org>
+ <5d9e89aa-db10-4367-8417-9fcc1a3bb37a@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <5d9e89aa-db10-4367-8417-9fcc1a3bb37a@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Jonathan
+On 29/10/2024 03:00, Ming-Jen Chen wrote:
+>>>>>>> +
+>>>>>>> +  per-scale:
+>>>>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>>>>>> +    description: Row Scan Cycle Pre-scale Value (1 to 256).
+>>>>>> Missing constraints
+>>>>>>
+>>>>>>> +
+>>>>>>> +  per-scalediv:
+>>>>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>>>>>> +    description: Per-scale divider (1 to 256).
+>>>>>> Missing constraints
+>>>>>>
+>>>>>> Both properties are unexpected... aren't you duplicating existing
+>>>>>> properties?
+>>>>> pre-scale:
+>>>>> This value configures the IC register for the row scan cycle
+>>>>> pre-scaling, with valid values ranging from 1 to 256
+>>>>> per-scalediv:(I will change pre-scalediv to pre-scale-div)
+>>>> Please look for matching existing properties first.
+>>> I will change it to the following content:
+>>>
+>>> nuvoton,scan-time:
+>> Why? What about my request?
+> 
+> I utilized|grep|  to search for relevant properties in the|input/|  folder using keywords such as|scan|,|time|,|period|,|freq|, and|interval|.
+> While I found some similar properties, I did not locate any that completely meet my requirements.
+> 
+> For example, I found|"scanning_period"|, which is described as "Time between scans. Each step is 1024 us. Valid 1-256."
+> I would like to confirm if you are suggesting that I use|scanning_period|  and explain my specific use case in the description,
+> for example:
 
-On Mon, 28 Oct 2024 at 21:34, Jonathan Cameron <jic23@kernel.org> wrote:
->
-> On Mon, 28 Oct 2024 10:12:23 +0000
-> Ricardo Ribalda <ribalda@chromium.org> wrote:
->
-> > Add a new channel type representing if the user's attention state to the
-> > the system. This usually means if the user is looking at the screen or
-> > not.
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  Documentation/ABI/testing/sysfs-bus-iio | 7 +++++++
-> >  drivers/iio/industrialio-core.c         | 1 +
-> >  include/uapi/linux/iio/types.h          | 1 +
-> >  tools/iio/iio_event_monitor.c           | 2 ++
-> >  4 files changed, 11 insertions(+)
-> >
-> > diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
-> > index 89943c2d54e8..d5a2f93bd051 100644
-> > --- a/Documentation/ABI/testing/sysfs-bus-iio
-> > +++ b/Documentation/ABI/testing/sysfs-bus-iio
-> > @@ -2339,3 +2339,10 @@ KernelVersion: 6.10
-> >  Contact:     linux-iio@vger.kernel.org
-> >  Description:
-> >               The value of current sense resistor in Ohms.
-> > +
-> > +What:                /sys/.../iio:deviceX/in_attention_raw
-> > +KernelVersion:       6.13
-> > +Contact:     linux-iio@vger.kernel.org
-> > +Description:
-> > +             Boolean value representing the user's attention to the system.
-> > +             This usually means if the user is looking at the screen or not.
->
-> Hmm. I should have thought of this when I replied to suggest a new channel type.
-> The question is 'units' for a decision.
->
-> Last time we hit something like this where processing is used to make a decision
-> we decided to at least allow for the concept of 'certainty'.
->
-> The idea being that smarter sensors would tell us something about how sure they
-> are that the attention is on the device.
-> The analogy being with activity detection. See in_activity_walking_input
-> in Documentation/ABI/testing/sysfs-bus-iio
->
-> Do you think that would be appropriate here as well?  For this device
-> it would take the values 0 and 100 rather than 0 and 1.
+Description of these properties did not tell me much about their purpose
+and underlying hardware, so I don't know which fits here. It looks like
+you want to configure clock... but then wording confuses me -
+"per-scale". What is "per"? Isn't it usually "pre"?
 
-For the particular device that I want to support, they are giving me a
-value of 1 and 0, and the example from usb.org seems to work the same
-way (Logical Maximum of 1)
-https://www.usb.org/sites/default/files/hutrr107-humanpresenceattention_1.pdf
+So in general I don't know what to recommend you because your patch is
+really unclear.
 
-I have no problem multiplying my value by 100 if you think there will
-be a use case for that. It will not have a major performance impact on
-the driver.
+Please also wrap emails according to mailing lists standards. And use
+proper line separation of sentences. It's really hard to understand your
+email.
 
-You decide ;)
+> 
+> nuvoton,scanning-period:
+>      type:  uint32
+>      description:  | Set the scan time for each key, specified in terms of keypad IP clock 
+> cycles. The valid range is from 1 to 256.      minimum:  1
+>      maximum:  256 Could you please confirm if this approach aligns with your suggestion,
+>   or if you have any other recommended existing properties?
 
->
->
-> > diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
-> > index 6a6568d4a2cb..bdfb51275b68 100644
-> > --- a/drivers/iio/industrialio-core.c
-> > +++ b/drivers/iio/industrialio-core.c
-> > @@ -95,6 +95,7 @@ static const char * const iio_chan_type_name_spec[] = {
-> >       [IIO_DELTA_VELOCITY] = "deltavelocity",
-> >       [IIO_COLORTEMP] = "colortemp",
-> >       [IIO_CHROMATICITY] = "chromaticity",
-> > +     [IIO_ATTENTION] = "attention",
-> >  };
-> >
-> >  static const char * const iio_modifier_names[] = {
-> > diff --git a/include/uapi/linux/iio/types.h b/include/uapi/linux/iio/types.h
-> > index f2e0b2d50e6b..12886d4465e4 100644
-> > --- a/include/uapi/linux/iio/types.h
-> > +++ b/include/uapi/linux/iio/types.h
-> > @@ -51,6 +51,7 @@ enum iio_chan_type {
-> >       IIO_DELTA_VELOCITY,
-> >       IIO_COLORTEMP,
-> >       IIO_CHROMATICITY,
-> > +     IIO_ATTENTION,
-> >  };
-> >
-> >  enum iio_modifier {
-> > diff --git a/tools/iio/iio_event_monitor.c b/tools/iio/iio_event_monitor.c
-> > index 8073c9e4fe46..ed9a677f1028 100644
-> > --- a/tools/iio/iio_event_monitor.c
-> > +++ b/tools/iio/iio_event_monitor.c
-> > @@ -63,6 +63,7 @@ static const char * const iio_chan_type_name_spec[] = {
-> >       [IIO_DELTA_VELOCITY] = "deltavelocity",
-> >       [IIO_COLORTEMP] = "colortemp",
-> >       [IIO_CHROMATICITY] = "chromaticity",
-> > +     [IIO_ATTENTION] = "attention",
-> >  };
-> >
-> >  static const char * const iio_ev_type_text[] = {
-> > @@ -183,6 +184,7 @@ static bool event_is_known(struct iio_event_data *event)
-> >       case IIO_DELTA_VELOCITY:
-> >       case IIO_COLORTEMP:
-> >       case IIO_CHROMATICITY:
-> > +     case IIO_ATTENTION:
-> >               break;
-> >       default:
-> >               return false;
-> >
->
+Why this would be board dependent?
 
+Best regards,
+Krzysztof
 
--- 
-Ricardo Ribalda
 
