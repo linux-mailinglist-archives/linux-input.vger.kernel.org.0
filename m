@@ -1,100 +1,79 @@
-Return-Path: <linux-input+bounces-7783-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7784-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20CA9B6FC3
-	for <lists+linux-input@lfdr.de>; Wed, 30 Oct 2024 23:17:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDEEA9B7007
+	for <lists+linux-input@lfdr.de>; Wed, 30 Oct 2024 23:51:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 674801F222CD
-	for <lists+linux-input@lfdr.de>; Wed, 30 Oct 2024 22:17:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 834E5282FE1
+	for <lists+linux-input@lfdr.de>; Wed, 30 Oct 2024 22:51:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52E611C3F06;
-	Wed, 30 Oct 2024 22:17:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6247D213EF6;
+	Wed, 30 Oct 2024 22:51:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oGnfP7Ar"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CUvC7UIQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066A11BD9E7;
-	Wed, 30 Oct 2024 22:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954441E377F;
+	Wed, 30 Oct 2024 22:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730326660; cv=none; b=WjaKySa2kpuoRCJ6DxfG384mkLP9oWjuiuP6xJbSBep0TqYGQDSFaxeanto9MuQ8UXEO3d3xaE5iUzBceWzPQO/tFZw9MhGvIcixGUY68bd0en9SlWyI0vY/yeY2DkW38d4f0t/uQ4HgrWWasehqWWv4gMT+rJoEhF9XDE/ub8o=
+	t=1730328707; cv=none; b=rSWTpglHdyqdpsM7QkrQR1IUik6LLQuYBuizR2J7m1htERQ+D3l8WLid3HPFphSVLb9lUdnV4QI04T7ABOFyX3vtNN4i2lxrdmWdqx9pQUGjbj+4HpHpfrJuklytIrzTEPr54TKctzi65C68yEIHzf+FFL7iupNwyAPYkYTdHrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730326660; c=relaxed/simple;
-	bh=hmCcTNJwyZk0ee56ytBk9i4eOtptK5uTArpnChQPbzk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=oy3V2usP3KrNnwy1jGIZGkW4JlJh0GP8RyUFGP7313Jyvtrobj4qmyhPm0mR5NFc1OYMR7YkcXZUfR6ByBN/KjLUYq77UdgwfuMf/5QHr1T4oYPeFlUG6wcP3IEHj1s5GNAHQM0YyXotJYsv5eLqVWWDemH9eCHcyJCxqaCSrTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oGnfP7Ar; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3913FC4CECE;
-	Wed, 30 Oct 2024 22:17:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730326659;
-	bh=hmCcTNJwyZk0ee56ytBk9i4eOtptK5uTArpnChQPbzk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=oGnfP7ArKKdfSdgdnkKr7SkEnhwI4nY+JGypMiyscKrSh2koWdUM4bEIYHcoVRtmA
-	 HuGtZd7+EhsSZKGsSElcy0Ekf1Ww0XJz+CC/k+Lyv93Pjy1sctZPVHq2ye34KwR2cM
-	 BK6k4mDq37WcoKSeIdS6Dykd1seb3K6MaOqwt7pucQeiJF9BIdqo96G1NTsjD7AK/F
-	 RSMAKuBU3/553ttm2CAep19cPgSP8wuqNrGnio71malobZI2XoVqqJ3i5mKV/tHQzD
-	 b+pchDCDpw/vI+Q3mqbdXkWdGIm9PhoPKYSd9frqB8SQkOwkBxe7BOOJjjYvM4WuEB
-	 3GNefMYxm1CyQ==
-Date: Wed, 30 Oct 2024 17:17:37 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Basavaraj Natikar <basavaraj.natikar@amd.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Dubov <oakad@yahoo.com>,
-	Sudarsana Kalluru <skalluru@marvell.com>,
-	Manish Chopra <manishc@marvell.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
-	Igor Mitsyanko <imitsyanko@quantenna.com>,
-	Sergey Matyukevich <geomatsi@gmail.com>,
-	Kalle Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Chen Ni <nichen@iscas.ac.cn>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Ricky Wu <ricky_wu@realtek.com>, Al Viro <viro@zeniv.linux.org.uk>,
-	Breno Leitao <leitao@debian.org>, Kevin Tian <kevin.tian@intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Mostafa Saleh <smostafa@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Yi Liu <yi.l.liu@intel.com>, Christian Brauner <brauner@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Eric Auger <eric.auger@redhat.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Ye Bin <yebin10@huawei.com>,
-	Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Rui Salvaterra <rsalvaterra@gmail.com>, linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-	ntb@lists.linux.dev, linux-pci@vger.kernel.org, kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 00/13] Remove implicit devres from pci_intx()
-Message-ID: <20241030221737.GA1223682@bhelgaas>
+	s=arc-20240116; t=1730328707; c=relaxed/simple;
+	bh=nNa3dandOYrQncECAtYJrrGr/qHVyc7Xx9V/xoWKAlw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n8xR56qxLZLxZjthFduhApesGce5eggP7LaisW3GhBoVIBQJ8CcYGHxXvQ/91GaV57jj0kTZABsuQ6YdwT1CNhCMk0R8Tj+I3xRiOv0uJ5Vemmzp8FcyTADTef9fDyA7oyXOwnnByuGuyXmuFLC89jIuPznKFw3TeLqwmjvUOJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CUvC7UIQ; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7d916b6a73aso307854a12.1;
+        Wed, 30 Oct 2024 15:51:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730328704; x=1730933504; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tZRCk2bBPg/lDFOZ6OFaWGIga5V+/XV5F5FjTujAlwk=;
+        b=CUvC7UIQdoOJMG/7ta/mtN6tB3e2Ft2sjpTCkkVwqL4WrmLSHg7YWNgcw4OTwiTF+V
+         p9UTfxjWGduhZGU/qZUwaPAq5ZOl+ve30Iu1drlUOLgXItzGzaFQVxjS+Rhr+uv0APGo
+         t7k1PD48NszFcqHPUA9X6a3SMmftiRl53LP0qBdhQNNqPp8N+iyu9Vi2XxStg1g4BpWk
+         2nMT945Mb1Sx34Jy/ob3Xhex2ev5jhFLJgU+svgVK/at9T/C19umeEzsKsCwbBm9APzv
+         DVsc1DvAHQ77we/WzeJ5mUveH/wvUd2sqew+jSk/wpRRYLUXcKKItYd1SOEVu8Gv1p3b
+         4NNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730328704; x=1730933504;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tZRCk2bBPg/lDFOZ6OFaWGIga5V+/XV5F5FjTujAlwk=;
+        b=cY/2iJUpRJO2JeW6+NZkS22eIVCPd1dIPQzGl5FHqu4d1Izr0OuEJrHxumCCPNlzaT
+         2kQSCTmp1xHnDc4lnuVepVn1Y0MkLmrMPA+hK7ML4fEAMTm8fZ33AVJEhbt30LH6dTmK
+         6r7XJx1KSU7GAWC5NgYiwi0ULnDDPRDFiE34QHmo+t0bzG5ncSHPXxmWAvK+U4XcklUK
+         P9zvBM89m+dkJ9nO1QIh39aJ7bVvCL0zA/IqUKfu+d0QAinOd3L/VVDqAFgShDYEou9h
+         AYb1yOpnS/Y1lVJXqKb4qx8mb4uEGYimKG5OqaInU1kKm1MRiQAvJXF+4Cm7zvA8MMJw
+         q1kQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVd72O8/fcjWgRoeLyY179Uk23rFWZjfpyrxTO2RAtt0B/0S58/Ua2PSeV3o+ZDwryGOSPY88vNYgNgBw==@vger.kernel.org, AJvYcCWKn6HwJaQMKvyiijvs7lRz9U2n3b8Z8b8jK70kZ8StDmqWfjiXaIzWuATZo/xkKc0QBA+ZHX2hYIKbB9Jn@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVIo2+bcgOOg1qgHP8ckaSMuYCiJbG2oJalxPGnYExxSOFVwti
+	mHR92CqYT9c5M/c5+Ppt1v3LMpoeE22r1MHtXn0EhyVXz3xlDkT+
+X-Google-Smtp-Source: AGHT+IH0Epi711Hk2bnt5aad2kBfc6Knhio0ilVwA0BRPkzEM2oMdLy76CjdAKXMBZAJfQd50p5BaQ==
+X-Received: by 2002:a05:6a20:b68a:b0:1d9:1784:49f with SMTP id adf61e73a8af0-1d9a8516a38mr20283448637.46.1730328703192;
+        Wed, 30 Oct 2024 15:51:43 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:9bd7:a771:2e97:d35c])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7ee455b4cd4sm102265a12.50.2024.10.30.15.51.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Oct 2024 15:51:42 -0700 (PDT)
+Date: Wed, 30 Oct 2024 15:51:40 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Shivam Chaudhary <cvam0000@gmail.com>
+Cc: u.kleine-koenig@pengutronix.de, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Driver:input:misc:drv2667: Fix typo 'contol'
+Message-ID: <ZyK4fI4wqZEkbESu@google.com>
+References: <20241028204048.128542-1-cvam0000@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -103,83 +82,17 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241015185124.64726-1-pstanner@redhat.com>
+In-Reply-To: <20241028204048.128542-1-cvam0000@gmail.com>
 
-On Tue, Oct 15, 2024 at 08:51:10PM +0200, Philipp Stanner wrote:
-> @Driver-Maintainers: Your driver might be touched by patch "Remove
-> devres from pci_intx()". You might want to take a look.
-> 
-> Changes since the RFC [1]:
->   - Add a patch deprecating pci{m}_intx(). (Heiner, Andy, Me)
->   - Add Acked-by's already given.
->   - Export pcim_intx() as a GPL function. (Alex)
->   - Drop patch for rts5280, since this driver will be removed quite
->     soon. (Philipp Hortmann, Greg)
->   - Use early-return in pci_intx_unmanaged() and pci_intx(). (Andy)
-> 
-> Hi all,
-> 
-> this series removes a problematic feature from pci_intx(). That function
-> sometimes implicitly uses devres for automatic cleanup. We should get
-> rid of this implicit behavior.
-> 
-> To do so, a pci_intx() version that is always-managed, and one that is
-> never-managed are provided. Then, all pci_intx() users are ported to the
-> version they need. Afterwards, pci_intx() can be cleaned up and the
-> users of the never-managed version be ported back to pci_intx().
-> 
-> This way we'd get this PCI API consistent again.
-> 
-> Patch "Remove devres from pci_intx()" obviously reverts the previous
-> patches that made drivers use pci_intx_unmanaged(). But this way it's
-> easier to review and approve. It also makes sure that each checked out
-> commit should provide correct behavior, not just the entire series as a
-> whole.
-> 
-> Merge plan for this is to enter through the PCI tree.
-> 
-> [1] https://lore.kernel.org/all/20241009083519.10088-1-pstanner@redhat.com/
+Hi Shivam,
 
-I *think* this series depends on resolution of Takashi's "Restore the
-original INTX_DISABLE bit by pcim_intx()" patch [2], right?
+On Tue, Oct 29, 2024 at 02:10:48AM +0530, Shivam Chaudhary wrote:
+> This patch will fix typo 'contol' to 'control'.
 
-For now I'm postponing this series, but let me know if that's not the
-right thing.
+This typo has already been fixed.
 
-[2] https://lore.kernel.org/r/20241024155539.19416-1-tiwai@suse.de
+Thanks.
 
-> Philipp Stanner (13):
->   PCI: Prepare removing devres from pci_intx()
->   ALSA: hda_intel: Use always-managed version of pcim_intx()
->   drivers/xen: Use never-managed version of pci_intx()
->   net/ethernet: Use never-managed version of pci_intx()
->   net/ntb: Use never-managed version of pci_intx()
->   misc: Use never-managed version of pci_intx()
->   vfio/pci: Use never-managed version of pci_intx()
->   PCI: MSI: Use never-managed version of pci_intx()
->   ata: Use always-managed version of pci_intx()
->   wifi: qtnfmac: use always-managed version of pcim_intx()
->   HID: amd_sfh: Use always-managed version of pcim_intx()
->   Remove devres from pci_intx()
->   PCI: Deprecate pci_intx(), pcim_intx()
-> 
->  drivers/ata/ahci.c                            |  2 +-
->  drivers/ata/ata_piix.c                        |  2 +-
->  drivers/ata/pata_rdc.c                        |  2 +-
->  drivers/ata/sata_sil24.c                      |  2 +-
->  drivers/ata/sata_sis.c                        |  2 +-
->  drivers/ata/sata_uli.c                        |  2 +-
->  drivers/ata/sata_vsc.c                        |  2 +-
->  drivers/hid/amd-sfh-hid/amd_sfh_pcie.c        |  4 +--
->  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c |  2 +-
->  .../wireless/quantenna/qtnfmac/pcie/pcie.c    |  2 +-
->  drivers/pci/devres.c                          | 29 +++++--------------
->  drivers/pci/pci.c                             | 19 ++++--------
->  include/linux/pci.h                           |  1 +
->  sound/pci/hda/hda_intel.c                     |  2 +-
->  14 files changed, 26 insertions(+), 47 deletions(-)
-> 
-> -- 
-> 2.47.0
-> 
+-- 
+Dmitry
 
