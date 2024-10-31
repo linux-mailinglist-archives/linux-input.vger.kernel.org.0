@@ -1,304 +1,163 @@
-Return-Path: <linux-input+bounces-7819-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7818-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A67D09B8490
-	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 21:46:02 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A19319B8352
+	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 20:25:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C9ABD1C216A6
-	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 20:46:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E6EFAB22AEF
+	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 19:25:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7130E1A76D5;
-	Thu, 31 Oct 2024 20:45:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00FB61CB331;
+	Thu, 31 Oct 2024 19:25:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dell.com header.i=@dell.com header.b="lnRqlTAz"
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="sN8VEMR4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-00154904.pphosted.com (mx0a-00154904.pphosted.com [148.163.133.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f66.google.com (mail-oo1-f66.google.com [209.85.161.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37E591411EE;
-	Thu, 31 Oct 2024 20:45:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.133.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730407558; cv=fail; b=l0olSmYEqfO3e6/CgMx5dnimxP6N3CEeYgANDkGeAAhsyyVE72pjtCTRrumKjnO/M2eaA7n3wDQdQ8vyYEefUiwxr0MuPE0qGFZNcWjIfr0ToAfDsBA3dq9Qvc43zl5UxBTlmKyvjETcOjdb+Mgj15pgm/EuUGPlp09Im1H1tso=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730407558; c=relaxed/simple;
-	bh=mXJ4BiQU6X07JZcXTLQo05C79CkKdgu0qRZ7+n8GevY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=l5VLtALKzEagfCBUNEVIQ7piYoRoJn2wpYfn9B/eTUxYRKSPSiGkBewhv5rjBjIp7zrKB1HSIME2NwNxYzUNHga0g1F8y8m4AzP1EqugUlmsaRD1Iq9bAVZKid8wud96WPYeojcTsC0ge/6WTlcYfgpP7k6jfAuDHskryi9+1Uw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dell.com; spf=pass smtp.mailfrom=dell.com; dkim=pass (2048-bit key) header.d=dell.com header.i=@dell.com header.b=lnRqlTAz; arc=fail smtp.client-ip=148.163.133.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dell.com
-Received: from pps.filterd (m0170389.ppops.net [127.0.0.1])
-	by mx0a-00154904.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49VDUcfs012556;
-	Thu, 31 Oct 2024 12:27:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=smtpout1; bh=q
-	pFxhnoB7hyUB9uGcF7sy/s08l1RGS7l6AM7u97jMlc=; b=lnRqlTAzh+K3nSUSf
-	HJ8OsMY6P++d/bdu402rliQemPEbKwB8E5jPidOoH0XF/qs4b6myTYjYVLEyKOlg
-	3ynNOdSdtXdqiy6Ldpp0QVleCDImvIXEl369Nq+ubDFRML7XU3JXiJb0v6Nors2V
-	5gmij6ldcl9VweSP7wZWb7kvOZ8yxyJFTCDwaaEdrVVDmQ7c2N+CugkEIgsJlkaz
-	UONCfiEjFdr2yzS/TTojYmu6zBO1QkEeTtvxlbN43h02+HKUGAKhB2AFrBzT0Vg4
-	IP/0jEiDYXWTUsM8fKkh2WGzNmrYgZ375EJB6PpyxV9pof0eDejiqUUI4TPfNLyF
-	0vy3w==
-Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
-	by mx0a-00154904.pphosted.com (PPS) with ESMTPS id 42jwv7dy0v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 31 Oct 2024 12:27:03 -0400 (EDT)
-Received: from pps.filterd (m0144102.ppops.net [127.0.0.1])
-	by mx0b-00154901.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49VFowkM035758;
-	Thu, 31 Oct 2024 12:27:02 -0400
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2046.outbound.protection.outlook.com [104.47.66.46])
-	by mx0b-00154901.pphosted.com (PPS) with ESMTPS id 42kuw2wjee-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 31 Oct 2024 12:27:01 -0400 (EDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QIJRlcEqIPQLeVOjF8zDohctcZAnq8ZgrPkKOAj7mE80teuxnvckCya48ZBb17xflWtSwIkh7rPc/WAVqXAWfUTlTpC3KyGMWHzxUNrdTbffGDvSWvR8Z6+9bXS4CFmdd6Q9rkhcrOz21cgkeEsM6LR2+S61IMY50NYLjru0JPlrNM9ZnnoCS3gzHZIn3bMpmKkWEYGYZFMpGyigGyQX5EqMiYWyyIPva/Zo2j/PQHWA/MZvVaZNSoDAOI9QMPVOpdEOXPaJQmlTW/lTbkK5dBVnXqZdyOcj2cNa13oxmhhBIP1Flydug+TKLH2OYf27wGAoaz38/hzjFMImusjqUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qpFxhnoB7hyUB9uGcF7sy/s08l1RGS7l6AM7u97jMlc=;
- b=x2FzwIjvD35vdFcxGRQ4STY1XlZlHHWwTybaAE8EHZ1kszWAtrSJJeqbbn2PlLTpDZZJFboxhoI47y75aDtxm5qy7DHYCKnuC8On+GDwNojSqUFYhXZ1SrMP7CSooaWSzUMORvWpDY32CJ+8gf0vwmDdDGLa1Fu4ayBtDv3H7cqTWRz3EO4Od+ZOi7itnpvkqfn93A5AY5Vi/8b5zmfUBglLpc8760webHRcUxT1QZkcX/AP0TgoJjnJsfORzQTqQUJw3W/fKgQZtIhT30JnZnQSkT4xYTJPxlYWZkd8qI/sxLzuxIgCLuY8gJA+WPJ4rRRbewCCQ82YPYYLH7K+SQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
- dkim=pass header.d=dell.com; arc=none
-Received: from CY5PR19MB6147.namprd19.prod.outlook.com (2603:10b6:930:c::14)
- by PH7PR19MB7025.namprd19.prod.outlook.com (2603:10b6:510:204::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.32; Thu, 31 Oct
- 2024 16:26:57 +0000
-Received: from CY5PR19MB6147.namprd19.prod.outlook.com
- ([fe80::d390:13bd:b078:f743]) by CY5PR19MB6147.namprd19.prod.outlook.com
- ([fe80::d390:13bd:b078:f743%6]) with mapi id 15.20.8093.027; Thu, 31 Oct 2024
- 16:26:57 +0000
-From: "Tudor, Laurentiu" <Laurentiu.Tudor1@dell.com>
-To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>,
-        Jiri Kosina
-	<jikos@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC: Benjamin Tissoires <bentiss@kernel.org>,
-        "Kemp, Bryan"
-	<Bryan.Kemp@dell.com>
-Subject: RE: [PATCH v2 0/2] HID: i2c-hid: re-power-on quirk for QTEC kbrd
-Thread-Topic: [PATCH v2 0/2] HID: i2c-hid: re-power-on quirk for QTEC kbrd
-Thread-Index: AQHbK2dYVKT/BgUzOkmUXOtnw/HRbLKhC6Gg
-Date: Thu, 31 Oct 2024 16:26:56 +0000
-Message-ID:
- <CY5PR19MB614758F6060B4B07D06158D0BA552@CY5PR19MB6147.namprd19.prod.outlook.com>
-References: <20241031073419.9189-1-alex.vinarskis@gmail.com>
-In-Reply-To: <20241031073419.9189-1-alex.vinarskis@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_ActionId=c013b248-8b0b-4194-8554-7f44d2bea28f;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_ContentBits=0;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Enabled=true;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Method=Standard;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Name=No
- Protection (Label Only) - Internal
- Use;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_SetDate=2024-10-31T16:23:28Z;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY5PR19MB6147:EE_|PH7PR19MB7025:EE_
-x-ms-office365-filtering-correlation-id: d6e08f8d-a0d8-4f5d-bfd9-08dcf9c8d6a9
-x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-7?B?ZlJkdFViV0xubVNZL05ucnRFTjNBNUdnT1VzU0t4QnA0a0xRNjF0VjMxWVR1?=
- =?utf-7?B?WGdFYmY3M0R2RDRaWEpPYkkxbjVycVhOWFNmeXdBL1NWQ0svN2taVmdTVWI5?=
- =?utf-7?B?WlRsMlliejhaczlnWWZ5bi9QZzMzNFFzbWI1M1NLUVR2MjRyekJiOE1FdXlW?=
- =?utf-7?B?ZGtwem4rLTdGRjRVNnlOTTl0eVg5NHdLR0VpeHcxdzBOKy1RaGtjaDhCRURE?=
- =?utf-7?B?UXRocVlpVXUrLVZFcVhsMEswUTlReDVVRVhPclVPbk91Ky1WbHl6R1dsbzlV?=
- =?utf-7?B?RjduenFJaklETjFsT2JNMCstNHNVbElKSDVqRmt5azg5YTA1ZzROM01RR2Fl?=
- =?utf-7?B?ekdTNkpGZEVjb2lOQjlJT2g4Q1VnYkN5c3pUVFJxQmlnUUNZUEU3N1kwRlZM?=
- =?utf-7?B?d1Zsc0NKaXNpTkIzSEpEUlg2aExldlF6aC9WNzhCeWJZMEYvYXk3d2JSZmFj?=
- =?utf-7?B?eDkrLWg2ZFpJdjlXbXZHRUY1YUxUbEpLUE5LazdiUld6Tmg4dFIyU0JSWjVz?=
- =?utf-7?B?NGtxN2JhNHZJckpGcW1HM0tobkN6Q2dQSUlHMTNUTVdNZWNiV25nUnJHbkNp?=
- =?utf-7?B?MEFXOFlzaCstdjBMZGI1ajJDNistQ0VKZVhhQWNOMVY3N2xEYjNDalUvN0c=?=
- =?utf-7?B?Ky1zY2VNSHRIQS9lYVVERGJnOVJHVUl6cCstZGY5QUxOOUZaMk8xWGRqckh2?=
- =?utf-7?B?b3p2aXZFaUZHV0swbU5aak96REliMW5MSm1ETm12dHA5RE1NS05wNlVYekJX?=
- =?utf-7?B?UFc4ZDF0WGQ3dlJKRi8ySjRQOTM1bmZzVUNCYkZzVUQ2dk5xVlhnb1VPaXY1?=
- =?utf-7?B?clFTTWhSZGRFNk5vV2w5VGtFQ2NJbWM3T0Q1a0dJKy1EUVFyM3cwU3A0Wjd5?=
- =?utf-7?B?SUVUSDY5V1FWM2h2ZWhLMWErLVFrVUgyZWRQcVVzWXkydFFyaFpkbXRsYUNX?=
- =?utf-7?B?WjJBVE12YUZ1ZkZVZkJsbHVZdE9DWW5ta3BZNHN1ajhPZFBoajdIRUYvUzdO?=
- =?utf-7?B?YlRWbmE5ci9SOW9rbFJ0YkVQM0JJOFNnMDI2QzJpd2VobklXSEpobnFFOWkv?=
- =?utf-7?B?TFFBeUczSlFQQnc5R2xpVlZRbi9vWEkwWFJIalRjMTZBUG9ubHRESXBJTW9x?=
- =?utf-7?B?Z3F3V1lhckZ6WGd6MDJmS2RkemxhTVlyN1Fzdnp1cE9id3NGUGVRYkd2SUZE?=
- =?utf-7?B?ajUyUWhMY3ZvMkpId25qMFhKSmFGdklvYWlabzl4TGVyTEh4SXRiVllXUFRT?=
- =?utf-7?B?THMvbDl4Wm1ZMjJ1VkNCODVYRHZmME5TSGVUcngwamNhbFcrLTFaOGw1dnRr?=
- =?utf-7?B?ZldzakhHZmU2bGJXN3JmYXNZKy1wblN2YWdFY0RQaUdWa1pGKy15NzlkTUgy?=
- =?utf-7?B?WTV0Ui9Qa0JabUtJOGdPRDlIcDlpVDBNeWQ1OEYzaVVYdHdWeERhOEk0cXZk?=
- =?utf-7?B?YzIwalZhWlU4UEtOTnNlYVMzKy1oRFNaTkFKZ1IzZjNqaVB6eDdtSHdTb011?=
- =?utf-7?B?M2tZL2wxdVhaRWVvdkNnejh3a3ExcEVCUndCaWRJVFU2eEM1YUZHVXpEb2h3?=
- =?utf-7?B?aXl2SzBGVDNTRlU3YW8vQ1MvelpKWDNlTzJKYXErLVQ1R3duSystQWZob2ds?=
- =?utf-7?B?ZmZmTDQ1SDlzcDdlSGlHNmkyRXA1b3BPdEJWeTg0QUdjemZmOXBQWWJXa2pX?=
- =?utf-7?B?WWkzZElwS3ExL015RGNuRDZMOTQxQ1c2YlZjU3V5QXNEUnpNYzhsckV5aWtE?=
- =?utf-7?B?SmdOT0p3OEdja1JNemRBZUkrLTBzT0pubHNoNEw5bWdjN0xJV1lLa2Y2S3E2?=
- =?utf-7?B?NGo2RnRRei9MRUFEZEQ=?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR19MB6147.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-7?B?UlJESkhrTGxubmYzd1hOTFdnZ0E0QzFyc3VGd2dSRnFYNXRwSEptSlFsc3VM?=
- =?utf-7?B?Zng2Ky14YkNuL1JNT3Q3Y0Z2R0xvT2RTRWNxaEp4RXhyaVpRVE9RajM1UFp2?=
- =?utf-7?B?bGtzT0g4bFlQVG9RWDkyWlpCRXZYMnlxbmJsZlRIZjlDSnpUNlJMSnBpSnUw?=
- =?utf-7?B?anZRUUxGMFZ4LzBqa01udEx5T0MxNmlZNmFZd2kyNWRsOHdLVldaYzVmN1pU?=
- =?utf-7?B?YjYyZzNZKy11dnEyVVRIcktiUThFZlU2UlpENnNVejJuUmZBWUZsUEVSTHdQ?=
- =?utf-7?B?eWRmaDViZzlmWXlFa04vYm1VVlFTL2J5M251b0pvL21GKy04NUxWREM0Zi9z?=
- =?utf-7?B?ODdqaThCdWlQSDlaeERlUEVSKy1XNGZDZHFkOEdjUi9Ob2hYOWJRdWIydnIw?=
- =?utf-7?B?SmIxcnRjN2h2elF2THkrLUFDYndRWFlvV243eTZ1YktSQmJ3cEVPYUIzNWVW?=
- =?utf-7?B?eXJrRE5mWWtHN043eWFGalFWWUNXQXdOZHFvbWlnQ1lNcDducDZHTkhNM1ZS?=
- =?utf-7?B?Ky13WWFvUW9kQ0NmaE1WUDA4c1lldkJHbSstaVVHcmxPZVRCYlUvSUl6M29V?=
- =?utf-7?B?RExzVXJpcEI1Ky1jc2NrOXF0TWxDcm12ZnYyN3ZYMjZoR3hqL1FHZXljbHlI?=
- =?utf-7?B?dTF5Y3hFVnNNaXMrLUZiL3VZamE4VUxEVjE4ejFBOU5TN2RtdlNVUE9EVzJT?=
- =?utf-7?B?cVhnQW1LOVFzOFRzZklWSXJGaVFna2FzOUhmNWx5SkppeWdCV0llRGVuMDZo?=
- =?utf-7?B?eWtPUkpFQmFITXR1d1RjZWJwMzhBZTRvN3dpejExd3ovZVU1d1N1WXVxMVZu?=
- =?utf-7?B?UHZWWU91cngrLTlCRU1MemJQWGNhZFl6dFlWYVE0R1huTHZDelNhbDlJY05p?=
- =?utf-7?B?YTRyTEt4V0M1clR5QW45dU1VMTZmYng5b01CaldxVnVOUjdIMDBhdWo0WHdM?=
- =?utf-7?B?alFLN0tZRkRzY0pHaGNxanYrLXBiaUFlcVp6TTUrLU5QZTJ1a2xJQ0tvV2Nh?=
- =?utf-7?B?bHhSMzBQVHltV1lxNXlUVHhQQVYycHJ0VzRhRjFRUURJQkhuRGprL0dXakZ4?=
- =?utf-7?B?cHliVlpUYUUwNTA4SmF3Ky1ZNistWHpBTk13NXpFeGZzYWE1WjRSWFhod0E4?=
- =?utf-7?B?ZU1JT2NJdGFXRlVTUkJpWlJOTVJYMjlsKy16YkxxS2lKUlhET0NJdGZ5bzQ4?=
- =?utf-7?B?U2RjNFBjUXVIUTJuUkdLajdZWVp4ck5uM0xNNy9hVjFLc3lZR2pSWGtKVE81?=
- =?utf-7?B?TEt3SUF6Skh6ZEpaR1VYV0V3b0RRSmZzUWJKV3pWYTltZTRMdVU0TnBzNHZL?=
- =?utf-7?B?TUdsNkg3RXcwL2RYVzhKb3RmUjg4dzJIY0xYUEhmVEJLQ0dMVWtmL3Q3cVAv?=
- =?utf-7?B?NDR6VXhZZUE4OWpWR05kd2huOVZqczRGcWExcnZiR3QvTDU1L1J0Ky1tOGdM?=
- =?utf-7?B?YlN4YkcrLTd6MTZBV3JWSG53dDB1RHpyQldJMmlOcnMvOCstMFVNNjNXQVVv?=
- =?utf-7?B?ZU5tZXduM0JqS1krLTF6STRvczJ2WUczOVBHWUpHSWd0VFc3MWdNSGt0bEpv?=
- =?utf-7?B?NjRYRDVzQUlic0NWSGR6UnpSb1VyNHRYeVUvRisteU1OV216MFBwL1ViTFRn?=
- =?utf-7?B?RnhsWHRXMzYrLTNsTFJ5VHNBSGpVWVJacistb0JnY2gzeWFXWjRYZ3ZzZTk0?=
- =?utf-7?B?TThRcG5Sd0d5Tzh6N0dLWTRuSDVtV2JndXNHamRzYlhlVENVL3NUMmJ3MXZT?=
- =?utf-7?B?YnF0cTN3S01LNjgxM2dNblZ3ZzFrakdteSstdHhQeHE1ZkdQZ3k2ZlpPNTdE?=
- =?utf-7?B?dk1xNGtoTk5UaDI3dVJpM2k4OC9KNUYyaTlmcEpMRzZIMDhnUkx5L3Z0NUdy?=
- =?utf-7?B?ZDBNWGhLcVk3NVhySWJsM3hhNFZqTnBIUXRUZGdId3lFME50UFNYb1MzR0J5?=
- =?utf-7?B?YnJvYmo4VkR4NHJUeG5sWTJFNnlSNXh5V2JhSTJmdmExY0tJMGxKZE9BSGdu?=
- =?utf-7?B?eHNIQndTUEkwbkt6UXhleElSY2lkWFNCSkdVZDM2NDhhY0hId2d6UEh6cU1a?=
- =?utf-7?B?YTQvbkhkOERySzRNeTVnUFhRR2YvSnlxYjdmTmVGT2R6OEcvM3VHNlQweTM0?=
- =?utf-7?B?Z0hLME4xQ21xR2t1OVhFcmExTHNCVHhKL3RqcG5nSkdUQnNmNm55cVViZHpY?=
- =?utf-7?B?aUVP?=
-Content-Type: text/plain; charset="utf-7"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 109451C9DD5
+	for <linux-input@vger.kernel.org>; Thu, 31 Oct 2024 19:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.66
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730402704; cv=none; b=TMy/AWwyDZgamAFS+lC/8lc3r8dMekG6cy8qjLpCYvv9mOSgAJGr8V5xazaussAjSmnd8bcT0jVSpHFDg99bxG8eZz7bqMYA1zC3WhSMHwvQjJFgfbuFMDRu8i6Qs3cyg0SkWPXMjVE1X4hPcV6ncMaRNiJHZanq84pg34lA+X0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730402704; c=relaxed/simple;
+	bh=rGuTVD1KWxFW/iVXJuMMGl1bde0QDjUWD3zqWMNpPpw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ezeu61c1gJloK3nLtbMFMNDZUMQ2XrAJSxtZYSHPvScdCPAQZKO+7qNq5VY4pW1borvd4MQhh8TQsXHopb7oBHTRIjCuEtQyQoeq35Vi1yEp0YaFzceD6IfTzbO48Fo+vi4WdkFcfo4qrkgR3WeMv6E6Z/FWcNNQTt71wINDorI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=sN8VEMR4; arc=none smtp.client-ip=209.85.161.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Received: by mail-oo1-f66.google.com with SMTP id 006d021491bc7-5ebc349204cso685428eaf.3
+        for <linux-input@vger.kernel.org>; Thu, 31 Oct 2024 12:25:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1730402701; x=1731007501; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uhUAE7CiIIKadT6/yqK22wb65HeoOWbYs2QkpH1TFEc=;
+        b=sN8VEMR417Sv2zxZVGodu5zpEft0CyrmVipctCPnfdFVkp4Mqx0L3F3o7bUmk5fco1
+         i239eIOpNudzF4SqjzOmgEaRjv2rNlvl0kfX3WsCBy3aGi9rg3tDXCRb/cnreUZpeqOX
+         l67u1aZ8tla0zgcWYzaxv7XL/UMskka9Wc9JwSj/JE/zlbAQ4O3iS7wRr8rNryRe2h1d
+         tYfVkt94uWjRz+cd+9zCcJhGFcvUg/jcp1Vc4dj/l+BL+BByZrKgtLXYhHL9BA2iwonO
+         /VrzSbimBPbz4lc5M1mMLGp+gfkqGHIxtcsuMCbRiXcoy04C05lEManarmsLeiLnZtpq
+         6/0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730402701; x=1731007501;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uhUAE7CiIIKadT6/yqK22wb65HeoOWbYs2QkpH1TFEc=;
+        b=v2WnSNdAGQvPH44IKMc4Zo7yWZzIkoTKhXuhqW+MU3gH4+c5ZDl4V1jtpA///Gr+IS
+         +7F5fgpMsnfouCNRpmHVd/byeDgHntr2wKmS05ki27hZfMnSc4iluUt8XVRIePbyfYGq
+         Fy1lG10uvDiF1OJWUB95FMDB6+ivnBlAmTv37dQ2jcWAIDAfxbqHc53aURXX+q1P5CTh
+         5Drl80NKhkROK5DpN2S6Mzc4qRNn998nHrffXp1u2xD76BtuRmytTTGSDWW+YE74Mw9K
+         6oieK0iJMniy5SQa4pBtC6546cB20+GKAqfxyBeXTagcTqD4ZvDL41Hz527qrBH6hmh9
+         73fQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU65Irfopt2gcI+AkSS+nsnjtcn4YmCz0NgOPjsfHN0zHoabGb3DmikelpPriXpAwFwLk/+g7jJmtk10g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YykfRoYJhpcK/ksYOPzXUEPJCrnafNyXC32jwWwEzXVxVKvH9i+
+	NqP6CvUoRf/ruZVagUbgwLvXop4V59uxQ/cJmeWH0T2bHOggVK0P/BIbCosBBhDfTI8ExMeZqkQ
+	+ffF3
+X-Google-Smtp-Source: AGHT+IE4RL0Dif6O3Ry2HBvWKw4OdWKQa4QtWRA9GyvNzx3ILrwjuqWLN3eWXUD22moyPASJ4KXWIQ==
+X-Received: by 2002:a05:6358:9817:b0:1c2:fcd0:d20a with SMTP id e5c5f4694b2df-1c5f9a4b3bcmr97124455d.25.1730402701046;
+        Thu, 31 Oct 2024 12:25:01 -0700 (PDT)
+Received: from rowland.harvard.edu ([2607:fb60:2501:2805:c6d5:fe22:7fa3:ec54])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d35415b1d6sm10958586d6.76.2024.10.31.12.24.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Oct 2024 12:25:00 -0700 (PDT)
+Date: Thu, 31 Oct 2024 15:24:57 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: syzbot <syzbot+7402e6c8042635c93ead@syzkaller.appspotmail.com>,
+	akpm@linux-foundation.org, jannh@google.com,
+	liam.howlett@oracle.com, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+	vbabka@suse.cz
+Subject: Re: [syzbot] [mm?] [input?] [usb?] INFO: rcu detected stall in brk
+ (2)
+Message-ID: <c963fa8b-7892-4528-8ab7-a8a3a080afb7@rowland.harvard.edu>
+References: <c6b63e97-6839-4beb-bb94-e5914837a041@lucifer.local>
+ <6723b31e.050a0220.35b515.0165.GAE@google.com>
+ <2928b6e8-3928-411d-82b8-6b17be266deb@lucifer.local>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: Dell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR19MB6147.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d6e08f8d-a0d8-4f5d-bfd9-08dcf9c8d6a9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Oct 2024 16:26:56.9807
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LTkfyTIW+U+twa5MbwS4ZBKGbSOnSRHdX4+8wOukMiDOjnlRwjsUqcb869ue1/ZvZxTbBgXAWGkE4Nk5/086a8Pb8fl72JKBcA1Oq+MKJXc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB7025
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-27_02,2024-09-26_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- impostorscore=0 mlxlogscore=936 malwarescore=0 suspectscore=0 phishscore=0
- bulkscore=0 mlxscore=0 spamscore=0 adultscore=0 priorityscore=1501
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410310124
-X-Proofpoint-ORIG-GUID: yAL_XSKwVHL3Sou8PYgcX6G_OG3le2rk
-X-Proofpoint-GUID: yAL_XSKwVHL3Sou8PYgcX6G_OG3le2rk
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=895
- impostorscore=0 bulkscore=0 mlxscore=0 spamscore=0 suspectscore=0
- priorityscore=1501 adultscore=0 lowpriorityscore=0 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410310124
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2928b6e8-3928-411d-82b8-6b17be266deb@lucifer.local>
 
+On Thu, Oct 31, 2024 at 04:58:29PM +0000, Lorenzo Stoakes wrote:
+> +Alan re: USB stalls
+> 
+> On Thu, Oct 31, 2024 at 09:41:02AM -0700, syzbot wrote:
+> > Hello,
+> >
+> > syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+> >
+> > Reported-by: syzbot+7402e6c8042635c93ead@syzkaller.appspotmail.com
+> > Tested-by: syzbot+7402e6c8042635c93ead@syzkaller.appspotmail.com
+> >
+> > Tested on:
+> >
+> > commit:         cffcc47b mm/mlock: set the correct prev on failure
+> > git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/ mm-hotfixes-unstable
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=1304a630580000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=6648774f7c39d413
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=7402e6c8042635c93ead
+> > compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+> >
+> > Note: no patches were applied.
+> > Note: testing is done by a robot and is best-effort only.
+> 
+> OK this seems likely to be intermittant (and unrelated to what's in
+> mm-unstable-fixes honestly) and does make me wonder if the fix referenced
+> in [0] really has sorted things out? Or whether it has perhaps help
+> mitigate the issue but not sufficiently in conjunction with debug things
+> that slow things down.
 
+This looks very different from the issues that were addressed by the fix 
+I mentioned in [0].  In particular, the log traces for this series of 
+bug reports all start with something like this:
 
+ serial_out drivers/tty/serial/8250/8250.h:142 [inline]
+ serial8250_console_fifo_write drivers/tty/serial/8250/8250_port.c:3322 [inline]
+ serial8250_console_write+0xf9e/0x17c0 drivers/tty/serial/8250/8250_port.c:3393
+ console_emit_next_record kernel/printk/printk.c:3092 [inline]
+ console_flush_all+0x800/0xc60 kernel/printk/printk.c:3180
+ __console_flush_and_unlock kernel/printk/printk.c:3239 [inline]
+ console_unlock+0xd9/0x210 kernel/printk/printk.c:3279
+ vprintk_emit+0x424/0x6f0 kernel/printk/printk.c:2407
+ vprintk+0x7f/0xa0 kernel/printk/printk_safe.c:68
+ _printk+0xc8/0x100 kernel/printk/printk.c:2432
+ printk_stack_address arch/x86/kernel/dumpstack.c:72 [inline]
 
-Internal Use - Confidential
-+AD4- -----Original Message-----
-+AD4- From: Aleksandrs Vinarskis +ADw-alex.vinarskis+AEA-gmail.com+AD4-
-+AD4- Sent: Thursday, October 31, 2024 9:32 AM
-+AD4-
-+AD4- Resolve keyboard not working out of the box for Dell XPS 9345 13+ACI-
-+AD4- codenamed 'tributo'. X1E80100-based laptop's initial support is curre=
-ntly being
-+AD4- upstreamed +AFs-1+AF0-.
-+AD4-
-+AD4- In present state, keyboard is succesfully initialized, however attemp=
-t to type
-+AD4- anything throws 'incomplete report' errors. When utilizing
-+AD4- I2C+AF8-HID+AF8-QUIRK+AF8-BAD+AF8-INPUT+AF8-SIZE quirk the error is g=
-one, however raw data
-+AD4- coming from the keyboard is always the same, no matter the key presse=
-d. Issue
-+AD4- 'resolves' itself when suspending and resuming the device.
-+AD4-
-+AD4- It appears that calling power on command one more time after device
-+AD4- initialization before finishing off the probing fixes this weird beha=
-vior, and
-+AD4- keyboard works right away.
-+AD4-
-+AD4- Introduce a new quirk for such behaviour, and enable it for particula=
-r
-+AD4- keyboard.
-+AD4- Vendor is shown as 'QTEC', however device id is reported as 0000. Giv=
-en that
-+AD4- vendor was not present before, using HID+AF8-ANY+AF8-ID to match the =
-device should
-+AD4- be okay in this case.
-+AD4-
-+AD4- In v1 it was suggested to make a dedicated i2c-of-qtec driver, but I =
-was not sure
-+AD4- how to proceed at the time. I have now drafted a dedicated driver, an=
-d it really
-+AD4- is just probe method being extended to call powerup command again. Gi=
-ven
-+AD4- that a similarly 'ugly' quirk was just merged to i2c-hid-core.c for a=
- Goodix
-+AD4- device +AFs-2+AF0-, and that (IMO) creating a dedicated driver for su=
-ch a small change
-+AD4- without any plan on extending it will be just polluting, I am asking =
-you to
-+AD4- consider this change again. Alternatively, if it is yet still strongl=
-y preferred to
-+AD4- have a dedicated driver to include this quirk, please let me know so =
-I can
-+AD4- proceed accordingly.
-+AD4-
-+AD4- --------
+indicating that perhaps the problem is related to the 8250 driver.  Or 
+perhaps that driver just happens to wait for long periods and so is more 
+likely to show up when the real problem occurs.
 
-For the series:
+By contrast, the log traces for the [0] bug reports all show something 
+like this:
 
-Reviewed-by: Laurentiu Tudor +ADw-Laurentiu.Tudor1+AEA-dell.com+AD4-
-Tested-by: Laurentiu Tudor +ADw-Laurentiu.Tudor1+AEA-dell.com+AD4-
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x105f/0x34b0 kernel/sched/core.c:6675
+ __schedule_loop kernel/sched/core.c:6752 [inline]
+ schedule+0xe7/0x350 kernel/sched/core.c:6767
+ usb_kill_urb.part.0+0x1ca/0x250 drivers/usb/core/urb.c:713
+ usb_kill_urb+0x83/0xa0 drivers/usb/core/urb.c:702
+ usb_start_wait_urb+0x255/0x4c0 drivers/usb/core/message.c:65
+ usb_internal_control_msg drivers/usb/core/message.c:103 [inline]
+ usb_control_msg+0x327/0x4b0 drivers/usb/core/message.c:154
 
----
-Thanks +ACY- Best Regards, Laurentiu
+because that bug involved usb_kill_urb() waiting indefinitely for an 
+event that never happens.
 
-+AD4- Changes to V1:
-+AD4- +ACo- Rebase on top of latest linux-next
-+AD4- +ACo- Update coverletter's reasoning and links
-+AD4- +ACo- link:
-+AD4- https://urldefense.com/v3/+AF8AXw-https://lore.kernel.org/all/2024092=
-5100303.911
-+AD4- 2-1-
-+AD4- alex.vinarskis+AEA-gmail.com/+AF8AXwA7ACEAIQ-LpKI+ACE-hTYUmNdAbx06nnU=
-3DlrMQn9PGzi4y9Ne
-+AD4- SOTjPf2SPO67ore1XymZjywoQN19RvKaVHbNs5VLc9+AF8-77mwvQAT8em7dODeJ
-+AD4- +ACQ- +AFs-lore+AFs-.+AF0-kernel+AFs-.+AF0-org+AF0-
-+AD4-
-+AD4- Aleksandrs Vinarskis (2):
-+AD4-   HID: i2c-hid: introduce re-power-on quirk
-+AD4-   HID: i2c-hid: introduce qtec vendor, enable re-power-on quirk
-+AD4-
-+AD4-  drivers/hid/hid-ids.h              +AHw-  2 +-+-
-+AD4-  drivers/hid/i2c-hid/i2c-hid-core.c +AHw- 12 +-+-+-+-+-+-+-+-+-+-+--
-+AD4-  2 files changed, 13 insertions(+-), 1 deletion(-)
-+AD4-
-+AD4- --
-+AD4- 2.45.2
+Alan Stern
 
+> [0]:https://lore.kernel.org/all/967f3aa0-447a-4121-b80b-299c926a33f5@rowland.harvard.edu/
 
