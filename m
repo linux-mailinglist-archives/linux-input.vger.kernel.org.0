@@ -1,213 +1,191 @@
-Return-Path: <linux-input+bounces-7786-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7787-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988A69B7154
-	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 01:49:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D15D9B728D
+	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 03:37:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 28E531F21FEC
-	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 00:49:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BEAD51C23E66
+	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 02:37:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D1E91EB48;
-	Thu, 31 Oct 2024 00:49:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEC2384A39;
+	Thu, 31 Oct 2024 02:37:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="g/AnwqZ3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZcn/0iH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD33943AD9;
-	Thu, 31 Oct 2024 00:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BC841C77;
+	Thu, 31 Oct 2024 02:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730335787; cv=none; b=PtgKTeZSzR0TPTUuEKMhFpuiVBiB6ry95/gg7Uz1oye33DOajP1JQjlp/Dsg6s+JsGNNAOMAulyorFj6Ulc4SIQhC8174IXo481CcwEvLMT8kVmoOK6GaZgyK/fPhKnJKoAXpbuAXfZ+BVOFgRFLEaG8UswqbCqthPfRBTFtucE=
+	t=1730342255; cv=none; b=e4JPcjDQK3SgaM1Wua1E5qXsDw66kFwWHqacNTyYryNIsNTpuNFD4vMbx+ekOLQIXD1pcmDtKu1e/QmjktH++2Q7n926o3cAPtTeHre9H1p+k+bmgWFYTNHxfg8kkkhHLZr4pFiUdLs7oGR3rYpY1O6VZYn9Lyi6ccoU9NifFwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730335787; c=relaxed/simple;
-	bh=AouGVQ2CRkjpEWM70bUJlCu0V+yKP2XQnmW+HAZ45c8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
-	 In-Reply-To:Content-Type; b=FiP3h2rh3ORjD+jgKuVqQNsDW+8FcI9Pxm5WU/di2rTGrTHU3OOjug5LarxJ8LaTMJ+8CXz0omag0PJ12CTa/DQCcm2lDbQl8JEA7ClDJ1pG0P1NzJW9QPm/B+t5R5UnTWCwlFVRFcy7yLkAXn5NbpitsND0lGBVO8uy6hBqB0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=g/AnwqZ3; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49UCH9ug019847;
-	Thu, 31 Oct 2024 00:49:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	7xhMTx79uWJ0oHC0IxM8Ok0hQb/h6nRSursI6CrKMEE=; b=g/AnwqZ3Yif4Pzs9
-	KNW5jnZUznCrIQweqAJPN2eBbylguIg9A+Lb3oIoZ/6PVJ+K6OE8qFGSS9kW39i4
-	jqRrPlz4uQIfbSHSlMIx8YFg+l1p4wMsEfNbfVfakFk7UPY7S4X9vMPJp3WGVB4v
-	LFe3/fhmghYYimkF1MItCwkWuigpuJI+FLXRIgLjNp7PcRPXfD4H/XfNYZ+3kUyW
-	XHMhMBbexVYS9emVN69riDIRc+7EIVogY99NrtMJc3BSMjm8WRQ8ftxFZTKMg0bE
-	0YYLsxaAasl1dM/MhkJZ/KY22YvtnOhIUiZ3MwgrhVJbfTv7a9JnSkI8K5FumQ4R
-	hCFDCQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42kmp0ht14-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 31 Oct 2024 00:49:20 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49V0nKMA010497
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 31 Oct 2024 00:49:20 GMT
-Received: from [10.71.115.184] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 30 Oct
- 2024 17:49:19 -0700
-Message-ID: <07d5a8b5-e985-45c1-95e0-1def6695ba9b@quicinc.com>
-Date: Wed, 30 Oct 2024 17:49:18 -0700
+	s=arc-20240116; t=1730342255; c=relaxed/simple;
+	bh=6WoJs0UJsAhBNoAYHLkYca5haLTZkyySSvILawnyHxM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LvJY8OHTLyKy7ZMJgDd3gjsHpXiozvpmr0GhhfEqM2a8xcezgzLo5t0lKkSaOj74NSCkWz2UQu9rmI4y0nXr/G+X4hiCoAh6CjXeeWUeM21tzpcRgbpVqgJ+FMzEmuwAb3CkmZqA8wn3X9YCisP9z2UUTmejowzKYneYCw5JjKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EZcn/0iH; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5cb6ca2a776so683570a12.0;
+        Wed, 30 Oct 2024 19:37:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730342252; x=1730947052; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=92sQTYv5i4LQSTbJovOBmWHa2LRRHPkJ1qfPMaZu1Ow=;
+        b=EZcn/0iHtOOWeoFJGCt/aRFI/hu7LuIt4XQpgcj2nb2oWuepJ3dACd359puLrFTUlj
+         hKXJ4DFtiVdY0ZF4yw0vlyjY7VzJaJJE+GDpA/GL5Hg3s42+KuQ5w0NMrfLzgneQdjmH
+         027gnK1E/nIfNaoZaXZ7eJXy564oqqYeHklD9YmRpYQ5n53vMbgIdYEBTcsH2kzJhCqg
+         8y1LhhTdjWA4NXLSEd54EnIle//SqY31qTbwf0SgBZVX3yDITgRqwuj7T+BQ/9yHn7rP
+         rJNclRJJnxDkRSHdKLt66BuKkgEEy/2CHynGdFnlzE3l1ABPP6dUsT+P0eBz5ZIBbC9c
+         zuBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730342252; x=1730947052;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=92sQTYv5i4LQSTbJovOBmWHa2LRRHPkJ1qfPMaZu1Ow=;
+        b=FaiTD11zLBLmTcwXUFPtbfpSL4oflv1hOV/1cwIPuPhIukBKHdEC/S0VJizSQNoRd9
+         VIYzC2ZuHq9Z76dDrir7AiVjOy34VReYIbiGe3HtlS1hW1soxfHkX8KPH6fJ83Mv0AqF
+         yief0NLx2gni9YSDRLD9PJzr8gP9DQontfdsjyDeJO1wKyMLvEPofZcnpMcFj2itDxRo
+         /ThwHSmwHaV3n/GOyA/nOxOsfDmF9FWEOCnnTkNg2262zKv731bPLc75aU0BmF6+Re51
+         /ZmCGhK+Gy5XIcH8PnEieqSm5X6msL8AUD2RgPFQTAOzpCveBoBA4QkkDL19aH4D8MXT
+         zyvg==
+X-Forwarded-Encrypted: i=1; AJvYcCU6cCFyRJRNFuvzuC2vcaNxc8tvP5maWVi92wJNjad+XIc65BJK7htgYacJhlQqcA+XX6soWOEyanjSEXg=@vger.kernel.org, AJvYcCXpJ8muGsmoP21Xa93TJLcV7zRNlyuzGdCHfq8Fu5YRmjzj2KOi65wHpONjB6cPTwfSMszZhESlaAnx@vger.kernel.org, AJvYcCXpfuZBKzKSwbAQQGfydAUVd7/5/4cBse0/OhHpv0vuWt/HllAHZtLPMJ1YvqgE8iHklGm8kEJpCOvlPNbW@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvbAzpFkocnZHLMEbvq1dBqcjpOMGDpUdZJhu0sueC3cSdWQ/O
+	gtcaQULCxkwwYFxkg8Xzr3JslUetuc7Jp09IFpaO1oKqGqY8dwTV
+X-Google-Smtp-Source: AGHT+IHpSBI+NErsfC6ze29bV+jJZIGs+3sTVrOv5Ytw26r+XzrCrrLEVjJ7y/jVNesWIRPZr3reKg==
+X-Received: by 2002:a05:6402:350e:b0:5c9:55a8:7e86 with SMTP id 4fb4d7f45d1cf-5cd54a83551mr4217216a12.8.1730342251341;
+        Wed, 30 Oct 2024 19:37:31 -0700 (PDT)
+Received: from ux-UP-WHL01 (mailgw01.goodix.com. [45.117.96.243])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ceac74cba4sm138799a12.6.2024.10.30.19.37.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Oct 2024 19:37:30 -0700 (PDT)
+Date: Thu, 31 Oct 2024 10:37:21 +0800
+From: Charles Wang <charles.goodix@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: dianders@chromium.org, dmitry.torokhov@gmail.com, hbarnor@chromium.org,
+	conor.dooley@microchip.com, jikos@kernel.org, bentiss@kernel.org,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: input: Goodix SPI HID Touchscreen
+Message-ID: <ZyLtYdwoJWx9FsdS@ux-UP-WHL01>
+References: <20241025114642.40793-2-charles.goodix@gmail.com>
+ <3ypn62dsgarvmxkmdglugcinxmvpmhdqub2zvkygaonn54odf6@amfgijfcd3l3>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v29 04/33] xhci: sideband: add initial api to register a
- sideband entity
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-CC: "srinivas.kandagatla@linaro.org" <srinivas.kandagatla@linaro.org>,
-        "mathias.nyman@intel.com" <mathias.nyman@intel.com>,
-        "perex@perex.cz"
-	<perex@perex.cz>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "corbet@lwn.net"
-	<corbet@lwn.net>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "tiwai@suse.com" <tiwai@suse.com>,
-        "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-        "pierre-louis.bossart@linux.intel.com"
-	<pierre-louis.bossart@linux.intel.com>,
-        "broonie@kernel.org"
-	<broonie@kernel.org>,
-        "bgoswami@quicinc.com" <bgoswami@quicinc.com>,
-        "robh@kernel.org" <robh@kernel.org>,
-        "gregkh@linuxfoundation.org"
-	<gregkh@linuxfoundation.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>,
-        "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>,
-        "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>,
-        "alsa-devel@alsa-project.org"
-	<alsa-devel@alsa-project.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
- <20241015212915.1206789-5-quic_wcheng@quicinc.com>
- <20241025232252.wsk4lviqzyzqjzuh@synopsys.com>
- <52ea0b32-79c7-42e8-8e2c-192d08f41e64@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <52ea0b32-79c7-42e8-8e2c-192d08f41e64@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: OqRiUjmTcddOaQjqdwLe-IzQ-UetsT-M
-X-Proofpoint-ORIG-GUID: OqRiUjmTcddOaQjqdwLe-IzQ-UetsT-M
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- bulkscore=0 malwarescore=0 impostorscore=0 mlxscore=0 suspectscore=0
- adultscore=0 clxscore=1015 phishscore=0 spamscore=0 mlxlogscore=999
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410310005
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3ypn62dsgarvmxkmdglugcinxmvpmhdqub2zvkygaonn54odf6@amfgijfcd3l3>
 
-On 10/29/2024 11:58 AM, Wesley Cheng wrote:
-> Hi Thinh,
+Hi,
+
+On Fri, Oct 25, 2024 at 02:03:11PM +0200, Krzysztof Kozlowski wrote:
+> On Fri, Oct 25, 2024 at 07:46:43PM +0800, Charles Wang wrote:
+> > The Goodix GT7986U touch controller report touch data according to the
+> > HID protocol through the SPI bus. However, it is incompatible with
+> > Microsoft's HID-over-SPI protocol.
+> > 
+> > Signed-off-by: Charles Wang <charles.goodix@gmail.com>
+> > ---
+> >  .../bindings/input/goodix,gt7986u.yaml        | 71 +++++++++++++++++++
+> >  1 file changed, 71 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/input/goodix,gt7986u.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/input/goodix,gt7986u.yaml b/Documentation/devicetree/bindings/input/goodix,gt7986u.yaml
+> > new file mode 100644
+> > index 000000000..849117639
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/input/goodix,gt7986u.yaml
+> > @@ -0,0 +1,71 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/input/goodix,gt7986u.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: GOODIX GT7986U SPI HID Touchscreen
+> 
+> GOODIX or Goodix?
+
+Thank you for catching this, the name should be Goodix.
+
 >
-> On 10/25/2024 4:22 PM, Thinh Nguyen wrote:
->> Hi,
->>
->> On Tue, Oct 15, 2024, Wesley Cheng wrote:
->>> From: Mathias Nyman <mathias.nyman@linux.intel.com>
->>>
->>> Introduce XHCI sideband, which manages the USB endpoints being requested by
->>> a client driver.  This is used for when client drivers are attempting to
->>> offload USB endpoints to another entity for handling USB transfers.  XHCI
->>> sideband will allow for drivers to fetch the required information about the
->>> transfer ring, so the user can submit transfers independently.  Expose the
->>> required APIs for drivers to register and request for a USB endpoint and to
->>> manage XHCI secondary interrupters.
->>>
->>> Multiple ring segment page linking, proper endpoint clean up, and allowing
->>> module compilation added by Wesley Cheng to complete original concept code
->>> by Mathias Nyman.
->>>
->>> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
->>> Co-developed-by: Wesley Cheng <quic_wcheng@quicinc.com>
->>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->>> ---
->>>  drivers/usb/host/Kconfig          |   9 +
->>>  drivers/usb/host/Makefile         |   2 +
->>>  drivers/usb/host/xhci-sideband.c  | 424 ++++++++++++++++++++++++++++++
->>>  drivers/usb/host/xhci.h           |   4 +
->>>  include/linux/usb/xhci-sideband.h |  70 +++++
->>>  5 files changed, 509 insertions(+)
->>>  create mode 100644 drivers/usb/host/xhci-sideband.c
->>>  create mode 100644 include/linux/usb/xhci-sideband.h
->>>
->>> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
->>> index 4448d0ab06f0..96659efa4be5 100644
->>> --- a/drivers/usb/host/Kconfig
->>> +++ b/drivers/usb/host/Kconfig
->>> @@ -104,6 +104,15 @@ config USB_XHCI_RZV2M
->>>  	  Say 'Y' to enable the support for the xHCI host controller
->>>  	  found in Renesas RZ/V2M SoC.
->>>  
->>> +config USB_XHCI_SIDEBAND
->>> +	tristate "xHCI support for sideband"
->>> +	help
->>> +	  Say 'Y' to enable the support for the xHCI sideband capability.
->>> +	  Provide a mechanism for a sideband datapath for payload associated
->> Please correct me if I'm wrong, but this doesn't look like the actual
->> xHCI Audio Sideband capability described in the xHCI spec section 7.9
->> but rather a specific implementation for Qcom right? For the xHCI Audio
->> Sideband xHCI capability, the driver should detect this capability
->> through the xHCI get extended capability. If this is not xHCI Audio
->> Sideband capability, we should properly clarify this in the
->> documentation and the naming of things to avoid any confusion.
-> Sure, that's a good point.  It does still currently rely on utilizing the system memory for USB IO transfers.  I can add some comments and update some of the documentation to reflect that this is different. 
+> > +
+> > +maintainers:
+> > +  - Charles Wang <charles.goodix@gmail.com>
+> > +
+> > +description: Supports the Goodix GT7986U touchscreen.
+> > +  This touch controller reports data packaged according to the HID protocol,
+> > +  but is incompatible with Microsoft's HID-over-SPI protocol.
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - goodix,gt7986u-spi
+> 
+> Compatible is already documented and nothing here explains why we should
+> spi variant.
+> 
 
-Hi Mathias,
+Ack. I will modify the compatible name based on our discussion and include an
+appropriate description.
 
-Would it make sense to rename the APIs and driver to something other than "sideband" so that users don't get confused with the audio sideband that is mentioned above by Thinh?  How about using something like xhci-sec-intr to signify that this driver has APIs that will help support the use of xHCI secondary interrupters?
-
-Thanks
-
-Wesley Cheng
-
-> Thanks
 >
-> Wesley Cheng
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  reset-gpios:
+> > +    maxItems: 1
+> > +
+> > +  goodix,hid-report-addr:
+> 
+> I do not see this patch addressing previous review. Sending something
+> like this as v1 after long discussions also does not help.
+> 
+> No, you keep sending the same and the same, without improvements.
 >
->> I believe your implementation still needs to provide the data to the
->> host controller through the system memory right? The xHCI Audio Sideband
->> capability may pass the data to the xHC other than the main memory.
->>
->> BR,
->> Thinh
->>
->>> +	  with audio class endpoints. This allows for an audio DSP to use
->>> +	  xHCI USB endpoints directly, allowing CPU to sleep while playing
->>> +	  audio.
->>> +
->>>  config USB_XHCI_TEGRA
->>>  	tristate "xHCI support for NVIDIA Tegra SoCs"
->>>  	depends on PHY_TEGRA_XUSB
+
+I apologize for overlooking the discussions regarding this issue.
+
+I would like to clarify that while the current boards use the same address,
+but newly designed boards in the future may require different addresses.
+
+Retaining this property would likely offer more flexibility.
+
+>
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description:
+> > +      The register address for retrieving HID report data.
+> > +      This address is related to the device firmware and may
+> > +      change after a firmware update.
+> > +
+> > +  spi-max-frequency: true
+> > +
+> > +additionalProperties: false
+> 
+> Wasn't there a comment about this as well? This goes after required:
+> block.
+>
+
+Ack, will change to unevaluatedProperties in the next version.
+
+Best regards,
+Charles
 
