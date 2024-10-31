@@ -1,100 +1,258 @@
-Return-Path: <linux-input+bounces-7800-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7801-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BAFA9B7683
-	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 09:33:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E70639B7747
+	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 10:20:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C44BA1C21CC6
-	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 08:33:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A647C28649B
+	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 09:20:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 294AF1494CA;
-	Thu, 31 Oct 2024 08:32:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E093919538A;
+	Thu, 31 Oct 2024 09:18:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IM+kHmLN"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ea95kNvi";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+lYYZtpA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ea95kNvi";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+lYYZtpA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2331EB48;
-	Thu, 31 Oct 2024 08:32:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846C01953B9;
+	Thu, 31 Oct 2024 09:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730363578; cv=none; b=PWwqOxfvhJo+E/dvB2Xh8HegO3n98sn37oSLL17w/uBaEuB1/Opf7AZahpKiN3xrxQu99oe80oeOs+DO99oU0NiCFvaiZ8myKFiTEOLsadrd1S+vPwhVlKWfVs3qPeNHZ27OTtQlYjsVuto8jRsn5tVSL60WYLn8WTz+xeey2oQ=
+	t=1730366335; cv=none; b=iOtcZp5SQWsjIW2+1QshajCTPWi+GGdEV1tzSJvO0vvKTNVxEYTOKJEE65ToKfrj/1T4FPlOEK4966Kiqu+6y+PXDYg1jEnGG9FWPKClaqtQZYETgwGnVPytHwIGXsIwzMComDsP83G0RwkVJqb0ByHe/7YmHJ3PbD4OyU8Rvck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730363578; c=relaxed/simple;
-	bh=8BdANRCNqUJ7y6PJqi0/2zODdtC+G/iJGZ8fBcvl8v4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dZt8OFSiFnlvVqJSCC4kcKuPGVzMqA/n4qG6tW53uZ4DTK1yJ08ijvwJy2cHzd4aU+vDAeSr3BbJL1GIEY081N8mkijjFHkMXw4ygUlJXIzm2uHXtkvIZwW8x+2XmibfoqUp4GyAS3bpr47UDo7+JUSuYMyC10tPgLoNpSWeTG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IM+kHmLN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0C52C4CEC3;
-	Thu, 31 Oct 2024 08:32:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730363577;
-	bh=8BdANRCNqUJ7y6PJqi0/2zODdtC+G/iJGZ8fBcvl8v4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IM+kHmLNHBm0yfvBgCD8uh4elkxRZOIFv0jlnt/0JIesZJeNuxlE4/CToMJQ0XOam
-	 //99pZQ3n4eXfsjhPz25CVqFjYbr+6cQ9ocq8HmRxyFGny1+yhPyDUbWrbfVRbYvB4
-	 fwZXZ6tYkyW2MHRwTBjjSir3sQtUcqO99Y1/FXbkSSV1tTcRGdooDnQDLXEmir/WKw
-	 JUVuNl11E/CmF1LmmAQp77ge7/7MuNnQZHq1DmveiUxROXRJLUI2XhZYkSQAMq+Fc5
-	 xQOW130cW5GkHJpW3pO88nTrddSyoY+nWFV+qnPEnv6TV3zKxlK8affYhlvb+IErWO
-	 DRK7Mn5e2sV1w==
-Date: Thu, 31 Oct 2024 09:32:53 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Markus Burri <markus.burri@mt.com>
-Cc: linux-kernel@vger.kernel.org, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, Manuel Traut <manuel.traut@mt.com>, 
-	HeDong Zhao <hedong.zhao@mt.com>
-Subject: Re: [PATCH 4/6] dt-bindings: input: matrix_keypad - add settle time
- after enable all columns
-Message-ID: <all3yq7g2ovuiszbjnmvmnyimx4fdrpecnef5si366o72vmwtk@psffqupomzgz>
-References: <20241031063004.69956-1-markus.burri@mt.com>
- <20241031063004.69956-5-markus.burri@mt.com>
+	s=arc-20240116; t=1730366335; c=relaxed/simple;
+	bh=j9pEYC1oMnqKj6SaaODCHemQCh8YG4xtOCYKWT6m5Go=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ulbVgJcIXLmztBjqHHZ7sxg5fMRoAIC4sDHcCTQSBg5VK3bZcwTS62lTzHhYtWnr7e3kXMdbPe9fy3LxsUx4PWkaQNaLT//1dz5lfOmI0XCRE0p8079r+D6hLtmGs+rSxAhKcspCO+ZvMzZKV6DGMyqS9U21QRpJkpfTpFab0p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ea95kNvi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+lYYZtpA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ea95kNvi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+lYYZtpA; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 354531FE18;
+	Thu, 31 Oct 2024 09:18:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730366325; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8flyOdsN1Wv/gVQcgw6n18uLkNhAqVdP/ybYJ4cMEt4=;
+	b=Ea95kNviZxvF/MWH1YNektTuRzffklUHTKPVt+MLD8KNcUuk+RAFwME8rOfLDmUgeoNZCY
+	uHKrZVrKtjwKmHCfcdY6P5Xf2yD0jxjFQO3JjxZEAJHe6L/4OpVl2MN++X5CKYP5BBRjwP
+	GYrY0rVxH2Fcy1Msv0+vT1N9t5TR4LA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730366325;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8flyOdsN1Wv/gVQcgw6n18uLkNhAqVdP/ybYJ4cMEt4=;
+	b=+lYYZtpATJvtnnHjt9JH6YqR8hovRj92QK7IQ/MlTx3aBUOCUlkgzMYDVjUJg00CqGIqAq
+	nLXkrGkIXGcGRXDg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730366325; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8flyOdsN1Wv/gVQcgw6n18uLkNhAqVdP/ybYJ4cMEt4=;
+	b=Ea95kNviZxvF/MWH1YNektTuRzffklUHTKPVt+MLD8KNcUuk+RAFwME8rOfLDmUgeoNZCY
+	uHKrZVrKtjwKmHCfcdY6P5Xf2yD0jxjFQO3JjxZEAJHe6L/4OpVl2MN++X5CKYP5BBRjwP
+	GYrY0rVxH2Fcy1Msv0+vT1N9t5TR4LA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730366325;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8flyOdsN1Wv/gVQcgw6n18uLkNhAqVdP/ybYJ4cMEt4=;
+	b=+lYYZtpATJvtnnHjt9JH6YqR8hovRj92QK7IQ/MlTx3aBUOCUlkgzMYDVjUJg00CqGIqAq
+	nLXkrGkIXGcGRXDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AB49F136A5;
+	Thu, 31 Oct 2024 09:18:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id uBqmKHNLI2f+JgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 31 Oct 2024 09:18:43 +0000
+Date: Thu, 31 Oct 2024 10:19:47 +0100
+Message-ID: <87plngwrws.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Philipp Stanner <pstanner@redhat.com>,	Damien Le Moal
+ <dlemoal@kernel.org>,	Niklas Cassel <cassel@kernel.org>,	Sergey Shtylyov
+ <s.shtylyov@omp.ru>,	Basavaraj Natikar <basavaraj.natikar@amd.com>,	Jiri
+ Kosina <jikos@kernel.org>,	Benjamin Tissoires <bentiss@kernel.org>,	Arnd
+ Bergmann <arnd@arndb.de>,	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Dubov <oakad@yahoo.com>,	Sudarsana Kalluru <skalluru@marvell.com>,
+	Manish Chopra <manishc@marvell.com>,	"David S. Miller"
+ <davem@davemloft.net>,	Eric Dumazet <edumazet@google.com>,	Jakub Kicinski
+ <kuba@kernel.org>,	Paolo Abeni <pabeni@redhat.com>,	Rasesh Mody
+ <rmody@marvell.com>,	GR-Linux-NIC-Dev@marvell.com,	Igor Mitsyanko
+ <imitsyanko@quantenna.com>,	Sergey Matyukevich <geomatsi@gmail.com>,	Kalle
+ Valo <kvalo@kernel.org>,	Sanjay R Mehta <sanju.mehta@amd.com>,	Shyam Sundar
+ S K <Shyam-sundar.S-k@amd.com>,	Jon Mason <jdmason@kudzu.us>,	Dave Jiang
+ <dave.jiang@intel.com>,	Allen Hubbe <allenbh@gmail.com>,	Bjorn Helgaas
+ <bhelgaas@google.com>,	Alex Williamson <alex.williamson@redhat.com>,
+	Juergen Gross <jgross@suse.com>,	Stefano Stabellini
+ <sstabellini@kernel.org>,	Oleksandr Tyshchenko
+ <oleksandr_tyshchenko@epam.com>,	Jaroslav Kysela <perex@perex.cz>,	Takashi
+ Iwai <tiwai@suse.com>,	Chen Ni <nichen@iscas.ac.cn>,	Mario Limonciello
+ <mario.limonciello@amd.com>,	Ricky Wu <ricky_wu@realtek.com>,	Al Viro
+ <viro@zeniv.linux.org.uk>,	Breno Leitao <leitao@debian.org>,	Kevin Tian
+ <kevin.tian@intel.com>,	Thomas Gleixner <tglx@linutronix.de>,	Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,	Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>,	Mostafa Saleh
+ <smostafa@google.com>,	Jason Gunthorpe <jgg@ziepe.ca>,	Yi Liu
+ <yi.l.liu@intel.com>,	Christian Brauner <brauner@kernel.org>,	Ankit Agrawal
+ <ankita@nvidia.com>,	Eric Auger <eric.auger@redhat.com>,	Reinette Chatre
+ <reinette.chatre@intel.com>,	Ye Bin <yebin10@huawei.com>,	Marek
+ =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,	Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>,	Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,	Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,	Rui Salvaterra <rsalvaterra@gmail.com>,
+	linux-ide@vger.kernel.org,	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,	ntb@lists.linux.dev,
+	linux-pci@vger.kernel.org,	kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org,	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 00/13] Remove implicit devres from pci_intx()
+In-Reply-To: <20241030221737.GA1223682@bhelgaas>
+References: <20241015185124.64726-1-pstanner@redhat.com>
+	<20241030221737.GA1223682@bhelgaas>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241031063004.69956-5-markus.burri@mt.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_ENVRCPT(0.00)[yahoo.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_GT_50(0.00)[67];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[redhat.com,kernel.org,omp.ru,amd.com,arndb.de,linuxfoundation.org,yahoo.com,marvell.com,davemloft.net,google.com,quantenna.com,gmail.com,kudzu.us,intel.com,suse.com,epam.com,perex.cz,iscas.ac.cn,realtek.com,zeniv.linux.org.uk,debian.org,linutronix.de,linux.intel.com,ziepe.ca,nvidia.com,huawei.com,invisiblethingslab.com,linux.dev,vger.kernel.org,lists.linux.dev,lists.xenproject.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On Thu, Oct 31, 2024 at 07:30:02AM +0100, Markus Burri wrote:
-> Matrix_keypad with high capacity need a longer settle time after enable
-> all columns.
-> Add optional property to specify the settle time
+On Wed, 30 Oct 2024 23:17:37 +0100,
+Bjorn Helgaas wrote:
 > 
-> Signed-off-by: Markus Burri <markus.burri@mt.com>
-> Reviewed-by: Manuel Traut <manuel.traut@mt.com>
-> Tested-by: HeDong Zhao <hedong.zhao@mt.com>
-
-How was a TXT binding tested?
-
-Both tags look fake, where were they given?
-
-> ---
->  Documentation/devicetree/bindings/input/gpio-matrix-keypad.txt | 2 ++
->  1 file changed, 2 insertions(+)
+> On Tue, Oct 15, 2024 at 08:51:10PM +0200, Philipp Stanner wrote:
+> > @Driver-Maintainers: Your driver might be touched by patch "Remove
+> > devres from pci_intx()". You might want to take a look.
+> > 
+> > Changes since the RFC [1]:
+> >   - Add a patch deprecating pci{m}_intx(). (Heiner, Andy, Me)
+> >   - Add Acked-by's already given.
+> >   - Export pcim_intx() as a GPL function. (Alex)
+> >   - Drop patch for rts5280, since this driver will be removed quite
+> >     soon. (Philipp Hortmann, Greg)
+> >   - Use early-return in pci_intx_unmanaged() and pci_intx(). (Andy)
+> > 
+> > Hi all,
+> > 
+> > this series removes a problematic feature from pci_intx(). That function
+> > sometimes implicitly uses devres for automatic cleanup. We should get
+> > rid of this implicit behavior.
+> > 
+> > To do so, a pci_intx() version that is always-managed, and one that is
+> > never-managed are provided. Then, all pci_intx() users are ported to the
+> > version they need. Afterwards, pci_intx() can be cleaned up and the
+> > users of the never-managed version be ported back to pci_intx().
+> > 
+> > This way we'd get this PCI API consistent again.
+> > 
+> > Patch "Remove devres from pci_intx()" obviously reverts the previous
+> > patches that made drivers use pci_intx_unmanaged(). But this way it's
+> > easier to review and approve. It also makes sure that each checked out
+> > commit should provide correct behavior, not just the entire series as a
+> > whole.
+> > 
+> > Merge plan for this is to enter through the PCI tree.
+> > 
+> > [1] https://lore.kernel.org/all/20241009083519.10088-1-pstanner@redhat.com/
 > 
-> diff --git a/Documentation/devicetree/bindings/input/gpio-matrix-keypad.txt b/Documentation/devicetree/bindings/input/gpio-matrix-keypad.txt
-> index 570dc10..cf43fa0 100644
-> --- a/Documentation/devicetree/bindings/input/gpio-matrix-keypad.txt
-> +++ b/Documentation/devicetree/bindings/input/gpio-matrix-keypad.txt
-> @@ -24,6 +24,8 @@ Optional Properties:
->  - debounce-delay-ms:	debounce interval in milliseconds
->  - col-scan-delay-us:	delay, measured in microseconds, that is needed
->  			before we can scan keypad after activating column gpio
-> +- all-cols-on-delay-us:	delay, measured in microseconds, that is needed
-> +			after activating all column gpios, default is no delay.
+> I *think* this series depends on resolution of Takashi's "Restore the
+> original INTX_DISABLE bit by pcim_intx()" patch [2], right?
 
-Binding should be converted to DT schema first.
+IIUC, it's not really dependent, as pcim_intx() has been used in
+pci_intx() internally when the PCI device is already managed.
+My patch is to correct the already existing behavior.  So I guess you
+can take this series, and I'll post the revised patch later (sorry, I
+was too busy for other tasks).
 
-Best regards,
-Krzysztof
 
+thanks,
+
+Takashi
+
+> 
+> For now I'm postponing this series, but let me know if that's not the
+> right thing.
+> 
+> [2] https://lore.kernel.org/r/20241024155539.19416-1-tiwai@suse.de
+> 
+> > Philipp Stanner (13):
+> >   PCI: Prepare removing devres from pci_intx()
+> >   ALSA: hda_intel: Use always-managed version of pcim_intx()
+> >   drivers/xen: Use never-managed version of pci_intx()
+> >   net/ethernet: Use never-managed version of pci_intx()
+> >   net/ntb: Use never-managed version of pci_intx()
+> >   misc: Use never-managed version of pci_intx()
+> >   vfio/pci: Use never-managed version of pci_intx()
+> >   PCI: MSI: Use never-managed version of pci_intx()
+> >   ata: Use always-managed version of pci_intx()
+> >   wifi: qtnfmac: use always-managed version of pcim_intx()
+> >   HID: amd_sfh: Use always-managed version of pcim_intx()
+> >   Remove devres from pci_intx()
+> >   PCI: Deprecate pci_intx(), pcim_intx()
+> > 
+> >  drivers/ata/ahci.c                            |  2 +-
+> >  drivers/ata/ata_piix.c                        |  2 +-
+> >  drivers/ata/pata_rdc.c                        |  2 +-
+> >  drivers/ata/sata_sil24.c                      |  2 +-
+> >  drivers/ata/sata_sis.c                        |  2 +-
+> >  drivers/ata/sata_uli.c                        |  2 +-
+> >  drivers/ata/sata_vsc.c                        |  2 +-
+> >  drivers/hid/amd-sfh-hid/amd_sfh_pcie.c        |  4 +--
+> >  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c |  2 +-
+> >  .../wireless/quantenna/qtnfmac/pcie/pcie.c    |  2 +-
+> >  drivers/pci/devres.c                          | 29 +++++--------------
+> >  drivers/pci/pci.c                             | 19 ++++--------
+> >  include/linux/pci.h                           |  1 +
+> >  sound/pci/hda/hda_intel.c                     |  2 +-
+> >  14 files changed, 26 insertions(+), 47 deletions(-)
+> > 
+> > -- 
+> > 2.47.0
+> > 
 
