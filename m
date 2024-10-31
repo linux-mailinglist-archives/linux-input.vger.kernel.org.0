@@ -1,137 +1,147 @@
-Return-Path: <linux-input+bounces-7814-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7815-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C37D9B81F7
-	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 18:58:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A459B828B
+	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 19:24:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D190FB233B8
-	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 17:58:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B2211C20ECD
+	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 18:24:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 116B01BC069;
-	Thu, 31 Oct 2024 17:58:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78A971BE852;
+	Thu, 31 Oct 2024 18:23:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZA/UIs0C"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="EgzUnie2"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6C013A868
-	for <linux-input@vger.kernel.org>; Thu, 31 Oct 2024 17:58:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F357F1C57AD
+	for <linux-input@vger.kernel.org>; Thu, 31 Oct 2024 18:23:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730397510; cv=none; b=bEqBfdmHsv5C6gptZY+D2oP9FwWbrb7XizyS2eyG+Q2JDcGHXSdYfW1JIAzYhYwFbWs3OsJTMR1zsVZxPKRF7Gl0uL/rRlOV5qXVisr/zeRMZB9c+ya8Igeuo6rytMTxHAls0hpPc9EWnry3518vn6jMIP0ewdRODiKaxL+YO2g=
+	t=1730399039; cv=none; b=DzObEcKGGh6mjVIwz61gnzTBvJCOjEdx/0sVQmRT1/ln9sJ//BwHIv+I16DRcCFsQadjE9FHUMF0JQ7VdM9mOvzW+fHIdOy+NFDlrhArbwNS60j8HStktV20js/kcAxw4VpErTHFlO8QdJlX99aaQm9jE4S2coVXqVSHmmi7s3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730397510; c=relaxed/simple;
-	bh=GprtLr3+fDuoA1kbr5iV1i1OWpC+hVzEb/dgPxI6zjY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u0n+ZwEfU4J7n7zSAluGKaz4C1eecZPABtmUmtqq+ZbbWcTKSfVjOAIq5aJEQIp82vgFGekpM4bnCiNrX555B5npx04neM36lr/8dGojxYy8Z0GXtkp46lWIz23yrNZ0LKnoZQ+s/VQbC8pLMY11IV1s7CW0CZwie80BekoEprk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZA/UIs0C; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fabb837ddbso17708521fa.1
-        for <linux-input@vger.kernel.org>; Thu, 31 Oct 2024 10:58:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730397505; x=1731002305; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lp+SkhbwfifV7k5hA8ZYEm0WPfNORR7rjsrxe7EFMug=;
-        b=ZA/UIs0CJ75GwI1qVdNbiHQ+SlbD9/yNHnMSJS/l2Z3nuQH4xalqfFnWIlcbUHaTjL
-         89Stwcu86JTvV7WwbIGapdgs/p2gnekFFZcZsGvxSPwiKyf6NWMVR76s0ZV7k6oslNhI
-         hnxLddHxIW2HKsJtI3bPAMPc8q5A5CALWnX+Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730397505; x=1731002305;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lp+SkhbwfifV7k5hA8ZYEm0WPfNORR7rjsrxe7EFMug=;
-        b=JIMZjHkhypIbb6zu0Y+rzdzPXuOsl010S8wnS746etNbiTHpoED1rLd/A+h5ZR5e9U
-         hhZ64aqoIuAut6+ddfLDci1kvFwXfCg1U9YPclleYSkNy9M7J4RRmU0cXO1Gxyuedc7c
-         h/gwMA5mePhPmar3liBDwP8JgoOtQzKIKBFruQqpRhWtJPmAGWEyN6mkjtbNVq0hy5o3
-         XJrY+z55Zh+IL1Sq4sfK0tkGGgU6C2Qg/TRasLu1x+L7E8smKshmNZQAoGByV+xsebYl
-         xrVYv8z7s/9iIvAJ5WRiEJXlFHsmcB+2XqEMIStnD6Z0itTwlpzY52eTsCNUi8vxw3l/
-         MGEg==
-X-Forwarded-Encrypted: i=1; AJvYcCUW45rC+r5zMQN0ro4pdXJYcBExeKgr5JYMvCBPyrMogPmeo04S7RYWDpNu/f99VV0pmKbC+Ht++Tid5g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIFjb3m4l5IX4h/L3xFbHn3P8MD81nbtUVy+ax5JDVto4SsyaJ
-	zAg29yxSUMk2e6vilhSsU1WcatTSDXtmXzNCzE3Ru8iyojOz1EeJoy2IWzoQWkR2VPf1bE9vZAe
-	Vg9w8
-X-Google-Smtp-Source: AGHT+IF6lFYop6nodRDlw/FjzptPhTqkrcqso160CdUZC1LbiWOCHKEKFTzXrq4m+/5aDAKmfZp0vA==
-X-Received: by 2002:a2e:bd09:0:b0:2fa:d604:e522 with SMTP id 38308e7fff4ca-2fedb669b19mr9315041fa.0.1730397504827;
-        Thu, 31 Oct 2024 10:58:24 -0700 (PDT)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fdef3b777fsm2856861fa.5.2024.10.31.10.58.23
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Oct 2024 10:58:23 -0700 (PDT)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-539f58c68c5so2309927e87.3
-        for <linux-input@vger.kernel.org>; Thu, 31 Oct 2024 10:58:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVedrz5myJ9syF3Fxwxvl17sp72LchnRRRfY6esZvzMSeHkbpUqX+gKOnL1PubhIRodlpeQyJdB0UnrOA==@vger.kernel.org
-X-Received: by 2002:a05:6512:605:b0:53b:1508:468d with SMTP id
- 2adb3069b0e04-53d65e1686bmr748585e87.54.1730397503175; Thu, 31 Oct 2024
- 10:58:23 -0700 (PDT)
+	s=arc-20240116; t=1730399039; c=relaxed/simple;
+	bh=pFmD4Gp8iUHEVovVTrzITTFyj765SZ6D8SpS3LDgWIM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oBfHhpT7vGrCxKeTZy6RW37spXwmQNd2r3ZaBp0ZbjcOYgPfhvggpLZ77f48z/5/VxuMld5YhvPwrD5i1x2wVfqOaqpgmlMJrnwIugc/v939ALJgQ1Lzvm7edkLO7bJfZTp4PXn5s0QGQZCkx/EfSOzNaGqoZtquXLj6HgVWO3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=EgzUnie2; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id A797088DB1;
+	Thu, 31 Oct 2024 19:23:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1730399035;
+	bh=0KholVrTX3Z7fIoF1yq4CF1GPac8D1QKrQOM0e71wNo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EgzUnie2aXuhz8vXEqe+biNeSBt1DOUlPNnYenPhWgLch5riFGx4Tkt0y+kOFgU+1
+	 LtDeKF5tYcb9/x7WefgoOOMEOKlCfwMZWnsBQrs8ET/n54+1j6nIiTFkqjejb25R3T
+	 rEeuHYMHLDbYMNiVrtaSYmibnC18f88Yd7tevXA0wK62UQIqdvJzHdtlYTjSsBiusb
+	 GChAoSyYDU7UZJm5w9311nh+LJmkcRBkV/ngrysPwM56wbtPqcW1aQNb2r7TAkqN3s
+	 PpLTVs2vWvfwouS/7ELFjRbixGXYmhyJaTa9tp24WugdHTx9zMwk1LNXVwGkve9zaf
+	 Lafo7Vq6PafoA==
+Message-ID: <1b5fda0d-326b-4ade-ba2c-e4dbcc337bc5@denx.de>
+Date: Thu, 31 Oct 2024 19:20:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241025114642.40793-2-charles.goodix@gmail.com>
- <3ypn62dsgarvmxkmdglugcinxmvpmhdqub2zvkygaonn54odf6@amfgijfcd3l3> <ZyLtYdwoJWx9FsdS@ux-UP-WHL01>
-In-Reply-To: <ZyLtYdwoJWx9FsdS@ux-UP-WHL01>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 31 Oct 2024 10:58:07 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UNKECLn=3VrjsJfA+HTNa9Gag1qw5jOcBvw7=ZtkZEnw@mail.gmail.com>
-Message-ID: <CAD=FV=UNKECLn=3VrjsJfA+HTNa9Gag1qw5jOcBvw7=ZtkZEnw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: input: Goodix SPI HID Touchscreen
-To: Charles Wang <charles.goodix@gmail.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, dmitry.torokhov@gmail.com, hbarnor@chromium.org, 
-	conor.dooley@microchip.com, jikos@kernel.org, bentiss@kernel.org, 
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Input: atmel_mxt_ts: Avoid excess read length on limited
+ controllers
+To: linux-input@vger.kernel.org
+Cc: Nick Dyer <nick@shmanahar.org>, Evan Green <evgreen@chromium.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Sasha Levin <sashal@kernel.org>
+References: <20200613145632.113573-1-marex@denx.de>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20200613145632.113573-1-marex@denx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-Hi,
+On 6/13/20 4:56 PM, Marek Vasut wrote:
+> Some I2C controllers have a hard limit on the number of data they can
+> transfer in one transfer (e.g. Xilinx XIIC has 255 bytes). The Atmel
+> MXT touchscreen driver mxt_process_messages_until_invalid() function
+> can trigger a read much longer than that (e.g. 690 bytes in my case).
+> This transfer can however be easily split into multiple shorter ones,
+> esp. since the single T5 message is 10 bytes or so.
+> 
+> This patch adds a check for the quirk presence and if it is present,
+> limits the number of messages read out of the controller such that
+> they are below the quirk limit. This makes it possible for the MXT
+> driver to work even on such limited controllers.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Nick Dyer <nick@shmanahar.org>
+> Cc: Evan Green <evgreen@chromium.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Sasha Levin <sashal@kernel.org>
+> ---
+>   drivers/input/touchscreen/atmel_mxt_ts.c | 30 ++++++++++++++++++------
+>   1 file changed, 23 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+> index a2189739e30f5..faa3f3f987d46 100644
+> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
+> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+> @@ -985,21 +985,37 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
+>   
+>   static int mxt_read_and_process_messages(struct mxt_data *data, u8 count)
+>   {
+> +	const struct i2c_adapter_quirks *q = data->client->adapter->quirks;
+>   	struct device *dev = &data->client->dev;
+> -	int ret;
+> -	int i;
+> +	int i, ret, offset = 0;
+> +	u16 rem, chunk = count, total = count;
+>   	u8 num_valid = 0;
+>   
+>   	/* Safety check for msg_buf */
+>   	if (count > data->max_reportid)
+>   		return -EINVAL;
+>   
+> +	/* Handle controller read-length limitations */
+> +	if (q && q->max_read_len) {
+> +		chunk = min((u16)(q->max_read_len / data->T5_msg_size),
+> +			    (u16)count);
+> +	}
+> +
+>   	/* Process remaining messages if necessary */
+> -	ret = __mxt_read_reg(data->client, data->T5_address,
+> -				data->T5_msg_size * count, data->msg_buf);
+> -	if (ret) {
+> -		dev_err(dev, "Failed to read %u messages (%d)\n", count, ret);
+> -		return ret;
+> +	while (total) {
+> +		rem = min(total, chunk);
+> +		ret = __mxt_read_reg(data->client, data->T5_address,
+> +				     data->T5_msg_size * rem,
+> +				     data->msg_buf +
+> +					(offset * data->T5_msg_size));
+> +		if (ret) {
+> +			dev_err(dev,
+> +				"Failed to read %u messages (offset %u of total %u) (%d)\n",
+> +				rem, offset, count, ret);
+> +			return ret;
+> +		}
+> +		total -= rem;
+> +		offset += rem;
+>   	}
+>   
+>   	for (i = 0;  i < count; i++) {
 
-On Wed, Oct 30, 2024 at 7:37=E2=80=AFPM Charles Wang <charles.goodix@gmail.=
-com> wrote:
->
-> > > +  goodix,hid-report-addr:
-> >
-> > I do not see this patch addressing previous review. Sending something
-> > like this as v1 after long discussions also does not help.
-> >
-> > No, you keep sending the same and the same, without improvements.
-> >
->
-> I apologize for overlooking the discussions regarding this issue.
->
-> I would like to clarify that while the current boards use the same addres=
-s,
-> but newly designed boards in the future may require different addresses.
->
-> Retaining this property would likely offer more flexibility.
-
-I don't feel very strongly about it, but maybe Krzysztof does?
-Possibly the path of least resistance would be:
-
-1. You drop the property from the bindings.
-
-2. You hardcode it in the driver to be the normal value.
-
-3. If/when someone actually needs a different value then we can add it
-as an optional property in the bindings and fall back to the default
-value if the property isn't present.
-
-What do you think? If you feel strongly about keeping the
-"hid-report-addr" then you can certainly keep making your case.
-However, it's probably best to wait to get agreement from Krzysztof
-(or one of the other DT maintainers) before sending your next version
-unless you're going to take the "path of least resistance" that I talk
-about above.
-
--Doug
+I just found this patch still in my upstreaming queue. Any input on 
+this? It seems to still apply and it is still needed on Xilinx XIIC I2C.
 
