@@ -1,212 +1,139 @@
-Return-Path: <linux-input+bounces-7796-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7797-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D84979B7511
-	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 08:11:51 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E74B9B7569
+	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 08:34:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C73C285F1C
-	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 07:11:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8FCB21C24B63
+	for <lists+linux-input@lfdr.de>; Thu, 31 Oct 2024 07:34:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 222041487D1;
-	Thu, 31 Oct 2024 07:11:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F312E148850;
+	Thu, 31 Oct 2024 07:34:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hVp4vsf2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T8xhfoMz"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50C91BD9D4;
-	Thu, 31 Oct 2024 07:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C729E12CDBF;
+	Thu, 31 Oct 2024 07:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730358706; cv=none; b=FAH4GnKV9Cg4kJMdZ5RkT3WbIAMu4FzMzU8eYooGJVBMaTI2m7sYY0Q5DlL9ye0lTmFPFt7Rf55sGhugdoA+VkhckHSb4rSE+wMKyuEPrnBEZ9/MwrrV3P0uaTnKl9tw0/ZdqDD2rf9ZQP9c/c+4T42g4K9lvVonCIi9dVV8vWY=
+	t=1730360071; cv=none; b=a9ekL6sP87EHUiM86U6FdfsSxsspxzkgYgnfclHVVcrjQRkGcvnCiZnEELyTxtQBb/T9nC2XPBjHT9w4Qbmp1U6WuaOIPj3r6hTjO6bB2xGD1jJBmr6hnXop9m/eGcjLZxMK+JikJb4bdgxIajHMO2tnKNIfG/y00emPtUlCjFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730358706; c=relaxed/simple;
-	bh=KmEQQ1s6Mv96zNVsmm/PGUzclVUeYqkmH1f/zLli7+k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P8aaUHhe4Q9LrY+ykupbP5NX9PwTBl7uc+c6aj0Rcyuhr9XZ45lKXvzT1h8wqWO7T/EiAAr6zBPhcXO8YnYHsEL2gjJd4qK4n0UhI1SyamQ+nicjDZoBq+pVliSrb48CRPK1DgBUJWOkhyYCqmltfrQAQU5u6CfN0C0/9G/APlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hVp4vsf2; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1730360071; c=relaxed/simple;
+	bh=R+d1rvPf1Upw2x96aFkP3XmrIZmcUN4VUJ8eKnb1Nss=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BWH5MPHjag3WXAGm5BqSLtE7izm9MxYsP27YBl/kljcJjTTUMsv08SVMK/WLeV3pDeEMVLhHkOWrbkmxud8dgmhiKs34zU1LqjCpxLGLdP1tkhOke702p6KSaRRh5pcSWPXfs2M4H8aFg8YOoHJ+7ng6f5gMftm2X12tGzUsvPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T8xhfoMz; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-71e70c32cd7so471877b3a.1;
-        Thu, 31 Oct 2024 00:11:43 -0700 (PDT)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4315e62afe0so5422045e9.1;
+        Thu, 31 Oct 2024 00:34:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730358703; x=1730963503; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=F8kx/Q3WV6oV1a8lTuJyAF8FReeIGHyPGyomJSeRgH8=;
-        b=hVp4vsf2j5/gE1N3eXEpns8BFu1t+25bP2UUC+i2c3/438BlwHl0PvP1QHbEkSKtry
-         BTJ4H/6TO5VjG3DK2W2zI5pfr5c/r8vmc1har+NkQNQQz1B8b7KgGevx23oULOBB7EbK
-         OC1jacEoRbFZ93S37L6+n3+I+whNZOK13ioQUNqMdyV7p9dA2sjGzo8upLkAIlHNqqJh
-         ddGQZbNiw+oAeC5ywUo+s95Ua+Iwxpd5N3rxn+4eXcaopo4tF0MDnsN2nxgf5qKo1wmy
-         2ijJKCYADiNL0qwYWD1SIEbGwnFHuyf95H0sFbwQZ6uMoWZr7fbnnUbEW8s3qfA3fjO2
-         tdYw==
+        d=gmail.com; s=20230601; t=1730360068; x=1730964868; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=t0nv1Ef1JU5GiFDLLue01xohdIXEr/pHWQPoV5z53c4=;
+        b=T8xhfoMzdaH1yc/jVG9F7r9PJdGK8NZFjBhcZJTUJdM1LkzDzIRQ2sujV3gRqmyp+d
+         e8eBvqT44Lb/ie6gPKl5p0Y2JOMaRmQCLBn3f7qKBiw7lAWF7btk9Nmv3QTQ6yoGpASU
+         aJr8ELQmMk+4TJPuYfGrCyoh+gj89YUnMizhDl86nIoXxBfr2z2lc/0FaLehKULMBYJN
+         NglG4Gc0rDuPGs6QH7xBYNJjazPYIIHUG4ofpgRw+m6nrWnPNEySW2GTBJB7ivKiaQzA
+         ymlb3Mg2Go8qUdUVOWCdxpdKsHDP/bSp51151XzQac+BJWaz5VQLFRmVSOmk4RroE5VJ
+         ufww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730358703; x=1730963503;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F8kx/Q3WV6oV1a8lTuJyAF8FReeIGHyPGyomJSeRgH8=;
-        b=gDUdCtThA36G04lEE1GUOk0tzE9ed54P8b8jWOfgvv6rbuPEElQDOiUlpiQHnTrvvP
-         8SYwJGqdhwRnuYNf1ZJj0mQloUH97zqqjqhywgdYQ5wwyTgCrfCp0xXAj6T/YnAkbaof
-         bXYEuwMI+lpGBhkt++hqkW0ojUt3lYmwCx80N6Upox4J4yCyrl8FRFtCLSQewHpTA2Mu
-         QowwQJOCQXs3VVw3MfAoSFXhT+ddIOtYPKprHVDDQWoW/R+p/QRPK5dQE9HqxxJYdp6F
-         W65PVoHvq/oZAl3rdhlgrxunOGGM2yqRUPgLpWQ5y/gNrteqpl5KY+I0zEVNvb1fmAhV
-         C4fg==
-X-Forwarded-Encrypted: i=1; AJvYcCULq1vwP1faUN3Be/kyioKWDDD6Rpxitk82t4wOTPiA5GzMSUCU230YEYPJhQ6LELW6a8sJ6HIHIGCHVBg=@vger.kernel.org, AJvYcCUk7M5VsUBT/il00ccbd3i7x2I2TSPfAZeLLR/okTQvjRGO+G9Aloe9sXNMhhk37M0wGs1VEPj/4JVm@vger.kernel.org, AJvYcCWpJavMu9rs5XlOQ+pUi6nN9/+mNIpLXpTGcwnJ5qCj/PDfo+ftwpj9b9JgcxYQiLZuPy90QSRrpuf+4WS8@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvVRMBjIJTfo4QCJLwghvI1z3cII6Qkc57W5KXF4rkAlp6w3Au
-	HOILTss2aD83HAnN/wJ7uQH/Bh3LjFJfRU5ahf/dcjTqiaRuBbsz
-X-Google-Smtp-Source: AGHT+IHlT1ly2KZHCHWRKW2rHfaZSrWxzDKTGW1GCGmqFUlvEOGZPgfcDgXjuS+I6C3x4NVHtADn2Q==
-X-Received: by 2002:a05:6a20:b30a:b0:1d9:c6c5:70c with SMTP id adf61e73a8af0-1d9c6c62035mr13190038637.5.1730358703112;
-        Thu, 31 Oct 2024 00:11:43 -0700 (PDT)
-Received: from ux-UP-WHL01 ([240e:47e:2ed8:ab06:94f5:966b:9066:6b36])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-720bc2c3e08sm629364b3a.105.2024.10.31.00.11.35
+        d=1e100.net; s=20230601; t=1730360068; x=1730964868;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t0nv1Ef1JU5GiFDLLue01xohdIXEr/pHWQPoV5z53c4=;
+        b=ntL6knMNzH0ZfkpFDHmf2n5RRYLSZc04RTIr0Q1pl7nR+d+4EQu1f6sJPIXh2kbv0m
+         gv/Fryy7y3KYyYeLlTK56uDJ0qhaEL5yVhI5J5yzbzgR8D0DA6pwY2uO8hD4X3UlRXDu
+         rs93frHsFBqAjUGPx17g7K/JwiwpNvjv3aZW6F4Oywdw3TJ5rxJ4GC0rF09QiIe6wDEl
+         q3VoLYljXyCT9DgNvdUvzxXi7rPRJptBo3krQI2tucGa1NDIgBvbWA0LSriJdMb0DwMk
+         hh6Fn3oQEBmZIBSIDuqD0aIlMAnOy0f0HpQX5bFvL5yjQ62Q4Z5PR0ioQ0IZr8c/fhdf
+         AeTw==
+X-Forwarded-Encrypted: i=1; AJvYcCVufs1M7QyFgJm/EA9/2e+QsZfEvWn8iBlb6T+r39WjtNAFg8drLgvXghE0zlIwZrZivCg16vItPrSLNQ==@vger.kernel.org, AJvYcCWGvBXfTjkVue4fkPNNMPJ7nCaOdBqjouFvcPM2kLUZCdhhaT3xUh7K12Bij+X1RlWKrLfKji7jP5W+23Ew@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrFL/E+2gAV2assvfN7La2BlhXGh3I4bdrzEoT46PTmO2IK2GP
+	3YjKwkAaFYjtYPF397cDXXfzBTZKty+hLeJpR0CuYrClc4DEjmk=
+X-Google-Smtp-Source: AGHT+IH+wT/ECKsH9J2zAtJ+6RsOUZ2zyASnULkKnSGpUjg9MZF/EXqITdG9nllRyo/zVTOX58licA==
+X-Received: by 2002:a5d:4106:0:b0:37c:d558:a931 with SMTP id ffacd0b85a97d-3806115902emr13697640f8f.31.1730360067588;
+        Thu, 31 Oct 2024 00:34:27 -0700 (PDT)
+Received: from localhost.. (mob-194-230-148-189.cgn.sunrise.net. [194.230.148.189])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c116a781sm1248951f8f.96.2024.10.31.00.34.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2024 00:11:42 -0700 (PDT)
-Date: Thu, 31 Oct 2024 15:11:15 +0800
-From: Charles Wang <charles.goodix@gmail.com>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, dmitry.torokhov@gmail.com,
-	hbarnor@chromium.org, conor.dooley@microchip.com, jikos@kernel.org,
-	bentiss@kernel.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH] dt-bindings: input: Goodix SPI HID Touchscreen
-Message-ID: <ZyMtk4_z0gvF4Fhj@ux-UP-WHL01>
-References: <20241025114642.40793-2-charles.goodix@gmail.com>
- <3ypn62dsgarvmxkmdglugcinxmvpmhdqub2zvkygaonn54odf6@amfgijfcd3l3>
- <CAD=FV=X1F3QC=eSXcCn-78iQBzHMzT3z9Sis3yXKW_Bzun3+EA@mail.gmail.com>
- <CAL_JsqLwOekE1mz+3g8NTE3o4GhE9PWwR1Jfk_tL0RYKQmCg-A@mail.gmail.com>
- <CAD=FV=VHMfc2kJo2N3jkB9BR0H7SN2g9JqoDkZuZOOuq0OV6gw@mail.gmail.com>
- <ZyHYw40duPrm0ZeF@ux-UP-WHL01>
- <CAD=FV=WtbBnCX6fcqBFYPO3C=zw8YhKmJ35hW920JWt0MvDqPw@mail.gmail.com>
+        Thu, 31 Oct 2024 00:34:27 -0700 (PDT)
+From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Benjamin Tissoires <bentiss@kernel.org>,
+	Bryan.Kemp@dell.com,
+	laurentiu.tudor1@dell.com,
+	Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Subject: [PATCH v2 0/2] HID: i2c-hid: re-power-on quirk for QTEC kbrd
+Date: Thu, 31 Oct 2024 08:31:40 +0100
+Message-ID: <20241031073419.9189-1-alex.vinarskis@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=WtbBnCX6fcqBFYPO3C=zw8YhKmJ35hW920JWt0MvDqPw@mail.gmail.com>
 
-On Wed, Oct 30, 2024 at 11:14:26AM -0700, Doug Anderson wrote:
-> Hi,
-> 
-> On Tue, Oct 29, 2024 at 11:57 PM Charles Wang <charles.goodix@gmail.com> wrote:
-> >
-> > On Fri, Oct 25, 2024 at 09:19:14AM -0700, Doug Anderson wrote:
-> > > Hi,
-> > >
-> > > On Fri, Oct 25, 2024 at 8:59 AM Rob Herring <robh@kernel.org> wrote:
-> > > >
-> > > > On Fri, Oct 25, 2024 at 10:29 AM Doug Anderson <dianders@chromium.org> wrote:
-> > > > >
-> > > > > Charles,
-> > > > >
-> > > > > On Fri, Oct 25, 2024 at 5:03 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> > > > > >
-> > > > > > > +properties:
-> > > > > > > +  compatible:
-> > > > > > > +    enum:
-> > > > > > > +      - goodix,gt7986u-spi
-> > > > > >
-> > > > > > Compatible is already documented and nothing here explains why we should
-> > > > > > spi variant.
-> > > > > >
-> > > > > > > +
-> > > > > > > +  reg:
-> > > > > > > +    maxItems: 1
-> > > > > > > +
-> > > > > > > +  interrupts:
-> > > > > > > +    maxItems: 1
-> > > > > > > +
-> > > > > > > +  reset-gpios:
-> > > > > > > +    maxItems: 1
-> > > > > > > +
-> > > > > > > +  goodix,hid-report-addr:
-> > > > > >
-> > > > > > I do not see this patch addressing previous review. Sending something
-> > > > > > like this as v1 after long discussions also does not help.
-> > > > >
-> > > > > Krzysztof is right that it's better to wait until we get consensus on
-> > > > > the previous discussion before sending a new patch. I know you were
-> > > > > just trying to help move things forward, but because of the way the
-> > > > > email workflow works, sending a new version tends to fork the
-> > > > > discussion into two threads and adds confusion.
-> > > > >
-> > > > > I know Krzysztof and Rob have been silent during our recent
-> > > > > discussion, but it's also a long discussion. I've been assuming that
-> > > > > they will take some time to digest and reply in a little bit. If they
-> > > > > didn't, IMO it would have been reasonable to explicitly ask them for
-> > > > > feedback in the other thread after giving a bit of time.
-> > > >
-> > > > If the firmware creates fundamentally different interfaces, then
-> > > > different compatibles makes sense. If the same driver handles both bus
-> > > > interfaces, then 1 compatible should be fine. The addition of '-spi'
-> > > > to the compatible doesn't give any indication of a different
-> > > > programming model. I wouldn't care except for folks who will see it
-> > > > and just copy it when their only difference is the bus interface and
-> > > > we get to have the same discussion all over again. So if appending
-> > > > '-spi' is the only thing you can come up with, make it abundantly
-> > > > clear so that others don't blindly copy it. The commit msg is useful
-> > > > for convincing us, but not for that purpose.
-> > >
-> > > OK, makes sense. Charles: Can you think of any better description for
-> > > this interface than "goodix,gt7986u-spi"? I suppose you could make it
-> > > super obvious that it's running different firmware with
-> > > "goodix,gt7986u-spifw" and maybe that would be a little better.
-> > >
-> > > I think what Rob is asking for to make it super obvious is that in the
-> > > "description" of the binding you mention that in this case we're
-> > > running a substantially different firmware than GT7986U touchscreens
-> > > represented by the "goodix,gt7986u" binding and thus is considered a
-> > > distinct device.
-> > >
-> > > At this point, IMO you could wait until Monday in case Krzysztof wants
-> > > to add his $0.02 worth and then you could send a "v2" patch addressing
-> > > the comments so far, though of course you could continue to reply to
-> > > this thread if you have further questions / comments.
-> > >
-> >
-> > Thank you for your explanation, I understand your point. I want to clarify
-> > that the gt7986u-spi and gt7986u indeed use two entirely different drivers
-> > and two distinct firmware.
-> >
-> > Using "goodix,gt7986u-spi" could indeed cause confusion. How about modifying
-> > it to "goodix,gt7986u-losto" by adding a special code?
-> 
-> If "lotso" somehow means something real to people using this product
-> then that seems OK to me. If "lotso" is just a made up word because
-> you don't want to use "spi" or "spifw" then it's not great. In either
-> case you'll want to summarize our discussion here in your
-> "description" in the yaml and in the commit message.
-> 
+Resolve keyboard not working out of the box for Dell XPS 9345 13"
+codenamed 'tributo'. X1E80100-based laptop's initial support is currently
+being upstreamed [1].
 
-Okay, got it.
+In present state, keyboard is succesfully initialized, however attempt to type
+anything throws 'incomplete report' errors. When utilizing
+I2C_HID_QUIRK_BAD_INPUT_SIZE quirk the error is gone, however raw data coming
+from the keyboard is always the same, no matter the key pressed. Issue
+'resolves' itself when suspending and resuming the device.
 
-> 
-> > Additionally, I would like to confirm: when submitting the v2 patch, should
-> > it be based on this thread or the previous discussion thread?
-> 
-> No, v2 should _not_ be In-Reply-To this thread. It'll start a new
-> thread. You can add a link (via lore.kernel.org/r/<message-id>) to the
-> old discussion in your cover letter and/or version history.
-> 
-> Said another way:
-> * New versions of patches create new threads.
-> * The fact that new versions of patches create new threads is why
-> people usually want open questions answered before the next version is
-> sent.
-> 
+It appears that calling power on command one more time after device
+initialization before finishing off the probing fixes this weird behavior, and
+keyboard works right away.
 
-Okay, thank you very much for your patient explanation.
+Introduce a new quirk for such behaviour, and enable it for particular keyboard.
+Vendor is shown as 'QTEC', however device id is reported as 0000. Given that
+vendor was not present before, using HID_ANY_ID to match the device should be
+okay in this case.
 
-Best regards,
-Charles
+In v1 it was suggested to make a dedicated i2c-of-qtec driver, but I was not
+sure how to proceed at the time. I have now drafted a dedicated driver, and it
+really is just probe method being extended to call powerup command again. Given
+that a similarly 'ugly' quirk was just merged to i2c-hid-core.c for a Goodix
+device [2], and that (IMO) creating a dedicated driver for such a small change
+without any plan on extending it will be just polluting, I am asking you to
+consider this change again. Alternatively, if it is yet still strongly
+preferred to have a dedicated driver to include this quirk, please let me know
+so I can proceed accordingly.
+
+[1] https://lore.kernel.org/all/20241003211139.9296-1-alex.vinarskis@gmail.com/
+[2] https://lore.kernel.org/all/20241007222629.172047-1-marynczakbartlomiej@gmail.com/
+
+--------
+
+Changes to V1:
+* Rebase on top of latest linux-next
+* Update coverletter's reasoning and links
+* link: https://lore.kernel.org/all/20240925100303.9112-1-alex.vinarskis@gmail.com/
+
+Aleksandrs Vinarskis (2):
+  HID: i2c-hid: introduce re-power-on quirk
+  HID: i2c-hid: introduce qtec vendor, enable re-power-on quirk
+
+ drivers/hid/hid-ids.h              |  2 ++
+ drivers/hid/i2c-hid/i2c-hid-core.c | 12 +++++++++++-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+
+-- 
+2.45.2
+
 
