@@ -1,73 +1,72 @@
-Return-Path: <linux-input+bounces-7823-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7824-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63EC9B8C39
-	for <lists+linux-input@lfdr.de>; Fri,  1 Nov 2024 08:46:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 089129B8C3C
+	for <lists+linux-input@lfdr.de>; Fri,  1 Nov 2024 08:47:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C8661F2312C
-	for <lists+linux-input@lfdr.de>; Fri,  1 Nov 2024 07:46:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 41C8B1C20EB9
+	for <lists+linux-input@lfdr.de>; Fri,  1 Nov 2024 07:47:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84FE5156257;
-	Fri,  1 Nov 2024 07:46:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0328156C76;
+	Fri,  1 Nov 2024 07:46:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bAVRjLjw"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gkkdo5pp"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A654155385
-	for <linux-input@vger.kernel.org>; Fri,  1 Nov 2024 07:46:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5E615624D
+	for <linux-input@vger.kernel.org>; Fri,  1 Nov 2024 07:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730447197; cv=none; b=Jq4JxSmR/DmNAhX8ghAJzKSUEQ26xgDTjMQj0e0BRDBkFaHZqLAljOfNL1JPJU55VzbKuDO8rMRGoiy2oP44H1R6d7TJIKZBMknjn56nvR8EPJuV8uC625np8oHiH+lt2Yq0YlfUofRW9osCf6w86AmlOZNNwRYLsQ23Tjf6Q4w=
+	t=1730447199; cv=none; b=TSUCAQja5MqdH4XQHTi9hXtLCkzES9VYmqrxY/gnKF08IGgKP3EfkSMDeizdtXjHfEyXMTYL1rtb8jkMNVXcdWbkI4/Lz79/A+v94euHK8NG5xlklyLBpV9YCPyQDh8fqusaR2zVE/J6hPjfSbKVDMHxwgyc9fgtR+oUFUjjXHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730447197; c=relaxed/simple;
-	bh=NTUbVMYf2x+7q0/8Barwlk+9iZKYWLsfR/svD0SOK6M=;
+	s=arc-20240116; t=1730447199; c=relaxed/simple;
+	bh=73w3b7JtSEWNTPdgJOVen0HK9Np++vEeWqSGPZeIaFg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eVsgRaVakjIojMkOm2dlfhIm1IETM1WF1Yp9SUz1XVcAJavejGlNKT1WRK+8G8Nh5FTVthDlKsFVgx3EKbFJt6BseF4LQ5p3rjV2lqsdoWhXRHPNpenkNNTt2wNTwxPoR0T2XpQXj7BaCQdCDMqM8nkvJbEhjxR91GUr4nEGOJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bAVRjLjw; arc=none smtp.client-ip=209.85.222.174
+	 In-Reply-To:To:Cc; b=K75rT4K8xu8vWridxty5TUaNZ/Q9JAW0xFfFmcIPwUQVI+8VzniOdSpoXXaAJxTpfTfQYxo3IdXcKJ7z6TC4cVGeI9AOnFbIs5RNCUvPZNGzSjm3Su7UXkoe5lvvOr5kJZqPxYJVZLSEBtH4Tp1K4g+79RQK65pxAzc3cl+Wang=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gkkdo5pp; arc=none smtp.client-ip=209.85.219.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7b1474b1377so121638585a.2
-        for <linux-input@vger.kernel.org>; Fri, 01 Nov 2024 00:46:35 -0700 (PDT)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6cbd092f7f0so11806136d6.0
+        for <linux-input@vger.kernel.org>; Fri, 01 Nov 2024 00:46:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730447194; x=1731051994; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1730447196; x=1731051996; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gQttLL6CFS2JGt87dEF+H1Jt5OZPaXEa5P0U/qvO3f8=;
-        b=bAVRjLjwIq6OrclJFJHiLf3srLR2oDUETFEOnAYAgU3GXP//o/56teqera1r/iY9v7
-         a4u8uqHgjfZtJ5E9EQxLlXXcqTsX4iBhXtmJ/HjH+i1Qk5akI7Jb35g4NK5i2/8IuOMC
-         JJ7dworp/BayRuzjPST2Us4yrSzYx2yqQHbQ4=
+        bh=g4sqTZZzA2b6pzzAnRcujfuXMZvPt6ZPxVHrY4eCstI=;
+        b=gkkdo5ppb3jYjEaX0TTPblsDiEiGVtiRGxU28NZWcMGCKi90xfwJ/LYCSNdQdVm264
+         KJlqk+yCyo5QmjUmyXrlqloN4LnKEOk++QWEz1W0vN9fDsQ9eqAvcOnIJDyHhFXO+zyk
+         kQbTfWv3HeRz6xcDJnW/vlDt6WEUp+gLU682w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730447194; x=1731051994;
+        d=1e100.net; s=20230601; t=1730447196; x=1731051996;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gQttLL6CFS2JGt87dEF+H1Jt5OZPaXEa5P0U/qvO3f8=;
-        b=WPd9j0RnKStxCNQRrMl6pCN01+jqavQ2a1QjTMtDOWguVRfHyLQbZ+C+eMi4o4Vdsy
-         ayHlEXL54ubwrFoK3j5dPWWcgzCtmCNCQHVTRBQZOnbzKarNjg3Lk+PlBqXWtx8N/8ul
-         pFQeh4cKuap+CUercn1lFO87S8lxbtzXOsbj3IUI67QBwlJ5S/qZWIW8yzIyzR9WkINU
-         kf2KE6ISouPJ6vNjlYPDxvxsnw2BGcJosaaR+QvwJTHIgoLjhAl+lPg29ZNzzRoYv7Ro
-         6+nnK+2SnBcnSByQ5+WSyzeZ7ExFcMzl2ILGlZ4PoWrAATeZPsa+0mot6z3Sy+mvqjG1
-         lJyg==
-X-Forwarded-Encrypted: i=1; AJvYcCVvD+prZ2Lvc0O6KSkn2ZpZw4LnLA7iEtf5BH0SU3ncVZ/qgFhTp9dU8TW0WI/p5GeFDcrTwgQ85727lA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzu1tc9F+NprNxAA2NjNwfgis4bLE/+fQC7n60VSlK6f7MBZF3R
-	fu/Aneat1/DyX7lFyu5MdvgVD7k9oo8zX7zghFKvwOK3mLMsbMEGM2HkDMPuig==
-X-Google-Smtp-Source: AGHT+IENVEkusl1Ou+3L/NJxmVRgnRFcmI2cch41SDweq+Sq+50us7wvB4RBAe0Eo6+OmdWlgyVR8Q==
-X-Received: by 2002:a05:6214:5349:b0:6cb:eb66:c37a with SMTP id 6a1803df08f44-6d351b4a825mr53516406d6.53.1730447194314;
-        Fri, 01 Nov 2024 00:46:34 -0700 (PDT)
+        bh=g4sqTZZzA2b6pzzAnRcujfuXMZvPt6ZPxVHrY4eCstI=;
+        b=aazJXMvqVAyyaS5kmWG54Ez3kh8YzmY0KGGuupunFGd0HBwcUmVdIAlHdBZHRbZ8yK
+         L04T4YAqSGHvjuwkrnnFj1xT6lJ0TSFfdUFpwW5dHbcQ31nlLYM7p8Hix/GPBQ3glceG
+         lC+AJ9zI9aUOjb1h0az2zNdhEXdZeF5p8+W2KJ6WOjxss5p11DAo3PUOzN3jZ6+hh+4r
+         EaCDgbv+NA/20N9Dy8mjqJpVxHVD41G+FfggpgvGnCIeY15+XcHyjeHuyNVK4vRtmAKi
+         YNJ4Nju+bpBpoYf//LoFMGhmYZWFB4atPt77jE+6H1FJD7Cq9jdYHiLvdDXVBu4bTG8T
+         6bkw==
+X-Forwarded-Encrypted: i=1; AJvYcCVgwgj82l4B9w8T9FfdYvJWz3tQTaAwM8GdZ+0tUGdmG5IOhNSEeoCGeXqvwYKgRTg4NWD+Eaz4lFJCJg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOruk20dE//+Zc90BDgLfuLcmyrhKczS0zV85/ZoNlBxsSw06V
+	ZUenGDDKkVq/z9PmuIj/mhVHhFZsRMNFaXiOQ2AQMdpra+cE7Q06+KHVnYkiLQ==
+X-Google-Smtp-Source: AGHT+IEK+Q29KKRscRDFWSFOW8VroT77GOOZqRsyDMfuqCz0jVMvhTUDjno7cSdqo2AaKKLEGEoQKQ==
+X-Received: by 2002:a05:6214:3209:b0:6d1:7271:4005 with SMTP id 6a1803df08f44-6d345ffff07mr109827896d6.23.1730447196489;
+        Fri, 01 Nov 2024 00:46:36 -0700 (PDT)
 Received: from denia.c.googlers.com (189.216.85.34.bc.googleusercontent.com. [34.85.216.189])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d35415b1casm16444236d6.78.2024.11.01.00.46.33
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d35415b1casm16444236d6.78.2024.11.01.00.46.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2024 00:46:33 -0700 (PDT)
+        Fri, 01 Nov 2024 00:46:35 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 01 Nov 2024 07:46:28 +0000
-Subject: [PATCH v3 2/5] iio: hid-sensors-prox: Factor-in
- hid_sensor_push_data
+Date: Fri, 01 Nov 2024 07:46:29 +0000
+Subject: [PATCH v3 3/5] iio: Add channel type for attention
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -76,7 +75,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241101-hpd-v3-2-e9c80b7c7164@chromium.org>
+Message-Id: <20241101-hpd-v3-3-e9c80b7c7164@chromium.org>
 References: <20241101-hpd-v3-0-e9c80b7c7164@chromium.org>
 In-Reply-To: <20241101-hpd-v3-0-e9c80b7c7164@chromium.org>
 To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
@@ -88,47 +87,78 @@ Cc: Harvey Yang <chenghaoyang@google.com>, linux-input@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.13.0
 
-The function is only called from one place and it is a one-liner.
+Add a new channel type representing if the user's attention state to the
+the system. This usually means if the user is looking at the screen or
+not.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/iio/light/hid-sensor-prox.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+ Documentation/ABI/testing/sysfs-bus-iio | 8 ++++++++
+ drivers/iio/industrialio-core.c         | 1 +
+ include/uapi/linux/iio/types.h          | 1 +
+ tools/iio/iio_event_monitor.c           | 2 ++
+ 4 files changed, 12 insertions(+)
 
-diff --git a/drivers/iio/light/hid-sensor-prox.c b/drivers/iio/light/hid-sensor-prox.c
-index 26c481d2998c..d38564fe22df 100644
---- a/drivers/iio/light/hid-sensor-prox.c
-+++ b/drivers/iio/light/hid-sensor-prox.c
-@@ -153,14 +153,6 @@ static const struct iio_info prox_info = {
- 	.write_raw = &prox_write_raw,
+diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
+index 89943c2d54e8..ab546fe3fa36 100644
+--- a/Documentation/ABI/testing/sysfs-bus-iio
++++ b/Documentation/ABI/testing/sysfs-bus-iio
+@@ -2339,3 +2339,11 @@ KernelVersion:	6.10
+ Contact:	linux-iio@vger.kernel.org
+ Description:
+ 		The value of current sense resistor in Ohms.
++
++What:		/sys/.../iio:deviceX/in_attention_input
++KernelVersion:	6.13
++Contact:	linux-iio@vger.kernel.org
++Description:
++		Value representing the user's attention to the system expressed
++		in units as percentage. This usually means if the user is
++		looking at the screen or not.
+diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
+index 6a6568d4a2cb..bdfb51275b68 100644
+--- a/drivers/iio/industrialio-core.c
++++ b/drivers/iio/industrialio-core.c
+@@ -95,6 +95,7 @@ static const char * const iio_chan_type_name_spec[] = {
+ 	[IIO_DELTA_VELOCITY] = "deltavelocity",
+ 	[IIO_COLORTEMP] = "colortemp",
+ 	[IIO_CHROMATICITY] = "chromaticity",
++	[IIO_ATTENTION] = "attention",
  };
  
--/* Function to push data to buffer */
--static void hid_sensor_push_data(struct iio_dev *indio_dev, const void *data,
--					int len)
--{
--	dev_dbg(&indio_dev->dev, "hid_sensor_push_data\n");
--	iio_push_to_buffers(indio_dev, data);
--}
--
- /* Callback handler to send event after all samples are received and captured */
- static int prox_proc_event(struct hid_sensor_hub_device *hsdev,
- 				unsigned usage_id,
-@@ -170,10 +162,10 @@ static int prox_proc_event(struct hid_sensor_hub_device *hsdev,
- 	struct prox_state *prox_state = iio_priv(indio_dev);
+ static const char * const iio_modifier_names[] = {
+diff --git a/include/uapi/linux/iio/types.h b/include/uapi/linux/iio/types.h
+index f2e0b2d50e6b..12886d4465e4 100644
+--- a/include/uapi/linux/iio/types.h
++++ b/include/uapi/linux/iio/types.h
+@@ -51,6 +51,7 @@ enum iio_chan_type {
+ 	IIO_DELTA_VELOCITY,
+ 	IIO_COLORTEMP,
+ 	IIO_CHROMATICITY,
++	IIO_ATTENTION,
+ };
  
- 	dev_dbg(&indio_dev->dev, "prox_proc_event\n");
--	if (atomic_read(&prox_state->common_attributes.data_ready))
--		hid_sensor_push_data(indio_dev,
--				&prox_state->human_presence,
--				sizeof(prox_state->human_presence));
-+	if (atomic_read(&prox_state->common_attributes.data_ready)) {
-+		dev_dbg(&indio_dev->dev, "hid_sensor_push_data\n");
-+		iio_push_to_buffers(indio_dev, &prox_state->human_presence);
-+	}
+ enum iio_modifier {
+diff --git a/tools/iio/iio_event_monitor.c b/tools/iio/iio_event_monitor.c
+index 8073c9e4fe46..ed9a677f1028 100644
+--- a/tools/iio/iio_event_monitor.c
++++ b/tools/iio/iio_event_monitor.c
+@@ -63,6 +63,7 @@ static const char * const iio_chan_type_name_spec[] = {
+ 	[IIO_DELTA_VELOCITY] = "deltavelocity",
+ 	[IIO_COLORTEMP] = "colortemp",
+ 	[IIO_CHROMATICITY] = "chromaticity",
++	[IIO_ATTENTION] = "attention",
+ };
  
- 	return 0;
- }
+ static const char * const iio_ev_type_text[] = {
+@@ -183,6 +184,7 @@ static bool event_is_known(struct iio_event_data *event)
+ 	case IIO_DELTA_VELOCITY:
+ 	case IIO_COLORTEMP:
+ 	case IIO_CHROMATICITY:
++	case IIO_ATTENTION:
+ 		break;
+ 	default:
+ 		return false;
 
 -- 
 2.47.0.163.g1226f6d8fa-goog
