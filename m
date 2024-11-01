@@ -1,365 +1,205 @@
-Return-Path: <linux-input+bounces-7826-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7827-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 871999B8C42
-	for <lists+linux-input@lfdr.de>; Fri,  1 Nov 2024 08:47:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 874FD9B8E80
+	for <lists+linux-input@lfdr.de>; Fri,  1 Nov 2024 11:02:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0BF961F23114
-	for <lists+linux-input@lfdr.de>; Fri,  1 Nov 2024 07:47:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46571281149
+	for <lists+linux-input@lfdr.de>; Fri,  1 Nov 2024 10:02:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0EE7156883;
-	Fri,  1 Nov 2024 07:46:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41F3C143C72;
+	Fri,  1 Nov 2024 10:02:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FG3SDe/D"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="Hl5VQyfH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com (mail-vi1eur03on2082.outbound.protection.outlook.com [40.107.103.82])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0EA157493
-	for <linux-input@vger.kernel.org>; Fri,  1 Nov 2024 07:46:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730447203; cv=none; b=ekvufbfC4WshMoWtT0M+bQEPYjgHfPAFUvwDqOnigoWP+SSM/kbjosy+kAfhO917/y2k1j+RG/6lcfZKhR/UC+VfbdOGPvGfUFke/xCUtOdYpZxI/JBbJDS2YBnT0xdKRPWMgQ4xKLuq8Ye7pJBWvQgu0RdpmcrK7SEAoD3DqPU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730447203; c=relaxed/simple;
-	bh=8x9MAK4SaLwYVJMqh23a0sQf2hiwQ+JKA64Z0XueGBs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jVeeLHngTRrVvsJIKYyNAsflH7QDm6X+rjB5lw4EYG3VCcjgg/94/xa2jcMCLGe5L6kRbiO+0VeM0sR9Knx39sbmUxYN5HWYStOYEf24fjCqqFV0CCRHxaZBkYRdfoXRwuZs/9cqzo2XbXN7tGnyApSjXULro1fW090q9T+RkaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FG3SDe/D; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6cbcc2bd800so15342136d6.0
-        for <linux-input@vger.kernel.org>; Fri, 01 Nov 2024 00:46:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730447200; x=1731052000; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Zwie29Jv4jrCjsLcuUvVxvwsEUL8DK2bGYV1hveDHXo=;
-        b=FG3SDe/D/ieKoPaqWpL1e2bf9sdqW6mLgkv7Qu+XahhDHj/ue1j3x8dfGWCp3+D14Y
-         5+YiETqFdTmwupWXFL6uNIFyvbgpOX92hx805L+hLQ88ej6qww3Ql1yDGhg61CR3Nes6
-         x5qO8ZitRLZrdQct6dDgrLkyDSJWDQWraAMTs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730447200; x=1731052000;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zwie29Jv4jrCjsLcuUvVxvwsEUL8DK2bGYV1hveDHXo=;
-        b=v3ucoQ68UO/6VChRTAiuED/SdGaX+f3IVc/MEbf/6cNK3q7gkE9rFnSojSdCuxUtZT
-         ho2wMogpkFjSoYHxzFYsEJ8zBhZ9ZI0+wgfJDasPuPiSgHjzDK8D55OscxnSuuRi/jEM
-         NP6hYpfgC5qIUXeLl8+2sTvEOwNG3HrrC2dwYOp42M2BZijxj7wZVBLP9CP9ByAU8gNP
-         3eikS4qxY+KDi2wU9Ic8JTABBZUgp2vWt5J4GWfP6aaRGLO6Aok60oedmpX1M4X2BfB6
-         JtpdtD8OfAGxY/VOn7IufRW/VocngYmyaGY/snqT8784ih8YTqPCzh7VyvLMfFtGL43r
-         hEVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXZRw1OVwCLvFrLz4IlZmZs2k1S6MjlKHglUT8apjuYxAhNhuW19eQBAiELqGFaorBu/VFT8KqyCpaR8g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw98WX1Wium1+2HWUPn5c3e0ea1ivfWGy45CVM3mPObgxX1uuzd
-	6bsedArWpbhxFJ3e1D1fvCxdX+h1DyaAVrP0dpbO/K2gyWAjQfWnxuyyPqZLFA==
-X-Google-Smtp-Source: AGHT+IE93RHiiyST1ssw91aTHkNDsDz6b3B1fawKfdGJgmxRWQDwQZdBDqOzfREyo1ouheR/VJCs/w==
-X-Received: by 2002:a05:6214:458f:b0:6cd:fd5d:88f6 with SMTP id 6a1803df08f44-6d35428d01fmr96018086d6.7.1730447200059;
-        Fri, 01 Nov 2024 00:46:40 -0700 (PDT)
-Received: from denia.c.googlers.com (189.216.85.34.bc.googleusercontent.com. [34.85.216.189])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d35415b1casm16444236d6.78.2024.11.01.00.46.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2024 00:46:38 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 01 Nov 2024 07:46:31 +0000
-Subject: [PATCH v3 5/5] iio: hid-sensor-prox: Add support for more channels
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2E71D555;
+	Fri,  1 Nov 2024 10:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.103.82
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730455340; cv=fail; b=ruZjHRDOWb6qy2FUidgZHdZMtga6bgShMiyPsb++BA4GDISSbhdPbyEbPDUYSXcZpzhFq79l6z73URpvZUlYcCJSy0sM80qRXyMTqNRqc0tjhRHMvInp3NQq0rPWgvxas83iHIJp5GGxaJAFX3RTicka+eo0KeRRhNGsj/IG5Aw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730455340; c=relaxed/simple;
+	bh=uyTkhb+dYUB76WXOHLVkY+BjmVlzTcQHnsuxFHFEG+0=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=Ulrai6OF6HUAVKIeaWNuYR1SkeJBxwhKf6YNNsjTLB4g82sGk+rXzMxQ322mIUo2vGrvnnB1bTDosWxswpT1gS8rDQIpzKzcRkcyiXTXD1VEu9aqSpSxAytpY3nCDujSll+bDlClyto5Xehng5h2Apqhun7odS8f+modDTCN23Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=Hl5VQyfH; arc=fail smtp.client-ip=40.107.103.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mYH462314S0DIp0TwzM96frX6/+9YKzhyWcArCOB5VFMr6QN/k+bxYxVnqx+QncR9dF4qp8+ZDVHASaSbEEHuIxsdZVZLe5PGUO331YLG2iTYKqSrirsXuXEra3/coy/BKj9ahlYKJCj4HCfPtqPoog+FWCsVaWWkNlbBFQVC2DQ6zMC4ruAjTFmDd+5xoxfpbrlGanVNzQ9AdF0mosK7RDyF/aBcDQh2C+duENoX5iDahDkcI201DYh3x57lOAwsiklL+mFTcr9jU2McouRVuCqnnSFRE37d5M2GtOC9C11I25jfOutX+h8N/vZQ8/WTQ5GWTw581x7g4hIFZG4uQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OBtIWQ8MQk6T6fBsknE+7nH2BqMLMOqfcdg0Q0GeqXc=;
+ b=sXTa9+phvNi4MG4fHM5JB8W/sF6wUhQIUk0Av62PPgKPVKn0/am0Uby6ymRpOrjF1GZz3Bdy9edxU13MrUPLONr++6BNbc7Vx5aJAo7f1SHkBuQzRqi4OZ3uiQioQtAStGda2vIV6d5Y9x5RjHUHxL6zR9HdinwtlAdI97eRjHd2C5W0ewET9hQ/gfbRRZMbJSXYBgasTtrycaBQgMrr+F5XIKzHZkICfMMxfMPmgiimrN+fcXfP6uX2MC0DAOekjNFHml2LCunktA2Qiuu/Kb3nIN0VOJZTk1WJpAwGdeNjzIJW0ABMCRYOPK1W/PLJe4rYC4QzfhAnw7ZUl1BkrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OBtIWQ8MQk6T6fBsknE+7nH2BqMLMOqfcdg0Q0GeqXc=;
+ b=Hl5VQyfHdlSz4UACP5d5wADl7sPthzZjlXr3hmlQ/xpHoMXgwcMgtPkfiUbAgp1no20/PLyNN8i2RdR/TOdkmhSouJ/F73xMtEh+t0beyzaum1Pq7duiOEAWOAy+RdSdTryxe0emQA3yMHwpu5k27N/ACIiQVPXUPiiu4cQirS0x8gjDLryTbgCcpj+jjh+4LNY6Gyr4X78ijr0JCS5YlIo/9i5UEq4gweiNMRCg4ZjCrvI7izMbym00N5Fc42yUT0OWQ64m+Lfrq906Fu0RjaHolKRzgXy1nJ+pJUEWj5Y3kKqDeIBFD53xKoBz0kMtdQoNMUDAsKaBspk5tqIYOg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by VI1PR04MB7200.eurprd04.prod.outlook.com (2603:10a6:800:12d::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.32; Fri, 1 Nov
+ 2024 10:02:14 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630%5]) with mapi id 15.20.8114.015; Fri, 1 Nov 2024
+ 10:02:13 +0000
+From: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+To: dmitry.torokhov@gmail.com
+Cc: Frank.Li@nxp.com,
+	ping.bai@nxp.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Peng Fan <peng.fan@nxp.com>
+Subject: [PATCH] Input: bbnsm_pwrkey - add remove hook
+Date: Fri,  1 Nov 2024 18:12:22 +0800
+Message-Id: <20241101101222.1448210-1-peng.fan@oss.nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2P153CA0049.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c6::18)
+ To PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241101-hpd-v3-5-e9c80b7c7164@chromium.org>
-References: <20241101-hpd-v3-0-e9c80b7c7164@chromium.org>
-In-Reply-To: <20241101-hpd-v3-0-e9c80b7c7164@chromium.org>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
- Jonathan Cameron <jic23@kernel.org>, 
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
- Lars-Peter Clausen <lars@metafoo.de>
-Cc: Harvey Yang <chenghaoyang@google.com>, linux-input@vger.kernel.org, 
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.13.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|VI1PR04MB7200:EE_
+X-MS-Office365-Filtering-Correlation-Id: b7998777-1450-4172-d6df-08dcfa5c4241
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|52116014|1800799024|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?0656TFEPQykyoEqeoJQmpRRXx2lmExnPga2UcQLZjOyn3D+H5CQ8A0Rr6s52?=
+ =?us-ascii?Q?9fmYwru7UhjB2bbZJK42X2pT/kZlUo2PcYrgwInGnxoEWZXUAMhJ/achSxDa?=
+ =?us-ascii?Q?ICsHss6JTbU/KKUI3FQledX4iXhHTKmPJALp93C2oK+n/640DRJntIkvLRYC?=
+ =?us-ascii?Q?6TAoL+nllj/tZkPFfCwjefEGmw0941TOk/zMHBG7a3cp6gaFrj36uCbQUE4h?=
+ =?us-ascii?Q?AbD2QJlkAbOc1lCYPS2AZkUUTFc0VuNPpCpvPBAqRhTsG39NIQQHk2WTNjkN?=
+ =?us-ascii?Q?dJccBjsFVjAAS2eDZzQVFSPgKjRGCsmbX7WZx6D18AfbxeRnryCPQDWcIO+3?=
+ =?us-ascii?Q?dtWuEjNAwqel+2VDsnhyibc91d/jWdq4Mahh7VBMf3hJwqlm9WedSK0KVLYC?=
+ =?us-ascii?Q?Ex0+KNWseaGdNFP1JVlGHk6hTz9vsE8upzzBLkU7dJ3ACwRNv1Xljaxb09hN?=
+ =?us-ascii?Q?rTjEj5/cgjV97RXXRANK8jhq/eMtPFS4EACBhTT0OgiSKZLUtzJXw3CegOsr?=
+ =?us-ascii?Q?iDXm1V2NXPCyBPgRPeI853qlVUuXdpP6qoa3Y/xQK30Q9RvID5egIRKq3oIL?=
+ =?us-ascii?Q?5T5QZ5tAotQcImOZ+AernhgkK0PrX1sCeApv3rLExbVij2phYSSIdy9Kd1On?=
+ =?us-ascii?Q?zX4UTnHlGWTVMtmTYR7y7kAhoicHNmiSrtqVCffHCi7Vkfj9j7u3ZKf+PczY?=
+ =?us-ascii?Q?g4Ah3FB3lPPC2sM8ziPcWWZ+04j1jpoF1YfQfcyDQakge7sy7FqdEp/nLN1f?=
+ =?us-ascii?Q?OdBuwTJ/bBd7krp502ylRz6LB4HIVS2g3IEzRjIWeY0oDCcwPyk3Dy33Dfz/?=
+ =?us-ascii?Q?iY/+NUciPUZ6x8tCXtg3GCrvLUzgOghGcxAUIHNemmAdhCuvI9zf06veSe8t?=
+ =?us-ascii?Q?Taq8mKXIhZS5HK1Q82PHFC5Z1EUBEgGcrPv13NXgFDXc5dN+xWGfsE95Sor5?=
+ =?us-ascii?Q?ueOE1ts9DwPhF45EskSAlteeFgL7KgF3XCbrc/zSDlQ8zeilVY8FH7y2QDAH?=
+ =?us-ascii?Q?Lq1kIlZ8EGNgEW/whtU0bKDu/tf3DboM4CKpBOVwWXxFDgChB5LnCtzfmum0?=
+ =?us-ascii?Q?YJOhVGif9Be0C4WhFmvtL2EMbXENfpsyDnkvpdNDEaKa7PPnh2L0kDcLWAK/?=
+ =?us-ascii?Q?y1zBUJ+01+u/IP+TauA3vZRWvxpzo8ah1HgPzccQulLIq4T/XrV8x36ksSb4?=
+ =?us-ascii?Q?iD/xLn+/qC2EYHYXeVmMgWrRnDNKC+0Spwlcdf66DLJnGmi2wj5dj7KzTo1E?=
+ =?us-ascii?Q?uWpd8ZzNb2UxiVHHnl66HxXSY4qe/Q75aiJb3v66Y+qMFjIAinoQp6O95CwY?=
+ =?us-ascii?Q?J2IOJTTfz8UQWOYrlx1Vv8GfC4TRhW4kxO2B40FnK8nhBHEnOJsdJjvYaN8C?=
+ =?us-ascii?Q?LJNZcao=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(1800799024)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?dg+j+whEdx1G0+hB60Si3EKtAgI3BppskkIMC1KAy8FqxytDR2fgmX5lPnfo?=
+ =?us-ascii?Q?IBV5ouh8CRy145nSXLMb2QbAfWnWDYj3xKyfVlNnDXtJWsClPbEIT45PaTUk?=
+ =?us-ascii?Q?yBbuLL7A837TgTsLq8MlRI60gEMm3kIiIAjYf3W/kTNB1VpxaUPqROP/Vt/l?=
+ =?us-ascii?Q?AedBAqJyAy3rHk+u0Y04YJrb1ie6YS+tw3Z5ec06W0MsI8j/TCZmEjq2xTs/?=
+ =?us-ascii?Q?5+plNpQ58VvM8YqDslNckQFCEi3f2KBu+p67z/QuquofINr2Etk7nU37RFsM?=
+ =?us-ascii?Q?WaK0ZXiN0a8De0bnwd6YbXWXqLNq9QifwMLmEeIbirCR3zyskdG+6VckGQc+?=
+ =?us-ascii?Q?fiX2eGpo9OlMOKOfjIS29FoC4AgneGEhAHJs/mYyEJV1HlGS8cCCSssrXrwe?=
+ =?us-ascii?Q?/Z7mQp30PlFrwjz5A1UQn+QBHlAG1iHjEwqE8q4mTnn1h9+a+XAicAQwfOUt?=
+ =?us-ascii?Q?CllaSkG7nQQxE5+zWRBx5HPAmX/eob5xDE0S9QWhcJFNdP1F3gGaY9PRdPgO?=
+ =?us-ascii?Q?p9WFhPN04idPh1b+GO76ynd9kBZarqlDK3H97R7ODUqsOfwPj+nI2ZxmhOqt?=
+ =?us-ascii?Q?Qtm89bh9Lp4Mpt6GJIumueVJcVfudeU1jw23v9HYLnD9iHqMKJ3aHv3bhxKB?=
+ =?us-ascii?Q?79ojl4ZC5c8EYzEcThTsMgN8NjolwKiQAY/Aly6NlDUH/iIhDjOiNJjbj4GS?=
+ =?us-ascii?Q?wNx9tMRvlcgXrhEHKcYxFEkG+cJWLce7AwuLSTOID+iXzn8v2kGh3wqH5L5o?=
+ =?us-ascii?Q?A5fr2MNNOGJhaPeW1pZMMp8f2+UsAw3iqudZ236K9Sidu+W8xUxCzd/UbWOt?=
+ =?us-ascii?Q?Idp1kjI8GBYazjiJoUpxaViV4q8+QmFauiY4BYEuNfXEmXaWlI0KqhhPT0ZR?=
+ =?us-ascii?Q?2Oiif0MtTQblb4e81e1JeHBpYXdQBOBhcWi0cURO+1kVQlaD5EuiSnH2CS5x?=
+ =?us-ascii?Q?Tivu0DWricJpJt8Ry2wFXhau1Fyk6pP7B35xxgnQLwpD8AdA16R+xnSzC2tS?=
+ =?us-ascii?Q?3GBzHehgxyXBhxFkjGGnwp5auJYH9ifBAH5LRJ3iT2bahvtw+iQWeAha8mKn?=
+ =?us-ascii?Q?K9jMcYOVXXJbTnkHqXIk4a0OxRNlx3UG+3n8jCkPBx26CUO/JzZL9FfVTHcN?=
+ =?us-ascii?Q?SHm3gTWNNbDsM2oyAgQXRpno7BMQU/IImaq422qZRWmh98SXZGSNMkRow+BJ?=
+ =?us-ascii?Q?vguHhGSj5sp3EbunHQKYlfNeMtB7jSEuysIoYZypsJMYPOqy/yOBWmFexYS9?=
+ =?us-ascii?Q?4W8aBl7t/u5vFiZOD7NJzpSWLRdy259eiJGydFppcep1WcGvKTFUIY6tcWZj?=
+ =?us-ascii?Q?z/lX2PhP+Tjgs/RBMCmJbxTJQ4fMlAglEQU3R+/cCiWeAM9kGkcrUY7geDAi?=
+ =?us-ascii?Q?ppG+lyoO9kdxKH+acIZ1jEnVCgVLLfOGczed5XkpbhYkilSujLZLwhUbAORy?=
+ =?us-ascii?Q?towdGCpV9lv/i1RpN+cp7P5zrGH/AHU63J0uCqnILEyAVTXQVN1KHQ4vkehQ?=
+ =?us-ascii?Q?N0w7a4s7HfMon49sYKFxG47mNUlnStLJULhCfpfMXtp21H98MPSkgnSNBEa1?=
+ =?us-ascii?Q?EesQJ8YhNEmM637q/a0lW1p/OCLtgQ6sVhj/df0s?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7998777-1450-4172-d6df-08dcfa5c4241
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2024 10:02:13.7195
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z/vIfTngiaHsgwf6qqS9xr/BBFSASfa9EpbXpdRvJaAjHXl7xTeZmHoDH2yR2SAXkvdk/PrDSzCXKWYpKWtr+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB7200
 
-Egis620 supports 3 channels: presense, proximity and attention.
+From: Peng Fan <peng.fan@nxp.com>
 
-Modify the driver so it can read those channels as well.
+Without remove hook to clear wake irq, there will be kernel dump when
+doing module test.
+"bbnsm_pwrkey 44440000.bbnsm:pwrkey: wake irq already initialized"
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Add remove hook to clear wake irq and set wakeup to false.
+
+Fixes: 40e40fdfec3f ("Input: bbnsm_pwrkey - add bbnsm power key support")
+Signed-off-by: Peng Fan <peng.fan@nxp.com>
 ---
- drivers/iio/light/hid-sensor-prox.c | 180 +++++++++++++++++++++---------------
- 1 file changed, 104 insertions(+), 76 deletions(-)
+ drivers/input/misc/nxp-bbnsm-pwrkey.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/iio/light/hid-sensor-prox.c b/drivers/iio/light/hid-sensor-prox.c
-index 0f12a8a83790..a762f4e91390 100644
---- a/drivers/iio/light/hid-sensor-prox.c
-+++ b/drivers/iio/light/hid-sensor-prox.c
-@@ -13,16 +13,32 @@
- #include <linux/iio/buffer.h>
- #include "../common/hid-sensors/hid-sensor-trigger.h"
- 
--#define CHANNEL_SCAN_INDEX_PRESENCE 0
-+static const u32 prox_usage_ids[] = {
-+	HID_USAGE_SENSOR_HUMAN_PRESENCE,
-+	HID_USAGE_SENSOR_HUMAN_PROXIMITY,
-+	HID_USAGE_SENSOR_HUMAN_ATTENTION,
-+};
-+
-+#define MAX_CHANNELS ARRAY_SIZE(prox_usage_ids)
-+
-+enum {
-+	HID_HUMAN_PRESENCE,
-+	HID_HUMAN_PROXIMITY,
-+	HID_HUMAN_ATTENTION,
-+};
- 
- struct prox_state {
- 	struct hid_sensor_hub_callbacks callbacks;
- 	struct hid_sensor_common common_attributes;
--	struct hid_sensor_hub_attribute_info prox_attr;
--	u32 human_presence;
-+	struct hid_sensor_hub_attribute_info prox_attr[MAX_CHANNELS];
-+	struct iio_chan_spec channels[MAX_CHANNELS];
-+	u32 channel2usage[MAX_CHANNELS];
-+	u32 human_presence[MAX_CHANNELS];
- 	int scale_pre_decml;
- 	int scale_post_decml;
- 	int scale_precision;
-+	unsigned long scan_mask[2]; /* One entry plus one terminator. */
-+	int num_channels;
- };
- 
- static const u32 prox_sensitivity_addresses[] = {
-@@ -30,18 +46,24 @@ static const u32 prox_sensitivity_addresses[] = {
- 	HID_USAGE_SENSOR_DATA_PRESENCE,
- };
- 
--/* Channel definitions */
--static const struct iio_chan_spec prox_channels[] = {
--	{
--		.type = IIO_PROXIMITY,
--		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),
--		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_OFFSET) |
--		BIT(IIO_CHAN_INFO_SCALE) |
--		BIT(IIO_CHAN_INFO_SAMP_FREQ) |
--		BIT(IIO_CHAN_INFO_HYSTERESIS),
--		.scan_index = CHANNEL_SCAN_INDEX_PRESENCE,
--		.indexed = true,
-+#define PROX_CHANNEL(_is_proximity, _channel) \
-+	{\
-+		.type = _is_proximity ? IIO_PROXIMITY : IIO_ATTENTION,\
-+		.info_mask_separate = _is_proximity ? BIT(IIO_CHAN_INFO_RAW) :\
-+				      BIT(IIO_CHAN_INFO_PROCESSED),\
-+		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_OFFSET) |\
-+		BIT(IIO_CHAN_INFO_SCALE) |\
-+		BIT(IIO_CHAN_INFO_SAMP_FREQ) |\
-+		BIT(IIO_CHAN_INFO_HYSTERESIS),\
-+		.indexed = _is_proximity,\
-+		.channel = _channel,\
- 	}
-+
-+/* Channel definitions (same order as prox_usage_ids) */
-+static const struct iio_chan_spec prox_channels[] = {
-+	PROX_CHANNEL(true, HID_HUMAN_PRESENCE),
-+	PROX_CHANNEL(true, HID_HUMAN_PROXIMITY),
-+	PROX_CHANNEL(false, 0),
- };
- 
- /* Adjust channel real bits based on report descriptor */
-@@ -63,7 +85,7 @@ static int prox_read_raw(struct iio_dev *indio_dev,
- {
- 	struct prox_state *prox_state = iio_priv(indio_dev);
- 	struct hid_sensor_hub_device *hsdev;
--	int report_id = -1;
-+	int report_id;
- 	u32 address;
- 	int ret_type;
- 	s32 min;
-@@ -72,29 +94,23 @@ static int prox_read_raw(struct iio_dev *indio_dev,
- 	*val2 = 0;
- 	switch (mask) {
- 	case IIO_CHAN_INFO_RAW:
--		switch (chan->scan_index) {
--		case  CHANNEL_SCAN_INDEX_PRESENCE:
--			report_id = prox_state->prox_attr.report_id;
--			min = prox_state->prox_attr.logical_minimum;
--			address = HID_USAGE_SENSOR_HUMAN_PRESENCE;
--			hsdev = prox_state->common_attributes.hsdev;
--			break;
--		default:
--			report_id = -1;
--			break;
--		}
--		if (report_id >= 0) {
--			hid_sensor_power_state(&prox_state->common_attributes,
--						true);
--			*val = sensor_hub_input_attr_get_raw_value(
--				hsdev, hsdev->usage, address, report_id,
--				SENSOR_HUB_SYNC, min < 0);
--			hid_sensor_power_state(&prox_state->common_attributes,
--						false);
--		} else {
--			*val = 0;
-+		if (chan->scan_index >= prox_state->num_channels)
- 			return -EINVAL;
--		}
-+		address = prox_state->channel2usage[chan->scan_index];
-+		report_id = prox_state->prox_attr[chan->scan_index].report_id;
-+		hsdev = prox_state->common_attributes.hsdev;
-+		min = prox_state->prox_attr[chan->scan_index].logical_minimum;
-+		hid_sensor_power_state(&prox_state->common_attributes, true);
-+		*val = sensor_hub_input_attr_get_raw_value(hsdev,
-+							   hsdev->usage,
-+							   address,
-+							   report_id,
-+							   SENSOR_HUB_SYNC,
-+							   min < 0);
-+		if (prox_state->channel2usage[chan->scan_index] ==
-+		    HID_USAGE_SENSOR_HUMAN_ATTENTION)
-+			*val *= 100;
-+		hid_sensor_power_state(&prox_state->common_attributes, false);
- 		ret_type = IIO_VAL_INT;
- 		break;
- 	case IIO_CHAN_INFO_SCALE:
-@@ -104,7 +120,7 @@ static int prox_read_raw(struct iio_dev *indio_dev,
- 		break;
- 	case IIO_CHAN_INFO_OFFSET:
- 		*val = hid_sensor_convert_exponent(
--				prox_state->prox_attr.unit_expo);
-+			prox_state->prox_attr[chan->scan_index].unit_expo);
- 		ret_type = IIO_VAL_INT;
- 		break;
- 	case IIO_CHAN_INFO_SAMP_FREQ:
-@@ -179,48 +195,67 @@ static int prox_capture_sample(struct hid_sensor_hub_device *hsdev,
- {
- 	struct iio_dev *indio_dev = platform_get_drvdata(priv);
- 	struct prox_state *prox_state = iio_priv(indio_dev);
--	int ret = -EINVAL;
--
--	switch (usage_id) {
--	case HID_USAGE_SENSOR_HUMAN_PRESENCE:
--		switch (raw_len) {
--		case 1:
--			prox_state->human_presence = *(u8 *)raw_data;
--			return 0;
--		case 4:
--			prox_state->human_presence = *(u32 *)raw_data;
--			return 0;
--		default:
-+	int multiplier = 1;
-+	int chan;
-+
-+	for (chan = 0; chan < prox_state->num_channels; chan++)
-+		if (prox_state->channel2usage[chan] == usage_id)
- 			break;
--		}
--		break;
-+	if (chan == prox_state->num_channels)
-+		return -EINVAL;
-+
-+	if (usage_id == HID_USAGE_SENSOR_HUMAN_ATTENTION)
-+		multiplier = 100;
-+
-+	switch (raw_len) {
-+	case 1:
-+		prox_state->human_presence[chan] = *(u8 *)raw_data * multiplier;
-+		return 0;
-+	case 4:
-+		prox_state->human_presence[chan] = *(u32 *)raw_data * multiplier;
-+		return 0;
- 	}
- 
--	return ret;
-+	return -EINVAL;
+diff --git a/drivers/input/misc/nxp-bbnsm-pwrkey.c b/drivers/input/misc/nxp-bbnsm-pwrkey.c
+index eb4173f9c820..847964f7ebdd 100644
+--- a/drivers/input/misc/nxp-bbnsm-pwrkey.c
++++ b/drivers/input/misc/nxp-bbnsm-pwrkey.c
+@@ -187,6 +187,17 @@ static int bbnsm_pwrkey_probe(struct platform_device *pdev)
+ 	return 0;
  }
  
- /* Parse report which is specific to an usage id*/
- static int prox_parse_report(struct platform_device *pdev,
- 				struct hid_sensor_hub_device *hsdev,
--				struct iio_chan_spec *channels,
--				unsigned usage_id,
- 				struct prox_state *st)
++static void bbnsm_pwrkey_remove(struct platform_device *pdev)
++{
++	struct bbnsm_pwrkey *bbnsm = platform_get_drvdata(pdev);
++
++	dev_pm_clear_wake_irq(&pdev->dev);
++	device_init_wakeup(&pdev->dev, false);
++
++	if (bbnsm)
++		input_unregister_device(bbnsm->input);
++}
++
+ static int __maybe_unused bbnsm_pwrkey_suspend(struct device *dev)
  {
-+	struct iio_chan_spec *channels = st->channels;
-+	int index = 0;
- 	int ret;
-+	int i;
+ 	struct platform_device *pdev = to_platform_device(dev);
+@@ -223,6 +234,8 @@ static struct platform_driver bbnsm_pwrkey_driver = {
+ 		.of_match_table = bbnsm_pwrkey_ids,
+ 	},
+ 	.probe = bbnsm_pwrkey_probe,
++	.remove_new = bbnsm_pwrkey_remove,
 +
-+	for (i = 0; i < MAX_CHANNELS; i++) {
-+		u32 usage_id = prox_usage_ids[i];
-+
-+		ret = sensor_hub_input_get_attribute_info(hsdev,
-+							  HID_INPUT_REPORT,
-+							  hsdev->usage,
-+							  usage_id,
-+							  &st->prox_attr[index]);
-+		if (ret < 0)
-+			continue;
-+		st->channel2usage[index] = usage_id;
-+		st->scan_mask[0] |= BIT(index);
-+		channels[index] = prox_channels[i];
-+		channels[index].scan_index = index;
-+		prox_adjust_channel_bit_mask(channels, index,
-+					     st->prox_attr[index].size);
-+		dev_dbg(&pdev->dev, "prox %x:%x\n", st->prox_attr[index].index,
-+			st->prox_attr[index].report_id);
-+		index++;
-+	}
+ };
+ module_platform_driver(bbnsm_pwrkey_driver);
  
--	ret = sensor_hub_input_get_attribute_info(hsdev, HID_INPUT_REPORT,
--			usage_id,
--			HID_USAGE_SENSOR_HUMAN_PRESENCE,
--			&st->prox_attr);
--	if (ret < 0)
-+	if (!index)
- 		return ret;
--	prox_adjust_channel_bit_mask(channels, CHANNEL_SCAN_INDEX_PRESENCE,
--					st->prox_attr.size);
- 
--	dev_dbg(&pdev->dev, "prox %x:%x\n", st->prox_attr.index,
--			st->prox_attr.report_id);
-+	st->num_channels = index;
- 
--	return ret;
-+	return 0;
- }
- 
- /* Function to initialize the processing for usage id */
-@@ -251,22 +286,15 @@ static int hid_prox_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	indio_dev->channels = devm_kmemdup(&pdev->dev, prox_channels,
--					   sizeof(prox_channels), GFP_KERNEL);
--	if (!indio_dev->channels) {
--		dev_err(&pdev->dev, "failed to duplicate channels\n");
--		return -ENOMEM;
--	}
--
--	ret = prox_parse_report(pdev, hsdev,
--				(struct iio_chan_spec *)indio_dev->channels,
--				hsdev->usage, prox_state);
-+	ret = prox_parse_report(pdev, hsdev, prox_state);
- 	if (ret) {
- 		dev_err(&pdev->dev, "failed to setup attributes\n");
- 		return ret;
- 	}
- 
--	indio_dev->num_channels = ARRAY_SIZE(prox_channels);
-+	indio_dev->num_channels = prox_state->num_channels;
-+	indio_dev->channels = prox_state->channels;
-+	indio_dev->available_scan_masks = prox_state->scan_mask;
- 	indio_dev->info = &prox_info;
- 	indio_dev->name = name;
- 	indio_dev->modes = INDIO_DIRECT_MODE;
-
 -- 
-2.47.0.163.g1226f6d8fa-goog
+2.37.1
 
 
