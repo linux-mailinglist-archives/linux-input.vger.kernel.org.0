@@ -1,116 +1,86 @@
-Return-Path: <linux-input+bounces-7834-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7835-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0287C9B9472
-	for <lists+linux-input@lfdr.de>; Fri,  1 Nov 2024 16:33:09 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F39D59B99ED
+	for <lists+linux-input@lfdr.de>; Fri,  1 Nov 2024 22:13:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C5B52822C4
-	for <lists+linux-input@lfdr.de>; Fri,  1 Nov 2024 15:33:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AAE461F22593
+	for <lists+linux-input@lfdr.de>; Fri,  1 Nov 2024 21:13:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D315D1A4F21;
-	Fri,  1 Nov 2024 15:33:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 780D31E2855;
+	Fri,  1 Nov 2024 21:13:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D3SPYJEg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CtKrabIr"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A722082C7E;
-	Fri,  1 Nov 2024 15:33:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF241E282A;
+	Fri,  1 Nov 2024 21:13:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730475182; cv=none; b=cSdyxyAKy6BlGzyxBB8YH3RrFWTgg0NYDijmzOkH4QgyhI6lbIcI7UmuMAf9FEhS1xFBjxSGK1zRuoxzj5j1pR/GH4fVdJAsy03dsliMnBaDSTdmANsmJ2Dm+numr84aNToHgVCulhPtrpHQ+KQsBYUf8PhYe1GEjB0I7UOTY/o=
+	t=1730495607; cv=none; b=oc8b4n3DohawqWr8RaT6Otr0ZwFPswSC0CSRTUBaRgntavRdY+E0iFy5/Q5NmdrXj5ZFrzvKfdWjxX9JGpFTAuvx6hCWdPEiIQL9hBe9gShOBFyaLkeknjLmnkvDiTxxBYDXZN47KwzSl/tglgLvUgWxFYK9vFTKkwKh/OlHeX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730475182; c=relaxed/simple;
-	bh=ap9vfaIc7UJt+zz7HcnD4L60lhS/AaQ+8KbNeR3fmJc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uD9Ch5ddw6hjzdezEiRUDfhQfM+H+fizE7IN3kbeWe9XVg1ZgCSkxwYxI8PtmvCs4XRn9iIqKpAxImxWedUAN7mMAxoEppM33uyN3xRq0OeDS4uJO/5wExzhTanxQtdy9n5j5eDaTKnaTHPGfCoC9kI7y6tqEhedC3D2JTkbM+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D3SPYJEg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3E77C4CECD;
-	Fri,  1 Nov 2024 15:32:59 +0000 (UTC)
+	s=arc-20240116; t=1730495607; c=relaxed/simple;
+	bh=SOC8NatMEPdI9gGlEuY2BgOI7BhxC/TMZh2CjgJx+O0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oI8oIIThRnbQRgbcueTDSssku5jiuIiQnph925njADNBHX17UGLEgyaJkSqVDACMGkl28kPQgTsRDIU9QNQCLEDGehPD+AgTis28+T3LqNcArFW2Gw06cM75BjhyFFU1jGRQvAqeNWq/0iRDVxoy7Iao7uS3EhWTi7McTkpiqN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CtKrabIr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F30AC4CECD;
+	Fri,  1 Nov 2024 21:13:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730475182;
-	bh=ap9vfaIc7UJt+zz7HcnD4L60lhS/AaQ+8KbNeR3fmJc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=D3SPYJEgkxTZwmG+RFAV76AkK//8wZ2FAHZfMa2zTI2hWXcbCFmFY0viio3AKkvxr
-	 xrQcAvfe+QxXLsnJp3dcDj3mR8OLuGDatH6rnaT5UE9D57tr93vlj7GhjU/6+jkRpG
-	 q7poRLnMM/8aD965BEeW11fLTEVJ4h/mQbRoL6Hvp+8Uw8Yw7QhUkYqK1U2fgc+mRj
-	 Db6u2XJuzMCWaH4w3eedHsLeRx+bILO+rUG5HSiKmFpjsE6WwUfJsI4it8fRJXIinA
-	 Om+cZbGWZL24oIb6SJQHoze+vgHzi/wa3Pyu1CtwOisC62YceY7yhHyB2yllzKuQ24
-	 vno3GGIgZymdQ==
-Date: Fri, 1 Nov 2024 15:32:55 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Lars-Peter
- Clausen <lars@metafoo.de>, Harvey Yang <chenghaoyang@google.com>,
- linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/5] iio: hid-sensors-prox: Add support for more
- channels
-Message-ID: <20241101153255.4d835495@jic23-huawei>
-In-Reply-To: <20241101-hpd-v3-0-e9c80b7c7164@chromium.org>
-References: <20241101-hpd-v3-0-e9c80b7c7164@chromium.org>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	s=k20201202; t=1730495606;
+	bh=SOC8NatMEPdI9gGlEuY2BgOI7BhxC/TMZh2CjgJx+O0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=CtKrabIrNq3yoyexdM8PiJILqUhE+IZG6QfbJODmZ0mcrrQfrEoVi0FGDY6kj5SZH
+	 tRZu2zy+aCmOAy9nwtgyE8pwk/KB7Vvo+rM3JG1bqfkLvuCfKcLb+0Sl8dRXdpwES3
+	 MSi4GK6FIA1DDsvATcQK2AvQAMRqHxrcWZOacAlazge1edIp4in2BeMRD3i79iJ+QH
+	 ygbOTdnvEVeGi8Zy7xbHKCcxjT77QbAx4+Xq342ytrfKUZxkVSH4Sfdu2Ar7IwZrHF
+	 UDN5e8HcRsqZ4zRr8x6FCj9FKxiOncyLxTLm77okp0Uduf8eDmKuljEkvdyj5muiCY
+	 pv2xrrnMVS5EQ==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>
+Cc: linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: input: rotary-encoder: Fix "rotary-encoder,rollover" type
+Date: Fri,  1 Nov 2024 16:13:03 -0500
+Message-ID: <20241101211304.20886-1-robh@kernel.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 01 Nov 2024 07:46:26 +0000
-Ricardo Ribalda <ribalda@chromium.org> wrote:
+The user and driver both indicate this property is a boolean, not int32.
 
-> EgisVision 620 provides two additional channels:
-> - proximity
-> - attention
-> 
-> Add support for them.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-Looks good to me. I'll queue it up, but Jiri / Srinivas if either of you have time
-to take a look as well that would be great of course.
+Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+---
+ Documentation/devicetree/bindings/input/rotary-encoder.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'll only push this out as testing for now to let 0-day take a look.
-
-
-> ---
-> Changes in v3:
-> - Make attention CHAN_INFO_PROCESSED.
-> - Fix comment style.
-> - Multiply attention by 100 to make it a percentage.
-> - Link to v2: https://lore.kernel.org/r/20241028-hpd-v2-0-18f6e79154d7@chromium.org
-> 
-> Changes in v2 (Thanks Jonathan):
-> - Create new attention channel type.
-> - Improve documentation for HID usages.
-> - Link to v1: https://lore.kernel.org/r/20241024-hpd-v1-0-2a125882f1f8@chromium.org
-> 
-> ---
-> Ricardo Ribalda (5):
->       iio: hid-sensors: Add proximity and attention IDs
->       iio: hid-sensors-prox: Factor-in hid_sensor_push_data
->       iio: Add channel type for attention
->       iio: hid-sensors-prox: Make proximity channel indexed
->       iio: hid-sensor-prox: Add support for more channels
-> 
->  Documentation/ABI/testing/sysfs-bus-iio |   8 ++
->  drivers/iio/industrialio-core.c         |   1 +
->  drivers/iio/light/hid-sensor-prox.c     | 195 ++++++++++++++++++--------------
->  include/linux/hid-sensor-ids.h          |   2 +
->  include/uapi/linux/iio/types.h          |   1 +
->  tools/iio/iio_event_monitor.c           |   2 +
->  6 files changed, 122 insertions(+), 87 deletions(-)
-> ---
-> base-commit: c2ee9f594da826bea183ed14f2cc029c719bf4da
-> change-id: 20241023-hpd-edeb37f1ffc4
-> 
-> Best regards,
+diff --git a/Documentation/devicetree/bindings/input/rotary-encoder.yaml b/Documentation/devicetree/bindings/input/rotary-encoder.yaml
+index e315aab7f584..f9332bb2343f 100644
+--- a/Documentation/devicetree/bindings/input/rotary-encoder.yaml
++++ b/Documentation/devicetree/bindings/input/rotary-encoder.yaml
+@@ -41,7 +41,7 @@ properties:
+       device, hence no steps need to be passed.
+ 
+   rotary-encoder,rollover:
+-    $ref: /schemas/types.yaml#/definitions/int32
++    $ref: /schemas/types.yaml#/definitions/flag
+     description:
+       Automatic rollover when the rotary value becomes
+       greater than the specified steps or smaller than 0. For absolute axis only.
+-- 
+2.45.2
 
 
