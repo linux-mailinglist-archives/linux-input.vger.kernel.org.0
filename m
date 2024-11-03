@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-7843-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7844-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509BE9BA756
-	for <lists+linux-input@lfdr.de>; Sun,  3 Nov 2024 19:12:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9F499BA757
+	for <lists+linux-input@lfdr.de>; Sun,  3 Nov 2024 19:12:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6AE911C2099A
-	for <lists+linux-input@lfdr.de>; Sun,  3 Nov 2024 18:12:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3CE7F1F21535
+	for <lists+linux-input@lfdr.de>; Sun,  3 Nov 2024 18:12:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDE2812BEBB;
-	Sun,  3 Nov 2024 18:12:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2075C7083B;
+	Sun,  3 Nov 2024 18:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="InRWpc0u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AQfhVYkQ"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F747083B
-	for <linux-input@vger.kernel.org>; Sun,  3 Nov 2024 18:12:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09221369A8
+	for <linux-input@vger.kernel.org>; Sun,  3 Nov 2024 18:12:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730657561; cv=none; b=cWU7iB9hOY3H5A/Z94lsixggw14GYftXi6VUUvNAYKUWzdU/2oxpNAxA+Eerr0kN4kiKh/KWIEsHaEBfK4waTFdlwvjkKieJnBQxvwVhxEpPiNLiCmAvKs8Q8OoMhgJY+GShZ6N++P5y2sOuUI/Xz38EqC0jXMhCdYfQOwb9xXw=
+	t=1730657564; cv=none; b=RRr6kdOhtWykIifGDQsCWTMNS/AycazcbY64gzfE5fZ/7i0Zq19hpB2D1Ymihvm7HrkTrsJAtB8C4/YRmAe9IWe4uNfUv8ZBmvO6jAzsaGCY4XDaro/b0hLpda8+yVvwFNteyI6Gws5VMmss8nlMPIc4k1evLe13yZhQ/HIrmKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730657561; c=relaxed/simple;
-	bh=Y0NNgwtYga2LBOA5+qKeOrow4fcBlUYD6BMQL2SXz3M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kBgIt55jZ5pNXSDvHh/q2cyVtFLbLUycsag5zSJnNYC7ROZXe+wogM7hrwuicuJMAqoaaTC07M2HGwsybFEeX7Bis6HnekhcV9KYwPF4QkpVJgYA1sHquTCOt/mnlV/IR2trjWWIcf/UMmwEOPWZZVIa0g95HSmAqOe36HHanZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=InRWpc0u; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1730657564; c=relaxed/simple;
+	bh=E6DcEQB2Qcr74FkEXz28ijWZidI/3WAaf1r/o5Bt9Mw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Mf/nD6ItJjIovdG/snyrZM1HBTTM/BOwlXI6T4t/MmhUL1svLH0kNxZAlTh48IDEZr7pGBLNLxIRDzgVi6z5Us4msR11ADNznK4+ACdjtwGruYhgUUcvzSRKWSOVTvlAWnlVZtLLCYuFE6z7VyddctVpbGPoMXFlfk1JcwCmlGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AQfhVYkQ; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730657560; x=1762193560;
+  t=1730657562; x=1762193562;
   h=date:from:to:cc:subject:message-id;
-  bh=Y0NNgwtYga2LBOA5+qKeOrow4fcBlUYD6BMQL2SXz3M=;
-  b=InRWpc0ukbY35oyp7cRXWM8ULyU4CsFOHrBg4uX1Y6JoSw8BCsfTYOXG
-   afv2cVZbnzG/R663kxo6OZn8wVDv3I2HBac8nz9Pmds39YsJWyzZJ+VrZ
-   TxrbMjBnsMSYdY4zE7LGR1TlbZjyxsi0cDWcZtOq4QnwCBBXQ0nugzvQ7
-   0JvRVEQMmvW2tnLFFPETyu42/dds1uK/oSorBpwaE9s4xAJeCJbC6sGcn
-   v2IIbe442/VYPGJtWSETYdZsVsTpgBsOZgkX2rX19qBTDyw0pTf943YXs
-   Q4IvOFwvVzz4Y3MxlzIF+F2O8+hoesmThnBUH4Bp2tRELwaNrJFL083oT
-   g==;
-X-CSE-ConnectionGUID: KmiU7lRvT5K2R6DZJYYwaA==
-X-CSE-MsgGUID: 4jwBc2VDT/2hJkt03JQLhQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30132471"
+  bh=E6DcEQB2Qcr74FkEXz28ijWZidI/3WAaf1r/o5Bt9Mw=;
+  b=AQfhVYkQZ0qG/LvzAIp8YshthFomsEkft7LDwe5pAY+6wk3IOvnytwMW
+   601BmwjhwcV9CPE0HJT9A5C01fp/24pcAarZT1Wr+TZYTToIytaDbjNFZ
+   fYBcGmqI6BP7USzn5JIyNBT9dv8Cev6eOd4W7KGA1pKm1Yt182rudjEIL
+   gcR8IAJb1mNvM271DA8ONyJkicocASGekrWCq9oNcmNufZ5hZR6gQDr33
+   0KDzGlCYJRtOGdGvfz/3MRRlXWaynGBBIeMsd3XUg3lhEXFxlJZUJZwUy
+   mvUqF1tWjtYVSnfvp9eUbUA7Js4F/kfBFmxC+ewlePWm3+SNeVsUX33gR
+   w==;
+X-CSE-ConnectionGUID: JMthgh1gQ6aLxL4psy988w==
+X-CSE-MsgGUID: kRoCmi0RS/GPGRHAfjk7yg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30132472"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30132471"
+   d="scan'208";a="30132472"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 10:12:39 -0800
-X-CSE-ConnectionGUID: ONiJJb9ASRiTZinNusB5Yg==
-X-CSE-MsgGUID: 6S9Nr4gYQBagwQwzocSLWg==
+X-CSE-ConnectionGUID: ou9iMO/pSdm9SYf2gIB1aA==
+X-CSE-MsgGUID: 2ClNiJ8cREK81nVE8KmL8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,255,1725346800"; 
-   d="scan'208";a="84266971"
+   d="scan'208";a="84266972"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 03 Nov 2024 10:12:37 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7f5W-000k7b-2b;
+	id 1t7f5W-000k7e-2g;
 	Sun, 03 Nov 2024 18:12:34 +0000
-Date: Mon, 04 Nov 2024 02:11:53 +0800
+Date: Mon, 04 Nov 2024 02:12:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- 071b24b54d2d05fbf39ddbb27dee08abd1d713f3
-Message-ID: <202411040241.qjMI6ded-lkp@intel.com>
+Subject: [dtor-input:next] BUILD SUCCESS
+ e1325e19d2256c4724fb465c547333af424e5de5
+Message-ID: <202411040201.EkNyf397-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -74,12 +74,12 @@ List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: 071b24b54d2d05fbf39ddbb27dee08abd1d713f3  Input: fix regression when re-registering input handlers
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: e1325e19d2256c4724fb465c547333af424e5de5  Input: omap-keypad - use guard notation when acquiring mutex
 
-elapsed time: 735m
+elapsed time: 734m
 
-configs tested: 178
+configs tested: 179
 configs skipped: 4
 
 The following configs have been built successfully.
@@ -255,6 +255,7 @@ x86_64                              defconfig    gcc-11
 x86_64                                  kexec    clang-19
 x86_64                               rhel-8.3    gcc-12
 x86_64                           rhel-8.3-bpf    clang-19
+x86_64                    rhel-8.3-kselftests    gcc-12
 x86_64                         rhel-8.3-kunit    clang-19
 x86_64                           rhel-8.3-ltp    clang-19
 x86_64                          rhel-8.3-rust    clang-19
