@@ -1,112 +1,194 @@
-Return-Path: <linux-input+bounces-7847-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7848-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71B909BAEE3
-	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2024 09:59:48 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id EACD49BAF97
+	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2024 10:27:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E1D61F22C19
-	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2024 08:59:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 574CEB214D8
+	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2024 09:27:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E5C91ABEBD;
-	Mon,  4 Nov 2024 08:58:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02B271AD3E1;
+	Mon,  4 Nov 2024 09:27:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hs7Ppm7w"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85911AB530
-	for <linux-input@vger.kernel.org>; Mon,  4 Nov 2024 08:58:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70ABD1AC458
+	for <linux-input@vger.kernel.org>; Mon,  4 Nov 2024 09:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730710709; cv=none; b=cQLHLHdpBsl1+qob5O06MQVWAozCkHcjLCou0mnZYhOe7ZpjeEOoRHp7f4XIQ7ZXd+HrGBVrN6RotndiJEi3OINchmN86Cxi8fijmQwNMpfC4bHUPowgRFjPgSMpYM98MiSF0MctLX2jAOxvdk4Z9L2UJzPeso2J82Z+fvnxqDw=
+	t=1730712419; cv=none; b=SkuBw9jPJ5kyrl2byJKcP6moBLr/e/xq+zHsUOlio2sP8Hy57lOHmKj40sdlk/2UROI8HoAVQbgprZl8A8MrHoX1zo/zGh7xIecMT8zEXO69SMxS4MfkYr0YkI5I8xSGwpbIQgzKvo/M6qrRjwUuKHAYUBXAKOIs2JCYdf/NecU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730710709; c=relaxed/simple;
-	bh=Bz3gOFRwGOaGKGNUBdbVzgTjpVn87zTso3nM3mFe2gQ=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=HesZKUV9l3nuHOEwPdTOXy91CSpdODR5PZs1niWHHP+SUn80qWe6dQsELEmeo0Syba4zaAtuX5A9gLLhWUEczsjZUiJ0EAAdMDU9nSL3h9jF0wyKZFUbf+j0NAW2u70uQmcLhpsnF0C1fVYUK75yGSLr7do2/qEuRn5UF5KVHiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-83abd63a132so259664639f.1
-        for <linux-input@vger.kernel.org>; Mon, 04 Nov 2024 00:58:27 -0800 (PST)
+	s=arc-20240116; t=1730712419; c=relaxed/simple;
+	bh=M7ueN/LQ529FLGouL/3BXVgrjx8tY87847WIrlhrom4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Q+Wap/Mri/ThOu1eEwhOmyCCflaqN7kH1m8lWiIruZh251B7DWg70SXHw3c6cXpBn7ISMTPITTDFz8mjrDc/eBu6oeVQMUMjiGZmdSvgn7NWQNmmtFlAAP4FoGqGgT6kc0JDB5ZlooO9zxIlQwafMfbNdVtCkizAGJvBiU1+dHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hs7Ppm7w; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730712417;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M7ueN/LQ529FLGouL/3BXVgrjx8tY87847WIrlhrom4=;
+	b=hs7Ppm7wXaEwXylZk3WlnuRhOBVi9EZFeFaHA5C2kpvSH/VjkVm6K0TiNsnRe0z8Kj9ISO
+	QeHbTMdAtNM8OMz7ZsX56g97CaQyWzdOZ7ETkNzghr2NW+8F20RyIMZTCqi56KBYvwZI4U
+	2b2TxZfnuV5aUNIoqBdGJ9P5nVrVU+4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-317-A2OtGrYyPhyc9_haQRqj4w-1; Mon, 04 Nov 2024 04:26:55 -0500
+X-MC-Unique: A2OtGrYyPhyc9_haQRqj4w-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-37d5a3afa84so1946244f8f.3
+        for <linux-input@vger.kernel.org>; Mon, 04 Nov 2024 01:26:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730710707; x=1731315507;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+        d=1e100.net; s=20230601; t=1730712415; x=1731317215;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=JVb40T/AVpO0uKAlqE9ez6S0gGsek0gAtixUwc7L6RA=;
-        b=fyNQHC0e9qxb4rcTRaZeE+QioasfcPyX71MgDkGN9+LWWsG6ri4ttTYoK54OgnBlzq
-         x1MQgXq+++ViLGDJSz0gu1x1SU/SaOqH/bZez5MycuEgWsEUkobq87z3Tef9v8+wb8F2
-         ezjwUoUE8+iLNKPq2MlM+yGXXFnzfCLzSsvNc0k9faDgYO3uzr5SLJKzOwmuAXz+pUpk
-         XCX5eDCH+bjHSdBOzHliT3f0wK9W+VBH6Bap89DMUGwvyHVRS9smkHFsZePx1rbVDMPv
-         X5Oc7c1Is07Ggc2DvaThxbN26pOAuyTYmwoHkdsNxZWQpk6/gRKpPLlOnUseU6eAvvmN
-         Gm4g==
-X-Gm-Message-State: AOJu0YyvRU9b2vRLoNLEoQg+I3BHejM7WFV95xoWs1XmBm/UZM3RTGRc
-	WMqUiZ78O8Wmf1V0p85TgGuBDKFTXHTl5pdZpp600yUCWO1zVVma5a6PNg2mViQSuOPddCD6v63
-	YeCszEgkkwGhiNtx267Utcj5aFhEwEOfJyDenTVPejGSmBQPhSZdGHE4=
-X-Google-Smtp-Source: AGHT+IERGTlo4BvIQn7dZ5nYAHAAEQi86wteBIux90QdH4eK8k1K2PdZddSMkkx2s774SG43BsGNvvwkjXPP4OIeB978k8dZPTSq
+        bh=M7ueN/LQ529FLGouL/3BXVgrjx8tY87847WIrlhrom4=;
+        b=jBYnGQiM79dd1gu7b0MK4RGcaevXMVtRccvuvSmZ8KlyIG/SnfhGQI0MpGyh4S3xxE
+         RfG3pdOoKoSUBoGZ96jJ/Nupn1mLl9ZnjILw6XW3YibXm04neexofsG2RE4jClj1JQLC
+         cFQXbNJM5mFzUgt/4qLWKYPTQe11C+Iy4IY8Ykypz7aIwjmHsIXBniT3WvzT7ZiVpxrv
+         rdVw41U8k7L5VbL9ktXofKFe3KMhzAkSaWDQWkP6uBlKZpb1ft/vvEQtP8g3vCvgq0pq
+         hWtFdW8Dxkix4FBiYPSfkvf6KeJbxZJ1pcCAaQzfy8Ieos43VAKI5N8mtscN5+/KtXsc
+         wMWw==
+X-Forwarded-Encrypted: i=1; AJvYcCVlztDTaOMiW5diILV6YYDh+unC5gaK12Amw6AUhHLxVvbaHHR6XOsIZv7D3N/oQDZcev3HrfEsUqeIIQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz17TWTREYJROX4ERjU/ieEe0hebHaQwOHp5HBoy2FH4DtneVeS
+	0sLbimL/dmDdJ0HudchUSvCSV6uvvoaBZqjB76GdcPHXyFUFpV+KjmlZpo7viFAFfYN8nRFnj0t
+	ANWesvDXrB9eaoJUPWmAAnHK5wz7769jWE2U817/gV2t58AZ9Qe4DSrobHWvK
+X-Received: by 2002:a5d:5f54:0:b0:37d:373c:ed24 with SMTP id ffacd0b85a97d-381c7a3a49cmr8192664f8f.4.1730712414702;
+        Mon, 04 Nov 2024 01:26:54 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHUG4i3r4RT/0mDz+U1cY7m40dZcu2ijC6eEouX1uNQBldOHTZd5hoduIq2TUsnjYO3wLrnew==
+X-Received: by 2002:a5d:5f54:0:b0:37d:373c:ed24 with SMTP id ffacd0b85a97d-381c7a3a49cmr8192628f8f.4.1730712414212;
+        Mon, 04 Nov 2024 01:26:54 -0800 (PST)
+Received: from ?IPv6:2001:16b8:2d7f:e400:7f8:722c:bb2e:bb7f? (200116b82d7fe40007f8722cbb2ebb7f.dip.versatel-1u1.de. [2001:16b8:2d7f:e400:7f8:722c:bb2e:bb7f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10b7d20sm12817150f8f.7.2024.11.04.01.26.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2024 01:26:53 -0800 (PST)
+Message-ID: <a8d9f32f60f55c58d79943c4409b8b94535ff853.camel@redhat.com>
+Subject: Re: [PATCH 01/13] PCI: Prepare removing devres from pci_intx()
+From: Philipp Stanner <pstanner@redhat.com>
+To: Thomas Gleixner <tglx@linutronix.de>, Damien Le Moal
+ <dlemoal@kernel.org>,  Niklas Cassel <cassel@kernel.org>, Sergey Shtylyov
+ <s.shtylyov@omp.ru>, Basavaraj Natikar <basavaraj.natikar@amd.com>, Jiri
+ Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Arnd
+ Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alex Dubov <oakad@yahoo.com>, Sudarsana Kalluru <skalluru@marvell.com>,
+ Manish Chopra <manishc@marvell.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rasesh Mody
+ <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko
+ <imitsyanko@quantenna.com>, Sergey Matyukevich <geomatsi@gmail.com>, Kalle
+ Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar
+ S K <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
+ <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>, Oleksandr Tyshchenko
+ <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Chen Ni <nichen@iscas.ac.cn>, Mario Limonciello
+ <mario.limonciello@amd.com>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
+ <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
+ <kevin.tian@intel.com>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Mostafa Saleh <smostafa@google.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>, Christian
+ Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>, Eric Auger
+ <eric.auger@redhat.com>, Reinette Chatre <reinette.chatre@intel.com>, Ye
+ Bin <yebin10@huawei.com>, Marek =?ISO-8859-1?Q?Marczykowski-G=F3recki?=
+ <marmarek@invisiblethingslab.com>, Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.dev>, Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,  Rui Salvaterra <rsalvaterra@gmail.com>
+Cc: linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-input@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
+ linux-pci@vger.kernel.org,  kvm@vger.kernel.org,
+ xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
+Date: Mon, 04 Nov 2024 10:26:51 +0100
+In-Reply-To: <87cyjgwfmo.ffs@tglx>
+References: <20241015185124.64726-1-pstanner@redhat.com>
+	 <20241015185124.64726-2-pstanner@redhat.com> <87cyjgwfmo.ffs@tglx>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a92:d10e:0:b0:3a6:bafd:5650 with SMTP id
- e9e14a558f8ab-3a6bafd5803mr65688645ab.10.1730710706976; Mon, 04 Nov 2024
- 00:58:26 -0800 (PST)
-Date: Mon, 04 Nov 2024 00:58:26 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67288cb2.050a0220.35b515.01b8.GAE@google.com>
-Subject: [syzbot] Monthly input report (Nov 2024)
-From: syzbot <syzbot+list87d286d50504b1bfb087@syzkaller.appspotmail.com>
-To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-Hello input maintainers/developers,
+On Thu, 2024-10-31 at 14:45 +0100, Thomas Gleixner wrote:
+> On Tue, Oct 15 2024 at 20:51, Philipp Stanner wrote:
+> > +/**
+> > + * pci_intx - enables/disables PCI INTx for device dev, unmanaged
+> > version
+>=20
+> mismatch vs. actual function name.
 
-This is a 31-day syzbot report for the input subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/input
+ACK, will fix
 
-During the period, 4 new issues were detected and 0 were fixed.
-In total, 23 issues are still open and 57 have been fixed so far.
+>=20
+> > + * @pdev: the PCI device to operate on
+> > + * @enable: boolean: whether to enable or disable PCI INTx
+> > + *
+> > + * Enables/disables PCI INTx for device @pdev
+> > + *
+> > + * This function behavios identically to pci_intx(), but is never
+> > managed with
+> > + * devres.
+> > + */
+> > +void pci_intx_unmanaged(struct pci_dev *pdev, int enable)
+>=20
+> This is a misnomer. The function controls the INTX_DISABLE bit of a
+> PCI device. Something like this:
+>=20
+> void __pci_intx_control()
+> {
+> }
+>=20
+> static inline void pci_intx_enable(d)
+> {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __pci_intx_control(d, true);
+> }
+>=20
+> .....
+>=20
+> makes it entirely clear what this is about.
 
-Some of the still happening issues:
+Well, I would agree if it were about writing a 'real' new function. But
+this is actually about creating a _temporary_ function which is added
+here and removed again in patch 12 of this same series.
 
-Ref  Crashes Repro Title
-<1>  817     No    possible deadlock in evdev_pass_values (2)
-                   https://syzkaller.appspot.com/bug?extid=13d3cb2a3dc61e6092f5
-<2>  470     Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
-                   https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
-<3>  394     Yes   INFO: task hung in uhid_char_release
-                   https://syzkaller.appspot.com/bug?extid=8fe2d362af0e1cba8735
-<4>  126     No    possible deadlock in __input_unregister_device
-                   https://syzkaller.appspot.com/bug?extid=3f4bf5c599ee9b16d704
-<5>  115     Yes   INFO: rcu detected stall in x64_sys_call
-                   https://syzkaller.appspot.com/bug?extid=65203730e781d98f23a0
-<6>  54      Yes   INFO: rcu detected stall in sys_pselect6 (2)
-                   https://syzkaller.appspot.com/bug?extid=310c88228172bcf54bef
-<7>  27      Yes   WARNING in cm109_input_open/usb_submit_urb (3)
-                   https://syzkaller.appspot.com/bug?extid=ac0f9c4cc1e034160492
-<8>  21      Yes   possible deadlock in uinput_request_submit
-                   https://syzkaller.appspot.com/bug?extid=159077b1355b8cd72757
-<9>  18      Yes   INFO: rcu detected stall in do_syscall_64
-                   https://syzkaller.appspot.com/bug?extid=a3bc6ce74afdd295fe4b
-<10> 8       Yes   INFO: rcu detected stall in sys_rt_sigprocmask (2)
-                   https://syzkaller.appspot.com/bug?extid=702ae87d7174a3a4d759
+It wouldn't even be needed; the only reason why it exists is to make it
+easy for the driver maintainers concerned by patches 2-11 to review the
+change and understand what's going on. Hence it is
+"pci_intx_unmanaged()" =3D=3D "Attention, we take automatic management away
+from your driver"
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+pci_intx() is then fully restored after patch 12 and it keeps its old
+name.
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+Gr=C3=BC=C3=9Fe,
+Philipp
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
 
-You may send multiple commands in a single email message.
+>=20
+> Hmm?
+>=20
+> Thanks,
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tglx
+>=20
+
 
