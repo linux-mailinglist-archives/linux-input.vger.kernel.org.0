@@ -1,185 +1,189 @@
-Return-Path: <linux-input+bounces-7856-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7857-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C326F9BB42C
-	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2024 13:07:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6208E9BBA8F
+	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2024 17:48:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8151A280E52
-	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2024 12:07:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 21F4E2823AD
+	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2024 16:48:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A12B41B4F0A;
-	Mon,  4 Nov 2024 12:07:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0DA21C07FC;
+	Mon,  4 Nov 2024 16:48:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b="YZUClsfO"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dIfuSDJi"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCED17C0BE;
-	Mon,  4 Nov 2024 12:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5DD1C07F1
+	for <linux-input@vger.kernel.org>; Mon,  4 Nov 2024 16:48:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730722024; cv=none; b=lYof363JgX7fWP+9lVbFtUFLmWN5He9uUdEYXVXlotSpwaSlXwlc7bq1u1pzfXrA8rHSsCvqXnA9WQcIQEGhUFGQRxuW0C9OcucqUYznr0P3px8wf1nd14IYuc7RUj+C/rFaFvlkFE1voYe7IJWVu/aSxmE0ysGjOFjvcYkW1jY=
+	t=1730738917; cv=none; b=P2Wq5ullZpmnIAr2LYNA5cqo5S/vYhXt4gkJdq2zcEgn8Ra/L8UOtY5A7mpeGrIage6oMD+udwmSVNmkrMxOBHPAuQtlFXYksbbRzsPufGiYGPxgNyZW0RjwgyJ8c0VyzGNpHino/+yT6RT28fwxJjAz/FhmX/pmZIDwXg38Stc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730722024; c=relaxed/simple;
-	bh=svftIwQDl37QDsPAYgFM9jEXoads4cBFTHeHa36t9CM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qryt5X8FyEAkGiePq3S+5PKsD4OCEK7Z6uts/SpBss7jC4D1ZNGGWQabmipJRpAPe8gfwmARiyXuS0HNDeGMYbg328rV9N0aZIUH9V0mLN873mNb7m0w/ah6g64CjA7BabMWDOgIZyQrhew5hh9BE+4PYWNAzYzJa32YLMGZkY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu; spf=pass smtp.mailfrom=heusel.eu; dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b=YZUClsfO; arc=none smtp.client-ip=212.227.17.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=heusel.eu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=heusel.eu;
-	s=s1-ionos; t=1730722004; x=1731326804; i=christian@heusel.eu;
-	bh=isvhMXR16jgELvfkYUGhK0LUKbb8tRcCfdj7u9VzZNM=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=YZUClsfOhRNFec/U9oFceOMVZmq0LtHEtwiA8QVxLFdxKv5DFHA2rHvx5QYV8XMr
-	 DhXQym8+qd2uVV04/0CV6emUZHzfkR/02wGayNMz/krYv/Xdgd6ysX+1bv9SuU7FL
-	 Y3z/LWiqt9iBQVSUMB6XoOd+EcmZoxgTHogU7/57RnRAYKWjNqoX/G/XQRviHWu4e
-	 OlsmM+h/6VO2+QQQZAMdG1UEOfcnoh62Gq4No3BiZgwywlu62kfSHDpF+uD46/E7Z
-	 euxsmNIm40Y6+ei+gVAwQTo2Wh5WpExZvEzmMP7+f3ryXhjzHBLSQB/V2ma2W5aav
-	 PR+3QJu/gJjG4bnciw==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from localhost ([80.187.64.99]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1M593i-1t92Jj3fEK-0056Mo; Mon, 04 Nov 2024 13:06:44 +0100
-Date: Mon, 4 Nov 2024 13:06:40 +0100
-From: Christian Heusel <christian@heusel.eu>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: "Ned T. Crigler" <crigler@gmail.com>, 
-	Peter Seiderer <ps.report@gmx.net>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	regressions@lists.linux.dev, Jeff LaBundy <jeff@labundy.com>, 
-	Benjamin Tissoires <bentiss@kernel.org>
-Subject: Re: [REGRESSION] disabling and re-enabling magic sysrq fails after
- kernel 6.11
-Message-ID: <dcde5b37-2ea7-472e-abe3-2cadc9d1e651@heusel.eu>
-References: <Zx2iQp6csn42PJA7@xavtug>
- <69b6119c-3c3a-406f-9375-3e55fba9b732@heusel.eu>
- <20241027163744.2d396c61@gmx.net>
- <Zx5yIEZwT5SxzCTx@xavtug>
- <Zx8hfE2_3zXSTi05@google.com>
+	s=arc-20240116; t=1730738917; c=relaxed/simple;
+	bh=v/MMC+MY1D3NLxHPYWBM2LNjFHuJiv/ng/LeeeBXXxE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AqzsMrBlDhD7bQi3vHFntMEupPslWFiZmNfc/dPsLBGHysxLLxFYvl2hCD4dCu2w5Amp3+Yl33dYl/U+u8M0eV8EkjXVzKFXZ4AOYl+mYgt6kPklzFmhc06RceuPaQnC8DWCDmJ5p/ojgapNFSOH+VYxJO4FSttDJyRURnI5j9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dIfuSDJi; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730738914;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=8aOWHX2ysbhucnKVnxTSobNkijX6IXF2FpLitaEDSio=;
+	b=dIfuSDJiTf5OsbOEVdc37616IW7VCUrDN0EBWhqGQBdD/UVCxVbl4sBifb6GfiuKnfrItl
+	fbuf2lw5rf9Z3ArQxoy1Ial7pX0dtCYFdS4aMnPn5wQcZan84njcjv7deB9TrKFpFaXMq0
+	OppiUWekArN2Hj4uqO6boswXxgoiWF8=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-98-DZf_4-TGOEaMIodF39K5dw-1; Mon,
+ 04 Nov 2024 11:48:30 -0500
+X-MC-Unique: DZf_4-TGOEaMIodF39K5dw-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 280D01955F40;
+	Mon,  4 Nov 2024 16:48:29 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.45.226.36])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 395AB19560A2;
+	Mon,  4 Nov 2024 16:48:26 +0000 (UTC)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: linux-hyperv@vger.kernel.org,
+	linux-input@vger.kernel.org
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: [PATCH] HID: hyperv: streamline driver probe to avoid devres issues
+Date: Mon,  4 Nov 2024 17:48:24 +0100
+Message-ID: <20241104164824.1213529-1-vkuznets@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="mv3uxb56tz6fok5b"
-Content-Disposition: inline
-In-Reply-To: <Zx8hfE2_3zXSTi05@google.com>
-X-Provags-ID: V03:K1:JDpponhYnC4ZR0IulelKBhkv7BTepDK8a2dcHE68/+bYOMQ3e8h
- 7EZ2ZT6MM6utvvtYNagWIhwdJ96Fhef1430RA6MCgKVtHzkTmb6J3AtB0pIJp48O3Qi6Hru
- 6qJMKpk7H683dE69rQNwtptLUHnQ6XSdanIl4ASDH7Y02xl+0GuqWMLKMr0IW/lTpq7xdcY
- UlXBPvIxlIvyRuPMRfA3Q==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:IRRAjWkgUW0=;L0WoqOJ0RM2nuiH11dCchM00spD
- M9W6WU0gNSZb+KuGA6Dzul9NtkLSuU7wC2zknhF3XYiwlnQ36oMw1hLPoknjg9WCT3IFLCcuv
- ep5opLxKa3E9sqmx+cReQXlbPyW4Cl29V8cApx00SQyLjvZloxfVhD0XjlQB1KxgiB2/mCIhn
- xi7qwOCp0btvK0iwt/wR5zOEpqiJ3Z8PZtNIv8w7aKHPoW2Hg70wbwqETzcLXQ+ThdCZjpEpj
- YE+wh7Ddo3iE/DudAolhsO90EHxbxn9o8ohrsit/pNk0IhwS+QdK0y9WnlrmM7oyGws3t1Psl
- PUeP8I6JeWIQNJ4PIoxubVXeCxSUd/QcbPQmAhTXtPNoNgjQ6KhP5VfnpN9dG1WqCaZnfWGMz
- c+kQRbnwwbTEQx/836HZSuH1b28il7sONrgMzNvJW/SOeMWmpYKPEUeBgRjBPYKg4+z/z7GjE
- kul78VgkZGNsS6nltqn6OvIL78y3w3tdZAauNDCQ+8hQEj5nlu+be5gIs+1TRVUMmIfQF+Haw
- Hxz3TYwyBt6U/ehgm1+8WeKXXhaKd9KTy79EVVUUF16RqXH/Egdt3mvV4IirMY/ElRrv1x+56
- viyh/d7FEx9epQWv+r50h2K4Qrk6STwz/pkdxgJzV4ESdkfjIVDHjyPcbjVR3JzhcLQe/kGzn
- mKow3CfBG9b2+ol2Xo9abyqDWDWdwfIuIcUbhSaUFrH1TlLQEYazlnwaf5iFX2HQcv1Y1z97j
- SU8j4IIiELw56Sut1KUV3DSrd5ZQD5M6Q==
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
+It was found that unloading 'hid_hyperv' module results in a devres
+complaint:
 
---mv3uxb56tz6fok5b
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [REGRESSION] disabling and re-enabling magic sysrq fails after
- kernel 6.11
-MIME-Version: 1.0
+ ...
+ hv_vmbus: unregistering driver hid_hyperv
+ ------------[ cut here ]------------
+ WARNING: CPU: 2 PID: 3983 at drivers/base/devres.c:691 devres_release_group+0x1f2/0x2c0
+ ...
+ Call Trace:
+  <TASK>
+  ? devres_release_group+0x1f2/0x2c0
+  ? __warn+0xd1/0x1c0
+  ? devres_release_group+0x1f2/0x2c0
+  ? report_bug+0x32a/0x3c0
+  ? handle_bug+0x53/0xa0
+  ? exc_invalid_op+0x18/0x50
+  ? asm_exc_invalid_op+0x1a/0x20
+  ? devres_release_group+0x1f2/0x2c0
+  ? devres_release_group+0x90/0x2c0
+  ? rcu_is_watching+0x15/0xb0
+  ? __pfx_devres_release_group+0x10/0x10
+  hid_device_remove+0xf5/0x220
+  device_release_driver_internal+0x371/0x540
+  ? klist_put+0xf3/0x170
+  bus_remove_device+0x1f1/0x3f0
+  device_del+0x33f/0x8c0
+  ? __pfx_device_del+0x10/0x10
+  ? cleanup_srcu_struct+0x337/0x500
+  hid_destroy_device+0xc8/0x130
+  mousevsc_remove+0xd2/0x1d0 [hid_hyperv]
+  device_release_driver_internal+0x371/0x540
+  driver_detach+0xc5/0x180
+  bus_remove_driver+0x11e/0x2a0
+  ? __mutex_unlock_slowpath+0x160/0x5e0
+  vmbus_driver_unregister+0x62/0x2b0 [hv_vmbus]
+  ...
 
-On 24/10/27 10:30PM, Dmitry Torokhov wrote:
-> Hi everyone,
->=20
-> On Sun, Oct 27, 2024 at 10:02:24AM -0700, Ned T. Crigler wrote:
-> > Hi Peter, Christian,
-> >=20
-> > On Sun, Oct 27, 2024 at 04:37:44PM +0100, Peter Seiderer wrote:
-> > > Hello Ned, Christian, *,
-> > >=20
-> > > On Sun, 27 Oct 2024 15:06:09 +0100, Christian Heusel <christian@heuse=
-l.eu> wrote:
-> > >=20
-> > > > On 24/10/26 07:15PM, Ned T. Crigler wrote:
-> > > > > Hi,
-> > > >
-> > > > Hey Ned,
-> > > >
-> > > > > It looks like starting with kernel 6.11, disabling and re-enabling
-> > > > > magic
-> > > > > sysrq fails with these errors in dmesg:
-> > > > >
-> > > > > kernel: input: input_handler_check_methods: only one event proces=
-sing
-> > > > > method can be defined (sysrq)
-> > > > > kernel: sysrq: Failed to register input handler, error -22
-> > > > >
-> > > > > after doing:
-> > > > >
-> > > > > # echo 0 > /proc/sys/kernel/sysrq
-> > > > > # echo 438 > /proc/sys/kernel/sysrq
-> > > > > # echo 0 > /proc/sys/kernel/sysrq
-> > > > > # echo 438 > /proc/sys/kernel/sysrq
-> > > > > # echo 0 > /proc/sys/kernel/sysrq
-> > > > > # echo 438 > /proc/sys/kernel/sysrq
-> > > >
-> > > > I have found that this issue is also present in the latest mainline
-> > > > release and bisected it to the following commit:
-> > > >
-> > > >     d469647bafd9 ("Input: simplify event handling logic")
-> > > >
-> > >=20
->=20
-> Yes, I did not consider that we might want to re-register the same input
-> handler, thank you for alerting me about the regression.
->=20
-> > >=20
-> > >=20
-> > > A quick fix/hack for the sysrq case:
-> > >=20
-> > > --- a/drivers/tty/sysrq.c
-> > > +++ b/drivers/tty/sysrq.c
-> > > @@ -1045,7 +1045,7 @@ static inline void sysrq_register_handler(void)
-> > > <snip>
+And the issue seems to be that the corresponding devres group is not
+allocated. Normally, devres_open_group() is called from
+__hid_device_probe() but Hyper-V HID driver overrides 'hid_dev->driver'
+with 'mousevsc_hid_driver' stub and basically re-implements
+__hid_device_probe() by calling hid_parse() and hid_hw_start() but not
+devres_open_group(). hid_device_probe() does not call __hid_device_probe()
+for it. Later, when the driver is removed, hid_device_remove() calls
+devres_release_group() as it doesn't check whether hdev->driver was
+initially overridden or not.
 
-Thanks for the patch, are you looking to fix this in a more general way
-or do you plan on just sending in the above patch? (or did this already
-happen and I just missed it? :p)
+The issue seems to be related to the commit 62c68e7cee33 ("HID: ensure
+timely release of driver-allocated resources") but the commit itself seems
+to be correct.
 
-Cheers,
-Chris
+Fix the issue by dropping the 'hid_dev->driver' override and the
+now unneeded hid_parse()/hid_hw_start() calls. One notable difference of
+the change is hid_hw_start() is now called with HID_CONNECT_DEFAULT which
+implies HID_CONNECT_HIDRAW. This doesn't seem to cause any immediate issues
+but 'HID_CONNECT_HIDINPUT | HID_CONNECT_HIDDEV' combo was used in the
+driver for a long time and it is unclear whether hidraw was excluded on
+purpose or not.
 
---mv3uxb56tz6fok5b
-Content-Type: application/pgp-signature; name="signature.asc"
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+---
+ drivers/hid/hid-hyperv.c | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
+index f33485d83d24..1609a56ffa7c 100644
+--- a/drivers/hid/hid-hyperv.c
++++ b/drivers/hid/hid-hyperv.c
+@@ -431,8 +431,6 @@ static const struct hid_ll_driver mousevsc_ll_driver = {
+ 	.raw_request = mousevsc_hid_raw_request,
+ };
+ 
+-static struct hid_driver mousevsc_hid_driver;
+-
+ static int mousevsc_probe(struct hv_device *device,
+ 			const struct hv_vmbus_device_id *dev_id)
+ {
+@@ -473,7 +471,6 @@ static int mousevsc_probe(struct hv_device *device,
+ 	}
+ 
+ 	hid_dev->ll_driver = &mousevsc_ll_driver;
+-	hid_dev->driver = &mousevsc_hid_driver;
+ 	hid_dev->bus = BUS_VIRTUAL;
+ 	hid_dev->vendor = input_dev->hid_dev_info.vendor;
+ 	hid_dev->product = input_dev->hid_dev_info.product;
+@@ -488,20 +485,6 @@ static int mousevsc_probe(struct hv_device *device,
+ 	if (ret)
+ 		goto probe_err2;
+ 
+-
+-	ret = hid_parse(hid_dev);
+-	if (ret) {
+-		hid_err(hid_dev, "parse failed\n");
+-		goto probe_err2;
+-	}
+-
+-	ret = hid_hw_start(hid_dev, HID_CONNECT_HIDINPUT | HID_CONNECT_HIDDEV);
+-
+-	if (ret) {
+-		hid_err(hid_dev, "hw start failed\n");
+-		goto probe_err2;
+-	}
+-
+ 	device_init_wakeup(&device->device, true);
+ 
+ 	input_dev->connected = true;
+-- 
+2.47.0
 
-iQIzBAABCAAdFiEEb3ea3iR6a4oPcswTwEfU8yi1JYUFAmcouNAACgkQwEfU8yi1
-JYXw3RAAmi2HUOlFjtSr0cKl3FEeXlPXeSujon33yrWSAZpA2TzjzgdLhYjiTEDu
-xhCrH1nDtMMAn7YuByZivANN+OyliC1STUApCsNGx+JOmlD82pP6GGZGTKI/YBTC
-HjMfEmkq3P3h8po3xZ5CFLd+htb5k2Psso6v/uUxC1pr99byRTJpgOeqv1TTUdOA
-3ftkgCapY0i1a4WmHSErinrMPc+f6PX9o2rL0wPv/22oVK2TaCHE0whoZG1Q/aYk
-89rHHoq8BxpkgM7pD1qxExk3To5WVLh38wLfbkAvJP6UYZKaqOzyMITGN/C6pzye
-KEhB7+SD8ikqejHKY0vU6lzFbVdKe9v2/+60z+KhXXy5JJd5c/LkSmlP/fLhXzWc
-zqhm83V93XiSlO/pY5IyatQLeD15ICMdL/qS1TaAQsAMviMkM9aVccnshqEyEnIz
-aSI4VJdAA+iqqPNrWSkWyEF4TtJ5qXGthXvbzQfPc3eO2XlL7+Rr8RoI9j2ZySbU
-nCuHekNR4anE8f+RquYwmYinXtlICEl8HGf2kkqZKkGGaAQqrXQuAhgPS9n41VjD
-QTkLTeRGjQtxmcTo+wvP7pkmTF8QN2lfD+3JmDCZfa7NvN+6MBZr+kx+Yrs/GZlO
-QM+U0fRM04GGuoy15xCaR0gnTT9CMkAfj6v8+eEeRvkZZqf6FV4=
-=KUA8
------END PGP SIGNATURE-----
-
---mv3uxb56tz6fok5b--
 
