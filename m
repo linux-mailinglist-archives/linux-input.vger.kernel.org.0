@@ -1,189 +1,162 @@
-Return-Path: <linux-input+bounces-7857-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7858-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6208E9BBA8F
-	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2024 17:48:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5669BBE15
+	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2024 20:37:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 21F4E2823AD
-	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2024 16:48:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 33C441F22946
+	for <lists+linux-input@lfdr.de>; Mon,  4 Nov 2024 19:37:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0DA21C07FC;
-	Mon,  4 Nov 2024 16:48:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6642D1CB533;
+	Mon,  4 Nov 2024 19:37:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dIfuSDJi"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Aw/bn44b"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5DD1C07F1
-	for <linux-input@vger.kernel.org>; Mon,  4 Nov 2024 16:48:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751761C3054
+	for <linux-input@vger.kernel.org>; Mon,  4 Nov 2024 19:37:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730738917; cv=none; b=P2Wq5ullZpmnIAr2LYNA5cqo5S/vYhXt4gkJdq2zcEgn8Ra/L8UOtY5A7mpeGrIage6oMD+udwmSVNmkrMxOBHPAuQtlFXYksbbRzsPufGiYGPxgNyZW0RjwgyJ8c0VyzGNpHino/+yT6RT28fwxJjAz/FhmX/pmZIDwXg38Stc=
+	t=1730749031; cv=none; b=rHBzv4jrJA+p6IvR05SFgcvquEEDoPoOrf0TeAC0ANuAYwvfSACRVSzt67IHiW0vnaUGlkxsAXqHmJe/4tzHiCgP68GkH+ij+KS+1EB80DSCclywTGd5wL7rLmDkiCYGnas1IwPHyXrEedeVJZShf37+RaqN1j1JPqA4A6ZqDXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730738917; c=relaxed/simple;
-	bh=v/MMC+MY1D3NLxHPYWBM2LNjFHuJiv/ng/LeeeBXXxE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AqzsMrBlDhD7bQi3vHFntMEupPslWFiZmNfc/dPsLBGHysxLLxFYvl2hCD4dCu2w5Amp3+Yl33dYl/U+u8M0eV8EkjXVzKFXZ4AOYl+mYgt6kPklzFmhc06RceuPaQnC8DWCDmJ5p/ojgapNFSOH+VYxJO4FSttDJyRURnI5j9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dIfuSDJi; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730738914;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=8aOWHX2ysbhucnKVnxTSobNkijX6IXF2FpLitaEDSio=;
-	b=dIfuSDJiTf5OsbOEVdc37616IW7VCUrDN0EBWhqGQBdD/UVCxVbl4sBifb6GfiuKnfrItl
-	fbuf2lw5rf9Z3ArQxoy1Ial7pX0dtCYFdS4aMnPn5wQcZan84njcjv7deB9TrKFpFaXMq0
-	OppiUWekArN2Hj4uqO6boswXxgoiWF8=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-98-DZf_4-TGOEaMIodF39K5dw-1; Mon,
- 04 Nov 2024 11:48:30 -0500
-X-MC-Unique: DZf_4-TGOEaMIodF39K5dw-1
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 280D01955F40;
-	Mon,  4 Nov 2024 16:48:29 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.45.226.36])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 395AB19560A2;
-	Mon,  4 Nov 2024 16:48:26 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: linux-hyperv@vger.kernel.org,
-	linux-input@vger.kernel.org
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: [PATCH] HID: hyperv: streamline driver probe to avoid devres issues
-Date: Mon,  4 Nov 2024 17:48:24 +0100
-Message-ID: <20241104164824.1213529-1-vkuznets@redhat.com>
+	s=arc-20240116; t=1730749031; c=relaxed/simple;
+	bh=1lBbc+n+/nnQbLbO5BWXZXN0GtOR8CMewX+RwC3SYdM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NdQ7sGR6UTJyPonCm8OBvBG1RZ4bjPp++jkLnR182pmuJe9g8cHL/4wTciN7crmOWTfdlclsR29eyfofYKYzyBO6PZQBMDrqSZfSIbBsmPcWlWCq3Cl3prqnXD7dBQWZGRRpdl+iYzCeGLZfFL1PvSF1rp6XIHaIi4yzQsJNNro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Aw/bn44b; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-539f2b95775so5182030e87.1
+        for <linux-input@vger.kernel.org>; Mon, 04 Nov 2024 11:37:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1730749027; x=1731353827; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4H3MOSyfVCTn2aBJJHJZEtjM6no8KhD2xeVxlGCW/Rw=;
+        b=Aw/bn44bYAEjYfMPLiglM1ic+wx1xqahjF0aJzcdj299sa6jmq8sMFHwTlVvmxZ0OX
+         yYxapyjdARqe5TvIot2eAcEoi+W6a1Ta+EcF7y+MfQC+k4JNbRrusMkeAXITUlXXPUw5
+         /hM7nUJ0p5cQ3mv4eDkZZ7T5dHKOjqU9Gvgo4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730749027; x=1731353827;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4H3MOSyfVCTn2aBJJHJZEtjM6no8KhD2xeVxlGCW/Rw=;
+        b=KV7IYV7nBi0B5RZajP/D0eolaFH/p6+CecyRCjINyMnDiCCmwoHx10RSXuRydPeXy3
+         Ak3dVPKuEZv3N8+zOF4x/4/7Dfiydx/4R87ovDbaVx6yTuC9OD/TdTrRYjskB/9nJcHI
+         mlHobSpEQSrCaL9PdVkrDpvISsNFSCgI6Xp4fmdPT2GubPZuAFGRTols6LIx0BU3OuJV
+         KbhVb8fNaSNjKU7bJB1si4vx6pbsH1Og8tmvz8txJ3+f8Rq67xCnEHHebEiRU5FUd/pZ
+         7mN35W+atdzqf/Q4hVL9/Ox1K0XlupfyTAWf3LzD02ovg1bOtTyAxnrzPEWw83lHeafR
+         apRw==
+X-Forwarded-Encrypted: i=1; AJvYcCUqEbR1TfQnNZ0jbSKc9ibqb9gNAU8BW3uv64xgTozU1lc1Isa5aDN+Jrd6fLDGLJ0GUkuQxLMZuyomVg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwH5Dlqm6suCQQujMT03W3Syx8rp10gP5AP1m8yCYMax4yg52qm
+	9Zu0Jw/E6NjWDg0tOW9siSdJ6H5xoV+yG4gW0t2cWfAirYhOuIPqVpOtDmgrn6yNaUNecAGQ1F+
+	qSg==
+X-Google-Smtp-Source: AGHT+IFQwlsZSea3Dfv2XQeEMcFRc+uNfOzCrLY1VkMqdTCRUdYx4nSWZbRbvzbDtdhVeLYRlMRJXg==
+X-Received: by 2002:a05:6512:2382:b0:530:ab68:25c5 with SMTP id 2adb3069b0e04-53d65dca630mr9635234e87.2.1730749026955;
+        Mon, 04 Nov 2024 11:37:06 -0800 (PST)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bde09b8sm1822253e87.257.2024.11.04.11.37.05
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Nov 2024 11:37:05 -0800 (PST)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2fb4af0b6beso69676321fa.3
+        for <linux-input@vger.kernel.org>; Mon, 04 Nov 2024 11:37:05 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUJeTKViFMxFv/l/XS98qOifHIBo15PxvG5VXXjVPMXnftVh/Hd10y8kIuTw9EVdNaGWiCmPyJ3EQPXgA==@vger.kernel.org
+X-Received: by 2002:a05:651c:550:b0:2fb:3881:35d5 with SMTP id
+ 38308e7fff4ca-2fedb813966mr95709131fa.35.1730749025443; Mon, 04 Nov 2024
+ 11:37:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+References: <20241025114642.40793-2-charles.goodix@gmail.com>
+ <3ypn62dsgarvmxkmdglugcinxmvpmhdqub2zvkygaonn54odf6@amfgijfcd3l3>
+ <ZyLtYdwoJWx9FsdS@ux-UP-WHL01> <CAD=FV=UNKECLn=3VrjsJfA+HTNa9Gag1qw5jOcBvw7=ZtkZEnw@mail.gmail.com>
+ <ZyQvxKi8dYOv1AOg@ux-UP-WHL01>
+In-Reply-To: <ZyQvxKi8dYOv1AOg@ux-UP-WHL01>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 4 Nov 2024 11:36:50 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WD5=2SBLD2rDtXXt0dbn-KUvnE0kPsbnyEAkSA_4w-tA@mail.gmail.com>
+Message-ID: <CAD=FV=WD5=2SBLD2rDtXXt0dbn-KUvnE0kPsbnyEAkSA_4w-tA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: input: Goodix SPI HID Touchscreen
+To: Charles Wang <charles.goodix@gmail.com>
+Cc: dmitry.torokhov@gmail.com, hbarnor@chromium.org, jikos@kernel.org, 
+	bentiss@kernel.org, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, conor.dooley@microchip.com, 
+	Krzysztof Kozlowski <krzk@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It was found that unloading 'hid_hyperv' module results in a devres
-complaint:
+Charles,
 
- ...
- hv_vmbus: unregistering driver hid_hyperv
- ------------[ cut here ]------------
- WARNING: CPU: 2 PID: 3983 at drivers/base/devres.c:691 devres_release_group+0x1f2/0x2c0
- ...
- Call Trace:
-  <TASK>
-  ? devres_release_group+0x1f2/0x2c0
-  ? __warn+0xd1/0x1c0
-  ? devres_release_group+0x1f2/0x2c0
-  ? report_bug+0x32a/0x3c0
-  ? handle_bug+0x53/0xa0
-  ? exc_invalid_op+0x18/0x50
-  ? asm_exc_invalid_op+0x1a/0x20
-  ? devres_release_group+0x1f2/0x2c0
-  ? devres_release_group+0x90/0x2c0
-  ? rcu_is_watching+0x15/0xb0
-  ? __pfx_devres_release_group+0x10/0x10
-  hid_device_remove+0xf5/0x220
-  device_release_driver_internal+0x371/0x540
-  ? klist_put+0xf3/0x170
-  bus_remove_device+0x1f1/0x3f0
-  device_del+0x33f/0x8c0
-  ? __pfx_device_del+0x10/0x10
-  ? cleanup_srcu_struct+0x337/0x500
-  hid_destroy_device+0xc8/0x130
-  mousevsc_remove+0xd2/0x1d0 [hid_hyperv]
-  device_release_driver_internal+0x371/0x540
-  driver_detach+0xc5/0x180
-  bus_remove_driver+0x11e/0x2a0
-  ? __mutex_unlock_slowpath+0x160/0x5e0
-  vmbus_driver_unregister+0x62/0x2b0 [hv_vmbus]
-  ...
+On Thu, Oct 31, 2024 at 6:33=E2=80=AFPM Charles Wang <charles.goodix@gmail.=
+com> wrote:
+>
+> Hi Doug,
+>
+> On Thu, Oct 31, 2024 at 10:58:07AM -0700, Doug Anderson wrote:
+> > Hi,
+> >
+> > On Wed, Oct 30, 2024 at 7:37=E2=80=AFPM Charles Wang <charles.goodix@gm=
+ail.com> wrote:
+> > >
+> > > > > +  goodix,hid-report-addr:
+> > > >
+> > > > I do not see this patch addressing previous review. Sending somethi=
+ng
+> > > > like this as v1 after long discussions also does not help.
+> > > >
+> > > > No, you keep sending the same and the same, without improvements.
+> > > >
+> > >
+> > > I apologize for overlooking the discussions regarding this issue.
+> > >
+> > > I would like to clarify that while the current boards use the same ad=
+dress,
+> > > but newly designed boards in the future may require different address=
+es.
+> > >
+> > > Retaining this property would likely offer more flexibility.
+> >
+> > I don't feel very strongly about it, but maybe Krzysztof does?
+> > Possibly the path of least resistance would be:
+> >
+> > 1. You drop the property from the bindings.
+> >
+> > 2. You hardcode it in the driver to be the normal value.
+> >
+> > 3. If/when someone actually needs a different value then we can add it
+> > as an optional property in the bindings and fall back to the default
+> > value if the property isn't present.
+> >
+> > What do you think? If you feel strongly about keeping the
+> > "hid-report-addr" then you can certainly keep making your case.
+> > However, it's probably best to wait to get agreement from Krzysztof
+> > (or one of the other DT maintainers) before sending your next version
+> > unless you're going to take the "path of least resistance" that I talk
+> > about above.
+> >
+>
+> Agreed, let's wait and see the opinions of Krzysztof (or the other DT
+> maintainers).
 
-And the issue seems to be that the corresponding devres group is not
-allocated. Normally, devres_open_group() is called from
-__hid_device_probe() but Hyper-V HID driver overrides 'hid_dev->driver'
-with 'mousevsc_hid_driver' stub and basically re-implements
-__hid_device_probe() by calling hid_parse() and hid_hw_start() but not
-devres_open_group(). hid_device_probe() does not call __hid_device_probe()
-for it. Later, when the driver is removed, hid_device_remove() calls
-devres_release_group() as it doesn't check whether hdev->driver was
-initially overridden or not.
+As I went back and looked at this again, I'm curious: I don't know
+much about how your protocol works, but is there any reason why your
+driver can't figure out this "hid-report-addr" dynamically? Is there
+some reason you can't talk to the device and ask it what the
+"hid-report-addr" should be? From skimming through your driver there
+appear to already be a few hardcoded addresses. Can one of those
+provide you the info you need?
 
-The issue seems to be related to the commit 62c68e7cee33 ("HID: ensure
-timely release of driver-allocated resources") but the commit itself seems
-to be correct.
 
-Fix the issue by dropping the 'hid_dev->driver' override and the
-now unneeded hid_parse()/hid_hw_start() calls. One notable difference of
-the change is hid_hw_start() is now called with HID_CONNECT_DEFAULT which
-implies HID_CONNECT_HIDRAW. This doesn't seem to cause any immediate issues
-but 'HID_CONNECT_HIDINPUT | HID_CONNECT_HIDDEV' combo was used in the
-driver for a long time and it is unclear whether hidraw was excluded on
-purpose or not.
-
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- drivers/hid/hid-hyperv.c | 17 -----------------
- 1 file changed, 17 deletions(-)
-
-diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
-index f33485d83d24..1609a56ffa7c 100644
---- a/drivers/hid/hid-hyperv.c
-+++ b/drivers/hid/hid-hyperv.c
-@@ -431,8 +431,6 @@ static const struct hid_ll_driver mousevsc_ll_driver = {
- 	.raw_request = mousevsc_hid_raw_request,
- };
- 
--static struct hid_driver mousevsc_hid_driver;
--
- static int mousevsc_probe(struct hv_device *device,
- 			const struct hv_vmbus_device_id *dev_id)
- {
-@@ -473,7 +471,6 @@ static int mousevsc_probe(struct hv_device *device,
- 	}
- 
- 	hid_dev->ll_driver = &mousevsc_ll_driver;
--	hid_dev->driver = &mousevsc_hid_driver;
- 	hid_dev->bus = BUS_VIRTUAL;
- 	hid_dev->vendor = input_dev->hid_dev_info.vendor;
- 	hid_dev->product = input_dev->hid_dev_info.product;
-@@ -488,20 +485,6 @@ static int mousevsc_probe(struct hv_device *device,
- 	if (ret)
- 		goto probe_err2;
- 
--
--	ret = hid_parse(hid_dev);
--	if (ret) {
--		hid_err(hid_dev, "parse failed\n");
--		goto probe_err2;
--	}
--
--	ret = hid_hw_start(hid_dev, HID_CONNECT_HIDINPUT | HID_CONNECT_HIDDEV);
--
--	if (ret) {
--		hid_err(hid_dev, "hw start failed\n");
--		goto probe_err2;
--	}
--
- 	device_init_wakeup(&device->device, true);
- 
- 	input_dev->connected = true;
--- 
-2.47.0
-
+-Doug
 
