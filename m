@@ -1,97 +1,143 @@
-Return-Path: <linux-input+bounces-7865-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7866-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FE089BC4E8
-	for <lists+linux-input@lfdr.de>; Tue,  5 Nov 2024 06:49:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11FFE9BC727
+	for <lists+linux-input@lfdr.de>; Tue,  5 Nov 2024 08:40:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D11FC1C21406
-	for <lists+linux-input@lfdr.de>; Tue,  5 Nov 2024 05:49:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9787AB2190B
+	for <lists+linux-input@lfdr.de>; Tue,  5 Nov 2024 07:40:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E98C5185940;
-	Tue,  5 Nov 2024 05:49:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4008C1FDF99;
+	Tue,  5 Nov 2024 07:40:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kulZ+AKq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BtJsqwKu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8701C383;
-	Tue,  5 Nov 2024 05:49:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5221802AB;
+	Tue,  5 Nov 2024 07:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730785760; cv=none; b=dz1voiGXQ+7qO4nCKGdH8GvZGe0jT5KibJWqDMcitdv1rljcmXBi0T50g2Ywr3sV0JVG74xm3psAYCdu9WnnAJtAxlT+5DnnsapZiTKHIjVnieatFlRZcTimBvBtufMtHXL68hkxuU7V1XGRwAsOgFvEFRc3feC5gN+t5bernEE=
+	t=1730792448; cv=none; b=Spz3Qo4+5EtPM5iVVuqwG3tOAKB8xAIKJZH6Ud5SNgG0cN7obghqB4HEedwsvejwjZsP9R2h1b8iia8IPH5kYJw+tj/Guv9w8PX1ZcoYpo6efKuCIGulsewETqdQiv8IrQJRfBdP5bMFHDZyEB+rXoNajVAmVUXhYVAjQ/7yfhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730785760; c=relaxed/simple;
-	bh=QCc1CcWl8qzd8Oayz0qzgWnGz7p/UNSbTN3wZFKIjOk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z5uYJmE/Vqg8/Y4/SQcdeiUpaeAD+Rd3DDx4Tg+bxG24vhTy6fwKjsHX1CebMSQXh+bm9xX4SM4Zt8EigR9VX6n8ykBmxsAlXgxGA8kLAIeGrpZDKY7KrI/nG1bZ4HbtIWmMCQptOOW2WqPy27XJ53hc+ndrhDrLPfm5k9DsCYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kulZ+AKq; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7ee51d9ae30so2961498a12.1;
-        Mon, 04 Nov 2024 21:49:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730785758; x=1731390558; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BcELZ61LW1II9FFVnT5q9H6VhpRQxLxD7r/nck8P+Ds=;
-        b=kulZ+AKqS/l/iH/4nqPph122mv571eK+4txMbAqGWiF+EPakvMDvKG3M0TuqK/XKEe
-         6uFQY/I0Ekz6tBNbtp3pXJ3NpKBy9+YMdEkLdVCLmJopgIKdrXPdpNSh+t4FkvHMKBnd
-         v/HCUau/74B8PGsxw9nDsOa7sm1ng334mAX5m8HUii0uIh6ykkY/XO/kz92Xh3CnnFa5
-         h0DZbMw05bbh8GWTn4fOw9kUxJzrqNH9YccTTnRSoBzt97mvjMtQmkmlBFWFYMzovKdz
-         KPJYTZT3QioGaYh4NJJJGuPko3j8oC8q1VyrTeJooWbA0mP2A2TwEJengnCe1J1rt59K
-         ptlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730785758; x=1731390558;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BcELZ61LW1II9FFVnT5q9H6VhpRQxLxD7r/nck8P+Ds=;
-        b=IU7VlXLBS3uUlKWB/A5ccAdXkqauXxlQITF/8g4czurFKG2nobu7w1f1db1BmD7/ae
-         ALoPET6medZKVT7QF2UdhqVwguo5asjyEwxT+C9320dx9sYTW8MHke5f0ARqdlG7mUH0
-         jfBdoyCTWnkBfAz6fmG7LNbjAQGShAvSY6cK1qr6FX7wn/Kafe9Cn55Y1eeVs+A4Wffm
-         le4xHkW2yAgU98mdoUR6GSIiFXVu26Pkv0EryqavI54biTcEj6T2z5ZudUht6vICg+EC
-         BTQqICZN5kix5BSGHJZ68oWO0UuKFzUYcD4A0gt4oYp0LgOpPKPrNQLUMOj0yMIaFspg
-         e6Cw==
-X-Forwarded-Encrypted: i=1; AJvYcCUSPGkbNWpxK1YgCyncQJx6z/tnMxRw8thK+QTfZgpG7e+FTYS5jT1wAkZBAzzi579TIAAqvAvt3QO6AKJsfu4=@vger.kernel.org, AJvYcCXyaaS3qb8xNbUGYDDE8QI+t4ift3I0NBuCKfQxItrfnlzGovl8pUpxtsMdAPr0eYHgZ+crF4pHOHBgXj0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxE6CSd5sXEJd6rCL/yHkmZQoZoXPqsonsKNzrhm1/9nmZi/f+Z
-	ZDl+tC+GIx6aZ8H7QID1MET6DJ9m45wDHP2ZFTpfdJvNPX8UPTzvvOObgw==
-X-Google-Smtp-Source: AGHT+IH3Ib+k0PANQyehmWIaDu8nhrZF2Sv9GCJZqHN/w7XITkFwND2IBnCQ+adLtOMtFRs71seSRg==
-X-Received: by 2002:a05:6a20:918e:b0:1db:e90a:6b24 with SMTP id adf61e73a8af0-1dbe90a6b7cmr5618157637.25.1730785757688;
-        Mon, 04 Nov 2024 21:49:17 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:1bb4:1f23:1031:ac0e])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-720bc315ac5sm8497972b3a.200.2024.11.04.21.49.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 21:49:17 -0800 (PST)
-Date: Mon, 4 Nov 2024 21:49:15 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-	linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: synaptics - Fix a typo
-Message-ID: <Zymx27wcWCs7v7ui@google.com>
-References: <f3365eab359feb9adc6e2dedcffc976f3b272d8b.1730538673.git.christophe.jaillet@wanadoo.fr>
+	s=arc-20240116; t=1730792448; c=relaxed/simple;
+	bh=orMt8BrUs5tvnyalqV7y/B0xAQimTX2awSviF55r7+c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=a/jiU7eJTW1FsX1MpSXUqEzIqYl84ZuQRYKLaPC2+HejZ/LsOhyNV2P5BYKpQHHD3EsvzsKsy23pUh3qBWGUN+jto0z0iH7kZ5QlabtA5K11Fay03GKLapUp4QhJk0nHPJQ9eA1euA9eRrYfCjvus7EjBMsQ0AkrKzWWsU1YFz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BtJsqwKu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE8AEC4CECF;
+	Tue,  5 Nov 2024 07:40:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730792447;
+	bh=orMt8BrUs5tvnyalqV7y/B0xAQimTX2awSviF55r7+c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BtJsqwKu2odsEoKsGAMlS9x4TmnvFTUPGORphKmF9BePTDn2HsgzibDNdIW2zZEts
+	 UQGOq7gopvvobDVKV6Fq9sthHIjDl38L7Bx4PYxZYwOesXdM+2ep8XEjvGTV7gFTHc
+	 ePOcu7ClAmL71HthA2J/h3eW9U9vHQNuJIEZW8hKoB+0m+qoFiIRvw6V3TXzEIkOH4
+	 6SK3U/E4S5eA+n3BqjHNq/kG+g4MSl1EAVRYCMQT2Kf7bUUDlYWGh4bASQ4amdhoDv
+	 OFKSE6CcrB/1rmpz2J1gz5H1kt147QA1do7PJzPbYbv6/3QW+Lbpdqd3nLl+737NIo
+	 mceaWjgmsYYUg==
+Message-ID: <1b40561a-580d-406a-bb2c-1398dce7fb90@kernel.org>
+Date: Tue, 5 Nov 2024 08:40:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f3365eab359feb9adc6e2dedcffc976f3b272d8b.1730538673.git.christophe.jaillet@wanadoo.fr>
+User-Agent: Mozilla Thunderbird
+Subject: Re: hid-pidff.c: null-pointer deref if optional HID reports are not
+ present
+To: Nolan Nicholson <nolananicholson@gmail.com>, stable@vger.kernel.org
+Cc: jikos@kernel.org, bentiss@kernel.org, linux-usb@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ anssi.hannula@gmail.com
+References: <CAL-gK7f5=R0nrrQdPtaZZr1fd-cdAMbDMuZ_NLA8vM0SX+nGSw@mail.gmail.com>
+Content-Language: en-US
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <CAL-gK7f5=R0nrrQdPtaZZr1fd-cdAMbDMuZ_NLA8vM0SX+nGSw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Nov 02, 2024 at 10:11:24AM +0100, Christophe JAILLET wrote:
-> s/synatics/synaptics/
-> A 'p' is missing.
+Cc Anssi
+
+On 05. 11. 24, 1:30, Nolan Nicholson wrote:
+> Hello,
 > 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> (This is my first time reporting a Linux bug; please accept my apologies 
+> for any mistakes in the process.)
+> 
+> When initializing a HID PID device, hid-pidff.c checks for eight 
+> required HID reports and five optional reports. If the eight required 
+> reports are present, the hid_pidff_init() function then attempts to find 
+> the necessary fields in each required or optional report, using the 
+> pidff_find_fields() function. However, if any of the five optional 
+> reports is not present, pidff_find_fields() will trigger a null-pointer 
+> dereference.
+> 
+> I recently implemented the descriptors for a USB HID device with PID 
+> force-feedback capability. After implementing the required report 
+> descriptors but not the optional ones, I got an OOPS from the 
+> pidff_find_fields function. I saved the OOPS from my Ubuntu 
+> installation, and have attached it here. I later reproduced the issue on 
+> 6.11.6.
+> 
+> I was able to work around the issue by having my device present all of 
+> the optional report descriptors as well as all of the required ones.
 
-Applied, thank you.
+Indeed. The code checks the required ones in pidff_reports_ok(). But the 
+optional ones are not checked at all and are directly accessed in both 
+pidff_init_fields() and also likely pidff_find_special_fields().
 
+thanks,
 -- 
-Dmitry
+js
+suse labs
+
 
