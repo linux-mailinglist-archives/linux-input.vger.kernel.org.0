@@ -1,101 +1,171 @@
-Return-Path: <linux-input+bounces-7899-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7900-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF4C9BF33F
-	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2024 17:31:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E479BF3F4
+	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2024 18:07:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0ED66B223E3
-	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2024 16:31:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D11171C210C2
+	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2024 17:07:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0D5F190468;
-	Wed,  6 Nov 2024 16:30:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DAA0206513;
+	Wed,  6 Nov 2024 17:07:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hb0wtUme"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OXmQNybx"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B8F84039;
-	Wed,  6 Nov 2024 16:30:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474F72064ED;
+	Wed,  6 Nov 2024 17:07:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730910657; cv=none; b=rDbAhNu79HMI3QYwQDRXOH65ocW3j5GLiCNMcY1lwuLPr4hZOlyMASlWTeGTgVB+E1fLXIxbHsstfXVS0P4MlWxeyonmt8qmm1+3Jyxfgr8JbXe/QIZLmtTkKD889i1rT/y83ZBDSiH/rjSX5pYcOjfAsw5Vw3RCyZU8D2iw2Bc=
+	t=1730912860; cv=none; b=t3hUkyUZLiU9Ch5vA07Uad0esRube+p8gh08i4R++SzrPO8nsERTXYkYPmHhARKSulShyYm3xxG6LsxRtJHPRSAcc55e0gXS+ttp8Niu1jgzqETtQpJ/t7KImS5d4Q7MyKOCbFh+w9LeVlzz1Upl/qXjtGMovQVXGLiYCj87o5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730910657; c=relaxed/simple;
-	bh=aq6gzB/Q2PEai0bt8dfut3goVK3r/JhzH5oBN3o9Dfs=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=aJlkj9+PrjGGaZJg8uGThPECstnEpTHR7ocbfEwPmGa61QP1GZ8+nVj1JlN41ssdP6gNzMbydred0YXcS440XDbKWIEQLFx+LozDSl25OdJ9lD+ogcaLc5lGsDMZig/Tzjoc95PqgaLh0meaPooiNQ4bAdQ41FeSx3Spz3j77iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hb0wtUme; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C54DC4CEC6;
-	Wed,  6 Nov 2024 16:30:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730910657;
-	bh=aq6gzB/Q2PEai0bt8dfut3goVK3r/JhzH5oBN3o9Dfs=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=hb0wtUmeq2YMjK+oyyzy8prhM/yNV4VomwQDFJGxcvn2S5d6BfNYmd/7z3YBAJM9V
-	 nzSC2FQ+VQvCTh/Vo01KtkAnGy25ps6pdvUj81okRr3Q5ORlVCQLj6xuw7Kb1wvke/
-	 FnpHkY/uYBJKftzpEImKljmniB6tXPkti+2jXl80EeHwWR0Xycm5uTQu3vp8m+OaMa
-	 +vIS5QkA3jq9fOIng2oNr3mNuPesNzw2QAODCPGyhpZ9gcdf2X4Bw4i48H6P247LzZ
-	 z3hYHG6CU+dFRQlLk0QBuhxUJ1wszX5THkbtnQzBDyddjkMvRCwctLsOuQu8rJRrjS
-	 hq3FAajvk482A==
-Date: Wed, 6 Nov 2024 17:30:54 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Jiri Slaby <jirislaby@kernel.org>
-cc: Nolan Nicholson <nolananicholson@gmail.com>, stable@vger.kernel.org, 
-    bentiss@kernel.org, linux-usb@vger.kernel.org, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, anssi.hannula@gmail.com
-Subject: Re: hid-pidff.c: null-pointer deref if optional HID reports are not
- present
-In-Reply-To: <1b40561a-580d-406a-bb2c-1398dce7fb90@kernel.org>
-Message-ID: <nycvar.YFH.7.76.2411061730050.20286@cbobk.fhfr.pm>
-References: <CAL-gK7f5=R0nrrQdPtaZZr1fd-cdAMbDMuZ_NLA8vM0SX+nGSw@mail.gmail.com> <1b40561a-580d-406a-bb2c-1398dce7fb90@kernel.org>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	s=arc-20240116; t=1730912860; c=relaxed/simple;
+	bh=PWUwMXSmdhMVZG5CyYFOKLPQMIFbQ2XIOUmCa9ZyZfE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=UK5T6Z7nkyuRgcct3lM725cKfA4+ChQQZZnA5sCrXN9k9LLUIX0BUeT7dyU8ycruCDVxthZU1LSVDCgYIeWyro0WGHDEQhXltEMGcGOh3oCcBk7uMbITqmBnoUuf0990ZYpMRYfl96Jxr2IYdjhkEmYFlyUcBE5VCG6CMrnUrX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OXmQNybx; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730912859; x=1762448859;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=PWUwMXSmdhMVZG5CyYFOKLPQMIFbQ2XIOUmCa9ZyZfE=;
+  b=OXmQNybxi42DRPQHatch0wRwipQOeND+qqB1UVD8TOfvwlS0SWKliL4d
+   nCO1Rxs50lLCLifY5xR+lwSzSJmoxqQQDVzhoysgtZJAotvuRFThCHpSz
+   zgK0s+2hllTDfDg0jfk7x1TA0jCK6Y6FXjMMwM6AONh9OwIcewsuNCGC+
+   onoGt6Z4y6jl5vzr77YO6yeqqA51m+K+nPjugXTOCoEtGjHdrOJMNwhDB
+   LzB/fc0jC5tuk2RHTHh4wMIX2xHToBHPsS1YFV+2LTpA+u/8tikmyqSlW
+   dwAkUgGhePPZ+GUuqU2tWBjp0SJSUgn7qoTYHqjJAOH6NzDEVp5awM1nb
+   g==;
+X-CSE-ConnectionGUID: u5XFDFnHR/GUcLYel6yXPQ==
+X-CSE-MsgGUID: i+UWLIltTpSPXSa4YL4/ew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="42102114"
+X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
+   d="scan'208";a="42102114"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 09:07:35 -0800
+X-CSE-ConnectionGUID: XRiLSzzfTFuHNigc+/asqg==
+X-CSE-MsgGUID: AG8W6tFeQgWZJzxCV1ys8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
+   d="scan'208";a="85463822"
+Received: from spandruv-desk1.amr.corp.intel.com ([10.125.110.53])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 09:07:08 -0800
+Message-ID: <f7e474ae70e659a33174ff3571ee7d311e47c8d3.camel@linux.intel.com>
+Subject: Re: [PATCH v3 0/5] iio: hid-sensors-prox: Add support for more
+ channels
+From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To: Jonathan Cameron <jic23@kernel.org>, Ricardo Ribalda
+ <ribalda@chromium.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+  Lars-Peter Clausen <lars@metafoo.de>, Harvey Yang
+ <chenghaoyang@google.com>,  linux-input@vger.kernel.org,
+ linux-iio@vger.kernel.org,  linux-kernel@vger.kernel.org
+Date: Wed, 06 Nov 2024 09:07:07 -0800
+In-Reply-To: <20241101153255.4d835495@jic23-huawei>
+References: <20241101-hpd-v3-0-e9c80b7c7164@chromium.org>
+	 <20241101153255.4d835495@jic23-huawei>
+Autocrypt: addr=srinivas.pandruvada@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mQGNBGYHNAsBDAC7tv5u9cIsSDvdgBBEDG0/a/nTaC1GXOx5MFNEDL0LWia2p8Asl7igx
+ YrB68fyfPNLSIgtCmps0EbRUkPtoN5/HTbAEZeJUTL8Xdoe6sTywf8/6/DMheEUzprE4Qyjt0HheW
+ y1JGvdOA0f1lkxCnPXeiiDY4FUqQHr3U6X4FPqfrfGlrMmGvntpKzOTutlQl8eSAprtgZ+zm0Jiwq
+ NSiSBOt2SlbkGu9bBYx7mTsrGv+x7x4Ca6/BO9o5dIvwJOcfK/cXC/yxEkr1ajbIUYZFEzQyZQXrT
+ GUGn8j3/cXQgVvMYxrh3pGCq9Q0Q6PAwQYhm97ipXa86GcTpP5B2ip9xclPtDW99sihiL8euTWRfS
+ TUsEI+1YzCyz5DU32w3WiXr3ITicaMV090tMg9phIZsjfFbnR8hY03n0kRNWWFXi/ch2MsZCCqXIB
+ oY/SruNH9Y6mnFKW8HSH762C7On8GXBYJzH6giLGeSsbvis2ZmV/r+LmswwZ6ACcOKLlvvIukAEQE
+ AAbQ5U3Jpbml2YXMgUGFuZHJ1dmFkYSA8c3Jpbml2YXMucGFuZHJ1dmFkYUBsaW51eC5pbnRlbC5j
+ b20+iQHRBBMBCAA7FiEEdki2SeUi0wlk2xcjOqtdDMJyisMFAmYHNAsCGwMFCwkIBwICIgIGFQoJC
+ AsCBBYCAwECHgcCF4AACgkQOqtdDMJyisMobAv+LLYUSKNuWhRN3wS7WocRPCi3tWeBml+qivCwyv
+ oZbmE2LcxYFnkcj6YNoS4N1CHJCr7vwefWTzoKTTDYqz3Ma0D0SbR1p/dH0nDgN34y41HpIHf0tx0
+ UxGMgOWJAInq3A7/mNkoLQQ3D5siG39X3bh9Ecg0LhMpYwP/AYsd8X1ypCWgo8SE0J/6XX/HXop2a
+ ivimve15VklMhyuu2dNWDIyF2cWz6urHV4jmxT/wUGBdq5j87vrJhLXeosueRjGJb8/xzl34iYv08
+ wOB0fP+Ox5m0t9N5yZCbcaQug3hSlgp9hittYRgIK4GwZtNO11bOzeCEMk+xFYUoa5V8JWK9/vxrx
+ NZEn58vMJ/nxoJzkb++iV7KBtsqErbs5iDwFln/TRJAQDYrtHJKLLFB9BGUDuaBOmFummR70Rbo55
+ J9fvUHc2O70qteKOt5A0zv7G8uUdIaaUHrT+VOS7o+MrbPQcSk+bl81L2R7TfWViCmKQ60sD3M90Y
+ oOfCQxricddC
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
-On Tue, 5 Nov 2024, Jiri Slaby wrote:
+On Fri, 2024-11-01 at 15:32 +0000, Jonathan Cameron wrote:
+> On Fri, 01 Nov 2024 07:46:26 +0000
+> Ricardo Ribalda <ribalda@chromium.org> wrote:
+>=20
+> > EgisVision 620 provides two additional channels:
+> > - proximity
+> > - attention
+> >=20
+> > Add support for them.
+> >=20
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> Looks good to me. I'll queue it up, but Jiri / Srinivas if either of
+> you have time
+> to take a look as well that would be great of course.
+>=20
+Sorry for the delay. I was on vacation.
 
-> > (This is my first time reporting a Linux bug; please accept my apologies for
-> > any mistakes in the process.)
-> > 
-> > When initializing a HID PID device, hid-pidff.c checks for eight required
-> > HID reports and five optional reports. If the eight required reports are
-> > present, the hid_pidff_init() function then attempts to find the necessary
-> > fields in each required or optional report, using the pidff_find_fields()
-> > function. However, if any of the five optional reports is not present,
-> > pidff_find_fields() will trigger a null-pointer dereference.
-> > 
-> > I recently implemented the descriptors for a USB HID device with PID
-> > force-feedback capability. After implementing the required report
-> > descriptors but not the optional ones, I got an OOPS from the
-> > pidff_find_fields function. I saved the OOPS from my Ubuntu installation,
-> > and have attached it here. I later reproduced the issue on 6.11.6.
-> > 
-> > I was able to work around the issue by having my device present all of the
-> > optional report descriptors as well as all of the required ones.
-> 
-> Indeed. The code checks the required ones in pidff_reports_ok(). But the
-> optional ones are not checked at all and are directly accessed in both
-> pidff_init_fields() and also likely pidff_find_special_fields().
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-Thanks for the report.
-
-Nolan, will you be willing to create a patch implement a proper checking, 
-test it with your device that's triggering it, and submit it in order to 
-be applied?
-
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
+> I'll only push this out as testing for now to let 0-day take a look.
+>=20
+>=20
+> > ---
+> > Changes in v3:
+> > - Make attention CHAN_INFO_PROCESSED.
+> > - Fix comment style.
+> > - Multiply attention by 100 to make it a percentage.
+> > - Link to v2:
+> > https://lore.kernel.org/r/20241028-hpd-v2-0-18f6e79154d7@chromium.org
+> >=20
+> > Changes in v2 (Thanks Jonathan):
+> > - Create new attention channel type.
+> > - Improve documentation for HID usages.
+> > - Link to v1:
+> > https://lore.kernel.org/r/20241024-hpd-v1-0-2a125882f1f8@chromium.org
+> >=20
+> > ---
+> > Ricardo Ribalda (5):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: hid-sensors: Add proximity and atte=
+ntion IDs
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: hid-sensors-prox: Factor-in hid_sen=
+sor_push_data
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: Add channel type for attention
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: hid-sensors-prox: Make proximity ch=
+annel indexed
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: hid-sensor-prox: Add support for mo=
+re channels
+> >=20
+> > =C2=A0Documentation/ABI/testing/sysfs-bus-iio |=C2=A0=C2=A0 8 ++
+> > =C2=A0drivers/iio/industrialio-core.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > =C2=A0drivers/iio/light/hid-sensor-prox.c=C2=A0=C2=A0=C2=A0=C2=A0 | 195=
+ ++++++++++++++++++--
+> > ------------
+> > =C2=A0include/linux/hid-sensor-ids.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> > =C2=A0include/uapi/linux/iio/types.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > =C2=A0tools/iio/iio_event_monitor.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> > =C2=A06 files changed, 122 insertions(+), 87 deletions(-)
+> > ---
+> > base-commit: c2ee9f594da826bea183ed14f2cc029c719bf4da
+> > change-id: 20241023-hpd-edeb37f1ffc4
+> >=20
+> > Best regards,
+>=20
 
 
