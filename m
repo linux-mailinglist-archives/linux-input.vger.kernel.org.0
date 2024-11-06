@@ -1,55 +1,55 @@
-Return-Path: <linux-input+bounces-7906-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7929-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163419BF6B0
-	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2024 20:35:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 172369BF72D
+	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2024 20:41:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CEC56281AC8
-	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2024 19:35:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA5C1284483
+	for <lists+linux-input@lfdr.de>; Wed,  6 Nov 2024 19:41:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9334F20C023;
-	Wed,  6 Nov 2024 19:34:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB636213EC0;
+	Wed,  6 Nov 2024 19:34:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="OCsR175x"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UKMhTHaM"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB1220B1F1;
-	Wed,  6 Nov 2024 19:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B3E212178;
+	Wed,  6 Nov 2024 19:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730921688; cv=none; b=YVt1hoR/P6umA8V1l9D+Qt/gYqyVF9j5I/ozVQ6VM9Bo+XodXFEUVeb7IYxXOz3CCwE+TpB/JGoiXHK6hsqaStYtuqhNnW0EwnU/ma39tz0Nyv/Pvq+qFj83I88RYP80CYzVNnIAp2CDq3AUw0ZKKhRgfIjOAbCjlkRkrDw5VvM=
+	t=1730921699; cv=none; b=EvM9ohk6zmE0QmWXR7Ft5NUQ0r1ekJicoarXLAw5qooRGU4Eip7FY1YHqJ25S8YX9j1NCDZhInBwtEAGBGapF7pNRrll8IDISpmrhTLGtCdgQiTMbz0/UKXOeBpsS5ryKN7AAZ+BXiKlcYFo3lgWT1X+anmTLpAfdeAOf+H6nq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730921688; c=relaxed/simple;
-	bh=3aKgo1B1SjDxD8PPQOCXFwIWL2yks3KgGJZ11r+01yM=;
+	s=arc-20240116; t=1730921699; c=relaxed/simple;
+	bh=5KJ7+nlo+guZwES5cAPb8FiXJM3/tZyf/+ePj0k54QI=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=savabo/vNki8kNbCwi77NAoz3ndWslQwW33+W0q6BFhJ8znWBR/saP3wk5yIFkazVGcYH96aAuyNCubz+65rM/65SzT1qo/iZIlwyONyeu7ObaWDUuXuALNwiCx2dNnsH739b8v/noK64hLb6DTXJT6lywGoVlzDTqIP8v+XghA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=OCsR175x; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=jCL3/uK1qgG+MWUf6FwpQkcKt8OxC3n31wd0ei45qo8O9/RJd+CyZMh8NPnte0A2CBxf+Hgidw9JrCNo6XZfHuUO2vlbWiXN7y5DREXRGMECkqMdqTrtZJ/auhdqG+x0kwcv0bco/5xR+mHeEAz0RBSwtrVpo/4qHzGk4SZ6WPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UKMhTHaM; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A6ADNU9002680;
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A6G9Dmu028492;
 	Wed, 6 Nov 2024 19:34:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	S5Jw2gC1EQgPX91aR8AjH9HQJRC/Jt3vETf9MI+H438=; b=OCsR175xOQKrjKpU
-	ZNNwC3Cy22dq5MJdT0zr14LPrE90ri1q4+kD655F1NfengqXb2DmSRMoLTZtc9rK
-	ThxprDLq6x0TAwjX+r94xGQGAbIydVDyabeyXaaExKSKqpr0V5azVF0Q0Q803oXO
-	/FthQd1CRb+tZINffZ0+2RcII4x1mpK9xRqMJ9xRg8DlmCVYezawCdf2xdrG5p5E
-	SGxGdLjbsufz4oD9U9pujTjcB0teBRSIplBtw/gf+xqxWTYNYH/hxa9H/z/pWQIn
-	vDHadvSAJXoCzETPLZLx/xza91k3WIaQB4fa4cOHGjMdFj3O4Fk65MBq+/RCB9Yi
-	JoW6Jg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42qvhd2y8x-1
+	s1yCIbobXIwRRl19rlXryQgqvNgUhDI2Hp1deBw+rA8=; b=UKMhTHaMf13sBP20
+	rxVSwmixdgiGEON+pi7WlyWpf7B9xr2aZPCGdJA/+aU60yZ1eip4D7ywTReJXBcf
+	pjtv1MsxRn3h9Y4Ogui6st2nrC8iAlEfHskmd8VrKw1ONQ5Gd8STv8NisLTN/ko2
+	vo6yWV9cfEMfeX/y3mkW6oG6G+MXWXmcrzjN9oJ2faPfDaYCV7ASPPu3AwN8KBRQ
+	j0RUWfNl/WYiLv8QPnZAXxl1oK8wce+1Rwr128kezFvr5pnVWn67JxWlCsK+RWEL
+	UhMUM/ZUcZuYw5EC7W4rDzgnDM5Pr7kHcYW9BgE7xE6fUkM846LxViHHl2vYtE5D
+	W+ejog==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42r3c1a2f2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 06 Nov 2024 19:34:32 +0000 (GMT)
+	Wed, 06 Nov 2024 19:34:33 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A6JYWF9011967
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A6JYWCY008651
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Wed, 6 Nov 2024 19:34:32 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
@@ -67,9 +67,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <linux-doc@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v30 10/30] ALSA: usb-audio: Save UAC sample size information
-Date: Wed, 6 Nov 2024 11:33:53 -0800
-Message-ID: <20241106193413.1730413-11-quic_wcheng@quicinc.com>
+Subject: [PATCH v30 11/30] ALSA: usb-audio: Prevent starting of audio stream if in use
+Date: Wed, 6 Nov 2024 11:33:54 -0800
+Message-ID: <20241106193413.1730413-12-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
 References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
@@ -85,54 +85,111 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: qHhC0xB32AH0VAlXaMM1iMCxJlU9-X0n
-X-Proofpoint-GUID: qHhC0xB32AH0VAlXaMM1iMCxJlU9-X0n
+X-Proofpoint-GUID: hoIoU7E59B_GwymijPJyAwXT51mc3lBx
+X-Proofpoint-ORIG-GUID: hoIoU7E59B_GwymijPJyAwXT51mc3lBx
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- suspectscore=0 adultscore=0 clxscore=1015 mlxscore=0 spamscore=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 malwarescore=0
- impostorscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2411060149
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ lowpriorityscore=0 impostorscore=0 mlxlogscore=999 clxscore=1015
+ spamscore=0 phishscore=0 priorityscore=1501 adultscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411060149
 
-Within the UAC descriptor, there is information describing the size of a
-sample (bSubframeSize/bSubslotSize) and the number of relevant bits
-(bBitResolution).  Currently, fmt_bits carries only the bit resolution,
-however, some offloading entities may also require the overall size of the
-sample.  Save this information in a separate parameter, as depending on the
-UAC format type, the sample size can not easily be decoded from other
-existing parameters.
+With USB audio offloading, an audio session is started from the ASoC
+platform sound card and PCM devices.  Likewise, the USB SND path is still
+readily available for use, in case the non-offload path is desired.  In
+order to prevent the two entities from attempting to use the USB bus,
+introduce a flag that determines when either paths are in use.
+
+If a PCM device is already in use, the check will return an error to
+userspace notifying that the stream is currently busy.  This ensures that
+only one path is using the USB substream.
 
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/usb/card.h   | 1 +
- sound/usb/format.c | 1 +
- 2 files changed, 2 insertions(+)
+ sound/usb/card.h |  1 +
+ sound/usb/pcm.c  | 29 ++++++++++++++++++++++++++---
+ 2 files changed, 27 insertions(+), 3 deletions(-)
 
 diff --git a/sound/usb/card.h b/sound/usb/card.h
-index 4f4f3f39b7fa..b65163c60176 100644
+index b65163c60176..cdafc9e9cecd 100644
 --- a/sound/usb/card.h
 +++ b/sound/usb/card.h
-@@ -15,6 +15,7 @@ struct audioformat {
- 	unsigned int channels;		/* # channels */
- 	unsigned int fmt_type;		/* USB audio format type (1-3) */
- 	unsigned int fmt_bits;		/* number of significant bits */
-+	unsigned int fmt_sz;		/* overall audio sub frame/slot size */
- 	unsigned int frame_size;	/* samples per frame for non-audio */
- 	unsigned char iface;		/* interface number */
- 	unsigned char altsetting;	/* corresponding alternate setting */
-diff --git a/sound/usb/format.c b/sound/usb/format.c
-index 0cbf1d4fbe6e..f8a93065ad73 100644
---- a/sound/usb/format.c
-+++ b/sound/usb/format.c
-@@ -80,6 +80,7 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
- 	}
+@@ -165,6 +165,7 @@ struct snd_usb_substream {
+ 	unsigned int pkt_offset_adj;	/* Bytes to drop from beginning of packets (for non-compliant devices) */
+ 	unsigned int stream_offset_adj;	/* Bytes to drop from beginning of stream (for non-compliant devices) */
  
- 	fp->fmt_bits = sample_width;
-+	fp->fmt_sz = sample_bytes;
++	unsigned int opened:1;		/* pcm device opened */
+ 	unsigned int running: 1;	/* running status */
+ 	unsigned int period_elapsed_pending;	/* delay period handling */
  
- 	if ((pcm_formats == 0) &&
- 	    (format == 0 || format == BIT(UAC_FORMAT_TYPE_I_UNDEFINED))) {
+diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
+index 18467da6fd9e..b24ee38fad72 100644
+--- a/sound/usb/pcm.c
++++ b/sound/usb/pcm.c
+@@ -1241,8 +1241,17 @@ static int snd_usb_pcm_open(struct snd_pcm_substream *substream)
+ 	struct snd_usb_stream *as = snd_pcm_substream_chip(substream);
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	struct snd_usb_substream *subs = &as->substream[direction];
++	struct snd_usb_audio *chip = subs->stream->chip;
+ 	int ret;
+ 
++	mutex_lock(&chip->mutex);
++	if (subs->opened) {
++		mutex_unlock(&chip->mutex);
++		return -EBUSY;
++	}
++	subs->opened = 1;
++	mutex_unlock(&chip->mutex);
++
+ 	runtime->hw = snd_usb_hardware;
+ 	/* need an explicit sync to catch applptr update in low-latency mode */
+ 	if (direction == SNDRV_PCM_STREAM_PLAYBACK &&
+@@ -1259,13 +1268,23 @@ static int snd_usb_pcm_open(struct snd_pcm_substream *substream)
+ 
+ 	ret = setup_hw_info(runtime, subs);
+ 	if (ret < 0)
+-		return ret;
++		goto err_open;
+ 	ret = snd_usb_autoresume(subs->stream->chip);
+ 	if (ret < 0)
+-		return ret;
++		goto err_open;
+ 	ret = snd_media_stream_init(subs, as->pcm, direction);
+ 	if (ret < 0)
+-		snd_usb_autosuspend(subs->stream->chip);
++		goto err_resume;
++
++	return 0;
++
++err_resume:
++	snd_usb_autosuspend(subs->stream->chip);
++err_open:
++	mutex_lock(&chip->mutex);
++	subs->opened = 0;
++	mutex_unlock(&chip->mutex);
++
+ 	return ret;
+ }
+ 
+@@ -1274,6 +1293,7 @@ static int snd_usb_pcm_close(struct snd_pcm_substream *substream)
+ 	int direction = substream->stream;
+ 	struct snd_usb_stream *as = snd_pcm_substream_chip(substream);
+ 	struct snd_usb_substream *subs = &as->substream[direction];
++	struct snd_usb_audio *chip = subs->stream->chip;
+ 	int ret;
+ 
+ 	snd_media_stop_pipeline(subs);
+@@ -1287,6 +1307,9 @@ static int snd_usb_pcm_close(struct snd_pcm_substream *substream)
+ 
+ 	subs->pcm_substream = NULL;
+ 	snd_usb_autosuspend(subs->stream->chip);
++	mutex_lock(&chip->mutex);
++	subs->opened = 0;
++	mutex_unlock(&chip->mutex);
+ 
+ 	return 0;
+ }
 
