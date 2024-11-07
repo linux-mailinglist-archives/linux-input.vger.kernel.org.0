@@ -1,81 +1,81 @@
-Return-Path: <linux-input+bounces-7942-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7943-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3913D9BFEE1
-	for <lists+linux-input@lfdr.de>; Thu,  7 Nov 2024 08:16:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA0B9BFEE4
+	for <lists+linux-input@lfdr.de>; Thu,  7 Nov 2024 08:17:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6AB2C1C21143
-	for <lists+linux-input@lfdr.de>; Thu,  7 Nov 2024 07:16:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D99032832AF
+	for <lists+linux-input@lfdr.de>; Thu,  7 Nov 2024 07:17:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E81019ABD4;
-	Thu,  7 Nov 2024 07:15:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78E3B1D95B0;
+	Thu,  7 Nov 2024 07:15:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iebeOqrf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LN+euxAR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80D5192D68;
-	Thu,  7 Nov 2024 07:15:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA3A1D7985;
+	Thu,  7 Nov 2024 07:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730963755; cv=none; b=aGj8MxewzAxw9iZBv0soK4DDbt9st2B+04QfYvxdSYiIPy0Gk4tmQYJhuHzDGwMFDmjNoySthC9Xeus7+KMbNkcqsr0Z5fsbw6iPcDku5lrDWHnhYpwb9efZK2w9xRRvVH08busSs8vclARNWNvL+f6+kRBSTB9Ez0ZYJaI2YYg=
+	t=1730963756; cv=none; b=ern0RhietmcxTuhdpPOB7Q5GWQJ8ZQbl2ynCURaUJNtvCKqV4qTp25K/QqHlhncFzl6INbqtB84PRL8WRmq11zs0WnYsjSNzF4p0kjyir/HUJg9IYMMo4akmwedyG8yJ9c4Gpm52tIJqz8nLkTYkS4oN+jLOE5YP/HJDNU33fFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730963755; c=relaxed/simple;
-	bh=vSGsIgFj+ICDtshl03yiA9Ruvbo9ycry/VM6cjk7TxE=;
+	s=arc-20240116; t=1730963756; c=relaxed/simple;
+	bh=oo2cU78lvM/dSXVwa6N8vfF04jRbKQLqkGmyWl+lqnU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jiEoIr0REA79NcdOutVNvZlXMzRQYYXp8WpzZJ+rMVaS4w4v9Y0VIpLEftoKqzn1/lnmhglgPmdtSebfv/mthxoJjWKUW5cX6nBsBhOBS8y2yIyeHAhr+K7DB0Xleih7/OBhYDW6knyiB6K/MkJQ/6ytfbu9dkA1VnQuJ/NYu60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iebeOqrf; arc=none smtp.client-ip=209.85.214.182
+	 MIME-Version; b=P7sEEYwSN/hneLvIHdwcrMRxeMzF5D/Mps0cA4qzCX0z51XB1eOnzpa+Yy/N9/yDd/8mQAKPPbskWVbs6IRgdEt4+BSsstgIhaiF0PGjAkYo+ViVqnYqPK7g1EsWprlyrIz9E2Bba3ZnNYfK6FzKiD3KKzRFkdYVvPWCsA7d7MM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LN+euxAR; arc=none smtp.client-ip=209.85.215.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2114214c63eso5154905ad.3;
-        Wed, 06 Nov 2024 23:15:53 -0800 (PST)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-7f3f1849849so512015a12.1;
+        Wed, 06 Nov 2024 23:15:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730963753; x=1731568553; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1730963754; x=1731568554; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PnC/CEEyFrp0NngtmFGLRHAHLJYkgnLyAsiePHD2C78=;
-        b=iebeOqrfTv81bseUxdawihwHv4eufkASKkJte1TANaC897yED0NTpLRTD5TulGTYoP
-         SOosn0FPkrZYm85fuHHxKd/qOVpEB5V7GQbUqRsruOxrtSq9q5KHmQvXqEZJOLxcAewi
-         +vj90I9NWSkXAdQS8nGMiTeTvWV7iAQwJ/UwOw9rNLq/vdHgbj6PjRPQ1vBXWI8+zbF2
-         K3X8eVT5kRl9Y3IhHPoh7vOmakTOb0pephGRhg6t1GZ53xcvvHy2sGKY0ZEm6HR11KER
-         bl7DNdqwzo2Zus/xL9FLN1rMd6/dAgWQqalszeypvH7ScZEj4YCHmhZCmKsV5HkTodg3
-         3qwg==
+        bh=F7OUSy9uYp7qD1AAKZu58DukLp8nWw6fpBK5gLOx6XI=;
+        b=LN+euxARFqPGehDvwsVmh9vj6yogz4LojC3jadSYmDZhO258HGO3fAPc+FDmNbFmjM
+         cnyjEBxJgtwUpJEUIo8DiHjcD+UnInwzOEKBxU9+56rBa77k/AnWq6Xgw7elv1Pqe7az
+         aHawAhLEkGVCL9yrkRtdTY539ubSsYmU6izEBMzUdXux5MPbxZw+M/XOfiWNQxDudm3O
+         WRFLumw4npNOCCawSKWaXTLxwwwfmrPUUME9DHSDPWAKeJ3jWoX1C34FGeaO6BeJaNb+
+         qDy3oUw6Cd2rrq2kNFjveDDBHIZ5O9F85eGltKqYBDoTE2xQ70fSpo7RQLucRDpunWL9
+         LnbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730963753; x=1731568553;
+        d=1e100.net; s=20230601; t=1730963754; x=1731568554;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PnC/CEEyFrp0NngtmFGLRHAHLJYkgnLyAsiePHD2C78=;
-        b=uWmkapV63YNuPqOq6EpFiNZ96vDp9FJt8yva6PYZV4ZawT3g+zGgYD/TTUbXY0yNNl
-         5uI+JFv+LKbnKz40SS0kB/Mmd7TcxnSBpJmEUKjnxz9bWnPmL1DZwIHhRTmDhIzibu64
-         OnZhfmdMNvioEQT34+9QpjVMElQGIMUaqe84bnlmzyoVvpybUYzkMmQdj85/uUWSd0Y1
-         YQ5DT30L23dUD4TdNBvpfmN83b9OFRNswh02qxS2ulActj3H44wK4f9BM/fseoOhgxg6
-         ev82ixgams3a4TJE6TUdd80+Ms+JBjq8Haly+tHAroT6+UpD/+S+Ldx4hlt+9vihtHT0
-         coGA==
-X-Forwarded-Encrypted: i=1; AJvYcCVUoTsvqyGqOLvYT75a+fgGn+t6dw9OFWzpeMzgZXkULIZUi1aXZxZrw8Q0GIeDpMFpcjxCtm13IUmJFGc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8+qLWrTT6rZdjac6IgQICpkfSYoR6Rvxj3gjPs5CR78vSpHbK
-	5dgjG+xDOmHh6iJOK4oI4+h/Q5jwAUorpI9PWyimxWn4OxDnYDDe
-X-Google-Smtp-Source: AGHT+IEhFeUz4ZF4MaeF36cLnGA7X9ZBT+QQ7fuQ5jsEZtThVOWKYSnBqfhMYr5D9o7wROxUQUQTcw==
-X-Received: by 2002:a17:903:40c9:b0:20c:c694:f6c6 with SMTP id d9443c01a7336-210c6c52417mr563066245ad.49.1730963753191;
-        Wed, 06 Nov 2024 23:15:53 -0800 (PST)
+        bh=F7OUSy9uYp7qD1AAKZu58DukLp8nWw6fpBK5gLOx6XI=;
+        b=rmi/84SGhyHg/y3gW64wMFRqI/oZ+XhkEDOizCkeZvuW6cOe2OlUI1aahKeiTVDB3C
+         CT6RDSuaPdBFC92AC/7Bh9Ef6RfP8K6mer37w0a419yQIVKFYTiA/HC1spSHl3EykL6R
+         LxOb0IZsb73IF3jns/Kkh+1t4T1nnozZcWv88ug2shFpGQTRqu8w+R5zVxQ/vt4L4Uh3
+         L6nRC8KXTztlG7fOzmOOC2tA3yodXtDATvNgV+ioenrgB2LQ0mk6oBesWTooPE0nt4GA
+         45UN8EJymRzIJv4f4dnBKUO8lUsWt234lvvF6OMfOWj9GiVk8Y5AHXKDN+ADAAnQUHOR
+         gVdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVrEllwMrxTBKeqm3vasMkCN5NzR84QeAsXqZaSIc9VSCDd4l79HszsIoMyGIe3OhAfhAmd3Xpz8SC8zPE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVZ37TVM7uWwv8HdJJV2BzQUn06+SMKxb7IR4MYBa4cTx1j1C0
+	mJJtZLTXBy0dJz1FbOO3a7V8m1vWgYYWHS/sQC9LKhP0SBf1bx9I
+X-Google-Smtp-Source: AGHT+IHyLhW2rIJPbcTIf9ImWTwUM6iq5Za9KbxHUOUrPqjpxRvFE8xWd3W+IQfvCyIVpy5YuzG9jQ==
+X-Received: by 2002:a05:6a21:6d85:b0:1d9:fbc:457c with SMTP id adf61e73a8af0-1dc17b2a8cdmr229791637.36.1730963754241;
+        Wed, 06 Nov 2024 23:15:54 -0800 (PST)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:e838:5f55:2b1d:de33])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e58399sm5703905ad.196.2024.11.06.23.15.52
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e58399sm5703905ad.196.2024.11.06.23.15.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 23:15:52 -0800 (PST)
+        Wed, 06 Nov 2024 23:15:53 -0800 (PST)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>,
 	Hans de Goede <hdegoede@redhat.com>
 Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/8] Input: mt - convert locking to guard notation
-Date: Wed,  6 Nov 2024 23:15:32 -0800
-Message-ID: <20241107071538.195340-6-dmitry.torokhov@gmail.com>
+Subject: [PATCH 6/8] Input: mt - make use of __free() cleanup facility
+Date: Wed,  6 Nov 2024 23:15:33 -0800
+Message-ID: <20241107071538.195340-7-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.47.0.277.g8800431eea-goog
 In-Reply-To: <20241107071538.195340-1-dmitry.torokhov@gmail.com>
 References: <20241107071538.195340-1-dmitry.torokhov@gmail.com>
@@ -87,47 +87,71 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use guard() notation instead of explicitly acquiring and releasing
-spinlocks to simplify the code and ensure that all locks are released.
+Annotate allocated memory with __free(kfree) to simplify the code and
+make sure memory is released appropriately.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/input-mt.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ drivers/input/input-mt.c | 23 ++++++++++-------------
+ 1 file changed, 10 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/input/input-mt.c b/drivers/input/input-mt.c
-index 6b04a674f832..45e41fc9059c 100644
+index 45e41fc9059c..337006dd9dcf 100644
 --- a/drivers/input/input-mt.c
 +++ b/drivers/input/input-mt.c
-@@ -285,14 +285,10 @@ void input_mt_drop_unused(struct input_dev *dev)
- 	struct input_mt *mt = dev->mt;
- 
- 	if (mt) {
--		unsigned long flags;
+@@ -39,20 +39,20 @@ static void copy_abs(struct input_dev *dev, unsigned int dst, unsigned int src)
+ int input_mt_init_slots(struct input_dev *dev, unsigned int num_slots,
+ 			unsigned int flags)
+ {
+-	struct input_mt *mt = dev->mt;
+-	int i;
 -
--		spin_lock_irqsave(&dev->event_lock, flags);
-+		guard(spinlock_irqsave)(&dev->event_lock);
+ 	if (!num_slots)
+ 		return 0;
+-	if (mt)
+-		return mt->num_slots != num_slots ? -EINVAL : 0;
++
++	if (dev->mt)
++		return dev->mt->num_slots != num_slots ? -EINVAL : 0;
++
+ 	/* Arbitrary limit for avoiding too large memory allocation. */
+ 	if (num_slots > 1024)
+ 		return -EINVAL;
  
- 		__input_mt_drop_unused(dev, mt);
- 		mt->frame++;
--
--		spin_unlock_irqrestore(&dev->event_lock, flags);
+-	mt = kzalloc(struct_size(mt, slots, num_slots), GFP_KERNEL);
++	struct input_mt *mt __free(kfree) =
++			kzalloc(struct_size(mt, slots, num_slots), GFP_KERNEL);
+ 	if (!mt)
+-		goto err_mem;
++		return -ENOMEM;
+ 
+ 	mt->num_slots = num_slots;
+ 	mt->flags = flags;
+@@ -86,21 +86,18 @@ int input_mt_init_slots(struct input_dev *dev, unsigned int num_slots,
+ 		unsigned int n2 = num_slots * num_slots;
+ 		mt->red = kcalloc(n2, sizeof(*mt->red), GFP_KERNEL);
+ 		if (!mt->red)
+-			goto err_mem;
++			return -ENOMEM;
  	}
+ 
+ 	/* Mark slots as 'inactive' */
+-	for (i = 0; i < num_slots; i++)
++	for (unsigned int i = 0; i < num_slots; i++)
+ 		input_mt_set_value(&mt->slots[i], ABS_MT_TRACKING_ID, -1);
+ 
+ 	/* Mark slots as 'unused' */
+ 	mt->frame = 1;
+ 
+-	dev->mt = mt;
++	dev->mt = no_free_ptr(mt);
+ 	return 0;
+-err_mem:
+-	kfree(mt);
+-	return -ENOMEM;
  }
- EXPORT_SYMBOL(input_mt_drop_unused);
-@@ -339,11 +335,8 @@ void input_mt_sync_frame(struct input_dev *dev)
- 		return;
+ EXPORT_SYMBOL(input_mt_init_slots);
  
- 	if (mt->flags & INPUT_MT_DROP_UNUSED) {
--		unsigned long flags;
--
--		spin_lock_irqsave(&dev->event_lock, flags);
-+		guard(spinlock_irqsave)(&dev->event_lock);
- 		__input_mt_drop_unused(dev, mt);
--		spin_unlock_irqrestore(&dev->event_lock, flags);
- 	}
- 
- 	if ((mt->flags & INPUT_MT_POINTER) && !(mt->flags & INPUT_MT_SEMI_MT))
 -- 
 2.47.0.277.g8800431eea-goog
 
