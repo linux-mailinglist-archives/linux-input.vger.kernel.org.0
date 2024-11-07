@@ -1,114 +1,148 @@
-Return-Path: <linux-input+bounces-7961-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7962-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F2CD9C0D3C
-	for <lists+linux-input@lfdr.de>; Thu,  7 Nov 2024 18:49:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 623D49C0E2E
+	for <lists+linux-input@lfdr.de>; Thu,  7 Nov 2024 19:59:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1CA11F23745
-	for <lists+linux-input@lfdr.de>; Thu,  7 Nov 2024 17:49:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 22565284AE1
+	for <lists+linux-input@lfdr.de>; Thu,  7 Nov 2024 18:59:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19D6E212D27;
-	Thu,  7 Nov 2024 17:49:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77D6521733C;
+	Thu,  7 Nov 2024 18:59:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JRkQD1+I"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q+ux3hif"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A671A20FA85;
-	Thu,  7 Nov 2024 17:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4A4215033;
+	Thu,  7 Nov 2024 18:59:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731001771; cv=none; b=LcKXvDKTQfKHDuELTOY5spxlvLoH/N+4kXq+gjG1a1Gvn16oidGt50RXf4viX4ohbNO//z6W9JuuDd0IgQka6EhhCNoqDc6NWPb8/Q4DgNl083WTfWN7UYN8Zc3KKz3f8MyEYicukJVZWkzHzpENvIBsdCrnROyIbqNaMI02/+0=
+	t=1731005990; cv=none; b=KPelgTyUFQ24r0dY4v3KDRpNd30+j1CMaCtvJL6ORas1ezzRGqDaOdYgFK7FZJUS+A5Jq/Ml3xGccRqRqzDXWv0ZtQekrFQQLefghqcqIQ7HumGWzH7zxPfXJadCHD1w1GZVTbXjQWoGC2DLi4MO+tWEb+qFC4xZQvF3v0wP6Pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731001771; c=relaxed/simple;
-	bh=4DZ5xKw23AQ6kbrTK566vI1gGLr1jbCnO8DhHoxzp3c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NoCORnB8KYR/cw8OnQ335E4ZhnrqMc1UpRJvovVwwTe3w3nhrGXY4z0l5I1D2LHqcd4HDuVeimckzb07Mv5tZ2ST15jw2tK43FoJ/qvJ4qQMAtrKXhSmvFbR3mbFV2d8pvrEKrLjxJg6dtz4rVBs0Zg2GpgjpYlzf/CQSNVyLeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JRkQD1+I; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2e2ad9825a7so978586a91.0;
-        Thu, 07 Nov 2024 09:49:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731001769; x=1731606569; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aVI86jqEfUt+yFFgC92llBdhDY30vnX1kQd0B0RuKPc=;
-        b=JRkQD1+IOnPjfT9SZjfswLwMzxsALMdhkPzu5xBwG/2nxF9rDeW9ccQdpNIy8rMgqZ
-         4BupNjzlMs5BS3MLg593oiW9SkXhKgWahU/QZUO2tUnNl0Ie4uFaS+M0A9XaY4zRDjjQ
-         6U2i+UDan0Nvy81+jaN9lHgGLj1hrGMCqbuxHYMa6oyp7FO4neuu+zM2spfUOeKFvAak
-         Qio3vJtGn7UjpjCr1ckDXLDnensQTc5plPAPzjRmqEMVxkWKLg/tMPI0f3amq+1ZkLbg
-         TK3ZEUlHgXQGhBBvkV+3T1pOs+mefUAJkruHHdEXm7OfAVgsUi29vCBgXwYollv8Tbhz
-         pM8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731001769; x=1731606569;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aVI86jqEfUt+yFFgC92llBdhDY30vnX1kQd0B0RuKPc=;
-        b=pq5WP63rFLOfHZHvQ4FNWrjGoJH+tvuDuC/Tut6tHe7+DK3j0eC08BmBDsEbrkBygY
-         6mHTMXR+gcKcHFvG4JlMBQLlYTICanSjOSF09enQB/BMOdXFuLsoZbvQVF4Pj3B3zRjt
-         RoInKmo7N8Au0OwNrE2f5xbWoiYkZ9SzTNS0LWXOTKcnz4UBgGzQxQFoGkBwSIuposrt
-         g+5jgQtX2nRhXZfzGd19iisUXFOiuCfVpNi4Xg/xeRmqZ2gAaCH/jJut35sFdcPiA46W
-         e+a1invs2bTa07QXwdzrVZsz/Spl/lNWLBMicaEkmthQpBq+BAIazJmGw27N+xzIdbxc
-         BFbA==
-X-Forwarded-Encrypted: i=1; AJvYcCXViBJEM9eVDG/9cbeu9rgbCJw/KKGS/MeZRHfD4YlcHNlwZrc5X45brvEsGh/QdBh/pB3NZDlY6neGPwg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/5FOM2yk6L9nUeBswSKsPxsd7jgKMiztU3xb8UJsCvuGSPE77
-	rs6MOjAwRzBchV9wsSveLoe41GbqHpQigFXULn/CS/bBbskef/ra
-X-Google-Smtp-Source: AGHT+IGcRCtRas5EcAr8ajxJ9kVA9bOAHo/JUcbQ6cRLvtY5OanfDqBYQIvX8RQli34weAgZ6q0Zow==
-X-Received: by 2002:a17:90b:3844:b0:2cc:ef14:89e3 with SMTP id 98e67ed59e1d1-2e9b171f673mr37448a91.15.1731001768917;
-        Thu, 07 Nov 2024 09:49:28 -0800 (PST)
-Received: from Kuchus.. ([27.7.141.222])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e9a5fd1534sm1741391a91.42.2024.11.07.09.49.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2024 09:49:28 -0800 (PST)
-From: Shivam Chaudhary <cvam0000@gmail.com>
-To: dmitry.torokhov@gmail.com,
-	wse@tuxedocomputers.com,
-	tiwai@suse.de,
-	hdegoede@redhat.com,
-	eshimanovich@chromium.org,
-	szfabian@bluemarch.art,
-	tjakobi@math.uni-bielefeld.de
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shivam Chaudhary <cvam0000@gmail.com>
-Subject: [PATCH] Input: i8042: Fix typo dublicate to duplicate
-Date: Thu,  7 Nov 2024 23:19:18 +0530
-Message-Id: <20241107174918.78335-1-cvam0000@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1731005990; c=relaxed/simple;
+	bh=xEyQQ2L1KlNWDa9ssSbmTpB3kGYcExSn4bX8Ux0wkd8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=km95SWrWSQ7QZJnapGf+1qlEgyOVFQOclMo0SURy185pDIGTW4CezN1AnZb69yxlpC+BRyTOglYaiviyWsZYd68hvK9MwLbE+/kSyJzd07JTBQ2evGoEzzfpX/auoKBKZhPxxvtqhCBpvTBc3u9vUzUeFHBNtxhupyulyO73BfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q+ux3hif; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66343C4CECC;
+	Thu,  7 Nov 2024 18:59:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731005989;
+	bh=xEyQQ2L1KlNWDa9ssSbmTpB3kGYcExSn4bX8Ux0wkd8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Q+ux3hifDj+FETz3M04QWAV0Xj5qiKpHxjIkTMxkTRG3zcXG2/yEPPOktwLSwyjOH
+	 +TPTZpQpusCFNwX1Y3jjVFo0IZJeTfWjkhA8Y6XaTparA9bryJkuX9tmNlTV7ZIiXB
+	 hJHQxyEfRfb47GdPV+fhY2BOqcfY0aJcLm8wqAUUj49Q+DM4JXeT3252rCRmEYX20Y
+	 VoVCsFP9rgIT1AfqYA5cXC6X35KRTtAuNw4grda9wsSnzrCTlPhSnY21E9zbycKpxi
+	 f49nCJhUkvthn2MagGVRVDvPNcEsbN29NK1tqiO+BrmIhypXXQy00UKbkhkIXZSM9x
+	 1J9KGYA+W7QFw==
+Date: Thu, 7 Nov 2024 18:59:41 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Ricardo Ribalda <ribalda@chromium.org>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>, Lars-Peter Clausen
+ <lars@metafoo.de>, Harvey Yang <chenghaoyang@google.com>,
+ linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] iio: hid-sensors-prox: Add support for more
+ channels
+Message-ID: <20241107185941.629e3330@jic23-huawei>
+In-Reply-To: <f7e474ae70e659a33174ff3571ee7d311e47c8d3.camel@linux.intel.com>
+References: <20241101-hpd-v3-0-e9c80b7c7164@chromium.org>
+	<20241101153255.4d835495@jic23-huawei>
+	<f7e474ae70e659a33174ff3571ee7d311e47c8d3.camel@linux.intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Fix typo in i8042-acpipnpio.h dublicate -> duplicate.
+On Wed, 06 Nov 2024 09:07:07 -0800
+srinivas pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
 
-Signed-off-by: Shivam Chaudhary <cvam0000@gmail.com>
----
- drivers/input/serio/i8042-acpipnpio.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Fri, 2024-11-01 at 15:32 +0000, Jonathan Cameron wrote:
+> > On Fri, 01 Nov 2024 07:46:26 +0000
+> > Ricardo Ribalda <ribalda@chromium.org> wrote:
+> >  =20
+> > > EgisVision 620 provides two additional channels:
+> > > - proximity
+> > > - attention
+> > >=20
+> > > Add support for them.
+> > >=20
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org> =20
+> > Looks good to me. I'll queue it up, but Jiri / Srinivas if either of
+> > you have time
+> > to take a look as well that would be great of course.
+> >  =20
+> Sorry for the delay. I was on vacation.
+>=20
+> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+No problem. It ended up behind a merge commit that I don't really want
+to redo, but there is a link to this thread for the extra tags.
 
-diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-index 34d1f07ea4c3..127cfdc8668a 100644
---- a/drivers/input/serio/i8042-acpipnpio.h
-+++ b/drivers/input/serio/i8042-acpipnpio.h
-@@ -90,7 +90,7 @@ static inline void i8042_write_command(int val)
-  * ORDERING IS IMPORTANT! The first match will be apllied and the rest ignored.
-  * This allows entries to overwrite vendor wide quirks on a per device basis.
-  * Where this is irrelevant, entries are sorted case sensitive by DMI_SYS_VENDOR
-- * and/or DMI_BOARD_VENDOR to make it easier to avoid dublicate entries.
-+ * and/or DMI_BOARD_VENDOR to make it easier to avoid duplicate entries.
-  */
- static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 	{
--- 
-2.34.1
+Thanks,
+
+Jonathan
+
+>=20
+> > I'll only push this out as testing for now to let 0-day take a look.
+> >=20
+> >  =20
+> > > ---
+> > > Changes in v3:
+> > > - Make attention CHAN_INFO_PROCESSED.
+> > > - Fix comment style.
+> > > - Multiply attention by 100 to make it a percentage.
+> > > - Link to v2:
+> > > https://lore.kernel.org/r/20241028-hpd-v2-0-18f6e79154d7@chromium.org
+> > >=20
+> > > Changes in v2 (Thanks Jonathan):
+> > > - Create new attention channel type.
+> > > - Improve documentation for HID usages.
+> > > - Link to v1:
+> > > https://lore.kernel.org/r/20241024-hpd-v1-0-2a125882f1f8@chromium.org
+> > >=20
+> > > ---
+> > > Ricardo Ribalda (5):
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: hid-sensors: Add proximity and at=
+tention IDs
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: hid-sensors-prox: Factor-in hid_s=
+ensor_push_data
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: Add channel type for attention
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: hid-sensors-prox: Make proximity =
+channel indexed
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: hid-sensor-prox: Add support for =
+more channels
+> > >=20
+> > > =C2=A0Documentation/ABI/testing/sysfs-bus-iio |=C2=A0=C2=A0 8 ++
+> > > =C2=A0drivers/iio/industrialio-core.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > > =C2=A0drivers/iio/light/hid-sensor-prox.c=C2=A0=C2=A0=C2=A0=C2=A0 | 1=
+95 ++++++++++++++++++--
+> > > ------------
+> > > =C2=A0include/linux/hid-sensor-ids.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> > > =C2=A0include/uapi/linux/iio/types.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > > =C2=A0tools/iio/iio_event_monitor.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> > > =C2=A06 files changed, 122 insertions(+), 87 deletions(-)
+> > > ---
+> > > base-commit: c2ee9f594da826bea183ed14f2cc029c719bf4da
+> > > change-id: 20241023-hpd-edeb37f1ffc4
+> > >=20
+> > > Best regards, =20
+> >  =20
+>=20
 
 
