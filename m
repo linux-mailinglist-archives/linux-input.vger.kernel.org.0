@@ -1,219 +1,172 @@
-Return-Path: <linux-input+bounces-7967-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7968-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ADDF9C1447
-	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 03:51:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D4F9C1655
+	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 07:08:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE3A61F23EE7
-	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 02:51:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B808C2843F8
+	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 06:08:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CADF2033A;
-	Fri,  8 Nov 2024 02:51:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ED391C578E;
+	Fri,  8 Nov 2024 06:08:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xey+BlMf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hqP4vQZq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560C51BD9F3;
-	Fri,  8 Nov 2024 02:51:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4F08F54
+	for <linux-input@vger.kernel.org>; Fri,  8 Nov 2024 06:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731034270; cv=none; b=HjeRy1gexINZGpfb9oMcvPXT5miFWMC2hx/sB5Exb/fPoIyoE+gtsaXceB1+6QmIlWk3QSQtktl+kif1+RmrIXrCtuP718BiZrEJSHZpxOEUwpbDJEX7mOBiBDi7QUKjklbsqb/AryrwAnaLO1ER7eycMHlEbirt5/OXiDM1o8c=
+	t=1731046106; cv=none; b=Pwn099fqM0uw0nXkTvwYGj1IzMUrvawsMQeP+idsO8Klu2wBc1SgnTXzEHS70kEAS8MUSstF/82xPlVIf+s0v8tH37Qq8fRY8kANFLL3zZrIB/wRS7DXdsuNUULW4X6nfzdRGgODfySXBmeLr/unGs0U1RgN7a5uEzuWN/3io0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731034270; c=relaxed/simple;
-	bh=lSQEIgpKDv3f26NYR8QFCbDnNgVJHCatRuxO+lIMyyw=;
+	s=arc-20240116; t=1731046106; c=relaxed/simple;
+	bh=P66UOV+IhICRoIhdWCcfmRKeFCYB37AWMM5jX1ZI75Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qB4GDIkvP+rlW15L8aC1IGqi74Tg3ecfTMyZHBXU0lUEvQ2v25ESb885ZFyVPWY7z15xexfGiLzKtb/WaFwWX1TiLJ9mD23f9hIH9/MaOnU0uH0gr0RRdE9NNVxqTNKXCSKQ+nOrK3ZJsCb31GSmu3izMP6VQiLJKBLL3MUiAPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xey+BlMf; arc=none smtp.client-ip=209.85.210.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=qKr+yor1wXOC7IKzRbwU0EY79gDgcKKP8aCeO+7UVIPlMeIJeZGmESWK1LRxChB3qInfpM3tsAaHnF9u8qeu0bjwHzFJF6QHmt2MVyfhK1GQE9XwVa3gro3DUJ9tIZaejMRGxpDCLhG4AY1odlmDahJOPDxyJM1pJiAWCxuaKh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hqP4vQZq; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-71808b6246bso1016879a34.2;
-        Thu, 07 Nov 2024 18:51:09 -0800 (PST)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20cb47387ceso19067495ad.1
+        for <linux-input@vger.kernel.org>; Thu, 07 Nov 2024 22:08:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731034268; x=1731639068; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/EXjIMqHBmMIAGv5jp2hlycZHcXVd0mCL3d1IYu3e5U=;
-        b=Xey+BlMfBVZh7gOCXVTIqEBANqz2+fhiGoRTbmrF3a2SUZsHYo4YGHN98z8jNvX2R4
-         G2cGFPEMGgprE0rNQV0PbUk3c79R9mVij82OLWT0jSMx/dSbfa+YYjwFLkO4iPwLHBpQ
-         zZ+qg7YwJ90Wtfy+uXKhPVvJkGKvgyxL0G7FwO42a78hqWywU6kT8oZlQKM4OLEjG1MU
-         35Ztgy97v7EGM4AQBZ3UF/7YQvOjMjRRkqV8c62j4VTn4fNktYNZNjlAcQkEQr1lFBUf
-         IQZABEizidyRdw3cbijqe/Xpe2QzSzHhMf3j8ZvMd1weGTsxoiRrWhNLVmL4dOicyD0O
-         skvg==
+        d=gmail.com; s=20230601; t=1731046104; x=1731650904; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YqG/9FTjexBMgVHn9w60AReCBMub3nhnnvUfZrSSId8=;
+        b=hqP4vQZqU9m6upIs7ISFHsgwSbIRFkUlr5M4/B1WSSfTxUr0v1mYPfWcBOx6KXaGhg
+         EVOVa8tBs3d8yY2zou+sbyaB3R/yLhGxz+Fpde5TNx1QWvIlUX9YFARFiCujrpfiUhCv
+         FLrU8bmHpcoQKnue719RYOnDs3xzu4Nh7hJqF4qP4xQaqJfU+Kek5yW2qYCcJNW2151p
+         pNPXaquxVasgusF7Syn/s0+KXmP/esBYLOoxLPCOWWsh0Xp/9JSQwL49A4hCwmjmdYFQ
+         P6z/E0MS/wd+g5+4SAlMdpev8Mlc7CrsQE7T5L1MS10zh04T5Jr9Y840Gbb6+6Ige6B1
+         KrqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731034268; x=1731639068;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/EXjIMqHBmMIAGv5jp2hlycZHcXVd0mCL3d1IYu3e5U=;
-        b=NEOXxBvgPFrQIYmaLwBHwxVbBsIvfFuUEeFXjx9lt/6j+Lixr8pEy8FQIduIKpq67D
-         YjeVOp8pYRzwC8/1Wvk+Z5AXiGNZQOqr7DOMIvqzJAqjJsn6mJlnFl3MFLDnJBX6hZN3
-         hfiRjgnPLI7RTRk8bfoS0gR9/2tvH4qOxXJohkNPYsdEMBWw075JnNM+IwrPKNN88Nsp
-         w6aSWHXZMGa3Y+i8Vqh/OjhRgXs7nHOduDJaeTz6Py5ItjLvFqh8D0bYospwz0JQgbmg
-         tNHuCWDsCZRtD5P9nRyA9BhmyBopz3bxFCFzQHSVj0os0kUjIidBW9hSVt+HCJMAV97Q
-         VWWg==
-X-Forwarded-Encrypted: i=1; AJvYcCXVfNE2a7vrBnZqJogsFCGdbvmJJLgBo7KJJg5XeSMYB3qX8qj7xgX9/cGbd18pMrdtae8JT6eo61A0YVg=@vger.kernel.org, AJvYcCXbeWyoL74OcNmnEA9Di393XetL24p9rzhJpLAf5HE1c7NXPHtX9M4BH5EKi4YBDhgEkkLTjnUMoGn070c9@vger.kernel.org, AJvYcCXfeWQDWRZxmRgyPiDaWK9CV/m1GmpAassSLmvwgLUOHBYs9xzkO5omVGBWQb1aFrnJ4IB3mqCVFYZf@vger.kernel.org
-X-Gm-Message-State: AOJu0Yywhas2+/Jx8iCpEiBtB2xMy/qo+BLYU5mRja+JVPr3b/vx+XA5
-	TzchLX8oqBU2kpopDvumkHVlRs2ENclZOgGPoLwg9bgCClLc52Dn
-X-Google-Smtp-Source: AGHT+IEElLZEABRWyjEIWGCuNoaAThPE7ptq0c3Gr/sJWPeAj85WKpXmwxpGDHpsPfsBPn6ESYu5rg==
-X-Received: by 2002:a05:6870:7d07:b0:291:467:ee42 with SMTP id 586e51a60fabf-2955ffecf54mr1450360fac.8.1731034268248;
-        Thu, 07 Nov 2024 18:51:08 -0800 (PST)
-Received: from ux-UP-WHL01 (mailgw01.gttektw.com. [45.117.96.243])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f423414bcesm2047171a12.4.2024.11.07.18.51.05
+        d=1e100.net; s=20230601; t=1731046104; x=1731650904;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YqG/9FTjexBMgVHn9w60AReCBMub3nhnnvUfZrSSId8=;
+        b=WlAXSnunYpms5fnLxI7AlxLk86Ln/2ecuECg9mpJ/EJXxl4zPRXKmPkVO4L1vgt6Pi
+         LanNQxrVLwCxHx5bWzi+/Bt5PuIcA50o/pxAP6gIillCpj1DNFwPHPEAJKUGaM8/DQGR
+         x2UJN9AYyPfi9MJ2mDjpH/0zTkgiz62Zrijr/8AbcXGkEPsS7i31UBMnGq7vai2AuKRM
+         Mtuq1nZcKYZafbYUaenqgkOZpgaQkx7f6AWZDrXYIIezoUPgzJLwBn5PN5u6j6825z/s
+         ZpNV9djjhBG3CD83mSJnR7mXNUp/4qbg4bsPh70AsDnrrBbFUPn6a1osKYr13kwzeG9n
+         mBwg==
+X-Gm-Message-State: AOJu0YxQSW+WafloKqeOnQtDXC+r2m7mm+MaVxHW4XSp7DKI6wCapnYv
+	Jdd1ATtAg82CnlzOPP8YVO/Pnt7SJPHzqqro9vQ7CWMeMh9zRTvH
+X-Google-Smtp-Source: AGHT+IF40KSezz4AtDHpzVqyZRM99QTRrFNWJteZTHbGynejXtrRu0Z52Kk0oO11TnooEtuPiAPZ/A==
+X-Received: by 2002:a17:902:fb46:b0:20d:27fa:1911 with SMTP id d9443c01a7336-211834e6bfcmr16945645ad.8.1731046103847;
+        Thu, 07 Nov 2024 22:08:23 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:9aed:7ea4:c2e6:9e3f])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177de041dsm22796855ad.103.2024.11.07.22.08.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2024 18:51:07 -0800 (PST)
-Date: Fri, 8 Nov 2024 10:51:02 +0800
-From: Charles Wang <charles.goodix@gmail.com>
-To: Doug Anderson <dianders@chromium.org>
-Cc: krzk@kernel.org, hbarnor@chromium.org, conor.dooley@microchip.com,
-	dmitry.torokhov@gmail.com, jikos@kernel.org, bentiss@kernel.org,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: input: Goodix SPI HID Touchscreen
-Message-ID: <Zy18ljw66z53C2Yv@ux-UP-WHL01>
-References: <20241107032313.64390-1-charles.goodix@gmail.com>
- <CAD=FV=UQr_6L_UhdCSr3cbxfGO2aEEYgTEpBh+gseYeapr-5iA@mail.gmail.com>
+        Thu, 07 Nov 2024 22:08:23 -0800 (PST)
+Date: Thu, 7 Nov 2024 22:08:20 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: linux-input@vger.kernel.org, Nick Dyer <nick@shmanahar.org>,
+	Evan Green <evgreen@chromium.org>, Sasha Levin <sashal@kernel.org>
+Subject: Re: [PATCH] Input: atmel_mxt_ts: Avoid excess read length on limited
+ controllers
+Message-ID: <Zy2q1Ar9BzecljDo@google.com>
+References: <20200613145632.113573-1-marex@denx.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=UQr_6L_UhdCSr3cbxfGO2aEEYgTEpBh+gseYeapr-5iA@mail.gmail.com>
+In-Reply-To: <20200613145632.113573-1-marex@denx.de>
 
-On Thu, Nov 07, 2024 at 01:54:33PM -0800, Doug Anderson wrote:
-> Hi,
+Hi Marek,
+
+On Sat, Jun 13, 2020 at 04:56:32PM +0200, Marek Vasut wrote:
+> Some I2C controllers have a hard limit on the number of data they can
+> transfer in one transfer (e.g. Xilinx XIIC has 255 bytes). The Atmel
+> MXT touchscreen driver mxt_process_messages_until_invalid() function
+> can trigger a read much longer than that (e.g. 690 bytes in my case).
+> This transfer can however be easily split into multiple shorter ones,
+> esp. since the single T5 message is 10 bytes or so.
 > 
-> On Wed, Nov 6, 2024 at 7:23 PM Charles Wang <charles.goodix@gmail.com> wrote:
-> >
-> > The Goodix GT7986U touch controller report touch data according to the
-> > HID protocol through the SPI bus. However, it is incompatible with
-> > Microsoft's HID-over-SPI protocol.
+> This patch adds a check for the quirk presence and if it is present,
+> limits the number of messages read out of the controller such that
+> they are below the quirk limit. This makes it possible for the MXT
+> driver to work even on such limited controllers.
 > 
-> I think it was requested that both the yaml file and the commit
-> message mention why there are two different yaml file that both talk
-> about "gt7986u". In the commit message I think it would be valuable to
-> point to the previous discussion. AKA, maybe say:
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Nick Dyer <nick@shmanahar.org>
+> Cc: Evan Green <evgreen@chromium.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Sasha Levin <sashal@kernel.org>
+> ---
+>  drivers/input/touchscreen/atmel_mxt_ts.c | 30 ++++++++++++++++++------
+>  1 file changed, 23 insertions(+), 7 deletions(-)
 > 
-> NOTE: these bindings are distinct from the bindings used with the
-> GT7986U when the chip is running I2C firmware. For some background,
-> see discussion on the mailing lists in the thread:
-> 
-> https://lore.kernel.org/r/20241018020815.3098263-2-charles.goodix@gmail.com
+> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+> index a2189739e30f5..faa3f3f987d46 100644
+> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
+> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+> @@ -985,21 +985,37 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
+>  
+>  static int mxt_read_and_process_messages(struct mxt_data *data, u8 count)
+>  {
+> +	const struct i2c_adapter_quirks *q = data->client->adapter->quirks;
+>  	struct device *dev = &data->client->dev;
+> -	int ret;
+> -	int i;
+> +	int i, ret, offset = 0;
+> +	u16 rem, chunk = count, total = count;
+>  	u8 num_valid = 0;
+>  
+>  	/* Safety check for msg_buf */
+>  	if (count > data->max_reportid)
+>  		return -EINVAL;
+>  
+> +	/* Handle controller read-length limitations */
+> +	if (q && q->max_read_len) {
+> +		chunk = min((u16)(q->max_read_len / data->T5_msg_size),
+> +			    (u16)count);
+
+I do not think you need this min() here. The "rem = min(total, chunk);"
+below will take care of cases where chunk is bigger than total count.
+
+> +	}
+> +
+>  	/* Process remaining messages if necessary */
+> -	ret = __mxt_read_reg(data->client, data->T5_address,
+> -				data->T5_msg_size * count, data->msg_buf);
+> -	if (ret) {
+> -		dev_err(dev, "Failed to read %u messages (%d)\n", count, ret);
+> -		return ret;
+> +	while (total) {
+> +		rem = min(total, chunk);
+> +		ret = __mxt_read_reg(data->client, data->T5_address,
+> +				     data->T5_msg_size * rem,
+> +				     data->msg_buf +
+> +					(offset * data->T5_msg_size));
+> +		if (ret) {
+> +			dev_err(dev,
+> +				"Failed to read %u messages (offset %u of total %u) (%d)\n",
+> +				rem, offset, count, ret);
+> +			return ret;
+> +		}
+> +		total -= rem;
+> +		offset += rem;
+>  	}
+>  
+>  	for (i = 0;  i < count; i++) {
+> -- 
+> 2.26.2
 > 
 
-Ack,
+Thanks.
 
-> 
-> > Signed-off-by: Charles Wang <charles.goodix@gmail.com>
-> > ---
-> > Changes in v2:
-> > - Change compatible to 'goodix,gt7986u-spifw'.
-> > - Remove 'goodix,hid-report-addr' property.
-> 
-> Probably this should be a two-patch series now. The first is this
-> bindings file and the second changes the firmware (which never got
-> reverted) to default to a hid-report-addr of 1.
-> 
-
-Ack,
-
-> 
-> > - Change additionalProperties to unevaluatedProperties.
-> > - v1: https://lore.kernel.org/all/20241025114642.40793-2-charles.goodix@gmail.com/
-> > ---
-> >  .../bindings/input/goodix,gt7986u.yaml        | 66 +++++++++++++++++++
-> >  1 file changed, 66 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/input/goodix,gt7986u.yaml
-> 
-> The name of the file needs to match the primary compatible, so it
-> should include the "-spifw" part.
-> 
-
-Ack,
-
-> 
-> > diff --git a/Documentation/devicetree/bindings/input/goodix,gt7986u.yaml b/Documentation/devicetree/bindings/input/goodix,gt7986u.yaml
-> > new file mode 100644
-> > index 000000000..b7afa21fb
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/input/goodix,gt7986u.yaml
-> > @@ -0,0 +1,66 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/input/goodix,gt7986u.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Goodix GT7986U SPI HID Touchscreen
-> > +
-> > +maintainers:
-> > +  - Charles Wang <charles.goodix@gmail.com>
-> > +
-> > +description: Supports the Goodix GT7986U touchscreen.
-> > +  This touch controller reports data packaged according to the HID protocol
-> > +  over the SPI bus, but it is incompatible with Microsoft's HID-over-SPI protocol.
-> 
-> I probably would have put the note about the compatible here instead
-> of below. Something like:
-> 
-> NOTE: these bindings are distinct from the bindings used with the
-> GT7986U when the chip is running I2C firmware. This is because there's
-> not a single device that talks over both I2C and SPI but rather
-> distinct touchscreens that happen to be built with the same ASIC but
-> that are distinct products running distinct firmware.
->
-
-Ack,
-
-> 
-> > +allOf:
-> > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    description:
-> > +      Add the 'spifw' suffix to distinguish it from the general GT7986U I2C-HID
-> > +      touchscreen, as it runs a substantially different firmware than GT7986U
-> > +      I2C-HID touchscreens.
-> 
-> As per above, I'd remove the "description" here. It's not common for a
-> compatible to have a "description".
->
-
-Ack,
-
-> 
-> > +    enum:
-> > +      - goodix,gt7986u-spifw
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  reset-gpios:
-> > +    maxItems: 1
-> > +
-> > +  spi-max-frequency: true
-> > +
-> > +unevaluatedProperties: false
-> 
-> I believe "unevaluatedProperties" is supposed to be moved down below
-> "required" according to previous comments on your patches.
-
-Ack,
-
-Thank you very much,
-Charles
-
+-- 
+Dmitry
 
