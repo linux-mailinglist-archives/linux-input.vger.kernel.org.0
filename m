@@ -1,139 +1,96 @@
-Return-Path: <linux-input+bounces-7982-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7983-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED969C1C95
-	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 13:04:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0CA9C1CDB
+	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 13:23:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C9472B2219D
-	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 12:03:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 76CEE1C20EDF
+	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 12:23:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC0A41E7655;
-	Fri,  8 Nov 2024 12:03:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 440731E47CC;
+	Fri,  8 Nov 2024 12:23:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gHLYVjV4"
+	dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b="XjWuwM5I"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7AA1E570A;
-	Fri,  8 Nov 2024 12:03:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D651E7C19
+	for <linux-input@vger.kernel.org>; Fri,  8 Nov 2024 12:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731067416; cv=none; b=nDZfLoxgXVBvfvErt4XPJ/a5p0Th1jOIHLM+Qfw9soolfrrvieqjrQIsvELPlj3iFQbDqvG2MES2VLX0Ghr6QKa1WYCfBhANkNK5Gr+JnKFHmu7PMPpZ6WgWYibzgPZy/Uwl99ygXyf5QoSqw0x5tkekyWloGHyydAe8TXaQjqE=
+	t=1731068628; cv=none; b=b8d0m//S0HpGpUaUM2gzsqw5RVpEG0x4LWIYCa1JibZBcpZ9xW2o+ivhPzeKiHxwIXO9YlamOENgIU299Xm8Zrz3Gct59kQN2SZC5YQ/HndJo55uWJuj9eQZCAIEtSdrbX5xzlsW0FlDlM+TFe3MHMhCNl07UywiAweU1sBI+gE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731067416; c=relaxed/simple;
-	bh=ChBYcsymTV1V2mzS78DD/EMvOHeZnX/SWf2LKR2jUG0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tc6lhsrKXkcV8lUxyf4CeJ8GdOlY/GKO4qA8/Ooh2/cTRONilrfRoHig2N1ePE/5ikFLWZTmqVVh0NRlD2qGozxQeHHlYPk+AI/1nh4BQTQGHAz26gow9ooPssyVfGmktt6kktIHTbA7m86wVxweqMQPUetIlUJQrE/WYdwAFC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gHLYVjV4; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-71e8235f0b6so1715434b3a.3;
-        Fri, 08 Nov 2024 04:03:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731067414; x=1731672214; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ikksqLJ4EA+Xck83QqUeUsYVlDqNhdNWvuB3gGEYssM=;
-        b=gHLYVjV4cxFVubE7HNRQZg3JiW11dLTGUvONZfQU3xDliAC+lqnoIeZNGOkoOHsJ4B
-         YwOv+jwHc/x+xdT61g9+7kJg4mkQ/ClejSFseHMGbSeyrRAdQC376Ix9fwwaIOApU7fk
-         FZJuTmzxHH8nhpUsnwsAIQEmfhnEg/GhPXZ6gjsA4wtAuqVG3f6GrV3Wdye90JfvIo1J
-         WDGih1q/QDSZw1NG/liI8c5kSvgRjdEZd2I8SXy3xKVMgubyCAlXdfw9Gzlz2unoCioT
-         eadAoveQWVwMYJOe3/lbqT0Tu7YozHVAuETQieEsIhx6rYhY/yLTXJ4zFPMUBwfScekE
-         xMOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731067414; x=1731672214;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ikksqLJ4EA+Xck83QqUeUsYVlDqNhdNWvuB3gGEYssM=;
-        b=LXIfEtG0L8v+SVTy8uLA4DZVAV6vGKUIx4hJUmkvNDNH2nfNwZFzcQW8bV0QExeRoK
-         dFH/1de47kqXgliR2XUeOirW0mVcRETH9Dg2P45m+uB7VoXWky9BajY58mwomHp2NqMg
-         Y+JWCd4/X7SzpMl58fTtxUd9YaNj8o2fI4WnzpAvMXGMqc+gOT35OqJ27Idq7wzJFb8+
-         alzKAYgSzfE4OqAzDgprtJqvG2CZ4O+ljFCYRdyFLddIGamXJ9dysTid+oqHCn1HyBCV
-         +4TMHvSFGLyCC9qXWOzOqjXtnvgzb5cuHzSN1UcTV4DOdgLVzB6CIHqRp6bwQwleUVgi
-         SmxA==
-X-Forwarded-Encrypted: i=1; AJvYcCU9Ruo33bz41v4zdp2T/rHKwKnGCULea3BmCMOaVRHQNyKQK2F6HNvwGmAKyyIGv1JHrh6vQD8OoXg7@vger.kernel.org, AJvYcCUrsYAzDG6YP/xw99jU32+U8drR7aEBEzbvzS47Zl+dWuexcSQyHLOv/SUqYe7lp4lL5SmPPUpIOaYARQ4=@vger.kernel.org, AJvYcCW9jWvP1zi5gqJzZq9W9dgwfeUk3IpTyRseruw1vVaYVAK1RqRnHnAHQ+SJuKkJ6/Dy5YQHpbYLPL7qcj6F@vger.kernel.org
-X-Gm-Message-State: AOJu0YykPj3oIxRuWbPRdCgHw2ye+RaEt9Ci8jkGnDXdDezPt8mWes7m
-	3octuCiJ3ZksFkVhLHzg4vMblTH3y1Y/HaRsjkXfP4+JGkujL6lO
-X-Google-Smtp-Source: AGHT+IEg8uT2/01qFIz2nHpe00coD7q2mrHMZHOIwgHUHZoLVfNAQyBU+biUvKI+sNcFRxnq3EEfIw==
-X-Received: by 2002:a05:6a21:7891:b0:1db:dc58:8058 with SMTP id adf61e73a8af0-1dc22b5363cmr3197155637.31.1731067414362;
-        Fri, 08 Nov 2024 04:03:34 -0800 (PST)
-Received: from ux-UP-WHL01.. (mailgw01.goodix.com. [45.117.96.243])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724079a403fsm3579656b3a.105.2024.11.08.04.03.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 04:03:33 -0800 (PST)
-From: Charles Wang <charles.goodix@gmail.com>
-To: krzk@kernel.org,
-	hbarnor@chromium.org,
-	dianders@chromium.org,
-	conor.dooley@microchip.com
-Cc: dmitry.torokhov@gmail.com,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Charles Wang <charles.goodix@gmail.com>
-Subject: [PATCH v3 2/2] dt-bindings: input: gt7986u-spifw: Remove hid-report-addr property
-Date: Fri,  8 Nov 2024 20:03:11 +0800
-Message-ID: <20241108120311.87795-3-charles.goodix@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241108120311.87795-1-charles.goodix@gmail.com>
-References: <20241108120311.87795-1-charles.goodix@gmail.com>
+	s=arc-20240116; t=1731068628; c=relaxed/simple;
+	bh=CxAX+ftHiHOYNZkNuuSSAgp8kd8Iur26QQPuw4GGQ9k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FG8KeBm/W5M2AXH447URTeZK56vBc2gcXCU5lC1NpV7vX94cUSxeQXhFGQzgAfbz6GEhMvHxekTcaRESDecJ+XujFUqFhSxTCZGj0owlVCahjrM2eJoIrg9c063ILknsj/XzWlL9SdUREy61WEbKw5qzBgTdQvnARbsF5yaTH/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf; spf=pass smtp.mailfrom=kl.wtf; dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b=XjWuwM5I; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kl.wtf
+Message-ID: <75ada7e6-3796-4ebc-b824-fc8a57b0c1df@kl.wtf>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kl.wtf; s=key1;
+	t=1731068618;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+5CCKhytgIkae+gQjhjyhlBk8FNw0/8qyWw+tKaCwZI=;
+	b=XjWuwM5IyIqzJ/We390ypdPH42KS5sRcmEAVIMyPt2FS76fXcLHHU3wqMBJLpO9a3nx5c+
+	S8jN8PYlJQjFZre3EblBxgJUGdMxQUFzYZjVlmjykr6phxdP1Fv3R0gVYuFWgmX+9iQArL
+	980QxE86ewLLCsJarCHLHroIeu9DpqTg2HzVUApLTmZGTAGh97VNkcXrWpnGqfCqlM+nW+
+	T3+S+lRWVnOMQZRdBMvGgvf2S104qO+/sWH3UUKM51rctsYQ0h1u1I1vIi5iKehFBdBwiM
+	hXn76cibxkZQOQ3jvVgBnAIChlIJPSHjmir8l2mUESn1DztmdJnfc9R9wnVEEg==
+Date: Fri, 8 Nov 2024 13:23:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [regression] Bug 219440: Touchscreen stops working after
+ Suspendi: i2c_designware.1: controller timed out
+To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: Michael <auslands-kv@gmx.de>, LKML <linux-kernel@vger.kernel.org>,
+ Jiri Kosina <jkosina@suse.com>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>
+References: <d5acb485-7377-4139-826d-4df04d21b5ed@leemhuis.info>
+ <5373bbfb-5242-4a95-9075-412547a73675@leemhuis.info>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kenny Levinsen <kl@kl.wtf>
+In-Reply-To: <5373bbfb-5242-4a95-9075-412547a73675@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Since all boards use the same address, drop the goodix,hid-report-addr
-property and hardcode it in the driver as a default value.
+Thanks for the heads up!
 
-Signed-off-by: Charles Wang <charles.goodix@gmail.com>
----
- .../devicetree/bindings/input/goodix,gt7986u-spifw.yaml    | 7 -------
- 1 file changed, 7 deletions(-)
+> i2c_designware i2c_designware.1: controller timed out
+> i2c_designware i2c_designware.1: timeout in disabling adapter
+> i2c_hid_acpi i2c-WDHT1F01:00: failed to change power setting.
+> i2c_hid_acpi i2c-WDHT1F01:00: PM: dpm_run_callback(): acpi_subsys_resume returns -110
+> i2c_hid_acpi i2c-WDHT1F01:00: PM: failed to resume async: error -110
 
-diff --git a/Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.yaml b/Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.yaml
-index 8105b9ce2..c9e346a60 100644
---- a/Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.yaml
-+++ b/Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.yaml
-@@ -36,11 +36,6 @@ properties:
-   reset-gpios:
-     maxItems: 1
- 
--  goodix,hid-report-addr:
--    $ref: /schemas/types.yaml#/definitions/uint32
--    description:
--      The register address for retrieving HID report data.
--
-   spi-max-frequency: true
- 
- required:
-@@ -48,7 +43,6 @@ required:
-   - reg
-   - interrupts
-   - reset-gpios
--  - goodix,hid-report-addr
- 
- unevaluatedProperties: false
- 
-@@ -68,7 +62,6 @@ examples:
-         interrupts = <25 IRQ_TYPE_LEVEL_LOW>;
-         reset-gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
-         spi-max-frequency = <10000000>;
--        goodix,hid-report-addr = <0x22c8c>;
-       };
-     };
- 
--- 
-2.43.0
+Hmm, that's interesting. Michael, would you be up for testing a debug 
+patch or two? The "dumb" solution of just re-adding a retry of the power 
+command (always or as a quirk) on resume and crossing our fingers would 
+probably work as a regression fix, but I have a vague suspicion that the 
+issue could just be the change in timing.
 
+As an aside, do we have anything available for testing/analyzing quirky 
+i2c_hid hardware other than hoarding laptops on our own? Do some 
+maintainers keep quirky devices around for re-testing, or are we mostly 
+relying on user regressions? Getting feedback - or better yet, logic 
+analyzer traces - would be really helpful when touching drivers for 
+quirky hardware, and I haven't had too much luck on finding reasonable 
+deals on affected hardware myself, halting some of my i2c/i2c_hid 
+improvements...
+
+Best regards,
+Kenny Levinsen
 
