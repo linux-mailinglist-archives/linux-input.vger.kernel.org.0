@@ -1,134 +1,122 @@
-Return-Path: <linux-input+bounces-7979-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7980-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18BE59C1B02
-	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 11:47:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9E39C1C8F
+	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 13:03:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3CB091C2348B
-	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 10:47:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4FEE81C22E0C
+	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 12:03:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 911041DFE3F;
-	Fri,  8 Nov 2024 10:47:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 320281E47CB;
+	Fri,  8 Nov 2024 12:03:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="WKaBprb3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mTPpAulU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03FA647F69;
-	Fri,  8 Nov 2024 10:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C7538DC8;
+	Fri,  8 Nov 2024 12:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731062864; cv=none; b=AYpPKs12vwP5DfyiREemzWgNrhieKgPm//JfCNrzIXUGbFQz54p1T+qVPASPODBRPnzGu+bXhoOMpf/KHgXkrcYMljqaz5x8rZEcUA7vniWJuyuaAeQhuk7v9MrwXeDV9g9M7qP+1jRldFwLbwiOwb3btRXZVDhAOL5sE5+rkDc=
+	t=1731067406; cv=none; b=nolmCNwH9H8ajLiF9m8cQoZSL59QsXRI79g1+90bp1V29SZSurix6/qne419Vl+QoRoBLllVa1V8sSJckSo3nfWKbSE35QADp22kxpEWvH5mYFey18HxaTL0qPuRbgK/NH4Bjvkx3MVSIcw+AiFYvzM5HLP6JumyJ3zsqlUkHOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731062864; c=relaxed/simple;
-	bh=vh1KEgwm8HS0FCaXG6dtHY0XbtYs85ctulsV8TBcLJY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PECecm4yFpKGZiDYieFXrZYCxyKcHnh9o5LNkcDWpH9GMIIJnQG7RourmXhKlNbmX1i63UXThRY8H5AZQLu9VXzh2lZ9D3fzMN7e43tjEKplkmjD5aN084JR9V3JCszvd49BoDqP/UjQwfJfa1wVy7fxCu9fCSjip3FkBmCbcIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=WKaBprb3; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: by linux.microsoft.com (Postfix, from userid 1173)
-	id 800FF2130822; Fri,  8 Nov 2024 02:47:41 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 800FF2130822
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1731062861;
-	bh=rfmN39pQc5CWywNmtu+c00IPmRXCRUoGSDJrpxGFf88=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WKaBprb30Giu3MFacVCVRoL3qBrewwIVdoRvPR6GXH/Dagz8ngoYYRvAkfZeU7gh+
-	 sNf/bt/pLrX/E//vTqICMDdeVPIE/eOiCtOKrHqPT/kHtswQ/6w/nK9appmCCW88D0
-	 IaZiXBfsYb8l7fRrjwI7NS2VM9/sVAi1ie/hMTPo=
-Date: Fri, 8 Nov 2024 02:47:41 -0800
-From: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	jikos@kernel.org, bentiss@kernel.org, linux-hyperv@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	ernis@microsoft.com, rafael@kernel.org, pavel@ucw.cz,
-	lenb@kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH 2/3] Revert "Input: hyperv-keyboard - register as a
- wakeup source"
-Message-ID: <20241108104741.GA14651@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1726176470-13133-1-git-send-email-ernis@linux.microsoft.com>
- <1726176470-13133-3-git-send-email-ernis@linux.microsoft.com>
- <ZvIx85NmYB/HzKtI@csail.mit.edu>
- <Zv-j0qtWXsDz4Hah@google.com>
- <20241017134438.GA14386@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+	s=arc-20240116; t=1731067406; c=relaxed/simple;
+	bh=d2ClGddYVUalvIae9odP6GH1vyoFqoEPShyX4IIA3H0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A00npROZBZPv85rV1QpVq9xxntyrz3VSiAwarNvizFLau91lH6d3cy+ACPnQh/pMQ14lRCM0GweeoLXl2ZTs/m9/i09EtD3RhvE+qgjaSvY7wrXjLzERHEthaa20JVeyeDEjtx+vQEDf6nRHgCsBEkaDBUCWiQexEgl9ocnmgsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mTPpAulU; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-71e681bc315so1526964b3a.0;
+        Fri, 08 Nov 2024 04:03:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731067404; x=1731672204; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ly/UQDcrWoT1UpKfUCGcSlT6WIfa2v9SPuKffeJPFHo=;
+        b=mTPpAulUq1w4nsNREmKxuhxqRNfEA8U0zAUcPPbvBLSQVtDYrKn1CDeLnpGwJWn3qJ
+         zHMjMCx52B1BjfRePQuoPn5E/xEhpLqIgWYnAWDUTUWIrkwMxyK/6SIpbVkCBwuy6LxU
+         CbC8JIvQwGAaBgxIG4nUVkiGD0Mob8PkhP/UoCxdo61upER0JS5IuVmTDn559NS56tbB
+         ipYLbtQiwcBdKQ3CbIM2h6Tecr/eQFOaPAv3r/YTPWZ3iUmQH1IbWcuMfC/Anq6IjG4V
+         0w5bChVa6xs40il4lLl2wKjhcnQ/jxQJSgykkHX751es4tLUvc4Sh16lVOiDnJ2noDvV
+         D2pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731067404; x=1731672204;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ly/UQDcrWoT1UpKfUCGcSlT6WIfa2v9SPuKffeJPFHo=;
+        b=G+6TqJu86kKS9jb+sB7gRPkMGrP+8Gta/aDSU4LJp3z764YUO5qZpYRpR3EhBg6gFl
+         N5rGrsuMlf711F4hGq0txhNorFWzQRcL+hdE3HyaE3hyn5P6E1y/vfn+cA9Du6NgjF4B
+         WyLoPNe9Xx2OMYleWicvLX7k+YH+bgjeHKULN+Q1AfQ+0bbfQ8rXYzmvL4tBKAVNjn9a
+         fINlFifM+ni57QZDUk95qOdn219MMA2LtEdbVdxZyULs2doTwN1cOCbdnV8WVFONlspz
+         NLXGpp+BHUQTANzxTknXaHUuK0rWoz16DrpWV8wT5oImQgyA0L2x3gW5KREq7n4dMVym
+         qocg==
+X-Forwarded-Encrypted: i=1; AJvYcCWfVdkGB8RrVyAqIQ3yp7r60PSsQVA15NWrK+rqp8+B/wNQ7TazWLjQOkja71Pv+If/7h/n6QGWxWC2DI5T@vger.kernel.org, AJvYcCXjJOyL6vg/mYxc2oCQlFDcfsiRR+Ay4ZCqVn/VPQVLkh9kNKobddyryxjPi5XM35xbdBitCyhS7HG7@vger.kernel.org, AJvYcCXy8ncmLNRKzC/pi7I+YrPYrULdeMl/XVyH3SU7HP9I9BA99YtUAYbNz01vGkDOBmGBhXq2/vl2zNbXnyc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqRTguCPmJhZkmKX8VjPLD5+deOVgu/PgdgGQYllE8bOXkpPXK
+	FFeDztOTze8rAPPDVb3wQQmvBUPJdrX3su3g5HepQqEs7zrHeu0L
+X-Google-Smtp-Source: AGHT+IFQpA1QPHJqoITlRVG/iQ2TjLAFz56BS9ZSChCMQZ8oXW8d/Z0ADgQu3P+UnKoPeqef5eI7pw==
+X-Received: by 2002:aa7:8284:0:b0:71e:591d:cb4c with SMTP id d2e1a72fcca58-724121c7ba3mr4509273b3a.1.1731067403866;
+        Fri, 08 Nov 2024 04:03:23 -0800 (PST)
+Received: from ux-UP-WHL01.. (mailgw01.goodix.com. [45.117.96.243])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724079a403fsm3579656b3a.105.2024.11.08.04.03.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Nov 2024 04:03:23 -0800 (PST)
+From: Charles Wang <charles.goodix@gmail.com>
+To: krzk@kernel.org,
+	hbarnor@chromium.org,
+	dianders@chromium.org,
+	conor.dooley@microchip.com
+Cc: dmitry.torokhov@gmail.com,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Charles Wang <charles.goodix@gmail.com>
+Subject: [PATCH v3 0/2] dt-bindings: input: Goodix GT7986U SPI HID Touchscreen
+Date: Fri,  8 Nov 2024 20:03:09 +0800
+Message-ID: <20241108120311.87795-1-charles.goodix@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241017134438.GA14386@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 17, 2024 at 06:44:38AM -0700, Erni Sri Satya Vennela wrote:
-> On Fri, Oct 04, 2024 at 01:14:10AM -0700, Dmitry Torokhov wrote:
-> > On Tue, Sep 24, 2024 at 03:28:51AM +0000, Srivatsa S. Bhat wrote:
-> > > [+linux-pm, Rafael, Len, Pavel]
-> > > 
-> > > On Thu, Sep 12, 2024 at 02:27:49PM -0700, Erni Sri Satya Vennela wrote:
-> > > > This reverts commit 62238f3aadc9bc56da70100e19ec61b9f8d72a5f.
-> > > > 
-> > > > Remove keyboard as wakeup source since Suspend-to-Idle feature
-> > > > is disabled.
-> > > > 
-> > > > Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-> > > > ---
-> > > >  drivers/input/serio/hyperv-keyboard.c | 12 ------------
-> > > >  1 file changed, 12 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/input/serio/hyperv-keyboard.c b/drivers/input/serio/hyperv-keyboard.c
-> > > > index 31d9dacd2fd1..b42c546636bf 100644
-> > > > --- a/drivers/input/serio/hyperv-keyboard.c
-> > > > +++ b/drivers/input/serio/hyperv-keyboard.c
-> > > > @@ -162,15 +162,6 @@ static void hv_kbd_on_receive(struct hv_device *hv_dev,
-> > > >  			serio_interrupt(kbd_dev->hv_serio, scan_code, 0);
-> > > >  		}
-> > > >  		spin_unlock_irqrestore(&kbd_dev->lock, flags);
-> > > > -
-> > > > -		/*
-> > > > -		 * Only trigger a wakeup on key down, otherwise
-> > > > -		 * "echo freeze > /sys/power/state" can't really enter the
-> > > > -		 * state because the Enter-UP can trigger a wakeup at once.
-> > > > -		 */
-> > > > -		if (!(info & IS_BREAK))
-> > > > -			pm_wakeup_hard_event(&hv_dev->device);
-> > > > -
-> > > >  		break;
-> > > >  
-> > > >  	default:
-> > > > @@ -356,9 +347,6 @@ static int hv_kbd_probe(struct hv_device *hv_dev,
-> > > >  		goto err_close_vmbus;
-> > > >  
-> > > >  	serio_register_port(kbd_dev->hv_serio);
-> > > > -
-> > > > -	device_init_wakeup(&hv_dev->device, true);
-> > 
-> > If you do not want the keyboard to be a wakeup source by default maybe
-> > change this to:
-> > 
-> > 	device_set_wakeup_capable(&hv_dev->device, true);
-> > 
-> > and leave the rest of the driver alone?
-> > 
-> > Same for the HID change.
-> > 
-> > Thanks.
-> >
-> device_set_wakeup_capable() sets the @dev's power.can_wakeup flag and
-> adds wakeup-related attributes in sysfs.
-> 
-> Could you please help me understand why explicitly calling this function 
-> can be helpful in our use case?
-> 
-> > -- 
-> > Dmitry
-Just following up on this patch. Could you please help me understand the
-reason for the change?
+The Goodix GT7986U touch controller report touch data according to the
+HID protocol through the SPI bus. However, it is incompatible with
+Microsoft's HID-over-SPI protocol.
+
+The patchset introduces the following two changes:
+1) Add goodix,gt7986u-spifw.yaml.
+2) Drop the 'goodix,hid-report-addr' property.
+
+Signed-off-by: Charles Wang <charles.goodix@gmail.com>
+---
+Changes in v3:
+- Split the commit into two patches.
+
+Changes in v2:
+- Change compatible to 'goodix,gt7986u-spifw'.
+- Remove 'goodix,hid-report-addr' property.
+- Change additionalProperties to unevaluatedProperties.
+- v1: https://lore.kernel.org/all/20241025114642.40793-2-charles.goodix@gmail.com/
+---
+Charles Wang (2):
+  dt-bindings: input: Goodix GT7986U SPI HID Touchscreen
+  dt-bindings: input: gt7986u-spifw: Remove hid-report-addr property
+
+ .../bindings/input/goodix,gt7986u-spifw.yaml  | 68 +++++++++++++++++++
+ 1 file changed, 68 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.yaml
+
+-- 
+2.43.0
+
 
