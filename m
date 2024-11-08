@@ -1,118 +1,104 @@
-Return-Path: <linux-input+bounces-7977-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7978-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB42B9C181A
-	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 09:35:55 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B319C1820
+	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 09:37:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1924A1C22E97
-	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 08:35:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EED0EB22DA3
+	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 08:37:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66A5A1DEFD6;
-	Fri,  8 Nov 2024 08:35:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2A441DEFD6;
+	Fri,  8 Nov 2024 08:37:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nb/mDJXW"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="J4trMXOC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97971F5FA;
-	Fri,  8 Nov 2024 08:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF991DDA31
+	for <linux-input@vger.kernel.org>; Fri,  8 Nov 2024 08:37:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731054951; cv=none; b=l2SVJR/ABrpgLIbl2lWjT0QP97p4FXQ4gjKoaSSnugjYyPQqWrl3vYA9MbZpSARKzNfF5wjrKfqYP+r1s2ptNNbIc0ZoWkpT1hJjZ4bHKFyB2aEj9qFFKtPwsSrdPnU/xCNysA6SRmQ3mGdnzCMjNA0AM6XdDyznIF4tc9HKtPs=
+	t=1731055045; cv=none; b=BTfzbCxtIhyBSdGo78JxwTNe9y/IUEYSxIGCLl97wOMQV7EnQ8ZY+iDxnNnbZlnQcpKr5eiUXSJ1Nji691MXqBCe3gtozzGceNURDDHRukdDM4pAf+ujG4vqxbreMDV74KyYykfBqDckjJa5vKd0726gZNxhQMMVSq0snz/0oyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731054951; c=relaxed/simple;
-	bh=9UA99/45VPMOgVasNo9nRRbOr9t2v7Wo/0I1uXKF4qo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Am0bYl1huhWtbuBHwX6KPXfmA97hk/VA++WgsmBmvd3V+A894ceq29bAOvJCqqjiiUScni3/iMXoh7gqMdhRnyxPnCVnrSwrXNP1YKTKmfcA4bjm/cwqkXg7nkrrR+MsQJV/mEuO27KPyQND1xhwmERiNFKb77cyHiaILpODvaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nb/mDJXW; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731054949; x=1762590949;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=9UA99/45VPMOgVasNo9nRRbOr9t2v7Wo/0I1uXKF4qo=;
-  b=Nb/mDJXW/9XeORnob9iqx/EYlXAW/gfxLDXdwGcL9tM8lZ5kjJxDiblz
-   wRA99JTgjADvB5wNGd7XKv9K/Vm52EWBeLrpWibRG8AzKaWkQsmklj/f8
-   AOETgJkcOEMxyMwToTnmTkuM+/s1plbulkmeZmJi0fpqtn13f2r2qkrPm
-   1p4rBPxgc8FfKXRV+OgGWgSToLNE65sL0lbOZsUFJtQL2l/yN9rlcjcBs
-   sP4vhcK7J23ufNlkhtJLpbxv0adsGU1La3F6glvGyHIo6lZv46TiVia2D
-   8RjAGv7d695NgZx53dyEPV3wdWr2c454g+qjLo3Drc1dGgNvnFrHGYyLn
-   A==;
-X-CSE-ConnectionGUID: u4jgzwCmRYiuEFj0lhYtZg==
-X-CSE-MsgGUID: 0uhUO7IJQI2hPZQRvToIbg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="48390349"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="48390349"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 00:35:48 -0800
-X-CSE-ConnectionGUID: nptTQUc8R1+KrtE0Py8XKw==
-X-CSE-MsgGUID: oiAvJIL7Rhm2hlOVPkYvxQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
-   d="scan'208";a="86267023"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 00:35:45 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1t9KSz-0000000CXOf-1fEb;
-	Fri, 08 Nov 2024 10:35:41 +0200
-Date: Fri, 8 Nov 2024 10:35:41 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Tony Lindgren <tony@atomide.com>, Lee Jones <lee@kernel.org>,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 4/6] pcmcia: soc_common: Avoid using GPIOF_ACTIVE_LOW
-Message-ID: <Zy3NXXFFw4l-vfvr@smile.fi.intel.com>
-References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com>
- <20241104093609.156059-5-andriy.shevchenko@linux.intel.com>
- <CACRpkdYF-_6vb3SsJ9EHh1mCbqeW5=qoYkLF7Re+XyGq36OJSg@mail.gmail.com>
+	s=arc-20240116; t=1731055045; c=relaxed/simple;
+	bh=vVqCqej3UEHzQjSpv0v/eChyYMxhKtzxsLYbfjRtEsA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=i4oy5yngeXnBAGJMsHex95RJpNOQLuH5rfkGgykqk8LoYwyDlgvrg4lRYkCO3in5+W6i9TsNNg4JMgsWzGpa69JNTe8HhAdlLgtHbOnwfK5PR/7B0/VQ3GkOgpvpws+Br0OvwDcZbQRYh40o6sb7reCy+jdVYF9Umh6WVswj70w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=J4trMXOC; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2fb59652cb9so17655031fa.3
+        for <linux-input@vger.kernel.org>; Fri, 08 Nov 2024 00:37:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731055042; x=1731659842; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vVqCqej3UEHzQjSpv0v/eChyYMxhKtzxsLYbfjRtEsA=;
+        b=J4trMXOCdlZotamJ1c9PSB5u42g2LpaT42W9S3lTMICufykI3At19WUB8nbWt1et5d
+         NaYe/AsGBdmYZkz4swrG8HoiTFErd2BI8D5AFcOB/2alLSMoNRSa9cE26mzG89AD/Max
+         DzIZXmCwfy+VvW/mKKbe85jin/fQo4C33Fs8mKaciNEKRDIfU32h8za1qLurF2nTksyk
+         nN0ip+hDQX3o7U0aZoqFXaZKQn6l/E+rQHqND9Mhc2E2ZYkY/9vLvxvEh904Xa/zSEBe
+         IMFLTrLCAt0yr24bnMOVw46yT5p4jaHLWggGbyDJ93eJB8WEnGB7UE1EtQHWNGT7MCRs
+         fLMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731055042; x=1731659842;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vVqCqej3UEHzQjSpv0v/eChyYMxhKtzxsLYbfjRtEsA=;
+        b=tfESDCLmqkDrtS39N33EF7Y+6XsFpjlwKp1Hfp84Xe8BDfO+55VLo6SjbRGBKJIE7l
+         prB2W1yKFgQ2OnyIfq5CRAT1F8p6rMsJg5kWGXbvQvxY+w0R+a8XRxoLSkjcXxJ0rgn3
+         LgMarqGuhXETds4ZoPuwieVTAa4zlvbz2qA8cKUKmyc11MR0XOoEIAASXeseroJDDb6M
+         hVODcoFel4IfbPhrCguf+qpp22OIfncvNoUm/MV1CDAGc/PRMYEtS4LfHr8vLf1z9yAW
+         Lhm/6vR63NGhtsxB7MVpJE3hT7Hy/ZZkSUG4ooWc7Ep8aQuxtOqQGY6IgTX47dXWwV+J
+         Wirw==
+X-Forwarded-Encrypted: i=1; AJvYcCWD87n6Gh6YiROGWnFkha+fEUmP/BB+QWlSur88LZjcNvFstMA/9rN4IF6MtlUyWTiY15faJw7ro/e+6g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZGQN57p/gr0fHFj4T3/fL4twXVO97YFaAeUMpWIsT+0Ag3O2x
+	3QTeIXwdTUbYiUSbb+4Uxy4mS7AOtOdDWWNvV/+My9t+1nGVI3BN0uKZiUN8MYTVZKGiaW+2GIO
+	O3JsHdmvfNy/uqadZ9KKtVGso56o23aJ9WM4D5A==
+X-Google-Smtp-Source: AGHT+IFNMbx//cYEjFKlLreQGe6KHnDtkiSUF8TkDB0AJS6zWunIMN9dfiGm3wfKDkFfc9lg5KxffwMABzLboCKR1AQ=
+X-Received: by 2002:a05:651c:881:b0:2fb:628c:2580 with SMTP id
+ 38308e7fff4ca-2ff201e6d03mr10547841fa.2.1731055042295; Fri, 08 Nov 2024
+ 00:37:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdYF-_6vb3SsJ9EHh1mCbqeW5=qoYkLF7Re+XyGq36OJSg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com> <20241104093609.156059-4-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20241104093609.156059-4-andriy.shevchenko@linux.intel.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 8 Nov 2024 09:37:11 +0100
+Message-ID: <CACRpkdb7gaYW3FXfqZ=E-yC6071LEiv8hnyMD4Hh=bxJ3BEdrw@mail.gmail.com>
+Subject: Re: [PATCH v1 3/6] leds: gpio: Avoid using GPIOF_ACTIVE_LOW
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Tony Lindgren <tony@atomide.com>, Lee Jones <lee@kernel.org>, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>, 
+	Dominik Brodowski <linux@dominikbrodowski.net>, Daniel Mack <daniel@zonque.org>, 
+	Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 08, 2024 at 09:28:19AM +0100, Linus Walleij wrote:
-> On Mon, Nov 4, 2024 at 10:36 AM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> 
-> > Avoid using GPIOF_ACTIVE_LOW as it's deprecated and subject to remove.
-> >
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> 
-> Looks right to me, some testing would be even better
-> because I never trust these flags to get right.
+On Mon, Nov 4, 2024 at 10:36=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 
-I also would like to have this, but seems the only odd fixer was active ca.
-2023 last time, I'm not sure we may hear from Dominik in time, otherwise the
-series will be postponed for unknown period of time, which I do not prefer,
-rather I will fix any regressions later (but I doubt there are here).
+> Avoid using GPIOF_ACTIVE_LOW as it's deprecated and subject to remove.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
--- 
-With Best Regards,
-Andy Shevchenko
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-
+Yours,
+Linus Walleij
 
