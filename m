@@ -1,113 +1,97 @@
-Return-Path: <linux-input+bounces-7965-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7966-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7439C124C
-	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 00:22:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0455E9C1445
+	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 03:42:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 269411F2384A
-	for <lists+linux-input@lfdr.de>; Thu,  7 Nov 2024 23:22:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AFAB51F21CA4
+	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 02:42:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C729121A4DB;
-	Thu,  7 Nov 2024 23:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fsvNtZCJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CF287462;
+	Fri,  8 Nov 2024 02:42:47 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576C521A4CC
-	for <linux-input@vger.kernel.org>; Thu,  7 Nov 2024 23:21:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651F51BD9FF
+	for <linux-input@vger.kernel.org>; Fri,  8 Nov 2024 02:42:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731021714; cv=none; b=djTpjFqQjfMhYWBjuNf010TZuCcpKaVjkoavPv5vdbpXvd19YBOPh8cVPbok0bCOaMqImK0gPO60p1FinBzc0P0fF9/wypzeURNYkGFkUIrKKI+K1JOtiZdFIsHT6wSUyTdDuBc6EDuVUiH51gRWrBs+dWn03BqMVWnHEfDQ/e8=
+	t=1731033767; cv=none; b=c1ZUL7q1lUzlGz2j2z5OsUEzwj0waXRQyV0Uc4lwfFoUcvUTgHo3pM2JT0+fjaDwY4KSWSsG+n6lJj5UwSqQo5encSeIzx2wdCmqA+fclwbFgu4ukXV4H28bhdkXX+By4aqbhH7glsIL2IQBv66XZmbyCJpfBCpWyeu9Afk7FBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731021714; c=relaxed/simple;
-	bh=q9z7PgAuTgJKYKo78tR+96y0QE0UMvEbtE28j3CcqRE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A+cE12bGG6z9rfFpwRgilUdGIPZjsJ31FYxoOu8SnVzatfXFcDL6EvatSqPhwaSSd5ml4Qsc0E+RFUY8szn9xoazyJJyiKqj8Q9elbgFrayrn2pJuVPM0OiCGFzInKYoKIrpwP49s+XgaALWR38XJZ3I+2+Z84df4vhq026ljj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fsvNtZCJ; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20ca4877690so21945ad.1
-        for <linux-input@vger.kernel.org>; Thu, 07 Nov 2024 15:21:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731021713; x=1731626513; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=y8S/d901xnzYyAQHBXI60hwhCt6gI95qj8wysFOz0IE=;
-        b=fsvNtZCJLzsEATlZSicZmIwGPDRPQb/yOAS2zD3SaCw9r7X4A0UFcM5ucD4HHoNb7X
-         OSt8hhMcQUxWsFU0MY93jBqkvC3W3VToNt9FQEb5mJ6WR66kBYVlW6sGtiH5hI6rvoSA
-         iJcBjVcid/81sHcMmM7dp/lG0n5PuNsIjI9oFcS8QA0RovUTgioBV8qOdx5xwiA6C5sp
-         Ay8YCRmCxmvHju5q4jQuWUkno5P3LrmJfRdtrtwdIcE8xipwW2r3d+OqDZYPx50OJbOg
-         9zmNhIfi/NrSCUtMoL3F8kwLnA1fuRRfgZhCBPGbTnWNBnRB/pKMPkVlAdBcGu0+hc92
-         5QBQ==
+	s=arc-20240116; t=1731033767; c=relaxed/simple;
+	bh=E+5XgrB+nnAs2pwgveG7uUPOcxGryWzURdYleYU9lXg=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=gLgTatQZEAGRiqdyDpvovalfo/FddOAszfkYjqn9hZx2d6jSBZCY7gGf6RE/ptkUg1p87kOtWMpDtWZvBo47VHY68Qxb6pfLQQFEbB1gX9Yt0uug7F0R7MogUT6qEl6mO3+NzOB7ZNmEyef13FP70KPaa/pcSNRnE+sj2mIbECQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dnsense.pub; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dnsense.pub
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7b1488fde46so98880485a.2
+        for <linux-input@vger.kernel.org>; Thu, 07 Nov 2024 18:42:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731021713; x=1731626513;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y8S/d901xnzYyAQHBXI60hwhCt6gI95qj8wysFOz0IE=;
-        b=gNmxERDE5231Zq8cjPV998kIx9izVvygjv8e/qwNvoP2CjBghuqGYXKRuXpfjHjy9p
-         XY/tkbZszt1IO22Je2jKI/lqwQ6lR5DcZyZ36VnWaiw6emrJxdtHEC4yr3spGbQD9nj6
-         kCmm05HXhe9kMgBsQ/GIYR0+a8/Ez5jjg1m7X7/i+AEyJJX1DwC4j0FtGXAYk6Pns18z
-         OomekHRlUyctvUMIyfIiNN/XaR0YF/K7KWM5XrfEPmGUUaRCTf2QzhZqcfIE4HFnahAq
-         hQDOVxSjlTLqREaDlukslVtfzAiEFslubUT+z4NR9hfZWitl6ml8/WU/koOw5vayZMQ7
-         Hzvg==
-X-Forwarded-Encrypted: i=1; AJvYcCUtHLiR6loRLAgoooaDcGD5bdf6MYXSJ4xhDtUbBEA6lDeb9osEtOJozvR/uu5GhKGH0BQgcfEf01GEQA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9246BsYOoJFtVVzzkCZyPn8OjlwwaVk8gObc9kXdCdECfG69z
-	jRb68VPDNP7Y6cZeVKNcp4iXIeFVVv5hV93XsT3X6nUC0HAslgT9IHTqZ1A/ooSibATsS+pY+aa
-	zwQ==
-X-Gm-Gg: ASbGnctJ6SGKAeUvP9g0Pg7kG0evMh9QB13YFXEH5LXsULjKbG4Vw0UGQDtGh/1FT1i
-	sXOS46KK2jaz86ROr1Gxr8LX+Y4ekjEXqOtbED+DEOEWTwD4s6fydghDZBTBc9AJuZIeaYxb2O1
-	+mi9StguTVr4r6WRnff3Del4vHE7CAukBzOY3BHDOcf2eO7IE0I852T+wHK7qfPc5YP9OGsKM3S
-	7y6kk0HV1f/I7DDCPy1EpLgR/m7egSksRUDI8oOK1CVMt+mr044BgVO7pOESXwWw8JQ7vT9tp5q
-	oWOI3JFdAPLQltc=
-X-Google-Smtp-Source: AGHT+IFEFbAQf8I2GfAWhDyEHpKkoxJQe/psNNdqSAhgo2NIuIl52BNhUqi6pJJpSflkJOR6efMsJQ==
-X-Received: by 2002:a17:902:dad0:b0:20b:13a8:9f86 with SMTP id d9443c01a7336-21174a0fcefmr5018195ad.28.1731021712523;
-        Thu, 07 Nov 2024 15:21:52 -0800 (PST)
-Received: from google.com (180.145.227.35.bc.googleusercontent.com. [35.227.145.180])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e9b26b9bd8sm183214a91.5.2024.11.07.15.21.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2024 15:21:52 -0800 (PST)
-Date: Thu, 7 Nov 2024 23:21:48 +0000
-From: Carlos Llamas <cmllamas@google.com>
-To: Terry Tritton <terry.tritton@linaro.org>
-Cc: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org, Aseda Aboagye <aaboagye@chromium.org>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Terry Tritton <ttritton@google.com>
-Subject: Re: [PATCH 1/1] input: fix generic desktop D-Pad controls
-Message-ID: <Zy1LjKNhvPcdwg5l@google.com>
-References: <20241011195808.2201-1-terry.tritton@linaro.org>
- <20241011195808.2201-2-terry.tritton@linaro.org>
+        d=1e100.net; s=20230601; t=1731033764; x=1731638564;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=LhKC5Uyu2gNryKU0O4avbXv7FrxTPuaSO3wEflvnHr4=;
+        b=iK6+L3oVu3LkSD/gB+VlKA06IyPlPRNb9aPvPJ2XKF3AdsyHFyaAJFygAoUyGA789J
+         6QmIxA4FneXwU2Q9GPozJ8/sT8Qjis9FQjBCqVJFRahRCzSc3eiw6wML0F2d6w+BjYz9
+         1PoiYqi0uBaBfn95YCA7L56te1hBZIaUBD7kyKMYuWTMzrNkl2kZ5U8c6PozwkI1zsSn
+         yk3oSxIbLpgZNcOBs26dvVSASip1udE2hpalMAaLweufurVf5fEyiJh2bJkBPo6GxjKk
+         iOzlDj+1YPv1y464SoWhd56c50poLVvZjazSyJDQ9Y4YcKXDjkpSEL4wykVbdYPUByF+
+         Qvbg==
+X-Gm-Message-State: AOJu0YzftsMcC6N1cJeV0R9JU9vOSviPLCTB1FTunjF1L1gw/NxI1Xsf
+	2AM1U+ZflFqKWRAo8pe58KejuuFUbKB2IBFfGTYEu8g90Pe9jG51O3AOigAh
+X-Google-Smtp-Source: AGHT+IGu8c/PvOZoab9aczFZreyVJ8i9zayHbehAzRaCbd0qYiQlhvXwCHcaRellDPCSx/wyIHh0+A==
+X-Received: by 2002:a05:620a:2990:b0:7a9:c964:b358 with SMTP id af79cd13be357-7b331e88cdfmr172860385a.6.1731033763791;
+        Thu, 07 Nov 2024 18:42:43 -0800 (PST)
+Received: from [10.122.232.239] ([142.157.232.239])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b32ac7babdsm116857785a.63.2024.11.07.18.42.41
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Nov 2024 18:42:42 -0800 (PST)
+Message-ID: <b74f8422-a7fb-4475-a1c8-383734449f91@dnsense.pub>
+Date: Thu, 7 Nov 2024 21:42:40 -0500
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241011195808.2201-2-terry.tritton@linaro.org>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: linux-input@vger.kernel.org
+From: melvyn <melvyn2@dnsense.pub>
+Subject: intel_ish_ipc: loader failure on Lunar Lake
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 11, 2024 at 08:58:08PM +0100, Terry Tritton wrote:
-> The addition of the "System Do Not Disturb" event code caused the Generic
-> Desktop D-Pad configuration to be skipped. This commit allows both to be
-> configured without conflicting with each other.
-> 
-> Fixes: 22d6d060ac77 ("input: Add support for "Do Not Disturb"")
-> Signed-off-by: Terry Tritton <terry.tritton@linaro.org>
+Hello,
 
-This patch LGTM, is it getting picked up?
+The intel_ish_ipc driver seems to fail on my machine. It's a lunar-lake 
+based convertible (samsung galaxy book5 ...) which should provide 
+accelerometer/gyroscope/lid tild HID inputs. These work on Windows 
+fully, but do not appear to work on 6.12rc5. All I have to go on are the 
+following kernel log lines:
 
-Reviewed-by: Carlos Llamas <cmllamas@google.com>
+...
+[    4.416718] intel_ish_ipc 0000:00:12.0: ISH loader: load firmware: 
+intel/ish/ish_lnlm.bin
+[    4.430675] intel_ish_ipc 0000:00:12.0: ISH loader: cmd 2 failed 10
+[    4.448263] intel_ish_ipc 0000:00:12.0: ISH loader: cmd 2 failed 10
+[    4.467844] intel_ish_ipc 0000:00:12.0: ISH loader: cmd 2 failed 10
+...
 
-Cheers,
---
-Carlos Llamas
+The kernel is very close to mainline (NixOS's linux-testing) and doesn't 
+seem to have any patches which would affect this driver specifically.
+
+If there's any further information I can collect please let me know. 
+It's my first time trying to use a kernel mailing list, so apologies if 
+this is the wrong place or I'm missing something else.
+
+Thank you,
+
+melvyn2
 
