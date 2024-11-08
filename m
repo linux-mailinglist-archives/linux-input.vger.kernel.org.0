@@ -1,96 +1,117 @@
-Return-Path: <linux-input+bounces-7983-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7984-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0CA9C1CDB
-	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 13:23:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 238BD9C1E25
+	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 14:33:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 76CEE1C20EDF
-	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 12:23:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23EE6289802
+	for <lists+linux-input@lfdr.de>; Fri,  8 Nov 2024 13:33:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 440731E47CC;
-	Fri,  8 Nov 2024 12:23:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA0EB1EE000;
+	Fri,  8 Nov 2024 13:33:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b="XjWuwM5I"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lX7otQVr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D651E7C19
-	for <linux-input@vger.kernel.org>; Fri,  8 Nov 2024 12:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CAB1EBFEC;
+	Fri,  8 Nov 2024 13:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731068628; cv=none; b=b8d0m//S0HpGpUaUM2gzsqw5RVpEG0x4LWIYCa1JibZBcpZ9xW2o+ivhPzeKiHxwIXO9YlamOENgIU299Xm8Zrz3Gct59kQN2SZC5YQ/HndJo55uWJuj9eQZCAIEtSdrbX5xzlsW0FlDlM+TFe3MHMhCNl07UywiAweU1sBI+gE=
+	t=1731072816; cv=none; b=aqDYvw8wVCHDWzheUyV37W5b4uH9H8U65dx3O+aYT8NyqpVUq+5QPYaQ2GIA8OfRJKKsvtfGHbY4y8PyoACcqSqV45SwCXUPq2JGvq4Nxwu5p16QOM763AfDqZJMri2UL01YIjzBGKquApkiLIwY5+HfYlORl9ZtwCviBJgDQlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731068628; c=relaxed/simple;
-	bh=CxAX+ftHiHOYNZkNuuSSAgp8kd8Iur26QQPuw4GGQ9k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FG8KeBm/W5M2AXH447URTeZK56vBc2gcXCU5lC1NpV7vX94cUSxeQXhFGQzgAfbz6GEhMvHxekTcaRESDecJ+XujFUqFhSxTCZGj0owlVCahjrM2eJoIrg9c063ILknsj/XzWlL9SdUREy61WEbKw5qzBgTdQvnARbsF5yaTH/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf; spf=pass smtp.mailfrom=kl.wtf; dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b=XjWuwM5I; arc=none smtp.client-ip=95.215.58.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kl.wtf
-Message-ID: <75ada7e6-3796-4ebc-b824-fc8a57b0c1df@kl.wtf>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kl.wtf; s=key1;
-	t=1731068618;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+5CCKhytgIkae+gQjhjyhlBk8FNw0/8qyWw+tKaCwZI=;
-	b=XjWuwM5IyIqzJ/We390ypdPH42KS5sRcmEAVIMyPt2FS76fXcLHHU3wqMBJLpO9a3nx5c+
-	S8jN8PYlJQjFZre3EblBxgJUGdMxQUFzYZjVlmjykr6phxdP1Fv3R0gVYuFWgmX+9iQArL
-	980QxE86ewLLCsJarCHLHroIeu9DpqTg2HzVUApLTmZGTAGh97VNkcXrWpnGqfCqlM+nW+
-	T3+S+lRWVnOMQZRdBMvGgvf2S104qO+/sWH3UUKM51rctsYQ0h1u1I1vIi5iKehFBdBwiM
-	hXn76cibxkZQOQ3jvVgBnAIChlIJPSHjmir8l2mUESn1DztmdJnfc9R9wnVEEg==
-Date: Fri, 8 Nov 2024 13:23:13 +0100
+	s=arc-20240116; t=1731072816; c=relaxed/simple;
+	bh=0+9I6a17DhDluTMcO1f3FyZp7HLkpHtnP3pCVCnjzsk=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=BUbVnhhXTT7QUcaqvgZEsMU1pCDU15UIqv3cPAXZ+Qej5FNBAyOyOgKHkEpys4TIrUKTM88Emr0jIS4EDnRY4G9beG4GoI+hr2dtKlHniHQfkh93sfs3EZ3+cUpCOFU9UY2l91oFzCwtf5vVplNwC8mcdBn8JnlJSGUfooIqjW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lX7otQVr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 119BFC4CECD;
+	Fri,  8 Nov 2024 13:33:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731072816;
+	bh=0+9I6a17DhDluTMcO1f3FyZp7HLkpHtnP3pCVCnjzsk=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=lX7otQVrBkqMWgJFBkbg0DVYa92IZL+Ucqodfh5Xw8gJJ2QBPpBSdhkAICBPS3A7X
+	 dP1tfsTcDFmUEk8+TeO8wZjcEOtMXGqn/ioWLePPHkNiRJcWBoIA8zoLLSf8PwfP1z
+	 fZAN6hw/TkYJkJBSwL2xV5J0wHcXGIGMNLwtAcdlHVqQN/ZiQo5C9AOSHmoCpXqkCO
+	 1t2Iy+OrZXKug71713zhiihWHtyZWsg4qNomQjZhuuic0YgPlC6MBoeFZZQtWoVTWc
+	 W4tIN9Jp1GJPKngM+YysUVYedGPuko+svalu9oU8464h+DRlhjWVOecNMtKxfq4pFc
+	 OZBHlWOM1GdFQ==
+Date: Fri, 08 Nov 2024 07:33:34 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [regression] Bug 219440: Touchscreen stops working after
- Suspendi: i2c_designware.1: controller timed out
-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: Michael <auslands-kv@gmx.de>, LKML <linux-kernel@vger.kernel.org>,
- Jiri Kosina <jkosina@suse.com>,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>
-References: <d5acb485-7377-4139-826d-4df04d21b5ed@leemhuis.info>
- <5373bbfb-5242-4a95-9075-412547a73675@leemhuis.info>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kenny Levinsen <kl@kl.wtf>
-In-Reply-To: <5373bbfb-5242-4a95-9075-412547a73675@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Charles Wang <charles.goodix@gmail.com>
+Cc: conor.dooley@microchip.com, linux-input@vger.kernel.org, 
+ bentiss@kernel.org, linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com, 
+ hbarnor@chromium.org, devicetree@vger.kernel.org, dianders@chromium.org, 
+ jikos@kernel.org, krzk@kernel.org
+In-Reply-To: <20241108120311.87795-2-charles.goodix@gmail.com>
+References: <20241108120311.87795-1-charles.goodix@gmail.com>
+ <20241108120311.87795-2-charles.goodix@gmail.com>
+Message-Id: <173107281349.1752060.15353696141928017835.robh@kernel.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: input: Goodix GT7986U SPI HID
+ Touchscreen
 
-Thanks for the heads up!
 
-> i2c_designware i2c_designware.1: controller timed out
-> i2c_designware i2c_designware.1: timeout in disabling adapter
-> i2c_hid_acpi i2c-WDHT1F01:00: failed to change power setting.
-> i2c_hid_acpi i2c-WDHT1F01:00: PM: dpm_run_callback(): acpi_subsys_resume returns -110
-> i2c_hid_acpi i2c-WDHT1F01:00: PM: failed to resume async: error -110
+On Fri, 08 Nov 2024 20:03:10 +0800, Charles Wang wrote:
+> The Goodix GT7986U touch controller report touch data according to the
+> HID protocol through the SPI bus. However, it is incompatible with
+> Microsoft's HID-over-SPI protocol.
+> 
+> NOTE: these bindings are distinct from the bindings used with the
+> GT7986U when the chip is running I2C firmware. For some background,
+> see discussion on the mailing lists in the thread:
+> 
+> https://lore.kernel.org/r/20241018020815.3098263-2-charles.goodix@gmail.com
+> 
+> Signed-off-by: Charles Wang <charles.goodix@gmail.com>
+> ---
+>  .../bindings/input/goodix,gt7986u-spifw.yaml  | 75 +++++++++++++++++++
+>  1 file changed, 75 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.yaml
+> 
 
-Hmm, that's interesting. Michael, would you be up for testing a debug 
-patch or two? The "dumb" solution of just re-adding a retry of the power 
-command (always or as a quirk) on resume and crossing our fingers would 
-probably work as a regression fix, but I have a vague suspicion that the 
-issue could just be the change in timing.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-As an aside, do we have anything available for testing/analyzing quirky 
-i2c_hid hardware other than hoarding laptops on our own? Do some 
-maintainers keep quirky devices around for re-testing, or are we mostly 
-relying on user regressions? Getting feedback - or better yet, logic 
-analyzer traces - would be really helpful when touching drivers for 
-quirky hardware, and I haven't had too much luck on finding reasonable 
-deals on affected hardware myself, halting some of my i2c/i2c_hid 
-improvements...
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.yaml:16:7: [error] syntax error: mapping values are not allowed here (syntax)
 
-Best regards,
-Kenny Levinsen
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.yaml: ignoring, error parsing file
+./Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.yaml:16:7: mapping values are not allowed in this context
+make[2]: *** Deleting file 'Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.example.dts'
+Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.yaml:16:7: mapping values are not allowed in this context
+make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.example.dts] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1442: dt_binding_check] Error 2
+make: *** [Makefile:224: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241108120311.87795-2-charles.goodix@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
