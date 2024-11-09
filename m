@@ -1,105 +1,121 @@
-Return-Path: <linux-input+bounces-7993-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-7994-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C89619C2AE2
-	for <lists+linux-input@lfdr.de>; Sat,  9 Nov 2024 07:47:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 855AF9C2B7A
+	for <lists+linux-input@lfdr.de>; Sat,  9 Nov 2024 10:49:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FF6D282B98
-	for <lists+linux-input@lfdr.de>; Sat,  9 Nov 2024 06:47:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1EC0C2826DC
+	for <lists+linux-input@lfdr.de>; Sat,  9 Nov 2024 09:49:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FE5913B7BC;
-	Sat,  9 Nov 2024 06:47:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0822335C7;
+	Sat,  9 Nov 2024 09:49:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dominikbrodowski.net header.i=@dominikbrodowski.net header.b="m0Ck6tLN"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="KmeGJD6P"
 X-Original-To: linux-input@vger.kernel.org
-Received: from isilmar-4.linta.de (isilmar-4.linta.de [136.243.71.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EC046447;
-	Sat,  9 Nov 2024 06:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.243.71.142
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20A70149C6F
+	for <linux-input@vger.kernel.org>; Sat,  9 Nov 2024 09:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731134866; cv=none; b=IBT/QyegqlluWfpRLe/XhGNNVOATm5YyiKAdVF3heE98QuaGBheaVxKX8SM7ob9hgOhnLqXhlLOs447PIk8svf/MikZ4YB/QJKRCj3A0/cpuce7eg5nzECgEl8vcuW4iSiGJgedtBRXPHL53YkCzp9S2+fs3xLb/e9sT+g4hMDQ=
+	t=1731145755; cv=none; b=sCHA3jL6JhGbMGykPFVhK2hUdOHyYbie4hkILpePaai+Oe2CNaqIKkdj/UtL7vBbfpWOfoExENX6KSaOp0sJrAyYrGG5UNxRMqMok2kjVbScoO+kMKPEkC6QeExI0VuaHitUeYQrcuYREz4gEptm5UO8gNVPhiwImJx2UkhBLQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731134866; c=relaxed/simple;
-	bh=m68XOFghE54ivU2dcmIYLk882k+HwPd8s6RJ2NuvOUg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lkqOAWdSI+s2tqRO1b2QkOlFXPTvY7kZ2JT4EdgsQboqNe2Hrc1xJQVnn+wOlxefeEWUE+28guflX8FX0vO6fzgySABl5F3emDQtlUO9FqW3Ws7uWvQZ+daaXTKXwfkhOzKsKTBtHf7GzL1SdJtC7ZR3Bgc4PdXqtbhlKvyOBs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dominikbrodowski.net; spf=pass smtp.mailfrom=dominikbrodowski.net; dkim=pass (2048-bit key) header.d=dominikbrodowski.net header.i=@dominikbrodowski.net header.b=m0Ck6tLN; arc=none smtp.client-ip=136.243.71.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dominikbrodowski.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dominikbrodowski.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dominikbrodowski.net;
-	s=k10.isilmar-4; t=1731134425;
-	bh=m68XOFghE54ivU2dcmIYLk882k+HwPd8s6RJ2NuvOUg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m0Ck6tLN37f+wQFu3UsQKdc+QFgC4L455vHgvRwEu/CVsrintIaqw0BGGgBpyMvdW
-	 3KihegNFT/LSWiBGJHrh2x4bq2Tw/x8qpX2tSqHkcHUtNaZ4IJ2gQGC4GnUZTUiCLQ
-	 r56r2k3qqEKDP0FwBJlQPXH7YxXcxu81/eip498VpxpX7p3tYsQfg0wB+5KyAZvFv+
-	 5cuD7F/DteExPqXttlt9JrilrD6jrYzfKLgGkoZpUZzbqFgWkNrjt5d36ItgqB3Xx/
-	 ncV2XBUlHYtqXvveXkMXoNho0jTuTbMH4TEpAUqHdct6wbuMCY+YILmbceORQa2Unv
-	 BubNYu8gN0QBA==
-Received: from shine.dominikbrodowski.net (shine.brodo.linta [10.2.0.112])
-	by isilmar-4.linta.de (Postfix) with ESMTPSA id 03AE8200602;
-	Sat,  9 Nov 2024 06:40:24 +0000 (UTC)
-Received: by shine.dominikbrodowski.net (Postfix, from userid 1000)
-	id B3D61A006B; Sat, 09 Nov 2024 07:40:15 +0100 (CET)
-Date: Sat, 9 Nov 2024 07:40:15 +0100
-From: Dominik Brodowski <linux@dominikbrodowski.net>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Tony Lindgren <tony@atomide.com>, Lee Jones <lee@kernel.org>,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 4/6] pcmcia: soc_common: Avoid using GPIOF_ACTIVE_LOW
-Message-ID: <Zy8Dz7v2cGdGOPLj@shine.dominikbrodowski.net>
-References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com>
- <20241104093609.156059-5-andriy.shevchenko@linux.intel.com>
- <CACRpkdYF-_6vb3SsJ9EHh1mCbqeW5=qoYkLF7Re+XyGq36OJSg@mail.gmail.com>
- <Zy3NXXFFw4l-vfvr@smile.fi.intel.com>
+	s=arc-20240116; t=1731145755; c=relaxed/simple;
+	bh=cNOSBZ7r7U2d3RmLZ3dpAs8sbBfcRnWZQMXJ8SebZ9g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qT4ShXTLIUV7SoTLKlVayX8hCcO5BntAp61bciZIYhuyoEgSMw800nxMw2NdOpqyh/Nf/xhoh4eiXd5E03D9BoUzsy1bAeXKfy/YdTLaFkwoH79lsvhnUiVaGleV0+Nlb3oIwDSG8YpCzEOfm6iHmz/ZLl50QDyHTsZ1RgCqEfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=KmeGJD6P; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=OE20c
+	oajz+mJmo8Ly0Uq1K7gff0paGsSM25cfMMsOEk=; b=KmeGJD6PAdtnDEpk2J11Y
+	SplrOSvI2/WY7YMx1ZksxyI2zEtaEHVLXvPiG1I7QjJBhCpapRWYfhKrPKboDJ9c
+	9CjBz0D0rWbfV9MfD+iv+QrroG/Co6pHWBA1nzssdHS7Qj9FlqVTzq7GFlZzaG8G
+	Y/bcPBDvAvxA5jS/UFKMG4=
+Received: from localhost.localdomain (unknown [123.150.8.42])
+	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wD3_1MSMC9nTde8EA--.6951S2;
+	Sat, 09 Nov 2024 17:49:07 +0800 (CST)
+From: luyuantao01 <luyuantao01@163.com>
+To: dmitry.torokhov@gmail.com
+Cc: linux-input@vger.kernel.org,
+	luyuantao <luyuantao@kylinos.cn>
+Subject: [PATCH] Input: i8042 - Fix keyboard failure caused by S4 mouse wakeup
+Date: Sat,  9 Nov 2024 17:48:42 +0800
+Message-Id: <20241109094842.1436-1-luyuantao01@163.com>
+X-Mailer: git-send-email 2.37.2.windows.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zy3NXXFFw4l-vfvr@smile.fi.intel.com>
+X-CM-TRANSID:_____wD3_1MSMC9nTde8EA--.6951S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZF1DtFy7WryDJrWDZFy3XFb_yoW8uFW5p3
+	y3KF409r4vgr9rtw4qyF4UZFn8Xw1xZa13CF9ru34UuwnxXFnY9r43tryrZa1DCrZ3Gr45
+	Xryjq34Yg3WDZaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jihL8UUUUU=
+X-CM-SenderInfo: 5ox13tpqwd0iqr6rljoofrz/1tbi7g6ShmcvIrWobQAAsu
 
-Am Fri, Nov 08, 2024 at 10:35:41AM +0200 schrieb Andy Shevchenko:
-> On Fri, Nov 08, 2024 at 09:28:19AM +0100, Linus Walleij wrote:
-> > On Mon, Nov 4, 2024 at 10:36 AM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > 
-> > > Avoid using GPIOF_ACTIVE_LOW as it's deprecated and subject to remove.
-> > >
-> > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > 
-> > Looks right to me, some testing would be even better
-> > because I never trust these flags to get right.
-> 
-> I also would like to have this, but seems the only odd fixer was active ca.
-> 2023 last time, I'm not sure we may hear from Dominik in time, otherwise the
-> series will be postponed for unknown period of time, which I do not prefer,
-> rather I will fix any regressions later (but I doubt there are here).
+From: luyuantao <luyuantao@kylinos.cn>
 
-As I don't have such hardware, I cannot help with testing, but from the
-PCMCIA point of view:
+There is an i8402 keyboard and mouse device on the
+ThinkPad P15 laptop.When conducting a wakeup
+test on S4, it was found that:
 
-	Acked-by: Dominik Brodowski <linux@dominikbrodowski.net>
+1. Using the keyboard directly can wake up S4.
+2. The system failed to wake up using the mouse button first,
+and when using the keyboard to wake up again, the system
+cannot be woken up and can only be shut down by pressing
+the power button.
 
-Thanks,
-	Dominik
+This issue is that i8042_start() only enables wakeup for the
+keyboard.However, because wakeup capability is set for all
+devices, the device_may_wakeup() is also true for the mouse,
+and the i8042_pm_suspend() enables the wakeup interrupt for the
+mouse.The system can respond to mouse wakeup interrupts, but
+it cannot handle them and affects keyboard interrupts.
+
+So let the mouse also have wakeup ability to fix it
+
+Signed-off-by: luyuantao <luyuantao@kylinos.cn>
+---
+ drivers/input/serio/i8042.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+index 8ec4872b4471..1f9810dfb3d8 100644
+--- a/drivers/input/serio/i8042.c
++++ b/drivers/input/serio/i8042.c
+@@ -446,17 +446,16 @@ static int i8042_start(struct serio *serio)
+ {
+ 	struct i8042_port *port = serio->port_data;
+ 
+-	device_set_wakeup_capable(&serio->dev, true);
+-
+ 	/*
+-	 * On platforms using suspend-to-idle, allow the keyboard to
+-	 * wake up the system from sleep by enabling keyboard wakeups
+-	 * by default.  This is consistent with keyboard wakeup
+-	 * behavior on many platforms using suspend-to-RAM (ACPI S3)
+-	 * by default.
++	 * On platforms using suspend-to-idle
++	 * In fact, people nowadays prefer to wake up systems using
++	 * keyboards or mice.But after the previous code flow
++	 * entered S4, the mouse could not wakeup the system
++	 * and caused the keyboard to fail to wake up.
++	 * So fix it
+ 	 */
+-	if (pm_suspend_default_s2idle() &&
+-	    serio == i8042_ports[I8042_KBD_PORT_NO].serio) {
++	if (pm_suspend_default_s2idle()) {
++		device_set_wakeup_capable(&serio->dev, true);
+ 		device_set_wakeup_enable(&serio->dev, true);
+ 	}
+ 
+-- 
+2.25.1
+
 
