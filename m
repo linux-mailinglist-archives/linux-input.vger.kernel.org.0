@@ -1,159 +1,153 @@
-Return-Path: <linux-input+bounces-8007-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8008-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312CC9C3940
-	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 08:51:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C51A9C3B2E
+	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 10:45:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 638791C216FB
-	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 07:51:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E0BF1280CF0
+	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 09:45:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5691F15CD52;
-	Mon, 11 Nov 2024 07:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G4mSbadJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC8891474A7;
+	Mon, 11 Nov 2024 09:45:31 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE4315C15B;
-	Mon, 11 Nov 2024 07:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0E81531C0;
+	Mon, 11 Nov 2024 09:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731311452; cv=none; b=Nxo8jIPZu26A+9QkcFl36TGfIwvh78AIYQY1W4mr6lz60sAVl5+z5k9whznOxuTDaBioAA89pwpkIpGgMytTiDPLYyPAn3tUvjGBgAhrviRgF7C27O5RiRo1/+VPPIHu9IjeG4EF3ls2F2NWgc1gp3ZbayBpviX9H/yV4jz80tk=
+	t=1731318331; cv=none; b=EJSiLiUUxwULD41bA1c3vLtN3+U9ohLsx1gJlyZzzQUoitG5JhiY1Tg/2ZzzyZJMf8Y2/K9K0n7FGj9f/vR9RWYiAa5ms1NH1mMxei6l69yPFQSkLF2KBFEFhWWz6PYcBGJ8BJNJfyNhAzQ8pOFKZ2b8jquDPX/uTgnF7W4FSWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731311452; c=relaxed/simple;
-	bh=7B8rgNk0xIB2DZIRdN4VBbTtsMQ2tmsRQHywMaS5Pg4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AMuFhpLg0jaKk2xC08Tmw/41l2vKtZ+T6UPSE/5D2VnvajfgA64dnZ7aGNdjaq0bK+jgVpcscEUH2GV/gCXYJ1wlFQbM2UKEAZXUVmvfkajMcT2LOYnjYDVzr+GeoaVz+DZjiso52bCvLSlK7OKXYTRmnwFxnCJ0GfoEMXGkM3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G4mSbadJ; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1731318331; c=relaxed/simple;
+	bh=xfVdFbW/WL8OzILGgda9MRZEnND71lnebv0KQTum3ak=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OIDpT+iNALhzR/aayIlhAHDdxvOHkA18OuytvxCas9wj18NCl4GNWiouY92iIh7HYedvvkdwQ12AyTPtofHNSiBSRYZBRcz/ousJwgTnlp1O5rxRrxQbLIk7usUzo2HLLmQe5KwL7p1EnOHze6OSAyzpxaefaHCmVB35nX1rCeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2e2d1858cdfso3165884a91.1;
-        Sun, 10 Nov 2024 23:50:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731311450; x=1731916250; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zC6ip2qwUCDI5jyGzbtDI4HvIASASQ60A9sbrc+tJT0=;
-        b=G4mSbadJ9RfeQol5/mumw7k0OQlNtan823UmT2GOg82NbE2ln2171B3QKnHHg+E/NW
-         equptGhS7EFbb20AVLt/cZuqChFPsWwszed+RWH0p9r52UeP0pdtvhqNtDvJuaQ3e1F9
-         0gRMWAMPtA2OuZbN+7dbocmWuPc7rX+WRDtgH4S+pU3NZ21WwQ513rrTTWA5yadH7tDI
-         mRIxF9CJ3CvC1MoWpXBWcYphntzGTzMmC32KHcCOpcLWsXokNz78gRB0PlT4dlEFq8RR
-         ZCWaebXtdQupHbhFYSqzRSJIRSGFUOBwZ230IhiENdiXNWDXZt8CXri1Vts+i95L3ffT
-         EZCA==
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e290d5f83bcso4005685276.0;
+        Mon, 11 Nov 2024 01:45:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731311450; x=1731916250;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1731318328; x=1731923128;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zC6ip2qwUCDI5jyGzbtDI4HvIASASQ60A9sbrc+tJT0=;
-        b=LMvVjnK8X5TCw0vkHVkmYmgPhftlOVukPyHDUZUCA56JFwsJBKM4+LAqs0I6bi7JhP
-         oae/PqgnrgCWtweHkTOJ8QWX0SacYgulNSj24PWyff7fym9q/0kHYLvyZ/HFU8wCj0qI
-         7b9se+J5dvFrXVOegooFsaLN+DZQ56gxAgWAMoH6s+P6Jv3jKIuZnCIAHRudSIucY6i8
-         8+2UR6vNg8MmxMVRwBec44YOpXuNjluJpYpMvengb34Y4e+DxXx4iUjdQIX6Pkj87M0Y
-         VUQUWYxXNVvpsKapzs421NF4rpbS1KwL4RP9nMlQi8p/roaHT8XXbzjN5UVgCnCYdco5
-         YCVw==
-X-Forwarded-Encrypted: i=1; AJvYcCV72aDt8TrwS2ZRavN5gx+aZc3u0SQnlKtrphuL32+oa4sAuZY3XaYdjEdz2hQU6UN6e9BiW4jTyyxQvu+R@vger.kernel.org, AJvYcCVpVrJe8/g5wEiO1t1YVGX+4YxDwhbuJKAxk0l7chQEKUE1BHTSipgn2vsrEqEXxtJhk+0OXngo7MSl@vger.kernel.org, AJvYcCVtUL5feOOQBqbI8riz+Xdsieu9anvb5XoJhieXrzRwXWKoSOHQCfd9sfkEIBLf5lcbR002GG4YuXySDVs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZThE2CwfFfHk4cunYhgMt6MWgpio4dfnK5gby2HH93I1t2ncd
-	lAfkGJ6zxUUT2GnP/eFYALYdhzBklQ2tpFAkFCH+6oAzHomsmiIx
-X-Google-Smtp-Source: AGHT+IGJ2s8nCbv9giuX4TsUPyFRZ4W2qwEOYpL76NC6gsnIfuPFTfJNMVD3zLtIJ+LCmxUWrF9log==
-X-Received: by 2002:a17:90b:37cf:b0:2e5:8392:afe7 with SMTP id 98e67ed59e1d1-2e9b14dc341mr16113763a91.0.1731311449998;
-        Sun, 10 Nov 2024 23:50:49 -0800 (PST)
-Received: from ux-UP-WHL01.. (mailgw01.goodix.com. [45.117.96.243])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e9a5feb222sm8951522a91.52.2024.11.10.23.50.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Nov 2024 23:50:49 -0800 (PST)
-From: Charles Wang <charles.goodix@gmail.com>
-To: robh@kernel.org,
-	krzk@kernel.org,
-	hbarnor@chromium.org,
-	dianders@chromium.org,
-	conor.dooley@microchip.com
-Cc: dmitry.torokhov@gmail.com,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Charles Wang <charles.goodix@gmail.com>
-Subject: [PATCH v4 2/2] HID: hid-goodix: Add OF supports
-Date: Mon, 11 Nov 2024 15:50:00 +0800
-Message-ID: <20241111075000.111509-3-charles.goodix@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241111075000.111509-1-charles.goodix@gmail.com>
-References: <20241111075000.111509-1-charles.goodix@gmail.com>
+        bh=NG3w6IoKtjFw3GDAzprXMtFGp5ZzUMYeN9BzuAyCT4k=;
+        b=JtTzQccWKNYf+XgtTg7D9aZ4KUHgc8YXO/AghxmiqXOLUmGyYoN1pYeutSSg2nmQnK
+         kYCPi0wXKwDF+Y/IHlQdsqO/7RvtCXghjqI4Calynt05nMcrWi77X/+lCYIXXLDimwms
+         6cNz8iA8sVym+H2lGgwb+XkH9Sh0FxnE7wyTcGI+7nAvNDwvG8xhPxIcBfXR4EUtvrA3
+         SUoZki6S/luillFLeVbmMNMgB2hfab48Hh3jPJCokALSOtzl1ve7GKyQMn0uRAku9IuK
+         rYegVN4i0Ud3S4QtfYDzgl0gb26/70MHb29C+NUuN2rIlO0gF+eKfHWLjpD2zkNYj1+B
+         qQdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUhlTJ3Tah2Hw7AiSelIF6+0XhUetZtU1jq/hiH7teSV/NR9HPzaX0TfjyzQvV0Udkv5DXsm7DPsqT4rw==@vger.kernel.org, AJvYcCVQf8BzrJYFMcXANgu7YHwm+NtuSIaJ4LWaqy4gQbhyn8DXVIoxoN9mac+xhGl0nVLk1bDYcUSLf3bB@vger.kernel.org, AJvYcCWNShEgJStVa4a2mBxkdDVUERNYvoabhQK6L3gj6UBGqdfs3IlOwVzcoCrQA16Cy0Bxq148RQJB1iNa468=@vger.kernel.org, AJvYcCWsZxk41PgQYvq57HUvSjkffq0ylNFHysOWTquZr/ZNbbyZ+UdMf19kKvQjlDwctveleDCAO8bpw6HR@vger.kernel.org, AJvYcCXAlBJsArE41Hw25uSXGb38Vg3RM0QMHh5wpa/OakRmKYAlYGzxHyG8qjUU4836yip4gRTm7N4JgUlqHffh@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0fygvZKXyFVbYPi3TzirseS+VNch+BKcuYW6mhNOsEWCB0bXN
+	Jun7gwTsu3KK5yOhvpHGfxw7bDNpk04tT2ROzJmPwH3KTKs/zgi7QnOg43g9
+X-Google-Smtp-Source: AGHT+IH1dq/CGVrcgdiw4ecuXKxh6ZWzjkd60AXGa836S/M71fmRFl6pisCL7HI0NvOMD4Z8WeScNA==
+X-Received: by 2002:a05:6902:2890:b0:e30:ce97:d3bd with SMTP id 3f1490d57ef6-e337f83f903mr11279297276.5.1731318327749;
+        Mon, 11 Nov 2024 01:45:27 -0800 (PST)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e336ef2017bsm2175112276.21.2024.11.11.01.45.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Nov 2024 01:45:26 -0800 (PST)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6eb0e90b729so6937367b3.1;
+        Mon, 11 Nov 2024 01:45:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU0AFmUf8y1NerB6LurB3hPaWLihnkh8wC2m+9yMp2JS+gSjPWyK4f22PMikra/UH/nnklPp2tbK1aS@vger.kernel.org, AJvYcCUzWVKQjwyBTuNI/DlbR3rZt0XxPobXYTgufWAms8CixhFFsuW9JwzEgb8foi7bJvw4mvz3DEp1vANMSQ==@vger.kernel.org, AJvYcCVkZ6j0cRsnMP9um0g9BdOJHX5Hy/jld63GrnWKGrmGPEfLpN/6YNk11/d2jswXVaKgTo9Tq+1EFMB9@vger.kernel.org, AJvYcCX9Gv7g93PtDiNpzy85KDYxgkC/j4ucdAO5O9cFau192E3h6GNpwIdD9mo313VyqD6MPMZ8Sfi2xhAyeWf6@vger.kernel.org, AJvYcCXNUSvm19CVpla0K0XNqKL0b2ONnNQ88eFEKSh/YSwwKiI1j36HoukDkAnWpXc4rmT5wUO0jM8zz8vXW00=@vger.kernel.org
+X-Received: by 2002:a05:690c:6f83:b0:6ea:c928:771 with SMTP id
+ 00721157ae682-6eaddf7ffabmr110486467b3.28.1731318326288; Mon, 11 Nov 2024
+ 01:45:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com> <20241104093609.156059-4-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20241104093609.156059-4-andriy.shevchenko@linux.intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 11 Nov 2024 10:45:13 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXx6hYsdKo-5sw+-vH7GOJYWn_de=wSvhj1QVVpbwCN7Q@mail.gmail.com>
+Message-ID: <CAMuHMdXx6hYsdKo-5sw+-vH7GOJYWn_de=wSvhj1QVVpbwCN7Q@mail.gmail.com>
+Subject: Re: [PATCH v1 3/6] leds: gpio: Avoid using GPIOF_ACTIVE_LOW
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Tony Lindgren <tony@atomide.com>, Lee Jones <lee@kernel.org>, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>, 
+	Dominik Brodowski <linux@dominikbrodowski.net>, Daniel Mack <daniel@zonque.org>, 
+	Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This patch introduces the following changes:
-- Adds OF match table.
-- Hardcodes hid-report-addr in the driver rather than fetching it
-  from the device property.
+Hi Andy,
 
-Signed-off-by: Charles Wang <charles.goodix@gmail.com>
----
- drivers/hid/hid-goodix-spi.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+On Mon, Nov 4, 2024 at 10:37=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> Avoid using GPIOF_ACTIVE_LOW as it's deprecated and subject to remove.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-diff --git a/drivers/hid/hid-goodix-spi.c b/drivers/hid/hid-goodix-spi.c
-index 6ae2300a6..80c0288a3 100644
---- a/drivers/hid/hid-goodix-spi.c
-+++ b/drivers/hid/hid-goodix-spi.c
-@@ -20,6 +20,7 @@
- #define GOODIX_HID_REPORT_DESC_ADDR	0x105AA
- #define GOODIX_HID_SIGN_ADDR		0x10D32
- #define GOODIX_HID_CMD_ADDR		0x10364
-+#define GOODIX_HID_REPORT_ADDR		0x22C8C
- 
- #define GOODIX_HID_GET_REPORT_CMD	0x02
- #define GOODIX_HID_SET_REPORT_CMD	0x03
-@@ -701,12 +702,7 @@ static int goodix_spi_probe(struct spi_device *spi)
- 		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio),
- 				     "failed to request reset gpio\n");
- 
--	error = device_property_read_u32(dev, "goodix,hid-report-addr",
--					 &ts->hid_report_addr);
--	if (error)
--		return dev_err_probe(dev, error,
--				     "failed get hid report addr\n");
--
-+	ts->hid_report_addr = GOODIX_HID_REPORT_ADDR;
- 	error = goodix_dev_confirm(ts);
- 	if (error)
- 		return error;
-@@ -790,6 +786,14 @@ static const struct acpi_device_id goodix_spi_acpi_match[] = {
- MODULE_DEVICE_TABLE(acpi, goodix_spi_acpi_match);
- #endif
- 
-+#ifdef CONFIG_OF
-+static const struct of_device_id goodix_spi_of_match[] = {
-+	{ .compatible = "goodix,gt7986u-spifw", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, goodix_spi_of_match);
-+#endif
-+
- static const struct spi_device_id goodix_spi_ids[] = {
- 	{ "gt7986u" },
- 	{ },
-@@ -800,6 +804,7 @@ static struct spi_driver goodix_spi_driver = {
- 	.driver = {
- 		.name = "goodix-spi-hid",
- 		.acpi_match_table = ACPI_PTR(goodix_spi_acpi_match),
-+		.of_match_table = of_match_ptr(goodix_spi_of_match),
- 		.pm = pm_sleep_ptr(&goodix_spi_pm_ops),
- 	},
- 	.probe =	goodix_spi_probe,
--- 
-2.43.0
+Thanks for your patch, which is now commit e6a2f0ea519fd247
+("leds: gpio: Avoid using GPIOF_ACTIVE_LOW") in gpio/gpio/for-next.
 
+> --- a/drivers/leds/leds-gpio.c
+> +++ b/drivers/leds/leds-gpio.c
+> @@ -212,7 +212,6 @@ static struct gpio_desc *gpio_led_get_gpiod(struct de=
+vice *dev, int idx,
+>                                             const struct gpio_led *templa=
+te)
+>  {
+>         struct gpio_desc *gpiod;
+> -       unsigned long flags =3D GPIOF_OUT_INIT_LOW;
+>         int ret;
+>
+>         /*
+> @@ -239,10 +238,7 @@ static struct gpio_desc *gpio_led_get_gpiod(struct d=
+evice *dev, int idx,
+>         if (!gpio_is_valid(template->gpio))
+>                 return ERR_PTR(-ENOENT);
+>
+> -       if (template->active_low)
+> -               flags |=3D GPIOF_ACTIVE_LOW;
+> -
+> -       ret =3D devm_gpio_request_one(dev, template->gpio, flags,
+> +       ret =3D devm_gpio_request_one(dev, template->gpio, GPIOF_OUT_INIT=
+_LOW,
+>                                     template->name);
+
+Just wondering, as I am not 100% sure: can this change change the
+initial state of the GPIO?
+
+>         if (ret < 0)
+>                 return ERR_PTR(ret);
+> @@ -251,6 +247,9 @@ static struct gpio_desc *gpio_led_get_gpiod(struct de=
+vice *dev, int idx,
+>         if (!gpiod)
+>                 return ERR_PTR(-EINVAL);
+>
+> +       if (template->active_low ^ gpiod_is_active_low(gpiod))
+> +               gpiod_toggle_active_low(gpiod);
+> +
+>         return gpiod;
+>  }
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
