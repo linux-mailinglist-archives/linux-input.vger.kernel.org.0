@@ -1,162 +1,129 @@
-Return-Path: <linux-input+bounces-8003-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8004-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACDE9C370C
-	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 04:33:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B34EA9C390A
+	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 08:31:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9D0FD1F21FB0
-	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 03:33:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E021D1C21D48
+	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 07:31:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C49C72E3FE;
-	Mon, 11 Nov 2024 03:33:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BADF814F9F9;
+	Mon, 11 Nov 2024 07:31:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f2Nc0Pqu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sr+Zs7Z/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AED93224;
-	Mon, 11 Nov 2024 03:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BA7E545;
+	Mon, 11 Nov 2024 07:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731295983; cv=none; b=FVjf2CdjyKW8gPe+QX+c9Atxyctle0pFEBJVyRmT24ly1OLBuz8FDQxqzwKKht8f5EZk8gieT6//Wv584NpUemFVfgiOzz8uon1MuBVyT8ysB3P5fdWynRfqNsL9aLxKcVHF+QDIO3i0cpiytwKCjjCWX4ajowOwIX1tUfuhdhM=
+	t=1731310309; cv=none; b=fCF2yyE+yZHTxE3zuDBHZ0D2xxSPvRvJ8A5a6mux8StxfOIpsWM5tIESm15hfVZiobPjO/+w+1Of+Gg0HiCraaccySniwHdAIZ2BYexYeDcxno1USIZLiyyakCd85/77M08RLkivlgFxlTALmAz/Jni4WRT+OzJei9DGZgQ+hXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731295983; c=relaxed/simple;
-	bh=119Hr1JV4i6FMGb96EppLEBoxsNsOhaqmgWDTTe90uw=;
+	s=arc-20240116; t=1731310309; c=relaxed/simple;
+	bh=SXzhXfPE+Qx72rA8T0X23owjGP3zy9X4bJ0lEmi/M3Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cJ6usEwYE0VciDRmLAbmJPihZnhTWOhMIoqsGw+F1Dis/LDOnzConib4w13j2vKg0hhi0qkdzJE6DO7crFAAD5EruhQLQgNpCuSdLmKBHrFlIlg2pLKL1dgLvnXU7lhR6/P/1A3GKwL/BGhcmAqFp4YgeFttXw6lg15zg9TNatc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f2Nc0Pqu; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-720be27db27so3228552b3a.2;
-        Sun, 10 Nov 2024 19:33:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731295981; x=1731900781; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vnc8iSgBDQYpuhzLmnUqf5r3aqtYqrFe99ZE9Wq4E00=;
-        b=f2Nc0PqubZAcTdYloLuHhF7fTKFO8be9B4t0fBs1mGwuLZUCyBzkSlgdAYotoWc5Vm
-         AZ0yOmbFC1bOiS3xvo8vAsKZ8m6ENiEKY/PH91RSH+Jv8XYC+VZBoBpCiRIooa/KHJc0
-         0SoTf4rcTBA9T46EvL81NjozvkW1SbEhbMQUeOaCFBuCkjAPEpCLlpVMpQCNpxvcCaJJ
-         b0RIY+AF75PtifVA74XPvaRlFRy+JNOwzq4VSxBrU6oUasHDBxIUVRSgmmmnm/V3Gau8
-         zEYNPvTdyZ8VuZuY8cTtnjxvzPbvb2VjVuHsgcv1ga82naNumzSGFGgsuO6jSkK7YI0g
-         sCKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731295981; x=1731900781;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vnc8iSgBDQYpuhzLmnUqf5r3aqtYqrFe99ZE9Wq4E00=;
-        b=IA4EiwsaoO/3iLdIlorc22XhrWj5RzqwLeF2jKR7t6TPGHY23/ahCqDVCTjl0iqCJl
-         TTPsNKB2iRE4CPEW6qfyJb38va61146SDYRPywuBY19GTt0M1OBSw5yE087WzzwFM60D
-         UAgrGNEm1nb93EYImxFnEi9u63Ftt0XTw+LahBVNO+59GLIxmjajsPVcaiZolqRmZ524
-         eOkLwORj8/dAdLV6n+8JP+o/yR/uxlYwNCDAuJTMTUgt8xJBPgaaAU49zv/OJsc8NWwO
-         CuDLjyJmaE1pRXVpzzBkgW6tBHSHD4BPyasPTXnJH/BVj+lo0CID1F6Gbko6gV5HDDpE
-         9LKw==
-X-Forwarded-Encrypted: i=1; AJvYcCU2Zf6iJsWMV4LMhkUiiWljnAYdRy4sCNaJHecFbR6DTXs+9IupK0OTczIV09cmAQQC7rXbaHULXIMBPP4=@vger.kernel.org, AJvYcCU4rdN6DYo+n1UygoeymkbcY8rewdZOZrs2R9cMAw02aeUMd1daLzeWSMckSL/70NQ2QJQakc2SPoeM@vger.kernel.org, AJvYcCWvGtee6Ds6UOItSqb6gqYmFX+pStRB2OwXlDaCklq/HBKNc2yCSwY7fQ9IqAnpzucHXLn5SDuPHnKIgFBG@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+RgFrxn8mSk/KhBvHQQuFN8hnFMPx/Hwx5UL49VpE1Za2c13i
-	lr7c4akx+J8wrG4oaSWZSbqWP23uygw7gbODlojy/L2T9QVhH4hl
-X-Google-Smtp-Source: AGHT+IGubFMG2Haoksb9EuHa8ZAmXouEspyoNaKLDaAT0/mWoTrLOyEsuSJlqQxDDW5RgatsdDRVaQ==
-X-Received: by 2002:a05:6a20:7f8b:b0:1dc:1:3e28 with SMTP id adf61e73a8af0-1dc22b91363mr16340372637.40.1731295981434;
-        Sun, 10 Nov 2024 19:33:01 -0800 (PST)
-Received: from ux-UP-WHL01 (mailgw01.gttektw.com. [45.117.96.243])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f5bbdecsm7465503a12.29.2024.11.10.19.32.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Nov 2024 19:33:00 -0800 (PST)
-Date: Mon, 11 Nov 2024 11:32:56 +0800
-From: Charles Wang <charles.goodix@gmail.com>
-To: Rob Herring <robh@kernel.org>
-Cc: krzk@kernel.org, hbarnor@chromium.org, dianders@chromium.org,
-	conor.dooley@microchip.com, dmitry.torokhov@gmail.com,
-	jikos@kernel.org, bentiss@kernel.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] dt-bindings: input: gt7986u-spifw: Remove
- hid-report-addr property
-Message-ID: <ZzF66AChXkYTSIlY@ux-UP-WHL01>
-References: <20241108120311.87795-1-charles.goodix@gmail.com>
- <20241108120311.87795-3-charles.goodix@gmail.com>
- <20241108161350.GA2313139-robh@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=RcFE9y+rnw17Y6Bk4Zo9EVsQw8hnO1Dqu8Jn7ylGFPtXit47hKlZuHmBQXaXpmGK+qLEZKSdAdLlztVG8IDqgNYyTkHnnK1cHhjAOvFIrEqOx+ajSDV7L8o3JUPA5ClEdOSZsALWxD5vPcMozFVrfmeRS/5qH7LvHNIKTmZnbf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sr+Zs7Z/; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731310308; x=1762846308;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=SXzhXfPE+Qx72rA8T0X23owjGP3zy9X4bJ0lEmi/M3Q=;
+  b=Sr+Zs7Z/8vVlNWVgbqbSNKSB7kzX7gjYIgfTI6z8CXPXyGIPmy+gVNA/
+   DAdNcxW6RqDTwRCkQ9fe/I2+ZohAi7SWdCQbnD8esMMTslqwzlQE3E443
+   tNv2uDjv5CYI/U3/+ZRGXecAx9RTKRcoHBBLRUvlh62fH/+jOynaX0+AS
+   zLQl5VQ+sba6Au8jHXAfMXms8jQqCv3ZO7m5gkRqmeCGtwBMnwEpAKtqG
+   2uu4nB3DLx8r0mcTRWLhlzwIUoXVE69MkRPa7x9CA+JOJtIW4AMX6Is89
+   S2Iq9689DB6Eumn5QdbhogBSDGXT0UBBlefwJ79oXAO1ly5v3H2QzuYIS
+   Q==;
+X-CSE-ConnectionGUID: c/4UcSNdRHKtYNlV9KRQFg==
+X-CSE-MsgGUID: 0GIrVh7FQdWl8mhYWU5F3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11252"; a="41719572"
+X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
+   d="scan'208";a="41719572"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 23:31:47 -0800
+X-CSE-ConnectionGUID: 1wF9bTkqS6ep9vgbqng2bg==
+X-CSE-MsgGUID: EoccRMIkS2OIbniMG4nl0A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
+   d="scan'208";a="86538133"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 23:31:42 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tAOte-0000000DVuj-3MD3;
+	Mon, 11 Nov 2024 09:31:38 +0200
+Date: Mon, 11 Nov 2024 09:31:38 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Dominik Brodowski <linux@dominikbrodowski.net>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Tony Lindgren <tony@atomide.com>, Lee Jones <lee@kernel.org>,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 4/6] pcmcia: soc_common: Avoid using GPIOF_ACTIVE_LOW
+Message-ID: <ZzGy2huB-l4PYNUV@smile.fi.intel.com>
+References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com>
+ <20241104093609.156059-5-andriy.shevchenko@linux.intel.com>
+ <CACRpkdYF-_6vb3SsJ9EHh1mCbqeW5=qoYkLF7Re+XyGq36OJSg@mail.gmail.com>
+ <Zy3NXXFFw4l-vfvr@smile.fi.intel.com>
+ <Zy8Dz7v2cGdGOPLj@shine.dominikbrodowski.net>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241108161350.GA2313139-robh@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Zy8Dz7v2cGdGOPLj@shine.dominikbrodowski.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Rob,
-
-On Fri, Nov 08, 2024 at 10:13:50AM -0600, Rob Herring wrote:
-> On Fri, Nov 08, 2024 at 08:03:11PM +0800, Charles Wang wrote:
-> > Since all boards use the same address, drop the goodix,hid-report-addr
-> > property and hardcode it in the driver as a default value.
-> 
-> Where's the driver change?
-> 
-> I don't see the point in defining this and then removing it in the next 
-> patch.
->
-
-Apologies for the confusion. The driver changes will be included in the next version.
-
->
+On Sat, Nov 09, 2024 at 07:40:15AM +0100, Dominik Brodowski wrote:
+> Am Fri, Nov 08, 2024 at 10:35:41AM +0200 schrieb Andy Shevchenko:
+> > On Fri, Nov 08, 2024 at 09:28:19AM +0100, Linus Walleij wrote:
+> > > On Mon, Nov 4, 2024 at 10:36 AM Andy Shevchenko
+> > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > 
+> > > > Avoid using GPIOF_ACTIVE_LOW as it's deprecated and subject to remove.
+> > > >
+> > > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > 
+> > > Looks right to me, some testing would be even better
+> > > because I never trust these flags to get right.
 > > 
-> > Signed-off-by: Charles Wang <charles.goodix@gmail.com>
-> > ---
-> >  .../devicetree/bindings/input/goodix,gt7986u-spifw.yaml    | 7 -------
-> >  1 file changed, 7 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.yaml b/Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.yaml
-> > index 8105b9ce2..c9e346a60 100644
-> > --- a/Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.yaml
-> > +++ b/Documentation/devicetree/bindings/input/goodix,gt7986u-spifw.yaml
-> > @@ -36,11 +36,6 @@ properties:
-> >    reset-gpios:
-> >      maxItems: 1
-> >  
-> > -  goodix,hid-report-addr:
-> > -    $ref: /schemas/types.yaml#/definitions/uint32
-> > -    description:
-> > -      The register address for retrieving HID report data.
-> > -
-> >    spi-max-frequency: true
-> >  
-> >  required:
-> > @@ -48,7 +43,6 @@ required:
-> >    - reg
-> >    - interrupts
-> >    - reset-gpios
-> > -  - goodix,hid-report-addr
+> > I also would like to have this, but seems the only odd fixer was active ca.
+> > 2023 last time, I'm not sure we may hear from Dominik in time, otherwise the
+> > series will be postponed for unknown period of time, which I do not prefer,
+> > rather I will fix any regressions later (but I doubt there are here).
 > 
-> Dropping a required property is an ABI break.
+> As I don't have such hardware, I cannot help with testing, but from the
+> PCMCIA point of view:
 > 
-> A devicetree that passes with the schema will not work on current 
-> kernels that require this property.
-> 
+> 	Acked-by: Dominik Brodowski <linux@dominikbrodowski.net>
 
-Thank you for pointing this out. The next version will include the
-necessary driver modifications.
+Thanks for chiming in!
 
-> >  
-> >  unevaluatedProperties: false
-> >  
-> > @@ -68,7 +62,6 @@ examples:
-> >          interrupts = <25 IRQ_TYPE_LEVEL_LOW>;
-> >          reset-gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
-> >          spi-max-frequency = <10000000>;
-> > -        goodix,hid-report-addr = <0x22c8c>;
-> >        };
-> >      };
-> >  
-> > -- 
-> > 2.43.0
-> > 
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Best regards,
-Charles
+
 
