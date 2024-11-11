@@ -1,120 +1,78 @@
-Return-Path: <linux-input+bounces-8018-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8020-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855439C4385
-	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 18:25:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A869D9C45CD
+	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 20:25:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49D4B2850CE
-	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 17:25:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6AB1F283ABC
+	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 19:25:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4BEC1A704B;
-	Mon, 11 Nov 2024 17:25:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD5B11AB6C3;
+	Mon, 11 Nov 2024 19:25:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YZmsLlt+"
+	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="8GHVwE+i"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C27B25777
-	for <linux-input@vger.kernel.org>; Mon, 11 Nov 2024 17:25:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7F719C569;
+	Mon, 11 Nov 2024 19:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731345952; cv=none; b=YVe+cySBCep9+yzu6KOCh5b7vlUbOsYjSUvoA6//gtuOvv/onCcg/F8UCtSpXf33hWdCMQ3nDmmoeHGk1FQwF/P241Y1vNX9po/jkYPO6gGFvY3XJ2zgLBOEdLZzZSW1z21Wje9mOw9KzUkmRGDvr3PCH9KUoiYTldQ3Lzbz5rU=
+	t=1731353150; cv=none; b=At455HtQVY7OaO0uNhLKJ1p86TEWYVkNctm+Hj1ptK5P7HY2chFehmbIvPLr6Pd3mgwsnzb6ZkKHMb8Tz65esFxd4i/3JGe6miNgYfKloYqLQYV98iVETLQdl0L0fyBvUgE+6PtQW3XGswVvb4zHuNF5hfR2tsZJjSpNSQYCdjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731345952; c=relaxed/simple;
-	bh=ZTk11ZVemdflfr0virzfjHPwj/DySg68gOxo+IYI7+0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P56ygsnR1tpd9tDEPfcp7bxbQBCHYQSGGKnX/Sw0tZaAfq5JejYEF0H3o31H5KitliUQeVzgtjEfFUhllPQPcCw2rJ1gjMu7/kOxbd8BZnsWiTPwtXkcOBgJ2vsqDWbSuDKXT+YrNFDmVlyAJFIJhkFlUFLnSTfQHjVckWMQXmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YZmsLlt+; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-53a007743e7so5663101e87.1
-        for <linux-input@vger.kernel.org>; Mon, 11 Nov 2024 09:25:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1731345949; x=1731950749; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jH1JjioDnQEXEHp1YxtApalVozz8jy8hPAeJoS9fBbM=;
-        b=YZmsLlt+y7Rd0Omr+40zZ/HfxSdmp0NmvrfXBCqw62B7x5Va7ImQLM/xAqXjDKFADe
-         3aYUcZtVg56gQ7lboA9dN1oU/LsqMNnPCjephIRAXq/pSISP6oTEwnzzhjG7C10sU7XZ
-         vPAOOFagaSsKbSzmRmU1/JkdEVAFMqst0Sh+0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731345949; x=1731950749;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jH1JjioDnQEXEHp1YxtApalVozz8jy8hPAeJoS9fBbM=;
-        b=Qqv+BbXr71F5PEsW7Uk0lo4phGPQVS412OV31GMCRKCZdhWzekHHnJPdm8K6gJikJy
-         d1mESb9O+5tq5sNnvA8B+X5Og330/yB3WEXVl7VI+pEMoVzHXjQKnY6ANf9Fs1TGNvh8
-         kPu/Gb1Y3NExMOoYza08WKMF9auspyYNlCjgJeF1TrTmHkSL4R2UdNUAce3OmhCntH+u
-         OwVC8+9Z5g+9vPqBu2udB4mqY3GFVZXOkSlWXXG+Z6qOcu+EOgdotRZNiZfSDKsKyzSq
-         ct4WmHECgLyTJXwy4b/v0d3DvX0UihcSpcVflSuVMJ7f+g792qmdPiDuRueylAlUkioX
-         14UQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXQjKfR5c1lexEKhS6a7U16xryqf5vecO+bK8msLVqU33w2KpLDIjuPz+poB3Z5y46AE076CeZy2+NaQQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy61RJ65hy/N5hb8Y2wfssHNacZrDQMMBKn6fHFr8BGIkZwXAzQ
-	AK+bbrCfTW8eR3+Rxo8Szfuz5UCGxMFK9FgdeLWIEK9nEMTHeESfiq8HPtx6oIQm90J/hrRlDkb
-	HXw==
-X-Google-Smtp-Source: AGHT+IF1mSjLdB4TnFpX7/BjPRntryBLtvZHzUEDEfg1Ai+VC2To/FS8lHdb0rp+420TB3JIsF166g==
-X-Received: by 2002:a05:6512:1255:b0:539:fcba:cc6d with SMTP id 2adb3069b0e04-53d8626c818mr5747776e87.42.1731345948746;
-        Mon, 11 Nov 2024 09:25:48 -0800 (PST)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826a723dsm1594258e87.124.2024.11.11.09.25.47
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Nov 2024 09:25:47 -0800 (PST)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2fc968b3545so38675931fa.2
-        for <linux-input@vger.kernel.org>; Mon, 11 Nov 2024 09:25:47 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXbBOIIEZJBGp5odKl81HOT0weyGY0aHEfPz/jHo6bHopHIyWxtr6016BJ6F94Ix7PhrTpc5y5zV/iuLw==@vger.kernel.org
-X-Received: by 2002:a05:651c:1593:b0:2fb:60a0:f4e1 with SMTP id
- 38308e7fff4ca-2ff201b29a7mr58237271fa.24.1731345947358; Mon, 11 Nov 2024
- 09:25:47 -0800 (PST)
+	s=arc-20240116; t=1731353150; c=relaxed/simple;
+	bh=4hfTcRkqjzCXY7GfYn9nK1+XoaX74nucfiPy5eaXx0k=;
+	h=Date:From:To:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=q2yk0lyIQoyRcUto5xLEmmuasoWNDcSLefzJvJq4XinhbGudbJw3ob7ttxoV6KIvgLXgzjkYh4zzfC4aItEzRnxVbauG2SFZPNcOrO+nnWZg4m8bqdY/GkxrxehLSRtzlXXQhqKXU8MZYsGDFi3QOyYV+pt2oENECZ0DYG6GHss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=8GHVwE+i; arc=none smtp.client-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=References:In-Reply-To:From:Sender:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=DX6jH85JLHIjpQyLSljEPQCb5trtk1s72Pw9EqiaxN0=; b=8GHVwE+iNuM2UWavlGDqB3pSmQ
+	Bp0Z2mjhbKk7vzx4FrTr0NKupvseqc1HA4tZ5NL1havfVdyLTVcDTzVZscHjcgFFSVCZDglrztpzy
+	7ABu2c4Vqm7DZrnWotzp69foPU/Pwt0+jsLQ2w55nGvthnJT0wNenR20yksdKW605PyKPLBBfxQ5G
+	V+Wgwt+KBV6rzmlMkyydRtjbqu4jApzU9tKi7wPyTLJz0zqeYJVNWUUK06QjYeCdQWdxOQ4/gvE6z
+	coFxOGP9UBMxWekYcqDTLAmAdYmraunigdNLbdyjiz7upmZHKPgq5XKqIDIJny0Exo4wr+PpiOxwl
+	MahdF6Fg==;
+Date: Mon, 11 Nov 2024 20:25:43 +0100
+From: Andreas Kemnade <andreas@kemnade.info>
+To: khilman@baylibre.com, devicetree@vger.kernel.org, Tony Lindgren
+ <tony@atomide.com>, linux-kernel@vger.kernel.org, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, Andreas Kemnade
+ <andreas@kemnade.info>, Conor Dooley <conor+dt@kernel.org>, Uwe
+ =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>,
+ linux-input@vger.kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-omap@vger.kernel.org
+Subject: Re: [PATCH 1/2] Input: tsc2007 - accept standard properties
+Message-ID: <20241111202543.582e6a3a@akair>
+In-Reply-To: <20241014141240.92072-2-andreas@kemnade.info>
+References: <20241014141240.92072-1-andreas@kemnade.info>
+	<20241014141240.92072-2-andreas@kemnade.info>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241111075000.111509-1-charles.goodix@gmail.com> <20241111075000.111509-2-charles.goodix@gmail.com>
-In-Reply-To: <20241111075000.111509-2-charles.goodix@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 11 Nov 2024 09:25:31 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UDGqVHxFLEh1e5BW5p1Db+WNjntuSqFjf5uSFLncJUvw@mail.gmail.com>
-Message-ID: <CAD=FV=UDGqVHxFLEh1e5BW5p1Db+WNjntuSqFjf5uSFLncJUvw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] dt-bindings: input: Goodix GT7986U SPI HID Touchscreen
-To: Charles Wang <charles.goodix@gmail.com>
-Cc: robh@kernel.org, krzk@kernel.org, hbarnor@chromium.org, 
-	conor.dooley@microchip.com, dmitry.torokhov@gmail.com, jikos@kernel.org, 
-	bentiss@kernel.org, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Am Mon, 14 Oct 2024 16:12:39 +0200
+schrieb Andreas Kemnade <andreas@kemnade.info>:
 
-On Sun, Nov 10, 2024 at 11:50=E2=80=AFPM Charles Wang <charles.goodix@gmail=
-.com> wrote:
->
-> The Goodix GT7986U touch controller report touch data according to the
-> HID protocol through the SPI bus. However, it is incompatible with
-> Microsoft's HID-over-SPI protocol.
->
-> NOTE: these bindings are distinct from the bindings used with the
-> GT7986U when the chip is running I2C firmware. For some background,
-> see discussion on the mailing lists in the thread:
->
-> https://lore.kernel.org/r/20241018020815.3098263-2-charles.goodix@gmail.c=
-om
->
-> Signed-off-by: Charles Wang <charles.goodix@gmail.com>
-> ---
->  .../bindings/input/goodix,gt7986u-spifw.yaml  | 69 +++++++++++++++++++
->  1 file changed, 69 insertions(+)
+> Only some driver-specific properties were accepted, change it
+> to use the now-available standard properties which are
+> found in devicetrees containing this chip.
+> 
+> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
 
-As far as I can tell this looks fine now. Thanks!
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+ping
 
