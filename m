@@ -1,258 +1,198 @@
-Return-Path: <linux-input+bounces-8012-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8013-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351689C3F69
-	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 14:13:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B1C9C4189
+	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 16:08:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B86711F21DE6
-	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 13:13:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 49A391F22E4E
+	for <lists+linux-input@lfdr.de>; Mon, 11 Nov 2024 15:08:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BCB219D075;
-	Mon, 11 Nov 2024 13:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="akMBHJXZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF1371A0BFF;
+	Mon, 11 Nov 2024 15:08:32 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4108F77
-	for <linux-input@vger.kernel.org>; Mon, 11 Nov 2024 13:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB3A1A0BD7
+	for <linux-input@vger.kernel.org>; Mon, 11 Nov 2024 15:08:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731330775; cv=none; b=eOjA4rqPTNUS6MQ3x223bzAphJrgijP86OWoGjGaCEE313xYYxl6aKt1DfxtQvnU2tUiWbCv7Fjx9b2WHaB+O+CZ1KepwHTVqAZ4f4hz4T0kyGh+iibNjw35pejhuWROqlkPhRTAMqXoJoM/CPXyF6U7Z401QHk2aPAIbebg9sc=
+	t=1731337712; cv=none; b=WQnU6dCO9Rt4VSUghCbTqzqEgCO/ecDgJf711aG4xC5y/BI8qebcRaCWOBUtK9Hsq5V2vGDJl88JXyhe5xrg07cr6XK8P4oF3q+pg23AGLvavVgpV/ZDVrwuH2MT/kdWCXDTl+ff5jbjR1fKdBp44qp1b9Zc17LaHzWNOmD8res=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731330775; c=relaxed/simple;
-	bh=hlCgYj4KqFoNje7LPqbjN114QT5GqWux5iHnY488pNA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BXlnKlwBNTf5q1cUBVL71ROHnsrM30hnokhjZqy6Cji2I726XPpxVtWddVwWq2yUHLYtoLpxy9Qi/uV3m16GF+4t9BuE3XfcpuvOuNpPE0IqnLrxgIf0wwmzAaJ0tSavH3ge9n1f9keVTb2fyphAjuJuyPr1raqrUPbzwEn0/zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=akMBHJXZ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1731330771;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=FyfkMBNSykWaaIeAogOFuYzRo8X+mQaFAtl/EmHfBwc=;
-	b=akMBHJXZVQH4FPioIsvVDNWerEiDKcjur+W0ozDXFlVY2YFuLl4SPWKS1ddyZ+ea8SA9sF
-	8jNP7i0uJclsPe1NzRIlh+BeFlfpt5D0p9p18FS8ZeErkaV4VJ1Ithsuk/hhVUNp0CBSta
-	JKk253Chc8Ut2wgzowWpTyPaUMmoZHI=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-216-7XekgXwUNGWoRRtlMyqelg-1; Mon,
- 11 Nov 2024 08:12:47 -0500
-X-MC-Unique: 7XekgXwUNGWoRRtlMyqelg-1
-X-Mimecast-MFC-AGG-ID: 7XekgXwUNGWoRRtlMyqelg
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 81DEA1953940;
-	Mon, 11 Nov 2024 13:12:45 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.45.225.127])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A03D21956086;
-	Mon, 11 Nov 2024 13:12:41 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: linux-hyperv@vger.kernel.org,
-	linux-input@vger.kernel.org
-Cc: Saurabh Singh Sengar <ssengar@linux.microsoft.com>,
-	mhklinux@outlook.com,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] HID: hyperv: streamline driver probe to avoid devres issues
-Date: Mon, 11 Nov 2024 14:12:40 +0100
-Message-ID: <20241111131240.35158-1-vkuznets@redhat.com>
+	s=arc-20240116; t=1731337712; c=relaxed/simple;
+	bh=FDCLdt6jTXusBq+H45UNYrhQXqtWmVoWcVPMg+KNF/c=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=AJN78+hX7pY0ORRfKh/PShnZTITShkA2W7W23WlBMxwwH0gJEosFrb/l98OUgFyhHKG4+9RIPesbaOGb486gPqZ6jlNbMtOzkNOlITedZjmpL5BzlG62fIy4cBnX3OBn2X6lcVar3+ymuViPFPk+N4N2J36KepRPtxHHL75rlVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-3a6bd5be0faso58697585ab.3
+        for <linux-input@vger.kernel.org>; Mon, 11 Nov 2024 07:08:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731337710; x=1731942510;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zZABHj6qRef2ZQjH9g/cV4sIBVHktb/q6XswMeQxqNg=;
+        b=Nz+9cFfA0QSFL15/xtQH8JquLJgsUIi8QaDqJrSYnMljKo+S1p2+AyRyLLuvKoEal2
+         LpdocuoctbLwS4JGHHojgdCNe8l7XtRJ+wUOS6/YPmxQz8+n3x74XOpbVWzBCsv74OYV
+         ZHTz9t4ttLrfhrIz9aMqbj+8qyE1dINz4sWoYC1eceah/S5zNoskwaUtirln04ZinHK6
+         L5KM00xEr4Al6UpaZqvoqhQev040o5wl0EI/1fYOCyQ1XitlkvMakUGkjKvJMVCoyi6y
+         T4lGV83j09ByRpzrTyQGDtGlYx0tK1niGgU0HqCFZQM8jd6xLmPhhSULqNa0AD7Xxp+o
+         dTBg==
+X-Forwarded-Encrypted: i=1; AJvYcCXgJcqhjqzbLolzRg332xndOrPBT5MY1Kh9YUbCq9D60QanQVRzLyq2aT7xU2vSdZQQy/9EwHXYBLhAaw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiWCcjYs6z8PxOLmELZxvthtrGWH/s3ZKqa2mfg5Lz4cK2CBIL
+	RTb99NYrLVbh5aRYVRiFEf/Bep/b8NAKC5FcAIQaKswTMVg8veg5ZDdcFH2gTNOOjXELSIwTOoq
+	y1OAIf/8HWoRt4veNs9Ht3xiJDYdSTXHXQWT/EuFQ+A3ByVDvuk0cJg0=
+X-Google-Smtp-Source: AGHT+IHNFa+TL3YwCbai22qPDbdHnv9vPxDALx9Tn4KEQIkwvaOL/l5nc2QICiQt4GF6u5UQcHGIux9+0uHaFkflJzwGBiWkfr2p
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+X-Received: by 2002:a05:6e02:180e:b0:3a0:9829:100b with SMTP id
+ e9e14a558f8ab-3a6f1a44d6fmr138535375ab.21.1731337709857; Mon, 11 Nov 2024
+ 07:08:29 -0800 (PST)
+Date: Mon, 11 Nov 2024 07:08:29 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67321ded.050a0220.a83d0.0016.GAE@google.com>
+Subject: [syzbot] [input?] [usb?] UBSAN: shift-out-of-bounds in s32ton
+From: syzbot <syzbot+3fa2af55f15bd21cada9@syzkaller.appspotmail.com>
+To: bentiss@kernel.org, jikos@kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-It was found that unloading 'hid_hyperv' module results in a devres
-complaint:
+Hello,
 
- ...
- hv_vmbus: unregistering driver hid_hyperv
- ------------[ cut here ]------------
- WARNING: CPU: 2 PID: 3983 at drivers/base/devres.c:691 devres_release_group+0x1f2/0x2c0
- ...
- Call Trace:
-  <TASK>
-  ? devres_release_group+0x1f2/0x2c0
-  ? __warn+0xd1/0x1c0
-  ? devres_release_group+0x1f2/0x2c0
-  ? report_bug+0x32a/0x3c0
-  ? handle_bug+0x53/0xa0
-  ? exc_invalid_op+0x18/0x50
-  ? asm_exc_invalid_op+0x1a/0x20
-  ? devres_release_group+0x1f2/0x2c0
-  ? devres_release_group+0x90/0x2c0
-  ? rcu_is_watching+0x15/0xb0
-  ? __pfx_devres_release_group+0x10/0x10
-  hid_device_remove+0xf5/0x220
-  device_release_driver_internal+0x371/0x540
-  ? klist_put+0xf3/0x170
-  bus_remove_device+0x1f1/0x3f0
-  device_del+0x33f/0x8c0
-  ? __pfx_device_del+0x10/0x10
-  ? cleanup_srcu_struct+0x337/0x500
-  hid_destroy_device+0xc8/0x130
-  mousevsc_remove+0xd2/0x1d0 [hid_hyperv]
-  device_release_driver_internal+0x371/0x540
-  driver_detach+0xc5/0x180
-  bus_remove_driver+0x11e/0x2a0
-  ? __mutex_unlock_slowpath+0x160/0x5e0
-  vmbus_driver_unregister+0x62/0x2b0 [hv_vmbus]
-  ...
+syzbot found the following issue on:
 
-And the issue seems to be that the corresponding devres group is not
-allocated. Normally, devres_open_group() is called from
-__hid_device_probe() but Hyper-V HID driver overrides 'hid_dev->driver'
-with 'mousevsc_hid_driver' stub and basically re-implements
-__hid_device_probe() by calling hid_parse() and hid_hw_start() but not
-devres_open_group(). hid_device_probe() does not call __hid_device_probe()
-for it. Later, when the driver is removed, hid_device_remove() calls
-devres_release_group() as it doesn't check whether hdev->driver was
-initially overridden or not.
+HEAD commit:    226ff2e681d0 usb: typec: ucsi: Convert connector specific ..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=169619f7980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=358c1689354aeef3
+dashboard link: https://syzkaller.appspot.com/bug?extid=3fa2af55f15bd21cada9
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
 
-The issue seems to be related to the commit 62c68e7cee33 ("HID: ensure
-timely release of driver-allocated resources") but the commit itself seems
-to be correct.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Fix the issue by dropping the 'hid_dev->driver' override and using
-hid_register_driver()/hid_unregister_driver() instead. Alternatively, it
-would have been possible to rely on the default handling but
-HID_CONNECT_DEFAULT implies HID_CONNECT_HIDRAW and it doesn't seem to work
-for mousevsc as-is.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/e48f2af8afd7/disk-226ff2e6.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/76328e28b54c/vmlinux-226ff2e6.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/ab9f75a466a2/bzImage-226ff2e6.xz
 
-Fixes: 62c68e7cee33 ("HID: ensure timely release of driver-allocated resources")
-Suggested-by: Michael Kelley <mhklinux@outlook.com>
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+3fa2af55f15bd21cada9@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:1352:16
+shift exponent 4294967295 is too large for 32-bit type 'int'
+CPU: 1 UID: 0 PID: 31701 Comm: kworker/1:9 Not tainted 6.12.0-rc6-syzkaller-00103-g226ff2e681d0 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+ ubsan_epilogue lib/ubsan.c:231 [inline]
+ __ubsan_handle_shift_out_of_bounds+0x2a5/0x480 lib/ubsan.c:468
+ s32ton.cold+0x37/0x9c drivers/hid/hid-core.c:1352
+ hid_set_field+0x1e0/0x370 drivers/hid/hid-core.c:1905
+ hidinput_input_event+0x290/0x430 drivers/hid/hid-input.c:1865
+ input_event_dispose drivers/input/input.c:321 [inline]
+ input_handle_event+0x14e/0x14d0 drivers/input/input.c:369
+ input_inject_event+0x1bb/0x370 drivers/input/input.c:428
+ __led_set_brightness drivers/leds/led-core.c:52 [inline]
+ led_set_brightness_nopm drivers/leds/led-core.c:323 [inline]
+ led_set_brightness_nosleep drivers/leds/led-core.c:354 [inline]
+ led_set_brightness+0x211/0x290 drivers/leds/led-core.c:316
+ kbd_led_trigger_activate+0xcb/0x110 drivers/tty/vt/keyboard.c:1036
+ led_trigger_set+0x59a/0xc60 drivers/leds/led-triggers.c:212
+ led_match_default_trigger drivers/leds/led-triggers.c:269 [inline]
+ led_match_default_trigger drivers/leds/led-triggers.c:263 [inline]
+ led_trigger_set_default drivers/leds/led-triggers.c:287 [inline]
+ led_trigger_set_default+0x1bd/0x2a0 drivers/leds/led-triggers.c:276
+ led_classdev_register_ext+0x78c/0x9e0 drivers/leds/led-class.c:555
+ led_classdev_register include/linux/leds.h:273 [inline]
+ input_leds_connect+0x552/0x8e0 drivers/input/input-leds.c:145
+ input_attach_handler.isra.0+0x181/0x260 drivers/input/input.c:1027
+ input_register_device+0xa84/0x1110 drivers/input/input.c:2470
+ hidinput_connect+0x1d9c/0x2ba0 drivers/hid/hid-input.c:2343
+ hid_connect+0x13a8/0x18a0 drivers/hid/hid-core.c:2234
+ hid_hw_start drivers/hid/hid-core.c:2349 [inline]
+ hid_hw_start+0xaa/0x140 drivers/hid/hid-core.c:2340
+ ms_probe+0x195/0x500 drivers/hid/hid-microsoft.c:391
+ __hid_device_probe drivers/hid/hid-core.c:2699 [inline]
+ hid_device_probe+0x2eb/0x490 drivers/hid/hid-core.c:2736
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:830
+ __device_attach_driver+0x1df/0x310 drivers/base/dd.c:958
+ bus_for_each_drv+0x157/0x1e0 drivers/base/bus.c:459
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:534
+ device_add+0x114b/0x1a70 drivers/base/core.c:3672
+ hid_add_device+0x37f/0xa70 drivers/hid/hid-core.c:2882
+ usbhid_probe+0xd3b/0x1410 drivers/hid/usbhid/hid-core.c:1431
+ usb_probe_interface+0x309/0x9d0 drivers/usb/core/driver.c:399
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:830
+ __device_attach_driver+0x1df/0x310 drivers/base/dd.c:958
+ bus_for_each_drv+0x157/0x1e0 drivers/base/bus.c:459
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:534
+ device_add+0x114b/0x1a70 drivers/base/core.c:3672
+ usb_set_configuration+0x10cb/0x1c50 drivers/usb/core/message.c:2210
+ usb_generic_driver_probe+0xb1/0x110 drivers/usb/core/generic.c:254
+ usb_probe_device+0xec/0x3e0 drivers/usb/core/driver.c:294
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:830
+ __device_attach_driver+0x1df/0x310 drivers/base/dd.c:958
+ bus_for_each_drv+0x157/0x1e0 drivers/base/bus.c:459
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:534
+ device_add+0x114b/0x1a70 drivers/base/core.c:3672
+ usb_new_device+0xd90/0x1a10 drivers/usb/core/hub.c:2651
+ hub_port_connect drivers/usb/core/hub.c:5521 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5661 [inline]
+ port_event drivers/usb/core/hub.c:5821 [inline]
+ hub_event+0x2e58/0x4f40 drivers/usb/core/hub.c:5903
+ process_one_work+0x9c5/0x1ba0 kernel/workqueue.c:3229
+ process_scheduled_works kernel/workqueue.c:3310 [inline]
+ worker_thread+0x6c8/0xf00 kernel/workqueue.c:3391
+ kthread+0x2c1/0x3a0 kernel/kthread.c:389
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+---[ end trace ]---
+
+
 ---
-Changes since v1:
-- Keep custom HID driver for mousevsc but do it properly
-[Michael Kelley].
-- Add 'Fixes:' tag [Saurabh Singh Sengar].
----
- drivers/hid/hid-hyperv.c | 58 ++++++++++++++++++++++++++++------------
- 1 file changed, 41 insertions(+), 17 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
-index f33485d83d24..0fb210e40a41 100644
---- a/drivers/hid/hid-hyperv.c
-+++ b/drivers/hid/hid-hyperv.c
-@@ -422,6 +422,25 @@ static int mousevsc_hid_raw_request(struct hid_device *hid,
- 	return 0;
- }
- 
-+static int mousevsc_hid_probe(struct hid_device *hid_dev, const struct hid_device_id *id)
-+{
-+	int ret;
-+
-+	ret = hid_parse(hid_dev);
-+	if (ret) {
-+		hid_err(hid_dev, "parse failed\n");
-+		return ret;
-+	}
-+
-+	ret = hid_hw_start(hid_dev, HID_CONNECT_HIDINPUT | HID_CONNECT_HIDDEV);
-+	if (ret) {
-+		hid_err(hid_dev, "hw start failed\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static const struct hid_ll_driver mousevsc_ll_driver = {
- 	.parse = mousevsc_hid_parse,
- 	.open = mousevsc_hid_open,
-@@ -431,7 +450,16 @@ static const struct hid_ll_driver mousevsc_ll_driver = {
- 	.raw_request = mousevsc_hid_raw_request,
- };
- 
--static struct hid_driver mousevsc_hid_driver;
-+static const struct hid_device_id mousevsc_devices[] = {
-+	{ HID_DEVICE(BUS_VIRTUAL, HID_GROUP_ANY, 0x045E, 0x0621) },
-+	{ }
-+};
-+
-+static struct hid_driver mousevsc_hid_driver = {
-+	.name = "hid-hyperv",
-+	.id_table = mousevsc_devices,
-+	.probe = mousevsc_hid_probe,
-+};
- 
- static int mousevsc_probe(struct hv_device *device,
- 			const struct hv_vmbus_device_id *dev_id)
-@@ -473,7 +501,6 @@ static int mousevsc_probe(struct hv_device *device,
- 	}
- 
- 	hid_dev->ll_driver = &mousevsc_ll_driver;
--	hid_dev->driver = &mousevsc_hid_driver;
- 	hid_dev->bus = BUS_VIRTUAL;
- 	hid_dev->vendor = input_dev->hid_dev_info.vendor;
- 	hid_dev->product = input_dev->hid_dev_info.product;
-@@ -488,20 +515,6 @@ static int mousevsc_probe(struct hv_device *device,
- 	if (ret)
- 		goto probe_err2;
- 
--
--	ret = hid_parse(hid_dev);
--	if (ret) {
--		hid_err(hid_dev, "parse failed\n");
--		goto probe_err2;
--	}
--
--	ret = hid_hw_start(hid_dev, HID_CONNECT_HIDINPUT | HID_CONNECT_HIDDEV);
--
--	if (ret) {
--		hid_err(hid_dev, "hw start failed\n");
--		goto probe_err2;
--	}
--
- 	device_init_wakeup(&device->device, true);
- 
- 	input_dev->connected = true;
-@@ -579,12 +592,23 @@ static struct  hv_driver mousevsc_drv = {
- 
- static int __init mousevsc_init(void)
- {
--	return vmbus_driver_register(&mousevsc_drv);
-+	int ret;
-+
-+	ret = hid_register_driver(&mousevsc_hid_driver);
-+	if (ret)
-+		return ret;
-+
-+	ret = vmbus_driver_register(&mousevsc_drv);
-+	if (ret)
-+		hid_unregister_driver(&mousevsc_hid_driver);
-+
-+	return ret;
- }
- 
- static void __exit mousevsc_exit(void)
- {
- 	vmbus_driver_unregister(&mousevsc_drv);
-+	hid_unregister_driver(&mousevsc_hid_driver);
- }
- 
- MODULE_LICENSE("GPL");
--- 
-2.47.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
