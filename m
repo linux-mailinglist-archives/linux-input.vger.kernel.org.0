@@ -1,454 +1,291 @@
-Return-Path: <linux-input+bounces-8029-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8030-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D329C4E43
-	for <lists+linux-input@lfdr.de>; Tue, 12 Nov 2024 06:32:20 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 002819C4E83
+	for <lists+linux-input@lfdr.de>; Tue, 12 Nov 2024 07:05:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5613B28821E
-	for <lists+linux-input@lfdr.de>; Tue, 12 Nov 2024 05:32:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5826BB22389
+	for <lists+linux-input@lfdr.de>; Tue, 12 Nov 2024 06:05:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EAAE189F37;
-	Tue, 12 Nov 2024 05:32:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 558D6200C97;
+	Tue, 12 Nov 2024 06:04:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MVXH81Sc"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="SqKWR/aD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 630E717333A;
-	Tue, 12 Nov 2024 05:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 992B541C79;
+	Tue, 12 Nov 2024 06:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731389526; cv=none; b=nQPxDkTGliPPowbAHRYbRAnbV4h7CtwPGm9j86D4HiPQzHah11uvhqa9I1VOajfyRFcBIgcyJX7zL/AiAFE3K27HR6+iOU4sGUqd/3YsDdIKJicUV4LEfLM01Q7e+PwoxmOdMsXUiBAhrkk/EAj+UJ1c/wyMh0BvmP152JurWKo=
+	t=1731391497; cv=none; b=RvIjJMKRSKP6w/R+o31SxGT5Tsgj2T2vAavibb9M1EBW0R4qqQK3LKNjMxz/yT9H9UVonxPWCh28rAsaX+OexDJPldgdbucv9MjEXHJ2yRk27Emw8ivqL0nj/1Dk+vmkBRqSBG40O01yvwhgLB3VhbOCpD+Zo1pqc/U9tbASoAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731389526; c=relaxed/simple;
-	bh=6bE3jdxyoMQLgptLifTB+v3B4roQ+hD3F0vEDBYqPsg=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kXieQpXzrA7NPqslXpEd2Upe52+1fXr3/puq//BJ4itAnIk9qQHIfdhiV0mAGG2frQ9FIpfuE1gCZBuFMME3dr/4Fbba12ZV9yXL3zZ+ZU6sDRdUM60Xyz0BsrUgd8QwENHts7YrMTXPvoLrN88wLTCT+5xsVGkdRQ35XRdw6zU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MVXH81Sc; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20c7edf2872so49508825ad.1;
-        Mon, 11 Nov 2024 21:32:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731389524; x=1731994324; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=b+4mxPJ+g18SR9b4gggRSBkZ7SdunBZ7o+EK85L2ooA=;
-        b=MVXH81ScMy+chL8dRJrAIRMTjB7Owbh2Ge5V6J5ULaAmhipssxzVHoF6hz0pu8V2gu
-         tpuvV/0FVU7SeutVC3CU8XgskA5CKMkpA/rn314xLil1GQaAQAAissklQBua1jOQbAy7
-         VY2Ue05XeX0FZmtvO2wJfutsf7LFJQyawQA8AdAJZtoPSnQwZnJs74NUyqiKswp20Jpu
-         4p54vjLz4rryWlKncgh/g15TSd4KMzSEte5xBySfmEZjJuN9F/PnRFkpDJqML3dMdXc1
-         WenQINMnnI96YNybkyQ4JHhI+WXVwHrWOv2sdrrseQoD1VZo5tQ3QG2R+n7/CSWcNBob
-         ZlqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731389524; x=1731994324;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b+4mxPJ+g18SR9b4gggRSBkZ7SdunBZ7o+EK85L2ooA=;
-        b=fd6pDDkJLMmOZOQrAjjIinGC5WUhBolC1lHtlb0deaXzypgRvm90UG1UqwdouP+XV4
-         PChMlDRnwwnrVlmLQSGLYgq2Z18MlyM9C+KDp6+aljCp43ba91r6xci6+S23CHk/nxcy
-         rQoZTE/Hb8TQPab8m16UJx2kEJf1TXz1Y7zNHq0YnXHb00+I0a2ImjbGB9CnUrvK40Ko
-         HOtsHLdEnfGfSDioBcns2douXGDn5EnVV89UUaybSMkk3KsH9ebdkZM3hp3LYu2QvNuI
-         jKTgbtlYCUS6Kc6duIpHI4V/bo7WdYyp+uq5bBx9S8RtPs8rDbeZ/WheXSJZLCg+bdvt
-         8QLw==
-X-Forwarded-Encrypted: i=1; AJvYcCVdGB5oP8FqLKMS2AC7szbRBs/nwAFbl38TzGWcA1x+yqr5sC0XrSx3HkGJYSaqLd9nilVa6C13qII/uO9z@vger.kernel.org, AJvYcCVjX1xS3CGgxslno8qsXJz0T9PyFTaf97UDk8ftuY6ELKaFCbkbZ4EZPE1KSvHY0DiEWx6jc6NXrGke@vger.kernel.org, AJvYcCWfwjOqIVlP7dOqDXSYcuiXcLLSNjsPMd6E31LL743tgQmM1V/AE9vM4ZyHMwEJ7IPrIxTe6BIyMYUOFoY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxd67tCz1jQj3kKpRBp2wLhWtd9b2wsjYJ7ewoYpaz3P3AkUq5y
-	qn/c4C1n6p+AK56lKo6jkU3LZ6nlB9QEVy2QhIsT2JDsHKNoRdxB
-X-Google-Smtp-Source: AGHT+IE7ZB+JygivYN7DRDyTz5bRORwOqOffxgQGMsQc3P7jip8WElNPqo+qzrpjqX0jczvjGYhLbQ==
-X-Received: by 2002:a17:902:d50d:b0:20c:62af:a0f0 with SMTP id d9443c01a7336-2118217c5afmr220351525ad.7.1731389523447;
-        Mon, 11 Nov 2024 21:32:03 -0800 (PST)
-Received: from localhost.localdomain (60-250-192-107.hinet-ip.hinet.net. [60.250.192.107])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177ddf19esm85815505ad.92.2024.11.11.21.32.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 21:32:03 -0800 (PST)
-From: mjchen <mjchen0829@gmail.com>
-To: dmitry.torokhov@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	sudeep.holla@arm.com,
-	peng.fan@nxp.com,
-	arnd@arndb.de,
-	mjchen0829@gmail.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mjchen@nuvoton.com
-Subject: [PATCH v2 2/2] input: keypad: add new keypad driver for MA35D1
-Date: Tue, 12 Nov 2024 05:30:59 +0000
-Message-Id: <20241112053059.3361-3-mjchen0829@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241112053059.3361-1-mjchen0829@gmail.com>
-References: <20241112053059.3361-1-mjchen0829@gmail.com>
+	s=arc-20240116; t=1731391497; c=relaxed/simple;
+	bh=VDovnK/VdUb2UO9oiRw8X0wL86M/m2cDJuvJ+pboJ3g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=epWNixUqYbqbTHqVYwUYAi6n/lvdyoZ6zhrp7mm0zE5CPQws/6ynncQQOzfLBSeUINoqRweq1j75MXeaIlCPnl0ZK10psZnz6HNffd5Zz+sz9U/OKrE0cA5Q7L3EMGzgs/cMHJFbEXVsben9DHjcIUL4qcZy9CcjScwj4vXpB6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=SqKWR/aD; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: by linux.microsoft.com (Postfix, from userid 1127)
+	id 5384D23834B2; Mon, 11 Nov 2024 22:04:49 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5384D23834B2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1731391489;
+	bh=WFPyDGhv8RnYMo1MYeX1ZSP9SwhkJPfogurLOJEkza8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SqKWR/aDsLZcBdhQjCcCsyXkaazozWeOvtkFS7xqWIZe60cY8oaYeIn9mG2aNpBkE
+	 dH54/+xnfgCJJyP1P9lk7Ta0sg6otS7n/GN1XEDTu3ARM/JGPOI6YhiljppbIq7Nyv
+	 EFgxk0964gUy/tFBgswZ3pYk0OMCXZqcgyEAmUt4=
+Date: Mon, 11 Nov 2024 22:04:49 -0800
+From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: Vitaly Kuznetsov <vkuznets@redhat.com>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] HID: hyperv: streamline driver probe to avoid devres
+ issues
+Message-ID: <20241112060449.GA18117@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <20241111131240.35158-1-vkuznets@redhat.com>
+ <SN6PR02MB41577C6B7BF387BEB9114A05D4582@SN6PR02MB4157.namprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SN6PR02MB41577C6B7BF387BEB9114A05D4582@SN6PR02MB4157.namprd02.prod.outlook.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 
-Adds a new keypad driver for the MA35D1 platform.
-The driver supports key scanning and interrupt handling.
+On Mon, Nov 11, 2024 at 04:50:24PM +0000, Michael Kelley wrote:
+> From: Vitaly Kuznetsov <vkuznets@redhat.com> Sent: Monday, November 11, 2024 5:13 AM
+> > 
+> > It was found that unloading 'hid_hyperv' module results in a devres
+> > complaint:
+> > 
+> >  ...
+> >  hv_vmbus: unregistering driver hid_hyperv
+> >  ------------[ cut here ]------------
+> >  WARNING: CPU: 2 PID: 3983 at drivers/base/devres.c:691
+> > devres_release_group+0x1f2/0x2c0
+> >  ...
+> >  Call Trace:
+> >   <TASK>
+> >   ? devres_release_group+0x1f2/0x2c0
+> >   ? __warn+0xd1/0x1c0
+> >   ? devres_release_group+0x1f2/0x2c0
+> >   ? report_bug+0x32a/0x3c0
+> >   ? handle_bug+0x53/0xa0
+> >   ? exc_invalid_op+0x18/0x50
+> >   ? asm_exc_invalid_op+0x1a/0x20
+> >   ? devres_release_group+0x1f2/0x2c0
+> >   ? devres_release_group+0x90/0x2c0
+> >   ? rcu_is_watching+0x15/0xb0
+> >   ? __pfx_devres_release_group+0x10/0x10
+> >   hid_device_remove+0xf5/0x220
+> >   device_release_driver_internal+0x371/0x540
+> >   ? klist_put+0xf3/0x170
+> >   bus_remove_device+0x1f1/0x3f0
+> >   device_del+0x33f/0x8c0
+> >   ? __pfx_device_del+0x10/0x10
+> >   ? cleanup_srcu_struct+0x337/0x500
+> >   hid_destroy_device+0xc8/0x130
+> >   mousevsc_remove+0xd2/0x1d0 [hid_hyperv]
+> >   device_release_driver_internal+0x371/0x540
+> >   driver_detach+0xc5/0x180
+> >   bus_remove_driver+0x11e/0x2a0
+> >   ? __mutex_unlock_slowpath+0x160/0x5e0
+> >   vmbus_driver_unregister+0x62/0x2b0 [hv_vmbus]
+> >   ...
 
-Signed-off-by: mjchen <mjchen0829@gmail.com>
----
- drivers/input/keyboard/Kconfig         |  10 +
- drivers/input/keyboard/Makefile        |   1 +
- drivers/input/keyboard/ma35d1_keypad.c | 308 +++++++++++++++++++++++++
- 3 files changed, 319 insertions(+)
- create mode 100644 drivers/input/keyboard/ma35d1_keypad.c
+Do we want to mention the other error as well this patch is fixing:
 
-diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
-index 721ab69e84ac..d7c0d0f4a88d 100644
---- a/drivers/input/keyboard/Kconfig
-+++ b/drivers/input/keyboard/Kconfig
-@@ -797,4 +797,14 @@ config KEYBOARD_CYPRESS_SF
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called cypress-sf.
- 
-+config KEYBOARD_MA35D1
-+	tristate "Nuvoton MA35D1 keypad driver"
-+	depends on ARCH_MA35 || COMPILE_TEST
-+	select INPUT_MATRIXKMAP
-+	help
-+	  Say Y here if you want to use Nuvoton MA35D1 keypad.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called ma35d1-keypad.
-+
- endif
-diff --git a/drivers/input/keyboard/Makefile b/drivers/input/keyboard/Makefile
-index 1e0721c30709..9b858cdd1b6b 100644
---- a/drivers/input/keyboard/Makefile
-+++ b/drivers/input/keyboard/Makefile
-@@ -70,3 +70,4 @@ obj-$(CONFIG_KEYBOARD_TEGRA)		+= tegra-kbc.o
- obj-$(CONFIG_KEYBOARD_TM2_TOUCHKEY)	+= tm2-touchkey.o
- obj-$(CONFIG_KEYBOARD_TWL4030)		+= twl4030_keypad.o
- obj-$(CONFIG_KEYBOARD_XTKBD)		+= xtkbd.o
-+obj-$(CONFIG_KEYBOARD_MA35D1)		+= ma35d1_keypad.o
-diff --git a/drivers/input/keyboard/ma35d1_keypad.c b/drivers/input/keyboard/ma35d1_keypad.c
-new file mode 100644
-index 000000000000..be7ff4f49e8c
---- /dev/null
-+++ b/drivers/input/keyboard/ma35d1_keypad.c
-@@ -0,0 +1,308 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ *  MA35D1 keypad driver
-+ *  Copyright (C) 2024 Nuvoton Technology Corp.
-+ */
-+
-+#include <linux/interrupt.h>
-+#include <linux/input.h>
-+#include <linux/platform_device.h>
-+#include <linux/input/matrix_keypad.h>
-+#include <linux/clk.h>
-+#include <linux/of.h>
-+#include <linux/bitops.h>
-+#include <linux/pm_wakeirq.h>
-+
-+/* Keypad Interface Registers */
-+#define KPI_CONF		0x00
-+#define KPI_3KCONF		0x04
-+#define KPI_STATUS		0x08
-+#define KPI_RSTC		0x0C
-+#define KPI_KEST		0x10
-+#define KPI_KPE0		0x18
-+#define KPI_KPE1		0x1C
-+#define KPI_KRE0		0x20
-+#define KPI_KRE1		0x24
-+#define KPI_PRESCALDIV		0x28
-+
-+/* KPI_CONF - Keypad Configuration Register */
-+#define KROW		GENMASK(30, 28) /* Keypad Matrix ROW number */
-+#define KCOL		GENMASK(26, 24) /* Keypad Matrix COL Number */
-+#define DB_CLKSEL	GENMASK(19, 16) /* De-bounce sampling cycle selection */
-+#define PRESCALE	GENMASK(15, 8)  /* Row Scan Cycle Pre-scale Value */
-+#define WAKEUP		BIT(5) /* Lower Power Wakeup Enable */
-+#define INTEN		BIT(3) /* Key Interrupt Enable Control */
-+#define RKINTEN	BIT(2) /* Release Key Interrupt Enable */
-+#define PKINTEN	BIT(1) /* Press Key Interrupt Enable Control */
-+#define ENKP		BIT(0) /* Keypad Scan Enable */
-+
-+/* KPI_STATUS - Keypad Status Register */
-+#define PKEY_INT	BIT(4) /* Press key interrupt */
-+#define RKEY_INT	BIT(3) /* Release key interrupt */
-+#define KEY_INT	BIT(2) /* Key Interrupt */
-+#define RST_3KEY	BIT(1) /* 3-Keys Reset Flag */
-+#define PDWAKE		BIT(0) /* Power Down Wakeup Flag */
-+
-+#define KEY_EVENT_BITS 64
-+
-+struct ma35d1_keypad {
-+	struct clk *clk;
-+	struct input_dev *input_dev;
-+	void __iomem *mmio_base;
-+	int irq;
-+	unsigned int kpi_row;
-+	unsigned int kpi_col;
-+	unsigned int debounce_val;
-+	unsigned int pre_scale;
-+	unsigned int pre_scale_divider;
-+};
-+
-+static void ma35d1_keypad_scan_matrix(struct ma35d1_keypad *keypad, unsigned int status)
-+{
-+	struct input_dev *input_dev = keypad->input_dev;
-+	unsigned int code;
-+	unsigned int key;
-+	unsigned long pressed_keys = 0, released_keys = 0;
-+	unsigned int row_shift = get_count_order(keypad->kpi_col);
-+	unsigned short *keymap = input_dev->keycode;
-+	unsigned long key_event[4];
-+	unsigned int index;
-+
-+	/* Read key event status */
-+	key_event[0] = readl(keypad->mmio_base + KPI_KPE0);
-+	key_event[1] = readl(keypad->mmio_base + KPI_KPE1);
-+	key_event[2] = readl(keypad->mmio_base + KPI_KRE0);
-+	key_event[3] = readl(keypad->mmio_base + KPI_KRE1);
-+
-+	/* Clear key event status */
-+	writel(key_event[0], (keypad->mmio_base + KPI_KPE0));
-+	writel(key_event[1], (keypad->mmio_base + KPI_KPE1));
-+	writel(key_event[2], (keypad->mmio_base + KPI_KRE0));
-+	writel(key_event[3], (keypad->mmio_base + KPI_KRE1));
-+
-+	pressed_keys  = key_event[0] | key_event[1] << 32;
-+	released_keys = key_event[2] | key_event[3] << 32;
-+
-+	/* Process pressed keys */
-+	for_each_set_bit(index, &pressed_keys, KEY_EVENT_BITS) {
-+		code = MATRIX_SCAN_CODE(index / 8, (index % 8), row_shift);
-+		key = keymap[code];
-+
-+		input_event(input_dev, EV_MSC, MSC_SCAN, code);
-+		input_report_key(input_dev, key, 1);
-+	}
-+
-+	/* Process released keys */
-+	for_each_set_bit(index, &released_keys, KEY_EVENT_BITS) {
-+		code = MATRIX_SCAN_CODE(index / 8, (index % 8), row_shift);
-+		key = keymap[code];
-+
-+		input_event(input_dev, EV_MSC, MSC_SCAN, code);
-+		input_report_key(input_dev, key, 0);
-+	}
-+
-+	input_sync(input_dev);
-+}
-+
-+static irqreturn_t ma35d1_keypad_interrupt(int irq, void *dev_id)
-+{
-+	struct ma35d1_keypad *keypad = dev_id;
-+	unsigned int  kstatus;
-+
-+	kstatus = readl(keypad->mmio_base + KPI_STATUS);
-+
-+	if (kstatus & (PKEY_INT | RKEY_INT)) {
-+		ma35d1_keypad_scan_matrix(keypad, kstatus);
-+	} else {
-+		if (kstatus & PDWAKE)
-+			writel(PDWAKE, (keypad->mmio_base + KPI_STATUS));
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int ma35d1_keypad_open(struct input_dev *dev)
-+{
-+	struct ma35d1_keypad *keypad = input_get_drvdata(dev);
-+	unsigned int val, config;
-+
-+	val = RKINTEN | PKINTEN | INTEN | ENKP;
-+	val |= FIELD_PREP(KCOL, (keypad->kpi_col - 1)) | FIELD_PREP(KROW, (keypad->kpi_row - 1));
-+
-+	if (keypad->debounce_val > 0)
-+		config = FIELD_PREP(PRESCALE, (keypad->pre_scale - 1)) |
-+			 FIELD_PREP(DB_CLKSEL, keypad->debounce_val);
-+	else
-+		config = FIELD_PREP(PRESCALE, (keypad->pre_scale - 1));
-+
-+	val |= config;
-+
-+	writel(val, keypad->mmio_base + KPI_CONF);
-+	writel((keypad->pre_scale_divider - 1),	keypad->mmio_base + KPI_PRESCALDIV);
-+
-+	return 0;
-+}
-+
-+static void ma35d1_keypad_close(struct input_dev *dev)
-+{
-+	struct ma35d1_keypad *keypad = input_get_drvdata(dev);
-+	unsigned int val;
-+
-+	val = readl(keypad->mmio_base + KPI_KPE0) & ~ENKP;
-+	writel(val, keypad->mmio_base + KPI_CONF);
-+}
-+
-+static int ma35d1_keypad_probe(struct platform_device *pdev)
-+{
-+	struct ma35d1_keypad *keypad;
-+	struct input_dev *input_dev;
-+	struct resource *res;
-+	int error = 0;
-+
-+	keypad = devm_kzalloc(&pdev->dev, sizeof(*keypad), GFP_KERNEL);
-+	if (!keypad)
-+		return -ENOMEM;
-+
-+	input_dev = devm_input_allocate_device(&pdev->dev);
-+	if (!input_dev)
-+		return -ENOMEM;
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res)
-+		return -ENODEV;
-+
-+	keypad->mmio_base = devm_ioremap_resource(&pdev->dev, res);
-+	if (IS_ERR(keypad->mmio_base))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(keypad->mmio_base),
-+					"failed to remap I/O memor\n");
-+
-+	keypad->irq = platform_get_irq(pdev, 0);
-+	if (keypad->irq < 0) {
-+		dev_err(&pdev->dev, "failed to get IRQ\n");
-+		return keypad->irq;
-+	}
-+
-+	keypad->clk = devm_clk_get_enabled(&pdev->dev, NULL);
-+	if (IS_ERR(keypad->clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(keypad->clk), "failed to get core clk\n");
-+
-+	error = matrix_keypad_parse_properties(&pdev->dev, &keypad->kpi_row, &keypad->kpi_col);
-+	if (error) {
-+		dev_err(&pdev->dev, "failed to parse keypad params\n");
-+		return error;
-+	}
-+
-+	error = matrix_keypad_build_keymap(NULL, NULL, keypad->kpi_row, keypad->kpi_col,
-+					   NULL, input_dev);
-+	if (error) {
-+		dev_err(&pdev->dev, "failed to build keymap\n");
-+		return error;
-+	}
-+
-+	keypad->input_dev = input_dev;
-+	input_dev->name = pdev->name;
-+	input_dev->id.bustype = BUS_HOST;
-+	input_dev->open = ma35d1_keypad_open;
-+	input_dev->close = ma35d1_keypad_close;
-+	input_dev->dev.parent = &pdev->dev;
-+
-+	error = device_property_read_u32(&pdev->dev, "debounce-period", &keypad->debounce_val);
-+	if (error) {
-+		dev_err(&pdev->dev, "failed to acquire 'debounce-period'\n");
-+		return error;
-+	}
-+
-+	keypad->debounce_val = __builtin_ctz(keypad->debounce_val);
-+
-+	error = device_property_read_u32(&pdev->dev, "key-scan-time", &keypad->pre_scale);
-+	if (error) {
-+		dev_err(&pdev->dev, "failed to acquire 'key-scan-time'\n");
-+		return error;
-+	}
-+
-+	device_property_read_u32(&pdev->dev, "key-scan-time-div", &keypad->pre_scale_divider);
-+	if (error) {
-+		dev_err(&pdev->dev, "failed to acquire 'key-scan-time-div'\n");
-+		return error;
-+	}
-+
-+	__set_bit(EV_REP, input_dev->evbit);
-+	input_set_drvdata(input_dev, keypad);
-+	input_set_capability(input_dev, EV_MSC, MSC_SCAN);
-+
-+	error = devm_request_irq(&pdev->dev, keypad->irq, ma35d1_keypad_interrupt,
-+				 IRQF_NO_SUSPEND, pdev->name, keypad);
-+	if (error) {
-+		dev_err(&pdev->dev, "failed to request IRQ\n");
-+		return error;
-+	}
-+
-+	platform_set_drvdata(pdev, keypad);
-+	device_init_wakeup(&pdev->dev, 1);
-+
-+	error = dev_pm_set_wake_irq(&pdev->dev, keypad->irq);
-+	if (error) {
-+		dev_err(&pdev->dev, "failed to enable irq wake\n");
-+		return error;
-+	}
-+
-+	error = input_register_device(input_dev);
-+	if (error) {
-+		dev_err(&pdev->dev, "failed to register input device\n");
-+		return error;
-+	}
-+
-+	return 0;
-+}
-+
-+static void ma35d1_keypad_remove(struct platform_device *pdev)
-+{
-+	struct ma35d1_keypad *keypad = platform_get_drvdata(pdev);
-+
-+	input_unregister_device(keypad->input_dev);
-+}
-+
-+static int ma35d1_keypad_suspend(struct device *dev)
-+{
-+	struct ma35d1_keypad *keypad = dev_get_drvdata(dev);
-+
-+	if (device_may_wakeup(dev))
-+		writel(readl(keypad->mmio_base + KPI_CONF) | WAKEUP, keypad->mmio_base + KPI_CONF);
-+
-+	return 0;
-+}
-+
-+static int ma35d1_keypad_resume(struct device *dev)
-+{
-+	struct ma35d1_keypad *keypad = dev_get_drvdata(dev);
-+
-+	if (device_may_wakeup(dev))
-+		writel(readl(keypad->mmio_base + KPI_CONF) & ~(WAKEUP),
-+		       keypad->mmio_base + KPI_CONF);
-+
-+	return 0;
-+}
-+
-+static DEFINE_SIMPLE_DEV_PM_OPS(ma35d1_pm_ops, ma35d1_keypad_suspend, ma35d1_keypad_resume);
-+
-+static const struct of_device_id ma35d1_kpi_of_match[] = {
-+	{ .compatible = "nuvoton,ma35d1-kpi"},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, ma35d1_kpi_of_match);
-+
-+static struct platform_driver ma35d1_keypad_driver = {
-+	.probe		= ma35d1_keypad_probe,
-+	.remove		= ma35d1_keypad_remove,
-+	.driver		= {
-+		.name	= "ma35d1-kpi",
-+		.pm	= pm_sleep_ptr(&ma35d1_pm_ops),
-+		.of_match_table = ma35d1_kpi_of_match,
-+	},
-+};
-+module_platform_driver(ma35d1_keypad_driver);
-+
-+MODULE_AUTHOR("Ming-Jen Chen");
-+MODULE_DESCRIPTION("MA35D1 Keypad Driver");
-+MODULE_LICENSE("GPL");
-+
--- 
-2.25.1
+[   68.237679] ------------[ cut here ]------------
+[   68.237681] WARNING: CPU: 23 PID: 579 at drivers/hid/hid-core.c:1262 hid_open_report+0x2c0/0x350 [hid]
+<snip>
+[   68.237741] RIP: 0010:hid_open_report+0x2c0/0x350 [hid]
+[   68.237765] Call Trace:
+[   68.237767]  <TASK>
+[   68.237769]  ? show_regs+0x6c/0x80
+[   68.237774]  ? __warn+0x8d/0x150
+[   68.237777]  ? hid_open_report+0x2c0/0x350 [hid]
+[   68.237784]  ? report_bug+0x182/0x1b0
+[   68.237788]  ? handle_bug+0x6e/0xb0
+[   68.237791]  ? exc_invalid_op+0x18/0x80
+[   68.237794]  ? asm_exc_invalid_op+0x1b/0x20
+[   68.237799]  ? hid_open_report+0x2c0/0x350 [hid]
+[   68.237805]  mousevsc_probe+0x1d5/0x250 [hid_hyperv]
+[   68.237808]  vmbus_probe+0x3b/0xa0 [hv_vmbus]
+[   68.237822]  really_probe+0xee/0x3c0
+[   68.237827]  __driver_probe_device+0x8c/0x180
+[   68.237830]  driver_probe_device+0x24/0xd0
+[   68.237832]  __driver_attach_async_helper+0x6e/0x110
+[   68.237835]  async_run_entry_fn+0x30/0x130
+[   68.237837]  process_one_work+0x178/0x3d0
+[   68.237839]  worker_thread+0x2de/0x410
+[   68.237841]  ? __pfx_worker_thread+0x10/0x10
+[   68.237843]  kthread+0xe1/0x110
+[   68.237847]  ? __pfx_kthread+0x10/0x10
+[   68.237849]  ret_from_fork+0x44/0x70
+[   68.237852]  ? __pfx_kthread+0x10/0x10
+[   68.237854]  ret_from_fork_asm+0x1a/0x30
+[   68.237858]  </TASK>
+[   68.237859] ---[ end trace 0000000000000000 ]---
+[   68.237861] hid-generic 0006:045E:0621.0002: parse failed
+[   68.238276] hv_vmbus: probe failed for device 58f75a6d-d949-4320-99e1-a2a2576d581c (-19)
 
+
+> > 
+> > And the issue seems to be that the corresponding devres group is not
+> > allocated. Normally, devres_open_group() is called from
+> > __hid_device_probe() but Hyper-V HID driver overrides 'hid_dev->driver'
+> > with 'mousevsc_hid_driver' stub and basically re-implements
+> > __hid_device_probe() by calling hid_parse() and hid_hw_start() but not
+> > devres_open_group(). hid_device_probe() does not call __hid_device_probe()
+> > for it. Later, when the driver is removed, hid_device_remove() calls
+> > devres_release_group() as it doesn't check whether hdev->driver was
+> > initially overridden or not.
+> > 
+> > The issue seems to be related to the commit 62c68e7cee33 ("HID: ensure
+> > timely release of driver-allocated resources") but the commit itself seems
+> > to be correct.
+> > 
+> > Fix the issue by dropping the 'hid_dev->driver' override and using
+> > hid_register_driver()/hid_unregister_driver() instead. Alternatively, it
+> > would have been possible to rely on the default handling but
+> > HID_CONNECT_DEFAULT implies HID_CONNECT_HIDRAW and it doesn't seem to work
+> > for mousevsc as-is.
+> > 
+> > Fixes: 62c68e7cee33 ("HID: ensure timely release of driver-allocated resources")
+> > Suggested-by: Michael Kelley <mhklinux@outlook.com>
+> > Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> > ---
+> > Changes since v1:
+> > - Keep custom HID driver for mousevsc but do it properly
+> > [Michael Kelley].
+> > - Add 'Fixes:' tag [Saurabh Singh Sengar].
+> > ---
+> >  drivers/hid/hid-hyperv.c | 58 ++++++++++++++++++++++++++++------------
+> >  1 file changed, 41 insertions(+), 17 deletions(-)
+> > 
+> > diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
+> > index f33485d83d24..0fb210e40a41 100644
+> > --- a/drivers/hid/hid-hyperv.c
+> > +++ b/drivers/hid/hid-hyperv.c
+> > @@ -422,6 +422,25 @@ static int mousevsc_hid_raw_request(struct hid_device *hid,
+> >  	return 0;
+> >  }
+> > 
+> > +static int mousevsc_hid_probe(struct hid_device *hid_dev, const struct hid_device_id *id)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret = hid_parse(hid_dev);
+> > +	if (ret) {
+> > +		hid_err(hid_dev, "parse failed\n");
+> > +		return ret;
+> > +	}
+> > +
+> > +	ret = hid_hw_start(hid_dev, HID_CONNECT_HIDINPUT | HID_CONNECT_HIDDEV);
+> > +	if (ret) {
+> > +		hid_err(hid_dev, "hw start failed\n");
+> > +		return ret;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static const struct hid_ll_driver mousevsc_ll_driver = {
+> >  	.parse = mousevsc_hid_parse,
+> >  	.open = mousevsc_hid_open,
+> > @@ -431,7 +450,16 @@ static const struct hid_ll_driver mousevsc_ll_driver = {
+> >  	.raw_request = mousevsc_hid_raw_request,
+> >  };
+> > 
+> > -static struct hid_driver mousevsc_hid_driver;
+> > +static const struct hid_device_id mousevsc_devices[] = {
+> > +	{ HID_DEVICE(BUS_VIRTUAL, HID_GROUP_ANY, 0x045E, 0x0621) },
+> > +	{ }
+> > +};
+> > +
+> > +static struct hid_driver mousevsc_hid_driver = {
+> > +	.name = "hid-hyperv",
+> > +	.id_table = mousevsc_devices,
+> > +	.probe = mousevsc_hid_probe,
+> > +};
+> > 
+> >  static int mousevsc_probe(struct hv_device *device,
+> >  			const struct hv_vmbus_device_id *dev_id)
+> > @@ -473,7 +501,6 @@ static int mousevsc_probe(struct hv_device *device,
+> >  	}
+> > 
+> >  	hid_dev->ll_driver = &mousevsc_ll_driver;
+> > -	hid_dev->driver = &mousevsc_hid_driver;
+> >  	hid_dev->bus = BUS_VIRTUAL;
+> >  	hid_dev->vendor = input_dev->hid_dev_info.vendor;
+> >  	hid_dev->product = input_dev->hid_dev_info.product;
+> > @@ -488,20 +515,6 @@ static int mousevsc_probe(struct hv_device *device,
+> >  	if (ret)
+> >  		goto probe_err2;
+> > 
+> > -
+> > -	ret = hid_parse(hid_dev);
+> > -	if (ret) {
+> > -		hid_err(hid_dev, "parse failed\n");
+> > -		goto probe_err2;
+> > -	}
+> > -
+> > -	ret = hid_hw_start(hid_dev, HID_CONNECT_HIDINPUT | HID_CONNECT_HIDDEV);
+> > -
+> > -	if (ret) {
+> > -		hid_err(hid_dev, "hw start failed\n");
+> > -		goto probe_err2;
+> > -	}
+> > -
+> >  	device_init_wakeup(&device->device, true);
+> > 
+> >  	input_dev->connected = true;
+> > @@ -579,12 +592,23 @@ static struct  hv_driver mousevsc_drv = {
+> > 
+> >  static int __init mousevsc_init(void)
+> >  {
+> > -	return vmbus_driver_register(&mousevsc_drv);
+> > +	int ret;
+> > +
+> > +	ret = hid_register_driver(&mousevsc_hid_driver);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = vmbus_driver_register(&mousevsc_drv);
+> > +	if (ret)
+> > +		hid_unregister_driver(&mousevsc_hid_driver);
+> > +
+> > +	return ret;
+> >  }
+> > 
+> >  static void __exit mousevsc_exit(void)
+> >  {
+> >  	vmbus_driver_unregister(&mousevsc_drv);
+> > +	hid_unregister_driver(&mousevsc_hid_driver);
+> >  }
+> > 
+> >  MODULE_LICENSE("GPL");
+> > --
+> > 2.47.0
+> 
+> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+
+Tested V2 as well, please feel free to  add,
+Tested-by: Saurabh Sengar <ssengar@linux.microsoft.com>
 
