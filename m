@@ -1,96 +1,112 @@
-Return-Path: <linux-input+bounces-8046-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8047-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDEE9C6C3B
-	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 11:00:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3E19C6C9A
+	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 11:15:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0840CB2B3DB
-	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 09:58:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C568F283E84
+	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 10:15:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DFFF1F8917;
-	Wed, 13 Nov 2024 09:57:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qkZC/IAf"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 010281FB8A8;
+	Wed, 13 Nov 2024 10:14:06 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35681F77A9;
-	Wed, 13 Nov 2024 09:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E209C1FA247;
+	Wed, 13 Nov 2024 10:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731491842; cv=none; b=l0vYLby5NspGvTXkHOX0M9LdtlGMvWzB9p2lDlTevENCBUS4PRTlhR7osfExTzOBwJG7iqHLhcRD79v6MzTEp8lOpgqe2QSBoHYiGptXEVMnulV22JuSZHUKiRdO0RlQZxsBZJdCLFr5Xn3Jo0LM+NCuYzBnPf2XZv2bMcutb4o=
+	t=1731492845; cv=none; b=mSISSaXdrV4yLDBwKfWE8W5huMP6HWM82In0w5QERRwzNxdb/omsZQoVlVHF9altIcs1oY3qSzY8ZwliHoUKboIezar1Cf4R+Wn/NZriD2ABnsWDuNKnXb6Qj4OnrmR2QW4USmq9CQdm7WAw6Ef8tDDg7o/9NPc+ytok0rNrOAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731491842; c=relaxed/simple;
-	bh=+lb4EswthuHZhq9iPat5KkW6f8dgsekT3CokYDW6u2s=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=cILqNGUdW8i9iLFFXaO2sCnhZwd7844HuFRSXqf5Nfd6U425uK3q3AMVgWr7LLUSTl68IDwYn99T64I8cf0/FgbXZO1Yx4X++6tha44fVcH6UtqK57Ct7J2PDDZZwaKc+vNkBmiS++0VWEA0QCHQCseJQiw7PbjAR3C3eqMy9cI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qkZC/IAf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1858EC4CED2;
-	Wed, 13 Nov 2024 09:57:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731491840;
-	bh=+lb4EswthuHZhq9iPat5KkW6f8dgsekT3CokYDW6u2s=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=qkZC/IAfB2besI01xurtIx8LGvWGXxntKzqryWKXcpskWNO4iSPEGKWHMzmQy6XWu
-	 f9mrKF9RzlkYaxyhuNzRF0tGL+ICWaH0W3k+rA+Wx2btITnjFcYdmKurhKT21yHlfH
-	 UulqW1HZpAKJHG+Q0BJ2rf/VrG1kzTFh+qvtC8L7aj+gUVREMiYdkepV9N0qPbzHoc
-	 qTgmK27eXyyI23POry74YR+3v/gAT2EfC7ERh/MmIMgxAedzvua8Z53sy4lQbFUu9s
-	 pKquAJ2cqXD+f7wZlEb0pJjruY5hUbKv6MJTdzGx6Ip1tPVXdF3Xpfqa1uSCmad6hj
-	 LQU8TkOpl6OjQ==
-Date: Wed, 13 Nov 2024 10:57:18 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Charles Wang <charles.goodix@gmail.com>
-cc: robh@kernel.org, krzk@kernel.org, hbarnor@chromium.org, 
-    dianders@chromium.org, conor.dooley@microchip.com, 
-    dmitry.torokhov@gmail.com, bentiss@kernel.org, linux-input@vger.kernel.org, 
-    devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/2] dt-bindings: input: Goodix GT7986U SPI HID
- Touchscreen
-In-Reply-To: <20241111075000.111509-1-charles.goodix@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2411131057010.20286@cbobk.fhfr.pm>
-References: <20241111075000.111509-1-charles.goodix@gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	s=arc-20240116; t=1731492845; c=relaxed/simple;
+	bh=JyCCzIY02FNmE28fip/ygqKe8YBxE2SLFZl47VPYi7s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fB6VZ97bNzyjd2vT+2r6v4tb9meXuygAy3HEyyXSQh8Dw5R25IWO23Ik8BYK8aQKe2OO5E5yAderW/006h1iE4rnLpX4T4su6ILk5RTAzBA/fZ6b5AFbmSHYcdPBM42nOryMSrn87NQicnmeult4q49f6/LQPYigdhCm2ZfNjFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: f8d0194ca1a711efa216b1d71e6e1362-20241113
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_DIGIT_LEN
+	HR_FROM_NAME, HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER
+	HR_SJ_NOR_SYM, HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT
+	HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED
+	SA_EXISTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
+	CIE_BAD, CIE_GOOD_SPF, GTI_FG_BS, GTI_C_CI, GTI_FG_IT
+	GTI_RG_INFO, GTI_C_BU, AMN_T1, AMN_GOOD, AMN_C_TI
+	AMN_C_BU
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.38,REQID:6d641c25-af66-4df0-abf3-13c7c9f338d3,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-10
+X-CID-INFO: VERSION:1.1.38,REQID:6d641c25-af66-4df0-abf3-13c7c9f338d3,IP:0,URL
+	:0,TC:0,Content:-5,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:-10
+X-CID-META: VersionHash:82c5f88,CLOUDID:895761041b18b159d86a1e388f23e7a7,BulkI
+	D:241113181349DFBEXSYZ,BulkQuantity:0,Recheck:0,SF:17|19|66|841|102,TC:nil
+	,Content:0,EDM:-3,IP:nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL
+	:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
+X-UUID: f8d0194ca1a711efa216b1d71e6e1362-20241113
+X-User: xiaopei01@kylinos.cn
+Received: from xiaopei-pc.. [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <xiaopei01@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1971577974; Wed, 13 Nov 2024 18:13:47 +0800
+From: Pei Xiao <xiaopei01@kylinos.cn>
+To: jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: xiaopeitux@foxmail.com,
+	Pei Xiao <xiaopei01@kylinos.cn>,
+	syzbot+3fa2af55f15bd21cada9@syzkaller.appspotmail.com
+Subject: [PATCH] HID: core: s32ton always be 0 when n>=32
+Date: Wed, 13 Nov 2024 18:13:42 +0800
+Message-Id: <f74754f0d7d870ac8301eb8f5760d473bdd0270b.1731492709.git.xiaopei01@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-On Mon, 11 Nov 2024, Charles Wang wrote:
+s32ton always be 0 when n>=32,add check n.
 
-> The Goodix GT7986U touch controller report touch data according to the
-> HID protocol through the SPI bus. However, it is incompatible with
-> Microsoft's HID-over-SPI protocol.
-> 
-> The patchset introduces the following two changes:
-> 1) Add goodix,gt7986u-spifw.yaml.
-> 2) Modify the driver to align with the device binding file.
-> 
-> Signed-off-by: Charles Wang <charles.goodix@gmail.com>
-> ---
-> Changes in v4:
-> - Fix dt build warnings.
-> - Modify the driver to align with the device binding file.
-> 
-> Changes in v3:
-> - Split the commit into two patches.
-> 
-> Changes in v2:
-> - Change compatible to 'goodix,gt7986u-spifw'.
-> - Remove 'goodix,hid-report-addr' property.
-> - Change additionalProperties to unevaluatedProperties.
-> - v1: https://lore.kernel.org/all/20241025114642.40793-2-charles.goodix@gmail.com/
+Reported-by: syzbot+3fa2af55f15bd21cada9@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=3fa2af55f15bd21cada9
+Fixes: c653ffc28340 ("HID: stop exporting hid_snto32()")
+Signed-off-by: Pei Xiao <xiaopei01@kylinos.cn>
+---
+ drivers/hid/hid-core.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Now queued in hid.git#for-6.13/goodix. Thanks,
-
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 81d6c734c8bc..ead1d338fa58 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -66,8 +66,11 @@ static s32 snto32(__u32 value, unsigned int n)
+ 
+ static u32 s32ton(__s32 value, unsigned int n)
+ {
+-	s32 a = value >> (n - 1);
++	s32 a;
+ 
++	if (n >= 32)
++		return value;
++	a = value >> (n - 1);
+ 	if (a && a != -1)
+ 		return value < 0 ? 1 << (n - 1) : (1 << (n - 1)) - 1;
+ 	return value & ((1 << n) - 1);
 -- 
-Jiri Kosina
-SUSE Labs
+2.34.1
 
 
