@@ -1,64 +1,79 @@
-Return-Path: <linux-input+bounces-8048-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8049-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15EBA9C6E67
-	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 12:58:06 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DFE49C6F50
+	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 13:43:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CFC1F283B2A
-	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 11:58:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 76351B26330
+	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 12:24:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61DEC205E28;
-	Wed, 13 Nov 2024 11:53:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09B1E1FF61B;
+	Wed, 13 Nov 2024 12:24:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="FR0i9kl9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WpZqK6fr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBDE200C98;
-	Wed, 13 Nov 2024 11:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4E21FF5F9;
+	Wed, 13 Nov 2024 12:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731498817; cv=none; b=OqmC+blGDyVWSIGtnM/Uxh7hL2x24UESaNlyBJdMo92nCrCFohKCg9GXUhMCO+nGa6R4AIGwaMClRrXYSqSChiB5c7MBceFKhXE6hxp33FDZ+1VPlsRgdn4/NxUlqT2gT3A2WyPsZNcruO59zNjtP+1mlB9NhQkDqCL9Kja68jo=
+	t=1731500669; cv=none; b=jdE7QU8bECVelZAY/wyqoTE5NkzyGLdXCxrnymY5/LNCdEJZKLeadKQUnyCO7P8It+RCo3BwZVVbWVLxihLljQllPz1jJAL9T3baiYqomX7fOxBttb0rsi0nX2SBGPnz6nzS0zGpruHSySSiPHxf7RdAvsfv468y+GVUQNNkMRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731498817; c=relaxed/simple;
-	bh=JcMC9E1ouK0FLdpvw6gtX/41VcRf/kXd7ufXNrhoIq4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VRwIpn/OcPIsbmGqKtGZegwfZ+0lTzQLoRLqPjcO37y8G49vh2BjYZukd2dEtHz4KzWTSb15RsOHwT4ykmNDuFnOh/Bk2kJRDLa0r7r+Ek6iJdMRymjE0ae1ge+YBYpkKHdsCLINSjNrEoofT0M5aKZii+NcPIyKlciqU9uvRcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=FR0i9kl9; arc=none smtp.client-ip=54.207.22.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1731498743;
-	bh=ggRdDU7iCZJOkTsKF0zJgrkrHsItDChMLE7lMfNv2kw=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=FR0i9kl9KViUsYRWJUgOAgKE15G1SZFWhKEEgGK9gyuKrRhxjlv928lZRX2wOJY48
-	 rlKRpVqXboePkE8QdBACRrszgKLlhOCl5PGvW7S2QfTGXq12RcdhFCTDzVIorDztoT
-	 RU6FKca1nUBegQrtpvJn1SlCkNqo44Z3c3+Gti6o=
-X-QQ-mid: bizesmtpip3t1731498712t9idxh8
-X-QQ-Originating-IP: zNDgcafP9tOrJI6aPGG7N94+rCjp5gId1t4KvU6tGFA=
-Received: from localhost.localdomain ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 13 Nov 2024 19:51:49 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 18098386907033749766
-From: WangYuli <wangyuli@uniontech.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org,
+	s=arc-20240116; t=1731500669; c=relaxed/simple;
+	bh=2csjHoqQcpRfDM94N3XXAUIg8sNLAt3B2YycP/MSvhc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PDJEKONh3ojuXd5ST7/l0BK9i7kzc3nzMMdOiTsOS5vDcTu1/jeKFAyi8TYRPXAD3d3rG2IaXWzEc6Zo2W0m5xPhVkbQ4QFPJJS6ot3+d/EwfhLSJDJiRe8HHm8ux3aL1J8XI7FsI2DpViZl6hJ+lTWYI+w+OQpzE9fe8PL2lJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WpZqK6fr; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7245a9d0e92so490394b3a.0;
+        Wed, 13 Nov 2024 04:24:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731500668; x=1732105468; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=V0qma0shrrMCeeXF13xRPSHcFZ8pwa+2uziGqx/3I6A=;
+        b=WpZqK6frs6JTQw6HI1U1c4pan2RRNxvpseugGSE36YlnvJP9pZtjDAfmE/SOlqAvTF
+         8w3ImDcmVOpfnEDZBYJlOzhuz3tAnjKufkPKkU3PC8GypThdpLhNX8gxKzk+29xGFHt9
+         bm9A9RMwVitnKR8BkovlIvmVSezdPx4BKUPHu46ZocIuD8nCLZIE/H1cKAoxDFYZf34L
+         of/mY6+5J/NkxtZWWtoj3pX4EmBlw/kkXUcZJQe+yokGWmsR4P9ZMs/wcv8zVrnS5N+/
+         pN167XCKyQnFcFOU8WCDTX15T5EzEN7d3Ndg0+FZ/MNR/xKZazoG1mYcUYIuZHiYJxjZ
+         Mcsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731500668; x=1732105468;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=V0qma0shrrMCeeXF13xRPSHcFZ8pwa+2uziGqx/3I6A=;
+        b=MP9neFIQ0/oWgju7JJuzs+6M7YJnX4AxMsfJaCRRso7Yy961kXmRoj9Ngz+iJO8Rid
+         ygQ0YGX1KmYMiODNv/puvuefaKuRGRp2vBpFwiLhj63UUmrKRshIdXo/gRiDrGKiwQdh
+         pM9BwPggF2xX6vKSXzmJaqCP6r8H4db5wCIlQu9AH59pcEf/zU29MvTwLtUIR6NAXWAu
+         sVjm7WhoqsBA54Kj6U+czG9SFF+pJ8kTKZ2wQTa75pnvlJgEH2/2cc/NZR4d69fY4xtA
+         gg6OPMtUMJLCD9ttPtkhRZUf7qoL5gal9jCDqX6Su+0+i7x8XWuySGpxoHbJIHGLUr5U
+         g3fQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUtrZnSret6MVoSOwH7hel8tuWGcrha7uWkmUrml06MIfvFStgx6FtzSDHp/xgGirIzdqypUvsHycMf/ytT@vger.kernel.org, AJvYcCXrQas6ASeW/gxZpP2c4aN4nKMpZBdM0Ibx72w9t12e/R+kD70f1sT5FCaX1lNbKiSPq0oxJipwN6a+Jg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2mhABj5Wa9Neg5Y7HxwsIQvEO3cHK2U1VVmBcs4e9c48Ia6IZ
+	QJqogK/hPIYOOfNwwLfRHhsjK4EpBwIWYF5ljEj07kB6Rxvz4z+m
+X-Google-Smtp-Source: AGHT+IF94vGe0MkD2vTT4OmsQmuLzRHX2FLPggFg6RK92J5lfqisYMZMHadq8JFyeGVCBv2RBcK7dw==
+X-Received: by 2002:a05:6a00:998:b0:71e:3b8:666b with SMTP id d2e1a72fcca58-724579c5ff7mr3088226b3a.15.1731500667725;
+        Wed, 13 Nov 2024 04:24:27 -0800 (PST)
+Received: from localhost.localdomain ([240d:1a:13a:f00:391:3085:9292:22b7])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7240785ff9csm13148875b3a.8.2024.11.13.04.24.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Nov 2024 04:24:27 -0800 (PST)
+From: Tatsuya S <tatsuya.s2862@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: Tatsuya S <tatsuya.s2862@gmail.com>,
 	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	benjamin.tissoires@enac.fr,
-	chatty@enac.fr,
-	jkosina@suse.cz,
-	guanwentao@uniontech.com,
-	zhanjun@uniontech.com
-Cc: WangYuli <wangyuli@uniontech.com>
-Subject: [PATCH] HID: multitouch: Remove useless comment
-Date: Wed, 13 Nov 2024 19:51:29 +0800
-Message-ID: <021947F5C0C056AD+20241113115129.31921-1-wangyuli@uniontech.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] HID: Add reserved item tag for main items
+Date: Wed, 13 Nov 2024 21:24:07 +0900
+Message-ID: <20241113122407.24477-2-tatsuya.s2862@gmail.com>
 X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -67,48 +82,50 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: N8Jy6PtD39R8iMPyTic5VACbYVOsx9FyzjLTSgCZB6FCgqoOVDabdits
-	OGu3cWrBwZ0xNBHYTA1d1GYx5Fl4sQgQcBJ+8NmbhzyEQoZvNyvN5hL8Unl58rrzQ4sMnrB
-	Za+d5Rib2kGvJ7mCTJkY+7FQbBEHzbctJzJov0RB3pNCdOeUrgEK3Xq0GfGVdEE52zMJWDR
-	tFTnUwHfjuHjQxTsily75ykUE2sas0Um/F7v0NWNlc+G6572HuqTdJbUm2OKnKuzfsRvBXi
-	CUB7IxbnaWszFfgNfmkLa1rBdnqRvCaP1YM+6XFiKgcIrKOK38zl4nog9JBtu91tdwUVl8W
-	DhFJ4q1RVzBALOSkYgvTWiiHx/9/+cT4PmdclFQDCQde9Xy2SSm4Zv8eChC6c/9iI0Z1sru
-	HnLf2O7RbRXjeXK5XqOK8xT5jhPEdb09gayT1VT7qML7bVIeMH2HIAke24iG1rTfreJcRFe
-	y3jPphrafWUQgfuP3Pso7cQLu3dSq0JOi4VwIxFkSYEwLmNq6K0Fc5VcBmopHy05ipE2mf7
-	+FsQG61LfGAIVSnZWgSUZJPLJqeiFuqR5gi5/IZggT2RmPh0U0R7z776n4er3sKah/xo/ZW
-	mXI0y0JGwjbfTF3e9NR5wIrzCSNiKfdRCjoNyZ9PGIuquOhXyUX6n9N5SPqfaiHVJRoBb9Y
-	dLzQhGLBBUY0hxxoCx+yEpB9dEQuBoRuwUo3MokRbgloaGZpUvdJ+7pR8dVF9pdqBnxRwe0
-	KYqx2gutt54d+/zcga678dCVDTWhCfS1I0BWMvI8OY8gPWJqWylgialOSDK0JmdGRoyezVY
-	aImWqEI4YyVlt4NLl9CnXDOb277xR1XCnr1Tl58WIVhbDiAJ7NgZko5j27E8Kh5CjE3Qwlv
-	C5uHOUBxkNRmVpL4QF/OYkbXGBAXKcLxtx9XJAmCB/tjbLrjt03iVAew4pchbwWGpCiIqx6
-	OJxCrDm4NmVDtYeB6NfHwLBaB6M/c8kJd6ys7XGtN+Kj6TNY+0c0IlGkstFnmfZausBQ=
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-X-QQ-RECHKSPAM: 0
 
-There's an empty comment at the beginning of hid-multitoch.c.
-Just discard it.
+For main items, separate warning of reserved item tag from
+warning of unknown item tag.
+This comes from 6.2.2.4 Main Items of Device Class Definition
+for HID 1.11 specification.
 
-Signed-off-by: WangYuli <wangyuli@uniontech.com>
+Signed-off-by: Tatsuya S <tatsuya.s2862@gmail.com>
 ---
- drivers/hid/hid-multitouch.c | 3 ---
- 1 file changed, 3 deletions(-)
+V1 -> V2: Add specification location to commit message.
 
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index e936019d21fe..d6633eb003a4 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -20,9 +20,6 @@
-  *  Copyright (c) 2010      Canonical, Ltd.
-  */
+ drivers/hid/hid-core.c | 6 +++++-
+ include/linux/hid.h    | 2 ++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 582fd234eec7..98f557fa9e17 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -629,7 +629,11 @@ static int hid_parser_main(struct hid_parser *parser, struct hid_item *item)
+ 		ret = hid_add_field(parser, HID_FEATURE_REPORT, data);
+ 		break;
+ 	default:
+-		hid_warn(parser->device, "unknown main item tag 0x%x\n", item->tag);
++		if (item->tag >= HID_MAIN_ITEM_TAG_RESERVED_MIN &&
++			item->tag <= HID_MAIN_ITEM_TAG_RESERVED_MAX)
++			hid_warn(parser->device, "reserved main item tag 0x%x\n", item->tag);
++		else
++			hid_warn(parser->device, "unknown main item tag 0x%x\n", item->tag);
+ 		ret = 0;
+ 	}
  
--/*
-- */
--
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 121d5b8bc867..e3894f38bd96 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -81,6 +81,8 @@ struct hid_item {
+ #define HID_MAIN_ITEM_TAG_FEATURE		11
+ #define HID_MAIN_ITEM_TAG_BEGIN_COLLECTION	10
+ #define HID_MAIN_ITEM_TAG_END_COLLECTION	12
++#define HID_MAIN_ITEM_TAG_RESERVED_MIN		13
++#define HID_MAIN_ITEM_TAG_RESERVED_MAX		15
+ 
  /*
-  * This driver is regularly tested thanks to the test suite in hid-tools[1].
-  * Please run these regression tests before patching this module so that
+  * HID report descriptor main item contents
 -- 
 2.47.0
 
