@@ -1,79 +1,138 @@
-Return-Path: <linux-input+bounces-8049-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8050-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DFE49C6F50
-	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 13:43:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CB09C6F3E
+	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 13:42:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 76351B26330
-	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 12:24:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 56C1C288B12
+	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 12:42:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09B1E1FF61B;
-	Wed, 13 Nov 2024 12:24:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2065C200B98;
+	Wed, 13 Nov 2024 12:42:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WpZqK6fr"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LAgrYLFa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4E21FF5F9;
-	Wed, 13 Nov 2024 12:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437691DFD9F
+	for <linux-input@vger.kernel.org>; Wed, 13 Nov 2024 12:42:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731500669; cv=none; b=jdE7QU8bECVelZAY/wyqoTE5NkzyGLdXCxrnymY5/LNCdEJZKLeadKQUnyCO7P8It+RCo3BwZVVbWVLxihLljQllPz1jJAL9T3baiYqomX7fOxBttb0rsi0nX2SBGPnz6nzS0zGpruHSySSiPHxf7RdAvsfv468y+GVUQNNkMRg=
+	t=1731501757; cv=none; b=VqF6oFE4sgQpAY98Oh6Ug38fjBBNlIvvoGr9NVwvRjs8utIAoIhY43vWhokP24weOcndkj0jwico4zqFXzbEdoTu2DQnL4UPT3sePDgXyqC0rT9X25Eubsoyzb4gkauVdj3MOV0wXP6Dr69g9yfdjAFMeCNKt0JK4o2W/EDz90w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731500669; c=relaxed/simple;
-	bh=2csjHoqQcpRfDM94N3XXAUIg8sNLAt3B2YycP/MSvhc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PDJEKONh3ojuXd5ST7/l0BK9i7kzc3nzMMdOiTsOS5vDcTu1/jeKFAyi8TYRPXAD3d3rG2IaXWzEc6Zo2W0m5xPhVkbQ4QFPJJS6ot3+d/EwfhLSJDJiRe8HHm8ux3aL1J8XI7FsI2DpViZl6hJ+lTWYI+w+OQpzE9fe8PL2lJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WpZqK6fr; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7245a9d0e92so490394b3a.0;
-        Wed, 13 Nov 2024 04:24:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731500668; x=1732105468; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V0qma0shrrMCeeXF13xRPSHcFZ8pwa+2uziGqx/3I6A=;
-        b=WpZqK6frs6JTQw6HI1U1c4pan2RRNxvpseugGSE36YlnvJP9pZtjDAfmE/SOlqAvTF
-         8w3ImDcmVOpfnEDZBYJlOzhuz3tAnjKufkPKkU3PC8GypThdpLhNX8gxKzk+29xGFHt9
-         bm9A9RMwVitnKR8BkovlIvmVSezdPx4BKUPHu46ZocIuD8nCLZIE/H1cKAoxDFYZf34L
-         of/mY6+5J/NkxtZWWtoj3pX4EmBlw/kkXUcZJQe+yokGWmsR4P9ZMs/wcv8zVrnS5N+/
-         pN167XCKyQnFcFOU8WCDTX15T5EzEN7d3Ndg0+FZ/MNR/xKZazoG1mYcUYIuZHiYJxjZ
-         Mcsg==
+	s=arc-20240116; t=1731501757; c=relaxed/simple;
+	bh=5Ui9MCE1qEQAOh4WSjvlu7OY8Q34KrD5J6SmFsm5KGM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C35WmZD/xWVA1HHm+7pzRWjootZG9Z+KXg/N434WLvcMb9ISy6k87Pg9nCiEonfLXb3/uR70EDILc0FEysFkn3lEsmCfHiq0nxghfzERXvKDruRChfyVJzMAnBy9vID1GfBcqbVu1VqZ/y8oedFu6K2HO1m2HmmNsWQD8GJoEGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LAgrYLFa; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1731501753;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=gi/nDuPOQh+kW8YCVePTGgMsqduTQsEMI/h4REBTyU8=;
+	b=LAgrYLFa9w/He11GBOuRyIe9gRLR6HGgEYmiNCnGGck6hdMbjAjkCq3SWfWELAbubFTiB2
+	ZzvzDUL/3EfVfn2kf9k7YhofZNQ3zvW8sKn11cLpqHo3aunoExnrAdOmBI7d/Le6ksEycG
+	RADyIibJ6v4jolntIggwqXxHCWbhn6o=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-185-tsvO8TGZNL-Yya_b8Us8Tg-1; Wed, 13 Nov 2024 07:42:32 -0500
+X-MC-Unique: tsvO8TGZNL-Yya_b8Us8Tg-1
+X-Mimecast-MFC-AGG-ID: tsvO8TGZNL-Yya_b8Us8Tg
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-37d56061a4cso3668825f8f.2
+        for <linux-input@vger.kernel.org>; Wed, 13 Nov 2024 04:42:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731500668; x=1732105468;
+        d=1e100.net; s=20230601; t=1731501751; x=1732106551;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=V0qma0shrrMCeeXF13xRPSHcFZ8pwa+2uziGqx/3I6A=;
-        b=MP9neFIQ0/oWgju7JJuzs+6M7YJnX4AxMsfJaCRRso7Yy961kXmRoj9Ngz+iJO8Rid
-         ygQ0YGX1KmYMiODNv/puvuefaKuRGRp2vBpFwiLhj63UUmrKRshIdXo/gRiDrGKiwQdh
-         pM9BwPggF2xX6vKSXzmJaqCP6r8H4db5wCIlQu9AH59pcEf/zU29MvTwLtUIR6NAXWAu
-         sVjm7WhoqsBA54Kj6U+czG9SFF+pJ8kTKZ2wQTa75pnvlJgEH2/2cc/NZR4d69fY4xtA
-         gg6OPMtUMJLCD9ttPtkhRZUf7qoL5gal9jCDqX6Su+0+i7x8XWuySGpxoHbJIHGLUr5U
-         g3fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUtrZnSret6MVoSOwH7hel8tuWGcrha7uWkmUrml06MIfvFStgx6FtzSDHp/xgGirIzdqypUvsHycMf/ytT@vger.kernel.org, AJvYcCXrQas6ASeW/gxZpP2c4aN4nKMpZBdM0Ibx72w9t12e/R+kD70f1sT5FCaX1lNbKiSPq0oxJipwN6a+Jg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2mhABj5Wa9Neg5Y7HxwsIQvEO3cHK2U1VVmBcs4e9c48Ia6IZ
-	QJqogK/hPIYOOfNwwLfRHhsjK4EpBwIWYF5ljEj07kB6Rxvz4z+m
-X-Google-Smtp-Source: AGHT+IF94vGe0MkD2vTT4OmsQmuLzRHX2FLPggFg6RK92J5lfqisYMZMHadq8JFyeGVCBv2RBcK7dw==
-X-Received: by 2002:a05:6a00:998:b0:71e:3b8:666b with SMTP id d2e1a72fcca58-724579c5ff7mr3088226b3a.15.1731500667725;
-        Wed, 13 Nov 2024 04:24:27 -0800 (PST)
-Received: from localhost.localdomain ([240d:1a:13a:f00:391:3085:9292:22b7])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7240785ff9csm13148875b3a.8.2024.11.13.04.24.25
+        bh=gi/nDuPOQh+kW8YCVePTGgMsqduTQsEMI/h4REBTyU8=;
+        b=QkCyTG68QKO0t0uNWZXdCQcHs1v4FDrTQUTtQjpwVtpf8AR2GTELAw5/LVU4oC0sPA
+         h/iTSDq1L53FSFgf7KD/t7X4onocmifYXG2yy3HVsHqoWUplGQTFRM3zdwyeV39V6XC6
+         kp7Q9a9ChmcHXq1kYxXjfxA5Gu07VihHh+XQ3mCiehA0jOVt8WIvG+F2+NoHusQ5STL1
+         bYp5hmgcQwdp1z2S4nj0piMlg/pfBVTBvU4sRfUrfzJR4qnN3IXYNvgQdu9dIuH6xCa6
+         hLj5wVxUHZ+rNCTBlQM1G+Lynm3MdRypBkyQQLl1ZBGauwju56E1RJK8JZaosrqPcYdj
+         L8iw==
+X-Forwarded-Encrypted: i=1; AJvYcCUNISN6LMD4OQ4aNAyu6ca4EzNtgBliwzI2kAOOuVhfWhWV7qJ18TQ8SLt3faS6usYH+/xZmvsst592KA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywh23al7UzEELOsYPKod3kFDrD1Png3c8rZJszOB03XQf5DaD+C
+	EUMO/tl/VgWCwsPuSKX8kE6rgY7Quqqti4dJDUI/iUBZ5zyGzIZs6PQQPrK4ljom7jKTdBMllBq
+	zaTtOprJt6XWJg/YAvKrUNyJ3e3sA9YADu0UeVTOnQ3/IGoMMUAATxrYVTOEv
+X-Received: by 2002:a5d:5f53:0:b0:381:f595:fd0a with SMTP id ffacd0b85a97d-3820810ffc0mr4675191f8f.16.1731501750670;
+        Wed, 13 Nov 2024 04:42:30 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEkW+KWr+FGBC4soAeZ9AbHODqoGfzXwj1GlUIlZwp3/7RfEbVzZfIvsQ3hNUEE9XJJckqbgQ==
+X-Received: by 2002:a5d:5f53:0:b0:381:f595:fd0a with SMTP id ffacd0b85a97d-3820810ffc0mr4675138f8f.16.1731501750223;
+        Wed, 13 Nov 2024 04:42:30 -0800 (PST)
+Received: from eisenberg.redhat.com (nat-pool-muc-u.redhat.com. [149.14.88.27])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed99aa18sm18023528f8f.61.2024.11.13.04.42.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 04:24:27 -0800 (PST)
-From: Tatsuya S <tatsuya.s2862@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: Tatsuya S <tatsuya.s2862@gmail.com>,
+        Wed, 13 Nov 2024 04:42:29 -0800 (PST)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Basavaraj Natikar <basavaraj.natikar@amd.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Dubov <oakad@yahoo.com>,
+	Sudarsana Kalluru <skalluru@marvell.com>,
+	Manish Chopra <manishc@marvell.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Rasesh Mody <rmody@marvell.com>,
+	GR-Linux-NIC-Dev@marvell.com,
+	Igor Mitsyanko <imitsyanko@quantenna.com>,
+	Sergey Matyukevich <geomatsi@gmail.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	Sanjay R Mehta <sanju.mehta@amd.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Jon Mason <jdmason@kudzu.us>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Philipp Stanner <pstanner@redhat.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Chen Ni <nichen@iscas.ac.cn>,
+	Ricky Wu <ricky_wu@realtek.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Breno Leitao <leitao@debian.org>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Mostafa Saleh <smostafa@google.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Yi Liu <yi.l.liu@intel.com>,
+	Kunwu Chan <chentao@kylinos.cn>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Eric Auger <eric.auger@redhat.com>,
+	Ye Bin <yebin10@huawei.com>
+Cc: linux-ide@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] HID: Add reserved item tag for main items
-Date: Wed, 13 Nov 2024 21:24:07 +0900
-Message-ID: <20241113122407.24477-2-tatsuya.s2862@gmail.com>
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	ntb@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org
+Subject: [PATCH v2 00/11] Remove implicit devres from pci_intx()
+Date: Wed, 13 Nov 2024 13:41:48 +0100
+Message-ID: <20241113124158.22863-2-pstanner@redhat.com>
 X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -83,49 +142,81 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For main items, separate warning of reserved item tag from
-warning of unknown item tag.
-This comes from 6.2.2.4 Main Items of Device Class Definition
-for HID 1.11 specification.
+@Driver-Maintainers: Your driver might be touched by patch "Remove
+devres from pci_intx()". You might want to take a look.
 
-Signed-off-by: Tatsuya S <tatsuya.s2862@gmail.com>
----
-V1 -> V2: Add specification location to commit message.
+Changes in v2:
+  - Drop pci_intx() deprecation patch.
+  - ata: Add RB from Sergey and Niklas.
+  - wifi: Add AB by Kalle.
+  - Drop INTx deprecation patch
+  - Drop ALSA / hda_intel patch because pci_intx() was removed from
+    there in the meantime.
 
- drivers/hid/hid-core.c | 6 +++++-
- include/linux/hid.h    | 2 ++
- 2 files changed, 7 insertions(+), 1 deletion(-)
+Changes since the RFC [1]:
+  - Add a patch deprecating pci{m}_intx(). (Heiner, Andy, Me)
+  - Add Acked-by's already given.
+  - Export pcim_intx() as a GPL function. (Alex)
+  - Drop patch for rts5280, since this driver will be removed quite
+    soon. (Philipp Hortmann, Greg)
+  - Use early-return in pci_intx_unmanaged() and pci_intx(). (Andy)
 
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 582fd234eec7..98f557fa9e17 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -629,7 +629,11 @@ static int hid_parser_main(struct hid_parser *parser, struct hid_item *item)
- 		ret = hid_add_field(parser, HID_FEATURE_REPORT, data);
- 		break;
- 	default:
--		hid_warn(parser->device, "unknown main item tag 0x%x\n", item->tag);
-+		if (item->tag >= HID_MAIN_ITEM_TAG_RESERVED_MIN &&
-+			item->tag <= HID_MAIN_ITEM_TAG_RESERVED_MAX)
-+			hid_warn(parser->device, "reserved main item tag 0x%x\n", item->tag);
-+		else
-+			hid_warn(parser->device, "unknown main item tag 0x%x\n", item->tag);
- 		ret = 0;
- 	}
- 
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 121d5b8bc867..e3894f38bd96 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -81,6 +81,8 @@ struct hid_item {
- #define HID_MAIN_ITEM_TAG_FEATURE		11
- #define HID_MAIN_ITEM_TAG_BEGIN_COLLECTION	10
- #define HID_MAIN_ITEM_TAG_END_COLLECTION	12
-+#define HID_MAIN_ITEM_TAG_RESERVED_MIN		13
-+#define HID_MAIN_ITEM_TAG_RESERVED_MAX		15
- 
- /*
-  * HID report descriptor main item contents
+Hi all,
+
+this series removes a problematic feature from pci_intx(). That function
+sometimes implicitly uses devres for automatic cleanup. We should get
+rid of this implicit behavior.
+
+To do so, a pci_intx() version that is always-managed, and one that is
+never-managed are provided. Then, all pci_intx() users are ported to the
+version they need. Afterwards, pci_intx() can be cleaned up and the
+users of the never-managed version be ported back to pci_intx().
+
+This way we'd get this PCI API consistent again.
+
+Patch "Remove devres from pci_intx()" obviously reverts the previous
+patches that made drivers use pci_intx_unmanaged(). But this way it's
+easier to review and approve. It also makes sure that each checked out
+commit should provide correct behavior, not just the entire series as a
+whole.
+
+Merge plan for this is to enter through the PCI tree.
+
+[1] https://lore.kernel.org/all/20241009083519.10088-1-pstanner@redhat.com/
+
+
+Regards,
+P.
+
+
+Philipp Stanner (11):
+  PCI: Prepare removing devres from pci_intx()
+  drivers/xen: Use never-managed version of pci_intx()
+  net/ethernet: Use never-managed version of pci_intx()
+  net/ntb: Use never-managed version of pci_intx()
+  misc: Use never-managed version of pci_intx()
+  vfio/pci: Use never-managed version of pci_intx()
+  PCI: MSI: Use never-managed version of pci_intx()
+  ata: Use always-managed version of pci_intx()
+  wifi: qtnfmac: use always-managed version of pcim_intx()
+  HID: amd_sfh: Use always-managed version of pcim_intx()
+  Remove devres from pci_intx()
+
+ drivers/ata/ahci.c                            |  2 +-
+ drivers/ata/ata_piix.c                        |  2 +-
+ drivers/ata/pata_rdc.c                        |  2 +-
+ drivers/ata/sata_sil24.c                      |  2 +-
+ drivers/ata/sata_sis.c                        |  2 +-
+ drivers/ata/sata_uli.c                        |  2 +-
+ drivers/ata/sata_vsc.c                        |  2 +-
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.c        |  4 ++--
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c |  2 +-
+ .../wireless/quantenna/qtnfmac/pcie/pcie.c    |  2 +-
+ drivers/pci/devres.c                          | 24 +++----------------
+ drivers/pci/pci.c                             | 16 +++----------
+ include/linux/pci.h                           |  1 +
+ 13 files changed, 18 insertions(+), 45 deletions(-)
+
 -- 
 2.47.0
 
