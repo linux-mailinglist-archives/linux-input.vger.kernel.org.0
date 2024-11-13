@@ -1,76 +1,65 @@
-Return-Path: <linux-input+bounces-8047-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8048-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3E19C6C9A
-	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 11:15:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15EBA9C6E67
+	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 12:58:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C568F283E84
-	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 10:15:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CFC1F283B2A
+	for <lists+linux-input@lfdr.de>; Wed, 13 Nov 2024 11:58:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 010281FB8A8;
-	Wed, 13 Nov 2024 10:14:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61DEC205E28;
+	Wed, 13 Nov 2024 11:53:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="FR0i9kl9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E209C1FA247;
-	Wed, 13 Nov 2024 10:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBDE200C98;
+	Wed, 13 Nov 2024 11:53:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731492845; cv=none; b=mSISSaXdrV4yLDBwKfWE8W5huMP6HWM82In0w5QERRwzNxdb/omsZQoVlVHF9altIcs1oY3qSzY8ZwliHoUKboIezar1Cf4R+Wn/NZriD2ABnsWDuNKnXb6Qj4OnrmR2QW4USmq9CQdm7WAw6Ef8tDDg7o/9NPc+ytok0rNrOAo=
+	t=1731498817; cv=none; b=OqmC+blGDyVWSIGtnM/Uxh7hL2x24UESaNlyBJdMo92nCrCFohKCg9GXUhMCO+nGa6R4AIGwaMClRrXYSqSChiB5c7MBceFKhXE6hxp33FDZ+1VPlsRgdn4/NxUlqT2gT3A2WyPsZNcruO59zNjtP+1mlB9NhQkDqCL9Kja68jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731492845; c=relaxed/simple;
-	bh=JyCCzIY02FNmE28fip/ygqKe8YBxE2SLFZl47VPYi7s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fB6VZ97bNzyjd2vT+2r6v4tb9meXuygAy3HEyyXSQh8Dw5R25IWO23Ik8BYK8aQKe2OO5E5yAderW/006h1iE4rnLpX4T4su6ILk5RTAzBA/fZ6b5AFbmSHYcdPBM42nOryMSrn87NQicnmeult4q49f6/LQPYigdhCm2ZfNjFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: f8d0194ca1a711efa216b1d71e6e1362-20241113
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_DIGIT_LEN
-	HR_FROM_NAME, HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER
-	HR_SJ_NOR_SYM, HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT
-	HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED
-	SA_EXISTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
-	CIE_BAD, CIE_GOOD_SPF, GTI_FG_BS, GTI_C_CI, GTI_FG_IT
-	GTI_RG_INFO, GTI_C_BU, AMN_T1, AMN_GOOD, AMN_C_TI
-	AMN_C_BU
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38,REQID:6d641c25-af66-4df0-abf3-13c7c9f338d3,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-10
-X-CID-INFO: VERSION:1.1.38,REQID:6d641c25-af66-4df0-abf3-13c7c9f338d3,IP:0,URL
-	:0,TC:0,Content:-5,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:-10
-X-CID-META: VersionHash:82c5f88,CLOUDID:895761041b18b159d86a1e388f23e7a7,BulkI
-	D:241113181349DFBEXSYZ,BulkQuantity:0,Recheck:0,SF:17|19|66|841|102,TC:nil
-	,Content:0,EDM:-3,IP:nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL
-	:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-UUID: f8d0194ca1a711efa216b1d71e6e1362-20241113
-X-User: xiaopei01@kylinos.cn
-Received: from xiaopei-pc.. [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <xiaopei01@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1971577974; Wed, 13 Nov 2024 18:13:47 +0800
-From: Pei Xiao <xiaopei01@kylinos.cn>
+	s=arc-20240116; t=1731498817; c=relaxed/simple;
+	bh=JcMC9E1ouK0FLdpvw6gtX/41VcRf/kXd7ufXNrhoIq4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VRwIpn/OcPIsbmGqKtGZegwfZ+0lTzQLoRLqPjcO37y8G49vh2BjYZukd2dEtHz4KzWTSb15RsOHwT4ykmNDuFnOh/Bk2kJRDLa0r7r+Ek6iJdMRymjE0ae1ge+YBYpkKHdsCLINSjNrEoofT0M5aKZii+NcPIyKlciqU9uvRcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=FR0i9kl9; arc=none smtp.client-ip=54.207.22.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1731498743;
+	bh=ggRdDU7iCZJOkTsKF0zJgrkrHsItDChMLE7lMfNv2kw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=FR0i9kl9KViUsYRWJUgOAgKE15G1SZFWhKEEgGK9gyuKrRhxjlv928lZRX2wOJY48
+	 rlKRpVqXboePkE8QdBACRrszgKLlhOCl5PGvW7S2QfTGXq12RcdhFCTDzVIorDztoT
+	 RU6FKca1nUBegQrtpvJn1SlCkNqo44Z3c3+Gti6o=
+X-QQ-mid: bizesmtpip3t1731498712t9idxh8
+X-QQ-Originating-IP: zNDgcafP9tOrJI6aPGG7N94+rCjp5gId1t4KvU6tGFA=
+Received: from localhost.localdomain ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 13 Nov 2024 19:51:49 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 18098386907033749766
+From: WangYuli <wangyuli@uniontech.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org,
 	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: xiaopeitux@foxmail.com,
-	Pei Xiao <xiaopei01@kylinos.cn>,
-	syzbot+3fa2af55f15bd21cada9@syzkaller.appspotmail.com
-Subject: [PATCH] HID: core: s32ton always be 0 when n>=32
-Date: Wed, 13 Nov 2024 18:13:42 +0800
-Message-Id: <f74754f0d7d870ac8301eb8f5760d473bdd0270b.1731492709.git.xiaopei01@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+	linux-kernel@vger.kernel.org,
+	benjamin.tissoires@enac.fr,
+	chatty@enac.fr,
+	jkosina@suse.cz,
+	guanwentao@uniontech.com,
+	zhanjun@uniontech.com
+Cc: WangYuli <wangyuli@uniontech.com>
+Subject: [PATCH] HID: multitouch: Remove useless comment
+Date: Wed, 13 Nov 2024 19:51:29 +0800
+Message-ID: <021947F5C0C056AD+20241113115129.31921-1-wangyuli@uniontech.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -78,35 +67,49 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: N8Jy6PtD39R8iMPyTic5VACbYVOsx9FyzjLTSgCZB6FCgqoOVDabdits
+	OGu3cWrBwZ0xNBHYTA1d1GYx5Fl4sQgQcBJ+8NmbhzyEQoZvNyvN5hL8Unl58rrzQ4sMnrB
+	Za+d5Rib2kGvJ7mCTJkY+7FQbBEHzbctJzJov0RB3pNCdOeUrgEK3Xq0GfGVdEE52zMJWDR
+	tFTnUwHfjuHjQxTsily75ykUE2sas0Um/F7v0NWNlc+G6572HuqTdJbUm2OKnKuzfsRvBXi
+	CUB7IxbnaWszFfgNfmkLa1rBdnqRvCaP1YM+6XFiKgcIrKOK38zl4nog9JBtu91tdwUVl8W
+	DhFJ4q1RVzBALOSkYgvTWiiHx/9/+cT4PmdclFQDCQde9Xy2SSm4Zv8eChC6c/9iI0Z1sru
+	HnLf2O7RbRXjeXK5XqOK8xT5jhPEdb09gayT1VT7qML7bVIeMH2HIAke24iG1rTfreJcRFe
+	y3jPphrafWUQgfuP3Pso7cQLu3dSq0JOi4VwIxFkSYEwLmNq6K0Fc5VcBmopHy05ipE2mf7
+	+FsQG61LfGAIVSnZWgSUZJPLJqeiFuqR5gi5/IZggT2RmPh0U0R7z776n4er3sKah/xo/ZW
+	mXI0y0JGwjbfTF3e9NR5wIrzCSNiKfdRCjoNyZ9PGIuquOhXyUX6n9N5SPqfaiHVJRoBb9Y
+	dLzQhGLBBUY0hxxoCx+yEpB9dEQuBoRuwUo3MokRbgloaGZpUvdJ+7pR8dVF9pdqBnxRwe0
+	KYqx2gutt54d+/zcga678dCVDTWhCfS1I0BWMvI8OY8gPWJqWylgialOSDK0JmdGRoyezVY
+	aImWqEI4YyVlt4NLl9CnXDOb277xR1XCnr1Tl58WIVhbDiAJ7NgZko5j27E8Kh5CjE3Qwlv
+	C5uHOUBxkNRmVpL4QF/OYkbXGBAXKcLxtx9XJAmCB/tjbLrjt03iVAew4pchbwWGpCiIqx6
+	OJxCrDm4NmVDtYeB6NfHwLBaB6M/c8kJd6ys7XGtN+Kj6TNY+0c0IlGkstFnmfZausBQ=
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+X-QQ-RECHKSPAM: 0
 
-s32ton always be 0 when n>=32,add check n.
+There's an empty comment at the beginning of hid-multitoch.c.
+Just discard it.
 
-Reported-by: syzbot+3fa2af55f15bd21cada9@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=3fa2af55f15bd21cada9
-Fixes: c653ffc28340 ("HID: stop exporting hid_snto32()")
-Signed-off-by: Pei Xiao <xiaopei01@kylinos.cn>
+Signed-off-by: WangYuli <wangyuli@uniontech.com>
 ---
- drivers/hid/hid-core.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/hid/hid-multitouch.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 81d6c734c8bc..ead1d338fa58 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -66,8 +66,11 @@ static s32 snto32(__u32 value, unsigned int n)
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index e936019d21fe..d6633eb003a4 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -20,9 +20,6 @@
+  *  Copyright (c) 2010      Canonical, Ltd.
+  */
  
- static u32 s32ton(__s32 value, unsigned int n)
- {
--	s32 a = value >> (n - 1);
-+	s32 a;
- 
-+	if (n >= 32)
-+		return value;
-+	a = value >> (n - 1);
- 	if (a && a != -1)
- 		return value < 0 ? 1 << (n - 1) : (1 << (n - 1)) - 1;
- 	return value & ((1 << n) - 1);
+-/*
+- */
+-
+ /*
+  * This driver is regularly tested thanks to the test suite in hid-tools[1].
+  * Please run these regression tests before patching this module so that
 -- 
-2.34.1
+2.47.0
 
 
