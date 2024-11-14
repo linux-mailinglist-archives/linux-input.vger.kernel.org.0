@@ -1,131 +1,98 @@
-Return-Path: <linux-input+bounces-8069-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8070-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 689589C806A
-	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2024 03:13:54 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 169EF9C8257
+	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2024 06:21:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8BD201F223F7
-	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2024 02:13:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A38EAB23891
+	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2024 05:21:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B933419B3E2;
-	Thu, 14 Nov 2024 02:13:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D377F157E99;
+	Thu, 14 Nov 2024 05:21:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="nWtnFkza"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DyQQu8dB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09F981CCEE0
-	for <linux-input@vger.kernel.org>; Thu, 14 Nov 2024 02:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD24801;
+	Thu, 14 Nov 2024 05:21:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731550429; cv=none; b=cTvy2+H8uDhyl+DCNA3bSqlV40W7YJz4p+2ntMn2mu47ynruq4s8fl3P53OVg3/zr+k1fdiwKwLY6JHmqxLW3MOdGZqanU8lqGcqREsgim1II1MSrj+2Ovgeq+yxM/tViYnSo+hQf8+GzUVgLSLXjqGxCdXPNZt7+aJY484uX3Q=
+	t=1731561668; cv=none; b=lD43ffwRnYqJq8yV/GPrjlNNXlBrwywDYPmULxTXVYEn1c6aynbMgH3cHvBHpogetI5Rm1yddI0oebC7kCfRf70tdaFshckrrHR8HpGZ8y1PGh/aV0gSwpuNSBlNJWiJW9K3nW9IkMR/fq9b0HKEd7WRP6tJ1kngJh5wWgdYo1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731550429; c=relaxed/simple;
-	bh=8Yy4lIm+d0VPfEAPgH/BrG3Hq5K7KmfxPp3ConN5j+c=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FZBuwU8ksu7/bRqWcUfGcxmcSiMcrxhUe3hAbDzj1YIfrSrcyDzaaU6R97yw6Lt/UJcdFYc++njCoc52SjA71KZwKCcjmQJ/LyQtDZJ7BwYOvBVsBK1V01N4MRJBynvS8AKfRTlw+9QNXXsW9m+Qy2IuMcyI6iRHC2Ma+F73l5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=nWtnFkza; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=B+6Wu
-	O/c5R9eHOFB5NiC5aLfEoLIzGcWjugqAoI4kjA=; b=nWtnFkza/nAGP7sHZjbv3
-	gLatFBXCcmkXM/0hZP9qfPabllNh8lM2swjv9B52vMmgYETQtWCItRi/bLGz/qYi
-	va85UG1iAMOi89TcZTgqKX2KIxgbdGE8244DdhiEjAqi8c47JMjQMka+sr6ErMrO
-	MK9MMLAdUZWXn6YKiCXcIc=
-Received: from localhost.localdomain (unknown [123.150.8.42])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wBX_GnNXDVnS70bCQ--.212S2;
-	Thu, 14 Nov 2024 10:13:35 +0800 (CST)
-From: luyuantao01 <luyuantao01@163.com>
-To: dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org,
-	luyuantao <luyuantao@kylinos.cn>
-Subject: [PATCH v2] Input: i8042 - Fix keyboard failure caused by S3 mouse wakeup
-Date: Thu, 14 Nov 2024 10:13:10 +0800
-Message-Id: <20241114021310.9-1-luyuantao01@163.com>
-X-Mailer: git-send-email 2.37.2.windows.2
-In-Reply-To: <20241109094842.1436-1-luyuantao01@163.com>
-References: <20241109094842.1436-1-luyuantao01@163.com>
+	s=arc-20240116; t=1731561668; c=relaxed/simple;
+	bh=oHGls7AFam4mHGfb97rToOT6Py3SFlaBEqck0d1zEDo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ado6Ucv/Zibca4FcFxGYEdiZjcFmnPrPHNMto8Y2uzordObHQ7e0HNuswc71cp2QqdCzjpIbM2k1lLqA31i0moYxm2E9kbshs/dQfuCaHccdKfKXiEY5wnBRPeTfZByBa0xlOiHKMRCjHKpgFCswlH30xhLdleQzxF1ckqE1198=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DyQQu8dB; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7edb6879196so135511a12.3;
+        Wed, 13 Nov 2024 21:21:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731561667; x=1732166467; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NEkWqFarO5ZGDl+Zrp7Ih3f6HDMm6lKhnmGDf8HG6T0=;
+        b=DyQQu8dBt1P+ETBd5R/Llg3VQ0nMdFXvCkyUomZox1OJ0F+BvQvFs7Ij0/UQdjAK8L
+         rXb+pk39KHUwQzU1hTgD9GpTL4xd67GFbwEfX+3ocfOCu1fiZt0JeGEQtOwPFb9T+jNs
+         GzxNGFdTYT5G+dZKlvnSCxHBSIicw34LyQj6ht3ni7cgl9Q19JZ+DJASZVv2Bn0EgCcc
+         vBSUvifOTuaNHQPMkQ7VXRnYyc8u4peCKM8ADGvk5e4GjikPkEkn6rdgFW2Lp3AMiKC6
+         OhszMYf+u5KOQTB5sRQPKokxedMeqyPzQn/HO6Z/Fef2tMy5gXbvjcVL0ePSCHuwZtHA
+         p1aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731561667; x=1732166467;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NEkWqFarO5ZGDl+Zrp7Ih3f6HDMm6lKhnmGDf8HG6T0=;
+        b=tJ+qv04fCSTdrKKUcxQw2nrDuo/bkZTri2knB9lptVzBbjnUAHO9sfvID5Jd1eu3XT
+         pYMsOkRkNwmvfMxOonL4JTBVssmEe2Wx6zMlcxv7BGLRgqHZag5o7dxREF40HtC+4AWJ
+         sMaXfQlYyS7+xFaSvHdhz/IVvyjchAxX8A8e6nhkyixVr36puzOKcTVJ+Lv78D17Ldp3
+         1UhWsMQ4ZL15RGux4Dk9nHkxsHwtPnIt2cRZplOD8nlxE3T9lN9BygkGLXoPgSXRT02M
+         ttED8tRz4a/lY0TAgD1/QjVouERZqZ/uj9o8Ru7FHUXGnbHL9mgpecA+0eikiZy5ayaO
+         puig==
+X-Forwarded-Encrypted: i=1; AJvYcCWyY0EUU/Jbe6tZ/ULSnoz+E+KfZZshYKn+BQrvjbwMdcIqYpasc7+YOVoOJIk8zj9vHjcR5J3tppBoW32l@vger.kernel.org, AJvYcCX5RRgvWwGzGPnmkr7h4jI4ocb+eHyYo9MGArP2aD9mFNIO/k+q6/6zthKF0GrV1p0BkJax46ucSDis/A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxg2oUeScy5/ieAfTWCFzEEsBhAwcyftD7sKpVXQHHdZ8WAytLF
+	KBuUld2gucwq7z9Jn/0euSJ/XcMA1vsdMrawQNAT0EfZbHNPiYO/
+X-Google-Smtp-Source: AGHT+IEdp1I/bu3ifbL07hCMBvjgh/TPoqDJCgLCPVuj6JFRHoE5AZJ9s//YRxuHnGj8jKhGXaJiVw==
+X-Received: by 2002:a05:6a20:43a4:b0:1d9:61:e783 with SMTP id adf61e73a8af0-1dc22b642efmr32654349637.36.1731561666586;
+        Wed, 13 Nov 2024 21:21:06 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:aaa0:6660:6a33:f019])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ea06fbb549sm320869a91.52.2024.11.13.21.21.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Nov 2024 21:21:06 -0800 (PST)
+Date: Wed, 13 Nov 2024 21:21:03 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Shivam Chaudhary <cvam0000@gmail.com>
+Cc: wse@tuxedocomputers.com, tiwai@suse.de, hdegoede@redhat.com,
+	eshimanovich@chromium.org, szfabian@bluemarch.art,
+	tjakobi@math.uni-bielefeld.de, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: i8042: Fix typo dublicate to duplicate
+Message-ID: <ZzWIv89-BBOqQsxi@google.com>
+References: <20241107174918.78335-1-cvam0000@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wBX_GnNXDVnS70bCQ--.212S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGw1xGFWrXFyxCw1UKF1xKrg_yoW5Gry7pa
-	y3Ka109r4vqFyqywsrtr48Z3Z8Xws7Xay3CFnruryUCwnrXFnYyr4ftryrZa1DC393Cwsx
-	Xryjq3yY93WDuaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07bjManUUUUU=
-X-CM-SenderInfo: 5ox13tpqwd0iqr6rljoofrz/1tbiLAuXhmc1WflanwAAsB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241107174918.78335-1-cvam0000@gmail.com>
 
-From: luyuantao <luyuantao@kylinos.cn>
+On Thu, Nov 07, 2024 at 11:19:18PM +0530, Shivam Chaudhary wrote:
+> Fix typo in i8042-acpipnpio.h dublicate -> duplicate.
+> 
+> Signed-off-by: Shivam Chaudhary <cvam0000@gmail.com>
 
-Hi Dmitry 
-I'm sorry for the inconvenience caused to you. After reproducing the 
-problem and conducting a thorough analysis, I found that the previous 
-patch description was incorrect. Therefore, resubmit the patch
+Applied, thank you.
 
-There is an i8402 keyboard and mouse device on the
-ThinkPad P15 laptop.When conducting a wakeup
-test on S3, it was found that:
-
-1. Using the keyboard directly can wake up S3.
-2. The system failed to wake up using the mouse button first,
-and when using the keyboard to wake up again, the system
-cannot be woken up and can only be shut down by pressing
-the power button.
-
-This issue is that i8042_start() only enables wakeup for the
-keyboard. During the i8042_pm_suspend() phase, the aux device
-will not enable irq wakeup. However, when suspend_device_irqs()
-traversing irq without wakeup capability, __disable_irq() did
-not truly disable aux interrupts, only setting the IRQS_SUSPEND
-flag, resulting in aux interrupts still being generated.
-
-When an interrupt is triggered, irqd_irq_isabled returns the
-true execution mask irq. The mask_iopic_irq callback function
-of the IR-IO-APIC chip will disable all IRQ pins, resulting
-in keyboard interrupts being disabled and no longer responding
-
-Signed-off-by: luyuantao <luyuantao@kylinos.cn>
----
- drivers/input/serio/i8042.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
-index 8ec4872b4471..abcd01807dc8 100644
---- a/drivers/input/serio/i8042.c
-+++ b/drivers/input/serio/i8042.c
-@@ -446,17 +446,15 @@ static int i8042_start(struct serio *serio)
- {
- 	struct i8042_port *port = serio->port_data;
- 
--	device_set_wakeup_capable(&serio->dev, true);
--
- 	/*
--	 * On platforms using suspend-to-idle, allow the keyboard to
--	 * wake up the system from sleep by enabling keyboard wakeups
--	 * by default.  This is consistent with keyboard wakeup
--	 * behavior on many platforms using suspend-to-RAM (ACPI S3)
--	 * by default.
-+	 * On platforms using suspend-to-idle
-+	 * In fact, people nowadays prefer to wake up systems using
-+	 * keyboards or mice. But after the previous code flow
-+	 * entered S3, the mouse could not wakeup the system
-+	 * and caused the keyboard to fail to wake up.
- 	 */
--	if (pm_suspend_default_s2idle() &&
--	    serio == i8042_ports[I8042_KBD_PORT_NO].serio) {
-+	if (pm_suspend_default_s2idle()) {
-+		device_set_wakeup_capable(&serio->dev, true);
- 		device_set_wakeup_enable(&serio->dev, true);
- 	}
- 
 -- 
-2.27.0
-
+Dmitry
 
