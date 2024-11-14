@@ -1,63 +1,63 @@
-Return-Path: <linux-input+bounces-8079-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8080-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F519C8286
-	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2024 06:36:43 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E9F9C8289
+	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2024 06:37:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9109281E34
-	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2024 05:36:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0362C281214
+	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2024 05:37:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55B111F6691;
-	Thu, 14 Nov 2024 05:34:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD7571F7085;
+	Thu, 14 Nov 2024 05:34:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ESQFQZQK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ejf7ApD2"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371801F6668;
-	Thu, 14 Nov 2024 05:34:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847A21EABBD;
+	Thu, 14 Nov 2024 05:34:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731562491; cv=none; b=DTlIL+eR15lLuwK+7Ai0S9A7gm9xWiPxkuvW/uwcV2qmh4WDZR7zbPVyT5ngmeVy58ieepZV6xkDnxeGZ8Z6kTwtOpHrpQBL9Kjam7x21JFqLr97S8upzg3cA6ISBFrKbLtIeYat+1SHk88n1p2AXFHS+mV991q6xXd6ZHjtTdg=
+	t=1731562494; cv=none; b=QbeRFgo7k4EDw4IL21cTDIWTqZMrGJEFeTk/ZnoOa4TivUARFgIbA1zuMa2WKWYv2RgJPBt0L2oJMVPCLUoXgmbqxhQTEReYAMC1BqyghFE7WyMlX76ZV/UnQVmJ9OXFvVIZg2G6pZVzfbGl1PBj/4JoHKDUt4QlqL74eWc2ZPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731562491; c=relaxed/simple;
-	bh=jvezbM463w+twncyXBrYx2h5OuYd+2uQroULOWToELA=;
+	s=arc-20240116; t=1731562494; c=relaxed/simple;
+	bh=DzbwTvC9aExwIivxP/uIH8GuGKZsmSesRsd/wzedAo4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HlS+kxMoHJvNp8tiFHD1H0hOZPxsb7X8qE6LMVTvecJfPMVFhnHc3559IFUo9v73MbDAbP3/swevvtC920Hf3JcBz1Kw6F7pYHXt2J8nmwoT7FB1CK/3TKaOu6PKI/gX4L+ki/jH63gibFnnX1Bm5GsVFX65KhSWvwrvK855SEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ESQFQZQK; arc=none smtp.client-ip=192.198.163.18
+	 MIME-Version; b=n5M682Y7ZxF7e0YfQyN/Wy+LaDYVyUoOtqzkO41wa3lWWT4QsP1IDaMbPx4Zla1kxIAz8I7qym4htZo7tF88SjUUCjQTDUWOBZ/DRRLJ+5EUC3lwCOcwUbv8Igtrm6hE9ucrDFhog+Y4UhQy3Kz5BZ6IyqjApRBk0PxFNvKtNkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ejf7ApD2; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731562489; x=1763098489;
+  t=1731562492; x=1763098492;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=jvezbM463w+twncyXBrYx2h5OuYd+2uQroULOWToELA=;
-  b=ESQFQZQKPd+dLr3CNqK6B4AGpzyG0zFfI2WsY2PEmU/tNE/EAmC9ayCc
-   GDKH+gwXqqw+ZVkIAgOPluC/JJYwW5GORidkUEEEDPG9Uw4RE0wwn8mxM
-   YjsghDMoOa4ECJAxYAA+WB6W5YyMEalviARDzx1+/e2AiJgnJx5RES2w5
-   FWERkTB5+KWyWIkaodmyxBsTX1hQ5GcePZpEI1WKvWrIXQYfwQzH5Izn5
-   iqt8qx8qpHs7DqS/Lpb82cAhUDyH8+SIgrklec7LbeTjba2lgIiINW/l3
-   ijXf8AMfaK1hJvMoKYwYRdewRer18N66NgZBELUXiwaAUKnPPZaPyq2GG
-   w==;
-X-CSE-ConnectionGUID: xvXkzL25S6aWJB5TGs3yGA==
-X-CSE-MsgGUID: /BN3eZ3PSvKE3nT7O01IRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="30869058"
+  bh=DzbwTvC9aExwIivxP/uIH8GuGKZsmSesRsd/wzedAo4=;
+  b=ejf7ApD2dw2d2QH1NDg5FUEjBM9SJzNlt2m71O6rKbNt2YE1KrPDIXsg
+   3BMHPn5Uv0C2u07b65YjC2Mman3+69Cbq2Z/Kh9DYw5LOJzTiqxxkrCWe
+   RbPBwvoktwxTf0QMrW+owLKglGq5vU6Nr0RR8u7fJDT9iTP7PdUrM0um8
+   4JckJX27G90LmvemHMe/LSnSQK7K9knhdvMaMsOceFJolCwwLUlS0HNpt
+   Lem2hBUnjWLYMgkav1aP1iWsq00HSoeX4AKBzg58Xvh0wa5LD6pqAZ4G1
+   cmA/9b7Ur+Bv9/0hnoSRiPnvJ9fvpxoqpqyt71zPcL1uc9qE7EUjFPFdX
+   Q==;
+X-CSE-ConnectionGUID: 3YaO+3lmSSKRUbPfAaBKLA==
+X-CSE-MsgGUID: jRTJl6xiT3OdfdNtUq8VDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="30869068"
 X-IronPort-AV: E=Sophos;i="6.12,153,1728975600"; 
-   d="scan'208";a="30869058"
+   d="scan'208";a="30869068"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 21:34:48 -0800
-X-CSE-ConnectionGUID: nONI9vjtSVKFQBuukXtEXw==
-X-CSE-MsgGUID: Zs2HMxwwSte6yLpRvLPbUw==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 21:34:52 -0800
+X-CSE-ConnectionGUID: t+OQUQbdSqamerOdayGNqQ==
+X-CSE-MsgGUID: q3ktatAFRYuDxRJF3onLAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,153,1728975600"; 
-   d="scan'208";a="92891548"
+   d="scan'208";a="92891580"
 Received: from shsensorbuild.sh.intel.com ([10.239.133.18])
-  by fmviesa004.fm.intel.com with ESMTP; 13 Nov 2024 21:34:45 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 13 Nov 2024 21:34:48 -0800
 From: Even Xu <even.xu@intel.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org,
@@ -71,9 +71,9 @@ Cc: linux-input@vger.kernel.org,
 	Even Xu <even.xu@intel.com>,
 	Rui Zhang <rui1.zhang@intel.com>,
 	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH v2 08/22] HID: intel-thc-hid: intel-thc: Add THC interrupt handler
-Date: Thu, 14 Nov 2024 13:34:02 +0800
-Message-Id: <20241114053416.4085715-9-even.xu@intel.com>
+Subject: [PATCH v2 09/22] HID: intel-thc-hid: intel-thc: Add THC SPI config interfaces
+Date: Thu, 14 Nov 2024 13:34:03 +0800
+Message-Id: <20241114053416.4085715-10-even.xu@intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20241114053416.4085715-1-even.xu@intel.com>
 References: <20241114053416.4085715-1-even.xu@intel.com>
@@ -87,8 +87,9 @@ Content-Transfer-Encoding: 8bit
 
 From: Xinpeng Sun <xinpeng.sun@intel.com>
 
-Add common interrupt handler to clear interrupt status and return
-interrupt type to caller for future handling.
+Add SPI bus related APIs to configure SPI operation parameters,
+such as port type, bus frequency, bus IO mode, read/write OPcode,
+and slave register addresses.
 
 Co-developed-by: Even Xu <even.xu@intel.com>
 Signed-off-by: Even Xu <even.xu@intel.com>
@@ -96,324 +97,336 @@ Signed-off-by: Xinpeng Sun <xinpeng.sun@intel.com>
 Tested-by: Rui Zhang <rui1.zhang@intel.com>
 Reviewed-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 ---
- .../intel-thc-hid/intel-thc/intel-thc-dev.c   | 259 ++++++++++++++++++
- .../intel-thc-hid/intel-thc/intel-thc-dev.h   |  27 ++
- 2 files changed, 286 insertions(+)
+ .../intel-thc-hid/intel-thc/intel-thc-dev.c   | 229 ++++++++++++++++++
+ .../intel-thc-hid/intel-thc/intel-thc-dev.h   |   7 +
+ .../intel-thc-hid/intel-thc/intel-thc-hw.h    |  52 ++++
+ 3 files changed, 288 insertions(+)
 
 diff --git a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
-index f2fb07f4092d..fb5d42cb1d44 100644
+index fb5d42cb1d44..4f1f86b45513 100644
 --- a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
 +++ b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
-@@ -670,6 +670,265 @@ void thc_ltr_unconfig(struct thc_device *dev)
+@@ -929,6 +929,235 @@ int thc_interrupt_handler(struct thc_device *dev)
  }
- EXPORT_SYMBOL_NS_GPL(thc_ltr_unconfig, INTEL_THC);
+ EXPORT_SYMBOL_NS_GPL(thc_interrupt_handler, INTEL_THC);
  
 +/**
-+ * thc_int_cause_read - Read interrupt cause register value
++ * thc_port_select - Set THC port type
 + *
 + * @dev: The pointer of THC private device context
++ * @port_type: THC port type to use for current device
 + *
-+ * Return: The interrupt cause register value
++ * Return: 0 on success, other error codes on failed.
 + */
-+u32 thc_int_cause_read(struct thc_device *dev)
++int thc_port_select(struct thc_device *dev, enum thc_port_type port_type)
 +{
-+	u32 int_cause;
++	u32 ctrl, mask;
 +
-+	regmap_read(dev->thc_regmap,
-+		    THC_M_PRT_DEV_INT_CAUSE_REG_VAL_OFFSET, &int_cause);
++	if (port_type == THC_PORT_TYPE_SPI) {
++		dev_dbg(dev->dev, "Set THC port type to SPI\n");
++		dev->port_type = THC_PORT_TYPE_SPI;
 +
-+	return int_cause;
++		/* Enable delay of CS assertion and set to default value */
++		ctrl = THC_M_PRT_SPI_DUTYC_CFG_SPI_CSA_CK_DELAY_EN |
++		       FIELD_PREP(THC_M_PRT_SPI_DUTYC_CFG_SPI_CSA_CK_DELAY_VAL,
++				  THC_CSA_CK_DELAY_VAL_DEFAULT);
++		mask = THC_M_PRT_SPI_DUTYC_CFG_SPI_CSA_CK_DELAY_EN |
++		       THC_M_PRT_SPI_DUTYC_CFG_SPI_CSA_CK_DELAY_VAL;
++		regmap_write_bits(dev->thc_regmap, THC_M_PRT_SPI_DUTYC_CFG_OFFSET,
++				  mask, ctrl);
++	} else if (port_type == THC_PORT_TYPE_I2C) {
++		dev_dbg(dev->dev, "Set THC port type to I2C\n");
++		dev->port_type = THC_PORT_TYPE_I2C;
++
++		/* Set THC transition arbitration policy to frame boundary for I2C */
++		ctrl = FIELD_PREP(THC_M_PRT_CONTROL_THC_ARB_POLICY,
++				  THC_ARB_POLICY_FRAME_BOUNDARY);
++		mask = THC_M_PRT_CONTROL_THC_ARB_POLICY;
++
++		regmap_write_bits(dev->thc_regmap, THC_M_PRT_CONTROL_OFFSET, mask, ctrl);
++	} else {
++		dev_err(dev->dev, "unsupported THC port type: %d\n", port_type);
++		return -EINVAL;
++	}
++
++	ctrl = FIELD_PREP(THC_M_PRT_CONTROL_PORT_TYPE, port_type);
++	mask = THC_M_PRT_CONTROL_PORT_TYPE;
++
++	regmap_write_bits(dev->thc_regmap, THC_M_PRT_CONTROL_OFFSET, mask, ctrl);
++
++	return 0;
 +}
-+EXPORT_SYMBOL_NS_GPL(thc_int_cause_read, INTEL_THC);
++EXPORT_SYMBOL_NS_GPL(thc_port_select, INTEL_THC);
 +
-+static void thc_print_txn_error_cause(const struct thc_device *dev)
++#define THC_SPI_FREQUENCY_7M	7812500
++#define THC_SPI_FREQUENCY_15M	15625000
++#define THC_SPI_FREQUENCY_17M	17857100
++#define THC_SPI_FREQUENCY_20M	20833000
++#define THC_SPI_FREQUENCY_25M	25000000
++#define THC_SPI_FREQUENCY_31M	31250000
++#define THC_SPI_FREQUENCY_41M	41666700
++
++#define THC_SPI_LOW_FREQUENCY	THC_SPI_FREQUENCY_17M
++
++static u8 thc_get_spi_freq_div_val(struct thc_device *dev, u32 spi_freq_val)
 +{
-+	bool known_error = false;
-+	u32 cause = 0;
++	int frequency[] = {
++		THC_SPI_FREQUENCY_7M,
++		THC_SPI_FREQUENCY_15M,
++		THC_SPI_FREQUENCY_17M,
++		THC_SPI_FREQUENCY_20M,
++		THC_SPI_FREQUENCY_25M,
++		THC_SPI_FREQUENCY_31M,
++		THC_SPI_FREQUENCY_41M,
++	};
++	u8 frequency_div[] = {
++		THC_SPI_FRQ_DIV_2,
++		THC_SPI_FRQ_DIV_1,
++		THC_SPI_FRQ_DIV_7,
++		THC_SPI_FRQ_DIV_6,
++		THC_SPI_FRQ_DIV_5,
++		THC_SPI_FRQ_DIV_4,
++		THC_SPI_FRQ_DIV_3,
++	};
++	int size = ARRAY_SIZE(frequency);
++	u32 closest_freq;
++	u8 freq_div;
++	int i;
 +
-+	regmap_read(dev->thc_regmap, THC_M_PRT_ERR_CAUSE_OFFSET, &cause);
++	for (i = size - 1; i >= 0; i--)
++		if ((int)spi_freq_val - frequency[i] >= 0)
++			break;
 +
-+	if (cause & THC_M_PRT_ERR_CAUSE_PRD_ENTRY_ERR) {
-+		dev_err(dev->dev, "TXN Error: Invalid PRD Entry\n");
-+		known_error = true;
-+	}
-+	if (cause & THC_M_PRT_ERR_CAUSE_BUF_OVRRUN_ERR) {
-+		dev_err(dev->dev, "TXN Error: THC Buffer Overrun\n");
-+		known_error = true;
-+	}
-+	if (cause & THC_M_PRT_ERR_CAUSE_FRAME_BABBLE_ERR) {
-+		dev_err(dev->dev, "TXN Error: Frame Babble\n");
-+		known_error = true;
-+	}
-+	if (cause & THC_M_PRT_ERR_CAUSE_INVLD_DEV_ENTRY) {
-+		dev_err(dev->dev, "TXN Error: Invalid Device Register Setting\n");
-+		known_error = true;
++	if (i < 0) {
++		dev_err_once(dev->dev, "Not supported SPI frequency %d\n", spi_freq_val);
++		return THC_SPI_FRQ_RESERVED;
 +	}
 +
-+	/* Clear interrupt status bits */
-+	regmap_write(dev->thc_regmap, THC_M_PRT_ERR_CAUSE_OFFSET, cause);
++	closest_freq = frequency[i];
++	freq_div = frequency_div[i];
 +
-+	if (!known_error)
-+		dev_err(dev->dev, "TXN Error does not match any known value: 0x%X\n",
-+			cause);
++	dev_dbg(dev->dev,
++		"Setting SPI frequency: spi_freq_val = %u, Closest freq = %u\n",
++		spi_freq_val, closest_freq);
++
++	return freq_div;
 +}
 +
 +/**
-+ * thc_interrupt_handler - Handle THC interrupts
-+ *
-+ * THC interrupts include several types: external touch device (TIC) non-DMA
-+ * interrupts, PIO completion interrupts, DMA interrtups, I2C subIP raw
-+ * interrupts and error interrupts.
-+ *
-+ * This is a help function for interrupt processing, it detects interrupt
-+ * type, clear the interrupt status bit and return the interrupt type to caller
-+ * for future processing.
++ * thc_spi_read_config - Configure SPI bus read attributes
 + *
 + * @dev: The pointer of THC private device context
++ * @spi_freq_val: SPI read frequecy value
++ * @io_mode: SPI read IO mode
++ * @opcode: Read opcode
++ * @spi_rd_mps: SPI read max packet size
 + *
-+ * Return: The combined flag for interrupt type
++ * Return: 0 on success, other error codes on failed.
 + */
-+int thc_interrupt_handler(struct thc_device *dev)
++int thc_spi_read_config(struct thc_device *dev, u32 spi_freq_val,
++			u32 io_mode, u32 opcode, u32 spi_rd_mps)
 +{
-+	u32 read_sts_1, read_sts_2, read_sts_sw, write_sts;
-+	u32 int_sts, err_cause, seq_cntrl, seq_sts;
-+	int interrupt_type = 0;
++	bool is_low_freq = false;
++	u32 cfg, mask;
++	u8 freq_div;
 +
-+	regmap_read(dev->thc_regmap,
-+		    THC_M_PRT_READ_DMA_INT_STS_1_OFFSET, &read_sts_1);
++	freq_div = thc_get_spi_freq_div_val(dev, spi_freq_val);
++	if (freq_div == THC_SPI_FRQ_RESERVED)
++		return -EINVAL;
 +
-+	if (read_sts_1 & THC_M_PRT_READ_DMA_INT_STS_NONDMA_INT_STS) {
-+		dev_dbg(dev->dev, "THC non-DMA device interrupt\n");
++	if (spi_freq_val < THC_SPI_LOW_FREQUENCY)
++		is_low_freq = true;
 +
-+		regmap_write(dev->thc_regmap, THC_M_PRT_READ_DMA_INT_STS_1_OFFSET,
-+			     NONDMA_INT_STS_BIT);
++	cfg = FIELD_PREP(THC_M_PRT_SPI_CFG_SPI_TCRF, freq_div) |
++	      FIELD_PREP(THC_M_PRT_SPI_CFG_SPI_TRMODE, io_mode) |
++	      (is_low_freq ? THC_M_PRT_SPI_CFG_SPI_LOW_FREQ_EN : 0) |
++	      FIELD_PREP(THC_M_PRT_SPI_CFG_SPI_RD_MPS, spi_rd_mps);
++	mask = THC_M_PRT_SPI_CFG_SPI_TCRF |
++	       THC_M_PRT_SPI_CFG_SPI_TRMODE |
++	       THC_M_PRT_SPI_CFG_SPI_LOW_FREQ_EN |
++	       THC_M_PRT_SPI_CFG_SPI_RD_MPS;
 +
-+		interrupt_type |= BIT(THC_NONDMA_INT);
++	regmap_write_bits(dev->thc_regmap,
++			  THC_M_PRT_SPI_CFG_OFFSET, mask, cfg);
 +
-+		return interrupt_type;
-+	}
++	if (io_mode == THC_QUAD_IO)
++		opcode = FIELD_PREP(THC_M_PRT_SPI_ICRRD_OPCODE_SPI_QIO, opcode);
++	else if (io_mode == THC_DUAL_IO)
++		opcode = FIELD_PREP(THC_M_PRT_SPI_ICRRD_OPCODE_SPI_DIO, opcode);
++	else
++		opcode = FIELD_PREP(THC_M_PRT_SPI_ICRRD_OPCODE_SPI_SIO, opcode);
 +
-+	regmap_read(dev->thc_regmap, THC_M_PRT_INT_STATUS_OFFSET, &int_sts);
++	regmap_write(dev->thc_regmap, THC_M_PRT_SPI_ICRRD_OPCODE_OFFSET, opcode);
++	regmap_write(dev->thc_regmap, THC_M_PRT_SPI_DMARD_OPCODE_OFFSET, opcode);
 +
-+	if (int_sts & THC_M_PRT_INT_STATUS_TXN_ERR_INT_STS) {
-+		dev_err(dev->dev, "THC transaction error, int_sts: 0x%08X\n", int_sts);
-+		thc_print_txn_error_cause(dev);
-+
-+		regmap_write(dev->thc_regmap, THC_M_PRT_INT_STATUS_OFFSET,
-+			     TXN_ERR_INT_STS_BIT);
-+
-+		interrupt_type |= BIT(THC_TXN_ERR_INT);
-+
-+		return interrupt_type;
-+	}
-+
-+	regmap_read(dev->thc_regmap, THC_M_PRT_ERR_CAUSE_OFFSET, &err_cause);
-+	regmap_read(dev->thc_regmap,
-+		    THC_M_PRT_READ_DMA_INT_STS_2_OFFSET, &read_sts_2);
-+
-+	if (err_cause & THC_M_PRT_ERR_CAUSE_BUF_OVRRUN_ERR ||
-+	    read_sts_1 & THC_M_PRT_READ_DMA_INT_STS_STALL_STS ||
-+	    read_sts_2 & THC_M_PRT_READ_DMA_INT_STS_STALL_STS) {
-+		dev_err(dev->dev, "Buffer overrun or RxDMA engine stalled!\n");
-+		thc_print_txn_error_cause(dev);
-+
-+		regmap_write(dev->thc_regmap, THC_M_PRT_READ_DMA_INT_STS_2_OFFSET,
-+			     THC_M_PRT_READ_DMA_INT_STS_STALL_STS);
-+		regmap_write(dev->thc_regmap, THC_M_PRT_READ_DMA_INT_STS_1_OFFSET,
-+			     THC_M_PRT_READ_DMA_INT_STS_STALL_STS);
-+		regmap_write(dev->thc_regmap, THC_M_PRT_ERR_CAUSE_OFFSET,
-+			     THC_M_PRT_ERR_CAUSE_BUF_OVRRUN_ERR);
-+
-+		interrupt_type |= BIT(THC_TXN_ERR_INT);
-+
-+		return interrupt_type;
-+	}
-+
-+	if (int_sts & THC_M_PRT_INT_STATUS_FATAL_ERR_INT_STS) {
-+		dev_err_once(dev->dev, "THC FATAL error, int_sts: 0x%08X\n", int_sts);
-+
-+		regmap_write(dev->thc_regmap, THC_M_PRT_INT_STATUS_OFFSET,
-+			     TXN_FATAL_INT_STS_BIT);
-+
-+		interrupt_type |= BIT(THC_FATAL_ERR_INT);
-+
-+		return interrupt_type;
-+	}
-+
-+	regmap_read(dev->thc_regmap,
-+		    THC_M_PRT_SW_SEQ_CNTRL_OFFSET, &seq_cntrl);
-+	regmap_read(dev->thc_regmap,
-+		    THC_M_PRT_SW_SEQ_STS_OFFSET, &seq_sts);
-+
-+	if (seq_cntrl & THC_M_PRT_SW_SEQ_CNTRL_THC_SS_CD_IE &&
-+	    seq_sts & THC_M_PRT_SW_SEQ_STS_TSSDONE) {
-+		dev_dbg(dev->dev, "THC_SS_CD_IE and TSSDONE are set\n");
-+		interrupt_type |= BIT(THC_PIO_DONE_INT);
-+	}
-+
-+	if (read_sts_1 & THC_M_PRT_READ_DMA_INT_STS_EOF_INT_STS) {
-+		dev_dbg(dev->dev, "Got RxDMA1 Read Interrupt\n");
-+
-+		regmap_write(dev->thc_regmap,
-+			     THC_M_PRT_READ_DMA_INT_STS_1_OFFSET, read_sts_1);
-+
-+		interrupt_type |= BIT(THC_RXDMA1_INT);
-+	}
-+
-+	if (read_sts_2 & THC_M_PRT_READ_DMA_INT_STS_EOF_INT_STS) {
-+		dev_dbg(dev->dev, "Got RxDMA2 Read Interrupt\n");
-+
-+		regmap_write(dev->thc_regmap,
-+			     THC_M_PRT_READ_DMA_INT_STS_2_OFFSET, read_sts_2);
-+
-+		interrupt_type |= BIT(THC_RXDMA2_INT);
-+	}
-+
-+	regmap_read(dev->thc_regmap,
-+		    THC_M_PRT_READ_DMA_INT_STS_SW_OFFSET, &read_sts_sw);
-+
-+	if (read_sts_sw & THC_M_PRT_READ_DMA_INT_STS_DMACPL_STS) {
-+		dev_dbg(dev->dev, "Got SwDMA Read Interrupt\n");
-+
-+		regmap_write(dev->thc_regmap,
-+			     THC_M_PRT_READ_DMA_INT_STS_SW_OFFSET, read_sts_sw);
-+
-+		dev->swdma_done = true;
-+		wake_up_interruptible(&dev->swdma_complete_wait);
-+
-+		interrupt_type |= BIT(THC_SWDMA_INT);
-+	}
-+
-+	regmap_read(dev->thc_regmap,
-+		    THC_M_PRT_WRITE_INT_STS_OFFSET, &write_sts);
-+
-+	if (write_sts & THC_M_PRT_WRITE_INT_STS_THC_WRDMA_CMPL_STATUS) {
-+		dev_dbg(dev->dev, "Got TxDMA Write complete Interrupt\n");
-+
-+		regmap_write(dev->thc_regmap,
-+			     THC_M_PRT_WRITE_INT_STS_OFFSET, write_sts);
-+
-+		dev->write_done = true;
-+		wake_up_interruptible(&dev->write_complete_wait);
-+
-+		interrupt_type |= BIT(THC_TXDMA_INT);
-+	}
-+
-+	if (int_sts & THC_M_PRT_INT_STATUS_DEV_RAW_INT_STS) {
-+		regmap_write(dev->thc_regmap, THC_M_PRT_INT_STATUS_OFFSET,
-+			     THC_M_PRT_INT_STATUS_DEV_RAW_INT_STS);
-+		interrupt_type |= BIT(THC_I2CSUBIP_INT);
-+	}
-+	if (int_sts & THC_M_PRT_INT_STATUS_THC_I2C_IC_RX_UNDER_INT_STS) {
-+		regmap_write(dev->thc_regmap, THC_M_PRT_INT_STATUS_OFFSET,
-+			     THC_M_PRT_INT_STATUS_THC_I2C_IC_RX_UNDER_INT_STS);
-+		interrupt_type |= BIT(THC_I2CSUBIP_INT);
-+	}
-+	if (int_sts & THC_M_PRT_INT_STATUS_THC_I2C_IC_RX_OVER_INT_STS) {
-+		regmap_write(dev->thc_regmap, THC_M_PRT_INT_STATUS_OFFSET,
-+			     THC_M_PRT_INT_STATUS_THC_I2C_IC_RX_OVER_INT_STS);
-+		interrupt_type |= BIT(THC_I2CSUBIP_INT);
-+	}
-+	if (int_sts & THC_M_PRT_INT_STATUS_THC_I2C_IC_RX_FULL_INT_STS) {
-+		regmap_write(dev->thc_regmap, THC_M_PRT_INT_STATUS_OFFSET,
-+			     THC_M_PRT_INT_STATUS_THC_I2C_IC_RX_FULL_INT_STS);
-+		interrupt_type |= BIT(THC_I2CSUBIP_INT);
-+	}
-+	if (int_sts & THC_M_PRT_INT_STATUS_THC_I2C_IC_TX_OVER_INT_STS) {
-+		regmap_write(dev->thc_regmap, THC_M_PRT_INT_STATUS_OFFSET,
-+			     THC_M_PRT_INT_STATUS_THC_I2C_IC_TX_OVER_INT_STS);
-+		interrupt_type |= BIT(THC_I2CSUBIP_INT);
-+	}
-+	if (int_sts & THC_M_PRT_INT_STATUS_THC_I2C_IC_TX_EMPTY_INT_STS) {
-+		regmap_write(dev->thc_regmap, THC_M_PRT_INT_STATUS_OFFSET,
-+			     THC_M_PRT_INT_STATUS_THC_I2C_IC_TX_EMPTY_INT_STS);
-+		interrupt_type |= BIT(THC_I2CSUBIP_INT);
-+	}
-+	if (int_sts & THC_M_PRT_INT_STATUS_THC_I2C_IC_TX_ABRT_INT_STS) {
-+		regmap_write(dev->thc_regmap, THC_M_PRT_INT_STATUS_OFFSET,
-+			     THC_M_PRT_INT_STATUS_THC_I2C_IC_TX_ABRT_INT_STS);
-+		interrupt_type |= BIT(THC_I2CSUBIP_INT);
-+	}
-+	if (int_sts & THC_M_PRT_INT_STATUS_THC_I2C_IC_ACTIVITY_INT_STS) {
-+		regmap_write(dev->thc_regmap, THC_M_PRT_INT_STATUS_OFFSET,
-+			     THC_M_PRT_INT_STATUS_THC_I2C_IC_ACTIVITY_INT_STS);
-+		interrupt_type |= BIT(THC_I2CSUBIP_INT);
-+	}
-+	if (int_sts & THC_M_PRT_INT_STATUS_THC_I2C_IC_SCL_STUCK_AT_LOW_INT_STS) {
-+		regmap_write(dev->thc_regmap, THC_M_PRT_INT_STATUS_OFFSET,
-+			     THC_M_PRT_INT_STATUS_THC_I2C_IC_SCL_STUCK_AT_LOW_INT_STS);
-+		interrupt_type |= BIT(THC_I2CSUBIP_INT);
-+	}
-+	if (int_sts & THC_M_PRT_INT_STATUS_THC_I2C_IC_STOP_DET_INT_STS) {
-+		regmap_write(dev->thc_regmap, THC_M_PRT_INT_STATUS_OFFSET,
-+			     THC_M_PRT_INT_STATUS_THC_I2C_IC_STOP_DET_INT_STS);
-+		interrupt_type |= BIT(THC_I2CSUBIP_INT);
-+	}
-+	if (int_sts & THC_M_PRT_INT_STATUS_THC_I2C_IC_START_DET_INT_STS) {
-+		regmap_write(dev->thc_regmap, THC_M_PRT_INT_STATUS_OFFSET,
-+			     THC_M_PRT_INT_STATUS_THC_I2C_IC_START_DET_INT_STS);
-+		interrupt_type |= BIT(THC_I2CSUBIP_INT);
-+	}
-+	if (int_sts & THC_M_PRT_INT_STATUS_THC_I2C_IC_MST_ON_HOLD_INT_STS) {
-+		regmap_write(dev->thc_regmap, THC_M_PRT_INT_STATUS_OFFSET,
-+			     THC_M_PRT_INT_STATUS_THC_I2C_IC_MST_ON_HOLD_INT_STS);
-+		interrupt_type |= BIT(THC_I2CSUBIP_INT);
-+	}
-+
-+	if (!interrupt_type)
-+		interrupt_type |= BIT(THC_UNKNOWN_INT);
-+
-+	return interrupt_type;
++	return 0;
 +}
-+EXPORT_SYMBOL_NS_GPL(thc_interrupt_handler, INTEL_THC);
++EXPORT_SYMBOL_NS_GPL(thc_spi_read_config, INTEL_THC);
++
++/**
++ * thc_spi_write_config - Configure SPI bus write attributes
++ *
++ * @dev: The pointer of THC private device context
++ * @spi_freq_val: SPI write frequecy value
++ * @io_mode: SPI write IO mode
++ * @opcode: Write opcode
++ * @spi_wr_mps: SPI write max packet size
++ * @perf_limit: Performance limitation in unit of 10us
++ *
++ * Return: 0 on success, other error codes on failed.
++ */
++int thc_spi_write_config(struct thc_device *dev, u32 spi_freq_val,
++			 u32 io_mode, u32 opcode, u32 spi_wr_mps,
++			 u32 perf_limit)
++{
++	bool is_low_freq = false;
++	u32 cfg, mask;
++	u8 freq_div;
++
++	freq_div = thc_get_spi_freq_div_val(dev, spi_freq_val);
++	if (freq_div == THC_SPI_FRQ_RESERVED)
++		return -EINVAL;
++
++	if (spi_freq_val < THC_SPI_LOW_FREQUENCY)
++		is_low_freq = true;
++
++	cfg = FIELD_PREP(THC_M_PRT_SPI_CFG_SPI_TCWF, freq_div) |
++	      FIELD_PREP(THC_M_PRT_SPI_CFG_SPI_TWMODE, io_mode) |
++	      (is_low_freq ? THC_M_PRT_SPI_CFG_SPI_LOW_FREQ_EN : 0) |
++	      FIELD_PREP(THC_M_PRT_SPI_CFG_SPI_WR_MPS, spi_wr_mps);
++	mask = THC_M_PRT_SPI_CFG_SPI_TCWF |
++	       THC_M_PRT_SPI_CFG_SPI_TWMODE |
++	       THC_M_PRT_SPI_CFG_SPI_LOW_FREQ_EN |
++	       THC_M_PRT_SPI_CFG_SPI_WR_MPS;
++
++	regmap_write_bits(dev->thc_regmap,
++			  THC_M_PRT_SPI_CFG_OFFSET, mask, cfg);
++
++	if (io_mode == THC_QUAD_IO)
++		opcode = FIELD_PREP(THC_M_PRT_SPI_ICRRD_OPCODE_SPI_QIO, opcode);
++	else if (io_mode == THC_DUAL_IO)
++		opcode = FIELD_PREP(THC_M_PRT_SPI_ICRRD_OPCODE_SPI_DIO, opcode);
++	else
++		opcode = FIELD_PREP(THC_M_PRT_SPI_ICRRD_OPCODE_SPI_SIO, opcode);
++
++	regmap_write(dev->thc_regmap, THC_M_PRT_SPI_WR_OPCODE_OFFSET, opcode);
++
++	dev->perf_limit = perf_limit;
++
++	return 0;
++}
++EXPORT_SYMBOL_NS_GPL(thc_spi_write_config, INTEL_THC);
++
++/**
++ * thc_spi_input_output_address_config - Configure SPI input and output addresses
++ *
++ * @dev: the pointer of THC private device context
++ * @input_hdr_addr: input report header address
++ * @input_bdy_addr: input report body address
++ * @output_addr: output report address
++ */
++void thc_spi_input_output_address_config(struct thc_device *dev, u32 input_hdr_addr,
++					 u32 input_bdy_addr, u32 output_addr)
++{
++	regmap_write(dev->thc_regmap,
++		     THC_M_PRT_DEV_INT_CAUSE_ADDR_OFFSET, input_hdr_addr);
++	regmap_write(dev->thc_regmap,
++		     THC_M_PRT_RD_BULK_ADDR_1_OFFSET, input_bdy_addr);
++	regmap_write(dev->thc_regmap,
++		     THC_M_PRT_RD_BULK_ADDR_2_OFFSET, input_bdy_addr);
++	regmap_write(dev->thc_regmap,
++		     THC_M_PRT_WR_BULK_ADDR_OFFSET, output_addr);
++}
++EXPORT_SYMBOL_NS_GPL(thc_spi_input_output_address_config, INTEL_THC);
 +
  MODULE_AUTHOR("Xinpeng Sun <xinpeng.sun@intel.com>");
  MODULE_AUTHOR("Even Xu <even.xu@intel.com>");
  
 diff --git a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.h b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.h
-index c25f2fd57c76..d34fab243fdc 100644
+index d34fab243fdc..925355f19bae 100644
 --- a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.h
 +++ b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.h
-@@ -23,6 +23,31 @@ enum thc_port_type {
- 	THC_PORT_TYPE_I2C = 1,
+@@ -98,5 +98,12 @@ void thc_change_ltr_mode(struct thc_device *dev, u32 ltr_mode);
+ void thc_ltr_unconfig(struct thc_device *dev);
+ u32 thc_int_cause_read(struct thc_device *dev);
+ int thc_interrupt_handler(struct thc_device *dev);
++int thc_port_select(struct thc_device *dev, enum thc_port_type port_type);
++int thc_spi_read_config(struct thc_device *dev, u32 spi_freq_val,
++			u32 io_mode, u32 opcode, u32 spi_rd_mps);
++int thc_spi_write_config(struct thc_device *dev, u32 spi_freq_val,
++			 u32 io_mode, u32 opcode, u32 spi_wr_mps, u32 perf_limit);
++void thc_spi_input_output_address_config(struct thc_device *dev, u32 input_hdr_addr,
++					 u32 input_bdy_addr, u32 output_addr);
+ 
+ #endif /* _INTEL_THC_DEV_H_ */
+diff --git a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-hw.h b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-hw.h
+index 4a1153022605..985cad0cbe87 100644
+--- a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-hw.h
++++ b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-hw.h
+@@ -633,6 +633,20 @@
+ 
+ #define THC_M_PRT_SW_DMA_PRD_TABLE_LEN_THC_M_PRT_SW_DMA_PRD_TABLE_LEN	GENMASK(23, 0)
+ 
++#define THC_M_PRT_SPI_DUTYC_CFG_SPI_CSA_CK_DELAY_VAL		GENMASK(3, 0)
++#define THC_M_PRT_SPI_DUTYC_CFG_SPI_CSA_CK_DELAY_EN		BIT(25)
++
++/* CS Assertion delay default value */
++#define THC_CSA_CK_DELAY_VAL_DEFAULT		4
++
++/* ARB policy definition */
++/* Arbiter switches on packet boundary */
++#define THC_ARB_POLICY_PACKET_BOUNDARY		0
++/* Arbiter switches on Micro Frame boundary */
++#define THC_ARB_POLICY_UFRAME_BOUNDARY		1
++/* Arbiter switches on Frame boundary */
++#define THC_ARB_POLICY_FRAME_BOUNDARY		2
++
+ #define THC_REGMAP_POLLING_INTERVAL_US		10 /* 10us */
+ #define THC_PIO_DONE_TIMEOUT_US			USEC_PER_SEC /* 1s */
+ 
+@@ -694,4 +708,42 @@ enum thc_pio_opcode {
+ 	THC_PIO_OP_I2C_TIC_WRITE_AND_READ = 0x1C,
  };
  
 +/**
-+ * THC interrupt flag
-+ * @THC_NONDMA_INT: THC non-DMA interrupt
-+ * @THC_RXDMA1_INT: THC RxDMA1 interrupt
-+ * @THC_RXDMA2_INT: THC RxDMA2 interrupt
-+ * @THC_SWDMA_INT: THC SWDMA interrupt
-+ * @THC_TXDMA_INT: THC TXDMA interrupt
-+ * @THC_PIO_DONE_INT: THC PIO complete interrupt
-+ * @THC_I2CSUBIP_INT: THC I2C subsystem interrupt
-+ * @THC_TXN_ERR_INT: THC transfer error interrupt
-+ * @THC_FATAL_ERR_INT: THC fatal error interrupt
++ * THC SPI IO mode
++ * @THC_SINGLE_IO: single IO mode, 1(opcode) - 1(address) - 1(data)
++ * @THC_DUAL_IO: dual IO mode, 1(opcode) - 2(address) - 2(data)
++ * @THC_QUAD_IO: quad IO mode, 1(opcode) - 4(address) - 4(data)
++ * @THC_QUAD_PARALLEL_IO: parallel quad IO mode, 4(opcode) - 4(address) - 4(data)
 + */
-+enum thc_int_type {
-+	THC_NONDMA_INT = 0,
-+	THC_RXDMA1_INT = 1,
-+	THC_RXDMA2_INT = 2,
-+	THC_SWDMA_INT = 3,
-+	THC_TXDMA_INT = 4,
-+	THC_PIO_DONE_INT = 5,
-+	THC_I2CSUBIP_INT = 6,
-+	THC_TXN_ERR_INT = 7,
-+	THC_FATAL_ERR_INT = 8,
-+	THC_UNKNOWN_INT
++enum thc_spi_iomode {
++	THC_SINGLE_IO = 0,
++	THC_DUAL_IO = 1,
++	THC_QUAD_IO = 2,
++	THC_QUAD_PARALLEL_IO = 3,
 +};
 +
- /**
-  * struct thc_device - THC private device struct
-  * @thc_regmap: MMIO regmap structure for accessing THC registers
-@@ -71,5 +96,7 @@ int thc_interrupt_quiesce(const struct thc_device *dev, bool int_quiesce);
- void thc_ltr_config(struct thc_device *dev, u32 active_ltr_us, u32 lp_ltr_us);
- void thc_change_ltr_mode(struct thc_device *dev, u32 ltr_mode);
- void thc_ltr_unconfig(struct thc_device *dev);
-+u32 thc_int_cause_read(struct thc_device *dev);
-+int thc_interrupt_handler(struct thc_device *dev);
- 
- #endif /* _INTEL_THC_DEV_H_ */
++/**
++ * THC SPI frequency divider
++ *
++ * This DIV final value is determined by THC_M_PRT_SPI_CFG_SPI_LOW_FREQ_EN bit.
++ * If THC_M_PRT_SPI_CFG_SPI_LOW_FREQ_EN isn't be set, THC takes the DIV value directly;
++ * If THC_M_PRT_SPI_CFG_SPI_LOW_FREQ_EN is set, THC takes the DIV value multiply by 8.
++ *
++ * For example, if THC input clock is 125MHz:
++ * When THC_M_PRT_SPI_CFG_SPI_LOW_FREQ_EN isn't set, THC_SPI_FRQ_DIV_3 means DIV is 3,
++ * THC final clock is 125 / 3 = 41.667MHz;
++ * When THC_M_PRT_SPI_CFG_SPI_LOW_FREQ_EN is set, THC_SPI_FRQ_DIV_3 means DIV is 3 * 8,
++ * THC final clock is 125 / (3 * 8) = 5.208MHz;
++ */
++enum thc_spi_frq_div {
++	THC_SPI_FRQ_RESERVED = 0,
++	THC_SPI_FRQ_DIV_1 = 1,
++	THC_SPI_FRQ_DIV_2 = 2,
++	THC_SPI_FRQ_DIV_3 = 3,
++	THC_SPI_FRQ_DIV_4 = 4,
++	THC_SPI_FRQ_DIV_5 = 5,
++	THC_SPI_FRQ_DIV_6 = 6,
++	THC_SPI_FRQ_DIV_7 = 7,
++};
++
+ #endif /* _INTEL_THC_HW_H_  */
 -- 
 2.40.1
 
