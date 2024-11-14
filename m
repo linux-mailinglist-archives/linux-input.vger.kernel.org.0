@@ -1,98 +1,200 @@
-Return-Path: <linux-input+bounces-8070-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8071-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169EF9C8257
-	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2024 06:21:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E509C8267
+	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2024 06:34:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A38EAB23891
-	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2024 05:21:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 73E5E1F241CD
+	for <lists+linux-input@lfdr.de>; Thu, 14 Nov 2024 05:34:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D377F157E99;
-	Thu, 14 Nov 2024 05:21:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE9AE17C9E8;
+	Thu, 14 Nov 2024 05:34:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DyQQu8dB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JGBlY+R3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD24801;
-	Thu, 14 Nov 2024 05:21:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB1213A3EC;
+	Thu, 14 Nov 2024 05:34:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731561668; cv=none; b=lD43ffwRnYqJq8yV/GPrjlNNXlBrwywDYPmULxTXVYEn1c6aynbMgH3cHvBHpogetI5Rm1yddI0oebC7kCfRf70tdaFshckrrHR8HpGZ8y1PGh/aV0gSwpuNSBlNJWiJW9K3nW9IkMR/fq9b0HKEd7WRP6tJ1kngJh5wWgdYo1I=
+	t=1731562464; cv=none; b=Kd/cKwj5Mi5AqFo+a4Zip1H5oVZsqbTXEMwbIEzeponf4K5HM2+nW2DeHQZhTYc+bfR9lq6H8CGTACvT/o5j9nUfpFWa3lAY2x/S3Xi28tPqPw+lHrpITvFdqbpUNgACw9h+EXboblPbXIPBmuWp4uoGsL/RAcL1ZjSJ0Ek4mEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731561668; c=relaxed/simple;
-	bh=oHGls7AFam4mHGfb97rToOT6Py3SFlaBEqck0d1zEDo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ado6Ucv/Zibca4FcFxGYEdiZjcFmnPrPHNMto8Y2uzordObHQ7e0HNuswc71cp2QqdCzjpIbM2k1lLqA31i0moYxm2E9kbshs/dQfuCaHccdKfKXiEY5wnBRPeTfZByBa0xlOiHKMRCjHKpgFCswlH30xhLdleQzxF1ckqE1198=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DyQQu8dB; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7edb6879196so135511a12.3;
-        Wed, 13 Nov 2024 21:21:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731561667; x=1732166467; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NEkWqFarO5ZGDl+Zrp7Ih3f6HDMm6lKhnmGDf8HG6T0=;
-        b=DyQQu8dBt1P+ETBd5R/Llg3VQ0nMdFXvCkyUomZox1OJ0F+BvQvFs7Ij0/UQdjAK8L
-         rXb+pk39KHUwQzU1hTgD9GpTL4xd67GFbwEfX+3ocfOCu1fiZt0JeGEQtOwPFb9T+jNs
-         GzxNGFdTYT5G+dZKlvnSCxHBSIicw34LyQj6ht3ni7cgl9Q19JZ+DJASZVv2Bn0EgCcc
-         vBSUvifOTuaNHQPMkQ7VXRnYyc8u4peCKM8ADGvk5e4GjikPkEkn6rdgFW2Lp3AMiKC6
-         OhszMYf+u5KOQTB5sRQPKokxedMeqyPzQn/HO6Z/Fef2tMy5gXbvjcVL0ePSCHuwZtHA
-         p1aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731561667; x=1732166467;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NEkWqFarO5ZGDl+Zrp7Ih3f6HDMm6lKhnmGDf8HG6T0=;
-        b=tJ+qv04fCSTdrKKUcxQw2nrDuo/bkZTri2knB9lptVzBbjnUAHO9sfvID5Jd1eu3XT
-         pYMsOkRkNwmvfMxOonL4JTBVssmEe2Wx6zMlcxv7BGLRgqHZag5o7dxREF40HtC+4AWJ
-         sMaXfQlYyS7+xFaSvHdhz/IVvyjchAxX8A8e6nhkyixVr36puzOKcTVJ+Lv78D17Ldp3
-         1UhWsMQ4ZL15RGux4Dk9nHkxsHwtPnIt2cRZplOD8nlxE3T9lN9BygkGLXoPgSXRT02M
-         ttED8tRz4a/lY0TAgD1/QjVouERZqZ/uj9o8Ru7FHUXGnbHL9mgpecA+0eikiZy5ayaO
-         puig==
-X-Forwarded-Encrypted: i=1; AJvYcCWyY0EUU/Jbe6tZ/ULSnoz+E+KfZZshYKn+BQrvjbwMdcIqYpasc7+YOVoOJIk8zj9vHjcR5J3tppBoW32l@vger.kernel.org, AJvYcCX5RRgvWwGzGPnmkr7h4jI4ocb+eHyYo9MGArP2aD9mFNIO/k+q6/6zthKF0GrV1p0BkJax46ucSDis/A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxg2oUeScy5/ieAfTWCFzEEsBhAwcyftD7sKpVXQHHdZ8WAytLF
-	KBuUld2gucwq7z9Jn/0euSJ/XcMA1vsdMrawQNAT0EfZbHNPiYO/
-X-Google-Smtp-Source: AGHT+IEdp1I/bu3ifbL07hCMBvjgh/TPoqDJCgLCPVuj6JFRHoE5AZJ9s//YRxuHnGj8jKhGXaJiVw==
-X-Received: by 2002:a05:6a20:43a4:b0:1d9:61:e783 with SMTP id adf61e73a8af0-1dc22b642efmr32654349637.36.1731561666586;
-        Wed, 13 Nov 2024 21:21:06 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:aaa0:6660:6a33:f019])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ea06fbb549sm320869a91.52.2024.11.13.21.21.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 21:21:06 -0800 (PST)
-Date: Wed, 13 Nov 2024 21:21:03 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Shivam Chaudhary <cvam0000@gmail.com>
-Cc: wse@tuxedocomputers.com, tiwai@suse.de, hdegoede@redhat.com,
-	eshimanovich@chromium.org, szfabian@bluemarch.art,
-	tjakobi@math.uni-bielefeld.de, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: i8042: Fix typo dublicate to duplicate
-Message-ID: <ZzWIv89-BBOqQsxi@google.com>
-References: <20241107174918.78335-1-cvam0000@gmail.com>
+	s=arc-20240116; t=1731562464; c=relaxed/simple;
+	bh=ATA5TqGrWrOmTJlvmUh8k5bjwheLXxXZbkpEB6AG9TQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=d81wod4ygzyqi1DkQieIWcbbxxBOqxps5SNfhR0f/coEzbUiYGLLRQ4PxbCF6Wt/IkYp1j/Stf0dwmZ+GzHBVcIORXGRf8jqSOLCEBYS0lDbAAaoGLJdHQ1cCHQbdoORxDLYooczS/2mectaDH7BcrEv47DZHxkKqG3sDomuIMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JGBlY+R3; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731562462; x=1763098462;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ATA5TqGrWrOmTJlvmUh8k5bjwheLXxXZbkpEB6AG9TQ=;
+  b=JGBlY+R3MI46XBY4rWT6G06s0qZXBf7jNtzDubM/qQt3GnCZv5QsKLXB
+   zLDs6IIenSiEZIi24tFzsGDEBZDNnVzfWsbWHgkIBAAfTF3xhSOjjzG3i
+   iZpjT5uBJbZ641bfAn4NbCunPtotbu/ZTWNTj7LNbWeKXYvownuslLOLq
+   RjeM0o4N4nzAGt/iEhj4aKlc3IPqmVdJQtZMdhXKQnB4c0QyzjqEEzn22
+   F2h75lq015tvvydyyIgRRabPcdNvamUfZ8KIUPRU4Ms3WCr0HrZjijx/Y
+   e5zLezK6G1iUDRxljrEW602HmO9UQP8oPnbOwf8Me1DEvDueAvZ4cf6sg
+   A==;
+X-CSE-ConnectionGUID: BkxIdQxWStyvQWhwJ/yAvA==
+X-CSE-MsgGUID: Kr7OU5kzSESDe6q+mw93Cw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="30868991"
+X-IronPort-AV: E=Sophos;i="6.12,153,1728975600"; 
+   d="scan'208";a="30868991"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 21:34:21 -0800
+X-CSE-ConnectionGUID: hA/XLbxRRmmx43b3byWfFA==
+X-CSE-MsgGUID: ec+16f4mRsyi+C7mX+SJ0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,153,1728975600"; 
+   d="scan'208";a="92891409"
+Received: from shsensorbuild.sh.intel.com ([10.239.133.18])
+  by fmviesa004.fm.intel.com with ESMTP; 13 Nov 2024 21:34:19 -0800
+From: Even Xu <even.xu@intel.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org,
+	corbet@lwn.net,
+	bagasdotme@gmail.com,
+	aaron.ma@canonical.com
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Even Xu <even.xu@intel.com>
+Subject: [PATCH v2 00/22] Add Intel Touch Host Controller drivers
+Date: Thu, 14 Nov 2024 13:33:54 +0800
+Message-Id: <20241114053416.4085715-1-even.xu@intel.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241107174918.78335-1-cvam0000@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 07, 2024 at 11:19:18PM +0530, Shivam Chaudhary wrote:
-> Fix typo in i8042-acpipnpio.h dublicate -> duplicate.
-> 
-> Signed-off-by: Shivam Chaudhary <cvam0000@gmail.com>
+Intel Touch Host Controller (THC) is a new high performance input IP
+which can benefit HID device's data transaction, such as touch screen,
+touch pad, stylus.
 
-Applied, thank you.
+THC IP now evoluates to V4, it can support 3 different modes: IPTS,
+HIDSPI and HIDI2C. Here are upgrade history:
+- THC v1, for TGL/LKF, supports intel private IPTS (Intel Precise Touch
+  and Stylus) protocol ( IPTS mode)
+- THC v2, for ADL, add industrial standard HID over SPI protocol support
+  (HIDSPI mode)
+- THC v3, for MTL, enhance HID over SPI mode
+- THC v4, for LNL, add inudstrial standard HID over I2C protocol support
+  (HIDI2C mode) 
+
+Linux Surface community (https://github.com/linux-surface) already
+implemented IPTS mode. These patch series provides THC HIDSPI mode and
+THC HIDI2C mode support on Linux.
+
+These patch series includes:
+1. Document for THC hardware and software introduction.
+2. Intel THC Hardware layer driver which provides control interfaces
+   for protocol layer.
+3. Intel QuickSPI (R) driver working as a HIDSPI device driver which
+   implements HID over SPI protocol and flow.
+4. Intel QuickI2C (R) driver working as a HIDI2C device driver which
+   implements HID over I2C protocol and flow.
+
+Change logs:
+v2:
+- Fix document format issues
+- Add THC device IDs for Intel Panther Lake (PTL) platform
+
+Apologize:
+I wrote a wrong maillist name for linux-input by mistake when sent out
+v1 patch series, which caused linux-input maillist missed v1 version.
+When I recognized, I already got some review comments from other
+maillist, then v1 patch series was resent, so this is first version to
+linux-input maillist, sorry for that. 
+
+Even Xu (13):
+  HID: THC: Add documentation
+  HID: intel-thc-hid: intel-thc: Add THC DMA interfaces
+  HID: intel-thc-hid: intel-thc: Add THC I2C config interfaces
+  HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver hid layer
+  HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI ACPI interfaces
+  HID: intel-thc-hid: intel-quickspi: Add HIDSPI protocol implementation
+  HID: intel-thc-hid: intel-quickspi: Add PM implementation
+  HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver skeleton
+  HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver hid layer
+  HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C ACPI interfaces
+  HID: intel-thc-hid: intel-quicki2c: Add HIDI2C protocol implementation
+  HID: intel-thc-hid: intel-quicki2c: Complete THC QuickI2C driver
+  HID: intel-thc-hid: intel-quicki2c: Add PM implementation
+
+Xinpeng Sun (9):
+  HID: intel-thc-hid: Add basic THC driver skeleton
+  HID: intel-thc-hid: intel-thc: Add THC registers definition
+  HID: intel-thc-hid: intel-thc: Add THC PIO operation APIs
+  HID: intel-thc-hid: intel-thc: Add APIs for interrupt
+  HID: intel-thc-hid: intel-thc: Add THC LTR interfaces
+  HID: intel-thc-hid: intel-thc: Add THC interrupt handler
+  HID: intel-thc-hid: intel-thc: Add THC SPI config interfaces
+  HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver skeleton
+  HID: intel-thc-hid: intel-quickspi: Complete THC QuickSPI driver
+
+ Documentation/hid/index.rst                   |    1 +
+ Documentation/hid/intel-thc-hid.rst           |  584 +++++++
+ MAINTAINERS                                   |    6 +
+ drivers/hid/Kconfig                           |    2 +
+ drivers/hid/Makefile                          |    2 +
+ drivers/hid/intel-thc-hid/Kconfig             |   42 +
+ drivers/hid/intel-thc-hid/Makefile            |   22 +
+ .../intel-quicki2c/pci-quicki2c.c             |  966 +++++++++++
+ .../intel-quicki2c/quicki2c-dev.h             |  186 +++
+ .../intel-quicki2c/quicki2c-hid.c             |  166 ++
+ .../intel-quicki2c/quicki2c-hid.h             |   14 +
+ .../intel-quicki2c/quicki2c-protocol.c        |  219 +++
+ .../intel-quicki2c/quicki2c-protocol.h        |   20 +
+ .../intel-quickspi/pci-quickspi.c             |  985 +++++++++++
+ .../intel-quickspi/quickspi-dev.h             |  172 ++
+ .../intel-quickspi/quickspi-hid.c             |  165 ++
+ .../intel-quickspi/quickspi-hid.h             |   14 +
+ .../intel-quickspi/quickspi-protocol.c        |  413 +++++
+ .../intel-quickspi/quickspi-protocol.h        |   25 +
+ .../intel-thc-hid/intel-thc/intel-thc-dev.c   | 1446 +++++++++++++++++
+ .../intel-thc-hid/intel-thc/intel-thc-dev.h   |  116 ++
+ .../intel-thc-hid/intel-thc/intel-thc-dma.c   |  969 +++++++++++
+ .../intel-thc-hid/intel-thc/intel-thc-dma.h   |  146 ++
+ .../intel-thc-hid/intel-thc/intel-thc-hw.h    |  878 ++++++++++
+ include/linux/hid-over-i2c.h                  |  117 ++
+ include/linux/hid-over-spi.h                  |  155 ++
+ 26 files changed, 7831 insertions(+)
+ create mode 100644 Documentation/hid/intel-thc-hid.rst
+ create mode 100644 drivers/hid/intel-thc-hid/Kconfig
+ create mode 100644 drivers/hid/intel-thc-hid/Makefile
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-hw.h
+ create mode 100644 include/linux/hid-over-i2c.h
+ create mode 100644 include/linux/hid-over-spi.h
 
 -- 
-Dmitry
+2.40.1
+
 
