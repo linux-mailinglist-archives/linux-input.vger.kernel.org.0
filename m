@@ -1,79 +1,80 @@
-Return-Path: <linux-input+bounces-8108-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8109-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6999A9CD53D
-	for <lists+linux-input@lfdr.de>; Fri, 15 Nov 2024 03:00:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 663789CD540
+	for <lists+linux-input@lfdr.de>; Fri, 15 Nov 2024 03:05:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DFF52838F7
-	for <lists+linux-input@lfdr.de>; Fri, 15 Nov 2024 02:00:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 17F2F282864
+	for <lists+linux-input@lfdr.de>; Fri, 15 Nov 2024 02:05:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87E4A131E2D;
-	Fri, 15 Nov 2024 02:00:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B6291E519;
+	Fri, 15 Nov 2024 02:05:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GPgXLXJ/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K3+wZb5E"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C8D126BFF
-	for <linux-input@vger.kernel.org>; Fri, 15 Nov 2024 02:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDE9126BFF
+	for <linux-input@vger.kernel.org>; Fri, 15 Nov 2024 02:05:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731636041; cv=none; b=N/pYJWOY4PYV9J7WsSSEaiUpWZWUmJv1ab6fZh29CF80/jK+VVjyugtxSVzBM6yEFJtSJ9qmAddUF4TdHJSD/7oIY0hNB2EEqQ9bigxhCD/ynBTe1ly3VeM9tGqFxy3e+GJe6K9Z/7Maj9DWVgQFbWKUVNV+5Mr7IjcD7V4I72E=
+	t=1731636305; cv=none; b=ekQYJ8kb5W1pwOYcgnv255n87vt5nHdhaAXzn8hklUPpklMJ8jqywcEZIIbbK6wbe24+1KStqCVDgKsMoVEFdEk5jurH/DwvNDllq2KGUAiqaAPo048Anzep17CzbFQh7+S0FNbYiXTEcx80cL/V5/Cxcb2xW8a8qhISzTxHqow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731636041; c=relaxed/simple;
-	bh=8XqDm3r3xqEX+2m/eJ9I4L27+CMs/ozp+uc2MFTBTzc=;
+	s=arc-20240116; t=1731636305; c=relaxed/simple;
+	bh=jL2s2t/zhJpJ+qG123A/AS1ete6L8+lC03CZs2yFVLM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sFp8iu3WwHq+Ma5Dg9yV03fVJvVDz8SRkEiNXxv0pMwlXxUkgJq1MlwF7TD3AyvFRxlUrJ4fa8i1yBBN1IllUjo6KlivxywWJRXI8Kquk5GBhvZsTaOO+pExgDQAObXIHdnlgfL6AR8v8DG5p8QjLBG4TY81qpGm1k86QjkkgWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GPgXLXJ/; arc=none smtp.client-ip=209.85.216.46
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ajv5GFo13TJkoMg3xjyReKqeWZn9GlNzgjpHd2KQTAs3DsO5WABSRdkn8hdqsXxyvd6IYOsDL6EMjTIFR+WWJnfP00c9RjZ75NSg9DGfKC0X6D9X4wf2LxOSuLXSbb8p+owvLmt1TMXm65mndhqtlPalYnbC0Zyn4hp20wdkzAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K3+wZb5E; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2e2e6a1042dso1066434a91.2
-        for <linux-input@vger.kernel.org>; Thu, 14 Nov 2024 18:00:39 -0800 (PST)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20cb47387ceso14772985ad.1
+        for <linux-input@vger.kernel.org>; Thu, 14 Nov 2024 18:05:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731636039; x=1732240839; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1731636302; x=1732241102; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o1bbWBO4Tjg77vVhYKNItbdgqWT3HOEVN5Vj1lxh53U=;
-        b=GPgXLXJ/C9GCy1AS6yYk4XWJwXpp1BcqOqtuhH8tFXecQRHcokILBgCO5mMN7jA8IO
-         1tzvyBQBMZURivIGcT1uArRNpK0NoTzlB/oYWzE44yrJ2HWBesuBr1rqu93XNNH9o++n
-         1zsf+WTLi28w8Jmen88ygdC0zdpLKLyfL08i5TG/mpMA727k/SIWW4bf5m+VwysDKNhY
-         co9tTrc9I2LzXwm0WJy3aU8OEpZ/KOwOFiMjTLRuGgsONJvrr4ABSbjNWCeJbNyku9Nc
-         P6HrihJr9f508C8GCJbVQSH2jWNhT35/CwuRqhVG2pDa0FiDNR+pxCAkTbISGGK2rXNZ
-         iE/g==
+        bh=Un3CG6pCAJkVBfC1wRNirZ10KSeDAdNR1yEq+oR3gcI=;
+        b=K3+wZb5EjWk99P4EqO1kXnNkEKEcRtYoQrjaPm1UDDhVttQirU7c5weBbtBoR1IF7c
+         aX5MO2XFccFOYpvF/E74N7OwrgfVxZ8PZ5wAJ3QKkwFG1ijW2P0Fvf99RgFUfUJeoJKt
+         zfA2Y2VOeCXAv3kETNvS/L5nwzKgG7o0WutacgjZ0dICbVapwfybanvaHaL2GLW+BN5z
+         RBchz6ctKRec0Oj4oS6f4AkMLVzoCMxpcJY+THWu8NWXCDQe65z+hw5L90QM8ibHoYsE
+         KKU4wv/aiQ0WIDiKOC8tZz528KBF/Kd/Q5Sqw2hH41fJ1SkYCDIC33osDeH/FfLLnqyJ
+         Mbcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731636039; x=1732240839;
+        d=1e100.net; s=20230601; t=1731636302; x=1732241102;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o1bbWBO4Tjg77vVhYKNItbdgqWT3HOEVN5Vj1lxh53U=;
-        b=fLcEL6/tian4iGhbswekfSDiqygClglUOAweWizclMoOwJpVolakT7yyb9xLWoGgkW
-         /GgaKXjPQWeOYzWUie1Ed+DD2XQKBLcNg287nTIbswhF1MnZZNL5yqAWCrvPRX/jrXVq
-         sRf/mYy0OYwbxbgfy1rnIP8bYGd2PyBy3HNdkjvhqdcq+cULhiRza6773fBSsR228EX1
-         yAK4vkbYj5BIXDg0euiiIeTNT9Bjx3aM0mfUt7vXK5vBus9yrlvik0jT32GIZdB0BD/f
-         jHmlvosD7SGmbGnY1ybGbpXp6piqqipzQsho73RgCteYMcwEbTUvC+79lZBQuCMNp9lT
-         HCCg==
-X-Gm-Message-State: AOJu0YwH6XcMkXXt4gJSmZOKGVuxTB50tEmmZPwDK41XY1WQ3ZfQdjUz
-	kZLf/qZZ7XcNblQz8RyEdGgm5tqbJcb3VOnIbuiJgtd9Esyem1U4rvdszXmh
-X-Google-Smtp-Source: AGHT+IHMzsxVDjNeudWCCpWtPPGx6TgbwEbLx5C3vtlBBK/n8mbbtfqarZfutwtWZ9/bP9F71YTzvA==
-X-Received: by 2002:a17:90b:3a81:b0:2e2:d33b:cc with SMTP id 98e67ed59e1d1-2ea154fc4b0mr1199665a91.21.1731636039012;
-        Thu, 14 Nov 2024 18:00:39 -0800 (PST)
+        bh=Un3CG6pCAJkVBfC1wRNirZ10KSeDAdNR1yEq+oR3gcI=;
+        b=A9Y8Sif+P01iMrWqpmIayCXYQWH38WA3z9XFrKsNfYLmga4/U95c6ItsM4peNzIvPF
+         NeSnKlOYB2R9SZ957kyuM58I+zT6GaoqYNRXtWTsGNICGQ9J+JlWNok7Q6t0VCiJdfkm
+         rtHiLy5fRHz4Fi37okMZMPyD8SWrLxT3DUR4biaxYfJ8h4iYZQvCjnU5ptwdXWdITUcb
+         b7Q4UCK+kFk4JHsuqWA6IeAjweuECuJBzNUp31Pv+euaX7b3khusTQslfQr1baBZpsqh
+         PCesKiTFSirkcVUUV0X9M6fOb+0SdqeP/tj8SqCAZh2Y7qQmXASd++MO+IKwSyZBBYrd
+         XkHA==
+X-Forwarded-Encrypted: i=1; AJvYcCUMD6G3Iqu3uyakEmajDASNozRT7TexIWh1DATWk1nql4M27nMj9HxVSTVUsegC4pvRMltzoAV5I3pdFQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSRXV20dz7EHORSaBTbWm1Vv5eCa6vQkOBFmbXGBbnWPTPhRrO
+	SJqXBPQbC94kUAWB1cvOPNDt5IPsTXYe9+q+Mc60XbWJmEcS7a/faO2Rd/1j
+X-Google-Smtp-Source: AGHT+IHuju1uUcuI7sPhozxnpX9DM2JJjm9MZFu6wM19m/lqqUGsSkVyUtUpZbburP1WLyFNgftIEQ==
+X-Received: by 2002:a17:902:e806:b0:20b:7be8:8ecf with SMTP id d9443c01a7336-211d0ed2bb8mr14996985ad.53.1731636301875;
+        Thu, 14 Nov 2024 18:05:01 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:82bb:de58:4fde:fc46])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211d0dc32a1sm2910845ad.37.2024.11.14.18.00.38
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211d0f47c0fsm2873415ad.214.2024.11.14.18.05.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Nov 2024 18:00:38 -0800 (PST)
-Date: Thu, 14 Nov 2024 18:00:35 -0800
+        Thu, 14 Nov 2024 18:05:01 -0800 (PST)
+Date: Thu, 14 Nov 2024 18:04:58 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: luyuantao01 <luyuantao01@163.com>
-Cc: linux-input@vger.kernel.org, luyuantao <luyuantao@kylinos.cn>
-Subject: Re: [PATCH v2] Input: i8042 - Fix keyboard failure caused by S3
- mouse wakeup
-Message-ID: <ZzarQ8uhbqU0Vk1q@google.com>
-References: <20241109094842.1436-1-luyuantao01@163.com>
- <20241114021310.9-1-luyuantao01@163.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Marek Vasut <marex@denx.de>, linux-input@vger.kernel.org,
+	llvm@lists.linux.dev, patches@lists.linux.dev
+Subject: Re: [PATCH] Input: ads7846 - Increase xfer array size in 'struct
+ ser_req'
+Message-ID: <ZzasSty3XHbWBDJV@google.com>
+References: <20241111-input-ads7846-increase-xfer-array-size-v1-1-06cd92e9f20f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -82,50 +83,30 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241114021310.9-1-luyuantao01@163.com>
+In-Reply-To: <20241111-input-ads7846-increase-xfer-array-size-v1-1-06cd92e9f20f@kernel.org>
 
-Hi luyuantao,
+On Mon, Nov 11, 2024 at 08:09:55AM -0700, Nathan Chancellor wrote:
+> Clang warns (or errors with CONFIG_WERROR=y, trimmed for brevity):
+> 
+>   drivers/input/touchscreen/ads7846.c:412:2: error: array index 6 is past the end of the array (that has type 'struct spi_transfer[6]') [-Werror,-Warray-bounds]
+>     412 |         req->xfer[6].tx_buf = &req->scratch;
+>         |         ^         ~
+>   ...
+>   drivers/input/touchscreen/ads7846.c:416:2: error: array index 7 is past the end of the array (that has type 'struct spi_transfer[6]') [-Werror,-Warray-bounds]
+>     416 |         req->xfer[7].rx_buf = &req->scratch;
+>         |         ^         ~
+>   drivers/input/touchscreen/ads7846.c:334:2: note: array 'xfer' declared here
+>     334 |         struct spi_transfer     xfer[6];
+>         |         ^
+> 
+> Increase the size of xfer in 'struct ser_req' to ensure that there is
+> enough space for all necessary members and there are no out of bounds
+> accesses, clearing up the warning.
+> 
+> Fixes: 781a07da9bb9 ("Input: ads7846 - add dummy command register clearing cycle")
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-On Thu, Nov 14, 2024 at 10:13:10AM +0800, luyuantao01 wrote:
-> From: luyuantao <luyuantao@kylinos.cn>
-> 
-> Hi Dmitry 
-> I'm sorry for the inconvenience caused to you. After reproducing the 
-> problem and conducting a thorough analysis, I found that the previous 
-> patch description was incorrect. Therefore, resubmit the patch
-> 
-> There is an i8402 keyboard and mouse device on the
-> ThinkPad P15 laptop.When conducting a wakeup
-> test on S3, it was found that:
-> 
-> 1. Using the keyboard directly can wake up S3.
-> 2. The system failed to wake up using the mouse button first,
-> and when using the keyboard to wake up again, the system
-> cannot be woken up and can only be shut down by pressing
-> the power button.
-> 
-> This issue is that i8042_start() only enables wakeup for the
-> keyboard. During the i8042_pm_suspend() phase, the aux device
-> will not enable irq wakeup. However, when suspend_device_irqs()
-> traversing irq without wakeup capability, __disable_irq() did
-> not truly disable aux interrupts, only setting the IRQS_SUSPEND
-> flag, resulting in aux interrupts still being generated.
-> 
-> When an interrupt is triggered, irqd_irq_isabled returns the
-> true execution mask irq. The mask_iopic_irq callback function
-> of the IR-IO-APIC chip will disable all IRQ pins, resulting
-> in keyboard interrupts being disabled and no longer responding
-
-So this sounds like a bug in the irqchip implementation that is does not
-properly handle interrupts that are wakeup capable but not enabled for
-the interrupt because of policy.
-
-The i8042 driver correctly marks both KBD and AUX interrupts as capable
-of waking up the system but only enables KBD as a wakeup source for
-suspend-to-idle case. If a different policy is desired on a system it
-can be adjusted form userspace vis sysfs.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
