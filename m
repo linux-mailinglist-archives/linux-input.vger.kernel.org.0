@@ -1,113 +1,228 @@
-Return-Path: <linux-input+bounces-8109-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8110-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 663789CD540
-	for <lists+linux-input@lfdr.de>; Fri, 15 Nov 2024 03:05:09 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E619CD61A
+	for <lists+linux-input@lfdr.de>; Fri, 15 Nov 2024 05:04:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 17F2F282864
-	for <lists+linux-input@lfdr.de>; Fri, 15 Nov 2024 02:05:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 524E5282AB4
+	for <lists+linux-input@lfdr.de>; Fri, 15 Nov 2024 04:04:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B6291E519;
-	Fri, 15 Nov 2024 02:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3811156F5D;
+	Fri, 15 Nov 2024 04:04:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K3+wZb5E"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ad9RttXd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDE9126BFF
-	for <linux-input@vger.kernel.org>; Fri, 15 Nov 2024 02:05:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6221D70825;
+	Fri, 15 Nov 2024 04:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731636305; cv=none; b=ekQYJ8kb5W1pwOYcgnv255n87vt5nHdhaAXzn8hklUPpklMJ8jqywcEZIIbbK6wbe24+1KStqCVDgKsMoVEFdEk5jurH/DwvNDllq2KGUAiqaAPo048Anzep17CzbFQh7+S0FNbYiXTEcx80cL/V5/Cxcb2xW8a8qhISzTxHqow=
+	t=1731643463; cv=none; b=pccg+g7Wa9Idpd6+uQ+4wGrUvXyNKS/Kh6aEYZan1tsxlD3yZ4dN9YnEYWWaCo2igCDhqITaZZU/5JzWkYNM77pO72KTgvFp82Ik/TtN9qAR+0sYzuhLUL2Sm1LhglkT9Mjt0JFOGWlAAcLE6E8TIU9vB3OtCa4WKR6VKMMbfqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731636305; c=relaxed/simple;
-	bh=jL2s2t/zhJpJ+qG123A/AS1ete6L8+lC03CZs2yFVLM=;
+	s=arc-20240116; t=1731643463; c=relaxed/simple;
+	bh=NizCT+tSnidLGl3lX3u1R9GPfILFYC10IVWM6EiqJzM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ajv5GFo13TJkoMg3xjyReKqeWZn9GlNzgjpHd2KQTAs3DsO5WABSRdkn8hdqsXxyvd6IYOsDL6EMjTIFR+WWJnfP00c9RjZ75NSg9DGfKC0X6D9X4wf2LxOSuLXSbb8p+owvLmt1TMXm65mndhqtlPalYnbC0Zyn4hp20wdkzAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K3+wZb5E; arc=none smtp.client-ip=209.85.214.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=ASLzXnh9g5KkNk1mcSDuJJX4bA43p8uNr/3eo5ljCZp704+ssvlpvE1enk8mlBfZR0t9eemEX7eiZg3k8LnkmdtYzu74tLksFN7TvC3+1SSs3pQztiL2Zl1cWMh1fIUJcet+TIyHGNk41lqpCY37M8/7MR9N9pTTNZoKdQocJ3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ad9RttXd; arc=none smtp.client-ip=209.85.167.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20cb47387ceso14772985ad.1
-        for <linux-input@vger.kernel.org>; Thu, 14 Nov 2024 18:05:02 -0800 (PST)
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3e606cba08eso732336b6e.0;
+        Thu, 14 Nov 2024 20:04:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731636302; x=1732241102; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1731643461; x=1732248261; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Un3CG6pCAJkVBfC1wRNirZ10KSeDAdNR1yEq+oR3gcI=;
-        b=K3+wZb5EjWk99P4EqO1kXnNkEKEcRtYoQrjaPm1UDDhVttQirU7c5weBbtBoR1IF7c
-         aX5MO2XFccFOYpvF/E74N7OwrgfVxZ8PZ5wAJ3QKkwFG1ijW2P0Fvf99RgFUfUJeoJKt
-         zfA2Y2VOeCXAv3kETNvS/L5nwzKgG7o0WutacgjZ0dICbVapwfybanvaHaL2GLW+BN5z
-         RBchz6ctKRec0Oj4oS6f4AkMLVzoCMxpcJY+THWu8NWXCDQe65z+hw5L90QM8ibHoYsE
-         KKU4wv/aiQ0WIDiKOC8tZz528KBF/Kd/Q5Sqw2hH41fJ1SkYCDIC33osDeH/FfLLnqyJ
-         Mbcw==
+        bh=emojFDyC5THYctRB8h2dNWU9LntN4EFXJ8X/4es3IsY=;
+        b=ad9RttXduwLl7gxSG/BeJKVI4T+vW9E/sncXkqr65DwzSwZ4doQ0O2vICSPjq5S8ox
+         kmH/5nLAxNfzl2DtFkRYntyDMr3MY6qXx4R5TvUegFvn3lHgB4Abya17iHXnXZXX+Kxu
+         2A9izUSTkrIGvk8Vj2mJKd5nfg00XS74vqgAgWTqUSAmEEHPQsWL0BJRREnAbyuUO4eu
+         dIwYqgogxTSSs3q2KXB0xGr2uXmvsbxiEyDakmCE2y5++/7/L3qbsvD0JRmixXvXgW+R
+         FiLupRzfFCygz9HwXbV5dxR9WVlUkPoghYiEIrxT4HkNoY0y66DFviKHExf5E42igQWM
+         bDZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731636302; x=1732241102;
+        d=1e100.net; s=20230601; t=1731643461; x=1732248261;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Un3CG6pCAJkVBfC1wRNirZ10KSeDAdNR1yEq+oR3gcI=;
-        b=A9Y8Sif+P01iMrWqpmIayCXYQWH38WA3z9XFrKsNfYLmga4/U95c6ItsM4peNzIvPF
-         NeSnKlOYB2R9SZ957kyuM58I+zT6GaoqYNRXtWTsGNICGQ9J+JlWNok7Q6t0VCiJdfkm
-         rtHiLy5fRHz4Fi37okMZMPyD8SWrLxT3DUR4biaxYfJ8h4iYZQvCjnU5ptwdXWdITUcb
-         b7Q4UCK+kFk4JHsuqWA6IeAjweuECuJBzNUp31Pv+euaX7b3khusTQslfQr1baBZpsqh
-         PCesKiTFSirkcVUUV0X9M6fOb+0SdqeP/tj8SqCAZh2Y7qQmXASd++MO+IKwSyZBBYrd
-         XkHA==
-X-Forwarded-Encrypted: i=1; AJvYcCUMD6G3Iqu3uyakEmajDASNozRT7TexIWh1DATWk1nql4M27nMj9HxVSTVUsegC4pvRMltzoAV5I3pdFQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSRXV20dz7EHORSaBTbWm1Vv5eCa6vQkOBFmbXGBbnWPTPhRrO
-	SJqXBPQbC94kUAWB1cvOPNDt5IPsTXYe9+q+Mc60XbWJmEcS7a/faO2Rd/1j
-X-Google-Smtp-Source: AGHT+IHuju1uUcuI7sPhozxnpX9DM2JJjm9MZFu6wM19m/lqqUGsSkVyUtUpZbburP1WLyFNgftIEQ==
-X-Received: by 2002:a17:902:e806:b0:20b:7be8:8ecf with SMTP id d9443c01a7336-211d0ed2bb8mr14996985ad.53.1731636301875;
-        Thu, 14 Nov 2024 18:05:01 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:82bb:de58:4fde:fc46])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211d0f47c0fsm2873415ad.214.2024.11.14.18.05.00
+        bh=emojFDyC5THYctRB8h2dNWU9LntN4EFXJ8X/4es3IsY=;
+        b=N0rDxJEUB+WCAVgPeRx3dLajSobEiojcH+VY2uc5jqmpJixkap2x1/FtBPcF1rZ22y
+         Avm0Z01lN8ZJKJaiYxr0Ui1losEjSnLLOqNJWQja48b27PRBvxshH1zToAtIwEfFHI26
+         yS8WY0RWscrAumI+HaGeA8FNYI6IybMYQTtJFWAWczzwGrLLmOVg6DpBE8isw89Vz0Cf
+         54KpAHD851ZDmJ6pn1zUeRUotBQAzNBoJdpZWxpMg2MdaPeQOEGAWrX5tsoY2+fx+WY7
+         1fUU4QOmCqpLGCrhrG3cT/sHB0YLKP79bv3Wsykkc6GInOUI0ZOvqtg/PVcbvEeGJRCp
+         klBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUqh2/VyB85oOhfA9Q09Zst78EF7Im0dwXy4ZY06tTpQKmKbjRV2ibOYBKMvjFK/fkcRELeyVmJKPyOA1y+@vger.kernel.org, AJvYcCWw6IzetQxzAjY3i+eRh28j49WuWoDDm7jk8phXfUHvLctgTN6Sg6FwpJa83n2ShajbnnlO1L0wAWg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0bVwjY1OEJq5Lmm1AIvvgzmF+DoZlymVpDCQGAN++NSI29VrQ
+	3eORw/h73/nf6KtxKMSCvmybri4WrhPLseds4jWkwKhZX0OOJ9RI
+X-Google-Smtp-Source: AGHT+IHuBFjOb5Kq/9DaxbneOjXofrfO3qrUevNBS60m3FabPhPkgQzYrXh5l6Dd6Jyq+3fV27DtpQ==
+X-Received: by 2002:a05:6870:1d1:b0:278:3de:c8de with SMTP id 586e51a60fabf-2962deabde2mr1107297fac.24.1731643461270;
+        Thu, 14 Nov 2024 20:04:21 -0800 (PST)
+Received: from archie.me ([103.124.138.80])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f8c1dade0esm399915a12.66.2024.11.14.20.04.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Nov 2024 18:05:01 -0800 (PST)
-Date: Thu, 14 Nov 2024 18:04:58 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Marek Vasut <marex@denx.de>, linux-input@vger.kernel.org,
-	llvm@lists.linux.dev, patches@lists.linux.dev
-Subject: Re: [PATCH] Input: ads7846 - Increase xfer array size in 'struct
- ser_req'
-Message-ID: <ZzasSty3XHbWBDJV@google.com>
-References: <20241111-input-ads7846-increase-xfer-array-size-v1-1-06cd92e9f20f@kernel.org>
+        Thu, 14 Nov 2024 20:04:19 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id E5F9644D87F4; Fri, 15 Nov 2024 11:04:15 +0700 (WIB)
+Date: Fri, 15 Nov 2024 11:04:15 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Even Xu <even.xu@intel.com>, jikos@kernel.org, bentiss@kernel.org,
+	corbet@lwn.net, aaron.ma@canonical.com
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Sun Xinpeng <xinpeng.sun@intel.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: Re: [PATCH v2 01/22] HID: THC: Add documentation
+Message-ID: <ZzbIP7tOEns0Fy-U@archie.me>
+References: <20241114053416.4085715-1-even.xu@intel.com>
+ <20241114053416.4085715-2-even.xu@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="piiGGXBvEqKZuoLP"
 Content-Disposition: inline
-In-Reply-To: <20241111-input-ads7846-increase-xfer-array-size-v1-1-06cd92e9f20f@kernel.org>
+In-Reply-To: <20241114053416.4085715-2-even.xu@intel.com>
 
-On Mon, Nov 11, 2024 at 08:09:55AM -0700, Nathan Chancellor wrote:
-> Clang warns (or errors with CONFIG_WERROR=y, trimmed for brevity):
-> 
->   drivers/input/touchscreen/ads7846.c:412:2: error: array index 6 is past the end of the array (that has type 'struct spi_transfer[6]') [-Werror,-Warray-bounds]
->     412 |         req->xfer[6].tx_buf = &req->scratch;
->         |         ^         ~
->   ...
->   drivers/input/touchscreen/ads7846.c:416:2: error: array index 7 is past the end of the array (that has type 'struct spi_transfer[6]') [-Werror,-Warray-bounds]
->     416 |         req->xfer[7].rx_buf = &req->scratch;
->         |         ^         ~
->   drivers/input/touchscreen/ads7846.c:334:2: note: array 'xfer' declared here
->     334 |         struct spi_transfer     xfer[6];
->         |         ^
-> 
-> Increase the size of xfer in 'struct ser_req' to ensure that there is
-> enough space for all necessary members and there are no out of bounds
-> accesses, clearing up the warning.
-> 
-> Fixes: 781a07da9bb9 ("Input: ads7846 - add dummy command register clearing cycle")
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-Applied, thank you.
+--piiGGXBvEqKZuoLP
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Dmitry
+On Thu, Nov 14, 2024 at 01:33:55PM +0800, Even Xu wrote:
+> +Touch Host Controller is the name of the IP block in PCH that interface =
+with Touch Devices (ex:
+> +touchscreen, touchpad etc.). It is comprised of 3 key functional blocks:
+> +- A natively half-duplex Quad I/O capable SPI master
+> +- Low latency I2C interface to support HIDI2C compliant devices
+> +- A HW sequencer with RW DMA capability to system memory
+
+I see in my htmldocs output that the list above is long running paragraph
+instead.
+
+> +When THC is configured to SPI mode, opcodes are used for determining the=
+ read/write IO mode.
+> +There are some OPCode examples for SPI IO mode::
+> +
+> + +--------+---------------------------------+
+> + | opcode |  Corresponding SPI command      |
+> + +=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+> + |  0x0B  | Read Single I/O                 |
+> + +--------+---------------------------------+
+> + |  0x02  | Write Single I/O                |
+> + +--------+---------------------------------+
+> + |  0xBB  | Read Dual I/O                   |
+> + +--------+---------------------------------+
+> + |  0xB2  | Write Dual I/O                  |
+> + +--------+---------------------------------+
+> + |  0xEB  | Read Quad I/O                   |
+> + +--------+---------------------------------+
+> + |  0xE2  | Write Quad I/O                  |
+> + +--------+---------------------------------+
+> +
+> <snipped>...
+> +When THC is working in I2C mode, opcodes are used to tell THC what's the=
+ next PIO type:
+> +I2C SubIP APB register read, I2C SubIP APB register write, I2C touch IC =
+device read,
+> +I2C touch IC device write, I2C touch IC device write followed by read.
+> +
+> +Here are the THC pre-defined opcodes for I2C mode::
+> +
+> + +--------+-------------------------------------------+----------+
+> + | opcode |       Corresponding I2C command           | Address  |
+> + +=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+> + |  0x12  | Read I2C SubIP APB internal registers     | 0h - FFh |
+> + +--------+-------------------------------------------+----------+
+> + |  0x13  | Write I2C SubIP APB internal registers    | 0h - FFh |
+> + +--------+-------------------------------------------+----------+
+> + |  0x14  | Read external Touch IC through I2C bus    | N/A      |
+> + +--------+-------------------------------------------+----------+
+> + |  0x18  | Write external Touch IC through I2C bus   | N/A      |
+> + +--------+-------------------------------------------+----------+
+> + |  0x1C  | Write then read external Touch IC through | N/A      |
+> + |        | I2C bus                                   |          |
+> + +--------+-------------------------------------------+----------+
+> +
+> <snipped>...
+> +Intel THC uses PRD entry descriptor for every PRD entry. Every PRD entry=
+ descriptor occupies
+> +128 bits memories::
+> +
+> + +-------------------+---------+----------------------------------------=
+--------+
+> + | struct field      | bit(s)  | description                            =
+        |
+> + +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D+
+> + | dest_addr         | 53..0   | destination memory address, as every en=
+try     |
+> + |                   |         | is 4KB, ignore lowest 10 bits of addres=
+s.      |
+> + +-------------------+---------+----------------------------------------=
+--------+
+> + | reserved1         | 54..62  | reserved                               =
+        |
+> + +-------------------+---------+----------------------------------------=
+--------+
+> + | int_on_completion | 63      | completion interrupt enable bit, if thi=
+s bit   |
+> + |                   |         | set it means THC will trigger a complet=
+ion     |
+> + |                   |         | interrupt. This bit is set by SW driver=
+=2E       |
+> + +-------------------+---------+----------------------------------------=
+--------+
+> + | len               | 87..64  | how many bytes of data in this entry.  =
+        |
+> + +-------------------+---------+----------------------------------------=
+--------+
+> + | end_of_prd        | 88      | end of PRD table bit, if this bit is se=
+t,      |
+> + |                   |         | it means this entry is last entry in th=
+is PRD  |
+> + |                   |         | table. This bit is set by SW driver.   =
+        |
+> + +-------------------+---------+----------------------------------------=
+--------+
+> + | hw_status         | 90..89  | HW status bits                         =
+        |
+> + +-------------------+---------+----------------------------------------=
+--------+
+> + | reserved2         | 127..91 | reserved                               =
+        |
+> + +-------------------+---------+----------------------------------------=
+--------+
+
+Shouldn't these tables be formatted as tables?
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--piiGGXBvEqKZuoLP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZzbIOgAKCRD2uYlJVVFO
+oz6LAP99VEDsehlAPR+X9zgwEkcCE1Mko2zX3n4bSOBlpayWiAEA/hRSe5+cRDaQ
+lkGYtBq5mXgsRyz54qqxWBPELSNZNA0=
+=thPG
+-----END PGP SIGNATURE-----
+
+--piiGGXBvEqKZuoLP--
 
