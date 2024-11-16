@@ -1,118 +1,135 @@
-Return-Path: <linux-input+bounces-8120-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8121-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F0C9CFEDB
-	for <lists+linux-input@lfdr.de>; Sat, 16 Nov 2024 13:50:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 534599CFF59
+	for <lists+linux-input@lfdr.de>; Sat, 16 Nov 2024 15:45:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EF82EB263D5
-	for <lists+linux-input@lfdr.de>; Sat, 16 Nov 2024 12:50:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 15396281E20
+	for <lists+linux-input@lfdr.de>; Sat, 16 Nov 2024 14:45:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36A0C18FC65;
-	Sat, 16 Nov 2024 12:50:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58C488BE8;
+	Sat, 16 Nov 2024 14:45:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Of1VpLjD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wb+6HvqL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BE4A47;
-	Sat, 16 Nov 2024 12:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35AF4A1A
+	for <linux-input@vger.kernel.org>; Sat, 16 Nov 2024 14:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731761410; cv=none; b=JhWOABDzccdHrUWc7ZkvRcoHUEI0lqRvWSsuwtMC7B/V1MaLr2yBSYCnQ49VnUuQ70lhbelbDCQPEluOdrCsxQoxAEauiqdjNlObFNSW9Ltso8eH84HpM6Yo9i9q3JTeciYd7RfGD/n7vm8VQTNaRImq0a3g1nFKvkfxNN1BZyg=
+	t=1731768322; cv=none; b=Xm0S04EBWgIQoe805NFc5k0cgIskBiXAAABKPu9Hmy78wlpWvUxI7quh3bPoB0ccGE6VTbIpADGvbYaLTg/A8AjkD0AIOa2ao+PQz36215ck/1xakH5GOxOLf/guNhJxzApG6p5BUkr6E0CSR22N3U0RxzsuLQfOuXmcM5J5yYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731761410; c=relaxed/simple;
-	bh=E6MpeJzVxLTr+NAkI0w9ZkI+NtxlH214f4+b9ktNEAE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=gzpXF7wFZzKZ3Bj+NJj8K78JImxXfGJtWw2MTP+K2lmaNNiAZzP+E1ibKJ94feX8Ea76m9Hc319d2qt94HZxpsXVOYzo1c1laK3Kv3PZdop7/CFWig7OJAHY5sTd8uwDAJBAVuQRCH7EedMVdV4J8VRA1EuG1xFKgg3s26+E77s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Of1VpLjD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8E49DC4CEC3;
-	Sat, 16 Nov 2024 12:50:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731761409;
-	bh=E6MpeJzVxLTr+NAkI0w9ZkI+NtxlH214f4+b9ktNEAE=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=Of1VpLjDAu85lx4law7cuJWVz9WVH1lxU/i2hJTTKC8LTxFW24v2N4CV/78NJzxvk
-	 iiF90SUx1FZRA+3dSR66lC1f6HrNgjMh7GFOjXn5WSvuUASzmv3fKGd+N/EGm0QHTT
-	 04rPfLlAQOaq5glidDUQ2UFc/eq9evtJBocTXte0F0AM4I+FDZKGiI+tFm8NyPjnOn
-	 zGcimi+faoQ1nBusWYbmwKrtjzC3sYJfuicSmHpD2zeEZASZl7EUUmKzbyjjv+Q2J3
-	 YC/4FVc5NhOVjqb4kcZvimFzUEr2NYFEcpxQc2kKLVKzFxLyyJ8v03y6zYDjuc2hrX
-	 VThma5OoTI27Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80DE5D68BC9;
-	Sat, 16 Nov 2024 12:50:09 +0000 (UTC)
-From: Maud Spierings via B4 Relay <devnull+maud_spierings.hotmail.com@kernel.org>
-Date: Sat, 16 Nov 2024 13:49:36 +0100
-Subject: [PATCH v2] input: Documentation: Fix the input_event struct
- documentation
+	s=arc-20240116; t=1731768322; c=relaxed/simple;
+	bh=1v0YL+dShc5F/KyVGdu/2M8dmTmG1LMxWkS2llMDKEo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=u87+VqLIl/kgMeTtJOqFvIAtlZq6Lmgqs7JKSLquulaqGd9NnUT4IDZ4/1DhZM6yraieTE35Lbq1a+DpVq5YPf1Kfa7TKh1v+2Gq754OWDdqUO2dKWpJi4FtLjgU37ex6CCDNsasr8FK99OFmyg4nys+DaWsPxtSprSvFtOJ7PM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wb+6HvqL; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731768321; x=1763304321;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=1v0YL+dShc5F/KyVGdu/2M8dmTmG1LMxWkS2llMDKEo=;
+  b=Wb+6HvqL9NqNtn4JRTdBTBgTNfcKmSs/EcjM1Ylb8D8o4uaDUV3cgMtF
+   JvXtws8yQhfz4jukEVqzBaLnQpPKzI3jl3MmV1ZxgJ8QwH8DLkJj9e3vB
+   5D8kG465aT+SxL447/ki97IxIcg6+7wNVcZ2W+ZecMkm/8DfMmrpjDO8b
+   3294dtGUUohCFOPPWJak08jbOgY2VOCCn3I2UoquUcuKFeNOqeX2KTJuF
+   vZ7JJspPVWGYPRFIBTUgtHgXEhjJ8lowmnM9TbFPDRzhAUhAH7GmSTgNZ
+   /z3adBJxQFpmQ5mAW3yU0iP7ozgydLBlLRXaoWv9G9MdYokMTz7pmAoCC
+   g==;
+X-CSE-ConnectionGUID: J7Ow75AKTemS8BEE7A4U+w==
+X-CSE-MsgGUID: JHVHlaZ5S8WCFBeaXVJD3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="31520957"
+X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
+   d="scan'208";a="31520957"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 06:45:20 -0800
+X-CSE-ConnectionGUID: PmGxsfT9RFm1/3RnNOn5Yw==
+X-CSE-MsgGUID: fV0K9OuOQ92PF2wFfdQXXQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
+   d="scan'208";a="88927344"
+Received: from spandruv-desk2.amr.corp.intel.com (HELO [10.125.108.181]) ([10.125.108.181])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 06:45:18 -0800
+Message-ID: <88a8d5f06fdf181c320240d8439a5d5c2762a8a4.camel@linux.intel.com>
+Subject: Re: intel_ish_ipc: loader failure on Lunar Lake
+From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To: melvyn <melvyn2@dnsense.pub>, linux-input@vger.kernel.org
+Cc: jikos@kernel.org, Zhang Lixu <lixu.zhang@intel.com>
+Date: Sat, 16 Nov 2024 09:45:16 -0500
+In-Reply-To: <2d08e47f-ea9b-4d28-b345-36818eadf366@dnsense.pub>
+References: <b74f8422-a7fb-4475-a1c8-383734449f91@dnsense.pub>
+	 <2d08e47f-ea9b-4d28-b345-36818eadf366@dnsense.pub>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241116-fix_input_doc-v2-1-133dad7ae928@hotmail.com>
-X-B4-Tracking: v=1; b=H4sIAN+UOGcC/3WMQQ6CMBBFr0JmbU2HgIgr7mEIgXZqJ5GWtEg0p
- He3snf5fv57O0QKTBFuxQ6BNo7sXYbyVICyo3uQYJ0ZSllWiCiF4ffAbnmtg/ZKoKbJNJPSrao
- hO0ugfDh69z6z5bj68DnyG/7Wf6UNBYqmqnVtWnmlC3bWr/PIz7PyM/QppS/S7GqQrAAAAA==
-X-Change-ID: 20241110-fix_input_doc-1debf7bcd9c5
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Maud Spierings <maud_spierings@hotmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1731761407; l=1144;
- i=maud_spierings@hotmail.com; s=20241110; h=from:subject:message-id;
- bh=aJIAHE62NFe2v1AZvK2w1bKfLBVXM8fqWYWzZ+CLOFQ=;
- b=56Cb4rSIgy+NvQOd/PHdf+aL2L6cfyu5NJvfKmowENuxGlYLjVLJhFsk5KGXwN/FpGqFmp0Bb
- yNMdzsDKyOVCYrl0STxX5krtgAMOKBBq99Bw5ZnFDAkmpE6SaNiRy8S
-X-Developer-Key: i=maud_spierings@hotmail.com; a=ed25519;
- pk=CeFKVnZvRfX2QjB1DpdiAe2N+MEjwLEB9Yhx/OAcxRc=
-X-Endpoint-Received: by B4 Relay for maud_spierings@hotmail.com/20241110
- with auth_id=273
-X-Original-From: Maud Spierings <maud_spierings@hotmail.com>
-Reply-To: maud_spierings@hotmail.com
 
-From: Maud Spierings <maud_spierings@hotmail.com>
+Hi,
 
-Fix the datatype of the value field of the input_event struct which is
-signed instead of unsigned.
-See include/uapi/linux/input.h
++ Lixu
 
-Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
----
-Changes in v2:
-- Fixed the tags in the commit message
-- Link to v1: https://lore.kernel.org/r/20241110-fix_input_doc-v1-1-745d5f908e61@hotmail.com
----
- Documentation/input/input.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It is likely that Samsung needs their own firmware.
 
-diff --git a/Documentation/input/input.rst b/Documentation/input/input.rst
-index 2c67fa904adcf902cebf8e7137c0a1609d879a50..d9a6de87d02de5301500b392191ab67e7db431ed 100644
---- a/Documentation/input/input.rst
-+++ b/Documentation/input/input.rst
-@@ -264,7 +264,7 @@ events on a read. Their layout is::
- 	    struct timeval time;
- 	    unsigned short type;
- 	    unsigned short code;
--	    unsigned int value;
-+	    int value;
-     };
- 
- ``time`` is the timestamp, it returns the time at which the event happened.
+Thanks,
+Srinivas
 
----
-base-commit: de2f378f2b771b39594c04695feee86476743a69
-change-id: 20241110-fix_input_doc-1debf7bcd9c5
-
-Best regards,
--- 
-Maud Spierings <maud_spierings@hotmail.com>
-
+On Fri, 2024-11-15 at 15:18 -0500, melvyn wrote:
+> Totally missed to CC the maintainers, sorry!
+>=20
+> -melvyn2
+>=20
+> On 11/7/24 21:42, melvyn wrote:
+> > Hello,
+> >=20
+> > The intel_ish_ipc driver seems to fail on my machine. It's a=20
+> > lunar-lake based convertible (samsung galaxy book5 ...) which
+> > should=20
+> > provide accelerometer/gyroscope/lid tild HID inputs. These work on=20
+> > Windows fully, but do not appear to work on 6.12rc5. All I have to
+> > go=20
+> > on are the following kernel log lines:
+> >=20
+> > ...
+> > [=C2=A0=C2=A0=C2=A0 4.416718] intel_ish_ipc 0000:00:12.0: ISH loader: l=
+oad
+> > firmware:=20
+> > intel/ish/ish_lnlm.bin
+> > [=C2=A0=C2=A0=C2=A0 4.430675] intel_ish_ipc 0000:00:12.0: ISH loader: c=
+md 2 failed
+> > 10
+> > [=C2=A0=C2=A0=C2=A0 4.448263] intel_ish_ipc 0000:00:12.0: ISH loader: c=
+md 2 failed
+> > 10
+> > [=C2=A0=C2=A0=C2=A0 4.467844] intel_ish_ipc 0000:00:12.0: ISH loader: c=
+md 2 failed
+> > 10
+> > ...
+> >=20
+> > The kernel is very close to mainline (NixOS's linux-testing) and=20
+> > doesn't seem to have any patches which would affect this driver=20
+> > specifically.
+> >=20
+> > If there's any further information I can collect please let me
+> > know.=20
+> > It's my first time trying to use a kernel mailing list, so
+> > apologies=20
+> > if this is the wrong place or I'm missing something else.
+> >=20
+> > Thank you,
+> >=20
+> > melvyn2
 
 
