@@ -1,91 +1,142 @@
-Return-Path: <linux-input+bounces-8122-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8123-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 803DE9CFF9E
-	for <lists+linux-input@lfdr.de>; Sat, 16 Nov 2024 16:40:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42C4E9D0018
+	for <lists+linux-input@lfdr.de>; Sat, 16 Nov 2024 18:32:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3811D1F224B5
-	for <lists+linux-input@lfdr.de>; Sat, 16 Nov 2024 15:40:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9959BB22F13
+	for <lists+linux-input@lfdr.de>; Sat, 16 Nov 2024 17:32:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1E8812E5B;
-	Sat, 16 Nov 2024 15:40:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UsHqSiYo"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4D0F22338;
+	Sat, 16 Nov 2024 17:32:06 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E7115381A
-	for <linux-input@vger.kernel.org>; Sat, 16 Nov 2024 15:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 207628172A
+	for <linux-input@vger.kernel.org>; Sat, 16 Nov 2024 17:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731771639; cv=none; b=UvpWu6YQKHvaiB/bUeeLANfXSm3teIrhGbl7bGc4ZeVNMJXjYqukSAnC1Cb/fEgoHtzpxoTv2wyJ86BZ61RUGJ2qgFDi7ZL6JEyCKEGH45+er/4hLOBQG92T3fRG76x8mzPcGUQK7tem7VA4WpU6gs8xOVmmAI1/fkBJqYKiZVc=
+	t=1731778326; cv=none; b=aEs+E2HHbhjmPMnknmUkzq/Xi1Lqa7L+p+4gdjNvmArSHaEDBDdS27NrthtSFj9pjQu8mC7kxkfg4wV2y+L9Ua14fLeKZsRqycriVkWC7CXIwm19kQVGgThugkOSPdmhKh4T/AJZXQWDJnvpKDC/u/0AfHbpoDbfmbj3IES3KNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731771639; c=relaxed/simple;
-	bh=Wd+7kLQISUZlzyPvYmSUTVOb8NV4Vyd3OpsFXw6X7a0=;
-	h=From:Message-ID:To:Subject:Date:MIME-Version:Content-Type; b=l0fOXgSueFHjOqfpSxVtzpwGmTIvmTwKnJCK1smz2+ahQU5d5+TE8RjVNXcvqtWgR1ZEz7DYBwGwcWVvhrr9sk4N8H7H5+fpS0FP99tqMhXAldvXvNaWyX/oWVzzY98dE6YzwGxkvS3Du3QEn0MiElOfLPFKDO6fY5iBXLicYqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UsHqSiYo; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1731778326; c=relaxed/simple;
+	bh=FIkUMQtzAsCH98rE/mt+PVg0U1VN4gEaC9x9wC62e1Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BVynjFuwZ6xHraCLL/HXIXF8Aan25DOT+kJPOkW8x0V8PPKRnB1hpKDn/Bc9/BTzQp4YyYIeuvIreS1y9fx91W/2rqddJ/bXN34usfEFSXEGMdegrtfXnLLqsfW4DVzjByPXQqzeGaJY9uUpGkee3ZPtPr/XXwWavbmeSg5O0v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dnsense.pub; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dnsense.pub
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-71e49ad46b1so2167373b3a.1
-        for <linux-input@vger.kernel.org>; Sat, 16 Nov 2024 07:40:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731771637; x=1732376437; darn=vger.kernel.org;
-        h=mime-version:date:subject:to:reply-to:message-id:from:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XHEOkgJ64rwJ+cv0sVIqPUmbc8l+iTifR7HzGzNced0=;
-        b=UsHqSiYoHDiv4a3JsIKlFcFS1aZO9RbQexmJcYLRUx/0oPb8/dkwFQEYPvhHF6niSR
-         0d6CXBh4SSNIbIHXmSZEM+eVnY5pYFEJSfYXtj3fKEfGbYIocjE6pEEgPn35kxMY1QK+
-         XMR+/ErD6o+EY/UX4LP+J75+0khfiLXfkjQ+nQemKka+tl93gtcu5vTM/FSvWjHBE+7m
-         NoHDctihG0TQp7kaZjd4Op2JPomlKAc+Odbryf+zmLKylRe3QNpZ0rfnsfOCLi2FBhEe
-         IYKTHPyJ4nJ28yXBI+HQ3JR74Ki6xtYYACInJ1MoSuEpGzjyXJrbp+2bJbJ8bxNTXz5i
-         JJAw==
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7b157c9ad12so191132185a.1
+        for <linux-input@vger.kernel.org>; Sat, 16 Nov 2024 09:32:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731771637; x=1732376437;
-        h=mime-version:date:subject:to:reply-to:message-id:from
+        d=1e100.net; s=20230601; t=1731778324; x=1732383124;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XHEOkgJ64rwJ+cv0sVIqPUmbc8l+iTifR7HzGzNced0=;
-        b=bvKVYqZiCvc/1Y8pgZEgn63Htry+a5jbDplLnTCTUV1irl5PKP0UCM58tTA/Cy3AI9
-         GTG3u0odbt4N/cim6UasYMtvvwt0jfci0k67fTgh+yUAFlyQFgsZ+Ylu06/ebN1IWRYk
-         ZU1lQaJ60som7zmvxbqDFZKLTtHkFSxeRTJqb68Yrxi7IncoMt7rNMqqTHFF+N1laDtm
-         CZ9Ia3BmRD/X4Tb/F6kAne1JDVh9LHTnGvni/6K6T81uH/QulSnAWZBzN5ZzvQ5Y57yq
-         8noahmgQ5NDrd13J3WQhXn/k5acx4ud2xvH2drK1gjoG1dTovhxfzjYUT5+2HoHOJf9w
-         9Irw==
-X-Gm-Message-State: AOJu0Yw5PEjPCn68UhcJIfm95Rw0m2uhlTxY/1Oksrnufa62X8v7o6qE
-	TvcOpqjuuTiU/cKktLsnzSYHHxUVssBT0gDYjb0eFbd6Sh2BtuX8rBf6Xg==
-X-Google-Smtp-Source: AGHT+IGmOORQ6uIXOyIrV2nb7nWNi6GoMsm9V/AegVC4KUDWHmLqUfNsR3MwyLEM+gSMB2T4TmRpVg==
-X-Received: by 2002:a05:6a00:a08:b0:71e:6489:d18 with SMTP id d2e1a72fcca58-72476d5a95fmr9625588b3a.22.1731771637303;
-        Sat, 16 Nov 2024 07:40:37 -0800 (PST)
-Received: from [103.67.163.162] ([103.67.163.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724771e3ee9sm3186064b3a.165.2024.11.16.07.40.36
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 16 Nov 2024 07:40:36 -0800 (PST)
-From: "Van. HR" <hussainsheikh59235@gmail.com>
-X-Google-Original-From: "Van. HR" <infodesk@information.com>
-Message-ID: <a56e712e53bbde3a6279c41d19f98dc9ba177904b36fc316b73c32be6a0f89f4@mx.google.com>
-Reply-To: dirofdptvancollin@gmail.com
-To: linux-input@vger.kernel.org
-Subject: Nov:16:24
-Date: Sat, 16 Nov 2024 10:40:34 -0500
+        bh=FqdhPgfQpRpHIHpDqnH74WSGLYJEvfrRTSjVpjjnw9o=;
+        b=JbacxaQvfVinr8UXpDAqPE28Uy3MyM5jy3dgdNuqMeSilxeTCVmktM6hiwb4P6SfOv
+         XoA5r2w2SuescTXb25IhLP6boolTC2juSrcV61b1ADWhxqVA7pN0A5c3ElvBmOOzB6CL
+         I7MXeA47TBAtc0H8LqYyz917opiS4R2MrjMNXN8a/pKlvtwepR+ncR3L2eD/fuHA63GH
+         PpD7Rg2WGDL8EznrP0MOF1bIyUNqRtCznxmJTfUYz0vQngY1DnCTtFb4ZUTxN1k2Hj3V
+         Of54QICM1b75xtmJCwiVyYfgqnyjP9FcLlDUuJfnZDMVKz8JEEt2fi9+KWwSBoBwKwEw
+         jCRA==
+X-Forwarded-Encrypted: i=1; AJvYcCUVn4H0Wi7zJEM3t1tlP/f1G6o5bFbCBnhXK6OWBFKFgCpWJlxVZKSoPCzTi7h5f4oDR0Kv0yip6qyIyA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx69ddoppIa8oSGANmprr3KtGr1p41a+hglM6LJLBKjfgjZg9jA
+	Q4aeYtJncm/TRXy9usU8T8I2XV1JnwsYFtXh1x6X7Pktvon6Fipz
+X-Google-Smtp-Source: AGHT+IE7KaHoG6OG6UBXrTTf5+tDhsAm1m9jqrjcMkvRdfiJbYh2Ay5EqxSYE8xZzkjIvWpVDVVx5g==
+X-Received: by 2002:a05:620a:2495:b0:7ac:9c07:e90 with SMTP id af79cd13be357-7b3622c24d2mr743393485a.12.1731778323888;
+        Sat, 16 Nov 2024 09:32:03 -0800 (PST)
+Received: from [10.122.232.239] ([142.157.232.239])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b35ca63fb4sm278541685a.117.2024.11.16.09.32.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 16 Nov 2024 09:32:03 -0800 (PST)
+Message-ID: <9564a26c-37ec-4b5b-82ec-2b5153e1fe61@dnsense.pub>
+Date: Sat, 16 Nov 2024 12:32:02 -0500
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla Thunderbird
+Subject: Re: intel_ish_ipc: loader failure on Lunar Lake
+To: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>,
+ linux-input@vger.kernel.org
+Cc: jikos@kernel.org, Zhang Lixu <lixu.zhang@intel.com>
+References: <b74f8422-a7fb-4475-a1c8-383734449f91@dnsense.pub>
+ <2d08e47f-ea9b-4d28-b345-36818eadf366@dnsense.pub>
+ <88a8d5f06fdf181c320240d8439a5d5c2762a8a4.camel@linux.intel.com>
+Content-Language: en-US
+From: melvyn <melvyn2@dnsense.pub>
+In-Reply-To: <88a8d5f06fdf181c320240d8439a5d5c2762a8a4.camel@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hello,
-I am a private investment consultant representing the interest of a multinational  conglomerate that wishes to place funds into a trust management portfolio.
+This was correct, I missed the "ISH extension" driver on windows which 
+provided a different ISH firmware. Loading it on linux renders these 
+sensors fully working.
 
-Please indicate your interest for additional information.
+Unfortunately, I couldn't find any license information apart from the 
+"INTEL PROPRIETARY" header in the INF file, which Samsung probably just 
+left from the Intel-provided extension template; the firmware probably 
+can't be upstreamed without vendor cooperation (unlikely here).
 
-Regards,
+Thank you for the assistance!
 
-Van Collin.
+-melvyn2
 
+On 11/16/24 09:45, srinivas pandruvada wrote:
+> Hi,
+>
+> + Lixu
+>
+> It is likely that Samsung needs their own firmware.
+>
+> Thanks,
+> Srinivas
+>
+> On Fri, 2024-11-15 at 15:18 -0500, melvyn wrote:
+>> Totally missed to CC the maintainers, sorry!
+>>
+>> -melvyn2
+>>
+>> On 11/7/24 21:42, melvyn wrote:
+>>> Hello,
+>>>
+>>> The intel_ish_ipc driver seems to fail on my machine. It's a
+>>> lunar-lake based convertible (samsung galaxy book5 ...) which
+>>> should
+>>> provide accelerometer/gyroscope/lid tild HID inputs. These work on
+>>> Windows fully, but do not appear to work on 6.12rc5. All I have to
+>>> go
+>>> on are the following kernel log lines:
+>>>
+>>> ...
+>>> [    4.416718] intel_ish_ipc 0000:00:12.0: ISH loader: load
+>>> firmware:
+>>> intel/ish/ish_lnlm.bin
+>>> [    4.430675] intel_ish_ipc 0000:00:12.0: ISH loader: cmd 2 failed
+>>> 10
+>>> [    4.448263] intel_ish_ipc 0000:00:12.0: ISH loader: cmd 2 failed
+>>> 10
+>>> [    4.467844] intel_ish_ipc 0000:00:12.0: ISH loader: cmd 2 failed
+>>> 10
+>>> ...
+>>>
+>>> The kernel is very close to mainline (NixOS's linux-testing) and
+>>> doesn't seem to have any patches which would affect this driver
+>>> specifically.
+>>>
+>>> If there's any further information I can collect please let me
+>>> know.
+>>> It's my first time trying to use a kernel mailing list, so
+>>> apologies
+>>> if this is the wrong place or I'm missing something else.
+>>>
+>>> Thank you,
+>>>
+>>> melvyn2
 
