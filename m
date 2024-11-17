@@ -1,92 +1,112 @@
-Return-Path: <linux-input+bounces-8124-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8125-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181019D007E
-	for <lists+linux-input@lfdr.de>; Sat, 16 Nov 2024 19:25:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF459D01F4
+	for <lists+linux-input@lfdr.de>; Sun, 17 Nov 2024 04:35:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 97BE2B24011
-	for <lists+linux-input@lfdr.de>; Sat, 16 Nov 2024 18:25:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A0D31F2137C
+	for <lists+linux-input@lfdr.de>; Sun, 17 Nov 2024 03:35:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E28362B2F2;
-	Sat, 16 Nov 2024 18:25:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F4135DF49;
+	Sun, 17 Nov 2024 03:34:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nobelis.eu header.i=@nobelis.eu header.b="HQDVXMO2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZBg+Hny2"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-42ab.mail.infomaniak.ch (smtp-42ab.mail.infomaniak.ch [84.16.66.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9632F2D
-	for <linux-input@vger.kernel.org>; Sat, 16 Nov 2024 18:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC64D6FB0;
+	Sun, 17 Nov 2024 03:34:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731781515; cv=none; b=NvVVokpmzc4MszV/Av6ByBlO694/9GpJnWmmEU60657N/iuypVYqbejtFPfWA01w2Zqk8E/LPZRiRPfbM8coEj1tE/AcXI1piH1m6Yo4oNV1w/S2i1+tt8MzCOUNMTQGadTGyNHbkyC4SSJOgr0ex+dE0faKAorDjD7bCaKfNdk=
+	t=1731814497; cv=none; b=EEi4DIkJFD4XOD7OCSjG10tJOv7p2j7JFjsK3J/sfpvgxdpQpnFjwzZWxuQZH4noC+IJQ4D3rOLseYwj1YLtFtw7+qnwH6tCF9oeGjyaRzGisuqnxkbKX2yH+EoFUyJnIVEvUVOA4gCUri8EB+5ZCvLv9eqkmkIoqVvJs4kS2Gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731781515; c=relaxed/simple;
-	bh=aSptY61CxC7UCCF8nOKA9P79zIttrB28plUwdtibUwc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=P7poH7QplZ4EIqheiO/moVw+B4ZlnMgyvxRp6kftaU0SPBT40nW/sfgZg+Y8JgZHwY22841M+UnKiPNeLGSFM/YxuaW4qbq80pNmYAYLa1X2GH/JfuxJbwNPRCY4PczGTPpd8lmU2CrYdTarpkZF68osjx1YYeaE4zicn1oI4QA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nobelis.eu; spf=pass smtp.mailfrom=nobelis.eu; dkim=pass (2048-bit key) header.d=nobelis.eu header.i=@nobelis.eu header.b=HQDVXMO2; arc=none smtp.client-ip=84.16.66.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nobelis.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nobelis.eu
-Received: from smtp-4-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10:40ca:feff:fe05:1])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4XrMkQ6zyxzlrr;
-	Sat, 16 Nov 2024 19:25:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nobelis.eu;
-	s=20230617; t=1731781502;
-	bh=hpVJjNZ6owEGLX8QbZlQ/OwAy8yJR7SEmRmPzqO5PK0=;
+	s=arc-20240116; t=1731814497; c=relaxed/simple;
+	bh=Eku9wIx8SnL1CGEny2QkDwzzkpnkr/vdiw6LJHjH5X8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=faWB7m/p4UZfKqHZ8iMiVzyC3PSQ28TVK6FfUTjX3tLtXhPCwk3uFCTaMt2IuaUNnJI4EcNOwL257pQj8U7IFLAh4ZKWZSGUFhx5entKQ0HXHuMBxG7w832+huDfL5ZT5dVmfBz/rnxkA29yM9SF29jOHI5qxYDQlvIPliH6BWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZBg+Hny2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3000FC4CECD;
+	Sun, 17 Nov 2024 03:34:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731814497;
+	bh=Eku9wIx8SnL1CGEny2QkDwzzkpnkr/vdiw6LJHjH5X8=;
 	h=From:To:Cc:Subject:Date:From;
-	b=HQDVXMO2SffixPAO0hnIaau17PH90AHKT58f1SbU1iX4uMIRbsiLFFLh1ZdcNrqGL
-	 MNQaS8cFi722ypJVpz1tic8WrxjvSrWj8SpD2xkSekqrD3qPOkpRUiKEvsWiIu4rSe
-	 TcqlqxUjM9qUpPqEThJbtDJ4kjt0t1AOTk+ptnpOz5yI6lMj2Ak3LL608RLAJkMzRD
-	 ihAz8JKEm7ArgZ/wF8Q1gxhZtv62RtDkcoV4E65DkMqdzFL6pmKNzX1u/+JPS5ys2+
-	 gLeq+YY6uqdYldoXiMd6dE4LBK19QqNpouAS8Zz/K6kJanJhlRaK2L4RG5njyt/W9W
-	 eJjOFvpThSJYQ==
-Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4XrMkQ3ftvzr9D;
-	Sat, 16 Nov 2024 19:25:02 +0100 (CET)
-From: nicolas@nobelis.eu
-To: dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org,
-	Nicolas Nobelis <nicolas@nobelis.eu>
-Subject: [PATCH] Input: xpad - add support for Nacon Pro Compact
-Date: Sat, 16 Nov 2024 19:24:19 +0100
-Message-Id: <20241116182419.33833-1-nicolas@nobelis.eu>
-X-Mailer: git-send-email 2.39.5
+	b=ZBg+Hny2nGRD1sDLANX8Qql7LTzA1MxCWuKgM4tR4bOk+OUdaflBHmrkHkWU911f/
+	 1gBZvmYoBbfz0+UhW0QQxdKx/ZsDraqZxafCVdSHZHUBLOV/63+ChOSMJAezZ3/aIX
+	 SovKGoGqcaHJeRxBDuUai1nnpdhzE5Apn5A3kLmQOLRiUnv1PPzg6Gxoouqa7SddDW
+	 flOzSNVrDpF0EXoPbdWgBtrrsdMuN9HOL4/X0bzW6oaVTylHntclkRxlgLOMtIX4De
+	 /N5RD9pTpLOi406raLn9fl0LZSYHtnCTXkDVu7IkXgRM5LFnfWs8K7TKnF2UfrS/8f
+	 hvj50WR0SDRtA==
+From: Kees Cook <kees@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Kees Cook <kees@kernel.org>,
+	Marek Vasut <marex@denx.de>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Luca Ellero <l.ellero@asem.it>,
+	linux-input@vger.kernel.org,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] Input: ads7846 - Expand xfer array to match usage
+Date: Sat, 16 Nov 2024 19:34:50 -0800
+Message-Id: <20241117033445.work.274-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1718; i=kees@kernel.org; h=from:subject:message-id; bh=Eku9wIx8SnL1CGEny2QkDwzzkpnkr/vdiw6LJHjH5X8=; b=owGbwMvMwCVmps19z/KJym7G02pJDOmWKZF7LT4Zv2YW2e6kW+7X/eHx4s2vpioISRat6Z9z4 /vTg8afOkpZGMS4GGTFFFmC7NzjXDzetoe7z1WEmcPKBDKEgYtTACaSr83wP6DkrYFFnl/8w4se lnb824WXzNRom289pWZp89K42edmH2L4K7T6suKKB1bJ8/mnBi3a4SUU2buiIIbN+var8Dnpr+b s4QQA
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
 
-From: Nicolas Nobelis <nicolas@nobelis.eu>
+Commit 781a07da9bb9 ("Input: ads7846 - add dummy command register
+clearing cycle") added commands to struct ser_req::xfer without
+expanding it to hold them. Expand the array to the correct size.
 
-Add Nacon Pro Compact to the list of supported devices. These are the
-ids of the "Colorlight" variant. The buttons, sticks and vibrations
-work. The decorative LEDs on the other hand do not (they stay turned
-off).
+../drivers/input/touchscreen/ads7846.c: In function 'ads7846_read12_ser':
+../drivers/input/touchscreen/ads7846.c:416:18: error: array subscript 7 is above array bounds of 'struct spi_transfer[6]' [-Werror=array-bounds=]
+  416 |         req->xfer[7].rx_buf = &req->scratch;
+      |         ~~~~~~~~~^~~
+../drivers/input/touchscreen/ads7846.c:334:33: note: while referencing 'xfer'
+  334 |         struct spi_transfer     xfer[6];
+      |                                 ^~~~
 
-Signed-off-by: Nicolas Nobelis <nicolas@nobelis.eu>
+Fixes: 781a07da9bb9 ("Input: ads7846 - add dummy command register clearing cycle")
+Signed-off-by: Kees Cook <kees@kernel.org>
 ---
- drivers/input/joystick/xpad.c | 1 +
- 1 file changed, 1 insertion(+)
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Marek Vasut <marex@denx.de>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Luca Ellero <l.ellero@asem.it>
+Cc: linux-input@vger.kernel.org
+---
+ drivers/input/touchscreen/ads7846.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 3e61df927277..d87faef67404 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -381,6 +381,7 @@ static const struct xpad_device {
- 	{ 0x31e3, 0x1300, "Wooting 60HE (AVR)", 0, XTYPE_XBOX360 },
- 	{ 0x31e3, 0x1310, "Wooting 60HE (ARM)", 0, XTYPE_XBOX360 },
- 	{ 0x3285, 0x0607, "Nacon GC-100", 0, XTYPE_XBOX360 },
-+	{ 0x3285, 0x0646, "Nacon Pro Compact", 0, XTYPE_XBOXONE },
- 	{ 0x3537, 0x1004, "GameSir T4 Kaleid", 0, XTYPE_XBOX360 },
- 	{ 0x3767, 0x0101, "Fanatec Speedster 3 Forceshock Wheel", 0, XTYPE_XBOX },
- 	{ 0xffff, 0xffff, "Chinese-made Xbox Controller", 0, XTYPE_XBOX },
+diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
+index 75e5b2e4368d..066dc04003fa 100644
+--- a/drivers/input/touchscreen/ads7846.c
++++ b/drivers/input/touchscreen/ads7846.c
+@@ -331,7 +331,7 @@ struct ser_req {
+ 	u8			ref_off;
+ 	u16			scratch;
+ 	struct spi_message	msg;
+-	struct spi_transfer	xfer[6];
++	struct spi_transfer	xfer[8];
+ 	/*
+ 	 * DMA (thus cache coherency maintenance) requires the
+ 	 * transfer buffers to live in their own cache lines.
 -- 
-2.39.5
+2.34.1
 
 
