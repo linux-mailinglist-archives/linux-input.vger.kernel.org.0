@@ -1,98 +1,80 @@
-Return-Path: <linux-input+bounces-8137-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8138-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A09A9D1BB8
-	for <lists+linux-input@lfdr.de>; Tue, 19 Nov 2024 00:11:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D849D1E58
+	for <lists+linux-input@lfdr.de>; Tue, 19 Nov 2024 03:36:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D7F5EB22616
-	for <lists+linux-input@lfdr.de>; Mon, 18 Nov 2024 23:11:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8FAE1F22704
+	for <lists+linux-input@lfdr.de>; Tue, 19 Nov 2024 02:36:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3360D192D77;
-	Mon, 18 Nov 2024 23:11:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 686FE1386C9;
+	Tue, 19 Nov 2024 02:36:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="CcLxLmdI";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mbVdAtnd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I2tnqRCq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DABE153BE4
-	for <linux-input@vger.kernel.org>; Mon, 18 Nov 2024 23:10:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E0B7A13A
+	for <linux-input@vger.kernel.org>; Tue, 19 Nov 2024 02:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731971460; cv=none; b=Wsby4HbtQgeo/opn9Ok/wPT07qZjXg1RwGNBlkrfmtzW/HYKHysb28P6TsjCFh8UnMJA/3SuezT1fjcwKaolcazlMMbiEMgUk/KNPnC4r+iCawnF1Srdavs70efJ6kqC1zM3uTqIR0kvxsUppyXfqbXFm97eCqDaQxQ/8bjM71c=
+	t=1731983798; cv=none; b=qqYWfdMuTYy9tNGL392o2cXVfDi+1mc5r4Aka9yTbVMOSM7hn0HFLgoV5YO+gtfFTU+1ItQZOjeKJejgfZPOCXDsadhtkf/I65Dy+F9qtg2z5werrZQlMGR/lE3ZJ62r7qHS+gGG+2Y2TzFbwmCjGXIt+npfQpSTOVyYVj63bCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731971460; c=relaxed/simple;
-	bh=1/oUVQ54sOgEwqlOZ6zBndHnnHkjB46idU7WVt/usvE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ACmbapFh76Qv43bOEjlYQv9ItDN8sMRWAm0wymAZW7D1LvcKFkguWOi+3xNzBlSaw8N1ImiMG3Qxw2xPBbPtlBCI+wsCShc+oIFGOkaYKjy8aP44g8d1XKsuw38xzAYcxWGjx0YdacetjyCcuqIX9iZnOUlshpN3745+QkYKuvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=CcLxLmdI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mbVdAtnd; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 56E591140262;
-	Mon, 18 Nov 2024 18:10:56 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Mon, 18 Nov 2024 18:10:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm2;
-	 t=1731971456; x=1732057856; bh=DtEvzlt/sqpDuUmgK2w02yz/g8Yle0ip
-	G/uli9OcYzc=; b=CcLxLmdIaDXxqhqcxKV9/o1HpQQMEkHtIACXZbDZYrtMEGz9
-	Der9GOuJcGmA+elc+n4L6s80whloTQzL5oGYcL0fgO+kHf1gQzhCBLvFcnIj9/ed
-	0XK3ck1ZMaU9TlTnb+GYIETWUoctIwPqADg+g2xjIRTMGwM8INf19dVN8xvc1uou
-	IanPW5ZGfAayrugkLoh4boOqKxHhEyr0FOySsSXJcjQuS0DGt37uEUauKrR1c/qg
-	4co6Gy0Dni68cS8Ih4VL9+An16ZrosSDVCqHc6I9tIwVJXqzG0zD4ivIb4IwaahU
-	4hsLorn82TFYUFP6pBX+UAIzLJQ4uqVWS4FmFw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1731971456; x=
-	1732057856; bh=DtEvzlt/sqpDuUmgK2w02yz/g8Yle0ipG/uli9OcYzc=; b=m
-	bVdAtndtmEp8WSsiOwZGQ0d69eXvDiAn9hbsd4W7rqdbZhfJGpNz62hbq7bvcnXS
-	icY+GoOMtWYBIGy9cjthx2J2F0hK5q/LBf3zH3MNi9Do0pmm1xAYyUVqkRGmGDHu
-	Y+XCDe420nj1NIy0rYc4X58QQpcVsSzvKKw5zxVE8Wlk71Y3nu2Vgrn/bGNCLgrc
-	Z80YV/IlLHU7peYO/XzlHf2UznTCc3ZWioPS5cNEg1V32T8mcQQQYtszaA7LGjOp
-	INFQq8ehl3w6d18SmDYNWEjWgWuJP87c+8pzJm1kbiTXX6ePNzGEihA8a6NjhNiL
-	vgHM3dZqgrczGAMZB89bQ==
-X-ME-Sender: <xms:gMk7Z-uo6mazaG91JsDMRplVPaY0GPWVSuqwKLZuk01vw03kQWjAsw>
-    <xme:gMk7ZzcqR3D6QQJuZSINRrARExmU3aAvlslNSZyqzu9_epFlgjSiycEpYJKSL5q0h
-    WkTGTwG8I8EziHrJBw>
-X-ME-Received: <xmr:gMk7Z5y7TlJzjyRr1qlM8t4vtArvjrSpduccdtpDlgfxN-poE1W-ibVEK5C_Ty0T5KXgEzffyDHdn5j6_Gy3QDzcqtK16vk-L70E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrfedugddtiecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
-    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
-    hsucdlqddutddtmdenucfjughrpeffhffvvefukfggtggusehttdertddttddvnecuhfhr
-    ohhmpefrvghtvghrucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfi
-    hhohdqthdrnhgvtheqnecuggftrfgrthhtvghrnhepveefveevueelkeevieetudduiedt
-    heefiefgveetfeeuhfegieetgeeifeekgeeknecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepphgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdht
-    rdhnvghtpdhnsggprhgtphhtthhopeehpdhmohguvgepshhmthhpohhuthdprhgtphhtth
-    hopegumhhithhrhidrthhorhhokhhhohhvsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
-    jhhikhhosheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsggvnhhjrghmihhnrdhtih
-    hsshhoihhrvghssehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqihhnphhu
-    thesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmphgvrghrshhonhessh
-    hquhgvsggsrdgtrg
-X-ME-Proxy: <xmx:gMk7Z5N1x0jsh7QJ39R9E1_A7RBoKHpaMO5BTKyKMQFhw6MRBGrNhw>
-    <xmx:gMk7Z-_lVkq_8pin15Y6Wfq12_GAeLzXOfSriDeRqV4sarK_nXjR7g>
-    <xmx:gMk7ZxU9z3RhIdBQ8Oea5YvI3GbTN4X_Ep7pLqgnRzWxQf7AAn88QA>
-    <xmx:gMk7Z3dxF-U8rifhA-v6SvOTVPpbwASHeqjHGG3zvhbycahkDyTmsw>
-    <xmx:gMk7Z1lidNdRxSKe5sS5TplFa12aKcEYKLxkCGXNrWg8xHJ2SouKheHg>
-Feedback-ID: i7ce144cd:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 18 Nov 2024 18:10:54 -0500 (EST)
-Date: Tue, 19 Nov 2024 09:10:14 +1000
-From: Peter Hutterer <peter.hutterer@who-t.net>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@gmail.com>
-Cc: linux-input@vger.kernel.org, Mark Pearson <mpearson@squebb.ca>
-Subject: [RFC PATCH] input: Add "AI Assistant" key
-Message-ID: <20241118231014.GA2011625@quokka>
+	s=arc-20240116; t=1731983798; c=relaxed/simple;
+	bh=It4nY43bFba/PBfhBQP+yVJc9c89783VhVYmkI998Ng=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WSrRYdaII8KwG3IViPJZbV3ol801FJEYn/fH/tZp+gnw9Gp6dz1nUMV/sW5G9hqM0RWbWv82IgiwFwIiZYN12TZVHB9KMZAF9Dbcn3SKB46iUjp4UX8VFi7hDLHWkLcvX73abIgzY5FO/fD2MYcmWS2/vYajQR+mvQflqvCbvxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I2tnqRCq; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20c6f492d2dso27382705ad.0
+        for <linux-input@vger.kernel.org>; Mon, 18 Nov 2024 18:36:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731983796; x=1732588596; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nf4MlNylgOpj7GowCDhuazbIXcf18Xkl2uiHNSY0nMA=;
+        b=I2tnqRCqN/jfjvCVFh3z4NgW51Z2q1er3YMJYV5qs8D+hsspOhb/fo7YUau9OV5R7z
+         dLZmjFqGxMnWJ1IdmDFe5AMjv5Dhide3QuTiI/njZGj/Brdd/5Apa8mFvx/86lA7bsAg
+         W0cc++t3nk7wkhfcHMWuY6xDRq/i+f56HuEh+UCBKmFWI94viaSSMR0ggV4hHsxnWaie
+         fGbMbt0FzFbJSpknKjWpvrRjqde6/qDv92QiJ4UW4MRgfyctxaqiQZohsiM0WjiwlD5S
+         H/rxw2aGpnEIFd5VpCY+8ic4FGRexVGLrtZgbUlqYFXIRyoqgg9GNWw+rZDdzV9oKupX
+         21Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731983796; x=1732588596;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Nf4MlNylgOpj7GowCDhuazbIXcf18Xkl2uiHNSY0nMA=;
+        b=JbmUD/NQPg5wzWIkAfo3h4QcI+r97o/nfHGz1tatDBusjnfD2uN3bhRUS4ZELKrR3k
+         K8/IbNVKkU7xXjnUsA420IOuqQe/iThM/zQ/QkFW+Z9+MHjgoSHB/MqIfDLfmqvOaeFm
+         6gfteSDm3C8U1AB/MCrjNWQ/wHCnMkxvUlc3JsrX8lrIY0f/gss7RvdtSwHdGi9FMz5s
+         JK9yr/UyvEoJzLaCI1+HNLkLf16roRKQ5MCRgEGoFu8Y7toeYk1B2IlKYnJ46xztJHT4
+         jp4f7t123xAjhX0Ht55zHDZv8yT8vUxLFzAAsa0xuZWMB6SrRXdDHP8kCu6Ulh6xryDB
+         r9+w==
+X-Forwarded-Encrypted: i=1; AJvYcCWW10V0RY4gI1bPw3xKGlNgcCvSRCCrp5wd3MZF2wys0E8hlKcEkKzt2jnAZC7wZx3RUC744c+ToT3flQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzasEiQ6y+5bdhp2PMk5GRbajBOyakcIxvh9+X+DTKTEM4LEpPn
+	l+cPv166MONmSj7AoGLuvqhss8yrzgcuwv/L9EkR2JrCK4mTBJKz
+X-Google-Smtp-Source: AGHT+IEhWDw4RAeL5FMPfl5t0oRQ2R68OTp1K9y37qJkM6/XojdAm7nLaPrZuWI3f+OQHots6AZvvA==
+X-Received: by 2002:a17:903:2282:b0:20c:9a6c:ee7b with SMTP id d9443c01a7336-211d0ef6e9cmr213871575ad.46.1731983796064;
+        Mon, 18 Nov 2024 18:36:36 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:38b7:c100:6f21:312d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2120e1bd347sm32408245ad.281.2024.11.18.18.36.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Nov 2024 18:36:35 -0800 (PST)
+Date: Mon, 18 Nov 2024 18:36:33 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Peter Hutterer <peter.hutterer@who-t.net>
+Cc: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@gmail.com>,
+	linux-input@vger.kernel.org, Mark Pearson <mpearson@squebb.ca>
+Subject: Re: [RFC PATCH] input: Add "AI Assistant" key
+Message-ID: <Zzv5sRu7lgEEP7aZ@google.com>
+References: <20241118231014.GA2011625@quokka>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -101,49 +83,43 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241118231014.GA2011625@quokka>
 
-Not to be confused with KEY_ASSISTANT which is for Siri/Cortana/...,
-this one is the Copilot key.
+Hi Peter,
 
-Unfortunately Microsoft requires that the Copilot key sends
-Win+Shift+F23 so this is merely a placeholder for now. Eventually we
-may see hardware that actually sends a custom key code for this.
+On Tue, Nov 19, 2024 at 09:10:14AM +1000, Peter Hutterer wrote:
+> Not to be confused with KEY_ASSISTANT which is for Siri/Cortana/...,
+> this one is the Copilot key.
 
-Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
----
-Note: this is really just an RFC, happy to change the name (which is not
-great given we have KEY_ASSISTANT already), the value, anything. The
-purpose of this patch is simply to scope if this is something worth
-pursuing.
+So my understanding is that Copilot is a successor of Cortrana. Why do
+we need another assistant key? Do we expect to have multiple
+assistants being available on device, each with its own key?
 
-As above, because of the MS specs I don't see any (MS-compatible) HW
-sending that particular key in the immediate future. But since userspace
-is expected to implement the functionality via the Win+Shift+F23 we'll
-need a new keysym for this in XKB anyway.
+> 
+> Unfortunately Microsoft requires that the Copilot key sends
+> Win+Shift+F23 so this is merely a placeholder for now. Eventually we
+> may see hardware that actually sends a custom key code for this.
+> 
+> Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+> ---
+> Note: this is really just an RFC, happy to change the name (which is not
+> great given we have KEY_ASSISTANT already), the value, anything. The
+> purpose of this patch is simply to scope if this is something worth
+> pursuing.
+> 
+> As above, because of the MS specs I don't see any (MS-compatible) HW
+> sending that particular key in the immediate future. But since userspace
+> is expected to implement the functionality via the Win+Shift+F23 we'll
+> need a new keysym for this in XKB anyway.
+> 
+> If the kernel plans to add a keysym for this we can happily re-use that,
+> otherwise we'll need to define our own but that means some manual
+> attention if we do get a kernel keycode later.
 
-If the kernel plans to add a keysym for this we can happily re-use that,
-otherwise we'll need to define our own but that means some manual
-attention if we do get a kernel keycode later.
+There's nothing in the HID spec yet, is there?
 
-Thoughts?
+Thanks.
 
- include/uapi/linux/input-event-codes.h | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index a4206723f503..99c5e866e627 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -806,6 +806,8 @@
- #define BTN_TRIGGER_HAPPY39		0x2e6
- #define BTN_TRIGGER_HAPPY40		0x2e7
- 
-+#define KEY_AI_ASSISTANT                0x2f0
-+
- /* We avoid low common keys in module aliases so they don't get huge. */
- #define KEY_MIN_INTERESTING	KEY_MUTE
- #define KEY_MAX			0x2ff
 -- 
-2.47.0
-
+Dmitry
 
