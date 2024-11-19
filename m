@@ -1,42 +1,41 @@
-Return-Path: <linux-input+bounces-8151-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8150-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1BC9D3083
-	for <lists+linux-input@lfdr.de>; Tue, 19 Nov 2024 23:34:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFCBC9D3082
+	for <lists+linux-input@lfdr.de>; Tue, 19 Nov 2024 23:34:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D90C01F21D98
-	for <lists+linux-input@lfdr.de>; Tue, 19 Nov 2024 22:34:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D9641F21D98
+	for <lists+linux-input@lfdr.de>; Tue, 19 Nov 2024 22:34:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C07AA198A35;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D04F1D358B;
 	Tue, 19 Nov 2024 22:34:05 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BFB1D31BE
-	for <linux-input@vger.kernel.org>; Tue, 19 Nov 2024 22:34:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AABC198A35
+	for <linux-input@vger.kernel.org>; Tue, 19 Nov 2024 22:34:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732055645; cv=none; b=VQokQ88llyp97bLJwkRiJs2tHv2LbTsGfunw8nIxyIZTg7xAh/BVuw28Iw/OrXnzFvsbYbPOqTcYiulBu+Z2JhOGX0t5aad7B6mT+oNuFg6DyyVGkh9cXCTgdoXquyvqQPB3oVohIIkSfISPTFfDwyQJ48YlNE36s+l/Ca+HNJ0=
+	t=1732055645; cv=none; b=JPz/bHAIuQ94TZNBLjnQ19IIAqD+8e9NplAxADKU/1eVoAPwc+yU2TF6ygUeqaqoY8MwrCWjNJkn8u5DzwVTJO6MT5WwKliY1Wuha0OkckH/3xT6/eSzOo2dYBbh2VF+k/RGwSOLsLy1PKV0rFcMD97SdeEqoiWbJQgv2xW8Oyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1732055645; c=relaxed/simple;
-	bh=xo+f+Z/MbbmZhDhS+LV9xI5/rsuToR9buhsVAmftXS4=;
+	bh=Gw4htBKUUHWEL/Ku5WcwY9Ad8sXvM2zM8Z5kxj1Euys=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Dq7Gbz2op+mR3wEslJ5FEmIuKJeWdTzAPgsgRv1GjRzaXN10DoL5NLZf04KNSSH+/l+WCxAIh/GPUrip6PD01SaQDCmI/DaNGqQEkUSHVrl4LvDzdYVSXbvV1PY1CUHKHEWr1Ph0jX9o7a5BGQHJTidGmvJzytZkJayUWirfssg=
+	 In-Reply-To:To:Cc; b=JhoVUs0eviZthBEquNF/dRCkNv58IOhm5GAGUHlG+4V082sUW78N6Xc3zHbh7EUq72zqGW8t4ZJviVqAwGsGbcj5ogXL4a2TmrJ395O73RZpXAYjYpLvNzzNOScnOh7TbwojQu7XcGu8sFkyYEevJ5d9DI0TVF6kmBld+WNXlTk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <m.felsch@pengutronix.de>)
-	id 1tDWnF-0002gF-78; Tue, 19 Nov 2024 23:33:57 +0100
+	id 1tDWnF-0002gF-9d; Tue, 19 Nov 2024 23:33:57 +0100
 From: Marco Felsch <m.felsch@pengutronix.de>
-Date: Tue, 19 Nov 2024 23:33:51 +0100
-Subject: [PATCH 2/5] firmware_loader: add support to handle
- FW_UPLOAD_ERR_SKIP
+Date: Tue, 19 Nov 2024 23:33:52 +0100
+Subject: [PATCH 3/5] dt-bindings: vendor-prefixes: Add TouchNetix AS
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -45,7 +44,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241119-v6-10-topic-touchscreen-axiom-v1-2-6124925b9718@pengutronix.de>
+Message-Id: <20241119-v6-10-topic-touchscreen-axiom-v1-3-6124925b9718@pengutronix.de>
 References: <20241119-v6-10-topic-touchscreen-axiom-v1-0-6124925b9718@pengutronix.de>
 In-Reply-To: <20241119-v6-10-topic-touchscreen-axiom-v1-0-6124925b9718@pengutronix.de>
 To: Luis Chamberlain <mcgrof@kernel.org>, 
@@ -61,6 +60,7 @@ To: Luis Chamberlain <mcgrof@kernel.org>,
  Danilo Krummrich <dakr@redhat.com>
 Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-input@vger.kernel.org, kernel@pengutronix.de, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
  Marco Felsch <m.felsch@pengutronix.de>
 X-Mailer: b4 0.14.0
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
@@ -68,29 +68,31 @@ X-SA-Exim-Mail-From: m.felsch@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-input@vger.kernel.org
 
-It's no error if a driver indicates that the firmware is already
-up-to-date and the update can be skipped.
+From: Kamel Bouhara <kamel.bouhara@bootlin.com>
 
+Add vendor prefix for TouchNetix AS (https://www.touchnetix.com/products/).
+
+Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
- drivers/base/firmware_loader/sysfs_upload.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/base/firmware_loader/sysfs_upload.c b/drivers/base/firmware_loader/sysfs_upload.c
-index b3cbe5b156e3..44f3d8fa5e64 100644
---- a/drivers/base/firmware_loader/sysfs_upload.c
-+++ b/drivers/base/firmware_loader/sysfs_upload.c
-@@ -174,6 +174,10 @@ static void fw_upload_main(struct work_struct *work)
- 	fw_upload_update_progress(fwlp, FW_UPLOAD_PROG_PREPARING);
- 	ret = fwlp->ops->prepare(fwl, fwlp->data, fwlp->remaining_size);
- 	if (ret != FW_UPLOAD_ERR_NONE) {
-+		if (ret == FW_UPLOAD_ERR_SKIP) {
-+			dev_info(fw_dev, "firmware already up-to-date, skip update\n");
-+			ret = FW_UPLOAD_ERR_NONE;
-+		}
- 		fw_upload_set_error(fwlp, ret);
- 		goto putdev_exit;
- 	}
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index b320a39de7fe..c40170c0c387 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1515,6 +1515,8 @@ patternProperties:
+     description: Toradex AG
+   "^toshiba,.*":
+     description: Toshiba Corporation
++  "^touchnetix,.*":
++    description: TouchNetix AS
+   "^toumaz,.*":
+     description: Toumaz
+   "^tpk,.*":
 
 -- 
 2.39.5
