@@ -1,173 +1,157 @@
-Return-Path: <linux-input+bounces-8172-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8173-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E30979D4160
-	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2024 18:47:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 818DD9D4215
+	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2024 19:36:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E76E1B2E69F
-	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2024 17:31:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D64E7B26E4D
+	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2024 18:34:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15631149C4D;
-	Wed, 20 Nov 2024 17:31:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3904A157485;
+	Wed, 20 Nov 2024 18:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="fYUyzox/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722C01ADFE6
-	for <linux-input@vger.kernel.org>; Wed, 20 Nov 2024 17:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F64A1A0BDC
+	for <linux-input@vger.kernel.org>; Wed, 20 Nov 2024 18:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732123864; cv=none; b=W+Pe0k5uNLbvPPnmlh3fj+kX6Fj5iaFSna/ZaYutUkLhZVEbpACKC2DlpUenrfqLhJI8EWRvHdRQiGYcvuMHXguNXVvMcrmW6hXdrC1Dy2A3mx6+juWrcVNF0Q0rBCKxc5JrxQUjSnke/ecS//RsYAZYtxkhlGPgjBsnZ/H+1BU=
+	t=1732127623; cv=none; b=m16+y0L8nW2rwF8I0zKTKpp4SJ8svPj0mW25uB0zRuo1K4tyBS6SM0GmLDF632OGPZaT0Tx6kSPr8xFB9KS267DJIvobaETwV1LK8LAOb3gGmApe9bSgDbrzR/BrEHaS1jIWrYHwwkOpRpcsvz6Slk3mjRr21hQaeWUpEW6fTXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732123864; c=relaxed/simple;
-	bh=UdmBR0vlYUwE0j7Xk0Auu9zw64mJgjK4bcR4taYvDfk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RiUswfZ8gIra180o1uITBveptQYLU1LrEPnsZf9pzjHykMSuFsi8WTSIJNklDwf1Wu+eTsPDMS4Xzk9h9OQHuGkXf4hPH9PKwUEHe/3QpNyW8z4CPVNPJGDCQ4fgJ18mnMIj8XLTQyaBlUQA/7iKHnQXqq6OoQlvklao0FIms20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1tDoXG-0006Fm-Im; Wed, 20 Nov 2024 18:30:38 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1tDoXF-001m6C-38;
-	Wed, 20 Nov 2024 18:30:37 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1tDoXF-005I5x-2m;
-	Wed, 20 Nov 2024 18:30:37 +0100
-Date: Wed, 20 Nov 2024 18:30:37 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Russ Weight <russ.weight@linux.dev>
-Cc: Luis Chamberlain <mcgrof@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Marco Felsch <kernel@pengutronix.de>,
-	Henrik Rydberg <rydberg@bitmath.org>,
-	Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH 2/5] firmware_loader: add support to handle
- FW_UPLOAD_ERR_SKIP
-Message-ID: <20241120173037.x6cro7r2wh5aoadg@pengutronix.de>
-References: <20241119-v6-10-topic-touchscreen-axiom-v1-0-6124925b9718@pengutronix.de>
- <20241119-v6-10-topic-touchscreen-axiom-v1-2-6124925b9718@pengutronix.de>
- <20241120165049.jzsveoms2unxt3m6@4VRSMR2-DT.corp.robot.car>
+	s=arc-20240116; t=1732127623; c=relaxed/simple;
+	bh=iifBY3pBkQ+vW98uQfy907Av0seAhnpo27VE0vQDWU4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oeE0ZWf+JH/0kG3Fixdxukqksls6wf9QotNIq7F5MdFfShrUHEUXEHAivxPmrk7Vu69hIbIuzhsaexBkaJEXV+aLyvVJ4K8RQMMnA40IRvYN4mhZ3ZXW3QJ/d/D96pI4qBey0BJM9baBTZHeScGGIqomk95jpGypV5zEQOFj3ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=fYUyzox/; arc=none smtp.client-ip=209.85.160.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-2958ddf99a7so100542fac.2
+        for <linux-input@vger.kernel.org>; Wed, 20 Nov 2024 10:33:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1732127619; x=1732732419; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RJ5gUSV5Ug24/Ag1+xqlRjIyyK7KSpjstJhpPEWCQ0o=;
+        b=fYUyzox/0iEyiCzk2P/3h6CfYeblr0m+3lgCMbLX8WvEpQevj4f6t9nDg1X+fYD667
+         QflqcfOKUjFFWPnOU8GpPzkCSghxcx42pOi0KCewgT+6CNnIe8WMchELTMalV8sjXhe9
+         P9Zd1hvmJWUPouE7f050fSjxxiQPR+6Fa9+9fM2M9U8ZPLvKNqnRa+bxox/IiMcCo+Jf
+         NHnBJMVr3ojabrcesePCfjTcoy0EiUZ3B9E+i+qGI5YWUeZewnQ7cwjyR5qj5b2LHAYm
+         1tJ0QsnOG+9J6EZnwBCETHzxWGBPSJhc1COG12uMI9In4J4e7Ig/qpyqQrMiK9zcdu1d
+         YLVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732127619; x=1732732419;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RJ5gUSV5Ug24/Ag1+xqlRjIyyK7KSpjstJhpPEWCQ0o=;
+        b=tjM1lsX6BXIuS25MaboUicPJPu9Ko3ArW5i2PeGRtc6rFMMTjsSYSianmq/EmO7YSC
+         QapSFFZvJSBsVRe2z7VBVJFbcFxMlsWeaZcPfAtw4UxJ+3YPPHDMtPdVm9JOmiM2OyQc
+         BYJDqrxyXFkVuYro0heRg8KS8+ZY6tN/tyRACW7UBgSHAvjXKiwVIXDdKdUw6nxZ5Tq3
+         Zr1SLb3LXkRqJS+5YkNBk+gNEV7/Sw8mWeSOKkftf6R/TV7HjBJa5cZ5F5zSDuojxdTa
+         YLO2jOwuFRcUXFiz6cLT9C6WdH6Fx2acPKYhnWQjvZT6UTUUtnfDxKJ39lSck06DFCXx
+         NOnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW9yl141E8qAi8fNPTuH4hXm8SHguDXxerlR3odKoOkwLgRRj+JV8I8G7aBsXeQxDS+Tysq2Na81wroyA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhIWNlbBjrDPBykvGFFGdmB+p8UuzZJgkUNc/h9JIklqJ/4lHb
+	pjJol1Tfklifeu2ib2qMt5On+SKgPjOp+qpCoVpTtg284zqq6xqyRMF0fakxKc8=
+X-Gm-Gg: ASbGncsq+SFhCEgcfaWW3CwO5XNkKhdelj6Ch04tPw1tqlRmHPn64ebFnXZ32Y1Dq/k
+	3yxjH56VjtjtWwZRfJJ8Fn82b1bgQ561K7d2Zqep9Na2meLxjbmwJ12J5Sh4Ubm4s067kIempka
+	Jog4oo8S//+7TAOeYaDa9lUayWrMC7DnYMNmWJL8kNRvGjvxyUJkakHi6K6DsOcMq00W5sICwl8
+	WxjZDUnutf0LtAcpgKZRFGFoJ5REeIBKX71MB9uCAq0nS/7Qr0cnZYizI2cU+TFAnIBj284oiwd
+	XdzE+K0Abis=
+X-Google-Smtp-Source: AGHT+IErtBHyxlQ4JQhHNAFpJNdFkrZ1twtnq44b4sOJeIPE/rXVkwZ6w3/0MkbAhQrD1Tk016w8+Q==
+X-Received: by 2002:a05:6870:4985:b0:296:bbc8:4a82 with SMTP id 586e51a60fabf-296d9ec5dc6mr4728137fac.27.1732127619261;
+        Wed, 20 Nov 2024 10:33:39 -0800 (PST)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-29651b43415sm4358071fac.49.2024.11.20.10.33.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Nov 2024 10:33:37 -0800 (PST)
+Message-ID: <47ea20d8-444b-4c72-97d3-b04a6918b121@baylibre.com>
+Date: Wed, 20 Nov 2024 12:33:36 -0600
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241120165049.jzsveoms2unxt3m6@4VRSMR2-DT.corp.robot.car>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] Input: db9 - use guard notation when acquiring mutex
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org
+Cc: Erick Archer <erick.archer@outlook.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-kernel@vger.kernel.org
+References: <20240904043104.1030257-1-dmitry.torokhov@gmail.com>
+ <20240904043104.1030257-2-dmitry.torokhov@gmail.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20240904043104.1030257-2-dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On 24-11-20, Russ Weight wrote:
-> On Tue, Nov 19, 2024 at 11:33:51PM +0100, Marco Felsch wrote:
-> > It's no error if a driver indicates that the firmware is already
-> > up-to-date and the update can be skipped.
-> > 
-> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > ---
-> >  drivers/base/firmware_loader/sysfs_upload.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/drivers/base/firmware_loader/sysfs_upload.c b/drivers/base/firmware_loader/sysfs_upload.c
-> > index b3cbe5b156e3..44f3d8fa5e64 100644
-> > --- a/drivers/base/firmware_loader/sysfs_upload.c
-> > +++ b/drivers/base/firmware_loader/sysfs_upload.c
-> > @@ -174,6 +174,10 @@ static void fw_upload_main(struct work_struct *work)
-> >  	fw_upload_update_progress(fwlp, FW_UPLOAD_PROG_PREPARING);
-> >  	ret = fwlp->ops->prepare(fwl, fwlp->data, fwlp->remaining_size);
-> >  	if (ret != FW_UPLOAD_ERR_NONE) {
-> > +		if (ret == FW_UPLOAD_ERR_SKIP) {
-> > +			dev_info(fw_dev, "firmware already up-to-date, skip update\n");
-> > +			ret = FW_UPLOAD_ERR_NONE;
-> > +		}
+On 9/3/24 11:30 PM, Dmitry Torokhov wrote:
+> Using guard notation makes the code more compact and error handling
+> more robust by ensuring that mutexes are released in all code paths
+> when control leaves critical section.
 > 
-> If you change the error-code from FW_UPLOAD_ERR_SKIP to
-> FW_UPLOAD_ERR_NONE, then the "skip" string provided in the previous
-> patch will never be seen. There are currently no other instances where
-
-Do we really need to set it? As explained within the commit message,
-it's no error if FW_UPLOAD_ERR_SKIP is returned. The previous patch just
-added all pieces which may be required later on.
-
-> an error code requires special-case modifications to the fw_upload
-> code and I don't think it is necessary to add it here.
-
-Because at the moment no one is checking it except for the gb-beagleplay
-driver. This driver prints a dev_warn() string and returns a failure.
-Now the userspace needs some heuristic by parsing dmesg to check the
-reason. This is rather complex and very error prone as the sting can be
-changed in the future.
-
-Therefore I added the support to have a simple error code which can be
-returned by a driver. I'm open to return "skip" as error instead of
-casting it to none. Both is fine for me since both allow the userspace
-to easily check if the error is a 'real' error or if the fw-update was
-just skipped due to already-up-to-date.
-
-I wouldn't say that this is a special case, it is very common but no one
-is performing a fw-version check. Therefore I added this to the common
-code, to make it easier for driver devs.
-
-> The dev_info() message above can be provided by the device driver
-> that is using this API.
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>  drivers/input/joystick/db9.c | 30 ++++++++++++++----------------
+>  1 file changed, 14 insertions(+), 16 deletions(-)
 > 
-> I think you can either:
-> 
-> (1) allow "skip" to be treated as an error. The update didn't happen...
+> diff --git a/drivers/input/joystick/db9.c b/drivers/input/joystick/db9.c
+> index 682a29c27832..7ac0cfc3e786 100644
+> --- a/drivers/input/joystick/db9.c
+> +++ b/drivers/input/joystick/db9.c
+> @@ -505,24 +505,22 @@ static int db9_open(struct input_dev *dev)
+>  {
+>  	struct db9 *db9 = input_get_drvdata(dev);
+>  	struct parport *port = db9->pd->port;
+> -	int err;
+>  
+> -	err = mutex_lock_interruptible(&db9->mutex);
+> -	if (err)
+> -		return err;
+> -
+> -	if (!db9->used++) {
+> -		parport_claim(db9->pd);
+> -		parport_write_data(port, 0xff);
+> -		if (db9_modes[db9->mode].reverse) {
+> -			parport_data_reverse(port);
+> -			parport_write_control(port, DB9_NORMAL);
+> +	scoped_guard(mutex_intr, &db9->mutex) {
+> +		if (!db9->used++) {
+> +			parport_claim(db9->pd);
+> +			parport_write_data(port, 0xff);
+> +			if (db9_modes[db9->mode].reverse) {
+> +				parport_data_reverse(port);
+> +				parport_write_control(port, DB9_NORMAL);
+> +			}
+> +			mod_timer(&db9->timer, jiffies + DB9_REFRESH_TIME);
+>  		}
+> -		mod_timer(&db9->timer, jiffies + DB9_REFRESH_TIME);
+> +
+> +		return 0;
+>  	}
+>  
+> -	mutex_unlock(&db9->mutex);
+> -	return 0;
+> +	return -EINTR;
 
-Please see above.
+This patch and any others like it are potentially introducing a bug.
 
-> -or-
-> 
-> (2) The prepare function could detect the situation and set
->     a flag in the same device driver. Your write function could
->     set *written to the full data size and return without writing
->     anything. Your poll_complete handler could also return
->     FW_UPLOAD_ERR_NONE. Then you don't need to add FW_UPLOAD_ERR_SKIP
->     at all. You would get the info message from the device driver
->     and fw_upload would exit without an error.
+From inspecting the source code, it looks like
+mutex_lock_interruptible() can return -EINTR, -EALREADY, or -EDEADLK.
 
-Please see above. I don't think that this is special case and why making
-the life hard for driver devs instead of having a well known fw
-behaviour?
+Before this patch, the return value of mutex_lock_interruptible() was
+passed to the caller. Now, the return value is reduced to pass/fail
+and only -EINTR is returned on failure when the reason could have
+been something else.
 
-Regards,
-  Marco
 
-> 
-> Thanks,
-> - Russ
-> 
-> >  		fw_upload_set_error(fwlp, ret);
-> >  		goto putdev_exit;
-> >  	}
-> > 
-> > -- 
-> > 2.39.5
-> > 
-> 
 
