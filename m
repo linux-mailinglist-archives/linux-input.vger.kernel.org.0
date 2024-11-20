@@ -1,103 +1,71 @@
-Return-Path: <linux-input+bounces-8159-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8160-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B01C9D332B
-	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2024 06:36:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 311C49D34BC
+	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2024 08:51:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C48AF2833C2
-	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2024 05:36:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D49531F2041C
+	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2024 07:51:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04553156991;
-	Wed, 20 Nov 2024 05:36:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LEHpUqMF"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BD61189BBF;
+	Wed, 20 Nov 2024 07:50:27 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A17156669;
-	Wed, 20 Nov 2024 05:36:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF75189B8C;
+	Wed, 20 Nov 2024 07:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732080976; cv=none; b=GwfcmqIjAmAa9YcHj4O/6c8y9JbvtVXlNUJ89E2nt/hg6LYxMMmjV0skgoP4UdYQvxMqBBwh8dHWlZVTst4Po7Cwp2JMD53SjH9E9OOJKssuYwrzkifbnjDsbwlmABNivzruOqLWHl6qWX8Eqo+owjC371ol/i4YMx8nQ7qIgqk=
+	t=1732089027; cv=none; b=LAWa35RlcpbwG91IXRSVdc3ugxhiBBVCqaGXxH6YK710ybgsXTXFi/cceW5Ccj6c3CAMZZLHk3GSbJGkUaqr3Onarpd7lV6xd0vxyUW4l0lhqT67epKJSH+5DqZmGHhFjA3/bIQh62g0B4tlJF/Zk2Dd/kqhSnIQe+cLrUKv/+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732080976; c=relaxed/simple;
-	bh=3mq5+iqMIwmAGAbAOZ3WJy+zC/nZcG1A/YxkXZxMR4g=;
+	s=arc-20240116; t=1732089027; c=relaxed/simple;
+	bh=Pgm6vDJSYNE6XLVqzmM2tKX1+m5dsYR/GDmcWdO6QyA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IRkmQ8xiClJLGwjwGuEfTYgSPFHaz/RkqPntWwNuBD6t8h/LEoWMLhuwSuUT3W0YRelIzB3Na/qpeo+JDtPlbQTwp5Cw8dLvwwlB5swW+J1NwcFSs6/1yVDqw6s1t8MzDCHz7Oi/VT6bKoALTEarZ6yyfpnq6dyF5A5Ua6UAzVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LEHpUqMF; arc=none smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7181eb9ad46so999034a34.1;
-        Tue, 19 Nov 2024 21:36:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732080974; x=1732685774; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xRwcqVhrMWWtuyE+OLPL5NHoUdOo/BxzRoMgxzXnrkA=;
-        b=LEHpUqMFcUGVu14pwjTdnRteTdwXYYBTQIVhK5wXbWEDFhgconjzrRktpWf3OEABsa
-         yK+pOHhBe+T7vwMAa+pbMlcrKrrPe6jCeFXA+b1AkvYAjN+hRjt8zgCHzk0lG8v9L14T
-         6Mf9nWh1rShaW1nOP2yfsoZTYAMVpCAFjtZaq0BvK1c8/IiSIavhAppjjBks47Dfxy8+
-         RLcVThWV5J3KIY2TigtJLPar1pnuqXd5heCvdPz77+8pmtgGLvQqt9ub4ggLqmSqXoI3
-         ZKevqOsCJhiUl1X8t/hkRzNAtXM8JhTvDs8sOs5pb/ZHyPN1Th83WM0J69B11mntFOU8
-         p4cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732080974; x=1732685774;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xRwcqVhrMWWtuyE+OLPL5NHoUdOo/BxzRoMgxzXnrkA=;
-        b=loBma73rctN+Q+cxyiPm0oPPQroPrAgmWrRJxqVhF3xdzdAEvTK26a05o6IaTbiS45
-         9qLn3ex0FC6jLrmolWrf2s6qNobTpO3QwgYxVt7EclroCQqiz2W6b6s2aIMifbxXe7+H
-         tk0unHc4k5WasXUa5ulBdI8QJe0HvClRPkNvERvRBuG/RWWbcQj8OL+qEdqCTB3aQcZK
-         fcRKWJXx5qFIn2RrcRBn20R4oLJ3zCop77xmFUfIQHz0WNrxy8U7UeV8V2bO61FHJV8U
-         mCjqUx7916DBpoON9A8KBPiTTG78CFGKvP16urp6oVpGCvSVE3LI5vSxH4VlgXgNMKA5
-         t2Sg==
-X-Forwarded-Encrypted: i=1; AJvYcCVNu0MA86Qv4Zb1uOTAJGe5LHDPopGylqvY2j6qZZnSwlhjLV2hkye8GDKhag6fOBZW+XPL3RGcEJFEIQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTRao7IKpp9A9YzM2abbF/5viEMyR8Q+tyhVlDpdgRrSYhvTFo
-	oW3L7xXac5PTEJaNfwoDce5BaVSdWD+05tQElqIYZ3CuzwF4mG3/
-X-Google-Smtp-Source: AGHT+IEINX116vl4gIhEO+YETzlb+ZEQU0ZOmoguc1OJHWnXur7CYB6qLK517Onlg3HZrRiY5MLnfw==
-X-Received: by 2002:a9d:7b54:0:b0:70f:7123:1f34 with SMTP id 46e09a7af769-71ab3216af2mr1408427a34.30.1732080974485;
-        Tue, 19 Nov 2024 21:36:14 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:4fd4:a79d:4d7b:917f])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f8c1c3224asm8639311a12.29.2024.11.19.21.36.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Nov 2024 21:36:14 -0800 (PST)
-Date: Tue, 19 Nov 2024 21:36:11 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-input@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 06/15] Input: sun4i-lradc-keys - don't include
- 'pm_wakeup.h' directly
-Message-ID: <Zz11SwzIYTgkgbty@google.com>
-References: <20241118072917.3853-1-wsa+renesas@sang-engineering.com>
- <20241118072917.3853-7-wsa+renesas@sang-engineering.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ctnsThNpB8kIxAb9MoCfTit2mlYXQW05AaEpdOI/BfA6JvvPcUw2TfacBkBLtbgWrn5KACuwNyuZ8nyndVvSdWH9uF6DFhG+WTJ61sWyyW/FzaixLnUdmxWeHX9I7W6kQqlax481FD1Q2025NzFtpZQlVZ6V8WfI+GSX3L6njl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C24FC4CED7;
+	Wed, 20 Nov 2024 07:50:25 +0000 (UTC)
+Date: Wed, 20 Nov 2024 08:50:22 +0100
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, 
+	Russ Weight <russ.weight@linux.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Kamel Bouhara <kamel.bouhara@bootlin.com>, Marco Felsch <kernel@pengutronix.de>, 
+	Henrik Rydberg <rydberg@bitmath.org>, Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH 3/5] dt-bindings: vendor-prefixes: Add TouchNetix AS
+Message-ID: <b5hjephfcvdu2jjchodaj5u4yltvatdgmse7xvwkhaepn5dinv@sfl4utyuz34g>
+References: <20241119-v6-10-topic-touchscreen-axiom-v1-0-6124925b9718@pengutronix.de>
+ <20241119-v6-10-topic-touchscreen-axiom-v1-3-6124925b9718@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241118072917.3853-7-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20241119-v6-10-topic-touchscreen-axiom-v1-3-6124925b9718@pengutronix.de>
 
-On Mon, Nov 18, 2024 at 08:29:05AM +0100, Wolfram Sang wrote:
-> The header clearly states that it does not want to be included directly,
-> only via 'device.h'. 'platform_device.h' works equally well. Remove the
-> direct inclusion.
+On Tue, Nov 19, 2024 at 11:33:52PM +0100, Marco Felsch wrote:
+> From: Kamel Bouhara <kamel.bouhara@bootlin.com>
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Add vendor prefix for TouchNetix AS (https://www.touchnetix.com/products/).
+> 
+> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Applied, thank you.
+I think this did not happen (only Ack).
 
--- 
-Dmitry
+Best regards,
+Krzysztof
+
 
