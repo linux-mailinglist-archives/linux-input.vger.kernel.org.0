@@ -1,201 +1,317 @@
-Return-Path: <linux-input+bounces-8169-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8170-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745309D3ACD
-	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2024 13:39:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98C1E9D3DA6
+	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2024 15:34:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35BB32835D9
-	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2024 12:39:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59FC6281E1A
+	for <lists+linux-input@lfdr.de>; Wed, 20 Nov 2024 14:34:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82A831A3BAD;
-	Wed, 20 Nov 2024 12:39:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAFEC1AAE38;
+	Wed, 20 Nov 2024 14:34:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eR2CqMgB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="of2M/yvE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eR2CqMgB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="of2M/yvE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ULUjmoXK"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C106C19F432;
-	Wed, 20 Nov 2024 12:39:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9182EA939;
+	Wed, 20 Nov 2024 14:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732106363; cv=none; b=WRXcVBTbJkg1plU/h19myJlXptyoYcOgRo60bssGzc+hdv0MaVKfcIix9pF/fsUvJpCte4kIgDTGDBOTjQk328Tu31Gxw/Vf1mk9GVG+EDT73wWwR3d8d5dk576KWAdEaq9x9EvsK5KqXXcAVLOSc02uXNl3ch6Qm2UGw6gSLRQ=
+	t=1732113242; cv=none; b=KHVtG6D6+kdctp7l5txK0r7mNxrXMiwntlOcTxttPRk2M04IPSfBnF70I7Gw5OcIo7QrgtC0yBCC/pEk2YunS28PZjdv5KS/keNT6W7kEm7iwPKRCJGZe+ecJPZxhCkz+eXBfSv1WNsnnS84088JDmftqtp6GrVgbqu5qFA1wzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732106363; c=relaxed/simple;
-	bh=xeMGb/D8nMTzxROFUPSvZVlLdK0LsDnTnJEJvQ1csGU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EVcdyUpbaAgcgyAFLEGeIhEr+5RDr3a6IGjYQQMVAhSMs6mx+IH69szDm/sxn/Ir/S4M3jd2OJhFRlZy3oLRt2mLUeJioFLa6Gg5BbkYYdiOlx7G8rB8gtAwUHBSuLVUH6dVQ677DTbTYWM2ue7ywhjGAesMS4o/55dTnJT0dts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eR2CqMgB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=of2M/yvE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eR2CqMgB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=of2M/yvE; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B699C1F79C;
-	Wed, 20 Nov 2024 12:39:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732106359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W9mjT+B4JZ4+Oh+HgNPt0ag3rPOFwQMa/YzT5RYsfR0=;
-	b=eR2CqMgBNGl/bKJfd7HouvsQwoRxGNwAqy9gCUBd6xsOcpw5OMGj6VXBB1CUauN+tPS8zz
-	xFzqOL8l0eaSo5iqNd66Gnm3WvBZElDIMG/qdRFw1DCwUgvb1u6fZFZt0FipDg8leDUaGm
-	ijLL0SKVM4DQbMpd2yMfjv33Wsr0djA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732106359;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W9mjT+B4JZ4+Oh+HgNPt0ag3rPOFwQMa/YzT5RYsfR0=;
-	b=of2M/yvEMK2Wr7x3kdbx3f6KbzE/uCBZDOBIbETizV/JP9Ez+F8obkmFCgHNhqhYfNcwFb
-	2UIJuAdLjcSoAHBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eR2CqMgB;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="of2M/yvE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732106359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W9mjT+B4JZ4+Oh+HgNPt0ag3rPOFwQMa/YzT5RYsfR0=;
-	b=eR2CqMgBNGl/bKJfd7HouvsQwoRxGNwAqy9gCUBd6xsOcpw5OMGj6VXBB1CUauN+tPS8zz
-	xFzqOL8l0eaSo5iqNd66Gnm3WvBZElDIMG/qdRFw1DCwUgvb1u6fZFZt0FipDg8leDUaGm
-	ijLL0SKVM4DQbMpd2yMfjv33Wsr0djA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732106359;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W9mjT+B4JZ4+Oh+HgNPt0ag3rPOFwQMa/YzT5RYsfR0=;
-	b=of2M/yvEMK2Wr7x3kdbx3f6KbzE/uCBZDOBIbETizV/JP9Ez+F8obkmFCgHNhqhYfNcwFb
-	2UIJuAdLjcSoAHBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 78427137CF;
-	Wed, 20 Nov 2024 12:39:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kszVHHfYPWc/EAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 20 Nov 2024 12:39:19 +0000
-Date: Wed, 20 Nov 2024 13:39:19 +0100
-Message-ID: <875xoi3wqw.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
-	<srinivas.kandagatla@linaro.org>,
-	<mathias.nyman@intel.com>,
-	<perex@perex.cz>,
-	<conor+dt@kernel.org>,
-	<dmitry.torokhov@gmail.com>,
-	<corbet@lwn.net>,
-	<broonie@kernel.org>,
-	<lgirdwood@gmail.com>,
-	<krzk+dt@kernel.org>,
-	<pierre-louis.bossart@linux.dev>,
-	<Thinh.Nguyen@synopsys.com>,
-	<tiwai@suse.com>,
-	<robh@kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>,
-	<linux-input@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v30 00/30] Introduce QC USB SND audio offloading support
-In-Reply-To: <2f512d8d-e5f3-4bdd-8172-37114a382a69@quicinc.com>
-References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
-	<edfeb642-297e-42bb-ad09-cbf74f995514@quicinc.com>
-	<2024111655-approve-throwback-e7df@gregkh>
-	<2f512d8d-e5f3-4bdd-8172-37114a382a69@quicinc.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1732113242; c=relaxed/simple;
+	bh=f6jE4YHqQUGgN75eGWXUJ9kbNinucKH3z14BlVmeZW8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IV4iwCwAhV9HXLhXDZ/pko16VL4OB4u+49oPeq0GdRsDfb3GhvP5WnRsUV5gBBm9tq+829CingHZ0Au+59dP1J3162/1Ztunxi0PyN2hnUmq2DlBLslMfTgcGeP4p9upQoYoYaehIRRDpvwWPn+ZdJmj9b9O4bGlJNqpUrXRKfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ULUjmoXK; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732113240; x=1763649240;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=f6jE4YHqQUGgN75eGWXUJ9kbNinucKH3z14BlVmeZW8=;
+  b=ULUjmoXK/oVzEGE8SZ4rNycYIm6Dji4xDFrkJJEDH7yZHizJsMg/fRMw
+   tI4v+VAX8/hUO2yfeWmuWAbrru79JHetrntt28wtuntQU5TkJjVni0rzQ
+   L6nuqcE4LiBVVxIltDUQWBntfEszADRA/CJ28JxTzW2PIsDOuMpI0hB9b
+   PIfiAwCLSeAkWlHjU9cMH79lF04s4a61MzNDiLmZB9AMb2gAdwq/T0f1a
+   mtX8oJewi8zOrwBcWXoP8E2wN/FK/wLi5b9m/Jl1c/4VX6XbVvB+JwCRv
+   HG4FEhJMEzbTE71B3GSU+tkKGd+Jr521hlMdJYLtBcILCFpqZhnGi04ay
+   g==;
+X-CSE-ConnectionGUID: Ldysh7jGR9SfEUXcOngAbQ==
+X-CSE-MsgGUID: 1pBrx6qnSqW/JqDl9CPSvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="31544966"
+X-IronPort-AV: E=Sophos;i="6.12,170,1728975600"; 
+   d="scan'208";a="31544966"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 06:33:54 -0800
+X-CSE-ConnectionGUID: 7HDv2UnUQhGVSJlya5RSlg==
+X-CSE-MsgGUID: +1jjkapGQf+B8EB6Qily/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,170,1728975600"; 
+   d="scan'208";a="90318056"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orviesa007.jf.intel.com with ESMTP; 20 Nov 2024 06:33:50 -0800
+Message-ID: <9b86a2c9-de7f-46b7-b63d-451ebc9c87dd@linux.intel.com>
+Date: Wed, 20 Nov 2024 16:36:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: B699C1F79C
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,linaro.org,intel.com,perex.cz,kernel.org,gmail.com,lwn.net,linux.dev,synopsys.com,suse.com,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[dt];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -2.01
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v30 02/30] xhci: sec-intr: add initial api to register a
+ secondary interrupter entity
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
+ lgirdwood@gmail.com, krzk+dt@kernel.org,
+ pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
+ tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
+ <20241106193413.1730413-3-quic_wcheng@quicinc.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20241106193413.1730413-3-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 19 Nov 2024 18:50:52 +0100,
-Wesley Cheng wrote:
+On 6.11.2024 21.33, Wesley Cheng wrote:
+> From: Mathias Nyman <mathias.nyman@linux.intel.com>
 > 
+> Introduce XHCI sec intr, which manages the USB endpoints being requested by
+> a client driver.  This is used for when client drivers are attempting to
+> offload USB endpoints to another entity for handling USB transfers.  XHCI
+> sec intr will allow for drivers to fetch the required information about the
+> transfer ring, so the user can submit transfers independently.  Expose the
+> required APIs for drivers to register and request for a USB endpoint and to
+> manage XHCI secondary interrupters.
 > 
-> On 11/15/2024 11:42 PM, Greg KH wrote:
-> > On Fri, Nov 15, 2024 at 02:42:47PM -0800, Wesley Cheng wrote:
-> >> Hi,
-> >>
-> >> On 11/6/2024 11:33 AM, Wesley Cheng wrote:
-> >>> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
-> >> Are there any more clarifications that I can help with to get this
-> >> series going?  I know its been a long time coming, so folks may have
-> >> lost context, but if there are any points that might be blocking the
-> >> series from getting merged, please let me know.
-> > I would like others to review this (xhci maintainer for one), to give
-> > their blessing before I even consider this.
+> Driver renaming, multiple ring segment page linking, proper endpoint clean
+> up, and allowing module compilation added by Wesley Cheng to complete
+> original concept code by Mathias Nyman.
 > 
-> Thanks, Greg...Yes, I was hoping to see if I could clarify any points for Mathias and Takashi if they had any concerns.  Just so folks are also aware, we did deploy a portion of the series (specifically the XHCI sec interrupter and USB SND core changes) into devices on the market, if that adds any confidence into those changes.  For the most part, there were no major issues within those drivers, and the single minor bug (in the XHCI sec intr) that we did catch was fixed in previous submissions, and should be highlighted in the change revision list.
+> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> Co-developed-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> ---
+>   drivers/usb/host/Kconfig          |  11 +
+>   drivers/usb/host/Makefile         |   2 +
+>   drivers/usb/host/xhci-sec-intr.c  | 438 ++++++++++++++++++++++++++++++
+>   drivers/usb/host/xhci.h           |   4 +
+>   include/linux/usb/xhci-sec-intr.h |  70 +++++
+>   5 files changed, 525 insertions(+)
+>   create mode 100644 drivers/usb/host/xhci-sec-intr.c
+>   create mode 100644 include/linux/usb/xhci-sec-intr.h
+> 
+> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+> index d011d6c753ed..a2d549e3e076 100644
+> --- a/drivers/usb/host/Kconfig
+> +++ b/drivers/usb/host/Kconfig
+> @@ -104,6 +104,17 @@ config USB_XHCI_RZV2M
+>   	  Say 'Y' to enable the support for the xHCI host controller
+>   	  found in Renesas RZ/V2M SoC.
+>   
+> +config USB_XHCI_SEC_INTR
+> +	tristate "xHCI support for secondary interrupter management"
+> +	help
+> +	  Say 'Y' to enable the support for the xHCI secondary management.
+> +	  Provide a mechanism for a sideband datapath for payload associated
+> +	  with audio class endpoints. This allows for an audio DSP to use
+> +	  xHCI USB endpoints directly, allowing CPU to sleep while playing
+> +	  audio.  This is not the same feature as the audio sideband
+> +	  capability mentioned within the xHCI specification, and continues
+> +	  to utilize main system memory for data transfers.
 
-Well, from the sound subsystem side, the only concerns are the design
-issues: namely, whether the implementations with two cards are
-acceptable, and whether the current control of PCM mapping is OK from
-the user POV.  IIRC, there were discussions with Intel people and
-others, and I haven't followed whether we got consensus.
-If we reached some agreement, it'd be appreciated if you can put acks
-from them in the patches, too.
+This same API should be used for the hardware xHCI sideband capability.
+We should add a function that checks which types of xHC sideband capability xHC
+hardware can support, and pick and pass a type to xhci xhci_sec_intr_register()
+when registering a sideband/sec_intr
 
-The internal implementation details can be adjusted later, but those
-two must be set in stone after merging the stuff to the upstream.
+> +
+>   config USB_XHCI_TEGRA
+>   	tristate "xHCI support for NVIDIA Tegra SoCs"
+>   	depends on PHY_TEGRA_XUSB
+> diff --git a/drivers/usb/host/Makefile b/drivers/usb/host/Makefile
+> index be4e5245c52f..d4b127f48cf9 100644
+> --- a/drivers/usb/host/Makefile
+> +++ b/drivers/usb/host/Makefile
+> @@ -32,6 +32,8 @@ endif
+>   xhci-rcar-hcd-y				+= xhci-rcar.o
+>   xhci-rcar-hcd-$(CONFIG_USB_XHCI_RZV2M)	+= xhci-rzv2m.o
+>   
+> +obj-$(CONFIG_USB_XHCI_SEC_INTR) += xhci-sec-intr.o
+> +
+>   obj-$(CONFIG_USB_PCI)	+= pci-quirks.o
+>   
+>   obj-$(CONFIG_USB_EHCI_HCD)	+= ehci-hcd.o
+> diff --git a/drivers/usb/host/xhci-sec-intr.c b/drivers/usb/host/xhci-sec-intr.c
+> new file mode 100644
+> index 000000000000..b112c3388368
+> --- /dev/null
+> +++ b/drivers/usb/host/xhci-sec-intr.c
+> @@ -0,0 +1,438 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +/*
+> + * xHCI host controller secondary interrupter management
+> + *
+> + * Provides logic for client drivers that support utilizing xHCI secondary
+> + * interrupters.
+> + *
+> + * Copyright (c) 2023-2024, Intel Corporation.
+> + *
+> + * Author: Mathias Nyman
+> + */
+> +
+> +#include <linux/usb/xhci-sec-intr.h>
+> +#include <linux/dma-direct.h>
+> +
+> +#include "xhci.h"
+> +
+> +/* internal helpers */
+> +static struct sg_table *
+> +xhci_ring_to_sgtable(struct xhci_sec_intr *si, struct xhci_ring *ring)
+> +{
+> +	struct xhci_segment *seg;
+> +	struct sg_table	*sgt;
+> +	unsigned int n_pages;
+> +	struct page **pages;
+> +	struct device *dev;
+> +	size_t sz;
+> +	int i;
+> +
+> +	dev = xhci_to_hcd(si->xhci)->self.sysdev;
+> +	sz = ring->num_segs * TRB_SEGMENT_SIZE;
+> +	n_pages = PAGE_ALIGN(sz) >> PAGE_SHIFT;
+> +	pages = kvmalloc_array(n_pages, sizeof(struct page *), GFP_KERNEL);
+> +	if (!pages)
+> +		return NULL;
+> +
+> +	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
+> +	if (!sgt) {
+> +		kvfree(pages);
+> +		return NULL;
+> +	}
+> +
+> +	seg = ring->first_seg;
+> +	if (!seg)
+> +		goto err;
+> +	/*
+> +	 * Rings can potentially have multiple segments, create an array that
+> +	 * carries page references to allocated segments.  Utilize the
+> +	 * sg_alloc_table_from_pages() to create the sg table, and to ensure
+> +	 * that page links are created.
+> +	 */
+> +	for (i = 0; i < ring->num_segs; i++) {
+> +		dma_get_sgtable(dev, sgt, seg->trbs, seg->dma,
+> +				TRB_SEGMENT_SIZE);
+> +		pages[i] = sg_page(sgt->sgl);
+> +		sg_free_table(sgt);
+> +		seg = seg->next;
+> +	}
+> +
+> +	if (sg_alloc_table_from_pages(sgt, pages, n_pages, 0, sz, GFP_KERNEL))
+> +		goto err;
+> +
+> +	/*
+> +	 * Save first segment dma address to sg dma_address field for the sideband
+> +	 * client to have access to the IOVA of the ring.
+> +	 */
+> +	sg_dma_address(sgt->sgl) = ring->first_seg->dma;
+> +
+> +	return sgt;
+> +
+> +err:
+> +	kvfree(pages);
+> +	kfree(sgt);
+> +
+> +	return NULL;
+> +}
+> +
+> +static void
+> +__xhci_sec_intr_remove_endpoint(struct xhci_sec_intr *si, struct xhci_virt_ep *ep)
+> +{
+> +	/*
+> +	 * Issue a stop endpoint command when an endpoint is removed.
+> +	 * The stop ep cmd handler will handle the ring cleanup.
+> +	 */
+> +	xhci_stop_endpoint_sync(si->xhci, ep, 0, GFP_KERNEL);
+> +
+> +	ep->sec = NULL;
+> +	si->eps[ep->ep_index] = NULL;
+> +}
+> +
+> +/* endpoint api functions */
+> +
+> +/**
+> + * xhci_sec_intr_add_endpoint - add endpoint to access list
+> + * @si: secondary interrupter instance for this usb device
+> + * @host_ep: usb host endpoint
+> + *
+> + * Adds an endpoint to the list of endpoints utilizing secondary interrupters
+> + * for this usb device.
+> + * After an endpoint is added the client can get the endpoint transfer ring
+> + * buffer by calling xhci_sec_intr_get_endpoint_buffer()
+> + *
+> + * Return: 0 on success, negative error otherwise.
+> + */
+> +int
+> +xhci_sec_intr_add_endpoint(struct xhci_sec_intr *si,
+> +			   struct usb_host_endpoint *host_ep)
+> +{
+> +	struct xhci_virt_ep *ep;
+> +	unsigned int ep_index;
+> +
+> +	mutex_lock(&si->mutex);
+> +	ep_index = xhci_get_endpoint_index(&host_ep->desc);
+> +	ep = &si->vdev->eps[ep_index];
+> +
+> +	if (ep->ep_state & EP_HAS_STREAMS) {
+> +		mutex_unlock(&si->mutex);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/*
+> +	 * Note, we don't know the DMA mask of the audio DSP device, if its
+> +	 * smaller than for xhci it won't be able to access the endpoint ring
+> +	 * buffer. This could be solved by not allowing the audio class driver
+> +	 * to add the endpoint the normal way, but instead offload it immediately,
+> +	 * and let this function add the endpoint and allocate the ring buffer
+> +	 * with the smallest common DMA mask
+> +	 */
+> +	if (si->eps[ep_index] || ep->sec) {
+> +		mutex_unlock(&si->mutex);
+> +		return -EBUSY;
+> +	}
+> +
+> +	ep->sec = si;
+> +	si->eps[ep_index] = ep;
+> +	mutex_unlock(&si->mutex);
 
-(BTW, the mail address of Pierre changed; I corrected in this mail.)
+We should probably check in xhci-mem.c if ep->sec is set before freeing the
+endpoint ring.
+We don't want the sideband client driver to touch freed rings.
+Maybe we even need a way for xhci driver to notify this sideband/sec_intr client
+in case a offloaded device or endpoint is being freed.
 
+I guess usb core in most cases ensures class drivers are properly removed,
+and thus this sideband/sec_interrupt should be unregistered before xhci starts
+freeing endpoints, but I'm not sure sure this is true in all corner cases.
+This is the first time we share endpoint ring addresses.
 
-thanks,
+Thanks
+Mathias
 
-Takashi
 
