@@ -1,201 +1,162 @@
-Return-Path: <linux-input+bounces-8181-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8182-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C49809D4598
-	for <lists+linux-input@lfdr.de>; Thu, 21 Nov 2024 02:57:17 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 174619D465F
+	for <lists+linux-input@lfdr.de>; Thu, 21 Nov 2024 04:53:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 324071F21E7D
-	for <lists+linux-input@lfdr.de>; Thu, 21 Nov 2024 01:57:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9A8E7B21697
+	for <lists+linux-input@lfdr.de>; Thu, 21 Nov 2024 03:52:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6293C45979;
-	Thu, 21 Nov 2024 01:57:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA5ED3B796;
+	Thu, 21 Nov 2024 03:52:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nhkcd9cs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RfCX7t9W"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9832309A9;
-	Thu, 21 Nov 2024 01:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0B910A3E;
+	Thu, 21 Nov 2024 03:52:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732154230; cv=none; b=JBxBSZD2eFVZ0Sow51nAPi4VH13pJx332J5knDgOrHalfbhRxvWrvliYCS4qaoVqudEDJ649XpFulCIcrZ0Wyk2R/nJNxB+g/SX51PvU6UQz7TYfvCN/Yr1d5mCFjv+jcum5aGtdnV6MbOucVv7lzHFGkjTSsSEBsy2INFSKh5c=
+	t=1732161173; cv=none; b=Ul892YNJBQBDisdZ2Oo64Jl0T2zlvx0/UC5xhRino5ozPlkWs2rWnvqyMYTmxNwK9KQwJZfjbzsvU3vCtyt1R5il63cvZhHsmMqW6lQlvDXl+ripYqfZPOOdKV8AhRrNW5ojF7cL+6jatMthr/adUK/S3ZOH4guW9U9f4jaenFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732154230; c=relaxed/simple;
-	bh=+qRBOdS5QpT6J2mqeV+RUAi6U/3UXxVW/APYQ3NScI0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SwlbosRAqLit/Z5yq/0e81Ukr204YZTjjNJuvgUfRFdtDYg19Jc9tN0ai9LAEXtN4tPoHP3YbfAxspwk7IkFYf71yKdZzRlCJc0yLyUY6r5jle9zN0NtaP79kfrZCwWiBdlYUfhwaZuYqnLhsV7BisU3OgxDJqRC50tEPp4yDEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nhkcd9cs; arc=none smtp.client-ip=209.85.210.175
+	s=arc-20240116; t=1732161173; c=relaxed/simple;
+	bh=q0k2YCp8z++rwKPiwDiQl0ztFqn2wSYeVugXkk8lIaU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=smrCQkh4WllQGD2EHwGD3Kv84nRgXhhZQE/HdTDBxbylvHyhaUem+oGPne41JUEjQNXLQy3Czr4isV1/oafPkEMLj6nGahS9ZZHzD1M7M0pujDWlSasawD1EQADDXfeLDDBCRs00CrZPOxaNFa0vY4y8fne4I79yutv4lM2GfcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RfCX7t9W; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-720b2d8bcd3so332973b3a.2;
-        Wed, 20 Nov 2024 17:57:08 -0800 (PST)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-7240fa50694so447177b3a.1;
+        Wed, 20 Nov 2024 19:52:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732154228; x=1732759028; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wcMRqlbCfDiojXUFV5zhu21WNiCGL5ZhoJbd9wpOjhg=;
-        b=Nhkcd9csMTWn9cTBQp3m8ZW+S6K9eJ9nGas1Ohnv+BRBNpFBMdRAnWarGMI+EwZYks
-         JL7/eDctzf2iPnpJYOYqos00813XP1Dy87J2q1FoC5QatCfzuCIsdAaTPqo3SeKOkAYt
-         dstqtVBda3T6+AM/l32CowtI/fz8dUAz10p2sZWlQRYvKNapnnvepHv0joobDlt3SBrk
-         DuXB5t5gcaFE6ziFJxtVouBVg4Y//LDZMGdMNp3MsnOY5sioIx+aw6VBVdR5cvMfeM2x
-         o81H1lP/jKmUY87VGQGyd9e0iQPI1oPB3e8S/52luIHh1toUbku3hCebTscP8qjIgDED
-         cbxg==
+        d=gmail.com; s=20230601; t=1732161171; x=1732765971; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=grsgBrJIyl0KbZ1rmpSs1CTdGEN1wfeqKjgjn/6rgcQ=;
+        b=RfCX7t9WY+F6MEgEJW633YDegFKdM3Woh2vzZnt50GI/vjQCZYaUQKdLzJm5fgyDqM
+         lQ0K7brukipw/rushaSJSIngT3380tqqWUWsMs3LAbz4Z9cw2mztnsBD0ff8nk2T+Pny
+         IVLZ1Th6SYOyR7NkJ8KXgrcNZGpiInNGVKeXuzIMVkS8onqbhMXih6CQLGDlV9X78FuU
+         8GVlW8mltm2yEUZBYxsgMXHf923vSwZAElGEB2lzU25ShC2AgCFJlaZECXzJaSVThlVb
+         Iw3okc3Sz9rk7b4aqaSEzj+9SOsvluhM19jTURzNgQqBLQGOJAPzeEmfILnYdwLDRvky
+         PSkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732154228; x=1732759028;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wcMRqlbCfDiojXUFV5zhu21WNiCGL5ZhoJbd9wpOjhg=;
-        b=PVLwjB+KNp5rt81MkEtyeO76Gir1LPM3C5zp6ddvtgpXHsKE0XaslxjcHsj5SRhqSy
-         X0rNgMFoiRIAYIIhR6AzCjGGjuAyN5QpLZl7jZP9A5nVfkcnw8f4184gpVbke5BKikaB
-         dRllLStvl02gC88EZcrd895E1J79k5i1vVP7f6ANILjMRAhJ/aqSZFhRe1N4oPb2iU8g
-         wMeQzfNqLu8/J2ktMo+dsA2gMXeayhOyRpENiAXhJ4UUkNGc/FcmbEmTL/+jK8dbu4v3
-         h6nORE6imdoEmfi95DlkuTXJTNaVk4nVg1ZDbg3kJNbU3gcL+Ng5KSE+8Jlw8toLBieD
-         mDMw==
-X-Forwarded-Encrypted: i=1; AJvYcCV7ekgBiTf24r6+187V1tTBU9HVCLWj5GdgbR5B6cNZsxGORLf8uojzeYURd3Hjj0JuZ1YnGtSk7qKbr5E=@vger.kernel.org, AJvYcCWPG47LG20rXAq8J7UcmrveNyoNgTTHx44E2Dxu8uipX5SzuCcMaVHG8X0RShkw2p/KH0OOlfPFBAmr@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUTu57dfxa08jzyulbG7qezZ2bVOxEYnnVpzSkxqIrcDTJ+7z1
-	Aaf/hQQOiLT9fvN7N97BD1AAbmCnRK3he6cgeZUlacUqHJIe/mCa6LB3tA==
-X-Gm-Gg: ASbGnctP2hkRY/EUl/ujd9nyxCvQMOLJT8Rx3Z+YmmxPvxUvwMDvrM9x9WAkUkGs/RQ
-	6W8RE8JuMuKcLlqQZZ7kDedeXnSD0Dw/0oA/2YhRvnmdGPdu8BZDSMJSDheQSdV9Pg2bNh/+dMJ
-	ENVwi7lRcmys6jo+9+yPyzc4rG/RTn3nJRsu6HQQUmqUWHsKm83Q0Y3Kf+lAqOAjy/bGE+bVvzV
-	XOFQfDMpJtzIBePnDdDBYaGwn1eqzNZTAnkkHHNnN+Fm//LfzgRdWjAJPZdRracNgdhRSDSFFUH
-	QlZ2m4BKEt/tiTLXWgD3vHN6
-X-Google-Smtp-Source: AGHT+IEJEsDXjRS5g4p+QXVubUytuWQWU5/p8J2OOZ9LwfrfnVYt4ixAPBZRGWFc5DJvm4/UMRk9zQ==
-X-Received: by 2002:a05:6a20:9149:b0:1d9:2b51:3ccd with SMTP id adf61e73a8af0-1ddae1fa776mr7800150637.7.1732154228019;
-        Wed, 20 Nov 2024 17:57:08 -0800 (PST)
-Received: from [172.19.1.43] (60-250-196-139.hinet-ip.hinet.net. [60.250.196.139])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724befac308sm2427036b3a.145.2024.11.20.17.57.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Nov 2024 17:57:07 -0800 (PST)
-Message-ID: <179b30f0-8fda-47d1-8461-a4919a53e744@gmail.com>
-Date: Thu, 21 Nov 2024 09:57:03 +0800
+        d=1e100.net; s=20230601; t=1732161171; x=1732765971;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=grsgBrJIyl0KbZ1rmpSs1CTdGEN1wfeqKjgjn/6rgcQ=;
+        b=AmeOmbtnnmUxotzZAtdAimmHYirDoomC4dLhS0rilzxanstyXhCAYFRGhjxDuXwJpp
+         W3w/wgHP9mOqJdVEfRR+3Ep41jpzYswXm+EAlyG8dPEO+oLezmgkt8vz3fnVyNejmURC
+         lspe0ntvc+LvSf1Yk9zCt/9VVEwMSZaYNJeZuR1MXZEE7P0oU2qOsWD8YntJb2h1WCZi
+         fQRFHKBu+orsbdrVxE2IE3YKkyyGKHfwx4w4RINxnf6S+K2ZoBBR+Sf5tvhaSgM2HQpf
+         0nYorUlLqjLYlaWglqZvTPJDNnHBxK43smi9ehg3sbos5POJO2f8mwZ0lSJTfdu1bGwg
+         xB6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWo47KkKQmeoNK2Sgg3Bj18QbGzBf8AOib7cF5EwMF8IYUDvPI9XKLftIZgX5+UtfCO8F9w8djxMCB9zFM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZfRmgjqXk9A0ci89FWFqlJUtVQHoBs/pVpuaLwRMry5cdQXjP
+	kBMoZne4ZDscfeExYrZYS6/1R9atJoUi3urVpcZHnrlTQZ8v9FoR
+X-Google-Smtp-Source: AGHT+IFrced5Qg0nl8jSAiQ16k7AMl+hWepAwFTUNNEwUhfgceMR0AU3erTiEnzCye2nMI5f7qxS9w==
+X-Received: by 2002:a05:6a20:72a2:b0:1db:d8fe:9d4 with SMTP id adf61e73a8af0-1ddaedce5a5mr7467257637.16.1732161171362;
+        Wed, 20 Nov 2024 19:52:51 -0800 (PST)
+Received: from google.com ([2401:fa00:8f:201:4bb5:180f:3c88:3602])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724beeb8f58sm2508699b3a.36.2024.11.20.19.52.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Nov 2024 19:52:50 -0800 (PST)
+Date: Thu, 21 Nov 2024 03:52:45 +0000
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: linux-input@vger.kernel.org, Erick Archer <erick.archer@outlook.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/6] Input: db9 - use guard notation when acquiring mutex
+Message-ID: <Zz6ujWxy5Gyhx7oj@google.com>
+References: <20240904043104.1030257-1-dmitry.torokhov@gmail.com>
+ <20240904043104.1030257-2-dmitry.torokhov@gmail.com>
+ <47ea20d8-444b-4c72-97d3-b04a6918b121@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: input: Add Nuvoton MA35D1 keypad
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- sudeep.holla@arm.com, arnd@arndb.de, peng.fan@nxp.com, conor+dt@kernel.org,
- krzk+dt@kernel.org, robh@kernel.org, dmitry.torokhov@gmail.com
-References: <20241119025954.4161-1-mjchen0829@gmail.com>
- <20241119025954.4161-2-mjchen0829@gmail.com>
- <ql6m6qrdokwfu4iizn6wmvovawuc7kgg6jfzxebkmac5muz66e@myrjvq5jm7gg>
-Content-Language: en-US
-From: Ming-Jen Chen <mjchen0829@gmail.com>
-In-Reply-To: <ql6m6qrdokwfu4iizn6wmvovawuc7kgg6jfzxebkmac5muz66e@myrjvq5jm7gg>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <47ea20d8-444b-4c72-97d3-b04a6918b121@baylibre.com>
 
-
-
-On 2024/11/20 下午 04:41, Krzysztof Kozlowski wrote:
-> On Tue, Nov 19, 2024 at 02:59:53AM +0000, Ming-Jen Chen wrote:
->> Add YAML bindings for MA35D1 SoC keypad.
->>
->> Signed-off-by: Ming-Jen Chen <mjchen0829@gmail.com>
->> ---
->>   .../bindings/input/nuvoton,ma35d1-keypad.yaml | 69 +++++++++++++++++++
->>   1 file changed, 69 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/input/nuvoton,ma35d1-keypad.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/input/nuvoton,ma35d1-keypad.yaml b/Documentation/devicetree/bindings/input/nuvoton,ma35d1-keypad.yaml
->> new file mode 100644
->> index 000000000000..9ccd81a2574d
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/input/nuvoton,ma35d1-keypad.yaml
+On Wed, Nov 20, 2024 at 12:33:36PM -0600, David Lechner wrote:
+> On 9/3/24 11:30 PM, Dmitry Torokhov wrote:
+> > Using guard notation makes the code more compact and error handling
+> > more robust by ensuring that mutexes are released in all code paths
+> > when control leaves critical section.
+> > 
+> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > ---
+> >  drivers/input/joystick/db9.c | 30 ++++++++++++++----------------
+> >  1 file changed, 14 insertions(+), 16 deletions(-)
+> > 
+> > diff --git a/drivers/input/joystick/db9.c b/drivers/input/joystick/db9.c
+> > index 682a29c27832..7ac0cfc3e786 100644
+> > --- a/drivers/input/joystick/db9.c
+> > +++ b/drivers/input/joystick/db9.c
+> > @@ -505,24 +505,22 @@ static int db9_open(struct input_dev *dev)
+> >  {
+> >  	struct db9 *db9 = input_get_drvdata(dev);
+> >  	struct parport *port = db9->pd->port;
+> > -	int err;
+> >  
+> > -	err = mutex_lock_interruptible(&db9->mutex);
+> > -	if (err)
+> > -		return err;
+> > -
+> > -	if (!db9->used++) {
+> > -		parport_claim(db9->pd);
+> > -		parport_write_data(port, 0xff);
+> > -		if (db9_modes[db9->mode].reverse) {
+> > -			parport_data_reverse(port);
+> > -			parport_write_control(port, DB9_NORMAL);
+> > +	scoped_guard(mutex_intr, &db9->mutex) {
+> > +		if (!db9->used++) {
+> > +			parport_claim(db9->pd);
+> > +			parport_write_data(port, 0xff);
+> > +			if (db9_modes[db9->mode].reverse) {
+> > +				parport_data_reverse(port);
+> > +				parport_write_control(port, DB9_NORMAL);
+> > +			}
+> > +			mod_timer(&db9->timer, jiffies + DB9_REFRESH_TIME);
+> >  		}
+> > -		mod_timer(&db9->timer, jiffies + DB9_REFRESH_TIME);
+> > +
+> > +		return 0;
+> >  	}
+> >  
+> > -	mutex_unlock(&db9->mutex);
+> > -	return 0;
+> > +	return -EINTR;
 > 
-> Filename matching compatible. You got this comment already.
+> This patch and any others like it are potentially introducing a bug.
 > 
+> From inspecting the source code, it looks like
+> mutex_lock_interruptible() can return -EINTR, -EALREADY, or -EDEADLK.
 > 
->> @@ -0,0 +1,69 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/input/nuvoton,ma35d1-keypad.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Nuvoton MA35D1 Keypad
->> +
->> +maintainers:
->> +  - Ming-jen Chen <mjchen0829@gmail.com>
->> +
->> +allOf:
->> +  - $ref: /schemas/input/matrix-keymap.yaml#
->> +
->> +properties:
->> +  compatible:
->> +    const: nuvoton,ma35d1-kpi
->> +
->> +  debounce-delay-ms:
->> +    description: Debounce delay time in milliseconds.
->> +    maxItems: 1
->> +
->> +  scan-interval-ms:
->> +    description: Scan interval time in milliseconds.
->> +    maxItems: 1
->> +
->> +  reg:
->> +    maxItems: 1
-> 
-> Keep the same order of properties as in required: block.
+> Before this patch, the return value of mutex_lock_interruptible() was
+> passed to the caller. Now, the return value is reduced to pass/fail
+> and only -EINTR is returned on failure when the reason could have
+> been something else.
 
-I will ensure that the properties block and the required block have the 
-same order.
+It is documented that mutex_lock_interruptible() only returns 0 or
+-EINTR. These additional errors only returned from __mutex_lock_common()
+for WW mutexes.
 
-> 
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +  - clocks
->> +  - linux,keymap
->> +  - keypad,num-rows
->> +  - keypad,num-columns
->> +  - debounce-delay-ms
->> +  - scan-interval-ms
->> +
->> +unevaluatedProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/input/input.h>
->> +    keypad@404A0000 {
-> 
-> Lowercase hex
+If there is another form of scoped_cond_guard() that would make
+available error code returned by the constructor of the locking
+primitive we can switch to it later.
 
-I will fix it in the next revision
+Thanks.
 
-> 
->> +      compatible = "nuvoton,ma35d1-kpi";
->> +      reg = <0x404A0000 0x10000>;
-> 
-> Lowercase hex
-
-I will fix it in the next revision
-
-Best regards,
-Mingjen-Jen Chen
-
-> 
-> Best regards,
-> Krzysztof
-> 
-
+-- 
+Dmitry
 
