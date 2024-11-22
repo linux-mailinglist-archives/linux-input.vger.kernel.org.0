@@ -1,199 +1,166 @@
-Return-Path: <linux-input+bounces-8194-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8195-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CCE9D53F9
-	for <lists+linux-input@lfdr.de>; Thu, 21 Nov 2024 21:25:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F06A9D5A2E
+	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2024 08:46:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3AA551F2158B
-	for <lists+linux-input@lfdr.de>; Thu, 21 Nov 2024 20:25:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B456D1F21CC9
+	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2024 07:46:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A11831D958E;
-	Thu, 21 Nov 2024 20:25:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 261A2166F26;
+	Fri, 22 Nov 2024 07:46:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="E+qGCi6h"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NxLi/nQs"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981D81BF58;
-	Thu, 21 Nov 2024 20:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7643C22081
+	for <linux-input@vger.kernel.org>; Fri, 22 Nov 2024 07:46:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732220717; cv=none; b=RkwBtGpeyvI24yqnVzmsDB6ZcSwl8K2swhWt5I0w9t2oLm0qw+uGtYn73LZEnAx0FX5hQHUWDFcZD3LDE2JRu+/BMtqPE7RVCSxk8AQnPrK3/iuNok6lBy5jU044HjBWjCOruLw59DznXimrF6V8Et7qENf1ouCHaBriaTwNx1w=
+	t=1732261597; cv=none; b=DHW3WIjLEKiNYSMCWj+kHZjgdSuPQ+xUMeYla6PrEgtH/bYAyzoUjnB23W4MswpcB8UenHNAiGT0t2g5Vkhlhfg/V1XZuSztHNrZIISY1EG6iRKVbWUggtr+IRbOXLqhGcFNBZGt0OepiVEt7ecPmpCCSC7q4BHoQQcfi80HgXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732220717; c=relaxed/simple;
-	bh=xt/N1u7xQDP3nA0PEqU+LzyDhnsawogKcVfQNRe9l4s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=WYkp2iqHioGreijgFzWKaG+CVRmLk31nTPLer00QIa+49x0dXxnzmtMuhuSXMJoBk7jo7iP1N5hcZXJICFeijctnDySLCoW9VL9AGy10MfVlHt16tLT8rUKVetfwwEV5HJ3B3EdHtTxsk3BMSw2fMmv6sRHOrEizkx2omBQytKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=E+qGCi6h; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ALH7B7C015590;
-	Thu, 21 Nov 2024 20:24:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	xt/N1u7xQDP3nA0PEqU+LzyDhnsawogKcVfQNRe9l4s=; b=E+qGCi6hCsvn9XAL
-	RCJDDuwVGYHi4vOG4kOhtX3FVFQvm3WGpZTf8BLzXF7uPla8i9Oxef8F63heXXnZ
-	cUUQ+fOy8VTsMfbQuU2LmEJy9T7va/7o3Q8SFCn2t1CE8gi/2s3xzmiAS8j0gUP/
-	XjrNwS+GPR7//F9SXMaf3OvVt/44LoW7ROyGnvsIYcueT+s7VCcNT84eeFMX4awS
-	vTpMFeSPJZjVEwe/BgBUUrfkxCjxdp3QTu/6ju/SpzPALE5DQlC0nZrmOtAP9aiQ
-	iREOo/p/kg/O4U8n+0zEeoiu9d8FmaIR+leSPGXZ8Qfzl9ipnTs4KdxiKk3S4XRj
-	wIUrXA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4320y9j1jt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Nov 2024 20:24:56 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ALKOtkf018777
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Nov 2024 20:24:55 GMT
-Received: from [10.71.112.120] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 21 Nov
- 2024 12:24:54 -0800
-Message-ID: <c30b77dc-0a34-4ea7-a4c0-37a5d3065ee7@quicinc.com>
-Date: Thu, 21 Nov 2024 12:24:54 -0800
+	s=arc-20240116; t=1732261597; c=relaxed/simple;
+	bh=ZEt3yoR0cr5/kASiXDyIBRVJ5cVFZ2AeNaZON5w/kHs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=P4Zba9NS5YE35nuxNyiDRk865oXSeY1HjyMj7RYx0aES7HPamYL4J3WzhQNocRPIdWxQYzXtdklSL11cjcTzdKAFFaISIbNp7XGgiBotpOowfAiCL7A0rXSdUrXD9083B20v3wLkel0MzBwVPgC0nSl0z1edvIcTsVf9VsgIZik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NxLi/nQs; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7242f559a9fso1794844b3a.1
+        for <linux-input@vger.kernel.org>; Thu, 21 Nov 2024 23:46:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1732261594; x=1732866394; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=rV7OUDMMlgxjwFF1dF4a3L3rrV3TIom9pYtmVzZiP3c=;
+        b=NxLi/nQszJxZ38c92b01yrWLzhHtKcsPUOe8GT7kd0ZGNeyaYNsAeh9nNF7/gxQZ5N
+         YhlIVG5IU620p5aerdElFuCdDFo0xAkgOxZHY/3Qhq0MSpNfy/VwIGA1E+KeaM0UsCAK
+         UaLsmhWceWL51KLmK709esK8UGhxIVh+m/S88=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732261594; x=1732866394;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rV7OUDMMlgxjwFF1dF4a3L3rrV3TIom9pYtmVzZiP3c=;
+        b=EpC0lZKOgxA7B6OsBnPALFmVnR8EFZIw4CEqKRcBK57Whz6x6ytLuhvhNj9l4pQRvj
+         Fmf3Jje7Gw0fJ6WGMw9Y8OTUzc/mKRFDusBEq+2awJsvhYvbJKzJKvXC4UuM5+tIyHcZ
+         sM5ILtJEMj8qgMAGTeXfW9b+9txZXf5eUp+52w/OnWEJ/hHDda+v/5KZioiHYo+0FC4X
+         nidZppxbmZU1Upz7S59ZZ+ygRGzLwr7Rh2SyVoVDtAfUVC68enB/YnAj3IUb3gP/YAxT
+         ErSvau6CIVBBe62ehcY6NhLPJItJtSTgUrX0VXkrgtvfYz5/wcOPSh8kl86sMcuYdx7c
+         yyyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUseN4UfLk47dxJcsiOP6l1B7eF3rC71PPHxHl2QG8BhIizfCmO7I+k1UNMlymOmaHxaCVRnU7X0S/e0w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtmvSDmOisqw9du2trwPH+exNwFUkBuTXpU1DaXPlZ899WwloA
+	cKYnmcCPqRJh5Ca+J0NDVh/l0Ou+YQ36fe2y1fJ6fRBpe3aGwfSeDzgSleyaHnuJ9vVR82Hosdw
+	=
+X-Gm-Gg: ASbGncvLyKvSl8XXxKbMNVsE2FyKFbGD3o+iLFgc/5PAEuGqm3lx0KcPhMu0Adx8npR
+	OJsHI8FYkxbgyPtwRnmMw105u3Jw9E/y/ukSMzk2YIvZ3Y6K0aknaN45lD78Uu90l7aEkf8tE7d
+	7JiwFhteptP81LQ8nOBWi2HUYWu0oSn4o9ZlrxdsG0RT3PLTarP6lgTn6hgpm/t6nMtWu1Vypwe
+	QSP4D+8qnXFHvUW8seLdOjuf/fxC3vWin6jt8Gv1Qi4HZQBLbvvDSsta/QldYMGDI8jJCEfb2o6
+	L1l2ouoH3G9KDgfq
+X-Google-Smtp-Source: AGHT+IE73O5v2pVy0Twr4j6K4ogt0Qeb4wXCfbsu9+pt+pcUaW8NlQkuJ5hZnQZDfXNj8c1ukTF5iQ==
+X-Received: by 2002:a17:902:d2ce:b0:211:6b67:10ea with SMTP id d9443c01a7336-2129fce2f89mr23959495ad.8.1732261594692;
+        Thu, 21 Nov 2024 23:46:34 -0800 (PST)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com. [209.85.215.177])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dc13af5sm10085465ad.210.2024.11.21.23.46.33
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Nov 2024 23:46:33 -0800 (PST)
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7fbc65f6c72so953648a12.1
+        for <linux-input@vger.kernel.org>; Thu, 21 Nov 2024 23:46:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX1V1rf21nReL0xHqnwS+e/OCmXRwDs6QrCpXdMToxIE7G2kqnAU8ydMe4MkgLELDFucIgFGhD8WBiY7Q==@vger.kernel.org
+X-Received: by 2002:a05:6a20:3949:b0:1dc:2365:a114 with SMTP id
+ adf61e73a8af0-1e09e4b19b9mr2861897637.24.1732261593103; Thu, 21 Nov 2024
+ 23:46:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v30 02/30] xhci: sec-intr: add initial api to register a
- secondary interrupter entity
-To: Mathias Nyman <mathias.nyman@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
-        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
- <20241106193413.1730413-3-quic_wcheng@quicinc.com>
- <9b86a2c9-de7f-46b7-b63d-451ebc9c87dd@linux.intel.com>
- <2384956c-7aae-4890-8dca-f12e9874709f@quicinc.com>
- <17890837-f74f-483f-bbfe-658b3e8176d6@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <17890837-f74f-483f-bbfe-658b3e8176d6@linux.intel.com>
+References: <20241121-fix-processed-v1-1-4fae6770db30@chromium.org> <853def565622848427e6e5df8f073465fa52e76c.camel@linux.intel.com>
+In-Reply-To: <853def565622848427e6e5df8f073465fa52e76c.camel@linux.intel.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Fri, 22 Nov 2024 08:46:21 +0100
+X-Gmail-Original-Message-ID: <CANiDSCuV1zo0=wGLir26Bn0np+BbVj9aj-JK3ZMreOT78c73UQ@mail.gmail.com>
+Message-ID: <CANiDSCuV1zo0=wGLir26Bn0np+BbVj9aj-JK3ZMreOT78c73UQ@mail.gmail.com>
+Subject: Re: [PATCH] iio: hid-sensor-prox: Fix invalid read_raw for attention
+To: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	linux-input@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 7bB-EHy_Uf1hGCZKbwD638GxX6IKNyiW
-X-Proofpoint-ORIG-GUID: 7bB-EHy_Uf1hGCZKbwD638GxX6IKNyiW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- phishscore=0 impostorscore=0 suspectscore=0 lowpriorityscore=0
- mlxlogscore=999 spamscore=0 mlxscore=0 malwarescore=0 clxscore=1015
- adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411210153
 
-Hi Mathias,
+On Thu, 21 Nov 2024 at 17:44, srinivas pandruvada
+<srinivas.pandruvada@linux.intel.com> wrote:
+>
+> On Thu, 2024-11-21 at 09:16 +0000, Ricardo Ribalda wrote:
+> > The attention channel is a IIO_CHAN_INFO_PROCESSED, not a
+> > IIO_CHAN_INFO_RAW.
+> >
+> > Modify prox_read_raw() to support it.
+> >
+> What is the sysfs entry to trigger this IIO_CHAN_INFO_PROCESSED read?
+> Don't you have an entry *_raw?
 
-On 11/21/2024 11:15 AM, Mathias Nyman wrote:
-> On 21.11.2024 3.34, Wesley Cheng wrote:
->> Hi Mathias,
->>
->> On 11/20/2024 6:36 AM, Mathias Nyman wrote:
->>> On 6.11.2024 21.33, Wesley Cheng wrote:
->>>> From: Mathias Nyman <mathias.nyman@linux.intel.com>
->>>>
->>>> Introduce XHCI sec intr, which manages the USB endpoints being requested by
->>>> a client driver.  This is used for when client drivers are attempting to
->>>> offload USB endpoints to another entity for handling USB transfers.  XHCI
->>>> sec intr will allow for drivers to fetch the required information about the
->>>> transfer ring, so the user can submit transfers independently.  Expose the
->>>> required APIs for drivers to register and request for a USB endpoint and to
->>>> manage XHCI secondary interrupters.
->>>>
->>>> Driver renaming, multiple ring segment page linking, proper endpoint clean
->>>> up, and allowing module compilation added by Wesley Cheng to complete
->>>> original concept code by Mathias Nyman.
->>>>
->>>> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
->>>> Co-developed-by: Wesley Cheng <quic_wcheng@quicinc.com>
->>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->>>> ---
->>>>    drivers/usb/host/Kconfig          |  11 +
->>>>    drivers/usb/host/Makefile         |   2 +
->>>>    drivers/usb/host/xhci-sec-intr.c  | 438 ++++++++++++++++++++++++++++++
->>>>    drivers/usb/host/xhci.h           |   4 +
->>>>    include/linux/usb/xhci-sec-intr.h |  70 +++++
->>>>    5 files changed, 525 insertions(+)
->>>>    create mode 100644 drivers/usb/host/xhci-sec-intr.c
->>>>    create mode 100644 include/linux/usb/xhci-sec-intr.h
->>>>
->>>> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
->>>> index d011d6c753ed..a2d549e3e076 100644
->>>> --- a/drivers/usb/host/Kconfig
->>>> +++ b/drivers/usb/host/Kconfig
->>>> @@ -104,6 +104,17 @@ config USB_XHCI_RZV2M
->>>>          Say 'Y' to enable the support for the xHCI host controller
->>>>          found in Renesas RZ/V2M SoC.
->>>>    +config USB_XHCI_SEC_INTR
->>>> +    tristate "xHCI support for secondary interrupter management"
->>>> +    help
->>>> +      Say 'Y' to enable the support for the xHCI secondary management.
->>>> +      Provide a mechanism for a sideband datapath for payload associated
->>>> +      with audio class endpoints. This allows for an audio DSP to use
->>>> +      xHCI USB endpoints directly, allowing CPU to sleep while playing
->>>> +      audio.  This is not the same feature as the audio sideband
->>>> +      capability mentioned within the xHCI specification, and continues
->>>> +      to utilize main system memory for data transfers.
->>>
->>> This same API should be used for the hardware xHCI sideband capability.
->>> We should add a function that checks which types of xHC sideband capability xHC
->>> hardware can support, and pick and pass a type to xhci xhci_sec_intr_register()
->>> when registering a sideband/sec_intr
->>
->> Just to make sure we're on the same page, when you mention the term sideband capability, are you referring to section 7.9 xHCI Audio Sideband Capability in the xHCI spec?  If so, I'm not entirely sure if that capability relies much on secondary interrupters.  From reading the material, it just seems like its a way to map audio endpoints directly to another USB device connected to the controller? (I might be wrong, couldn't find much about potential use cases)
+/sys/.../iio:deviceX/in_attention_input
+
+There is no _raw device for it.
+
 >
-> Yes, that is the one, 7.9 xHCI Audio Sideband Capability.
 >
-> I had that in mind when I started writing the sideband API.
-> This is why registering a sideband and requesting a secondary interrupter
-> are done in separate functions.
-> The concept if still similar even if '7.9 Audio Sideband Capability' doesn't
-> need a secondary interrupter, we want to tell xhci driver/xHC hardware that
-> one connected usb device/endpoint handling is offloaded somewhere else.
+> Thanks,
+> Srinivas
+>
+> > Fixes: 596ef5cf654b ("iio: hid-sensor-prox: Add support for more
+> > channels")
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/iio/light/hid-sensor-prox.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/iio/light/hid-sensor-prox.c
+> > b/drivers/iio/light/hid-sensor-prox.c
+> > index e8e7b2999b4c..8e5d0ad13a5f 100644
+> > --- a/drivers/iio/light/hid-sensor-prox.c
+> > +++ b/drivers/iio/light/hid-sensor-prox.c
+> > @@ -94,6 +94,7 @@ static int prox_read_raw(struct iio_dev *indio_dev,
+> >       *val2 = 0;
+> >       switch (mask) {
+> >       case IIO_CHAN_INFO_RAW:
+> > +     case IIO_CHAN_INFO_PROCESSED:
+> >               if (chan->scan_index >= prox_state->num_channels)
+> >                       return -EINVAL;
+> >               address = prox_state->channel2usage[chan-
+> > >scan_index];
+> > @@ -107,8 +108,7 @@ static int prox_read_raw(struct iio_dev
+> > *indio_dev,
+> >
+> > report_id,
+> >
+> > SENSOR_HUB_SYNC,
+> >                                                          min < 0);
+> > -             if (prox_state->channel2usage[chan->scan_index] ==
+> > -                 HID_USAGE_SENSOR_HUMAN_ATTENTION)
+> > +             if (mask == IIO_CHAN_INFO_PROCESSED)
+> >                       *val *= 100;
+> >               hid_sensor_power_state(&prox_state-
+> > >common_attributes, false);
+> >               ret_type = IIO_VAL_INT;
+> >
+> > ---
+> > base-commit: decc701f41d07481893fdea942c0ac6b226e84cd
+> > change-id: 20241121-fix-processed-ed1a95641e64
+> >
+> > Best regards,
 >
 
-Ah, ok...now I understand a bit more on what you were trying to do.  When you do eventually introduce the audio sideband capability, you'd need to modify the endpoint APIs to also issue the 'Set Resource Assignment' command with the proper device/endpoint being offloaded.  Initially, when Thinh brought up this section in the xHCI spec, I couldn't find any use cases that utilized that capability, so it was a bit unclear to me what it was meant for.  Now you've explained it a bit more, I think I can get the gist of it.
 
-
-> I don't think we should write another API for that one just because more is
-> done by firmware than by xhci driver.
->
-> The only change for now would be to add some "sideband_type" parameter to
-> xhci_sec_intr_register(struct usb_device *udev, enum sideband_type), fail the
-> registration if isn't "software", and save the type in struct xhci_sec_intr
->
-> I'll add hardware sideband support (7.9 Audio Sideband) later, but it would be
-> nice to not change the API then.
->
-> The name change from sideband to sec-intr is a bit unfortunate with this in
-> mind. Was there some reason for it?
->
-
-This was because I wasn't too sure how the audio sideband and this driver was related, but I get what you are trying to do now.  I can change it back to the original xhci-sideband, as the name change was something that happened on this revision.  I will fix the corner case I mentioned WRT the xhci_discover_or_reset_device() scenario, add the basic sideband type handling and rename this back to xhci-sideband in the next rev.
-
-Thanks
-
-Wesley Cheng
-
+-- 
+Ricardo Ribalda
 
