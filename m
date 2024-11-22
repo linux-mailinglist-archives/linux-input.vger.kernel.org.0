@@ -1,191 +1,130 @@
-Return-Path: <linux-input+bounces-8196-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8197-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529E19D624F
-	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2024 17:31:41 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C3D18160472
-	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2024 16:31:37 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20BC97E792;
-	Fri, 22 Nov 2024 16:31:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V9hytVXs"
-X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF0D9D633E
+	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2024 18:37:07 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15515BA20;
-	Fri, 22 Nov 2024 16:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0D10282DE3
+	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2024 17:37:06 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96B6422339;
+	Fri, 22 Nov 2024 17:36:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eeY1oGmL"
+X-Original-To: linux-input@vger.kernel.org
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88251DF970
+	for <linux-input@vger.kernel.org>; Fri, 22 Nov 2024 17:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732293098; cv=none; b=YhPY2ziVa8VhOCzeTT07LiKQ2n5f1WMm9wiqJsISOpxG+XEdxAcO2ajkDgjxSBK4hfAOjSm2fXOuvd6ME1HcD86Fqc4IvL3ClcnKKdc3k0ktBnX//IqN2sJgLNecrhpo9+thdgV2eHXJX+/llTj9fadUK36pt/txwWym6qoVQyI=
+	t=1732297018; cv=none; b=gEqRKx3Zjeh0CYTGl5ZnrWuwxQ1AAyAWbBczNBCRwR8uLVRs/BMTDx6gLiy90eHbqhKwQtGvjMxmuc1Lio+dl5Hq0qbLPjx+OLj50fUzrdKOOPw1WvTI3gKff9JOTWWLAvs9G2+rd2ne8ubKomhAtzuYCgxhW1E+FD53er9+FQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732293098; c=relaxed/simple;
-	bh=5tLotF7QIpddNYPZIFxLjnodQOu60ssXf96rQ3eKJcM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Bguz8Xm4krEkkHXPLEODCSFDRdeZm7t8DVU6IMXtR0CvPUH123LjaMsIlb/6qBXSlvcl2dq8ntlRjSoZ+dvuJz7u3IFGUvVWyWeJo+PwH0jjT77OCx/hHKuPiSmgZCxm2wHm3neHlcida7ItsDzKh0dLa+W1Q5cqVZrYzZbW8tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V9hytVXs; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732293096; x=1763829096;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=5tLotF7QIpddNYPZIFxLjnodQOu60ssXf96rQ3eKJcM=;
-  b=V9hytVXshbo5ot12teoA8i3lnGgX38QeY7out3/CYNybjU/OcJyRALyv
-   dJ4XIwC8xwmrT5Z1ri4TGKvQWjx7UrAhzPs+qKC4jqdCVEiBFJXbWn5nt
-   UZhO4LiLHCWhS8nSTcSnkRvo9GQLkqcNT2MWSFlXgdiTVFXVf1+Osc352
-   trAdEI8q5wcj28SJ8vmEEHJimCt7gd0+4VZnmxdduz7H8gwixBH361hmM
-   66ydXSmOKT1gKdiZCURsfTTPdAvv9zJM3AGf3dj3WyPvSDD88UcJNxKW8
-   MhLvJygGqDM51ctu6zOz5XcSG0TrxOrEbUyud5cZ47LD0eNSqqUSChbmf
-   Q==;
-X-CSE-ConnectionGUID: i2UZGUFaS/aQ6giuFkKBLw==
-X-CSE-MsgGUID: 4KXLP9V1SiCUBrE+LsaFyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="32510776"
-X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; 
-   d="scan'208";a="32510776"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 08:31:35 -0800
-X-CSE-ConnectionGUID: 9ocBxZz0RROlIvDRi8NJMQ==
-X-CSE-MsgGUID: oEuoMTQqT/e/DcW0PX2GRw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; 
-   d="scan'208";a="90784962"
-Received: from spandruv-desk1.amr.corp.intel.com ([10.125.110.49])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 08:31:35 -0800
-Message-ID: <f0a07dfddd690e1d7d62abf1f9c6e799331e4a8c.camel@linux.intel.com>
-Subject: Re: [PATCH] iio: hid-sensor-prox: Fix invalid read_raw for attention
-From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
- Lars-Peter Clausen
-	 <lars@metafoo.de>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	linux-input@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Fri, 22 Nov 2024 08:31:34 -0800
-In-Reply-To: <CANiDSCuV1zo0=wGLir26Bn0np+BbVj9aj-JK3ZMreOT78c73UQ@mail.gmail.com>
-References: <20241121-fix-processed-v1-1-4fae6770db30@chromium.org>
-	 <853def565622848427e6e5df8f073465fa52e76c.camel@linux.intel.com>
-	 <CANiDSCuV1zo0=wGLir26Bn0np+BbVj9aj-JK3ZMreOT78c73UQ@mail.gmail.com>
-Autocrypt: addr=srinivas.pandruvada@linux.intel.com; prefer-encrypt=mutual;
- keydata=mQGNBGYHNAsBDAC7tv5u9cIsSDvdgBBEDG0/a/nTaC1GXOx5MFNEDL0LWia2p8Asl7igx
- YrB68fyfPNLSIgtCmps0EbRUkPtoN5/HTbAEZeJUTL8Xdoe6sTywf8/6/DMheEUzprE4Qyjt0HheW
- y1JGvdOA0f1lkxCnPXeiiDY4FUqQHr3U6X4FPqfrfGlrMmGvntpKzOTutlQl8eSAprtgZ+zm0Jiwq
- NSiSBOt2SlbkGu9bBYx7mTsrGv+x7x4Ca6/BO9o5dIvwJOcfK/cXC/yxEkr1ajbIUYZFEzQyZQXrT
- GUGn8j3/cXQgVvMYxrh3pGCq9Q0Q6PAwQYhm97ipXa86GcTpP5B2ip9xclPtDW99sihiL8euTWRfS
- TUsEI+1YzCyz5DU32w3WiXr3ITicaMV090tMg9phIZsjfFbnR8hY03n0kRNWWFXi/ch2MsZCCqXIB
- oY/SruNH9Y6mnFKW8HSH762C7On8GXBYJzH6giLGeSsbvis2ZmV/r+LmswwZ6ACcOKLlvvIukAEQE
- AAbQ5U3Jpbml2YXMgUGFuZHJ1dmFkYSA8c3Jpbml2YXMucGFuZHJ1dmFkYUBsaW51eC5pbnRlbC5j
- b20+iQHRBBMBCAA7FiEEdki2SeUi0wlk2xcjOqtdDMJyisMFAmYHNAsCGwMFCwkIBwICIgIGFQoJC
- AsCBBYCAwECHgcCF4AACgkQOqtdDMJyisMobAv+LLYUSKNuWhRN3wS7WocRPCi3tWeBml+qivCwyv
- oZbmE2LcxYFnkcj6YNoS4N1CHJCr7vwefWTzoKTTDYqz3Ma0D0SbR1p/dH0nDgN34y41HpIHf0tx0
- UxGMgOWJAInq3A7/mNkoLQQ3D5siG39X3bh9Ecg0LhMpYwP/AYsd8X1ypCWgo8SE0J/6XX/HXop2a
- ivimve15VklMhyuu2dNWDIyF2cWz6urHV4jmxT/wUGBdq5j87vrJhLXeosueRjGJb8/xzl34iYv08
- wOB0fP+Ox5m0t9N5yZCbcaQug3hSlgp9hittYRgIK4GwZtNO11bOzeCEMk+xFYUoa5V8JWK9/vxrx
- NZEn58vMJ/nxoJzkb++iV7KBtsqErbs5iDwFln/TRJAQDYrtHJKLLFB9BGUDuaBOmFummR70Rbo55
- J9fvUHc2O70qteKOt5A0zv7G8uUdIaaUHrT+VOS7o+MrbPQcSk+bl81L2R7TfWViCmKQ60sD3M90Y
- oOfCQxricddC
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+	s=arc-20240116; t=1732297018; c=relaxed/simple;
+	bh=LYHv25BlgnNGezmW4hSk8hWrtuIkhqDvhTcO/j2PRUo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=gRx2re2Sj5afq0SGdJ4k5Rag+7LzyaG6rpO/F/ufSbvhFu1zapyx1496vINohBfAi6JTMqmgwPZJjQekUDPjEDQMOsPLKT7bcYE2Ok8rlJOwpjfFKVXIcbl3BV9PHcGaiqIRGvA/uy8nySrjetuMpa3LQz3cvEWVlOaebRikirk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eeY1oGmL; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7b1511697a5so132707585a.2
+        for <linux-input@vger.kernel.org>; Fri, 22 Nov 2024 09:36:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1732297016; x=1732901816; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3n7nEmxo8kDo/GdhI+k2+p8juIiYwWmm+yhRX/Vo/Ws=;
+        b=eeY1oGmL5InSHEKcGfB+60P7AqZpquR2VP/BcLbuUw2778i6xxHVSlcehUPPFuVvtL
+         npKdLi5xmZa4SwgHK6yiU8bmpo4ubvhhxwbn4EOFBvSyYT1YbeKUWNF8849wd6CR4IS2
+         bgKaGdHLEWjdehPrIwPMbbpSF4HjLYxx2wEWk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732297016; x=1732901816;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3n7nEmxo8kDo/GdhI+k2+p8juIiYwWmm+yhRX/Vo/Ws=;
+        b=iJ/A9xi0M9XvquMAo/Cg6nFVAu4o5Uy3yI3uif1gVqr2QRHyRnsMvJNcJUdGd8+7Lz
+         VZHEVSm3zIa2YNBlKz80tWGt4JFuWaf2i63VqNv0OSFHnBD6kI45NJis5xooFvGtHnCt
+         p592N9hTiQRl6GqH9c5duF7urNF6bEVtRhihPancZ2s7FiKSGlnFvXiTo3Ih4wHUbPrm
+         9w0KsJFMirUVGhJgA4jv+16rSlP1ZkymAsl5aHAwCqIHDeOC+SN5jkXNn+rmK+JTKMuc
+         W7u3a9D5QwhRyJUD1HsWK1VN3dDM2j8Hzba0XHdEIgVVXCVBPzXhne01OoM4TE53GlDr
+         Xojg==
+X-Forwarded-Encrypted: i=1; AJvYcCVGpOLfcdc35vBNA8fEjurGVCf6j8ULKB8vIQOCm4neTFY9iyW9kztuvpNTtzNFED/PibrAHVi4yjnGaw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyakBbn3qAKYZooIESOt5D4ycmE3qoZoTzlXn79VF/ZTexcqGAD
+	Od0P/HcKohi99XU4cGPY78rquF58XLj6yArzLFdnZ/hYebY8Ydezml+YixkyRQ==
+X-Gm-Gg: ASbGncs3dKPUI8F4KyL+wMCnkg3zMKEczipxHqbFC+XfjjBntxoF1/KO1xtIv1peMXD
+	ik+NItqHF0maMLVdhsr9ixLwStqX+1F6oIO2VQxcLZgfJ2FVbQR8QQeSwh4PeLhTMM/R3GiMyOA
+	0TkeVYu8bc0blOZACwHEpcrEVkbE/Nz1WT4OjLeaDPZqVlEG0tCDWdoFXbnbiT4NGgYp0tcD4XL
+	hcbeMo3I/aYfQ0fyzaLk7RDQI85bVpaRB2OYDXy5L5AhdF8YLXscHVsggwgEkFTpqKXjhOdIlsF
+	OgoJG7W9l8mgORDSWnUckhv1
+X-Google-Smtp-Source: AGHT+IEttBBYBx0GyZV8ei3rWb/Bwt7PQPUrxuqdwAxWwX5z/MVNcS8800PxYersM5EOYbVTr56k5Q==
+X-Received: by 2002:a05:620a:4045:b0:7ae:5c67:e19c with SMTP id af79cd13be357-7b5146126c9mr498103685a.55.1732297015932;
+        Fri, 22 Nov 2024 09:36:55 -0800 (PST)
+Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b513fa4e95sm107451285a.33.2024.11.22.09.36.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Nov 2024 09:36:55 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Fri, 22 Nov 2024 17:36:52 +0000
+Subject: [PATCH v2] iio: hid-sensor-prox: Fix invalid read_raw for
+ attention
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241122-fix-processed-v2-1-b9f606d3b519@chromium.org>
+X-B4-Tracking: v=1; b=H4sIADPBQGcC/3WMQQ6CMBBFr0Jm7RimVoiuvIdhUdsBZgElUyUa0
+ rtb2bt8P/+9DRKrcIJrtYHyKkniXMAcKvCjmwdGCYXB1MYSGcJe3rho9JwSB+RA7nJuLHFjoTi
+ LcjnsvXtXeJT0jPrZ8yv91n+llZDQ9o6btq3D41Tf/Khxktd0jDpAl3P+AhUj21itAAAA
+To: Jiri Kosina <jikos@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+ Lars-Peter Clausen <lars@metafoo.de>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+ linux-input@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.13.0
 
-On Fri, 2024-11-22 at 08:46 +0100, Ricardo Ribalda wrote:
-> On Thu, 21 Nov 2024 at 17:44, srinivas pandruvada
-> <srinivas.pandruvada@linux.intel.com> wrote:
-> >=20
-> > On Thu, 2024-11-21 at 09:16 +0000, Ricardo Ribalda wrote:
-> > > The attention channel is a IIO_CHAN_INFO_PROCESSED, not a
-> > > IIO_CHAN_INFO_RAW.
-> > >=20
-> > > Modify prox_read_raw() to support it.
-> > >=20
-> > What is the sysfs entry to trigger this IIO_CHAN_INFO_PROCESSED
-> > read?
-> > Don't you have an entry *_raw?
->=20
-> /sys/.../iio:deviceX/in_attention_input
->=20
-> There is no _raw device for it.
->=20
-OK.
+The attention channel is a IIO_CHAN_INFO_PROCESSED, not a
+IIO_CHAN_INFO_RAW.
 
-> >=20
-> > > Fixes: 596ef5cf654b ("iio: hid-sensor-prox: Add support for more
-> > > channels")
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > > =C2=A0drivers/iio/light/hid-sensor-prox.c | 4 ++--
-> > > =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/drivers/iio/light/hid-sensor-prox.c
-> > > b/drivers/iio/light/hid-sensor-prox.c
-> > > index e8e7b2999b4c..8e5d0ad13a5f 100644
-> > > --- a/drivers/iio/light/hid-sensor-prox.c
-> > > +++ b/drivers/iio/light/hid-sensor-prox.c
-> > > @@ -94,6 +94,7 @@ static int prox_read_raw(struct iio_dev
-> > > *indio_dev,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *val2 =3D 0;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (mask) {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case IIO_CHAN_INFO_RAW:
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0 case IIO_CHAN_INFO_PROCESSED:
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 if (chan->scan_index >=3D prox_state->num_channels)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 address =3D prox_state->channel2usage[chan-
-> > > > scan_index];
-> > > @@ -107,8 +108,7 @@ static int prox_read_raw(struct iio_dev
-> > > *indio_dev,
-> > >=20
-> > > report_id,
-> > >=20
-> > > SENSOR_HUB_SYNC,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 min <
-> > > 0);
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 if (prox_state->channel2usage[chan->scan_index] =3D=3D
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HID_USAGE_SENSOR_HUMAN_ATTENTION)
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 if (mask =3D=3D IIO_CHAN_INFO_PROCESSED)
-Your original change is better. If someone adds a new channel which
-also requires IIO_CHAN_INFO_PROCESSED, then they need to change this
-line. So I don't think you need this change.
+Modify prox_read_raw() to support it.
 
-Thanks,
-Srinivas
+Fixes: 596ef5cf654b ("iio: hid-sensor-prox: Add support for more channels")
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v2:
+- Do not change the condition for applying the multiplier.
+- Link to v1: https://lore.kernel.org/r/20241121-fix-processed-v1-1-4fae6770db30@chromium.org
+---
+ drivers/iio/light/hid-sensor-prox.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *val *=3D 100;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 hid_sensor_power_state(&prox_state-
-> > > > common_attributes, false);
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 ret_type =3D IIO_VAL_INT;
-> > >=20
-> > > ---
-> > > base-commit: decc701f41d07481893fdea942c0ac6b226e84cd
-> > > change-id: 20241121-fix-processed-ed1a95641e64
-> > >=20
-> > > Best regards,
-> >=20
->=20
->=20
+diff --git a/drivers/iio/light/hid-sensor-prox.c b/drivers/iio/light/hid-sensor-prox.c
+index e8e7b2999b4c..0daa8d365a6c 100644
+--- a/drivers/iio/light/hid-sensor-prox.c
++++ b/drivers/iio/light/hid-sensor-prox.c
+@@ -94,6 +94,7 @@ static int prox_read_raw(struct iio_dev *indio_dev,
+ 	*val2 = 0;
+ 	switch (mask) {
+ 	case IIO_CHAN_INFO_RAW:
++	case IIO_CHAN_INFO_PROCESSED:
+ 		if (chan->scan_index >= prox_state->num_channels)
+ 			return -EINVAL;
+ 		address = prox_state->channel2usage[chan->scan_index];
+
+---
+base-commit: decc701f41d07481893fdea942c0ac6b226e84cd
+change-id: 20241121-fix-processed-ed1a95641e64
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
 
 
