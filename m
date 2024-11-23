@@ -1,145 +1,115 @@
-Return-Path: <linux-input+bounces-8198-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8199-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8EE89D639F
-	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2024 18:55:13 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E73859D68DB
+	for <lists+linux-input@lfdr.de>; Sat, 23 Nov 2024 12:29:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C967DB25A52
-	for <lists+linux-input@lfdr.de>; Fri, 22 Nov 2024 17:55:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 56F20B2176D
+	for <lists+linux-input@lfdr.de>; Sat, 23 Nov 2024 11:29:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C33CE1DED7F;
-	Fri, 22 Nov 2024 17:55:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22AF3176AAF;
+	Sat, 23 Nov 2024 11:29:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NiAnWmxp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tquh4EFJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA00D1DDA32;
-	Fri, 22 Nov 2024 17:55:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1522F4FA;
+	Sat, 23 Nov 2024 11:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732298107; cv=none; b=SEI/KW1/PFPmNDWX6/D7XB1vtXZdqyQfkFkk/dt3dtVORjl7AhScn7mvLEeHZWI6y6Z9qbn3/PIPczPg+Azf61QvxxXhyYa9LAIPOMy6ryPiFwzPmtjrH7iX/c7U2+d2onGY9mb78hg3z58E4O0v/SrJj7GFIVsCn4ggYRPWGCM=
+	t=1732361359; cv=none; b=qJ09po4XUQhYRC893XAOzOhZlxRpzTVXm+Ma0vyNBPWezMcbi/lj2JPNPUNYUgKhs2DkVtdih/0j+IKO8/aVI6jSFa06eP3MML13f+D2Npv+MmCqXU9wfSB2ADFqeXjA4jpQ4eEhIoB3Cpw+dEvakLzfN0fNVGT57LXxRSe2sP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732298107; c=relaxed/simple;
-	bh=STKkSxBnZBNupprEJj1gVChbpHkaOEZEA6Q2Jps8ewg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cwL429v9i6e8HnrKv5DYmtV1wSA0qPFMIs1yFswLwBAN17B/UcvbsDn+mFhVzSp9WWQAj7AAIzqskhwoj+slfwqYvCkyPoAmR046EhGMCXx4iTAFY9QaAQRI0blyaL4rgNC40bda3YivVoohnQNSaJxHEyGPFvs5eddkzMYEzMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NiAnWmxp; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732298106; x=1763834106;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=STKkSxBnZBNupprEJj1gVChbpHkaOEZEA6Q2Jps8ewg=;
-  b=NiAnWmxpOFtIp2NAgpiokfpxQybEtluXoirVYhuq3hq+Vp8FbiVXUdAT
-   +USXegCnszrEjM+Cdml4tcHy10+FTo8D8xm88+I3P/Jl9PGWUd7a9qBYi
-   57S2E7X5va+ZGGLZ26h/BpzT6zs1Glm87py49AXYhhthQdP27v5BuZ+DD
-   dfUJTk1TUJqKJEpNfADctwwzOBh8eWiUSPC2QVau2aKPkP5QjUphn+ZP5
-   mTh4ImTXcg7t+vlS8w1IHNKp7Ui7n9mQI40FgZI0voEnkmYUJtjzJIoft
-   tEByaXJaXFGRBuJKvmHNpDfBHWtLpN1DHUJlJkap1Tzr6r6FWbB8DtBhg
-   Q==;
-X-CSE-ConnectionGUID: DbBGebb5Q/OBf6jf+SEMnQ==
-X-CSE-MsgGUID: EsOTqVTaQTOZSq7PDhDtzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="43527146"
-X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; 
-   d="scan'208";a="43527146"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 09:55:05 -0800
-X-CSE-ConnectionGUID: Awva833OQryuc/CBeUvTug==
-X-CSE-MsgGUID: afL7uM5ITfmNpRJmtJqscg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; 
-   d="scan'208";a="95726262"
-Received: from spandruv-desk1.amr.corp.intel.com ([10.125.110.49])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 09:55:05 -0800
-Message-ID: <d164919c9290ca1410bc21746511799a5c17b94d.camel@linux.intel.com>
-Subject: Re: [PATCH v2] iio: hid-sensor-prox: Fix invalid read_raw for
- attention
-From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To: Ricardo Ribalda <ribalda@chromium.org>, Jiri Kosina <jikos@kernel.org>, 
- Jonathan Cameron
-	 <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	linux-input@vger.kernel.org, linux-iio@vger.kernel.org, 
+	s=arc-20240116; t=1732361359; c=relaxed/simple;
+	bh=Ki20cI8ZyBHp724TPkTVtVHSiOU63Gz+hpGQwyAufi0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h81hFcqTAPLlJCTb86zUgjlA8STJq0d3tR7dtSSMAAto5H9G0jGGFB0mtbQtP4C+yT4tfc8UD5ENXu3IsRuzrZRJDf8hsmHo54RVBYrK9be2PPuciiMvdN6ptvPgF/VTprJ7DdhuxO+tZgr7tdCFo6JnIfs2bOHuck7/DnrdKcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tquh4EFJ; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2ea68cd5780so2526728a91.3;
+        Sat, 23 Nov 2024 03:29:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732361357; x=1732966157; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1ZEWgsPrytcrqYA4bO1VsXzllLQymLr9lNKwtdsQN+w=;
+        b=Tquh4EFJYq6A2gtA0ciw4UnQ0uVjz7rYGMvG1o/SSjZY43KjONjlH+/ogMGUAHI/5v
+         iCBatthC2JV4jWKEwYQCPOa0C+B3zP1Yc9DIuJdSWMm7dqalq+gQBJRlTgUkTtA+kg+H
+         nMJyLzM1XLHH8B4/CySqS8huJjbDZ0YrtjeBvXqF7U/IDqJtSu+aMIvAIO3kQrtxqpS3
+         SJP4asKaIignuNySu4I2fcfezfAPc03Luir89FSc6Pg5GpDEm5CAUl3YEgXJgTEOZYLB
+         4Lucm0klB8ZUz6eQWkZn1+bSvN9us5+F+F2IyDGF8sVTwi6yJbVbE+mrQki8vvFk68PH
+         kxlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732361357; x=1732966157;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1ZEWgsPrytcrqYA4bO1VsXzllLQymLr9lNKwtdsQN+w=;
+        b=oMiKdK7VHBlzFcIAblgic1wo5fM9dJr99DgqrEVz7kwzO0M8qrGh3WRb/CV76K2d14
+         My5zzAnNcI7dM2GddIe3BjUCLSSayjr/k7pUzxKS7OXFVa4Ex3Bd3196EUR1euPxb8Oo
+         BlnWKsgKBV/bfzQSQmbGIipQDLfW1ckNjo4/Rzb6WG78PO6mzjiu4FESh9fMO0meJ/XH
+         00E11Jxk2/nbJ/m4ARQrOk6TgXZFrwFUQDXPNlMfpjrvl5wj3+PgZJ/XKk3/8YB4Lb54
+         3zMm6WF8i+GotO/d3ljCRMmY6bNHQarOvkVcrWHSlasp4ytKe1sBFmkNcOjw//IQQY0g
+         gO+g==
+X-Forwarded-Encrypted: i=1; AJvYcCURk3aGv99PAvnJZnWEsRXup+h0CHuCskAYGniPWbE/54DFoCnruslKbeXhr5QvsOYpwfqprJRq8/Pdjls=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzwfoqr77ODao1vPxVb1YYF1+c2h6aGpKHDRgxd0hVe+AL/hiKv
+	XyWJRDY47W0vMe+enQlgymtlVwU/kHerwkkNkzrRx8oM7mXOnq4f
+X-Gm-Gg: ASbGnctR/pKz9EgroZFdVwnnxRBc0ChtVR8o65t1VVGVhm1a14WM5Py9QjfAvrg+Rh9
+	AZcgmoisy0ROo/Jifmit0cDaR5VqUQyHFt39ouNNVGfRM1Ntjgk1/rIGqnn9sfSfVRx34T8dXLT
+	Lt7HoCwQRbcNedG6SZ90PraYmrQlzyIEMnKnQ58EeGkII/CjMHaEg7nxcSKak8T7leiSdh2iOar
+	RDa07lYwU2P/bDgLAgVNXgzrWGPHvx5nLGPTFdJ8tvuCAyIyyUwY8KBDWmOAmY1iV2aGhAC0qyB
+	yVuKQE7aI97mG4zm1t6N78yCIbNP3njk
+X-Google-Smtp-Source: AGHT+IFqtFUtjes0k5g0Gjl2qtEijRxNOC/R+dhCwlrAGMyYaof/fqlscmAxyLa4StFTs6HctzgZBA==
+X-Received: by 2002:a17:90b:17c9:b0:2ea:a9ac:eee1 with SMTP id 98e67ed59e1d1-2eb0e234c02mr7354722a91.10.1732361356956;
+        Sat, 23 Nov 2024 03:29:16 -0800 (PST)
+Received: from localhost.localdomain ([121.241.130.50])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de558bcbsm3102902b3a.152.2024.11.23.03.29.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Nov 2024 03:29:16 -0800 (PST)
+From: Nishit Rao <nishitrao1011@gmail.com>
+To: nishitrao1011@gmail.com,
+	lains@riseup.net,
+	jikos@kernel.org,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Date: Fri, 22 Nov 2024 09:55:04 -0800
-In-Reply-To: <20241122-fix-processed-v2-1-b9f606d3b519@chromium.org>
-References: <20241122-fix-processed-v2-1-b9f606d3b519@chromium.org>
-Autocrypt: addr=srinivas.pandruvada@linux.intel.com; prefer-encrypt=mutual;
- keydata=mQGNBGYHNAsBDAC7tv5u9cIsSDvdgBBEDG0/a/nTaC1GXOx5MFNEDL0LWia2p8Asl7igx
- YrB68fyfPNLSIgtCmps0EbRUkPtoN5/HTbAEZeJUTL8Xdoe6sTywf8/6/DMheEUzprE4Qyjt0HheW
- y1JGvdOA0f1lkxCnPXeiiDY4FUqQHr3U6X4FPqfrfGlrMmGvntpKzOTutlQl8eSAprtgZ+zm0Jiwq
- NSiSBOt2SlbkGu9bBYx7mTsrGv+x7x4Ca6/BO9o5dIvwJOcfK/cXC/yxEkr1ajbIUYZFEzQyZQXrT
- GUGn8j3/cXQgVvMYxrh3pGCq9Q0Q6PAwQYhm97ipXa86GcTpP5B2ip9xclPtDW99sihiL8euTWRfS
- TUsEI+1YzCyz5DU32w3WiXr3ITicaMV090tMg9phIZsjfFbnR8hY03n0kRNWWFXi/ch2MsZCCqXIB
- oY/SruNH9Y6mnFKW8HSH762C7On8GXBYJzH6giLGeSsbvis2ZmV/r+LmswwZ6ACcOKLlvvIukAEQE
- AAbQ5U3Jpbml2YXMgUGFuZHJ1dmFkYSA8c3Jpbml2YXMucGFuZHJ1dmFkYUBsaW51eC5pbnRlbC5j
- b20+iQHRBBMBCAA7FiEEdki2SeUi0wlk2xcjOqtdDMJyisMFAmYHNAsCGwMFCwkIBwICIgIGFQoJC
- AsCBBYCAwECHgcCF4AACgkQOqtdDMJyisMobAv+LLYUSKNuWhRN3wS7WocRPCi3tWeBml+qivCwyv
- oZbmE2LcxYFnkcj6YNoS4N1CHJCr7vwefWTzoKTTDYqz3Ma0D0SbR1p/dH0nDgN34y41HpIHf0tx0
- UxGMgOWJAInq3A7/mNkoLQQ3D5siG39X3bh9Ecg0LhMpYwP/AYsd8X1ypCWgo8SE0J/6XX/HXop2a
- ivimve15VklMhyuu2dNWDIyF2cWz6urHV4jmxT/wUGBdq5j87vrJhLXeosueRjGJb8/xzl34iYv08
- wOB0fP+Ox5m0t9N5yZCbcaQug3hSlgp9hittYRgIK4GwZtNO11bOzeCEMk+xFYUoa5V8JWK9/vxrx
- NZEn58vMJ/nxoJzkb++iV7KBtsqErbs5iDwFln/TRJAQDYrtHJKLLFB9BGUDuaBOmFummR70Rbo55
- J9fvUHc2O70qteKOt5A0zv7G8uUdIaaUHrT+VOS7o+MrbPQcSk+bl81L2R7TfWViCmKQ60sD3M90Y
- oOfCQxricddC
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+Subject: [PATCH] Fix typo in drivers/hid-logitech-dj.c
+Date: Sat, 23 Nov 2024 16:59:10 +0530
+Message-ID: <20241123112910.87829-1-nishitrao1011@gmail.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2024-11-22 at 17:36 +0000, Ricardo Ribalda wrote:
-> The attention channel is a IIO_CHAN_INFO_PROCESSED, not a
-> IIO_CHAN_INFO_RAW.
->=20
-> Modify prox_read_raw() to support it.
->=20
-> Fixes: 596ef5cf654b ("iio: hid-sensor-prox: Add support for more
-> channels")
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Change spelling of doesn't
 
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Signed-off-by: Nishit Rao <nishitrao1011@gmail.com>
+---
+ drivers/hid/hid-logitech-dj.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> ---
-> Changes in v2:
-> - Do not change the condition for applying the multiplier.
-> - Link to v1:
-> https://lore.kernel.org/r/20241121-fix-processed-v1-1-4fae6770db30@chromi=
-um.org
-> ---
-> =C2=A0drivers/iio/light/hid-sensor-prox.c | 1 +
-> =C2=A01 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/iio/light/hid-sensor-prox.c
-> b/drivers/iio/light/hid-sensor-prox.c
-> index e8e7b2999b4c..0daa8d365a6c 100644
-> --- a/drivers/iio/light/hid-sensor-prox.c
-> +++ b/drivers/iio/light/hid-sensor-prox.c
-> @@ -94,6 +94,7 @@ static int prox_read_raw(struct iio_dev *indio_dev,
-> =C2=A0	*val2 =3D 0;
-> =C2=A0	switch (mask) {
-> =C2=A0	case IIO_CHAN_INFO_RAW:
-> +	case IIO_CHAN_INFO_PROCESSED:
-> =C2=A0		if (chan->scan_index >=3D prox_state->num_channels)
-> =C2=A0			return -EINVAL;
-> =C2=A0		address =3D prox_state->channel2usage[chan-
-> >scan_index];
->=20
-> ---
-> base-commit: decc701f41d07481893fdea942c0ac6b226e84cd
-> change-id: 20241121-fix-processed-ed1a95641e64
->=20
-> Best regards,
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index 34fa71ceec2b..b7d15859b2ad 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -534,7 +534,7 @@ static const char hidpp_descriptor[] = {
+  *
+  * Right now, RF report types have the same report types (or report id's)
+  * than the hid report created from those RF reports. In the future
+- * this doesnt have to be true.
++ * this doesn't have to be true.
+  *
+  * For instance, RF report type 0x01 which has a size of 8 bytes, corresponds
+  * to hid report id 0x01, this is standard keyboard. Same thing applies to mice
+-- 
+2.41.0
 
 
