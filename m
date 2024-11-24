@@ -1,144 +1,145 @@
-Return-Path: <linux-input+bounces-8206-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8207-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1C49D6CD7
-	for <lists+linux-input@lfdr.de>; Sun, 24 Nov 2024 08:03:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C51789D6F42
+	for <lists+linux-input@lfdr.de>; Sun, 24 Nov 2024 14:05:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 86C79B2108D
-	for <lists+linux-input@lfdr.de>; Sun, 24 Nov 2024 07:03:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80DE0280B83
+	for <lists+linux-input@lfdr.de>; Sun, 24 Nov 2024 13:05:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E85015E5B8;
-	Sun, 24 Nov 2024 07:03:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 571C81CFEA4;
+	Sun, 24 Nov 2024 12:49:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hNjvCB77"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R+aX0PId"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85079847C;
-	Sun, 24 Nov 2024 07:03:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1ED19D089;
+	Sun, 24 Nov 2024 12:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732431823; cv=none; b=lM23r6vW+wzFT9ZerXodmBqaKjW16uRez4Y3Tl20aFklcI28L9QHOgRT3xiwHnCIRhCW9GxqxPFiJnlV2XNHPHqsr7wLv1mliEQR7CPRkotRmDtDt4lXwdt4LQX2GlmitKpMMGcun0UREqf0tRCa6TIWBoQRt8pldMkOT1rlPOg=
+	t=1732452568; cv=none; b=tsE1AX8nv4bH2deg3E8l/D8b3QZi5a06ok+upCB8mazdIboye3lXoi8mu06SFAhLxJw1OGtoI+UPePFrZqAv2n/CdeAw7jY8y1obtpfNCUKYnKCjHSREZ/fs2ppKWLLsxWZXPZsRSj5OJHX2Nt4dGe3SUpxhPAa2OVxkjPOBI0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732431823; c=relaxed/simple;
-	bh=U6Tlt3BxSKeFW+wA+3+1tADVS8GO2VfRzO09ZArFa+c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QrRAZXksCenBcRxINcDjAp3WT/tbfqHHLpPicaN8tkgvgIq0ZsaiT1t9h1jSU0YgYf4RcDzvqNGM+GfTVr/Nw/8I8QId27bLhgV5JoFqV+b0gIfsRdXdBJYMYoFMe44HHGQov2W8g0DTHy3qFXhkNR5hfWZcIIu4nwla47cuNe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hNjvCB77; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-720cb6ac25aso2872241b3a.3;
-        Sat, 23 Nov 2024 23:03:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732431820; x=1733036620; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8+qSEIb/xpvTf99gUqbHHSva1XFV5L53/BpJ4Wq+3k8=;
-        b=hNjvCB77DZVSSoJkwmJVmvUxttz4Yb1xDyS4nWFSXwW9WMwqfEQY+typrdgyEKrtfx
-         M5lqzdkpkHAGjixuX6BU/2JHYB/01vVpRat0F4sAi6TIVovSw1TfJOPD3ygFn2ceBbaM
-         d2xnCX70zFQVGUzLvzhWdjSw+xkcCu6k09WQ+1ViAimAYoBrhrMekMzSEWDMhGMiIwSB
-         spJ1w5iZZ8uAoQPF43YsLAm4S22gsfTiMHVH4lmQ9BkMlSpHyVOirz1420UviMAZRLBC
-         btL6x222nSxqLe37IB8qfei1YaPBj/DJ8wGqxbJ0cFMpvK+GyVjNgbCb1wvbxnVUX2J/
-         RloA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732431820; x=1733036620;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8+qSEIb/xpvTf99gUqbHHSva1XFV5L53/BpJ4Wq+3k8=;
-        b=Z26EflRlzSZn/UPn0UUhxp5q95uG9OGxFxdI8vGwHO2k1hcFa8nOJAE5PxAhFhftQz
-         VxC5JHEq8d6xxeFRDV1rWPNLw6lJevsH0euVhwATYnmrcupMUfd25MDckFELsDIJkzto
-         /qFZBrkvNNqlmBCng0BNfmagbejdJmVOJ7O8oPl9sg5acXkSgTlZzBLLZ5kPmKSpDnDc
-         mcmZ+CzwVJQOyRkjFtPboKw3RJJ6e+Gi/ows/tIXCAVUl6mNfJRUJltn8G5Qzo1mHzv6
-         /GaF+fmJb7yqLNHZyje84PV/3xoswKPBJJieVw5T5oSRvfZs8MQk7/tGeR/m08HNCJhD
-         iqCA==
-X-Forwarded-Encrypted: i=1; AJvYcCUSyh1ZZnzNJbiGeeehtuFpdlQudc6xXF+RlyHGu0mexBog0hG3QfVo8mSV/4K+mIkgg12dSqHGLdOHjrc=@vger.kernel.org, AJvYcCUUqyVwMSnyOkRwme0PGpU73MS55pphDh2EAU03GjpbtljSf18qYBB3vmfEbQZg7atlJYuvHmhr9sSx@vger.kernel.org, AJvYcCUxs8GwQJTY0we4xbCtvtAlauW8YwF2jaeZ9ZwAyNjMozMBXj945ybFO6AB7MA35afrOc/Dr4FojLg1UUj2@vger.kernel.org, AJvYcCXFQM4FACt3c8k6xtDfXlcxcpUqKZIl2yVV7jOzUdYpAcr7YhSf9GQH8hPhCvcJRnhlC2uyKg7S7U7FHTs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhNRPdFxMvo287PdSkf8dFrjKrS5//Sh00x9fSCdUlTncYfs1B
-	J3DNuJhWdt+JBCA18XybdzQqcv7xHEqHQgQWW4N7jBmXE4JlePah
-X-Gm-Gg: ASbGncsNW2MoZW3lS4E29bUvdU6c6LqjXJHlulElgZOPHmJ0+0mTBrt4qEPxJoXU76Q
-	m2OEpSp/9bCVp1rdWV9gQPAOGklW7CHlrLX8B25M73DhI3iIJu60cCyWQvMTcrvJ337p2JIkZIJ
-	nsg9Gr1Yr9b8SK8RT6YWyoM+KMD2/TZ/7Jix+8lRD8Cbo0adtNWZYOVEdZQ82JODFtq5Vx4dOCj
-	G/5qHi/OXfX5a5syWbokgEpMeIxNgLdb+RVDRJWd9nQgNs5eXjuVcD1vrc=
-X-Google-Smtp-Source: AGHT+IH7TOHKbIPRJvFIiTj3hN04KXsPhYsJKG8MVBvbqDQfAuzhLM5JaKfeqy4Gz+rA+jUW0lh64g==
-X-Received: by 2002:a17:90b:4b4f:b0:2ea:4a6b:79d1 with SMTP id 98e67ed59e1d1-2eb0e2303efmr11390699a91.11.1732431820152;
-        Sat, 23 Nov 2024 23:03:40 -0800 (PST)
-Received: from google.com ([2601:647:5e00:4acd:8a2a:c45a:2a1f:28b0])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2eb0d048c41sm4837160a91.41.2024.11.23.23.03.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Nov 2024 23:03:39 -0800 (PST)
-Date: Sun, 24 Nov 2024 07:03:36 +0000
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: gregkh@linuxfoundation.org, linus.walleij@linaro.org,
-	mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com,
-	broonie@kernel.org, pierre-louis.bossart@linux.dev,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v1 1/5] devres: Introduce devm_kmemdup_array()
-Message-ID: <Z0LPyMed-4a8cajD@google.com>
-References: <20241123200527.7830-1-raag.jadav@intel.com>
- <20241123200527.7830-2-raag.jadav@intel.com>
+	s=arc-20240116; t=1732452568; c=relaxed/simple;
+	bh=XyTJIgl/CdCWyIRGBODczdwowRviB1LScjxqhMcCsng=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dVFduUZ/SWtHnLPSclcqAl1A+9juFTG/czPwrWjNmoe03p4hF2HMGA5aMoK49jC5tAHjgc+g0QsXTFGLFlZIiTbIK1z+i06bR6Zbt0wxgLmPas4xmQFHEZxocyYxLYC7CUufW4uoEn0CpGemgmeQciZB9T2V8ihv7gzOHS6wjgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R+aX0PId; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFF83C4CEDB;
+	Sun, 24 Nov 2024 12:49:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732452566;
+	bh=XyTJIgl/CdCWyIRGBODczdwowRviB1LScjxqhMcCsng=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=R+aX0PId57z9i4vyZXOqjvXY1A2YVlp/nwRAjDuv1aTxHl+pAzUzAUEwiV3jaLMtO
+	 GGC/yCWssd2hVI/3T1Ej392Y72VT+PSBwWcctEDwK+fZYyuKuxf4HFJq1QRJITxnvV
+	 PueRYxkJWtblJLXPpSpwPxtoiXZFk/WHuLo/Q3prUOVopU2jzXl4LtRm9r1V4IxLoU
+	 oufWjdEGYVZfulRenQOvT+bsedz0PTZU6lJp2rq24NqzpSY+5jG6g2ohQ10gxRILCt
+	 3lu35WmrByITktsZ2yhoW6QL7cfrpTNR4pofw40D3U5w0384HbgOtydo+4bP5yecn4
+	 kKW5Po6/MpB0w==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Benjamin Tissoires <bentiss@kernel.org>,
+	Peter Hutterer <peter.hutterer@who-t.net>,
+	Sasha Levin <sashal@kernel.org>,
+	jikos@kernel.org,
+	linux-input@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.12 04/23] HID: add per device quirk to force bind to hid-generic
+Date: Sun, 24 Nov 2024 07:48:15 -0500
+Message-ID: <20241124124919.3338752-4-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241124124919.3338752-1-sashal@kernel.org>
+References: <20241124124919.3338752-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241123200527.7830-2-raag.jadav@intel.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.12.1
+Content-Transfer-Encoding: 8bit
 
-Hi Raag,
+From: Benjamin Tissoires <bentiss@kernel.org>
 
-On Sun, Nov 24, 2024 at 01:35:23AM +0530, Raag Jadav wrote:
-> Introduce '_array' variant of devm_kmemdup() for the users which lack
-> multiplication overflow check.
+[ Upstream commit 645c224ac5f6e0013931c342ea707b398d24d410 ]
 
-I am not sure that this new helper is needed. Unlike allocators for
-brand new objects, such as kmalloc_array(), devm_kmemdup() makes a copy
-of already existing object, which is supposed to be a valid object and
-therefore will have a reasonable size. So there should be no chance for
-hitting this overflow unless the caller is completely confused and calls
-devm_kmemdup() with random arguments (in which case all bets are off).
+We already have the possibility to force not binding to hid-generic and
+rely on a dedicated driver, but we couldn't do the other way around.
 
-> 
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-> ---
->  include/linux/device.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/include/linux/device.h b/include/linux/device.h
-> index b4bde8d22697..c31f48d0dde0 100644
-> --- a/include/linux/device.h
-> +++ b/include/linux/device.h
-> @@ -358,6 +358,16 @@ char *devm_kstrdup(struct device *dev, const char *s, gfp_t gfp) __malloc;
->  const char *devm_kstrdup_const(struct device *dev, const char *s, gfp_t gfp);
->  void *devm_kmemdup(struct device *dev, const void *src, size_t len, gfp_t gfp)
->  	__realloc_size(3);
-> +static inline void *devm_kmemdup_array(struct device *dev, const void *src,
-> +				       size_t n, size_t size, gfp_t flags)
-> +{
-> +	size_t bytes;
-> +
-> +	if (unlikely(check_mul_overflow(n, size, &bytes)))
-> +		return NULL;
-> +
-> +	return devm_kmemdup(dev, src, bytes, flags);
-> +}
->  
->  unsigned long devm_get_free_pages(struct device *dev,
->  				  gfp_t gfp_mask, unsigned int order);
-> -- 
-> 2.35.3
-> 
+This is useful for BPF programs where we are fixing the report descriptor
+and the events, but want to avoid a specialized driver to come after BPF
+which would unwind everything that is done there.
 
-Thanks.
+Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+Link: https://patch.msgid.link/20241001-hid-bpf-hid-generic-v3-8-2ef1019468df@kernel.org
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hid/hid-core.c    | 5 +++--
+ drivers/hid/hid-generic.c | 3 +++
+ include/linux/hid.h       | 2 ++
+ 3 files changed, 8 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 582fd234eec78..935ccc38d1295 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -2674,9 +2674,10 @@ static bool hid_check_device_match(struct hid_device *hdev,
+ 	/*
+ 	 * hid-generic implements .match(), so we must be dealing with a
+ 	 * different HID driver here, and can simply check if
+-	 * hid_ignore_special_drivers is set or not.
++	 * hid_ignore_special_drivers or HID_QUIRK_IGNORE_SPECIAL_DRIVER
++	 * are set or not.
+ 	 */
+-	return !hid_ignore_special_drivers;
++	return !hid_ignore_special_drivers && !(hdev->quirks & HID_QUIRK_IGNORE_SPECIAL_DRIVER);
+ }
+ 
+ static int __hid_device_probe(struct hid_device *hdev, struct hid_driver *hdrv)
+diff --git a/drivers/hid/hid-generic.c b/drivers/hid/hid-generic.c
+index d2439399fb357..9e04c6d0fcc87 100644
+--- a/drivers/hid/hid-generic.c
++++ b/drivers/hid/hid-generic.c
+@@ -40,6 +40,9 @@ static bool hid_generic_match(struct hid_device *hdev,
+ 	if (ignore_special_driver)
+ 		return true;
+ 
++	if (hdev->quirks & HID_QUIRK_IGNORE_SPECIAL_DRIVER)
++		return true;
++
+ 	if (hdev->quirks & HID_QUIRK_HAVE_SPECIAL_DRIVER)
+ 		return false;
+ 
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 121d5b8bc8675..a7d60a1c72a09 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -359,6 +359,7 @@ struct hid_item {
+  * | @HID_QUIRK_NO_OUTPUT_REPORTS_ON_INTR_EP:
+  * | @HID_QUIRK_HAVE_SPECIAL_DRIVER:
+  * | @HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE:
++ * | @HID_QUIRK_IGNORE_SPECIAL_DRIVER
+  * | @HID_QUIRK_FULLSPEED_INTERVAL:
+  * | @HID_QUIRK_NO_INIT_REPORTS:
+  * | @HID_QUIRK_NO_IGNORE:
+@@ -384,6 +385,7 @@ struct hid_item {
+ #define HID_QUIRK_HAVE_SPECIAL_DRIVER		BIT(19)
+ #define HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE	BIT(20)
+ #define HID_QUIRK_NOINVERT			BIT(21)
++#define HID_QUIRK_IGNORE_SPECIAL_DRIVER		BIT(22)
+ #define HID_QUIRK_FULLSPEED_INTERVAL		BIT(28)
+ #define HID_QUIRK_NO_INIT_REPORTS		BIT(29)
+ #define HID_QUIRK_NO_IGNORE			BIT(30)
 -- 
-Dmitry
+2.43.0
+
 
