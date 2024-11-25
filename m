@@ -1,416 +1,212 @@
-Return-Path: <linux-input+bounces-8225-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8226-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32FD69D79BA
-	for <lists+linux-input@lfdr.de>; Mon, 25 Nov 2024 02:18:25 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB549D79CE
+	for <lists+linux-input@lfdr.de>; Mon, 25 Nov 2024 02:38:48 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 82A0216365D
+	for <lists+linux-input@lfdr.de>; Mon, 25 Nov 2024 01:38:45 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B79010F9;
+	Mon, 25 Nov 2024 01:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b="noRfS9ck"
+X-Original-To: linux-input@vger.kernel.org
+Received: from us-smtp-delivery-162.mimecast.com (us-smtp-delivery-162.mimecast.com [170.10.133.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E0D8C282727
-	for <lists+linux-input@lfdr.de>; Mon, 25 Nov 2024 01:18:23 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61987184E;
-	Mon, 25 Nov 2024 01:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AEHTOYnp"
-X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65705748F;
-	Mon, 25 Nov 2024 01:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AA917D2
+	for <linux-input@vger.kernel.org>; Mon, 25 Nov 2024 01:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732497501; cv=none; b=lrNMOX4y9da8im+lghQMPgxCXxU5UPQ3EdJxOwtzH7HYnIrMeA3btqFu0zPbQmZjWhPpBoBPJwGniA/A1z2RqkQhPTJB2uBm7Vd2yLURktAxOI+Faq6o9D0CrF904gLOzJ9uFxM1sbaF2Xw6PCrw5/BuDlw10RO4+UppQ9MLUtg=
+	t=1732498725; cv=none; b=rT4QLOZdiQRWH1q7VhcOhzgQ412bSs/9742yZp46252gqKUWsHlw4qgM5+aDdoQ5ozVE3hPB1ZT0bciW44q+AMl9ILFtFchrtsfm6ZadWnb2I8hOfQ7Aug4087FksruM2IiyNYv80k1vmv8OGrMSlP84UqwBgPe+wElKByjBiag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732497501; c=relaxed/simple;
-	bh=n/A4cGs0ht67MX+ggmE8gIVMiViPCemu2aMoihBsfQA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ugci3QskYMyOO5qF3gXADHviOX6w6x11bqNaA0l3JK519Ec41V0kFpO6gGYItlLxwnUqkl/6X6o8ce6bHFPyjj/cvjGnTbU18Z/gotCU073owtRJb7FhBsiYGHFC5eYs0ghSmr+CWJUDbeyChOg8TW4QM+QA9hYOnBJpNi906EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AEHTOYnp; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2ea45dac86eso3321999a91.3;
-        Sun, 24 Nov 2024 17:18:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732497498; x=1733102298; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WpsrLwi0x/86jBHhVpaJvVMarv4IwBuhNB/rslBX9hQ=;
-        b=AEHTOYnpbxDU1XJbEvYillFuidhqBllP+HN67oFJQwm7+fm78zmgBQMd9iOxiwXcnI
-         8DfZE/19zcvR8pgQEHrzAVJcE7Uk4kG9L/56AwUvletIWcPpwBjWQcMR5N0w7AS7FE8W
-         EkB/GaAUkMZRJx+rpgHVKc0V1IFlILqo4YDrdMEkN6ssICRZeiiXtbC5XDcYM9NqWcIg
-         Aoxppy4qWQVmU4tCs4GEqNnsbexsbGSJB/UtVsRW9Z6m8MI50u05ZXsVweh6OmDIG3Kd
-         YFQ+Vr/BqayLI36MVFK8+3BsD/czzujQu4e6y+w9bR061ajlQYrVFYhP8Q4+7e7dIDOb
-         kYZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732497498; x=1733102298;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WpsrLwi0x/86jBHhVpaJvVMarv4IwBuhNB/rslBX9hQ=;
-        b=fsC7rVM4pso7/Rck8Q17JASz0XFGPP6Hlpl87DvUGU+55PWD291pxBKdlqcFJvQpmj
-         94C3+ItzuVjAhebh+0q09t0DAe+/2LL+wJfv/+Ljus2VsftAxJ0CTy/SoDNcqdNSVrPx
-         2/fl0zbnDiLxLUFWUZCnJGa37W702FNdr7aNhIrdVZgkK1LP6GcP0fnYq/9980Eb974S
-         Kpy+6mZRvg2fwYvHDxREISYN7mXo6+EwvUBZ+kc1gNxXWzDqMpVf04iQdbpSWgOl8vNU
-         Gp2PJLUfhKjP31zo7xQDJZTQ6ZY3IslFq2pqofZouzqD9BUjjRoPggOR9pp4fnFjnIVt
-         NAIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX7Ex2zF5P/9SaNYoP1IO+lvcxOYGecUSeaMvzzzaqcUEu8FmZs5aGskR4DhRJnWs+GarRRpj7ONmofoA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyh10szT2/h+uuzTeQ/9Z6/dwpQ9p6pAo8w8oySffXpH57HLI88
-	tZfjmTQqH+D2Cu84NjzqKWmR6YzDdTNACCsahTr0urgQOK9kMng4
-X-Gm-Gg: ASbGnct8UEIRDIr2uVWQ5H1Rg5eiaoQXBjQz2RuoodYlk5Dz/5HB2OaiekqJ6NlyZ/9
-	wDw6y0pNqZvaKRUnfhOZSk+Q1gdbVzlQJMnemuTK1YXWrsN0pwy5uANnbku7gUrvVqABBJXuXe/
-	Ze0uVTdds6iLx+QFgiNQh1PgSw0phHdlTZWvgINmIbwLe0jsPh6/jSsaLvEdjzLR9TbEFG2Z9SB
-	AL8X3ZcWHb02pRzVma58ogNPL64LmgMUwL1k0pORHdCKEoRjGw=
-X-Google-Smtp-Source: AGHT+IF/DsuImC4rIDK+lQ5JUogWmqgHq1QtGdYuEfRbMk3Si164j5NafXDDV5ongl4eV4Tse0+0cQ==
-X-Received: by 2002:a17:90b:4d01:b0:2ea:4578:46cf with SMTP id 98e67ed59e1d1-2eb0e8417edmr14158208a91.30.1732497498454;
-        Sun, 24 Nov 2024 17:18:18 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:e4f5:a3f2:59cb:65c6])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ead04f8ea7sm9005759a91.52.2024.11.24.17.18.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Nov 2024 17:18:17 -0800 (PST)
-Date: Sun, 24 Nov 2024 17:18:15 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v6.13-rc0
-Message-ID: <Z0PQVxK5T8AFnsJp@google.com>
+	s=arc-20240116; t=1732498725; c=relaxed/simple;
+	bh=tw4UowcLewNsZn1tLkuoj4uJRwQWtHHX9Vgts704/sE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=pUH4pkCj+j7eFLxPeLfYqEiED6hYlNzef40lZDdhGR5LNN55NMXIbm1UscUQxx1UX0FMiHLqWmHQDzpD+et1Lfp5WQr5MNQOJ80ZWxeaMG03Kb+n9lz9WgiHbWmqZOpRZz9DRCMEpipZcQzSuCy+Fz6SnEfLu79EQJXmt970RiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com; spf=pass smtp.mailfrom=hp.com; dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b=noRfS9ck; arc=none smtp.client-ip=170.10.133.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hp.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hp.com; s=mimecast20180716;
+	t=1732498720;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7B/53V7x6R9BUkd9+b/bnfe1YsaSRR0aZ9P7A/eeMdE=;
+	b=noRfS9ck95/Pmzuj7NF7bbFoYWHvj1xf1JVlhezbqlefvNrY5XhteFtqn0TJ+WkLzk0QIi
+	kHvVzLPZ4tzBQOYr2foRmvtxYtAhN8FSP6p2Ak2iIHCE5FoFovze+fnqTCEa83AgcnKtWY
+	RVVFTEOlrOFCRq9UvqL1yUhLGqp6PWw=
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2173.outbound.protection.outlook.com [104.47.58.173]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-220-DQZixIpaO7i-RkN6TlGF5w-1; Sun,
+ 24 Nov 2024 20:38:36 -0500
+X-MC-Unique: DQZixIpaO7i-RkN6TlGF5w-1
+X-Mimecast-MFC-AGG-ID: DQZixIpaO7i-RkN6TlGF5w
+Received: from EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM (2603:10b6:303:25b::18)
+ by DS0PR84MB3626.NAMPRD84.PROD.OUTLOOK.COM (2603:10b6:8:1bd::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.27; Mon, 25 Nov
+ 2024 01:38:30 +0000
+Received: from EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM
+ ([fe80::af88:ed17:72c3:3f4e]) by EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM
+ ([fe80::af88:ed17:72c3:3f4e%4]) with mapi id 15.20.8182.018; Mon, 25 Nov 2024
+ 01:38:30 +0000
+From: "Wang, Wade" <wade.wang@hp.com>
+To: Terry Junge <linuxhid@cosmicgizmosystems.com>, Jiri Kosina
+	<jikos@kernel.org>, Takashi Iwai <tiwai@suse.com>, Benjamin Tissoires
+	<bentiss@kernel.org>, Jaroslav Kysela <perex@perex.cz>
+CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: RE: [PATCH 0/2] Introduce Poly/Plantronics mute event support
+Thread-Topic: [PATCH 0/2] Introduce Poly/Plantronics mute event support
+Thread-Index: AQHbPrAsRdAvdaMC90qsdqhaQQhyL7LHN6AA
+Date: Mon, 25 Nov 2024 01:38:30 +0000
+Message-ID: <EA2PR84MB3780164F206397BA8D5E22268B2E2@EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM>
+References: <20241124203252.28701-1-linuxhid@cosmicgizmosystems.com>
+In-Reply-To: <20241124203252.28701-1-linuxhid@cosmicgizmosystems.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: EA2PR84MB3780:EE_|DS0PR84MB3626:EE_
+x-ms-office365-filtering-correlation-id: da011209-8a4e-47e9-133e-08dd0cf1ddc4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018
+x-microsoft-antispam-message-info: =?us-ascii?Q?NWm8cX2exDCmfC0s3kRtAh4t1ozTDwsTUT3fsDCq+FQiQ5BvyZEpbvOayhtu?=
+ =?us-ascii?Q?pcQOgYeHr4KLTW0JVJFT1JLBlLN0ocW86UeQ0KPqNNsxjx6ojNfErfL1hSe6?=
+ =?us-ascii?Q?cuoS5i93nFg+E041hc8ysOqEeKlv9v0dE/WwstKivIU4qGD8VeB+3zX6nXUW?=
+ =?us-ascii?Q?QZ1BDjF0dEfEsb/Lurm00j7sI4HLCaI5kK5hAwtUaGpOi+Stolq3CRrLONZI?=
+ =?us-ascii?Q?2Z6180C3WKqOEVLWa5foTcDpETdhTvfDjK9svC05rm8/NGvfpY6IrGz7HgYY?=
+ =?us-ascii?Q?lZkF3043VcHfi8NIxiHFqKtmyQgWn8aaPJlGiGn7rIz5jMpr95EnP5cQPVNk?=
+ =?us-ascii?Q?VPfwCb+B0fslLBYtfyVl43RF8THiV7Id/e0wvRfXSlgWESRZshslLo/JinDV?=
+ =?us-ascii?Q?GW1AZrMk1D57ghoZYUrDMjmDupzLt/vFdInxPtoj2sHAsY+UQdMMG8DYAI4Z?=
+ =?us-ascii?Q?594ZAFjYB/vh4/aaaGwNw7XOEtyI874jiVRxE8pEzvjYn8mDOnC/DCnW6rxc?=
+ =?us-ascii?Q?zbKWHE0Ws//8gvrw8+ypzLEIDThhweXdijlInLr/W0XMziBkKbmmIsKUfuyB?=
+ =?us-ascii?Q?0nDWrJlM3X+jU/CsrQ5sVtQzUpJXBwoQ7W0ovRWtZILQ0VRwTtk7NUM1aBUl?=
+ =?us-ascii?Q?SBPQvze6O13S3VCvWbyVcg0+LAXZ4U/LRx/KOinKXihRpfT9rczdQxm7Wq/S?=
+ =?us-ascii?Q?rLGZ+D1IdhzwNDG5TRY4zE6EhLKDD7TKj3ZPcJNTbLrFO7PMlmgrR0WhuBFQ?=
+ =?us-ascii?Q?32QdtrTLh66G1NulEAYbIpmctZG60E3oCslkeNvAnTxsDtym9/sEkYefjxr0?=
+ =?us-ascii?Q?jqiHVkq+lMedG2wIzGLsXIiQRoNijeBYxWJ3UETPF8C2r1TTcgSfcNUjDZ/K?=
+ =?us-ascii?Q?VtUTM0WLoxy51xhTaLqL0RCv5fEvrC3sgDu3mbzS1mjmmHaYthoU0ISFzntv?=
+ =?us-ascii?Q?aaFapxVQYKZN5JI9z9VoaNKdmeVgiRIKCOBW4z+I8SZ03SAM4gP2fFRgqgpO?=
+ =?us-ascii?Q?TXHo2TfMgtydeGetTq4i4WycDF4bw7Si8Vx2luSmNdBf6AfFgiRiix5pSJ48?=
+ =?us-ascii?Q?6U3BzU/BVqoZccvuFc2AcbjPJnWmymE04H02hbGG8MHaPVB3L+C5oJBogsYS?=
+ =?us-ascii?Q?F5lHjO8YCOw08MpIkmJJokmRaVWk80YjgY7uvnpkMDvUsmGTA+2j+9M/s7Hj?=
+ =?us-ascii?Q?xLKL0Mipv26yKdYGtVFSixmVbDW3KRUzTN/mC84SxPQOf0uv9tC9X9dRZaOG?=
+ =?us-ascii?Q?WVL25PWblJXva4OJAfdR1XJm2UT9XAoeWcYDHIjvtw4hRcRY6W5jV8fGsnNe?=
+ =?us-ascii?Q?aLfrsQMs0E6mI1YEg+GXWX7p5WUboEgeV1X35V8utDrkov+mGkM37Lf1PXFt?=
+ =?us-ascii?Q?JwEBxCtcrrxHAyi2ttQfQZ9nt/p3Y6h4F0pkEa1OLfJvqKi2wQ=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?7S2tNIxmOoa76O9MB9CDRMAuLolqeGi3EdpK5XboBteiX+U+BUQGj5rEsss6?=
+ =?us-ascii?Q?abtu7r0Fba50s91ifQzLQnkl/wk5GeaqXF20BRmcSAbUR+rZ738tVJ0EFDGE?=
+ =?us-ascii?Q?jeIXLuBMUc1pzZFSzbCTkFt/FKYERiX7iCvB/9g3PdNmUgz+HnQqy/St9cXS?=
+ =?us-ascii?Q?pNJFiHqv5WRrOjLsmuFK4ReAtYmcYJGcdw2BVI0U1kj2oyE+6etca6V1V4x0?=
+ =?us-ascii?Q?qNueOG8vKSkPZyj+XdEb4sK3m37WKBWMF5jHlqlTVXRz4Ni8JlBT9Ja9ugGO?=
+ =?us-ascii?Q?zdKtnPv5Qnendbn+huARIiHDTN8puK3fyCT+7eAWk34pLWxHwxJT5dhYg8yF?=
+ =?us-ascii?Q?3C98BbOa+lFDvJar6UJFgveBJw3XLqtFvV1sGh4EiZ767BOwYPeRGIZZ8qt1?=
+ =?us-ascii?Q?McyUytoV55Oi9bW20EsnqIcdCWKGaWJwc/J0YLzh7NhVEj9yspoAkPEXgnwe?=
+ =?us-ascii?Q?fJRwzGrXbslz66c0aWpI+EWgoOUJnwZKy2kpdmIhY5cz9a6tW+v36dlJPf01?=
+ =?us-ascii?Q?+Jl0UgGoRjEIqzprtoNyOFxGXb7T7XE5toDf4Ag4Gtnkye13gE0jfWSgd+nx?=
+ =?us-ascii?Q?scomp6t4f/uD5OVS1g4BFTsPWBmYOcRhWV9g86iLpZ/FQ0RnZ1RfkUIUB6q5?=
+ =?us-ascii?Q?fTQiR9C81tB7W2VOJm5bkSIa4JQunozoyAEMBR8TdDz7TcHDMJRZKc6cfiYI?=
+ =?us-ascii?Q?Ov0/oX4UAIEihNiliKJ4a622AY/2rXDA1sGfppD/SPGB+YQVaH5UV1DicHr+?=
+ =?us-ascii?Q?5tB5MIoF/Rza2SqecQDoGjBNsOgG3t5Fead6b0fbL5cBSJECfIVwA+ta7/mO?=
+ =?us-ascii?Q?R0a6yeLIVf7vmhcJg5is7a8o3k6ZgGE+2vgqnuoqIettiwMuFPqHgQ8mTd7m?=
+ =?us-ascii?Q?7KQmivfK/yokOrgBD3XM3uGLRoxQD83BzJTiKmRE70JZAibdHZ3J9HkeLqfX?=
+ =?us-ascii?Q?vCftn5tABIna87VzVkY9H7gcjIndHpsJ9iTQqJx90oVjP1i4FEzN9jlV9Hf2?=
+ =?us-ascii?Q?qjadqWKp0OKeDOxTShBlIeX652WBkpSMJiiIs4Q94VYy7psCZ3z8NQ4rZUaP?=
+ =?us-ascii?Q?P79OqvWcBrVMMTGGO6vGzsyrmW9gHzzb0DzfH0S53ILgFFJz73kFkfOGC8oW?=
+ =?us-ascii?Q?unFj5idgUAgvQYUoDjV6yh/mw2qw4V/bXI9RWc7stybkBfSDCVE5rFkvGJsA?=
+ =?us-ascii?Q?t8ctc7fLMRzum7cceAjvpjvYtJ37+KHY+k10AVU+hsPp7T8hru7ZovpFTEjp?=
+ =?us-ascii?Q?Tzw2uW5XNsqy+fKnUESAtRpmi5fzy4VQI8hvFfRiLyyWXK7aonapvmi38C0E?=
+ =?us-ascii?Q?BUIiAEnwc+8fS8MPvh+3gwm9b02HliMEElPH9soWQVyjXpBfDSn5OhLpTme/?=
+ =?us-ascii?Q?oKY/uzufPK0qnCwT6CVl5G2h7Z6IRrVMctFCYXOX6axyGZgT7aQUapmuqKwU?=
+ =?us-ascii?Q?cODcqQK+S7eP9MO7NQklbuzB1qlMgR9JTEYBKt/ZUsqjb3eIVlFHjfh5KdMY?=
+ =?us-ascii?Q?Axbw7PmvoKa4k8NlH+vNZS5N2RVm+e1IFeNoey/hnWnWuNHNQf8eDM84PBES?=
+ =?us-ascii?Q?kb+SZeB2ZtY2NhvHCJ0=3D?=
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: hp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: EA2PR84MB3780.NAMPRD84.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: da011209-8a4e-47e9-133e-08dd0cf1ddc4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Nov 2024 01:38:30.3209
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: ca7981a2-785a-463d-b82a-3db87dfc3ce6
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: l8fUfGg9FwoD+uMk+z2vw+a2cArPRC/MJICNC4SAvnn98wtMasYdGBpiNXhGWtcHlT7TR4hEFKa6JmGJcd/YOg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR84MB3626
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: lN7uUqQkMLHhSqoceCZ0-tnB_r1Bi6CrN2U4N8p3iao_1732498713
+X-Mimecast-Originator: hp.com
+Content-Language: en-US
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 
-Hi Linus,
+Hi Terry,
 
-Please pull from:
+Thet are OK for me, because my outlook will change patch format, would you =
+mind to add these info for me directly. Thanks
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.13-rc0
+Regards
+Wade
 
-to receive updates for the input subsystem. You will get:
+-----Original Message-----
+From: Terry Junge <linuxhid@cosmicgizmosystems.com>=20
+Sent: Monday, November 25, 2024 4:33 AM
+To: Jiri Kosina <jikos@kernel.org>; Takashi Iwai <tiwai@suse.com>; Wang, Wa=
+de <wade.wang@hp.com>; Benjamin Tissoires <bentiss@kernel.org>; Jaroslav Ky=
+sela <perex@perex.cz>
+Cc: Terry Junge <linuxhid@cosmicgizmosystems.com>; linux-input@vger.kernel.=
+org; linux-sound@vger.kernel.org
+Subject: [PATCH 0/2] Introduce Poly/Plantronics mute event support
 
-- support for NT36672A touchscreen added to novatek-nvt-ts driver
+CAUTION: External Email
 
-- a change to ads7846 driver to prevent XPT2046 from locking up
+Hi Jiri and Takashi,
 
-- a change switching platform input dirves back to using remove() method
-  (from remove_new())
+I'm not sure how it works with two different maintained trees but this patc=
+h set needs to be applied and flow upstream together.
 
-- updates to a number of input drivers to use the new cleanup facilities
-  (__free(...), guard(), and scoped-guard()) which ensure that the
-  resources and locks are released properly and automatically
+If the HID patch is applied without the ALSA patch then mute sync issues wi=
+ll occur with multiple Poly/Plantronics product families.
 
-- other assorted driver cleanups and fixes.
+This patch set was tested by Wade and myself with multiple Poly/Plantronics=
+ product family headsets.
 
-Changelog:
----------
+Hi Wade,
 
-AngeloGioacchino Del Regno (1):
-      dt-bindings: input: mediatek,pmic-keys: Add compatible for MT6359 keys
+Please feel free to add your Signed-off-by: and/or Tested-by: tags, as you =
+see fit.
 
-Christophe JAILLET (2):
-      Input: synaptics - fix a typo
-      Input: cypress-sf - constify struct i2c_device_id
+Thanks,
+Terry
 
-David Lechner (1):
-      Input: mpr121 - use devm_regulator_get_enable_read_voltage()
+Terry Junge (2):
+  HID: hid-plantronics: Add mic mute mapping and generalize quirks
+  ALSA: usb-audio: Add quirk for Plantronics headsets to fix control
+    names
 
-Dmitry Torokhov (75):
-      Input: psmouse-smbus - use guard notation when acquiring mutex
-      Input: elan_i2c - switch to using cleanup functions
-      Input: adp5589-keys - use guard notation when acquiring mutex
-      Input: applespi - use guard notation when acquiring spinlock
-      Input: ep93xx_keypad - use guard notation when acquiring mutex
-      Input: imx_keypad - use guard notation when acquiring mutex
-      Input: ipaq-micro-keys - use guard notation when acquiring mutex and spinlock
-      Input: lm8323 - use guard notation when acquiring mutexes
-      Input: lpc32xx-keys - use guard notation when acquiring mutex
-      Input: matrix_keypad - use guard notation when acquiring spinlock
-      Input: omap4-keypad - use guard notation when acquiring mutex
-      Input: pmic8xxx-keypad - use guard notation when acquiring mutex
-      Input: pxa27x_keypad - use guard notation when acquiring mutex
-      Input: spear-keyboard - use guard notation when acquiring mutex
-      Input: st-keyscan - use guard notation when acquiring mutex
-      Input: db9 - use guard notation when acquiring mutex
-      Input: gamecon - use guard notation when acquiring mutex
-      Input: iforce - use guard notation when acquiring mutex and spinlock
-      Input: n64joy - use guard notation when acquiring mutex
-      Input: turbografx - use guard notation when acquiring mutex
-      Input: xpad - use guard notation when acquiring mutex and spinlock
-      Input: ad714x - use guard notation when acquiring mutex
-      Input: ati_remote2 - use guard notation when acquiring mutex
-      Input: cm109 - use guard notation when acquiring mutex and spinlock
-      Input: cma3000_d0x - use guard notation when acquiring mutex
-      Input: da7280 - use guard notation when acquiring mutex and spinlock
-      Input: kxtj9 - use guard notation when acquiring mutex/disabling irq
-      Input: drv260x - use guard notation when acquiring mutex
-      Input: drv2665 - use guard notation when acquiring mutex
-      Input: drv2667 - use guard notation when acquiring mutex
-      Input: ideapad_slidebar - use guard notation when acquiring spinlock
-      Input: ibm-panel - use guard notation when acquiring spinlock
-      Input: iqs269a - use guard notation when acquiring mutex
-      Input: iqs269a - use cleanup facility for fwnodes
-      Input: iqs626a - use cleanup facility for fwnodes
-      Input: iqs7222 - use cleanup facility for fwnodes
-      Input: max8997_haptic - use guard notation when acquiring mutex
-      Input: pegasus_notetaker - use guard notation when acquiring mutex
-      Input: powermate - use guard notation when acquiring spinlock
-      Input: pwm-beeper - use guard notation when acquiring spinlock
-      Input: regulator-haptic - use guard notation when acquiring mutex
-      Input: rotary_encoder - use guard notation when acquiring mutex
-      Input: sparcspkr - use guard notation when acquiring spinlock
-      Input: serio - define serio_pause_rx guard to pause and resume serio ports
-      Input: libps2 - use guard notation when temporarily pausing serio ports
-      Input: alps - use guard notation when pausing serio port
-      Input: byd - use guard notation when pausing serio port
-      Input: synaptics - use guard notation when pausing serio port
-      Input: atkbd - use guard notation when pausing serio port
-      Input: sunkbd - use guard notation when pausing serio port
-      Input: synaptics-rmi4 - use guard notation when pausing serio port in F03
-      Input: elo - use guard notation when pausing serio port
-      Input: gscps2 - use guard notation when acquiring spinlock
-      Input: hyperv-keyboard - use guard notation when acquiring spinlock
-      Input: i8042 - tease apart interrupt handler
-      Input: i8042 - use guard notation when acquiring spinlock
-      Input: ps2-gpio - use guard notation when acquiring mutex
-      Input: ps2mult - use guard notation when acquiring spinlock
-      Input: q40kbd - use guard notation when acquiring spinlock
-      Input: sa1111ps2 - use guard notation when acquiring spinlock
-      Input: serport - use guard notation when acquiring spinlock
-      Input: serio - use guard notation when acquiring mutexes and spinlocks
-      Input: serio_raw - use guard notation for locks and other resources
-      Input: serio-raw - fix potential serio port name truncation
-      Input: sun4i-ps2 - use guard notation when acquiring spinlock
-      Input: userio - switch to using cleanup functions
-      Input: xilinx_ps2 - use guard notation when acquiring spinlock
-      Input: gscps2 - fix compilation error introduced with switch to guards
-      Input: serio_raw - fix uninitialized variable bug
-      Input: omap-keypad - use guard notation when acquiring mutex
-      Input: synaptics-rmi4 - switch to using cleanup functions in F34
-      Input: hilkbd - use guard notation when acquiring spinlock
-      Input: locomokbd - use guard notation when acquiring spinlock
-      Input: maple_keyb - use guard notation when acquiring mutex
-      Input: introduce notion of passive observers for input handlers
-
-Javier Carrasco (13):
-      Input: hideep - add missing dependency on REGMAP_I2C
-      Input: hycon-hy46xx - add missing dependency on REGMAP_I2C
-      Input: cap11xx - switch to for_each_child_of_node_scoped
-      Input: mtk-pmic-keys - switch to for_each_child_of_node_scoped
-      Input: sun4i-lradc-keys - switch to for_each_child_of_node_scoped
-      Input: twl6040-vibra - use cleanup facility for device_node
-      Input: twl4030-vibra - use cleanup facility for device_node
-      Input: 88pm860x - use cleanup facility for device_node
-      Input: i8042 - use cleanup facility for device_node
-      Input: raspberrypi-ts - use cleanup facility for device_node
-      Input: ts4800-ts - use cleanup facility for device_node
-      Input: sparcspkr - use device managed memory for 'state'
-      Input: sparcspkr - use cleanup facility for device_node
-
-Joel Selvaraj (3):
-      Input: novatek-nvt-ts - replace generic i2c device id with specific IC variant
-      dt-bindings: input: document Novatek NVT touchscreen controller
-      Input: novatek-nvt-ts - add support for NT36672A touchscreen
-
-Marek Vasut (1):
-      Input: ads7846 - add dummy command register clearing cycle
-
-Maud Spierings (1):
-      Input: fix the input_event struct documentation
-
-Nathan Chancellor (1):
-      Input: ads7846 - increase xfer array size in 'struct ser_req'
-
-Rob Herring (Arm) (1):
-      dt-bindings: input: rotary-encoder: Fix "rotary-encoder,rollover" type
-
-Shen Lichuan (1):
-      Input: correct typos in multiple comments across misc drivers
-
-Shivam Chaudhary (1):
-      Input: i8042 - fix typo dublicate to duplicate
-
-Uwe Kleine-König (1):
-      Input: switch back to struct platform_driver::remove()
-
-Wolfram Sang (2):
-      Input: spear-keyboard - don't include 'pm_wakeup.h' directly
-      Input: sun4i-lradc-keys - don't include 'pm_wakeup.h' directly
-
-Yang Li (2):
-      Input: matrix_keypad - remove duplicated include
-      Input: userio - remove unneeded semicolon
-
-Yu Jiaoliang (1):
-      input: Fix typos in comments across various files
-
-Yuan Can (1):
-      Input: cs40l50 - fix wrong usage of INIT_WORK()
-
-Zeng Heng (1):
-      Input: imagis - fix warning regarding 'imagis_3038_data' being unused
-
-Diffstat:
---------
-
- .../bindings/input/mediatek,pmic-keys.yaml         |   1 +
- .../devicetree/bindings/input/rotary-encoder.yaml  |   2 +-
- .../bindings/input/touchscreen/novatek,nvt-ts.yaml |  62 ++++
- Documentation/input/input.rst                      |   2 +-
- MAINTAINERS                                        |   1 +
- drivers/input/input.c                              |  15 +-
- drivers/input/joystick/db9.c                       |  30 +-
- drivers/input/joystick/gamecon.c                   |  22 +-
- drivers/input/joystick/iforce/iforce-ff.c          |  48 ++-
- drivers/input/joystick/iforce/iforce-packets.c     |  57 ++--
- drivers/input/joystick/iforce/iforce-serio.c       |  36 +--
- drivers/input/joystick/iforce/iforce-usb.c         |  13 +-
- drivers/input/joystick/n64joy.c                    |  35 +--
- drivers/input/joystick/turbografx.c                |  22 +-
- drivers/input/joystick/xpad.c                      |  99 +++----
- drivers/input/keyboard/adp5520-keys.c              |   2 +-
- drivers/input/keyboard/adp5589-keys.c              |  39 ++-
- drivers/input/keyboard/applespi.c                  |  72 ++---
- drivers/input/keyboard/atkbd.c                     |   8 +-
- drivers/input/keyboard/cap11xx.c                   |  12 +-
- drivers/input/keyboard/cros_ec_keyb.c              |   2 +-
- drivers/input/keyboard/cypress-sf.c                |   2 +-
- drivers/input/keyboard/ep93xx_keypad.c             |  10 +-
- drivers/input/keyboard/hilkbd.c                    |   4 +-
- drivers/input/keyboard/imx_keypad.c                |  27 +-
- drivers/input/keyboard/ipaq-micro-keys.c           |  12 +-
- drivers/input/keyboard/iqs62x-keys.c               |   2 +-
- drivers/input/keyboard/lm8323.c                    |  49 ++-
- drivers/input/keyboard/locomokbd.c                 |   5 +-
- drivers/input/keyboard/lpc32xx-keys.c              |  18 +-
- drivers/input/keyboard/maple_keyb.c                |   9 +-
- drivers/input/keyboard/matrix_keypad.c             |  19 +-
- drivers/input/keyboard/mpr121_touchkey.c           |  45 +--
- drivers/input/keyboard/mtk-pmic-keys.c             |  17 +-
- drivers/input/keyboard/omap-keypad.c               |  18 +-
- drivers/input/keyboard/omap4-keypad.c              |   6 +-
- drivers/input/keyboard/pmic8xxx-keypad.c           |   8 +-
- drivers/input/keyboard/pxa27x_keypad.c             |  16 +-
- drivers/input/keyboard/samsung-keypad.c            |   2 +-
- drivers/input/keyboard/sh_keysc.c                  |   2 +-
- drivers/input/keyboard/spear-keyboard.c            |   9 +-
- drivers/input/keyboard/st-keyscan.c                |  19 +-
- drivers/input/keyboard/stmpe-keypad.c              |   2 +-
- drivers/input/keyboard/sun4i-lradc-keys.c          |   8 +-
- drivers/input/keyboard/sunkbd.c                    |   5 +-
- drivers/input/misc/88pm80x_onkey.c                 |   2 +-
- drivers/input/misc/ad714x.c                        |  12 +-
- drivers/input/misc/ati_remote2.c                   |  57 ++--
- drivers/input/misc/cm109.c                         | 167 +++++------
- drivers/input/misc/cma3000_d0x.c                   |  16 +-
- drivers/input/misc/cs40l50-vibra.c                 |   6 +-
- drivers/input/misc/da7280.c                        |  26 +-
- drivers/input/misc/da9052_onkey.c                  |   4 +-
- drivers/input/misc/da9055_onkey.c                  |   4 +-
- drivers/input/misc/drv260x.c                       |  50 ++--
- drivers/input/misc/drv2665.c                       |  46 ++-
- drivers/input/misc/drv2667.c                       |  46 ++-
- drivers/input/misc/ibm-panel.c                     |   5 +-
- drivers/input/misc/ideapad_slidebar.c              |  26 +-
- drivers/input/misc/ims-pcu.c                       |   2 +-
- drivers/input/misc/iqs269a.c                       |  55 ++--
- drivers/input/misc/iqs626a.c                       |  22 +-
- drivers/input/misc/iqs7222.c                       |  30 +-
- drivers/input/misc/kxtj9.c                         |  16 +-
- drivers/input/misc/m68kspkr.c                      |   2 +-
- drivers/input/misc/max8997_haptic.c                |  17 +-
- drivers/input/misc/mc13783-pwrbutton.c             |   2 +-
- drivers/input/misc/palmas-pwrbutton.c              |   2 +-
- drivers/input/misc/pcap_keys.c                     |   2 +-
- drivers/input/misc/pcf50633-input.c                |   2 +-
- drivers/input/misc/pcspkr.c                        |   2 +-
- drivers/input/misc/pm8941-pwrkey.c                 |   2 +-
- drivers/input/misc/powermate.c                     |  11 +-
- drivers/input/misc/pwm-beeper.c                    |  12 +-
- drivers/input/misc/regulator-haptic.c              |  24 +-
- drivers/input/misc/rotary_encoder.c                |  23 +-
- drivers/input/misc/soc_button_array.c              |   4 +-
- drivers/input/misc/sparcspkr.c                     |  59 ++--
- drivers/input/misc/tps65219-pwrbutton.c            |   2 +-
- drivers/input/misc/twl4030-vibra.c                 |  11 +-
- drivers/input/misc/twl6040-vibra.c                 |   8 +-
- drivers/input/misc/wistron_btns.c                  |   4 +-
- drivers/input/misc/wm831x-on.c                     |   2 +-
- drivers/input/misc/yealink.c                       |   4 +-
- drivers/input/mouse/alps.c                         |   4 +-
- drivers/input/mouse/amimouse.c                     |   2 +-
- drivers/input/mouse/byd.c                          |   5 +-
- drivers/input/mouse/elan_i2c_core.c                | 228 +++++++-------
- drivers/input/mouse/elan_i2c_i2c.c                 |  14 +-
- drivers/input/mouse/psmouse-smbus.c                |  28 +-
- drivers/input/mouse/synaptics.c                    |   6 +-
- drivers/input/mouse/synaptics.h                    |   2 +-
- drivers/input/rmi4/rmi_f03.c                       |   4 +-
- drivers/input/rmi4/rmi_f34.c                       |  37 +--
- drivers/input/serio/altera_ps2.c                   |   2 +-
- drivers/input/serio/ams_delta_serio.c              |   2 +-
- drivers/input/serio/apbps2.c                       |   2 +-
- drivers/input/serio/arc_ps2.c                      |   2 +-
- drivers/input/serio/ct82c710.c                     |   2 +-
- drivers/input/serio/gscps2.c                       | 116 ++++----
- drivers/input/serio/hyperv-keyboard.c              |  38 ++-
- drivers/input/serio/i8042-acpipnpio.h              |   2 +-
- drivers/input/serio/i8042-sparcio.h                |  16 +-
- drivers/input/serio/i8042.c                        | 329 ++++++++++-----------
- drivers/input/serio/ioc3kbd.c                      |   2 +-
- drivers/input/serio/libps2.c                       |  28 +-
- drivers/input/serio/maceps2.c                      |   2 +-
- drivers/input/serio/olpc_apsp.c                    |   2 +-
- drivers/input/serio/ps2-gpio.c                     |   6 +-
- drivers/input/serio/ps2mult.c                      |  25 +-
- drivers/input/serio/q40kbd.c                       |  12 +-
- drivers/input/serio/rpckbd.c                       |   2 +-
- drivers/input/serio/sa1111ps2.c                    |   8 +-
- drivers/input/serio/serio.c                        | 165 +++++------
- drivers/input/serio/serio_raw.c                    | 125 ++++----
- drivers/input/serio/serport.c                      |  27 +-
- drivers/input/serio/sun4i-ps2.c                    |  10 +-
- drivers/input/serio/userio.c                       | 139 +++++----
- drivers/input/serio/xilinx_ps2.c                   |  17 +-
- drivers/input/tablet/pegasus_notetaker.c           |  86 +++---
- drivers/input/touchscreen/88pm860x-ts.c            |  20 +-
- drivers/input/touchscreen/Kconfig                  |   2 +
- drivers/input/touchscreen/ads7846.c                |  14 +-
- drivers/input/touchscreen/auo-pixcir-ts.c          |   2 +-
- drivers/input/touchscreen/bcm_iproc_tsc.c          |   2 +-
- drivers/input/touchscreen/da9052_tsi.c             |   2 +-
- drivers/input/touchscreen/edt-ft5x06.c             |   2 +-
- drivers/input/touchscreen/elo.c                    |   8 +-
- drivers/input/touchscreen/ili210x.c                |   2 +-
- drivers/input/touchscreen/imagis.c                 |   2 +-
- drivers/input/touchscreen/mainstone-wm97xx.c       |   2 +-
- drivers/input/touchscreen/mc13783_ts.c             |   2 +-
- drivers/input/touchscreen/novatek-nvt-ts.c         |  67 ++++-
- drivers/input/touchscreen/pcap_ts.c                |   2 +-
- drivers/input/touchscreen/pixcir_i2c_ts.c          |   2 +-
- drivers/input/touchscreen/raspberrypi-ts.c         |   4 +-
- drivers/input/touchscreen/rohm_bu21023.c           |   4 +-
- drivers/input/touchscreen/stmpe-ts.c               |   6 +-
- drivers/input/touchscreen/sun4i-ts.c               |   4 +-
- drivers/input/touchscreen/ti_am335x_tsc.c          |   4 +-
- drivers/input/touchscreen/ts4800-ts.c              |   5 +-
- drivers/input/touchscreen/wm831x-ts.c              |   2 +-
- drivers/input/touchscreen/wm97xx-core.c            |   6 +-
- drivers/platform/x86/x86-android-tablets/other.c   |   2 +-
- include/linux/input.h                              |   5 +
- include/linux/serio.h                              |   3 +
- 146 files changed, 1511 insertions(+), 1843 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/novatek,nvt-ts.yaml
-
-Thanks.
+ drivers/hid/hid-plantronics.c | 135 ++++++++++++++++------------------
+ sound/usb/mixer_quirks.c      |  35 +++++++++
+ 2 files changed, 100 insertions(+), 70 deletions(-)
 
 
--- 
-Dmitry
+base-commit: 28eb75e178d389d325f1666e422bc13bbbb9804c
+--
+2.43.0
+
 
