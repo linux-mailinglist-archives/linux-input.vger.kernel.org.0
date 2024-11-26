@@ -1,147 +1,304 @@
-Return-Path: <linux-input+bounces-8239-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8240-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1279D9905
-	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 15:02:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 400209D9963
+	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 15:15:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C29FCB26158
-	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 13:59:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 004972838E3
+	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 14:15:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C32B01D515E;
-	Tue, 26 Nov 2024 13:59:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C45661D5ADB;
+	Tue, 26 Nov 2024 14:15:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="tDdg/Uwa"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="F8OoYr3O";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9E8VXs4H";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MGlOfHQ7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0bFYP/Rk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-fw-9106.amazon.com (smtp-fw-9106.amazon.com [207.171.188.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13760946C;
-	Tue, 26 Nov 2024 13:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.188.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF581D5AB7;
+	Tue, 26 Nov 2024 14:14:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732629543; cv=none; b=QvF2z+35ctzWWSaszVdI+LHm71vKis5nN507nM9BWp4iyqmDy00xSvigiZKOis94y/EoNJ3p48JK4g6K/87NBasc6gBfg5sDftT+QuDUq6O4DpWMKKh/tF8nUCYD/EssO8RDCjq152SjJfhoD4mDpYm/I6ooqZWrB5HEWjArjzE=
+	t=1732630500; cv=none; b=WHP77vLXADBZY/2LhGcAEuFt4G1omw7ZwRh7IMvYpda/tJuMQm0xnzpsV+2rVEP/U4Xcvfup/Z0zxWGc6EPDhtGx7NYDrH9aSvHJ51uhl6sHpK1WRdVacCPB5SeDogLJjw3DKsYSpG7AmFC/dMO1lFJ9zX7srW6hxMjfLNDTUDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732629543; c=relaxed/simple;
-	bh=pZ2YZdpgemFDCM+U+LkA/ySjT+wKLlrQ03YQqJSyhxE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jbtXab75SBJ2+t0RiI3ySH35G2o0ZGTlalRjgkKcyRrZ57Z4OzheJXB6HcFkZoA4dAE+Q6l4Bzk65fhi7IZ56FlZArHI6/e2KUuWMZurm4iqd5jWSulFWdezTKyxNhwzqp71xMQ2kcBoK/E8/70FtqG6To7NflkvNeBiIm3iLM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b=tDdg/Uwa; arc=none smtp.client-ip=207.171.188.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1732629543; x=1764165543;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=RSXk5sIMAikPeTQyZJR0m9fbpuoQIFByJet2DRoFnyc=;
-  b=tDdg/Uwa/d66o7DATTHrmdFI8Tc/Fb/L2tohpruce1RY2sA4kyt4UgJz
-   dhO9XbwM1j8vynpnB0uteCr4Wt2Tg15PjctKqeI4YbKS4DBHpWMbrt7oc
-   abnN0rq7Be10O5Cmkz7H4DzGmhJk665XfkgGFhK0tq3IHa1aob3088qg4
-   s=;
-X-IronPort-AV: E=Sophos;i="6.12,186,1728950400"; 
-   d="scan'208";a="778791635"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.25.36.210])
-  by smtp-border-fw-9106.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 13:58:57 +0000
-Received: from EX19MTAEUB002.ant.amazon.com [10.0.17.79:51298]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.26.116:2525] with esmtp (Farcaster)
- id 9b821c50-75a6-4ca0-bdd1-44056ebbaa70; Tue, 26 Nov 2024 13:58:55 +0000 (UTC)
-X-Farcaster-Flow-ID: 9b821c50-75a6-4ca0-bdd1-44056ebbaa70
-Received: from EX19D008EUC003.ant.amazon.com (10.252.51.205) by
- EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Tue, 26 Nov 2024 13:58:54 +0000
-Received: from EX19MTAUWA001.ant.amazon.com (10.250.64.204) by
- EX19D008EUC003.ant.amazon.com (10.252.51.205) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
- Tue, 26 Nov 2024 13:58:54 +0000
-Received: from email-imr-corp-prod-iad-all-1b-a03c1db8.us-east-1.amazon.com
- (10.25.36.214) by mail-relay.amazon.com (10.250.64.204) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
- 15.2.1258.34 via Frontend Transport; Tue, 26 Nov 2024 13:58:54 +0000
-Received: from dev-dsk-mheyne-1b-55676e6a.eu-west-1.amazon.com (dev-dsk-mheyne-1b-55676e6a.eu-west-1.amazon.com [10.253.68.42])
-	by email-imr-corp-prod-iad-all-1b-a03c1db8.us-east-1.amazon.com (Postfix) with ESMTP id 6BA7E801E0;
-	Tue, 26 Nov 2024 13:58:53 +0000 (UTC)
-Received: by dev-dsk-mheyne-1b-55676e6a.eu-west-1.amazon.com (Postfix, from userid 5466572)
-	id 2945BB5BE; Tue, 26 Nov 2024 13:58:53 +0000 (UTC)
-From: Maximilian Heyne <mheyne@amazon.de>
-To: 
-CC: Maximilian Heyne <mheyne@amazon.de>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	"Peter Hutterer" <peter.hutterer@who-t.net>, <linux-input@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] selftests: hid: fix typo and exit code
-Date: Tue, 26 Nov 2024 13:58:50 +0000
-Message-ID: <20241126135850.76493-1-mheyne@amazon.de>
-X-Mailer: git-send-email 2.40.1
+	s=arc-20240116; t=1732630500; c=relaxed/simple;
+	bh=ZvtRiNM+JH0yEZl2YCu1V3cqQmWYtZw6utlTRkgZD9E=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BV9v6VjKbqa9Ve5syxygwzKV6BcMjzlf5XdgkXry8ynhXY3H6ML4OisccX2Z08qIQrpSyzWLF4ppRSq7FSkcM76IIZO12mZDpMlp5CZbdYl4J1ScdFM9B94Hb9kOpzsM4AmwkHtLC17AHr36d05cqXCWydG15RqncMzfdgvJ8fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=F8OoYr3O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9E8VXs4H; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MGlOfHQ7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0bFYP/Rk; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 05D3C1F74B;
+	Tue, 26 Nov 2024 14:14:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732630497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZgQZm9M6XxBfdUImBopgep7lJubNHrTvnu6+/i4rdEc=;
+	b=F8OoYr3OWnsNa5tx+zlyQR7Lud7Vd3EYmoozh4esv0E7dp960I+rOSFS/K2U0MI3mKM97n
+	LElVytyeYFQo66wIgLrmj7tRFRsDhXmFVz2pRheYwFce+V19zsv9BBnhuDjRqgZyt8jIMW
+	hdAiNpkBUeypiTvY4lWKpOt/sMjmRAQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732630497;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZgQZm9M6XxBfdUImBopgep7lJubNHrTvnu6+/i4rdEc=;
+	b=9E8VXs4Hl6Z/ycqZL6ea8B4aqjp+45/pD6NHRjOeVvnHD4WYMau0R8Ge+ApdOQfcPJDQMj
+	2WDTy+y78hUCBMBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732630496; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZgQZm9M6XxBfdUImBopgep7lJubNHrTvnu6+/i4rdEc=;
+	b=MGlOfHQ77sUrgALK85j9yzIkPB0Pa75NKE4uAooA2JIqRq8Lk393JcVnZ/dUQo+z8nFXbz
+	/gR1IIw6jfB3zFtf4jGSrAGVDPVDqoFtt5CSGM2y5aztrXWeCvWpXdcSx/m9OeGKCcH9Xs
+	fE1pCOQ5gVC3OSnWhqJZCf7KxFTLPNI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732630496;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZgQZm9M6XxBfdUImBopgep7lJubNHrTvnu6+/i4rdEc=;
+	b=0bFYP/RkhVhLJLwTRn9xX0jfKTlsPUVtyVTMsPYAgImmnsr+aaf6rXahREhgVXfpGZsn+t
+	E6Cfp6P75HXQUWDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B2C41139AA;
+	Tue, 26 Nov 2024 14:14:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gbOUKt/XRWeWcwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 26 Nov 2024 14:14:55 +0000
+Date: Tue, 26 Nov 2024 15:14:55 +0100
+Message-ID: <87cyiiaxpc.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	<srinivas.kandagatla@linaro.org>,
+	<mathias.nyman@intel.com>,
+	<perex@perex.cz>,
+	<conor+dt@kernel.org>,
+	<dmitry.torokhov@gmail.com>,
+	<corbet@lwn.net>,
+	<broonie@kernel.org>,
+	<lgirdwood@gmail.com>,
+	<krzk+dt@kernel.org>,
+	<pierre-louis.bossart@linux.intel.dev>,
+	<Thinh.Nguyen@synopsys.com>,
+	<tiwai@suse.com>,
+	<robh@kernel.org>,
+	<gregkh@linuxfoundation.org>,
+	<linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>,
+	<linux-input@vger.kernel.org>,
+	<linux-arm-msm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v30 28/30] ALSA: usb-audio: Add USB offload route kcontrol
+In-Reply-To: <8fc53dd9-0c26-410c-b1b1-3d6df7894a44@quicinc.com>
+References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
+	<20241106193413.1730413-29-quic_wcheng@quicinc.com>
+	<87bjya3xzw.wl-tiwai@suse.de>
+	<02c20b06-34ef-459b-9cd1-2d2735eb1352@quicinc.com>
+	<87zfls1t7x.wl-tiwai@suse.de>
+	<8fc53dd9-0c26-410c-b1b1-3d6df7894a44@quicinc.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[dt];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,linaro.org,intel.com,perex.cz,kernel.org,gmail.com,lwn.net,linux.intel.dev,synopsys.com,suse.com,linuxfoundation.org,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,quicinc.com:email]
+X-Spam-Score: -1.80
+X-Spam-Flag: NO
 
-The correct exit code to mark a test as skipped is 4.
+On Mon, 25 Nov 2024 21:33:03 +0100,
+Wesley Cheng wrote:
+> 
+> Hi Takashi,
+> 
+> On 11/21/2024 7:50 AM, Takashi Iwai wrote:
+> > On Wed, 20 Nov 2024 20:13:34 +0100,
+> > Wesley Cheng wrote:
+> >> Hi Takashi,
+> >>
+> >> On 11/20/2024 4:12 AM, Takashi Iwai wrote:
+> >>> On Wed, 06 Nov 2024 20:34:11 +0100,
+> >>> Wesley Cheng wrote:
+> >>>> In order to allow userspace/applications know about USB offloading status,
+> >>>> expose a sound kcontrol that fetches information about which sound card
+> >>>> and PCM index the USB device is mapped to for supporting offloading.  In
+> >>>> the USB audio offloading framework, the ASoC BE DAI link is the entity
+> >>>> responsible for registering to the SOC USB layer.
+> >>>>
+> >>>> It is expected for the USB SND offloading driver to add the kcontrol to the
+> >>>> sound card associated with the USB audio device.  An example output would
+> >>>> look like:
+> >>>>
+> >>>> tinymix -D 1 get 'USB Offload Playback Route PCM#0'
+> >>>> -1, -1 (range -1->255)
+> >>>>
+> >>>> This example signifies that there is no mapped ASoC path available for the
+> >>>> USB SND device.
+> >>>>
+> >>>> tinymix -D 1 get 'USB Offload Playback Route PCM#0'
+> >>>> 0, 0 (range -1->255)
+> >>>>
+> >>>> This example signifies that the offload path is available over ASoC sound
+> >>>> card index#0 and PCM device#0.
+> >>>>
+> >>>> The USB offload kcontrol will be added in addition to the existing
+> >>>> kcontrols identified by the USB SND mixer.  The kcontrols used to modify
+> >>>> the USB audio device specific parameters are still valid and expected to be
+> >>>> used.  These parameters are not mirrored to the ASoC subsystem.
+> >>>>
+> >>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> >>> IIRC, this representation of kcontrol was one argued issue; Pierre
+> >>> expressed the concern about the complexity of the kcontrol.
+> >>> I didn't follow exactly, but did we get consensus?
+> >> So the part that Pierre had concerns on was that previously, the
+> >>> implementation was placing offload kcontrols to the ASoC platform
+> >>> card, and had some additional controls that complicated the
+> >>> offload implementation about the offload status for each USB audio
+> >>> device.  This was discussed here:
+> >> https://lore.kernel.org/linux-usb/957b3c13-e4ba-45e3-b880-7a313e48c33f@quicinc.com/
+> >>
+> >> To summarize, I made the decision to move the offload status
+> >> kcontrols from ASoC --> USB SND and limited it to only one kcontrol
+> >> (mapped offload device).  So now, there exists a kcontrol for every
+> >> USB SND device (if the offload mixer is enabled), where it tells
+> >> userspace the mapped ASoC platform card and pcm device that handles
+> >> USB offloading, else you'll see the "-1, -1" pair, which means
+> >> offload is not possible for that USB audio device.
+> > OK, the simplification is good.  But I wonder whether the current
+> > representation is the best.  Why not just providing two controls per
+> > PCM, one for card and one for device, instead of two integer array?
+> > It would look more intuitive to me.
+> >
+> 
+> I could separate it, but we would have to have a pair of controls
+> for each available USB PCM playback stream supported by the device.
+> However, before I get into making that change, I think the decision
+> for either two or one FE needs to be decided. Again, I think the 2
+> FE approach is much less invasive to the USB SND/ASoC core files,
+> and ensures the legacy USB SND path still works through the
+> non-offloaded data path.
 
-Fixes: ffb85d5c9e80 ("selftests: hid: import hid-tools hid-core tests")
-Signed-off-by: Maximilian Heyne <mheyne@amazon.de>
----
- .../testing/selftests/hid/run-hid-tools-tests.sh | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+Sure, the decision about the 2 FEs is the most significant one, and
+those controls depend on that.
 
-diff --git a/tools/testing/selftests/hid/run-hid-tools-tests.sh b/tools/testing/selftests/hid/run-hid-tools-tests.sh
-index bdae8464da865..af1682a53c27e 100755
---- a/tools/testing/selftests/hid/run-hid-tools-tests.sh
-+++ b/tools/testing/selftests/hid/run-hid-tools-tests.sh
-@@ -2,24 +2,26 @@
- # SPDX-License-Identifier: GPL-2.0
- # Runs tests for the HID subsystem
- 
-+KSELFTEST_SKIP_TEST=4
-+
- if ! command -v python3 > /dev/null 2>&1; then
- 	echo "hid-tools: [SKIP] python3 not installed"
--	exit 77
-+	exit $KSELFTEST_SKIP_TEST
- fi
- 
- if ! python3 -c "import pytest" > /dev/null 2>&1; then
--	echo "hid: [SKIP/ pytest module not installed"
--	exit 77
-+	echo "hid: [SKIP] pytest module not installed"
-+	exit $KSELFTEST_SKIP_TEST
- fi
- 
- if ! python3 -c "import pytest_tap" > /dev/null 2>&1; then
--	echo "hid: [SKIP/ pytest_tap module not installed"
--	exit 77
-+	echo "hid: [SKIP] pytest_tap module not installed"
-+	exit $KSELFTEST_SKIP_TEST
- fi
- 
- if ! python3 -c "import hidtools" > /dev/null 2>&1; then
--	echo "hid: [SKIP/ hid-tools module not installed"
--	exit 77
-+	echo "hid: [SKIP] hid-tools module not installed"
-+	exit $KSELFTEST_SKIP_TEST
- fi
- 
- TARGET=${TARGET:=.}
--- 
-2.40.1
+So my comment assumes that, and if that applied, we need to consider
+which kcontrol representation is better for users.  I don't mind too
+much about that, but generally speaking, simpler representation is
+better in the end, even if it leads to more elements.  e.g. sysfs
+allows basically only one value per file principle, too.
 
 
+> >>> Apart from that: the Kconfig defition below ...
+> >>>
+> >>>> +config SND_USB_OFFLOAD_MIXER
+> >>>> +	tristate "USB Audio Offload mixer control"
+> >>>> +	help
+> >>>> +	 Say Y to enable the USB audio offloading mixer controls.  This
+> >>>> +	 exposes an USB offload capable kcontrol to signal to applications
+> >>>> +	 about which platform sound card can support USB audio offload.
+> >>>> +	 The returning values specify the mapped ASoC card and PCM device
+> >>>> +	 the USB audio device is associated to.
+> >>> ... and Makefile addition below ...
+> >>>
+> >>>> --- a/sound/usb/Makefile
+> >>>> +++ b/sound/usb/Makefile
+> >>>> @@ -36,3 +36,5 @@ obj-$(CONFIG_SND_USB_US122L) += snd-usbmidi-lib.o
+> >>>>  
+> >>>>  obj-$(CONFIG_SND) += misc/ usx2y/ caiaq/ 6fire/ hiface/ bcd2000/ qcom/
+> >>>>  obj-$(CONFIG_SND_USB_LINE6)	+= line6/
+> >>>> +
+> >>>> +obj-$(CONFIG_SND_USB_OFFLOAD_MIXER) += mixer_usb_offload.o
+> >>> ... indicates that this code will be an individual module, although
+> >>> it's solely used from snd-usb-audio-qmi driver.  This should be rather
+> >>> a boolean and moved to sound/usb/qcom/, and linked to
+> >>> snd-usb-audio-qmi driver itself, e.g.
+> >>>
+> >>> --- a/sound/usb/qcom/Makefile
+> >>> +++ b/sound/usb/qcom/Makefile
+> >>> @@ -1,2 +1,3 @@
+> >>>  snd-usb-audio-qmi-objs := usb_audio_qmi_v01.o qc_audio_offload.o
+> >>> +snd-usb-audio-qmi-$(CONFIG_SND_USB_OFFLOAD_MIXER) += mixer_usb_offload.o
+> >>>  obj-$(CONFIG_SND_USB_AUDIO_QMI) += snd-usb-audio-qmi.o
+> >>>
+> >>> Then you can drop EXPORT_SYMBOL_GPL(), too.
+> >> Had a discussion with Pierre on this too below.
+> >>
+> >> https://lore.kernel.org/linux-usb/f507a228-4865-4df5-9215-bc59e330a82f@linux.intel.com/
+> >>
+> >> I remember you commenting to place it in this vendor offload module,
+> >> which is what I did on v24.
+> > I assume that my early comment was based on your old implementations,
+> > and I guess it was because the mixer part didn't belong to the qcom
+> > stuff.  Now it belongs solely to qcom, the situation changed; it makes
+> > no sense to make it an individual module at all.
+> >
+> >
+> I guess Pierre's feedback was that he believed this should be vendor
+> agnostic, because any vendor that could potentially support USB
+> audio offload should have the same kcontrol within the USB SND
+> device.  Hence the reason for keeping it within generic code.  Since
+> QC is the only user of this now.  Do you prefer to make this part of
+> the vendor module for now, until another user comes along and
+> introduces offload support?
+
+Yes, less module is preferred for now.  If the stuff is agnostic and
+really used by multiple instances, we can factor out to an individual
+module again.
 
 
-Amazon Web Services Development Center Germany GmbH
-Krausenstr. 38
-10117 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-Eingetragen am Amtsgericht Charlottenburg unter HRB 257764 B
-Sitz: Berlin
-Ust-ID: DE 365 538 597
+thanks,
 
+Takashi
 
