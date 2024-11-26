@@ -1,222 +1,122 @@
-Return-Path: <linux-input+bounces-8245-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8249-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 497219D9C60
-	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 18:23:30 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8EBC16638F
-	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 17:23:26 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF3221DDA35;
-	Tue, 26 Nov 2024 17:22:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rq/rMQGf"
-X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 930A59D9E83
+	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 21:48:23 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0EC1DC04A;
-	Tue, 26 Nov 2024 17:22:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 34E10B278A5
+	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 20:48:21 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 564591DF742;
+	Tue, 26 Nov 2024 20:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R9mYAE09"
+X-Original-To: linux-input@vger.kernel.org
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C99F1DB958;
+	Tue, 26 Nov 2024 20:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732641777; cv=none; b=jAWXG76IP7rDtX5C0AlmXA2pZATvrwX5007cAHNFEA6+OXYwycHGmDKrlacLgIcjb30VidaTJfqAJi5tcqCRIki1VJbhSs0sl1i3YBAOBmSPhuygn7jq5YmxWzTbNqo8a8+ixTnI44p96A742EZVi6gsUIyATQBugqn5GDowd2A=
+	t=1732654094; cv=none; b=gK9ir6KC+pM9iQXWCNXguu1jxXJ/H7udTgPReMBHn4XPCd+CFUPci5a+2LFMSi387ON1h9fzlozOPx0nJiwmjeLAxWDuJLAIXPEsyVVYz/nz6oGh7NiUn+R4AWYxVEg9P4wqEcAikVXnDPLy6Zx0yQf8mXr2ZItPKhKyVOS0ntg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732641777; c=relaxed/simple;
-	bh=g+K6g2+C+56PC91YCpejfEXqfjjG6DRnO5EU3AxJo4s=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gJK+juJI8cYIVRhauqmD1s+MnCZAFWw1GzK10TstiJ5o6h8T6ul8ksE9zVCXYF+Hd0VAryPccm6t6YM4o4aVJOvQwQTIJghO38ZPrGOZ7eXbN4DqN62WOy2NfPbDb8PniWfTrFzh29wfu41/iZRf/JzqyRSnv7ZWZooLnkvw/mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=none smtp.mailfrom=ecsmtp.iind.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rq/rMQGf; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ecsmtp.iind.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732641777; x=1764177777;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=g+K6g2+C+56PC91YCpejfEXqfjjG6DRnO5EU3AxJo4s=;
-  b=Rq/rMQGf5Nev+dfJt4jLBBMqkrPliC31t7259qU5JuTuST+Jikz9GmR+
-   m6YKDp+fN1KNiSoKsrLpI/JfPLitp/Lx/Y49+uvZ3lKxxsa5tm+gR/4fH
-   5oY9ZzMlge9pt7v4qZql8ntgM6eYMKRdp1lWZogWBOF2axQfPYk95o7v6
-   if3+ixaR4ZJOU2Hf98O266eo1+qJ+4lxsz5gsf+SfVQPR+ZawxzxIb+hK
-   7VLYDIECHg+TmKqpCXr0bZIOSv7smulncuf9Ro+4GtDTPzZRY/kHJmzw2
-   oNagQKLLl24k49sim/4fA5hWQzJL1vZ2Wlf4eqS3aDVn0LWo2bJCElyPn
-   w==;
-X-CSE-ConnectionGUID: H3daPEiCQv6qzyo5YBYAUw==
-X-CSE-MsgGUID: xiOjqys2QOeATaRdtwdauw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="43312953"
-X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; 
-   d="scan'208";a="43312953"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 09:22:53 -0800
-X-CSE-ConnectionGUID: LAsf38AWTz6XoAszamDHIg==
-X-CSE-MsgGUID: h6l7CKbzSTm6khIu2tgLlw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="96730562"
-Received: from inesxmail01.iind.intel.com ([10.223.57.40])
-  by orviesa003.jf.intel.com with ESMTP; 26 Nov 2024 09:22:49 -0800
-Received: from inlubt0316.iind.intel.com (inlubt0316.iind.intel.com [10.191.20.213])
-	by inesxmail01.iind.intel.com (Postfix) with ESMTP id 3E7A51CAE1;
-	Tue, 26 Nov 2024 22:52:48 +0530 (IST)
-Received: by inlubt0316.iind.intel.com (Postfix, from userid 12101951)
-	id 3D7CE160011B; Tue, 26 Nov 2024 22:52:48 +0530 (IST)
-From: Raag Jadav <raag.jadav@intel.com>
-To: gregkh@linuxfoundation.org,
-	linus.walleij@linaro.org,
-	mika.westerberg@linux.intel.com,
-	andriy.shevchenko@linux.intel.com,
-	dmitry.torokhov@gmail.com,
-	broonie@kernel.org,
-	pierre-louis.bossart@linux.dev
-Cc: linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Raag Jadav <raag.jadav@intel.com>
-Subject: [PATCH v2 6/6] ASoC: Intel: avs: use devm_kmemdup_array()
-Date: Tue, 26 Nov 2024 22:52:40 +0530
-Message-Id: <20241126172240.6044-7-raag.jadav@intel.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20241126172240.6044-1-raag.jadav@intel.com>
-References: <20241126172240.6044-1-raag.jadav@intel.com>
+	s=arc-20240116; t=1732654094; c=relaxed/simple;
+	bh=ZBU8Fy8Sv/FwJD6yKpClEj3SItHuR1C5MYFPcenYJWs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=s4clrTtUNVYnDs32OErz2LIerpXVhPACE7CGLPucpQzev4m0XprwB8KY2w68LuQ3lbWfuUiWdxHCD0ECSF2n0vZh1pOF/QxMaqz7rvro8WeaxLfVSZWjXFq2yUKESMVsGONKIoPXtH5mJMZ+ql9nYcZ+37Pf/mnsOC1NmBoCz+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R9mYAE09; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A5207C4CECF;
+	Tue, 26 Nov 2024 20:48:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732654093;
+	bh=ZBU8Fy8Sv/FwJD6yKpClEj3SItHuR1C5MYFPcenYJWs=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=R9mYAE09x8YrOnYi92GSKx1q4f2idlS5Lh2wBvoWVjn8CkHf4dYC4rkk3PmgRsnDP
+	 S2MzaitHsbalovHD1L6GQBp+BNjXs5CcOnRGlS9DJ8F9DPgEUfkw8MIGWuxHm6Bpgs
+	 eEfmDm5CrF/LkXUyoskHg9YI08sBv5uPM+4loheiDVR7fzdRoXhlWx064VzUq+x4gL
+	 kqmDoTiXXDQABaEWlRp03e26NAQXO8iXvqSv4oEbWHFhaAdJvgCOCSrVf+KjStgZYw
+	 /CAYvzfZ4pUpnruipS1ayaKaCBP/uOrCppMM1mPjBItHP5hs+FtVp91bJihfqe50q9
+	 5rJyNXjs5cEig==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D5EFD65525;
+	Tue, 26 Nov 2024 20:48:13 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Subject: [PATCH 0/4] Driver for Apple Z2 touchscreens.
+Date: Tue, 26 Nov 2024 21:47:58 +0100
+Message-Id: <20241126-z2-v1-0-c43c4cc6200d@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAP4zRmcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxNDQyMT3Soj3WQDQ6MkUyOL1ESDFCWgwoKi1LTMCrAh0bG1tQDHCvI+VAA
+ AAA==
+X-Change-ID: 20241124-z2-c012b528ea0d
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732654092; l=1728;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=ZBU8Fy8Sv/FwJD6yKpClEj3SItHuR1C5MYFPcenYJWs=;
+ b=EPyBrRhCz60QqrUaFxi1MkFuNhZO6e8bc/6+SNKD6Cylw/79q7NOFNe9CUIP+7jIQEFDrFVIc
+ fsNWUEUOiIZCm7qEFDH18CdE4WrB+YB2/Z0k3HvMNvnkl3oL8QRhHrh
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
 
-Convert to use devm_kmemdup_array() which is more robust.
+Hi.
 
-Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-Acked-by: Mark Brown <broonie@kernel.org>
+This series adds support for Apple touchscreens using the Z2 protocol.
+Those are used as the primary touchscreen on mobile Apple devices, and for the
+touchbar on laptops using the M-series chips. (T1/T2 laptops have a coprocessor
+in charge of speaking Z2 to the touchbar).
+
+Originally sent as a RFC at https://lore.kernel.org/all/20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com/
+The changes since then mostly address the review feedback, but also
+add another machine that has this specific controller.
+
+The extra gpio needed to be toggled turned out to be a quirk of the
+j293, normal CS is unusable on it, and a gpio has to be used instead.
+(j493 does not have this quirk)
+
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 ---
- sound/soc/intel/avs/boards/da7219.c  | 3 ++-
- sound/soc/intel/avs/boards/es8336.c  | 3 ++-
- sound/soc/intel/avs/boards/nau8825.c | 3 ++-
- sound/soc/intel/avs/boards/rt274.c   | 3 ++-
- sound/soc/intel/avs/boards/rt286.c   | 3 ++-
- sound/soc/intel/avs/boards/rt298.c   | 3 ++-
- sound/soc/intel/avs/boards/rt5663.c  | 3 ++-
- sound/soc/intel/avs/boards/rt5682.c  | 2 +-
- 8 files changed, 15 insertions(+), 8 deletions(-)
+Sasha Finkelstein (4):
+      dt-bindings: input: touchscreen: Add Z2 controller
+      input: apple_z2: Add a driver for Apple Z2 touchscreens
+      arm64: dts: apple: Add touchbar digitizer nodes
+      MAINTAINERS: Add entries for Apple Z2 touchscreen driver
 
-diff --git a/sound/soc/intel/avs/boards/da7219.c b/sound/soc/intel/avs/boards/da7219.c
-index 80c0a1a95654..1b8f58b611a4 100644
---- a/sound/soc/intel/avs/boards/da7219.c
-+++ b/sound/soc/intel/avs/boards/da7219.c
-@@ -113,7 +113,8 @@ static int avs_da7219_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	}
- 
- 	num_pins = ARRAY_SIZE(card_headset_pins);
--	pins = devm_kmemdup(card->dev, card_headset_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_headset_pins, num_pins,
-+				  sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
-diff --git a/sound/soc/intel/avs/boards/es8336.c b/sound/soc/intel/avs/boards/es8336.c
-index c8522e2430f8..8103e539e08a 100644
---- a/sound/soc/intel/avs/boards/es8336.c
-+++ b/sound/soc/intel/avs/boards/es8336.c
-@@ -109,7 +109,8 @@ static int avs_es8336_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	data = snd_soc_card_get_drvdata(card);
- 	num_pins = ARRAY_SIZE(card_headset_pins);
- 
--	pins = devm_kmemdup(card->dev, card_headset_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_headset_pins, num_pins,
-+				  sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
-diff --git a/sound/soc/intel/avs/boards/nau8825.c b/sound/soc/intel/avs/boards/nau8825.c
-index 6ea9058fdb2a..0945a539b364 100644
---- a/sound/soc/intel/avs/boards/nau8825.c
-+++ b/sound/soc/intel/avs/boards/nau8825.c
-@@ -88,7 +88,8 @@ static int avs_nau8825_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	jack = snd_soc_card_get_drvdata(card);
- 	num_pins = ARRAY_SIZE(card_headset_pins);
- 
--	pins = devm_kmemdup(card->dev, card_headset_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_headset_pins, num_pins,
-+				  sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
-diff --git a/sound/soc/intel/avs/boards/rt274.c b/sound/soc/intel/avs/boards/rt274.c
-index 9fcce86c6eb4..bdf36c7c744a 100644
---- a/sound/soc/intel/avs/boards/rt274.c
-+++ b/sound/soc/intel/avs/boards/rt274.c
-@@ -98,7 +98,8 @@ static int avs_rt274_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	jack = snd_soc_card_get_drvdata(card);
- 	num_pins = ARRAY_SIZE(card_headset_pins);
- 
--	pins = devm_kmemdup(card->dev, card_headset_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_headset_pins, num_pins,
-+				  sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
-diff --git a/sound/soc/intel/avs/boards/rt286.c b/sound/soc/intel/avs/boards/rt286.c
-index f157f2d19efb..f94382389430 100644
---- a/sound/soc/intel/avs/boards/rt286.c
-+++ b/sound/soc/intel/avs/boards/rt286.c
-@@ -59,7 +59,8 @@ static int avs_rt286_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	jack = snd_soc_card_get_drvdata(card);
- 	num_pins = ARRAY_SIZE(card_headset_pins);
- 
--	pins = devm_kmemdup(card->dev, card_headset_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_headset_pins, num_pins,
-+				  sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
-diff --git a/sound/soc/intel/avs/boards/rt298.c b/sound/soc/intel/avs/boards/rt298.c
-index 1e85242c8dd2..985bfa977edb 100644
---- a/sound/soc/intel/avs/boards/rt298.c
-+++ b/sound/soc/intel/avs/boards/rt298.c
-@@ -70,7 +70,8 @@ static int avs_rt298_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	jack = snd_soc_card_get_drvdata(card);
- 	num_pins = ARRAY_SIZE(card_headset_pins);
- 
--	pins = devm_kmemdup(card->dev, card_headset_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_headset_pins, num_pins,
-+				  sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
-diff --git a/sound/soc/intel/avs/boards/rt5663.c b/sound/soc/intel/avs/boards/rt5663.c
-index 44f857e90969..fd8b0c915efa 100644
---- a/sound/soc/intel/avs/boards/rt5663.c
-+++ b/sound/soc/intel/avs/boards/rt5663.c
-@@ -65,7 +65,8 @@ static int avs_rt5663_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	jack = &priv->jack;
- 	num_pins = ARRAY_SIZE(card_headset_pins);
- 
--	pins = devm_kmemdup(card->dev, card_headset_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_headset_pins, num_pins,
-+				  sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
-diff --git a/sound/soc/intel/avs/boards/rt5682.c b/sound/soc/intel/avs/boards/rt5682.c
-index 0dcc6392a0cc..6d7022707ca7 100644
---- a/sound/soc/intel/avs/boards/rt5682.c
-+++ b/sound/soc/intel/avs/boards/rt5682.c
-@@ -102,7 +102,7 @@ static int avs_rt5682_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	jack = snd_soc_card_get_drvdata(card);
- 	num_pins = ARRAY_SIZE(card_jack_pins);
- 
--	pins = devm_kmemdup(card->dev, card_jack_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_jack_pins, num_pins, sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
--- 
-2.35.3
+ .../input/touchscreen/apple,z2-multitouch.yaml     |  83 ++++
+ MAINTAINERS                                        |   2 +
+ arch/arm64/boot/dts/apple/t8103-j293.dts           |  24 +
+ arch/arm64/boot/dts/apple/t8103.dtsi               |  19 +
+ arch/arm64/boot/dts/apple/t8112-j493.dts           |  20 +
+ arch/arm64/boot/dts/apple/t8112.dtsi               |  14 +
+ drivers/input/touchscreen/Kconfig                  |  13 +
+ drivers/input/touchscreen/Makefile                 |   1 +
+ drivers/input/touchscreen/apple_z2.c               | 495 +++++++++++++++++++++
+ 9 files changed, 671 insertions(+)
+---
+base-commit: 9f16d5e6f220661f73b36a4be1b21575651d8833
+change-id: 20241124-z2-c012b528ea0d
+
 
 
