@@ -1,145 +1,147 @@
-Return-Path: <linux-input+bounces-8238-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8239-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908B49D931F
-	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 09:14:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF1279D9905
+	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 15:02:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 30636B222A3
-	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 08:14:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C29FCB26158
+	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 13:59:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E54971991A9;
-	Tue, 26 Nov 2024 08:14:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C32B01D515E;
+	Tue, 26 Nov 2024 13:59:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZTABdvA+"
+	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="tDdg/Uwa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp-fw-9106.amazon.com (smtp-fw-9106.amazon.com [207.171.188.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE951195FEF;
-	Tue, 26 Nov 2024 08:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13760946C;
+	Tue, 26 Nov 2024 13:59:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.188.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732608881; cv=none; b=tSICNxkfiuEuERh6FVgFhh1UCEnZgZP+6FCLkgKFLury1t5hJWLDjZPU2Ayw6mpKGD2DgIiaocwdKzwGQiOZ27jaobboflBwT5UxC7Y+aceqdU9eGd0252+UUZRyDLjKFWwtdrkRU8dbEAiJe7ANXJWne3Uh5j+QM1nnYaFnKm4=
+	t=1732629543; cv=none; b=QvF2z+35ctzWWSaszVdI+LHm71vKis5nN507nM9BWp4iyqmDy00xSvigiZKOis94y/EoNJ3p48JK4g6K/87NBasc6gBfg5sDftT+QuDUq6O4DpWMKKh/tF8nUCYD/EssO8RDCjq152SjJfhoD4mDpYm/I6ooqZWrB5HEWjArjzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732608881; c=relaxed/simple;
-	bh=U3PKsbUBinHKAQTY4pSr/DghVg9jFrCovhbN+2xY6tI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HdxTbWF3oNI7E2suYoGSCYBWpfihpyCaN5BxXLp3BqI+v0VKejIeHweQUwrHXQfhpPQaUGWqQPCktUI1SRpMgll8nixBTW4slrZnSmsBC1JLSzZfa1rMF/XHvgUxVmbqvZ9P3WW9x9LoO4hxf+bY1uZGI3faaRVpeDxhh3Bpa2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZTABdvA+; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732608880; x=1764144880;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U3PKsbUBinHKAQTY4pSr/DghVg9jFrCovhbN+2xY6tI=;
-  b=ZTABdvA+jkptZ7b8xWFdGWoN+2hNIuDeaZAt65fNiZjYff9lzlJcEki8
-   RX1wwePXVRL1blPPNBo+iKG2dcOdrbD+WJk6t35z0CEvsx9LgWOouxpjE
-   be8ATaujqR8E1Utm6F69s+UDatIebKukXRjMj4VIitexJD5nSGLy9JPe8
-   /YI5ifKfCkPwZgzP7TjO+eYUNwLl+SU5nldaA3M/zquwNtNtxxMhFs9bB
-   sqWb1Jx5dLj19skIW3TKFML86T9QK6Bob3LW0kfli3PJpjc829pMaUVCM
-   QVFNc7lzlPZw5GnfB1PQcf/um3eYuHHeBht4eYOIj+C2i8J0KhjIzvSni
-   Q==;
-X-CSE-ConnectionGUID: TVQcmf9ASsO9B3EEN4at4g==
-X-CSE-MsgGUID: uuQHz/qfRSqCmBJ1Rewjpg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="32814613"
-X-IronPort-AV: E=Sophos;i="6.12,185,1728975600"; 
-   d="scan'208";a="32814613"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 00:14:39 -0800
-X-CSE-ConnectionGUID: i5mZsNWdRx2WtllhCE1fHw==
-X-CSE-MsgGUID: /aO0CI5ITGScVscyHxtj0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,185,1728975600"; 
-   d="scan'208";a="92349151"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 00:14:37 -0800
-Date: Tue, 26 Nov 2024 10:14:33 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, gregkh@linuxfoundation.org,
-	linus.walleij@linaro.org, mika.westerberg@linux.intel.com,
-	broonie@kernel.org, pierre-louis.bossart@linux.dev,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v1 1/5] devres: Introduce devm_kmemdup_array()
-Message-ID: <Z0WDaYEg1yjpNJqH@black.fi.intel.com>
-References: <20241123200527.7830-1-raag.jadav@intel.com>
- <20241123200527.7830-2-raag.jadav@intel.com>
- <Z0LPyMed-4a8cajD@google.com>
- <Z0QsAm3FdZDJ8kY0@smile.fi.intel.com>
- <Z0SS3cO4acfgz0iQ@black.fi.intel.com>
- <Z0Sl1gmYc3y11riD@google.com>
- <Z0SwIsmKPlqfRlMB@smile.fi.intel.com>
+	s=arc-20240116; t=1732629543; c=relaxed/simple;
+	bh=pZ2YZdpgemFDCM+U+LkA/ySjT+wKLlrQ03YQqJSyhxE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jbtXab75SBJ2+t0RiI3ySH35G2o0ZGTlalRjgkKcyRrZ57Z4OzheJXB6HcFkZoA4dAE+Q6l4Bzk65fhi7IZ56FlZArHI6/e2KUuWMZurm4iqd5jWSulFWdezTKyxNhwzqp71xMQ2kcBoK/E8/70FtqG6To7NflkvNeBiIm3iLM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b=tDdg/Uwa; arc=none smtp.client-ip=207.171.188.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1732629543; x=1764165543;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=RSXk5sIMAikPeTQyZJR0m9fbpuoQIFByJet2DRoFnyc=;
+  b=tDdg/Uwa/d66o7DATTHrmdFI8Tc/Fb/L2tohpruce1RY2sA4kyt4UgJz
+   dhO9XbwM1j8vynpnB0uteCr4Wt2Tg15PjctKqeI4YbKS4DBHpWMbrt7oc
+   abnN0rq7Be10O5Cmkz7H4DzGmhJk665XfkgGFhK0tq3IHa1aob3088qg4
+   s=;
+X-IronPort-AV: E=Sophos;i="6.12,186,1728950400"; 
+   d="scan'208";a="778791635"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.25.36.210])
+  by smtp-border-fw-9106.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 13:58:57 +0000
+Received: from EX19MTAEUB002.ant.amazon.com [10.0.17.79:51298]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.26.116:2525] with esmtp (Farcaster)
+ id 9b821c50-75a6-4ca0-bdd1-44056ebbaa70; Tue, 26 Nov 2024 13:58:55 +0000 (UTC)
+X-Farcaster-Flow-ID: 9b821c50-75a6-4ca0-bdd1-44056ebbaa70
+Received: from EX19D008EUC003.ant.amazon.com (10.252.51.205) by
+ EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Tue, 26 Nov 2024 13:58:54 +0000
+Received: from EX19MTAUWA001.ant.amazon.com (10.250.64.204) by
+ EX19D008EUC003.ant.amazon.com (10.252.51.205) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
+ Tue, 26 Nov 2024 13:58:54 +0000
+Received: from email-imr-corp-prod-iad-all-1b-a03c1db8.us-east-1.amazon.com
+ (10.25.36.214) by mail-relay.amazon.com (10.250.64.204) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
+ 15.2.1258.34 via Frontend Transport; Tue, 26 Nov 2024 13:58:54 +0000
+Received: from dev-dsk-mheyne-1b-55676e6a.eu-west-1.amazon.com (dev-dsk-mheyne-1b-55676e6a.eu-west-1.amazon.com [10.253.68.42])
+	by email-imr-corp-prod-iad-all-1b-a03c1db8.us-east-1.amazon.com (Postfix) with ESMTP id 6BA7E801E0;
+	Tue, 26 Nov 2024 13:58:53 +0000 (UTC)
+Received: by dev-dsk-mheyne-1b-55676e6a.eu-west-1.amazon.com (Postfix, from userid 5466572)
+	id 2945BB5BE; Tue, 26 Nov 2024 13:58:53 +0000 (UTC)
+From: Maximilian Heyne <mheyne@amazon.de>
+To: 
+CC: Maximilian Heyne <mheyne@amazon.de>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>, Shuah Khan <shuah@kernel.org>,
+	"Peter Hutterer" <peter.hutterer@who-t.net>, <linux-input@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] selftests: hid: fix typo and exit code
+Date: Tue, 26 Nov 2024 13:58:50 +0000
+Message-ID: <20241126135850.76493-1-mheyne@amazon.de>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z0SwIsmKPlqfRlMB@smile.fi.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 25, 2024 at 07:13:06PM +0200, Andy Shevchenko wrote:
-> On Mon, Nov 25, 2024 at 08:29:10AM -0800, Dmitry Torokhov wrote:
-> > On Mon, Nov 25, 2024 at 05:08:13PM +0200, Raag Jadav wrote:
-> > > On Mon, Nov 25, 2024 at 09:49:22AM +0200, Andy Shevchenko wrote:
-> > > > On Sun, Nov 24, 2024 at 07:03:36AM +0000, Dmitry Torokhov wrote:
-> > > > > On Sun, Nov 24, 2024 at 01:35:23AM +0530, Raag Jadav wrote:
-> 
-> ...
-> 
-> > > > > > Introduce '_array' variant of devm_kmemdup() for the users which lack
-> > > > > > multiplication overflow check.
-> > > > > 
-> > > > > I am not sure that this new helper is needed. Unlike allocators for
-> > > > > brand new objects, such as kmalloc_array(), devm_kmemdup() makes a copy
-> > > > > of already existing object, which is supposed to be a valid object and
-> > > > > therefore will have a reasonable size. So there should be no chance for
-> > > > > hitting this overflow unless the caller is completely confused and calls
-> > > > > devm_kmemdup() with random arguments (in which case all bets are off).
-> > > > 
-> > > > Don't we want to have a code more robust even if all what you say applies?
-> > > > Also this makes the call consistent with zillions of others from the alloc
-> > > > family of calls in the Linux kernel.
-> > 
-> > Having a clean API is fine, just do not bill it as something that is
-> > "safer". As I mentioned, unlike other allocators this one is supposed to
-> > operate with a valid source object and size passed to devm_kmemdup()
-> > should not exceed the size of the source object. There is no chance of
-> > overflowing.
-> 
-> Agree.
-> 
-> > > Agree. Although shooting in the foot is never the expectation, it is
-> > > atleast better than having to debug such unexpected cases.
-> > 
-> > Then maybe have a BUG() there instead of returning NULL? I know BUG()s
-> > are frowned upon, but I think in this case overflow is really an
-> > indicator of a hard error by the caller which is passing garbage
-> > arguments to this function.
-> > 
-> > Hm, I see we have kmemdup_array() already. Ok. How about making your
-> > devm_kmemdup_array() be similar to kmemdup_array()?
-> > 
-> > static inline void *devm_kmemdup_array(struct device *dev, const void *src,
-> > 				       size_t n, size_t size, gfp_t flags)
-> > {
-> > 	return devm_kmemdup(dev, src, size_mul(size, n), flags);
-> > }
-> > 
-> > This will trigger a warning on a too large order of allocation in
-> > mm/page_alloc.c::__alloc_pages_noprof().
-> 
-> This is nice! I have overlooked that kmemdup_array() uses size_mul()
-> instead of a check. Raag, can you rebuild your series on this?
+The correct exit code to mark a test as skipped is 4.
 
-Sure.
+Fixes: ffb85d5c9e80 ("selftests: hid: import hid-tools hid-core tests")
+Signed-off-by: Maximilian Heyne <mheyne@amazon.de>
+---
+ .../testing/selftests/hid/run-hid-tools-tests.sh | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-Raag
+diff --git a/tools/testing/selftests/hid/run-hid-tools-tests.sh b/tools/testing/selftests/hid/run-hid-tools-tests.sh
+index bdae8464da865..af1682a53c27e 100755
+--- a/tools/testing/selftests/hid/run-hid-tools-tests.sh
++++ b/tools/testing/selftests/hid/run-hid-tools-tests.sh
+@@ -2,24 +2,26 @@
+ # SPDX-License-Identifier: GPL-2.0
+ # Runs tests for the HID subsystem
+ 
++KSELFTEST_SKIP_TEST=4
++
+ if ! command -v python3 > /dev/null 2>&1; then
+ 	echo "hid-tools: [SKIP] python3 not installed"
+-	exit 77
++	exit $KSELFTEST_SKIP_TEST
+ fi
+ 
+ if ! python3 -c "import pytest" > /dev/null 2>&1; then
+-	echo "hid: [SKIP/ pytest module not installed"
+-	exit 77
++	echo "hid: [SKIP] pytest module not installed"
++	exit $KSELFTEST_SKIP_TEST
+ fi
+ 
+ if ! python3 -c "import pytest_tap" > /dev/null 2>&1; then
+-	echo "hid: [SKIP/ pytest_tap module not installed"
+-	exit 77
++	echo "hid: [SKIP] pytest_tap module not installed"
++	exit $KSELFTEST_SKIP_TEST
+ fi
+ 
+ if ! python3 -c "import hidtools" > /dev/null 2>&1; then
+-	echo "hid: [SKIP/ hid-tools module not installed"
+-	exit 77
++	echo "hid: [SKIP] hid-tools module not installed"
++	exit $KSELFTEST_SKIP_TEST
+ fi
+ 
+ TARGET=${TARGET:=.}
+-- 
+2.40.1
+
+
+
+
+Amazon Web Services Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 257764 B
+Sitz: Berlin
+Ust-ID: DE 365 538 597
+
 
