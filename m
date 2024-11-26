@@ -1,138 +1,99 @@
-Return-Path: <linux-input+bounces-8253-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8254-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85B99D9EB0
-	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 22:15:00 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D769D9F3C
+	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 23:37:21 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5A396B210B2
-	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 21:14:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64EEA1687CB
+	for <lists+linux-input@lfdr.de>; Tue, 26 Nov 2024 22:37:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AC391DF742;
-	Tue, 26 Nov 2024 21:14:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DBBC1C07C0;
+	Tue, 26 Nov 2024 22:37:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="lBu2E4/z";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="rtkRwH0d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fQ3jtbyV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8211B87D0;
-	Tue, 26 Nov 2024 21:14:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3852B11185;
+	Tue, 26 Nov 2024 22:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732655694; cv=none; b=KIHsvC8us77xyhhVzuBLfbxJjL4uZXwHzvO8Oov9XTxGAGPzx+B2dH605knb6x8U6YaZU7BjQ/GIzPm9aFhuzcgXyatpDXuUJrIROnHuoWg4kBAiDLN5TqWHhf/iA1MfOPzLrUYbPW8NgtarxaQ3zKcx+ks2wrIHr3eiDHk5QRI=
+	t=1732660636; cv=none; b=efZVVAbyu6bfksHubG1J36y0RiAfdK1nOSOSUiYMScu679ksgMFN37bttA643wYX9HEXaQYTk6AvrYFKudPbTKk5nMEH1s+tnMseAjq7QiLugf1iSz4cZvKTiXiuc5tNJsAbns+1uSO5bSod1qdY+Ua63k26zFXDKRQsfgMJR/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732655694; c=relaxed/simple;
-	bh=ZB7Q8EEDQ5v9izbjOswDLmoKdV8o6G2P6LvqbjXJHSQ=;
+	s=arc-20240116; t=1732660636; c=relaxed/simple;
+	bh=3v5DyQUQ8SKX6A97x/6MOm1ejSRScIxuCNnsEsdbG6s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dzCCwarLZ7NUYHwuu2jVeuhcYc9lHvHUW3BSoRrYXUJ2XbjOgoYZEzsLCRhCEqy5n9yv+Nu2a9pltI2XzfpY2Tm5dGc3B5vDXLektNWH+6NbdWUZhG+Fw7SF1WBKuTmLgytzerw/zYV+at4s1VvKTrYNejIEAu8zDR4Gc628ifg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=lBu2E4/z; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=rtkRwH0d; arc=none smtp.client-ip=202.12.124.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfout.stl.internal (Postfix) with ESMTP id DB14B11401E0;
-	Tue, 26 Nov 2024 16:14:50 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Tue, 26 Nov 2024 16:14:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1732655690; x=1732742090; bh=MaXb4heZ4E
-	PnEKRXMD9E8/ioruljb7zXBz5GaHOjAgc=; b=lBu2E4/zs0WgHUJoQajbt+gZuE
-	yqjTlQ4rQR4Y3+bjRLp3GtmBtnNE5mzAbET4DSQIU7QxeTU5bSyGnGkA9m2GGBxQ
-	iJbxdPQnkfRVStL74ulUtxv4SJINwh8AsvWd6cmdg2YAImUjaedxLHUsoNEcNVT4
-	ZW230QDCDF3voT746WIm9CM+qO9SiC0+T6SuxRTx+ySo7KcrT5y+jEAyR+oYM8Dz
-	sLm/Kw5fBvJeNgiUDQLZ/x0b568T3jEIdaKX9spIrQhpKDitcV3K0HjjvaQu54Md
-	bBNQ5e/9rMtxjMrlffAwF9DCMIEmvkOm9cHujCC+3AMcVcWTEEUBiTBj6G9g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1732655690; x=1732742090; bh=MaXb4heZ4EPnEKRXMD9E8/ioruljb7zXBz5
-	GaHOjAgc=; b=rtkRwH0dtRSFGOsJepoew66M3vMRe7ZB80Us9I5IHnMMuY3RI2T
-	RSsjjjkjCkwWh7Yl98yXST1sOcfwGXw8zUm+sPyfJu8qwLTN3HL0UBDZ3anNyQHD
-	XQe133SkGIzlNhPPUzjUqY7aMofvba45jwYzf17oAXU4mzqqqbgf7qSoQKu8p295
-	a3e3R81mk7enM6uje8wIcIEYGAvFLA7neB/FPdFqGnxKC5aFvV8pAsZfIlO2Jj7+
-	B7b8zshClGjBNWpQnM5yj29oZ3VBHARoq1pk/NxgRcZspr06HKl7lyYpHjqyp0A6
-	DwBgXmGPfoiqjX/noQoPzzsNeWrttRzH57A==
-X-ME-Sender: <xms:STpGZygne0mCYayUw16B08xX97doriCb8l2xJGLNgpEZN1HAaMNvzA>
-    <xme:STpGZzC4c_-5idzsWIEuBaNvCp6KpqqmPymGi2M3oYyCps8vrdYKPEKmMsmGZ956f
-    ZBkIaldho37a6SqElM>
-X-ME-Received: <xmr:STpGZ6HkYB9sM6kTxTubh13I0MnNCl1JlvwdvHDyYcKSo1uZjuM7NsKPgEjuy2iQ_NcuGxr2AK-2Cjlsv5MMiOg4tTmkgfYgQX0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrgeejgddugedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeen
-    ucfhrhhomheplfgrnhhnvgcuifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenuc
-    ggtffrrghtthgvrhhnpefgudeuffelfeekgeeukedtheekjeettdfftddujefhvdehtefg
-    iefgledtueefjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvght
-    pdhnsggprhgtphhtthhopedugedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepfh
-    hnkhhlrdhkvghrnhgvlhesghhmrghilhdrtghomhdprhgtphhtthhopehmrghrtggrnhes
-    mhgrrhgtrghnrdhsthdprhgtphhtthhopehsvhgvnhesshhvvghnphgvthgvrhdruggvvh
-    dprhgtphhtthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtthho
-    pegumhhithhrhidrthhorhhokhhhohhvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprh
-    hosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheprhihuggsvghrghessghithhmrghthhdrohhrgh
-X-ME-Proxy: <xmx:SjpGZ7Rq-RBSf09Ib4ULSHmIxrbx_bj_eHcVdiKAcmth01EgkKknbQ>
-    <xmx:SjpGZ_zqQwIVwyWJpWBVa6inzMm3faUMvqQTNkcE5qKuGeXdPpYSng>
-    <xmx:SjpGZ54RQKUb6QuBu5Us9q-yBTctgFRCpDPE4q5Zrtr98iDCQaeDQQ>
-    <xmx:SjpGZ8wFYaBNKgwtefQA8bZIfAARZHMet2pCc-1i0wpoGgA0BUgFNg>
-    <xmx:SjpGZ0KSsMX1BWZR0TMY8r_z3ZpRt1RWRqfrUxYcqySUndNuBUjgchjq>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 26 Nov 2024 16:14:49 -0500 (EST)
-Date: Tue, 26 Nov 2024 22:14:47 +0100
-From: Janne Grunau <j@jannau.net>
-To: fnkl.kernel@gmail.com
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] arm64: dts: apple: Add touchbar digitizer nodes
-Message-ID: <20241126211447.GA3782493@robin.jannau.net>
-References: <20241126-z2-v1-0-c43c4cc6200d@gmail.com>
- <20241126-z2-v1-3-c43c4cc6200d@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=nMX5806XH3XJE+CIUaQZrhhleevBRXuy5zb94h+WdieKX92fS2MFrgpXyTVtShDfPiGbbPXdA+IeizsmdkFwqQMYF000h8i+ys3qk3Ww2VG6brcXiMkQ8KgsTWnABsIYG7AOGh5OgRopSa1xiBtfRESRBxdSCPzm4G3s3mtfdFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fQ3jtbyV; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732660635; x=1764196635;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3v5DyQUQ8SKX6A97x/6MOm1ejSRScIxuCNnsEsdbG6s=;
+  b=fQ3jtbyV1sYKsawsXt+OOsp1odzvN/Y9sVsmHHsP3vbEutsIOWA+apBZ
+   kQNHOW9o/Ly43oaOWJ2O+93M69x27O8qHvE639JhAgEsah4Fqc99OF35A
+   8I8AKsRx55znLYUUF5YS2yzJrttpoYO/f1ajcyD6ROsLCXeNrdJCIYlsI
+   0CQQPQmdqbAW+jbT6gzhjrkgEn2Iqtt4rY3rwxkX4DfEx8TapbfjNNvSD
+   u0ah58WjaRvTjCJoQPxR89u8olUgDT31VUunfNgcC1etDJLky9TBHqiDV
+   QUjnQC0j9gcGNuXQilw6vdNXnLn6Wtd/OMCZHFwCzr7dSpMWQxFauthUp
+   Q==;
+X-CSE-ConnectionGUID: HbToUjJ9TdeICePmVlb7yg==
+X-CSE-MsgGUID: bD7GaM2dRv+Me2Bh8Hx0mw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="32994613"
+X-IronPort-AV: E=Sophos;i="6.12,188,1728975600"; 
+   d="scan'208";a="32994613"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 14:37:15 -0800
+X-CSE-ConnectionGUID: qzQDlkpES9+yq7nDsS9qVg==
+X-CSE-MsgGUID: g1lNK6nwSyGdwuyC/ExJrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,188,1728975600"; 
+   d="scan'208";a="91561421"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 14:37:12 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tG4BB-00000001Rda-1Etn;
+	Wed, 27 Nov 2024 00:37:09 +0200
+Date: Wed, 27 Nov 2024 00:37:09 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: gregkh@linuxfoundation.org, linus.walleij@linaro.org,
+	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
+	broonie@kernel.org, pierre-louis.bossart@linux.dev,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 2/6] pinctrl: intel: copy communities using
+ devm_kmemdup_array()
+Message-ID: <Z0ZNlY2uJn3d4VYs@smile.fi.intel.com>
+References: <20241126172240.6044-1-raag.jadav@intel.com>
+ <20241126172240.6044-3-raag.jadav@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241126-z2-v1-3-c43c4cc6200d@gmail.com>
+In-Reply-To: <20241126172240.6044-3-raag.jadav@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Nov 26, 2024 at 09:48:01PM +0100, Sasha Finkelstein via B4 Relay wrote:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> 
-> Adds device tree entries for the touchbar digitizer
-> 
-> Co-developed-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  arch/arm64/boot/dts/apple/t8103-j293.dts | 24 ++++++++++++++++++++++++
->  arch/arm64/boot/dts/apple/t8103.dtsi     | 19 +++++++++++++++++++
->  arch/arm64/boot/dts/apple/t8112-j493.dts | 20 ++++++++++++++++++++
->  arch/arm64/boot/dts/apple/t8112.dtsi     | 14 ++++++++++++++
+On Tue, Nov 26, 2024 at 10:52:36PM +0530, Raag Jadav wrote:
+> Copy communities using devm_kmemdup_array() instead of doing it manually.
 
-The changes in t8103.dtsi and t8112.dtsi conflict with my "Add Apple SPI
-controller and spi-nor dt nodes" in
-https://lore.kernel.org/asahi/20241102-asahi-spi-dt-v1-0-7ac44c0a88f9@jannau.net/
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-I think it makes more sense to add the spi controller nodes in one go
-instead of piece by piece based on device support.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Janne
+
 
