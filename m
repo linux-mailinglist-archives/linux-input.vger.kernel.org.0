@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-8271-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8272-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855B49DA5B2
-	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 11:26:00 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DCFF9DA5BA
+	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 11:27:41 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4AD6E28285C
-	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 10:25:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFD941654BA
+	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 10:27:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE9BD196DA2;
-	Wed, 27 Nov 2024 10:25:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A60D1974F4;
+	Wed, 27 Nov 2024 10:27:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pzfr3Ta9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aWe1oSej"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5264139D0B;
-	Wed, 27 Nov 2024 10:25:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C566139D0B;
+	Wed, 27 Nov 2024 10:27:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732703155; cv=none; b=Htx+tMUr6s0r4VA24EDoA1Wn78+Pc2LByJOyEIftMr7RO9tAmAMpFSyQit2v1SukYqtZsyPkh8wtEki1plEDtcuQzHNBb/q+cbngtnIx9HCSdzcy1bzNr8qp62Ezyw+c9Fv4SHVtTSSEMuBKmNoKuvmZ+MROiIv5mPnRpUvUYAQ=
+	t=1732703257; cv=none; b=QICywKsD1vE39hexl9MrgGLy+An+0ClY+Uv3ITXYrzZAJyMnzJHzu7/VfZVOKSmIJDjnDBY5qcz9/YBqfRmICQyqqfIO9NpC+92386lSmksQRV7a1yzwZAY9DJ8DXFoY1mH5tJGuxNY8ryXxJRkQ+P3QZvRl78+WdfQJ28ke6Vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732703155; c=relaxed/simple;
-	bh=PWpSdXhG4JWkJaUORNhZqpVB6OIqqs5JPgV0E6gJT2g=;
+	s=arc-20240116; t=1732703257; c=relaxed/simple;
+	bh=buyCNcUX7XPKVIWjNUx5kyvoGjzqd51rS3iDdcG045c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dH2CiAmsopgQAiOhaOcE1Mr71sf1QUuUCe7q2rG8iGc6lwH4TShAsh2QSrB8MuHJZiKwiBjx9Tqu/Bry0SIUGQdIE402q6+xzF7L9qrVbH3BKtG5wTtCVz5JqXAdolPXg6RO4HuTuzYLgGXWjYEsBzyjgDqzPv9w7Q+cFGLZnko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pzfr3Ta9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1B47C4CECC;
-	Wed, 27 Nov 2024 10:25:49 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=fp5rnefZ5NRuac9GB5KkIlS3ZgJuLod4OagBQf8qCpKk+NttaozkRDNdXADhRGa1IXBQjLK5RsSF0HrmJCreXqw3hDd7YSB/+baPOdS7ozTCumSU68y7wwWII6HC+6qDos9l88nZ5fs2rlthW/fiObHxvSNgRZ3lrcdvBrJ1dzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aWe1oSej; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F026CC4CED2;
+	Wed, 27 Nov 2024 10:27:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732703155;
-	bh=PWpSdXhG4JWkJaUORNhZqpVB6OIqqs5JPgV0E6gJT2g=;
+	s=k20201202; t=1732703256;
+	bh=buyCNcUX7XPKVIWjNUx5kyvoGjzqd51rS3iDdcG045c=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pzfr3Ta92uyhcnHsBRpmiX71uA/MW32jz6jGyAhQ1CwPiOxRDIO/yRXX6mRAFmsji
-	 08UZGNi+SEaPJbgVQVuWlJO42AXFjKTOxN/BbG2Cn9diZIXPd3TsVGjgWbMRO/E53t
-	 VP6fzwIkqSl83/Di/FQDQa6RKCBv3Gm47BO721fPLpbf9YQrd91muYewSNhFuMjCIw
-	 MVHphu3MLN5b913IhNjhUdFWWq8h5MNwAXTDIScYuzKqzM95/HGWKz26iXEAWPbgGT
-	 LxVc/+ruvFgKNiR2THdfXc4oC40m3oinKcyuF4wbvGWGdflj+R0tRrruFxSTYLwciN
-	 XT5NQpvlvOYAw==
-Message-ID: <495be827-f876-435b-977f-c563e8d51730@kernel.org>
-Date: Wed, 27 Nov 2024 11:25:47 +0100
+	b=aWe1oSejuBFDktZapdUDVrus2l7S+imk7QiYkTth2nce8uNKJZAR0VgxCcav57xK7
+	 Dnz58QlcNx1rFq4MDl1k+MaRauv2+dSfk9ElzwQamYBETTxqoSihqLGGb7r+pFjnSx
+	 mpU2OeRO5k+U+EPeYQT3QPnhuKEUv1imK7Iyyp/tQZ320C5Bqt6Sf6CsXhDLIh8jiG
+	 z976O9PXc7hITDCeDxcCmteYW10F7KVhkaJunG89S6mr4Wd1bxhK2O3PDraKGxKlMm
+	 56cFgsYGAJN73dNsQJics6W5mJktG41AgcdB95KoQEWvlwyIZ3XLQ33puasNgtdSc3
+	 3lOBsQCPnOUyA==
+Message-ID: <b30e77e1-f0ba-4972-a67b-c9dac4b60f12@kernel.org>
+Date: Wed, 27 Nov 2024 11:27:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,22 +50,16 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] input: apple_z2: Add a driver for Apple Z2
- touchscreens
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>,
+Subject: Re: [PATCH 0/4] Driver for Apple Z2 touchscreens.
+To: fnkl.kernel@gmail.com, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-input@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
 References: <20241126-z2-v1-0-c43c4cc6200d@gmail.com>
- <20241126-z2-v1-2-c43c4cc6200d@gmail.com>
- <27amnmlm52igidlv23h3d3bvaezbdumedfkqicbtreka3llhqs@fafepduxgv43>
- <CAMT+MTRTzPwo7QveP5Zt_4Zycu1qohe5g8srC8O8Jo+O+-wLJw@mail.gmail.com>
- <3FA9FD56-ECF4-4E2C-A300-7E552F60987D@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -111,25 +105,31 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <3FA9FD56-ECF4-4E2C-A300-7E552F60987D@gmail.com>
+In-Reply-To: <20241126-z2-v1-0-c43c4cc6200d@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 27/11/2024 11:22, Dmitry Torokhov wrote:
-> On November 27, 2024 2:19:38 AM PST, Sasha Finkelstein <fnkl.kernel@gmail.com> wrote:
->> On Wed, 27 Nov 2024 at 10:00, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>> +             dev_err(dev, "unable to get reset");
->>>
->>> Syntax is: return dev_err_probe, almost everywhere here.
->>
->> Per discussion on previous version of this series, input asks
->> dev_err_probe to not be used.
+On 26/11/2024 21:47, Sasha Finkelstein via B4 Relay wrote:
+> Hi.
 > 
-> They twisted my arm. It's ok to use now. 
+> This series adds support for Apple touchscreens using the Z2 protocol.
+> Those are used as the primary touchscreen on mobile Apple devices, and for the
+> touchbar on laptops using the M-series chips. (T1/T2 laptops have a coprocessor
+> in charge of speaking Z2 to the touchbar).
+> 
+> Originally sent as a RFC at https://lore.kernel.org/all/20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com/
+> The changes since then mostly address the review feedback, but also
+> add another machine that has this specific controller.
+Then this is v2, not v1. Look:
 
-I am fine if that's the preference for input, although this particular
-case without dev_err_probe would be just wrong: possible dmesg flood on
-deferral.
+b4 diff '<20241126-z2-v1-0-c43c4cc6200d@gmail.com>'
+Grabbing thread from
+lore.kernel.org/all/20241126-z2-v1-0-c43c4cc6200d@gmail.com/t.mbox.gz
+---
+Analyzing 16 messages in the thread
+Could not find lower series to compare against.
+
+Also we expect changelog in cover letter or individual patches.
 
 Best regards,
 Krzysztof
