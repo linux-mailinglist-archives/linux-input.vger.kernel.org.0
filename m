@@ -1,136 +1,98 @@
-Return-Path: <linux-input+bounces-8272-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8273-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DCFF9DA5BA
-	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 11:27:41 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFD941654BA
-	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 10:27:37 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A60D1974F4;
-	Wed, 27 Nov 2024 10:27:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aWe1oSej"
-X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A84E49DA5D1
+	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 11:31:56 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C566139D0B;
-	Wed, 27 Nov 2024 10:27:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C36E284FA1
+	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 10:31:55 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FBCF19994F;
+	Wed, 27 Nov 2024 10:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SnVlLQn1"
+X-Original-To: linux-input@vger.kernel.org
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A8019922A;
+	Wed, 27 Nov 2024 10:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732703257; cv=none; b=QICywKsD1vE39hexl9MrgGLy+An+0ClY+Uv3ITXYrzZAJyMnzJHzu7/VfZVOKSmIJDjnDBY5qcz9/YBqfRmICQyqqfIO9NpC+92386lSmksQRV7a1yzwZAY9DJ8DXFoY1mH5tJGuxNY8ryXxJRkQ+P3QZvRl78+WdfQJ28ke6Vg=
+	t=1732703476; cv=none; b=KmjkinxFwHrhVLcIZBI/yvYrPfyG8zkJ3AiprjbKgwVhDbFfFxapGPHo+mx6z3DetMtot2BwSBGHmEFC7inx3iWXWuSzIgh6YOZhIaxeEbdc3IzkSov5wSjYFzT6n2jiH0WbqQSjJztWKOe3scDOaV8ilGDnl0lVh7eWBk1IG5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732703257; c=relaxed/simple;
-	bh=buyCNcUX7XPKVIWjNUx5kyvoGjzqd51rS3iDdcG045c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fp5rnefZ5NRuac9GB5KkIlS3ZgJuLod4OagBQf8qCpKk+NttaozkRDNdXADhRGa1IXBQjLK5RsSF0HrmJCreXqw3hDd7YSB/+baPOdS7ozTCumSU68y7wwWII6HC+6qDos9l88nZ5fs2rlthW/fiObHxvSNgRZ3lrcdvBrJ1dzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aWe1oSej; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F026CC4CED2;
-	Wed, 27 Nov 2024 10:27:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732703256;
-	bh=buyCNcUX7XPKVIWjNUx5kyvoGjzqd51rS3iDdcG045c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aWe1oSejuBFDktZapdUDVrus2l7S+imk7QiYkTth2nce8uNKJZAR0VgxCcav57xK7
-	 Dnz58QlcNx1rFq4MDl1k+MaRauv2+dSfk9ElzwQamYBETTxqoSihqLGGb7r+pFjnSx
-	 mpU2OeRO5k+U+EPeYQT3QPnhuKEUv1imK7Iyyp/tQZ320C5Bqt6Sf6CsXhDLIh8jiG
-	 z976O9PXc7hITDCeDxcCmteYW10F7KVhkaJunG89S6mr4Wd1bxhK2O3PDraKGxKlMm
-	 56cFgsYGAJN73dNsQJics6W5mJktG41AgcdB95KoQEWvlwyIZ3XLQ33puasNgtdSc3
-	 3lOBsQCPnOUyA==
-Message-ID: <b30e77e1-f0ba-4972-a67b-c9dac4b60f12@kernel.org>
-Date: Wed, 27 Nov 2024 11:27:29 +0100
+	s=arc-20240116; t=1732703476; c=relaxed/simple;
+	bh=6Zr5foNoeYHy00EYMyERNSF8LJh3JyyQLGIUZ+TN3qg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=s3AC5zz8e+X5bFlecpzSr11xvlZ8IPjgRbe5g9CSNKxgiflxaHpOg+er4WhdTRK9nwODikUgx+8O7/BAsWn/wliILdzWSaOetRdZOAXdjBwhOlqD2A1rJ4ZVA6BILAi1WzNk2PwTAfAHu3U37IhEdSlXoWdLPE7wCcFKdoZhbFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SnVlLQn1; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6eee6874ef8so49552787b3.2;
+        Wed, 27 Nov 2024 02:31:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732703474; x=1733308274; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6+tMGsu8kyM/fcIHQ4a5jlISh9lUT5BBdpOf/BUGU00=;
+        b=SnVlLQn1t7wbJe6CbTdByTAFFddxzy96L61Xdaa1EGr/Bip+ZZtkK86M9BQubEVb9P
+         CNrd4t7yq5+ieI/O/OacJFO0AQQEmLhCN3GgMGs8+DF58V+nDGEl97wOOPGhWlK9MOX/
+         ju34st6EtvyrJvyc6BbCu+tWPqSeERSMvgN8fgU3vnlzkTbaTRXgn2lmh/aUUPJ64Q/e
+         0cXe73nW6zeiiQLK3Ec/DfBFxifwuMxj25DEX5eAuqqdwSfKb3GKekwaU+aSmMLbHJMz
+         cEijvjWI9TcJl6xzpXS06dLZ1Iqzgx42671pcLXAmZaTNJFEbPNGF70S/iK874UAqJcg
+         jfxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732703474; x=1733308274;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6+tMGsu8kyM/fcIHQ4a5jlISh9lUT5BBdpOf/BUGU00=;
+        b=PxycQ8JKJxqOgCFW7hvrIrkXhoeICgUXTZ5kNJUi25zUCR3gN3pu/r5fCfeYnfMc/x
+         NsHvkCBxZxN2SG+9EzblFooVf4o8Y5wTvlACLcVVjla8oK90ktngHq6nlA8uROjxG8sr
+         e395kF/qPAM9+XruoMCSjngBhCn6/yqLuGgnfJkBiQqvzBxfRZ6H4ByfkJ3XKGr6doQ4
+         8BfkP4DnXtuilR1PogcmtL6mC9Lz151gMYbFYLpAyCXWA+DaktY7WY3WvsWuhNvgcLDN
+         rdxqXNHeIsDyqi07lKFIDD4hsP6RuID5tPmmN/dIWoewHxXoYFW262LZd3gbvNYo33QZ
+         ZsTg==
+X-Forwarded-Encrypted: i=1; AJvYcCVm7BVhnPy2IxR5cZ21J/zxsGutt7kDIK7ulyrDra8OwPWoiuzFwy6w9sR2rrGDW2CocwrByOCVxTHCkIc=@vger.kernel.org, AJvYcCVqa0FpSvlz20lWbYnGPA1Eas1T9/2aku+VVfyfjOBTh407egDZ7C8D+mU++OTPwtxf+pP6paMFK6on0UlZ@vger.kernel.org, AJvYcCXgvuJ2e6Sqy2uIyUzumwPpwOD9+Sb3BQIo/AQFTzvIcznRRkSi+la8/bLVeranybGaxzkAZEJ6Y4Io@vger.kernel.org
+X-Gm-Message-State: AOJu0YxR0b2UvQrRDHi2E+YmsEhhog/Fj2gMweV33FdkOPcmPBL7vPiR
+	2NlEX41MeVi9mmXFSmOVkzKnuY1a6I8C+6hOuMMNUqGyGMWXE2E051cBRCnibPdDYHVurna2Rj1
+	ampCemUPvPyJ7TaWrCwexEpn8Ils=
+X-Gm-Gg: ASbGncty/5R1bVn9hwvzIVsW9e8azwLEYRsa/5WVZR5r6bX45EecOX1SQmpllMb7tqq
+	JkchyUByvBxmAuxBVwxgoMRmySaCUorsJ
+X-Google-Smtp-Source: AGHT+IE4Rwjoqcf6g4WNVWN6SK2tYJNiVr4zxnFoZgSAN5swW6pmwHPwkZxnwv7KUL2OiNM5h7LYDp0/itheP1WTPd4=
+X-Received: by 2002:a05:6902:dc9:b0:e30:7c38:668b with SMTP id
+ 3f1490d57ef6-e395b94b0b1mr1678379276.37.1732703473698; Wed, 27 Nov 2024
+ 02:31:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Driver for Apple Z2 touchscreens.
-To: fnkl.kernel@gmail.com, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
-References: <20241126-z2-v1-0-c43c4cc6200d@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241126-z2-v1-0-c43c4cc6200d@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241126-z2-v1-0-c43c4cc6200d@gmail.com> <20241126-z2-v1-3-c43c4cc6200d@gmail.com>
+ <y5xdrrb6ome4vggfadmnbtegigxlvwrxpqmwh7qhl2c7faesti@57odqxajdiwv>
+In-Reply-To: <y5xdrrb6ome4vggfadmnbtegigxlvwrxpqmwh7qhl2c7faesti@57odqxajdiwv>
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Date: Wed, 27 Nov 2024 11:31:02 +0100
+Message-ID: <CAMT+MTQ40y0GoOHXp=UUR=79JBPUCt9DSihojZyBwcwgR5_O1Q@mail.gmail.com>
+Subject: Re: [PATCH 3/4] arm64: dts: apple: Add touchbar digitizer nodes
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Henrik Rydberg <rydberg@bitmath.org>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Janne Grunau <j@jannau.net>
+Content-Type: text/plain; charset="UTF-8"
 
-On 26/11/2024 21:47, Sasha Finkelstein via B4 Relay wrote:
-> Hi.
-> 
-> This series adds support for Apple touchscreens using the Z2 protocol.
-> Those are used as the primary touchscreen on mobile Apple devices, and for the
-> touchbar on laptops using the M-series chips. (T1/T2 laptops have a coprocessor
-> in charge of speaking Z2 to the touchbar).
-> 
-> Originally sent as a RFC at https://lore.kernel.org/all/20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com/
-> The changes since then mostly address the review feedback, but also
-> add another machine that has this specific controller.
-Then this is v2, not v1. Look:
+On Wed, 27 Nov 2024 at 09:55, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > +             touchbar0 = &touchbar0;
+>
+> Not used, drop.
 
-b4 diff '<20241126-z2-v1-0-c43c4cc6200d@gmail.com>'
-Grabbing thread from
-lore.kernel.org/all/20241126-z2-v1-0-c43c4cc6200d@gmail.com/t.mbox.gz
----
-Analyzing 16 messages in the thread
-Could not find lower series to compare against.
-
-Also we expect changelog in cover letter or individual patches.
-
-Best regards,
-Krzysztof
+Used by the bootloader to forward calibration data to the correct node.
 
