@@ -1,98 +1,175 @@
-Return-Path: <linux-input+bounces-8273-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8274-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84E49DA5D1
-	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 11:31:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41FB9DA5DC
+	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 11:34:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C36E284FA1
-	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 10:31:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 757772819A0
+	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 10:34:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FBCF19994F;
-	Wed, 27 Nov 2024 10:31:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDBD1197548;
+	Wed, 27 Nov 2024 10:34:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SnVlLQn1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="drzVBvfo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A8019922A;
-	Wed, 27 Nov 2024 10:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5E9193067;
+	Wed, 27 Nov 2024 10:34:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732703476; cv=none; b=KmjkinxFwHrhVLcIZBI/yvYrPfyG8zkJ3AiprjbKgwVhDbFfFxapGPHo+mx6z3DetMtot2BwSBGHmEFC7inx3iWXWuSzIgh6YOZhIaxeEbdc3IzkSov5wSjYFzT6n2jiH0WbqQSjJztWKOe3scDOaV8ilGDnl0lVh7eWBk1IG5c=
+	t=1732703643; cv=none; b=DdpXim3b7GEwdXp+oPks8OKm2odoh94O1zr3HlM4RmxG+FrTU/CynyVpmnZT+VwSSaNon1IKBdrAaiawpSYbv5jHERkWRDGwPO3Xw17t48rIqrueCMx+UkoX9FnknDMZPyvk9x4HeQvT+u0aXbahzG4jwSpPJUhT4yI3Z4Z7kKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732703476; c=relaxed/simple;
-	bh=6Zr5foNoeYHy00EYMyERNSF8LJh3JyyQLGIUZ+TN3qg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s3AC5zz8e+X5bFlecpzSr11xvlZ8IPjgRbe5g9CSNKxgiflxaHpOg+er4WhdTRK9nwODikUgx+8O7/BAsWn/wliILdzWSaOetRdZOAXdjBwhOlqD2A1rJ4ZVA6BILAi1WzNk2PwTAfAHu3U37IhEdSlXoWdLPE7wCcFKdoZhbFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SnVlLQn1; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6eee6874ef8so49552787b3.2;
-        Wed, 27 Nov 2024 02:31:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732703474; x=1733308274; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6+tMGsu8kyM/fcIHQ4a5jlISh9lUT5BBdpOf/BUGU00=;
-        b=SnVlLQn1t7wbJe6CbTdByTAFFddxzy96L61Xdaa1EGr/Bip+ZZtkK86M9BQubEVb9P
-         CNrd4t7yq5+ieI/O/OacJFO0AQQEmLhCN3GgMGs8+DF58V+nDGEl97wOOPGhWlK9MOX/
-         ju34st6EtvyrJvyc6BbCu+tWPqSeERSMvgN8fgU3vnlzkTbaTRXgn2lmh/aUUPJ64Q/e
-         0cXe73nW6zeiiQLK3Ec/DfBFxifwuMxj25DEX5eAuqqdwSfKb3GKekwaU+aSmMLbHJMz
-         cEijvjWI9TcJl6xzpXS06dLZ1Iqzgx42671pcLXAmZaTNJFEbPNGF70S/iK874UAqJcg
-         jfxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732703474; x=1733308274;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6+tMGsu8kyM/fcIHQ4a5jlISh9lUT5BBdpOf/BUGU00=;
-        b=PxycQ8JKJxqOgCFW7hvrIrkXhoeICgUXTZ5kNJUi25zUCR3gN3pu/r5fCfeYnfMc/x
-         NsHvkCBxZxN2SG+9EzblFooVf4o8Y5wTvlACLcVVjla8oK90ktngHq6nlA8uROjxG8sr
-         e395kF/qPAM9+XruoMCSjngBhCn6/yqLuGgnfJkBiQqvzBxfRZ6H4ByfkJ3XKGr6doQ4
-         8BfkP4DnXtuilR1PogcmtL6mC9Lz151gMYbFYLpAyCXWA+DaktY7WY3WvsWuhNvgcLDN
-         rdxqXNHeIsDyqi07lKFIDD4hsP6RuID5tPmmN/dIWoewHxXoYFW262LZd3gbvNYo33QZ
-         ZsTg==
-X-Forwarded-Encrypted: i=1; AJvYcCVm7BVhnPy2IxR5cZ21J/zxsGutt7kDIK7ulyrDra8OwPWoiuzFwy6w9sR2rrGDW2CocwrByOCVxTHCkIc=@vger.kernel.org, AJvYcCVqa0FpSvlz20lWbYnGPA1Eas1T9/2aku+VVfyfjOBTh407egDZ7C8D+mU++OTPwtxf+pP6paMFK6on0UlZ@vger.kernel.org, AJvYcCXgvuJ2e6Sqy2uIyUzumwPpwOD9+Sb3BQIo/AQFTzvIcznRRkSi+la8/bLVeranybGaxzkAZEJ6Y4Io@vger.kernel.org
-X-Gm-Message-State: AOJu0YxR0b2UvQrRDHi2E+YmsEhhog/Fj2gMweV33FdkOPcmPBL7vPiR
-	2NlEX41MeVi9mmXFSmOVkzKnuY1a6I8C+6hOuMMNUqGyGMWXE2E051cBRCnibPdDYHVurna2Rj1
-	ampCemUPvPyJ7TaWrCwexEpn8Ils=
-X-Gm-Gg: ASbGncty/5R1bVn9hwvzIVsW9e8azwLEYRsa/5WVZR5r6bX45EecOX1SQmpllMb7tqq
-	JkchyUByvBxmAuxBVwxgoMRmySaCUorsJ
-X-Google-Smtp-Source: AGHT+IE4Rwjoqcf6g4WNVWN6SK2tYJNiVr4zxnFoZgSAN5swW6pmwHPwkZxnwv7KUL2OiNM5h7LYDp0/itheP1WTPd4=
-X-Received: by 2002:a05:6902:dc9:b0:e30:7c38:668b with SMTP id
- 3f1490d57ef6-e395b94b0b1mr1678379276.37.1732703473698; Wed, 27 Nov 2024
- 02:31:13 -0800 (PST)
+	s=arc-20240116; t=1732703643; c=relaxed/simple;
+	bh=eve/B6gdZ8G8s9gW8iCruNKL7f1O9Im7UFs73nBSbA8=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=KybzyIPhT9yL1XR/egyajczGVMOGU35Iq2OGIOtZ+5nEHCp3ybTVv/ESFkA3+h3uFFmIU5TZs6pOqUF/avUwqBp0cP+e6OLJLNyQKMcqDOiacjgxLjpEXoG5cg/faUh9dJafHY2l9GTRSNiLDDs+RLNP66kf/kxR1E2DtQ1xJZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=drzVBvfo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADF44C4CED3;
+	Wed, 27 Nov 2024 10:33:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732703643;
+	bh=eve/B6gdZ8G8s9gW8iCruNKL7f1O9Im7UFs73nBSbA8=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=drzVBvfoNphI57mGd59ZOoGzsgByokgUOO1CFkMyIaSaIcx/upUT0UEPXHM/OZePE
+	 dLZbOS856iSMCbXw8W9Ji/5NMDpB97WARUU+gcKMhT3Unay/TQGUEm1SeVS/LDUZht
+	 39gaaea71BYOXxfET8mqeFvK9duMt7qRDXCqd1ibf+TgPe6/4SO2i/33El2HycBKLz
+	 sf6SIyf7UJwWJghCZmC/7yUvzP2P3dN8+ia6VaZ5dsuPkJyt3tcv3i7wtiUDLb6rpH
+	 fBt+/0d6UuLD+7pfSC+FHCnXqQvzFe2X9uFyGfK2VCdYkB2JNYQ2rmOHCs5TcCVCSk
+	 Nf3Tr/6OL+4qQ==
+Message-ID: <a0c89130-2b1c-494d-bd39-0f217e9979d5@kernel.org>
+Date: Wed, 27 Nov 2024 11:33:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241126-z2-v1-0-c43c4cc6200d@gmail.com> <20241126-z2-v1-3-c43c4cc6200d@gmail.com>
- <y5xdrrb6ome4vggfadmnbtegigxlvwrxpqmwh7qhl2c7faesti@57odqxajdiwv>
-In-Reply-To: <y5xdrrb6ome4vggfadmnbtegigxlvwrxpqmwh7qhl2c7faesti@57odqxajdiwv>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Wed, 27 Nov 2024 11:31:02 +0100
-Message-ID: <CAMT+MTQ40y0GoOHXp=UUR=79JBPUCt9DSihojZyBwcwgR5_O1Q@mail.gmail.com>
-Subject: Re: [PATCH 3/4] arm64: dts: apple: Add touchbar digitizer nodes
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Henrik Rydberg <rydberg@bitmath.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Janne Grunau <j@jannau.net>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] dt-bindings: input: touchscreen: Add Z2 controller
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241126-z2-v1-0-c43c4cc6200d@gmail.com>
+ <20241126-z2-v1-1-c43c4cc6200d@gmail.com>
+ <zwdpx6c6qxm5674u2sea5sgwdd2fwim4waijb2qvixf62wrshb@yqs6zurtf7ic>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <zwdpx6c6qxm5674u2sea5sgwdd2fwim4waijb2qvixf62wrshb@yqs6zurtf7ic>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 27 Nov 2024 at 09:55, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> > +             touchbar0 = &touchbar0;
->
-> Not used, drop.
+On 27/11/2024 09:46, Krzysztof Kozlowski wrote:
+> On Tue, Nov 26, 2024 at 09:47:59PM +0100, Sasha Finkelstein wrote:
+>> +properties:
+>> +  compatible:
+>> +    items:
+>> +      - enum:
+>> +          - apple,j293-touchbar
+>> +          - apple,j493-touchbar
+>> +      - const: apple,z2-touchbar
+>> +      - const: apple,z2-multitouch
+> 
+> What is the meaning of these two last compatibles in the list? What are
+> these devices?
 
-Used by the bootloader to forward calibration data to the correct node.
+
+Previous Rob's comment apply here as well. If z2 is protocol, then
+multitouch and touchbar do not feel appropriate, unless these are some
+subsets of the protocol. But as in other cases no one knows here what's
+there inside, so avoid making generic compatibles. Just
+apple,j293-touchbar and 493+293. That's the recommendation we keep
+insisting on almost always.
+
+As Rob explained: protocol does not matter in terms of compatible. We do
+not have devices like "analog,j293-spi" (and there is clear NAK when
+people post them, with one or two exceptions).
+
+> 
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  reset-gpios:
+>> +    maxItems: 1
+>> +
+>> +  cs-gpios:
+>> +    maxItems: 1
+>> +    description: |
+> 
+> Do not need '|' unless you need to preserve formatting.
+> 
+>> +      J293 has a hardware quirk where the CS line is unusable and has
+>> +      to the be driven by a GPIO pin instead
+>> +
+>> +  firmware-name:
+>> +    maxItems: 1
+>> +
+>> +  label:
+>> +    maxItems: 1
+> 
+> Why is this needed? I think it is not part of common touchscreen schema.
+> Drop, devices do not need labels - node name and unit address identify
+> it. If this is needed for something else, then come with generic
+> property matching all touchscreens.
+
+This is v1 so I did not expect previous talks, but now I dig them out
+and there was conclusion: your compatible defines label. You do not have
+two of same devices in the DTS to justify it. Drop the property.
+
+Best regards,
+Krzysztof
 
