@@ -1,105 +1,97 @@
-Return-Path: <linux-input+bounces-8264-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8265-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7272D9DA3EA
-	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 09:29:38 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA7A9DA3EF
+	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 09:30:21 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 210FD16477C
-	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 08:29:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 27D75B22800
+	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 08:30:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63DBB188014;
-	Wed, 27 Nov 2024 08:29:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDAC515098A;
+	Wed, 27 Nov 2024 08:30:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CSnPyxVr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lQS5Pwyc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D649C1865E2;
-	Wed, 27 Nov 2024 08:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2822A1114;
+	Wed, 27 Nov 2024 08:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732696173; cv=none; b=gpCBTN+BI7PLIlvr38KlMhsrRxZfNlnQsYhVtyomLNsEffVbjiDZwYKuJeqX9xnupzyJ6apljZ0/AzLLKstUDpakU+96/U6B7Om/chNLNtOCT3H9uo4hGisyn9fIdpANj3Vc6cwWIuPU+a9xHbhu9rW6/OPLolDyp7zWiWSl0ag=
+	t=1732696214; cv=none; b=iOqePIN1tMMcaUNLZfWapfiBFSL2y7dyplZ0xuvpoMfbP3xlKrZkBDUfX1RgSkU51xJfhO5bqBRWB17ZEy499AGQik+947eCtDJ4E1gm9vyLP/nSjFG51o9pzhhWjv0NehzYTXMXUS/Kmi3XFkp3ApwpnSaR3wYP3/STW2SNjdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732696173; c=relaxed/simple;
-	bh=njd05bArOgKjbgLgjHcusDaTScXAtClI9n8o3C7sop4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rmBhRFX9Y/juQWwxY+0qXpTAygBxbZ/+UdLagxexfjyqRlyW21RZycri5xx5pI3fwL00anr5A0rJyn2/13SRphDwhS252a4PG2OZgFLDaLnXFumGDtdgHYkh0oWRU8dUGlZPbG+X59t9SmN8LeSi7c5ax+pwSML3+b6XAi+YM+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CSnPyxVr; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e382e549918so5565001276.2;
-        Wed, 27 Nov 2024 00:29:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732696171; x=1733300971; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=njd05bArOgKjbgLgjHcusDaTScXAtClI9n8o3C7sop4=;
-        b=CSnPyxVrSYCj62DiJclJrKD4fvJA1+8+jzcrLSaUOVdF64mhDi/ch46KXeGGXFIGRS
-         cOMfAZL+C5yrPYHh+WYgLqil6osJPqWhqSUul1KOve/Hix0MOiyJZIG4ay8cn33p0ELP
-         phSPrLhWCbzrOJ9YCFVLlaWPrAbpYd855cDgDvfwe2BzLuBzn9a6fLphasTOnZIjYY3b
-         fo0P3i8MMlxFEEy8p2JvIQMe7fUME+UWIFzLr2iGstfTUe7cWocymah0yCtSsYJCZoj2
-         sIX3ZGCB3yu7AS3dvs4+xJXYFrDqKi43t0t+NuFN769HEjboMyL5hex0Dkfkf9wpwthA
-         v+kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732696171; x=1733300971;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=njd05bArOgKjbgLgjHcusDaTScXAtClI9n8o3C7sop4=;
-        b=cjR4p6xF3S8Ne//ErfX1YNhRI+LnzHkdYjoaQGYQDTlxddAa/kojyJAaW88odU38FK
-         CcdSmvvwwFB+1+YLTD2zy9fSmSPlsVOebMv/YBMCXewBVOa0eSfc79rBp7f+YHWoPc4V
-         IHp1K+0pPTvbhMtKR7518HqlSOzTQkh7T53v59jbmmoT1t1PQ+td+FypOwh1Mj0GKpNC
-         cwWa9sAv/oE6G3P47SgKtAZQLJeu6YjgfJH4P+9qncJuKYYYAs3fb/BwvbBWaBUhziRl
-         MoU+WFx2JObC9E+2yQyQZBySawoGX6dThBUbPesTG6nAQYhFaPMa1nFZT6/CGN6gNaEM
-         mceQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUeaqyNjF/A2oS2QOwoTaxVD+4ZP+VtEigVXga4cirlA4OndiA/4CnhMUvc1SREXDoWKZ//PRlL1A/KHhk=@vger.kernel.org, AJvYcCWVZ0G1KeVuG/HHurqzk3IoLL4XD/kyO+a1+Hu8IyLvsxH4RPCHFZbKDGwlo+FWI1VXdMmjotWr32MG@vger.kernel.org, AJvYcCXHDLQ+GMiQANQ22cti54bPrGA+T5B+k0q1JH5VtnfBp/G3vPFx9+mwvekgof2DXEQa3TahcyPzvhk56NPv@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBT93MPnOsp6QfbQzAOm97LBH8MKeYeAvZFQhogQ9EOwu7O7GQ
-	zav2Wkde+z8vP6vIrQZvtos9zhMJP+wRLXlPZJzTSazG9zPD0twtW4zHF9m2+Ftk4oHYGXx3Hci
-	13PzRMArvMcsaK5jW+3UqKthfvg0=
-X-Gm-Gg: ASbGnctujgsA93+QM5ekH6I9J+vulsXvY6Q3BzkMT2Y6xLii7c2pRLt3YbKJ0jo21yS
-	h6Gbck8uIgmPMaJKqYI9l5zhJvTZ5jdMN
-X-Google-Smtp-Source: AGHT+IG4T6iCfTuQRbFcDR8g+9gj9vnb1SF11d4ey59iqSnin7GgRZc6RSmnNx6SkL9tm182e4/IfH05c5ENgkbSLA0=
-X-Received: by 2002:a05:6902:a07:b0:e2b:df40:2588 with SMTP id
- 3f1490d57ef6-e395b8a1b09mr2315229276.21.1732696170745; Wed, 27 Nov 2024
- 00:29:30 -0800 (PST)
+	s=arc-20240116; t=1732696214; c=relaxed/simple;
+	bh=/oRV7hIUPzEpk+6vrKInkgL1/QdYFRkFO4vKGXZNuDg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eMsYM9D4JnXlFB06XWfnK/DztCZSP/jusHfLi5qu5B/Kcs+qqrlm+RWNtf8K4nCoiKMtwrQKqIOc1K/MLn7nvGrvsyAWLowh9E9222MJk2Mr6QUWlp+L7u6hpkHDXxe6wOEvkHdbbcWnhj0e3Q5EUFWvHvR25YTU9e/epU06lGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lQS5Pwyc; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732696213; x=1764232213;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=/oRV7hIUPzEpk+6vrKInkgL1/QdYFRkFO4vKGXZNuDg=;
+  b=lQS5Pwycl2nE+ywNdqh4y4NJjiUxozW6JLVFrYqxXIrTFFEJwn+9zL73
+   0Q3xUP/eWm8DnnvmMkhX3q1dutOXKwBpZ4pt9LYIl9swm2z1isr7dZ3Vw
+   ItyR8ZD7odbSjmasqu3hS5kNrnMZxitPxk8xlwiLoiPxAbCzMXJZewlaU
+   KgMEtBkYVWgJyM2Au7jUobcwMuHYsfU8SnHFtS4Ro8DBC6Wue6osBocF3
+   vX41B459L1tSzyj2EZ1dcRFNIi9Ml+TR+zyg5NuaLOdZ+K8CSAbq88KnN
+   FqFZWsnxFkRvbWHtKejRNMTWxsNml6O04uzfn8LHPDOulVyifIUmr47mt
+   w==;
+X-CSE-ConnectionGUID: Oici1sDXRc2kOeh3jdqW/Q==
+X-CSE-MsgGUID: IYR4bBbxQG+ZqGquerYeNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="32834852"
+X-IronPort-AV: E=Sophos;i="6.12,189,1728975600"; 
+   d="scan'208";a="32834852"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 00:30:12 -0800
+X-CSE-ConnectionGUID: fIyf8uVCRXySnZ/c8CIQVA==
+X-CSE-MsgGUID: joLlenH8RDOHVykxZcZV9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,189,1728975600"; 
+   d="scan'208";a="91822814"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 00:30:09 -0800
+Message-ID: <e659ccc0-ab47-4596-b23a-80eff2128c19@linux.intel.com>
+Date: Wed, 27 Nov 2024 09:30:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241126-z2-v1-0-c43c4cc6200d@gmail.com> <Z0Z7Lrv3rBfzac_e@google.com>
-In-Reply-To: <Z0Z7Lrv3rBfzac_e@google.com>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Wed, 27 Nov 2024 09:29:19 +0100
-Message-ID: <CAMT+MTThJoYLYhtYAHwh6F3LTApid9Em+eP2AZYc3JChC2b9ig@mail.gmail.com>
-Subject: Re: [PATCH 0/4] Driver for Apple Z2 touchscreens.
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Henrik Rydberg <rydberg@bitmath.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Janne Grunau <j@jannau.net>, Mark Brown <broonie@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/6] ASoC: Intel: avs: use devm_kmemdup_array()
+To: Raag Jadav <raag.jadav@intel.com>, gregkh@linuxfoundation.org,
+ linus.walleij@linaro.org, mika.westerberg@linux.intel.com,
+ andriy.shevchenko@linux.intel.com, dmitry.torokhov@gmail.com,
+ broonie@kernel.org, pierre-louis.bossart@linux.dev
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-sound@vger.kernel.org,
+ Cezary Rojewski <cezary.rojewski@intel.com>
+References: <20241126172240.6044-1-raag.jadav@intel.com>
+ <20241126172240.6044-7-raag.jadav@intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <20241126172240.6044-7-raag.jadav@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 27 Nov 2024 at 02:51, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> I believe this needs to be done at the SPI controller level. See
-> "cs-gpiods" property in
-> Documentation/devicetree/bindings/spi/spi-controller.yaml that, as far
-> as I understand, allows overriding controller's native CS handling with
-> a GPIO when needed.
++Cezary
 
-I have already tried doing that (adding the relevant gpio as cs-gpios
-on the controller)
-and for some reason none of my attempts worked. Since there is no hardware
-documentation, I can't really tell why, could be possible that we need both
-native CS and that gpio, could be memory barrier issues somewhere in
-the driver core,
-but the method above is the only one i could get to work.
+On 11/26/2024 6:22 PM, Raag Jadav wrote:
+> Convert to use devm_kmemdup_array() which is more robust.
+> 
+> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
+> Acked-by: Mark Brown <broonie@kernel.org>
+
+Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+
 
