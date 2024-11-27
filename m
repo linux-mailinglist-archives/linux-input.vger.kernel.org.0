@@ -1,126 +1,126 @@
-Return-Path: <linux-input+bounces-8280-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8281-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA479DABAE
-	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 17:20:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 583339DABEC
+	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 17:42:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9BE34164F2E
-	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 16:20:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 080B2164E1F
+	for <lists+linux-input@lfdr.de>; Wed, 27 Nov 2024 16:42:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 183F3200B82;
-	Wed, 27 Nov 2024 16:20:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4051C200BA9;
+	Wed, 27 Nov 2024 16:42:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="Pd9a0O9j"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="QcKYLaJS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2821FA164;
-	Wed, 27 Nov 2024 16:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D21194125;
+	Wed, 27 Nov 2024 16:42:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732724416; cv=none; b=UNakcsgFVrKWz+YLnMTgtZp6B2lILcNuXjbmW3hoyTSbLDGE3TL2kDSilU6t0AaRJEJCpxgCAUFYa+FujuHo/GhhFqY8gZDeHMtOEgEOOqWro+7z7lfH0MCaEsR5722adLj1qlw6z7P0CPG3+zWTV1Pdr178RHYZclBtsxfzHwo=
+	t=1732725726; cv=none; b=q9YOuYO55rJ2wombu2xWRDtgQsLlPEkv1ICjrNvUDPPgCNX7vZpctPul5R8WtVgj6jjnrGpkJUuJ4Zh66cBKEovCIQLLEGc9O6WBO5MuxIeCNBuprNyapwnCROt4ae6jvhGQOlRyAo4PoqkbrXF+Ew+1xD35aSnusyNHvvJH2Gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732724416; c=relaxed/simple;
-	bh=FfQLlwRRif9I+/gHYFJBaAYWwKsQDvbY6HNOz7tQZQw=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=sek7bglOEJ9QrkbsSDvgNLH3kul7ZAhW+Dk2ZreEf58FeXZAlVM+/fDw6Cc0fXYOMoodmF6cJ5LIZDZ53QrZbVTTlWYB512izqZkG2oPQezDcRwd4e9ebmYVCl2ACPvMu6v/WfF3qi6QTmGAjMVuPHzIPvF1NBVZj1cz/rArQt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st; spf=pass smtp.mailfrom=marcan.st; dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b=Pd9a0O9j; arc=none smtp.client-ip=212.63.210.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id AB55242525;
-	Wed, 27 Nov 2024 16:20:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1732724411; bh=FfQLlwRRif9I+/gHYFJBaAYWwKsQDvbY6HNOz7tQZQw=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=Pd9a0O9j/rBvngLDrsQ+1Svpho2IgtdWKmo8WWmFHzWOL7ZE29ZRjNA00WdGarcmr
-	 I9ZMQfO622xvBj7iLYRVjobe/tOh1r0+ZHzAmN+A00IfHls97RIZ2LTIY6RperA8fA
-	 7u6n/irReNXJkFsx9XLEXiTT5RlddLRhro3c2CFXn7MXTcoqPktk4iff/oIteXNrVY
-	 Ue1O8NqvCmkSCjri8xjjriRCdW5IOWd2cVkTeVLzdq+b2M1N7nVfP7x9/vd/92rlW2
-	 CW6hd950v+1vy71o+x8CH0dAu2AaSJoorokerx/N/D7C15cSJiqffufB45Ma9D6rMA
-	 uxtk0iMMvXVpw==
-Message-ID: <969b7440-5173-4ecc-af31-c3cd1f3f5acf@marcan.st>
-Date: Thu, 28 Nov 2024 01:20:09 +0900
+	s=arc-20240116; t=1732725726; c=relaxed/simple;
+	bh=erQtu4JgZKngcUhIzaKILRT4/skRmzyFTgWtono2Tkk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=eivAFLubduB32rnFOgORf7z1HKV3ZkvvzPvsJJplGr74WqWdJZ8u/HJBjejiW9nEk1RyscpUp/S4QzvfmxSCGiUFXAQdzyNCTw9XG425waIOar5j7K1GcVt0HdfRCfJjaVVJlKYtPHlfL+Ag/Uc0+eVy8tYCCXqmvoGBFRuiq0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=QcKYLaJS; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1732725720;
+	bh=erQtu4JgZKngcUhIzaKILRT4/skRmzyFTgWtono2Tkk=;
+	h=From:Date:Subject:To:Cc:From;
+	b=QcKYLaJS1KIA/YGIqoiZGUc8D46x1XRRpakYNSGyxb4ac35c0CzpTLi42VFrjjRru
+	 L2YNzG7Vp8P8QNW3og9gbeLRQZvflYQPSPEzg3A13ZKJ+VoRGpmSHRh1yBoy8Ug6d/
+	 ZiNIuWAfoQKn2QqMjkJXwquIRzyuXOl0r7Xt5WHk=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Wed, 27 Nov 2024 17:41:56 +0100
+Subject: [PATCH] HID: bpf: constify hid_ops
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Driver for Apple Z2 touchscreens.
-From: Hector Martin <marcan@marcan.st>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>,
- Mark Brown <broonie@kernel.org>
-References: <20241126-z2-v1-0-c43c4cc6200d@gmail.com>
- <Z0Z7Lrv3rBfzac_e@google.com>
- <CAMT+MTThJoYLYhtYAHwh6F3LTApid9Em+eP2AZYc3JChC2b9ig@mail.gmail.com>
- <9dcdea44-974e-416f-9d59-204d519774dd@marcan.st>
-Content-Language: en-US
-In-Reply-To: <9dcdea44-974e-416f-9d59-204d519774dd@marcan.st>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20241127-hid-bpf-ops-v1-1-f9e41bfa3afd@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIANNLR2cC/x3MQQqAIBBA0avIrBtQEYyuEi20xpyNikIE4t2Tl
+ m/xf4dGlanBJjpUerhxThNqEXBGl25CvqZBS22U0hYjX+hLwFwa+mDV6pzR5CXMolQK/P63/Rj
+ jAx8Cwl5dAAAA
+X-Change-ID: 20241127-hid-bpf-ops-bf718aa42eb0
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ bpf@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732725719; l=1974;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=erQtu4JgZKngcUhIzaKILRT4/skRmzyFTgWtono2Tkk=;
+ b=5lMgAu8lsd7wE8RTgxVU349OaG9xJ/astH2bDYBldY179e9rFI2kxuVFcq009okk5h6EKqb+y
+ TAaJaT6+QGyC5AakWic27feTww5wIkPZZjsghiXRVovDCVx4fck/kpg
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
+The hid_ops struct is never modified. Mark it as const.
 
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/hid/bpf/hid_bpf_dispatch.c | 2 +-
+ drivers/hid/hid-core.c             | 2 +-
+ include/linux/hid_bpf.h            | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-On 2024/11/28 0:29, Hector Martin wrote:
-> 
-> 
-> On 2024/11/27 17:29, Sasha Finkelstein wrote:
->> On Wed, 27 Nov 2024 at 02:51, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
->>> I believe this needs to be done at the SPI controller level. See
->>> "cs-gpiods" property in
->>> Documentation/devicetree/bindings/spi/spi-controller.yaml that, as far
->>> as I understand, allows overriding controller's native CS handling with
->>> a GPIO when needed.
->>
->> I have already tried doing that (adding the relevant gpio as cs-gpios
->> on the controller)
->> and for some reason none of my attempts worked. Since there is no hardware
->> documentation, I can't really tell why, could be possible that we need both
->> native CS and that gpio, could be memory barrier issues somewhere in
->> the driver core,
->> but the method above is the only one i could get to work.
-> 
-> Are you sure this isn't just a pinmux problem, i.e. the bootloader
-> initializes the pinmux for hardware CS only on one device and not the other?
-> 
-> See spi3_pins in the DTS in our downstream tree (and the reference from
-> the SPI controller). If the rest of the SPI pins are already working
-> properly you can just try with the CS pin (same index as on the gpio
-> spec). Ideally we'd list the 4 pins, but someone needs to reverse
-> engineer the mapping with m1n1 gpiola since we don't know what it is.
-> 
-> If it really doesn't work with native CS and proper pinmux then cs-gpios
-> on the controller should work. If it doesn't something weird is going on
-> elsewhere. There's only one CS line, needing both makes no sense.
-> 
+diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf_dispatch.c
+index 961b7f35aa673618abbb7bf2edc18cd3ef7c90f4..e8be9ab51d6323b6ee356be3f7c49b958984fb59 100644
+--- a/drivers/hid/bpf/hid_bpf_dispatch.c
++++ b/drivers/hid/bpf/hid_bpf_dispatch.c
+@@ -19,7 +19,7 @@
+ #include <linux/module.h>
+ #include "hid_bpf_dispatch.h"
+ 
+-struct hid_ops *hid_ops;
++const struct hid_ops *hid_ops;
+ EXPORT_SYMBOL(hid_ops);
+ 
+ u8 *
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 98bef39642a9e3008e60a60fa887b8328ccd50f5..33a19197332488bd232dcee510d9da9ffec770bc 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -3064,7 +3064,7 @@ int hid_check_keys_pressed(struct hid_device *hid)
+ EXPORT_SYMBOL_GPL(hid_check_keys_pressed);
+ 
+ #ifdef CONFIG_HID_BPF
+-static struct hid_ops __hid_ops = {
++static const struct hid_ops __hid_ops = {
+ 	.hid_get_report = hid_get_report,
+ 	.hid_hw_raw_request = __hid_hw_raw_request,
+ 	.hid_hw_output_report = __hid_hw_output_report,
+diff --git a/include/linux/hid_bpf.h b/include/linux/hid_bpf.h
+index a6876ab29004892b78eb32135ec52cd0417503fe..a2e47dbcf82c8bbbc547ebc18c82e11bfe8c6236 100644
+--- a/include/linux/hid_bpf.h
++++ b/include/linux/hid_bpf.h
+@@ -78,7 +78,7 @@ struct hid_ops {
+ 	const struct bus_type *bus_type;
+ };
+ 
+-extern struct hid_ops *hid_ops;
++extern const struct hid_ops *hid_ops;
+ 
+ /**
+  * struct hid_bpf_ops - A BPF struct_ops of callbacks allowing to attach HID-BPF
 
-Looked into this. The pins are 67=CLK, 68=MOSI, 69=MISO for spi0 on
-t8103 (they should be added to pinctrl even though they are already
-configured by iBoot, ping Janne).
+---
+base-commit: aaf20f870da056752f6386693cc0d8e25421ef35
+change-id: 20241127-hid-bpf-ops-bf718aa42eb0
 
-It does sound like there's no hardware CS for SPI0, so the referenced
-GPIO 109 is probably just a GPIO. In that case it should work when
-declared as a cs for the SPI controller node. If that doesn't work we
-need to figure out why and fix it, not add it into the z2 driver.
-
-- Hector
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
 
 
