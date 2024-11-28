@@ -1,48 +1,59 @@
-Return-Path: <linux-input+bounces-8300-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8301-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543B99DB893
-	for <lists+linux-input@lfdr.de>; Thu, 28 Nov 2024 14:27:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA3D9DBAB5
+	for <lists+linux-input@lfdr.de>; Thu, 28 Nov 2024 16:40:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D549DB23448
-	for <lists+linux-input@lfdr.de>; Thu, 28 Nov 2024 13:27:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2FC65281E5E
+	for <lists+linux-input@lfdr.de>; Thu, 28 Nov 2024 15:40:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0373E1A9B2D;
-	Thu, 28 Nov 2024 13:27:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C27311BCA0E;
+	Thu, 28 Nov 2024 15:40:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W4x8dQLJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZvWz3H7C"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66DA1A3BC0;
-	Thu, 28 Nov 2024 13:27:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0061B6CF3;
+	Thu, 28 Nov 2024 15:40:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732800442; cv=none; b=lfmB9qSxWrYicUCpG0mP4aJn/Z8f+0JQ7ykIw4zW7YvZ4BcEUeDA8jYYTMvBh0qPetDTuk1wQMZrYmoKrRlzg8+vDcAdSrzjgF0VZOHzJRwYyyJgThah0q/z3y5iGnXLWtM9UniKgE6MTi6yWIY3iHi5PXRfS8ivxFHZkP1SXg8=
+	t=1732808446; cv=none; b=ZCvBdKVZYZ/8RzLUlKLjtePtF1oS7h9gL5G8TN3/YUKnhY8stS1CwkSOIm3qAhOOWGxRF/JPJ0kAoeUdwWwe94qZim9ndkxta280Vd+xhWKdt04NvXy5RopGguDoVwGUC770Qo9/FLBKD5ZETxX4Glj+YacraO03BGXHqZQiB8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732800442; c=relaxed/simple;
-	bh=s7ntmLyoK0Ige0yP54n7nzwN2qCmpmvx316Vpb4inks=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CXxoh26umEpvjPbSABpoEANAQ6Bkx0PoejZFN7QuSVZoCTpTf5sIQzJzemRpy/6QxPjYd/ze88J+jmVDgwneuCOVvObO+vCdO2uEhb1UNGaHYjMrkoPyMMDznSajBU4KrYFQ0L3pnKzW8BvGYlf7fGuo2AO8gXgWl9Ljk3N/aWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W4x8dQLJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1117BC4CED3;
-	Thu, 28 Nov 2024 13:27:20 +0000 (UTC)
+	s=arc-20240116; t=1732808446; c=relaxed/simple;
+	bh=mA2iP2ejPJOCZrStz5dQwDnSevuBYMnW1WDNfPX2DgI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=jIvcOqGj7gMaI7Qicpzvs4+ZKDuZTkoevFeMX7e3fV5OJ31keEmycGHG796+iP89QJEOM/Fdn84bSAX8hWl3GuJsxjTXfg4lPtvg5fEhQEB/UKS51GHwJoPaqkVV90RQVFubHVQFCLzMej4M0iwolOREOU/SIdSDpxSVkRcGcwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZvWz3H7C; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 919B5C4CECE;
+	Thu, 28 Nov 2024 15:40:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732800442;
-	bh=s7ntmLyoK0Ige0yP54n7nzwN2qCmpmvx316Vpb4inks=;
-	h=From:Date:Subject:To:Cc:From;
-	b=W4x8dQLJLyeKbmnDT2QjsgZfRNMP4shFyIT/3c8z4rXM1Q/HOOYiYE34+B0dse2ok
-	 1+ykhOG408CCgxPWHbaO+oPmaBISGvzv+9xC5qywv17Kn84nzFjhejrE3LevibFyiz
-	 GO8cD4fznOGsQyuRrH4UVUylijcfaxocejNrCdD/mA692bOAE2lI0Agnth1vGEFLSb
-	 pot7E1hZkYLaZuKVPp8IHfmFYxO/vpeP8tznGvRIUecQzi2j2/IHFLdozbuA1/SVK7
-	 bzziZ6k3yNig+NLDXsg1lTAIxAGJfGIl3R6wzsedWNepAfakRrLu1QkVr6Sgl0TbKZ
-	 PslcPSFNW+O7A==
+	s=k20201202; t=1732808446;
+	bh=mA2iP2ejPJOCZrStz5dQwDnSevuBYMnW1WDNfPX2DgI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ZvWz3H7CT73DI3JWP/E+vRn5VNOHjyU/uD9APEuwlzg/Nl8DSHNiMIggxlb6no8yc
+	 PqbZsNGYleVTJ0qDiCguzFOoxHSarZ44cVb4nBbysP8BM0KCzH/DC50y4rxfcQ6K/o
+	 GvwXv9QbHIwzkclwEmLRlLZWblbZL/jEmH8ANM5jJ+yAQj9dgQfXll3P64bcJUSCwc
+	 E5H5ozGX1tYKxnkzE7ef2yT/XYK+jVO5U5O9dNQ4LS9IKfm5o1cK9YNAuyi7XUW9z7
+	 sN4cNvQ5IqDwrnGeQZIfcxahmNDc7qjGjIJeNy/x/cbrWNfYroFAHs3R/UfKBncXLM
+	 DSG4a939mDWUA==
 From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Thu, 28 Nov 2024 14:27:16 +0100
-Subject: [PATCH HID] selftests/hid: fix kfunc inclusions with newer bpftool
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+ Kenny Levinsen <kl@kl.wtf>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Michael <auslands-kv@gmx.de>, 
+ Linux regressions mailing list <regressions@lists.linux.dev>, 
+ stable@vger.kernel.org
+In-Reply-To: <20241119235615.23902-1-kl@kl.wtf>
+References: <20241119235615.23902-1-kl@kl.wtf>
+Subject: Re: [PATCH] HID: i2c-hid: Revert to using power commands to wake
+ on resume
+Message-Id: <173280844432.2348538.2409437012007158638.b4-ty@kernel.org>
+Date: Thu, 28 Nov 2024 16:40:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -51,111 +62,27 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241128-fix-new-bpftool-v1-1-c9abdf94a719@kernel.org>
-X-B4-Tracking: v=1; b=H4sIALNvSGcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxNDQyML3bTMCt281HLdpIK0kvz8HF1jw0TLNBPjxMS0pCQloK6ColSgErC
- J0Uoeni5KsbW1ADG4jtxmAAAA
-X-Change-ID: 20241128-fix-new-bpftool-31a9f43aafbb
-To: Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
- Benjamin Tissoires <bentiss@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732800440; l=3659;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=s7ntmLyoK0Ige0yP54n7nzwN2qCmpmvx316Vpb4inks=;
- b=PREaqb+BXRq/tIkrsTWycjKGYBT+dINU4VsCFZL2/q0/YXm/vlTEaUZriVdHDTZk7HtnLrfUL
- /Lrw153FIwxDPxv8iyaIJ2+xt8XzW80dC/LigpAPfgDnrsD++kjCNvz
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
+X-Mailer: b4 0.14.1
 
-bpftool now embeds the kfuncs definitions directly in the generated
-vmlinux.h
+On Wed, 20 Nov 2024 00:53:17 +0100, Kenny Levinsen wrote:
+> 7d6f065de37c ("HID: i2c-hid: Use address probe to wake on resume")
+> replaced the retry of power commands with the dummy read "bus probe" we
+> use on boot which accounts for a necessary delay before retry.
+> 
+> This made at least one Weida device (2575:0910 in an ASUS Vivobook S14)
+> very unhappy, as the bus probe despite being successful somehow lead to
+> the following power command failing so hard that the device never lets
+> go of the bus. This means that even retries of the power command would
+> fail on a timeout as the bus remains busy.
+> 
+> [...]
 
-This is great, but because the selftests dir might be compiled with
-HID_BPF disabled, we have no guarantees to be able to compile the
-sources with the generated kfuncs.
+Applied to hid/hid.git (for-6.13/upstream-fixes), thanks!
 
-If we have the kfuncs, because we have the `__not_used` hack, the newly
-defined kfuncs do not match the ones from vmlinux.h and things go wrong.
-
-Prevent vmlinux.h to define its kfuncs and also add the missing `__weak`
-symbols for our custom kfuncs definitions
-
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
----
-This was noticed while bumping the CI to fedora 41 which has an update
-of bpftool.
-
-I'll probably take this in for-6.13/upstream-fixes tomorrow if no bots
-comes back at me.
+[1/1] HID: i2c-hid: Revert to using power commands to wake on resume
+      https://git.kernel.org/hid/hid/c/34851431ceca
 
 Cheers,
-Benjamin
----
- tools/testing/selftests/hid/progs/hid_bpf_helpers.h | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
-
-diff --git a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-index e5db897586bbfe010d8799f6f52fc5c418344e6b..531228b849daebcf40d994abb8bf35e760b3cc4e 100644
---- a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-+++ b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-@@ -22,6 +22,9 @@
- #define HID_REQ_SET_IDLE         HID_REQ_SET_IDLE___not_used
- #define HID_REQ_SET_PROTOCOL     HID_REQ_SET_PROTOCOL___not_used
- 
-+/* do not define kfunc through vmlinux.h as this messes up our custom hack */
-+#define BPF_NO_KFUNC_PROTOTYPES
-+
- #include "vmlinux.h"
- 
- #undef hid_bpf_ctx
-@@ -91,31 +94,31 @@ struct hid_bpf_ops {
- /* following are kfuncs exported by HID for HID-BPF */
- extern __u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx,
- 			      unsigned int offset,
--			      const size_t __sz) __ksym;
--extern struct hid_bpf_ctx *hid_bpf_allocate_context(unsigned int hid_id) __ksym;
--extern void hid_bpf_release_context(struct hid_bpf_ctx *ctx) __ksym;
-+			      const size_t __sz) __weak __ksym;
-+extern struct hid_bpf_ctx *hid_bpf_allocate_context(unsigned int hid_id) __weak __ksym;
-+extern void hid_bpf_release_context(struct hid_bpf_ctx *ctx) __weak __ksym;
- extern int hid_bpf_hw_request(struct hid_bpf_ctx *ctx,
- 			      __u8 *data,
- 			      size_t buf__sz,
- 			      enum hid_report_type type,
--			      enum hid_class_request reqtype) __ksym;
-+			      enum hid_class_request reqtype) __weak __ksym;
- extern int hid_bpf_hw_output_report(struct hid_bpf_ctx *ctx,
--				    __u8 *buf, size_t buf__sz) __ksym;
-+				    __u8 *buf, size_t buf__sz) __weak __ksym;
- extern int hid_bpf_input_report(struct hid_bpf_ctx *ctx,
- 				enum hid_report_type type,
- 				__u8 *data,
--				size_t buf__sz) __ksym;
-+				size_t buf__sz) __weak __ksym;
- extern int hid_bpf_try_input_report(struct hid_bpf_ctx *ctx,
- 				    enum hid_report_type type,
- 				    __u8 *data,
--				    size_t buf__sz) __ksym;
-+				    size_t buf__sz) __weak __ksym;
- 
- /* bpf_wq implementation */
- extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
- extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
- extern int bpf_wq_set_callback_impl(struct bpf_wq *wq,
- 		int (callback_fn)(void *map, int *key, void *wq),
--		unsigned int flags__k, void *aux__ign) __ksym;
-+		unsigned int flags__k, void *aux__ign) __weak __ksym;
- #define bpf_wq_set_callback(timer, cb, flags) \
- 	bpf_wq_set_callback_impl(timer, cb, flags, NULL)
- 
-
----
-base-commit: 919464deeca24e5bf13b6c8efd0b1d25cc43866f
-change-id: 20241128-fix-new-bpftool-31a9f43aafbb
-
-Best regards,
 -- 
 Benjamin Tissoires <bentiss@kernel.org>
 
