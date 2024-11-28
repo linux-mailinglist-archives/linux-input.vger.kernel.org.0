@@ -1,168 +1,162 @@
-Return-Path: <linux-input+bounces-8299-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8300-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F28229DB3E2
-	for <lists+linux-input@lfdr.de>; Thu, 28 Nov 2024 09:38:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 543B99DB893
+	for <lists+linux-input@lfdr.de>; Thu, 28 Nov 2024 14:27:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 62F34B20FBF
-	for <lists+linux-input@lfdr.de>; Thu, 28 Nov 2024 08:37:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D549DB23448
+	for <lists+linux-input@lfdr.de>; Thu, 28 Nov 2024 13:27:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D25914BF92;
-	Thu, 28 Nov 2024 08:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0373E1A9B2D;
+	Thu, 28 Nov 2024 13:27:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="fJMgSEF7";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oJjmSH2U"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W4x8dQLJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9216414AD0E;
-	Thu, 28 Nov 2024 08:37:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66DA1A3BC0;
+	Thu, 28 Nov 2024 13:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732783074; cv=none; b=KV2w57S6/t43fJQ9kXiITh9L9Sqk6vl+J/1SlLuT37rbnb56cSwolUjmn/Rh2d4CPu5uUc/J+nBtceuMKqY4HyW+H8aV2NZMxCk/LszJaj4ziCxWi8KZYDT+/Ua30cf8UkZUuLNqJZ+P/g08EiQX8QPBD37ohyJAs3geQ0+mZKU=
+	t=1732800442; cv=none; b=lfmB9qSxWrYicUCpG0mP4aJn/Z8f+0JQ7ykIw4zW7YvZ4BcEUeDA8jYYTMvBh0qPetDTuk1wQMZrYmoKrRlzg8+vDcAdSrzjgF0VZOHzJRwYyyJgThah0q/z3y5iGnXLWtM9UniKgE6MTi6yWIY3iHi5PXRfS8ivxFHZkP1SXg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732783074; c=relaxed/simple;
-	bh=EITsOYhGCkSl2HkBvSDK9NRXeGTI124s3/oQysoJO5s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SxbKrGt3uFfwqStpfcEE/jS9uU1C3ZOuLrC2d70Ynzd+8yVEsiugzUrFFVWkbzjZS1jaiBlQHNI4qzbB9duy5T03UIY9p8RMYIuLTCjn+Cxt0rkl2Z1VUyfboJKjs3tcT9aWtfH3nNNc92rf1BinwR8Od3W+iFK+0iwx1WkvQUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=fJMgSEF7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oJjmSH2U; arc=none smtp.client-ip=202.12.124.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfout.stl.internal (Postfix) with ESMTP id 52B491140214;
-	Thu, 28 Nov 2024 03:37:51 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Thu, 28 Nov 2024 03:37:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1732783071; x=1732869471; bh=46hNflVp2j
-	+I4D9so2RIss0CrD+H/bB82TUjb66XMME=; b=fJMgSEF7tmmQnNxlSxaZOszaRT
-	PH7uh/1HA61ACBFMh0IARR2U23wrxvRrVv+57Rwl5FMAF1BIVo4P2i1NUY+SmyNj
-	QT3DkH41ud++tpM4CD6Y7C/2+tyxxhN8hGrPCRA2eR6xu2Z0Aghqt55WGGxo68DH
-	Ju6NHQW6Vt8/6KoHDqIC0Bvuq48CSr8CBsICXvBdGFV9mv+/ExAjcFJJM6di/OnJ
-	OYsXDij0RAByyCtwqhL49wHpgTE3WdJZaxRHJpfkgBIv0nX+w7WKamFkQ+PRFNmu
-	/PKBeqbHhpsDbVWCUj8XDamxy4hTzccl57HLwK+jwx4vPE5x6x0XYAV7/nZQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1732783071; x=1732869471; bh=46hNflVp2j+I4D9so2RIss0CrD+H/bB82TU
-	jb66XMME=; b=oJjmSH2Un/DuQ4yoQM2gdQ/taznaoqQV2n9hb5SJwDacVCV0/xt
-	eOFocC4CT2R4JmpZTP/l8ozqC2jhMaYNvFrsVtu2lRiu3N+nSaks+OF0Wqiz2E0y
-	Bk1BA7BYjFJuz6H0QOWSmCtTnTEbtwPKco2FhZkpwIXz3KTw1V17bhdw3+qHPqRO
-	f05wYmqDVqMpdI80AmsYjt6IVulsVN6KIo6nKBDrEIYci6ueZVhue/2Edh3yyKeP
-	MPpvFx5htKHsrxJp4ZAFkoMvOx/BM97AueRrcncxqhfA3kqWp+d/xJaTi699VNry
-	UZERJNL9t97Shx0OhJ/h8ulF7lJpWuXHUfQ==
-X-ME-Sender: <xms:3itIZz5jE6xs6QX7jOjfmK48yWSZfPKQMdKtR3Tei8s_fqNSw1tt8g>
-    <xme:3itIZ44RiTg-AdEFxy6llExy1XT4rsF9j2gpHILQOclL52WPyStnbsM1qt1f3Vcuw
-    wD7ifbJoBJbQijfApY>
-X-ME-Received: <xmr:3itIZ6dlaoJYmQHlKmuBXqpKrbidflFecV_uq9Cjf80L13ePEBb4z4RA8xD_anZhISYsyrHiM0uId1tMIxprY8jtCCBNC9aO4Gc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrhedtgdduvddtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeen
-    ucfhrhhomheplfgrnhhnvgcuifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenuc
-    ggtffrrghtthgvrhhnpefgudeuffelfeekgeeukedtheekjeettdfftddujefhvdehtefg
-    iefgledtueefjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvght
-    pdhnsggprhgtphhtthhopeduhedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmh
-    grrhgtrghnsehmrghrtggrnhdrshhtpdhrtghpthhtohepfhhnkhhlrdhkvghrnhgvlhes
-    ghhmrghilhdrtghomhdprhgtphhtthhopegumhhithhrhidrthhorhhokhhhohhvsehgmh
-    grihhlrdgtohhmpdhrtghpthhtohepshhvvghnsehsvhgvnhhpvghtvghrrdguvghvpdhr
-    tghpthhtoheprghlhihsshgrsehrohhsvghniiifvghighdrihhopdhrtghpthhtoheprh
-    hosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheprhihuggsvghrghessghithhmrghthhdrohhrgh
-X-ME-Proxy: <xmx:3itIZ0K-eOv218NaJNGxYnuqSmcQCJUhezhFW5krh1DlXXFEI_4jSw>
-    <xmx:3itIZ3ISdJqupmJlPmKR1ZTd10I9LhK2pFCpln2ep3cCmFKPMRgIzA>
-    <xmx:3itIZ9zi_Gm2jlYDMxY5vnIDLO3gKxkpgHv30gwtqhIfiacIDVo3xA>
-    <xmx:3itIZzLR67Gk9G1XNHj3CVU7-G0oI-4Us-x7llM7QZAOVpm9IjFIeA>
-    <xmx:3ytIZ46GeJhAVbkyyyA6OZK_oG0CbuZhByk6M_61ooitmTYADDPNRwA5>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Nov 2024 03:37:49 -0500 (EST)
-Date: Thu, 28 Nov 2024 09:37:48 +0100
-From: Janne Grunau <j@jannau.net>
-To: Hector Martin <marcan@marcan.st>
-Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH 0/4] Driver for Apple Z2 touchscreens.
-Message-ID: <20241128083748.GC3782493@robin.jannau.net>
-References: <20241126-z2-v1-0-c43c4cc6200d@gmail.com>
- <Z0Z7Lrv3rBfzac_e@google.com>
- <CAMT+MTThJoYLYhtYAHwh6F3LTApid9Em+eP2AZYc3JChC2b9ig@mail.gmail.com>
- <9dcdea44-974e-416f-9d59-204d519774dd@marcan.st>
- <969b7440-5173-4ecc-af31-c3cd1f3f5acf@marcan.st>
+	s=arc-20240116; t=1732800442; c=relaxed/simple;
+	bh=s7ntmLyoK0Ige0yP54n7nzwN2qCmpmvx316Vpb4inks=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CXxoh26umEpvjPbSABpoEANAQ6Bkx0PoejZFN7QuSVZoCTpTf5sIQzJzemRpy/6QxPjYd/ze88J+jmVDgwneuCOVvObO+vCdO2uEhb1UNGaHYjMrkoPyMMDznSajBU4KrYFQ0L3pnKzW8BvGYlf7fGuo2AO8gXgWl9Ljk3N/aWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W4x8dQLJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1117BC4CED3;
+	Thu, 28 Nov 2024 13:27:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732800442;
+	bh=s7ntmLyoK0Ige0yP54n7nzwN2qCmpmvx316Vpb4inks=;
+	h=From:Date:Subject:To:Cc:From;
+	b=W4x8dQLJLyeKbmnDT2QjsgZfRNMP4shFyIT/3c8z4rXM1Q/HOOYiYE34+B0dse2ok
+	 1+ykhOG408CCgxPWHbaO+oPmaBISGvzv+9xC5qywv17Kn84nzFjhejrE3LevibFyiz
+	 GO8cD4fznOGsQyuRrH4UVUylijcfaxocejNrCdD/mA692bOAE2lI0Agnth1vGEFLSb
+	 pot7E1hZkYLaZuKVPp8IHfmFYxO/vpeP8tznGvRIUecQzi2j2/IHFLdozbuA1/SVK7
+	 bzziZ6k3yNig+NLDXsg1lTAIxAGJfGIl3R6wzsedWNepAfakRrLu1QkVr6Sgl0TbKZ
+	 PslcPSFNW+O7A==
+From: Benjamin Tissoires <bentiss@kernel.org>
+Date: Thu, 28 Nov 2024 14:27:16 +0100
+Subject: [PATCH HID] selftests/hid: fix kfunc inclusions with newer bpftool
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <969b7440-5173-4ecc-af31-c3cd1f3f5acf@marcan.st>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241128-fix-new-bpftool-v1-1-c9abdf94a719@kernel.org>
+X-B4-Tracking: v=1; b=H4sIALNvSGcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxNDQyML3bTMCt281HLdpIK0kvz8HF1jw0TLNBPjxMS0pCQloK6ColSgErC
+ J0Uoeni5KsbW1ADG4jtxmAAAA
+X-Change-ID: 20241128-fix-new-bpftool-31a9f43aafbb
+To: Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+ Benjamin Tissoires <bentiss@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732800440; l=3659;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=s7ntmLyoK0Ige0yP54n7nzwN2qCmpmvx316Vpb4inks=;
+ b=PREaqb+BXRq/tIkrsTWycjKGYBT+dINU4VsCFZL2/q0/YXm/vlTEaUZriVdHDTZk7HtnLrfUL
+ /Lrw153FIwxDPxv8iyaIJ2+xt8XzW80dC/LigpAPfgDnrsD++kjCNvz
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-On Thu, Nov 28, 2024 at 01:20:09AM +0900, Hector Martin wrote:
-> 
-> 
-> On 2024/11/28 0:29, Hector Martin wrote:
-> > 
-> > 
-> > On 2024/11/27 17:29, Sasha Finkelstein wrote:
-> >> On Wed, 27 Nov 2024 at 02:51, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> >>> I believe this needs to be done at the SPI controller level. See
-> >>> "cs-gpiods" property in
-> >>> Documentation/devicetree/bindings/spi/spi-controller.yaml that, as far
-> >>> as I understand, allows overriding controller's native CS handling with
-> >>> a GPIO when needed.
-> >>
-> >> I have already tried doing that (adding the relevant gpio as cs-gpios
-> >> on the controller)
-> >> and for some reason none of my attempts worked. Since there is no hardware
-> >> documentation, I can't really tell why, could be possible that we need both
-> >> native CS and that gpio, could be memory barrier issues somewhere in
-> >> the driver core,
-> >> but the method above is the only one i could get to work.
-> > 
-> > Are you sure this isn't just a pinmux problem, i.e. the bootloader
-> > initializes the pinmux for hardware CS only on one device and not the other?
-> > 
-> > See spi3_pins in the DTS in our downstream tree (and the reference from
-> > the SPI controller). If the rest of the SPI pins are already working
-> > properly you can just try with the CS pin (same index as on the gpio
-> > spec). Ideally we'd list the 4 pins, but someone needs to reverse
-> > engineer the mapping with m1n1 gpiola since we don't know what it is.
-> > 
-> > If it really doesn't work with native CS and proper pinmux then cs-gpios
-> > on the controller should work. If it doesn't something weird is going on
-> > elsewhere. There's only one CS line, needing both makes no sense.
-> > 
-> 
-> Looked into this. The pins are 67=CLK, 68=MOSI, 69=MISO for spi0 on
-> t8103 (they should be added to pinctrl even though they are already
-> configured by iBoot, ping Janne).
+bpftool now embeds the kfuncs definitions directly in the generated
+vmlinux.h
 
-queued for the next revision of my "Add Apple SPI controller and spi-nor
-dt nodes" series [0] and imported in the downstream kernel.
+This is great, but because the selftests dir might be compiled with
+HID_BPF disabled, we have no guarantees to be able to compile the
+sources with the generated kfuncs.
 
-thanks
-Janne
+If we have the kfuncs, because we have the `__not_used` hack, the newly
+defined kfuncs do not match the ones from vmlinux.h and things go wrong.
 
-[0] https://lore.kernel.org/asahi/20241127-asahi-spi-dt-v1-0-907c9447f623@jannau.net/
+Prevent vmlinux.h to define its kfuncs and also add the missing `__weak`
+symbols for our custom kfuncs definitions
+
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+---
+This was noticed while bumping the CI to fedora 41 which has an update
+of bpftool.
+
+I'll probably take this in for-6.13/upstream-fixes tomorrow if no bots
+comes back at me.
+
+Cheers,
+Benjamin
+---
+ tools/testing/selftests/hid/progs/hid_bpf_helpers.h | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
+
+diff --git a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
+index e5db897586bbfe010d8799f6f52fc5c418344e6b..531228b849daebcf40d994abb8bf35e760b3cc4e 100644
+--- a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
++++ b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
+@@ -22,6 +22,9 @@
+ #define HID_REQ_SET_IDLE         HID_REQ_SET_IDLE___not_used
+ #define HID_REQ_SET_PROTOCOL     HID_REQ_SET_PROTOCOL___not_used
+ 
++/* do not define kfunc through vmlinux.h as this messes up our custom hack */
++#define BPF_NO_KFUNC_PROTOTYPES
++
+ #include "vmlinux.h"
+ 
+ #undef hid_bpf_ctx
+@@ -91,31 +94,31 @@ struct hid_bpf_ops {
+ /* following are kfuncs exported by HID for HID-BPF */
+ extern __u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx,
+ 			      unsigned int offset,
+-			      const size_t __sz) __ksym;
+-extern struct hid_bpf_ctx *hid_bpf_allocate_context(unsigned int hid_id) __ksym;
+-extern void hid_bpf_release_context(struct hid_bpf_ctx *ctx) __ksym;
++			      const size_t __sz) __weak __ksym;
++extern struct hid_bpf_ctx *hid_bpf_allocate_context(unsigned int hid_id) __weak __ksym;
++extern void hid_bpf_release_context(struct hid_bpf_ctx *ctx) __weak __ksym;
+ extern int hid_bpf_hw_request(struct hid_bpf_ctx *ctx,
+ 			      __u8 *data,
+ 			      size_t buf__sz,
+ 			      enum hid_report_type type,
+-			      enum hid_class_request reqtype) __ksym;
++			      enum hid_class_request reqtype) __weak __ksym;
+ extern int hid_bpf_hw_output_report(struct hid_bpf_ctx *ctx,
+-				    __u8 *buf, size_t buf__sz) __ksym;
++				    __u8 *buf, size_t buf__sz) __weak __ksym;
+ extern int hid_bpf_input_report(struct hid_bpf_ctx *ctx,
+ 				enum hid_report_type type,
+ 				__u8 *data,
+-				size_t buf__sz) __ksym;
++				size_t buf__sz) __weak __ksym;
+ extern int hid_bpf_try_input_report(struct hid_bpf_ctx *ctx,
+ 				    enum hid_report_type type,
+ 				    __u8 *data,
+-				    size_t buf__sz) __ksym;
++				    size_t buf__sz) __weak __ksym;
+ 
+ /* bpf_wq implementation */
+ extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
+ extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
+ extern int bpf_wq_set_callback_impl(struct bpf_wq *wq,
+ 		int (callback_fn)(void *map, int *key, void *wq),
+-		unsigned int flags__k, void *aux__ign) __ksym;
++		unsigned int flags__k, void *aux__ign) __weak __ksym;
+ #define bpf_wq_set_callback(timer, cb, flags) \
+ 	bpf_wq_set_callback_impl(timer, cb, flags, NULL)
+ 
+
+---
+base-commit: 919464deeca24e5bf13b6c8efd0b1d25cc43866f
+change-id: 20241128-fix-new-bpftool-31a9f43aafbb
+
+Best regards,
+-- 
+Benjamin Tissoires <bentiss@kernel.org>
+
 
