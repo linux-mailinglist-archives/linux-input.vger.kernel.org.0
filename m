@@ -1,56 +1,56 @@
-Return-Path: <linux-input+bounces-8303-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8304-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130889DBABC
-	for <lists+linux-input@lfdr.de>; Thu, 28 Nov 2024 16:41:10 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 008479DBABF
+	for <lists+linux-input@lfdr.de>; Thu, 28 Nov 2024 16:41:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C0EE92820BA
-	for <lists+linux-input@lfdr.de>; Thu, 28 Nov 2024 15:41:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA5382824A6
+	for <lists+linux-input@lfdr.de>; Thu, 28 Nov 2024 15:41:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACDED1BDAA2;
-	Thu, 28 Nov 2024 15:40:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80A071C07D9;
+	Thu, 28 Nov 2024 15:40:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EJOyQ3Op"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fa+UNnZ2"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8176E1BD9FD;
-	Thu, 28 Nov 2024 15:40:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7B91C07D6;
+	Thu, 28 Nov 2024 15:40:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732808450; cv=none; b=dGnwgCj1KJfB9a9buv7Q1JZtCstrfzyWZinL4Hu2P1BjAhZGJ6nB9T57Z9XNoHWqtfOj8d+z1DKKXkUWRp8UUm6Hf+XaSnmU4HVE6EQf1HZdVi7UORtwLH5b7TInkNlwNNejVcxDI5B11CKPjLADoq1DKnNPBwNljdFxw3lSkMY=
+	t=1732808452; cv=none; b=L9jgvW0V47iSXbWNQOmLqQxilM9nXHGyCF0UstkQ37cZ6lkYwv+jY/uaa3tsyivXReXw+cYoePlw952YCN1debTT5ZznZCnsTBcfI+MsJSEqdUAjrEjwRLM/XRMgtpWp7nm8Z7F0lIZ5dNtQaacskExNyCUFmcqfd9Zje1yMqSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732808450; c=relaxed/simple;
-	bh=3Ju+mG6AbalUNchHrJWsVy32D/Z6BPG2SJDSfMowx30=;
+	s=arc-20240116; t=1732808452; c=relaxed/simple;
+	bh=RfU2BrNtVdE+B4PWzfkq5wiw0Y6hxjt2mh7JwGaBDeE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Ejs6bYq/a1M29YWhvO6HfU+eomS5lLlQOF9orC/T3A4HuPPZ8HLTSd8zznGe7mz5v0OlWEM95NAuxzIF/8N4I/pMTsqs9RNCIDCMIfJbhx7IPI5LgBfhDNqkQIShTI9Wqs/cdgT6/qGyp7DQJR6ONW0yAyWdoFOpPhpvr+Kgjyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EJOyQ3Op; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A437C4CED7;
-	Thu, 28 Nov 2024 15:40:48 +0000 (UTC)
+	 MIME-Version:Content-Type; b=pEv2mWTcuzq35uXyHBgQ2/jy1Ks4ibbmQXloxYWSgjopvgCd7qUDvnxIlwS4o6xrlLH1Ea+/8HnwAIkPFxomVpRAH/X6djvaq4+xORbrjd8HbH5Z7EiZIwFPbrEBa1/XKu9JCaCJ199cAgfDEKSZDWpv64voYKx2yHIjhxGNcKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fa+UNnZ2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C41B9C4CECE;
+	Thu, 28 Nov 2024 15:40:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732808450;
-	bh=3Ju+mG6AbalUNchHrJWsVy32D/Z6BPG2SJDSfMowx30=;
+	s=k20201202; t=1732808451;
+	bh=RfU2BrNtVdE+B4PWzfkq5wiw0Y6hxjt2mh7JwGaBDeE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=EJOyQ3OpVU47MkFzzvsp6T9VbJGl/asF+rmCSB91WjrvoKYeTVNMHyaykj5AYlsiq
-	 FSw5FPzV3nt7dLbeRWmSYmMg1PSHc8Voj86e9Tg2XBVuMYwP0M+AL/DzYNWVMZOANt
-	 ucY2Z5v+oeKPhU7D18oDFD9GzQe0y5fp0tLuBrjIcPt6WVN4euYM/Ns5Ndh7MktAWM
-	 kx+/mfsefJ9vjH25cS/tKQ7P48yWq47e5Hal/SnRc7Z+FdqZwXPnVOfA1jVuMetuTb
-	 kdk4JMQoi0YtKb68B0yAdB4cNPI2RbKhzJ0daBqKSRwFDunmJCN7kTpmx/DrAPnAhr
-	 HU2kigZT24iag==
+	b=Fa+UNnZ2cgWObGLncp8jdSv7rTwuMxqu5ewM++dctQkrBy6cP16KbKku7kM1KoR5q
+	 fcohCCtfqQ30Cx2aX/yZniA3UKguXqgHIoB46sXCpY2WvZy1e6295EgnCb7ycg/2xt
+	 HzwzspATopwfwJbqsRl4LVhpTegqlGHD0JY/m8lWzil7Q90micOFVT2WBR5t+YtoVa
+	 GmpCW5ROzZpIDEOEnxGKvrQ6xkLUFfvs9haNrJxi40h0S180RgrXo/0ceP9iqefw68
+	 TmX/DIbl7hemvpnviu4u6ekyepYgnwhEgdeyRsZO/Rqbgr6IPh+pg00WJHUiDfIDJt
+	 j1HLcUIZQOU1w==
 From: Benjamin Tissoires <bentiss@kernel.org>
-To: Maximilian Heyne <mheyne@amazon.de>
-Cc: Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>, 
- Peter Hutterer <peter.hutterer@who-t.net>, linux-input@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20241126135850.76493-1-mheyne@amazon.de>
-References: <20241126135850.76493-1-mheyne@amazon.de>
-Subject: Re: [PATCH] selftests: hid: fix typo and exit code
-Message-Id: <173280844877.2348538.8632624571122500583.b4-ty@kernel.org>
-Date: Thu, 28 Nov 2024 16:40:48 +0100
+To: Jiri Kosina <jikos@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ bpf@vger.kernel.org
+In-Reply-To: <20241127-hid-bpf-ops-v1-1-f9e41bfa3afd@weissschuh.net>
+References: <20241127-hid-bpf-ops-v1-1-f9e41bfa3afd@weissschuh.net>
+Subject: Re: [PATCH] HID: bpf: constify hid_ops
+Message-Id: <173280845054.2348538.3045601083967746197.b4-ty@kernel.org>
+Date: Thu, 28 Nov 2024 16:40:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -58,18 +58,18 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.14.1
 
-On Tue, 26 Nov 2024 13:58:50 +0000, Maximilian Heyne wrote:
-> The correct exit code to mark a test as skipped is 4.
+On Wed, 27 Nov 2024 17:41:56 +0100, Thomas Weißschuh wrote:
+> The hid_ops struct is never modified. Mark it as const.
 > 
 > 
 
 Applied to hid/hid.git (for-6.13/upstream-fixes), thanks!
 
-[1/1] selftests: hid: fix typo and exit code
-      https://git.kernel.org/hid/hid/c/e8f34747bdde
+[1/1] HID: bpf: constify hid_ops
+      https://git.kernel.org/hid/hid/c/f9a11da1d92f
 
 Cheers,
 -- 
