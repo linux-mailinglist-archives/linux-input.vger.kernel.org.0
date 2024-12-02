@@ -1,83 +1,87 @@
-Return-Path: <linux-input+bounces-8340-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8341-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E05F9E0247
-	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2024 13:34:19 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA0B9E0249
+	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2024 13:35:39 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C7D5F282CD0
-	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2024 12:34:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC5FA16363C
+	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2024 12:34:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C92B21FCFF5;
-	Mon,  2 Dec 2024 12:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB14B1FCFF5;
+	Mon,  2 Dec 2024 12:34:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UmIGV1/q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AAkDTYH+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086931A9B2A;
-	Mon,  2 Dec 2024 12:34:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0261A9B2A
+	for <linux-input@vger.kernel.org>; Mon,  2 Dec 2024 12:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733142854; cv=none; b=AbiEERl8TFUDf79fbVOuvs2gtzT4MKizlh7XbmlHqhMMi2wUW0qdyvqxjRw7BjKoOgnX8IIHi6eH/WkuG+DhG+NWW0RY2x5gNI9zdPTP2h/5vTRa5x0RA7dcfGUA8zqtMNHZSMIFQ6jGrXOZ87eQoBUYhcapvbd3h5VWpPlCKlk=
+	t=1733142869; cv=none; b=arxfyjw99f3x8tj1i3Ln5GRc9yOVgRRHtqpceQyuXj7Du/Nbnt++mhZpyFsz464u7Ec+1T1Yrr5Nbv6gpkHR4fAFTj/pbSyMvc36wm3RgkVxLWnqN3NChaFSPbC0ne7klNoMEZCnnYy9/h4qUw7KByfgXvIaPY+i3YFngvFVsQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733142854; c=relaxed/simple;
-	bh=K82C/wSlCQnCagE5Rn+T57wyatHAjCXJw9D440q/x0E=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=aHB2sKniAbdTWpwzPHHOZPvRaySiPaKsp+g2ihQcllQ1lqM1WJO7LTbqZWzSwd4JtqGpeRHchP1Y4n7m0hVlo2X8LKgI1od+HJp32NDsyt56dlx+FNjP408vrjgWl6mNAoanLBLZC5/6ZklB2UslnDtMnftAxUulLHRuLKdjf3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UmIGV1/q; arc=none smtp.client-ip=209.85.221.42
+	s=arc-20240116; t=1733142869; c=relaxed/simple;
+	bh=2Uk3a9Qp8JSvHompwK90+THunNltHsmaEj5i1f6w6Q0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=A3fy96W9aEuuxIY4Wa4/p0uHLNno6n+yT2FxLe8ydWBxwGEUz2IHhVqYxgodBsZdRyWY4X8vwQmcXu/kVmJvHiLXwHPF0P9n+DAR8vrRcJa+nC1QTN+t/vCtfzDAMIADLwdEfaDaP1ShdzXMzWmMklVD7L+alvTvxscfuyMul+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AAkDTYH+; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-385dece873cso1398692f8f.0;
-        Mon, 02 Dec 2024 04:34:12 -0800 (PST)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-385dfb168cbso1776619f8f.1
+        for <linux-input@vger.kernel.org>; Mon, 02 Dec 2024 04:34:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733142851; x=1733747651; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=X2LPxhA5EFsb/CNjbqKNpioL3B8joPuqn0zPyHEcH4Q=;
-        b=UmIGV1/q2RPVTO9CGXIP+i94BAnFMSVBzAuxXGHw072PaCPreBErrrysDouAj1B62X
-         p6Utk+/ihdBh+Iij4x5Q51jn4JRC7GGxaG5X0JCU30y4hLYfuwT72RHcx8kS0vJWMTsn
-         Sq0PKwj3aiMwOClUUK55UR1+tlavtsezr65Sp4Jws2zj4ExEv6Slqf+NBDkqYUED7BL/
-         IOsQEufK2Taz1Ifovk8hW9+d+EXWr0Dfed16D8O5h4k1XB9Zl66ESKXh8Dx/8ndkMYUn
-         MIxp379XGtQ3omvHCZWTacQCzXIQCRWz24bYTZhgfxWB8eCd6u7QUQkFHHwGsr1odtqQ
-         2M9g==
+        d=gmail.com; s=20230601; t=1733142864; x=1733747664; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FwLFMhda36dQvX1H531xKM3kTIPOD8rkJEGrbxUbdrc=;
+        b=AAkDTYH+dTfIRRo0ZFmJk065EywF+P75QGDAI39qDLzJHt+9OC4J4seBfoY8/XVbLV
+         HRJY/tKpnVBR47/Y/QhAU7KfNovXD2Hrbu5kxqxifYF/z+eMgabYQKs69sdwxpGLtRDp
+         JYHw6OWbfoIZwl5dx7PHW3b9S3ICtDohwXQWvHfo7QAZGzL3Xtf6bskX6dyMAK+yyczN
+         hJE5ciOoLpY+exKGySuoJ2cWOkzV0yevcYxRdAOBD6fLhr9fl7MHqCdQn/S+m7P9Cix6
+         LM8TJDmHJ+aQrhbd3KvfnsJtSw/jZldN/F+ix7sgJsflsTwNkem4UqERy2LPrXSEZ7Jk
+         sifw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733142851; x=1733747651;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=X2LPxhA5EFsb/CNjbqKNpioL3B8joPuqn0zPyHEcH4Q=;
-        b=l4zUmRWVgKe9CbKydlooe0z8m/Wb0EhX/FJVFix7T6jnFxuxlxbE9M7aDsIwmclzyA
-         nkt5iAThXf5VOyFHmgsTarf70XkU13DQr8MFM24edPBQs93ra0IIPEoKpANO1lHFzdnP
-         GZYmfWfIoH0vrkEKtC4wuhsyXxnh3ozcVDyxZZhfGS0ryLq+dIgLLLe2Vz6bnzWVyh3y
-         6jeGiP/VxiWyepfbaDXUewk6Cvqi9iI1+D6KJXBjnSh1iM3SHVY3sLPm8rv6CJv+bPCW
-         kfvdvwV4SMwGvBk25Ry1xvWGve5UxogRwidHf9R/8mVLsZtlGWYJRZKfWf552mIk2MCa
-         KY8g==
-X-Forwarded-Encrypted: i=1; AJvYcCVtiHfnTxtXcf+LMkyywja1hq2A9dHTDRnY/S/sUxj+laH/+VXJtd/57I0dEVW3f1gfBZ30YwaL7MejLw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6eblSV5s3Lz115R8b7xh9iEAyOTURJpDMGqh6rWzlPfwTd0hC
-	hfwtxK7JxveIsaiGRODjR4cHemdYX8tx9xB3p4f77lQ/ffQtYYs5wy3a6HCM
-X-Gm-Gg: ASbGncuUDHUZFLL/08E5KCd8Jr5uo0LeHdpThyi5+J9hsdXxjK6hxHQq+8/S7L4hRqr
-	1XjadjNeSKIMUMDhHz2X1RzEu3sJJ8gDrVbgW+ckyqvoA/VthBFJuUeGUHP50B8IVAkMVxjW1M3
-	SSIsNeiCJsiUxtC2PPXhzHmvczOstXH2Z+jyCn+KrRfOnIlmh7egrlhBB07UPuh1oVOuCuIA2+L
-	0ZyMkusqgf0sWz+T79QvT3MCWFfra6H7x7cOqaIhGMeQx7ikImb3Yvx5GykMz+U/G1HNII=
-X-Google-Smtp-Source: AGHT+IGB+sqklW5oXVtwm3qQi3zcPxP9UV+M9Nt1GJC+NPuwZZyXlBrMZWUhKi2/GdtIIQUphDVg1g==
-X-Received: by 2002:a05:6000:178d:b0:385:dfab:1643 with SMTP id ffacd0b85a97d-385dfab180cmr10678970f8f.27.1733142850774;
-        Mon, 02 Dec 2024 04:34:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733142864; x=1733747664;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FwLFMhda36dQvX1H531xKM3kTIPOD8rkJEGrbxUbdrc=;
+        b=sSDgtldN12luPt1DJ1w9TuHNzDxcES0sm6emtWBo+8zP31oico8cRbxl4gWbSmnivc
+         fUGvF9dnyXcYV7Vp84GyXamflSTb7OMUrMXhXaR1PmlM292BCyfSQbMR9/6l2sv9qfsT
+         8veuPlka7b7Uhk3tvZlQ1BnHThivkGmH1RW1Axi/AJ4toY/RRB9jy27v7hEuD2eBLdJj
+         uiI+IYSh5lTICKoLuE4o2/v0iFceu6UURGr/pDNfxIVL3lzbBvalxDKWTPCTblYqOiso
+         xwEbqKdn4hqdWTW0j/bPrfwRP9+5073s/LxoXpZ1kT4ig1Dr06+MzAd00a1kr6RqbvlR
+         8JIg==
+X-Forwarded-Encrypted: i=1; AJvYcCWGiEggKxK8xvRl9ppb/7eqpfSqAPG+q4ZLKNkteqFcHSY5qxnrJ5UUp2+96cU4Cyaq4/N0V4VAs5emBQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8PAu3gmnVEZska3iRSxDng8KdhugzxEzJOjE/vfu99UvliEku
+	pW0dFs9Qaf/V9A7LJ1mooKbHtSZBlOZflvy5kGkzApADgw7UmsxyHNoqEV7N
+X-Gm-Gg: ASbGncvkjErp4Y0byoSclkdQvAk/GuwxwwnmW/NNvjGew0uNLwUln9pd7N+rC0xR1d4
+	pUPc9gGWTb5JoWNGw/2X34xL6PhdIBpj3mlJH909FCv0OEgZzCpFj18BLEHPNdtjSNolZCi7kdh
+	BW52FXbLeQIRB+tMbWecAqQXxNehNgCFgQX4aRQrqLjE0NVBj2YAUGVr37EIioTXBxU2ANOvdaW
+	NDVdnzF/w6lPHRfw+SXJPaS6On/j3zdF16OFX2Pxwgh5b96+1f5yuWPDfXrpuU80A2Lc7s=
+X-Google-Smtp-Source: AGHT+IFaJ/QEJJFMgSLzDhm/0BFKVI52jnvAnvMQCC9zOfF7VBlsM0KeTl/zk//ukVQL7+YKm1Os2A==
+X-Received: by 2002:a5d:6daa:0:b0:385:f13c:570a with SMTP id ffacd0b85a97d-385f13c5a8bmr3539754f8f.7.1733142864148;
+        Mon, 02 Dec 2024 04:34:24 -0800 (PST)
 Received: from localhost.localdomain ([90.173.102.44])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385e5b10478sm6712040f8f.73.2024.12.02.04.34.09
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385e5b10478sm6712040f8f.73.2024.12.02.04.34.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2024 04:34:10 -0800 (PST)
+        Mon, 02 Dec 2024 04:34:23 -0800 (PST)
 From: =?UTF-8?q?Guillermo=20Rodr=C3=ADguez?= <guille.rodriguez@gmail.com>
-To: linux-kernel@vger.kernel.org
+To: 
 Cc: =?UTF-8?q?Guillermo=20Rodr=C3=ADguez?= <guille.rodriguez@gmail.com>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	linux-input@vger.kernel.org
-Subject: [PATCH 0/1] Input: evdev - fix wrong timestamp after SYN_DROPPED
-Date: Mon,  2 Dec 2024 13:33:50 +0100
-Message-Id: <20241202123351.86957-1-guille.rodriguez@gmail.com>
+Subject: [PATCH 1/1] Input: evdev - fix wrong timestamp after SYN_DROPPED event
+Date: Mon,  2 Dec 2024 13:33:51 +0100
+Message-Id: <20241202123351.86957-2-guille.rodriguez@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20241202123351.86957-1-guille.rodriguez@gmail.com>
+References: <20241202123351.86957-1-guille.rodriguez@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -87,55 +91,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi all,
+Reset the input device's timestamp after generating a SYN_DROPPED
+event, otherwise the next real event will use the same timestamp as
+the SYN_DROPPED event itself.
 
-We are seeing an issue with gpio_keys where the first event after
-a SYN_DROPPED has the same timestamp as the SYN_DROPPED event itself.
-After some investigation it looks like this is an issue with evdev
-and not specific to gpio_keys.
+Fixes: 3b51c44bd693 ("Input: allow drivers specify timestamp for input events")
 
-The issue was originally introduced in commit 3b51c44 ("Input: allow
-drivers specify timestamp for input events").
-
-This commit introduced input_set_timestamp and input_get_timestamp.
-The latter (despite the name) actually generates and stores a timestamp
-in dev->timestamp if the driver did not set one itself. This timestamp
-needs to be reset when events are flushed; otherwise the next event
-will use a stale timestamp. A partial fix was implemented in 4370b23
-("Input: reset device timestamp on sync"), but this does not cover the
-case of SYN_DROPPED.
-
-If a SYN_DROPPED is generated (currently only done by evdev), the
-following happens:
-
-- evdev calls input_get_timestamp to generate a timestamp for the
-  SYN_DROPPED event.
-- input_get_timestamp generates a timestamp and stores it in
-  dev->timestamp
-- When the next real event is reported (in evdev_events), evdev
-  calls input_get_timestamp, which uses the timestamp already
-  stored in dev->timestamp, which corresponds to the SYN_DROPPED event
-  
-How to fix:
-
-- When a SYN_DROPPED is generated, after calling input_get_timestamp,
-  the timestamp stored in dev->timestamp should be reset (same as is
-  currently done in input_handle_event). The attached patch does that.
-  
-(Perhaps the underlying problem is that it is not expected that a
-function called input_get_timestamp will have side effects. The
-commit history of input.c shows that this has actually caused a
-few issues since 3b51c44.)
-
-
-Guillermo Rodríguez (1):
-  Input: evdev - fix wrong timestamp after SYN_DROPPED event
-
+Signed-off-by: Guillermo Rodríguez <guille.rodriguez@gmail.com>
+---
  drivers/input/evdev.c | 10 +++++++++-
  1 file changed, 9 insertions(+), 1 deletion(-)
 
-
-base-commit: e70140ba0d2b1a30467d4af6bcfe761327b9ec95
+diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
+index b5cbb57ee5f6..6ab38a611321 100644
+--- a/drivers/input/evdev.c
++++ b/drivers/input/evdev.c
+@@ -142,7 +142,8 @@ static void __evdev_flush_queue(struct evdev_client *client, unsigned int type)
+ 
+ static void __evdev_queue_syn_dropped(struct evdev_client *client)
+ {
+-	ktime_t *ev_time = input_get_timestamp(client->evdev->handle.dev);
++	struct input_dev *input_dev = client->evdev->handle.dev;
++	ktime_t *ev_time = input_get_timestamp(input_dev);
+ 	struct timespec64 ts = ktime_to_timespec64(ev_time[client->clk_type]);
+ 	struct input_event ev;
+ 
+@@ -160,6 +161,13 @@ static void __evdev_queue_syn_dropped(struct evdev_client *client)
+ 		client->tail = (client->head - 1) & (client->bufsize - 1);
+ 		client->packet_head = client->tail;
+ 	}
++
++	/*
++	 * Reset the timestamp; otherwise the next event will
++	 * have the same timestamp as this SYN_DROPPED event.
++	 * See input_handle_event.
++	 */
++	input_dev->timestamp[INPUT_CLK_MONO] = ktime_set(0, 0);
+ }
+ 
+ static void evdev_queue_syn_dropped(struct evdev_client *client)
+-- 
 2.25.1
 
 
