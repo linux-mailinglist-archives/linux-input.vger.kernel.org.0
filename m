@@ -1,46 +1,47 @@
-Return-Path: <linux-input+bounces-8357-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8356-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1B39E0B89
-	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2024 20:03:38 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 812169E0D85
+	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2024 22:04:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F1A9828099B
-	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2024 19:03:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 30B58B60A6A
+	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2024 19:03:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C28C1DF72E;
-	Mon,  2 Dec 2024 19:01:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDA371DE3B2;
+	Mon,  2 Dec 2024 19:01:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="NFfgHJrX"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="NH+djLZ7"
 X-Original-To: linux-input@vger.kernel.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40771DE8AD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40211DE8A9;
 	Mon,  2 Dec 2024 19:01:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733166104; cv=none; b=PMQRv6Hf839lbSpFihZmPauDel3jhYzWAdSsXtHSHt1NEH9xbIIn+ij7QPhQahOELQ1XIOHcV1KWqsPOcOP04rlLFnBI7UQg2W/qsUQYFYYTBjnZ1LetqXalxhniZqT5f5VpF36Yd3fz47jNwgX036/Hifu4ZINR1F8EtUnSJr8=
+	t=1733166104; cv=none; b=Sr3uTArFYjrcrFkTQhh4wEXU+g4R832hccTI33jNPKnSD/ke9BMqnLrZ1E0Y+jVjBz0ZnDBohq9TGOCFDFMTGtb7J37QWewf3a03WLf+qqUgcIdtoxMMoquGRbOMrLE2G8ehl0bMCNOZeTFbeRVpm+iiyy7aAanUrnAxVWO1gfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733166104; c=relaxed/simple;
-	bh=GrX8bTf9cJi04Oy6X8nbhkoX39lESfzTFSk3V/Mc9RM=;
+	bh=W+mWnDObWKFTpIkoPUW6T+2VoFCOMFK9MW1E+ZgNHBc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SmWLrJReH5VzS9SW9kpEcP2TiqItUN5MaG7xrq+ZUxP3HbEmncmGuA4Qsgl94kN98V1n/AU/vs/JW1OVw9rUo4jmNEYzXlYcoq96ZtVcpDcn3/wMUpIOGci6GiyjHj3zPZojrwjF6vcpocau37CjNGLL2QoTV9t8QiSTqNnaKag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=NFfgHJrX; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=henYKU/fdp9ZRPi+3GARJ++oPUhUNRXs3dzstKXFM548eR96q6SHPNz+ub5mkkKGNCboyyWDSnKwBbnfHV02lvkxsWsEU6MJrZHS3DJhxo0MHN/8HqXwpUM6/zSW5lo/LqdjgAvmnetnRZELg4YQL1/F3Fxqs9lnQKLqIuxu/s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=NH+djLZ7; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1733166098;
-	bh=GrX8bTf9cJi04Oy6X8nbhkoX39lESfzTFSk3V/Mc9RM=;
+	s=mail; t=1733166097;
+	bh=W+mWnDObWKFTpIkoPUW6T+2VoFCOMFK9MW1E+ZgNHBc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=NFfgHJrXrq4PKIYWGoyCf/HvmqVPVSxCrZSjBl3ziFOwqU8vHzoUpoh7QPRWUiD+S
-	 zn5ATxAMaCArER/zdzq47R1rEvY+E354ZSz5OxkcpkvsWsa147BURflZmIGclPIZiV
-	 Yi/8am2fIPSH/WqFTpLDeqlJ9fgTVghexHKd27Nk=
+	b=NH+djLZ7mvklOpnckYB/e2RjcyknI2C1zuVxOelvKm1xXeUjGOQol/VbziOQdGfIU
+	 JwuwiYBURlt87V0mB1AtZN1m7aTelLuPNWjputz86MqBhD78UeiuOvLGHh2UHM4sS5
+	 W+nzws8j1qMS82xnRf8NvZaEKhBWiUT65ic1Pewg=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 02 Dec 2024 20:01:41 +0100
-Subject: [PATCH 10/10] HID: roccat: pyro: constify 'struct bin_attribute'
+Date: Mon, 02 Dec 2024 20:01:34 +0100
+Subject: [PATCH 03/10] HID: roccat: common, konepure, ryos, savu: constify
+ 'struct bin_attribute'
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -49,7 +50,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241202-sysfs-const-bin_attr-hid-v1-10-16369423a48a@weissschuh.net>
+Message-Id: <20241202-sysfs-const-bin_attr-hid-v1-3-16369423a48a@weissschuh.net>
 References: <20241202-sysfs-const-bin_attr-hid-v1-0-16369423a48a@weissschuh.net>
 In-Reply-To: <20241202-sysfs-const-bin_attr-hid-v1-0-16369423a48a@weissschuh.net>
 To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
@@ -57,11 +58,11 @@ To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
 Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733166097; l=6442;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733166097; l=5960;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=GrX8bTf9cJi04Oy6X8nbhkoX39lESfzTFSk3V/Mc9RM=;
- b=k2BZMbPJN1o4kNzfgID5b+1W5//S6RZh0UBFaS6YvCL5pcXg4E1onTwgG6AWTBzNiAmpECi08
- HjuQcd64FLND1/HM3I9EaBnYJCWDOvRyLua61Knn9t0DecND/OeBvI5
+ bh=W+mWnDObWKFTpIkoPUW6T+2VoFCOMFK9MW1E+ZgNHBc=;
+ b=nVjoQ4E05w3ufBeabbmpI5phvU4vPCuxoi2xRDepgX1LCjByNFxQBxNwFndtQmxfA8eCwXqA8
+ fYBHl9UthnIDsPe/f7EVlr92WofjzX6Qp/jTgLsMGDbe6uWKa7DokCq
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
@@ -71,152 +72,139 @@ accidental or malicious modifications.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/hid/hid-roccat-pyra.c | 50 +++++++++++++++++++++----------------------
- 1 file changed, 25 insertions(+), 25 deletions(-)
+ drivers/hid/hid-roccat-common.h   | 22 +++++++++++-----------
+ drivers/hid/hid-roccat-konepure.c |  4 ++--
+ drivers/hid/hid-roccat-ryos.c     |  4 ++--
+ drivers/hid/hid-roccat-savu.c     |  4 ++--
+ 4 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/hid/hid-roccat-pyra.c b/drivers/hid/hid-roccat-pyra.c
-index eeb3d38cd80584bd716ad493cff2892a2d5af552..2b53fbfbb8979ad1d1994e462b624b3f72480447 100644
---- a/drivers/hid/hid-roccat-pyra.c
-+++ b/drivers/hid/hid-roccat-pyra.c
-@@ -129,8 +129,8 @@ static ssize_t pyra_sysfs_write(struct file *fp, struct kobject *kobj,
+diff --git a/drivers/hid/hid-roccat-common.h b/drivers/hid/hid-roccat-common.h
+index 839ddfd931f076a2c3c2ab3a6d8186004273f2e1..0f9a2db04df96aaa2fe87adc00ec14f8fa30ed82 100644
+--- a/drivers/hid/hid-roccat-common.h
++++ b/drivers/hid/hid-roccat-common.h
+@@ -46,8 +46,8 @@ ssize_t roccat_common2_sysfs_write(struct file *fp, struct kobject *kobj,
  
- #define PYRA_SYSFS_W(thingy, THINGY) \
- static ssize_t pyra_sysfs_write_ ## thingy(struct file *fp, \
+ #define ROCCAT_COMMON2_SYSFS_W(thingy, COMMAND, SIZE) \
+ static ssize_t roccat_common2_sysfs_write_ ## thingy(struct file *fp, \
 -		struct kobject *kobj, struct bin_attribute *attr, char *buf, \
 -		loff_t off, size_t count) \
 +		struct kobject *kobj, const struct bin_attribute *attr, \
 +		char *buf, loff_t off, size_t count) \
  { \
- 	return pyra_sysfs_write(fp, kobj, buf, off, count, \
- 			PYRA_SIZE_ ## THINGY, PYRA_COMMAND_ ## THINGY); \
-@@ -138,8 +138,8 @@ static ssize_t pyra_sysfs_write_ ## thingy(struct file *fp, \
+ 	return roccat_common2_sysfs_write(fp, kobj, buf, off, count, \
+ 			SIZE, COMMAND); \
+@@ -55,8 +55,8 @@ static ssize_t roccat_common2_sysfs_write_ ## thingy(struct file *fp, \
  
- #define PYRA_SYSFS_R(thingy, THINGY) \
- static ssize_t pyra_sysfs_read_ ## thingy(struct file *fp, \
+ #define ROCCAT_COMMON2_SYSFS_R(thingy, COMMAND, SIZE) \
+ static ssize_t roccat_common2_sysfs_read_ ## thingy(struct file *fp, \
 -		struct kobject *kobj, struct bin_attribute *attr, char *buf, \
 -		loff_t off, size_t count) \
 +		struct kobject *kobj, const struct bin_attribute *attr, \
 +		char *buf, loff_t off, size_t count) \
  { \
- 	return pyra_sysfs_read(fp, kobj, buf, off, count, \
- 			PYRA_SIZE_ ## THINGY, PYRA_COMMAND_ ## THINGY); \
-@@ -151,27 +151,27 @@ PYRA_SYSFS_R(thingy, THINGY)
+ 	return roccat_common2_sysfs_read(fp, kobj, buf, off, count, \
+ 			SIZE, COMMAND); \
+@@ -68,27 +68,27 @@ ROCCAT_COMMON2_SYSFS_R(thingy, COMMAND, SIZE)
  
- #define PYRA_BIN_ATTRIBUTE_RW(thingy, THINGY) \
- PYRA_SYSFS_RW(thingy, THINGY); \
--static struct bin_attribute bin_attr_##thingy = { \
-+static const struct bin_attribute bin_attr_##thingy = { \
+ #define ROCCAT_COMMON2_BIN_ATTRIBUTE_RW(thingy, COMMAND, SIZE) \
+ ROCCAT_COMMON2_SYSFS_RW(thingy, COMMAND, SIZE); \
+-static struct bin_attribute bin_attr_ ## thingy = { \
++static const struct bin_attribute bin_attr_ ## thingy = { \
  	.attr = { .name = #thingy, .mode = 0660 }, \
- 	.size = PYRA_SIZE_ ## THINGY, \
--	.read = pyra_sysfs_read_ ## thingy, \
--	.write = pyra_sysfs_write_ ## thingy \
-+	.read_new = pyra_sysfs_read_ ## thingy, \
-+	.write_new = pyra_sysfs_write_ ## thingy \
+ 	.size = SIZE, \
+-	.read = roccat_common2_sysfs_read_ ## thingy, \
+-	.write = roccat_common2_sysfs_write_ ## thingy \
++	.read_new = roccat_common2_sysfs_read_ ## thingy, \
++	.write_new = roccat_common2_sysfs_write_ ## thingy \
  }
  
- #define PYRA_BIN_ATTRIBUTE_R(thingy, THINGY) \
- PYRA_SYSFS_R(thingy, THINGY); \
--static struct bin_attribute bin_attr_##thingy = { \
-+static const struct bin_attribute bin_attr_##thingy = { \
+ #define ROCCAT_COMMON2_BIN_ATTRIBUTE_R(thingy, COMMAND, SIZE) \
+ ROCCAT_COMMON2_SYSFS_R(thingy, COMMAND, SIZE); \
+-static struct bin_attribute bin_attr_ ## thingy = { \
++static const struct bin_attribute bin_attr_ ## thingy = { \
  	.attr = { .name = #thingy, .mode = 0440 }, \
--	.size = PYRA_SIZE_ ## THINGY, \
--	.read = pyra_sysfs_read_ ## thingy, \
-+	.size_new = PYRA_SIZE_ ## THINGY, \
-+	.read_new = pyra_sysfs_read_ ## thingy, \
+ 	.size = SIZE, \
+-	.read = roccat_common2_sysfs_read_ ## thingy, \
++	.read_new = roccat_common2_sysfs_read_ ## thingy, \
  }
  
- #define PYRA_BIN_ATTRIBUTE_W(thingy, THINGY) \
- PYRA_SYSFS_W(thingy, THINGY); \
--static struct bin_attribute bin_attr_##thingy = { \
-+static const struct bin_attribute bin_attr_##thingy = { \
+ #define ROCCAT_COMMON2_BIN_ATTRIBUTE_W(thingy, COMMAND, SIZE) \
+ ROCCAT_COMMON2_SYSFS_W(thingy, COMMAND, SIZE); \
+-static struct bin_attribute bin_attr_ ## thingy = { \
++static const struct bin_attribute bin_attr_ ## thingy = { \
  	.attr = { .name = #thingy, .mode = 0220 }, \
- 	.size = PYRA_SIZE_ ## THINGY, \
--	.write = pyra_sysfs_write_ ## thingy \
-+	.write_new = pyra_sysfs_write_ ## thingy \
+ 	.size = SIZE, \
+-	.write = roccat_common2_sysfs_write_ ## thingy \
++	.write_new = roccat_common2_sysfs_write_ ## thingy \
  }
  
- PYRA_BIN_ATTRIBUTE_W(control, CONTROL);
-@@ -180,8 +180,8 @@ PYRA_BIN_ATTRIBUTE_RW(profile_settings, PROFILE_SETTINGS);
- PYRA_BIN_ATTRIBUTE_RW(profile_buttons, PROFILE_BUTTONS);
+ #endif
+diff --git a/drivers/hid/hid-roccat-konepure.c b/drivers/hid/hid-roccat-konepure.c
+index beca8aef8bbb2987baabdb588fb0edcad5325473..7fb705789d4eca6c9eeab9b2fc2a1f615bad747e 100644
+--- a/drivers/hid/hid-roccat-konepure.c
++++ b/drivers/hid/hid-roccat-konepure.c
+@@ -47,7 +47,7 @@ ROCCAT_COMMON2_BIN_ATTRIBUTE_R(tcu_image, 0x0c, 0x0404);
+ ROCCAT_COMMON2_BIN_ATTRIBUTE_RW(sensor, 0x0f, 0x06);
+ ROCCAT_COMMON2_BIN_ATTRIBUTE_W(talk, 0x10, 0x10);
  
- static ssize_t pyra_sysfs_read_profilex_settings(struct file *fp,
--		struct kobject *kobj, struct bin_attribute *attr, char *buf,
--		loff_t off, size_t count)
-+		struct kobject *kobj, const struct bin_attribute *attr,
-+		char *buf, loff_t off, size_t count)
- {
- 	struct device *dev = kobj_to_dev(kobj)->parent->parent;
- 	struct usb_device *usb_dev = interface_to_usbdev(to_usb_interface(dev));
-@@ -198,8 +198,8 @@ static ssize_t pyra_sysfs_read_profilex_settings(struct file *fp,
- }
- 
- static ssize_t pyra_sysfs_read_profilex_buttons(struct file *fp,
--		struct kobject *kobj, struct bin_attribute *attr, char *buf,
--		loff_t off, size_t count)
-+		struct kobject *kobj, const struct bin_attribute *attr,
-+		char *buf, loff_t off, size_t count)
- {
- 	struct device *dev = kobj_to_dev(kobj)->parent->parent;
- 	struct usb_device *usb_dev = interface_to_usbdev(to_usb_interface(dev));
-@@ -216,16 +216,16 @@ static ssize_t pyra_sysfs_read_profilex_buttons(struct file *fp,
- }
- 
- #define PROFILE_ATTR(number)						\
--static struct bin_attribute bin_attr_profile##number##_settings = {	\
-+static const struct bin_attribute bin_attr_profile##number##_settings = {	\
- 	.attr = { .name = "profile" #number "_settings", .mode = 0440 },	\
- 	.size = PYRA_SIZE_PROFILE_SETTINGS,				\
--	.read = pyra_sysfs_read_profilex_settings,			\
-+	.read_new = pyra_sysfs_read_profilex_settings,			\
- 	.private = &profile_numbers[number-1],				\
- };									\
--static struct bin_attribute bin_attr_profile##number##_buttons = {	\
-+static const struct bin_attribute bin_attr_profile##number##_buttons = {	\
- 	.attr = { .name = "profile" #number "_buttons", .mode = 0440 },	\
- 	.size = PYRA_SIZE_PROFILE_BUTTONS,				\
--	.read = pyra_sysfs_read_profilex_buttons,			\
-+	.read_new = pyra_sysfs_read_profilex_buttons,			\
- 	.private = &profile_numbers[number-1],				\
- };
- PROFILE_ATTR(1);
-@@ -235,8 +235,8 @@ PROFILE_ATTR(4);
- PROFILE_ATTR(5);
- 
- static ssize_t pyra_sysfs_write_settings(struct file *fp,
--		struct kobject *kobj, struct bin_attribute *attr, char *buf,
--		loff_t off, size_t count)
-+		struct kobject *kobj, const struct bin_attribute *attr,
-+		char *buf, loff_t off, size_t count)
- {
- 	struct device *dev = kobj_to_dev(kobj)->parent->parent;
- 	struct pyra_device *pyra = hid_get_drvdata(dev_get_drvdata(dev));
-@@ -273,7 +273,7 @@ static ssize_t pyra_sysfs_write_settings(struct file *fp,
- }
- 
- PYRA_SYSFS_R(settings, SETTINGS);
--static struct bin_attribute bin_attr_settings =
-+static const struct bin_attribute bin_attr_settings =
- 	__BIN_ATTR(settings, (S_IWUSR | S_IRUGO),
- 		   pyra_sysfs_read_settings, pyra_sysfs_write_settings,
- 		   PYRA_SIZE_SETTINGS);
-@@ -334,7 +334,7 @@ static struct attribute *pyra_attrs[] = {
- 	NULL,
- };
- 
--static struct bin_attribute *pyra_bin_attributes[] = {
-+static const struct bin_attribute *const pyra_bin_attributes[] = {
+-static struct bin_attribute *konepure_bin_attrs[] = {
++static const struct bin_attribute *const konepure_bin_attrs[] = {
+ 	&bin_attr_actual_profile,
  	&bin_attr_control,
  	&bin_attr_info,
- 	&bin_attr_profile_settings,
-@@ -355,7 +355,7 @@ static struct bin_attribute *pyra_bin_attributes[] = {
- 
- static const struct attribute_group pyra_group = {
- 	.attrs = pyra_attrs,
--	.bin_attrs = pyra_bin_attributes,
-+	.bin_attrs_new = pyra_bin_attributes,
+@@ -62,7 +62,7 @@ static struct bin_attribute *konepure_bin_attrs[] = {
  };
  
- static const struct attribute_group *pyra_groups[] = {
+ static const struct attribute_group konepure_group = {
+-	.bin_attrs = konepure_bin_attrs,
++	.bin_attrs_new = konepure_bin_attrs,
+ };
+ 
+ static const struct attribute_group *konepure_groups[] = {
+diff --git a/drivers/hid/hid-roccat-ryos.c b/drivers/hid/hid-roccat-ryos.c
+index 57714a4525e2ad01b8599db8325b22b57c297158..902dac1e714e16936d8ab7881b183b732cb1c110 100644
+--- a/drivers/hid/hid-roccat-ryos.c
++++ b/drivers/hid/hid-roccat-ryos.c
+@@ -47,7 +47,7 @@ ROCCAT_COMMON2_BIN_ATTRIBUTE_RW(stored_lights, 0x17, 0x0566);
+ ROCCAT_COMMON2_BIN_ATTRIBUTE_W(custom_lights, 0x18, 0x14);
+ ROCCAT_COMMON2_BIN_ATTRIBUTE_RW(light_macro, 0x19, 0x07d2);
+ 
+-static struct bin_attribute *ryos_bin_attrs[] = {
++static const struct bin_attribute *const ryos_bin_attrs[] = {
+ 	&bin_attr_control,
+ 	&bin_attr_profile,
+ 	&bin_attr_keys_primary,
+@@ -70,7 +70,7 @@ static struct bin_attribute *ryos_bin_attrs[] = {
+ };
+ 
+ static const struct attribute_group ryos_group = {
+-	.bin_attrs = ryos_bin_attrs,
++	.bin_attrs_new = ryos_bin_attrs,
+ };
+ 
+ static const struct attribute_group *ryos_groups[] = {
+diff --git a/drivers/hid/hid-roccat-savu.c b/drivers/hid/hid-roccat-savu.c
+index 2baa47a0efc527086128b39130dde9535eb541c0..7399b8ffb5c7cae8110c8fb1a93f8b645f54f2eb 100644
+--- a/drivers/hid/hid-roccat-savu.c
++++ b/drivers/hid/hid-roccat-savu.c
+@@ -30,7 +30,7 @@ ROCCAT_COMMON2_BIN_ATTRIBUTE_RW(macro, 0x8, 0x0823);
+ ROCCAT_COMMON2_BIN_ATTRIBUTE_RW(info, 0x9, 0x08);
+ ROCCAT_COMMON2_BIN_ATTRIBUTE_RW(sensor, 0xc, 0x04);
+ 
+-static struct bin_attribute *savu_bin_attrs[] = {
++static const struct bin_attribute *const savu_bin_attrs[] = {
+ 	&bin_attr_control,
+ 	&bin_attr_profile,
+ 	&bin_attr_general,
+@@ -42,7 +42,7 @@ static struct bin_attribute *savu_bin_attrs[] = {
+ };
+ 
+ static const struct attribute_group savu_group = {
+-	.bin_attrs = savu_bin_attrs,
++	.bin_attrs_new = savu_bin_attrs,
+ };
+ 
+ static const struct attribute_group *savu_groups[] = {
 
 -- 
 2.47.1
