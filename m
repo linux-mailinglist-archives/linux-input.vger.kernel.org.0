@@ -1,124 +1,112 @@
-Return-Path: <linux-input+bounces-8343-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8345-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3CF29E09B2
-	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2024 18:20:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF18C9E0A66
+	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2024 18:48:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8BE8DB34C81
-	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2024 15:46:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BF21FB45F7D
+	for <lists+linux-input@lfdr.de>; Mon,  2 Dec 2024 17:26:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD74A3D96D;
-	Mon,  2 Dec 2024 15:46:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BCD11DD889;
+	Mon,  2 Dec 2024 17:26:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="C4TYS1Us"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hIwsIBgU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFEBBA53;
-	Mon,  2 Dec 2024 15:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931851DC1BD;
+	Mon,  2 Dec 2024 17:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733154398; cv=none; b=RlM74gcqgK0Chq2mvBMHpggr+MAiuI9QpsCzd8uzPnXu3buHTMFNRAdEXfQF6PVDPaCGYAUd2h93GZY579qJP1wplImiOJTuEEiRHiCnossnlsa15RE+cWjTaXSc4CZdTTzN+Xvf8tudqnRtVWXni+nsFX3tVDRe8Th68cjchDY=
+	t=1733160390; cv=none; b=Kq46QZTuQ94RR/m0eRqvZYaOXbQPq9yK2PJrLzomyJGLa5YgaJJsu25wBTwIjEzHg+7Z+iNuOS9nbExoURxY9KCmEEY7Ju3oNYRlwsLvRgzQSTRm6qJ4Wty0eaaQyVw2bhjkeSovOyT2C+E+UGCgYJYV9wyYNn8iNM9DWnAb2iY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733154398; c=relaxed/simple;
-	bh=KkbmJ/0wUFhwA7bjHSghg85dmdpPXJnyMoZLc288wGU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Oiail1W7wPShDxHYb7qMv8NSrPdGZJBFn/DrqkJvW5U7Ql4LsOcxapxQN/hQNlzWwboTv2lzMWkfMKkSNm4ZGpc9d7VLrE6jysoanOAsLm5ndHvoc30Xpb5nkX8AaqmHp5fHXVq40uNAUMvV1KafaaKXjz4AoOvhP1icbPrkYHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=C4TYS1Us; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B28lSlB028149;
-	Mon, 2 Dec 2024 15:46:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	SZqfzFnoinYb8hXvyVjaGDwr8pEj/sloniKe/f3uz+A=; b=C4TYS1Ustp1jxs60
-	Wtgd9JIg1qGQJ7DehkReoJC65U4n8EpfxICVbODI2QT1lSzYwKSJQ5Qg2FQY1xnR
-	W9pR5H4Y+2wYiTnelH/OyJ5tPLxaMM22ObQCGHVI8aOHYXxPsVScWVolPC/PweBd
-	x7VNV1+Kvq4V6agMNJWwUVxEHNfevriJkiDGBjHAwGZN8/zeivADnBLJ4HKK4Q/L
-	2kHE2XxH+29cvU2tHrd6U5KgmPF1QpOm5yDdHyfzMf43A72M2UiFMTdYIyDo1T6U
-	7+Mi85ZjzNoi6dvjGqqSQRtK/ZLSMCqIviQJirzmnk8w9GU/llobpIA96/PYiRP0
-	Ua75vQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437r2mwgtx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 02 Dec 2024 15:46:09 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B2Fk8K0029779
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 2 Dec 2024 15:46:08 GMT
-Received: from [10.81.24.74] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 2 Dec 2024
- 07:46:07 -0800
-Message-ID: <626c3135-9d8a-4e22-a3ad-6b637cbbd463@quicinc.com>
-Date: Mon, 2 Dec 2024 07:46:07 -0800
+	s=arc-20240116; t=1733160390; c=relaxed/simple;
+	bh=Y+WumHtOMY05KufTKmNmz4ua2A4KkuwUlgtAE39QaVk=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=WXnt0slJKY91qSe2XHO2ziVWGgn9twzX4JVEmZz+48oGRrd59TPsV2shDzY+6zh5JjsZatU5IaQXrLik7dNUSq/h+Qng1Hyxdmnf4TO0Ifb7478kOpW5dsRQ/o4liYYTdn+RT8ebIP1wBL+tbR0T/ngAolwgO6fxp06gqcxKx3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hIwsIBgU; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733160389; x=1764696389;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=Y+WumHtOMY05KufTKmNmz4ua2A4KkuwUlgtAE39QaVk=;
+  b=hIwsIBgUMCBRPAgV4R/KLC3GIEXUOHcRTIpq4uZYJhMd8N4EJK5B9Bjz
+   wRzJfyP9oETGMWj49TmP4qzKCFE/7dscmLR4tbukaGYVOuqPL9lZfMVoX
+   Nwa2SEqo/9DOff2L5MOrF5L251+dBbCBjZEHf1vEjnLNxtYARLL9R1cgO
+   l5Pp2ZN70vvh7iy0pdXrp/VOFQ6n2ISPewaAh3t05MgqzYZSyMsV5Zd7V
+   xZmyARmyOQdqf/gREFM3M8wJQgBbxFcX8UhQYzDtNEHV7Sk2Se5bFTzDp
+   60inF8R76x9fTGOgmzoRqQCJ0zMbMBTskHZnEeM7+v0A8gWi/tzaC3cDG
+   w==;
+X-CSE-ConnectionGUID: 9d2FNtJPS3+CRttBmHQYrA==
+X-CSE-MsgGUID: KKLQEEotQwm6ZTemlMoVpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="32701924"
+X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
+   d="scan'208";a="32701924"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 09:26:28 -0800
+X-CSE-ConnectionGUID: sMn1ouFSQQyqa1k8TCg/4w==
+X-CSE-MsgGUID: XExYUV0eRYSm3fnuFFh0ow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
+   d="scan'208";a="124105533"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.61])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 09:26:25 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 2 Dec 2024 19:26:21 +0200 (EET)
+To: Illia Ostapyshyn <illia@yshyn.com>, 
+    Dmitry Torokhov <dmitry.torokhov@gmail.com>
+cc: LKML <linux-kernel@vger.kernel.org>, linux-input@vger.kernel.org, 
+    platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net, 
+    Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>, 
+    Hans de Goede <hdegoede@redhat.com>, 
+    Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Subject: Re: [PATCH 1/2] Input: allocate keycode for phone linking
+In-Reply-To: <20241114173930.44983-2-illia@yshyn.com>
+Message-ID: <8127d500-6eb4-d196-849a-48c3847ebc53@linux.intel.com>
+References: <20241114173930.44983-1-illia@yshyn.com> <20241114173930.44983-2-illia@yshyn.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] input: apple_z2: Add a driver for Apple Z2
- touchscreens
-To: <fnkl.kernel@gmail.com>, Hector Martin <marcan@marcan.st>,
-        Sven Peter
-	<sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Dmitry
- Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>
-CC: <asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Janne Grunau <j@jannau.net>
-References: <20241128-z2-v2-0-76cc59bbf117@gmail.com>
- <20241128-z2-v2-2-76cc59bbf117@gmail.com>
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <20241128-z2-v2-2-76cc59bbf117@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: fkhK5wsaq_hXSjnF0-8oIRRhsx6pzl93
-X-Proofpoint-GUID: fkhK5wsaq_hXSjnF0-8oIRRhsx6pzl93
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 impostorscore=0
- bulkscore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
- phishscore=0 mlxlogscore=870 clxscore=1011 mlxscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412020135
+Content-Type: text/plain; charset=US-ASCII
 
-On 11/28/24 14:29, Sasha Finkelstein via B4 Relay wrote:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+On Thu, 14 Nov 2024, Illia Ostapyshyn wrote:
+
+> The F11 key on the new Lenovo Thinkpad T14 Gen 5, T16 Gen 3, and P14s
+> Gen 5 laptops includes a symbol showing a smartphone and a laptop
+> chained together.  According to the user manual, it starts the Microsoft
+> Phone Link software used to connect to Android/iOS devices and relay
+> messages/calls or sync data.
 > 
-> Adds a driver for Apple touchscreens using the Z2 protocol.
+> As there are no suitable keycodes for this action, introduce a new one.
 > 
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> Signed-off-by: Illia Ostapyshyn <illia@yshyn.com>
 > ---
-...
-> +MODULE_LICENSE("GPL");
-> +MODULE_FIRMWARE("apple/dfrmtfw-*.bin");
+>  include/uapi/linux/input-event-codes.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+> index a4206723f503..5a199f3d4a26 100644
+> --- a/include/uapi/linux/input-event-codes.h
+> +++ b/include/uapi/linux/input-event-codes.h
+> @@ -519,6 +519,7 @@
+>  #define KEY_NOTIFICATION_CENTER	0x1bc	/* Show/hide the notification center */
+>  #define KEY_PICKUP_PHONE	0x1bd	/* Answer incoming call */
+>  #define KEY_HANGUP_PHONE	0x1be	/* Decline incoming call */
+> +#define KEY_LINK_PHONE		0x1bf   /* AL Phone Syncing */
 
+Any thoughts about this Dmitry?
 
-Since commit 1fffe7a34c89 ("script: modpost: emit a warning when the
-description is missing"), a module without a MODULE_DESCRIPTION() will
-result in a warning when built with make W=1.
-
-Please add the missing MODULE_DESCRIPTION()
+-- 
+ i.
 
 
