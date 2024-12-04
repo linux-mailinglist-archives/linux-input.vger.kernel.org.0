@@ -1,78 +1,80 @@
-Return-Path: <linux-input+bounces-8389-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8390-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629399E4551
-	for <lists+linux-input@lfdr.de>; Wed,  4 Dec 2024 21:10:22 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E62569E4557
+	for <lists+linux-input@lfdr.de>; Wed,  4 Dec 2024 21:10:32 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 297E6168277
-	for <lists+linux-input@lfdr.de>; Wed,  4 Dec 2024 20:10:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B241284611
+	for <lists+linux-input@lfdr.de>; Wed,  4 Dec 2024 20:10:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 795381F03E6;
-	Wed,  4 Dec 2024 20:10:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81AC61F542B;
+	Wed,  4 Dec 2024 20:10:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L1BwHGaH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FoSPspbL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBE31F03DF;
-	Wed,  4 Dec 2024 20:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3841F03F6;
+	Wed,  4 Dec 2024 20:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733343010; cv=none; b=nJxHaiSwlyCWLr748Ya5nQzoAxKtYab7jj+zFHrzbyfcaxSDl412bLP1ZDDLxnK2JdqpwiAMbBPR+TfCi6YZFTYy2u44RS8OjLr9lJQcyMuZ3vw86iEp3ow5g/i6W9wGn37ODBeeSrj270c3WIGAIr7Gf5qa7dThqiAddf4EJNY=
+	t=1733343012; cv=none; b=SGAFKJcdsUEd4qx4ytgACSqhBoXNHUsNxH4pHa6Tl4ZdwXfVboC+6C/yn8kDjBo/8oR17YOgsBY+YY682lyRRaM2eHJsZ8YtAUELHLGPd+B07nNRbX+uomsuxLevQxAbQQOI4ZjbtK3dGCVxHZ9OhZx3P1kcMj2f9GFXnB+swHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733343010; c=relaxed/simple;
-	bh=QPLa0r+6p8PLfccDRaeRG4DbcK4v55uLKkJBlNlcdC8=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HBJIOwTNJ4Y1S170dga8IuzpxU0pi7cPm4lTBp5HQgR88ATBxscyj4Llu8TBauaQ3Vjolo95mTsTcMo9lj86mF/Kw9gs0/KuL0tYAP5yyUIeWalGrP8IdxfsZ7XIlkTTPcShCF2swCGIWGYxdvrxohLeHRldxpEgPWFsj7EdEDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L1BwHGaH; arc=none smtp.client-ip=209.85.208.51
+	s=arc-20240116; t=1733343012; c=relaxed/simple;
+	bh=tdGTuOCygyKLTzrZkn4w+l/pmKktzi0hDq2Y4cLiQJI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=apKgSRpjZJpZAsOLBvMIWPFwS+ey01hfqgXUB6Tp5r7G8r7n+y7fc1q4kiX9IA1GddYLy04T4nab61/jmrqU7HY5oeOzqT6JNWEp0XXv7IGOPB1C7WbhPijLfxoqLbvuzMFOH9EL0ijUOAnHImv9YAD4dWrVOWA6PWLyXSrqGuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FoSPspbL; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5cf6f367f97so190165a12.0;
-        Wed, 04 Dec 2024 12:10:07 -0800 (PST)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5d0d32cd31aso136273a12.0;
+        Wed, 04 Dec 2024 12:10:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733343006; x=1733947806; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iR3FhZB90yY2CtQD1Z8nT3lcBvWhMlkfTygUbcwhlIE=;
-        b=L1BwHGaHBlZ4r2uaSg9wed2d3+gO+BtaFTex0z82UWtvBKD2azHn52To95F8ErjZBs
-         xK76Fs2I+ARdRuzO3jyh+a64wi1KHDBGR7hMfulDuYil2kreXAREQW24iLASNCcsSLqJ
-         84voq7POuidsJvnYov6V62oHVkdx6iXw/WuHcVmvdxVHyRyJBFZsKKI0UBvH1UaJ7q8O
-         /7Md7lWh0tc5Ezw+V38/KlMhQZjNUV8e8hjJMR4lZYK0RrBN/rKo+vyosyrcmA9Wvc3a
-         y4jpaJuNrSjn7NtCQjg3xV+hJZXPSAS+512ovTq11uxmX00Ibr6W4z1vvsXKErINoJOK
-         4Ikw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733343006; x=1733947806;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1733343009; x=1733947809; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iR3FhZB90yY2CtQD1Z8nT3lcBvWhMlkfTygUbcwhlIE=;
-        b=DknCH2WYTzYiW3X7Rodik8+M4ZXmLOJEN9aC6lrFhtyRyBcmUBvdmLADFBUdrO+X8P
-         zY4wUOOyWauxdelzbDPuZaRoU7q+o7IW4s3OAYq/89ddzNEEB45hqovRJ7dyK4eicxG5
-         QnMYYdwyESoGmxMzU8bGmSS7KqY+miw2Epsm/E8xbgPN7iMIUQ/sI0EVeb/Yojvo5eNZ
-         9hqmZQ7/rolIyApG3ndKqa3Jn41bN3E1pwOBwBvbCwxBBR+DjGmmgnmEgyaN7gmQQxpN
-         Riax0DsGnlOQazZ5/6dCQ8pBNiSVbfMFeJmKRVnQnyij4WAoJZuYoaow3XgPcGF4Msez
-         6p3g==
-X-Forwarded-Encrypted: i=1; AJvYcCUAqQJ9bYBenKxSI5OVXHB4K3xwCPzP7BVAqSHOzcCH4lRfJVa0S+w2wEgQO5sRDshtQfdv8tMMaEz13kEE@vger.kernel.org, AJvYcCW1ne5tNPM1HXArXde72orQuitE/hnZ1zNnc/ReGSdgZkiCplEWpzrSHl++5hr0+Q/MYt2G8A3o9DKWMqc=@vger.kernel.org, AJvYcCW4U68grR7KtA3/p9cy8J5asYje014eBj5Fd4WSqhPC/daWr5fQeg5z5qXeupmMZW30Gp1kxeuif1XtCA==@vger.kernel.org, AJvYcCWv+2wwyooKPMUbp4IXLfSZ7ii+af/BZgZ4ghIRgpN2D3nzHV80U+C/2w/ybo9ULbJCouzfvHYnLC1V@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw91hrAl2i7xpsOb+qIZdEiiTSszLc/lXn5DvEvH+Qsy6coXn9P
-	dEZhK5wAlFokyG9bYIPcclO/2Y84S/2DQ9aezNC4Mke/4ZBZMZJXjQcvGg==
-X-Gm-Gg: ASbGncv6/yLpGFG3mir840XZegNNvZ7Jx4b0LmFUEuAwaTAoWY04OfZLoqRE2VOwH1S
-	cgV8OjKwk90s55OrSVZDxDoFGHWjqpKdZj+b14RaO2qhuUJGpE1JdKBrnAczASBFxdJR2Pl6hBl
-	kzWO9HmnvmPvQl3vktHZyXDdlLdBVLS7OPERcMEB6dgMggo3J7p2/K99G4Wls8Ufi6jZ4xY3vge
-	dFSpiADkHgj36XCrviILBFtH+WwJqVA6000cTFzcwtknP0v
-X-Google-Smtp-Source: AGHT+IEUUgdhIfO47YE8X0YhH4Y6sYmYrtouHL+4ILHkEsbtMSf1sDjiOZAZuFHaFJt/fsJw5HCJAw==
-X-Received: by 2002:a05:6402:2743:b0:5cf:bb9e:cca7 with SMTP id 4fb4d7f45d1cf-5d10cb9ae01mr9440108a12.28.1733343005941;
-        Wed, 04 Dec 2024 12:10:05 -0800 (PST)
+        bh=FKMQu9Put2whTLlJmXR7bTTxcNbkqOf+6o99Kc/4Euo=;
+        b=FoSPspbLnBX8YxvBMeorznCQ9wr7rZQkWRcktqNg+0PBO0yUmYI76PiV6YCIGEkn8w
+         Wn+mm7slg504TY2Zylk94JryKh4TApqvECaeKnrUUKVawRn0OF/gm2GQgkcpoHOiyuou
+         PROZbRARZQdEwtY10pGkETy8Q0n3uv5kNU30B7vmWm5cf6rxWS53toK7mitjglm+8w9h
+         3E0s53b2nVSEWQAJPQQ/ucvvZ4Grh7c0F+f8O9hcR0v/3C3TYCdGMfeTttBG4OWQrgn9
+         mz80rFRV+DjnlBVTUXPOyjbiy3QTtyJhd248XOQ7sCfXXCXB+2zIEO/DgeDlgtAHL754
+         9XrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733343009; x=1733947809;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FKMQu9Put2whTLlJmXR7bTTxcNbkqOf+6o99Kc/4Euo=;
+        b=pEJDmbdGQuYaQpv8/IdWNiZGkAfne/gI1H8pxOpEsyiuYbUhcex5dWzSwZFp01gDPS
+         cqzsDoQ7cWpvAaoZKbKI7AFNLr/FJ9nSZ/0D7s/6I5TeiQzs/4T8oPHCnd+wEbnwDaMq
+         emyH01JdSHfea3433SM0sb4Il/sCTouycP2SK0LBJtla8112cUANOnZsIrAMoSYNlgfx
+         KqGhAv7Dy0M1TQU4x8+MSKStbp4RfP9Idex7v61R6427GK4tvEl3JBPnwwsAurNE2xjI
+         YY9225Zhxs1zVboqm1yen7CIcjnMkLv986rroKinEEcw/UcEYCSoN+HcY3XWFfZLOIy6
+         VY0w==
+X-Forwarded-Encrypted: i=1; AJvYcCUkHihGgrAawZjKDaCPEuoq3gc8z8TWT1hqSI6HUBqQforl57iMkcKPy87fX9XdPmKF8sw7gPII8kaQ@vger.kernel.org, AJvYcCXhTUS3pJXWTomCnUdA09Ym2jleZIxQkIqsCNIeSf0eBatK5TDKVWeuHl2IGH3+0u+EPjGHRMFaJtF8Hb0=@vger.kernel.org, AJvYcCXkD2zN90lUmGu+uErTfzcB2N7KUVZNvbbeirDOHbAGMwB/paq2/OvmrTIQoIG+d8Cve81J84+i1HG+KQ==@vger.kernel.org, AJvYcCXkO7rSikKY3wHgQ5n/3HFyncSfkJ1rj1ihm4/OfhH52bwwWubbJD8Hjne6oDr7eLz1jA/NveHvUfaaAeNr@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjI3G9tf1uyISE9tFcAg+92/wH0Kif38e6dEFYD7bUthmZyje1
+	ad6cEfpXYSz7G2sNu5tvIrxShQ6XufxDGiZc3FTCwaEquLjF/z06GtVftQ==
+X-Gm-Gg: ASbGncvOHHb4o/Dx0/2aSk/Q06pyyUmG6RlllBsJj0U2CLd3XblFSN/ahjRL0PhrWkM
+	sqNx+faQFjjBmVkAqLT3ozH1hRboF8l1JyKK/LaRmuVE1VqxuD+NZIcMt1HVe0eftSUY7tUVqr5
+	Gm9WxTuQzcQTeFPJb2s4rYwW+OmlRrO/dCRLuympRDthlVGPvnFPn1y0bpLuZa3pN/O/SkakJUh
+	AOqkCW8HRbhF4u9twmnl4fKO2H2BOmTP+oTa3N/ckk0mC/l
+X-Google-Smtp-Source: AGHT+IGwXKLjeKxVeZz0jTdMNawaoorRsxT+cnf6ab+DEplm6GK1dKbSi6GDgZ91AhjzC7g7TyuIhQ==
+X-Received: by 2002:aa7:d455:0:b0:5d0:fb56:3f with SMTP id 4fb4d7f45d1cf-5d10cb5649emr9607975a12.12.1733343008574;
+        Wed, 04 Dec 2024 12:10:08 -0800 (PST)
 Received: from [127.0.1.1] ([46.53.242.72])
-        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-5d0b7ce5584sm6266526a12.54.2024.12.04.12.10.04
+        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-5d0b7ce5584sm6266526a12.54.2024.12.04.12.10.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 12:10:04 -0800 (PST)
+        Wed, 04 Dec 2024 12:10:07 -0800 (PST)
 From: Dzmitry Sankouski <dsankouski@gmail.com>
-Subject: [PATCH v10 0/8] Add support for Maxim Integrated MAX77705 PMIC
-Date: Wed, 04 Dec 2024 23:09:50 +0300
-Message-Id: <20241204-starqltechn_integration_upstream-v10-0-7de85e48e562@gmail.com>
+Date: Wed, 04 Dec 2024 23:09:51 +0300
+Subject: [PATCH v10 1/8] power: supply: add undervoltage health status
+ property
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -80,14 +82,10 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAA+3UGcC/43SUW+DIBAH8K/S+DyWAxTQp32PpWkOhEqitkVru
- jT97jvbbDXdw3wh4Qy/O/B/zQafoh+yanPNkp/iEA89bTi8bTLXYL/3LNZUyASIHBTXbBgxndr
- Ru6bfxX70+4QjHdqdj8OYPHbMOqNMAVYELzNiLA6e2YS9awjqz21LxWPyIV7ujT+3tG/iMB7S1
- 32OSc7Vn47m/46TZMC8DEopAVyj+9h3GNt3d+iyGZ/yJ1hyuQLMCRS18KEuXGG0fgWL5YQr3mQ
- q5gkBpAw85zX/A6pfkAOsARWBUEtjCyjBFX9AvQDFmitrAksbEGXIkSO8gmYBSr4CNPMbBqSf4
- oSU4F/B8gnSsgIsCaTJaictemHNErw9MpX86UwZHh/BekSPvndxrDYhN8oZRK6s4VoEJW1dOw2
- cKwRnSo06yAAiW0a/2twH5GCYzVmHF64hF6yUoILTBQb0FcVre7t9AxPTlTlLAwAA
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241204-starqltechn_integration_upstream-v10-1-7de85e48e562@gmail.com>
+References: <20241204-starqltechn_integration_upstream-v10-0-7de85e48e562@gmail.com>
+In-Reply-To: <20241204-starqltechn_integration_upstream-v10-0-7de85e48e562@gmail.com>
 To: Sebastian Reichel <sre@kernel.org>, 
  Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
  Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -101,111 +99,67 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
  linux-leds@vger.kernel.org, Dzmitry Sankouski <dsankouski@gmail.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733343003; l=4992;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733343003; l=2343;
  i=dsankouski@gmail.com; s=20240619; h=from:subject:message-id;
- bh=QPLa0r+6p8PLfccDRaeRG4DbcK4v55uLKkJBlNlcdC8=;
- b=OfzIXUB5S/YQ9pEPQ6Qro0CsjNNBncwzoUVtA9/KvcXXCUgVb6o/U0EhiWdnnLnBAv/sU5Lvi
- iEnds+4/x/WD6acv8E8Q9X+S2g0kQZzK8imBMFQk2BWSvTCRdguMzbf
+ bh=tdGTuOCygyKLTzrZkn4w+l/pmKktzi0hDq2Y4cLiQJI=;
+ b=ZOJIa6ovLTepPQBmB/i8cyTPdsHGMAV1RHRQ/+DQ4XvoXvYhQk074sqiIQxkDM5aRFdqgKgAw
+ Gz8+g4EFYbyDys7qeFUA8O/zmm22i4jkTrySrb8CNhxBqBtNZ7bOZUK
 X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
  pk=YJcXFcN1EWrzBYuiE2yi5Mn6WLn6L1H71J+f7X8fMag=
 
-The Maxim MAX77705 is a Companion Power Management and Type-C
-interface IC which includes charger, fuelgauge, LED, haptic motor driver and
-Type-C management IC. It's used in Samsung S series smart phones
-starting from S9 model.
-
-Add features:
-  - charger
-  - fuelgauge
-  - haptic
-  - led
+Add POWER_SUPPLY_HEALTH_UNDERVOLTAGE status for power supply
+to report under voltage lockout failures.
 
 Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
 ---
-Changes in v10:
-- drop NACKed 'dt-bindings: power: supply: max17042: remove reg from
-  required' patch
-- review fixes
-- use dev_err_probe for errors in probe functions
-- Link to v9: https://lore.kernel.org/r/20241202-starqltechn_integration_upstream-v9-0-a1adc3bae2b8@gmail.com
-
-Changes in v9:
-- fuel gauge: use max17042 driver instead of separate max77705
-- fix kernel bot error
-- charger: enable interrupt after power supply registration
-- add dependency on max17042 patch series
-- Link to v8: https://lore.kernel.org/r/20241031-starqltechn_integration_upstream-v8-0-2fa666c2330e@gmail.com
-
-Changes in v8:
-- Fix comment style
-- join line where possible to fit in 100 chars
-- Link to v7: https://lore.kernel.org/r/20241023-starqltechn_integration_upstream-v7-0-9bfaa3f4a1a0@gmail.com
-
-Changes in v7:
-- Fix review comments
-- Link to v6: https://lore.kernel.org/r/20241007-starqltechn_integration_upstream-v6-0-0d38b5090c57@gmail.com
-
-Changes in v6:
-- fix binding review comments
-- update trailers
-- Link to v5: https://lore.kernel.org/r/20240617-starqltechn_integration_upstream-v5-0-e0033f141d17@gmail.com
-
-Changes in v5:
-- Split patchset per subsystem
-- Link to v4: https://lore.kernel.org/r/20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com
-
-Changes in v4:
-- Rewrite max77705, max77705_charger, max77705_fuel_gauge from scratch
-- Reorder patches:
-  - squash max77705 subdevice bindings in core file because
-    no resources there
-  - split device tree changes
-- Use _ as space for filenames in power/supply like the majority
-- Link to v3: https://lore.kernel.org/r/20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com
-
+Changes for v5:
+- update Documentation/ABI/testing/sysfs-class-power and
+  drivers/power/supply/power_supply_sysfs.c
 ---
-Dzmitry Sankouski (8):
-      power: supply: add undervoltage health status property
-      dt-bindings: power: supply: max17042: add max77705 support
-      dt-bindings: mfd: add maxim,max77705
-      power: supply: max17042: add max77705 fuel gauge support
-      mfd: Add new driver for MAX77705 PMIC
-      input: max77693: add max77705 haptic support
-      power: supply: max77705: Add charger driver for Maxim 77705
-      leds: max77705: Add LEDs support
+ Documentation/ABI/testing/sysfs-class-power | 2 +-
+ drivers/power/supply/power_supply_sysfs.c   | 1 +
+ include/linux/power_supply.h                | 1 +
+ 3 files changed, 3 insertions(+), 1 deletion(-)
 
- Documentation/ABI/testing/sysfs-class-power                        |   2 +-
- Documentation/devicetree/bindings/mfd/maxim,max77705.yaml          | 192 +++++++++++++++++++++++++++++++++++++
- Documentation/devicetree/bindings/power/supply/maxim,max17042.yaml |   1 +
- MAINTAINERS                                                        |   4 +
- drivers/input/misc/Kconfig                                         |   4 +-
- drivers/input/misc/Makefile                                        |   1 +
- drivers/input/misc/max77693-haptic.c                               |  15 ++-
- drivers/leds/Kconfig                                               |   6 ++
- drivers/leds/Makefile                                              |   1 +
- drivers/leds/leds-max77705.c                                       | 267 +++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/mfd/Kconfig                                                |  12 +++
- drivers/mfd/Makefile                                               |   2 +
- drivers/mfd/max77705.c                                             | 233 +++++++++++++++++++++++++++++++++++++++++++++
- drivers/power/supply/Kconfig                                       |   6 ++
- drivers/power/supply/Makefile                                      |   1 +
- drivers/power/supply/max17042_battery.c                            |   3 +
- drivers/power/supply/max77705_charger.c                            | 590 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/power/supply/power_supply_sysfs.c                          |   1 +
- include/linux/mfd/max77693-common.h                                |   4 +-
- include/linux/mfd/max77705-private.h                               | 194 +++++++++++++++++++++++++++++++++++++
- include/linux/power/max77705_charger.h                             | 194 +++++++++++++++++++++++++++++++++++++
- include/linux/power_supply.h                                       |   1 +
- 22 files changed, 1729 insertions(+), 5 deletions(-)
----
-base-commit: f486c8aa16b8172f63bddc70116a0c897a7f3f02
-change-id: 20240617-starqltechn_integration_upstream-bc86850b2fe3
-prerequisite-change-id: 20241108-b4-max17042-9306fc75afae:v4
-prerequisite-patch-id: a78c51c4a1b48756c00cbc3d56b9e019577e4a6b
-prerequisite-patch-id: 735d52c3137c5e474f3601adf010f9fe2f3f7036
+diff --git a/Documentation/ABI/testing/sysfs-class-power b/Documentation/ABI/testing/sysfs-class-power
+index 45180b62d426..32c018c5d088 100644
+--- a/Documentation/ABI/testing/sysfs-class-power
++++ b/Documentation/ABI/testing/sysfs-class-power
+@@ -433,7 +433,7 @@ Description:
+ 
+ 		Valid values:
+ 			      "Unknown", "Good", "Overheat", "Dead",
+-			      "Over voltage", "Unspecified failure", "Cold",
++			      "Over voltage", "Under voltage", "Unspecified failure", "Cold",
+ 			      "Watchdog timer expire", "Safety timer expire",
+ 			      "Over current", "Calibration required", "Warm",
+ 			      "Cool", "Hot", "No battery"
+diff --git a/drivers/power/supply/power_supply_sysfs.c b/drivers/power/supply/power_supply_sysfs.c
+index 571de43fcca9..247c2910ba34 100644
+--- a/drivers/power/supply/power_supply_sysfs.c
++++ b/drivers/power/supply/power_supply_sysfs.c
+@@ -99,6 +99,7 @@ static const char * const POWER_SUPPLY_HEALTH_TEXT[] = {
+ 	[POWER_SUPPLY_HEALTH_OVERHEAT]		    = "Overheat",
+ 	[POWER_SUPPLY_HEALTH_DEAD]		    = "Dead",
+ 	[POWER_SUPPLY_HEALTH_OVERVOLTAGE]	    = "Over voltage",
++	[POWER_SUPPLY_HEALTH_UNDERVOLTAGE]	    = "Under voltage",
+ 	[POWER_SUPPLY_HEALTH_UNSPEC_FAILURE]	    = "Unspecified failure",
+ 	[POWER_SUPPLY_HEALTH_COLD]		    = "Cold",
+ 	[POWER_SUPPLY_HEALTH_WATCHDOG_TIMER_EXPIRE] = "Watchdog timer expire",
+diff --git a/include/linux/power_supply.h b/include/linux/power_supply.h
+index b98106e1a90f..e96d262f3c2b 100644
+--- a/include/linux/power_supply.h
++++ b/include/linux/power_supply.h
+@@ -58,6 +58,7 @@ enum {
+ 	POWER_SUPPLY_HEALTH_OVERHEAT,
+ 	POWER_SUPPLY_HEALTH_DEAD,
+ 	POWER_SUPPLY_HEALTH_OVERVOLTAGE,
++	POWER_SUPPLY_HEALTH_UNDERVOLTAGE,
+ 	POWER_SUPPLY_HEALTH_UNSPEC_FAILURE,
+ 	POWER_SUPPLY_HEALTH_COLD,
+ 	POWER_SUPPLY_HEALTH_WATCHDOG_TIMER_EXPIRE,
 
-Best regards,
 -- 
-Dzmitry Sankouski <dsankouski@gmail.com>
+2.39.5
 
 
