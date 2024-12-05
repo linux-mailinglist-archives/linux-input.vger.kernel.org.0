@@ -1,112 +1,153 @@
-Return-Path: <linux-input+bounces-8408-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8409-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA88F9E5087
-	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2024 10:04:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E633A9E561F
+	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2024 14:02:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 59C1018825B2
-	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2024 09:04:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51F4D16C3F4
+	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2024 13:00:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 186D61D5150;
-	Thu,  5 Dec 2024 09:04:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E7A3218AD1;
+	Thu,  5 Dec 2024 12:59:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="oYN0ZAhy"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3B5192D8B
-	for <linux-input@vger.kernel.org>; Thu,  5 Dec 2024 09:04:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB57B218ABF
+	for <linux-input@vger.kernel.org>; Thu,  5 Dec 2024 12:59:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733389469; cv=none; b=nl0XPZuNh+PhwbEQWh7G4yeszSeegNV8caWovcBkhTRXHj9vKRGl68gL0w1ItxNrBMuOTawK/8GQpVRSLNXjUSf2CdFGWa1sgT2i3wdvDNeHhIYpmJEQ2BpTBKvNZJuPixdZ+b00JlqP92p1fd+ciw4FuUNxuVgaf/IOLcGLH3Q=
+	t=1733403567; cv=none; b=BCOx9DAVpMWKlQgI+f31QM3anyKgt5HYW755t3zVOF/5rSi1sxQcRqwZK6AxuQoGhk6OHmUJ26yD04Tkb9TTocrQyeTSXQRMB6n5A3jsoDShr9KGjMx4m3zuGMoiJtSid4xvF4r/oky5a9YPp1U7lY/wrl0Oc3XRn77xWAxq0GQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733389469; c=relaxed/simple;
-	bh=EQhb6TGrZfYkcOpRdqn/lxXol9nmxg+0ajmsWIkzyuM=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=I6nMcvA7I0EttqU/+1dHuhfFPsz4OOqO5ZWvT9pnpimVOuScE3ivKYU4ttEnLMhi8tjFcE6ws4/j/H4gOwDU4Xuv/5+wlhSy2vQwtiTGeMebW7NzCA2KYV6bO1EoObb+CB/m9YRh3ck/qV2DY1oPCL2E1rWAiixaiiiNAalq5FM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-3a77fad574cso9600685ab.2
-        for <linux-input@vger.kernel.org>; Thu, 05 Dec 2024 01:04:27 -0800 (PST)
+	s=arc-20240116; t=1733403567; c=relaxed/simple;
+	bh=ebx+GgY3hNlUc59VsaJ6hQUiwXrTKNYfGaLlqqc/Vzk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=d0BFcXzD8MUzqOiOMNq8b+X+msu/J8KuAHiPmpAl7F9B33AeniHklJ0w3U4B+tn0uOvgG+KWICGZOwM69mgLH7/XQrcngUZIlY0Wk0qbXhv9RGJDD4LDK2agiE1bbdik368yaXeo7vwbMbtlhvTfXkVNM1gKivNQtFpjRkFTZ1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=oYN0ZAhy; arc=none smtp.client-ip=209.85.221.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-51544e9a0abso1020450e0c.1
+        for <linux-input@vger.kernel.org>; Thu, 05 Dec 2024 04:59:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1733403564; x=1734008364; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VwfcoPBjO/Q1HvZfrTkBp1X4/TXkK2jPxvYFzVie8mc=;
+        b=oYN0ZAhyWAadi65bgqyi3OBNDykGmEXE99qDKNiXZI1VX8Y5rimkX4KiQ9HdsOuJ+R
+         rXj3K54cS8AqR/jWx9puxmFWsPiL+VsrOjDeU36+P1/RgKtH7bCMvRzVWY20+R16Gtit
+         4R2xuhmd+aurIh9p/brDxFj2LjSlcX3LLMLbc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733389466; x=1733994266;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KHXZaowWSdlvsGcGTREz+UJbqIy1FIWlv6vHNKmb8UE=;
-        b=fPpI9sAlnWZ2Zcq8gD+OgddICroVEYo6gmdPRErZUnpGtWYNs53cE2groXJ/XeK9vL
-         VPjXwlZQAwqE6zdiCtrBLG0LR/aPbVtNhD/MR4sAccdkqCVeARuR4D0Sd/iy+/kohn3v
-         QPslKMbuCMp2VIzyxzgTgW1jXpj9GJEcp15y1VPEy7+ginLWd2+e/g8DZ53Ffl3uWcMq
-         MC8XphSFh3PGTFX9RnnosfH7ubkfq6c3nJZowvCdocCnxwdgZnrFxPefoBWXtC4fx0ga
-         3q6w2sF1nSvrE8PHbnituykax0RzwGizcLm7fH3cC3BIlR0WeiEEllygHt2ajGeafgyo
-         rUKg==
-X-Gm-Message-State: AOJu0Yy6V0wZU+oCxQPs9XhRSBCWlXQVfh8DvdTaQDDnTXW/Ef/GMzUc
-	gsofzcTf9KV9TL8jzhbEy3h75rzTqPhAUF9SSp9vvOzy6R24TZ6JMdlJU1z0LgwOax+zIlx9aWg
-	DuZXAaKZnYYXXVNg0TnD8r/+c+SUuZEbCzpD7SPB8XyW1fOZ3aZk96F8=
-X-Google-Smtp-Source: AGHT+IFhAKlhuZu7yThWGfVrufIBKwl6bloyeYgsdPkO+TTRBg0M1WWgpSf1r0/z5/FRHVxBFdVUxnW5OZsuyJQqWcFvIOcRYShE
+        d=1e100.net; s=20230601; t=1733403564; x=1734008364;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VwfcoPBjO/Q1HvZfrTkBp1X4/TXkK2jPxvYFzVie8mc=;
+        b=vt4OAnt29ip3DRv2Z+V6PZbOMSHBmcSrf5ktm9gW0hUzF3RQ9cbJ9Ty3jsk0bO9ma9
+         OD9iczK9Z0p29q0//f5KO1dUo/vy1dZqRyW7wyN/S9dOFzQnxBV27z6rK1OywALW2lhV
+         wrFxeI7xdC+dNJpihVD1PsQzDmN6qD3RnbpQ+r+qxHJEMmBng9ARuDTqgIPXb08Jk3xZ
+         SlS40CUXESfSxvbwkZ9/BT/vX+bDM6RDr0yvKdFPlIBKaQV1atTElzJ4inCCxbC8hu4c
+         OkAQaO4iV+IX27AUoARBhATEgawm/Qktp/z3IeB48haD8UARRie8KCOHQ2G0bcpLRX03
+         SkVw==
+X-Forwarded-Encrypted: i=1; AJvYcCUH2+HYvUWNFxpS+zwN66/mqcSt4lJviiWay9YG/NjlfX2tCTk7MX4DuEcrkz6Fp/yn59IPZs0u688taQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHMphdzmvCNySbuRhT0o4T2tbJALjfkpr6GvjEfKz/V6yFtdKg
+	bAl9RPLn64UAuCo7adSu/U+BBZvyeKTXrYqRRswrq13spd2oDuycqEkzh+FEBA==
+X-Gm-Gg: ASbGncvFHy0saRdblSe2Mx+YntQRUvrkHPcU0QzxxaNN/TlacoIwQb9FfWFK5a3ZTzw
+	4YmuTpr0t8Bq857SmSm/O+3jMeLFgqVBsQkkM3szB3jeleGkDfh80xbUrrLTw+FFsPYusJowE8b
+	5ouPu44FEmeMu0LXEALIfKymMAVmSEVWIVPbTWGjGr9O8lklktgP3w5zobtFRZEYx+x8PGLJEpV
+	x4RJYtS+ZRh7IvTkd7/NBcuj1vliF0Vnp3Ct1tyKqokkvrxFDmmMcLmABUNeDGu6TXhhOtVaBOi
+	DXy7I6zIhItM8te5xP+/gziB
+X-Google-Smtp-Source: AGHT+IHRLV21fZ2rD9jYQl6Ini+eOswxWXzZy6lQU7eAzpT6Z49VS53HCUoS496Q7JbrKuLSk5piYQ==
+X-Received: by 2002:a05:6122:4a:b0:515:43ff:6ed8 with SMTP id 71dfb90a1353d-515e6fee69fmr2528809e0c.5.1733403564563;
+        Thu, 05 Dec 2024 04:59:24 -0800 (PST)
+Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-515eacb5775sm119244e0c.0.2024.12.05.04.59.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Dec 2024 04:59:23 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Thu, 05 Dec 2024 12:59:20 +0000
+Subject: [PATCH] iio: hid-sensor-prox: Merge information from different
+ channels
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1c0e:b0:3a7:159d:2dd8 with SMTP id
- e9e14a558f8ab-3a7f9a3b435mr114740365ab.7.1733389466600; Thu, 05 Dec 2024
- 01:04:26 -0800 (PST)
-Date: Thu, 05 Dec 2024 01:04:26 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67516c9a.050a0220.17bd51.008e.GAE@google.com>
-Subject: [syzbot] Monthly input report (Dec 2024)
-From: syzbot <syzbot+list8cb80ffc769f03e3d563@syzkaller.appspotmail.com>
-To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241205-fix-hid-sensor-v1-1-9b789f39c220@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAKejUWcC/x2MywqAIBAAf0X23IKPKOxXokPolnvRcCEC6d+Tj
+ gMz00CoMgksqkGlm4VL7mAGBSHt+STk2BmstqOx2uHBDyaOKJSlVJwsGT97ClE76NFVqRv/cN3
+ e9wNNr+8gYAAAAA==
+To: Jiri Kosina <jikos@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+ Lars-Peter Clausen <lars@metafoo.de>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+ linux-input@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.13.0
 
-Hello input maintainers/developers,
+The device only provides a single scale, frequency and hysteresis for
+all the channels. Fix the info_mask_* to match the reality of the
+device.
 
-This is a 31-day syzbot report for the input subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/input
+Without this patch:
+in_attention_scale
+in_attention_hysteresis
+in_attention_input
+in_attention_offset
+in_attention_sampling_frequency
+in_proximity_scale
+in_proximity_sampling_frequency
+in_proximity_offset
+in_proximity0_raw
+in_proximity_hysteresis
 
-During the period, 1 new issues were detected and 0 were fixed.
-In total, 22 issues are still open and 57 have already been fixed.
+With this patch:
+hysteresis
+scale
+sampling_frequency
+in_attention_input
+in_attention_offset
+in_proximity0_offset
+in_proximity0_raw
 
-Some of the still happening issues:
+Fixes: 596ef5cf654b ("iio: hid-sensor-prox: Add support for more channels")
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ drivers/iio/light/hid-sensor-prox.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Ref  Crashes Repro Title
-<1>  917     No    possible deadlock in evdev_pass_values (2)
-                   https://syzkaller.appspot.com/bug?extid=13d3cb2a3dc61e6092f5
-<2>  677     Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
-                   https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
-<3>  400     Yes   INFO: task hung in uhid_char_release
-                   https://syzkaller.appspot.com/bug?extid=8fe2d362af0e1cba8735
-<4>  183     No    possible deadlock in __input_unregister_device
-                   https://syzkaller.appspot.com/bug?extid=3f4bf5c599ee9b16d704
-<5>  160     Yes   KASAN: stack-out-of-bounds Read in sched_show_task
-                   https://syzkaller.appspot.com/bug?extid=8d2757d62d403b2d9275
-<6>  157     Yes   INFO: rcu detected stall in x64_sys_call
-                   https://syzkaller.appspot.com/bug?extid=65203730e781d98f23a0
-<7>  49      No    possible deadlock in hid_hw_open
-                   https://syzkaller.appspot.com/bug?extid=2313ca2498b9554beeba
-<8>  22      Yes   possible deadlock in uinput_request_submit
-                   https://syzkaller.appspot.com/bug?extid=159077b1355b8cd72757
-<9>  5       Yes   WARNING in bcm5974_start_traffic/usb_submit_urb (2)
-                   https://syzkaller.appspot.com/bug?extid=b064b5599f18f7ebb1e1
-<10> 4       No    UBSAN: shift-out-of-bounds in s32ton
-                   https://syzkaller.appspot.com/bug?extid=3fa2af55f15bd21cada9
+diff --git a/drivers/iio/light/hid-sensor-prox.c b/drivers/iio/light/hid-sensor-prox.c
+index e8e7b2999b4c..f21d2da4c7f9 100644
+--- a/drivers/iio/light/hid-sensor-prox.c
++++ b/drivers/iio/light/hid-sensor-prox.c
+@@ -49,9 +49,11 @@ static const u32 prox_sensitivity_addresses[] = {
+ #define PROX_CHANNEL(_is_proximity, _channel) \
+ 	{\
+ 		.type = _is_proximity ? IIO_PROXIMITY : IIO_ATTENTION,\
+-		.info_mask_separate = _is_proximity ? BIT(IIO_CHAN_INFO_RAW) :\
+-				      BIT(IIO_CHAN_INFO_PROCESSED),\
+-		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_OFFSET) |\
++		.info_mask_separate = \
++		(_is_proximity ? BIT(IIO_CHAN_INFO_RAW) :\
++				BIT(IIO_CHAN_INFO_PROCESSED)) |\
++		BIT(IIO_CHAN_INFO_OFFSET),\
++		.info_mask_shared_by_all = \
+ 		BIT(IIO_CHAN_INFO_SCALE) |\
+ 		BIT(IIO_CHAN_INFO_SAMP_FREQ) |\
+ 		BIT(IIO_CHAN_INFO_HYSTERESIS),\
 
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
+change-id: 20241203-fix-hid-sensor-62e1979ecd03
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
 
