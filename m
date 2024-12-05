@@ -1,134 +1,123 @@
-Return-Path: <linux-input+bounces-8415-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8416-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CADE09E606A
-	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2024 23:22:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78AB49E610A
+	for <lists+linux-input@lfdr.de>; Fri,  6 Dec 2024 00:06:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D7441885680
-	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2024 22:22:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 257561885705
+	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2024 23:06:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CA5B1C3C1F;
-	Thu,  5 Dec 2024 22:22:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 726A71CD210;
+	Thu,  5 Dec 2024 23:06:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ldj4riYC"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="035i0Ejl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D986A1BBBF1;
-	Thu,  5 Dec 2024 22:22:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C74B17E019
+	for <linux-input@vger.kernel.org>; Thu,  5 Dec 2024 23:05:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733437363; cv=none; b=nY7Hwn3RXRhqD22EkbP8IZtWTN1IMkqRXo2sVs/gESc0gSgYiJu6J4Kt4yf6Atg5Uok8VWmAtEbzxmU6BxfkcZhefBPpxwFVwYnSrXZkiurQ+ZMqgXoK1cvM+ZtT4FeL4kE4Rbqh1hp3nqJmS+3HlONlllYn6SGw29uK/SBFxEY=
+	t=1733439961; cv=none; b=XhxggwBbYS3BcEMLh6dQdKg+wdWWw+N8knkUjMds8kdw5b+/7nSa5hF9tDCjPFmAaxC4X/f3PGFKbhdJLueC9sO78RxmyR9zyB9+Juwwem3YHnOGlzVKQN43lb7hq4UwNFM4lJ0QdytbOgSJjBH96iy7A9BfMaE78qjJRQlxP2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733437363; c=relaxed/simple;
-	bh=nAK65Za/KWKxEgWqGsbbQekGzsAf+jmT6jYsvSM8Xko=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MlSQskQTiVL2tGsI56RPwvVerxBqzzgMJg3YyWMNR7Ukw+jwIpth3vKPzT8G/Tx2U2RKobhQZjWfEe0tWzskV5/2v/00R4JIfFOJ7bqqEoCGn6DVojGukNzIuniNTs1+wYMjpn/YTvaiZJ2l6bqzFiz2qrW3l42eP21JV34dyKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ldj4riYC; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aa54adcb894so248528766b.0;
-        Thu, 05 Dec 2024 14:22:41 -0800 (PST)
+	s=arc-20240116; t=1733439961; c=relaxed/simple;
+	bh=KtxXe4kgB0BnW3MsFzYn465Cqu75ZgmvR8VczHsk0ts=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=XrBc+hCDnIfWxiw9JBmYlaU4NADO3TnVa8Lme8KiT44P7Mqxq6xd5noMsaqjXaojxnElmjmwNEykgs6mQk0vqp+wy0Kw3soE2JCfEWGnx9n6Mo8+DBGqe4D0UOmqKBfRao8TgUu3ZhDizI3UYczuVBM2akwB7PkD3FtM6hvEpsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=035i0Ejl; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-215b13e9ccbso14521785ad.0
+        for <linux-input@vger.kernel.org>; Thu, 05 Dec 2024 15:05:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733437360; x=1734042160; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=m3lyXrqzIu+Kk45XA+AociMWK/OJuQLe7K4aBvShe1s=;
-        b=ldj4riYCXGtEi6kEzajqkB5WyRpTp2RrJ+TKASM++R1a+09suXWJGKV0SiQibwDwuk
-         flo5Vhw8niFZ7UW8K10diBZt8mCNY0VfUhliU9lYDJQrit2uhdC7pZ1SUrpavojVmUe5
-         oo2j7oODl7i7ep+scMWDZzcK2S+nQVO87nHrhiBhOIjbbRHNhL9JHTSt2aNVl3yYl/W1
-         uLv9iYqbpxKkSvyHAqic0+vzdatIsHsriq6FNKZc4nb/Tlf7Ho5GeqUZQnkx6zT5HlEU
-         S19ihVvt5Yok+CtdqSxSw6yzGgyCTEGeq3Ozr3BwXgaj8Lli7g9TI21En4SwswNKZUu+
-         3jXA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1733439958; x=1734044758; darn=vger.kernel.org;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JF86DSQKrbpE7zkN2nZ2brMlp1Djxw82gJt7o2CQPAc=;
+        b=035i0EjlumNK2kL3E73CEI22yu/W3Cz+/ySlvV5hxJbhYCOgWW9u52L25pH4xHOElp
+         DMc1vnF3jDAKd08M9sUEU/pLHYHIwfVxi1ICfyhq4mSjojGIZ344IT8x7l6tblc7ASxX
+         cT0sz2k/id7+3R2u1I8gPgCPDfDKUa6FBTCdgNuHgto2SBSloQSWCBg80IVofiZwii+y
+         gDDnrAwv9/ud4gjlJZ08D0d3CIEtcVe7qeB7fc1ORMCuK7NOGOFNUYyfYRv3kslhAihU
+         AQan1aaDS9oDNO8ujM+qrWv/AqL7JCcVREnNjgx6EPMnVFI6OUPYe69MgKe9A/mFuV7R
+         gFjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733437360; x=1734042160;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m3lyXrqzIu+Kk45XA+AociMWK/OJuQLe7K4aBvShe1s=;
-        b=dTIVTaUpQTgBAQrXb0M0o8K8ZLRkZRmIQ7kIrHZQwOsSym31gLAMRWfuAz8XNVf3TG
-         7kkYnJJ6OV7jr9mlE9Ts+PQ2euraBEMoSjdfNe3K+1R73IalDK9DqasuNkT2y5eWrZag
-         8Eag97XQ4Os7VAAyVszuSTfgl9Xeceo198sNzHK3abk6CeBfxHyYs5QOclGH/zk3QFDg
-         igUHwPfvZMW1hk0IbTu2IQG91FC5/7NOIv0RvLJ7tkolSzqfpH9b8tQfF0X8xWRELpK9
-         0q6dcy5g9tvb0nlaxZEMDY+ZUGKDzcrb59qWNzpEGunJFYkhrz83w/uA66evNNjIgR9z
-         sm0w==
-X-Forwarded-Encrypted: i=1; AJvYcCVTQNu3Z6R8IG3uHYq7R2TUNSrEvZdV1AAlf5G8W4zkKBs7wYtN8G0vz5yOSGyfYASylPJvTqefFwQAKrmq@vger.kernel.org, AJvYcCWw9rtJKxpljZ717C0Iemeln5wUvvnOM59zLDkoQPCbsrcP7ng7oa3KspdC7Yjk6Ywk83C/iDm6w0lxBA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YznQBPQl/EzSZyDRl4rRXMYdO1VIKst8muNhREjeP4HgKaMng65
-	frQ9C3V96AJgagyIbe7C47i6c3hCaRfcEsRUDT9kiuskv0cpLKCD
-X-Gm-Gg: ASbGncu3bn/7AviPBJyGjbYlOY8XkrfAOzAmVISd/yvvojDkhy+vvixmTqpATL1NLBg
-	fcimxukqHCWqBoKv/ujr+2tnxCjfB4W0OxLvWywEAKHPrVAFRTPTeVYmRYF9a/XHH7AzSZjbOgT
-	nZ1G41wwKfBrRs40TPfsqUquM/dB7UIQnZLjgCn+35QEOagxBuSikHlr0sEnjyoGi9q4kdzaZ7m
-	E2N7sUdNzVTxWnXziHEIcF47NTdOW3UpKeaSWj1pfAYBeOo/zjRmxqWXwh+
-X-Google-Smtp-Source: AGHT+IGcrLT4gONP5gatqkYWWG2Utr7wcaZ76fP3t5w0AD0MTmF9LBS0SpqfRAOkQ11uPNvWm5iasQ==
-X-Received: by 2002:a17:907:7703:b0:aa5:449e:1a1d with SMTP id a640c23a62f3a-aa639fa434cmr49156166b.2.1733437359965;
-        Thu, 05 Dec 2024 14:22:39 -0800 (PST)
-Received: from localhost.localdomain ([83.168.79.145])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa6260e33f7sm148805566b.183.2024.12.05.14.22.39
+        d=1e100.net; s=20230601; t=1733439958; x=1734044758;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JF86DSQKrbpE7zkN2nZ2brMlp1Djxw82gJt7o2CQPAc=;
+        b=WQTIZyIUIL5WKT7K4t0fvFu9qMJoI6wQbPxxG5De+7n9Kez6yECbyhIP5gEaDiEicz
+         iaZ9aE21Yiklrd/Il2lpQN+Y4q68T4DrAELLz1XG1ltGS/wOfu3iHrQQW9MsNshfnoDg
+         FQZHkyj5idU8ZcwZqoFWRUcebFvfTOpT1PIKOtbmtDUNBLgYetnNl+Puhcrsd6+1A78p
+         MUVNwm3iqKK4AYAvvm30pjWY1x08LfNkMg2mY82HmHXLPBxyJ+1qcQ8R7Eqh98vUu1Ho
+         N0Q8mZ/bf/C5dRtwZ1vtOnt1MEkGeJNpuwYKMuyhKGgVlPAjU3W+YUsNqpzZpA3WfNL4
+         Zr0A==
+X-Forwarded-Encrypted: i=1; AJvYcCV+yhuW81ph4xniTLehfv4aLTd5R7KuJxMpHHgBsXHNAD4ySRbR82y51va8PptE8jmBeqqgSPFwuhef3g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzIyS6BLlm2v3j0Z5qeRgMqtsSNO5AJflIN7Y+j4ven0T92Omx
+	46xeHjw/AMho/ftkF0qBiAZGMTDvwhZr8tabmyiSduFAkuriBhYL3GQyLQFvm8I=
+X-Gm-Gg: ASbGncsY3/7dfxJMcU7FAnZnFb7KDdON0kcP+Pvk6B2VJMDRQbMnGEhYxMbOIdSIkt+
+	19gMz9kPOVv9G+D/Gp64r4ZaCw3gL9dJiItzzC/uPb3C7wTsHvRa8QWIue4x4dqI+aot5vXMnsv
+	Ksjp+KCdkJhZ/9mIi/GBQRiPFoSbztpAL1hMMXWxZ7MSm9uBDzv1f305tIHG/jDCfKx/Yqqf03L
+	BCGaTHEN1cfv8e66M1RMbNFyeCfEdfBvGXblcIWKqO7cKZC
+X-Google-Smtp-Source: AGHT+IH2vKnwRVJfKJzkSGh5FdTz/wRZJhZsXQWgmQ3KNajlOo7D+P5OBQ8tqAAXIc8fvqH0d73N5g==
+X-Received: by 2002:a17:903:1103:b0:215:acb3:3786 with SMTP id d9443c01a7336-21614d445d7mr8493235ad.19.1733439958591;
+        Thu, 05 Dec 2024 15:05:58 -0800 (PST)
+Received: from localhost ([97.126.182.119])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-215f8ef9df9sm17546475ad.148.2024.12.05.15.05.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2024 14:22:39 -0800 (PST)
-From: Karol Przybylski <karprzy7@gmail.com>
-To: karprzy7@gmail.com,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com
-Cc: skhan@linuxfoundation.org,
-	linux-input@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+040e8b3db6a96908d470@syzkaller.appspotmail.com
-Subject: [PATCHv2] HID: hid-thrustmaster: Fix warning in thrustmaster_probe by adding endpoint check
-Date: Thu,  5 Dec 2024 23:22:21 +0100
-Message-Id: <20241205222221.3094702-1-karprzy7@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Thu, 05 Dec 2024 15:05:58 -0800 (PST)
+From: Kevin Hilman <khilman@baylibre.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Andreas Kemnade <akemnade@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Andreas Kemnade
+ <andreas@kemnade.info>, Tony Lindgren <tony@atomide.com>, Conor Dooley
+ <conor+dt@kernel.org>, linux-omap@vger.kernel.org,
+  devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND 0/2] ARM: ti/omap: gta04: properly specify GTA04
+ touchscreen properties
+In-Reply-To: <20241205204413.2466775-1-akemnade@kernel.org>
+References: <20241205204413.2466775-1-akemnade@kernel.org>
+Date: Thu, 05 Dec 2024 15:05:57 -0800
+Message-ID: <7hldwthgru.fsf@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-syzbot has found a type mismatch between a USB pipe and the transfer
-endpoint, which is triggered by the hid-thrustmaster driver[1].
-There is a number of similar, already fixed issues [2].
-In this case as in others, implementing check for endpoint type fixes the issue.
+Dmitry,
 
-[1] https://syzkaller.appspot.com/bug?extid=040e8b3db6a96908d470
-[2] https://syzkaller.appspot.com/bug?extid=348331f63b034f89b622
+akemnade@kernel.org writes:
 
-Fixes: c49c33637802 ("HID: support for initialization of some Thrustmaster wheels")
-Reported-by: syzbot+040e8b3db6a96908d470@syzkaller.appspotmail.com
-Tested-by: syzbot+040e8b3db6a96908d470@syzkaller.appspotmail.com
-Signed-off-by: Karol Przybylski <karprzy7@gmail.com>
----
- drivers/hid/hid-thrustmaster.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> From: Andreas Kemnade <akemnade@kernel.org>
+>
+> Specify touchscreen in a way that no userspace configuration is needed.
+>
+> Note: if the devicetree patch is in without the input patch, things
+> will be broken in a different way.
 
-diff --git a/drivers/hid/hid-thrustmaster.c b/drivers/hid/hid-thrustmaster.c
-index cf1679b0d..6c3e758bb 100644
---- a/drivers/hid/hid-thrustmaster.c
-+++ b/drivers/hid/hid-thrustmaster.c
-@@ -170,6 +170,14 @@ static void thrustmaster_interrupts(struct hid_device *hdev)
- 	ep = &usbif->cur_altsetting->endpoint[1];
- 	b_ep = ep->desc.bEndpointAddress;
- 
-+	/* Are the expected endpoints present? */
-+	u8 ep_addr[1] = {b_ep};
-+
-+	if (!usb_check_int_endpoints(usbif, ep_addr)) {
-+		hid_err(hdev, "Unexpected non-int endpoint\n");
-+		return;
-+	}
-+
- 	for (i = 0; i < ARRAY_SIZE(setup_arr); ++i) {
- 		memcpy(send_buf, setup_arr[i], setup_arr_sizes[i]);
- 
--- 
-2.34.1
+Due to this dependency, I can queue this driver patch in my tree along
+with the DT patch so things go in together.  Let me know your
+preference.
 
+Kevin
+
+
+> Andreas Kemnade (2):
+>   Input: tsc2007 - accept standard properties
+>   ARM: dts: ti/omap: omap3-gta04: use proper touchscreen properties
+>
+>  arch/arm/boot/dts/ti/omap/omap3-gta04.dtsi | 6 ++++--
+>  drivers/input/touchscreen/tsc2007.h        | 2 ++
+>  drivers/input/touchscreen/tsc2007_core.c   | 5 ++---
+>  3 files changed, 8 insertions(+), 5 deletions(-)
+>
+> -- 
+> 2.39.2
 
