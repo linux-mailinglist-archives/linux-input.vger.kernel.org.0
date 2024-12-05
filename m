@@ -1,116 +1,211 @@
-Return-Path: <linux-input+bounces-8405-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8406-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0338A9E4DC4
-	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2024 07:50:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D4B9E4EDF
+	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2024 08:48:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 710B01881464
-	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2024 06:50:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 56173188192C
+	for <lists+linux-input@lfdr.de>; Thu,  5 Dec 2024 07:48:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0B3B1A4AB3;
-	Thu,  5 Dec 2024 06:50:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F4121C1F19;
+	Thu,  5 Dec 2024 07:48:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2ZdYOfbI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uMm/sAIA"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE9219342D;
-	Thu,  5 Dec 2024 06:50:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F481BF7E8;
+	Thu,  5 Dec 2024 07:48:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733381428; cv=none; b=tpoJTRVE1HhhUle2RtM4BVxfirXyD3VBk8jnsa3Th75EuQE447N7MfHcU7PrGEhqIWFuMDVpzDn4v4O59VFrfvZfSLPO6hYdxENEhL9oh9sTGs3d4ztYVBnZ09SY/Z56jJ+PgMuY7afIrk9Ywj7gsIZaqjICtbY4G5GH8YTw7nk=
+	t=1733384921; cv=none; b=DntzKEdoPu0fPZAqTBVaraloCanJeQOcbH2ftMBItQAks4Ig6udWWtAOltjEZtrYJ2M07rrphas1GXSJnWRxRMM2e6/X+3jfPLnOwVjuYP+W/R6sJH79MYvrT7NOZGHWhoC9sOQ/cBjDNf4MZoCy7PkfsUfsIwAuWXzixypVXh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733381428; c=relaxed/simple;
-	bh=Iubyq5JqGvti2YlpRaXKl08KsIDXsA26DuLrgdawilg=;
+	s=arc-20240116; t=1733384921; c=relaxed/simple;
+	bh=bSj37bmt7ADxZheK3OHEPhQVUUID4mtcZsHj93X0KKk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EbIqyJgB+A0uGVtDHMdKHIuR5CX5Fu6q4Q6JReAcvd+sqioU7eaoUOOxDGjL+d7m/Umi5vzhpaux2dEE23agLVmfKf4Hd2HLZ53QvC26uUgrtgRZrOY/Ga+P2m0OJHRBVDUkRBv/g/VWq2dL2y5ol474nsdn1sYnWenW/Xwn/58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=2ZdYOfbI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3754FC4CED6;
-	Thu,  5 Dec 2024 06:50:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1733381427;
-	bh=Iubyq5JqGvti2YlpRaXKl08KsIDXsA26DuLrgdawilg=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=RYmEXEWWYygPIZgBZ2DU5qjDO8WeG17JkJAm7mDhYhgS4yYVZEBe080VxlmhCi5QOx2eUWp9F6zjZXKL8+IV9HIzOnqUvPjCCAALTVsxg45jXK6/W8IKawXUcNFR7c6M9Pvkqxsdiq8vW54Lc6uYRyPR3XPaBxkiXh3wPcwKoXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uMm/sAIA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E75BC4CEDE;
+	Thu,  5 Dec 2024 07:48:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733384920;
+	bh=bSj37bmt7ADxZheK3OHEPhQVUUID4mtcZsHj93X0KKk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=2ZdYOfbIhdDKBQk9TjllzwXIBvFJgoJtROg8BMzElHezZ88u0b8q4zu+2GnMKvjFz
-	 kSdeUgbR9bskivnLAGx1LeG1lZZCDsaQW2vsleUCfhMdvV71QElhmv289xjm9GG7R7
-	 o/nX161nVerBvtePEZTkaTkAnxZMPhl2J9hRmTDM=
-Date: Thu, 5 Dec 2024 07:50:24 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Takashi Iwai <tiwai@suse.de>, srinivas.kandagatla@linaro.org,
-	mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
-	dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
-	lgirdwood@gmail.com, krzk+dt@kernel.org, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, robh@kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v30 00/30] Introduce QC USB SND audio offloading support
-Message-ID: <2024120523-rifling-skipping-234c@gregkh>
-References: <edfeb642-297e-42bb-ad09-cbf74f995514@quicinc.com>
- <2024111655-approve-throwback-e7df@gregkh>
- <2f512d8d-e5f3-4bdd-8172-37114a382a69@quicinc.com>
- <875xoi3wqw.wl-tiwai@suse.de>
- <d0da6552-238a-41be-b596-58da6840efbb@quicinc.com>
- <CF49CA0A-4562-40BC-AA98-E550E39B366A@linux.dev>
- <65273bba-5ec1-44ea-865b-fb815afccc91@intel.com>
- <2024120320-recant-tameness-6c81@gregkh>
- <58a561d6-dc10-484e-8214-5e03c4aef66d@intel.com>
- <f9eb5aa5-0741-4198-aeee-beec3ca270f3@quicinc.com>
+	b=uMm/sAIA2nn1qVkJJcLGnmqW5ViC4WlDFo/xtfN5/wDNCbI3LNES25lEC4V8VUq2b
+	 PzP+vecfeEsFKt0zg44BPbgmeUhB/44vgdgtKANZ2KaiJPucONJwXEANgIbQwljg+b
+	 eET5f9KosB128PDpIvrVv3Qdu3pS7Zmh6Z4AwLvAxUOXZZGIQDfNfRtQ+RqXUJqRX/
+	 EZaY8goZhAD8QDF/dY5H0sWtIj3B9fOoAUOn3GhGah7DyIdBI71uHO9ZNGmSM8RcKH
+	 9NhKZ5dDtuqXyojYHINlbkQkKlO2H5RZPkyd/hC7z5Q9LkmsZgz5y1OTNLXJe6uPdP
+	 dn+0EbxirIM9A==
+Date: Thu, 5 Dec 2024 08:48:37 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Sebastian Reichel <sre@kernel.org>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
+	Purism Kernel Team <kernel@puri.sm>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v10 3/8] dt-bindings: mfd: add maxim,max77705
+Message-ID: <hjrxt3qkzzpda2uqazdse3h263ixb4onezyij4xcgezpaaihqk@ijln25sdyzfr>
+References: <20241204-starqltechn_integration_upstream-v10-0-7de85e48e562@gmail.com>
+ <20241204-starqltechn_integration_upstream-v10-3-7de85e48e562@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f9eb5aa5-0741-4198-aeee-beec3ca270f3@quicinc.com>
+In-Reply-To: <20241204-starqltechn_integration_upstream-v10-3-7de85e48e562@gmail.com>
 
-On Wed, Dec 04, 2024 at 05:15:02PM -0800, Wesley Cheng wrote:
+On Wed, Dec 04, 2024 at 11:09:53PM +0300, Dzmitry Sankouski wrote:
+> Add maxim,max77705 binding.
 > 
-> On 12/4/2024 1:14 PM, Cezary Rojewski wrote:
-> > On 2024-12-03 5:57 PM, Greg KH wrote:
-> >> On Tue, Dec 03, 2024 at 05:17:48PM +0100, Cezary Rojewski wrote:
-> >>> On 2024-12-01 4:14 AM, Pierre-Louis Bossart wrote:
-> >>>> Sorry to chime in late, I only look at email occasionally.
-> >
-> > ...
-> >
-> >>>>> I believe Amadeusz was still against having the two card design, and wants the routing to automatically happen when playback happens on the sound card created by the USB SND layer.  However, even with that kind of implementation, the major pieces brought in by this series should still be relevant, ie soc-usb and the vendor offload driver.  The only thing that would really change is adding a path from the USB SND PCM ops to interact with the ASoC entities.  Complexity-wise, this would obviously have a good amount of changes to the USB SND/ASoC core drivers.  Some things I can think of that we'd need to introduce:
-> >>>>
-> >>>> The notion of two cards was agreed inside Intel as far back as 2018, when Rakesh first looked at USB offload.
-> >>>
-> >>>
-> >>> Well, I believe a lot has changed since then, not sure if USB Audio Offload
-> >>> (UAOL) was even stable on the Windows solution back then. Obviously we want
-> >>> to incorporate what we have learned during all that time into our solution
-> >>> before it lands on upstream.
-> >>
-> >> Great, can you help review this series please?
-> >
-> > Hi Greg,
-> >
-> > This series is large and I'd suggest to split it up, what I touched on in my recent reply [1]. Please correct me if I'm wrong, but you mostly care about drivers/usb/* part. If so, the existing set could be split into USB-changes series, ALSA/ASoC-framework series and a third, holding bulk of QCOM-specific patches. Me and my team care mostly about the sound/* part and we don't hold much expertise in USB. I believe Mathias covers this part well though.
-> >
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> ---
+> Changes in v10:
+> - leds: replace label with color and function properties
+> - leds: add support for leds-class-multicolor
+> - move fuelgauge node to patternProperties "^fuel-gauge@[0-9a-f]+$"
+>   to comply with max17042 binding
+
+You silently added significant change - new address to fuel-gauge.
+
 > 
-> I'm fine to split this into 3 different series if that helps with the reviews.  I was always under the impression that when we upstream things, we need to have an end to end use case within the same series, so that folks get the full picture.  I've gotten feedback where people were confused they couldn't find/follow the code flow, albeit those series were much much smaller.  If Greg is ok with it, I can split it up and have a link reference to the other series.
+> Changes in v9:
+> - replace max77705 fuel gauge with max17042
+> - remove monitored battery because not supported by max17042
+> 
+> Changes in v8:
+> - fix leds compatible
+> 
+> Changes in v6:
+> - unevaluatedProperties must be false
+> - drop excessive sentence from description,
+>   just describe the device
+> - change leds compatible to maxim,max77705-rgb
 
-Yes, a full patch series is best as adding infrastructure in a
-stand-alone series that no one uses isn't going to work well.
+Your changelog should mention you added review here.
 
-> I was able to reorganize the list a bit to what you recommended.  So the current layout is xHCI changes first, followed by the USB ALSA and ASoC changes, and lastly the QCOM/vendor specific modifications.
+> 
+> Changes in v5:
+> - formatting changes
+> - add unevaluatedProperties: false for nodes referencing
+>   common schemas
+> - remove additionalProperties on nodes with
+>   unevaluatedProperties: false
+> - add min and max to led index
+> Changes in v4:
+> - change dts example intendation from tabs
+>  to spaces
+> - remove interrupt-names property
+> - remove obvious reg description
+> - split long(>80) lines
+> ---
+>  Documentation/devicetree/bindings/mfd/maxim,max77705.yaml | 192 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  MAINTAINERS                                               |   1 +
+>  2 files changed, 193 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml b/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml
+> new file mode 100644
+> index 000000000000..1bc026a01337
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml
+> @@ -0,0 +1,192 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/maxim,max77705.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Maxim MAX77705 Companion Power Management IC and USB Type-C interface IC
+> +
+> +maintainers:
+> +  - Dzmitry Sankouski <dsankouski@gmail.com>
+> +
+> +description: |
+> +  The Maxim MAX77705 is a Companion Power Management and Type-C
+> +  interface IC which includes charger, fuelgauge, LED, haptic motor driver and
+> +  Type-C management IC.
+> +
+> +properties:
+> +  compatible:
+> +    const: maxim,max77705
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
 
-That sounds reasonable, hopefully it lets others review it easier.
+Nope, none of children are supposed to have addresses. All nodes are
+unit-less.
 
-thanks,
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
 
-greg k-h
+...
+
+> +    properties:
+> +      compatible:
+> +        const: maxim,max77705-rgb
+> +
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      multi-led:
+> +        type: object
+> +        $ref: /schemas/leds/leds-class-multicolor.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          "#address-cells":
+> +            const: 1
+> +
+> +          "#size-cells":
+> +            const: 0
+> +
+> +        patternProperties:
+> +          "^led@[0-3]$":
+> +            type: object
+> +            $ref: /schemas/leds/common.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              reg:
+> +                maxItems: 1
+> +
+> +            required:
+> +              - reg
+> +
+> +    required:
+> +      - compatible
+> +
+> +patternProperties:
+> +  "^fuel-gauge@[0-9a-f]+$":
+
+
+How unit address appeared here? It was absolutely never reviewed. This
+is significant change, so drop the review tag.
+
+It's also a no, drop unit address.
+
+Best regards,
+Krzysztof
+
 
