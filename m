@@ -1,63 +1,63 @@
-Return-Path: <linux-input+bounces-8427-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8428-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E2E9E7A21
-	for <lists+linux-input@lfdr.de>; Fri,  6 Dec 2024 21:43:47 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 36F611668AF
-	for <lists+linux-input@lfdr.de>; Fri,  6 Dec 2024 20:43:44 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ED141FFC73;
-	Fri,  6 Dec 2024 20:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NC1lA9kX"
-X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4B49E7C8D
+	for <lists+linux-input@lfdr.de>; Sat,  7 Dec 2024 00:35:58 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571ED1C54AF;
-	Fri,  6 Dec 2024 20:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 91BD4284DA7
+	for <lists+linux-input@lfdr.de>; Fri,  6 Dec 2024 23:35:57 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55171212F85;
+	Fri,  6 Dec 2024 23:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dQhUjTPS"
+X-Original-To: linux-input@vger.kernel.org
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2006C1EBFFC;
+	Fri,  6 Dec 2024 23:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733517822; cv=none; b=BiIcj6rRFwHu3c9eug+ECSMl7XTt2j02fH3bqxuCCid/BKNNAFAKymOV7pLRdmzDB6c47jMxwsMkuPQFJa/A08X08RF8Vsd5kZmD3vUkeX+99ryA81BfddH3LsqQpAaR1k+6MlwL96pG1rZR65MXduJ/csO5hBljp3Gj8mkXZMI=
+	t=1733528153; cv=none; b=Bc5VpaIF1+PG3XVkw77UW7QGCxA2sMmjsYCzAxoXufyQs1pJ7l+E16WUD49zWnaW2kNqzhnR6GIdP4hr/HR3RDVLcpcz3CW99Yu2sFjZvKCJlqzpPO56fWnrK85t9xoaDJ9RIJQBCBrgLU7yQF0TbVm7u3z2m2p2nZWPzofNGWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733517822; c=relaxed/simple;
-	bh=HkUtFt5yNEyOKOT57xnkxN4TB3SkK29GTeg3yPR2eEA=;
+	s=arc-20240116; t=1733528153; c=relaxed/simple;
+	bh=MXIwrQewAajDh1gfesHB1c2CKu8WD9CnQN3aFCayvec=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=qipZy33vViKbPlasb2TpKxizm/Prjyu9CDMOqmSlhbPXOPaw3bkXjV9rmW1WD8nM9DhMOZqXJDu+y1zg5kLCtnfIek6lxrJMHSCfnIlfBfLcnc/2u5Oa7KVSA0wx7Pme3anA032TBro8WI/1D9cJmF4Qmf9Yor7Pn0ljOFSOcD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NC1lA9kX; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=AuQyzrGmN7ILsc/KLFH8AhozKtj1wls/tx366B51iOzK7PgPrx+ZEv+Ahz+6Z1lwvRhWaRfvjtUS+suaNuyqk/ysnjg9edHb1zJfAge8fnBF4FgRX7ie+oDTmXC8H3/ZuExBiyfs0eUz4jDARrE/3q25xtM0NPgVFPvHQes476E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dQhUjTPS; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B6BZ57X003204;
-	Fri, 6 Dec 2024 20:43:22 GMT
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B6LL67m016383;
+	Fri, 6 Dec 2024 23:35:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	HkUtFt5yNEyOKOT57xnkxN4TB3SkK29GTeg3yPR2eEA=; b=NC1lA9kXljJwRNZ/
-	jyGx38NCt6kSZMSxw27ZZQfIFXopTSQNDIoHiJnfYnod7Mm+fb87sgx76mNM19za
-	LWD8J1KHKzhJ05C31MdD0xuQ2SYc47yExWP0wfjsiNa4cuTKeMV0tlYRyHt4hDm1
-	FBMz71HGYCu7v8CgEAnlv52Uc9XA3rWVch5dkeQjLxE7XTSYF+qCfdLDPgvZY/Gn
-	wZYZ6zjftxmSzfIqHZdNw5DZmFQYv6qawfnlO6tG81rOvzCZxd3Arss7rUh4qfmf
-	EfHd9juph0xL0aVcnIC3XvqnWpwONZeFXfOkq3y4v6FdKPCz2ThZ65BpsbXeOMUe
-	aq1Wkg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43brgp2qny-1
+	MXIwrQewAajDh1gfesHB1c2CKu8WD9CnQN3aFCayvec=; b=dQhUjTPS9V+2stxc
+	mVLD8Jp5EnNTj/zTKUCu53bYpzWqePP8noc68BiHhuoRt0S71NhtCVubHR2UbDPr
+	dk9dKmmrH7Axh+a7YEe9HDgEl+GFFQS2Jj0cffkha2km113gm84zSuqTfu1W30hq
+	5qXhNlbP3gRYykDfJHpWGfBmX2wRLB4sVZt2bO2VSm+1jcDyqJSPvqhfTYHVOMsW
+	sJC6xj8q3iMCxnujrvYLJPVNUJMOvmMpB+2JgYzumiYBLzNcto234wgSMAXQ1l91
+	Mjku0wFdMJ6JIImHRWDMoSMdilo8r8cvfvzFZ7OfqiJC4i/0M1fjkKel+eDvpCkY
+	Xleq8g==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43bxnya034-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Dec 2024 20:43:22 +0000 (GMT)
+	Fri, 06 Dec 2024 23:35:27 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B6KhLiq013837
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B6NZQ6x018811
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 6 Dec 2024 20:43:21 GMT
+	Fri, 6 Dec 2024 23:35:26 GMT
 Received: from [10.71.112.120] (10.80.80.8) by nalasex01b.na.qualcomm.com
  (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 6 Dec 2024
- 12:43:21 -0800
-Message-ID: <3e246be8-22a9-4473-8c78-39788ae95650@quicinc.com>
-Date: Fri, 6 Dec 2024 12:43:20 -0800
+ 15:35:25 -0800
+Message-ID: <33afcc55-1597-4aff-a20c-7a0df4b23236@quicinc.com>
+Date: Fri, 6 Dec 2024 15:35:23 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -74,8 +74,10 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
         <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
         <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
-        <tiwai@suse.com>, <robh@kernel.org>, <gregkh@linuxfoundation.org>
+        Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>,
+        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
 References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
  <20241106193413.1730413-29-quic_wcheng@quicinc.com>
  <1a361446-7a18-4f49-9eeb-d60d1adaa088@intel.com>
@@ -86,20 +88,20 @@ From: Wesley Cheng <quic_wcheng@quicinc.com>
 In-Reply-To: <1644aa6b-a4e0-4dbd-a361-276cb95eb534@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 4H_AQnMFekfz5gW6YWnFHVmnH-Jb32Ho
-X-Proofpoint-ORIG-GUID: 4H_AQnMFekfz5gW6YWnFHVmnH-Jb32Ho
+X-Proofpoint-GUID: GLu9OkWF2xnRrV0lI092seNdox1_pfiG
+X-Proofpoint-ORIG-GUID: GLu9OkWF2xnRrV0lI092seNdox1_pfiG
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1015
- adultscore=0 lowpriorityscore=0 mlxscore=0 spamscore=0 suspectscore=0
- priorityscore=1501 phishscore=0 impostorscore=0 mlxlogscore=870
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412060156
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ phishscore=0 spamscore=0 bulkscore=0 suspectscore=0 adultscore=0
+ lowpriorityscore=0 clxscore=1015 mlxlogscore=999 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412060179
 
 
 On 12/6/2024 1:09 AM, Cezary Rojewski wrote:
@@ -141,8 +143,7 @@ On 12/6/2024 1:09 AM, Cezary Rojewski wrote:
 > I'm not asking _why_ you need soc-usb.h header, your reasoning is probably perfectly fine. The code hierarchy is not though. If a sound module is dependent on soc-xxx.h i.e. ASoC symbols, it shall be part of sound/soc/ space.
 
 
-That would basically require a significant change in the current design.  Was that requirement documented somewhere, where ALSA components should not be dependent on ASoC?  What was the reasoning for making it one direction, but not the other?
-
+I'm still reviewing the HDAudio flow a bit, so please correct me if I'm wrong.  During module initialization, it looks like there will be some overall platform card that will call snd_hdac_ext_bus_init() to create the HDA bus.  I referred to the Intel AVS core.  How do you ensure that the ALSA entities are loaded before this call goes out?  I think once the bus is created dynamic creation/removal of HDA devices is fine, and the hdev_attach/detach is executed. 
 
 Thanks
 
