@@ -1,46 +1,79 @@
-Return-Path: <linux-input+bounces-8431-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8434-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F9E9E84E6
-	for <lists+linux-input@lfdr.de>; Sun,  8 Dec 2024 13:02:11 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF57B9E85D4
+	for <lists+linux-input@lfdr.de>; Sun,  8 Dec 2024 16:23:51 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B5DB1281365
-	for <lists+linux-input@lfdr.de>; Sun,  8 Dec 2024 12:02:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 959CD164E0E
+	for <lists+linux-input@lfdr.de>; Sun,  8 Dec 2024 15:23:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84534145B0B;
-	Sun,  8 Dec 2024 12:02:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65D2C15350B;
+	Sun,  8 Dec 2024 15:23:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Pm154T5N"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y+Oj7OV/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A161E515;
-	Sun,  8 Dec 2024 12:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6136F305;
+	Sun,  8 Dec 2024 15:23:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733659325; cv=none; b=jow8VCZwoPXzze+8OjPBMOqFwYWGwd/JEBKkTHcBlzz3L/bWGxjlETwpCIVw8/yTdv43rOO4ccn1RR8cnD/Zc/EszMwFSYQDX1SylEkxmHWpjuBOe49U0CZ1SiVBSCUqym3w0BDnSWGqCKPUf59ErBSQ4hA9QYUwv2w1FKP/Hkc=
+	t=1733671424; cv=none; b=Slgwby7NX+ymvCf4jtwq/7Eo5yiYI2nCgpex2hvrqdXJmHzeNxJbfdiF0UgQNTiDOZmbHP9Ku88wUCweEFNcXYIS7FHGlrW2U1/iorn4mIJMCIeRLHMAxytivpe5HFQVuNHMoTajhGVzfVA3VNypXTMx66Y21zJPWj+OXG80QjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733659325; c=relaxed/simple;
-	bh=DfE0Lq82U3YoOJS14Z42A57RH5/Ctp8ywYnwx8g1JgE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Q5aDdHfMKWVcm0Ib3WSjAUxxH6GSZLIwtNiltstnEC9olqGdPQBms+zxT6MoiCUynQzLV8yTM/eknOwfCpQoIVhgumj/AEqP2C8Q8Ab96SfCgzBQq5w3Jh2UjQR2IyaVtmlP4ofbGgI4tzZ3TZ7QyBm/+akJSlFTWoDx2tbZ4lY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Pm154T5N; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1733659313;
-	bh=DfE0Lq82U3YoOJS14Z42A57RH5/Ctp8ywYnwx8g1JgE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Pm154T5NLRc01cJCJienk3sw7NhczBNkDJM9U5eJhlgSKHG22QABDj/o8U96edAYP
-	 tzQSMqgnOFRjCJqYcLEN7esfDFnA4Yb/vkqPz7RnYtBQKGFR2hBKyrgajTW/iyrG/Z
-	 FklILiuzfyYe5S+f+Hn27YSkrViZCbNidsNj1L+E=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 08 Dec 2024 13:01:52 +0100
-Subject: [PATCH 2/2] HID: uclogic: fix test for CONFIG_HID_KUNIT_TEST=m
+	s=arc-20240116; t=1733671424; c=relaxed/simple;
+	bh=qj0AQF8sdxK8eDd/wJ+QJyDy1IylslyTN4Yf/nFBbHQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Es7FO5l0OouBXsNNsasZ4YcMWCcbsds70quIOM0oire+kL/mH+nz1O3V4YeIm6mcfYWkOwiAUe5sDBZUdHnSS7B9bTwVBV1l7+uZfffKzh2usO+72dpejFoDpwnNHCpJTQoXQNtQz8Q6QR/XWHt7rS6UsJYFuVv67D9ljWCeMts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y+Oj7OV/; arc=none smtp.client-ip=209.85.166.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-84197c469cfso110806139f.3;
+        Sun, 08 Dec 2024 07:23:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733671421; x=1734276221; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wuaRJd/s2p0BBgmJcCTKuS2Shw0j2gcJR2sZ9AKudDA=;
+        b=Y+Oj7OV/gDSU5YY4zvA1PlMNrqgJHCBiCcp4ChA1BS3VTWk5KbK0ytzOwCuUGnvb7y
+         80F7Rp9SMO7Cmj6uPNHdaxH+9nii5ZgB3ehY9RJATN+5k+mv1kIPC36BQWQl93vMLJoC
+         AGhesGmlGjlyX09qdAbbpshFGHinVpv607VVLajPMhTbru1f0enkf5vxK4ii7Wk4zpyH
+         aCF05vctMFChnikS4BHRjKb4Q6gbNRETDn9xTESVfIdxT9zjFAf1pvK4VpnDkDPeAVFh
+         pqle/OgEO6TLFlExnX1x3iDe3aUG1h7KgspPVXs/NyJt21Skl02gFrTgMHzuHo66hYpX
+         N5+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733671421; x=1734276221;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wuaRJd/s2p0BBgmJcCTKuS2Shw0j2gcJR2sZ9AKudDA=;
+        b=LzoKitvPyhMFumnwNRE1042k8cLEZUjV834TBugqjUl+J+y3vnhmtXg0muDUQxoXPE
+         fCP1hb8ZryegS1pf0DBBKqqgTgC2DLjpzmWHC54Shrw81wopYJiIKr5nuQU1nbdkdzuk
+         v8i7cerrS0DGHy1wTcJtsCaJS2R2EiKShjlU7VPiH6rOwrs4n4ChxEPY3zP4DsEn5kLc
+         d4Q9oA20O7a4wMtaboXV8bgHITjzowdSLLmRpwx5mW5h0JPKML7s9O8ZNBLjMgfHYP3M
+         drnvKCvkyC1yLY9PHl+uilhHsDo+FJo1V9lzDw+Z4X6nfdMH2bDkWdZDii6FHYdORsTO
+         d9PQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUV1/RG2pY/SH8n/k9JNYSNy7r7L4zNBr2+KFKEbfX72XV/6N++8kYz3moaLVEDOcAdF2XYtbGoQCgB@vger.kernel.org, AJvYcCW1z/TwlR9nXb5Faz4wiGhGSXCvRAw14ZUoMCfnYLYOdPO5fR33VYteTTkS9amgTydLNgxcw06AmUzmlb/p@vger.kernel.org, AJvYcCWPLQi3vftFmGJ8YIXLfXA5frq88TwWsygN3oSiz5eZjGduhhh+rVSrq/dc1+yC8t+UnqNdtl6WWkiFI2k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGhV8QB3bUZ7OUZXC/SXcrCcTy2xzAIWvKHqqcAtaoQdd1HmyE
+	AyhDRdqYWMcm7BRvzWYjgepQ8cbj5VcsKVXHCHTQS/ETOdg2kb8w
+X-Gm-Gg: ASbGncvxvBNlzi7ph4UkIYKdBs8k8hNeLFYAAfW7jQOEkjlUOe4sA9O6qqGjhHE1/Bl
+	4rvhgU9X31/WEsdXlkwmnEhQwbMv9u/A3QgjyJnyHmsmOuheRUAqGLNzC1Tr5TNd58CkZa4MiBo
+	6lBWW+Di6F9x+57z1bKe7azJQwx6s+yd7NqD+SK35/i5y3vQrHFo5qfkh/smrkaR9w5BY2GmBK8
+	buXq8RYCLjbRnnNIttz2upEBuc2yPGTkCguBzfH
+X-Google-Smtp-Source: AGHT+IF7EHSPVHzRrQeAE3D5a/Jgfz9fqUlcby4eg7FtaA39XYsC2c1NCztqiUGV6TsLAh/uZaadLA==
+X-Received: by 2002:a05:6e02:1a66:b0:3a8:1195:f216 with SMTP id e9e14a558f8ab-3a811dd0cfbmr91528765ab.10.1733671420748;
+        Sun, 08 Dec 2024 07:23:40 -0800 (PST)
+Received: from [192.168.1.109] ([2a02:6ea0:c603:3558::35])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a814fa40d6sm16846805ab.57.2024.12.08.07.23.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Dec 2024 07:23:40 -0800 (PST)
+From: Joel Selvaraj <joelselvaraj.oss@gmail.com>
+X-Google-Original-From: Joel Selvaraj <foss@joelselvaraj.com>
+Subject: [PATCH v2 0/4] Add Xiaomi Poco F1 touchscreen support
+Date: Sun, 08 Dec 2024 09:23:26 -0600
+Message-Id: <20241208-pocof1-touchscreen-support-v2-0-5a6e7739ef45@joelselvaraj.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -48,60 +81,71 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20241208-hid-ifdef-kunit-v1-2-cbea6077a233@weissschuh.net>
-References: <20241208-hid-ifdef-kunit-v1-0-cbea6077a233@weissschuh.net>
-In-Reply-To: <20241208-hid-ifdef-kunit-v1-0-cbea6077a233@weissschuh.net>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
- =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733659312; l=1573;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=DfE0Lq82U3YoOJS14Z42A57RH5/Ctp8ywYnwx8g1JgE=;
- b=EpWz2U9rW134ujLblN/T/YQYzXosoDKU6JU8Uk1jeZB26/BZsOB59A1g7FqW9OHI342/BouTb
- 3XUFsJ7ejPVB7q4Z+7OeATt/IxYGYO2Kl5ULAvZuQoPjpDUgZVS48t7
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAO65VWcC/43NQQ6CMBCF4auYrq3pjCLElfcwLMowSAkyTQuNh
+ nB3Kydw+b3F/1YVOTiO6nZYVeDkopMpA48HRb2dnqxdm63Q4AWMKbUXkg70LAv1kQLzpOPivYR
+ ZU1mghStSS6hywAfu3HuPP+rs3sVZwmf/SvBb/8om0Ea3zRkahAoqKu6D8Bh5TDbY4UTyUvW2b
+ V+4G3UwywAAAA==
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+ Joel Selvaraj <foss@joelselvaraj.com>, 
+ Joel Selvaraj <joelselvaraj.oss@gmail.com>, Joel Selvaraj <jo@jsfamily.in>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733671419; l=2143;
+ i=foss@joelselvaraj.com; s=20241007; h=from:subject:message-id;
+ bh=qj0AQF8sdxK8eDd/wJ+QJyDy1IylslyTN4Yf/nFBbHQ=;
+ b=o8LqmlHF64x2wYkurNh5TIrk2ZeDR82bJuiZ6o9TYQCeO8OnlcNQqg/qGHgkMMIF1ZKpQ5ADr
+ XA23NmyUmQbAJAbIF0wknwdjg4MZ8EJsBK8Djt4nUTvdQowv0oUqPem
+X-Developer-Key: i=foss@joelselvaraj.com; a=ed25519;
+ pk=pqYvzJftxCPloaoUbVsfQE7Gwv8bynZPy8mjYohwMCc=
 
-If CONFIG_HID_KUNIT_TEST is set to "m", the #ifdef test does not work.
-Switch to IS_ENABLED() which works for both "m" and "y".
+In the first patch, I have added the "panel" property to edt-ft5x06 touchscreen
+binding documentation. In Xiaomi Poco F1 (qcom/sdm845-xiaomi-beryllium-ebbg.dts),
+the FocalTech FT8719 touchscreen is integrally connected to the display panel
+(EBBG FT8719) and thus should be power sequenced together with display panel for
+proper functioning. Add the panel property which optionally allows to link panel
+to the touchscreen.
 
-Fixes: a251d6576d2a ("HID: uclogic: Handle wireless device reconnection")
-Fixes: a64cbf3ce631 ("HID: uclogic: Refactor UGEE v2 string descriptor parsing")
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+In the second patch, I have enabled the  qupv3_id_1 and gpi_dma1 as they
+are required for configuring touchscreen. Also added the pinctrl configurations.
+These are common for both the Poco F1 Tianma and EBBG panel variant.
+
+In the subsequent patches, I have enabled support for the Novatek NT36672a
+touchscreen and FocalTech FT8719 touchscreen that are used in the Poco F1
+Tianma and EBBG panel variant respectively.
+
+Signed-off-by: Joel Selvaraj <foss@joelselvaraj.com>
 ---
- drivers/hid/hid-uclogic-core.c   | 2 +-
- drivers/hid/hid-uclogic-params.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Changes in v2:
+- Fixed the missing "panel" property dt-binding error reported by Rob Herring's bot.
+- Change the "input-enable" property to "output-disable" in qcom/sdm845-xiaomi-beryllium-common.dtsi
+  (Based on a patch suggested by Konrad Dybcio).
+- Link to v1: https://lore.kernel.org/r/20241007-pocof1-touchscreen-support-v1-0-db31b21818c5@joelselvaraj.com
 
-diff --git a/drivers/hid/hid-uclogic-core.c b/drivers/hid/hid-uclogic-core.c
-index d8008933c052f5c9b5df9dadc5bce353f3c5b948..a824df67add9eb1d3dd7776fefd8f6f079bf509b 100644
---- a/drivers/hid/hid-uclogic-core.c
-+++ b/drivers/hid/hid-uclogic-core.c
-@@ -571,6 +571,6 @@ MODULE_DESCRIPTION("HID driver for UC-Logic devices not fully compliant with HID
- MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("HID driver for UC-Logic devices not fully compliant with HID standard");
- 
--#ifdef CONFIG_HID_KUNIT_TEST
-+#if IS_ENABLED(CONFIG_HID_KUNIT_TEST)
- #include "hid-uclogic-core-test.c"
- #endif
-diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
-index ef26c7defcf61ced86b07100002e572780f23305..b5d4bb77c83c7e1ab3051d3b619993bc1b08204d 100644
---- a/drivers/hid/hid-uclogic-params.c
-+++ b/drivers/hid/hid-uclogic-params.c
-@@ -1860,6 +1860,6 @@ int uclogic_params_init(struct uclogic_params *params,
- 	return rc;
- }
- 
--#ifdef CONFIG_HID_KUNIT_TEST
-+#if IS_ENABLED(CONFIG_HID_KUNIT_TEST)
- #include "hid-uclogic-params-test.c"
- #endif
+---
+Joel Selvaraj (4):
+      dt-bindings: input: touchscreen: edt-ft5x06: add panel property
+      arm64: dts: qcom: sdm845-xiaomi-beryllium-common: add touchscreen related nodes
+      arm64: dts: qcom: sdm845-xiaomi-beryllium-tianma: introduce touchscreen support
+      arm64: dts: qcom: sdm845-xiaomi-beryllium-ebbg: introduce touchscreen support
 
+ .../bindings/input/touchscreen/edt-ft5x06.yaml     |  1 +
+ .../dts/qcom/sdm845-xiaomi-beryllium-common.dtsi   | 39 ++++++++++++++++++++++
+ .../boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts | 23 +++++++++++++
+ .../dts/qcom/sdm845-xiaomi-beryllium-tianma.dts    | 23 +++++++++++++
+ 4 files changed, 86 insertions(+)
+---
+base-commit: f7d003800fcaa3f3619468992bd39963861ea793
+change-id: 20241007-pocof1-touchscreen-support-c752a162cdc2
+
+Best regards,
 -- 
-2.47.1
+Joel Selvaraj <foss@joelselvaraj.com>
 
 
