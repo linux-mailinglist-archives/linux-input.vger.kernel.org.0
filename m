@@ -1,155 +1,140 @@
-Return-Path: <linux-input+bounces-8437-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8438-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E75A9E85E2
-	for <lists+linux-input@lfdr.de>; Sun,  8 Dec 2024 16:24:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E6F9E8699
+	for <lists+linux-input@lfdr.de>; Sun,  8 Dec 2024 17:39:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBF851885083
-	for <lists+linux-input@lfdr.de>; Sun,  8 Dec 2024 15:24:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 59C571884FF9
+	for <lists+linux-input@lfdr.de>; Sun,  8 Dec 2024 16:39:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 089EF156886;
-	Sun,  8 Dec 2024 15:23:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC737170A1A;
+	Sun,  8 Dec 2024 16:39:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BXZzSVKO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZHBt1DPW"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551DC1552FA;
-	Sun,  8 Dec 2024 15:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF23A170A15;
+	Sun,  8 Dec 2024 16:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733671426; cv=none; b=LEhBqctzptaKDGPJ5wyKCAtmCmb8ctVEtgALimcV3LSUJE0wrYXQ7Y6unjVQ6ZBzVw9/A+0cSTs0HFwHxLo+0HYME2r9IcnkjIpDN2JPPiSmE+S9owbraspAf72KjmkHjlp1ugjukOzBCjDj6jZOr4bXbAFlZhWphySm7dfoG0k=
+	t=1733675940; cv=none; b=lgMhdo1n/hPYt0eZ8Apf4TQrQqhtq8TruLeEbjiVEJvueV8hdx35IRDWMYEEv3it3VOhmRVInaShImOAZWPC+sBOGe9jXoc1nmmw/OHk6W1dLZLwjpwJmsr9A0djAfaD+tcZ24lHfJuEzHFMtkKSeJTQbnkzRPU3117Ka5V8RXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733671426; c=relaxed/simple;
-	bh=l7xRXUyEbDsdN6IdmsbR3YkjSUxnY4sXvYptP3ftvXw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=K8M93QROPdJdK3XXw57g0X0I9CLTXKbKB9dO0W6vAqXrkmmNkmmSX5rNek6x6Bf/OKudABblO1mflcSAFuyCz6HSk8KDQ+kEvBcWEKCHs6KhWhbamHpAKPwr+ZgRTa2BmekqJcZKNgl/LD6m4/ev1JDVMClNrMrIKsZTCLkXIew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BXZzSVKO; arc=none smtp.client-ip=209.85.166.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-841d8dec20aso109271839f.3;
-        Sun, 08 Dec 2024 07:23:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733671424; x=1734276224; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MeViGyIUjK73sGY5mddjcRzCRf6wXH+e3Spekfc6Nfs=;
-        b=BXZzSVKO/2SOoymnN0SKkNoCOdcm3AFXf1k/r8ryop9kWWbMNhRb1uRYdrnoo2Axpd
-         3MwvOefKWyINi50TPbhMiNPEmTd+CmxNgUInY7PRds6r9pa8kMVX7sZyjYljufO68fnU
-         l2K7FXeNxDbd3S2xsWdMLEstbHw+hDNYNoENBGi1sE8GUGDZh7XtusIO7wikA6SfrSrf
-         8VByXIhd3WyQUDCK9aaQOLUzSA2q5RwZ3H0+5wAR289DtoDXyha6a2NClsWYPV77e3uU
-         xrcL1cihPQ9TgcDvCeZV/vI2zaDPLcio4WCbXnIFoGuauP+9FrEShvjiZnRKu2Hpil4s
-         95BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733671424; x=1734276224;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MeViGyIUjK73sGY5mddjcRzCRf6wXH+e3Spekfc6Nfs=;
-        b=aiMFRol3h5lZai5kuyG+WdbHRug3yiXWbpUNuEcoeagMbBDhcV6pxpHgirusiIWdmT
-         Ee4bW73Rpc3Wkm8OdPu9RmzNSIMd4L3scMBVr28HbHTqPSmyGa8I1j+Xv3mPcEupINZS
-         91fExhdrtz1XaHnWPPi0938M92Vmy2FpuUGbkGaEf3BVO/P2uqIw9hSB7E7O37/mHKkt
-         4ZziV15j9Ktu64JhAzkio1iVFopfqNihsMncnsS7naeDMuMnVCruAg1yfeNuroNfF9QG
-         S/pL7e2H6D3q2Eba3rhJgWX6hU4uPvaU/1iXLbd4OAjC4qQ9thYH/tuBU7rK6Fkr4F4I
-         FdVw==
-X-Forwarded-Encrypted: i=1; AJvYcCUcC5g7ZjZP/a1WMydSr3pF/ZCS4TR47U0Qo6U1dLJayuVJmNRvxnX1JHo14sGRCund/u2jUkmJqVkcVvfm@vger.kernel.org, AJvYcCW54y6MiP4jGVqI21IRY+eYda3WxPryNBU64tsW8ZyPC9AWkuOMV+GfZcZP4ZrpzIYPf3XXA9K6Memz+ZE=@vger.kernel.org, AJvYcCWpRJDZFwQFLyYN0Q60IY2KJQD/eOZd8E+CRJnAvCISZsBx0e4p84nQ6hTfXdpT3uEVh1KtGfS3R0HZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YxspJTe6S3eW2mMqgqQrZ42KZT8dhpVBu2wjn7II0KZ0P5gpdMt
-	Se2ra+I4FtB42D/8SLhfs6BS+pYBRTc75VP4ew2ZyhptE/OVdl/d
-X-Gm-Gg: ASbGncs4ZnqeiYj68v6VT+3pTIg5RoEj4P8Y0ypEjTWixSu0lxKFhni0zpCYdw0q0d6
-	9+sTqK+3PQgCiCgx5TAOliar/Gdamfen3HcicEJ+0UarVh/KMpoSza5+ARScwDKQNN2+zWWrYrH
-	0p+/qErnuX4r41mTdOmNZUEajMJZowygGTuOsLtAqnMjMCaIOT7GItW2F3RqRP0vwV1taqmwfcI
-	5UH7Z0+WR8yj99JV1c27RK4roHZtUdDypatABOM
-X-Google-Smtp-Source: AGHT+IGdj7s0fZzu0zpwyTVptfjyqi79gKbWrdVfA4prZH9hVU3A0jrN0xfjCiteQ73LifT7k/lQbA==
-X-Received: by 2002:a05:6e02:1e0c:b0:3a7:a69c:9692 with SMTP id e9e14a558f8ab-3a811e2a4eemr82547555ab.21.1733671424511;
-        Sun, 08 Dec 2024 07:23:44 -0800 (PST)
-Received: from [192.168.1.109] ([2a02:6ea0:c603:3558::35])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a814fa40d6sm16846805ab.57.2024.12.08.07.23.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Dec 2024 07:23:44 -0800 (PST)
-From: Joel Selvaraj <joelselvaraj.oss@gmail.com>
-X-Google-Original-From: Joel Selvaraj <foss@joelselvaraj.com>
-Date: Sun, 08 Dec 2024 09:23:30 -0600
-Subject: [PATCH v2 4/4] arm64: dts: qcom: sdm845-xiaomi-beryllium-ebbg:
- introduce touchscreen support
+	s=arc-20240116; t=1733675940; c=relaxed/simple;
+	bh=sVgC6fFANm4YvTxqIJfUkENZ4pfQs2PLRusgHdi9Koo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SYiMnsVsmyc6E7CIBh4wipQzg0EidZDGkeyiUyyYRcy8zyfGR6Udm1FSVYlasRdQjEVjt0YNSgBNws05BfEqQXX34v2JZxGP3eiyBZ2pLGitW/lfxgvbBZ8ImdJD+d26LEiTzH0FOSWGZw3c632jqXULsXf8MXzwKaYFFTHfpxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZHBt1DPW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A950C4CEE0;
+	Sun,  8 Dec 2024 16:38:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733675940;
+	bh=sVgC6fFANm4YvTxqIJfUkENZ4pfQs2PLRusgHdi9Koo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ZHBt1DPWpkWGatAOLmY6NJYYYQhJqKrVJK3NJW88HyFCuQWDylAwDvahpMvDoV0iv
+	 bm11ZdRK5hjKApiwAOOPmc1UzRBGE5x4fr6vRxYNbCV4KUWVrvelwlIDkWGzVosT5B
+	 uU0OX8mLfCo8IFD7MGnBs0bUFi5tRoC9OpfkNxDeZ9eQbX+WmUCtzFjOL9gQCaI+Ss
+	 NA09WQwiCqpsuiR8Z4h05BW7C522XZiPkfyxmRSDEVKCVNU92ZoCobGjbk0cwaXv0X
+	 rFiWMttEdPwnMBRFnblQZQfRC/rM7CRWooGOhyGkHo8U2T/iX/rATatX70tRgpvRPF
+	 AwN/YrE1/HPcA==
+Date: Sun, 8 Dec 2024 16:38:51 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Srinivas Pandruvada
+ <srinivas.pandruvada@linux.intel.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iio: hid-sensor-prox: Merge information from different
+ channels
+Message-ID: <20241208163851.41c47c3f@jic23-huawei>
+In-Reply-To: <20241205-fix-hid-sensor-v1-1-9b789f39c220@chromium.org>
+References: <20241205-fix-hid-sensor-v1-1-9b789f39c220@chromium.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241208-pocof1-touchscreen-support-v2-4-5a6e7739ef45@joelselvaraj.com>
-References: <20241208-pocof1-touchscreen-support-v2-0-5a6e7739ef45@joelselvaraj.com>
-In-Reply-To: <20241208-pocof1-touchscreen-support-v2-0-5a6e7739ef45@joelselvaraj.com>
-To: Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
- Joel Selvaraj <foss@joelselvaraj.com>, 
- Joel Selvaraj <joelselvaraj.oss@gmail.com>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733671419; l=1288;
- i=foss@joelselvaraj.com; s=20241007; h=from:subject:message-id;
- bh=6J8U1Z0ISgWZeNHHwG5GD8wzmGFCDFOJTCpfO/uYYlc=;
- b=21suvVmg5Fivexqi0n1maBWSR3R0hLmLEwv3phoyYyBuE8bNkypXBMw1mz728Oazi1dTh+KkB
- MGmc8gB0RCtDc96ZzrjJF3a4cVlIfn6eI+lm8AVg5eZDJLZsf6WlS8L
-X-Developer-Key: i=foss@joelselvaraj.com; a=ed25519;
- pk=pqYvzJftxCPloaoUbVsfQE7Gwv8bynZPy8mjYohwMCc=
 
-From: Joel Selvaraj <joelselvaraj.oss@gmail.com>
+On Thu, 05 Dec 2024 12:59:20 +0000
+Ricardo Ribalda <ribalda@chromium.org> wrote:
 
-Enable the Focaltech FT8719 touchscreen controller used in the Poco F1
-(EBBG) panel variant.
+> The device only provides a single scale, frequency and hysteresis for
+> all the channels. Fix the info_mask_* to match the reality of the
+> device.
+> 
+> Without this patch:
+> in_attention_scale
+> in_attention_hysteresis
+> in_attention_input
+> in_attention_offset
+> in_attention_sampling_frequency
+> in_proximity_scale
+> in_proximity_sampling_frequency
+> in_proximity_offset
+> in_proximity0_raw
+> in_proximity_hysteresis
+> 
+> With this patch:
+> hysteresis
+> scale
+> sampling_frequency
+> in_attention_input
+> in_attention_offset
+> in_proximity0_offset
+> in_proximity0_raw
+> 
+> Fixes: 596ef5cf654b ("iio: hid-sensor-prox: Add support for more channels")
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Signed-off-by: Joel Selvaraj <foss@joelselvaraj.com>
----
- .../boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts | 23 ++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+whilst perhaps not ideal use of the ABI, what is there today is not wrong
+as such.  If the ABI above was all introduce in the recent patch I might
+be fine adjusting it as you suggestion. However it wasn't, in_proximity_scale
+has been there a long time so this would be an ABI change.
+Those are generally only ok if there is a bug.
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts b/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts
-index 76931ebad065e..2d6f0e382a6cb 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts
-@@ -13,3 +13,26 @@ &display_panel {
- 	compatible = "ebbg,ft8719";
- 	status = "okay";
- };
-+
-+&i2c14 {
-+	status = "okay";
-+
-+	touchscreen@38 {
-+		compatible = "focaltech,ft8719";
-+		reg = <0x38>;
-+
-+		interrupts-extended = <&tlmm 31 IRQ_TYPE_EDGE_RISING>;
-+		reset-gpios = <&tlmm 32 GPIO_ACTIVE_LOW>;
-+		panel = <&display_panel>;
-+
-+		iovcc-supply = <&vreg_l14a_1p8>;
-+		vcc-supply = <&lab>;
-+
-+		pinctrl-0 = <&ts_int_default &ts_reset_default>;
-+		pinctrl-1 = <&ts_int_sleep &ts_reset_sleep>;
-+		pinctrl-names = "default", "sleep";
-+
-+		touchscreen-size-x = <1080>;
-+		touchscreen-size-y = <2246>;
-+	};
-+};
+Drivers are always allowed to provide finer granularity than necessary
+so in this case I don't see this as a bug.
 
--- 
-2.47.1
+Jonathan
+
+
+> ---
+>  drivers/iio/light/hid-sensor-prox.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/iio/light/hid-sensor-prox.c b/drivers/iio/light/hid-sensor-prox.c
+> index e8e7b2999b4c..f21d2da4c7f9 100644
+> --- a/drivers/iio/light/hid-sensor-prox.c
+> +++ b/drivers/iio/light/hid-sensor-prox.c
+> @@ -49,9 +49,11 @@ static const u32 prox_sensitivity_addresses[] = {
+>  #define PROX_CHANNEL(_is_proximity, _channel) \
+>  	{\
+>  		.type = _is_proximity ? IIO_PROXIMITY : IIO_ATTENTION,\
+> -		.info_mask_separate = _is_proximity ? BIT(IIO_CHAN_INFO_RAW) :\
+> -				      BIT(IIO_CHAN_INFO_PROCESSED),\
+> -		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_OFFSET) |\
+> +		.info_mask_separate = \
+> +		(_is_proximity ? BIT(IIO_CHAN_INFO_RAW) :\
+> +				BIT(IIO_CHAN_INFO_PROCESSED)) |\
+> +		BIT(IIO_CHAN_INFO_OFFSET),\
+> +		.info_mask_shared_by_all = \
+>  		BIT(IIO_CHAN_INFO_SCALE) |\
+>  		BIT(IIO_CHAN_INFO_SAMP_FREQ) |\
+>  		BIT(IIO_CHAN_INFO_HYSTERESIS),\
+> 
+> ---
+> base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
+> change-id: 20241203-fix-hid-sensor-62e1979ecd03
+> 
+> Best regards,
 
 
