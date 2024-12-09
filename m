@@ -1,83 +1,79 @@
-Return-Path: <linux-input+bounces-8440-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8441-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC9C9E89C3
-	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2024 04:40:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDBCB9E8AED
+	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2024 06:09:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 66C851883B2A
-	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2024 03:40:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D39DB164419
+	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2024 05:09:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4425156F39;
-	Mon,  9 Dec 2024 03:40:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1FBF156872;
+	Mon,  9 Dec 2024 05:09:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fvmN56GG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AVJZ4SE8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B010D156C5E;
-	Mon,  9 Dec 2024 03:40:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C157BB1D;
+	Mon,  9 Dec 2024 05:09:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733715606; cv=none; b=anluXVNYyPqv9bnv22AnLjOkYq3cng04StNn4Khr9i/23DdGytaEg1HaISivDK7Oe98+arE+xjIhOg71V1UNueANPAhvAsRyLjuHvkeTJlsNP1s1/6E+nD4vvfOQ2UQvaHKMPysWAuDr3rCXI0GtWUhi+BQJceLPH9+TbQfHeIU=
+	t=1733720948; cv=none; b=HwHWwskqSU7jFXlpmykBUOBVx8W9Y5OJst6fxdNUB4IV8ErpspgB/ImxqtJxike3WKqya8/Q4Xz7wSetZ74ExZegNNC/gV69L6PbyywaVGMJvVvjt0uo8xecaamNEfD5+ikYg9pMetXcbwk3vS8tmGS4Tr+fDTQ80JCSH6Cvj4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733715606; c=relaxed/simple;
-	bh=O5wj9X04xILpIYZfDjYm3tMbeAznkw3hHoShD/CJqSw=;
+	s=arc-20240116; t=1733720948; c=relaxed/simple;
+	bh=jYILTV6MefuoCzDE2iYdlbJRzhBEhk1oamLG9PPaW0E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tiWI73YmlFWIFejzLcP4GGAWZ8z7s6C21z8HeqPRuKl85DCYyUSI95g7SWIHxC7zSMcrvUqaaTLqhKToR4bWT+WZIJXjXC0PVunRUQLYZqevvzFFVmgZ2EqOLuyIg2Y3D9Du6j+DZhxAeZs4EQ85JPsjyJZHRxtkNnX63DmN6yI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fvmN56GG; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=HaPGDKi9zHMAFNE0l8MYXuji0FuVoyTX7mKFYiyCYc9LMea3WD/EMSuKpWqYh7Q8wxUb6wtBIN30icanI23hb7SXtPAcnoItbXa2hUuRgz2FO9YSFPy4fmjshBSYWBKa0aOYLL6HQaWOULZcYffFW/an3sWCQu8t9VufOTjIeK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AVJZ4SE8; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733715605; x=1765251605;
+  t=1733720948; x=1765256948;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=O5wj9X04xILpIYZfDjYm3tMbeAznkw3hHoShD/CJqSw=;
-  b=fvmN56GGE9DsH2+eXw0xgIStj5AUPLnLUDUij0k+8jlEbH3wf/rqTaX8
-   bdT1olMlp7NjfEBNiFBqGlYkOgp7YCdfRrj8G48mMBuR803Wv0RfXGk/8
-   MIJn2ZGos5Vt91M17j83bGkuL/+EzDK23mVYG1f5Bbx9th15/F16RT5RP
-   268J4U4G2qb0JdLZxdzajsYTsMQzQgEuts1YyS94b1CAtk3F5Q8e/YnpC
-   HkzpXvR1vpreViQQAn4BRZkHt60JeVN8FWcZInPogWtj/ftkc1g2U/ZOQ
-   KEUUzjoA8UrsPzb3JEuvgMNv6iV6WWHwBNnBzh/navunR4V0Ry78XVcGD
-   A==;
-X-CSE-ConnectionGUID: U26HIdBsTu6Vg/JRxwxB5g==
-X-CSE-MsgGUID: dq29DvG+Swe/3VP90nFYfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="45010040"
+  bh=jYILTV6MefuoCzDE2iYdlbJRzhBEhk1oamLG9PPaW0E=;
+  b=AVJZ4SE8jWEt+gyIKVZgGA/Dius7IqrVjoaRrZVQ3dns06hw2Bp/UU1k
+   X16eFLQFTyjK96pHI9gwQwH4IHbU2ZIuuOhyplUF8bHTrTgCT/F4ATpB2
+   3RGmjIGJlli2Uj3G6AuF93imbX6MJ8cccdEZkpc1eoVBSnPj7ma9U3x0i
+   y1r0m6uGR9DiLmRyvopHFz2Wd22PV8A9U+y+09+TQml7OOD6fJQmzbjvQ
+   /eP5HiR9NcNlyPM5M4QbDPLlia5hOVkKnNcj1ScFGJJa0C681bRYUnsVi
+   aBM8cJqzBndHLDjfLF4jRhRE2ChZFjtSHI/2rh1sKQ+FRvzeEaCtBGC2Y
+   w==;
+X-CSE-ConnectionGUID: 2dq5YxH3SruY2hTFoQNEUw==
+X-CSE-MsgGUID: KyAP39W7Tniz1gQ2NICu9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34140462"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="45010040"
+   d="scan'208";a="34140462"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 19:40:05 -0800
-X-CSE-ConnectionGUID: 9jOl30N2SmCT5dHOtGBebw==
-X-CSE-MsgGUID: y6vwFSgzSAiDdBQGSj52ew==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 21:08:47 -0800
+X-CSE-ConnectionGUID: lUrmVs9+S32ILcjk2EmyFg==
+X-CSE-MsgGUID: pVjykfr5TqWACXgcvzUnQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="99393151"
+   d="scan'208";a="99413803"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Dec 2024 19:40:01 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 08 Dec 2024 21:08:44 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKUcp-0003k5-02;
-	Mon, 09 Dec 2024 03:39:59 +0000
-Date: Mon, 9 Dec 2024 11:39:04 +0800
+	id 1tKW0f-0003xt-2P;
+	Mon, 09 Dec 2024 05:08:41 +0000
+Date: Mon, 9 Dec 2024 13:08:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Roy Im <roy.im.opensource@diasemi.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2] dt-bindings: input: convert dlg,da7280.txt to
- dt-schema
-Message-ID: <202412070625.zZpw80SM-lkp@intel.com>
-References: <20241206-topic-misc-da7280-convert-v2-1-1c3539f75604@linaro.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	=?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Subject: Re: [PATCH 1/2] HID: input: fix test for CONFIG_HID_KUNIT_TEST=m
+Message-ID: <202412091018.qz83ukPy-lkp@intel.com>
+References: <20241208-hid-ifdef-kunit-v1-1-cbea6077a233@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -86,36 +82,70 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241206-topic-misc-da7280-convert-v2-1-1c3539f75604@linaro.org>
+In-Reply-To: <20241208-hid-ifdef-kunit-v1-1-cbea6077a233@weissschuh.net>
 
-Hi Neil,
+Hi Thomas,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on c245a7a79602ccbee780c004c1e4abcda66aec32]
+[auto build test ERROR on 7503345ac5f5e82fd9a36d6e6b447c016376403a]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/dt-bindings-input-convert-dlg-da7280-txt-to-dt-schema/20241206-180220
-base:   c245a7a79602ccbee780c004c1e4abcda66aec32
-patch link:    https://lore.kernel.org/r/20241206-topic-misc-da7280-convert-v2-1-1c3539f75604%40linaro.org
-patch subject: [PATCH v2] dt-bindings: input: convert dlg,da7280.txt to dt-schema
-reproduce: (https://download.01.org/0day-ci/archive/20241207/202412070625.zZpw80SM-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/HID-input-fix-test-for-CONFIG_HID_KUNIT_TEST-m/20241208-200350
+base:   7503345ac5f5e82fd9a36d6e6b447c016376403a
+patch link:    https://lore.kernel.org/r/20241208-hid-ifdef-kunit-v1-1-cbea6077a233%40weissschuh.net
+patch subject: [PATCH 1/2] HID: input: fix test for CONFIG_HID_KUNIT_TEST=m
+config: i386-randconfig-012-20241209 (https://download.01.org/0day-ci/archive/20241209/202412091018.qz83ukPy-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412091018.qz83ukPy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412070625.zZpw80SM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412091018.qz83ukPy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: Documentation/hwmon/isl28022.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/isl,isl28022.yaml
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
-   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/input/dlg,da72??.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
-   Using alabaster theme
+>> ld.lld: error: undefined symbol: kunit_kmalloc_array
+   >>> referenced by test.h:447 (include/kunit/test.h:447)
+   >>>               drivers/hid/hid-input.o:(hid_test_input_set_battery_charge_status) in archive vmlinux.a
+   >>> referenced by test.h:447 (include/kunit/test.h:447)
+   >>>               drivers/hid/hid-input.o:(hid_test_input_get_battery_property) in archive vmlinux.a
+   >>> referenced by test.h:447 (include/kunit/test.h:447)
+   >>>               drivers/hid/hid-input.o:(hid_test_input_get_battery_property) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: kunit_binary_assert_format
+   >>> referenced by hid-input-test.c:20 (drivers/hid/hid-input-test.c:20)
+   >>>               drivers/hid/hid-input.o:(hid_test_input_set_battery_charge_status) in archive vmlinux.a
+   >>> referenced by hid-input-test.c:24 (drivers/hid/hid-input-test.c:24)
+   >>>               drivers/hid/hid-input.o:(hid_test_input_set_battery_charge_status) in archive vmlinux.a
+   >>> referenced by hid-input-test.c:28 (drivers/hid/hid-input-test.c:28)
+   >>>               drivers/hid/hid-input.o:(hid_test_input_set_battery_charge_status) in archive vmlinux.a
+   >>> referenced 6 more times
+--
+>> ld.lld: error: undefined symbol: __kunit_do_failed_assertion
+   >>> referenced by hid-input-test.c:20 (drivers/hid/hid-input-test.c:20)
+   >>>               drivers/hid/hid-input.o:(hid_test_input_set_battery_charge_status) in archive vmlinux.a
+   >>> referenced by hid-input-test.c:24 (drivers/hid/hid-input-test.c:24)
+   >>>               drivers/hid/hid-input.o:(hid_test_input_set_battery_charge_status) in archive vmlinux.a
+   >>> referenced by hid-input-test.c:28 (drivers/hid/hid-input-test.c:28)
+   >>>               drivers/hid/hid-input.o:(hid_test_input_set_battery_charge_status) in archive vmlinux.a
+   >>> referenced 9 more times
+--
+>> ld.lld: error: undefined symbol: kunit_ptr_not_err_assert_format
+   >>> referenced by hid-input-test.c:16 (drivers/hid/hid-input-test.c:16)
+   >>>               drivers/hid/hid-input.o:(hid_test_input_set_battery_charge_status) in archive vmlinux.a
+   >>> referenced by hid-input-test.c:39 (drivers/hid/hid-input-test.c:39)
+   >>>               drivers/hid/hid-input.o:(hid_test_input_get_battery_property) in archive vmlinux.a
+   >>> referenced by hid-input-test.c:43 (drivers/hid/hid-input-test.c:43)
+   >>>               drivers/hid/hid-input.o:(hid_test_input_get_battery_property) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: __kunit_abort
+   >>> referenced by hid-input-test.c:16 (drivers/hid/hid-input-test.c:16)
+   >>>               drivers/hid/hid-input.o:(hid_test_input_set_battery_charge_status) in archive vmlinux.a
+   >>> referenced by hid-input-test.c:39 (drivers/hid/hid-input-test.c:39)
+   >>>               drivers/hid/hid-input.o:(hid_test_input_get_battery_property) in archive vmlinux.a
+   >>> referenced by hid-input-test.c:43 (drivers/hid/hid-input-test.c:43)
+   >>>               drivers/hid/hid-input.o:(hid_test_input_get_battery_property) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
