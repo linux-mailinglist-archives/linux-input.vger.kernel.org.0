@@ -1,63 +1,88 @@
-Return-Path: <linux-input+bounces-8467-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8468-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4E489E9CCA
-	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2024 18:16:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E859E9D85
+	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2024 18:52:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2389A165A87
-	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2024 17:16:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 88B6D18877CD
+	for <lists+linux-input@lfdr.de>; Mon,  9 Dec 2024 17:52:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A5971552E7;
-	Mon,  9 Dec 2024 17:16:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0339515854F;
+	Mon,  9 Dec 2024 17:52:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="BmteNgfG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eE7GpyZw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F60C14B077;
-	Mon,  9 Dec 2024 17:16:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701991534EC;
+	Mon,  9 Dec 2024 17:52:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733764585; cv=none; b=imBAxXGZftt509KynojesO0PWM3hVI9/09IHoSGsF15XshUbjAB/7+hpgb7OgKfA5m8kBTdRfBSXwf4JViW6Y8117ZrinrGTB7WQJwLYKdXtXy1qoyuz+xP3ns5R6oMRDmvY4t5gY95MbB6FwtmQPq0fI4MyD2nDCtW7zHuTJgg=
+	t=1733766736; cv=none; b=VT1bfX1CBGblgMJkMnfY+kJH60R6Zl1O+RGTevubzSNFFUnm56pgkYtSjf27cMavVC5eA1rxK1hUBEym4YpZ6OxSoBgyrfyYfmdj97ioV1HMZvu6yB+uef1p1uLvgP4iABTl+UZ2T6OLWMWIfdi5O/hoN5IavSl354yLmqrDPpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733764585; c=relaxed/simple;
-	bh=2YpxKy6Gwqsp4Tqzs7nDAYWThdPYRCmcyf4sN0mRBrU=;
+	s=arc-20240116; t=1733766736; c=relaxed/simple;
+	bh=Lc7CMi5T65fd+xzDNMdvkp4IAYlvO1VlGvQ6pgsERuE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p6lwrukhhz5KdqVyaKf81uwzsDQafA1Eot4NYYvrX1usgm//S4268wp/C4JwVvRRVgFPt2db4TpPrLeEazsXwHpj9in+0erpw0mGDNLzz5Y6x4DHZov7uYk7rP7DIQREHOJJ2/qqxSs+a/kXR/YyIF/tItupwvUkTHyhK9NTRdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=BmteNgfG; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: by linux.microsoft.com (Postfix, from userid 1127)
-	id 3D4B120C8BA2; Mon,  9 Dec 2024 09:16:23 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3D4B120C8BA2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1733764583;
-	bh=HP4urfWccJ7rG3wZQ3lsLo0/S56sl2aC1BXsm/bKIIs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BmteNgfG/vZtVb8aiWHmqBDwO1kurvQXU84Vv9SI6llKd1t7/wX8aqzP1hiBirWRB
-	 hcKrqEHr7X/As9mPOKrTH3f6Nfd8SRGjQtBlflDdDAqTQMOgSQ3eVjIrURGv7jy8g+
-	 fh2loWyImxtJBPkwo59XZfpNiiinK3URjSxQRZtU=
-Date: Mon, 9 Dec 2024 09:16:23 -0800
-From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	"Srivatsa S. Bhat" <srivatsa@csail.mit.edu>, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	jikos@kernel.org, bentiss@kernel.org, linux-hyperv@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	ernis@microsoft.com, rafael@kernel.org, pavel@ucw.cz,
-	lenb@kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH 2/3] Revert "Input: hyperv-keyboard - register as a
- wakeup source"
-Message-ID: <20241209171623.GA29631@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1726176470-13133-1-git-send-email-ernis@linux.microsoft.com>
- <1726176470-13133-3-git-send-email-ernis@linux.microsoft.com>
- <ZvIx85NmYB/HzKtI@csail.mit.edu>
- <Zv-j0qtWXsDz4Hah@google.com>
- <20241017134438.GA14386@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <20241108104741.GA14651@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ksnx/qvluYmWw3PPKMrxJlMqhxIK+EDhHJ1kUWlB4SXB1GsA4aLzewfCXgcDnUwdKscHvh313DMRGOnpJqufIFlSmaqS3WtAklQG+e1wYKfLWXis0oxduH2tjLwZEqUGpvbAtaZvDECiTb/KaKO5X1AR5vPz6UHyX9UfFv/SOKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eE7GpyZw; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-20cf3e36a76so40366395ad.0;
+        Mon, 09 Dec 2024 09:52:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733766734; x=1734371534; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=y/trAWIOmyeIA9QLmudtLE6fFCuJ9kiR9bEYA8dkGpM=;
+        b=eE7GpyZwi3Z2zuzClFSCgNjUgc+O1qMZRbw37QOpO8BY9b/C7Fpqd3bVtIB3OMPRjz
+         r+9xdJiu7wExiy8QP/J8M7q1qptWqDpJVMQSKzutwMsQ0Krh1BlM3CJaztlKkNjwhSOs
+         hMjCkA0RcwZZn3EOD7AtgxHRJV8M64NGnhTE2bmi8IZBtz52eMUSvC3huQwl2TJrrOy0
+         9sNmNi80nX4bBu15dwAxBeZ4q6Ogb8cL3kjmQq0368bQfFQ8ivKgFw8KnTs1m0tdwHMU
+         F2IO47a+p+hiEZGhalgqgq1qSq1XTDfnSTSUYI+LATyLg77RVbD43U17NEk6tDD1qG+o
+         KjWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733766734; x=1734371534;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y/trAWIOmyeIA9QLmudtLE6fFCuJ9kiR9bEYA8dkGpM=;
+        b=oRjgEWZukmN+B5W0LK+ZQgpivEG/fxqSLYclCgzm6to10W2rRefisBwv9e3B//YwcE
+         soEoAslMBoe+5xNtWkZGi6xdLA1nIlBXoDN3l++MS4rlGNwgr7KLkS8za1qeBD7skC/E
+         YRUzN6/HMvr3DI0aVcf+6FuqUB6aENiJKfIqLwrjPJRlsmMRuqBUfNAupykIWnsIzV57
+         d4tIcpjfqQLgVg01zdI+lcglxP9n89g0/I+d21zPBIoHVQNQir3Q87ppuBgMHFNpd4Ds
+         Hjvmse9cTMZZf0jvfTawuIlob4o3nZ6jLg02GjQ95C7pj3QwpLbh0fVwWbU20SZZICP3
+         iadA==
+X-Forwarded-Encrypted: i=1; AJvYcCUv31uyY85VYNjMcx5/ClWXAY5gNrWIT1PJ/w+7n1XUKbSe/t678T2dmR3doB7VK2zGNTCaA3RWXxqn8+s=@vger.kernel.org, AJvYcCW11gx2hvCGJPbS6rwnWHybsxEbOPxkXjq1gJ+EOsLgeSxQdvJ7OgPPJFtHUEIIdw2s0x/Oos7NMtZzf6QQ@vger.kernel.org, AJvYcCW9Jd6zOhVK7lpgHiQu9Z4GfPQeTyRvJ9aIiV6DDw+51FoNJwHbhD+kq/p3T1RNdjXbCErZczqNvjFhZw==@vger.kernel.org, AJvYcCXVZIyJeH7HaYLQrCsJ4afL4LRDStA9NmWvr8bAeJHSUsLY4+ttCSjlEmbj52wKOKNi8sRyegkNmbZm@vger.kernel.org
+X-Gm-Message-State: AOJu0YyR/tetmxkMhEWG5lfTm2Djek81NsQYF7Ui3sgP//LMW1JEnxYb
+	NJmWaP2N0HimVKExABaD8uyzlD7S6tPS+eG+eAKULVxTANJeMWo0
+X-Gm-Gg: ASbGncvuhwrRo9fRNPAWMKAcv3FMYVGEFapuG5DmpHIBo9eN7aCmt+YtYmW1CizD8tC
+	qe4al9wNJ8NTR6SrF3h83onysIGdjGyPd78la0NKT0lkIUIvpGnc/cCCeJwh8I34TjwOr34EBdT
+	jSxHhZSFHtBEgWNZepbHXZ2SC4MHuBA5JJxD1QkLYMDN5LUSNGf9roOjQQ+975hoVNnJX5fPlvo
+	AmwBj52KizXLy/VKkjAh1WI//CK+SuOXe3bJARuV4lC/Ajsxig=
+X-Google-Smtp-Source: AGHT+IEEsOy5X7sKBxPB0ErJL0U3xEpqXt12FxzWmgM7Kpv/Qhhll30qQ8stWy7rSmWuum3iWYSYdw==
+X-Received: by 2002:a17:903:41ce:b0:216:1e9f:c5db with SMTP id d9443c01a7336-21669fd3b9cmr19690625ad.28.1733766734346;
+        Mon, 09 Dec 2024 09:52:14 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:ecfb:32dc:2452:3a27])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-216363a3176sm34602515ad.246.2024.12.09.09.52.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Dec 2024 09:52:13 -0800 (PST)
+Date: Mon, 9 Dec 2024 09:52:11 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: akemnade@kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Tony Lindgren <tony@atomide.com>,
+	Conor Dooley <conor+dt@kernel.org>, linux-omap@vger.kernel.org,
+	khilman@baylibre.com, devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND 1/2] Input: tsc2007 - accept standard properties
+Message-ID: <Z1cuSxrV-ceaO1k9@google.com>
+References: <20241205204413.2466775-1-akemnade@kernel.org>
+ <20241205204413.2466775-2-akemnade@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -66,102 +91,73 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241108104741.GA14651@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20241205204413.2466775-2-akemnade@kernel.org>
 
-On Fri, Nov 08, 2024 at 02:47:41AM -0800, Erni Sri Satya Vennela wrote:
-> On Thu, Oct 17, 2024 at 06:44:38AM -0700, Erni Sri Satya Vennela wrote:
-> > On Fri, Oct 04, 2024 at 01:14:10AM -0700, Dmitry Torokhov wrote:
-> > > On Tue, Sep 24, 2024 at 03:28:51AM +0000, Srivatsa S. Bhat wrote:
-> > > > [+linux-pm, Rafael, Len, Pavel]
-> > > > 
-> > > > On Thu, Sep 12, 2024 at 02:27:49PM -0700, Erni Sri Satya Vennela wrote:
-> > > > > This reverts commit 62238f3aadc9bc56da70100e19ec61b9f8d72a5f.
-> > > > > 
-> > > > > Remove keyboard as wakeup source since Suspend-to-Idle feature
-> > > > > is disabled.
-> > > > > 
-> > > > > Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-> > > > > ---
-> > > > >  drivers/input/serio/hyperv-keyboard.c | 12 ------------
-> > > > >  1 file changed, 12 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/input/serio/hyperv-keyboard.c b/drivers/input/serio/hyperv-keyboard.c
-> > > > > index 31d9dacd2fd1..b42c546636bf 100644
-> > > > > --- a/drivers/input/serio/hyperv-keyboard.c
-> > > > > +++ b/drivers/input/serio/hyperv-keyboard.c
-> > > > > @@ -162,15 +162,6 @@ static void hv_kbd_on_receive(struct hv_device *hv_dev,
-> > > > >  			serio_interrupt(kbd_dev->hv_serio, scan_code, 0);
-> > > > >  		}
-> > > > >  		spin_unlock_irqrestore(&kbd_dev->lock, flags);
-> > > > > -
-> > > > > -		/*
-> > > > > -		 * Only trigger a wakeup on key down, otherwise
-> > > > > -		 * "echo freeze > /sys/power/state" can't really enter the
-> > > > > -		 * state because the Enter-UP can trigger a wakeup at once.
-> > > > > -		 */
-> > > > > -		if (!(info & IS_BREAK))
-> > > > > -			pm_wakeup_hard_event(&hv_dev->device);
-> > > > > -
-> > > > >  		break;
-> > > > >  
-> > > > >  	default:
-> > > > > @@ -356,9 +347,6 @@ static int hv_kbd_probe(struct hv_device *hv_dev,
-> > > > >  		goto err_close_vmbus;
-> > > > >  
-> > > > >  	serio_register_port(kbd_dev->hv_serio);
-> > > > > -
-> > > > > -	device_init_wakeup(&hv_dev->device, true);
-> > > 
-> > > If you do not want the keyboard to be a wakeup source by default maybe
-> > > change this to:
-> > > 
-> > > 	device_set_wakeup_capable(&hv_dev->device, true);
-> > > 
-> > > and leave the rest of the driver alone?
-> > > 
-> > > Same for the HID change.
-> > > 
-> > > Thanks.
-> > >
-> > device_set_wakeup_capable() sets the @dev's power.can_wakeup flag and
-> > adds wakeup-related attributes in sysfs.
-> > 
-> > Could you please help me understand why explicitly calling this function 
-> > can be helpful in our use case?
-> > 
-> > > -- 
-> > > Dmitry
-> Just following up on this patch. Could you please help me understand the
-> reason for the change?
+On Thu, Dec 05, 2024 at 09:44:12PM +0100, akemnade@kernel.org wrote:
+> From: Andreas Kemnade <andreas@kemnade.info>
+> 
+> Only some driver-specific properties were accepted, change it
+> to use the now-available standard properties which are
+> found in devicetrees containing this chip.
+> 
+> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
 
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Vennela,
+> ---
+>  drivers/input/touchscreen/tsc2007.h      | 2 ++
+>  drivers/input/touchscreen/tsc2007_core.c | 5 ++---
+>  2 files changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/tsc2007.h b/drivers/input/touchscreen/tsc2007.h
+> index 69b08dd6c8df1..e346fb4f75521 100644
+> --- a/drivers/input/touchscreen/tsc2007.h
+> +++ b/drivers/input/touchscreen/tsc2007.h
+> @@ -19,6 +19,7 @@
+>  #ifndef _TSC2007_H
+>  #define _TSC2007_H
+>  
+> +#include <linux/input/touchscreen.h>
+>  struct gpio_desc;
+>  
+>  #define TSC2007_MEASURE_TEMP0		(0x0 << 4)
+> @@ -63,6 +64,7 @@ struct tsc2007 {
+>  
+>  	struct i2c_client	*client;
+>  
+> +	struct touchscreen_properties prop;
+>  	u16			model;
+>  	u16			x_plate_ohms;
+>  	u16			max_rt;
+> diff --git a/drivers/input/touchscreen/tsc2007_core.c b/drivers/input/touchscreen/tsc2007_core.c
+> index 8d832a372b897..5252301686ec6 100644
+> --- a/drivers/input/touchscreen/tsc2007_core.c
+> +++ b/drivers/input/touchscreen/tsc2007_core.c
+> @@ -142,8 +142,7 @@ static irqreturn_t tsc2007_soft_irq(int irq, void *handle)
+>  			rt = ts->max_rt - rt;
+>  
+>  			input_report_key(input, BTN_TOUCH, 1);
+> -			input_report_abs(input, ABS_X, tc.x);
+> -			input_report_abs(input, ABS_Y, tc.y);
+> +			touchscreen_report_pos(input, &ts->prop, tc.x, tc.y, false);
+>  			input_report_abs(input, ABS_PRESSURE, rt);
+>  
+>  			input_sync(input);
+> @@ -339,9 +338,9 @@ static int tsc2007_probe(struct i2c_client *client)
+>  	input_set_drvdata(input_dev, ts);
+>  
+>  	input_set_capability(input_dev, EV_KEY, BTN_TOUCH);
+> -
+>  	input_set_abs_params(input_dev, ABS_X, 0, MAX_12BIT, ts->fuzzx, 0);
+>  	input_set_abs_params(input_dev, ABS_Y, 0, MAX_12BIT, ts->fuzzy, 0);
+> +	touchscreen_parse_properties(input_dev, false, &ts->prop);
+>  	input_set_abs_params(input_dev, ABS_PRESSURE, 0, MAX_12BIT,
+>  			     ts->fuzzz, 0);
+>  
+> -- 
+> 2.39.2
+> 
 
-There is a difference between "wakeup source registration" and "wakeup capable".
-For this there are two flags defined in power management framework:
- 1. power.wakeup
- 2. power.can_wakeup
- 
-More details on these flags can be read here: 
-https://www.kernel.org/doc/html/v6.12/driver-api/pm/devices.html
-
-'device_init_wakeup(dev, true)' sets both; ie it registers the device as a wakeup
-source and marks it as wakeup capable too.
-
-In our case, the device is "wakeup capable" but we do not want to
-"register it as a wakeup source". 'device_set_wakeup_capable(dev, true)' is more
-appropriate because this marks the device as wakeup capable but doesn't register
-it as a wakeup source knowingly.
-
-I understand that Dimitry suggests not to revert the entire patch but to replace
-'device_init_wakeup' with 'device_set_wakeup_capable', to mark the device as
-capable of wakeup but knowingly skipping the registering part.
-
-Requesting Dimitry to correct me if there is any misinterpretation.
-
-While fixing this in next version, please fix the kernel bot warings as well
-reported for 1/3 patch of this series.
-
-- Saurabh
+-- 
+Dmitry
 
