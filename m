@@ -1,204 +1,168 @@
-Return-Path: <linux-input+bounces-8482-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8483-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E344C9EB727
-	for <lists+linux-input@lfdr.de>; Tue, 10 Dec 2024 17:53:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6661B9EBB66
+	for <lists+linux-input@lfdr.de>; Tue, 10 Dec 2024 22:01:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 58175165428
-	for <lists+linux-input@lfdr.de>; Tue, 10 Dec 2024 16:53:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B237018806CC
+	for <lists+linux-input@lfdr.de>; Tue, 10 Dec 2024 21:01:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24FBF237A56;
-	Tue, 10 Dec 2024 16:52:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1DF822D4CA;
+	Tue, 10 Dec 2024 21:01:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RRdDX4sV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TFGrJV/q";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RRdDX4sV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TFGrJV/q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f6ZQaCti"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511AF2343CF;
-	Tue, 10 Dec 2024 16:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BD41BD9E9
+	for <linux-input@vger.kernel.org>; Tue, 10 Dec 2024 21:01:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733849538; cv=none; b=BAl76jn3sCwhnok8qDQ5+cz6/r+zq7KVKdveN4q/uaU9NgZr3G7z3McPnusx4kkejl4CHaKS1aMLuDQsZ5dgbyvwlmQJ0bwClnMbh4C9u/xUs5nOdRw8LhvO2h4C7PGNqNoi8Rr2XvDql5sKILRZcnq++fr5v7wZJmlHJ5/rRfY=
+	t=1733864468; cv=none; b=t2xq2GCmMkTXEnxceSO7XUpofNF8wGgRL59Hh+JVqpMd68P5PIiIfExW+Z+WwqFLamua9d7Iw9Z6aZEGDzpt0SPtePKlvVtCBsW5LW/ybgyvVOJjAGVx0HnSG7ir8b95fPIpOt1yNXyS6VtImeGCPuggL8Q8ApiRgCrs+Zjssj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733849538; c=relaxed/simple;
-	bh=F768FKvg7FF4b66UZ/Q7WEOc2p7Zd5GIQR2lUzGMMtE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G9+TjuwpqV0RUha+2Jv4z6gBwqVMA6ynVDn76ARPNZ8ZA3/CquAInHAY2fPeG55jLsTIjI8yOejlD75LzbGqrlGKRGzKcOm0IgzcyKDT9G68i+yS+TTeAgHdnngH6Qt8RrDKTbffWYNcWWQ/AhDxrgsuJ5bW1kHJbJWh4l9gXKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RRdDX4sV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TFGrJV/q; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RRdDX4sV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TFGrJV/q; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 786C31F396;
-	Tue, 10 Dec 2024 16:52:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733849534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/aIP4i4jvUV/G+qzhtRhmfq3gIeQW3kA9mI6aymWOb0=;
-	b=RRdDX4sVHqwXSpZmO5qyaLk+OT0prHhbpm2RuVO3tADPrjjC51flgdy0bBMhilMgSqfKc4
-	Dv+yE6TghAluhsMrjkHgGNWID+PoJ/WHqwfFkxouFBh0COAXQtRzDSLaPKulw82QS7hBhP
-	+JNegq3x34VwLUziHLi3yWibLzKHsDM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733849534;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/aIP4i4jvUV/G+qzhtRhmfq3gIeQW3kA9mI6aymWOb0=;
-	b=TFGrJV/qKUuxfk4pwQ3vf4hKGth7ZcX/alooGyybcmiPTp3F4ONZLxZLopwxTQX7o9od+3
-	MfCkzXC7nWsDVODA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733849534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/aIP4i4jvUV/G+qzhtRhmfq3gIeQW3kA9mI6aymWOb0=;
-	b=RRdDX4sVHqwXSpZmO5qyaLk+OT0prHhbpm2RuVO3tADPrjjC51flgdy0bBMhilMgSqfKc4
-	Dv+yE6TghAluhsMrjkHgGNWID+PoJ/WHqwfFkxouFBh0COAXQtRzDSLaPKulw82QS7hBhP
-	+JNegq3x34VwLUziHLi3yWibLzKHsDM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733849534;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/aIP4i4jvUV/G+qzhtRhmfq3gIeQW3kA9mI6aymWOb0=;
-	b=TFGrJV/qKUuxfk4pwQ3vf4hKGth7ZcX/alooGyybcmiPTp3F4ONZLxZLopwxTQX7o9od+3
-	MfCkzXC7nWsDVODA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D559C138D2;
-	Tue, 10 Dec 2024 16:52:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lzzyMr1xWGcDRAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 10 Dec 2024 16:52:13 +0000
-Date: Tue, 10 Dec 2024 17:52:13 +0100
-Message-ID: <87wmg732gy.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Wesley Cheng <quic_wcheng@quicinc.com>,
-	<linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>,
-	<linux-input@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>,
-	<srinivas.kandagatla@linaro.org>,
-	<mathias.nyman@intel.com>,
-	<perex@perex.cz>,
-	<conor+dt@kernel.org>,
-	<dmitry.torokhov@gmail.com>,
-	<corbet@lwn.net>,
-	<broonie@kernel.org>,
-	<lgirdwood@gmail.com>,
-	<krzk+dt@kernel.org>,
-	<pierre-louis.bossart@linux.intel.com>,
-	<Thinh.Nguyen@synopsys.com>,
-	<tiwai@suse.com>,
-	<robh@kernel.org>,
-	<gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v30 28/30] ALSA: usb-audio: Add USB offload route kcontrol
-In-Reply-To: <1b77ad01-9621-4d2e-84c0-077032fbc5ef@intel.com>
-References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
-	<20241106193413.1730413-29-quic_wcheng@quicinc.com>
-	<1a361446-7a18-4f49-9eeb-d60d1adaa088@intel.com>
-	<28023a83-04a5-4c62-85a9-ca41be0ba9e1@quicinc.com>
-	<1644aa6b-a4e0-4dbd-a361-276cb95eb534@intel.com>
-	<3e246be8-22a9-4473-8c78-39788ae95650@quicinc.com>
-	<1b77ad01-9621-4d2e-84c0-077032fbc5ef@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1733864468; c=relaxed/simple;
+	bh=kn2zLn6+c4GewCdeZl3qVtflE53ih10wTlFJk59NyNI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KeiIjpMkXFcNTCKi3Hfk0bMyCdqukuxrA3Edz41w8CnDLK3gh3bUO+tfD32l/VYE/FQ/Vs8bk9aVMIO5UnbggRDgsGGDytB43j87FHRyNobuNiOJkovVoetiIl7haTdufDaobiiamCMy/ED1koNv/gmuocXMWJoN0QOx69wg0ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f6ZQaCti; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-216426b0865so26097265ad.0
+        for <linux-input@vger.kernel.org>; Tue, 10 Dec 2024 13:01:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733864466; x=1734469266; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jRpN9f+Qwyf6/7hWUZysB3z1EtHm0ttDZm4S3DjEg7k=;
+        b=f6ZQaCtiQ91pIpxbG7G1firiYgY3/9PJFfmcoLeiSEppywFOzacEY3ThemTDdhEQ34
+         0Smj6EaRWyOQ7Bgz1r6GBFaxwP03hkYgtwOc8wizkPBl6K8VWqjqhINzEeRutJotPYlS
+         0bXWybcomeEPD0r1+9anbn8RZFUBVP8XQN4iF1/SMCR5T+r/INSkLqc1QbRIlfd6PQDF
+         vpBkNoVJkd0RqVQi2XyB0t6aY/iCJcuJ1qXK4+/VN6THqsUaas5/84reX3RUPsqowO9s
+         46RK425MW5ek37NOX7prCE6w68byjqh2NKtsXR5gE2GSWiggkbmiddnmJQK7ppPFmsar
+         /xaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733864466; x=1734469266;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jRpN9f+Qwyf6/7hWUZysB3z1EtHm0ttDZm4S3DjEg7k=;
+        b=HecM1FNTVoCe1+9DW2WUdl4yaxaAi84bSB0LSmAqqw6flC98Gm6yk43+8RMXZHwEvs
+         6Oj5KwXDt+c0wP6AXUm5Mm/UMya+klSR4TSeGrNvEn34b8maL0MXeY68HfhaMdwTS/3l
+         ZFQRDhMnWJBUr59kTsmu5hU00af6Q3Y4yHhJD8E8K3HK0YSCHHbwKvbxhy3KdHIes/Fa
+         tRM91gMBh26yxkzhZwfTVV/nbfygGHQXQMp74VlHcS1G2LnOzcWNI2xMONBjXdhOotFW
+         GV3BNsoiy857j5yeI4RuSBwLS4wFZNnatW7t/+Ob8FcQByAWg2duFzS7sgdEItb2xb+U
+         t+cA==
+X-Gm-Message-State: AOJu0YyP81CGVvo/+qQik9LqIBbwsAFjJUHNJs04amelGJ3+egvLvjDy
+	SGGEaQOpnlJU2SgKhPE8y8C3kvYkF+mcKzTN13OTmvm0xgDSufEyuXHOeQ==
+X-Gm-Gg: ASbGnctlx2P8BWE7DqarAPx0+olJXy7v6d1rzgzL0KNOXYKKwd7fLfZlDhwF4eMfGkf
+	GfaoPxLecwzT7E25N/aIMsbBmHN3VcfslCNuGAT/GffzrgDdPIh6SnP6chmguwnWkELYlGS1+C0
+	7r565ZcDsCvwjQ0C0zLE4anwTJNa9pLYerCCt4jq/wilxhUygY/rMBL/Ex8T4OtEZI6v1urjbga
+	ZDynQE1wf7YHadC2WfbbsI2zpXffbaucACruEFubJ2sBVCfte5LqJy97f+9P+lQyjfOs1Y+SAV3
+	F8L8OuK1mZSIC0jX8WKdHo99
+X-Google-Smtp-Source: AGHT+IH1qspQ1G8ufNdeBSxAMd1atHQcdGJC8h/Vw1FNVMgQXnn53x20gbDlPlI4tx/FNvBJwN4Hzw==
+X-Received: by 2002:a17:902:e848:b0:212:6011:594a with SMTP id d9443c01a7336-21778393aa4mr8269675ad.3.1733864465413;
+        Tue, 10 Dec 2024 13:01:05 -0800 (PST)
+Received: from localhost.localdomain (75-164-192-68.ptld.qwest.net. [75.164.192.68])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2164419d02dsm45530625ad.268.2024.12.10.13.01.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Dec 2024 13:01:04 -0800 (PST)
+From: "Gerecke, Jason" <killertofu@gmail.com>
+X-Google-Original-From: "Gerecke, Jason" <jason.gerecke@wacom.com>
+To: linux-input@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Ping Cheng <pinglinux@gmail.com>,
+	Joshua Dickens <Joshua@Joshua-Dickens.com>,
+	Erin Skomra <skomra@gmail.com>,
+	Peter Hutterer <peter.hutterer@who-t.net>,
+	Jason Gerecke <jason.gerecke@wacom.com>
+Subject: [PATCH 1/2] HID: wacom: Improve behavior of non-standard LED brightness values
+Date: Tue, 10 Dec 2024 13:00:58 -0800
+Message-ID: <20241210210059.87780-1-jason.gerecke@wacom.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[dt];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[quicinc.com,vger.kernel.org,linaro.org,intel.com,perex.cz,kernel.org,gmail.com,lwn.net,linux.intel.com,synopsys.com,suse.com,linuxfoundation.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -1.80
-X-Spam-Flag: NO
 
-On Tue, 10 Dec 2024 16:24:30 +0100,
-Cezary Rojewski wrote:
-> 
-> On 2024-12-06 9:43 PM, Wesley Cheng wrote:
-> > 
-> > On 12/6/2024 1:09 AM, Cezary Rojewski wrote:
-> 
-> ...
-> 
-> >>>>> +#include <linux/usb.h>
-> >>>>> +
-> >>>>> +#include <sound/core.h>
-> >>>>> +#include <sound/control.h>
-> >>>>> +#include <sound/soc-usb.h>
-> >>>> 
-> >>>> ALSA-components should not be dependent on ASoC ones. It should be done the other way around: ALSA <- ASoC.
-> >>>> 
-> >>> 
-> >>> At least for this kcontrol, we need to know the status of the ASoC state, so that we can communicate the proper path to userspace.  If the ASoC path is not probed or ready, then this module isn't blocked.  It will just communicate that there isn't a valid offload path.
-> >> 
-> >> I'm not asking _why_ you need soc-usb.h header, your reasoning is probably perfectly fine. The code hierarchy is not though. If a sound module is dependent on soc-xxx.h i.e. ASoC symbols, it shall be part of sound/soc/ space.
-> > 
-> > 
-> > That would basically require a significant change in the current design.  Was that requirement documented somewhere, where ALSA components should not be dependent on ASoC?  What was the reasoning for making it one direction, but not the other?
-> 
-> Well, some may call this a common sense. ASoC is founded on
-> ALSA. There are no ALSA-core components which I'm aware of which have
-> a dependency on ASoC components. You may not get compilation problems
-> now, but such approach does not scale and will hit circular dependency
-> problem sooner or later.
+From: Jason Gerecke <jason.gerecke@wacom.com>
 
-In this particular case, I guess we don't have to be too strict.
-As long as it's a dynamic add-on, there is less dependency problem.
-OTOH, if it were linked directly, that can cause an issue, though.
+Assigning a non-standard brightness value to an LED can cause the value
+to slowly drift downward over time as the effects of integer division
+accumulate. Each time that an LED is triggered, a series of set and get
+calls occur. For example, if we assume a tablet with max_hlv = 100, then
+when brightness is set to "200" through sysfs, the hlv value written to
+hardware will be `200*100/255 = 78`. If the LED trigger is later activated,
+the hlv value will be used to determine the brightness: `78*255/100 = 198`.
+This lower brightness then used to set the brightness of the next LED.
+However, `198*100/255 = 77`, so the next LED ends up slightly dimmer.
+Each subsequent trigger activation will cause the brightness to continue
+drifting down until we reach a point where the result of integer divsion
+does not introduce any new error.
 
-But, which code is put at which place can be reconsidered, yes.  The
-right placing may help better understanding of the code, too.
+This commit corrects the issue by being more careful about how we handle
+scaling between the two ranges (0..max_{h,l}lv) and (0..LED_FULL).
 
+Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+---
+ drivers/hid/wacom.h     | 8 ++++++++
+ drivers/hid/wacom_sys.c | 8 ++++----
+ 2 files changed, 12 insertions(+), 4 deletions(-)
 
-thanks,
+diff --git a/drivers/hid/wacom.h b/drivers/hid/wacom.h
+index 6f1443999d1d9..1deacb4568cb9 100644
+--- a/drivers/hid/wacom.h
++++ b/drivers/hid/wacom.h
+@@ -218,6 +218,14 @@ static inline __u32 wacom_s32tou(s32 value, __u8 n)
+ 	return value & (1 << (n - 1)) ? value & (~(~0U << n)) : value;
+ }
+ 
++static inline u32 wacom_rescale(u32 value, u32 in_max, u32 out_max)
++{
++	if (in_max == 0 || out_max == 0)
++		return 0;
++	value = clamp(value, 0, in_max);
++	return DIV_ROUND_CLOSEST(value * out_max, in_max);
++}
++
+ extern const struct hid_device_id wacom_ids[];
+ 
+ void wacom_wac_irq(struct wacom_wac *wacom_wac, size_t len);
+diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+index 34428349fa311..5689bb6fcb264 100644
+--- a/drivers/hid/wacom_sys.c
++++ b/drivers/hid/wacom_sys.c
+@@ -1302,10 +1302,10 @@ enum led_brightness wacom_leds_brightness_get(struct wacom_led *led)
+ 	struct wacom *wacom = led->wacom;
+ 
+ 	if (wacom->led.max_hlv)
+-		return led->hlv * LED_FULL / wacom->led.max_hlv;
++		return wacom_rescale(led->hlv, wacom->led.max_hlv, LED_FULL);
+ 
+ 	if (wacom->led.max_llv)
+-		return led->llv * LED_FULL / wacom->led.max_llv;
++		return wacom_rescale(led->llv, wacom->led.max_llv, LED_FULL);
+ 
+ 	/* device doesn't support brightness tuning */
+ 	return LED_FULL;
+@@ -1337,8 +1337,8 @@ static int wacom_led_brightness_set(struct led_classdev *cdev,
+ 		goto out;
+ 	}
+ 
+-	led->llv = wacom->led.llv = wacom->led.max_llv * brightness / LED_FULL;
+-	led->hlv = wacom->led.hlv = wacom->led.max_hlv * brightness / LED_FULL;
++	led->llv = wacom->led.llv = wacom_rescale(brightness, LED_FULL, wacom->led.max_llv);
++	led->hlv = wacom->led.hlv = wacom_rescale(brightness, LED_FULL, wacom->led.max_hlv);
+ 
+ 	wacom->led.groups[led->group].select = led->id;
+ 
+-- 
+2.47.1
 
-Takashi
 
