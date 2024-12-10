@@ -1,140 +1,156 @@
-Return-Path: <linux-input+bounces-8473-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8474-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21DBB9EA7B8
-	for <lists+linux-input@lfdr.de>; Tue, 10 Dec 2024 06:23:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C3F9EA9BA
+	for <lists+linux-input@lfdr.de>; Tue, 10 Dec 2024 08:39:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2DE4E165736
-	for <lists+linux-input@lfdr.de>; Tue, 10 Dec 2024 05:23:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 29FF316851D
+	for <lists+linux-input@lfdr.de>; Tue, 10 Dec 2024 07:39:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 573992248B6;
-	Tue, 10 Dec 2024 05:23:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64BDC22CBF8;
+	Tue, 10 Dec 2024 07:38:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RyrLzzFb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PW3R4KX5"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4E523312A;
-	Tue, 10 Dec 2024 05:23:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0B3192D66;
+	Tue, 10 Dec 2024 07:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733808226; cv=none; b=gcV/xBifXOO2tdBeg0wMs01DoK4yMot99Z6P6a+SuWlr9rNhGkpVxN5VY+cZDtbObxhhw4e3IQ3S/s02haYwYcRU9IgcFSmXSr+h1hjCsYEksUSfp1lV7Bjq4VvjZ2FFyI7TaOREvwUVsQAr0IrsePhqWcs+Y/EluhERGKeSJZs=
+	t=1733816332; cv=none; b=V+Ar3UP7Jq6aEXA4Lo5J8r07a55qhNACaoKSYJORRTh1jtIp66WKV6gKWgLlz3PHHIcr5/eNPEsrZXHvVkqTBDWYkUTf8uNEs9HwGp5fV0km+FcXCVmGWpBZxgrEFHDvskmawV7LgMl79jQKOiMD2h6tJOhdjxBRsV/cPU2Tlhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733808226; c=relaxed/simple;
-	bh=xqYv6QgBXA4t3Jg7VQbQP9HP/CtdPar1I9KrW8+WJg4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nay3n8+vGnKImrPmzUGTB1YU57ZIVsQKS4C75qP7fPzlzH8hZ5/Tmd/56AXhVRPoL5+IuliAR4aNrAFn5G0gOP+Fh8SAIczqe/hJyP4MB9ozG0+NFzrs0+aXMwImlcSzxvBRa+P9VDqDRaQqq9zjWJrWleWmR2FUPP3NKZJnsWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RyrLzzFb; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7258cf2975fso4450416b3a.0;
-        Mon, 09 Dec 2024 21:23:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733808224; x=1734413024; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KBU1UAuy5MjYfrWbZjh4/sgnYH98b4q96SgJM7Z+66M=;
-        b=RyrLzzFbhV0/PAuFe1KXkP49GhmrcgvYf2azs8f3u896SOn3fep1fEkpnRnQakhra6
-         XAEyPjbBf2pPAR/Wqox59p2qyTQFcqenK+osRgtEBQ7UT3yBuQEdJC3JV+6ZC9DTSUUd
-         fxpvhv1Y28uCAvFqP8wKfs8n3DfhYc0gq3y5eV/dichK5Q/BLBr7a8rWTzTRaT9PPV3N
-         iuokewb7KBx2fwykyYgBk8qnlgcdQlv8pR8faP8QWY4DZitHRK8svMSRAyCOayl8PlP/
-         lcU9c9bcxn5QGTSndPVh4/OSOICppc3kT4D+teaAhxvJtfedF44k10YRXgQ56M0ohbcw
-         tpdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733808224; x=1734413024;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KBU1UAuy5MjYfrWbZjh4/sgnYH98b4q96SgJM7Z+66M=;
-        b=k3ZO42ydTOaIinVnuhJ+XmguzLgNxPLybpC98xJeOISG6k5t65QiST6PXP4op7ok7V
-         E0FQu3u/xlgaM9RWNY+YlSr7vFmt+obHFppt4xB3vkasjLJ0+UiQZpq+fDxt2Cpr+/Dj
-         6AOT46TWpUN6NrsxqkaVkUa/usmN5oKEjrrGw5S7SB+3QlnqaGa9Kx4vK6DZEyUaV7cD
-         +Dv/lQf8CqLeT97WQc3Yn5X4lNldH7djw8FMRn3rciwV70kEIQoBkfJd4gLZm6h5eSau
-         YxDyQif1/zTIl5QorknYu052vlA7ZKBSSgBgn5atylMA8DAr8jYN1PfTeK5tmPsmhNKI
-         vO7w==
-X-Forwarded-Encrypted: i=1; AJvYcCU4R/OgDgCeh/aIqs+NRANC4y81tL403ieP2X7KcW9jYHh0EriUUY7jy4ChUWSjgj3zoBGizYoA8kBj@vger.kernel.org, AJvYcCV8U/X35Jy8CbZ1CqwB2k8e+LS5BDJLY5vUZfpzhEgK6O77HdvT6QUiYgFwC6Kp1c/uJtNINqmQQIYAAfo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyE0yrrzL1eeA4Pl2vGdwMzWLkgb9JS3SHGAiK1BzBnE3/GTeN4
-	2dEsCRURqPBkZ6LzxdH8uCSKuaAz2VdshS3slPtJ07rU2UAd8D6M
-X-Gm-Gg: ASbGncs3demOJ5H+UdR+SLKRQOWXM8Zu7HMimxwwUO3QM0wLC0QCOQaM/Be6iFejegQ
-	twuykLumEEejE/aY3wgT/M0AWpOqPEQbx0u6MO5NOXUoJu/Bh797RZsC6ljqgoef+IxHVdVYMPp
-	PMo2sJIV4t+IFYq/fORu3yRIwdJ4tmsqqo2eyVc8+8ixxPIPLhFKVAZdH32JvxH1ib+rKgTvsOm
-	lIGLRD58mx5+rcTIYoNC51d1U5B87N7W8S7/EsoOU6XNJ1bndMDNW8JwcCBIrQNmJWJ1FNsFHLH
-	OqKOQATeLeB4siO7Cbx6Fx1BYZWd
-X-Google-Smtp-Source: AGHT+IFRDtAZUHy67YBIFMjYuSZVAM9Ll94FWK+XfQgDXiw8IJ+uc/Rits4ApUB7XKhyFdVb7YNsBw==
-X-Received: by 2002:a05:6a00:c8c:b0:725:f18a:da52 with SMTP id d2e1a72fcca58-7273c8f4d8cmr4767471b3a.4.1733808224007;
-        Mon, 09 Dec 2024 21:23:44 -0800 (PST)
-Received: from [172.19.1.43] (60-250-196-139.hinet-ip.hinet.net. [60.250.196.139])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725cb065fbdsm5359995b3a.39.2024.12.09.21.23.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Dec 2024 21:23:43 -0800 (PST)
-Message-ID: <274c7ba7-dd7a-4981-95a8-38ed953a7dbc@gmail.com>
-Date: Tue, 10 Dec 2024 13:23:39 +0800
+	s=arc-20240116; t=1733816332; c=relaxed/simple;
+	bh=8vRgH+DMqnC+8/qKfDvPBIE9joqCziZosetEu39kVLU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u86jJSc8Z5sUe2CimXTd6yUtJpQrkVDl6xKr0ge078gZl82zZLz/aHbm9JRTh8/YT8xbMX5F2QyQKoRV+zpbL9VYhuMZ2IsmQV3ozmul/FNrZzGEUYiR3IgjbVtk5aPAHMb+EuoxMf0/h4WYV/NMKaWPS2m3OJsgH+53kIqMPa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PW3R4KX5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FA21C4CED6;
+	Tue, 10 Dec 2024 07:38:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733816332;
+	bh=8vRgH+DMqnC+8/qKfDvPBIE9joqCziZosetEu39kVLU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PW3R4KX5PHfiWqmhGDpTq2CMpzpuB8ic7gVYKZIjTtMSZSl0TQmccGekO0WBKclzc
+	 op0gGKe7SaTQdj9jmFRffjS3DuqmuBm/8UMwSJgVtDlkW7J2MGnY6Squ0V8xby3JCb
+	 d14112euSK5m0GhPCDxjALPO9mSybn4gtUeNc4khfws8c0BGNsX9o0ExWrLsjmyFLM
+	 QRJfgHYBqiZZYM2RHXIby5R1heAHhhKOosIBXVfVdfyNr3QGnuJhxWKrV3j04lkfbZ
+	 2haK4kNkNVxWWgdBL/b8hpyOJS0OCpevJ+T5mjo6qPWqcAjrbRxJgGUPDVU/MNG7zJ
+	 0nr/m5kc6Xj+g==
+Date: Tue, 10 Dec 2024 08:38:48 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Sebastian Reichel <sre@kernel.org>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
+	Purism Kernel Team <kernel@puri.sm>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v11 3/9] dt-bindings: power: supply: max17042: split on 2
+ files
+Message-ID: <7qt7thbuh5mvoaknxaiteusbmcmiusc23k2oiyvq3bwn4l6wsw@p4qid73hmiry>
+References: <20241209-starqltechn_integration_upstream-v11-0-dc0598828e01@gmail.com>
+ <20241209-starqltechn_integration_upstream-v11-3-dc0598828e01@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] dt-bindings: input: Add Nuvoton MA35D1 keypad
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- sudeep.holla@arm.com, arnd@arndb.de, peng.fan@nxp.com, conor+dt@kernel.org,
- krzk+dt@kernel.org, robh@kernel.org, dmitry.torokhov@gmail.com
-References: <20241204021014.5083-1-mjchen0829@gmail.com>
- <20241204021014.5083-3-mjchen0829@gmail.com>
- <2a47hwrbl3r6h5umwikt7bd7rp3njj6wnlo5e67f5kl6zhaq7g@cnolynoswb37>
-Content-Language: en-US
-From: Ming-Jen Chen <mjchen0829@gmail.com>
-In-Reply-To: <2a47hwrbl3r6h5umwikt7bd7rp3njj6wnlo5e67f5kl6zhaq7g@cnolynoswb37>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241209-starqltechn_integration_upstream-v11-3-dc0598828e01@gmail.com>
 
-
-
-On 2024/12/4 下午 03:49, Krzysztof Kozlowski wrote:
-> On Wed, Dec 04, 2024 at 02:10:14AM +0000, Ming-Jen Chen wrote:
->> Add YAML bindings for MA35D1 SoC keypad.
->>
->> Signed-off-by: Ming-Jen Chen <mjchen0829@gmail.com>
+On Mon, Dec 09, 2024 at 02:26:27PM +0300, Dzmitry Sankouski wrote:
+> Move max17042 common binding part to separate file, to
+> reuse it for MFDs with platform driver version.
 > 
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/power/supply/maxim,max17042-base.yaml | 66 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  Documentation/devicetree/bindings/power/supply/maxim,max17042.yaml      | 49 +------------------------------------------------
+>  MAINTAINERS                                                             |  2 +-
+>  3 files changed, 68 insertions(+), 49 deletions(-)
 > 
-> Repeating same comment third or fourth time is a waste of my time.
-> 
-> NAK.
-> 
-> It seems my or other reviewer's previous comments were not fully
-> addressed. Maybe the feedback got lost between the quotes, maybe you
-> just forgot to apply it. Please go back to the previous discussion and
-> either implement all requested changes or keep discussing them.
-> 
-> Best regards,
-> Krzysztof
-> 
+> diff --git a/Documentation/devicetree/bindings/power/supply/maxim,max17042-base.yaml b/Documentation/devicetree/bindings/power/supply/maxim,max17042-base.yaml
+> new file mode 100644
+> index 000000000000..1653f8ae11f7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/power/supply/maxim,max17042-base.yaml
+> @@ -0,0 +1,66 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/power/supply/maxim,max17042-base.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Maxim 17042 fuel gauge series
+> +
+> +maintainers:
+> +  - Sebastian Reichel <sre@kernel.org>
+> +
+> +allOf:
+> +  - $ref: power-supply.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - maxim,max17042
+> +      - maxim,max17047
+> +      - maxim,max17050
+> +      - maxim,max17055
+> +      - maxim,max77705-battery
+> +      - maxim,max77849-battery
 
-I will carefully review the v3 discussion thread to ensure that all
-feedback is properly implemented. Once I’ve addressed the issues, I’d
-like to confirm the next steps with you:
+Shared schemas define only shared properties, not compatibles. But the
+main problem is you did not answer nor resolve my previous concerns -
+either this device has separate address and probably is a separate
+device on the same or different bus.
 
-1. Should I drop v4 entirely and submit a revised patch as v5?
-2. Alternatively, would you prefer me to resend v4 with the necessary
-corrections?
+Plus this was not tested and does not really work, but anyway let's
+focus on my previous concerns first.
 
-Please let me know your preference so I can proceed accordingly and
-ensure a smoother review process.
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description: |
+> +      The ALRT pin, an open-drain interrupt.
 
-Thank you again for your guidance and understanding.
+...
+
+> +
+> +additionalProperties: false
+> +
+> diff --git a/Documentation/devicetree/bindings/power/supply/maxim,max17042.yaml b/Documentation/devicetree/bindings/power/supply/maxim,max17042.yaml
+> index 14242de7fc08..b7fd714cc72e 100644
+> --- a/Documentation/devicetree/bindings/power/supply/maxim,max17042.yaml
+> +++ b/Documentation/devicetree/bindings/power/supply/maxim,max17042.yaml
+> @@ -10,60 +10,13 @@ maintainers:
+>    - Sebastian Reichel <sre@kernel.org>
+>  
+>  allOf:
+> -  - $ref: power-supply.yaml#
+> +  - $ref: maxim,max17042-base.yaml#
+>  
+>  properties:
+> -  compatible:
+> -    enum:
+> -      - maxim,max17042
+> -      - maxim,max17047
+> -      - maxim,max17050
+> -      - maxim,max17055
+> -      - maxim,max77705-battery
+> -      - maxim,max77849-battery
+> -
+
+This does not make sense. Final device schema must come with compatibles.
 
 Best regards,
-Ming-Jen Chen
-
-
-
+Krzysztof
 
 
