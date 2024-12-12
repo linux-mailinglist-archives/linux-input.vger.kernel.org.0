@@ -1,116 +1,173 @@
-Return-Path: <linux-input+bounces-8509-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8510-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57A739EE8EA
-	for <lists+linux-input@lfdr.de>; Thu, 12 Dec 2024 15:33:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1229EE8F0
+	for <lists+linux-input@lfdr.de>; Thu, 12 Dec 2024 15:34:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F0ACE168206
-	for <lists+linux-input@lfdr.de>; Thu, 12 Dec 2024 14:33:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 22BB316723E
+	for <lists+linux-input@lfdr.de>; Thu, 12 Dec 2024 14:33:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 951F82144C7;
-	Thu, 12 Dec 2024 14:33:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC7632135B0;
+	Thu, 12 Dec 2024 14:33:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bXyZe+Pa"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="YEEbvcPk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B635A8837;
-	Thu, 12 Dec 2024 14:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BBE78837;
+	Thu, 12 Dec 2024 14:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734013987; cv=none; b=HFcDShlA2ksEOgoXx/qZyiX6oU1ReOW9fg8vOlCsz9xjr24W1QBl4Iay5KXkgTz8+MeWXGIgFE7sUdFXcPLnaQru2wM2HqTNd7yY/aM8AnpUdKY9CzMJ6FZE36R4ifceiZx0RYGOX4CfnSSoaRl/1DV307DF6hjHOy7gb0KpqJ4=
+	t=1734014009; cv=none; b=Lqgv/lH5+JOcYZw7IlihfVi2KU2nXzDIDmv27iX+qAzPVk0MhgmeyM+9oAszDqF5ekA4Q72xBWju72+HrLSHcT4r9AFTrK1OrqHqqG5xso/t/9Wz8be9Bv0xng2vvpVWxQmqEc1I9HhaVbYcAGmfQBHnc2SZJU2z6pHHTwn9egc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734013987; c=relaxed/simple;
-	bh=d8IYpiVfpeymjC/aJgakUmWE7prVO4zr6IEzNLCH2J4=;
+	s=arc-20240116; t=1734014009; c=relaxed/simple;
+	bh=he+FlGJoGlXURd+r/6jPzv/OztoDTwsegVcDpvMQmzg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m44BR3TgigPGyUruVERdturtUOHpbgpRGi128YcVs2ctZKgw4GU1iffYAkSoS+XCfDvkIFMEjzLY8eK50iP0Keyl9w1i7IfeeV0xi6hEc68fLZF9IYbQXtWkGqSq2j/y2nK/TXEcgXyz99r9nr6gDuGYV07NiSRA8pOOac9bZxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bXyZe+Pa; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734013986; x=1765549986;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=d8IYpiVfpeymjC/aJgakUmWE7prVO4zr6IEzNLCH2J4=;
-  b=bXyZe+PaMGbrGITAwdMnuIzyx/H0HqlvAewatnZHDSB+LnBV0EEeR/IO
-   5c35THQwVEplsWBo2FOy5YQeIq9RWetg+a1fukzkT/P53sHlKkrQdI2uR
-   JpJj+hSWhHynqWjdIK0TEXIfQhNajsKxUE/IRUXKOcQq1VE42e0O2npfL
-   tFfvkrizpHZ4BCOjOrooOZLs5IWSedw3xXzUi26QrZ4dCCaXD9/7c9RNS
-   lmp2OzbBqTMEbEN4WcWBdCvb+hND1+8EBvbqUhmXltWhWZwbe83M8+r1H
-   bokwaeXZa21Ti+6KkZPHLaflBkYkK2z1/K/81klVikhaUAm1kOGapdu8p
-   A==;
-X-CSE-ConnectionGUID: rW3FKeuRRvOuYCawWyUtfA==
-X-CSE-MsgGUID: zHA8f+plQruUT1BWqy0xpA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="45113452"
-X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
-   d="scan'208";a="45113452"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 06:32:56 -0800
-X-CSE-ConnectionGUID: mSB4RwXeQgCxf9FsOJVn/g==
-X-CSE-MsgGUID: +PkYQM5aRdq23a7grLhiqQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
-   d="scan'208";a="96786531"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 06:32:51 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tLkFE-00000006vHG-28xo;
-	Thu, 12 Dec 2024 16:32:48 +0200
-Date: Thu, 12 Dec 2024 16:32:48 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: gregkh@linuxfoundation.org, Linus Walleij <linus.walleij@linaro.org>,
-	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
-	broonie@kernel.org, pierre-louis.bossart@linux.dev,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] Introduce devm_kmemdup_array() helper
-Message-ID: <Z1r0EPC9gumruFKU@smile.fi.intel.com>
-References: <20241126172240.6044-1-raag.jadav@intel.com>
- <CACRpkdZqdE8gQCre=zR2cN17oKfwBSnWuVwzQsbRO7-ENVnPNg@mail.gmail.com>
- <Z0nNnsmYIil0OZpy@smile.fi.intel.com>
- <Z1Rfuo3jq7rO0cqb@black.fi.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=rOPYYsNYqGECtiHQHZnxtRnBrR/hT9fpxUA/uLxnv4X8mEBA9MaMtnC67YYTEl4syecejPTGPsscOwpmR7JpI+2GzcBRuzZg98W6zwfUjiPxuv0T1NI7sOpHixhiIDkXYkDot6Tr08bYwBbWsbeYRat8fXEUUygv8RMmzRpOOEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=YEEbvcPk; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: by linux.microsoft.com (Postfix, from userid 1173)
+	id A32072078B7C; Thu, 12 Dec 2024 06:33:27 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A32072078B7C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1734014007;
+	bh=vsfThCoXms3guF8hl0PESHBVjwnuCelGtCnevaW3lo8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YEEbvcPke7JIubSH+PgXLd/LjBekrQtEF+n9UR9y6jG1NWE2Odsk/oJNh6O7InArx
+	 jIIyLd6tszzR30/lQTxiGLTSIjsYZZhmnYh3LVYP0EUmsBt5UsCG7rKNYu0g4uDdjD
+	 cJ+Xk5QVobZE6nsEK18lTUEk9jOhkpdiuBM1cp6w=
+Date: Thu, 12 Dec 2024 06:33:27 -0800
+From: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+To: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	"Srivatsa S. Bhat" <srivatsa@csail.mit.edu>, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	jikos@kernel.org, bentiss@kernel.org, linux-hyperv@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	ernis@microsoft.com, rafael@kernel.org, pavel@ucw.cz,
+	lenb@kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH 2/3] Revert "Input: hyperv-keyboard - register as a
+ wakeup source"
+Message-ID: <20241212143327.GA21051@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1726176470-13133-1-git-send-email-ernis@linux.microsoft.com>
+ <1726176470-13133-3-git-send-email-ernis@linux.microsoft.com>
+ <ZvIx85NmYB/HzKtI@csail.mit.edu>
+ <Zv-j0qtWXsDz4Hah@google.com>
+ <20241017134438.GA14386@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <20241108104741.GA14651@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <20241209171623.GA29631@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z1Rfuo3jq7rO0cqb@black.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20241209171623.GA29631@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 
-On Sat, Dec 07, 2024 at 04:46:18PM +0200, Raag Jadav wrote:
-> On Fri, Nov 29, 2024 at 04:20:14PM +0200, Andy Shevchenko wrote:
-> > On Fri, Nov 29, 2024 at 11:17:02AM +0100, Linus Walleij wrote:
-> > > On Tue, Nov 26, 2024 at 6:22 PM Raag Jadav <raag.jadav@intel.com> wrote:
+On Mon, Dec 09, 2024 at 09:16:23AM -0800, Saurabh Singh Sengar wrote:
+> On Fri, Nov 08, 2024 at 02:47:41AM -0800, Erni Sri Satya Vennela wrote:
+> > On Thu, Oct 17, 2024 at 06:44:38AM -0700, Erni Sri Satya Vennela wrote:
+> > > On Fri, Oct 04, 2024 at 01:14:10AM -0700, Dmitry Torokhov wrote:
+> > > > On Tue, Sep 24, 2024 at 03:28:51AM +0000, Srivatsa S. Bhat wrote:
+> > > > > [+linux-pm, Rafael, Len, Pavel]
+> > > > > 
+> > > > > On Thu, Sep 12, 2024 at 02:27:49PM -0700, Erni Sri Satya Vennela wrote:
+> > > > > > This reverts commit 62238f3aadc9bc56da70100e19ec61b9f8d72a5f.
+> > > > > > 
+> > > > > > Remove keyboard as wakeup source since Suspend-to-Idle feature
+> > > > > > is disabled.
+> > > > > > 
+> > > > > > Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+> > > > > > ---
+> > > > > >  drivers/input/serio/hyperv-keyboard.c | 12 ------------
+> > > > > >  1 file changed, 12 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/input/serio/hyperv-keyboard.c b/drivers/input/serio/hyperv-keyboard.c
+> > > > > > index 31d9dacd2fd1..b42c546636bf 100644
+> > > > > > --- a/drivers/input/serio/hyperv-keyboard.c
+> > > > > > +++ b/drivers/input/serio/hyperv-keyboard.c
+> > > > > > @@ -162,15 +162,6 @@ static void hv_kbd_on_receive(struct hv_device *hv_dev,
+> > > > > >  			serio_interrupt(kbd_dev->hv_serio, scan_code, 0);
+> > > > > >  		}
+> > > > > >  		spin_unlock_irqrestore(&kbd_dev->lock, flags);
+> > > > > > -
+> > > > > > -		/*
+> > > > > > -		 * Only trigger a wakeup on key down, otherwise
+> > > > > > -		 * "echo freeze > /sys/power/state" can't really enter the
+> > > > > > -		 * state because the Enter-UP can trigger a wakeup at once.
+> > > > > > -		 */
+> > > > > > -		if (!(info & IS_BREAK))
+> > > > > > -			pm_wakeup_hard_event(&hv_dev->device);
+> > > > > > -
+> > > > > >  		break;
+> > > > > >  
+> > > > > >  	default:
+> > > > > > @@ -356,9 +347,6 @@ static int hv_kbd_probe(struct hv_device *hv_dev,
+> > > > > >  		goto err_close_vmbus;
+> > > > > >  
+> > > > > >  	serio_register_port(kbd_dev->hv_serio);
+> > > > > > -
+> > > > > > -	device_init_wakeup(&hv_dev->device, true);
+> > > > 
+> > > > If you do not want the keyboard to be a wakeup source by default maybe
+> > > > change this to:
+> > > > 
+> > > > 	device_set_wakeup_capable(&hv_dev->device, true);
+> > > > 
+> > > > and leave the rest of the driver alone?
+> > > > 
+> > > > Same for the HID change.
+> > > > 
+> > > > Thanks.
+> > > >
+> > > device_set_wakeup_capable() sets the @dev's power.can_wakeup flag and
+> > > adds wakeup-related attributes in sysfs.
 > > > 
-> > > > This series introduces a more robust and cleaner devm_kmemdup_array()
-> > > > helper and uses it across drivers.
+> > > Could you please help me understand why explicitly calling this function 
+> > > can be helpful in our use case?
 > > > 
-> > > For the series:
-> > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> > > 
-> > > It seems like Andy will push it to me which is excellent.
-> > 
-> > Yep, that's the plan after we get all necessary ACKs.
+> > > > -- 
+> > > > Dmitry
+> > Just following up on this patch. Could you please help me understand the
+> > reason for the change?
 > 
-> Greg, anything I can do to move this forward?
+> 
+> Vennela,
+> 
+> There is a difference between "wakeup source registration" and "wakeup capable".
+> For this there are two flags defined in power management framework:
+>  1. power.wakeup
+>  2. power.can_wakeup
+>  
+> More details on these flags can be read here: 
+> https://www.kernel.org/doc/html/v6.12/driver-api/pm/devices.html
+> 
+> 'device_init_wakeup(dev, true)' sets both; ie it registers the device as a wakeup
+> source and marks it as wakeup capable too.
+> 
+> In our case, the device is "wakeup capable" but we do not want to
+> "register it as a wakeup source". 'device_set_wakeup_capable(dev, true)' is more
+> appropriate because this marks the device as wakeup capable but doesn't register
+> it as a wakeup source knowingly.
+> 
+> I understand that Dimitry suggests not to revert the entire patch but to replace
+> 'device_init_wakeup' with 'device_set_wakeup_capable', to mark the device as
+> capable of wakeup but knowingly skipping the registering part.
+> 
+> Requesting Dimitry to correct me if there is any misinterpretation.
+> 
+> While fixing this in next version, please fix the kernel bot warings as well
+> reported for 1/3 patch of this series.
+> 
+> - Saurabh
+Thanks for the clarification Saurabh.
+I'll be incorporating these changes in the next verison of the patch.
 
-Greg, is it possible to give your Ack or comment or guidance of the preferences
-with the first patch?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+- Vennela
 
