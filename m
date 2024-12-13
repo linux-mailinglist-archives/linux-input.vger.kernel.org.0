@@ -1,57 +1,52 @@
-Return-Path: <linux-input+bounces-8533-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8534-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC619F0421
-	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2024 06:26:07 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 679A99F058A
+	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2024 08:32:30 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 02E7A16A2D2
-	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2024 05:26:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27B002833E3
+	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2024 07:32:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BEBD188704;
-	Fri, 13 Dec 2024 05:26:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA768196D8F;
+	Fri, 13 Dec 2024 07:32:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bw4/mjm1"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YXws51p4"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD8679F5;
-	Fri, 13 Dec 2024 05:26:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46AE93207;
+	Fri, 13 Dec 2024 07:32:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734067563; cv=none; b=tDUI9nfiQaKi+grH21AcKQ1JxeNRuftcT95DkRAhAHZuRJgq7g+OAd60Lg7+CVqOhBvU9Yds9wVyQue0AoXcF1ECLvRjksRbvCAHkIdzKPx7KN2Gx8Mly4I5fHcQGtwAESs2yjMgopCBC0fLVmw1pjH3d2PVheMBBvecCGudjdw=
+	t=1734075145; cv=none; b=HUihgheNum5cHsn6k2mbti28rtc/z3Ug4R0dl2Q8+8slhUKeS755Fp+s7+bYS8t457ukzuF875VgpFZlpMLq1+pWMiG+u3PNHwyzV7tM3Za3Qr++Hse0+ThJsml6UfMCK9LeVgU9ll1L/T0h6bcOZ5IOlugMwDc7RKMoposy5eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734067563; c=relaxed/simple;
-	bh=M2xdmdLNhUnONPFOKg4DD+NknFYDEaK+x9KyPHrv24s=;
+	s=arc-20240116; t=1734075145; c=relaxed/simple;
+	bh=KF2u61fFy2MhhhXHsq56NzRxS4bNBSmPrcwIzbiCk28=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HJye4tLFOdtdtJRylVIdQ4swmLY/OK3kSO2urkQcPjcal6j87Mjdp1IVM0b8DA19An3kk4HkmEGFZXWi+UbPJYzPohvPHb1X+GJdzWpf7taYDwOFxTQGhGtV7lHtIvK4tx8JeRqKY+0YW6hmfm5UX2ki3Gh5OTj16nt1TS6RxF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bw4/mjm1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D513C4CED1;
-	Fri, 13 Dec 2024 05:25:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734067562;
-	bh=M2xdmdLNhUnONPFOKg4DD+NknFYDEaK+x9KyPHrv24s=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=LTt9bQ078C30Ko6QS3MosAWp1BX+ai+GNzNu16u5XMyrwBWgbR5YoXF6Wp2dOvWorYpefw3drqtiEsK/J18QX+fwziYfe7zQxXP04BFSCHS76P6hwiYGGvLRWBpr5hjjYFT0P6V5Ta1QLsaNsES3CUpP/r6z28ZqBgo1FGGx7+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YXws51p4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74C47C4CED0;
+	Fri, 13 Dec 2024 07:32:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1734075144;
+	bh=KF2u61fFy2MhhhXHsq56NzRxS4bNBSmPrcwIzbiCk28=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bw4/mjm10HI4gIYEq6PcUyF1AyHtdTx8xY1u9mQ/MqJN77zbADAxHBaxyRlLd3fvm
-	 K+xp87WmOhOZL0i+Bq0ipg5X8v20dbpQflvkGqWjrmRLY/0GuREkoyHJNVYE+cNf5x
-	 z8LCuZGHvDXUpEOFv59Bb7IqvPJLfr+Ey53P+W4LJrWqp6nhL8os12GgjvLuqPfWM7
-	 tQzQgeo6YclbvdVoVzle3X83Llu3G9oxPWspWAnjZkdc3+GZOJaUxSQ04u5mGgaPm3
-	 thWesm1LM0XsGyHp4VpoNWDNgdZGRIRa8iRReDoOdNpvWyxV8vC93Zm54QQh6yd+QZ
-	 BUiwJG/w6t0xg==
-Date: Fri, 13 Dec 2024 06:25:47 +0100
-From: Niklas Cassel <cassel@kernel.org>
+	b=YXws51p4OlwPq738uGlipsQN5HV9ZVc0qBQtIDFJ/RVNPLGvtjmm8j7Lruy9AroPG
+	 fwsqluHpE8hKxixfh9G9UkxLnr46YSpthgtDfA9vQaZk5drkqBVz90PEiil9zPChQB
+	 04xHlVOMH3ZIXzCGOFptOxKKf9WCynUw3GeIuYZg=
+Date: Fri, 13 Dec 2024 08:31:45 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Philipp Stanner <pstanner@redhat.com>,
-	amien Le Moal <dlemoal@kernel.org>,
+Cc: Philipp Stanner <pstanner@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+	Alex Dubov <oakad@yahoo.com>, amien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
 	Basavaraj Natikar <basavaraj.natikar@amd.com>,
 	Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Dubov <oakad@yahoo.com>,
 	Sudarsana Kalluru <skalluru@marvell.com>,
 	Manish Chopra <manishc@marvell.com>,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -88,10 +83,10 @@ Cc: Philipp Stanner <pstanner@redhat.com>,
 	linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
 	linux-pci@vger.kernel.org, kvm@vger.kernel.org,
 	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v3 00/11] Remove implicit devres from pci_intx()
-Message-ID: <Z1vFWyHkBD4d5xnG@ryzen>
-References: <20241209130632.132074-2-pstanner@redhat.com>
- <20241212192118.GA3359591@bhelgaas>
+Subject: Re: [PATCH v3 05/11] misc: Use never-managed version of pci_intx()
+Message-ID: <2024121335-blooper-cognitive-04ec@gregkh>
+References: <20241209130632.132074-7-pstanner@redhat.com>
+ <20241212192637.GA3359920@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -100,19 +95,24 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241212192118.GA3359591@bhelgaas>
+In-Reply-To: <20241212192637.GA3359920@bhelgaas>
 
-On Thu, Dec 12, 2024 at 01:21:18PM -0600, Bjorn Helgaas wrote:
-> On Mon, Dec 09, 2024 at 02:06:22PM +0100, Philipp Stanner wrote:
+On Thu, Dec 12, 2024 at 01:26:37PM -0600, Bjorn Helgaas wrote:
+> [cc->to: Arnd, Greg, Alex]
 > 
-> Applied the ones with maintainer acks to pci/devres for v6.14, thanks!
+> On Mon, Dec 09, 2024 at 02:06:27PM +0100, Philipp Stanner wrote:
+> > pci_intx() is a hybrid function which can sometimes be managed through
+> > devres. To remove this hybrid nature from pci_intx(), it is necessary to
+> > port users to either an always-managed or a never-managed version.
+> > 
+> > cardreader/rtsx_pcr.c and tifm_7xx1.c enable their PCI-Device with
+> > pci_enable_device(). Thus, they need the never-managed version.
+> > 
+> > Replace pci_intx() with pci_intx_unmanaged().
+> > 
+> > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> 
+> Looking for ack from Arnd, Greg, Alex.
 
-I don't see this on:
-https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/
-
-Did you perhaps forget to push?
-
-
-Kind regards,
-Niklas
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
