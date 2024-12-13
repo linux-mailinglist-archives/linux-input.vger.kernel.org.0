@@ -1,57 +1,57 @@
-Return-Path: <linux-input+bounces-8546-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8559-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEEE19F1A74
-	for <lists+linux-input@lfdr.de>; Sat, 14 Dec 2024 00:55:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 229439F1AB7
+	for <lists+linux-input@lfdr.de>; Sat, 14 Dec 2024 00:59:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9ADCD162E45
-	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2024 23:55:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C561164971
+	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2024 23:59:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B6671F03D1;
-	Fri, 13 Dec 2024 23:54:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F21B51F7568;
+	Fri, 13 Dec 2024 23:54:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="G2vMGim8"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="YS4u2T8S"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5E21A8F81;
-	Fri, 13 Dec 2024 23:54:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19061F0E58;
+	Fri, 13 Dec 2024 23:54:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734134076; cv=none; b=T2qPb3j+k4urKf+jQvYL2C+w+EQgfe7Yd34LIRumTuH2VZUcAyBkOOYL/D1znoVBzxLDxYvdTpgGNubZy9G+mVdAH0uZ/5mxIa9one856i4jKTQfTP+B4RdGmOAOFupvJohbXq4QRoaTTzqtt6y2Z9oulx0dmegDu/KQqazXQjw=
+	t=1734134081; cv=none; b=BklXQ/kGhh2awQIic58sf3kIfKyYKgnN+3lxGLj14Ey35wOnM7a0i3gtBYKc+1CmHsQfCSH0Ucgfg6zFBTjIC+nhSeSTeYMyBoF0FiN8PmYn0jWNjguhqvxQJmc77xn3JRhlDuW8++8l2NdXVA1n8rd01Rk9SpHnzAQvV5DKVlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734134076; c=relaxed/simple;
-	bh=42e10Snc0wUbVdKrZPgpf61d0V6+qrzPtHxy89amw+g=;
+	s=arc-20240116; t=1734134081; c=relaxed/simple;
+	bh=7NzY+rQjZtZxvS8YGBTurFrSh25G2qHJCeE5hj/iE5g=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R2jyt0Jzg7s5SdBsbCjNAbq6MntxESDmUblgob8zEEz1ahpb+UaAGM9ZvPXwi8jQBRhnJbhSmw7neaXGTjVyq2Ulmtr5ZB1fzTPNLOx+csfwMa+0iv6sHZdHOJuf3u6rJ12xW8iJ6xcmKKbE+BsXPBfImXDjzdgtoG1Q8lKHb3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=G2vMGim8; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=fsRBRxZGKA+gTVQnFrcB0UWZc/1R1UqKNg3oNILsqbbz9EyVAcu+K+a2Y6hrdQKlJKctwgih0RgcCLkom/W5KOl6jpdv/lLj5Dyq1p421wjB9RAkCw9hLAsEFg0/NoqNOE7nlbOQ4K1jhru4sOt2rORx9e2hOUTeWBSA8BQ4y3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=YS4u2T8S; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BDBTqLX001435;
-	Fri, 13 Dec 2024 23:54:16 GMT
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BDLgPdD006088;
+	Fri, 13 Dec 2024 23:54:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	W0PbZsgqeupe7o3JmCwWNTApsoNxUiOoO31kTbEPC3w=; b=G2vMGim82yp3WQEN
-	s2qr4+appkuXYbD9ibUTjLqzXspagQytM+V13Q6dA56qgw/oVlBi/heOCTrtwF5K
-	QXH7j0GKl06WNQXmytPjMvhXSYCrj/WCmNj73mjYv1XcM6sFcs5BlHKFlHMIV/fv
-	KcxYkkf3l/5q7M0sU2xS1AZOyc8B+Mg8KZDdxhb8+AXcd6mzyipXHLVo8MZ86kub
-	2Uw8tZ7AELXPYnLgvvV8J4+3T5XbBOm4Lwtn0vZvtsBgTc/02lkjHwZNdhbMFrgl
-	LjqMoqaKYwC1/M5oOkq3AHtgsbpENFMOVmhuKPmJ+9hB/BLyRkDkbr7xOUZ1EwsV
-	gh53Tw==
+	Tv/rANzRDU2D7JNGBJWwaAQU6MpcqcMD4ttyC0huXJY=; b=YS4u2T8SGUegDTJj
+	BaWen8pLOqGYOdo9oLKqO/ZVYlpJij+Oot0RGaeLjdmXnagODS8nC356JoMuBBrT
+	KR5ZK8jfxxmhKpfp59RWNVtkL6xRdOuKbH/dLvYcMEWgbEv4ixXVIjJkhsoi8v0n
+	lW/PjRnMiSKWbrYRo0WkxYJ4g8i1J9Fx29WkDasnzKFW4tMajmaoRTluSNV5LRMm
+	820B15Q1PRgYowxyZM6sTe5vY5ZgnjQisVDetI9X6E+7rZHWw643qdn8d2/EWa86
+	ntTN2caoDGEF/nyX0BcJt2bwS108Uw4FKUgyg1+3UTsmIazAEG7v0IMC/JFiCZrU
+	Kq/OdQ==
 Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43gm3s1kvt-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43gw2kg64y-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Fri, 13 Dec 2024 23:54:16 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BDNsFg6026138
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BDNsGPV026143
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 13 Dec 2024 23:54:15 GMT
+	Fri, 13 Dec 2024 23:54:16 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -67,9 +67,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <linux-doc@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v31 06/32] usb: host: xhci: Notify xHCI sideband on transfer ring free
-Date: Fri, 13 Dec 2024 15:53:37 -0800
-Message-ID: <20241213235403.4109199-7-quic_wcheng@quicinc.com>
+Subject: [PATCH v31 07/32] usb: dwc3: Specify maximum number of XHCI interrupters
+Date: Fri, 13 Dec 2024 15:53:38 -0800
+Message-ID: <20241213235403.4109199-8-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241213235403.4109199-1-quic_wcheng@quicinc.com>
 References: <20241213235403.4109199-1-quic_wcheng@quicinc.com>
@@ -85,166 +85,106 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: R0dxJvTvqOYVeIuHKQsA51IsDG_IN3KF
-X-Proofpoint-GUID: R0dxJvTvqOYVeIuHKQsA51IsDG_IN3KF
+X-Proofpoint-GUID: 91iBnNY84FUeK_bBV9I4sZmfdX9sLT7Z
+X-Proofpoint-ORIG-GUID: 91iBnNY84FUeK_bBV9I4sZmfdX9sLT7Z
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 impostorscore=0 phishscore=0 mlxscore=0 bulkscore=0
- spamscore=0 clxscore=1015 suspectscore=0 priorityscore=1501 malwarescore=0
- mlxlogscore=832 classifier=spam adjust=0 reason=mlx scancount=1
+ phishscore=0 clxscore=1015 mlxlogscore=864 bulkscore=0 malwarescore=0
+ spamscore=0 priorityscore=1501 mlxscore=0 suspectscore=0 adultscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2411120000 definitions=main-2412130170
 
-In the case of handling a USB bus reset, the xhci_discover_or_reset_device
-can run without first notifying the xHCI sideband client driver to stop or
-prevent the use of the transfer ring.  It was seen that when a bus reset
-situation happened, the USB offload driver was attempting to fetch the xHCI
-transfer ring information, which was already freed.
+Allow for the DWC3 host driver to pass along XHCI property that defines
+how many interrupters to allocate.  This is in relation for the number of
+event rings that can be potentially used by other processors within the
+system.
 
+Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- drivers/usb/host/xhci-sideband.c  | 29 ++++++++++++++++++++++++++++-
- drivers/usb/host/xhci.c           |  3 +++
- include/linux/usb/xhci-sideband.h | 30 +++++++++++++++++++++++++++++-
- 3 files changed, 60 insertions(+), 2 deletions(-)
+ drivers/usb/dwc3/core.c | 12 ++++++++++++
+ drivers/usb/dwc3/core.h |  2 ++
+ drivers/usb/dwc3/host.c |  3 +++
+ 3 files changed, 17 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
-index baf252a3de48..ffa6f1b825ff 100644
---- a/drivers/usb/host/xhci-sideband.c
-+++ b/drivers/usb/host/xhci-sideband.c
-@@ -88,6 +88,30 @@ __xhci_sideband_remove_endpoint(struct xhci_sideband *sb, struct xhci_virt_ep *e
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index c22b8678e02e..6c960ff30c92 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1684,6 +1684,7 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	u8			tx_thr_num_pkt_prd = 0;
+ 	u8			tx_max_burst_prd = 0;
+ 	u8			tx_fifo_resize_max_num;
++	u16			num_hc_interrupters;
+ 	const char		*usb_psy_name;
+ 	int			ret;
  
- /* sideband api functions */
+@@ -1706,6 +1707,9 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	 */
+ 	tx_fifo_resize_max_num = 6;
  
-+/**
-+ * xhci_sideband_notify_ep_ring_free - notify client of xfer ring free
-+ * @sb: sideband instance for this usb device
-+ * @ep_index: usb endpoint index
-+ *
-+ * Notifies the xHCI sideband client driver of a xHCI transfer ring free
-+ * routine.  This will allow for the client to ensure that all transfers
-+ * are completed.
-+ *
-+ * The callback should be synchronous, as the ring free happens after.
-+ */
-+void xhci_sideband_notify_ep_ring_free(struct xhci_sideband *sb,
-+				       unsigned int ep_index)
-+{
-+	struct xhci_sideband_event evt;
++	/* default to a single XHCI interrupter */
++	num_hc_interrupters = 1;
 +
-+	evt.type = XHCI_SIDEBAND_XFER_RING_FREE;
-+	evt.evt_data = &ep_index;
+ 	dwc->maximum_speed = usb_get_maximum_speed(dev);
+ 	dwc->max_ssp_rate = usb_get_maximum_ssp_rate(dev);
+ 	dwc->dr_mode = usb_get_dr_mode(dev);
+@@ -1759,6 +1763,12 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 				&tx_thr_num_pkt_prd);
+ 	device_property_read_u8(dev, "snps,tx-max-burst-prd",
+ 				&tx_max_burst_prd);
++	device_property_read_u16(dev, "num-hc-interrupters",
++				 &num_hc_interrupters);
++	/* DWC3 core allowed to have a max of 8 interrupters */
++	if (num_hc_interrupters > 8)
++		num_hc_interrupters = 8;
 +
-+	if (sb->notify_client)
-+		sb->notify_client(sb->intf, &evt);
-+}
-+EXPORT_SYMBOL_GPL(xhci_sideband_notify_ep_ring_free);
+ 	dwc->do_fifo_resize = device_property_read_bool(dev,
+ 							"tx-fifo-resize");
+ 	if (dwc->do_fifo_resize)
+@@ -1847,6 +1857,8 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	dwc->imod_interval = 0;
+ 
+ 	dwc->tx_fifo_resize_max_num = tx_fifo_resize_max_num;
 +
- /**
-  * xhci_sideband_add_endpoint - add endpoint to sideband access list
-  * @sb: sideband instance for this usb device
-@@ -344,7 +368,9 @@ EXPORT_SYMBOL_GPL(xhci_sideband_interrupter_id);
-  * Return: pointer to a new xhci_sideband instance if successful. NULL otherwise.
-  */
- struct xhci_sideband *
--xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type)
-+xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type,
-+		       int (*notify_client)(struct usb_interface *intf,
-+				    struct xhci_sideband_event *evt))
- {
- 	struct usb_device *udev = interface_to_usbdev(intf);
- 	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
-@@ -383,6 +409,7 @@ xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type)
- 	sb->vdev = vdev;
- 	sb->intf = intf;
- 	sb->type = type;
-+	sb->notify_client = notify_client;
- 	vdev->sideband = sb;
++	dwc->num_hc_interrupters = num_hc_interrupters;
+ }
  
- 	spin_unlock_irq(&xhci->lock);
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 514a36914ed9..972395d297f1 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -19,6 +19,7 @@
- #include <linux/slab.h>
- #include <linux/dmi.h>
- #include <linux/dma-mapping.h>
-+#include <linux/usb/xhci-sideband.h>
+ /* check whether the core supports IMOD */
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index ff89df2cfb8a..0b6a07202609 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -1080,6 +1080,7 @@ struct dwc3_scratchpad_array {
+  * @tx_max_burst_prd: max periodic ESS transmit burst size
+  * @tx_fifo_resize_max_num: max number of fifos allocated during txfifo resize
+  * @clear_stall_protocol: endpoint number that requires a delayed status phase
++ * @num_hc_interrupters: number of host controller interrupters
+  * @hsphy_interface: "utmi" or "ulpi"
+  * @connected: true when we're connected to a host, false otherwise
+  * @softconnect: true when gadget connect is called, false when disconnect runs
+@@ -1327,6 +1328,7 @@ struct dwc3 {
+ 	u8			tx_max_burst_prd;
+ 	u8			tx_fifo_resize_max_num;
+ 	u8			clear_stall_protocol;
++	u16			num_hc_interrupters;
  
- #include "xhci.h"
- #include "xhci-trace.h"
-@@ -3909,6 +3910,8 @@ static int xhci_discover_or_reset_device(struct usb_hcd *hcd,
- 		}
+ 	const char		*hsphy_interface;
  
- 		if (ep->ring) {
-+			if (ep->sideband)
-+				xhci_sideband_notify_ep_ring_free(ep->sideband, i);
- 			xhci_debugfs_remove_endpoint(xhci, virt_dev, i);
- 			xhci_free_endpoint_ring(xhci, virt_dev, i);
- 		}
-diff --git a/include/linux/usb/xhci-sideband.h b/include/linux/usb/xhci-sideband.h
-index f6023b1b062b..72aa17eb068d 100644
---- a/include/linux/usb/xhci-sideband.h
-+++ b/include/linux/usb/xhci-sideband.h
-@@ -21,6 +21,20 @@ enum xhci_sideband_type {
- 	XHCI_SIDEBAND_VENDOR,
- };
+diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+index b48e108fc8fe..1c513bf8002e 100644
+--- a/drivers/usb/dwc3/host.c
++++ b/drivers/usb/dwc3/host.c
+@@ -182,6 +182,9 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 	if (DWC3_VER_IS_WITHIN(DWC3, ANY, 300A))
+ 		props[prop_idx++] = PROPERTY_ENTRY_BOOL("quirk-broken-port-ped");
  
-+enum xhci_sideband_notify_type {
-+	XHCI_SIDEBAND_XFER_RING_FREE,
-+};
++	props[prop_idx++] = PROPERTY_ENTRY_U16("num-hc-interrupters",
++					       dwc->num_hc_interrupters);
 +
-+/**
-+ * struct xhci_sideband_event - sideband event
-+ * @type: notifier type
-+ * @evt_data: event data
-+ */
-+struct xhci_sideband_event {
-+	enum xhci_sideband_notify_type type;
-+	void *evt_data;
-+};
-+
- /**
-  * struct xhci_sideband - representation of a sideband accessed usb device.
-  * @xhci: The xhci host controller the usb device is connected to
-@@ -29,6 +43,7 @@ enum xhci_sideband_type {
-  * @ir: event handling and buffer for sideband accessed device
-  * @mutex: mutex for sideband operations
-  * @intf: USB sideband client interface
-+ * @notify_client: callback for xHCI sideband sequences
-  *
-  * FIXME usb device accessed via sideband Keeping track of sideband accessed usb devices.
-  */
-@@ -43,10 +58,14 @@ struct xhci_sideband {
- 	struct mutex			mutex;
- 
- 	struct usb_interface		*intf;
-+	int (*notify_client)(struct usb_interface *intf,
-+			     struct xhci_sideband_event *evt);
- };
- 
- struct xhci_sideband *
--xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type);
-+xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type,
-+		       int (*notify_client)(struct usb_interface *intf,
-+				    struct xhci_sideband_event *evt));
- void
- xhci_sideband_unregister(struct xhci_sideband *sb);
- int
-@@ -70,4 +89,13 @@ void
- xhci_sideband_remove_interrupter(struct xhci_sideband *sb);
- int
- xhci_sideband_interrupter_id(struct xhci_sideband *sb);
-+
-+#if IS_ENABLED(CONFIG_USB_XHCI_SIDEBAND)
-+void xhci_sideband_notify_ep_ring_free(struct xhci_sideband *sb,
-+				       unsigned int ep_index);
-+#else
-+static inline void xhci_sideband_notify_ep_ring_free(struct xhci_sideband *sb,
-+						     unsigned int ep_index)
-+{ }
-+#endif /* IS_ENABLED(CONFIG_USB_XHCI_SIDEBAND) */
- #endif /* __LINUX_XHCI_SIDEBAND_H */
+ 	if (prop_idx) {
+ 		ret = device_create_managed_software_node(&xhci->dev, props, NULL);
+ 		if (ret) {
 
