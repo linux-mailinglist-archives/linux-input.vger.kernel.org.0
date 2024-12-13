@@ -1,139 +1,133 @@
-Return-Path: <linux-input+bounces-8537-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8538-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86BEC9F0CA0
-	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2024 13:45:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ECEF9F1464
+	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2024 18:53:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2056C2812CD
-	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2024 12:45:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4CF1C280E04
+	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2024 17:53:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A2131DFDAF;
-	Fri, 13 Dec 2024 12:45:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 638211E0DAC;
+	Fri, 13 Dec 2024 17:53:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="niipu787"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dsGwzCps"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF171DFD9E
-	for <linux-input@vger.kernel.org>; Fri, 13 Dec 2024 12:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AEF3187FFA;
+	Fri, 13 Dec 2024 17:53:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734093908; cv=none; b=KvyfaFSI03SRKszmVv9KwZ2LHcOnwugxUwDwNbHvqoU+h52tuT1PXSAX9xzhrjb27Qf6ppNsIA9nFZGCEVsKg1nmXVVGGMsNTXqRpbsDM5CZbUq4z01fCli6XZRV9M737NXtFueIsxMDSl9z3ZCj7C+/PCVhyiq8LiE+vaVR1Mk=
+	t=1734112431; cv=none; b=Y5Uplpsd5HFc7QAKP0H6ZLhlhukl7L8K5m8IvH/fpmotA4wyoLjoxx2BmyMGfRe2hh4lrNu3xiAvtpu2PpO8bw6XVNZegVHmqFdN0ndh5kJsKtWEvbFi1pCwBz99pbeg88yI4Vav2eafIADm10pXdgNaC8ThQ1V9cjCd61BEDZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734093908; c=relaxed/simple;
-	bh=JYpFD2JTyAPHJh0LcGmkihjMxrYJLIJGHzffjuy4Oh8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=M/vNm6Tf2NSduO9GahAQcca7+G+LRslaHv9U7era50QIEI98hINEboYpppg8raIOzL9Qcw0Sfs59XFHSmnTdkYjX4w5692H3/quBzz7BHYYggjHFcjhrh/6lpHE57gk9QyAMc2Xf848zCzUTyFxwbwcGnXkadj/PmluxEOrMO3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=niipu787; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD9p2bB018175
-	for <linux-input@vger.kernel.org>; Fri, 13 Dec 2024 12:45:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	+py4yuAWBmdgeW1jPtgIlP3H1NVXLVQsrI1tZ7iOqmo=; b=niipu787Rs0b8dCX
-	0NQOz72fcxoh6msFFF4aZASD9R/vn6eKHtZU9OmNgmgH53G/UoLz2BfjNGuHZ5Cq
-	PL2c8YOumVhZ31YOCMIxeUsDrEAf+ny/8rf30IatXI/oijdsQT8Nlw7bX6WTTHpc
-	z+Kfds7klzn+OSscqid69ObgI4nylWOYkmkSlgTv0SZ6LLJAKzo8uBgqG+VexCOn
-	dcWFUvJWBBcCK516Md7HACL/ePoU7Q6u+orZw7YJ8EG7CHSRBUVQTOhq5gUT6gWE
-	jo/+dhxCsqRCMrpnnm0gl/7oy2as+TyZ1MWTm0c5LRpClYkudCnkv4LhbaqkU7L+
-	/3ygMQ==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43gjnb0ge7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-input@vger.kernel.org>; Fri, 13 Dec 2024 12:45:06 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-467975f1b53so4501351cf.3
-        for <linux-input@vger.kernel.org>; Fri, 13 Dec 2024 04:45:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734093905; x=1734698705;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+py4yuAWBmdgeW1jPtgIlP3H1NVXLVQsrI1tZ7iOqmo=;
-        b=K5iYtjGteRii3UbU7zpy+5jq2icDM/g+HgMQhtBlU11Dfh5rcXhbwZ3ub7sAAJ/A1V
-         is4bYo+2+VLdtPvhHcVWRv8p82Mb3UCGuUW9gAUi3A5ULfp3b1MxixGj3fo/IHrt873i
-         4Tu1tUCNrR3g2ky0k7ySLCLta5jmpjt53KdrIcKpYvAI4HRr6YtcclvhH1f1RUCf90XT
-         asrLW7I0JhzL3LbYkJpsL9PJngD9p05luk19iMn2aas8/XjEK/lOqfUo62ksVqNDkuq3
-         V8Mu+J5D4YBQMF3AAVAbAfGLPlBCLaQHUPCkzOfzO7r5R5uvv/d3sez1lXJ5gNB0nQZ8
-         W3pw==
-X-Forwarded-Encrypted: i=1; AJvYcCWXzzzAKFqTS3eOP6mCDdzM+64RMHHsoieDSfShMcuMoZ1ZnCWewMzjHAHkoDN2TRl7l2+M6r+Wj0J49w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzG1aYZ9m01zI47oMIFTt7/ZRUM38UY5iXblTzyaydSsxqsGNT0
-	g9exb5qHEvBtlbHSt3X7YvDz0znrOMEriE7XxAEzsou9XNfvnGK/QLXvDBu2kSZ5evYkgA5krxx
-	ddsGrkioA0kNxIL9YD3GEn47goVidW6C4UGXe3mCdTtxzRNUEBuiFBSMc70JZeQ==
-X-Gm-Gg: ASbGnct3DKQ3uOxrklHKFnB06dKwVid+8QB7RlIwE1lu4sUckCzRXhKUxNIdrhfLlyx
-	GvyVhVve/jFZoeYZoyF4faxxfEZIQYZUuMXOWqsVZXcRQi/fXI+wGXgTGn6FVnHUJ2+jkrMvf6a
-	Ai+86qXrQFIc+YlmRhLeJrZ6BKw5cvgLF2a2P3XQbVWKD3olE6l8x/RX2eRRXnjozL6iO2kERA0
-	QUBkCJpJN+GUFIKMzZijyONqYwDJMDrGdEdlmz3QPXOWibNV5EJvRFFmef1mrvx6jScqv+4S2r7
-	Jiirb4mHHbY/HFwi5csjkx3US6C2S035/SsK
-X-Received: by 2002:ac8:5dd4:0:b0:464:af83:ba34 with SMTP id d75a77b69052e-467a580084dmr15700751cf.10.1734093904787;
-        Fri, 13 Dec 2024 04:45:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGWpBo8jDKAUGFcsAt5h3utlrt4X9Lyu++J7Nctz8IrQCa+saJdAY2YnvB6PCnanR2c4n+x3Q==
-X-Received: by 2002:ac8:5dd4:0:b0:464:af83:ba34 with SMTP id d75a77b69052e-467a580084dmr15700481cf.10.1734093904269;
-        Fri, 13 Dec 2024 04:45:04 -0800 (PST)
-Received: from [192.168.58.241] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa699487854sm592175166b.13.2024.12.13.04.45.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Dec 2024 04:45:03 -0800 (PST)
-Message-ID: <3d54859a-0f10-4e67-a05d-be5546a949f0@oss.qualcomm.com>
-Date: Fri, 13 Dec 2024 13:45:02 +0100
+	s=arc-20240116; t=1734112431; c=relaxed/simple;
+	bh=giLsrBe+eXIr2Z5RCc4V156ArPFV4LhVw7wYhIzIoXE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=TjxITHd02ehDSerFxudBlFZyRpdunAWlFjdwEpTml/F3ia7cY54S+XaZBEMNQArNH9g/91aQh+x/zgF2CC+HvFbYHuCSM546jDCbcmwUWegQ2wiKaR03J3dZoh8r0fBaOxGQxgCUfq0gjYoOoF9ETeTC8uZnzLx3jXWTxUvScTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dsGwzCps; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6830CC4CED0;
+	Fri, 13 Dec 2024 17:53:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734112430;
+	bh=giLsrBe+eXIr2Z5RCc4V156ArPFV4LhVw7wYhIzIoXE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=dsGwzCpsHyKSEp5dYNZqIU7VIPCf1+1BvfLnsNExHvF+KgHEKWxdDya2OH4Yb1KdO
+	 xjyNZsn9LGsL+5ubm9YwLy6PfO1o9HHK4GH9HnfKOzJfFxn/wgTn1u4o1aUgnAXEWn
+	 GkW8WT5ub+1C8izqxGJm68p92qbUmH0Zz6j12LSWYDuKvCO0PKAmAIFG8J70k4DM58
+	 BkmbpSUnFf6MODuN2bFpAw11s14p/2yDMhpzWn6yJuuKNDwnCnEugjbstu3jKrQ4hZ
+	 YZx0beo5hpke+CycdWaTs127pteqlLsHIM7BixvuD11GKP+6nU5Tvb5YUerVZXNZPP
+	 DkNTiHRBWPZvw==
+Date: Fri, 13 Dec 2024 11:53:49 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Kalle Valo <kvalo@kernel.org>
+Cc: Philipp Stanner <pstanner@redhat.com>,
+	Igor Mitsyanko <imitsyanko@quantenna.com>,
+	amien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Basavaraj Natikar <basavaraj.natikar@amd.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Sergey Matyukevich <geomatsi@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Dubov <oakad@yahoo.com>,
+	Sudarsana Kalluru <skalluru@marvell.com>,
+	Manish Chopra <manishc@marvell.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Sanjay R Mehta <sanju.mehta@amd.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Chen Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>,
+	Al Viro <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mostafa Saleh <smostafa@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Yi Liu <yi.l.liu@intel.com>, Kunwu Chan <chentao@kylinos.cn>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Eric Auger <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>,
+	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
+	Igor Mitsyanko <i.mitsyanko@gmail.com>
+Subject: Re: [PATCH v3 09/11] wifi: qtnfmac: use always-managed version of
+ pcim_intx()
+Message-ID: <20241213175349.GA3421319@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] arm64: dts: qcom: sdm845-xiaomi-beryllium-common:
- add touchscreen related nodes
-To: Joel Selvaraj <joelselvaraj.oss@gmail.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Joel Selvaraj <foss@joelselvaraj.com>
-References: <20241208-pocof1-touchscreen-support-v2-0-5a6e7739ef45@joelselvaraj.com>
- <20241208-pocof1-touchscreen-support-v2-2-5a6e7739ef45@joelselvaraj.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20241208-pocof1-touchscreen-support-v2-2-5a6e7739ef45@joelselvaraj.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: iAf7qNiwThu1Wsm0urNx4BNq8JorKMmh
-X-Proofpoint-GUID: iAf7qNiwThu1Wsm0urNx4BNq8JorKMmh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- lowpriorityscore=0 bulkscore=0 clxscore=1011 phishscore=0
- priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0 mlxscore=0
- suspectscore=0 mlxlogscore=772 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2412130089
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87cyhvoox9.fsf@kernel.org>
 
-On 8.12.2024 4:23 PM, Joel Selvaraj wrote:
-> From: Joel Selvaraj <joelselvaraj.oss@gmail.com>
+[+cc personal address for Igor]
+
+On Fri, Dec 13, 2024 at 12:30:42PM +0200, Kalle Valo wrote:
+> Bjorn Helgaas <helgaas@kernel.org> writes:
 > 
-> Enable qupv3_id_1 and gpi_dma1 as they are required for configuring
-> touchscreen. Also add pinctrl configurations needed for touchscreen.
-> These are common for both the tianma and ebbg touchscreen variant.
-> In the subsequent patches, we will enable support for the Novatek NT36672a
-> touchscreen and FocalTech FT8719 touchscreen that are used in the Poco F1
-> Tianma and EBBG panel variant respectively. This is done in preparation
-> for that.
+> > [cc->to: Igor]
+> >
+> > On Mon, Dec 09, 2024 at 02:06:31PM +0100, Philipp Stanner wrote:
+> >> pci_intx() is a hybrid function which can sometimes be managed through
+> >> devres. To remove this hybrid nature from pci_intx(), it is necessary to
+> >> port users to either an always-managed or a never-managed version.
+> >> 
+> >> qtnfmac enables its PCI-Device with pcim_enable_device(). Thus, it needs
+> >> the always-managed version.
+> >> 
+> >> Replace pci_intx() with pcim_intx().
+> >> 
+> >> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> >> Acked-by: Kalle Valo <kvalo@kernel.org>
+> >
+> > Hoping for an ack from Igor, too.
 > 
-> Signed-off-by: Joel Selvaraj <foss@joelselvaraj.com>
-> ---
+> Igor hasn't been around for a while so I'm not expecting see an ack from
+> him, I think the whole qtnfmac driver should be removed in the future.
+> Feel free to take the patch as is.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-
-Konrad
+Thanks, Kalle, will do.
 
