@@ -1,122 +1,121 @@
-Return-Path: <linux-input+bounces-8556-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8574-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A269F1AA6
-	for <lists+linux-input@lfdr.de>; Sat, 14 Dec 2024 00:58:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 891919F23FB
+	for <lists+linux-input@lfdr.de>; Sun, 15 Dec 2024 13:58:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3ED2D188DFF5
-	for <lists+linux-input@lfdr.de>; Fri, 13 Dec 2024 23:58:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B5FB18864D2
+	for <lists+linux-input@lfdr.de>; Sun, 15 Dec 2024 12:58:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7F641F668A;
-	Fri, 13 Dec 2024 23:54:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72C30186E46;
+	Sun, 15 Dec 2024 12:58:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="poAbWf/t"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gMf2hFu4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F6B1F4288;
-	Fri, 13 Dec 2024 23:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5C41E871;
+	Sun, 15 Dec 2024 12:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734134080; cv=none; b=kmXo6ZhIwZmp1v1qxVpUeDs+55+Yu7Ddi7aGTOqwmZ2OdIdA95DripoeH95EPqnNrZHjhewha3V6sklLv6On73/a6WbLXtrwaVdUal2prsOc4ueTllrT1ttC4YXSLdNnhYNxvAjG6INusd2uV9qgMHif2IqTPLjDjTGS4sbR9nA=
+	t=1734267487; cv=none; b=K3Asw+3znvskQDhmfw1rKPNUGtod/qh3ewmM6KUvpUtFyT/1Z7jTKFq2dfJ0Oly8UYmJCDC6zZkHRroDcuu9jzPKnGNTGxPq52nvYn57pA7376SKcXkL2a7ULo0cWUFP0vFB3mbMmYm6Q9BTwEG6/P9h/wRuobrZ3tJYidd3dQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734134080; c=relaxed/simple;
-	bh=FdcNret76wwuxs2K4Ssm9WRLfZvc8OI4p79sJ4/bjj0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XYCUFM1ecygMYBGU1SfnCDYXBJPPpfQsTPT05VOKFI5LrHDZU7RL3N6arlfaAA2I9uwQKjWAqXuR0czJM4LST2IeWXdbTHRdbyWZK4Aaq75Sh6aAxE7gOuiDMurIuInHCaU0sCR2diuZ0i+2ISXRS7I/VMtJJjntzaG9b8KiWww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=poAbWf/t; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BDBTqqx001422;
-	Fri, 13 Dec 2024 23:54:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	5vkWtM2vRo+e/JMzMahFKMWez35ZrsbEXT1RxAlT0mM=; b=poAbWf/tvsPAYJCT
-	4BfbSj/yYF+D7ryNXczPKMs/7xWDM25tV1Hh+UwvJiTy15Aex6jIct8aWogsXalj
-	l12Mxw9ABLpngh+pZb9p2825E1qwZPmCLkdopfEhIkXmLJD9ZK15m3Vnt/yA7IjP
-	apciIshIicbx8sXOy15fbZVXkBT1fWiCZSre9slFQgFxetCs172ynN6UTG4aRdCe
-	kuMViqLM6cBqc+97HtQtO3dDTT7l/pBrSDE4fFzlccPtO1wjqBHSczxc2+lhojtT
-	IYElaIqyhIUio9WjfTlg5Zh83jy/z7+m7WgliCV5RfsdTVmdGPg4Z0w/zLoZonJ2
-	xpn4Vg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43gm3s1kw3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 13 Dec 2024 23:54:23 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BDNsNnP007270
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 13 Dec 2024 23:54:23 GMT
-Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Fri, 13 Dec 2024 15:54:22 -0800
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <tiwai@suse.com>, <krzk+dt@kernel.org>,
-        <pierre-louis.bossart@linux.dev>, <Thinh.Nguyen@synopsys.com>,
-        <robh@kernel.org>, <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v31 32/32] ALSA: usb-audio: qcom: Notify USB audio devices on USB offload probing
-Date: Fri, 13 Dec 2024 15:54:03 -0800
-Message-ID: <20241213235403.4109199-33-quic_wcheng@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241213235403.4109199-1-quic_wcheng@quicinc.com>
-References: <20241213235403.4109199-1-quic_wcheng@quicinc.com>
+	s=arc-20240116; t=1734267487; c=relaxed/simple;
+	bh=FxifYn/J+GjNzuVqe3a+BCsrK72tNlO+6PLafLcq+tI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NmAaTChdGTX3G+l4ifBic51RRaijBYu9HnliJ+kwE0K2Q6ow5vNODCLffGkFM6ngu/qP55K83UDFnfjYgbTQQrT4t9yrJP1CHXn6v3J51oirmGk0VkjitY3uLsNLow1m71AGJrUdMiz0WwIrYFdKRh9sMaNpl/Bh9ft3Ef5WoMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gMf2hFu4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8325EC4CECE;
+	Sun, 15 Dec 2024 12:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734267486;
+	bh=FxifYn/J+GjNzuVqe3a+BCsrK72tNlO+6PLafLcq+tI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=gMf2hFu4o8zeSuijrgmVpm9v3ZMIzFBxQZndg7oa0go+XzjbPgd9Se+oF0KpgfV3K
+	 XRhqff+LDFiz43ZukEbjs44Mpv2SsvsftfI50nR1kkNFCz2sKVhkuprE6s8PuNPajZ
+	 7IRV3Ka4ZwaFAPafF0f7lb3QV6wcVlmX0Ni2eI8o7dtZQpPi+YVydZcW3eVOJYfyTZ
+	 yDpY5JlARczYOw20P+RgzAy89C9cBJ3hsV2F3AZ80rxoPo/blg6xqXokpP0Njqj0BX
+	 HhWBcuvN4YQPNkGHFdeFSv9uwYnSEJeEZNtm4+eIM8wf0ZDbUM8WzWAfsLECxMWYXj
+	 t98DoMlA8TLjQ==
+Date: Sun, 15 Dec 2024 12:57:58 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Ricardo Ribalda <ribalda@chromium.org>, Jiri Kosina <jikos@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>, linux-input@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] iio: hid-sensor-prox: Fix invalid read_raw for
+ attention
+Message-ID: <20241215125758.558cc0ef@jic23-huawei>
+In-Reply-To: <d164919c9290ca1410bc21746511799a5c17b94d.camel@linux.intel.com>
+References: <20241122-fix-processed-v2-1-b9f606d3b519@chromium.org>
+	<d164919c9290ca1410bc21746511799a5c17b94d.camel@linux.intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: gUunsEwxa5aeU-V8Qg6v5xBssH_yJDXR
-X-Proofpoint-GUID: gUunsEwxa5aeU-V8Qg6v5xBssH_yJDXR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 impostorscore=0 phishscore=0 mlxscore=0 bulkscore=0
- spamscore=0 clxscore=1015 suspectscore=0 priorityscore=1501 malwarescore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412130170
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-If the vendor USB offload class driver is not ready/initialized before USB
-SND discovers attached devices, utilize snd_usb_rediscover_devices() to
-find all currently attached devices, so that the ASoC entities are notified
-on available USB audio devices.
+On Fri, 22 Nov 2024 09:55:04 -0800
+srinivas pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
 
-Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
----
- sound/usb/qcom/qc_audio_offload.c | 2 ++
- 1 file changed, 2 insertions(+)
+> On Fri, 2024-11-22 at 17:36 +0000, Ricardo Ribalda wrote:
+> > The attention channel is a IIO_CHAN_INFO_PROCESSED, not a
+> > IIO_CHAN_INFO_RAW.
+> >=20
+> > Modify prox_read_raw() to support it.
+> >=20
+> > Fixes: 596ef5cf654b ("iio: hid-sensor-prox: Add support for more
+> > channels")
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org> =20
+>=20
+> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-index 285f05a5e16b..7dd7e51109df 100644
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -1972,6 +1972,8 @@ static int __init qc_usb_audio_offload_init(void)
- 	if (ret < 0)
- 		goto release_qmi;
- 
-+	snd_usb_rediscover_devices();
-+
- 	return 0;
- 
- release_qmi:
+Applied to the fixes-togreg branch of iio.git.
+
+Thanks,
+
+Jonathan
+
+>=20
+> > ---
+> > Changes in v2:
+> > - Do not change the condition for applying the multiplier.
+> > - Link to v1:
+> > https://lore.kernel.org/r/20241121-fix-processed-v1-1-4fae6770db30@chro=
+mium.org
+> > ---
+> > =C2=A0drivers/iio/light/hid-sensor-prox.c | 1 +
+> > =C2=A01 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/drivers/iio/light/hid-sensor-prox.c
+> > b/drivers/iio/light/hid-sensor-prox.c
+> > index e8e7b2999b4c..0daa8d365a6c 100644
+> > --- a/drivers/iio/light/hid-sensor-prox.c
+> > +++ b/drivers/iio/light/hid-sensor-prox.c
+> > @@ -94,6 +94,7 @@ static int prox_read_raw(struct iio_dev *indio_dev,
+> > =C2=A0	*val2 =3D 0;
+> > =C2=A0	switch (mask) {
+> > =C2=A0	case IIO_CHAN_INFO_RAW:
+> > +	case IIO_CHAN_INFO_PROCESSED:
+> > =C2=A0		if (chan->scan_index >=3D prox_state->num_channels)
+> > =C2=A0			return -EINVAL;
+> > =C2=A0		address =3D prox_state->channel2usage[chan- =20
+> > >scan_index]; =20
+> >=20
+> > ---
+> > base-commit: decc701f41d07481893fdea942c0ac6b226e84cd
+> > change-id: 20241121-fix-processed-ed1a95641e64
+> >=20
+> > Best regards, =20
+>=20
+
 
