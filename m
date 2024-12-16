@@ -1,88 +1,84 @@
-Return-Path: <linux-input+bounces-8607-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8608-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D81B9F3764
-	for <lists+linux-input@lfdr.de>; Mon, 16 Dec 2024 18:21:37 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 329719F3776
+	for <lists+linux-input@lfdr.de>; Mon, 16 Dec 2024 18:24:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BE8157A6D62
-	for <lists+linux-input@lfdr.de>; Mon, 16 Dec 2024 17:21:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 39E837A78A0
+	for <lists+linux-input@lfdr.de>; Mon, 16 Dec 2024 17:23:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34639204F75;
-	Mon, 16 Dec 2024 17:21:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CBD3206F19;
+	Mon, 16 Dec 2024 17:22:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GJkAKTd6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MXPpFuu6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B805C25634;
-	Mon, 16 Dec 2024 17:21:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C1B2066DD;
+	Mon, 16 Dec 2024 17:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734369685; cv=none; b=AMcQPStLJq55BXIRpucM4JT68u3b5Gpe8+ytXg1IpMRyeraBLv+Z/0eetwUzYzQB3Lk9BV6xlcKR2/9nbS9x0lwg9BdU9LJHWgCSInnPUfJ+CNFrc7VtoMmlU/w6NWavaDqpQge22kIfOFxZBxIhnWalofMq4lTNkOnkpyXV/gs=
+	t=1734369742; cv=none; b=IXgsuN/Pp633wBlF8BdeZiJY6Rp+trcLiogRvCD55XIuq3ScoC+v8gn3XwDTnXQm2oY2Pgot2U6KFBk2SoNgrkza1bdgqXcFi236sQginoxaYpZU5qzJsl133rGkjQTxB9YJpDahLvYNhf4l1vpyv4t2vUUcb5J1DwY2P6udEqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734369685; c=relaxed/simple;
-	bh=IcL1XjdkUIEBmmzvEb6EiZPV4byjUljVf66+eHQX+Nw=;
+	s=arc-20240116; t=1734369742; c=relaxed/simple;
+	bh=3AEKNyNKm3hQSLovr0nmn3JnGZLxzZGEUg3dGnIjQQQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nfx4FMZvT4DxMPlMOJtNugB5fD0NvoeNWsqyBgU1sW1lPFSvTcbiC8VSdsWkJJuIL5VEyxaOxiC20P6ix+XAUwNev6rckhCJJZxh/0xYQqBTHuszTOmoN/NFtXlDcfoS0UiCoBLH2+LayUv0kXIi/m+vC+NWe7VRg3W7D9LyK0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GJkAKTd6; arc=none smtp.client-ip=209.85.210.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=tzA8I68Xdz5O+4aseWXXdGDigYkcZoKlQwC17e6KjgyI0j9rJN8M38p74CjS7SOQ1OfV8r1xK9HXSfYkoe4Ri8Ss3nJSX3x/KkWgoU8Q0FSYo4N9Kjv7p4f3uNGRkdh/+9nXLjbOWVpofiD/912egrRCrLqU7K+bwoakZ3bAiA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MXPpFuu6; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7265c18d79bso4706506b3a.3;
-        Mon, 16 Dec 2024 09:21:23 -0800 (PST)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7242f559a9fso5571257b3a.1;
+        Mon, 16 Dec 2024 09:22:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734369683; x=1734974483; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1734369739; x=1734974539; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IcjBpJX+zzgt7wIjPU2TwNu8q+9vMRU4pA4lmjT7Ylo=;
-        b=GJkAKTd6kf70cOlgyTgsfocZ4lJFWu5ZpLKAka1tn7Z1oEdcyADkKoI6x1xKjMxO0x
-         Z0wLYNcT3aNsX72CRxQh8G4kmo9U3BLUudALnsAVTP9uElN7WHGbraL3YODCTa8yN4Wk
-         1LCHlQwgvBzY/WF4XLoVY+XnM7GcCHO6ZVmj+0hAaKsPQwMsk4OLoBlkR9oCg2eaMNlk
-         RwKRT7X0mSUoNTGeEzRX0ufVu7k9DBBk+86xsD5Z1UAvI02zPs49pYN9UJ+b3bA0h+vX
-         voPAv0h029eOAduEUUZB9I4lk4YrQWD4yRV2nyQ+97oCk/aVT+aGsIdyFo5Nm+CaTvOm
-         Rllw==
+        bh=5m5xVjPgGSN/6a8xRyiY8jma1+Idk6gDOsB0PEW/Gq4=;
+        b=MXPpFuu6drm2iFdr/hyktk7UyNDLC3wJ4Tczb8uQzp19DUZyQM9yc8Oz9FFBwrpnrz
+         D1aGcSq9vXiwXZg7QOSsVpQgvkygE2lfAtsHFaIwfAyww+cKe9SHfHxegFsASAIZMUFV
+         2auOPaJ68HCN4+5FwN71TyO1JK0nK1U0KJk9uwBzUeHMqedVaJLVq5bVJ2Ok6e/otn7T
+         uJ7tGpwaUtSjHyE9SoemHtl5Isrfxa+bUZ0qRg2Yv5o5SGm19Psw1WoP2W9AI65/DMJ+
+         Q+MJJ4efz3Nkf+lI+EljWQVLhBf4BQp1FR9INUXmU4CxWVjwmEVElXbycC3/N6awZzNM
+         pqYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734369683; x=1734974483;
+        d=1e100.net; s=20230601; t=1734369739; x=1734974539;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IcjBpJX+zzgt7wIjPU2TwNu8q+9vMRU4pA4lmjT7Ylo=;
-        b=rG2F5Juw3sPJ3w+fO2/DQNkuGszp0SYwnrmaNOO0ZZ5k67T6OE/PsuBghQZ7XRKsyT
-         52MqpRoH/O6djI1FD1JswnesHqudH2swR2CNSNKGapGbjlbGPImAgWajvEeBvbAq4ycW
-         OfqoOzsxcuP8Bv9YHLwFvhi8cxzOXXJ3hIGC1ATQIl0uMaYBcenQpuFbyoU4MEC6p97c
-         MJbqG63DapfWkzcerzSrvlRx4AFw6inNZ4IyEKZmt/+dmyLEZXup9podwdGBObv1/BOU
-         RuA1BqiGmi58DPaYBtDGcMDT8gFqAXvUk8E48AFv1uGUGTSZXXIX+pEii8imRg/wL4K2
-         6ojw==
-X-Forwarded-Encrypted: i=1; AJvYcCV1QV/f483MV2hsgXscvGyXNxN4bACE/UWt3my9k4jn/vEdHWC7Fn56mBuaDA3wqKLFmnB9LBuCz5wqWvCNKPxFxXJ1zg==@vger.kernel.org, AJvYcCVNWk+fSxxyLqUtwOHD+GogVNmISygXap3U6IoYXX3EJnXL2U4aDEx2viQrVQPLSn2wVSkPIjcULFRTccQF@vger.kernel.org, AJvYcCXdz5tny3jPD5om/ezwMhufYR7UGg42cJJEVpn/VDQY/o2PFFvRls3IQhzw3eAKmtgqJdQYuDNV0Eyytw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWlShfYqsuiLFZW3QVzhdxAifx48kFcKOo6KSEjs+vO/XqGpT9
-	z3bMQuzvK4FRkQ3e/Wdh0pCII/r+G/w0isnfK+aO2JDpUTVDub9tiMV9Rg==
-X-Gm-Gg: ASbGncu45NsA8EEbFygqANDYEmdQsACKFd5UFyNQs9PXn4siKEARLnZ427A8F5Rz+0w
-	2T7YtopfOQF/W22RMxBTVh8+h4oOcYIIrXj8mEZt52y5+61r8T+KU5dlTumcF3d/BlkyFUi/CsH
-	Rz7wpxlU7a6yujTS5YKyLbj60G/+UWisY0bXYl682b+IZOELXQeUOdDLbdUKLfI2e1/b/FOM3O/
-	DSeVHhuMH91F1YtMorBJNb8pgeve7Yial9kGHHThSS23QncLZV2QXhSnA==
-X-Google-Smtp-Source: AGHT+IEL0ah1zj8HhvrqaHeKinHAb5ObqgwkbHEUEbO1BeM3QxAvO7JHNSB4FgpuegdTvWV0EcfdmA==
-X-Received: by 2002:a05:6a20:c99a:b0:1db:eff0:6ae7 with SMTP id adf61e73a8af0-1e1dfdd7c82mr19757265637.33.1734369682955;
-        Mon, 16 Dec 2024 09:21:22 -0800 (PST)
+        bh=5m5xVjPgGSN/6a8xRyiY8jma1+Idk6gDOsB0PEW/Gq4=;
+        b=c28/3XfW4bQnhXPemnKgVnxl/LmaBdswjmn4MJyz4wuEwsMtIAvF8Emc6WRStYcJJV
+         CkahzGSbXPRdTgb9qKMDJIX7lk+p+iE+K8lNHD6XvsYy5QCxNL9rIr1F/7gHH1wUGlsP
+         2NBYW9MhdWy+CyOiELoM9ew5cE6GmRc+y4kB/Yj9TjtMsjbAMPRhZVTCRd4uo96vaC/j
+         K09BPjVWZT/2nC0qyX9Q0/68TNmhU3r5SilQ1GnCROFNBB6mmwLkQjTvBrbmJgKsB+0I
+         +Zs5WDAWKnuNhqL3GWuaI+NPGs5at3seZd2sxi2+d1IAN4zraZy5GbgFEjwMgoR5F33q
+         RKCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWA3I+rF16AILZEIeVJw5FrBrVBva0TK+hjhkgN4TaK7MnN0DyWUW2ty6F+OEprCGKInfJqUBSmK+emyw==@vger.kernel.org, AJvYcCXWPLXeDDxueIKRTEEpltElDRl4D+5oRFHGTSClasblNpt9IIe+QkdbqxtuwhxMMAhuZsNtsY7L2ZcJmIga@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIsOQ6nWHTC/r1obYv8GHcfBkeQI7sPp/4FBiucE0wKeT4a5AN
+	uKZpYFJxG/ZMuWpu2AX+OGc2XswgoDaIc3wJGKiXBLKJr+cbHyBvpo3Yzw==
+X-Gm-Gg: ASbGncv+iJ0VeqyTYBb9gB5N1dlih4Sj+SZ87fb+55oVTxRdPo7L30SXII1fA9O/dPo
+	3L+5xpZ7QnuQZjx4FFX8lKgUtYN+TBvPeX2Z1Rrp6Z031Vh5FTtB0lg4A6ni9W6c0Wmc1dyBGso
+	PCEemv6b1sVAoyayAIX2ENbAjVRxP4X1JKEK79/01tzSaIUbyEuEOPeko3WuD+fg88dLahn9hiY
+	MEvHoI4V/GyXYaeXnyssVqxdll4GNTy6pL4g1ZUzbqucQkgoHXjiXd3fQ==
+X-Google-Smtp-Source: AGHT+IGEY1K+AIJWe4as4D/3JWSg8aE5DVD5GH1TQ+TkrIvwYz/FZzBpuwDaIGunjcPVrJqNvfY+bA==
+X-Received: by 2002:a05:6a00:3692:b0:725:e309:7110 with SMTP id d2e1a72fcca58-7290c10fe59mr22441755b3a.5.1734369738785;
+        Mon, 16 Dec 2024 09:22:18 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:e6c1:cee8:7b58:a395])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-801d5a93567sm4342543a12.4.2024.12.16.09.21.21
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72918bce39csm5173053b3a.189.2024.12.16.09.22.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Dec 2024 09:21:22 -0800 (PST)
-Date: Mon, 16 Dec 2024 09:21:19 -0800
+        Mon, 16 Dec 2024 09:22:18 -0800 (PST)
+Date: Mon, 16 Dec 2024 09:22:16 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: o2g.org.ru@gmail.com, hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com, corentin.chary@gmail.com,
-	luke@ljones.dev, mjg59@srcf.ucam.org, pali@kernel.org,
-	eric.piel@tremplin-utc.net, jlee@suse.com, kenneth.t.chan@gmail.com,
-	coproscefalo@gmail.com, linux-input@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-	josh@joshuagrisham.com
-Subject: Re: [PATCH] Input: i8042 - Add support for platform filter contexts
-Message-ID: <Z2BhjwkkysKsmhVT@google.com>
-References: <20241215233628.4500-1-W_Armin@gmx.de>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH] Input: davinci-keyscan: remove leftover header
+Message-ID: <Z2BhyKw0A2pCH3ps@google.com>
+References: <20241216083218.22926-1-brgl@bgdev.pl>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -91,28 +87,18 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241215233628.4500-1-W_Armin@gmx.de>
+In-Reply-To: <20241216083218.22926-1-brgl@bgdev.pl>
 
-Hi Armin,
-
-On Mon, Dec 16, 2024 at 12:36:28AM +0100, Armin Wolf wrote:
-> Currently the platform filter cannot access any driver-specific state
-> which forces drivers installing a i8042 filter to have at least some
-> kind of global pointer for their filter.
+On Mon, Dec 16, 2024 at 09:32:17AM +0100, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 > 
-> This however might cause issues should such a driver probe multiple
-> devices. Fix this by allowing callers of i8042_install_filter() to
-> submit a context pointer which is then passed to the i8042 filter.
+> The corresponding driver was removed two years ago but the platform data
+> header was left behind. Remove it now.
+> 
+> Fixes: 3c9cb34939fb ("input: remove davinci keyboard driver")
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Right now i8042 supports only one instance of a filter, so the driver
-probing several devices will have to sort out the ownership of the
-filter anyways.
-
-Unless you plan on supporting multiple filters I do not see the need of
-storing the context in i8042. And if you decide to add support for
-multiple filters I would need to better understand the use case.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
