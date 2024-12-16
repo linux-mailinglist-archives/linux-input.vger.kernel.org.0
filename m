@@ -1,250 +1,166 @@
-Return-Path: <linux-input+bounces-8605-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8606-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3931A9F3697
-	for <lists+linux-input@lfdr.de>; Mon, 16 Dec 2024 17:52:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A3A9F372E
+	for <lists+linux-input@lfdr.de>; Mon, 16 Dec 2024 18:16:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B740818805BE
-	for <lists+linux-input@lfdr.de>; Mon, 16 Dec 2024 16:52:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7110216A5DB
+	for <lists+linux-input@lfdr.de>; Mon, 16 Dec 2024 17:15:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE9FF206261;
-	Mon, 16 Dec 2024 16:45:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B195020629F;
+	Mon, 16 Dec 2024 17:14:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="P2J1K/a5";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uwUiR8FG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PYFzKF/A"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D889220898C;
-	Mon, 16 Dec 2024 16:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC04214D2A2;
+	Mon, 16 Dec 2024 17:14:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734367518; cv=none; b=tYMoy2v47hRaiGg6QEUHht8IQgNx0xf6IcHu+Qh/FEYmC1d1QwTHU40aP4eLLLaEquLuYUYaN3O/Mm5hSqDvUQURQfffg5x7fnbzvHYYaN9wFloA18CRF8gODbRGAPxa00T3eCC0/9EgbVEzgF939nEX6PqjM72alktFZF8wj+M=
+	t=1734369295; cv=none; b=jgJAWXf8exhA45nd6Oj8iJKY4mHTNvaJ2IU4Ii0m5PyWJtMyJXcIudDBVVKMcTlywh/HvtyYkizjSib41cBUBwHpR5sFVWM1D3iZV+bkHa6gllvAq/7oSctVxWS+1j4lWJXvy+fhbZO67oJ7ZP/D2lZjneyRqLfc+TKArS8sYRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734367518; c=relaxed/simple;
-	bh=CbxyEfceeA74vA5n978PKHNKNzB51SNaNB6+XIHqdNg=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=DLBvGjFNk3tUaPEbu2cdZ02cg8YA1MryttytA6U+YIGQ/9PDt2hKYhL2uMDw8mKcq4dR+FJpaky4UP6L0efPK75mZ7lDHrYd4J99ksY5FOE/v9TyDk0FB+bGZvw2HeeP0ZPBbf9fvYKDqsZaTPhR77t35IZOpXfWW+mOGYomYYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=P2J1K/a5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uwUiR8FG; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
-Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 7A89C2540171;
-	Mon, 16 Dec 2024 11:45:14 -0500 (EST)
-Received: from phl-imap-10 ([10.202.2.85])
-  by phl-compute-02.internal (MEProxy); Mon, 16 Dec 2024 11:45:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1734367514;
-	 x=1734453914; bh=uTiNRTCtUd6G92MhqAcPIyZ7ztea6pMEB+/8c5/WMLQ=; b=
-	P2J1K/a5C6SXEfVb2YWLMZrIUgB3Vcwg/2Eulf1pnKEyoffm3QOcP5hSXExLnQZQ
-	th6SKJ3Z8KF/9JgQeEXa1i0YBz+7x2bV02Y8/rV22wlPpDwoGaApQ6ot+F5jl87V
-	sfeIjJCkal9Sx+rIgRBrRgTUvbEy/jUiojhyMsrS846FaoSEwumLKockzP8XVrWi
-	l46kBo/ojKoiLDMw7AkGz6waXGWZiuK5FgW1Nfb6oBhz/PFfdvZYzqtp1+1iOg3w
-	qDd6zNUKYcZjvPvuq44yXQ77sYXYskfn42JvGCCZ3SZxTNHxYT/Y7MSIWwIKpSHg
-	bstB1n/llVGnLy3rmK7cJQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734367514; x=
-	1734453914; bh=uTiNRTCtUd6G92MhqAcPIyZ7ztea6pMEB+/8c5/WMLQ=; b=u
-	wUiR8FGiIo/RuLzu1F0VZ2w7GfX2C27xj+s1IfcTPdyOU90i/qPBjDhAGSFJuhae
-	2LenISYQxYzRrtVgO0MZ/yvKVU9sW6EoqM62VJ/y9OsDBmH7TgWinCOIX3gNvY2A
-	JYMQu5jczY86VGWMj/p4KEeza4C+USu/3rQKSYUgD2pCdqjZpj6WgawpnYYU6h2y
-	7yzHlw08ujSGft94/mUM8P3USQuQO0MTP5M4ahcsZp100YeDLuxXVYAfkDjSoUya
-	jtfBC9iDjU6NPVnTAwZdQhPW9XopH8EmNPeRYCYk/YA/P8xfjvFGZ6NcWREMSDsr
-	6gyBa3fBUauQS489BXPwg==
-X-ME-Sender: <xms:GVlgZ49vC242r7oXCl7Q0f23kIufloutd7HfVsZ3Am2W_MMeQ5bCGg>
-    <xme:GVlgZwsW40LdrtawySX5II6JWszoUH-4lmJbddAnQ-UpHefQMBlLQoLmoV_1rRt-m
-    uqu1bEWH7zOVnCb4R0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrleefgdelfecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
-    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
-    hsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredttden
-    ucfhrhhomhepfdforghrkhcurfgvrghrshhonhdfuceomhhpvggrrhhsohhnqdhlvghnoh
-    hvohesshhquhgvsggsrdgtrgeqnecuggftrfgrthhtvghrnhepudefgfelhefgveffheeh
-    uedtudefffetiedtvedthefgvdeuvdefgeeiiefhieegnecuffhomhgrihhnpehgihhthh
-    husgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
-    ohhmpehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggrpdhnsggprhgtph
-    htthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprggrrhhonhdrmhgr
-    segtrghnohhnihgtrghlrdgtohhmpdhrtghpthhtohepsggrghgrshguohhtmhgvsehgmh
-    grihhlrdgtohhmpdhrtghpthhtoheprhguuhhnlhgrphesihhnfhhrrgguvggrugdrohhr
-    ghdprhgtphhtthhopegvvhgvnhdrgihusehinhhtvghlrdgtohhmpdhrtghpthhtohepsg
-    gvnhhtihhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhikhhosheskhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtoh
-    eplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehl
-    ihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:GVlgZ-CcAlQEddU_S8eJMqifZ0Poe1euQgrsziJFQS7t9dMEQnIttw>
-    <xmx:GVlgZ4d3cUECRXFoBdecb9cv1drZ6iLTX20SLF9N9TEt1nRUsCfRgQ>
-    <xmx:GVlgZ9Pyak1q45It3hI2M9EzfWHERK-wGTgXrA0iYCyhPFmKQseo9A>
-    <xmx:GVlgZymSHWKCYO7OSw--OB6_aFIxcNCelb2yUzbMgMSIR4ObLcL9YA>
-    <xmx:GllgZwqI_2YBdhsE5XyD8TgBSapdSF_c3Xifkkcm0KVFOYpnxWpXapPA>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id CD6F83C0066; Mon, 16 Dec 2024 11:45:13 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1734369295; c=relaxed/simple;
+	bh=zn3zIjBvSwRghREDup/xO5OCc4OaGObSpmbwEn0SNaU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bLxkbrrtDmZ9hvFlgLx0MzXmRzlJ/JSa3tsLn0Pz8VCtwRo0ljIf4rf2lFUhLVwYwbqRXIF/YnEJrLbHPalRuFx+BUaUkELzDgTAtDt84X2DIri4+8s7mZElEXmpFfSWcRIXbf4qz38njf/2oEAKGgrptLBI3ljV6RdouVCyO5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PYFzKF/A; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7fd526d4d9eso3377997a12.2;
+        Mon, 16 Dec 2024 09:14:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734369292; x=1734974092; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lRSt1oLHA0zTODMJmMWpU6xidSXKF2EyOx2XJ0WYI9g=;
+        b=PYFzKF/ANFcgfJmAuvKOVwrvclSw40J27uMLi4OnXmjSbNb/tJujGKfubc92Ynge1m
+         CgWrC2ny1sVFDWhJhJOlvK/uVVhejE4FmyiiEmRsqbrOCXC2gMmZKsGkaPBA4fMi60yx
+         CFWrWcvoVCaCsxJhG2NqD0I7b8rPuOUluqnNk2LEihhYW38zeSHMrLk2WUJ72nsc5eAH
+         K0VK3+X/i1N+b8pcvgYZGwqRzy8cp+v4tn1UNtda97h98UvYD+7aCxULV9/TsWZRWrGY
+         +tuLSTnTEMOY2/mi/z5pun9lJ/O/LHmOhQkr6ETmZQTCHoK5JiMv0doVIL3OytUEnk8L
+         GyLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734369292; x=1734974092;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lRSt1oLHA0zTODMJmMWpU6xidSXKF2EyOx2XJ0WYI9g=;
+        b=PN7mxEvWGN8B8JTX7knEXjG8qaKQE8xMVkc4bWOOvgFITINNvpyiOmLxYuRXdL/M+P
+         E79KgEC8SfNB8Fe2KxzNXqYOB3T53RpYMNtV41CkbOLlAiV7N5n/aw4ePEBWGbVJ0F09
+         yLxyVdISsACT3Al3S0wb1M1xeaICfby0OP/gy0m56hIccYDmCHNcHYxbtc9iVdaaZowk
+         eyMxf+VMJLvYkPp+LTMHmQXLv5Zaaz51USoP1Iwki/Jn08Yb+lkS5CLPfZyESsvQsKTQ
+         b0KqXiwMQb9x5rYMHdPRqKt4HwDU4UvsdqxWAlqJSrrKONHIyPtdvoVPGQkARHRgW2hE
+         0ATA==
+X-Forwarded-Encrypted: i=1; AJvYcCWo4NVPnEchvyNG2ed1ludpUnbMdTjCDefVGQoRP5CQT4KDKhXyJZ0qn3WuiQ5IB1qqOVZwwvn2G3v5upQo@vger.kernel.org, AJvYcCWyOw4jr/1qhQtfjNqHSpotNt3yDLrpUuUaQm9EcS9SVlN698hsoy7jypFnUz0jvR867ZCZS7FvcPesHw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzslNzZJNPLyT1NMCoIGeUbV3NWxxvcRbFusZxWSukWVAzB1GG3
+	xiY8l4o636DbIFgR7D4N565SqzauwFZDun756M3N/e/+zc7q4ChF
+X-Gm-Gg: ASbGncvtYMtfOabNH9X6VbFdhHOHC31kEodTUY1EMHyyRsZP98HZ+Ja/zAj5Pml2WKD
+	0uj6rxgTqoDAGIjo1xYzTEu33Xw1nRBg0cf8GSGyvd+teayo+na+Wwx6afRIlUN8DsuTMXWZeyN
+	GUhc3washpdN2nE74uD/kqQQ8gKOK9Dmwm1ieRAzcfM4odrBLIp96I/JPEkABo8vv0IvGhSnTLE
+	giy5+H1iLqv1cyj3fw8N2QyWdfBm4W8cQchIErH2L5yCjWUQNIYswftVQ==
+X-Google-Smtp-Source: AGHT+IGV0uc9TXAotb6SVuWf7nwmp5/mTbhYXT4dFXmqRcyoiJbbZ7KHFY3NKQN1g7dRKFUEA+vrxQ==
+X-Received: by 2002:a17:90b:3e88:b0:2ea:5054:6c49 with SMTP id 98e67ed59e1d1-2f28f8691ebmr22339295a91.0.1734369291762;
+        Mon, 16 Dec 2024 09:14:51 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:e6c1:cee8:7b58:a395])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f2a24349b5sm4963932a91.40.2024.12.16.09.14.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Dec 2024 09:14:51 -0800 (PST)
+Date: Mon, 16 Dec 2024 09:14:48 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Luwei Zhou <b45643@freescale.com>,
+	Vipul Kumar <vipul_kumar@mentor.com>,
+	Dong Aisheng <aisheng.dong@nxp.com>,
+	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
+Subject: Re: [PATCH 1/1] input: mma8450: Add chip ID check in probe
+Message-ID: <Z2BgCC8hPyaAxhOL@google.com>
+References: <20241213222310.189443-1-Frank.Li@nxp.com>
+ <bzzzezoon5u5pufpbkn3fnm2dtbrzatx4w4tbdstcdmowvfzzn@cplbmxtgmu6z>
+ <Z2BVlyV8o1dkBUq2@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 16 Dec 2024 11:44:53 -0500
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Even Xu" <even.xu@intel.com>, "Jiri Kosina" <jikos@kernel.org>,
- bentiss@kernel.org, "Jonathan Corbet" <corbet@lwn.net>, bagasdotme@gmail.com,
- aaron.ma@canonical.com, "Randy Dunlap" <rdunlap@infradead.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Message-Id: <fc72c31b-b1df-482a-966f-f81459a733f2@app.fastmail.com>
-In-Reply-To: <20241216014127.3722172-1-even.xu@intel.com>
-References: <20241216014127.3722172-1-even.xu@intel.com>
-Subject: Re: [PATCH v3 00/22] Add Intel Touch Host Controller drivers
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z2BVlyV8o1dkBUq2@lizhi-Precision-Tower-5810>
 
-Hi,
+On Mon, Dec 16, 2024 at 11:30:15AM -0500, Frank Li wrote:
+> On Sat, Dec 14, 2024 at 12:02:56AM +0100, Uwe Kleine-König wrote:
+> > Hello Frank,
+> >
+> > On Fri, Dec 13, 2024 at 05:23:09PM -0500, Frank Li wrote:
+> > > From: Luwei Zhou <b45643@freescale.com>
+> > >
+> > > Prevent continuous polling error logs by adding a chip ID check in the
+> > > probe  function. This ensures the driver only proceeds when the mma8450 is
+> > > present, avoiding issues in scenarios like missing add-on cards.
+> > >
+> > > Signed-off-by: Luwei Zhou <b45643@freescale.com>
+> > > Signed-off-by: Fugang Duan <B38611@freescale.com>
+> > > Signed-off-by: Vipul Kumar <vipul_kumar@mentor.com>
+> > > Signed-off-by: Dong Aisheng <aisheng.dong@nxp.com>
+> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > > ---
+> > >  drivers/input/misc/mma8450.c | 16 +++++++++++++++-
+> > >  1 file changed, 15 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/input/misc/mma8450.c b/drivers/input/misc/mma8450.c
+> > > index 08412239b8e69..da941748ed29b 100644
+> > > --- a/drivers/input/misc/mma8450.c
+> > > +++ b/drivers/input/misc/mma8450.c
+> > > @@ -38,6 +38,8 @@
+> > >
+> > >  #define MMA8450_CTRL_REG1	0x38
+> > >  #define MMA8450_CTRL_REG2	0x39
+> > > +#define MMA8450_ID		0xc6
+> > > +#define MMA8450_WHO_AM_I	0x0f
+> > >
+> > >  static int mma8450_read(struct i2c_client *c, unsigned int off)
+> > >  {
+> > > @@ -148,8 +150,20 @@ static void mma8450_close(struct input_dev *input)
+> > >   */
+> > >  static int mma8450_probe(struct i2c_client *c)
+> > >  {
+> > > +	struct i2c_adapter *adapter = to_i2c_adapter(c->dev.parent);
+> >
+> > +	struct i2c_adapter *adapter = c->adapter;
+> >
+> > >  	struct input_dev *input;
+> > > -	int err;
+> > > +	int err, client_id;
+> > > +
+> > > +	err = i2c_check_functionality(adapter,
+> > > +				      I2C_FUNC_SMBUS_BYTE | I2C_FUNC_SMBUS_BYTE_DATA);
+> > > +	if (!err)
+> > > +		return err;
+> >
+> > How unusual. I would have expected no ! here.
+> 
+> yes, it should be better
+> 
+> 	if (!i2c_check_functionality())
+> 		....
+> 
+> i2c_check_functionality() return 1 if adapter supports everything we need.
 
-On Sun, Dec 15, 2024, at 8:41 PM, Even Xu wrote:
-> Intel Touch Host Controller (THC) is a new high performance input IP
-> which can benefit HID device's data transaction, such as touch screen,
-> touch pad, stylus.
->
-> THC IP now evoluates to V4, it can support 3 different modes: IPTS,
-> HIDSPI and HIDI2C. Here are upgrade history:
-> - THC v1, for TGL/LKF, supports intel private IPTS (Intel Precise Touch
->   and Stylus) protocol ( IPTS mode)
-> - THC v2, for ADL, add industrial standard HID over SPI protocol support
->   (HIDSPI mode)
-> - THC v3, for MTL, enhance HID over SPI mode
-> - THC v4, for LNL, add inudstrial standard HID over I2C protocol support
->   (HIDI2C mode) 
->
-> Linux Surface community (https://github.com/linux-surface) already
-> implemented IPTS mode. These patch series provides THC HIDSPI mode and
-> THC HIDI2C mode support on Linux.
->
-> These patch series includes:
-> 1. Document for THC hardware and software introduction.
-> 2. Intel THC Hardware layer driver which provides control interfaces
->    for protocol layer.
-> 3. Intel QuickSPI (R) driver working as a HIDSPI device driver which
->    implements HID over SPI protocol and flow.
-> 4. Intel QuickI2C (R) driver working as a HIDI2C device driver which
->    implements HID over I2C protocol and flow.
->
-> Change logs:
-> v3:
-> - Change tables in documents from literal block to table format
-> - Change symbol namespace to string literal according to patch:
->   cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
-> - Refine Kconfig description
-> - Enhance Quickspi and Quicki2c driver by clearing THC hardware interal
->   state before doing initialization to avoid BIOS impacts.
-> - A fix in Quicki2c driver when does set_report
->
-> v2:
-> - Fix document format issues
-> - Add THC device IDs for Intel Panther Lake (PTL) platform
->
->
-> Even Xu (13):
->   HID: THC: Add documentation
->   HID: intel-thc-hid: intel-thc: Add THC DMA interfaces
->   HID: intel-thc-hid: intel-thc: Add THC I2C config interfaces
->   HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver hid layer
->   HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI ACPI interfaces
->   HID: intel-thc-hid: intel-quickspi: Add HIDSPI protocol implementation
->   HID: intel-thc-hid: intel-quickspi: Add PM implementation
->   HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver skeleton
->   HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver hid layer
->   HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C ACPI interfaces
->   HID: intel-thc-hid: intel-quicki2c: Add HIDI2C protocol implementation
->   HID: intel-thc-hid: intel-quicki2c: Complete THC QuickI2C driver
->   HID: intel-thc-hid: intel-quicki2c: Add PM implementation
->
-> Xinpeng Sun (9):
->   HID: intel-thc-hid: Add basic THC driver skeleton
->   HID: intel-thc-hid: intel-thc: Add THC registers definition
->   HID: intel-thc-hid: intel-thc: Add THC PIO operation APIs
->   HID: intel-thc-hid: intel-thc: Add APIs for interrupt
->   HID: intel-thc-hid: intel-thc: Add THC LTR interfaces
->   HID: intel-thc-hid: intel-thc: Add THC interrupt handler
->   HID: intel-thc-hid: intel-thc: Add THC SPI config interfaces
->   HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver skeleton
->   HID: intel-thc-hid: intel-quickspi: Complete THC QuickSPI driver
->
->  Documentation/hid/index.rst                   |    1 +
->  Documentation/hid/intel-thc-hid.rst           |  568 ++++++
->  MAINTAINERS                                   |    6 +
->  drivers/hid/Kconfig                           |    2 +
->  drivers/hid/Makefile                          |    2 +
->  drivers/hid/intel-thc-hid/Kconfig             |   42 +
->  drivers/hid/intel-thc-hid/Makefile            |   22 +
->  .../intel-quicki2c/pci-quicki2c.c             |  966 ++++++++++
->  .../intel-quicki2c/quicki2c-dev.h             |  186 ++
->  .../intel-quicki2c/quicki2c-hid.c             |  166 ++
->  .../intel-quicki2c/quicki2c-hid.h             |   14 +
->  .../intel-quicki2c/quicki2c-protocol.c        |  224 +++
->  .../intel-quicki2c/quicki2c-protocol.h        |   20 +
->  .../intel-quickspi/pci-quickspi.c             |  987 +++++++++++
->  .../intel-quickspi/quickspi-dev.h             |  172 ++
->  .../intel-quickspi/quickspi-hid.c             |  165 ++
->  .../intel-quickspi/quickspi-hid.h             |   14 +
->  .../intel-quickspi/quickspi-protocol.c        |  409 +++++
->  .../intel-quickspi/quickspi-protocol.h        |   25 +
->  .../intel-thc-hid/intel-thc/intel-thc-dev.c   | 1578 +++++++++++++++++
->  .../intel-thc-hid/intel-thc/intel-thc-dev.h   |  116 ++
->  .../intel-thc-hid/intel-thc/intel-thc-dma.c   |  969 ++++++++++
->  .../intel-thc-hid/intel-thc/intel-thc-dma.h   |  146 ++
->  .../intel-thc-hid/intel-thc/intel-thc-hw.h    |  881 +++++++++
->  include/linux/hid-over-i2c.h                  |  117 ++
->  include/linux/hid-over-spi.h                  |  155 ++
->  26 files changed, 7953 insertions(+)
->  create mode 100644 Documentation/hid/intel-thc-hid.rst
->  create mode 100644 drivers/hid/intel-thc-hid/Kconfig
->  create mode 100644 drivers/hid/intel-thc-hid/Makefile
->  create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
->  create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
->  create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
->  create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.h
->  create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.c
->  create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.h
->  create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
->  create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
->  create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.c
->  create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.h
->  create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c
->  create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.h
->  create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
->  create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.h
->  create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c
->  create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.h
->  create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-hw.h
->  create mode 100644 include/linux/hid-over-i2c.h
->  create mode 100644 include/linux/hid-over-spi.h
->
-> -- 
-> 2.40.1
+Yes, it would be much better, otherwise in the case when an adapter does
+not support the required functionality your code returns 0 which signals
+successful probing.
 
-For the series:
+Thanks.
 
-Tested on a 'to be announced' Lenovo Lunarlake laptop that uses the THC controller and confirmed it worked well. The platform under test is using the quicki2c driver.
-Tested touchpad and touchscreen and didn't see any issues.
-
-Tested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-
-Of limited value, as I don't know the hid subsystem well, I did do a code review and it looked good to me (only minor notes are typo 'recevie' on patch 6 commit description and 'calcualte' on patch 7 commit description).
-
-Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-
-Thanks!
-Mark
+-- 
+Dmitry
 
