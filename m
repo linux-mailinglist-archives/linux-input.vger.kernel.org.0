@@ -1,188 +1,188 @@
-Return-Path: <linux-input+bounces-8660-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8661-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29BC59F6D37
-	for <lists+linux-input@lfdr.de>; Wed, 18 Dec 2024 19:24:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E097B9F6E38
+	for <lists+linux-input@lfdr.de>; Wed, 18 Dec 2024 20:30:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E7AEF7A1A86
-	for <lists+linux-input@lfdr.de>; Wed, 18 Dec 2024 18:24:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AC9B47A2097
+	for <lists+linux-input@lfdr.de>; Wed, 18 Dec 2024 19:30:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63E501FA8D8;
-	Wed, 18 Dec 2024 18:24:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89A8E1FAC57;
+	Wed, 18 Dec 2024 19:30:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="czwgqNCE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SXe/Lt0r"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0043597C;
-	Wed, 18 Dec 2024 18:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693951FC0E0
+	for <linux-input@vger.kernel.org>; Wed, 18 Dec 2024 19:30:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734546286; cv=none; b=erLAdNKpcwBFhTllAdg7rvF7TRk8tg3nvcmIuHdOtqVvEjWPava3zLDSRgPhI35qf5MgfiIu863nFQ5o8Ki35YiRZRJuYaqw3zAPVzc88KKhCCmlsmAZVhpayU5MeEwfenkfjH372BX8RwFdTBbDwKfFOK7qUJCxvHJ2yCDA9Oo=
+	t=1734550224; cv=none; b=jb5YobOOBtuGzyG6ns2SliiKlQ8zk5Qq1CxqcWwJmMxKPxqHwheSJ5rQ6pstkj7D/gNCiqyOCCn6xlqjSezd4t2D2umiMnlK5EgkjhBzvMEHCpt864ddRzD0R/hvQMde2Nj27hTOB1Nmpn+xzoWzlIt7Ttq8Ap0uwEJRoEy+bfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734546286; c=relaxed/simple;
-	bh=3XiLF1Wf+pk+itwpr2VAHqM0hK4GGkizwkWAckNZb+A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=krTnwjLmTKILbOkhAQoj/NSrz7YV2VCo7PLYrAAW+PRHfntlfXIx1cwgqHw7VWIcwyfNnqbRhJJDpzfENa62kDplrqsMhHocE+FfulkrmxAEdydfK24+xqBW8hN1CcZgGbPHU1zNHc1dWPuxvBm5PZJ/JkGJuvdciXANcRATQrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=czwgqNCE; arc=none smtp.client-ip=209.85.217.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4afeb79b52fso1908324137.0;
-        Wed, 18 Dec 2024 10:24:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734546283; x=1735151083; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E700w9QuffQfIy0SrxiIOo8P0TGVoGXhxkdZEo5QdQI=;
-        b=czwgqNCEf/FVfafEQpU0q3LnnWb8zY4z9gMC1qRAuQNyDdHnHtLT3QDx3QcywI8slI
-         JwqDp45u5LgtPg8stdlXthCuQo0CCHZndF4WTcFClb7UeRI5pX33JAJ2xyRHix6KUNpS
-         rSnyxFcWGmZoUFpJ2yhzy6XReKHS1By08MTjbk8vJWm5or34yiGPbsTsVx/Z21nGE9mL
-         /7oVtQd1zNUmIQXgr+Jb2Tkcv+/bIW44Z6qpoH1kY7coMMGwo9R8fFWK3c2XH7H+kKrk
-         mYITXMsF5Lhh7b0jipfUZr7VjFTMGJtkpRPd6h/opi9VJFMrYiKhQZZOOWNGH9k5KZhJ
-         XOvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734546283; x=1735151083;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=E700w9QuffQfIy0SrxiIOo8P0TGVoGXhxkdZEo5QdQI=;
-        b=lKqSXetb0gDvYLwmhSE9myNuXUjM8ITCs0kJe54/ETVHfAYH3UC3YcgOMs+NKqWNQz
-         N0bect4ltJjC+bizbqoNq+juotvxQVGyAnkJj+UfhyhwBqGBHTj08hUokLrbD8yxliX9
-         /YtocuVt8Am+Tv4XAK3H64LmdHI5wFMce8EcumfO15Nsyzjy/+ZrU+SYS/q5HfezPwew
-         fPLWUTGM26aCeTouQ+Uv3tS3WZ7UNSmMtcQFfiWXAuqZIMJ4QAjvZix+4CCf7bNrOjYG
-         bew5wCd2/4FgVRWqGwA94YZS+nAElSKw7OON5C6nyozuwKdhsAOFmBDSqpQ99TO3pJuo
-         jpZg==
-X-Forwarded-Encrypted: i=1; AJvYcCVOPf+q9HcMlo64Ma/+EPsvjduojw9WVMin9gt/0DkV0MfLcIKZt4K+OfcSprDFe/NYOiOBOFo9lrU=@vger.kernel.org, AJvYcCXB7LqbKW25quJC5dXdG7bpIPDGMs/odfSH4fM/6aTcGWNDSPdIc3hWrVp8Pe8YQN0bj3E2QWgNwBzB@vger.kernel.org, AJvYcCXTb78sBbKJRVYyAwPXdFPpIFQCl+YY54q05dYERkkRIsY+toE3TydSohV1I5u6fNUhelPKhVAPY/R1ZfI=@vger.kernel.org, AJvYcCXhg+GiPZHRc9/fNKxIEtYbmKb5SCCEoGsRTKVW1xHf6tMJrexyoEOI3BPxvDFo5xhPYdcvo8gVwlFESg==@vger.kernel.org, AJvYcCXoxGekYGuzJ3nDnp+VWk7ULg0vHWapPzt16mkJJa6xrFT7E5/GxN25/dtGoN30LCQRIOPZo44yDCZNMq46@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWxGSFYuMiHdIDT4/iuf6LMRuict2ElFoEPYPKxFgkkah4vL09
-	yu3yPh5USOyDWzZrpG0FJ/KhModQx1IKFWtKrakqzJmkc8vzYspyTUY0Scqxix0J85jbkz81HYg
-	YtMD4yDDB5jPnnX3FNyLYbwMVIUY=
-X-Gm-Gg: ASbGncskfp0zWghE+TBJj+/AVYz5SQRTQioZe6TY6x4PeaC1KFFMGFkApYvfxx7WETm
-	LdAeFxnvRJwS3Bhr4z0XsaRJjcUXuieSdwP4s
-X-Google-Smtp-Source: AGHT+IEWseURIL7DnIOmJjE4mPvK+8SSRYUDTmrHrrfemRfNvar05kmLHNZ5hGEiXCCqG+/v10kkV9suRecozL8LHQ8=
-X-Received: by 2002:a05:6102:508a:b0:4af:eccf:e3ca with SMTP id
- ada2fe7eead31-4b2bbdc46b8mr635155137.10.1734546283475; Wed, 18 Dec 2024
- 10:24:43 -0800 (PST)
+	s=arc-20240116; t=1734550224; c=relaxed/simple;
+	bh=wnkHgGK/NZfY3LWTzMG7LDMrXo9uwv0sS7v/Jqb+Iyg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=a1HdOEle5ExT4vY0iisFYIcsFS1mjg1qFiBKoO4oawYzWPm+PLYyBybSOAquLBz5dDD8ORj3o+iY/bgNy9UWVaz3fwil1y4KL0uuTBOlRA6zuH8OzXFSc2qqDjmCNRnK91vZ6+uQgEN6g6B/LUO22etFpWuSQTIzRlltn44HFUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SXe/Lt0r; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734550222; x=1766086222;
+  h=date:from:to:cc:subject:message-id;
+  bh=wnkHgGK/NZfY3LWTzMG7LDMrXo9uwv0sS7v/Jqb+Iyg=;
+  b=SXe/Lt0rPZw/4mDbSwAz+ibJ2w1xHO6g64j5nZzvMaMcELImhztO700k
+   rT1G9ocld/zjX6PpZCwhTnMdfKP0G7N7JZhK+Q2Vu5MFmMve4oS7ceIlE
+   mRe1zE7ACRKdz7K4pswyMNAWRwgWl99/omkTnuk2rdhPIQliVyMV1ZKJ4
+   Dz2XmhzbdLqhPaLGc2OLyxoMWBm9MuJt6+kjkchSnaTetWRTLGdPi+KR0
+   WxFCiu4GaErxb8gU5UBvopkDbUwIcyRlcTJktZawQU0Kffjm4h5WmOU0l
+   IQxA1lZaj6Km8qop8uMCWmElVGB05K77+0KLWwQT2MFE6wh8H684hpmzo
+   Q==;
+X-CSE-ConnectionGUID: ARs8OvdmSXa25YWPoRobzg==
+X-CSE-MsgGUID: am3uJdHpQQmsCP7dOGu9fg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="45537173"
+X-IronPort-AV: E=Sophos;i="6.12,245,1728975600"; 
+   d="scan'208";a="45537173"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 11:30:21 -0800
+X-CSE-ConnectionGUID: guIyENYaTWS0d4S9R4f34w==
+X-CSE-MsgGUID: N0IsawymQ2279qoSDZHLLA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="97790337"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 18 Dec 2024 11:30:20 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tNzkP-000GaI-0o;
+	Wed, 18 Dec 2024 19:30:17 +0000
+Date: Thu, 19 Dec 2024 03:30:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 1863f213d3e878d10589ebc0aae1c861c3b0f0c3
+Message-ID: <202412190357.bP7PzZom-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20241217-starqltechn_integration_upstream-v12-0-ed840944f948@gmail.com>
- <20241217-starqltechn_integration_upstream-v12-2-ed840944f948@gmail.com>
- <vunx3s4wqw5fqtwuuuuofjtja7buh5zpxi3iznzgfl4iz7fm4d@wlxbzrnlu7fr>
- <CABTCjFBO6RYwf5GiExPFEyBAfCF7vUnbYFRePdSVPdXNfwZwrA@mail.gmail.com> <igvefqqns4k2tbau56nvu6uorhvr4k4j4hiv5asgohviydvlbg@6c2zhgcgdkth>
-In-Reply-To: <igvefqqns4k2tbau56nvu6uorhvr4k4j4hiv5asgohviydvlbg@6c2zhgcgdkth>
-From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Wed, 18 Dec 2024 21:24:32 +0300
-Message-ID: <CABTCjFBv7shGvXZPKTdk0XJzOUcD8W195ZNQVGjZrMMsVNNZRA@mail.gmail.com>
-Subject: Re: [PATCH v12 02/11] dt-bindings: power: supply: max17042: split on
- 2 files
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Sebastian Reichel <sre@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, Lee Jones <lee@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
-	Hans de Goede <hdegoede@redhat.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, Purism Kernel Team <kernel@puri.sm>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-=D1=81=D1=80, 18 =D0=B4=D0=B5=D0=BA. 2024=E2=80=AF=D0=B3. =D0=B2 14:34, Krz=
-ysztof Kozlowski <krzk@kernel.org>:
->
-> On Wed, Dec 18, 2024 at 02:25:31PM +0300, Dzmitry Sankouski wrote:
-> > =D1=81=D1=80, 18 =D0=B4=D0=B5=D0=BA. 2024=E2=80=AF=D0=B3. =D0=B2 11:28,=
- Krzysztof Kozlowski <krzk@kernel.org>:
-> > >
-> > > On Tue, Dec 17, 2024 at 08:30:00PM +0300, Dzmitry Sankouski wrote:
-> > > > Move max17042 common binding part to separate file, to
-> > > > reuse it for MFDs with platform driver version.
-> > > >
-> > > > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> > > >
-> > > > Changes on v12:
-> > >
-> > > Malformed patch.
-> > >
-> > > > - add addtionalProperties: true on common file
-> > > > - rename *-base file to *-common
-> > > > - remove compatibles from shared shema
-> > > > - move required properties to final schema
-> > > > - remove max77705 compatible from binding - it will be used in
-> > > >   mfd77705 binding
-> > >
-> > > Sorry, all this is somehow complicated effort of not calling the fuel
-> > > gauge what it really is: separate device with its own I2C address, ju=
-st
-> > > like all previous designs in that family from Maxim.
-> > >
-> > > I keep repeating this and you keep going that way, maybe because it f=
-its
-> > > your drivers, but that's not the way.
-> > >
-> > > Best regards,
-> > > Krzysztof
-> >
-> > Fuel gauge ICs designed to sit between battery and charger, or even in =
-the
-> > battery pack itself, with a goal to track and protect the battery.
-> > Given powering diagram:
-> >
-> > ----------              ---------      ------------      --------------
-> > |usb port|<--[input]--> |charger| <--> |fuel gauge| <--> |battery pack|
-> > ----------              ---------      ------------      --------------
-> >                             |
-> >                             |
-> >                             |---> [system bus]
-> >
-> > There's no fuel gauge ICs with input and system bus measurements on the=
- market.
->
-> OK, good point, assuming that this is the input not for example the
-> charge on battery. But even if the diagram is correct, we represent here
-> programming model exposed by device, not physical components of entire
-> PMIC. Therefore you could have more components there yet still it is
-> one device: fuel gauge with its I2C addres.
->
->
-> >
-> > This device indeed has its own I2C address, but that's not enough to
-> > say it should be
-> > a separate device, because we have MFD's with its goal to share
-> > resources like a single
->
-> There is no such thing as "MFD" device in terms of hardware. MFD is a
-> Linux construct.
->
-> > i2c address for devices with separate functions.
->
-> >
-> > To me it's more like Maxim put its fuel gauge together with some hwmon
-> > solution on the
-> > single i2c client logic.
->
-> Which still makes it one device, unless you are capable of re-using this
-> other sensor-part on its own or in other devices.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 1863f213d3e878d10589ebc0aae1c861c3b0f0c3  Input: mma8450 - add chip ID check in probe
 
-I think I get it. There's no need for an MFD device node, because it's
-just empty.
-So in the device tree we'll only have a max17042 fuel gauge node. It'll get
-matched with simple-mfd-i2c driver, which will create 2 sub devices -
-fuel gauge and hwmon. Fuel gauge platform driver version will
-get matched by platform id, and will take of_node from pdev dev parent
-for setup.
+elapsed time: 1446m
 
-Is that what you are thinking of?
+configs tested: 95
+configs skipped: 3
 
---=20
-Best regards and thanks for review,
-Dzmitry
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                   randconfig-001-20241218    gcc-13.2.0
+arc                   randconfig-002-20241218    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-17
+arm                              allyesconfig    gcc-14.2.0
+arm                     am200epdkit_defconfig    gcc-14.2.0
+arm                           h3600_defconfig    gcc-14.2.0
+arm                          pxa168_defconfig    clang-16
+arm                   randconfig-001-20241218    clang-20
+arm                   randconfig-002-20241218    clang-19
+arm                   randconfig-003-20241218    clang-17
+arm                   randconfig-004-20241218    clang-19
+arm                          sp7021_defconfig    gcc-14.2.0
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20241218    clang-20
+arm64                 randconfig-002-20241218    clang-20
+arm64                 randconfig-003-20241218    gcc-14.2.0
+arm64                 randconfig-004-20241218    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20241218    gcc-14.2.0
+csky                  randconfig-002-20241218    gcc-14.2.0
+hexagon                           allnoconfig    clang-20
+hexagon               randconfig-001-20241218    clang-20
+hexagon               randconfig-002-20241218    clang-18
+i386                              allnoconfig    gcc-12
+i386        buildonly-randconfig-001-20241218    clang-19
+i386        buildonly-randconfig-002-20241218    clang-19
+i386        buildonly-randconfig-003-20241218    gcc-12
+i386        buildonly-randconfig-004-20241218    gcc-12
+i386        buildonly-randconfig-005-20241218    clang-19
+i386        buildonly-randconfig-006-20241218    clang-19
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20241218    gcc-14.2.0
+loongarch             randconfig-002-20241218    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+m68k                           virt_defconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+mips                           ci20_defconfig    clang-19
+mips                         rt305x_defconfig    clang-19
+nios2                         10m50_defconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20241218    gcc-14.2.0
+nios2                 randconfig-002-20241218    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                randconfig-001-20241218    gcc-14.2.0
+parisc                randconfig-002-20241218    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc               randconfig-002-20241218    clang-15
+powerpc64             randconfig-002-20241218    clang-20
+powerpc64             randconfig-003-20241218    gcc-14.2.0
+riscv                             allnoconfig    gcc-14.2.0
+riscv                 randconfig-001-20241218    gcc-14.2.0
+riscv                 randconfig-002-20241218    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-20
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20241218    gcc-14.2.0
+s390                  randconfig-002-20241218    gcc-14.2.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                    randconfig-001-20241218    gcc-14.2.0
+sh                    randconfig-002-20241218    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20241218    gcc-14.2.0
+sparc                 randconfig-002-20241218    gcc-14.2.0
+sparc64               randconfig-001-20241218    gcc-14.2.0
+sparc64               randconfig-002-20241218    gcc-14.2.0
+um                                allnoconfig    clang-18
+um                    randconfig-001-20241218    gcc-12
+um                    randconfig-002-20241218    clang-17
+x86_64                            allnoconfig    clang-19
+x86_64      buildonly-randconfig-001-20241218    clang-19
+x86_64      buildonly-randconfig-002-20241218    clang-19
+x86_64      buildonly-randconfig-003-20241218    gcc-12
+x86_64      buildonly-randconfig-004-20241218    gcc-12
+x86_64      buildonly-randconfig-005-20241218    gcc-12
+x86_64      buildonly-randconfig-006-20241218    gcc-11
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20241218    gcc-14.2.0
+xtensa                randconfig-002-20241218    gcc-14.2.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
