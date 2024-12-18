@@ -1,335 +1,153 @@
-Return-Path: <linux-input+bounces-8655-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8656-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43CEB9F6095
-	for <lists+linux-input@lfdr.de>; Wed, 18 Dec 2024 10:00:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 483F69F64D0
+	for <lists+linux-input@lfdr.de>; Wed, 18 Dec 2024 12:25:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B10BA1884C10
-	for <lists+linux-input@lfdr.de>; Wed, 18 Dec 2024 09:00:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87912162CF0
+	for <lists+linux-input@lfdr.de>; Wed, 18 Dec 2024 11:25:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2820B1953A9;
-	Wed, 18 Dec 2024 09:00:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C97219CC0E;
+	Wed, 18 Dec 2024 11:25:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AxYQMvey"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eFOnld0f"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B94F166F16
-	for <linux-input@vger.kernel.org>; Wed, 18 Dec 2024 09:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022911F931;
+	Wed, 18 Dec 2024 11:25:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734512429; cv=none; b=WpqnFCnHliBkC8q15p6zwcnODs0yUXxamCfUtbLxWCrcGEBbWqPeDmV1OY3nQ3EYvGpcGBivrs4OGxq1bKCcWTipbW+egCxO7laM8X9CtGF/BmKqRrr9gM1yetrqJPhCK8qjBWTpizJMYKqk75OOIsQMQvbup8Co7uHWpyRAqY4=
+	t=1734521144; cv=none; b=EjyEkGrrXWJd5rVf8Uypy9UTkJ7dVE0hSDIoHOh0rZVdkEpuaFOK/9FDrcmJIKHBqYi2x7MbxfCRQMjmxCgq07he5bTppCY/wNXvrZAThFEChyHdQLHP8tf5qkiI0mSOOuOfteeLM+LEo6EtYvReK74H83xaK2f+lqA1A3wyFYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734512429; c=relaxed/simple;
-	bh=eD1hMwHPvNOu3WUlGXkOLkHN+z0fbQjvPwH8Ieot0Vk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sYj1tkoL6r7+aOUev4MIeZ62S8mkzfR2AZz5ulvsRrM81xaf1+uKWbXsT7bFlGO62FpBBYU6nRgybLAtqKro/4tdyD1R0ZD35hd3NatemXZqXHLDA86ZCYKmjy74nslYfIurw+WO1wZgK1giabWBEmJF2bWgxuenqBHzHSFA99s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AxYQMvey; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1734512424;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=b/+oMeCME1YJ9QPF8Tc+PURK1zEpTKvNjKtL+pwpGW0=;
-	b=AxYQMveyHjLyNwqX1W0HGY5v8wDHgNaARPhjjD3w84k9Xb14fJI7hVyeksJzp9P+pUVro/
-	yFsFkYjGmCixdj34LU1D6wNlHt1zW8xFIaDSx7cYBmhW0MJFWGJ2LiWqnOlvaqpA5bakg5
-	b+j/5bKyv8Wg6RR3PTDlsZ3h2dJz/Ak=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-620-1DjxZvoDPZG_BwR4_uCfCA-1; Wed,
- 18 Dec 2024 04:00:21 -0500
-X-MC-Unique: 1DjxZvoDPZG_BwR4_uCfCA-1
-X-Mimecast-MFC-AGG-ID: 1DjxZvoDPZG_BwR4_uCfCA
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B0B2819560AE;
-	Wed, 18 Dec 2024 09:00:19 +0000 (UTC)
-Received: from kate-fedora.redhat.com (unknown [10.39.193.100])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 30B1219560AD;
-	Wed, 18 Dec 2024 09:00:14 +0000 (UTC)
-From: Kate Hsuan <hpa@redhat.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH] hid: hid-lg-g15: Use standard multicolor LED API
-Date: Wed, 18 Dec 2024 16:59:55 +0800
-Message-ID: <20241218085955.555316-1-hpa@redhat.com>
+	s=arc-20240116; t=1734521144; c=relaxed/simple;
+	bh=UslFVnAXYTNmYba4GmZIVfm/Vw3mM195bpmKAqG3o7Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l2dOFNppXMF7ZWdB2D6qA0vAP2gO7cngxCwDJ7/8ez5AT+uV22TYQdUhNfztu6puSZadrc4spb2AkR/hvDtIgb7CQE+M7l4BKJIuJWLrD0WOPL51sCDiT03jhbdejFP6+C2ixnB/H8rNT+jh7kNnyX8EucS8ZGeNaF7ODYnO+gU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eFOnld0f; arc=none smtp.client-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-85ba92b3acfso2787195241.1;
+        Wed, 18 Dec 2024 03:25:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734521142; x=1735125942; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c7u6v8jjnFSq06Hoi63m+bpSt3SS1bJxGP2Hu10qTWg=;
+        b=eFOnld0f2sAsHmgHfC26DoDTI/yOfjPDt4aK167gFF3D5DIP/6vHBdjibUqSu3PJHH
+         LdelqGH4JIUPegJiEf0lDjPuPsllrvmj3QBk0qowTH+dSRhV1TiaSY49IdNmltzoztWH
+         jwswe8rgfaV7XyyRspquNGyZI65W3K6ytAM9S8iPQAvNT90Bz9++Mirj9Hr5RY7nPWUm
+         KxsQeaNfcUnBI79bIBzvUH/EyZHIsyldLNYhlOPZ63B2SGEra2gOJTjoa0vIwl6284Ql
+         nz4OtD+L/6vaWQZcuw5r982xwE6yNiyZGWS8PQJ+1O30yXcMCokAMAQz/D1fFqa4TelB
+         Vnhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734521142; x=1735125942;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=c7u6v8jjnFSq06Hoi63m+bpSt3SS1bJxGP2Hu10qTWg=;
+        b=Wir97j48Fr24m39rJlEMcbYDXNdHCOtwBAcmnar5xp2kQ19KG18ufW90Snbzu+M8U+
+         vG4dGqBHl4V+NXOtcIhitKE+zkVX9uK88g6/HjeLoSFwMl/pA54zwENmcaL7HBS/4MH9
+         0ld5lVIzCwWgMoX93xBxMom1KmEGquNr0tF7QRXegVffT0sYhWTncEfs2U9gGMJrkdI/
+         3rX6PYXY4jYfDdEdB95GW9rwRwnCz5OJ8kaGom2m0FtPivDrRyDG/RH57Ivoi0JUWm80
+         bsqJ3XylqBy1oVEZ9PRfHrS+CxNcggXQg0AK2R8r1ybjxf9fZRcVPIfqYdvOzDXFcvar
+         Hxrw==
+X-Forwarded-Encrypted: i=1; AJvYcCU07zvLmTCNZptoiKMeuXcPFxwjN5r3YcqxiWr8ievGlSfaeYKvbQdvTx/g3pPDDqwcRRDIMhF0lHI9NQ==@vger.kernel.org, AJvYcCU9v0R4DgdaMoa9v4lNwYdIT5aJkugXszvJvuSb2+54KCqLmlMpAqVcQ49OP6Qf9TFpRZILzOJxju6iuGyn@vger.kernel.org, AJvYcCUSZpeSCvqZeq+Cs2xKSSt1zLhlarwcqG73J9T8CCZwdz5VqyS0iFFCeATcy8NT6ZOHxpvEk/JnojvwVuk=@vger.kernel.org, AJvYcCW1xx3n/XVmRkFNMnSNepj6BrWvjviqNbqP3QrxDWmFKQyHHhr2CYMaSyDp1pBxRlwHBJYLVodRRWWp@vger.kernel.org, AJvYcCXBgA7QA6V87ml9JgXULNdsjaUKeNCW9lR6Ml+eLPA4EuxeeG3hK6BVSFnOTLzSOseQnzGPlGHcT/w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+YJm4dcSaDHgfbBnPLFboIiJy7Bq4rsZRTKSF/FTfyVpEof18
+	DPKHVVg9LOI+vBbGsOgyUG8Xi7xUoct3tnMA9Xh9MZXxHGiDBjs5RcmzW1GW0pRrKWkRvgSv5HQ
+	h/P3nkNqlheFmwmAh88Sj3/VhVVU=
+X-Gm-Gg: ASbGnctwZZTw2Jxxsu/azOLebkm7iE0sllLrE0/PexMFKTmjORifQb8wVHQ4ykkNkfK
+	jsb11MuevrgiHyTO96NmXDSoQU0Z0Z/4+c2j+
+X-Google-Smtp-Source: AGHT+IFxPPO8fZNjKeble7gWv/BLUtUUuRcuafyOUoO4UxcYC7hAY8TAjLwTyAKAea36XjgGJ6feWcBfEUYn0S34Puw=
+X-Received: by 2002:a05:6102:c0a:b0:4b0:a67c:5817 with SMTP id
+ ada2fe7eead31-4b2ae711c43mr1539235137.5.1734521141796; Wed, 18 Dec 2024
+ 03:25:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+References: <20241217-starqltechn_integration_upstream-v12-0-ed840944f948@gmail.com>
+ <20241217-starqltechn_integration_upstream-v12-2-ed840944f948@gmail.com> <vunx3s4wqw5fqtwuuuuofjtja7buh5zpxi3iznzgfl4iz7fm4d@wlxbzrnlu7fr>
+In-Reply-To: <vunx3s4wqw5fqtwuuuuofjtja7buh5zpxi3iznzgfl4iz7fm4d@wlxbzrnlu7fr>
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Date: Wed, 18 Dec 2024 14:25:31 +0300
+Message-ID: <CABTCjFBO6RYwf5GiExPFEyBAfCF7vUnbYFRePdSVPdXNfwZwrA@mail.gmail.com>
+Subject: Re: [PATCH v12 02/11] dt-bindings: power: supply: max17042: split on
+ 2 files
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Sebastian Reichel <sre@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, Lee Jones <lee@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+	Hans de Goede <hdegoede@redhat.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, Purism Kernel Team <kernel@puri.sm>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This work migrated the multicolor LED control to the standard multicolor
-LED API. Moreover, the codes related to the "color" attribute used to
-set up the color previously were removed.
+=D1=81=D1=80, 18 =D0=B4=D0=B5=D0=BA. 2024=E2=80=AF=D0=B3. =D0=B2 11:28, Krz=
+ysztof Kozlowski <krzk@kernel.org>:
+>
+> On Tue, Dec 17, 2024 at 08:30:00PM +0300, Dzmitry Sankouski wrote:
+> > Move max17042 common binding part to separate file, to
+> > reuse it for MFDs with platform driver version.
+> >
+> > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> >
+> > Changes on v12:
+>
+> Malformed patch.
+>
+> > - add addtionalProperties: true on common file
+> > - rename *-base file to *-common
+> > - remove compatibles from shared shema
+> > - move required properties to final schema
+> > - remove max77705 compatible from binding - it will be used in
+> >   mfd77705 binding
+>
+> Sorry, all this is somehow complicated effort of not calling the fuel
+> gauge what it really is: separate device with its own I2C address, just
+> like all previous designs in that family from Maxim.
+>
+> I keep repeating this and you keep going that way, maybe because it fits
+> your drivers, but that's not the way.
+>
+> Best regards,
+> Krzysztof
 
-Signed-off-by: Kate Hsuan <hpa@redhat.com>
----
- drivers/hid/hid-lg-g15.c | 145 ++++++++++++++++++---------------------
- 1 file changed, 68 insertions(+), 77 deletions(-)
+Fuel gauge ICs designed to sit between battery and charger, or even in the
+battery pack itself, with a goal to track and protect the battery.
+Given powering diagram:
 
-diff --git a/drivers/hid/hid-lg-g15.c b/drivers/hid/hid-lg-g15.c
-index 53e7b90f9cc3..52159cecca27 100644
---- a/drivers/hid/hid-lg-g15.c
-+++ b/drivers/hid/hid-lg-g15.c
-@@ -8,11 +8,13 @@
- #include <linux/device.h>
- #include <linux/hid.h>
- #include <linux/leds.h>
-+#include <linux/led-class-multicolor.h>
- #include <linux/module.h>
- #include <linux/random.h>
- #include <linux/sched.h>
- #include <linux/usb.h>
- #include <linux/wait.h>
-+#include <dt-bindings/leds/common.h>
- 
- #include "hid-ids.h"
- 
-@@ -44,7 +46,10 @@ enum lg_g15_led_type {
- };
- 
- struct lg_g15_led {
--	struct led_classdev cdev;
-+	union {
-+		struct led_classdev cdev;
-+		struct led_classdev_mc mcdev;
-+	};
- 	enum led_brightness brightness;
- 	enum lg_g15_led_type led;
- 	u8 red, green, blue;
-@@ -227,17 +232,18 @@ static int lg_g510_get_initial_led_brightness(struct lg_g15_data *g15, int i)
- /* Must be called with g15->mutex locked */
- static int lg_g510_kbd_led_write(struct lg_g15_data *g15,
- 				 struct lg_g15_led *g15_led,
-+				 struct mc_subled *subleds,
- 				 enum led_brightness brightness)
- {
- 	int ret;
- 
- 	g15->transfer_buf[0] = 5 + g15_led->led;
- 	g15->transfer_buf[1] =
--		DIV_ROUND_CLOSEST(g15_led->red * brightness, 255);
-+		DIV_ROUND_CLOSEST(subleds[0].intensity * brightness, 255);
- 	g15->transfer_buf[2] =
--		DIV_ROUND_CLOSEST(g15_led->green * brightness, 255);
-+		DIV_ROUND_CLOSEST(subleds[1].intensity * brightness, 255);
- 	g15->transfer_buf[3] =
--		DIV_ROUND_CLOSEST(g15_led->blue * brightness, 255);
-+		DIV_ROUND_CLOSEST(subleds[2].intensity * brightness, 255);
- 
- 	ret = hid_hw_raw_request(g15->hdev,
- 				 LG_G510_FEATURE_BACKLIGHT_RGB + g15_led->led,
-@@ -258,9 +264,11 @@ static int lg_g510_kbd_led_write(struct lg_g15_data *g15,
- static int lg_g510_kbd_led_set(struct led_classdev *led_cdev,
- 			       enum led_brightness brightness)
- {
-+	struct led_classdev_mc *mc = lcdev_to_mccdev(led_cdev);
- 	struct lg_g15_led *g15_led =
- 		container_of(led_cdev, struct lg_g15_led, cdev);
- 	struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
-+	struct mc_subled *subleds;
- 	int ret;
- 
- 	/* Ignore LED off on unregister / keyboard unplug */
-@@ -268,7 +276,11 @@ static int lg_g510_kbd_led_set(struct led_classdev *led_cdev,
- 		return 0;
- 
- 	mutex_lock(&g15->mutex);
--	ret = lg_g510_kbd_led_write(g15, g15_led, brightness);
-+
-+	led_mc_calc_color_components(mc, brightness);
-+	subleds = mc->subled_info;
-+
-+	ret = lg_g510_kbd_led_write(g15, g15_led, subleds, brightness);
- 	mutex_unlock(&g15->mutex);
- 
- 	return ret;
-@@ -282,76 +294,15 @@ static enum led_brightness lg_g510_kbd_led_get(struct led_classdev *led_cdev)
- 	return g15_led->brightness;
- }
- 
--static ssize_t color_store(struct device *dev, struct device_attribute *attr,
--			   const char *buf, size_t count)
--{
--	struct led_classdev *led_cdev = dev_get_drvdata(dev);
--	struct lg_g15_led *g15_led =
--		container_of(led_cdev, struct lg_g15_led, cdev);
--	struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
--	unsigned long value;
--	int ret;
--
--	if (count < 7 || (count == 8 && buf[7] != '\n') || count > 8)
--		return -EINVAL;
--
--	if (buf[0] != '#')
--		return -EINVAL;
--
--	ret = kstrtoul(buf + 1, 16, &value);
--	if (ret)
--		return ret;
--
--	mutex_lock(&g15->mutex);
--	g15_led->red   = (value & 0xff0000) >> 16;
--	g15_led->green = (value & 0x00ff00) >> 8;
--	g15_led->blue  = (value & 0x0000ff);
--	ret = lg_g510_kbd_led_write(g15, g15_led, g15_led->brightness);
--	mutex_unlock(&g15->mutex);
--
--	return (ret < 0) ? ret : count;
--}
--
--static ssize_t color_show(struct device *dev, struct device_attribute *attr,
--			  char *buf)
--{
--	struct led_classdev *led_cdev = dev_get_drvdata(dev);
--	struct lg_g15_led *g15_led =
--		container_of(led_cdev, struct lg_g15_led, cdev);
--	struct lg_g15_data *g15 = dev_get_drvdata(led_cdev->dev->parent);
--	ssize_t ret;
--
--	mutex_lock(&g15->mutex);
--	ret = sprintf(buf, "#%02x%02x%02x\n",
--		      g15_led->red, g15_led->green, g15_led->blue);
--	mutex_unlock(&g15->mutex);
--
--	return ret;
--}
--
--static DEVICE_ATTR_RW(color);
--
--static struct attribute *lg_g510_kbd_led_attrs[] = {
--	&dev_attr_color.attr,
--	NULL,
--};
--
--static const struct attribute_group lg_g510_kbd_led_group = {
--	.attrs = lg_g510_kbd_led_attrs,
--};
--
--static const struct attribute_group *lg_g510_kbd_led_groups[] = {
--	&lg_g510_kbd_led_group,
--	NULL,
--};
--
- static void lg_g510_leds_sync_work(struct work_struct *work)
- {
- 	struct lg_g15_data *g15 = container_of(work, struct lg_g15_data, work);
-+	struct led_classdev_mc *mc = &g15->leds[LG_G15_KBD_BRIGHTNESS].mcdev;
-+	struct lg_g15_led *g15_led = &g15->leds[LG_G15_KBD_BRIGHTNESS];
-+	struct mc_subled *subleds = mc->subled_info;
- 
- 	mutex_lock(&g15->mutex);
--	lg_g510_kbd_led_write(g15, &g15->leds[LG_G15_KBD_BRIGHTNESS],
--			      g15->leds[LG_G15_KBD_BRIGHTNESS].brightness);
-+	lg_g510_kbd_led_write(g15, g15_led, subleds, g15_led->brightness);
- 	mutex_unlock(&g15->mutex);
- }
- 
-@@ -667,8 +618,47 @@ static void lg_g15_input_close(struct input_dev *dev)
- 	hid_hw_close(hdev);
- }
- 
-+static void lg_g15_setup_led_rgb(struct lg_g15_data *g15, int index)
-+{
-+	int i;
-+	struct mc_subled *subled_info;
-+
-+	g15->leds[index].mcdev.led_cdev.brightness_set_blocking =
-+		lg_g510_kbd_led_set;
-+	g15->leds[index].mcdev.led_cdev.brightness_get =
-+		lg_g510_kbd_led_get;
-+	g15->leds[index].mcdev.led_cdev.max_brightness = g15->leds[index].brightness;
-+	g15->leds[index].mcdev.num_colors = 3;
-+
-+	subled_info = devm_kcalloc(&g15->hdev->dev, 3, sizeof(*subled_info), GFP_KERNEL);
-+	if (!subled_info)
-+		return;
-+
-+	for (i = 0; i < 3; i++) {
-+		switch (i + 1) {
-+		case LED_COLOR_ID_RED:
-+			subled_info[i].color_index = LED_COLOR_ID_RED;
-+			subled_info[i].intensity = g15->leds[index].red;
-+			break;
-+		case LED_COLOR_ID_GREEN:
-+			subled_info[i].color_index = LED_COLOR_ID_GREEN;
-+			subled_info[i].intensity = g15->leds[index].green;
-+			break;
-+		case LED_COLOR_ID_BLUE:
-+			subled_info[i].color_index = LED_COLOR_ID_BLUE;
-+			subled_info[i].intensity = g15->leds[index].blue;
-+			break;
-+		}
-+		subled_info[i].channel = i;
-+		subled_info[i].intensity = 255;
-+	}
-+	g15->leds[index].mcdev.subled_info = subled_info;
-+}
-+
- static int lg_g15_register_led(struct lg_g15_data *g15, int i, const char *name)
- {
-+	int ret;
-+
- 	g15->leds[i].led = i;
- 	g15->leds[i].cdev.name = name;
- 
-@@ -685,6 +675,7 @@ static int lg_g15_register_led(struct lg_g15_data *g15, int i, const char *name)
- 		} else {
- 			g15->leds[i].cdev.max_brightness = 1;
- 		}
-+		ret = devm_led_classdev_register(&g15->hdev->dev, &g15->leds[i].cdev);
- 		break;
- 	case LG_G510:
- 	case LG_G510_USB_AUDIO:
-@@ -697,12 +688,11 @@ static int lg_g15_register_led(struct lg_g15_data *g15, int i, const char *name)
- 			g15->leds[i].cdev.name = "g15::power_on_backlight_val";
- 			fallthrough;
- 		case LG_G15_KBD_BRIGHTNESS:
--			g15->leds[i].cdev.brightness_set_blocking =
--				lg_g510_kbd_led_set;
--			g15->leds[i].cdev.brightness_get =
--				lg_g510_kbd_led_get;
--			g15->leds[i].cdev.max_brightness = 255;
--			g15->leds[i].cdev.groups = lg_g510_kbd_led_groups;
-+			/* register multicolor */
-+			lg_g15_setup_led_rgb(g15, i);
-+			ret = devm_led_classdev_multicolor_register_ext(&g15->hdev->dev,
-+									&g15->leds[i].mcdev,
-+									NULL);
- 			break;
- 		default:
- 			g15->leds[i].cdev.brightness_set_blocking =
-@@ -710,11 +700,12 @@ static int lg_g15_register_led(struct lg_g15_data *g15, int i, const char *name)
- 			g15->leds[i].cdev.brightness_get =
- 				lg_g510_mkey_led_get;
- 			g15->leds[i].cdev.max_brightness = 1;
-+			ret = devm_led_classdev_register(&g15->hdev->dev, &g15->leds[i].cdev);
- 		}
- 		break;
- 	}
- 
--	return devm_led_classdev_register(&g15->hdev->dev, &g15->leds[i].cdev);
-+	return ret;
- }
- 
- /* Common input device init code shared between keyboards and Z-10 speaker handling */
--- 
-2.47.1
+----------              ---------      ------------      --------------
+|usb port|<--[input]--> |charger| <--> |fuel gauge| <--> |battery pack|
+----------              ---------      ------------      --------------
+                            |
+                            |
+                            |---> [system bus]
 
+There's no fuel gauge ICs with input and system bus measurements on the mar=
+ket.
+
+This device indeed has its own I2C address, but that's not enough to
+say it should be
+a separate device, because we have MFD's with its goal to share
+resources like a single
+i2c address for devices with separate functions.
+
+To me it's more like Maxim put its fuel gauge together with some hwmon
+solution on the
+single i2c client logic.
+
+--=20
+Best regards and thanks for review,
+Dzmitry
 
