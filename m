@@ -1,60 +1,54 @@
-Return-Path: <linux-input+bounces-8682-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8683-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B84A9F81A6
-	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 18:23:53 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E04A9F82C2
+	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 19:00:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 52515170D3B
-	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 17:19:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 46FDE7A1014
+	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 17:57:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F95F1A08A0;
-	Thu, 19 Dec 2024 17:17:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EA44198845;
+	Thu, 19 Dec 2024 17:57:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fB2tWhhC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S3ohROY6"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EA91A072C;
-	Thu, 19 Dec 2024 17:17:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB70155342;
+	Thu, 19 Dec 2024 17:57:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734628647; cv=none; b=M+4GSE3TP5D5SL/5DxZaNQ/9PAnhwafF6k/4Vgpk6kAF1BPyhr2zVSqE3ZsAIGCfhHpN/Vpj0m0u53fxOXY/uKyI3X2VHzIJfnkZvMQn8yGG3T8AfUIyErEIMzn1nq1pHzWcOSIWIOmgvF8LI+n+Zt0foNSZDZ9YgB6wc6pxTLw=
+	t=1734631072; cv=none; b=JBVJCvEYHs379sjQqVRohWiEIw1Gg8hdko0ekn8NFA+Fw/zXvhgSFr98p7K52tO5OfJTOqK1+WkrrbvQFL15ZAGOcCHRHQUsTNf4mjLBjKux0xisUqa40WyJMIUElqLvbZL+BEfpBA2lpEIPcZcNcm6qJaNUCU0adkg8SgEkpIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734628647; c=relaxed/simple;
-	bh=CdgZs2ST2EHcflObKh92+jX0IJgfg0jGqqPrz2v1QkM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Mt/peYJ9ZAlTCoP9QCmlmTXkZ+1XfwmsbCi8HS/WjDoMmRu7yNlxFF08IdPKTNodrlIlEtY4v3IeT8ePTfBRmDkT63ofz9nwHRtVqCFy/MeHM9fdYpH7KGEle68R5d1It+CTVjVkLAw8KGJzlcQIdo2rmzW/Fu881oudwnpI+hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fB2tWhhC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9F85C4CED0;
-	Thu, 19 Dec 2024 17:17:23 +0000 (UTC)
+	s=arc-20240116; t=1734631072; c=relaxed/simple;
+	bh=HwsB1+SO6TcBSdbbtu7k0GA/NbWrPb1KLY2jJB6RDBM=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=QhYIKqyqPVx8vzJQ16e26rTtWXD8Z7t+eBf3qToyPFBrHe7MTbougQMeBEMxx9cnY2jbEE9dDVknPH3VaJTplvtSqkK9HGzXL5sPF8pgcvPkuR/+zT7eaCaYFShw0A2dBIf9a0+AgluNOyEynxElXWfY0W6/Tz7tlolhIZagOmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S3ohROY6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6034DC4CECE;
+	Thu, 19 Dec 2024 17:57:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734628646;
-	bh=CdgZs2ST2EHcflObKh92+jX0IJgfg0jGqqPrz2v1QkM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fB2tWhhCaFvCyMNFX8WnhXVjx72vUb6jB0R7Oc+l/7pS4N+Yzqm1NkCCyBmPFts+K
-	 2uIcJcFANQnR0QAEdLabLy9eEwmmpPSlMWba0POJUoQ/hdXbfCN6q4Bm0L7PClguiM
-	 u9rE10wmUiqmNduL7P7LPR/nFptBvkrsiCLfSt3s8k3xn9V8DZW9YY1qDH6CG5pFMF
-	 JWRl1PEodGhv7wANNltLUw/Ae9+B5l6YJz9J9yfFuE0lMFsWEINfsFfCq2qwT5o7tv
-	 TKLqXYkmpmnxDvpVWNU7UxGYMDfjb7hkn/NlRsuVi2oBpbsY12XrFdazvSVl2DV3wq
-	 2vsRIEt+QjJdg==
-Date: Thu, 19 Dec 2024 17:17:18 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Srinivas Pandruvada
- <srinivas.pandruvada@linux.intel.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] iio: hid-sensor-prox: Split difference from multiple
- channels
-Message-ID: <20241219171718.2af17d6d@jic23-huawei>
-In-Reply-To: <20241216-fix-hid-sensor-v2-1-ff8c1959ec4a@chromium.org>
-References: <20241216-fix-hid-sensor-v2-1-ff8c1959ec4a@chromium.org>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	s=k20201202; t=1734631071;
+	bh=HwsB1+SO6TcBSdbbtu7k0GA/NbWrPb1KLY2jJB6RDBM=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=S3ohROY6GFgEc6BPp9b0/IRl3mhFx4mQO1TjekEs4TSnvlmRWaxIZwYW547+asMje
+	 4pL/XYRY0law/KgToSmdCeS3xq84yDWOzPKhFwa+x5xCPRG5bpMVLSoKd2ExU70nHB
+	 BdVhU3FPg1uRK7sqkV+Ydt3j/alAukujhHUUdv/17SGxKyDFBTDaXOVp9sopSYqx7R
+	 taOFHY5lmPC5r68XAwcVOISfxgQe5s5KHvg6GG89OQfjD1SH7tvXc8ZIY5JlVuij0K
+	 g+tL7K0dql6IpB5nIJ0vdIGGpsm58a+wvQl3V2nCtNoqKllk7S9ZTpkK8y2YIhDcrt
+	 6jv+0kTgxO19g==
+Date: Thu, 19 Dec 2024 18:57:48 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH] [RFC] Input: remove evbug driver
+In-Reply-To: <Z2HzxziYyF9-vxns@google.com>
+Message-ID: <ss361op7-9op7-pr29-5pr7-4867rqn1rqo4@xreary.bet>
+References: <8n377s5p-3r9n-ro38-3r2o-p536745552qo@xreary.bet> <Z2HzxziYyF9-vxns@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -62,97 +56,48 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Mon, 16 Dec 2024 10:05:53 +0000
-Ricardo Ribalda <ribalda@chromium.org> wrote:
+On Tue, 17 Dec 2024, Dmitry Torokhov wrote:
 
-> When the driver was originally created, it was decided that
-> sampling_frequency and hysteresis would be shared_per_type instead
-> of shared_by_all (even though it is internally shared by all). Eg:
-> in_proximity_raw
-> in_proximity_sampling_frequency
+> > From: Jiri Kosina <jkosina@suse.com>
+> > 
+> > I've never heard of anyone having used this driver for debugging at least 
+> > in over past decade or so. Since we have tools like evtest, this driver 
+> > seems to be rather superficial.
+> > 
+> > Also, it apparently causes confusion among people who accidentaly enable 
+> > CONFIG_INPUT_EVBUG and are annoyed/confused by their kernel log being 
+> > spammed by a lot of useless data.
+> > 
+> > Let's just remove it.
 > 
-> When we introduced support for more channels, we continued with
-> shared_by_type which. Eg:
-> in_proximity0_raw
-> in_proximity1_raw
-> in_proximity_sampling_frequency
-> in_attention_raw
-> in_attention_sampling_frequency
+> Agree. Applied, thank you.
+
+Thanks Dmitry.
+
+I don't see it in dtor/input.git though .. ?
+
+> Interestingly:
 > 
-> Ideally we should change to shared_by_all, but it is not an option,
-> because the current naming has been a stablished ABI by now. Luckily we
-> can use separate instead. That will be more consistent:
-> in_proximity0_raw
-> in_proximity0_sampling_frequency
-> in_proximity1_raw
-> in_proximity1_sampling_frequency
-> in_attention_raw
-> in_attention_sampling_frequency
+> dtor@dtor-ws:~/kernel/next $ git grep -i evbug
+> arch/arm/configs/davinci_all_defconfig:CONFIG_INPUT_EVBUG=m
+> arch/arm/configs/imx_v6_v7_defconfig:CONFIG_INPUT_EVBUG=m
+> arch/arm/configs/moxart_defconfig:CONFIG_INPUT_EVBUG=y
+> arch/arm/configs/omap1_defconfig:CONFIG_INPUT_EVBUG=y
+> arch/mips/configs/pic32mzda_defconfig:CONFIG_INPUT_EVBUG=m
+> arch/sh/configs/sh7785lcr_32bit_defconfig:CONFIG_INPUT_EVBUG=m
+> arch/sparc/configs/sparc32_defconfig:CONFIG_INPUT_EVBUG=m
 > 
-> Fixes: 596ef5cf654b ("iio: hid-sensor-prox: Add support for more channels")
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> I am curious why moxart and omap1 have it as 'y'. 
 
-I got lost somewhere in the discussion.  This is still an ABI change compared
-to original interface at the top (which is the one that has been there 
-quite some time).
+The dmesg on those architectures must be a real pleasure to read :)
 
-However we already had to make one of those to add the index that wasn't there
-for _raw. (I'd missed that in earlier discussion - thanks for laying out the
-steps here!)  Srinivas, Jiri, do you think we are better off just assuming users
-of this will be using a library that correctly deals with sharing and just
-jump to 
-in_proximity0_raw
-in_proximity1_raw
-in_attention_raw
-(should have indexed that but it may never matter) and
-sampling_frequency
+> Thanks.
 
-Which is what I think Ricardo originally asked.
+Thanks,
 
-Do we have any guarantee the sampling_frequency will be shared across the
-sensor channels?  It may be the most common situation but I don't want to
-wall us into a corner if it turns out someone runs separate sensors at
-different rates (no particularly reason they should be one type of sensor
-so this might make sense).  If we don't have that guarantee
-then this patch is fine as far as I'm concerned.
-
-Jonathan
-
-
-
-> ---
-> Changes in v2:
-> - Use separate
-> - Link to v1: https://lore.kernel.org/r/20241205-fix-hid-sensor-v1-1-9b789f39c220@chromium.org
-> ---
->  drivers/iio/light/hid-sensor-prox.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/iio/light/hid-sensor-prox.c b/drivers/iio/light/hid-sensor-prox.c
-> index c83acbd78275..71dcef3fbe57 100644
-> --- a/drivers/iio/light/hid-sensor-prox.c
-> +++ b/drivers/iio/light/hid-sensor-prox.c
-> @@ -49,9 +49,10 @@ static const u32 prox_sensitivity_addresses[] = {
->  #define PROX_CHANNEL(_is_proximity, _channel) \
->  	{\
->  		.type = _is_proximity ? IIO_PROXIMITY : IIO_ATTENTION,\
-> -		.info_mask_separate = _is_proximity ? BIT(IIO_CHAN_INFO_RAW) :\
-> -				      BIT(IIO_CHAN_INFO_PROCESSED),\
-> -		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_OFFSET) |\
-> +		.info_mask_separate = \
-> +		(_is_proximity ? BIT(IIO_CHAN_INFO_RAW) :\
-> +				BIT(IIO_CHAN_INFO_PROCESSED)) |\
-> +		BIT(IIO_CHAN_INFO_OFFSET) |\
->  		BIT(IIO_CHAN_INFO_SCALE) |\
->  		BIT(IIO_CHAN_INFO_SAMP_FREQ) |\
->  		BIT(IIO_CHAN_INFO_HYSTERESIS),\
-> 
-> ---
-> base-commit: 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
-> change-id: 20241203-fix-hid-sensor-62e1979ecd03
-> 
-> Best regards,
+-- 
+Jiri Kosina
+SUSE Labs
 
 
