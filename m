@@ -1,698 +1,311 @@
-Return-Path: <linux-input+bounces-8667-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8668-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8AE99F73CF
-	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 06:02:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92FE09F79F8
+	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 12:00:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 69564188F9C3
-	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 05:02:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E56A18922D5
+	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 11:00:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CD88154C15;
-	Thu, 19 Dec 2024 05:02:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FB4A223C62;
+	Thu, 19 Dec 2024 10:59:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MooeT55r"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bXxtjReZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F20F145A03;
-	Thu, 19 Dec 2024 05:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5DC223706;
+	Thu, 19 Dec 2024 10:59:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734584531; cv=none; b=MQ1ZVhax2uVFSbMCU/fIxA4J4mFomUTsyESN9zRfGLvhc0zOS8bnGCX/AwE3TfqY7xp/HDGVYCKCa4S6vNfh9i2CPACO7dQRN5zvbGzySjpqK8rrr8lzJv9u8bN50d6hHwfExX6dvGAykem26Fm31p8Ldh2q8mdRPIuLTx4QCOc=
+	t=1734605985; cv=none; b=VUReGlKrTtmAmACSsEdzwwU52G8XehL5SNW8KTXqbt36GpF0HRFEgMjyy2rnkKREB6TZKcS0q4lFFjTr6oInquT+sfq24G7yHh5aYgaOvbQbELf1FTiZHq7zh4Bl5lyRxs0Y9S/hKZq4gbndOTi1IjrH1ZCJwDC70TzCMJc9cUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734584531; c=relaxed/simple;
-	bh=DN6SxmD/esWAOYsrR7AtVZYivRswtdXCIY5wp0vyHPc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LPIXAYQlZ7+LxjqYi39SefNTg23/tcH0Leqa+vPXHmnnHS0+di8nl8VVjXonZ9N8EB22QfAwd/He34P0XYwpk2TxK7Py/bpzi/mhrucce6ilOVtWVnlXAf2V3gGkl+9fhZNA35wlKamNIkvzEdvOzxAgrUwBE7Y0NrlIsm02b80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MooeT55r; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734584528; x=1766120528;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=DN6SxmD/esWAOYsrR7AtVZYivRswtdXCIY5wp0vyHPc=;
-  b=MooeT55roMJLOHC7ORf761F2MfuL02FNl82mWLutYfGYOuE1aE2x17Gc
-   4sbCkE9J2DoPHWryY7e4ZfWTq8PirTPZIwn6YlKiKdrVsSqO1pelKvbT3
-   nLvxere9RXDkPdM0sZ0KZYt6Pi17uVf/Hvu0GmIv9Fa2SLG+wMcBzG/sT
-   Jp5B/E/1x9IiLSnzDRxN4OaWEVwWjPFyOgZX/n5vczU2GsVtjsucG9ViT
-   Vo+YLXhlm7L4Bxd4lmMfmgX8NmDoFPDI5Jqa/Yv+S4b/M4e27yJ5dXo0T
-   RUW3dHtb072zTOB8QrNG4Kc2mYStabSlCTWjBlYIgnxzESjXkvCzpcbma
-   Q==;
-X-CSE-ConnectionGUID: pTumwYidQDOsB3lWGblhvg==
-X-CSE-MsgGUID: QXo1qrStTt+l1tmVzXfnlg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="46088970"
-X-IronPort-AV: E=Sophos;i="6.12,246,1728975600"; 
-   d="scan'208";a="46088970"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 21:02:07 -0800
-X-CSE-ConnectionGUID: zs5XclObShCWMbM1RZTWGQ==
-X-CSE-MsgGUID: VU8LghhATa6hLckWnpQV1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,246,1728975600"; 
-   d="scan'208";a="97988832"
-Received: from shsensorbuild.sh.intel.com ([10.239.133.18])
-  by orviesa009.jf.intel.com with ESMTP; 18 Dec 2024 21:02:03 -0800
-From: Even Xu <even.xu@intel.com>
-To: bagasdotme@gmail.com
-Cc: aaron.ma@canonical.com,
-	bentiss@kernel.org,
-	corbet@lwn.net,
-	even.xu@intel.com,
-	jikos@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rdunlap@infradead.org,
-	srinivas.pandruvada@linux.intel.com,
-	xinpeng.sun@intel.com
-Subject: Re: [PATCH v3 01/22] HID: THC: Add documentation
-Date: Thu, 19 Dec 2024 13:01:47 +0800
-Message-Id: <20241219050147.365425-1-even.xu@intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <Z2EWcwQhaiep9yC0@archie.me>
-References: <Z2EWcwQhaiep9yC0@archie.me>
+	s=arc-20240116; t=1734605985; c=relaxed/simple;
+	bh=GaJHo2Ji0aySnbFhDSNFfMkKsoNQhHW2F+2Bsx3veW4=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=riX/gJ/TH9NOBsixBs+6w8CzjN4RjZ1eAL2oAWT3pQQf2OMcFbL/+SEXIqrquNHTHphqjI7g/8hn/MLPSP5xDVkYIh7Ou0SG7TZha/QcqEEnYakNCArSUgSLC9dq8kzCfE4wPc4ldpcIcAXIODapGjhAYTrxwTN8JVG8w5+i12M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bXxtjReZ; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30227c56b11so7397951fa.3;
+        Thu, 19 Dec 2024 02:59:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734605981; x=1735210781; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=skWOzFUpV8y2cWiTVQhxzENX7htMz6G2hrdRd7DJu+g=;
+        b=bXxtjReZFWbP3w1QJK5OPp+bTPiXNG9+o2RXZWI2l8QCTJp0tY8qS7YEPwPgC2oom9
+         UsjP8OGtLeY2TjGyhYUc+AGwzWuv382uy3Mc84eKeTAAzDvdRcuRLMLfSZH2B/9yplgt
+         c3Iu9wEelLIMlz96toZw9VKIvIA8wQgHBHqz0k6janoCF+R3c2zUTfgBL2rxKqDsKDzP
+         +uC/M3EATh1K2PqkJtwTcoXMGVRF2axuSvrn6Zow8BnI+0R+EXGJKkejhppY+VTo/5oO
+         0bbxeN6VSaxeg804K3qTvNqOgaWJ9EJxDzOpGOo3Xwlj1PzVQxC8VwZBG3eIiIEXPmZS
+         CLYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734605981; x=1735210781;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=skWOzFUpV8y2cWiTVQhxzENX7htMz6G2hrdRd7DJu+g=;
+        b=lTaxhFC8r87okc2pnIUsYNvjuFB33KR4lHqlwRQdKtwRoSAakf4XpiwipECmI8occu
+         6//h5u9vbrhDK+9/GbYM6EFr2YdBctlh2iyYtO2asFC3KJZAUxaPPcR6ZDlgd5ls06GK
+         CgbAC0HTCtb/940nBsN5Gu3h6DEJBcXHV+UEVhaz2zYs/98PaoZ1uP443K5q/6/dxBoJ
+         NuQVwiz9h5JYqT8xKP9ko3fArFmNwUgojeEh3ojW5eMHqKuD+7VCToHdvHntqN4xmDad
+         ykyMtpiQ7jhjBoQXI7GkvhuhSwk2z5f8ufKipUv8bODJLL8eqNzRUkrNIexG2V5ASxRy
+         tXTg==
+X-Forwarded-Encrypted: i=1; AJvYcCXGePx9834S5jo5vFrtz3QlocZ4ebgSeut5Pp5Hk3psLiSQnbxIdvUTHtVq8ABIz+Pz0C02ZeDqvXCvLhA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTQSgsnYSoQ0qlLCHhXyPunbixR4uuKd5aRkO6Mm5fJzbtqCeY
+	02ZrnB3XvSNYJOAAeG/xW/m/nFi/h66SX0fDkMbyMcEGgxjf9bRZ390MvbfXDxqRZT9DrZElVsS
+	3Do/uSpI+gWtLBnoQRiBFSqsVTvo=
+X-Gm-Gg: ASbGncs8LxHLJDZMcYqPvSAqEAl9mmLB26tIlepUMn8nE0p8FT8F0KvaxYayLEcyfdV
+	4btAiXjvTh3zFOSLtd02k2LG521zNmOaVjy6Y
+X-Google-Smtp-Source: AGHT+IHP5CB5MblSLuHsKoxrENbEg4Vl1xaO/BGticUNeOQo9OE2Boot9ZayRz1sIY14z/xmnywvWnjSP6LwFDmWQe4=
+X-Received: by 2002:a2e:a555:0:b0:302:210d:3b44 with SMTP id
+ 38308e7fff4ca-3044db64b0dmr19678011fa.35.1734605980997; Thu, 19 Dec 2024
+ 02:59:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: wzs <wangzhengshu39@gmail.com>
+Date: Thu, 19 Dec 2024 18:59:29 +0800
+Message-ID: <CAGXGE_JpBY-+bbA3puzhF7ZSZpso3PenqSDmh8fmZ_=XkGJ14w@mail.gmail.com>
+Subject: UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:69 and 73
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-> From: Bagas Sanjaya <bagasdotme@gmail.com>
-> To: Even Xu <even.xu@intel.com>,
-> 	jikos@kernel.org, bentiss@kernel.org, corbet@lwn.net,
-> 	aaron.ma@canonical.com, rdunlap@infradead.org
-> Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-> 	linux-doc@vger.kernel.org, Sun Xinpeng <xinpeng.sun@intel.com>,
-> 	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Subject: Re: [PATCH v3 01/22] HID: THC: Add documentation
-> Date: Tue, 17 Dec 2024 13:13:07 +0700	[thread overview]
-> Message-ID: <Z2EWcwQhaiep9yC0@archie.me> (raw)
-> In-Reply-To: <20241216014127.3722172-2-even.xu@intel.com>
-> 
-> [-- Attachment #1: Type: text/plain, Size: 30339 bytes --]
-> 
-> On Mon, Dec 16, 2024 at 09:41:06AM +0800, Even Xu wrote:
-> > diff --git a/Documentation/hid/intel-thc-hid.rst b/Documentation/hid/intel-thc-hid.rst
-> > new file mode 100644
-> > index 000000000000..e9452c11d8de
-> > --- /dev/null
-> > +++ b/Documentation/hid/intel-thc-hid.rst
-> > @@ -0,0 +1,568 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +=================================
-> > +Intel Touch Host Controller (THC)
-> > +=================================
-> > +
-> > +Touch Host Controller is the name of the IP block in PCH that interface with Touch Devices (ex:
-> > +touchscreen, touchpad etc.). It is comprised of 3 key functional blocks:
-> > +
-> > +- A natively half-duplex Quad I/O capable SPI master
-> > +- Low latency I2C interface to support HIDI2C compliant devices
-> > +- A HW sequencer with RW DMA capability to system memory
-> > +
-> > +It has a single root space IOSF Primary interface that supports transactions to/from touch devices.
-> > +Host driver configures and controls the touch devices over THC interface. THC provides high
-> > +bandwidth DMA services to the touch driver and transfers the HID report to host system main memory.
-> > +
-> > +Hardware sequencer within the THC is responsible for transferring (via DMA) data from touch devices
-> > +into system memory. A ring buffer is used to avoid data loss due to asynchronous nature of data
-> > +consumption (by host) in relation to data production (by touch device via DMA).
-> > +
-> > +Unlike other common SPI/I2C controllers, THC handles the HID device data interrupt and reset
-> > +signals directly.
-> > +
-> > +1. Overview
-> > +===========
-> > +
-> > +1.1 THC software/hardware stack
-> > +-------------------------------
-> > +
-> > +Below diagram illustrates the high-level architecture of THC software/hardware stack, which is fully
-> > +capable of supporting HIDSPI/HIDI2C protocol in Linux OS.
-> > +
-> > +::
-> > +
-> > +  ----------------------------------------------
-> > + |      +-----------------------------------+   |
-> > + |      |           Input Device            |   |
-> > + |      +-----------------------------------+   |
-> > + |      +-----------------------------------+   |
-> > + |      |       HID Multi-touch Driver      |   |
-> > + |      +-----------------------------------+   |
-> > + |      +-----------------------------------+   |
-> > + |      |             HID Core              |   |
-> > + |      +-----------------------------------+   |
-> > + |      +-----------------------------------+   |
-> > + |      |    THC QuickSPI/QuickI2C Driver   |   |
-> > + |      +-----------------------------------+   |
-> > + |      +-----------------------------------+   |
-> > + |      |      THC Hardware Driver          |   |
-> > + |      +-----------------------------------+   |
-> > + |      +----------------+ +----------------+   |
-> > + |  SW  | PCI Bus Driver | | ACPI Resource  |   |
-> > + |      +----------------+ +----------------+   |
-> > +  ----------------------------------------------
-> > +  ----------------------------------------------
-> > + |      +-----------------------------------+   |
-> > + |  HW  |              PCI Bus              |   |
-> > + |      +-----------------------------------+   |
-> > + |      +-----------------------------------+   |
-> > + |      |           THC Controller          |   |
-> > + |      +-----------------------------------+   |
-> > + |      +-----------------------------------+   |
-> > + |      |              Touch IC             |   |
-> > + |      +-----------------------------------+   |
-> > +  ----------------------------------------------
-> > +
-> > +Touch IC (TIC), also as known as the Touch devices (touchscreen or touchpad). The discrete analog
-> > +components that sense and transfer either discrete touch data or heatmap data in the form of HID
-> > +reports over the SPI/I2C bus to the THC Controller on the host.
-> > +
-> > +THC Host Controller, which is a PCI device HBA (host bus adapter), integrated into the PCH, that
-> > +serves as a bridge between the Touch ICs and the host.
-> > +
-> > +THC Hardware Driver, provides THC hardware operation APIs for above QuickSPI/QuickI2C driver, it
-> > +accesses THC MMIO registers to configure and control THC hardware.
-> > +
-> > +THC QuickSPI/QuickI2C driver, also as known as HIDSPI/HIDI2C driver, is registered as a HID
-> > +low-level driver that manages the THC Controller and implements HIDSPI/HIDI2C protocol.
-> > +
-> > +
-> > +1.2 THC hardware diagram
-> > +------------------------
-> > +Below diagram shows THC hardware components::
-> > +
-> > +                      ---------------------------------
-> > +                     |          THC Controller         |
-> > +                     |  +---------------------------+  |
-> > +                     |  |     PCI Config Space      |  |
-> > +                     |  +---------------------------+  |
-> > +                     |  +---------------------------+  |
-> > +                     |  +       MMIO Registers      |  |
-> > +                     |  +---------------------------+  |
-> > + +---------------+   |  +------------+ +------------+  |
-> > + | System Memory +---+--+      DMA   | |   PIO      |  |
-> > + +---------------+   |  +------------+ +------------+  |
-> > +                     |  +---------------------------+  |
-> > +                     |  |       HW Sequencer        |  |
-> > +                     |  +---------------------------+  |
-> > +                     |  +------------+ +------------+  |
-> > +                     |  |  SPI/I2C   | |    GPIO    |  |
-> > +                     |  | Controller | | Controller |  |
-> > +                     |  +------------+ +------------+  |
-> > +                      ---------------------------------
-> > +
-> > +As THC is exposed as a PCI devices, so it has standard PCI config space registers for PCI
-> > +enumeration and configuration.
-> > +
-> > +MMIO Registers, which provide registers access for driver to configure and control THC hardware,
-> > +the registers include several categories: Interrupt status and control, DMA configure,
-> > +PIO (Programmed I/O, defined in section 3.2) status and control, SPI bus configure, I2C subIP
-> > +status and control, reset status and control...
-> > +
-> > +THC provides two ways for driver to communicate with external Touch ICs: PIO and DMA.
-> > +PIO can let driver manually write/read data to/from Touch ICs, instead, THC DMA can
-> > +automatically write/read data without driver involved.
-> > +
-> > +HW Sequencer includes THC major logic, it gets instruction from MMIO registers to control
-> > +SPI bus and I2C bus to finish a bus data transaction, it also can automatically handle
-> > +Touch ICs interrupt and start DMA receive/send data from/to Touch ICs according to interrupt
-> > +type. That means THC HW Sequencer understands HIDSPI/HIDI2C transfer protocol, and handle
-> > +the communication without driver involved, what driver needs to do is just configure the THC
-> > +properly, and prepare the formatted data packet or handle received data packet.
-> > +
-> > +As THC supports HIDSPI/HIDI2C protocols, it has SPI controller and I2C subIP in it to expose
-> > +SPI bus and I2C bus. THC also integrates a GPIO controller to provide interrupt line support
-> > +and reset line support.
-> > +
-> > +2. THC Hardware Interface
-> > +=========================
-> > +
-> > +2.1 Host Interface
-> > +------------------
-> > +
-> > +THC is exposed as "PCI Digitizer device" to the host. The PCI product and device IDs are
-> > +changed from different generations of processors. So the source code which enumerates drivers
-> > +needs to update from generation to generation.
-> > +
-> > +
-> > +2.2 Device Interface
-> > +--------------------
-> > +
-> > +THC supports two types of bus for Touch IC connection: Enhanced SPI bus and I2C bus.
-> > +
-> > +2.2.1 SPI Port
-> > +~~~~~~~~~~~~~~
-> > +
-> > +When PORT_TYPE = 00b in MMIO registers, THC uses SPI interfaces to communicate with external
-> > +Touch IC. THC enhanced SPI Bus supports different SPI modes: standard Single IO mode,
-> > +Dual IO mode and Quad IO mode.
-> > +
-> > +In Single IO mode, THC drives MOSI line to send data to Touch ICs, and receives data from Touch
-> > +ICs data from MISO line. In Dual IO mode, THC drivers MOSI and MISO both for data sending, and
-> > +also receives the data on both line. In Quad IO mode, there are other two lines (IO2 and IO3)
-> > +are added, THC drives MOSI (IO0), MISO (IO1), IO2 and IO3 at the same time for data sending, and
-> > +also receives the data on those 4 lines. Driver needs to configure THC in different mode by
-> > +setting different opcode.
-> > +
-> > +Beside IO mode, driver also needs to configure SPI bus speed. THC supports up to 42MHz SPI clock
-> > +on Intel Lunar Lake platform.
-> > +
-> > +For THC sending data to Touch IC, the data flow on SPI bus::
-> > +
-> > + | --------------------THC sends---------------------------------|
-> > + <8Bits OPCode><24Bits Slave Address><Data><Data><Data>...........
-> > +
-> > +For THC receiving data from Touch IC, the data flow on SPI bus::
-> > +
-> > + | ---------THC Sends---------------||-----Touch IC sends--------|
-> > + <8Bits OPCode><24Bits Slave Address><Data><Data><Data>...........
-> > +
-> > +2.2.2 I2C Port
-> > +~~~~~~~~~~~~~~
-> > +
-> > +THC also integrates I2C controller in it, it's called I2C SubSystem. When PORT_TYPE = 01, THC
-> > +is configured to I2C mode. Comparing to SPI mode which can be configured through MMIO registers
-> > +directly, THC needs to use PIO read (by setting SubIP read opcode) to I2C subIP APB registers'
-> > +value and use PIO write (by setting SubIP write opcode) to do a write operation.
-> > +
-> > +2.2.3 GPIO interface
-> > +~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +THC also includes two GPIO pins, one for interrupt and the other for device reset control.
-> > +
-> > +Interrupt line can be configured to either level triggerred or edge triggerred by setting MMIO
-> > +Control register.
-> > +
-> > +Reset line is controlled by BIOS (or EFI) through ACPI _RST method, driver needs to call this
-> > +device ACPI _RST method to reset touch IC during initialization.
-> > +
-> > +3. High level concept
-> > +=====================
-> > +
-> > +3.1 Opcode
-> > +----------
-> > +
-> > +Opcode (operation code) is used to tell THC or Touch IC what the operation will be, such as PIO
-> > +read or PIO write.
-> > +
-> > +When THC is configured to SPI mode, opcodes are used for determining the read/write IO mode.
-> > +There are some OPCode examples for SPI IO mode:
-> > +
-> > +=======   ==============================
-> > +opcode    Corresponding SPI command
-> > +=======   ==============================
-> > +0x0B      Read Single I/O
-> > +0x02      Write Single I/O
-> > +0xBB      Read Dual I/O
-> > +0xB2      Write Dual I/O
-> > +0xEB      Read Quad I/O
-> > +0xE2      Write Quad I/O
-> > +=======   ==============================
-> > +
-> > +In general, different touch IC has different OPCode definition. According to HIDSPI
-> > +protocol whitepaper, those OPCodes are defined in device ACPI table, and driver needs to
-> > +query those information through OS ACPI APIs during driver initialization, then configures
-> > +THC MMIO OPCode registers with correct setting.
-> > +
-> > +When THC is working in I2C mode, opcodes are used to tell THC what's the next PIO type:
-> > +I2C SubIP APB register read, I2C SubIP APB register write, I2C touch IC device read,
-> > +I2C touch IC device write, I2C touch IC device write followed by read.
-> > +
-> > +Here are the THC pre-defined opcodes for I2C mode:
-> > +
-> > +=======   ===================================================   ===========
-> > +opcode    Corresponding I2C command                             Address
-> > +=======   ===================================================   ===========
-> > +0x12      Read I2C SubIP APB internal registers                 0h - FFh
-> > +0x13      Write I2C SubIP APB internal registers                0h - FFh
-> > +0x14      Read external Touch IC through I2C bus                N/A
-> > +0x18      Write external Touch IC through I2C bus               N/A
-> > +0x1C      Write then read external Touch IC through I2C bus     N/A
-> > +=======   ===================================================   ===========
-> > +
-> > +3.2 PIO
-> > +-------
-> > +
-> > +THC provides a programmed I/O (PIO) access interface for the driver to access the touch IC's
-> > +configuration registers, or access I2C subIP's configuration registers. To use PIO to perform
-> > +I/O operations, driver should pre-program PIO control registers and PIO data registers and kick
-> > +off the sequencing cycle. THC uses different PIO opcodes to distinguish different PIO
-> > +operations (PIO read/write/write followed by read).
-> > +
-> > +If there is a Sequencing Cycle In Progress and an attempt is made to program any of the control,
-> > +address, or data register the cycle is blocked and a sequence error will be encountered.
-> > +
-> > +A status bit indicates when the cycle has completed allowing the driver to know when read results
-> > +can be checked and/or when to initiate a new command. If enabled, the cycle done assertion can
-> > +interrupt driver with an interrupt.
-> > +
-> > +Because THC only has 16 FIFO registers for PIO, so all the data transfer through PIO shouldn't
-> > +exceed 64 bytes.
-> > +
-> > +As DMA needs max packet size for transferring configuration, and the max packet size information
-> > +always in HID device descriptor which needs THC driver to read it out from HID Device (Touch IC).
-> > +So PIO typical use case is, before DMA initialization, write RESET command (PIO write), read
-> > +RESET response (PIO read or PIO write followed by read), write Power ON command (PIO write), read
-> > +device descriptor (PIO read).
-> > +
-> > +For how to issue a PIO operation, here is the steps which driver needs follow:
-> > +
-> > +- Program read/write data size in THC_SS_BC.
-> > +- Program I/O target address in THC_SW_SEQ_DATA0_ADDR.
-> > +- If write, program the write data in THC_SW_SEQ_DATA0..THC_SW_SEQ_DATAn.
-> > +- Program the PIO opcode in THC_SS_CMD.
-> > +- Set TSSGO = 1 to start the PIO write sequence.
-> > +- If THC_SS_CD_IE = 1, SW will receives a MSI when the PIO is completed.
-> > +- If read, read out the data in THC_SW_SEQ_DATA0..THC_SW_SEQ_DATAn.
-> > +
-> > +3.3 DMA
-> > +-------
-> > +
-> > +THC has 4 DMA channels: Read DMA1, Read DMA2, Write DMA and Software DMA.
-> > +
-> > +3.3.1 Read DMA Channel
-> > +~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +THC has two Read DMA engines: 1st RxDMA (RxDMA1) and 2nd RxDMA (RxDMA2). RxDMA1 is reserved for
-> > +raw data mode. RxDMA2 is used for HID data mode and it is the RxDMA engine currently driver uses
-> > +for HID input report data retrieval.
-> > +
-> > +RxDMA's typical use case is auto receiving the data from Touch IC. Once RxDMA is enabled by
-> > +software, THC will start auto-handling receiving logic.
-> > +
-> > +For SPI mode, THC RxDMA sequence is: when Touch IC triggers a interrupt to THC, THC reads out
-> > +report header to identify what's the report type, and what's the report length, according to
-> > +above information, THC reads out report body to internal FIFO and start RxDMA coping the data
-> > +to system memory. After that, THC update interrupt cause register with report type, and update
-> > +RxDMA PRD table read pointer, then trigger a MSI interrupt to notify driver RxDMA finishing
-> > +data receiving.
-> > +
-> > +For I2C mode, THC RxDMA's behavior is little difference, because of HIDI2C protocol difference with
->                                      "a little bit different, ..."
+Hello,
+when fuzzing the Linux Kernel 6.13.0-rc3,
+the following two crashes were triggered in the same function.
 
-Thanks, will fix it.
+kernel config : https://pastebin.com/hGFvz9vz
+console output1 : https://pastebin.com/Hr3wgmXV
+console output2 : https://pastebin.com/z7jjWwYU
 
-> > +HIDSPI protocol, RxDMA only be used to receive input report. The sequence is, when Touch IC
-> > +triggers a interrupt to THC, THC first reads out 2 bytes from input report address to determine the
-> > +packet length, then use this packet length to start a DMA reading from input report address for
-> > +input report data. After that, THC update RxDMA PRD table read pointer, then trigger a MSI interrupt
-> > +to notify driver input report data is ready in system memory.
-> > +
-> > +All above sequence is hardware automatically handled, all driver needs to do is configure RxDMA and
-> > +waiting for interrupt ready then read out the data from system memory.
-> > +
-> > +3.3.2 Software DMA channel
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +THC supports a software triggerred RxDMA mode to read the touch data from touch IC. This SW RxDMA
-> > +is the 3rd THC RxDMA engine with the similar functionalities as the existing two RxDMAs, the only
-> > +difference is this SW RxDMA is triggerred by software, and RxDMA2 is triggerred by external Touch IC
-> > +interrupt. It gives a flexiblity to software driver to use RxDMA read Touch IC data in any time.
-> > +
-> > +Before software starts a SW RxDMA, it shall stop the 1st and 2nd RxDMA, clear PRD read/write pointer
-> > +and quiesce the device interrupt (THC_DEVINT_QUIESCE_HW_STS = 1), other operations are the same with
-> > +RxDMA.
-> > +
-> > +3.3.3 Write DMA Channel
-> > +~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +THC has one write DMA engine, which can be used for sending data to Touch IC automatically.
-> > +According to HIDSPI and HIDI2C protocol, every time only one command can be sent to touch IC, and
-> > +before last command is completely handled, next command cannot be sent, THC write DMA engine only
-> > +supports single PRD table.
-> > +
-> > +What driver needs to do is, preparing PRD table and DMA buffer, then copy data to DMA buffer and
-> > +update PRD table with buffer address and buffer length, then start write DMA. THC will
-> > +automatically send the data to touch IC, and trigger a DMA completion interrupt once transferring
-> > +is done.
-> > +
-> > +3.4 PRD
-> > +-------
-> > +
-> > +Physical Region Descriptor (PRD) provides the memory mapping description for THC DMAs.
-> > +
-> > +3.4.1 PRD table and entry
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +In order to improve physical DMA memory usage, modern drivers trend to allocate a virtually
-> > +contiguous, but physically fragmented buffer of memory for each data buffer. Linux OS also
-> > +provide SGL (scatter gather list) APIs to support this usage.
-> > +
-> > +THC uses PRD table (physical region descriptor) to support the corresponding OS kernel
-> > +SGL that describes the virtual to physical buffer mapping.
-> > +
-> > +::
-> > +
-> > +  ------------------------      --------------       --------------
-> > + | PRD table base address +----+ PRD table #1 +-----+ PRD Entry #1 |
-> > +  ------------------------      --------------       --------------
-> > +                                                     --------------
-> > +                                                    | PRD Entry #2 |
-> > +                                                     --------------
-> > +                                                     --------------
-> > +                                                    | PRD Entry #n |
-> > +                                                     --------------
-> > +
-> > +The read DMA engine supports multiple PRD tables held within a circular buffer that allow the THC
-> > +to support multiple data buffers from the Touch IC. This allows host SW to arm the Read DMA engine
-> > +with multiple buffers, allowing the Touch IC to send multiple data frames to the THC without SW
-> > +interaction. This capability is required when the CPU processes touch frames slower than the
-> > +Touch IC can send them.
-> > +
-> > +To simplify the design, SW assumes worst-case memory fragmentation. Therefore,each PRD table shall
-> > +contain the same number of PRD entries, allowing for a global register (per Touch IC) to hold the
-> > +number of PRD-entries per PRD table.
-> > +
-> > +SW allocates up to 128 PRD tables per Read DMA engine as specified in the THC_M_PRT_RPRD_CNTRL.PCD
-> > +register field. The number of PRD tables should equal the number of data buffers.
-> > +
-> > +Max OS memory fragmentation will be at a 4KB boundary, thus to address 1MB of virtually contiguous
-> > +memory 256 PRD entries are required for a single PRD Table. SW writes the number of PRD entries
-> > +for each PRD table in the THC_M_PRT_RPRD_CNTRL.PTEC register field. The PRD entry's length must be
-> > +multiple of 4KB except for the last entry in a PRD table.
-> > +
-> > +SW allocates all the data buffers and PRD tables only once at host initialization.
-> > +
-> > +3.4.2 PRD Write pointer and read pointer
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +As PRD tables are organized as a Circular Buffer (CB), a read pointer and a write pointer for a CB
-> > +are needed.
-> > +
-> > +DMA HW consumes the PRD tables in the CB, one PRD entry at a time until the EOP bit is found set
-> > +in a PRD entry. At this point HW increments the PRD read pointer. Thus, the read pointer points
-> > +to the PRD which the DMA engine is currently processing. This pointer rolls over once the circular
-> > +buffer's depth has been traversed with bit[7] the Rollover bit. E.g. if the DMA CB depth is equal
-> > +to 4 entries (0011b), then the read pointers will follow this pattern (HW is required to honor
-> > +this behavior): 00h 01h 02h 03h 80h 81h 82h 83h 00h 01h ...
-> > +
-> > +The write pointer is updated by SW. The write pointer points to location in the DMA CB, where the
-> > +next PRD table is going to be stored. SW needs to ensure that this pointer rolls over once the
-> > +circular buffer's depth has been traversed with Bit[7] as the rollover bit. E.g. if the DMA CB
-> > +depth is equal to 5 entries (0100b), then the write pointers will follow this pattern (SW is
-> > +required to honor this behavior): 00h 01h 02h 03h 04h 80h 81h 82h 83h 84h 00h 01h ..
-> > +
-> > +3.4.3 PRD descriptor structure
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +Intel THC uses PRD entry descriptor for every PRD entry. Every PRD entry descriptor occupies
-> > +128 bits memories:
-> > +
-> > +===================   ========   ===============================================
-> > +struct field          bit(s)     description
-> > +===================   ========   ===============================================
-> > +dest_addr             53..0      destination memory address, as every entry
-> > +                                 is 4KB, ignore lowest 10 bits of address.
-> > +reserved1             54..62     reserved
-> > +int_on_completion     63         completion interrupt enable bit, if this bit
-> > +                                 set it means THC will trigger a completion
-> > +                                 interrupt. This bit is set by SW driver.
-> > +len                   87..64     how many bytes of data in this entry.
-> > +end_of_prd            88         end of PRD table bit, if this bit is set,
-> > +                                 it means this entry is last entry in this PRD
-> > +                                 table. This bit is set by SW driver.
-> > +hw_status             90..89     HW status bits
-> > +reserved2             127..91    reserved
-> > +===================   ========   ===============================================
-> > +
-> > +And one PRD table can include up to 256 PRD entries, as every entries is 4K bytes, so every
-> > +PRD table can describe 1M bytes memory.
-> > +
-> > +.. code-block:: c
-> > +
-> > +   struct thc_prd_table {
-> > +        struct thc_prd_entry entries[PRD_ENTRIES_NUM];
-> > +   };
-> > +
-> > +In general, every PRD table means one HID touch data packet. Every DMA engine can support
-> > +up to 128 PRD tables (except write DMA, write DMA only has one PRD table). SW driver is responsible
-> > +to get max packet length from touch IC, and use this max packet length to create PRD entries for
-> > +each PRD table.
-> > +
-> > +4. HIDSPI support (QuickSPI)
-> > +============================
-> > +
-> > +Intel THC is total compatible with HIDSPI protocol, THC HW sequenser can accelerate HIDSPI
-> > +protocol transferring.
-> > +
-> > +4.1 Reset Flow
-> > +--------------
-> > +
-> > +- Call ACPI _RST method to reset Touch IC device.
-> > +- Read the reset response from TIC through PIO read.
-> > +- Issue a command to retrieve device descriptor from Touch IC through PIO write.
-> > +- Read the device descriptor from Touch IC through PIO read.
-> > +- If the device descriptor is valid, allocate DMA buffers and configure all DMA channels.
-> > +- Issue a command to retrieve report descriptor from Touch IC through DMA.
-> > +
-> > +4.2 Input Report Data Flow
-> > +--------------------------
-> > +
-> > +Basic Flow:
-> > +
-> > +- Touch IC interrupts the THC Controller using an in-band THC interrupt.
-> > +- THC Sequencer reads the input report header by transmitting read approval as a signal
-> > +  to the Touch IC to prepare for host to read from the device.
-> > +- THC Sequencer executes a Input Report Body Read operation corresponding to the value
-> > +  reflected in “Input Report Length” field of the Input Report Header.
-> > +- THC DMA engine begins fetching data from the THC Sequencer and writes to host memory
-> > +  at PRD entry 0 for the current CB PRD table entry. This process continues until the
-> > +  THC Sequencer signals all data has been read or the THC DMA Read Engine reaches the
-> > +  end of it's last PRD entry (or both).
-> > +- The THC Sequencer checks for the “Last Fragment Flag” bit in the Input Report Header.
-> > +  If it is clear, the THC Sequencer enters an idle state.
-> > +- If the “Last Fragment Flag” bit is enabled the THC Sequencer enters End-of-Frame Processing.
-> > +
-> > +THC Sequencer End of Frame Processing:
-> > +
-> > +- THC DMA engine increments the read pointer of the Read PRD CB, sets EOF interrupt status
-> > +  in RxDMA2 register (THC_M_PRT_READ_DMA_INT_STS_2).
-> > +- If THC EOF interrupt is enabled by the driver in the control register (THC_M_PRT_READ_DMA_CNTRL_2),
-> > +  generates interrupt to software.
-> > +
-> > +Sequence of steps to read data from RX DMA buffer:
-> > +
-> > +- THC QuickSPI driver checks CB write Ptr and CB read Ptr to identify if any data frame in DMA
-> > +  circular buffers.
-> > +- THC QuickSPI driver gets first unprocessed PRD table.
-> > +- THC QuickSPI driver scans all PRD entries in this PRD table to calculate the total frame size.
-> > +- THC QuickSPI driver copies all frame data out.
-> > +- THC QuickSPI driver checks the data type according to input report body, and calls related
-> > +  callbacks to process the data.
-> > +- THC QuickSPI driver updates write Ptr.
-> > +
-> > +4.3 Output Report Data Flow
-> > +---------------------------
-> > +
-> > +Generic Output Report Flow:
-> > +
-> > +- HID core calls raw_request callback with a request to THC QuickSPI driver.
-> > +- THC QuickSPI Driver converts request provided data into the output report packet and copies it
-> > +  to THC's write DMA buffer.
-> > +- Start TxDMA to complete the write operation.
-> > +
-> > +5. HIDI2C support (QuickI2C)
-> > +============================
-> > +
-> > +5.1 Reset Flow
-> > +--------------
-> > +
-> > +- Read device descriptor from Touch IC device through PIO write followed by read.
-> > +- If the device descriptor is valid, allocate DMA buffers and configure all DMA channels.
-> > +- Use PIO or TxDMA to write a SET_POWER request to TIC's command register, and check if the
-> > +  write operation is successfully completed.
-> > +- Use PIO or TxDMA to write a RESET request to TIC's command register. If the write operation
-> > +  is successfully completed, wait for reset response from TIC.
-> > +- Use SWDMA to read report descriptor through TIC's report descriptor register.
-> > +
-> > +5.2 Input Report Data Flow
-> > +--------------------------
-> > +
-> > +Basic Flow:
-> > +
-> > +- Touch IC asserts the interrupt indicating that it has an interrupt to send to HOST.
-> > +  THC Sequencer issues a READ request over the I2C bus. The HIDI2C device returns the
-> > +  first 2 bytes from the HIDI2C device which contains the length of the received data.
-> > +- THC Sequencer continues the Read operation as per the size of data indicated in the
-> > +  length field.
-> > +- THC DMA engine begins fetching data from the THC Sequencer and writes to host memory
-> > +  at PRD entry 0 for the current CB PRD table entry. THC writes 2Bytes for length field
-> > +  plus the remaining data to RxDMA buffer. This process continues until the THC Sequencer
-> > +  signals all data has been read or the THC DMA Read Engine reaches the end of it's last
-> > +  PRD entry (or both).
-> > +- THC Sequencer enters End-of-Input Report Processing.
-> > +- If the device has no more input reports to send to the host, it de-asserts the interrupt
-> > +  line. For any additional input reports, device keeps the interrupt line asserted and
-> > +  steps 1 through 4 in the flow are repeated.
-> > +
-> > +THC Sequencer End of Input Report Processing:
-> > +
-> > +- THC DMA engine increments the read pointer of the Read PRD CB, sets EOF interrupt status
-> > +  in RxDMA 2 register (THC_M_PRT_READ_DMA_INT_STS_2).
-> > +- If THC EOF interrupt is enabled by the driver in the control register
-> > +  (THC_M_PRT_READ_DMA_CNTRL_2), generates interrupt to software.
-> > +
-> > +Sequence of steps to read data from RX DMA buffer:
-> > +
-> > +- THC QuickI2C driver checks CB write Ptr and CB read Ptr to identify if any data frame in DMA
-> > +  circular buffers.
-> > +- THC QuickI2C driver gets first unprocessed PRD table.
-> > +- THC QuickI2C driver scans all PRD entries in this PRD table to calculate the total frame size.
-> > +- THC QuickI2C driver copies all frame data out.
-> > +- THC QuickI2C driver call hid_input_report to send the input report content to HID core, which
-> > +  includes Report ID + Report Data Content (remove the length field from the original report
-> > +  data).
-> > +- THC QuickI2C driver updates write Ptr.
-> > +
-> > +5.3 Output Report Data Flow
-> > +---------------------------
-> > +
-> > +Generic Output Report Flow:
-> > +
-> > +- HID core call THC QuickI2C raw_request callback.
-> > +- THC QuickI2C uses PIO or TXDMA to write a SET_REPORT request to TIC's command register. Report
-> > +  type in SET_REPORT should be set to Output.
-> > +- THC QuickI2C programs TxDMA buffer with TX Data to be written to TIC's data register. The first
-> > +  2 bytes should indicate the length of the report followed by the report contents including
-> > +  Report ID.
-> > +
-> > +6. THC Debugging
-> > +================
-> > +
-> > +To debug THC, event tracing mechanism is used. To enable debug logs::
-> > +
-> > +  echo 1 > /sys/kernel/debug/tracing/events/intel_thc/enable
-> > +  cat /sys/kernel/debug/tracing/trace
-> > +
-> > +7. Reference
-> > +============
-> > +- HIDSPI: https://download.microsoft.com/download/c/a/0/ca07aef3-3e10-4022-b1e9-c98cea99465d/HidSpiProtocolSpec.pdf
-> > +- HIDI2C: https://download.microsoft.com/download/7/d/d/7dd44bb7-2a7a-4505-ac1c-7227d3d96d5b/hid-over-i2c-protocol-spec-v1-0.docx
-> 
-> The rest looks good.
-> 
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Basically, we use gadget module to simulate the connection and
+interaction process of a USB device.
 
-Thank you very much!
+It seems that a shift overflow error occurred in the function s32ton.
+If the value of n is greater than or equal to 32, it will result in
+overflow or undefined behavior.
 
-Best Regards,
-Even Xu
+I have also encountered this issue on the latest stable version, Linux 6.12.0.
 
-> 
-> -- 
-> An old man doll... just what I always wanted! - Clara
-> 
-> [-- Attachment #2: signature.asc --]
-> [-- Type: application/pgp-signature, Size: 228 bytes --]
+The crash reports are as follows:
+crash1:
+------------[ cut here ]------------
+[ 7766.171762] UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:69:16
+[ 7766.171780] shift exponent 4294967295 is too large for 32-bit type 'int'
+[ 7766.175006] CPU: 11 UID: 0 PID: 7279 Comm: kworker/11:2 Tainted: G
+         OE      6.13.0-rc3 #1
+[ 7766.175036] Tainted: [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
+[ 7766.175042] Hardware name: VMware, Inc. VMware Virtual
+Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020
+[ 7766.175051] Workqueue: usb_hub_wq hub_event
+[ 7766.175077] Call Trace:
+[ 7766.175930]  <TASK>
+[ 7766.175932]  dump_stack_lvl+0x76/0xa0
+[ 7766.181221]  dump_stack+0x10/0x20
+[ 7766.181240]  __ubsan_handle_shift_out_of_bounds+0x155/0x310
+[ 7766.183312]  ? __wake_up+0x45/0x70
+[ 7766.184850]  s32ton.cold+0x53/0x73 [hid]
+[ 7766.184870]  hid_set_field+0x1c0/0x380 [hid]
+[ 7766.184878]  ? __kasan_check_write+0x14/0x30
+[ 7766.185999]  usbhid_start+0x1605/0x2890 [usbhid]
+[ 7766.186010]  hid_hw_start+0x67/0x120 [hid]
+[ 7766.186020]  hid_generic_probe+0x60/0x80 [hid_generic]
+[ 7766.186023]  hid_device_probe+0x302/0x770 [hid]
+[ 7766.186030]  ? sysfs_create_link+0x44/0xc0
+[ 7766.187952]  really_probe+0x1fa/0x950
+[ 7766.189437]  __driver_probe_device+0x307/0x410
+[ 7766.189448]  driver_probe_device+0x4e/0x150
+[ 7766.189456]  __device_attach_driver+0x1a7/0x2d0
+[ 7766.189548]  bus_for_each_drv+0x115/0x1b0
+[ 7766.189635]  ? __pfx___device_attach_driver+0x10/0x10
+[ 7766.189645]  ? __pfx_bus_for_each_drv+0x10/0x10
+[ 7766.189655]  __device_attach+0x250/0x470
+[ 7766.189663]  ? _raw_spin_lock+0x82/0xf0
+[ 7766.189864]  ? __pfx___device_attach+0x10/0x10
+[ 7766.189873]  ? __kasan_check_write+0x14/0x30
+[ 7766.189882]  ? kobject_get+0x55/0xf0
+[ 7766.189890]  device_initial_probe+0x13/0x20
+[ 7766.189898]  bus_probe_device+0x146/0x180
+[ 7766.189905]  device_add+0xea0/0x1810
+[ 7766.189914]  ? __pfx_device_add+0x10/0x10
+[ 7766.189922]  ? __debugfs_create_file+0x392/0x5a0
+[ 7766.190527]  hid_add_device+0x33c/0xab0 [hid]
+[ 7766.190551]  ? __pfx_hid_add_device+0x10/0x10 [hid]
+[ 7766.190570]  ? ___kmalloc_large_node+0xf7/0x170
+[ 7766.192150]  usbhid_probe+0xb25/0x1180 [usbhid]
+[ 7766.192173]  usb_probe_interface+0x266/0x950
+[ 7766.192920]  ? sysfs_create_link+0x44/0xc0
+[ 7766.192939]  really_probe+0x1fa/0x950
+[ 7766.192949]  __driver_probe_device+0x307/0x410
+[ 7766.192958]  driver_probe_device+0x4e/0x150
+[ 7766.192966]  __device_attach_driver+0x1a7/0x2d0
+[ 7766.192975]  bus_for_each_drv+0x115/0x1b0
+[ 7766.192984]  ? __pfx___device_attach_driver+0x10/0x10
+[ 7766.192992]  ? __pfx_bus_for_each_drv+0x10/0x10
+[ 7766.193003]  __device_attach+0x250/0x470
+[ 7766.193009]  ? _raw_spin_lock+0x82/0xf0
+[ 7766.193018]  ? __pfx___device_attach+0x10/0x10
+[ 7766.193026]  ? __kasan_check_write+0x14/0x30
+[ 7766.193034]  ? kobject_get+0x55/0xf0
+[ 7766.193042]  device_initial_probe+0x13/0x20
+[ 7766.193050]  bus_probe_device+0x146/0x180
+[ 7766.193057]  device_add+0xea0/0x1810
+[ 7766.193067]  ? __pfx_device_add+0x10/0x10
+[ 7766.193075]  ? __pfx_mutex_unlock+0x10/0x10
+[ 7766.193178]  usb_set_configuration+0xa96/0x1b60
+[ 7766.193195]  usb_generic_driver_probe+0x8e/0xc0
+[ 7766.193301]  usb_probe_device+0xb7/0x320
+[ 7766.193310]  really_probe+0x1fa/0x950
+[ 7766.193318]  __driver_probe_device+0x307/0x410
+[ 7766.193326]  driver_probe_device+0x4e/0x150
+[ 7766.193333]  __device_attach_driver+0x1a7/0x2d0
+[ 7766.193341]  bus_for_each_drv+0x115/0x1b0
+[ 7766.193350]  ? __pfx___device_attach_driver+0x10/0x10
+[ 7766.193357]  ? __pfx_bus_for_each_drv+0x10/0x10
+[ 7766.193368]  __device_attach+0x250/0x470
+[ 7766.193453]  ? _raw_spin_lock+0x82/0xf0
+[ 7766.193465]  ? __pfx___device_attach+0x10/0x10
+[ 7766.193473]  ? __kasan_check_write+0x14/0x30
+[ 7766.193481]  ? kobject_get+0x55/0xf0
+[ 7766.193488]  device_initial_probe+0x13/0x20
+[ 7766.193495]  bus_probe_device+0x146/0x180
+[ 7766.193502]  device_add+0xea0/0x1810
+[ 7766.193511]  ? __pfx_device_add+0x10/0x10
+[ 7766.193519]  ? add_device_randomness+0xb5/0xf0
+[ 7766.194200]  ? __pfx_add_device_randomness+0x10/0x10
+[ 7766.194209]  usb_new_device+0x81b/0x1360
+[ 7766.194921]  ? __pfx_mutex_unlock+0x10/0x10
+[ 7766.194929]  hub_event+0x2435/0x4370
+[ 7766.194935]  ? __pfx_hub_event+0x10/0x10
+[ 7766.194939]  ? srso_alias_untrain_ret+0x1/0x10
+[ 7766.195802]  ? __kasan_check_write+0x14/0x30
+[ 7766.195815]  ? _raw_spin_lock_irq+0x8b/0x100
+[ 7766.195824]  ? __pfx__raw_spin_lock_irq+0x10/0x10
+[ 7766.195833]  process_one_work+0x5f7/0x1060
+[ 7766.196636]  ? __kasan_check_write+0x14/0x30
+[ 7766.196652]  worker_thread+0x779/0x1200
+[ 7766.196661]  ? __pfx__raw_spin_lock_irqsave+0x10/0x10
+[ 7766.196673]  kthread+0x2b5/0x390
+[ 7766.196786]  ? __pfx_worker_thread+0x10/0x10
+[ 7766.196795]  ? __pfx_kthread+0x10/0x10
+[ 7766.196804]  ret_from_fork+0x43/0x90
+[ 7766.198261]  ? __pfx_kthread+0x10/0x10
+[ 7766.198265]  ret_from_fork_asm+0x1a/0x30
+[ 7766.199253]  </TASK>
+[ 7766.199410] ---[ end trace ]---
+
+
+crash2:
+[ 7771.392834] ------------[ cut here ]------------
+ [ 7771.392851] UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:73:21
+ [ 7771.392868] shift exponent 32 is too large for 32-bit type 'int'
+ [ 7771.392882] CPU: 11 UID: 0 PID: 7279 Comm: kworker/11:2 Tainted: G
+          OE      6.13.0-rc3 #1
+ [ 7771.392895] Tainted: [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
+ [ 7771.392900] Hardware name: VMware, Inc. VMware Virtual
+Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020
+ [ 7771.392908] Workqueue: usb_hub_wq hub_event
+ [ 7771.392929] Call Trace:
+ [ 7771.392934]  <TASK>
+ [ 7771.392940]  dump_stack_lvl+0x76/0xa0
+ [ 7771.392961]  dump_stack+0x10/0x20
+ [ 7771.392970]  __ubsan_handle_shift_out_of_bounds+0x155/0x310
+ [ 7771.392986]  ? __wake_up+0x45/0x70
+ [ 7771.393001]  s32ton.cold+0x6e/0x73 [hid]
+ [ 7771.393027]  hid_set_field+0x1c0/0x380 [hid]
+ [ 7771.393048]  ? __kasan_check_write+0x14/0x30
+ [ 7771.393060]  usbhid_start+0x1605/0x2890 [usbhid]
+ [ 7771.393079]  hid_hw_start+0x67/0x120 [hid]
+ [ 7771.393112]  hid_generic_probe+0x60/0x80 [hid_generic]
+ [ 7771.393120]  hid_device_probe+0x302/0x770 [hid]
+ [ 7771.393140]  ? sysfs_create_link+0x44/0xc0
+ [ 7771.393155]  really_probe+0x1fa/0x950
+ [ 7771.393166]  __driver_probe_device+0x307/0x410
+ [ 7771.393174]  driver_probe_device+0x4e/0x150
+ [ 7771.393182]  __device_attach_driver+0x1a7/0x2d0
+ [ 7771.393190]  bus_for_each_drv+0x115/0x1b0
+ [ 7771.393201]  ? __pfx___device_attach_driver+0x10/0x10
+ [ 7771.393208]  ? __pfx_bus_for_each_drv+0x10/0x10
+ [ 7771.393219]  __device_attach+0x250/0x470
+ [ 7771.393226]  ? _raw_spin_lock+0x82/0xf0
+ [ 7771.393235]  ? __pfx___device_attach+0x10/0x10
+ [ 7771.393243]  ? __kasan_check_write+0x14/0x30
+ [ 7771.393251]  ? kobject_get+0x55/0xf0
+ [ 7771.393258]  device_initial_probe+0x13/0x20
+ [ 7771.393266]  bus_probe_device+0x146/0x180
+ [ 7771.393273]  device_add+0xea0/0x1810
+ [ 7771.393282]  ? __pfx_device_add+0x10/0x10
+ [ 7771.393290]  ? __debugfs_create_file+0x392/0x5a0
+ [ 7771.393302]  hid_add_device+0x33c/0xab0 [hid]
+ [ 7771.393323]  ? __pfx_hid_add_device+0x10/0x10 [hid]
+ [ 7771.393341]  ? ___kmalloc_large_node+0xf7/0x170
+ [ 7771.393352]  usbhid_probe+0xb25/0x1180 [usbhid]
+ [ 7771.393368]  usb_probe_interface+0x266/0x950
+ [ 7771.393377]  ? sysfs_create_link+0x44/0xc0
+ [ 7771.393520]  really_probe+0x1fa/0x950
+ [ 7771.393532]  __driver_probe_device+0x307/0x410
+ [ 7771.393540]  driver_probe_device+0x4e/0x150
+ [ 7771.393548]  __device_attach_driver+0x1a7/0x2d0
+ [ 7771.393696]  bus_for_each_drv+0x115/0x1b0
+ [ 7771.393707]  ? __pfx___device_attach_driver+0x10/0x10
+ [ 7771.393715]  ? __pfx_bus_for_each_drv+0x10/0x10
+ [ 7771.393725]  __device_attach+0x250/0x470
+ [ 7771.393732]  ? _raw_spin_lock+0x82/0xf0
+ [ 7771.393740]  ? __pfx___device_attach+0x10/0x10
+ [ 7771.393747]  ? __kasan_check_write+0x14/0x30
+ [ 7771.393755]  ? kobject_get+0x55/0xf0
+ [ 7771.393762]  device_initial_probe+0x13/0x20
+ [ 7771.393769]  bus_probe_device+0x146/0x180
+ [ 7771.393776]  device_add+0xea0/0x1810
+ [ 7771.393785]  ? __pfx_device_add+0x10/0x10
+ [ 7771.393792]  ? __pfx_mutex_unlock+0x10/0x10
+ [ 7771.393803]  usb_set_configuration+0xa96/0x1b60
+ [ 7771.393817]  usb_generic_driver_probe+0x8e/0xc0
+ [ 7771.393827]  usb_probe_device+0xb7/0x320
+ [ 7771.393834]  really_probe+0x1fa/0x950
+ [ 7771.393842]  __driver_probe_device+0x307/0x410
+ [ 7771.393849]  driver_probe_device+0x4e/0x150
+ [ 7771.393857]  __device_attach_driver+0x1a7/0x2d0
+ [ 7771.393864]  bus_for_each_drv+0x115/0x1b0
+ [ 7771.393873]  ? __pfx___device_attach_driver+0x10/0x10
+ [ 7771.393880]  ? __pfx_bus_for_each_drv+0x10/0x10
+ [ 7771.393890]  __device_attach+0x250/0x470
+ [ 7771.393897]  ? _raw_spin_lock+0x82/0xf0
+ [ 7771.393905]  ? __pfx___device_attach+0x10/0x10
+ [ 7771.393912]  ? __kasan_check_write+0x14/0x30
+ [ 7771.393920]  ? kobject_get+0x55/0xf0
+ [ 7771.393927]  device_initial_probe+0x13/0x20
+ [ 7771.393934]  bus_probe_device+0x146/0x180
+ [ 7771.393941]  device_add+0xea0/0x1810
+ [ 7771.393949]  ? __pfx_device_add+0x10/0x10
+ [ 7771.393957]  ? add_device_randomness+0xb5/0xf0
+ [ 7771.393966]  ? __pfx_add_device_randomness+0x10/0x10
+ [ 7771.393975]  usb_new_device+0x81b/0x1360
+ [ 7771.393984]  ? __pfx_mutex_unlock+0x10/0x10
+ [ 7771.393993]  hub_event+0x2435/0x4370
+ [ 7771.394004]  ? __pfx_hub_event+0x10/0x10
+ [ 7771.394011]  ? srso_alias_untrain_ret+0x1/0x10
+ [ 7771.394022]  ? __kasan_check_write+0x14/0x30
+ [ 7771.394029]  ? _raw_spin_lock_irq+0x8b/0x100
+ [ 7771.394037]  ? __pfx__raw_spin_lock_irq+0x10/0x10
+ [ 7771.394046]  process_one_work+0x5f7/0x1060
+ [ 7771.394139]  ? __kasan_check_write+0x14/0x30
+ [ 7771.394153]  worker_thread+0x779/0x1200
+ [ 7771.394161]  ? __pfx__raw_spin_lock_irqsave+0x10/0x10
+ [ 7771.394171]  kthread+0x2b5/0x390
+ [ 7771.394180]  ? __pfx_worker_thread+0x10/0x10
+ [ 7771.394188]  ? __pfx_kthread+0x10/0x10
+ [ 7771.394196]  ret_from_fork+0x43/0x90
+ [ 7771.394206]  ? __pfx_kthread+0x10/0x10
+ [ 7771.394214]  ret_from_fork_asm+0x1a/0x30
+ [ 7771.394225]  </TASK>
+ [ 7771.394390] ---[ end trace ]---
 
