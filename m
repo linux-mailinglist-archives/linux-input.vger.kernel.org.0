@@ -1,120 +1,158 @@
-Return-Path: <linux-input+bounces-8675-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8682-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94EC79F7F5B
-	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 17:22:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B84A9F81A6
+	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 18:23:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 41177188AAC8
-	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 16:22:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 52515170D3B
+	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 17:19:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13D2322759B;
-	Thu, 19 Dec 2024 16:21:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F95F1A08A0;
+	Thu, 19 Dec 2024 17:17:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="IYvEwIrr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fB2tWhhC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E7A22616F;
-	Thu, 19 Dec 2024 16:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EA91A072C;
+	Thu, 19 Dec 2024 17:17:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734625318; cv=none; b=F2VpgwI8UOSd18JXHjNKawkdlYWKhxB6F05fmZimGZ4HeC9iUBdGdmIMjvznrTYh3EZCK6TomJWz1Db4NSekjsb/HVzYuzgkNM+Kz88IWl4zKSBtHkTok9up2rVFehQMv+x9OI9goe34qBBHSykz05uJ3X40SAdrkt07eE5D2YU=
+	t=1734628647; cv=none; b=M+4GSE3TP5D5SL/5DxZaNQ/9PAnhwafF6k/4Vgpk6kAF1BPyhr2zVSqE3ZsAIGCfhHpN/Vpj0m0u53fxOXY/uKyI3X2VHzIJfnkZvMQn8yGG3T8AfUIyErEIMzn1nq1pHzWcOSIWIOmgvF8LI+n+Zt0foNSZDZ9YgB6wc6pxTLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734625318; c=relaxed/simple;
-	bh=MMa1aWrpC+Hhbb5vbJvmx5OLBFFy4Ju1nNEWOoDy1s0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kvPZPQ7VIDbW6jN1dsDl1ximME9NFZ5qHGXjukoybUCBpO4vVW22cOcCktk6LKlVHK3d0zX2N0pWFjdQGnpQ0LyeRmIVaeVspxwfDNQSoN9vo1Z1/jR/nvAvBuJggPIEXVfOqsAXonbmBZBizQXcXkBmBVO4YR0mcguMKUN8TW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=IYvEwIrr; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 21D5760012;
-	Thu, 19 Dec 2024 16:21:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1734625314;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m5ZGJQUU63vFd9YFgXUTncUS1ermsqmNadQRrooj508=;
-	b=IYvEwIrr1nm8nr0nts6jaOChHC8gDWyyW8FNiEJ6EXYxNBVqwxRMLryLTC2SThG4LFjw/R
-	/PQizCekvhUcIDfCo8TZ//7H1IzV7CIy1dAzNgeuw73DEJpZ769gD8NcUFI6Ov0Q0oIkY4
-	rXxB0/TMu7S+gSJs6O5PsHKWgCfwmw3yeo1JLprCbZeRcOasBTqJ9/nf+mW0+tyZeFdUC8
-	3pJ4QhjnhjhnjJVn1UEFt356Kyg5rzA1H4U7nV0CKVt2R8mFs5XuY4ythJtvpwz7GY2lDf
-	miDtaKgWa4jZ3uPGOS9HIIRmJ8gwQGj2vwftmEp6uJKqVk1/XtfRZFHIVdnl2A==
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Thu, 19 Dec 2024 17:21:25 +0100
-Subject: [PATCH 8/8] MAINTAINERS: Add entry on MAX7360 driver
+	s=arc-20240116; t=1734628647; c=relaxed/simple;
+	bh=CdgZs2ST2EHcflObKh92+jX0IJgfg0jGqqPrz2v1QkM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Mt/peYJ9ZAlTCoP9QCmlmTXkZ+1XfwmsbCi8HS/WjDoMmRu7yNlxFF08IdPKTNodrlIlEtY4v3IeT8ePTfBRmDkT63ofz9nwHRtVqCFy/MeHM9fdYpH7KGEle68R5d1It+CTVjVkLAw8KGJzlcQIdo2rmzW/Fu881oudwnpI+hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fB2tWhhC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9F85C4CED0;
+	Thu, 19 Dec 2024 17:17:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734628646;
+	bh=CdgZs2ST2EHcflObKh92+jX0IJgfg0jGqqPrz2v1QkM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=fB2tWhhCaFvCyMNFX8WnhXVjx72vUb6jB0R7Oc+l/7pS4N+Yzqm1NkCCyBmPFts+K
+	 2uIcJcFANQnR0QAEdLabLy9eEwmmpPSlMWba0POJUoQ/hdXbfCN6q4Bm0L7PClguiM
+	 u9rE10wmUiqmNduL7P7LPR/nFptBvkrsiCLfSt3s8k3xn9V8DZW9YY1qDH6CG5pFMF
+	 JWRl1PEodGhv7wANNltLUw/Ae9+B5l6YJz9J9yfFuE0lMFsWEINfsFfCq2qwT5o7tv
+	 TKLqXYkmpmnxDvpVWNU7UxGYMDfjb7hkn/NlRsuVi2oBpbsY12XrFdazvSVl2DV3wq
+	 2vsRIEt+QjJdg==
+Date: Thu, 19 Dec 2024 17:17:18 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Srinivas Pandruvada
+ <srinivas.pandruvada@linux.intel.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] iio: hid-sensor-prox: Split difference from multiple
+ channels
+Message-ID: <20241219171718.2af17d6d@jic23-huawei>
+In-Reply-To: <20241216-fix-hid-sensor-v2-1-ff8c1959ec4a@chromium.org>
+References: <20241216-fix-hid-sensor-v2-1-ff8c1959ec4a@chromium.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241219-mdb-max7360-support-v1-8-8e8317584121@bootlin.com>
-References: <20241219-mdb-max7360-support-v1-0-8e8317584121@bootlin.com>
-In-Reply-To: <20241219-mdb-max7360-support-v1-0-8e8317584121@bootlin.com>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Kamel Bouhara <kamel.bouhara@bootlin.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-pwm@vger.kernel.org, 
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1734625307; l=1024;
- i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=MMa1aWrpC+Hhbb5vbJvmx5OLBFFy4Ju1nNEWOoDy1s0=;
- b=gJY9TqsxOErNI5KgRO1RC6t1fWCzwGBuuTSDUM7w5JJ+7zQdNKlWEvEBaOdF6oNgYAA9/2gjA
- Z5c0nJDYA8DDVL6elxigwvZ2oULzCD8E85p8oXOcv/QiR/BhSxW8ZQH
-X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
- pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-Add myself as maintainer of Maxim MAX7360 driver and device-tree bindings.
+On Mon, 16 Dec 2024 10:05:53 +0000
+Ricardo Ribalda <ribalda@chromium.org> wrote:
 
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
----
- MAINTAINERS | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+> When the driver was originally created, it was decided that
+> sampling_frequency and hysteresis would be shared_per_type instead
+> of shared_by_all (even though it is internally shared by all). Eg:
+> in_proximity_raw
+> in_proximity_sampling_frequency
+> 
+> When we introduced support for more channels, we continued with
+> shared_by_type which. Eg:
+> in_proximity0_raw
+> in_proximity1_raw
+> in_proximity_sampling_frequency
+> in_attention_raw
+> in_attention_sampling_frequency
+> 
+> Ideally we should change to shared_by_all, but it is not an option,
+> because the current naming has been a stablished ABI by now. Luckily we
+> can use separate instead. That will be more consistent:
+> in_proximity0_raw
+> in_proximity0_sampling_frequency
+> in_proximity1_raw
+> in_proximity1_sampling_frequency
+> in_attention_raw
+> in_attention_sampling_frequency
+> 
+> Fixes: 596ef5cf654b ("iio: hid-sensor-prox: Add support for more channels")
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index baf0eeb9a355..6e9b8caebb38 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14132,6 +14132,18 @@ L:	linux-iio@vger.kernel.org
- S:	Maintained
- F:	drivers/iio/temperature/max30208.c
- 
-+MAXIM MAX7360 KEYPAD LED MFD DRIVER
-+M:	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/*/max7360-*.yaml
-+F:	Documentation/devicetree/bindings/mfd/max7360.yaml
-+F:	drivers/gpio/gpio-max7360.c
-+F:	drivers/input/keyboard/max7360-keypad.c
-+F:	drivers/input/misc/max7360-rotary.c
-+F:	drivers/mfd/max7360.c
-+F:	drivers/pwm/pwm-max7360.c
-+F:	include/linux/mfd/max7360.h
-+
- MAXIM MAX77650 PMIC MFD DRIVER
- M:	Bartosz Golaszewski <brgl@bgdev.pl>
- L:	linux-kernel@vger.kernel.org
+I got lost somewhere in the discussion.  This is still an ABI change compared
+to original interface at the top (which is the one that has been there 
+quite some time).
 
--- 
-2.39.5
+However we already had to make one of those to add the index that wasn't there
+for _raw. (I'd missed that in earlier discussion - thanks for laying out the
+steps here!)  Srinivas, Jiri, do you think we are better off just assuming users
+of this will be using a library that correctly deals with sharing and just
+jump to 
+in_proximity0_raw
+in_proximity1_raw
+in_attention_raw
+(should have indexed that but it may never matter) and
+sampling_frequency
+
+Which is what I think Ricardo originally asked.
+
+Do we have any guarantee the sampling_frequency will be shared across the
+sensor channels?  It may be the most common situation but I don't want to
+wall us into a corner if it turns out someone runs separate sensors at
+different rates (no particularly reason they should be one type of sensor
+so this might make sense).  If we don't have that guarantee
+then this patch is fine as far as I'm concerned.
+
+Jonathan
+
+
+
+> ---
+> Changes in v2:
+> - Use separate
+> - Link to v1: https://lore.kernel.org/r/20241205-fix-hid-sensor-v1-1-9b789f39c220@chromium.org
+> ---
+>  drivers/iio/light/hid-sensor-prox.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/iio/light/hid-sensor-prox.c b/drivers/iio/light/hid-sensor-prox.c
+> index c83acbd78275..71dcef3fbe57 100644
+> --- a/drivers/iio/light/hid-sensor-prox.c
+> +++ b/drivers/iio/light/hid-sensor-prox.c
+> @@ -49,9 +49,10 @@ static const u32 prox_sensitivity_addresses[] = {
+>  #define PROX_CHANNEL(_is_proximity, _channel) \
+>  	{\
+>  		.type = _is_proximity ? IIO_PROXIMITY : IIO_ATTENTION,\
+> -		.info_mask_separate = _is_proximity ? BIT(IIO_CHAN_INFO_RAW) :\
+> -				      BIT(IIO_CHAN_INFO_PROCESSED),\
+> -		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_OFFSET) |\
+> +		.info_mask_separate = \
+> +		(_is_proximity ? BIT(IIO_CHAN_INFO_RAW) :\
+> +				BIT(IIO_CHAN_INFO_PROCESSED)) |\
+> +		BIT(IIO_CHAN_INFO_OFFSET) |\
+>  		BIT(IIO_CHAN_INFO_SCALE) |\
+>  		BIT(IIO_CHAN_INFO_SAMP_FREQ) |\
+>  		BIT(IIO_CHAN_INFO_HYSTERESIS),\
+> 
+> ---
+> base-commit: 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
+> change-id: 20241203-fix-hid-sensor-62e1979ecd03
+> 
+> Best regards,
 
 
