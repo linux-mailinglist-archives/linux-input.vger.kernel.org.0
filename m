@@ -1,442 +1,698 @@
-Return-Path: <linux-input+bounces-8666-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8667-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8119F7187
-	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 01:59:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8AE99F73CF
+	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 06:02:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0DD667A25C5
-	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 00:59:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 69564188F9C3
+	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 05:02:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B29C2D638;
-	Thu, 19 Dec 2024 00:59:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CD88154C15;
+	Thu, 19 Dec 2024 05:02:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RX4yd3Va"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MooeT55r"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828584C62E;
-	Thu, 19 Dec 2024 00:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734569947; cv=fail; b=n0d18qrfYdqL9WLouTO9ntx287ACMUKVQjzwKm1fIZpMst645CX6+ZNlVG8ILgc6znLW+kuR1A7Xlc5kznv28/d0UdILq3oLKaJgPOJQX+YWklbRUAHskWkiedFsFZC/MHETYR68rha6cErBDsR7mAU8vY6WFQy8lG5tKWIlLrY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734569947; c=relaxed/simple;
-	bh=EcIPk7i7pWWFsv9yMoBLXvBeCaeuu5v9tbXbzbxh4TE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=V2k1UGBxtfyMWKm7J7Y1TJwVnYNjwQEhRP9b+cPwfHQViNmD09n97SkEkgCvFYUp/AClsDE82HLLFqKEvwfwralZbus+gcxYTzyz5t9/Bx8y8ck5WzeajjoLZPboVJ3dZ1WUJVMk2zaT7zA4yhVhDbHPPT3mSdKVGyGgRrRbBZY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RX4yd3Va; arc=fail smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F20F145A03;
+	Thu, 19 Dec 2024 05:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734584531; cv=none; b=MQ1ZVhax2uVFSbMCU/fIxA4J4mFomUTsyESN9zRfGLvhc0zOS8bnGCX/AwE3TfqY7xp/HDGVYCKCa4S6vNfh9i2CPACO7dQRN5zvbGzySjpqK8rrr8lzJv9u8bN50d6hHwfExX6dvGAykem26Fm31p8Ldh2q8mdRPIuLTx4QCOc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734584531; c=relaxed/simple;
+	bh=DN6SxmD/esWAOYsrR7AtVZYivRswtdXCIY5wp0vyHPc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LPIXAYQlZ7+LxjqYi39SefNTg23/tcH0Leqa+vPXHmnnHS0+di8nl8VVjXonZ9N8EB22QfAwd/He34P0XYwpk2TxK7Py/bpzi/mhrucce6ilOVtWVnlXAf2V3gGkl+9fhZNA35wlKamNIkvzEdvOzxAgrUwBE7Y0NrlIsm02b80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MooeT55r; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734569945; x=1766105945;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=EcIPk7i7pWWFsv9yMoBLXvBeCaeuu5v9tbXbzbxh4TE=;
-  b=RX4yd3VauWHjjvFUfiDObP6yZr9DdZcpToz2N0JLSDiP2g5m4dUQyquD
-   VUGzSDiekit1GQOdJRpwLY7QeeH1d9TlgryPchL7HTI6bDb9QGkYx+Vm0
-   qftupqjhqlnbWDudI1YeSKrZqvCssn0uuegRbWKwmF4JlbA2L0gzbZadD
-   bjTCL69hYZK4p4PF17mA4+eeJcjPLsUYDh1byAzEaX17b7gbGHF9dpGdS
-   JfNxh+DKe4mCA4MiWGt1al18M4HEuy1U8Kiq7ePVbjlnG+3KfpeVv+KzA
-   2Tdll1hgMghciZX/S3vg3l2B/BSvyXwcwaeWqhZW67SFOmCPvSY8rBcfg
-   w==;
-X-CSE-ConnectionGUID: wtQZB6V8RLaheN2iSsu/Rw==
-X-CSE-MsgGUID: efXTn/9kT+CgMFViaZJclQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="34790951"
+  t=1734584528; x=1766120528;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=DN6SxmD/esWAOYsrR7AtVZYivRswtdXCIY5wp0vyHPc=;
+  b=MooeT55roMJLOHC7ORf761F2MfuL02FNl82mWLutYfGYOuE1aE2x17Gc
+   4sbCkE9J2DoPHWryY7e4ZfWTq8PirTPZIwn6YlKiKdrVsSqO1pelKvbT3
+   nLvxere9RXDkPdM0sZ0KZYt6Pi17uVf/Hvu0GmIv9Fa2SLG+wMcBzG/sT
+   Jp5B/E/1x9IiLSnzDRxN4OaWEVwWjPFyOgZX/n5vczU2GsVtjsucG9ViT
+   Vo+YLXhlm7L4Bxd4lmMfmgX8NmDoFPDI5Jqa/Yv+S4b/M4e27yJ5dXo0T
+   RUW3dHtb072zTOB8QrNG4Kc2mYStabSlCTWjBlYIgnxzESjXkvCzpcbma
+   Q==;
+X-CSE-ConnectionGUID: pTumwYidQDOsB3lWGblhvg==
+X-CSE-MsgGUID: QXo1qrStTt+l1tmVzXfnlg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="46088970"
 X-IronPort-AV: E=Sophos;i="6.12,246,1728975600"; 
-   d="scan'208";a="34790951"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 16:59:04 -0800
-X-CSE-ConnectionGUID: lr0WqlfeQXWFWDZOfpmecw==
-X-CSE-MsgGUID: 6//pO/3VTQOCHJRo019JpA==
+   d="scan'208";a="46088970"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 21:02:07 -0800
+X-CSE-ConnectionGUID: zs5XclObShCWMbM1RZTWGQ==
+X-CSE-MsgGUID: VU8LghhATa6hLckWnpQV1w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="135355614"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 18 Dec 2024 16:59:05 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Wed, 18 Dec 2024 16:59:03 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Wed, 18 Dec 2024 16:59:03 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.170)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Wed, 18 Dec 2024 16:59:03 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KBNSLKx/mCZfdBAcjcIxBF9MDLNhRv+9SF6f2cra1W/+UxVQfqUg0trwr9NGtQzGEENu1Ji4k1fzjeKNnLl7q1Sq8RSi3jXQJyCdylGBNbl9VGXo8obzwG1k7/kryWG/25/I2ulxd2ogKWKEwUtrctKMdW/U+/Ag7O9EPiHLQiXDw4nJ8YV5taRDfInZNPAupP4beUTKiGlipGf70030cMQ2fUUAJFhXUF7u7wrlauoqpU+r1rN/5KsRJOFTx89vIjWt6delqMDbUzqw6c0ymA+1ZZ9iKTev+H9nWMina9n4WWKBD0UBJoxrKqUYXWMJBuwFnamidPHk0DJqvQmC2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EcIPk7i7pWWFsv9yMoBLXvBeCaeuu5v9tbXbzbxh4TE=;
- b=Auw93/R2H1XHQR73kLQAvwRIoCGx2kmOCz0H5uK6BFWMZ+RbkPKQ9bsMCpQMa0UvD+O6yibJ/VTy5KgDqO07UmTg2caS4YaO6X9diAYgaTtyvmnKzp9Q+2n1wY7c+0fwxtcb5Q/7o+6WIrIL5o2zUUm5yPPFxsXebYoqLO7UZ4barlI/TSiL2Zg5omHnGav2UV76ymu86qxpbG3rRpNuBlLxbXDXwcjfOuv7JBARVity9QosIoRlmSI/2mBy6d6WG9txST7KQZ0Hwu13cGuwId0ogD1nfCwTjjYcbtA95OObB87JjqEMEnuuYNUwUxDoUW5b7SP/MZYvgcwaTOHMHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA1PR11MB6098.namprd11.prod.outlook.com (2603:10b6:208:3d6::20)
- by PH7PR11MB7513.namprd11.prod.outlook.com (2603:10b6:510:270::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.21; Thu, 19 Dec
- 2024 00:59:00 +0000
-Received: from IA1PR11MB6098.namprd11.prod.outlook.com
- ([fe80::cbbd:ed55:576c:fd55]) by IA1PR11MB6098.namprd11.prod.outlook.com
- ([fe80::cbbd:ed55:576c:fd55%4]) with mapi id 15.20.8272.005; Thu, 19 Dec 2024
- 00:59:00 +0000
-From: "Xu, Even" <even.xu@intel.com>
-To: "Aaron, Ma" <aaron.ma@canonical.com>, "jikos@kernel.org"
-	<jikos@kernel.org>, "bentiss@kernel.org" <bentiss@kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>, "bagasdotme@gmail.com"
-	<bagasdotme@gmail.com>, "rdunlap@infradead.org" <rdunlap@infradead.org>
-CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH v3 00/22] Add Intel Touch Host Controller drivers
-Thread-Topic: [PATCH v3 00/22] Add Intel Touch Host Controller drivers
-Thread-Index: AQHbT1u6VaYdJGYrTkyQM8AtFrVMzbLqAC+AgAAAa5CAAAxhgIAACQowgAANYACAAp3GkA==
-Date: Thu, 19 Dec 2024 00:59:00 +0000
-Message-ID: <IA1PR11MB6098D25115BA7374C7843B6BF4062@IA1PR11MB6098.namprd11.prod.outlook.com>
-References: <20241216014127.3722172-1-even.xu@intel.com>
- <f529959b-2355-430b-afc1-fb3062cbbe60@canonical.com>
- <IA1PR11MB6098E6919DB15166C62C016DF4042@IA1PR11MB6098.namprd11.prod.outlook.com>
- <2be37a02-d7aa-4587-a7a3-763840e98888@canonical.com>
- <IA1PR11MB609814AE66379F9891ADB262F4042@IA1PR11MB6098.namprd11.prod.outlook.com>
- <4a5c46e0-e4ac-471f-b839-88c3a6f2374a@canonical.com>
-In-Reply-To: <4a5c46e0-e4ac-471f-b839-88c3a6f2374a@canonical.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA1PR11MB6098:EE_|PH7PR11MB7513:EE_
-x-ms-office365-filtering-correlation-id: d2d30849-de65-4712-3b23-08dd1fc85316
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?SWhoTFNFK3NaSkxLT2lLNEhERkoxU2FxV2xZU2xSUlNoazFXbG1OdnVqd1Rh?=
- =?utf-8?B?UmoxdVp0T1JyQnY2Sm50cmVQMlIrbjUyRDA3S1Bucm4wSkFsVEM4K0lObkQw?=
- =?utf-8?B?N0tXdXlUd0tlQlNkdlEwZk0zbFJHWlNaVllpYTlGZUYyUjgxL1BkMmNlbnRP?=
- =?utf-8?B?c1ZuVTVadVVjRlR0bi8rRGVheSsyaGE0dU5SYk83TWRZZWJxUFZ4RVFWZkFj?=
- =?utf-8?B?Uk9EbCt2R01FVjcxN2s1SlBkS0ZyYml0WDFZNW5RbWcza293Uzh2bkt6V0ZV?=
- =?utf-8?B?TFZlVEEwUFVwU0pRNHdYRG8rVTNjb0JMYmRya1lKeitTVTBTLzd4Y0I0NEpS?=
- =?utf-8?B?Z05zTjh4RGhTa25IWitocUZoTmN4eU9jOWlvaFBMVjZsTVZ3aVJabS91SUVq?=
- =?utf-8?B?aHZ1bUs2aDZBYXdvamh2YWJxVkoyVkZLMWhBSjlCTU43RjVqcHc5THQrVUhJ?=
- =?utf-8?B?TEQ0bDU5SUVwM1QxT014aHFyc2NlbFJXZTZ3MU8weFY1cDZMN2htVjF6Kzkw?=
- =?utf-8?B?alJaeklYeXVRUVQxV0dJYVJ6UElHVlJsRVZ5VjVvMjJFbVprNXhLZGY1bmNZ?=
- =?utf-8?B?SC8xV3JwaElNK0ErVFJNMFhVTnZsMDNERURqR01jcGJuRWRFaWdUQ0cwTFMy?=
- =?utf-8?B?L3BkQnRhMjJTVzkrWjVvTGQ5TlNYdHBGMWRjc2hwZE5DWjhVZUdwcGhic3FJ?=
- =?utf-8?B?YTdRQVFScnRPdXhsaEpXOCtIQ0ZxdVFtUXFtZW4wWStONnJhYjFUQTU5K1ll?=
- =?utf-8?B?QXViVDBqd2psUzVybi9jejVtQmNwdGVxbFdZallJY2dvTVVzbTZwOHhhNkox?=
- =?utf-8?B?dm04bS9SSTl0SGlZNUtOWXRlSWZ1cVhURXlIcUNNRldKT0F2MGR6WUtpNmlj?=
- =?utf-8?B?UlV2L1ZITmM0UVkvVTFaMm5BaXJmK0lOQngrZzJSZEFmUGpYdGxxZDRnLy9k?=
- =?utf-8?B?WmZpb1dZVFlXSGFrYkpKbkVEWTJwUko4c1F1d2dzdWtrNVgrb1RpTzUvVlVj?=
- =?utf-8?B?RTZvUG5zcW14aWRjRXNGajBUamV5WUJ0bjZ4a1YzNXltWjROc0l5OFNiTEJM?=
- =?utf-8?B?UGl2L0l3WGxwb3c1TkdURGlCOVB6MlkvZXFLNUc2eWN1cWozcmNKYWxTSHpT?=
- =?utf-8?B?cjh5bVFFYms5R013Rys4Y1FzZWNOaWM1NlNOdkxTbXEwQXd6VWtlVXYvd0pO?=
- =?utf-8?B?NUxzNW5ZQzFiRDRqYmVld2cwTDFzRkxlS0xUTk5IVUNBSGpvQUhCRzF2bzk2?=
- =?utf-8?B?eFpnS3FSeUliYVFCTGoxSjgrbzNxTXJwSTkyZkN0aFNVcEdDdWpxaTYrQzlV?=
- =?utf-8?B?NGJESmVqa2ZOMWVlQkZZZDNqUElObDlHdy9wWk96b1FZSXZONms2NE1FMnVh?=
- =?utf-8?B?YlJHRkJBR2JzTDVBRForVnhnQzk2bWt1ZXBCRnUvTzZia0luMHBxVit6ZkJG?=
- =?utf-8?B?SHpGV0VwWUxUZndCcE5CVXdrZ1ZuRGg5eXozOU15b1NLUmoxVzJLTnNVRnRr?=
- =?utf-8?B?RUNiaDBRREkrYkk4aStRSlhiK2FrRlNXVkdhN1pFYjNkQ0czNEVsRjJUYzB2?=
- =?utf-8?B?cFpOTC95dGt4YVB0T3Q2ckdKTUhsemFVTUVhUW9JNnR0MytFaFhMaUJwQkQ5?=
- =?utf-8?B?eWpQdm1PTDkxMnQ2cjRqRE90WVdzUlY2bDRIUmM5bVg1eGxsRllIenNBT1Jl?=
- =?utf-8?B?dzVtRDhJZmR3c0RqaGpPQ1hhQWV1MXRwc0w0VEFwRVNSWUt5bUtia0pJYXFT?=
- =?utf-8?B?Z3NPYzFYRC9HVUd4L2NCQnViaFduUDErTlpKYzQ1T0FNRkJBNFEvd2hpYzhF?=
- =?utf-8?B?SW5UcDFIWVdhbG5QZW1WdlVoK1lyNDBXQ3J1TlJHQ09lSE9DYVJEdnRzUDUr?=
- =?utf-8?B?dk11TEpnNVc3RGFQb3Nta3BESzZpTEJKZW9GMDRNNUxRWmlEVjNpQU5YU3Ro?=
- =?utf-8?Q?5BiiX+ojMqs=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6098.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bHZsYVhGRmZ6TndPZDNGaXpXMXkxM0lvcXRTSVZzLytUN09JeGJXVE1ja3RZ?=
- =?utf-8?B?RkJrTGZ5d00xb0tZM24rdG95RHM3KzdtY2tRZHRZcUd6VCtDNVNYL1dva0Jw?=
- =?utf-8?B?NUk5RHVWUkgyazdwS1d5ZWc2VFVCMmJyclVhakR1WGpwTEwrL0NxVTdZSUF0?=
- =?utf-8?B?dk9OVXBJTHNXOUU2VTBGeVgyM0ZMWGZEWmRVakcxUFRmZEtxd0JWcmxobTNj?=
- =?utf-8?B?aXZIT3JyL1ZRcWtwT1AwbmljTDA2K25tdkpWYzEwZEFEZ1Q3SHJiTEM3Ti9o?=
- =?utf-8?B?clJ2SklUVk4xQlQrR3YzSVhzTEtqZzRXdXJZdW5WZnRHNE93MXdocGpRNjR3?=
- =?utf-8?B?eXp0TWkvSk93YTRWNkxqQ292aURUZXR6MnhPNUV6SEtiVDVXVjdROExlNmt5?=
- =?utf-8?B?UGUxejVwbTd6dDRkNkNrTmRWQmJGSHg1eHF6WFNzb0FjMk4wc1dRL3dXQzJv?=
- =?utf-8?B?WVpoRHAxejI0QmpZZ3hSdGVKUUhlNE9VYjl4SnpsOUpVdS81VVF5V3F2a1Z5?=
- =?utf-8?B?Wk5xSVN6Q1F2UkZNZGJiWVp6bGlwb3RBRXVxQzRBTDdSaFBUSmpMcHNiVDlU?=
- =?utf-8?B?UEg1SHJUeGxpWk5QY3N2dzl6aVc5MnlhVS8ramZnVUY5RWxGYnRCeE15a3dk?=
- =?utf-8?B?NUttODdGalBxS1VNd0owVVREMlVVQzEzU2owdG03bEtFT3BTT05SUkMvakNS?=
- =?utf-8?B?S2hhbWFGVVc4bnhzSGpSczg3bXQrVTA0b2xsV2kvZWJXMTZSVW1vblBmN1Vk?=
- =?utf-8?B?MmU3RzhLWjlnRno4YXY2bjRaZHEyY2d1SFEzdzgwWEtXb1VCZjhWOEg3aWho?=
- =?utf-8?B?akViNmVLVGU3amgyQW5Xd05jU1RJSEZQb0IyVXhHM2pNK1kyL0V2eWh1dVJ5?=
- =?utf-8?B?bitmS1NFUy82d3E2dnY2bG1tSDV4aElNemp3YWdnNHNFMzRHSEJuQkhLVXVV?=
- =?utf-8?B?US8rSGFSUjdGL0NoNVhzTGxLTC9tNi9kT0l0WmlzMWNRajQ2QURoU2oxN1Qz?=
- =?utf-8?B?RVB5NURYeEdTWGdKQVZXaEpNQXptN2ZDdFVsbTdXbHF1bmVYSGoydmVnSUhm?=
- =?utf-8?B?YUk3NWU5SWhTOU53SWkvRTdTYldySFB1aFNQclBBMFlIM3JqNW5BRXgvSW9F?=
- =?utf-8?B?dnFQdCtUYnM5cHdhR3ptanNVTGtUK2E0SDA3OTFueUlzd05RejJtQXZMblg5?=
- =?utf-8?B?TDdCWHg5YkxTOG02SHBkd0Y3UEYway9FRWQ3aHJQckRtVnh6L0FIemtvby9r?=
- =?utf-8?B?TDY0U05nNXo5STd4QjdpMG9LRzBWTkp6VUtxdUNMbXdGc0pTSkVMcUdYQkZS?=
- =?utf-8?B?Z0phclA1cUYySG84bFpFSW94MkVvUWtYeUFYVnlOcWJEbGpDTDR1NnVra3J5?=
- =?utf-8?B?SXRmUVU4NXUzQnorM3QzL0ZhRVBZMkZWZHNsak90WHpIWHRuUlJ0Z1ltR251?=
- =?utf-8?B?S1FoanRIS2xCZ01nZFdOMXhFK25BUUVNS0E5dEJLWnhzcWtQWXZ2K1c2RGFD?=
- =?utf-8?B?cHJnQ2tEdTNBb1ZJcTY4aW5KWDMvK0JnVTlCdVNLMXRqeHBMUFJtTUw2a3Vj?=
- =?utf-8?B?U2R3dTR2QXlIU0VELzFtT3pNbjErMmVxUnNBTUh1RXdJSDhxTnBJSmlzRGZv?=
- =?utf-8?B?UDhOOC9VV3hGV2FZVk9Ya2YvQitNUlZDZ0FGbEh3MEk0cTR0U2lSbEc0M2R2?=
- =?utf-8?B?MHFOUEFFckoxUUZvc2NENDAxZmF2VlJkWXV1NlJ3Yy9TM0FaeFRBYWk4bDEw?=
- =?utf-8?B?dUM5VGpkbW5VaVo4YkVsZHk3UFZ6V2lMWVI1a0pReGpjMnRNSStRRXRKUHFB?=
- =?utf-8?B?WFFaRGJBdlNnUkpuc0p2R2ZLRVR3eC9nZXBmdjNmRlZFSU12T0tCek5LMXZj?=
- =?utf-8?B?a2VvdnI5K25FZ1dJY0ZDb0lFVmVuTU03NVlzR0x6Vy9BdTBWRXM2YnY5bmJM?=
- =?utf-8?B?OWo2citLVUxtSWlsN2ZLUE91ZlZOSUIxYzV0TnpQWHhoL2ZodWZLWG9lTkNj?=
- =?utf-8?B?K3Q5QXZSSFZtQk1CU2hET2FVZFVnd2hnbFdaYit0d2J6VVRFK29jeVFkMUdu?=
- =?utf-8?B?dXg3U2xNdkZSaldEeEhhTTBhMVp4U1BMeDFIUTBodnEvaHhjK0ZjdldlalBj?=
- =?utf-8?Q?+t+o=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-IronPort-AV: E=Sophos;i="6.12,246,1728975600"; 
+   d="scan'208";a="97988832"
+Received: from shsensorbuild.sh.intel.com ([10.239.133.18])
+  by orviesa009.jf.intel.com with ESMTP; 18 Dec 2024 21:02:03 -0800
+From: Even Xu <even.xu@intel.com>
+To: bagasdotme@gmail.com
+Cc: aaron.ma@canonical.com,
+	bentiss@kernel.org,
+	corbet@lwn.net,
+	even.xu@intel.com,
+	jikos@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	rdunlap@infradead.org,
+	srinivas.pandruvada@linux.intel.com,
+	xinpeng.sun@intel.com
+Subject: Re: [PATCH v3 01/22] HID: THC: Add documentation
+Date: Thu, 19 Dec 2024 13:01:47 +0800
+Message-Id: <20241219050147.365425-1-even.xu@intel.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <Z2EWcwQhaiep9yC0@archie.me>
+References: <Z2EWcwQhaiep9yC0@archie.me>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6098.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2d30849-de65-4712-3b23-08dd1fc85316
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Dec 2024 00:59:00.4177
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +6gKg/WC+clXC982tjJx9ijdPa/JZe1vyf02KqiwgcfUFlEr+E5byL0coD/Oy8gPKrJVR9jmOloa1NH+OAA0qg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7513
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQWFyb24gTWEgPGFhcm9u
-Lm1hQGNhbm9uaWNhbC5jb20+DQo+IFNlbnQ6IFR1ZXNkYXksIERlY2VtYmVyIDE3LCAyMDI0IDQ6
-NTMgUE0NCj4gVG86IFh1LCBFdmVuIDxldmVuLnh1QGludGVsLmNvbT47IGppa29zQGtlcm5lbC5v
-cmc7IGJlbnRpc3NAa2VybmVsLm9yZzsNCj4gY29yYmV0QGx3bi5uZXQ7IGJhZ2FzZG90bWVAZ21h
-aWwuY29tOyByZHVubGFwQGluZnJhZGVhZC5vcmcNCj4gQ2M6IGxpbnV4LWlucHV0QHZnZXIua2Vy
-bmVsLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgbGludXgtDQo+IGRvY0B2Z2Vy
-Lmtlcm5lbC5vcmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MyAwMC8yMl0gQWRkIEludGVsIFRv
-dWNoIEhvc3QgQ29udHJvbGxlciBkcml2ZXJzDQo+IA0KPiANCj4gDQo+IE9uIDEyLzE3LzI0IDQ6
-MDYgUE0sIFh1LCBFdmVuIHdyb3RlOg0KPiA+DQo+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0t
-LS0tDQo+ID4+IEZyb206IEFhcm9uIE1hIDxhYXJvbi5tYUBjYW5vbmljYWwuY29tPg0KPiA+PiBT
-ZW50OiBUdWVzZGF5LCBEZWNlbWJlciAxNywgMjAyNCAzOjMzIFBNDQo+ID4+IFRvOiBYdSwgRXZl
-biA8ZXZlbi54dUBpbnRlbC5jb20+OyBqaWtvc0BrZXJuZWwub3JnOw0KPiA+PiBiZW50aXNzQGtl
-cm5lbC5vcmc7IGNvcmJldEBsd24ubmV0OyBiYWdhc2RvdG1lQGdtYWlsLmNvbTsNCj4gPj4gcmR1
-bmxhcEBpbmZyYWRlYWQub3JnDQo+ID4+IENjOiBsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmc7
-IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LQ0KPiA+PiBkb2NAdmdlci5rZXJu
-ZWwub3JnDQo+ID4+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjMgMDAvMjJdIEFkZCBJbnRlbCBUb3Vj
-aCBIb3N0IENvbnRyb2xsZXIgZHJpdmVycw0KPiA+Pg0KPiA+Pg0KPiA+Pg0KPiA+PiBPbiAxMi8x
-Ny8yNCAyOjU4IFBNLCBYdSwgRXZlbiB3cm90ZToNCj4gPj4+IEhpLCBBYXJvbiwNCj4gPj4+DQo+
-ID4+PiBUaGFua3MgZm9yIHRlc3RpbmchDQo+ID4+Pg0KPiA+Pj4gSXTigJlzIG5vdCBhIGRyaXZl
-ciBlcnJvciwgaXQganVzdCBtZWFucyBkcml2ZXIgZGV0ZWN0ZWQgYSB0b3VjaA0KPiA+Pj4gZGV2
-aWNlIGVycm9yIChUb3VjaA0KPiA+PiBkZXZpY2UgcmVwb3J0IGFuIHVuZXhwZWN0ZWQgUkVTRVQg
-UmVzcG9uc2UpLg0KPiA+Pj4NCj4gPj4+IEkgYWxzbyBtZXQgdGhlIHNhbWUgaXNzdWUgZHVyaW5n
-IHRlc3QsIGl0IHVzdWFsbHkgaGFwcGVucyBkdXJpbmcNCj4gPj4+IGVudW1lcmF0aW9uDQo+ID4+
-IGZsb3cuDQo+ID4+Pg0KPiA+Pj4gSWYgdXNlciBrZWVwIHRvdWNoaW5nIHRoZSBzY3JlZW4gYmVm
-b3JlL2R1cmluZyBkcml2ZXIgZG8gZGV2aWNlDQo+ID4+PiBpbml0aWFsaXphdGlvbiwgaXQNCj4g
-Pj4gd2lsbCBoYXBwZW4uDQo+ID4+Pg0KPiA+Pg0KPiA+PiBEdXJpbmcgdGhlIGJvb3RpbmcsIG5v
-IHRvdWNoaW5nLg0KPiA+PiBJdCBzdGlsbCByZXBlYXRzIHRoaXMgZXJyb3Igd2hlbiBkcml2ZXIg
-aXMgbG9hZGluZy4NCj4gPj4NCj4gPj4gQWZ0ZXIgc3lzdGVtIGJvb3R1cCBhbmQgaW4gaWRsZSwg
-ZXZlcnkgc2luZ2xlIHRvdWNoIHdpbGwgcmVwb3J0IHRoaXMgZXJyb3IuDQo+ID4+DQo+ID4+IEFh
-cm9uDQo+ID4NCj4gPiBJbnRlcmVzdGluZyENCj4gPiBUaGF0J3MgdGhlIG5ldyBpc3N1ZSBJIG5l
-dmVyIG1ldC4NCj4gPg0KPiA+IElzIHRvdWNoIGZ1bmN0aW9uIGFibm9ybWFsIChJIG1lYW4gdGhl
-IHNpbmdsZSB0b3VjaCk/DQo+ID4NCj4gDQo+IFRvdWNoc2NyZWVuIGZ1bmN0aW9uIHdvcmtzLg0K
-PiBPbmUgdG91Y2ggd2lsbCBjYXVzZSAxMCB0aW1lcyBvZiB0aGlzIGVycm9yLg0KDQpJZiB0b3Vj
-aCBmdW5jdGlvbiBpcyBub3JtYWwsIHRoZSBwb3NzaWJsZSByZWFzb24gaXMgdGltaW5nIGlzc3Vl
-Lg0KQWZ0ZXIgb25lIHRvdWNoIGlucHV0IHBhY2tldCB3YXMgcmVhZCBieSBUSEMsIFRvdWNoIEZX
-IGRlYXNzZXJ0ZWQgdGhlIGludGVycnVwdCBsaW5lIHdpdGggYSB2ZXJ5IHNob3J0IGRlbGF5LCB3
-aGljaCBjYXVzZXMgVEhDIGhhcmR3YXJlIHJlYWQgYWdhaW4sIGJ1dCBUb3VjaCBGVyBkaWRuJ3Qg
-aGF2ZSBkYXRhIHJlcG9ydCwgc28gZ2l2ZSBhbiBhbGwgWmVybyBwYWNrZXQuDQpJbiBISUQtb3Zl
-ci1JMmMgcHJvdG9jb2wsIHRoZSBmaXJzdCB0d28gYnl0ZXMgYmUgemVybyBtZWFucyBkZXZpY2Ug
-cmVzZXQuDQoNCkp1c3QgZ3Vlc3MsIG5lZWQgYSBkZXZpY2Ugb24gaGFuZCB0byBwcm9iZSBidXMg
-d2F2ZWZvcm0gZm9yIGNvbmZpcm1hdGlvbi4NCg0KQmVzdCBSZWdhcmRzLA0KRXZlbiBYdQ0KPiAN
-Cj4gQWFyb24NCj4gDQo+ID4gQmVzdCBSZWdhcmRzLA0KPiA+IEV2ZW4gWHUNCj4gPg0KPiA+Pg0K
-PiA+Pj4gSW4gZ2VuZXJhbCwgVG91Y2ggZGV2aWNlcyB3aWxsIHNlbGYgcmVjb3ZlciBmcm9tIHRo
-aXMgZXJyb3IsIGl0IHdpbGwNCj4gPj4+IG5vdCBpbXBhY3QNCj4gPj4gbm9ybWFsIHRvdWNoIGZ1
-bmN0aW9uLg0KPiA+Pj4NCj4gPj4+IFRoYW5rcyENCj4gPj4+DQo+ID4+PiBCZXN0IFJlZ2FyZHMs
-DQo+ID4+Pg0KPiA+Pj4gRXZlbiBYdQ0KPiA+Pj4NCj4gPj4+ICpGcm9tOipBYXJvbiBNYSA8YWFy
-b24ubWFAY2Fub25pY2FsLmNvbT4NCj4gPj4+ICpTZW50OiogVHVlc2RheSwgRGVjZW1iZXIgMTcs
-IDIwMjQgMjo0NyBQTQ0KPiA+Pj4gKlRvOiogWHUsIEV2ZW4gPGV2ZW4ueHVAaW50ZWwuY29tPjsg
-amlrb3NAa2VybmVsLm9yZzsNCj4gPj4+IGJlbnRpc3NAa2VybmVsLm9yZzsgY29yYmV0QGx3bi5u
-ZXQ7IGJhZ2FzZG90bWVAZ21haWwuY29tOw0KPiA+Pj4gcmR1bmxhcEBpbmZyYWRlYWQub3JnDQo+
-ID4+PiAqQ2M6KiBsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2Vy
-Lmtlcm5lbC5vcmc7DQo+ID4+PiBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnDQo+ID4+PiAqU3Vi
-amVjdDoqIFJlOiBbUEFUQ0ggdjMgMDAvMjJdIEFkZCBJbnRlbCBUb3VjaCBIb3N0IENvbnRyb2xs
-ZXINCj4gPj4+IGRyaXZlcnMNCj4gPj4+DQo+ID4+PiBIaSBFdmVuLA0KPiA+Pj4NCj4gPj4+IFRl
-c3RlZCBvbiA2LjEzLXJjMywgdGhlcmUgaXMgYW4gZXJyb3IgcmVwZWF0ZWQgd2hlbiB1c2luZyB0
-b3VjaHNjcmVlbjoNCj4gPj4+DQo+ID4+PiBpbnRlbF9xdWlja2kyYyAwMDAwOjAwOjEwLjA6ICp1
-bmV4cGVjdGVkIERJUiBoYXBwZW4qDQo+ID4+Pg0KPiA+Pj4gVGhlIGRldmljZSBpbmZvOg0KPiA+
-Pj4gWyDCoMKgwqAzLjAxMzYxM10gaW5wdXQ6IHF1aWNraTJjLWhpZCAyN0M2OjAxMkQgVG91Y2hz
-Y3JlZW4gYXMNCj4gPj4+IC9kZXZpY2VzL3BjaTAwMDA6MDAvMDAwMDowMDoxMC4wLzAwMA0KPiA+
-Pj4gMToyN0M2OjAxMkQuMDAwMS9pbnB1dC9pbnB1dDYNCj4gPj4+IFsgwqDCoMKgMy4wMTM3NjNd
-IGlucHV0OiBxdWlja2kyYy1oaWQgMjdDNjowMTJEIGFzDQo+ID4+IC9kZXZpY2VzL3BjaTAwMDA6
-MDAvMDAwMDowMDoxMC4wLzAwMDE6MjdDNjowMTJELg0KPiA+Pj4gMDAwMS9pbnB1dC9pbnB1dDcN
-Cj4gPj4+IFsgwqDCoMKgMy4wMTM4OTRdIGhpZC1nZW5lcmljIDAwMDE6MjdDNjowMTJELjAwMDE6
-IGlucHV0LGhpZHJhdzA6DQo+ID4+PiA8VU5LTk9XTj4gSElEIHY4LjY1IERldmljZSBbcXVpY2sg
-aTJjLWhpZCAyN0M2OjAxMkRdIG9uDQo+ID4+Pg0KPiA+Pj4NCj4gPj4+IEFhcm9uDQo+ID4+Pg0K
-PiA+Pj4gT24gMTIvMTYvMjQgOTo0MSBBTSwgRXZlbiBYdSB3cm90ZToNCj4gPj4+DQo+ID4+PiAg
-ICAgIEludGVsIFRvdWNoIEhvc3QgQ29udHJvbGxlciAoVEhDKSBpcyBhIG5ldyBoaWdoIHBlcmZv
-cm1hbmNlDQo+ID4+PiBpbnB1dCBJUA0KPiA+Pj4NCj4gPj4+ICAgICAgd2hpY2ggY2FuIGJlbmVm
-aXQgSElEIGRldmljZSdzIGRhdGEgdHJhbnNhY3Rpb24sIHN1Y2ggYXMgdG91Y2gNCj4gPj4+IHNj
-cmVlbiwNCj4gPj4+DQo+ID4+PiAgICAgIHRvdWNoIHBhZCwgc3R5bHVzLg0KPiA+Pj4NCj4gPj4+
-ICAgICAgVEhDIElQIG5vdyBldm9sdWF0ZXMgdG8gVjQsIGl0IGNhbiBzdXBwb3J0IDMgZGlmZmVy
-ZW50IG1vZGVzOg0KPiA+Pj4gSVBUUywNCj4gPj4+DQo+ID4+PiAgICAgIEhJRFNQSSBhbmQgSElE
-STJDLiBIZXJlIGFyZSB1cGdyYWRlIGhpc3Rvcnk6DQo+ID4+Pg0KPiA+Pj4gICAgICAtIFRIQyB2
-MSwgZm9yIFRHTC9MS0YsIHN1cHBvcnRzIGludGVsIHByaXZhdGUgSVBUUyAoSW50ZWwNCj4gPj4+
-IFByZWNpc2UgVG91Y2gNCj4gPj4+DQo+ID4+PiAgICAgICDCoCBhbmQgU3R5bHVzKSBwcm90b2Nv
-bCAoIElQVFMgbW9kZSkNCj4gPj4+DQo+ID4+PiAgICAgIC0gVEhDIHYyLCBmb3IgQURMLCBhZGQg
-aW5kdXN0cmlhbCBzdGFuZGFyZCBISUQgb3ZlciBTUEkNCj4gPj4+IHByb3RvY29sIHN1cHBvcnQN
-Cj4gPj4+DQo+ID4+PiAgICAgICDCoCAoSElEU1BJIG1vZGUpDQo+ID4+Pg0KPiA+Pj4gICAgICAt
-IFRIQyB2MywgZm9yIE1UTCwgZW5oYW5jZSBISUQgb3ZlciBTUEkgbW9kZQ0KPiA+Pj4NCj4gPj4+
-ICAgICAgLSBUSEMgdjQsIGZvciBMTkwsIGFkZCBpbnVkc3RyaWFsIHN0YW5kYXJkIEhJRCBvdmVy
-IEkyQw0KPiA+Pj4gcHJvdG9jb2wgc3VwcG9ydA0KPiA+Pj4NCj4gPj4+ICAgICAgIMKgIChISURJ
-MkMgbW9kZSkNCj4gPj4+DQo+ID4+PiAgICAgIExpbnV4IFN1cmZhY2UgY29tbXVuaXR5IChodHRw
-czovL2dpdGh1Yi5jb20vbGludXgtc3VyZmFjZQ0KPiA+Pj4gPGh0dHBzOi8vZ2l0aHViLmNvbS9s
-aW51eC1zdXJmYWNlPikgYWxyZWFkeQ0KPiA+Pj4NCj4gPj4+ICAgICAgaW1wbGVtZW50ZWQgSVBU
-UyBtb2RlLiBUaGVzZSBwYXRjaCBzZXJpZXMgcHJvdmlkZXMgVEhDIEhJRFNQSQ0KPiA+Pj4gbW9k
-ZSBhbmQNCj4gPj4+DQo+ID4+PiAgICAgIFRIQyBISURJMkMgbW9kZSBzdXBwb3J0IG9uIExpbnV4
-Lg0KPiA+Pj4NCj4gPj4+ICAgICAgVGhlc2UgcGF0Y2ggc2VyaWVzIGluY2x1ZGVzOg0KPiA+Pj4N
-Cj4gPj4+ICAgICAgMS4gRG9jdW1lbnQgZm9yIFRIQyBoYXJkd2FyZSBhbmQgc29mdHdhcmUgaW50
-cm9kdWN0aW9uLg0KPiA+Pj4NCj4gPj4+ICAgICAgMi4gSW50ZWwgVEhDIEhhcmR3YXJlIGxheWVy
-IGRyaXZlciB3aGljaCBwcm92aWRlcyBjb250cm9sDQo+ID4+PiBpbnRlcmZhY2VzDQo+ID4+Pg0K
-PiA+Pj4gICAgICAgwqDCoCBmb3IgcHJvdG9jb2wgbGF5ZXIuDQo+ID4+Pg0KPiA+Pj4gICAgICAz
-LiBJbnRlbCBRdWlja1NQSSAoUikgZHJpdmVyIHdvcmtpbmcgYXMgYSBISURTUEkgZGV2aWNlIGRy
-aXZlcg0KPiA+Pj4gd2hpY2gNCj4gPj4+DQo+ID4+PiAgICAgICDCoMKgIGltcGxlbWVudHMgSElE
-IG92ZXIgU1BJIHByb3RvY29sIGFuZCBmbG93Lg0KPiA+Pj4NCj4gPj4+ICAgICAgNC4gSW50ZWwg
-UXVpY2tJMkMgKFIpIGRyaXZlciB3b3JraW5nIGFzIGEgSElESTJDIGRldmljZSBkcml2ZXINCj4g
-Pj4+IHdoaWNoDQo+ID4+Pg0KPiA+Pj4gICAgICAgwqDCoCBpbXBsZW1lbnRzIEhJRCBvdmVyIEky
-QyBwcm90b2NvbCBhbmQgZmxvdy4NCj4gPj4+DQo+ID4+PiAgICAgIENoYW5nZSBsb2dzOg0KPiA+
-Pj4NCj4gPj4+ICAgICAgdjM6DQo+ID4+Pg0KPiA+Pj4gICAgICAtIENoYW5nZSB0YWJsZXMgaW4g
-ZG9jdW1lbnRzIGZyb20gbGl0ZXJhbCBibG9jayB0byB0YWJsZSBmb3JtYXQNCj4gPj4+DQo+ID4+
-PiAgICAgIC0gQ2hhbmdlIHN5bWJvbCBuYW1lc3BhY2UgdG8gc3RyaW5nIGxpdGVyYWwgYWNjb3Jk
-aW5nIHRvIHBhdGNoOg0KPiA+Pj4NCj4gPj4+ICAgICAgIMKgIGNkZDMwZWJiMWI5ZiAoIm1vZHVs
-ZTogQ29udmVydCBzeW1ib2wgbmFtZXNwYWNlIHRvIHN0cmluZw0KPiA+Pj4gbGl0ZXJhbCIpDQo+
-ID4+Pg0KPiA+Pj4gICAgICAtIFJlZmluZSBLY29uZmlnIGRlc2NyaXB0aW9uDQo+ID4+Pg0KPiA+
-Pj4gICAgICAtIEVuaGFuY2UgUXVpY2tzcGkgYW5kIFF1aWNraTJjIGRyaXZlciBieSBjbGVhcmlu
-ZyBUSEMgaGFyZHdhcmUNCj4gPj4+IGludGVyYWwNCj4gPj4+DQo+ID4+PiAgICAgICDCoCBzdGF0
-ZSBiZWZvcmUgZG9pbmcgaW5pdGlhbGl6YXRpb24gdG8gYXZvaWQgQklPUyBpbXBhY3RzLg0KPiA+
-Pj4NCj4gPj4+ICAgICAgLSBBIGZpeCBpbiBRdWlja2kyYyBkcml2ZXIgd2hlbiBkb2VzIHNldF9y
-ZXBvcnQNCj4gPj4+DQo+ID4+PiAgICAgIHYyOg0KPiA+Pj4NCj4gPj4+ICAgICAgLSBGaXggZG9j
-dW1lbnQgZm9ybWF0IGlzc3Vlcw0KPiA+Pj4NCj4gPj4+ICAgICAgLSBBZGQgVEhDIGRldmljZSBJ
-RHMgZm9yIEludGVsIFBhbnRoZXIgTGFrZSAoUFRMKSBwbGF0Zm9ybQ0KPiA+Pj4NCj4gPj4+ICAg
-ICAgRXZlbiBYdSAoMTMpOg0KPiA+Pj4NCj4gPj4+ICAgICAgIMKgIEhJRDogVEhDOiBBZGQgZG9j
-dW1lbnRhdGlvbg0KPiA+Pj4NCj4gPj4+ICAgICAgIMKgIEhJRDogaW50ZWwtdGhjLWhpZDogaW50
-ZWwtdGhjOiBBZGQgVEhDIERNQSBpbnRlcmZhY2VzDQo+ID4+Pg0KPiA+Pj4gICAgICAgwqAgSElE
-OiBpbnRlbC10aGMtaGlkOiBpbnRlbC10aGM6IEFkZCBUSEMgSTJDIGNvbmZpZyBpbnRlcmZhY2Vz
-DQo+ID4+Pg0KPiA+Pj4gICAgICAgwqAgSElEOiBpbnRlbC10aGMtaGlkOiBpbnRlbC1xdWlja3Nw
-aTogQWRkIFRIQyBRdWlja1NQSSBkcml2ZXINCj4gPj4+IGhpZCBsYXllcg0KPiA+Pj4NCj4gPj4+
-ICAgICAgIMKgIEhJRDogaW50ZWwtdGhjLWhpZDogaW50ZWwtcXVpY2tzcGk6IEFkZCBUSEMgUXVp
-Y2tTUEkgQUNQSQ0KPiA+Pj4gaW50ZXJmYWNlcw0KPiA+Pj4NCj4gPj4+ICAgICAgIMKgIEhJRDog
-aW50ZWwtdGhjLWhpZDogaW50ZWwtcXVpY2tzcGk6IEFkZCBISURTUEkgcHJvdG9jb2wNCj4gPj4+
-IGltcGxlbWVudGF0aW9uDQo+ID4+Pg0KPiA+Pj4gICAgICAgwqAgSElEOiBpbnRlbC10aGMtaGlk
-OiBpbnRlbC1xdWlja3NwaTogQWRkIFBNIGltcGxlbWVudGF0aW9uDQo+ID4+Pg0KPiA+Pj4gICAg
-ICAgwqAgSElEOiBpbnRlbC10aGMtaGlkOiBpbnRlbC1xdWlja2kyYzogQWRkIFRIQyBRdWlja0ky
-QyBkcml2ZXINCj4gPj4+IHNrZWxldG9uDQo+ID4+Pg0KPiA+Pj4gICAgICAgwqAgSElEOiBpbnRl
-bC10aGMtaGlkOiBpbnRlbC1xdWlja2kyYzogQWRkIFRIQyBRdWlja0kyQyBkcml2ZXINCj4gPj4+
-IGhpZCBsYXllcg0KPiA+Pj4NCj4gPj4+ICAgICAgIMKgIEhJRDogaW50ZWwtdGhjLWhpZDogaW50
-ZWwtcXVpY2tpMmM6IEFkZCBUSEMgUXVpY2tJMkMgQUNQSQ0KPiA+Pj4gaW50ZXJmYWNlcw0KPiA+
-Pj4NCj4gPj4+ICAgICAgIMKgIEhJRDogaW50ZWwtdGhjLWhpZDogaW50ZWwtcXVpY2tpMmM6IEFk
-ZCBISURJMkMgcHJvdG9jb2wNCj4gPj4+IGltcGxlbWVudGF0aW9uDQo+ID4+Pg0KPiA+Pj4gICAg
-ICAgwqAgSElEOiBpbnRlbC10aGMtaGlkOiBpbnRlbC1xdWlja2kyYzogQ29tcGxldGUgVEhDIFF1
-aWNrSTJDDQo+ID4+PiBkcml2ZXINCj4gPj4+DQo+ID4+PiAgICAgICDCoCBISUQ6IGludGVsLXRo
-Yy1oaWQ6IGludGVsLXF1aWNraTJjOiBBZGQgUE0gaW1wbGVtZW50YXRpb24NCj4gPj4+DQo+ID4+
-PiAgICAgIFhpbnBlbmcgU3VuICg5KToNCj4gPj4+DQo+ID4+PiAgICAgICDCoCBISUQ6IGludGVs
-LXRoYy1oaWQ6IEFkZCBiYXNpYyBUSEMgZHJpdmVyIHNrZWxldG9uDQo+ID4+Pg0KPiA+Pj4gICAg
-ICAgwqAgSElEOiBpbnRlbC10aGMtaGlkOiBpbnRlbC10aGM6IEFkZCBUSEMgcmVnaXN0ZXJzIGRl
-ZmluaXRpb24NCj4gPj4+DQo+ID4+PiAgICAgICDCoCBISUQ6IGludGVsLXRoYy1oaWQ6IGludGVs
-LXRoYzogQWRkIFRIQyBQSU8gb3BlcmF0aW9uIEFQSXMNCj4gPj4+DQo+ID4+PiAgICAgICDCoCBI
-SUQ6IGludGVsLXRoYy1oaWQ6IGludGVsLXRoYzogQWRkIEFQSXMgZm9yIGludGVycnVwdA0KPiA+
-Pj4NCj4gPj4+ICAgICAgIMKgIEhJRDogaW50ZWwtdGhjLWhpZDogaW50ZWwtdGhjOiBBZGQgVEhD
-IExUUiBpbnRlcmZhY2VzDQo+ID4+Pg0KPiA+Pj4gICAgICAgwqAgSElEOiBpbnRlbC10aGMtaGlk
-OiBpbnRlbC10aGM6IEFkZCBUSEMgaW50ZXJydXB0IGhhbmRsZXINCj4gPj4+DQo+ID4+PiAgICAg
-ICDCoCBISUQ6IGludGVsLXRoYy1oaWQ6IGludGVsLXRoYzogQWRkIFRIQyBTUEkgY29uZmlnIGlu
-dGVyZmFjZXMNCj4gPj4+DQo+ID4+PiAgICAgICDCoCBISUQ6IGludGVsLXRoYy1oaWQ6IGludGVs
-LXF1aWNrc3BpOiBBZGQgVEhDIFF1aWNrU1BJIGRyaXZlcg0KPiA+Pj4gc2tlbGV0b24NCj4gPj4+
-DQo+ID4+PiAgICAgICDCoCBISUQ6IGludGVsLXRoYy1oaWQ6IGludGVsLXF1aWNrc3BpOiBDb21w
-bGV0ZSBUSEMgUXVpY2tTUEkNCj4gPj4+IGRyaXZlcg0KPiA+Pj4NCj4gPj4+ICAgICAgICBEb2N1
-bWVudGF0aW9uL2hpZC9pbmRleC5yc3TCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgfMKgwqDCoCAxICsNCj4gPj4+DQo+ID4+PiAgICAgICAgRG9jdW1lbnRhdGlvbi9oaWQvaW50
-ZWwtdGhjLWhpZC5yc3TCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgNTY4ICsrKysrKw0KPiA+Pj4N
-Cj4gPj4+ICAgICAgICBNQUlOVEFJTkVSU8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqAgNiArDQo+ID4+Pg0K
-PiA+Pj4gICAgICAgIGRyaXZlcnMvaGlkL0tjb25maWfCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqAgMiArDQo+ID4+Pg0KPiA+Pj4gICAg
-ICAgIGRyaXZlcnMvaGlkL01ha2VmaWxlwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoCAyICsNCj4gPj4+DQo+ID4+PiAgICAgICAgZHJpdmVy
-cy9oaWQvaW50ZWwtdGhjLWhpZC9LY29uZmlnwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKg
-IDQyICsNCj4gPj4+DQo+ID4+PiAgICAgICAgZHJpdmVycy9oaWQvaW50ZWwtdGhjLWhpZC9NYWtl
-ZmlsZcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgMjIgKw0KPiA+Pj4NCj4gPj4+ICAgICAg
-ICAuLi4vaW50ZWwtcXVpY2tpMmMvcGNpLXF1aWNraTJjLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgfMKgIDk2Ng0KPiA+Pj4gKysrKysrKysrKw0KPiA+Pj4NCj4gPj4+ICAgICAgICAuLi4vaW50
-ZWwtcXVpY2tpMmMvcXVpY2tpMmMtZGV2LmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDE4
-NiArKw0KPiA+Pj4NCj4gPj4+ICAgICAgICAuLi4vaW50ZWwtcXVpY2tpMmMvcXVpY2tpMmMtaGlk
-LmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDE2NiArKw0KPiA+Pj4NCj4gPj4+ICAgICAg
-ICAuLi4vaW50ZWwtcXVpY2tpMmMvcXVpY2tpMmMtaGlkLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgfMKgwqAgMTQgKw0KPiA+Pj4NCj4gPj4+ICAgICAgICAuLi4vaW50ZWwtcXVpY2tpMmMvcXVp
-Y2tpMmMtcHJvdG9jb2wuY8KgwqDCoMKgwqDCoMKgIHzCoCAyMjQgKysrDQo+ID4+Pg0KPiA+Pj4g
-ICAgICAgIC4uLi9pbnRlbC1xdWlja2kyYy9xdWlja2kyYy1wcm90b2NvbC5owqDCoMKgwqDCoMKg
-wqAgfMKgwqAgMjAgKw0KPiA+Pj4NCj4gPj4+ICAgICAgICAuLi4vaW50ZWwtcXVpY2tzcGkvcGNp
-LXF1aWNrc3BpLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDk4Nw0KPiA+Pj4gKysrKysr
-KysrKysNCj4gPj4+DQo+ID4+PiAgICAgICAgLi4uL2ludGVsLXF1aWNrc3BpL3F1aWNrc3BpLWRl
-di5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAxNzIgKysNCj4gPj4+DQo+ID4+PiAgICAg
-ICAgLi4uL2ludGVsLXF1aWNrc3BpL3F1aWNrc3BpLWhpZC5jwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIHzCoCAxNjUgKysNCj4gPj4+DQo+ID4+PiAgICAgICAgLi4uL2ludGVsLXF1aWNrc3BpL3F1
-aWNrc3BpLWhpZC5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDE0ICsNCj4gPj4+DQo+
-ID4+PiAgICAgICAgLi4uL2ludGVsLXF1aWNrc3BpL3F1aWNrc3BpLXByb3RvY29sLmPCoMKgwqDC
-oMKgwqDCoCB8wqAgNDA5ICsrKysrDQo+ID4+Pg0KPiA+Pj4gICAgICAgIC4uLi9pbnRlbC1xdWlj
-a3NwaS9xdWlja3NwaS1wcm90b2NvbC5owqDCoMKgwqDCoMKgwqAgfMKgwqAgMjUgKw0KPiA+Pj4N
-Cj4gPj4+ICAgICAgICAuLi4vaW50ZWwtdGhjLWhpZC9pbnRlbC10aGMvaW50ZWwtdGhjLWRldi5j
-wqDCoCB8IDE1NzgNCj4gPj4+ICsrKysrKysrKysrKysrKysrDQo+ID4+Pg0KPiA+Pj4gICAgICAg
-IC4uLi9pbnRlbC10aGMtaGlkL2ludGVsLXRoYy9pbnRlbC10aGMtZGV2LmjCoMKgIHzCoCAxMTYg
-KysNCj4gPj4+DQo+ID4+PiAgICAgICAgLi4uL2ludGVsLXRoYy1oaWQvaW50ZWwtdGhjL2ludGVs
-LXRoYy1kbWEuY8KgwqAgfMKgIDk2OQ0KPiA+Pj4gKysrKysrKysrKw0KPiA+Pj4NCj4gPj4+ICAg
-ICAgICAuLi4vaW50ZWwtdGhjLWhpZC9pbnRlbC10aGMvaW50ZWwtdGhjLWRtYS5owqDCoCB8wqAg
-MTQ2ICsrDQo+ID4+Pg0KPiA+Pj4gICAgICAgIC4uLi9pbnRlbC10aGMtaGlkL2ludGVsLXRoYy9p
-bnRlbC10aGMtaHcuaMKgwqDCoCB8wqAgODgxDQo+ID4+PiArKysrKysrKysNCj4gPj4+DQo+ID4+
-PiAgICAgICAgaW5jbHVkZS9saW51eC9oaWQtb3Zlci1pMmMuaMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgfMKgIDExNyArKw0KPiA+Pj4NCj4gPj4+ICAgICAgICBpbmNsdWRlL2xp
-bnV4L2hpZC1vdmVyLXNwaS5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAg
-MTU1ICsrDQo+ID4+Pg0KPiA+Pj4gICAgICAgIDI2IGZpbGVzIGNoYW5nZWQsIDc5NTMgaW5zZXJ0
-aW9ucygrKQ0KPiA+Pj4NCj4gPj4+ICAgICAgICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRh
-dGlvbi9oaWQvaW50ZWwtdGhjLWhpZC5yc3QNCj4gPj4+DQo+ID4+PiAgICAgICAgY3JlYXRlIG1v
-ZGUgMTAwNjQ0IGRyaXZlcnMvaGlkL2ludGVsLXRoYy1oaWQvS2NvbmZpZw0KPiA+Pj4NCj4gPj4+
-ICAgICAgICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9oaWQvaW50ZWwtdGhjLWhpZC9NYWtl
-ZmlsZQ0KPiA+Pj4NCj4gPj4+ICAgICAgICBjcmVhdGUgbW9kZSAxMDA2NDQNCj4gPj4+IGRyaXZl
-cnMvaGlkL2ludGVsLXRoYy1oaWQvaW50ZWwtcXVpY2tpMmMvcGNpLXF1aWNraTJjLmMNCj4gPj4+
-DQo+ID4+PiAgICAgICAgY3JlYXRlIG1vZGUgMTAwNjQ0DQo+ID4+PiBkcml2ZXJzL2hpZC9pbnRl
-bC10aGMtaGlkL2ludGVsLXF1aWNraTJjL3F1aWNraTJjLWRldi5oDQo+ID4+Pg0KPiA+Pj4gICAg
-ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPiA+Pj4gZHJpdmVycy9oaWQvaW50ZWwtdGhjLWhpZC9p
-bnRlbC1xdWlja2kyYy9xdWlja2kyYy1oaWQuYw0KPiA+Pj4NCj4gPj4+ICAgICAgICBjcmVhdGUg
-bW9kZSAxMDA2NDQNCj4gPj4+IGRyaXZlcnMvaGlkL2ludGVsLXRoYy1oaWQvaW50ZWwtcXVpY2tp
-MmMvcXVpY2tpMmMtaGlkLmgNCj4gPj4+DQo+ID4+PiAgICAgICAgY3JlYXRlIG1vZGUgMTAwNjQ0
-DQo+ID4+PiBkcml2ZXJzL2hpZC9pbnRlbC10aGMtaGlkL2ludGVsLXF1aWNraTJjL3F1aWNraTJj
-LXByb3RvY29sLmMNCj4gPj4+DQo+ID4+PiAgICAgICAgY3JlYXRlIG1vZGUgMTAwNjQ0DQo+ID4+
-PiBkcml2ZXJzL2hpZC9pbnRlbC10aGMtaGlkL2ludGVsLXF1aWNraTJjL3F1aWNraTJjLXByb3Rv
-Y29sLmgNCj4gPj4+DQo+ID4+PiAgICAgICAgY3JlYXRlIG1vZGUgMTAwNjQ0DQo+ID4+PiBkcml2
-ZXJzL2hpZC9pbnRlbC10aGMtaGlkL2ludGVsLXF1aWNrc3BpL3BjaS1xdWlja3NwaS5jDQo+ID4+
-Pg0KPiA+Pj4gICAgICAgIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPiA+Pj4gZHJpdmVycy9oaWQvaW50
-ZWwtdGhjLWhpZC9pbnRlbC1xdWlja3NwaS9xdWlja3NwaS1kZXYuaA0KPiA+Pj4NCj4gPj4+ICAg
-ICAgICBjcmVhdGUgbW9kZSAxMDA2NDQNCj4gPj4+IGRyaXZlcnMvaGlkL2ludGVsLXRoYy1oaWQv
-aW50ZWwtcXVpY2tzcGkvcXVpY2tzcGktaGlkLmMNCj4gPj4+DQo+ID4+PiAgICAgICAgY3JlYXRl
-IG1vZGUgMTAwNjQ0DQo+ID4+PiBkcml2ZXJzL2hpZC9pbnRlbC10aGMtaGlkL2ludGVsLXF1aWNr
-c3BpL3F1aWNrc3BpLWhpZC5oDQo+ID4+Pg0KPiA+Pj4gICAgICAgIGNyZWF0ZSBtb2RlIDEwMDY0
-NA0KPiA+Pj4gZHJpdmVycy9oaWQvaW50ZWwtdGhjLWhpZC9pbnRlbC1xdWlja3NwaS9xdWlja3Nw
-aS1wcm90b2NvbC5jDQo+ID4+Pg0KPiA+Pj4gICAgICAgIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPiA+
-Pj4gZHJpdmVycy9oaWQvaW50ZWwtdGhjLWhpZC9pbnRlbC1xdWlja3NwaS9xdWlja3NwaS1wcm90
-b2NvbC5oDQo+ID4+Pg0KPiA+Pj4gICAgICAgIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPiA+Pj4gZHJp
-dmVycy9oaWQvaW50ZWwtdGhjLWhpZC9pbnRlbC10aGMvaW50ZWwtdGhjLWRldi5jDQo+ID4+Pg0K
-PiA+Pj4gICAgICAgIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPiA+Pj4gZHJpdmVycy9oaWQvaW50ZWwt
-dGhjLWhpZC9pbnRlbC10aGMvaW50ZWwtdGhjLWRldi5oDQo+ID4+Pg0KPiA+Pj4gICAgICAgIGNy
-ZWF0ZSBtb2RlIDEwMDY0NA0KPiA+Pj4gZHJpdmVycy9oaWQvaW50ZWwtdGhjLWhpZC9pbnRlbC10
-aGMvaW50ZWwtdGhjLWRtYS5jDQo+ID4+Pg0KPiA+Pj4gICAgICAgIGNyZWF0ZSBtb2RlIDEwMDY0
-NA0KPiA+Pj4gZHJpdmVycy9oaWQvaW50ZWwtdGhjLWhpZC9pbnRlbC10aGMvaW50ZWwtdGhjLWRt
-YS5oDQo+ID4+Pg0KPiA+Pj4gICAgICAgIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPiA+Pj4gZHJpdmVy
-cy9oaWQvaW50ZWwtdGhjLWhpZC9pbnRlbC10aGMvaW50ZWwtdGhjLWh3LmgNCj4gPj4+DQo+ID4+
-PiAgICAgICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvbGludXgvaGlkLW92ZXItaTJjLmgN
-Cj4gPj4+DQo+ID4+PiAgICAgICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvbGludXgvaGlk
-LW92ZXItc3BpLmgNCj4gPj4+DQo+ID4NCg0K
+> From: Bagas Sanjaya <bagasdotme@gmail.com>
+> To: Even Xu <even.xu@intel.com>,
+> 	jikos@kernel.org, bentiss@kernel.org, corbet@lwn.net,
+> 	aaron.ma@canonical.com, rdunlap@infradead.org
+> Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+> 	linux-doc@vger.kernel.org, Sun Xinpeng <xinpeng.sun@intel.com>,
+> 	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Subject: Re: [PATCH v3 01/22] HID: THC: Add documentation
+> Date: Tue, 17 Dec 2024 13:13:07 +0700	[thread overview]
+> Message-ID: <Z2EWcwQhaiep9yC0@archie.me> (raw)
+> In-Reply-To: <20241216014127.3722172-2-even.xu@intel.com>
+> 
+> [-- Attachment #1: Type: text/plain, Size: 30339 bytes --]
+> 
+> On Mon, Dec 16, 2024 at 09:41:06AM +0800, Even Xu wrote:
+> > diff --git a/Documentation/hid/intel-thc-hid.rst b/Documentation/hid/intel-thc-hid.rst
+> > new file mode 100644
+> > index 000000000000..e9452c11d8de
+> > --- /dev/null
+> > +++ b/Documentation/hid/intel-thc-hid.rst
+> > @@ -0,0 +1,568 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +=================================
+> > +Intel Touch Host Controller (THC)
+> > +=================================
+> > +
+> > +Touch Host Controller is the name of the IP block in PCH that interface with Touch Devices (ex:
+> > +touchscreen, touchpad etc.). It is comprised of 3 key functional blocks:
+> > +
+> > +- A natively half-duplex Quad I/O capable SPI master
+> > +- Low latency I2C interface to support HIDI2C compliant devices
+> > +- A HW sequencer with RW DMA capability to system memory
+> > +
+> > +It has a single root space IOSF Primary interface that supports transactions to/from touch devices.
+> > +Host driver configures and controls the touch devices over THC interface. THC provides high
+> > +bandwidth DMA services to the touch driver and transfers the HID report to host system main memory.
+> > +
+> > +Hardware sequencer within the THC is responsible for transferring (via DMA) data from touch devices
+> > +into system memory. A ring buffer is used to avoid data loss due to asynchronous nature of data
+> > +consumption (by host) in relation to data production (by touch device via DMA).
+> > +
+> > +Unlike other common SPI/I2C controllers, THC handles the HID device data interrupt and reset
+> > +signals directly.
+> > +
+> > +1. Overview
+> > +===========
+> > +
+> > +1.1 THC software/hardware stack
+> > +-------------------------------
+> > +
+> > +Below diagram illustrates the high-level architecture of THC software/hardware stack, which is fully
+> > +capable of supporting HIDSPI/HIDI2C protocol in Linux OS.
+> > +
+> > +::
+> > +
+> > +  ----------------------------------------------
+> > + |      +-----------------------------------+   |
+> > + |      |           Input Device            |   |
+> > + |      +-----------------------------------+   |
+> > + |      +-----------------------------------+   |
+> > + |      |       HID Multi-touch Driver      |   |
+> > + |      +-----------------------------------+   |
+> > + |      +-----------------------------------+   |
+> > + |      |             HID Core              |   |
+> > + |      +-----------------------------------+   |
+> > + |      +-----------------------------------+   |
+> > + |      |    THC QuickSPI/QuickI2C Driver   |   |
+> > + |      +-----------------------------------+   |
+> > + |      +-----------------------------------+   |
+> > + |      |      THC Hardware Driver          |   |
+> > + |      +-----------------------------------+   |
+> > + |      +----------------+ +----------------+   |
+> > + |  SW  | PCI Bus Driver | | ACPI Resource  |   |
+> > + |      +----------------+ +----------------+   |
+> > +  ----------------------------------------------
+> > +  ----------------------------------------------
+> > + |      +-----------------------------------+   |
+> > + |  HW  |              PCI Bus              |   |
+> > + |      +-----------------------------------+   |
+> > + |      +-----------------------------------+   |
+> > + |      |           THC Controller          |   |
+> > + |      +-----------------------------------+   |
+> > + |      +-----------------------------------+   |
+> > + |      |              Touch IC             |   |
+> > + |      +-----------------------------------+   |
+> > +  ----------------------------------------------
+> > +
+> > +Touch IC (TIC), also as known as the Touch devices (touchscreen or touchpad). The discrete analog
+> > +components that sense and transfer either discrete touch data or heatmap data in the form of HID
+> > +reports over the SPI/I2C bus to the THC Controller on the host.
+> > +
+> > +THC Host Controller, which is a PCI device HBA (host bus adapter), integrated into the PCH, that
+> > +serves as a bridge between the Touch ICs and the host.
+> > +
+> > +THC Hardware Driver, provides THC hardware operation APIs for above QuickSPI/QuickI2C driver, it
+> > +accesses THC MMIO registers to configure and control THC hardware.
+> > +
+> > +THC QuickSPI/QuickI2C driver, also as known as HIDSPI/HIDI2C driver, is registered as a HID
+> > +low-level driver that manages the THC Controller and implements HIDSPI/HIDI2C protocol.
+> > +
+> > +
+> > +1.2 THC hardware diagram
+> > +------------------------
+> > +Below diagram shows THC hardware components::
+> > +
+> > +                      ---------------------------------
+> > +                     |          THC Controller         |
+> > +                     |  +---------------------------+  |
+> > +                     |  |     PCI Config Space      |  |
+> > +                     |  +---------------------------+  |
+> > +                     |  +---------------------------+  |
+> > +                     |  +       MMIO Registers      |  |
+> > +                     |  +---------------------------+  |
+> > + +---------------+   |  +------------+ +------------+  |
+> > + | System Memory +---+--+      DMA   | |   PIO      |  |
+> > + +---------------+   |  +------------+ +------------+  |
+> > +                     |  +---------------------------+  |
+> > +                     |  |       HW Sequencer        |  |
+> > +                     |  +---------------------------+  |
+> > +                     |  +------------+ +------------+  |
+> > +                     |  |  SPI/I2C   | |    GPIO    |  |
+> > +                     |  | Controller | | Controller |  |
+> > +                     |  +------------+ +------------+  |
+> > +                      ---------------------------------
+> > +
+> > +As THC is exposed as a PCI devices, so it has standard PCI config space registers for PCI
+> > +enumeration and configuration.
+> > +
+> > +MMIO Registers, which provide registers access for driver to configure and control THC hardware,
+> > +the registers include several categories: Interrupt status and control, DMA configure,
+> > +PIO (Programmed I/O, defined in section 3.2) status and control, SPI bus configure, I2C subIP
+> > +status and control, reset status and control...
+> > +
+> > +THC provides two ways for driver to communicate with external Touch ICs: PIO and DMA.
+> > +PIO can let driver manually write/read data to/from Touch ICs, instead, THC DMA can
+> > +automatically write/read data without driver involved.
+> > +
+> > +HW Sequencer includes THC major logic, it gets instruction from MMIO registers to control
+> > +SPI bus and I2C bus to finish a bus data transaction, it also can automatically handle
+> > +Touch ICs interrupt and start DMA receive/send data from/to Touch ICs according to interrupt
+> > +type. That means THC HW Sequencer understands HIDSPI/HIDI2C transfer protocol, and handle
+> > +the communication without driver involved, what driver needs to do is just configure the THC
+> > +properly, and prepare the formatted data packet or handle received data packet.
+> > +
+> > +As THC supports HIDSPI/HIDI2C protocols, it has SPI controller and I2C subIP in it to expose
+> > +SPI bus and I2C bus. THC also integrates a GPIO controller to provide interrupt line support
+> > +and reset line support.
+> > +
+> > +2. THC Hardware Interface
+> > +=========================
+> > +
+> > +2.1 Host Interface
+> > +------------------
+> > +
+> > +THC is exposed as "PCI Digitizer device" to the host. The PCI product and device IDs are
+> > +changed from different generations of processors. So the source code which enumerates drivers
+> > +needs to update from generation to generation.
+> > +
+> > +
+> > +2.2 Device Interface
+> > +--------------------
+> > +
+> > +THC supports two types of bus for Touch IC connection: Enhanced SPI bus and I2C bus.
+> > +
+> > +2.2.1 SPI Port
+> > +~~~~~~~~~~~~~~
+> > +
+> > +When PORT_TYPE = 00b in MMIO registers, THC uses SPI interfaces to communicate with external
+> > +Touch IC. THC enhanced SPI Bus supports different SPI modes: standard Single IO mode,
+> > +Dual IO mode and Quad IO mode.
+> > +
+> > +In Single IO mode, THC drives MOSI line to send data to Touch ICs, and receives data from Touch
+> > +ICs data from MISO line. In Dual IO mode, THC drivers MOSI and MISO both for data sending, and
+> > +also receives the data on both line. In Quad IO mode, there are other two lines (IO2 and IO3)
+> > +are added, THC drives MOSI (IO0), MISO (IO1), IO2 and IO3 at the same time for data sending, and
+> > +also receives the data on those 4 lines. Driver needs to configure THC in different mode by
+> > +setting different opcode.
+> > +
+> > +Beside IO mode, driver also needs to configure SPI bus speed. THC supports up to 42MHz SPI clock
+> > +on Intel Lunar Lake platform.
+> > +
+> > +For THC sending data to Touch IC, the data flow on SPI bus::
+> > +
+> > + | --------------------THC sends---------------------------------|
+> > + <8Bits OPCode><24Bits Slave Address><Data><Data><Data>...........
+> > +
+> > +For THC receiving data from Touch IC, the data flow on SPI bus::
+> > +
+> > + | ---------THC Sends---------------||-----Touch IC sends--------|
+> > + <8Bits OPCode><24Bits Slave Address><Data><Data><Data>...........
+> > +
+> > +2.2.2 I2C Port
+> > +~~~~~~~~~~~~~~
+> > +
+> > +THC also integrates I2C controller in it, it's called I2C SubSystem. When PORT_TYPE = 01, THC
+> > +is configured to I2C mode. Comparing to SPI mode which can be configured through MMIO registers
+> > +directly, THC needs to use PIO read (by setting SubIP read opcode) to I2C subIP APB registers'
+> > +value and use PIO write (by setting SubIP write opcode) to do a write operation.
+> > +
+> > +2.2.3 GPIO interface
+> > +~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +THC also includes two GPIO pins, one for interrupt and the other for device reset control.
+> > +
+> > +Interrupt line can be configured to either level triggerred or edge triggerred by setting MMIO
+> > +Control register.
+> > +
+> > +Reset line is controlled by BIOS (or EFI) through ACPI _RST method, driver needs to call this
+> > +device ACPI _RST method to reset touch IC during initialization.
+> > +
+> > +3. High level concept
+> > +=====================
+> > +
+> > +3.1 Opcode
+> > +----------
+> > +
+> > +Opcode (operation code) is used to tell THC or Touch IC what the operation will be, such as PIO
+> > +read or PIO write.
+> > +
+> > +When THC is configured to SPI mode, opcodes are used for determining the read/write IO mode.
+> > +There are some OPCode examples for SPI IO mode:
+> > +
+> > +=======   ==============================
+> > +opcode    Corresponding SPI command
+> > +=======   ==============================
+> > +0x0B      Read Single I/O
+> > +0x02      Write Single I/O
+> > +0xBB      Read Dual I/O
+> > +0xB2      Write Dual I/O
+> > +0xEB      Read Quad I/O
+> > +0xE2      Write Quad I/O
+> > +=======   ==============================
+> > +
+> > +In general, different touch IC has different OPCode definition. According to HIDSPI
+> > +protocol whitepaper, those OPCodes are defined in device ACPI table, and driver needs to
+> > +query those information through OS ACPI APIs during driver initialization, then configures
+> > +THC MMIO OPCode registers with correct setting.
+> > +
+> > +When THC is working in I2C mode, opcodes are used to tell THC what's the next PIO type:
+> > +I2C SubIP APB register read, I2C SubIP APB register write, I2C touch IC device read,
+> > +I2C touch IC device write, I2C touch IC device write followed by read.
+> > +
+> > +Here are the THC pre-defined opcodes for I2C mode:
+> > +
+> > +=======   ===================================================   ===========
+> > +opcode    Corresponding I2C command                             Address
+> > +=======   ===================================================   ===========
+> > +0x12      Read I2C SubIP APB internal registers                 0h - FFh
+> > +0x13      Write I2C SubIP APB internal registers                0h - FFh
+> > +0x14      Read external Touch IC through I2C bus                N/A
+> > +0x18      Write external Touch IC through I2C bus               N/A
+> > +0x1C      Write then read external Touch IC through I2C bus     N/A
+> > +=======   ===================================================   ===========
+> > +
+> > +3.2 PIO
+> > +-------
+> > +
+> > +THC provides a programmed I/O (PIO) access interface for the driver to access the touch IC's
+> > +configuration registers, or access I2C subIP's configuration registers. To use PIO to perform
+> > +I/O operations, driver should pre-program PIO control registers and PIO data registers and kick
+> > +off the sequencing cycle. THC uses different PIO opcodes to distinguish different PIO
+> > +operations (PIO read/write/write followed by read).
+> > +
+> > +If there is a Sequencing Cycle In Progress and an attempt is made to program any of the control,
+> > +address, or data register the cycle is blocked and a sequence error will be encountered.
+> > +
+> > +A status bit indicates when the cycle has completed allowing the driver to know when read results
+> > +can be checked and/or when to initiate a new command. If enabled, the cycle done assertion can
+> > +interrupt driver with an interrupt.
+> > +
+> > +Because THC only has 16 FIFO registers for PIO, so all the data transfer through PIO shouldn't
+> > +exceed 64 bytes.
+> > +
+> > +As DMA needs max packet size for transferring configuration, and the max packet size information
+> > +always in HID device descriptor which needs THC driver to read it out from HID Device (Touch IC).
+> > +So PIO typical use case is, before DMA initialization, write RESET command (PIO write), read
+> > +RESET response (PIO read or PIO write followed by read), write Power ON command (PIO write), read
+> > +device descriptor (PIO read).
+> > +
+> > +For how to issue a PIO operation, here is the steps which driver needs follow:
+> > +
+> > +- Program read/write data size in THC_SS_BC.
+> > +- Program I/O target address in THC_SW_SEQ_DATA0_ADDR.
+> > +- If write, program the write data in THC_SW_SEQ_DATA0..THC_SW_SEQ_DATAn.
+> > +- Program the PIO opcode in THC_SS_CMD.
+> > +- Set TSSGO = 1 to start the PIO write sequence.
+> > +- If THC_SS_CD_IE = 1, SW will receives a MSI when the PIO is completed.
+> > +- If read, read out the data in THC_SW_SEQ_DATA0..THC_SW_SEQ_DATAn.
+> > +
+> > +3.3 DMA
+> > +-------
+> > +
+> > +THC has 4 DMA channels: Read DMA1, Read DMA2, Write DMA and Software DMA.
+> > +
+> > +3.3.1 Read DMA Channel
+> > +~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +THC has two Read DMA engines: 1st RxDMA (RxDMA1) and 2nd RxDMA (RxDMA2). RxDMA1 is reserved for
+> > +raw data mode. RxDMA2 is used for HID data mode and it is the RxDMA engine currently driver uses
+> > +for HID input report data retrieval.
+> > +
+> > +RxDMA's typical use case is auto receiving the data from Touch IC. Once RxDMA is enabled by
+> > +software, THC will start auto-handling receiving logic.
+> > +
+> > +For SPI mode, THC RxDMA sequence is: when Touch IC triggers a interrupt to THC, THC reads out
+> > +report header to identify what's the report type, and what's the report length, according to
+> > +above information, THC reads out report body to internal FIFO and start RxDMA coping the data
+> > +to system memory. After that, THC update interrupt cause register with report type, and update
+> > +RxDMA PRD table read pointer, then trigger a MSI interrupt to notify driver RxDMA finishing
+> > +data receiving.
+> > +
+> > +For I2C mode, THC RxDMA's behavior is little difference, because of HIDI2C protocol difference with
+>                                      "a little bit different, ..."
+
+Thanks, will fix it.
+
+> > +HIDSPI protocol, RxDMA only be used to receive input report. The sequence is, when Touch IC
+> > +triggers a interrupt to THC, THC first reads out 2 bytes from input report address to determine the
+> > +packet length, then use this packet length to start a DMA reading from input report address for
+> > +input report data. After that, THC update RxDMA PRD table read pointer, then trigger a MSI interrupt
+> > +to notify driver input report data is ready in system memory.
+> > +
+> > +All above sequence is hardware automatically handled, all driver needs to do is configure RxDMA and
+> > +waiting for interrupt ready then read out the data from system memory.
+> > +
+> > +3.3.2 Software DMA channel
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +THC supports a software triggerred RxDMA mode to read the touch data from touch IC. This SW RxDMA
+> > +is the 3rd THC RxDMA engine with the similar functionalities as the existing two RxDMAs, the only
+> > +difference is this SW RxDMA is triggerred by software, and RxDMA2 is triggerred by external Touch IC
+> > +interrupt. It gives a flexiblity to software driver to use RxDMA read Touch IC data in any time.
+> > +
+> > +Before software starts a SW RxDMA, it shall stop the 1st and 2nd RxDMA, clear PRD read/write pointer
+> > +and quiesce the device interrupt (THC_DEVINT_QUIESCE_HW_STS = 1), other operations are the same with
+> > +RxDMA.
+> > +
+> > +3.3.3 Write DMA Channel
+> > +~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +THC has one write DMA engine, which can be used for sending data to Touch IC automatically.
+> > +According to HIDSPI and HIDI2C protocol, every time only one command can be sent to touch IC, and
+> > +before last command is completely handled, next command cannot be sent, THC write DMA engine only
+> > +supports single PRD table.
+> > +
+> > +What driver needs to do is, preparing PRD table and DMA buffer, then copy data to DMA buffer and
+> > +update PRD table with buffer address and buffer length, then start write DMA. THC will
+> > +automatically send the data to touch IC, and trigger a DMA completion interrupt once transferring
+> > +is done.
+> > +
+> > +3.4 PRD
+> > +-------
+> > +
+> > +Physical Region Descriptor (PRD) provides the memory mapping description for THC DMAs.
+> > +
+> > +3.4.1 PRD table and entry
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +In order to improve physical DMA memory usage, modern drivers trend to allocate a virtually
+> > +contiguous, but physically fragmented buffer of memory for each data buffer. Linux OS also
+> > +provide SGL (scatter gather list) APIs to support this usage.
+> > +
+> > +THC uses PRD table (physical region descriptor) to support the corresponding OS kernel
+> > +SGL that describes the virtual to physical buffer mapping.
+> > +
+> > +::
+> > +
+> > +  ------------------------      --------------       --------------
+> > + | PRD table base address +----+ PRD table #1 +-----+ PRD Entry #1 |
+> > +  ------------------------      --------------       --------------
+> > +                                                     --------------
+> > +                                                    | PRD Entry #2 |
+> > +                                                     --------------
+> > +                                                     --------------
+> > +                                                    | PRD Entry #n |
+> > +                                                     --------------
+> > +
+> > +The read DMA engine supports multiple PRD tables held within a circular buffer that allow the THC
+> > +to support multiple data buffers from the Touch IC. This allows host SW to arm the Read DMA engine
+> > +with multiple buffers, allowing the Touch IC to send multiple data frames to the THC without SW
+> > +interaction. This capability is required when the CPU processes touch frames slower than the
+> > +Touch IC can send them.
+> > +
+> > +To simplify the design, SW assumes worst-case memory fragmentation. Therefore,each PRD table shall
+> > +contain the same number of PRD entries, allowing for a global register (per Touch IC) to hold the
+> > +number of PRD-entries per PRD table.
+> > +
+> > +SW allocates up to 128 PRD tables per Read DMA engine as specified in the THC_M_PRT_RPRD_CNTRL.PCD
+> > +register field. The number of PRD tables should equal the number of data buffers.
+> > +
+> > +Max OS memory fragmentation will be at a 4KB boundary, thus to address 1MB of virtually contiguous
+> > +memory 256 PRD entries are required for a single PRD Table. SW writes the number of PRD entries
+> > +for each PRD table in the THC_M_PRT_RPRD_CNTRL.PTEC register field. The PRD entry's length must be
+> > +multiple of 4KB except for the last entry in a PRD table.
+> > +
+> > +SW allocates all the data buffers and PRD tables only once at host initialization.
+> > +
+> > +3.4.2 PRD Write pointer and read pointer
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +As PRD tables are organized as a Circular Buffer (CB), a read pointer and a write pointer for a CB
+> > +are needed.
+> > +
+> > +DMA HW consumes the PRD tables in the CB, one PRD entry at a time until the EOP bit is found set
+> > +in a PRD entry. At this point HW increments the PRD read pointer. Thus, the read pointer points
+> > +to the PRD which the DMA engine is currently processing. This pointer rolls over once the circular
+> > +buffer's depth has been traversed with bit[7] the Rollover bit. E.g. if the DMA CB depth is equal
+> > +to 4 entries (0011b), then the read pointers will follow this pattern (HW is required to honor
+> > +this behavior): 00h 01h 02h 03h 80h 81h 82h 83h 00h 01h ...
+> > +
+> > +The write pointer is updated by SW. The write pointer points to location in the DMA CB, where the
+> > +next PRD table is going to be stored. SW needs to ensure that this pointer rolls over once the
+> > +circular buffer's depth has been traversed with Bit[7] as the rollover bit. E.g. if the DMA CB
+> > +depth is equal to 5 entries (0100b), then the write pointers will follow this pattern (SW is
+> > +required to honor this behavior): 00h 01h 02h 03h 04h 80h 81h 82h 83h 84h 00h 01h ..
+> > +
+> > +3.4.3 PRD descriptor structure
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +Intel THC uses PRD entry descriptor for every PRD entry. Every PRD entry descriptor occupies
+> > +128 bits memories:
+> > +
+> > +===================   ========   ===============================================
+> > +struct field          bit(s)     description
+> > +===================   ========   ===============================================
+> > +dest_addr             53..0      destination memory address, as every entry
+> > +                                 is 4KB, ignore lowest 10 bits of address.
+> > +reserved1             54..62     reserved
+> > +int_on_completion     63         completion interrupt enable bit, if this bit
+> > +                                 set it means THC will trigger a completion
+> > +                                 interrupt. This bit is set by SW driver.
+> > +len                   87..64     how many bytes of data in this entry.
+> > +end_of_prd            88         end of PRD table bit, if this bit is set,
+> > +                                 it means this entry is last entry in this PRD
+> > +                                 table. This bit is set by SW driver.
+> > +hw_status             90..89     HW status bits
+> > +reserved2             127..91    reserved
+> > +===================   ========   ===============================================
+> > +
+> > +And one PRD table can include up to 256 PRD entries, as every entries is 4K bytes, so every
+> > +PRD table can describe 1M bytes memory.
+> > +
+> > +.. code-block:: c
+> > +
+> > +   struct thc_prd_table {
+> > +        struct thc_prd_entry entries[PRD_ENTRIES_NUM];
+> > +   };
+> > +
+> > +In general, every PRD table means one HID touch data packet. Every DMA engine can support
+> > +up to 128 PRD tables (except write DMA, write DMA only has one PRD table). SW driver is responsible
+> > +to get max packet length from touch IC, and use this max packet length to create PRD entries for
+> > +each PRD table.
+> > +
+> > +4. HIDSPI support (QuickSPI)
+> > +============================
+> > +
+> > +Intel THC is total compatible with HIDSPI protocol, THC HW sequenser can accelerate HIDSPI
+> > +protocol transferring.
+> > +
+> > +4.1 Reset Flow
+> > +--------------
+> > +
+> > +- Call ACPI _RST method to reset Touch IC device.
+> > +- Read the reset response from TIC through PIO read.
+> > +- Issue a command to retrieve device descriptor from Touch IC through PIO write.
+> > +- Read the device descriptor from Touch IC through PIO read.
+> > +- If the device descriptor is valid, allocate DMA buffers and configure all DMA channels.
+> > +- Issue a command to retrieve report descriptor from Touch IC through DMA.
+> > +
+> > +4.2 Input Report Data Flow
+> > +--------------------------
+> > +
+> > +Basic Flow:
+> > +
+> > +- Touch IC interrupts the THC Controller using an in-band THC interrupt.
+> > +- THC Sequencer reads the input report header by transmitting read approval as a signal
+> > +  to the Touch IC to prepare for host to read from the device.
+> > +- THC Sequencer executes a Input Report Body Read operation corresponding to the value
+> > +  reflected in “Input Report Length” field of the Input Report Header.
+> > +- THC DMA engine begins fetching data from the THC Sequencer and writes to host memory
+> > +  at PRD entry 0 for the current CB PRD table entry. This process continues until the
+> > +  THC Sequencer signals all data has been read or the THC DMA Read Engine reaches the
+> > +  end of it's last PRD entry (or both).
+> > +- The THC Sequencer checks for the “Last Fragment Flag” bit in the Input Report Header.
+> > +  If it is clear, the THC Sequencer enters an idle state.
+> > +- If the “Last Fragment Flag” bit is enabled the THC Sequencer enters End-of-Frame Processing.
+> > +
+> > +THC Sequencer End of Frame Processing:
+> > +
+> > +- THC DMA engine increments the read pointer of the Read PRD CB, sets EOF interrupt status
+> > +  in RxDMA2 register (THC_M_PRT_READ_DMA_INT_STS_2).
+> > +- If THC EOF interrupt is enabled by the driver in the control register (THC_M_PRT_READ_DMA_CNTRL_2),
+> > +  generates interrupt to software.
+> > +
+> > +Sequence of steps to read data from RX DMA buffer:
+> > +
+> > +- THC QuickSPI driver checks CB write Ptr and CB read Ptr to identify if any data frame in DMA
+> > +  circular buffers.
+> > +- THC QuickSPI driver gets first unprocessed PRD table.
+> > +- THC QuickSPI driver scans all PRD entries in this PRD table to calculate the total frame size.
+> > +- THC QuickSPI driver copies all frame data out.
+> > +- THC QuickSPI driver checks the data type according to input report body, and calls related
+> > +  callbacks to process the data.
+> > +- THC QuickSPI driver updates write Ptr.
+> > +
+> > +4.3 Output Report Data Flow
+> > +---------------------------
+> > +
+> > +Generic Output Report Flow:
+> > +
+> > +- HID core calls raw_request callback with a request to THC QuickSPI driver.
+> > +- THC QuickSPI Driver converts request provided data into the output report packet and copies it
+> > +  to THC's write DMA buffer.
+> > +- Start TxDMA to complete the write operation.
+> > +
+> > +5. HIDI2C support (QuickI2C)
+> > +============================
+> > +
+> > +5.1 Reset Flow
+> > +--------------
+> > +
+> > +- Read device descriptor from Touch IC device through PIO write followed by read.
+> > +- If the device descriptor is valid, allocate DMA buffers and configure all DMA channels.
+> > +- Use PIO or TxDMA to write a SET_POWER request to TIC's command register, and check if the
+> > +  write operation is successfully completed.
+> > +- Use PIO or TxDMA to write a RESET request to TIC's command register. If the write operation
+> > +  is successfully completed, wait for reset response from TIC.
+> > +- Use SWDMA to read report descriptor through TIC's report descriptor register.
+> > +
+> > +5.2 Input Report Data Flow
+> > +--------------------------
+> > +
+> > +Basic Flow:
+> > +
+> > +- Touch IC asserts the interrupt indicating that it has an interrupt to send to HOST.
+> > +  THC Sequencer issues a READ request over the I2C bus. The HIDI2C device returns the
+> > +  first 2 bytes from the HIDI2C device which contains the length of the received data.
+> > +- THC Sequencer continues the Read operation as per the size of data indicated in the
+> > +  length field.
+> > +- THC DMA engine begins fetching data from the THC Sequencer and writes to host memory
+> > +  at PRD entry 0 for the current CB PRD table entry. THC writes 2Bytes for length field
+> > +  plus the remaining data to RxDMA buffer. This process continues until the THC Sequencer
+> > +  signals all data has been read or the THC DMA Read Engine reaches the end of it's last
+> > +  PRD entry (or both).
+> > +- THC Sequencer enters End-of-Input Report Processing.
+> > +- If the device has no more input reports to send to the host, it de-asserts the interrupt
+> > +  line. For any additional input reports, device keeps the interrupt line asserted and
+> > +  steps 1 through 4 in the flow are repeated.
+> > +
+> > +THC Sequencer End of Input Report Processing:
+> > +
+> > +- THC DMA engine increments the read pointer of the Read PRD CB, sets EOF interrupt status
+> > +  in RxDMA 2 register (THC_M_PRT_READ_DMA_INT_STS_2).
+> > +- If THC EOF interrupt is enabled by the driver in the control register
+> > +  (THC_M_PRT_READ_DMA_CNTRL_2), generates interrupt to software.
+> > +
+> > +Sequence of steps to read data from RX DMA buffer:
+> > +
+> > +- THC QuickI2C driver checks CB write Ptr and CB read Ptr to identify if any data frame in DMA
+> > +  circular buffers.
+> > +- THC QuickI2C driver gets first unprocessed PRD table.
+> > +- THC QuickI2C driver scans all PRD entries in this PRD table to calculate the total frame size.
+> > +- THC QuickI2C driver copies all frame data out.
+> > +- THC QuickI2C driver call hid_input_report to send the input report content to HID core, which
+> > +  includes Report ID + Report Data Content (remove the length field from the original report
+> > +  data).
+> > +- THC QuickI2C driver updates write Ptr.
+> > +
+> > +5.3 Output Report Data Flow
+> > +---------------------------
+> > +
+> > +Generic Output Report Flow:
+> > +
+> > +- HID core call THC QuickI2C raw_request callback.
+> > +- THC QuickI2C uses PIO or TXDMA to write a SET_REPORT request to TIC's command register. Report
+> > +  type in SET_REPORT should be set to Output.
+> > +- THC QuickI2C programs TxDMA buffer with TX Data to be written to TIC's data register. The first
+> > +  2 bytes should indicate the length of the report followed by the report contents including
+> > +  Report ID.
+> > +
+> > +6. THC Debugging
+> > +================
+> > +
+> > +To debug THC, event tracing mechanism is used. To enable debug logs::
+> > +
+> > +  echo 1 > /sys/kernel/debug/tracing/events/intel_thc/enable
+> > +  cat /sys/kernel/debug/tracing/trace
+> > +
+> > +7. Reference
+> > +============
+> > +- HIDSPI: https://download.microsoft.com/download/c/a/0/ca07aef3-3e10-4022-b1e9-c98cea99465d/HidSpiProtocolSpec.pdf
+> > +- HIDI2C: https://download.microsoft.com/download/7/d/d/7dd44bb7-2a7a-4505-ac1c-7227d3d96d5b/hid-over-i2c-protocol-spec-v1-0.docx
+> 
+> The rest looks good.
+> 
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Thank you very much!
+
+Best Regards,
+Even Xu
+
+> 
+> -- 
+> An old man doll... just what I always wanted! - Clara
+> 
+> [-- Attachment #2: signature.asc --]
+> [-- Type: application/pgp-signature, Size: 228 bytes --]
 
