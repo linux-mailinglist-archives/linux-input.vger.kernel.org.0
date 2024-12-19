@@ -1,201 +1,353 @@
-Return-Path: <linux-input+bounces-8694-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8695-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A769F855E
-	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 21:07:42 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7609F875A
+	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 22:53:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 03C0C16CA44
-	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 20:07:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B679188372E
+	for <lists+linux-input@lfdr.de>; Thu, 19 Dec 2024 21:53:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB4D01BCA05;
-	Thu, 19 Dec 2024 20:02:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96BDB1C5CA8;
+	Thu, 19 Dec 2024 21:53:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="vBiqfcfL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EzsQwbAD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352191B85D4;
-	Thu, 19 Dec 2024 20:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511488F6D;
+	Thu, 19 Dec 2024 21:53:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734638546; cv=none; b=JvnkJ1RCg9eE6xbz1VRj9ISTQv0PEJqEdGzZd+rIeMFuZtJO5lK1GRi4VfT/9NwoekCgOICUCkMfhDFxvvJHnPF1VyiTERRfAR+Y0rq84TljeGKVkJyuH6Q74IpEM1dlFXTQrOuoAtFFvAavdmHsciw2E3ftl0no2cYA3EAPBZQ=
+	t=1734645208; cv=none; b=FlmXQMXbvkcxO0uug5lgQX+BFg9zC3iPreeTwL/Bq5yNQYZMP3VyBu/vcKd8VH0vv7ZfD1YXT3EFbUvxySmLi52GfpreMW7iRngS38JaiSkYSbGzSCkybTq533CP1/c88ud3lYgzwff+XNxycupJIcuAFN5kbjy8YbRBYIGd37A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734638546; c=relaxed/simple;
-	bh=3E1Tb12F+l4dP3zB5NxFkn7UV3D8TCq4z0Ef116fyLo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=brHQmyjIYI2PXXVkDDQAul7hvyan58LH0QvBGmj5LZyPt20BQ5+vdw+NIs2WKmY10Bou382vaMwo2GYywXUrbh562VNap88DQgQGIw8MxUDYQ6I03duP4PKwjMPWGMqUJ7RbjeoBaI1woWkIu+CkNDlJfCw0akY0zA/TNEDG1q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=vBiqfcfL; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Tp2pK6lzyD5U9SMCt2mZyhgNP17G7t7mTEM/wB/wlzQ=; b=vBiqfcfLrYdj2SfSKxFCxxLjK5
-	+BS3nhubWvI92g3iIT3ypQf/dHEO/g1f4zOpaKzpvZEkvmPLoEPep20OfdzOiF2SAWqbnhTytrPdA
-	uJVoWP87LdoKm3S+yL2kc94F48IauVLGVGpB/Q1Wy51CmGC0fh3qxpWm7VJUqeUNWE8WDVJl4MuKQ
-	q2eS+OKgcX7UDcMJrvQ4PlWw7PHEuZty29h2oTg7fH79wzGku+teodDzj3V5awl2mb7A3z1R5Uzd6
-	7EBx3lL/rpI4kEgylLcBNvjVY438SLRm13XuU67Eb/Y+fxgQElD/NL/09Xisvf18vDUwJPoJfNKJx
-	twovPmzA==;
-Received: from i53875bfb.versanet.de ([83.135.91.251] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1tOMic-0002JL-NF; Thu, 19 Dec 2024 21:01:58 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: lee@kernel.org, jikos@kernel.org, jic23@kernel.org,
- Kees Bakker <kees@ijzerbout.nl>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- jdelvare@suse.com, linux@roeck-us.net, srinivas.pandruvada@linux.intel.com,
- bentiss@kernel.org, dmitry.torokhov@gmail.com, pavel@ucw.cz,
- ukleinek@debian.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-leds@vger.kernel.org
-Subject: Re: [PATCH v9 4/9] mfd: add base driver for qnap-mcu devices
-Date: Thu, 19 Dec 2024 21:01:57 +0100
-Message-ID: <5047567.0VBMTVartN@diego>
-In-Reply-To: <4cecc705-84ab-44d5-8725-eb973254f257@ijzerbout.nl>
-References:
- <20241107114712.538976-1-heiko@sntech.de> <3130486.CbtlEUcBR6@diego>
- <4cecc705-84ab-44d5-8725-eb973254f257@ijzerbout.nl>
+	s=arc-20240116; t=1734645208; c=relaxed/simple;
+	bh=SZHMXZo8UFK80a78XkZE9RnxiiIbtlS3hQmuAlJndcg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eXhufZ0oVwKEQ+eGMcX1WV7AALvZiXN4LsCHZjP8f5vJ7VhBZNhnvjkqhViWNh5yLf6e8qCuQ78+2e68VXuuo4WO5oQtN3ia2eIBJh/sDqWHusGyyvw0n4A7x6ENTkSFUhxvS3eN6Cdv5VWtP+yGpmOpNkgt1vaJ/tumJe/X1qU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EzsQwbAD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18D12C4CECE;
+	Thu, 19 Dec 2024 21:53:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734645207;
+	bh=SZHMXZo8UFK80a78XkZE9RnxiiIbtlS3hQmuAlJndcg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EzsQwbADHT5/DTZImq087Ryw+jm79h7zByFikDExi/gjmVLiDv0aqzKjw2AOC/5dG
+	 +dT/2EtVzwjOpbibDv7ONHWf3bF3PRp5ksWm7uR6s0opWQhY/0FpsR7OZLdjhKjnzZ
+	 SaQbQOeAreHtq2xsBLMcPrtJHQ3y90pPSQZPT6VktuVxyj+FrRpWUJ7pGtUu+Ww3ua
+	 FeF2o953OO9OQ7wHmGexKfr4w6mrXnIQAMNdaO/QJxxaCMztp6itJbvlDLAfcDg2Dr
+	 cYIOMdeD14DwIasJuznxyU58W9mS9TSvKbuL+poEOwXNH7KwZak0iUACPsU0uW4x8P
+	 amNZm9DOqbsPA==
+Date: Thu, 19 Dec 2024 22:53:24 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: mathieu.dubois-briand@bootlin.com
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Kamel Bouhara <kamel.bouhara@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	=?utf-8?Q?Gr=C3=A9gory?= Clement <gregory.clement@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 4/8] pwm: max7360: Add MAX7360 PWM support
+Message-ID: <dmfnpq57n3s32o33pm7wfppr5nttdvtuthe7hf32psmykotrox@mogq35gj6rjq>
+References: <20241219-mdb-max7360-support-v1-0-8e8317584121@bootlin.com>
+ <20241219-mdb-max7360-support-v1-4-8e8317584121@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="l674q7a73qucv7pw"
+Content-Disposition: inline
+In-Reply-To: <20241219-mdb-max7360-support-v1-4-8e8317584121@bootlin.com>
+
+
+--l674q7a73qucv7pw
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Subject: Re: [PATCH 4/8] pwm: max7360: Add MAX7360 PWM support
+MIME-Version: 1.0
 
-Am Donnerstag, 19. Dezember 2024, 20:51:41 CET schrieb Kees Bakker:
-> Op 19-12-2024 om 20:43 schreef Heiko St=FCbner:
-> > Hi Kees,
-> >
-> > Am Donnerstag, 19. Dezember 2024, 20:18:38 CET schrieb Kees Bakker:
-> >> Op 07-11-2024 om 12:47 schreef Heiko Stuebner:
-> >>> These microcontroller units are used in network-attached-storage devi=
-ces
-> >>> made by QNAP and provide additional functionality to the system.
-> >>>
-> >>> This adds the base driver that implements the serial protocol via
-> >>> serdev and additionally hooks into the poweroff handlers to turn
-> >>> off the parts of the system not supplied by the general PMIC.
-> >>>
-> >>> Turning off (at least the TSx33 devices using Rockchip SoCs) consists=
- of
-> >>> two separate actions. Turning off the MCU alone does not turn off the=
- main
-> >>> SoC and turning off only the SoC/PMIC does not turn off the hard-driv=
-es.
-> >>> Also if the MCU is not turned off, the system also won't start again =
-until
-> >>> it is unplugged from power.
-> >>>
-> >>> So on shutdown the MCU needs to be turned off separately before the
-> >>> main PMIC.
-> >>>
-> >>> The protocol spoken by the MCU is sadly not documented, but was
-> >>> obtained by listening to the chatter on the serial port, as thankfully
-> >>> the "hal_app" program from QNAPs firmware allows triggering all/most
-> >>> MCU actions from the command line.
-> >>>
-> >>> The implementation of how to talk to the serial device got some
-> >>> inspiration from the rave-sp servdev driver.
-> >>>
-> >>> Signed-off-by: Heiko Stuebner <heiko@sntech.de>
-> >>> ---
-> >>>    MAINTAINERS                  |   6 +
-> >>>    drivers/mfd/Kconfig          |  13 ++
-> >>>    drivers/mfd/Makefile         |   2 +
-> >>>    drivers/mfd/qnap-mcu.c       | 338 +++++++++++++++++++++++++++++++=
-++++
-> >>>    include/linux/mfd/qnap-mcu.h |  26 +++
-> >>>    5 files changed, 385 insertions(+)
-> >>>    create mode 100644 drivers/mfd/qnap-mcu.c
-> >>>    create mode 100644 include/linux/mfd/qnap-mcu.h
-> >>>
-> >>> [...]
-> >>> diff --git a/drivers/mfd/qnap-mcu.c b/drivers/mfd/qnap-mcu.c
-> >>> new file mode 100644
-> >>> index 000000000000..4be39d8b2905
-> >>> --- /dev/null
-> >>> +++ b/drivers/mfd/qnap-mcu.c
-> >>> [...]
-> >>> +int qnap_mcu_exec(struct qnap_mcu *mcu,
-> >>> +		  const u8 *cmd_data, size_t cmd_data_size,
-> >>> +		  u8 *reply_data, size_t reply_data_size)
-> >>> +{
-> >>> +	unsigned char rx[QNAP_MCU_RX_BUFFER_SIZE];
-> >>> +	size_t length =3D reply_data_size + QNAP_MCU_CHECKSUM_SIZE;
-> >>> +	struct qnap_mcu_reply *reply =3D &mcu->reply;
-> >>> +	int ret =3D 0;
-> >>> +
-> >>> +	if (length > sizeof(rx)) {
-> >>> +		dev_err(&mcu->serdev->dev, "expected data too big for receive buff=
-er");
-> >>> +		return -EINVAL;
-> >>> +	}
-> >>> +
-> >>> +	mutex_lock(&mcu->bus_lock);
-> >>> +
-> >>> +	reply->data =3D rx,
-> >>> +	reply->length =3D length,
-> >>> +	reply->received =3D 0,
-> >>> +	reinit_completion(&reply->done);
-> >>> +
-> >>> +	qnap_mcu_write(mcu, cmd_data, cmd_data_size);
-> >>> +
-> >>> +	serdev_device_wait_until_sent(mcu->serdev, msecs_to_jiffies(QNAP_MC=
-U_TIMEOUT_MS));
-> >>> +
-> >>> +	if (!wait_for_completion_timeout(&reply->done, msecs_to_jiffies(QNA=
-P_MCU_TIMEOUT_MS))) {
-> >>> +		dev_err(&mcu->serdev->dev, "Command timeout\n");
-> >>> +		ret =3D -ETIMEDOUT;
-> >>> +	} else {
-> >>> +		u8 crc =3D qnap_mcu_csum(rx, reply_data_size);
-> >> Here `rx` is still not initialized.
-> > The MCU works in a way that a sent command always causes "reply_data_si=
-ze"
-> > bytes to be returned.
-> >
-> > So for each qnap_mcu_write() above we know that this amount of bytes has
-> > been returned (and thus written into rx) if the completion above finish=
-es
-> > sucessfully.
-> >
-> > "rx" is assigned to reply->data above (same as the expected received si=
-ze).
-> > When characters are received on the serial line, this will trigger
-> > qnap_mcu_receive_buf() from the serdev and thus fill those elements in =
-rx.
-> >
-> > So if we land at the qnap_mcu_csum() call, we do have received the expe=
-cted
-> > amount of bytes from the serdev and thus rx is filled accordingly.
-> >
-> > If we don't receive the needed amount of bytes, we end up in the timeout
-> > above that.
-> >
-> > What did I miss?
-> Sorry, my fault. I missed the essential part of the external event (exter=
-nal
-> for this function that is).
-> Thanks for explaining.
+Hello,
 
-no worries :-) .
+On Thu, Dec 19, 2024 at 05:21:21PM +0100, mathieu.dubois-briand@bootlin.com=
+ wrote:
+> From: Kamel Bouhara <kamel.bouhara@bootlin.com>
+>=20
+> Add driver for Maxim Integrated MAX7360 PWM controller, supporting up to
+> 8 independent PWM outputs.
+>=20
+> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> ---
+>  drivers/pwm/Kconfig       |  11 +++
+>  drivers/pwm/Makefile      |   1 +
+>  drivers/pwm/pwm-max7360.c | 173 ++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  3 files changed, 185 insertions(+)
+>=20
+> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
+> index 0915c1e7df16..399dc3f76e92 100644
+> --- a/drivers/pwm/Kconfig
+> +++ b/drivers/pwm/Kconfig
+> @@ -745,4 +745,15 @@ config PWM_XILINX
+>  	  To compile this driver as a module, choose M here: the module
+>  	  will be called pwm-xilinx.
+> =20
+> +config PWM_MAX7360
+> +	tristate "MAX7360 PWMs"
+> +	depends on MFD_MAX7360
+> +	depends on OF_GPIO
+> +	help
+> +	  PWM driver for Maxim Integrated MAX7360 multifunction device, with
+> +	  support for up to 8 PWM outputs.
+> +
+> +	  To compile this driver as a module, choose M here: the module
+> +	  will be called pwm-max7360.
+> +
+>  endif
+> diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
+> index 9081e0c0e9e0..ae8908ffc892 100644
+> --- a/drivers/pwm/Makefile
+> +++ b/drivers/pwm/Makefile
+> @@ -36,6 +36,7 @@ obj-$(CONFIG_PWM_LPC32XX)	+=3D pwm-lpc32xx.o
+>  obj-$(CONFIG_PWM_LPSS)		+=3D pwm-lpss.o
+>  obj-$(CONFIG_PWM_LPSS_PCI)	+=3D pwm-lpss-pci.o
+>  obj-$(CONFIG_PWM_LPSS_PLATFORM)	+=3D pwm-lpss-platform.o
+> +obj-$(CONFIG_PWM_MAX7360)	+=3D pwm-max7360.o
+>  obj-$(CONFIG_PWM_MESON)		+=3D pwm-meson.o
+>  obj-$(CONFIG_PWM_MEDIATEK)	+=3D pwm-mediatek.o
+>  obj-$(CONFIG_PWM_MICROCHIP_CORE)	+=3D pwm-microchip-core.o
+> diff --git a/drivers/pwm/pwm-max7360.c b/drivers/pwm/pwm-max7360.c
+> new file mode 100644
+> index 000000000000..b1cde3e86864
+> --- /dev/null
+> +++ b/drivers/pwm/pwm-max7360.c
+> @@ -0,0 +1,173 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright 2024 Bootlin
+> + *
+> + * Author: Kamel BOUHARA <kamel.bouhara@bootlin.com>
+> + */
+> +#include <linux/math.h>
+> +#include <linux/mfd/max7360.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pwm.h>
+> +#include <linux/regmap.h>
+> +
+> +#define MAX7360_NUM_PWMS			8
+> +#define MAX7360_PWM_MAX_RES			256
+> +#define MAX7360_PWM_PERIOD_NS			2000000 /* 500 Hz */
+> +#define MAX7360_PWM_COMMON_PWN			BIT(5)
+> +#define MAX7360_PWM_CTRL_ENABLE(n)		BIT(n)
+> +#define MAX7360_PWM_PORT(n)			BIT(n)
+> +
+> +struct max7360_pwm {
+> +	struct device *dev;
+> +	struct regmap *regmap;
+> +};
+> +
+> +static inline struct max7360_pwm *to_max7360_pwm(struct pwm_chip *chip)
+> +{
+> +	return pwmchip_get_drvdata(chip);
+> +}
+> +
+> +static int max7360_pwm_request(struct pwm_chip *chip, struct pwm_device =
+*pwm)
+> +{
+> +	struct max7360_pwm *max7360_pwm;
+> +	int ret;
+> +
+> +	max7360_pwm =3D to_max7360_pwm(chip);
+> +	ret =3D max7360_port_pin_request(max7360_pwm->dev->parent, pwm->hwpwm,
+> +				       true);
+> +	if (ret) {
+> +		dev_err(&chip->dev, "failed to request pwm-%d\n", pwm->hwpwm);
 
-The more eyes, the better.
+Please no error messages after probe.
 
-Heiko
+> +		return ret;
+> +	}
+> +
+> +	ret =3D regmap_write_bits(max7360_pwm->regmap,
+> +				MAX7360_REG_PWMCFG + pwm->hwpwm,
+> +				MAX7360_PWM_COMMON_PWN,
+> +				0);
+> +	if (ret) {
+> +		dev_err(&chip->dev, "failed to write pwm-%d cfg register, error %d\n",
+> +			pwm->hwpwm, ret);
+> +		return ret;
+> +	}
+> +
+> +	ret =3D regmap_write_bits(max7360_pwm->regmap, MAX7360_REG_PORTS,
+> +				MAX7360_PWM_PORT(pwm->hwpwm),
+> +				MAX7360_PWM_PORT(pwm->hwpwm));
+> +	if (ret) {
+> +		dev_err(&chip->dev, "failed to write pwm-%d ports register, error %d\n=
+",
+> +			pwm->hwpwm, ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void max7360_pwm_free(struct pwm_chip *chip, struct pwm_device *p=
+wm)
+> +{
+> +	struct max7360_pwm *max7360_pwm;
+> +	int ret;
+> +
+> +	max7360_pwm =3D to_max7360_pwm(chip);
+> +	ret =3D regmap_write_bits(max7360_pwm->regmap, MAX7360_REG_GPIOCTRL,
+> +				MAX7360_PWM_CTRL_ENABLE(pwm->hwpwm),
+> +				0);
+> +	if (ret)
+> +		dev_err(&chip->dev, "failed to enable pwm-%d , error %d\n",
+> +			pwm->hwpwm, ret);
+> +
+> +	max7360_port_pin_request(max7360_pwm->dev->parent, pwm->hwpwm,
+> +				 false);
+> +}
+> +
+> +static int max7360_pwm_apply(struct pwm_chip *chip, struct pwm_device *p=
+wm,
+> +			     const struct pwm_state *state)
+> +{
+> +	struct max7360_pwm *max7360_pwm;
+> +	u64 duty_steps =3D state->duty_cycle * MAX7360_PWM_MAX_RES;
 
+This might overflow.
 
+> +	int ret;
+> +
+> +	if (state->polarity !=3D PWM_POLARITY_NORMAL)
+> +		return -EINVAL;
+> +
+> +	max7360_pwm =3D to_max7360_pwm(chip);
+> +	ret =3D regmap_write_bits(max7360_pwm->regmap, MAX7360_REG_GPIOCTRL,
+> +				MAX7360_PWM_CTRL_ENABLE(pwm->hwpwm),
+> +				MAX7360_PWM_CTRL_ENABLE(pwm->hwpwm));
+> +	if (ret) {
+> +		dev_err(&chip->dev, "failed to enable pwm-%d , error %d\n",
+> +			pwm->hwpwm, ret);
+> +		return ret;
+> +	}
+> +
+> +	do_div(duty_steps, MAX7360_PWM_PERIOD_NS);
+> +
+> +	ret =3D regmap_write(max7360_pwm->regmap, MAX7360_REG_PWMBASE + pwm->hw=
+pwm,
+> +			   duty_steps >=3D 255 ? 255 : duty_steps);
+> +	if (ret) {
+> +		dev_err(&chip->dev,
+> +			"failed to apply pwm duty_cycle %llu on pwm-%d, error %d\n",
+> +			duty_steps, pwm->hwpwm, ret);
+> +		return ret;
+> +	}
+
+Huh, state->period isn't used at all. That is wrong for sure.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct pwm_ops max7360_pwm_ops =3D {
+> +	.request =3D max7360_pwm_request,
+> +	.free =3D max7360_pwm_free,
+> +	.apply =3D max7360_pwm_apply,
+
+Please implement .get_state() (or the new waveform callbacks)
+
+> +};
+> +
+> +static int max7360_pwm_probe(struct platform_device *pdev)
+> +{
+> +	struct max7360_pwm *max7360_pwm;
+> +	struct pwm_chip *chip;
+> +
+> +	if (!pdev->dev.parent) {
+> +		dev_err(&pdev->dev, "no parent device\n");
+> +		return -ENODEV;
+
+return dev_err_probe(...);
+
+> +	}
+> +
+> +	chip =3D devm_pwmchip_alloc(&pdev->dev, MAX7360_NUM_PWMS,
+> +				  sizeof(*max7360_pwm));
+> +	if (IS_ERR(chip))
+> +		return PTR_ERR(chip);
+> +	chip->ops =3D &max7360_pwm_ops;
+> +
+> +	max7360_pwm =3D to_max7360_pwm(chip);
+> +	max7360_pwm->dev =3D &pdev->dev;
+
+This is only ever used to get max7360_pwm->dev->parent; so better store
+the parent directly in max7360_pwm.
+
+> +
+> +	max7360_pwm->regmap =3D dev_get_regmap(pdev->dev.parent, NULL);
+> +	if (!max7360_pwm->regmap) {
+> +		dev_err(&pdev->dev, "could not get parent regmap\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	return devm_pwmchip_add(&pdev->dev, chip);
+
+error message please
+
+> +}
+> +
+> +#ifdef CONFIG_OF
+> +static const struct of_device_id max7360_pwm_of_match[] =3D {
+> +	{ .compatible =3D "maxim,max7360-pwm", },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, max7360_pwm_of_match);
+> +#endif
+
+Please drop the CONFIG_OF guard.
+
+> +
+> +static struct platform_driver max7360_pwm_driver =3D {
+> +	.driver =3D {
+> +		.name =3D "max7360-pwm",
+> +		.of_match_table =3D of_match_ptr(max7360_pwm_of_match),
+> +	},
+> +	.probe =3D max7360_pwm_probe,
+> +};
+> +module_platform_driver(max7360_pwm_driver);
+> +
+> +MODULE_DESCRIPTION("MAX7360 PWM driver");
+> +MODULE_AUTHOR("Kamel BOUHARA <kamel.bouhara@bootlin.com>");
+> +MODULE_ALIAS("platform:max7360-pwm");
+> +MODULE_LICENSE("GPL");
+
+--l674q7a73qucv7pw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdkldEACgkQj4D7WH0S
+/k7+cQgAuKweHK6PzSr+FW9o4C46vJOunHmP5QnDY/OevBWmLErEp2QIZG2a6k0r
+ym81OH3qFrHekOy8vcMXCSygACvLDoZRAB/HlMgT22mwYesPzbRt8Cl4gAev9hLM
+gL6p6OqKzcd7mTslsSnHSsf3wlUt1kOxtHO+FYIE6zq7z5iZY0oVcJ0hyxds1jtO
+m8lxR96o+Pt1O5liyHpXmy6qIrTx8xjVCOADxsVAaSsS5wGnSOYSCuJ6OaK51DzQ
+5nUlsZcuyqWQA8gjdor5Ai5l3wZ/JYwvskLr9wJKAgqNqa8adjTXuAapaTxtVx5O
+XD4P63Ni0CrDFRRz3yEVNMWNU0TT5A==
+=q/jG
+-----END PGP SIGNATURE-----
+
+--l674q7a73qucv7pw--
 
