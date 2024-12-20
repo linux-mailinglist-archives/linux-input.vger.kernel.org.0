@@ -1,183 +1,134 @@
-Return-Path: <linux-input+bounces-8710-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8711-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 325A49F9A73
-	for <lists+linux-input@lfdr.de>; Fri, 20 Dec 2024 20:28:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C59979F9CF6
+	for <lists+linux-input@lfdr.de>; Sat, 21 Dec 2024 00:02:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BEBB418974E9
-	for <lists+linux-input@lfdr.de>; Fri, 20 Dec 2024 19:26:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB8A0188F608
+	for <lists+linux-input@lfdr.de>; Fri, 20 Dec 2024 23:02:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41C1D221DB7;
-	Fri, 20 Dec 2024 19:25:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F10A0221DB7;
+	Fri, 20 Dec 2024 23:02:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mv/NqdFd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cf4ZbIEF"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3669C2206BB
-	for <linux-input@vger.kernel.org>; Fri, 20 Dec 2024 19:25:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2DC218E8F;
+	Fri, 20 Dec 2024 23:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734722716; cv=none; b=J3kXYB/A7inusMg6HHiVggIedpmAhgUsJw5RIFUXxJtDMvOuMgivxt9Y60Hka7uPjRRCnlm6rR7SXiPclNz7s49nXwvAof7UwTGhx/4jfWEg7zojjsXFa+9aPuaXPi/9GsFfvrYHS+nwoiokqN2VlLVJ7SJBvsiz+pm/bra2Qfs=
+	t=1734735751; cv=none; b=DNQ4p0oPxnpnmnCoqOgPmuC06oiGjiFMBM61FNkTsl/YzTqJdtgqEGi1LWd30OLWeB9yfxP7cPbqklNVMkaDjHQz4G17Xd1eQYoExVn4e09+bktaoTfe/gPtqLX4qzFsTRWRto67LMAqGkATMH7BAxqxSvY1MzbKArQvA7W4iQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734722716; c=relaxed/simple;
-	bh=nfhS06Ayye6R1XC2YITQF8UvfJVepkBtN4RX/JR43o0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nMp0XIu2qlXIm7T+X+rNtpgwu7MdKY2EImvamujfsUajFhauvWsyb+MN9tKAm+WzZUfX76DwB2YSNjHKj2I5h+4OccqVT73UKsDfXp+97XKm4Zuu+pMebMks0ANDU48IUh8z4a2JuEgQ+wnpFr+w7O8LteA0BryhD6BlRyn7QlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mv/NqdFd; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4361815b96cso15865605e9.1
-        for <linux-input@vger.kernel.org>; Fri, 20 Dec 2024 11:25:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734722711; x=1735327511; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pMwKXTQuxbITLfqkuPO9faM5Wqt8RWA68rd4+vY7cao=;
-        b=mv/NqdFdnzDrCjge+TVNegQKc7jzyh/yq8CGWFanulB9j9oWDEmKWlGmDsSSa5Oec6
-         AJpChyIdzAi3XsmCfsbZe8lAWx1Ikpvjg+mgOjL8ZUyaN8Cm0gsfDVAt4xCi+x93Wv2v
-         L4uxO2q2ojl8TTlRTR8K0aEI5izm4yI+xpVQ5Pb+Lz2ECtsBDPbfn8bQfbLq7JlvgpVf
-         wCvYWsCWE02sZES5XP13qEGNAMYKyWExS61IY+zT0nj4gV5T5PNCiUV/HwKaNnVhAbVB
-         +ey+vzhQTHgA97ZiN7aDSYpvBzzs2WPFI3sBox67stn/TM54oEPESfNBKgyEc1GweDmR
-         OkjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734722711; x=1735327511;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pMwKXTQuxbITLfqkuPO9faM5Wqt8RWA68rd4+vY7cao=;
-        b=DlgkLr265P8gf8Ij4xLrZMkP7UypVcEHNkBcun6gQSFiA2IxzwlpcZwN4jlVg67bEu
-         J5kxSmnvAV76XDFWwfKKCweLIKlgynYUIA9gmdVsNiijLq4sRKU5uG2t3a8lteqyI3aO
-         R8VLGdsLsSG1MLQ9bm2yeWT1fjtESs4ngijEZ+ZIRsUVBGYpx3qCq9MakOltBN98XVxS
-         rJz4kWRtrSSc+opYG3BKF4jjb4wqlw/nk9u7sOZJJookXIfWpOfnHo8agp0ROYFdqwRM
-         XBEvk/UikBXaIzEl8fq0RCvHPoT0QJoUpM+6i89l4bemN8C2SnIijBklnEcYht3ur3wA
-         SkRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX6wODj7J1dxkAWybDogN0lJCEC3+S2rVtkQjggb7Cbwds7dwK85qq+T8dMZz2B/orAMPUU/BP4hSJwzg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzr+Rl7lF7v2kQpOgYZKj+BeVMxMW3r7ItXTV04jAsFoI8CKRIK
-	uPb9MJd+nUa4qFhSTB5vMSVUKM/h+UfTq6CBO24NuHA0Mkz3EPT0r8Jk4ueDyRk=
-X-Gm-Gg: ASbGncv1THaL7JwxotpRLT/Ioyxi01FLjlurxrzGFKOXtXEtkix1KP+Cy8U3n4p9HRR
-	lhV9/tg8lhmvTd8IgkiDsyq85873O79Pqx9hMudyN5+OYji/VdmHwRfA6gnEdxJfylT8lFGaezl
-	GexL4RG6i+seOP5T2uVZLPFglmGFrcneL8e2Cc4EVPEbMtgWnjzjA9Lzxn+QeVkbmws+/fV5bad
-	FJ2n/gMsTI/DiPFPuXz73Tow3lM0X6hBw1S9yZHiZa5e6kLbIjBRDJ6wr9oH2z+g7nc0JNMLAcO
-	qPChGzNaCdYd4cwhNNlKXdICz6VoU0Fv/LxmHUhp4RlGMUSceOmcy1ByGL9NVOLe
-X-Google-Smtp-Source: AGHT+IHz8RzUSp1KM7kI01Wr+i40qkvd1/EJG2uYFI6ySetf1j7As+fO939uIKp1pE/Zex2B6iPr1g==
-X-Received: by 2002:a05:600c:470a:b0:434:e9ee:c1e with SMTP id 5b1f17b1804b1-43668b7a33dmr40093155e9.31.1734722711565;
-        Fri, 20 Dec 2024 11:25:11 -0800 (PST)
-Received: from green.cable.virginm.net (nail-04-b2-v4wan-169014-cust557.vm26.cable.virginm.net. [82.47.146.46])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c847214sm4710745f8f.46.2024.12.20.11.25.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Dec 2024 11:25:11 -0800 (PST)
-From: Terry Tritton <terry.tritton@linaro.org>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	Aseda Aboagye <aaboagye@chromium.org>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Terry Tritton <ttritton@google.com>,
-	Carlos Llamas <cmllamas@google.com>,
-	Terry Tritton <terry.tritton@linaro.org>
-Subject: [PATCH RESEND 1/1] input: fix generic desktop D-Pad controls
-Date: Fri, 20 Dec 2024 19:23:18 +0000
-Message-Id: <20241220192318.1174945-2-terry.tritton@linaro.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241220192318.1174945-1-terry.tritton@linaro.org>
-References: <20241220192318.1174945-1-terry.tritton@linaro.org>
+	s=arc-20240116; t=1734735751; c=relaxed/simple;
+	bh=YOM0sxWH2NOdQ0u5BkPEsP69Y/I1eG5N0wfi3uJ7IMw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NLfnS+IfX4yLGMdROxEErT559mNRY116eeXQXDhj5ym3o8cKDqXw+rdeH+CorCbCawHyd/02t8HZQKwrAlVj09fEIPKFi8gbVbQI0pcClA/ufvpjf9DDr1ijC+sVHI13EAjfN/JhwTEhwoXkx7dB4O4hbwPjfkgkk7gYBYkPDT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cf4ZbIEF; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734735750; x=1766271750;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YOM0sxWH2NOdQ0u5BkPEsP69Y/I1eG5N0wfi3uJ7IMw=;
+  b=cf4ZbIEF4JVC0j/tMxUFhanQzlIMCbHAcIqozWlRXuLLHwRUG2Qxtccv
+   IeyTDIw7Qn4SrDVUZr3g9iNxVsYDa0a7sB62pNsei5r1RgO20En89YP/l
+   nI2G0WjESfQ5KSXap8HfhOrrHY1qwz+H07wMyNHo/sXR3ugShj8lf0cWn
+   43FxBrquckxu2m7IREXIdMD+Qv7+hl9HvOq49iVPVfkmNt2VsCNSc55J9
+   qFKQtOQnuCQ2ZwDPcA1+w4UuRL/2j4canYREbdz88e7CS/wsGpUDKwhZs
+   Syhme7PYklDPtEOVQGN4yelnAlLlT1L44Gan4GpT2ZjtrcQTKFp5sSnGg
+   w==;
+X-CSE-ConnectionGUID: csslQBuzRl6QmJVlp+4FlQ==
+X-CSE-MsgGUID: p9Rcx2xQQlqOkfZ91ofJxA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="35007764"
+X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; 
+   d="scan'208";a="35007764"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 15:02:29 -0800
+X-CSE-ConnectionGUID: CaRNdNAcSueE7TASKZn7NQ==
+X-CSE-MsgGUID: 4X7QR5sVQvu52XqFyyAAYA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="102745710"
+Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 20 Dec 2024 15:02:25 -0800
+Received: from kbuild by a46f226878e0 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tOm0k-0001ix-3B;
+	Fri, 20 Dec 2024 23:02:22 +0000
+Date: Sat, 21 Dec 2024 07:01:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: mathieu.dubois-briand@bootlin.com, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Subject: Re: [PATCH 3/8] mfd: Add max7360 support
+Message-ID: <202412210613.xoQvMKlk-lkp@intel.com>
+References: <20241219-mdb-max7360-support-v1-3-8e8317584121@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241219-mdb-max7360-support-v1-3-8e8317584121@bootlin.com>
 
-The addition of the "System Do Not Disturb" event code caused the Generic
-Desktop D-Pad configuration to be skipped. This commit allows both to be
-configured without conflicting with each other.
+Hi,
 
-Fixes: 22d6d060ac77 ("input: Add support for "Do Not Disturb"")
-Signed-off-by: Terry Tritton <terry.tritton@linaro.org>
-Reviewed-by: Aseda Aboagye <aaboagye@chromium.org>
-Reviewed-by: Carlos Llamas <cmllamas@google.com>
----
- drivers/hid/hid-input.c | 37 +++++++++++++++++--------------------
- include/linux/hid.h     |  1 +
- 2 files changed, 18 insertions(+), 20 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index fda9dce3da99..9d80635a91eb 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -810,10 +810,23 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
- 			break;
- 		}
- 
--		if ((usage->hid & 0xf0) == 0x90) { /* SystemControl*/
--			switch (usage->hid & 0xf) {
--			case 0xb: map_key_clear(KEY_DO_NOT_DISTURB); break;
--			default: goto ignore;
-+		if ((usage->hid & 0xf0) == 0x90) { /* SystemControl & D-pad */
-+			switch (usage->hid) {
-+			case HID_GD_UP:	   usage->hat_dir = 1; break;
-+			case HID_GD_DOWN:  usage->hat_dir = 5; break;
-+			case HID_GD_RIGHT: usage->hat_dir = 3; break;
-+			case HID_GD_LEFT:  usage->hat_dir = 7; break;
-+			case HID_GD_DO_NOT_DISTURB:
-+				map_key_clear(KEY_DO_NOT_DISTURB); break;
-+			default: goto unknown;
-+			}
-+
-+			if (usage->hid <= HID_GD_LEFT) {
-+				if (field->dpad) {
-+					map_abs(field->dpad);
-+					goto ignore;
-+				}
-+				map_abs(ABS_HAT0X);
- 			}
- 			break;
- 		}
-@@ -844,22 +857,6 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
- 		if (field->application == HID_GD_SYSTEM_CONTROL)
- 			goto ignore;
- 
--		if ((usage->hid & 0xf0) == 0x90) {	/* D-pad */
--			switch (usage->hid) {
--			case HID_GD_UP:	   usage->hat_dir = 1; break;
--			case HID_GD_DOWN:  usage->hat_dir = 5; break;
--			case HID_GD_RIGHT: usage->hat_dir = 3; break;
--			case HID_GD_LEFT:  usage->hat_dir = 7; break;
--			default: goto unknown;
--			}
--			if (field->dpad) {
--				map_abs(field->dpad);
--				goto ignore;
--			}
--			map_abs(ABS_HAT0X);
--			break;
--		}
--
- 		switch (usage->hid) {
- 		/* These usage IDs map directly to the usage codes. */
- 		case HID_GD_X: case HID_GD_Y: case HID_GD_Z:
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 121d5b8bc867..80433ee3e5ae 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -218,6 +218,7 @@ struct hid_item {
- #define HID_GD_DOWN		0x00010091
- #define HID_GD_RIGHT		0x00010092
- #define HID_GD_LEFT		0x00010093
-+#define HID_GD_DO_NOT_DISTURB	0x0001009b
- /* Microsoft Win8 Wireless Radio Controls CA usage codes */
- #define HID_GD_RFKILL_BTN	0x000100c6
- #define HID_GD_RFKILL_LED	0x000100c7
+[auto build test WARNING on 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mathieu-Dubois-Briand/dt-bindings-Add-MAX7360-MFD-device/20241220-002541
+base:   78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
+patch link:    https://lore.kernel.org/r/20241219-mdb-max7360-support-v1-3-8e8317584121%40bootlin.com
+patch subject: [PATCH 3/8] mfd: Add max7360 support
+config: openrisc-randconfig-r122-20241220 (https://download.01.org/0day-ci/archive/20241221/202412210613.xoQvMKlk-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241221/202412210613.xoQvMKlk-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412210613.xoQvMKlk-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/mfd/max7360.c:52:27: sparse: sparse: symbol 'max7360_volatile_ranges' was not declared. Should it be static?
+
+vim +/max7360_volatile_ranges +52 drivers/mfd/max7360.c
+
+    51	
+  > 52	const struct regmap_range max7360_volatile_ranges[] = {
+    53		{
+    54			.range_min = MAX7360_REG_KEYFIFO,
+    55			.range_max = MAX7360_REG_KEYFIFO,
+    56		}, {
+    57			.range_min = 0x48,
+    58			.range_max = 0x4a,
+    59		},
+    60	};
+    61	
+
 -- 
-2.39.5
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
