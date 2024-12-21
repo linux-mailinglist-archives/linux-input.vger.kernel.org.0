@@ -1,78 +1,48 @@
-Return-Path: <linux-input+bounces-8713-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8714-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B309FA15F
-	for <lists+linux-input@lfdr.de>; Sat, 21 Dec 2024 16:28:17 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1BF39FA276
+	for <lists+linux-input@lfdr.de>; Sat, 21 Dec 2024 21:29:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D2CC163A96
-	for <lists+linux-input@lfdr.de>; Sat, 21 Dec 2024 15:28:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 58C0C7A260B
+	for <lists+linux-input@lfdr.de>; Sat, 21 Dec 2024 20:28:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C79B81FA8CB;
-	Sat, 21 Dec 2024 15:28:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5099C193084;
+	Sat, 21 Dec 2024 20:28:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W+DynyTZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SKP6AE4l"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158ED1BCA0F;
-	Sat, 21 Dec 2024 15:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FB6189913;
+	Sat, 21 Dec 2024 20:28:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734794891; cv=none; b=YNeH9DlrwvCevXCCrlxseur7GoHVg7PwhufXwDsFfc2T1IjHx3tYxAje9jf8y53cUy+0n1QmRsMiWCX282sprAcL9yVC1WVIVj0V+T7q3gqXgexKxIWMXB4p750Bgg4E5U9WOvJhnh8U0gERY+7UIB4pR+iM+/Tup05cp90FEuc=
+	t=1734812931; cv=none; b=nruHLPHEuL/1IwRGtr3/hMWs+FyBiJpjOrp4qKD8laDvHXvQ4Mz5TF5QxR6mxGX9hxRhiadc2ZEfOJEtIPEDQTcR0lrX/KcQNcPLuCqL3hyIUVnsqujpZN7Qzpi3puuV7d4MRzxsHDtlubG5/NadarMXXNGzLsp/Kg5nFdPjNvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734794891; c=relaxed/simple;
-	bh=BV079x7O6cKyfKzPx9emZyYcJRHoPMX3FNuiCbnmPdw=;
+	s=arc-20240116; t=1734812931; c=relaxed/simple;
+	bh=WrI4iWJJppWw+6WrFMPqz60jD8QAY4GKuXwQ0jobz7g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bX+WozH2yktff0Y4M7JcQLEyNHawV7SpT9RG6EmdoY4n06QQ6TWtLO/Gsxob3w/uAZyp1QlROxWQJIPSPI9RfkZaD6CpAuvr3qIiWrdpi196/QC6Q59MQUNRy2hVsZTrG4+Sxr20h4DZ6D5xV9kNCAelKIB1aGGfjJKYkZSGx6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W+DynyTZ; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43618283dedso28043915e9.3;
-        Sat, 21 Dec 2024 07:28:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734794888; x=1735399688; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=M/GHzKpSDemqfkSwfp0eht4g8id8IOmCGwES2fh/rtY=;
-        b=W+DynyTZZ8hDdYUK8nE0GaDVYXa+TvA8EtiTONYSosgpo7k+BRXtu3NQsCEU4ztYE0
-         KcZ7n/NCBZsT0XzlulrScfwvdzkFjStcURI02O0EIaGzgzw6Zu6dVJloEn1bkigunHUK
-         ViAiq5T0Fvy0JMGGxIGM1+sGlyLBKpu9oJM44+8+n/2D0KfNY5lzxQy0lzclrgB78of8
-         0Mn3Tip/fnTpyR1zy42e+1WjCstHoQrP7xYe0MTfcVx+xeSfJJXMBlvx6uy9OrHckAsJ
-         TrdXecQyr5SdbvosRVYrX0gY8OnoeK7pnk3K61UBZJPoL6YPDUi+3YBhDvGn7XxsdxzF
-         GoVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734794888; x=1735399688;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M/GHzKpSDemqfkSwfp0eht4g8id8IOmCGwES2fh/rtY=;
-        b=MDcsO+hr3Bm9dLJ7y+ZPjuPNIrQoSJRqS8s6b64zuaHo0yo3vLR19Ld+F1u0g4I/bK
-         1lRhkXJJDRYHvR7dUs7pp5NdfJjIr2y+UsTUu9ikdePoTJ/riULu90mXo791cA/zf5iy
-         3lCzlaBocxLGmf6CwEis6vUa/j9TeES42tgJ2zG1Zlq18Un7tykndS4pCc4Wm/zztHvg
-         XoSl37BSo/zLRrcSPQOX/mC7clR6x9UXALcjT7+uVVuoW6sOpnvju5KQquCMrJ7VsYfx
-         cyPVXTFJVO7eYAVbKP0boXnwyit35/TeGYNqTMx2kEbIbYe/LDYEetX/LW6zPEGqqyNU
-         IUkg==
-X-Forwarded-Encrypted: i=1; AJvYcCXO54xc/VUXL5ALmuOwhzRSAwVPJcJ88SJOZx6OmnJmdJifsP32f3UCtu6vpNEIYOmqA1T/RFuxXz435w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEujq5zub8EuLHBgAadaqK2+5zcNcL4rKRVnjK6tJfwHM4lFd8
-	BYz79m8uzeyrs2/1vBts+tHd/Dxqwqh8n/J/Kl3QgaDjtT69IYXw
-X-Gm-Gg: ASbGncs3gULmCyr6RKkOdMbcW+iPC9D1WsElK63J889mgaAkZExmBa8v7P0s/eYIKnQ
-	kQkM3SVE6e1oVk8k5zJf/bdTOZHgYPdqrwQm07SPads0O+kouGdcDm61iEZEU+RoTOM0K+gQ3Ku
-	NRE3AIthUi+ZEgdz4Q+5mRTCowQ3mXzAiluXXUeI7WKJn32QYS3Rlbt8Zxbnb8QrDd2BsvY6UaX
-	3Em8nOw8FSb920+NgnyJ6Lide0FIh/+h/J+y3GGXt+MzgilYO5ax5xMmMk65x+YH869NA==
-X-Google-Smtp-Source: AGHT+IFIJvP55Olie/6A7NMFKvx6jVYZcdLne06ivQdO4pkNRmQZGTWC+v+PYs2VHYUj2he1OUhbcQ==
-X-Received: by 2002:a05:6000:1ac6:b0:386:2ebe:7ac3 with SMTP id ffacd0b85a97d-38a22408fb1mr5042958f8f.56.1734794888167;
-        Sat, 21 Dec 2024 07:28:08 -0800 (PST)
-Received: from [192.168.1.10] ([95.43.220.235])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-43656b11495sm112033595e9.19.2024.12.21.07.28.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Dec 2024 07:28:07 -0800 (PST)
-Message-ID: <61a0c65e-386f-40d6-bc5f-f2b5a8d03cb5@gmail.com>
-Date: Sat, 21 Dec 2024 17:28:06 +0200
+	 In-Reply-To:Content-Type; b=JBbmkFc4s8/e7ch+voRjwAe93jGt93zgZEcUlGigxP6ZODrzMpiMT0iJTdXMLX23rEUBInZSTgahngaUtuGhvlhE0miW9xk/242EcZQ2SYtgVPtmS+Wx+nzQW6OSthdrQHrSAMer83sr3M1H8D32boePWCNme5VT0RfvH1flW4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SKP6AE4l; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAF38C4CECE;
+	Sat, 21 Dec 2024 20:28:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734812930;
+	bh=WrI4iWJJppWw+6WrFMPqz60jD8QAY4GKuXwQ0jobz7g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SKP6AE4lW6VKF9VZH+J9jteiggRT9D6sAN+ITZWnzSIs25J/QkqWR5sL2x/lmaTaZ
+	 dv7D+CvUjsgBOsxyhh7M1MqRZODvCHqmGlOjwDEVcxeD28kiQRtJFy1nkSLwDaOqM+
+	 upoRSfNLtF/SeihOj7CgEIejDD1C7xEfJqeeSWf9SiRK1Y1CnZzkbeQ4prr15vFzhb
+	 d8NB3oLw/dDuNcKG4IeGvODqpAZFcOW0CC6D3XxHYFaTrewArw9eo/nHp2dxyZzA+g
+	 Kx1VDod3LfvM4If/xk2OprHATf9EiieVkIqHZCgorGr0IGAEx3GXpRg8fi5Aqu4fLH
+	 XZDbgGDdAeaTg==
+Message-ID: <1090e560-85d8-4644-836d-45a31fbaa14c@kernel.org>
+Date: Sat, 21 Dec 2024 21:28:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -80,45 +50,165 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] Drivers: input: misc: Add driver touchscreen-buttons
- to support physically labeled buttons on touch screen surfaces
-To: Carl Philipp Klemm <philipp@uvos.xyz>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-omap@vger.kernel.org, linux-input@vger.kernel.org, tony@atomide.com
-References: <20201115194421.b08f1458bc383c38d74d9982@uvos.xyz>
-Content-Language: en-GB
-From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-In-Reply-To: <20201115194421.b08f1458bc383c38d74d9982@uvos.xyz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 1/8] dt-bindings: Add MAX7360 MFD device
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Kamel Bouhara <kamel.bouhara@bootlin.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-pwm@vger.kernel.org, =?UTF-8?Q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20241219-mdb-max7360-support-v1-0-8e8317584121@bootlin.com>
+ <20241219-mdb-max7360-support-v1-1-8e8317584121@bootlin.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20241219-mdb-max7360-support-v1-1-8e8317584121@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 19/12/2024 17:21, Mathieu Dubois-Briand wrote:
+> Add device tree bindings for Maxim Integrated MAX7360 MFD device with
+> support for keypad, rotary, gpios and pwm functionalities.
 
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
 
+Subject/commit msg: drop MFD and explain what the hardware is. MFD is
+Linuxism.
 
-On 15.11.20 г. 20:44 ч., Carl Philipp Klemm wrote:
-> Adds a driver for supporting permanet, physically labeled, buttons on
-> touchscreen surfaces. As are common on android phones designed with android 1.0
-> to 2.3 in mind. The driver works by attaching to another input device and
-> mirroring its events, while inserting key events and filtering for touches that
-> land on the buttons. Buttons are arbitrary rectangles configurable via dts.
 > 
-> Signed-off-by: Carl Philipp Klemm <philipp@uvos.xyz>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 > ---
-> 
-> Changes since v2:
-> - Decrease the potential for memory leaks by migrating to devm_* where possible
-> 
-> ---
->   drivers/input/misc/Kconfig               |   8 +
->   drivers/input/misc/Makefile              |   1 +
->   drivers/input/misc/touchscreen-buttons.c | 587 +++++++++++++++++++++++
->   3 files changed, 596 insertions(+)
->   create mode 100644 drivers/input/misc/touchscreen-buttons.c
-> 
+>  Documentation/devicetree/bindings/mfd/max7360.yaml | 56 ++++++++++++++++++++++
 
-Did that patch somehow went unnoticed?
+Use compatible as filename.
+>  1 file changed, 56 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/max7360.yaml b/Documentation/devicetree/bindings/mfd/max7360.yaml
+> new file mode 100644
+> index 000000000000..49dd437fd313
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/max7360.yaml
+> @@ -0,0 +1,56 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/max7360.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Maxim MAX7360 Keypad, Rotary encoder, PWM and GPIO controller
+> +
+> +maintainers:
+> +  - Kamel Bouhara <kamel.bouhara@bootlin.com>
+> +  - Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> +
+> +description: |
+> +  Maxim MAX7360 MFD device, with following functions:
+> +    - keypad controller
+> +    - rotary controller
+> +    - GPIO and GPO controller
+> +    - PWM controller
+> +
+> +  https://www.analog.com/en/products/max7360.html
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - maxim,max7360
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    description: The interrupt line the device is connected to.
 
-Regards,
-Ivo
+Drop description,
+
+> +    maxItems: 1
+
+I don't think this was tested at all. It is heavily incomplete,
+considering this is sort of MFD device.
+
+Or you split patches in odd way. Look how other PMIC-style things are
+upstreamed.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      max7360@38 {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
+> +        compatible = "maxim,max7360";
+> +        reg = <0x38>;
+> +
+Best regards,
+Krzysztof
 
