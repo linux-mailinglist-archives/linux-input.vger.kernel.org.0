@@ -1,102 +1,119 @@
-Return-Path: <linux-input+bounces-8735-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8736-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 386639FB0C6
-	for <lists+linux-input@lfdr.de>; Mon, 23 Dec 2024 16:38:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D829FB0C8
+	for <lists+linux-input@lfdr.de>; Mon, 23 Dec 2024 16:38:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E02A188345F
-	for <lists+linux-input@lfdr.de>; Mon, 23 Dec 2024 15:38:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A0F418834C6
+	for <lists+linux-input@lfdr.de>; Mon, 23 Dec 2024 15:38:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD0042561D;
-	Mon, 23 Dec 2024 15:38:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A771413BAE3;
+	Mon, 23 Dec 2024 15:38:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Ga2/ZtHa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B24D182BC
-	for <linux-input@vger.kernel.org>; Mon, 23 Dec 2024 15:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.126.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04CC182BC;
+	Mon, 23 Dec 2024 15:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734968287; cv=none; b=lTzi3rXaxhH7//BfYg6lNRFoE7AnJsian8pxo2Urzo0FVdPyxg2AKdLrgU7CZBuPo1K9IQc/Ma3s9NOBEwEBcAV5W5UuNfkvY13oRTc7NKs7bpoXD5cLIRTMydq2y3WLVNucLL3qRQwe74sb27XrCcHvHnL7wXHjO4vuMfAvCLQ=
+	t=1734968309; cv=none; b=nuDgwnrII8drADWoSxJsMDHmiHGsgjZxwthMyG6Hz6YUHJksgodzcZ6BJtWtx8nGsOl0Hxp6lvDSgMaC1sB9rusK9rQxQxY+R7Fy1Caz3DQYiWERLDmKmPhqW9+pBxq78wPqXzeS9BxzZ1exYXyBRNeW7r36vn81NdQLkWJE60c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734968287; c=relaxed/simple;
-	bh=1WimSthChkAwXwVh5HkaoTufIA8BM5E44BMXOxJIG/o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u5JJas/jHSR5x/qF8BrPML3dw9yFsjjZBT0y+HFexyUpGlLcWw8GGcfAKNIZMBpVTvGECAKSbCwLQzUb+BBw2FPP7VKQpP5kvw10Iid2u+dlJA4ekwb1Sg32cnejbkInPt6b3lexYRIS0fZWiB97fLKVNVsbWhMu9WnDYu2+Ho4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=notsyncing.net; spf=pass smtp.mailfrom=notsyncing.net; arc=none smtp.client-ip=212.227.126.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=notsyncing.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=notsyncing.net
-Received: from kronii.fritz.box ([88.130.217.11]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MHmuE-1tN3Le3GT8-001cGn; Mon, 23 Dec 2024 16:37:56 +0100
-From: Markus Koch <markus@notsyncing.net>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Marek Vasut <marex@denx.de>,
-	linux-input@vger.kernel.org,
-	Markus Koch <markus@notsyncing.net>
-Subject: [PATCH 1/1] input: touchscreen: ads7846: Use managed variant to get pendown GPIO
-Date: Mon, 23 Dec 2024 16:34:47 +0100
-Message-ID: <20241223153453.12924-3-markus@notsyncing.net>
-X-Mailer: git-send-email 2.47.1
+	s=arc-20240116; t=1734968309; c=relaxed/simple;
+	bh=uaLfURuzOkNBSfj5sUx00RxSLYZQgFLEtJ9+LCytNUo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Subject:Cc:
+	 References:In-Reply-To; b=g4U4GNHbvPB3zRnTFB3XOhoDLJB32Mwppvl7xYGStn4Ef/qI6Hiwmx8chCCPQV313qgM5gRjltEdJY6GafYke8CXnN9/sEtUwe7oAJlbUYNN7beS4sxkl3KPB9u3sK/IE3a8zLEnuUmaY6o8l/5mupzr/+O04jfQlOTfbkjpeyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Ga2/ZtHa; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C6E8B40006;
+	Mon, 23 Dec 2024 15:38:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1734968299;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F85i2gcGXFN1XWOpKvV1lhIuzHTAUwRGExUYtZfnlcw=;
+	b=Ga2/ZtHaei3hfTKqwBf+TwmjhFXHrmtfZ9ktV/fwLzFKHvO778Gvy+kSN2r5ING5N+lXGb
+	0IolShWGQAlqOcD2Ok+j0AropBFl9ietgCV84zlzK7qQnO79Vgcwt7OGew6O5ELgphvDwq
+	TUrgLZ1uQ1gm+kvKxROpW4m+zBvILs5q91kihKV4WzbYArq1WxBvid+SWVqQeEl6ELYB5h
+	hhtQfXxu3Uvaf7JVY976jYgpxuMjAni3DkMuGAWchUe/lM6tcHbeY8EVyBVUTVFlxNkvbl
+	tsurSVHHCoWwpmzs2ZHTwdKpE7g89+eFU7c9cUmAiZDfziPtDbHsd7/IPd9T6g==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Dt7E7oyHMkcNsmmlntSx5+fMvDmge3SZmkYMwZ679fYXXsEUOP3
- jSnxxpW/7FyqyInGeXmd/Z4ctAFqMGZ8mBRx98OZlzhRam+oW/AIgkV292pFFhS0Lot/GS2
- 0RTqBKNjJ5N0DDIyukAn5gIFPT0HuKZA5iiMTKt0HNnQAIkqVyesMhqoogesSNjNoNlBr5t
- Qz2ikN66FPwDPVxLhN68w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:iPo6ubeu+aI=;BmobqUymYLexJAkUoxX3y93HhQW
- u2hk3qCW7afQPp2lPi3nm1qVyhzXv4UICnPxBnVjHddFeThRCFdmRnSpVSjf4wxv3QY8YZXBI
- AyAs/d5jpZ1nH+uKV/BvSqtIfDFIiYkqwIweo3C9B65QkJPC4TPDAlCdf8cpYjkcfEFJ0W5Sc
- +zMeWFlt4KKC8kP7DPcGcdoky3CqIezC/0glF6SFaKWGjIKijYk6fqB/HNDP5+fKiDcBoiV6q
- y8Eak3XhRKVRGpaOrtvEmZHgPpQfaKwyUvygpUiUZ3hH/e7zVNrEi1mo3apFUl/uLW297QVHe
- RHr5+k+n4iMWvW9GUKeEXa94ChMnE2OXGmoFR0x6fWfYsCzKn3pmjb4ybMJOnCNsMuQtHrpsE
- jKVNszVD5xytc2z6zUk/lYtMV/pEusLxQdW+swTrItWi9nSXIqQxNONCzmVWOnFtJNjrMWA8M
- dab4FzNyliikKxycJ+n1LFj0Ndvho/BlrzdfKwmyE3ACcM9u6xI8LHYS9G2wG7BiaKlcNiafQ
- xqWkUf0RJMf8bp5pC1VUzv2vywM+3hyUuxss5uquHxJSMbGCgpII9dA8jYqqUoRwKhLwn9aZ8
- 1vIYgkzPDUXTCK3uvUuCpJoFWmi6mWWr/8PyyDlkTvvYeyZQdKJ9RL26JcRZQGJEGPp4V9yFR
- t4NZUmA33JDv8nEFYaiKc1M6+Jsg4uGRfHYY+U7zCroL1MBbbntl+DnqESaZQ/FbkN+sYeWoN
- jBwtRF2x7kO2TMAF0g9+S21Xvd7UyGDPa8fpOJct3ewtopHQ8FidqKXamxuLwlTPU/fEveCFv
- oGTbFjJrQ2AkTVUHlL5HgoTprRKewm9paFo7p/mrrjD6muBTo9W+ESOwGbP50NNMzc58vc3LZ
- ppfzl7wc1ryzgehFGS5WO5VIs2Djn+yd0UqXDIg9tR/m/0azzmZRwGhmjWvDg09ibpqh94Fzg
- U6JQ0V5D5yn6AHKApC/o+fImgLa0ttHNr75LgYoL6l5IkYVo1xRMpwQBfMs6nZNygH97UQMtB
- UKVrFqYJMLNCb2jTmlq1nBBJOek+kZJM0eAGaOA
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 23 Dec 2024 16:38:18 +0100
+Message-Id: <D6J6XL605TZW.32SZT5CC3P1IH@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH 6/8] input: keyboard: Add support for MAX7360 keypad
+Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
+ Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20241219-mdb-max7360-support-v1-0-8e8317584121@bootlin.com>
+ <20241219-mdb-max7360-support-v1-6-8e8317584121@bootlin.com>
+ <Z2R1ju7pNd-BBLJ4@google.com>
+In-Reply-To: <Z2R1ju7pNd-BBLJ4@google.com>
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-Removing and re-probing the driver failed with an error to request the
-pendown GPIO because it is never released in the remove function.
+On Thu Dec 19, 2024 at 8:35 PM CET, Dmitry Torokhov wrote:
+> Hi Mathieu,
+>
+> On Thu, Dec 19, 2024 at 05:21:23PM +0100, Mathieu Dubois-Briand wrote:
+> > +
+> > +	input_set_capability(input, EV_MSC, MSC_SCAN);
+> > +	if (!max7360_keypad->no_autorepeat)
+> > +		__set_bit(EV_REP, input->evbit);
+> > +
+> > +	input_set_drvdata(input, max7360_keypad);
+> > +
+> > +	flags =3D IRQF_TRIGGER_LOW | IRQF_ONESHOT | IRQF_SHARED;
+>
+> Shared? Why? And why do you need a temp variable?
+>
 
-This patch replaces the original gpiod_get function call with the
-managed devm_gpiod_get variant, which automatically releases the GPIO
-when the module is unloaded.
+Ok, this is probably wrong.
 
-Signed-off-by: Markus Koch <markus@notsyncing.net>
----
-Tested on an IMX53-based platform.
----
- drivers/input/touchscreen/ads7846.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I have a board using the MAX7360, were both interrupt lines of the
+chipset (INTI, interrupt for GPIO and rotary encoder and INTK, interrupt
+for the keypad) have been both wired to the same pin on the CPU side. So
+on this board, the interrupt line is indeed shared between the three
+corresponding drivers.
 
-diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-index 607f18af7010..212dafa0bba2 100644
---- a/drivers/input/touchscreen/ads7846.c
-+++ b/drivers/input/touchscreen/ads7846.c
-@@ -1011,7 +1011,7 @@ static int ads7846_setup_pendown(struct spi_device *spi,
- 	if (pdata->get_pendown_state) {
- 		ts->get_pendown_state = pdata->get_pendown_state;
- 	} else {
--		ts->gpio_pendown = gpiod_get(&spi->dev, "pendown", GPIOD_IN);
-+		ts->gpio_pendown = devm_gpiod_get(&spi->dev, "pendown", GPIOD_IN);
- 		if (IS_ERR(ts->gpio_pendown)) {
- 			dev_err(&spi->dev, "failed to request pendown GPIO\n");
- 			return PTR_ERR(ts->gpio_pendown);
--- 
-2.47.1
+Yet this is probably very specific to my board, as I have seen no data
+about MAXIM suggesting this design. So having IRQF_SHARED is probably
+more a hack than a valid implementation. I will drop it in my next
+series.
+
+>
+> Thanks.
+
+Thanks a lot for you review, I am preparing a new version of this series
+that should address all your comments.
+
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
