@@ -1,119 +1,86 @@
-Return-Path: <linux-input+bounces-8736-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8737-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D829FB0C8
-	for <lists+linux-input@lfdr.de>; Mon, 23 Dec 2024 16:38:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D767C9FB0D5
+	for <lists+linux-input@lfdr.de>; Mon, 23 Dec 2024 16:44:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A0F418834C6
-	for <lists+linux-input@lfdr.de>; Mon, 23 Dec 2024 15:38:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 35DF31883EC1
+	for <lists+linux-input@lfdr.de>; Mon, 23 Dec 2024 15:44:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A771413BAE3;
-	Mon, 23 Dec 2024 15:38:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 746881B219B;
+	Mon, 23 Dec 2024 15:44:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Ga2/ZtHa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X4g9N+KP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04CC182BC;
-	Mon, 23 Dec 2024 15:38:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C02A1B2183;
+	Mon, 23 Dec 2024 15:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734968309; cv=none; b=nuDgwnrII8drADWoSxJsMDHmiHGsgjZxwthMyG6Hz6YUHJksgodzcZ6BJtWtx8nGsOl0Hxp6lvDSgMaC1sB9rusK9rQxQxY+R7Fy1Caz3DQYiWERLDmKmPhqW9+pBxq78wPqXzeS9BxzZ1exYXyBRNeW7r36vn81NdQLkWJE60c=
+	t=1734968676; cv=none; b=VJ0bWfUbyCdvZlo4UZvPrwFryyk9fUNgSf6Nj8afow6CaLXPBh/2Oj86ONaLgWDDsQgYL+luQRNn0KcZAUNInWxxHvzHjYLFTrl/RnRj+nQtGuF1oOtvyvanpcZHV3sR1jtBJDbfAgen6cgSunMPm9wp/Nz8m9wwFlBbI9n8Mtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734968309; c=relaxed/simple;
-	bh=uaLfURuzOkNBSfj5sUx00RxSLYZQgFLEtJ9+LCytNUo=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Subject:Cc:
-	 References:In-Reply-To; b=g4U4GNHbvPB3zRnTFB3XOhoDLJB32Mwppvl7xYGStn4Ef/qI6Hiwmx8chCCPQV313qgM5gRjltEdJY6GafYke8CXnN9/sEtUwe7oAJlbUYNN7beS4sxkl3KPB9u3sK/IE3a8zLEnuUmaY6o8l/5mupzr/+O04jfQlOTfbkjpeyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Ga2/ZtHa; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C6E8B40006;
-	Mon, 23 Dec 2024 15:38:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1734968299;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F85i2gcGXFN1XWOpKvV1lhIuzHTAUwRGExUYtZfnlcw=;
-	b=Ga2/ZtHaei3hfTKqwBf+TwmjhFXHrmtfZ9ktV/fwLzFKHvO778Gvy+kSN2r5ING5N+lXGb
-	0IolShWGQAlqOcD2Ok+j0AropBFl9ietgCV84zlzK7qQnO79Vgcwt7OGew6O5ELgphvDwq
-	TUrgLZ1uQ1gm+kvKxROpW4m+zBvILs5q91kihKV4WzbYArq1WxBvid+SWVqQeEl6ELYB5h
-	hhtQfXxu3Uvaf7JVY976jYgpxuMjAni3DkMuGAWchUe/lM6tcHbeY8EVyBVUTVFlxNkvbl
-	tsurSVHHCoWwpmzs2ZHTwdKpE7g89+eFU7c9cUmAiZDfziPtDbHsd7/IPd9T6g==
+	s=arc-20240116; t=1734968676; c=relaxed/simple;
+	bh=P58BfM1eLX8nsbarr8LbXy7rbCHGW8IEeTz+FqnUKWY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HeRHlfAY2ACSh1Pb5d630BPIZE8+cszoRWojsxYXZjMlrYsj/56i1IJ+8cX1kigQTNyidy/Un4/daVw1FIgqGd0d3HuE384RTkqjZrH/aX1EKRchEZRxhln0bT+ZUeZeLLDsnSB7yv/a9/Z3ohKiyjiYkaxD30aGlL+eTcH6Gk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X4g9N+KP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6710EC4CED3;
+	Mon, 23 Dec 2024 15:44:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734968676;
+	bh=P58BfM1eLX8nsbarr8LbXy7rbCHGW8IEeTz+FqnUKWY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X4g9N+KPNqW0RxnI16bsJjOeWE9zDNZjaiw6LVONzqPNNmNUWPE6bxtxQYqQSCS6l
+	 fvgpsa+N7tcoaCndjdh/1K9lhWUko4typP0hOdpAEFIKrH5Totua2gJdpmqzxo55qZ
+	 +yj1FjFW+aAJvqosmnbazKupvINeNlxKKFOPHS6ds9REf2Cbc/CqPCUY2/0xtm43Hc
+	 43iWsdxMhuN/9UAiqhMKV/U97sb53jj5BbNCJhBJa5HanE+FcemrDEsvpFCyFGbbph
+	 vXBvnWwtAmo4PO4l+iA3tJ8TSupXmRyF7QrfRqbL26ENAgp7TAPNrk0YdNjWVFgBAb
+	 oevOO3sqanlfQ==
+Date: Mon, 23 Dec 2024 16:44:33 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Sebastian Reichel <sre@kernel.org>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
+	Purism Kernel Team <kernel@puri.sm>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v13 02/10] dt-bindings: power: supply: max17042: add
+ max77705 support
+Message-ID: <mkl76lbmsoyiewssj52le4jpp3up2s7qrot444wokeafraxvay@55xsjrp35c3l>
+References: <20241223-starqltechn_integration_upstream-v13-0-fbc610c70832@gmail.com>
+ <20241223-starqltechn_integration_upstream-v13-2-fbc610c70832@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 23 Dec 2024 16:38:18 +0100
-Message-Id: <D6J6XL605TZW.32SZT5CC3P1IH@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH 6/8] input: keyboard: Add support for MAX7360 keypad
-Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
- Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
- <gregory.clement@bootlin.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20241219-mdb-max7360-support-v1-0-8e8317584121@bootlin.com>
- <20241219-mdb-max7360-support-v1-6-8e8317584121@bootlin.com>
- <Z2R1ju7pNd-BBLJ4@google.com>
-In-Reply-To: <Z2R1ju7pNd-BBLJ4@google.com>
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241223-starqltechn_integration_upstream-v13-2-fbc610c70832@gmail.com>
 
-On Thu Dec 19, 2024 at 8:35 PM CET, Dmitry Torokhov wrote:
-> Hi Mathieu,
->
-> On Thu, Dec 19, 2024 at 05:21:23PM +0100, Mathieu Dubois-Briand wrote:
-> > +
-> > +	input_set_capability(input, EV_MSC, MSC_SCAN);
-> > +	if (!max7360_keypad->no_autorepeat)
-> > +		__set_bit(EV_REP, input->evbit);
-> > +
-> > +	input_set_drvdata(input, max7360_keypad);
-> > +
-> > +	flags =3D IRQF_TRIGGER_LOW | IRQF_ONESHOT | IRQF_SHARED;
->
-> Shared? Why? And why do you need a temp variable?
->
+On Mon, Dec 23, 2024 at 04:59:39PM +0300, Dzmitry Sankouski wrote:
+> Add max77705 fuel gauge support.
+> 
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> ---
+> Changes in v10:
+> - keep alphabetical order
+> ---
+>  Documentation/devicetree/bindings/power/supply/maxim,max17042.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-Ok, this is probably wrong.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-I have a board using the MAX7360, were both interrupt lines of the
-chipset (INTI, interrupt for GPIO and rotary encoder and INTK, interrupt
-for the keypad) have been both wired to the same pin on the CPU side. So
-on this board, the interrupt line is indeed shared between the three
-corresponding drivers.
-
-Yet this is probably very specific to my board, as I have seen no data
-about MAXIM suggesting this design. So having IRQF_SHARED is probably
-more a hack than a valid implementation. I will drop it in my next
-series.
-
->
-> Thanks.
-
-Thanks a lot for you review, I am preparing a new version of this series
-that should address all your comments.
-
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Best regards,
+Krzysztof
 
 
