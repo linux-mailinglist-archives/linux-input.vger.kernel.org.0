@@ -1,213 +1,242 @@
-Return-Path: <linux-input+bounces-8754-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8756-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED3FC9FBA15
-	for <lists+linux-input@lfdr.de>; Tue, 24 Dec 2024 08:08:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E99139FBAD6
+	for <lists+linux-input@lfdr.de>; Tue, 24 Dec 2024 10:00:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0BDB1188469B
-	for <lists+linux-input@lfdr.de>; Tue, 24 Dec 2024 07:08:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C3D61161F55
+	for <lists+linux-input@lfdr.de>; Tue, 24 Dec 2024 09:00:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0729D187FE0;
-	Tue, 24 Dec 2024 07:08:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F9F218BBAC;
+	Tue, 24 Dec 2024 09:00:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b="P8pslRpL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QFPUsrfC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-162.mimecast.com (us-smtp-delivery-162.mimecast.com [170.10.133.162])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25950170A26
-	for <linux-input@vger.kernel.org>; Tue, 24 Dec 2024 07:08:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.162
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3978C2BB15;
+	Tue, 24 Dec 2024 09:00:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735024123; cv=none; b=rnn7jGpsMLLxvKTpoIznDaITRwAcGq8Yrz+ELU9YnE70KMr/SncluB3Zcjc9AoUflb/DFXL+9g+TJ16Ew5XSuMqyLE96ik9VDngcWBfMK1xywfkp6fpSePYAMuYx2dBOPH6XHa7jBYJM2F3oBmZNUubRheGoG5rpymThmCYHA/U=
+	t=1735030824; cv=none; b=ppc8svZNEfinL5AlpFuFjlYdHfOmp8ZnlywNwqdH8aipMfVWWUIH44CJmpUFe4JqYCAwKseUQmYRRs/TcHCYveGbTTQn4H6vouZCGl7AafrLzWqNncEFcS1nx4q9bqWxZJ83SQKWF3Oi5Jys8PMpO5PWOjqEJt5u71TvXPfZbIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735024123; c=relaxed/simple;
-	bh=qUkkLHrQ4WXcKVnQImhnpoTl7P/786aruC+18Jg/tz0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:content-type; b=cqzVUgAEtAeYyBAZ2HOwRuFdK5hLKO2yln6UtzQbg6pGXgWFqdWBMIStReE1uPnmI7EUnf0j3Yq78hpNudwN1UhrK5K5Da9qaI/c6uI+iN6dnP05gcxKGnl6iXqB1+3KEz/K/ytHefPYWVXjj+bCLUeBXONGAaGXFoytm0CxfRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com; spf=pass smtp.mailfrom=hp.com; dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b=P8pslRpL; arc=none smtp.client-ip=170.10.133.162
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hp.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hp.com; s=mimecast20180716;
-	t=1735024121;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=daS+cNBbyPVNBsY+IGPoUbU95r5o0SLP4Vy1d8J8nRg=;
-	b=P8pslRpLDtmMXY9JS0lugyPANWgH1W+uORumSvblmEGIVfzL9iNcsO5K6lmXuxXiawyCgd
-	fVz3sCNIMOinK0xOJl7nAMj8aGUMNS+CzhRS7B7Xj+NYNeJCEDPCGpiF1I8v1MLXB473yd
-	C90yNll5QLEpXXEoPhFJQtWoegMHU5g=
-Received: from g7t16451g.inc.hp.com (hpifallback.mail.core.hp.com
- [15.73.128.137]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-490-c3ScVXkbNW2jDuDdSlMTHA-1; Tue, 24 Dec 2024 02:08:39 -0500
-X-MC-Unique: c3ScVXkbNW2jDuDdSlMTHA-1
-X-Mimecast-MFC-AGG-ID: c3ScVXkbNW2jDuDdSlMTHA
-Received: from g7t16459g.inc.hpicorp.net (g7t16459g.inc.hpicorp.net [15.63.18.36])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by g7t16451g.inc.hp.com (Postfix) with ESMTPS id AC6B86001741;
-	Tue, 24 Dec 2024 07:08:38 +0000 (UTC)
-Received: from mail.hp.com (unknown [15.32.134.51])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by g7t16459g.inc.hpicorp.net (Postfix) with ESMTPS id 0D2186000096;
-	Tue, 24 Dec 2024 07:08:36 +0000 (UTC)
-Received: from cdc-linux-buildsrv17.. (localhost [127.0.0.1])
-	by mail.hp.com (Postfix) with ESMTP id 3AC2AA42C03;
-	Tue, 24 Dec 2024 14:56:39 +0800 (CST)
-From: Wade Wang <wade.wang@hp.com>
-To: jikos@kernel.org,
-	tiwai@suse.com,
-	bentiss@kernel.org,
-	perex@perex.cz,
-	linuxhid@cosmicgizmosystems.com
-Cc: wade.wang@hp.com,
-	linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2 2/2] ALSA: usb-audio: Add quirk for Plantronics headsets to fix control names
-Date: Tue, 24 Dec 2024 14:56:36 +0800
-Message-Id: <20241224065636.1870713-2-wade.wang@hp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241224065636.1870713-1-wade.wang@hp.com>
-References: <20241224065636.1870713-1-wade.wang@hp.com>
+	s=arc-20240116; t=1735030824; c=relaxed/simple;
+	bh=iIFRZhvlUCHjcvWzeF5tljgi55EYFpAF+OSKsDDBICk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eFCwbag0SEBJBTwwfVdH/ImVyhCgsUp9GG2yXM+IGJIFSwAwPXRmZHPrnuBZejZiC36HNsNoVVj/4b5PrlfpC8/UqOgVmsmEaB7TZTcy/0byHT4n86RSuXRAglP2XR+SLZ2anKA5sabovg5hlTyDhOI9c9VZyHnTimZYX+jG2Co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QFPUsrfC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9126C4CED0;
+	Tue, 24 Dec 2024 09:00:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735030823;
+	bh=iIFRZhvlUCHjcvWzeF5tljgi55EYFpAF+OSKsDDBICk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QFPUsrfCNbb/EuUE2bR4P/Se3TgwvsvOKwb3LzdHN80KEZ5QcTlwi+cOH4eCngI8F
+	 vcBJ8XW8kkcgAkq6qWc25fUGY/gcqT33JQ3soPtRlOeoUq0eOq8JIpAI+bhTWcJoAa
+	 kEil1r7tuKaH7bGxDN2OR9p5O/2/wVERKPJdRJjf7ia7hln1x09C1uXuMRYbzP10Fh
+	 nwWRtfkvdT5sKSRP5Z6ahyyNfAE33aPyhqcy/z6taFkxU17Q/I+zlrsFP5Jm+SXEwu
+	 fY0i9xqBHpSCHiO7YSjGcx7aECOUUW2O12D+ob947jIFaptzLj+j3/Svj4aRPFjKR+
+	 BxvbYFDn2A4Lg==
+Message-ID: <b1d541c1-296a-4b56-bea3-52e5becadf0e@kernel.org>
+Date: Tue, 24 Dec 2024 10:00:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: EdOh2hPJVWOmQIj_s7-oYTKM_AEZUElMZQ7-NxwRuAc_1735024118
-X-Mimecast-Originator: hp.com
-Content-Transfer-Encoding: quoted-printable
-content-type: text/plain; charset=WINDOWS-1252; x-default=true
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/8] dt-bindings: Add MAX7360 subdevices
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Kamel Bouhara <kamel.bouhara@bootlin.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-pwm@vger.kernel.org, =?UTF-8?Q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20241219-mdb-max7360-support-v1-0-8e8317584121@bootlin.com>
+ <20241219-mdb-max7360-support-v1-2-8e8317584121@bootlin.com>
+ <58c80c2a-2532-4bc5-9c9f-52480b3af52a@kernel.org>
+ <D6J6JNPPZRKM.3F9YUY9CW3L2F@bootlin.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <D6J6JNPPZRKM.3F9YUY9CW3L2F@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Terry Junge <linuxhid@cosmicgizmosystems.com>
+On 23/12/2024 16:20, Mathieu Dubois-Briand wrote:
+> On Sat Dec 21, 2024 at 9:34 PM CET, Krzysztof Kozlowski wrote:
+>> On 19/12/2024 17:21, Mathieu Dubois-Briand wrote:
+>>> ---
+>>>  .../devicetree/bindings/gpio/max7360-gpio.yaml     | 96 ++++++++++++++++++++++
+>>>  .../devicetree/bindings/input/max7360-keypad.yaml  | 67 +++++++++++++++
+>>>  .../devicetree/bindings/input/max7360-rotary.yaml  | 52 ++++++++++++
+>>>  .../devicetree/bindings/pwm/max7360-pwm.yaml       | 35 ++++++++
+>>>  4 files changed, 250 insertions(+)
+>>
+>>
+>> I don't understand how this patchset was split. MFD binding cannot be
+>> empty and cannot be before child devices.
+>>
+> 
+> Ok, my bad. So I believe squashing both dt-bindings commit should fix
+> this.
+> 
+>>> diff --git a/Documentation/devicetree/bindings/gpio/max7360-gpio.yaml b/Documentation/devicetree/bindings/gpio/max7360-gpio.yaml
+>>> new file mode 100644
+>>> index 000000000000..3c006dc0380b
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/gpio/max7360-gpio.yaml
+>>> @@ -0,0 +1,96 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/gpio/max7360-gpio.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Maxim MAX7360 GPIO controller
+>>> +
+>>> +maintainers:
+>>> +  - Kamel Bouhara <kamel.bouhara@bootlin.com>
+>>> +  - Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+>>> +
+>>> +description: |
+>>> +  Maxim MAX7360 GPIO controller, in MAX7360 MFD
+>>> +  https://www.analog.com/en/products/max7360.html
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    enum:
+>>> +      - maxim,max7360-gpio
+>>> +      - maxim,max7360-gpo
+>>
+>> Why? What are the differences?
+>>
+> 
+> Ok, so maybe my approach here is completely wrong. I'm not sure what
+> would be the best way to describe the device here, if you have any
+> suggestion I would be happy to use it. Let me try to summarize the GPIO
+> setup of the chip.
+> 
+> First we have two series of GPIOs on the chips, which I tend to think
+> about as two separate "banks". Thus two separate subnodes of the max7360
+> node.
 
-Many Poly/Plantronics headset families name the feature, input,
-and/or output units in a such a way to produce control names
-that are not recognized by user space. As such, the volume and
-mute events do not get routed to the headset's audio controls.
+First, splitting MFD device into multiple children is pretty often wrong
+approach because it tries to mimic Linux driver design.
 
-As an example from a product family:
+Such split in DT makes sense if these are really separate blocks, e.g.
+separate I2C addresses, re-usable on different designs.
 
-The microphone mute control is named
-Headset Microphone Capture Switch
-and the headset volume control is named
-Headset Earphone Playback Volume
+In this case Functional Block Diagram shows separate blocks, but still
+the same I2C block. This can be one device. This can be also two devices
+if that's easier to represent in DT.
 
-The quirk fixes these to become
-Headset Capture Switch
-Headset Playback Volume
+But in any case binding description should explain this.
 
-Signed-off-by: Terry Junge <linuxhid@cosmicgizmosystems.com>
-Signed-off-by: Wade Wang <wade.wang@hp.com>
-Cc: stable@vger.kernel.org
----
-V1 -> V2: Add comments, usb_audio_dbg() calls, fix leading space case
+> 
+> - On one side we have what I refer to as GPIOs, here with
+>   maxim,max7360-gpio:
+>   - PORT0 to PORT7 pins of the chip.
+>   - Shared with PWM and rotary encoder functionalities. Functionality
+>     selection can be made independently for each pin. This selection is
+>     not described here. Runtime will have to ensure the same pin is not
+>     used by two drivers at the same time. E.g. we cannot have at the
+>     same time GPIO4 and PWM4.
+>   - Supports input and interrupts.
+>   - Outputs may be configured as constant current.
+>   - 8 GPIOS supported, so ngpios maximum is 8. Thinking about it now, we
+>     should probably also set minimum to 8, I don't see any reason to
+>     have ngpios set to something less.
+> 
+> On the other side, we have what I refer to as GPOs, here with
+> maxim,max7360-gpo compatible:
+>   - COL2 to COL7 pins of the chip.
+>   - Shared with the keypad functionality. Selections is made by
+>     partitioning the pins: first pins for keypad columns, last pins for
+>     GPOs. Partition is described here by ngpios and on keypad node by
+>     keypad,num-columns. Runtime will have to ensure values are coherent
+>     and configure the chip accordingly.
+>   - Only support outputs.
+>   - No support for constant current mode.
+>   - Supports 0 to 6 GPOs, so ngpios maximum is 6.
+> 
+>>> +
+>>> +  gpio-controller: true
+>>> +
+>>> +  "#gpio-cells":
+>>> +    const: 2
+>>> +
+>>> +  ngpios:
+>>> +    minimum: 0
+>>> +    maximum: 8
+>>
+>> Why this is flexible?
+>>
+> 
+> I believe this makes sense, as this keypad/gpos partition really changes
+> the actual number of GPIOS. Yet we could argue that this is just runtime
+> configuration. Tell me what you think about it, if you think this should
+> be a fixed value, I will find a way.
 
- sound/usb/mixer_quirks.c | 66 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+Depends whether this is actual runtime configuration. If you configure
+keypad in DT, then the pins go away from GPIOs (especially considering
+that board might have these pins really connected to keypad). Anyway,
+explain this briefly in binding description.
 
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index 23fcd680167d..5728c03dc49f 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -4216,6 +4216,67 @@ static void snd_dragonfly_quirk_db_scale(struct usb_=
-mixer_interface *mixer,
- =09}
- }
-=20
-+/*
-+ * Some Plantronics headsets have control names that don't meet ALSA namin=
-g
-+ * standards. This function removes nonstandard source names. By the time
-+ * this function is called the control name will look like one of these:
-+ * "source names Playback Volume"
-+ * "source names Playback Switch"
-+ * "source names Capture Volume"
-+ * "source names Capture Switch"
-+ * First it scans through the list and removes any found name(s) by moving=
- the
-+ * remaining string and its null terminator over the found name and its le=
-ading
-+ * space, if it has one.
-+ * Second, if all source names were removed, it puts back "Headset"
-+ * otherwise removes a leading space, if there is one.
-+ */
-+static void snd_fix_plt_control_name(struct usb_mixer_interface *mixer,
-+=09=09=09=09     struct snd_kcontrol *kctl)
-+{
-+=09/* no variant of "Sidetone" should be added to this list */
-+=09static const char * const names_to_remove[] =3D {
-+=09=09"Earphone",
-+=09=09"Microphone",
-+=09=09"Receive",
-+=09=09"Transmit",
-+=09=09NULL
-+=09};
-+=09const char * const *n2r;
-+=09char *dst, *src, *last =3D NULL;
-+=09size_t len =3D 0;
-+
-+=09for (n2r =3D names_to_remove; *n2r; ++n2r) {
-+=09=09dst =3D strstr(kctl->id.name, *n2r);
-+=09=09if (dst) {
-+=09=09=09usb_audio_dbg(mixer->chip, "found %s in %s\n",
-+=09=09=09=09=09*n2r, kctl->id.name);
-+=09=09=09src =3D dst + strlen(*n2r);
-+=09=09=09len =3D strlen(src) + 1;
-+=09=09=09if ((char *)kctl->id.name !=3D dst && *(dst - 1) =3D=3D ' ')
-+=09=09=09=09--dst;
-+=09=09=09last =3D memmove(dst, src, len);
-+=09=09=09usb_audio_dbg(mixer->chip, "now %s\n", kctl->id.name);
-+=09=09}
-+=09}
-+=09if (!len) {
-+=09=09usb_audio_dbg(mixer->chip, "no change in %s\n", kctl->id.name);
-+=09=09return;
-+=09}
-+=09if (len <=3D sizeof " Playback Volume" && (char *)kctl->id.name =3D=3D =
-last) {
-+=09=09char rcat[sizeof(kctl->id.name)] =3D { "Headset" };
-+
-+=09=09strlcat(rcat, kctl->id.name, sizeof(rcat));
-+=09=09strscpy(kctl->id.name, rcat, sizeof(kctl->id.name));
-+=09=09usb_audio_dbg(mixer->chip, "now %s\n", kctl->id.name);
-+=09} else if (kctl->id.name[0] =3D=3D ' ') {
-+=09=09dst =3D kctl->id.name;
-+=09=09src =3D dst + 1;
-+=09=09len =3D strlen(src) + 1;
-+=09=09memmove(dst, src, len);
-+=09=09usb_audio_dbg(mixer->chip, "now %s\n", kctl->id.name);
-+=09}
-+}
-+
- void snd_usb_mixer_fu_apply_quirk(struct usb_mixer_interface *mixer,
- =09=09=09=09  struct usb_mixer_elem_info *cval, int unitid,
- =09=09=09=09  struct snd_kcontrol *kctl)
-@@ -4233,5 +4294,10 @@ void snd_usb_mixer_fu_apply_quirk(struct usb_mixer_i=
-nterface *mixer,
- =09=09=09cval->min_mute =3D 1;
- =09=09break;
- =09}
-+
-+=09/* ALSA-ify some Plantronics headset control names */
-+=09if (USB_ID_VENDOR(mixer->chip->usb_id) =3D=3D 0x047f &&
-+=09    (cval->control =3D=3D UAC_FU_MUTE || cval->control =3D=3D UAC_FU_VO=
-LUME))
-+=09=09snd_fix_plt_control_name(mixer, kctl);
- }
-=20
---=20
-2.43.0
-
+> 
+Best regards,
+Krzysztof
 
