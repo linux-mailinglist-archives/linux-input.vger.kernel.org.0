@@ -1,84 +1,68 @@
-Return-Path: <linux-input+bounces-8768-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8769-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6939FC5F9
-	for <lists+linux-input@lfdr.de>; Wed, 25 Dec 2024 16:56:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 729D69FC65B
+	for <lists+linux-input@lfdr.de>; Wed, 25 Dec 2024 20:27:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6180A1882AAD
-	for <lists+linux-input@lfdr.de>; Wed, 25 Dec 2024 15:56:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B9AB162619
+	for <lists+linux-input@lfdr.de>; Wed, 25 Dec 2024 19:27:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B82A4F21D;
-	Wed, 25 Dec 2024 15:56:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10ABF14A0B7;
+	Wed, 25 Dec 2024 19:27:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S8OCvkz5"
+	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="AR95h++w"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D532E822
-	for <linux-input@vger.kernel.org>; Wed, 25 Dec 2024 15:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A1B12EBE9
+	for <linux-input@vger.kernel.org>; Wed, 25 Dec 2024 19:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735142189; cv=none; b=GrEmMpRRstxM+y5radXRWYTuV2+Ozj8Uga9J+NiLCQYPu32ymvHo4pKxx20K7yBdEHDwkreVbMRKYPJO3ciubCuJ1GSz0ldkf7JRVe/YANj4xgqNGqJFBggCEXil3StfZwZVSx/Fzxp/JcVuki6xmuoZIf8sdgzW1G3o63xfM4Q=
+	t=1735154847; cv=none; b=OGYF5hkwFVm9Wg2oexdWYVWeU65OR9M9ZPskHS2a/lQc8/Fc5TKv1gOSnbBMboN3fnCm8CXTrg5WB206eJnONI6b3CNKTK8n4SLvSHHH+GSX9XLJ3LHIschY7xsw27n4sgsb8E4optQfzOAzyQ1vjrnRpDkxTtK8FTz7fg7V+q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735142189; c=relaxed/simple;
-	bh=u7CI+rMEZbK6aizwSCasaQpCMaTWNoL9avYDWOLh5PM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AbqYS+XLOEYQywVC1aufk6B8w8ueDA0Ch6DcUwhmUJrbEk9v9GxCEbWL8wshy5cv6ogMybQMFkra+cSUha6OCRxROB58GjNujafapdb0aag37yn+TJnjMxweGDC6zZO3X0GG3yo/whkpvkPyqTEfIhmogM7/oRAA1K8jiIVCyLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S8OCvkz5; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-aa679ad4265so1250093466b.0
-        for <linux-input@vger.kernel.org>; Wed, 25 Dec 2024 07:56:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735142186; x=1735746986; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=y4wZnuupbzrVs5WnzDcjSCeFQ9zg7QYSD7cFeNPoAD8=;
-        b=S8OCvkz5NLH+Wlo+oHj2jjIoVaKd+/wGhRP7xSwBPMKBCTqZkgjsQ9HYXKWeOdnr1j
-         UktpxPJ5tXA0JaCTBcyLkj8333OO8uxR64d0z5lVhQrdOAVN2SvLxf8lVvryul6ilhm/
-         oVod0qN8PKR3ocTJm7pbsvc2QBnmCo4KZKRe4y9qSj37NxZsEiVG71YdXfQGAJtAe8qM
-         AzJ2n0T1XUpyh12Zme3uSVvulwFDhr9Y/GuLC+ZZYp6zAsEczeRnVMY37esh5gMq3fje
-         4VYapQYCMfSeXc6sJbAK6l9zps2GAyrcWwWc9p70nstGmU1qGKdiPJ2mfhAdLo5icxg7
-         d8kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735142186; x=1735746986;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=y4wZnuupbzrVs5WnzDcjSCeFQ9zg7QYSD7cFeNPoAD8=;
-        b=BgCKZIYdsRybgS2Acvme1yZDd4NkzIruF7bk4eXmXErFX2Tnu//PrW4a5rj1Xpc5kB
-         y0xTA4j3KuMxboRSD8xDYo3eBVum4jqUrHkykqP98eqXXGXG1n9e1r33fnsoUkJyudlz
-         YfkYk/5M+EjyyY1wMZsKq5PLqeZAHsvunxT9oMtTbupF0z9Kz6nJoy1Q9bC8wnCstEdc
-         9AbY3LPgtGgtAHgy5WirW13GLGx/XySXqugXsH9nDrPSiHc7SV61PXa6rVZtxJhYtqIs
-         LnwmZQnlzM91l8mmjsbp41vdCKtTTH+fzutiC8UMyRQt2lyqfpI6+NyNCTaMPGtJ1G/g
-         FMfw==
-X-Forwarded-Encrypted: i=1; AJvYcCVZ0RKiIpigeNx2sJ5tNeY/kwU0Y+uSCL2bNOlnnSNWKvU025znesh9O0+jm7nKSH8hrGCMDPsYegdwPg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxExacd3jDUXe8aA8nTZQZVC3+WJuyVF0cJkIz2/o9znVx20oP
-	uh5ktD/njhoNaw/Nxqe1ywaV42RG6V8UhwDkyePEDya0Q+JmYPiV
-X-Gm-Gg: ASbGncuxvtzysXsceZ1xSU7mWvnSNiQ1zFo2YLchK/9CvtxUZkliiJaP6QHtjGYEY6t
-	ImJD6SjXu762pA68BKbWTESmVRiRVSY9VZ5bs704F/Jy5n+lgfHP0JWvsIzR59IfPYrwhdZwyBG
-	4y+qnQEwZGr6z23GxuqTWeJ68ahwdWYcuyNwH32536mycZKo2sfLSd2GoEduqRB/Fy1sRTq1vJo
-	OSIn96G6LGhtxyiWWX6sDvtm3+9hBbR4X/aCpCpn20ecIGiJf4LiyaMrUvzvg==
-X-Google-Smtp-Source: AGHT+IE/EOY2i844Z1ffmsrrZok4E7nUwVBcn+1nITrbWzUtAGEGVqup/P1AzR6ui50vxKUQ6gmJ8w==
-X-Received: by 2002:a17:907:94c7:b0:aa6:42d8:afac with SMTP id a640c23a62f3a-aac08155190mr2599389866b.15.1735142185861;
-        Wed, 25 Dec 2024 07:56:25 -0800 (PST)
-Received: from carbon.. ([185.117.243.105])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0e82f2fasm811962266b.9.2024.12.25.07.56.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Dec 2024 07:56:25 -0800 (PST)
-From: Eugeny Shcheglov <eugenyshcheglov@gmail.com>
-To: jikos@kernel.org
-Cc: bentiss@kernel.org,
+	s=arc-20240116; t=1735154847; c=relaxed/simple;
+	bh=FFgHM1jKW8IqTC1OZnFIs8vICky0jlaO6V4Wz+H52eU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YygzWp1e9sJUZ4VY4imnvhZIFG1VP3+Bn+m0TCJkuqGtDjDeBjzCzdnH+ESJbd8VF5fI7auMKhlkJAUZdCGpWubPfDguLU2qvA5W14LbSEqCgdnCTP3Iv0OMdqAmbPwGiRESaOaKXCRfNQHzVoZ78g8C57a5APXchw8IgHfu6fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=AR95h++w; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
+	s=key1; t=1735154842;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=KOnKLDsqb4xiEOhltwQDh4HgtA1cKvX5nht3wAdDSxY=;
+	b=AR95h++w7RE76dw9MHkXuquH0j3GJ05notgIN80CpNosyE+oNzkdRcQXGgjz2tg9gzr09x
+	Nc3dZdr21batB9XBUJyRXolEpJCpNu5396rdiy9ZITHe5GAWlAmjV582r4kJlix0EVJsYR
+	lBAAn7btvwu10n9+jW71Hq/WxOl7eL9+JpLtXQ3FaCkx3aEIo7viF4vOS0B2Byy53Mg4oT
+	XCWTE1pnHAvMwQ6tnbnR+b2IQbhWhcTRR4dvQVeuvVr/6h1PKR0VlP4qqGkyJRp00lYjKR
+	sPcgoKuQRYlSBMCpYXJ2Hue/aXd8EUGNNhtUGQeSYcM2D2VI58n9R6Ti6t2W2g==
+From: Val Packett <val@packett.cool>
+To: 
+Cc: Val Packett <val@packett.cool>,
+	Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Fabien Parent <fparent@baylibre.com>,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	Amjad Ouled-Ameur <aouledameur@baylibre.com>,
 	linux-input@vger.kernel.org,
-	vi@endrift.com,
-	Eugeny Shcheglov <eugenyshcheglov@gmail.com>
-Subject: [PATCH] HID: hid-steam: Fix Lizard Mode disabling
-Date: Wed, 25 Dec 2024 17:55:07 +0200
-Message-ID: <20241225155507.30288-1-eugenyshcheglov@gmail.com>
-X-Mailer: git-send-email 2.45.2
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH 0/3] mt6779-keypad: fix compatibles and add to mt8516
+Date: Wed, 25 Dec 2024 16:26:18 -0300
+Message-ID: <20241225192631.25017-1-val@packett.cool>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -86,69 +70,26 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Disable Lizard Mode by setting the lizard_mode option.
-Set lizard_mode to 0 to disable switching between Desktop and Gamepad
-using the Options button, and use Gamepad input.
+The mt8516 patch was previously sent in another series but rejected due
+to not using an mt8516 specific compatible - which the other usages
+of this driver (mt8183 and mt8365) weren't doing either.
 
-Signed-off-by: Eugeny Shcheglov <eugenyshcheglov@gmail.com>
----
- drivers/hid/hid-steam.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+It's only fair to add the SoC-specific compatibles to all of them then :)
 
-diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
-index 6439913372a8..c64f716c9c14 100644
---- a/drivers/hid/hid-steam.c
-+++ b/drivers/hid/hid-steam.c
-@@ -10,7 +10,7 @@
-  * This controller has a builtin emulation of mouse and keyboard: the right pad
-  * can be used as a mouse, the shoulder buttons are mouse buttons, A and B
-  * buttons are ENTER and ESCAPE, and so on. This is implemented as additional
-- * HID interfaces.
-+ * HID interfaces. Joystick input is blocked when Lizard Mode is active.
-  *
-  * This is known as the "lizard mode", because apparently lizards like to use
-  * the computer from the coach, without a proper mouse and keyboard.
-@@ -555,9 +555,6 @@ static int steam_play_effect(struct input_dev *dev, void *data,
- 
- static void steam_set_lizard_mode(struct steam_device *steam, bool enable)
- {
--	if (steam->gamepad_mode)
--		enable = false;
--
- 	if (enable) {
- 		mutex_lock(&steam->report_mutex);
- 		/* enable esc, enter, cursors */
-@@ -566,6 +563,7 @@ static void steam_set_lizard_mode(struct steam_device *steam, bool enable)
- 		steam_send_report_byte(steam, ID_LOAD_DEFAULT_SETTINGS);
- 		mutex_unlock(&steam->report_mutex);
- 	} else {
-+		steam->gamepad_mode = true;
- 		mutex_lock(&steam->report_mutex);
- 		/* disable esc, enter, cursor */
- 		steam_send_report_byte(steam, ID_CLEAR_DIGITAL_MAPPINGS);
-@@ -1590,12 +1588,14 @@ static void steam_do_deck_input_event(struct steam_device *steam,
- 	b13 = data[13];
- 	b14 = data[14];
- 
--	if (!(b9 & BIT(6)) && steam->did_mode_switch) {
--		steam->did_mode_switch = false;
--		cancel_delayed_work_sync(&steam->mode_switch);
--	} else if (!steam->client_opened && (b9 & BIT(6)) && !steam->did_mode_switch) {
--		steam->did_mode_switch = true;
--		schedule_delayed_work(&steam->mode_switch, 45 * HZ / 100);
-+	if (lizard_mode) {
-+		if (!(b9 & BIT(6)) && steam->did_mode_switch) {
-+			steam->did_mode_switch = false;
-+			cancel_delayed_work_sync(&steam->mode_switch);
-+		} else if (!steam->client_opened && (b9 & BIT(6)) && !steam->did_mode_switch) {
-+			steam->did_mode_switch = true;
-+			schedule_delayed_work(&steam->mode_switch, 45 * HZ / 100);
-+		}
- 	}
- 
- 	if (!steam->gamepad_mode)
+Val Packett (3):
+  dt-bindings: mediatek,mt6779-keypad: add more compatibles
+  arm64: dts: mediatek: add per-SoC compatibles for keypad nodes
+  arm64: dts: mediatek: mt8516: add keypad node
+
+ .../bindings/input/mediatek,mt6779-keypad.yaml        |  3 +++
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi              |  3 ++-
+ arch/arm64/boot/dts/mediatek/mt8365.dtsi              |  3 ++-
+ arch/arm64/boot/dts/mediatek/mt8516.dtsi              | 11 +++++++++++
+ 4 files changed, 18 insertions(+), 2 deletions(-)
+
 -- 
-2.45.2
+2.47.1
 
 
