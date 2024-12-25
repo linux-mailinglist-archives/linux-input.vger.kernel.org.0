@@ -1,49 +1,49 @@
-Return-Path: <linux-input+bounces-8763-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8764-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 524B89FC334
-	for <lists+linux-input@lfdr.de>; Wed, 25 Dec 2024 02:55:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D72BB9FC336
+	for <lists+linux-input@lfdr.de>; Wed, 25 Dec 2024 02:55:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 74A11188405F
-	for <lists+linux-input@lfdr.de>; Wed, 25 Dec 2024 01:55:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6293316501F
+	for <lists+linux-input@lfdr.de>; Wed, 25 Dec 2024 01:55:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68EEF1E4AD;
-	Wed, 25 Dec 2024 01:55:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4883B45038;
+	Wed, 25 Dec 2024 01:55:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="F/clu+KS"
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="l6r+YCMi"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDFB101E6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68E011CA9;
 	Wed, 25 Dec 2024 01:55:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735091718; cv=none; b=BvbGW/O6eJPyaZbkGSnLHHs4HB4eo+RrBswX37S/TYGy8ZkpikY9T8Er2tbm+1fBpkzEwNJgVfspRAl2xfAoA9o/LUwfO+FiAoyFv3EIc9kNVzpOP/a5eFVaTDm4V1Z7lFaHwjZ6JgLxdFGiWgNENrYZL7zvx1ISLVFy5YBv+kg=
+	t=1735091719; cv=none; b=MLUejKzZ+yFsrI6vNbwLm38PrF/mowE9jrUtWo5bsFS/isMFjeWbzNtiKEcmgwKBw3NEKEqd60OvJX44kBeKC3QDW5UcPVzTN7+bvne5+WrWBFvphv1oCYA6OSVvRz5GakXZpXyisEaLU16p7reME2TKQEjn8su3ldh5/PcR3vQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735091718; c=relaxed/simple;
-	bh=c17/vyh2OiEb1043uXtjhRSxSgwPzp1q9MzhjVIwgdE=;
+	s=arc-20240116; t=1735091719; c=relaxed/simple;
+	bh=0ffO5vltG0wynqoXzTYadkve5uqyEmVNWF0P9yFKeFU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rEz46KjKBKzTuZjYWTkmwoD7IgtPFvd4OhvQpCElWcxHJCavCH0/Uh/h//yBCR9ilOuBrinati4CUf7nRZZirZ81GL2gUynCb6BdCxKSSmarEfm1CQ+ou9+7OoF+zqOT6Kz+U+qioATCJPvNnSPi8n2TTzaRLSC8Ac0MVSs1koQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=F/clu+KS; arc=none smtp.client-ip=46.235.229.95
+	 MIME-Version; b=e/2hp9FyEIGwYzhgk/zAdqbwhwUkXcS5PMTNOYRoGq/miaIHvqCQWryQrnXfI01Z4lSOitQsDeDnNnleefAFerrz0imWKUp2RmGeiRLQLiInt52EylL57PaPw8JtO1B1qexNvdeZULSTy4Hx7bKDx4RVVZkVWWKbsLqw3nN3CX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=l6r+YCMi; arc=none smtp.client-ip=46.235.229.95
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
 	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=KGMyr0fXNIekp/8y4rKxbxKl8DB8GrzxWujmDNWtbiQ=; b=F/clu+KS0sl2MVox
-	e6zaoPK3Lnhkfft+8e/2jYHLL8foTViPTEMRa7qoRHOf5NSvOi99cuAtX2NUcqz1K7VXQZylhgjN/
-	ivtH0zQIoZ0zNgk1y6kEXMAva6+NL6N2cJWpXHBl1+FAxRhg1J1/49hnTCpIHn3TTAUeBFmoHs+lx
-	3nbNOaWpTEMgo8dp/7+c+DEkKqfZWSdiKnhtmBWm1rul6pmopMAd5FMwi7zTk72A415x80uhTNzTW
-	W2YNyBHqYQ0hzJ+TnTfdpafQOzEylYinp2PxIy4QDTGpHUqvRsWDJQIVuNmHamE6VvFN+DQ8NytIz
-	D4CZkEAPbtPc3Am3+A==;
+	:Subject; bh=I9GWRlz/pSqRMSz9TawgLDAmPGbJeXKYmZJj+V6Sr0A=; b=l6r+YCMiA3HCwG7j
+	hSAA/FFOrHzeMVhfQnEFDzx0v/StdmRCnhFU5utUm0e5/H6yzfiieNFcnBiHzNQCiSiLiWrSqjYuw
+	VJYAJbosnEm4LCKYMjzeYryy2HbcfP/8tOjFqxowqJkiF8UNIJwObrNOSV/FqkffE1inJjU28qGkm
+	v2Yi8YEf+fsAj/BYb9Op4pENA5x1D6DPIx8w8JB7lP36nfsetPY0vN3jd3MU+40vUJUGoKEmOjsdG
+	g0qtjXmoIkAJpqB/UnqDw1lAVE1unmPuyUhgnOtQX2byWxAysOJ6AbcnMncPu8Xh4b2d04SDOM4lX
+	YVED1DOdbNWQi7dYwQ==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
 	by mx.treblig.org with esmtp (Exim 4.96)
 	(envelope-from <linux@treblig.org>)
-	id 1tQGcB-0073l1-2Z;
-	Wed, 25 Dec 2024 01:55:11 +0000
+	id 1tQGcC-0073l1-1n;
+	Wed, 25 Dec 2024 01:55:12 +0000
 From: linux@treblig.org
 To: srinivas.pandruvada@linux.intel.com,
 	jikos@kernel.org,
@@ -51,9 +51,9 @@ To: srinivas.pandruvada@linux.intel.com,
 	linux-input@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH 2/3] HID: intel-ish-hid: Remove unused ishtp_cl_tx_empty
-Date: Wed, 25 Dec 2024 01:55:08 +0000
-Message-ID: <20241225015509.458032-3-linux@treblig.org>
+Subject: [PATCH 3/3] HID: intel-ish-hid: Remove unused ishtp_cl_get_tx_*
+Date: Wed, 25 Dec 2024 01:55:09 +0000
+Message-ID: <20241225015509.458032-4-linux@treblig.org>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241225015509.458032-1-linux@treblig.org>
 References: <20241225015509.458032-1-linux@treblig.org>
@@ -67,62 +67,63 @@ Content-Transfer-Encoding: 8bit
 
 From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-ishtp_cl_tx_empty() was added in 2018 by
-commit a1c40ce62fd2 ("HID: intel-ish-hid: ishtp: add helper functions for
-client buffer operation") but has remained unused.
+ishtp_cl_get_tx_free_buffer_size() and ishtp_cl_get_tx_free_rings()
+were added in 2018 by
+commit 18c0b5467498 ("HID: intel_ish-hid: Enhance API to get ring buffer
+sizes")
+but have remained unused.
 
-Remove it.
+Remove them.
 
 Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- .../hid/intel-ish-hid/ishtp/client-buffers.c  | 21 -------------------
- include/linux/intel-ish-client-if.h           |  1 -
- 2 files changed, 22 deletions(-)
+ drivers/hid/intel-ish-hid/ishtp/client.c | 19 -------------------
+ drivers/hid/intel-ish-hid/ishtp/client.h |  2 --
+ 2 files changed, 21 deletions(-)
 
-diff --git a/drivers/hid/intel-ish-hid/ishtp/client-buffers.c b/drivers/hid/intel-ish-hid/ishtp/client-buffers.c
-index 513d7a4a1b8a..97f4026b1627 100644
---- a/drivers/hid/intel-ish-hid/ishtp/client-buffers.c
-+++ b/drivers/hid/intel-ish-hid/ishtp/client-buffers.c
-@@ -251,27 +251,6 @@ int ishtp_cl_io_rb_recycle(struct ishtp_cl_rb *rb)
- }
- EXPORT_SYMBOL(ishtp_cl_io_rb_recycle);
+diff --git a/drivers/hid/intel-ish-hid/ishtp/client.c b/drivers/hid/intel-ish-hid/ishtp/client.c
+index e61b01e9902e..21a2c0773cc2 100644
+--- a/drivers/hid/intel-ish-hid/ishtp/client.c
++++ b/drivers/hid/intel-ish-hid/ishtp/client.c
+@@ -14,25 +14,6 @@
+ #include "hbm.h"
+ #include "client.h"
  
--/**
-- * ishtp_cl_tx_empty() -test whether client device tx buffer is empty
-- * @cl: Pointer to client device instance
-- *
-- * Look client device tx buffer list, and check whether this list is empty
-- *
-- * Return: true if client tx buffer list is empty else false
-- */
--bool ishtp_cl_tx_empty(struct ishtp_cl *cl)
+-int ishtp_cl_get_tx_free_buffer_size(struct ishtp_cl *cl)
 -{
--	int tx_list_empty;
--	unsigned long tx_flags;
+-	unsigned long tx_free_flags;
+-	int size;
 -
--	spin_lock_irqsave(&cl->tx_list_spinlock, tx_flags);
--	tx_list_empty = list_empty(&cl->tx_list.list);
--	spin_unlock_irqrestore(&cl->tx_list_spinlock, tx_flags);
+-	spin_lock_irqsave(&cl->tx_free_list_spinlock, tx_free_flags);
+-	size = cl->tx_ring_free_size * cl->device->fw_client->props.max_msg_length;
+-	spin_unlock_irqrestore(&cl->tx_free_list_spinlock, tx_free_flags);
 -
--	return !!tx_list_empty;
+-	return size;
 -}
--EXPORT_SYMBOL(ishtp_cl_tx_empty);
+-EXPORT_SYMBOL(ishtp_cl_get_tx_free_buffer_size);
+-
+-int ishtp_cl_get_tx_free_rings(struct ishtp_cl *cl)
+-{
+-	return cl->tx_ring_free_size;
+-}
+-EXPORT_SYMBOL(ishtp_cl_get_tx_free_rings);
 -
  /**
-  * ishtp_cl_rx_get_rb() -Get a rb from client device rx buffer list
-  * @cl: Pointer to client device instance
-diff --git a/include/linux/intel-ish-client-if.h b/include/linux/intel-ish-client-if.h
-index 771622650247..dfbf7d9d7bb5 100644
---- a/include/linux/intel-ish-client-if.h
-+++ b/include/linux/intel-ish-client-if.h
-@@ -100,7 +100,6 @@ void ishtp_cl_destroy_connection(struct ishtp_cl *cl, bool reset);
- int ishtp_cl_send(struct ishtp_cl *cl, uint8_t *buf, size_t length);
- int ishtp_cl_flush_queues(struct ishtp_cl *cl);
- int ishtp_cl_io_rb_recycle(struct ishtp_cl_rb *rb);
--bool ishtp_cl_tx_empty(struct ishtp_cl *cl);
- struct ishtp_cl_rb *ishtp_cl_rx_get_rb(struct ishtp_cl *cl);
- void *ishtp_get_client_data(struct ishtp_cl *cl);
- void ishtp_set_client_data(struct ishtp_cl *cl, void *data);
+  * ishtp_read_list_flush() - Flush read queue
+  * @cl: ishtp client instance
+diff --git a/drivers/hid/intel-ish-hid/ishtp/client.h b/drivers/hid/intel-ish-hid/ishtp/client.h
+index d9d398fadcf7..0efd49dd2530 100644
+--- a/drivers/hid/intel-ish-hid/ishtp/client.h
++++ b/drivers/hid/intel-ish-hid/ishtp/client.h
+@@ -120,8 +120,6 @@ int ishtp_cl_alloc_rx_ring(struct ishtp_cl *cl);
+ int ishtp_cl_alloc_tx_ring(struct ishtp_cl *cl);
+ void ishtp_cl_free_rx_ring(struct ishtp_cl *cl);
+ void ishtp_cl_free_tx_ring(struct ishtp_cl *cl);
+-int ishtp_cl_get_tx_free_buffer_size(struct ishtp_cl *cl);
+-int ishtp_cl_get_tx_free_rings(struct ishtp_cl *cl);
+ 
+ /* DMA I/F functions */
+ void recv_ishtp_cl_msg_dma(struct ishtp_device *dev, void *msg,
 -- 
 2.47.1
 
