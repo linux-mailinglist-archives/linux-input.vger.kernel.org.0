@@ -1,39 +1,39 @@
-Return-Path: <linux-input+bounces-8765-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8766-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF7B9FC388
-	for <lists+linux-input@lfdr.de>; Wed, 25 Dec 2024 05:19:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971DA9FC38B
+	for <lists+linux-input@lfdr.de>; Wed, 25 Dec 2024 05:35:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7EA4A1652F1
-	for <lists+linux-input@lfdr.de>; Wed, 25 Dec 2024 04:19:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1E184165205
+	for <lists+linux-input@lfdr.de>; Wed, 25 Dec 2024 04:35:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA1852AD20;
-	Wed, 25 Dec 2024 04:19:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BDD81CA8D;
+	Wed, 25 Dec 2024 04:35:30 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from cosmicgizmosystems.com (beyond-windows.com [63.249.102.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF932F56;
-	Wed, 25 Dec 2024 04:19:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F5BB17FE;
+	Wed, 25 Dec 2024 04:35:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735100366; cv=none; b=Y2HpgkNsen7wecg1jaW9+sq+fdm41Il/9rwkYgFmRFewCoMhKHuPKuIm2sYKbRCU4rRr6WaN7M9GH2Lft+BAkDzCvbo4X+NLint7uF3VWJ+2qmpqvPI4SJcWZUA/8C+4S9Vn9ucbJxaIHV1e8nevzelqzDng5T/q6t0fTg+GwjE=
+	t=1735101330; cv=none; b=rUyOi0M/dsIJN0irFhZ0WJbfzvVv5C1JyfSMm+u1R1uYPQfhFNWfFsmQV4lfpqDkOwoOzphy75d28XUMppK+tVIDTabDHBFICN3ZlLMMYPv71DuDmAb2LFq2Hcuo1mcj5puv8MrBlaDJfc2XOtl0PjOQjsrqCRlMJpuGUvcJAvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735100366; c=relaxed/simple;
-	bh=lnD+s+ZJvMCoAV68W0d+HtzrejSVY5k5wzhVcbX/Z68=;
+	s=arc-20240116; t=1735101330; c=relaxed/simple;
+	bh=sDgb7im0r4huN+INdN99AJxrTH6x+Qzw6ogMJ0/+Yjg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a7Hl5VjLaEXBIjiisA/9mwney1UrYC8vSJf/lIebbeSbTGXyoYGcWAluLz0lNv3bnnvxl/wi9tL5URaMr1FXjcEwEwcgmu/MoPTp82R9Hlg5az8UD6P/FDGbTzyHCHa7fJEPrQgKVGiKP0InG9t1oV3OC03cNvWMl7yNQ0+HoZ8=
+	 In-Reply-To:Content-Type; b=BqQmYMwPkBS8VSF35rtx8sd6qwA8IJ5PfcrN8Otn+ymkENxz2Gu1gr1F/BhsB/oHGSNtL5WtkasZeXxYNuQGH7QD4DWJ9UXCQmr1bugWNldYKAkCUgsn8VdV1mM1Xedg2iFjOlWBr6yDLswwUNpqB38GMwVrAmDAIV/GBSL8nOA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
 Received: from [10.0.0.101] (c-73-190-111-195.hsd1.wa.comcast.net [73.190.111.195])
-	by host11.cruzio.com (Postfix) with ESMTPSA id 5E3922611C6D;
-	Tue, 24 Dec 2024 20:12:45 -0800 (PST)
-Message-ID: <2e6c49a9-ff34-4bad-9361-ad4d9daa92c3@cosmicgizmosystems.com>
-Date: Tue, 24 Dec 2024 20:12:44 -0800
+	by host11.cruzio.com (Postfix) with ESMTPSA id E9ECE2584CA3;
+	Tue, 24 Dec 2024 20:35:25 -0800 (PST)
+Message-ID: <4a25e5d0-5e09-4246-8d70-8083d3189d53@cosmicgizmosystems.com>
+Date: Tue, 24 Dec 2024 20:35:25 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -54,20 +54,13 @@ In-Reply-To: <20241224065636.1870713-1-wade.wang@hp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Sorry...
+Also, FYI
 
-Looks like multiple mailings occurred for this patch series and no cover letter.
+base-commit: bcde95ce32b666478d6737219caa4f8005a8f201
 
-This is the latest mailing and seems to have the correct mailing lists.
-
-It would be ideal if these two patches could flow upstream and to stable together.
-
-You can find the V1 threads here-
-
-Link: https://lore.kernel.org/linux-input/87zfl333uy.wl-tiwai@suse.de/T/#t
+for the series...
 
 Thanks,
-Terry
 
 On 12/23/24 10:56 PM, Wade Wang wrote:
 > From: Terry Junge <linuxhid@cosmicgizmosystems.com>
