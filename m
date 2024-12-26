@@ -1,184 +1,113 @@
-Return-Path: <linux-input+bounces-8774-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8775-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8169FC6EB
-	for <lists+linux-input@lfdr.de>; Thu, 26 Dec 2024 01:00:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 621CF9FC772
+	for <lists+linux-input@lfdr.de>; Thu, 26 Dec 2024 02:36:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E91E1881E71
-	for <lists+linux-input@lfdr.de>; Thu, 26 Dec 2024 00:00:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B395E1882C3A
+	for <lists+linux-input@lfdr.de>; Thu, 26 Dec 2024 01:36:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D7E114036E;
-	Thu, 26 Dec 2024 00:00:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3339D17BCE;
+	Thu, 26 Dec 2024 01:35:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fvkorTxJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3ArIXg4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429C71304B0;
-	Thu, 26 Dec 2024 00:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33432B9A4;
+	Thu, 26 Dec 2024 01:35:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735171213; cv=none; b=Gb4gJ+6ErN4nEYw5VPYJj7RLsNVQeU0GLfo0xLDlJvx0UeXfwK7LjWzmmU4M/mSOAp7n4LQZm2HfoPkcXdaE1b4mR6azAuw5UCZubbpeOLcbmq4VFlzNLGd3U+4r70Fg+o46kzPVfld5tusU9zfaidO9CVDLX3JnKKd9rOuPSSM=
+	t=1735176954; cv=none; b=Vu5TlT4NN/QfrWnREPkfqfDDXALC4BKBRz/zcVgZZI//Cy4EXW2/yNX8yzzA5L+kOke3oMovQFLLsiIBfxNflYgD8WbQ25mjOubogDGH2gcnP3qLanCJDbf3xlq85eGO/b5ZKhY0R+a7wW6eqx3mgj1DYFea4xKtgVR8fYMigqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735171213; c=relaxed/simple;
-	bh=d1AsfjqoYThxP5n/3D7szp5N5+Cn7vUNNgM64kRwT74=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tjLj9154K7nYOdEbUokiT/QYT64NTRWkUy/iM/Y65irCZLhPwgxm5OMqbHIxsXz2aojXp9MJ7h4IeBeoyqhf4iVbxfgZqUNpT3tZyX6dMVGwC2bwkPG+D2ZwQ8nZjq4GHbjDOa1VDw4yVfk+c25r5gehMKh59mDj3CTMOP8s+KM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fvkorTxJ; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43625c4a50dso40721235e9.0;
-        Wed, 25 Dec 2024 16:00:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735171211; x=1735776011; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8Xi2ylbv/Y/sMb8tL0ZV1pBOqJMcnlsx4pQhhyCTKTs=;
-        b=fvkorTxJb1t/KWhXQfG4mlM+37MO6+gZNT8P3oQf/NtKWwa+SgnAuZXO5XMT0njYXS
-         TtYvstlHVf2bR48dlojT2TSygskSBIA/Eo6r5vVdOm0ffKso2KysHvq13jgnSe/srUSl
-         TnSd8CUJJP/EHHFaewvD2ixPKv9AoAZ3MmLta6LWadmhEGp/ohDRGxKf2OueTjwxoZEM
-         as4LdFpwmDe7z+Ye2oAQEIrjsCxN9SG6FmGWJJj0IAL/57yZmBj95Inr72y5kU/KCatY
-         4ErE1PXlnAvuYIwlpS8PfSuwt8QrWet6HjoKEHfedFnqB5CoXT5p+WGFz7GMcvmJUWRT
-         5LAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735171211; x=1735776011;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8Xi2ylbv/Y/sMb8tL0ZV1pBOqJMcnlsx4pQhhyCTKTs=;
-        b=IKGLuusOWvcpaBbhjPBs8eooEziwr/H44Et8UGdrZgUlF9gPGaUM+U6D6USVmEE4x9
-         bZNDQnlF8p2G9pH1laqfEudMoFZ9iXTj6lQBqJyExa7ToSBNC1x4keVQAcj/8MDsVQn4
-         8p5LUP111XxvLljFyUIfOG9yK9bU/2qRZpTihId37UR5mmVKDMetLu/IOg4IoN0YCPec
-         BNTNyzJW4U1pOG3vV04WOv/F7PYYhJPwXY/gphuhUkCLPZCKHg/gLKSCb1L1Q4N5X8cf
-         AMsA+KC/Um5ZR6z4QuGXLnGwBi04prtmgjm9HpAGqay7gaXTJn680HQnQKjouy72wwu1
-         wgnA==
-X-Forwarded-Encrypted: i=1; AJvYcCV1D8BQxOSeX9lb2M8uLmsY3QyJTYFEPiOpJERpvtgqn4UK/eA/shrbbBfmonRntWaXvmrh329DMvPqIDs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAIlkqOLzSaMGBwdug6CqnTv5H9nxM/8ghazhogQIbyfmnNnQU
-	6I9wg2uVwWJlcVgQko+isDC26/p2itYx7IhSpF9emn7wncXNpQDt
-X-Gm-Gg: ASbGnctgLfri/wUlQCET3h19Vfk3daORs/YKEFQtjtW7aFjZQCv6zdIo9vR+W/v1Epq
-	pwo1yRUkdSUe5WQmuDz/jG1BrGiREfukvjwY0V2xVbnbBM4/q4GfTbdG3TJiFfJ7JdU0doNTHvr
-	jvIqBABizp9atZKH1TSBj9zpsdXVbrWFPL+Mo5lu/Qm5mcpCT7PzQbq5ijwkpm+k6Obu7m94emj
-	33knFBngkw8d72kWHepb2XlwsNSoreX1mLwzbh9DHCODAGewKjRM4+SeNg=
-X-Google-Smtp-Source: AGHT+IFTwIbj/9EVoDTAbkttkqXKPBUQ+EBDbxI/6ISnpz9wctXkT7hldhAvQ7LkTKShsh9YVlyT/A==
-X-Received: by 2002:a05:600c:3b86:b0:434:a1d3:a326 with SMTP id 5b1f17b1804b1-4366854848dmr168452615e9.6.1735171210293;
-        Wed, 25 Dec 2024 16:00:10 -0800 (PST)
-Received: from qasdev.system ([2a02:c7c:6696:8300:ee5d:263e:ad4:9007])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8472d5sm18299139f8f.47.2024.12.25.16.00.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Dec 2024 16:00:09 -0800 (PST)
-Date: Wed, 25 Dec 2024 23:59:48 +0000
-From: qasdev <qasdev00@gmail.com>
-To: dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drivers/input: Fix null pointer dereferences in
- input_ff_create() and input_ff_create_memless()
-Message-ID: <Z2ycdA6j6oMvj7Td@qasdev.system>
+	s=arc-20240116; t=1735176954; c=relaxed/simple;
+	bh=k2tVnWEIrHd4osFoyjY9FXoOiQ6TfMNd6KstRZjhJrI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pX3CY+2BcbCvkt33cc+24jSHqvwtnfn5T4G5UJx+KPfZjwXLf+P5oZryYVgCON25M/3xuyljvMy3yZYxjGSTQIsaQPbJdi3e+N7FjKc8+3tb8TLqtI0SXFE52dVUqjIVGDn+C43VX7ClMsVy/073STcqy5KHtcShD1F1dfO3+bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3ArIXg4; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735176952; x=1766712952;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=k2tVnWEIrHd4osFoyjY9FXoOiQ6TfMNd6KstRZjhJrI=;
+  b=T3ArIXg4MAFOqKprXTU0t8reUCczXUAqDAXVDrX0rqkqrZwG2hxYomQL
+   Oa7/xfjrSKMMqCXvSe2JPpH2H2r2ghMXVsDv01vaCL6ZvielIj9T36zdL
+   iqOhER1/ggrDp/71ncp/zp8FMw7lZ9VLCWFCJ0PJtIUJNU2+kO3mruUcR
+   b9KF6zSz/s1s9R3ocsHK8tBJONZ/Z6zHz2/hLilO5kRY98OCOBlPu75vv
+   1LDuGRSLp3cVqSPCxjBHmPmYrr+Y44v4g/kb7rljFk+0129+Qy2+uhscd
+   cWZlabxN1/ZtaOw4GrxLgeo5AIRAv4BzB7jCvKV0p6PI+GT1KDgs74ik/
+   g==;
+X-CSE-ConnectionGUID: 5peYIZw3RlKzh5z+ZtX6jQ==
+X-CSE-MsgGUID: qh+Bkzw2SsSFRof8Ne6ZkQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="39284761"
+X-IronPort-AV: E=Sophos;i="6.12,264,1728975600"; 
+   d="scan'208";a="39284761"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2024 17:35:51 -0800
+X-CSE-ConnectionGUID: AKjzrJ4QRnGFHKSRVpVdGg==
+X-CSE-MsgGUID: sdSoZaboRFSIFWq4GkuRbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,264,1728975600"; 
+   d="scan'208";a="104779795"
+Received: from shsensorbuild.sh.intel.com ([10.239.133.18])
+  by orviesa004.jf.intel.com with ESMTP; 25 Dec 2024 17:35:49 -0800
+From: Even Xu <even.xu@intel.com>
+To: ping.cheng@wacom.com,
+	jason.gerecke@wacom.com,
+	jikos@kernel.org,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Even Xu <even.xu@intel.com>
+Subject: [PATCH] Hid: Wacom: Add PCI Wacom device support
+Date: Thu, 26 Dec 2024 09:35:27 +0800
+Message-Id: <20241226013527.3048277-1-even.xu@intel.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-This patch addresses two null pointer dereference bugs detected by KASAN 
-in input_ff_create() (drivers/input/ff-core.c) and 
-input_ff_create_memless() (drivers/input/ff-memless.c).
+Add PCI device ID of wacom device into driver support list.
 
-- input_ff_create() log: https://syzkaller.appspot.com/bug?extid=dd5f8d6456680e55eb0a
-- input_ff_create_memless() log: https://syzkaller.appspot.com/x/report.txt?x=10a51adf980000
-
-The root cause of the null pointer dereference in input_ff_create() is 
-that it utilises the "no_free_ptr" macro in the line: 
-"dev->ff = no_free_ptr(ff);"
-which effectively sets "ff" to NULL and makes "dev->ff" point to what "ff" 
-was initially pointing to. The code then attempts to incorrectly utilise
-"ff" after it has been set to NULL causing a null pointer dereference to 
-occur in the following:
-
-"
-   for_each_set_bit(i, dev->ffbit, FF_CNT)
-       __set_bit(i, ff->ffbit);
-   
-   /* we can emulate RUMBLE with periodic effects */
-   if (test_bit(FF_PERIODIC, ff->ffbit))
-       __set_bit(FF_RUMBLE, dev->ffbit);
-"
-
-To fix this I changed all accesses to "ff" to be "dev->ff".
-
-The root cause of the null pointer dereference in 
-input_ff_create_memless() is that it also utilises the "no_free_ptr" macro 
-in the line: "ff->private = no_free_ptr(ml);"
-which sets "ml" to NULL and makes "ff->private" point to what "ml" was 
-initially pointing to. The code then attempts to utilise "ml" after it has 
-been set to NULL:
-
-"
-   for (i = 0; i < FF_MEMLESS_EFFECTS; i++)
-        ml->states[i].effect = &ff->effects[i];
-"
-
-To fix this bug I moved the for loop before "ff->private = no_free_ptr(ml);".
-
-Reported-by: syzbot <syzbot+dd5f8d6456680e55eb0a@syzkaller.appspotmail.com>
-Reported-by: Qasim Ijaz <qasdev00@gmail.com>
-Closes: https://syzkaller.appspot.com/bug?extid=dd5f8d6456680e55eb0a
-Tested-by: syzbot <syzbot+dd5f8d6456680e55eb0a@syzkaller.appspotmail.com>
-Tested-by: Qasim Ijaz <qasdev00@gmail.com>
-Fixes: 5203b3a18c1b ("Input: ff-core - make use of __free() cleanup facility")
-Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+Signed-off-by: Even Xu <even.xu@intel.com>
 ---
- drivers/input/ff-core.c    | 4 ++--
- drivers/input/ff-memless.c | 7 ++++---
- 2 files changed, 6 insertions(+), 5 deletions(-)
+ drivers/hid/wacom_wac.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/input/ff-core.c b/drivers/input/ff-core.c
-index a235d2eb6b31..d9995f47efdb 100644
---- a/drivers/input/ff-core.c
-+++ b/drivers/input/ff-core.c
-@@ -322,10 +322,10 @@ int input_ff_create(struct input_dev *dev, unsigned int max_effects)
-
- 	/* Copy "true" bits into ff device bitmap */
- 	for_each_set_bit(i, dev->ffbit, FF_CNT)
--		__set_bit(i, ff->ffbit);
-+		__set_bit(i, dev->ff->ffbit);
-
- 	/* we can emulate RUMBLE with periodic effects */
--	if (test_bit(FF_PERIODIC, ff->ffbit))
-+	if (test_bit(FF_PERIODIC, dev->ff->ffbit))
- 		__set_bit(FF_RUMBLE, dev->ffbit);
-
- 	return 0;
-diff --git a/drivers/input/ff-memless.c b/drivers/input/ff-memless.c
-index 0bbeceb35545..ce9fb88486ab 100644
---- a/drivers/input/ff-memless.c
-+++ b/drivers/input/ff-memless.c
-@@ -524,6 +524,10 @@ int input_ff_create_memless(struct input_dev *dev, void *data,
- 		return error;
-
- 	ff = dev->ff;
+diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+index 5501a560fb07..b60bfafc6a8f 100644
+--- a/drivers/hid/wacom_wac.c
++++ b/drivers/hid/wacom_wac.c
+@@ -4946,6 +4946,10 @@ static const struct wacom_features wacom_features_0x94 =
+ 	HID_DEVICE(BUS_I2C, HID_GROUP_WACOM, USB_VENDOR_ID_WACOM, prod),\
+ 	.driver_data = (kernel_ulong_t)&wacom_features_##prod
+ 
++#define PCI_DEVICE_WACOM(prod)						\
++	HID_DEVICE(BUS_PCI, HID_GROUP_WACOM, USB_VENDOR_ID_WACOM, prod),\
++	.driver_data = (kernel_ulong_t)&wacom_features_##prod
 +
-+	for (i = 0; i < FF_MEMLESS_EFFECTS; i++)
-+		ml->states[i].effect = &ff->effects[i];
-+
- 	ff->private = no_free_ptr(ml);
- 	ff->upload = ml_ff_upload;
- 	ff->playback = ml_ff_playback;
-@@ -538,9 +542,6 @@ int input_ff_create_memless(struct input_dev *dev, void *data,
- 		set_bit(FF_SQUARE, dev->ffbit);
- 	}
+ #define USB_DEVICE_LENOVO(prod)					\
+ 	HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, prod),			\
+ 	.driver_data = (kernel_ulong_t)&wacom_features_##prod
+@@ -5115,6 +5119,7 @@ const struct hid_device_id wacom_ids[] = {
+ 
+ 	{ USB_DEVICE_WACOM(HID_ANY_ID) },
+ 	{ I2C_DEVICE_WACOM(HID_ANY_ID) },
++	{ PCI_DEVICE_WACOM(HID_ANY_ID) },
+ 	{ BT_DEVICE_WACOM(HID_ANY_ID) },
+ 	{ }
+ };
+-- 
+2.40.1
 
--	for (i = 0; i < FF_MEMLESS_EFFECTS; i++)
--		ml->states[i].effect = &ff->effects[i];
--
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(input_ff_create_memless);
---
-2.39.5
 
