@@ -1,56 +1,78 @@
-Return-Path: <linux-input+bounces-8777-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8778-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D7E99FC7B6
-	for <lists+linux-input@lfdr.de>; Thu, 26 Dec 2024 03:34:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 968829FC80F
+	for <lists+linux-input@lfdr.de>; Thu, 26 Dec 2024 06:08:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0C4D97A0F41
-	for <lists+linux-input@lfdr.de>; Thu, 26 Dec 2024 02:34:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 33EB8162742
+	for <lists+linux-input@lfdr.de>; Thu, 26 Dec 2024 05:08:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8996CEED8;
-	Thu, 26 Dec 2024 02:34:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 160B314A609;
+	Thu, 26 Dec 2024 05:08:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="CpC38f00"
+	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="ptsMgJ2H"
 X-Original-To: linux-input@vger.kernel.org
-Received: from endrift.com (endrift.com [173.255.198.10])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C8E17E0
-	for <linux-input@vger.kernel.org>; Thu, 26 Dec 2024 02:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A4A14A4C7
+	for <linux-input@vger.kernel.org>; Thu, 26 Dec 2024 05:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735180486; cv=none; b=Zz+XJ3e4U8TECVD6LhXJRuq4/BT9zvroes1DJ6hO1KdMIcPYwFD4fB95hLPKTdHnDQbDiOPb5rBP4OZ/KiedVHZhczPO5DnThAq2Rj3OczFDnfMWjZVjw5khEwr20RPbEad5OQjstAKBeThsbzwHafr8id6ryM23MRjv9or3+Xo=
+	t=1735189716; cv=none; b=CaY7UruU4ZlQNLxvh+f72jqJ3wo5Ko/SehJdD82/5TvMiD+GnEjY09f9JDn1giS/C+At4lZjYxb5OMpXi1k2Vd6yhJg7o+tLVliKcf/euKG03SZUjQjQeQNiV/Xu0rVcrSVGJ82I2P4/ugSTa3KwQMFpVLVxTLu6DZfm5q6J5/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735180486; c=relaxed/simple;
-	bh=AjaIMK/hf2RsV71xLkYbF6tRN3hxbnWh8mGR/0HbtgI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=egp8JyPpQeaz+YcGO2u3bhtd3tHaFIxuSoD8CVRF2J9Pd+56j4/o01J2sk+J/9tq4BDW/XiBJvyBY/Vg2fED9MjPGUT8oVP9X/TRdofiVueBgjAPzeHvlZ/80IIaeqmWVGvccwa8+ArEdgtgEG1uxk7saZ90i3iClWZeJRfw4yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=CpC38f00; arc=none smtp.client-ip=173.255.198.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
-Received: from nebulosa.vulpes.eutheria.net (71-212-74-234.tukw.qwest.net [71.212.74.234])
-	by endrift.com (Postfix) with ESMTPSA id B4F5DA3B9;
-	Wed, 25 Dec 2024 18:34:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1735180481; bh=AjaIMK/hf2RsV71xLkYbF6tRN3hxbnWh8mGR/0HbtgI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=CpC38f000YbdyqPtt2c7/xAHdnHVnapOFZJvQraeS2tT1K9w4czTQHTB/OjBRQmw1
-	 QA4eElnbdDqdY1c5xoT8pdwYlCKXm4BaEpuZGmivYo2mKJLBJF4rm/5lSjRjXSwNIP
-	 so2ZI3breF7pRMlnVCcpQ43QUV89+blN3UtXArg0wVxLY+cPR+giBIjdaKhFy4ogca
-	 9s7kcl5crwivqM7za2Y+8VpuRiNwEEIgxrvS66tYtLJ0leL6azpfKyLULNh1ExlBbf
-	 qOo4hpyuInYNpYq2tN2Jl/f2NAdI5z/lkMvXVWfd8g1ByrUHSJFntGozUMrRlDtfiB
-	 ds9Gybd26IJIA==
-From: Vicki Pfau <vi@endrift.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	linux-input@vger.kernel.org
-Cc: Vicki Pfau <vi@endrift.com>
-Subject: [PATCH] HID: hid-steam: Make sure rumble work is canceled on removal
-Date: Wed, 25 Dec 2024 18:34:24 -0800
-Message-ID: <20241226023424.653914-1-vi@endrift.com>
-X-Mailer: git-send-email 2.47.1
+	s=arc-20240116; t=1735189716; c=relaxed/simple;
+	bh=3pqWiSOia8Cc3ev7ia/z6zK39Ju/1V3A0Lfr4mMekmk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JHvkgx8SNbfEfbyxTwJ5xh53xjLwjIaXz9UOv4+FU6vwrJCPYy8zfzinO19SUHbUMMvOeLlrE7oJvAbPurpyhzGfGt3E1UmRVRGWz9osz+0522bNXDIDJf69iYcf/nJNeZhXOJaL/lZsAJ6DbkO7vq5EIhi4K7N26oaF3arh78k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=ptsMgJ2H; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
+	s=key1; t=1735189711;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=1+Pw0Duk2ffkzOZeLZ/8MRbYDhOihMi4oOjlzS/3yps=;
+	b=ptsMgJ2H46eD27TfaBfqI+4cUOz5vLA6QzK/27mp8ADqFsZ1CmUslrIWbwKt3H932VxT28
+	nDTIQTyD7SxYjuA/ll7SgJQUWXkitKKx30BvmlAhWnCv+iGu4eQc8unN2ChI1NQVi2BWfh
+	uTHNc2e3Ezvd+JHJeVb/XSwIcxMQPhXR16MaK1umzxtDAUDgtz3kuZIpVWJ/fqFd+ZYur5
+	83RMZiPrCdSHsFlajpnAqfBrUKCsYGkr3Lj0uk5kgyCs3XKLyblKce8dqyoCXMJtRjgsVm
+	1SPx6owqt5PeQmpOTNlFXBis5hwywfH2i8iwNYnf28S7Jg2DOoiM9/J7fcOTUQ==
+From: Val Packett <val@packett.cool>
+To: 
+Cc: Val Packett <val@packett.cool>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sen Chu <sen.chu@mediatek.com>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Macpaul Lin <macpaul.lin@mediatek.com>,
+	Lee Jones <lee@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Eddie Huang <eddie.huang@mediatek.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Fabien Parent <parent.f@gmail.com>,
+	Yassine Oudjana <y.oudjana@protonmail.com>,
+	Chen Zhong <chen.zhong@mediatek.com>,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rtc@vger.kernel.org
+Subject: [PATCH 0/9] mt6397: Add support for the MT6392 PMIC
+Date: Thu, 26 Dec 2024 01:58:00 -0300
+Message-ID: <20241226050205.30241-1-val@packett.cool>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -58,30 +80,55 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-When a force feedback command is sent from userspace, work is scheduled to pass
-this data to the controller without blocking userspace itself. However, in
-theory, this work might not be properly canceled if the controller is removed
-at the exact right time. This patch ensures the work is properly canceled when
-the device is removed.
+The MediaTek MT6392 PMIC is usually found on devices powered by
+the MT8516/MT8167 SoC, and is yet another MT6397 variant.
 
-Signed-off-by: Vicki Pfau <vi@endrift.com>
----
- drivers/hid/hid-steam.c | 1 +
- 1 file changed, 1 insertion(+)
+This series is mostly based around patches submitted a couple
+years ago by Fabien Parent and not merged, and includes extra
+cleanups, fixes, and a new dtsi file similar to ones that exist
+for other PMICs.
 
-diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
-index 6439913372a8..af38fc8eb34f 100644
---- a/drivers/hid/hid-steam.c
-+++ b/drivers/hid/hid-steam.c
-@@ -1306,6 +1306,7 @@ static void steam_remove(struct hid_device *hdev)
- 
- 	cancel_delayed_work_sync(&steam->mode_switch);
- 	cancel_work_sync(&steam->work_connect);
-+	cancel_work_sync(&steam->rumble_work);
- 	hid_destroy_device(steam->client_hdev);
- 	steam->client_hdev = NULL;
- 	steam->client_opened = 0;
+This series only enables three functions: regulators, keys, and RTC.
+All that was tested on a lenovo,tb7304f tablet (basic DTS coming
+right after this, promise).
+
+Fabien Parent (5):
+  dt-bindings: mfd: mt6397: Add bindings for MT6392 PMIC
+  dt-bindings: regulator: add support for MT6392
+  dt-bindings: input: mtk-pmic-keys: add MT6392 binding definition
+  mfd: mt6397: Add support for MT6392 pmic
+  regulator: mt6392: Add support for MT6392 regulator
+
+Val Packett (4):
+  soc: mediatek: mtk-pmic-wrap: add compatible for MT6392 PMIC
+  input: keyboard: mtk-pmic-keys: add MT6392 support
+  rtc: mt6397: add compatible for MT6392 PMIC
+  arm64: dts: mt6392: add mt6392 PMIC dtsi
+
+ .../bindings/input/mediatek,pmic-keys.yaml    |   1 +
+ .../bindings/mfd/mediatek,mt6397.yaml         |   3 +
+ arch/arm64/boot/dts/mediatek/mt6392.dtsi      | 232 +++++++++
+ drivers/input/keyboard/mtk-pmic-keys.c        |  15 +
+ drivers/mfd/mt6397-core.c                     |  43 ++
+ drivers/mfd/mt6397-irq.c                      |   8 +
+ drivers/regulator/Kconfig                     |   9 +
+ drivers/regulator/Makefile                    |   1 +
+ drivers/regulator/mt6392-regulator.c          | 484 +++++++++++++++++
+ drivers/rtc/rtc-mt6397.c                      |   1 +
+ drivers/soc/mediatek/mtk-pmic-wrap.c          |   1 +
+ include/linux/mfd/mt6392/core.h               |  42 ++
+ include/linux/mfd/mt6392/registers.h          | 487 ++++++++++++++++++
+ include/linux/mfd/mt6397/core.h               |   1 +
+ include/linux/regulator/mt6392-regulator.h    |  40 ++
+ 15 files changed, 1368 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/mediatek/mt6392.dtsi
+ create mode 100644 drivers/regulator/mt6392-regulator.c
+ create mode 100644 include/linux/mfd/mt6392/core.h
+ create mode 100644 include/linux/mfd/mt6392/registers.h
+ create mode 100644 include/linux/regulator/mt6392-regulator.h
+
 -- 
 2.47.1
 
