@@ -1,100 +1,82 @@
-Return-Path: <linux-input+bounces-8792-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8793-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5349FD06A
-	for <lists+linux-input@lfdr.de>; Fri, 27 Dec 2024 06:24:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD409FD272
+	for <lists+linux-input@lfdr.de>; Fri, 27 Dec 2024 10:11:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 589847A1157
-	for <lists+linux-input@lfdr.de>; Fri, 27 Dec 2024 05:24:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B13B3163842
+	for <lists+linux-input@lfdr.de>; Fri, 27 Dec 2024 09:11:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5A0F1876;
-	Fri, 27 Dec 2024 05:24:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B54A155741;
+	Fri, 27 Dec 2024 09:11:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="XKn593P9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rAQzgFZx"
 X-Original-To: linux-input@vger.kernel.org
-Received: from endrift.com (endrift.com [173.255.198.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D593935958
-	for <linux-input@vger.kernel.org>; Fri, 27 Dec 2024 05:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D356D153835;
+	Fri, 27 Dec 2024 09:11:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735277063; cv=none; b=sIV5bwZgsfqVZHK6UrfdwnOYwypQduWH1sIZskZk6h8c+NveiawLWjGV2o7/rDpuTFNOQ8Mcd4mI8aRRfzFLwGPC8H4v96yUMWoPr22sLsX6vI428NkhyEE4QEHvUJP4C4R3B4rU7iGF2KIzfNMi6tLc4jp9ALNUZbsWRAoMky4=
+	t=1735290684; cv=none; b=UcqKypwlqcZdyb7W0oRuKS4ZVWd7/AJmNsSxXYFBP4MoqeNDJnj38tl6eTbiaKKQqnq37Y+l7iHwzcEOvWH/otOcTjglpQMtnxqSPgnETJsPFvLDTlZeuOVuf3TAkXLYn1pA36AZmC0gKibyl/JFkXqxBv/b/tI3ad8hz0++fyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735277063; c=relaxed/simple;
-	bh=C8AIoTGDJ5Q+BmcnsfWsK7ZAft2eLUYLNt5Iqqs/2wo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f1CiXeR6GnCPiuCUYqpZ87Jog4psRQTTRDRhCoXBLXtvuKg6U3X0LRS3s0hczp5+p5T/ys54gzIAshN/O8AnJotXd6jCxf5VSpvAV0LaaBmzS062OL8CmMxMPbqqSX/+bwjX6dhX+quq0+3sGfbYj4KJfrXcjJ9UyiDBPqJqhcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=XKn593P9; arc=none smtp.client-ip=173.255.198.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
-Received: from [192.168.0.22] (71-212-74-234.tukw.qwest.net [71.212.74.234])
-	by endrift.com (Postfix) with ESMTPSA id 58B1AA037;
-	Thu, 26 Dec 2024 21:24:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1735277054; bh=C8AIoTGDJ5Q+BmcnsfWsK7ZAft2eLUYLNt5Iqqs/2wo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XKn593P9QOa7pqu5EKt1M5IpBNGyue2nREBAg/rquIpO6Px83yncBcIpy+JRE+mia
-	 XvYLujmLRelULGcK0isf/nIpfLJzLlQW9FxP1yyTW/6D3Hao1QKVZD3w+DwtTBR682
-	 1sATqZoP2NnfLgGz8OpJlAu3HNgs0ROnOfIpGB39Sma9JA9NnVwukoWKRvNjsDVBbz
-	 BU7bwyK7eMVrZmrfu48BdbqmYbmVAk4oi+s8V8MNy2p9zfkGUOqsW8SA/mMaqC3uL7
-	 KzBfh2rt9+jinqUiuLK4rsEMOxKB1gcJ7Mjux3TgD8FOMYfUdPziM06muKzFYMNBxx
-	 K5KKOgveMSEOg==
-Message-ID: <cec5ed7c-5f35-4d65-99a3-92abe63c5b24@endrift.com>
-Date: Thu, 26 Dec 2024 21:24:13 -0800
+	s=arc-20240116; t=1735290684; c=relaxed/simple;
+	bh=88ElJIqFyOFuJ3+w4V018XORRbvyV0TPA3MTIY3utmk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z50RvUgwQInBSmz9Lo1UP1Z+pneM+MSjGRs2SH/wvoEK5dYOlxzbava2/teAVVIvZTvfpq1H3Y0UCWLxSERVzMTqShbMMyJnpLtLYTSFyKqmi2L/M9wqkeOGLAWgKRvEyf2YaFf9X8G9VB0wGGjJGYJyoHas1wbW3OvYxKYfcaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rAQzgFZx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 819FDC4CED0;
+	Fri, 27 Dec 2024 09:11:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735290684;
+	bh=88ElJIqFyOFuJ3+w4V018XORRbvyV0TPA3MTIY3utmk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rAQzgFZxDNdkx1KvuVMeKjmdRfubGJakH3dLvTMlIYyfkY2wGUfuLQXeYr1jFMYsx
+	 TNgyRw2fVnLe+35Cj1qvwKPWMkidxFcIsdLFbFXlyxgbKwC5yUEPGTsPE2iBru+QaV
+	 kPVTStjPVWctNmYZOADNERBQ3a3tpk/xfcfJzgu01bw13KHOYDoQLriEBgK7RwXIvb
+	 zaFfiLS1mA5g/JXUQe9WfHZxckrQe/khdVsMGB4XTP8T3Xh69WJd3DXnQv2M0LM3jn
+	 ejo5uD7/xNBANteVfgIIj1NPF+E4eC5vo0RJ5LmVAoaqCe4lUE9v2INEdLLr4V9KWZ
+	 qlAIiGo7RUHHw==
+Date: Fri, 27 Dec 2024 10:11:21 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Val Packett <val@packett.cool>
+Cc: Mattijs Korpershoek <mkorpershoek@baylibre.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Fabien Parent <fparent@baylibre.com>, 
+	Bernhard =?utf-8?Q?Rosenkr=C3=A4nzer?= <bero@baylibre.com>, Alexandre Mergnat <amergnat@baylibre.com>, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 2/3] arm64: dts: mediatek: add per-SoC compatibles for
+ keypad nodes
+Message-ID: <fvefi22ycl2tryz3hfkqp5ji4w75tdup235vdvbqs6b5uly2ia@i7efazaxu2eb>
+References: <20241225192631.25017-1-val@packett.cool>
+ <20241225192631.25017-3-val@packett.cool>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] HID: hid-steam: Fix Lizard Mode disabling
-To: Eugeny Shcheglov <eugenyshcheglov@gmail.com>
-Cc: jikos@kernel.org, bentiss@kernel.org, linux-input@vger.kernel.org
-References: <20241225155507.30288-1-eugenyshcheglov@gmail.com>
- <2f88805c-7f4e-48a6-bcda-29a15879825b@endrift.com>
- <CALepYkLaAfRW1OvCOoj9-+xUXDtUUW6rf+tVPLjSX2o3VEOaSA@mail.gmail.com>
-Content-Language: en-US
-From: Vicki Pfau <vi@endrift.com>
-In-Reply-To: <CALepYkLaAfRW1OvCOoj9-+xUXDtUUW6rf+tVPLjSX2o3VEOaSA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241225192631.25017-3-val@packett.cool>
 
-
-
-On 12/26/24 5:54 AM, Eugeny Shcheglov wrote:
-> Hi, Vicki,
+On Wed, Dec 25, 2024 at 04:26:20PM -0300, Val Packett wrote:
+> The mt6779-keypad binding specifies using a compatible for the
+> actual SoC before the generic MT6779 one.
 > 
-> First, I should explain the motivation behind this change. I'm a developer of a gaming platform based on SteamDeck. My app runs in kiosk mode, and the system boots directly into the app, so I need to be able to read Gamepad values by default.
-> 
-> Let's ensure that we are on the same page and that I understand the driver behavior correctly.
-> 
-> There is one hardware mode: "Gamepad" mode (probably we can call it something like a "Full" mode), where all inputs from buttons, pads, and switches are processed. "Lizard Mode" is a possibility to filter input, right? So, if Lizard Mode is enabled, it gives us a
-> possibility to change modes between Gamepad (full input) and Desktop (mouse/keyboard only) by pressing the "Options" button OR automatically when the Steam client is opened.
+> Fixes: a8013418d35c ("arm64: dts: mediatek: mt8183: add keyboard node")
+> Fixes: 6ff945376556 ("arm64: dts: mediatek: Initial mt8365-evk support")
 
-This is not at all accurate. Lizard mode is handled by firmware in the controller board itself and when enabled emulates a keyboard and mouse in addition to the gamepad controls. If lizard mode is disabled, then that emulation is disabled. Game/desktop modes are handled exclusively in the driver. They do different filtering of inputs based on if the evdev node is open or not. I forget the exact specifics and would need to review the code. If you want fine control over how all of this works, you can open the hidraw manually and parse it. The format is well-documented in the driver, and opening the hidraw disables all of this stuff (though you will need to send the heartbeat manually to keep lizard mode off--it automatically turns back on if a watchdog turns off).
+Not really a fix... or describe the bug.
 
-> 
->> Switching between gamepad and desktop modes is already blocked when lizard_mode is disabled. See line 1053 in steam_mode_switch_cb.
-> 
-> No, it doesn't. Mode switching happens on line 1052, right before the "if (!lizard_mode) return" condition in the steam_mode_switch_cb.
-
-Oh, yes, come to think of it that should probably be on the other side of that early return.
-
-> 
-> Logically, the "lizard_mode=0" option should disable the possibility to filter the input. However, when I tried setting "lizard_mode=0" on my SteamDeck, nothing changed except that the mouse was gone, along with the haptic pulse during mode switching. I'm still able to switch the joystick inputs on and off.
-
-Yup, that's because lizard mode is literally just the keyboard/mouse emulation. Since without that desktop mode is useless, it disables the mode changing. Or it should. It looks like that might not be handled entirely correctly, as you just said.
-
-> 
->> All in all, this patch doesn't actually "fix" anything.
-> 
-> Well, in that case, what should "lizard_mode=0" do? As I mentioned before, on my SteamDeck, it only disables the haptic pulse and "desktop mode" functionality like mouse input.
-
-Vicki
+Best regards,
+Krzysztof
 
 
