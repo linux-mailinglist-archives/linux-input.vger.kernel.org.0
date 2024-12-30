@@ -1,163 +1,116 @@
-Return-Path: <linux-input+bounces-8821-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8822-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 979EF9FE594
-	for <lists+linux-input@lfdr.de>; Mon, 30 Dec 2024 12:16:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 813F99FEA5C
+	for <lists+linux-input@lfdr.de>; Mon, 30 Dec 2024 20:37:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5B0401622C4
-	for <lists+linux-input@lfdr.de>; Mon, 30 Dec 2024 11:16:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 529501883536
+	for <lists+linux-input@lfdr.de>; Mon, 30 Dec 2024 19:37:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C25D146A69;
-	Mon, 30 Dec 2024 11:16:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20F38191F74;
+	Mon, 30 Dec 2024 19:37:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iQh+lyh7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uFu7eJ7E";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iQh+lyh7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uFu7eJ7E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NtXzOW98"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916D92594BB;
-	Mon, 30 Dec 2024 11:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A92EAD0;
+	Mon, 30 Dec 2024 19:37:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735557360; cv=none; b=CKbVGMIaiDsZhQaNlevh7KrWiJybrmVFttmOwNV5brpcEdTaBacrSIXMkftpDJemogUiH6PerIEGHRw0WXqXCgfRb5+uy/+fPu/0ZSP0cm/pCa2wc6q1OSXl977vEFghk2KoFNwnnuzSZWS2DzB7T8cFuc3Mbc6zTgkhlUp9m9Y=
+	t=1735587426; cv=none; b=i4gagtBjqCrDcOHnTS8X+/o4GE8++/+q8lusmOfxBVgCM4IQ6hwwvfSMix7Ry0nVFF3Pz18UvPVL0F/go7LvfeeGN3aMZWtV/+/bLGkS1N2+TNvHlG16qsJPFcqzA18vl9aYaSmOumTcy+mjKgZ24LpAIrc5pf3fOZq+939L4yI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735557360; c=relaxed/simple;
-	bh=FjoEnCa1LRCloWxw40zisFh6cCE1uqLPx/bo48EGbQI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CZhYSHVO23q5DwfiJj5lE59lHT4wEPsweUVVZ3G/7XIJUoCPni/cgRJ94oKwvkPDx+f/njmUrZ30y07mMdsJgKpNvRWJ7pmDYP6/OhMMRK8gafP3+oaK+qqjaPcECQ+gi20xwUKoSe4OP6hK7klrEdx/hS74Ymj1cZFfRixEkeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iQh+lyh7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uFu7eJ7E; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iQh+lyh7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uFu7eJ7E; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B686D1F38E;
-	Mon, 30 Dec 2024 11:15:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1735557356; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=itognTwq6sFLppyxxUmPOpbT4foX/TSOV8Xbz+GbJX8=;
-	b=iQh+lyh7c/ikvRHBrQSBXSTSoWo1naQg1fPvjSHiGE6QtIb2mhrBEgYNy9Sl0lOJ185lC6
-	C+htuKvPTLc13tVeU0gIS6oq+ONDJAYLFZCBnaOJW8/2kqoGf14kz+IUJ8IeJSuoZdTu6+
-	rVDgNUOIcFu/3KQyXgohTCuwusBco2w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1735557356;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=itognTwq6sFLppyxxUmPOpbT4foX/TSOV8Xbz+GbJX8=;
-	b=uFu7eJ7ElmQbSSNG8R/YfvCMPqXCCkulqqMNQ15ISL642wtaMVFizTto5LHYxeVJJFUmAB
-	Xvy4H5icyB/PI2AQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1735557356; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=itognTwq6sFLppyxxUmPOpbT4foX/TSOV8Xbz+GbJX8=;
-	b=iQh+lyh7c/ikvRHBrQSBXSTSoWo1naQg1fPvjSHiGE6QtIb2mhrBEgYNy9Sl0lOJ185lC6
-	C+htuKvPTLc13tVeU0gIS6oq+ONDJAYLFZCBnaOJW8/2kqoGf14kz+IUJ8IeJSuoZdTu6+
-	rVDgNUOIcFu/3KQyXgohTCuwusBco2w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1735557356;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=itognTwq6sFLppyxxUmPOpbT4foX/TSOV8Xbz+GbJX8=;
-	b=uFu7eJ7ElmQbSSNG8R/YfvCMPqXCCkulqqMNQ15ISL642wtaMVFizTto5LHYxeVJJFUmAB
-	Xvy4H5icyB/PI2AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 89C6B13A30;
-	Mon, 30 Dec 2024 11:15:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id r5zqH+yAcmchcQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 30 Dec 2024 11:15:56 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] Input: psmouse: add NULL check to psmouse_from_serio()
-Date: Mon, 30 Dec 2024 12:15:52 +0100
-Message-ID: <20241230111554.1440-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1735587426; c=relaxed/simple;
+	bh=hcD3hQhqQaTxECM9Jn39OrNH51WOSiZYjSikhAunMXo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=d1OBvmGpbY51f1qBAPJG4GdTJ7+CLM2JnJQwVgniViezrnIdDWL2KAdI7Ib0LRV56BzBj2Y4sg7AHp1IFnwlnTwvD24MnPCZdJ0WQZEHSpN2J01nm9ixENrFaIrDpTbTI2A/24wOXwT7D8mmKXvmOBMFdqFge/j4aIgsF34LBCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NtXzOW98; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735587424; x=1767123424;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=hcD3hQhqQaTxECM9Jn39OrNH51WOSiZYjSikhAunMXo=;
+  b=NtXzOW98uPGnneuKAtab5qdF2LZWkeD8OsPIiyKQL46mLnTdYtaAPdbS
+   G9lQ+57sQcYkdY1GvgTlfZ0ZBbubPAFsEaMXc82yiF2K5EZI/w0F5X4+y
+   6z5Y2zAnFDDNI+opJvrlnHaug9LH4CvPzfx/Wx7WNCpkKEBi/15/CSZF8
+   8YYNu49vqrPcJed+Uj7xsNxt2i3H5SZpAC2zp5GSxsfqlLzdNDqTBjEZK
+   uas3ZLptvXu8YebxgZTs54pixpvhGkLV7reSF5l+ronkQVbtNB97oLbgI
+   i6Gf/K/xgkRa8k1AvVofAOmflK7gW0Z8J+JCPUZe3IAbKx5O2GcNYVM68
+   Q==;
+X-CSE-ConnectionGUID: Pt/DEHAbQK+1rBTF9ASSeg==
+X-CSE-MsgGUID: 6ZcgaEI8Qb6ZkH0jbg/kPQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="39649193"
+X-IronPort-AV: E=Sophos;i="6.12,277,1728975600"; 
+   d="scan'208";a="39649193"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 11:37:04 -0800
+X-CSE-ConnectionGUID: XAlEnZMpR6uUC5+8D4rUQA==
+X-CSE-MsgGUID: ZCw6QQNVRPmo5ujQBNzg1g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="131811505"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.16])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 11:37:03 -0800
+Message-ID: <d95d2951a6ab595d9e5cdb24eeb577e243b543d9.camel@linux.intel.com>
+Subject: Re: [PATCH 0/3] HID: intel-ish-hid: deadcoding
+From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To: linux@treblig.org, jikos@kernel.org, bentiss@kernel.org, 
+	linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Date: Mon, 30 Dec 2024 11:37:02 -0800
+In-Reply-To: <20241225015509.458032-1-linux@treblig.org>
+References: <20241225015509.458032-1-linux@treblig.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,suse.com:url];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
 
-The serio drvdata can be still NULL while the PS/2 interrupt is
-processed.  This leaded to crash with a NULL dereference Oops, as
-psmouse_from_serio() blindly assumes the non-NULL ps2dev object.
+On Wed, 2024-12-25 at 01:55 +0000, linux@treblig.org wrote:
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+>=20
+> Hohoho!
+>=20
+> Please find a small series of deadcode cleanups for functions
+> that were added many years ago but haven't been used.
+>=20
+> Build tested only.
+>=20
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 
-Add a NULL check and return NULL from psmouse_from_serio().  The
-returned NULL is handled properly in the caller side, skipping the
-rest gracefully.
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-The log in the bugzilla entry showed that the probe of synaptics
-driver succeeded after that point.  So this is a stop-gap solution.
-
-Link: https://bugzilla.suse.com/show_bug.cgi?id=1219522
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
-
-It was submitted in a few months ago
-  https://lore.kernel.org/20240405084448.15754-1-tiwai@suse.de
-but seems forgotten.  Simply resubmitted.
-
-
- drivers/input/mouse/psmouse-base.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
-index a2c9f7144864..d428e9ac86f6 100644
---- a/drivers/input/mouse/psmouse-base.c
-+++ b/drivers/input/mouse/psmouse-base.c
-@@ -120,6 +120,8 @@ struct psmouse *psmouse_from_serio(struct serio *serio)
- {
- 	struct ps2dev *ps2dev = serio_get_drvdata(serio);
- 
-+	if (!ps2dev)
-+		return NULL;
- 	return container_of(ps2dev, struct psmouse, ps2dev);
- }
- 
--- 
-2.43.0
+>=20
+>=20
+> Dr. David Alan Gilbert (3):
+> =C2=A0 HID: intel-ish-hid: Remove unused ishtp_dev_state_str
+> =C2=A0 HID: intel-ish-hid: Remove unused ishtp_cl_tx_empty
+> =C2=A0 HID: intel-ish-hid: Remove unused ishtp_cl_get_tx_*
+>=20
+> =C2=A0.../hid/intel-ish-hid/ishtp/client-buffers.c=C2=A0 | 21 -----------=
+--
+> =C2=A0drivers/hid/intel-ish-hid/ishtp/client.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 | 19 ------------
+> =C2=A0drivers/hid/intel-ish-hid/ishtp/client.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 2 --
+> =C2=A0drivers/hid/intel-ish-hid/ishtp/init.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 30 -----------------
+> --
+> =C2=A0drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h=C2=A0=C2=A0 |=C2=A0 1 -
+> =C2=A0include/linux/intel-ish-client-if.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 -
+> =C2=A06 files changed, 74 deletions(-)
+>=20
 
 
