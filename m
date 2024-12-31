@@ -1,124 +1,179 @@
-Return-Path: <linux-input+bounces-8828-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8823-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76BB19FF105
-	for <lists+linux-input@lfdr.de>; Tue, 31 Dec 2024 18:40:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC55A9FF0F8
+	for <lists+linux-input@lfdr.de>; Tue, 31 Dec 2024 18:33:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 577F818829AA
-	for <lists+linux-input@lfdr.de>; Tue, 31 Dec 2024 17:40:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD50B3A3414
+	for <lists+linux-input@lfdr.de>; Tue, 31 Dec 2024 17:33:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14B211ACEBE;
-	Tue, 31 Dec 2024 17:40:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 889931ACEB8;
+	Tue, 31 Dec 2024 17:33:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="PukRBQ5w"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="jWVaVIZL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-18.smtpout.orange.fr [80.12.242.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazolkn19010006.outbound.protection.outlook.com [52.103.67.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F201A4E77;
-	Tue, 31 Dec 2024 17:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735666821; cv=none; b=LgHA5TROcw/Q6dlaYbixbyQZIGJRJ8plDZuZKF4GVn8rTa6gYPqT1vf05nY5CjyKq5o/CUFB3dSywjbm5/VnTFhBfFsOEk0KPBvK+XvfhPasEn0IAps1l8xjwN0xBWB830qA70lBjVSdRMV3uic/a+IPItEqBvj57euhrPn6UzA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735666821; c=relaxed/simple;
-	bh=KPKlddnHotXsfufI2OrnfgpHlQTyrgzYueZmZmkYwHY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZyiOZaz/YAtC2FvduQhoOwT0D+q7TjKD186PmyhO9uwnn7/nnqdXhlyn33V8cO9xNYWAS04Vq3VojnD4q0qfPa5S2H6ZHriixBFJ0S4VwGKkowVqfEitkZaEpkSAAdfLs6J459RZa1SVh/BWeVKgGXiWpKDWdTMWYoRRLj+Pm1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=PukRBQ5w; arc=none smtp.client-ip=80.12.242.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id Sg5EtDHCrmOLwSg5Ht72J3; Tue, 31 Dec 2024 18:31:12 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1735666272;
-	bh=crc3HC0D3iciYfP0aty4FRSyX4CvPSjuN6ckre/pvrg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=PukRBQ5w+GRkwN2A2/quDSXLhMNZ92h/i8Gw3rxE/nOtNOiZ62nwHfqOqP4vQOyJy
-	 81r/fDlZ4WqSDiObmUVvRo58b6xkoZ2gmFpWc8uZ+4WB3EFZg3MX4QoZGHCxtoJJVp
-	 bL00+ZvQMji4t4/QKbt7h/2lmRou07KamZmWEi81A4qsAGUHVTkOonuHig5JJinU0U
-	 ODVUzzdyIYHyu5FEQU8THXHtisoovhb57fJfXsExwJFs+x6rX46tBu2NmP4qQPkaI6
-	 89UuPkD4rY7Z/23550r7jjpqvtKseChC/JnXN2a/XezHm6dwVtkhgVx7elmtjBMmUk
-	 psvXQ/jDOoA1g==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Tue, 31 Dec 2024 18:31:12 +0100
-X-ME-IP: 90.11.132.44
-Message-ID: <86521cdf-1dc6-4b37-b356-160142674285@wanadoo.fr>
-Date: Tue, 31 Dec 2024 18:31:07 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8635C1ACEA8;
+	Tue, 31 Dec 2024 17:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.6
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1735666393; cv=fail; b=qWtsV9T7WZYMxBrP9cZPD6Q2OrmiwUjOXrV41qs3BiLkNOhYwkprecCzn7yRPkFiSHQ1NMd/IFvlFSkVv+1lXXgTLIrAkJJzHOi2W39vcoryOFVZ33zirUFlQDqiV5PPV1mtzbELsbUOYZB1VUZM7Hk6ts4BDLAal0EeOa1qP/o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1735666393; c=relaxed/simple;
+	bh=m8PE0Ao4WRx/H2WOewQ9aHMuNA0GeHCpZJkIhSog3TA=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=K9cZDwvHDm6gcKmcLCOj3LTUlIL5EX27SfUbI1Vc2mhuUH0mOio6I4Zs6VgWckHahlVS1w8ysaA3Cnpi27uajD/paXwulTSpGXcAJS4i+hMqXWRrNuCAAsE7uxHY0FKadUa8OLoUe4vUkX/dK3vw48CEd0e5AcVStG8LLrwwfu0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=jWVaVIZL; arc=fail smtp.client-ip=52.103.67.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s1m2vlS/1wdSnCnP6wvVUQYCISpv7kGKRQopPbQ1JDIvqHKyKJkA8XPgCKbQ70QiaWmuS98XmZrTxVYcaNHPIgs2yNvQ6JIZbDVWgD4IDZwX2LN1cHacrpCvFt18Tktek28ZgxIRZgrkPonZZxQjTuAhBnAX9jNN6HiznLvMFtE57Lw/rpqiIpA7y1jwYM4CsgDXdg15IbWibsZQnMXEtC/BkYsk51i8bb7Qkw7zNNWwHx//S8KqOqSNvAWewNHmrCRlFSdiX4qv+kzxunZE97e3LXhWMC2E4iVpzLyzhfYSCX5bl+ZV4x00dCc4jcLzV5TUE/gUsb84LPT8u8qoCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=60DMICABaJsGu37LQE5AZEoLxZoOlHFi5JYbCWzVv7s=;
+ b=l9mi2RAfdh1Sb8aFSS+3V6CRzXuKcc32/IVPWzsxYC3ytdnQ5Wqa0gDaKPbSvjdvUCAcTyHA3Yb+yYw0uCafKQmsDm72vp1PCxluTcOJ4IFze3Ad6asVNFjnPOPqRKExPxnuzU3DjMs6aoqAT2trUojHzY47KkDOwb4xrxIsw73AUBwK4k5YMlZb4jHAuDo483UTTuw6pHZKIFW/dbx7PpmRkVOQqrRldPMZwBCTkvWn+a9bnqYdRHJd3fxGEzRF/xpclHOCfi1GZgIWHzWpfNr1Uz6ULHkzmELqAq4EGkb7sjVDM8FQQKHAgj5cH4O7sJFbhjy9/87BM/iKuAey0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=60DMICABaJsGu37LQE5AZEoLxZoOlHFi5JYbCWzVv7s=;
+ b=jWVaVIZLFX+SlC/MqDLy41tC0yKzQz+IuKs6buPEqo22kOGTF04P8h2ElqPUJxjK0dfvKOE2MtIpCew2tPmAL/6dGLH60kiDYHcK9jwPW/waA06I1NXBMlTU7H2JviNag5eaMTtljImznm38N3WAgM/bWY0uWxrWykNOy0L90c9qR/3VhM/OIWrUMiyyH1YlU4zMZan+EgSMfSgntI3bZwYh7fJX2N07RvwmP5wiwu0h/etZb+sRnOsUqWHoiUpmlyaz3N7KypMfpDRi/TF3EDrOMg7imsXxJ+QaSNs2x+fLn650AZVe0o22tjanctemdAWH3OM5d9keTb8M7Yxo9Q==
+Received: from PN3PR01MB7728.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:cd::12)
+ by MAXPR01MB4261.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:8::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8293.20; Tue, 31 Dec
+ 2024 17:33:07 +0000
+Received: from PN3PR01MB7728.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::d3b7:2498:cd95:5d06]) by PN3PR01MB7728.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::d3b7:2498:cd95:5d06%4]) with mapi id 15.20.8314.012; Tue, 31 Dec 2024
+ 17:33:06 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: "jkosina@suse.cz" <jkosina@suse.cz>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, "bentiss@kernel.org"
+	<bentiss@kernel.org>
+CC: Kerem Karabay <kekrby@gmail.com>, Orlando Chamberlain
+	<orlandoch.dev@gmail.com>, "linux-input@vger.kernel.org"
+	<linux-input@vger.kernel.org>, Linux Kernel Mailing List
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 0/4] Touch Bar driver for Apple Macs with T2 Security Chip
+Thread-Topic: [PATCH v2 0/4] Touch Bar driver for Apple Macs with T2 Security
+ Chip
+Thread-Index: AQHbW6oNdgMN1a56EEChv9ji0GSZgg==
+Date: Tue, 31 Dec 2024 17:33:06 +0000
+Message-ID: <E5CC067F-5CC8-4B33-B50C-40163C8A46E8@live.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3PR01MB7728:EE_|MAXPR01MB4261:EE_
+x-ms-office365-filtering-correlation-id: 5b3cff7f-73ce-4f14-9a21-08dd29c12fbc
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|19110799003|15080799006|8022599003|8062599003|7092599003|8060799006|461199028|440099028|3412199025|102099032;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?sKORW3GoixOsi6hcrM7zQX6JiCpnD1pGGi3CKf38RxwRioEKK8k3sK3ekie/?=
+ =?us-ascii?Q?L23CfAOvL3B4iI671+cBEzeo54cYiOjKuvamjJoYukThhDjwI+byco+834kD?=
+ =?us-ascii?Q?oVi7CNqhKoXflk3XGcq7PFkrSaJvq98jVagZsJ3c5M9j5picOxb2cqFlviG2?=
+ =?us-ascii?Q?LKioDMRZKTfHBMQqeBtvHltdt62PKFKPo1LNb1rMok3KlWBJmCs4ClF3BelJ?=
+ =?us-ascii?Q?0xdkV48xSSvGzKbFUyMtZZKebevqhzvuexoBEqp/eqdznUOk7IeiuxxXmgXZ?=
+ =?us-ascii?Q?iUdTn79Vg66xxYkOYgzAJsp3cZk13clqtm0gqte6qYw/NymbfVc9HtL9DNfb?=
+ =?us-ascii?Q?L7AiksOZp1oKWhrKGm1dCl8UgZWE1oGaQJfIbYnqvYQgXbqmDp4lWAMYx8Ng?=
+ =?us-ascii?Q?MY7M/GOEx+sQkmkKcI4+zBsPwGXu/pCHnNECWJr9Iv5GbuB+8vPsgax+c2WX?=
+ =?us-ascii?Q?tMb3T/nlugBnFqaxTBrdxRw6bc8qbBl4aCbfJ2oxSb8NHDTZPjaH0bctr5vA?=
+ =?us-ascii?Q?3zQwsf23SBDPSQfHfY8nVvBwi7E4cyf1W2+UgD6ewpjhYtGTMUkwGHN86hCP?=
+ =?us-ascii?Q?JcSNbLSwuJhbwDPQcZIYPQ6Cw1i2CD7pNTl4j7pLjvCIu0sAL56FdQDU0IEb?=
+ =?us-ascii?Q?NnkWzw9PnmqM9Evv7NuuAOGlB5tIvL9sTWDBJiYqar0+e/2KG4SHDcwIjbTF?=
+ =?us-ascii?Q?iyBwRwgUCsDchSZUYVqmk5AQbFaXuTKSj3uyiFaEw96UAUICWrMOxqTxrJwn?=
+ =?us-ascii?Q?aqEp+Q09NCTi2SxUJ1iOX5ahKsGpdSknQ4XIHuAQuSarOsdKXlDYRKbUvcXe?=
+ =?us-ascii?Q?jGqz3GB32SIWPCdY2Kz5IImWHVT54jtkCOuN4ATOsHjPT09p4B1nlqBn/BFX?=
+ =?us-ascii?Q?KOHIh+bD9Og32zpNgEJzHP9FJuywc7UdIk+ipC6RhErllrpFKeUxTbh0N+HU?=
+ =?us-ascii?Q?/5dv9lLthph4TE5W9AybHyVpc026FBYly90AmwwoipXTKnPIrW96NzYf9sxq?=
+ =?us-ascii?Q?0afRozzykzaiuCMq7Owb90GLKLi2xuzw8/0nHyu4W8AjyQinvTqpDTb2V6Ym?=
+ =?us-ascii?Q?hlc3vt2+1cXDAz2Ph5PlcSPBY82vEG1dboSEi590DbId/7ApJDw=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?jHazk++Nll3mbcwbePXhNnXoRfU6OR4ikbCPelx496FnWyl5CcacagqW7Pvq?=
+ =?us-ascii?Q?iZwe9UqGmDm1tlfKVI2Tp37qRA8tPMPGI3LLN9T8NCL78Siy5tV2us06AQuf?=
+ =?us-ascii?Q?8zdH81y+/gcl9mRBPir5qdxhr7VxYAARL20OetPHOrLeuWsSttG7H4kKdl0Y?=
+ =?us-ascii?Q?RRCmlETn8wlEpGLFjV5fMSAYUEOjqbG1TMEPqY0TC1uEW/JHFthLfxFZhFhR?=
+ =?us-ascii?Q?BocYgBfx4N5jYofYr2tx1Os2rro0Yg+6t3Ek0MCJixY4lKD8JcycBfbFtd0P?=
+ =?us-ascii?Q?Bw12z6h9AvqPZVEE3S7VmnlJM1uhEJgsMl6435Mon6hYZwD5Zt9ywu2sv9E4?=
+ =?us-ascii?Q?EJoD1IjH3s88aw6amOHN2Rkn4mE2WA0VELWxhVc+gD9FkqmJ572MkWY8hZuX?=
+ =?us-ascii?Q?BXbMzHeARs/GDqdqLHv1siWRFC4M0NMqA3JF/nV4RVgw6KddxG/rWoGJCeg/?=
+ =?us-ascii?Q?lyLoliiztG+ntCiYFwZEse0u4Jt7Ghv1ClnH5/viAJ1XCj49em4NRPusHpT6?=
+ =?us-ascii?Q?9i0otj2DLYq0aF9So3SHoIK28Mew51uLPUf8NENyJ8a3epsGdmtK8kqR/cVq?=
+ =?us-ascii?Q?bgVXJzi1HVnbclxS1wA7rDAruxY5mTaXuzDpn19S13xlCJH9HmvfrhxVwntZ?=
+ =?us-ascii?Q?gS3bPZLwqRiS9l7xmgrmGtch5SZLde8hVRgZ7kCwtLTdcVrMdgGELw8M0zSa?=
+ =?us-ascii?Q?fVfV76r6TGg4imGxQOHWyKQd2Eq/CPUhDt65KA6SljGERhG2ftpr+FDpkQ6+?=
+ =?us-ascii?Q?iFiNfgvMG6D9rIIBRXk6r2V/NwsZz6QTli5qRzm9IxaiHYXUEFos+dUo4WPR?=
+ =?us-ascii?Q?/R4BVxlmrcecrLTiiK3KyEYQ0mQ2w2eUYrSlBeZGyJzpPZVtUM+HOpZdYdKj?=
+ =?us-ascii?Q?RC/fZtXYojM7lE99jUeg1jTEktNZm8Dt53tiQAPlSbJbJKLqpyfd0FAVfjPv?=
+ =?us-ascii?Q?cUoI7H6GPIFjRZ0grgtqRvhA/hCspv6/GsUouUZ+KEqTH4ESO+WF1718ke3s?=
+ =?us-ascii?Q?/KS9XGY1XB/HTDTtqAlKFe+Xh6aDNPRSG9s8boGG5nqxWiDyjLgoF0GFKhde?=
+ =?us-ascii?Q?Cu+hFxCOFywhtYasJEPUeg7WDvnllRkDYv2+cnVPQlHi60yO2RlyukFrJzRd?=
+ =?us-ascii?Q?OUOi1raFkS480acKKkfa41I/qAHYk53KE1z6QKGmFAaHtmGX5VxQPtve4U5Q?=
+ =?us-ascii?Q?VQ/r1Xwdlm6YmrjixmOxg3t60YqrsLTlxd7nxgU3suTykKsoEsacXL9e3hyI?=
+ =?us-ascii?Q?tDyxkgmQyP89gD7D+sJRIHknOSo6YPEz/bn8hIGTtpsaJnRvKCzTr7FQEIN1?=
+ =?us-ascii?Q?4SZOyhKPJXGin5qgvzRrN0pU?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <BE6706BC5B98A444BB6B0EA6F520099C@INDPRD01.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/7] pwm: max7360: Add MAX7360 PWM support
-To: mathieu.dubois-briand@bootlin.com, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kamel Bouhara
- <kamel.bouhara@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-pwm@vger.kernel.org, =?UTF-8?Q?Gr=C3=A9gory_Clement?=
- <gregory.clement@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-References: <20241223-mdb-max7360-support-v2-0-37a8d22c36ed@bootlin.com>
- <20241223-mdb-max7360-support-v2-3-37a8d22c36ed@bootlin.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20241223-mdb-max7360-support-v2-3-37a8d22c36ed@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB7728.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b3cff7f-73ce-4f14-9a21-08dd29c12fbc
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Dec 2024 17:33:06.2709
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAXPR01MB4261
 
-Le 23/12/2024 à 17:42, mathieu.dubois-briand@bootlin.com a écrit :
-> From: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> 
-> Add driver for Maxim Integrated MAX7360 PWM controller, supporting up to
-> 8 independent PWM outputs.
-> 
-> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+From: Aditya Garg <gargaditya08@live.com>
 
-...
+This patch series adds support for Touch Bar on found on MacBook Pro
+models with T2 Security Chip. These drivers support the mode found on
+Windows Bootcamp drivers.
 
-> +static int max7360_pwm_probe(struct platform_device *pdev)
-> +{
-> +	struct max7360_pwm *max7360_pwm;
-> +	struct pwm_chip *chip;
-> +	int ret;
-> +
-> +	if (!pdev->dev.parent)
-> +		return dev_err_probe(&pdev->dev, -ENODEV, "no parent device\n");
-> +
-> +	chip = devm_pwmchip_alloc(pdev->dev.parent, MAX7360_NUM_PWMS,
-> +				  sizeof(*max7360_pwm));
-> +	if (IS_ERR(chip))
-> +		return PTR_ERR(chip);
-> +	chip->ops = &max7360_pwm_ops;
-> +
-> +	max7360_pwm = to_max7360_pwm(chip);
-> +	max7360_pwm->parent = pdev->dev.parent;
-> +
-> +	max7360_pwm->regmap = dev_get_regmap(pdev->dev.parent, NULL);
-> +	if (!max7360_pwm->regmap)
-> +		return dev_err_probe(&pdev->dev, -ENODEV,
-> +				     "could not get parent regmap\n");
-> +
-> +	ret = devm_pwmchip_add(&pdev->dev, chip);
-> +	if (ret != 0)
-> +		dev_err_probe(&pdev->dev, ret, "failed to add PWM chip");
+V2: Added checks to the keyboard driver to ensure backlight driver is
+initialised first.
 
-Missing return, or done on purpose?
+Aditya Garg (2):
+  HID: hid-appletb-kbd: add support for fn toggle between media and
+    function mode
+  HID: hid-appletb-kbd: add support for automatic brightness control
+    while using the touchbar
 
-> +
-> +	return 0;
-> +}
+Kerem Karabay (2):
+  HID: hid-appletb-bl: add driver for the backlight of Apple Touch Bars
+  HID: hid-appletb-kbd: add driver for the keyboard mode of Apple Touch
+    Bars
+
+ .../ABI/testing/sysfs-driver-hid-appletb-kbd  |  13 +
+ drivers/hid/Kconfig                           |  25 +
+ drivers/hid/Makefile                          |   2 +
+ drivers/hid/hid-appletb-bl.c                  | 207 +++++++
+ drivers/hid/hid-appletb-kbd.c                 | 506 ++++++++++++++++++
+ drivers/hid/hid-quirks.c                      |   8 +-
+ 6 files changed, 759 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-hid-appletb-kbd
+ create mode 100644 drivers/hid/hid-appletb-bl.c
+ create mode 100644 drivers/hid/hid-appletb-kbd.c
+
+--=20
+2.43.0
+
 
