@@ -1,116 +1,124 @@
-Return-Path: <linux-input+bounces-8822-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8828-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813F99FEA5C
-	for <lists+linux-input@lfdr.de>; Mon, 30 Dec 2024 20:37:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76BB19FF105
+	for <lists+linux-input@lfdr.de>; Tue, 31 Dec 2024 18:40:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 529501883536
-	for <lists+linux-input@lfdr.de>; Mon, 30 Dec 2024 19:37:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 577F818829AA
+	for <lists+linux-input@lfdr.de>; Tue, 31 Dec 2024 17:40:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20F38191F74;
-	Mon, 30 Dec 2024 19:37:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14B211ACEBE;
+	Tue, 31 Dec 2024 17:40:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NtXzOW98"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="PukRBQ5w"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-18.smtpout.orange.fr [80.12.242.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A92EAD0;
-	Mon, 30 Dec 2024 19:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F201A4E77;
+	Tue, 31 Dec 2024 17:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735587426; cv=none; b=i4gagtBjqCrDcOHnTS8X+/o4GE8++/+q8lusmOfxBVgCM4IQ6hwwvfSMix7Ry0nVFF3Pz18UvPVL0F/go7LvfeeGN3aMZWtV/+/bLGkS1N2+TNvHlG16qsJPFcqzA18vl9aYaSmOumTcy+mjKgZ24LpAIrc5pf3fOZq+939L4yI=
+	t=1735666821; cv=none; b=LgHA5TROcw/Q6dlaYbixbyQZIGJRJ8plDZuZKF4GVn8rTa6gYPqT1vf05nY5CjyKq5o/CUFB3dSywjbm5/VnTFhBfFsOEk0KPBvK+XvfhPasEn0IAps1l8xjwN0xBWB830qA70lBjVSdRMV3uic/a+IPItEqBvj57euhrPn6UzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735587426; c=relaxed/simple;
-	bh=hcD3hQhqQaTxECM9Jn39OrNH51WOSiZYjSikhAunMXo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=d1OBvmGpbY51f1qBAPJG4GdTJ7+CLM2JnJQwVgniViezrnIdDWL2KAdI7Ib0LRV56BzBj2Y4sg7AHp1IFnwlnTwvD24MnPCZdJ0WQZEHSpN2J01nm9ixENrFaIrDpTbTI2A/24wOXwT7D8mmKXvmOBMFdqFge/j4aIgsF34LBCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NtXzOW98; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735587424; x=1767123424;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=hcD3hQhqQaTxECM9Jn39OrNH51WOSiZYjSikhAunMXo=;
-  b=NtXzOW98uPGnneuKAtab5qdF2LZWkeD8OsPIiyKQL46mLnTdYtaAPdbS
-   G9lQ+57sQcYkdY1GvgTlfZ0ZBbubPAFsEaMXc82yiF2K5EZI/w0F5X4+y
-   6z5Y2zAnFDDNI+opJvrlnHaug9LH4CvPzfx/Wx7WNCpkKEBi/15/CSZF8
-   8YYNu49vqrPcJed+Uj7xsNxt2i3H5SZpAC2zp5GSxsfqlLzdNDqTBjEZK
-   uas3ZLptvXu8YebxgZTs54pixpvhGkLV7reSF5l+ronkQVbtNB97oLbgI
-   i6Gf/K/xgkRa8k1AvVofAOmflK7gW0Z8J+JCPUZe3IAbKx5O2GcNYVM68
-   Q==;
-X-CSE-ConnectionGUID: Pt/DEHAbQK+1rBTF9ASSeg==
-X-CSE-MsgGUID: 6ZcgaEI8Qb6ZkH0jbg/kPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="39649193"
-X-IronPort-AV: E=Sophos;i="6.12,277,1728975600"; 
-   d="scan'208";a="39649193"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 11:37:04 -0800
-X-CSE-ConnectionGUID: XAlEnZMpR6uUC5+8D4rUQA==
-X-CSE-MsgGUID: ZCw6QQNVRPmo5ujQBNzg1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="131811505"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.16])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 11:37:03 -0800
-Message-ID: <d95d2951a6ab595d9e5cdb24eeb577e243b543d9.camel@linux.intel.com>
-Subject: Re: [PATCH 0/3] HID: intel-ish-hid: deadcoding
-From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To: linux@treblig.org, jikos@kernel.org, bentiss@kernel.org, 
-	linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Date: Mon, 30 Dec 2024 11:37:02 -0800
-In-Reply-To: <20241225015509.458032-1-linux@treblig.org>
-References: <20241225015509.458032-1-linux@treblig.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
+	s=arc-20240116; t=1735666821; c=relaxed/simple;
+	bh=KPKlddnHotXsfufI2OrnfgpHlQTyrgzYueZmZmkYwHY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZyiOZaz/YAtC2FvduQhoOwT0D+q7TjKD186PmyhO9uwnn7/nnqdXhlyn33V8cO9xNYWAS04Vq3VojnD4q0qfPa5S2H6ZHriixBFJ0S4VwGKkowVqfEitkZaEpkSAAdfLs6J459RZa1SVh/BWeVKgGXiWpKDWdTMWYoRRLj+Pm1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=PukRBQ5w; arc=none smtp.client-ip=80.12.242.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id Sg5EtDHCrmOLwSg5Ht72J3; Tue, 31 Dec 2024 18:31:12 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1735666272;
+	bh=crc3HC0D3iciYfP0aty4FRSyX4CvPSjuN6ckre/pvrg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=PukRBQ5w+GRkwN2A2/quDSXLhMNZ92h/i8Gw3rxE/nOtNOiZ62nwHfqOqP4vQOyJy
+	 81r/fDlZ4WqSDiObmUVvRo58b6xkoZ2gmFpWc8uZ+4WB3EFZg3MX4QoZGHCxtoJJVp
+	 bL00+ZvQMji4t4/QKbt7h/2lmRou07KamZmWEi81A4qsAGUHVTkOonuHig5JJinU0U
+	 ODVUzzdyIYHyu5FEQU8THXHtisoovhb57fJfXsExwJFs+x6rX46tBu2NmP4qQPkaI6
+	 89UuPkD4rY7Z/23550r7jjpqvtKseChC/JnXN2a/XezHm6dwVtkhgVx7elmtjBMmUk
+	 psvXQ/jDOoA1g==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Tue, 31 Dec 2024 18:31:12 +0100
+X-ME-IP: 90.11.132.44
+Message-ID: <86521cdf-1dc6-4b37-b356-160142674285@wanadoo.fr>
+Date: Tue, 31 Dec 2024 18:31:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/7] pwm: max7360: Add MAX7360 PWM support
+To: mathieu.dubois-briand@bootlin.com, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Kamel Bouhara
+ <kamel.bouhara@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-pwm@vger.kernel.org, =?UTF-8?Q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20241223-mdb-max7360-support-v2-0-37a8d22c36ed@bootlin.com>
+ <20241223-mdb-max7360-support-v2-3-37a8d22c36ed@bootlin.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20241223-mdb-max7360-support-v2-3-37a8d22c36ed@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2024-12-25 at 01:55 +0000, linux@treblig.org wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->=20
-> Hohoho!
->=20
-> Please find a small series of deadcode cleanups for functions
-> that were added many years ago but haven't been used.
->=20
-> Build tested only.
->=20
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+Le 23/12/2024 à 17:42, mathieu.dubois-briand@bootlin.com a écrit :
+> From: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> 
+> Add driver for Maxim Integrated MAX7360 PWM controller, supporting up to
+> 8 independent PWM outputs.
+> 
+> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+...
 
->=20
->=20
-> Dr. David Alan Gilbert (3):
-> =C2=A0 HID: intel-ish-hid: Remove unused ishtp_dev_state_str
-> =C2=A0 HID: intel-ish-hid: Remove unused ishtp_cl_tx_empty
-> =C2=A0 HID: intel-ish-hid: Remove unused ishtp_cl_get_tx_*
->=20
-> =C2=A0.../hid/intel-ish-hid/ishtp/client-buffers.c=C2=A0 | 21 -----------=
---
-> =C2=A0drivers/hid/intel-ish-hid/ishtp/client.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 19 ------------
-> =C2=A0drivers/hid/intel-ish-hid/ishtp/client.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 2 --
-> =C2=A0drivers/hid/intel-ish-hid/ishtp/init.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 30 -----------------
-> --
-> =C2=A0drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h=C2=A0=C2=A0 |=C2=A0 1 -
-> =C2=A0include/linux/intel-ish-client-if.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 -
-> =C2=A06 files changed, 74 deletions(-)
->=20
+> +static int max7360_pwm_probe(struct platform_device *pdev)
+> +{
+> +	struct max7360_pwm *max7360_pwm;
+> +	struct pwm_chip *chip;
+> +	int ret;
+> +
+> +	if (!pdev->dev.parent)
+> +		return dev_err_probe(&pdev->dev, -ENODEV, "no parent device\n");
+> +
+> +	chip = devm_pwmchip_alloc(pdev->dev.parent, MAX7360_NUM_PWMS,
+> +				  sizeof(*max7360_pwm));
+> +	if (IS_ERR(chip))
+> +		return PTR_ERR(chip);
+> +	chip->ops = &max7360_pwm_ops;
+> +
+> +	max7360_pwm = to_max7360_pwm(chip);
+> +	max7360_pwm->parent = pdev->dev.parent;
+> +
+> +	max7360_pwm->regmap = dev_get_regmap(pdev->dev.parent, NULL);
+> +	if (!max7360_pwm->regmap)
+> +		return dev_err_probe(&pdev->dev, -ENODEV,
+> +				     "could not get parent regmap\n");
+> +
+> +	ret = devm_pwmchip_add(&pdev->dev, chip);
+> +	if (ret != 0)
+> +		dev_err_probe(&pdev->dev, ret, "failed to add PWM chip");
 
+Missing return, or done on purpose?
+
+> +
+> +	return 0;
+> +}
 
