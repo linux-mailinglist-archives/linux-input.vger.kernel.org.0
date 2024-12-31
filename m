@@ -1,251 +1,148 @@
-Return-Path: <linux-input+bounces-8831-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8832-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 785BE9FF11E
-	for <lists+linux-input@lfdr.de>; Tue, 31 Dec 2024 18:50:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F1AB9FF181
+	for <lists+linux-input@lfdr.de>; Tue, 31 Dec 2024 20:23:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95F983A3137
-	for <lists+linux-input@lfdr.de>; Tue, 31 Dec 2024 17:50:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 81F2D1880A47
+	for <lists+linux-input@lfdr.de>; Tue, 31 Dec 2024 19:23:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C77F1ACEDF;
-	Tue, 31 Dec 2024 17:50:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D256E189BBB;
+	Tue, 31 Dec 2024 19:23:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="pzlolBp9"
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="fUjzPtHb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr [80.12.242.26])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9133C944E;
-	Tue, 31 Dec 2024 17:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1009717C79
+	for <linux-input@vger.kernel.org>; Tue, 31 Dec 2024 19:23:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735667449; cv=none; b=S0qCqzKqlrVOP10PD6I7R3E/Fg4CVU19Vk1qyjFMbjhipIkxup89KmreEf4F+bZgRxet8DMJDnwEEem+N8cQYmrPiTFMjafK39BVTDu+CPBIMZncffv8bY+cuQXjXuV2JsmmtJxw+uAlndITY2v5RftVD1gzuAmPy2noJniCl4c=
+	t=1735672998; cv=none; b=gr1SebQxnQfNG9oII/yllQegzut3/4+hJLwgj1VkBKkESH0yYagpaG4uZC9BWLoP2vi/pAgrESpwrZQfEPsm7dkm8M++0FHRcgBwnyU+7lD7Xo3NIEfofjZF4bNWeVNO+w73foMilMw5HWZPjm10kvoVoFi4obAEuBCQdZoxUic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735667449; c=relaxed/simple;
-	bh=RQepdvOPDG+3D7qUdrDRwsy0idXcItm90wVfxTTtryY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qS5KvT35K/TBx1Mmr+axAodte0rbszl+QIhxBm62nWykcuezc0kHJKkJyeFd4NFDxVJCiMY0ampfoUDRNhFLpKwLxKnGG6D1TYelcAwJejq5rLdPUQA1HLttm1qKTDMrQCMSXyPKUtdF9j5u0bALfEbYfnjewgF8YgbPzD9ovSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=pzlolBp9; arc=none smtp.client-ip=80.12.242.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id SgMztjlG8ifTFSgN2tAfq6; Tue, 31 Dec 2024 18:49:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1735667374;
-	bh=SP0P11G0pmoaZcFdk5Wu/VpgVSI6Y81XCZzsiqaYWlc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=pzlolBp9nhyJbQTIlteBaxxGEZ+0O48G1PwAOnn8ivpWC+s2Ar+Dbbgn12y3EA7w9
-	 q8E34TldrGCyy/rY91kL5+aEYRg9fnYZquBd4eOLT73BaQcJhzne3/HFeLXGfllnKY
-	 AK98kzMp6OooZE6nkTvF6qjKL1fEX8vXdAR942pq+OMniciseQEI9B0yFhLZ+Iwuyl
-	 V0bEXM+bd3fpY2/ebvTrX4z5RDbGVVCLapBbxefZ1T0m27jdAMx7iWfbxnOFhGNrMW
-	 pjuw+WpaFvkMR1dJdgC9UOHsK8jb7HRjYg5b/UHJmD2nHg9Qk3l+ZFdHCfvD1FDyAf
-	 k9BUiWw7PR3BA==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Tue, 31 Dec 2024 18:49:34 +0100
-X-ME-IP: 90.11.132.44
-Message-ID: <d3174dce-868c-4a42-9a5c-2b947ae88d18@wanadoo.fr>
-Date: Tue, 31 Dec 2024 18:49:29 +0100
+	s=arc-20240116; t=1735672998; c=relaxed/simple;
+	bh=rsOxmJpdatCthUGLimpEWcrq1+9OzR2oFFsh8TVgFNg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=fAd4KD7IlMwil7G+AG0BsooS1lf3LHUAPn2RTxH2J9HpOC/3Q+TFpUEkCMAMGE0PgtRwRzBrDorJGgSqXAN4cEr2AoqOIAh3Fy8pZk7Y+uCtpxJigExUAMY1Km/RRVqtEUulQ1pOiNaNbIjmb4wZ6h0pL8vuL4sj13iJ9CcXQSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=fUjzPtHb; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6dcd4f1aaccso19344186d6.2
+        for <linux-input@vger.kernel.org>; Tue, 31 Dec 2024 11:23:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1735672996; x=1736277796; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OVtWwkvClnJLuthMxoLYyXn9zqoBPZ6choexSddj33c=;
+        b=fUjzPtHb9VxYiLaEaZ+xM1LD8Dc4rm+i5zWY9EWgh2F+cSfnz7lIrlWnbg0k+ywjwl
+         chADiKgyL+b8BASNgOb0K6Fn7Hu5AIPzaQK9ffBQ5tCTHpXZEfkM/G7VN7m9WPG81bMx
+         9wi4fpI6Cp3/tTm87vXR8JDhWQQEVGSJY+pWUCmWSR1Mf2ajJWI/nUaj0YwILAyadX2M
+         lXYFv39MoousHSdOIp5uHxFspnVd0VryrYyhQ5sDr459eCOwcHI9s2XB2UYJsQzbxN2Z
+         jzBfYcOzbAmCQNsGTZLnEKg27TTfI7ldhE81qLBT8mGqfoaxBEmvtHvd/sCX+peh6YaD
+         vvdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735672996; x=1736277796;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OVtWwkvClnJLuthMxoLYyXn9zqoBPZ6choexSddj33c=;
+        b=Q2KUR4V4zYy+6m2vavbPlx8CEEDO0BeBrJpyeM7uLZWr8sKXB+qZQ0J6i1665Unnrv
+         hnALlwhioXno0CzmJp9aC2VnhxWkRPkP3nWSS2pkvzTeIo7TwExyaUtXowgqmcw/dE/0
+         Df32ZjXD/p8da31+wBVnX5iEbbx9lyeYRZ5qday7xiRjJ+1NP1HKgSSlJdMC3nW5jHRb
+         LmzPwrCH5uhVxOO8oudNbqG4OXktS32IFqrgbCVMnPONWMBKIfYjacqYWtYdaOpRjXXF
+         etV7U8h/wjBabMs2uMFIYn8gc1dgjgaE+L6F7hSD7BzrJdZ48s1DwqWuV0xmWWoyM6uu
+         /d5g==
+X-Forwarded-Encrypted: i=1; AJvYcCUfR7NeWXaYkr+WExBp/sGf7vdabkikX5mOgEynxo6TuYxgr8OK4wK1KN0d/6IURLHUQzbhztWfWCxlNQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZwEKnQwg6FEpABrDQCr6C9d6Rgtalw2gcoaYdiSZH7R+J0tn6
+	/tL109J4rUdPcjEuCvZ1Y0pwLoU3qsxJvXD7rUpO5Iq0am+4xt6D6YAt8ChiLA==
+X-Gm-Gg: ASbGncsjyFMvzstelGCjIj14pCALsZoAXpTwdHptckPe91gxYt/l4gr57xpzus1e23B
+	pe1Je5BI7clICKaprSRhIOwe/z7yrJgbHLcPDH4VQh1JrK2wU1i0VORcaPsibiF0E3QoqysavN0
+	AOcu3XPQydfurHXn7G8wVsN4BesRj674Q9cBCIl/okmHp+ezCQ/FIdoJTn0WsaWPNN1wwYdRzYB
+	wz87HBKJXCvpnN+bGh91593440yKvvYSzjvxd7vjTpIPqci68xjj1ezsA==
+X-Google-Smtp-Source: AGHT+IHgRXHGRDnfjjLWpHmhj/S7J5dFTRI2Keph+F5H7Gn5xqU0fF6cjKr5iJ2MNMuhU+ba4S0PSA==
+X-Received: by 2002:a05:6214:2a82:b0:6d8:aba8:8393 with SMTP id 6a1803df08f44-6dd233a2b38mr699727346d6.44.1735672996001;
+        Tue, 31 Dec 2024 11:23:16 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:681:fd10::5653])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6dd598e8f26sm60654536d6.119.2024.12.31.11.23.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Dec 2024 11:23:15 -0800 (PST)
+Date: Tue, 31 Dec 2024 14:23:12 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>,
+	Peter Hutterer <peter.hutterer@who-t.net>,
+	linux-input@vger.kernel.org,
+	USB mailing list <linux-usb@vger.kernel.org>,
+	syzbot <syzbot+ec5f884c4a135aa0dbb9@syzkaller.appspotmail.com>,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] HID: core: Fix assumption that Resolution Multipliers must
+ be in Logical Collections
+Message-ID: <18b853f8-9da5-4a28-a845-111d42299478@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/7] input: misc: Add support for MAX7360 rotary
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Kamel Bouhara <kamel.bouhara@bootlin.com>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-pwm@vger.kernel.org, =?UTF-8?Q?Gr=C3=A9gory_Clement?=
- <gregory.clement@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-References: <20241223-mdb-max7360-support-v2-0-37a8d22c36ed@bootlin.com>
- <20241223-mdb-max7360-support-v2-6-37a8d22c36ed@bootlin.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20241223-mdb-max7360-support-v2-6-37a8d22c36ed@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <42fb8b1d-16bc-4948-a214-2892405db258@rowland.harvard.edu>
 
-Le 23/12/2024 à 17:42, Mathieu Dubois-Briand a écrit :
-> Add driver for Maxim Integrated MAX7360 rotary encoder controller,
-> supporting a single rotary switch.
-> 
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+A report in 2019 by the syzbot fuzzer was found to be connected to two
+errors in the HID core associated with Resolution Multipliers.  One of
+the errors was fixed by commit ea427a222d8b ("HID: core: Fix deadloop
+in hid_apply_multiplier."), but the other has not been fixed.
 
-...
+This error arises because hid_apply_multipler() assumes that every
+Resolution Multiplier control is contained in a Logical Collection,
+i.e., there's no way the routine can ever set multiplier_collection to
+NULL.  This is in spite of the fact that the function starts with a
+big comment saying:
 
-> +static irqreturn_t max7360_rotary_irq(int irq, void *data)
-> +{
-> +	struct max7360_rotary *max7360_rotary = data;
-> +	int val;
-> +	int ret;
-> +
-> +	ret = regmap_read(max7360_rotary->regmap, MAX7360_REG_RTR_CNT, &val);
-> +	if (ret < 0) {
-> +		dev_err(&max7360_rotary->input->dev,
-> +			"Failed to read rotary counter");
+	 * "The Resolution Multiplier control must be contained in the same
+	 * Logical Collection as the control(s) to which it is to be applied.
+	   ...
+	 *  If no Logical Collection is
+	 * defined, the Resolution Multiplier is associated with all
+	 * controls in the report."
+	 * HID Usage Table, v1.12, Section 4.3.1, p30
+	 *
+	 * Thus, search from the current collection upwards until we find a
+	 * logical collection...
 
-Missing \n.
+The comment and the code overlook the possibility that none of the
+collections found may be a Logical Collection.
 
-> +		return IRQ_NONE;
-> +	}
-> +
-> +	if (val == 0) {
-> +		dev_dbg(&max7360_rotary->input->dev,
-> +			"Got a spurious interrupt");
+The fix is to set the multiplier_collection pointer to NULL if the
+collection found isn't a Logical Collection.
 
-Missing \n.
+Reported-by: syzbot+ec5f884c4a135aa0dbb9@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/000000000000109c040597dc5843@google.com/
+Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+Cc: Peter Hutterer <peter.hutterer@who-t.net>
+Fixes: 5a4abb36f312 ("HID: core: process the Resolution Multiplier")
+Cc: stable@vger.kernel.org
 
-> +
-> +		return IRQ_NONE;
-> +	}
-> +
-> +	input_report_rel(max7360_rotary->input, max7360_rotary->axis,
-> +			 (int8_t)val);
-> +	input_sync(max7360_rotary->input);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static int max7360_rotary_hw_init(struct max7360_rotary *max7360_rotary)
-> +{
-> +	int val;
-> +	int ret;
-> +
-> +	ret = regmap_write_bits(max7360_rotary->regmap, MAX7360_REG_GPIOCFG,
-> +				MAX7360_GPIO_CFG_RTR_EN,
-> +				MAX7360_GPIO_CFG_RTR_EN);
-> +	if (ret) {
-> +		dev_err(&max7360_rotary->input->dev,
-> +			"Failed to enable max7360 rotary encoder");
+---
 
-Missing \n.
+ drivers/hid/hid-core.c |    2 ++
+ 1 file changed, 2 insertions(+)
 
-> +		return ret;
-> +	}
-> +
-> +	val = FIELD_PREP(MAX7360_ROT_DEBOUNCE, max7360_rotary->debounce_ms) |
-> +		FIELD_PREP(MAX7360_ROT_INTCNT, 1) | MAX7360_ROT_INTCNT_DLY;
-> +	ret = regmap_write(max7360_rotary->regmap, MAX7360_REG_RTRCFG, val);
-> +	if (ret) {
-> +		dev_err(&max7360_rotary->input->dev,
-> +			"Failed to set max7360 rotary encoder configuration");
-
-Missing \n.
-
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int max7360_rotary_probe(struct platform_device *pdev)
-> +{
-> +	struct max7360_rotary *max7360_rotary;
-> +	struct input_dev *input;
-> +	int irq;
-> +	int ret;
-> +
-> +	if (!pdev->dev.parent)
-> +		return dev_err_probe(&pdev->dev, -ENODEV, "No parent device\n");
-> +
-> +	ret = max7360_port_pin_request(pdev->dev.parent, MAX7360_PORT_RTR_PIN,
-> +				       true);
-> +	if (ret)
-> +		dev_err_probe(&pdev->dev, ret,
-> +			      "Could not request rotary pin\n");
-
-Missing return or done on purpose?
-
-> +
-> +	irq = platform_get_irq_byname(to_platform_device(pdev->dev.parent),
-> +				      "inti");
-> +	if (irq < 0)
-> +		return irq;
-> +
-> +	max7360_rotary = devm_kzalloc(&pdev->dev, sizeof(*max7360_rotary),
-> +				      GFP_KERNEL);
-> +	if (!max7360_rotary)
-> +		return -ENOMEM;
-> +
-> +	max7360_rotary->regmap = dev_get_regmap(pdev->dev.parent, NULL);
-> +	if (!max7360_rotary->regmap)
-> +		dev_err_probe(&pdev->dev, -ENODEV,
-> +			      "Could not get parent regmap\n");
-> +
-> +	device_property_read_u32(pdev->dev.parent, "linux,axis",
-> +				 &max7360_rotary->axis);
-> +	device_property_read_u32(pdev->dev.parent, "rotary-debounce-delay-ms",
-> +				 &max7360_rotary->debounce_ms);
-> +	if (max7360_rotary->debounce_ms > MAX7360_ROT_DEBOUNCE_MAX)
-> +		return dev_err_probe(&pdev->dev, -EINVAL,
-> +				     "Invalid debounce timing: %u\n",
-> +				     max7360_rotary->debounce_ms);
-> +
-> +	input = devm_input_allocate_device(&pdev->dev);
-> +	if (!input)
-> +		return dev_err_probe(&pdev->dev, -ENOMEM,
-> +				     "Failed to allocate input device\n");
-
-Not sure an error message is needed.
-
-> +
-> +	max7360_rotary->input = input;
-> +
-> +	input->id.bustype = BUS_I2C;
-> +	input->name = pdev->name;
-> +	input->dev.parent = &pdev->dev;
-> +
-> +	input_set_capability(input, EV_REL, max7360_rotary->axis);
-> +	input_set_drvdata(input, max7360_rotary);
-> +
-> +	ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
-> +					max7360_rotary_irq,
-> +					IRQF_TRIGGER_LOW | IRQF_ONESHOT | IRQF_SHARED,
-> +					"max7360-rotary", max7360_rotary);
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev, ret,
-> +				     "Failed to register interrupt: %d\n", ret);
-
-No need to duplicate ret.
-
-> +
-> +	ret = input_register_device(input);
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev, ret,
-> +				     "Could not register input device: %d\n",
-> +			ret);
-
-No need to duplicate ret.
-
-> +
-> +	platform_set_drvdata(pdev, max7360_rotary);
-> +
-> +	device_init_wakeup(&pdev->dev, true);
-> +	ret = dev_pm_set_wake_irq(&pdev->dev, irq);
-> +	if (ret)
-> +		dev_warn(&pdev->dev, "Failed to set up wakeup irq: %d\n", ret);
-> +
-> +	ret = max7360_rotary_hw_init(max7360_rotary);
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev, ret,
-> +				     "Failed to initialize max7360 rotary\n");
-> +
-> +	return 0;
-> +}
-
-CJ
-
+Index: usb-devel/drivers/hid/hid-core.c
+===================================================================
+--- usb-devel.orig/drivers/hid/hid-core.c
++++ usb-devel/drivers/hid/hid-core.c
+@@ -1163,6 +1163,8 @@ static void hid_apply_multiplier(struct
+ 	while (multiplier_collection->parent_idx != -1 &&
+ 	       multiplier_collection->type != HID_COLLECTION_LOGICAL)
+ 		multiplier_collection = &hid->collection[multiplier_collection->parent_idx];
++	if (multiplier_collection->type != HID_COLLECTION_LOGICAL)
++		multiplier_collection = NULL;
+ 
+ 	effective_multiplier = hid_calculate_multiplier(hid, multiplier);
+ 
 
