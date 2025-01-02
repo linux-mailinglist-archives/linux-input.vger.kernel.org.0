@@ -1,102 +1,92 @@
-Return-Path: <linux-input+bounces-8837-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8844-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A619FF77B
-	for <lists+linux-input@lfdr.de>; Thu,  2 Jan 2025 10:35:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B384A9FF832
+	for <lists+linux-input@lfdr.de>; Thu,  2 Jan 2025 11:34:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67DA4188224D
-	for <lists+linux-input@lfdr.de>; Thu,  2 Jan 2025 09:35:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AC163A20F9
+	for <lists+linux-input@lfdr.de>; Thu,  2 Jan 2025 10:34:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3037019DF99;
-	Thu,  2 Jan 2025 09:34:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC0F51AC88B;
+	Thu,  2 Jan 2025 10:34:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TiiAF6VW"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="qffiWESE"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A889119D086;
-	Thu,  2 Jan 2025 09:34:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D86A19E999;
+	Thu,  2 Jan 2025 10:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735810497; cv=none; b=VCtCygLF2Ywu82xAlFegXzjt6hJrDinJ/rrl8Z+84IkNWvGJ4UOIwVDztOApK+dg3Et23UVCZ5KhPxPxWVLei9nunc9mfCkJgvcmB+pygTU0PxWV5+4lsm4x10gHdTXl8ZKhS7gw+FAVnjfKwzm7HDpUruoVHHFT1X3gxcyLXrs=
+	t=1735814074; cv=none; b=kUpjCZ0Zg70d72AkKiNT9xGhsyHKr4e9NHJ6P0affQ2BdJH5b5acI7dEO/IwWKi2M0Ds9Y4kzEoxa0WI4v0KN6hCONSatvvR/Kmy1kqe66hRcIonj7gSJ5TGgSVt5qOHm7SUGSgA2uOIQGUF7i//TqKSgAhi3IPTVsy722WDL0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735810497; c=relaxed/simple;
-	bh=c9rKsDiha9fDzMuda3rAARdYRSPn+SADWPbuqHkSGHc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=Dv3/cB1ywrYXmGbzfBFSsFyY4vv1bKd1G+Voh3kWvjtJtsyQEjrdtguUC6FNSa+Of2XI1/M1Yc6z4t8bhYR3VoSIKXiaQxFUJPWSjQEYSoDARPs7P2BRkN/wY9QtxdmnT2hl3mnI9vOYPzZaP/C/fNrzcoxiQZA90fZm9Wkkm3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TiiAF6VW; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8E22420003;
-	Thu,  2 Jan 2025 09:34:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1735810486;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c9rKsDiha9fDzMuda3rAARdYRSPn+SADWPbuqHkSGHc=;
-	b=TiiAF6VWtPQVkrPAtL9JJV9BDB/vJsfLqzPNQtIO+wziyhGWec66ocbGpw17yolmpeoSED
-	U+eRaNjQGVGJ3catMlDCBujqSGIrbyG9XX7Dq7MzE2Nw233fIbckgh9aJTKNKoZPJc7bDb
-	7zqeQqkJftEc86xlkQsjsAAb0vJ//pfb+Ftekn7SIDBDo7hK6G6BWrsoUcRHo1LyquEHOF
-	izQEXGfej+M52B1712QJGKk72JWsIqpcNowKwmtTcTPK3lwfJeWYt30U0SNc5Z/vI0+nzR
-	ZlW0SRnp2WjEAJ3KvO8dN8Am5cBcZahPVxeVBIa8p644pc0rqtqEguJqzBx2nw==
+	s=arc-20240116; t=1735814074; c=relaxed/simple;
+	bh=K1pfxYqXOc52PRosS2j0BYuB9mHwfBtw9u9O1FNSkPk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C+GjL8OYjyqCb8e+MgttR9c9JVmHoq5UX9YMJdKCJrHLJpKkTjXfIQy29fXbZwTsyBFoabaHNc1dZAmrjlU5uscomymTrhTSMJAVX8D8BiUlmaAqjWvpM7ELF0RMMqgltmdyVI9RrCQD2xCIzojbG1ti74tmLnopkBP8I7Z89v4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=qffiWESE; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1735813554;
+	bh=K1pfxYqXOc52PRosS2j0BYuB9mHwfBtw9u9O1FNSkPk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qffiWESEleKjF2uZCQdtKxqC+Uy8yySJ0NZISO4YqBRdcdETzJTZxdYkVLhvFHrv0
+	 UVBu4bUYRyKXIbQHVK4lxrILiikEgDZGT9Nud2AK9TO6KmRGnUuCSwA9ucMEXaw0kn
+	 1pQy9IhUSLzARpCIWI+rptSXUFGEtwUG6YP62cCsuJYfJhiE6OQ3TchWChDJ1hVnvs
+	 eyp5mC/mcdcW6bBT8Ez8rnEoGlCTwftfEDFWc1w0u2tvRSwbNaDn8KmbjjLESg+fJX
+	 F+4lv8SJNkiJfov6SY1ZHiBRVbEvsHrihMJB2oETHrgaLk0DNjdDhT8h1LX1xwMSkw
+	 FG3/w1sB9S1rA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 64B8917E153D;
+	Thu,  2 Jan 2025 11:25:53 +0100 (CET)
+Message-ID: <599e27fd-e3fe-4d36-84b9-5742995cad69@collabora.com>
+Date: Thu, 2 Jan 2025 11:25:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 02 Jan 2025 10:34:45 +0100
-Message-Id: <D6RHGOGA0PL5.147OW8IBT7NKY@bootlin.com>
-Subject: Re: [PATCH v2 6/7] input: misc: Add support for MAX7360 rotary
-Cc: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
- <gregory.clement@bootlin.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Christophe JAILLET" <christophe.jaillet@wanadoo.fr>, "Lee Jones"
- <lee@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Kamel Bouhara"
- <kamel.bouhara@bootlin.com>, "Linus Walleij" <linus.walleij@linaro.org>,
- "Bartosz Golaszewski" <brgl@bgdev.pl>, "Dmitry Torokhov"
- <dmitry.torokhov@gmail.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20241223-mdb-max7360-support-v2-0-37a8d22c36ed@bootlin.com>
- <20241223-mdb-max7360-support-v2-6-37a8d22c36ed@bootlin.com>
- <d3174dce-868c-4a42-9a5c-2b947ae88d18@wanadoo.fr>
-In-Reply-To: <d3174dce-868c-4a42-9a5c-2b947ae88d18@wanadoo.fr>
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 9/9] arm64: dts: mt6392: add mt6392 PMIC dtsi
+To: Val Packett <val@packett.cool>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Sen Chu <sen.chu@mediatek.com>,
+ Sean Wang <sean.wang@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>,
+ Lee Jones <lee@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Eddie Huang <eddie.huang@mediatek.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Fabien Parent <parent.f@gmail.com>,
+ Yassine Oudjana <y.oudjana@protonmail.com>,
+ Chen Zhong <chen.zhong@mediatek.com>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-rtc@vger.kernel.org
+References: <20241226050205.30241-1-val@packett.cool>
+ <20241226050205.30241-10-val@packett.cool>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20241226050205.30241-10-val@packett.cool>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue Dec 31, 2024 at 6:49 PM CET, Christophe JAILLET wrote:
-> Le 23/12/2024 =C3=A0 17:42, Mathieu Dubois-Briand a =C3=A9crit=C2=A0:
-> > Add driver for Maxim Integrated MAX7360 rotary encoder controller,
-> > supporting a single rotary switch.
-> >=20
-> > Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com=
->
->
-> ...
->
->
-> CJ
+Il 26/12/24 05:58, Val Packett ha scritto:
+> Add the dts to be included by all boards using the MT6392 PMIC.
+> 
+> Signed-off-by: Val Packett <val@packett.cool>
 
-Hi Christophe,
-
-Thanks a lot for all your comments. I've integrated fixes for all of
-them, to be shipped with the next version.
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 
