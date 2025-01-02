@@ -1,78 +1,110 @@
-Return-Path: <linux-input+bounces-8850-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8851-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90FD99FFD3B
-	for <lists+linux-input@lfdr.de>; Thu,  2 Jan 2025 18:56:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF82C9FFDE4
+	for <lists+linux-input@lfdr.de>; Thu,  2 Jan 2025 19:20:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 309177A19A1
-	for <lists+linux-input@lfdr.de>; Thu,  2 Jan 2025 17:56:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5837161D9E
+	for <lists+linux-input@lfdr.de>; Thu,  2 Jan 2025 18:20:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C318FBE65;
-	Thu,  2 Jan 2025 17:56:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4C1D1B4153;
+	Thu,  2 Jan 2025 18:20:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="tBQiddaq"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="DNOM6WDa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E1F18871A
-	for <linux-input@vger.kernel.org>; Thu,  2 Jan 2025 17:56:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735840572; cv=none; b=cC4e5KKsWNNEVd9hCq+Z0ani0LayDFtrMU7a5r37FHIpi0eS+jHtlccp5ddLBkivA1HUAIgbAMkBGeLojeDtm/K/8PKThm4zsn8KokS5m5fxrT3JtrSd1lPjjb/0SwNjEnKZPYAv3Mh0hK2KT2eA0Rn8UDxIDMRCSmWoK+/LPPM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735840572; c=relaxed/simple;
-	bh=jwqn7hkBn/MM0uQyBUMUFlw8aFCtUD5BZfa5hzb9rHI=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=ijjQDHMrEs3DsUQT9aCtAUXHJR8nA+6WXg6RA72kxjiZhN5GkLhII8+Tpq1GWVfGEYbrW9Y4hIYImj1c+8UKI9dlzJsYxXZxHOny3c+GdZcn4ISTmzCive8ry+toZDk9AKXK/qJria15WEgdJzbh9wUCBmgsf6GRfVIw5jptamc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=tBQiddaq; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.116] (pd9e5946e.dip0.t-ipconnect.de [217.229.148.110])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id E57142FC005B
-	for <linux-input@vger.kernel.org>; Thu,  2 Jan 2025 18:49:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1735840188;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDB8183CD1;
+	Thu,  2 Jan 2025 18:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1735842012; cv=pass; b=QirUh9oabIuDzHZa1D9lcbnkgACbsdLvoe148fdfG8QQh341NYZgshlE1MjtEkSJHWkbXDAn8X19Bz7+TNXkWlcbQ+nsvXWgdCt7XUeshv/meK0mterqRy8oxbw7l8/4tJGJkTDLG+qFRklRb+ySQrKi8AZ5sncbq/vF3Kg9N4w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1735842012; c=relaxed/simple;
+	bh=8FeQra9PsVnQRAPLj3xPytubGD6J8WzWhWdUfrITMu0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fj7pME56NUJkKakeoV8GviocR24/215MyWBa4zDEvjpivPy+3l6MGD8PAXg7Tb/3wGmG56tLdpIbrtkFME5ivv/9xCBUWb5qNcdpz59+CyD7frOsoXj5+9XJlvsuB2GF4thYtzVJxY1+X9GAHa+xWrzdqKeIveGvYKLp3Zencf4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=DNOM6WDa; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from darkstar.. (85-76-116-195-nat.elisa-mobile.fi [85.76.116.195])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: aaro.koskinen)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4YPFNw5Vz6zyQw;
+	Thu,  2 Jan 2025 20:20:00 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1735842001;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=Z0gQ8OZYeLxLa1nQz36oAI5VvMWEr0zmr+ye/kc82ts=;
-	b=tBQiddaqC32S9IqrVmu1qPcrUB6q/qqcUnNLsOtav7YSrzFhkjqvZFDdIAcfVcJ3Eib1Js
-	SDZB67qGT6xhC3Ed+82A8ly5ciq8uEDFhS9vOPnDjYNsMYxY/5jQ2PyhTddSTDT4KtqssP
-	06rb1z2wZKIGGmPssISHn1XX3utPvKk=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <75f6f0bd-084d-48a2-b7d9-b8a05fa80f55@tuxedocomputers.com>
-Date: Thu, 2 Jan 2025 18:49:48 +0100
+	bh=exZa0cSK0p8myy1tfLFAxCcr9av1i6WVSCZIQYJwPuw=;
+	b=DNOM6WDaERQjAUBF6vv5/3bIuRLYA1K7pCg6yAzfOhLDye2fbKsKWiwUJ/rM02hEruF4Sz
+	U84LbSTu30X1UFCZl+A9l3VCxO6zL2YjeqNOpGNewmhYiDM7kKRcRiXXNkURY/1/wNffjQ
+	1aQEaoWru+qoss7kLsj/U7HuuPLkZs4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1735842001;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=exZa0cSK0p8myy1tfLFAxCcr9av1i6WVSCZIQYJwPuw=;
+	b=h4kw9+4VcapxeVZtowg2UTW/F4HwsfbLqkFEM+UlAlLp4RKKpKYny1PSrnSCx5hTO6eZ9v
+	W/paYKKdW09NxPGTbWFscQAzna5SxZAJGTe6M4dOCdxpAHEnGswFqfSw+3Y9W0stJ5mpNt
+	8JduaVAFtfcNDKtLhaqWPIPpgAFtaQw=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=aaro.koskinen smtp.mailfrom=aaro.koskinen@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1735842001; a=rsa-sha256; cv=none;
+	b=N0r8l0vhoDwD5ZUxFaUMdlc7gBzfrulqeVpcCsgC5kokSJu3q44/dR+5KcgqPw9ERa3j5B
+	d1ZP29jJc85Ubuh/SEcMSFRsEXuDBcZ/6RPSrhvYXGhtCEVnkdvHnO7pS3pCdVjiQEsW0K
+	Kk+D7Afdk9QA5LHKA5hKObgk2cBdIAY=
+From: Aaro Koskinen <aaro.koskinen@iki.fi>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Helge Deller <deller@gmx.de>,
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+	Tony Lindgren <tony@atomide.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-fbdev@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Aaro Koskinen <aaro.koskinen@iki.fi>
+Subject: [PATCH 0/3] Input/omap1: fix touchscreen functionality on Nokia 770
+Date: Thu,  2 Jan 2025 20:19:50 +0200
+Message-ID: <20250102181953.1020878-1-aaro.koskinen@iki.fi>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-input@vger.kernel.org
-From: Werner Sembach <wse@tuxedocomputers.com>
-Subject: Fix strange media key for PS/2 keyboard in a driver
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Hi all,
 
-TongFang/Uniwill Notebook barebones have their internal keyboard connected via 
-PS/2 and pressing the touchpad toggle media key sends the 3 key combo 
-KEY_LEFTMETA + KEY_LEFTCTRL + KEY_ZENKAKUHANKAKU.
+This series restores the ads7846 touchscreen functionality on Nokia 770
+(and maybe on some other older boards using half-duplex SPI). While the
+performance might not be optimal, it's again possible to control the device
+using the screen, for testing/development purposes at least.
 
-If it were a HID keyboard I could use a HID-BPF program to remap this 3 key 
-combo to a singular press of F21 which seems to be the default for touchpad 
-toggle and now I wonder if something similar is possible for PS/2 keyboards?
+A.
 
-Kind regards,
+Aaro Koskinen (3):
+  fbdev: omap: use threaded IRQ for LCD DMA
+  Input: ads7846 - fix up the pendown GPIO setup on Nokia 770
+  Input: ads7846 - restore half-duplex support
 
-Werner
+ arch/arm/mach-omap1/board-nokia770.c |   2 +-
+ drivers/input/touchscreen/ads7846.c  | 171 ++++++++++++++++++++++++++-
+ drivers/video/fbdev/omap/lcd_dma.c   |   4 +-
+ 3 files changed, 171 insertions(+), 6 deletions(-)
+
+-- 
+2.39.2
 
 
