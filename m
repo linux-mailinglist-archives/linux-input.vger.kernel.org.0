@@ -1,55 +1,55 @@
-Return-Path: <linux-input+bounces-8841-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8842-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25D199FF7FF
-	for <lists+linux-input@lfdr.de>; Thu,  2 Jan 2025 11:27:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A439FF80C
+	for <lists+linux-input@lfdr.de>; Thu,  2 Jan 2025 11:29:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D1ED3A2205
-	for <lists+linux-input@lfdr.de>; Thu,  2 Jan 2025 10:26:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 329B11881E41
+	for <lists+linux-input@lfdr.de>; Thu,  2 Jan 2025 10:29:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B18EE1AF4EA;
-	Thu,  2 Jan 2025 10:26:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4435D1ABEC6;
+	Thu,  2 Jan 2025 10:29:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="H3c7D7gv"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lnDjH4e4"
 X-Original-To: linux-input@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19351AF0CA;
-	Thu,  2 Jan 2025 10:26:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642681A2C04;
+	Thu,  2 Jan 2025 10:29:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735813575; cv=none; b=ZY8LNt//XuLZZ2f7kCxL5D507L0mwRRZvI/hG5pSO1Uw0xgM/WOjGN9ldZ96DEltwQQ+zG60JBuSdAxDkK9s/twH6f22QIC37Se+tLSRzgqTFvxebao373LWW0RR7DTfTQOnKcTIZq0odaXvH+aXWIz1NhMEsiov7DtoiupYltA=
+	t=1735813766; cv=none; b=IQ+CT5fZm2eLgRvk7CJ4WgN2iqENxbM69vOISlhacGI9Rd+YJmuZ+Z0kErDOzADM8e6VNWGt1SuqA9o3Eg4qOhPv6ZxmEyM2LY8RUWeTpGOroOP9SVZhnt9MmNdhHjANG1Kh0ZwHPGuL7o8zLOE+rGTWVu4MRd37Zvj4h4oh8oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735813575; c=relaxed/simple;
-	bh=wJuYZa1Z2y++bkR6W+53NDWLih/Ax8RRNEbL+4eSPig=;
+	s=arc-20240116; t=1735813766; c=relaxed/simple;
+	bh=Ui5Ax6l8RhcBEr+KDx7Y4gphne3ZIzmcVAcKme4QbaQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sHt6mR61ZGOSwSPZS8bZNRC7gycbDZrapisvndrCl1sczuvJaK5JnUqP8kd2GAOR2yZx3Dr/rMV3jfO+XCLHLV2Bswtn2pEDL6XUbB++vBz8RrTTKX6SQ9Hll2muxqYE+UxrmVmQeuQN8DUQ1Pm32KNopE8DioTKNUoonGNdtEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=H3c7D7gv; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:Content-Type; b=XLNkGTrCx8jr498rvWh7dpwVwvA4LerlsI3lLI/MtCFS0LtedypelPilAVuJN+1gdtSFVQB7EYtuqrQ0YwLfTsxTs2FrpiqKF7nbk0LESgF+Y8PMjLiXqoRbP54PecylPIXJ8o5CtroEfBVfM5+EUxIFRYgenh6hyM4QtEY5i/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=lnDjH4e4; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1735813572;
-	bh=wJuYZa1Z2y++bkR6W+53NDWLih/Ax8RRNEbL+4eSPig=;
+	s=mail; t=1735813762;
+	bh=Ui5Ax6l8RhcBEr+KDx7Y4gphne3ZIzmcVAcKme4QbaQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=H3c7D7gvvYK0mpbJ13WKxi8g65Gr/jhoTPMC2LUcllLJLGJn3Hq9Fei1upWjqjzlH
-	 rRH75WC8Vb0X7qvJGLKpyShTz71K1iJMGG579cAJyMk9gMcN1KjRJpvekRbR2g6odz
-	 FpIxhD54WBpRGRJp3kmlmBQA8sCmy1N0KgCzyKEWN+SnFpUy5/X1DL55nO49b7Uybe
-	 MIgMU5L185MWQ2dbkJqny8BHNRmZbSnGdSSh3lil6sPiDT5EEcZMH++k7vigq6ey0Y
-	 Syl+gfJv5ElVuuh7jt2uD3GOvP9z+e3+Hf8chjVSrPx/jnIU8fVtq5kuo4BgosYD8R
-	 IA+prRUCimduw==
+	b=lnDjH4e49m8sL1pxJma4tV+WV36PeaCESERSgKFzZ3vdQMEN9zzML5rdbDRyg/eST
+	 9ct3oa0EUyVQDfdp/Q1IG7Q+gngQiatZsaNQAsMuFgoRUwXZzpmvVjEC6g4h0UJ7Mx
+	 hNlu7cbv9eNvpih8yHi1beLLwFKTpLdCcTx4sJ3j8zrqS0qnKvQxkk/B4CfGFf3dEA
+	 mft19HRNPjMgfjG/bx8NYctNzd9hv5poQEcZ10r1Hu3xBYcy9TaWhrDCwcBWzo1Jfr
+	 fIaiQqKA5HJn5O+FNi9pivNFs75XYXnB6kQBwAwhffXZvNNIjWcKioR0uMAtpdmLXS
+	 y+mBUYcmX+j5Q==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0049417E155B;
-	Thu,  2 Jan 2025 11:26:10 +0100 (CET)
-Message-ID: <7dae1442-c6e8-4610-a23e-8f8d4658bad7@collabora.com>
-Date: Thu, 2 Jan 2025 11:26:10 +0100
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A4B8317E1554;
+	Thu,  2 Jan 2025 11:29:21 +0100 (CET)
+Message-ID: <5a4db8a5-82fa-4feb-bc2e-c78d9e1c88e2@collabora.com>
+Date: Thu, 2 Jan 2025 11:29:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -57,40 +57,48 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/9] dt-bindings: input: mtk-pmic-keys: add MT6392 binding
- definition
+Subject: Re: [PATCH 0/3] mt6779-keypad: fix compatibles and add to mt8516
 To: Val Packett <val@packett.cool>
-Cc: Fabien Parent <parent.f@gmail.com>, Rob Herring <robh@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+Cc: Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Sen Chu <sen.chu@mediatek.com>,
- Sean Wang <sean.wang@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>,
- Lee Jones <lee@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Eddie Huang <eddie.huang@mediatek.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Yassine Oudjana <y.oudjana@protonmail.com>,
- Chen Zhong <chen.zhong@mediatek.com>, linux-input@vger.kernel.org,
+ <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Fabien Parent <fparent@baylibre.com>,
+ Alexandre Mergnat <amergnat@baylibre.com>,
+ Amjad Ouled-Ameur <aouledameur@baylibre.com>, linux-input@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-rtc@vger.kernel.org
-References: <20241226050205.30241-1-val@packett.cool>
- <20241226050205.30241-4-val@packett.cool>
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+References: <20241225192631.25017-1-val@packett.cool>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20241226050205.30241-4-val@packett.cool>
+In-Reply-To: <20241225192631.25017-1-val@packett.cool>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Il 26/12/24 05:58, Val Packett ha scritto:
-> From: Fabien Parent <parent.f@gmail.com>
+Il 25/12/24 20:26, Val Packett ha scritto:
+> The mt8516 patch was previously sent in another series but rejected due
+> to not using an mt8516 specific compatible - which the other usages
+> of this driver (mt8183 and mt8365) weren't doing either.
 > 
-> Add the binding documentation of the mtk-pmic-keys for the MT6392 PMICs.
+> It's only fair to add the SoC-specific compatibles to all of them then :)
 > 
-> Signed-off-by: Fabien Parent <parent.f@gmail.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+
+Nice!!
+
+Whole series is
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+> Val Packett (3):
+>    dt-bindings: mediatek,mt6779-keypad: add more compatibles
+>    arm64: dts: mediatek: add per-SoC compatibles for keypad nodes
+>    arm64: dts: mediatek: mt8516: add keypad node
+> 
+>   .../bindings/input/mediatek,mt6779-keypad.yaml        |  3 +++
+>   arch/arm64/boot/dts/mediatek/mt8183.dtsi              |  3 ++-
+>   arch/arm64/boot/dts/mediatek/mt8365.dtsi              |  3 ++-
+>   arch/arm64/boot/dts/mediatek/mt8516.dtsi              | 11 +++++++++++
+>   4 files changed, 18 insertions(+), 2 deletions(-)
+> 
 
 
