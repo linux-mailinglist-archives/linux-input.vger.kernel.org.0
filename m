@@ -1,79 +1,81 @@
-Return-Path: <linux-input+bounces-8874-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8872-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85019A006D5
-	for <lists+linux-input@lfdr.de>; Fri,  3 Jan 2025 10:23:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91252A006CD
+	for <lists+linux-input@lfdr.de>; Fri,  3 Jan 2025 10:22:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86F263A3D51
-	for <lists+linux-input@lfdr.de>; Fri,  3 Jan 2025 09:22:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C87721884627
+	for <lists+linux-input@lfdr.de>; Fri,  3 Jan 2025 09:22:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E285D1D45E2;
-	Fri,  3 Jan 2025 09:21:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86FAF1D356C;
+	Fri,  3 Jan 2025 09:21:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="aswxTjXG"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="OE7msc0t"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86EB1D278B
-	for <linux-input@vger.kernel.org>; Fri,  3 Jan 2025 09:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B31A1CF5CE
+	for <linux-input@vger.kernel.org>; Fri,  3 Jan 2025 09:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735896112; cv=none; b=NpqATNTfxbVh/j/kwWF4Skvh+hYvmsF8/UpKlofTilEU5T8OK3Z7P+hLKgj3rd2zKL7zFdQZvPMvWykh3/E0cqW9FMXdMN1p3/9IhXUWlAbDoWstzhsyaLklu3GPApWJ2//JWrWYU86s1O4JkIyzyHOiunoUW/p+J2z5uig80H4=
+	t=1735896111; cv=none; b=Nw9hsdnwtImaSjsIBIjeznUBjEY740h9OWCjREA0TJq3Y+6fL7xAZ8zCoNTx0rRMbf/1fBpoNgiwoipLB0fY6pb7dMtuiLbxWhzkOCpzso+QVy2qa8WrvIjweJLd+unSRgMeDNWSKj26iKp1UCY7YKynhAml+SIFf7g8E4bVyQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735896112; c=relaxed/simple;
-	bh=dgmlLrpBpnhcVRatzmA3ElIe9dEfB/vT6wgPvY7RCLQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CpJ/XRQy5nh+9Kx/YwHvQJwJfvHmeA2ZsnZJUQTog3OsVOoySmTkk/VhvxERg7fir6DQpnqcpwbut9LLqx3p2wuamPZlSfD5JMGm+F3/0cmhdJ+Y4tCjOHJV3QgGGHY4xBiMjNkapa122xf5X2rjg6yVSMhaYczQstmAiC4lXEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=aswxTjXG; arc=none smtp.client-ip=209.85.208.42
+	s=arc-20240116; t=1735896111; c=relaxed/simple;
+	bh=Cn/7/TPNYeOE+2g/2l424KGbAevrj9ZsheolFBBsRSw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=gHPYcGlBVdKKF1Tm4E/ij/72KzEb4WDRARPkskWamfZApDZ06gY7EwTsAgSXInmD4lwDKrSpuTbDjIvZ81DjrgGEu6CPl+IGEfECUPWQsqyAQCnDmp6p1GZUQ0i149YLnWbRDkFAg9rXCn7K1XYygRUbyhKgmY0aqjj/2O6qxpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=OE7msc0t; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5d90a5581fcso2059087a12.1
-        for <linux-input@vger.kernel.org>; Fri, 03 Jan 2025 01:21:46 -0800 (PST)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-aa6c0dbce1fso1661263066b.2
+        for <linux-input@vger.kernel.org>; Fri, 03 Jan 2025 01:21:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1735896103; x=1736500903; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9kNqfgWGfkfVt/bxXFgxNqi23umuLOBb02EY+IZ1jc4=;
-        b=aswxTjXGLxzjoLMW5SHu4fVmkMiVljtM3OkwajI5EQlnP0VHdW6LqcvIHGjrVt3s0/
-         BhfS3eQjR3H06pVAQasQFRkn36pYZ9uspuxqMcZbVN3ShbPYcmVUuLSDyiFEOR+oeMPy
-         zYTXJ2KHNW5ttMK0GG15UwyafN4h9hZG/n3q4gBHQSn6bi8NPQNT8FLNdEh+17yG9qVW
-         /GATNzZ9O2iDHkhykVKyByUWrE0AMRez56K8uHzEhgcc08xmNxs2z4iq7J32M5uq0YGG
-         xERD9oFS1cpRD0mFG214oBYEVlAwXPC8m4ZUykljDKJM+R1hw/cYHRHEqEkd6tInImDo
-         mLIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735896103; x=1736500903;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=fairphone.com; s=fair; t=1735896102; x=1736500902; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9kNqfgWGfkfVt/bxXFgxNqi23umuLOBb02EY+IZ1jc4=;
-        b=ZzYA4iJLx3iZOq5Jna1wXSmKaEbmcHj4VHUqzg2u37SS75hOKfq9Q8oDMsbK9EiMxI
-         GwNqurFp0SItJKS9aUS/IJBIIZEGohftpMa1hyjs9QGKFPBjoUS4hFMT2xuN5luU5n5F
-         KWhPQ5dN0tz7RMWZ7Q0xqaCnYbEQRtu1/sM3unV8QCxE0wQRlhyPtHjfwSzfHmOJVWLj
-         H/s3VZJSyI+0CjpKSaaBuLMd9tUm+gOKOxBl/1Npap8j3q+iLsMJaYl47t/VZM1STy4Q
-         KElWnddlia0gwBIxaYfeEwlNk0wd/C8iq0pGzRlfSKP/tQC5qXnXcdPQiiwc+whOAC/R
-         trAw==
-X-Forwarded-Encrypted: i=1; AJvYcCV4AMiRKVcLPQKi8MOvF9XcHpWxMiz3ClEoZvrnVVKd50SQ/L1zKtWsgNGVUufszeon4IRzqIztsw7WEA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxkTBXt+lLC2wI8uBuw2/JV53pOXGbupm639q0a90/v0ZC81bNQ
-	BLFjanbxK2tZLD9VchzuE7mbe48l9c53kOK1aGQ64abb/Kdi+p6Peyub1TXk9NI=
-X-Gm-Gg: ASbGnct4aPNnQl1DsZdiZ+4a68R8d38B8vNYLXwsQt+23wvuOZrjgj0+SfpcY1bIoIv
-	A/gvAjdm8UgsPBdahpGYwo2QT6W6kezTpZSfTd6qLMb2LZxnT1Ub/ldM+ODee63Tug42hwR9USX
-	Y25w0WSCUWFeTa0O+ymDQ007A5PmTIoMUVCGgDJeFL0Dt7U4qQY+vHlnTeg9+bk/b3bU2fy6kLg
-	LDi+wU3BLkX2514kcBcplY+mCdWbL554I6N8mZmG5tdpPEXzN1BsdVq6vajkM8rMs8ZxGb7uPMV
-	HcqNvAI+2fdUt8CU/iWGmtHj5w==
-X-Google-Smtp-Source: AGHT+IGu1+xTSi3G3Zc/mqzPzvlJdEDQOTlLhsMMlE3lvBvhvdWDIBE8fThcf6LjLSwmrDncRUMvXA==
-X-Received: by 2002:a05:6402:3581:b0:5d3:bc1d:e56d with SMTP id 4fb4d7f45d1cf-5d81de086afmr41880660a12.31.1735896101632;
-        Fri, 03 Jan 2025 01:21:41 -0800 (PST)
+        bh=rVDJte8gphg5oXk1BsgnY1RJiMM2PoJiarukFRgU+Eg=;
+        b=OE7msc0teW3tzudu/hjt3cKTved7Ivx9UhvVNK8LkAY1T/qz4PjMxjg891RTucFn03
+         eUi3DXvwcUDXjEkmFEgy4Zx4Ve4pDdTZ0nr7nLqRI5aIcZzryWdEQPoQXsIKVlfPVhzR
+         96eLIi68QrgPUZd12d+3jRSGy52kOHVawZr7ekcfKwDo5ZWz+5zP8e+m8ZoXwywt0Vab
+         pkp5pwfC84p2hLRjCyOsCuTPcloTuY8vB4KX9uApbiLoReCKbsOrt+SxU4cke0ZUYS/D
+         b8r5c8A0oxSYKCTSWso/SVntBQ52VW5II0I+a0F+yVqRjHItYfdzFVWW0WwlzTWGDh7k
+         YcWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735896102; x=1736500902;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rVDJte8gphg5oXk1BsgnY1RJiMM2PoJiarukFRgU+Eg=;
+        b=azbPMyHiiSXJuiXdZt2X68nu6P0RUu4Y3CYK8fCFXAVUkw4tgMw+bk5lyDaUp638CD
+         cLxaU/xsDxsHt8wfUxA63GIxz6fjqQC9VCspO13IhpzWaP7DMjFwrpEV5qnZNFh7pPdX
+         +fGzkmmGv5UYSUKUFkkqqInOHC0r5I4R+9iUX5eeKezQNtBs2B8ZQrR23d1/93mg/DG9
+         UvVeToalvdgxKqKanJlyw+D+dA6g3msHRUg9wPc8l9eEYxi1YfVyDw05lYVQKgOaHRFM
+         J5tp+5pM6UzRnf5iHQCBBKLWlT1+3lBwDCVYo883/m2Q+5JjaEiNyhkjV8iJtDcUtKZb
+         yv0w==
+X-Forwarded-Encrypted: i=1; AJvYcCUZMW2fpqAseGNY1CDq62Xi1D80plFWbR5T2rcRQ0p6VndMzhKUu0EiwYSbPQNEJ9QfF9WVujWg9aK6aw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhBcMoDmhKm/eADpYNIEdXSmhyyEsxnLvU++U/hf4kQV0DF5y3
+	hj8l1mNpLWpJCCW2jmVRZlUSEKX/SrJSh/1wev13F4RIQZfesVg+Jd1BSmhC2GI=
+X-Gm-Gg: ASbGncsObSNSAwWJQs8dLK+4CnJgSBjmiWKk9dQ+efTX03X0jpVnUnjfLpTLktx9DJi
+	AepESFzo7SdZ9JMeU35fXgt/3A6Vhgpf+XrfPbEpT+jLNLAfEOO7rDCHcjjuPnAFauCmsV9l0KZ
+	wg3FBjUZ6HgoGpGR+F8z82Fvkvyu8C1M8/uVdYmH6JdncH8y31S2vi6m3VPTIH5Tuz65wI1vjH/
+	N9LMaYaiMshe8cHmYkIgsi6EBiXg7zngeB50DwVDUrBeWxzChYmQc9/p+3Gf1tfhrTaFgRAOdlk
+	z4LlQ3x1SR2507KcH4N1viGmRA==
+X-Google-Smtp-Source: AGHT+IEP0pqzjNcKpMLHv58TycLuFbHDFEPtWZPP5wVDvFEESvjEvQXGbmwzN1VeN1K9zq9lytBpOw==
+X-Received: by 2002:a05:6402:4405:b0:5d2:7199:ac2 with SMTP id 4fb4d7f45d1cf-5d81dd83e12mr112825622a12.2.1735896102436;
+        Fri, 03 Jan 2025 01:21:42 -0800 (PST)
 Received: from [192.168.178.188] (31-151-138-250.dynamic.upc.nl. [31.151.138.250])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d80679f0e4sm19235306a12.42.2025.01.03.01.21.40
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d80679f0e4sm19235306a12.42.2025.01.03.01.21.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 03 Jan 2025 01:21:41 -0800 (PST)
 From: Luca Weiss <luca.weiss@fairphone.com>
-Subject: [PATCH 0/2] Some fixes for Goodix Berlin touchscreen driver
-Date: Fri, 03 Jan 2025 10:21:34 +0100
-Message-Id: <20250103-goodix-berlin-fixes-v1-0-b014737b08b2@fairphone.com>
+Date: Fri, 03 Jan 2025 10:21:35 +0100
+Subject: [PATCH 1/2] Input: goodix-berlin - fix comment referencing wrong
+ regulator
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -82,37 +84,43 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAB6sd2cC/x3LQQqAIBBA0avErBsYi5K6SrQwHW0gNBQiiO6et
- Hx8/gOFs3CBuXkg8yVFUqxQbQN2NzEwiquGjrqBFPUYUnJy48b5kIhebi5IXuvRTWSN0VDPM/M
- f6ris7/sBxta0DWUAAAA=
-X-Change-ID: 20250103-goodix-berlin-fixes-0f776d90caa7
+Message-Id: <20250103-goodix-berlin-fixes-v1-1-b014737b08b2@fairphone.com>
+References: <20250103-goodix-berlin-fixes-v1-0-b014737b08b2@fairphone.com>
+In-Reply-To: <20250103-goodix-berlin-fixes-v1-0-b014737b08b2@fairphone.com>
 To: Bastien Nocera <hadess@hadess.net>, Hans de Goede <hdegoede@redhat.com>, 
  Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
  Jeff LaBundy <jeff@labundy.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
  Charles Wang <charles.goodix@gmail.com>, Jens Reidel <adrian@travitia.xyz>
 Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
  linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Luca Weiss <luca.weiss@fairphone.com>, stable@vger.kernel.org
+ Luca Weiss <luca.weiss@fairphone.com>
 X-Mailer: b4 0.14.2
 
-One is a simple comment fix, and the second one fixes a discrepancy
-between dt-bindings and driver, aligning the driver to match
-dt-bindings.
+In the statement above AVDD gets enabled, and not IOVDD, so fix this
+copy-paste mistake.
 
+Fixes: 44362279bdd4 ("Input: add core support for Goodix Berlin Touchscreen IC")
+Reported-by: Jens Reidel <adrian@travitia.xyz>
 Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
 ---
-Luca Weiss (2):
-      Input: goodix-berlin - fix comment referencing wrong regulator
-      Input: goodix-berlin - fix vddio regulator references
+ drivers/input/touchscreen/goodix_berlin_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/input/touchscreen/goodix_berlin_core.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
----
-base-commit: 8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
-change-id: 20250103-goodix-berlin-fixes-0f776d90caa7
+diff --git a/drivers/input/touchscreen/goodix_berlin_core.c b/drivers/input/touchscreen/goodix_berlin_core.c
+index 3fc03cf0ca23fdbe36028a6228030d3ffb8d3a09..e273fb8edc6b92bcbad0fd35223a841d7da7d671 100644
+--- a/drivers/input/touchscreen/goodix_berlin_core.c
++++ b/drivers/input/touchscreen/goodix_berlin_core.c
+@@ -263,7 +263,7 @@ static int goodix_berlin_power_on(struct goodix_berlin_core *cd)
+ 		goto err_iovdd_disable;
+ 	}
+ 
+-	/* Vendor waits 15ms for IOVDD to settle */
++	/* Vendor waits 15ms for AVDD to settle */
+ 	usleep_range(15000, 15100);
+ 
+ 	gpiod_set_value_cansleep(cd->reset_gpio, 0);
 
-Best regards,
 -- 
-Luca Weiss <luca.weiss@fairphone.com>
+2.47.1
 
 
