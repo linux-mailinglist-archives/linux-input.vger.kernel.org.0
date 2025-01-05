@@ -1,269 +1,185 @@
-Return-Path: <linux-input+bounces-8891-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8892-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81EFFA01965
-	for <lists+linux-input@lfdr.de>; Sun,  5 Jan 2025 13:40:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3DCA01B3F
+	for <lists+linux-input@lfdr.de>; Sun,  5 Jan 2025 19:01:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C77361883135
-	for <lists+linux-input@lfdr.de>; Sun,  5 Jan 2025 12:40:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EBDAB162EAF
+	for <lists+linux-input@lfdr.de>; Sun,  5 Jan 2025 18:01:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45EA113C3F6;
-	Sun,  5 Jan 2025 12:40:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 961B61B6CFE;
+	Sun,  5 Jan 2025 18:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="ZG1abxYZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2120.outbound.protection.outlook.com [40.107.236.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB52AD27
-	for <linux-input@vger.kernel.org>; Sun,  5 Jan 2025 12:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.208
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736080822; cv=none; b=GSze0gU9M2P7nxkOoGvUBk605Vff9WPSORnHZupMjD3+Ck37ayqOHcSmRndDqE8vg1XvMpIyb2w1lXL/fxS2xsDnh/ZieFgUMUDZXl3Yzc1RjLVY9rC0qtH6SBfCxChiFH+5cuQAoxAC0GMRMgle2Np/JGQO/41wMvpcfngJjFk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736080822; c=relaxed/simple;
-	bh=UzG2HPxEfUqU9cnB7q4bF5uMtyBjsXvIxK7DFi5yC/M=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=FEHly/jiagyEAlYAUU24XEdqOWTor/NqpGZai+w9xf3LaolOIFO4kMfbWKDJSichglArNkYXhx+lCUOHV9NXjGWYkLP6tr7P9SSwEnpfopr5g5xrwgM3GDw3bzksg3Xlee0Zf8QyeQDuuXvgIoR4hAkjunBy0iL4sAdb+bUS+sI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-3a814bfb77bso134362935ab.0
-        for <linux-input@vger.kernel.org>; Sun, 05 Jan 2025 04:40:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736080819; x=1736685619;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+SBxe9EO4z1cLIGlM0EXmcsc0sgWyKdlZ4kqLBF+rk0=;
-        b=XJYLcR6xLyp86KOq7xmI4Ag7YjKRJvM9E9WfLIZ+l85YYKcNZhJDC1Q7AYxjhcjbzk
-         N5gAZa3ZhuAkD5amjkUXJww86DUU13Zh1qZ8ZKSwE54kwCQy4SDWZQVkiL8ThgXwi5WF
-         2KcmuasCkfVSbfMjk4p+9ECHCkxwSPNXxOfx6sLBKC1PG+OdtyWhohReIXyM/M+gCr9R
-         kmuL5ACUBhR3UFE8k+h7Rew+EsuRt6sZVFHY9JQQOdltkabOP5DskvIcOquL6y68FRpV
-         U+EckU7l+Sf8KLgh7DhXIBcr3Oj4PEau23saHdBJ0HB5aahjpecDxBZoEptI3R4Lwnix
-         h/0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUzx3TaOo0deLZP9sBpluBNhSwNewx2fBtXc0JiRnibt9wiQZcJ6ZPJRSuwJjeDrr9DBNsGaMH2FSFnTQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWlWXwsfuVWAj32h/+kLWaOJADY4GeFtdOCYH8/3qSmCaQXn2O
-	Mm+zkFtXpA47lNbFXN4uYASG+hGmVxKjA3wwENPzHYmlqdTbkXpG+cN9SJ+p8NEOWKmK/7w7mbl
-	iIXBeo5x/nKdelmKJsdcKnb28mTz38/HYJW+4uWuTu71bTgwqq9USQJ4=
-X-Google-Smtp-Source: AGHT+IEWHVsawQp5BzleadBfS3ilr+IncQsje8KhdWNoE8McbIN5Ky5jxBrZgQ4BiQeOjJqGtMIUwmpvZOtb7dFglsclN7Vh4r1t
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853D71BBBC5
+	for <linux-input@vger.kernel.org>; Sun,  5 Jan 2025 18:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.120
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736100060; cv=fail; b=u7PG7anFpcRgYlA+a8MYd3EBbMmTcpSlwhU5pA1xa7gSvRZWns59i1MOCo1u++2akFYZgQ5DuZ+65r728b664YZENYY7morPxDMvs7rMf/GTvwka7kpq07+XgXIWfgjpdp8wWgVS06b810K5JinqH73mwYiAsIFp8pTkUrzPnQ4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736100060; c=relaxed/simple;
+	bh=VSdosymADSJI70gJ/NmU4hZiD2j0REPTabXefzXAqnI=;
+	h=Date:From:To:Cc:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=tXAXmTEMjVGc1ZobHPxr3Dra6yWQ8ChC2uCd6LELE8ILnElBzSRPdoyZuBG7nZ4t0dvZB0atW3/esMwnXr2y4ME9k9Yzr5Bb3uKnNwNqKFwioI+ZSAq4+rXkcgqovJya9S8acyrljbQNDEaryOFkwymDr2azhRDtNTvzpzTW0XI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com; spf=pass smtp.mailfrom=labundy.com; dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b=ZG1abxYZ; arc=fail smtp.client-ip=40.107.236.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=labundy.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=v2H1//nH89DH+k0Tb6J96SvVTYIcwGaxZ0aTqhe9AUxNkjBQS1VI94ep/+paBlq5nfBToycrVy+VK1BeRgF7y8IpJN0D+LZTYSZBiJ3vH4aFoDmtfHJehObe9QcTc6Gt0mKVg41GkVVzj89tC7eWox1KeCxBpZacLXrV+MC2Ub0q7NsF7TeMRdUSm98d4Qb4IGQ2ZpjyLFLRp5W7OOMn5nEX1XzL2wvFM9V6VLaFEAq8ZlOiMiHpSqezpXQ6Hqvq0TW6vEVA2g/bSTDRfJrSwF3M+trIoKRAWI1BOfkpQHRZrjuNibn/ivj9YhiQ6m4cwB/DIq/azCXzT4WvUo4Nsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bgjkzc5kP3yMiHl20twgVYMxV2wlsYB6B077yJRaWco=;
+ b=Oio3wl6DaBj/KIOCQXspZJriDJxlbd18pKe5dpJVJjpNv0BIE1iyvjsOSOpz0GlOPMprvCid8HJSL2BVYgawcDMfrLAK8q9UM2fGTrV+urMLBjVSO70qlvrQ9pz//Vq0jUMwipKXbKwxANjkhL7Dke2axDAPlNMRCie4uqfSfEL/4l0mRYXcID9Bfn1kpeRUFqMiT3kRs9luxI9GKIEKPqzm8Q3bGJG16KHtmzZpYgtIs+mTA3jUVU+YMv5kbQzDU1l6flZaTrxO9CFDlc3/sbioBasSFxrqQSo1lDtA4v9pOArYqgpzxMeuFIn+BxOkOvRbW3enxMleecuU/kkH3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bgjkzc5kP3yMiHl20twgVYMxV2wlsYB6B077yJRaWco=;
+ b=ZG1abxYZlpxbYXshmc7TotLnalRK5iT2MKhPanAk0QCT+PhQoW/D6WJ/4X5Yr4OP5D4e/8YJVrNmKlu/TObZfCA6HGrf2DzDi4KK0MT5zbBAGMzJpCV8/UEo3gRptpirQqE5RtuqKZ/4U1qFT6W/uCGKMUcLLeKwm7DrMK3skN4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=labundy.com;
+Received: from BN7PR08MB3937.namprd08.prod.outlook.com (2603:10b6:406:8f::25)
+ by DS0PR08MB9304.namprd08.prod.outlook.com (2603:10b6:8:1b5::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.14; Sun, 5 Jan
+ 2025 18:00:50 +0000
+Received: from BN7PR08MB3937.namprd08.prod.outlook.com
+ ([fe80::b729:b21d:93b4:504d]) by BN7PR08MB3937.namprd08.prod.outlook.com
+ ([fe80::b729:b21d:93b4:504d%6]) with mapi id 15.20.8314.015; Sun, 5 Jan 2025
+ 18:00:42 +0000
+Date: Sun, 5 Jan 2025 12:00:30 -0600
+From: Jeff LaBundy <jeff@labundy.com>
+To: dmitry.torokhov@gmail.com
+Cc: linux-input@vger.kernel.org, jeff@labundy.com
+Subject: [PATCH] Input: iqs626a - replace snprintf() with scnprintf()
+Message-ID: <Z3rIvp0hzS+yzvJA@nixie71>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-ClientProxiedBy: SN6PR2101CA0002.namprd21.prod.outlook.com
+ (2603:10b6:805:106::12) To BN7PR08MB3937.namprd08.prod.outlook.com
+ (2603:10b6:406:8f::25)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1d1a:b0:3a7:e069:95e0 with SMTP id
- e9e14a558f8ab-3c2fe53a7d5mr385778905ab.1.1736080819366; Sun, 05 Jan 2025
- 04:40:19 -0800 (PST)
-Date: Sun, 05 Jan 2025 04:40:19 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <677a7db3.050a0220.380ff0.0012.GAE@google.com>
-Subject: [syzbot] [input?] possible deadlock in input_ff_flush
-From: syzbot <syzbot+ed7c6209f62eba1565aa@syzkaller.appspotmail.com>
-To: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN7PR08MB3937:EE_|DS0PR08MB9304:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2276b3ef-bdb4-44aa-3d9a-08dd2db2df19
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?pnHYnMEjHon0z1cfLXRCnTU04ugRnRwzWGSFyWoqhLlWslQZr5WqZ9aSKscI?=
+ =?us-ascii?Q?tvNS1MfQAicm5rO5SzH/MrMghW/46LPxNQzP4Eq6V33iX6Q2/XKG0Ba+yMMO?=
+ =?us-ascii?Q?drwIhfAcufZ0A+3zX06HOVz3nYbQv+8fvOWgCgKDV5u31dE8FQGFfrFioLI1?=
+ =?us-ascii?Q?3qOB2fkad58Xy0xPHccvs9dNo4m2kHuDD8qgKH+9Cl/hcal34X/NwmiUqakQ?=
+ =?us-ascii?Q?2qT7NyxzFgWR6xMprjWpQ+w6GmqJxohIRxU3/HZ9H01gBxHKAGMAIy5KpDCs?=
+ =?us-ascii?Q?oo7hr7zMKf9wgRiPBFlXZI0CD2K3WdouzKcOWirL4eGYub8BKPovBKYh7hsF?=
+ =?us-ascii?Q?NsndytGCfgwuKiMfwILl37Ya3Hjuvp1uaYJiS3jqMcuCdRYME++S+8VTr8ze?=
+ =?us-ascii?Q?HsB05I9tJ9tTkWq5AiRUUujULrpzCnhkkk7BqUBHcc8fiw5FR54D3lzWCHLO?=
+ =?us-ascii?Q?NpPqpKqGXA0+73qhzldaPfrfotIZRq/nSdE2EQ/yZ3sbdSBjrjTnxao/CFwB?=
+ =?us-ascii?Q?YcmqHW/45kh1rEjVR5tQGQixBxaWeKWonIPVJw3cTGcJlwh6vRYlyqylofxX?=
+ =?us-ascii?Q?ecSwXyMNbsM7ahgukuNTD/qNt3mJ1vDyFbBeiHjzVCFh4njWT7swR2h6FsML?=
+ =?us-ascii?Q?kYjWWJgTrrpxHWHOzvQs1g8yRIBeZrE2KKOf4Kye9brZkiOvHCuLgXjg7wKD?=
+ =?us-ascii?Q?IirbiY1IxVBSs+0pp+BQtdNNLSmGK8/bH16/zKfrGGTFgr1Lz/IpE/y4mxBg?=
+ =?us-ascii?Q?kAZYuap8+rnquix7YYFEftMGMiV0p0vxXBoNhvrkkqlQt7HVtYjbyooL5IpJ?=
+ =?us-ascii?Q?22Gk3Z/v0BBb7CdTdXAv5cYc0640ibJ7mUscZJcz0MXtBYzSFZknVt86ceoP?=
+ =?us-ascii?Q?OW0m2Sf9vRT3+RwL2zVEcX7VxLk4ZaGuQPREN3CSoRRp1jVromI+oYyuBe/n?=
+ =?us-ascii?Q?kRP1zrrIZDH2JLpmwCjS7bIlLDUghgx+4iD5JvpEamKZSrU7ZddR7Jf3PK/K?=
+ =?us-ascii?Q?ifeIHEcJ+Bq940FvNBx9oebUZbKl3FmxgdS03dHMBu0LSMOF3a3YGzjOA641?=
+ =?us-ascii?Q?SqKOPUl1olUjn8aA3Z/gjOsHUpFWpai3Ag+lxORKLNgLUvUTOgpTSPOaTm+Y?=
+ =?us-ascii?Q?rgZLBqO1WCos940cZuzsEotQ3XzCFKJS1C4Fqh1XAtfTeKIG/n4fu33QXSOo?=
+ =?us-ascii?Q?M9p3xgCTUCYYgeE4fii+FXqgI6K8Vm7DlwexSrhDQvanwg6oQqETqV/fyDnl?=
+ =?us-ascii?Q?9ilPtELIfUqkVhQgq4UQfvcpfEEB6MpqCwA2uiih+o6yLMzh9hpfLm8KYagt?=
+ =?us-ascii?Q?0lkfDrP+VNhXgd3V1vgYUiOJU9W/j5v2Thj9/Ouzw99/hXpQPvgwRPnfh0Rc?=
+ =?us-ascii?Q?rL+JAdIn/p43oXDEmom1Afm5MMNx?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR08MB3937.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?QVJbzjsg0Z3Ej0xrSNwkwJDSODQVc0PR48htehBjCQXch+GfF1PRhjA5j1i0?=
+ =?us-ascii?Q?7eTZ7wUPBOAoKMQLYkdl5rCCTjtRH2zelH9pE89JIRSmrTekwvHGRM03zEiN?=
+ =?us-ascii?Q?OG20WZ5TWPtFeciuLiexFuWJpJnQOMMZ7VZd51FbCS3gA6TCZ/86tVwLvCFS?=
+ =?us-ascii?Q?oDpCoEkTSVllE9IaRDacPF99iFDHUNDA4UodHaA9gS/nT0Z06A0J+t6QWBQt?=
+ =?us-ascii?Q?OCawM9YX7Xa93wt4CYXDtB9oWrLv5BgmX/Usu5+cLg5uf+GpAQAOjFNO53dx?=
+ =?us-ascii?Q?hpUl9uYs9HRVGyk/ylceUT4KTAjVuEc2nhaAkIE8/1LU4kNbVM8CIFZQLah7?=
+ =?us-ascii?Q?Of8qpTzY7HZ4bQzIF357PSvukz+jX0sI2HiiLGSupCo0q9rqFD0oHzvMwgFt?=
+ =?us-ascii?Q?a4KNU4SZuVtdpLFK1GSPujii+vw7nMEDd0mhEAF39TBR0yndG6hzpzZkN/mN?=
+ =?us-ascii?Q?U97FXHc7sFRgNJQYnM1cR8950+tJ+lft1+Nl8XnB4MfIjD0551JllG1raFqH?=
+ =?us-ascii?Q?HK0fIovcGpH4s5UiUT/QJbeXN6E29iZF4V194rcPPCb8QldAuubdMwgxdTkc?=
+ =?us-ascii?Q?P6QGQ8x08qZrtsTV99WixZ7YSF135vVj/FtUX0CV3bKBghvGC7lcAsyiS2Ei?=
+ =?us-ascii?Q?c1i1tF8i3KNJwSr6syWsRmyu3QRLxfWhtIEa+8DkyVcrEwkX5EhhQoevuned?=
+ =?us-ascii?Q?5i6dc5fvWshOnIbArIsyzyFL21nrtSprSwgibZsPVUmTMUt3tAYk+ke/1c/x?=
+ =?us-ascii?Q?IO0TW7t1mDj2T7DnqBHalRbCR1llJwgJil5wm8ufpMNVZ3KcQSHOSo6BZWbf?=
+ =?us-ascii?Q?Yp5tHhl/YbgHme1L/KFLNf7OPs1yAK1YbQu3bgo0yFEldRHR1uuAJlNcZASs?=
+ =?us-ascii?Q?Lh8LvvOlQIab7rUeLOj1y99Cbjc7I5ex9bCmTUg3H0duN2Y4VJjJZqcI0EJ5?=
+ =?us-ascii?Q?P72CafvFj3/54ribGCoB/6wV2TKHVFL1QAQHggCUmW0l1JNGWdt87OcTzdw7?=
+ =?us-ascii?Q?YJSDym0SXVAA9NWXaFQYNcG2qD9P7IGH5+cBhOvAE+OSzi02stzP6pJfg4WX?=
+ =?us-ascii?Q?oDFswQO45FhxRQblWawWM2cvQtpHNMdoxA9XRFcLV+GE1e2GHTBTsY5HKoAy?=
+ =?us-ascii?Q?8ibPGZWTfis9KCQEtE9HrhD+s+owCrICizYlZW4whKP0dJaSbLo9fJVBIr4A?=
+ =?us-ascii?Q?ODuSHvjG6PsrRbU7o8kaLfnSE5rGukET47rDERs9BmGPqGMStT/nDvMQG+su?=
+ =?us-ascii?Q?8L4Z5w2m6SQm1awq7F6U6m8yP7Sf3+pfHifUPnmjON4Lw2vXpfWz91tXyFhE?=
+ =?us-ascii?Q?FCQ+dfnUggLjOkBt8w73RbKP8vwBrFiS8TfUlNEkRw204Lw9K7nfkrjfo0Wl?=
+ =?us-ascii?Q?tlDG6ciYSlFjZjY9fkapdGlhToXXVAWQAVYOUWBWHDtodfVy8PQQhtU95T6O?=
+ =?us-ascii?Q?6TSfJbnGk6BUKBAkFwOi9EeBjY8vRwqnND2/RnJsuHHipZDo8djGhLJ9JA6d?=
+ =?us-ascii?Q?i8GQt0ZePXLeN/NhPy+a8cNCO7mNg0C6TYT56QfxEmJ7xo+7vOgxWb5K5h4p?=
+ =?us-ascii?Q?nrV2Dym21yeh6VHCIvFhJWj2+QDNYf0FBRsP6fYl?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2276b3ef-bdb4-44aa-3d9a-08dd2db2df19
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR08MB3937.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2025 18:00:42.8289
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eMsHmVEa8Bub3HVSn3ySZR978x8rOE2lwfmlqwZyStz8aSgyiJecIkLajZCNEoLu/PYlv2x99ae4DBKLWeh6rg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR08MB9304
 
-Hello,
+W=1 builds warn that the data written to 'tc_name' is truncated for
+theoretical strings such as "channel-2147483646".
 
-syzbot found the following issue on:
+Solve this problem by replacing snprintf() with scnprintf() so that
+the return value corresponds to what was actually written.
 
-HEAD commit:    ccb98ccef0e5 Merge tag 'platform-drivers-x86-v6.13-4' of g..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1613fac4580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=dc863cc90857c683
-dashboard link: https://syzkaller.appspot.com/bug?extid=ed7c6209f62eba1565aa
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17bd56df980000
+In practice, the largest string that will be written is "channel-9",
+and the return value is not actually evaluated. Instead, this patch
+ultimately removes the warning without unnecessarily increasing the
+size of 'tc_name' from 10 bytes.
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-ccb98cce.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/1f85617cae1e/vmlinux-ccb98cce.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/0dc4d6c6c931/bzImage-ccb98cce.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ed7c6209f62eba1565aa@syzkaller.appspotmail.com
-
-======================================================
-WARNING: possible circular locking dependency detected
-6.13.0-rc5-syzkaller-00004-gccb98ccef0e5 #0 Not tainted
-------------------------------------------------------
-udevd/5941 is trying to acquire lock:
-ffff8880293600b0 (&ff->mutex){+.+.}-{4:4}, at: input_ff_flush+0x63/0x170 drivers/input/ff-core.c:242
-
-but task is already holding lock:
-ffff88804d45b2c0 (&dev->mutex#2){+.+.}-{4:4}, at: input_flush_device+0x4b/0xd0 drivers/input/input.c:647
-
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #3 (&dev->mutex#2){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/mutex.c:585 [inline]
-       __mutex_lock+0x19b/0xa60 kernel/locking/mutex.c:735
-       input_register_handle+0xca/0x5e0 drivers/input/input.c:2725
-       kbd_connect+0xca/0x160 drivers/tty/vt/keyboard.c:1587
-       input_attach_handler.isra.0+0x181/0x260 drivers/input/input.c:1032
-       input_register_device+0xa84/0x1110 drivers/input/input.c:2475
-       acpi_button_add+0x57a/0xb70 drivers/acpi/button.c:615
-       acpi_device_probe+0xc6/0x330 drivers/acpi/bus.c:1076
-       call_driver_probe drivers/base/dd.c:579 [inline]
-       really_probe+0x23e/0xa90 drivers/base/dd.c:658
-       __driver_probe_device+0x1de/0x440 drivers/base/dd.c:800
-       driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:830
-       __driver_attach+0x283/0x580 drivers/base/dd.c:1216
-       bus_for_each_dev+0x13c/0x1d0 drivers/base/bus.c:370
-       bus_add_driver+0x2e9/0x690 drivers/base/bus.c:675
-       driver_register+0x15c/0x4b0 drivers/base/driver.c:246
-       __acpi_bus_register_driver+0xdf/0x130 drivers/acpi/bus.c:1027
-       acpi_button_register_driver drivers/acpi/button.c:745 [inline]
-       acpi_button_driver_init+0x82/0x110 drivers/acpi/button.c:754
-       do_one_initcall+0x128/0x700 init/main.c:1266
-       do_initcall_level init/main.c:1328 [inline]
-       do_initcalls init/main.c:1344 [inline]
-       do_basic_setup init/main.c:1363 [inline]
-       kernel_init_freeable+0x5c7/0x900 init/main.c:1577
-       kernel_init+0x1c/0x2b0 init/main.c:1466
-       ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
-
--> #2 (input_mutex){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/mutex.c:585 [inline]
-       __mutex_lock+0x19b/0xa60 kernel/locking/mutex.c:735
-       input_register_device+0x98a/0x1110 drivers/input/input.c:2468
-       uinput_create_device drivers/input/misc/uinput.c:365 [inline]
-       uinput_ioctl_handler.isra.0+0x130c/0x1d70 drivers/input/misc/uinput.c:918
-       vfs_ioctl fs/ioctl.c:51 [inline]
-       __do_sys_ioctl fs/ioctl.c:906 [inline]
-       __se_sys_ioctl fs/ioctl.c:892 [inline]
-       __x64_sys_ioctl+0x190/0x200 fs/ioctl.c:892
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #1 (&newdev->mutex){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/mutex.c:585 [inline]
-       __mutex_lock+0x19b/0xa60 kernel/locking/mutex.c:735
-       uinput_request_send drivers/input/misc/uinput.c:151 [inline]
-       uinput_request_submit.part.0+0x25/0x2e0 drivers/input/misc/uinput.c:182
-       uinput_request_submit drivers/input/misc/uinput.c:179 [inline]
-       uinput_dev_upload_effect+0x175/0x1f0 drivers/input/misc/uinput.c:257
-       input_ff_upload+0x55b/0xbf0 drivers/input/ff-core.c:152
-       evdev_do_ioctl+0xf45/0x1ae0 drivers/input/evdev.c:1181
-       evdev_ioctl_handler drivers/input/evdev.c:1270 [inline]
-       evdev_ioctl+0x16a/0x1a0 drivers/input/evdev.c:1279
-       vfs_ioctl fs/ioctl.c:51 [inline]
-       __do_sys_ioctl fs/ioctl.c:906 [inline]
-       __se_sys_ioctl fs/ioctl.c:892 [inline]
-       __x64_sys_ioctl+0x190/0x200 fs/ioctl.c:892
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (&ff->mutex){+.+.}-{4:4}:
-       check_prev_add kernel/locking/lockdep.c:3161 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3280 [inline]
-       validate_chain kernel/locking/lockdep.c:3904 [inline]
-       __lock_acquire+0x249e/0x3c40 kernel/locking/lockdep.c:5226
-       lock_acquire.part.0+0x11b/0x380 kernel/locking/lockdep.c:5849
-       __mutex_lock_common kernel/locking/mutex.c:585 [inline]
-       __mutex_lock+0x19b/0xa60 kernel/locking/mutex.c:735
-       input_ff_flush+0x63/0x170 drivers/input/ff-core.c:242
-       uinput_dev_flush+0x2a/0x40 drivers/input/misc/uinput.c:283
-       input_flush_device+0x97/0xd0 drivers/input/input.c:652
-       evdev_release+0x33d/0x400 drivers/input/evdev.c:435
-       __fput+0x3f8/0xb60 fs/file_table.c:450
-       __fput_sync+0xa1/0xc0 fs/file_table.c:535
-       __do_sys_close fs/open.c:1554 [inline]
-       __se_sys_close fs/open.c:1539 [inline]
-       __x64_sys_close+0x86/0x100 fs/open.c:1539
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  &ff->mutex --> input_mutex --> &dev->mutex#2
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&dev->mutex#2);
-                               lock(input_mutex);
-                               lock(&dev->mutex#2);
-  lock(&ff->mutex);
-
- *** DEADLOCK ***
-
-2 locks held by udevd/5941:
- #0: ffff888024d58118 (&evdev->mutex){+.+.}-{4:4}, at: evdev_release+0x77/0x400 drivers/input/evdev.c:432
- #1: ffff88804d45b2c0 (&dev->mutex#2){+.+.}-{4:4}, at: input_flush_device+0x4b/0xd0 drivers/input/input.c:647
-
-stack backtrace:
-CPU: 2 UID: 0 PID: 5941 Comm: udevd Not tainted 6.13.0-rc5-syzkaller-00004-gccb98ccef0e5 #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
- print_circular_bug+0x419/0x5d0 kernel/locking/lockdep.c:2074
- check_noncircular+0x31a/0x400 kernel/locking/lockdep.c:2206
- check_prev_add kernel/locking/lockdep.c:3161 [inline]
- check_prevs_add kernel/locking/lockdep.c:3280 [inline]
- validate_chain kernel/locking/lockdep.c:3904 [inline]
- __lock_acquire+0x249e/0x3c40 kernel/locking/lockdep.c:5226
- lock_acquire.part.0+0x11b/0x380 kernel/locking/lockdep.c:5849
- __mutex_lock_common kernel/locking/mutex.c:585 [inline]
- __mutex_lock+0x19b/0xa60 kernel/locking/mutex.c:735
- input_ff_flush+0x63/0x170 drivers/input/ff-core.c:242
- uinput_dev_flush+0x2a/0x40 drivers/input/misc/uinput.c:283
- input_flush_device+0x97/0xd0 drivers/input/input.c:652
- evdev_release+0x33d/0x400 drivers/input/evdev.c:435
- __fput+0x3f8/0xb60 fs/file_table.c:450
- __fput_sync+0xa1/0xc0 fs/file_table.c:535
- __do_sys_close fs/open.c:1554 [inline]
- __se_sys_close fs/open.c:1539 [inline]
- __x64_sys_close+0x86/0x100 fs/open.c:1539
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f1d757850a8
-Code: 48 8b 05 83 9d 0d 00 64 c7 00 16 00 00 00 83 c8 ff 48 83 c4 20 5b c3 64 8b 04 25 18 00 00 00 85 c0 75 20 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 76 5b 48 8b 15 51 9d 0d 00 f7 d8 64 89 02 48 83
-RSP: 002b:00007fffb61bcef8 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
-RAX: ffffffffffffffda RBX: 00007f1d756b10e0 RCX: 00007f1d757850a8
-RDX: fffffffffffffe60 RSI: 0000000080184540 RDI: 0000000000000008
-RBP: 00005620d7ea5160 R08: 00000000ffffffff R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000016
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-
-
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202412221136.0S4kRoCC-lkp@intel.com/
+Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/input/misc/iqs626a.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/drivers/input/misc/iqs626a.c b/drivers/input/misc/iqs626a.c
+index 7a6e6927f331..7fba4a8edceb 100644
+--- a/drivers/input/misc/iqs626a.c
++++ b/drivers/input/misc/iqs626a.c
+@@ -771,7 +771,7 @@ static int iqs626_parse_trackpad(struct iqs626_private *iqs626,
+ 		u8 *thresh = &sys_reg->tp_grp_reg.ch_reg_tp[i].thresh;
+ 		char tc_name[10];
+ 
+-		snprintf(tc_name, sizeof(tc_name), "channel-%d", i);
++		scnprintf(tc_name, sizeof(tc_name), "channel-%d", i);
+ 
+ 		struct fwnode_handle *tc_node __free(fwnode_handle) =
+ 				fwnode_get_named_child_node(ch_node, tc_name);
+-- 
+2.34.1
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
 
