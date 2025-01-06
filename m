@@ -1,124 +1,133 @@
-Return-Path: <linux-input+bounces-8918-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8919-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC731A01BA0
-	for <lists+linux-input@lfdr.de>; Sun,  5 Jan 2025 20:38:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86E2CA01D39
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 03:08:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C8CA9160E80
-	for <lists+linux-input@lfdr.de>; Sun,  5 Jan 2025 19:38:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 168A83A2952
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 02:08:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDCAD1CCEF8;
-	Sun,  5 Jan 2025 19:38:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B432386340;
+	Mon,  6 Jan 2025 02:08:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bTmpv6hc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EJzpmBUH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16CE61B5ECB
-	for <linux-input@vger.kernel.org>; Sun,  5 Jan 2025 19:38:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C5286335;
+	Mon,  6 Jan 2025 02:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736105896; cv=none; b=T9hlaqSHCRW6+7sl8U/zHaHYU5/C7DgjOUMptczubADz7HdWikaJ/X7Nu2Mb6THOjI02eC4mTtAPZ5DClGGNkr7T3einiYFdsLqrw8uohzyQNTI22sdCqYNY/a39lpQeohvbWku3MJlV1GNcdR6OcPUwhp6bzWBiPqlvZ4rJqck=
+	t=1736129297; cv=none; b=VQGFT3LAodQb38M6lc44yWcInwjSXTmh6rt1E8n5e2TGpkVftrsjh7psQFoEG0XX4KkP6UsaFheIVVE2m73r9yM838YOaiZ6GfSP5eTGtpH/TI+pcKZrR2VICpkKHgBpfApc1XdXs7d/Rx0YJlXb86/EYLO3oUvhgatAsuvzpSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736105896; c=relaxed/simple;
-	bh=xaGQFB/3tHoelS+lAm4HlmNSPyjqkE4xvVsDWOYfmOc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d1rJ1XqHNvGvPc4ofN6fGU1RO34oX6BhovVSs8lgU2TLfaFq/KcQCwH8A6cK9JdkU+1+WgjwMfNQJx90GGH1SBPAtlB3m5DWTzrc1CjadV7EvfI2L7KnMFeGRSzhkj7h++0gRMZXbzs7CgQp1a06TBAX8OFequ6Jv27QUlpeQXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bTmpv6hc; arc=none smtp.client-ip=209.85.221.54
+	s=arc-20240116; t=1736129297; c=relaxed/simple;
+	bh=39UgLp4kIMXBEKlJjFF9vlbr4qkWc7iI4V6hk0c5svQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CH0wPFptDPXLNnaflyTFgt1q7HzHZJKqj3C6lCl4CrbXGUii6olojWxi5kQ1doDPY8qnb448uzplwph2dy2uC9cjvYftkvM3E/YuCJ7Ger990C+NXu2a+GncCvFy00VZ7zVaxOadTxE9sn30/Sul7dc3OUj1IMnuQvEfDdjjYJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EJzpmBUH; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-385e87b25f0so9127648f8f.0
-        for <linux-input@vger.kernel.org>; Sun, 05 Jan 2025 11:38:14 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4361f65ca01so138414775e9.1;
+        Sun, 05 Jan 2025 18:08:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736105893; x=1736710693; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Uww1KxRaoTyZr8TTwGtplN/ZUFEPEypX88fWvlepoWo=;
-        b=bTmpv6hcgDw60buNColaDaBY84sXWoYQP7M5qe5WHmlmcZs4i8vqXSjUm8r72ZfRT1
-         wH6ojeY0JowcfbuOoDOviHjPUg9f6XiZGbyF+/4fw4bZPl2DyzjDO4cnEm+Z9K7reSK7
-         oX97u2AkBUh6jzyhdkWP9pkYq5dTQVza65QtBOuxMusv6wigbAxyi+qCWOQBQ519NJDg
-         jiix8n0//x3dkKY/WKc+jXCGt8+9Dx77hlOOsBAYJnCWbjBEOHPOi+IqPCHMgWoYS0xv
-         e7fr/yRljXm/mQxMKwlAat4DwdYkZjdcuA0FfBEFr3MWyn3fliHdiKL4panjalnoQPtQ
-         qvkg==
+        d=gmail.com; s=20230601; t=1736129294; x=1736734094; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GhJTTVx9RhxyQy1N1NCqF9AXzhuQJ8duYbTZxvItgvo=;
+        b=EJzpmBUHyuv53oBVVTP1axNYxMACGAg73EPfCS6iAlXbviYIUAceeirsU90RTxHa//
+         C00tHJ+Ns56pQflvNaXmmzoPgvelT6tqoWlH1IONorVuIhHctNZG8jLrbZxml708aNzK
+         H24TcxP/NRZfa4boXLi8Fr4r6OXXpmQxi4XZpHmPobCMjhyzdeEPDysjS++KdMeTsmHY
+         Nf1T88QuvQ3QEpKgIJ2R2ahp8hNwlvwCMmQhiciq4qGUyUgb49rEBXSPNgy6vz4RT0ZT
+         fkU1g7KoTTig7gyCyySIWaJ23VAuHdP31w+UCGhdjgV3hHfFkZKXSPLDt6xoLixJ6OPc
+         dJYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736105893; x=1736710693;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Uww1KxRaoTyZr8TTwGtplN/ZUFEPEypX88fWvlepoWo=;
-        b=o4S2AOFLtZhAb2YEfS5zddGZKA4Q3tKlAE0qXSqz8vALUWqTCM6k3HnmGXjA7RBRgB
-         RbFKNpLx8LfKtmIWfip8B7+/uaGuDMn1BCOVhvidW1M6/150+0Xc1xrFnHccPWZd8ZWs
-         E0FShfk6+r0YwLxAdaqk1MrKf8PpA6fPBWBGv9JXwh3QwaAfiN/SofEVgGiNTu9qqSUd
-         NPLwKJlGVBbkyaSRS1WzfmEnmiXKVylsDnR4M2Ie3f7hstPrRi5ii15VWNGmPN7Q/4Hi
-         YWX2fk/JWB8YiKZkDXEd2/iXNbQGTK7kL6oJObN0rfqFpgMs6Rlb8JNavInqirmCPJbd
-         +9mA==
-X-Gm-Message-State: AOJu0YzXX3B+8yCym5552dD9yLNBIO51E/rZhzQRUspt6hh6MBqMIvP4
-	eScAJcqPP32X31dozwkG/r7CPI15UKuU2agP4Hn9MfP0Sz2iWhUur2nabEXJAiVPaw==
-X-Gm-Gg: ASbGncvnPlYoq58hacv/mzIRR2evCyMWhlfgryQE5VPcqKvra8YVONTb7tE3BiOlMSB
-	vPQGheqw0dijvElMkOxMCHOAWloqDRXFLO7jZDqlYm225bMVNSDbcHIWyx+p+5Vr5Fd0l7xCN20
-	IvY/PhPSWvGtqvYTozqq+RtHvhdBvRmPxCuL/CkwEsmRXTJEC6J66/9noMtnAsoBlfFYwnQ3/4H
-	XGFlvy62TgycqLWqCeGzbed5xkYm0NoUJ9A5EegZjg4+AsUzMhZu/h0NySdOeIo3fXS
-X-Google-Smtp-Source: AGHT+IFIyaJOwRM0G69WULus0Fzy5dCWbVpW7KaV+YWEtlT4VVlLtH6wLQGe0xff+hEfRRzEI5njPA==
-X-Received: by 2002:adf:a3d0:0:b0:38a:49c1:8345 with SMTP id ffacd0b85a97d-38a58e0cbc3mr13169689f8f.18.1736105893228;
-        Sun, 05 Jan 2025 11:38:13 -0800 (PST)
-Received: from deepwhite.fritz.box ([2001:16b8:b4b1:f000:b401:d562:1102:1bc4])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8332absm45579309f8f.38.2025.01.05.11.38.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jan 2025 11:38:12 -0800 (PST)
-From: Pavel Rojtberg <rojtberg@gmail.com>
-X-Google-Original-From: Pavel Rojtberg < rojtberg@gmail.com >
-To: linux-input@vger.kernel.org,
-	dmitry.torokhov@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: Fernando Petros <fernandopetros@gmail.com>,
-	Pavel Rojtberg <rojtberg@gmail.com>
-Subject: [PATCH 13/13] Input: xpad - add support for Thrustmaster ESWAP X2 ELDEN RING
-Date: Sun,  5 Jan 2025 20:37:50 +0100
-Message-ID: <20250105193750.91460-14-rojtberg@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250105193750.91460-1-rojtberg@gmail.com>
-References: <20250105193750.91460-1-rojtberg@gmail.com>
+        d=1e100.net; s=20230601; t=1736129294; x=1736734094;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GhJTTVx9RhxyQy1N1NCqF9AXzhuQJ8duYbTZxvItgvo=;
+        b=NN0axpcC6S8UzwPzdXCUi3kPFbEcqmCqVACTmPoFdyPU9kjAMmrjb3yQPmdcG2xMJA
+         sx2kt3GWP0ZDckIhuJ58aKmiiLv4dhXfXtnRMec3nvvPZdMzoS+g/g3QyRR62j4bf4bO
+         +NwINUxKjtAyp0C9G0FWls9xYO4uXWtOh5JRkUxxPfIsUemA7kx3oZZH1qSVlwEhq56h
+         77rT2EuO73I8fn2IIbbPE9YUGxc9wN9Bb08qorGcekvqj8KBjNOlTAR38zB0Kz2Wzowg
+         Ynyq/AnpkIoc53+8Mj9E7eLQYNWSghgCuqyyfEb90t0OInwnCpaiqfVVrhsBztIHjKJH
+         h/1g==
+X-Forwarded-Encrypted: i=1; AJvYcCVqT+TAw1BEQg8tBb+X5Oml52xcSig5aa9omeVqSiDHqBhoc/QoTjYF7S6Z5+ExtRCug02xcKcXK0xQ62Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyEwkpWXE3CM5UnLBn9EvICKuqwYyOV0+jRONQCG+v7imKjYys
+	gPo4KurM5gU6L3L1YOzVdrQ3fDibFdTdUITvFTcU3Psx7Trg3IaBcBajEKNVEVEwXXMhMPYbwn1
+	nAO1Dy7vThs+QAaNqwQCsaLpj9qWGbw==
+X-Gm-Gg: ASbGncvPS+hlTlZUGrX+BxUTIHzbTjkeMT7ydh1Dw0Xne2pVshkTaZQLliShZTT8EO7
+	v+ph44BGwVamn5sKQVEZNlJvfnPXcnMayJKegtg==
+X-Google-Smtp-Source: AGHT+IFQ/pWo4gKEJUL4W6O+RzoPtipFA1AaGTzm5ZFnlsDmGA7it2huKnP+n0nYpGI+UcqoCOROdikmxZUGHCtAiuI=
+X-Received: by 2002:a05:600c:4f09:b0:431:12a8:7f1a with SMTP id
+ 5b1f17b1804b1-43668645d57mr497813315e9.16.1736129294048; Sun, 05 Jan 2025
+ 18:08:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241020195717.CD7CC17525E@bout3.ijzerbout.nl>
+ <CALTg27kQOjBkX+W4L+EntReUkRSiPKKB4jhoB05f1LGvTNgyFg@mail.gmail.com> <CALTg27=tjOq38cHfRAW8QN+dN3QxGMkZRj+3amwDfzFwJf42uQ@mail.gmail.com>
+In-Reply-To: <CALTg27=tjOq38cHfRAW8QN+dN3QxGMkZRj+3amwDfzFwJf42uQ@mail.gmail.com>
+From: Stuart <stuart.a.hayhurst@gmail.com>
+Date: Mon, 6 Jan 2025 02:08:03 +0000
+Message-ID: <CALTg27nJTXHKL8=V-7nuT00r8svVr4k760yMy2ghVLsyMs+FRA@mail.gmail.com>
+Subject: Re: [PATCH] HID: corsair-void: Add missing initializer
+To: Jiri Kosina <jikos@kernel.org>
+Cc: Linux Input <linux-input@vger.kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, Kees Bakker <kees@ijzerbout.nl>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Fernando Petros <fernandopetros@gmail.com>
+Hi, just bumping this since it's been a few months, will it be picked
+up for 6.13?
 
-Signed-off-by: Pavel Rojtberg <rojtberg@gmail.com>
----
- drivers/input/joystick/xpad.c | 2 ++
- 1 file changed, 2 insertions(+)
+Thanks,
+Stuart
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 509e8681e5dd..647c788ec5d1 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -140,6 +140,7 @@ static const struct xpad_device {
- 	{ 0x044f, 0x0f00, "Thrustmaster Wheel", 0, XTYPE_XBOX },
- 	{ 0x044f, 0x0f03, "Thrustmaster Wheel", 0, XTYPE_XBOX },
- 	{ 0x044f, 0x0f07, "Thrustmaster, Inc. Controller", 0, XTYPE_XBOX },
-+	{ 0x044f, 0xd01e, "ThrustMaster, Inc. ESWAP X 2 ELDEN RING EDITION", 0, XTYPE_XBOXONE },
- 	{ 0x044f, 0x0f10, "Thrustmaster Modena GT Wheel", 0, XTYPE_XBOX },
- 	{ 0x044f, 0xb326, "Thrustmaster Gamepad GP XID", 0, XTYPE_XBOX360 },
- 	{ 0x045e, 0x0202, "Microsoft X-Box pad v1 (US)", 0, XTYPE_XBOX },
-@@ -497,6 +498,7 @@ static const struct usb_device_id xpad_table[] = {
- 	XPAD_XBOX360_VENDOR(0x03f0),		/* HP HyperX Xbox 360 controllers */
- 	XPAD_XBOXONE_VENDOR(0x03f0),		/* HP HyperX Xbox One controllers */
- 	XPAD_XBOX360_VENDOR(0x044f),		/* Thrustmaster Xbox 360 controllers */
-+	XPAD_XBOXONE_VENDOR(0x044f),		/* Thrustmaster Xbox One controllers */
- 	XPAD_XBOX360_VENDOR(0x045e),		/* Microsoft Xbox 360 controllers */
- 	XPAD_XBOXONE_VENDOR(0x045e),		/* Microsoft Xbox One controllers */
- 	XPAD_XBOX360_VENDOR(0x046d),		/* Logitech Xbox 360-style controllers */
--- 
-2.43.0
-
+On Sun, 3 Nov 2024 at 02:32, Stuart <stuart.a.hayhurst@gmail.com> wrote:
+>
+> Checked the script, CCed missing people
+>
+> Stuart
+>
+> On Thu, 24 Oct 2024 at 02:51, Stuart <stuart.a.hayhurst@gmail.com> wrote:
+> >
+> > Good catch, thanks
+> >
+> > Are you aware of 'scripts/get_maintainer.pl'? It might tell you to CC
+> > Jiri Kosina and Benjamin Tissoires, as they can actually apply this.
+> >
+> > Stuart
+> >
+> > On Sun, 20 Oct 2024 at 20:57, Kees Bakker <kees@ijzerbout.nl> wrote:
+> > >
+> > > This was detected by Coverity, CID 1600743
+> > >
+> > > Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
+> > > ---
+> > >  drivers/hid/hid-corsair-void.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/hid/hid-corsair-void.c b/drivers/hid/hid-corsair-void.c
+> > > index 6ece56b850fc..d1fd04264656 100644
+> > > --- a/drivers/hid/hid-corsair-void.c
+> > > +++ b/drivers/hid/hid-corsair-void.c
+> > > @@ -553,7 +553,7 @@ static void corsair_void_battery_remove_work_handler(struct work_struct *work)
+> > >  static void corsair_void_battery_add_work_handler(struct work_struct *work)
+> > >  {
+> > >         struct corsair_void_drvdata *drvdata;
+> > > -       struct power_supply_config psy_cfg;
+> > > +       struct power_supply_config psy_cfg = {};
+> > >         struct power_supply *new_supply;
+> > >
+> > >         drvdata = container_of(work, struct corsair_void_drvdata,
+> > > --
+> > > 2.47.0
+> > >
 
