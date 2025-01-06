@@ -1,63 +1,63 @@
-Return-Path: <linux-input+bounces-8938-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8939-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6B3A01DA6
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 03:36:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C538A01DAA
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 03:36:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A0613A459C
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 02:36:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75FD91884E9A
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 02:36:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 826291D9A49;
-	Mon,  6 Jan 2025 02:33:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3E971DA103;
+	Mon,  6 Jan 2025 02:33:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mnKTw0CX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UXgAVVFO"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A029158DD8;
-	Mon,  6 Jan 2025 02:33:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994511D9A76;
+	Mon,  6 Jan 2025 02:33:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736130791; cv=none; b=apk3y4OaJvHNUtC4CtTHbxBdxXryIvpZ3KAJ55LUrtIz+scS7mZRyCf7IcLvibrrwnypWjxQDItJHg+azreHSpJ64Mr0f5srZiJP1fbrdG7WQ97wPVlDFHVPiTbK3JIeYkamti5lmMKWWOKJJtPY9Uzks0Li023m3dU72sdBIYQ=
+	t=1736130794; cv=none; b=u1PNs4rp+lGT0O3bRPbQ6wrfc7O/ul+lTa/jQG087/9w0z0JxhJn+FdrxKEY7vaKgON1dqplsniKJ+2pCW005vmvAxyNfcm5kMq51OpAZleINwGZ0Vs0sTMzQigYsU0hRcLdSJiSjbH7H5GsnC/NQ0+hZ1tcPYeLOjkt4wI20lI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736130791; c=relaxed/simple;
-	bh=KQwLa0AACmagq7GqoHNWbvwFwdAXf/RKkD3PRqdq5Dc=;
+	s=arc-20240116; t=1736130794; c=relaxed/simple;
+	bh=58Yaf27CrfX3bHEFCZqGYlSwiSCcw6WkqYxDroAYA+8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DJPjlzdeZag3HZpZNF6GruhTnD76BcxNb1rwLcOJiLIo/aqbB9pEirDOmLMmWkJEeREPvVNihgdIgj4H7t9mYMUCQ05CCSlp0l3HZKwMT8IbPAFPBeX4A1oPfpkhqJF04M4xFzGlDFTp1CExqM9X3Sd5uA3r/kFd2Yq+1iAfqng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mnKTw0CX; arc=none smtp.client-ip=192.198.163.17
+	 MIME-Version; b=LFStp0wXBPGp7YGetXL4gwPBh/ox0xN3X/NOekkZD306YrEfHjHk//ikmgVKcuiftOZl0ZAFxoDEdmdUDGxkOW5bL11SQRd7/Gpk7q4W0EFrD5ZkLgmY5SYki4z/XvpBwGfNlgVhMGFG+T8r3V38TC1CCXqfSoim28XTwk/a18I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UXgAVVFO; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736130789; x=1767666789;
+  t=1736130792; x=1767666792;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=KQwLa0AACmagq7GqoHNWbvwFwdAXf/RKkD3PRqdq5Dc=;
-  b=mnKTw0CXS5FOtcMfLASPivmdotpqxZJlobbKBc4cSeAwCW3s/55z7+IP
-   kSriK3iwXRmOAHLbtPQsEWsLY8R0F3+b1bH9yQCdBPQTk/2PP63lxWVgw
-   Bzh2bKXzxH3OddXJRPKlcGH65r2CKuIobSh9hN+2/Crp2Bb3OKxOEfOU6
-   LMgwz6LZ11jKCJVYVwGGUcYSJFci85SzV55BwAexRFKzqy4eaCc9IgCfL
-   CJHfnPd6FBeBYSJ8zaTakwiL0oXsAwXHtTv7V0ueeU6J3dDH7nGyXWiPL
-   2NKYwhswcrbAp3U+b8r4j9WIxtjvOKgB6ZmZhx9V9FLYrhYZomaPY2Q8e
-   A==;
-X-CSE-ConnectionGUID: 8yl8TvMKRO+Uc9t7MUpgSA==
-X-CSE-MsgGUID: hJKguZ6STw6HhzUGSkxbGQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="36171608"
+  bh=58Yaf27CrfX3bHEFCZqGYlSwiSCcw6WkqYxDroAYA+8=;
+  b=UXgAVVFOI+ou2MotX5n9J89Wix3nw1hpyDzHmJ1Ge2cgksNdpsXuZXJG
+   67ar/sJqNgHsAfaMkWcNf6o4EvNEn+bKXcawMNvYAjSiVOiJ1RIxuQmxu
+   uhHilCAY37vqHY8qSQJeou7NzzMzV+3ZVyUlpIXZzhQ8DKGas6KghfNdq
+   m4fYi4EtNZNl+G7/MzdaohwharbynGz0MvNV7+8Ok6w6FXDm+Gm/aauAD
+   azFJt5Y5N4Nx6PRZdTnqgtuiJddf15+vc4L8aJODZv0eJmRWwF/LgEdQl
+   Kwq+ED9x99daJeA/xz2BMifFYUDhUW34NKqGqM//1Kw9CR8pkvulXzpEa
+   Q==;
+X-CSE-ConnectionGUID: 5UaSUu8KSJqhlA8A6mbWCQ==
+X-CSE-MsgGUID: kGjFtEjqSIeiW5MU8LEWKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="36171617"
 X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
-   d="scan'208";a="36171608"
+   d="scan'208";a="36171617"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 18:33:08 -0800
-X-CSE-ConnectionGUID: dGvEgsGRTnKIt/SP5pNcyg==
-X-CSE-MsgGUID: X8pI4SQ9SNmgZNwA+xqNxg==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 18:33:12 -0800
+X-CSE-ConnectionGUID: h9Iii6BCSAihPhu7BUMulg==
+X-CSE-MsgGUID: HAWOgxTlRsW8nYZ0/NhnfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="125596106"
+   d="scan'208";a="125596114"
 Received: from shsensorbuild.sh.intel.com ([10.239.133.18])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Jan 2025 18:33:05 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 05 Jan 2025 18:33:09 -0800
 From: Even Xu <even.xu@intel.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org,
@@ -73,9 +73,9 @@ Cc: linux-input@vger.kernel.org,
 	Xinpeng Sun <xinpeng.sun@intel.com>,
 	Rui Zhang <rui1.zhang@intel.com>,
 	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH v4 18/22] HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver hid layer
-Date: Mon,  6 Jan 2025 10:31:47 +0800
-Message-Id: <20250106023151.3011329-19-even.xu@intel.com>
+Subject: [PATCH v4 19/22] HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C ACPI interfaces
+Date: Mon,  6 Jan 2025 10:31:48 +0800
+Message-Id: <20250106023151.3011329-20-even.xu@intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20250106023151.3011329-1-even.xu@intel.com>
 References: <20250106023151.3011329-1-even.xu@intel.com>
@@ -85,11 +85,10 @@ List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add HID Low level driver callbacks and hid probe function to register
-QucikI2C as a HID driver, and external touch device as a HID device.
+Add functions to query QuickI2C ACPI DSM/DSD parameters and use these
+APIs to access all QuickI2C ACPI resources.
 
 Co-developed-by: Xinpeng Sun <xinpeng.sun@intel.com>
 Signed-off-by: Xinpeng Sun <xinpeng.sun@intel.com>
@@ -99,291 +98,386 @@ Tested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 Reviewed-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 ---
- drivers/hid/intel-thc-hid/Makefile            |   1 +
- .../intel-quicki2c/quicki2c-dev.h             |  11 ++
- .../intel-quicki2c/quicki2c-hid.c             | 142 ++++++++++++++++++
- .../intel-quicki2c/quicki2c-hid.h             |  14 ++
- include/linux/hid-over-i2c.h                  |  44 ++++++
- 5 files changed, 212 insertions(+)
- create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
- create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.h
- create mode 100644 include/linux/hid-over-i2c.h
+ .../intel-quicki2c/pci-quicki2c.c             | 190 ++++++++++++++++++
+ .../intel-quicki2c/quicki2c-dev.h             | 107 ++++++++++
+ 2 files changed, 297 insertions(+)
 
-diff --git a/drivers/hid/intel-thc-hid/Makefile b/drivers/hid/intel-thc-hid/Makefile
-index 4d4f02e1c415..91bde6d6aa14 100644
---- a/drivers/hid/intel-thc-hid/Makefile
-+++ b/drivers/hid/intel-thc-hid/Makefile
-@@ -16,5 +16,6 @@ intel-quickspi-objs += intel-quickspi/quickspi-protocol.o
+diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+index 3919ae3e1400..a8b35d40f3b9 100644
+--- a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
++++ b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+@@ -1,6 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /* Copyright (c) 2024 Intel Corporation */
  
- obj-$(CONFIG_INTEL_QUICKI2C) += intel-quicki2c.o
- intel-quicki2c-objs += intel-quicki2c/pci-quicki2c.o
-+intel-quicki2c-objs += intel-quicki2c/quicki2c-hid.o
++#include <linux/acpi.h>
+ #include <linux/device.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/err.h>
+@@ -9,9 +10,185 @@
+ #include <linux/pci.h>
  
- ccflags-y += -I $(src)/intel-thc
-diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
-index 90c4ffe5ccfa..9e2a863d8135 100644
---- a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
-+++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
-@@ -4,6 +4,8 @@
- #ifndef _QUICKI2C_DEV_H_
- #define _QUICKI2C_DEV_H_
+ #include "intel-thc-dev.h"
++#include "intel-thc-hw.h"
  
-+#include <linux/hid-over-i2c.h>
+ #include "quicki2c-dev.h"
+ 
++/* THC QuickI2C ACPI method to get device properties */
++/* HIDI2C device method */
++static guid_t i2c_hid_guid =
++	GUID_INIT(0x3cdff6f7, 0x4267, 0x4555, 0xad, 0x05, 0xb3, 0x0a, 0x3d, 0x89, 0x38, 0xde);
 +
- #define THC_LNL_DEVICE_ID_I2C_PORT1	0xA848
- #define THC_LNL_DEVICE_ID_I2C_PORT2	0xA84A
- #define THC_PTL_H_DEVICE_ID_I2C_PORT1	0xE348
-@@ -26,23 +28,32 @@ enum quicki2c_dev_state {
- struct device;
- struct pci_dev;
- struct thc_device;
-+struct hid_device;
- 
- /**
-  * struct quicki2c_device -  THC QuickI2C device struct
-  * @dev: point to kernel device
-  * @pdev: point to PCI device
-  * @thc_hw: point to THC device
-+ * @hid_dev: point to hid device
-  * @driver_data: point to quicki2c specific driver data
-  * @state: THC I2C device state
-  * @mem_addr: MMIO memory address
-+ * @dev_desc: device descriptor for HIDI2C protocol
-+ * @report_descriptor: store a copy of device report descriptor
-  */
- struct quicki2c_device {
- 	struct device *dev;
- 	struct pci_dev *pdev;
- 	struct thc_device *thc_hw;
-+	struct hid_device *hid_dev;
- 	enum quicki2c_dev_state state;
- 
- 	void __iomem *mem_addr;
-+
-+	struct hidi2c_dev_descriptor dev_desc;
-+
-+	u8 *report_descriptor;
- };
- 
- #endif /* _QUICKI2C_DEV_H_ */
-diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
-new file mode 100644
-index 000000000000..4236603f3f76
---- /dev/null
-+++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
-@@ -0,0 +1,142 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright (c) 2024 Intel Corporation */
-+
-+#include <linux/hid.h>
-+#include <linux/input.h>
-+
-+#include "quicki2c-dev.h"
-+#include "quicki2c-hid.h"
++/* platform method */
++static guid_t thc_platform_guid =
++	GUID_INIT(0x84005682, 0x5b71, 0x41a4, 0x8d, 0x66, 0x81, 0x30, 0xf7, 0x87, 0xa1, 0x38);
 +
 +/**
-+ * quicki2c_hid_parse() - HID core parse() callback
++ * quicki2c_acpi_get_dsm_property - Query device ACPI DSM parameter
 + *
-+ * @hid: HID device instance
++ * @adev: point to ACPI device
++ * @guid: ACPI method's guid
++ * @rev: ACPI method's revision
++ * @func: ACPI method's function number
++ * @type: ACPI parameter's data type
++ * @prop_buf: point to return buffer
 + *
-+ * This function gets called during call to hid_add_device
++ * This is a helper function for device to query its ACPI DSM parameters.
 + *
-+ * Return: 0 on success and non zero on error.
++ * Return: 0 if success or ENODEV on failed.
 + */
-+static int quicki2c_hid_parse(struct hid_device *hid)
++static int quicki2c_acpi_get_dsm_property(struct acpi_device *adev, const guid_t *guid,
++					  u64 rev, u64 func, acpi_object_type type, void *prop_buf)
 +{
-+	struct quicki2c_device *qcdev = hid->driver_data;
++	acpi_handle handle = acpi_device_handle(adev);
++	union acpi_object *obj;
 +
-+	if (qcdev->report_descriptor)
-+		return hid_parse_report(hid, qcdev->report_descriptor,
-+					le16_to_cpu(qcdev->dev_desc.report_desc_len));
++	obj = acpi_evaluate_dsm_typed(handle, guid, rev, func, NULL, type);
++	if (!obj) {
++		acpi_handle_err(handle,
++				"Error _DSM call failed, rev: %d, func: %d, type: %d\n",
++				(int)rev, (int)func, (int)type);
++		return -ENODEV;
++	}
 +
-+	dev_err_once(qcdev->dev, "invalid report descriptor\n");
-+	return -EINVAL;
-+}
++	if (type == ACPI_TYPE_INTEGER)
++		*(u32 *)prop_buf = (u32)obj->integer.value;
++	else if (type == ACPI_TYPE_BUFFER)
++		memcpy(prop_buf, obj->buffer.pointer, obj->buffer.length);
 +
-+static int quicki2c_hid_start(struct hid_device *hid)
-+{
++	ACPI_FREE(obj);
++
 +	return 0;
 +}
-+
-+static void quicki2c_hid_stop(struct hid_device *hid)
-+{
-+}
-+
-+static int quicki2c_hid_open(struct hid_device *hid)
-+{
-+	return 0;
-+}
-+
-+static void quicki2c_hid_close(struct hid_device *hid)
-+{
-+}
-+
-+static int quicki2c_hid_raw_request(struct hid_device *hid,
-+				    unsigned char reportnum,
-+				    __u8 *buf, size_t len,
-+				    unsigned char rtype, int reqtype)
-+{
-+	return 0;
-+}
-+
-+static int quicki2c_hid_power(struct hid_device *hid, int lvl)
-+{
-+	return 0;
-+}
-+
-+static struct hid_ll_driver quicki2c_hid_ll_driver = {
-+	.parse = quicki2c_hid_parse,
-+	.start = quicki2c_hid_start,
-+	.stop = quicki2c_hid_stop,
-+	.open = quicki2c_hid_open,
-+	.close = quicki2c_hid_close,
-+	.power = quicki2c_hid_power,
-+	.raw_request = quicki2c_hid_raw_request,
-+};
 +
 +/**
-+ * quicki2c_hid_probe() - Register HID low level driver
++ * quicki2c_acpi_get_dsd_property - Query device ACPI DSD parameter
++ *
++ * @adev: point to ACPI device
++ * @dsd_method_name: ACPI method's property name
++ * @type: ACPI parameter's data type
++ * @prop_buf: point to return buffer
++ *
++ * This is a helper function for device to query its ACPI DSD parameters.
++ *
++ * Return: 0 if success or ENODEV on failed.
++ */
++static int quicki2c_acpi_get_dsd_property(struct acpi_device *adev, acpi_string dsd_method_name,
++					  acpi_object_type type, void *prop_buf)
++{
++	acpi_handle handle = acpi_device_handle(adev);
++	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
++	union acpi_object obj = { .type = type };
++	struct acpi_object_list arg_list = {
++		.count = 1,
++		.pointer = &obj,
++	};
++	union acpi_object *ret_obj;
++	acpi_status status;
++
++	status = acpi_evaluate_object(handle, dsd_method_name, &arg_list, &buffer);
++	if (ACPI_FAILURE(status)) {
++		acpi_handle_err(handle,
++				"Can't evaluate %s method: %d\n", dsd_method_name, status);
++		return -ENODEV;
++	}
++
++	ret_obj = buffer.pointer;
++
++	memcpy(prop_buf, ret_obj->buffer.pointer, ret_obj->buffer.length);
++
++	return 0;
++}
++
++/**
++ * quicki2c_get_acpi_resources - Query all quicki2c devices' ACPI parameters
 + *
 + * @qcdev: point to quicki2c device
 + *
-+ * This function is used to allocate and add HID device.
++ * This function gets all quicki2c devices' ACPI resource.
 + *
-+ * Return: 0 on success, non zero on error.
++ * Return: 0 if success or error code on failed.
 + */
-+int quicki2c_hid_probe(struct quicki2c_device *qcdev)
++static int quicki2c_get_acpi_resources(struct quicki2c_device *qcdev)
 +{
-+	struct hid_device *hid;
-+	int ret;
++	struct acpi_device *adev = ACPI_COMPANION(qcdev->dev);
++	struct quicki2c_subip_acpi_parameter i2c_param;
++	struct quicki2c_subip_acpi_config i2c_config;
++	int ret = -EINVAL;
 +
-+	hid = hid_allocate_device();
-+	if (IS_ERR(hid))
-+		return PTR_ERR(hid);
-+
-+	hid->ll_driver = &quicki2c_hid_ll_driver;
-+	hid->bus = BUS_PCI;
-+	hid->dev.parent = qcdev->dev;
-+	hid->driver_data = qcdev;
-+	hid->version = le16_to_cpu(qcdev->dev_desc.version_id);
-+	hid->vendor = le16_to_cpu(qcdev->dev_desc.vendor_id);
-+	hid->product = le16_to_cpu(qcdev->dev_desc.product_id);
-+	snprintf(hid->name, sizeof(hid->name), "%s %04X:%04X", "quicki2c-hid",
-+		 hid->vendor, hid->product);
-+
-+	ret = hid_add_device(hid);
-+	if (ret) {
-+		hid_destroy_device(hid);
++	if (!adev) {
++		dev_err(qcdev->dev, "Invalid acpi device pointer\n");
 +		return ret;
 +	}
 +
-+	qcdev->hid_dev = hid;
++	qcdev->acpi_dev = adev;
++
++	ret = quicki2c_acpi_get_dsm_property(adev, &i2c_hid_guid,
++					     QUICKI2C_ACPI_REVISION_NUM,
++					     QUICKI2C_ACPI_FUNC_NUM_HID_DESC_ADDR,
++					     ACPI_TYPE_INTEGER,
++					     &qcdev->hid_desc_addr);
++	if (ret)
++		return ret;
++
++	ret = quicki2c_acpi_get_dsm_property(adev, &thc_platform_guid,
++					     QUICKI2C_ACPI_REVISION_NUM,
++					     QUICKI2C_ACPI_FUNC_NUM_ACTIVE_LTR_VAL,
++					     ACPI_TYPE_INTEGER,
++					     &qcdev->active_ltr_val);
++	if (ret)
++		return ret;
++
++	ret = quicki2c_acpi_get_dsm_property(adev, &thc_platform_guid,
++					     QUICKI2C_ACPI_REVISION_NUM,
++					     QUICKI2C_ACPI_FUNC_NUM_LP_LTR_VAL,
++					     ACPI_TYPE_INTEGER,
++					     &qcdev->low_power_ltr_val);
++	if (ret)
++		return ret;
++
++	ret = quicki2c_acpi_get_dsd_property(adev, QUICKI2C_ACPI_METHOD_NAME_ICRS,
++					     ACPI_TYPE_BUFFER, &i2c_param);
++	if (ret)
++		return ret;
++
++	if (i2c_param.addressing_mode != HIDI2C_ADDRESSING_MODE_7BIT)
++		return -EOPNOTSUPP;
++
++	qcdev->i2c_slave_addr = i2c_param.device_address;
++
++	ret = quicki2c_acpi_get_dsd_property(adev, QUICKI2C_ACPI_METHOD_NAME_ISUB,
++					     ACPI_TYPE_BUFFER, &i2c_config);
++	if (ret)
++		return ret;
++
++	if (i2c_param.connection_speed > 0 &&
++	    i2c_param.connection_speed <= QUICKI2C_SUBIP_STANDARD_MODE_MAX_SPEED) {
++		qcdev->i2c_speed_mode = THC_I2C_STANDARD;
++		qcdev->i2c_clock_hcnt = i2c_config.SMHX;
++		qcdev->i2c_clock_lcnt = i2c_config.SMLX;
++	} else if (i2c_param.connection_speed > QUICKI2C_SUBIP_STANDARD_MODE_MAX_SPEED &&
++		   i2c_param.connection_speed <= QUICKI2C_SUBIP_FAST_MODE_MAX_SPEED) {
++		qcdev->i2c_speed_mode = THC_I2C_FAST_AND_PLUS;
++		qcdev->i2c_clock_hcnt = i2c_config.FMHX;
++		qcdev->i2c_clock_lcnt = i2c_config.FMLX;
++	} else if (i2c_param.connection_speed > QUICKI2C_SUBIP_FAST_MODE_MAX_SPEED &&
++		   i2c_param.connection_speed <= QUICKI2C_SUBIP_FASTPLUS_MODE_MAX_SPEED) {
++		qcdev->i2c_speed_mode = THC_I2C_FAST_AND_PLUS;
++		qcdev->i2c_clock_hcnt = i2c_config.FPHX;
++		qcdev->i2c_clock_lcnt = i2c_config.FPLX;
++	} else if (i2c_param.connection_speed > QUICKI2C_SUBIP_FASTPLUS_MODE_MAX_SPEED &&
++		   i2c_param.connection_speed <= QUICKI2C_SUBIP_HIGH_SPEED_MODE_MAX_SPEED) {
++		qcdev->i2c_speed_mode = THC_I2C_HIGH_SPEED;
++		qcdev->i2c_clock_hcnt = i2c_config.HMHX;
++		qcdev->i2c_clock_lcnt = i2c_config.HMLX;
++	} else {
++		return -EOPNOTSUPP;
++	}
 +
 +	return 0;
 +}
 +
-+/**
-+ * quicki2c_hid_remove() - Destroy HID device
-+ *
-+ * @qcdev: point to quicki2c device
-+ *
-+ * Return: 0 on success, non zero on error.
-+ */
-+void quicki2c_hid_remove(struct quicki2c_device *qcdev)
-+{
-+	hid_destroy_device(qcdev->hid_dev);
-+}
+ /**
+  * quicki2c_irq_quick_handler - The ISR of the quicki2c driver
+  *
+@@ -92,12 +269,25 @@ static struct quicki2c_device *quicki2c_dev_init(struct pci_dev *pdev, void __io
+ 		return ERR_PTR(ret);
+ 	}
+ 
++	ret = quicki2c_get_acpi_resources(qcdev);
++	if (ret) {
++		dev_err_once(dev, "Get ACPI resources failed, ret = %d\n", ret);
++		return ERR_PTR(ret);
++	}
 +
-+/**
-+ * quicki2c_hid_send_report() - Send HID input report data to HID core
-+ *
-+ * @qcdev: point to quicki2c device
-+ * @data: point to input report data buffer
-+ * @data_len: the length of input report data
-+ *
-+ * Return: 0 on success, non zero on error.
-+ */
-+int quicki2c_hid_send_report(struct quicki2c_device *qcdev,
-+			     void *data, size_t data_len)
-+{
-+	int ret;
-+
-+	ret = hid_input_report(qcdev->hid_dev, HID_INPUT_REPORT, data, data_len, 1);
+ 	ret = thc_port_select(qcdev->thc_hw, THC_PORT_TYPE_I2C);
+ 	if (ret) {
+ 		dev_err_once(dev, "Failed to select THC port, ret = %d.\n", ret);
+ 		return ERR_PTR(ret);
+ 	}
+ 
++	ret = thc_i2c_subip_init(qcdev->thc_hw, qcdev->i2c_slave_addr,
++				 qcdev->i2c_speed_mode,
++				 qcdev->i2c_clock_hcnt,
++				 qcdev->i2c_clock_lcnt);
 +	if (ret)
-+		dev_err(qcdev->dev, "Failed to send HID input report, ret = %d.\n", ret);
++		return ERR_PTR(ret);
 +
-+	return ret;
-+}
-diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.h b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.h
-new file mode 100644
-index 000000000000..e80df5f339fe
---- /dev/null
-+++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.h
-@@ -0,0 +1,14 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright (c) 2024 Intel Corporation */
+ 	thc_interrupt_config(qcdev->thc_hw);
+ 
+ 	thc_interrupt_enable(qcdev->thc_hw, true);
+diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
+index 9e2a863d8135..60cb736bd5e5 100644
+--- a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
++++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
+@@ -16,6 +16,25 @@
+ /* Packet size value, the unit is 16 bytes */
+ #define MAX_PACKET_SIZE_VALUE_LNL			256
+ 
++/* HIDI2C special ACPI parameters DSD name */
++#define QUICKI2C_ACPI_METHOD_NAME_ICRS		"ICRS"
++#define QUICKI2C_ACPI_METHOD_NAME_ISUB		"ISUB"
 +
-+#ifndef _QUICKI2C_HID_H_
-+#define _QUICKI2C_HID_H_
++/* HIDI2C special ACPI parameters DSM methods */
++#define QUICKI2C_ACPI_REVISION_NUM		1
++#define QUICKI2C_ACPI_FUNC_NUM_HID_DESC_ADDR	1
++#define QUICKI2C_ACPI_FUNC_NUM_ACTIVE_LTR_VAL	1
++#define QUICKI2C_ACPI_FUNC_NUM_LP_LTR_VAL	2
 +
-+struct quicki2c_device;
++#define QUICKI2C_SUBIP_STANDARD_MODE_MAX_SPEED		100000
++#define QUICKI2C_SUBIP_FAST_MODE_MAX_SPEED		400000
++#define QUICKI2C_SUBIP_FASTPLUS_MODE_MAX_SPEED		1000000
++#define QUICKI2C_SUBIP_HIGH_SPEED_MODE_MAX_SPEED	3400000
 +
-+int quicki2c_hid_send_report(struct quicki2c_device *qcdev,
-+			     void *data, size_t data_size);
-+int quicki2c_hid_probe(struct quicki2c_device *qcdev);
-+void quicki2c_hid_remove(struct quicki2c_device *qcdev);
++#define QUICKI2C_DEFAULT_ACTIVE_LTR_VALUE	5
++#define QUICKI2C_DEFAULT_LP_LTR_VALUE		500
++#define QUICKI2C_RPM_TIMEOUT_MS			500
 +
-+#endif /* _QUICKI2C_HID_H_ */
-diff --git a/include/linux/hid-over-i2c.h b/include/linux/hid-over-i2c.h
-new file mode 100644
-index 000000000000..b70626723a38
---- /dev/null
-+++ b/include/linux/hid-over-i2c.h
-@@ -0,0 +1,44 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright 2024 Intel Corporation */
-+
-+#ifndef _HID_OVER_I2C_H_
-+#define _HID_OVER_I2C_H_
+ enum quicki2c_dev_state {
+ 	QUICKI2C_NONE,
+ 	QUICKI2C_RESETING,
+@@ -25,10 +44,80 @@ enum quicki2c_dev_state {
+ 	QUICKI2C_DISABLED,
+ };
+ 
++enum {
++	HIDI2C_ADDRESSING_MODE_7BIT,
++	HIDI2C_ADDRESSING_MODE_10BIT,
++};
 +
 +/**
-+ * struct hidi2c_dev_descriptor - HIDI2C device descriptor definition
-+ * @dev_desc_len: The length of the complete device descriptor, fixed to 0x1E (30).
-+ * @bcd_ver: The version number of the HIDI2C protocol supported.
-+ *           In binary coded decimal (BCD) format.
-+ * @report_desc_len: The length of the report descriptor
-+ * @report_desc_reg: The register address to retrieve report descriptor
-+ * @input_reg: the register address to retrieve input report
-+ * @max_input_len: The length of the largest possible HID input (or feature) report
-+ * @output_reg: the register address to send output report
-+ * @max_output_len: The length of the largest output (or feature) report
-+ * @cmd_reg: the register address to send command
-+ * @data_reg: the register address to send command data
-+ * @vendor_id: Device manufacturers vendor ID
-+ * @product_id: Device unique model/product ID
-+ * @version_id: Device’s unique version
-+ * @reserved0: Reserved and should be 0
-+ * @reserved1: Reserved and should be 0
++ * struct quicki2c_subip_acpi_parameter - QuickI2C ACPI DSD parameters
++ * @device_address: I2C device slave address
++ * @connection_speed: I2C device expected connection speed
++ * @addressing_mode: I2C device slave address mode, 7bit or 10bit
++ *
++ * Those properties get from QUICKI2C_ACPI_METHOD_NAME_ICRS method, used for
++ * Bus parameter.
 + */
-+struct hidi2c_dev_descriptor {
-+	__le16 dev_desc_len;
-+	__le16 bcd_ver;
-+	__le16 report_desc_len;
-+	__le16 report_desc_reg;
-+	__le16 input_reg;
-+	__le16 max_input_len;
-+	__le16 output_reg;
-+	__le16 max_output_len;
-+	__le16 cmd_reg;
-+	__le16 data_reg;
-+	__le16 vendor_id;
-+	__le16 product_id;
-+	__le16 version_id;
-+	__le16 reserved0;
-+	__le16 reserved1;
++struct quicki2c_subip_acpi_parameter {
++	u16 device_address;
++	u64 connection_speed;
++	u8 addressing_mode;
 +} __packed;
 +
-+#endif /* _HID_OVER_I2C_H_ */
++/**
++ * struct quicki2c_subip_acpi_config - QuickI2C ACPI DSD parameters
++ * @SMHX: Standard Mode (100 kbit/s) Serial Clock Line HIGH Period
++ * @SMLX: Standard Mode (100 kbit/s) Serial Clock Line LOW Period
++ * @SMTD: Standard Mode (100 kbit/s) Serial Data Line Transmit Hold Period
++ * @SMRD: Standard Mode (100 kbit/s) Serial Data Receive Hold Period
++ * @FMHX: Fast Mode (400 kbit/s) Serial Clock Line HIGH Period
++ * @FMLX: Fast Mode (400 kbit/s) Serial Clock Line LOW Period
++ * @FMTD: Fast Mode (400 kbit/s) Serial Data Line Transmit Hold Period
++ * @FMRD: Fast Mode (400 kbit/s) Serial Data Line Receive Hold Period
++ * @FMSL: Maximum length (in ic_clk_cycles) of suppressed spikes
++ *        in Standard Mode, Fast Mode and Fast Mode Plus
++ * @FPHX: Fast Mode Plus (1Mbit/sec) Serial Clock Line HIGH Period
++ * @FPLX: Fast Mode Plus (1Mbit/sec) Serial Clock Line LOW Period
++ * @FPTD: Fast Mode Plus (1Mbit/sec) Serial Data Line Transmit HOLD Period
++ * @FPRD: Fast Mode Plus (1Mbit/sec) Serial Data Line Receive HOLD Period
++ * @HMHX: High Speed Mode Plus (3.4Mbits/sec) Serial Clock Line HIGH Period
++ * @HMLX: High Speed Mode Plus (3.4Mbits/sec) Serial Clock Line LOW Period
++ * @HMTD: High Speed Mode Plus (3.4Mbits/sec) Serial Data Line Transmit HOLD Period
++ * @HMRD: High Speed Mode Plus (3.4Mbits/sec) Serial Data Line Receive HOLD Period
++ * @HMSL: Maximum length (in ic_clk_cycles) of suppressed spikes in High Speed Mode
++ *
++ * Those properties get from QUICKI2C_ACPI_METHOD_NAME_ISUB method, used for
++ * I2C timing configure.
++ */
++struct quicki2c_subip_acpi_config {
++	u64 SMHX;
++	u64 SMLX;
++	u64 SMTD;
++	u64 SMRD;
++
++	u64 FMHX;
++	u64 FMLX;
++	u64 FMTD;
++	u64 FMRD;
++	u64 FMSL;
++
++	u64 FPHX;
++	u64 FPLX;
++	u64 FPTD;
++	u64 FPRD;
++
++	u64 HMHX;
++	u64 HMLX;
++	u64 HMTD;
++	u64 HMRD;
++	u64 HMSL;
++};
++
+ struct device;
+ struct pci_dev;
+ struct thc_device;
+ struct hid_device;
++struct acpi_device;
+ 
+ /**
+  * struct quicki2c_device -  THC QuickI2C device struct
+@@ -36,10 +125,18 @@ struct hid_device;
+  * @pdev: point to PCI device
+  * @thc_hw: point to THC device
+  * @hid_dev: point to hid device
++ * @acpi_dev: point to ACPI device
+  * @driver_data: point to quicki2c specific driver data
+  * @state: THC I2C device state
+  * @mem_addr: MMIO memory address
+  * @dev_desc: device descriptor for HIDI2C protocol
++ * @i2c_slave_addr: HIDI2C device slave address
++ * @hid_desc_addr: Register address for retrieve HID device descriptor
++ * @active_ltr_val: THC active LTR value
++ * @low_power_ltr_val: THC low power LTR value
++ * @i2c_speed_mode: 0 - standard mode, 1 - fast mode, 2 - fast mode plus
++ * @i2c_clock_hcnt: I2C CLK high period time (unit in cycle count)
++ * @i2c_clock_lcnt: I2C CLK low period time (unit in cycle count)
+  * @report_descriptor: store a copy of device report descriptor
+  */
+ struct quicki2c_device {
+@@ -47,11 +144,21 @@ struct quicki2c_device {
+ 	struct pci_dev *pdev;
+ 	struct thc_device *thc_hw;
+ 	struct hid_device *hid_dev;
++	struct acpi_device *acpi_dev;
+ 	enum quicki2c_dev_state state;
+ 
+ 	void __iomem *mem_addr;
+ 
+ 	struct hidi2c_dev_descriptor dev_desc;
++	u8 i2c_slave_addr;
++	u16 hid_desc_addr;
++
++	u32 active_ltr_val;
++	u32 low_power_ltr_val;
++
++	u32 i2c_speed_mode;
++	u32 i2c_clock_hcnt;
++	u32 i2c_clock_lcnt;
+ 
+ 	u8 *report_descriptor;
+ };
 -- 
 2.40.1
 
