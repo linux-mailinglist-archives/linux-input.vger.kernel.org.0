@@ -1,63 +1,63 @@
-Return-Path: <linux-input+bounces-8931-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8932-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 380C8A01D8F
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 03:34:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73590A01D91
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 03:35:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 790951880A13
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 02:34:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 52F57163332
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 02:35:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BF231D6DCC;
-	Mon,  6 Jan 2025 02:32:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50FE51D79B3;
+	Mon,  6 Jan 2025 02:32:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dYVYBTdO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XpWxJ6HU"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3D51D6DB8;
-	Mon,  6 Jan 2025 02:32:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD661D798E;
+	Mon,  6 Jan 2025 02:32:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736130767; cv=none; b=LtenPEn25DQAFvxFb9fOhybW50moXuW6ENYuoam+fKqNwMClOYp0M8NxttCByMWi03HCAgbUyglNez+xYw8E71yrpq8TFINlzbdq3YTBav27oK/xcXsk5fFPUU1NVdacuUySv0yeT60Ittj18P+FJpnVfHvYGtwIaqChQQ2ulC4=
+	t=1736130770; cv=none; b=dWN8pBgdAA+01Enc5hvtf5neumZ0IAx5vlTMBH2CSropv7W4B7hKPV9LmK4q0AG2HHP9jmpXgIniVV1VUhKNJjZdvFKWtYJeeB3hXhEeuasSTK1egxL0DY91TVVX4AGTi0R15D3t18GpsHz8Wb3M35yMYTeAdOpq/qvlXAyIKjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736130767; c=relaxed/simple;
-	bh=qZNoJFcD67lFfCHn8TOPrE7pxRBbqhHLcaFtSXCF6Vs=;
+	s=arc-20240116; t=1736130770; c=relaxed/simple;
+	bh=c6B86CFVR4Z3nl9as1gJ9ItHoiB7k/NFGe5rjrCf8y4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Q4G1Rc8RFO78Pm0Gv/GZrsaGEHGGtwC+bh9M+GEnBlGtCht/lZUF5/Is+PMK4sJWn8vk4QfVJpUr0iiPDrZNIdbn2w8PfueSuDc0DiXo2RW/2JDYANKKlWfgzKZ+KZAhK7mRpk2KD9Iw3yCv4RXIrwttZylo6un0bzI6Urs5zS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dYVYBTdO; arc=none smtp.client-ip=192.198.163.17
+	 MIME-Version:Content-Type; b=KMhckdIj+eyoWCZb5ty0G1/oopYk/MBssXZqxFowN8dFJo4+IVk/B1XATE8WnBzsWH6wLTnhtauURZlF9p6H8KCNE1jO1Zgbwr1Hwo+wpEDOlrLvzdcDnA7abqDjzZmARj3S8dPlmrCF3xH0LQqBsXrhm6tl9aOaHwNk282R7hE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XpWxJ6HU; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736130765; x=1767666765;
+  t=1736130768; x=1767666768;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=qZNoJFcD67lFfCHn8TOPrE7pxRBbqhHLcaFtSXCF6Vs=;
-  b=dYVYBTdOsPDnNH/jy7P7Zm8Eb793iMuFIbMRXAiLhvEy/HH7r1SZIxfv
-   idSewkZNCEhZ7xdCmGzntwMhDYvToSIqfAuSa46pjLrvynmD+EWfETyBi
-   Ha9P3lnOmyC5HXFfp7IH246DK/VB2DsOcuFDQvrR8bSko1AbRPJIg0DnX
-   otYuyxZb2UdDgoknQdF3NPTepmWLK2MTA8gj7R/sTJDl5Ab6CSdyNH1Tz
-   5b0/Tc49MG722LC64iClEmKR7oibbi+3q5MI8mNFPiOb9rE5hyp4vm/5c
-   UOcITo95ki9xawRsfILWR/vvtBhaSggFDLxTOjEgonPFRvZYswgSk8PRM
-   A==;
-X-CSE-ConnectionGUID: auyYOssBQf22SlfQhNb9mg==
-X-CSE-MsgGUID: LdOCm/xTQ3SS+q070BXefQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="36171528"
+  bh=c6B86CFVR4Z3nl9as1gJ9ItHoiB7k/NFGe5rjrCf8y4=;
+  b=XpWxJ6HUh4CXfN1kfUwp5v2+gYHtC71jSJVfi53CaMwN6sIqZTEvQ1Pc
+   IX87MokvnlXZ4Kba9TglBCt/zVxSPzHazZzndNsAEruSohbYPMc1ITEOF
+   aPgyJpUfQIY9DatA4X5A3n9UEMh935GsXZyop3/N64RhfA/UfybtFDhoH
+   v1ecy9F1FkD+Ep680g9ExrZHoX+2qtkeUqdEv6j89YITFe8Xw8hwQ0alr
+   5hqwqQE8qX6jF8qogFts/Wo0wjqz7edzwTyOxhIrVxHu8JpWPkgd0Od6C
+   XdXhTt99Pm3SD0wsYCH2PmxMnQfylJeS0Vm/OPd6RU6nPD+NyJycZCBZY
+   g==;
+X-CSE-ConnectionGUID: pcFoX87cRySnkZmweEI0XQ==
+X-CSE-MsgGUID: O503af8KTA2ltpG56wRKTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="36171542"
 X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
-   d="scan'208";a="36171528"
+   d="scan'208";a="36171542"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 18:32:44 -0800
-X-CSE-ConnectionGUID: sNVhowYFSMWjrDFxJmSDaw==
-X-CSE-MsgGUID: LFKEPVN1Sqis8p+OPgjm7Q==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 18:32:47 -0800
+X-CSE-ConnectionGUID: CAWAFcjWSWm+r6pdXqYtaA==
+X-CSE-MsgGUID: lQiG/dGjSD+0s/JdEGNjMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="125596037"
+   d="scan'208";a="125596045"
 Received: from shsensorbuild.sh.intel.com ([10.239.133.18])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Jan 2025 18:32:41 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 05 Jan 2025 18:32:44 -0800
 From: Even Xu <even.xu@intel.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org,
@@ -69,13 +69,13 @@ To: jikos@kernel.org,
 Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	Xinpeng Sun <xinpeng.sun@intel.com>,
 	Even Xu <even.xu@intel.com>,
+	Xinpeng Sun <xinpeng.sun@intel.com>,
 	Rui Zhang <rui1.zhang@intel.com>,
 	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH v4 11/22] HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver skeleton
-Date: Mon,  6 Jan 2025 10:31:40 +0800
-Message-Id: <20250106023151.3011329-12-even.xu@intel.com>
+Subject: [PATCH v4 12/22] HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver hid layer
+Date: Mon,  6 Jan 2025 10:31:41 +0800
+Message-Id: <20250106023151.3011329-13-even.xu@intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20250106023151.3011329-1-even.xu@intel.com>
 References: <20250106023151.3011329-1-even.xu@intel.com>
@@ -85,422 +85,299 @@ List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Xinpeng Sun <xinpeng.sun@intel.com>
+Add HID Low level driver callbacks and hid probe function to register
+QucikSPI as a HID driver, and external touch device as a HID device.
 
-Create intel-quickspi folder and add Kconfig and Makefile for THC
-QuickSPI driver. Add basic device structure, definitions and probe/remove
-functions for QuickSPI driver.
-
-Co-developed-by: Even Xu <even.xu@intel.com>
-Signed-off-by: Even Xu <even.xu@intel.com>
+Co-developed-by: Xinpeng Sun <xinpeng.sun@intel.com>
 Signed-off-by: Xinpeng Sun <xinpeng.sun@intel.com>
+Signed-off-by: Even Xu <even.xu@intel.com>
 Tested-by: Rui Zhang <rui1.zhang@intel.com>
 Tested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 Reviewed-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 ---
- drivers/hid/intel-thc-hid/Kconfig             |  11 +
- drivers/hid/intel-thc-hid/Makefile            |   3 +
- .../intel-quickspi/pci-quickspi.c             | 287 ++++++++++++++++++
- .../intel-quickspi/quickspi-dev.h             |  61 ++++
- 4 files changed, 362 insertions(+)
- create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
- create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
+ drivers/hid/intel-thc-hid/Makefile            |   1 +
+ .../intel-quickspi/quickspi-dev.h             |  11 ++
+ .../intel-quickspi/quickspi-hid.c             | 142 ++++++++++++++++++
+ .../intel-quickspi/quickspi-hid.h             |  14 ++
+ include/linux/hid-over-spi.h                  |  37 +++++
+ 5 files changed, 205 insertions(+)
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.h
+ create mode 100644 include/linux/hid-over-spi.h
 
-diff --git a/drivers/hid/intel-thc-hid/Kconfig b/drivers/hid/intel-thc-hid/Kconfig
-index dc7c5a23f0ad..25a3729df92a 100644
---- a/drivers/hid/intel-thc-hid/Kconfig
-+++ b/drivers/hid/intel-thc-hid/Kconfig
-@@ -17,4 +17,15 @@ config INTEL_THC_HID
- 
- 	  Say Y/M here if you want to support Intel THC. If unsure, say N.
- 
-+config INTEL_QUICKSPI
-+	tristate "Intel QuickSPI driver based on Intel Touch Host Controller"
-+	depends on INTEL_THC_HID
-+	help
-+	  Intel QuickSPI, based on Touch Host Controller (THC), implements
-+	  HIDSPI (HID over SPI) protocol. It configures THC to work at SPI
-+	  mode, and controls THC hardware sequencer to accelerate HIDSPI
-+	  transaction flow.
-+
-+	  Say Y/M here if you want to support Intel QuickSPI. If unsure, say N.
-+
- endmenu
 diff --git a/drivers/hid/intel-thc-hid/Makefile b/drivers/hid/intel-thc-hid/Makefile
-index b9709cc5e9eb..7669739a39b7 100644
+index 7669739a39b7..4dd9e815021d 100644
 --- a/drivers/hid/intel-thc-hid/Makefile
 +++ b/drivers/hid/intel-thc-hid/Makefile
-@@ -9,4 +9,7 @@ obj-$(CONFIG_INTEL_THC_HID) += intel-thc.o
- intel-thc-objs += intel-thc/intel-thc-dev.o
- intel-thc-objs += intel-thc/intel-thc-dma.o
+@@ -11,5 +11,6 @@ intel-thc-objs += intel-thc/intel-thc-dma.o
  
-+obj-$(CONFIG_INTEL_QUICKSPI) += intel-quickspi.o
-+intel-quickspi-objs += intel-quickspi/pci-quickspi.o
-+
+ obj-$(CONFIG_INTEL_QUICKSPI) += intel-quickspi.o
+ intel-quickspi-objs += intel-quickspi/pci-quickspi.o
++intel-quickspi-objs += intel-quickspi/quickspi-hid.o
+ 
  ccflags-y += -I $(src)/intel-thc
-diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c b/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
+diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
+index cffc859efa19..335b32363d7f 100644
+--- a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
++++ b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
+@@ -4,6 +4,8 @@
+ #ifndef _QUICKSPI_DEV_H_
+ #define _QUICKSPI_DEV_H_
+ 
++#include <linux/hid-over-spi.h>
++
+ #define PCI_DEVICE_ID_INTEL_THC_MTL_DEVICE_ID_SPI_PORT1		0x7E49
+ #define PCI_DEVICE_ID_INTEL_THC_MTL_DEVICE_ID_SPI_PORT2		0x7E4B
+ #define PCI_DEVICE_ID_INTEL_THC_LNL_DEVICE_ID_SPI_PORT1		0xA849
+@@ -38,24 +40,33 @@ struct quickspi_driver_data {
+ struct device;
+ struct pci_dev;
+ struct thc_device;
++struct hid_device;
+ 
+ /**
+  * struct quickspi_device -  THC QuickSpi device struct
+  * @dev: point to kernel device
+  * @pdev: point to PCI device
+  * @thc_hw: point to THC device
++ * @hid_dev: point to hid device
+  * @driver_data: point to quickspi specific driver data
+  * @state: THC SPI device state
+  * @mem_addr: MMIO memory address
++ * @dev_desc: device descriptor for HIDSPI protocol
++ * @report_descriptor: store a copy of device report descriptor
+  */
+ struct quickspi_device {
+ 	struct device *dev;
+ 	struct pci_dev *pdev;
+ 	struct thc_device *thc_hw;
++	struct hid_device *hid_dev;
+ 	struct quickspi_driver_data *driver_data;
+ 	enum quickspi_dev_state state;
+ 
+ 	void __iomem *mem_addr;
++
++	struct hidspi_dev_descriptor dev_desc;
++
++	u8 *report_descriptor;
+ };
+ 
+ #endif /* _QUICKSPI_DEV_H_ */
+diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.c b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.c
 new file mode 100644
-index 000000000000..a997c9a570d4
+index 000000000000..eae53a749a38
 --- /dev/null
-+++ b/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
-@@ -0,0 +1,287 @@
++++ b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.c
+@@ -0,0 +1,142 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/* Copyright (c) 2024 Intel Corporation */
 +
-+#include <linux/device.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/err.h>
-+#include <linux/interrupt.h>
-+#include <linux/irqreturn.h>
-+#include <linux/pci.h>
-+
-+#include "intel-thc-dev.h"
++#include <linux/hid.h>
++#include <linux/input.h>
 +
 +#include "quickspi-dev.h"
-+
-+struct quickspi_driver_data mtl = {
-+	.max_packet_size_value = MAX_PACKET_SIZE_VALUE_MTL,
-+};
-+
-+struct quickspi_driver_data lnl = {
-+	.max_packet_size_value = MAX_PACKET_SIZE_VALUE_LNL,
-+};
-+
-+struct quickspi_driver_data ptl = {
-+	.max_packet_size_value = MAX_PACKET_SIZE_VALUE_LNL,
-+};
++#include "quickspi-hid.h"
 +
 +/**
-+ * quickspi_irq_quick_handler - The ISR of the quickspi driver
++ * quickspi_hid_parse() - HID core parse() callback
 + *
-+ * @irq: The irq number
-+ * @dev_id: pointer to the device structure
++ * @hid: HID device instance
 + *
-+ * Return: IRQ_WAKE_THREAD if further process needed.
++ * This function gets called during call to hid_add_device
++ *
++ * Return: 0 on success and non zero on error.
 + */
-+static irqreturn_t quickspi_irq_quick_handler(int irq, void *dev_id)
++static int quickspi_hid_parse(struct hid_device *hid)
 +{
-+	struct quickspi_device *qsdev = dev_id;
++	struct quickspi_device *qsdev = hid->driver_data;
 +
-+	if (qsdev->state == QUICKSPI_DISABLED)
-+		return IRQ_HANDLED;
++	if (qsdev->report_descriptor)
++		return hid_parse_report(hid, qsdev->report_descriptor,
++					le16_to_cpu(qsdev->dev_desc.rep_desc_len));
 +
-+	/* Disable THC interrupt before current interrupt be handled */
-+	thc_interrupt_enable(qsdev->thc_hw, false);
-+
-+	return IRQ_WAKE_THREAD;
++	dev_err(qsdev->dev, "invalid report descriptor\n");
++	return -EINVAL;
 +}
 +
-+/**
-+ * quickspi_irq_thread_handler - IRQ thread handler of quickspi driver
-+ *
-+ * @irq: The IRQ number
-+ * @dev_id: pointer to the quickspi device structure
-+ *
-+ * Return: IRQ_HANDLED to finish this handler.
-+ */
-+static irqreturn_t quickspi_irq_thread_handler(int irq, void *dev_id)
++static int quickspi_hid_start(struct hid_device *hid)
 +{
-+	struct quickspi_device *qsdev = dev_id;
-+	int int_mask;
-+
-+	if (qsdev->state == QUICKSPI_DISABLED)
-+		return IRQ_HANDLED;
-+
-+	int_mask = thc_interrupt_handler(qsdev->thc_hw);
-+
-+	thc_interrupt_enable(qsdev->thc_hw, true);
-+
-+	return IRQ_HANDLED;
++	return 0;
 +}
 +
-+/**
-+ * quickspi_dev_init - Initialize quickspi device
-+ *
-+ * @pdev: pointer to the thc pci device
-+ * @mem_addr: The pointer of MMIO memory address
-+ * @id: point to pci_device_id structure
-+ *
-+ * Alloc quickspi device structure and initialized THC device,
-+ * then configure THC to HIDSPI mode.
-+ *
-+ * If success, enable THC hardware interrupt.
-+ *
-+ * Return: pointer to the quickspi device structure if success
-+ * or NULL on failed.
-+ */
-+static struct quickspi_device *quickspi_dev_init(struct pci_dev *pdev, void __iomem *mem_addr,
-+						 const struct pci_device_id *id)
++static void quickspi_hid_stop(struct hid_device *hid)
 +{
-+	struct device *dev = &pdev->dev;
-+	struct quickspi_device *qsdev;
++}
++
++static int quickspi_hid_open(struct hid_device *hid)
++{
++	return 0;
++}
++
++static void quickspi_hid_close(struct hid_device *hid)
++{
++}
++
++static int quickspi_hid_raw_request(struct hid_device *hid,
++				    unsigned char reportnum,
++				    __u8 *buf, size_t len,
++				    unsigned char rtype, int reqtype)
++{
++	return 0;
++}
++
++static int quickspi_hid_power(struct hid_device *hid, int lvl)
++{
++	return 0;
++}
++
++static struct hid_ll_driver quickspi_hid_ll_driver = {
++	.parse = quickspi_hid_parse,
++	.start = quickspi_hid_start,
++	.stop = quickspi_hid_stop,
++	.open = quickspi_hid_open,
++	.close = quickspi_hid_close,
++	.power = quickspi_hid_power,
++	.raw_request = quickspi_hid_raw_request,
++};
++
++/**
++ * quickspi_hid_probe() - Register HID low level driver
++ *
++ * @qsdev: point to quickspi device
++ *
++ * This function is used to allocate and add HID device.
++ *
++ * Return: 0 on success, non zero on error.
++ */
++int quickspi_hid_probe(struct quickspi_device *qsdev)
++{
++	struct hid_device *hid;
 +	int ret;
 +
-+	qsdev = devm_kzalloc(dev, sizeof(struct quickspi_device), GFP_KERNEL);
-+	if (!qsdev)
-+		return ERR_PTR(-ENOMEM);
++	hid = hid_allocate_device();
++	if (IS_ERR(hid))
++		return PTR_ERR(hid);
 +
-+	qsdev->pdev = pdev;
-+	qsdev->dev = dev;
-+	qsdev->mem_addr = mem_addr;
-+	qsdev->driver_data = (struct quickspi_driver_data *)id->driver_data;
++	hid->ll_driver = &quickspi_hid_ll_driver;
++	hid->bus = BUS_PCI;
++	hid->dev.parent = qsdev->dev;
++	hid->driver_data = qsdev;
++	hid->version = le16_to_cpu(qsdev->dev_desc.version_id);
++	hid->vendor = le16_to_cpu(qsdev->dev_desc.vendor_id);
++	hid->product = le16_to_cpu(qsdev->dev_desc.product_id);
++	snprintf(hid->name, sizeof(hid->name), "%s %04X:%04X", "quickspi-hid",
++		 hid->vendor, hid->product);
 +
-+	/* thc hw init */
-+	qsdev->thc_hw = thc_dev_init(qsdev->dev, qsdev->mem_addr);
-+	if (IS_ERR(qsdev->thc_hw)) {
-+		ret = PTR_ERR(qsdev->thc_hw);
-+		dev_err(dev, "Failed to initialize THC device context, ret = %d.\n", ret);
-+		return ERR_PTR(ret);
-+	}
-+
-+	ret = thc_port_select(qsdev->thc_hw, THC_PORT_TYPE_SPI);
++	ret = hid_add_device(hid);
 +	if (ret) {
-+		dev_err(dev, "Failed to select THC port, ret = %d.\n", ret);
-+		return ERR_PTR(ret);
-+	}
-+
-+	thc_interrupt_config(qsdev->thc_hw);
-+
-+	thc_interrupt_enable(qsdev->thc_hw, true);
-+
-+	return qsdev;
-+}
-+
-+/**
-+ * quickspi_dev_deinit - De-initialize quickspi device
-+ *
-+ * @qsdev: pointer to the quickspi device structure
-+ *
-+ * Disable THC interrupt and deinitilize THC.
-+ */
-+static void quickspi_dev_deinit(struct quickspi_device *qsdev)
-+{
-+	thc_interrupt_enable(qsdev->thc_hw, false);
-+}
-+
-+/*
-+ * quickspi_probe: Quickspi driver probe function
-+ *
-+ * @pdev: point to pci device
-+ * @id: point to pci_device_id structure
-+ *
-+ * Return 0 if success or error code on failure.
-+ */
-+static int quickspi_probe(struct pci_dev *pdev,
-+			  const struct pci_device_id *id)
-+{
-+	struct quickspi_device *qsdev;
-+	void __iomem *mem_addr;
-+	int ret;
-+
-+	ret = pcim_enable_device(pdev);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to enable PCI device, ret = %d.\n", ret);
++		hid_destroy_device(hid);
 +		return ret;
 +	}
 +
-+	pci_set_master(pdev);
-+
-+	ret = pcim_iomap_regions(pdev, BIT(0), KBUILD_MODNAME);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to get PCI regions, ret = %d.\n", ret);
-+		goto disable_pci_device;
-+	}
-+
-+	mem_addr = pcim_iomap_table(pdev)[0];
-+
-+	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-+	if (ret) {
-+		ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-+		if (ret) {
-+			dev_err(&pdev->dev, "No usable DMA configuration %d\n", ret);
-+			goto unmap_io_region;
-+		}
-+	}
-+
-+	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
-+	if (ret < 0) {
-+		dev_err(&pdev->dev,
-+			"Failed to allocate IRQ vectors. ret = %d\n", ret);
-+		goto unmap_io_region;
-+	}
-+
-+	pdev->irq = pci_irq_vector(pdev, 0);
-+
-+	qsdev = quickspi_dev_init(pdev, mem_addr, id);
-+	if (IS_ERR(qsdev)) {
-+		dev_err(&pdev->dev, "QuickSPI device init failed\n");
-+		ret = PTR_ERR(qsdev);
-+		goto unmap_io_region;
-+	}
-+
-+	pci_set_drvdata(pdev, qsdev);
-+
-+	ret = devm_request_threaded_irq(&pdev->dev, pdev->irq,
-+					quickspi_irq_quick_handler,
-+					quickspi_irq_thread_handler,
-+					IRQF_ONESHOT, KBUILD_MODNAME,
-+					qsdev);
-+	if (ret) {
-+		dev_err(&pdev->dev,
-+			"Failed to request threaded IRQ, irq = %d.\n", pdev->irq);
-+		goto dev_deinit;
-+	}
++	qsdev->hid_dev = hid;
 +
 +	return 0;
++}
 +
-+dev_deinit:
-+	quickspi_dev_deinit(qsdev);
-+unmap_io_region:
-+	pcim_iounmap_regions(pdev, BIT(0));
-+disable_pci_device:
-+	pci_clear_master(pdev);
++/**
++ * quickspi_hid_remove() - Destroy HID device
++ *
++ * @qsdev: point to quickspi device
++ *
++ * Return: 0 on success, non zero on error.
++ */
++void quickspi_hid_remove(struct quickspi_device *qsdev)
++{
++	hid_destroy_device(qsdev->hid_dev);
++}
++
++/**
++ * quickspi_hid_send_report() - Send HID input report data to HID core
++ *
++ * @qsdev: point to quickspi device
++ * @data: point to input report data buffer
++ * @data_len: the length of input report data
++ *
++ * Return: 0 on success, non zero on error.
++ */
++int quickspi_hid_send_report(struct quickspi_device *qsdev,
++			     void *data, size_t data_len)
++{
++	int ret;
++
++	ret = hid_input_report(qsdev->hid_dev, HID_INPUT_REPORT, data, data_len, 1);
++	if (ret)
++		dev_err(qsdev->dev, "Failed to send HID input report, ret = %d.\n", ret);
 +
 +	return ret;
 +}
-+
-+/**
-+ * quickspi_remove - Device Removal Routine
-+ *
-+ * @pdev: PCI device structure
-+ *
-+ * This is called by the PCI subsystem to alert the driver
-+ * that it should release a PCI device.
-+ */
-+static void quickspi_remove(struct pci_dev *pdev)
-+{
-+	struct quickspi_device *qsdev;
-+
-+	qsdev = pci_get_drvdata(pdev);
-+	if (!qsdev)
-+		return;
-+
-+	quickspi_dev_deinit(qsdev);
-+
-+	pcim_iounmap_regions(pdev, BIT(0));
-+	pci_clear_master(pdev);
-+}
-+
-+/**
-+ * quickspi_shutdown - Device Shutdown Routine
-+ *
-+ * @pdev: PCI device structure
-+ *
-+ * This is called from the reboot notifier
-+ * it's a simplified version of remove so we go down
-+ * faster.
-+ */
-+static void quickspi_shutdown(struct pci_dev *pdev)
-+{
-+	struct quickspi_device *qsdev;
-+
-+	qsdev = pci_get_drvdata(pdev);
-+	if (!qsdev)
-+		return;
-+
-+	quickspi_dev_deinit(qsdev);
-+}
-+
-+static const struct pci_device_id quickspi_pci_tbl[] = {
-+	{PCI_DEVICE_DATA(INTEL, THC_MTL_DEVICE_ID_SPI_PORT1, &mtl), },
-+	{PCI_DEVICE_DATA(INTEL, THC_MTL_DEVICE_ID_SPI_PORT2, &mtl), },
-+	{PCI_DEVICE_DATA(INTEL, THC_LNL_DEVICE_ID_SPI_PORT1, &lnl), },
-+	{PCI_DEVICE_DATA(INTEL, THC_LNL_DEVICE_ID_SPI_PORT2, &lnl), },
-+	{PCI_DEVICE_DATA(INTEL, THC_PTL_H_DEVICE_ID_SPI_PORT1, &ptl), },
-+	{PCI_DEVICE_DATA(INTEL, THC_PTL_H_DEVICE_ID_SPI_PORT2, &ptl), },
-+	{PCI_DEVICE_DATA(INTEL, THC_PTL_U_DEVICE_ID_SPI_PORT1, &ptl), },
-+	{PCI_DEVICE_DATA(INTEL, THC_PTL_U_DEVICE_ID_SPI_PORT2, &ptl), },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(pci, quickspi_pci_tbl);
-+
-+static struct pci_driver quickspi_driver = {
-+	.name = KBUILD_MODNAME,
-+	.id_table = quickspi_pci_tbl,
-+	.probe = quickspi_probe,
-+	.remove = quickspi_remove,
-+	.shutdown = quickspi_shutdown,
-+	.driver.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-+};
-+
-+module_pci_driver(quickspi_driver);
-+
-+MODULE_AUTHOR("Xinpeng Sun <xinpeng.sun@intel.com>");
-+MODULE_AUTHOR("Even Xu <even.xu@intel.com>");
-+
-+MODULE_DESCRIPTION("Intel(R) QuickSPI Driver");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("INTEL_THC");
-diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
+diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.h b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.h
 new file mode 100644
-index 000000000000..cffc859efa19
+index 000000000000..f640fa876a40
 --- /dev/null
-+++ b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
-@@ -0,0 +1,61 @@
++++ b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.h
+@@ -0,0 +1,14 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/* Copyright (c) 2024 Intel Corporation */
 +
-+#ifndef _QUICKSPI_DEV_H_
-+#define _QUICKSPI_DEV_H_
++#ifndef _QUICKSPI_HID_H_
++#define _QUICKSPI_HID_H_
 +
-+#define PCI_DEVICE_ID_INTEL_THC_MTL_DEVICE_ID_SPI_PORT1		0x7E49
-+#define PCI_DEVICE_ID_INTEL_THC_MTL_DEVICE_ID_SPI_PORT2		0x7E4B
-+#define PCI_DEVICE_ID_INTEL_THC_LNL_DEVICE_ID_SPI_PORT1		0xA849
-+#define PCI_DEVICE_ID_INTEL_THC_LNL_DEVICE_ID_SPI_PORT2		0xA84B
-+#define PCI_DEVICE_ID_INTEL_THC_PTL_H_DEVICE_ID_SPI_PORT1	0xE349
-+#define PCI_DEVICE_ID_INTEL_THC_PTL_H_DEVICE_ID_SPI_PORT2	0xE34B
-+#define PCI_DEVICE_ID_INTEL_THC_PTL_U_DEVICE_ID_SPI_PORT1	0xE449
-+#define PCI_DEVICE_ID_INTEL_THC_PTL_U_DEVICE_ID_SPI_PORT2	0xE44B
++struct quickspi_device;
 +
-+/* Packet size value, the unit is 16 bytes */
-+#define DEFAULT_MIN_PACKET_SIZE_VALUE			4
-+#define MAX_PACKET_SIZE_VALUE_MTL			128
-+#define MAX_PACKET_SIZE_VALUE_LNL			256
++int quickspi_hid_send_report(struct quickspi_device *qsdev,
++			     void *data, size_t data_size);
++int quickspi_hid_probe(struct quickspi_device *qsdev);
++void quickspi_hid_remove(struct quickspi_device *qsdev);
 +
-+enum quickspi_dev_state {
-+	QUICKSPI_NONE,
-+	QUICKSPI_RESETING,
-+	QUICKSPI_RESETED,
-+	QUICKSPI_INITED,
-+	QUICKSPI_ENABLED,
-+	QUICKSPI_DISABLED,
-+};
++#endif /* _QUICKSPI_HID_H_ */
+diff --git a/include/linux/hid-over-spi.h b/include/linux/hid-over-spi.h
+new file mode 100644
+index 000000000000..ddbe41c5d8fd
+--- /dev/null
++++ b/include/linux/hid-over-spi.h
+@@ -0,0 +1,37 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/* Copyright 2024 Intel Corporation */
++
++#ifndef _HID_OVER_SPI_H_
++#define _HID_OVER_SPI_H_
 +
 +/**
-+ * struct quickspi_driver_data - Driver specific data for quickspi device
-+ * @max_packet_size_value: identify max packet size, unit is 16 bytes
++ * struct hidspi_dev_descriptor - HIDSPI device descriptor definition
++ * @dev_desc_len: The length of the complete device descriptor, fixed to 0x18 (24).
++ * @bcd_ver: The version number of the HIDSPI protocol supported.
++ *           In binary coded decimal (BCD) format. Must be fixed to 0x0300.
++ * @rep_desc_len: The length of the report descriptor
++ * @max_input_len: The length of the largest possible HID input (or feature) report
++ * @max_output_len: The length of the largest output (or feature) report
++ * @max_frag_len: The length of the largest fragment, where a fragment represents
++ *                the body of an input report.
++ * @vendor_id: Device manufacturers vendor ID
++ * @product_id: Device unique model/product ID
++ * @version_id: Device’s unique version
++ * @flags: Specify flags for the device’s operation
++ * @reserved: Reserved and should be 0
 + */
-+struct quickspi_driver_data {
-+	u32 max_packet_size_value;
++struct hidspi_dev_descriptor {
++	__le16 dev_desc_len;
++	__le16 bcd_ver;
++	__le16 rep_desc_len;
++	__le16 max_input_len;
++	__le16 max_output_len;
++	__le16 max_frag_len;
++	__le16 vendor_id;
++	__le16 product_id;
++	__le16 version_id;
++	__le16 flags;
++	__le32 reserved;
 +};
 +
-+struct device;
-+struct pci_dev;
-+struct thc_device;
-+
-+/**
-+ * struct quickspi_device -  THC QuickSpi device struct
-+ * @dev: point to kernel device
-+ * @pdev: point to PCI device
-+ * @thc_hw: point to THC device
-+ * @driver_data: point to quickspi specific driver data
-+ * @state: THC SPI device state
-+ * @mem_addr: MMIO memory address
-+ */
-+struct quickspi_device {
-+	struct device *dev;
-+	struct pci_dev *pdev;
-+	struct thc_device *thc_hw;
-+	struct quickspi_driver_data *driver_data;
-+	enum quickspi_dev_state state;
-+
-+	void __iomem *mem_addr;
-+};
-+
-+#endif /* _QUICKSPI_DEV_H_ */
++#endif /* _HID_OVER_SPI_H_ */
 -- 
 2.40.1
 
