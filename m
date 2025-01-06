@@ -1,124 +1,149 @@
-Return-Path: <linux-input+bounces-8952-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8953-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA97A01FAB
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 08:13:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A98A01FB2
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 08:17:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C5973A3E5D
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 07:13:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 802F63A2AC9
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 07:17:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ACC51B3955;
-	Mon,  6 Jan 2025 07:13:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E772629CE6;
+	Mon,  6 Jan 2025 07:17:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dfXJYaTo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IacqO61m"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF7F7603F;
-	Mon,  6 Jan 2025 07:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708591876
+	for <linux-input@vger.kernel.org>; Mon,  6 Jan 2025 07:17:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736147592; cv=none; b=SvhVqWj9fTlnJG2wUJO58Lr6qT2tM3AGoaJtdmqY3Bd5hQ24PTr6NFXzSDPVak5nYLgLRvUg0rGCJKYLUYZU6V4JJCMJ42CxrMQDrvl+aT14jopkVWpDuWoXALXOCWL96Qhc2kOtXVmVOSmpLAKsqFHJdoR8QL/h2UqKcLjcF+s=
+	t=1736147832; cv=none; b=H3hZQxQdvMNi04ZOrN10o4fahShBg7HRLtaaDsDtAb9RQrlpD6uFX1772WkgJmubCgAYCAJimeENnlSJBX8sQmTCaWdOuug61RSRRC+U+3C/P1p8p0PJ1Nb5joPDnzeJA1qfGKG4Y8CEMjwMYlHAszTtR0X/8qz1pvfdemHRCyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736147592; c=relaxed/simple;
-	bh=8kkUUdglWKgApT7UaPfG0QEd/gnA7s7aPArObH9ARko=;
+	s=arc-20240116; t=1736147832; c=relaxed/simple;
+	bh=MLSFWP7GObruz+GGfHbHY/Yhfr9F/hrSK2bN+KSp7TI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WRTG9wclGX99nPvf6ee4oFO5PndkTKfDm5brZb4c98q6G2YJlQ3Fbw0vPPZYccqlARssd71IvE6DaEyEa6aPbLYzIl/XaLoIFeWoVlhs9E7C95sOxBxHyEn+/fSWeF0Oos2hQWInFF7BCqJ2B7lTZSNRfUPnmzKqZeRnXxNDaVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dfXJYaTo; arc=none smtp.client-ip=209.85.214.174
+	 Content-Type:Content-Disposition:In-Reply-To; b=RynPOmCo8dMxm4hucL9fRf129c43VBV7qcPKBUkvl0SFgfmNMy58+/1ma3+t18zpQwSF21S26Qzc987lJ6ChZUmj43pyUaCWwkEWPZu5jA0MFKIT0jx6UllgO9TNAZ348pEv5bhDejg4Dm2JJFZIDxeZ/OGakN5LNBrH58Vd9qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IacqO61m; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-21619108a6bso185719055ad.3;
-        Sun, 05 Jan 2025 23:13:10 -0800 (PST)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-21683192bf9so197800935ad.3
+        for <linux-input@vger.kernel.org>; Sun, 05 Jan 2025 23:17:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736147590; x=1736752390; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LCJaykvEf3Vvd4cFaecO34X+rwNuJea9xulaGcVOIzM=;
-        b=dfXJYaTo8uOCIYLXGd+IwsYYUypymbECj9zvGdYiat8bo1w86H5ogpAZW6ynLoQcM6
-         iUq+RxV4a9mF1Tig2vMULw5wcFyKB5Z+jK3Qbv3myu/swwp/dYRZyjtsvz7GF4RYHX84
-         N/wkHhrLlbIZfmIFi7rinS5qCWeFqn3p4mQ7d1GXaO3j96JUXXAOj9436rB6tqqxiCx4
-         1SPHNXrIMPAUffD1tR8caL033HfAgOFydFMsx1b2ohFCivCBcSvfYYqua5ABg4J/GabP
-         9YnpKqn7oQYdiwzywgccOoPH4gcmvY6FLMC0THgEztvgrxQI/yETmyGpeSEl58bGcsBZ
-         UaGw==
+        d=gmail.com; s=20230601; t=1736147831; x=1736752631; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hXA2uyplq/GPrIBSJVX4vva1/4ojI6IdPqHZvUaLyFw=;
+        b=IacqO61mGP8kI71wqp9770MS1sOBKtL7jGU5mvBJQCfRzCUmMPNCDPp1TXjYNbVG30
+         tpz0lLHeS0NYVL2ko3zXKhUlg5IJyGIiya3Xl7yNLFEb/BD3DFFC/mSSJ4Lk0lB7KZrx
+         XV4ZJn7G7jwROHyXo7MqOAWghM8U0UbAaHMzHlx2l7yJ5ialv9NzAVDzkwW2mG0IDp5e
+         xQOKkCb8FRk4NrzyByOmZOqiCwbRYvNyR3cgs/N+BBBLzTgwHliIcar4CUcL4x7HdfMV
+         SreZ8UaVWsWJnRj8zdcCku65mOCdQ5KFGm0CzjHCL1Zs7CaYVXym+VErT8kvWe2VCuqM
+         b+jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736147590; x=1736752390;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LCJaykvEf3Vvd4cFaecO34X+rwNuJea9xulaGcVOIzM=;
-        b=Mp3IKku3FfO2j75Or5FosyOwVV+eJx5dP7/uRjCiqfxW8Vd9XF6B/h1FR43jn0JEjF
-         tRzr94wD01UTljEP7JtJpVpMJuvII7+oVPsW9xFkKNMl02BYiRU0pMlPpvx01cQwVRs1
-         HefH1txZrPG/EmnTb7GpplOGt5dgN/6w8NvwokHvJG6BaXuwZZV0Dk0jGGvEmMjqYkbU
-         2YWPmh6SuMVHeMCqyS9F9DHDj2gBwN0mYHXaVCnQIkpd+B25FtwtIBUpzsj85VgUDyvr
-         it5t739neWKfDqi8ooMKG6kWi9SZL0V9eHwQDALHtj8/qajzB+ITd7UZ1c/Fj/mRE/vp
-         MXTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+fcnyInXrpeIYIw0dpK8fE81y2cWHaMIH0ovziWZK022WOxKTCkNg8+vVBo0wCbfeu3Fngm869ACJiwYu@vger.kernel.org, AJvYcCWiBfZ8FVGC2XctKpKz0A9Cs4Ac7mCMeDyyCR5hSb5pAYFsixTBt3GyTc1TXlyKo2+dBbjEyAahruWiag==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVHhc2ZnBUYzcgm9wG+yHKnPVzi+WaB10I5yhsOwoVEF0mGYrd
-	vfM2gNrx8LU1SzW+Lt3CYB7CLvUamP9m2k/QKPtpm+m4bKl7HLzwGrmfGw==
-X-Gm-Gg: ASbGncthc1gH5YoG4dKIfrp+KzaNj7UF+GysWyiOSQ5clREoQS6eNkKsaXmsqozwgTq
-	2+pcvI632iQPIv0IZWW92fPbCYpfCYFzMFOfNWaTmZ0CyPv/4O8YOL293JzCrlG1/runiKQwszh
-	ohhHoo+N+yTsX/9NWhR09+cr8IfIJL6GH1GznfFB9wWvZXqKtIY/rPHMPQ/V01jMLWA+NciO1P3
-	bcnr9PWdxnd/6AdEaL3//M8kxw/Bs975UdZkchBBMMNBvvw7rzGDD0qPA==
-X-Google-Smtp-Source: AGHT+IFGDniaMtnWXY6VYea9XflX+VRfEjjo4d/sn4Kg5iote1yBt2lNFp4f2VZaniSXClzcr8xvMQ==
-X-Received: by 2002:a05:6a00:4096:b0:729:c7b:9385 with SMTP id d2e1a72fcca58-72abdd7bdecmr84715265b3a.6.1736147590301;
-        Sun, 05 Jan 2025 23:13:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736147831; x=1736752631;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hXA2uyplq/GPrIBSJVX4vva1/4ojI6IdPqHZvUaLyFw=;
+        b=PLb3aeJzaqciVzL0rz5i1d/y2pwNvQdrINu0THJQc1C2Yu7nE0r6GqVoxSe/l7sA7J
+         Mt1ry6qudsByozZIDXenfgRgaiWpAiX8vZaBkbrENWkBygqUeZBy84Owrmxh7S/YnGrh
+         +oJ5qRYZUQx1wmtRQi7q5vX/pT5/rXympw69lJfgDaaED+q+a/FyAcer1+RXfduaFPp2
+         pYND44Yb+I4fN1lOEYK18zN7G8RJdxWWniVYvGEcZmgp39nwElJD39wN9zpK6WwuJQaf
+         vfkz0MB5tQd7eCp0/mCWpKNxyEa8tadLc5Ez/zOXkTHxqwLN0pFDIEfhIvTcwaXDLTlP
+         yyAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWuK59+dnhv9AmfQBmnNb+n2r7bN+JbokNstIekB8Ds8elvjLEWNeDQ8R0xeZVRM67ocT2x5N4+Fzm0yA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxim8B5majanV3GG4M2rBuW1cc/OumdY8I9fPURXbQIKSApRZma
+	ULXywcazZ8pAsTEKmXvPRWcx5xWwHewI4SAYnyKEKg8ay2BOAoaY
+X-Gm-Gg: ASbGncuWTqB94geX8uCfLLOBfdXzsLQqw8g3mnqZohEw+apDR1MRhzmnhx+7B6v2T+Y
+	g+7JU7imcIjMPdKYZXFe7H5FHw942AaXO1buBnvmnKFazgBVcN9iBhfxvYJdvBoOsUd7YC+VUek
+	ot4Q+axWJ5xbqvPWl/Qo0/BwZes9/EozGAOYX5Tb2cXiYUMJ8pk7Jh8EtVQ6FIdp9u+d3/xrcNz
+	IAfhVu6zgajXg3GhWkeAiZ100+XtweVdDKKC1Kz+FrEhCFC4ZxgR3bQug==
+X-Google-Smtp-Source: AGHT+IH4ThE59eollNTbZ+CfZMnSiAdCDFwkFvR9md3pm8OkHNaNj+ESuabcDlOaEAiHHCTVtzjHVQ==
+X-Received: by 2002:a05:6a20:841a:b0:1dc:bdb1:349e with SMTP id adf61e73a8af0-1e5e047029fmr86439427637.17.1736147830675;
+        Sun, 05 Jan 2025 23:17:10 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:6998:e192:65f1:e7c0])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72d012b1de0sm1290673b3a.80.2025.01.05.23.13.09
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8fb7dbsm30556771b3a.133.2025.01.05.23.17.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jan 2025 23:13:09 -0800 (PST)
-Date: Sun, 5 Jan 2025 23:13:07 -0800
+        Sun, 05 Jan 2025 23:17:10 -0800 (PST)
+Date: Sun, 5 Jan 2025 23:17:07 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Tamura Dai <kirinode0@gmail.com>
-Cc: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: pwm-beeper - add range check for parameter.
-Message-ID: <Z3uCg2M26UQvMHP9@google.com>
-References: <20250106025542.13555-1-kirinode0@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Pavel Rojtberg <rojtberg@gmail.com>, linux-input@vger.kernel.org
+Subject: Re: [PATCH 00/13] Input: xpad - sync with github fork
+Message-ID: <Z3uDc9dGJgEOQym3@google.com>
+References: <20250105193750.91460-1-rojtberg@gmail.com>
+ <2025010649-rumble-embattled-7187@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250106025542.13555-1-kirinode0@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2025010649-rumble-embattled-7187@gregkh>
 
-On Mon, Jan 06, 2025 at 11:55:28AM +0900, Tamura Dai wrote:
-> The parameter "beeper-hz" range is defined in pwm-beeper.yaml,
-> so add range check.
-
-What will happen if we try to use data that is out of range?
-
-We now do have tools to check whether DTS is compliant bindings, so I
-wonder how useful to also have checks in the kernel....
-
+On Mon, Jan 06, 2025 at 08:09:26AM +0100, Greg KH wrote:
+> On Sun, Jan 05, 2025 at 08:37:37PM +0100, Pavel Rojtberg wrote:
+> > From: Pavel Rojtberg <rojtberg@gmail.com>
+> > 
+> > This updates the list of supported devices as contributed on github.
+> > 
+> > Andrei Ilyashenko (1):
+> >   Input: xpad - add support for Xbox ONE liquid metal controller
+> > 
+> > Fernando Petros (1):
+> >   Input: xpad - add support for Thrustmaster ESWAP X2 ELDEN RING
+> > 
+> > Greg Savage (1):
+> >   Input: xpad - add support for PDP Mirror's Edge controller
+> > 
+> > Jack Greiner (1):
+> >   Input: xpad - add support for wooting two he (arm)
+> > 
+> > Javier Zepeda (1):
+> >   Input: xpad - add support for Nacon Pro Compact Model NC7271
+> > 
+> > Jocelyne Jones (1):
+> >   Input: xpad - add support for SCUF Instinct
+> > 
+> > Kikismine (1):
+> >   Input: xpad - add Hori Racing Wheel Overdrive for Xbox Series X
+> > 
+> > Leonardo Brondani Schenkel (1):
+> >   Input: xpad - improve name of 8BitDo controller 2dc8:3106
+> > 
+> > Martin Stolpe (1):
+> >   Input: xpad - add USB ID for Nacon Revolution5 Pro
+> > 
+> > Matheos Mattsson (1):
+> >   Input: xpad - add support for Nacon Evol-X Xbox One Controller
+> > 
+> > Thijs Reus (1):
+> >   Input: xpad - added Turtle Beach Recon support
+> > 
+> > Tobias Görgens (1):
+> >   Input: xpad - add Black Shark Green Ghost controller support
+> > 
+> > jdarn (1):
+> >   Input: xpad - add support for 8BitDo Ultimate bluetooth/hall effect
+> >     variant
+> > 
+> >  drivers/input/joystick/xpad.c | 23 ++++++++++++++++++++++-
+> >  1 file changed, 22 insertions(+), 1 deletion(-)
 > 
-> Signed-off-by: Tamura Dai <kirinode0@gmail.com>
-> ---
->  drivers/input/misc/pwm-beeper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/misc/pwm-beeper.c b/drivers/input/misc/pwm-beeper.c
-> index 0e19e97d98ec..455054f9aae6 100644
-> --- a/drivers/input/misc/pwm-beeper.c
-> +++ b/drivers/input/misc/pwm-beeper.c
-> @@ -153,7 +153,7 @@ static int pwm_beeper_probe(struct platform_device *pdev)
->  	INIT_WORK(&beeper->work, pwm_beeper_work);
->  
->  	error = device_property_read_u32(dev, "beeper-hz", &bell_frequency);
-> -	if (error) {
-> +	if (error || (bell_frequency < 10) || (bell_frequency > 10000)) {
->  		bell_frequency = 1000;
->  		dev_dbg(dev,
->  			"failed to parse 'beeper-hz' property, using default: %uHz\n",
-> -- 
-> 2.45.2
-> 
+> How about just 1 patch updating this as giving credit through github
+> accounts is going to be messy with bouncing email addresses and the
+> like.
+
+Yeah, I think this would be the best.
 
 Thanks.
 
