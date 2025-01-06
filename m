@@ -1,85 +1,85 @@
-Return-Path: <linux-input+bounces-8963-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8964-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7709AA03215
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 22:35:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1DFCA03217
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 22:35:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6ABD8162789
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 21:35:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 29DF93A4ECD
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 21:35:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94A891E009B;
-	Mon,  6 Jan 2025 21:35:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2717E1E0B96;
+	Mon,  6 Jan 2025 21:35:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hj0IrOJb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jlLzrLyG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFAB1DFE38;
-	Mon,  6 Jan 2025 21:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4271E0B72;
+	Mon,  6 Jan 2025 21:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736199348; cv=none; b=F39lmxlKwpVIom+J6CGEcQsDXBBU1XtbrrmoczgokBeZ0hGsn9Y/z9Y9TlvbHGBw2ppS/YQSS8S/Ino+YIcYIEiQRFaEuh3colDHv8gbDKU1HsRw5yWsKr/DIQKT2Xt4ZnW+QTsPOTHzrovBmrJZmF0rtIm6OTof9JhtHdRbsJg=
+	t=1736199350; cv=none; b=PVvUbZCsraikzmTMRDGDbpdCGn/9DHEb1tApzWHX9xUFc0JxqoG7owCF0GdoIjNrbnrLbtAGWx3XfXs3ApZYDktHBObg4MI7iPFWZ727fsvR0uEMdbw0WA2/Wb7Td/7y/y6EOdHhhAxMlc91XfUqiaYxPb7w9V7lss7pZLVrPUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736199348; c=relaxed/simple;
-	bh=60aSOMQx14zfMVGYITpU0cwL1JQM2IC1G8kgAFjv5ys=;
+	s=arc-20240116; t=1736199350; c=relaxed/simple;
+	bh=tWq+ZnBjlOupEjtG5PBxOjtcCachtKjWc1EONIVj4X4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K2kL2NK0g/yFAHElzbvBFOewPIM3SAqMGparYNf3xfz3OcryRQO463TdAIhf+0KWTPrQjhDgom1JTv8MZ9DCVUa2bvbViGnud1P+szOItCD6ydNkFIYiGccddC72P5Oisa5GHKAB7V+oBiZF6e/StoSfGUMyjdyDOghxh75JEWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hj0IrOJb; arc=none smtp.client-ip=209.85.208.47
+	 MIME-Version:Content-Type; b=awggVdDEbUYIZIIGIVyYsPRgoIc+8LQ/XQVP91jNqoxw/Rg1RNjqqDmnmTrZ/cVVWGu988szAJ79Sl8d0/ZFtml6K7gJqTZ/ws/lSRgalHxtA0348Hu3aoydzDPSvu21/wD/ZdSfWM7tmmoMDiPQXWqfMPhkqEKFnrn9SLXjVQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jlLzrLyG; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5d3cfa1da14so3133599a12.1;
-        Mon, 06 Jan 2025 13:35:46 -0800 (PST)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5d0ac3be718so3279925a12.1;
+        Mon, 06 Jan 2025 13:35:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736199345; x=1736804145; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1736199346; x=1736804146; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZMTdGnyyJWXuH6aEDEPHe6IuTncIDqPC0Rg1e/KX1X8=;
-        b=Hj0IrOJby189fvEKXMszYI5+r8/j07iOFh40fmuh7nrfMp2KSkRUKArV8irJr4jaxi
-         iObQOSol/3vkLXqVaNhpLixDloePgBEPn92oFU98HlZbA4VZ+d1oCbQfCMfn+Zf3yu0w
-         4U2bwUPZwfF1r6BPL1cOsGfVQuarahAhnj3aIukXEtG0jWlvW91EGdC3O7nh6bN8tO40
-         u05kf2kCCRg9aSGlLRNXF1Pm+00HzFU24UC+hEElisBbyiGFVlppzkk4x3F3TUYygB3R
-         7OxO4oq8AU5BCwbHdUaye/Xrxo/lvQ0xp13veVG5duqkvXTP9aAmkWC4J37dYkzjHQX/
-         gLxA==
+        bh=2aG6QxwL2dLzIzlkegu/7XX/7ENaDG1aCgGKgLUZHrA=;
+        b=jlLzrLyGfssYgj5YHObPUWpgCndmwnhtSz4eonMRTU9+EH9kDD3B+GjcWKjwXAzOI6
+         /ykeALujEHf21VbReE2hLZ1b9pLGwIhOtlWDllWtJjfTU1qbgYKe8FMoETppj9AJnffZ
+         dfcQjAqIglH8mkYz1KPZcmsg0xy0d+O5WVEBth0g74LEbvdH7vM15kMMfe7HM1+iYPq9
+         FPZNtuwshO9s+y5cHkHHF1Kwx+JLmkjTH4FEzwyPmZFvesn1vg9PagVQ7dB2cViD/nz7
+         UC6NA7ZOHoQa/+S//OxvOfQonzByvHqpRbJSTo9xJgIW/iDd0xg91KSgEqVOOegqBDvn
+         1Qdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736199345; x=1736804145;
+        d=1e100.net; s=20230601; t=1736199346; x=1736804146;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZMTdGnyyJWXuH6aEDEPHe6IuTncIDqPC0Rg1e/KX1X8=;
-        b=DvhGw8h3vh7EkhhMx/Kt04MASKeyC4nG3SUO/eJNqoAI/7YOErfKtz2TS/3aGVNJIG
-         3IhtXya6bJDivK2UsGJl/v+j9IHZUS/1CPsLwmqXuKwFH1SmMXFcgVetc2D1yKQVy9Md
-         3m+rlnVSM2doUjJ+uZ1HH7/Tyzyp1WhbSJcKBgbMjmZzt42bk/BCkSQ3pi+p2hA7ke00
-         0wlu9Af+/x2GWEECMYoZV0giPk12jkKzQZkaj1nYSs+7c6S/+76F2W5+XnxMP2Y985Z5
-         ebCkY5g0M86jpMNhvyBwbpKHdpmQ2c2ES2f4D5U9dDUEpo1gL5Z4akngLosjMr7V8yzr
-         JKcw==
-X-Forwarded-Encrypted: i=1; AJvYcCX90He3otxm40KAdipiCkSuOsf1m46SsalyeUPXBCcjoV3MYOxtTXzLDH9iC5owvfLslklu9Sc1ITU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7MJygeXOn56qN2wY+R1xfKmmqvkw25TLiNJC7LAaoyW0V9ZJf
-	l5rD16JEeCQp6wyYNjD7PbXU9qWkzEwCFi1ee7E8zIG7vh/ml+p8Tfb3nNxG
-X-Gm-Gg: ASbGncuPi/dAnYVcTk6zWHFNi6SPzfC7T+bgLvv7CgsTgQBHxr31LwF3uvYA/CrLGDx
-	xm1vqE36ArvfUIpyJ2KgfNCAWxk04kjF18uLnBYNIH6y6UufrnSQC60Nln9wCFGinOgZMeRUTvj
-	aiAUz8jmVcI5Rhqvs41DZPcsDOi49l+0RrC/tmKYLl+mWIKxWJWgFeKJ0jE/jF/Hs8pi+OfQ61E
-	lzkZNDoiD6XqeUQI3YvxjPwl6NZ9jvu1XC5kgeoV1EUcmttLdnTB1Dc9KfLNZxhGueoPIKCzplV
-	XyUOTTX2FBqLYJMLy0unKZT5dbs=
-X-Google-Smtp-Source: AGHT+IEzCYYiNd745kQpx4ofP4CyvT4uBaER669kvtUAhW55t9aMvo8vYfBByQTR6sHxJ4psV+dT3g==
-X-Received: by 2002:a05:6402:274e:b0:5d0:d183:cc11 with SMTP id 4fb4d7f45d1cf-5d81dd6422amr19450229a12.2.1736199344696;
-        Mon, 06 Jan 2025 13:35:44 -0800 (PST)
+        bh=2aG6QxwL2dLzIzlkegu/7XX/7ENaDG1aCgGKgLUZHrA=;
+        b=QO0xbrt+Adu78mLXwk1FvcESRFRSSs2RGbp2yyoLZYskJ27M5e0Zq06XiM8HviENB+
+         ORH+RhnrioFZ+kYRTu+4Lvf7j5GIJuubM3pmsbwxViLwbw7lMoPAsS0eIFMEdsUQGwL4
+         LAjdhGjnvWRCVZW293Fs1KOihyaGS73bT1jQotIqQ33iKJHMoBTN2YdDn1OZUjpXeRMv
+         txuUnTSGwKK2oMvtzHbWR/LZXjsIaWtXZWSmzF7DZvM6Q9kcumz5E9l+oJf8e/ky8rrM
+         7VVdY/vAOIiVYvpmCLd0AOv9CVyyo+rAGz11fe2C7TL6ANDlEee/kxowOzuigq2MPivZ
+         GaoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWiTbyzj4/90MXLveOL749BDizihSduXAOfi1czHKXLZpyXLS11wz/czsurSGWOOL7TEZmTl+Y6Ttk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvDDQIrUP9Bk1pO7oCjv3t+o9jVrtPCgDdvQjxNMRm5QkSrqtC
+	ShbeWv1p56zFEBPAZVVWxM8gR/QDdul3lVjBX/qKaTg2UeEJlem4tS+cBO7a
+X-Gm-Gg: ASbGncv350ur/Uom6FoABlNyMd6fXhKFz6Y2UotehDq9I3eLrhx9UWvL+w+kLwYt25G
+	BKEjiTs6t26hX5VFbEBkYtTwI/i9teiw9U9/Lm5PZCV+gR6K1dEiN8N7+DJfDzeoPaO9MyF5V+q
+	gmDVFqC+4hSwi9onNwgBiCABkQGQyrGCVtV9si3MXfIwBPnsV2VAWox2QwcZrArAibC1FZdK0cP
+	I85WKuEo6BH0kd4aHZ/d8c6FsmNaE8k0oLfg80UUqKOEx3tDsQEUcsxy5PpegU0AH5MRrys7j73
+	0wGqDa6JxqX0BDC1xEGJOU/KbUI=
+X-Google-Smtp-Source: AGHT+IGk84mkLY+gDCWva3727Y8Weq773UelfPge2HEn5EREpCwHdkyn3P82x/mw0iQjY3F/djz/aQ==
+X-Received: by 2002:a05:6402:5109:b0:5d0:bd3b:b9a9 with SMTP id 4fb4d7f45d1cf-5d81de1c38cmr21554449a12.8.1736199346071;
+        Mon, 06 Jan 2025 13:35:46 -0800 (PST)
 Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d80676f9acsm23375991a12.31.2025.01.06.13.35.43
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d80676f9acsm23375991a12.31.2025.01.06.13.35.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 13:35:44 -0800 (PST)
+        Mon, 06 Jan 2025 13:35:45 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
 Cc: linux-input@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v3 01/10] HID: pidff: Convert infinite length from Linux API to PID standard
-Date: Mon,  6 Jan 2025 22:35:30 +0100
-Message-ID: <20250106213539.77709-2-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v3 02/10] HID: pidff: Do not send effect envelope if it's empty
+Date: Mon,  6 Jan 2025 22:35:31 +0100
+Message-ID: <20250106213539.77709-3-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250106213539.77709-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20250106213539.77709-1-tomasz.pakula.oficjalny@gmail.com>
@@ -92,42 +92,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Linux defines 0 length as infinite in its force feedback API
-while USB PID defines NULL (0xffff). Most PID devices do not expect a
-0-length effect and can't interpret it as infinite. This change fixes
-Force Feedback for most PID compliant devices.
+Envelope struct is always initialized, but the envelope itself is
+optional as described in USB PID Device class definition 1.0.
 
-As most games depend on updating the values of already playing infinite
-effects, this is crucial to ensure they will actually work.
+5.1.1.1 Type Specific Block Offsets
+...
+4) Effects that do not use Condition Blocks use 1 Parameter Block and
+an *optional* Envelope Block.
 
-Previously, users had to rely on third-party software to do this conversion
-and make their PID devices usable.
+Sending out "empty" envelope breaks force feedback on some devices with
+games that use SINE effect + offset to emulate constant force effect, as
+well as generally breaking Constant/Periodic effects. One of the affected
+brands is Moza Racing.
 
-Co-developed-by: Makarenko Oleg <oleg@makarenk.ooo>
-Signed-off-by: Makarenko Oleg <oleg@makarenk.ooo>
+This change prevents the envelope from being sent if it contains all
+0 values while keeping the old behavior of only sending it, if it differs
+from the old one.
+
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- drivers/hid/usbhid/hid-pidff.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/hid/usbhid/hid-pidff.c | 39 ++++++++++++++++++----------------
+ 1 file changed, 21 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index 3b4ee21cd811..3899d72a0b02 100644
+index 3899d72a0b02..cf8163d92ea4 100644
 --- a/drivers/hid/usbhid/hid-pidff.c
 +++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -301,7 +301,12 @@ static void pidff_set_effect_report(struct pidff_device *pidff,
- 		pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0];
- 	pidff->set_effect_type->value[0] =
- 		pidff->create_new_effect_type->value[0];
--	pidff->set_effect[PID_DURATION].value[0] = effect->replay.length;
+@@ -261,10 +261,19 @@ static void pidff_set_envelope_report(struct pidff_device *pidff,
+ static int pidff_needs_set_envelope(struct ff_envelope *envelope,
+ 				    struct ff_envelope *old)
+ {
+-	return envelope->attack_level != old->attack_level ||
+-	       envelope->fade_level != old->fade_level ||
++	bool needs_new_envelope;
++	needs_new_envelope = envelope->attack_level  != 0 ||
++		             envelope->fade_level    != 0 ||
++		             envelope->attack_length != 0 ||
++		             envelope->fade_length   != 0;
 +
-+	// Convert infinite length from Linux API (0)
-+	// to PID standard (NULL) if needed
-+	pidff->set_effect[PID_DURATION].value[0] =
-+		effect->replay.length == 0 ? 0xffff : effect->replay.length;
++	if (!needs_new_envelope || !old)
++		return needs_new_envelope;
 +
- 	pidff->set_effect[PID_TRIGGER_BUTTON].value[0] = effect->trigger.button;
- 	pidff->set_effect[PID_TRIGGER_REPEAT_INT].value[0] =
- 		effect->trigger.interval;
++	return envelope->attack_level  != old->attack_level  ||
++	       envelope->fade_level    != old->fade_level    ||
+ 	       envelope->attack_length != old->attack_length ||
+-	       envelope->fade_length != old->fade_length;
++	       envelope->fade_length   != old->fade_length;
+ }
+ 
+ /*
+@@ -579,11 +588,9 @@ static int pidff_upload_effect(struct input_dev *dev, struct ff_effect *effect,
+ 			pidff_set_effect_report(pidff, effect);
+ 		if (!old || pidff_needs_set_constant(effect, old))
+ 			pidff_set_constant_force_report(pidff, effect);
+-		if (!old ||
+-		    pidff_needs_set_envelope(&effect->u.constant.envelope,
+-					&old->u.constant.envelope))
+-			pidff_set_envelope_report(pidff,
+-					&effect->u.constant.envelope);
++		if (pidff_needs_set_envelope(&effect->u.constant.envelope,
++					     &old->u.constant.envelope))
++			pidff_set_envelope_report(pidff, &effect->u.constant.envelope);
+ 		break;
+ 
+ 	case FF_PERIODIC:
+@@ -618,11 +625,9 @@ static int pidff_upload_effect(struct input_dev *dev, struct ff_effect *effect,
+ 			pidff_set_effect_report(pidff, effect);
+ 		if (!old || pidff_needs_set_periodic(effect, old))
+ 			pidff_set_periodic_report(pidff, effect);
+-		if (!old ||
+-		    pidff_needs_set_envelope(&effect->u.periodic.envelope,
+-					&old->u.periodic.envelope))
+-			pidff_set_envelope_report(pidff,
+-					&effect->u.periodic.envelope);
++		if (pidff_needs_set_envelope(&effect->u.periodic.envelope,
++					     &old->u.periodic.envelope))
++			pidff_set_envelope_report(pidff, &effect->u.periodic.envelope);
+ 		break;
+ 
+ 	case FF_RAMP:
+@@ -636,11 +641,9 @@ static int pidff_upload_effect(struct input_dev *dev, struct ff_effect *effect,
+ 			pidff_set_effect_report(pidff, effect);
+ 		if (!old || pidff_needs_set_ramp(effect, old))
+ 			pidff_set_ramp_force_report(pidff, effect);
+-		if (!old ||
+-		    pidff_needs_set_envelope(&effect->u.ramp.envelope,
+-					&old->u.ramp.envelope))
+-			pidff_set_envelope_report(pidff,
+-					&effect->u.ramp.envelope);
++		if (pidff_needs_set_envelope(&effect->u.ramp.envelope,
++					     &old->u.ramp.envelope))
++			pidff_set_envelope_report(pidff, &effect->u.ramp.envelope);
+ 		break;
+ 
+ 	case FF_SPRING:
 -- 
 2.47.1
 
