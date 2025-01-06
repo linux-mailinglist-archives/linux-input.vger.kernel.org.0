@@ -1,114 +1,169 @@
-Return-Path: <linux-input+bounces-8943-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-8944-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86750A01DE9
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 03:56:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 619DBA01F34
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 07:29:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BF3817A150E
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 02:56:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA7E33A3DA9
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jan 2025 06:29:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4095F126BF9;
-	Mon,  6 Jan 2025 02:56:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52CCC1A2631;
+	Mon,  6 Jan 2025 06:29:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="es2BcGcb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q1Ea9bK0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8037AD2F;
-	Mon,  6 Jan 2025 02:56:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7788194A64;
+	Mon,  6 Jan 2025 06:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736132181; cv=none; b=RjSAExogvNu92y+KM99nJnG6QNo6GbAOk9s0itlOEKitPnhAZ061epMn5ruwDiwoXrDh8r9+31HYMVV4LkZPjKjWuJsBRt3xPkVHHUNHtcf8/8x4/vtrYTqi6EgfkreNd483fDxsXtC440as7198rsWnLGUqrnTrZLGcwvHbxN4=
+	t=1736144946; cv=none; b=P/dq0uPRgdavm5WAXM2dwCT8MBbyX32eqTSbAN3SVl1/lh7ge3CT1BNORV4Olmgu/il1b8ULCBHHFOA5tYrQiCReMikOUbMDV72jeUKro+kcht+ljvpRL1znx538CBaBOI3/dtOTUpl3ja8YcwWmY2ij/QF58jgxVaEBRiGWMq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736132181; c=relaxed/simple;
-	bh=rpBIeGrtFicGgEwaWhyDf6fugJWawfadMS0pOjmPLDI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YTsmSN10ypzQp+3QIQCSNmwFFyohdOHaRSnftHARBJqlLo+hh95ebZoNwwJ0cRTXGiLz7r34ACCGGwADVF0WkvQbiZmYowLjnYcfg8YQLMGMiBiCPM83JXmgrHrbIOv4qQUsPsFwtXUZpudK9aeKPnNZt66UxPIOJnSifsF/0Ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=es2BcGcb; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2165cb60719so200351705ad.0;
-        Sun, 05 Jan 2025 18:56:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736132179; x=1736736979; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kVCZUapiDc1okM858Ba0u93GxOAikwEZjP5GSF4lm1s=;
-        b=es2BcGcbw2RkYTuyqAi06kLn3GAzQg6OFw6Xf5CJn1nIM596MMHpEd1xi3rlALTEYG
-         mzw38Avb0miYgNonXJkpG1l9K1yMO0wOw0T+1M9+drspbrOtp4nfCuuOEePqo7pn/Mm6
-         1PPsOZSFe17sbDjYoqK/pD2uESRr9Ri333Li7IDuWtSRU0WokI500/kwWF3DM667u9UZ
-         fqEDk43GhDH2gub4RSrIHE4HRRqE+43WDNxG80b+TfznIsLSra4t14KC7wT/1cKkID5O
-         9XepiHgCmYdVsFqjSFoYbsaobzkMCrmN7ObU2Fw0dF5C7vdCe2L+pmfZCTjG2aNMBmCr
-         SOSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736132179; x=1736736979;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kVCZUapiDc1okM858Ba0u93GxOAikwEZjP5GSF4lm1s=;
-        b=GbA5ke8ICBbqBEWI+SIDDkAJPfSJ45KRypRIjp9BrmHfNAYl1NJ4z7kmcxa7IPkdzj
-         T9U5JXd/CV9tsTWlLgONxLPv11IGZCWUZfWxZTSdss8b69JOTOn5cJmIcES+9qMwsyuj
-         wUODAvX7wvvIxuq4YEIi+Z8urNMFSdMZnV6OCDGzpEde+n9hBpklkvLiygB6vYKzSDe4
-         frzxuCTD/yNu/RUKBtfaeI2ZtNJFjb9PtnKd7oZ5rluo8kmyBFShtbqu6OQrKnejF9KF
-         Ehbn8PxUoR5DfBaz6cNr339QNwA4z49YUwajk71PRdQKG2kKhFNwkDnv7JEeg89fuayx
-         9k/g==
-X-Forwarded-Encrypted: i=1; AJvYcCUE3MQjF2wPWXih7ZpR86VeRcFcWOJ+K6BSd8Ht5ANsxcmvi95k8zBsxXp2ArdCQXrmD1awTlN7cBeIyI4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy13vA737sPTobPvdyJbznTv7l/saDUL1BHFJChmR6xEvKyPPdd
-	hO6ELP1Z3cx2pTymW1fm476phRkozgZDwi01/wbm790/tdQYa/9bozUnZtPK
-X-Gm-Gg: ASbGnct8O/U8LcA4tf3iCUl8sskFH704RBrebwjlirat+cnprM2gaq7/cNFcd6SSsl0
-	jO6AJmVttljqkQ++MF4UNJCjN5Cra4TFss1F3OcnsaAEw3goSoEYB/AipeqXbRsd2UrG1XfSAYy
-	JZsonf0uz7dkHG+s07fuNM2gRYKc//fuoopS5ezl1rgaAYp88VJHOZe89W8vCRJSmtn3sBilysn
-	IdwMZSeco7i5V9h8kOtJ3fUzmIz1PL2PIXCBc5fCr8j5jcr10xBv5hq
-X-Google-Smtp-Source: AGHT+IGt7yu+xfeIYV1YKgnBexAD9B8shmrceh64O/3UZvcW0C4KlO9IJuRymkiJlaCdvYYNY3hnAw==
-X-Received: by 2002:a17:902:ceca:b0:215:83e1:99ff with SMTP id d9443c01a7336-219e6eb3a33mr677779395ad.27.1736132179134;
-        Sun, 05 Jan 2025 18:56:19 -0800 (PST)
-Received: from delphinus ([2405:6584:3840:2300:559:3e75:48aa:7782])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9cdee0sm281688455ad.119.2025.01.05.18.56.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jan 2025 18:56:18 -0800 (PST)
-From: Tamura Dai <kirinode0@gmail.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Tamura Dai <kirinode0@gmail.com>
-Subject: [PATCH] Input: pwm-beeper - add range check for parameter.
-Date: Mon,  6 Jan 2025 11:55:28 +0900
-Message-ID: <20250106025542.13555-1-kirinode0@gmail.com>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1736144946; c=relaxed/simple;
+	bh=TVbzn6A95XNB7VX6WHfDFdPSCdS4sboCHVyKf1ch3Qk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ejrStANmBP0oNn8Taw8drgxgGdgp6TMhzl/2D5iH6H/gwzz6zXmkFTK7J7haUWl/CmeZIgRm0NlSyjwA9BG33LejDVSuivBTrLYihcDzMTLvietwxWlfgs28RQQmAk53/iwap6e4Za5GyiIOd8Kpp19RGzgstWWeB5b08qKxy+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q1Ea9bK0; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736144944; x=1767680944;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TVbzn6A95XNB7VX6WHfDFdPSCdS4sboCHVyKf1ch3Qk=;
+  b=Q1Ea9bK0zrEh/MeMQBckpO7j86JzVu0tWGty55FddTbYdNo0Ch5I0OHj
+   TwRW2o72kwYsyvqUMTt0SmjFBjYO+l/BPyMAl73RpAHjGEQw4Vz9hrIRS
+   gz3KN+YthGji1kuWgmuoRyB0SzZlcIkxyuELJAqwCwwKxyNc9J0zphGi0
+   ruvq15ooESuZuW83G9GkVlxnYkOFkf5Yl2ga50+gWIKvQvUx5T8Mup74T
+   T0HCVJ7bG6IDpcOhftM1C+1LfmNl1Mh9nZgVYSNDzcBzeMuQ2P5JEcYjF
+   7Rgt814vU44Vs87upvlOPMqQ6w3LaOJf5r4AQ224jk0I9Fe5zA+yznczK
+   w==;
+X-CSE-ConnectionGUID: BfzIoVfcSf67Ll+rOWqF1g==
+X-CSE-MsgGUID: wzbTvFHLSpu+H9Pqli6clw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="39968267"
+X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
+   d="scan'208";a="39968267"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 22:29:03 -0800
+X-CSE-ConnectionGUID: Y1kodxODRXeXQkc/zGs3Ow==
+X-CSE-MsgGUID: 8cbBXr1bRbOmNpn0IjfE6A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="125636357"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 05 Jan 2025 22:29:01 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tUgbj-000CJn-0e;
+	Mon, 06 Jan 2025 06:28:59 +0000
+Date: Mon, 6 Jan 2025 14:28:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tomasz =?utf-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
+	jikos@kernel.org, bentiss@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 10/10] HID: Add hid-universal-pidff driver and
+ supported device ids
+Message-ID: <202501061243.bXGf8kc8-lkp@intel.com>
+References: <20250105193628.296350-11-tomasz.pakula.oficjalny@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250105193628.296350-11-tomasz.pakula.oficjalny@gmail.com>
 
-The parameter "beeper-hz" range is defined in pwm-beeper.yaml,
-so add range check.
+Hi Tomasz,
 
-Signed-off-by: Tamura Dai <kirinode0@gmail.com>
----
- drivers/input/misc/pwm-beeper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/input/misc/pwm-beeper.c b/drivers/input/misc/pwm-beeper.c
-index 0e19e97d98ec..455054f9aae6 100644
---- a/drivers/input/misc/pwm-beeper.c
-+++ b/drivers/input/misc/pwm-beeper.c
-@@ -153,7 +153,7 @@ static int pwm_beeper_probe(struct platform_device *pdev)
- 	INIT_WORK(&beeper->work, pwm_beeper_work);
- 
- 	error = device_property_read_u32(dev, "beeper-hz", &bell_frequency);
--	if (error) {
-+	if (error || (bell_frequency < 10) || (bell_frequency > 10000)) {
- 		bell_frequency = 1000;
- 		dev_dbg(dev,
- 			"failed to parse 'beeper-hz' property, using default: %uHz\n",
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on linus/master v6.13-rc6 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomasz-Paku-a/HID-pidff-Convert-infinite-length-from-Linux-API-to-PID-standard/20250106-033931
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20250105193628.296350-11-tomasz.pakula.oficjalny%40gmail.com
+patch subject: [PATCH v2 10/10] HID: Add hid-universal-pidff driver and supported device ids
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250106/202501061243.bXGf8kc8-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501061243.bXGf8kc8-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501061243.bXGf8kc8-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/hid/hid-universal-pidff.c: In function 'universal_pidff_probe':
+>> drivers/hid/hid-universal-pidff.c:90:23: error: assignment to 'void (*)(struct hid_device *, __u32)' {aka 'void (*)(struct hid_device *, unsigned int)'} from incompatible pointer type 'int (*)(struct hid_device *, __u32)' {aka 'int (*)(struct hid_device *, unsigned int)'} [-Wincompatible-pointer-types]
+      90 |         init_function = hid_pidff_init_with_quirks;
+         |                       ^
+>> drivers/hid/hid-universal-pidff.c:97:15: error: void value not ignored as it ought to be
+      97 |         error = init_function(hdev, id->driver_data);
+         |               ^
+
+
+vim +90 drivers/hid/hid-universal-pidff.c
+
+    66	
+    67	
+    68	/*
+    69	 * Check if the device is PID and initialize it
+    70	 * Add quirks after initialisation
+    71	 */
+    72	static int universal_pidff_probe(struct hid_device *hdev,
+    73					 const struct hid_device_id *id)
+    74	{
+    75		int error;
+    76		error = hid_parse(hdev);
+    77		if (error) {
+    78			hid_err(hdev, "HID parse failed\n");
+    79			goto err;
+    80		}
+    81	
+    82		error = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_FF);
+    83		if (error) {
+    84			hid_err(hdev, "HID hw start failed\n");
+    85			goto err;
+    86		}
+    87	
+    88		// Check if HID_PID support is enabled
+    89		void (*init_function)(struct hid_device *, __u32);
+  > 90		init_function = hid_pidff_init_with_quirks;
+    91	
+    92		if (!init_function) {
+    93			hid_warn(hdev, "HID_PID support not enabled!\n");
+    94			return 0;
+    95		}
+    96	
+  > 97		error = init_function(hdev, id->driver_data);
+    98		if (error) {
+    99			hid_warn(hdev, "Force Feedback initialization failed\n");
+   100			goto err;
+   101		}
+   102	
+   103		hid_info(hdev, "Universal pidff driver loaded sucesfully!");
+   104	
+   105		return 0;
+   106	err:
+   107		return error;
+   108	}
+   109	
+
 -- 
-2.45.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
