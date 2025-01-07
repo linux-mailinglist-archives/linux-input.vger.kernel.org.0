@@ -1,85 +1,84 @@
-Return-Path: <linux-input+bounces-9011-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9012-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8CE3A04A36
-	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2025 20:28:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC62FA04A35
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2025 20:28:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 69EC218829FF
-	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2025 19:28:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A718D164964
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2025 19:28:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1140D1F5400;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 901DB1F4E57;
 	Tue,  7 Jan 2025 19:28:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZISagkg7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PBFJBqMg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2323F1D63EB
-	for <linux-input@vger.kernel.org>; Tue,  7 Jan 2025 19:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B022E1F5426
+	for <linux-input@vger.kernel.org>; Tue,  7 Jan 2025 19:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736278122; cv=none; b=l/HIcsfzDKBn9LA6i7hIq+FUQY/l0yCoiqHQdI/0SmdUewtMLi1AVoK33D6HCR47aJjlEVDnLDgsah+inxLfrCJ6D+oMckJ7wtUdWTsG4zBUqpLje+p8pg3AM5fsRINNalqEhjsQExPG8ZdYA5ho+rFzt9eP+Y1EoFnNtdC8SLk=
+	t=1736278122; cv=none; b=jF/fM95GzLEIpX2GLQ8vmq7TYPGwwdzId2D1bBJwELU+fsxwhtzeKGPEbtnh6+hOAPNtdOKj7xCIqQz9lrGgokNivm+Y470K/xVpzjnMskY87XiyNIycnytrduOEkuargCdt+ea9EGfxaJLGF+0QgKmByH2A1lR7yq6gGYW0pMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736278122; c=relaxed/simple;
-	bh=P/n75Ovtrb4ZqQdj0fq9YScZ7AJiUzrQuq74F2Rf604=;
+	bh=jrcmZ9F5N0ZDjAloPPppU6ErTxx7l2sMztlQ2Bpy2KA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bK8G6xHyZ6+MWkgKjuh+B/SwrTLtM1J9HdLLQrtD8Oo6B3zfK1MTpEWDC5LdH4zY5dhWX8G1wLSk5AjoczewzmwXgaAKjdC7JMPcDJz5u8fFwp9XL1BxH5KhjF27enOz9aTVIPTPo8lfKj/NvLaf33okRfgrkX7zS8DyXCF11ic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZISagkg7; arc=none smtp.client-ip=209.85.128.50
+	 MIME-Version; b=JVpG5LATKBVTL001T3ocen7B+EsIyxMbq+YIhyDkgJLZStMs7ulbORoq6yFPN13hOc0+tgvcYg8bbO4Rl7FD//KvbTU7ezQuTlCrVqxoqbNKdh/kYwb0CRhubcHgMaToEbh/temuBnDkKtHrrLQD282jb1VvOZgCb/CJdBfHkuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PBFJBqMg; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-436202dd730so114377985e9.2
-        for <linux-input@vger.kernel.org>; Tue, 07 Jan 2025 11:28:39 -0800 (PST)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4361dc6322fso106625905e9.3
+        for <linux-input@vger.kernel.org>; Tue, 07 Jan 2025 11:28:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736278118; x=1736882918; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1736278119; x=1736882919; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=j/3BGgk30uTb5TCZDX8F5vfQGDCdCCFIChHmFGSFnK4=;
-        b=ZISagkg71QB/w36ChB/2MaaFWcLO/ZMDB1ZbjCeRhcupYp38syJf3uapaV2oV5eROQ
-         6nv7Jmj3MOwf05GWvz5P2f9/Yp7dAfC5iEkOptCgnGdL0iymUPXJFhmSdgzt+k0rbtC+
-         3jyh3J7fTbj5/rK5eekIs2N32yZeAas1SirhoMPT0OpHg2okF8mqbLpuPYiz56hFjlO8
-         pke4hPPVh1DetzSouYsUIx1skuNgkBpRRb/zSBw+ARCQkVPscykzNERq1IDIZKafKrdw
-         7/8TFqIZT5+E9jiLQFBZ/lan/KaQzD4E+mOoJ3UK8gpJBSf8rutNY/RW/3Ow5XdnNfZQ
-         C3vQ==
+        bh=JchWo8i/DfXxHTtawJ2hwkbqhK3EOQ7MSHoZV9cta9I=;
+        b=PBFJBqMg8xYLav9ywg6SKehuqJrS9XQsCSz5XyCPKs8OAg0JZbdUkXYorOD4FFQGed
+         +wSVRqxNl7bhtvqXw24LQVeZs8veXotySdgHUM2bBJDV6OAjt1lUWuHIstDa9dslgOqW
+         GS+ALSgcBN6TULjiPgDP92qukjGY8ZUYOEyO2iCUguTS1Kjm3C7l9toTQBzfZrltlgDN
+         hmZXUf7Gg0aic/aCMFDgUhZOuhSjpysXHDg8PMjKFxZmhFOMHgSgcccAfRmoGGGXIFAj
+         DpzeN0O5ha4zIVDbFl7BI1Af+NyrwNZol4QWSedhsULUzJeDmYD1csZJjzHyWkEwxQ9m
+         o2Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736278118; x=1736882918;
+        d=1e100.net; s=20230601; t=1736278119; x=1736882919;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=j/3BGgk30uTb5TCZDX8F5vfQGDCdCCFIChHmFGSFnK4=;
-        b=kknPKammsM1cSe58Ptr/I+G+97lZsd68rmSmQoBCpaLyiAK+hBAH42dq8ouWXFW7PS
-         yEbmCO9fJvw0XcGgk5S8W8yc6w1XA7DDN9kuj21LAp8J/6HgrhP3aUt7D8cZ3INkMQhq
-         wzy+B8HdImco3HAe2XrxbcDlWZ9HCQ26SPum1y1lon1k/1xfZC+VwljmM6HE5rRKa1w2
-         xjw73AtmFuATcPL7ZOEQqky8e7svoy0QJJlNj0/AohvkGWfjq6rb1B8Khw5UfSEqur6N
-         oetYBS9IkcUie0I01vuQfQOpnMMiFGtvNSL+QnZwl1lcAUI28mbZTsHN0zMIjWld3Vgv
-         hylA==
-X-Gm-Message-State: AOJu0YzTrg4JIGvGXk/lPUcPoxWnvZ44xQQ8F+L9+KbashIfoH3RsHxR
-	MtQRnAM/hy7WI2Z7WqIeGjy/7nZ5C9xJODOaUVsvU1+GJ+GRFE5GwMUJMp1Cb3vhxw==
-X-Gm-Gg: ASbGncu3UFAZk074q8CaCJY5QCicKdMd5HXClgqAV9wsP92QqBGdO/Dz3WcetDeCF8k
-	aAT/RRa/xE/IXFXUcu1Zh1dlghJRkHhRzYOGKb8BVdjFjbHsF4YLXZqqSA3riDRxBvLsfQIeF0A
-	F9qMZQuKqMLq1mzRRX/llI6L9ZT+nF6Y0GPDYP+O4MlLuxhD5Z819ahnuFH8Gl/ZFoL59Wks7Td
-	YICknp8wbuI1AXAs3KtXF2Xo5yylPZ57ZlwNRCwTVP5FVotc6HmO9nvhWHN9TGDZet6
-X-Google-Smtp-Source: AGHT+IEDI3MYdAhIMTq+Y3BMD8/hkwuMsmUnHcsysyMuWgKCnUNj4TuD91+Yr5zvFWY6PF1qwDHC8A==
-X-Received: by 2002:a05:600c:3b24:b0:436:5165:f206 with SMTP id 5b1f17b1804b1-43668b78debmr578427125e9.31.1736278118142;
+        bh=JchWo8i/DfXxHTtawJ2hwkbqhK3EOQ7MSHoZV9cta9I=;
+        b=il+0BTpKokMR4yE44djciVHuYEJFkRbmkjlyEAjGC8g5qp4+qBx2rJA/7+w6aRZ3li
+         ZfJK6F3zXZzL6cAqULs5G/U83pbXec8dxo0kbo75W077Au04WnGtQ2sGCQCejLYldxe2
+         oYHAgNcVqEHfx/rC+rzOBr9hxcj/70DuKUGuN0ORE1ByMmwOD7dpUS2yg8HsJdL0Kr7L
+         F6FwbdN9SdlhUPgVIaNXYGqrEoh51pdN+ZYwBQZAivM5WvmtvliS7OgebqtNmSuJj2RL
+         Mv6qyys3mSSP5aKzMtr0qU8C5xPblybgeuamxtGm7a+3peA0vckYWcX8sLiQAOBUe2h6
+         IYlg==
+X-Gm-Message-State: AOJu0Yw7u9JvAu0oochQxkDClpmrIhGw+OnqHhievSrM2VDQ7Bnq8jNp
+	Tgn/7SJtkrWYVamirAbxJQ0XE3sjmLsfzytVi5JHHMBKfoHyn8NmBXnydBnlY6NseQ==
+X-Gm-Gg: ASbGncvgj2DQcWrE6u2ATLYY5/+tddq2M1xXWlBGj9/tblv/6lPrhQttbk/whJR3G5G
+	J63II+skCCnudRZWnQm0NlR/EbDNj+D4TmOG/UjvCHBzZYK4LjV4NYVArXwcmt2ta+/vU665QUI
+	PrjP6EKyGMaAAuSnAI/9y3lP4MQq0phiLNoUnR/Sq/G4UAtw0nVDZZtHwQoPdIK5P+PP/XZsxcy
+	LOpRfu7Df7F+UGSJdRCtUFt8iTAbd5+u2MC6VfqNwSZa5310HB0ze4lJHYgmfZgd+Z0
+X-Google-Smtp-Source: AGHT+IEsfydCJNIZuQohbWh21aBEo5FXX9Br7zUuQUrz52zM4OYif2Oi0GrKMVli7OZ/ezv9sebsaA==
+X-Received: by 2002:a05:600c:138d:b0:434:a4fe:cd71 with SMTP id 5b1f17b1804b1-436686439e6mr566727605e9.12.1736278118818;
         Tue, 07 Jan 2025 11:28:38 -0800 (PST)
 Received: from deepwhite.fritz.box ([2001:16b8:b4a8:4000:2867:420d:1978:6fdd])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8acb17sm50456700f8f.97.2025.01.07.11.28.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8acb17sm50456700f8f.97.2025.01.07.11.28.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2025 11:28:37 -0800 (PST)
+        Tue, 07 Jan 2025 11:28:38 -0800 (PST)
 From: Pavel Rojtberg <rojtberg@gmail.com>
 X-Google-Original-From: Pavel Rojtberg < rojtberg@gmail.com >
 To: linux-input@vger.kernel.org,
 	dmitry.torokhov@gmail.com,
 	gregkh@linuxfoundation.org
-Cc: Andrei Ilyashenko <andrei.ilyashenko@gmail.com>,
-	Pavel Rojtberg <rojtberg@gmail.com>
-Subject: [PATCH v3 04/11] Input: xpad - add support for Xbox ONE liquid metal controller
-Date: Tue,  7 Jan 2025 20:28:23 +0100
-Message-ID: <20250107192830.414709-5-rojtberg@gmail.com>
+Cc: Pavel Rojtberg <rojtberg@gmail.com>
+Subject: [PATCH v3 05/11] Input: xpad - add multiple supported devices
+Date: Tue,  7 Jan 2025 20:28:24 +0100
+Message-ID: <20250107192830.414709-6-rojtberg@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250107192830.414709-1-rojtberg@gmail.com>
 References: <20250107192830.414709-1-rojtberg@gmail.com>
@@ -91,38 +90,58 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Andrei Ilyashenko <andrei.ilyashenko@gmail.com>
+From: Pavel Rojtberg <rojtberg@gmail.com>
 
-I found that my controller wasn't working with this driver.
-The LED would light up and it could rumble but was not registering
-any button presses or joystick movements. I suspected the problem might
-be that it was not being sent some required init packet so I tried
-sending the packets being used in xboxone_init_packets and found that
-sending xboxone_pdp_auth got the controller working.
-At least for my controller xboxone_pdp_led_on was not strictly
-necessary but I decided to follow
-the same pattern used by the other two controllers.
+This is based on multiple commits at https://github.com/paroj/xpad
+that had bouncing email addresses and were not signed off.
 
-Signed-off-by: Andrei Ilyashenko <andrei.ilyashenko@gmail.com>
 Signed-off-by: Pavel Rojtberg <rojtberg@gmail.com>
 ---
- drivers/input/joystick/xpad.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/input/joystick/xpad.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 7985b7a5cf0e..d1b771457b51 100644
+index d1b771457b51..b2716b49d3b6 100644
 --- a/drivers/input/joystick/xpad.c
 +++ b/drivers/input/joystick/xpad.c
-@@ -687,7 +687,9 @@ static const struct xboxone_init_packet xboxone_init_packets[] = {
- 	XBOXONE_INIT_PKT(0x045e, 0x0b00, xboxone_s_init),
- 	XBOXONE_INIT_PKT(0x045e, 0x0b00, extra_input_packet_init),
- 	XBOXONE_INIT_PKT(0x0e6f, 0x0000, xboxone_pdp_led_on),
-+	XBOXONE_INIT_PKT(0x20d6, 0xa01a, xboxone_pdp_led_on),
- 	XBOXONE_INIT_PKT(0x0e6f, 0x0000, xboxone_pdp_auth),
-+	XBOXONE_INIT_PKT(0x20d6, 0xa01a, xboxone_pdp_auth),
- 	XBOXONE_INIT_PKT(0x24c6, 0x541a, xboxone_rumblebegin_init),
- 	XBOXONE_INIT_PKT(0x24c6, 0x542a, xboxone_rumblebegin_init),
- 	XBOXONE_INIT_PKT(0x24c6, 0x543a, xboxone_rumblebegin_init),
+@@ -275,6 +275,8 @@ static const struct xpad_device {
+ 	{ 0x0f0d, 0x0078, "Hori Real Arcade Pro V Kai Xbox One", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
+ 	{ 0x0f0d, 0x00c5, "Hori Fighting Commander ONE", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
+ 	{ 0x0f0d, 0x00dc, "HORIPAD FPS for Nintendo Switch", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
++	{ 0x0f0d, 0x0152, "Hori Racing Wheel Overdrive for Xbox Series X", 0, XTYPE_XBOXONE },
++	{ 0x0f0d, 0x0151, "Hori Racing Wheel Overdrive for Xbox Series X", 0, XTYPE_XBOXONE },
+ 	{ 0x0f30, 0x010b, "Philips Recoil", 0, XTYPE_XBOX },
+ 	{ 0x0f30, 0x0202, "Joytech Advanced Controller", 0, XTYPE_XBOX },
+ 	{ 0x0f30, 0x8888, "BigBen XBMiniPad Controller", 0, XTYPE_XBOX },
+@@ -374,6 +376,7 @@ static const struct xpad_device {
+ 	{ 0x294b, 0x3404, "Snakebyte GAMEPAD RGB X", 0, XTYPE_XBOXONE },
+ 	{ 0x2dc8, 0x2000, "8BitDo Pro 2 Wired Controller fox Xbox", 0, XTYPE_XBOXONE },
+ 	{ 0x2dc8, 0x3106, "8BitDo Ultimate Wireless / Pro 2 Wired Controller", 0, XTYPE_XBOX360 },
++	{ 0x2dc8, 0x3109, "8BitDo Ultimate Wireless Bluetooth", 0, XTYPE_XBOX360 },
+ 	{ 0x2dc8, 0x310a, "8BitDo Ultimate 2C Wireless Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x2e24, 0x0652, "Hyperkin Duke X-Box One pad", 0, XTYPE_XBOXONE },
+ 	{ 0x2e95, 0x0504, "SCUF Gaming Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
+@@ -384,9 +387,12 @@ static const struct xpad_device {
+ 	{ 0x31e3, 0x1230, "Wooting Two HE (ARM)", 0, XTYPE_XBOX360 },
+ 	{ 0x31e3, 0x1300, "Wooting 60HE (AVR)", 0, XTYPE_XBOX360 },
+ 	{ 0x31e3, 0x1310, "Wooting 60HE (ARM)", 0, XTYPE_XBOX360 },
++	{ 0x3285, 0x0603, "Nacon Pro Compact controller for Xbox", 0, XTYPE_XBOXONE },
+ 	{ 0x3285, 0x0607, "Nacon GC-100", 0, XTYPE_XBOX360 },
++	{ 0x3285, 0x0614, "Nacon Pro Compact", 0, XTYPE_XBOXONE },
+ 	{ 0x3537, 0x1004, "GameSir T4 Kaleid", 0, XTYPE_XBOX360 },
+ 	{ 0x3767, 0x0101, "Fanatec Speedster 3 Forceshock Wheel", 0, XTYPE_XBOX },
++	{ 0x413d, 0x2104, "Black Shark Green Ghost Gamepad", 0, XTYPE_XBOX360 },
+ 	{ 0xffff, 0xffff, "Chinese-made Xbox Controller", 0, XTYPE_XBOX },
+ 	{ 0x0000, 0x0000, "Generic X-Box pad", 0, XTYPE_UNKNOWN }
+ };
+@@ -535,6 +541,7 @@ static const struct usb_device_id xpad_table[] = {
+ 	XPAD_XBOX360_VENDOR(0x3285),		/* Nacon GC-100 */
+ 	XPAD_XBOX360_VENDOR(0x3537),		/* GameSir Controllers */
+ 	XPAD_XBOXONE_VENDOR(0x3537),		/* GameSir Controllers */
++	XPAD_XBOX360_VENDOR(0x413d),		/* Black Shark Green Ghost Controller */
+ 	{ }
+ };
+ 
 -- 
 2.43.0
 
