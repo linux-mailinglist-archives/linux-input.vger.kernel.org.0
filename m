@@ -1,85 +1,85 @@
-Return-Path: <linux-input+bounces-9010-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9009-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890A0A04A34
-	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2025 20:28:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB2BA04A33
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2025 20:28:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7845D161A60
-	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2025 19:28:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E74173A6662
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jan 2025 19:28:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D40541F4E55;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28DAA1F5438;
 	Tue,  7 Jan 2025 19:28:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CvZJtSkR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DNPB5hfy"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A156E1F4E57
-	for <linux-input@vger.kernel.org>; Tue,  7 Jan 2025 19:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655DC1F4E55
+	for <linux-input@vger.kernel.org>; Tue,  7 Jan 2025 19:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736278121; cv=none; b=cKcr7Z6TW0DiErMPbh7DIMUS9Wu8hXYAvtyR8YBmwZhIDfbofjWSs2mBqxi8kW2NwuN2Hvg7BpTzUcHIYKvchvjbrEapjkuX3Erlrl0h/DG/J18mbWrkKnnraFF9HyCY2GJhvb1TWm9+GRuhgA6m85rGCl/RLtw6xE9pnYX+j9A=
+	t=1736278121; cv=none; b=eUdMfYr2pGDG9knVr0NBQrpnQi46VwsNiPIXrvSGQgvg6dzE/kAKz60EMpguTrHXG5Ywb24ppKlBz7wIvRl7zNPNMwwi/jPfDtnIbaRvSrpsd6HHgmIxpkuVpVhe716RX0uANnRGmqhyuxy654wNm1jNQ6CIFO09ZXdqkA2EGew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736278121; c=relaxed/simple;
-	bh=PYkpndLghyIqImLV4tfMkW2YDKNk+7UerwgGFbcgWgY=;
+	bh=VcDwpjk6KJUHo/uzoQgaCABrXZ4h2VaDFz+uODcJd4Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WQPdhaQ0JSHAiaPMvT3pkOsAbi+tbZb7olrikPv7aWKDyysibbdtF2flRr+jMmgVtSen5CPVpkNAWdL/4f+NpivlfAQQn2AHljJUUYgDl3M+AmyvfGeboZaFuJ9TWJC4nf2LEntbVfMDviMKg4h+nYrb3A4L3SC9kIPhX+MkY7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CvZJtSkR; arc=none smtp.client-ip=209.85.221.43
+	 MIME-Version; b=sA5wQMVs+5yvYGo9R+1iyww0J3zj6pHhw0DyKcLxX7GkrciV65EffJL5PCj1d3uD6GhJJkIF7fPWk2FweoHyNHBehfI5fQ4q8JlM3S4+y2Ww8CCWby/K0neOQi1R0UsZhIHnmgSNptvsdXwu8CiplhUJFhwTQKit/Zy2kPoDR3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DNPB5hfy; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3862d6d5765so9344150f8f.3
-        for <linux-input@vger.kernel.org>; Tue, 07 Jan 2025 11:28:38 -0800 (PST)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-436ce2ab251so28868645e9.1
+        for <linux-input@vger.kernel.org>; Tue, 07 Jan 2025 11:28:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736278117; x=1736882917; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1736278118; x=1736882918; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IYLpdHh4E3mL3Yn0cu92Bsjy+0bTJ73f3oV0tyORGVM=;
-        b=CvZJtSkRkcC01ffL4xS1iwtEqXvVMgbadwke+D2laK7os2IRgv6eNUjXF/mB9u9T/k
-         DPx1EpFTfXI79duLlR7K6clpBg68Cr7bw8/RPAmBbyqtwt+PpT3F8SGjpfq5XLrxThAm
-         +oxqZbTleP9FVj7d/iQEn9WdQHj2JzPsxMS5tRTe05oE1NvGP/1vpflZ+Mv5XNf/ewLl
-         5J5WGNw2lVoh++f/EdiiZijtDzcs1ddl7SpxHCe6W89roUlfJdF+yz4oMYnPZKP71hWb
-         lew8YzFq4b3ws8t375ccbj89R7a0mYoN1SAPrK+dB73mSq/TrGMkiupKL5BuAFd8Hjik
-         d2bg==
+        bh=OtjfiX1TgghECvJ0Ub+XLyC/gZPAng4XPAdFrElJu90=;
+        b=DNPB5hfy6Ken+UETjG16txE1yTPsLhSKs5XzPgm/OioxBo/ucm+t/tm8OLIjMzoQGC
+         iHB2PTSmuQsWiWfHQXIubi+PAiifhfz8BACFwm34+jNjFVacdjEJdXD8I8bQCevURA9G
+         xmLw3L6fX/bBnjPE7/9kdOUTp9eq2G2jH0qkEAL5I44sAAVt7DrqzcAC0/F+pHBbRIXr
+         HObjW6UeT57aFwMb3rrNQjySWR9dLhiJRkLX/YZbMP+lTSuSu4BONMjT5ZkDGDj20nY+
+         mO6hE9b+FKQH3irQhYOzJVf5q/evkzQ/+3MVfvkS1fuMccfsbSo1U+I/eSsXr/DRtc/E
+         7lHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736278117; x=1736882917;
+        d=1e100.net; s=20230601; t=1736278118; x=1736882918;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IYLpdHh4E3mL3Yn0cu92Bsjy+0bTJ73f3oV0tyORGVM=;
-        b=SulkFDfLNQXrG5ORgcUYm/F6qRRIKMZUlDi/WyNqcwgN+NEBL+UM+mboRDhy7A/OLk
-         J8cbTG1UPkVnlJqzEHPbyYx1gOAUqdTVYhp18ut/jDcwBwkALZrgb4bHm6yK3pSfKh6c
-         mRdvJINqn+bBznH1zTVxeBqVP6ZdJLbEnNv4OO8XJDLQNvJSKvMB/WGQlhdLNZHup66L
-         23j1GGDOguUqG9cMDympgTpTSkFONdwM4wne0svsZI7B1CsZfYRZMpeGRwZMdOuSub93
-         2r2KOtXBkOUyUS2jSKgTCo/Aln8T1KqEIaTopFu7WKhzo7nLXl4qFgSQCogiwCRZ7dO6
-         671g==
-X-Gm-Message-State: AOJu0YwgO1szmI+k6mddM0eynel84OAItXrtCGTKAO/Xe4ULlLp2iEXX
-	5Ss/+vByNMFohr05ayWytEBkdSv/sLDq4HB50gmxEvKG/d1g1sURf450g15Dh9tcNg==
-X-Gm-Gg: ASbGncvGI46QXV0pSHwmF+RFLFaos9O6iqN1hM+q+hgz9fVGVXhgBidmwu5uXUi/o3f
-	6qaUdgGyrQDpmK6Tj+nctqv/pUaTt27h+0ovfdFtgWC++cLRC0DaJ2qD5Lfa3oeWcIux5sACQCU
-	ab9MRatxOV2I+xgYopSFuxtAgcvTv5j64lg2B6RsRnEn63M2E06dJ4QHinNwZRZ6OzEHcmr8MY3
-	OcCCPciN8i0YOhZSqwstn2PeZV8rl2KHKuPCR1ujhttj5WIHz27HHsgfWZCuV9TudQb
-X-Google-Smtp-Source: AGHT+IGdom2JNjUfTk6/NBQlcckXeL3hX7o/R/LUVgKS/e7pgUEBI0L1z3ratUa7B0LGWxOQSvdMtw==
-X-Received: by 2002:adf:c081:0:b0:38a:4184:1529 with SMTP id ffacd0b85a97d-38a418415ddmr24823122f8f.12.1736278116790;
-        Tue, 07 Jan 2025 11:28:36 -0800 (PST)
+        bh=OtjfiX1TgghECvJ0Ub+XLyC/gZPAng4XPAdFrElJu90=;
+        b=EpdpHaLMrS+PvdJHoIejA1f8YO5qDSNpNMBSsR18Cxs3oOrjNt5B5PtQ8a2Kqxm55B
+         efDSQJ9eDUsoZYKhIRnGpKx4LCMsGxJiI8CcALJc9b3WcEfj4RjhbogvdQuGk1opVAB8
+         vVYYrycMay6/7ksrTWbzgDQuOTZwLaKMrr7VtNin3ouZk2xRtfPL87FMM1I1iCgG2EpW
+         TaqrbpakOQULcQstxPfFkxmSZIXQQqgjfrGvoUnYHOC2MjGh3fv/hqSb8vZiwS23JVZH
+         lNmtWMIPogsVbpjPBwl98vSa4g11Yh+AiIQ6v+6aen1BcFxaCmpDo4dVWEUQFE2KQ3tB
+         b6ZA==
+X-Gm-Message-State: AOJu0YwQEYHwJBPRGzsth51hX360429Il0v30D4IqdNNWnzxFzqsmGfh
+	sUgVX6YsFpTs97pl0CYtenE4W7gljxrZGiiBjWYk6dBgoa4cXHPFfB62QMIVockaiA==
+X-Gm-Gg: ASbGncv2PqBNRFR8goXTDUxkvaqB1HyMAUnTGT9E5ilsRrODN1ylQ4k6yfsZUHrLVWx
+	ib/xebevOqZIGe9uyFGi3CPpo/8Db1LJWR0qHll17xAhCn48h5/O0hdJl2vA+yCk+fY85OUwIan
+	DPrwRdoruusaRt7KrXgsrpjzj5bjglMeMFvjc9MX1vyudO1LXY9CdVAVVlxp3Lxh1aWEHVsGPyz
+	m+0ubdLaa+ngzWtfnx9ldJVcEYRoxWpvOGJOoq50nGYmaEcj25bxtXsOlyv4F+KnYp/
+X-Google-Smtp-Source: AGHT+IEf9Lzqo9L+vgYJFZsQhqogJS1VL2IscedUDGM2W6CAZPVmTU2OKlBME2cguxvR0N+0Uk43cw==
+X-Received: by 2002:a05:600c:1c1a:b0:434:f0df:a14 with SMTP id 5b1f17b1804b1-43668548500mr492152145e9.2.1736278117481;
+        Tue, 07 Jan 2025 11:28:37 -0800 (PST)
 Received: from deepwhite.fritz.box ([2001:16b8:b4a8:4000:2867:420d:1978:6fdd])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8acb17sm50456700f8f.97.2025.01.07.11.28.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8acb17sm50456700f8f.97.2025.01.07.11.28.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2025 11:28:36 -0800 (PST)
+        Tue, 07 Jan 2025 11:28:37 -0800 (PST)
 From: Pavel Rojtberg <rojtberg@gmail.com>
 X-Google-Original-From: Pavel Rojtberg < rojtberg@gmail.com >
 To: linux-input@vger.kernel.org,
 	dmitry.torokhov@gmail.com,
 	gregkh@linuxfoundation.org
-Cc: Jack Greiner <jack@emoss.org>,
+Cc: Jocelyne Jones <bumpycarrot@gmail.com>,
 	Pavel Rojtberg <rojtberg@gmail.com>
-Subject: [PATCH v3 02/11] Input: xpad - add support for wooting two he (arm)
-Date: Tue,  7 Jan 2025 20:28:21 +0100
-Message-ID: <20250107192830.414709-3-rojtberg@gmail.com>
+Subject: [PATCH v3 03/11] Input: xpad - add support for SCUF Instinct
+Date: Tue,  7 Jan 2025 20:28:22 +0100
+Message-ID: <20250107192830.414709-4-rojtberg@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250107192830.414709-1-rojtberg@gmail.com>
 References: <20250107192830.414709-1-rojtberg@gmail.com>
@@ -91,26 +91,34 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jack Greiner <jack@emoss.org>
+From: Jocelyne Jones <bumpycarrot@gmail.com>
 
-Signed-off-by: Jack Greiner <jack@emoss.org>
+Signed-off-by: Jocelyne Jones <bumpycarrot@gmail.com>
 Signed-off-by: Pavel Rojtberg <rojtberg@gmail.com>
 ---
- drivers/input/joystick/xpad.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/input/joystick/xpad.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 8a02b9a5ef79..ceb08c541b18 100644
+index ceb08c541b18..7985b7a5cf0e 100644
 --- a/drivers/input/joystick/xpad.c
 +++ b/drivers/input/joystick/xpad.c
-@@ -380,6 +380,7 @@ static const struct xpad_device {
+@@ -376,6 +376,7 @@ static const struct xpad_device {
+ 	{ 0x2dc8, 0x3106, "8BitDo Ultimate Wireless / Pro 2 Wired Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x2dc8, 0x310a, "8BitDo Ultimate 2C Wireless Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x2e24, 0x0652, "Hyperkin Duke X-Box One pad", 0, XTYPE_XBOXONE },
++	{ 0x2e95, 0x0504, "SCUF Gaming Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
+ 	{ 0x31e3, 0x1100, "Wooting One", 0, XTYPE_XBOX360 },
  	{ 0x31e3, 0x1200, "Wooting Two", 0, XTYPE_XBOX360 },
  	{ 0x31e3, 0x1210, "Wooting Lekker", 0, XTYPE_XBOX360 },
- 	{ 0x31e3, 0x1220, "Wooting Two HE", 0, XTYPE_XBOX360 },
-+	{ 0x31e3, 0x1230, "Wooting Two HE (ARM)", 0, XTYPE_XBOX360 },
- 	{ 0x31e3, 0x1300, "Wooting 60HE (AVR)", 0, XTYPE_XBOX360 },
- 	{ 0x31e3, 0x1310, "Wooting 60HE (ARM)", 0, XTYPE_XBOX360 },
- 	{ 0x3285, 0x0607, "Nacon GC-100", 0, XTYPE_XBOX360 },
+@@ -529,6 +530,7 @@ static const struct usb_device_id xpad_table[] = {
+ 	XPAD_XBOXONE_VENDOR(0x2dc8),		/* 8BitDo Pro 2 Wired Controller for Xbox */
+ 	XPAD_XBOXONE_VENDOR(0x2e24),		/* Hyperkin Duke Xbox One pad */
+ 	XPAD_XBOX360_VENDOR(0x2f24),		/* GameSir controllers */
++	XPAD_XBOXONE_VENDOR(0x2e95),		/* SCUF Gaming Controller */
+ 	XPAD_XBOX360_VENDOR(0x31e3),		/* Wooting Keyboards */
+ 	XPAD_XBOX360_VENDOR(0x3285),		/* Nacon GC-100 */
+ 	XPAD_XBOX360_VENDOR(0x3537),		/* GameSir Controllers */
 -- 
 2.43.0
 
