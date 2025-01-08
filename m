@@ -1,187 +1,124 @@
-Return-Path: <linux-input+bounces-9080-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9081-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FE7A05E6B
-	for <lists+linux-input@lfdr.de>; Wed,  8 Jan 2025 15:18:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6816A06639
+	for <lists+linux-input@lfdr.de>; Wed,  8 Jan 2025 21:34:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E4C23A072F
-	for <lists+linux-input@lfdr.de>; Wed,  8 Jan 2025 14:18:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2AEBF3A72CC
+	for <lists+linux-input@lfdr.de>; Wed,  8 Jan 2025 20:33:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9531925949D;
-	Wed,  8 Jan 2025 14:18:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 665D7202F67;
+	Wed,  8 Jan 2025 20:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YLfe3DtK"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="KY33ogob"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43DC48F6B;
-	Wed,  8 Jan 2025 14:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F1320126A;
+	Wed,  8 Jan 2025 20:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736345918; cv=none; b=dW6nZAxCfkIyGNVsuzPb7rurkzWE9/VUi9sxt/KhsEGx9d0UaH4TzVt5sK1+6uVuE7okpAu5KAWNsv0FguZm4dIKyI1Tw2iLzlY+hq3SPnO36m9InUXdv6sP1GXSK4e4LheqQ5pkzQSkYYlmRbzmVyK8bqc9DVBSKXNd1QyMmJs=
+	t=1736368425; cv=none; b=CL0As6fAk8kk6Z4BHPMv478DVb9cfxr/WzIrPrNZgDBWXiZNAwzo1M2j0K5FCBmr00LvQgb0SWs92w6Vw1Uy5pQYO5wwlEIO67JNkRNmg2eA18OBakHta6KElRkjPwOcy+JEWOjvIOYe48rUvJ5NOru+GfOLR/D0IqiWYC/5xpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736345918; c=relaxed/simple;
-	bh=8eoWSNUdXEOyEDkIBCthZaz3brfvVCqy/ghuZm+/be4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DlaDKN5R5c3jdFAWcLIPhdcDmTt5bqco4nIjS7SShQiha1lxbPcBEqkDauKeALbEvs1hRj+uee5m/ChHLj0mastkraj3RM3qDcIi8dmVecQBLaoSDsgvsQ+TxceYf2LSm5OIChX5WO2SkvObbBmYqNBTlfEL3FPf5DvucsQWgxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YLfe3DtK; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4362f61757fso166906715e9.2;
-        Wed, 08 Jan 2025 06:18:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736345915; x=1736950715; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9Ew6GZzOKJTWsW2/wdddy6D++YdqNgbSd4+cs8h112o=;
-        b=YLfe3DtK+7g3HJB2XU2Kdco9lPjN8myG1Ekh6cavIYuJWW4NLOBPIeHod9pi/fF2WV
-         7VsjbQ55acAYeUSO2DOKv6PdLCxKb7RWlHpO3vQoatCunxImA2Amkdcx7QTBjfT6cwZP
-         PF4ZdgmxW0l3HL9FUi7FJ13LF2ldmPenvrdN33EUjFSXIus/bW0seC4SeJIrgx7ANN0J
-         r5FKMS0P9pGxTMq5sO4YWzcxmTH1RiLHSKzdHKMeNQjvRRqBgB7sSihULHe5TYs8VTZJ
-         tXGfuWBJ0DtVTHKKttk0t3wwQHbs++0mLv7VCWfmXiZ1uVJJmZPvL7VpoLMOjLzEv6aA
-         33Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736345915; x=1736950715;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Ew6GZzOKJTWsW2/wdddy6D++YdqNgbSd4+cs8h112o=;
-        b=W/EJr/KdHnSJUrzoCPDy7GlhVQUdJNbZgUJiwBUVRJ6bATQ947Kzrd/VwiQxK0SNRS
-         WQ78BypqbfUGbMS56KwP8zAhnML/ENRivIlFKaxcAuYKf6uTQfgp92yDArEc3AfuCjgG
-         uzFZCjQny+rXhPa3vDcODYH8j8RyInk33KkJSes7raqtBq+zZKijGcBMZqKhNVFZ3JsJ
-         K+cg9Q1KBYTbr+tWY6QCWDnmWgMPSqES2pCwLRAQbUEm07M8DpbeUHLdmnado669wHRE
-         N/EtynRcaHh5FQ2h/LAVetjfaNaAup+cNT3LcZySNMiORI6/o9DxH/Bu9URS3ZGV3uBU
-         FD5w==
-X-Forwarded-Encrypted: i=1; AJvYcCVBw0PJyVdL4obtyUi32bk12tJwkTRzoYGhAM38dyJ1EcOOOlJvyUb2nSd35oxGPuWRBlzQk73dEH0i+eU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAOLUiYtgsqd0cblgT7f/Qc1UWYvoqI4ycKRLwXlCzyWrQr5mr
-	oqHHWtOIJIczndz/2qepihY6BwUXs1rPgA/H3QMEdF0Z9bpYkBL6
-X-Gm-Gg: ASbGnctrnoKKbfkS+rrKBuhmmmgyuLL8DAE3ZX0NvR9uhN4VIamXR4XaIQ8XkxQFaEh
-	hwB1lsYXMVQUkuMQy3nVRX/nivmQ0iAgSLZvoDf5h+Y4RaLx1vwrXc9sgeRKkbHrkK+f0FWPeDf
-	/bsquZB11S9yDKmF1MREFGuEmWjwuprSgLazZBQeiuh52kkwIC59TrlIYIxtkla7zJMCqYC6mlg
-	qIZF7HI0L4rtOoPk34QMf+ne8j9zCjYeLnmLS1X7RWxiCH8K2fk/t2pHTPy
-X-Google-Smtp-Source: AGHT+IEON0Z+j4lOs5k2SdwuaMhls7WLJBy+vzf5MD1q3cqHW4B+7HSKi0s3Qj59M4Spvkp6yO4BWg==
-X-Received: by 2002:a5d:47a9:0:b0:385:e5d8:2bea with SMTP id ffacd0b85a97d-38a872de5ecmr2906438f8f.20.1736345914554;
-        Wed, 08 Jan 2025 06:18:34 -0800 (PST)
-Received: from qasdev.system ([2a02:c7c:6696:8300:8d2d:4e56:ba8b:6d36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2e0215esm22564095e9.28.2025.01.08.06.18.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 06:18:34 -0800 (PST)
-Date: Wed, 8 Jan 2025 14:18:12 +0000
-From: qasdev <qasdev00@gmail.com>
-To: dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] drivers/input: Fix null pointer dereferences in
- input_ff_create() and input_ff_create_memless()
-Message-ID: <Z36JJLAzwsFpggz2@qasdev.system>
+	s=arc-20240116; t=1736368425; c=relaxed/simple;
+	bh=8lLqropqEcU0FdGW/MRNj8mjGkDzyxZe+T1gGsw1v2Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=oU4L83ChXxDbjo6pjpPoRc8OrYfL5VzrmREPMb54twNZH8hWXUGjpNR2vXVk84Vkgg6pWBwawty0ro6s+fIDPRnaomKgGRDTbSqT8jNzIxM8GSRwQPP+126piJd0s7Y83yVmFpXC/IFcfA5+XGZ+xRve6/YVX2sT9VHZZqEcXVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=KY33ogob; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 508EmENC028206;
+	Wed, 8 Jan 2025 20:33:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	8lLqropqEcU0FdGW/MRNj8mjGkDzyxZe+T1gGsw1v2Y=; b=KY33ogoboEb81TD3
+	e5T3gaIDmGuhY9HCW/RjaDIAShLEActXm+o1zcoZQHqMdmkY7JAztyBag4e2u7W/
+	GhGqgkRsR5twyaUKpU5iRh2bFBstw/bMoyi0IG8JTGtIQvJk4ruTMpOwBwIFiTG7
+	lpuYbq2EPT+Qt2aQgDlIkt4FtshLcCNafrZMRjpejG1NA35/2NziU9ZTzpkLm+jd
+	I3+Wy5HumR7s3pwnv/djSL+8hcBtRDog/069/sAPbjtEiyOSpzIooYiEv6ml+eXp
+	UJxrcIt/HXp2zO+NXD8i393k+j6AhohfYI9C8dNlmhyi8rSJ1BrQI8ERzRKiSyxT
+	lldtzA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441uefru2h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jan 2025 20:33:17 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 508KXGDK010892
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 8 Jan 2025 20:33:16 GMT
+Received: from [10.71.114.255] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 8 Jan 2025
+ 12:33:15 -0800
+Message-ID: <90f16650-933b-4ad8-8ee9-9d1b4aebecbf@quicinc.com>
+Date: Wed, 8 Jan 2025 12:33:15 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v31 00/32] Introduce QC USB SND audio offloading support
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <tiwai@suse.com>, <krzk+dt@kernel.org>,
+        <pierre-louis.bossart@linux.dev>, <Thinh.Nguyen@synopsys.com>,
+        <robh@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20241213235403.4109199-1-quic_wcheng@quicinc.com>
+ <f5e5ef90-f9b2-4d0d-b127-b3f2490fbdc4@quicinc.com>
+ <2025010713-stack-recycler-7f05@gregkh>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <2025010713-stack-recycler-7f05@gregkh>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: XlEgttEZsXkM4jDaYJ-XUa9i8SmVuv6H
+X-Proofpoint-GUID: XlEgttEZsXkM4jDaYJ-XUa9i8SmVuv6H
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ lowpriorityscore=0 phishscore=0 bulkscore=0 spamscore=0 malwarescore=0
+ clxscore=1015 adultscore=0 suspectscore=0 mlxlogscore=609
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501080167
 
-Resending this patch as I have not received feedback since my initial submission on December 25, 2024. 
-Please let me know if additional changes or information are required.
 
-This patch addresses two null pointer dereference bugs detected by KASAN
-in input_ff_create() (drivers/input/ff-core.c) and
-input_ff_create_memless() (drivers/input/ff-memless.c).
+On 1/7/2025 2:32 AM, Greg KH wrote:
+> On Mon, Jan 06, 2025 at 03:02:37PM -0800, Wesley Cheng wrote:
+>> Hi,
+>>
+>> On 12/13/2024 3:53 PM, Wesley Cheng wrote:
+>>> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
+>>
+>> Happy new years to everyone.  Before sending out another revision to
+>> update the year for the license, did anyone have any feedback yet for
+>> the current revision?
+> Let's just send a new version and if no one complains, I'll queue it up,
+> I feel like this has gone on too long...
+>
 
-- input_ff_create() log: https://syzkaller.appspot.com/bug?extid=dd5f8d6456680e55eb0a
-- input_ff_create_memless() log: https://syzkaller.appspot.com/x/report.txt?x=10a51adf980000
+Sounds good.  Thanks, Greg.  Submitted v32 with the updated year.
 
-The root cause of the null pointer dereference in input_ff_create() is
-that it utilises the "no_free_ptr" macro in the line:
-"dev->ff = no_free_ptr(ff);"
-which effectively sets "ff" to NULL and makes "dev->ff" point to what "ff"
-was initially pointing to. The code then attempts to incorrectly utilise
-"ff" after it has been set to NULL causing a null pointer dereference to
-occur in the following:
 
-"
-   for_each_set_bit(i, dev->ffbit, FF_CNT)
-       __set_bit(i, ff->ffbit);
+Thanks
 
-   /* we can emulate RUMBLE with periodic effects */
-   if (test_bit(FF_PERIODIC, ff->ffbit))
-       __set_bit(FF_RUMBLE, dev->ffbit);
-"
+Wesley Cheng
 
-To fix this I changed all accesses to "ff" to be "dev->ff".
-
-The root cause of the null pointer dereference in
-input_ff_create_memless() is that it also utilises the "no_free_ptr" macro
-in the line: "ff->private = no_free_ptr(ml);"
-which sets "ml" to NULL and makes "ff->private" point to what "ml" was
-initially pointing to. The code then attempts to utilise "ml" after it has
-been set to NULL:
-
-"
-   for (i = 0; i < FF_MEMLESS_EFFECTS; i++)
-        ml->states[i].effect = &ff->effects[i];
-"
-
-To fix this bug I moved the for loop before "ff->private = no_free_ptr(ml);".
-
-Reported-by: syzbot <syzbot+dd5f8d6456680e55eb0a@syzkaller.appspotmail.com>
-Reported-by: Qasim Ijaz <qasdev00@gmail.com>
-Closes: https://syzkaller.appspot.com/bug?extid=dd5f8d6456680e55eb0a
-Tested-by: syzbot <syzbot+dd5f8d6456680e55eb0a@syzkaller.appspotmail.com>
-Tested-by: Qasim Ijaz <qasdev00@gmail.com>
-Fixes: 5203b3a18c1b ("Input: ff-core - make use of __free() cleanup facility")
-Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
----
- drivers/input/ff-core.c    | 4 ++--
- drivers/input/ff-memless.c | 7 ++++---
- 2 files changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/input/ff-core.c b/drivers/input/ff-core.c
-index a235d2eb6b31..d9995f47efdb 100644
---- a/drivers/input/ff-core.c
-+++ b/drivers/input/ff-core.c
-@@ -322,10 +322,10 @@ int input_ff_create(struct input_dev *dev, unsigned int max_effects)
-
-        /* Copy "true" bits into ff device bitmap */
-        for_each_set_bit(i, dev->ffbit, FF_CNT)
--               __set_bit(i, ff->ffbit);
-+               __set_bit(i, dev->ff->ffbit);
-
-        /* we can emulate RUMBLE with periodic effects */
--       if (test_bit(FF_PERIODIC, ff->ffbit))
-+       if (test_bit(FF_PERIODIC, dev->ff->ffbit))
-                __set_bit(FF_RUMBLE, dev->ffbit);
-
-        return 0;
-diff --git a/drivers/input/ff-memless.c b/drivers/input/ff-memless.c
-index 0bbeceb35545..ce9fb88486ab 100644
---- a/drivers/input/ff-memless.c
-+++ b/drivers/input/ff-memless.c
-@@ -524,6 +524,10 @@ int input_ff_create_memless(struct input_dev *dev, void *data,
-                return error;
-
-        ff = dev->ff;
-+
-+       for (i = 0; i < FF_MEMLESS_EFFECTS; i++)
-+               ml->states[i].effect = &ff->effects[i];
-+
-        ff->private = no_free_ptr(ml);
-        ff->upload = ml_ff_upload;
-        ff->playback = ml_ff_playback;
-@@ -538,9 +542,6 @@ int input_ff_create_memless(struct input_dev *dev, void *data,
-                set_bit(FF_SQUARE, dev->ffbit);
-        }
-
--       for (i = 0; i < FF_MEMLESS_EFFECTS; i++)
--               ml->states[i].effect = &ff->effects[i];
--
-        return 0;
- }
- EXPORT_SYMBOL_GPL(input_ff_create_memless);
---
-2.39.5
 
