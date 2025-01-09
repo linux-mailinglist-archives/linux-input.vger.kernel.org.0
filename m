@@ -1,66 +1,49 @@
-Return-Path: <linux-input+bounces-9106-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9107-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B0A1A0717C
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jan 2025 10:32:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB4AA0718B
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jan 2025 10:35:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F141161F54
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jan 2025 09:32:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8881A1889F28
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jan 2025 09:35:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B39D21518F;
-	Thu,  9 Jan 2025 09:32:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 902132153C9;
+	Thu,  9 Jan 2025 09:35:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9H0Xc/B"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ga7VHJ/G"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD34B214A79;
-	Thu,  9 Jan 2025 09:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6500721519C;
+	Thu,  9 Jan 2025 09:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736415128; cv=none; b=QRi02yLb5izu37lyLKg5I51YxmmmYWIu3kmQTze3nw2Weovtcx72nkQzoIJNn/jVkLzWm0/01Gxk/nzi2mqD3u2RSYj7P9vdgxax011mfpKH7Jii/rc1Qd4Iv3atVnGogtppKpFUSA0/nB48EzFB21af3czsnPwG9x1BJNpddYc=
+	t=1736415332; cv=none; b=KL1uncfiornRstsC/6r9TzBtj89SxlhiuuCRtKCwAuCg6U+OFKw8tTzwuMD5+flN4whfjg5smYTNPzQ6CEKJGIkcKeduRcE0gZOF4zULRFtZtgGwlgODRQ46EYaFJwAIMjhujCBWoPvs+Qx0fh+OnpvNTh9Bi18H0EJM4WJqAao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736415128; c=relaxed/simple;
-	bh=F8PfaF92hEGiPMHVAoH/OGJgfuAfo6TqZdANxZAKNy0=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=ZAvqk1yJvS4Eyqwfm+NwiebD5oFXd1NedKO0WJXqHs2+/hsIU2pTcDzOCGE43OKDn2K1gZ2Xy1G0VcrwU5nrzNbluv5OU2q/UzTSS4RQZ851qcOAAFkFAoS2fzYdYoyIaSIw6ybT/lU+V4bXF47KKIrh4htPY3gModDsuAU0oVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9H0Xc/B; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736415127; x=1767951127;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=F8PfaF92hEGiPMHVAoH/OGJgfuAfo6TqZdANxZAKNy0=;
-  b=X9H0Xc/BioBcQ5Qg4o3uWsZPGQwdx8OCSI7Ree9nAm4Nl3Ls8y64WBaD
-   NLwkaQozrOIvUpKpGykwALbDq8ENA2ecMIpsRav/yZDQ9LSr9CbzADNGm
-   8T+f9w7r3CShKfWFclx8XFPSvqkwO92xvidkPjDy6NqkLYoZ2pRF3AGRF
-   vuz8X/r6v1nOp9GlzPT/OAf/wbiIv6MdYj731fYpIMwEmeNPkpMcf4t+l
-   H1cMvF27ykR53I7Xey4yImMWs6jPnsl0VBrgVJrQiXkkBWRCnfJb49R8r
-   kHx4QCfWSWPpGhAY+pf0iHBGDNECi3FxOgfGnG6ie76uptF91V0P7IEyl
-   Q==;
-X-CSE-ConnectionGUID: YvMjvKNxR0qaAztVO1kSBg==
-X-CSE-MsgGUID: 2FXs5QVzT3aMOoyyFgDOPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="36688544"
-X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
-   d="scan'208";a="36688544"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 01:32:06 -0800
-X-CSE-ConnectionGUID: LIg1fcz1SXe63ilGcG6YxQ==
-X-CSE-MsgGUID: VpRORo2hTM2fjI2d1YOr4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
-   d="scan'208";a="103166194"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.210])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 01:32:02 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 9 Jan 2025 11:31:58 +0200 (EET)
-To: Jiri Kosina <jikos@kernel.org>
+	s=arc-20240116; t=1736415332; c=relaxed/simple;
+	bh=joVUBR4jGM2OAv2XzxNbn4PsH0WapVmaOuX8qCX/0HA=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=jhCNIh7TXEZhWTkAaAj+ewXqpqSzZiOEu9aWuaUaLkdEfRh5eMlG58S2fHYCL7rZgKPHj8WoTRghtxQw9VT/matXqvZv5mPcIzV1Svs4dwnpY3GT2LBXU8C2o2CneP7IIj6UwRGdsSbHJGnT1SBOciPMj2wcvbU2FN1KpEL0mVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ga7VHJ/G; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B8ECC4CED2;
+	Thu,  9 Jan 2025 09:35:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736415331;
+	bh=joVUBR4jGM2OAv2XzxNbn4PsH0WapVmaOuX8qCX/0HA=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=ga7VHJ/GEBLOtwMXf5LEIHlO/GlEieVhcI0CbLZBw4DJYO+qWH44UH0mALbT71K/0
+	 UlvOw+9rIHVWMYwrOBzcBOdakmJqM/B3KVCnJyCuuwLO08IErP/C7ctFyRaEmyxJ00
+	 eL282D8bhsHekNHhk9740bcTBSm96HAHDm9oFG0nLxCcTmUP34RGS7iVEKA2ojBl95
+	 WktwtLhxvi+SNzSGLYbiyz/TpYSeds7J8ia34sD4DvHTrz3rCpHRqf/T9GtcQ7UIpo
+	 oX3neVxWxjuzl3wac0tbV5TujGa85UTvKT/ajWIzQuWq/WV0FWIR7MnAFMGgrAqGCU
+	 ePKYdEqRiTeWg==
+Date: Thu, 9 Jan 2025 10:35:29 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
 cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
     Hans de Goede <hdegoede@redhat.com>, 
     Mario Limonciello <mario.limonciello@amd.com>, 
@@ -71,49 +54,60 @@ cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
     linux-input@vger.kernel.org, Patil Rajesh Reddy <Patil.Reddy@amd.com>
 Subject: Re: [PATCH v2 2/2] platform/x86/amd/pmf: Get SRA sensor data from
  AMD SFH driver
-In-Reply-To: <2937457n-6519-50p4-2696-oq391s2no1s7@xreary.bet>
-Message-ID: <10e983eb-f82a-aac9-a92e-3dce659e7ffa@linux.intel.com>
-References: <20241217151627.757477-1-Shyam-sundar.S-k@amd.com> <20241217151627.757477-3-Shyam-sundar.S-k@amd.com> <2937457n-6519-50p4-2696-oq391s2no1s7@xreary.bet>
+In-Reply-To: <10e983eb-f82a-aac9-a92e-3dce659e7ffa@linux.intel.com>
+Message-ID: <n2n15qs7-8079-3n90-552r-71nqq6r2sorr@xreary.bet>
+References: <20241217151627.757477-1-Shyam-sundar.S-k@amd.com> <20241217151627.757477-3-Shyam-sundar.S-k@amd.com> <2937457n-6519-50p4-2696-oq391s2no1s7@xreary.bet> <10e983eb-f82a-aac9-a92e-3dce659e7ffa@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Thu, 9 Jan 2025, Jiri Kosina wrote:
-> On Tue, 17 Dec 2024, Shyam Sundar S K wrote:
-> 
-> > The AMD SFH driver includes APIs to export SRA sensor data. This data is
-> > utilized by the AMD PMF driver to transmit SRA data to the PMF TA,
-> > enabling the AMD PMF driver to implement the output actions specified by
-> > the PMF TA.
-> > 
-> > Co-developed-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
-> > Signed-off-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
-> > Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> > ---
-> >  drivers/platform/x86/amd/pmf/pmf.h | 18 ++++++++++-
-> >  drivers/platform/x86/amd/pmf/spc.c | 51 ++++++++++++++++++++++++++++++
-> >  2 files changed, 68 insertions(+), 1 deletion(-)
-> 
-> Hans, can I please get your Acked-by: for these bits so that I could take 
-> the whole lot via hid.git?
+On Thu, 9 Jan 2025, Ilpo J=E4rvinen wrote:
 
-Hi Jiri,
+> > > The AMD SFH driver includes APIs to export SRA sensor data. This data=
+ is
+> > > utilized by the AMD PMF driver to transmit SRA data to the PMF TA,
+> > > enabling the AMD PMF driver to implement the output actions specified=
+ by
+> > > the PMF TA.
+> > >=20
+> > > Co-developed-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
+> > > Signed-off-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
+> > > Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> > > ---
+> > >  drivers/platform/x86/amd/pmf/pmf.h | 18 ++++++++++-
+> > >  drivers/platform/x86/amd/pmf/spc.c | 51 ++++++++++++++++++++++++++++=
+++
+> > >  2 files changed, 68 insertions(+), 1 deletion(-)
+> >=20
+> > Hans, can I please get your Acked-by: for these bits so that I could ta=
+ke=20
+> > the whole lot via hid.git?
+>=20
+> Hi Jiri,
+>=20
+> I already merged those to pdx86 repo (the changes are only in my=20
+> review-ilpo-next staging branch currently waiting for LKP's build check).
+> There will be conflict with other amd/pmf changes made in this cycle if=
+=20
+> you route this patch through your tree. So either I take both or you make=
+=20
+> an immutable branch out of the first patch, which way you want?
+>=20
+> I figured as the amd-sfh-hid maintainer is among the submitters that=20
+> counts some form ack (and amd-sfh-hid seems really low volume to begin=20
+> with) but perhaps you'd have wanted me to wait yours as well?
 
-I already merged those to pdx86 repo (the changes are only in my 
-review-ilpo-next staging branch currently waiting for LKP's build check).
-There will be conflict with other amd/pmf changes made in this cycle if 
-you route this patch through your tree. So either I take both or you make 
-an immutable branch out of the first patch, which way you want?
+Feel free to take both through your tree, thanks.
 
-I figured as the amd-sfh-hid maintainer is among the submitters that 
-counts some form ack (and amd-sfh-hid seems really low volume to begin 
-with) but perhaps you'd have wanted me to wait yours as well?
+=09Acked-by: Jiri Kosina <jkosina@suse.com>
 
--- 
- i.
+--=20
+Jiri Kosina
+SUSE Labs
 
 
