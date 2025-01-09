@@ -1,865 +1,1009 @@
-Return-Path: <linux-input+bounces-9087-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9089-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 153E4A06DB2
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jan 2025 06:46:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C55A06E06
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jan 2025 07:10:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E71FC1616C5
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jan 2025 05:46:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5FCA91887E76
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jan 2025 06:10:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EDC81474A9;
-	Thu,  9 Jan 2025 05:46:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4099219F117;
+	Thu,  9 Jan 2025 06:10:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QqwGBul3"
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="oMulYl1r"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35552F2D;
-	Thu,  9 Jan 2025 05:46:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736401609; cv=fail; b=qkHWUpV57M37QLQW3l6m7gOHNNFiZp5fANhrCrUkoZrsODF/Ex7hVCEDQ9OhESiTHAXQ4muz4CTjIiglTT3RPyTr4ALArX0nSGKDe5YorIqaCBzXRmS/TRntG0aNTKmTHRMwGnieQcnxG1gJRNev4ids9/P8ayQTYEfVIEJsEm4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736401609; c=relaxed/simple;
-	bh=YZjgcFYykF7lb77jy8iVLWYXTfUF9xTfDWZu6PeMRaU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=a9S3yuubwc/OOiudIVoJhGQwVb0pQ4GtA58t7iXRySKhlQf/tV2+HcL7Pz+vycwwp2KkfZ0mLVkn7keOGUssqzyFYeUIFtLgW8tNU0e+d6Aj6NlQ2iKs+uqO7BDRggPakdZ+Xa55p1t2LGDqC8mYlEeBU/Z2QFgC80ozh1P7gf8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QqwGBul3; arc=fail smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736401604; x=1767937604;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=YZjgcFYykF7lb77jy8iVLWYXTfUF9xTfDWZu6PeMRaU=;
-  b=QqwGBul3aX5eNzihnXd5Wbu9aFwOdNl1jdQ4aOKrKRTSzga1gIjwdLOg
-   vUWxuE6HvcWqnstwaz0uCF8Y3FbYems75xfTQoaxZF4Gjj7NIgPhvJoRU
-   UfioyVxxYEoIfBxmnzPFgRYk8MdrZxNbarh76KINJHvEHy3M6eLQPn/8r
-   ExJ/0RAvaLRszTRR8lawPzZ4OOn5pUGKQHLKlWkx2GABFFa5ec/W2NIMQ
-   5jbr1BBKmE7aVp1BzrlyLe0uqY19dxZ2Z9sTLDKoukFtjrJuel0ovXObX
-   SDwO8qCXeXD9WwGFCkdndqLjkwHY5n1c9Xl0jEau7A3BZ3BhTSVaUK+Dt
-   Q==;
-X-CSE-ConnectionGUID: eYFjCi0wSReUMkx8XLKx4A==
-X-CSE-MsgGUID: ZKGjg+f4Q8aOuF4xWWkcYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="36873322"
-X-IronPort-AV: E=Sophos;i="6.12,300,1728975600"; 
-   d="scan'208";a="36873322"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 21:46:41 -0800
-X-CSE-ConnectionGUID: 2egu1aPBRTilEf3Dusf3gg==
-X-CSE-MsgGUID: atCCtHyYRRaM7TrKwE0O4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104176950"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Jan 2025 21:46:40 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Wed, 8 Jan 2025 21:46:40 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Wed, 8 Jan 2025 21:46:40 -0800
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.44) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Wed, 8 Jan 2025 21:46:39 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=H+mwYZzekwrQp5B5M5gqH9lRB6+yGPUUYf7Mne1E6WRm3WukjWjjM+S0KrtR6Cj72LK0QXctQNG30xWKSaYjD01GAB2UloHREjgt05T6//+PwafFUv+vLHNtS5bQa+3As4Siyzj62ItvS1KHKaBFVc/cQ4tFXboIbgz2QIOdkjpq4nAabxEiPHRng03+FSumfFvxE1uc+sG0TPsVFUjP0LLQDb28pxHnRa+o+eqXwDQyf8Mq2RvoPTsLEQLlsAWHQtJRsg6HOHJ9XrxaIW1fQ9uQbZVtysFzymd6n6HRScqG7aBHbmo8q1MEhvJknc68fgu3ZFJCC6P1Wkr5jhXnUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YZjgcFYykF7lb77jy8iVLWYXTfUF9xTfDWZu6PeMRaU=;
- b=V8Hf2FsvKDhTrual90iRQ7qyWs5Rg0ldP+JqwtQ14b4TFRaeVVc+bzdrJBLA+IdscAiaO8RjhDyEEmSiNSNsvXW0gLIDDJleEtSMPFTPDTU2W5D17ExNykiuWH1Z6Z4Z+r+aqBTOPsiDncwSYwBLiJgJy54Y+HYMday8mQVCuO6yyUq0Jo/3sQjRk2+/zYVtueHgJB3Vc3N3Vj5d1KmSd0Pug4gm5OrbWeLZaY+fS8urQGPkA0puiaG1ccpGxNw++KJeflEE8Vhy0liFJPu9eCZE7lhNGDmsXl8CoEGA6E8YAv5Wchtmo45BTDHijAUI5Rbuxf7O6THn52PO+PHlAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB6119.namprd11.prod.outlook.com (2603:10b6:8:b0::17) by
- DM4PR11MB5245.namprd11.prod.outlook.com (2603:10b6:5:388::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8335.11; Thu, 9 Jan 2025 05:46:35 +0000
-Received: from DM4PR11MB6119.namprd11.prod.outlook.com
- ([fe80::279a:43e2:4ea2:9e16]) by DM4PR11MB6119.namprd11.prod.outlook.com
- ([fe80::279a:43e2:4ea2:9e16%6]) with mapi id 15.20.8335.010; Thu, 9 Jan 2025
- 05:46:35 +0000
-From: "Xu, Even" <even.xu@intel.com>
-To: Ping Cheng <pinglinux@gmail.com>, srinivas pandruvada
-	<srinivas.pandruvada@linux.intel.com>, "Aaron, Ma" <aaron.ma@canonical.com>,
-	"Ivan Delos Santos Julkarnain, Ameer" <ajulkarnain@lenovo.com>
-CC: "jikos@kernel.org" <jikos@kernel.org>, "bentiss@kernel.org"
-	<bentiss@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
-	"bagasdotme@gmail.com" <bagasdotme@gmail.com>, "rdunlap@infradead.org"
-	<rdunlap@infradead.org>, "mpearson-lenovo@squebb.ca"
-	<mpearson-lenovo@squebb.ca>, "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "Sun, Xinpeng" <xinpeng.sun@intel.com>
-Subject: RE: [PATCH v4 01/22] HID: THC: Add documentation
-Thread-Topic: [PATCH v4 01/22] HID: THC: Add documentation
-Thread-Index: AQHbX+MwZcDlo+lN3U+ENSB2lkMfY7MJt5KAgAQ0UICAAAbLwA==
-Date: Thu, 9 Jan 2025 05:46:35 +0000
-Message-ID: <DM4PR11MB61195CC4F79AD3A05A4F8DBCF4132@DM4PR11MB6119.namprd11.prod.outlook.com>
-References: <20250106023151.3011329-1-even.xu@intel.com>
- <20250106023151.3011329-2-even.xu@intel.com>
- <5886086c1ef2778f3b9614956d0a43dc21fc1942.camel@linux.intel.com>
- <CAF8JNhKx4Zh3uf_G2_eu-6sPUqQa685oJqwH+PkemjNLRpT3+g@mail.gmail.com>
-In-Reply-To: <CAF8JNhKx4Zh3uf_G2_eu-6sPUqQa685oJqwH+PkemjNLRpT3+g@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB6119:EE_|DM4PR11MB5245:EE_
-x-ms-office365-filtering-correlation-id: e62b48b7-eac1-496a-a0e1-08dd3070faa9
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?aXhLSXZxM2lIdG9Bc1VkbFpxQjFETmZndytQa3RJY0pTZDVlTU9qemtqeENv?=
- =?utf-8?B?L3IzWjhkSFlaUHlGSm9hT0lHZkU5emMxZENIM0lzTXVzZkFIdzQ4SFFmdTJi?=
- =?utf-8?B?NkNYT1JadjdCUFN5SnFCclQ0TnM2b1owSGhHQWZyN2I0VGFyNzV6N0JReXlx?=
- =?utf-8?B?RzRyVmJlOE96NkVPWkhMd3hPZzk5RjN2a2RhTjRHbVNzUm9GRmRuV2tVTVN0?=
- =?utf-8?B?bVJ6V3ZIMTIvQ0R0UnhvanlCY0VoRE0remNDSTlIN2FwWkV2VkhuVnlWRFlY?=
- =?utf-8?B?MTdiRGdZblIwbXRsWDhZRmpXWU40cE1lVks4WlpwNkhaNk83N1NTbUFZSFBw?=
- =?utf-8?B?dmdRcVBXYmlJMjV3NGNoWDA0V0xveGVDcnZkbFh1V3FPdXkxRlJWVE4wUXVs?=
- =?utf-8?B?b2pQUzB3Sk51bjNHVVd4TDcvT05VbFRyNFhBOUZIZi9vTXhYSk1TczlndFUv?=
- =?utf-8?B?aUlKSHZ1dWlpUnlsVHA1V1NCbmV1NzQxbE5ucHRYUllhTjhydDNJZGxpWUhq?=
- =?utf-8?B?T3hjYkxEaGg1MEwxVTlvQ05SRnViWHhOd3k3RXlxUUZNMHlqSGhvRnNVNitZ?=
- =?utf-8?B?R1VIaEN4Um1MMjQyZDhWRll5Umd3VGgvcDBjYk9kRllCZStDV01IS0N1S0N1?=
- =?utf-8?B?Q2cxWi9XSTA0Q21SRHVNNEdreWpGdk0yQjVTdjMvUWhLck5CTnlWOWN4TnpT?=
- =?utf-8?B?Y3FTbzBpNmZWNC9zWVRqZ0V2dlg3QzZEcXhFemhmZEp6QlFrdndOdzN5OVVp?=
- =?utf-8?B?L2N6K1VMK1EyY2xQTWZlU3V1NzdGZ1k0L1BBTjNEOUlPeXZ5UzlNL1R0NGda?=
- =?utf-8?B?VW5XOGhiSEt5NFJzUkZsNk9PYXQ2RUtPN2dVY2ptMGhGRFlqSmtKTUU5ZC95?=
- =?utf-8?B?SmlQd3hnak1rc0RKelNmc0pmeTNKazJ4eVRjVnRtVU84OC9TUHNhVys1cjNt?=
- =?utf-8?B?emd4VFdCNng5dXBKM0VpV2VXaW9RMFZqbmlodGE0cXRvMEZScGZSbGJBRzdt?=
- =?utf-8?B?bDJtcmhXZW9nUEtOUXdOQkhFV3VBZkxZb2ZydkZKbGkwUHBiWWJjQXlZTlNP?=
- =?utf-8?B?VVFMRDVUWExaVmlhQkVtU0xXOHY5TTBpUENwTFFlMXl5bTk5b1VGUHVWL2FN?=
- =?utf-8?B?VU5jWUdGMXBxaG5HWUdDSFY1UVVua3lPazhPTllFRTYzUDkrQ0EwY2hnVGNF?=
- =?utf-8?B?ZUR2dVhnYWxQMFFGNCt2Wkc4bGcrSWhqR1BrQjUwTGxwRjdqYUpxN2k5bkxh?=
- =?utf-8?B?MnRKWkQ0OURXOEZGOVJrNW5qTDZFQWIySW9EQXQvTDNLOTV1cWFUalZlWXRJ?=
- =?utf-8?B?SGxFWWMrc0crN0RzOWMwcVNPbTV4RzdzMUhqdElhQkFWd05GZlpIMkVWeks1?=
- =?utf-8?B?UjRqVnlGYUpLWDVYUlkvWkh5L1AyYmVNdElSQ0FRQ05iUUsxbFRKa29oSnJH?=
- =?utf-8?B?Qy91UEMyMVBhLzJJMXNsTEtlRWh4SUpqVkUzeHhCeUV2VmMyN0VhNkdmMjRp?=
- =?utf-8?B?NzVRdWNOejdVVDdQSWpzVkVZVU42bEVjMCs2RUVlWHJma1NyakZScWhHYWU3?=
- =?utf-8?B?YlhyMGlKTjJmREZ1NGIrMXp0RUorbzlzVzdRUlFpSkFKbVpQZ1BZR29ja2Js?=
- =?utf-8?B?MkpkMlltQkpsWTAxbTRoL2U0RGI5bVhVQUlLOUhSUHo5bjJ3eHV6L0lJL21X?=
- =?utf-8?B?UWxRaWRESy95aTBEQUFTYVl5eU9iaCthdjIrNmVYbHBUeDlUQjZ0NTg2Z1Nv?=
- =?utf-8?B?cGFYWEg5bEJOZklMWXBwZFBTSHlvOXF1U3ZHaUJWNXRzRXBNUHJpNmltVXhh?=
- =?utf-8?B?ek82WG00TVd5V2xEYjlSc3M2K1NVclNJbE5mRUFyalltc1NGcC9wV2FUL0Z4?=
- =?utf-8?B?bHp3ZDZqVnQwMDRDZzhRNThlSE5aMThaWXh0WEFpRWNVZjFqMS91WUM2NnJs?=
- =?utf-8?B?RzBWNTZ0dWYwd2pqbnYwL2x6aGFVZnNkbndtR29MaiswL0tZKzlDR1lVZm9K?=
- =?utf-8?B?VENGSHJEbnpBPT0=?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6119.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dnc2WkZ5Z09BTTcyS0p6Ui96OFRQZDl5WGN1SCtON2J1Y3hGWjVMWTBHem44?=
- =?utf-8?B?RlFXRy8xOFJOUFFTMW1DVEpHRHQ2L0ZDbWF5ZDNQUFZnSy9XNExzYVNBamNl?=
- =?utf-8?B?ODRTSHdNaTRrNVNYKzRldm00YzN4RjF3Sm9rdmdkRHV4YkpHMjIzSFFjaFQ5?=
- =?utf-8?B?ZENBd1ZGcXg2TVYxWDNXcm0zeC8xaVVaNzBja1kxdmQralhuSXlVRi9JOHRM?=
- =?utf-8?B?eHlMSFY0TS9PeW0zdXpMUWF1cTQ3dXo1VU9qZnFSQnoyTWczMTdPOUxUWlpS?=
- =?utf-8?B?aVA0MUVsa0VLc05YbnV6SnJJYkhmVmovc2w4b29GVTZqYTBIOUFybVNMdzly?=
- =?utf-8?B?aUtlaWRqc3oxSjhGQ0JLVkJNRnpZK1ljUGk4Q0p0N2psM1UrUVNhVkV1em5V?=
- =?utf-8?B?OUpLUVFNOStLclRvcjlKZUkvTlBtK0Y1QVMzN2NoYkxFTHJkWmZMbXI1L2JT?=
- =?utf-8?B?LzhGd1VnWDlVNUFOclZtRUl1ZWhZYzd4Qk1sOVVzc1pOK2FxTno2UCtzeDZl?=
- =?utf-8?B?dWJHQTBtTmtCaEJmYUhVT1R5NG53OUNrRWtBdlBrVjB0WFc1aDVSSlhVV3cx?=
- =?utf-8?B?ekhnQk9nOWRDNmV3N2Vkb0xRNkJ6RnlHUDVLMWtva21WbUhnbEZ3azFnR3pM?=
- =?utf-8?B?ZnFQNnVGUE0zMTBkZytCOUdrblpDVmphUU9qQ0hzdEd4SnJENFZNR3htbWVC?=
- =?utf-8?B?N1F5Tk5UTU1zaGx5OTZTTlpKNU5KTnROMTdVNlhJL1NaMi9jbWp2K3pxSE9B?=
- =?utf-8?B?cnh3aXJ1alNhcjlueGt3TXk4N0hESERSaG94QWdocnJtTENLVFlyMW1HQnlC?=
- =?utf-8?B?RG9HQmUvVFg4SXRKMDB5LzNUU2JBSG00a09hQ05aenU1SloyYVdRdUM1OHU1?=
- =?utf-8?B?TE8ycjMySWtPc2p5Ym1ENUpqc0gwSDdCdmdvcEtOamdlQ3ZxWWZaR3o0NHY3?=
- =?utf-8?B?N1JRcXJYZ3NhcVd0cXdBVFI5QkE3RWFyTWRDNmhnbDBHUW9HTlhyWGVDR3Vr?=
- =?utf-8?B?bzk4LzkzQkx0UFJwVml5Ukl1cndpSFdHdmNreTh5azBGbFRxYUNrN05mVnV3?=
- =?utf-8?B?TjZQUDhYdWoxcTI3RXF0bU5pV0IvN3l4MzVGcGZRelZXa1k0ajk0NnRJNDhS?=
- =?utf-8?B?UzFBdkN5UlllZzc5Q011Q0Q5WHBJUWRqUTlWUldTejZrQ1BGSXMyY1Qrc1J2?=
- =?utf-8?B?YTZRVlVWNDFIY2kyVDB0TWdMMFh6bllrOXAwR1A2clIwMkRGME5MemZCQ29Z?=
- =?utf-8?B?NlIzSkJQa0w0OGZtRzVmUmp0eEd1K0dOdERhNXo1Yk04MnRId2hicGVIWVE3?=
- =?utf-8?B?cTI2UHBsUXNUbXV4Q1doUnBzbWwydDNlVExMZlF3R0l2UzllbldIekRpdzZR?=
- =?utf-8?B?dWk1YS9tRVpNZC9TL0ltWGFyaXd1NklQSWxhU1dhRmxiV0tONk5ITU1hcS9S?=
- =?utf-8?B?OGxjQ2FiMzBBTGdxMVJEZ2czbjlOYWJlVTk1UWdMWCsrUjNVTUJKSWVrYjNT?=
- =?utf-8?B?bFJ2MVcyamphYjI2UTVDa3NWbm9MNnFSdUQrMSt1bUt6dnR5eFFOUjR5cTl3?=
- =?utf-8?B?TEJiTnp3TUxSK2dobnMxOGF3MFAwSGc0dUU2VVpwTHpHYXlXODY4MXRheTZB?=
- =?utf-8?B?WW9PaDVITmRpcXJHaEY1aWQra0lvYmREQ1kwVVRzVit2U3NCQTk1WTZoZ1Ja?=
- =?utf-8?B?LzlJdlp4V0k4ckswY3NJQU1LYkJqa3B3c2N1N1dvSzRpSkJUcUl0V0FOUk5t?=
- =?utf-8?B?RjNqYTgvai9mNTNHT2VzTzM2Wmc2L1Y2bkdRbE9WdlFVWjZ6cG9PYnZGT2I2?=
- =?utf-8?B?bi9INlFIdjVmcWRaM213Smd2TENPTGlvdmRPMkJGaVJhYnlmdERRSVd2ZHhv?=
- =?utf-8?B?QUlXLzNsWVpPSkFBb3JFVzNHa3BXVWQzN3hmOTNCTWZ2elMxbkZTaXdIRmM2?=
- =?utf-8?B?Qi9FTFArR1BLb1JzckVRTHQ4UGp3OHVOR0c3ODVGMktrUTZJdVNLWkorNURr?=
- =?utf-8?B?M1hPVDhpWkhQVWV0UUFuZ1NMRldzaTdVNGtYa004aFFnNmQyc3BQWVlzR3NK?=
- =?utf-8?B?S25IYzBhdGUrVi93R1Z2KzdQQVVYZ0RHaGU4T1BLQkhGc2VEbGtBZGV0SFhP?=
- =?utf-8?Q?2No5BF3VVfWa19PCwGNiVEcq0?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E37D2F2D;
+	Thu,  9 Jan 2025 06:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736403009; cv=none; b=fCeS6sVqQq8JCLY2jE1XzgGuhjaFlmfhvShqr30Y2bo6MyeqKXPW8scNJ6WZbXGuyKj8BgnfTlfwavy4ZBujjI5vpvMo3NisJwPS+L+90URP0HlBpxpUjBrnig8l4YpoTs/DbxSMSPrIoYLQuzqsuGRPO1o0yKBVb9jsWtLgfCA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736403009; c=relaxed/simple;
+	bh=8ccIILYAsMJT1MGhV5QEHYfjo9eVfTqrfhLFsG8O7bQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Njv2iDhG8/rfV24ZcLGnBQEjBwMRCUVI/9kkLmlqEHHfg3Vcz8XehyVYLTiRSlyETVxTQaM2v9lx47x/vq5GL1Lq98aGQTI8x7Uzg8FUiYVAsacoi55aqipoO2HtUCAOOceJp6NS9SC2J2pZSU9OKj8eSaaE+gvNUkYMisxrNEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=oMulYl1r; arc=none smtp.client-ip=185.125.188.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+Received: from [192.168.1.148] (unknown [222.129.38.136])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 5EFFC3F197;
+	Thu,  9 Jan 2025 06:03:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1736402609;
+	bh=cV6bfZI4oHRx1lCX627uvtWtJSW81sVI0z37YRPQVsA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type;
+	b=oMulYl1ralhAS2r9Dox8qiLlYn5qpdLt+lw26SeGJ1hEM3FBXTPdQXiOTI/SadUlJ
+	 4cz3YTkVM8NyauPaKcLlWfdFmgA24d9D6VwfqKjBGZwlomdq0ylS1pxXhl0Ond2hdT
+	 M7s6o0j4k0V9151BWovI6cxl3IqlwyCLiUMOz5Q5rI4jaW5eP1mxMjhOW8CUEgxx38
+	 Ou2kPG9MfIpGlVAicv5lXFhMC+J7MVlPuo0UY2dZHrJnn7vGetrGYSqXKN39fqtFAG
+	 BeonrvZPqf62uiNcufkwger168OGl2Sw5Qi9I38/uzz/ehoVPo+9+9I85wiPN4tiV6
+	 HAHFJd0+QOHNQ==
+Message-ID: <9b894d82-eb0b-47b3-88ed-06965428a4cf@canonical.com>
+Date: Thu, 9 Jan 2025 14:03:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6119.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e62b48b7-eac1-496a-a0e1-08dd3070faa9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jan 2025 05:46:35.5775
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7hqIJea9L5qgMOvKeiIdhxYLn2ZNkIAAmNFlt/B5L+X+LSv84No8q7PSrQCKtZu1Z/nZSZ4+V/9zHXwSCgO+VA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5245
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH v4 01/22] HID: THC: Add documentation
+To: "Xu, Even" <even.xu@intel.com>, Ping Cheng <pinglinux@gmail.com>,
+ srinivas pandruvada <srinivas.pandruvada@linux.intel.com>,
+ "Ivan Delos Santos Julkarnain, Ameer" <ajulkarnain@lenovo.com>
+Cc: "jikos@kernel.org" <jikos@kernel.org>,
+ "bentiss@kernel.org" <bentiss@kernel.org>, "corbet@lwn.net"
+ <corbet@lwn.net>, "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+ "rdunlap@infradead.org" <rdunlap@infradead.org>,
+ "mpearson-lenovo@squebb.ca" <mpearson-lenovo@squebb.ca>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "Sun, Xinpeng" <xinpeng.sun@intel.com>
+References: <20250106023151.3011329-1-even.xu@intel.com>
+ <20250106023151.3011329-2-even.xu@intel.com>
+ <5886086c1ef2778f3b9614956d0a43dc21fc1942.camel@linux.intel.com>
+ <CAF8JNhKx4Zh3uf_G2_eu-6sPUqQa685oJqwH+PkemjNLRpT3+g@mail.gmail.com>
+ <DM4PR11MB61195CC4F79AD3A05A4F8DBCF4132@DM4PR11MB6119.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Aaron Ma <aaron.ma@canonical.com>
+Autocrypt: addr=aaron.ma@canonical.com; keydata=
+ xsBNBFffeLkBCACi4eE4dPsgWN6B9UDOVcAvb5QgU/hRG6yS0I1lGKQv4KA+bke0c5g8clbO
+ 9gIlIl2bityfA9NzBsDik4Iei3AxMbFyxv9keMwcOFQBIOZF0P3f05qjxftF8P+yp9QTV4hp
+ BkFzsXzWRgXN3r8hU8wqZybepF4B1C83sm2kQ5A5N0AUGbZli9i2G+/VscG9sWfLy8T7f4YW
+ MjmlijCjoV6k29vsmTWQPZ7EApNpvR5BnZQPmQWzkkr0lNXlsKcyLgefQtlwg6drK4fe4wz0
+ ouBIHJEiXE1LWK1hUzkCUASra4WRwKk1Mv/NLLE/aJRqEvF2ukt3uVuM77RWfl7/H/v5ABEB
+ AAHNIUFhcm9uIE1hIDxhYXJvbi5tYUBjYW5vbmljYWwuY29tPsLAdwQTAQgAIQUCV994uQIb
+ AwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRDNxCzQfVU6ntJ9B/9aVy0+RkLqF9QpLmw+
+ LAf1m3Fd+4ZarPTerqDqkLla3ekYhbrEtlI1mYuB5f+gtrIjmcW27gacHdslKB9YwaL8B4ZB
+ GJKhcrntLg4YPzYUnXZkHHTv1hMw7fBYw82cBT+EbG0Djh6Po6Ihqyr3auHhfFcp1PZH4Mtq
+ 6hN5KaDZzF/go+tRF5e4bn61Nhdue7mrhFSlfkzLG2ehHWmRV+S91ksH81YDFnazK0sRINBx
+ V1S8ts3WJ2f1AbgmnDlbK3c/AfI5YxnIHn/x2ZdXj1P/wn7DgZHmpMy5DMuk0gN34NLUPLA/
+ cHeKoBAF8emugljiKecKBpMTLe8FrVOxbkrazsBNBFffeLkBCACweKP3Wx+gK81+rOUpuQ00
+ sCyKzdtMuXXJ7oL4GzYHbLfJq+F+UHpQbytVGTn3R5+Y61v41g2zTYZooaC+Hs1+ixf+buG2
+ +2LZjPSELWPNzH9lsKNlCcEvu1XhyyHkBDbnFFHWlUlql3nSXMo//dOTG/XGKaEaZUxjCLUC
+ 8ehLc16DJDvdXsPwWhHrCH/4k92F6qQ14QigBMsl75jDTDJMEYgRYEBT1D/bwxdIeoN1BfIG
+ mYgf059RrWax4SMiJtVDSUuDOpdwoEcZ0FWesRfbFrM+k/XKiIbjMZSvLunA4FIsOdWYOob4
+ Hh0rsm1G+fBLYtT+bE26OWpQ/lSn4TdhABEBAAHCwF8EGAEIAAkFAlffeLkCGwwACgkQzcQs
+ 0H1VOp6p5Af/ap5EVuP1AhFdPD3pXLNrUUt72W3cuAOjXyss43qFC2YRjGfktrizsDjQU46g
+ VKoD6EW9XUPgvYM+k8BJEoXDLhHWnCnMKlbHP3OImxzLRhF4kdlnLicz1zKRcessQatRpJgG
+ NIiD+eFyh0CZcWBO1BB5rWikjO/idicHao2stFdaBmIeXvhT9Xp6XNFEmzOmfHps+kKpWshY
+ 9LDAU0ERBNsW4bekOCa/QxfqcbZYRjrVQvya0EhrPhq0bBpzkIL/7QSBMcdv6IajTlHnLARF
+ nAIofCEKeEl7+ksiRapL5Nykcbt4dldE3sQWxIybC94SZ4inENKw6I8RNpigWm0R5w==
+In-Reply-To: <DM4PR11MB61195CC4F79AD3A05A4F8DBCF4132@DM4PR11MB6119.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-aGksIEFhcm9uLA0KDQpUaGlzIGlzc3VlIHdhcyBpZGVudGlmaWVkIHRvIEdvb2RpeCB0b3VjaCBm
-aXJtd2FyZSBpc3N1ZSwgaXQgZGUtYXNzZXJ0ZWQgaW50ZXJydXB0IGxpbmUgZGVsYXllZC4NCkFu
-ZCBHb29kaXggZW5naW5lZXIgY29uZmlndXJlZCB0aGVyZSB3ZXJlIDEwdXMgZGVsYXkgYXQgZW5k
-IG9mIGV2ZXJ5IHRvdWNoIGV2ZW50IHBhY2tldC4NClRoZXkgYXJlIHdvcmtpbmcgb24gaXQgdG8g
-bW9kaWZ5IHRoZSBmaXJtd2FyZSBmb3IgdGhlIGZpeC4NCg0KTWF5YmUgeW91IGNhbiBnZXQgdXBk
-YXRlZCBlbmdpbmVlciBmaXJtd2FyZSBmcm9tIExlbm92by4NCg0KVGhhbmtzIQ0KDQpCZXN0IFJl
-Z2FyZHMsDQpFdmVuIFh1DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTog
-UGluZyBDaGVuZyA8cGluZ2xpbnV4QGdtYWlsLmNvbT4NCj4gU2VudDogVGh1cnNkYXksIEphbnVh
-cnkgOSwgMjAyNSAxOjE4IFBNDQo+IFRvOiBzcmluaXZhcyBwYW5kcnV2YWRhIDxzcmluaXZhcy5w
-YW5kcnV2YWRhQGxpbnV4LmludGVsLmNvbT47IEFhcm9uLCBNYQ0KPiA8YWFyb24ubWFAY2Fub25p
-Y2FsLmNvbT47IEl2YW4gRGVsb3MgU2FudG9zIEp1bGthcm5haW4sIEFtZWVyDQo+IDxhanVsa2Fy
-bmFpbkBsZW5vdm8uY29tPg0KPiBDYzogWHUsIEV2ZW4gPGV2ZW4ueHVAaW50ZWwuY29tPjsgamlr
-b3NAa2VybmVsLm9yZzsgYmVudGlzc0BrZXJuZWwub3JnOw0KPiBjb3JiZXRAbHduLm5ldDsgYmFn
-YXNkb3RtZUBnbWFpbC5jb207IHJkdW5sYXBAaW5mcmFkZWFkLm9yZzsgbXBlYXJzb24tDQo+IGxl
-bm92b0BzcXVlYmIuY2E7IGxpbnV4LWlucHV0QHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVs
-QHZnZXIua2VybmVsLm9yZzsNCj4gbGludXgtZG9jQHZnZXIua2VybmVsLm9yZzsgU3VuLCBYaW5w
-ZW5nIDx4aW5wZW5nLnN1bkBpbnRlbC5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjQgMDEv
-MjJdIEhJRDogVEhDOiBBZGQgZG9jdW1lbnRhdGlvbg0KPiANCj4gSGkgU3Jpbml2YXMsDQo+IA0K
-PiBBcyBtZW50aW9uZWQgb2ZmbGluZSwgdGhlIGNvdmVyIGxldHRlciBhbmQgdmVyc2lvbiBsb2cg
-YXJlIGluIHY0IDAwLzIyLg0KPiANCj4gSGkgQWFyb24sDQo+IA0KPiBBcyBmYXIgYXMgSSBrbm93
-LCB0aGUgaXNzdWUgeW91IGJyb3VnaHQgdXAgYXQgdjMgb25seSBoYXBwZW5zIHdpdGggR29vZGl4
-IGRldmljZXMuDQo+IEl0J3MgR29vZGl4IHNwZWNpZmljLiBPdGhlciBkZXZpY2VzIGRvbid0IGhh
-dmUgdGhlIGlzc3VlLiBXYWNvbSBjb25maXJtZWQgdGhhdA0KPiB3aXRoIFdhY29tIGRldmljZXMu
-DQo+IA0KPiBDYW4geW91IHdvcmsgd2l0aCB0aGUgTGVub3ZvIHRlYW0gdG8gY29uZmlybSB0aGF0
-IHNvIHdlIGNhbiBnZXQgdGhpcyBwYXRjaHNldA0KPiBhY2NlcHRlZD8NCj4gDQo+IFRoYW5rIHlv
-dSBmb3IgeW91ciBzdXBwb3J0LA0KPiBQaW5nDQo+IA0KPiBPbiBNb24sIEphbiA2LCAyMDI1IGF0
-IDU6MDXigK9BTSBzcmluaXZhcyBwYW5kcnV2YWRhDQo+IDxzcmluaXZhcy5wYW5kcnV2YWRhQGxp
-bnV4LmludGVsLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBPbiBNb24sIDIwMjUtMDEtMDYgYXQgMTA6
-MzEgKzA4MDAsIEV2ZW4gWHUgd3JvdGU6DQo+ID4gPiBBZGQgRG9jdW1lbnRhdGlvbi9oaWQvaW50
-ZWwtdGhjLWhpZC5yc3QgZmlsZSB0byBwcm92aWRlIGhhcmR3YXJlIGFuZA0KPiA+ID4gc29mdHdh
-cmUgZGV0YWlsIGZvciBpbnRlbCBUSEMgZHJpdmVycy4NCj4gPiA+DQo+ID4gPiBDby1kZXZlbG9w
-ZWQtYnk6IFN1biBYaW5wZW5nIDx4aW5wZW5nLnN1bkBpbnRlbC5jb20+DQo+ID4gPiBTaWduZWQt
-b2ZmLWJ5OiBTdW4gWGlucGVuZyA8eGlucGVuZy5zdW5AaW50ZWwuY29tPg0KPiA+ID4gU2lnbmVk
-LW9mZi1ieTogRXZlbiBYdSA8ZXZlbi54dUBpbnRlbC5jb20+DQo+ID4gPiBSZXZpZXdlZC1ieTog
-U3Jpbml2YXMgUGFuZHJ1dmFkYQ0KPiA+ID4gPHNyaW5pdmFzLnBhbmRydXZhZGFAbGludXguaW50
-ZWwuY29tPg0KPiA+ID4gUmV2aWV3ZWQtYnk6IEJhZ2FzIFNhbmpheWEgPGJhZ2FzZG90bWVAZ21h
-aWwuY29tPg0KPiA+ID4gUmV2aWV3ZWQtYnk6IE1hcmsgUGVhcnNvbiA8bXBlYXJzb24tbGVub3Zv
-QHNxdWViYi5jYT4NCj4gPiA+IC0tLQ0KPiA+DQo+ID4gQ2hhbmdlIGxvZ3MgYXJlIG1pc3Npbmc/
-DQo+ID4gQWxzbyBkaWRuJ3QgcmVjZWl2ZSBhbnkgY292ZXIgbGV0dGVyIHdpdGggYW55IGNoYW5n
-ZXM/DQo+ID4NCj4gPiBUaGFua3MsDQo+ID4gU3Jpbml2YXMNCj4gPg0KPiA+ID4gIERvY3VtZW50
-YXRpb24vaGlkL2luZGV4LnJzdCAgICAgICAgIHwgICAxICsNCj4gPiA+ICBEb2N1bWVudGF0aW9u
-L2hpZC9pbnRlbC10aGMtaGlkLnJzdCB8IDU2OA0KPiA+ID4gKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKw0KPiA+ID4gIDIgZmlsZXMgY2hhbmdlZCwgNTY5IGluc2VydGlvbnMoKykNCj4gPiA+
-ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9oaWQvaW50ZWwtdGhjLWhpZC5yc3QN
-Cj4gPiA+DQo+ID4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9oaWQvaW5kZXgucnN0DQo+
-ID4gPiBiL0RvY3VtZW50YXRpb24vaGlkL2luZGV4LnJzdCBpbmRleCBhZjAyY2Y3Y2ZhODIuLmJh
-ZjE1NmI0NGI1OA0KPiA+ID4gMTAwNjQ0DQo+ID4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2hpZC9p
-bmRleC5yc3QNCj4gPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vaGlkL2luZGV4LnJzdA0KPiA+ID4g
-QEAgLTE4LDQgKzE4LDUgQEAgSHVtYW4gSW50ZXJmYWNlIERldmljZXMgKEhJRCkNCj4gPiA+DQo+
-ID4gPiAgICAgaGlkLWFscHMNCj4gPiA+ICAgICBpbnRlbC1pc2gtaGlkDQo+ID4gPiArICAgaW50
-ZWwtdGhjLWhpZA0KPiA+ID4gICAgIGFtZC1zZmgtaGlkDQo+ID4gPiBkaWZmIC0tZ2l0IGEvRG9j
-dW1lbnRhdGlvbi9oaWQvaW50ZWwtdGhjLWhpZC5yc3QNCj4gPiA+IGIvRG9jdW1lbnRhdGlvbi9o
-aWQvaW50ZWwtdGhjLWhpZC5yc3QNCj4gPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gPiBp
-bmRleCAwMDAwMDAwMDAwMDAuLjZjNDE3MjA1YWM2YQ0KPiA+ID4gLS0tIC9kZXYvbnVsbA0KPiA+
-ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9oaWQvaW50ZWwtdGhjLWhpZC5yc3QNCj4gPiA+IEBAIC0w
-LDAgKzEsNTY4IEBADQo+ID4gPiArLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAN
-Cj4gPiA+ICsNCj4gPiA+ICs9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPiA+
-ICtJbnRlbCBUb3VjaCBIb3N0IENvbnRyb2xsZXIgKFRIQykNCj4gPiA+ICs9PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT0NCj4gPiA+ICsNCj4gPiA+ICtUb3VjaCBIb3N0IENvbnRyb2xs
-ZXIgaXMgdGhlIG5hbWUgb2YgdGhlIElQIGJsb2NrIGluIFBDSCB0aGF0DQo+ID4gPiBpbnRlcmZh
-Y2Ugd2l0aCBUb3VjaCBEZXZpY2VzIChleDoNCj4gPiA+ICt0b3VjaHNjcmVlbiwgdG91Y2hwYWQg
-ZXRjLikuIEl0IGlzIGNvbXByaXNlZCBvZiAzIGtleSBmdW5jdGlvbmFsDQo+ID4gPiBibG9ja3M6
-DQo+ID4gPiArDQo+ID4gPiArLSBBIG5hdGl2ZWx5IGhhbGYtZHVwbGV4IFF1YWQgSS9PIGNhcGFi
-bGUgU1BJIG1hc3Rlcg0KPiA+ID4gKy0gTG93IGxhdGVuY3kgSTJDIGludGVyZmFjZSB0byBzdXBw
-b3J0IEhJREkyQyBjb21wbGlhbnQgZGV2aWNlcw0KPiA+ID4gKy0gQSBIVyBzZXF1ZW5jZXIgd2l0
-aCBSVyBETUEgY2FwYWJpbGl0eSB0byBzeXN0ZW0gbWVtb3J5DQo+ID4gPiArDQo+ID4gPiArSXQg
-aGFzIGEgc2luZ2xlIHJvb3Qgc3BhY2UgSU9TRiBQcmltYXJ5IGludGVyZmFjZSB0aGF0IHN1cHBv
-cnRzDQo+ID4gPiB0cmFuc2FjdGlvbnMgdG8vZnJvbSB0b3VjaCBkZXZpY2VzLg0KPiA+ID4gK0hv
-c3QgZHJpdmVyIGNvbmZpZ3VyZXMgYW5kIGNvbnRyb2xzIHRoZSB0b3VjaCBkZXZpY2VzIG92ZXIg
-VEhDDQo+ID4gPiBpbnRlcmZhY2UuIFRIQyBwcm92aWRlcyBoaWdoDQo+ID4gPiArYmFuZHdpZHRo
-IERNQSBzZXJ2aWNlcyB0byB0aGUgdG91Y2ggZHJpdmVyIGFuZCB0cmFuc2ZlcnMgdGhlIEhJRA0K
-PiA+ID4gcmVwb3J0IHRvIGhvc3Qgc3lzdGVtIG1haW4gbWVtb3J5Lg0KPiA+ID4gKw0KPiA+ID4g
-K0hhcmR3YXJlIHNlcXVlbmNlciB3aXRoaW4gdGhlIFRIQyBpcyByZXNwb25zaWJsZSBmb3IgdHJh
-bnNmZXJyaW5nDQo+ID4gPiAodmlhIERNQSkgZGF0YSBmcm9tIHRvdWNoIGRldmljZXMNCj4gPiA+
-ICtpbnRvIHN5c3RlbSBtZW1vcnkuIEEgcmluZyBidWZmZXIgaXMgdXNlZCB0byBhdm9pZCBkYXRh
-IGxvc3MgZHVlIHRvDQo+ID4gPiBhc3luY2hyb25vdXMgbmF0dXJlIG9mIGRhdGENCj4gPiA+ICtj
-b25zdW1wdGlvbiAoYnkgaG9zdCkgaW4gcmVsYXRpb24gdG8gZGF0YSBwcm9kdWN0aW9uIChieSB0
-b3VjaA0KPiA+ID4gZGV2aWNlIHZpYSBETUEpLg0KPiA+ID4gKw0KPiA+ID4gK1VubGlrZSBvdGhl
-ciBjb21tb24gU1BJL0kyQyBjb250cm9sbGVycywgVEhDIGhhbmRsZXMgdGhlIEhJRCBkZXZpY2UN
-Cj4gPiA+IGRhdGEgaW50ZXJydXB0IGFuZCByZXNldA0KPiA+ID4gK3NpZ25hbHMgZGlyZWN0bHku
-DQo+ID4gPiArDQo+ID4gPiArMS4gT3ZlcnZpZXcNCj4gPiA+ICs9PT09PT09PT09PQ0KPiA+ID4g
-Kw0KPiA+ID4gKzEuMSBUSEMgc29mdHdhcmUvaGFyZHdhcmUgc3RhY2sNCj4gPiA+ICstLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4gPiArDQo+ID4gPiArQmVsb3cgZGlhZ3JhbSBp
-bGx1c3RyYXRlcyB0aGUgaGlnaC1sZXZlbCBhcmNoaXRlY3R1cmUgb2YgVEhDDQo+ID4gPiBzb2Z0
-d2FyZS9oYXJkd2FyZSBzdGFjaywgd2hpY2ggaXMgZnVsbHkNCj4gPiA+ICtjYXBhYmxlIG9mIHN1
-cHBvcnRpbmcgSElEU1BJL0hJREkyQyBwcm90b2NvbCBpbiBMaW51eCBPUy4NCj4gPiA+ICsNCj4g
-PiA+ICs6Og0KPiA+ID4gKw0KPiA+ID4gKyAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLQ0KPiA+ID4gKyB8ICAgICAgKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tKyAgIHwNCj4gPiA+ICsgfCAgICAgIHwgICAgICAgICAgIElucHV0IERldmlj
-ZSAgICAgICAgICAgIHwgICB8DQo+ID4gPiArIHwgICAgICArLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0rICAgfA0KPiA+ID4gKyB8ICAgICAgKy0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tKyAgIHwNCj4gPiA+ICsgfCAgICAgIHwgICAgICAgSElEIE11bHRpLXRv
-dWNoIERyaXZlciAgICAgIHwgICB8DQo+ID4gPiArIHwgICAgICArLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0rICAgfA0KPiA+ID4gKyB8ICAgICAgKy0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tKyAgIHwNCj4gPiA+ICsgfCAgICAgIHwgICAgICAgICAgICAgSElE
-IENvcmUgICAgICAgICAgICAgIHwgICB8DQo+ID4gPiArIHwgICAgICArLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0rICAgfA0KPiA+ID4gKyB8ICAgICAgKy0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tKyAgIHwNCj4gPiA+ICsgfCAgICAgIHwgICAgVEhDIFF1aWNr
-U1BJL1F1aWNrSTJDIERyaXZlciAgIHwgICB8DQo+ID4gPiArIHwgICAgICArLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rICAgfA0KPiA+ID4gKyB8ICAgICAgKy0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKyAgIHwNCj4gPiA+ICsgfCAgICAgIHwgICAgICBUSEMg
-SGFyZHdhcmUgRHJpdmVyICAgICAgICAgIHwgICB8DQo+ID4gPiArIHwgICAgICArLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rICAgfA0KPiA+ID4gKyB8ICAgICAgKy0tLS0tLS0t
-LS0tLS0tLS0rICstLS0tLS0tLS0tLS0tLS0tKyAgIHwNCj4gPiA+ICsgfCAgU1cgIHwgUENJIEJ1
-cyBEcml2ZXIgfCB8IEFDUEkgUmVzb3VyY2UgIHwgICB8DQo+ID4gPiArIHwgICAgICArLS0tLS0t
-LS0tLS0tLS0tLSsgKy0tLS0tLS0tLS0tLS0tLS0rICAgfA0KPiA+ID4gKyAgLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ID4gKyAgLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ID4gKyB8ICAgICAgKy0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKyAgIHwNCj4gPiA+ICsgfCAgSFcgIHwgICAg
-ICAgICAgICAgIFBDSSBCdXMgICAgICAgICAgICAgIHwgICB8DQo+ID4gPiArIHwgICAgICArLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rICAgfA0KPiA+ID4gKyB8ICAgICAgKy0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKyAgIHwNCj4gPiA+ICsgfCAgICAgIHwg
-ICAgICAgICAgIFRIQyBDb250cm9sbGVyICAgICAgICAgIHwgICB8DQo+ID4gPiArIHwgICAgICAr
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rICAgfA0KPiA+ID4gKyB8ICAgICAg
-Ky0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKyAgIHwNCj4gPiA+ICsgfCAgICAg
-IHwgICAgICAgICAgICAgIFRvdWNoIElDICAgICAgICAgICAgIHwgICB8DQo+ID4gPiArIHwgICAg
-ICArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rICAgfA0KPiA+ID4gKyAgLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ID4gKw0KPiA+
-ID4gK1RvdWNoIElDIChUSUMpLCBhbHNvIGFzIGtub3duIGFzIHRoZSBUb3VjaCBkZXZpY2VzICh0
-b3VjaHNjcmVlbiBvcg0KPiA+ID4gdG91Y2hwYWQpLiBUaGUgZGlzY3JldGUgYW5hbG9nDQo+ID4g
-PiArY29tcG9uZW50cyB0aGF0IHNlbnNlIGFuZCB0cmFuc2ZlciBlaXRoZXIgZGlzY3JldGUgdG91
-Y2ggZGF0YSBvcg0KPiA+ID4gaGVhdG1hcCBkYXRhIGluIHRoZSBmb3JtIG9mIEhJRA0KPiA+ID4g
-K3JlcG9ydHMgb3ZlciB0aGUgU1BJL0kyQyBidXMgdG8gdGhlIFRIQyBDb250cm9sbGVyIG9uIHRo
-ZSBob3N0Lg0KPiA+ID4gKw0KPiA+ID4gK1RIQyBIb3N0IENvbnRyb2xsZXIsIHdoaWNoIGlzIGEg
-UENJIGRldmljZSBIQkEgKGhvc3QgYnVzIGFkYXB0ZXIpLA0KPiA+ID4gaW50ZWdyYXRlZCBpbnRv
-IHRoZSBQQ0gsIHRoYXQNCj4gPiA+ICtzZXJ2ZXMgYXMgYSBicmlkZ2UgYmV0d2VlbiB0aGUgVG91
-Y2ggSUNzIGFuZCB0aGUgaG9zdC4NCj4gPiA+ICsNCj4gPiA+ICtUSEMgSGFyZHdhcmUgRHJpdmVy
-LCBwcm92aWRlcyBUSEMgaGFyZHdhcmUgb3BlcmF0aW9uIEFQSXMgZm9yIGFib3ZlDQo+ID4gPiBR
-dWlja1NQSS9RdWlja0kyQyBkcml2ZXIsIGl0DQo+ID4gPiArYWNjZXNzZXMgVEhDIE1NSU8gcmVn
-aXN0ZXJzIHRvIGNvbmZpZ3VyZSBhbmQgY29udHJvbCBUSEMgaGFyZHdhcmUuDQo+ID4gPiArDQo+
-ID4gPiArVEhDIFF1aWNrU1BJL1F1aWNrSTJDIGRyaXZlciwgYWxzbyBhcyBrbm93biBhcyBISURT
-UEkvSElESTJDDQo+ID4gPiArZHJpdmVyLA0KPiA+ID4gaXMgcmVnaXN0ZXJlZCBhcyBhIEhJRA0K
-PiA+ID4gK2xvdy1sZXZlbCBkcml2ZXIgdGhhdCBtYW5hZ2VzIHRoZSBUSEMgQ29udHJvbGxlciBh
-bmQgaW1wbGVtZW50cw0KPiA+ID4gSElEU1BJL0hJREkyQyBwcm90b2NvbC4NCj4gPiA+ICsNCj4g
-PiA+ICsNCj4gPiA+ICsxLjIgVEhDIGhhcmR3YXJlIGRpYWdyYW0NCj4gPiA+ICstLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0NCj4gPiA+ICtCZWxvdyBkaWFncmFtIHNob3dzIFRIQyBoYXJkd2FyZSBj
-b21wb25lbnRzOjoNCj4gPiA+ICsNCj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4gPiArICAgICAgICAgICAgICAgICAgICAg
-fCAgICAgICAgICBUSEMgQ29udHJvbGxlciAgICAgICAgIHwNCj4gPiA+ICsgICAgICAgICAgICAg
-ICAgICAgICB8ICArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKyAgfA0KPiA+ID4gKyAgICAg
-ICAgICAgICAgICAgICAgIHwgIHwgICAgIFBDSSBDb25maWcgU3BhY2UgICAgICB8ICB8DQo+ID4g
-PiArICAgICAgICAgICAgICAgICAgICAgfCAgKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsg
-IHwNCj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICB8ICArLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tKyAgfA0KPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgIHwgICsgICAgICAgTU1JTyBS
-ZWdpc3RlcnMgICAgICB8ICB8DQo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgfCAgKy0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsgIHwNCj4gPiA+ICsgKy0tLS0tLS0tLS0tLS0tLSsgICB8
-ICArLS0tLS0tLS0tLS0tKyArLS0tLS0tLS0tLS0tKyAgfA0KPiA+ID4gKyB8IFN5c3RlbSBNZW1v
-cnkgKy0tLSstLSsgICAgICBETUEgICB8IHwgICBQSU8gICAgICB8ICB8DQo+ID4gPiArICstLS0t
-LS0tLS0tLS0tLS0rICAgfCAgKy0tLS0tLS0tLS0tLSsgKy0tLS0tLS0tLS0tLSsgIHwNCj4gPiA+
-ICsgICAgICAgICAgICAgICAgICAgICB8ICArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKyAg
-fA0KPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgIHwgIHwgICAgICAgSFcgU2VxdWVuY2VyICAg
-ICAgICB8ICB8DQo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgfCAgKy0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLSsgIHwNCj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICB8ICArLS0tLS0t
-LS0tLS0tKyArLS0tLS0tLS0tLS0tKyAgfA0KPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgIHwg
-IHwgIFNQSS9JMkMgICB8IHwgICAgR1BJTyAgICB8ICB8DQo+ID4gPiArICAgICAgICAgICAgICAg
-ICAgICAgfCAgfCBDb250cm9sbGVyIHwgfCBDb250cm9sbGVyIHwgIHwNCj4gPiA+ICsgICAgICAg
-ICAgICAgICAgICAgICB8ICArLS0tLS0tLS0tLS0tKyArLS0tLS0tLS0tLS0tKyAgfA0KPiA+ID4g
-KyAgICAgICAgICAgICAgICAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0N
-Cj4gPiA+ICsNCj4gPiA+ICtBcyBUSEMgaXMgZXhwb3NlZCBhcyBhIFBDSSBkZXZpY2VzLCBzbyBp
-dCBoYXMgc3RhbmRhcmQgUENJIGNvbmZpZw0KPiA+ID4gc3BhY2UgcmVnaXN0ZXJzIGZvciBQQ0kN
-Cj4gPiA+ICtlbnVtZXJhdGlvbiBhbmQgY29uZmlndXJhdGlvbi4NCj4gPiA+ICsNCj4gPiA+ICtN
-TUlPIFJlZ2lzdGVycywgd2hpY2ggcHJvdmlkZSByZWdpc3RlcnMgYWNjZXNzIGZvciBkcml2ZXIg
-dG8NCj4gPiA+IGNvbmZpZ3VyZSBhbmQgY29udHJvbCBUSEMgaGFyZHdhcmUsDQo+ID4gPiArdGhl
-IHJlZ2lzdGVycyBpbmNsdWRlIHNldmVyYWwgY2F0ZWdvcmllczogSW50ZXJydXB0IHN0YXR1cyBh
-bmQNCj4gPiA+IGNvbnRyb2wsIERNQSBjb25maWd1cmUsDQo+ID4gPiArUElPIChQcm9ncmFtbWVk
-IEkvTywgZGVmaW5lZCBpbiBzZWN0aW9uIDMuMikgc3RhdHVzIGFuZCBjb250cm9sLA0KPiA+ID4g
-K1NQSQ0KPiA+ID4gYnVzIGNvbmZpZ3VyZSwgSTJDIHN1YklQDQo+ID4gPiArc3RhdHVzIGFuZCBj
-b250cm9sLCByZXNldCBzdGF0dXMgYW5kIGNvbnRyb2wuLi4NCj4gPiA+ICsNCj4gPiA+ICtUSEMg
-cHJvdmlkZXMgdHdvIHdheXMgZm9yIGRyaXZlciB0byBjb21tdW5pY2F0ZSB3aXRoIGV4dGVybmFs
-IFRvdWNoDQo+ID4gPiBJQ3M6IFBJTyBhbmQgRE1BLg0KPiA+ID4gK1BJTyBjYW4gbGV0IGRyaXZl
-ciBtYW51YWxseSB3cml0ZS9yZWFkIGRhdGEgdG8vZnJvbSBUb3VjaCBJQ3MsDQo+ID4gPiBpbnN0
-ZWFkLCBUSEMgRE1BIGNhbg0KPiA+ID4gK2F1dG9tYXRpY2FsbHkgd3JpdGUvcmVhZCBkYXRhIHdp
-dGhvdXQgZHJpdmVyIGludm9sdmVkLg0KPiA+ID4gKw0KPiA+ID4gK0hXIFNlcXVlbmNlciBpbmNs
-dWRlcyBUSEMgbWFqb3IgbG9naWMsIGl0IGdldHMgaW5zdHJ1Y3Rpb24gZnJvbQ0KPiA+ID4gK01N
-SU8NCj4gPiA+IHJlZ2lzdGVycyB0byBjb250cm9sDQo+ID4gPiArU1BJIGJ1cyBhbmQgSTJDIGJ1
-cyB0byBmaW5pc2ggYSBidXMgZGF0YSB0cmFuc2FjdGlvbiwgaXQgYWxzbyBjYW4NCj4gPiA+IGF1
-dG9tYXRpY2FsbHkgaGFuZGxlDQo+ID4gPiArVG91Y2ggSUNzIGludGVycnVwdCBhbmQgc3RhcnQg
-RE1BIHJlY2VpdmUvc2VuZCBkYXRhIGZyb20vdG8gVG91Y2gNCj4gPiA+IElDcyBhY2NvcmRpbmcg
-dG8gaW50ZXJydXB0DQo+ID4gPiArdHlwZS4gVGhhdCBtZWFucyBUSEMgSFcgU2VxdWVuY2VyIHVu
-ZGVyc3RhbmRzIEhJRFNQSS9ISURJMkMNCj4gPiA+ICt0cmFuc2Zlcg0KPiA+ID4gcHJvdG9jb2ws
-IGFuZCBoYW5kbGUNCj4gPiA+ICt0aGUgY29tbXVuaWNhdGlvbiB3aXRob3V0IGRyaXZlciBpbnZv
-bHZlZCwgd2hhdCBkcml2ZXIgbmVlZHMgdG8gZG8NCj4gPiA+IGlzIGp1c3QgY29uZmlndXJlIHRo
-ZSBUSEMNCj4gPiA+ICtwcm9wZXJseSwgYW5kIHByZXBhcmUgdGhlIGZvcm1hdHRlZCBkYXRhIHBh
-Y2tldCBvciBoYW5kbGUgcmVjZWl2ZWQNCj4gPiA+IGRhdGEgcGFja2V0Lg0KPiA+ID4gKw0KPiA+
-ID4gK0FzIFRIQyBzdXBwb3J0cyBISURTUEkvSElESTJDIHByb3RvY29scywgaXQgaGFzIFNQSSBj
-b250cm9sbGVyIGFuZA0KPiA+ID4gSTJDIHN1YklQIGluIGl0IHRvIGV4cG9zZQ0KPiA+ID4gK1NQ
-SSBidXMgYW5kIEkyQyBidXMuIFRIQyBhbHNvIGludGVncmF0ZXMgYSBHUElPIGNvbnRyb2xsZXIg
-dG8NCj4gPiA+IHByb3ZpZGUgaW50ZXJydXB0IGxpbmUgc3VwcG9ydA0KPiA+ID4gK2FuZCByZXNl
-dCBsaW5lIHN1cHBvcnQuDQo+ID4gPiArDQo+ID4gPiArMi4gVEhDIEhhcmR3YXJlIEludGVyZmFj
-ZQ0KPiA+ID4gKz09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPiA+ICsNCj4gPiA+ICsyLjEg
-SG9zdCBJbnRlcmZhY2UNCj4gPiA+ICstLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiA+ICsNCj4gPiA+
-ICtUSEMgaXMgZXhwb3NlZCBhcyAiUENJIERpZ2l0aXplciBkZXZpY2UiIHRvIHRoZSBob3N0LiBU
-aGUgUENJDQo+ID4gPiBwcm9kdWN0IGFuZCBkZXZpY2UgSURzIGFyZQ0KPiA+ID4gK2NoYW5nZWQg
-ZnJvbSBkaWZmZXJlbnQgZ2VuZXJhdGlvbnMgb2YgcHJvY2Vzc29ycy4gU28gdGhlIHNvdXJjZQ0K
-PiA+ID4gK2NvZGUNCj4gPiA+IHdoaWNoIGVudW1lcmF0ZXMgZHJpdmVycw0KPiA+ID4gK25lZWRz
-IHRvIHVwZGF0ZSBmcm9tIGdlbmVyYXRpb24gdG8gZ2VuZXJhdGlvbi4NCj4gPiA+ICsNCj4gPiA+
-ICsNCj4gPiA+ICsyLjIgRGV2aWNlIEludGVyZmFjZQ0KPiA+ID4gKy0tLS0tLS0tLS0tLS0tLS0t
-LS0tDQo+ID4gPiArDQo+ID4gPiArVEhDIHN1cHBvcnRzIHR3byB0eXBlcyBvZiBidXMgZm9yIFRv
-dWNoIElDIGNvbm5lY3Rpb246IEVuaGFuY2VkIFNQSQ0KPiA+ID4gYnVzIGFuZCBJMkMgYnVzLg0K
-PiA+ID4gKw0KPiA+ID4gKzIuMi4xIFNQSSBQb3J0DQo+ID4gPiArfn5+fn5+fn5+fn5+fn4NCj4g
-PiA+ICsNCj4gPiA+ICtXaGVuIFBPUlRfVFlQRSA9IDAwYiBpbiBNTUlPIHJlZ2lzdGVycywgVEhD
-IHVzZXMgU1BJIGludGVyZmFjZXMgdG8NCj4gPiA+IGNvbW11bmljYXRlIHdpdGggZXh0ZXJuYWwN
-Cj4gPiA+ICtUb3VjaCBJQy4gVEhDIGVuaGFuY2VkIFNQSSBCdXMgc3VwcG9ydHMgZGlmZmVyZW50
-IFNQSSBtb2RlczoNCj4gPiA+IHN0YW5kYXJkIFNpbmdsZSBJTyBtb2RlLA0KPiA+ID4gK0R1YWwg
-SU8gbW9kZSBhbmQgUXVhZCBJTyBtb2RlLg0KPiA+ID4gKw0KPiA+ID4gK0luIFNpbmdsZSBJTyBt
-b2RlLCBUSEMgZHJpdmVzIE1PU0kgbGluZSB0byBzZW5kIGRhdGEgdG8gVG91Y2ggSUNzLA0KPiA+
-ID4gYW5kIHJlY2VpdmVzIGRhdGEgZnJvbSBUb3VjaA0KPiA+ID4gK0lDcyBkYXRhIGZyb20gTUlT
-TyBsaW5lLiBJbiBEdWFsIElPIG1vZGUsIFRIQyBkcml2ZXJzIE1PU0kgYW5kIE1JU08NCj4gPiA+
-IGJvdGggZm9yIGRhdGEgc2VuZGluZywgYW5kDQo+ID4gPiArYWxzbyByZWNlaXZlcyB0aGUgZGF0
-YSBvbiBib3RoIGxpbmUuIEluIFF1YWQgSU8gbW9kZSwgdGhlcmUgYXJlDQo+ID4gPiBvdGhlciB0
-d28gbGluZXMgKElPMiBhbmQgSU8zKQ0KPiA+ID4gK2FyZSBhZGRlZCwgVEhDIGRyaXZlcyBNT1NJ
-IChJTzApLCBNSVNPIChJTzEpLCBJTzIgYW5kIElPMyBhdCB0aGUNCj4gPiA+IHNhbWUgdGltZSBm
-b3IgZGF0YSBzZW5kaW5nLCBhbmQNCj4gPiA+ICthbHNvIHJlY2VpdmVzIHRoZSBkYXRhIG9uIHRo
-b3NlIDQgbGluZXMuIERyaXZlciBuZWVkcyB0byBjb25maWd1cmUNCj4gPiA+IFRIQyBpbiBkaWZm
-ZXJlbnQgbW9kZSBieQ0KPiA+ID4gK3NldHRpbmcgZGlmZmVyZW50IG9wY29kZS4NCj4gPiA+ICsN
-Cj4gPiA+ICtCZXNpZGUgSU8gbW9kZSwgZHJpdmVyIGFsc28gbmVlZHMgdG8gY29uZmlndXJlIFNQ
-SSBidXMgc3BlZWQuIFRIQw0KPiA+ID4gc3VwcG9ydHMgdXAgdG8gNDJNSHogU1BJIGNsb2NrDQo+
-ID4gPiArb24gSW50ZWwgTHVuYXIgTGFrZSBwbGF0Zm9ybS4NCj4gPiA+ICsNCj4gPiA+ICtGb3Ig
-VEhDIHNlbmRpbmcgZGF0YSB0byBUb3VjaCBJQywgdGhlIGRhdGEgZmxvdyBvbiBTUEkgYnVzOjoN
-Cj4gPiA+ICsNCj4gPiA+ICsgfCAtLS0tLS0tLS0tLS0tLS0tLS0tLVRIQyBzZW5kcy0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLXwNCj4gPiA+ICsgPDhCaXRzIE9QQ29kZT48MjRCaXRz
-IFNsYXZlIEFkZHJlc3M+PERhdGE+PERhdGE+PERhdGE+Li4uLi4uLi4uLi4NCj4gPiA+ICsNCj4g
-PiA+ICtGb3IgVEhDIHJlY2VpdmluZyBkYXRhIGZyb20gVG91Y2ggSUMsIHRoZSBkYXRhIGZsb3cg
-b24gU1BJIGJ1czo6DQo+ID4gPiArDQo+ID4gPiArIHwgLS0tLS0tLS0tVEhDIFNlbmRzLS0tLS0t
-LS0tLS0tLS0tfHwtLS0tLVRvdWNoIElDIHNlbmRzLS0tLS0tLS18DQo+ID4gPiArIDw4Qml0cyBP
-UENvZGU+PDI0Qml0cyBTbGF2ZSBBZGRyZXNzPjxEYXRhPjxEYXRhPjxEYXRhPi4uLi4uLi4uLi4u
-DQo+ID4gPiArDQo+ID4gPiArMi4yLjIgSTJDIFBvcnQNCj4gPiA+ICt+fn5+fn5+fn5+fn5+fg0K
-PiA+ID4gKw0KPiA+ID4gK1RIQyBhbHNvIGludGVncmF0ZXMgSTJDIGNvbnRyb2xsZXIgaW4gaXQs
-IGl0J3MgY2FsbGVkIEkyQyBTdWJTeXN0ZW0uDQo+ID4gPiBXaGVuIFBPUlRfVFlQRSA9IDAxLCBU
-SEMNCj4gPiA+ICtpcyBjb25maWd1cmVkIHRvIEkyQyBtb2RlLiBDb21wYXJpbmcgdG8gU1BJIG1v
-ZGUgd2hpY2ggY2FuIGJlDQo+ID4gPiBjb25maWd1cmVkIHRocm91Z2ggTU1JTyByZWdpc3RlcnMN
-Cj4gPiA+ICtkaXJlY3RseSwgVEhDIG5lZWRzIHRvIHVzZSBQSU8gcmVhZCAoYnkgc2V0dGluZyBT
-dWJJUCByZWFkIG9wY29kZSkNCj4gPiA+IHRvIEkyQyBzdWJJUCBBUEIgcmVnaXN0ZXJzJw0KPiA+
-ID4gK3ZhbHVlIGFuZCB1c2UgUElPIHdyaXRlIChieSBzZXR0aW5nIFN1YklQIHdyaXRlIG9wY29k
-ZSkgdG8gZG8gYQ0KPiA+ID4gd3JpdGUgb3BlcmF0aW9uLg0KPiA+ID4gKw0KPiA+ID4gKzIuMi4z
-IEdQSU8gaW50ZXJmYWNlDQo+ID4gPiArfn5+fn5+fn5+fn5+fn5+fn5+fn4NCj4gPiA+ICsNCj4g
-PiA+ICtUSEMgYWxzbyBpbmNsdWRlcyB0d28gR1BJTyBwaW5zLCBvbmUgZm9yIGludGVycnVwdCBh
-bmQgdGhlIG90aGVyDQo+ID4gPiArZm9yDQo+ID4gPiBkZXZpY2UgcmVzZXQgY29udHJvbC4NCj4g
-PiA+ICsNCj4gPiA+ICtJbnRlcnJ1cHQgbGluZSBjYW4gYmUgY29uZmlndXJlZCB0byBlaXRoZXIg
-bGV2ZWwgdHJpZ2dlcnJlZCBvciBlZGdlDQo+ID4gPiB0cmlnZ2VycmVkIGJ5IHNldHRpbmcgTU1J
-Tw0KPiA+ID4gK0NvbnRyb2wgcmVnaXN0ZXIuDQo+ID4gPiArDQo+ID4gPiArUmVzZXQgbGluZSBp
-cyBjb250cm9sbGVkIGJ5IEJJT1MgKG9yIEVGSSkgdGhyb3VnaCBBQ1BJIF9SU1QgbWV0aG9kLA0K
-PiA+ID4gZHJpdmVyIG5lZWRzIHRvIGNhbGwgdGhpcw0KPiA+ID4gK2RldmljZSBBQ1BJIF9SU1Qg
-bWV0aG9kIHRvIHJlc2V0IHRvdWNoIElDIGR1cmluZyBpbml0aWFsaXphdGlvbi4NCj4gPiA+ICsN
-Cj4gPiA+ICszLiBIaWdoIGxldmVsIGNvbmNlcHQNCj4gPiA+ICs9PT09PT09PT09PT09PT09PT09
-PT0NCj4gPiA+ICsNCj4gPiA+ICszLjEgT3Bjb2RlDQo+ID4gPiArLS0tLS0tLS0tLQ0KPiA+ID4g
-Kw0KPiA+ID4gK09wY29kZSAob3BlcmF0aW9uIGNvZGUpIGlzIHVzZWQgdG8gdGVsbCBUSEMgb3Ig
-VG91Y2ggSUMgd2hhdCB0aGUNCj4gPiA+IG9wZXJhdGlvbiB3aWxsIGJlLCBzdWNoIGFzIFBJTw0K
-PiA+ID4gK3JlYWQgb3IgUElPIHdyaXRlLg0KPiA+ID4gKw0KPiA+ID4gK1doZW4gVEhDIGlzIGNv
-bmZpZ3VyZWQgdG8gU1BJIG1vZGUsIG9wY29kZXMgYXJlIHVzZWQgZm9yDQo+ID4gPiArZGV0ZXJt
-aW5pbmcNCj4gPiA+IHRoZSByZWFkL3dyaXRlIElPIG1vZGUuDQo+ID4gPiArVGhlcmUgYXJlIHNv
-bWUgT1BDb2RlIGV4YW1wbGVzIGZvciBTUEkgSU8gbW9kZToNCj4gPiA+ICsNCj4gPiA+ICs9PT09
-PT09ICAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQo+ID4gPiArb3Bjb2RlICAgIENv
-cnJlc3BvbmRpbmcgU1BJIGNvbW1hbmQNCj4gPiA+ICs9PT09PT09ICAgPT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09DQo+ID4gPiArMHgwQiAgICAgIFJlYWQgU2luZ2xlIEkvTw0KPiA+ID4g
-KzB4MDIgICAgICBXcml0ZSBTaW5nbGUgSS9PDQo+ID4gPiArMHhCQiAgICAgIFJlYWQgRHVhbCBJ
-L08NCj4gPiA+ICsweEIyICAgICAgV3JpdGUgRHVhbCBJL08NCj4gPiA+ICsweEVCICAgICAgUmVh
-ZCBRdWFkIEkvTw0KPiA+ID4gKzB4RTIgICAgICBXcml0ZSBRdWFkIEkvTw0KPiA+ID4gKz09PT09
-PT0gICA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPiA+ICsNCj4gPiA+ICtJbiBn
-ZW5lcmFsLCBkaWZmZXJlbnQgdG91Y2ggSUMgaGFzIGRpZmZlcmVudCBPUENvZGUgZGVmaW5pdGlv
-bi4NCj4gPiA+IEFjY29yZGluZyB0byBISURTUEkNCj4gPiA+ICtwcm90b2NvbCB3aGl0ZXBhcGVy
-LCB0aG9zZSBPUENvZGVzIGFyZSBkZWZpbmVkIGluIGRldmljZSBBQ1BJDQo+ID4gPiArdGFibGUs
-DQo+ID4gPiBhbmQgZHJpdmVyIG5lZWRzIHRvDQo+ID4gPiArcXVlcnkgdGhvc2UgaW5mb3JtYXRp
-b24gdGhyb3VnaCBPUyBBQ1BJIEFQSXMgZHVyaW5nIGRyaXZlcg0KPiA+ID4gaW5pdGlhbGl6YXRp
-b24sIHRoZW4gY29uZmlndXJlcw0KPiA+ID4gK1RIQyBNTUlPIE9QQ29kZSByZWdpc3RlcnMgd2l0
-aCBjb3JyZWN0IHNldHRpbmcuDQo+ID4gPiArDQo+ID4gPiArV2hlbiBUSEMgaXMgd29ya2luZyBp
-biBJMkMgbW9kZSwgb3Bjb2RlcyBhcmUgdXNlZCB0byB0ZWxsIFRIQw0KPiA+ID4gK3doYXQncw0K
-PiA+ID4gdGhlIG5leHQgUElPIHR5cGU6DQo+ID4gPiArSTJDIFN1YklQIEFQQiByZWdpc3RlciBy
-ZWFkLCBJMkMgU3ViSVAgQVBCIHJlZ2lzdGVyIHdyaXRlLCBJMkMNCj4gPiA+ICt0b3VjaA0KPiA+
-ID4gSUMgZGV2aWNlIHJlYWQsDQo+ID4gPiArSTJDIHRvdWNoIElDIGRldmljZSB3cml0ZSwgSTJD
-IHRvdWNoIElDIGRldmljZSB3cml0ZSBmb2xsb3dlZCBieQ0KPiA+ID4gcmVhZC4NCj4gPiA+ICsN
-Cj4gPiA+ICtIZXJlIGFyZSB0aGUgVEhDIHByZS1kZWZpbmVkIG9wY29kZXMgZm9yIEkyQyBtb2Rl
-Og0KPiA+ID4gKw0KPiA+ID4gKz09PT09PT0gICA9PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPiA+ID09PT09PT09PT09DQo+ID4gPiArb3Bjb2Rl
-ICAgIENvcnJlc3BvbmRpbmcgSTJDIGNvbW1hbmQNCj4gPiA+IEFkZHJlc3MNCj4gPiA+ICs9PT09
-PT09ICAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-DQo+ID4gPiA9PT09PT09PT09PQ0KPiA+ID4gKzB4MTIgICAgICBSZWFkIEkyQyBTdWJJUCBBUEIg
-aW50ZXJuYWwgcmVnaXN0ZXJzICAgICAgICAgICAgICAgICAwaCAtDQo+ID4gPiBGRmgNCj4gPiA+
-ICsweDEzICAgICAgV3JpdGUgSTJDIFN1YklQIEFQQiBpbnRlcm5hbCByZWdpc3RlcnMgICAgICAg
-ICAgICAgICAgMGggLQ0KPiA+ID4gRkZoDQo+ID4gPiArMHgxNCAgICAgIFJlYWQgZXh0ZXJuYWwg
-VG91Y2ggSUMgdGhyb3VnaCBJMkMgYnVzICAgICAgICAgICAgICAgIE4vQQ0KPiA+ID4gKzB4MTgg
-ICAgICBXcml0ZSBleHRlcm5hbCBUb3VjaCBJQyB0aHJvdWdoIEkyQyBidXMgICAgICAgICAgICAg
-ICBOL0ENCj4gPiA+ICsweDFDICAgICAgV3JpdGUgdGhlbiByZWFkIGV4dGVybmFsIFRvdWNoIElD
-IHRocm91Z2ggSTJDIGJ1cyAgICAgTi9BDQo+ID4gPiArPT09PT09PSAgID09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiA+ID4gPT09PT09PT09PT0N
-Cj4gPiA+ICsNCj4gPiA+ICszLjIgUElPDQo+ID4gPiArLS0tLS0tLQ0KPiA+ID4gKw0KPiA+ID4g
-K1RIQyBwcm92aWRlcyBhIHByb2dyYW1tZWQgSS9PIChQSU8pIGFjY2VzcyBpbnRlcmZhY2UgZm9y
-IHRoZSBkcml2ZXINCj4gPiA+IHRvIGFjY2VzcyB0aGUgdG91Y2ggSUMncw0KPiA+ID4gK2NvbmZp
-Z3VyYXRpb24gcmVnaXN0ZXJzLCBvciBhY2Nlc3MgSTJDIHN1YklQJ3MgY29uZmlndXJhdGlvbg0K
-PiA+ID4gcmVnaXN0ZXJzLiBUbyB1c2UgUElPIHRvIHBlcmZvcm0NCj4gPiA+ICtJL08gb3BlcmF0
-aW9ucywgZHJpdmVyIHNob3VsZCBwcmUtcHJvZ3JhbSBQSU8gY29udHJvbCByZWdpc3RlcnMgYW5k
-DQo+ID4gPiBQSU8gZGF0YSByZWdpc3RlcnMgYW5kIGtpY2sNCj4gPiA+ICtvZmYgdGhlIHNlcXVl
-bmNpbmcgY3ljbGUuIFRIQyB1c2VzIGRpZmZlcmVudCBQSU8gb3Bjb2RlcyB0bw0KPiA+ID4gZGlz
-dGluZ3Vpc2ggZGlmZmVyZW50IFBJTw0KPiA+ID4gK29wZXJhdGlvbnMgKFBJTyByZWFkL3dyaXRl
-L3dyaXRlIGZvbGxvd2VkIGJ5IHJlYWQpLg0KPiA+ID4gKw0KPiA+ID4gK0lmIHRoZXJlIGlzIGEg
-U2VxdWVuY2luZyBDeWNsZSBJbiBQcm9ncmVzcyBhbmQgYW4gYXR0ZW1wdCBpcyBtYWRlDQo+ID4g
-PiArdG8NCj4gPiA+IHByb2dyYW0gYW55IG9mIHRoZSBjb250cm9sLA0KPiA+ID4gK2FkZHJlc3Ms
-IG9yIGRhdGEgcmVnaXN0ZXIgdGhlIGN5Y2xlIGlzIGJsb2NrZWQgYW5kIGEgc2VxdWVuY2UgZXJy
-b3INCj4gPiA+IHdpbGwgYmUgZW5jb3VudGVyZWQuDQo+ID4gPiArDQo+ID4gPiArQSBzdGF0dXMg
-Yml0IGluZGljYXRlcyB3aGVuIHRoZSBjeWNsZSBoYXMgY29tcGxldGVkIGFsbG93aW5nIHRoZQ0K
-PiA+ID4gZHJpdmVyIHRvIGtub3cgd2hlbiByZWFkIHJlc3VsdHMNCj4gPiA+ICtjYW4gYmUgY2hl
-Y2tlZCBhbmQvb3Igd2hlbiB0byBpbml0aWF0ZSBhIG5ldyBjb21tYW5kLiBJZiBlbmFibGVkLA0K
-PiA+ID4gdGhlIGN5Y2xlIGRvbmUgYXNzZXJ0aW9uIGNhbg0KPiA+ID4gK2ludGVycnVwdCBkcml2
-ZXIgd2l0aCBhbiBpbnRlcnJ1cHQuDQo+ID4gPiArDQo+ID4gPiArQmVjYXVzZSBUSEMgb25seSBo
-YXMgMTYgRklGTyByZWdpc3RlcnMgZm9yIFBJTywgc28gYWxsIHRoZSBkYXRhDQo+ID4gPiB0cmFu
-c2ZlciB0aHJvdWdoIFBJTyBzaG91bGRuJ3QNCj4gPiA+ICtleGNlZWQgNjQgYnl0ZXMuDQo+ID4g
-PiArDQo+ID4gPiArQXMgRE1BIG5lZWRzIG1heCBwYWNrZXQgc2l6ZSBmb3IgdHJhbnNmZXJyaW5n
-IGNvbmZpZ3VyYXRpb24sIGFuZA0KPiA+ID4gK3RoZQ0KPiA+ID4gbWF4IHBhY2tldCBzaXplIGlu
-Zm9ybWF0aW9uDQo+ID4gPiArYWx3YXlzIGluIEhJRCBkZXZpY2UgZGVzY3JpcHRvciB3aGljaCBu
-ZWVkcyBUSEMgZHJpdmVyIHRvIHJlYWQgaXQNCj4gPiA+IG91dCBmcm9tIEhJRCBEZXZpY2UgKFRv
-dWNoIElDKS4NCj4gPiA+ICtTbyBQSU8gdHlwaWNhbCB1c2UgY2FzZSBpcywgYmVmb3JlIERNQSBp
-bml0aWFsaXphdGlvbiwgd3JpdGUgUkVTRVQNCj4gPiA+IGNvbW1hbmQgKFBJTyB3cml0ZSksIHJl
-YWQNCj4gPiA+ICtSRVNFVCByZXNwb25zZSAoUElPIHJlYWQgb3IgUElPIHdyaXRlIGZvbGxvd2Vk
-IGJ5IHJlYWQpLCB3cml0ZQ0KPiA+ID4gK1Bvd2VyDQo+ID4gPiBPTiBjb21tYW5kIChQSU8gd3Jp
-dGUpLCByZWFkDQo+ID4gPiArZGV2aWNlIGRlc2NyaXB0b3IgKFBJTyByZWFkKS4NCj4gPiA+ICsN
-Cj4gPiA+ICtGb3IgaG93IHRvIGlzc3VlIGEgUElPIG9wZXJhdGlvbiwgaGVyZSBpcyB0aGUgc3Rl
-cHMgd2hpY2ggZHJpdmVyDQo+ID4gPiBuZWVkcyBmb2xsb3c6DQo+ID4gPiArDQo+ID4gPiArLSBQ
-cm9ncmFtIHJlYWQvd3JpdGUgZGF0YSBzaXplIGluIFRIQ19TU19CQy4NCj4gPiA+ICstIFByb2dy
-YW0gSS9PIHRhcmdldCBhZGRyZXNzIGluIFRIQ19TV19TRVFfREFUQTBfQUREUi4NCj4gPiA+ICst
-IElmIHdyaXRlLCBwcm9ncmFtIHRoZSB3cml0ZSBkYXRhIGluDQo+ID4gPiBUSENfU1dfU0VRX0RB
-VEEwLi5USENfU1dfU0VRX0RBVEFuLg0KPiA+ID4gKy0gUHJvZ3JhbSB0aGUgUElPIG9wY29kZSBp
-biBUSENfU1NfQ01ELg0KPiA+ID4gKy0gU2V0IFRTU0dPID0gMSB0byBzdGFydCB0aGUgUElPIHdy
-aXRlIHNlcXVlbmNlLg0KPiA+ID4gKy0gSWYgVEhDX1NTX0NEX0lFID0gMSwgU1cgd2lsbCByZWNl
-aXZlcyBhIE1TSSB3aGVuIHRoZSBQSU8gaXMNCj4gPiA+IGNvbXBsZXRlZC4NCj4gPiA+ICstIElm
-IHJlYWQsIHJlYWQgb3V0IHRoZSBkYXRhIGluIFRIQ19TV19TRVFfREFUQTAuLlRIQ19TV19TRVFf
-REFUQW4uDQo+ID4gPiArDQo+ID4gPiArMy4zIERNQQ0KPiA+ID4gKy0tLS0tLS0NCj4gPiA+ICsN
-Cj4gPiA+ICtUSEMgaGFzIDQgRE1BIGNoYW5uZWxzOiBSZWFkIERNQTEsIFJlYWQgRE1BMiwgV3Jp
-dGUgRE1BIGFuZA0KPiA+ID4gK1NvZnR3YXJlDQo+ID4gPiBETUEuDQo+ID4gPiArDQo+ID4gPiAr
-My4zLjEgUmVhZCBETUEgQ2hhbm5lbA0KPiA+ID4gK35+fn5+fn5+fn5+fn5+fn5+fn5+fn4NCj4g
-PiA+ICsNCj4gPiA+ICtUSEMgaGFzIHR3byBSZWFkIERNQSBlbmdpbmVzOiAxc3QgUnhETUEgKFJ4
-RE1BMSkgYW5kIDJuZCBSeERNQQ0KPiA+ID4gKFJ4RE1BMikuIFJ4RE1BMSBpcyByZXNlcnZlZCBm
-b3INCj4gPiA+ICtyYXcgZGF0YSBtb2RlLiBSeERNQTIgaXMgdXNlZCBmb3IgSElEIGRhdGEgbW9k
-ZSBhbmQgaXQgaXMgdGhlIFJ4RE1BDQo+ID4gPiBlbmdpbmUgY3VycmVudGx5IGRyaXZlciB1c2Vz
-DQo+ID4gPiArZm9yIEhJRCBpbnB1dCByZXBvcnQgZGF0YSByZXRyaWV2YWwuDQo+ID4gPiArDQo+
-ID4gPiArUnhETUEncyB0eXBpY2FsIHVzZSBjYXNlIGlzIGF1dG8gcmVjZWl2aW5nIHRoZSBkYXRh
-IGZyb20gVG91Y2ggSUMuDQo+ID4gPiBPbmNlIFJ4RE1BIGlzIGVuYWJsZWQgYnkNCj4gPiA+ICtz
-b2Z0d2FyZSwgVEhDIHdpbGwgc3RhcnQgYXV0by1oYW5kbGluZyByZWNlaXZpbmcgbG9naWMuDQo+
-ID4gPiArDQo+ID4gPiArRm9yIFNQSSBtb2RlLCBUSEMgUnhETUEgc2VxdWVuY2UgaXM6IHdoZW4g
-VG91Y2ggSUMgdHJpZ2dlcnMgYQ0KPiA+ID4gaW50ZXJydXB0IHRvIFRIQywgVEhDIHJlYWRzIG91
-dA0KPiA+ID4gK3JlcG9ydCBoZWFkZXIgdG8gaWRlbnRpZnkgd2hhdCdzIHRoZSByZXBvcnQgdHlw
-ZSwgYW5kIHdoYXQncyB0aGUNCj4gPiA+IHJlcG9ydCBsZW5ndGgsIGFjY29yZGluZyB0bw0KPiA+
-ID4gK2Fib3ZlIGluZm9ybWF0aW9uLCBUSEMgcmVhZHMgb3V0IHJlcG9ydCBib2R5IHRvIGludGVy
-bmFsIEZJRk8gYW5kDQo+ID4gPiBzdGFydCBSeERNQSBjb3BpbmcgdGhlIGRhdGENCj4gPiA+ICt0
-byBzeXN0ZW0gbWVtb3J5LiBBZnRlciB0aGF0LCBUSEMgdXBkYXRlIGludGVycnVwdCBjYXVzZSBy
-ZWdpc3Rlcg0KPiA+ID4gd2l0aCByZXBvcnQgdHlwZSwgYW5kIHVwZGF0ZQ0KPiA+ID4gK1J4RE1B
-IFBSRCB0YWJsZSByZWFkIHBvaW50ZXIsIHRoZW4gdHJpZ2dlciBhIE1TSSBpbnRlcnJ1cHQgdG8N
-Cj4gPiA+ICtub3RpZnkNCj4gPiA+IGRyaXZlciBSeERNQSBmaW5pc2hpbmcNCj4gPiA+ICtkYXRh
-IHJlY2VpdmluZy4NCj4gPiA+ICsNCj4gPiA+ICtGb3IgSTJDIG1vZGUsIFRIQyBSeERNQSdzIGJl
-aGF2aW9yIGlzIGEgbGl0dGxlIGJpdCBkaWZmZXJlbnQsDQo+ID4gPiBiZWNhdXNlIG9mIEhJREky
-QyBwcm90b2NvbCBkaWZmZXJlbmNlDQo+ID4gPiArd2l0aCBISURTUEkgcHJvdG9jb2wsIFJ4RE1B
-IG9ubHkgYmUgdXNlZCB0byByZWNlaXZlIGlucHV0IHJlcG9ydC4NCj4gPiA+IFRoZSBzZXF1ZW5j
-ZSBpcywgd2hlbiBUb3VjaCBJQw0KPiA+ID4gK3RyaWdnZXJzIGEgaW50ZXJydXB0IHRvIFRIQywg
-VEhDIGZpcnN0IHJlYWRzIG91dCAyIGJ5dGVzIGZyb20gaW5wdXQNCj4gPiA+IHJlcG9ydCBhZGRy
-ZXNzIHRvIGRldGVybWluZSB0aGUNCj4gPiA+ICtwYWNrZXQgbGVuZ3RoLCB0aGVuIHVzZSB0aGlz
-IHBhY2tldCBsZW5ndGggdG8gc3RhcnQgYSBETUEgcmVhZGluZw0KPiA+ID4gZnJvbSBpbnB1dCBy
-ZXBvcnQgYWRkcmVzcyBmb3INCj4gPiA+ICtpbnB1dCByZXBvcnQgZGF0YS4gQWZ0ZXIgdGhhdCwg
-VEhDIHVwZGF0ZSBSeERNQSBQUkQgdGFibGUgcmVhZA0KPiA+ID4gcG9pbnRlciwgdGhlbiB0cmln
-Z2VyIGEgTVNJIGludGVycnVwdA0KPiA+ID4gK3RvIG5vdGlmeSBkcml2ZXIgaW5wdXQgcmVwb3J0
-IGRhdGEgaXMgcmVhZHkgaW4gc3lzdGVtIG1lbW9yeS4NCj4gPiA+ICsNCj4gPiA+ICtBbGwgYWJv
-dmUgc2VxdWVuY2UgaXMgaGFyZHdhcmUgYXV0b21hdGljYWxseSBoYW5kbGVkLCBhbGwgZHJpdmVy
-DQo+ID4gPiBuZWVkcyB0byBkbyBpcyBjb25maWd1cmUgUnhETUEgYW5kDQo+ID4gPiArd2FpdGlu
-ZyBmb3IgaW50ZXJydXB0IHJlYWR5IHRoZW4gcmVhZCBvdXQgdGhlIGRhdGEgZnJvbSBzeXN0ZW0N
-Cj4gPiA+IG1lbW9yeS4NCj4gPiA+ICsNCj4gPiA+ICszLjMuMiBTb2Z0d2FyZSBETUEgY2hhbm5l
-bA0KPiA+ID4gK35+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+DQo+ID4gPiArDQo+ID4gPiArVEhD
-IHN1cHBvcnRzIGEgc29mdHdhcmUgdHJpZ2dlcnJlZCBSeERNQSBtb2RlIHRvIHJlYWQgdGhlIHRv
-dWNoDQo+ID4gPiArZGF0YQ0KPiA+ID4gZnJvbSB0b3VjaCBJQy4gVGhpcyBTVyBSeERNQQ0KPiA+
-ID4gK2lzIHRoZSAzcmQgVEhDIFJ4RE1BIGVuZ2luZSB3aXRoIHRoZSBzaW1pbGFyIGZ1bmN0aW9u
-YWxpdGllcyBhcyB0aGUNCj4gPiA+IGV4aXN0aW5nIHR3byBSeERNQXMsIHRoZSBvbmx5DQo+ID4g
-PiArZGlmZmVyZW5jZSBpcyB0aGlzIFNXIFJ4RE1BIGlzIHRyaWdnZXJyZWQgYnkgc29mdHdhcmUs
-IGFuZCBSeERNQTINCj4gPiA+ICtpcw0KPiA+ID4gdHJpZ2dlcnJlZCBieSBleHRlcm5hbCBUb3Vj
-aCBJQw0KPiA+ID4gK2ludGVycnVwdC4gSXQgZ2l2ZXMgYSBmbGV4aWJsaXR5IHRvIHNvZnR3YXJl
-IGRyaXZlciB0byB1c2UgUnhETUENCj4gPiA+IHJlYWQgVG91Y2ggSUMgZGF0YSBpbiBhbnkgdGlt
-ZS4NCj4gPiA+ICsNCj4gPiA+ICtCZWZvcmUgc29mdHdhcmUgc3RhcnRzIGEgU1cgUnhETUEsIGl0
-IHNoYWxsIHN0b3AgdGhlIDFzdCBhbmQgMm5kDQo+ID4gPiBSeERNQSwgY2xlYXIgUFJEIHJlYWQv
-d3JpdGUgcG9pbnRlcg0KPiA+ID4gK2FuZCBxdWllc2NlIHRoZSBkZXZpY2UgaW50ZXJydXB0IChU
-SENfREVWSU5UX1FVSUVTQ0VfSFdfU1RTID0gMSksDQo+ID4gPiBvdGhlciBvcGVyYXRpb25zIGFy
-ZSB0aGUgc2FtZSB3aXRoDQo+ID4gPiArUnhETUEuDQo+ID4gPiArDQo+ID4gPiArMy4zLjMgV3Jp
-dGUgRE1BIENoYW5uZWwNCj4gPiA+ICt+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fg0KPiA+ID4gKw0K
-PiA+ID4gK1RIQyBoYXMgb25lIHdyaXRlIERNQSBlbmdpbmUsIHdoaWNoIGNhbiBiZSB1c2VkIGZv
-ciBzZW5kaW5nIGRhdGEgdG8NCj4gPiA+IFRvdWNoIElDIGF1dG9tYXRpY2FsbHkuDQo+ID4gPiAr
-QWNjb3JkaW5nIHRvIEhJRFNQSSBhbmQgSElESTJDIHByb3RvY29sLCBldmVyeSB0aW1lIG9ubHkg
-b25lDQo+ID4gPiArY29tbWFuZA0KPiA+ID4gY2FuIGJlIHNlbnQgdG8gdG91Y2ggSUMsIGFuZA0K
-PiA+ID4gK2JlZm9yZSBsYXN0IGNvbW1hbmQgaXMgY29tcGxldGVseSBoYW5kbGVkLCBuZXh0IGNv
-bW1hbmQgY2Fubm90IGJlDQo+ID4gPiBzZW50LCBUSEMgd3JpdGUgRE1BIGVuZ2luZSBvbmx5DQo+
-ID4gPiArc3VwcG9ydHMgc2luZ2xlIFBSRCB0YWJsZS4NCj4gPiA+ICsNCj4gPiA+ICtXaGF0IGRy
-aXZlciBuZWVkcyB0byBkbyBpcywgcHJlcGFyaW5nIFBSRCB0YWJsZSBhbmQgRE1BIGJ1ZmZlciwN
-Cj4gPiA+ICt0aGVuDQo+ID4gPiBjb3B5IGRhdGEgdG8gRE1BIGJ1ZmZlciBhbmQNCj4gPiA+ICt1
-cGRhdGUgUFJEIHRhYmxlIHdpdGggYnVmZmVyIGFkZHJlc3MgYW5kIGJ1ZmZlciBsZW5ndGgsIHRo
-ZW4gc3RhcnQNCj4gPiA+IHdyaXRlIERNQS4gVEhDIHdpbGwNCj4gPiA+ICthdXRvbWF0aWNhbGx5
-IHNlbmQgdGhlIGRhdGEgdG8gdG91Y2ggSUMsIGFuZCB0cmlnZ2VyIGEgRE1BDQo+ID4gPiBjb21w
-bGV0aW9uIGludGVycnVwdCBvbmNlIHRyYW5zZmVycmluZw0KPiA+ID4gK2lzIGRvbmUuDQo+ID4g
-PiArDQo+ID4gPiArMy40IFBSRA0KPiA+ID4gKy0tLS0tLS0NCj4gPiA+ICsNCj4gPiA+ICtQaHlz
-aWNhbCBSZWdpb24gRGVzY3JpcHRvciAoUFJEKSBwcm92aWRlcyB0aGUgbWVtb3J5IG1hcHBpbmcN
-Cj4gPiA+IGRlc2NyaXB0aW9uIGZvciBUSEMgRE1Bcy4NCj4gPiA+ICsNCj4gPiA+ICszLjQuMSBQ
-UkQgdGFibGUgYW5kIGVudHJ5DQo+ID4gPiArfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fg0KPiA+
-ID4gKw0KPiA+ID4gK0luIG9yZGVyIHRvIGltcHJvdmUgcGh5c2ljYWwgRE1BIG1lbW9yeSB1c2Fn
-ZSwgbW9kZXJuIGRyaXZlcnMgdHJlbmQNCj4gPiA+IHRvIGFsbG9jYXRlIGEgdmlydHVhbGx5DQo+
-ID4gPiArY29udGlndW91cywgYnV0IHBoeXNpY2FsbHkgZnJhZ21lbnRlZCBidWZmZXIgb2YgbWVt
-b3J5IGZvciBlYWNoDQo+ID4gPiArZGF0YQ0KPiA+ID4gYnVmZmVyLiBMaW51eCBPUyBhbHNvDQo+
-ID4gPiArcHJvdmlkZSBTR0wgKHNjYXR0ZXIgZ2F0aGVyIGxpc3QpIEFQSXMgdG8gc3VwcG9ydCB0
-aGlzIHVzYWdlLg0KPiA+ID4gKw0KPiA+ID4gK1RIQyB1c2VzIFBSRCB0YWJsZSAocGh5c2ljYWwg
-cmVnaW9uIGRlc2NyaXB0b3IpIHRvIHN1cHBvcnQgdGhlDQo+ID4gPiBjb3JyZXNwb25kaW5nIE9T
-IGtlcm5lbA0KPiA+ID4gK1NHTCB0aGF0IGRlc2NyaWJlcyB0aGUgdmlydHVhbCB0byBwaHlzaWNh
-bCBidWZmZXIgbWFwcGluZy4NCj4gPiA+ICsNCj4gPiA+ICs6Og0KPiA+ID4gKw0KPiA+ID4gKyAg
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tICAgICAgLS0tLS0tLS0tLS0tLS0gICAgICAgLS0tLS0t
-LS0tLS0tLS0NCj4gPiA+ICsgfCBQUkQgdGFibGUgYmFzZSBhZGRyZXNzICstLS0tKyBQUkQgdGFi
-bGUgIzEgKy0tLS0tKyBQUkQgRW50cnkgIzENCj4gPiA+ICsgfCB8DQo+ID4gPiArICAtLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0gICAgICAtLS0tLS0tLS0tLS0tLSAgICAgICAtLS0tLS0tLS0tLS0t
-LQ0KPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgLS0tLS0tLS0tLS0tLS0NCj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgfCBQUkQgRW50cnkgIzIgfA0KPiA+ID4gKyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLS0tLS0tLS0tLS0t
-LS0NCj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIC0tLS0tLS0tLS0tLS0tDQo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIHwgUFJEIEVudHJ5ICNuIHwNCj4gPiA+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0tLS0tLS0tLS0t
-LS0tDQo+ID4gPiArDQo+ID4gPiArVGhlIHJlYWQgRE1BIGVuZ2luZSBzdXBwb3J0cyBtdWx0aXBs
-ZSBQUkQgdGFibGVzIGhlbGQgd2l0aGluIGENCj4gPiA+IGNpcmN1bGFyIGJ1ZmZlciB0aGF0IGFs
-bG93IHRoZSBUSEMNCj4gPiA+ICt0byBzdXBwb3J0IG11bHRpcGxlIGRhdGEgYnVmZmVycyBmcm9t
-IHRoZSBUb3VjaCBJQy4gVGhpcyBhbGxvd3MNCj4gPiA+ICtob3N0DQo+ID4gPiBTVyB0byBhcm0g
-dGhlIFJlYWQgRE1BIGVuZ2luZQ0KPiA+ID4gK3dpdGggbXVsdGlwbGUgYnVmZmVycywgYWxsb3dp
-bmcgdGhlIFRvdWNoIElDIHRvIHNlbmQgbXVsdGlwbGUgZGF0YQ0KPiA+ID4gZnJhbWVzIHRvIHRo
-ZSBUSEMgd2l0aG91dCBTVw0KPiA+ID4gK2ludGVyYWN0aW9uLiBUaGlzIGNhcGFiaWxpdHkgaXMg
-cmVxdWlyZWQgd2hlbiB0aGUgQ1BVIHByb2Nlc3Nlcw0KPiA+ID4gdG91Y2ggZnJhbWVzIHNsb3dl
-ciB0aGFuIHRoZQ0KPiA+ID4gK1RvdWNoIElDIGNhbiBzZW5kIHRoZW0uDQo+ID4gPiArDQo+ID4g
-PiArVG8gc2ltcGxpZnkgdGhlIGRlc2lnbiwgU1cgYXNzdW1lcyB3b3JzdC1jYXNlIG1lbW9yeSBm
-cmFnbWVudGF0aW9uLg0KPiA+ID4gVGhlcmVmb3JlLGVhY2ggUFJEIHRhYmxlIHNoYWxsDQo+ID4g
-PiArY29udGFpbiB0aGUgc2FtZSBudW1iZXIgb2YgUFJEIGVudHJpZXMsIGFsbG93aW5nIGZvciBh
-IGdsb2JhbA0KPiA+ID4gcmVnaXN0ZXIgKHBlciBUb3VjaCBJQykgdG8gaG9sZCB0aGUNCj4gPiA+
-ICtudW1iZXIgb2YgUFJELWVudHJpZXMgcGVyIFBSRCB0YWJsZS4NCj4gPiA+ICsNCj4gPiA+ICtT
-VyBhbGxvY2F0ZXMgdXAgdG8gMTI4IFBSRCB0YWJsZXMgcGVyIFJlYWQgRE1BIGVuZ2luZSBhcyBz
-cGVjaWZpZWQNCj4gPiA+IGluIHRoZSBUSENfTV9QUlRfUlBSRF9DTlRSTC5QQ0QNCj4gPiA+ICty
-ZWdpc3RlciBmaWVsZC4gVGhlIG51bWJlciBvZiBQUkQgdGFibGVzIHNob3VsZCBlcXVhbCB0aGUg
-bnVtYmVyIG9mDQo+ID4gPiBkYXRhIGJ1ZmZlcnMuDQo+ID4gPiArDQo+ID4gPiArTWF4IE9TIG1l
-bW9yeSBmcmFnbWVudGF0aW9uIHdpbGwgYmUgYXQgYSA0S0IgYm91bmRhcnksIHRodXMgdG8NCj4g
-PiA+IGFkZHJlc3MgMU1CIG9mIHZpcnR1YWxseSBjb250aWd1b3VzDQo+ID4gPiArbWVtb3J5IDI1
-NiBQUkQgZW50cmllcyBhcmUgcmVxdWlyZWQgZm9yIGEgc2luZ2xlIFBSRCBUYWJsZS4gU1cNCj4g
-PiA+IHdyaXRlcyB0aGUgbnVtYmVyIG9mIFBSRCBlbnRyaWVzDQo+ID4gPiArZm9yIGVhY2ggUFJE
-IHRhYmxlIGluIHRoZSBUSENfTV9QUlRfUlBSRF9DTlRSTC5QVEVDIHJlZ2lzdGVyIGZpZWxkLg0K
-PiA+ID4gVGhlIFBSRCBlbnRyeSdzIGxlbmd0aCBtdXN0IGJlDQo+ID4gPiArbXVsdGlwbGUgb2Yg
-NEtCIGV4Y2VwdCBmb3IgdGhlIGxhc3QgZW50cnkgaW4gYSBQUkQgdGFibGUuDQo+ID4gPiArDQo+
-ID4gPiArU1cgYWxsb2NhdGVzIGFsbCB0aGUgZGF0YSBidWZmZXJzIGFuZCBQUkQgdGFibGVzIG9u
-bHkgb25jZSBhdCBob3N0DQo+ID4gPiBpbml0aWFsaXphdGlvbi4NCj4gPiA+ICsNCj4gPiA+ICsz
-LjQuMiBQUkQgV3JpdGUgcG9pbnRlciBhbmQgcmVhZCBwb2ludGVyDQo+ID4gPiArfn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fg0KPiA+ID4gKw0KPiA+ID4gK0FzIFBSRCB0
-YWJsZXMgYXJlIG9yZ2FuaXplZCBhcyBhIENpcmN1bGFyIEJ1ZmZlciAoQ0IpLCBhIHJlYWQNCj4g
-PiA+IHBvaW50ZXIgYW5kIGEgd3JpdGUgcG9pbnRlciBmb3IgYSBDQg0KPiA+ID4gK2FyZSBuZWVk
-ZWQuDQo+ID4gPiArDQo+ID4gPiArRE1BIEhXIGNvbnN1bWVzIHRoZSBQUkQgdGFibGVzIGluIHRo
-ZSBDQiwgb25lIFBSRCBlbnRyeSBhdCBhIHRpbWUNCj4gPiA+IHVudGlsIHRoZSBFT1AgYml0IGlz
-IGZvdW5kIHNldA0KPiA+ID4gK2luIGEgUFJEIGVudHJ5LiBBdCB0aGlzIHBvaW50IEhXIGluY3Jl
-bWVudHMgdGhlIFBSRCByZWFkIHBvaW50ZXIuDQo+ID4gPiBUaHVzLCB0aGUgcmVhZCBwb2ludGVy
-IHBvaW50cw0KPiA+ID4gK3RvIHRoZSBQUkQgd2hpY2ggdGhlIERNQSBlbmdpbmUgaXMgY3VycmVu
-dGx5IHByb2Nlc3NpbmcuIFRoaXMNCj4gPiA+IHBvaW50ZXIgcm9sbHMgb3ZlciBvbmNlIHRoZSBj
-aXJjdWxhcg0KPiA+ID4gK2J1ZmZlcidzIGRlcHRoIGhhcyBiZWVuIHRyYXZlcnNlZCB3aXRoIGJp
-dFs3XSB0aGUgUm9sbG92ZXIgYml0LiBFLmcuDQo+ID4gPiBpZiB0aGUgRE1BIENCIGRlcHRoIGlz
-IGVxdWFsDQo+ID4gPiArdG8gNCBlbnRyaWVzICgwMDExYiksIHRoZW4gdGhlIHJlYWQgcG9pbnRl
-cnMgd2lsbCBmb2xsb3cgdGhpcw0KPiA+ID4gcGF0dGVybiAoSFcgaXMgcmVxdWlyZWQgdG8gaG9u
-b3INCj4gPiA+ICt0aGlzIGJlaGF2aW9yKTogMDBoIDAxaCAwMmggMDNoIDgwaCA4MWggODJoIDgz
-aCAwMGggMDFoIC4uLg0KPiA+ID4gKw0KPiA+ID4gK1RoZSB3cml0ZSBwb2ludGVyIGlzIHVwZGF0
-ZWQgYnkgU1cuIFRoZSB3cml0ZSBwb2ludGVyIHBvaW50cyB0bw0KPiA+ID4gbG9jYXRpb24gaW4g
-dGhlIERNQSBDQiwgd2hlcmUgdGhlDQo+ID4gPiArbmV4dCBQUkQgdGFibGUgaXMgZ29pbmcgdG8g
-YmUgc3RvcmVkLiBTVyBuZWVkcyB0byBlbnN1cmUgdGhhdCB0aGlzDQo+ID4gPiBwb2ludGVyIHJv
-bGxzIG92ZXIgb25jZSB0aGUNCj4gPiA+ICtjaXJjdWxhciBidWZmZXIncyBkZXB0aCBoYXMgYmVl
-biB0cmF2ZXJzZWQgd2l0aCBCaXRbN10gYXMgdGhlDQo+ID4gPiByb2xsb3ZlciBiaXQuIEUuZy4g
-aWYgdGhlIERNQSBDQg0KPiA+ID4gK2RlcHRoIGlzIGVxdWFsIHRvIDUgZW50cmllcyAoMDEwMGIp
-LCB0aGVuIHRoZSB3cml0ZSBwb2ludGVycyB3aWxsDQo+ID4gPiBmb2xsb3cgdGhpcyBwYXR0ZXJu
-IChTVyBpcw0KPiA+ID4gK3JlcXVpcmVkIHRvIGhvbm9yIHRoaXMgYmVoYXZpb3IpOiAwMGggMDFo
-IDAyaCAwM2ggMDRoIDgwaCA4MWggODJoDQo+ID4gPiA4M2ggODRoIDAwaCAwMWggLi4NCj4gPiA+
-ICsNCj4gPiA+ICszLjQuMyBQUkQgZGVzY3JpcHRvciBzdHJ1Y3R1cmUNCj4gPiA+ICt+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4NCj4gPiA+ICsNCj4gPiA+ICtJbnRlbCBUSEMgdXNlcyBQ
-UkQgZW50cnkgZGVzY3JpcHRvciBmb3IgZXZlcnkgUFJEIGVudHJ5LiBFdmVyeSBQUkQNCj4gPiA+
-IGVudHJ5IGRlc2NyaXB0b3Igb2NjdXBpZXMNCj4gPiA+ICsxMjggYml0cyBtZW1vcmllczoNCj4g
-PiA+ICsNCj4gPiA+ICs9PT09PT09PT09PT09PT09PT09ICAgPT09PT09PT0NCj4gPiA+ID09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQo+ID4gPiArc3RydWN0
-IGZpZWxkICAgICAgICAgIGJpdChzKSAgICAgZGVzY3JpcHRpb24NCj4gPiA+ICs9PT09PT09PT09
-PT09PT09PT09ICAgPT09PT09PT0NCj4gPiA+ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09DQo+ID4gPiArZGVzdF9hZGRyICAgICAgICAgICAgIDUzLi4wICAg
-ICAgZGVzdGluYXRpb24gbWVtb3J5IGFkZHJlc3MsIGFzDQo+ID4gPiBldmVyeSBlbnRyeQ0KPiA+
-ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlzIDRLQiwgaWdub3JlIGxvd2Vz
-dCAxMCBiaXRzIG9mDQo+ID4gPiBhZGRyZXNzLg0KPiA+ID4gK3Jlc2VydmVkMSAgICAgICAgICAg
-ICA1NC4uNjIgICAgIHJlc2VydmVkDQo+ID4gPiAraW50X29uX2NvbXBsZXRpb24gICAgIDYzICAg
-ICAgICAgY29tcGxldGlvbiBpbnRlcnJ1cHQgZW5hYmxlIGJpdCwgaWYNCj4gPiA+IHRoaXMgYml0
-DQo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc2V0IGl0IG1lYW5zIFRI
-QyB3aWxsIHRyaWdnZXIgYQ0KPiA+ID4gY29tcGxldGlvbg0KPiA+ID4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIGludGVycnVwdC4gVGhpcyBiaXQgaXMgc2V0IGJ5IFNXDQo+ID4g
-PiBkcml2ZXIuDQo+ID4gPiArbGVuICAgICAgICAgICAgICAgICAgIDg3Li42NCAgICAgaG93IG1h
-bnkgYnl0ZXMgb2YgZGF0YSBpbiB0aGlzDQo+ID4gPiBlbnRyeS4NCj4gPiA+ICtlbmRfb2ZfcHJk
-ICAgICAgICAgICAgODggICAgICAgICBlbmQgb2YgUFJEIHRhYmxlIGJpdCwgaWYgdGhpcyBiaXQN
-Cj4gPiA+IGlzIHNldCwNCj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBp
-dCBtZWFucyB0aGlzIGVudHJ5IGlzIGxhc3QgZW50cnkNCj4gPiA+IGluIHRoaXMgUFJEDQo+ID4g
-PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFibGUuIFRoaXMgYml0IGlzIHNl
-dCBieSBTVw0KPiA+ID4gZHJpdmVyLg0KPiA+ID4gK2h3X3N0YXR1cyAgICAgICAgICAgICA5MC4u
-ODkgICAgIEhXIHN0YXR1cyBiaXRzDQo+ID4gPiArcmVzZXJ2ZWQyICAgICAgICAgICAgIDEyNy4u
-OTEgICAgcmVzZXJ2ZWQNCj4gPiA+ICs9PT09PT09PT09PT09PT09PT09ICAgPT09PT09PT0NCj4g
-PiA+ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQo+ID4g
-PiArDQo+ID4gPiArQW5kIG9uZSBQUkQgdGFibGUgY2FuIGluY2x1ZGUgdXAgdG8gMjU2IFBSRCBl
-bnRyaWVzLCBhcyBldmVyeQ0KPiA+ID4gZW50cmllcyBpcyA0SyBieXRlcywgc28gZXZlcnkNCj4g
-PiA+ICtQUkQgdGFibGUgY2FuIGRlc2NyaWJlIDFNIGJ5dGVzIG1lbW9yeS4NCj4gPiA+ICsNCj4g
-PiA+ICsuLiBjb2RlLWJsb2NrOjogYw0KPiA+ID4gKw0KPiA+ID4gKyAgIHN0cnVjdCB0aGNfcHJk
-X3RhYmxlIHsNCj4gPiA+ICsgICAgICAgIHN0cnVjdCB0aGNfcHJkX2VudHJ5IGVudHJpZXNbUFJE
-X0VOVFJJRVNfTlVNXTsNCj4gPiA+ICsgICB9Ow0KPiA+ID4gKw0KPiA+ID4gK0luIGdlbmVyYWws
-IGV2ZXJ5IFBSRCB0YWJsZSBtZWFucyBvbmUgSElEIHRvdWNoIGRhdGEgcGFja2V0LiBFdmVyeQ0K
-PiA+ID4gRE1BIGVuZ2luZSBjYW4gc3VwcG9ydA0KPiA+ID4gK3VwIHRvIDEyOCBQUkQgdGFibGVz
-IChleGNlcHQgd3JpdGUgRE1BLCB3cml0ZSBETUEgb25seSBoYXMgb25lIFBSRA0KPiA+ID4gdGFi
-bGUpLiBTVyBkcml2ZXIgaXMgcmVzcG9uc2libGUNCj4gPiA+ICt0byBnZXQgbWF4IHBhY2tldCBs
-ZW5ndGggZnJvbSB0b3VjaCBJQywgYW5kIHVzZSB0aGlzIG1heCBwYWNrZXQNCj4gPiA+IGxlbmd0
-aCB0byBjcmVhdGUgUFJEIGVudHJpZXMgZm9yDQo+ID4gPiArZWFjaCBQUkQgdGFibGUuDQo+ID4g
-PiArDQo+ID4gPiArNC4gSElEU1BJIHN1cHBvcnQgKFF1aWNrU1BJKQ0KPiA+ID4gKz09PT09PT09
-PT09PT09PT09PT09PT09PT09PT0NCj4gPiA+ICsNCj4gPiA+ICtJbnRlbCBUSEMgaXMgdG90YWwg
-Y29tcGF0aWJsZSB3aXRoIEhJRFNQSSBwcm90b2NvbCwgVEhDIEhXDQo+ID4gPiArc2VxdWVuc2Vy
-DQo+ID4gPiBjYW4gYWNjZWxlcmF0ZSBISURTUEkNCj4gPiA+ICtwcm90b2NvbCB0cmFuc2ZlcnJp
-bmcuDQo+ID4gPiArDQo+ID4gPiArNC4xIFJlc2V0IEZsb3cNCj4gPiA+ICstLS0tLS0tLS0tLS0t
-LQ0KPiA+ID4gKw0KPiA+ID4gKy0gQ2FsbCBBQ1BJIF9SU1QgbWV0aG9kIHRvIHJlc2V0IFRvdWNo
-IElDIGRldmljZS4NCj4gPiA+ICstIFJlYWQgdGhlIHJlc2V0IHJlc3BvbnNlIGZyb20gVElDIHRo
-cm91Z2ggUElPIHJlYWQuDQo+ID4gPiArLSBJc3N1ZSBhIGNvbW1hbmQgdG8gcmV0cmlldmUgZGV2
-aWNlIGRlc2NyaXB0b3IgZnJvbSBUb3VjaCBJQw0KPiA+ID4gdGhyb3VnaCBQSU8gd3JpdGUuDQo+
-ID4gPiArLSBSZWFkIHRoZSBkZXZpY2UgZGVzY3JpcHRvciBmcm9tIFRvdWNoIElDIHRocm91Z2gg
-UElPIHJlYWQuDQo+ID4gPiArLSBJZiB0aGUgZGV2aWNlIGRlc2NyaXB0b3IgaXMgdmFsaWQsIGFs
-bG9jYXRlIERNQSBidWZmZXJzIGFuZA0KPiA+ID4gY29uZmlndXJlIGFsbCBETUEgY2hhbm5lbHMu
-DQo+ID4gPiArLSBJc3N1ZSBhIGNvbW1hbmQgdG8gcmV0cmlldmUgcmVwb3J0IGRlc2NyaXB0b3Ig
-ZnJvbSBUb3VjaCBJQw0KPiA+ID4gdGhyb3VnaCBETUEuDQo+ID4gPiArDQo+ID4gPiArNC4yIElu
-cHV0IFJlcG9ydCBEYXRhIEZsb3cNCj4gPiA+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
-PiA+ID4gKw0KPiA+ID4gK0Jhc2ljIEZsb3c6DQo+ID4gPiArDQo+ID4gPiArLSBUb3VjaCBJQyBp
-bnRlcnJ1cHRzIHRoZSBUSEMgQ29udHJvbGxlciB1c2luZyBhbiBpbi1iYW5kIFRIQw0KPiA+ID4g
-aW50ZXJydXB0Lg0KPiA+ID4gKy0gVEhDIFNlcXVlbmNlciByZWFkcyB0aGUgaW5wdXQgcmVwb3J0
-IGhlYWRlciBieSB0cmFuc21pdHRpbmcgcmVhZA0KPiA+ID4gYXBwcm92YWwgYXMgYSBzaWduYWwN
-Cj4gPiA+ICsgIHRvIHRoZSBUb3VjaCBJQyB0byBwcmVwYXJlIGZvciBob3N0IHRvIHJlYWQgZnJv
-bSB0aGUgZGV2aWNlLg0KPiA+ID4gKy0gVEhDIFNlcXVlbmNlciBleGVjdXRlcyBhIElucHV0IFJl
-cG9ydCBCb2R5IFJlYWQgb3BlcmF0aW9uDQo+ID4gPiBjb3JyZXNwb25kaW5nIHRvIHRoZSB2YWx1
-ZQ0KPiA+ID4gKyAgcmVmbGVjdGVkIGluIOKAnElucHV0IFJlcG9ydCBMZW5ndGjigJ0gZmllbGQg
-b2YgdGhlIElucHV0IFJlcG9ydA0KPiA+ID4gSGVhZGVyLg0KPiA+ID4gKy0gVEhDIERNQSBlbmdp
-bmUgYmVnaW5zIGZldGNoaW5nIGRhdGEgZnJvbSB0aGUgVEhDIFNlcXVlbmNlciBhbmQNCj4gPiA+
-IHdyaXRlcyB0byBob3N0IG1lbW9yeQ0KPiA+ID4gKyAgYXQgUFJEIGVudHJ5IDAgZm9yIHRoZSBj
-dXJyZW50IENCIFBSRCB0YWJsZSBlbnRyeS4gVGhpcyBwcm9jZXNzDQo+ID4gPiBjb250aW51ZXMg
-dW50aWwgdGhlDQo+ID4gPiArICBUSEMgU2VxdWVuY2VyIHNpZ25hbHMgYWxsIGRhdGEgaGFzIGJl
-ZW4gcmVhZCBvciB0aGUgVEhDIERNQSBSZWFkDQo+ID4gPiBFbmdpbmUgcmVhY2hlcyB0aGUNCj4g
-PiA+ICsgIGVuZCBvZiBpdCdzIGxhc3QgUFJEIGVudHJ5IChvciBib3RoKS4NCj4gPiA+ICstIFRo
-ZSBUSEMgU2VxdWVuY2VyIGNoZWNrcyBmb3IgdGhlIOKAnExhc3QgRnJhZ21lbnQgRmxhZ+KAnSBi
-aXQgaW4gdGhlDQo+ID4gPiBJbnB1dCBSZXBvcnQgSGVhZGVyLg0KPiA+ID4gKyAgSWYgaXQgaXMg
-Y2xlYXIsIHRoZSBUSEMgU2VxdWVuY2VyIGVudGVycyBhbiBpZGxlIHN0YXRlLg0KPiA+ID4gKy0g
-SWYgdGhlIOKAnExhc3QgRnJhZ21lbnQgRmxhZ+KAnSBiaXQgaXMgZW5hYmxlZCB0aGUgVEhDIFNl
-cXVlbmNlcg0KPiA+ID4gZW50ZXJzIEVuZC1vZi1GcmFtZSBQcm9jZXNzaW5nLg0KPiA+ID4gKw0K
-PiA+ID4gK1RIQyBTZXF1ZW5jZXIgRW5kIG9mIEZyYW1lIFByb2Nlc3Npbmc6DQo+ID4gPiArDQo+
-ID4gPiArLSBUSEMgRE1BIGVuZ2luZSBpbmNyZW1lbnRzIHRoZSByZWFkIHBvaW50ZXIgb2YgdGhl
-IFJlYWQgUFJEIENCLA0KPiA+ID4gc2V0cyBFT0YgaW50ZXJydXB0IHN0YXR1cw0KPiA+ID4gKyAg
-aW4gUnhETUEyIHJlZ2lzdGVyIChUSENfTV9QUlRfUkVBRF9ETUFfSU5UX1NUU18yKS4NCj4gPiA+
-ICstIElmIFRIQyBFT0YgaW50ZXJydXB0IGlzIGVuYWJsZWQgYnkgdGhlIGRyaXZlciBpbiB0aGUg
-Y29udHJvbA0KPiA+ID4gcmVnaXN0ZXIgKFRIQ19NX1BSVF9SRUFEX0RNQV9DTlRSTF8yKSwNCj4g
-PiA+ICsgIGdlbmVyYXRlcyBpbnRlcnJ1cHQgdG8gc29mdHdhcmUuDQo+ID4gPiArDQo+ID4gPiAr
-U2VxdWVuY2Ugb2Ygc3RlcHMgdG8gcmVhZCBkYXRhIGZyb20gUlggRE1BIGJ1ZmZlcjoNCj4gPiA+
-ICsNCj4gPiA+ICstIFRIQyBRdWlja1NQSSBkcml2ZXIgY2hlY2tzIENCIHdyaXRlIFB0ciBhbmQg
-Q0IgcmVhZCBQdHIgdG8NCj4gPiA+IGlkZW50aWZ5IGlmIGFueSBkYXRhIGZyYW1lIGluIERNQQ0K
-PiA+ID4gKyAgY2lyY3VsYXIgYnVmZmVycy4NCj4gPiA+ICstIFRIQyBRdWlja1NQSSBkcml2ZXIg
-Z2V0cyBmaXJzdCB1bnByb2Nlc3NlZCBQUkQgdGFibGUuDQo+ID4gPiArLSBUSEMgUXVpY2tTUEkg
-ZHJpdmVyIHNjYW5zIGFsbCBQUkQgZW50cmllcyBpbiB0aGlzIFBSRCB0YWJsZSB0bw0KPiA+ID4g
-Y2FsY3VsYXRlIHRoZSB0b3RhbCBmcmFtZSBzaXplLg0KPiA+ID4gKy0gVEhDIFF1aWNrU1BJIGRy
-aXZlciBjb3BpZXMgYWxsIGZyYW1lIGRhdGEgb3V0Lg0KPiA+ID4gKy0gVEhDIFF1aWNrU1BJIGRy
-aXZlciBjaGVja3MgdGhlIGRhdGEgdHlwZSBhY2NvcmRpbmcgdG8gaW5wdXQNCj4gPiA+ICtyZXBv
-cnQNCj4gPiA+IGJvZHksIGFuZCBjYWxscyByZWxhdGVkDQo+ID4gPiArICBjYWxsYmFja3MgdG8g
-cHJvY2VzcyB0aGUgZGF0YS4NCj4gPiA+ICstIFRIQyBRdWlja1NQSSBkcml2ZXIgdXBkYXRlcyB3
-cml0ZSBQdHIuDQo+ID4gPiArDQo+ID4gPiArNC4zIE91dHB1dCBSZXBvcnQgRGF0YSBGbG93DQo+
-ID4gPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4gPiArDQo+ID4gPiArR2VuZXJp
-YyBPdXRwdXQgUmVwb3J0IEZsb3c6DQo+ID4gPiArDQo+ID4gPiArLSBISUQgY29yZSBjYWxscyBy
-YXdfcmVxdWVzdCBjYWxsYmFjayB3aXRoIGEgcmVxdWVzdCB0byBUSEMNCj4gPiA+ICtRdWlja1NQ
-SQ0KPiA+ID4gZHJpdmVyLg0KPiA+ID4gKy0gVEhDIFF1aWNrU1BJIERyaXZlciBjb252ZXJ0cyBy
-ZXF1ZXN0IHByb3ZpZGVkIGRhdGEgaW50byB0aGUNCj4gPiA+ICtvdXRwdXQNCj4gPiA+IHJlcG9y
-dCBwYWNrZXQgYW5kIGNvcGllcyBpdA0KPiA+ID4gKyAgdG8gVEhDJ3Mgd3JpdGUgRE1BIGJ1ZmZl
-ci4NCj4gPiA+ICstIFN0YXJ0IFR4RE1BIHRvIGNvbXBsZXRlIHRoZSB3cml0ZSBvcGVyYXRpb24u
-DQo+ID4gPiArDQo+ID4gPiArNS4gSElESTJDIHN1cHBvcnQgKFF1aWNrSTJDKQ0KPiA+ID4gKz09
-PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPiA+ICsNCj4gPiA+ICs1LjEgUmVzZXQgRmxv
-dw0KPiA+ID4gKy0tLS0tLS0tLS0tLS0tDQo+ID4gPiArDQo+ID4gPiArLSBSZWFkIGRldmljZSBk
-ZXNjcmlwdG9yIGZyb20gVG91Y2ggSUMgZGV2aWNlIHRocm91Z2ggUElPIHdyaXRlDQo+ID4gPiBm
-b2xsb3dlZCBieSByZWFkLg0KPiA+ID4gKy0gSWYgdGhlIGRldmljZSBkZXNjcmlwdG9yIGlzIHZh
-bGlkLCBhbGxvY2F0ZSBETUEgYnVmZmVycyBhbmQNCj4gPiA+IGNvbmZpZ3VyZSBhbGwgRE1BIGNo
-YW5uZWxzLg0KPiA+ID4gKy0gVXNlIFBJTyBvciBUeERNQSB0byB3cml0ZSBhIFNFVF9QT1dFUiBy
-ZXF1ZXN0IHRvIFRJQydzIGNvbW1hbmQNCj4gPiA+IHJlZ2lzdGVyLCBhbmQgY2hlY2sgaWYgdGhl
-DQo+ID4gPiArICB3cml0ZSBvcGVyYXRpb24gaXMgc3VjY2Vzc2Z1bGx5IGNvbXBsZXRlZC4NCj4g
-PiA+ICstIFVzZSBQSU8gb3IgVHhETUEgdG8gd3JpdGUgYSBSRVNFVCByZXF1ZXN0IHRvIFRJQydz
-IGNvbW1hbmQNCj4gPiA+IHJlZ2lzdGVyLiBJZiB0aGUgd3JpdGUgb3BlcmF0aW9uDQo+ID4gPiAr
-ICBpcyBzdWNjZXNzZnVsbHkgY29tcGxldGVkLCB3YWl0IGZvciByZXNldCByZXNwb25zZSBmcm9t
-IFRJQy4NCj4gPiA+ICstIFVzZSBTV0RNQSB0byByZWFkIHJlcG9ydCBkZXNjcmlwdG9yIHRocm91
-Z2ggVElDJ3MgcmVwb3J0DQo+ID4gPiBkZXNjcmlwdG9yIHJlZ2lzdGVyLg0KPiA+ID4gKw0KPiA+
-ID4gKzUuMiBJbnB1dCBSZXBvcnQgRGF0YSBGbG93DQo+ID4gPiArLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0NCj4gPiA+ICsNCj4gPiA+ICtCYXNpYyBGbG93Og0KPiA+ID4gKw0KPiA+ID4gKy0g
-VG91Y2ggSUMgYXNzZXJ0cyB0aGUgaW50ZXJydXB0IGluZGljYXRpbmcgdGhhdCBpdCBoYXMgYW4N
-Cj4gPiA+ICtpbnRlcnJ1cHQNCj4gPiA+IHRvIHNlbmQgdG8gSE9TVC4NCj4gPiA+ICsgIFRIQyBT
-ZXF1ZW5jZXIgaXNzdWVzIGEgUkVBRCByZXF1ZXN0IG92ZXIgdGhlIEkyQyBidXMuIFRoZSBISURJ
-MkMNCj4gPiA+IGRldmljZSByZXR1cm5zIHRoZQ0KPiA+ID4gKyAgZmlyc3QgMiBieXRlcyBmcm9t
-IHRoZSBISURJMkMgZGV2aWNlIHdoaWNoIGNvbnRhaW5zIHRoZSBsZW5ndGggb2YNCj4gPiA+IHRo
-ZSByZWNlaXZlZCBkYXRhLg0KPiA+ID4gKy0gVEhDIFNlcXVlbmNlciBjb250aW51ZXMgdGhlIFJl
-YWQgb3BlcmF0aW9uIGFzIHBlciB0aGUgc2l6ZSBvZg0KPiA+ID4gK2RhdGENCj4gPiA+IGluZGlj
-YXRlZCBpbiB0aGUNCj4gPiA+ICsgIGxlbmd0aCBmaWVsZC4NCj4gPiA+ICstIFRIQyBETUEgZW5n
-aW5lIGJlZ2lucyBmZXRjaGluZyBkYXRhIGZyb20gdGhlIFRIQyBTZXF1ZW5jZXIgYW5kDQo+ID4g
-PiB3cml0ZXMgdG8gaG9zdCBtZW1vcnkNCj4gPiA+ICsgIGF0IFBSRCBlbnRyeSAwIGZvciB0aGUg
-Y3VycmVudCBDQiBQUkQgdGFibGUgZW50cnkuIFRIQyB3cml0ZXMNCj4gPiA+IDJCeXRlcyBmb3Ig
-bGVuZ3RoIGZpZWxkDQo+ID4gPiArICBwbHVzIHRoZSByZW1haW5pbmcgZGF0YSB0byBSeERNQSBi
-dWZmZXIuIFRoaXMgcHJvY2VzcyBjb250aW51ZXMNCj4gPiA+IHVudGlsIHRoZSBUSEMgU2VxdWVu
-Y2VyDQo+ID4gPiArICBzaWduYWxzIGFsbCBkYXRhIGhhcyBiZWVuIHJlYWQgb3IgdGhlIFRIQyBE
-TUEgUmVhZCBFbmdpbmUgcmVhY2hlcw0KPiA+ID4gdGhlIGVuZCBvZiBpdCdzIGxhc3QNCj4gPiA+
-ICsgIFBSRCBlbnRyeSAob3IgYm90aCkuDQo+ID4gPiArLSBUSEMgU2VxdWVuY2VyIGVudGVycyBF
-bmQtb2YtSW5wdXQgUmVwb3J0IFByb2Nlc3NpbmcuDQo+ID4gPiArLSBJZiB0aGUgZGV2aWNlIGhh
-cyBubyBtb3JlIGlucHV0IHJlcG9ydHMgdG8gc2VuZCB0byB0aGUgaG9zdCwgaXQNCj4gPiA+IGRl
-LWFzc2VydHMgdGhlIGludGVycnVwdA0KPiA+ID4gKyAgbGluZS4gRm9yIGFueSBhZGRpdGlvbmFs
-IGlucHV0IHJlcG9ydHMsIGRldmljZSBrZWVwcyB0aGUNCj4gPiA+ICsgaW50ZXJydXB0DQo+ID4g
-PiBsaW5lIGFzc2VydGVkIGFuZA0KPiA+ID4gKyAgc3RlcHMgMSB0aHJvdWdoIDQgaW4gdGhlIGZs
-b3cgYXJlIHJlcGVhdGVkLg0KPiA+ID4gKw0KPiA+ID4gK1RIQyBTZXF1ZW5jZXIgRW5kIG9mIElu
-cHV0IFJlcG9ydCBQcm9jZXNzaW5nOg0KPiA+ID4gKw0KPiA+ID4gKy0gVEhDIERNQSBlbmdpbmUg
-aW5jcmVtZW50cyB0aGUgcmVhZCBwb2ludGVyIG9mIHRoZSBSZWFkIFBSRCBDQiwNCj4gPiA+IHNl
-dHMgRU9GIGludGVycnVwdCBzdGF0dXMNCj4gPiA+ICsgIGluIFJ4RE1BIDIgcmVnaXN0ZXIgKFRI
-Q19NX1BSVF9SRUFEX0RNQV9JTlRfU1RTXzIpLg0KPiA+ID4gKy0gSWYgVEhDIEVPRiBpbnRlcnJ1
-cHQgaXMgZW5hYmxlZCBieSB0aGUgZHJpdmVyIGluIHRoZSBjb250cm9sDQo+ID4gPiByZWdpc3Rl
-cg0KPiA+ID4gKyAgKFRIQ19NX1BSVF9SRUFEX0RNQV9DTlRSTF8yKSwgZ2VuZXJhdGVzIGludGVy
-cnVwdCB0byBzb2Z0d2FyZS4NCj4gPiA+ICsNCj4gPiA+ICtTZXF1ZW5jZSBvZiBzdGVwcyB0byBy
-ZWFkIGRhdGEgZnJvbSBSWCBETUEgYnVmZmVyOg0KPiA+ID4gKw0KPiA+ID4gKy0gVEhDIFF1aWNr
-STJDIGRyaXZlciBjaGVja3MgQ0Igd3JpdGUgUHRyIGFuZCBDQiByZWFkIFB0ciB0bw0KPiA+ID4g
-aWRlbnRpZnkgaWYgYW55IGRhdGEgZnJhbWUgaW4gRE1BDQo+ID4gPiArICBjaXJjdWxhciBidWZm
-ZXJzLg0KPiA+ID4gKy0gVEhDIFF1aWNrSTJDIGRyaXZlciBnZXRzIGZpcnN0IHVucHJvY2Vzc2Vk
-IFBSRCB0YWJsZS4NCj4gPiA+ICstIFRIQyBRdWlja0kyQyBkcml2ZXIgc2NhbnMgYWxsIFBSRCBl
-bnRyaWVzIGluIHRoaXMgUFJEIHRhYmxlIHRvDQo+ID4gPiBjYWxjdWxhdGUgdGhlIHRvdGFsIGZy
-YW1lIHNpemUuDQo+ID4gPiArLSBUSEMgUXVpY2tJMkMgZHJpdmVyIGNvcGllcyBhbGwgZnJhbWUg
-ZGF0YSBvdXQuDQo+ID4gPiArLSBUSEMgUXVpY2tJMkMgZHJpdmVyIGNhbGwgaGlkX2lucHV0X3Jl
-cG9ydCB0byBzZW5kIHRoZSBpbnB1dA0KPiA+ID4gK3JlcG9ydA0KPiA+ID4gY29udGVudCB0byBI
-SUQgY29yZSwgd2hpY2gNCj4gPiA+ICsgIGluY2x1ZGVzIFJlcG9ydCBJRCArIFJlcG9ydCBEYXRh
-IENvbnRlbnQgKHJlbW92ZSB0aGUgbGVuZ3RoIGZpZWxkDQo+ID4gPiBmcm9tIHRoZSBvcmlnaW5h
-bCByZXBvcnQNCj4gPiA+ICsgIGRhdGEpLg0KPiA+ID4gKy0gVEhDIFF1aWNrSTJDIGRyaXZlciB1
-cGRhdGVzIHdyaXRlIFB0ci4NCj4gPiA+ICsNCj4gPiA+ICs1LjMgT3V0cHV0IFJlcG9ydCBEYXRh
-IEZsb3cNCj4gPiA+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiA+ICsNCj4gPiA+
-ICtHZW5lcmljIE91dHB1dCBSZXBvcnQgRmxvdzoNCj4gPiA+ICsNCj4gPiA+ICstIEhJRCBjb3Jl
-IGNhbGwgVEhDIFF1aWNrSTJDIHJhd19yZXF1ZXN0IGNhbGxiYWNrLg0KPiA+ID4gKy0gVEhDIFF1
-aWNrSTJDIHVzZXMgUElPIG9yIFRYRE1BIHRvIHdyaXRlIGEgU0VUX1JFUE9SVCByZXF1ZXN0IHRv
-DQo+ID4gPiBUSUMncyBjb21tYW5kIHJlZ2lzdGVyLiBSZXBvcnQNCj4gPiA+ICsgIHR5cGUgaW4g
-U0VUX1JFUE9SVCBzaG91bGQgYmUgc2V0IHRvIE91dHB1dC4NCj4gPiA+ICstIFRIQyBRdWlja0ky
-QyBwcm9ncmFtcyBUeERNQSBidWZmZXIgd2l0aCBUWCBEYXRhIHRvIGJlIHdyaXR0ZW4gdG8NCj4g
-PiA+IFRJQydzIGRhdGEgcmVnaXN0ZXIuIFRoZSBmaXJzdA0KPiA+ID4gKyAgMiBieXRlcyBzaG91
-bGQgaW5kaWNhdGUgdGhlIGxlbmd0aCBvZiB0aGUgcmVwb3J0IGZvbGxvd2VkIGJ5IHRoZQ0KPiA+
-ID4gcmVwb3J0IGNvbnRlbnRzIGluY2x1ZGluZw0KPiA+ID4gKyAgUmVwb3J0IElELg0KPiA+ID4g
-Kw0KPiA+ID4gKzYuIFRIQyBEZWJ1Z2dpbmcNCj4gPiA+ICs9PT09PT09PT09PT09PT09DQo+ID4g
-PiArDQo+ID4gPiArVG8gZGVidWcgVEhDLCBldmVudCB0cmFjaW5nIG1lY2hhbmlzbSBpcyB1c2Vk
-LiBUbyBlbmFibGUgZGVidWcNCj4gPiA+IGxvZ3M6Og0KPiA+ID4gKw0KPiA+ID4gKyAgZWNobyAx
-ID4gL3N5cy9rZXJuZWwvZGVidWcvdHJhY2luZy9ldmVudHMvaW50ZWxfdGhjL2VuYWJsZQ0KPiA+
-ID4gKyAgY2F0IC9zeXMva2VybmVsL2RlYnVnL3RyYWNpbmcvdHJhY2UNCj4gPiA+ICsNCj4gPiA+
-ICs3LiBSZWZlcmVuY2UNCj4gPiA+ICs9PT09PT09PT09PT0NCj4gPiA+ICstIEhJRFNQSToNCj4g
-PiA+IGh0dHBzOi8vZG93bmxvYWQubWljcm9zb2Z0LmNvbS9kb3dubG9hZC9jL2EvMC9jYTA3YWVm
-My0zZTEwLTQwMjItYjFlDQo+ID4gPiA5LWM5OGNlYTk5NDY1ZC9IaWRTcGlQcm90b2NvbFNwZWMu
-cGRmDQo+ID4gPiArLSBISURJMkM6DQo+ID4gPiBodHRwczovL2Rvd25sb2FkLm1pY3Jvc29mdC5j
-b20vZG93bmxvYWQvNy9kL2QvN2RkNDRiYjctMmE3YS00NTA1LWFjMQ0KPiA+ID4gYy03MjI3ZDNk
-OTZkNWIvaGlkLW92ZXItaTJjLXByb3RvY29sLXNwZWMtdjEtMC5kb2N4DQo+ID4NCj4gPg0K
+Hi Even and Ping,
+
+Tested on Goodix and Wacom(include the enabling pci bus group in wacom driver),
+multitouch works (rotation and zoom in image viewer) fine on both touchscreen.
+
+And Lenovo confirmed Goodix will provide new fw,
+although no firmware from Goodix I can test, but root cause is not from THC driver.
+
+I think the result of the test for this patchset is good.
+
+Tested-by: Aaron Ma <aaron.ma@canonical.com>
+
+Aaron
+
+On 1/9/25 1:46 PM, Xu, Even wrote:
+> hi, Aaron,
+> 
+> This issue was identified to Goodix touch firmware issue, it de-asserted interrupt line delayed.
+> And Goodix engineer configured there were 10us delay at end of every touch event packet.
+> They are working on it to modify the firmware for the fix.
+> 
+> Maybe you can get updated engineer firmware from Lenovo.
+> 
+> Thanks!
+> 
+> Best Regards,
+> Even Xu
+> 
+>> -----Original Message-----
+>> From: Ping Cheng <pinglinux@gmail.com>
+>> Sent: Thursday, January 9, 2025 1:18 PM
+>> To: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>; Aaron, Ma
+>> <aaron.ma@canonical.com>; Ivan Delos Santos Julkarnain, Ameer
+>> <ajulkarnain@lenovo.com>
+>> Cc: Xu, Even <even.xu@intel.com>; jikos@kernel.org; bentiss@kernel.org;
+>> corbet@lwn.net; bagasdotme@gmail.com; rdunlap@infradead.org; mpearson-
+>> lenovo@squebb.ca; linux-input@vger.kernel.org; linux-kernel@vger.kernel.org;
+>> linux-doc@vger.kernel.org; Sun, Xinpeng <xinpeng.sun@intel.com>
+>> Subject: Re: [PATCH v4 01/22] HID: THC: Add documentation
+>>
+>> Hi Srinivas,
+>>
+>> As mentioned offline, the cover letter and version log are in v4 00/22.
+>>
+>> Hi Aaron,
+>>
+>> As far as I know, the issue you brought up at v3 only happens with Goodix devices.
+>> It's Goodix specific. Other devices don't have the issue. Wacom confirmed that
+>> with Wacom devices.
+>>
+>> Can you work with the Lenovo team to confirm that so we can get this patchset
+>> accepted?
+>>
+>> Thank you for your support,
+>> Ping
+>>
+>> On Mon, Jan 6, 2025 at 5:05 AM srinivas pandruvada
+>> <srinivas.pandruvada@linux.intel.com> wrote:
+>>>
+>>> On Mon, 2025-01-06 at 10:31 +0800, Even Xu wrote:
+>>>> Add Documentation/hid/intel-thc-hid.rst file to provide hardware and
+>>>> software detail for intel THC drivers.
+>>>>
+>>>> Co-developed-by: Sun Xinpeng <xinpeng.sun@intel.com>
+>>>> Signed-off-by: Sun Xinpeng <xinpeng.sun@intel.com>
+>>>> Signed-off-by: Even Xu <even.xu@intel.com>
+>>>> Reviewed-by: Srinivas Pandruvada
+>>>> <srinivas.pandruvada@linux.intel.com>
+>>>> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>>>> Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+>>>> ---
+>>>
+>>> Change logs are missing?
+>>> Also didn't receive any cover letter with any changes?
+>>>
+>>> Thanks,
+>>> Srinivas
+>>>
+>>>>   Documentation/hid/index.rst         |   1 +
+>>>>   Documentation/hid/intel-thc-hid.rst | 568
+>>>> ++++++++++++++++++++++++++++
+>>>>   2 files changed, 569 insertions(+)
+>>>>   create mode 100644 Documentation/hid/intel-thc-hid.rst
+>>>>
+>>>> diff --git a/Documentation/hid/index.rst
+>>>> b/Documentation/hid/index.rst index af02cf7cfa82..baf156b44b58
+>>>> 100644
+>>>> --- a/Documentation/hid/index.rst
+>>>> +++ b/Documentation/hid/index.rst
+>>>> @@ -18,4 +18,5 @@ Human Interface Devices (HID)
+>>>>
+>>>>      hid-alps
+>>>>      intel-ish-hid
+>>>> +   intel-thc-hid
+>>>>      amd-sfh-hid
+>>>> diff --git a/Documentation/hid/intel-thc-hid.rst
+>>>> b/Documentation/hid/intel-thc-hid.rst
+>>>> new file mode 100644
+>>>> index 000000000000..6c417205ac6a
+>>>> --- /dev/null
+>>>> +++ b/Documentation/hid/intel-thc-hid.rst
+>>>> @@ -0,0 +1,568 @@
+>>>> +.. SPDX-License-Identifier: GPL-2.0
+>>>> +
+>>>> +=================================
+>>>> +Intel Touch Host Controller (THC)
+>>>> +=================================
+>>>> +
+>>>> +Touch Host Controller is the name of the IP block in PCH that
+>>>> interface with Touch Devices (ex:
+>>>> +touchscreen, touchpad etc.). It is comprised of 3 key functional
+>>>> blocks:
+>>>> +
+>>>> +- A natively half-duplex Quad I/O capable SPI master
+>>>> +- Low latency I2C interface to support HIDI2C compliant devices
+>>>> +- A HW sequencer with RW DMA capability to system memory
+>>>> +
+>>>> +It has a single root space IOSF Primary interface that supports
+>>>> transactions to/from touch devices.
+>>>> +Host driver configures and controls the touch devices over THC
+>>>> interface. THC provides high
+>>>> +bandwidth DMA services to the touch driver and transfers the HID
+>>>> report to host system main memory.
+>>>> +
+>>>> +Hardware sequencer within the THC is responsible for transferring
+>>>> (via DMA) data from touch devices
+>>>> +into system memory. A ring buffer is used to avoid data loss due to
+>>>> asynchronous nature of data
+>>>> +consumption (by host) in relation to data production (by touch
+>>>> device via DMA).
+>>>> +
+>>>> +Unlike other common SPI/I2C controllers, THC handles the HID device
+>>>> data interrupt and reset
+>>>> +signals directly.
+>>>> +
+>>>> +1. Overview
+>>>> +===========
+>>>> +
+>>>> +1.1 THC software/hardware stack
+>>>> +-------------------------------
+>>>> +
+>>>> +Below diagram illustrates the high-level architecture of THC
+>>>> software/hardware stack, which is fully
+>>>> +capable of supporting HIDSPI/HIDI2C protocol in Linux OS.
+>>>> +
+>>>> +::
+>>>> +
+>>>> +  ----------------------------------------------
+>>>> + |      +-----------------------------------+   |
+>>>> + |      |           Input Device            |   |
+>>>> + |      +-----------------------------------+   |
+>>>> + |      +-----------------------------------+   |
+>>>> + |      |       HID Multi-touch Driver      |   |
+>>>> + |      +-----------------------------------+   |
+>>>> + |      +-----------------------------------+   |
+>>>> + |      |             HID Core              |   |
+>>>> + |      +-----------------------------------+   |
+>>>> + |      +-----------------------------------+   |
+>>>> + |      |    THC QuickSPI/QuickI2C Driver   |   |
+>>>> + |      +-----------------------------------+   |
+>>>> + |      +-----------------------------------+   |
+>>>> + |      |      THC Hardware Driver          |   |
+>>>> + |      +-----------------------------------+   |
+>>>> + |      +----------------+ +----------------+   |
+>>>> + |  SW  | PCI Bus Driver | | ACPI Resource  |   |
+>>>> + |      +----------------+ +----------------+   |
+>>>> +  ----------------------------------------------
+>>>> +  ----------------------------------------------
+>>>> + |      +-----------------------------------+   |
+>>>> + |  HW  |              PCI Bus              |   |
+>>>> + |      +-----------------------------------+   |
+>>>> + |      +-----------------------------------+   |
+>>>> + |      |           THC Controller          |   |
+>>>> + |      +-----------------------------------+   |
+>>>> + |      +-----------------------------------+   |
+>>>> + |      |              Touch IC             |   |
+>>>> + |      +-----------------------------------+   |
+>>>> +  ----------------------------------------------
+>>>> +
+>>>> +Touch IC (TIC), also as known as the Touch devices (touchscreen or
+>>>> touchpad). The discrete analog
+>>>> +components that sense and transfer either discrete touch data or
+>>>> heatmap data in the form of HID
+>>>> +reports over the SPI/I2C bus to the THC Controller on the host.
+>>>> +
+>>>> +THC Host Controller, which is a PCI device HBA (host bus adapter),
+>>>> integrated into the PCH, that
+>>>> +serves as a bridge between the Touch ICs and the host.
+>>>> +
+>>>> +THC Hardware Driver, provides THC hardware operation APIs for above
+>>>> QuickSPI/QuickI2C driver, it
+>>>> +accesses THC MMIO registers to configure and control THC hardware.
+>>>> +
+>>>> +THC QuickSPI/QuickI2C driver, also as known as HIDSPI/HIDI2C
+>>>> +driver,
+>>>> is registered as a HID
+>>>> +low-level driver that manages the THC Controller and implements
+>>>> HIDSPI/HIDI2C protocol.
+>>>> +
+>>>> +
+>>>> +1.2 THC hardware diagram
+>>>> +------------------------
+>>>> +Below diagram shows THC hardware components::
+>>>> +
+>>>> +                      ---------------------------------
+>>>> +                     |          THC Controller         |
+>>>> +                     |  +---------------------------+  |
+>>>> +                     |  |     PCI Config Space      |  |
+>>>> +                     |  +---------------------------+  |
+>>>> +                     |  +---------------------------+  |
+>>>> +                     |  +       MMIO Registers      |  |
+>>>> +                     |  +---------------------------+  |
+>>>> + +---------------+   |  +------------+ +------------+  |
+>>>> + | System Memory +---+--+      DMA   | |   PIO      |  |
+>>>> + +---------------+   |  +------------+ +------------+  |
+>>>> +                     |  +---------------------------+  |
+>>>> +                     |  |       HW Sequencer        |  |
+>>>> +                     |  +---------------------------+  |
+>>>> +                     |  +------------+ +------------+  |
+>>>> +                     |  |  SPI/I2C   | |    GPIO    |  |
+>>>> +                     |  | Controller | | Controller |  |
+>>>> +                     |  +------------+ +------------+  |
+>>>> +                      ---------------------------------
+>>>> +
+>>>> +As THC is exposed as a PCI devices, so it has standard PCI config
+>>>> space registers for PCI
+>>>> +enumeration and configuration.
+>>>> +
+>>>> +MMIO Registers, which provide registers access for driver to
+>>>> configure and control THC hardware,
+>>>> +the registers include several categories: Interrupt status and
+>>>> control, DMA configure,
+>>>> +PIO (Programmed I/O, defined in section 3.2) status and control,
+>>>> +SPI
+>>>> bus configure, I2C subIP
+>>>> +status and control, reset status and control...
+>>>> +
+>>>> +THC provides two ways for driver to communicate with external Touch
+>>>> ICs: PIO and DMA.
+>>>> +PIO can let driver manually write/read data to/from Touch ICs,
+>>>> instead, THC DMA can
+>>>> +automatically write/read data without driver involved.
+>>>> +
+>>>> +HW Sequencer includes THC major logic, it gets instruction from
+>>>> +MMIO
+>>>> registers to control
+>>>> +SPI bus and I2C bus to finish a bus data transaction, it also can
+>>>> automatically handle
+>>>> +Touch ICs interrupt and start DMA receive/send data from/to Touch
+>>>> ICs according to interrupt
+>>>> +type. That means THC HW Sequencer understands HIDSPI/HIDI2C
+>>>> +transfer
+>>>> protocol, and handle
+>>>> +the communication without driver involved, what driver needs to do
+>>>> is just configure the THC
+>>>> +properly, and prepare the formatted data packet or handle received
+>>>> data packet.
+>>>> +
+>>>> +As THC supports HIDSPI/HIDI2C protocols, it has SPI controller and
+>>>> I2C subIP in it to expose
+>>>> +SPI bus and I2C bus. THC also integrates a GPIO controller to
+>>>> provide interrupt line support
+>>>> +and reset line support.
+>>>> +
+>>>> +2. THC Hardware Interface
+>>>> +=========================
+>>>> +
+>>>> +2.1 Host Interface
+>>>> +------------------
+>>>> +
+>>>> +THC is exposed as "PCI Digitizer device" to the host. The PCI
+>>>> product and device IDs are
+>>>> +changed from different generations of processors. So the source
+>>>> +code
+>>>> which enumerates drivers
+>>>> +needs to update from generation to generation.
+>>>> +
+>>>> +
+>>>> +2.2 Device Interface
+>>>> +--------------------
+>>>> +
+>>>> +THC supports two types of bus for Touch IC connection: Enhanced SPI
+>>>> bus and I2C bus.
+>>>> +
+>>>> +2.2.1 SPI Port
+>>>> +~~~~~~~~~~~~~~
+>>>> +
+>>>> +When PORT_TYPE = 00b in MMIO registers, THC uses SPI interfaces to
+>>>> communicate with external
+>>>> +Touch IC. THC enhanced SPI Bus supports different SPI modes:
+>>>> standard Single IO mode,
+>>>> +Dual IO mode and Quad IO mode.
+>>>> +
+>>>> +In Single IO mode, THC drives MOSI line to send data to Touch ICs,
+>>>> and receives data from Touch
+>>>> +ICs data from MISO line. In Dual IO mode, THC drivers MOSI and MISO
+>>>> both for data sending, and
+>>>> +also receives the data on both line. In Quad IO mode, there are
+>>>> other two lines (IO2 and IO3)
+>>>> +are added, THC drives MOSI (IO0), MISO (IO1), IO2 and IO3 at the
+>>>> same time for data sending, and
+>>>> +also receives the data on those 4 lines. Driver needs to configure
+>>>> THC in different mode by
+>>>> +setting different opcode.
+>>>> +
+>>>> +Beside IO mode, driver also needs to configure SPI bus speed. THC
+>>>> supports up to 42MHz SPI clock
+>>>> +on Intel Lunar Lake platform.
+>>>> +
+>>>> +For THC sending data to Touch IC, the data flow on SPI bus::
+>>>> +
+>>>> + | --------------------THC sends---------------------------------|
+>>>> + <8Bits OPCode><24Bits Slave Address><Data><Data><Data>...........
+>>>> +
+>>>> +For THC receiving data from Touch IC, the data flow on SPI bus::
+>>>> +
+>>>> + | ---------THC Sends---------------||-----Touch IC sends--------|
+>>>> + <8Bits OPCode><24Bits Slave Address><Data><Data><Data>...........
+>>>> +
+>>>> +2.2.2 I2C Port
+>>>> +~~~~~~~~~~~~~~
+>>>> +
+>>>> +THC also integrates I2C controller in it, it's called I2C SubSystem.
+>>>> When PORT_TYPE = 01, THC
+>>>> +is configured to I2C mode. Comparing to SPI mode which can be
+>>>> configured through MMIO registers
+>>>> +directly, THC needs to use PIO read (by setting SubIP read opcode)
+>>>> to I2C subIP APB registers'
+>>>> +value and use PIO write (by setting SubIP write opcode) to do a
+>>>> write operation.
+>>>> +
+>>>> +2.2.3 GPIO interface
+>>>> +~~~~~~~~~~~~~~~~~~~~
+>>>> +
+>>>> +THC also includes two GPIO pins, one for interrupt and the other
+>>>> +for
+>>>> device reset control.
+>>>> +
+>>>> +Interrupt line can be configured to either level triggerred or edge
+>>>> triggerred by setting MMIO
+>>>> +Control register.
+>>>> +
+>>>> +Reset line is controlled by BIOS (or EFI) through ACPI _RST method,
+>>>> driver needs to call this
+>>>> +device ACPI _RST method to reset touch IC during initialization.
+>>>> +
+>>>> +3. High level concept
+>>>> +=====================
+>>>> +
+>>>> +3.1 Opcode
+>>>> +----------
+>>>> +
+>>>> +Opcode (operation code) is used to tell THC or Touch IC what the
+>>>> operation will be, such as PIO
+>>>> +read or PIO write.
+>>>> +
+>>>> +When THC is configured to SPI mode, opcodes are used for
+>>>> +determining
+>>>> the read/write IO mode.
+>>>> +There are some OPCode examples for SPI IO mode:
+>>>> +
+>>>> +=======   ==============================
+>>>> +opcode    Corresponding SPI command
+>>>> +=======   ==============================
+>>>> +0x0B      Read Single I/O
+>>>> +0x02      Write Single I/O
+>>>> +0xBB      Read Dual I/O
+>>>> +0xB2      Write Dual I/O
+>>>> +0xEB      Read Quad I/O
+>>>> +0xE2      Write Quad I/O
+>>>> +=======   ==============================
+>>>> +
+>>>> +In general, different touch IC has different OPCode definition.
+>>>> According to HIDSPI
+>>>> +protocol whitepaper, those OPCodes are defined in device ACPI
+>>>> +table,
+>>>> and driver needs to
+>>>> +query those information through OS ACPI APIs during driver
+>>>> initialization, then configures
+>>>> +THC MMIO OPCode registers with correct setting.
+>>>> +
+>>>> +When THC is working in I2C mode, opcodes are used to tell THC
+>>>> +what's
+>>>> the next PIO type:
+>>>> +I2C SubIP APB register read, I2C SubIP APB register write, I2C
+>>>> +touch
+>>>> IC device read,
+>>>> +I2C touch IC device write, I2C touch IC device write followed by
+>>>> read.
+>>>> +
+>>>> +Here are the THC pre-defined opcodes for I2C mode:
+>>>> +
+>>>> +=======   ===================================================
+>>>> ===========
+>>>> +opcode    Corresponding I2C command
+>>>> Address
+>>>> +=======   ===================================================
+>>>> ===========
+>>>> +0x12      Read I2C SubIP APB internal registers                 0h -
+>>>> FFh
+>>>> +0x13      Write I2C SubIP APB internal registers                0h -
+>>>> FFh
+>>>> +0x14      Read external Touch IC through I2C bus                N/A
+>>>> +0x18      Write external Touch IC through I2C bus               N/A
+>>>> +0x1C      Write then read external Touch IC through I2C bus     N/A
+>>>> +=======   ===================================================
+>>>> ===========
+>>>> +
+>>>> +3.2 PIO
+>>>> +-------
+>>>> +
+>>>> +THC provides a programmed I/O (PIO) access interface for the driver
+>>>> to access the touch IC's
+>>>> +configuration registers, or access I2C subIP's configuration
+>>>> registers. To use PIO to perform
+>>>> +I/O operations, driver should pre-program PIO control registers and
+>>>> PIO data registers and kick
+>>>> +off the sequencing cycle. THC uses different PIO opcodes to
+>>>> distinguish different PIO
+>>>> +operations (PIO read/write/write followed by read).
+>>>> +
+>>>> +If there is a Sequencing Cycle In Progress and an attempt is made
+>>>> +to
+>>>> program any of the control,
+>>>> +address, or data register the cycle is blocked and a sequence error
+>>>> will be encountered.
+>>>> +
+>>>> +A status bit indicates when the cycle has completed allowing the
+>>>> driver to know when read results
+>>>> +can be checked and/or when to initiate a new command. If enabled,
+>>>> the cycle done assertion can
+>>>> +interrupt driver with an interrupt.
+>>>> +
+>>>> +Because THC only has 16 FIFO registers for PIO, so all the data
+>>>> transfer through PIO shouldn't
+>>>> +exceed 64 bytes.
+>>>> +
+>>>> +As DMA needs max packet size for transferring configuration, and
+>>>> +the
+>>>> max packet size information
+>>>> +always in HID device descriptor which needs THC driver to read it
+>>>> out from HID Device (Touch IC).
+>>>> +So PIO typical use case is, before DMA initialization, write RESET
+>>>> command (PIO write), read
+>>>> +RESET response (PIO read or PIO write followed by read), write
+>>>> +Power
+>>>> ON command (PIO write), read
+>>>> +device descriptor (PIO read).
+>>>> +
+>>>> +For how to issue a PIO operation, here is the steps which driver
+>>>> needs follow:
+>>>> +
+>>>> +- Program read/write data size in THC_SS_BC.
+>>>> +- Program I/O target address in THC_SW_SEQ_DATA0_ADDR.
+>>>> +- If write, program the write data in
+>>>> THC_SW_SEQ_DATA0..THC_SW_SEQ_DATAn.
+>>>> +- Program the PIO opcode in THC_SS_CMD.
+>>>> +- Set TSSGO = 1 to start the PIO write sequence.
+>>>> +- If THC_SS_CD_IE = 1, SW will receives a MSI when the PIO is
+>>>> completed.
+>>>> +- If read, read out the data in THC_SW_SEQ_DATA0..THC_SW_SEQ_DATAn.
+>>>> +
+>>>> +3.3 DMA
+>>>> +-------
+>>>> +
+>>>> +THC has 4 DMA channels: Read DMA1, Read DMA2, Write DMA and
+>>>> +Software
+>>>> DMA.
+>>>> +
+>>>> +3.3.1 Read DMA Channel
+>>>> +~~~~~~~~~~~~~~~~~~~~~~
+>>>> +
+>>>> +THC has two Read DMA engines: 1st RxDMA (RxDMA1) and 2nd RxDMA
+>>>> (RxDMA2). RxDMA1 is reserved for
+>>>> +raw data mode. RxDMA2 is used for HID data mode and it is the RxDMA
+>>>> engine currently driver uses
+>>>> +for HID input report data retrieval.
+>>>> +
+>>>> +RxDMA's typical use case is auto receiving the data from Touch IC.
+>>>> Once RxDMA is enabled by
+>>>> +software, THC will start auto-handling receiving logic.
+>>>> +
+>>>> +For SPI mode, THC RxDMA sequence is: when Touch IC triggers a
+>>>> interrupt to THC, THC reads out
+>>>> +report header to identify what's the report type, and what's the
+>>>> report length, according to
+>>>> +above information, THC reads out report body to internal FIFO and
+>>>> start RxDMA coping the data
+>>>> +to system memory. After that, THC update interrupt cause register
+>>>> with report type, and update
+>>>> +RxDMA PRD table read pointer, then trigger a MSI interrupt to
+>>>> +notify
+>>>> driver RxDMA finishing
+>>>> +data receiving.
+>>>> +
+>>>> +For I2C mode, THC RxDMA's behavior is a little bit different,
+>>>> because of HIDI2C protocol difference
+>>>> +with HIDSPI protocol, RxDMA only be used to receive input report.
+>>>> The sequence is, when Touch IC
+>>>> +triggers a interrupt to THC, THC first reads out 2 bytes from input
+>>>> report address to determine the
+>>>> +packet length, then use this packet length to start a DMA reading
+>>>> from input report address for
+>>>> +input report data. After that, THC update RxDMA PRD table read
+>>>> pointer, then trigger a MSI interrupt
+>>>> +to notify driver input report data is ready in system memory.
+>>>> +
+>>>> +All above sequence is hardware automatically handled, all driver
+>>>> needs to do is configure RxDMA and
+>>>> +waiting for interrupt ready then read out the data from system
+>>>> memory.
+>>>> +
+>>>> +3.3.2 Software DMA channel
+>>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>> +
+>>>> +THC supports a software triggerred RxDMA mode to read the touch
+>>>> +data
+>>>> from touch IC. This SW RxDMA
+>>>> +is the 3rd THC RxDMA engine with the similar functionalities as the
+>>>> existing two RxDMAs, the only
+>>>> +difference is this SW RxDMA is triggerred by software, and RxDMA2
+>>>> +is
+>>>> triggerred by external Touch IC
+>>>> +interrupt. It gives a flexiblity to software driver to use RxDMA
+>>>> read Touch IC data in any time.
+>>>> +
+>>>> +Before software starts a SW RxDMA, it shall stop the 1st and 2nd
+>>>> RxDMA, clear PRD read/write pointer
+>>>> +and quiesce the device interrupt (THC_DEVINT_QUIESCE_HW_STS = 1),
+>>>> other operations are the same with
+>>>> +RxDMA.
+>>>> +
+>>>> +3.3.3 Write DMA Channel
+>>>> +~~~~~~~~~~~~~~~~~~~~~~~
+>>>> +
+>>>> +THC has one write DMA engine, which can be used for sending data to
+>>>> Touch IC automatically.
+>>>> +According to HIDSPI and HIDI2C protocol, every time only one
+>>>> +command
+>>>> can be sent to touch IC, and
+>>>> +before last command is completely handled, next command cannot be
+>>>> sent, THC write DMA engine only
+>>>> +supports single PRD table.
+>>>> +
+>>>> +What driver needs to do is, preparing PRD table and DMA buffer,
+>>>> +then
+>>>> copy data to DMA buffer and
+>>>> +update PRD table with buffer address and buffer length, then start
+>>>> write DMA. THC will
+>>>> +automatically send the data to touch IC, and trigger a DMA
+>>>> completion interrupt once transferring
+>>>> +is done.
+>>>> +
+>>>> +3.4 PRD
+>>>> +-------
+>>>> +
+>>>> +Physical Region Descriptor (PRD) provides the memory mapping
+>>>> description for THC DMAs.
+>>>> +
+>>>> +3.4.1 PRD table and entry
+>>>> +~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>> +
+>>>> +In order to improve physical DMA memory usage, modern drivers trend
+>>>> to allocate a virtually
+>>>> +contiguous, but physically fragmented buffer of memory for each
+>>>> +data
+>>>> buffer. Linux OS also
+>>>> +provide SGL (scatter gather list) APIs to support this usage.
+>>>> +
+>>>> +THC uses PRD table (physical region descriptor) to support the
+>>>> corresponding OS kernel
+>>>> +SGL that describes the virtual to physical buffer mapping.
+>>>> +
+>>>> +::
+>>>> +
+>>>> +  ------------------------      --------------       --------------
+>>>> + | PRD table base address +----+ PRD table #1 +-----+ PRD Entry #1
+>>>> + | |
+>>>> +  ------------------------      --------------       --------------
+>>>> +                                                     --------------
+>>>> +                                                    | PRD Entry #2 |
+>>>> +                                                     --------------
+>>>> +                                                     --------------
+>>>> +                                                    | PRD Entry #n |
+>>>> +                                                     --------------
+>>>> +
+>>>> +The read DMA engine supports multiple PRD tables held within a
+>>>> circular buffer that allow the THC
+>>>> +to support multiple data buffers from the Touch IC. This allows
+>>>> +host
+>>>> SW to arm the Read DMA engine
+>>>> +with multiple buffers, allowing the Touch IC to send multiple data
+>>>> frames to the THC without SW
+>>>> +interaction. This capability is required when the CPU processes
+>>>> touch frames slower than the
+>>>> +Touch IC can send them.
+>>>> +
+>>>> +To simplify the design, SW assumes worst-case memory fragmentation.
+>>>> Therefore,each PRD table shall
+>>>> +contain the same number of PRD entries, allowing for a global
+>>>> register (per Touch IC) to hold the
+>>>> +number of PRD-entries per PRD table.
+>>>> +
+>>>> +SW allocates up to 128 PRD tables per Read DMA engine as specified
+>>>> in the THC_M_PRT_RPRD_CNTRL.PCD
+>>>> +register field. The number of PRD tables should equal the number of
+>>>> data buffers.
+>>>> +
+>>>> +Max OS memory fragmentation will be at a 4KB boundary, thus to
+>>>> address 1MB of virtually contiguous
+>>>> +memory 256 PRD entries are required for a single PRD Table. SW
+>>>> writes the number of PRD entries
+>>>> +for each PRD table in the THC_M_PRT_RPRD_CNTRL.PTEC register field.
+>>>> The PRD entry's length must be
+>>>> +multiple of 4KB except for the last entry in a PRD table.
+>>>> +
+>>>> +SW allocates all the data buffers and PRD tables only once at host
+>>>> initialization.
+>>>> +
+>>>> +3.4.2 PRD Write pointer and read pointer
+>>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>> +
+>>>> +As PRD tables are organized as a Circular Buffer (CB), a read
+>>>> pointer and a write pointer for a CB
+>>>> +are needed.
+>>>> +
+>>>> +DMA HW consumes the PRD tables in the CB, one PRD entry at a time
+>>>> until the EOP bit is found set
+>>>> +in a PRD entry. At this point HW increments the PRD read pointer.
+>>>> Thus, the read pointer points
+>>>> +to the PRD which the DMA engine is currently processing. This
+>>>> pointer rolls over once the circular
+>>>> +buffer's depth has been traversed with bit[7] the Rollover bit. E.g.
+>>>> if the DMA CB depth is equal
+>>>> +to 4 entries (0011b), then the read pointers will follow this
+>>>> pattern (HW is required to honor
+>>>> +this behavior): 00h 01h 02h 03h 80h 81h 82h 83h 00h 01h ...
+>>>> +
+>>>> +The write pointer is updated by SW. The write pointer points to
+>>>> location in the DMA CB, where the
+>>>> +next PRD table is going to be stored. SW needs to ensure that this
+>>>> pointer rolls over once the
+>>>> +circular buffer's depth has been traversed with Bit[7] as the
+>>>> rollover bit. E.g. if the DMA CB
+>>>> +depth is equal to 5 entries (0100b), then the write pointers will
+>>>> follow this pattern (SW is
+>>>> +required to honor this behavior): 00h 01h 02h 03h 04h 80h 81h 82h
+>>>> 83h 84h 00h 01h ..
+>>>> +
+>>>> +3.4.3 PRD descriptor structure
+>>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>> +
+>>>> +Intel THC uses PRD entry descriptor for every PRD entry. Every PRD
+>>>> entry descriptor occupies
+>>>> +128 bits memories:
+>>>> +
+>>>> +===================   ========
+>>>> ===============================================
+>>>> +struct field          bit(s)     description
+>>>> +===================   ========
+>>>> ===============================================
+>>>> +dest_addr             53..0      destination memory address, as
+>>>> every entry
+>>>> +                                 is 4KB, ignore lowest 10 bits of
+>>>> address.
+>>>> +reserved1             54..62     reserved
+>>>> +int_on_completion     63         completion interrupt enable bit, if
+>>>> this bit
+>>>> +                                 set it means THC will trigger a
+>>>> completion
+>>>> +                                 interrupt. This bit is set by SW
+>>>> driver.
+>>>> +len                   87..64     how many bytes of data in this
+>>>> entry.
+>>>> +end_of_prd            88         end of PRD table bit, if this bit
+>>>> is set,
+>>>> +                                 it means this entry is last entry
+>>>> in this PRD
+>>>> +                                 table. This bit is set by SW
+>>>> driver.
+>>>> +hw_status             90..89     HW status bits
+>>>> +reserved2             127..91    reserved
+>>>> +===================   ========
+>>>> ===============================================
+>>>> +
+>>>> +And one PRD table can include up to 256 PRD entries, as every
+>>>> entries is 4K bytes, so every
+>>>> +PRD table can describe 1M bytes memory.
+>>>> +
+>>>> +.. code-block:: c
+>>>> +
+>>>> +   struct thc_prd_table {
+>>>> +        struct thc_prd_entry entries[PRD_ENTRIES_NUM];
+>>>> +   };
+>>>> +
+>>>> +In general, every PRD table means one HID touch data packet. Every
+>>>> DMA engine can support
+>>>> +up to 128 PRD tables (except write DMA, write DMA only has one PRD
+>>>> table). SW driver is responsible
+>>>> +to get max packet length from touch IC, and use this max packet
+>>>> length to create PRD entries for
+>>>> +each PRD table.
+>>>> +
+>>>> +4. HIDSPI support (QuickSPI)
+>>>> +============================
+>>>> +
+>>>> +Intel THC is total compatible with HIDSPI protocol, THC HW
+>>>> +sequenser
+>>>> can accelerate HIDSPI
+>>>> +protocol transferring.
+>>>> +
+>>>> +4.1 Reset Flow
+>>>> +--------------
+>>>> +
+>>>> +- Call ACPI _RST method to reset Touch IC device.
+>>>> +- Read the reset response from TIC through PIO read.
+>>>> +- Issue a command to retrieve device descriptor from Touch IC
+>>>> through PIO write.
+>>>> +- Read the device descriptor from Touch IC through PIO read.
+>>>> +- If the device descriptor is valid, allocate DMA buffers and
+>>>> configure all DMA channels.
+>>>> +- Issue a command to retrieve report descriptor from Touch IC
+>>>> through DMA.
+>>>> +
+>>>> +4.2 Input Report Data Flow
+>>>> +--------------------------
+>>>> +
+>>>> +Basic Flow:
+>>>> +
+>>>> +- Touch IC interrupts the THC Controller using an in-band THC
+>>>> interrupt.
+>>>> +- THC Sequencer reads the input report header by transmitting read
+>>>> approval as a signal
+>>>> +  to the Touch IC to prepare for host to read from the device.
+>>>> +- THC Sequencer executes a Input Report Body Read operation
+>>>> corresponding to the value
+>>>> +  reflected in “Input Report Length” field of the Input Report
+>>>> Header.
+>>>> +- THC DMA engine begins fetching data from the THC Sequencer and
+>>>> writes to host memory
+>>>> +  at PRD entry 0 for the current CB PRD table entry. This process
+>>>> continues until the
+>>>> +  THC Sequencer signals all data has been read or the THC DMA Read
+>>>> Engine reaches the
+>>>> +  end of it's last PRD entry (or both).
+>>>> +- The THC Sequencer checks for the “Last Fragment Flag” bit in the
+>>>> Input Report Header.
+>>>> +  If it is clear, the THC Sequencer enters an idle state.
+>>>> +- If the “Last Fragment Flag” bit is enabled the THC Sequencer
+>>>> enters End-of-Frame Processing.
+>>>> +
+>>>> +THC Sequencer End of Frame Processing:
+>>>> +
+>>>> +- THC DMA engine increments the read pointer of the Read PRD CB,
+>>>> sets EOF interrupt status
+>>>> +  in RxDMA2 register (THC_M_PRT_READ_DMA_INT_STS_2).
+>>>> +- If THC EOF interrupt is enabled by the driver in the control
+>>>> register (THC_M_PRT_READ_DMA_CNTRL_2),
+>>>> +  generates interrupt to software.
+>>>> +
+>>>> +Sequence of steps to read data from RX DMA buffer:
+>>>> +
+>>>> +- THC QuickSPI driver checks CB write Ptr and CB read Ptr to
+>>>> identify if any data frame in DMA
+>>>> +  circular buffers.
+>>>> +- THC QuickSPI driver gets first unprocessed PRD table.
+>>>> +- THC QuickSPI driver scans all PRD entries in this PRD table to
+>>>> calculate the total frame size.
+>>>> +- THC QuickSPI driver copies all frame data out.
+>>>> +- THC QuickSPI driver checks the data type according to input
+>>>> +report
+>>>> body, and calls related
+>>>> +  callbacks to process the data.
+>>>> +- THC QuickSPI driver updates write Ptr.
+>>>> +
+>>>> +4.3 Output Report Data Flow
+>>>> +---------------------------
+>>>> +
+>>>> +Generic Output Report Flow:
+>>>> +
+>>>> +- HID core calls raw_request callback with a request to THC
+>>>> +QuickSPI
+>>>> driver.
+>>>> +- THC QuickSPI Driver converts request provided data into the
+>>>> +output
+>>>> report packet and copies it
+>>>> +  to THC's write DMA buffer.
+>>>> +- Start TxDMA to complete the write operation.
+>>>> +
+>>>> +5. HIDI2C support (QuickI2C)
+>>>> +============================
+>>>> +
+>>>> +5.1 Reset Flow
+>>>> +--------------
+>>>> +
+>>>> +- Read device descriptor from Touch IC device through PIO write
+>>>> followed by read.
+>>>> +- If the device descriptor is valid, allocate DMA buffers and
+>>>> configure all DMA channels.
+>>>> +- Use PIO or TxDMA to write a SET_POWER request to TIC's command
+>>>> register, and check if the
+>>>> +  write operation is successfully completed.
+>>>> +- Use PIO or TxDMA to write a RESET request to TIC's command
+>>>> register. If the write operation
+>>>> +  is successfully completed, wait for reset response from TIC.
+>>>> +- Use SWDMA to read report descriptor through TIC's report
+>>>> descriptor register.
+>>>> +
+>>>> +5.2 Input Report Data Flow
+>>>> +--------------------------
+>>>> +
+>>>> +Basic Flow:
+>>>> +
+>>>> +- Touch IC asserts the interrupt indicating that it has an
+>>>> +interrupt
+>>>> to send to HOST.
+>>>> +  THC Sequencer issues a READ request over the I2C bus. The HIDI2C
+>>>> device returns the
+>>>> +  first 2 bytes from the HIDI2C device which contains the length of
+>>>> the received data.
+>>>> +- THC Sequencer continues the Read operation as per the size of
+>>>> +data
+>>>> indicated in the
+>>>> +  length field.
+>>>> +- THC DMA engine begins fetching data from the THC Sequencer and
+>>>> writes to host memory
+>>>> +  at PRD entry 0 for the current CB PRD table entry. THC writes
+>>>> 2Bytes for length field
+>>>> +  plus the remaining data to RxDMA buffer. This process continues
+>>>> until the THC Sequencer
+>>>> +  signals all data has been read or the THC DMA Read Engine reaches
+>>>> the end of it's last
+>>>> +  PRD entry (or both).
+>>>> +- THC Sequencer enters End-of-Input Report Processing.
+>>>> +- If the device has no more input reports to send to the host, it
+>>>> de-asserts the interrupt
+>>>> +  line. For any additional input reports, device keeps the
+>>>> + interrupt
+>>>> line asserted and
+>>>> +  steps 1 through 4 in the flow are repeated.
+>>>> +
+>>>> +THC Sequencer End of Input Report Processing:
+>>>> +
+>>>> +- THC DMA engine increments the read pointer of the Read PRD CB,
+>>>> sets EOF interrupt status
+>>>> +  in RxDMA 2 register (THC_M_PRT_READ_DMA_INT_STS_2).
+>>>> +- If THC EOF interrupt is enabled by the driver in the control
+>>>> register
+>>>> +  (THC_M_PRT_READ_DMA_CNTRL_2), generates interrupt to software.
+>>>> +
+>>>> +Sequence of steps to read data from RX DMA buffer:
+>>>> +
+>>>> +- THC QuickI2C driver checks CB write Ptr and CB read Ptr to
+>>>> identify if any data frame in DMA
+>>>> +  circular buffers.
+>>>> +- THC QuickI2C driver gets first unprocessed PRD table.
+>>>> +- THC QuickI2C driver scans all PRD entries in this PRD table to
+>>>> calculate the total frame size.
+>>>> +- THC QuickI2C driver copies all frame data out.
+>>>> +- THC QuickI2C driver call hid_input_report to send the input
+>>>> +report
+>>>> content to HID core, which
+>>>> +  includes Report ID + Report Data Content (remove the length field
+>>>> from the original report
+>>>> +  data).
+>>>> +- THC QuickI2C driver updates write Ptr.
+>>>> +
+>>>> +5.3 Output Report Data Flow
+>>>> +---------------------------
+>>>> +
+>>>> +Generic Output Report Flow:
+>>>> +
+>>>> +- HID core call THC QuickI2C raw_request callback.
+>>>> +- THC QuickI2C uses PIO or TXDMA to write a SET_REPORT request to
+>>>> TIC's command register. Report
+>>>> +  type in SET_REPORT should be set to Output.
+>>>> +- THC QuickI2C programs TxDMA buffer with TX Data to be written to
+>>>> TIC's data register. The first
+>>>> +  2 bytes should indicate the length of the report followed by the
+>>>> report contents including
+>>>> +  Report ID.
+>>>> +
+>>>> +6. THC Debugging
+>>>> +================
+>>>> +
+>>>> +To debug THC, event tracing mechanism is used. To enable debug
+>>>> logs::
+>>>> +
+>>>> +  echo 1 > /sys/kernel/debug/tracing/events/intel_thc/enable
+>>>> +  cat /sys/kernel/debug/tracing/trace
+>>>> +
+>>>> +7. Reference
+>>>> +============
+>>>> +- HIDSPI:
+>>>> https://download.microsoft.com/download/c/a/0/ca07aef3-3e10-4022-b1e
+>>>> 9-c98cea99465d/HidSpiProtocolSpec.pdf
+>>>> +- HIDI2C:
+>>>> https://download.microsoft.com/download/7/d/d/7dd44bb7-2a7a-4505-ac1
+>>>> c-7227d3d96d5b/hid-over-i2c-protocol-spec-v1-0.docx
+>>>
+>>>
+
 
