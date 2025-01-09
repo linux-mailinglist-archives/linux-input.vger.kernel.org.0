@@ -1,60 +1,56 @@
-Return-Path: <linux-input+bounces-9104-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9105-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D31A07148
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jan 2025 10:19:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24AADA0714B
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jan 2025 10:19:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B02B3A2031
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jan 2025 09:19:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 236D81674AB
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jan 2025 09:19:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95B7E215F5F;
-	Thu,  9 Jan 2025 09:17:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B9F3216380;
+	Thu,  9 Jan 2025 09:18:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JAmcH6ik"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jmQCdugi"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7BE215F49;
-	Thu,  9 Jan 2025 09:17:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB21421576E
+	for <linux-input@vger.kernel.org>; Thu,  9 Jan 2025 09:18:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736414241; cv=none; b=upHUbETuVzg8QjrQeRab3DVrmSvWmeKhCtCR921gXWPD48zLpjuHLhanyiK4S/lG1Dm3mA39YF07B5ImKUrSQFPLEqHIc83V8K3KBcpY9aFeFZUUcg9/XnsE3DfB1XWaA2WLZkShrHT/n4/b6FpIlzCoKq3xxO1lPOVX/cQn1Fc=
+	t=1736414283; cv=none; b=K12McBauKgbEXtpwit0eTyR+PrdP+7Hb8dlB1/0BG+jyTiLhagyDDmvYL0aHPrm3ZjOlmAFp61eCC2IBVkhGZugISDqYs1Egz5u5loYcxhTAKNNO7tE7V6Kfh1hBi3bHikafWytm5LyDlDDKATQHxi2d1tlUJEFp7N4We+Bd1rM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736414241; c=relaxed/simple;
-	bh=x5HqoNWdDNDkFZaQt4tpMfk4E8QCWW84ocAwMG8Zjmg=;
+	s=arc-20240116; t=1736414283; c=relaxed/simple;
+	bh=aiXMBe8rBIiNY/84C39nQ9qE7E0dW9Po5NrH1QaZOC8=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=SRBUPWkLiroMZXGJDGK/R7lXTK7/CLHGelI/f8BTR2QrspYM4Nt8y9XuqwNA46mExTCyJL0clSyRb6oROA+L0ko/18lZsKhlhF1CzBDeFFNTTtNV9REOQMlgGyAVh7kwnSCW03E3vGXPtLpH4zKhnFHWrVcGAjoDmsx0xf1gqdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JAmcH6ik; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC9DFC4CED2;
-	Thu,  9 Jan 2025 09:17:20 +0000 (UTC)
+	 MIME-Version:Content-Type; b=k/PBxSmhIl2NEWr9gKZY+dm4xbs4Ue6aPmCThEF4JjMgvPDS11xOns8gDpVkX1Rav7bXIbQk2W6Wu/DnW2rpKKffG1jYo7nPzKhtU9JuSXe6P2tC48PJWqoFQQvn2ZQEK2qp4jJFTVOKVVqdK6dhRuWKk7KWefjCpezTbY2Wi5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jmQCdugi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C1EFC4CED2;
+	Thu,  9 Jan 2025 09:18:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736414241;
-	bh=x5HqoNWdDNDkFZaQt4tpMfk4E8QCWW84ocAwMG8Zjmg=;
+	s=k20201202; t=1736414283;
+	bh=aiXMBe8rBIiNY/84C39nQ9qE7E0dW9Po5NrH1QaZOC8=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=JAmcH6ikyrlynJsSh/LN5Yc4KljcrBnupcKXbL1ZzQ/vZ60bdnrUFNk7k/y1NbQVL
-	 McfPq5IipiQtAKeOPBPrYIOxpbXG57KyOY/yJkSeRXQudEGLdJooR4hDOo8YieYVXi
-	 2bUFfdu56WCMgwmU5cYLO/A3CDjNUqw7c3grO3nZya67vWqtWX3blnfRErBAPHpzMe
-	 mVpGgTPFq3DJzSsfsYdk1T/jOejVwWTxXbelkuQTkWtVg26ojbehj9V7NbUfvJbyBl
-	 J88Rd/JSV5pgEEMaRBdjhJ1ZG14xywVM5H1xBBjFl2gvKbCkB8AXgjEBdkQVJllvOs
-	 2R0VQUtZEq7zA==
-Date: Thu, 9 Jan 2025 10:17:18 +0100 (CET)
+	b=jmQCdugiUNblu0OpbllMqVxTdR9Rd4iuxA642eq7U2b9ntpQWyDVNvJ3+grLntDKB
+	 ElwbAIHpb0Gdsu+QvpUq/6kPmq1xO1FjXYTrb7Da438v7A+K+BO5Y3Omivm5hc2UpC
+	 9dWGG3wtg6hmFw0nkqzulAcvyfRRjv9jzj783n+alguSiei/n/QsCms7cqsyvBzUDC
+	 0BuiJR7IHv21w1QbP5xSU4Lms9yDUb2fxS5GbUAG50XzKXWzQiu+3sLCMW6NjHivE5
+	 6ixypVag+trRXOBuyOS2bRIj25SG9uwdX5LoZZuE/7TJQ+RvXZ5Auph8ZoeDI3NPg3
+	 JVYUePL4AFxrg==
+Date: Thu, 9 Jan 2025 10:18:00 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Ping Cheng <pinglinux@gmail.com>
-cc: Even Xu <even.xu@intel.com>, 
-    Benjamin Tissoires <benjamin.tissoires@gmail.com>, 
-    "Cheng, Ping" <ping.cheng@wacom.com>, 
-    Jason Gerecke <jason.gerecke@wacom.com>, 
-    Benjamin Tissoires <bentiss@kernel.org>, 
-    linux-input <linux-input@vger.kernel.org>, 
-    LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Hid: Wacom: Add PCI Wacom device support
-In-Reply-To: <CAF8JNhK1GXxZpjQa4hK7rrgsyZQ64X2OYBkOQR9cpx4tfvgg2Q@mail.gmail.com>
-Message-ID: <87q15835-80q3-7s50-s380-p1p4043po539@xreary.bet>
-References: <20241226013527.3048277-1-even.xu@intel.com> <CAF8JNhK1GXxZpjQa4hK7rrgsyZQ64X2OYBkOQR9cpx4tfvgg2Q@mail.gmail.com>
+To: Vicki Pfau <vi@endrift.com>
+cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+    linux-input@vger.kernel.org
+Subject: Re: [PATCH] HID: hid-steam: Make sure rumble work is canceled on
+ removal
+In-Reply-To: <20241226023424.653914-1-vi@endrift.com>
+Message-ID: <5p413q2s-p18q-2241-4sr6-468o9o7s035n@xreary.bet>
+References: <20241226023424.653914-1-vi@endrift.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -63,24 +59,33 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Wed, 25 Dec 2024, Ping Cheng wrote:
+On Wed, 25 Dec 2024, Vicki Pfau wrote:
 
-> Hi Jiri, hi Benjamin,
+> When a force feedback command is sent from userspace, work is scheduled to pass
+> this data to the controller without blocking userspace itself. However, in
+> theory, this work might not be properly canceled if the controller is removed
+> at the exact right time. This patch ensures the work is properly canceled when
+> the device is removed.
 > 
-> This patch enables wacom driver to pickup Wacom input devices under Intel
-> Framework. The patch has been tested by tatsunosuke.tobita@wacom.com with
-> patchset [*PATCH v3 00/22] Add Intel Touch Host Controller drivers* (
-> https://lore.kernel.org/linux-input/20241216014127.3722172-1-even.xu@intel.com/T/#t)
-> applied.
+> Signed-off-by: Vicki Pfau <vi@endrift.com>
+> ---
+>  drivers/hid/hid-steam.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Reviewed-by: Ping Cheng <ping.cheng@wacom.com>
-> Tested-by: Tatsunosuke Tobita <atsunosuke.tobita@wacom.com
-> <tatsunosuke.tobita@wacom.com>>
-> 
-> Thank you for your support,
+> diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
+> index 6439913372a8..af38fc8eb34f 100644
+> --- a/drivers/hid/hid-steam.c
+> +++ b/drivers/hid/hid-steam.c
+> @@ -1306,6 +1306,7 @@ static void steam_remove(struct hid_device *hdev)
+>  
+>  	cancel_delayed_work_sync(&steam->mode_switch);
+>  	cancel_work_sync(&steam->work_connect);
+> +	cancel_work_sync(&steam->rumble_work);
+>  	hid_destroy_device(steam->client_hdev);
+>  	steam->client_hdev = NULL;
+>  	steam->client_opened = 0;
 
-Thanks. I've created hid.git#for-6.14/wacom-pci which is based on 
-hid.git#for-6.14/intel-thc and applied this one on top.
+Applied, thanks.
 
 -- 
 Jiri Kosina
