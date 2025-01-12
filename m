@@ -1,87 +1,141 @@
-Return-Path: <linux-input+bounces-9163-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9164-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169A5A0ABA5
-	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2025 20:10:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25DCFA0ABA8
+	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2025 20:18:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EACB93A3D0F
-	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2025 19:10:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC7863A4BF6
+	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2025 19:18:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B48C1BC07A;
-	Sun, 12 Jan 2025 19:10:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E1E51547E8;
+	Sun, 12 Jan 2025 19:18:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="UuP+/gg1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eBVU/znX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593B514A0B3;
-	Sun, 12 Jan 2025 19:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736709037; cv=pass; b=FetfekqLZMU5rZuqV6elRPrk7Ry2i8oruaI/khmCuCznZtdHJ5QdnRq1a+fBW/rlyCDEoDzvc1Il7xoMTl8Albgo0fs3x//J7ZEOQJPBoqRp3LjmybTLnypPQudLFXx9Q8DX/iEfjHBa5kTvO8rwluf4O9BHWlA44+/zwr1cWLo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736709037; c=relaxed/simple;
-	bh=6hujTHHtjiLUWmU5120hWOs3tXpDbG3Bq7YSVCUNA20=;
-	h=Date:From:To:Message-ID:In-Reply-To:Subject:MIME-Version:
-	 Content-Type; b=unlZS2RVcUhqQsePd4o6gLyfxum9OTkvBFR/qSUVwEQXPzmuUyUCt6YJruq2MgsJD/UtqfnUqYFR7Pah3zDh8Jyle5jrffm+6EbHTXXLbv07w6rSMDXXplT8schv1V+qn+QAiaDJHPXAF9AWmN/+3iKSUqjlMNfc9GpGk36jXd8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=UuP+/gg1; arc=pass smtp.client-ip=136.143.188.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
-ARC-Seal: i=1; a=rsa-sha256; t=1736709025; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=kQZrsUR/m/tv06rWZsxYN1BYyrovB4lSYjgECE2rR/9LvPKtbuiEPD5BISgHId/1ZLfmckt2nu/ILT1kBoNLDtpFXb+MzIBXCp8/rduEeDroMJ2Oiz2yRzME93ce7CPZGIhn0L+G9X4KXtZLbYM75rOoPBYoep+b0zZO7HmoTiY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1736709025; h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
-	bh=6hujTHHtjiLUWmU5120hWOs3tXpDbG3Bq7YSVCUNA20=; 
-	b=Um8zVyUOV+46B+Hrwa7wW1FiTSs7pNLrp+V9ADPG03jCGVgvwaSQProDfKSSnWQH8FZBqIQyWCgpdRdvDy36d0CCPL+xup1i99SoXKCgk1uv3FwGMHRbSbiwBEuuk/jh/P8gKpXNdy0PeJSbrYib0iL+KbeLwR1uZo7+fWnVNhY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
-	dmarc=pass header.from=<safinaskar@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1736709025;
-	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
-	h=Date:Date:From:From:To:To:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To:Cc;
-	bh=6hujTHHtjiLUWmU5120hWOs3tXpDbG3Bq7YSVCUNA20=;
-	b=UuP+/gg12wWtMXjAsL9MPhzqZFTabEXk+u3/bx7lSTQKouDCso/91MLhleKcDAHP
-	HnHGHApfqgumv/bw3MSXNXgBqDKzIdzDZxFznF2ZehWF5WlT+GoyH1pu1WgC2nqEjMK
-	CohAn3JzKQWURM+8P4MmwN27ZYw6C4D/oYxUhGtI=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1736709020254956.2909690943278; Sun, 12 Jan 2025 11:10:20 -0800 (PST)
-Received: from  [212.73.77.104] by mail.zoho.com
-	with HTTP;Sun, 12 Jan 2025 11:10:20 -0800 (PST)
-Date: Sun, 12 Jan 2025 23:10:20 +0400
-From: Askar Safin <safinaskar@zohomail.com>
-To: "linux-i2c" <linux-i2c@vger.kernel.org>,
-	"linux-input" <linux-input@vger.kernel.org>,
-	"Kenny Levinsen" <kl@kl.wtf>,
-	"Benjamin Tissoires" <bentiss@kernel.org>
-Message-ID: <1945bec9a47.7ee2a33b5058.7025603412967539178@zohomail.com>
-In-Reply-To: 
-Subject: Bug: i2c_designware: touchpad doesn't work after 40 min suspend on
- Dell Precision 7780
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB9A14A0B3
+	for <linux-input@vger.kernel.org>; Sun, 12 Jan 2025 19:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736709533; cv=none; b=Iel84goJlYQckDA/MxxTdX5/qgTqxPId42jtaD/3ZRJYAmLc5KZIJ/Db+3h8S58QKHPBfSgqGS7lMRj4EcrONChgFWmK7qhvmKRGu/HvZJcML4HQ5EaQSOCPbNIa8B+aVdP9OoM2jxA1OhJ6QYkrGi73rdCq8MvOkbAu7ONBs7Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736709533; c=relaxed/simple;
+	bh=WpamBzQarLaY7DrEUZOJ9jacxPIkAO7n+l7WGq9anII=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=H6nXv0xjkC2l7jM/MvoO0l4tuugtB/TOudXYTHAoUHYCR+XhWIlEKGQGt4RAnBGheGIIWlAyq3cpob0UaUpQVjtRqOlHIE8ijqzHR67SvyjSQIv4TM/CO6WcVtJ9bced5JbVx1j6J8mtVlxwW9yhenKu2S3atHuzgrZGbYnCYbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eBVU/znX; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43675b1155bso41775225e9.2
+        for <linux-input@vger.kernel.org>; Sun, 12 Jan 2025 11:18:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736709530; x=1737314330; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=f00P6yumcaaCoGRToCEmGUN71MLYaSe6dYrWbYIH62Y=;
+        b=eBVU/znXw8bVifsm476tenN/cO+hb/RevO68bWQlu2es2QiduHFN8srEIYppz49Hp2
+         xRkJp5QD4Pk63+owLZ28mpIATRT+gun10C1pa6KrlAuiYN5F707UmYYYOuxOq1HAUFrD
+         fmKaJ6al9BvOsYiLSm+O78r2He0yTe2ylJ5igNsJqxdBipLC9jR8gLtujiwIz0ycIYPR
+         MpnLUSYVCGGly2m16//xqJQag/Nkeb0DHUDgAll6Tf7LX+/wRenyxF6ut6f1Xr33ZByX
+         vbFagp1olnT9bbT7120yhuEI3srS7vwi0dbQcwrJyaEPzGggi3q2jc5j20BDN9NHOkII
+         lJSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736709530; x=1737314330;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f00P6yumcaaCoGRToCEmGUN71MLYaSe6dYrWbYIH62Y=;
+        b=kRdB1zIu2ZGDkccaAalE6UD5mlmrGsbvqhq8+Ypwycn/Jc5b8PFZPvIxJNFfj6VRW/
+         Qc26cEb3S8bNttjM5OjNSSVHx+SF4HY0fszXDd2F5F5KseoHNHtPpj2MABiI2TDYI2/6
+         vbc8kUtknE1CJgjbnEl7Ucy2ftu/lIPxFq9M4IorH+VjEZCzgGwTeUTloeLZkDLkLzl5
+         eVyNIVU0lMgFF1fgrPF/GlPywvH5NZWnY956FFKmTq+k0DF+pAbInKHnfWplbVWnHjv5
+         GqqPuhqnoXwoZmP0225x5M703MEG/tq6c/rygn0Tu1IE2LXE7uhrigFuz8vmUAl4UGgS
+         moqQ==
+X-Gm-Message-State: AOJu0YzrYYpQw6bgXaWVfQOaBLVyhHUze5spTAfqvz2BkUZYBUxDD3rr
+	yBFTmDrmp2imlR16kXjz672wvfOjHEQLYYIq0nVwym06NbyDlf6T68KfCcPoSI4=
+X-Gm-Gg: ASbGncszhgXfX0Gaxi+zlLtsKjyr5F2Oz+ZG+m5gUj4c6yz5GClWuhQJ44idHJ+oDq9
+	B5Un9PfBgvDioZm01RMlckhNOI3afrvNhOVrQWxLRxDwqEPrgE8Htc5pzg/xtnK+7L3ElOqHmOp
+	9ziEVLvOsZBGCFMAyxqGn34/pPlPmhyOR+PyplrVuOMAKdEDXu52g9CN8DxW9+q5bidpvYnbQcO
+	aSRXogCPr1R9k7WT71ApXPwQWRToQdGTg8INUBH5MRwkAUodUa30OeRjgAY/EWcMK+LYjNt19i4
+	Nga7yGb6awCBFhxv3VF+S5RENEjV
+X-Google-Smtp-Source: AGHT+IGU8eUT18omm/v3Klkqb9+HFiGRHl1p8xxJMUUR3/g3f8+ev4b7GBDG+7WJSg6FCyB4xjpjCg==
+X-Received: by 2002:a05:600c:4e0b:b0:434:a7e3:db5c with SMTP id 5b1f17b1804b1-436e26aeeeemr181102005e9.11.1736709529780;
+        Sun, 12 Jan 2025 11:18:49 -0800 (PST)
+Received: from ?IPV6:2001:16b8:b4af:ae00:ccc5:f463:86dc:4a94? ([2001:16b8:b4af:ae00:ccc5:f463:86dc:4a94])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-436e2dc08bbsm153123465e9.12.2025.01.12.11.18.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Jan 2025 11:18:49 -0800 (PST)
+Message-ID: <19c26b78-dff0-4d67-90e6-2cf840f2f283@gmail.com>
+Date: Sun, 12 Jan 2025 20:18:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/11] Input: xpad - sync with github fork
+To: linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+ gregkh@linuxfoundation.org
+References: <20250107192830.414709-1-rojtberg@gmail.com>
+Content-Language: en-US, de-DE
+From: Pavel Rojtberg <rojtberg@gmail.com>
+In-Reply-To: <20250107192830.414709-1-rojtberg@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Feedback-ID: rr08011227c1e95c50715e982f1e2588e80000cd277134e0315ec8d07ea72c0c525448766bac8aac65b44c02:zu080112277b181fd4d8812d82b9c681be0000d13a2ad7210943fbd35dc57e21ca2ee27ae87c6ba015200ccf:rf0801122c476b2cec7a03fe785a1b79100000e23b06cffa51827163f735dcbf1ab236104119b4bd4c8026d97249aacde2:ZohoMail
 
-Hi. My touchpad sometimes stops to work after resume from suspend. I reported proper bug report here: https://bugzilla.kernel.org/show_bug.cgi?id=219680 .
-I'm writing here to make sure my report is seen.
+Am 07.01.25 um 20:28 schrieb Pavel Rojtberg:
+> From: Pavel Rojtberg <rojtberg@gmail.com>
+> 
+> This updates the list of supported devices as contributed on github.
+> Compared to v1 bouncing patches were merged into one
+> with me as the author.
+> Compared to v2 all checkpatch.pl errors were fixed.
+> Also one patch with an correct author was incorrectly squashed in v2.
+> 
+> Andrei Ilyashenko (1):
+>   Input: xpad - add support for Xbox ONE liquid metal controller
+> 
+> Fernando Petros (1):
+>   Input: xpad - add support for Thrustmaster ESWAP X2 ELDEN RING
+> 
+> Greg Savage (1):
+>   Input: xpad - add support for PDP Mirror's Edge controller
+> 
+> Jack Greiner (1):
+>   Input: xpad - add support for wooting two he (arm)
+> 
+> Jocelyne Jones (1):
+>   Input: xpad - add support for SCUF Instinct
+> 
+> Leonardo Brondani Schenkel (1):
+>   Input: xpad - improve name of 8BitDo controller 2dc8:3106
+> 
+> Martin Stolpe (1):
+>   Input: xpad - add USB ID for Nacon Revolution5 Pro
+> 
+> Matheos Mattsson (1):
+>   Input: xpad - add support for Nacon Evol-X Xbox One Controller
+> 
+> Nilton Perim Neto (1):
+>   Input: xpad - add unofficial Xbox 360 wireless receiver clone
+> 
+> Pavel Rojtberg (1):
+>   Input: xpad - add multiple supported devices
+> 
+> Thijs Reus (1):
+>   Input: xpad - added Turtle Beach Recon support
+> 
+>  drivers/input/joystick/xpad.c | 24 +++++++++++++++++++++++-
+>  1 file changed, 23 insertions(+), 1 deletion(-)
+> 
 
-
---
-Askar Safin
-https://types.pl/@safinaskar
+are there any further changes that need to be made here?
 
 
