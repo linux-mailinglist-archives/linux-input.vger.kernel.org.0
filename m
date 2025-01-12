@@ -1,52 +1,52 @@
-Return-Path: <linux-input+bounces-9158-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9160-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF745A0AB74
-	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2025 19:41:48 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF84FA0AB79
+	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2025 19:41:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5EC023A5990
-	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2025 18:41:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8FB717A23EB
+	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2025 18:41:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C395A1C07D8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE1F01C175A;
 	Sun, 12 Jan 2025 18:41:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mnzWlF9t"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OXxNY5vs"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAF53232;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29E01BFE00;
 	Sun, 12 Jan 2025 18:41:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736707302; cv=none; b=QMkXG0Q3HaUglt/OZH+CPPy2ENhGlgiTpQQq4Kw2b+6YlH4R0LTpYUaUhPwtfKzHNn/PJVHFv7/6/zN+z2xjpEfV7mmulJBVsQTHwbO1BJq4+afzK15ZUds8CkhMqI1LXVPgw31J5i5ZPJPWfPzU4myjzj+f4sQzemGLCMMfV8s=
+	t=1736707302; cv=none; b=kTIZwnXEfS0OGOlqWaeM1NJXlIXt8PuB2//p1fDavIH9aZp0cNRD9pF2MdQObKhbAXFmNw6/97GPjd+TzwHvrCU4INdcyVFEmRygx/1C51XgiK2Bui1bZwPFpPza7uN/JloI1RZhiRAu8PJ0IUkbOAu3cCplhFKXPf+i4oZj+Wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736707302; c=relaxed/simple;
-	bh=wdB68K3PeDbVcgvoTbIYxQc+n0FBFJF0guSndtGbyFQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Y7+syVa5gr07c8g780dp/jgkmIoQAakfSHXbNUAm6GcbH7b2txLjni7Et6rGC9H8SYPTMnQA2aOANcO8jN+8Bpr/KuVqP7b/08HcCSo877b5x3ZOFUQb1CWU9tapkcYWV1xNdtq2Or2tRdhQErQMoDwH/TlzyYEldZ3I0+qBbUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mnzWlF9t; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1089AC4CEDF;
+	bh=4mqO9fFAzT1FG6ss/NQO1jdCRuZdLW3O8dLx4waQ6Qc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Blf/LrC0+C/HzWtsj58x0MTSs5oNEEsk7/PTPRnxvvNq93ptU8E+7r0dp3EHMCYhYP7jMam7ddL5TVSwP0GAeJhMwic4ZlLLH9YTXHMSlx9p80jz7qKu5PAvV7gxeSIHD9LDo/UstlRwGDzkRFvdlvuOS2OsFqVM1jGlJhKruyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OXxNY5vs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2D47FC4CEE3;
 	Sun, 12 Jan 2025 18:41:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1736707302;
-	bh=wdB68K3PeDbVcgvoTbIYxQc+n0FBFJF0guSndtGbyFQ=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=mnzWlF9th1vklk/l3qj/a5bxD0PGwevQrvdX9A115AVFzwHvegQTzQAyVB9tUz1So
-	 dRHePJ7f7V9PP/5HoYsBWZIDpN8ryAYLgDO0yELKnvPCEgK9gT2FVSxq2gFfmjh1HO
-	 NRdiXd9MNBYdt5mObMWcxJvlp6yk7BKXDqjaMayEWlRSQbCPpTfTZGIlT27i9qG7p4
-	 d+ibhEcgdRNvkJzzaDhI3An1OMPFyh40JS5KWxM/mrNcvRXNN/MhN9OTNRAf2mxdyr
-	 zsqH46vKhypOgKi0SlbTR3JzZsk/VtbCfqYmbUMIShK0BIMTPlo9JEbyT3jpY4KtOL
-	 5MfCdL3I46xbA==
+	bh=4mqO9fFAzT1FG6ss/NQO1jdCRuZdLW3O8dLx4waQ6Qc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=OXxNY5vsrOkEsbqwpqaYy4AVp00apThon+0YJEumcVcStXajAg8Ihy/0gWudXw/ko
+	 YkruGloWRBOfebYxw31EE8dqR0ld2AsXy7LGqyxIwUwsc/LrUvW2fAyvTUCT498W3h
+	 Zs4yKiNstfCc98s77BwHLDeCiEL5G0mBw631exxW/h/arM0O4PdT/YTIrQSbeblP7d
+	 TlOvjBw7CcXn0vnBhFrMTEn7NfdliVCR30kwsZLjh/1kAlBmNc9e0vowzNuPhEaH37
+	 qCXq70VuuCMsNNAJXChEKokR5PVbLl7mmmPu4YKZ3D6fijgO2ofFjaC1UPPY5B39g1
+	 Ytrpnxb/KKcww==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF2B9E77188;
-	Sun, 12 Jan 2025 18:41:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14B23E7719E;
+	Sun, 12 Jan 2025 18:41:42 +0000 (UTC)
 From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Subject: [PATCH v3 0/4] Driver for Apple Z2 touchscreens.
-Date: Sun, 12 Jan 2025 19:41:31 +0100
-Message-Id: <20250112-z2-v3-0-5c0e555d3df1@gmail.com>
+Date: Sun, 12 Jan 2025 19:41:32 +0100
+Subject: [PATCH v3 1/4] dt-bindings: input: touchscreen: Add Z2 controller
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -55,11 +55,9 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANsMhGcC/03Myw6CMBCF4Vchs7amM5SLrnwP4wKGApPIJa1pV
- MK7W0hMWP6T+c4C3jqxHq7JAs4G8TKNMdJTAtxXY2eVNLGBNBlEMupLijVSnVFpK91AfJydbeW
- 9j9wfsXvxr8l99s2A2/XP840HVFqxSdkw56R1c+uGSp5nngbYeKAjKXdCkRQ5c3ap6xaxOJJ1X
- X+r/8sNxwAAAA==
-X-Change-ID: 20241124-z2-c012b528ea0d
+Message-Id: <20250112-z2-v3-1-5c0e555d3df1@gmail.com>
+References: <20250112-z2-v3-0-5c0e555d3df1@gmail.com>
+In-Reply-To: <20250112-z2-v3-0-5c0e555d3df1@gmail.com>
 To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
  Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
@@ -69,13 +67,13 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Neal Gompa <neal@gompa.dev>, Janne Grunau <j@jannau.net>
+ Neal Gompa <neal@gompa.dev>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1736707300; l=2125;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736707300; l=2558;
  i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=wdB68K3PeDbVcgvoTbIYxQc+n0FBFJF0guSndtGbyFQ=;
- b=dEUdX/RvzmYoZfDfumTur7xk31yF9c5dQuFoa97mpRXNIUQ6r1Ov8oBqjYqTlJWATxkTvu3PO
- G6uXmoYVayQBkeAR8QVXnMn96yA0Cf7a+InmBZ91xpIPJzr+/UB7oU6
+ bh=WsWmSiIz/nvoXKk6dP9ylONnNigrsJDQdxWpfEhh4J8=;
+ b=25Hjpk1gYKKA3cczAjUbTxP/t1xDDPDhf/BwB5z0VSF2oRZHPFlSSbB3wM+5uiNt74QF0C0Fa
+ h7DjJVV4xS6AyXqhaCWmblMysSCaQbXzBSmkzctG55vDfpfdURY9WK1
 X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
  pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
@@ -83,51 +81,97 @@ X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
 X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 Reply-To: fnkl.kernel@gmail.com
 
-Hi.
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-This series adds support for Apple touchscreens using the Z2 protocol.
-Those are used as the primary touchscreen on mobile Apple devices, and for the
-touchbar on laptops using the M-series chips. (T1/T2 laptops have a coprocessor
-in charge of speaking Z2 to the touchbar).
+Add bindings for touchscreen controllers attached using the Z2 protocol.
+Those are present in most Apple devices.
 
-Originally sent as a RFC at https://lore.kernel.org/all/20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com/
-The changes since then mostly address the review feedback, but also
-add another machine that has this specific controller.
-
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 ---
-Changes in v3:
-- Tx/Rx buffers used in interrupt handler are now allocated in probe and reused
-- Other various style fixes
-- Link to v2: https://lore.kernel.org/r/20241128-z2-v2-0-76cc59bbf117@gmail.com
+ .../input/touchscreen/apple,z2-multitouch.yaml     | 70 ++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
-Changes in v2:
-- In a separate patch, fixed an issue that prevented the SPI controller
-  from using GPIO CS, and as such, moved the hardware quirk to there
-- Went back to uploading the firmware in probe() instad of open()
-- Other changes addressing the review feedback
-- Link to v1: https://lore.kernel.org/r/20241126-z2-v1-0-c43c4cc6200d@gmail.com
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml b/Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..402ca6bffd3473a1a889ced7890e9836e6a76e45
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml
+@@ -0,0 +1,70 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/apple,z2-multitouch.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple touchscreens attached using the Z2 protocol
++
++maintainers:
++  - Sasha Finkelstein <fnkl.kernel@gmail.com>
++
++description: A series of touschscreen controllers used in Apple products
++
++allOf:
++  - $ref: touchscreen.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    enum:
++      - apple,j293-touchbar
++      - apple,j493-touchbar
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  firmware-name:
++    maxItems: 1
++
++  apple,z2-cal-blob:
++    $ref: /schemas/types.yaml#/definitions/uint8-array
++    maxItems: 4096
++    description:
++      Calibration blob supplied by the bootloader
++
++required:
++  - compatible
++  - interrupts
++  - reset-gpios
++  - firmware-name
++  - touchscreen-size-x
++  - touchscreen-size-y
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        touchscreen@0 {
++            compatible = "apple,j293-touchbar";
++            reg = <0>;
++            spi-max-frequency = <11500000>;
++            reset-gpios = <&pinctrl_ap 139 GPIO_ACTIVE_LOW>;
++            interrupts-extended = <&pinctrl_ap 194 IRQ_TYPE_EDGE_FALLING>;
++            firmware-name = "apple/dfrmtfw-j293.bin";
++            touchscreen-size-x = <23045>;
++            touchscreen-size-y = <640>;
++        };
++    };
++
++...
 
----
-Sasha Finkelstein (4):
-      dt-bindings: input: touchscreen: Add Z2 controller
-      input: apple_z2: Add a driver for Apple Z2 touchscreens
-      arm64: dts: apple: Add touchbar digitizer nodes
-      MAINTAINERS: Add entries for Apple Z2 touchscreen driver
-
- .../input/touchscreen/apple,z2-multitouch.yaml     |  70 ++++
- MAINTAINERS                                        |   2 +
- arch/arm64/boot/dts/apple/t8103-j293.dts           |  27 ++
- arch/arm64/boot/dts/apple/t8103.dtsi               |  19 +
- arch/arm64/boot/dts/apple/t8112-j493.dts           |  23 +
- arch/arm64/boot/dts/apple/t8112.dtsi               |  14 +
- drivers/input/touchscreen/Kconfig                  |  13 +
- drivers/input/touchscreen/Makefile                 |   1 +
- drivers/input/touchscreen/apple_z2.c               | 463 +++++++++++++++++++++
- 9 files changed, 632 insertions(+)
----
-base-commit: b62cef9a5c673f1b8083159f5dc03c1c5daced2f
-change-id: 20241124-z2-c012b528ea0d
+-- 
+2.48.0
 
 
 
