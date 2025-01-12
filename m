@@ -1,58 +1,77 @@
-Return-Path: <linux-input+bounces-9148-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9152-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0C6A0A733
-	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2025 05:29:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F1DA0A8CA
+	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2025 12:53:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA23218857D9
-	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2025 04:29:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 65A931659BB
+	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2025 11:53:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEE43219FF;
-	Sun, 12 Jan 2025 04:28:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 186CB1AA1C0;
+	Sun, 12 Jan 2025 11:53:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ukr.net header.i=@ukr.net header.b="v2nRJl5c"
+	dkim=pass (2048-bit key) header.d=mayer-bgk.de header.i=@mayer-bgk.de header.b="UqMFrWJl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from frv71.fwdcdn.com (frv71.fwdcdn.com [212.42.77.71])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCAD3EEBB;
-	Sun, 12 Jan 2025 04:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.77.71
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.162])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C4D1A4F2F;
+	Sun, 12 Jan 2025 11:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.68.63.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736656135; cv=none; b=ozOk1iaoZEImUSaswZOXPplpFBXwee5GW4NcWlwdy8jLT13vHl9tgwoWjTOpL1EAv7wXlaEfkeOmWJG+mYqO9PhfCiYYYSI4kJbqb4mWlqty7taPwG/V/EL8HszZ60EbdbTZUi/O/Sp4Fc2RGElGqBWMaDTEwEo1TMCsxpJfZgQ=
+	t=1736682782; cv=none; b=bnRRvkAeJFgbIqsuHsyH2vspEPtq6Jz/bDGqUwhnesjHu3aVx1hWEWrMa1r5wMhS8sC9FQez63PJYBiKu/r4mfUlW80tIYRkBUySjqCfE+J2ZetrNNVN09Jdo05I9Y1d2g/ChUPrDUnsnRjklAA05GlDQnWkKILQUb+g3FxDKUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736656135; c=relaxed/simple;
-	bh=hxsvDqspgQYMCoFUIng9LGPvQ3XhuxkutcqVLjX0Kak=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UjoNNIRVnqUfv211XCQEkN092ykp5yllugAOZ6rao3JEH5KDJGngJO8cz2oavLPQR+hMB5BwVNSTFiJZnDacgJ/MU2csI+OWQNu2QoPrKEhY4MFTqqbtjFpmZXFoWrRBKyUZkb30IpsN+Y7LO22v9BEDkuPFwTjPMtguuAYJHC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ukr.net; spf=pass smtp.mailfrom=ukr.net; dkim=pass (1024-bit key) header.d=ukr.net header.i=@ukr.net header.b=v2nRJl5c; arc=none smtp.client-ip=212.42.77.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ukr.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ukr.net
-Received: from frv152.fwdcdn.com ([212.42.77.152]) by frv71.fwdcdn.com QID:1tWpLy-000GX2-0E/RC:2;
-	Sun, 12 Jan 2025 06:13:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=ukr.net;
-	s=fsm; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To
-	:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date
-	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
-	List-Owner:List-Archive; bh=RYpVg1+IcnhPEUU6BYLqAQkROe7bSQKqkThaeSjaGYo=; b=v
-	2nRJl5cBVzmaV/DiITLeeRpKAUHgpUcTLSccAJIQasEfQiVAAC77afXOSDUaB+MwYMayPQ03pwHsh
-	6krpQe9jc98bwoEx1JfB0FiXCGVjVqeFncesJnAUaaR3lThDHf0P0BZ+dtbvoZMlA0DsEmbD7pDiA
-	1SE1dyATDVwOaDs4=;
-Received: from m106073187065.v4.enabler.ne.jp ([106.73.187.65] helo=Hyperion..)
-	by frv152.fwdcdn.com with esmtpsa ID 1tWpLl-000GO0-1S
-	;
-	Sun, 12 Jan 2025 06:13:22 +0200
-From: Ievgen Vovk <YevgenVovk@ukr.net>
-To: jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Ievgen Vovk <YevgenVovk@ukr.net>
-Subject: [PATCH] HID: hid-apple: Apple Magic Keyboard a3203 USB-C support.
-Date: Sun, 12 Jan 2025 13:13:14 +0900
-Message-ID: <20250112041314.11661-1-YevgenVovk@ukr.net>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1736682782; c=relaxed/simple;
+	bh=LegztEwVyHwsMKQKcrypHegKeIQugIbO/vHiKyGixSs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uMZBr2JeAEkrs2KOtFfki7Gc5ff69AC/zAQT/mUXafqrVesGNxn/9rMsJdQ1jTDg/IYwG9MqwBdUQVLAnxa81wKgkulna2UAe1D6yI5/u6CPhCCU/SbqB6C8WKFGLaMAYII9GNj6oXF5nszkm//cKOE+tOMyrLDRWSD1s9xRdYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mayer-bgk.de; spf=pass smtp.mailfrom=mayer-bgk.de; dkim=pass (2048-bit key) header.d=mayer-bgk.de header.i=@mayer-bgk.de header.b=UqMFrWJl; arc=none smtp.client-ip=188.68.63.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mayer-bgk.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mayer-bgk.de
+Received: from mors-relay-8201.netcup.net (localhost [127.0.0.1])
+	by mors-relay-8201.netcup.net (Postfix) with ESMTPS id 4YWD9H0fMwz3w5R;
+	Sun, 12 Jan 2025 12:45:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mayer-bgk.de; s=key2;
+	t=1736682339; bh=LegztEwVyHwsMKQKcrypHegKeIQugIbO/vHiKyGixSs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=UqMFrWJlr4G7R9PieMHdOVLefp6RWgXwsDYVGKU+YR/X1wtqMa6MrSXp8um8bb+yQ
+	 lhMANQ64WuHVhoNKmsG0JUVJeHKh8tT9q6FRVn/1QbuEtA686nVZLuyyJ5t8af6DLb
+	 tzuEb3WAXMKmaW+B/dax+ifgeXZktnm9Iu1pFRP1n4zM2jeFnznO4R0oEqieojgT6S
+	 MJp8tGlGhjvN4XTr4qCpoR9kFsjUU6f8h+eH/Tp7640agHuPE+CU/aBJqG7FKG4CR0
+	 hp4LlA/B5d68GPXOavjZsEIf3Opj0X0KQ9911CckkvF15aqcMLyUFewrXuR502Fjob
+	 QRA6Oemlv+jKQ==
+Received: from policy01-mors.netcup.net (unknown [46.38.225.35])
+	by mors-relay-8201.netcup.net (Postfix) with ESMTPS id 4YWD9G733sz3w5K;
+	Sun, 12 Jan 2025 12:45:38 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at policy01-mors.netcup.net
+X-Spam-Flag: NO
+X-Spam-Score: -2.901
+X-Spam-Level: 
+Received: from mxe85d.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy01-mors.netcup.net (Postfix) with ESMTPS id 4YWD9G3lBxz8tYH;
+	Sun, 12 Jan 2025 12:45:38 +0100 (CET)
+Received: from localhost.localdomain (ipbcc1eb64.dynamic.kabel-deutschland.de [188.193.235.100])
+	by mxe85d.netcup.net (Postfix) with ESMTPSA id D52441C0057;
+	Sun, 12 Jan 2025 12:45:33 +0100 (CET)
+Authentication-Results: mxe85d;
+	spf=pass (sender IP is 188.193.235.100) smtp.mailfrom=git@mayer-bgk.de smtp.helo=localhost.localdomain
+Received-SPF: pass (mxe85d: connection is authenticated)
+From: Christian Mayer <git@mayer-bgk.de>
+To: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Bastien Nocera <hadess@hadess.net>,
+	Christian Mayer <git@mayer-bgk.de>
+Subject: [PATCH v2 0/5] HID: steelseries: add SteelSeries Arctis 9 support
+Date: Sun, 12 Jan 2025 11:44:01 +0000
+Message-ID: <20250112114438.2196-1-git@mayer-bgk.de>
+X-Mailer: git-send-email 2.48.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -60,55 +79,34 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Result: IP=106.73.187.65; mail.from=YevgenVovk@ukr.net; dkim=pass; header.d=ukr.net
-X-Ukrnet-Yellow: 0
+X-PPP-Message-ID: <173668233421.8746.11390138385077026001@mxe85d.netcup.net>
+X-Rspamd-Queue-Id: D52441C0057
+X-Rspamd-Server: rspamd-worker-8404
+X-NC-CID: EgtmFBNYxJAS2qOAR7r/GUOXV2Ncz438JS28wWCQn9QegwaepYA=
 
-Add Apple Magic Keyboard 2024 model (with USB-C port) device ID (0320)
-to those recognized by the hid-apple driver. Keyboard is otherwise
-compatible with the existing implementation for its earlier 2021 model.
+Hi,
 
-Signed-off-by: Ievgen Vovk <YevgenVovk@ukr.net>
----
- drivers/hid/hid-apple.c | 5 +++++
- drivers/hid/hid-ids.h   | 1 +
- 2 files changed, 6 insertions(+)
+i added support for the SteelSeries Arctis 9 headset.
 
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 7e1ae2a2bcc2..3c3f67d0bfcf 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -474,6 +474,7 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
- 			 hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2015)
- 			table = magic_keyboard_2015_fn_keys;
- 		else if (hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021 ||
-+			 hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024 ||
- 			 hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021 ||
- 			 hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021)
- 			table = apple2021_fn_keys;
-@@ -1150,6 +1151,10 @@ static const struct hid_device_id apple_devices[] = {
- 		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK | APPLE_RDESC_BATTERY },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021),
- 		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024),
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK | APPLE_RDESC_BATTERY },
-+	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024),
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021),
- 		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK | APPLE_RDESC_BATTERY },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021),
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 1f47fda809b9..4f583d6f2eba 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -184,6 +184,7 @@
- #define USB_DEVICE_ID_APPLE_IRCONTROL4	0x8242
- #define USB_DEVICE_ID_APPLE_IRCONTROL5	0x8243
- #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021   0x029c
-+#define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024   0x0320
- #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021   0x029a
- #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021   0x029f
- #define USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT 0x8102
--- 
-2.43.0
+Changes in v2:
+* Use constants instead of magic numbers for cleaning up model name.
+* Remove unnecessary whitespace changes.
+* Split up preparations and actual adding suport for the device 
+in separate patches.
+* Call hid_hw_open/hid_hw_close for all devices
+* Fix code style issues
+* Optimize capacity mapping for min and max values
 
+Christian Mayer (5):
+  HID: steelseries: preparation for adding SteelSeries Arctis 9 support
+  HID: steelseries: add SteelSeries Arctis 9 support
+  HID: steelseries: export charging state for the SteelSeries Arctis 9
+    headset
+  HID: steelseries: export model and manufacturer
+  HID: steelseries: remove unnecessary return
+
+ drivers/hid/hid-steelseries.c | 120 +++++++++++++++++++++++++++++++---
+ 1 file changed, 110 insertions(+), 10 deletions(-)
+
+Christian
 
