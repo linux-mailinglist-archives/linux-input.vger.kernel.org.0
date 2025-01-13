@@ -1,141 +1,166 @@
-Return-Path: <linux-input+bounces-9164-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9165-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25DCFA0ABA8
-	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2025 20:18:57 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5A2A0ACD8
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 01:37:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC7863A4BF6
-	for <lists+linux-input@lfdr.de>; Sun, 12 Jan 2025 19:18:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9BD047A311B
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 00:37:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E1E51547E8;
-	Sun, 12 Jan 2025 19:18:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B91209479;
+	Mon, 13 Jan 2025 00:37:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eBVU/znX"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="Ow9Mi6Hp";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SdAbfa2n"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB9A14A0B3
-	for <linux-input@vger.kernel.org>; Sun, 12 Jan 2025 19:18:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DF1BA49;
+	Mon, 13 Jan 2025 00:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736709533; cv=none; b=Iel84goJlYQckDA/MxxTdX5/qgTqxPId42jtaD/3ZRJYAmLc5KZIJ/Db+3h8S58QKHPBfSgqGS7lMRj4EcrONChgFWmK7qhvmKRGu/HvZJcML4HQ5EaQSOCPbNIa8B+aVdP9OoM2jxA1OhJ6QYkrGi73rdCq8MvOkbAu7ONBs7Y=
+	t=1736728659; cv=none; b=IrM8DIZLUr8ESAUrbIz0F0IizRH7d4sZEWjcngBSRjonLAMxS3Tl7DGfpXPc1SHyS4mTAwqB4Srj972utnOrGICY/Px1F31D0zbgjdW2VoxVcCXvdDDmYGHoDFMS8rqCFVIcBHjj0FZyrUKxmkyizKHdA/gbTcvdzY1vJpYddWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736709533; c=relaxed/simple;
-	bh=WpamBzQarLaY7DrEUZOJ9jacxPIkAO7n+l7WGq9anII=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=H6nXv0xjkC2l7jM/MvoO0l4tuugtB/TOudXYTHAoUHYCR+XhWIlEKGQGt4RAnBGheGIIWlAyq3cpob0UaUpQVjtRqOlHIE8ijqzHR67SvyjSQIv4TM/CO6WcVtJ9bced5JbVx1j6J8mtVlxwW9yhenKu2S3atHuzgrZGbYnCYbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eBVU/znX; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43675b1155bso41775225e9.2
-        for <linux-input@vger.kernel.org>; Sun, 12 Jan 2025 11:18:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736709530; x=1737314330; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=f00P6yumcaaCoGRToCEmGUN71MLYaSe6dYrWbYIH62Y=;
-        b=eBVU/znXw8bVifsm476tenN/cO+hb/RevO68bWQlu2es2QiduHFN8srEIYppz49Hp2
-         xRkJp5QD4Pk63+owLZ28mpIATRT+gun10C1pa6KrlAuiYN5F707UmYYYOuxOq1HAUFrD
-         fmKaJ6al9BvOsYiLSm+O78r2He0yTe2ylJ5igNsJqxdBipLC9jR8gLtujiwIz0ycIYPR
-         MpnLUSYVCGGly2m16//xqJQag/Nkeb0DHUDgAll6Tf7LX+/wRenyxF6ut6f1Xr33ZByX
-         vbFagp1olnT9bbT7120yhuEI3srS7vwi0dbQcwrJyaEPzGggi3q2jc5j20BDN9NHOkII
-         lJSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736709530; x=1737314330;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f00P6yumcaaCoGRToCEmGUN71MLYaSe6dYrWbYIH62Y=;
-        b=kRdB1zIu2ZGDkccaAalE6UD5mlmrGsbvqhq8+Ypwycn/Jc5b8PFZPvIxJNFfj6VRW/
-         Qc26cEb3S8bNttjM5OjNSSVHx+SF4HY0fszXDd2F5F5KseoHNHtPpj2MABiI2TDYI2/6
-         vbc8kUtknE1CJgjbnEl7Ucy2ftu/lIPxFq9M4IorH+VjEZCzgGwTeUTloeLZkDLkLzl5
-         eVyNIVU0lMgFF1fgrPF/GlPywvH5NZWnY956FFKmTq+k0DF+pAbInKHnfWplbVWnHjv5
-         GqqPuhqnoXwoZmP0225x5M703MEG/tq6c/rygn0Tu1IE2LXE7uhrigFuz8vmUAl4UGgS
-         moqQ==
-X-Gm-Message-State: AOJu0YzrYYpQw6bgXaWVfQOaBLVyhHUze5spTAfqvz2BkUZYBUxDD3rr
-	yBFTmDrmp2imlR16kXjz672wvfOjHEQLYYIq0nVwym06NbyDlf6T68KfCcPoSI4=
-X-Gm-Gg: ASbGncszhgXfX0Gaxi+zlLtsKjyr5F2Oz+ZG+m5gUj4c6yz5GClWuhQJ44idHJ+oDq9
-	B5Un9PfBgvDioZm01RMlckhNOI3afrvNhOVrQWxLRxDwqEPrgE8Htc5pzg/xtnK+7L3ElOqHmOp
-	9ziEVLvOsZBGCFMAyxqGn34/pPlPmhyOR+PyplrVuOMAKdEDXu52g9CN8DxW9+q5bidpvYnbQcO
-	aSRXogCPr1R9k7WT71ApXPwQWRToQdGTg8INUBH5MRwkAUodUa30OeRjgAY/EWcMK+LYjNt19i4
-	Nga7yGb6awCBFhxv3VF+S5RENEjV
-X-Google-Smtp-Source: AGHT+IGU8eUT18omm/v3Klkqb9+HFiGRHl1p8xxJMUUR3/g3f8+ev4b7GBDG+7WJSg6FCyB4xjpjCg==
-X-Received: by 2002:a05:600c:4e0b:b0:434:a7e3:db5c with SMTP id 5b1f17b1804b1-436e26aeeeemr181102005e9.11.1736709529780;
-        Sun, 12 Jan 2025 11:18:49 -0800 (PST)
-Received: from ?IPV6:2001:16b8:b4af:ae00:ccc5:f463:86dc:4a94? ([2001:16b8:b4af:ae00:ccc5:f463:86dc:4a94])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-436e2dc08bbsm153123465e9.12.2025.01.12.11.18.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Jan 2025 11:18:49 -0800 (PST)
-Message-ID: <19c26b78-dff0-4d67-90e6-2cf840f2f283@gmail.com>
-Date: Sun, 12 Jan 2025 20:18:48 +0100
+	s=arc-20240116; t=1736728659; c=relaxed/simple;
+	bh=D05GE/uaydZDBM7mlvThqZo2Wqb9DN57caE4NQINcGY=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=VQ8asikrj+o7xR2YjEel36MDXw60+HJOWTNoWoA/EMcLTOqmfw6KUooYAH5Hln3NSvquDZcat0V4xKB7GLYDxg32lLsgrtzXQRUycTf4wvN5J9PvjkEcBjN4GflpKI/1zjW+tXZIo8dqI9Fk/5RgWR5Ou/1ib8zq/3mhjPcJ2P4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=Ow9Mi6Hp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SdAbfa2n; arc=none smtp.client-ip=202.12.124.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id B435F2540191;
+	Sun, 12 Jan 2025 19:37:35 -0500 (EST)
+Received: from phl-imap-06 ([10.202.2.83])
+  by phl-compute-08.internal (MEProxy); Sun, 12 Jan 2025 19:37:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1736728655;
+	 x=1736815055; bh=0sU1ohH9aw1nDqsWtIobVQn7I3580cqOd9ibDXWCHZo=; b=
+	Ow9Mi6HpADiSdMOxhn1op1rryjxqyB7GDa37agBH+DTlezWS8CwVJqxZw4ZBBEXV
+	XunoCLlChWM8z36epnW+LNlMdVeVFrCKgQ+lQS4Zon9bmaRwKipbliAeIM+qR3hW
+	xqIw/xQtKY9x2MGY25bDvXgTvzOS9VlPknJ0EpXMY+J66QUUYv0Sr7s9SMxBTMtt
+	BQO2U9XshRdiYwtvz7D6Oi9kh0yQ5yQKC8eDUe8MmOQmTO36BJ1+wztLN9Vd7vKK
+	SjSEPaRam9UQDqhFxGssKy0e0gihiTLr18jHiTGas6Gr9jA+Xl8FfbNx22xpVLSF
+	LBzdH6hVMSputX0LRndLnQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1736728655; x=
+	1736815055; bh=0sU1ohH9aw1nDqsWtIobVQn7I3580cqOd9ibDXWCHZo=; b=S
+	dAbfa2nUagwDl5BlYkvVzISMBjMWfxPEOr403JzMtWGWXzn3xMakfgnlFcAMMPjb
+	PkIzj3rvzvN3cRM/036PtdjyYdoVJFTFwHfnJfxx8/CwjO1gXIZ2sAvoUNRfD9HO
+	eQALtVglxhEEdYwgy2B7ybd1NCG0lBVwB1+Ysu0kOk0fibDpgZoP3o+RaYUTQePD
+	wk2ESj6nE2KW8dwSHDtqAeWd9csTT6mqCUHC8AeWKoZCQJuvgOoNRalWHECEi0mg
+	DKN08JckyBYhViCzzh/B71+LS/tSjXyfLG+JsPbDa6K8on0XGUng/upBukTB9NuD
+	RlQZGrby3+2Ms0Uj1UAzg==
+X-ME-Sender: <xms:TmCEZxxzkjNPXulSysU0agFvwSH4GgWnVcwWCHsQRtwZOrNEJxTSSw>
+    <xme:TmCEZxRHjDbW-9lnwc7Ecr-q4VSxllnlP4jwbnT1np4HExPwB8DbUFFYNje8w-1V8
+    1Mylog6JqJFpMHotaI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudehfedgvdefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
+    necuhfhrohhmpedfnfhukhgvucflohhnvghsfdcuoehluhhkvgeslhhjohhnvghsrdguvg
+    hvqeenucggtffrrghtthgvrhhnpeehffehheeiteeffeejtddtudffieeutdejiedvjedv
+    leefjeeljedvveeugfelveenucffohhmrghinhepghhithhlrggsrdgtohhmpdhgihhthh
+    husgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
+    ohhmpehluhhkvgeslhhjohhnvghsrdguvghvpdhnsggprhgtphhtthhopeelpdhmohguvg
+    epshhmthhpohhuthdprhgtphhtthhopegtohhrvghnthhinhdrtghhrghrhiesghhmrghi
+    lhdrtghomhdprhgtphhtthhopegsvghnthhishhssehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehilhhpohdrjhgr
+    rhhvihhnvghnsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepjhhoshhhlh
+    gvihhvvghniihonhesohhuthhlohhokhdrtghomhdprhgtphhtthhopehhuggvghhovggu
+    vgesrhgvughhrghtrdgtohhmpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvg
+    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhg
+    vghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehplhgrthhfohhrmhdqughrihhvvg
+    hrqdigkeeisehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:T2CEZ7WTZhd-w1_5dwc5leYWWKOeIgPvq2ekUWSJJsBrjsooMW1u2g>
+    <xmx:T2CEZzjuIIVBs1aR6RgUS7x4LDzRAu3xkR-qmtiEj5gz1G8k_fNn5A>
+    <xmx:T2CEZzCC76yI3bxR4Lec7E1s8GoMVBp5y6XxfRvmFCnXJxx_xCkLrw>
+    <xmx:T2CEZ8IqGPY8_lefPuCDlCEJ0vH7rsT2yIU1wrjus3K60ZxZHudXcQ>
+    <xmx:T2CEZ1C-pZngVEsNfPzoK-uiqPKan4zhQhjDFDRAp1qLH_yQT0UNh9Nh>
+Feedback-ID: i5ec1447f:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id DED0529C0072; Sun, 12 Jan 2025 19:37:34 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/11] Input: xpad - sync with github fork
-To: linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
- gregkh@linuxfoundation.org
-References: <20250107192830.414709-1-rojtberg@gmail.com>
-Content-Language: en-US, de-DE
-From: Pavel Rojtberg <rojtberg@gmail.com>
-In-Reply-To: <20250107192830.414709-1-rojtberg@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Date: Mon, 13 Jan 2025 13:37:13 +1300
+From: "Luke Jones" <luke@ljones.dev>
+To: "Josh Leivenzon" <joshleivenzon@outlook.com>
+Cc: "Benjamin Tissoires" <bentiss@kernel.org>,
+ "corentin.chary@gmail.com" <corentin.chary@gmail.com>,
+ "Hans de Goede" <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "Jiri Kosina" <jikos@kernel.org>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
+Message-Id: <e5091e50-a023-405d-a8f1-058f6a17f9e7@app.fastmail.com>
+In-Reply-To: <20250112121811.434552-1-hacker1024@users.sourceforge.net>
+References: <20240713074733.77334-2-luke@ljones.dev>
+ <20250112121811.434552-1-hacker1024@users.sourceforge.net>
+Subject: Re: [PATCH v3 1/1] hid-asus: use hid for brightness control on keyboard
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-Am 07.01.25 um 20:28 schrieb Pavel Rojtberg:
-> From: Pavel Rojtberg <rojtberg@gmail.com>
-> 
-> This updates the list of supported devices as contributed on github.
-> Compared to v1 bouncing patches were merged into one
-> with me as the author.
-> Compared to v2 all checkpatch.pl errors were fixed.
-> Also one patch with an correct author was incorrectly squashed in v2.
-> 
-> Andrei Ilyashenko (1):
->   Input: xpad - add support for Xbox ONE liquid metal controller
-> 
-> Fernando Petros (1):
->   Input: xpad - add support for Thrustmaster ESWAP X2 ELDEN RING
-> 
-> Greg Savage (1):
->   Input: xpad - add support for PDP Mirror's Edge controller
-> 
-> Jack Greiner (1):
->   Input: xpad - add support for wooting two he (arm)
-> 
-> Jocelyne Jones (1):
->   Input: xpad - add support for SCUF Instinct
-> 
-> Leonardo Brondani Schenkel (1):
->   Input: xpad - improve name of 8BitDo controller 2dc8:3106
-> 
-> Martin Stolpe (1):
->   Input: xpad - add USB ID for Nacon Revolution5 Pro
-> 
-> Matheos Mattsson (1):
->   Input: xpad - add support for Nacon Evol-X Xbox One Controller
-> 
-> Nilton Perim Neto (1):
->   Input: xpad - add unofficial Xbox 360 wireless receiver clone
-> 
-> Pavel Rojtberg (1):
->   Input: xpad - add multiple supported devices
-> 
-> Thijs Reus (1):
->   Input: xpad - added Turtle Beach Recon support
-> 
->  drivers/input/joystick/xpad.c | 24 +++++++++++++++++++++++-
->  1 file changed, 23 insertions(+), 1 deletion(-)
-> 
 
-are there any further changes that need to be made here?
 
+On Mon, 13 Jan 2025, at 1:18 AM, Josh Leivenzon wrote:
+> Hello,
+>
+> Thanks for this patch. I'm looking at doing something similar for the Zenbook 
+> Duo 2024 keyboard, which, I'm discovering, is similar to the ROG_NKEY_KEYBOARD 
+> devices in a number of ways.
+>
+> Something unique about the Zenbook Duo keyboard is that it has an external 
+> data-capable USB-C port, meaning it can be used as a regular USB keyboard for 
+> any device. This means that even if WMI features work, it is highly preferable 
+> to use HID alternatives where possible in order to allow those features to work 
+> on any Linux device that the keyboard is plugged in to.
+>
+> This leads me to my question: Why the DMI check on the HID side? This is a 
+
+It's because I couldn't see a good way to both disable the WMI backlight and use HID. On some laptops both WMI and HID work, but on some WMI methods exist but don't work at all. The DMI check ends up being something of a blanket check across those family or models as they all used different generations of the MCU at one point but all have HID brightness control.
+
+The key part is we need to tell asus-wmi not to use WMI for brightness on those product ranges. I have at least 4 years of data in this rather disorganised repo if you're curious about other models (And I always take contributions) - https://gitlab.com/asus-linux/reverse-engineering
+
+> little problematic for me, as it blocks functionallity on other devices. Would 
+> it be sufficient to use quirks only in that case? The important part, to my 
+> understanding, is that the WMI module disables itself properly, which is still 
+> covered by its own DMI check.
+
+asus-wmi is still used for many things, so it's really only the LED handling that needs disabling when required.
+
+> Are there devices that use the ROG_NKEY_KEYBOARDs where HID doesn't work?
+
+Not that I know of, and I think this goes right back to 2019 with the:
+#define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD	0x1866
+
+These ones span 2015-2019 I think, and are rare to find in use still, but from what I've managed to find and from the odd report back they also use HID:
+#define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD1 0x1854
+#define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD2 0x1837
+#define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD3 0x1822
+
+I would love to have someone withe the hardware help to make this device better for all users. Some issues that may be useful or related are here:
+
+https://github.com/flukejones/asusctl/issues/25
+
+https://github.com/alesya-h/zenbook-duo-2024-ux8406ma-linux/pull/12
+
+I also have a WIP branch here https://github.com/flukejones/linux/tree/wip/ally-6.13 (ignore name, it covers all asus)
+
+If there is anything I can do to further help you please ping whenever you need.
 
