@@ -1,166 +1,129 @@
-Return-Path: <linux-input+bounces-9165-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9166-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5A2A0ACD8
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 01:37:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D90A0AF27
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 07:15:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9BD047A311B
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 00:37:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F08003A5BF6
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 06:15:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B91209479;
-	Mon, 13 Jan 2025 00:37:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 845F9145A16;
+	Mon, 13 Jan 2025 06:15:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="Ow9Mi6Hp";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SdAbfa2n"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DXycQ17v"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DF1BA49;
-	Mon, 13 Jan 2025 00:37:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6601946F
+	for <linux-input@vger.kernel.org>; Mon, 13 Jan 2025 06:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736728659; cv=none; b=IrM8DIZLUr8ESAUrbIz0F0IizRH7d4sZEWjcngBSRjonLAMxS3Tl7DGfpXPc1SHyS4mTAwqB4Srj972utnOrGICY/Px1F31D0zbgjdW2VoxVcCXvdDDmYGHoDFMS8rqCFVIcBHjj0FZyrUKxmkyizKHdA/gbTcvdzY1vJpYddWs=
+	t=1736748940; cv=none; b=XQmo5a217cx9ZCWEKSxz5MturE++zuK73mii+CFQDE4/iu5betGmbdRG3IbrW8hqmzIESQQovVJ+WjDx9AhFqojyfJMqOp6Y/T/OeFPw+DOQu/K+a8G4mhobpA/j6RADCZtUTugvdheRCfZOwYxW5pf0o1TqhXmKswDS6Yh756E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736728659; c=relaxed/simple;
-	bh=D05GE/uaydZDBM7mlvThqZo2Wqb9DN57caE4NQINcGY=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=VQ8asikrj+o7xR2YjEel36MDXw60+HJOWTNoWoA/EMcLTOqmfw6KUooYAH5Hln3NSvquDZcat0V4xKB7GLYDxg32lLsgrtzXQRUycTf4wvN5J9PvjkEcBjN4GflpKI/1zjW+tXZIo8dqI9Fk/5RgWR5Ou/1ib8zq/3mhjPcJ2P4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=Ow9Mi6Hp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SdAbfa2n; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
-Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id B435F2540191;
-	Sun, 12 Jan 2025 19:37:35 -0500 (EST)
-Received: from phl-imap-06 ([10.202.2.83])
-  by phl-compute-08.internal (MEProxy); Sun, 12 Jan 2025 19:37:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1736728655;
-	 x=1736815055; bh=0sU1ohH9aw1nDqsWtIobVQn7I3580cqOd9ibDXWCHZo=; b=
-	Ow9Mi6HpADiSdMOxhn1op1rryjxqyB7GDa37agBH+DTlezWS8CwVJqxZw4ZBBEXV
-	XunoCLlChWM8z36epnW+LNlMdVeVFrCKgQ+lQS4Zon9bmaRwKipbliAeIM+qR3hW
-	xqIw/xQtKY9x2MGY25bDvXgTvzOS9VlPknJ0EpXMY+J66QUUYv0Sr7s9SMxBTMtt
-	BQO2U9XshRdiYwtvz7D6Oi9kh0yQ5yQKC8eDUe8MmOQmTO36BJ1+wztLN9Vd7vKK
-	SjSEPaRam9UQDqhFxGssKy0e0gihiTLr18jHiTGas6Gr9jA+Xl8FfbNx22xpVLSF
-	LBzdH6hVMSputX0LRndLnQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1736728655; x=
-	1736815055; bh=0sU1ohH9aw1nDqsWtIobVQn7I3580cqOd9ibDXWCHZo=; b=S
-	dAbfa2nUagwDl5BlYkvVzISMBjMWfxPEOr403JzMtWGWXzn3xMakfgnlFcAMMPjb
-	PkIzj3rvzvN3cRM/036PtdjyYdoVJFTFwHfnJfxx8/CwjO1gXIZ2sAvoUNRfD9HO
-	eQALtVglxhEEdYwgy2B7ybd1NCG0lBVwB1+Ysu0kOk0fibDpgZoP3o+RaYUTQePD
-	wk2ESj6nE2KW8dwSHDtqAeWd9csTT6mqCUHC8AeWKoZCQJuvgOoNRalWHECEi0mg
-	DKN08JckyBYhViCzzh/B71+LS/tSjXyfLG+JsPbDa6K8on0XGUng/upBukTB9NuD
-	RlQZGrby3+2Ms0Uj1UAzg==
-X-ME-Sender: <xms:TmCEZxxzkjNPXulSysU0agFvwSH4GgWnVcwWCHsQRtwZOrNEJxTSSw>
-    <xme:TmCEZxRHjDbW-9lnwc7Ecr-q4VSxllnlP4jwbnT1np4HExPwB8DbUFFYNje8w-1V8
-    1Mylog6JqJFpMHotaI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudehfedgvdefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedfnfhukhgvucflohhnvghsfdcuoehluhhkvgeslhhjohhnvghsrdguvg
-    hvqeenucggtffrrghtthgvrhhnpeehffehheeiteeffeejtddtudffieeutdejiedvjedv
-    leefjeeljedvveeugfelveenucffohhmrghinhepghhithhlrggsrdgtohhmpdhgihhthh
-    husgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
-    ohhmpehluhhkvgeslhhjohhnvghsrdguvghvpdhnsggprhgtphhtthhopeelpdhmohguvg
-    epshhmthhpohhuthdprhgtphhtthhopegtohhrvghnthhinhdrtghhrghrhiesghhmrghi
-    lhdrtghomhdprhgtphhtthhopegsvghnthhishhssehkvghrnhgvlhdrohhrghdprhgtph
-    htthhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehilhhpohdrjhgr
-    rhhvihhnvghnsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepjhhoshhhlh
-    gvihhvvghniihonhesohhuthhlohhokhdrtghomhdprhgtphhtthhopehhuggvghhovggu
-    vgesrhgvughhrghtrdgtohhmpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhg
-    vghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehplhgrthhfohhrmhdqughrihhvvg
-    hrqdigkeeisehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:T2CEZ7WTZhd-w1_5dwc5leYWWKOeIgPvq2ekUWSJJsBrjsooMW1u2g>
-    <xmx:T2CEZzjuIIVBs1aR6RgUS7x4LDzRAu3xkR-qmtiEj5gz1G8k_fNn5A>
-    <xmx:T2CEZzCC76yI3bxR4Lec7E1s8GoMVBp5y6XxfRvmFCnXJxx_xCkLrw>
-    <xmx:T2CEZ8IqGPY8_lefPuCDlCEJ0vH7rsT2yIU1wrjus3K60ZxZHudXcQ>
-    <xmx:T2CEZ1C-pZngVEsNfPzoK-uiqPKan4zhQhjDFDRAp1qLH_yQT0UNh9Nh>
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id DED0529C0072; Sun, 12 Jan 2025 19:37:34 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1736748940; c=relaxed/simple;
+	bh=jZM2Oim+yvm9dmPZ5N+UxvdnNoH/Obp7GLrSsmPeFuI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eP4/4dYl0p66XiSV2ZpjnKBZwN5zuNALZ/NpK7EVtRnl4VgClvQiapQ/XB4buHU1M5vQGAXtOKsqWexxBNxZbqs3iTSwe9cD73p6bIGq4oPIyQVhT6URBr1UfV2zccKVo4G3btIoxB3MmShRDC2peVXEzIdc99AWMj+K1Ark9EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DXycQ17v; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5d3e8f64d5dso7570040a12.3
+        for <linux-input@vger.kernel.org>; Sun, 12 Jan 2025 22:15:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736748937; x=1737353737; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=98PjTuGlZltocfOKiyHAfnS09uRyKDbPFTkx0Rrc0+g=;
+        b=DXycQ17veTSvcAujx8i0psMPmd1ePkVE2Y5VtTcB1cIEeagOU034TxRLAz9R0vMjM+
+         6xAB/ntK3GqAyx5/IRRouyOhCeszPPFawn63I8Oq//l0BoL339zWqxMmwH9tXHM07Y9Q
+         4qsDoFjAnb4yH9DKTj1UTietcjZtYbtQAnSMDGKwzUvC4XaJq4JGe+IDloOlexmy5E15
+         +ZT0t/X64P9NthiUMlLlJV0/w/T0hADhAz6W7g4JbdHbQv55HMCO6JZW3LpyqwTsa9gd
+         6lKVys9qIItUikqZpTzlWx55Yr3fvum3viSPRZgTIeLv4a9AT6rzeu9CRubBa5yPdZhC
+         wOag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736748937; x=1737353737;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=98PjTuGlZltocfOKiyHAfnS09uRyKDbPFTkx0Rrc0+g=;
+        b=ZoFK+GVyFd6JsalpwSC+3C9J9NbImZxeY57Lt88Q62O13Np/MAmIzOTeHWujSXjs4y
+         3oc7IdTBgp/xME3dn/n2nrotmQstSW4AnT7LEZQSoq2GCx35Vl4S/yVpqyE6OKs086jb
+         AosVE+RAFQl4tvaFxDbFyeEBw7e9rcAkc02HI2QZ9vnneaRqsbMGj6xjGn+Fy9pgto0X
+         QvJRYeUU5N8F7vL7pIuu15PO58hHcZRavLp5I/Z3m16MtS8bTKIR/cRKDSYfyUulpaZK
+         jA+Mnbvc49CoU0e2YRx1UDbxz9UZCFCsSahgcDA35WDrBByb2sLySA0B5YpvXTg7pFre
+         ICPg==
+X-Gm-Message-State: AOJu0YzL37UDEEkXALXBd90nlYDBEsgWnlsYfu6BC9374usgskYYY5S7
+	N1jlQ6ozIf8vuKSDgCVAe5YBrWYKDliUq1smF4I6q9gPhRCKUQB4h8G45xZ/UgjS5FtR2NkbPcy
+	A
+X-Gm-Gg: ASbGnct5RQGFWs2YmRYOGs/zKsTIwGThhK5GKvewNyD46WkxLrMmiIac8Qqkg4qUnVu
+	qT3/hUXGo9Vae5ItV6s0w4Q4gg4GfNFZLyntItT2MNWIUJKYUFHw11laVA5EGFkYR5kpK0ZR2ZL
+	NyvCcfkbo1yz2oG7R4ji7nexbbtkkRXNQiZNuXBGEt/05V4dnwd9hA4STOCsJk04FEDC+D/IRQD
+	Kh5hxyENwdOX2jQMmnaxP0HloavhzffGUcIdbSjKGpnhz+Ptlj8boeoQV0hng==
+X-Google-Smtp-Source: AGHT+IEbS8OCZde7sAM3yD+r7qZ2q2j2wSHz3lpjfN0nFsMoDpCxWgsf1EtwQePudxwy1WkHsc2xyA==
+X-Received: by 2002:a05:6402:350b:b0:5d9:cde9:2b88 with SMTP id 4fb4d7f45d1cf-5d9cde92bffmr369391a12.27.1736748937035;
+        Sun, 12 Jan 2025 22:15:37 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d99008c371sm4542131a12.11.2025.01.12.22.15.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jan 2025 22:15:36 -0800 (PST)
+Date: Mon, 13 Jan 2025 09:15:33 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Even Xu <even.xu@intel.com>
+Cc: linux-input@vger.kernel.org
+Subject: [bug report] HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C
+ ACPI interfaces
+Message-ID: <fa15885b-4560-4b96-b103-ca40c338f103@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 13 Jan 2025 13:37:13 +1300
-From: "Luke Jones" <luke@ljones.dev>
-To: "Josh Leivenzon" <joshleivenzon@outlook.com>
-Cc: "Benjamin Tissoires" <bentiss@kernel.org>,
- "corentin.chary@gmail.com" <corentin.chary@gmail.com>,
- "Hans de Goede" <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Jiri Kosina" <jikos@kernel.org>,
- "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
-Message-Id: <e5091e50-a023-405d-a8f1-058f6a17f9e7@app.fastmail.com>
-In-Reply-To: <20250112121811.434552-1-hacker1024@users.sourceforge.net>
-References: <20240713074733.77334-2-luke@ljones.dev>
- <20250112121811.434552-1-hacker1024@users.sourceforge.net>
-Subject: Re: [PATCH v3 1/1] hid-asus: use hid for brightness control on keyboard
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hello Even Xu,
 
+Commit 5282e45ccbfa ("HID: intel-thc-hid: intel-quicki2c: Add THC
+QuickI2C ACPI interfaces") from Jan 6, 2025 (linux-next), leads to
+the following Smatch static checker warning:
 
-On Mon, 13 Jan 2025, at 1:18 AM, Josh Leivenzon wrote:
-> Hello,
->
-> Thanks for this patch. I'm looking at doing something similar for the Zenbook 
-> Duo 2024 keyboard, which, I'm discovering, is similar to the ROG_NKEY_KEYBOARD 
-> devices in a number of ways.
->
-> Something unique about the Zenbook Duo keyboard is that it has an external 
-> data-capable USB-C port, meaning it can be used as a regular USB keyboard for 
-> any device. This means that even if WMI features work, it is highly preferable 
-> to use HID alternatives where possible in order to allow those features to work 
-> on any Linux device that the keyboard is plugged in to.
->
-> This leads me to my question: Why the DMI check on the HID side? This is a 
+	drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c:59 quicki2c_acpi_get_dsm_property()
+	warn: potential memory corrupting cast 4 vs 2 bytes
 
-It's because I couldn't see a good way to both disable the WMI backlight and use HID. On some laptops both WMI and HID work, but on some WMI methods exist but don't work at all. The DMI check ends up being something of a blanket check across those family or models as they all used different generations of the MCU at one point but all have HID brightness control.
+drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+   116  static int quicki2c_get_acpi_resources(struct quicki2c_device *qcdev)
+   117  {
+   118          struct acpi_device *adev = ACPI_COMPANION(qcdev->dev);
+   119          struct quicki2c_subip_acpi_parameter i2c_param;
+   120          struct quicki2c_subip_acpi_config i2c_config;
+   121          int ret = -EINVAL;
+   122  
+   123          if (!adev) {
+   124                  dev_err(qcdev->dev, "Invalid acpi device pointer\n");
+   125                  return ret;
+   126          }
+   127  
+   128          qcdev->acpi_dev = adev;
+   129  
+   130          ret = quicki2c_acpi_get_dsm_property(adev, &i2c_hid_guid,
+   131                                               QUICKI2C_ACPI_REVISION_NUM,
+   132                                               QUICKI2C_ACPI_FUNC_NUM_HID_DESC_ADDR,
+   133                                               ACPI_TYPE_INTEGER,
+                                                     ^^^^^^^^^^^^^^^^^
+This says INTEGER
 
-The key part is we need to tell asus-wmi not to use WMI for brightness on those product ranges. I have at least 4 years of data in this rather disorganised repo if you're curious about other models (And I always take contributions) - https://gitlab.com/asus-linux/reverse-engineering
+   134                                               &qcdev->hid_desc_addr);
+                                                     ^^^^^^^^^^^^^^^^^^^^^
+But this is a u16 so it corrupts memory.
 
-> little problematic for me, as it blocks functionallity on other devices. Would 
-> it be sufficient to use quirks only in that case? The important part, to my 
-> understanding, is that the WMI module disables itself properly, which is still 
-> covered by its own DMI check.
+   135          if (ret)
+   136                  return ret;
+   137  
 
-asus-wmi is still used for many things, so it's really only the LED handling that needs disabling when required.
-
-> Are there devices that use the ROG_NKEY_KEYBOARDs where HID doesn't work?
-
-Not that I know of, and I think this goes right back to 2019 with the:
-#define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD	0x1866
-
-These ones span 2015-2019 I think, and are rare to find in use still, but from what I've managed to find and from the odd report back they also use HID:
-#define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD1 0x1854
-#define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD2 0x1837
-#define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD3 0x1822
-
-I would love to have someone withe the hardware help to make this device better for all users. Some issues that may be useful or related are here:
-
-https://github.com/flukejones/asusctl/issues/25
-
-https://github.com/alesya-h/zenbook-duo-2024-ux8406ma-linux/pull/12
-
-I also have a WIP branch here https://github.com/flukejones/linux/tree/wip/ally-6.13 (ignore name, it covers all asus)
-
-If there is anything I can do to further help you please ping whenever you need.
+regards,
+dan carpenter
 
