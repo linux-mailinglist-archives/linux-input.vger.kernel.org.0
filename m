@@ -1,157 +1,141 @@
-Return-Path: <linux-input+bounces-9194-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9195-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176EDA0B842
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 14:36:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8804EA0B84C
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 14:37:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DEAD63A515D
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 13:36:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1418188645E
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 13:37:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A89CB1CAA84;
-	Mon, 13 Jan 2025 13:36:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3013223979C;
+	Mon, 13 Jan 2025 13:36:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hhBPV4cf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kcqc3TiQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13143125B2;
-	Mon, 13 Jan 2025 13:36:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645B31CAA8F;
+	Mon, 13 Jan 2025 13:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736775366; cv=none; b=ruXrtcIqqaDMGY8H5knvh48FJHtIZvHvxXsxij40cG/t3M4WROJqheIYDrlC4S80yw5MCHHEtOwv/WO1TBhJ72sr0hfyN0ehOjrmlmvj1YTTrAYrVR+Z7kL8UcHc74BNshDDq8WgBwtPrkMCPCcUEwdMnBUe+liMDEQneQ81qQM=
+	t=1736775403; cv=none; b=lMhs1ZrnW3XSXN55zXkJ7cBWIVyHUTfXxmNjw5MY0O61mJPSuYYpyw3XNL+ftGttHFblPxfHbU+bSXijh1V3xPnGP5CLK10h5g+tj6ME3qzh8kI+MQQZuSSotVU1eq1c2Ebe7vO3sreOipKzXPR6w6EsFrBvG77qQ84r3omX+iw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736775366; c=relaxed/simple;
-	bh=x6ha5Ky2lC0qUjPPvUiU85NoPbXUXu7Yam+Wmm5D+wo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lyTITs+yUNDgqM1d5WEFtmHWE6q/rGTD4QmywMHWO+Yy4eho7rlcGkuYCymUhhwD2YLKfvmL+fbm6z16bz0Aorxif6nq1n+kCaL88uK7e9pI+pjhXfMjt9TshW0bkBDdrvc72DW1sKrUhhB9wJxroPqw1kue5eava0+PTfpN6U0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hhBPV4cf; arc=none smtp.client-ip=209.85.222.44
+	s=arc-20240116; t=1736775403; c=relaxed/simple;
+	bh=dVOX1ct04XRB6HS4XCM9AuU0WW15SibfodTKj6OCrFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:MIME-Version:
+	 Content-Type; b=jnbwwk/yh1b+kbJKA91OkqIYvOAGaFVsSUp3Vq81U7tuS+2gzQJOXTk+vgNq9vKVrt8jnPl4Vr1eRc+RViTJ5jyxMY6F8iLyJg5AsQO8jhYj0pGuCXsckPpzgwaHesgka4HTkLtgJBSJgh6QAzY0AMTsp8KFTR+KvCyztQ6WHL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kcqc3TiQ; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-860f0e91121so2924293241.0;
-        Mon, 13 Jan 2025 05:36:04 -0800 (PST)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5d3e8f64d5dso8352006a12.3;
+        Mon, 13 Jan 2025 05:36:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736775364; x=1737380164; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Je3pBYcDo10F18n9QDSn0Ys9/NG5PE+POke78jldIrM=;
-        b=hhBPV4cfvLoCgVEfI7rdrbL6jaXsW9wPnoB/RC5gqvbdj6DGmkdBeGeGAo8xnXoAJj
-         n7h9s6wArRo1N6Q8bmdZlYiZMtAIu/AU8uYEIo9FCLADpDJtSsbuztuNVmZ1J9lgrPYe
-         VKBViNKEyj2jdJ2CaKqLqC5Ss2HvQbiXRb82f3YBfcfX89rvlBOXVMkLeTxOPrwHJ2h0
-         qySjBRAHA88fCILOp9e4H8iVak81lcJkD8b8cZDEiFF6yBWqexHDycp8NgELaFu2xjek
-         ce9MUbfdNp0VReUwg87God4aMK7XqT2t+WEV3XAIfhAW/9y8htFpuxNs1B08px1jFMZe
-         2y4Q==
+        d=gmail.com; s=20230601; t=1736775400; x=1737380200; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:in-reply-to:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BCOO3CeumWEhxRoRrsxtZPCsXRg2joLKXPxHQJ2qLzk=;
+        b=Kcqc3TiQpGsFgrhUgJ92ZQ09uZvFAXzPQmQYDX8qDFe71X3cqH6/9xVcZhdQ5G2RbA
+         SQIewa3Opy/75bKFpJgxIyESFVahGpkmhC61E7SNyVv9/rRu7vFjwOvDxOs4uBII30jt
+         9it2PQ/K4mkTEJyPpWLW7ri6CA705ASfVSHUU3iU+GB7HeE7imjecvIUptFXbCh9DWYM
+         1a4T/o0DrFVu/tqyiI689azMIMcKL9OB7fIT4fposP4Ox1BqekRpAiKLcJPrbZt7er5A
+         gR1HheFZpyZYN/IVVhqB1EHs9eItXhfIHEW3/lrmSsFZU8y0uAEqsl28WEu0QKE7sYGM
+         D4cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736775364; x=1737380164;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Je3pBYcDo10F18n9QDSn0Ys9/NG5PE+POke78jldIrM=;
-        b=igC+iMEcUzbfpCug2O7xbiQIJtS1C4IIsRTx7EM0qzxhZANQ0z0k2LVNxvMPbAm787
-         fk3lifF3RMq00GQNBSvEQGFOlO3ulA4OSOBx3qVkIiIE21iEFH3HmTjAsFB9yMMWDIif
-         tTrprYifIqQmHGI7VZ7YPJMSf0j9iwp2sHC4ax42hqsavbwSxtBC6o1Z0BhoaTBhQrXw
-         3WwnGKiOkgDaltZ2UgUI6KGdEgLYQvqPKUclDWOg4nrgU+ZiKY/F9+zLwkt+GnPegmPG
-         dFqO+4tNdhfZDC6QXmvFdtu3YCLTdW9pcE9JpgrxckToVzgtjASvalezKtCCtJxqyd33
-         XGQg==
-X-Forwarded-Encrypted: i=1; AJvYcCWYIgNmmVWuVhj/BAtuHAdIBhK9vq5knBHSYDLtzA8yuycuXQvxmPkM1XPF1fUi3NY3/NHlELUqYVXRIYM=@vger.kernel.org, AJvYcCWZcXerMYeh2TQY9Aj3NMZQLmA507Wc+M8srGuLr6eQck3wPRCHyFYn2rRM73fvBzNHoY3fEBwSNaV2@vger.kernel.org, AJvYcCXM6Pas8qHNj2fvoJeGOAmfK2kzwZFA+KKV6BEBxUl8q6ndaMDDWSQxPeZUDp5OKEi2+pKvdL94xKXvdw==@vger.kernel.org, AJvYcCXdDO6sgM/hgDwUOe1G6Xb59QE7xDcEybfiCA4U/VQ6mjLCiRLB5UmfpKH6dQ7uq2lI6xdBN7VttXE=@vger.kernel.org, AJvYcCXdEHw0ed3LlqAz/X5CDSZnur8zbdFeiZsIsyAGYm+Lx/2Ny+12EiJIW6LAWrayH/LqnCUCf47ZxVcdeDJr@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8R3I6Fg3LlU1r4VdUTQw50+u3yqK42JLbGkFHII+0T6jd+C1S
-	aD5X9ubDoMPvbtVi4lOZfLMeYyF4dm5PhhUkKu7iOLRlx8b3DQFbm77OqYVFz1aQiKC58PlqyBz
-	/fK1vGhZ6LJGMqPgOPvboQccLyEw=
-X-Gm-Gg: ASbGncurQ43glo7p8u0WaWJLdoy+RIYNcfQ8Vpt+ixgBYZX/gXJgx2mZXvKOoCbRpGJ
-	Vt+G6JHmGUHQYz0JfDwp/Nd3D2R/BciAG4Ok7mA==
-X-Google-Smtp-Source: AGHT+IEJr+Arylij/5HPtp83Stfq9iUWZWYnxqY1tWSnXNDXdyAjXhsAoB35wLJqa7gStu8nZ23tfz0bjL9eH0NNvDs=
-X-Received: by 2002:ac5:cb1c:0:b0:515:1fde:1cb1 with SMTP id
- 71dfb90a1353d-51c7c818a5dmr11549565e0c.3.1736775363888; Mon, 13 Jan 2025
- 05:36:03 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736775400; x=1737380200;
+        h=content-transfer-encoding:mime-version:in-reply-to:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BCOO3CeumWEhxRoRrsxtZPCsXRg2joLKXPxHQJ2qLzk=;
+        b=vqa6rUqLZ+iApwPyw0bfRRCMIdjQK+ExhPLnCI28kC1KREjJvUdui2AfoDbhYJ1stb
+         G3ibCtYoXRPw2nQKcBG7EK50qKwEBPHbqPBskP8yIDMcjv9s5rrJCdNh7Pe9A3ir8NQ6
+         xQGCzoddNOx5BcnEWA1b8xTnpub/nlL0KWBR72ynFQSY7Xm2pDyn67X8rPNtkW9PoI8A
+         jqptf+q9FYm8cTOFHxdnJVhgFh3ROTmAm5WjOW8d2xH1WX+cxXfpIcGeJxWcMis5TqZ4
+         Oci4vX5+giYqrJFy18/GU1KSFz8IUqfIo1AA1zKF48+EuwdSn1UrQmgC28XhUSS86wAh
+         P7jw==
+X-Forwarded-Encrypted: i=1; AJvYcCU/0hhyqO8d20+233YRUcvTbSx3WfgzubN3KMQLwsRSEUGd3P+RC2AvhQBwzryLfryr+sBOfv6ktSC1i7439Q==@vger.kernel.org, AJvYcCUi1bl7rxRS5jawmo4NxMOJ+n/kcac40zB00ZkOAt3qs132PkELMB/uhvIlFEsfXLtY8GjTE0cBmwOM@vger.kernel.org, AJvYcCUwB90i0dNke9AQh9mjtj4pnR7nm69ogt83SOXi1XytwoSx9J2KBAZPHr++xYbBdx8KNW4lQxFuvlyTaCU=@vger.kernel.org, AJvYcCVDJg3RqeELTA3KiM7sVgGqvsQu6GDHuCexhw/k58I2HGfBbtEfo3gH8DG3Rcom6A6EvQoihmXhoFREVNO2@vger.kernel.org, AJvYcCVb9HAc50U0FiwttFmAolviET7D3yZHuuvO6BI2fZ8ilwhx262XocQLgaN69+WYBOD1EPR1m0/Ooofi/3U=@vger.kernel.org, AJvYcCVntDS7PHYGkj/R+mWgWYixV1EfdPoxGC80qLOY/DLWM9I6tVmu2l1/iH/Wk/2h67ht+1+PgQUFxUG1@vger.kernel.org, AJvYcCXuBa336J4wJNbjbFT7fkfj5Z5uBEViZkvyjKmEVIcqnjIXsdpDnIZx1SgTC80OqjI3L+rRa+znmStg@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKlBI56hZDmUWMAPFaintn4KxgkRyMyB7Pc3zg31Fz8sKm00FN
+	zjBEzY67S44o0RLX88bc0851rEKMHQJ6CVMgsgOekQHRqwoZ04Ch
+X-Gm-Gg: ASbGncvObGdv2RbvdknOuhISnXPS5Szh65g5RuVRNB/4iju6ZO3Hj/pHcItCAVeMKMx
+	++m4+4ZJuISwjY9/wZuWcUX23fd3Wq/XmNT4I/GYRlTgn3m1zN+00beK0Q55meAI8lSOv0n0W8M
+	BnnL4YdLKAG/6P+BXqfbGTBN0JwV1LNXx1KEkC7EfSagmL0bXYsRVd6uVSePxn3O8Qemk+RkjIH
+	fEvgf1OvtaJhqbjF5JPll1r3z4QZYKMjqUbLXHmWQFJpUYTHQ2tq5Si585lSsK5nhLAefk=
+X-Google-Smtp-Source: AGHT+IFjst6wsdjTPwp6oiIf+Y1R9oxN/d9Kg2WINuDvWnvcQG61H8vLN/Y+6oQgF/w1Z8cqOc3BsA==
+X-Received: by 2002:a05:6402:4023:b0:5d0:e2c8:dc8d with SMTP id 4fb4d7f45d1cf-5d972e1b962mr18696919a12.20.1736775399331;
+        Mon, 13 Jan 2025 05:36:39 -0800 (PST)
+Received: from foxbook (adqh85.neoplus.adsl.tpnet.pl. [79.185.141.85])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d99008c2ccsm4986793a12.18.2025.01.13.05.36.37
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Mon, 13 Jan 2025 05:36:39 -0800 (PST)
+Date: Mon, 13 Jan 2025 14:36:32 +0100
+From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
+To: quic_wcheng@quicinc.com
+Cc: Thinh.Nguyen@synopsys.com, broonie@kernel.org, conor+dt@kernel.org,
+ corbet@lwn.net, devicetree@vger.kernel.org, dmitry.torokhov@gmail.com,
+ gregkh@linuxfoundation.org, krzk+dt@kernel.org, lgirdwood@gmail.com,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ mathias.nyman@intel.com, perex@perex.cz,
+ pierre-louis.bossart@linux.intel.com, robh@kernel.org,
+ srinivas.kandagatla@linaro.org, tiwai@suse.com
+Subject: Re: [PATCH v32 01/32] usb: host: xhci: Repurpose event handler for
+ skipping interrupter events
+Message-ID: <20250113143632.63c52d74@foxbook>
+In-Reply-To: <20250108012213.1659364-2-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250108-starqltechn_integration_upstream-v14-0-f6e84ec20d96@gmail.com>
- <20250108-starqltechn_integration_upstream-v14-7-f6e84ec20d96@gmail.com>
- <20250109120158.GH6763@google.com> <20250109120308.GI6763@google.com> <CABTCjFCMky1kRZ0a8q999_WNdeOhqsDwtqxMCcWsmUoWv_rhDw@mail.gmail.com>
-In-Reply-To: <CABTCjFCMky1kRZ0a8q999_WNdeOhqsDwtqxMCcWsmUoWv_rhDw@mail.gmail.com>
-From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Mon, 13 Jan 2025 16:35:53 +0300
-X-Gm-Features: AbW1kvZ2qog6kGbZ1YG6oeO5x7IGSNUtBvLoX71ZgTLHS-d-lGX3QVMqzXpEjpU
-Message-ID: <CABTCjFArONRgDBjiDABHfRhp1OQnZRFoirx4gNAR=wB4VPBZvg@mail.gmail.com>
-Subject: Re: [PATCH v14 07/10] mfd: simple-mfd-i2c: Add MAX77705 support
-To: Lee Jones <lee@kernel.org>
-Cc: Sebastian Reichel <sre@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
-	Hans de Goede <hdegoede@redhat.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, Purism Kernel Team <kernel@puri.sm>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-=D1=87=D1=82, 9 =D1=8F=D0=BD=D0=B2. 2025=E2=80=AF=D0=B3. =D0=B2 15:53, Dzmi=
-try Sankouski <dsankouski@gmail.com>:
->
-> =D1=87=D1=82, 9 =D1=8F=D0=BD=D0=B2. 2025=E2=80=AF=D0=B3. =D0=B2 15:03, Le=
-e Jones <lee@kernel.org>:
-> >
-> > On Thu, 09 Jan 2025, Lee Jones wrote:
-> >
-> > > On Wed, 08 Jan 2025, Dzmitry Sankouski wrote:
-> > >
-> > > > Add MAX77705 support - fuel gauge and hwmon devices.
-> > > > Hwmon provides charger input and system bus measurements.
-> > > >
-> > > > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> > > > ---
-> > > > Changes in v13:
-> > > > - remove compatible from cells
-> > > > - change mfd compatible to match max77705 fuel gauge node
-> > > > ---
-> > > >  drivers/mfd/simple-mfd-i2c.c | 11 +++++++++++
-> > > >  1 file changed, 11 insertions(+)
-> > > >
-> > > > diff --git a/drivers/mfd/simple-mfd-i2c.c b/drivers/mfd/simple-mfd-=
-i2c.c
-> > > > index 6eda79533208..22159913bea0 100644
-> > > > --- a/drivers/mfd/simple-mfd-i2c.c
-> > > > +++ b/drivers/mfd/simple-mfd-i2c.c
-> > > > @@ -83,11 +83,22 @@ static const struct simple_mfd_data maxim_max59=
-70 =3D {
-> > > >     .mfd_cell_size =3D ARRAY_SIZE(max5970_cells),
-> > > >  };
-> > > >
-> > > > +static const struct mfd_cell max77705_sensor_cells[] =3D {
-> > > > +   { .name =3D "max77705-battery" },
-> > > > +   { .name =3D "max77705-hwmon", },
-> > > > +};
-> >
-> > Why not register these from the proper MFD driver?
-> >
->
-> Because the fuel gauge address is different from the max77705 mfd device.
+Hi,
 
-In more details:
+> Depending on the interrupter use case, the OS may only be used to
+> handle the interrupter event ring clean up.
 
-we had a discussion with Krzysztof about fuel gauge device
-[1], [2], [3] and agreed that it should be modeled as a separate device,
-because it has no common resources with max77705 device, and has separate
-address. This means its node are out of MAX77705 mfd node, forming its own
-MFD with shared i2c bus.
+What do you mean by "cleanup"? Because I see that this patch ends up
+acknowledging events to the xHC and I don't know why it would do so?
 
-https://lore.kernel.org/lkml/55f32164-f504-4409-8ce2-6462b833da89@kernel.or=
-g/
-https://patchwork.kernel.org/project/linux-input/patch/20241202-starqltechn=
-_integration_upstream-v9-3-a1adc3bae2b8@gmail.com/
-https://patches.linaro.org/project/linux-leds/patch/20241217-starqltechn_in=
-tegration_upstream-v12-2-ed840944f948@gmail.com/#951752
+> In these scenarios, event TRBs don't need to be handled by the OS,
+> so introduce an xhci interrupter flag to tag if the events from an
+> interrupter needs to be handled or not.
 
---=20
-Best regards and thanks for review,
-Dzmitry
+Right, and if the OS isn't handling those events because they are owned
+by a coprocessor then it shouldn't be acknowledging them either, which
+has the effect that the xHC considers their memory free for reuse.
+
+Also, what happens when Linux goes to sleep and this IRQ stops running?
+I expected that the coprocessor itself should be updating the xHC about
+its own progress.
+
+Is it a bug? How is this stuff supposed to work?
+
+How are future developers supposed to know how it is supposed to work?
+I imagine that few of them will have Qualcomm hardware for testing.
+
+
+> static int xhci_handle_event_trb(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
+> 				 union xhci_trb *event)
+> {
+> 	u32 trb_type;
+> 
+> +	/*
+> +	 * Some interrupters do not need to handle event TRBs, as they may be
+> +	 * managed by another entity, but rely on the OS to clean up.
+> +	 */
+> +	if (ir->skip_events)
+> +		return 0;
+
+This function is only called from one place so the caller could perform
+this check and don't waste time calling it.
+
+Regards,
+Michalal
 
