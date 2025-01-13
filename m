@@ -1,79 +1,129 @@
-Return-Path: <linux-input+bounces-9172-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9173-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB268A0B422
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 11:09:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 752E4A0B5C6
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 12:32:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A155B3A2195
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 10:08:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 87E173A9D86
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 11:31:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EB0E2045BC;
-	Mon, 13 Jan 2025 10:08:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACC4A22CF11;
+	Mon, 13 Jan 2025 11:31:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OHA8ng/1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k/OgW5fx"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536072045B3;
-	Mon, 13 Jan 2025 10:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383F022CF09;
+	Mon, 13 Jan 2025 11:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736762934; cv=none; b=QKD0IMjxO4TUyB14yMbrpPfgF+Hy15gB2rYoiGec2fGYuZDS/ezia9gvP3sYCj7LgRHnrraVa0P+1m4WQ7M+5VSyI/StYuoZGVbiaIvhEnJRBRC6oU9SE25XylDEVVerlydAw46wKuzH+hz8U8SboiRbuwIBLZlpwZQ7N2e0ofk=
+	t=1736767888; cv=none; b=TvovZ3WZKj3pzA2+582jNOr5zz3pj/aB+rO7E9+bMXt2jiRgondMw4lJBDU7PQkHO+oYEu0kEIvgHMP3/2wNFNNYHn+YoyUc1RWVJKEarANe4NrsEa+jfsMNY1ivcEfXo/e8b4ZoOukqzNpkBmPgJLk5u0biRIcjlSyLWIHSbfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736762934; c=relaxed/simple;
-	bh=65NhXLXw009jdra+EqXcXxWDihPnDmAyr55LlTBvIGg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ad1rVcpdq45D5MD2w1Hvjx6h1BGWoA6Vlo2MXSD8441OEBFmN7giEM5e7BP+eldmV35LVqlTpQjYla14GfrBUEOXb2gqtquD9tu8uAitOFxCi9JnLErxMKv3G0ZLeHDStCMvBUbMk5jl9kSdzDmN0Bs7OQ0V776Byi7Nk+w9a0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OHA8ng/1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B40FFC4CEE2;
-	Mon, 13 Jan 2025 10:08:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736762934;
-	bh=65NhXLXw009jdra+EqXcXxWDihPnDmAyr55LlTBvIGg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=OHA8ng/1JAUN9JL6p3x2HBdy5pitxDWGkXSXuvhmLfAgPLuWPJ5RQ6HaG1iHq6jXM
-	 TmawAumAZy8Ct18z7IEF68dDGCt+8gMSVnZHSWtXhNw0Qi7PA+gmVHTGqfOzE+DK1P
-	 uK1OeBx76jdbV/huFpUj27SFuQ3pIZdDCepkTuQ2i2P+D+p+ixvCkRxcMFllHfx2Nj
-	 RL5cdiZQz+0Knh+V8Qur3wbaDjpVTuc7RVsMvEqIaEIgl31LBZBXBYdgFNC5BxVuHV
-	 qPztHBXuC4Vr22xmYjUb1TkGm5o21A92YQchue5CZol6cbBI8Xlllrw+0XmxpGXHF5
-	 kdHyFjTWmOzFA==
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: dan.carpenter@linaro.org, Even Xu <even.xu@intel.com>
-Cc: srinivas.pandruvada@linux.intel.com, jikos@kernel.org, 
- mpearson-lenovo@squebb.ca, linux-input@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-In-Reply-To: <20250113085047.2100403-1-even.xu@intel.com>
-References: <20250113085047.2100403-1-even.xu@intel.com>
-Subject: Re: [PATCH next] HID: intel-thc-hid: intel-quicki2c: fix potential
- memory corruption
-Message-Id: <173676293248.2279462.11753863703231864187.b4-ty@kernel.org>
-Date: Mon, 13 Jan 2025 11:08:52 +0100
+	s=arc-20240116; t=1736767888; c=relaxed/simple;
+	bh=BkLxFxgWLAyDmawpQ5UpqvhnWjJ0+20QI4q/mYcdA1M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gT9apiiRA9i9XpD3L3irJTG0Yig7p1+5Qb9dBrIY2XKIUyGj8Eo3k2hEphxo+ZchDrw7bZ/KH8nvM8z5Sx7b1xMCQuDJI+LtNtC34I8/95w0jurcT8bofoUj7afS5flbGSFLGW6BHSSuhm+SlAWGlp59sKExTy+DUE9x19g2xhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k/OgW5fx; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2ef72924e53so6959400a91.3;
+        Mon, 13 Jan 2025 03:31:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736767885; x=1737372685; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ROCfT0DseIK3PgQHMLfZqVsbKmhvNrby4ms3ROLlCXI=;
+        b=k/OgW5fxzqYUk1NwJcwYxA0qssA6h0QwsiPAGZOhXwdVPLJLM82cghMEFFT7fI0phx
+         pAPJ0Xsxqe3/ib+Yophi0MMznB3cST143dpnfbEg2HJq8FPxzxsEHLq+4z9byJubba/E
+         TkdSFdvOFKX4DCjuG1jlFObH6Zmnpys/YgP6BO3GSHLLak1lERsE0ucLrPdELlH/gBSJ
+         o5mGwygwM03FHT2nFV1URwH3NU4WRuXM2snpBEuUJQk9v+Z9XNNvdx4TIG6ZHEcdw/LV
+         jZEi1ZIOkQTLo1w5gKOcpdqiEEN5gGVJiN/pwqY7KncbCZTX/6j7zsCjgKhTv+5ViVbK
+         4N/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736767885; x=1737372685;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ROCfT0DseIK3PgQHMLfZqVsbKmhvNrby4ms3ROLlCXI=;
+        b=dJ7LTPCmI+ojYP0RWvQFSSSe0owHrDPE7YnGqa79H3zGwTgVhYtACtKgKUGhjFei6u
+         AGOHdIou5ZWRHlhervUoBCEQYduyZmWnUphCAZcF9+HlfsfoebV04CvsUAi71mnfPyDQ
+         gAVJE4Vw+AMIkAWEIIQxYk/cn9mPPjUZbMU3+lpPIKioUeNeUBMQ5HZmnfR85LoKO5Ag
+         n1VNDDgl9qj+6alwIhu3hYh9Ynn7EdXfg6VqJGTcnXK1YEERbhXld2JUb3GwoBA6ov+L
+         LWwXWJS77Xp0mHGB090W4HOgkuBe6ld9fqjOIOjenoX7T9WTIqTOUWj4VVlWyzuj5/Py
+         9ZdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWhcvvGCfxzGDFkB6+eAUkwTsLT86MbTaw3yELwd+x6YfpFI9QSzLBuc4FxyGu46D+BL4Jq0OQuw3cpHA==@vger.kernel.org, AJvYcCXiEpQF2lovA0gA8f3P9n+sfeQKN1lwf2UAetaI7JXwxF0S6m5eMxSY7uiGLuLjytmmAf29dHKnu6TPC12M@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFlTN0QmSEXWWkpVmF7YxcBGtY2p+Bx/9dIopr+6ZBvnoO+ogj
+	qeyc4zd2iwV5tL8bnAbC0DvO7+nDizKuxxAUqy2fEZCggLctXF/DLlH+RixYReneknbkmd+4g9Y
+	GPkf2iYr/TvFWqHOr/iXsWiuceh5mymHFeYg=
+X-Gm-Gg: ASbGncvl93f7rX9WlVNoybta824fzo38oOQIdlxRRKuFx3JeYea8K2oChVT1RDj3psp
+	o97WLz/sTz5OpC8kBJka+yX44fTeQJliwXG8NIun+87PytPBkYUPCUH4ksxdV9BFVi/qiTi2w
+X-Google-Smtp-Source: AGHT+IE/hYJQVs5Tp+0nWfiz0QYkQ33st9G6om9oDAcm53zPDCpt1dd1edItba9ie6a/7a9jUpUIsj67BWDn0HazqLA=
+X-Received: by 2002:a17:90b:548f:b0:2ee:7870:8835 with SMTP id
+ 98e67ed59e1d1-2f548f80206mr31535135a91.33.1736767885440; Mon, 13 Jan 2025
+ 03:31:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.1
+References: <20250110141409.96959-1-vishnuocv@gmail.com> <p6s4s47q-15ss-ps35-6387-n2nsqn05o335@xreary.bet>
+In-Reply-To: <p6s4s47q-15ss-ps35-6387-n2nsqn05o335@xreary.bet>
+From: Vishnu Sankar <vishnuocv@gmail.com>
+Date: Mon, 13 Jan 2025 20:30:43 +0900
+X-Gm-Features: AbW1kvb_jYG6xEvyAYJFYMZgxhjFSbYjhcwfwWubJ2MM3ViVdms7hxvj9cTGS74
+Message-ID: <CABxCQKsOG12rp0ysDESNJEXa2AewLusHFTmtj--FNN-ucVgO=g@mail.gmail.com>
+Subject: Re: [PATCH] HID: lenovo: Fix undefined platform_profile_cycle in
+ ThinkPad X12 keyboard patch
+To: Jiri Kosina <jikos@kernel.org>
+Cc: bentiss@kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, mpearson-lenovo@squebb.ca, vsankar@lenovo.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 13 Jan 2025 16:50:47 +0800, Even Xu wrote:
-> Use U32 to get value from ACPI and explicitly cast to U16.
-> 
-> 
+Jiri,
+Thanks a lot.
 
-Applied to hid/hid.git (for-6.14/intel-thc), thanks!
+On Sat, Jan 11, 2025 at 12:05=E2=80=AFAM Jiri Kosina <jikos@kernel.org> wro=
+te:
+>
+> On Fri, 10 Jan 2025, Vishnu Sankar wrote:
+>
+> > The commit "HID: lenovo: Support for ThinkPad-X12-TAB-1/2 Kbd Fn keys"
+> > introduced an issue where the CI failed with the following error:
+> > ERROR: modpost: "platform_profile_cycle" [drivers/hid/hid-lenovo.ko] un=
+defined!
+> >
+> > This issue occurs because platform_profile_cycle is used without ensuri=
+ng
+> > the kernel is configured with CONFIG_ACPI_PLATFORM_PROFILE.
+> > To address this, this patch adds conditional support for platform profi=
+le
+> > management to the Fn+F8 key handling.
+> > The functionality for platform_profile_cycle is now included only when
+> > CONFIG_ACPI_PLATFORM_PROFILE is enabled in the kernel configuration.
+> >
+> > This ensures compatibility with kernels that do not include the ACPI
+> > platform profile feature, resolving the CI build issue.
+>
+> Applied, thanks.
+>
+> --
+> Jiri Kosina
+> SUSE Labs
+>
 
-[1/1] HID: intel-thc-hid: intel-quicki2c: fix potential memory corruption
-      https://git.kernel.org/hid/hid/c/d08a1049659a
 
-Cheers,
--- 
-Benjamin Tissoires <bentiss@kernel.org>
+--=20
 
+Regards,
+
+      Vishnu Sankar
+     +817015150407 (Japan)
 
