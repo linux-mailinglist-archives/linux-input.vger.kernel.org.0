@@ -1,124 +1,196 @@
-Return-Path: <linux-input+bounces-9203-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9204-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2064A0C1B2
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 20:43:10 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA2E8A0C21E
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 20:53:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E372A1888EDD
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 19:43:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6703A3A10C4
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 19:53:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 304161C760A;
-	Mon, 13 Jan 2025 19:43:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A2671F8928;
+	Mon, 13 Jan 2025 19:51:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LgjXsW5E"
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="wxc2slGF";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="c0sbNU2t"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11DC19922A
-	for <linux-input@vger.kernel.org>; Mon, 13 Jan 2025 19:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C1C1C760A;
+	Mon, 13 Jan 2025 19:51:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736797386; cv=none; b=OIqwUCZ43W5EN8RvJkQCGD6o/5n1IwbvW2+Yrre29AbCuXreUB0+ZC/9QhrfxF5EmfnsXjp/f5hLkGAGudlH7gmwL9wAyFXx/i6e0//1nkinVxvnvZaY+YHc7hemCldfE46fgL01QGFEfPsUJHq5V3p0HN9X42FbeT9IgXca5k8=
+	t=1736797897; cv=none; b=GhYbLTxEifyKpyDFcXuk004yOBR5FHPSQzZ9V6MXjZqhSVZ9uzlv2iOKmvU7q3VQUW+8hwLTg7borOfNTqnDN+nN2YOZ3F00z2A7ToF9n5HCngOKkRUoKQFrrqzVPMriaDWp/jmv4MwuuhoFHO/4DZCr7SAtZypllIrCEYeGMyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736797386; c=relaxed/simple;
-	bh=Yot+aH7KIXkjzXcAzLtUKxoF30UH6nhud2VRczQsntA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J+qAPLiGdC6PYeFU09rTlMxzXBUxb1K0Ru/YeeoV0sdBTSyJhHVFu3GkNjpL2cIQGFQyU1aHq4/bBYT2gxY4XUJXCxbF/dWbulGJCdzy0FdYZ8iXFEEsoBiPnH/tH8Tn0RWuNUqHc0foF8bu7kPE0MZkjbbq3nBnhMuo61HQQEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LgjXsW5E; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2163b0c09afso85729455ad.0
-        for <linux-input@vger.kernel.org>; Mon, 13 Jan 2025 11:43:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736797384; x=1737402184; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bO08fomHs2oo6rrJvSFDaTUl5GjkHHQunP4xAJ//hq8=;
-        b=LgjXsW5Ehkle6hCQwa+kmYmHa6rnkumRDiChjAhU3YCCw85EHE2nSooWHm1RSfxX3s
-         TlbJqcE7vXi6i1iYjfS1K3FmLI1O/kkpZhZfdPJU7ccKKwh1OKdKYvrhFUWPbnIM9PZi
-         oZufSDznbA7X83Aurm8PT6l/OlyqjNKs77k6O5A9ynzAefjWDuELSoXqSAq9FPhoQmbl
-         VRCaKAc48/h05olgtnKLNDrd8jgiKUgafcNGS1WfIc9Lf5HZ8S2E/Gw4ISXakpWLxfq+
-         ZxMv9s9CXT3uaD2TV64nyXWmgehmPG268VCBvUVt0cC4OngVAiM95i4OYHxiqiN/YY0j
-         VStw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736797384; x=1737402184;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bO08fomHs2oo6rrJvSFDaTUl5GjkHHQunP4xAJ//hq8=;
-        b=wtD0VYpcy6eU7I4LCimNXqYyEXi3vJ1PJ3eNbx7XNp27ZuTgF+yok/ffqCxcAjiUpT
-         bVyPrPRzgq8DLGB8XpLHV0tE7l+/pj9GvZHXUAR3EbAZMeWSkZJmUag3vTWXOs2gnu1M
-         YotOBzLpa9g8uHSA5QkZGgTFYGf2aK+UJsPDdl3QekqtGYmVEpUtx5fZ5n5jij6f2gSX
-         c+aA9svga/8mAQhrYlqN2t0q+F7XBIuUKd1hiUG9tXDIzDWz56SFbCfkc8hdC7pUr5X6
-         ZDaMX8/rVRXuaSEHIXBK2BoVhycDbB01VAjgqZ0ztAQnUuY6QkFX37xJp90MjSS7j6uO
-         L1qg==
-X-Gm-Message-State: AOJu0YysBMpWE9IheKBEBcTTTTCg2VhEA6luZcDdX8c1fTHPLcqejvLJ
-	7z/OwaqfVFlcklbF+kx6AU294LozqoaD5fwdWdmfRTKKqG05OhGEl69gkw==
-X-Gm-Gg: ASbGncv4lvzdM2oBLMBi+/xWTOwGiX2yml/hrCrimE6A1HOLtZMMmFOqTuDKYPee7DO
-	fqcCQg5OjEkx6JDcI/GEehkYyi5fizjJp0lP/ipeBsCJT+JMWRFq1g4I6ICe+NSWwPpxjyKcdSG
-	P3vVy0QPKl/DtDtndAFl1pcNq7MUuAHddwfA2qJb45Wz8SiIRdYpkPzgZVmgwczV4BnHTJufqwi
-	WzRAeMFDtdy86Db3+t6XmKOPjn9U3dVtwg/bBniClHxZN6JR+mmCMK/Yg==
-X-Google-Smtp-Source: AGHT+IGhpDPKq0fhPPNRi8oE7shIlr+NQi8RhXIlv/sZ0RJ7Q1z/vFXcvTon6dS/WS9p14ijFuFQxg==
-X-Received: by 2002:a05:6a00:858b:b0:728:8c17:127d with SMTP id d2e1a72fcca58-72d21f2da93mr33783806b3a.8.1736797383848;
-        Mon, 13 Jan 2025 11:43:03 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:2345:9641:c9a2:f3ca])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72d40658d77sm6348241b3a.103.2025.01.13.11.43.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2025 11:43:03 -0800 (PST)
-Date: Mon, 13 Jan 2025 11:43:00 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Marek Vasut <marex@denx.de>
-Cc: linux-input@vger.kernel.org, Michael <mksgong@gmail.com>,
-	Nick Dyer <nick@shmanahar.org>
-Subject: Re: [PATCH] Input: atmel_mxt_ts - support KoD knob
-Message-ID: <Z4VsxKJ56jqQnZGr@google.com>
-References: <20241223190416.52871-1-marex@denx.de>
+	s=arc-20240116; t=1736797897; c=relaxed/simple;
+	bh=0bHHgzrNqa3fYPBLBtN/WSM3ej4oelh0tp8dbE0JfhI=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=rwz8zuLCqL3NYSaaUqvQn5Cy4+O2uFVnngALZh4JHQSJZgIlfBw+e3mvlKku5lsaGT4la+YaVA1cUKuv5acXVNfdxO+crhlchGd/VNJe6KJmU8brDS3qlBArwZ76CmPAxJK5DR2nI4FViHr8XHuwwaHUD8NsN5OPAMRX5bDgXE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=wxc2slGF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=c0sbNU2t; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id DFF511140094;
+	Mon, 13 Jan 2025 14:51:33 -0500 (EST)
+Received: from phl-imap-10 ([10.202.2.85])
+  by phl-compute-02.internal (MEProxy); Mon, 13 Jan 2025 14:51:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1736797893;
+	 x=1736884293; bh=crQtvXcB4CVDtZoxgjvLjzhcmtpkH5xTXvUFColn2Kw=; b=
+	wxc2slGFjmSg1ZPpG9iTjuTge+e8IcHRQFforpS8AlTUdQWEoqNAJ61qGXLxSF+8
+	O/YxMJ/KDkuitUJd0+/u8wlhxCcz4OuocjM84bUyVOR4Nx1w4H9znvCdkT1qwvtp
+	RXk+MWvrlkeP3JUB3OS3oSfdNUplnoBnQa4WjN7Ex4hbWnO8ubX6x1zqUCySfR6+
+	zmUAr0CCBPMoJxRKQEBLZJ79fU79ESgzqmHf/yPCQjPaYCmGcfgXe9eUhi8TPonc
+	3ijN5ApT+xTUD7/LqC9oNPRszHN4yeLI5LgldVBXFPNr4iTkqam8HuMQqhjER7Gf
+	uQeiQg7GX8infZEIrgsn1Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1736797893; x=
+	1736884293; bh=crQtvXcB4CVDtZoxgjvLjzhcmtpkH5xTXvUFColn2Kw=; b=c
+	0sbNU2tODPGJt+hBXjOE6DH4DpovfgwL7PzDfRYZWB5iElWCXR1RWw2+TdF1nI3c
+	Jm6csoAEefYOYMYTbXFVN7p+IO2Brfs0vJOonsMjYfgFhoAWFEIi/5C+TH10P/VC
+	batAECJpZpnehwV8u8PIFvUI2Zytvkt+45cCKgO5j0ZjMzVTvTVM/6nsOyj+UIqK
+	Bc/+GOqQpt5ymDTq8LNknH7rWGbxYpTuF9f/+RiQ/x4WGIm9dFIsbfUaqizxYVJh
+	l8ia/ErXnM5G6e99QUPpmwSXN+fnLc/JjHSLcwiJ2hxTOdFd85knSOpGmrgtdlNU
+	OQlf1KbhC5msq2bNdnD4g==
+X-ME-Sender: <xms:xW6FZ_2OhmuguUoqXtmsNujknW_hmaIQ1KF3Ob6OPyyb4W7nsfDN9Q>
+    <xme:xW6FZ-FL9CvROQN1lKHI9BKaksPmDh22R7jqE5KBVLYRJpZxNWz4sNdWbWaxjWxcV
+    NjEIssVMLP1AI_ZrcU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudehgedguddvkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecunecujfgurhepofggff
+    fhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfofgrrhhkucfrvggrrhhs
+    ohhnfdcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggrqeenucggtf
+    frrghtthgvrhhnpefhuedvheetgeehtdehtdevheduvdejjefggfeijedvgeekhfefleeh
+    keehvdffheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggrpdhnsggprhgtphht
+    thhopeelpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehrihgsrghluggrsegthh
+    hrohhmihhumhdrohhrghdprhgtphhtthhopehjohhnrghthhgrnhdrtggrmhgvrhhonhes
+    hhhurgifvghirdgtohhmpdhrtghpthhtohepshhrihhnihhvrghsrdhprghnughruhhvrg
+    gurgesihhnthgvlhdrtghomhdprhgtphhtthhopehjihgtvdefsehkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlrg
+    hrshesmhgvthgrfhhoohdruggvpdhrtghpthhtoheplhhinhhugidqihhiohesvhhgvghr
+    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhinhhpuhhtsehvghgvrh
+    drkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgv
+    rhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:xW6FZ_7M_Ds_wL0a2fdD69QLZw-9MIfVvOjrOrvvAGvNPYWKowkf_w>
+    <xmx:xW6FZ03o2i3vCcCCXEq8Fj8YbF_G5dsMk5fN7R1VkV9FLJiLke6ZZw>
+    <xmx:xW6FZyHbKVwB6JnFCD_CeKgOWNE4a0n_8rilcJYJrN-nyO5BcrUcWw>
+    <xmx:xW6FZ1-PBPoJFiFHhqXX7vWEG0An3dG63tFwgGuCKnVo20f27evP0w>
+    <xmx:xW6FZwbxkI-PIFqIPsRW_d8ir8s4vgFP9niUgX_YWR_w0AGIzmlrpY7R>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 17ACF3C0068; Mon, 13 Jan 2025 14:51:33 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241223190416.52871-1-marex@denx.de>
+Date: Mon, 13 Jan 2025 14:49:59 -0500
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: Srinivas <srinivas.pandruvada@intel.com>, ribalda@chromium.org,
+ jic23@kernel.org
+Cc: jikos@kernel.org, linux-input@vger.kernel.org,
+ Jonathan.Cameron@huawei.com, lars@metafoo.de, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <8fed2747-c419-454a-bb72-43f158b4f081@app.fastmail.com>
+In-Reply-To: 
+ <TYZPR03MB599406F8035E6322E6B66CBFBD1F2@TYZPR03MB5994.apcprd03.prod.outlook.com>
+References: <20241216-fix-hid-sensor-v2-1-ff8c1959ec4a@chromium.org>
+ <20241219171718.2af17d6d@jic23-huawei>
+ <CANiDSCvkKX68UqSuKiGiys8nwm5BX-FbKmHPtxJK=Hh=B4RqZQ@mail.gmail.com>
+ <45ae61a978e7d4ea34502604a6d508f14c29303b.camel@intel.com>
+ <TYZPR03MB599406F8035E6322E6B66CBFBD1F2@TYZPR03MB5994.apcprd03.prod.outlook.com>
+Subject: Re: [PATCH v2] iio: hid-sensor-prox: Split difference from multiple channels
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Mon, Dec 23, 2024 at 08:03:24PM +0100, Marek Vasut wrote:
-> Add support for T152 KoD knob events [1]. The KoD touch controller
-> family supports up to two knobs attached to the glass. Each knob can
-> be turned in either direction and the touch controller processes the
-> event and reports the knob position for each knob. Each knob is also
-> pressure sensitive, the pressure is reported as well. Each knob also
-> supports center press and additional buttons, which are reported as
-> BTN_0/BTN_1 for the center press for each knob, and BTN_A/BTN_B for
-> the additional buttons on the knob.
-> 
-> The knob is similar to Dell Canvas 27 knob already supported by
-> hid-multitouch, except it is non-removable and there can be up to
-> two such knobs .
-> 
-> This implementation is extracted and heavily reworked from Atmel
-> downstream patchset work by Michael <mksgong@gmail.com> from [2]
-> branch master as of commit 9c77fbf32982 ("Merge pull request #35
-> from atmel-maxtouch/20240103_HA_protocol_fixes").
-> 
-> [1] https://www.microchip.com/en-us/products/touch-and-gesture/maxtouch-touchscreen-controllers/kod-family
-> [2] https://github.com/atmel-maxtouch/maXTouch_linux
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Note: I am not sure whether reporting the second wheel as GAS/REL_HWHEEL
->       is the right thing to do, I don't think it is. Maybe there is some
->       better way to handle multiple knobs ?
+Note - switched to my open-source friendly email account (avoid the Lenovo address, especially for mailing lists, it's Outlook based and can't cope).
 
-How about creating separate input devices for these?
+On Mon, Jan 13, 2025, at 2:19 PM, Mark Pearson wrote:
+> Subject: [External] Re: [PATCH v2] iio: hid-sensor-prox: Split 
+> difference from multiple channels
+>
+> On Sat, 2025-01-11 at 10:17 +0100, Ricardo Ribalda wrote:
+>> Hi Jonathan
+>>
+>> Happy new year!
+>>
+>> Friendly ping about this patch so we can change the ABI before the
+>> kernel release happens
+>>
+>> On Thu, 19 Dec 2024 at 18:17, Jonathan Cameron <jic23@kernel.org>
+>> wrote:
+>> >
+>> > On Mon, 16 Dec 2024 10:05:53 +0000
+>> > Ricardo Ribalda <ribalda@chromium.org> wrote:
+>> >
+>> > > When the driver was originally created, it was decided that
+>> > > sampling_frequency and hysteresis would be shared_per_type
+>> > > instead
+>> > > of shared_by_all (even though it is internally shared by all).
+>> > > Eg:
+>> > > in_proximity_raw
+>> > > in_proximity_sampling_frequency
+>> > >
+>> > > When we introduced support for more channels, we continued with
+>> > > shared_by_type which. Eg:
+>> > > in_proximity0_raw
+>> > > in_proximity1_raw
+>> > > in_proximity_sampling_frequency
+>> > > in_attention_raw
+>> > > in_attention_sampling_frequency
+>> > >
+>> > > Ideally we should change to shared_by_all, but it is not an
+>> > > option,
+>> > > because the current naming has been a stablished ABI by now.
+>> > > Luckily we
+>> > > can use separate instead. That will be more consistent:
+>> > > in_proximity0_raw
+>> > > in_proximity0_sampling_frequency
+>> > > in_proximity1_raw
+>> > > in_proximity1_sampling_frequency
+>> > > in_attention_raw
+>> > > in_attention_sampling_frequency
+>> > >
+>> > > Fixes: 596ef5cf654b ("iio: hid-sensor-prox: Add support for more
+>> > > channels")
+>> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>> >
+>> > I got lost somewhere in the discussion.  This is still an ABI
+>> > change compared
+>> > to original interface at the top (which is the one that has been
+>> > there
+>> > quite some time).
+>> >
+>> > However we already had to make one of those to add the index that
+>> > wasn't there
+>> > for _raw. (I'd missed that in earlier discussion - thanks for
+>> > laying out the
+>> > steps here!)
+>
+> Didn't realize this. I don't see proximity sensor use in the mainline
+> Linux distro user space, so it will affect only some private user space
+> programs.
+> Adding Mark to see if it affects Lenovo Sensing solution as there was
+> specific custom sensor added to this driver for Lenovo.
+>
 
-Thanks.
+Can I get some pointers to what sensor that is please?
+We've been asking for the HID support drivers, but it isn't available yet to my knowledge. Would the MIPI camera work tie into this?
 
--- 
-Dmitry
+If I can get details on what the sensor is I'll go and check what is impacted.
+
+Thanks
+Mark
 
