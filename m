@@ -1,85 +1,89 @@
-Return-Path: <linux-input+bounces-9182-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9183-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9A6A0B763
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 13:49:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 117E3A0B765
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 13:49:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E1379164135
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 101E93A42B1
 	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 12:49:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23D3222A4DE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9BC922F167;
 	Mon, 13 Jan 2025 12:49:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qe7MnYUS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EbojYvtd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C51821ADB9;
-	Mon, 13 Jan 2025 12:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A5822A4CB;
+	Mon, 13 Jan 2025 12:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736772570; cv=none; b=AWWbLpcwOIqwzjXrGxjySP8gq6xUI5m9a85QjhW5rRMGJd74IlBLAxpEacqv1i77sz/jKqROfOlV4wsBW4w5mFHGFGvrfl06XY5lBv0cVKwdgrscG7Q8PM6SxsmG07mvixit3+TD0L10CZkXMbfGBm3kH1M5CbGKGkaAcfVoqfc=
+	t=1736772570; cv=none; b=cjWeZuO445o12b0bE8LF3uYC8017NWLEfPk4YX7Zwjh2B1B2JYjEBjdtUvn2yrT6yj10d3WRhECpvGmrKveHtYIFEcRUYVYIcrWxqy3YdK4HKE8zif77t98mO4M91KXLNtbXz8QyKZDwerfkX8Ty467eoqX1dsS3gGOR9z7m5aQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736772570; c=relaxed/simple;
-	bh=fHn2LhVmX0+ZrZxC3bjtAHNvfRuGj9g7p6P18GVzpX4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=t+Tye6P/kZwPyEW9OSaz6E0RdkQzZIvwGAXTbuy+L9i+z6TzZYJQh7sgTiTgo7lvsE/hZe6/7jUmPGHL/UxOcaY1AFVQ7c5+9HuzK0+A28sIlqT51hXwKnqy26UMbEkLJhQVxFRHdg9b+oglSHPi+lZwoyIbMvbaTh6RSwVpu58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qe7MnYUS; arc=none smtp.client-ip=209.85.208.170
+	bh=jDcU44t+RpJaW8DPohsIrrmW08J61xcy+LYp4sKM5TA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RKvuIsXNvtmR2D9tU/6p7+t/mTv5FVvUR4oxWPNjgaXaA+ksVVt+OLRnjvuqexV3ssaSZwe4I3TOSByNYtF3Y8YT7GEMOTBmtoxYNi7bYpXxHFx3AwZRGNU3Bi5nDT8kuUV8Io/Hz6+hxX8/0W7Xe8yr9v5KurtNfFrFZIuaUEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EbojYvtd; arc=none smtp.client-ip=209.85.208.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-30223aa0b9bso3534601fa.0;
-        Mon, 13 Jan 2025 04:49:27 -0800 (PST)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30241e6b540so2731081fa.3;
+        Mon, 13 Jan 2025 04:49:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736772566; x=1737377366; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bzjd3nrErfGDWBHQTTCvpL47t5erWwaUZmkHvh+BKws=;
-        b=Qe7MnYUSTmC6KZN8t4tDTV3mjKDJJJaakafvVKWaN2kBXh8WINjWRwXAilY2MSwU9H
-         SJnszhNzjcnLcoYJnAfLHBKjDNfWW4dIWuzDAEMzyXD9A25CfMm7VcHrK8xhbCJZY4AP
-         YZxA4IXhh4wvR+KlLogg1YIOXuvAoQZqIJNVzVsedsl3LcRnL5uBEWGefJKolYaHcOz9
-         kAl989OrpDZJxAuTPLZpRWlJo0K7P1YUg9291I97qu0Fd3V9wjo0UFN/k86Xfx8I50fq
-         qFhv98kG42CuHjTB4/HFZDRuV7ebdboa/boE1Dpr6rCyLBXDZWTLYGst/1SR7EtU81UG
-         yMiw==
+        d=gmail.com; s=20230601; t=1736772567; x=1737377367; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aNNAyMRmshrubPz9yPwpc08vZXKHWV883jBnZhjOG0g=;
+        b=EbojYvtdC67BUsaNYrOL+9Wvyzh8lmDZ95mWd70oL8IfNy5niAsgwTHkrFg6LZG3Xw
+         gygnpfKrSQiqpNjn1zbLwCFUd8+4nfwbK/EXzj7cjMyhrcrYru/O2FhZI3TaSBVeRNcb
+         Ugvxy/ehXaTO5HOkztUdy0SjzjBZ1zn4RpIgshm4lzX7apXoKRo5hAz0X9XiIMSqZFWb
+         vLoSihWsZ3cKZHiaH3ivnNmyDTJApQr8WK9JtQBOOQ8KwTdYlkrf5XNVR0jteNi6iXpQ
+         sHyUmFSgX3m2/dG6bKlof24a7TKbGjltAKDi9UdzQGNwQtNRKc8GIFOU+jQmg29ahue2
+         1/IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736772566; x=1737377366;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bzjd3nrErfGDWBHQTTCvpL47t5erWwaUZmkHvh+BKws=;
-        b=jvH1Ij9m4DYiDUxLL6EbejRkjKDL3RdQEtKHsdmq7GOrrAet71PAvPsmyehrFukcCj
-         MyOkN4OuPlW8KnWv4jg+POsEFVj+b09BXb9DAC3N8fiovNeDrmyFXvzS9k8ILuQG7Sik
-         I40Vl9KbKVaUP4UO6EC5xa9PJRXAiGZGZ/W/3Gbs0nH1sicgnUjs85hG0j66GjbOwEjO
-         MEyx5w8bECPh9CEfg5Fo17R0rCAJ4cnUU4O9+MGkb9VKw0SjjcSHOChUV4QSBWj3bqaT
-         Zu73XWfnF+aqU1FZdRhEbwxHFOYY66Sj5EMuUHFDei2djNBPPCVOyrF7O3AbIHcD+fxi
-         XBBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVF4yEowbCqFVF59r2OmGcbN++gs8108Esvjhg39amFD8UvqQWHBdYxrc0Kvl6yL3WpsHLsrIllHe5yBA==@vger.kernel.org, AJvYcCVqXQO+J25JhAGpIgwgm65stpjmC9BMJTHfgLYpRhx34IIQcNnooPUvUgrFEIzYDNmyNsHyaffS/L+g@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOQBpwoxEUStjdwGa7Dw/epqb0Og6UHtZpAF9kH9eW6DzL/uAw
-	labmyTRQJ49VBUcjX8FJx4JiXZZIF9BLBeTjfhObjozEiau2Di4B7MLx/o5y
-X-Gm-Gg: ASbGnctGIEP6M+lu74vyBWgVLI2Pqol0+WnvomtXNgTD7be2o7rDWU7cC//TQF2/pJb
-	rYkqSHpQCejY/PJR+J7vVZZhEbAUX+vxPvHH6ikKy7TiwQum6IDwtuAwdZLxOTcZvT+u0/sMuny
-	JRrLTM5WTko8SHcRsUco+GjNpPJdDyRcKWuUN4TeOhrXrWiO+qXussOv1ovpf4pubCAIahbGBts
-	NuBC0uQO/Yi5ZkZXRkqiJ6l6cD7O+t07/Sd05obOVwZOf9xgere7FgNMcwflO0NjnpKu2b/fPmz
-	hmggKZUfPUZ73BvWztkEuDJOcSM=
-X-Google-Smtp-Source: AGHT+IHWEB+mzNJ1SDWTRkqzhURzwrh32HN/f3ZHHvu6Ij5lrJbbLX2lgAPStDdtx7mgS3u/KfhQTQ==
-X-Received: by 2002:a2e:b8c9:0:b0:302:1cdd:738d with SMTP id 38308e7fff4ca-305f45dc45emr28591521fa.7.1736772565939;
-        Mon, 13 Jan 2025 04:49:25 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736772567; x=1737377367;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aNNAyMRmshrubPz9yPwpc08vZXKHWV883jBnZhjOG0g=;
+        b=ezOZ3BjmNdXIUKRrH/bfO1EEe+s7gb2wzdyvYQxvMhi1psLtma1IRbJwI/MIwA9TI5
+         dUkQvJ3Hw/iHnhKBAw2QOxe+oVcgJLZgK07OvcnChctvvL7ayQNYFeDmtPByJMEf55Fe
+         /Yz4exDJWw7bugnqJslYZrf5MZddvgwKcBWNiG1jrIN5CDIYcIvnlYWMKhcbgbTcjWlv
+         5wJ1rSiylu8AauArMClHW9be8z2slL4bfAicNziHCkodT6+Xqfgy+2MPYUxkRP1J54JA
+         hGy0K5o68455JseyvfZVuMKA3RCtwqv79ykpnv49eixdofhJOUfaKnTynkw0ggHtt6FY
+         Bz3g==
+X-Forwarded-Encrypted: i=1; AJvYcCU4gcUiInKN+C9ZAuVwIACu6WeP6btXI0W8oZbxtblW6SRmUQR0FIBIfMLRaKDTFgNXekhanh2YblBlOA==@vger.kernel.org, AJvYcCU6XFn4OPHy5jDWhQ9mH8RTi9tURoCbZsU4IcKe3MRt3n/kLWwLntDC9yrUiTFXCTL276EwciT+o6S2@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWlxG0vyFmlsGuaWj0+SDwSF/nYLPrsYwNVOcd+zhBnbewW1Qn
+	trctSGehRnUyTwH4pSvOaWnJngyUZHApSd0QRZx292Ic/v9kj/R0p5vy8PfD
+X-Gm-Gg: ASbGncs7TEwJkZkMU6/h+ucsxEpJA4gUgNcyCaSd7OKIlqCngsmwjk3/ArQTUXzGyGN
+	wsqWYaE8HdAHtiSoeTR+11/+xyPaHBynsVIYd4Cs44X6oFCDpjepKbQkC7V6edE3AQF574+B43E
+	fvW7vKTWH1fWLl70jgVVWjEPOaxCl7eAM+P+eDAnvuj+Anje0RTi67HyZ+kyVL+P05n+DoscG0B
+	Icy+HsGMbe6Yb7gTm3D9TTUWmvXIlvSuaNp8hKuS/iGlscb1Teu8mAVWxjgyLcZlZshrhzOxgos
+	uodg1NxY9p8z3Y7IUIObmkCnSlY=
+X-Google-Smtp-Source: AGHT+IFCqHtRA8LzLykfDnW2G1hxZdh9U6PjruFMBcdicLPTnrhSKu/hLYDMDOa3EJr2nwzIVuM2pw==
+X-Received: by 2002:a05:651c:1991:b0:302:40ee:4c34 with SMTP id 38308e7fff4ca-305f456c8camr23719601fa.4.1736772566770;
+        Mon, 13 Jan 2025 04:49:26 -0800 (PST)
 Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-305ff1ec162sm14256181fa.101.2025.01.13.04.49.24
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-305ff1ec162sm14256181fa.101.2025.01.13.04.49.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2025 04:49:25 -0800 (PST)
+        Mon, 13 Jan 2025 04:49:26 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
 Cc: anssi.hannula@gmail.com,
 	linux-input@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v4 00/11] HID: Upgrade the generic pidff driver and add hid-universal-pidff
-Date: Mon, 13 Jan 2025 13:49:12 +0100
-Message-ID: <20250113124923.234060-1-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v4 01/11] HID: pidff: Convert infinite length from Linux API to PID standard
+Date: Mon, 13 Jan 2025 13:49:13 +0100
+Message-ID: <20250113124923.234060-2-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.48.0
+In-Reply-To: <20250113124923.234060-1-tomasz.pakula.oficjalny@gmail.com>
+References: <20250113124923.234060-1-tomasz.pakula.oficjalny@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -89,62 +93,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This patch series is focused on improving the compatibility and usability of the
-hid-pidff force feedback driver. Last patch introduces a new, universal driver
-for PID devices that need some special handling like report fixups, remapping the
-button range, managing new pidff quirks and setting desirable fuzz/flat values.
+Linux defines 0 length as infinite in its force feedback API
+while USB PID defines NULL (0xffff). Most PID devices do not expect a
+0-length effect and can't interpret it as infinite. This change fixes
+Force Feedback for most PID compliant devices.
 
-This work has been done in the span of the past months with the help of the great
-Linux simracing community, with a little input from sim flight fans from FFBeast.
+As most games depend on updating the values of already playing infinite
+effects, this is crucial to ensure they will actually work.
 
-No changes interfere with compliant and currently working PID devices.
+Previously, users had to rely on third-party software to do this conversion
+and make their PID devices usable.
 
-I'd love to hear some input on the name, as that's just what we've been using
-previously. Maybe something like hid-quirky-pidff or hid-special-pidff would
-be better? hid-pidff is already a generic "universal" driver so I don't want to
-create any kind of confusion there.
-
+Co-developed-by: Makarenko Oleg <oleg@makarenk.ooo>
+Signed-off-by: Makarenko Oleg <oleg@makarenk.ooo>
+Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
-Changes in v2:
-- Fix typo in a comment
-- Fix a possible null pointer dereference when calling hid_pidff_init_with_quirks
-  especially when compiling with HID_PID=n
-- Fix axis identifier when updating fuzz/flat for FFBeast Joystick
----
-Changes in v3:
-- Fixed a missed incompatible pointer type while assigning hid_pidff_init_with_quirks
-  to init_function pointer (void -> int)
-- Improved Kconfig entry name to adhere to the alphabetical order of special
-  HID drivers
-- Extended cover letter
----
-Changes in v4:
-- Added PXN devices and their hid ids
-- Added hid-universal-pidff entry in the MAINTAINERS file
+ drivers/hid/usbhid/hid-pidff.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Tomasz Pakuła (11):
-  HID: pidff: Convert infinite length from Linux API to PID standard
-  HID: pidff: Do not send effect envelope if it's empty
-  HID: pidff: Clamp PERIODIC effect period to device's logical range
-  HID: pidff: Add MISSING_DELAY quirk and its detection
-  HID: pidff: Add MISSING_PBO quirk and its detection
-  HID: pidff: Add MISSING_DEVICE_CONTROL quirk
-  HID: pidff: Add hid_pidff_init_with_quirks and export as GPL symbol
-  HID: pidff: Add FIX_WHEEL_DIRECTION quirk
-  HID: pidff: Stop all effects before enabling actuators
-  HID: Add hid-universal-pidff driver and supported device ids
-  MAINTAINERS: add Tomasz Pakuła as hid-universal-pidff maintainer
-
- MAINTAINERS                       |   6 +
- drivers/hid/Kconfig               |  14 +++
- drivers/hid/Makefile              |   1 +
- drivers/hid/hid-ids.h             |  29 +++++
- drivers/hid/hid-universal-pidff.c | 188 ++++++++++++++++++++++++++++
- drivers/hid/usbhid/hid-pidff.c    | 200 ++++++++++++++++++++++--------
- include/linux/hid.h               |   8 ++
- 7 files changed, 397 insertions(+), 49 deletions(-)
- create mode 100644 drivers/hid/hid-universal-pidff.c
-
+diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
+index 3b4ee21cd811..3899d72a0b02 100644
+--- a/drivers/hid/usbhid/hid-pidff.c
++++ b/drivers/hid/usbhid/hid-pidff.c
+@@ -301,7 +301,12 @@ static void pidff_set_effect_report(struct pidff_device *pidff,
+ 		pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0];
+ 	pidff->set_effect_type->value[0] =
+ 		pidff->create_new_effect_type->value[0];
+-	pidff->set_effect[PID_DURATION].value[0] = effect->replay.length;
++
++	// Convert infinite length from Linux API (0)
++	// to PID standard (NULL) if needed
++	pidff->set_effect[PID_DURATION].value[0] =
++		effect->replay.length == 0 ? 0xffff : effect->replay.length;
++
+ 	pidff->set_effect[PID_TRIGGER_BUTTON].value[0] = effect->trigger.button;
+ 	pidff->set_effect[PID_TRIGGER_REPEAT_INT].value[0] =
+ 		effect->trigger.interval;
 -- 
 2.48.0
 
