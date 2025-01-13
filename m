@@ -1,86 +1,86 @@
-Return-Path: <linux-input+bounces-9185-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9186-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D44A0B768
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 13:49:44 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C40BA0B76B
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 13:49:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7CDAF1885F26
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 12:49:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF5A77A1FA4
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 12:49:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51E91233D7C;
-	Mon, 13 Jan 2025 12:49:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2779B234962;
+	Mon, 13 Jan 2025 12:49:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R0BTyP3H"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cXPYvudV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB58231A37;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A198231CA4;
 	Mon, 13 Jan 2025 12:49:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736772573; cv=none; b=F0MJVhVTfOghaBP2bbZeudX+H49sW3gP8qvGMb+k6+nljCrhy/Dh4quI1niumVIRACQXoFj683E9e+Iah4aFzPD8dUt8uQF0h56RtsjxJQLY5UGNoIl0LWRXm81JHs6nrrby405wr1rbVwC/GoXYa4Wt0LMn3BU78a9Mw/dc4aU=
+	t=1736772574; cv=none; b=LMmHg5k7xrEEDzJHyEgWcqp7h/2fhl5laZbjHHFiCOXTHjmYwqrAqyix6eLeKAanddi7X2L5Ie5/piomUoKxljQiuA71CPtFzpxrNTovQ2a+p/qlIpukvg/9/F183T36Txjgiib+cAgZVN+a+VEAJ72loYBS/i5jZM5zWonSn54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736772573; c=relaxed/simple;
-	bh=uOwis6hlmUdqAPx3OOxs0TSSf9/smLnpoV7RYqQCfiQ=;
+	s=arc-20240116; t=1736772574; c=relaxed/simple;
+	bh=+d0HyMNOkMms/+4S3y7y1zKcr7KT2SdwpQQHRu+KIa4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rUUIL2QfBNoYArwgLbUK2DLwL68LL4S22Nb37Kwln8vAB4YJlLnnP1v7VggJ/MhtrdjCdX5MDxLOE13J6BkQnKQWWj+PnSmUNlKmxKeDCaj9e3/EUMQqcnsDyo65IWtC0MP+1GnJTh1K4KpHRPLNrE9S+dWgiwhH5U/ompBwMHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R0BTyP3H; arc=none smtp.client-ip=209.85.208.173
+	 MIME-Version:Content-Type; b=kbd5N7Jf0buI0IRsDvFcE9Fe4i18Cc77IWusTaVv646FN3Qp/X0PJ6hhu47mZk692RSzrSh/NUSBHNH6WiGtnUw/cViPxOJBxZl3zguh47Ra6EGDGbpMpZf8c/LN2sfGYG4gC6m5H/u5LY4/wrO8Br8ZkBcRAlmxH06N5/08w6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cXPYvudV; arc=none smtp.client-ip=209.85.208.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3021ab1f26cso2044861fa.0;
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30167f66717so2493891fa.2;
         Mon, 13 Jan 2025 04:49:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736772569; x=1737377369; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1736772570; x=1737377370; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LSwTM4rkg6mTg+sXCxlqhdfHW0+DFt/7r9xemMl90Kk=;
-        b=R0BTyP3H9epmYsmdtkBZdHaETrWlKQcYwu0qCr5LultUPFUrcUu38hhAr1WNFI+oPy
-         Pd5jl9Rb3uYQ01w6a/AO9u7PuTABCmPt+5VXrMtsj6hsztDJnMcTy9KbpWSX88r58ymd
-         Uq9yeBbC5/r5T/uDnszS/rBYxMPNwgtDqFxYcO9GZ7jeJccAAZXB6Q0aAObCdT43FkxB
-         yb5kCxOL0dawmTQNbw2tb5oQnLW7oqnyA9WWCz7UMU8tdY45ReVMcvRbiLsGa8UMmSwI
-         XO6UrhBBhnx5q5gAvH4/QbdOorJMiYiPmJl+7yc9IoUlgjBDuX9NNaL3ZC2JPoFewPXV
-         +Vgg==
+        bh=zVDn/ZwrDtBQBWFoygwf2iIYwvUq1iC1Us9noUk0/hs=;
+        b=cXPYvudVipuf2STufdhAULOwXwmeMO6XXaD+F15O6zdY/LsQOkIFT6jYJwc5T97wIn
+         wGm77avcl3IzaQQUU2dIhH6iFCWk2ipqIbJsRLV3KIY6LJf5IlRTSLKsj0RGwLhSpmWk
+         e9HROQc2G73jI6LtFdaLbKwkeXqTK3PTDShAoRJD008BtO5KcEjb9QOH1nWnALZgIpuV
+         T6fZ6T8jwXI2FfW3AU+4uUtWRS3+9OzyWvyn7oeDBC5w/xeJ45LaBveVZpUg1Iut4uyj
+         uxO0LFJ3Ofr97vloPqOmb1bBYoh+cgSjTHU1jtK5kBfvonWOTFqcU/DoPrXrAnBFWJQp
+         g2tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736772569; x=1737377369;
+        d=1e100.net; s=20230601; t=1736772570; x=1737377370;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LSwTM4rkg6mTg+sXCxlqhdfHW0+DFt/7r9xemMl90Kk=;
-        b=I/c73M65yKZ6+mrnQ4Gm+cccbdguC4wZXwoAd34xpv2GRASnZB4HTljzvFbhrhSJs3
-         4S/gI9oxf/uzyapuEX7wjKtPpcmT67ocy4BsvN22rKV7zpuTjOHj7WC5skOrMEsRWYCW
-         uS5sjqwgWsPlcGHCI/FfLtItdcZc/W+lFsPPidMCT1/phctbPgQHjyApJRKdPHhaM5sB
-         mv5OxSD+CAmcQ/09cNHhIbAgsABxqRs8lKdNln1bN5U4lq8tyojW9LEbbXWt9qF3PtOo
-         X2Y6IeXnsA1Q2pdtktycfpfDYA2aj24h2jD7YJC10Y8jmgWzmMUHEgBlxE9rb7CVm7oX
-         EdHg==
-X-Forwarded-Encrypted: i=1; AJvYcCV6gq1XFNxVhy/VLUMyvDFWAVu+JmWPh9p8ZndfCcOgW4qGFIur6XbHzFEToGa8odofU4+x/wxOAdk7qw==@vger.kernel.org, AJvYcCXLBKSQPBvrTmZVPauSi8teCbBTxHTvYaiabTLS20pb7ZTbOfySxEiViq8isjTtLo68cfceLM9UmARm@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkiICl2ULAHy5k38hBG+XD+4YzlbF34Tqx5nDYJYNYSnnLgfZL
-	QuQQDEivtGo6c0nvIULvuiIEAa+Q9aa/ldwvAdNqH0ySOh7uGS9fY3UOq0IG
-X-Gm-Gg: ASbGncun/MWCmjJw8N9m+AJlYFpoiRiYhhiaYgGUUiXB1wfE+1aX0jfsEXuX5TRZ5xV
-	25+QOSh5RWaYVfd2Lte3oPH8y8CSgWjvANwjyfJlEcGYVPyBmAjSE50RgWGZYBppuxLO4VIxKRP
-	AF8MJgEP8IAhYefe6UyqP7eecCPFe/sxF+hKwQ1O8Vvn2KF4J0uxbOSx0vWcuY2qdY/7fpYbr6D
-	6JKAAzL7tKAkSAlryoaSuyMTNVQJHEcYHEq636GkpU6C3J0u3yCKKFoXV4EALPedOZun0VA20av
-	6Vi1fPhkBNoJAGpDBHZM4eRNm4A=
-X-Google-Smtp-Source: AGHT+IHiVd2xCGBg6PTUNYGR0as/ejQpqtdA0mnIhHJS9C7BEM9tFM1+vhSkMEzCkw+WO9Wl2KExmg==
-X-Received: by 2002:a05:651c:b29:b0:302:2bd8:2685 with SMTP id 38308e7fff4ca-305f45cb6c2mr22485621fa.8.1736772569106;
-        Mon, 13 Jan 2025 04:49:29 -0800 (PST)
+        bh=zVDn/ZwrDtBQBWFoygwf2iIYwvUq1iC1Us9noUk0/hs=;
+        b=dJJ/eyzb7keLP7vLxk1XOwSLeBtcUiGzomWo/cJ/9cqnQWoUBa7Cp184CWy0F+O7qQ
+         Nf69CqF1/Yt5X64uajlD5NKXBuLbTbiQL2n+KoHavk6GpHs1pzctB0/e6WH2oKlXBmpx
+         zQA8W5N0uu1+LWQKKGYyl/MGvz3A8SxZkue/iOWoy9Gs1zxbByaibHCjOdTDEVpHIX6x
+         tdUhht4JKD2vBclWTyNIMTm30qjBoZ/zb/DpVM0tMQJAc7sHrSVIvLfFEGttVtk6/frz
+         YgdVhtUW3NO6SV1JxSb9GKbErzdrKBDI9DBLCs4eYP+TADXPKW9sL3q38aBjYWu6sxsD
+         dK9w==
+X-Forwarded-Encrypted: i=1; AJvYcCW3eQdHr23X4Mq69sgqY2ABJBCIWGGiBGmABC5DnbiqHRtZhZdGiChKs4VJoqTN07C/YfrdcEubAGXv@vger.kernel.org, AJvYcCWo0Zeji/gc5Wx6/3pnF+P+uJUrEkgoNSkkrhN5lnT11erB1cn3zqpXnxasBzzOPGKjyg3iMB3H4RFuKQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzcFmLnQO13alp8VEGI2ZKDm7nndklEPhbLOcLvd75WeW1vWbqP
+	219RK+Qc47A3hier9V7vaVVAdtRiay+akMtpAQUlYbKMWsBnNFvEQlgD/E54
+X-Gm-Gg: ASbGncseh/GYsedHFpQr5wMpbL96h5r8yyTMWTz8/1m+peW/YzCqGSagzHmxmxjJpmy
+	7jCiX+k4PWAh8wasXejNyxFQm0W82CWu3MFAoy/GzyjUqPJP9cA9n7FfTT2+Mi8CycFlnlJEOip
+	ywDAa0SToLNs4S/+UiWf5gqn/lvM0v/rkOydjzTesiRsbmMxKOIQY2cqIBV88RhR/TREHH4YjwW
+	H6X70ToBoSDtJ+hLMjqMAkFm72ZtAaTb0Q4bI9bRaq3k98vclu5g2ZlCxEGZkOebgdOId6urG27
+	B41JrUPokjkW0qRJxv496zWCqos=
+X-Google-Smtp-Source: AGHT+IEe3KYLwI5AcMsLKpiz+B9j/Zy1FZpvNCRe7DrMLW4zHeMF+P7TY8XVEbDZvRC1pFKyPDeGWQ==
+X-Received: by 2002:a2e:b8c8:0:b0:302:1c90:58e0 with SMTP id 38308e7fff4ca-305f45446e7mr24810411fa.1.1736772570018;
+        Mon, 13 Jan 2025 04:49:30 -0800 (PST)
 Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-305ff1ec162sm14256181fa.101.2025.01.13.04.49.28
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-305ff1ec162sm14256181fa.101.2025.01.13.04.49.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2025 04:49:28 -0800 (PST)
+        Mon, 13 Jan 2025 04:49:29 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
 Cc: anssi.hannula@gmail.com,
 	linux-input@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v4 03/11] HID: pidff: Clamp PERIODIC effect period to device's logical range
-Date: Mon, 13 Jan 2025 13:49:15 +0100
-Message-ID: <20250113124923.234060-4-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v4 04/11] HID: pidff: Add MISSING_DELAY quirk and its detection
+Date: Mon, 13 Jan 2025 13:49:16 +0100
+Message-ID: <20250113124923.234060-5-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20250113124923.234060-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20250113124923.234060-1-tomasz.pakula.oficjalny@gmail.com>
@@ -93,73 +93,130 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This ensures the effect can actually be played on the connected force
-feedback device. Adds clamping functions used instead of rescaling, as we
-don't want to change the characteristics of the periodic effects.
+A lot of devices do not include this field, and it's seldom used in force
+feedback implementations. I tested about three dozen applications and
+none of them make use of the delay.
 
-Fixes edge cases found on Moza Racing and some other hardware where
-the effects would not play if the period is outside the defined
-logical range.
+This fixes initialization of a lot of PID wheels like Cammus, VRS, FFBeast
 
+This change has no effect on fully compliant devices
+
+Co-developed-by: Makarenko Oleg <oleg@makarenk.ooo>
+Signed-off-by: Makarenko Oleg <oleg@makarenk.ooo>
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- drivers/hid/usbhid/hid-pidff.c | 36 +++++++++++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
+ drivers/hid/usbhid/hid-pidff.c | 33 ++++++++++++++++++++++++++++-----
+ include/linux/hid.h            |  3 +++
+ 2 files changed, 31 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index cf8163d92ea4..7af7744e3cf2 100644
+index 7af7744e3cf2..28f42f30e2b3 100644
 --- a/drivers/hid/usbhid/hid-pidff.c
 +++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -205,6 +205,36 @@ static int pidff_rescale_signed(int i, struct hid_field *field)
- 	    field->logical_minimum / -0x8000;
+@@ -184,6 +184,8 @@ struct pidff_device {
+ 	int operation_id[sizeof(pidff_effect_operation_status)];
+ 
+ 	int pid_id[PID_EFFECTS_MAX];
++
++	u32 quirks;
+ };
+ 
+ /*
+@@ -355,7 +357,10 @@ static void pidff_set_effect_report(struct pidff_device *pidff,
+ 	pidff->effect_direction->value[0] =
+ 		pidff_rescale(effect->direction, 0xffff,
+ 				pidff->effect_direction);
+-	pidff->set_effect[PID_START_DELAY].value[0] = effect->replay.delay;
++
++	// Omit setting delay field if it's missing
++	if (!(pidff->quirks & HID_PIDFF_QUIRK_MISSING_DELAY))
++		pidff->set_effect[PID_START_DELAY].value[0] = effect->replay.delay;
+ 
+ 	hid_hw_request(pidff->hid, pidff->reports[PID_SET_EFFECT],
+ 			HID_REQ_SET_REPORT);
+@@ -778,7 +783,10 @@ static void pidff_autocenter(struct pidff_device *pidff, u16 magnitude)
+ 	pidff->set_effect[PID_TRIGGER_REPEAT_INT].value[0] = 0;
+ 	pidff_set(&pidff->set_effect[PID_GAIN], magnitude);
+ 	pidff->set_effect[PID_DIRECTION_ENABLE].value[0] = 1;
+-	pidff->set_effect[PID_START_DELAY].value[0] = 0;
++
++	// Omit setting delay field if it's missing
++	if (!(pidff->quirks & HID_PIDFF_QUIRK_MISSING_DELAY))
++		pidff->set_effect[PID_START_DELAY].value[0] = 0;
+ 
+ 	hid_hw_request(pidff->hid, pidff->reports[PID_SET_EFFECT],
+ 			HID_REQ_SET_REPORT);
+@@ -801,6 +809,7 @@ static int pidff_find_fields(struct pidff_usage *usage, const u8 *table,
+ 			     struct hid_report *report, int count, int strict)
+ {
+ 	int i, j, k, found;
++	int return_value = 0;
+ 
+ 	for (k = 0; k < count; k++) {
+ 		found = 0;
+@@ -825,12 +834,17 @@ static int pidff_find_fields(struct pidff_usage *usage, const u8 *table,
+ 			if (found)
+ 				break;
+ 		}
+-		if (!found && strict) {
++		if (!found && table[k] == pidff_set_effect[PID_START_DELAY]) {
++			pr_debug("Delay field not found, but that's OK\n");
++			pr_debug("Setting MISSING_DELAY quirk\n");
++			return_value |= HID_PIDFF_QUIRK_MISSING_DELAY;
++		}
++		else if (!found && strict) {
+ 			pr_debug("failed to locate %d\n", k);
+ 			return -1;
+ 		}
+ 	}
+-	return 0;
++	return return_value;
  }
  
-+/*
-+ * Clamp minimum value for the given field
-+ */
-+static int pidff_clamp_min(int i, struct hid_field *field)
-+{
-+	int ret =  i < field->logical_minimum ? field->logical_minimum : i;
-+	pr_debug("clamped min value from %d to %d\n", i, ret);
-+	return ret;
-+}
-+
-+/*
-+ * Clamp maximum value for the given field
-+ */
-+static int pidff_clamp_max(int i, struct hid_field *field)
-+{
-+	int ret = i > field->logical_maximum ? field->logical_maximum : i;
-+	pr_debug("clamped max value from %d to %d\n", i, ret);
-+	return ret;
-+}
-+
-+/*
-+ * Clamp value for the given field
-+ */
-+static int pidff_clamp(int i, struct hid_field *field)
-+{
-+	i = pidff_clamp_min(i, field);
-+	i = pidff_clamp_max(i, field);
-+	return i;
-+}
-+
- static void pidff_set(struct pidff_usage *usage, u16 value)
+ /*
+@@ -1105,11 +1119,19 @@ static int pidff_find_effects(struct pidff_device *pidff,
+ static int pidff_init_fields(struct pidff_device *pidff, struct input_dev *dev)
  {
- 	usage->value[0] = pidff_rescale(value, 0xffff, usage->field);
-@@ -357,7 +387,11 @@ static void pidff_set_periodic_report(struct pidff_device *pidff,
- 	pidff_set_signed(&pidff->set_periodic[PID_OFFSET],
- 			 effect->u.periodic.offset);
- 	pidff_set(&pidff->set_periodic[PID_PHASE], effect->u.periodic.phase);
--	pidff->set_periodic[PID_PERIOD].value[0] = effect->u.periodic.period;
-+
-+	// Clamp period to ensure the device can play the effect
-+	pidff->set_periodic[PID_PERIOD].value[0] =
-+		pidff_clamp(effect->u.periodic.period,
-+			pidff->set_periodic[PID_PERIOD].field);
+ 	int envelope_ok = 0;
++	int status = 0;
  
- 	hid_hw_request(pidff->hid, pidff->reports[PID_SET_PERIODIC],
- 			HID_REQ_SET_REPORT);
+-	if (PIDFF_FIND_FIELDS(set_effect, PID_SET_EFFECT, 1)) {
++	// Save info about the device not having the DELAY ffb field.
++	status = PIDFF_FIND_FIELDS(set_effect, PID_SET_EFFECT, 1);
++	if (status == -1) {
+ 		hid_err(pidff->hid, "unknown set_effect report layout\n");
+ 		return -ENODEV;
+ 	}
++	pidff->quirks |= status;
++
++	if (status & HID_PIDFF_QUIRK_MISSING_DELAY)
++		hid_dbg(pidff->hid, "Adding MISSING_DELAY quirk\n");
++
+ 
+ 	PIDFF_FIND_FIELDS(block_load, PID_BLOCK_LOAD, 0);
+ 	if (!pidff->block_load[PID_EFFECT_BLOCK_INDEX].value) {
+@@ -1353,6 +1375,7 @@ int hid_pidff_init(struct hid_device *hid)
+ 	ff->playback = pidff_playback;
+ 
+ 	hid_info(dev, "Force feedback for USB HID PID devices by Anssi Hannula <anssi.hannula@gmail.com>\n");
++	hid_dbg(dev, "Active quirks mask: %x", pidff->quirks);
+ 
+ 	hid_device_io_stop(hid);
+ 
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index d11e9c9a5f15..94ad5a510639 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -1227,6 +1227,9 @@ int hid_pidff_init(struct hid_device *hid);
+ #define hid_pidff_init NULL
+ #endif
+ 
++/* HID PIDFF quirks */
++#define HID_PIDFF_QUIRK_MISSING_DELAY	BIT(0)
++
+ #define dbg_hid(fmt, ...) pr_debug("%s: " fmt, __FILE__, ##__VA_ARGS__)
+ 
+ #define hid_err(hid, fmt, ...)				\
 -- 
 2.48.0
 
