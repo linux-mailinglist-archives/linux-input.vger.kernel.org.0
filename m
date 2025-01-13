@@ -1,81 +1,86 @@
-Return-Path: <linux-input+bounces-9166-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9167-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27D90A0AF27
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 07:15:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C9EA0AF28
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 07:15:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F08003A5BF6
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 06:15:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2EBDB18837BA
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jan 2025 06:15:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 845F9145A16;
-	Mon, 13 Jan 2025 06:15:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3205B230D21;
+	Mon, 13 Jan 2025 06:15:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DXycQ17v"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ElpooeCl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6601946F
-	for <linux-input@vger.kernel.org>; Mon, 13 Jan 2025 06:15:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B593145A16
+	for <linux-input@vger.kernel.org>; Mon, 13 Jan 2025 06:15:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736748940; cv=none; b=XQmo5a217cx9ZCWEKSxz5MturE++zuK73mii+CFQDE4/iu5betGmbdRG3IbrW8hqmzIESQQovVJ+WjDx9AhFqojyfJMqOp6Y/T/OeFPw+DOQu/K+a8G4mhobpA/j6RADCZtUTugvdheRCfZOwYxW5pf0o1TqhXmKswDS6Yh756E=
+	t=1736748951; cv=none; b=mf4s8921iWZSxc0064uZAUKexdyb7mSDKIGnbSyL6l/EXh2yeewRZ1TrCt+XVufS3F7sAcap4EJq8fZwGy1koUyrmiVZCpFJ9PwKM7o5DNfp71vcM7LGW9c+nGNE+bZw79M4sei4XAavbwBoSu/ekzWlxxKpIMst8zhmd54s9F4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736748940; c=relaxed/simple;
-	bh=jZM2Oim+yvm9dmPZ5N+UxvdnNoH/Obp7GLrSsmPeFuI=;
+	s=arc-20240116; t=1736748951; c=relaxed/simple;
+	bh=wJglrbrpbuhe0bcViDXdcbU/vXOT5RSMKFIKdYKZOSw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eP4/4dYl0p66XiSV2ZpjnKBZwN5zuNALZ/NpK7EVtRnl4VgClvQiapQ/XB4buHU1M5vQGAXtOKsqWexxBNxZbqs3iTSwe9cD73p6bIGq4oPIyQVhT6URBr1UfV2zccKVo4G3btIoxB3MmShRDC2peVXEzIdc99AWMj+K1Ark9EI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DXycQ17v; arc=none smtp.client-ip=209.85.208.51
+	 Content-Disposition; b=syhlAVRxEQGmBL8VR9OUzEbT5SG/8QQgT77kamkmwzRsLiiuzCH5aJJTW7Z9WYpizUe64DVvBVpIyqOAgT5j4IECcYK8GBu2OL6XZWHdphUen6WyF+LRlDl5iKTw8xEUrDOlOyW4GUKbCZL1FUglR2wwgOzjYw0ni3I+3yOTHsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ElpooeCl; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5d3e8f64d5dso7570040a12.3
-        for <linux-input@vger.kernel.org>; Sun, 12 Jan 2025 22:15:38 -0800 (PST)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-aa684b6d9c7so693511766b.2
+        for <linux-input@vger.kernel.org>; Sun, 12 Jan 2025 22:15:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736748937; x=1737353737; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1736748948; x=1737353748; darn=vger.kernel.org;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=98PjTuGlZltocfOKiyHAfnS09uRyKDbPFTkx0Rrc0+g=;
-        b=DXycQ17veTSvcAujx8i0psMPmd1ePkVE2Y5VtTcB1cIEeagOU034TxRLAz9R0vMjM+
-         6xAB/ntK3GqAyx5/IRRouyOhCeszPPFawn63I8Oq//l0BoL339zWqxMmwH9tXHM07Y9Q
-         4qsDoFjAnb4yH9DKTj1UTietcjZtYbtQAnSMDGKwzUvC4XaJq4JGe+IDloOlexmy5E15
-         +ZT0t/X64P9NthiUMlLlJV0/w/T0hADhAz6W7g4JbdHbQv55HMCO6JZW3LpyqwTsa9gd
-         6lKVys9qIItUikqZpTzlWx55Yr3fvum3viSPRZgTIeLv4a9AT6rzeu9CRubBa5yPdZhC
-         wOag==
+        bh=ljpYCVAC5Fhvp7P/AHA7k7jRhiqtXcEAQiNkoKKm8BM=;
+        b=ElpooeClhMvpieCgur0BkJ7i2cxOSKgKKC1V0oHDQOPifzd2PF8Utlq5p6wsxXq2R9
+         lbb86nDzXvq0fak5ZHcm5bCsvHrchHNFm+6D2ugun/Vew0JFhY4SeC0CzadI+R8kNIj2
+         tnKTjBjKZ1kbxY02JOtCZjotnFORhoFWBEqmgPu51Oa9Zbmm9RJFbBIPi/CRJIqGZyTr
+         ukbU2ki1RHPKPIclTi4zXLzXheOFztBIAD5eaMYQ3n0E5fmdZ5oBNUZoSDJ7DzphKa1c
+         nQ1+knXbjtseRplVJ0BD2/v5TJZhNzJEyLZ9xePIcrPTyfdw3pd/A54jagmkD/DxPlx/
+         ZVjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736748937; x=1737353737;
+        d=1e100.net; s=20230601; t=1736748948; x=1737353748;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=98PjTuGlZltocfOKiyHAfnS09uRyKDbPFTkx0Rrc0+g=;
-        b=ZoFK+GVyFd6JsalpwSC+3C9J9NbImZxeY57Lt88Q62O13Np/MAmIzOTeHWujSXjs4y
-         3oc7IdTBgp/xME3dn/n2nrotmQstSW4AnT7LEZQSoq2GCx35Vl4S/yVpqyE6OKs086jb
-         AosVE+RAFQl4tvaFxDbFyeEBw7e9rcAkc02HI2QZ9vnneaRqsbMGj6xjGn+Fy9pgto0X
-         QvJRYeUU5N8F7vL7pIuu15PO58hHcZRavLp5I/Z3m16MtS8bTKIR/cRKDSYfyUulpaZK
-         jA+Mnbvc49CoU0e2YRx1UDbxz9UZCFCsSahgcDA35WDrBByb2sLySA0B5YpvXTg7pFre
-         ICPg==
-X-Gm-Message-State: AOJu0YzL37UDEEkXALXBd90nlYDBEsgWnlsYfu6BC9374usgskYYY5S7
-	N1jlQ6ozIf8vuKSDgCVAe5YBrWYKDliUq1smF4I6q9gPhRCKUQB4h8G45xZ/UgjS5FtR2NkbPcy
-	A
-X-Gm-Gg: ASbGnct5RQGFWs2YmRYOGs/zKsTIwGThhK5GKvewNyD46WkxLrMmiIac8Qqkg4qUnVu
-	qT3/hUXGo9Vae5ItV6s0w4Q4gg4GfNFZLyntItT2MNWIUJKYUFHw11laVA5EGFkYR5kpK0ZR2ZL
-	NyvCcfkbo1yz2oG7R4ji7nexbbtkkRXNQiZNuXBGEt/05V4dnwd9hA4STOCsJk04FEDC+D/IRQD
-	Kh5hxyENwdOX2jQMmnaxP0HloavhzffGUcIdbSjKGpnhz+Ptlj8boeoQV0hng==
-X-Google-Smtp-Source: AGHT+IEbS8OCZde7sAM3yD+r7qZ2q2j2wSHz3lpjfN0nFsMoDpCxWgsf1EtwQePudxwy1WkHsc2xyA==
-X-Received: by 2002:a05:6402:350b:b0:5d9:cde9:2b88 with SMTP id 4fb4d7f45d1cf-5d9cde92bffmr369391a12.27.1736748937035;
-        Sun, 12 Jan 2025 22:15:37 -0800 (PST)
+        bh=ljpYCVAC5Fhvp7P/AHA7k7jRhiqtXcEAQiNkoKKm8BM=;
+        b=hbXX0vHRaeTZvPpbDLPrJ83n/yP5rzagXCrQ/HB0Gvm6ZXrVy3nJH/9vj4haaQ+Npy
+         XxJN7FveE/wM+KXQXZcoL549py43VJcjNUNNCL/bbrQFonArcKLk2v7vLS/ofPFCBDDg
+         GC/gC9ZtWbmciSFbLixW7XHuCp1CwaQeKOLbfjdOCNL7N29dwGd9jk/z5Addbycc83yR
+         VxkJw83JAKMZ9abg4pw3HkoMMGAoQGh3bWH3txLW/yVWg+0MhG/HI0N3XFEF6c0IDc/A
+         Q9J3cpGJMfqL1lKPAzoISg2ax4nagOBSNZls3cY6kV/htGsNHx2oGtM5ufQA3p0E0BCx
+         ZPsw==
+X-Forwarded-Encrypted: i=1; AJvYcCUZIf46omsC7ZG2o/JKSGQBKyi4ab4P41Z+p/riyy9t9QrpNXPjpwA6SfagtPF3g37MReiAbWTFO2z6Aw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxp/LZPacButbRtPW+RXhZZkiYRB4SmrkVXSOz5XBvpPoHkBAMc
+	X7dnj2vBjn1XE9SC0LId07NnmYRHBuPy9CldrT/gmTx5lG0daVpc/AsiNiXwjCA=
+X-Gm-Gg: ASbGncuPOeC5zQMCbtKaxtONgwc2rXB+3zS49yUqIGN2jOvcIYxd8ypmNMMCi6Pvjhi
+	lNFrojhqNViRfhkQQjChu7+qODK+1CMXIS7WZDAWGFmQ7hoH+Y9RS1Y0ohQZ2/IcTE68+T9/gb9
+	izSnLUjFHD44L5BvyICsU978D8PUH2bECOAYPrcvNQuFTCLsn/ETcbcDVAVbMPK1hI2ozy2AsvJ
+	lxoULxD1Oc03RfC4nnAeK5Ycb0NujcyKV2E+NC5r6uOGW6DZU0UTMCfxSU3zw==
+X-Google-Smtp-Source: AGHT+IH1/GOLoqjf7Ff0rxYoskGhR3MvBLdbph8W02eRMXEQrG0OrOaaYHpU49nJqe6GOf8x8VpLtw==
+X-Received: by 2002:a17:907:97d2:b0:aa6:96ad:f8ff with SMTP id a640c23a62f3a-ab2abc927abmr1766580766b.52.1736748947870;
+        Sun, 12 Jan 2025 22:15:47 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d99008c371sm4542131a12.11.2025.01.12.22.15.35
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c905f0c9sm464700666b.19.2025.01.12.22.15.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jan 2025 22:15:36 -0800 (PST)
-Date: Mon, 13 Jan 2025 09:15:33 +0300
+        Sun, 12 Jan 2025 22:15:47 -0800 (PST)
+Date: Mon, 13 Jan 2025 09:15:41 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Even Xu <even.xu@intel.com>
-Cc: linux-input@vger.kernel.org
-Subject: [bug report] HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C
- ACPI interfaces
-Message-ID: <fa15885b-4560-4b96-b103-ca40c338f103@stanley.mountain>
+Cc: Xinpeng Sun <xinpeng.sun@intel.com>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH next] HID: intel-thc-hid: intel-thc: Fix error code in
+ thc_i2c_subip_init()
+Message-ID: <eb4ea363-c3b7-4988-9ff5-5ed74bf47620@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -84,46 +89,30 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-Hello Even Xu,
+Return -ENOMEM if the allocation fails.  Don't return success.
 
-Commit 5282e45ccbfa ("HID: intel-thc-hid: intel-quicki2c: Add THC
-QuickI2C ACPI interfaces") from Jan 6, 2025 (linux-next), leads to
-the following Smatch static checker warning:
+Fixes: 4228966def88 ("HID: intel-thc-hid: intel-thc: Add THC I2C config interfaces")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c:59 quicki2c_acpi_get_dsm_property()
-	warn: potential memory corrupting cast 4 vs 2 bytes
+diff --git a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
+index 92a1dbe9a928..4fc78b5a04b5 100644
+--- a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
++++ b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
+@@ -1519,7 +1519,7 @@ int thc_i2c_subip_init(struct thc_device *dev, const u32 target_address,
+ 
+ 	dev->i2c_subip_regs = devm_kzalloc(dev->dev, sizeof(i2c_subip_regs), GFP_KERNEL);
+ 	if (!dev->i2c_subip_regs)
+-		return PTR_ERR(dev->i2c_subip_regs);
++		return -ENOMEM;
+ 
+ 	return 0;
+ }
+-- 
+2.45.2
 
-drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-   116  static int quicki2c_get_acpi_resources(struct quicki2c_device *qcdev)
-   117  {
-   118          struct acpi_device *adev = ACPI_COMPANION(qcdev->dev);
-   119          struct quicki2c_subip_acpi_parameter i2c_param;
-   120          struct quicki2c_subip_acpi_config i2c_config;
-   121          int ret = -EINVAL;
-   122  
-   123          if (!adev) {
-   124                  dev_err(qcdev->dev, "Invalid acpi device pointer\n");
-   125                  return ret;
-   126          }
-   127  
-   128          qcdev->acpi_dev = adev;
-   129  
-   130          ret = quicki2c_acpi_get_dsm_property(adev, &i2c_hid_guid,
-   131                                               QUICKI2C_ACPI_REVISION_NUM,
-   132                                               QUICKI2C_ACPI_FUNC_NUM_HID_DESC_ADDR,
-   133                                               ACPI_TYPE_INTEGER,
-                                                     ^^^^^^^^^^^^^^^^^
-This says INTEGER
-
-   134                                               &qcdev->hid_desc_addr);
-                                                     ^^^^^^^^^^^^^^^^^^^^^
-But this is a u16 so it corrupts memory.
-
-   135          if (ret)
-   136                  return ret;
-   137  
-
-regards,
-dan carpenter
 
