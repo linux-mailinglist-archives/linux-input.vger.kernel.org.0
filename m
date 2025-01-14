@@ -1,172 +1,154 @@
-Return-Path: <linux-input+bounces-9236-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9237-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8618FA111CC
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 21:20:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E1C3A1125D
+	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 21:44:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 88AF416838D
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 20:20:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 89BDE163E3C
+	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 20:43:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40E5D209671;
-	Tue, 14 Jan 2025 20:20:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15B2720E6E7;
+	Tue, 14 Jan 2025 20:43:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JD22uIFW"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="j0aeQiiY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0919A1FBCA6;
-	Tue, 14 Jan 2025 20:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C3620E01D;
+	Tue, 14 Jan 2025 20:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736886036; cv=none; b=o1X9t9eafnFyF79a8eZrrGqAm4b+yOaXnBwKCLp9zeumb0AspAfGg80/+p0lLIDkWH1NX+C94doJPjEt9H7pZx1oU25qa93itst6P09Y1U1S05s/ifFliCbKHjY7lpU64kx+X7PmYrzZICtzqujtViERx42rv1LrBOU7sFkgTxQ=
+	t=1736887402; cv=none; b=gqftGQfnJQS+P+RLfTAYPQ8fsUklAh3UCpe7boVlzIOT0Am2yge8NoYk//GLVNGooQ6mdEBIF4rpdpEMfUhxyUz9nHEOCzB386VMZPuh/DEP7Z1IgV22CJAN05XQfS8b70oA3izqwOXHfZYhMrFg95QkGagJEKA/hsDkVtHZ4/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736886036; c=relaxed/simple;
-	bh=I9Ekx6aq/CtvmHlK2JuDkCREj16AUwVV0szqwfvn2B8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GyiJYDTX4/dXl8zzAhasxnQrVBBo7uY/BI5tvyDPDtUBcmfYIoEO2mIBdG6UBgP+SrT0GCHOK+KIrkR6RhVNHnZ0aHw5UizlhhwfB5BKcxVa4A9j9/WoHBNcv1uEe6Gp3aCa0yZ8io/aGoAVJRjecCoGU1wPX7Mk3uV3xQ3p+tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JD22uIFW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86C88C4CEEC;
-	Tue, 14 Jan 2025 20:20:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736886035;
-	bh=I9Ekx6aq/CtvmHlK2JuDkCREj16AUwVV0szqwfvn2B8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=JD22uIFW+fdCoYLcYeIsO2Txr02Nmv6PaD3vP9xJM7UUTueYcu0+ONzHQG06vXduq
-	 lkoMo+Ps9CQCr69LMbVC2r9TQ2pbJeuo+AKkJiGA41O1f7iirwWhLVUxRW/AUz8kuH
-	 jZpbpAJaemRr7wa9BNXuP5WR85oNMonECKjO4soOFO0HIZB1U6fpR0kVfbKf6g947P
-	 Y0CUnLeoKueHwxpK6IgZ0MpvJ1xE8c/iapkJ0dgX+jM1tRAv2LScMM/ZaftTdnfnDI
-	 dd1+xdcog1URclurHKunuZhxCOkXFYMDTm+uoXHKvSb/xOSY6nu/t6ezK5/fcoCUEJ
-	 DvZGIPiGaAZsg==
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3eb6b16f1a0so1745342b6e.3;
-        Tue, 14 Jan 2025 12:20:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU+hJgJttCSCeihAO2+vZgyWlrJWiCTKbLYmjpXoOOdPK2iXMoCkH8RLXc80NV7kmD2HRq9T2xUs5EkelFx@vger.kernel.org, AJvYcCUI9chl7JoRlANikNKO8UpTbWd4K0uyXJ2fZYQ0MZ6XZwsw+//N4Hfc+/7/wrDSaroD4FBwh4EJ7c3Upijm@vger.kernel.org, AJvYcCX8KEAO08VaDHLFVoI9yKwBCNJ4ZQ5unF0I1aYAfI5TTQnOJmtWEJD4GoZ256Galk61nZXAwETzagw=@vger.kernel.org, AJvYcCXbpV/LYFYtV1HuWqT2qBJGeQ+1TfNG1iOt9FhTiU2lGS8TUw2gzBlaZqPCOIAf3AaIomN7p8pClj3+PU8=@vger.kernel.org, AJvYcCXi8fvBj/DjbwZOD2M7b6ihGaxlR5f1NuAyVpm+rnHmdFh6ycTmYvf1/W9cpdMirkBE8sHr3AFmpASF@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEuqBJK8vi5PWkFnhSnJF9Js9wAPdzHqQrDkYabPVvBMPigQos
-	0r3XTZP2iI8ykAcFONBWeHmBuCMMY3hJ7dwoWAJgTWVqwLzAAms/KJvYxgi7FT8ps31gqNHlssX
-	PLV+BxmDQQqOaaURxUZANMINexNM=
-X-Google-Smtp-Source: AGHT+IHBdFDv09GmJQAPh9/RI61yRA+OUJBTYVfB4ZAfwslXJG+AQnvyEewTo5F7++0A17YOZNGuMRHAq8Q+xsm4lZ0=
-X-Received: by 2002:a05:6808:198d:b0:3eb:615a:ece5 with SMTP id
- 5614622812f47-3ef2ec54eedmr15212295b6e.15.1736886034615; Tue, 14 Jan 2025
- 12:20:34 -0800 (PST)
+	s=arc-20240116; t=1736887402; c=relaxed/simple;
+	bh=vuLGJWWWPOxXs1PhleeQNa9QpoUeiQzpYHQoVn/uUuc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=WyoFppEVCyJS4opxpDWTNkDXQ9G/caJpJj7Ydt08PR525JDYkFDjJOhlnPXeCi5PK1DCSxxIuXUpKg5ROWgxAXvbwmLnBXkkxXJ7YjzHtwxrMrrmc5/7zXhXXVXkDKRyqhXPzk2RUa3PMKEGCrjT5t42az4bkxaO7duvy3yyRMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=j0aeQiiY; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50EGjt7A032511;
+	Tue, 14 Jan 2025 20:43:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	umlQhVy2M+CQipFDCc+b+/LwaU2H+7yYsOGc4pT54LA=; b=j0aeQiiYggAREeso
+	K6zQkbGc56r5MNAFva7+hf45f+Cwgvo1ncqYG83Ud38iTbwvADW5+4CpyNvGRIDV
+	4RxaAMugt/t7gfCr/6aBqLW0BIQ+G0TXBsN/iO4YwEqTSQsPlwWxgkAbXpvX7hqE
+	R5CFMb9HiX7cX2/rPvIwimiE9XxfoBX9eW+g8Vjn6jh+CcQEZdc74SREA3xUinVP
+	EC5wKzVcTHXWSU7R4fNelhG+xhWXQPQI8WFDmXVL3LrVncNvgAnemQJeOhp6eFRp
+	sxKZQpKNWjzIEZ64ykEsNKeMSy8lbCx2BlMPZ6Tpx9ih4cwcuObOSppoy33HtI2t
+	4F8pKA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 445uqsghbg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Jan 2025 20:43:02 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50EKh1Nf005980
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Jan 2025 20:43:01 GMT
+Received: from [10.110.124.91] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 14 Jan
+ 2025 12:43:00 -0800
+Message-ID: <5d5e9ba4-d544-416e-b57b-dc5c8692b737@quicinc.com>
+Date: Tue, 14 Jan 2025 12:42:59 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250103-wake_irq-v2-0-e3aeff5e9966@nxp.com> <20250103-wake_irq-v2-1-e3aeff5e9966@nxp.com>
-In-Reply-To: <20250103-wake_irq-v2-1-e3aeff5e9966@nxp.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 14 Jan 2025 21:20:22 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0hj7wUU3f_j5QH3fNUFKokaXr0octaP2M1Ho_L_BspoUA@mail.gmail.com>
-X-Gm-Features: AbW1kvZ2IsMpRpq9v9cu6FjARLwcHzjMVAJFZcTXGy5umUj9Q22VPlrSsSvyjVE
-Message-ID: <CAJZ5v0hj7wUU3f_j5QH3fNUFKokaXr0octaP2M1Ho_L_BspoUA@mail.gmail.com>
-Subject: Re: [PATCH v2 01/12] PM: sleep: wakeirq: Introduce device-managed
- variant of dev_pm_set_wake_irq
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Conor Dooley <conor.dooley@microchip.com>, Daire McNamara <daire.mcnamara@microchip.com>, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, Peng Fan <peng.fan@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v32 01/32] usb: host: xhci: Repurpose event handler for
+ skipping interrupter events
+To: =?UTF-8?Q?Micha=C5=82_Pecio?= <michal.pecio@gmail.com>
+CC: <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>, <conor+dt@kernel.org>,
+        <corbet@lwn.net>, <devicetree@vger.kernel.org>,
+        <dmitry.torokhov@gmail.com>, <gregkh@linuxfoundation.org>,
+        <krzk+dt@kernel.org>, <lgirdwood@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <mathias.nyman@intel.com>, <perex@perex.cz>,
+        <pierre-louis.bossart@linux.intel.com>, <robh@kernel.org>,
+        <srinivas.kandagatla@linaro.org>, <tiwai@suse.com>
+References: <20250113143632.63c52d74@foxbook>
+ <f8a9e454-72f4-4979-b29d-109700b2a204@quicinc.com>
+ <20250114150847.1c3c9ebe@foxbook>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <20250114150847.1c3c9ebe@foxbook>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: tQ44ouugD3MuZAEKQAnvUaXJKuGsS2L6
+X-Proofpoint-GUID: tQ44ouugD3MuZAEKQAnvUaXJKuGsS2L6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-14_07,2025-01-13_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ adultscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0 clxscore=1015
+ priorityscore=1501 bulkscore=0 impostorscore=0 phishscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2501140157
 
-On Fri, Jan 3, 2025 at 9:42=E2=80=AFAM Peng Fan (OSS) <peng.fan@oss.nxp.com=
-> wrote:
->
-> From: Peng Fan <peng.fan@nxp.com>
->
-> Add device-managed variant of dev_pm_set_wake_irq which automatically
-> clear the wake irq on device destruction to simplify error handling
-> and resource management in drivers.
->
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> ---
->  drivers/base/power/wakeirq.c | 26 ++++++++++++++++++++++++++
->  include/linux/pm_wakeirq.h   |  6 ++++++
->  2 files changed, 32 insertions(+)
->
-> diff --git a/drivers/base/power/wakeirq.c b/drivers/base/power/wakeirq.c
-> index 5a5a9e978e85f3fc9d89cb7d43527dc1dd42a9b1..8aa28c08b2891f3af49017536=
-2cc1a759069bd50 100644
-> --- a/drivers/base/power/wakeirq.c
-> +++ b/drivers/base/power/wakeirq.c
-> @@ -103,6 +103,32 @@ void dev_pm_clear_wake_irq(struct device *dev)
->  }
->  EXPORT_SYMBOL_GPL(dev_pm_clear_wake_irq);
->
-> +static void devm_pm_clear_wake_irq(void *dev)
-> +{
-> +       dev_pm_clear_wake_irq(dev);
-> +}
-> +
-> +/**
-> + * devm_pm_set_wake_irq - device-managed variant of dev_pm_set_wake_irq
-> + * @dev: Device entry
-> + * @irq: Device IO interrupt
-> + *
-> + *
-> + * Attach a device IO interrupt as a wake IRQ, same with dev_pm_set_wake=
-_irq,
-> + * but the device will be auto clear wake capability on driver detach.
-> + */
-> +int devm_pm_set_wake_irq(struct device *dev, int irq)
-> +{
-> +       int ret;
-> +
-> +       ret =3D dev_pm_set_wake_irq(dev, irq);
-> +       if (ret)
-> +               return ret;
-> +
-> +       return devm_add_action_or_reset(dev, devm_pm_clear_wake_irq, dev)=
-;
-> +}
-> +EXPORT_SYMBOL_GPL(devm_pm_set_wake_irq);
-> +
->  /**
->   * handle_threaded_wake_irq - Handler for dedicated wake-up interrupts
->   * @irq: Device specific dedicated wake-up interrupt
-> diff --git a/include/linux/pm_wakeirq.h b/include/linux/pm_wakeirq.h
-> index d9642c6cf85211af603ce39e280a5b4de6617ee5..25b63ed51b765c2c6919f2596=
-68a12675330835e 100644
-> --- a/include/linux/pm_wakeirq.h
-> +++ b/include/linux/pm_wakeirq.h
-> @@ -10,6 +10,7 @@ extern int dev_pm_set_wake_irq(struct device *dev, int =
-irq);
->  extern int dev_pm_set_dedicated_wake_irq(struct device *dev, int irq);
->  extern int dev_pm_set_dedicated_wake_irq_reverse(struct device *dev, int=
- irq);
->  extern void dev_pm_clear_wake_irq(struct device *dev);
-> +extern int devm_pm_set_wake_irq(struct device *dev, int irq);
->
->  #else  /* !CONFIG_PM */
->
-> @@ -32,5 +33,10 @@ static inline void dev_pm_clear_wake_irq(struct device=
- *dev)
->  {
->  }
->
-> +static inline int devm_pm_set_wake_irq(struct device *dev, int irq)
-> +{
-> +       return 0;
-> +}
-> +
->  #endif /* CONFIG_PM */
->  #endif /* _LINUX_PM_WAKEIRQ_H */
->
-> --
+Hi Michal,
 
-I can apply this patch for 6.14, but the rest of the series will need
-to be picked up by the respective driver maintainers.
+On 1/14/2025 6:08 AM, Michał Pecio wrote:
+> Thanks, I think I now see how this is meant to work.
+>
+>
+> Cover leter mostly discusses the ALSA side of things, but not low level
+> details of xHCI operation, such as who will be ringing doorbells and
+> how, handling IRQs, updating event ring dequeue, or handling halted EPs.
+>
+> So for the record, as far as I see:
+> 1. There is no API for ringing doorbells or even getting a pointer,
+>    the coprocessor needs to have its own access. Fair enough.
+> 2. Same for event ring dequeue, but the driver must clean up leftover
+>    unacknowledged events after sideband operation stops.
+> 3. Linux IRQ handler never needs to worry about sideband interrupts.
+> 4. Resetting halted endpoints is not implemented at all, I think?
+>    So this code is currently mostly useful with isochronous.
 
-I hope this works for you?
+
+Yep, all your points about the code with respects to the xHCI perspective is correct.
+
+
+>
+> And the 'skip_events' flag only exists to enable ring cleanup when the
+> interrupter is removed? In such case I think it's overkill.
+>
+> The code would be simpler and its intent more visible if 'skip_events'
+> were a new parameter of xhci_handle_events(). Existing IRQ would call
+> the function normally, while xhci_skip_sec_intr_events() would use the
+> new parameter to suppress event handling in this one special case.
+>
+> It would be immediately clear that skipping only applies on removal.
+>
+> You could completely get rid of PATCH 01/32 because 02/32 would no
+> longer need to set this flag on the interrupter, and the 'if' branch
+> adedd by 01/32 could go into 03/32 where it logically belongs.
+>
+> Just a suggestion. I simply don't see any need to have a flag which
+> causes events on a ring to always be skipped as a matter of policy.
+> Your code doesn't seem to require it. Probably nobody ever will.
+>
+
+In my previous discussions with Mathias, I think the plan was that he wanted it to be built in a way where we should be able to accommodate a use case where the secondary interrupter was going to be actually handled by the Linux side.  This is why the skip_events is populated/defined by the xHCI sideband calls, so that we can differentiate between the secondary interrupter use cases.  Although, it is the correct assumption that this series doesn't actually implement that functionality. 
+
+
+Thanks
+
+Wesley Cheng
+
 
