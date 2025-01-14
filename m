@@ -1,107 +1,151 @@
-Return-Path: <linux-input+bounces-9239-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9240-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E7D9A11347
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 22:43:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C47A1136C
+	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 22:51:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 83F2A1889396
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 21:43:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 56D65169AE9
+	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 21:51:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E10D20F07A;
-	Tue, 14 Jan 2025 21:43:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28CFA20A5D2;
+	Tue, 14 Jan 2025 21:51:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HZS+Ey9e"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="icOnZjLl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CECA420D507;
-	Tue, 14 Jan 2025 21:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8046C1CDFC1;
+	Tue, 14 Jan 2025 21:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736891026; cv=none; b=K4N1GXTHxpZWmARqqHVur2G7qh0TiGc81TGevy27Ea6SSD28oeoYdMFNXRpNTXxpkb/mWkq7roKo/MLuJswJtPDgF7wgTOUc+Uc8DaGoLCQ+IcYGbIURcm2ZKFOd/Z1IN4ViaKM/bC+6Nt1t39iEidI27Lp4neadaeE+D9NheRU=
+	t=1736891494; cv=none; b=gxmLITa2mUXItQNJb9xBDCCP7093ymYIB8v96d6OnRQMZdSZFimo92v2/rgyR8iidNN8SBhQNOPxVHDPrWZjxXzdBrg7GynnpCK6zWQ9IICtESKPA8cyel7ssRm2jqPH/d2phtmqKANVcOm2gD9O5ieSHV+h4DRvUDaamhutes0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736891026; c=relaxed/simple;
-	bh=eprLEbrC0QxarTtpdEelN1+mcZoYhFRL1dd851Y8Rt0=;
+	s=arc-20240116; t=1736891494; c=relaxed/simple;
+	bh=J0Y0wf0alXAG3eiHrlkOle1Tn2kEBIOSJ+71wMMFBic=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uQZoOptFFi/hiIa/A6S/iSjls90i00/B9mMZERN0pNy/2v9L8ZkoQhKBEjIq7LCG30Maif2ph/+UVwZIGz9qeI2oK2DQTjoDzwO3hj5sfQ7wVlHRiBGaijrXJM0UWTPcSVP8p2Qh3w2Gea3RHooxUVkNFtVKXt+OCEO32ah5+uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HZS+Ey9e; arc=none smtp.client-ip=209.85.214.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=SkKrOky3HLrPvJPo0uvd63UrH3c60Tw5wkhfErFL1IPgnnIgwLC0UG9nljyveb1u32FcX1t/Y4aAoiG9agwFjQeF3vENoLEtFK4Yywc+k70o98Qh45YlHeNvbTBzvKqwLMyKFNESFhlODhsLzRK8B+ksyTLHDGJeGGaXTFVinfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=icOnZjLl; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-21644aca3a0so132487865ad.3;
-        Tue, 14 Jan 2025 13:43:44 -0800 (PST)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-21649a7bcdcso103211565ad.1;
+        Tue, 14 Jan 2025 13:51:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736891024; x=1737495824; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7oA360EVr5BlWHiaNqybJJ9EJzkN68SnVC0DzqK2eo8=;
-        b=HZS+Ey9eBT87LJ4vTJOprodBjw6AD/stuOmLM5KydnX2FV31BtD0/4rlA0EwLb4wK0
-         MH8bTTs2B1YpFrUH8ZhOc2bvDpjObcnq3xYSD3J1dwD4Wk9FbTBZA9Inp9P4Q/iA6fzx
-         Z6IsRiTzl3JjohPD/Ez8rNgq9sxbhIAyUYRtbS6WFESfCahR5Eejf4ZBFwkqM9Q+4Ee0
-         x4/jxGcHUKIUkvKibX/vPzdZqEs7M44f7qjoWjNmmznEDG66Xn4DXt+2/TfVw/VL28R/
-         vABgghuD1Gr939FG5WIotnbTVVmG1G6lun/fp5aA6uhOaHV8129Pv9MsiAPtEs9Su+j+
-         rdrQ==
+        d=gmail.com; s=20230601; t=1736891491; x=1737496291; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lVbV5ac+2VYXiTrtVXv7VKO5c0GRCJbX3LZtQlOWK8o=;
+        b=icOnZjLlo6AtIr/ym+nMIoWOPkI+kaU1vyPjzEo5zgeeB7iYlD7kVb78b+ZqJaYUWq
+         ma+pAQFFcGNLyejpm8/qTOvgEKeIDGeEVQ9sZqYqTGBJc+5OOkBaoNBIVTDtYw/GPvHG
+         vJhnr9hIfRk4XhpXFQUehmRYHiP1UG+1VpN5LMxPPn8RS0YzcVRKg4BNP8k6Fi6MIE5J
+         eNUHwthJgBCjUeduyKrOsN2I6iKbm56A3kaoH7ZfXDXFWGP8NXb+RYcbQkdh4ozLQj8+
+         i5+Ss+xG4Fh/VahOP8CqNs/93uj0vzSK6z+g4OUCXUXTW5V8pGrYxoXlrpMJMVyklmNG
+         inzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736891024; x=1737495824;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7oA360EVr5BlWHiaNqybJJ9EJzkN68SnVC0DzqK2eo8=;
-        b=OtZ+SLsMMTfKGWHpYE9X7ytGHbdT9UOeeUI6NGLmDey9hEex5uEhi2TJ+QJF2YrTQO
-         a6lvgl0jVGqwvzpisX8jumeerCdTbpsxBXl32otr4y+sQ9uEG3X4uVDfOWBlDOhfE/b0
-         VqblqGMKANP8rY2RdZWABqb58QhgNkjoJFQCTakDIj6y9Qoxjzh8eFRLS8ORnvsGTsjx
-         svxdatkm2Xe8JMzKEWkWcJNKhik0OIvekJSuhW4V6R1nxN4pXubvPBVWEGx1rKfIxWme
-         I8V/vYOW10O1Q6SIQLL9LCz7y2TP8EiJjxvJFQyZe3j09UgQokXTE4DXifKncL2yxrfj
-         OpjA==
-X-Forwarded-Encrypted: i=1; AJvYcCVksHGGL2lomoGrxWTWGK1aRZrkeq4CeGzTDHxpHceAvJS4JtMYoGyP7lp2yomUGL8nU6b9fEFSs7kGPYFN@vger.kernel.org, AJvYcCWSqkEb6rCUyMu6Ce1XcCAsjcdVG751W6J0nUU/OgNVuEE5AQpJuA0HFY2iR70jaYRkt7kPhSwGA4GUnw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YySrAXHMis4uL9Sn22QksAWDC+Zh94clp+T9bL+vWltZ8Wl61xX
-	3ojweoDB5/FGozFtY2eDxAPHNbCeuc9pvXRnnGYdS3SNkP5YBtnc
-X-Gm-Gg: ASbGncu8C/0Ao/0Xme3vmPio4wcRW7qfX+Wcye0tBUN4u4JaeJclIwlxLmYBYxEFRTR
-	tI9w3kOS838vwKYN1DZV00GdrRfm29V1fbIHuRDtFDilF1740pTxN4dwbkpUef7/0PVcz6M0OtD
-	zl3aDUhkAJYe93i0/lIoYkkwhpV8/lD6x1bmix6pEf8XNiY5d7UbYAw3NP/V4fJiIcrs9DPuhvS
-	loYDkN3GSzz5EWeMnKbCOZbdkQ+mf0Pud3NWFii1VikKESkyOsGfl6MhA==
-X-Google-Smtp-Source: AGHT+IHt9ogSkMhlhhayRZSwhqFNV4/W8I2qJ4ubK5lOBMVGn1HvnIQSI2fyzIwJMzUobH9ZUBVRGw==
-X-Received: by 2002:a17:903:595:b0:21b:bc95:e8d4 with SMTP id d9443c01a7336-21bbc95e94bmr123149085ad.35.1736891023928;
-        Tue, 14 Jan 2025 13:43:43 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736891491; x=1737496291;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lVbV5ac+2VYXiTrtVXv7VKO5c0GRCJbX3LZtQlOWK8o=;
+        b=WXljvfQSrI0f2bScoGNGlopcxeI8+W2/X9EVUL+6alvD+d2X0m+1hEuf1k8v3aTQhv
+         K7ziG/Kxeanh7h+IatvVMvB87y9nfPUROV4s2/QQKmp3ViW3VQCJUmdlXO63+8GL7tK+
+         AaD34slFBEoRboLJzCyVUebybFovONUm8VgcDMpoYbBfKRDz2OK1lIxp0OjNUyj9Z5XM
+         9nfEPwUGgQa8NaS4RfNKXDEnh5nXBcPmYb/qqoZGM0uv58Lz0kiWDHFtkTlH24NH098S
+         Sl1a02h/yvpUyzZG3/WKn0mZWji+xBG4Jnr84O3tjUg63LRjrnKST9oj8BIM3v2u7AKG
+         1Ihg==
+X-Forwarded-Encrypted: i=1; AJvYcCUOhzqGvxcmYshcYoqg/TI9Hhr/EBXWp5mfBqAWpWXWbZXIbqH9K80uRPmS5+fEAG/dY/CtqoPtA2nsJBo=@vger.kernel.org, AJvYcCVrvOtFCKImZxAaWaKN8HRUXNhE4aKSSwEHR4LCfZt3q92gG+ZHyIvXJln95OonyxSoP733UrCfty6P7nqZ@vger.kernel.org, AJvYcCWuBzm+Bxb/esGD30IJOLu+XhigXU3nPshrRrGgJh0FzFLvM83LvfTltYy+H9d1VlqEfTlB72JQiVAl5Q==@vger.kernel.org, AJvYcCX7L1vUD2RmbOLCvPMZApMruoSX2+zJm7qjDG89s66GMAl/gXJ352ew0W4kxrbwlWOmmDyn9PHsEAdv6A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzvo/0T3LzgKSf7StgKJ0GtjBauw/h3HL1+oKYmD9Wx55bxqtw1
+	LCOqNtKTz7WwQ7urFd6ZGx0jnOEqK2uNuE3OMmX4xaI+PmjWBNPO
+X-Gm-Gg: ASbGnctQRGcWJJhAbUFKh2TGwUAQGF+TRLNc2lGaatFaIEb24lKkjacTuyehda+4TFT
+	h8XEFlrP5caeUx18nJGbZr8iMr8lCoKFSRqLboCKhcski1i/jW4ZBoLkxaz5/ZMJpvK4L6ypY1g
+	hXPcKLmjIVI3Wg1wjmFWJslEug/LBIS74FPCHB7aL218Ua9n6jQT5uZYR8NrVB++EItR2YWOT8q
+	AX8ZOoCPgTGJZtW1XxYOCnQyFinvrBYwHNZ9IvatV2AJ2KTay4s2IXwFg==
+X-Google-Smtp-Source: AGHT+IGsinN9xLrXzbeyr/Uj/+vG17kfUGp3+SuaRvurihjuSLHfaWbr31VKDrFVS4ZaASDbZ9hRvw==
+X-Received: by 2002:a17:902:f551:b0:216:2dc4:50ab with SMTP id d9443c01a7336-21a83f42821mr366923345ad.2.1736891490750;
+        Tue, 14 Jan 2025 13:51:30 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:e152:4a95:d7ea:84d5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f22e52bsm71874585ad.184.2025.01.14.13.43.43
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f10f4d7sm70670275ad.10.2025.01.14.13.51.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 13:43:43 -0800 (PST)
-Date: Tue, 14 Jan 2025 13:43:41 -0800
+        Tue, 14 Jan 2025 13:51:30 -0800 (PST)
+Date: Tue, 14 Jan 2025 13:51:27 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, linux-input@vger.kernel.org,
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Aaro Koskinen <aaro.koskinen@iki.fi>, Helge Deller <deller@gmx.de>,
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+	Tony Lindgren <tony@atomide.com>, linux-fbdev@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: Use str_enable_disable-like helpers
-Message-ID: <Z4bajVbe6WtuVJJ9@google.com>
-References: <20250114192701.912430-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 2/3] Input: ads7846 - fix up the pendown GPIO setup on
+ Nokia 770
+Message-ID: <Z4bcXx9LjmHQ0EuP@google.com>
+References: <20250102181953.1020878-1-aaro.koskinen@iki.fi>
+ <20250102181953.1020878-3-aaro.koskinen@iki.fi>
+ <CACRpkdbfuQuTQ028=hZgRhOPiw5AbPLyoZTbRCbvNDQ-e8UajQ@mail.gmail.com>
+ <Z3uAAy5vF2ezUS2c@google.com>
+ <CACRpkdYbtCODxWU8F48qGGBJoTL54R5Dj6iYLB6Z2MRwsDqYzw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250114192701.912430-1-krzysztof.kozlowski@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACRpkdYbtCODxWU8F48qGGBJoTL54R5Dj6iYLB6Z2MRwsDqYzw@mail.gmail.com>
 
-On Tue, Jan 14, 2025 at 08:27:01PM +0100, Krzysztof Kozlowski wrote:
-> Replace ternary (condition ? "enable" : "disable") syntax with helpers
-> from string_choices.h because:
-> 1. Simple function call with one argument is easier to read.  Ternary
->    operator has three arguments and with wrapping might lead to quite
->    long code.
-> 2. Is slightly shorter thus also easier to read.
-> 3. It brings uniformity in the text - same string.
-> 4. Allows deduping by the linker, which results in a smaller binary
->    file.
+On Tue, Jan 14, 2025 at 01:28:32PM +0100, Linus Walleij wrote:
+> On Mon, Jan 6, 2025 at 8:02 AM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> > On Thu, Jan 02, 2025 at 10:32:00PM +0100, Linus Walleij wrote:
+> > > On Thu, Jan 2, 2025 at 7:20 PM Aaro Koskinen <aaro.koskinen@iki.fi> wrote:
+> > >
+> > > > The GPIO is set up as an IRQ, so request it as non-exclusive. Otherwise the
+> > > > probe fails on Nokia 770 with:
+> > > >
+> > > >     ads7846 spi2.0: failed to request pendown GPIO
+> > > >     ads7846: probe of spi2.0 failed with error -16
+> > > >
+> > > > Also the polarity is wrong. Fix it.
+> > > >
+> > > > Fixes: 767d83361aaa ("Input: ads7846 - Convert to use software nodes")
+> > > > Signed-off-by: Aaro Koskinen <aaro.koskinen@iki.fi>
+> > >
+> > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> >
+> > Do we need to have this knowledge in the driver or can it be handled
+> > in GPIO subsystem or affected board support? Requesting a GPIO with "in"
+> > direction when it is also an interrupt source should be pretty common.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Hm I don't know exactly the question here but I try to answer
+> anyway :)
+> 
+> The patch makes the boardfile describe the polarity but the
+> boardfile (or device tree) cannot define directions, consumers
+> must specify this. The main reason is that actual users exist that
+> switch the direction of GPIOs at runtime so this has been designed
+> as a (runtime) consumer duty.
+> 
+> As for GPIOD_FLAGS_BIT_NONEXCLUSIVE, this enables the
+> GPIO subsystem to read the GPIO while the irqchip subsystem
+> can also handle the same GPIO line as an interrupt source, so
+> it's not exclusive to either subsystem.
 
-Applied, thank you.
+But isn't this something that should work by default, without specifying
+any additional flags? I understand that using GPIO as an interrupt
+source and at the same time as an output line is not possible (without
+reconfiguration "on the fly"), but reading state if an input GPIO line
+that is also an interrupt should be OK? I am pretty sure there are
+systems/boards/arches that allow this.
+
+This is my objection - we have to add a flag to a driver that is used on
+multiple systems to tweak behavior of one particular board.
+
+Thanks.
 
 -- 
 Dmitry
