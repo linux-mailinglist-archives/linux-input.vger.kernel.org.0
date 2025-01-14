@@ -1,135 +1,140 @@
-Return-Path: <linux-input+bounces-9227-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9228-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D04A10786
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 14:17:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD31A108B1
+	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 15:10:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1972167097
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 13:17:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A0C4C1889FDB
+	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 14:09:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91C5D234CE0;
-	Tue, 14 Jan 2025 13:16:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C36514600F;
+	Tue, 14 Jan 2025 14:08:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="F1Gtleo3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jurpx9Tp"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AF8236A96;
-	Tue, 14 Jan 2025 13:16:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C4F13E02E;
+	Tue, 14 Jan 2025 14:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736860616; cv=none; b=nod4BPmVj3vVQdChH93oTmx1qL/Ejs1FTtrU8RWA9Qtkusk+YEoGtjBNAGeLnS/sRgTW98taSspzkWmAd3KYhpQdtoTFcq2w7np0meie7rfHXyiha9GwlGstn1TLbJzXy0vhcD01JZKouoiAKQF8qsQ0e78vBI5GuWF0o7MWcWI=
+	t=1736863738; cv=none; b=Wnux/iYS9a9a5Fabc47PQIqh1vK6sznglEI3lp/4uGdrlUJn6dihU/JZ63S41t8DfbsmVjJsf61CXU5Eo8H3Ff0aXouYMPmRnP6zAuiIHKy2Yi2xlZxNucfqa16Dk28fcybJtcXWqOeyie8lzdCg0GU1c7HYTCXH9FmRvLKySCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736860616; c=relaxed/simple;
-	bh=2ZVAng/Inj6jkvMDMhoSDiVL5LoO7yKWwTTyzy2aqfQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:From:To:Subject:
-	 References:In-Reply-To; b=LigzdXuJ4JYv3vx6m1Fo/rnSk0G7IKSzh3JInkbGeiGr8bIZRcDuvHXreBJrX0J8vobdlmmdAUbTGhbjRUlWMRiEZi9EQ17yYZdzuHzSjY6IlQklxKsVJr+3avXVbCBcvPaCWoTWGvMlE5x+cLwjTF7FE08U69YXhCGw9OT+3RI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=F1Gtleo3; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5188AE0004;
-	Tue, 14 Jan 2025 13:16:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1736860612;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=myZQOJI87mA4XcgDJGPsQggKBhPrWzCXJ2VO9rVft4o=;
-	b=F1Gtleo3nWyhNf+ZZkzLt7JgvzgoxTQWPQXR6g7TnyHIG7iQDolPLuwKvfiBDFM6U9YM6k
-	d6O+1X+FzE1xCiuxRP6Q+vEs4x7I6SUWGC09qWwoPMNHFFw4iprKjK7acs5oqfXnLeO16T
-	MsVjBtBrNE9Ci0BOESdrT1TIZtcLbgT7Cmt1rLVPeRmrnUmFXddMrLFNwIXNO5NnudaVt+
-	0cRHW1cRtMrSHELje697cA6f1s/U/qfLXDgjT8tNWTbjen0Rg4kMBhQmnkmj0dBPfNUc98
-	R50QCyeWatUuWJBOhQtrXh+1JTOmzqEtniBwx2qkuHpq+Ws55zo0bCJBr/WAIQ==
+	s=arc-20240116; t=1736863738; c=relaxed/simple;
+	bh=LKLfIkczdAeAEqoQum/VH0YMDdlw2/4likL6Vp+GRnA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rdsezGjQj1Us9R7Pej6Cfq6LEZ903X4Tjj6NUjG6zj+shgqz4VHkwVwDjIHJsY8qhcDmLoWuRdo49b1hq9Z0S47ciNkMyliyxUHQxqwPX0Kgxf9esXHDN9PEzGbCVHf8dlz4OgFnrB9R2VDu1n5FCzX6v0RRSC4iBg6O29senDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jurpx9Tp; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aafc9d75f8bso1064019366b.2;
+        Tue, 14 Jan 2025 06:08:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736863735; x=1737468535; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gb1b/9RqdKd5KXtgNSScAQgWp7C/b3VuxIQL7OqFmG8=;
+        b=Jurpx9TpQNlRflh0YdEdXlLCXsZeje6G6OjTwLaMuIbDwFy25/uT8/mi0YZtIPpF58
+         vcy01Ps12qNMWRXDCvO0DXwaRNfD6NX7atlTohafdCceCmtLpmDdMGKgntAbvxMFZxuw
+         dGIJlptf3su5AdBDCJy3Vk679IBwKc6EHEVlZiESOyDr4BFr0FOnjtADxUun1kXEKkqe
+         g6fsgZfQrnWLsx29j2vCRXm5NKGRhY0+9bSf/1G/kVYlBSf15PdCP7rVqTCqhZJR4PvY
+         ig583Ce/vP0ljxu2qAshtj4+L2Jck+RlvN0p/whGzTDMbPF2DxMZEWYuXCoJUvliEoHJ
+         S0Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736863735; x=1737468535;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gb1b/9RqdKd5KXtgNSScAQgWp7C/b3VuxIQL7OqFmG8=;
+        b=g7QtVdmSsZX8v+L9tAEFSGafAHJ8ECZSOcMiDyXt9tR1NUlMEnKrTF45MVQCJJo9Q4
+         LsKFkyeG1vlQ31TSwZ0SM61v0DC0kUK9mR0QF4yVDzs2/aJBKQwR+ROhDCOy1Q4LUSLq
+         WiA5ZZ+byeUs5ChJe7H+W0KuMLZn1ukCn2BjzQK8kAyxKGvmcyYYSq+gJMSbfMZngXzZ
+         LByV94V4+xxtFMKggHwYRzkpetspaUN5+v0p4p1SGpPTLyMAKKCTwmJ5CetqO6bHDnSu
+         M/WWopCityNtsr+EaXptORXs/sGnI5a9rh27/lkHKxHO0++5yTUiEZ2Gzo9DYkK8AoXN
+         0SwA==
+X-Forwarded-Encrypted: i=1; AJvYcCU8Vf/rtmmq6AQ7Jx3h8s22hdReYqUNmFrZGSItbEgY8AwQK2DT+XrTG+q6/Z1t44Ftf6famE+yIIJHNy3v0w==@vger.kernel.org, AJvYcCUBrInkz870dzIJbzRQwJuYKG297QYQvPwXiWPyS2cfyv3+N1XFWDlf+PSD70THJKDRXHb+aCO0ps/cDvc=@vger.kernel.org, AJvYcCUniEMLj8i8+SMRWidsYyVEh0unfB/bgNNglIGDGTp/BG024/k2lQtYGnDIMYlbobV+phbsgwfmRtNSoXA=@vger.kernel.org, AJvYcCVEwDj1LxljVlo1s4qpDZs/olapNMudWRjjxdy8D5RX+zERj8Qt5rk9tq/tq6C+kL5R2NixjRunpfwQ@vger.kernel.org, AJvYcCVjNhr7D/6/HuPoQwrY35p7uld/pyIQ5qAZ1+7LmQNBoCGI6rFCPNy9Bj0EABTmo3uH1OXByA4/v0RF@vger.kernel.org, AJvYcCWIbo0gKRFx4/ssxv8RnE5b99MCAaadutgjVwoEMFDPLimjlYjPyW6Rdtbch3IVj/KwAczCPCBiGTNU@vger.kernel.org, AJvYcCWa9uBzll5iOTeYo5YDbs71Z+Hwh1WrihTuIuasPtvyyBpAI4N67v63wh/4wj4NEpQItjhyCksbAiPQQ+As@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxMR6fD/PUNUFUOseLKtOGE1VdEv8RgfR69j+SR6H3gaSb2HDl
+	S1hUv/IjRRW9LKUTVkPRi0jksAIBTkci9NwpaA0bPK6nlmaNVTsk
+X-Gm-Gg: ASbGncsp2zXKh1M3DhXB0+PgnAJ7SD/Evb4rxtZUS6wnASmJ9re3c+taDclQc/lhrGn
+	giPKbsLMziTQfui5rgEOacFRscluLUEmkMGwRyNta5F/EgDwBvLaFFXAGaHlKX+lrcGLHHisXTg
+	6M0YkGl8jBd+kl1t98pIxvtRD5fX5Hz2k6Im68XQkvbosjHRt50XF7P7M0A0xabHR8GiSo3AnyM
+	eh3tIYbIIe2XCr/bD0jZFZFkyc12TDAgYKjorMTo3x3v6f/jPw9XAmng/L1TZ/RjMgJjvbO6A==
+X-Google-Smtp-Source: AGHT+IHg+26ImkrnaHx4f06Z3uIYfL6CCoYkDwVz3k6+euEU7ujJitxiK1iLBauB18LY8tUFYwPmBw==
+X-Received: by 2002:a17:906:f59a:b0:aa6:9503:aa73 with SMTP id a640c23a62f3a-ab2abcb1135mr2473124266b.51.1736863734231;
+        Tue, 14 Jan 2025 06:08:54 -0800 (PST)
+Received: from foxbook (adqh124.neoplus.adsl.tpnet.pl. [79.185.141.124])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c9647299sm640635166b.177.2025.01.14.06.08.52
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Tue, 14 Jan 2025 06:08:53 -0800 (PST)
+Date: Tue, 14 Jan 2025 15:08:47 +0100
+From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+ <conor+dt@kernel.org>, <corbet@lwn.net>, <devicetree@vger.kernel.org>,
+ <dmitry.torokhov@gmail.com>, <gregkh@linuxfoundation.org>,
+ <krzk+dt@kernel.org>, <lgirdwood@gmail.com>,
+ <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+ <mathias.nyman@intel.com>, <perex@perex.cz>,
+ <pierre-louis.bossart@linux.intel.com>, <robh@kernel.org>,
+ <srinivas.kandagatla@linaro.org>, <tiwai@suse.com>
+Subject: Re: [PATCH v32 01/32] usb: host: xhci: Repurpose event handler for
+ skipping interrupter events
+Message-ID: <20250114150847.1c3c9ebe@foxbook>
+In-Reply-To: <f8a9e454-72f4-4979-b29d-109700b2a204@quicinc.com>
+References: <20250113143632.63c52d74@foxbook>
+	<f8a9e454-72f4-4979-b29d-109700b2a204@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 14 Jan 2025 14:16:51 +0100
-Message-Id: <D71TP9JS7DGP.16OEP92IB5EVY@bootlin.com>
-Cc: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
- <gregory.clement@bootlin.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>, "Lee Jones"
- <lee@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Kamel Bouhara"
- <kamel.bouhara@bootlin.com>, "Linus Walleij" <linus.walleij@linaro.org>,
- "Bartosz Golaszewski" <brgl@bgdev.pl>, "Dmitry Torokhov"
- <dmitry.torokhov@gmail.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>
-Subject: Re: [PATCH v3 6/7] input: misc: Add support for MAX7360 rotary
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com>
- <20250113-mdb-max7360-support-v3-6-9519b4acb0b1@bootlin.com>
-In-Reply-To: <20250113-mdb-max7360-support-v3-6-9519b4acb0b1@bootlin.com>
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon Jan 13, 2025 at 1:42 PM CET, Mathieu Dubois-Briand wrote:
-> Add driver for Maxim Integrated MAX7360 rotary encoder controller,
-> supporting a single rotary switch.
->
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> ---
-...
-> +static irqreturn_t max7360_rotary_irq(int irq, void *data)
-> +{
-> +	struct max7360_rotary *max7360_rotary =3D data;
-> +	int val;
-> +	int ret;
-> +
-> +	ret =3D regmap_read(max7360_rotary->regmap, MAX7360_REG_RTR_CNT, &val);
-> +	if (ret < 0) {
-> +		dev_err(&max7360_rotary->input->dev,
-> +			"Failed to read rotary counter\n");
-> +		return IRQ_NONE;
-> +	}
-> +
-> +	if (val =3D=3D 0) {
-> +		dev_dbg(&max7360_rotary->input->dev,
-> +			"Got a spurious interrupt\n");
-> +
-> +		return IRQ_NONE;
-> +	}
-> +
-> +	input_report_rel(max7360_rotary->input, max7360_rotary->axis,
-> +			 (int8_t)val);
-> +	input_sync(max7360_rotary->input);
-> +
+Thanks, I think I now see how this is meant to work.
 
-I have a question about the type of events reported here.
 
-I used rotary_encoder.c as a reference, so I'm reporting some EV_REL
-events on a given axis, such as REL_X.
+Cover leter mostly discusses the ALSA side of things, but not low level
+details of xHCI operation, such as who will be ringing doorbells and
+how, handling IRQs, updating event ring dequeue, or handling halted EPs.
 
-On the other hand, I know there is an out-of-tree version of this
-driver that is instead reporting key events, such as KEY_DOWN or KEY_UP.
-I also know there are existing applications that do rely on this
-behaviour.
+So for the record, as far as I see:
+1. There is no API for ringing doorbells or even getting a pointer,
+   the coprocessor needs to have its own access. Fair enough.
+2. Same for event ring dequeue, but the driver must clean up leftover
+   unacknowledged events after sideband operation stops.
+3. Linux IRQ handler never needs to worry about sideband interrupts.
+4. Resetting halted endpoints is not implemented at all, I think?
+   So this code is currently mostly useful with isochronous.
 
-So my question is, what is the best kind of events to report here ?
-Is there any guideline that do apply here? Should I better try to mimic
-the behaviour of the existing out-of-tree driver, or should I mimic the
-behaviour of rotary_encoder.c, so we have a similar behaviour for all
-in-kernel rotary encoder drivers?
 
-> +	return IRQ_HANDLED;
-> +}
-> +
+And the 'skip_events' flag only exists to enable ring cleanup when the
+interrupter is removed? In such case I think it's overkill.
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+The code would be simpler and its intent more visible if 'skip_events'
+were a new parameter of xhci_handle_events(). Existing IRQ would call
+the function normally, while xhci_skip_sec_intr_events() would use the
+new parameter to suppress event handling in this one special case.
 
+It would be immediately clear that skipping only applies on removal.
+
+You could completely get rid of PATCH 01/32 because 02/32 would no
+longer need to set this flag on the interrupter, and the 'if' branch
+adedd by 01/32 could go into 03/32 where it logically belongs.
+
+Just a suggestion. I simply don't see any need to have a flag which
+causes events on a ring to always be skipped as a matter of policy.
+Your code doesn't seem to require it. Probably nobody ever will.
+
+
+Regards,
+Michal
 
