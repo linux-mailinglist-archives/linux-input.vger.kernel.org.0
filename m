@@ -1,111 +1,313 @@
-Return-Path: <linux-input+bounces-9231-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9232-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60058A10B8C
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 16:53:58 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03647A10EB6
+	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 19:00:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 112FE7A2347
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 15:53:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1676D188323A
+	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 18:00:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C570615746B;
-	Tue, 14 Jan 2025 15:53:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF6272063FF;
+	Tue, 14 Jan 2025 17:57:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WIRkiVRY"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="R4RWdRTH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A37123242C;
-	Tue, 14 Jan 2025 15:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C5E2066CE;
+	Tue, 14 Jan 2025 17:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736870029; cv=none; b=Yl3eDyhVO49RzJo3WJpwZ0kRQgk7Cap0GAttWaWb0Jb1rsS0piDsGnRkSYoVZ12IPKXLAB0Arm5EKUmmi3flSGss2zHc00y+FbSZgHY4ujnu9TBr5pPhQyiMwNxFIhEY2s33YWsnmdIozVwGrvXrGIzlEaowJ6V40HE3Wccidvg=
+	t=1736877476; cv=none; b=okllLSkpfQqYXB4J5jCYqASs0qwhdIS/PWoPNHdT3f00AflwMF0GxsbrjWz/BKcILFdxo024Qgv719TfZ463ywB1GHdsPD38DgJX3KkgpDyEgsnJZo2ZiO7vGV1VuHejrNXSKQWuM9x9GyC0JuMZYjkmDyRAx9r48pxkiumO6oA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736870029; c=relaxed/simple;
-	bh=TiF1SVw3pB17GN/PzUw+DKewY+X6PT9IgRmCjsG5jms=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Y3r516FSuKSVU8ppcmYIxqQIgwX8EruGv+JAHAOpuZhUNs80ZHneZ/3ZHsJoJx4qgV4O8+aefrsDq0jZo22V4G7mdMfbJtIcr0JkcSAXKWB0TRSMNEayHzLcN8fslZ0tYFqfJ1bxEbwo/ErnvPMBvSWejD63mt7yhR3shnV/7h8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WIRkiVRY; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736870029; x=1768406029;
-  h=from:to:cc:in-reply-to:references:subject:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=TiF1SVw3pB17GN/PzUw+DKewY+X6PT9IgRmCjsG5jms=;
-  b=WIRkiVRY8b66wxDJ1KQpicpJBOhYN0VMvHJA7EWJQ3nZW7FjXD/zYFHt
-   4vEViS0Nx4Gl7BCVAouhlOdieJ42Sx7YkED10cCTUrXDNf73V5oBpaLhg
-   VZZ4utCjcLp7NplmE4paZoId9CZN256nnP3VZYJe8NwgLZMwEnvukN3s1
-   lM5lxdekbTpg3tpBwM7FLaY0B7XAdKQ8hKfeSToGrvIKQVIaVobzYpNaB
-   lO4G5f5dCHLZqz20p2rnwQEPFJNv8MUu37/l72mgedcWxD0g6YKFoa0I0
-   ZDosFyu84SnRhJg0+VQV/DtA+v4nTXskT4OG8tqJ2dIwZE/gZ157kDRoY
-   A==;
-X-CSE-ConnectionGUID: JHp42I0QQDCkI3NxxQI+Uw==
-X-CSE-MsgGUID: +0KZmWIjRyuhj78gNpJ6Ow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="37284840"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="37284840"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 07:53:48 -0800
-X-CSE-ConnectionGUID: aAia3+BbQ2yiBvPBjrJ/lA==
-X-CSE-MsgGUID: jJWR01oUSBe0Q+UT/eksQQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,314,1728975600"; 
-   d="scan'208";a="104919118"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.54])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 07:53:45 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
- platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net, 
- Illia Ostapyshyn <illia@yshyn.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-In-Reply-To: <20241114173930.44983-1-illia@yshyn.com>
-References: <20241114173930.44983-1-illia@yshyn.com>
-Subject: Re: [PATCH 0/2] Add support for the new phone link hotkey on
- ThinkPads
-Message-Id: <173687002044.7262.7561484982670124076.b4-ty@linux.intel.com>
-Date: Tue, 14 Jan 2025 17:53:40 +0200
+	s=arc-20240116; t=1736877476; c=relaxed/simple;
+	bh=SgFT1UWpPmVo0Y98co/q2WsoNw9++nsxnDkJ/dhtUQc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
+	 References:In-Reply-To; b=guCYoW2ANpgVF59PW+MxMUcEfDnU0YyzlWPMcJ9y6kPOs84pSRmIara5cQ9KgdjkzQAil8qwRZuIIJ1sETaXLSGX8lQrxqt/RlhwsepNIFXawRN1uNkcxt2tyDepuCcDWxDWG0ZB07qsPzUPmCX4oBK9Qq2Y184wKj/n8PNtel0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=R4RWdRTH; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id ED70A240003;
+	Tue, 14 Jan 2025 17:57:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1736877466;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lzZWLx1qDKjqrP+46ITVilq+OsTRK7y1u7bGvKmKqbA=;
+	b=R4RWdRTHBej/D5sjufp9dYMMS3NyDJEYWbAs52H+nvubOO+0oLxu4RuLpEHo3kS0WFseaP
+	jNlglDrZGzpIuJsjsdITohg2lOF4LSEDIwI4eF6EZmTYixzJQ4jBXnWt0rqY0LbeBlkTDo
+	Ltj+UeQcYGyUVLPkPwz67qCk6aviHI8yeOc/aqhn7ESmVJGsyco4MhKP5R0hu4HTe4b0qQ
+	XLoNmm9tSdECZLJPXgggBWpkl4N50EI1+I9xDXPLt+biF2rObEvIziMf35EqRZn0sJmMBM
+	TxpvSrZi0lQW0RRVrM7KA0ARp251YoYNWCQHzCSevA2XVaRdBkKfrmPWa81VsQ==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 14 Jan 2025 18:57:45 +0100
+Message-Id: <D71ZOCDV6CTL.G3BF0PKHLUTU@bootlin.com>
+Subject: Re: [PATCH v3 4/7] gpio: max7360: Add MAX7360 gpio support
+Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>,
+ "Bartosz Golaszewski" <brgl@bgdev.pl>, "Dmitry Torokhov"
+ <dmitry.torokhov@gmail.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+ <linux-input@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+ =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Linus Walleij" <linus.walleij@linaro.org>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com>
+ <20250113-mdb-max7360-support-v3-4-9519b4acb0b1@bootlin.com>
+ <CACRpkdb5rmUK06uW3M2Lsy4Wam8JvrjmGM83cJa-V3LZwTX9dg@mail.gmail.com>
+In-Reply-To: <CACRpkdb5rmUK06uW3M2Lsy4Wam8JvrjmGM83cJa-V3LZwTX9dg@mail.gmail.com>
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-On Thu, 14 Nov 2024 18:39:28 +0100, Illia Ostapyshyn wrote:
+On Tue Jan 14, 2025 at 3:33 PM CET, Linus Walleij wrote:
+> Hi Mathieu,
+>
+> thanks for your patch!
+>
+> On Mon, Jan 13, 2025 at 1:43=E2=80=AFPM Mathieu Dubois-Briand
+> <mathieu.dubois-briand@bootlin.com> wrote:
+>
+> > Add driver for Maxim Integrated MAX7360 GPIO/GPO controller.
+> >
+> > Two sets of GPIOs are provided by the device:
+> > - Up to 8 GPIOs, shared with the PWM and rotary encoder functionalities=
+.
+> >   These GPIOs also provide interrupts on input changes.
+> > - Up to 6 GPOs, on unused keypad columns pins.
+> >
+> > Co-developed-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> > Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> > Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com=
+>
+> (...)
+> > +#include <linux/gpio/consumer.h>
+>
+> Why?
+>
+> My most generic feedback is if you have looked at using
+> select GPIO_REGMAP for this driver?
+>
+> The regmap utility library is very helpful, look how other driver
+> selecting GPIO_REGMAP gets default implementations
+> from the library just git grep GPIO_REGMAP drivers/gpio/
+>
 
-> The Lenovo Thinkpad T14 Gen 5, T16 Gen 3, and P14s Gen 5 laptops feature a new
-> hotkey on F11 showing a smartphone and a laptop chained together.  According to
-> the user manual [1], it launches the Microsoft Phone Link software used to
-> connect to Android/iOS devices and relay messages/calls or sync data.
-> 
-> This new keycode can be interpreted by desktop environments to lauch free Phone
-> Link alternatives like KDE Connect or GSConnect.
-> 
-> [...]
+Thanks, I was not aware of that. I tested it and I should be able to get
+rid of a lot of code using GPIO_REGMAP.
+
+My main concern so far is with the request()/free() functions, as I
+believe I will not be able to define them as callback anymore.
+
+I also saw the equivalent REGMAP_IRQ, but I'm not sure I will be able to
+use it, as I believe I would need to have registers identifying the
+exact GPIO source of the IRQ.
+
+> > +static void max7360_gpio_set_value(struct gpio_chip *gc,
+> > +                                  unsigned int pin, int state)
+> > +{
+> > +       struct max7360_gpio *max7360_gpio =3D gpiochip_get_data(gc);
+> > +       int ret;
+> > +
+> > +       if (max7360_gpio->gpio_function =3D=3D MAX7360_GPIO_COL) {
+>
+> OK some custom stuff...
+>
+> > +               int off =3D MAX7360_MAX_GPIO - (gc->ngpio - pin);
+> > +
+> > +               ret =3D regmap_write_bits(max7360_gpio->regmap, MAX7360=
+_REG_PORTS,
+> > +                                       BIT(off), state ? BIT(off) : 0)=
+;
+>
+> Fairly standard.
+>
+> > +       } else {
+> > +               ret =3D regmap_write(max7360_gpio->regmap,
+> > +                                  MAX7360_REG_PWMBASE + pin, state ? 0=
+xFF : 0);
+> > +       }
+>
+> Some custom stuff.
+>
+> > +static int max7360_gpio_get_value(struct gpio_chip *gc, unsigned int p=
+in)
+> > +{
+> > +       struct max7360_gpio *max7360_gpio =3D gpiochip_get_data(gc);
+> > +       unsigned int val;
+> > +       int off;
+> > +       int ret;
+> > +
+> > +       if (max7360_gpio->gpio_function =3D=3D MAX7360_GPIO_COL) {
+> > +               off =3D MAX7360_MAX_GPIO - (gc->ngpio - pin);
+> > +
+> > +               ret =3D regmap_read(max7360_gpio->regmap, MAX7360_REG_P=
+ORTS, &val);
+> > +       } else {
+> > +               off =3D pin;
+> > +               ret =3D regmap_read(max7360_gpio->regmap, MAX7360_REG_G=
+PIOIN, &val);
+> > +       }
+> > +
+> > +       if (ret) {
+> > +               dev_err(max7360_gpio->dev, "failed to read gpio-%d", pi=
+n);
+> > +               return ret;
+> > +       }
+> > +
+> > +       return !!(val & BIT(off));
+> > +}
+>
+> Looks like stock template regmap-gpio.
+>
+> > +static int max7360_gpio_get_direction(struct gpio_chip *gc, unsigned i=
+nt pin)
+> > +{
+> > +       struct max7360_gpio *max7360_gpio =3D gpiochip_get_data(gc);
+> > +       unsigned int val;
+> > +       int ret;
+> > +
+> > +       if (max7360_gpio->gpio_function =3D=3D MAX7360_GPIO_COL)
+> > +               return GPIO_LINE_DIRECTION_OUT;
+> > +
+> > +       ret =3D regmap_read(max7360_gpio->regmap, MAX7360_REG_GPIOCTRL,=
+ &val);
+> > +       if (ret) {
+> > +               dev_err(max7360_gpio->dev, "failed to read gpio-%d dire=
+ction",
+> > +                       pin);
+> > +               return ret;
+> > +       }
+> > +
+> > +       if (val & BIT(pin))
+> > +               return GPIO_LINE_DIRECTION_OUT;
+> > +
+> > +       return GPIO_LINE_DIRECTION_IN;
+> > +}
+>
+> Dito.
+>
+> > +static int max7360_gpio_direction_input(struct gpio_chip *gc, unsigned=
+ int pin)
+> > +{
+> > +       struct max7360_gpio *max7360_gpio =3D gpiochip_get_data(gc);
+> > +       int ret;
+> > +
+> > +       if (max7360_gpio->gpio_function =3D=3D MAX7360_GPIO_COL)
+> > +               return -EIO;
+> > +
+> > +       ret =3D regmap_write_bits(max7360_gpio->regmap, MAX7360_REG_GPI=
+OCTRL,
+> > +                               BIT(pin), 0);
+> > +       if (ret) {
+> > +               dev_err(max7360_gpio->dev, "failed to set gpio-%d direc=
+tion",
+> > +                       pin);
+> > +               return ret;
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+>
+> Dito.
+>
+> > +static int max7360_gpio_direction_output(struct gpio_chip *gc, unsigne=
+d int pin,
+> > +                                        int state)
+> > +{
+> > +       struct max7360_gpio *max7360_gpio =3D gpiochip_get_data(gc);
+> > +       int ret;
+> > +
+> > +       if (max7360_gpio->gpio_function =3D=3D MAX7360_GPIO_PORT) {
+> > +               ret =3D regmap_write_bits(max7360_gpio->regmap,
+> > +                                       MAX7360_REG_GPIOCTRL, BIT(pin),
+> > +                                       BIT(pin));
+> > +               if (ret) {
+> > +                       dev_err(max7360_gpio->dev,
+> > +                               "failed to set gpio-%d direction", pin)=
+;
+> > +                       return ret;
+> > +               }
+> > +       }
+> > +
+> > +       max7360_gpio_set_value(gc, pin, state);
+> > +
+> > +       return 0;
+> > +}
+>
+> Dito.
+>
+> > +static int max7360_gpio_request(struct gpio_chip *gc, unsigned int pin=
+)
+> > +{
+> > +       struct max7360_gpio *max7360_gpio =3D gpiochip_get_data(gc);
+> > +
+> > +       /*
+> > +        * GPOs on COL pins (keypad columns) can always be requested: t=
+his
+> > +        * driver has full access to them, up to the number set in chip=
+.ngpio.
+> > +        * GPIOs on PORT pins are shared with the PWM and rotary encode=
+r
+> > +        * drivers: they have to be requested from the MFD driver.
+> > +        */
+> > +       if (max7360_gpio->gpio_function =3D=3D MAX7360_GPIO_COL)
+> > +               return 0;
+> > +
+> > +       return max7360_port_pin_request(max7360_gpio->dev->parent, pin,=
+ true);
+> > +}
+> > +
+> > +static void max7360_gpio_free(struct gpio_chip *gc, unsigned int pin)
+> > +{
+> > +       struct max7360_gpio *max7360_gpio =3D gpiochip_get_data(gc);
+> > +
+> > +       if (max7360_gpio->gpio_function =3D=3D MAX7360_GPIO_COL)
+> > +               return;
+> > +
+> > +       max7360_port_pin_request(max7360_gpio->dev->parent, pin, false)=
+;
+> > +}
+>
+> The pin request looks a bit like a custom pin control implementation...
+>
+> But I think it's fine, pin control can be a bit heavy to implement on sim=
+ple
+> devices, but if there is elaborate muxing and config going on, pin contro=
+l
+> should be used.
+
+Just so remove any doubt, all this does is request the pin for the
+exclusive use of this driver, preventing the PWM or rotary encoder
+drivers to use it. There is no hardware configuration done here.
+
+Yet I agree that this does look a bit like some pin muxing.
+
+>
+> Yours,
+> Linus Walleij
+
+Thanks for your review.
 
 
-Thank you for your contribution, it has been applied to my local
-review-ilpo-next branch. Note it will show up in the public
-platform-drivers-x86/review-ilpo-next branch only once I've pushed my
-local branch there, which might take a while.
-
-The list of commits applied:
-[1/2] Input: allocate keycode for phone linking
-      commit: c3c1bf65b9f28a30b2b6f42fcbb644b53db4f87c
-[2/2] platform/x86: thinkpad_acpi: Add support for new phone link hotkey
-      commit: 2677cc0a7519b6a816611a8a2a3e05bd028119ed
-
---
- i.
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
