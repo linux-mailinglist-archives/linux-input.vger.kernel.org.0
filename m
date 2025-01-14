@@ -1,135 +1,166 @@
-Return-Path: <linux-input+bounces-9224-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9225-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DAACA1069A
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 13:28:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A87A106D6
+	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 13:39:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BCF6C3A7A48
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 12:28:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1CB3B16399A
+	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 12:39:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 212B9234CE0;
-	Tue, 14 Jan 2025 12:28:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C9A2236A83;
+	Tue, 14 Jan 2025 12:38:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KSoJbI+M"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cu6hIOSa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d8fprte0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UtY2shuS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lXh2tkiz"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C61120F979
-	for <linux-input@vger.kernel.org>; Tue, 14 Jan 2025 12:28:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C1D236A78;
+	Tue, 14 Jan 2025 12:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736857728; cv=none; b=DZsWtVJdcwDaFm42UjdvUh02QTFjJIqcjv9A24hA2k/botelV9MtEOoJnMZ1UOz068QYi9lUE3xnGYgP/Xm8LaIMcpniDhxcIAYjHI5w1yPRlym0VDPNb+wsVgQLSM7rLTFSVWCu3TuzU3uzo4LDjPHRg37kYVp6SpYqhigXq50=
+	t=1736858333; cv=none; b=u52hKyTg9xdOHiuEIxmKoKeIFCuwzIxF00z6lUGkCPQAr+akpnZfZvbNr1S6zIQ/UGGyq8JxHm9R+X4k9owR2Mq7vzhyOBGubOwka4HPhqLR9jDwj3p+v3wAVtt3+HU2NVe8cOPPpErBv1XX1YW6dkH3h2tUl6OOZ9dS+24S8aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736857728; c=relaxed/simple;
-	bh=xrCFDM2eog9VrMzBEgIreAWtdtBzJks+gCbgfxvMvvM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rQvKqzFi0eFFxNA/gnn+YtjfqR1DKFLVUqOanZlYLlcYuldGxq81OIk29VldRpS9qcCrdJAPTaoq8U+5cSyynZsyiexf8CnjI4SIdb+Icwc2cmkIRNaUfaVUjMOy1cf8ttSNfsR0FQR25Eo0qUBQ11i9Drg5/hcRJA502US9+hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KSoJbI+M; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5401d3ea5a1so5384965e87.3
-        for <linux-input@vger.kernel.org>; Tue, 14 Jan 2025 04:28:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736857724; x=1737462524; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R311TP0IIG73HKbmHXvknkgBvBNSgSTSaWXDIuxlsuo=;
-        b=KSoJbI+M7rCGpFPU3gQq/f3UCTACDpNRo8k4bLgPufFEl5/krG93wO1bpxzJgDDUSs
-         VrhTxyU3IV/10LyUfrsi7xLX3b90aubf26HoDRe5UHHrsY9eD620ecZRIruBv3HjBS02
-         gFO7oBCzLkbX01Q3J0hs3ltewz3ILgdxs/yhDz8HUC/75iARU7Lts0WX9GWaEDts9Ioj
-         4B2VIvYZlD6UG81kEyxWgOjMcF/5lZbOMFnIcUNN7jVl6xlMBcjsJ7F2s1V09kCmA6pW
-         SnEXY6G8842THCxWi0UYm1H+pixU+xoZdgn7sI9hBLVOMz1Ih5+6rLaLUKik7ql9O74v
-         RlBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736857724; x=1737462524;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R311TP0IIG73HKbmHXvknkgBvBNSgSTSaWXDIuxlsuo=;
-        b=wbXeeZuZl8JeW3AMFFMPbFE6/rpcBvgKOJhAOS2FLnvC1Y56f6WI0UVsmXUs+x9xdb
-         e4b6JG8rQsUYEiAi8gTuErpDPEZpZCWaKdJltPjm4nEpHDsFv6G1fjTl9Ck5Xfjv8lV0
-         N7NKvhqAHu5VJ49RwFSbx7K5w7vdUlJSlZKrDF17/4jhWOI8RsNjXdXUiYTD4N1KxGUL
-         XwjuAGpJrWdFPdx22okCt5NhMwWUp5Zj8uPgOeGtrvaXwEupPfXxMN0bmFoHeTMeRm54
-         2jsGth4c/S374WadqPLKNOef743oAQjnI/F2WTrfsDIvY6TmBEJhz+kkqug6kpbjuHEn
-         S8IA==
-X-Forwarded-Encrypted: i=1; AJvYcCWLNm/3W4aPMkK0dimZwYfbNjUmysEZ8TtaGb8Mo62fbGG5iK/xvJpATCf01aDnYnn21DuSlFJBxN6Sfg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJa/FlcvGi+9BedQR1GJoo46gShWdf6X+gS28eEJSwxw5sobly
-	7wOTeXn1xOPaeWLyfnL+64yCby4DxMaaFUPUteFKfKQn2v3lO9fa9+xOJobSvRi57O4tTnWL8FE
-	f7N9UHAdUWnudh55fgE+785PYEdZwE1R2HbSenw==
-X-Gm-Gg: ASbGncsBTmsX3A+avaNDnFyOafaquoCyMgCtwviDyfh01dO0z42Mn5WKf0ojFUjbhGN
-	9aiS54Q2YHtCFaFT+qFT32cpGrl7OLS7ji4Oj
-X-Google-Smtp-Source: AGHT+IE/JB9Ju8vPiTN0nlYjendIGm/nVqaDgsop0Iz8J7wRpxZHpVu+Lc2gWbi3D4bZAQqtdVvoYD6PMLL0Tumz0Go=
-X-Received: by 2002:a05:6512:12c9:b0:542:250d:eefb with SMTP id
- 2adb3069b0e04-542845b1ff4mr7814709e87.41.1736857723614; Tue, 14 Jan 2025
- 04:28:43 -0800 (PST)
+	s=arc-20240116; t=1736858333; c=relaxed/simple;
+	bh=72sxGCfSrpdT7WhCmND3j6oZTC8fKPvHxLaRJTRAU3w=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Wo2xpJb/MGYq8RMpZIVuVosexjdPv1HbwPP/e/xm8tdwBBNgNXGWeBWWMibpo/sgfM85T7xhICjUxeL0Vbi8eQI5M5LRJmfuu3ciQ7vIKd9EUPyFAu2WwHJ4VQ4kikKR8JF/uR/jFhS/VDOlBs8N/gGv0WIqwrb9kEL4YbxRd6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cu6hIOSa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=d8fprte0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UtY2shuS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lXh2tkiz; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F13881F385;
+	Tue, 14 Jan 2025 12:38:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736858329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E2WCCGs71cvqPur/tUrr+6NCm3YbPY3HrkUz0mH5TtQ=;
+	b=cu6hIOSaNlrtnvKIHhfK98dnUowaEEi0jr0lmzYKYgc2ovBcMx1ocO+gKWa+huoJMdz9dM
+	Je/3YN6CG0Qo5BF42PG/x7AfZ4hH4T5o0UsFpu3cp3ogKEgNKLWIy9zw9XQZSb9QU3EmsZ
+	oRSaDOe8lrzNf1Mz9y2kN/bpXjrLogo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736858329;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E2WCCGs71cvqPur/tUrr+6NCm3YbPY3HrkUz0mH5TtQ=;
+	b=d8fprte0d31ut31B7Yn698FJEt/CUaLyIEAICAl4z0pLjWgS0tDviMJoKz/KCNNcFb99jX
+	yb5J4RSn9iAEgvBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736858327; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E2WCCGs71cvqPur/tUrr+6NCm3YbPY3HrkUz0mH5TtQ=;
+	b=UtY2shuSe5rDGSxvG0dMdSautf2hPdMgAOFgMCt2EQp9PrVvR82Oilox/0xsnoMvfPivSm
+	Bwo02MkmWI1wFk8lX44FrCIWs+qazRu0PgFnoF5HVmHT0HAefjaFT4l95e+5SN0sLBe1+g
+	JA5q70uj6rJfxa/WUxFeLUsXTDSDCfg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736858327;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E2WCCGs71cvqPur/tUrr+6NCm3YbPY3HrkUz0mH5TtQ=;
+	b=lXh2tkiz+12692ZRRb5WPeMfPEXPtLW8vwZhow9wQuwWHwuJ8Fi7g1eaDWhFDL5cK0Q1vZ
+	ekVj1JBLxYcCeZBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D025F1384C;
+	Tue, 14 Jan 2025 12:38:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +342MtdahmcaNgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 14 Jan 2025 12:38:47 +0000
+Date: Tue, 14 Jan 2025 13:38:43 +0100
+Message-ID: <87jzaxzi24.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Terry Junge <linuxhid@cosmicgizmosystems.com>
+Cc: Jiri Kosina <jikos@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Wade Wang <wade.wang@hp.com>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] ALSA: usb-audio: Add quirk for Plantronics headsets to fix control names
+In-Reply-To: <20250113235212.78127-3-linuxhid@cosmicgizmosystems.com>
+References: <20250113235212.78127-1-linuxhid@cosmicgizmosystems.com>
+	<20250113235212.78127-3-linuxhid@cosmicgizmosystems.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250102181953.1020878-1-aaro.koskinen@iki.fi>
- <20250102181953.1020878-3-aaro.koskinen@iki.fi> <CACRpkdbfuQuTQ028=hZgRhOPiw5AbPLyoZTbRCbvNDQ-e8UajQ@mail.gmail.com>
- <Z3uAAy5vF2ezUS2c@google.com>
-In-Reply-To: <Z3uAAy5vF2ezUS2c@google.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 14 Jan 2025 13:28:32 +0100
-X-Gm-Features: AbW1kvYwdaFGn5ogv2-llw5rv3fQFhE2ONum70bRdkfPBuFkxbdp_9HZVhby-Qc
-Message-ID: <CACRpkdYbtCODxWU8F48qGGBJoTL54R5Dj6iYLB6Z2MRwsDqYzw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] Input: ads7846 - fix up the pendown GPIO setup on
- Nokia 770
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Aaro Koskinen <aaro.koskinen@iki.fi>, Helge Deller <deller@gmx.de>, 
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>, linux-fbdev@vger.kernel.org, 
-	linux-omap@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On Mon, Jan 6, 2025 at 8:02=E2=80=AFAM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
-> On Thu, Jan 02, 2025 at 10:32:00PM +0100, Linus Walleij wrote:
-> > On Thu, Jan 2, 2025 at 7:20=E2=80=AFPM Aaro Koskinen <aaro.koskinen@iki=
-.fi> wrote:
-> >
-> > > The GPIO is set up as an IRQ, so request it as non-exclusive. Otherwi=
-se the
-> > > probe fails on Nokia 770 with:
-> > >
-> > >     ads7846 spi2.0: failed to request pendown GPIO
-> > >     ads7846: probe of spi2.0 failed with error -16
-> > >
-> > > Also the polarity is wrong. Fix it.
-> > >
-> > > Fixes: 767d83361aaa ("Input: ads7846 - Convert to use software nodes"=
-)
-> > > Signed-off-by: Aaro Koskinen <aaro.koskinen@iki.fi>
-> >
-> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
->
-> Do we need to have this knowledge in the driver or can it be handled
-> in GPIO subsystem or affected board support? Requesting a GPIO with "in"
-> direction when it is also an interrupt source should be pretty common.
+On Tue, 14 Jan 2025 00:51:59 +0100,
+Terry Junge wrote:
+> 
+> +/*
+> + * Some Plantronics headsets have control names that don't meet ALSA naming
+> + * standards. This function fixes nonstandard source names. By the time
+> + * this function is called the control name should look like one of these:
+> + * "source names Playback Volume"
+> + * "source names Playback Switch"
+> + * "source names Capture Volume"
+> + * "source names Capture Switch"
+> + * If any of the trigger words are found in the name then the name will
+> + * be changed to:
+> + * "Headset Playback Volume"
+> + * "Headset Playback Switch"
+> + * "Headset Capture Volume"
+> + * "Headset Capture Switch"
+> + * depending on the current suffix.
+> + */
+> +static void snd_fix_plt_name(struct snd_usb_audio *chip,
+> +			     typeof_member(struct snd_ctl_elem_id, name) * name)
 
-Hm I don't know exactly the question here but I try to answer
-anyway :)
+I personally find this style of argument is difficult to use.
+That said, IMO, it's better to stick with the argument
+  struct snd_ctl_elem_id *id
+and access via id->name as in your earlier patch; it's more idiomatic,
+and easier to read.
 
-The patch makes the boardfile describe the polarity but the
-boardfile (or device tree) cannot define directions, consumers
-must specify this. The main reason is that actual users exist that
-switch the direction of GPIOs at runtime so this has been designed
-as a (runtime) consumer duty.
 
-As for GPIOD_FLAGS_BIT_NONEXCLUSIVE, this enables the
-GPIO subsystem to read the GPIO while the irqchip subsystem
-can also handle the same GPIO line as an interrupt source, so
-it's not exclusive to either subsystem.
+thanks,
 
-Yours,
-Linus Walleij
+Takashi
 
