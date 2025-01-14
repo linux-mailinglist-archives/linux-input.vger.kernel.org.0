@@ -1,77 +1,76 @@
-Return-Path: <linux-input+bounces-9230-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9231-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13BE2A10B72
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 16:49:15 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60058A10B8C
+	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 16:53:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3CC8318857AE
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 15:49:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 112FE7A2347
+	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 15:53:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC3A0142E9F;
-	Tue, 14 Jan 2025 15:49:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C570615746B;
+	Tue, 14 Jan 2025 15:53:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uv28DB7r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WIRkiVRY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5F223242C;
-	Tue, 14 Jan 2025 15:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A37123242C;
+	Tue, 14 Jan 2025 15:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736869749; cv=none; b=YARdep8AFhHjBdmxrGBcJ16xKWJBujAaTiDtayx2vAY41e01vw5jBP3IWmOhgVQIrVuHZP/uFwWOdmtsJ0F8QkrZLdHMEeX/nAUtT7iBjp9cUYsz1ttP+Bq6gXIIsUarlF4E+iSvC0/xtEvOVrSsl/9lnK8JfPD78WUWyqWfzjQ=
+	t=1736870029; cv=none; b=Yl3eDyhVO49RzJo3WJpwZ0kRQgk7Cap0GAttWaWb0Jb1rsS0piDsGnRkSYoVZ12IPKXLAB0Arm5EKUmmi3flSGss2zHc00y+FbSZgHY4ujnu9TBr5pPhQyiMwNxFIhEY2s33YWsnmdIozVwGrvXrGIzlEaowJ6V40HE3Wccidvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736869749; c=relaxed/simple;
-	bh=UbZMKdRirfZiedBMg+fqj6lT3E9UXe2nxD7/8LHGzDo=;
+	s=arc-20240116; t=1736870029; c=relaxed/simple;
+	bh=TiF1SVw3pB17GN/PzUw+DKewY+X6PT9IgRmCjsG5jms=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=N/GDU0Wa1+cSMR5Ed6ffw4EIUk+xgQjJOo+5q6LuZE/2e3xo4+Eb86vJmVkuUeh41I7wSP92tnx+kpz69mbHwYwaOXiGTMS9pq2/iA1OzEAW8SUeqVFLFmc3dP68jquhyRBX4rMwRjSCbfsX/s7jnK9lP79yupRmRxIe3J90eCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uv28DB7r; arc=none smtp.client-ip=198.175.65.9
+	 MIME-Version:Content-Type; b=Y3r516FSuKSVU8ppcmYIxqQIgwX8EruGv+JAHAOpuZhUNs80ZHneZ/3ZHsJoJx4qgV4O8+aefrsDq0jZo22V4G7mdMfbJtIcr0JkcSAXKWB0TRSMNEayHzLcN8fslZ0tYFqfJ1bxEbwo/ErnvPMBvSWejD63mt7yhR3shnV/7h8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WIRkiVRY; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736869748; x=1768405748;
+  t=1736870029; x=1768406029;
   h=from:to:cc:in-reply-to:references:subject:message-id:
    date:mime-version:content-transfer-encoding;
-  bh=UbZMKdRirfZiedBMg+fqj6lT3E9UXe2nxD7/8LHGzDo=;
-  b=Uv28DB7rNA6EsuacBkn+8EanLk2sUCsMxC/koMBSb6a3Vipht+H1sT16
-   HCfFqe+BUbU6jponyEQcxjkDErrGzEXufprGkOFMQD0JOrNkEcRN/D7jh
-   ISX+DOmLsenEmhPHYlPT/uisMXfU1JRx8/6i3MvAzqfmCCS5bTZ1ciF+H
-   WhACmoASAU0LrozOwhX8obJDvHEFf8tNqbgkanj7szQmRD8ZKIdG7sBVI
-   kc3fBnztRYNx5eAE+yYARxsZo2XjyKCmKn1yxONzND5TD4xUz+FDPLuyK
-   1vZlse+QD1FEr1xC5wGTzx4zQbjwf3aZlSeeF9pPMi7JJQ6YzMg4eJHyw
-   Q==;
-X-CSE-ConnectionGUID: 4LtKgji7T8yLtwcSaLg6+g==
-X-CSE-MsgGUID: c666LAO/T32/kOj7ApB63g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="59655603"
-X-IronPort-AV: E=Sophos;i="6.12,314,1728975600"; 
-   d="scan'208";a="59655603"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 07:49:08 -0800
-X-CSE-ConnectionGUID: CG0wMHJBTe6ueOTxe8MykQ==
-X-CSE-MsgGUID: G4CaROsKRpyIEqPEnQqgrg==
+  bh=TiF1SVw3pB17GN/PzUw+DKewY+X6PT9IgRmCjsG5jms=;
+  b=WIRkiVRY8b66wxDJ1KQpicpJBOhYN0VMvHJA7EWJQ3nZW7FjXD/zYFHt
+   4vEViS0Nx4Gl7BCVAouhlOdieJ42Sx7YkED10cCTUrXDNf73V5oBpaLhg
+   VZZ4utCjcLp7NplmE4paZoId9CZN256nnP3VZYJe8NwgLZMwEnvukN3s1
+   lM5lxdekbTpg3tpBwM7FLaY0B7XAdKQ8hKfeSToGrvIKQVIaVobzYpNaB
+   lO4G5f5dCHLZqz20p2rnwQEPFJNv8MUu37/l72mgedcWxD0g6YKFoa0I0
+   ZDosFyu84SnRhJg0+VQV/DtA+v4nTXskT4OG8tqJ2dIwZE/gZ157kDRoY
+   A==;
+X-CSE-ConnectionGUID: JHp42I0QQDCkI3NxxQI+Uw==
+X-CSE-MsgGUID: +0KZmWIjRyuhj78gNpJ6Ow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="37284840"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="37284840"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 07:53:48 -0800
+X-CSE-ConnectionGUID: aAia3+BbQ2yiBvPBjrJ/lA==
+X-CSE-MsgGUID: jJWR01oUSBe0Q+UT/eksQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,314,1728975600"; 
-   d="scan'208";a="105354853"
+   d="scan'208";a="104919118"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.54])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 07:49:04 -0800
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 07:53:45 -0800
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: dmitry.torokhov@gmail.com, o2g.org.ru@gmail.com, 
- Armin Wolf <W_Armin@gmx.de>
-Cc: hdegoede@redhat.com, corentin.chary@gmail.com, luke@ljones.dev, 
- mjg59@srcf.ucam.org, pali@kernel.org, eric.piel@tremplin-utc.net, 
- jlee@suse.com, kenneth.t.chan@gmail.com, coproscefalo@gmail.com, 
- linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- linux-kernel@vger.kernel.org, josh@joshuagrisham.com
-In-Reply-To: <20250113221314.435812-1-W_Armin@gmx.de>
-References: <20250113221314.435812-1-W_Armin@gmx.de>
-Subject: Re: [PATCH v3] Input: i8042 - Add support for platform filter
- contexts
-Message-Id: <173686973958.7065.12791132870545458476.b4-ty@linux.intel.com>
-Date: Tue, 14 Jan 2025 17:48:59 +0200
+To: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+ platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net, 
+ Illia Ostapyshyn <illia@yshyn.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+In-Reply-To: <20241114173930.44983-1-illia@yshyn.com>
+References: <20241114173930.44983-1-illia@yshyn.com>
+Subject: Re: [PATCH 0/2] Add support for the new phone link hotkey on
+ ThinkPads
+Message-Id: <173687002044.7262.7561484982670124076.b4-ty@linux.intel.com>
+Date: Tue, 14 Jan 2025 17:53:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -82,15 +81,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13.0
 
-On Mon, 13 Jan 2025 23:13:14 +0100, Armin Wolf wrote:
+On Thu, 14 Nov 2024 18:39:28 +0100, Illia Ostapyshyn wrote:
 
-> Currently the platform filter cannot access any driver-specific state
-> which forces drivers installing a i8042 filter to have at least some
-> kind of global pointer for their filter.
+> The Lenovo Thinkpad T14 Gen 5, T16 Gen 3, and P14s Gen 5 laptops feature a new
+> hotkey on F11 showing a smartphone and a laptop chained together.  According to
+> the user manual [1], it launches the Microsoft Phone Link software used to
+> connect to Android/iOS devices and relay messages/calls or sync data.
 > 
-> Allow callers of i8042_install_filter() to submit a context pointer
-> which is then passed to the i8042 filter. This frees drivers from the
-> responsibility of having to manage this global pointer themself.
+> This new keycode can be interpreted by desktop environments to lauch free Phone
+> Link alternatives like KDE Connect or GSConnect.
 > 
 > [...]
 
@@ -101,8 +100,10 @@ platform-drivers-x86/review-ilpo-next branch only once I've pushed my
 local branch there, which might take a while.
 
 The list of commits applied:
-[1/1] Input: i8042 - Add support for platform filter contexts
-      commit: 08cd46acfc4fc6d810433f35dbc1dab6e1a6891b
+[1/2] Input: allocate keycode for phone linking
+      commit: c3c1bf65b9f28a30b2b6f42fcbb644b53db4f87c
+[2/2] platform/x86: thinkpad_acpi: Add support for new phone link hotkey
+      commit: 2677cc0a7519b6a816611a8a2a3e05bd028119ed
 
 --
  i.
