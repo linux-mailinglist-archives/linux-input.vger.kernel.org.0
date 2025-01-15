@@ -1,682 +1,254 @@
-Return-Path: <linux-input+bounces-9242-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9243-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236B2A113F2
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 23:17:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 903F1A1169A
+	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2025 02:28:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C4AC165EB6
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jan 2025 22:17:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E6E8E3A6B5F
+	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2025 01:28:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DEDE20E6E7;
-	Tue, 14 Jan 2025 22:17:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12FFF433CA;
+	Wed, 15 Jan 2025 01:28:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HJMwsGlS"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="QpY3UjTl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2072.outbound.protection.outlook.com [40.107.22.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671074644E;
-	Tue, 14 Jan 2025 22:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736893071; cv=none; b=uGrf7mGV6bPSOTaB79k5yPbLxYpIe+f/uNiZ0tMtbaf/DSKn7jri3Yy5NNHmG5RlCl8Liul2vuR7thqNxlGqM+axJBhfwheN7XigTCaKnW1LN4SYW0Tk+da2JHPWbAhcRP1sUyYB/WT6pOiK5/gB2OeEpDfd7Jo0pLf67xsRsLA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736893071; c=relaxed/simple;
-	bh=5CtG252BQpE6OPdmYe8kgWKtcZapsbXLun/J2/WYRzQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rkoFNBPcXJAaO/e1Heo+JDtU5SQ9At1wQZgJDvV2uqmAPpXuWh24c1RXCpUf5v2Xv32gWKVT5oaMf95YAFgTl2MpnU9y76+1gvcuN+tG1XUpx0UwkGyXDHSApVnRVue8/5SCWq+v0rb7kkyiUfATwtsHub+D/oe7e2nX8GnGlLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HJMwsGlS; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-21670dce0a7so131004265ad.1;
-        Tue, 14 Jan 2025 14:17:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736893069; x=1737497869; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vyytEgJ2Vaif7QDiqWZ0BEALNdhLJEQ4VKiXe3NBNB4=;
-        b=HJMwsGlSCjnkWmNB5hyF+CnlHLCk1EScWuMLvmFUiLm4hfb446eR5TeZ+tcIOH03ZD
-         +GSGlIY31BEzRaMIc7wIY6kNWQtqqo6/Ew8TETL1djT8Py6/phBhXeHm7JOe4EjgxR+E
-         35ssiNjhA+m90eo+OhanyNiFQxyNAFhSrjFIyLizs8nwHoQw4NDOFFaZQwRTKqCSziwe
-         /W1bQ1JLBYsy8D5iwLlmmM1QgAJ+0hW/KJeacTkujsedUaTPiNWaH/SFlPoUid3t+943
-         NRU8TDNK+pOdFBYUO0LXuVkxZOM9nGAoPK058dH/aI2yoYEXFTyg9EjjFbHA8AEebit2
-         aaow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736893069; x=1737497869;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vyytEgJ2Vaif7QDiqWZ0BEALNdhLJEQ4VKiXe3NBNB4=;
-        b=MO/He4H5Hb7U5tT75ie/PfhQRhAh32NHY8tGmmM0gxBfqld6v6qxbuSTUewTNQNOGr
-         IC5l25SA1I+SUL07jw2Qmq1dEmicdSGEqtodvzvn6S2O5d91aSU8Y1RuHhRPFdnCoJ+x
-         P46ptQBzViMvHBbLdl0ODdJLhBHLPwGM566jjkrD/aGWaIl2dTND/tL5kNGT6pAyQoc3
-         9vGvCaIFUqhNvnEJErajdHSMxlXQCAJlOi9493BoItoppy/e0JcQZBBq84wczMlQXptN
-         Q/y1QPrjjLdnCibRP4ydH4jpy0FY/aCREqQnsi3/drAHHqFAmyA/5y1SNitEc/Uji/4X
-         5ppw==
-X-Forwarded-Encrypted: i=1; AJvYcCU5h94KLxQKPmQXKukq6BIoLO5zkJ3VDZT3MeZ2AOZgvjWWnDockjTC4yQPwxjHjOoK20IApOvkempV03kz@vger.kernel.org, AJvYcCUDOwCISLs0oVBzYcsZVXsgzsINN1/dcsYQelbqXhAC0vMZJF0+XeK5QsKXzvZKBd7mO2c2F4j0e5cUqKo=@vger.kernel.org, AJvYcCVqyd7HhPil7NKdqSuZ4unerogmxYFt6viD2f+9G+INZQN90i17cpeYcnNI7xLIUEKAL6gxHMCQTcvj@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGtYasvPv8f4tERHk2aAnW7/D1mbCJvlCBP8ruklODmpkgRXQT
-	n2gfjiRCANPRZHKMrDjQMeeUcqhEBZoIev9NQR7jwmFoEK4QXshCkMX6Dw==
-X-Gm-Gg: ASbGncvg7patxJrKOlY/1H54IXMa1pRsEqOKwxs1IifvzsGJqf0BYt60QWCOkbTJIPI
-	nG9PnRkYGEFauzlXjy8o2rfAHfOCmKGSriLj/jFYthyCL6siE1wtUusS5DtqfHhjgYR6Zn9ji2f
-	fU1USfh5/X1JqC3uge5kHyFWQ4fVbAZbkuOvsEY3+R8K2i6wAyvIFSH3m/1kHKS0RdX6esjNuRQ
-	XfN4gtTMzxug7tLqgC2WkCXRB3jVfw9+efLILrtyPRhGL/iiY77WSv+Jg==
-X-Google-Smtp-Source: AGHT+IF/RAOm/Wsnhh1r6yPyC0nfGad9+tWIdiCwaGqZ9QanxxdPdAZhx09E+tTlD4vvA3dfRg/mcQ==
-X-Received: by 2002:a05:6a21:350d:b0:1e1:b105:87b with SMTP id adf61e73a8af0-1e88cfdc0f5mr43403648637.23.1736893068423;
-        Tue, 14 Jan 2025 14:17:48 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:e152:4a95:d7ea:84d5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72d405485b7sm7823896b3a.2.2025.01.14.14.17.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 14:17:47 -0800 (PST)
-Date: Tue, 14 Jan 2025 14:17:44 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: fnkl.kernel@gmail.com
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>
-Subject: Re: [PATCH v3 2/4] input: apple_z2: Add a driver for Apple Z2
- touchscreens
-Message-ID: <Z4biiJoFTvxCe2IB@google.com>
-References: <20250112-z2-v3-0-5c0e555d3df1@gmail.com>
- <20250112-z2-v3-2-5c0e555d3df1@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E29F36B;
+	Wed, 15 Jan 2025 01:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.72
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736904515; cv=fail; b=SxXC+dQD8/H+wM8kvHbkWI1xC7rfWe0S3tAGuDk3HwUij1JBNewCpzVYhABnc4Mweh9Z3XDGyDPscCSNqA5Fhsq2dKD6gQkW9dswLpYAiAPJsUaRV7yNP6QO7S/WYL7hRP5D82IGMHgqZtmN8rOJLj1GdRINUryhZNeu05uEb1M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736904515; c=relaxed/simple;
+	bh=aw7lQLW01IrMduKkfFlFkcx8DOi6W6/Wp8U0arT92pg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ADunhXa+LCOdxSruT8e7qCQQlLK8Pf3pj7mv+IRex7YLAWN0GISYb0F0cDVgzuyue1I70zuhSIZzLc+UO8xgoBSyuufzz7vHkVFzTpVu4tkD174PvPC/PBgc9/jOpi+yT1jCg/VnRuMb994pX9tgWUn+uudrFylyDvyV1zq9tB0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=QpY3UjTl; arc=fail smtp.client-ip=40.107.22.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZzBIkt4GuD0HNUtIbr5rw1EaIlPnYqyF4hH7Hvs8ffhUE+ImHm1fqnpc6z2oRL4VUMpk2Ho9uDP4CsF0TWaMS3aXzRg94mPFTkBzwpyg1EajjeKCkbFu8KqSZznIK+5Y4hGUaQowVZBFBxRNxMUb72iLajJzrU3EBfGZ3NeEWoCmgHnS3+Haazw1JhEKjSbijx6Dkmb7my5wmtko4vGzmIGVZuc1Gm8qrAf4NMpzyf7Kc129OOUkBFCHVRJEsLgoObyfEdNjEbF7ONWB82oYAWNfzmrZVEwnjrpBlhUsXGkP5EoLi+SBqGzh4keX8sFWUZJIHLjBbTzCnmdpiL4hHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aw7lQLW01IrMduKkfFlFkcx8DOi6W6/Wp8U0arT92pg=;
+ b=xZjQRc/bXGxP1GLeYL/qKDiWhNFlgiW9m9QrOCdX5UMde2bQWuTotiksluNwHBiYTvs38/BEVvWz5JypAfy3yl5XCq6lbmT+1/X1Kc3eQ0hvWfO+D7OvLmL+lVhf/jfaLMHv2IiMDtyhdVcKrIWlEiX99mFOuJD5I9sXdhxJgefAGD2Gg1YaFKAJHnedRbttDdT3EySvcEf/Aa97K6oBTibpX20h7qu5TWfGhIYkt8kim5LJ7wzfu5T1koGZ9y5LSt8tgCeuf8FWUmpK7SJzMz+wOaECiexHJs4RzBdrRWUy3XLYg1u9adM+3+C4ZDX5R9ckerjmftPR/wisNQwsVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aw7lQLW01IrMduKkfFlFkcx8DOi6W6/Wp8U0arT92pg=;
+ b=QpY3UjTlyUgPv+DmBi7bc2eSwwdt5hjzX/ZGKhP0q8NVK+A+JNNKGDBOVH3qLoyBpbYtHZZf77I6CwJOSbk04BXrXlq8wbJcP7yf7oq3SIo+eTLUfDom7ygvykMKl1kkaSoQI+0KkF/zf0rKeIQYtCJabuycDPQV/kZc9pQaexbdT8SbEez2z8fAd16f4TeUprqu80Kfde6V//+GTLInCJ0/+UecOPZ8VvsUV0NXDud88OGcjkiyRFKhj+3oBhfExuvJDiybC5GWEG0M6RHXQ1XdSNUZsd6HZy4PPlzNXbDBrZ/gZ27yeRPIR1vPGM6tku+pNWl89nrLxWNf1RKAqw==
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by VI1PR04MB7167.eurprd04.prod.outlook.com (2603:10a6:800:12a::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Wed, 15 Jan
+ 2025 01:28:28 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630%5]) with mapi id 15.20.8335.017; Wed, 15 Jan 2025
+ 01:28:28 +0000
+From: Peng Fan <peng.fan@nxp.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>, "Peng Fan (OSS)"
+	<peng.fan@oss.nxp.com>
+CC: Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Torokhov
+	<dmitry.torokhov@gmail.com>, Alexandre Belloni
+	<alexandre.belloni@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Linus Walleij
+	<linus.walleij@linaro.org>, Conor Dooley <conor.dooley@microchip.com>, Daire
+ McNamara <daire.mcnamara@microchip.com>, "linux-pm@vger.kernel.org"
+	<linux-pm@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-input@vger.kernel.org"
+	<linux-input@vger.kernel.org>, "linux-rtc@vger.kernel.org"
+	<linux-rtc@vger.kernel.org>, "linux-stm32@st-md-mailman.stormreply.com"
+	<linux-stm32@st-md-mailman.stormreply.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-arm-msm@vger.kernel.org"
+	<linux-arm-msm@vger.kernel.org>, "linux-riscv@lists.infradead.org"
+	<linux-riscv@lists.infradead.org>
+Subject: RE: [PATCH v2 01/12] PM: sleep: wakeirq: Introduce device-managed
+ variant of dev_pm_set_wake_irq
+Thread-Topic: [PATCH v2 01/12] PM: sleep: wakeirq: Introduce device-managed
+ variant of dev_pm_set_wake_irq
+Thread-Index: AQHbXbtbaOc6zdaBaE+3ADKqgrHCrLMWyAIAgABVbSA=
+Date: Wed, 15 Jan 2025 01:28:28 +0000
+Message-ID:
+ <PAXPR04MB8459EE38DBDBCA29FB81B6B788192@PAXPR04MB8459.eurprd04.prod.outlook.com>
+References: <20250103-wake_irq-v2-0-e3aeff5e9966@nxp.com>
+ <20250103-wake_irq-v2-1-e3aeff5e9966@nxp.com>
+ <CAJZ5v0hj7wUU3f_j5QH3fNUFKokaXr0octaP2M1Ho_L_BspoUA@mail.gmail.com>
+In-Reply-To:
+ <CAJZ5v0hj7wUU3f_j5QH3fNUFKokaXr0octaP2M1Ho_L_BspoUA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|VI1PR04MB7167:EE_
+x-ms-office365-filtering-correlation-id: 79e757cc-9dbc-4cbe-1ed6-08dd3503e9fe
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|7416014|376014|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?ZVB4cSt2ekJHME1Sdjd0ekJkelhwS3ZHNFk2WkN3a0ZKMHIxMGhmczRRcHRz?=
+ =?utf-8?B?NkFvdTN4M1AxL01FMUphbFlMeEZpMzNnTkNNcnNnMG9JK0k4RVg5VmFPOUtE?=
+ =?utf-8?B?NUZ6YnluNWR4NGFKTkhDNTlOcWl1REh3MDhLZGpjNmNaSkJSUENueG9VaWR5?=
+ =?utf-8?B?VDVkK0RDeVhkVXVEb3dXSU4xcFllUTcrZ1JKNDdNQ09ReTkyNlFlenVDVzB5?=
+ =?utf-8?B?bUh0c2VybzdDMlFqcmxtaVhBcUxLcks3TDg3NUx2U3hSWjZWZmc3QkhCeTZY?=
+ =?utf-8?B?RkdoTDVSTDFWYjBNUm5tZ0xNSlZFMTlYcVVtUHZmQTVvRml0V2Vrc0ZKSjZ0?=
+ =?utf-8?B?b09LTWM3TC9iS2xoaDBzUjVBa1NSUWpjVkg0ZkdXUUtkQ3djVkpLdGh6dGFm?=
+ =?utf-8?B?SjJ2TDh0MmdHY2FXc1VHYnArZEs1RnBWem9RZGY4Y0FoSGxVaEdtWVRYNG5K?=
+ =?utf-8?B?MkRxeGpRRXRETkpHcys3ODNTMk12U1Z0ZFdXWkdvTkNUdXhhVHpvbHlaSEFh?=
+ =?utf-8?B?WEF2YzRKbW91dTNaRkNqUGY2UFJHWW8zNWFZWDFla1VoaFJqaUdBVWw5OG95?=
+ =?utf-8?B?dXhjeUZXcEo1UnhNYzQrbU40UVJ2RTdyZnVjZWJDS1k2S2VRZEFjd2dEYUIr?=
+ =?utf-8?B?N3lpSDhjQWVydTNlREVCSDRxNzUxa3hpTjJiWEpSTGtSai9EVGVoSW1ibVBW?=
+ =?utf-8?B?a1pMMkl3eXFTalNrbGRBUURDOExHQXphUTVZR0xRUmZwRnJ2aXY5aDFZaXBu?=
+ =?utf-8?B?ZGlZa0ZNa3ROVi8xTzB3QVY5eDNtcFRiQmhuYW9ONDEzTWJVZXJnS0p2OTds?=
+ =?utf-8?B?VXlFZFBVTHFiMXBLUjhHbDRqV2xoMEhPUFBtRzNub3RkaEFQMExSeGxucjJQ?=
+ =?utf-8?B?S3hJd3hZanN3dngvNCt0ZDlYcXNFcjZScS92a215bW8zaUIwS3lpalA2a0kx?=
+ =?utf-8?B?b3VHZUp4UUxKYUtISUZZRWRsQ2NESDNJNWdSREl0emxCQjJWUmoxbFljSnRr?=
+ =?utf-8?B?OERlanFZdnhLcXQ2TFY5ZGlBVnRSNkVyc0htdFh1aSs0TG01N3NZY2hqb0F0?=
+ =?utf-8?B?amxXQVphWEowaWZDM3FGN1d2S2NaRGpTOWZ5Y3QwMzJ2OVJ5WTFOMTd1Q0Zm?=
+ =?utf-8?B?aTZCQ0tyVlJsbmlSVlNhdDNxcnFsenVxSVZqTjVhQ29uZWpmVGlZOWlIdGM5?=
+ =?utf-8?B?TUpOMmZFM0h2bE5ZdnZpS0wreDRVRldhelJtWE0xOUlqSWFOYXIrNkIwVEZJ?=
+ =?utf-8?B?eEt6NVNObFprMzk5TFJLT2hDUUxub1p4bTdyeWxHWC9td2FROXpBdTZsN05G?=
+ =?utf-8?B?aTJwbm9KZHYyWUVkVWlCMk1YQ2EzWHNVeE5MZi9nMUdrZXQ4VUVPaVNOMi9X?=
+ =?utf-8?B?ZFBJOFNZUU56ejJNWnJPbU5aRWJ6SnBzOWRaWXNyMXlOSkJhUi9TdDBWN2dt?=
+ =?utf-8?B?ekRBM2FPWnoyZkYyaGU1K3VxVytOUUh2MHRSbTBrUm5obGZ0ODF4SXU0Vzhh?=
+ =?utf-8?B?Sk5HL2s4dkdHVGgvT01ja3FhdFgzaVN4WnRZaDduMUtjaGk4SGxRVkFkTVU5?=
+ =?utf-8?B?eC9McEU0QzVTQ3NPQnBJT3FXdTZEUUx0Rm90UUQzM1lpWnQzbExWK1EzNURD?=
+ =?utf-8?B?a1l6MFNaQnNUQ2VkSmZmQWIzcFI4enVJbW80NUMvQk9kSzdseC9tL01yZUpM?=
+ =?utf-8?B?UDBqU1hqTUhpaEJRNlZIalZBOC9ISTBmd0UyMUpuZFhRZkwwMFA0bElPWXZk?=
+ =?utf-8?B?K2pDVm9HT21Md3ltUlh4ZjByaXArWnkvSmxFc1ovcTduZG1aNGFHUW9hSTQz?=
+ =?utf-8?B?NHA4RjdwZTVVN3ZPQ1E2MmhDa0xuaWlQSGRkQ1JHbG1sVU1ONkhaR2FSSFNt?=
+ =?utf-8?B?eCs2Vm4wckVRNWRmQ0lCVUFlWXFzcmZ3WEhwdmJXRUJkdkVCeUhpcVYzcEdO?=
+ =?utf-8?Q?hDBwvySYzS6RY1fcqBkzR2BYqXsZ5V36?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?djB1UW1iK0x5MTV2L043RzNqWExEUXVJM1FjaWhtSDgrT09aejlXRHptQ09K?=
+ =?utf-8?B?akE2c2tRRVVMWUlndnF1dFBIdkpKL3VRNHFYNVhDZ2hIci9pZk1WNEU3c0VR?=
+ =?utf-8?B?eWV4aE1QVThFY1lFYXk4VnFQaCswc1lSVHJSVXVoRlJoOTZDZml3VWw0VVBB?=
+ =?utf-8?B?SzMxTkVwL1l3cG0yS1dTNVhsK21mMlFjSkw5RGk4b2JVRUVyVER4dno2UWNu?=
+ =?utf-8?B?eU0wbVpzSkVhTktVRmdRTUNNR0t6dHFteW12ZmFBNXZyK0c2N0xBZ0JSb1FG?=
+ =?utf-8?B?d2NVR2xiNUdmMWlCSG5XVkxiN1VEVmlGbC9HS0dJMXBhdWdxeE5aRkxzV054?=
+ =?utf-8?B?MzMzbkFjM0kwc2Fkb0lodzJHR3hUVnNoVVlDa0xVUzRrK21UY2ZDM0ZRWklX?=
+ =?utf-8?B?S25GcXF0ZnlHdnRPakFvVVZBdWhmc3V0ZUFGNkZuS21WRldlZFNUVWgzcUw0?=
+ =?utf-8?B?SXhnL3Evait2RUptV05iVlBHY0w0ektvWkJLSGJmbjMwUG80eEVWUkR2YmpZ?=
+ =?utf-8?B?NVcxRXh5WXFVTDZ5bHVUSWd4bmxLeERVd3BVa1hka1NRb3pRQk5zcjVUL2Fo?=
+ =?utf-8?B?RytFaGZIQW0zWk52RFlzOGNmcUJRdkJDZ2NnbTFnWWozS0t0MU1iVHVSeU4x?=
+ =?utf-8?B?VUVMajlxVUwzYVIxOGdUcUEyd0tKcTczQ0dSRm9xM2V4c0JzUGhlL2JSaEdG?=
+ =?utf-8?B?TFdYejJneDUrS01YTzBXVmJDOVVpcVVCSXZYdFM0eGVMYlIwNTN3Mnd2YWVS?=
+ =?utf-8?B?SFQ0NU1zY3F4cTZ6QTl3enE4YkFEcklJMllGMHVvdkNmTE53VG4wTzg1MzVv?=
+ =?utf-8?B?V2J6NTQxL2JRbnNNdzd4QXlCcFNSTlMzV3ZuSHBNY1ZWSXBGbVc5QlQxcTVy?=
+ =?utf-8?B?ajBxU2o3bWRva280TXBWL3d4MmRzcWR5MjZPWXdDaG90eWtxdW1pWWsvN2Fx?=
+ =?utf-8?B?NEJ2cDlxUHZybnFoekpGWHBGVTZxWkt3aW5yR3JtK0ErRFJPdGxycEd5ekhT?=
+ =?utf-8?B?R3k0Q1J5WGhlcXRuMWVDNDZUaEM3bDNIYVRML2JCRlFDVVVJcXBrbXlkRkFo?=
+ =?utf-8?B?TzB2TXRxRWI0TkdPSUVlUmliRVpvRW5FTE9WL3lTdCtZQUsvVlBwT2xUSnJM?=
+ =?utf-8?B?ZWY3NnlDN1VSc3d2SzlNN1EvdDIxd1BXRXJmSlN5cFY0cXMvbUZkNTF4MlB2?=
+ =?utf-8?B?Uzd5dVFVTFJqTGZhUllRelFrTFBKeUVCaHY3ZXllYnNBL3BJak03Qlk2ZGpk?=
+ =?utf-8?B?cm5ZMEo4Sk40aU05UXR2akNxVVBvbDhUS1NGMjdRTnlET0Z6M2RiYzdYSnMv?=
+ =?utf-8?B?RmZuK2FocGNoY2dxU0FXZDNsS3Zwa3JIUDV5Q1VhMzgyblF5cVhQTnJ4dmZx?=
+ =?utf-8?B?dGx6bzI1dGUvUmwycWpaUGpQdnJ3SUtRTmY2UmhPRlZMRzdLRmhnSjdBWEty?=
+ =?utf-8?B?WnZDT3hMd2VuTndSTkYySDdTTzBXWmkvZXY3cjdQWDRvc3ZVZmU1WEk5VzJC?=
+ =?utf-8?B?TkJRdXBlbGhCNkdRRlkxSzNEWEJDWHhtdjB6YnRLMFUveDQ5ZlpaYXptcyt4?=
+ =?utf-8?B?d3ltNUNnZTBTTWpLcGJzYTVyT1oxY05rWUFqQ1hmUGhQOWc5eGF5NHlhQU9Z?=
+ =?utf-8?B?bVVXU2tvYVZSeVpBZHRNRjkwU3VrT1U5NjN6eVpPTE5pSCtSN0l6VFJtOU1y?=
+ =?utf-8?B?dTV0NEl6clVOakFaME5SczgwUXMzaHozRkdUZUlWd2lMbmZIemNOZFdoWW4x?=
+ =?utf-8?B?cHdlS3AyekF6bjBTdlhIdG04RjVwSWtkU29nOVF4Uzd3TjRPZDMxSGVBQ29H?=
+ =?utf-8?B?S3F0Yng0b2c4aUxkZEx5TlR5aWhFRXB4Qm1vajNDbVk5MlkvdnhHTWM4aENn?=
+ =?utf-8?B?ajdxd0FaRTZyNXRtSkdxTjl5Ty80K1lJdHlua2xQM3Zoc1VmNzJWSkhWU0Fi?=
+ =?utf-8?B?d0xEeHdGSmx4VkdFdFRreTFQUkp1TnErVWo5Z0t5ODVoUlBuMHVrSFlxVVU2?=
+ =?utf-8?B?Qkt4OUtEaVFiWVdUeFF2MG9Qa1lRb213cjNvdVJIVUhWNGhuaE4wTjQrVFZU?=
+ =?utf-8?B?cDl3amdGUzJHckZKaE4wVkFoeFRwMS91V3V0ZGI4Wjcwb1ViemFWd0J0bU4x?=
+ =?utf-8?Q?2sDM=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250112-z2-v3-2-5c0e555d3df1@gmail.com>
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 79e757cc-9dbc-4cbe-1ed6-08dd3503e9fe
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2025 01:28:28.2858
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Y/Ip6zd4fbOyFBjcFowqaiVW4tmVrPWT5CEm8ZY5yuwjYHG42lntFb10TGE8dtPpeb0Uj5L9doudkzYVYfbEPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB7167
 
-Hi Sasha,
-
-On Sun, Jan 12, 2025 at 07:41:33PM +0100, Sasha Finkelstein via B4 Relay wrote:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> 
-> Adds a driver for Apple touchscreens using the Z2 protocol.
-> 
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  drivers/input/touchscreen/Kconfig    |  13 +
->  drivers/input/touchscreen/Makefile   |   1 +
->  drivers/input/touchscreen/apple_z2.c | 463 +++++++++++++++++++++++++++++++++++
->  3 files changed, 477 insertions(+)
-> 
-> diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-> index 1a03de7fcfa66c0f60768be17d776a79e36e570e..6c885cc58f323b3628538d41460248f8ab1dbf7d 100644
-> --- a/drivers/input/touchscreen/Kconfig
-> +++ b/drivers/input/touchscreen/Kconfig
-> @@ -103,6 +103,19 @@ config TOUCHSCREEN_ADC
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called resistive-adc-touch.ko.
->  
-> +config TOUCHSCREEN_APPLE_Z2
-> +	tristate "Apple Z2 touchscreens"
-> +	default ARCH_APPLE
-> +	depends on SPI
-> +	help
-> +	  Say Y here if you have an Apple device with
-> +	  a touchscreen or a touchbar.
-> +
-> +	  If unsure, say N.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called apple_z2.
-> +
->  config TOUCHSCREEN_AR1021_I2C
->  	tristate "Microchip AR1020/1021 i2c touchscreen"
->  	depends on I2C && OF
-> diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-> index 82bc837ca01e2ee18c5e9c578765d55ef9fab6d4..97a025c6a3770fb80255246eb63c11688ebd79eb 100644
-> --- a/drivers/input/touchscreen/Makefile
-> +++ b/drivers/input/touchscreen/Makefile
-> @@ -15,6 +15,7 @@ obj-$(CONFIG_TOUCHSCREEN_AD7879_I2C)	+= ad7879-i2c.o
->  obj-$(CONFIG_TOUCHSCREEN_AD7879_SPI)	+= ad7879-spi.o
->  obj-$(CONFIG_TOUCHSCREEN_ADC)		+= resistive-adc-touch.o
->  obj-$(CONFIG_TOUCHSCREEN_ADS7846)	+= ads7846.o
-> +obj-$(CONFIG_TOUCHSCREEN_APPLE_Z2)	+= apple_z2.o
->  obj-$(CONFIG_TOUCHSCREEN_AR1021_I2C)	+= ar1021_i2c.o
->  obj-$(CONFIG_TOUCHSCREEN_ATMEL_MXT)	+= atmel_mxt_ts.o
->  obj-$(CONFIG_TOUCHSCREEN_AUO_PIXCIR)	+= auo-pixcir-ts.o
-> diff --git a/drivers/input/touchscreen/apple_z2.c b/drivers/input/touchscreen/apple_z2.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..cf2cb19f857785748a96d8787b3af10e48033659
-> --- /dev/null
-> +++ b/drivers/input/touchscreen/apple_z2.c
-> @@ -0,0 +1,463 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Apple Z2 touchscreen driver
-> + *
-> + * Copyright (C) The Asahi Linux Contributors
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/firmware.h>
-> +#include <linux/input.h>
-> +#include <linux/input/mt.h>
-> +#include <linux/input/touchscreen.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/spi/spi.h>
-> +#include <linux/unaligned.h>
-> +
-> +#define APPLE_Z2_NUM_FINGERS_OFFSET      16
-> +#define APPLE_Z2_FINGERS_OFFSET          24
-> +#define APPLE_Z2_TOUCH_STARTED           3
-> +#define APPLE_Z2_TOUCH_MOVED             4
-> +#define APPLE_Z2_CMD_READ_INTERRUPT_DATA 0xEB
-> +#define APPLE_Z2_HBPP_CMD_BLOB           0x3001
-> +#define APPLE_Z2_FW_MAGIC                0x5746325A
-> +#define LOAD_COMMAND_INIT_PAYLOAD        0
-> +#define LOAD_COMMAND_SEND_BLOB           1
-> +#define LOAD_COMMAND_SEND_CALIBRATION    2
-> +#define CAL_PROP_NAME                    "apple,z2-cal-blob"
-> +
-> +struct apple_z2 {
-> +	struct spi_device *spidev;
-> +	struct gpio_desc *reset_gpio;
-> +	struct input_dev *input_dev;
-> +	struct completion boot_irq;
-> +	bool booted;
-> +	int index_parity;
-> +	struct touchscreen_properties props;
-> +	const char *fw_name;
-> +	struct apple_z2_read_interrupt_cmd *len_cmd;
-
-Can we make it u8 *tx_buf ?
-
-> +	char *rx_buf;
-
-Can we make it u8 *?
-
-> +};
-> +
-> +struct apple_z2_finger {
-> +	u8 finger;
-> +	u8 state;
-> +	__le16 unknown2;
-> +	__le16 abs_x;
-> +	__le16 abs_y;
-> +	__le16 rel_x;
-> +	__le16 rel_y;
-> +	__le16 tool_major;
-> +	__le16 tool_minor;
-> +	__le16 orientation;
-> +	__le16 touch_major;
-> +	__le16 touch_minor;
-> +	__le16 unused[2];
-> +	__le16 pressure;
-> +	__le16 multi;
-> +};
-> +
-> +struct apple_z2_hbpp_blob_hdr {
-> +	__le16 cmd;
-> +	__le16 len;
-> +	__le32 addr;
-> +	__le16 checksum;
-> +};
-> +
-> +struct apple_z2_fw_hdr {
-> +	__le32 magic;
-> +	__le32 version;
-> +};
-> +
-> +struct apple_z2_read_interrupt_cmd {
-> +	u8 cmd;
-> +	u8 counter;
-> +	u8 unused[12];
-> +	__le16 checksum;
-> +};
-> +
-> +static void apple_z2_parse_touches(struct apple_z2 *z2, char *msg, size_t msg_len)
-> +{
-> +	int i;
-> +	int nfingers;
-> +	int slot;
-> +	int slot_valid;
-> +	struct apple_z2_finger *fingers;
-> +
-> +	if (msg_len <= APPLE_Z2_NUM_FINGERS_OFFSET)
-> +		return;
-> +	nfingers = msg[APPLE_Z2_NUM_FINGERS_OFFSET];
-> +	fingers = (struct apple_z2_finger *)(msg + APPLE_Z2_FINGERS_OFFSET);
-
-Is this properly aligned? rx_buf is DMA aligned, but msg is +5 so we
-start at an odd offset. APPLE_Z2_FINGERS_OFFSET is 24, so overall offset
-is still odd. Do we have to mark apple_z2_finger as packed after all? 
-
-> +	for (i = 0; i < nfingers; i++) {
-> +		slot = input_mt_get_slot_by_key(z2->input_dev, fingers[i].finger);
-> +		if (slot < 0) {
-> +			dev_warn(&z2->spidev->dev, "unable to get slot for finger\n");
-> +			continue;
-> +		}
-> +		slot_valid = fingers[i].state == APPLE_Z2_TOUCH_STARTED ||
-> +			     fingers[i].state == APPLE_Z2_TOUCH_MOVED;
-> +		input_mt_slot(z2->input_dev, slot);
-> +		if (!input_mt_report_slot_state(z2->input_dev, MT_TOOL_FINGER, slot_valid))
-> +			continue;
-> +		touchscreen_report_pos(z2->input_dev, &z2->props, le16_to_cpu(fingers[i].abs_x),
-> +				       le16_to_cpu(fingers[i].abs_y), true);
-> +		input_report_abs(z2->input_dev, ABS_MT_WIDTH_MAJOR,
-> +				 le16_to_cpu(fingers[i].tool_major));
-> +		input_report_abs(z2->input_dev, ABS_MT_WIDTH_MINOR,
-> +				 le16_to_cpu(fingers[i].tool_minor));
-> +		input_report_abs(z2->input_dev, ABS_MT_ORIENTATION,
-> +				 le16_to_cpu(fingers[i].orientation));
-> +		input_report_abs(z2->input_dev, ABS_MT_TOUCH_MAJOR,
-> +				 le16_to_cpu(fingers[i].touch_major));
-> +		input_report_abs(z2->input_dev, ABS_MT_TOUCH_MINOR,
-> +				 le16_to_cpu(fingers[i].touch_minor));
-> +	}
-> +	input_mt_sync_frame(z2->input_dev);
-> +	input_sync(z2->input_dev);
-> +}
-> +
-> +static int apple_z2_read_packet(struct apple_z2 *z2)
-> +{
-> +	struct spi_message msg;
-> +	struct spi_transfer xfer;
-> +	int error;
-> +	size_t pkt_len;
-> +
-> +	spi_message_init(&msg);
-> +	memset(&xfer, 0, sizeof(xfer));
-> +
-> +	z2->len_cmd->cmd = APPLE_Z2_CMD_READ_INTERRUPT_DATA;
-> +	z2->len_cmd->counter = z2->index_parity + 1;
-> +	z2->len_cmd->checksum =
-> +		cpu_to_le16(APPLE_Z2_CMD_READ_INTERRUPT_DATA + 1 + z2->index_parity);
-> +	z2->index_parity = !z2->index_parity;
-> +	xfer.tx_buf = z2->len_cmd;
-> +	xfer.rx_buf = z2->rx_buf;
-> +	xfer.len = sizeof(*z2->len_cmd);
-> +
-> +	spi_message_add_tail(&xfer, &msg);
-> +	error = spi_sync(z2->spidev, &msg);
-
-Why not spi_sync_transfer() ?
-
-> +	if (error)
-> +		return error;
-> +
-> +	pkt_len = (get_unaligned_le16(z2->rx_buf + 1) + 8) & (-4);
-> +
-> +	spi_message_init(&msg);
-> +	memset(&xfer, 0, sizeof(xfer));
-> +	xfer.rx_buf = z2->rx_buf;
-> +	xfer.len = pkt_len;
-> +
-> +	spi_message_add_tail(&xfer, &msg);
-> +	error = spi_sync(z2->spidev, &msg);
-
-Maybe simple spi_read()?
-
-> +
-> +	if (error)
-> +		return error;
-> +
-> +	apple_z2_parse_touches(z2, z2->rx_buf + 5, pkt_len - 5);
-> +
-> +	return 0;
-> +}
-> +
-> +static irqreturn_t apple_z2_irq(int irq, void *data)
-> +{
-> +	struct spi_device *spi = data;
-> +	struct apple_z2 *z2 = spi_get_drvdata(spi);
-> +
-> +	if (unlikely(!z2->booted))
-> +		complete(&z2->boot_irq);
-> +	else
-> +		apple_z2_read_packet(z2);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static int apple_z2_build_cal_blob(struct apple_z2 *z2, u32 address, size_t cal_size, char *data)
-> +{
-> +	u16 len_words = (cal_size + 3) / 4;
-> +	size_t hdr_size = sizeof(struct apple_z2_hbpp_blob_hdr);
-> +	u32 checksum = 0;
-> +	u16 checksum_hdr = 0;
-> +	int i;
-> +	struct apple_z2_hbpp_blob_hdr *hdr;
-> +	int error;
-> +
-> +	hdr = (struct apple_z2_hbpp_blob_hdr *)data;
-> +	hdr->cmd = cpu_to_le16(APPLE_Z2_HBPP_CMD_BLOB);
-> +	hdr->len = cpu_to_le16(len_words);
-> +	hdr->addr = cpu_to_le32(address);
-> +
-> +	for (i = 2; i < 8; i++)
-> +		checksum_hdr += data[i];
-> +
-> +	hdr->checksum = cpu_to_le16(checksum_hdr);
-> +	error = device_property_read_u8_array(&z2->spidev->dev, CAL_PROP_NAME,
-> +					      data + hdr_size, cal_size);
-> +	if (error)
-> +		return error;
-> +
-> +	for (i = 0; i < cal_size; i++)
-> +		checksum += data[i + hdr_size];
-> +
-> +	put_unaligned_le32(checksum, data + cal_size + hdr_size);
-> +	return 0;
-> +}
-> +
-> +static int apple_z2_send_firmware_blob(struct apple_z2 *z2, const char *data, u32 size, u8 bpw)
-> +{
-> +	struct spi_message msg;
-> +	struct spi_transfer blob_xfer, ack_xfer;
-> +	int error;
-> +	char *int_ack __free(kfree) = NULL;
-> +
-> +	int_ack = kzalloc(2, GFP_KERNEL);
-
-When using __free() the preferred form is
-
-	char *int_ack __free(kfree) = kzalloc(2, GFP_KERNEL);
-
-instead of pre-declaring the variable with the rest at the beginning of
-the function.
-
-> +	if (!int_ack)
-> +		return -ENOMEM;
-> +	int_ack[0] = 0x1a;
-> +	int_ack[1] = 0xa1;
-
-Can this reuse tx_buf in the device?
-
-> +
-> +	spi_message_init(&msg);
-> +	memset(&blob_xfer, 0, sizeof(blob_xfer));
-> +	memset(&ack_xfer, 0, sizeof(ack_xfer));
-> +
-> +	blob_xfer.tx_buf = data;
-> +	blob_xfer.len = size;
-> +	blob_xfer.bits_per_word = bpw;
-> +	spi_message_add_tail(&blob_xfer, &msg);
-> +
-> +	ack_xfer.tx_buf = int_ack;
-> +	ack_xfer.len = 2;
-> +	spi_message_add_tail(&ack_xfer, &msg);
-> +
-> +	reinit_completion(&z2->boot_irq);
-> +	error = spi_sync(z2->spidev, &msg);
-> +	if (error)
-> +		return error;
-> +	wait_for_completion_timeout(&z2->boot_irq, msecs_to_jiffies(20));
-
-Why not handling timeouts?
-
-> +	return 0;
-> +}
-> +
-> +static int apple_z2_upload_firmware(struct apple_z2 *z2)
-> +{
-> +	const struct apple_z2_fw_hdr *fw_hdr;
-> +	size_t fw_idx = sizeof(struct apple_z2_fw_hdr);
-> +	int error;
-> +	u32 load_cmd;
-> +	u32 size;
-> +	u32 address;
-> +	char *data;
-> +	u8 bits_per_word;
-> +	size_t cal_size;
-> +	const struct firmware *fw __free(firmware) = NULL;
-> +
-> +	error = request_firmware(&fw, z2->fw_name, &z2->spidev->dev);
-
-Please keep the last 2 lines together and separate from declaration
-block.
-
-> +	if (error) {
-> +		dev_err(&z2->spidev->dev, "unable to load firmware");
-> +		return error;
-> +	}
-> +
-> +	fw_hdr = (const struct apple_z2_fw_hdr *)fw->data;
-> +	if (le32_to_cpu(fw_hdr->magic) != APPLE_Z2_FW_MAGIC || le32_to_cpu(fw_hdr->version) != 1) {
-> +		dev_err(&z2->spidev->dev, "invalid firmware header");
-> +		return -EINVAL;
-> +	}
-> +
-> +	/*
-> +	 * This will interrupt the upload half-way if the file is malformed
-> +	 * As the device has no non-volatile storage to corrupt, and gets reset
-> +	 * on boot anyway, this is fine.
-> +	 */
-> +	while (fw_idx < fw->size) {
-> +		if (fw->size - fw_idx < 8) {
-> +			dev_err(&z2->spidev->dev, "firmware malformed");
-> +			return -EINVAL;
-> +		}
-> +
-> +		load_cmd = le32_to_cpu(*(__le32 *)(fw->data + fw_idx));
-> +		fw_idx += sizeof(u32);
-> +		if (load_cmd == LOAD_COMMAND_INIT_PAYLOAD || load_cmd == LOAD_COMMAND_SEND_BLOB) {
-> +			size = le32_to_cpu(*(__le32 *)(fw->data + fw_idx));
-> +			fw_idx += sizeof(u32);
-> +			if (fw->size - fw_idx < size) {
-> +				dev_err(&z2->spidev->dev, "firmware malformed");
-> +				return -EINVAL;
-> +			}
-> +			bits_per_word = load_cmd == LOAD_COMMAND_SEND_BLOB ? 16 : 8;
-> +			error = apple_z2_send_firmware_blob(z2, fw->data + fw_idx,
-> +							    size, bits_per_word);
-> +			if (error)
-> +				return error;
-> +			fw_idx += size;
-> +		} else if (load_cmd == 2) {
-
-We have LOAD_COMMAND_INIT_PAYLOAD and LOAD_COMMAND_SEND_BLOB, can we
-have name for "2" as well please?
-
-> +			address = le32_to_cpu(*(u32 *)(fw->data + fw_idx));
-> +			fw_idx += sizeof(u32);
-> +			cal_size = device_property_count_u8(&z2->spidev->dev, CAL_PROP_NAME);
-> +			if (cal_size != 0) {
-> +				size = cal_size + sizeof(struct apple_z2_hbpp_blob_hdr) + 4;
-> +				data = kzalloc(size, GFP_KERNEL);
-> +				error = apple_z2_build_cal_blob(z2, address, cal_size, data);
-> +				if (!error)
-> +					error = apple_z2_send_firmware_blob(z2, data, size, 16);
-> +				kfree(data);
-> +				if (error)
-> +					return error;
-> +			}
-> +		} else {
-> +			dev_err(&z2->spidev->dev, "firmware malformed");
-> +			return -EINVAL;
-> +		}
-> +		if (fw_idx % 4 != 0)
-> +			fw_idx += 4 - (fw_idx % 4);
-> +	}
-> +
-> +
-> +	z2->booted = true;
-> +	apple_z2_read_packet(z2);
-> +	return 0;
-> +}
-> +
-> +static int apple_z2_boot(struct apple_z2 *z2)
-> +{
-> +	int timeout;
-> +	int error;
-> +
-> +	enable_irq(z2->spidev->irq);
-> +	gpiod_direction_output(z2->reset_gpio, 0);
-
-I think you need reinit_completion() here.
-
-> +	timeout = wait_for_completion_timeout(&z2->boot_irq, msecs_to_jiffies(20));
-> +	if (timeout == 0)
-> +		return -ETIMEDOUT;
-> +
-> +	error = apple_z2_upload_firmware(z2);
-> +	if (error) {
-> +		gpiod_direction_output(z2->reset_gpio, 1);
-> +		disable_irq(z2->spidev->irq);
-> +	}
-> +	return error;
-> +}
-> +
-> +static int apple_z2_probe(struct spi_device *spi)
-> +{
-> +	struct device *dev = &spi->dev;
-> +	struct apple_z2 *z2;
-> +	int error;
-> +
-> +	z2 = devm_kzalloc(dev, sizeof(*z2), GFP_KERNEL);
-> +	if (!z2)
-> +		return -ENOMEM;
-> +
-> +	z2->len_cmd = devm_kzalloc(dev, sizeof(*z2->len_cmd), GFP_KERNEL);
-> +	z2->rx_buf = devm_kzalloc(dev, 4096, GFP_KERNEL);
-> +	if (!z2->len_cmd || !z2->rx_buf)
-> +		return -ENOMEM;
-> +
-> +	z2->spidev = spi;
-> +	init_completion(&z2->boot_irq);
-> +	spi_set_drvdata(spi, z2);
-> +
-> +	z2->reset_gpio = devm_gpiod_get_index(dev, "reset", 0, 0);
-
-Why devm_gpiod_get_index() and not devm_gpiod_get()? Also, why don't
-you start with GPIOD_OUT_HIGH and use gpiod_set_value() instead of
-gpiod_direction_outout()?
-
-> +	if (IS_ERR(z2->reset_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(z2->reset_gpio), "unable to get reset");
-> +
-> +	error = devm_request_threaded_irq(dev, z2->spidev->irq, NULL,
-> +					apple_z2_irq, IRQF_ONESHOT | IRQF_NO_AUTOEN,
-> +					"apple-z2-irq", spi);
-> +	if (error)
-> +		return dev_err_probe(dev, z2->spidev->irq, "unable to request irq");
-> +
-> +	error = device_property_read_string(dev, "firmware-name", &z2->fw_name);
-> +	if (error)
-> +		return dev_err_probe(dev, error, "unable to get firmware name");
-> +
-> +	z2->input_dev = devm_input_allocate_device(dev);
-> +	if (!z2->input_dev)
-> +		return -ENOMEM;
-> +	z2->input_dev->name = (char *)spi_get_device_id(spi)->driver_data;
-> +	z2->input_dev->phys = "apple_z2";
-> +	z2->input_dev->id.bustype = BUS_SPI;
-> +
-> +	/* Allocate the axes before setting from DT */
-> +	input_set_abs_params(z2->input_dev, ABS_MT_POSITION_X, 0, 0, 0, 0);
-> +	input_set_abs_params(z2->input_dev, ABS_MT_POSITION_Y, 0, 0, 0, 0);
-> +	touchscreen_parse_properties(z2->input_dev, true, &z2->props);
-> +	input_abs_set_res(z2->input_dev, ABS_MT_POSITION_X, 100);
-> +	input_abs_set_res(z2->input_dev, ABS_MT_POSITION_Y, 100);
-> +	input_set_abs_params(z2->input_dev, ABS_MT_WIDTH_MAJOR, 0, 65535, 0, 0);
-> +	input_set_abs_params(z2->input_dev, ABS_MT_WIDTH_MINOR, 0, 65535, 0, 0);
-> +	input_set_abs_params(z2->input_dev, ABS_MT_TOUCH_MAJOR, 0, 65535, 0, 0);
-> +	input_set_abs_params(z2->input_dev, ABS_MT_TOUCH_MINOR, 0, 65535, 0, 0);
-> +	input_set_abs_params(z2->input_dev, ABS_MT_ORIENTATION, -32768, 32767, 0, 0);
-> +
-> +	input_set_drvdata(z2->input_dev, z2);
-> +
-> +	error = input_mt_init_slots(z2->input_dev, 256, INPUT_MT_DIRECT);
-> +	if (error)
-> +		return dev_err_probe(dev, error, "unable to initialize multitouch slots");
-> +
-> +	error = input_register_device(z2->input_dev);
-> +	if (error)
-> +		return dev_err_probe(dev, error, "unable to register input device");
-> +
-> +	/* Reset the device on boot */
-> +	gpiod_direction_output(z2->reset_gpio, 1);
-> +	usleep_range(5000, 10000);
-> +	error = apple_z2_boot(z2);
-> +	if (error)
-> +		return error;
-> +	return 0;
-> +}
-> +
-> +static void apple_z2_shutdown(struct spi_device *spi)
-> +{
-> +	struct apple_z2 *z2 = spi_get_drvdata(spi);
-> +
-> +	disable_irq(z2->spidev->irq);
-> +	gpiod_direction_output(z2->reset_gpio, 1);
-> +	z2->booted = false;
-> +}
-> +
-> +static int apple_z2_suspend(struct device *dev)
-> +{
-> +	apple_z2_shutdown(to_spi_device(dev));
-> +	return 0;
-> +}
-> +
-> +static int apple_z2_resume(struct device *dev)
-> +{
-> +	struct apple_z2 *z2 = spi_get_drvdata(to_spi_device(dev));
-> +
-> +	return apple_z2_boot(z2);
-> +}
-> +
-> +static DEFINE_SIMPLE_DEV_PM_OPS(apple_z2_pm, apple_z2_suspend, apple_z2_resume);
-> +
-> +static const struct of_device_id apple_z2_of_match[] = {
-> +	{ .compatible = "apple,j293-touchbar" },
-> +	{ .compatible = "apple,j493-touchbar" },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, apple_z2_of_match);
-> +
-> +static struct spi_device_id apple_z2_of_id[] = {
-> +	{ .name = "j293-touchbar", .driver_data = (kernel_ulong_t)"MacBookPro17,1 Touch Bar" },
-> +	{ .name = "j493-touchbar", .driver_data = (kernel_ulong_t)"Mac14,7 Touch Bar" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(spi, apple_z2_of_id);
-> +
-> +static struct spi_driver apple_z2_driver = {
-> +	.driver = {
-> +		.name	= "apple-z2",
-> +		.pm	= pm_sleep_ptr(&apple_z2_pm),
-> +		.of_match_table = apple_z2_of_match,
-
-You decided not to mark the driver for async probing... Why? Do you see
-userspace unhappy if you do so?
-
-> +	},
-> +	.id_table = apple_z2_of_id,
-> +	.probe    = apple_z2_probe,
-> +	.remove   = apple_z2_shutdown,
-> +};
-> +
-> +module_spi_driver(apple_z2_driver);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_FIRMWARE("apple/dfrmtfw-*.bin");
-> +MODULE_DESCRIPTION("Apple Z2 touchscreens driver");
-> 
-> -- 
-> 2.48.0
-> 
-> 
-
-Thanks.
-
--- 
-Dmitry
+PiBTdWJqZWN0OiBSZTogW1BBVENIIHYyIDAxLzEyXSBQTTogc2xlZXA6IHdha2VpcnE6IEludHJv
+ZHVjZSBkZXZpY2UtDQo+IG1hbmFnZWQgdmFyaWFudCBvZiBkZXZfcG1fc2V0X3dha2VfaXJxDQo+
+IA0KPiBPbiBGcmksIEphbiAzLCAyMDI1IGF0IDk6NDLigK9BTSBQZW5nIEZhbiAoT1NTKSA8cGVu
+Zy5mYW5Ab3NzLm54cC5jb20+DQo+IHdyb3RlOg0KPiA+DQo+ID4gRnJvbTogUGVuZyBGYW4gPHBl
+bmcuZmFuQG54cC5jb20+DQo+ID4NCj4gPiBBZGQgZGV2aWNlLW1hbmFnZWQgdmFyaWFudCBvZiBk
+ZXZfcG1fc2V0X3dha2VfaXJxIHdoaWNoDQo+IGF1dG9tYXRpY2FsbHkNCj4gPiBjbGVhciB0aGUg
+d2FrZSBpcnEgb24gZGV2aWNlIGRlc3RydWN0aW9uIHRvIHNpbXBsaWZ5IGVycm9yIGhhbmRsaW5n
+DQo+ID4gYW5kIHJlc291cmNlIG1hbmFnZW1lbnQgaW4gZHJpdmVycy4NCj4gPg0KPiA+IFNpZ25l
+ZC1vZmYtYnk6IFBlbmcgRmFuIDxwZW5nLmZhbkBueHAuY29tPg0KPiA+IC0tLQ0KPiA+ICBkcml2
+ZXJzL2Jhc2UvcG93ZXIvd2FrZWlycS5jIHwgMjYgKysrKysrKysrKysrKysrKysrKysrKysrKysN
+Cj4gPiAgaW5jbHVkZS9saW51eC9wbV93YWtlaXJxLmggICB8ICA2ICsrKysrKw0KPiA+ICAyIGZp
+bGVzIGNoYW5nZWQsIDMyIGluc2VydGlvbnMoKykNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2Jhc2UvcG93ZXIvd2FrZWlycS5jDQo+ID4gYi9kcml2ZXJzL2Jhc2UvcG93ZXIvd2FrZWly
+cS5jIGluZGV4DQo+ID4NCj4gNWE1YTllOTc4ZTg1ZjNmYzlkODljYjdkNDM1MjdkYzFkZDQyYTli
+MS4uOGFhMjhjMDhiMjg5MWYzYWYNCj4gNDkwMTc1MzYyY2MNCj4gPiAxYTc1OTA2OWJkNTAgMTAw
+NjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9iYXNlL3Bvd2VyL3dha2VpcnEuYw0KPiA+ICsrKyBiL2Ry
+aXZlcnMvYmFzZS9wb3dlci93YWtlaXJxLmMNCj4gPiBAQCAtMTAzLDYgKzEwMywzMiBAQCB2b2lk
+IGRldl9wbV9jbGVhcl93YWtlX2lycShzdHJ1Y3QgZGV2aWNlDQo+ICpkZXYpICB9DQo+ID4gRVhQ
+T1JUX1NZTUJPTF9HUEwoZGV2X3BtX2NsZWFyX3dha2VfaXJxKTsNCj4gPg0KPiA+ICtzdGF0aWMg
+dm9pZCBkZXZtX3BtX2NsZWFyX3dha2VfaXJxKHZvaWQgKmRldikgew0KPiA+ICsgICAgICAgZGV2
+X3BtX2NsZWFyX3dha2VfaXJxKGRldik7DQo+ID4gK30NCj4gPiArDQo+ID4gKy8qKg0KPiA+ICsg
+KiBkZXZtX3BtX3NldF93YWtlX2lycSAtIGRldmljZS1tYW5hZ2VkIHZhcmlhbnQgb2YNCj4gPiAr
+ZGV2X3BtX3NldF93YWtlX2lycQ0KPiA+ICsgKiBAZGV2OiBEZXZpY2UgZW50cnkNCj4gPiArICog
+QGlycTogRGV2aWNlIElPIGludGVycnVwdA0KPiA+ICsgKg0KPiA+ICsgKg0KPiA+ICsgKiBBdHRh
+Y2ggYSBkZXZpY2UgSU8gaW50ZXJydXB0IGFzIGEgd2FrZSBJUlEsIHNhbWUgd2l0aA0KPiA+ICtk
+ZXZfcG1fc2V0X3dha2VfaXJxLA0KPiA+ICsgKiBidXQgdGhlIGRldmljZSB3aWxsIGJlIGF1dG8g
+Y2xlYXIgd2FrZSBjYXBhYmlsaXR5IG9uIGRyaXZlciBkZXRhY2guDQo+ID4gKyAqLw0KPiA+ICtp
+bnQgZGV2bV9wbV9zZXRfd2FrZV9pcnEoc3RydWN0IGRldmljZSAqZGV2LCBpbnQgaXJxKSB7DQo+
+ID4gKyAgICAgICBpbnQgcmV0Ow0KPiA+ICsNCj4gPiArICAgICAgIHJldCA9IGRldl9wbV9zZXRf
+d2FrZV9pcnEoZGV2LCBpcnEpOw0KPiA+ICsgICAgICAgaWYgKHJldCkNCj4gPiArICAgICAgICAg
+ICAgICAgcmV0dXJuIHJldDsNCj4gPiArDQo+ID4gKyAgICAgICByZXR1cm4gZGV2bV9hZGRfYWN0
+aW9uX29yX3Jlc2V0KGRldiwNCj4gZGV2bV9wbV9jbGVhcl93YWtlX2lycSwNCj4gPiArZGV2KTsg
+fSBFWFBPUlRfU1lNQk9MX0dQTChkZXZtX3BtX3NldF93YWtlX2lycSk7DQo+ID4gKw0KPiA+ICAv
+KioNCj4gPiAgICogaGFuZGxlX3RocmVhZGVkX3dha2VfaXJxIC0gSGFuZGxlciBmb3IgZGVkaWNh
+dGVkIHdha2UtdXANCj4gaW50ZXJydXB0cw0KPiA+ICAgKiBAaXJxOiBEZXZpY2Ugc3BlY2lmaWMg
+ZGVkaWNhdGVkIHdha2UtdXAgaW50ZXJydXB0IGRpZmYgLS1naXQNCj4gPiBhL2luY2x1ZGUvbGlu
+dXgvcG1fd2FrZWlycS5oIGIvaW5jbHVkZS9saW51eC9wbV93YWtlaXJxLmggaW5kZXgNCj4gPg0K
+PiBkOTY0MmM2Y2Y4NTIxMWFmNjAzY2UzOWUyODBhNWI0ZGU2NjE3ZWU1Li4yNWI2M2VkNTFiNzY1
+YzJjNg0KPiA5MTlmMjU5NjY4YQ0KPiA+IDEyNjc1MzMwODM1ZSAxMDA2NDQNCj4gPiAtLS0gYS9p
+bmNsdWRlL2xpbnV4L3BtX3dha2VpcnEuaA0KPiA+ICsrKyBiL2luY2x1ZGUvbGludXgvcG1fd2Fr
+ZWlycS5oDQo+ID4gQEAgLTEwLDYgKzEwLDcgQEAgZXh0ZXJuIGludCBkZXZfcG1fc2V0X3dha2Vf
+aXJxKHN0cnVjdCBkZXZpY2UNCj4gKmRldiwNCj4gPiBpbnQgaXJxKTsgIGV4dGVybiBpbnQgZGV2
+X3BtX3NldF9kZWRpY2F0ZWRfd2FrZV9pcnEoc3RydWN0IGRldmljZQ0KPiA+ICpkZXYsIGludCBp
+cnEpOyAgZXh0ZXJuIGludA0KPiA+IGRldl9wbV9zZXRfZGVkaWNhdGVkX3dha2VfaXJxX3JldmVy
+c2Uoc3RydWN0IGRldmljZSAqZGV2LCBpbnQgaXJxKTsNCj4gPiBleHRlcm4gdm9pZCBkZXZfcG1f
+Y2xlYXJfd2FrZV9pcnEoc3RydWN0IGRldmljZSAqZGV2KTsNCj4gPiArZXh0ZXJuIGludCBkZXZt
+X3BtX3NldF93YWtlX2lycShzdHJ1Y3QgZGV2aWNlICpkZXYsIGludCBpcnEpOw0KPiA+DQo+ID4g
+ICNlbHNlICAvKiAhQ09ORklHX1BNICovDQo+ID4NCj4gPiBAQCAtMzIsNSArMzMsMTAgQEAgc3Rh
+dGljIGlubGluZSB2b2lkDQo+IGRldl9wbV9jbGVhcl93YWtlX2lycShzdHJ1Y3QNCj4gPiBkZXZp
+Y2UgKmRldikgIHsgIH0NCj4gPg0KPiA+ICtzdGF0aWMgaW5saW5lIGludCBkZXZtX3BtX3NldF93
+YWtlX2lycShzdHJ1Y3QgZGV2aWNlICpkZXYsIGludCBpcnEpIHsNCj4gPiArICAgICAgIHJldHVy
+biAwOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICAjZW5kaWYgLyogQ09ORklHX1BNICovDQo+ID4gICNl
+bmRpZiAvKiBfTElOVVhfUE1fV0FLRUlSUV9IICovDQo+ID4NCj4gPiAtLQ0KPiANCj4gSSBjYW4g
+YXBwbHkgdGhpcyBwYXRjaCBmb3IgNi4xNCwgYnV0IHRoZSByZXN0IG9mIHRoZSBzZXJpZXMgd2ls
+bCBuZWVkIHRvIGJlDQo+IHBpY2tlZCB1cCBieSB0aGUgcmVzcGVjdGl2ZSBkcml2ZXIgbWFpbnRh
+aW5lcnMuDQo+IA0KPiBJIGhvcGUgdGhpcyB3b3JrcyBmb3IgeW91Pw0KDQpZZXMuIHBsZWFzZSBq
+dXN0IHBpY2sgdXAgcGF0Y2ggMS4NClBhdGNoIFsyLTEyXS8xMiBzaG91bGQgZ28gdGhyb3VnaCBS
+VEMgYW5kIElOUFVUIG1haW50YWluZXIncyB0cmVlDQoNClRoYW5rcywNClBlbmcuDQo=
 
