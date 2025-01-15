@@ -1,296 +1,137 @@
-Return-Path: <linux-input+bounces-9254-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9255-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C90A12E56
-	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2025 23:36:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D916A12E67
+	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2025 23:46:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B45E1887405
-	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2025 22:36:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 76EFC18865FB
+	for <lists+linux-input@lfdr.de>; Wed, 15 Jan 2025 22:46:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E3251D90CB;
-	Wed, 15 Jan 2025 22:36:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24D9B1DC9B6;
+	Wed, 15 Jan 2025 22:46:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fGhI1Bp8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hHvyptkx"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FCE519CC2A
-	for <linux-input@vger.kernel.org>; Wed, 15 Jan 2025 22:36:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E666415D5C5;
+	Wed, 15 Jan 2025 22:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736980593; cv=none; b=mSIhMvTsoD4yiOZF72NtUE4CUqpGUEAIjw1SxN0Q4jW+RRatVVoDqNxSTNmt1f0Ocq7/n+0ilQ+vFdIbdRRIYcI4Dy/y0iXkXdKS9flv2nrcF+P+BIPbo9AwZlqS66XeIuObDB1UfK6CRVwGwjBMi+9HrW85wsdkMZuTZ5NfRgg=
+	t=1736981173; cv=none; b=mVhyrgaF35zynQejLCzVnVOBdOb6mXrupNTupuXjdrDnZt67Oauf1o1BBDvY+UkaFhDkFDez/tjoGfg9ZT6rEEcv++4UuJ4VkKlqjFpyolfYSSLIRYiGTSI/Wag9RVqOkK/Ti16KeVDeEojStTAuqkkorT1S2EGJ4smH8fvwGn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736980593; c=relaxed/simple;
-	bh=Q92ksp+dX8YLFKBm6+vQqOXfUBJgB2OFQSoHk4IB7yY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jdLkhMNzMMZCrX75frfJj26We6PLGKfo5XAybpki2BzStT4cwHOo0Gc47H/PKKUNFkLAGyU/42jXLMzt3NTrsHfeP+2Zlp4DVsXgcrS2V2NPKIhNMmXhjzD/+RuYI2dzELKSp9Z/BRi9XBXhnUqR53vDq3aGeBTcT1g2PoJ9Bn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fGhI1Bp8; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736980591; x=1768516591;
-  h=date:from:to:cc:subject:message-id;
-  bh=Q92ksp+dX8YLFKBm6+vQqOXfUBJgB2OFQSoHk4IB7yY=;
-  b=fGhI1Bp8lPvie93mebxY6tBXYFtb/3SPSCHXB/IuEST83NWI7yM7SrPN
-   nMrnoEzLeXJgETr6HiqG+1kt1NvuztQhUHXqk69xUNHKpjRPQF2Ij/PMD
-   AChCRurlP0FVB43FCrxMnDlTlldQRSKI3MvdRjOlXboJNyqiNz7ORpQhn
-   CMWRkulp5s4amNT0k3Dtt/uBV1vNEAlNHEuBKg2OuAh6rRklEB3QipgfB
-   nkJ/IgXZ//8CWdMqPgY0N2s/3YBqiKfNFEGdpwOhGdBNLCKFXLayCtswW
-   uO1l4DFRVGZw0rYzKcNSnARloTPyYQ6gAmtvjQ/gCpnrLGfpkAJvgk9X7
-   g==;
-X-CSE-ConnectionGUID: vBQ0gANIToukYKBhxQB7hg==
-X-CSE-MsgGUID: 3ANbjcloRHqPDI/IprpRzg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="54755594"
-X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
-   d="scan'208";a="54755594"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 14:36:30 -0800
-X-CSE-ConnectionGUID: y9ViUAs9R7m1PHJvR29YRw==
-X-CSE-MsgGUID: 8g9UnhV9RPSuzP3xW532zg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
-   d="scan'208";a="105826311"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 15 Jan 2025 14:36:29 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tYBzv-000Qxb-11;
-	Wed, 15 Jan 2025 22:36:27 +0000
-Date: Thu, 16 Jan 2025 06:36:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- d3561c4098de9666b87630ad3f090b41e67cdd62
-Message-ID: <202501160607.pp2vyMnr-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1736981173; c=relaxed/simple;
+	bh=Knr0caKO3pB1buKxJm1DtsDZu8Tt8G4u0XclRVx/eiY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mHnk7h3ncTUSpvi2eTtONx3hlbfNBGSVUzDVMgCAMcNWN3EyULIGF2UhEZ5H0z898Mf4oDeF8kviOXJZf8hM4lV89LUu8bJ2CqufXQ3nS+3JyVUj1HtmhT6Bh4nEEkQJuto7TkrI1sY2PUNF9dujp3+8Tn4/g6/m3FP1Fsm52gY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hHvyptkx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 71CF5C4CED1;
+	Wed, 15 Jan 2025 22:46:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736981172;
+	bh=Knr0caKO3pB1buKxJm1DtsDZu8Tt8G4u0XclRVx/eiY=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=hHvyptkxeJIKlykbQRTbV46izk/P5LJUMqfYZsFlHiD/JaNoE9odF9u92+ZOjJrmv
+	 QnIYf56QC6hf+ib1dbb1ww5AQtStimDzhFIRgHBVaGvbL6jLMjND4nLrgdVTlu0tG1
+	 8MFNGHx0h9N3uO8QzNMKKtiXnmJ1ATZfK9yS737kmlhMkYC4RTSqYB66UCkP3INTtw
+	 k92c4qzo4OKnRzMEMsAbK/pGxU7FR7R80Qw0fywD0JQFmS1iTe5S5MFeUg5cey33nS
+	 hb04YSqHyZtrO8s8kMo2/LJ9irOzUw6I+7MAS7IpVduE+jMTx6sZuSG/aQ9/dhdyXC
+	 S5NhOJgz4jKmw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63509C02180;
+	Wed, 15 Jan 2025 22:46:12 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Subject: [PATCH v4 0/4] Driver for Apple Z2 touchscreens.
+Date: Wed, 15 Jan 2025 23:46:04 +0100
+Message-Id: <20250115-z2-v4-0-d7361ab16ba0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKw6iGcC/13MQQ6CMBCF4auQrq3pTFtAV97DuIBpgSYipjWNS
+ ri7pQkJcflP5nszC9Y7G9i5mJm30QU3PVKoQ8FoaB695c6kZihQAaDiX+QkAFuNtW2EYenx6W3
+ n3nnkeks9uPCa/CdvRlivGy9XHoELTkqSIipRCHPpx8bdjzSNbOUR96TOBBOpSiJ9atsOoPonc
+ iNaJJOJTESTsFprI00He7Isyw8zFY11+gAAAA==
+X-Change-ID: 20241124-z2-c012b528ea0d
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Neal Gompa <neal@gompa.dev>, Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736981170; l=2269;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=Knr0caKO3pB1buKxJm1DtsDZu8Tt8G4u0XclRVx/eiY=;
+ b=6zM0bJw99JTimTeE7zFuZxaj7GgP7UA/B7bfcVXNRcVFEcW8vpRFkZHU8DvH+JyEfuNnnP/QA
+ yZxSuCnnfgHBrQk4A4sgXIH+x3IELa4v7W//ulON6ujaRXRUiL/cozE
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: d3561c4098de9666b87630ad3f090b41e67cdd62  Input: joystick - use str_off_on() helper in sw_connect()
+Hi.
 
-elapsed time: 1455m
+This series adds support for Apple touchscreens using the Z2 protocol.
+Those are used as the primary touchscreen on mobile Apple devices, and for the
+touchbar on laptops using the M-series chips. (T1/T2 laptops have a coprocessor
+in charge of speaking Z2 to the touchbar).
 
-configs tested: 203
-configs skipped: 3
+Originally sent as a RFC at https://lore.kernel.org/all/20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com/
+The changes since then mostly address the review feedback, but also
+add another machine that has this specific controller.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+Changes in v4:
+- Dropped another allocation, other fixes.
+- Link to v3: https://lore.kernel.org/r/20250112-z2-v3-0-5c0e555d3df1@gmail.com
 
-tested configs:
-alpha                            alldefconfig    gcc-14.2.0
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    clang-20
-arc                              allmodconfig    clang-18
-arc                               allnoconfig    gcc-14.2.0
-arc                              allyesconfig    clang-18
-arc                   randconfig-001-20250115    gcc-13.2.0
-arc                   randconfig-001-20250116    clang-15
-arc                   randconfig-002-20250115    gcc-13.2.0
-arc                   randconfig-002-20250116    clang-15
-arc                        vdk_hs38_defconfig    gcc-14.2.0
-arm                              allmodconfig    clang-18
-arm                               allnoconfig    gcc-14.2.0
-arm                              allyesconfig    clang-18
-arm                         lpc32xx_defconfig    gcc-14.2.0
-arm                        multi_v5_defconfig    gcc-14.2.0
-arm                        neponset_defconfig    gcc-14.2.0
-arm                   randconfig-001-20250115    clang-16
-arm                   randconfig-001-20250116    clang-15
-arm                   randconfig-002-20250115    clang-20
-arm                   randconfig-002-20250116    clang-15
-arm                   randconfig-003-20250115    clang-20
-arm                   randconfig-003-20250116    clang-15
-arm                   randconfig-004-20250115    clang-20
-arm                   randconfig-004-20250116    clang-15
-arm64                            allmodconfig    clang-18
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250115    clang-20
-arm64                 randconfig-001-20250116    clang-15
-arm64                 randconfig-002-20250115    gcc-14.2.0
-arm64                 randconfig-002-20250116    clang-15
-arm64                 randconfig-003-20250115    clang-18
-arm64                 randconfig-003-20250116    clang-15
-arm64                 randconfig-004-20250115    gcc-14.2.0
-arm64                 randconfig-004-20250116    clang-15
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250115    gcc-14.2.0
-csky                  randconfig-001-20250116    clang-20
-csky                  randconfig-002-20250115    gcc-14.2.0
-csky                  randconfig-002-20250116    clang-20
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    gcc-14.2.0
-hexagon                          allyesconfig    clang-20
-hexagon               randconfig-001-20250115    clang-20
-hexagon               randconfig-001-20250116    clang-20
-hexagon               randconfig-002-20250115    clang-19
-hexagon               randconfig-002-20250116    clang-20
-i386                             allmodconfig    clang-19
-i386                              allnoconfig    clang-19
-i386                             allyesconfig    clang-19
-i386        buildonly-randconfig-001-20250115    clang-19
-i386        buildonly-randconfig-001-20250116    clang-19
-i386        buildonly-randconfig-002-20250115    gcc-12
-i386        buildonly-randconfig-002-20250116    clang-19
-i386        buildonly-randconfig-003-20250115    gcc-12
-i386        buildonly-randconfig-003-20250116    clang-19
-i386        buildonly-randconfig-004-20250115    gcc-12
-i386        buildonly-randconfig-004-20250116    clang-19
-i386        buildonly-randconfig-005-20250115    gcc-12
-i386        buildonly-randconfig-005-20250116    clang-19
-i386        buildonly-randconfig-006-20250115    gcc-12
-i386        buildonly-randconfig-006-20250116    clang-19
-i386                                defconfig    clang-19
-i386                  randconfig-001-20250116    clang-19
-i386                  randconfig-002-20250116    clang-19
-i386                  randconfig-003-20250116    clang-19
-i386                  randconfig-004-20250116    clang-19
-i386                  randconfig-005-20250116    clang-19
-i386                  randconfig-006-20250116    clang-19
-i386                  randconfig-007-20250116    clang-19
-i386                  randconfig-011-20250116    gcc-12
-i386                  randconfig-012-20250116    gcc-12
-i386                  randconfig-013-20250116    gcc-12
-i386                  randconfig-014-20250116    gcc-12
-i386                  randconfig-015-20250116    gcc-12
-i386                  randconfig-016-20250116    gcc-12
-i386                  randconfig-017-20250116    gcc-12
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch                 loongson3_defconfig    gcc-14.2.0
-loongarch             randconfig-001-20250115    gcc-14.2.0
-loongarch             randconfig-001-20250116    clang-20
-loongarch             randconfig-002-20250115    gcc-14.2.0
-loongarch             randconfig-002-20250116    clang-20
-m68k                              allnoconfig    gcc-14.2.0
-m68k                         apollo_defconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                       rbtx49xx_defconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250115    gcc-14.2.0
-nios2                 randconfig-001-20250116    clang-20
-nios2                 randconfig-002-20250115    gcc-14.2.0
-nios2                 randconfig-002-20250116    clang-20
-openrisc                          allnoconfig    clang-20
-openrisc                            defconfig    gcc-12
-parisc                            allnoconfig    clang-20
-parisc                              defconfig    gcc-12
-parisc                generic-32bit_defconfig    gcc-14.2.0
-parisc                randconfig-001-20250115    gcc-14.2.0
-parisc                randconfig-001-20250116    clang-20
-parisc                randconfig-002-20250115    gcc-14.2.0
-parisc                randconfig-002-20250116    clang-20
-powerpc                           allnoconfig    clang-20
-powerpc                 linkstation_defconfig    gcc-14.2.0
-powerpc                      pcm030_defconfig    gcc-14.2.0
-powerpc               randconfig-001-20250115    gcc-14.2.0
-powerpc               randconfig-001-20250116    clang-20
-powerpc               randconfig-002-20250115    gcc-14.2.0
-powerpc               randconfig-002-20250116    clang-20
-powerpc               randconfig-003-20250115    gcc-14.2.0
-powerpc               randconfig-003-20250116    clang-20
-powerpc64             randconfig-001-20250115    gcc-14.2.0
-powerpc64             randconfig-001-20250116    clang-20
-powerpc64             randconfig-002-20250115    gcc-14.2.0
-powerpc64             randconfig-002-20250116    clang-20
-powerpc64             randconfig-003-20250115    clang-18
-powerpc64             randconfig-003-20250116    clang-20
-riscv                             allnoconfig    clang-20
-riscv                               defconfig    gcc-12
-riscv                 randconfig-001-20250115    gcc-14.2.0
-riscv                 randconfig-001-20250116    gcc-14.2.0
-riscv                 randconfig-002-20250115    clang-16
-riscv                 randconfig-002-20250116    gcc-14.2.0
-s390                             allmodconfig    clang-19
-s390                             allmodconfig    gcc-14.2.0
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.2.0
-s390                                defconfig    gcc-12
-s390                  randconfig-001-20250115    clang-20
-s390                  randconfig-001-20250116    gcc-14.2.0
-s390                  randconfig-002-20250115    clang-15
-s390                  randconfig-002-20250116    gcc-14.2.0
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                                  defconfig    gcc-12
-sh                    randconfig-001-20250115    gcc-14.2.0
-sh                    randconfig-001-20250116    gcc-14.2.0
-sh                    randconfig-002-20250115    gcc-14.2.0
-sh                    randconfig-002-20250116    gcc-14.2.0
-sh                          rsk7269_defconfig    gcc-14.2.0
-sh                   sh7770_generic_defconfig    gcc-14.2.0
-sparc                            alldefconfig    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250115    gcc-14.2.0
-sparc                 randconfig-001-20250116    gcc-14.2.0
-sparc                 randconfig-002-20250115    gcc-14.2.0
-sparc                 randconfig-002-20250116    gcc-14.2.0
-sparc64                             defconfig    gcc-12
-sparc64               randconfig-001-20250115    gcc-14.2.0
-sparc64               randconfig-001-20250116    gcc-14.2.0
-sparc64               randconfig-002-20250115    gcc-14.2.0
-sparc64               randconfig-002-20250116    gcc-14.2.0
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-20
-um                               allyesconfig    clang-20
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250115    clang-18
-um                    randconfig-001-20250116    gcc-14.2.0
-um                    randconfig-002-20250115    gcc-12
-um                    randconfig-002-20250116    gcc-14.2.0
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20250115    gcc-12
-x86_64      buildonly-randconfig-001-20250116    gcc-12
-x86_64      buildonly-randconfig-002-20250115    gcc-12
-x86_64      buildonly-randconfig-002-20250116    gcc-12
-x86_64      buildonly-randconfig-003-20250115    clang-19
-x86_64      buildonly-randconfig-003-20250116    gcc-12
-x86_64      buildonly-randconfig-004-20250115    clang-19
-x86_64      buildonly-randconfig-004-20250116    gcc-12
-x86_64      buildonly-randconfig-005-20250115    gcc-12
-x86_64      buildonly-randconfig-005-20250116    gcc-12
-x86_64      buildonly-randconfig-006-20250115    clang-19
-x86_64      buildonly-randconfig-006-20250116    gcc-12
-x86_64                              defconfig    clang-19
-x86_64                                  kexec    clang-19
-x86_64                randconfig-001-20250116    gcc-12
-x86_64                randconfig-002-20250116    gcc-12
-x86_64                randconfig-003-20250116    gcc-12
-x86_64                randconfig-004-20250116    gcc-12
-x86_64                randconfig-005-20250116    gcc-12
-x86_64                randconfig-006-20250116    gcc-12
-x86_64                randconfig-007-20250116    gcc-12
-x86_64                randconfig-008-20250116    gcc-12
-x86_64                randconfig-071-20250116    gcc-12
-x86_64                randconfig-072-20250116    gcc-12
-x86_64                randconfig-073-20250116    gcc-12
-x86_64                randconfig-074-20250116    gcc-12
-x86_64                randconfig-075-20250116    gcc-12
-x86_64                randconfig-076-20250116    gcc-12
-x86_64                randconfig-077-20250116    gcc-12
-x86_64                randconfig-078-20250116    gcc-12
-x86_64                               rhel-9.4    clang-19
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                          iss_defconfig    gcc-14.2.0
-xtensa                randconfig-001-20250115    gcc-14.2.0
-xtensa                randconfig-001-20250116    gcc-14.2.0
-xtensa                randconfig-002-20250115    gcc-14.2.0
-xtensa                randconfig-002-20250116    gcc-14.2.0
+Changes in v3:
+- Tx/Rx buffers used in interrupt handler are now allocated in probe and reused
+- Other various style fixes
+- Link to v2: https://lore.kernel.org/r/20241128-z2-v2-0-76cc59bbf117@gmail.com
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Changes in v2:
+- In a separate patch, fixed an issue that prevented the SPI controller
+  from using GPIO CS, and as such, moved the hardware quirk to there
+- Went back to uploading the firmware in probe() instad of open()
+- Other changes addressing the review feedback
+- Link to v1: https://lore.kernel.org/r/20241126-z2-v1-0-c43c4cc6200d@gmail.com
+
+---
+Sasha Finkelstein (4):
+      dt-bindings: input: touchscreen: Add Z2 controller
+      input: apple_z2: Add a driver for Apple Z2 touchscreens
+      arm64: dts: apple: Add touchbar digitizer nodes
+      MAINTAINERS: Add entries for Apple Z2 touchscreen driver
+
+ .../input/touchscreen/apple,z2-multitouch.yaml     |  70 ++++
+ MAINTAINERS                                        |   2 +
+ arch/arm64/boot/dts/apple/t8103-j293.dts           |  27 ++
+ arch/arm64/boot/dts/apple/t8103.dtsi               |  19 +
+ arch/arm64/boot/dts/apple/t8112-j493.dts           |  23 ++
+ arch/arm64/boot/dts/apple/t8112.dtsi               |  14 +
+ drivers/input/touchscreen/Kconfig                  |  13 +
+ drivers/input/touchscreen/Makefile                 |   1 +
+ drivers/input/touchscreen/apple_z2.c               | 454 +++++++++++++++++++++
+ 9 files changed, 623 insertions(+)
+---
+base-commit: b62cef9a5c673f1b8083159f5dc03c1c5daced2f
+change-id: 20241124-z2-c012b528ea0d
+
+
 
