@@ -1,52 +1,52 @@
-Return-Path: <linux-input+bounces-9322-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9323-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07190A146CD
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 00:51:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8E1A146D5
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 00:53:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 175EE7A10AA
-	for <lists+linux-input@lfdr.de>; Thu, 16 Jan 2025 23:50:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 86CCE188DFDE
+	for <lists+linux-input@lfdr.de>; Thu, 16 Jan 2025 23:53:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CB7C1482E8;
-	Thu, 16 Jan 2025 23:50:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4994C13B58C;
+	Thu, 16 Jan 2025 23:53:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gJgDXXZU"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rwG/Bkv+"
 X-Original-To: linux-input@vger.kernel.org
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCE725A627;
-	Thu, 16 Jan 2025 23:50:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D22C25A620;
+	Thu, 16 Jan 2025 23:53:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737071455; cv=none; b=NgxGf9HVhABToOaxoQEgAZWeROxMUQUaypHgHuqDvw9toa0lk9X4oUdJK/9n6guqC1b5vvdOLiPjKm3Mx/D4FAcwWHqEXNNfGWWoiH2qEEErpFEstto7Rls0vjTAj6O9U7uWoq0Ol74ej5Hcoi61eFOdq7W21pKQQNgsbYj0BtU=
+	t=1737071608; cv=none; b=NKAF1aH4YFZDGWs+g21t02vxuUTOFLtKlOTv5/8lA5k4MRz/hzUvKkt9K7jCLhGScS7jkDyfED7/yHacrzyd+SdbkTX0b7ENnVHuFl3MdHpsHmD5HCgGEv1Xpi8KhstulU7D9WMEU8VkQbYuJ7TcuiUhgAaJCKpkfwyHpSWn7fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737071455; c=relaxed/simple;
-	bh=hntKlccZ0+vTTnbH4nYBuRl8J8JBvhj6Txfzb7AmzFo=;
+	s=arc-20240116; t=1737071608; c=relaxed/simple;
+	bh=fMI/wQYtRSh+mmgL4eWCJdh2SM4kuK7GivhJzyzz0Vg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jUc1PxoACnENrfObYg80FHdQfvo97n6ywy3ApGuChHDIQtF5kz5ZrLUHOQI3ELcz+FhkMrar9AFeLDK+ZVV2EMPB0/1gwR32jurQDUP8Qr3UCmFWIGM44copERSc2wRxjqToqZTCDmz/kg5nEG3UbvmwsicXrd1Up9jRM9dZdX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gJgDXXZU; arc=none smtp.client-ip=90.155.50.34
+	 In-Reply-To:Content-Type; b=PU6EprHCf5oGgmt389r/EBrX+Cr3q9Nqo53lGyB+9G168dS5lcd6+jGZwEX1TXw4kUVwup0ZQ0SiHE5tefYJd6BoN1ExW4mu7NbsdIXSknwY7qcM3tfovddS0QyCO8HxtjD6RtqZPfckQYrk608j4jeC1+5HBUtXaGoM+mlbKOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rwG/Bkv+; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
 	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
 	:Reply-To:Content-ID:Content-Description;
-	bh=h1euKZsqlyA9o+zLDbUkPmhPu6QJIkwhOh4RkeH8xqM=; b=gJgDXXZU2lFrY9x/47l2GXd3Lt
-	XYeSnqIelBUb1ejrn2Z2xrb8df4a23k+wBCJoUFNEF+vgMRkjcaO9zQ1AP/Pgd4sbP1M/Kb31BPoJ
-	itxUEK3cU/e+48ekmb1x4iJdFOJ5PtyUUr84/jlgpzK9Ies+JiFQUrbWvEfTO5xklv+R+AtBogsrO
-	twHuhLvm+fPGTBUWvXQcx2Fd2xI4OopCTEYq0eGl+bxJewxCI6HjeVBGXBHckkdHC3/xpdpRhwqKt
-	TrCg3+iH1yKgWAaJLjMroyy5mTsSBf5envZilJAHpS6fP5aWQ3Ujg+PHf4baabwXrSUNBTSEd+ja1
-	vzLzBDjA==;
+	bh=5fBJl4wFxvNWO8lXVueuBLxocroZzh7AlOaC5uH25wA=; b=rwG/Bkv+feizVmzXLoPlZb12cK
+	09/yYZLAd/rJQIQgg/M2UL20qb7/fWzAGuzvgunL+wuR+wtDMPWywewqSjcpM84MgzLDlQ9tUBxKI
+	WIo0dl70RHGAApERbA9NDUMQ6GZzvbDvGCXF3z2xAIJt/cgEGI6Pp5UhkHFtqmN9aK4FB0+YQwNTf
+	Y5bpmDZ/7DZYzbOJCdzyRr9p0CEEmVTKLN3QXK+pLtK06nX328f5m8XY5uPShn/iUZLMsHnYdZJBg
+	oTNz3pV0MS9YPzZ8nCjAUA+IgHuRu4/qRX5j31Rh1mII3pJMnJ9ZA78WNJ8PGtYuQG0DVXT6xi1Wa
+	/oW++n+Q==;
 Received: from [50.53.2.24] (helo=[192.168.254.17])
 	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYZdM-00000004HMh-2Kwa;
-	Thu, 16 Jan 2025 23:50:44 +0000
-Message-ID: <b7cc0405-afda-4d88-ba8d-f0222220a272@infradead.org>
-Date: Thu, 16 Jan 2025 15:50:38 -0800
+	id 1tYZfr-00000004Ijv-0L9A;
+	Thu, 16 Jan 2025 23:53:19 +0000
+Message-ID: <348416d5-01c7-416d-aecb-75da46f86a80@infradead.org>
+Date: Thu, 16 Jan 2025 15:53:13 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -54,8 +54,8 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v33 14/31] ASoC: Add SoC USB APIs for adding an USB
- backend
+Subject: Re: [PATCH v33 24/31] ASoC: qcom: qdsp6: Add USB backend ASoC driver
+ for Q6
 To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
  mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
  dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
@@ -67,156 +67,68 @@ Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-doc@vger.kernel.org
 References: <20250116232824.3748438-1-quic_wcheng@quicinc.com>
- <20250116232824.3748438-15-quic_wcheng@quicinc.com>
+ <20250116232824.3748438-25-quic_wcheng@quicinc.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250116232824.3748438-15-quic_wcheng@quicinc.com>
+In-Reply-To: <20250116232824.3748438-25-quic_wcheng@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-There are a few kernel-doc problems here (see below).
+Similar kernel-doc comments here...
 
 On 1/16/25 3:28 PM, Wesley Cheng wrote:
-> Some platforms may have support for offloading USB audio devices to a
-> dedicated audio DSP.  Introduce a set of APIs that allow for management of
-> USB sound card and PCM devices enumerated by the USB SND class driver.
-> This allows for the ASoC components to be aware of what USB devices are
-> available for offloading.
+> Create a USB BE component that will register a new USB port to the ASoC USB
+> framework.  This will handle determination on if the requested audio
+> profile is supported by the USB device currently selected.
 > 
-> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Check for if the PCM format is supported during the hw_params callback.  If
+> the profile is not supported then the userspace ALSA entity will receive an
+> error, and can take further action.
+> 
 > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 > ---
->  include/sound/soc-usb.h |  97 ++++++++++++++++++
->  sound/soc/Kconfig       |  10 ++
->  sound/soc/Makefile      |   2 +
->  sound/soc/soc-usb.c     | 220 ++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 329 insertions(+)
->  create mode 100644 include/sound/soc-usb.h
->  create mode 100644 sound/soc/soc-usb.c
+>  include/sound/q6usboffload.h  |  20 +++
+>  sound/soc/qcom/Kconfig        |  10 ++
+>  sound/soc/qcom/qdsp6/Makefile |   1 +
+>  sound/soc/qcom/qdsp6/q6usb.c  | 246 ++++++++++++++++++++++++++++++++++
+>  4 files changed, 277 insertions(+)
+>  create mode 100644 include/sound/q6usboffload.h
+>  create mode 100644 sound/soc/qcom/qdsp6/q6usb.c
 > 
-> diff --git a/include/sound/soc-usb.h b/include/sound/soc-usb.h
+> diff --git a/include/sound/q6usboffload.h b/include/sound/q6usboffload.h
 > new file mode 100644
-> index 000000000000..bd4c5632bb62
+> index 000000000000..cca6d353afc3
 > --- /dev/null
-> +++ b/include/sound/soc-usb.h
-> @@ -0,0 +1,97 @@
+> +++ b/include/sound/q6usboffload.h
+> @@ -0,0 +1,20 @@
 > +/* SPDX-License-Identifier: GPL-2.0
 > + *
+> + * sound/q6usboffload.h -- QDSP6 USB offload
+> + *
 > + * Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 > + */
 > +
-> +#ifndef __LINUX_SND_SOC_USB_H
-> +#define __LINUX_SND_SOC_USB_H
-> +
-> +#include <sound/soc.h>
-> +
 > +/**
-> + * struct snd_soc_usb_device
+> + * struct q6usb_offload
 
-    * struct snd_soc_usb_device - <some short description of what this is>
+Missing short description.
 
-Same comment applies to other structs below.
+> + * @dev - dev handle to usb be
+> + * @domain - allocated iommu domain
+> + * @sid - streamID for iommu
+> + * @intr_num - usb interrupter number
 
-> + * @card_idx - sound card index associated with USB device
-> + * @chip_idx - USB sound chip array index
-> + * @cpcm_idx - capture PCM index array associated with USB device
-> + * @ppcm_idx - playback PCM index array associated with USB device
-> + * @num_capture - number of capture streams
-> + * @num_playback - number of playback streams
-> + * @list - list head for SoC USB devices
-
-All of the struct members/fields above should be separated from their
-description with a ':', not a '-'.
-
-Same comment applies to other structs below.
+Wrong separator character.
 
 > + **/
-> +struct snd_soc_usb_device {
-> +	int card_idx;
-> +	int chip_idx;
-> +
-> +	/* PCM index arrays */
-> +	unsigned int *cpcm_idx; /* TODO: capture path is not tested yet */
-> +	unsigned int *ppcm_idx;
-> +	int num_capture; /* TODO: capture path is not tested yet */
-> +	int num_playback;
-> +
-> +	struct list_head list;
+> +struct q6usb_offload {
+> +	struct device *dev;
+> +	struct iommu_domain *domain;
+> +	long long sid;
+> +	u16 intr_num;
 > +};
-> +
-> +/**
-> + * struct snd_soc_usb
-> + * @list - list head for SND SOC struct list
-> + * @component - reference to ASoC component
-> + * @connection_status_cb - callback to notify connection events
-> + * @priv_data - driver data
-> + **/
-> +struct snd_soc_usb {
-> +	struct list_head list;
-> +	struct snd_soc_component *component;
-> +	int (*connection_status_cb)(struct snd_soc_usb *usb,
-> +				    struct snd_soc_usb_device *sdev,
-> +				    bool connected);
-> +	void *priv_data;
-> +};
-> +
-
-
-> diff --git a/sound/soc/soc-usb.c b/sound/soc/soc-usb.c
-> new file mode 100644
-> index 000000000000..3b8e47e3f469
-> --- /dev/null
-> +++ b/sound/soc/soc-usb.c
-> @@ -0,0 +1,220 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +#include <linux/of.h>
-> +#include <linux/usb.h>
-> +#include <sound/soc-usb.h>
-> +#include "../usb/card.h"
-> +
-> +static DEFINE_MUTEX(ctx_mutex);
-> +static LIST_HEAD(usb_ctx_list);
-> +
-
-[snip]
-
-> +/**
-> + * snd_soc_usb_allocate_port() - allocate a SoC USB port for offloading support
-> + * @component: USB DPCM backend DAI component
-> + * @num_streams: number of offloading sessions supported
-
-There is no num_streams function parameter.
-
-> + * @data: private data
-> + *
-> + * Allocate and initialize a SoC USB port.  The SoC USB port is used to communicate
-> + * different USB audio devices attached, in order to start audio offloading handled
-> + * by an ASoC entity.  USB device plug in/out events are signaled with a
-> + * notification, but don't directly impact the memory allocated for the SoC USB
-> + * port.
-> + *
-> + */
-> +struct snd_soc_usb *snd_soc_usb_allocate_port(struct snd_soc_component *component,
-> +					      void *data)
-> +{
-> +	struct snd_soc_usb *usb;
-> +
-> +	usb = kzalloc(sizeof(*usb), GFP_KERNEL);
-> +	if (!usb)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	usb->component = component;
-> +	usb->priv_data = data;
-> +
-> +	return usb;
-> +}
-> +EXPORT_SYMBOL_GPL(snd_soc_usb_allocate_port);
-> +
 
 
 -- 
