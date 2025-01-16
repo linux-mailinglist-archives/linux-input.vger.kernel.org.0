@@ -1,122 +1,113 @@
-Return-Path: <linux-input+bounces-9285-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9287-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0093AA141C6
-	for <lists+linux-input@lfdr.de>; Thu, 16 Jan 2025 19:42:18 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA0CA144A0
+	for <lists+linux-input@lfdr.de>; Thu, 16 Jan 2025 23:40:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79D703A10C8
-	for <lists+linux-input@lfdr.de>; Thu, 16 Jan 2025 18:42:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D756A188A0D3
+	for <lists+linux-input@lfdr.de>; Thu, 16 Jan 2025 22:40:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D38922BADF;
-	Thu, 16 Jan 2025 18:42:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6C1524224C;
+	Thu, 16 Jan 2025 22:40:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JCv0TmKp"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="up2Bsqj1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91C84414;
-	Thu, 16 Jan 2025 18:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4C82419F4;
+	Thu, 16 Jan 2025 22:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737052933; cv=none; b=bg8RPeQF6LQOWQhT3kv3Iaaq0caEdqnKA8lhUWAB6X7JQQi7dmfaTjMyhrGD0Va3VbWp3d7+6dEJWSfsuTQcaADEpq51CAbIsNwVE0Tpe4FTWFTDuaRwMjK+CToF1TcABzkLopG1bQnr/zBBp5qwSG5z/XC37Qtmi7UXlMG5OP4=
+	t=1737067213; cv=none; b=GF7ZhC7vnFHNwgWlBKFUpEJWDv1U+hR7DdXXs8amx4bMcdc6qw82A6tQI0TG+YqtqvHDK2QwaD/VkbyesZNZmVd/Irlpsov2TAFy54C1fMWLI46MIkdfSf1CcWJL7qHbNJYfyDSe1/aCH9xLIUqjLXRq4SfKR5rGE1pldgYxuQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737052933; c=relaxed/simple;
-	bh=zSL5wHMZ4BwaynjanjQAP5VVZMX0vbqau8aMtqlVRNA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HfiIv+l3wG65mdGmxzA8FwSj+IWkk4Jd7oUgaIxQ0Aoey4Fo1vYYTpqto7aVKAOqvYRmAcPqViySxIF7S6ivTxhYf/5cWg/OLGUgd/oEn3ZUI06sxEGDb2pvI7S4e+oVbe9+upUBqRW5KXALHq4AXFTeOqPrdo0NT8kXNXm2Bjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JCv0TmKp; arc=none smtp.client-ip=209.85.219.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e398484b60bso2089392276.1;
-        Thu, 16 Jan 2025 10:42:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737052931; x=1737657731; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NML6rTX9L72qLlb7AfCBgnyR2cbBUx3c6akQrbExKxg=;
-        b=JCv0TmKp2GdKdRnSUaecaIUtoVwUriD6ZAAgVDTCe2Mpm4GlhknWBeZ+5kOfg4OJpS
-         3G/rVHcNjtHVKTQ9MyEgptelgHGRpp0C7CbL/FcZ3uoYmKcOoU/NkQYPPZNXi+GIPX8u
-         7duKfXE3VHtSa2+0zHCL/E6E2mTpLVNNxHjJh27F5+BELsVj/4bnr2Qoti4mgZ7P2gBN
-         wU151z2XgUkLWfZyWR/+FyvQqXyA+IdfTCsheZuIeRLJbTIlEk8m/lhE7GA1uQ/ZIJXx
-         nND1f+RgDZgjuao8+ECL3t+A1d6zajxnT8jZnO8f5ZcL5pVsb//5zHycSg8GNnFI3A+C
-         r/1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737052931; x=1737657731;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NML6rTX9L72qLlb7AfCBgnyR2cbBUx3c6akQrbExKxg=;
-        b=LIZWQbE5Y88qatvF1sa6Ssb+iKfy7aAjcV/cUWBKJEBhrK5r4AbUaF6lIJALRgohWT
-         sO0Era1Toza+2DdK/Pch79Ihjs9EdkSNZ2sWfbxQreDMSFgSTRzkjst9039XxTlbLqCn
-         yLGC60N9ZDbfFIjzMTXe2MllFJthSYiQXEm8/lS+8prYzf8MgDMM1HhhU7tnOCCN0uUP
-         A8bUZBQ5Uleq0A94cJM3n3/caH8PLkO9PuHRawsrwKOYjNQJOKsMC/OsnkWogC+lsvgi
-         b48M4WtthitIVsJUWuq2wbIVHE+Kt2Slq+iJJbRmGaJtuBQiDkIn2AbBJaR7oLvM4yGs
-         NlnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU1DjTtq0qount5DFa0/sp3Qb9WfWvGt2Nv7jQ4zB/H7tGjV6Jy3pEXiAYl7MccAU/Z5B+1F1pv49uaPyaT@vger.kernel.org, AJvYcCWYPb/Zjc7n6mZi63O2zLVQulH4rL5j0hEX5Osbtnxvr6eNRbPt9TAunGyXqIIZVvI3C9CgjQA3JnSM@vger.kernel.org, AJvYcCX/YwWSRpnZLS+aDQuMuDPT5puAZkdgYGbuDt44F9yHZU/C/VHsO+VMYUoDVH+O0TLY2WuUTJ5eQcx4oSY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZQufv46GFV+whP/JlA3DKDGZ+LpMXx83md3MntX6bSYNO5dsh
-	SPZsUQEZZoxxbq8Tr3mVepubg0KwjUNdOnQ5Js1/7wmA61b+eXDvyzA5C2b5jEw+GjDWup9Dhv+
-	N/OVV8CLLFmih7OTtuPfOeo9iGj0=
-X-Gm-Gg: ASbGncvSESI0fFXPSgb8ydFY+hpyDq7cABo/v3IgR9srge/6qz42Lac9z0DxQiKFSKa
-	P1l4N6ktjS5nDEv+K8Cj/b0d3yqIoB7w4AluELkQ=
-X-Google-Smtp-Source: AGHT+IGgrjI/s6xaOVBHbScyM7IE9Im1N4NOLXcypovdtK+sa6A2HqO5UQpSC92AIJbeGu6/Yntga1lOW0CS39rvr40=
-X-Received: by 2002:a05:6902:1448:b0:e57:633b:6781 with SMTP id
- 3f1490d57ef6-e57633b6cf8mr12550590276.44.1737052930723; Thu, 16 Jan 2025
- 10:42:10 -0800 (PST)
+	s=arc-20240116; t=1737067213; c=relaxed/simple;
+	bh=I/2vTp+aktN/0LSdfaEusxR723oZozfHiFmjWz4gDls=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QvsjTUb5xo9AJKvrZqBqMxN/rYmfKQ3FimkMy4ofdIvIavXtVvlBT+BZJqxL90FMp9STISDs0yxKIgwmvLZ129eFPdRgHAXbSRHGr+ZviMKA14SWY9SY3rWbEIs1hCtX14+g1P4EcLxmgliBtLulwawoSVeM5x/FRc6b7+N2uKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=up2Bsqj1; arc=none smtp.client-ip=198.47.19.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 50GMe9Bm089905
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 16 Jan 2025 16:40:09 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1737067209;
+	bh=Zqo8/XS6GwaurHobCGLqCfdAPYiRPwlXL6YLW/FlgSg=;
+	h=From:To:CC:Subject:Date;
+	b=up2Bsqj1XAAt7PoKzzqtFLQ2QPe1hYURzwJInd+QDBFkzJa5blwyYNEio/ghuSM68
+	 F48tSCNscX/R3R04zINw9CBJd/UmQZ/N7Ykfocla83Z5pIJXn/e7b9uHCt3fYi2KUi
+	 P5c7sJ0EPuWElrOW1tOhyp8C6QzuUsuYBNe0VY+A=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 50GMe9i2026934
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 16 Jan 2025 16:40:09 -0600
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 16
+ Jan 2025 16:40:09 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 16 Jan 2025 16:40:09 -0600
+Received: from DMZ007XYY.dhcp.ti.com (dmz007xyy.dhcp.ti.com [128.247.29.11])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 50GMe9Lx032403;
+	Thu, 16 Jan 2025 16:40:09 -0600
+From: Shree Ramamoorthy <s-ramamoorthy@ti.com>
+To: <dmitry.torokhov@gmail.com>, <u.kleine-koenig@baylibre.com>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: <m-leonard@ti.com>, <praneeth@ti.com>
+Subject: [PATCH v1 0/1] Add TI TPS65214 PMIC Input Support
+Date: Thu, 16 Jan 2025 16:40:08 -0600
+Message-ID: <20250116224009.430622-1-s-ramamoorthy@ti.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250115-z2-v4-0-d7361ab16ba0@gmail.com> <20250115-z2-v4-2-d7361ab16ba0@gmail.com>
- <3991ab78-d1a2-4cae-bea5-fb4dfa58aba3@wanadoo.fr> <fbfea2a1-71e7-4572-ada2-0d4315c97e91@wanadoo.fr>
-In-Reply-To: <fbfea2a1-71e7-4572-ada2-0d4315c97e91@wanadoo.fr>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Thu, 16 Jan 2025 19:41:58 +0100
-X-Gm-Features: AbW1kvbV-JZv8ggAR3kH02R-upbl0ZACxuPcSn7inUrp8BPKXzOfVMY_gM5ZC54
-Message-ID: <CAMT+MTSTtwsoWMPuF9cHt1oHE8geWYZr4t7EU44wq5m3zbSyew@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] input: apple_z2: Add a driver for Apple Z2 touchscreens
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: devnull+fnkl.kernel.gmail.com@kernel.org, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, conor+dt@kernel.org, devicetree@vger.kernel.org, 
-	dmitry.torokhov@gmail.com, j@jannau.net, krzk+dt@kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, marcan@marcan.st, neal@gompa.dev, 
-	robh@kernel.org, rydberg@bitmath.org, sven@svenpeter.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Thu, 16 Jan 2025 at 19:29, Christophe JAILLET
-<christophe.jaillet@wanadoo.fr> wrote:
->
-> >> +    z2->tx_buf = devm_kzalloc(dev, sizeof(struct
-> >> apple_z2_read_interrupt_cmd), GFP_KERNEL);
-> >> +    z2->rx_buf = devm_kzalloc(dev, 4096, GFP_KERNEL);
-> >
-> > This will allocate 8192 bytes because of the way the allocator works.
-> > It needs around 40 bytes for the devm stuff + 4096 requested. So
-> > rounding rules will allocate 8192 bytes.
-> >
-> > So either you could allocate "for free" much more space, or you could
-> > allocate (and document...)
-> >      z2->rx_buf = devm_kzalloc(dev, 4096 - sizeof(struct devres),
-> > GFP_KERNEL);
-> >
-> > or have an explicit devm_add_action_or_reset() that would require less
-> > memory, but would add some LoC.
-> >
->
-> or leave it as-is, of course ;-)
->
-> >
-> > See https://elixir.bootlin.com/linux/v6.13-rc3/source/drivers/base/
-> > devres.c#L97
-> >
+TPS65214 is a Power Management Integrated Circuit (PMIC) that has
+significant register map overlap with TPS65215 and TPS65219. The series 
+introduces TPS65214 and adds the device to the multi-PMIC support driver.
 
-The precise size does not matter in this case, 4096 was picked semi-arbitrarily
-as a "nice-looking" number that is definitely bigger than the maximum
-message size.
+TPS65215 Driver Series:
+GPIO: https://lore.kernel.org/all/20250113225530.124213-1-s-ramamoorthy@ti.com/
+MFD: https://lore.kernel.org/all/20250113230750.124843-1-s-ramamoorthy@ti.com/
+Reg: https://lore.kernel.org/all/20250113231018.125426-1-s-ramamoorthy@ti.com/
+Input: https://lore.kernel.org/all/20241226220049.398794-1-s-ramamoorthy@ti.com/
+
+TPS65219 Cleanup Series:
+GPIO: https://lore.kernel.org/all/20241217204755.1011731-1-s-ramamoorthy@ti.com/
+MFD: https://lore.kernel.org/all/20241217204935.1012106-1-s-ramamoorthy@ti.com/
+Reg: https://lore.kernel.org/all/20241217204526.1010989-1-s-ramamoorthy@ti.com/
+
+- TPS65214 is a Power Management IC with 3 Buck regulators and 2 LDOs.
+- TPS65214 has 2 LDOS and 1 GPO, whereas TPS65219 has 4 LDOs and 2 GPOs.
+- TPS65214's LDO1 maps to TPS65219's LDO3.
+- A key difference between TPS65215 & TPS65214 are the LDO current and
+  voltage output ranges and the configurable options available.
+- The remaining features for both devices are the same.
+
+TPS65214 TRM: https://www.ti.com/lit/pdf/slvud30
+
+AM62L + TPS65214 Test Logs:
+https://gist.github.com/ramamoorthyhs/0793f7813332d94423ca1baee02f62c9
+
+Shree Ramamoorthy (1):
+  input: tps65214: Add support for TI TPS65214 PMIC
+
+ drivers/input/misc/tps65219-pwrbutton.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+2.43.0
+
 
