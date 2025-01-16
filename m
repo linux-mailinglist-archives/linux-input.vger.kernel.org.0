@@ -1,57 +1,56 @@
-Return-Path: <linux-input+bounces-9267-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9268-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B88EA13756
-	for <lists+linux-input@lfdr.de>; Thu, 16 Jan 2025 11:04:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88887A13778
+	for <lists+linux-input@lfdr.de>; Thu, 16 Jan 2025 11:09:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B93833A1E35
-	for <lists+linux-input@lfdr.de>; Thu, 16 Jan 2025 10:04:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B08A8160F7D
+	for <lists+linux-input@lfdr.de>; Thu, 16 Jan 2025 10:09:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05C001DD889;
-	Thu, 16 Jan 2025 10:04:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1A791DE2AD;
+	Thu, 16 Jan 2025 10:08:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I1/sapsu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rcr1i4t4"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10DD1DD879;
-	Thu, 16 Jan 2025 10:04:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8730D1DE2A8;
+	Thu, 16 Jan 2025 10:08:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737021867; cv=none; b=ARxqdJb+T+2AwfcE/SZ+rOcesFwFDzgAzT4nsl02F+4Qpfqt+iCW+YzG5FZNvdOlMKjCYpDJNslyBMG4cBEhjTZtSDp1qUVi2r2VDo/g5c5ZwAoyVSjU25ITnVn9SJVDkUUhkiS0Xw6o6vCLnQi0nLBQOGrHiFP/hyq2l8V9yhs=
+	t=1737022127; cv=none; b=ZLrMALKKjrOQZjfONPqlgAjKA2O//kd4THr5PlHP/sMWclRraTZlgeDxPFs+sWC7aTFyQB4wMWQFq6xlGA53vY55CdqrAkkdmxG5r9Js5v9u1/l8NTdwtn1Rid7R9Y2Xzpx48z5XNgZ/7lMpxbl8mQtHJvTzLJJphX3GsuJhzq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737021867; c=relaxed/simple;
-	bh=9WSR4Bj9MU4Vu3iEh0etBrOM04rKj3DBB+CTM4x7agg=;
+	s=arc-20240116; t=1737022127; c=relaxed/simple;
+	bh=1AeOnAVJ2RoStKQ6eVEQzmyutHEVmH5tyWytalBwN+s=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Qfi3zwBfxuPB4kGTjDd5+E4TmolcXuQXrsCm7NT+Dnj+ORBCNm1A9M2q1GEyNzQ9WqUlj2pj9kT+z9IZIkSxLbXplVP1Qs+HNgZmF4GUCDx0eatd5Kr2bg9EymjcKag9cJEGIJeb9FssNlhdyWUoQ1ohsVEw5IrB9r/u0jpOL8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I1/sapsu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED56DC4CEE2;
-	Thu, 16 Jan 2025 10:04:25 +0000 (UTC)
+	 MIME-Version:Content-Type; b=MqBReStwT9oZStqcThI4vcNLyK1n/eKsnlQGcClRxoJBsKjdngCQoUba+wH2pAh4JCNbAMMPavrHpEICh2uJEVLXgAcHqMwl/HAdx/+sHlTNsNx0schCfIC9ndORGvjs1qAOYwIo94yR6rCo0K6VTsZLluVcY4LtwSMqw0fZ0zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rcr1i4t4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD377C4CEDF;
+	Thu, 16 Jan 2025 10:08:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737021866;
-	bh=9WSR4Bj9MU4Vu3iEh0etBrOM04rKj3DBB+CTM4x7agg=;
+	s=k20201202; t=1737022127;
+	bh=1AeOnAVJ2RoStKQ6eVEQzmyutHEVmH5tyWytalBwN+s=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=I1/sapsuiyIFweJZQvoNiQxIndWu0D9SuTn97HY9TpoyyB2BQRGr6a6Grqbxfa+SQ
-	 SAVZaFt/Ty+gOVysP0Ui6D2Z8XpXwGaNAWc2/3khMNStGXpTzZSEfRYzojB9xS8Rt8
-	 d26j0IDyG1UmsCPBHyTrOckjRIKMtgazzF7kkhRSPdG8WfgKWPT8smQBIgM//pDrH0
-	 G+MUk8QE5zoZFMcgCJ/1gFG6AiYrY7/4yDB0GsUYbjF5Y4lyBGOHQSTlW23mc3eySC
-	 nsjuEG2Z1YP5Gu+g1gGLh7mWVgVG1LlYnoO4f3HzcfiZjs2I7xBhL7pLT0P943cf9K
-	 z9NNq5JzMhlOA==
-Date: Thu, 16 Jan 2025 11:04:23 +0100 (CET)
+	b=rcr1i4t4EvSUN6oAByrWLNmS1gupuRaFL+tSTIgy8plww8ivKD8TgGYjj9rkBLxfQ
+	 LjIKaMxUrFm9Iot1+M0ga1zu+8Fi4SCYqeZI428sfzDp7TuePHA7vVM/rj+TnaGA/s
+	 +NaiiHpVoIXsLP+pBN2V9+KTYH9vIStrpMAyqpm714TvPo4WmasAzKOTsh7BXPGUgs
+	 jnZPGJf4jrkKooxqWfSPrHDLdNtPmeTy8h3gX5nvm4H2CnXVMLU6nHj4bM2dDSq9Bq
+	 GmLVNBdzpf2x8NcLv1JwqGhsQi9+CJjWIaC8pvY1FsxR9pD6J5ljhvi2z26aY5e4zV
+	 UGarJcxsbiE5A==
+Date: Thu, 16 Jan 2025 11:08:44 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Christian Mayer <git@mayer-bgk.de>
+To: "Luke D. Jones" <luke@ljones.dev>
 cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    Bastien Nocera <hadess@hadess.net>
-Subject: Re: [PATCH v2 0/5] HID: steelseries: add SteelSeries Arctis 9
- support
-In-Reply-To: <20250112114438.2196-1-git@mayer-bgk.de>
-Message-ID: <62p5r57p-1qq0-qo96-sp69-r6ns75s2s1on@xreary.bet>
-References: <20250112114438.2196-1-git@mayer-bgk.de>
+    bentiss@kernel.org, Connor Belli <connorbelli2003@gmail.com>, 
+    Jan Schmidt <jan@centricular.com>
+Subject: Re: [PATCH] hid-asus: Disable OOBE mode on the ProArt P16
+In-Reply-To: <20250111010153.35119-1-luke@ljones.dev>
+Message-ID: <on7q07n8-sno4-s93q-46p6-9rn96s940980@xreary.bet>
+References: <20250111010153.35119-1-luke@ljones.dev>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -60,33 +59,22 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Sun, 12 Jan 2025, Christian Mayer wrote:
+On Sat, 11 Jan 2025, Luke D. Jones wrote:
 
-> Hi,
+> The new ASUS ProArt 16" laptop series come with their keyboards stuck in
+> an Out-Of-Box-Experience mode. While in this mode most functions will
+> not work such as LED control or Fn key combos. The correct init sequence
+> is now done to disable this OOBE.
 > 
-> i added support for the SteelSeries Arctis 9 headset.
+> This patch addresses only the ProArt series so far and it is unknown if
+> there may be others, in which case a new quirk may be required.
 > 
-> Changes in v2:
-> * Use constants instead of magic numbers for cleaning up model name.
-> * Remove unnecessary whitespace changes.
-> * Split up preparations and actual adding suport for the device 
-> in separate patches.
-> * Call hid_hw_open/hid_hw_close for all devices
-> * Fix code style issues
-> * Optimize capacity mapping for min and max values
-> 
-> Christian Mayer (5):
->   HID: steelseries: preparation for adding SteelSeries Arctis 9 support
->   HID: steelseries: add SteelSeries Arctis 9 support
->   HID: steelseries: export charging state for the SteelSeries Arctis 9
->     headset
->   HID: steelseries: export model and manufacturer
->   HID: steelseries: remove unnecessary return
-> 
->  drivers/hid/hid-steelseries.c | 120 +++++++++++++++++++++++++++++++---
->  1 file changed, 110 insertions(+), 10 deletions(-)
+> Signed-off-by: Luke D. Jones <luke@ljones.dev>
+> Co-developed-by: Connor Belli <connorbelli2003@gmail.com>
+> Signed-off-by: Connor Belli <connorbelli2003@gmail.com>
+> Tested-by: Jan Schmidt <jan@centricular.com>
 
-Now in hid.git#for-6.14/steelseries. Thanks,
+Applied, thanks.
 
 -- 
 Jiri Kosina
