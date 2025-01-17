@@ -1,112 +1,195 @@
-Return-Path: <linux-input+bounces-9358-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9359-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA686A157A6
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 19:54:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 118C2A15823
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 20:30:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF78D160C52
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 18:54:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 332A0168F8D
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 19:30:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C58419E7D1;
-	Fri, 17 Jan 2025 18:54:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A43CC1A7AE3;
+	Fri, 17 Jan 2025 19:30:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="k4mozUpA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PcmyZM42"
 X-Original-To: linux-input@vger.kernel.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B0225A63C;
-	Fri, 17 Jan 2025 18:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705A3647;
+	Fri, 17 Jan 2025 19:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737140059; cv=none; b=G4G0dkEtW6gvwkgtWkyVnmdYX030tRB0Scr+tfbyyf2Lr5vnktu4eVzvLvCqWxOxVIXCAWSnnnIAN/cW96wjMKERltqgsRwv2ZJbkoZ8ATg+Aip0SfTHDmAQ2ylIGz9Zt/zzq+JEYXiuprQPHzhYQ9e2MWGSfleR6cUQDb2meS4=
+	t=1737142230; cv=none; b=ALfhR8NjqHDQBg+cWq50x+SLFjHoDMokjCqO/ZPmg05knZ7S3wRprczC1Z7zh+n82w0/LP8IJ25Y7VRGgdDe422wxx0/PiSMS6haFw75RWe2FK95PvWJbt26925B117W5LlG7eFs615ddQPHt26GZXIkQ0PeZdZVYvrkAGGHCuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737140059; c=relaxed/simple;
-	bh=u7diQXQXeLXOnzJcFmZURQ2FAqnK1dOLhMNq/TXD7RI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=hqE35KjktK3jn9WaH1BaKExqcWazStOian/JPS3zL1luqpDqHf6JQ234rv4wCorUaGRD006gc7S9MAcPraSy5erunGnCPGLoLLXQ4aL/WI/2shtsSoN2Nla2kHi5wRFhhh1v+wc9pAaJ0545A6M7CC3jmEp0x8S9qXj6DBVT1oI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=k4mozUpA; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 50HIrxbt238560
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 17 Jan 2025 12:53:59 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1737140039;
-	bh=cEZqydSL37Ey1MT7bgYhu1lDA7hhpqF0jdqNAV25I8U=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=k4mozUpApxmKyRVmBVtF52L02CNyjeMAuJ4hJBi83sbmihc8Wo9MV8zL5VNh9kd7d
-	 X1ZQA9MVntG8M13Fd9SaE+lH2jCVusVX3cO5FrKCmE1pF0aeLl13do531/l2cvNdx2
-	 LG9uBjLZC1akGkMvxabwFWtaprx15G8WdqgEqiRQ=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 50HIrxZ9060827
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 17 Jan 2025 12:53:59 -0600
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 17
- Jan 2025 12:53:59 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 17 Jan 2025 12:53:59 -0600
-Received: from [128.247.29.11] (dmz007xyy.dhcp.ti.com [128.247.29.11])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 50HIrwD1011405;
-	Fri, 17 Jan 2025 12:53:59 -0600
-Message-ID: <ed233ba4-1bc0-4a0a-b457-530ff4d344a6@ti.com>
-Date: Fri, 17 Jan 2025 12:53:58 -0600
+	s=arc-20240116; t=1737142230; c=relaxed/simple;
+	bh=foNB1y1uq0V8qV5aIiltQZucaZ3/EtCVUoN7QygiX5Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bsH6Xujyjr8yV0GdkIUDfDhpRKAGBGLMJ7n4ptInCM4abflYibjHtzjAYoysdDFFIbBmISf5mIIym8X3A28rwXzWKsnnUDYxsgtuHT8qO/i4G1R6lmjci1vykWJxrXW3Aa2lRO1yDksgW7MvQBat445SOzhcxYSafRJPUPz0Bqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PcmyZM42; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EECCEC4CEE3;
+	Fri, 17 Jan 2025 19:30:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737142230;
+	bh=foNB1y1uq0V8qV5aIiltQZucaZ3/EtCVUoN7QygiX5Q=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=PcmyZM42OBbUN2s+eMJMWvVKqqjZr4qKzBrGmV7jIAMV0JFtG5sZ+wh5O3YcmKftS
+	 G3gKho6KPMSGYMCPoa0ni7euRpnJ9cki2DiLySsFoanbzl+2S1gcHj6gLpMsEZu1HM
+	 114n/v9wwuIE1WF4XCKogkOMXjll4Lk9wr/T2dpAuvwdIOZ26HGBl2r3T/UlYiyQKx
+	 +PyRPWHOedh7ByLlqUQ1/DkBfzi3RCQjrByM5PKYnUHz4obNDvDsr+XiC48gBJF76i
+	 IxMo6Zsw/xB3AgHbijeBJdE3c47qoXpm2CCA68ThQ11RR5KMIIg1VLc41oJYIy7uwx
+	 DXTQAyGot5wzQ==
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5f6497fbccbso2013702eaf.0;
+        Fri, 17 Jan 2025 11:30:29 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUu6XDZ85bG6E4cwAd9di3yjprVtfGuYFkKC/fVOpBX4KXjiDvP2sivvewExPTfj0l+jIK7unwt7KQ=@vger.kernel.org, AJvYcCWjSBS0K8TBtB2wsXltnc3AF3pbS7DzDqrCdUTRGJrTzH0h99h1VOd8KXzOO8WxOlnQe6L23aYYXlh6qQjy@vger.kernel.org, AJvYcCX0l4HUxkT+UE7+NW7zYI+w1231ZL4Ogckg3rsix+Fkaf1x2geNZRRmRjzd8J99jVNF/x8MiEvYTtEtbf0=@vger.kernel.org, AJvYcCXcAzS7Aq0Mf1Nx1toI1TE5ELe/WV/KXtRey2zusqt0Bd5FN1UyITzOzY7qZ4J3I1djMTsdd77HTIY2@vger.kernel.org, AJvYcCXoNZ3gM3vGEftXnlmJBigY99TfU5RzAHLXgFa5kW6cRjLS6m6a1O1SAGhQJjmDc/xnM3u4rgrK3OrJ3K0H@vger.kernel.org
+X-Gm-Message-State: AOJu0YyeCWt6Rrew9YdZBYPnnyyEnrecKw/pGXmp4uaNm96mI2FLs+Rj
+	0FvagisT05cpS2KIFX5wq3Pf63t/llIK9Sv0zvPUTySBud0t9PztpJS6RYarn1yK/reg66qA+1E
+	xMODdvdMq0BmwnfmIVgg8RP9LnA4=
+X-Google-Smtp-Source: AGHT+IEOihIY7mUOa4hVP1bqotPmsr69h5OgdfXyZbu/sRbspauTxsDS8YOdvCTlZN7dTpnC3uxq7LK3T+tCxi8e13Q=
+X-Received: by 2002:a05:6871:296:b0:29e:2a06:8405 with SMTP id
+ 586e51a60fabf-2b186ca0224mr7419767fac.19.1737142229222; Fri, 17 Jan 2025
+ 11:30:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] input: tps65214: Add support for TI TPS65214 PMIC
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski
-	<krzk@kernel.org>
-CC: <u.kleine-koenig@baylibre.com>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <m-leonard@ti.com>, <praneeth@ti.com>
-References: <20250116224009.430622-1-s-ramamoorthy@ti.com>
- <20250116224009.430622-2-s-ramamoorthy@ti.com>
- <a14f5f69-02b5-4398-8639-389626644b8f@kernel.org>
- <Z4qWpRNvn22XRV1E@google.com>
-Content-Language: en-US
-From: Shree Ramamoorthy <s-ramamoorthy@ti.com>
-Organization: PMIC
-In-Reply-To: <Z4qWpRNvn22XRV1E@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+References: <20250103-wake_irq-v2-0-e3aeff5e9966@nxp.com> <20250103-wake_irq-v2-1-e3aeff5e9966@nxp.com>
+ <CAJZ5v0hj7wUU3f_j5QH3fNUFKokaXr0octaP2M1Ho_L_BspoUA@mail.gmail.com> <PAXPR04MB8459EE38DBDBCA29FB81B6B788192@PAXPR04MB8459.eurprd04.prod.outlook.com>
+In-Reply-To: <PAXPR04MB8459EE38DBDBCA29FB81B6B788192@PAXPR04MB8459.eurprd04.prod.outlook.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 17 Jan 2025 20:30:18 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0jb=0c5m=FeA-W-aG30H4706Ay_xCHTsiC1S-7MuGxqTQ@mail.gmail.com>
+X-Gm-Features: AbW1kva3YRwOs-mqOCr7xIZ_pL_VsK5_Sa-oqdUbd008qjcQYrdbDr5ihs4pOnQ
+Message-ID: <CAJZ5v0jb=0c5m=FeA-W-aG30H4706Ay_xCHTsiC1S-7MuGxqTQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/12] PM: sleep: wakeirq: Introduce device-managed
+ variant of dev_pm_set_wake_irq
+To: Peng Fan <peng.fan@nxp.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, 
+	Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Conor Dooley <conor.dooley@microchip.com>, Daire McNamara <daire.mcnamara@microchip.com>, 
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, 
+	"linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>, 
+	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, 
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On 1/17/25 11:43 AM, Dmitry Torokhov wrote:
-> On Fri, Jan 17, 2025 at 10:23:58AM +0100, Krzysztof Kozlowski wrote:
->> On 16/01/2025 23:40, Shree Ramamoorthy wrote:
->>> Update descriptions to reflect this input driver  applies to TPS65214,
->>> TPS65215, and TPS65219.
->>>
->>> Signed-off-by: Shree Ramamoorthy <s-ramamoorthy@ti.com>
->>> ---
->> That's just churn...
-> Yes, when something is being reused we typically do not go back and list
-> all the new users unless there are other adjustments needed.
+On Wed, Jan 15, 2025 at 2:28=E2=80=AFAM Peng Fan <peng.fan@nxp.com> wrote:
 >
-> Thanks.
+> > Subject: Re: [PATCH v2 01/12] PM: sleep: wakeirq: Introduce device-
+> > managed variant of dev_pm_set_wake_irq
+> >
+> > On Fri, Jan 3, 2025 at 9:42=E2=80=AFAM Peng Fan (OSS) <peng.fan@oss.nxp=
+.com>
+> > wrote:
+> > >
+> > > From: Peng Fan <peng.fan@nxp.com>
+> > >
+> > > Add device-managed variant of dev_pm_set_wake_irq which
+> > automatically
+> > > clear the wake irq on device destruction to simplify error handling
+> > > and resource management in drivers.
+> > >
+> > > Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> > > ---
+> > >  drivers/base/power/wakeirq.c | 26 ++++++++++++++++++++++++++
+> > >  include/linux/pm_wakeirq.h   |  6 ++++++
+> > >  2 files changed, 32 insertions(+)
+> > >
+> > > diff --git a/drivers/base/power/wakeirq.c
+> > > b/drivers/base/power/wakeirq.c index
+> > >
+> > 5a5a9e978e85f3fc9d89cb7d43527dc1dd42a9b1..8aa28c08b2891f3af
+> > 490175362cc
+> > > 1a759069bd50 100644
+> > > --- a/drivers/base/power/wakeirq.c
+> > > +++ b/drivers/base/power/wakeirq.c
+> > > @@ -103,6 +103,32 @@ void dev_pm_clear_wake_irq(struct device
+> > *dev)  }
+> > > EXPORT_SYMBOL_GPL(dev_pm_clear_wake_irq);
+> > >
+> > > +static void devm_pm_clear_wake_irq(void *dev) {
+> > > +       dev_pm_clear_wake_irq(dev);
+> > > +}
+> > > +
+> > > +/**
+> > > + * devm_pm_set_wake_irq - device-managed variant of
+> > > +dev_pm_set_wake_irq
+> > > + * @dev: Device entry
+> > > + * @irq: Device IO interrupt
+> > > + *
+> > > + *
+> > > + * Attach a device IO interrupt as a wake IRQ, same with
+> > > +dev_pm_set_wake_irq,
+> > > + * but the device will be auto clear wake capability on driver detac=
+h.
+> > > + */
+> > > +int devm_pm_set_wake_irq(struct device *dev, int irq) {
+> > > +       int ret;
+> > > +
+> > > +       ret =3D dev_pm_set_wake_irq(dev, irq);
+> > > +       if (ret)
+> > > +               return ret;
+> > > +
+> > > +       return devm_add_action_or_reset(dev,
+> > devm_pm_clear_wake_irq,
+> > > +dev); } EXPORT_SYMBOL_GPL(devm_pm_set_wake_irq);
+> > > +
+> > >  /**
+> > >   * handle_threaded_wake_irq - Handler for dedicated wake-up
+> > interrupts
+> > >   * @irq: Device specific dedicated wake-up interrupt diff --git
+> > > a/include/linux/pm_wakeirq.h b/include/linux/pm_wakeirq.h index
+> > >
+> > d9642c6cf85211af603ce39e280a5b4de6617ee5..25b63ed51b765c2c6
+> > 919f259668a
+> > > 12675330835e 100644
+> > > --- a/include/linux/pm_wakeirq.h
+> > > +++ b/include/linux/pm_wakeirq.h
+> > > @@ -10,6 +10,7 @@ extern int dev_pm_set_wake_irq(struct device
+> > *dev,
+> > > int irq);  extern int dev_pm_set_dedicated_wake_irq(struct device
+> > > *dev, int irq);  extern int
+> > > dev_pm_set_dedicated_wake_irq_reverse(struct device *dev, int irq);
+> > > extern void dev_pm_clear_wake_irq(struct device *dev);
+> > > +extern int devm_pm_set_wake_irq(struct device *dev, int irq);
+> > >
+> > >  #else  /* !CONFIG_PM */
+> > >
+> > > @@ -32,5 +33,10 @@ static inline void
+> > dev_pm_clear_wake_irq(struct
+> > > device *dev)  {  }
+> > >
+> > > +static inline int devm_pm_set_wake_irq(struct device *dev, int irq) =
+{
+> > > +       return 0;
+> > > +}
+> > > +
+> > >  #endif /* CONFIG_PM */
+> > >  #endif /* _LINUX_PM_WAKEIRQ_H */
+> > >
+> > > --
+> >
+> > I can apply this patch for 6.14, but the rest of the series will need t=
+o be
+> > picked up by the respective driver maintainers.
+> >
+> > I hope this works for you?
+>
+> Yes. please just pick up patch 1.
 
-Thank you both for reviewing and the explanation.
-I will drop this input series for the next version submitted.
+OK, applied.
 
-
--- 
-Best,
-Shree Ramamoorthy
-PMIC Software Engineer
-
+Thanks!
 
