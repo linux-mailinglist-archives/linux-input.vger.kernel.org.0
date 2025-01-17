@@ -1,50 +1,50 @@
-Return-Path: <linux-input+bounces-9350-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9351-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E678EA152C3
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 16:22:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE03A1531C
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 16:48:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2055D1682F3
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 15:22:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5BDC13A21B8
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 15:47:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F0D4156C71;
-	Fri, 17 Jan 2025 15:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FB08192D76;
+	Fri, 17 Jan 2025 15:47:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="m3IUwG8O"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pj7UM1Qu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16982B9B9;
-	Fri, 17 Jan 2025 15:22:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15FF33062;
+	Fri, 17 Jan 2025 15:47:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737127365; cv=none; b=pH0iCZROn61iwUJPTEV9YSDOKp7KX/GG7/v1vvWkt9dJGiowChYDmhtHet7nHLB4TAW4fDJ7NFumhJfpY17JJHx5FSt8qtLQr5yZmCtteocPzAVZ9HtGR9C1O0qk6YVN/N21Xvvk9W/IJ8Tn+/mdHCJxSlMGEsj9d78zl1Smwjs=
+	t=1737128877; cv=none; b=c2mtGVeCw55hK7PzoT9WSQ/7zOLkDq5eP8zc6OqrhxIE9wa6SLDHFIKZ1WDwUsV5W1eb4ZZga0HeFJZNs1FPupx6rva/gTjnixtlbG5kzIjtI0aICQXXhH+E0EBTyTXcyeUZmiMljBf4z8A8MZgd5zoPzV8wp5c8XtU/YZOaOCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737127365; c=relaxed/simple;
-	bh=7PhJw7mo1SQ6wUmL3zAzxLF+Z/WrZMp16H0K1GB6vKU=;
+	s=arc-20240116; t=1737128877; c=relaxed/simple;
+	bh=Qj10ZHIZvLsm79+pV9p3pc1UU7z132gm/dpFPIHy5BQ=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=YPL9EPxJeUwV8HlLr9tIyY7I/fESrK3cQ2tGLvZ0FkM7ziW0uH2yygzqt2A7pmI/ZPyygpkKk1PY75dlVi5pMm9o68yk8RU5dKlYPTNPQWEPDXGhMOlg/tjmXMPsUXnZBdxirfz3FT2nFg5zY/vHauG9jOD5D45eB1EuKLMUDBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=m3IUwG8O; arc=none smtp.client-ip=217.70.183.193
+	 References:In-Reply-To; b=tLTvfSMQvLDhQpbu7mA+jcihFoZrQQo3J/QzNhH9ScI2NmNph/W2keSfwu04tlk52mWBuGEi8yrm5mVOkeit/dSjjoOlxCOyMgI7BET8xVqoX6w+q3IYa/MdV4+DiM+GiMx5meW4g6npwWvAzdV0hXyWgvRUnDDhczOa7Iu5tlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=pj7UM1Qu; arc=none smtp.client-ip=217.70.183.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A67D2240002;
-	Fri, 17 Jan 2025 15:22:33 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A357440008;
+	Fri, 17 Jan 2025 15:47:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1737127354;
+	t=1737128866;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7PhJw7mo1SQ6wUmL3zAzxLF+Z/WrZMp16H0K1GB6vKU=;
-	b=m3IUwG8ObNkRRt1Rm94xVayR7ZciAse9i7TSiTRmMRWLgy1Xf8Zm5jP26Mag1xLiZqQqtI
-	v8sSO596nmwLIpsqKkrqvswM3sAQAUyEXwgrJs5ysC/kenJouaWZ37Wdsg3EunIE4VLykw
-	3G8zkazykLuE6RgXmqpnK8A3kr9tG7kYiKjwPDZ3i9SaRUvgGKDOn4gIi2IqEEpKXd4/4X
-	KtQXovFgzG863SAy7bRG/Li2IUMpp0ciMRQ3SXSQNL+uX8MDz8pn9cYajQe8HEwrgBwycN
-	SGmAflr2CYNUsviPsEhrlzV9JmIsRqsQi2hjmVEzc8rwD2n5sg7KZp/K6j1noA==
+	bh=gUbim1SaJlo0edxSD2KaiF57Zvw18iMPt4AJUuoV9w8=;
+	b=pj7UM1Qutxasd+MYyXB0JIGh9axUAiFYcUVfzust2lf1Wwe84jYQPLfgHSRRwK1dT8PJTT
+	y8d2q5vIai1jYvCQxqJntKigYbK0UZ+4ZdhfN2c8HaCgI34XV7S8T3735Q8FMa4b9fGN86
+	lmgf6HVea6YD2lQg2nHnAJ3lZAPY/F2eVPo+p2Ui7ucm9XxP739da8D0kExZ8Rsnz1zzly
+	ScmxO/R/tBDGdjMcGjRHcn267g0cxMjvoCKLy2unfBjfQdVPQys1QskdfdaWdJMoiieQ63
+	o7h0ysOxPW04oyJF5bT2pOWH77M0jKvvCKaOyREPFnSa3F98m1CEC5myZXqVDw==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -53,70 +53,82 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 17 Jan 2025 16:22:33 +0100
-Message-Id: <D74G95A3DHG3.OD522T88GX83@bootlin.com>
-Subject: Re: [PATCH v3 4/7] gpio: max7360: Add MAX7360 gpio support
+Date: Fri, 17 Jan 2025 16:47:45 +0100
+Message-Id: <D74GSFVY17UV.GMN119MAVAK0@bootlin.com>
+Subject: Re: [PATCH v3 3/7] pwm: max7360: Add MAX7360 PWM support
 Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
  "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>,
- "Bartosz Golaszewski" <brgl@bgdev.pl>, "Dmitry Torokhov"
- <dmitry.torokhov@gmail.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
- <linux-input@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>
+ <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
+ Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Linus Walleij" <linus.walleij@linaro.org>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
 X-Mailer: aerc 0.18.2-0-ge037c095a049
 References: <20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com>
- <20250113-mdb-max7360-support-v3-4-9519b4acb0b1@bootlin.com>
- <CACRpkdb5rmUK06uW3M2Lsy4Wam8JvrjmGM83cJa-V3LZwTX9dg@mail.gmail.com>
-In-Reply-To: <CACRpkdb5rmUK06uW3M2Lsy4Wam8JvrjmGM83cJa-V3LZwTX9dg@mail.gmail.com>
+ <20250113-mdb-max7360-support-v3-3-9519b4acb0b1@bootlin.com>
+ <f22l3uqgt65utxehv2zmozqixjkktp4trpr42xr5arvp6o5zcf@g5iriaeskqa5>
+ <D74EQQNADWDP.FQ5XFK8TB5XH@bootlin.com>
+ <v4bf6bharih6zgz52ya5twfyf47wh3fu56ovic5gjxak2jhufy@q3eudujjwrhm>
+In-Reply-To: <v4bf6bharih6zgz52ya5twfyf47wh3fu56ovic5gjxak2jhufy@q3eudujjwrhm>
 X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-On Tue Jan 14, 2025 at 3:33 PM CET, Linus Walleij wrote:
-> On Mon, Jan 13, 2025 at 1:43=E2=80=AFPM Mathieu Dubois-Briand
-> My most generic feedback is if you have looked at using
-> select GPIO_REGMAP for this driver?
+On Fri Jan 17, 2025 at 3:40 PM CET, Uwe Kleine-K=C3=B6nig wrote:
+> On Fri, Jan 17, 2025 at 03:11:29PM +0100, Mathieu Dubois-Briand wrote:
+> > On Fri Jan 17, 2025 at 10:33 AM CET, Uwe Kleine-K=C3=B6nig wrote:
+> > > Hello Mathieu,
+> > >
+> > > On Mon, Jan 13, 2025 at 01:42:27PM +0100, mathieu.dubois-briand@bootl=
+in.com wrote:
+> > > > From: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> > ...
+> > > > +static int max7360_pwm_apply(struct pwm_chip *chip, struct pwm_dev=
+ice *pwm,
+> > > > +			     const struct pwm_state *state)
+> > > > +{
+> > > > +	struct max7360_pwm *max7360_pwm;
+> > > > +	u64 duty_steps;
+> > > > +	int ret;
+> > > > +
+> > > > +	if (state->polarity !=3D PWM_POLARITY_NORMAL)
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	if (state->period !=3D MAX7360_PWM_PERIOD_NS) {
+> > > > +		dev_warn(&chip->dev,
+> > > > +			 "unsupported pwm period: %llu, should be %u\n",
+> > > > +			 state->period, MAX7360_PWM_PERIOD_NS);
+> > > > +		return -EINVAL;
+> > >
+> > > Please don't emit error messages in .apply(). Also a driver is suppos=
+ed
+> > > to round down .period, so any value >=3D MAX7360_PWM_PERIOD_NS should=
+ be
+> > > accepted.
+> > >
+> > > Also note that you might want to implement the waveform callbacks
+> > > instead of .apply() and .get_state() for the more modern abstraction
+> > > (with slightly different rounding rules).
+> > >
+> >=20
+> > Sure, I just switched to the waveform callbacks, it was quite
+> > straightforward.
 >
-> The regmap utility library is very helpful, look how other driver
-> selecting GPIO_REGMAP gets default implementations
-> from the library just git grep GPIO_REGMAP drivers/gpio/
+> sounds great. Note that the detail in rounding that is different for
+> waveforms is that a value that cannot be round down to a valid value
+> (because it's too small) is round up. This is a bit ugly in the drivers
+> but simplifies usage considerably. So you never return -EINVAL because
+> the values don't fit.
 >
 
-I tried to switch to GPIO_REGMAP and I really like it overall, as it
-does simplify a lot the code. However, I identified two features that I
-was not able to port so far: the request()/free() callbacks and the
-interrupts.
-
-So for the request()/free() callbacks, I cannot add them anymore, as
-they are set on the gpio_chip structure, and this structure is hidden
-behind the gpio_regmap structure. I could easily modify the
-gpio_regmap_config structure and gpio_regmap_register() to allow to
-provide these callbacks, but is this acceptable? Or should I switch to a
-different way to prevent concurrent use of the same pin? I saw you
-mentioned the possibility of defining pin control.
-
-On the IRQ side, before switching to GPIO_REGMAP, I was able to define
-the IRQ configuration using the irq member of the gpio_chip structure.
-This does create the IRQ domain for me in a quite straightforward way.
-Again, I will not be able to do that anymore, as the gpio_chip structure
-is hidden.=20
-
-I saw I can specify my own irq_domain in gpio_regmap_config, so that
-would be a way, but I was wondering if there is any way to have
-something as easy as previously.
-
-I had a quick look at existing drivers using GPIO_REGMAP and providing
-IRQ support: I believe they are all using REGMAP_IRQ. And I believe I
-cannot use REGMAP_IRQ here, as if I understood correctly, I would need
-to have a register telling me exactly on which GPIO I have a pending
-interrupt and I don't have such a thing: all I know is there was an
-interrupt related to the GPIOs, and then I have to compare each GPIO
-with the previous known state to know which pin is affected.
-
-Do you have any thought about this?
+Sorry, I'm not sure I got it right. Does this affect the three members
+of pwm_waveform (period_length_ns, duty_offset_ns, duty_length_ns) ? So
+on this device where the period is fixed and I cannot define an offset,
+does that mean I will silently accept any value for period_length_ns and
+duty_offset_ns ?
 
 Best regards,
 Mathieu
