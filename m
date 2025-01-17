@@ -1,141 +1,215 @@
-Return-Path: <linux-input+bounces-9351-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9352-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE03A1531C
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 16:48:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC492A155A4
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 18:23:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5BDC13A21B8
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 15:47:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 190741623F9
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 17:23:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FB08192D76;
-	Fri, 17 Jan 2025 15:47:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6EE219E82A;
+	Fri, 17 Jan 2025 17:23:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pj7UM1Qu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c+My5vLb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15FF33062;
-	Fri, 17 Jan 2025 15:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA4F25A643;
+	Fri, 17 Jan 2025 17:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737128877; cv=none; b=c2mtGVeCw55hK7PzoT9WSQ/7zOLkDq5eP8zc6OqrhxIE9wa6SLDHFIKZ1WDwUsV5W1eb4ZZga0HeFJZNs1FPupx6rva/gTjnixtlbG5kzIjtI0aICQXXhH+E0EBTyTXcyeUZmiMljBf4z8A8MZgd5zoPzV8wp5c8XtU/YZOaOCY=
+	t=1737134627; cv=none; b=lfZtgtrmcpHK5l1S+4tn+GBwWdXMxTpbCs2LWHATuIVS+eAMAKGO/jmY8RUNagbxUNwwe1Tl//D/XhQmeJ4x3pR/UXSEsI5L8osk6Z0kpY7MZLWrbeZMoteuYWv/XYL45Qfuj0iujzit+6Q+DqkpMmjliF1alV0SVYopj6i6f5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737128877; c=relaxed/simple;
-	bh=Qj10ZHIZvLsm79+pV9p3pc1UU7z132gm/dpFPIHy5BQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=tLTvfSMQvLDhQpbu7mA+jcihFoZrQQo3J/QzNhH9ScI2NmNph/W2keSfwu04tlk52mWBuGEi8yrm5mVOkeit/dSjjoOlxCOyMgI7BET8xVqoX6w+q3IYa/MdV4+DiM+GiMx5meW4g6npwWvAzdV0hXyWgvRUnDDhczOa7Iu5tlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=pj7UM1Qu; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A357440008;
-	Fri, 17 Jan 2025 15:47:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1737128866;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gUbim1SaJlo0edxSD2KaiF57Zvw18iMPt4AJUuoV9w8=;
-	b=pj7UM1Qutxasd+MYyXB0JIGh9axUAiFYcUVfzust2lf1Wwe84jYQPLfgHSRRwK1dT8PJTT
-	y8d2q5vIai1jYvCQxqJntKigYbK0UZ+4ZdhfN2c8HaCgI34XV7S8T3735Q8FMa4b9fGN86
-	lmgf6HVea6YD2lQg2nHnAJ3lZAPY/F2eVPo+p2Ui7ucm9XxP739da8D0kExZ8Rsnz1zzly
-	ScmxO/R/tBDGdjMcGjRHcn267g0cxMjvoCKLy2unfBjfQdVPQys1QskdfdaWdJMoiieQ63
-	o7h0ysOxPW04oyJF5bT2pOWH77M0jKvvCKaOyREPFnSa3F98m1CEC5myZXqVDw==
+	s=arc-20240116; t=1737134627; c=relaxed/simple;
+	bh=nURoB4e7QBrJgHvXp8yeZiUFOJGw3x09wwFkhh69azo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ftMv/FJQvF/MF9rUFn2ZxYtRRnzdA+zCEv1S5NY92xYiVUbTsmz+P7h/U7jaDk/zzM806LJJJllNwVMMD4RTtF04eRE0DfSsTA7tlAyObehX/AG6gi1GJwytyjEnL2+dGpIDohuQyEjMvbBqDyWaWV6kW9YIKL6oJ0golAWbQbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c+My5vLb; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21670dce0a7so53841765ad.1;
+        Fri, 17 Jan 2025 09:23:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737134624; x=1737739424; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=STpLsOotxffU52N72KpS1QFAMSSvLGsFVIOnQHZCA04=;
+        b=c+My5vLbOi+JFwkfjrnSOHuvoDPzNRDTNZhki+h67LBsHmIzOfZoOUlXM/SkUIs0PF
+         8Rfn5zmRyQvXU4/26C+SMLOPkL7FWJ+tKKtQ6eL9d0Mj4d9G7G5qLHe0Uuf7yJ3dIr02
+         CbHf0CTomBLMZLqYEXc1st/u5y4I4I5m/a4UtvisckZrVzOk98c6Mp8V4IAF1JkSvHJs
+         D0dOFx6PSUd7K3320qyu3H7hxi1XhQQIQDSWpdbjUxTrqzg8HxppaQEjNRjy8ZCfjMvz
+         9PdzsFrOLcuEZryxjY+oxHRyKtbHVYU1RyYXkNnLUPLtgBY4MQ9TIWxoV6MTnnu5DUxl
+         /LOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737134624; x=1737739424;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=STpLsOotxffU52N72KpS1QFAMSSvLGsFVIOnQHZCA04=;
+        b=hmdrkNi2HEREMkmAmXO2hTb/P4/qmR950vjm+LHxlzCl6M81dd3jsTTGwzb6fz94lD
+         Q9PyxztR2wgCWnBO62HO7OTmKoQGG4W434lK7W4v1fT8cYmRpCoRhguAL2IqwY9JOlI0
+         2Twp2kaXCIsC52ZpZ2r4qXQye12TVRFuVfCrHFEPiUBFCZUvLjhH/jnhJY4dIMEqkqCE
+         LhIwOnO5zp1Jk/W/JSPFh6svZkdgbp4tDxtI8F+7aYDjSVVwHP4n5VUq+Te3lQpE+TSr
+         O6u/rtTHPubfDVlIuGFS7KYr7PbJOvGGLrOSq1R1LrHZDnCX+l/9TyJlkwgdeV32DpwA
+         RlGw==
+X-Gm-Message-State: AOJu0YzvsTWMAureq25+JoEMHhw1SwkH4Fzm4T0i2hdkQZZAUJ+nEg9a
+	Qur44fTviN4VvZdheFnj3QsH9gLRXlBmHArnarOyWRUBpmP5k6NI33BYtA==
+X-Gm-Gg: ASbGnct7CpmnHPDCRHI4bJvSVcbKevl+TijwsB6oP1adPCpocXZUoYKY3tjRELJNUhx
+	K3biLbnd0iZgXXjZnYw7ZDR8NtadfhGPp5fyu8f4dLHtffLHlQCveDiv2fg2rbl/2P2gGboQvLq
+	GPhi8w1+MJJvpYYXXijqaXWpku55EiFpDDPTuxoz87iH6iHGKQwTdtfI8M+AfE9191IUMZGDo6n
+	+z1VW9qGBXPtzsShgqGd9lAxfNtroh1o8NQxKJBClLqRguLLblczDjNug==
+X-Google-Smtp-Source: AGHT+IGi7wtYjdApE+3KzV/gT8HY32qFNfP5+okeEOxqaXbRN+4dMQYFFEvilRmpFtwLrZhTyFcxZw==
+X-Received: by 2002:a17:902:e74a:b0:216:56c7:98a7 with SMTP id d9443c01a7336-21c35618995mr56279375ad.53.1737134623896;
+        Fri, 17 Jan 2025 09:23:43 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:5b21:de92:906f:1f41])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21c2d3ace6asm18375355ad.125.2025.01.17.09.23.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jan 2025 09:23:42 -0800 (PST)
+Date: Fri, 17 Jan 2025 09:23:40 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: linux-input@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: synaptics - fix crash when enabling pass-through port
+Message-ID: <Z4qSHORvPn7EU2j1@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 17 Jan 2025 16:47:45 +0100
-Message-Id: <D74GSFVY17UV.GMN119MAVAK0@bootlin.com>
-Subject: Re: [PATCH v3 3/7] pwm: max7360: Add MAX7360 PWM support
-Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
- Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
- <gregory.clement@bootlin.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com>
- <20250113-mdb-max7360-support-v3-3-9519b4acb0b1@bootlin.com>
- <f22l3uqgt65utxehv2zmozqixjkktp4trpr42xr5arvp6o5zcf@g5iriaeskqa5>
- <D74EQQNADWDP.FQ5XFK8TB5XH@bootlin.com>
- <v4bf6bharih6zgz52ya5twfyf47wh3fu56ovic5gjxak2jhufy@q3eudujjwrhm>
-In-Reply-To: <v4bf6bharih6zgz52ya5twfyf47wh3fu56ovic5gjxak2jhufy@q3eudujjwrhm>
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri Jan 17, 2025 at 3:40 PM CET, Uwe Kleine-K=C3=B6nig wrote:
-> On Fri, Jan 17, 2025 at 03:11:29PM +0100, Mathieu Dubois-Briand wrote:
-> > On Fri Jan 17, 2025 at 10:33 AM CET, Uwe Kleine-K=C3=B6nig wrote:
-> > > Hello Mathieu,
-> > >
-> > > On Mon, Jan 13, 2025 at 01:42:27PM +0100, mathieu.dubois-briand@bootl=
-in.com wrote:
-> > > > From: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> > ...
-> > > > +static int max7360_pwm_apply(struct pwm_chip *chip, struct pwm_dev=
-ice *pwm,
-> > > > +			     const struct pwm_state *state)
-> > > > +{
-> > > > +	struct max7360_pwm *max7360_pwm;
-> > > > +	u64 duty_steps;
-> > > > +	int ret;
-> > > > +
-> > > > +	if (state->polarity !=3D PWM_POLARITY_NORMAL)
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	if (state->period !=3D MAX7360_PWM_PERIOD_NS) {
-> > > > +		dev_warn(&chip->dev,
-> > > > +			 "unsupported pwm period: %llu, should be %u\n",
-> > > > +			 state->period, MAX7360_PWM_PERIOD_NS);
-> > > > +		return -EINVAL;
-> > >
-> > > Please don't emit error messages in .apply(). Also a driver is suppos=
-ed
-> > > to round down .period, so any value >=3D MAX7360_PWM_PERIOD_NS should=
- be
-> > > accepted.
-> > >
-> > > Also note that you might want to implement the waveform callbacks
-> > > instead of .apply() and .get_state() for the more modern abstraction
-> > > (with slightly different rounding rules).
-> > >
-> >=20
-> > Sure, I just switched to the waveform callbacks, it was quite
-> > straightforward.
->
-> sounds great. Note that the detail in rounding that is different for
-> waveforms is that a value that cannot be round down to a valid value
-> (because it's too small) is round up. This is a bit ugly in the drivers
-> but simplifies usage considerably. So you never return -EINVAL because
-> the values don't fit.
->
+When enabling a pass-through port an interrupt might come before psmouse
+driver binds to the pass-through port. However synaptics sub-driver
+tries to access psmouse instance presumably associated with the
+pass-through port to figure out if only 1 byte of response or entire
+protocol packet needs to be forwarded to the pass-through port and may
+crash if psmouse instance has not been attached to the port yet.
 
-Sorry, I'm not sure I got it right. Does this affect the three members
-of pwm_waveform (period_length_ns, duty_offset_ns, duty_length_ns) ? So
-on this device where the period is fixed and I cannot define an offset,
-does that mean I will silently accept any value for period_length_ns and
-duty_offset_ns ?
+Fix the crash by introducing open() and close() methods for the port and
+check if the port is open before trying to access psmouse instance.
+Because psmouse calls serio_open() only after attaching psmouse instance
+to serio port instance this prevents the potential crash.
 
-Best regards,
-Mathieu
+Reported-by: Takashi Iwai <tiwai@suse.de>
+Fixes: 100e16959c3c ("Input: libps2 - attach ps2dev instances as serio port's drvdata")
+Link: https://bugzilla.suse.com/show_bug.cgi?id=1219522
+Cc: stable@vger.kernel.org
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/mouse/synaptics.c | 56 ++++++++++++++++++++++++---------
+ drivers/input/mouse/synaptics.h |  1 +
+ 2 files changed, 43 insertions(+), 14 deletions(-)
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+index 2735f86c23cc..aba57abe6978 100644
+--- a/drivers/input/mouse/synaptics.c
++++ b/drivers/input/mouse/synaptics.c
+@@ -665,23 +665,50 @@ static void synaptics_pt_stop(struct serio *serio)
+ 	priv->pt_port = NULL;
+ }
+ 
++static int synaptics_pt_open(struct serio *serio)
++{
++	struct psmouse *parent = psmouse_from_serio(serio->parent);
++	struct synaptics_data *priv = parent->private;
++
++	guard(serio_pause_rx)(parent->ps2dev.serio);
++	priv->pt_port_open = true;
++
++	return 0;
++}
++
++static void synaptics_pt_close(struct serio *serio)
++{
++	struct psmouse *parent = psmouse_from_serio(serio->parent);
++	struct synaptics_data *priv = parent->private;
++
++	guard(serio_pause_rx)(parent->ps2dev.serio);
++	priv->pt_port_open = false;
++}
++
+ static int synaptics_is_pt_packet(u8 *buf)
+ {
+ 	return (buf[0] & 0xFC) == 0x84 && (buf[3] & 0xCC) == 0xC4;
+ }
+ 
+-static void synaptics_pass_pt_packet(struct serio *ptport, u8 *packet)
++static void synaptics_pass_pt_packet(struct synaptics_data *priv, u8 *packet)
+ {
+-	struct psmouse *child = psmouse_from_serio(ptport);
++	struct serio *ptport;
+ 
+-	if (child && child->state == PSMOUSE_ACTIVATED) {
+-		serio_interrupt(ptport, packet[1], 0);
+-		serio_interrupt(ptport, packet[4], 0);
+-		serio_interrupt(ptport, packet[5], 0);
+-		if (child->pktsize == 4)
+-			serio_interrupt(ptport, packet[2], 0);
+-	} else {
+-		serio_interrupt(ptport, packet[1], 0);
++	ptport = priv->pt_port;
++	if (!ptport)
++		return;
++
++	serio_interrupt(ptport, packet[1], 0);
++
++	if (priv->pt_port_open) {
++		struct psmouse *child = psmouse_from_serio(ptport);
++
++		if (child->state == PSMOUSE_ACTIVATED) {
++			serio_interrupt(ptport, packet[4], 0);
++			serio_interrupt(ptport, packet[5], 0);
++			if (child->pktsize == 4)
++				serio_interrupt(ptport, packet[2], 0);
++		}
+ 	}
+ }
+ 
+@@ -720,6 +747,8 @@ static void synaptics_pt_create(struct psmouse *psmouse)
+ 	serio->write = synaptics_pt_write;
+ 	serio->start = synaptics_pt_start;
+ 	serio->stop = synaptics_pt_stop;
++	serio->open = synaptics_pt_open;
++	serio->close = synaptics_pt_close;
+ 	serio->parent = psmouse->ps2dev.serio;
+ 
+ 	psmouse->pt_activate = synaptics_pt_activate;
+@@ -1216,11 +1245,10 @@ static psmouse_ret_t synaptics_process_byte(struct psmouse *psmouse)
+ 
+ 		if (SYN_CAP_PASS_THROUGH(priv->info.capabilities) &&
+ 		    synaptics_is_pt_packet(psmouse->packet)) {
+-			if (priv->pt_port)
+-				synaptics_pass_pt_packet(priv->pt_port,
+-							 psmouse->packet);
+-		} else
++			synaptics_pass_pt_packet(priv, psmouse->packet);
++		} else {
+ 			synaptics_process_packet(psmouse);
++		}
+ 
+ 		return PSMOUSE_FULL_PACKET;
+ 	}
+diff --git a/drivers/input/mouse/synaptics.h b/drivers/input/mouse/synaptics.h
+index 899aee598632..3853165b6b3a 100644
+--- a/drivers/input/mouse/synaptics.h
++++ b/drivers/input/mouse/synaptics.h
+@@ -188,6 +188,7 @@ struct synaptics_data {
+ 	bool disable_gesture;			/* disable gestures */
+ 
+ 	struct serio *pt_port;			/* Pass-through serio port */
++	bool pt_port_open;
+ 
+ 	/*
+ 	 * Last received Advanced Gesture Mode (AGM) packet. An AGM packet
+-- 
+2.48.0.rc2.279.g1de40edade-goog
 
+
+-- 
+Dmitry
 
