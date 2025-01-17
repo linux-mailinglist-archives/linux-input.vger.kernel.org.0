@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-9331-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9332-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44945A14AA5
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 09:03:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC0AA14C1A
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 10:24:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6F891881EA5
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 08:03:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA143188AAE3
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 09:24:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5A461F8913;
-	Fri, 17 Jan 2025 08:02:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B790C1F91FB;
+	Fri, 17 Jan 2025 09:24:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tdoyP0oI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fvH/blUm"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A311F8675;
-	Fri, 17 Jan 2025 08:02:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBD535960;
+	Fri, 17 Jan 2025 09:24:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737100963; cv=none; b=uqqOlQPTYIa9opQ+f3zU3+Pwbe1iqFygnbaWi9RVUyNjf4ahUlIPaZX5wRKRBNKDoJuzojF9mwN86A81JKUQlHTZnWg2UhFuxwcaUbbmwVzroRsiPSfXBKawnPqqyHEN6uKBq6wOQ2IUQQvZ6sni0iQMaBpu7uaMQi8OCzj3f8E=
+	t=1737105841; cv=none; b=rQgV/Jbuzp+m978RQQltzx7A+mq6Mge6Xi3DfHktD/gGMKjKBVqG15lCf5SPCX/5DCA4pexoQH61sWMcRmJpBcO3Xs39xGxXK1/G+4/SL5MNdTuLFNCg8zg2HvPEl5wwBzSWch4N+ilSIlLjQbi1knfS4pTdMfonfHj1vAmBw10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737100963; c=relaxed/simple;
-	bh=rrWEBgJ7rtLpxVFImQUZaRfsnMLIIHNGBkbq7ehKD+c=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=o2q2XRkO8nGLq3VPwgxgg/rW+8mrGNBbnvsXlyw1Iu9TiWC48/2SlKZZSUK2hgRz8x86oi2uB9V6HUe7tuGf0WAJ0k2X2BBVg402RlHnp7eTPakRCXOrJpq4Ywpe1h07B6XVatCBID0YWucK1aNXnP9KNGcV4wY56A3gQ9IRxgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tdoyP0oI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79284C4CEDD;
-	Fri, 17 Jan 2025 08:02:38 +0000 (UTC)
+	s=arc-20240116; t=1737105841; c=relaxed/simple;
+	bh=cP22QimH9HqXMQ27Y2ZLwCMx+iBtCoYJlcAJNxrEkjw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fV+2QynK3t+cg2OFwxhsRpDARB0AHILZ3b8j+U7cJfhl3VcfxmTsyXJ8ESf6O33PkIHxK0TGKrgzmZfCNFov1hF162tULkVuDdhsqqJN8jqON0I54nf0Mla3s/vpxOYUtROnLjA6gSApQ/sKUCi40cTbFYUEzrvfcTPTnNx9AwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fvH/blUm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B129BC4CEDD;
+	Fri, 17 Jan 2025 09:23:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737100963;
-	bh=rrWEBgJ7rtLpxVFImQUZaRfsnMLIIHNGBkbq7ehKD+c=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=tdoyP0oIPMrl2/5OnYJDVyFYulHc/oCOenlsJ/Ju2e5omUsZnxjcfcacv37N+0TUq
-	 sc5UltpE1D1kyCy0VIYD5ue0gkgocQ9O9NUFc++tEEgj8xrmQ/u9C4u3OotEj+MdOw
-	 u1jndZGa2uUGQvIKm/b+FrZ/e1pxxKlxe4ElY24CFcuhN0DejV3M1MPyYy/QD0Oc7X
-	 PHTmFKMPY8AzGBA3COxa0eiU4XcRtxZdZepCHuxxB/4BM2O6J1eDNzuuxb78vYOxa7
-	 hpPgqVRU8X+n51gsxrhhf6R98ihEJoGrfAYxFauFsXNdTQAHNQ08bxt5fz3dj9tWbP
-	 pnIZ4arPK8AsQ==
-Message-ID: <10f0fdac-65fb-4232-9d39-d6ecb2560b45@kernel.org>
-Date: Fri, 17 Jan 2025 09:02:35 +0100
+	s=k20201202; t=1737105841;
+	bh=cP22QimH9HqXMQ27Y2ZLwCMx+iBtCoYJlcAJNxrEkjw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fvH/blUmajCHXATuTAEpxhsMNicHP7b6ah/uOgzPaCcc41TXTxX2jShIUygm+NAfo
+	 R4BzZZ84xZspFtQe5TEZo8NcAd3IKJMJemVJgHrlWRWlhTD3lJhiLM+IpRIfGQo6eH
+	 GTSqc88zTYlSBy159vNI9P0Oll57la25G3EO7rV5dkkeyig1s1paNJreJbABcq5ilV
+	 Owi1Sp8fzlXJ+Zf5P7CUQ/Pe/GcAEn4PEkCV+CgEY2b0D5NuXvx8VZ+0Gzf5aM5Dqq
+	 lfkuk+RVClx9ckaKAswyulpXBd4ffGjnWDmgSobk5nsNnYCV04bQ50MvBSMhIOjgM8
+	 eeQPGXnbKBO5Q==
+Message-ID: <a14f5f69-02b5-4398-8639-389626644b8f@kernel.org>
+Date: Fri, 17 Jan 2025 10:23:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,23 +50,14 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 6/7] input: max77693: add max77705 haptic support
+Subject: Re: [PATCH v1 1/1] input: tps65214: Add support for TI TPS65214 PMIC
+To: Shree Ramamoorthy <s-ramamoorthy@ti.com>, dmitry.torokhov@gmail.com,
+ u.kleine-koenig@baylibre.com, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: m-leonard@ti.com, praneeth@ti.com
+References: <20250116224009.430622-1-s-ramamoorthy@ti.com>
+ <20250116224009.430622-2-s-ramamoorthy@ti.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: Sebastian Reichel <sre@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
- Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Hans de Goede <hdegoede@redhat.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
- Purism Kernel Team <kernel@puri.sm>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-input@vger.kernel.org, linux-leds@vger.kernel.org
-References: <20250116-starqltechn_integration_upstream-v15-0-cf229de9f758@gmail.com>
- <20250116-starqltechn_integration_upstream-v15-6-cf229de9f758@gmail.com>
- <20250117-chubby-convivial-axolotl-29e2df@krzk-bin>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -111,38 +102,20 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250117-chubby-convivial-axolotl-29e2df@krzk-bin>
+In-Reply-To: <20250116224009.430622-2-s-ramamoorthy@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 17/01/2025 09:01, Krzysztof Kozlowski wrote:
+On 16/01/2025 23:40, Shree Ramamoorthy wrote:
+> Update descriptions to reflect this input driver  applies to TPS65214,
+> TPS65215, and TPS65219.
 > 
->>  	case TYPE_MAX77843:
->>  		haptic->regmap_haptic = max77693->regmap;
->>  		break;
->> @@ -407,6 +418,7 @@ static DEFINE_SIMPLE_DEV_PM_OPS(max77693_haptic_pm_ops,
->>  
->>  static const struct platform_device_id max77693_haptic_id[] = {
->>  	{ "max77693-haptic", },
->> +	{ "max77705-haptic", },
->>  	{ "max77843-haptic", },
+> Signed-off-by: Shree Ramamoorthy <s-ramamoorthy@ti.com>
+> ---
 
-
-... and also drop this change, since compatible is going away and we
-expect matching by OF.
-
->>  	{},
->>  };
->> @@ -414,6 +426,7 @@ MODULE_DEVICE_TABLE(platform, max77693_haptic_id);
->>  
->>  static const struct of_device_id of_max77693_haptic_dt_match[] = {
->>  	{ .compatible = "maxim,max77693-haptic", },
->> +	{ .compatible = "maxim,max77705-haptic", },
-> 
-> So the device looks fully compatible with max77693. Drop this change and
-> express compatibility with fallback.
-
+That's just churn...
 
 Best regards,
 Krzysztof
+
 
