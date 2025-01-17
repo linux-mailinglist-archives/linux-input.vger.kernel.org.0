@@ -1,195 +1,194 @@
-Return-Path: <linux-input+bounces-9359-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9360-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 118C2A15823
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 20:30:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3AD7A15974
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 23:11:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 332A0168F8D
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 19:30:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 13B31188D324
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 22:11:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A43CC1A7AE3;
-	Fri, 17 Jan 2025 19:30:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 370891D9A66;
+	Fri, 17 Jan 2025 22:11:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PcmyZM42"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cr2Q9+T2"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705A3647;
-	Fri, 17 Jan 2025 19:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434CF1AA1C1
+	for <linux-input@vger.kernel.org>; Fri, 17 Jan 2025 22:11:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737142230; cv=none; b=ALfhR8NjqHDQBg+cWq50x+SLFjHoDMokjCqO/ZPmg05knZ7S3wRprczC1Z7zh+n82w0/LP8IJ25Y7VRGgdDe422wxx0/PiSMS6haFw75RWe2FK95PvWJbt26925B117W5LlG7eFs615ddQPHt26GZXIkQ0PeZdZVYvrkAGGHCuU=
+	t=1737151905; cv=none; b=MkPen38UqzwBW0UIhyV1TMjgVaNxt9nKQvRWGgGFVGl+fI2sJNzPDzVJHB0gUtIWl9FtP00ZGOwNQb4QTM3ikAKYRb6pTeI2eFASgrwsH3mn2obaPjHnFzy4Q7r8hpWY7rdUK8EidvFaaCjcnDsUpXkCOOxenv36LkE2fmAt0WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737142230; c=relaxed/simple;
-	bh=foNB1y1uq0V8qV5aIiltQZucaZ3/EtCVUoN7QygiX5Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bsH6Xujyjr8yV0GdkIUDfDhpRKAGBGLMJ7n4ptInCM4abflYibjHtzjAYoysdDFFIbBmISf5mIIym8X3A28rwXzWKsnnUDYxsgtuHT8qO/i4G1R6lmjci1vykWJxrXW3Aa2lRO1yDksgW7MvQBat445SOzhcxYSafRJPUPz0Bqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PcmyZM42; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EECCEC4CEE3;
-	Fri, 17 Jan 2025 19:30:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737142230;
-	bh=foNB1y1uq0V8qV5aIiltQZucaZ3/EtCVUoN7QygiX5Q=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=PcmyZM42OBbUN2s+eMJMWvVKqqjZr4qKzBrGmV7jIAMV0JFtG5sZ+wh5O3YcmKftS
-	 G3gKho6KPMSGYMCPoa0ni7euRpnJ9cki2DiLySsFoanbzl+2S1gcHj6gLpMsEZu1HM
-	 114n/v9wwuIE1WF4XCKogkOMXjll4Lk9wr/T2dpAuvwdIOZ26HGBl2r3T/UlYiyQKx
-	 +PyRPWHOedh7ByLlqUQ1/DkBfzi3RCQjrByM5PKYnUHz4obNDvDsr+XiC48gBJF76i
-	 IxMo6Zsw/xB3AgHbijeBJdE3c47qoXpm2CCA68ThQ11RR5KMIIg1VLc41oJYIy7uwx
-	 DXTQAyGot5wzQ==
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5f6497fbccbso2013702eaf.0;
-        Fri, 17 Jan 2025 11:30:29 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUu6XDZ85bG6E4cwAd9di3yjprVtfGuYFkKC/fVOpBX4KXjiDvP2sivvewExPTfj0l+jIK7unwt7KQ=@vger.kernel.org, AJvYcCWjSBS0K8TBtB2wsXltnc3AF3pbS7DzDqrCdUTRGJrTzH0h99h1VOd8KXzOO8WxOlnQe6L23aYYXlh6qQjy@vger.kernel.org, AJvYcCX0l4HUxkT+UE7+NW7zYI+w1231ZL4Ogckg3rsix+Fkaf1x2geNZRRmRjzd8J99jVNF/x8MiEvYTtEtbf0=@vger.kernel.org, AJvYcCXcAzS7Aq0Mf1Nx1toI1TE5ELe/WV/KXtRey2zusqt0Bd5FN1UyITzOzY7qZ4J3I1djMTsdd77HTIY2@vger.kernel.org, AJvYcCXoNZ3gM3vGEftXnlmJBigY99TfU5RzAHLXgFa5kW6cRjLS6m6a1O1SAGhQJjmDc/xnM3u4rgrK3OrJ3K0H@vger.kernel.org
-X-Gm-Message-State: AOJu0YyeCWt6Rrew9YdZBYPnnyyEnrecKw/pGXmp4uaNm96mI2FLs+Rj
-	0FvagisT05cpS2KIFX5wq3Pf63t/llIK9Sv0zvPUTySBud0t9PztpJS6RYarn1yK/reg66qA+1E
-	xMODdvdMq0BmwnfmIVgg8RP9LnA4=
-X-Google-Smtp-Source: AGHT+IEOihIY7mUOa4hVP1bqotPmsr69h5OgdfXyZbu/sRbspauTxsDS8YOdvCTlZN7dTpnC3uxq7LK3T+tCxi8e13Q=
-X-Received: by 2002:a05:6871:296:b0:29e:2a06:8405 with SMTP id
- 586e51a60fabf-2b186ca0224mr7419767fac.19.1737142229222; Fri, 17 Jan 2025
- 11:30:29 -0800 (PST)
+	s=arc-20240116; t=1737151905; c=relaxed/simple;
+	bh=QmAmuDsVkC8PBumq1pYIuz7nxVmC8CVyJEldfFsVOdE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AX5spkTsr3VAceC9hYwtVoY/qXNPnxF9hSvqN/93AhsivUDVHAbVrRWef3Wk+gFZb2xFb8tvOWY5ZekjOXXzjkzE+ODkXsi0ZHKeSykILXfv72hP/xb5ZjWEHBx8Ueq2knFnHyLh2zXDHNYoQj8B507nU0babJurND5DuaTwdPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cr2Q9+T2; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737151903; x=1768687903;
+  h=date:from:to:cc:subject:message-id;
+  bh=QmAmuDsVkC8PBumq1pYIuz7nxVmC8CVyJEldfFsVOdE=;
+  b=Cr2Q9+T2fRyWda3Qt4OgHsXR+NLQLCNU6WbZjQ8xTHoS6OQ4ftT/YTQJ
+   lpnkRoeKDjQLDJtPk6UmfZizsslgTd87NetVJUYp1SLiR43dUL6wQV+xY
+   Hz8Aq3VvmztgbbuTI6BdJF/Z0+fl5Y4pPU+OzbxZoGeqCsY1synK0gKhL
+   XI5CbYHqMFfWSuTeV+/nnRLgDfHgKqdrpwrJcn6gF8GT8XT8vYESRZMS2
+   GS16KgRU50X2NhTMbWF0RUEWJtHHgu47ehsEUG2RpAjIQaa8wRK3VLJrc
+   cjqD84vE7SPuBHNPWmZCzWpL2J/UcLguGMhhvwi7UiTGoVSTEbBLSeJXo
+   Q==;
+X-CSE-ConnectionGUID: gJxi4R9OQGeTsUlqDnndbA==
+X-CSE-MsgGUID: yoychsK5RIWJzpqP8MDJFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="41528381"
+X-IronPort-AV: E=Sophos;i="6.13,213,1732608000"; 
+   d="scan'208";a="41528381"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 14:11:42 -0800
+X-CSE-ConnectionGUID: Qdq8djsuTs+5eao600lR0A==
+X-CSE-MsgGUID: YkaFfyuARNKFeE9V3TgugA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="105762183"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 17 Jan 2025 14:11:40 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tYuZ0-000TlJ-10;
+	Fri, 17 Jan 2025 22:11:38 +0000
+Date: Sat, 18 Jan 2025 06:11:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ 92600f3295ff571890c981d886c6544030cc05f3
+Message-ID: <202501180630.5dEeI5rN-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250103-wake_irq-v2-0-e3aeff5e9966@nxp.com> <20250103-wake_irq-v2-1-e3aeff5e9966@nxp.com>
- <CAJZ5v0hj7wUU3f_j5QH3fNUFKokaXr0octaP2M1Ho_L_BspoUA@mail.gmail.com> <PAXPR04MB8459EE38DBDBCA29FB81B6B788192@PAXPR04MB8459.eurprd04.prod.outlook.com>
-In-Reply-To: <PAXPR04MB8459EE38DBDBCA29FB81B6B788192@PAXPR04MB8459.eurprd04.prod.outlook.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 17 Jan 2025 20:30:18 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0jb=0c5m=FeA-W-aG30H4706Ay_xCHTsiC1S-7MuGxqTQ@mail.gmail.com>
-X-Gm-Features: AbW1kva3YRwOs-mqOCr7xIZ_pL_VsK5_Sa-oqdUbd008qjcQYrdbDr5ihs4pOnQ
-Message-ID: <CAJZ5v0jb=0c5m=FeA-W-aG30H4706Ay_xCHTsiC1S-7MuGxqTQ@mail.gmail.com>
-Subject: Re: [PATCH v2 01/12] PM: sleep: wakeirq: Introduce device-managed
- variant of dev_pm_set_wake_irq
-To: Peng Fan <peng.fan@nxp.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, 
-	Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Conor Dooley <conor.dooley@microchip.com>, Daire McNamara <daire.mcnamara@microchip.com>, 
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, 
-	"linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>, 
-	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, 
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 15, 2025 at 2:28=E2=80=AFAM Peng Fan <peng.fan@nxp.com> wrote:
->
-> > Subject: Re: [PATCH v2 01/12] PM: sleep: wakeirq: Introduce device-
-> > managed variant of dev_pm_set_wake_irq
-> >
-> > On Fri, Jan 3, 2025 at 9:42=E2=80=AFAM Peng Fan (OSS) <peng.fan@oss.nxp=
-.com>
-> > wrote:
-> > >
-> > > From: Peng Fan <peng.fan@nxp.com>
-> > >
-> > > Add device-managed variant of dev_pm_set_wake_irq which
-> > automatically
-> > > clear the wake irq on device destruction to simplify error handling
-> > > and resource management in drivers.
-> > >
-> > > Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> > > ---
-> > >  drivers/base/power/wakeirq.c | 26 ++++++++++++++++++++++++++
-> > >  include/linux/pm_wakeirq.h   |  6 ++++++
-> > >  2 files changed, 32 insertions(+)
-> > >
-> > > diff --git a/drivers/base/power/wakeirq.c
-> > > b/drivers/base/power/wakeirq.c index
-> > >
-> > 5a5a9e978e85f3fc9d89cb7d43527dc1dd42a9b1..8aa28c08b2891f3af
-> > 490175362cc
-> > > 1a759069bd50 100644
-> > > --- a/drivers/base/power/wakeirq.c
-> > > +++ b/drivers/base/power/wakeirq.c
-> > > @@ -103,6 +103,32 @@ void dev_pm_clear_wake_irq(struct device
-> > *dev)  }
-> > > EXPORT_SYMBOL_GPL(dev_pm_clear_wake_irq);
-> > >
-> > > +static void devm_pm_clear_wake_irq(void *dev) {
-> > > +       dev_pm_clear_wake_irq(dev);
-> > > +}
-> > > +
-> > > +/**
-> > > + * devm_pm_set_wake_irq - device-managed variant of
-> > > +dev_pm_set_wake_irq
-> > > + * @dev: Device entry
-> > > + * @irq: Device IO interrupt
-> > > + *
-> > > + *
-> > > + * Attach a device IO interrupt as a wake IRQ, same with
-> > > +dev_pm_set_wake_irq,
-> > > + * but the device will be auto clear wake capability on driver detac=
-h.
-> > > + */
-> > > +int devm_pm_set_wake_irq(struct device *dev, int irq) {
-> > > +       int ret;
-> > > +
-> > > +       ret =3D dev_pm_set_wake_irq(dev, irq);
-> > > +       if (ret)
-> > > +               return ret;
-> > > +
-> > > +       return devm_add_action_or_reset(dev,
-> > devm_pm_clear_wake_irq,
-> > > +dev); } EXPORT_SYMBOL_GPL(devm_pm_set_wake_irq);
-> > > +
-> > >  /**
-> > >   * handle_threaded_wake_irq - Handler for dedicated wake-up
-> > interrupts
-> > >   * @irq: Device specific dedicated wake-up interrupt diff --git
-> > > a/include/linux/pm_wakeirq.h b/include/linux/pm_wakeirq.h index
-> > >
-> > d9642c6cf85211af603ce39e280a5b4de6617ee5..25b63ed51b765c2c6
-> > 919f259668a
-> > > 12675330835e 100644
-> > > --- a/include/linux/pm_wakeirq.h
-> > > +++ b/include/linux/pm_wakeirq.h
-> > > @@ -10,6 +10,7 @@ extern int dev_pm_set_wake_irq(struct device
-> > *dev,
-> > > int irq);  extern int dev_pm_set_dedicated_wake_irq(struct device
-> > > *dev, int irq);  extern int
-> > > dev_pm_set_dedicated_wake_irq_reverse(struct device *dev, int irq);
-> > > extern void dev_pm_clear_wake_irq(struct device *dev);
-> > > +extern int devm_pm_set_wake_irq(struct device *dev, int irq);
-> > >
-> > >  #else  /* !CONFIG_PM */
-> > >
-> > > @@ -32,5 +33,10 @@ static inline void
-> > dev_pm_clear_wake_irq(struct
-> > > device *dev)  {  }
-> > >
-> > > +static inline int devm_pm_set_wake_irq(struct device *dev, int irq) =
-{
-> > > +       return 0;
-> > > +}
-> > > +
-> > >  #endif /* CONFIG_PM */
-> > >  #endif /* _LINUX_PM_WAKEIRQ_H */
-> > >
-> > > --
-> >
-> > I can apply this patch for 6.14, but the rest of the series will need t=
-o be
-> > picked up by the respective driver maintainers.
-> >
-> > I hope this works for you?
->
-> Yes. please just pick up patch 1.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 92600f3295ff571890c981d886c6544030cc05f3  Input: xpad - add QH Electronics VID/PID
 
-OK, applied.
+elapsed time: 1444m
 
-Thanks!
+configs tested: 101
+configs skipped: 1
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                        nsimosci_defconfig    gcc-13.2.0
+arc                   randconfig-001-20250117    gcc-13.2.0
+arc                   randconfig-002-20250117    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-17
+arm                              allyesconfig    gcc-14.2.0
+arm                         lpc32xx_defconfig    clang-20
+arm                          moxart_defconfig    gcc-14.2.0
+arm                   randconfig-001-20250117    clang-18
+arm                   randconfig-002-20250117    gcc-14.2.0
+arm                   randconfig-003-20250117    gcc-14.2.0
+arm                   randconfig-004-20250117    clang-16
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250117    gcc-14.2.0
+arm64                 randconfig-002-20250117    clang-18
+arm64                 randconfig-003-20250117    clang-20
+arm64                 randconfig-004-20250117    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250117    gcc-14.2.0
+csky                  randconfig-002-20250117    gcc-14.2.0
+hexagon                          alldefconfig    clang-15
+hexagon                          allmodconfig    clang-20
+hexagon                           allnoconfig    clang-20
+hexagon                          allyesconfig    clang-18
+hexagon               randconfig-001-20250117    clang-20
+hexagon               randconfig-002-20250117    clang-20
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386        buildonly-randconfig-001-20250117    clang-19
+i386        buildonly-randconfig-002-20250117    clang-19
+i386        buildonly-randconfig-003-20250117    gcc-12
+i386        buildonly-randconfig-004-20250117    gcc-12
+i386        buildonly-randconfig-005-20250117    clang-19
+i386        buildonly-randconfig-006-20250117    gcc-11
+i386                                defconfig    clang-19
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250117    gcc-14.2.0
+loongarch             randconfig-002-20250117    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+m68k                       m5208evb_defconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250117    gcc-14.2.0
+nios2                 randconfig-002-20250117    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                randconfig-001-20250117    gcc-14.2.0
+parisc                randconfig-002-20250117    gcc-14.2.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-16
+powerpc               randconfig-001-20250117    gcc-14.2.0
+powerpc               randconfig-002-20250117    gcc-14.2.0
+powerpc               randconfig-003-20250117    gcc-14.2.0
+powerpc64             randconfig-001-20250117    clang-16
+powerpc64             randconfig-002-20250117    clang-20
+powerpc64             randconfig-003-20250117    gcc-14.2.0
+riscv                 randconfig-001-20250117    gcc-14.2.0
+riscv                 randconfig-002-20250117    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250117    gcc-14.2.0
+s390                  randconfig-002-20250117    clang-20
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                    randconfig-001-20250117    gcc-14.2.0
+sh                    randconfig-002-20250117    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250117    gcc-14.2.0
+sparc                 randconfig-002-20250117    gcc-14.2.0
+sparc64               randconfig-001-20250117    gcc-14.2.0
+sparc64               randconfig-002-20250117    gcc-14.2.0
+um                               allmodconfig    clang-20
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250117    clang-20
+um                    randconfig-002-20250117    gcc-12
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250117    gcc-12
+x86_64      buildonly-randconfig-002-20250117    gcc-12
+x86_64      buildonly-randconfig-003-20250117    gcc-12
+x86_64      buildonly-randconfig-004-20250117    gcc-12
+x86_64      buildonly-randconfig-005-20250117    gcc-12
+x86_64      buildonly-randconfig-006-20250117    clang-19
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250117    gcc-14.2.0
+xtensa                randconfig-002-20250117    gcc-14.2.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
