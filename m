@@ -1,194 +1,191 @@
-Return-Path: <linux-input+bounces-9360-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9361-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3AD7A15974
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 23:11:53 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFF1A15A6B
+	for <lists+linux-input@lfdr.de>; Sat, 18 Jan 2025 01:43:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 13B31188D324
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jan 2025 22:11:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ED0E1164544
+	for <lists+linux-input@lfdr.de>; Sat, 18 Jan 2025 00:43:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 370891D9A66;
-	Fri, 17 Jan 2025 22:11:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DAFA846F;
+	Sat, 18 Jan 2025 00:43:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cr2Q9+T2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H/zw8rez"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434CF1AA1C1
-	for <linux-input@vger.kernel.org>; Fri, 17 Jan 2025 22:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9160747F
+	for <linux-input@vger.kernel.org>; Sat, 18 Jan 2025 00:43:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737151905; cv=none; b=MkPen38UqzwBW0UIhyV1TMjgVaNxt9nKQvRWGgGFVGl+fI2sJNzPDzVJHB0gUtIWl9FtP00ZGOwNQb4QTM3ikAKYRb6pTeI2eFASgrwsH3mn2obaPjHnFzy4Q7r8hpWY7rdUK8EidvFaaCjcnDsUpXkCOOxenv36LkE2fmAt0WI=
+	t=1737161012; cv=none; b=iOYOvrjNxS54vQwRZanGz2/f3/u04260QG788/qgAFkdf76T1zexIWCrYcfuQlGUAb9wwbo7OK5VaQnEujXh259fe5LjrJGPEaa12M+pP6JA8gJvQC4agqcKXBSWH6ayMe94AaqdcR9WJqjkhISDdoyMcew5StPFG6vhWdCjADM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737151905; c=relaxed/simple;
-	bh=QmAmuDsVkC8PBumq1pYIuz7nxVmC8CVyJEldfFsVOdE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AX5spkTsr3VAceC9hYwtVoY/qXNPnxF9hSvqN/93AhsivUDVHAbVrRWef3Wk+gFZb2xFb8tvOWY5ZekjOXXzjkzE+ODkXsi0ZHKeSykILXfv72hP/xb5ZjWEHBx8Ueq2knFnHyLh2zXDHNYoQj8B507nU0babJurND5DuaTwdPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cr2Q9+T2; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737151903; x=1768687903;
-  h=date:from:to:cc:subject:message-id;
-  bh=QmAmuDsVkC8PBumq1pYIuz7nxVmC8CVyJEldfFsVOdE=;
-  b=Cr2Q9+T2fRyWda3Qt4OgHsXR+NLQLCNU6WbZjQ8xTHoS6OQ4ftT/YTQJ
-   lpnkRoeKDjQLDJtPk6UmfZizsslgTd87NetVJUYp1SLiR43dUL6wQV+xY
-   Hz8Aq3VvmztgbbuTI6BdJF/Z0+fl5Y4pPU+OzbxZoGeqCsY1synK0gKhL
-   XI5CbYHqMFfWSuTeV+/nnRLgDfHgKqdrpwrJcn6gF8GT8XT8vYESRZMS2
-   GS16KgRU50X2NhTMbWF0RUEWJtHHgu47ehsEUG2RpAjIQaa8wRK3VLJrc
-   cjqD84vE7SPuBHNPWmZCzWpL2J/UcLguGMhhvwi7UiTGoVSTEbBLSeJXo
-   Q==;
-X-CSE-ConnectionGUID: gJxi4R9OQGeTsUlqDnndbA==
-X-CSE-MsgGUID: yoychsK5RIWJzpqP8MDJFA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="41528381"
-X-IronPort-AV: E=Sophos;i="6.13,213,1732608000"; 
-   d="scan'208";a="41528381"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 14:11:42 -0800
-X-CSE-ConnectionGUID: Qdq8djsuTs+5eao600lR0A==
-X-CSE-MsgGUID: YkaFfyuARNKFeE9V3TgugA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="105762183"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 17 Jan 2025 14:11:40 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tYuZ0-000TlJ-10;
-	Fri, 17 Jan 2025 22:11:38 +0000
-Date: Sat, 18 Jan 2025 06:11:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 92600f3295ff571890c981d886c6544030cc05f3
-Message-ID: <202501180630.5dEeI5rN-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1737161012; c=relaxed/simple;
+	bh=VfmDPy846Kexktac6w9L30R5zGR5xCBv2XqStQBiksM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B0diUWKNtVPEgDM7E22rZuQ2a+alPyY59okI/mOZemLItP6riGAjL1DJbZFJ08up0SBkPMeNrIT0XNZmcrTwwYwVjX4jAppQyuXqajpU9J+y/HsnTSsEMs649g0CihcWLickFe5VvgdqFm9dh6yCPN9VfCqhv3TQ0QcD99l/KOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H/zw8rez; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-216401de828so49501525ad.3
+        for <linux-input@vger.kernel.org>; Fri, 17 Jan 2025 16:43:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737161010; x=1737765810; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Eb9jX1khXnmjTVc/JCz1YfjisZoUmb6W5SzJln1/yPc=;
+        b=H/zw8rezvZNvGQwukJmF/XOGkvyefsGF9kZiAOUWOaBrenWYQXT0UvyK9sc1S2SSJ7
+         86yTOnnthD4xXAPHC04sxu8Q3vaCEAGsjeb+mTCO3uStp8ogdQhY3uJQeI4sjItyHrjv
+         oyL1baT2k+9iANSUXes4eALX8qj0tv79r0THp9kxATmnOjzftShRAHke+lz6+2Qb0L2y
+         ViOicCI2xsYbCXvoSyJI5HMkeRK5blUXp4H1GCF0+hSTKlq1p955skYr3jM9uY1MSV+n
+         CO0Yd3mSB3rIb3J3FhBFHmLj2HFWACbs/femFrYx8lMm+xBDvR15MZa6gP8E7ykJ+bXI
+         XoZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737161010; x=1737765810;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Eb9jX1khXnmjTVc/JCz1YfjisZoUmb6W5SzJln1/yPc=;
+        b=MAyP+BYRmGto3uGF4rfV46TRhmyZK/6vCttfTyPbgf1oa68oqIEXE2Fs81CU8GBed8
+         mRTuDdHHeLfrd5Gb0y6/pKHXlrS53CDU6Z1pOJrYY5LZ1tYSakhHIsIA+190/VQfCCIM
+         I9kihEZXLHCpNQ9+8gPmfx6d6ybjSXPUxaenhynd1BdE6UaQ6cVIX+tM1BjoZ5cMrb2i
+         EpDlT3Y8v76SC18lIkkCRF7bO7iL19D3FlFzdk5LeTnIsi4GM/rnWJkMVE7k2BcUE/nf
+         63ESO6FFm0u+qTr+pMRLiz297DJEXEJ6qcwdkqacAdHrs6JM8JJ3Vv2Qku889Ut+261v
+         4y/A==
+X-Forwarded-Encrypted: i=1; AJvYcCUSV6QR0ekcSm4trEXdxzwIwNZchE/EBbQtonY39TJj6WGvb9PmF5yyQLXovl+/PIEHXiyllCMut8sgug==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxhib4PDzk+pThQg3+loJJ3UPYIs1cPQBtbmGEaIcdGq7AaGyBg
+	ddGAZT/OuHPthHD24zOWgilGG3lII6q2meRhr91I6xUot86EGuko
+X-Gm-Gg: ASbGncs7me1sAovNn94MzmF1BTIFI6GR2ZYVG8KlTz8FO+ZngaDgsbE/uPvFEweoTEA
+	tJKFNm++6M4zNCyownfQTsXvTw3MHn6VQRoLvVijpyP06c1Pa7SgFkTA3Dwqp0Xk8S4iA8s++0p
+	2RBjMzOr9Jmtc/5qj0nn3Akjr9/T42fjdiZKAzLiNSC+kh1PoD5/2qXq9ieBGD5dhOdM7Xn/dqT
+	z7oR57R8AXsV4ak7jJCvOQM2VYbhPYfDonsDN+Pz65yaKqu4aIL+NMDLoResOhzAXdg+rA=
+X-Google-Smtp-Source: AGHT+IHLXnzBvgruX8ANjM1pQPLeUJwEvS4SuhrksvB9EFit2biFJ1AnsSwqU/nWJRajrrvRuCTspA==
+X-Received: by 2002:a05:6a00:428d:b0:71e:4786:98ee with SMTP id d2e1a72fcca58-72dafae88b0mr6461546b3a.21.1737161009571;
+        Fri, 17 Jan 2025 16:43:29 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:5b21:de92:906f:1f41])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab817732sm2681907b3a.64.2025.01.17.16.43.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jan 2025 16:43:29 -0800 (PST)
+Date: Fri, 17 Jan 2025 16:43:26 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Matheos Mattsson <matheos.mattsson@gmail.com>
+Cc: Pavel Rojtberg <rojtberg@gmail.com>, linux-input@vger.kernel.org,
+	gregkh@linuxfoundation.org
+Subject: Re: [PATCH v3 08/11] Input: xpad - add support for Nacon Evol-X Xbox
+ One Controller
+Message-ID: <Z4r5LixxTPIf1rqP@google.com>
+References: <20250107192830.414709-1-rojtberg@gmail.com>
+ <20250107192830.414709-9-rojtberg@gmail.com>
+ <Z4qTzrFGDtInMfz5@google.com>
+ <CAOnZAHtEU-nBVuPq_5mC31e-KG+_VKW8PkSwUaCsFREjxewxGg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOnZAHtEU-nBVuPq_5mC31e-KG+_VKW8PkSwUaCsFREjxewxGg@mail.gmail.com>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 92600f3295ff571890c981d886c6544030cc05f3  Input: xpad - add QH Electronics VID/PID
+Hi Matheos,
 
-elapsed time: 1444m
+On Fri, Jan 17, 2025 at 11:25:06PM +0200, Matheos Mattsson wrote:
+> Hi,
+> 
+> Sorry to jump in like this. I am not even sure what kind of "chain" this is
+> really,
 
-configs tested: 101
-configs skipped: 1
+Pavel sent a chain of multiple patches (of which you were CCed on to
+just one I assume), so that's what I was referring to.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> but if we are talking about my SOB I am 100% sure I did in my MR
+> description on the xpad github repostitory.
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-13.2.0
-arc                               allnoconfig    gcc-13.2.0
-arc                              allyesconfig    gcc-13.2.0
-arc                        nsimosci_defconfig    gcc-13.2.0
-arc                   randconfig-001-20250117    gcc-13.2.0
-arc                   randconfig-002-20250117    gcc-13.2.0
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    clang-17
-arm                              allyesconfig    gcc-14.2.0
-arm                         lpc32xx_defconfig    clang-20
-arm                          moxart_defconfig    gcc-14.2.0
-arm                   randconfig-001-20250117    clang-18
-arm                   randconfig-002-20250117    gcc-14.2.0
-arm                   randconfig-003-20250117    gcc-14.2.0
-arm                   randconfig-004-20250117    clang-16
-arm64                            allmodconfig    clang-18
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250117    gcc-14.2.0
-arm64                 randconfig-002-20250117    clang-18
-arm64                 randconfig-003-20250117    clang-20
-arm64                 randconfig-004-20250117    gcc-14.2.0
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250117    gcc-14.2.0
-csky                  randconfig-002-20250117    gcc-14.2.0
-hexagon                          alldefconfig    clang-15
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    clang-20
-hexagon                          allyesconfig    clang-18
-hexagon               randconfig-001-20250117    clang-20
-hexagon               randconfig-002-20250117    clang-20
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386        buildonly-randconfig-001-20250117    clang-19
-i386        buildonly-randconfig-002-20250117    clang-19
-i386        buildonly-randconfig-003-20250117    gcc-12
-i386        buildonly-randconfig-004-20250117    gcc-12
-i386        buildonly-randconfig-005-20250117    clang-19
-i386        buildonly-randconfig-006-20250117    gcc-11
-i386                                defconfig    clang-19
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250117    gcc-14.2.0
-loongarch             randconfig-002-20250117    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                       m5208evb_defconfig    gcc-14.2.0
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250117    gcc-14.2.0
-nios2                 randconfig-002-20250117    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                randconfig-001-20250117    gcc-14.2.0
-parisc                randconfig-002-20250117    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                          allyesconfig    clang-16
-powerpc               randconfig-001-20250117    gcc-14.2.0
-powerpc               randconfig-002-20250117    gcc-14.2.0
-powerpc               randconfig-003-20250117    gcc-14.2.0
-powerpc64             randconfig-001-20250117    clang-16
-powerpc64             randconfig-002-20250117    clang-20
-powerpc64             randconfig-003-20250117    gcc-14.2.0
-riscv                 randconfig-001-20250117    gcc-14.2.0
-riscv                 randconfig-002-20250117    gcc-14.2.0
-s390                             allmodconfig    clang-19
-s390                             allyesconfig    gcc-14.2.0
-s390                  randconfig-001-20250117    gcc-14.2.0
-s390                  randconfig-002-20250117    clang-20
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                    randconfig-001-20250117    gcc-14.2.0
-sh                    randconfig-002-20250117    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250117    gcc-14.2.0
-sparc                 randconfig-002-20250117    gcc-14.2.0
-sparc64               randconfig-001-20250117    gcc-14.2.0
-sparc64               randconfig-002-20250117    gcc-14.2.0
-um                               allmodconfig    clang-20
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250117    clang-20
-um                    randconfig-002-20250117    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20250117    gcc-12
-x86_64      buildonly-randconfig-002-20250117    gcc-12
-x86_64      buildonly-randconfig-003-20250117    gcc-12
-x86_64      buildonly-randconfig-004-20250117    gcc-12
-x86_64      buildonly-randconfig-005-20250117    gcc-12
-x86_64      buildonly-randconfig-006-20250117    clang-19
-x86_64                              defconfig    gcc-11
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                randconfig-001-20250117    gcc-14.2.0
-xtensa                randconfig-002-20250117    gcc-14.2.0
+Ah, OK, I see now. I simply cloned the repository and inspected the
+commits. Pull requests is something that is only recorded in github and
+is not a part of git repository.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Apologies if this was either the wrong place, or if I am conpletely
+> misunderstanding what this is about 😅
+
+Yes, for the kernel development SOB should go into commit message
+itself. This way SOBs are part of the source code and its history, not
+tied to some infrastructure.
+
+But since I am aware of your SOB now I am applying the patch.
+
+Thank you!
+
+> 
+> Regards,
+> Matheos
+> 
+> On Fri, 17 Jan 2025, 19:30 Dmitry Torokhov, <dmitry.torokhov@gmail.com>
+> wrote:
+> 
+> > Hi Pavel,
+> >
+> > On Tue, Jan 07, 2025 at 08:28:27PM +0100, Pavel Rojtberg wrote:
+> > > From: Matheos Mattsson <matheos.mattsson@gmail.com>
+> > >
+> > > Signed-off-by: Matheos Mattsson <matheos.mattsson@gmail.com>
+> >
+> > I checked several patches against the github repository and in github
+> > there are no "Signed-off-by"s from the original authors. I understand
+> > and fully appreciate the desire to credit the original authors, but you
+> > can not add SOBs on their behalf.
+> >
+> > I think the best way would be to combine all the changes into one patch
+> > authored by you and give credit to all the people involved in the commit
+> > description.
+> >
+> > > Signed-off-by: Pavel Rojtberg <rojtberg@gmail.com>
+> > > ---
+> > >  drivers/input/joystick/xpad.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >
+> > > diff --git a/drivers/input/joystick/xpad.c
+> > b/drivers/input/joystick/xpad.c
+> > > index 237704b3fab5..18e33e2aeaa7 100644
+> > > --- a/drivers/input/joystick/xpad.c
+> > > +++ b/drivers/input/joystick/xpad.c
+> > > @@ -394,6 +394,7 @@ static const struct xpad_device {
+> > >       { 0x3285, 0x0607, "Nacon GC-100", 0, XTYPE_XBOX360 },
+> > >       { 0x3285, 0x0614, "Nacon Pro Compact", 0, XTYPE_XBOXONE },
+> > >       { 0x3285, 0x0662, "Nacon Revolution5 Pro", 0, XTYPE_XBOX360 },
+> > > +     { 0x3285, 0x0663, "Nacon Evol-X", 0, XTYPE_XBOXONE },
+> > >       { 0x3537, 0x1004, "GameSir T4 Kaleid", 0, XTYPE_XBOX360 },
+> > >       { 0x3767, 0x0101, "Fanatec Speedster 3 Forceshock Wheel", 0,
+> > XTYPE_XBOX },
+> > >       { 0x413d, 0x2104, "Black Shark Green Ghost Gamepad", 0,
+> > XTYPE_XBOX360 },
+> > > @@ -543,6 +544,7 @@ static const struct usb_device_id xpad_table[] = {
+> > >       XPAD_XBOXONE_VENDOR(0x2e95),            /* SCUF Gaming Controller
+> > */
+> > >       XPAD_XBOX360_VENDOR(0x31e3),            /* Wooting Keyboards */
+> > >       XPAD_XBOX360_VENDOR(0x3285),            /* Nacon GC-100 */
+> > > +     XPAD_XBOXONE_VENDOR(0x3285),            /* Nacon Evol-X */
+> > >       XPAD_XBOX360_VENDOR(0x3537),            /* GameSir Controllers */
+> > >       XPAD_XBOXONE_VENDOR(0x3537),            /* GameSir Controllers */
+> > >       XPAD_XBOX360_VENDOR(0x413d),            /* Black Shark Green Ghost
+> > Controller */
+> > > --
+> > > 2.43.0
+> > >
+> >
+> > Thanks.
+> >
+> > --
+> > Dmitry
+> >
+
+-- 
+Dmitry
 
