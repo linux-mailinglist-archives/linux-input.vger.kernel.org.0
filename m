@@ -1,130 +1,132 @@
-Return-Path: <linux-input+bounces-9376-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9377-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03FA9A160E9
-	for <lists+linux-input@lfdr.de>; Sun, 19 Jan 2025 09:43:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5644DA161B2
+	for <lists+linux-input@lfdr.de>; Sun, 19 Jan 2025 13:45:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 023D87A3115
-	for <lists+linux-input@lfdr.de>; Sun, 19 Jan 2025 08:43:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 504193A6052
+	for <lists+linux-input@lfdr.de>; Sun, 19 Jan 2025 12:45:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F223199E88;
-	Sun, 19 Jan 2025 08:43:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCCA61DE88D;
+	Sun, 19 Jan 2025 12:45:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Weu3tTbc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JI8nLzIh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EC618CBEC;
-	Sun, 19 Jan 2025 08:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FAD19B59C;
+	Sun, 19 Jan 2025 12:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737276202; cv=none; b=NImSlnEf4H1Ejaf2VWvN82OSSZLYzwEKZk8NaAG/nIlyJBFfXaBs/itiGwQG+05C0TgY203BiRO5Lw0880em1Evdqb9CL4g5DTIqds12B8Y7HrRrNECr954IdvjtjnD2+LioUlCEH3gyk2nW8wX8llbZOLoDwqrcqxpwkAf8D18=
+	t=1737290720; cv=none; b=Y8/Jo41k1cNxkhI+zoBpAG5Dp1/wX8jqkBljzSZO5H7qQ4Y+qKh4B2ah14ketpoFB/0I9V8Ov0tnoAZCCXLi1km798Xdp4v0u3/jkkUMHivnfwHUZ2KC84w6lAHzvvhyik0/VmKQxfGGpGrXv6NuaZnB2uDJbNa+sOvr++baa7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737276202; c=relaxed/simple;
-	bh=aJMyLQAEiv9y2RuZeAsSLohYMa4uqiX+NNAZPsJclcQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KhjC2QZQIKYNTAxuIBqjYIwQ1Pp9nLlv+DPyFq/SwjgX8iPB5aJ6mKbgNlrke6lGx3DV+PS0hIbuetVZcpFPLFMBS+aUr62T8s8B8vGIgwBW7cIsrGNY5Il6DuEr9XFKP4vY6rv2b7J4B3x82CNdQ5qL2B5vIOt6YuJbk8wzkQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Weu3tTbc; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21631789fcdso56605595ad.1;
-        Sun, 19 Jan 2025 00:43:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737276199; x=1737880999; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zSZuzrIG8AynYgqfjkKTimwvRX3WlbLjgL9vAjzatKM=;
-        b=Weu3tTbckOh/oSuRsTpecGA/4t8XWeAFdQzAbhcbA/AIq/UWKCbAYva3ViExERXPgo
-         4E7vFzOmvOiiDBLrX9NcOZYyAMAzmqMP4OuGJdp1FVI1NY266qbEE8knvYAwTaitSdDC
-         sMs+hahyFP34+IrvWxQD91HWxX0udeGRhyH1t4dnBXt08ILILsI9+GLKJ9kokTjub5Np
-         4BVpzMUPl3Pcp8wXsFXnihBQ62510xG+lXeb7Qf9gBox+EFUZfkAOs0CA5XWCkrx3lGQ
-         /bHrsgDQvAzREieQwXngIG9kWts0BjPJt9u7ehv8cAsyPU3sw7/ZvFJ0pxlUizex+pXo
-         cWeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737276199; x=1737880999;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zSZuzrIG8AynYgqfjkKTimwvRX3WlbLjgL9vAjzatKM=;
-        b=dl/h8oJgfE653lhm1u9liy8Y4yTvnulapRf+BBiqEDTprzywk84RotrO391L2Dxgnp
-         4nU7eopdB+0e1RbA/0fWZrr9j8oNNIb36SzANT8vb9hxxZTzOYMp0LjwMDvH+uJoAS+8
-         wRciWfe5Q3rOh+zxhDllB/H+ACXbqLD5J0o42Qx+KK5wb6JhGSnwAsuSR/8NbUaYiqdJ
-         F1McNX94QGLntU/g1UWQfkxRU7lRKTa8BRBnNPsNoXBZDdPvqjA7U7AKOdr7+jSPN99E
-         QPXeelXQCEa6qBeWcrlcoigdYsf0LvnsLXHyQOrIivUusbHVySZiFP93eVA7f3zWZORf
-         2eLA==
-X-Forwarded-Encrypted: i=1; AJvYcCXew5SF2Ghm4yswQr/BrxUuk/Z5v13/NMhvGwK4yzGYrChXFCmS4mNhw/ATQ/cONyJFKTnKrnHcsLVXMpc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0AIcyjk1wcXNcQuPsAOYSRmdi6oeRVF7eUl5hffHnDA6Wmknw
-	Y/1PTI/CTVfshTcdcZTH6gVPb0bcjPxVGT4zVzT8j362PuT7yed16F7Lwbv5
-X-Gm-Gg: ASbGncuV58BuG761lm3iGoHHbRV3oOy+gKjtZ3/e9rblyCc5JkUmLQHJchpdCg+5iT3
-	ADDl/4bbyOePjO9GLefpQV5xp37739Y40rATnfyo/8h8vqUu9s0h+GWfR+jkb/QTM4vYk4CoS5G
-	J+Mq64TsDa+OUUyJfTU+EwQKzCvImCYRfWiIWaix3FNFC+elyxUREuiTaQKOFouwOfJIncbeDQC
-	iN/bPbxqzeetpv2fwbtjDbkOJw0egeF6I8CFpbBwp9Z0kuKwmIv3xK8UdoO6aPaeFBkY6elRHA=
-X-Google-Smtp-Source: AGHT+IGw0KvkD9dHQFRkMOBiEl5y5B2X4r5RUA54bE/TNXFaA9MyMYG/ChGNh80Q44gpB1hEBd302A==
-X-Received: by 2002:a05:6a21:6d9c:b0:1d9:d5e:8297 with SMTP id adf61e73a8af0-1eb216034b9mr14304283637.6.1737276199051;
-        Sun, 19 Jan 2025 00:43:19 -0800 (PST)
-Received: from eleanor-wkdl.. ([140.116.96.203])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-a9bcc322169sm4660074a12.22.2025.01.19.00.43.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jan 2025 00:43:18 -0800 (PST)
-From: Yu-Chun Lin <eleanor15x@gmail.com>
-To: dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	jserv@ccns.ncku.edu.tw,
-	visitorckw@gmail.com,
-	Yu-Chun Lin <eleanor15x@gmail.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] Input: wdt87xx_i2c - fix compiler warning
-Date: Sun, 19 Jan 2025 16:43:12 +0800
-Message-ID: <20250119084312.1851486-1-eleanor15x@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1737290720; c=relaxed/simple;
+	bh=Tmc8lsl8sz5I2t4ujzk9kU4BDvASsv68J/O5ZBaXE2A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ezq6/1XhdfkR8OzBqpQgMIPBEDq7cvcXfKasmN56eO6N5jrI7cNkZkH81ARXnMdRIFMgq7T8jZLansDI77kgXGQ21BeVlR8xErigAgoTyKnoHMUjZVv0DESe2oy/s0y3FnLcGnNgTbeTPGlf3z2xlIHaWc3rmMvfGg3BCmD/pZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JI8nLzIh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81160C4CED6;
+	Sun, 19 Jan 2025 12:45:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737290719;
+	bh=Tmc8lsl8sz5I2t4ujzk9kU4BDvASsv68J/O5ZBaXE2A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=JI8nLzIhOxKKdbt7JKe0Fz4ZmD5khwuzgF9BjOlzhKCftMvq6UdgehNLm1eYSxbqv
+	 ouSeYexY1aMRsgINVZ1RIUdxPJtJ5zukduj9NedJLeikM3n6gn83uY8h2TU0DPuKsV
+	 SGMrkkcBfb6Um222NFLIiNjYpcEiaAU6RISSrJkWUnlAbmMtVuDvkjHQtGtl88j6Pc
+	 rk3cobE4LsLk+VJ11YYrNtwQx4tn/gQSlcnfsLYW3PL3wjLEZRyGh0zWPosCGbxzf/
+	 oQqDapIVRNLylZyTj+oJqIISLyO65QMgKg4MW0u2DgEX3fYDjshdWNApjDddIZ0CGm
+	 Pnkm+NuE3VuEw==
+Message-ID: <0b3ac708-64c4-44a5-a3f7-1bcb22f59db6@kernel.org>
+Date: Sun, 19 Jan 2025 13:45:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v16 6/7] input: max77693: add max77705 haptic support
+To: Dzmitry Sankouski <dsankouski@gmail.com>,
+ Sebastian Reichel <sre@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+ Purism Kernel Team <kernel@puri.sm>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-leds@vger.kernel.org
+References: <20250117-starqltechn_integration_upstream-v16-0-11afa877276c@gmail.com>
+ <20250117-starqltechn_integration_upstream-v16-6-11afa877276c@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250117-starqltechn_integration_upstream-v16-6-11afa877276c@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-As reported by the kernel test robot, the following warning occur:
+On 17/01/2025 14:01, Dzmitry Sankouski wrote:
+> Add support for haptic controller on MAX77705 Multifunction
+> device.
+> 
+> This driver supports external pwm and LRA (Linear Resonant Actuator) motor.
+> User can control the haptic device via force feedback framework.
+> 
+> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> ---
 
->> drivers/input/touchscreen/wdt87xx_i2c.c:1166:36: warning: 'wdt87xx_acpi_id' defined but not used [-Wunused-const-variable=]
-    1166 | static const struct acpi_device_id wdt87xx_acpi_id[] = {
-         |                                    ^~~~~~~~~~~~~~~
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-The 'wdt87xx_acpi_id' array is only used when CONFIG_ACPI is enabled.
-Wrapping its definition and 'MODULE_DEVICE_TABLE' in '#ifdef CONFIG_ACPI'
-prevents a compiler warning when ACPI is disabled.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202501181549.uzdlBwuN-lkp@intel.com/
-Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
----
- drivers/input/touchscreen/wdt87xx_i2c.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/input/touchscreen/wdt87xx_i2c.c b/drivers/input/touchscreen/wdt87xx_i2c.c
-index 27941245e962..88d376090e6e 100644
---- a/drivers/input/touchscreen/wdt87xx_i2c.c
-+++ b/drivers/input/touchscreen/wdt87xx_i2c.c
-@@ -1153,11 +1153,13 @@ static const struct i2c_device_id wdt87xx_dev_id[] = {
- };
- MODULE_DEVICE_TABLE(i2c, wdt87xx_dev_id);
- 
-+#ifdef CONFIG_ACPI
- static const struct acpi_device_id wdt87xx_acpi_id[] = {
- 	{ "WDHT0001", 0 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(acpi, wdt87xx_acpi_id);
-+#endif
- 
- static struct i2c_driver wdt87xx_driver = {
- 	.probe		= wdt87xx_ts_probe,
--- 
-2.43.0
-
+Best regards,
+Krzysztof
 
