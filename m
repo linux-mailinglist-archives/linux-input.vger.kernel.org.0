@@ -1,131 +1,120 @@
-Return-Path: <linux-input+bounces-9402-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9403-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2850A16C69
-	for <lists+linux-input@lfdr.de>; Mon, 20 Jan 2025 13:34:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00DA5A16E30
+	for <lists+linux-input@lfdr.de>; Mon, 20 Jan 2025 15:13:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC5113A6A99
-	for <lists+linux-input@lfdr.de>; Mon, 20 Jan 2025 12:34:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C05516013F
+	for <lists+linux-input@lfdr.de>; Mon, 20 Jan 2025 14:13:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAC161DF98B;
-	Mon, 20 Jan 2025 12:34:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A32B41E25F4;
+	Mon, 20 Jan 2025 14:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="njszSGAy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="do1RccMb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7606F1B86F7;
-	Mon, 20 Jan 2025 12:34:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1E6195FE5;
+	Mon, 20 Jan 2025 14:13:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737376447; cv=none; b=hX0K7nGCr4afX57etd+AXyRjx1ebM9eYj6hclIYYJOInRqbrubqDKv6IVM6Rx0b5UFWNJPXqrUhvaFr7bWZRu/EFjz9I5T1wFAllCxsiSyT1ABr3GMvSTTrQTiRnCXJ9dq0SaWUiKyb8CLJo8R4P5GPGHULmJrqyDPfIhEQinwU=
+	t=1737382396; cv=none; b=G6jG0avL9OPij+3QJtC5Qi4Wy5fzIQtlmRdUwBuvGTw0TXlJD5elriMWSXFK7foHUwJDtxjw7o7TFu7J0+6FcmmhkEW8oM6VFbySjXrdHoZK577h3cK+LaW/bzVtCJorhAHj1mSvPTle7BZMnrPhGihzjMnXJERE8e/hJnUnPbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737376447; c=relaxed/simple;
-	bh=yAEGnFq1fPaXAmVZjlGJVKmHOFgrUr8C7FYb/aComRw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Es9S81JLRRjXU5sw8wf/kjYu2UdVhQsRUdhdmQKHtgiu1KrZQCwiTXYX2jGE0yRR3PTqsKTVRT6Ogx4/LvVsYlnh/PTK5TTIjZ+hg+InmTg2h4/vlHEBPEA1lwuGzAXEn3iuBMxkRxdcYeIqD1OAD5pH/cOKVCuPtAWf29DJubI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=njszSGAy; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-219f8263ae0so77325925ad.0;
-        Mon, 20 Jan 2025 04:34:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737376445; x=1737981245; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rVha0vnwTsgyqq719hlczMyoarwoABW1JsVuks2CDC0=;
-        b=njszSGAy355o2/zAVyiPv44uB0opBBctRB4BSQSGJNLInUGiFWI/sOVkUqDua0u4CQ
-         ArMgW2BeODQHWoLL/v+CDuUydKZpJpHUbLp4Scgak9pahAzN7zrp/6YjArfTjtvQQW6e
-         98jbnsf/dfGMnkDairDdBfyXF+ZYf8HnqrqVursxrVUqPCI1SvzI8br2PlIA2QOy4MPD
-         o13DKJ59Mh+3XIhBG60L2ADVtw/oURbGPoVDSpsWpmsCVrQVB0UWoHFdGb+Q8cl153dY
-         B1Ul+AhdXeSTHXj9n+ug93YM0/6T2hp/wM2wurTTn/xKbgdNVzo4jsiGUhbedgSBRNJo
-         l7pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737376445; x=1737981245;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rVha0vnwTsgyqq719hlczMyoarwoABW1JsVuks2CDC0=;
-        b=jlAiu7TkbPsohcXRnGEQ+8VhvBZGGmSUzR+UuX9Sq661VAsjwI/cle0SMZfJRgrLVy
-         sUomD2Y0YcGZw7o3HxeBHZL9k6GpWx0ZmpQlPd83L9E0x8h9s2Qawzi5KsfxJDRqLFlp
-         aQ9nIfAig/7vzspsSuF/yatqloMTbY6NjbKL8neIz9cOxQYfkB2dCI+89il6rcxHQA0f
-         VIsE6c1DYCnAEj1MLyPklewMzMjqTritzJRRMUlKLNg3OU2uZencSimp8JF7S/nUzAc7
-         muAijX7FM4Geawub9K/8W7ReZ0lVmMMqpYj7AzFL1UhZ37ed7PHc9tP+fNr7lmJOWQk+
-         RqeA==
-X-Forwarded-Encrypted: i=1; AJvYcCVZz8BAya0FOzc5XLW11YMRQt/trCPiTG09VG3PgHBJ9DNKo6tr2o0yP1i39z2d6zjrowwjB6N/szfzUjY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzS0F/Xr/yriBmq3wQOIX3CtYxm/uhgTwhOniHQ+KEFfIupHY4h
-	dfb3Knv0Hsn70mdMleyQPLTlrgPIBp9R3J9sC+6lMOwiEIOLmIQJHTkHse4g
-X-Gm-Gg: ASbGnctTS6SF9X+KYM6icODPc1wyPRG5deqgHnmHQdlH6/jfirYMzCme/mSl+tkPar0
-	pLv4v/k3pFLzRPmUWd7s3Vw/ZLZj7wrFon4HRdKkbQIfIEgl7pGTjYF1IJwcGs0D5yF9Qk66A+i
-	NoxSlUw2GQ5KK/MQU3c3uA9u5ZLzNJgcyrCJL28L9t5HexO9zt65KSB7yS9X+hcVxs++h1iOdGr
-	uoKHrzKM21dmwkolZmqDjDuJitHkN7F+KNkFaGfOTn2gKLigdPDO0SWvWaT7lgDk4yMsCMHEeA=
-X-Google-Smtp-Source: AGHT+IF+WZBnwbRtPhon5LlqN6IjHO4m4PSNHFs1Gav1oY2C8Wv8iviEFAA2VpszZsmuyKChr6G+Aw==
-X-Received: by 2002:a05:6a00:4615:b0:725:f1b1:cb9f with SMTP id d2e1a72fcca58-72dafad530bmr19151874b3a.20.1737376445508;
-        Mon, 20 Jan 2025 04:34:05 -0800 (PST)
-Received: from eleanor-wkdl.. ([140.116.96.203])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab81336esm6988126b3a.38.2025.01.20.04.34.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 04:34:05 -0800 (PST)
-From: Yu-Chun Lin <eleanor15x@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	visitorckw@gmail.com,
-	jserv@ccns.ncku.edu.tw,
-	Yu-Chun Lin <eleanor15x@gmail.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] HID: google: fix unused variable warning under !CONFIG_ACPI
-Date: Mon, 20 Jan 2025 20:33:58 +0800
-Message-ID: <20250120123359.2471882-1-eleanor15x@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1737382396; c=relaxed/simple;
+	bh=LXi52AccAwK747Lt7jyUBQnKiTisCcClYGh8O1ScBts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XD1JJvLJtupYJ7ctJd4REx2BHYjCQe+WX/chT2t89Z7UhEjmeKbmWGfbsVFNtmxBkEIbcgDEu7O1LPKrh3udABy6zoh597SCi5tTSpUlkZAJzrVglVousgsF/X4fl0PZOTJtsmPGrjPsn/QgK+vWIqF4t5Re1S7jDkfUbfoMYdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=do1RccMb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32DC8C4CEDD;
+	Mon, 20 Jan 2025 14:13:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737382395;
+	bh=LXi52AccAwK747Lt7jyUBQnKiTisCcClYGh8O1ScBts=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=do1RccMbQCLbqW8/sfmGTksmrSE7v+kl3Eicg7Ms3zp4siwYjqKy22qhH8UWgCDEe
+	 9NUTQDMMJpRMsX8yfQflr3BLZisjuirc4+m9NtaaPXfKOEnNK5KOM/ERKwk783MueF
+	 LtpA5KVr4UixFXdrZhRxfsBueihF7VU+cod+3N7zcZxy10Pdmx3K47eSDp5lx/PEKl
+	 ZGM4Kw+s5HrxdlEnZJ+VnijLBN1IDw3063IFzv8qVqRoc+vQu6zZ2KHwMnlkYqHtX/
+	 iTZC2rkapc2PInfxnoWU0U1I45x6giL2DggvZ9ZLMZxAOtTN6raqu1rq/qPzmAPnjq
+	 WyZtVpokAXZcg==
+Date: Mon, 20 Jan 2025 15:13:12 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Kamel Bouhara <kamel.bouhara@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	=?utf-8?Q?Gr=C3=A9gory?= Clement <gregory.clement@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 3/7] pwm: max7360: Add MAX7360 PWM support
+Message-ID: <vljrtytihjud6v4xnyolrnbopep45ga2kagygoruryqwvpubmt@s76ht4taazpx>
+References: <20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com>
+ <20250113-mdb-max7360-support-v3-3-9519b4acb0b1@bootlin.com>
+ <f22l3uqgt65utxehv2zmozqixjkktp4trpr42xr5arvp6o5zcf@g5iriaeskqa5>
+ <D74EQQNADWDP.FQ5XFK8TB5XH@bootlin.com>
+ <v4bf6bharih6zgz52ya5twfyf47wh3fu56ovic5gjxak2jhufy@q3eudujjwrhm>
+ <D74GSFVY17UV.GMN119MAVAK0@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ksuvyscayydf7grk"
+Content-Disposition: inline
+In-Reply-To: <D74GSFVY17UV.GMN119MAVAK0@bootlin.com>
 
-As reported by the kernel test robot, the following warning occurs:
 
->> drivers/hid/hid-google-hammer.c:261:36: warning: 'cbas_ec_acpi_ids' defined but not used [-Wunused-const-variable=]
-     261 | static const struct acpi_device_id cbas_ec_acpi_ids[] = {
-         |                                    ^~~~~~~~~~~~~~~~
+--ksuvyscayydf7grk
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 3/7] pwm: max7360: Add MAX7360 PWM support
+MIME-Version: 1.0
 
-The 'cbas_ec_acpi_ids' array is only used when CONFIG_ACPI is enabled.
-Wrapping its definition and 'MODULE_DEVICE_TABLE' in '#ifdef CONFIG_ACPI'
-prevents a compiler warning when ACPI is disabled.
+Hello Mathieu,
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202501201141.jctFH5eB-lkp@intel.com/
-Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
----
- drivers/hid/hid-google-hammer.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Fri, Jan 17, 2025 at 04:47:45PM +0100, Mathieu Dubois-Briand wrote:
+> On Fri Jan 17, 2025 at 3:40 PM CET, Uwe Kleine-K=F6nig wrote:
+> > sounds great. Note that the detail in rounding that is different for
+> > waveforms is that a value that cannot be round down to a valid value
+> > (because it's too small) is round up. This is a bit ugly in the drivers
+> > but simplifies usage considerably. So you never return -EINVAL because
+> > the values don't fit.
+>=20
+> Sorry, I'm not sure I got it right. Does this affect the three members
+> of pwm_waveform (period_length_ns, duty_offset_ns, duty_length_ns) ? So
+> on this device where the period is fixed and I cannot define an offset,
+> does that mean I will silently accept any value for period_length_ns and
+> duty_offset_ns ?
 
-diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-index 0f292b5d3e26..eb6fd2dc75d0 100644
---- a/drivers/hid/hid-google-hammer.c
-+++ b/drivers/hid/hid-google-hammer.c
-@@ -268,11 +268,13 @@ static void cbas_ec_remove(struct platform_device *pdev)
- 	mutex_unlock(&cbas_ec_reglock);
- }
- 
-+#ifdef CONFIG_ACPI
- static const struct acpi_device_id cbas_ec_acpi_ids[] = {
- 	{ "GOOG000B", 0 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(acpi, cbas_ec_acpi_ids);
-+#endif
- 
- #ifdef CONFIG_OF
- static const struct of_device_id cbas_ec_of_match[] = {
--- 
-2.43.0
+Yes. The fromhw callback obviously always fills the respective constants
+into .period_length_ns and .duty_offset_ns and the tohw callback
+essentially only looks at .duty_length_ns.
 
+Best regards
+Uwe
+
+--ksuvyscayydf7grk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmeOWfYACgkQj4D7WH0S
+/k54PQgAgI5G7ezn2dRsgzfZkJ+j/7tFoBh2cbKXA87rkrTLUlbR9p/EbFiTzTVO
+ARjs2KnQBTj1H4tWuPCXngapYO3GsQQLoZ5iUpn+TEGUz1u8bAbu4cLuY5E0gblh
+1047+fmzshakbxmFWgU/c4TtdCu9yHeyoTsKLxD63lM2VuO3mKCC9VDadj3W4WYj
+mMpjaTRR9XxBlKy/d5all5XkuXEXGHiezwoFCGymjusE4K1ERphejzP0gKRe0RSM
+wCWFA2Hf2U6QyyrQbV/G3t/LH1BhmLLZYqvXsyzlu2yhPTb98QUWofewLx9Rx5ob
+2Tvt1G69cvF8VAJpVWu3RCLA/miFjA==
+=QVPj
+-----END PGP SIGNATURE-----
+
+--ksuvyscayydf7grk--
 
