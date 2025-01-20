@@ -1,120 +1,143 @@
-Return-Path: <linux-input+bounces-9403-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9404-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00DA5A16E30
-	for <lists+linux-input@lfdr.de>; Mon, 20 Jan 2025 15:13:21 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2597FA170FC
+	for <lists+linux-input@lfdr.de>; Mon, 20 Jan 2025 18:07:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C05516013F
-	for <lists+linux-input@lfdr.de>; Mon, 20 Jan 2025 14:13:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F34E67A19CE
+	for <lists+linux-input@lfdr.de>; Mon, 20 Jan 2025 17:07:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A32B41E25F4;
-	Mon, 20 Jan 2025 14:13:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17E511E9B31;
+	Mon, 20 Jan 2025 17:07:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="do1RccMb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sc8kcL9J"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1E6195FE5;
-	Mon, 20 Jan 2025 14:13:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FD41EBFEB;
+	Mon, 20 Jan 2025 17:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737382396; cv=none; b=G6jG0avL9OPij+3QJtC5Qi4Wy5fzIQtlmRdUwBuvGTw0TXlJD5elriMWSXFK7foHUwJDtxjw7o7TFu7J0+6FcmmhkEW8oM6VFbySjXrdHoZK577h3cK+LaW/bzVtCJorhAHj1mSvPTle7BZMnrPhGihzjMnXJERE8e/hJnUnPbM=
+	t=1737392862; cv=none; b=S/n2IFAAMbGLOYA+sDnbkfYWND+WMoNNIwKA4v/jh4m87PrtFvxdMEiGhmbAIOz4Y2kj27wl7OySiLC9P/M8RvKtevCVAUuZHnMsNsT+SJah/1N+qTfzkLXUfRe0K3YVbTtyvTw1ERuCBaRjzDgwfveIYmyAnebj2BdyP6yinWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737382396; c=relaxed/simple;
-	bh=LXi52AccAwK747Lt7jyUBQnKiTisCcClYGh8O1ScBts=;
+	s=arc-20240116; t=1737392862; c=relaxed/simple;
+	bh=TA6gQCSQC2cRk1mZEHlp4Hew2mvEXcoPur0MMbOMe0o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XD1JJvLJtupYJ7ctJd4REx2BHYjCQe+WX/chT2t89Z7UhEjmeKbmWGfbsVFNtmxBkEIbcgDEu7O1LPKrh3udABy6zoh597SCi5tTSpUlkZAJzrVglVousgsF/X4fl0PZOTJtsmPGrjPsn/QgK+vWIqF4t5Re1S7jDkfUbfoMYdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=do1RccMb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32DC8C4CEDD;
-	Mon, 20 Jan 2025 14:13:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737382395;
-	bh=LXi52AccAwK747Lt7jyUBQnKiTisCcClYGh8O1ScBts=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=do1RccMbQCLbqW8/sfmGTksmrSE7v+kl3Eicg7Ms3zp4siwYjqKy22qhH8UWgCDEe
-	 9NUTQDMMJpRMsX8yfQflr3BLZisjuirc4+m9NtaaPXfKOEnNK5KOM/ERKwk783MueF
-	 LtpA5KVr4UixFXdrZhRxfsBueihF7VU+cod+3N7zcZxy10Pdmx3K47eSDp5lx/PEKl
-	 ZGM4Kw+s5HrxdlEnZJ+VnijLBN1IDw3063IFzv8qVqRoc+vQu6zZ2KHwMnlkYqHtX/
-	 iTZC2rkapc2PInfxnoWU0U1I45x6giL2DggvZ9ZLMZxAOtTN6raqu1rq/qPzmAPnjq
-	 WyZtVpokAXZcg==
-Date: Mon, 20 Jan 2025 15:13:12 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Kamel Bouhara <kamel.bouhara@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	=?utf-8?Q?Gr=C3=A9gory?= Clement <gregory.clement@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 3/7] pwm: max7360: Add MAX7360 PWM support
-Message-ID: <vljrtytihjud6v4xnyolrnbopep45ga2kagygoruryqwvpubmt@s76ht4taazpx>
-References: <20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com>
- <20250113-mdb-max7360-support-v3-3-9519b4acb0b1@bootlin.com>
- <f22l3uqgt65utxehv2zmozqixjkktp4trpr42xr5arvp6o5zcf@g5iriaeskqa5>
- <D74EQQNADWDP.FQ5XFK8TB5XH@bootlin.com>
- <v4bf6bharih6zgz52ya5twfyf47wh3fu56ovic5gjxak2jhufy@q3eudujjwrhm>
- <D74GSFVY17UV.GMN119MAVAK0@bootlin.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=uHiG2AcoOSteMB+le6ucs3bBjy7RtdLHfnF+Kap4cxf1+WChngiWEEMMMNQATR2/PoapfnVkAB2xewF+NJMgaW105bVhCwS8d6ip2kUnHHC3tswqpzyzaRD4Qmoue9Ri4fbxSpsJ/rI7O/fAzoLgzeyLbUbCytBo4UhKcjMfdU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sc8kcL9J; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737392861; x=1768928861;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=TA6gQCSQC2cRk1mZEHlp4Hew2mvEXcoPur0MMbOMe0o=;
+  b=Sc8kcL9JG6AVIRBS1IpT2kb8mmfVq6B2dfv9JIUBOIpHdcJj8ri9ITdx
+   NidHOLF354MKiPWc37eBVd0eExoVgUEG94ynb4fXFWN8oeNypZgKXZ7nx
+   J1CU1X1Yp9IR+FQr9+5pINtya2AcJfUv9DQI2JaoE/VrbwkGiRGeAI495
+   sAeA493xHXQVl4E9G/+YNRxnmB2qSOKlcJIxefk8bWzokFj2ymg7L13tD
+   QhgM3jYgq3mETTkL/9gmQ6ZWNM8w5k1+aHryXLlYHnlS8JFKrcXmRbgB4
+   i/o+NunNpdMDS7WchI7VvD4Ksmj6+er6adyqoKcqvGLL0Btz9yfQAstt9
+   w==;
+X-CSE-ConnectionGUID: jfqNBCdETzmOm7z5qPqDhA==
+X-CSE-MsgGUID: w0T/gOXqR96EWyUXrTrDEw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="37821196"
+X-IronPort-AV: E=Sophos;i="6.13,219,1732608000"; 
+   d="scan'208";a="37821196"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 09:07:40 -0800
+X-CSE-ConnectionGUID: Ac9brgF6S6STqGH535utkg==
+X-CSE-MsgGUID: ER6BqF4sR/qeBBB7f9+7LA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="107478833"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 09:07:37 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tZvFN-00000003V7c-3w45;
+	Mon, 20 Jan 2025 19:07:33 +0200
+Date: Mon, 20 Jan 2025 19:07:33 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
+	broonie@kernel.org, pierre-louis.bossart@linux.dev,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] Introduce devm_kmemdup_array() helper
+Message-ID: <Z46C1bZ4AMLvKTn0@smile.fi.intel.com>
+References: <20241126172240.6044-1-raag.jadav@intel.com>
+ <CACRpkdZqdE8gQCre=zR2cN17oKfwBSnWuVwzQsbRO7-ENVnPNg@mail.gmail.com>
+ <Z0nNnsmYIil0OZpy@smile.fi.intel.com>
+ <Z1Rfuo3jq7rO0cqb@black.fi.intel.com>
+ <Z1r0EPC9gumruFKU@smile.fi.intel.com>
+ <2024121242-saturday-aqua-9ac6@gregkh>
+ <Z1sObNubEnsFwzOD@smile.fi.intel.com>
+ <Z4kcxQWeL09VARfK@smile.fi.intel.com>
+ <Z4pwksY3Bs4taZd3@black.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ksuvyscayydf7grk"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <D74GSFVY17UV.GMN119MAVAK0@bootlin.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z4pwksY3Bs4taZd3@black.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+
+On Fri, Jan 17, 2025 at 05:00:34PM +0200, Raag Jadav wrote:
+> On Thu, Jan 16, 2025 at 04:50:45PM +0200, Andy Shevchenko wrote:
+> > On Thu, Dec 12, 2024 at 06:25:16PM +0200, Andy Shevchenko wrote:
+> > > On Thu, Dec 12, 2024 at 03:39:57PM +0100, Greg KH wrote:
+> > > > On Thu, Dec 12, 2024 at 04:32:48PM +0200, Andy Shevchenko wrote:
+> > > > > On Sat, Dec 07, 2024 at 04:46:18PM +0200, Raag Jadav wrote:
+> > > > > > On Fri, Nov 29, 2024 at 04:20:14PM +0200, Andy Shevchenko wrote:
+> > > > > > > On Fri, Nov 29, 2024 at 11:17:02AM +0100, Linus Walleij wrote:
+> > > > > > > > On Tue, Nov 26, 2024 at 6:22 PM Raag Jadav <raag.jadav@intel.com> wrote:
+> > > > > > > > 
+> > > > > > > > > This series introduces a more robust and cleaner devm_kmemdup_array()
+> > > > > > > > > helper and uses it across drivers.
+> > > > > > > > 
+> > > > > > > > For the series:
+> > > > > > > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> > > > > > > > 
+> > > > > > > > It seems like Andy will push it to me which is excellent.
+> > > > > > > 
+> > > > > > > Yep, that's the plan after we get all necessary ACKs.
+> > > > > > 
+> > > > > > Greg, anything I can do to move this forward?
+> > > > > 
+> > > > > Greg, is it possible to give your Ack or comment or guidance of the preferences
+> > > > > with the first patch?
+> > > > 
+> > > > $ mdfrm -c ~/mail/todo/
+> > > > 2293 messages in /home/gregkh/mail/todo/
+> > > 
+> > > Oh my...
+> > > 
+> > > > Please be patient.
+> > > 
+> > > Sure!
+> > 
+> > Raaj, care to send a v3 after merge window closes?
+> 
+> Sure, and perhaps add a few more users which I found with my improved
+> grepping skills.
+
+Okay, thanks! I will drop myself from this thread then. Waiting for v3...
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
---ksuvyscayydf7grk
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 3/7] pwm: max7360: Add MAX7360 PWM support
-MIME-Version: 1.0
-
-Hello Mathieu,
-
-On Fri, Jan 17, 2025 at 04:47:45PM +0100, Mathieu Dubois-Briand wrote:
-> On Fri Jan 17, 2025 at 3:40 PM CET, Uwe Kleine-K=F6nig wrote:
-> > sounds great. Note that the detail in rounding that is different for
-> > waveforms is that a value that cannot be round down to a valid value
-> > (because it's too small) is round up. This is a bit ugly in the drivers
-> > but simplifies usage considerably. So you never return -EINVAL because
-> > the values don't fit.
->=20
-> Sorry, I'm not sure I got it right. Does this affect the three members
-> of pwm_waveform (period_length_ns, duty_offset_ns, duty_length_ns) ? So
-> on this device where the period is fixed and I cannot define an offset,
-> does that mean I will silently accept any value for period_length_ns and
-> duty_offset_ns ?
-
-Yes. The fromhw callback obviously always fills the respective constants
-into .period_length_ns and .duty_offset_ns and the tohw callback
-essentially only looks at .duty_length_ns.
-
-Best regards
-Uwe
-
---ksuvyscayydf7grk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmeOWfYACgkQj4D7WH0S
-/k54PQgAgI5G7ezn2dRsgzfZkJ+j/7tFoBh2cbKXA87rkrTLUlbR9p/EbFiTzTVO
-ARjs2KnQBTj1H4tWuPCXngapYO3GsQQLoZ5iUpn+TEGUz1u8bAbu4cLuY5E0gblh
-1047+fmzshakbxmFWgU/c4TtdCu9yHeyoTsKLxD63lM2VuO3mKCC9VDadj3W4WYj
-mMpjaTRR9XxBlKy/d5all5XkuXEXGHiezwoFCGymjusE4K1ERphejzP0gKRe0RSM
-wCWFA2Hf2U6QyyrQbV/G3t/LH1BhmLLZYqvXsyzlu2yhPTb98QUWofewLx9Rx5ob
-2Tvt1G69cvF8VAJpVWu3RCLA/miFjA==
-=QVPj
------END PGP SIGNATURE-----
-
---ksuvyscayydf7grk--
 
