@@ -1,77 +1,77 @@
-Return-Path: <linux-input+bounces-9427-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9426-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1153A185E7
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 21:00:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2527A185E4
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 21:00:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 60A9B188B9B6
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 20:00:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 72EC3188B5F0
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 20:00:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C505D1F76BB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B3631F75A1;
 	Tue, 21 Jan 2025 20:00:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BC7/wyUV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZW6ofRgV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1F71F707F;
-	Tue, 21 Jan 2025 20:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB1F1F4725;
+	Tue, 21 Jan 2025 20:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737489634; cv=none; b=s+eGPuMBQkgH1RVftJsrFmjJslLwSQuGXhSsK92MMhcX6WuQKzAnFV/RWboHdOLIIjfrynsT4j4/DH7mGkpYPKNS8aNPuKxoPwfjxyj353Oi4bFfvd8Fl2FosMMg0vNPYM2cjemVOgLDXALdhrkWFQa0JQb57+jOjYYli1fsZvk=
+	t=1737489634; cv=none; b=Et3yfuwz3vqh0aM4O+aWRsxVGQf7H3gdUiw5E1yp3oQdY3C0srSYY1PlChPWpJzezAc3wyPg+b9wPMD7yBNuxKtw+iUFzqMFCdH7lAEjSLw2RYKCPthwcqJf4XwCb4iCANCECsyYFx6VleaNryNbQ156FOzxU3jp7UXk7eBAb04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1737489634; c=relaxed/simple;
-	bh=4kizRe2rgXySp8A1jCGinFKGSl5lHwSo1HF/xS0Okwk=;
+	bh=dHV4n/DsK8cs7MIzV8hr4pqFbAX0fyfGvU+4VCWC2A8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CPsbM8HVSVPHm7KGwC2tkwk0D3tNHHst3ARmwVlkMB4X9zXzm0F+KzfIU5PA3zJuudagpiL0VsdFzV0URhCNziNh5DKyctzDLLlOExK2Hq9VKM9mpu2/8LDFPhLdpplf6J77TwH4OqluA1kiha8RCmoAQsb5Y2blYaDrZITqZsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BC7/wyUV; arc=none smtp.client-ip=209.85.128.50
+	 MIME-Version; b=tkG44G+8kTsSI6K25ArFKXB9UJ5ktm1BuLeY1uL5U7OGq2OF7AM3Axi51YiLNaxUemr1PqeJnshDknVKMagF7wNolJaleypHrUNdB1HFQoJsepASo0595dMgqtLL68vYR5CCAYfgbv2WL1zNp5XeR2FbesLU8RA6psr9SyPzT3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZW6ofRgV; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-435f8f29f8aso43930345e9.2;
-        Tue, 21 Jan 2025 12:00:31 -0800 (PST)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-385e0e224cbso3212081f8f.2;
+        Tue, 21 Jan 2025 12:00:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1737489630; x=1738094430; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/BQt4u1Y3GeikF9g8y57XTCh9Gzrta3TPR2hq1BQ24g=;
-        b=BC7/wyUVBpERzesWOU4JBv1Zr4f3h0hMkuVH/u8PbGW0gyMeIhZEHN7deAxmuiq6eK
-         4QP/klsXr/STeaPrRH0KTYMchJ3joAIFfrufRJWieEno32AcwBNkKpJUSfb3zXN2dv44
-         etlKJmFrsfB24ncmhXN7vAHrZtWTdKphcCb6os4ShnFSHg6fnrFn7zs/KPxgo7h/841U
-         OO40jcTaq3jZNZSDQ9lS5IHcXxiipfHDxWRGR5qxU7bpniiYqHXGUOlPyhlQQuUqTSjk
-         +qZrpcHGUvTQF3XH4oFddOs6HmKD8Vcc7HPBd9YwphxZHqd5iZ01X34Sq223I4VCafP4
-         IqkA==
+        bh=k2N1YlgQNdx7LxlrloC7QMkubugmuO/YtGTHs/05i/8=;
+        b=ZW6ofRgVOY8AJhX9W3VlfSrtUBNG1mUbapMh3D3RUtlo7o/vua/mOHaB4HtnjooaFz
+         UwUGXOVuLJ0KAtBFPd02I0x17L8V9m00KGGPBwNIHzNGo4WmsnebmF8Dhhhjfa1EwMT1
+         sOSZjRrbhFUv/kFGTncpZVUnKRJy+T4nFUg4CSQkZCc0Pw44f9tOuKcG7+U415ew2GAf
+         PpYvNGmu9MNGeg5Y+dQJqvv4+hZ+5aNQq8hmwSQesTdt9fAWRKFGRCGrlLIU8Dkgu0pR
+         7VAnwxc/eRK8+KnSVXxh6FjeCypex6lvdWYBBB17qD7K1zQkxJsuVBaxPwAa2u0SSKAT
+         EHnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1737489630; x=1738094430;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/BQt4u1Y3GeikF9g8y57XTCh9Gzrta3TPR2hq1BQ24g=;
-        b=UOuxoQWpvR3r2caPGUMO2bA2FtdlGhxshu78wTA9ADX4+uty27bdUzugPmNQFxWizs
-         UWxnX+r8lX1EFukPI0QHxMmbK/iPaSeSY1BWsnCuN7jCxBG6wgwC7SQJuMbkwKGZLfQh
-         CY5PC4AJ/tdqNCfh1/w9yv5BBTogoyh3Y/OSs1Bu087VkBFs8nm4TutQGf79C7FmN9Bk
-         Mdd/aE61EIJsUoQvjVwgUrVWGm/4aaYy+YJep9w3EjgcYW/tJ57Unr5sJvOAeyy1+y5e
-         bG9BINqZJrKrL5lVopaGEyyeCur+C8Et1/pqj5u+QdFx+RxbatOcP+toTDqnEWwDvDmx
-         ypYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUB+mQli3FxLZ6XHsMdFM8Qswq/64zui8IfGKxJypOUvf5ozIAHr2iPHBivSn+3tSiTha3Onns=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywa+0zbfVbAT80eDOrigEMxo69apt1VM+SLnWDDpaJ9mPj7b7Cw
-	TbUzD1KiqfOAzqDsmaFoZ82mvXrQOMhekmCyGQHq4lJ8JmD6Gpb33XvdB3gG
-X-Gm-Gg: ASbGncseymvbE+AXIbrPhiweYlvYS7yChC0T0ERv04JT0ipJrmgq4kWHqdNomTJce7V
-	YfOIACZHFcroRKIlfusFo5R+p7/eiUlstNYh7DTXe4R0GdP4LqnJOmBbxoN/dhaBIG99WMEMqkp
-	JrccP6rBNSLrOFJrrlyNF5WFTuVZtezyh9k+TMgQuqRlR/mMOFpA3erdRcE/044HewfERmTULYn
-	mkJgzmpVIc8avAdxQDZh1SF5wj7FFpFN5dUTvh0n4099kGQbdFbNepawPUTjmAkyVbOseYQ4QOF
-	oo+DDBY6SiZ5rMR28A==
-X-Google-Smtp-Source: AGHT+IHPiKuUNeHZz5XZ8lEdQrC0/wbhc1G+3Fo1l8UhrAQPh2eWw8N4VZmW7twvCncAJLXPU3yAnw==
-X-Received: by 2002:adf:f811:0:b0:385:e3c5:61ae with SMTP id ffacd0b85a97d-38bf56785f2mr14944300f8f.31.1737489629444;
-        Tue, 21 Jan 2025 12:00:29 -0800 (PST)
+        bh=k2N1YlgQNdx7LxlrloC7QMkubugmuO/YtGTHs/05i/8=;
+        b=rptX8yuxDVcLIe4ga7yiinH/McdYpyvPAjY5IgC6r75HsQ4mW32SOXc0RPqcfUfTqo
+         /MI/xEw+uP31BvEcEXxweKOM/IkN7x2TX26OhtGWrH9knQTQFm0VjJBlTSN6KuJTZOl+
+         lEFcLt40uWwaILGEfP47c38gw2aqemntp6s4lwdPEydRMltiHP4T/zsoUspFtR5mDB+M
+         6atOHNWDZXNlBiC7YJqD97xiNV/PptPhB+Zl3Hwwni5tZ+qYaj+cslFecyNlVazdm16Y
+         ksruE5vROxm2kDFccdqLSYOIfsLe2pzHX7FWq/vVA5u+Hin7osvOXwsXtWX4NZfAVYl6
+         /zTA==
+X-Forwarded-Encrypted: i=1; AJvYcCV6hIoJveexwu1346qgL7w2nfzUjxuUYwTo2R4vfVp53kw0RsrBmXPgopryctXny33D912iujc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/6sO+9LrZabNMhZIbj9ErbIURZGl/sCgq7RPCJqR+c1UZiYNG
+	VXO8Wrg/9QUGZz92TiM5WyTT8EFnPDJ3Ce8Y3Yk46bkPz5329c9o7paMyerC
+X-Gm-Gg: ASbGncs8sE64X/GoxRCc1eIkc4neCN3cLlH8TyXZt6p/alzxqtPVDt6JlhDaYS1HL0d
+	67hzjbHHMnVtN68JZ9S2Ub1/mOgG7Oe7hi3jJhx0OrIpZlIUNwKruqnOfX9upwC54DPpJ4zcD4U
+	XHQMCWChiK3EmUuLhdcTQ52HxZAAYp+6fBCWIvGvf8IyqaN8sPPKX6b1dDOvNEcF71iljABoMr7
+	MgNaDPAJiMonvXpOQ9UjNu9Om5IbkAi/caAIR2gLenyFkpE8Ww1uPBGzHz+9pLfRH76tNXYjsmP
+	h6QKd2Nc0as5566ckw==
+X-Google-Smtp-Source: AGHT+IH11nOzlyATB1hkkRENeqT/0e9t9i8wxeN5gd45RNy8t4U54W26NVQs9Kt/GZhIuToDpx/3+Q==
+X-Received: by 2002:a5d:47c4:0:b0:38c:1281:260d with SMTP id ffacd0b85a97d-38c12813249mr7010385f8f.31.1737489630028;
+        Tue, 21 Jan 2025 12:00:30 -0800 (PST)
 Received: from localhost.localdomain ([109.175.243.75])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf3221761sm14118153f8f.22.2025.01.21.12.00.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf3221761sm14118153f8f.22.2025.01.21.12.00.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2025 12:00:28 -0800 (PST)
+        Tue, 21 Jan 2025 12:00:29 -0800 (PST)
 From: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-input@vger.kernel.org,
@@ -79,11 +79,10 @@ Cc: linux-input@vger.kernel.org,
 	bentiss@kernel.org,
 	jikos@kernel.org,
 	kangyan91@outlook.com,
-	yue sun <samsun1006219@gmail.com>,
 	stable@vger.kernel.org
-Subject: [PATCH v3 1/2] HID: corsair-void: Add missing delayed work cancel for headset status
-Date: Tue, 21 Jan 2025 20:00:07 +0000
-Message-ID: <20250121200017.33966-2-stuart.a.hayhurst@gmail.com>
+Subject: [PATCH v3 2/2] HID: corsair-void: Initialise memory for psy_cfg
+Date: Tue, 21 Jan 2025 20:00:08 +0000
+Message-ID: <20250121200017.33966-3-stuart.a.hayhurst@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250121200017.33966-1-stuart.a.hayhurst@gmail.com>
 References: <20250121200017.33966-1-stuart.a.hayhurst@gmail.com>
@@ -95,33 +94,28 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The cancel_delayed_work_sync() call was missed, causing a use-after-free
-in corsair_void_remove().
-
-Reported-by: yan kang <kangyan91@outlook.com>
-Reported-by: yue sun <samsun1006219@gmail.com>
-Closes: https://lore.kernel.org/all/SY8P300MB042106286A2536707D2FB736A1E42@SY8P300MB0421.AUSP300.PROD.OUTLOOK.COM/
-Closes: https://lore.kernel.org/all/SY8P300MB0421872E0AE934C9616FA61EA1E42@SY8P300MB0421.AUSP300.PROD.OUTLOOK.COM/
+power_supply_config psy_cfg was missing its initialiser, add it in.
 
 Fixes: 6ea2a6fd3872 ("HID: corsair-void: Add Corsair Void headset family driver")
 Cc: stable@vger.kernel.org
 Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
 ---
- drivers/hid/hid-corsair-void.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/hid/hid-corsair-void.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/hid/hid-corsair-void.c b/drivers/hid/hid-corsair-void.c
-index 6ece56b850fc..bd8f3d849b58 100644
+index bd8f3d849b58..56e858066c3c 100644
 --- a/drivers/hid/hid-corsair-void.c
 +++ b/drivers/hid/hid-corsair-void.c
-@@ -726,6 +726,7 @@ static void corsair_void_remove(struct hid_device *hid_dev)
- 	if (drvdata->battery)
- 		power_supply_unregister(drvdata->battery);
+@@ -553,7 +553,7 @@ static void corsair_void_battery_remove_work_handler(struct work_struct *work)
+ static void corsair_void_battery_add_work_handler(struct work_struct *work)
+ {
+ 	struct corsair_void_drvdata *drvdata;
+-	struct power_supply_config psy_cfg;
++	struct power_supply_config psy_cfg = {};
+ 	struct power_supply *new_supply;
  
-+	cancel_delayed_work_sync(&drvdata->delayed_status_work);
- 	cancel_delayed_work_sync(&drvdata->delayed_firmware_work);
- 	sysfs_remove_group(&hid_dev->dev.kobj, &corsair_void_attr_group);
- }
+ 	drvdata = container_of(work, struct corsair_void_drvdata,
 -- 
 2.47.1
 
