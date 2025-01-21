@@ -1,61 +1,61 @@
-Return-Path: <linux-input+bounces-9452-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9456-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A81A186EB
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 22:11:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC5DFA18708
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 22:14:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4233A3AC216
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 21:10:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 987A91881816
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 21:14:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 529812040A1;
-	Tue, 21 Jan 2025 21:05:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 201A01F8669;
+	Tue, 21 Jan 2025 21:06:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="deoEPUQc"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="GfDIzysj"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF0D20125D;
-	Tue, 21 Jan 2025 21:05:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDE320767F;
+	Tue, 21 Jan 2025 21:06:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737493555; cv=none; b=TsI57zsMKfbu/KUpLxZAJT0oFHFMmRTYfLdES0ZVvB2x5JKiDdfsEDoE/T4zjAWvb/ooj9UUL8HlPEobILEDNavHbTpJ7oEkRhPd09AuQaas9hD4Tol92v/P7VSFiNPHV+7Ii+6PX3kmjZjgSvYO+SRFZDeOshlxwMLdJmEFK6w=
+	t=1737493573; cv=none; b=tVyiVYFW/44R8qKNB4oLZCKMs++RCRwRZjU7JnPafJVLMrteK5c9WD5GtQ2poTznPKVPwB+TTqo08L1xgT2K0rwBuvIKEFcU4aYmWOsiYNKuTCAf3BTvyNAm14o8ijxOyuzaJuW/khzRJ/dm5CCFgrITS9apXn0UAFLouCnLTUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737493555; c=relaxed/simple;
-	bh=26Ipc2GMsElFQ6L9cJfS/MwtX90YR+oxohPba+OT+pg=;
+	s=arc-20240116; t=1737493573; c=relaxed/simple;
+	bh=YR1+izuNzCYaDUFS6TU5MxPxuN1lMBFoD+8vt+P3foU=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LtHETHH2gkf8xn3NqwJ6znLkxd6KBTjUitWj2ADZPpTIZNKjj5J7BLITak0Ipooe0Ar+X/4hcIvwBC4h03nMhBYj4i0cstdzwZucai2DcZCiJ0TE/OuxUqGKdhtdGP+HQ82LvBEy94VRmlkztUUDLAiKtsqpMRYggO0LXdTVo0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=deoEPUQc; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=BFDL3VWWBE2DRVEbXlKeVxDipnPr1GiRUxJ7zq7kt9cAvmN/PwTSRGSQmTgigU0+GnHtZL9YeNYuXnqMmypwWg3yQXv0OiBypUExoxzhhgvypGQPZhU9Vr/hDVpfDbGEOaJzfiCWN+nUU2C+L4Paf6OMrMb8EXUJQOliM/JwA3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=GfDIzysj; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50LGthpF032095;
-	Tue, 21 Jan 2025 21:05:32 GMT
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50LHQawG024187;
+	Tue, 21 Jan 2025 21:05:34 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	WK2roP/U0scbargwbJ7Zel8u21pIpnKFvh/gW0HOWV0=; b=deoEPUQcLJFF7IV0
-	nNSwQo8IhY+HbLpgxFJaf2naetfLRq6dAvY5S6LaIj0cpG6XeRSHsbf/OObUUTXZ
-	Z3Ry+1VKBxY+mgChO9StzB7m52DJlboP6Gp+vSzZU4ebzTX/PrEWv5nqmDD9PrvG
-	yguZLwjs/QSecTY9c+QvYpOB8iHdO4EIpuIbYxbiwwqr0ohPtaQXIbSOjYXBum/t
-	OpwFnIqjixqeDVUQN5P2QxjL7MEUvZjOG8V9EcAJyHQnrC6fnurLu0GRZo9Nqt16
-	FZ158GhnmATmOQSyDtai3VCeXIEwFyWL4vBXADdIbzVxocexVUoHyBvT18GkkSBX
-	QoJZ5Q==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44afhhgkgd-1
+	2/mPp97m5+qbF468aYFCR+wGg+UmhYmA1t00N8yB9/g=; b=GfDIzysjYpug/XrN
+	nt8DJiBmYL5KSf9XhQN2oX+/yKqpXW/GpsVnRmGJ4h0G32kqDvqpbvSSqWwfjaCt
+	4j09WTswJi+O60yLbVncgLXP75WbLzEPYbG6nSh9uwdcl8l6lQN0BQVx3eTv8dWA
+	2ZHdHFJgKOMXHhF+fVwyPvihzhnJr4WzB32BCPG02KSIK2meTn5adoDivaN741lA
+	S1Wdq2cLkILclRCo9Oynx1SftfHwUmA8vBIFjuRALaj2VtZyR15/s2uBYWACg13a
+	i5tBaw6C0JTAnRueSpNOscJnMx8mz3M4mSbVYoQzrGvlrtFGZgvdC2kEGOUPGBvy
+	MyGPjw==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44ag00rgg4-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Jan 2025 21:05:31 +0000 (GMT)
+	Tue, 21 Jan 2025 21:05:33 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50LL5VGU006521
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50LL5XGW003314
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Jan 2025 21:05:31 GMT
+	Tue, 21 Jan 2025 21:05:33 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 21 Jan 2025 13:05:30 -0800
+ 15.2.1544.9; Tue, 21 Jan 2025 13:05:32 -0800
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
@@ -67,9 +67,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <linux-doc@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v34 08/31] ALSA: usb-audio: Export USB SND APIs for modules
-Date: Tue, 21 Jan 2025 13:04:55 -0800
-Message-ID: <20250121210518.2436771-9-quic_wcheng@quicinc.com>
+Subject: [PATCH v34 15/31] ASoC: usb: Add PCM format check API for USB backend
+Date: Tue, 21 Jan 2025 13:05:02 -0800
+Message-ID: <20250121210518.2436771-16-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250121210518.2436771-1-quic_wcheng@quicinc.com>
 References: <20250121210518.2436771-1-quic_wcheng@quicinc.com>
@@ -85,250 +85,93 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: ABSRZj7CmOOnMyTOmxFYBrNKnQHNbViI
-X-Proofpoint-GUID: ABSRZj7CmOOnMyTOmxFYBrNKnQHNbViI
+X-Proofpoint-GUID: hjPP9LPBJYeaXYvWwtouah56l3eO-KCR
+X-Proofpoint-ORIG-GUID: hjPP9LPBJYeaXYvWwtouah56l3eO-KCR
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-01-21_08,2025-01-21_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- lowpriorityscore=0 bulkscore=0 adultscore=0 mlxlogscore=999 spamscore=0
- clxscore=1015 malwarescore=0 suspectscore=0 priorityscore=1501
- impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501210167
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 clxscore=1015 impostorscore=0
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 phishscore=0
+ mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2411120000 definitions=main-2501210167
 
-Some vendor modules will utilize useful parsing and endpoint management
-APIs to start audio playback/capture.
+Introduce a helper to check if a particular PCM format is supported by the
+USB audio device connected.  If the USB audio device does not have an
+audio profile which can support the requested format, then notify the USB
+backend.
 
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/usb/card.c     |  4 +++
- sound/usb/endpoint.c |  1 +
- sound/usb/helper.c   |  1 +
- sound/usb/pcm.c      | 75 +++++++++++++++++++++++++++++++-------------
- sound/usb/pcm.h      | 11 +++++++
- 5 files changed, 71 insertions(+), 21 deletions(-)
+ include/sound/soc-usb.h | 11 +++++++++++
+ sound/soc/soc-usb.c     | 26 ++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
 
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 9c411b82a218..a0087bde684c 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -1030,6 +1030,7 @@ int snd_usb_lock_shutdown(struct snd_usb_audio *chip)
- 		wake_up(&chip->shutdown_wait);
- 	return err;
- }
-+EXPORT_SYMBOL_GPL(snd_usb_lock_shutdown);
+diff --git a/include/sound/soc-usb.h b/include/sound/soc-usb.h
+index 8b838861efc3..9c5aa79fc053 100644
+--- a/include/sound/soc-usb.h
++++ b/include/sound/soc-usb.h
+@@ -48,6 +48,10 @@ struct snd_soc_usb {
+ };
  
- /* autosuspend and unlock the shutdown */
- void snd_usb_unlock_shutdown(struct snd_usb_audio *chip)
-@@ -1038,6 +1039,7 @@ void snd_usb_unlock_shutdown(struct snd_usb_audio *chip)
- 	if (atomic_dec_and_test(&chip->usage_count))
- 		wake_up(&chip->shutdown_wait);
- }
-+EXPORT_SYMBOL_GPL(snd_usb_unlock_shutdown);
- 
- int snd_usb_autoresume(struct snd_usb_audio *chip)
- {
-@@ -1060,6 +1062,7 @@ int snd_usb_autoresume(struct snd_usb_audio *chip)
- 	}
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(snd_usb_autoresume);
- 
- void snd_usb_autosuspend(struct snd_usb_audio *chip)
- {
-@@ -1073,6 +1076,7 @@ void snd_usb_autosuspend(struct snd_usb_audio *chip)
- 	for (i = 0; i < chip->num_interfaces; i++)
- 		usb_autopm_put_interface(chip->intf[i]);
- }
-+EXPORT_SYMBOL_GPL(snd_usb_autosuspend);
- 
- static int usb_audio_suspend(struct usb_interface *intf, pm_message_t message)
- {
-diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-index a29f28eb7d0c..1fed039b10ed 100644
---- a/sound/usb/endpoint.c
-+++ b/sound/usb/endpoint.c
-@@ -1524,6 +1524,7 @@ int snd_usb_endpoint_prepare(struct snd_usb_audio *chip,
- 	mutex_unlock(&chip->mutex);
- 	return err;
- }
-+EXPORT_SYMBOL_GPL(snd_usb_endpoint_prepare);
- 
- /* get the current rate set to the given clock by any endpoint */
- int snd_usb_endpoint_get_clock_rate(struct snd_usb_audio *chip, int clock)
-diff --git a/sound/usb/helper.c b/sound/usb/helper.c
-index 72b671fb2c84..497d2b27fb59 100644
---- a/sound/usb/helper.c
-+++ b/sound/usb/helper.c
-@@ -62,6 +62,7 @@ void *snd_usb_find_csint_desc(void *buffer, int buflen, void *after, u8 dsubtype
- 	}
- 	return NULL;
- }
-+EXPORT_SYMBOL_GPL(snd_usb_find_csint_desc);
- 
- /*
-  * Wrapper for usb_control_msg().
-diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
-index 08bf535ed163..18467da6fd9e 100644
---- a/sound/usb/pcm.c
-+++ b/sound/usb/pcm.c
-@@ -148,6 +148,16 @@ find_format(struct list_head *fmt_list_head, snd_pcm_format_t format,
- 	return found;
- }
- 
-+const struct audioformat *
-+snd_usb_find_format(struct list_head *fmt_list_head, snd_pcm_format_t format,
-+		    unsigned int rate, unsigned int channels, bool strict_match,
-+		    struct snd_usb_substream *subs)
-+{
-+	return find_format(fmt_list_head, format, rate, channels, strict_match,
-+			subs);
-+}
-+EXPORT_SYMBOL_GPL(snd_usb_find_format);
+ #if IS_ENABLED(CONFIG_SND_SOC_USB)
++int snd_soc_usb_find_supported_format(int card_idx,
++				      struct snd_pcm_hw_params *params,
++				      int direction);
 +
- static const struct audioformat *
- find_substream_format(struct snd_usb_substream *subs,
- 		      const struct snd_pcm_hw_params *params)
-@@ -157,6 +167,14 @@ find_substream_format(struct snd_usb_substream *subs,
- 			   true, subs);
- }
- 
-+const struct audioformat *
-+snd_usb_find_substream_format(struct snd_usb_substream *subs,
-+			      const struct snd_pcm_hw_params *params)
+ int snd_soc_usb_connect(struct device *usbdev, struct snd_soc_usb_device *sdev);
+ int snd_soc_usb_disconnect(struct device *usbdev, struct snd_soc_usb_device *sdev);
+ void *snd_soc_usb_find_priv_data(struct device *usbdev);
+@@ -58,6 +62,13 @@ void snd_soc_usb_free_port(struct snd_soc_usb *usb);
+ void snd_soc_usb_add_port(struct snd_soc_usb *usb);
+ void snd_soc_usb_remove_port(struct snd_soc_usb *usb);
+ #else
++static inline int
++snd_soc_usb_find_supported_format(int card_idx, struct snd_pcm_hw_params *params,
++				  int direction)
 +{
-+	return find_substream_format(subs, params);
++	return -EINVAL;
 +}
-+EXPORT_SYMBOL_GPL(snd_usb_find_substream_format);
 +
- bool snd_usb_pcm_has_fixed_rate(struct snd_usb_substream *subs)
+ static inline int snd_soc_usb_connect(struct device *usbdev,
+ 				      struct snd_soc_usb_device *sdev)
  {
- 	const struct audioformat *fp;
-@@ -461,20 +479,9 @@ static void close_endpoints(struct snd_usb_audio *chip,
- 	}
+diff --git a/sound/soc/soc-usb.c b/sound/soc/soc-usb.c
+index 6528c6253dfc..2902cb3afcaf 100644
+--- a/sound/soc/soc-usb.c
++++ b/sound/soc/soc-usb.c
+@@ -71,6 +71,32 @@ void *snd_soc_usb_find_priv_data(struct device *usbdev)
  }
+ EXPORT_SYMBOL_GPL(snd_soc_usb_find_priv_data);
  
--/*
-- * hw_params callback
-- *
-- * allocate a buffer and set the given audio format.
-- *
-- * so far we use a physically linear buffer although packetize transfer
-- * doesn't need a continuous area.
-- * if sg buffer is supported on the later version of alsa, we'll follow
-- * that.
-- */
--static int snd_usb_hw_params(struct snd_pcm_substream *substream,
--			     struct snd_pcm_hw_params *hw_params)
-+int snd_usb_hw_params(struct snd_usb_substream *subs,
-+		      struct snd_pcm_hw_params *hw_params)
- {
--	struct snd_usb_substream *subs = substream->runtime->private_data;
- 	struct snd_usb_audio *chip = subs->stream->chip;
- 	const struct audioformat *fmt;
- 	const struct audioformat *sync_fmt;
-@@ -499,7 +506,7 @@ static int snd_usb_hw_params(struct snd_pcm_substream *substream,
- 	if (fmt->implicit_fb) {
- 		sync_fmt = snd_usb_find_implicit_fb_sync_format(chip, fmt,
- 								hw_params,
--								!substream->stream,
-+								!subs->direction,
- 								&sync_fixed_rate);
- 		if (!sync_fmt) {
- 			usb_audio_dbg(chip,
-@@ -579,15 +586,28 @@ static int snd_usb_hw_params(struct snd_pcm_substream *substream,
- 
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(snd_usb_hw_params);
- 
- /*
-- * hw_free callback
-+ * hw_params callback
-  *
-- * reset the audio format and release the buffer
-+ * allocate a buffer and set the given audio format.
++/**
++ * snd_soc_usb_find_supported_format() - Check if audio format is supported
++ * @card_idx: USB sound chip array index
++ * @params: PCM parameters
++ * @direction: capture or playback
 + *
-+ * so far we use a physically linear buffer although packetize transfer
-+ * doesn't need a continuous area.
-+ * if sg buffer is supported on the later version of alsa, we'll follow
-+ * that.
-  */
--static int snd_usb_hw_free(struct snd_pcm_substream *substream)
-+static int snd_usb_pcm_hw_params(struct snd_pcm_substream *substream,
-+				 struct snd_pcm_hw_params *hw_params)
- {
- 	struct snd_usb_substream *subs = substream->runtime->private_data;
-+
-+	return snd_usb_hw_params(subs, hw_params);
-+}
-+
-+int snd_usb_hw_free(struct snd_usb_substream *subs)
-+{
- 	struct snd_usb_audio *chip = subs->stream->chip;
- 
- 	snd_media_stop_pipeline(subs);
-@@ -603,6 +623,19 @@ static int snd_usb_hw_free(struct snd_pcm_substream *substream)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(snd_usb_hw_free);
-+
-+/*
-+ * hw_free callback
++ * Ensure that a requested audio profile from the ASoC side is able to be
++ * supported by the USB device.
 + *
-+ * reset the audio format and release the buffer
++ * Return 0 on success, negative on error.
++ *
 + */
-+static int snd_usb_pcm_hw_free(struct snd_pcm_substream *substream)
++int snd_soc_usb_find_supported_format(int card_idx,
++				      struct snd_pcm_hw_params *params,
++				      int direction)
 +{
-+	struct snd_usb_substream *subs = substream->runtime->private_data;
++	struct snd_usb_stream *as;
 +
-+	return snd_usb_hw_free(subs);
++	as = snd_usb_find_suppported_substream(card_idx, params, direction);
++	if (!as)
++		return -EOPNOTSUPP;
++
++	return 0;
 +}
- 
- /* free-wheeling mode? (e.g. dmix) */
- static int in_free_wheeling_mode(struct snd_pcm_runtime *runtime)
-@@ -1746,8 +1779,8 @@ static int snd_usb_substream_capture_trigger(struct snd_pcm_substream *substream
- static const struct snd_pcm_ops snd_usb_playback_ops = {
- 	.open =		snd_usb_pcm_open,
- 	.close =	snd_usb_pcm_close,
--	.hw_params =	snd_usb_hw_params,
--	.hw_free =	snd_usb_hw_free,
-+	.hw_params =	snd_usb_pcm_hw_params,
-+	.hw_free =	snd_usb_pcm_hw_free,
- 	.prepare =	snd_usb_pcm_prepare,
- 	.trigger =	snd_usb_substream_playback_trigger,
- 	.sync_stop =	snd_usb_pcm_sync_stop,
-@@ -1758,8 +1791,8 @@ static const struct snd_pcm_ops snd_usb_playback_ops = {
- static const struct snd_pcm_ops snd_usb_capture_ops = {
- 	.open =		snd_usb_pcm_open,
- 	.close =	snd_usb_pcm_close,
--	.hw_params =	snd_usb_hw_params,
--	.hw_free =	snd_usb_hw_free,
-+	.hw_params =	snd_usb_pcm_hw_params,
-+	.hw_free =	snd_usb_pcm_hw_free,
- 	.prepare =	snd_usb_pcm_prepare,
- 	.trigger =	snd_usb_substream_capture_trigger,
- 	.sync_stop =	snd_usb_pcm_sync_stop,
-diff --git a/sound/usb/pcm.h b/sound/usb/pcm.h
-index 388fe2ba346d..c096021adb2b 100644
---- a/sound/usb/pcm.h
-+++ b/sound/usb/pcm.h
-@@ -15,4 +15,15 @@ void snd_usb_preallocate_buffer(struct snd_usb_substream *subs);
- int snd_usb_audioformat_set_sync_ep(struct snd_usb_audio *chip,
- 				    struct audioformat *fmt);
- 
-+const struct audioformat *
-+snd_usb_find_format(struct list_head *fmt_list_head, snd_pcm_format_t format,
-+		    unsigned int rate, unsigned int channels, bool strict_match,
-+		    struct snd_usb_substream *subs);
-+const struct audioformat *
-+snd_usb_find_substream_format(struct snd_usb_substream *subs,
-+			      const struct snd_pcm_hw_params *params);
++EXPORT_SYMBOL_GPL(snd_soc_usb_find_supported_format);
 +
-+int snd_usb_hw_params(struct snd_usb_substream *subs,
-+		      struct snd_pcm_hw_params *hw_params);
-+int snd_usb_hw_free(struct snd_usb_substream *subs);
- #endif /* __USBAUDIO_PCM_H */
+ /**
+  * snd_soc_usb_allocate_port() - allocate a SoC USB port for offloading support
+  * @component: USB DPCM backend DAI component
 
