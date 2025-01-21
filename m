@@ -1,151 +1,112 @@
-Return-Path: <linux-input+bounces-9405-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9406-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48241A17107
-	for <lists+linux-input@lfdr.de>; Mon, 20 Jan 2025 18:11:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C30A17679
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 05:20:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5155F3A29C1
-	for <lists+linux-input@lfdr.de>; Mon, 20 Jan 2025 17:11:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC9F43AA7AD
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 04:20:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0812D1EC00E;
-	Mon, 20 Jan 2025 17:11:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA106197A8F;
+	Tue, 21 Jan 2025 04:20:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HrFdY0Gy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LUvgs5x2"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9DA1EBFFA;
-	Mon, 20 Jan 2025 17:11:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CFC193070
+	for <linux-input@vger.kernel.org>; Tue, 21 Jan 2025 04:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737393090; cv=none; b=hoBimdxDabY1wOb+tGLehx925NGnM0UrKmbCTWRC3up6awbVBEoxzmeGtotcg2Mmtc8DtkoV08nDlQ3Ft0IsdceA9xBQFLv88xXsrDAbjyyfw4DACAW0IDpIgw2fGy8AVnpc9D3Pz3JS3MsWiCUPZ3FtW2ktEmml939pXdm6Y8o=
+	t=1737433232; cv=none; b=dBl+WXA/z334uGzrnPxQKdOGfgFIHWxWUV8A+0NPfw8BIJEbDLlZ5Kn2kcEuWqtZBsP6WzsrddInQYnHSdsN/wVd/ChHofR7wvwuJYIHDROeJbVmGEh+zu26nEvXccfwrhRFZRFDhNGQrwMTS+iUP2rKEjIjChWEBXPsIKbppbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737393090; c=relaxed/simple;
-	bh=O74p5TZpWyGoKGNkzS03E5QcgM+cZnZkS2SpM4WXris=;
+	s=arc-20240116; t=1737433232; c=relaxed/simple;
+	bh=yY+hIEOvY/oNjACn3INgz0K/pVGLE9uf1R6uuPvkCec=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lvk9vD/dbMlYaefTNr/cLvW7+4xQp9FPUYYS2wbrGCGIRmY8fiXlYqnam5Gwz4PsZ7BMhQETPAGEc5sZdV4o6VHbCPYTdTelvApK87/uo2GrZK0/VMuqDujsN3WhTknnVTDHSPiV81O0+xkE0Ka4HZPL7H7jOfTexQ9mLQIV748=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HrFdY0Gy; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737393089; x=1768929089;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=O74p5TZpWyGoKGNkzS03E5QcgM+cZnZkS2SpM4WXris=;
-  b=HrFdY0GyglP4zCfGYyqzMplz8SfaMGUTwd4OAQsU5I8EgCyluxuWACPz
-   qiMP5OZ7QeADE3tPTC7E/tk0ZOZO/CA/PB1rIo/2HYxbmbZqoWxg2q8Qw
-   vsIDuVQRbw6CaVY0hJr9ubTvAyeK9ERPdYUHtwrBJ9dDnBzBytkmDB7eU
-   njRbVPU8NpnSC1TZd1YpFzPcPIiKZ5QHK8vdmbVpxwXU07ByYccvYPpZ/
-   KaWEG+n6FSN/39KjH74W2/M0QIgpwsP0B1gKHfaDwhfSP6YtAFK+q4cD4
-   jV7+JziM8oQ3aHSMOdULexwsyh1oVcvzPmJdFJcmN4wQAut8zr9II/UWj
-   Q==;
-X-CSE-ConnectionGUID: QvyORyiuT+2uZ1qoyIBT6A==
-X-CSE-MsgGUID: PrJrSq/aRBC8p8SzS5InBQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="37709850"
-X-IronPort-AV: E=Sophos;i="6.13,219,1732608000"; 
-   d="scan'208";a="37709850"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 09:11:28 -0800
-X-CSE-ConnectionGUID: hb2/Ca7pSQuieqy9JrnIow==
-X-CSE-MsgGUID: Nk+orQD7T5yUQuqtdlh16g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,219,1732608000"; 
-   d="scan'208";a="106596640"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 09:11:26 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tZvJ4-00000003VDC-2vrY;
-	Mon, 20 Jan 2025 19:11:22 +0200
-Date: Mon, 20 Jan 2025 19:11:22 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
-	broonie@kernel.org, pierre-louis.bossart@linux.dev,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] Introduce devm_kmemdup_array() helper
-Message-ID: <Z46DunMGRKQcxtnz@smile.fi.intel.com>
-References: <20241126172240.6044-1-raag.jadav@intel.com>
- <CACRpkdZqdE8gQCre=zR2cN17oKfwBSnWuVwzQsbRO7-ENVnPNg@mail.gmail.com>
- <Z0nNnsmYIil0OZpy@smile.fi.intel.com>
- <Z1Rfuo3jq7rO0cqb@black.fi.intel.com>
- <Z1r0EPC9gumruFKU@smile.fi.intel.com>
- <2024121242-saturday-aqua-9ac6@gregkh>
- <Z1sObNubEnsFwzOD@smile.fi.intel.com>
- <Z4kcxQWeL09VARfK@smile.fi.intel.com>
- <Z4pwksY3Bs4taZd3@black.fi.intel.com>
- <Z46C1bZ4AMLvKTn0@smile.fi.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WB1WRk1r/7aVeVoKBQzELU9KU8ULk1jAwZPd+kiYhxYHFvG0Q7TxcU0QIlb7V1PMqFv5xPk+H5Ua6Hkz87YQfs7ZiIZLP92K2egudXu6cTgx8IPkSisZZMvNr6XZy9z68CeJGp6pEuhX6J0P2WlTwwU0hh/XvHj9nYpYG8pgVEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LUvgs5x2; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-21631789fcdso74467335ad.1
+        for <linux-input@vger.kernel.org>; Mon, 20 Jan 2025 20:20:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737433230; x=1738038030; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4zzz/WhfAsWrPC4G8EVD2fL5MXAPzXS5/McVGs6u7w8=;
+        b=LUvgs5x2UKpD2baJb+LISFXHFQ4eUFnb9ANfA487NjXu0ya+b+fxxMvyRfUNMPmrNh
+         fNmbL8KGDrtsUaR+h8m7kQdq4gU7XQSkLoEb9HXRInchGFD7oKTrmrPPdgeetGNnKoJ9
+         52W32vcbcOxiB6tJSIzi3PcHY373tYV3rYG45sdlbLlzAKJKIqIB17HsTbq7AOQT/OE8
+         eB/HQi/gB5jf6JC8aAefbJ3kdYhhp3l9Y5ED9K+RpZr3sitpalUTD8+SBxQ2SpWtaizl
+         GcNBEbMRP4c5PYI+4cBQKYU6aM1YLlGB1/ypUXbKBSfDMfa3Jgy8E3BdGlLUArYgyoX+
+         GbUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737433230; x=1738038030;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4zzz/WhfAsWrPC4G8EVD2fL5MXAPzXS5/McVGs6u7w8=;
+        b=Lb4xhhLq0rgFfEEtPGR+XRDXt0iJj5E5AElGrQ+qFUul5dcM+k8zDiH+tHDQkw9dGC
+         shcJONnp1xDmVEoKPONBT7gmTuYNM21eecVICBozSejVgx/UVqJXHPEbYB76YmgAI7X5
+         HxMCDNqRX56AtDJdk3vU/Mcyz53Q2u/lpvb1gN757kfz9VB1wiV7nJpyFi+xl0jwFweQ
+         hlv4MiCvuy5okN2hQNes9UQFx1qHZs752t5i5elDT6wdG8EB3Qn4cIXQx1U/SwS2Mi2E
+         yVRd2/fR5gp0142fwulIjxlVMyabk2QM2rhr1DIhMiMF5k6D2Jmm+pQtPX6gc6sRE2Ku
+         ooBQ==
+X-Gm-Message-State: AOJu0Yx457qew1/Knk1DKap1QqPMD3cJSy4hgN0II3Ym+2iQOckuEJzW
+	tCtA3AqedA4blKX36PJ/kd3pQJndMqqxZSG8o6GwjF1xewo7f7imPK4FPQ==
+X-Gm-Gg: ASbGncuFGmJlcklgq276uPN7nJtNIy0wfKMS1XLgiDwf4c5aSH6/8Ze2gyVYHdRdV8P
+	bRum5cJZZkSeouLnk1ZWzoe1xCc9NzqN6H0w19vB8f82pk6wZty3OPylXfCjaBKJz6ZtzTSPnyt
+	AZkJNKPqLeCW85aRoiRpMwWwe/PWsqmhVUEscalobu04f0q0ISJZdOQeMMdWc75GKNmQpbxYiOc
+	CPBxHJV9Y2pUhbCctd2X6OHE6w/C0lyMGSBKCMzGmuNeUzRvrg4ToGe9I2A2HuKHcs6lbs=
+X-Google-Smtp-Source: AGHT+IGlRE7QhGuyNfvAoHg6m/qoQZ8CaH34+qlapRSrGoa4P4AuqPNfA9MPTO4fQ3Tg/ZR3qVU9Uw==
+X-Received: by 2002:a05:6a20:6a0b:b0:1e1:a789:1b4d with SMTP id adf61e73a8af0-1eb21711b91mr21891305637.15.1737433230349;
+        Mon, 20 Jan 2025 20:20:30 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:9fc4:f41e:933e:403a])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab7effe4sm7918840b3a.8.2025.01.20.20.20.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jan 2025 20:20:29 -0800 (PST)
+Date: Mon, 20 Jan 2025 20:20:27 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Pavel Rojtberg <rojtberg@gmail.com>
+Cc: linux-input@vger.kernel.org, gregkh@linuxfoundation.org,
+	Leonardo Brondani Schenkel <leonardo@schenkel.net>
+Subject: Re: [PATCH v3 01/11] Input: xpad - improve name of 8BitDo controller
+ 2dc8:3106
+Message-ID: <Z48gi_i5GhFajiSE@google.com>
+References: <20250107192830.414709-1-rojtberg@gmail.com>
+ <20250107192830.414709-2-rojtberg@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z46C1bZ4AMLvKTn0@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20250107192830.414709-2-rojtberg@gmail.com>
 
-On Mon, Jan 20, 2025 at 07:07:33PM +0200, Andy Shevchenko wrote:
-> On Fri, Jan 17, 2025 at 05:00:34PM +0200, Raag Jadav wrote:
-> > On Thu, Jan 16, 2025 at 04:50:45PM +0200, Andy Shevchenko wrote:
-> > > On Thu, Dec 12, 2024 at 06:25:16PM +0200, Andy Shevchenko wrote:
-> > > > On Thu, Dec 12, 2024 at 03:39:57PM +0100, Greg KH wrote:
-> > > > > On Thu, Dec 12, 2024 at 04:32:48PM +0200, Andy Shevchenko wrote:
-> > > > > > On Sat, Dec 07, 2024 at 04:46:18PM +0200, Raag Jadav wrote:
-> > > > > > > On Fri, Nov 29, 2024 at 04:20:14PM +0200, Andy Shevchenko wrote:
-> > > > > > > > On Fri, Nov 29, 2024 at 11:17:02AM +0100, Linus Walleij wrote:
-> > > > > > > > > On Tue, Nov 26, 2024 at 6:22 PM Raag Jadav <raag.jadav@intel.com> wrote:
-> > > > > > > > > 
-> > > > > > > > > > This series introduces a more robust and cleaner devm_kmemdup_array()
-> > > > > > > > > > helper and uses it across drivers.
-> > > > > > > > > 
-> > > > > > > > > For the series:
-> > > > > > > > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> > > > > > > > > 
-> > > > > > > > > It seems like Andy will push it to me which is excellent.
-> > > > > > > > 
-> > > > > > > > Yep, that's the plan after we get all necessary ACKs.
-> > > > > > > 
-> > > > > > > Greg, anything I can do to move this forward?
-> > > > > > 
-> > > > > > Greg, is it possible to give your Ack or comment or guidance of the preferences
-> > > > > > with the first patch?
-> > > > > 
-> > > > > $ mdfrm -c ~/mail/todo/
-> > > > > 2293 messages in /home/gregkh/mail/todo/
-> > > > 
-> > > > Oh my...
-> > > > 
-> > > > > Please be patient.
-> > > > 
-> > > > Sure!
-> > > 
-> > > Raaj, care to send a v3 after merge window closes?
-> > 
-> > Sure, and perhaps add a few more users which I found with my improved
-> > grepping skills.
+On Tue, Jan 07, 2025 at 08:28:20PM +0100, Pavel Rojtberg wrote:
+> From: Leonardo Brondani Schenkel <leonardo@schenkel.net>
 > 
-> Okay, thanks! I will drop myself from this thread then. Waiting for v3...
+> 8BitDo Pro 2 Wired Controller shares the same USB identifier
+> (2dc8:3106) as a different device, so amend name to reflect that and
+> reduce confusion as the user might think the controller was misdetected.
+> 
+> I have personally tested it and I can confirm that Pro 2 Wired will also
+> not work in XTYPE_XBOXONE mode (buton presses won't register), therefore
+> XTYPE_XBOX360 remains appropriate.
+> 
+> Signed-off-by: Leonardo Brondani Schenkel <leonardo@schenkel.net>
+> Signed-off-by: Pavel Rojtberg <rojtberg@gmail.com>
 
-One more thing, can you embed the following into your series?
+Applied, thank you.Applied, thank you.
 
-20241203195340.855879-1-andriy.shevchenko@linux.intel.com
-
-It would be easier to handle and avoid conflicts.
+Thanks.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Dmitry
 
