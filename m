@@ -1,71 +1,72 @@
-Return-Path: <linux-input+bounces-9416-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9417-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D4DA17EA8
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 14:16:18 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A13A17EB6
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 14:18:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC1A5188375C
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 13:16:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 13CD018830FE
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 13:18:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC22A1EB2F;
-	Tue, 21 Jan 2025 13:16:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FBC91F2367;
+	Tue, 21 Jan 2025 13:18:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i4OO14IT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BH3pmOlA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19521196;
-	Tue, 21 Jan 2025 13:16:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A620C1E502;
+	Tue, 21 Jan 2025 13:18:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737465373; cv=none; b=PmBou1C8BQvbZ6IbdLTQoDh+rYW5fMmU1zbQwa1m8Gf/B3InQTl1R8owo9vu7SupYDx6/gzJJDycHjetIkngdtFrta/y7krnM8oU5NaTLmSKNny7895aodDKcdFqyhPpyh6TqYLKCn95abVeugnim+LjyjqBQSIenNAyA20Oioc=
+	t=1737465505; cv=none; b=p3kHZsw84Qt02g2iupWGXGpxUgdmtWIArP3VkqEwXllSAl30c8Em/Iq5nIVX6Dep8iJzYbHkWCmdqVZfHwozSmdw9OFYxvQ/LK+c4GkmJxNl1tYMuBFzsccA9YttyGC5kW9EutU93FydWY4o5qEjJ8JCCNJqs+BFBZ7TZgq3Aa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737465373; c=relaxed/simple;
-	bh=N+QjFtP5562SqHLpPFEYo6uRTFgDurqy8yixqC1ZIL8=;
+	s=arc-20240116; t=1737465505; c=relaxed/simple;
+	bh=wasEGo/ru9owGNIy/X4YD3wZ9KExKy8oYScsF9XZuRU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eZGh0m21Yj9TGsdIXlx5nXMAr9oRSvhONexU4BGDHfPlEIsBWTXL0C5SayghaDYQ6NZi3TTQdDOrSBBIfedSu+5VP5+7kWLPbonVLnHljRT0GXwFif9OGwoCyXcWdZEO3hYt2I0aIykeaFowyiI4QR3HRk1HbXX3ey7VJKSGHlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i4OO14IT; arc=none smtp.client-ip=209.85.208.44
+	 To:Cc:Content-Type; b=mb3dCtbd5bBOO7IuDpCkWi8ysidoXrlidxTsXgmS2N4wqbUlJSjxMLE7PRqs2IASYCYHerPkItK1JubUPbh3RM6TBwyV+cg5h6Ujp0HmItx844PAZfPZ5c4r3XbQAtdu6GkBLhTnW5i+fehTaFvSsTl2dPX6t+7J9b40qHRwQBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BH3pmOlA; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5d3be7f663cso1160782a12.2;
-        Tue, 21 Jan 2025 05:16:11 -0800 (PST)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5da0c79ff85so906690a12.1;
+        Tue, 21 Jan 2025 05:18:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737465370; x=1738070170; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HX9cEL/geQg3qGJlzOztxBk7CpkiUOl3WL8Vp7HyPvc=;
-        b=i4OO14ITe3nnkf56rdahiqJW6x2dyDZWlWf3eUFwCk7/b7JnZpn9oQ1C7ORvDLW4on
-         EjZTgsKGgvkTUAF61FZEcyhvHKBy5RESm5x7pl09g7lP47MuFYnggOfk0LUns1mCF8Ov
-         IHhjaEfchv1s3ZqVCdcJVymoV7OpW2qYYUzrtdZY6pEXLuOjkN+tuINPbT+d9i32a3ee
-         ih3LV78upBUHNCc9OCAUmrENxJWxE4pBaeDXwMWyiGZm6bRd9ji2UQv1WKNSrA6ZNf/f
-         ExzfEQLTjJLr6yvQZxEwcewTgqh70LjfzROkiNCRBcCzKTLgbKX5t4EEIfPAphJP8YMh
-         /P+Q==
+        d=gmail.com; s=20230601; t=1737465502; x=1738070302; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ddWR/utTRGGEYrHHtFURjGFiLzq3Lu6rmS9hUEc8V4o=;
+        b=BH3pmOlAv/bguNa6d4SwMOPKm1XlQY6PR3C4iONLUwGq3koUk1YpJ0hZvmFWcMvMNs
+         SfVX6dD7ZhRpdzStn7aK2hEjTvvi5LV6UrM3WDxF/WQhahEfXqthKOKjRvRDd81KsFWG
+         D6jBhrRGHL51cXDZa/ko8Ivua8OBrrPC+RZjvx4RmbA3zEEfCaFGrL/lI1wX5CHCyVCs
+         lHVhPUuHqEpxquQ1F2IHApjklWmNUnICko7p8zViSn6FL3aGYIgNriaPSyHs9B728gJI
+         j2Zx0162Bub6RSkkts22nISI7tTbR5s4zxdkdV7SXRE/Qb1J/E2BygLRstiLds9qI8hV
+         hsRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737465370; x=1738070170;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HX9cEL/geQg3qGJlzOztxBk7CpkiUOl3WL8Vp7HyPvc=;
-        b=sjDOCphSOhSCI6qwOvzyFUlgHQPtO7crgToxovwETUezp7oCO33v6zojkzNUG7bQd4
-         q4VGEVR04huhYzSvCG6nhXgJwa42JoicKXgiqvxb8Rvi86bsi1pSN479fGBonFmIZcTY
-         dqIzq1uh5F6XERF/anxWxaigfaSKwfks8tsUnTGPm6cDHAqpZRgaMThREvt8ra2hlSxP
-         4+DegQ0iQC+MuHa2JPe870ToxSpfUwfV6/GIFQZ3f0eKvWX9YjbSMS80ef3KKW53luR0
-         v9MPEidGcm6kCnGNGfms+4gmuS9pTOB+78TQKDYpyOgCzCZ8mDn3Psr6ZBeXbNkLslRg
-         BQhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCULXKU1zKbWu1yrFlAZ5cjbE0OfAX0S6bE3eKAzZIZMdUm7oV24cVgfX06MXfIguZ5/aBX47xn+62UMHA==@vger.kernel.org, AJvYcCWuY7fUXHQB7jVUcSL1N95pb7IOta6Nxib1E58mgE0myCsArjrf4Q/WmPYlMO5TIWjfX/QpniepUbN3@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcarXJh/5T1ZOWtHjGDeZlOXLS0lfLdZPnoPTdsFDUCtyrxnzI
-	Og55MjFk72C7lu6dUToXmadmRCgXIMBzH1TgGzter9RgVxxgErvqNrpZtAXXiVBw+xeNgebkLTt
-	8i1VXZVIlFbbG5lmts3k/QCNbXTk=
-X-Gm-Gg: ASbGncuvxJrNVdd8wAWC1BE5I/gtHivqbQCB6Z4WsMB8KtkhO9iIip75U5sRDkhuz1w
-	HMBRQZLvB8tRoPfhRiFjQVanNIla2v6wJdqInAi+koEvj/RWnxA==
-X-Google-Smtp-Source: AGHT+IGE4QHr9G73D8zQkvDDQ8mEeqKeS2Tfq4nFuFSzm66zIYMnYfUlUlGPFEuD9rv5XZ6qTrUdtOnjhHL2ihE2bFs=
-X-Received: by 2002:a05:6402:241a:b0:5cf:5ff9:2a34 with SMTP id
- 4fb4d7f45d1cf-5db7d81c82amr5862471a12.5.1737465370151; Tue, 21 Jan 2025
- 05:16:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1737465502; x=1738070302;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ddWR/utTRGGEYrHHtFURjGFiLzq3Lu6rmS9hUEc8V4o=;
+        b=ixoFd3Vlz0vnN7jf/Ww7O3iq3MPxQdUTCTlJWPm8EDw43aGSqvC71t3MgCB8U6ZcRv
+         NXofN9sxuxlXfWnCCZpWZEgQpONafCUHAVvuSMMYc6aE0xv2P9O20nzVQrUxt62ZnnVM
+         oEX/Z7U2YWoggJcFpBV990Hb99K2imxr9PUBGtvun2N0pGqhhIZMhn9e2NVIu1MqPPut
+         gxdIy7L+P7dcCxP+znq7mRQ21dVKxo3P4h9/LlfvKLG55ci0SI6Gg/vK7S8QCsGcJ4b7
+         wvXyI6SGmwuCbb7PPsPJpc4chWJvo6RitlBi+d4RmTbbDX7pYc8ofbo4q9RDjcK8QJT0
+         y9vA==
+X-Forwarded-Encrypted: i=1; AJvYcCVAwFilfRCCKJQ5YVjPIoIvfWrxqH+2uKjSAGZeVmgPUkYPlSISf94kQJInh5WCFvL5xzT0Oc46VqNnsA==@vger.kernel.org, AJvYcCVhukD88839TO/xTbfe2yNR2U6SC9hP3K0Af2vFA7tfWE+LtXINw9ccDWQaeWBgv/o4TL8gzesAKfBm@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzt5LL9SBMWlZei3BTSBaFjxR0AMJ0Lu1dLAlCDdXF1WO1Wrrqy
+	YWKNxBtBXjF/LABOQPDEfzUyPPSC2JCT/ZDFKPaImiVcbmz3eh/R1YnKwi9k8YD7GirVwFqBorC
+	ZqtKZQlhqaW38fvCzpe28zWXxGTY=
+X-Gm-Gg: ASbGncvBEU89LKJ4X+j+H2mi8UXFDochK+5eU8xXLqyYmrUH/69nSlm8af+ATRhhCc/
+	EVICKLpz1yRDVSAezCeL8KUtMKZ1PdbNR9iwumINZGMMemuxC1A==
+X-Google-Smtp-Source: AGHT+IEJB73RC805UtPBGlFhoyKHQmRGWJ+3Lh8OqPEpxLLf2jjpMjQCsA1U2MLFQSqz8Mst3rVVYZ119mp+0PwISaI=
+X-Received: by 2002:a05:6402:40cd:b0:5d4:35c7:cd70 with SMTP id
+ 4fb4d7f45d1cf-5db7d2f892cmr5534258a12.4.1737465501635; Tue, 21 Jan 2025
+ 05:18:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -73,37 +74,75 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250119131356.1006582-1-tomasz.pakula.oficjalny@gmail.com>
- <20250119131356.1006582-3-tomasz.pakula.oficjalny@gmail.com>
- <a7df5090-ff71-44d9-83e3-442876522c74@suse.com> <CAFqprmzt2+dngxVDEiLNmR1AmjU0d0AvsebrSz0Y9w23BJ+8Aw@mail.gmail.com>
- <88f81117-a7a5-417b-87d1-a443732c59bc@suse.com>
-In-Reply-To: <88f81117-a7a5-417b-87d1-a443732c59bc@suse.com>
+ <20250119131356.1006582-10-tomasz.pakula.oficjalny@gmail.com> <32945abd-060b-4da8-aa1b-1e45dbe2d4d2@suse.com>
+In-Reply-To: <32945abd-060b-4da8-aa1b-1e45dbe2d4d2@suse.com>
 From: =?UTF-8?Q?Tomasz_Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-Date: Tue, 21 Jan 2025 14:15:57 +0100
-X-Gm-Features: AbW1kvbK0X2_3WMfCYP2T_O3KZ6AXrBziYDWtwxZL4-GNmMOpd1DlVPdPT3LeqQ
-Message-ID: <CAFqprmzMDJ+0fwoAtAq4V6j4cSFfTyftNZE2-TENSqQgSd3rtw@mail.gmail.com>
-Subject: Re: [PATCH v5 02/12] HID: pidff: Do not send effect envelope if it's empty
+Date: Tue, 21 Jan 2025 14:18:08 +0100
+X-Gm-Features: AbW1kvbXlnBOuib3Ibx3O3MgeWA08fh9ZCuDR1tIGRx4hWF9uBffGC63gJ7SmPE
+Message-ID: <CAFqprmwfoBsLFsvG5NGWZ_jS6BHi8DnXRvbbbC+ZoxbExVSvRA@mail.gmail.com>
+Subject: Re: [PATCH v5 09/12] HID: pidff: Stop all effects before enabling actuators
 To: Oliver Neukum <oneukum@suse.com>
 Cc: jikos@kernel.org, bentiss@kernel.org, anssi.hannula@gmail.com, 
 	linux-input@vger.kernel.org, linux-usb@vger.kernel.org, oleg@makarenk.ooo
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 21 Jan 2025 at 14:01, Oliver Neukum <oneukum@suse.com> wrote:
+On Tue, 21 Jan 2025 at 11:10, Oliver Neukum <oneukum@suse.com> wrote:
 >
-> This boolean statement stems from a common result, not from a common
-> logical reason for acting so. This is clear because if the first half
-> is true, you are returning itself.
+> On 19.01.25 14:13, Tomasz Paku=C5=82a wrote:
+> > Some PID compliant devices automatically play effects after boot (i.e.
+> > autocenter spring) that prevent the rendering of other effects since
+> > it is done outside the kernel driver.
+> >
+> > This makes sure all the effects currently played are stopped after
+> > resetting the device.
+> > It brings compatibility to the Brunner CLS-P joystick and others
 >
-> This statement would be so much more clear as:
+> Hi,
 >
-> if (!needs_new_envelope)
->         return false;
+> it seems to me that the same thing would happen upon resumption
+> from S4. Will this be handled?
 >
-> if (!old)
->         return needs_new_envelope;
+>         Regards
+>                 Oliver
 >
 
-Okay, thanks for the clarification!
-I'll simplify and include this suggestion in the next version.
+(Terribly sorry for double mailing, I mistakenly hit reply instead of reply=
+ all)
+
+I just tested this with my devices and it sadly doesn't handle sleep proper=
+ly.
+If a device is powered off then back on during sleep, the driver seems to b=
+e
+unaware of it and keeps on chugging along like nothing happened.
+
+This causes two things to happen:
+1. FFB breaks in programs that have been running when going to sleep
+2. Possible auto centering forces are back on and won't go away without a
+   power cycle or a disconnect/connect.
+
+Moreover, I noticed that the PID reset routine is only called upon during
+device initialisation, while most other PID driver implementations don't do=
+ it
+during device init and only call:
+1. reset + enable actuators if an application initialises force feedback.
+2. reset + stop all effects + disable actuators if there aren't any more
+   effects left on the device after effect removal.
+
+I'll update the reset function and access it differently, to better manage
+device state and maybe hook up .suspend, .resume and .reset_resume
+in the universal driver.
+
+Managing this in the generic way will necessitate more extensive changes in=
+ the
+hid-core but resetting every time when an application actually takes contro=
+l
+should be enough for now.
+
+This driver is very old and I plan on chipping away at it more in the futur=
+e
+to make it less strict and work even better with all sorts of USB PID devic=
+es.
 
 Tomasz
 
