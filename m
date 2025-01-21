@@ -1,156 +1,109 @@
-Return-Path: <linux-input+bounces-9415-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9416-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E03A17E46
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 14:02:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D4DA17EA8
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 14:16:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6BBE9188C2C9
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 13:02:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC1A5188375C
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 13:16:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF59B1F2C5D;
-	Tue, 21 Jan 2025 13:01:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC22A1EB2F;
+	Tue, 21 Jan 2025 13:16:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ffIn6tdp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i4OO14IT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE31B1F1308
-	for <linux-input@vger.kernel.org>; Tue, 21 Jan 2025 13:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19521196;
+	Tue, 21 Jan 2025 13:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737464492; cv=none; b=qlOegVf48V++HrWLIb/2Rxtj+XwRGP34xE60DYvZ21UuGJuDix3kQMCLY7DW4BCjVia3kztCUnc3k5WB5A2rH2EjEPTGs28UJjXMI/2DA3jS/duOXh7B+S3KQqjnO7Qg6zNUO3zaMYY39K0XD9ywm19f5fKcEvUS0o3e0qW7H9s=
+	t=1737465373; cv=none; b=PmBou1C8BQvbZ6IbdLTQoDh+rYW5fMmU1zbQwa1m8Gf/B3InQTl1R8owo9vu7SupYDx6/gzJJDycHjetIkngdtFrta/y7krnM8oU5NaTLmSKNny7895aodDKcdFqyhPpyh6TqYLKCn95abVeugnim+LjyjqBQSIenNAyA20Oioc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737464492; c=relaxed/simple;
-	bh=XtTMNWRYzzJoNUnwJpBhytF4+gRheNw3jBBPov064qs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kFhRvj4Efv79kbvHFq2MDra84YzzwCHo/TctfLievB3yfKIoJorS6DYbNnINknqS9QYZdW27U9PaW+ICOtCsVh7o4JwHpJmQm3IfJftYnP/RHp/X+HnNFhe1bT72iIJNiIrPb5hCvUiFVLiP/ZmahWK9AVY5N2OUrXR1UlnUEKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ffIn6tdp; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ab34a170526so815275766b.0
-        for <linux-input@vger.kernel.org>; Tue, 21 Jan 2025 05:01:30 -0800 (PST)
+	s=arc-20240116; t=1737465373; c=relaxed/simple;
+	bh=N+QjFtP5562SqHLpPFEYo6uRTFgDurqy8yixqC1ZIL8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eZGh0m21Yj9TGsdIXlx5nXMAr9oRSvhONexU4BGDHfPlEIsBWTXL0C5SayghaDYQ6NZi3TTQdDOrSBBIfedSu+5VP5+7kWLPbonVLnHljRT0GXwFif9OGwoCyXcWdZEO3hYt2I0aIykeaFowyiI4QR3HRk1HbXX3ey7VJKSGHlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i4OO14IT; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5d3be7f663cso1160782a12.2;
+        Tue, 21 Jan 2025 05:16:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1737464489; x=1738069289; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RPWz4Yl7KRN61v6lHNsL7cySBBZHRou3Cra8FCWrAnY=;
-        b=ffIn6tdp/UJxADtHm/d77/uY9vC0iSz90fxdb+7ZWVzzc7cmHGmccfp/27+3bDTlDd
-         6FrpYpUy6CIFuXF9LsDzZkrubVuaMC3z6uX25aXEqfUf+whpa2fpT8nA0pDYNZX5NmUl
-         LOItXQYtyR2UauZ2kiH2Pcl7rCnZVWra/bCc29XKY0+OmhgHAtLcLWZ3DlR/q6w/CefF
-         qXFjkaD/YrLolGKhgpX79k/Cqv7JoaKsg8COi1O2+fIJz1bgGvq6cx0FKG/OgK2Py8S1
-         1AiaPi3SsjlXO50grWoRjzFFMo2bOcrfQis5+6X1hEXXO1qAxG/6UmpxPvxu0UJoaqUD
-         f8Cw==
+        d=gmail.com; s=20230601; t=1737465370; x=1738070170; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HX9cEL/geQg3qGJlzOztxBk7CpkiUOl3WL8Vp7HyPvc=;
+        b=i4OO14ITe3nnkf56rdahiqJW6x2dyDZWlWf3eUFwCk7/b7JnZpn9oQ1C7ORvDLW4on
+         EjZTgsKGgvkTUAF61FZEcyhvHKBy5RESm5x7pl09g7lP47MuFYnggOfk0LUns1mCF8Ov
+         IHhjaEfchv1s3ZqVCdcJVymoV7OpW2qYYUzrtdZY6pEXLuOjkN+tuINPbT+d9i32a3ee
+         ih3LV78upBUHNCc9OCAUmrENxJWxE4pBaeDXwMWyiGZm6bRd9ji2UQv1WKNSrA6ZNf/f
+         ExzfEQLTjJLr6yvQZxEwcewTgqh70LjfzROkiNCRBcCzKTLgbKX5t4EEIfPAphJP8YMh
+         /P+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737464489; x=1738069289;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RPWz4Yl7KRN61v6lHNsL7cySBBZHRou3Cra8FCWrAnY=;
-        b=Woz49Ib82QmoYvthvouGCaBSzJNQH90WrqZvMO54zJ6CkOQBzZs9w0SyX8cT45Jxp4
-         dNiQkz3IvMPwgdGrN9svzd+d8FIft8WR1H2HxLZmKc9BDyrQLcBP5XaiLZR2FhC6JGMo
-         FMugvjsQmlxqQL4xZ3vR9FIa4gkL4v4m+AurG6Rf0NvCTorlekzNyRRff65FYHK1fyEv
-         4hXp8SQPr2rulDGwNvcGDwxBp06OButCoiHTO3m9lCHFeorIBOWeBkW8B7vxhorgI+kW
-         uay13OSo3Cb6iDV2mfhJIJB1GbgYIwMpKk1hOXMjufj06lC08F2l4fCZ0LKMRe8jpkQX
-         +nhA==
-X-Forwarded-Encrypted: i=1; AJvYcCV5Vj/JV3SUdmrEOTNboA9AO1kHWuD4ki0jmIFw+Fh4E6DXC7lFvcW2eqwFno5c7O7j36rU18cgjzw3CQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYwNG4Lx4938TxLRvCbpJMOZnCHGpFFiGIrWMyaGDrFdL/640f
-	InTmxrrelvPp+ZNsT7R+KIKlNJV1sg3rk8WhKJcRewmxXrIZgwLF9OvAIIO1uiE=
-X-Gm-Gg: ASbGncs7i8/ymIWqgK82QaLx3oCKmnj5hClBBRxzMJvy7K+WJYX2X3dNC/ETKZ7HPtH
-	N3xN2hmNlGIsvOKDIX/w+ei60fzX1nF8TEw4XwvTlPE93t+VTrsVtAjQTe6k32Pr6pF9qKKi9np
-	ywH5H59q5vaTFqGFhU3omFhydPouOOnW9XRx1q2cW2xaIeshtD6yM7KLhVbepeToSV5n89I5Pmi
-	CFJiGwnf/JFBBalcz2bcFZMRzQhs7aFi9dOAG2AtFVLe8t0uk8qzIYDBC4I7Q8UNPjNQNuuxMek
-	uBRmNh2QZtvVfrhyX9DHRmK3ZlDqBulr1TlRoQ==
-X-Google-Smtp-Source: AGHT+IEgqIoFhhovR8cSbcyWaBSXjtwGfYEQYtvB9WjtCKLKxeLy8V0lGIQZR4pF6FL2xYD6W0GSPg==
-X-Received: by 2002:a17:906:d54f:b0:aa6:1e9a:e45a with SMTP id a640c23a62f3a-ab38b3893c1mr1524496466b.46.1737464485318;
-        Tue, 21 Jan 2025 05:01:25 -0800 (PST)
-Received: from ?IPV6:2001:a61:137c:9701:41e3:e368:740f:c4a0? ([2001:a61:137c:9701:41e3:e368:740f:c4a0])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384f86e4bsm753077866b.145.2025.01.21.05.01.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jan 2025 05:01:24 -0800 (PST)
-Message-ID: <88f81117-a7a5-417b-87d1-a443732c59bc@suse.com>
-Date: Tue, 21 Jan 2025 14:01:22 +0100
+        d=1e100.net; s=20230601; t=1737465370; x=1738070170;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HX9cEL/geQg3qGJlzOztxBk7CpkiUOl3WL8Vp7HyPvc=;
+        b=sjDOCphSOhSCI6qwOvzyFUlgHQPtO7crgToxovwETUezp7oCO33v6zojkzNUG7bQd4
+         q4VGEVR04huhYzSvCG6nhXgJwa42JoicKXgiqvxb8Rvi86bsi1pSN479fGBonFmIZcTY
+         dqIzq1uh5F6XERF/anxWxaigfaSKwfks8tsUnTGPm6cDHAqpZRgaMThREvt8ra2hlSxP
+         4+DegQ0iQC+MuHa2JPe870ToxSpfUwfV6/GIFQZ3f0eKvWX9YjbSMS80ef3KKW53luR0
+         v9MPEidGcm6kCnGNGfms+4gmuS9pTOB+78TQKDYpyOgCzCZ8mDn3Psr6ZBeXbNkLslRg
+         BQhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCULXKU1zKbWu1yrFlAZ5cjbE0OfAX0S6bE3eKAzZIZMdUm7oV24cVgfX06MXfIguZ5/aBX47xn+62UMHA==@vger.kernel.org, AJvYcCWuY7fUXHQB7jVUcSL1N95pb7IOta6Nxib1E58mgE0myCsArjrf4Q/WmPYlMO5TIWjfX/QpniepUbN3@vger.kernel.org
+X-Gm-Message-State: AOJu0YxcarXJh/5T1ZOWtHjGDeZlOXLS0lfLdZPnoPTdsFDUCtyrxnzI
+	Og55MjFk72C7lu6dUToXmadmRCgXIMBzH1TgGzter9RgVxxgErvqNrpZtAXXiVBw+xeNgebkLTt
+	8i1VXZVIlFbbG5lmts3k/QCNbXTk=
+X-Gm-Gg: ASbGncuvxJrNVdd8wAWC1BE5I/gtHivqbQCB6Z4WsMB8KtkhO9iIip75U5sRDkhuz1w
+	HMBRQZLvB8tRoPfhRiFjQVanNIla2v6wJdqInAi+koEvj/RWnxA==
+X-Google-Smtp-Source: AGHT+IGE4QHr9G73D8zQkvDDQ8mEeqKeS2Tfq4nFuFSzm66zIYMnYfUlUlGPFEuD9rv5XZ6qTrUdtOnjhHL2ihE2bFs=
+X-Received: by 2002:a05:6402:241a:b0:5cf:5ff9:2a34 with SMTP id
+ 4fb4d7f45d1cf-5db7d81c82amr5862471a12.5.1737465370151; Tue, 21 Jan 2025
+ 05:16:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 02/12] HID: pidff: Do not send effect envelope if it's
- empty
-To: =?UTF-8?Q?Tomasz_Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
- Oliver Neukum <oneukum@suse.com>
-Cc: jikos@kernel.org, bentiss@kernel.org, anssi.hannula@gmail.com,
- linux-input@vger.kernel.org, linux-usb@vger.kernel.org, oleg@makarenk.ooo
 References: <20250119131356.1006582-1-tomasz.pakula.oficjalny@gmail.com>
  <20250119131356.1006582-3-tomasz.pakula.oficjalny@gmail.com>
- <a7df5090-ff71-44d9-83e3-442876522c74@suse.com>
- <CAFqprmzt2+dngxVDEiLNmR1AmjU0d0AvsebrSz0Y9w23BJ+8Aw@mail.gmail.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <CAFqprmzt2+dngxVDEiLNmR1AmjU0d0AvsebrSz0Y9w23BJ+8Aw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <a7df5090-ff71-44d9-83e3-442876522c74@suse.com> <CAFqprmzt2+dngxVDEiLNmR1AmjU0d0AvsebrSz0Y9w23BJ+8Aw@mail.gmail.com>
+ <88f81117-a7a5-417b-87d1-a443732c59bc@suse.com>
+In-Reply-To: <88f81117-a7a5-417b-87d1-a443732c59bc@suse.com>
+From: =?UTF-8?Q?Tomasz_Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
+Date: Tue, 21 Jan 2025 14:15:57 +0100
+X-Gm-Features: AbW1kvbK0X2_3WMfCYP2T_O3KZ6AXrBziYDWtwxZL4-GNmMOpd1DlVPdPT3LeqQ
+Message-ID: <CAFqprmzMDJ+0fwoAtAq4V6j4cSFfTyftNZE2-TENSqQgSd3rtw@mail.gmail.com>
+Subject: Re: [PATCH v5 02/12] HID: pidff: Do not send effect envelope if it's empty
+To: Oliver Neukum <oneukum@suse.com>
+Cc: jikos@kernel.org, bentiss@kernel.org, anssi.hannula@gmail.com, 
+	linux-input@vger.kernel.org, linux-usb@vger.kernel.org, oleg@makarenk.ooo
+Content-Type: text/plain; charset="UTF-8"
 
-On 21.01.25 11:17, Tomasz Pakuła wrote:
-> On Tue, 21 Jan 2025 at 10:59, Oliver Neukum <oneukum@suse.com> wrote:
->> I am afraid this is the most convoluted piece of boolean algebra I've seen
->> in a long time. In particular because it mixes things that do not belong together.
-> 
-> Could you elaborate on that? What here does not belong?
+On Tue, 21 Jan 2025 at 14:01, Oliver Neukum <oneukum@suse.com> wrote:
+>
+> This boolean statement stems from a common result, not from a common
+> logical reason for acting so. This is clear because if the first half
+> is true, you are returning itself.
+>
+> This statement would be so much more clear as:
+>
+> if (!needs_new_envelope)
+>         return false;
+>
+> if (!old)
+>         return needs_new_envelope;
+>
 
-Hi,
+Okay, thanks for the clarification!
+I'll simplify and include this suggestion in the next version.
 
-> 
-> I think the diff is a bit unfortunate and doesn't make it justice, but
-> this is based on
-> code that was already there. Instead of just checking if the new
-> values differ from
-> old values, we first check if any values are different from 0. If
-> neither are != 0 OR
-> the effect didn't contain an envelope previously (NULL here), we
-> return the value
-> of the check.
-
-Indeed. And that is the problem.
-You could see the evaluation to contain either two or three main cases.
-
-First view:
-
-A - everything is 0. We return false.
-B - we compare the old and the new and return the comparison. With a subcase
-of no old old values existing.
-
-In the first view you are mixing the test for no old values of the second case
-with the test for no old values existing.
-
-Or you split up the second condition into two independent cases.
-
-
-[..]
-> 
->          if (!needs_new_envelope || !old)
->                  return needs_new_envelope;
-
-This boolean statement stems from a common result, not from a common
-logical reason for acting so. This is clear because if the first half
-is true, you are returning itself.
-
-This statement would be so much more clear as:
-
-if (!needs_new_envelope)
-	return false;
-
-if (!old)
-	return needs_new_envelope;
-
-	Regards
-		Oliver
-
-
+Tomasz
 
