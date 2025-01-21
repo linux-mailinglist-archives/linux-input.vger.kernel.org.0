@@ -1,115 +1,103 @@
-Return-Path: <linux-input+bounces-9412-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9413-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33913A17B17
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 11:10:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B7EA17B2C
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 11:16:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35B6B3A1C72
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 10:10:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C16C1883DC0
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jan 2025 10:16:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AB1B1E766E;
-	Tue, 21 Jan 2025 10:10:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDA561E9B0A;
+	Tue, 21 Jan 2025 10:15:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="eTfLrJA7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oVLeeITk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A451C07CF
-	for <linux-input@vger.kernel.org>; Tue, 21 Jan 2025 10:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66721BEF67;
+	Tue, 21 Jan 2025 10:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737454245; cv=none; b=ljjNgu9f17QAAv0vrMlODE4Oa+3OpX/fhyWHB7zo3JWNdCQnBWsXdQY3yzfAYCIjUe2t9BQNCak2JVfaaqWv6DdWjOtfc1Fu0LvXQUBO5BXlUbn4/DLF2QiWMKYk25x1/6tOLjWk6BcvZyyZflPYXU+/YKjC5fuYZBywhZ+IgME=
+	t=1737454538; cv=none; b=XcehwKPLWC/Iqy8w23o1w/n+U9oDI0nbx6n0Q/wPRQcT8mBEoQJ0RASV5+nfvWQ3g+5uEP+mw0o/6oeB5e8oOLFj148bTOwttopKvrdYN4wGYleRdO5AvNWaFeVeE/rvK7WMQituaETrprY80XDM6oT9k2Hhw5jlwdUi3uxSsMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737454245; c=relaxed/simple;
-	bh=CI7FmsqudmVhYBCbsOCRKMqjy3MmFlVJq7TwHksWTDY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f4nhHRJa4fMSGIdboXxoTogmwz8MXguMeAW8lkEwMDcSsQeIHqhS3iCAyz73B74kGRDaUt49hIHFR04YAVGTx0BfNOXBKGhgCH0BhMBTzkzJVVOApcWMpfrwij1bIXDE3zHgH6akD8aXQTlv0r64DIShLz0VIrbd4kYnHmsfoUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=eTfLrJA7; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aaee0b309adso813610666b.3
-        for <linux-input@vger.kernel.org>; Tue, 21 Jan 2025 02:10:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1737454242; x=1738059042; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=peWYivbfAOTnI2yradHMHdT/q+b6yZhKcWKaBFpAlMQ=;
-        b=eTfLrJA7my9ydxeLCIBqojeQy602TOMZwHVZsuj+JspzpVWNJi10Bpng4JtD0IJekg
-         fbyPq4xHvUo8q12F0m7y+pn30jNhGCih+fxwM1xYb/x6ZRLZ2c/r3OnGuzgR9tVfqT5q
-         zkLhqy+L/R4ba4BOzyZHqcZjVf4KQNAY2q5vgYOaSfEdilKN8I+CrthVpnuxN25zNVXk
-         fAjVKPuDgkzZSztxMbmkbW0tr8FrjIGd0CVs4wTcBBCHnT7+aemNbRIXC0/1eJL5O5b2
-         vA8XPA9J8aCvcaGaUj6DcRHJxrO1oxrcmOFqcu24VUshAR4dFFMyVwMiEe1Ie0jikVGD
-         Wtjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737454242; x=1738059042;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=peWYivbfAOTnI2yradHMHdT/q+b6yZhKcWKaBFpAlMQ=;
-        b=kNZ3NyIhW4xWbI+Nqg/HEfpp3Y4KKHrzhjdQf6ezTxG0fndcPhdtFOd/lHMGLrvxxE
-         LvExxRV7Q791+iyp8ZNwYfrT/HY6tsekGzVa6qke0bmlLddnAmp6dRRjIEJinReGIMhJ
-         ElbwwNfrVqrSzqGtTBgfMaFsIw/qewc8l3vQ1OO7B1SksE/AG4Jkz8sAtXC4GoT85V6A
-         SHfBv0iwQNKmLK0PlVSxdanlnQYkdrRtA9PnyiH67zBymMMLMoBxgdcdL3v23jZe/zlL
-         z7IyldXK3fVktRLI4scBks9NpHhUsvFhZivKiKOODf18+6WVJcc8e0WcvduumV6dBoRk
-         ZnEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUZ10SxAcyfMpJtyZ8WlJ4Yiuk0f3Vr/5w6y015QXYDE6u4cBflKV7xj+N3Rn0M++E/4U5hdaxQ0mMFkw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9fUgZ1GMTo0KlT3rbJ0y0bc46Oltrl2ppD1GgWao7HRg4lOWO
-	DjmIfY/yIDp5cfllAt5vYGHryU5SKlhI2hMSReQkHk4Yi95GMeavdnkFt/LzFmc=
-X-Gm-Gg: ASbGncskbr1gX4Aud4BgfMCVSSkL6nAGcWnkV3V5vDjsmgo860rMltQRLclSbapd4Qd
-	O+ispwy1VLaJf9Bos7AidLTrEa3yjIAiPim3LWfvjNxZk3cy43YDvBmglisYDvXAsjN6Iikmpik
-	wSm6fedUJ28rSkyeCTgiCRFFHt2/WPD/nCsZ5r/IVzfIr6QPqCBYWwiPPo19GVxavrnRXhgYNNc
-	/vGgo3F+FLznRagCWkvNI1bHvJh494ZsrU+ByhGAni6o2aow4xU2LWSRpu9OAxaQxfUJSpWLTbI
-	P3Drcec7RSTUT/4lREoD6v5oUNUpWgI710R8qw==
-X-Google-Smtp-Source: AGHT+IHFukCOcjAARr4ty7TISkJvPmgc67CaDdSWKXaF3TAzHhgwZ9sQgfJEs7hNCgwUA0PxLhQU6w==
-X-Received: by 2002:a17:907:7b9d:b0:aa6:7165:504b with SMTP id a640c23a62f3a-ab38b17b928mr1441384266b.31.1737454242248;
-        Tue, 21 Jan 2025 02:10:42 -0800 (PST)
-Received: from ?IPV6:2001:a61:137c:9701:41e3:e368:740f:c4a0? ([2001:a61:137c:9701:41e3:e368:740f:c4a0])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384f87d7bsm724758766b.128.2025.01.21.02.10.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jan 2025 02:10:41 -0800 (PST)
-Message-ID: <32945abd-060b-4da8-aa1b-1e45dbe2d4d2@suse.com>
-Date: Tue, 21 Jan 2025 11:10:41 +0100
+	s=arc-20240116; t=1737454538; c=relaxed/simple;
+	bh=2f6NguNRm7CAVpx5BaUGtLCj2Ck4g9QdKcKsfodhByo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AKnCYBHOmWee3Dl9dwTEzsKZcxYymKrwkPp+xIwFts4Bpu7wFSJobi/5uLtfh8dfActC2+DBwRNyUgpJIICZnFIzcC9+E1fMhvr7rpbd6xCUDZrAy66uvVUCUCPxEsetqrVQNmhiyJCwxojmY3xRfld/5EjKJVKM69lyTxdfbIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oVLeeITk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD92CC4CEDF;
+	Tue, 21 Jan 2025 10:15:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737454538;
+	bh=2f6NguNRm7CAVpx5BaUGtLCj2Ck4g9QdKcKsfodhByo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oVLeeITkQtBHF5j2p2QD9jfjXv50PVv3ipgtKNNKClIucUZAI00RVdbj6MyzW2ANP
+	 +NgySnE1xuORfSy8kqOhpHElpHoYjlNYhOUn5mR+poTSJ+NElVXQuyqzrBxxwWMwUD
+	 8FAHIVJJXS2CudyJpmRfoCJqv6LBjBKfBaYsfT9WBe/PQyvzV8dDiDuJIiH1cp7QGC
+	 2R/Xepbu6fTGcJs5JP0h9UfPububx/m2THbEh3UgbPKu+GtlPEq4bOe1tcmRNqYI9f
+	 zNWrQKeMYjEi8KSLLfy3nXTetS7LLUT7VIF6j07IZ0S2lidmCyq+g6rZkZwJ1s1By2
+	 HHD41xmUo5QlA==
+Date: Tue, 21 Jan 2025 10:15:31 +0000
+From: Lee Jones <lee@kernel.org>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Sebastian Reichel <sre@kernel.org>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v14 07/10] mfd: simple-mfd-i2c: Add MAX77705 support
+Message-ID: <20250121101531.GA1045870@google.com>
+References: <20250108-starqltechn_integration_upstream-v14-0-f6e84ec20d96@gmail.com>
+ <20250108-starqltechn_integration_upstream-v14-7-f6e84ec20d96@gmail.com>
+ <20250109120158.GH6763@google.com>
+ <CABTCjFAky55btJz3B=K2kL5gSJD9BYi5t15jaA2ga5asVT=3NQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 09/12] HID: pidff: Stop all effects before enabling
- actuators
-To: =?UTF-8?Q?Tomasz_Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
- jikos@kernel.org, bentiss@kernel.org
-Cc: anssi.hannula@gmail.com, linux-input@vger.kernel.org,
- linux-usb@vger.kernel.org
-References: <20250119131356.1006582-1-tomasz.pakula.oficjalny@gmail.com>
- <20250119131356.1006582-10-tomasz.pakula.oficjalny@gmail.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20250119131356.1006582-10-tomasz.pakula.oficjalny@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABTCjFAky55btJz3B=K2kL5gSJD9BYi5t15jaA2ga5asVT=3NQ@mail.gmail.com>
 
-On 19.01.25 14:13, Tomasz Pakuła wrote:
-> Some PID compliant devices automatically play effects after boot (i.e.
-> autocenter spring) that prevent the rendering of other effects since
-> it is done outside the kernel driver.
+On Wed, 15 Jan 2025, Dzmitry Sankouski wrote:
+
+> чт, 9 янв. 2025 г. в 15:02, Lee Jones <lee@kernel.org>:
+> >
+> > On Wed, 08 Jan 2025, Dzmitry Sankouski wrote:
+> >
+> > > Add MAX77705 support - fuel gauge and hwmon devices.
+> > > Hwmon provides charger input and system bus measurements.
+> > >
+> > > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> (...)
+> > >  static const struct of_device_id simple_mfd_i2c_of_match[] = {
+> > >       { .compatible = "kontron,sl28cpld" },
+> > >       { .compatible = "silergy,sy7636a", .data = &silergy_sy7636a},
+> > >       { .compatible = "maxim,max5970", .data = &maxim_max5970},
+> > >       { .compatible = "maxim,max5978", .data = &maxim_max5970},
+> > > +     { .compatible = "maxim,max77705-battery", .data = &maxim_mon_max77705},
+> >
+> > Drop the battery part from the MFD (group) name please.
+> >
 > 
-> This makes sure all the effects currently played are stopped after
-> resetting the device.
-> It brings compatibility to the Brunner CLS-P joystick and others
+> It will then conflict with MAX77705 mfd driver compatible.
 
-Hi,
+Where is that used?
 
-it seems to me that the same thing would happen upon resumption
-from S4. Will this be handled?
-
-	Regards
-		Oliver
-
+-- 
+Lee Jones [李琼斯]
 
