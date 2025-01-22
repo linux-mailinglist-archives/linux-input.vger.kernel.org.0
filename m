@@ -1,75 +1,75 @@
-Return-Path: <linux-input+bounces-9469-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9470-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72EB4A19130
-	for <lists+linux-input@lfdr.de>; Wed, 22 Jan 2025 13:13:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41767A19132
+	for <lists+linux-input@lfdr.de>; Wed, 22 Jan 2025 13:14:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 250667A163F
-	for <lists+linux-input@lfdr.de>; Wed, 22 Jan 2025 12:13:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 78485166169
+	for <lists+linux-input@lfdr.de>; Wed, 22 Jan 2025 12:14:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22EDD212B1A;
-	Wed, 22 Jan 2025 12:13:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20528212B1F;
+	Wed, 22 Jan 2025 12:14:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W6pC8vfQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hgiYPX0g"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619C9211A2B;
-	Wed, 22 Jan 2025 12:13:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546C21F78E8;
+	Wed, 22 Jan 2025 12:14:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737548019; cv=none; b=ZmymSX73iQyLwBCCFPfSIr0Is/jfnVpXQ36yTeS5uaaLUVgdD+a1LnvtpljiSjGl+tn6m/Dj08zV74ks8PYry+vyzGAjM/wJV3YTHj65ueGwXQfL6uX1d4EYhwGHLTuKtzI9vxkDQ1AC5ytuIHifCe0qoq/JT2LQuudWxB66H1Q=
+	t=1737548067; cv=none; b=CiVlZlw0GAHfwPl9pWjN7DmAd3KZzZdqCCmqmeKirjTdbO/MfCW/t2qAk37uycDgcIyJhh0TRnn6cIIPcMr+XtoERklIqoM/OIRmBokFZjV/n36GYl4hYAWrFt9LO9XXEjhQ7/kBntc9R3BesdBSp4F0BLJ4bnxhVCGfJt1X7U0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737548019; c=relaxed/simple;
-	bh=GoRzVFNtIoBQ4drmtsCmF21DmX2zF/5ZjzUguJdiIX0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WlsWbXZZw6KIKpCG4KNRyKM/c4ZKssGGr2dxIoGe1bC9oD58eD1KD4NOzAK6ATPqlqS8U7WZwshM+MZjY3Xcb9ty34TkkTkg1JZyO4wCMoXz5UCOv49JGlJ3xQGuK9h4nIL1bZUI9+dZ838k7sZknN66GJeqZx/OqGt6DgFGJsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W6pC8vfQ; arc=none smtp.client-ip=209.85.208.175
+	s=arc-20240116; t=1737548067; c=relaxed/simple;
+	bh=LdX5gzPWWXWy4c4lv+fCqiIZRH5iBprpLLInt1P9mDE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A1r3Xx7iogAjbyDMx4GFdkDRhUSi/hh6PAsMI03rOCWPXxHdk3T8CnCVUSLJ2jVRAu60I1mpteoFRljYjqYZMvyPV6WtUMKkXWWICXO9sRVSE0QHG39pguakOl8Iu73izf2UxgmN9CNUHwSwjhwkBs7ZisSP/iuXfXsC8rALQ2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hgiYPX0g; arc=none smtp.client-ip=209.85.208.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-30613802a04so70448561fa.2;
-        Wed, 22 Jan 2025 04:13:37 -0800 (PST)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30167f4c1e3so63711601fa.3;
+        Wed, 22 Jan 2025 04:14:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737548015; x=1738152815; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1737548063; x=1738152863; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BDJVxc9xXuSUWKdhL40s5J+E9YFicjZq+w7RbdRGI4Y=;
-        b=W6pC8vfQ7Jyza+Gk9QzqwbJAcKIB7fcZE1UkG2R9L92r6jmnE0a48V50rf14XNSD15
-         zPqfrdQL8I5LOaXyHWZWxz9CgmaqwfSMimmrck2f/YekGrGOZhkRxlolSP1QoDBr8GIS
-         8uU9+spK4TDKOaBS11JIYwhKDxyWI/vvN8i2dL1fDyzsMn/51iixZBvd7xXqcPHUPrBv
-         BnwEw++TeifP3R8+v4/iKfCKulkFDDpZYHjs9eIbkmdtQdib2UYHJR6J6Xbf+P/E8UWw
-         bqQXF8drz0/eoM6sd1PsCQ/LbnH0AWf49nfNLWjOnmvdkrXDBeTUwJ3Q2cAWrS7joeCM
-         v5PA==
+        bh=aJtQVsXd7DL/H5pNwMdayTtJgAP7RsD78pCeMq7QPvE=;
+        b=hgiYPX0gpyQk2KByu9xab0gAvfl4R7PvbluzYfq4Mea+HyUKLKBfgqTFkDTkHSQsSj
+         94W0dfUIeF1cNRMD3W18ubPQ5BeIvR+iUSzjTkbY18+J31p5F2nW7I7bj1FgMOzyXg+b
+         ES4mvPmRTj9vEXM8fNjNn4ZgFIrX9dlDxP5nkgp+m4Q/Okn5u/UrZRIISNkFvFk6rmDJ
+         vBSwoIfnl7QNQ/bxLqd04XL7fBfGjpuoEL609jAVTfEjqjqi61vrtzVqVLDf6dqg1M+v
+         D3ki0qObqHDuQIz3rUyfK4EkLZBAce0ktjlXjsO7jTDmIIdu5dT3X1shiq7VWjPl4vPS
+         RtWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737548015; x=1738152815;
+        d=1e100.net; s=20230601; t=1737548063; x=1738152863;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BDJVxc9xXuSUWKdhL40s5J+E9YFicjZq+w7RbdRGI4Y=;
-        b=cUYbrt3IwaCA4AR1h3N6AIHQ/NAyvdP3b0sFa4LizPSgVSoeQBJj/LILZOWqKC4P+N
-         CzNkXy4hDS1i779I2SeqlvEQAYE6/tBrEiz9RoUmsAc9SkLKaM0O2Vo33t6E3WsxY91S
-         yIa/d82qPqAdIvtcBa0fKft4W6OyuLpMsah7hmYdq4Jx352vpUwlYnvjT91D5N6GkXx5
-         zUJPiYASp9Lrx0rM9mAoTlkG0KFe7FJB3gTIS6BYs9tibwMZ0jEQtEWPVm2TvyZRowtY
-         BB5cekTVKSYmRBnk3FTOeWeNWyGvHijAJU2q44K0Z3HDNZVkxl4uiNulAZhkesDTXBcB
-         jBuA==
-X-Forwarded-Encrypted: i=1; AJvYcCUlGLge5SJBRFuWbh+95TmlR2qim6GQRpkM4IAtllTti2An4zdkFUJtlWFvRe+3052ZQ48GAtuRGFyI1qb5@vger.kernel.org, AJvYcCWiO/+thuuEbQXeGdUPKJtxqOLh4M6vNKq8BH48yOn5zE3Ik3sEihRtx0tum930+AMFglbFFtB8PZnS9A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqjG87P2tI0CUqSJf4BqZK3F75RYUmGxjt4BPRxsO1GtR7RMUI
-	H1zIZdP0eHENrS7saP8bQ/ZSrPR8rY5+VjOs+KZ9Mv4iHa7b3WYp
-X-Gm-Gg: ASbGnctIkLTD9g9qTFuuRxRUQj+0kBaBNW9X7+TZLxlzBXrJaPBjV9TKJcIcc03B8bc
-	C3L/kTNCxd0Xds3a0NfN2QmEVfpHrmz6GJ9QqBdjwY77jK0O+NAAskEmr5ROgl9ums9+ibnld3A
-	KULls8JyL5+0SpadVTCp29zb/47+RZrAzp2Ep2ZfUVLqDsmgzEccBD3xqW4imvIvGo7/5wWAWkf
-	Pu1k55za1Ypc6ymaVBCoYgzJ8aVESHOS39iBN2F6uccA6R77irfVSCxYvEseGMcTBmKhILVIHs1
-	LZZ4wPgOnzYs+IJVCek=
-X-Google-Smtp-Source: AGHT+IGXmRXyDPR4LU6/NFZ/M1JhIZBsl/k7uu8nAAmPd8+9NHJCmInOX5VyQ745dtGKZ3EToOrJuw==
-X-Received: by 2002:ac2:5a59:0:b0:542:8d45:cb4f with SMTP id 2adb3069b0e04-5439c22cb19mr5448109e87.1.1737548014921;
-        Wed, 22 Jan 2025 04:13:34 -0800 (PST)
+        bh=aJtQVsXd7DL/H5pNwMdayTtJgAP7RsD78pCeMq7QPvE=;
+        b=a3LYQQ6MKMSH4Qi/FInv1cRDx5Ph+K1SSK3JOdaWhCCbMYe1iKOQHIdmrMvig+gcen
+         /GwDKLFFwTb3W0wWWf4TiECd8GZgZPL6bC1CFEpzRiD8Carbh5deegG4R35LkQSY/sO2
+         jz8HU/bV/O4cCZ3AEvlb5JCRG5A5PKs165Pk/xuOKhRkiV8TJ+nhdpa6166nekbtkxdw
+         hZEv+PidyK0CJh/qcfwPGw5BoyyiQEwJlUXHv6xwCQ1V/Gnu343xtVZPp8/ryBRaTunb
+         IXuR38XArRRrrv9/huLGYbqlPfYRQr+ixBy4qSVBq5IX0c3XU2RoM+bgYwnft9pG0peI
+         JSfA==
+X-Forwarded-Encrypted: i=1; AJvYcCXNKCRJKryueR4nEp/7fRPPHl5aQgLm/fVdpbYk9/q5EgPYkn2Z0uc45gTvkt60dbolBfzaCx0xSlc9YxuM@vger.kernel.org, AJvYcCXqqd8yYJMIcYkL/oSoq4afAZqMwGAx5JX6aVRsnAG5W5Qq5zYwKq69WB+EnOUA5iZbEx0k8napliR9Dw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywq0gbUJl/kfyWb38L10luyXVU268nOU6usCQiqjneEpqIhtD5F
+	+U1fdwnz3uH+UTlcl36LA3c4pX4C81GM9ZRigtgIb9Kor27iUV1D
+X-Gm-Gg: ASbGncvKA2wyeTyGSDhIqVHjMoH9FUOZYMPyxHpr2csnLnGHpeb4Ej6bHRNzom0y6Zo
+	RCBo0dC21h30LhluTgnzZ9CTqwdJrHuWW9sAGbrhfNiSZZ1dMEf7cGyM0xwrZrqLvgahDeFk9Yp
+	L/8RI3FYvCz0K3PxO8LO18xlB2To8tOGM7ByWvG58PWilruJ8N1dbA0ykV8P5a5FT2w8zWVsBgg
+	n0vM4ZENnAinBsv1bKCfrilgClwyEUCiuTMGAwF1d+GezXW6zJyJcA+r/3/e4/UNnqq+/300oI2
+	P9WLrF4TyYvf+3UT3NN/Df7LFGaBzA==
+X-Google-Smtp-Source: AGHT+IHUp3D8wcBZo805IDEZd3aCyXE7IL353HxB7rQ5mRHKRaXT17j5F2nVA0glKGTddSsMk2aclQ==
+X-Received: by 2002:a2e:b74e:0:b0:2ff:56a6:2992 with SMTP id 38308e7fff4ca-3072cb81629mr68195661fa.37.1737548062838;
+        Wed, 22 Jan 2025 04:14:22 -0800 (PST)
 Received: from NB-5917.corp.yadro.com (avpn01.yadro.com. [89.207.88.243])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af0e969sm2186026e87.85.2025.01.22.04.13.34
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3072a330cdcsm25980381fa.11.2025.01.22.04.14.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2025 04:13:34 -0800 (PST)
+        Wed, 22 Jan 2025 04:14:22 -0800 (PST)
 From: Dmitry Mastykin <mastichi@gmail.com>
 To: job@noorman.info,
 	dmitry.torokhov@gmail.com,
@@ -77,9 +77,9 @@ To: job@noorman.info,
 	linux-kernel@vger.kernel.org,
 	felix@kaechele.ca
 Cc: Dmitry Mastykin <mastichi@gmail.com>
-Subject: [PATCH] Input: himax_hx83112b - add support for HX83102J
-Date: Wed, 22 Jan 2025 15:13:18 +0300
-Message-Id: <20250122121318.1367700-1-mastichi@gmail.com>
+Subject: [PATCH] Input: himax_hx83112b - fix event stack size to clear irq correctly
+Date: Wed, 22 Jan 2025 15:14:09 +0300
+Message-Id: <20250122121409.1374602-1-mastichi@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -89,38 +89,54 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Tested on: Starry Electronic XR109IA2T LCM
+The datasheet suggests that the size of the event stack is 32 x 32-bit.
+Reading less bytes did not clear the interrupt output. Extra interrupts
+were called with zero himax_event_get_num_points() result.
+Only every second call to himax_handle_input() cleared the interrupt
+output.
+
+Tested on: HX83102J
 
 Signed-off-by: Dmitry Mastykin <mastichi@gmail.com>
 ---
- drivers/input/touchscreen/himax_hx83112b.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/input/touchscreen/himax_hx83112b.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/input/touchscreen/himax_hx83112b.c b/drivers/input/touchscreen/himax_hx83112b.c
-index 896a145ddb2b..31f18860dbd3 100644
+index 31f18860dbd3..fe7bdf8cec50 100644
 --- a/drivers/input/touchscreen/himax_hx83112b.c
 +++ b/drivers/input/touchscreen/himax_hx83112b.c
-@@ -399,6 +399,12 @@ static const struct himax_chip hx83100a_chip = {
- 	.read_events = hx83100a_read_events,
- };
+@@ -24,6 +24,7 @@
+ #include <linux/regmap.h>
  
-+static const struct himax_chip hx83102j_chip = {
-+	.id = 0x831029,
-+	.check_id = himax_check_product_id,
-+	.read_events = himax_read_events,
-+};
-+
- static const struct himax_chip hx83112b_chip = {
- 	.id = 0x83112b,
- 	.check_id = himax_check_product_id,
-@@ -407,6 +413,7 @@ static const struct himax_chip hx83112b_chip = {
+ #define HIMAX_MAX_POINTS		10
++#define HIMAX_EVENT_STACK_SIZE		128
  
- static const struct i2c_device_id himax_ts_id[] = {
- 	{ "hx83100a", (kernel_ulong_t)&hx83100a_chip },
-+	{ "hx83102j", (kernel_ulong_t)&hx83102j_chip },
- 	{ "hx83112b", (kernel_ulong_t)&hx83112b_chip },
- 	{ /* sentinel */ }
- };
+ #define HIMAX_AHB_ADDR_BYTE_0			0x00
+ #define HIMAX_AHB_ADDR_RDATA_BYTE_0		0x08
+@@ -292,9 +293,9 @@ static int hx83100a_read_events(struct himax_ts_data *ts,
+ static int himax_handle_input(struct himax_ts_data *ts)
+ {
+ 	int error;
+-	struct himax_event event;
++	u8 event[HIMAX_EVENT_STACK_SIZE];
+ 
+-	error = ts->chip->read_events(ts, &event, sizeof(event));
++	error = ts->chip->read_events(ts, (struct himax_event *)&event, sizeof(event));
+ 	if (error) {
+ 		dev_err(&ts->client->dev, "Failed to read input event: %d\n",
+ 			error);
+@@ -305,8 +306,8 @@ static int himax_handle_input(struct himax_ts_data *ts)
+ 	 * Only process the current event when it has a valid checksum but
+ 	 * don't consider it a fatal error when it doesn't.
+ 	 */
+-	if (himax_verify_checksum(ts, &event))
+-		himax_process_event(ts, &event);
++	if (himax_verify_checksum(ts, (struct himax_event *)&event))
++		himax_process_event(ts, (struct himax_event *)&event);
+ 
+ 	return 0;
+ }
 -- 
 2.34.1
 
