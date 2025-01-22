@@ -1,149 +1,117 @@
-Return-Path: <linux-input+bounces-9465-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9466-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D23D2A18983
-	for <lists+linux-input@lfdr.de>; Wed, 22 Jan 2025 02:28:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F0ADA1899D
+	for <lists+linux-input@lfdr.de>; Wed, 22 Jan 2025 02:38:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA8863A9130
-	for <lists+linux-input@lfdr.de>; Wed, 22 Jan 2025 01:27:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D035318813A9
+	for <lists+linux-input@lfdr.de>; Wed, 22 Jan 2025 01:38:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E729F9FE;
-	Wed, 22 Jan 2025 01:28:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D2AD537F8;
+	Wed, 22 Jan 2025 01:38:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j2UrtJ4m"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XpCNPaCc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6398654670
-	for <linux-input@vger.kernel.org>; Wed, 22 Jan 2025 01:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DA84C9F;
+	Wed, 22 Jan 2025 01:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737509282; cv=none; b=GwNjT2Uuk8TKR3NElVNkVjmAhP3EWPKtHzDhedkYq1DzlZs9smL1bOfNwNHso6Rxllv4YGIksh0inYl4Rl5ymOr5wNOxy3YTSMdKca3wG8TQA+7RzXaHvxRdQvwvRoAz6hR7iexTrnqXGa9xfZDM4Hjw2yiMm8yRnsEjuMPdhFo=
+	t=1737509893; cv=none; b=c2Cnb7ubd42tlzV8ZXj5nslLFiYBZJUHAM36ualLGULqXiWYunU6DRxFMkjGGHQQ+tkoHK83AbH2RVZIIhBjYbS84l0ILQDzaR5pLrqTj5Ve34sBUBcJQj1udIT83BjQcSpjhe6vQS7CwRKgR9ek0usSIs69VJUdr9iiBCHxmYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737509282; c=relaxed/simple;
-	bh=9hSXvRhyG6II3qu7nIGXA7UzT+0vubqmliRGucrnv30=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=krWJrfPr5LLPdyugryJyBmppOdYL/EPOB6zxRCROQ4W1CSkikOly7c7fI2RVICQyftwYjF96YcFptZxarqEWZ/Y8lKzW5N4dkfl6C+PjwlPmUTkysCKXd4D+Dne1r/rgEJ563fjZO4K58lj8NIfOQzYfAfVC8QVfDWmhWJysINQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j2UrtJ4m; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737509281; x=1769045281;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=9hSXvRhyG6II3qu7nIGXA7UzT+0vubqmliRGucrnv30=;
-  b=j2UrtJ4m1DuyFziF317aY8MpyquK52QEFjyvXuX5tBHVFsszTFhEIEa3
-   B2QElRFO/g3qIA8LGcvn2IxE5Ehy8XqmZ/98n1GZoZD684XLbH/niNg1v
-   RD8zCk9QlcoGSYAUKNW4CFjfdSc7ITGqqQkAwt4R9LLE909giNq+BGlp7
-   MzzXSyqTfuOwxok0ayx8MMvM4k2o0I1bFMaj4RWgaBNirBFHB66QS6J/u
-   YClLCUKnBcGN2JFTBXbnBSfrrLP4KL/WXElMRqMudIKaFxVpyiDzlgO1n
-   YItlbGJrvB2V4JcJUeTUh7+/gnkqPD3ry7LhsQWEBlKJuOLUUevZtwdQo
-   g==;
-X-CSE-ConnectionGUID: KFBccMvET/yFe8Q/jhOVYQ==
-X-CSE-MsgGUID: Ir890fPVQmO+PAcaBL0+lg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="37648170"
-X-IronPort-AV: E=Sophos;i="6.13,223,1732608000"; 
-   d="scan'208";a="37648170"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 17:28:00 -0800
-X-CSE-ConnectionGUID: BrbTSygKS7yGELLcoprocw==
-X-CSE-MsgGUID: SX6EuePYSWaRG3D1U425kg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="111964608"
-Received: from iscp-l-lixuzha.sh.intel.com ([10.239.153.157])
-  by orviesa003.jf.intel.com with ESMTP; 21 Jan 2025 17:27:59 -0800
-From: Zhang Lixu <lixu.zhang@intel.com>
-To: linux-input@vger.kernel.org,
-	srinivas.pandruvada@linux.intel.com,
-	jikos@kernel.org,
-	benjamin.tissoires@redhat.com
-Cc: lixu.zhang@intel.com,
-	changling.he@intel.com,
-	even.xu@intel.com
-Subject: [PATCH 2/2] HID: intel-ish-hid: Send clock sync message immediately after reset
-Date: Wed, 22 Jan 2025 09:29:01 +0800
-Message-ID: <20250122012901.743123-3-lixu.zhang@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250122012901.743123-1-lixu.zhang@intel.com>
-References: <20250122012901.743123-1-lixu.zhang@intel.com>
+	s=arc-20240116; t=1737509893; c=relaxed/simple;
+	bh=Lz3SIHYMhgXydOym3yn4en99rQ9JPIj1a2EG5Pb9nGs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GRgsFyvgLXA/gftGtg2Af6clXY+fAoi584TWgRJcMuzuFHwL7+gWuDjf4IYQQHBag+bsoCE9NoHwBiC4ADp4K1w+D0aYp2gVC2loXCkRaqXQ8wVPSKpXsYVzkycLnsZ+2nLhNL5LyDNnGh/xCkBQVBElze0dF2LTyyoFqr2nrck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XpCNPaCc; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5d44550adb7so1124973a12.2;
+        Tue, 21 Jan 2025 17:38:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737509890; x=1738114690; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3SNlY5IyLUoZY/2/Y/gPJNlKOMRUsYZcyfBDnAIjXeA=;
+        b=XpCNPaCc6K8mpdY7DfS5oGsl4zgHkAUyMs3L6+4qu97O9PJTamFE0CE5llvMQyrKG2
+         /VsSqSyWB8ix6FQqKlKx04pbQ7SgxW3txQUEcvHMNtzt4MZ4iXEhRpgJfz9q3OJyJHJT
+         lZCX9bwqbE17ziGuF7LIpnrqnLChkZN2+ywmTeqNXCawVIfpAnYDRvDMJC2kxECfEPKN
+         RaHFVX9bEKl1IIcFxlLM8qCB1dmJpnU2TQpFUVq5uXTX8oUlymGSQW1jv6HBRq8fWmis
+         DDsCUefn+wKadx4R+URJVM/l8beFhYnsx9OT9Rt+o9OxQlpj8s7Awwuiv4ZDiBGhI6Pw
+         mGpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737509890; x=1738114690;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3SNlY5IyLUoZY/2/Y/gPJNlKOMRUsYZcyfBDnAIjXeA=;
+        b=g4d6nu3Nss/pgGwZRTd5Gc+Ou/tjI+fFcyRJ61Ldkm33pF/xhvK6FwIc7MVjlK5/93
+         USdPWUyO8RATBBTWPz5pywZHM7ak/R8ScMRVXLvEOjyk8PAD/Gp/tN0M7E3OKUczOLPI
+         m3GQ2yk9MiD4KwMq+0CT9JhTLIXWcwi8ur/O270BuFjrQEb77W4poTgA3bgXKOTFoaYZ
+         yRhz8kgN3MwDTtxSygLG0aEUWuViPARQaTX6XZQb/ACrxTGyjuvGLhaP4nZ8DrHSiyfa
+         OPqrGvmwusdEq7R79FHDogi9kmtjKze+e/u430LL5Pz2tdm/Oijt0pvWEBNvbPCoLih7
+         ujwg==
+X-Forwarded-Encrypted: i=1; AJvYcCUV3isVc75pB5tUCgth1xlnAQjDUmcpZOtlEF3fXbws1qxItCVHPFQqX0ZBHZEtd845zqK3mp3uiXqb@vger.kernel.org, AJvYcCXfGI6IaNc/ulRNdiIf310IcgO0FnxhAXJce1WNzEHjzrH2QzFRsTRuq/uo04d+58BfIdd04Bi/xuHaew==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxevCj3NzoI/+059IDoMr9lkChpl/lkh5OR+uh7wo3eZx4aIaC+
+	J0RiMrsdP/xZBTmNof2bKkqDSlJ0QHw/3MD5aRimCGlVde3SexsaBCeY5uCaLImGPNz2u6iWU4x
+	EfEut5nttbqHnxe+aa8RWLGOacWEDz4P2yCA=
+X-Gm-Gg: ASbGncvAuOQu46v3Sj1VvlFrH1aMRoYDOHoFc1G6X1JdDu/OR7EPzQS2jJBU2wIaF1y
+	AAR9WHgW6DZrD3+ZB4Xiu+6r38QYKhEvQrDg8+ZyGJlRSsenQoQ==
+X-Google-Smtp-Source: AGHT+IE6DH7B508BM62qIX5G8c6AJ33gYbQwGBbj23shCIH0ucA/PwpyprMXVVkirk0jyssrpZkcELDElbgZRE7/MRM=
+X-Received: by 2002:a05:6402:274a:b0:5d0:eb6b:1a31 with SMTP id
+ 4fb4d7f45d1cf-5db7db1cd8fmr6322330a12.5.1737509889713; Tue, 21 Jan 2025
+ 17:38:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250119131356.1006582-1-tomasz.pakula.oficjalny@gmail.com>
+ <20250119131356.1006582-10-tomasz.pakula.oficjalny@gmail.com> <32945abd-060b-4da8-aa1b-1e45dbe2d4d2@suse.com>
+In-Reply-To: <32945abd-060b-4da8-aa1b-1e45dbe2d4d2@suse.com>
+From: =?UTF-8?Q?Tomasz_Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
+Date: Wed, 22 Jan 2025 02:37:57 +0100
+X-Gm-Features: AbW1kvZS9PKsiLrP5Mv0K5WyBg3d_m0JYp5JqlO2y8Lt6VGil3Z8E1pe8ohfnOo
+Message-ID: <CAFqprmzGukRpTqQs6EAzL8wQhnDT2dYaE5adOGdoDXM7FSsOMw@mail.gmail.com>
+Subject: Re: [PATCH v5 09/12] HID: pidff: Stop all effects before enabling actuators
+To: Oliver Neukum <oneukum@suse.com>
+Cc: jikos@kernel.org, bentiss@kernel.org, anssi.hannula@gmail.com, 
+	linux-input@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The ISH driver performs a clock sync with the firmware once at system
-startup and then every 20 seconds. If a firmware reset occurs right
-after a clock sync, the driver would wait 20 seconds before performing
-another clock sync with the firmware. This is particularly problematic
-with the introduction of the "load firmware from host" feature, where
-the driver performs a clock sync with the bootloader and then has to
-wait 20 seconds before syncing with the main firmware.
+On Tue, 21 Jan 2025 at 11:10, Oliver Neukum <oneukum@suse.com> wrote:
+>
+> On 19.01.25 14:13, Tomasz Paku=C5=82a wrote:
+> > Some PID compliant devices automatically play effects after boot (i.e.
+> > autocenter spring) that prevent the rendering of other effects since
+> > it is done outside the kernel driver.
+> >
+> > This makes sure all the effects currently played are stopped after
+> > resetting the device.
+> > It brings compatibility to the Brunner CLS-P joystick and others
+>
+> Hi,
+>
+> it seems to me that the same thing would happen upon resumption
+> from S4. Will this be handled?
+>
+>         Regards
+>                 Oliver
+>
 
-This patch clears prev_sync immediately upon receiving an IPC reset,
-so that the main firmware and driver will perform a clock sync
-immediately after completing the IPC handshake.
-
-Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- drivers/hid/intel-ish-hid/ipc/ipc.c         | 9 ++++++---
- drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h | 2 ++
- 2 files changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-ish-hid/ipc/ipc.c
-index cb956a8c386c..4c861119e97a 100644
---- a/drivers/hid/intel-ish-hid/ipc/ipc.c
-+++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
-@@ -517,6 +517,10 @@ static int ish_fw_reset_handler(struct ishtp_device *dev)
- 	/* ISH FW is dead */
- 	if (!ish_is_input_ready(dev))
- 		return	-EPIPE;
-+
-+	/* Send clock sync at once after reset */
-+	ishtp_dev->prev_sync = 0;
-+
- 	/*
- 	 * Set HOST2ISH.ILUP. Apparently we need this BEFORE sending
- 	 * RESET_NOTIFY_ACK - FW will be checking for it
-@@ -577,13 +581,12 @@ static void fw_reset_work_fn(struct work_struct *work)
-  */
- static void _ish_sync_fw_clock(struct ishtp_device *dev)
- {
--	static unsigned long	prev_sync;
- 	struct ipc_time_update_msg time = {};
- 
--	if (prev_sync && time_before(jiffies, prev_sync + 20 * HZ))
-+	if (dev->prev_sync && time_before(jiffies, dev->prev_sync + 20 * HZ))
- 		return;
- 
--	prev_sync = jiffies;
-+	dev->prev_sync = jiffies;
- 	/* The fields of time would be updated while sending message */
- 	ipc_send_mng_msg(dev, MNG_SYNC_FW_CLOCK, &time, sizeof(time));
- }
-diff --git a/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h b/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
-index 44eddc411e97..ec9f6e87aaf2 100644
---- a/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
-+++ b/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
-@@ -253,6 +253,8 @@ struct ishtp_device {
- 	unsigned int	ipc_tx_cnt;
- 	unsigned long long	ipc_tx_bytes_cnt;
- 
-+	/* Time of the last clock sync */
-+	unsigned long prev_sync;
- 	const struct ishtp_hw_ops *ops;
- 	size_t	mtu;
- 	uint32_t	ishtp_msg_hdr;
--- 
-2.43.0
-
+Turns out, the whole pidff_reset function was completely wrong and mostly d=
+idn't
+do anything. Is some edge cases, it could maybe enable actuators, but
+as it stands
+pidff->device_control was treated like a field to assign values to,
+while it actually is
+an array with boolean fields.
 
