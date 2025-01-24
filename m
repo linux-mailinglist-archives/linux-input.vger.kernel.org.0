@@ -1,96 +1,208 @@
-Return-Path: <linux-input+bounces-9503-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9504-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635E6A1B680
-	for <lists+linux-input@lfdr.de>; Fri, 24 Jan 2025 14:00:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C254A1BB02
+	for <lists+linux-input@lfdr.de>; Fri, 24 Jan 2025 17:54:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF3E03AADA2
-	for <lists+linux-input@lfdr.de>; Fri, 24 Jan 2025 13:00:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CC151884BEE
+	for <lists+linux-input@lfdr.de>; Fri, 24 Jan 2025 16:55:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57D3B35945;
-	Fri, 24 Jan 2025 13:00:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45DA4194A64;
+	Fri, 24 Jan 2025 16:54:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aIsXcG4t"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="CdBJ2vjd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62F61BDC3;
-	Fri, 24 Jan 2025 13:00:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E6B9FBF6;
+	Fri, 24 Jan 2025 16:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737723639; cv=none; b=MOzddtpYBhUhx+HJUnxrk/Mx9gEaB1UxUwPp7b6BQG5NNj+h9no3L4KzGT7wMO3VMPW1qrgv0ZAKjrq9HLmmh+rX3f52PdDlx/laqSiBB7yBz93EEy6JIK4jzugbRl/SrWdYJYKL1N/PkkEdnaWD0DpnDbWkJxhLVyzGm7V1pWU=
+	t=1737737694; cv=none; b=BQJekBS6jHzTsZ8HDG5Q2rWInVrCpIHIzpZu5Ku1/HiklC8SDObiMTiMenPRnf15E/f865K7qhxD5Ujn4MV4XkukPqn9GMMYPadS04Ub9yW5LgFJVr1u1EYV1dcX4KmNqfuhuLXROvlUrBLEuZNolEcy06ZOJYJTqyjTA+iePFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737723639; c=relaxed/simple;
-	bh=jzliCqKtVeGDnMimplbCTVCYT8+Z/SXaawlRDmqCqQI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tdyGtmCjhPRinsPzTEPKHPij+cNIT03NjL+l5iY5CX3+kLpIKP0K7zP08kwRTxhYO6eQ02br0bB5bBWqeSj+lRV0U7r4ci72Vf5adNSjozJeVKdEKIG5mJVTsVXSIG6v5HbXJ/0RnX9sEP0h7l3BCDM+jORpTUxMJEWRjXamszs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aIsXcG4t; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-385f07cd1a4so2063186f8f.1;
-        Fri, 24 Jan 2025 05:00:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737723636; x=1738328436; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jzliCqKtVeGDnMimplbCTVCYT8+Z/SXaawlRDmqCqQI=;
-        b=aIsXcG4tkj9lOqMn6IhUYbsLZxlw0nj1ORdG5xR2gzUI4QgDgKLv/vigqa2ll2oATS
-         4h59tA5hjuVDCx3k4U5jf5eFex7VuH62uNKGpROhXPHK61riWpY8U7i9/GugGV0eteXA
-         SQ3DIR10ApjGwE1C/cuj5Vtv4mvCreH0lOckmdXa3s5j8JYCMJam0SxrGBf79WbWn+gH
-         1BS2SLk8OUW1wit/3bSAROLCs1DbtcrXt7mZHqs6DRNH5f9CKHV2SJnLz5LxFGYOLzZS
-         maFPpMmJWMchGSBy0IZ9FnkPsi43kD/LOXpqWyC3uDYtHAqjrcdHRX3Uum1lxr/8JXMl
-         mlbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737723636; x=1738328436;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jzliCqKtVeGDnMimplbCTVCYT8+Z/SXaawlRDmqCqQI=;
-        b=v2S5F1H5FRfljvndfhZZsuOKZUv/DXuvsFeKNBvdf8eJn6uA46aNmx7QPySAQQyb4C
-         ngyVz/CdTXUO/XyfAyBxUTH/Ax0loV9+dMnVKpzLqsc5D7pux7+WrCOryir7lKaiJIy/
-         Q/cGSa2d1HfyQ52M6yew4vfsW/0DIxdG5bctaF6NIW8rR/FaCrjFna2atMMn+J6RoBDU
-         u6oaDWLxsvJt+3ItM7lWs+usIXbCWVfb81UmCb3oF3LJHQOrdpBoe3/A2PvgRoW4y/iv
-         klXXZFLiQrQwFprHODxWDSD1VbyLeiZbvae6GswOjY2dUKJk+67rzK4W0PEP9MvrX7Zj
-         6D9g==
-X-Forwarded-Encrypted: i=1; AJvYcCV9XhZ8WSj0FoXPQXnOpfmRH32k49jMJ6TkQxFD2t9nrsOYb4TljrZj523GlFo4KdGQQKm5Bku0TS3N@vger.kernel.org, AJvYcCVUh2DmwFEKgOPBUlPDlWeoadXOhDlFhC3GNnpWxU2i4GE8IMmQPS1iEVK1ecm1mQmK87N9hPo0XpcsfYRo@vger.kernel.org, AJvYcCXrfczC+uQ0BJDx872RqKo2EJpr/gGXhdA7FTA7qPoFld4anYwnaDOjnUfHWei5sQ69jqMiajbDX2NWdA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRtkhWb0zyi8IVY52N3AYI1pZhdwjN0Bn6TOFH0obiytXlxp92
-	GlRbsJU36rQXQCQILnpCkMA1UNWd1D87X4Ez46OqXiSnrm9SHSmhsAqTohek4Na0ybirfLVk8wU
-	3zdWaby0VhBJQpGYB+jVEL2DDPow=
-X-Gm-Gg: ASbGncsOD6mRkqP/zkxqI0yOu50O8hMq1nBlSKFxTMw6TpHpXHeT7yspjVBJyCluQgY
-	7h0gDXSiTKgbgAXv9jtszRSkZf+l6lvP6C3Qr7/f0IUxXzRNgSosn/pqu89rzwgc=
-X-Google-Smtp-Source: AGHT+IGlrGIYf3vlAGmgFqJEN4jLSLw8+NYeVz0uCO7tfscYCUhUQZTVTFC/1ew+wUmuEFutJ2i1AB4xCj8Nv/UbqR0=
-X-Received: by 2002:a05:6000:1faa:b0:385:deca:f7cf with SMTP id
- ffacd0b85a97d-38bf5655457mr25857546f8f.8.1737723634169; Fri, 24 Jan 2025
- 05:00:34 -0800 (PST)
+	s=arc-20240116; t=1737737694; c=relaxed/simple;
+	bh=TBbVYW6WszWSAbOJhmb3FyG6vlQ3bBhEEO3HgMw7QSU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CHQJgUe1dz1xXrddm9C2eVP2BFOkW2tsWyyxO8Y1INBNoqUaQhMujnQGBkpt+3QHioA/QpqDuRUQffhVtjZlqRzTtto6vOGSAMF3GPdWxJXIXSmywuRYoLNIohfExRdqTw24BvUmjpy6SW0N0rihXDaMhcgOCFZhrcGVXk1GPcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=CdBJ2vjd; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: by linux.microsoft.com (Postfix, from userid 1173)
+	id 3774E20BEBD5; Fri, 24 Jan 2025 08:54:52 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3774E20BEBD5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1737737692;
+	bh=p/Ev/ixvfjDnN+f1HX/ZEmD3SPo56vV9nqjW8JhSjMg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CdBJ2vjdLBjVw/4VOt8h+eDnrkM2USNZk04ZWObCQcCyI7hTY1VFhqGy3y3KyNQfs
+	 rz4F1FYZGIpXtEyMh/OOhfK9jKxexK7QBPlUfU2ew9NLBG59TVq3+Y298M+traRcnU
+	 afU5RhcAId6lD1VmrHS0VK0S8GJk2yTjM0OwI8+o=
+Date: Fri, 24 Jan 2025 08:54:52 -0800
+From: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: "kys@microsoft.com" <kys@microsoft.com>,
+	"haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+	"wei.liu@kernel.org" <wei.liu@kernel.org>,
+	"decui@microsoft.com" <decui@microsoft.com>,
+	"jikos@kernel.org" <jikos@kernel.org>,
+	"bentiss@kernel.org" <bentiss@kernel.org>,
+	"dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>
+Subject: Re: [PATCH v4 1/3] Drivers: hv: vmbus: Disable Suspend-to-Idle for
+ VMBus
+Message-ID: <20250124165452.GA861@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1734409029-10419-1-git-send-email-ernis@linux.microsoft.com>
+ <1734409029-10419-2-git-send-email-ernis@linux.microsoft.com>
+ <SN6PR02MB4157123D8C5C35C2B169A1E0D4052@SN6PR02MB4157.namprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <67923cb2.050a0220.2eae65.0006.GAE@google.com> <20250124080915.419680-1-lizhi.xu@windriver.com>
-In-Reply-To: <20250124080915.419680-1-lizhi.xu@windriver.com>
-From: Stuart <stuart.a.hayhurst@gmail.com>
-Date: Fri, 24 Jan 2025 13:00:22 +0000
-X-Gm-Features: AWEUYZlFTp84le3osHpRU5HOMqeKSQ3eYpimfJjNF5BLkK6OCJ07L1cSual2FjU
-Message-ID: <CALTg27nGsrJNY=6D8N_R47+6DCoC5YCTwSVTRmfc76wRZ_2Sog@mail.gmail.com>
-Subject: Re: [PATCH] HID: corsair-void: cancel delayed status work if device removed
-To: Lizhi Xu <lizhi.xu@windriver.com>
-Cc: syzbot+cf5f2dd02bbd4d2d411c@syzkaller.appspotmail.com, bentiss@kernel.org, 
-	gregkh@linuxfoundation.org, jikos@kernel.org, jkosina@suse.com, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, rafael@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SN6PR02MB4157123D8C5C35C2B169A1E0D4052@SN6PR02MB4157.namprd02.prod.outlook.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 
-Hi,
-
-This should already be covered by
-https://lore.kernel.org/all/20250121200017.33966-1-stuart.a.hayhurst@gmail.com/
-
-Thanks,
-Stuart
+On Wed, Dec 18, 2024 at 06:27:18AM +0000, Michael Kelley wrote:
+> From: Erni Sri Satya Vennela <ernis@linux.microsoft.com> Sent: Monday, December 16, 2024 8:17 PM
+> > 
+> > This change is specific to Hyper-V VM user.
+> > If the Virtual Machine Connection window is focused,
+> > a Hyper-V VM user can unintentionally touch the keyboard/mouse
+> > when the VM is hibernating or resuming, and consequently the
+> > hibernation or resume operation can be aborted unexpectedly.
+> > Fix the issue by no longer registering the keyboard/mouse as
+> > wakeup devices (see the other two patches for the
+> > changes to drivers/input/serio/hyperv-keyboard.c and
+> > drivers/hid/hid-hyperv.c).
+> 
+> One question: For the keyboard and mouse patches, it looks like the
+> code change has the effect of changing the default value of
+> "power/wakeup" for the keyboard and mouse device under /sys to
+> be "disabled". But if a customer *wants* to enable keyboard and
+> mouse wakeups, he still has the option of just writing "enabled"
+> to "power/wakeup", and the wakeup behavior will be back like it
+> was before these patches. So in other words, the patches only
+> change the default enablement setting, and don't mess with the
+> ability to generate wakeups. Or does disabling the "freeze" option
+> for /sys/power/state mean that there's no scenario where wakeups
+> are useful, so the enabling vs. disabling of wakeups is moot?
+There is no scenario where wakeups are useful for keyboard and mouse. 
+We wanted to remove them completely initially to support for 
+hibernation. But based on Dimitry's suggestion we choose to opt for
+default behaviour.
+> 
+> As you may have noticed, I've posted a patch with documentation
+> about how hibernation works for Hyper-V VMs [1], and I probably
+> should add a paragraph about wakeups. So I want to make sure
+> I'm understanding correctly.
+> 
+> [1] https://lore.kernel.org/linux-hyperv/20241212231700.6977-1-mhklinux@outlook.com/
+> 
+> > 
+> > The keyboard/mouse were registered as wakeup devices because the
+> > VM needs to be woken up from the Suspend-to-Idle state after
+> > a user runs "echo freeze > /sys/power/state". It seems like
+> > the Suspend-to-Idle feature has no real users in practice, so
+> > let's no longer support that by returning -EOPNOTSUPP if a
+> > user tries to use that.
+> > 
+> > Fixes: 1a06d017fb3f ("Drivers: hv: vmbus: Fix Suspend-to-Idle for Generation-2 VM")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+> > Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>>
+> > ---
+> > Changes in v4:
+> > * No change
+> > 
+> > Changes in v3:
+> > * Add "Cc: stable@vger.kernel.org" in sign-off area.
+> > 
+> > Changes in v2:
+> > * Add "#define vmbus_freeze NULL" when CONFIG_PM_SLEEP is not
+> >   enabled.
+> > ---
+> >  drivers/hv/vmbus_drv.c | 16 +++++++++++++++-
+> >  1 file changed, 15 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> > index 6d89d37b069a..4df6b12bf6a1 100644
+> > --- a/drivers/hv/vmbus_drv.c
+> > +++ b/drivers/hv/vmbus_drv.c
+> > @@ -900,6 +900,19 @@ static void vmbus_shutdown(struct device *child_device)
+> >  }
+> > 
+> >  #ifdef CONFIG_PM_SLEEP
+> > +/*
+> > + * vmbus_freeze - Suspend-to-Idle
+> > + */
+> > +static int vmbus_freeze(struct device *child_device)
+> > +{
+> > +/*
+> > + * Do not support Suspend-to-Idle ("echo freeze > /sys/power/state") as
+> > + * that would require registering the Hyper-V synthetic mouse/keyboard
+> > + * devices as wakeup devices, which can abort hibernation/resume unexpectedly.
+> > + */
+> > +	return -EOPNOTSUPP;
+> > +}
+> > +
+> >  /*
+> >   * vmbus_suspend - Suspend a vmbus device
+> >   */
+> > @@ -938,6 +951,7 @@ static int vmbus_resume(struct device *child_device)
+> >  	return drv->resume(dev);
+> >  }
+> >  #else
+> > +#define vmbus_freeze NULL
+> >  #define vmbus_suspend NULL
+> >  #define vmbus_resume NULL
+> >  #endif /* CONFIG_PM_SLEEP */
+> > @@ -969,7 +983,7 @@ static void vmbus_device_release(struct device *device)
+> >   */
+> > 
+> >  static const struct dev_pm_ops vmbus_pm = {
+> > -	.suspend_noirq	= NULL,
+> > +	.suspend_noirq  = vmbus_freeze,
+> >  	.resume_noirq	= NULL,
+> >  	.freeze_noirq	= vmbus_suspend,
+> >  	.thaw_noirq	= vmbus_resume,
+> 
+> Immediately preceding this definition and initialization of
+> the vmbus_pm structure, there's a comment that talks
+> about supporting Suspend-To-Idle. Since the intent here is
+> to *not* support Suspend-To-Idle, that comment really
+> needs to be updated so it accurately reflects this change.
+> 
+> I can't help but also notice the bizarre situation with the
+> function names. The "freeze_noirq" function is named
+> "vmbus_suspend", and the "suspend_noirq" function is
+> named "vmbus_freeze". It certainly looks exactly backwards!
+> 
+> The "suspend_noirq" function should probably be named
+> "vmbus_suspend", but that name is already taken for use
+> in the hibernation path. I don't have a great suggestion on
+> how to fix this, other than to rename vmbus_suspend() to
+> vmbus_freeze(). That change wouldn't be that hard to do,
+> though then vmbus_freeze() ends up calling the "suspend"
+> function in struct hv_driver. Fixing the name in struct
+> hv_driver is harder because most VMBus drivers would need
+> to be updated. Sigh.
+> 
+> But it might be worth fixing the top-level function names
+> of both vmbus_suspend() and vmbus_resume() so they
+> don't look misused as the freeze/thaw and poweroff/restore
+> functions. And then the suspend_noirq function could be
+> named vmbus_suspend() so it makes sense.
+> 
+Thanks for the suggestion Micheal. I will work on it as a separate
+patch.
+> Michael
 
