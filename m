@@ -1,77 +1,77 @@
-Return-Path: <linux-input+bounces-9522-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9523-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF689A1C36E
-	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 13:55:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A87DA1C36F
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 13:55:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BAA021889ADA
-	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 12:55:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A63FB3A8E8A
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 12:55:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 076AE209678;
-	Sat, 25 Jan 2025 12:55:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29221209F26;
+	Sat, 25 Jan 2025 12:55:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lXVly/yX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lqDyG3WE"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32518209684;
-	Sat, 25 Jan 2025 12:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C26A208964;
+	Sat, 25 Jan 2025 12:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737809699; cv=none; b=MN3Zqwb/M/Q9rTzYSzK7IyD1HRruY5Fpg1aR5yuNaPG4lZfzch9Dakn/ARmYEsLS5yRpkB77rVc5Mt4ew/qZmQZyoIQPdnmiplOGWyfuolL3ZTwyIxYiAlUpzBSs6OrTEjELJWNof1a8ycPKrLmnBxbdbS+fPdqE7sL2zpNezVY=
+	t=1737809701; cv=none; b=GvR0OT0FrPWWX8ZE4ItFB+EjdYagBdG9sEcfh1APAGIDV0GTJAEExiLoE2aaVj4Ox1sJvoZykFcWyoabYT9j6FGnR5C2hPA7IOgUz+mOfOVAQNQieQOB4qp7YxarpPFSbtaMVhZxH5Oz/DSR8i2QGRAiid6PYy7mmpdFhoPnIPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737809699; c=relaxed/simple;
-	bh=sfJp+cEStH0iOHMy+L5yy3UCQpbG3St448sBy3TIeoo=;
+	s=arc-20240116; t=1737809701; c=relaxed/simple;
+	bh=4K6Ktazg8UjZRyNjmJVyYZQUmtkSr7vSe5kY4mMQ1Lg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ls9tMMW1yUdT2HO+YISaYTF0raKTAXJc68cOOVIzkVXjbWV3Lnac/LkBHDc5VO12Dk0qSXE738KgKL/6rCNUqMberyGsfLwTAebVtxUId0d/MRu+IROlAFIFcuUwztZOKpc7vG3okkW2bUcT4PWaQQ3+qgwzPD1EGKV5hlGvzhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lXVly/yX; arc=none smtp.client-ip=209.85.167.43
+	 MIME-Version:Content-Type; b=SN0PT4zbB8DLS+8qyVMTMCNJeTtIpZu7H/2ZXrRs4ed5aXRiPdGG0xPQzZg9y1Med55z9WBaGKMYbnXT1RV2MA9UpfuaD814lgc8kqHnUyLujyuZG8CcGnroj5ztDTi8i1cAK1grOsAXNRWQb6m4+jty/nyEFVQVBBtJwliCN1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lqDyG3WE; arc=none smtp.client-ip=209.85.167.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5426f715afeso413037e87.3;
-        Sat, 25 Jan 2025 04:54:57 -0800 (PST)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5402ec870b4so448689e87.2;
+        Sat, 25 Jan 2025 04:54:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737809696; x=1738414496; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1737809697; x=1738414497; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=D7ipsiTl1dRTYPh+Rs2vHcEMW70oojF4sOlian54NsU=;
-        b=lXVly/yXixqg8MMST6qWTQmyXXvtu62Pma9lIH7nYyZu1Z3mzL+0Tpk9RH5llEx7by
-         CBkKNyEyhPZdYWMlwZpmPnS24JglMSOAg134kXtoQGYqcPlrH+Ghuf3DwQuNSRs0qnTr
-         hMRqMqYPTw6MtBWQHpUtTCfM7+uojPk1p/+TGvlgXl6up+jCTiyL3LbqfO9S8SnXy7DU
-         o82fR0iJTOxQMpMkkVn6zv7aJor8GUsPFKL/fTpHomhn1/jZijbwWFdm1EiylYAcv+a8
-         R4LUUjiwag9pfbIEQwZfkgoz4l5/Lst1EfHEqcKgOeib1ClbLGQvMLcIMvMCIekQ1095
-         EPtQ==
+        bh=X7Al4YBblnhD6mAXZvY6iETyAjHehfO4Vpa6xV+iv+c=;
+        b=lqDyG3WE+GIBdsRbCSLwaAskUAa2hEONtGcCBkUDdOjarHW7O/VPxoLSEUmvASsbt3
+         S4dxRK60z4cpMV8rflcuAkaT7rwMz8l80KKLz88CAWZLYmTu9t2EZ2DVPa8gPaosWuFZ
+         Aguf7vbO69xkpqCp8GqdQd3/98ORe63uAvTRa+zx7v4GsfvVij2zD+pchSareRLSY7l2
+         +hGBlyfilC14Df7UY733pgMO6HDAP4RkdD/oJPmX1t6lx/TyZ/xViS+dduN/nC6nvSd6
+         RPBSAn84hUcdm1f9Ahq0+6DhDGlLUcf6v4wvSWd5iqikeLIe7RtZ1QGjiwzOqXdsoXKt
+         lQUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737809696; x=1738414496;
+        d=1e100.net; s=20230601; t=1737809697; x=1738414497;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=D7ipsiTl1dRTYPh+Rs2vHcEMW70oojF4sOlian54NsU=;
-        b=JVyYn+EZ7dlNkBH0jFQ4NEs7aB0nNfHJL1dXONzp2ZxUlLCi1pIhyFsfXbdH1WezRK
-         5dPRBn0kIfyPUfGTveUmRPuHA9e2vJHMnb5vaQZM1SGTHvkmItRqI6kjA8ziEsh1ZG4G
-         g4j8AiUGkPUcf9tn5fxVZpolrxhX58yiunr7+Rs56tGzst2wf+rhyVzJg5Q65HIFSCg9
-         Y2gmAGzXkF+vmceAGdqC7b00O6/734ovw/er4i2rdPrGENS5OhfGdw87YrNC4BqBvIoq
-         pyzB81ZvPpbfRjkW6O2FZzOmer4Ok8MNb623tXtAoqLPcSQaF+qteTqg0Ob3MPWl6XE1
-         Odkw==
-X-Forwarded-Encrypted: i=1; AJvYcCUGPImYw7sq5Uu1HHMmIoXan95ZnVYbmklA04fSYUy/GsI3MmyL/5M0jkvdyFMh7b5CjobH7rcnsvRyuQ==@vger.kernel.org, AJvYcCUShtvH9I9C0uM+0nIFH1MKwZBw+NzoYjJhLhQzvCQSiXFARfPd4YNQg9Y4PLCX7SLCktyZ2+hPln2Z@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7Aube29MZsyasQ3gnGbJYIVf4iS2h7r6jVHTuVlwvKVTLZL9z
-	J/tVzkSZ23MghzXsn0oIqecwjAxCjmV9T7IUDBeU6N9chCqqN2cd
-X-Gm-Gg: ASbGncsi87IuOjeKaD8oLMPF/3LIXdz94wWo8go9svUmcM+walW1fjILXpNfz6+WueY
-	nU4Mwz9a6nEiQBYOAaanl0WkDky+y/y6qMb+sUJ9p2zylJnUiS53HwTH1sX8wEoMCDVh77Rxqgi
-	LWhPSsEDuB75qGNSyAGznKDMZyG+ikdkL9NRyTMPKa3kqwjJd2U/kyuLYg5Y521Rp8bQRxUwCab
-	bHNjfv7sNFWjrWrFiPuyaBKPb971MCjLhjnMQKNDKCgz89NqBs+eUfEZE7gN/nre6nZo0o93vdG
-	jgwDR5jfg5c27vwwhJIYO8HyqlyiU3KWtK9ogZPB7aM7DE4AVto=
-X-Google-Smtp-Source: AGHT+IGCPSjNbHzFwI737UjJn+03f6FiqFKdr7fAZh7bUFtKbUUGhxrJbp0O41zwMiiKn6cm62aOLA==
-X-Received: by 2002:a2e:be9c:0:b0:302:27c6:fc98 with SMTP id 38308e7fff4ca-3072ca8c496mr37123141fa.4.1737809696185;
-        Sat, 25 Jan 2025 04:54:56 -0800 (PST)
+        bh=X7Al4YBblnhD6mAXZvY6iETyAjHehfO4Vpa6xV+iv+c=;
+        b=QoFFRBz72eR6wXO+UGbfhJrYNS53SpIWgu4zmKOft5MiuCSwGppnBv0r9Fojx5hCp9
+         Ux9NVuaA34fUCyrXMTZenRGtCxnlT5F5/vNDcsgRpyZ+7R7aKDpQuqZvQw7vC7ryXC8u
+         DLBfy7rGJZra6UWwWTI+RCcwKZkdkseQSa7ZezNm4EEgUBJTFEG8kjpBDFQ60Xi8HJPD
+         JbHTYj2pbH4Ya5MZypdNZQyUcsfzvNe/6Cn+q6moo/je+sm5VDlDr3qRIx3VBDQ9vtZi
+         Uf6CV/OwFiettIJ4v9FkuVo0awMcc+yJIaocn+fnqWBhaUqg8Plg2gxMouSVXO0jV9m8
+         9utg==
+X-Forwarded-Encrypted: i=1; AJvYcCVxVqh5WLrbnxwL5rKN6jpI73eB9MkAmy9zfnlSlzNFmOho9ddQhm3w8yBNHT8TtSlX4SDyrqEU6OLa@vger.kernel.org, AJvYcCWHsumr6yUQoRodBXOWL4Xaofb9wLLywEmc9RCyQT3XVcHLuiozHFEqDrs9E6JEE6F6sg/lKF/EvUoM/w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSDJfnTSUEjzLSultmS7MMlCY1zygqPXC77tVa2bsbJf59vGD+
+	dyZPiVJ09cXtClokD/vrKz3aCoFukvBJFEnRaccp+eGUVNT7VWTbvr2iUx2H
+X-Gm-Gg: ASbGncv9z5yDhu/5f89iug8B1DYLlRFtI1ThqWVoy8zX+QaT0FgUGwHrrM7xihgiYvb
+	2msQy8UsbY79TTqpJhLZoKy23nltOwi2791rQj400G0Ee4KYv8jwMJ+eN0Ga5oVunvd+LNSEVuH
+	6sfaH5PRdGA8ldeiI6RjMu+06SYtMhWei3/+30vHuGSzpGS3MZTFzWFq4tDYLw4dncyZ2kki40Z
+	r1D55ajG/NrpWdLx6gR4jWLICFv5LR8rsKl6Brf32OFdpsAYTDpIpW45ufz+GTB/eydlkgqUoh5
+	GSRD/riLZTQ6hE0Tj0EN6/Mdubwvyqy54tPIZfjMmGHLlJOLiEs=
+X-Google-Smtp-Source: AGHT+IHz7RwK62kFFp70tDXbfYQ5LhTzdw2WhwnkSTMWPWMV9t+pKjbrHnfiXRKKQVH5dg8HqJXGhA==
+X-Received: by 2002:a05:651c:50e:b0:307:2aea:55a4 with SMTP id 38308e7fff4ca-307587d598fmr21555541fa.8.1737809697304;
+        Sat, 25 Jan 2025 04:54:57 -0800 (PST)
 Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3076bc1981esm6960701fa.75.2025.01.25.04.54.54
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3076bc1981esm6960701fa.75.2025.01.25.04.54.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jan 2025 04:54:55 -0800 (PST)
+        Sat, 25 Jan 2025 04:54:56 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
@@ -79,9 +79,9 @@ Cc: anssi.hannula@gmail.com,
 	oleg@makarenk.ooo,
 	linux-input@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v6 08/17] HID: pidff: Add FIX_WHEEL_DIRECTION quirk
-Date: Sat, 25 Jan 2025 13:54:30 +0100
-Message-ID: <20250125125439.1428460-9-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v6 09/17] HID: pidff: Stop all effects before enabling actuators
+Date: Sat, 25 Jan 2025 13:54:31 +0100
+Message-ID: <20250125125439.1428460-10-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250125125439.1428460-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20250125125439.1428460-1-tomasz.pakula.oficjalny@gmail.com>
@@ -94,67 +94,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Most steering wheels simply ignore DIRECTION field, but some try to be
-compliant with the PID standard and use it in force calculations. Games
-often ignore setting this field properly and/or there can be issues with
-dinput8 -> SDL -> Linux API translation, and this value can be incorrect.
-This can lead to partial/complete loss of Force Feedback or even
-unexpected force reversal.
+Some PID compliant devices automatically play effects after boot (i.e.
+autocenter spring) that prevent the rendering of other effects since
+it is done outside the kernel driver.
 
-Sadly, this quirk can't be detected automatically without sending out
-effects that would move an axis.
+This makes sure all the effects currently played are stopped after
+resetting the device.
+It brings compatibility to the Brunner CLS-P joystick and others
 
-This fixes FFB on Moza Racing devices and others where effect direction
-is not simply ignored.
-
+Reported-by: Jules Noirant <jules.noirant@orange.fr>
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- drivers/hid/usbhid/hid-pidff.c | 12 +++++++++---
- include/linux/hid.h            |  1 +
- 2 files changed, 10 insertions(+), 3 deletions(-)
+ drivers/hid/usbhid/hid-pidff.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index 298a971c63fd..9e03dfb2b1e7 100644
+index 9e03dfb2b1e7..c125f029b6d6 100644
 --- a/drivers/hid/usbhid/hid-pidff.c
 +++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -136,6 +136,9 @@ static const u8 pidff_block_load_status[] = { 0x8c, 0x8d };
- #define PID_EFFECT_STOP		1
- static const u8 pidff_effect_operation_status[] = { 0x79, 0x7b };
+@@ -109,8 +109,9 @@ static const u8 pidff_pool[] = { 0x80, 0x83, 0xa9 };
+ /* Special field key tables used to put special field keys into arrays */
  
-+/* Polar direction 90 degrees (North) */
-+#define PIDFF_FIXED_WHEEL_DIRECTION	0x4000
+ #define PID_ENABLE_ACTUATORS	0
+-#define PID_RESET		1
+-static const u8 pidff_device_control[] = { 0x97, 0x9a };
++#define PID_STOP_ALL_EFFECTS	1
++#define PID_RESET		2
++static const u8 pidff_device_control[] = { 0x97, 0x99, 0x9a };
+ 
+ #define PID_CONSTANT	0
+ #define PID_RAMP	1
+@@ -1222,6 +1223,10 @@ static void pidff_reset(struct pidff_device *pidff)
+ 	hid_hw_request(hid, pidff->reports[PID_DEVICE_CONTROL], HID_REQ_SET_REPORT);
+ 	hid_hw_wait(hid);
+ 
++	pidff->device_control->value[0] = pidff->control_id[PID_STOP_ALL_EFFECTS];
++	hid_hw_request(hid, pidff->reports[PID_DEVICE_CONTROL], HID_REQ_SET_REPORT);
++	hid_hw_wait(hid);
 +
- struct pidff_usage {
- 	struct hid_field *field;
- 	s32 *value;
-@@ -337,9 +340,12 @@ static void pidff_set_effect_report(struct pidff_device *pidff,
- 	pidff->set_effect[PID_GAIN].value[0] =
- 		pidff->set_effect[PID_GAIN].field->logical_maximum;
- 	pidff->set_effect[PID_DIRECTION_ENABLE].value[0] = 1;
--	pidff->effect_direction->value[0] =
--		pidff_rescale(effect->direction, 0xffff,
--				pidff->effect_direction);
-+
-+	/* Use fixed direction if needed */
-+	pidff->effect_direction->value[0] = pidff_rescale(
-+		pidff->quirks & HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION ?
-+		PIDFF_FIXED_WHEEL_DIRECTION : effect->direction,
-+		0xffff, pidff->effect_direction);
- 
- 	/* Omit setting delay field if it's missing */
- 	if (!(pidff->quirks & HID_PIDFF_QUIRK_MISSING_DELAY))
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index e6e9081d7dac..856bed149246 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -1233,6 +1233,7 @@ int hid_pidff_init_with_quirks(struct hid_device *hid, __u32 initial_quirks);
- #define HID_PIDFF_QUIRK_MISSING_DELAY		BIT(0)
- #define HID_PIDFF_QUIRK_MISSING_PBO		BIT(1)
- #define HID_PIDFF_QUIRK_PERMISSIVE_CONTROL	BIT(2)
-+#define HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION	BIT(3)
- 
- #define dbg_hid(fmt, ...) pr_debug("%s: " fmt, __FILE__, ##__VA_ARGS__)
- 
+ 	pidff->device_control->value[0] =
+ 		pidff->control_id[PID_ENABLE_ACTUATORS];
+ 	hid_hw_request(hid, pidff->reports[PID_DEVICE_CONTROL], HID_REQ_SET_REPORT);
 -- 
 2.48.1
 
