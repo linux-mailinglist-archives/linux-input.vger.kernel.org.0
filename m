@@ -1,77 +1,77 @@
-Return-Path: <linux-input+bounces-9519-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9520-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 411DBA1C368
-	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 13:55:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C81E7A1C36A
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 13:55:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C9A543A614E
-	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 12:55:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F8463A82C6
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 12:55:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4FB52080E5;
-	Sat, 25 Jan 2025 12:54:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C86E2080F0;
+	Sat, 25 Jan 2025 12:54:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DHTl0F2o"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CmRduc80"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3BA51FC7C3;
-	Sat, 25 Jan 2025 12:54:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811431E505;
+	Sat, 25 Jan 2025 12:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737809695; cv=none; b=Ki8Uv+yY1xXXHlhiCEinshPewZcvHTDzlsFv2/5PThYxU6ZbqklCEJSJwfXc7q8Gs1MUMRoCkxk4NgtiH7zx1hRNSldrmxhn+pU7/RNpx2expgmf8eYyByXnBp0c01s++FesLvYE24i1ipJU7PrrncPYZX6wxBiXwyDhIgFovek=
+	t=1737809697; cv=none; b=b77Vhe0uT7nIJhAvRDRA9YJiVUJKyCQ0KYC2imBFf9rmWZ62qE10/skeeFTUTE91GmMTz3H8qnOBjrnTSE5rAWeaXtzlx8j6fXXDkXObbB8heHTJ2/qLZePa7MRW28r2dqh7ifA6m9WeUBW30RzoWwWFQGSn6cwERTnTBfwPgJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737809695; c=relaxed/simple;
-	bh=8GmzhpaMxYiy8UkJ/MzDUSAv38faldGoZ9y5VIJO0dk=;
+	s=arc-20240116; t=1737809697; c=relaxed/simple;
+	bh=dwCcjto78uvhV6q6g4fAZmQ++Yk3NSDQ80/OcX+fJyU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jAb7UcdBVnWIFvNK/X6WIIlfBWnQug8LVaBtZra6AJUbJx2VM7aQnHjWMIfaCurt/4sMHBNN/fGQvH3jGyaTsxTxSbtjkrxjEqfyXY0ncAQotuImcDykv1HzXv4+ruzwtNkGrPtoCCPpnGrLQafJs0oLHQVPmZeuPEvp5OVpsE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DHTl0F2o; arc=none smtp.client-ip=209.85.208.178
+	 MIME-Version:Content-Type; b=UG40RKyhHo2XKug5elAtcq0djatwh14I8dBoI/a3iyjQtJ81W518vv1AaGIfkHkR42W7f5CxbXrIki9wp1L7TUoVWxwslLhEoelMezO1zJ5tWZmE7jnc/T1o0qSW6Vv4ygssMFJ0C0yjqj6ffcgX77Mz6XtUADkz4eNZlfAZ8LY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CmRduc80; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-30600722804so1776201fa.1;
-        Sat, 25 Jan 2025 04:54:53 -0800 (PST)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-542678284e3so514759e87.1;
+        Sat, 25 Jan 2025 04:54:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737809692; x=1738414492; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1737809693; x=1738414493; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LxiAHTud/zEPLuazvDKVn1LXHelcgSwsXbJXagSiwyo=;
-        b=DHTl0F2o2Bc+d+XPQIC6cHeDvw6f9baccyI8eFumXKa08IznoHOuxYJaXzSaCmMU//
-         yFJtgmLjBtoZQzBSRIBZSYldhRMygDwSddzayz5GBo7TYmyVWrARdpVOwVTqLkRGi0Go
-         abGRHFAkgxy7GutlM6UeZZk1NsBc2nT/yZcSQQmg5rW/2/LQGCOe9B+TbfKCY3l+mp5j
-         WoYV7+xMTsSvq0yATgyQSNm923pbGknepAkn8HXSdooxWY0szE48dcVFMwLQkrdqVEtJ
-         +jZOTSxqAbM/znQrzz4KNfRTFbG1N2ov6d9C65V+hbn/WDpJ2a2a6CKfn2IJ5AUeEf3i
-         OreA==
+        bh=Yn3SV24FXGrk6D9U/sonjVWTrzb/5doNCYeJXjxGMWM=;
+        b=CmRduc80oB2GIQ2gXn3r/812v4RS8c5mJPSQK0VT+OTD/qDrqiie0E9cupTGvrbkl0
+         EKbpDnfLCxA6QGFAwTIJ+wIXgeJqhox+I7sQIc/2A1AxRkdJoLnSNM0CZfURs8i3aWGc
+         lBLIhkFlTiM/ihfHNdd7cjGY2F4arOjS/2rTRqGWuGkmf8gKOVFGJ7lTDgA21KzS0QaM
+         1lI7Q7qfOzFXp9IugSrtCzqwgq4/tgAOYa2RFXtXyNdX0+z9mmYE5uDuGGJZG2hd1tEy
+         TXfvk0k/7sORN7GIT6mUUjgX8Ipd47qZjGOpUSTZAtLrOneAh+ms/UH26p/5keKvf+Wv
+         Ofvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737809692; x=1738414492;
+        d=1e100.net; s=20230601; t=1737809693; x=1738414493;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LxiAHTud/zEPLuazvDKVn1LXHelcgSwsXbJXagSiwyo=;
-        b=SLR7M9CmXMM9LkRZsT4uC6oVaskXSsfNgoIWVxEL7YQRjr7q9b8IE2rE0ynw2siRT5
-         hmdfvM71aI/MS/cRuH/JF9wn2qhEF9Tss7qMfs3g+bLisJWRn2cqXg/YEFt4ZVq9UfDJ
-         6bg/6ulGenVYLIAh4+dOYX+n+Ip3ZXJnYB8mLiqmBDaWWibQ7Ll2zjVK5BcJDobSLWKd
-         HlxO09msqdeDyJjDBFDO0tnyYoZ48lk+09deDX3TqLveSYkkfCwUQtorIfyW9zoe+fl/
-         KgBIBrOksH/ffeDizSnrZdeeOK8SkY0N0LjjG7z1l0ymDUkJa28rhemZxVhUWYUtiDom
-         O1Eg==
-X-Forwarded-Encrypted: i=1; AJvYcCUeUqn6h8uK+Az6vi3w9fH8MB8+4+hYjrkp7uWnkbkk3MSXqDBf8PWO0vJbzYRUsyeprUYlk3NRMboeeQ==@vger.kernel.org, AJvYcCV77XqnapeGgBm+/OjVsYNm/BzQVJWMeGiQQ1908AOEUosCLM7nClqdT4BM8zWoHzD5lhJVVHta3Mbx@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3Qv8LpTqF+xvhZrVc1ROakN9y7zToondgjLWz+8K2GyP2lRgm
-	E8ZYr4i2unIz5vyKWTPp6atTPab8Wsz/ypYUJmRViz8wWD4kAcDE1z9a1CsW
-X-Gm-Gg: ASbGncuVwMq1pyxI5Cb+IPbPd6WRo5G0fgtRUe64ViGGR7A4jks0imqErughNcgOvHE
-	kCSuJb/onG/ll8LUVHLq3WyFnBaYEVo4HR+1E6Txe0T0Wt/me5OYhDX90ETTgSOUDS+WxWusAco
-	n/oJOxm6EiPbbY2cZfSuPaw3Eh+kestrVMhnL6rKutd4chdQAwgRRVeaFUVjg6FF2/d9kHNREjd
-	c86o2oNVFyDZFqEJCcjE4VgmkOnuLNjDAg92igpdTCj1RL/UpNqvc4av/pMiYRGtOGvhKVLL+/x
-	7XazJHLjPOuDw+7qHJEpnujkufnsu0I69/CgUZXzqtZK/uYeT8w=
-X-Google-Smtp-Source: AGHT+IFDMjLzpqsLULEA2I8aGeIAkRtX+gD/L2/oWpf+RpFXRcmScgy+FXACV5aE3CjHtbiGopPqXw==
-X-Received: by 2002:a05:651c:210b:b0:300:38ff:f8e1 with SMTP id 38308e7fff4ca-307586ed47dmr20095031fa.2.1737809691822;
-        Sat, 25 Jan 2025 04:54:51 -0800 (PST)
+        bh=Yn3SV24FXGrk6D9U/sonjVWTrzb/5doNCYeJXjxGMWM=;
+        b=lqwKlnyXPbYfvGbc2b7WUhSqvAnlvkhtynGQTQ0EJ0Ovl1nUQ34Cdm77G5xlqvSN5k
+         lowLtd5dDoyH4ss8Ffn9IVgSHpGi6OuFYt57JOXDQRDuKc1JGg1k0wVDuojP7bxKJ+ee
+         WCupupKlSaK/GrrT2lz5vVOurSl3IdYQbL4IioHBviaUWqiI7m+Lkql9SnlmL5TETgWo
+         jtzS9FLhPXN8ORgqBfQVTpYzNvPRKP27r2X7eHfnEa61l0+fstAiXyZhoCYbcVSdawC4
+         WWWWo6jQXxcbKcpe59cr0YyjcifDMyV58cm9xR7JhfZzw+IaC8AfxHqOAXEgL9dHjNx8
+         U/Yg==
+X-Forwarded-Encrypted: i=1; AJvYcCUwVp7XMp+9sGEs34ST6wX79UWWh5lrzjZizTk/sJ7Ylo137MErthtX0VO1RQtD+LXSfsYUC0aBKZq4Lg==@vger.kernel.org, AJvYcCVODt2BZgHk9OkMR/Eg5HJh11b7kY8y9kLznLg8vs19EGtWKnaotF9UwU16LfbDXDWbbIX6G49be01s@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqXqtISkClpxpBg8rH4AjGoIx04HSdI60P6B5L9VwdlKyjpHiW
+	CbMqbELlRyxokKlPYAMHAcxzk3Ti527Tcnrdc+oSjmHMN1m5Dv7l
+X-Gm-Gg: ASbGncvQp0j0nozjgRhBKXaHGmFpZfcOa7MxIZKhX6CofIBvDlljXn0LTk5ngNyOf9h
+	H1D+XQSholizCijqU3rLvfnaDO94Jg2lRbstMihfu+zgyTRHt+v8y+ExyRs2dfDLS54PIGvLCdl
+	f7uNd96GmT/SuQ9x7kA18+78UysB3OhHig3w2cK12y1+nfLHYbmyxPvcVot0zp3MGPYjgHlLGHD
+	ES7cNlIUNsFyNU5eIsloT41N64/iyrPcs9UhqQ7ABpdgPZvR/oa/6Zbop9tAuzoAIuYwQdhWUjT
+	aARaxozzGRn+iJYPZ0htadJxtDJ88sYvxcNQRYfPteIgGUD6YwD7tIut+rOJVw==
+X-Google-Smtp-Source: AGHT+IEXoGtllTfwN8wj0XZoZ/yThGkaXoXZXmSLSoHiarudgfuzxFOQqJw/jP4OzA48Etvey3HwWA==
+X-Received: by 2002:a05:651c:a0a:b0:302:1c90:58fa with SMTP id 38308e7fff4ca-307587314c0mr16984371fa.5.1737809693371;
+        Sat, 25 Jan 2025 04:54:53 -0800 (PST)
 Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3076bc1981esm6960701fa.75.2025.01.25.04.54.50
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3076bc1981esm6960701fa.75.2025.01.25.04.54.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jan 2025 04:54:51 -0800 (PST)
+        Sat, 25 Jan 2025 04:54:52 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
@@ -79,9 +79,9 @@ Cc: anssi.hannula@gmail.com,
 	oleg@makarenk.ooo,
 	linux-input@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v6 05/17] HID: pidff: Add MISSING_PBO quirk and its detection
-Date: Sat, 25 Jan 2025 13:54:27 +0100
-Message-ID: <20250125125439.1428460-6-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v6 06/17] HID: pidff: Add PERMISSIVE_CONTROL quirk
+Date: Sat, 25 Jan 2025 13:54:28 +0100
+Message-ID: <20250125125439.1428460-7-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250125125439.1428460-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20250125125439.1428460-1-tomasz.pakula.oficjalny@gmail.com>
@@ -94,129 +94,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Some devices with only one axis are missing PARAMETER_BLOCK_OFFSET field
-for conditional effects. They can only have one axis, so we're limiting
-the max_axis when setting the report for those effects.
+With this quirk, a PID device isn't required to have a strict
+logical_minimum of 1 for the the PID_DEVICE_CONTROL usage page.
 
-Automatic detection ensures compatibility even if such device won't be
-explicitly defined in the kernel.
+Some devices come with weird values in their device descriptors and
+this quirk enables their initialization even if the logical minimum
+of the DEVICE_CONTROL page is not 1.
 
-Fixes initialization of VRS DirectForce PRO and possibly other devices.
+Fixes initialization of VRS Direct Force Pro
 
 Changes in v6:
-- Fixed NULL pointer dereference. When PBO is missing, make sure not
-  to set it anyway
+- Change quirk name to better reflect it's intention
 
 Co-developed-by: Makarenko Oleg <oleg@makarenk.ooo>
 Signed-off-by: Makarenko Oleg <oleg@makarenk.ooo>
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- drivers/hid/usbhid/hid-pidff.c | 47 +++++++++++++++++++++-------------
- include/linux/hid.h            |  1 +
- 2 files changed, 30 insertions(+), 18 deletions(-)
+ drivers/hid/usbhid/hid-pidff.c | 3 ++-
+ include/linux/hid.h            | 5 +++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index e2e431dec936..89a1b6a55c1b 100644
+index 89a1b6a55c1b..3f429936d537 100644
 --- a/drivers/hid/usbhid/hid-pidff.c
 +++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -404,13 +404,19 @@ static int pidff_needs_set_periodic(struct ff_effect *effect,
- static void pidff_set_condition_report(struct pidff_device *pidff,
- 				       struct ff_effect *effect)
- {
--	int i;
-+	int i, max_axis;
+@@ -982,7 +982,8 @@ static int pidff_find_special_fields(struct pidff_device *pidff)
+ 					 0x57, 0);
+ 	pidff->device_control =
+ 		pidff_find_special_field(pidff->reports[PID_DEVICE_CONTROL],
+-					 0x96, 1);
++			0x96, !(pidff->quirks & HID_PIDFF_QUIRK_PERMISSIVE_CONTROL));
 +
-+	/* Devices missing Parameter Block Offset can only have one axis */
-+	max_axis = pidff->quirks & HID_PIDFF_QUIRK_MISSING_PBO ? 1 : 2;
- 
- 	pidff->set_condition[PID_EFFECT_BLOCK_INDEX].value[0] =
- 		pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0];
- 
--	for (i = 0; i < 2; i++) {
--		pidff->set_condition[PID_PARAM_BLOCK_OFFSET].value[0] = i;
-+	for (i = 0; i < max_axis; i++) {
-+		/* Omit Parameter Block Offset if missing */
-+		if (!(pidff->quirks & HID_PIDFF_QUIRK_MISSING_PBO))
-+			pidff->set_condition[PID_PARAM_BLOCK_OFFSET].value[0] = i;
-+
- 		pidff_set_signed(&pidff->set_condition[PID_CP_OFFSET],
- 				 effect->u.condition[i].center);
- 		pidff_set_signed(&pidff->set_condition[PID_POS_COEFFICIENT],
-@@ -822,6 +828,11 @@ static int pidff_find_fields(struct pidff_usage *usage, const u8 *table,
- 			pr_debug("Setting MISSING_DELAY quirk\n");
- 			return_value |= HID_PIDFF_QUIRK_MISSING_DELAY;
- 		}
-+		else if (!found && table[k] == pidff_set_condition[PID_PARAM_BLOCK_OFFSET]) {
-+			pr_debug("PBO field not found, but that's OK\n");
-+			pr_debug("Setting MISSING_PBO quirk\n");
-+			return_value |= HID_PIDFF_QUIRK_MISSING_PBO;
-+		}
- 		else if (!found && strict) {
- 			pr_debug("failed to locate %d\n", k);
- 			return -1;
-@@ -1101,7 +1112,6 @@ static int pidff_find_effects(struct pidff_device *pidff,
-  */
- static int pidff_init_fields(struct pidff_device *pidff, struct input_dev *dev)
- {
--	int envelope_ok = 0;
- 	int status = 0;
- 
- 	/* Save info about the device not having the DELAY ffb field. */
-@@ -1132,13 +1142,10 @@ static int pidff_init_fields(struct pidff_device *pidff, struct input_dev *dev)
- 		return -ENODEV;
- 	}
- 
--	if (!PIDFF_FIND_FIELDS(set_envelope, PID_SET_ENVELOPE, 1))
--		envelope_ok = 1;
--
- 	if (pidff_find_special_fields(pidff) || pidff_find_effects(pidff, dev))
- 		return -ENODEV;
- 
--	if (!envelope_ok) {
-+	if (PIDFF_FIND_FIELDS(set_envelope, PID_SET_ENVELOPE, 1)) {
- 		if (test_and_clear_bit(FF_CONSTANT, dev->ffbit))
- 			hid_warn(pidff->hid,
- 				 "has constant effect but no envelope\n");
-@@ -1163,16 +1170,20 @@ static int pidff_init_fields(struct pidff_device *pidff, struct input_dev *dev)
- 		clear_bit(FF_RAMP, dev->ffbit);
- 	}
- 
--	if ((test_bit(FF_SPRING, dev->ffbit) ||
--	     test_bit(FF_DAMPER, dev->ffbit) ||
--	     test_bit(FF_FRICTION, dev->ffbit) ||
--	     test_bit(FF_INERTIA, dev->ffbit)) &&
--	    PIDFF_FIND_FIELDS(set_condition, PID_SET_CONDITION, 1)) {
--		hid_warn(pidff->hid, "unknown condition effect layout\n");
--		clear_bit(FF_SPRING, dev->ffbit);
--		clear_bit(FF_DAMPER, dev->ffbit);
--		clear_bit(FF_FRICTION, dev->ffbit);
--		clear_bit(FF_INERTIA, dev->ffbit);
-+	if (test_bit(FF_SPRING, dev->ffbit) ||
-+	    test_bit(FF_DAMPER, dev->ffbit) ||
-+	    test_bit(FF_FRICTION, dev->ffbit) ||
-+	    test_bit(FF_INERTIA, dev->ffbit)) {
-+		status = PIDFF_FIND_FIELDS(set_condition, PID_SET_CONDITION, 1);
-+
-+		if (status < 0) {
-+			hid_warn(pidff->hid, "unknown condition effect layout\n");
-+			clear_bit(FF_SPRING, dev->ffbit);
-+			clear_bit(FF_DAMPER, dev->ffbit);
-+			clear_bit(FF_FRICTION, dev->ffbit);
-+			clear_bit(FF_INERTIA, dev->ffbit);
-+		}
-+		pidff->quirks |= status;
- 	}
- 
- 	if (test_bit(FF_PERIODIC, dev->ffbit) &&
+ 	pidff->block_load_status =
+ 		pidff_find_special_field(pidff->reports[PID_BLOCK_LOAD],
+ 					 0x8b, 1);
 diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 94ad5a510639..29f0a91f505f 100644
+index 29f0a91f505f..92a484f65a87 100644
 --- a/include/linux/hid.h
 +++ b/include/linux/hid.h
-@@ -1229,6 +1229,7 @@ int hid_pidff_init(struct hid_device *hid);
+@@ -1228,8 +1228,9 @@ int hid_pidff_init(struct hid_device *hid);
+ #endif
  
  /* HID PIDFF quirks */
- #define HID_PIDFF_QUIRK_MISSING_DELAY	BIT(0)
-+#define HID_PIDFF_QUIRK_MISSING_PBO	BIT(1)
+-#define HID_PIDFF_QUIRK_MISSING_DELAY	BIT(0)
+-#define HID_PIDFF_QUIRK_MISSING_PBO	BIT(1)
++#define HID_PIDFF_QUIRK_MISSING_DELAY		BIT(0)
++#define HID_PIDFF_QUIRK_MISSING_PBO		BIT(1)
++#define HID_PIDFF_QUIRK_PERMISSIVE_CONTROL	BIT(2)
  
  #define dbg_hid(fmt, ...) pr_debug("%s: " fmt, __FILE__, ##__VA_ARGS__)
  
