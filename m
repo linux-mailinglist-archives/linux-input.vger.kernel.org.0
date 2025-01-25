@@ -1,156 +1,250 @@
-Return-Path: <linux-input+bounces-9512-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9513-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870C6A1C0EC
-	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 05:29:42 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAD48A1C2F8
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 12:49:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 81550188A889
-	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 04:29:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 24D0C7A3D48
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 11:49:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01C7E2066C2;
-	Sat, 25 Jan 2025 04:29:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E65D1E1C26;
+	Sat, 25 Jan 2025 11:49:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VBXFKx2Q"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jmkHrxQ9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380B07080D;
-	Sat, 25 Jan 2025 04:29:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1ED192B74;
+	Sat, 25 Jan 2025 11:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737779377; cv=none; b=Lnerx10+bZFjsgHbgbZv4oEB8BbvIamOnzuYe3eESNXpmrkkcqC14GF8OfD++mS6i5IiiOTo6aA3kNjW/+AgS0KFrKcGmELJHMQMR9UGfflK8rNAsquI1Knsnc4Rg4VAkoDtYxNzOYRPJsZiuRPO0SRf+zb0L+mEIZMkC2/3XSw=
+	t=1737805751; cv=none; b=hnSxO6N+8wmLNYHikAGl9XDA+yL9bZdac6rkzCjXZpYPRLtm6WeVmtFV/7eFjkLp6/0AtBEWU2NJ4LUcJ4Az3kLbegPzGG7D6ZyEzJaM3HPfH5P61C975p/NsPLM4oCEzqvVJ5kXaoMSBvltDEdoYynm+Y2BRXFdtkCG3I0ytno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737779377; c=relaxed/simple;
-	bh=Z7yDdXef5Gk682p/yoUtwaUk7dXHOwWSP6gVXNKjKXA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FhXyYkJw8z9nOpr7StcZ2Xbf1tqLvJimVD2FiUeXpu+JNczLCIkm7ZGUAy6U5e3l/8TLe0S+XnJXyOzEnVQ8u+nQyPYpzRKYS9ojZqnQEmcqZK3o9gObF+9/drpHfZNJwKpAVdIbSspax2g+CTdUIeOphTdzsHQzzkxTkJ5NmJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VBXFKx2Q; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5d90a5581fcso4795876a12.1;
-        Fri, 24 Jan 2025 20:29:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737779374; x=1738384174; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tj2u73pSrxjkFtSjBb6pMUpqEbPWBLxKfgYGhzMRx9A=;
-        b=VBXFKx2QMPuEMZXsqlHqa3imKonP5Rrj6/LPAw01lqyY4FDMUK+aUhtZAg5+JTYTHL
-         Y+aTWZm6i2/Ypf6lCOlCjeZB+GBfRAWIfBWVitIfVfrq1zoeSoGQBxBQmewq4Qb7Twu0
-         CjVpxEiY/qnnBP61bntARtRgyRX1RioWLwfqv9N9YIRpVVcWsLN8nyaBRGfz1lfdhx7P
-         HsC01XurGzfaBLRMqPqnx+WkfcWx6cSv/qa2GTRQF73DqKB+RcmW4JBOKdpxTO0Bvo0Y
-         1yRs2dHINcblqixe42T3OzB33AiH9f+Wz0fqQaQbRy/Z2NnjZD1agqYoHs7/7KqQ2iwZ
-         +PiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737779374; x=1738384174;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tj2u73pSrxjkFtSjBb6pMUpqEbPWBLxKfgYGhzMRx9A=;
-        b=MMkQiE9plTEkRlsOTdjTx1f//KD/5jeVInlgwVF/jTwvY3zMw/H9W34/8WyvwPQrLh
-         k2bIhJ8jR7yqsO/BHyTgLqz5hNT6iIrAqrzKdvwbNNdPZzj14LooU747eEzyAqXlw75J
-         aOIxVMo5IKIT4F3TLbvmq4i9lnLhN1ZNMaMigBJg8i1+coxDs6KXdM8gKO6t2jSQmu2e
-         V1s4N+EvfT+d8Sm08LYCiGGIEOXBxbmCtUuLJ6IHw4Cn3voksSeOTX6IVq491OQ9UkmZ
-         bAJDcNJZnrc2Q4YQWIfjkm0PTJPrK/naOOwn5x2ce+FdziER+3BKccK7t8n5ctJ+t7Ik
-         Yjyw==
-X-Forwarded-Encrypted: i=1; AJvYcCVHHYyNemKeb0Gk756LsNUqPg9sAhuhyGObx2ZGv01j2M1CNWMn+srs9fQtY3dF3Fq3tO1cCXX7+KrZMA==@vger.kernel.org, AJvYcCXNhkqdhX8xs2SFAljAELOWdbjt6hqhfoKQeXyWYSbtRmTrNCl5r1wvYSWm6UFycpl9l8tCHhNy2sJIxA2V@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCspintbm0S44RIgxjO04nA/2uC6iZCOQ4JhVqZbVjITyn2yXk
-	6AcGn7tE1r5fqnJ0y6k3Vyig4/R1xJBccFdLVqPfiLdMLODX2MyoB/TP3uZFknnDxCl/gh8+ZBa
-	COgIeuRXOV4SDiv84ef52kT5yalw=
-X-Gm-Gg: ASbGncv/iO2msgh8RPtJjkNKE9JpBx1JRtdOoEnB17241PhQcQlsz730uscCKmRNnxU
-	qTeKz9NItRayDKVsssyf4ylxzvD73Oylnur48ZXQ1/BYf+RV51ZaOe2fSXw4OzQ==
-X-Google-Smtp-Source: AGHT+IHZphpMRBHH1l88PjdM3iqEdT6MJeGlLVicBHmikFxZRhcx2tOIybtB9XQqaKDubZjs5+tW5tSbw5Nib5afgGA=
-X-Received: by 2002:a05:6402:3550:b0:5d0:b925:a8a with SMTP id
- 4fb4d7f45d1cf-5db7d300e84mr32307776a12.16.1737779374187; Fri, 24 Jan 2025
- 20:29:34 -0800 (PST)
+	s=arc-20240116; t=1737805751; c=relaxed/simple;
+	bh=yCUeazd3g4B/ikkT6nfgnGUjC9G5Zv1g5PeBuFQcBBw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bv2ko031vTH7/1UYD+6AHybC+k0LohhvmcDv3n/N1RRt/lL8Io3vYPIcrCZcK4G1Yy9g81eIvD4qGXX1zl+pRtx40J308YLejnV+TIE/enTLYlskkfpDd+K4k9i8IvFlllhfQCVeEWn4Erk/AkesuXqWzWFMvpWQTXiF8DvLtFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jmkHrxQ9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8449EC4CED6;
+	Sat, 25 Jan 2025 11:49:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737805750;
+	bh=yCUeazd3g4B/ikkT6nfgnGUjC9G5Zv1g5PeBuFQcBBw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jmkHrxQ9ml+c3HVmDPgTBaRmZm7pjTq/l+EEuQ3uEEljDhkDFRTHtD3XC2VkFW7l5
+	 xpe7bzXHsmBpWDY2SyIoey6gpdsMhPKtHxS1/t5MaWxgs7WypfJ/gBVi0Q1W/1NGWX
+	 fBMhYWqo6TP20AnTVVxEscA0XU/0UsfAN7gKLGKl4lL6a6b8wsRfigeFe1XOXqDV34
+	 mr1ISeJmSYfjOey9jtBMk8c+vQpwS8TFaZ1LGdFANNfXLPDhaMa/IpPyYznpbATRU/
+	 W8QNo1TbXoq4HWmbgN8YCcAs7NIr0b/jjyVsj7pDFPbUgxd6SIWHqHLVByIYVVD2+C
+	 hOFbHK99DhiSQ==
+Date: Sat, 25 Jan 2025 11:49:00 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Philipp Jungkamp <philipp@jungkamp.dev>
+Cc: "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
+ "ribalda@chromium.org"	 <ribalda@chromium.org>, "mpearson-lenovo@squebb.ca"
+ <mpearson-lenovo@squebb.ca>, "jikos@kernel.org" <jikos@kernel.org>,
+ "linux-input@vger.kernel.org"  <linux-input@vger.kernel.org>,
+ "Jonathan.Cameron@huawei.com"  <Jonathan.Cameron@huawei.com>,
+ "lars@metafoo.de" <lars@metafoo.de>, "linux-iio@vger.kernel.org" 
+ <linux-iio@vger.kernel.org>, "linux-kernel@vger.kernel.org" 
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] iio: hid-sensor-prox: Split difference from multiple
+ channels
+Message-ID: <20250125114900.4ed8621f@jic23-huawei>
+In-Reply-To: <8a77584accb194c2bb1553cf07611211ea864c67.camel@jungkamp.dev>
+References: <20241216-fix-hid-sensor-v2-1-ff8c1959ec4a@chromium.org>
+	<20241219171718.2af17d6d@jic23-huawei>
+	<CANiDSCvkKX68UqSuKiGiys8nwm5BX-FbKmHPtxJK=Hh=B4RqZQ@mail.gmail.com>
+	<45ae61a978e7d4ea34502604a6d508f14c29303b.camel@intel.com>
+	<TYZPR03MB599406F8035E6322E6B66CBFBD1F2@TYZPR03MB5994.apcprd03.prod.outlook.com>
+	<8fed2747-c419-454a-bb72-43f158b4f081@app.fastmail.com>
+	<ae3c8b20a3de94e67a9679ff4bf2b672f8c9b66a.camel@intel.com>
+	<8a77584accb194c2bb1553cf07611211ea864c67.camel@jungkamp.dev>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250122121409.1374602-1-mastichi@gmail.com> <Z5E63X6qnpIEvWji@google.com>
-In-Reply-To: <Z5E63X6qnpIEvWji@google.com>
-From: Dmitry Mastykin <mastichi@gmail.com>
-Date: Sat, 25 Jan 2025 07:29:22 +0300
-X-Gm-Features: AWEUYZlo4Q0Q4l2Bn4YBk6LJ851bkqLhcUlXY-IR2EUwdtT1CV9oThwED3HgI2c
-Message-ID: <CALieaee6tk7LhF54QWGVa4HLkLhcpTLAm0vAqXhUBrMNZLHMxA@mail.gmail.com>
-Subject: Re: [PATCH] Input: himax_hx83112b - fix event stack size to clear irq correctly
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: job@noorman.info, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, felix@kaechele.ca
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Thank you for the reply, Dmitry.
-My explanation in the commit message was not correct.
-I found that the firmware of my HX83102J has stylus support, so it's
-enough to read 12 bytes of stylus data in addition to 56 bytes of
-fingers to correctly clear the interrupt output. But I'm not sure if
-there may also exist firmwares without stylus support for the same
-chip.
-I see two possibilities:
-- introduce stylus presence info in the device-tree, and add
-eventually stylus support to the driver;
-- read 56+12 (or 128) bytes event stack for every chip. This will
-require testing for all supported chips;
+On Wed, 22 Jan 2025 14:55:07 +0100
+Philipp Jungkamp <philipp@jungkamp.dev> wrote:
 
-Kind regards
-Dmitry
+> Hello,
+>=20
+> that LISS sensor was from a patch that I had introduced. It's not
+> connected officially to Lenovo.
+>=20
+> It's a HPD HID sensor on the Lenovo Yoga 9 14IAP7 that exports binary
+> values on the human presence HID usage that is monitored by
+> hid-sensor-prox.
+>=20
+> I had tried to get it working with iio-sensor-proxy to expose it over
+> dbus and use it in e.g. a GNOME shell extension to lock the screen when
+> there is no human presence detected. But my MRs were never merged and
+> due to private struggles I lost interest in pushing them further.
+>=20
+> https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/-/merge_requests/3=
+64
+> https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/-/merge_requests/3=
+64
+>=20
+> Regards,
+> Philipp Jungkamp
+Thanks Philipp,
 
-On Wed, Jan 22, 2025 at 9:37=E2=80=AFPM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Hi Dmitry,
->
-> On Wed, Jan 22, 2025 at 03:14:09PM +0300, Dmitry Mastykin wrote:
-> > The datasheet suggests that the size of the event stack is 32 x 32-bit.
-> > Reading less bytes did not clear the interrupt output. Extra interrupts
-> > were called with zero himax_event_get_num_points() result.
-> > Only every second call to himax_handle_input() cleared the interrupt
-> > output.
-> >
-> > Tested on: HX83102J
-> >
-> > Signed-off-by: Dmitry Mastykin <mastichi@gmail.com>
-> > ---
-> >  drivers/input/touchscreen/himax_hx83112b.c | 9 +++++----
-> >  1 file changed, 5 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/input/touchscreen/himax_hx83112b.c b/drivers/input=
-/touchscreen/himax_hx83112b.c
-> > index 31f18860dbd3..fe7bdf8cec50 100644
-> > --- a/drivers/input/touchscreen/himax_hx83112b.c
-> > +++ b/drivers/input/touchscreen/himax_hx83112b.c
-> > @@ -24,6 +24,7 @@
-> >  #include <linux/regmap.h>
-> >
-> >  #define HIMAX_MAX_POINTS             10
-> > +#define HIMAX_EVENT_STACK_SIZE               128
-> >
-> >  #define HIMAX_AHB_ADDR_BYTE_0                        0x00
-> >  #define HIMAX_AHB_ADDR_RDATA_BYTE_0          0x08
-> > @@ -292,9 +293,9 @@ static int hx83100a_read_events(struct himax_ts_dat=
-a *ts,
-> >  static int himax_handle_input(struct himax_ts_data *ts)
-> >  {
-> >       int error;
-> > -     struct himax_event event;
-> > +     u8 event[HIMAX_EVENT_STACK_SIZE];
->
-> If you need this it should go into struct himax_event (wither padding or
-> making it a union).
->
-> Also if this change is needed to make HX83102J operate properly it
-> should be rolled into the previous patch adding compatibles to the
-> driver.
->
-> Thanks.
->
-> --
-> Dmitry
+So my impression is no one (other than you!) will notice the ABI change.
+
+I'll queue the patch for after the merge window.  That means
+there is still time to shout if anyone disagrees!
+
+Jonathan
+
+>=20
+>=20
+> On Mon, 2025-01-13 at 20:03 +0000, Pandruvada, Srinivas wrote:
+> > On Mon, 2025-01-13 at 14:49 -0500, Mark Pearson wrote: =20
+> > > Note - switched to my open-source friendly email account (avoid the
+> > > Lenovo address, especially for mailing lists, it's Outlook based
+> > > and
+> > > can't cope).
+> > >=20
+> > > On Mon, Jan 13, 2025, at 2:19 PM, Mark Pearson wrote: =20
+> > > > Subject: [External] Re: [PATCH v2] iio: hid-sensor-prox: Split=20
+> > > > difference from multiple channels
+> > > >=20
+> > > > On Sat, 2025-01-11 at 10:17 +0100, Ricardo Ribalda wrote: =20
+> > > > > Hi Jonathan
+> > > > >=20
+> > > > > Happy new year!
+> > > > >=20
+> > > > > Friendly ping about this patch so we can change the ABI before
+> > > > > the
+> > > > > kernel release happens
+> > > > >=20
+> > > > > On Thu, 19 Dec 2024 at 18:17, Jonathan Cameron
+> > > > > <jic23@kernel.org>
+> > > > > wrote: =20
+> > > > > >=20
+> > > > > > On Mon, 16 Dec 2024 10:05:53 +0000
+> > > > > > Ricardo Ribalda <ribalda@chromium.org> wrote:
+> > > > > >  =20
+> > > > > > > When the driver was originally created, it was decided that
+> > > > > > > sampling_frequency and hysteresis would be shared_per_type
+> > > > > > > instead
+> > > > > > > of shared_by_all (even though it is internally shared by
+> > > > > > > all).
+> > > > > > > Eg:
+> > > > > > > in_proximity_raw
+> > > > > > > in_proximity_sampling_frequency
+> > > > > > >=20
+> > > > > > > When we introduced support for more channels, we continued
+> > > > > > > with
+> > > > > > > shared_by_type which. Eg:
+> > > > > > > in_proximity0_raw
+> > > > > > > in_proximity1_raw
+> > > > > > > in_proximity_sampling_frequency
+> > > > > > > in_attention_raw
+> > > > > > > in_attention_sampling_frequency
+> > > > > > >=20
+> > > > > > > Ideally we should change to shared_by_all, but it is not an
+> > > > > > > option,
+> > > > > > > because the current naming has been a stablished ABI by
+> > > > > > > now.
+> > > > > > > Luckily we
+> > > > > > > can use separate instead. That will be more consistent:
+> > > > > > > in_proximity0_raw
+> > > > > > > in_proximity0_sampling_frequency
+> > > > > > > in_proximity1_raw
+> > > > > > > in_proximity1_sampling_frequency
+> > > > > > > in_attention_raw
+> > > > > > > in_attention_sampling_frequency
+> > > > > > >=20
+> > > > > > > Fixes: 596ef5cf654b ("iio: hid-sensor-prox: Add support for
+> > > > > > > more
+> > > > > > > channels")
+> > > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org> =20
+> > > > > >=20
+> > > > > > I got lost somewhere in the discussion.=C2=A0 This is still an =
+ABI
+> > > > > > change compared
+> > > > > > to original interface at the top (which is the one that has
+> > > > > > been
+> > > > > > there
+> > > > > > quite some time).
+> > > > > >=20
+> > > > > > However we already had to make one of those to add the index
+> > > > > > that
+> > > > > > wasn't there
+> > > > > > for _raw. (I'd missed that in earlier discussion - thanks for
+> > > > > > laying out the
+> > > > > > steps here!) =20
+> > > >=20
+> > > > Didn't realize this. I don't see proximity sensor use in the
+> > > > mainline
+> > > > Linux distro user space, so it will affect only some private user
+> > > > space
+> > > > programs.
+> > > > Adding Mark to see if it affects Lenovo Sensing solution as there
+> > > > was
+> > > > specific custom sensor added to this driver for Lenovo.
+> > > >  =20
+> > >=20
+> > > Can I get some pointers to what sensor that is please?
+> > > We've been asking for the HID support drivers, but it isn't
+> > > available
+> > > yet to my knowledge. Would the MIPI camera work tie into this? =20
+> > No.
+> >  =20
+> > >=20
+> > > If I can get details on what the sensor is I'll go and check what
+> > > is
+> > > impacted.
+> > >  =20
+> > This is a custom sensor exported via Intel ISH
+> >=20
+> > =C2=A0/*
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Lenovo Intelligent S=
+ensing Solution (LISS)
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> >=20
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 /* human presence */
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 .tag =3D "LISS",
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 .luid =3D "0226000171AC0081",
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 .model =3D "VL53L1_HOD Sensor",
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 .manufacturer =3D "ST_MICRO",
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 .check_dmi =3D true,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 .dmi.matches =3D {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DMI_M=
+ATCH(DMI_SYS_VENDOR, "LENOVO"),
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 }
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
+> >=20
+> > Question is what Lenovo user space is using this sensor?
+> >=20
+> > Thanks,
+> > Srinivas
+> >  =20
+> > > Thanks
+> > > Mark =20
+> >  =20
+>=20
+
 
