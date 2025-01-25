@@ -1,155 +1,193 @@
-Return-Path: <linux-input+bounces-9531-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9532-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B51BA1C37F
-	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 13:56:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71B9AA1C41F
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 16:56:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 16B2D1889B2B
-	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 12:56:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F739188960F
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 15:56:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74C8D209F5F;
-	Sat, 25 Jan 2025 12:55:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4B092C190;
+	Sat, 25 Jan 2025 15:56:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QPeNqB/A"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="sjO4prl3";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="fK9qXzbR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA66208989;
-	Sat, 25 Jan 2025 12:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4481376F1;
+	Sat, 25 Jan 2025 15:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737809720; cv=none; b=eu4ZMhYxM7UMLbLDvY5OAawPwSYRAKHV+L8QpsdSgWHRdhg2cRSAkmHmbkSX5mPhF/bTaz5/I/kk4mq23W7eKwZekjzyK4NoCQucJDhQISdtX0fmfWz4JZM8HoqfBxudmxX8MVy8fX1j6aFq8J3RzOQ3MxUM554fNpurnpdthzw=
+	t=1737820580; cv=none; b=CbYUPDgDxxw3kWr/+FLg4BJvf+U1uZE0rJMVGgh1486F2srIEsDPuvS6EzV5jxhpeY2zJwbo9g/Cst6jiFo+b54Xe/E+iLWaJbtL3fM2H/qUwufD3AvtuNyNLnKIvBNHJ3+5CUnuvG9V7Ygj1t3FQbre5u/wK6QKp3izAkFVL/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737809720; c=relaxed/simple;
-	bh=BpcDj71JhMPvMyeASILOGmRF1KyRQ+8x/f2HGcPJcSs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=vCPf8+tnKlDhZXrAh9CZIGNHdUIqTWSEp9bVeIaibDVtPYuvsLx//Knai4sZOH8jgP4HBQccL9pd//iDguVpRfDE4CQpN/s804WFiQS24lY2eaE3DKfDeSdXDRD7/8Hs6N+wxoj+DKgVGj4U+mpyNZYHUIYw9wzP7ZRq4XFFhQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QPeNqB/A; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3003ae21db4so3249051fa.1;
-        Sat, 25 Jan 2025 04:55:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737809717; x=1738414517; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ef1OPYDeIgI/wuc0omzhDlsfW60n85scRMgVKKIlzyU=;
-        b=QPeNqB/AScauGt8W7be5b0T1poTJjpIkidap+ET8y9NdsMu7Vo33fwhFY+7pbMLPQs
-         CvyqMLTTHmqq5Bhjzco2Cerqb27z7coiHhSgXvBOWZFy1vRdBOpCgtBWZmNnKy89npXk
-         KOW25D3TqPOZOIP5rMIMsgFk5MGEvzTs97DD4IjBMrU6w1qTGoHyQIcx+sH7WFDAaZub
-         EakxhamBrDWoYnbSOBFQRNq2V/crCM/kBJdgb1O6wwQE/i+VBYpZBBTp5mFNZlyh2TFq
-         amyUzGBuJ1rw5I03FYFfdOiqj9BRCsZ7u4xS9lHLvDFAqdwWLyPr+5eS3KApw6lGBpIw
-         xzkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737809717; x=1738414517;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ef1OPYDeIgI/wuc0omzhDlsfW60n85scRMgVKKIlzyU=;
-        b=M9Q1Sq2PAGvcU4navZ5kJdPyMMueEiwWMckqlHjkLSveKvUMAKrrUFHbQgJrfd1L5Q
-         iITui71NUwhgN+gcknBjvRct+uRRtPI2cZNSSGjLinpt0KNs0CTlrZlkEpbUkaazrppj
-         hbBLmn8DYY5XimPDzSvWcxa74zU08wmQ+OX/b7Am/4BmU4vExaCL+QN+7XK0XtonKe/X
-         NzfmW/PcY8cp09NZ60kKyNLnopISYaXmxOAAqgzX+mmw/HPNtvQXrkHv6AhLmvoT3miO
-         FGNmt8QhktGKviFMUk9myQS1JoTCYsMVxZq8oBSapmUSikGw1tQ9vjXv9wbd5v4/okHc
-         Bdsw==
-X-Forwarded-Encrypted: i=1; AJvYcCW4po99kkImuCudseUd6cgsy6l7hdJjjoL/CU0hIhVGHdgy7GThIdJJHSt5slS37qC4F9ZVzplZ6BVU@vger.kernel.org, AJvYcCXWLJyhqp245Lci79aqkUCFccZdZlYxYRsh8oRevCaWgTs6H0pO8qlJVeq3ZeC/kf431JQheEcsRFoibw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRBQftYTK0UKiI4Mn05yYiXYjOyXegOfHXPp8DRwbaXJ+Rt58l
-	CIi9FOcSUyMNDmOqCAyebUx5LK0Gv1EGnaVme4qhYjs1bu+n/yb1
-X-Gm-Gg: ASbGnctIxlVlxJVzzxWcO2HqaB/J7ZEYqKPPF6PR6bPcUNb4LaDLUK9rEnXzWf50X5N
-	4bk+p1WnolHI1XB2nVHKb8xqJWeo20p/zmfw3iqvTvIRJeUWkPF0t1mu3j/Uzbbcrn/3FOrJfqc
-	3KmNXJuf/mjn+T0jjQCvOb3cx7HjZumRjtmgPxwWMNfDUWGNjSOrrAs4BSMJIe2FNFtsk8clhcZ
-	mpiLvDFcH9+bUZrMMjzm/b9MlIiE1w2td4lBzgAiLZYFeWw0lvjpG5lOGrBNnrpCH5yUPpXbesh
-	3CgnKGWlg6Jm/DJHlzKB79kFKl86BlNA2OKIFfqDOx5YuvxZhbqzYvla3YKe4g==
-X-Google-Smtp-Source: AGHT+IFsJSiSHeN/z8BfWQPszgzCywuNz/G9aJ5vcGDbxjP2XeB6jLQLIfKKCKKW6B9AvinvnMPjJA==
-X-Received: by 2002:a2e:a984:0:b0:300:1975:97c4 with SMTP id 38308e7fff4ca-3072ca63aafmr37981981fa.3.1737809716381;
-        Sat, 25 Jan 2025 04:55:16 -0800 (PST)
-Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3076bc1981esm6960701fa.75.2025.01.25.04.55.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jan 2025 04:55:15 -0800 (PST)
-From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: anssi.hannula@gmail.com,
-	oleg@makarenk.ooo,
-	linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH v6 17/17] HID: pidff: Improve ff gain handling
-Date: Sat, 25 Jan 2025 13:54:39 +0100
-Message-ID: <20250125125439.1428460-18-tomasz.pakula.oficjalny@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250125125439.1428460-1-tomasz.pakula.oficjalny@gmail.com>
-References: <20250125125439.1428460-1-tomasz.pakula.oficjalny@gmail.com>
+	s=arc-20240116; t=1737820580; c=relaxed/simple;
+	bh=NHPrEnprfHj4vBSZ2CncL+MtNwXpYmkFt1B9uEGF3Rg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YsugF8ysnaENFHsVjDYuaGYhCzpc91AM1frGDJeoQ5a/L7mFL3DVFM9dWQDyFdBN0jE0kE/1qeW7pKboN+Kct9pzgl3ka741CUza5DcFPpjjCA+lB4gykdshC7p2Kpgk6htHtWAOoz9GcqIOaKP/fOIciQF3XeQbb4h2nvvL6ZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=sjO4prl3; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=fK9qXzbR; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4YgK6M34Nyz9sr1;
+	Sat, 25 Jan 2025 16:56:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1737820571;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/a4B3LFCH0cw8pkbIEn7IMoUgCo81EdadpIkiLzXGCI=;
+	b=sjO4prl38LJU/mvoWh5U9FXj2xCjlzdCZzoaAkd6v3+Q7+PdAjsmsZmo8w03spDFEgH4kA
+	IWRVokmh3eDMEaf/7rRlzUuxNIrVJlCdULiK/QUmTnkUtytJpvn9rgE0OUvTN8wAaeKXte
+	GTz29hRW0SKoL7XnxNo8NYDfEf54u3wPrVRuDUqEK0RtUFFfNtx8gfUXkXt3J08DyZErAR
+	UAgsqN8PWT0sQ+qaVdoEQujBqHvMX7bGLEoBVV3xSyyC4Fo2tLHYW/ZrEDDqi5Uk2H6Q9s
+	QwTBfsMXfmq2RSe1e3OXpnMO+JfI7tP+fd9d2GgpaSh2KZL1P5h0cv/VivHzYg==
+From: Maurice Hieronymus <mhi@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1737820569;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/a4B3LFCH0cw8pkbIEn7IMoUgCo81EdadpIkiLzXGCI=;
+	b=fK9qXzbRoh4Na1fg7tZvFjGHyHZ2ds46i1fkpULwZKFDHiWfLZGiGM4AEmMHCWuS+VAy/a
+	sNHghwEgrS85rNAQl4OWmYYeJRvEuq8iKa3cv7skoQyHn153vn19z7lzxBLf+6dXXkAJmq
+	RIvgux+73lJYSShwSCyIbBFdmaZh+Br6EU8XF6efrmwyG14iRW8d1IRzM8blYxsYGdG5Y9
+	fBtGquBW0K0s7ovU18ovruyEILuf5qIqcjXdQWS85iXctJRhVGF3MR1FGFEe0FTJtXs36x
+	gE4Ip8h91R9uwud+F3LC4JdxonxdG7iqLiYNYTPecsq54dmFmUuCXLyZx7B1lA==
+Date: Sat, 25 Jan 2025 16:55:47 +0100
+Subject: [PATCH] Input: elantech: Retry ETP_FW_VERSION_QUERY on Lenovo
+ Thinkpad E14 Gen2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250125-fix-elantech-firmware-query-v1-1-b507a5361741@mailbox.org>
+X-B4-Tracking: v=1; b=H4sIAIIJlWcC/32NwQqDMBBEf0X23JRsRMWe+h/FQ9RVA2rqxlpF/
+ PdupecypzcMb3YIxI4C3KIdmBYXnB8F8BJB1dmxJeVqYTDaJBo1qsatino7zlR1Ajy8LZOaXsS
+ b0lmKeY6mSXUMYngyyfy0PwrhzoXZ83aeLfhtf16T/PUuqCRZ2sRIpanJ3gfr+tKvV88tFMdxf
+ ADXOasHyAAAAA==
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Maurice Hieronymus <mhi@mailbox.org>
+X-MBO-RS-META: p8moexnfkj5s3hzq7d6gddpymcxxj8yh
+X-MBO-RS-ID: b620910fb73adb6e015
+X-Rspamd-Queue-Id: 4YgK6M34Nyz9sr1
 
-Makes it easier to set gain from inside hid-pidff.c
+On the ThinkPad E14 Gen2, the touchpad occasionally fails to respond to
+the ETP_FW_VERSION_QUERY during initialization at boot. As a result, the
+touchpad is detected as a generic mouse. Reloading the `psmouse` kernel
+module after startup resolves the issue, suggesting a timing-related
+problem.
 
-Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+This patch retries the ETP_FW_VERSION_QUERY command if it fails. This
+allows the touchpad more time to initialize and respond during firmware
+version queries.
+
+Signed-off-by: Maurice Hieronymus <mhi@mailbox.org>
 ---
- drivers/hid/usbhid/hid-pidff.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+On the Lenovo ThinkPad E12 Gen2, the touchpad does not respond to scrolling
+gestures after startup. The kernel log (`dmesg`) reveals the following:
 
-diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index 5ada097c967a..9b8615197d5f 100644
---- a/drivers/hid/usbhid/hid-pidff.c
-+++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -525,6 +525,16 @@ static int pidff_needs_set_ramp(struct ff_effect *effect, struct ff_effect *old)
- 	       effect->u.ramp.end_level != old->u.ramp.end_level;
+[1.439036] psmouse serio1: elantech: synaptics_send_cmd query 0x01 failed.
+[1.801802] input: PS/2 Logitech Wheel Mouse as /devices/platform/i8042/serio1/input/input6
+
+A command failure causes the touchpad to be recognized as a generic mouse.
+Reloading the `psmouse` kernel module resolves the issue:
+
+[158.928793] psmouse serio1: elantech: assuming hardware version 4 (with firmware version 0x5f3001)
+[158.941924] psmouse serio1: elantech: Synaptics capabilities query result 0x90, 0x18, 0x0d.
+[158.968111] psmouse serio1: elantech: Elan ic body: 0x11, current fw version: 0x4
+[159.084746] input: ETPS/2 Elantech Touchpad as /devices/platform/i8042/serio1/input/input15
+
+Enabling debug logging revealed that the driver fails to query the firmware
+version of the touchpad during initialization:
+
+[1.435339] libps2:ps2_sliced_command: psmouse serio1: 01 - -5
+[1.436523] psmouse:elantech_detect: psmouse serio1: elantech: failed to query firmware version.
+
+The issue appears to be a timing problem, where the touchpad is not fully
+initialized during the firmware query. Interestingly, enabling debug
+logging reduces the frequency of the issue, giving the touchpad more time
+to initialize.
+
+This patch introduces a retry mechanism for PS/2 sliced commands during
+firmware queries, similar to the retry logic in `elantech_ps2_command`.
+Testing over several weeks confirms that this change resolves the issue
+reliably on my hardware.
+---
+ drivers/input/mouse/elantech.c | 28 ++++++++++++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
+index 79ad98cc1e79..202150443209 100644
+--- a/drivers/input/mouse/elantech.c
++++ b/drivers/input/mouse/elantech.c
+@@ -44,6 +44,30 @@ static int synaptics_send_cmd(struct psmouse *psmouse, unsigned char c,
+ 	return 0;
  }
  
 +/*
-+ * Set device gain
++ * A retrying version of synaptics_send_cmd
 + */
-+static void pidff_set_gain_report(struct pidff_device *pidff, u16 gain)
++static int synaptics_send_cmd_retry(struct psmouse *psmouse, unsigned char c,
++				unsigned char *param)
 +{
-+	pidff_set(&pidff->device_gain[PID_DEVICE_GAIN_FIELD], gain);
-+	hid_hw_request(pidff->hid, pidff->reports[PID_DEVICE_GAIN],
-+			HID_REQ_SET_REPORT);
++	int rc;
++	int tries = ETP_PS2_COMMAND_TRIES;
++
++	do {
++		rc = synaptics_send_cmd(psmouse, c, param);
++		if (rc == 0)
++			break;
++		tries--;
++		psmouse_dbg(psmouse, "%s retrying query 0x%02x (%d).\n", __func__, c, tries);
++		msleep(ETP_PS2_COMMAND_DELAY);
++	} while (tries > 0);
++
++	if (rc)
++		psmouse_err(psmouse, "%s query 0x%02x with retry failed.\n", __func__, c);
++
++	return rc;
 +}
 +
  /*
-  * Clear device control report
+  * V3 and later support this fast command
   */
-@@ -852,11 +862,7 @@ static int pidff_upload_effect(struct input_dev *dev, struct ff_effect *effect,
-  */
- static void pidff_set_gain(struct input_dev *dev, u16 gain)
- {
--	struct pidff_device *pidff = dev->ff->private;
--
--	pidff_set(&pidff->device_gain[PID_DEVICE_GAIN_FIELD], gain);
--	hid_hw_request(pidff->hid, pidff->reports[PID_DEVICE_GAIN],
--			HID_REQ_SET_REPORT);
-+	pidff_set_gain_report(dev->ff->private, gain);
- }
- 
- static void pidff_autocenter(struct pidff_device *pidff, u16 magnitude)
-@@ -1391,12 +1397,7 @@ int hid_pidff_init_with_quirks(struct hid_device *hid, __u32 initial_quirks)
- 	if (error)
- 		goto fail;
- 
--	if (test_bit(FF_GAIN, dev->ffbit)) {
--		pidff_set(&pidff->device_gain[PID_DEVICE_GAIN_FIELD], 0xffff);
--		hid_hw_request(hid, pidff->reports[PID_DEVICE_GAIN],
--				     HID_REQ_SET_REPORT);
--	}
--
-+	pidff_set_gain_report(pidff, 0xffff);
- 	error = pidff_check_autocenter(pidff, dev);
- 	if (error)
- 		goto fail;
+@@ -1432,7 +1456,7 @@ int elantech_detect(struct psmouse *psmouse, bool set_properties)
+ 	 * value to avoid mis-detection. Logitech mice are known to respond
+ 	 * to Elantech magic knock and there might be more.
+ 	 */
+-	if (synaptics_send_cmd(psmouse, ETP_FW_VERSION_QUERY, param)) {
++	if (synaptics_send_cmd_retry(psmouse, ETP_FW_VERSION_QUERY, param)) {
+ 		psmouse_dbg(psmouse, "failed to query firmware version.\n");
+ 		return -1;
+ 	}
+@@ -1718,7 +1742,7 @@ static int elantech_query_info(struct psmouse *psmouse,
+ 	/*
+ 	 * Do the version query again so we can store the result
+ 	 */
+-	if (synaptics_send_cmd(psmouse, ETP_FW_VERSION_QUERY, param)) {
++	if (synaptics_send_cmd_retry(psmouse, ETP_FW_VERSION_QUERY, param)) {
+ 		psmouse_err(psmouse, "failed to query firmware version.\n");
+ 		return -EINVAL;
+ 	}
+
+---
+base-commit: 08bd5b7c9a2401faabdaa1472d45c7de0755fd7e
+change-id: 20250101-fix-elantech-firmware-query-07619912f603
+
+Best regards,
 -- 
-2.48.1
+Maurice Hieronymus <mhi@mailbox.org>
 
 
