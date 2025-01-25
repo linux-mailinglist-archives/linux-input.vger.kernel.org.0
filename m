@@ -1,81 +1,82 @@
-Return-Path: <linux-input+bounces-9508-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9509-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2139DA1BF7E
-	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 01:02:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6964FA1C05D
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 03:00:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 53D541621FC
-	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 00:02:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C4AA1167373
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 02:00:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AFAE1372;
-	Sat, 25 Jan 2025 00:02:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40EE31F4294;
+	Sat, 25 Jan 2025 01:59:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R87CXsKJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AtVy5irj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D749B3C2F;
-	Sat, 25 Jan 2025 00:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10C91E480
+	for <linux-input@vger.kernel.org>; Sat, 25 Jan 2025 01:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737763345; cv=none; b=m4sioDbzb2ZqaMkksN/k0CC0Arvuh32o3SCDkFIeZui1TshA0a9z9L2J4MPwR5VfF+CqWMrXnyejvhJSrsNO1UdtmKLhCIJK7xYmP3bqTJ1X1l0PomZJ82HR6OvQm32GpVz2BL6JRdete2fco+/kQh4HK+Dh1OYHZhLS/7W4xVU=
+	t=1737770399; cv=none; b=mp50/sEd61zHfyMW5sReztiT5HafZHcV8dz1pQGPrUrBeqoK4X7GTVVHdRnBkihJAV00WSR1rPUICAuskHnq0yNL4Zlh5ifYFpEjOld2+YfHECGGgKDxNIYM/j5df10EYKIV5H+N8jGcTc82jV4gSDya5k1dMxta7PbfbFiOl70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737763345; c=relaxed/simple;
-	bh=bD0AvvLo8N+WI/sHt8TJnqZnkgXxeeECdA+YbvZS700=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MNf08XEpHrrHMGW6V6z22+O5iy56Jty2d2ShdXJbgZiFK97tm1c4Kr4yY+WTFz78Y4/7hsnggSg25KATj+ta7j6fgIy4z84G6owA/Adsog+BEHlmEIXzWrz5dUcQlpAF0HuZ8ccckqzi61Dldf8Cd5/RI8C1iFXQCdQKnylq3CA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R87CXsKJ; arc=none smtp.client-ip=209.85.166.52
+	s=arc-20240116; t=1737770399; c=relaxed/simple;
+	bh=28Wea1r+Al5v9GphezuHvzjgZUin7smYx83CmLAU33Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Cp4FXdlr34DTk6vMabiKNIywwrr5zsBPIs7yKh5+1eMnAE7WfTuk7H15C+2pnD8+VdwcI+0UgjX2rEFYv3wPWibDvJUU2j3/mXZ0E1+nTDED6ztJwWxReFspme/6gWVbLKVdb16b8L13evwLK3u/8w+i3T1Wimhqz+Q2RlcPxtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AtVy5irj; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-851c4f1fb18so76056139f.2;
-        Fri, 24 Jan 2025 16:02:23 -0800 (PST)
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2f45526dea0so599735a91.1
+        for <linux-input@vger.kernel.org>; Fri, 24 Jan 2025 17:59:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737763342; x=1738368142; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1737770397; x=1738375197; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nqN2VlArpbqxuloIfjaBJEy7d7kR3rKiEU6pl7Kw2mE=;
-        b=R87CXsKJ3G/D9H2IOM4RjBJ5kMkhXcqRG5Cf0asdc2QvPWP+eyXTzztXcnimMm/8uY
-         DST98fUlVnLp52GfdeNTu/8q86dn4OmFWZLXgE/iTZBcCsn8qjcMy/vHBeyPczvJnr+a
-         IPBFIUees/ebqLyxHqKq/+ZG/TjOuo0qlq9UK02cixX9jWoPe+08XFds19/JkT9647oS
-         XPtB0Il16MmSosj3k0f70TXXrj3uGyAMnfKUKospaExB5L4GxzYT7SWES6Oo/QHTig+s
-         0gx8bKf+hkKh5+DaeJg3L5kwLx4+ShdjH2+KFWhzaPqfCRurdLgSKj+Iz0sZPJaG+yv3
-         HBLA==
+        bh=RA0I72eN1MkqXLSoAgMfYt/rG9n7DvBMT13mFde0Utc=;
+        b=AtVy5irjih/dOuAc/26T916z/DRRJsJ1h1xuzckKShgFwYuLMll4Of+gXstf1GOIao
+         8kIz0qNtwA18XWn8ScXqDxk8SNWeDvu+1tf5zDtc7C6DW7StYSXSu5/omf+dtn19wlp1
+         FH2s3Pjo3qlD1yGkuRwLoxPal5NFfXKMBlkODTqMRigLBLd1Qt6OYtw6LKpn9l+VTMte
+         KkyPmsPmnhk6OCzXpvNkXLuGi5W5YoKbb9FiHw5W49wFR7p1M8kbEcImmqaJWGtm/qI/
+         IkzrWOe1NVejXYlX5j0QTXk0Ny0bDw5LnppxmQT1rI/BoXxZcDshlpO6UVHUqauDFQtr
+         x0fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737763342; x=1738368142;
+        d=1e100.net; s=20230601; t=1737770397; x=1738375197;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nqN2VlArpbqxuloIfjaBJEy7d7kR3rKiEU6pl7Kw2mE=;
-        b=NY1JKpGfdfI3kuxeKg93IrZlGahz3m+E0f1jQiBbyqohGqeauhcT8WlqgbcHCHs5BN
-         /P23RcQJvP40Jpd+x2SKPC5jdt8Y6bBXt2EfxA+IGGqK9BhrG5+CL6TAsedMFbCMdOsa
-         EcJh1d7eGFEvizkCL32d4VCp1J9XJ/PQUWYrSsw//fOSlGr4Ac57E0F+2TtCFR/4+0kg
-         JfEgkoDEnkgwmHXZ/aAdnkj8btd8hVkq6MSBOXTzEJU2oJO9JAZGXtR958X3idwQ848j
-         +/5U4HqpMWBKvSCLau0x80ENeJolAV35iv6IxUsvuN6YtXinHns2LSx2Ef5koa+BwrXR
-         xkKw==
-X-Gm-Message-State: AOJu0YygEjlzK3n9/1NAp2y4suiJBPz+ygXjQMQINw2R0iBrwLKPcnaK
-	RLmhPUpBP4m+xKI0pKYQsyx1R8IJM//QbgHxSAaaynEV/eCoQy2XNbrH0hRr
-X-Gm-Gg: ASbGncvG6AyuShqqQpIZBgk/1Od6k+aYvD/D7dSArq/GomALMFf8c8csIsUjXCU2r0L
-	shS/2OjiElidfKcmNs8NWyt2qf+y/Rt9w1PQP7VJUARmw5nopGfgdKsV8oSuE0VmmZvYhcqMFl/
-	phIU302GVoBxJjbsygEKXz1nsLwvIzFlxHO20fI5RyY65e8j7dbyck9XMXYEWZIhDoxgzGcYTQs
-	D9ij/oChTFlsUrg9lUR7uonN3Ad1Ho2qp4HyCUok4yfNUf+HHw8CaWRF+nE5wFdRuB/FUr+/OTs
-	vHe76UU7LrL7/ak7enZCpQ==
-X-Google-Smtp-Source: AGHT+IGAtJ8ctqOnPj3E1vE2dIwCii5L9kV6F942LpbZIujKzjx9GFxejH9UBK/HEb9Oo71+5ZEEsA==
-X-Received: by 2002:a05:6602:6c11:b0:842:ef83:d3b2 with SMTP id ca18e2360f4ac-851b6522640mr2604844339f.12.1737763342042;
-        Fri, 24 Jan 2025 16:02:22 -0800 (PST)
-Received: from localhost.localdomain ([2600:6c98:a500:7a:550d:571:19dc:c1fa])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-8521e035792sm99863639f.40.2025.01.24.16.02.19
+        bh=RA0I72eN1MkqXLSoAgMfYt/rG9n7DvBMT13mFde0Utc=;
+        b=fGbRdtdXeR8g1x8i5EqVEkMwYEskL24rbAiykLRvbXpiGSuTXgpSnRIcdkvl0bO4lg
+         BzfSiHbYZRtYKKFDi+z1aydshfeHCNUG6RjY+KNvoQOTARP7lQ6HEybHySupKwd5UgRe
+         gJJqVRCbkLbFaT2T5MmLLs/V8JltdJ1JBQb1SXbL8NRFdCAV41vhp4ZjC9u0iq2R4sCm
+         4bTHppSTYO9IiLCmb9Dzds4e8kHxbJ8VTdHwo+GjYjDmILBU0ap1g9rd5rMp6PfnivVp
+         tWgghaykN72CIvcRkE01Zz6vt/g2p3lf8dv/mWh/w5tZK3hVlmd0y143aO1ImwUl6UDk
+         1Niw==
+X-Gm-Message-State: AOJu0YwoofC1oceX7sa/L+dTxV/blzUq6u2OPzTnYF+CQKKGybMgA+vI
+	AO+fu5/bZNiBo66K5Zp+sPtZqyckrl2FIsC5Y5JGOhyuIKS7TzuaEN9N0+bQ
+X-Gm-Gg: ASbGncv7QKN2byC2nPzqeOaQFPGby5UXwfWDImNYaZCTUeueuGIHlk88EaC68CtSafO
+	o88iF4pznIMsWVyqfobXYPVKaIjQV3lYdlcSVkXtNMa+iaP04RoqaNCBqXqq80Obkfrjiv/WnUw
+	BeFCqI2G6sNFgIM4But0JYe79qSe1S5cuV09gOQx98tRGDFet+6DdU6f1r6+m2w1YtSJ/K1knY9
+	7kSM8gmWLIL9uK2M9zNYX7h4whW8+5kfMh/7Zau+kMkNlpke0LsTfikLS3TYRShd0S7N8ylBFxH
+	B5JMGuTuIQ==
+X-Google-Smtp-Source: AGHT+IHRgd68RijQPsD9X8t33+HGQ/nAO7v/kz9vrbfrH2Eh7k1BvwRw0k9nuhDBQ2ePga1VeOJ6WA==
+X-Received: by 2002:a05:6a00:a25:b0:72d:356f:8321 with SMTP id d2e1a72fcca58-72dafbf13c9mr16009372b3a.5.1737770396868;
+        Fri, 24 Jan 2025 17:59:56 -0800 (PST)
+Received: from localhost.localdomain ([2804:14c:bba6:4b7d::1f4b])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72f8a6d2ca5sm2629342b3a.81.2025.01.24.17.59.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jan 2025 16:02:20 -0800 (PST)
-From: Noa <coolreader18@gmail.com>
+        Fri, 24 Jan 2025 17:59:56 -0800 (PST)
+From: Nilton Perim Neto <niltonperimneto@gmail.com>
 To: linux-input@vger.kernel.org,
-	"Daniel J. Ogorchock" <djogorchock@gmail.com>
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH] Enable HW LED blinking for hid-nintendo controllers
-Date: Fri, 24 Jan 2025 18:02:02 -0600
-Message-ID: <20250125000202.20868-1-coolreader18@gmail.com>
+	dmitry.torokhov@gmail.com,
+	gregkh@linuxfoundation.org
+Cc: Nilton Perim Neto <niltonperimneto@gmail.com>
+Subject: [PATCH 0/2 v2] Input- xpad - Three devices added to the xpad
+Date: Fri, 24 Jan 2025 22:57:32 -0300
+Message-ID: <20250125015857.33002-2-niltonperimneto@gmail.com>
 X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -85,103 +86,21 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is my first patch, so hopefully I'm doing this right. I noticed
-when trying to use `ledtrig-timer` on the Joycon LEDS that it at times
-would hang for a while (I assume the firmware isn't a fan of frequent
-LED subcommands, or something), and I've tested with this patch and it
-blinks consistently with carefree abandon.
+Added some devices do the xpad table
+Changed some to VIDs to better describe them
 
-Separately, I was also thinking about exposing the LEDs as evdev codes,
-but it doesn't seem like there's any good options of the `LED_*`
-constants to represent them.
+It was resent because of the following request:
+https://lore.kernel.org/linux-input/2025012328-audience-tucking-405d@gregkh/T/#t
 
-Signed-off-by: Noa <coolreader18@gmail.com>
+Hoping now it is fine,
+
+Signed-off-by: Nilton Perim Neto <niltonperimneto@gmail.com>
 ---
- drivers/hid/hid-nintendo.c | 45 ++++++++++++++++++++++++++++++++------
- 1 file changed, 38 insertions(+), 7 deletions(-)
+ drivers/input/joystick/xpad.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 11ac246176ae..83dff0c4f7e1 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -2183,14 +2183,13 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
- 	return 0;
- }
- 
--/* Because the subcommand sets all the leds at once, the brightness argument is ignored */
--static int joycon_player_led_brightness_set(struct led_classdev *led,
--					    enum led_brightness brightness)
-+/* Update the on/flash status of the leds according to their led_classdev fields */
-+static int joycon_update_player_leds(struct device *dev)
- {
--	struct device *dev = led->dev->parent;
- 	struct hid_device *hdev = to_hid_device(dev);
- 	struct joycon_ctlr *ctlr;
- 	int val = 0;
-+	int flash = 0;
- 	int i;
- 	int ret;
- 
-@@ -2200,16 +2199,47 @@ static int joycon_player_led_brightness_set(struct led_classdev *led,
- 		return -ENODEV;
- 	}
- 
--	for (i = 0; i < JC_NUM_LEDS; i++)
--		val |= ctlr->leds[i].brightness << i;
-+	for (i = 0; i < JC_NUM_LEDS; i++) {
-+		if (ctlr->leds[i].blink_delay_on || ctlr->leds[i].blink_delay_off)
-+			flash |= 1 << i;
-+		else if (ctlr->leds[i].brightness)
-+			val |= 1 << i;
-+	}
- 
- 	mutex_lock(&ctlr->output_mutex);
--	ret = joycon_set_player_leds(ctlr, 0, val);
-+	ret = joycon_set_player_leds(ctlr, flash, val);
- 	mutex_unlock(&ctlr->output_mutex);
- 
- 	return ret;
- }
- 
-+static int joycon_player_led_brightness_set(struct led_classdev *led,
-+					    enum led_brightness brightness)
-+{
-+	led->brightness = brightness;
-+
-+	if (!brightness)
-+		led->blink_delay_on = led->blink_delay_off = 0;
-+
-+	return joycon_update_player_leds(led->dev->parent);
-+}
-+
-+/* the blink period of the leds can't be changed, and is always these values */
-+static const JC_LED_BLINK_DELAY_ON = 500;
-+static const JC_LED_BLINK_DELAY_OFF = 200;
-+/* the different leds on a joycon can't actually be set to hw blink independently
-+ * of each other, since they all use the same one subcommand, so this function
-+ * actually resets the cycle of all the leds */
-+static int joycon_player_led_blink_set(struct led_classdev *led,
-+				     unsigned long *delay_on,
-+				     unsigned long *delay_off)
-+{
-+	led->blink_delay_on = *delay_on = JC_LED_BLINK_DELAY_ON;
-+	led->blink_delay_off = *delay_off = JC_LED_BLINK_DELAY_OFF;
-+
-+	return joycon_update_player_leds(led->dev->parent);
-+}
-+
- static int joycon_home_led_brightness_set(struct led_classdev *led,
- 					  enum led_brightness brightness)
- {
-@@ -2268,6 +2298,7 @@ static int joycon_leds_create(struct joycon_ctlr *ctlr)
- 		led->max_brightness = 1;
- 		led->brightness_set_blocking =
- 					joycon_player_led_brightness_set;
-+		led->blink_set = joycon_player_led_blink_set;
- 		led->flags = LED_CORE_SUSPENDRESUME | LED_HW_PLUGGABLE;
- 
- 		led_val |= joycon_player_led_patterns[player_led_pattern][i] << i;
 -- 
 2.48.1
+
 
 
