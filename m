@@ -1,77 +1,77 @@
-Return-Path: <linux-input+bounces-9528-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9529-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57682A1C378
-	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 13:55:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37EB1A1C37B
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 13:56:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7444D1889A9E
-	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 12:56:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B59D53A4872
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 12:55:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D60C7209663;
-	Sat, 25 Jan 2025 12:55:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8546209F48;
+	Sat, 25 Jan 2025 12:55:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CXYg1kzC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R3zBapY8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39A42080E1;
-	Sat, 25 Jan 2025 12:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD0F208983;
+	Sat, 25 Jan 2025 12:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737809718; cv=none; b=ZVWnldgS7PYIStov3Y1a/j7TfxOrJAEYIVbRRmaPkVnkfZNWwEmktcg7OSFsM0UOKl942q3rypTS5Wr3kVxsM+qX9Lu7kHIg0/d6KdhaEu2MsrijvzLaOLV+QWFIxjMRu40dvn6fwNvVf5yNan9XYviDyO2b/DvMRB0lB1b8LAA=
+	t=1737809719; cv=none; b=pdQASH20saqowyOMWeE08pu08IDaZUmB5NY9POKjRczzsu9A24QxoxedVEiq8hlY7KgcvMTo+wCUMSwtMzlGDwGWOSqDrsKhoVWhlILzbmngYN6eMmjT8ELQ30YW//nFW44V8TmvIqgp75BR6nRT1KYv0rMpyXWCgcWYmUOZHR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737809718; c=relaxed/simple;
-	bh=77PSDrwLmmq4FWQbrc+YH5RAdDh5nE1TbHTRgCw3ejQ=;
+	s=arc-20240116; t=1737809719; c=relaxed/simple;
+	bh=Wgx/z114BCNIXJeltqTlAJtNMYqVVfI/6qj7EN01q7A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eZLAzgrXVi+Dg0qLyugjuug4IPG938SiweP3Q0/CTw7UtxBJVHwNfyHfrBBOBgPArKXniQGVMS/tAPbN2h7URqRvAFAJp+YbnMFu29+TDxw28zZD+Qr8SMkGGU2L8GpSeT52cNX46lhJ2exq8ANFY/+6GZSTnK1jsf0knFRztBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CXYg1kzC; arc=none smtp.client-ip=209.85.167.44
+	 MIME-Version:Content-Type; b=rGXqo/kgvoCA0wYEqI1CmUV0+56sigX4Hy+f48n5MHjSRqmdRIFKsD7qvJWsHFFtNKyRAqKH+UPs26IsDF1iajHROHUbG6gYDzLUTIr5XcrurITgUabFI8mqr/3iQerQnjufbQcAEkomIXOaQSdBNMHQEijuocUtT553ZkKDimE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R3zBapY8; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5402ec870b4so448722e87.2;
-        Sat, 25 Jan 2025 04:55:14 -0800 (PST)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53e36a1cf4fso497424e87.0;
+        Sat, 25 Jan 2025 04:55:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737809713; x=1738414513; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1737809714; x=1738414514; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4eXjXRn/HZloxKfWmPvwvQzBKEFXRB7blnXKlca1NLg=;
-        b=CXYg1kzCjz+SmkvpQmhw8rUAK6KHUwKwsvg5KpA5Cbax3tt45hud8Jv/eDubC3uRfP
-         P+x1y5xb9fF9aBKQtctIC0eG3xbqkCPyznb3aG8ESs+yXFkZoz+3T5NqtVlh/3kd/9pY
-         jDrVTZeocZle0AAZL9e7JSHWNYf3wBQnpHsaWZ4WMLCniclgElsw/wkcHapZROliM5VM
-         e8m3n/rsIajXi2WlqDBTOAJetA4hZF+5EIHhBszYpB1Wl6THaeBFWET4X0yEh7NZXYxC
-         mUTPI4od6NX45JaobcAyTwBKyxfWzBPdkdi23a1b534qjTD8y2aRjTqfQm8gz0o2fgeW
-         JcFQ==
+        bh=9F0g5M+5UOOEmkYaBzky0xN1+z4m67WrZHskKFwI6VE=;
+        b=R3zBapY8MuoB6LvEvW5eWA4/F+wx3inqrM77RmPLpOrfWhk4mmGS1nw3Jvd/Hqktul
+         87KDcTFtVGb9QItDWsxXwv2f2fyxSJBWmG6t1/O8cXfAnpDuew6r17kVyvWYD2+Y/Z28
+         nPz4TLOL9UcRHdjY1B7ohnzdq+Zc422dDMnI7IZAxiqnHRImNmoBLbQZHRVr9RV/tBSr
+         8ne7YcBfiy0dBx0wW0uG4baMsNbBhmXuMCtmaLMLn/KW3nfY8s5Rgb40JzARqBKvP8jr
+         L9wD2k8Dple3hNxrF+VyYrlJm98/l0uQFtH+i0qMqHJeAFp8ZIk6ZkxszaXBoxc/9Ot3
+         GVIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737809713; x=1738414513;
+        d=1e100.net; s=20230601; t=1737809714; x=1738414514;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4eXjXRn/HZloxKfWmPvwvQzBKEFXRB7blnXKlca1NLg=;
-        b=iIQmTtQM07gN4y6T91id1z0LEK9MvuMcgghh6N/ai3H9hYiDsT8NgmwCm1IADbacIH
-         QX4iGyImpjh/RcqyKA5zucBJNVh0xbGoSnQK74eCCjCFO6S1wO3ujVjT8h77wZv0kWRi
-         jYx9+Ld/HljycihTyZ7rqOMHZgqr/kTxpwLpoo0ae9oUC9LQGnEGU2jpXmE1gllsbYs0
-         yik+VLE7aAmiBHb6P6xxS0WjHhq4SAz5Hg5VmI4R1ek+9oTiL/qHxfEc4SrEki7w2+c5
-         2oWI7zBUoXrre9xxb7quNkcR8aOA+05rTThsdA6JltSkds7CL83fQynRH3+ZTec41alt
-         vbdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU2bfG14De/raXYYUWnj5IUPaqk8dWaocKWQht2zu0Al9pEqShxEJBRBx2QF8qFXolwAOjOXB6NB7rR@vger.kernel.org, AJvYcCUZZFHt9xMmirWRda2Yvy3Bsb/g2ayGVrPfBCRNo7RS+qfqpF+I7A/xIJ2WLju9qhKfSLqi/yADR5GzhA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywgh0iHwphQxyZsTG9yeT9voYxuEVJzAUMrSR8rj3UXTjTjVhzS
-	Tb1HiJbg3umqrF8s3WTGYsFBZf/A4Xrq3dMwCBmvkCsMQ8lNu+ZC
-X-Gm-Gg: ASbGncsAf/HX2iCwwAQzD1IuMd8APsg8u/0SgYdRHBNTbivHSVJAlWi7Ok7Yju2Urx8
-	xdmfR6iuTRX1FcS9kCQUIWswClcDgqMwERvYvjpiUlRejeBLWhKJjRRHdzMlsjmn9dHnzZSAHzm
-	anM//Vl6fX3mVul8l6rv2/05rGnrqUMqhUzJ+8+v6SyWfv4gDTl2qjIaUZ1IZQ27DbWKtSaZl+L
-	zLDaEhKRAZIzK+aIn3NvqdqzE3Y3RVA7sMpmktIheQhi03bfRsqJcsnd2nUgOQZ3MV993H3yVOu
-	0akOUel+R9QnKXQIi5ZJvJiHfRFQfSDATVmb1bKxyxYQgPo/PC0=
-X-Google-Smtp-Source: AGHT+IEU0g9uVUM5QqmogXn0w45VpJrTZoEbVf0PIhL6+xyN3OwcdYqdh6WXlLKtiKON4ZSmOLlW8A==
-X-Received: by 2002:a05:651c:b0f:b0:300:3a15:8f18 with SMTP id 38308e7fff4ca-307586034dcmr19545271fa.0.1737809712803;
-        Sat, 25 Jan 2025 04:55:12 -0800 (PST)
+        bh=9F0g5M+5UOOEmkYaBzky0xN1+z4m67WrZHskKFwI6VE=;
+        b=I3oCZM/67iId+JtJeYNTsbge+UfN9I30EhLfAl5suOzb0fnA/3p5otGyFr9C1Hy6z8
+         o3SqEnm0nZT3ykMPClKwTIeUYnI3pFCwoNQKaloUY0LIfl3DlqZwZDPTUY97Im+yqBUT
+         oUSpA7okCzmCn+H0SKuNkaiMrwYH+LimaZuVk8ZCEKuQT/ZpUH+4hgeG5WRloP6PLqDv
+         JFotgfwC2Og8zwlc23rMfhuKvYWZMCUzMFxMR19n5mg3akV92DTr6jAMdVz9YDZsJG+e
+         d1a6bEOBOsFXb4ybdWdYIAhfA/SKGXSubrTlazlXOCOncf3irSw0uZvUi26SDx2+1yYO
+         q0hQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWRleQxUY1pS4V+bjMbMwpuTD76WBFUHw8wPkwYIe45YN+GmK/kauKhht8K2euqg1urs8JYbnOfwp/9BA==@vger.kernel.org, AJvYcCXUZ+NuxMYvgjDF7x+3ICyNNllIP/yVfSw2oQ+lnznli+yn8sT2MHcxkf2zr8I2ygK7LELUiidwi4jB@vger.kernel.org
+X-Gm-Message-State: AOJu0YwS9gJiRfsvmJT4PvLtrxpamC+6FxTDuFjCfnI7hGCKv66vpjw+
+	eSsH7AqSjyiqVXBZZswH96hHqp6sE+NzhI80XGN3Kv/2TrcjymKs
+X-Gm-Gg: ASbGncuEbGdHXRIg8w9I1KlrZTFGQu5hKjDodNbSTsVqF0Anr+QyEuWrCSG4qxCaMrM
+	ewOnNLKq62nbXd0VR0wFDtel7dVccJ24l4Ki4sd5Xs8QfkaK9qOg3PUxE49gxY/mV0nXODiKshX
+	Lv3qihtdANKZqJSVk87b7pnbZHdLEnWKqGETQxcVZ48D5bMVWyBQmkZv5iTVtHmVsViPottuHG2
+	A3nPI3G7hmQrvVyKHv92JtokzmVETQ1KdTYtWsp/qx7EKPlOUVyNFCpkwPSh7qn6lx27uh/XkRP
+	zyBZgdSVuOomlwXFXQhCaCG2Uh6ThYQNpxWqmf93eX3s6xKaWvM=
+X-Google-Smtp-Source: AGHT+IEt52SjdRTKBTTtjGa4lxDSIC15hVlODiq0PPiqYS8zUxQKYQrR9XmM/XSZvW7Ix2Px3g9yog==
+X-Received: by 2002:a2e:a587:0:b0:300:33b1:f0c8 with SMTP id 38308e7fff4ca-3072cb55835mr41747491fa.11.1737809713996;
+        Sat, 25 Jan 2025 04:55:13 -0800 (PST)
 Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3076bc1981esm6960701fa.75.2025.01.25.04.55.11
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3076bc1981esm6960701fa.75.2025.01.25.04.55.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jan 2025 04:55:12 -0800 (PST)
+        Sat, 25 Jan 2025 04:55:13 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
@@ -79,9 +79,9 @@ Cc: anssi.hannula@gmail.com,
 	oleg@makarenk.ooo,
 	linux-input@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v6 14/17] HID: pidff: Simplify pidff_upload_effect function
-Date: Sat, 25 Jan 2025 13:54:36 +0100
-Message-ID: <20250125125439.1428460-15-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v6 15/17] HID: pidff: Define values used in pidff_find_special_fields
+Date: Sat, 25 Jan 2025 13:54:37 +0100
+Message-ID: <20250125125439.1428460-16-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250125125439.1428460-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20250125125439.1428460-1-tomasz.pakula.oficjalny@gmail.com>
@@ -94,84 +94,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Merge a bit of code that reqeusts conditional effects upload.
-Makes it clear, that effect handling should be identical for
-SPRING, DAMPER, INERTIA and FRICTION.
+Makes it clear where did these values came from
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- drivers/hid/usbhid/hid-pidff.c | 54 ++++++++++------------------------
- 1 file changed, 16 insertions(+), 38 deletions(-)
+ drivers/hid/usbhid/hid-pidff.c | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index 689bf516ec55..f6dc6db0b59e 100644
+index f6dc6db0b59e..c5bd4ca71e93 100644
 --- a/drivers/hid/usbhid/hid-pidff.c
 +++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -771,48 +771,26 @@ static int pidff_upload_effect(struct input_dev *dev, struct ff_effect *effect,
- 		break;
+@@ -48,6 +48,14 @@ static const u8 pidff_reports[] = {
+ /* device_control is really 0x95, but 0x96 specified as it is the usage of
+ the only field in that report */
  
- 	case FF_SPRING:
--		if (!old) {
--			error = pidff_request_effect_upload(pidff,
--					pidff->type_id[PID_SPRING]);
--			if (error)
--				return error;
--		}
--		if (!old || pidff_needs_set_effect(effect, old))
--			pidff_set_effect_report(pidff, effect);
--		if (!old || pidff_needs_set_condition(effect, old))
--			pidff_set_condition_report(pidff, effect);
--		break;
--
--	case FF_FRICTION:
--		if (!old) {
--			error = pidff_request_effect_upload(pidff,
--					pidff->type_id[PID_FRICTION]);
--			if (error)
--				return error;
--		}
--		if (!old || pidff_needs_set_effect(effect, old))
--			pidff_set_effect_report(pidff, effect);
--		if (!old || pidff_needs_set_condition(effect, old))
--			pidff_set_condition_report(pidff, effect);
--		break;
--
- 	case FF_DAMPER:
--		if (!old) {
--			error = pidff_request_effect_upload(pidff,
--					pidff->type_id[PID_DAMPER]);
--			if (error)
--				return error;
--		}
--		if (!old || pidff_needs_set_effect(effect, old))
--			pidff_set_effect_report(pidff, effect);
--		if (!old || pidff_needs_set_condition(effect, old))
--			pidff_set_condition_report(pidff, effect);
--		break;
--
- 	case FF_INERTIA:
-+	case FF_FRICTION:
- 		if (!old) {
-+			switch(effect->type) {
-+			case FF_SPRING:
-+				type_id = PID_SPRING;
-+				break;
-+			case FF_DAMPER:
-+				type_id = PID_DAMPER;
-+				break;
-+			case FF_INERTIA:
-+				type_id = PID_INERTIA;
-+				break;
-+			case FF_FRICTION:
-+				type_id = PID_FRICTION;
-+				break;
-+			}
- 			error = pidff_request_effect_upload(pidff,
--					pidff->type_id[PID_INERTIA]);
-+					pidff->type_id[type_id]);
- 			if (error)
- 				return error;
- 		}
++/* PID special fields */
++
++#define	PID_EFFECT_TYPE			0x25
++#define	PID_DIRECTION			0x57
++#define	PID_EFFECT_OPERATION_ARRAY	0x78
++#define	PID_BLOCK_LOAD_STATUS		0x8b
++#define	PID_DEVICE_CONTROL_ARRAY	0x96
++
+ /* Value usage tables used to put fields and values into arrays */
+ 
+ #define PID_EFFECT_BLOCK_INDEX	0
+@@ -1047,23 +1055,24 @@ static int pidff_find_special_fields(struct pidff_device *pidff)
+ 
+ 	pidff->create_new_effect_type =
+ 		pidff_find_special_field(pidff->reports[PID_CREATE_NEW_EFFECT],
+-					 0x25, 1);
++					 PID_EFFECT_TYPE, 1);
+ 	pidff->set_effect_type =
+ 		pidff_find_special_field(pidff->reports[PID_SET_EFFECT],
+-					 0x25, 1);
++					 PID_EFFECT_TYPE, 1);
+ 	pidff->effect_direction =
+ 		pidff_find_special_field(pidff->reports[PID_SET_EFFECT],
+-					 0x57, 0);
++					 PID_DIRECTION, 0);
+ 	pidff->device_control =
+ 		pidff_find_special_field(pidff->reports[PID_DEVICE_CONTROL],
+-			0x96, !(pidff->quirks & HID_PIDFF_QUIRK_PERMISSIVE_CONTROL));
++			PID_DEVICE_CONTROL_ARRAY,
++			!(pidff->quirks & HID_PIDFF_QUIRK_PERMISSIVE_CONTROL));
+ 
+ 	pidff->block_load_status =
+ 		pidff_find_special_field(pidff->reports[PID_BLOCK_LOAD],
+-					 0x8b, 1);
++					 PID_BLOCK_LOAD_STATUS, 1);
+ 	pidff->effect_operation_status =
+ 		pidff_find_special_field(pidff->reports[PID_EFFECT_OPERATION],
+-					 0x78, 1);
++					 PID_EFFECT_OPERATION_ARRAY, 1);
+ 
+ 	hid_dbg(pidff->hid, "search done\n");
+ 
 -- 
 2.48.1
 
