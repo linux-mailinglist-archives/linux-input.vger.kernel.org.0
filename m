@@ -1,84 +1,84 @@
-Return-Path: <linux-input+bounces-9510-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9511-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7A4FA1C05E
-	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 03:00:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8610A1C05F
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 03:00:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A3CF3A99E7
-	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 02:00:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1757B167506
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jan 2025 02:00:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DBEA17C219;
-	Sat, 25 Jan 2025 02:00:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB44323774;
+	Sat, 25 Jan 2025 02:00:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BVkQOYwY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O3VFpJKz"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8C58632C
-	for <linux-input@vger.kernel.org>; Sat, 25 Jan 2025 02:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF1B5672
+	for <linux-input@vger.kernel.org>; Sat, 25 Jan 2025 02:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737770419; cv=none; b=T0Ww6snso49cERJPWkFwLfR6q+FIDPxSw6ji6loRUVvBv3AdtgkNct40XdOyUaoTrTph7AoV787kD9sh8t/x5CVICCVP9GV5DpjD69mryr6bHlY66lT8Hh/tyNC4FzuTDhb37jbrhTVspYzdXaCyosyxD2gTPLNmvxSMweOzxzs=
+	t=1737770422; cv=none; b=Hn+R8DFrjykH4PN6qoN8Vog01SsYGeUg/3b9mVTqC1A4Tg3WXY3iPgYKH+psmSKZnNuzsaXP713Fh3Nj38Grs+CWY3bIjmzUuGd5yKQWqVlkwpiRBvAr7AlHE9KpVShZ2OuWP6rPpGcC+O/tSloe+58QE0dsITpjgz/vxUJFpA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737770419; c=relaxed/simple;
-	bh=RxtFhmHu/gV23HXOdVsCy2Mrhf5hfTd0ctfdhLeHrJk=;
+	s=arc-20240116; t=1737770422; c=relaxed/simple;
+	bh=ukNOJT9iqsx3T2W/yFXbXWTseJ1NQHZGD5nRKFr/CUA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sqsUM2WhtTPjvZL6frblX/+XHaloz3rqV4e2iV74W6zdKGEEb9wSCCyI9PSMhbI0ZSNQwGJdnnq6aF+MEhtTM99kJMQSPK+V90wI86AZyagESfcQZ5xSrHffZ3VQQE4jkTd1h0qtZiRH40imeLBoGgFCxJgmlrFIr5hAgB3ffLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BVkQOYwY; arc=none smtp.client-ip=209.85.214.179
+	 MIME-Version; b=Oj+8o8q8oj/Hrdit8lvAGSWSgdOjsKE20mFLxIdHET0Lz/VIDYILc+8uiVHBT32zeizRh4TPxwx7p6vZxXFOVMGmelXVSx/ehN+HtM8N5K06wKzvTaToROn373CwOTG8kojuwOX9gyLkrZ9EUL6c2GSdincdU1JDkfICJg3bcxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O3VFpJKz; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2161a4f86a3so5567755ad.1
-        for <linux-input@vger.kernel.org>; Fri, 24 Jan 2025 18:00:17 -0800 (PST)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2f45244a81fso591606a91.1
+        for <linux-input@vger.kernel.org>; Fri, 24 Jan 2025 18:00:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737770417; x=1738375217; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1737770420; x=1738375220; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BGGg8JEKvshMAHkqbshYUPmPAeSGw+7qjRuc7YVj2HU=;
-        b=BVkQOYwYlSgIBgj29Bq0jJ3SWMdx2AcHs04isbZ0RtnMzGsbGr7i1Nf6Qr+SuMKrXv
-         8PBihT2qVksQtIvS8wWEoZ6Q1WAG/FfVKIHZIooWVtlpaEZFn9NkCUe+wylBy2MSlIqM
-         7Cr8RejjvUECfAoJ+41qj1so3cZb1YBFaAiCKbLxFEDpWme+EXyflYNxhGuV3nXowN4z
-         xU3aZO1EEfHiA3Tpzvgsc0RsgDTEajovTekwu3IzrhrMi48hSPXrPbyeQBUa4E5LuY1+
-         kmHYov3fjFJ/7rBZmjSIg/34FIAy3eJhPRO/bAPdPbB7eV5AgGN1H4nW/mOuvxSGIPVv
-         mzpA==
+        bh=5tG1TBF6ugPWkpYkWL0I6gwB6ocRkaiDmrj54rqAxmk=;
+        b=O3VFpJKzQqwA4k6ZTKDNA4gIE5OU1pW1jMDxuLbS1p+KXRkimBoOQBnsx/KHcjwo3k
+         enUwucgRdCD0gbx/1CJehB0SjroJbj6cqQhsor1DXLroCkcVSyuu06J8gfpbGdm3raYL
+         hiVBOiPRB8227OQ7oJfurOuu3Tb8IwM+k7kV3RFspszKIIyTHSu0rrmnLVYZBfSZDkpZ
+         v7IZ7C2cDNVirB7hfuWQAqfrPPRec5Gu0bmDYFjqB59p1eZ7GiemNwePUhcQbOnVKaKL
+         hIBVYVAjshbIlDwlZ10q0wgnBWD5gBCmbBWNZ5VDVIm5pv5P3QF2DJeIO1zcrWyY3JMG
+         3bqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737770417; x=1738375217;
+        d=1e100.net; s=20230601; t=1737770420; x=1738375220;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BGGg8JEKvshMAHkqbshYUPmPAeSGw+7qjRuc7YVj2HU=;
-        b=YoaOzWxZaT2h7VlidDOEKEBdE+gP+WO76cq9Qlr8RmB1kZbhjezkoL2duYrePKOcyv
-         bLTdSaEAs2GjbPccO6lSoLwbWQ+cwQNZTUaviHZZV5yzyUz2jLiETUySx5pOUpa04pA1
-         MuWSmrfxhJplR60xSjv79M1B/oLkd9DeSUdfgOqABRSal5x97UjkULXNVFAi+B9hI/AI
-         Nz5kPbOK2ua2giTkhA5vi43cOqYSeWox2bCirC3KrTnx0N0QLE3onRB8V0eCoKBxyV6C
-         /11UZqr5XRwA2G1xJrY72/Dh2CVanxQd0NK3SFiINyUCS98QJOaVntIUXAmJJdRPHxsw
-         sowA==
-X-Gm-Message-State: AOJu0YySEGkJ8Thph60kfi2bWV6CBlGPaYeqWAL+GhD1XR7QaPT7eMpR
-	Sl2l0KyDBhfvQqQmZhT0z8ABPOB3AzWeDAP9bwsfIpVEN/C4R9rV7y8ObjSa
-X-Gm-Gg: ASbGncvc0vukPp9eiVD1+ZBJTsWs1gvoEah8WRUNYVFLm5VvN08TQilv3Dk/7uloLC0
-	Q3+4fg9zeoJmV3HUC3uVnNhFLP12XjbFnFXqrfxaxVR/6l2ILNma4MX7OD+GgkO9GGlUVjh5HWS
-	96pf1iBGLznih8AYbsEYuBr4KGViq74y3KsshZ9mcavv2WhHqF1tUejMB5+w0hbWS3XUf1O461H
-	LthqSYNxb9f1/uaOUaTITGR3yfZI9WxZpUKSyoCWgQw8O5q+15Njr9l9BHBXb03n+jRuWOZRUNP
-	I98xO+wH2g==
-X-Google-Smtp-Source: AGHT+IFY046g3GbynDNuG+VCuDhXMFkbvtUjW+/9HCkjFdsDA9GRGUuUQr+pz3cNgmJJeIVlw4KQlg==
-X-Received: by 2002:a05:6a20:9e46:b0:1cf:4dae:2258 with SMTP id adf61e73a8af0-1eb5d1a230dmr8420863637.2.1737770416830;
-        Fri, 24 Jan 2025 18:00:16 -0800 (PST)
+        bh=5tG1TBF6ugPWkpYkWL0I6gwB6ocRkaiDmrj54rqAxmk=;
+        b=ldnrHpRVomWjrcvMyRnPC2eOcsyZdZBv6AWGB180KXyApbInFaHxjXHuIViHwMPuvl
+         0Tt0EzPh3ZQAZaGjohcvMVnu2jWsesi2iz9mDEbuuoRPPFMSpHvZ/enTctht+IfcGMA0
+         UEbJdptXWR92IejEP6Qt6xqfDCs+MfTPqnLwNfonU2yWG8EfJTBECPlsugPdfFuLj0pU
+         jpk9AQKXK3qcVDv33yRrKgBh2GPsHrl39QSdOWSCyOOUiiXSNXa81S8REsoRihRqy2Wd
+         cjpBrJ+Ps0ZQ1UoWCAEumxZ8g89vxFArG05e/e+Xq06Ey5myfzlCAZvuFQoG8kZpz0BZ
+         hdQQ==
+X-Gm-Message-State: AOJu0YxDYbp6a4OpJ2SpzHFox7LGLXoVG194Tp4hN6soZC5IWT2sQc5A
+	xKG2nzkOyfrVAdBs2y+3ka1R2DuhVZOAy4JY2xiYVJewKRY/GNvXfbndnQ==
+X-Gm-Gg: ASbGncu/lrwrYVepoP6zkcBq7ovy6DycAJZ9pOOtDMOfwh62kI0atleZGJ5+iQFw5oS
+	DBlO/IQnaJ06Dkh38ZVe2H8Xz2Mqoo4EPEMw6gcQRlNDTQuCn9HCX0NHFjQRO7GK7icVqQ+4mkF
+	hl8xYat0NMQaKgst3MGfkxPz/DlWOU5QgSn/CNg5693t7cr0NpkP0RfIlYF3L7OsmjvVck8JWeP
+	eZLomq7k73OdNYh2rX+Y6xpi2Iw8Z3HsxaXzWFr/6kdxXQzt/Wm0NoTWj7iQGOtGYyD/+DGKDzT
+	Bz5S5+rFuoKDTF72PdSx
+X-Google-Smtp-Source: AGHT+IGE1XVarUg96uiJKY9H3/K0jtp43JnATdfWVJ2P8pVkwyodZJ0LKGW/76kLyy3ktuaMglCtvQ==
+X-Received: by 2002:a05:6a00:21c3:b0:725:f1f2:43eb with SMTP id d2e1a72fcca58-72dafb35d1amr16268147b3a.6.1737770420211;
+        Fri, 24 Jan 2025 18:00:20 -0800 (PST)
 Received: from localhost.localdomain ([2804:14c:bba6:4b7d::1f4b])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72f8a6d2ca5sm2629342b3a.81.2025.01.24.18.00.14
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72f8a6d2ca5sm2629342b3a.81.2025.01.24.18.00.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jan 2025 18:00:16 -0800 (PST)
+        Fri, 24 Jan 2025 18:00:19 -0800 (PST)
 From: Nilton Perim Neto <niltonperimneto@gmail.com>
 To: linux-input@vger.kernel.org,
 	dmitry.torokhov@gmail.com,
 	gregkh@linuxfoundation.org
 Cc: Nilton Perim Neto <niltonperimneto@gmail.com>
-Subject: [PATCH 1/2 v2] Input- xpad - Three devices added to the xpad Added to the xpad driver the following controllers: 8BitDo SN30 Pro, Hyperkin X91 and Gamesir G7 SE
-Date: Fri, 24 Jan 2025 22:57:33 -0300
-Message-ID: <20250125015857.33002-3-niltonperimneto@gmail.com>
+Subject: [PATCH 2/2 v2] Input: xpad - changed VIDs to better describe them
+Date: Fri, 24 Jan 2025 22:57:34 -0300
+Message-ID: <20250125015857.33002-4-niltonperimneto@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250125015857.33002-2-niltonperimneto@gmail.com>
 References: <20250125015857.33002-2-niltonperimneto@gmail.com>
@@ -90,33 +90,35 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Changed VIDs descriptions to better describe them
+
 Signed-off-by: Nilton Perim Neto <niltonperimneto@gmail.com>
 ---
- drivers/input/joystick/xpad.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/input/joystick/xpad.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 8fe2a51df649..ecc74b260e29 100644
+index ecc74b260e29..dc17ee099b0b 100644
 --- a/drivers/input/joystick/xpad.c
 +++ b/drivers/input/joystick/xpad.c
-@@ -377,7 +377,9 @@ static const struct xpad_device {
- 	{ 0x2dc8, 0x2000, "8BitDo Pro 2 Wired Controller fox Xbox", 0, XTYPE_XBOXONE },
- 	{ 0x2dc8, 0x3106, "8BitDo Ultimate Wireless / Pro 2 Wired Controller", 0, XTYPE_XBOX360 },
- 	{ 0x2dc8, 0x310a, "8BitDo Ultimate 2C Wireless Controller", 0, XTYPE_XBOX360 },
-+	{ 0x2dc8, 0x6001, "8BitDo SN30 Pro", 0, XTYPE_XBOX360 },
- 	{ 0x2e24, 0x0652, "Hyperkin Duke X-Box One pad", 0, XTYPE_XBOXONE },
-+	{ 0x2e24, 0x1688, "Hyperkin X91 X-Box One pad", 0, XTYPE_XBOXONE },
- 	{ 0x31e3, 0x1100, "Wooting One", 0, XTYPE_XBOX360 },
- 	{ 0x31e3, 0x1200, "Wooting Two", 0, XTYPE_XBOX360 },
- 	{ 0x31e3, 0x1210, "Wooting Lekker", 0, XTYPE_XBOX360 },
-@@ -389,6 +391,7 @@ static const struct xpad_device {
- 	{ 0x3285, 0x0646, "Nacon Pro Compact", 0, XTYPE_XBOXONE },
- 	{ 0x3285, 0x0663, "Nacon Evol-X", 0, XTYPE_XBOXONE },
- 	{ 0x3537, 0x1004, "GameSir T4 Kaleid", 0, XTYPE_XBOX360 },
-+	{ 0x3537, 0x1010, "GameSir G7 SE", 0, XTYPE_XBOXONE },
- 	{ 0x3767, 0x0101, "Fanatec Speedster 3 Forceshock Wheel", 0, XTYPE_XBOX },
- 	{ 0xffff, 0xffff, "Chinese-made Xbox Controller", 0, XTYPE_XBOX },
- 	{ 0x0000, 0x0000, "Generic X-Box pad", 0, XTYPE_UNKNOWN }
+@@ -531,12 +531,12 @@ static const struct usb_device_id xpad_table[] = {
+ 	XPAD_XBOXONE_VENDOR(0x24c6),		/* PowerA controllers */
+ 	XPAD_XBOX360_VENDOR(0x2563),		/* OneXPlayer Gamepad */
+ 	XPAD_XBOX360_VENDOR(0x260d),		/* Dareu H101 */
+-       XPAD_XBOXONE_VENDOR(0x294b),            /* Snakebyte */
++	XPAD_XBOXONE_VENDOR(0x294b),            /* Snakebyte */
+ 	XPAD_XBOX360_VENDOR(0x2c22),		/* Qanba Controllers */
+-	XPAD_XBOX360_VENDOR(0x2dc8),            /* 8BitDo Pro 2 Wired Controller */
+-	XPAD_XBOXONE_VENDOR(0x2dc8),		/* 8BitDo Pro 2 Wired Controller for Xbox */
+-	XPAD_XBOXONE_VENDOR(0x2e24),		/* Hyperkin Duke Xbox One pad */
+-	XPAD_XBOX360_VENDOR(0x2f24),		/* GameSir controllers */
++	XPAD_XBOX360_VENDOR(0x2dc8),            /* 8BitDo Controllers */
++	XPAD_XBOXONE_VENDOR(0x2dc8),		/* 8BitDo Controllers */
++	XPAD_XBOXONE_VENDOR(0x2e24),		/* Hyperkin Controllers */
++	XPAD_XBOX360_VENDOR(0x2f24),		/* GameSir Controllers */
+ 	XPAD_XBOX360_VENDOR(0x31e3),		/* Wooting Keyboards */
+ 	XPAD_XBOX360_VENDOR(0x3285),		/* Nacon GC-100 */
+ 	XPAD_XBOXONE_VENDOR(0x3285),		/* Nacon Evol-X */
 -- 
 2.48.1
 
