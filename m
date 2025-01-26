@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-9575-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9576-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7E97A1CC80
-	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2025 17:10:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E70C4A1CC6C
+	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2025 17:09:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7F4567A066D
-	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2025 16:05:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E07F318861ED
+	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2025 16:06:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C53812475F6;
-	Sun, 26 Jan 2025 15:09:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B98F02500A6;
+	Sun, 26 Jan 2025 15:09:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xe5eJkP5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nVa2s9/Q"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE6B1F9AB7;
-	Sun, 26 Jan 2025 15:09:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF072500A0;
+	Sun, 26 Jan 2025 15:09:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737904169; cv=none; b=Ahup9wqkUWWrRMRAsZfEsQRSzfGxTMYsEsxaETQbbFQk9yajX+WCxL/LZbiKKwQUXkrN/2cltSJC3/JC77h4S4+2KTHLljM/ihgpxLIMACia4jWGrY7ZBR1PLTDCJPmr1E/z4HUaUKDihi3QzsB4hFA0DIma3ajJFGcpDdlHppw=
+	t=1737904178; cv=none; b=ntr7dLH0kC3JiiknfhmIO0ePfNtpAJiDbcDyw9IVKN5YcWKsrSLlnyP4dcBwGGUA2L9OhlH/k7hMph7phW/ebe+1XJ1JDhxG2TT7y8Shtg5vW8t/4JgQBbskB+s9LprqTWHsKr/cpA84BTUJ6gHIryhGm3W9hgGUiEmdmyumXhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737904169; c=relaxed/simple;
+	s=arc-20240116; t=1737904178; c=relaxed/simple;
 	bh=+JNNE5lyuBZEOBCkt0LJpVMPkZvJj4st8hHHS1kg9a0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UFrwae/aKNmzCcZ7kTBqqA58nC8IaDLq/dJUHkHbg0T2TmtiDmmnrE3l3Ty6WpPzbrqEgGy1JDLe/zfis7IdsYxeDct5Hx6p1WX8k86+6AsodDgvgDdy9h30aWYwosAE/HxNP8v3vl57HlOotERb7pA9PFfMjoyu/V7fcSt5d/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xe5eJkP5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD9E6C4CEE2;
-	Sun, 26 Jan 2025 15:09:28 +0000 (UTC)
+	 MIME-Version:Content-Type; b=SxyZCfUzYXB0G8ib6Ytc7RI5CkJ3wVBtYKZOqK0MyT/W2og7zB1siPYmS1bGoVfARW0FN1zzRhKs9/STOuq7V1wPifYG/a2s4PEL7dlEI5Fg7HjVXg0WvT0nnY5RzQV8jeK+7zGyXNuRCkKXVZ41Mo2yJwXTXUGnwOoiquWbQRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nVa2s9/Q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4487FC4CEE3;
+	Sun, 26 Jan 2025 15:09:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737904169;
+	s=k20201202; t=1737904178;
 	bh=+JNNE5lyuBZEOBCkt0LJpVMPkZvJj4st8hHHS1kg9a0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Xe5eJkP5TtNK0gQ7LQMXFQfqgtI84HGwNh4S1JCoYc+SQTmkPa59YXjLtuyP7IKB1
-	 B7JFJ7rpYsgVL4INZdUCN9hM7FHGK/XpiqsNhpF2qOm2Hu3bE3t5JsYeFm1s1l5hPT
-	 sEdwbV8MrBSWWI9FPmpBtLjCj51Y8T7c21yJhbQ2U014lc9Zt4eIzlLBlRjP34rdem
-	 Z/u38yVbXLRarEE9rNeE3NfZ11cmatoh+SMG8B5KRng2zCDr5GoXoMg57Jpnlfl6dX
-	 mX8jIKaF2dtR9gQ9OObuqw2rwIVt/ga9iZ4oc6WEV5tbP1wSiZQP1FSSEmOk6EtVwp
-	 9NlVc/RWm98GA==
+	b=nVa2s9/Q4dNWyrdpuzwVSil8IuRM2xkod/0clrbjlZ83hpaUYOQ64OvSFRl5r9iJE
+	 XBMMmhX4H4DhFA8gXkOHvjJcfb4lJhnrWJiz3dyow9OgRqOpX19nrGKJ2qWtYNiQxq
+	 dv1LdvfTEE4pK9sK/h5Q3mK/WDros95YTESWqUUWDJmWpl23cVWYSmUFC0HIuyyrsl
+	 lzbe2BO3S28QpyQG3sKQ7wzz+fIgJTjmOGojP2csPdtYaYIs3KT59R7npNseeEjXga
+	 CGD7BkJZ0T0jzf+q0/ABd+2sGeK6WVEZD7IgXJ5xOzbUITK9HNM3TpU1yp9Gsz1n0i
+	 cQv0beYguVGtA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -49,12 +49,12 @@ Cc: Illia Ostapyshyn <illia@yshyn.com>,
 	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 2/3] Input: allocate keycode for phone linking
-Date: Sun, 26 Jan 2025 10:09:21 -0500
-Message-Id: <20250126150923.962963-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 2/2] Input: allocate keycode for phone linking
+Date: Sun, 26 Jan 2025 10:09:31 -0500
+Message-Id: <20250126150932.963016-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250126150923.962963-1-sashal@kernel.org>
-References: <20250126150923.962963-1-sashal@kernel.org>
+In-Reply-To: <20250126150932.963016-1-sashal@kernel.org>
+References: <20250126150932.963016-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -64,7 +64,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.177
+X-stable-base: Linux 5.10.233
 Content-Transfer-Encoding: 8bit
 
 From: Illia Ostapyshyn <illia@yshyn.com>
