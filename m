@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-9574-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9575-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C14DA1CC5A
-	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2025 17:08:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E97A1CC80
+	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2025 17:10:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 224E11885D75
-	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2025 16:04:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7F4567A066D
+	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2025 16:05:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 366C8246356;
-	Sun, 26 Jan 2025 15:09:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C53812475F6;
+	Sun, 26 Jan 2025 15:09:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f+sYTcRu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xe5eJkP5"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7C918DF6E;
-	Sun, 26 Jan 2025 15:09:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE6B1F9AB7;
+	Sun, 26 Jan 2025 15:09:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737904161; cv=none; b=pk/RquZPIu32LTE/NQ3AmH2fxRtnQKHdwV1bhtc0JG2+c6L4aMo4qE0jVecECGu6vzu5FqlodZWPLtHC1CjCyKPZbdlESXT9RviLjRCDJRnQT8P/kzzR5O2bWhH8fg1hgMi8DekFZuudVFRW6MHox4z2C+0ZBhhedBFXTCP0BUc=
+	t=1737904169; cv=none; b=Ahup9wqkUWWrRMRAsZfEsQRSzfGxTMYsEsxaETQbbFQk9yajX+WCxL/LZbiKKwQUXkrN/2cltSJC3/JC77h4S4+2KTHLljM/ihgpxLIMACia4jWGrY7ZBR1PLTDCJPmr1E/z4HUaUKDihi3QzsB4hFA0DIma3ajJFGcpDdlHppw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737904161; c=relaxed/simple;
-	bh=UuMvvUB36yewr3C2C5PkpkcaXSwiaZW3w3GNAUmlG8Q=;
+	s=arc-20240116; t=1737904169; c=relaxed/simple;
+	bh=+JNNE5lyuBZEOBCkt0LJpVMPkZvJj4st8hHHS1kg9a0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GKZ9izAEVd0mh8vX+XpIy9pTUHFi+XMp7DCx4vDlku1rNPSxEhWgfQIFBCiagIuv1Jq8WXi5yH9YLDE8hd05s8O2VkXNdMV63I9z0QTB16pwaPFnVxsSmtC6MJxNC3ZqrWaj2UJ5cjUBOrVP2AmXNhLzl+DtQ+td/iaA9EzgfZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f+sYTcRu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ABF4C4CED3;
-	Sun, 26 Jan 2025 15:09:20 +0000 (UTC)
+	 MIME-Version:Content-Type; b=UFrwae/aKNmzCcZ7kTBqqA58nC8IaDLq/dJUHkHbg0T2TmtiDmmnrE3l3Ty6WpPzbrqEgGy1JDLe/zfis7IdsYxeDct5Hx6p1WX8k86+6AsodDgvgDdy9h30aWYwosAE/HxNP8v3vl57HlOotERb7pA9PFfMjoyu/V7fcSt5d/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xe5eJkP5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD9E6C4CEE2;
+	Sun, 26 Jan 2025 15:09:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737904160;
-	bh=UuMvvUB36yewr3C2C5PkpkcaXSwiaZW3w3GNAUmlG8Q=;
+	s=k20201202; t=1737904169;
+	bh=+JNNE5lyuBZEOBCkt0LJpVMPkZvJj4st8hHHS1kg9a0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=f+sYTcRuTbgr93rosshi1ISiJWl45HsbS+PLoTnRFonJNnTSo/thVnxRbuQTLiDtJ
-	 Decvc3fMwt/4JS9L7QL789zj6VsDq1xvIlVEA2hgk5/bV/Y0TnJLjSyzJnIlKUCate
-	 Pa2c2kfQgOJjhOfIuh40APCm35BcsjoO6VoTN7I/DGPnjgeSrbrHSUtj6aqys+z73U
-	 wjrXe2Po6BX3G9GNWYspsBP6Msm6Yhz66PPVw+4N1whCW3nh2P6oVMu1vuP586+m51
-	 UIA4utW+pz/KDfNHBwH0+8AJXlfoAxQBPJKbYaSCBT5TWqGL312BfVwlZJTd4K6uft
-	 O5S/PilZwtT1A==
+	b=Xe5eJkP5TtNK0gQ7LQMXFQfqgtI84HGwNh4S1JCoYc+SQTmkPa59YXjLtuyP7IKB1
+	 B7JFJ7rpYsgVL4INZdUCN9hM7FHGK/XpiqsNhpF2qOm2Hu3bE3t5JsYeFm1s1l5hPT
+	 sEdwbV8MrBSWWI9FPmpBtLjCj51Y8T7c21yJhbQ2U014lc9Zt4eIzlLBlRjP34rdem
+	 Z/u38yVbXLRarEE9rNeE3NfZ11cmatoh+SMG8B5KRng2zCDr5GoXoMg57Jpnlfl6dX
+	 mX8jIKaF2dtR9gQ9OObuqw2rwIVt/ga9iZ4oc6WEV5tbP1wSiZQP1FSSEmOk6EtVwp
+	 9NlVc/RWm98GA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -49,12 +49,12 @@ Cc: Illia Ostapyshyn <illia@yshyn.com>,
 	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 7/8] Input: allocate keycode for phone linking
-Date: Sun, 26 Jan 2025 10:08:59 -0500
-Message-Id: <20250126150902.962837-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 2/3] Input: allocate keycode for phone linking
+Date: Sun, 26 Jan 2025 10:09:21 -0500
+Message-Id: <20250126150923.962963-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250126150902.962837-1-sashal@kernel.org>
-References: <20250126150902.962837-1-sashal@kernel.org>
+In-Reply-To: <20250126150923.962963-1-sashal@kernel.org>
+References: <20250126150923.962963-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -64,7 +64,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.127
+X-stable-base: Linux 5.15.177
 Content-Transfer-Encoding: 8bit
 
 From: Illia Ostapyshyn <illia@yshyn.com>
@@ -90,7 +90,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 1ce8a91349e9f..f410c22e080d3 100644
+index bed20a89c14c1..6128146bb133b 100644
 --- a/include/uapi/linux/input-event-codes.h
 +++ b/include/uapi/linux/input-event-codes.h
 @@ -519,6 +519,7 @@
