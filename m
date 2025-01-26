@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-9567-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9568-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA5AA1CB76
-	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2025 16:48:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59A23A1CBA9
+	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2025 16:52:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 30C55161B01
-	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2025 15:43:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 043EB16271C
+	for <lists+linux-input@lfdr.de>; Sun, 26 Jan 2025 15:47:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3607A224AE9;
-	Sun, 26 Jan 2025 15:04:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FE4E2288FC;
+	Sun, 26 Jan 2025 15:04:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kYYByGQU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u/rhQHUl"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E417224AE3;
-	Sun, 26 Jan 2025 15:04:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468FC2288FA;
+	Sun, 26 Jan 2025 15:04:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737903848; cv=none; b=BMLhDHeG1V3fdV7NyCqFQiDxY6vjUrdXZfcXShemVxWd8oPVBnR+Px2UsudE05gdGohETUnetZQZJ2l7r+JQ8/VmuypKuoxdMBPUqfvxyzSE/xEuSiOHvreWptzgxqRiuKUACkQwNPSI8VapJnDjmue8WGaNbjMi3ajJAQA48VE=
+	t=1737903884; cv=none; b=WLj6RUYG+rhtCDgKbohsPY3ZNihiJP9Hs+kIi3dWdFfVaE0JJ3TEUn9HvTKyGNzDk8/A7c4ZHcD0nFTAuYokt/cgse8MToCa/ycyfOiW79iDe4uI3HjVfXTXoPcjihrMRiFfPppa3fRW6CbmUlbJdBiSVJDc3m2V27atEpRcUSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737903848; c=relaxed/simple;
-	bh=ydhmTrP+GP6gCuQD/s+3rV1pZZ07rCw97kqUuNYn5Hw=;
+	s=arc-20240116; t=1737903884; c=relaxed/simple;
+	bh=K03HTKfQXO0CbT74Wq8y5/oEOW0uBw+Z76g/lKwK1kM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lMS5M2ujg7Kuw7G3CJKXODuJZISt7BzPNlex0Im44+UM3Cf7KBagbXtRVlPFoYboS2NT7N22SJdDLYKS6qoTE5qFU2F4OCrltfCxDc8333/JxV6ZkMP4bH6D9RkvpoWM4IbKG+0imwASP3pjajwYTkFEqK4JAtl90ZwFCWKBezM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kYYByGQU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C978C4CEE2;
-	Sun, 26 Jan 2025 15:04:06 +0000 (UTC)
+	 MIME-Version; b=qGrjkP5h4I6pG1DbMAE9sDkji0ihvMiR4puky2QKtsQ+B3suIJerzXAdUxBvOn1Ux1oJ3MKDu3O+RUbi7uOE7Hye+iPArdkmjglFZsgbkftZyDDRl6P8kG9EI4KtjaS4D4ZS9k1foSMlqgYxaah2k7tD1RRVFD7J59iK4MPvFYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u/rhQHUl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83FDEC4CED3;
+	Sun, 26 Jan 2025 15:04:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737903847;
-	bh=ydhmTrP+GP6gCuQD/s+3rV1pZZ07rCw97kqUuNYn5Hw=;
+	s=k20201202; t=1737903882;
+	bh=K03HTKfQXO0CbT74Wq8y5/oEOW0uBw+Z76g/lKwK1kM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kYYByGQU6swiHTplkz1nKykjCaAzpcUz/TghoU5Av/oCpBr+BAON3PJl6ERWSp/nK
-	 TDn+r5f2/WyURN0BLhYa5YbJNByiOkRHTWRkIPFhZD0Dry7hXZcRsmZLcQVR/H/bnf
-	 n21nDAR8evm+RbhFPf3scv2kf11QPqhcQwQF3TBbSgjJdU+N4RV7R0gtpBaf577e7N
-	 p0ED4fc9cc7D5meg6lnCHEv1w/na8UgZAu3fS6mOj4lm3JTZT/i3sIl1AlfxnLXrMr
-	 lx26qDIOTYRTCT7WMO2FuxSqPDgLOAfio4Aq2YCGVbdLi6PwFotYoOQ0iotczHIP7X
-	 AwlIs1uy4NAOQ==
+	b=u/rhQHUlCTFRhRvI+7dgFhTHvnwYYaxvbI+nGGj6XwX8auac3A6/osd+6nnc3sIzV
+	 LHSD/dUhmvSqvShEzw1vUuRFTdUwBzqYmLKn9riX1TSGGWAOMCsO+nCEgoEl9QwojQ
+	 Lop4ihOXE/WEy9951S/Y1XA/3ZqjFd3Us28jFP8y02nY4wmOiSFWkrUj1XTdJa75tT
+	 tyGGMg5AmsNHfKKeVdAsdAG6egoB19DHLQTWjJdXuy6fbHrZqdKTNtb3jop//SuuBA
+	 ho7MztPZbmHS8bIIR/ad4l8KWxa/qQKpBN1oT+CPdDP38SPR8FbDxV8EHHfEPY1ZnG
+	 zlvJ1+3RC+mfg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -53,12 +53,12 @@ Cc: Even Xu <even.xu@intel.com>,
 	jikos@kernel.org,
 	bentiss@kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 07/17] HID: Wacom: Add PCI Wacom device support
-Date: Sun, 26 Jan 2025 10:03:43 -0500
-Message-Id: <20250126150353.957794-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 06/14] HID: Wacom: Add PCI Wacom device support
+Date: Sun, 26 Jan 2025 10:04:22 -0500
+Message-Id: <20250126150430.958708-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250126150353.957794-1-sashal@kernel.org>
-References: <20250126150353.957794-1-sashal@kernel.org>
+In-Reply-To: <20250126150430.958708-1-sashal@kernel.org>
+References: <20250126150430.958708-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.127
+X-stable-base: Linux 5.15.177
 Content-Transfer-Encoding: 8bit
 
 From: Even Xu <even.xu@intel.com>
@@ -86,10 +86,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 3551a6d3795e6..ce54b8354a7d4 100644
+index 9a82cd124918f..a5e6c16c883dc 100644
 --- a/drivers/hid/wacom_wac.c
 +++ b/drivers/hid/wacom_wac.c
-@@ -4914,6 +4914,10 @@ static const struct wacom_features wacom_features_0x94 =
+@@ -4882,6 +4882,10 @@ static const struct wacom_features wacom_features_0x94 =
  	HID_DEVICE(BUS_I2C, HID_GROUP_WACOM, USB_VENDOR_ID_WACOM, prod),\
  	.driver_data = (kernel_ulong_t)&wacom_features_##prod
  
@@ -100,7 +100,7 @@ index 3551a6d3795e6..ce54b8354a7d4 100644
  #define USB_DEVICE_LENOVO(prod)					\
  	HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, prod),			\
  	.driver_data = (kernel_ulong_t)&wacom_features_##prod
-@@ -5083,6 +5087,7 @@ const struct hid_device_id wacom_ids[] = {
+@@ -5051,6 +5055,7 @@ const struct hid_device_id wacom_ids[] = {
  
  	{ USB_DEVICE_WACOM(HID_ANY_ID) },
  	{ I2C_DEVICE_WACOM(HID_ANY_ID) },
