@@ -1,90 +1,86 @@
-Return-Path: <linux-input+bounces-9583-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9584-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC783A1D65F
-	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2025 14:08:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 328B8A1D670
+	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2025 14:16:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 221E83A75C6
-	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2025 13:08:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 674201884EDD
+	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2025 13:16:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15FA51FF1BF;
-	Mon, 27 Jan 2025 13:08:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 977D51FECD0;
+	Mon, 27 Jan 2025 13:16:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E8FteGDS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X6t9BLJt"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4DC14D28C;
-	Mon, 27 Jan 2025 13:08:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C5A83A14;
+	Mon, 27 Jan 2025 13:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737983316; cv=none; b=d24kf4Nh+gcIxeoEx0ocueV7jyZBgoB9n+y4gAkgCIABhJlsSvx7eUUnzGf4rwkJJeCu+0kOdjhdYGyyN2nuTvSco9CAszVd4gYL8oYVln3psdNY+M9Jybu3cuW2xWboaCpu5ln2dtiKXtJySosyXrxJS0bKkCEJU7LOPPA8K2w=
+	t=1737983761; cv=none; b=mQq11m4z2KywMjbfjrfKZYg40SGPBnVgdl7ZjrYw9Wtb7quLFFlImQ4h1CiFl5kcCbkK2myHP6kj6AQZZL83hb6bnaFnYqVQHTTIryl7sBovdYuYYr//P/OkJ46M/gWB/SNazZ5ApKqCxGeq3SmdYLoPP2adUb3ZHp5tFmiPfuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737983316; c=relaxed/simple;
-	bh=ruKDBB/ak6pmW1LPzVm+BDwT1TyOif+0XXcN45ZksX0=;
+	s=arc-20240116; t=1737983761; c=relaxed/simple;
+	bh=Xu50GxzR8W1neQ50fgDIVML7KXLqDSAvu3RelbVOPIg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mh5+bYc1OD+kYuwoSjgAB+tM5h0/G3lmxTDLfU+vOpPEB7bapuOR/BDQ4odlBbPRCPDYACYSeiB5m8R8mYrk7zqp4RHimIJ3zV6GMa31/0N/Opwu39xt7izkT/aYlLvxvQb24RXy3gcG6QY/Kh/sz1DUdgJMzd85EzCtyXCLegk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E8FteGDS; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=qxfIj2e8nunx6WoelyeDx/NnWUxW6JNsWKNNWgSsawcOhRjUyIEqaUxgZGYnAmuqxyyjjPR1qo7mQG5SEm7nLe+KsUnSWALV6zoFM+mnA8EBoSDrVptp5/jWIn2G7VKRZCQ9C0pO59WLlOtd2+/pJfC9UjKv3WR0vUdIveZlrGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X6t9BLJt; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737983315; x=1769519315;
+  t=1737983760; x=1769519760;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ruKDBB/ak6pmW1LPzVm+BDwT1TyOif+0XXcN45ZksX0=;
-  b=E8FteGDSI7WOJGzKp+kSJrI/0UnNKUdRXTl8rY6MxciRLm8GJ9l3Y1zn
-   1MZMrHGuf8Q8jfBcyfHlBMgUd/7albcbyHxKbB71cIIxxPkQBzwNiRuxk
-   QtyU+sUL5ZvHeysru5iK+6lUNlxMpWa6JCl7OR6dr6UGu2WDGAJ6IOZ4b
-   pI43CpkiWbm7T+FAJ3LjTjX6G85JxszTcQvPakaJBR9yaH1tat1vQIsOw
-   jv9Xx3AwqOivF6/g1MTJumuGSFS4A87vCB9cCC8HzRuhj5II+m6z8Bkkd
-   9k1YCpEvCOCjgJZaS3VMklrt99hKUFmVb8wlyOSVRUweRz7NLVhF/nrOM
-   A==;
-X-CSE-ConnectionGUID: e0nh4hYaS8+MvVMX2ReEuw==
-X-CSE-MsgGUID: rVqf3iyUSdSZaZeI6Qxn5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="38471281"
+  bh=Xu50GxzR8W1neQ50fgDIVML7KXLqDSAvu3RelbVOPIg=;
+  b=X6t9BLJtm1uUR0XSTOZAgA9sOF4yHT5x6G1VDWD8hZpm6B2bCn+00XFx
+   SNuc/+MG/K6N1dYUaWvrYgFkhuXUl7qkM8j1vT1/UV+GMKPi3fk+ySeOV
+   UocExp82mcDjy5vwg+Keph73zCL/emeI3NCq+EaA//jwC98VgZGPSSU0n
+   7ieYnEo1Qwkw6SyCVGrSsTy9NP99d1/KTavPMnj0DzmMapRz7fmM/hvJl
+   6fZPgVLCx0q3KLqBMwHy1dmsJFvNGGR11M3W9fydls4aFAf7B6N3s7sBW
+   o9O4WhAXZnwg5VQzqO8EUogjn3oPQ+A63xnLUe7WQpNnC9EzkJYzTy8fx
+   w==;
+X-CSE-ConnectionGUID: p6M82wjtTbWUXPdGJl94pQ==
+X-CSE-MsgGUID: bFxhQ6SqRXalx6zrFZ2Tkg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="55865269"
 X-IronPort-AV: E=Sophos;i="6.13,238,1732608000"; 
-   d="scan'208";a="38471281"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 05:08:34 -0800
-X-CSE-ConnectionGUID: XwGk5npeRv6lDxQJux3tyg==
-X-CSE-MsgGUID: KhkPbjKkTT+qmgWuW1Ja2w==
+   d="scan'208";a="55865269"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 05:16:00 -0800
+X-CSE-ConnectionGUID: i9ENptovR+CvTfcByMw/AA==
+X-CSE-MsgGUID: YrHx+gLnQEyN+ctfU/sGZQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,238,1732608000"; 
-   d="scan'208";a="108242414"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="109342261"
 Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 05:08:30 -0800
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 05:15:57 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
 	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1tcOqp-00000005jSs-1Zkn;
-	Mon, 27 Jan 2025 15:08:27 +0200
-Date: Mon, 27 Jan 2025 15:08:27 +0200
+	id 1tcOy2-00000005jbl-3kHo;
+	Mon, 27 Jan 2025 15:15:54 +0200
+Date: Mon, 27 Jan 2025 15:15:54 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
+To: Fabio Estevam <festevam@gmail.com>
+Cc: Marc Zyngier <maz@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+	Marek Vasut <marex@denx.de>,
+	Ksenija Stanojevic <ksenija.stanojevic@gmail.com>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 4/7] gpio: max7360: Add MAX7360 gpio support
-Message-ID: <Z5eFS9R7IeOMFSRr@smile.fi.intel.com>
-References: <20241223-mdb-max7360-support-v2-0-37a8d22c36ed@bootlin.com>
- <20241223-mdb-max7360-support-v2-4-37a8d22c36ed@bootlin.com>
- <Z4-7KAUhfXUSmD9I@black.fi.intel.com>
- <D78MG8EQMSBU.2U6T5DXG2YJXI@bootlin.com>
- <Z5EdThjjifY7LkCC@smile.fi.intel.com>
+	linux-input@vger.kernel.org,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	Rob Herring <robh+dt@kernel.org>
+Subject: Re: mxs_lradc_ts: Warning due to "0 is an invalid IRQ number"
+Message-ID: <Z5eHCsri9NphhKOW@smile.fi.intel.com>
+References: <CAOMZO5D7z=Eg=WYgzrpqn9VoU8HxMeBbEZiv9KLjMVD1_kRo+w@mail.gmail.com>
+ <20200701224145.GA3616172@bjorn-Precision-5520>
+ <YrHPA+TBKZU/RuSz@smile.fi.intel.com>
+ <87o7ym2fcv.wl-maz@kernel.org>
+ <CAOMZO5B6606rwWoG-ydEz2UQpnj9QhUK2b5dCHRtp9u=Pe4new@mail.gmail.com>
+ <128b8f7dffe45dc241ad571e8a273a2e@kernel.org>
+ <CAOMZO5DmKJia+6O_H3oUP64HQsaac3kDTOKx_UwG0tWJd1bsxw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -93,22 +89,28 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z5EdThjjifY7LkCC@smile.fi.intel.com>
+In-Reply-To: <CAOMZO5DmKJia+6O_H3oUP64HQsaac3kDTOKx_UwG0tWJd1bsxw@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Jan 22, 2025 at 06:31:10PM +0200, Andy Shevchenko wrote:
-> On Wed, Jan 22, 2025 at 02:04:35PM +0100, Mathieu Dubois-Briand wrote:
-> > On Tue Jan 21, 2025 at 4:20 PM CET, Andy Shevchenko wrote:
-
-...
-
-> > Thanks for your review. I'm not sure you have seen it, but there is a v3
-> > of this series. V3 of this patch can be seen here:
-> > https://lore.kernel.org/all/20250113-mdb-max7360-support-v3-4-9519b4acb0b1@bootlin.com/
+On Tue, Jun 21, 2022 at 09:36:57PM -0300, Fabio Estevam wrote:
+> Hi Marc,
 > 
-> Thanks for sharing, I will look at it later this on next week.
+> On Tue, Jun 21, 2022 at 1:39 PM Marc Zyngier <maz@kernel.org> wrote:
+> 
+> > I'm not sure I can help you further on that. '10' seems to be
+> > the correct interrupt for the interrupt number (irq index 0 in
+> > the lradc device).
+> 
+> As your proposed changes improve things (no more irq 0 warning is seen and the
+> touchscreen irq is registered), please submit it formally, if you have a chance.
 
-Just answered to the GPIO patch in it. Waiting for v4...
+Sorry, I haven't followed here, is there any progress on this? Or in other words
+what the state of affairs with this driver?
+
+> You can add:
+> 
+> Tested-by: Fabio Estevam <festevam@gmail.com>
+
 
 -- 
 With Best Regards,
