@@ -1,77 +1,89 @@
-Return-Path: <linux-input+bounces-9580-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9581-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B299FA1D559
-	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2025 12:32:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22AD4A1D63D
+	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2025 13:52:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F10E3A65F1
-	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2025 11:32:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3112618826F8
+	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2025 12:52:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C5061FCF7D;
-	Mon, 27 Jan 2025 11:32:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 395721FF1D6;
+	Mon, 27 Jan 2025 12:52:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="l5jrvOWL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NLfhTpD4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.119])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE52647;
-	Mon, 27 Jan 2025 11:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3E71E868;
+	Mon, 27 Jan 2025 12:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737977549; cv=none; b=YYjeJ0jEGSPqMxeveJ9kEd7uUfkLr4LnF86XsowHOrH0G37AhC+3l6XmnWHuqQIpHEQtT2TXDAo5yrhomaRtCVrVXRqiG/hoOV5sS3Hfc2cig2s2rSHRoE0UGg4APESU41rJhULS15+nfWPa1EqRJFtPKoP5XHJiBfWD56fZqRc=
+	t=1737982343; cv=none; b=ZxkRlIot5FVSZNWCt305wFpKe694ISTKL2uvejWJ/V/pT/JQs3duKbY2pztYlxLjHXfhlUE/XD6THzQyMhzV3TCdzcOGf81N4K6zznW+3Pd98P7GynPSwoMDCcXxD1ors93r3oF2y1x85R6kJw93zyVIuYKV2KHdqpoSgaOtIjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737977549; c=relaxed/simple;
-	bh=mMwgzU0qB1jXi43ww+rCOS5ZwHoB0iRetm/NwBsm4G0=;
+	s=arc-20240116; t=1737982343; c=relaxed/simple;
+	bh=VwEY5hofz3hPsMTdAq17aoEk6KmnInb9CnodmiEM7n8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AmmyA7jj19FTD7BhDlrXMD96OGbVH0ymxeWid89yONGU4BEVlQqnZevV//7CuoNFVcyBajteIY/nUPwAzRpnDmplryaqiJrAhoEljaZMIWQmY4XB94f1Jp9A+woyZ3Pzh7hr9YCGkkU91l2/XDrHhDbIZpWsoiqo9Z4CMfiUrtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=l5jrvOWL; arc=none smtp.client-ip=212.42.244.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1737977541; bh=mMwgzU0qB1jXi43ww+rCOS5ZwHoB0iRetm/NwBsm4G0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l5jrvOWLvSOjXrpTHOkJ0ca7oCu76sQU0rIevmBu7gT1mPRWQmRhwacUCHb3GpREv
-	 xTfRMSuGO/Uf/YjEhV+s9SvuOm+oZjRKncV8mARXp0eHz4ilJuVQDJ1qu1wfsygfkm
-	 FzIJ07fqEBvtk0wniN0blzAS5SpdJDDzgIhe/SRI=
-Received: from [2001:bf0:244:244::71] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.52.1)
-	(envelope-from <n.schier@avm.de>)
-	id 67976ec5-35e9-7f0000032729-7f0000018224-1
-	for <multiple-recipients>; Mon, 27 Jan 2025 12:32:21 +0100
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [IPv6:2001:bf0:244:244::71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Mon, 27 Jan 2025 12:32:21 +0100 (CET)
-Received: from l-nschier-nb (unknown [IPv6:2001:9e8:9fa:e101:5fb1:76a5:fd66:46b3])
-	by mail-auth.avm.de (Postfix) with ESMTPSA id 1A03F808E0;
-	Mon, 27 Jan 2025 12:32:21 +0100 (CET)
-Date: Mon, 27 Jan 2025 12:32:19 +0100
-From: Nicolas Schier <n.schier@avm.de>
-To: Jinghao Jia <jinghao7@illinois.edu>
-Cc: Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Ruowen Qin <ruqin@redhat.com>, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH bpf v2 1/2] samples/hid: remove unnecessary -I flags from
- libbpf EXTRA_CFLAGS
-Message-ID: <20250127-mottled-lean-waxbill-6fd7a1@l-nschier-nb>
-References: <20250123081950.173588-1-jinghao7@illinois.edu>
- <20250123081950.173588-2-jinghao7@illinois.edu>
- <20250127-military-salamander-of-fame-3f6e1e@l-nschier-nb>
- <d2f8f530-2e31-4ddd-a743-35c7f0c48199@illinois.edu>
+	 Content-Type:Content-Disposition:In-Reply-To; b=koy+9rjqC+UnNqvsHcS/ZMswGffWIY5lcHNDzJO9Ze4eQ+dh+dGBsK96wRmuyZBuK5lE2rXxTe4rFT1IzJKDo6SftWDcluoiKIqN7/mzdM5mCbn7Rqpd0ASA3TTLrWdNEEwugURzIReuGyCIChaI9d/OmjXF7z1Dst7fnxVPSJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NLfhTpD4; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737982341; x=1769518341;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=VwEY5hofz3hPsMTdAq17aoEk6KmnInb9CnodmiEM7n8=;
+  b=NLfhTpD46QHJ1V4/B02Zt5rFSe452yoLENcKad1Tm6fYdX/0fcLq9sTG
+   /fNwMGEM2VwWxSe4WHuAMXP4A0xDB1zEfCZ/gTGCUTc7tpJREMFdeArKU
+   FibQl6G/7xzfqPkqwj8CqixRlGTHhI3hrlIp4m7RudtOG76wUVjn358Ax
+   WVPgC5pc20wuaxLa1mMEFhCOutBNhpXllMVQg4YTe9rlFiL+pALtUtfmW
+   NiTPWoXv2y3v5XOQGDigUAwhx9rJjdcV8TO+qcv/pIUss4fTevfgHczDz
+   YBKy80cX5rtRVoZ3E+3bMGbwLrXkyPSYqhMCB0d2Pa1F2ZHrbhdxzqrIK
+   Q==;
+X-CSE-ConnectionGUID: RqjR3WXFTpOouu/WB7/yXA==
+X-CSE-MsgGUID: +01SxSZNShmrEcv4KLgN7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="38542949"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="38542949"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 04:52:16 -0800
+X-CSE-ConnectionGUID: Zh6YqMVRToG7ucu5kOz5zA==
+X-CSE-MsgGUID: mEr09hNiQXSkylplGZI0Vg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="108868668"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 04:52:11 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1tcOb2-00000005jDj-2cPu;
+	Mon, 27 Jan 2025 14:52:08 +0200
+Date: Mon, 27 Jan 2025 14:52:08 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 4/7] gpio: max7360: Add MAX7360 gpio support
+Message-ID: <Z5eBeGhoBVVVUmDr@smile.fi.intel.com>
+References: <20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com>
+ <20250113-mdb-max7360-support-v3-4-9519b4acb0b1@bootlin.com>
+ <CACRpkdb5rmUK06uW3M2Lsy4Wam8JvrjmGM83cJa-V3LZwTX9dg@mail.gmail.com>
+ <D74G95A3DHG3.OD522T88GX83@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -80,41 +92,76 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <d2f8f530-2e31-4ddd-a743-35c7f0c48199@illinois.edu>
-X-purgate-ID: 149429::1737977541-E8C54833-65997A4D/0/0
-X-purgate-type: clean
-X-purgate-size: 1202
-X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <D74G95A3DHG3.OD522T88GX83@bootlin.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Jan 27, 2025 at 03:37:56AM -0600, Jinghao Jia wrote:
-> On 1/27/25 3:29 AM, Nicolas Schier wrote:
-> > On Thu, Jan 23, 2025 at 02:19:49AM -0600, Jinghao Jia wrote:
-> >> Commit 5a6ea7022ff4 ("samples/bpf: Remove unnecessary -I flags from
-> >> libbpf EXTRA_CFLAGS") fixed the build error caused by redundant include
-> >> path for samples/bpf, but not samples/hid.
-> >>
-> >> Apply the same fix on samples/hid as well.
-> >>
-> >> Fixes: 13b25489b6f8 ("kbuild: change working directory to external module directory with M=")
-> > 
-> > I can't see a relation between this patch and the referenced commit.
-> > Can you please check whether the 'Fixes' is (still?) valid here?
-> > 
-> > Kind regards,
-> > Nicolas
-> > 
+On Fri, Jan 17, 2025 at 04:22:33PM +0100, Mathieu Dubois-Briand wrote:
+> On Tue Jan 14, 2025 at 3:33 PM CET, Linus Walleij wrote:
+> > On Mon, Jan 13, 2025 at 1:43 PM Mathieu Dubois-Briand
+> > My most generic feedback is if you have looked at using
+> > select GPIO_REGMAP for this driver?
+> >
+> > The regmap utility library is very helpful, look how other driver
+> > selecting GPIO_REGMAP gets default implementations
+> > from the library just git grep GPIO_REGMAP drivers/gpio/
 > 
-> The 'Fixes' is from commit 5a6ea7022ff4 ("samples/bpf: Remove unnecessary
-> -I flags from libbpf EXTRA_CFLAGS") that fixes the equivalent issue in
-> samples/bpf --- according to its commit message, commit 13b25489b6f8
-> ("kbuild: change working directory to external module directory with M=")
-> is the commit that breaks the libbpf build in the samples.
+> I tried to switch to GPIO_REGMAP and I really like it overall, as it
+> does simplify a lot the code. However, I identified two features that I
+> was not able to port so far: the request()/free() callbacks and the
+> interrupts.
 
-ah sorry, I should have read 5a6ea7022ff4 before.  Thanks for
-clarification.
+You can easily extend the config to provide both if needed.
+So, update gpio-regmap.c itself as a prerequisite.
 
-Kind regards,
-Nicolas
+> So for the request()/free() callbacks, I cannot add them anymore, as
+> they are set on the gpio_chip structure, and this structure is hidden
+> behind the gpio_regmap structure. I could easily modify the
+> gpio_regmap_config structure and gpio_regmap_register() to allow to
+> provide these callbacks, but is this acceptable? Or should I switch to a
+> different way to prevent concurrent use of the same pin? I saw you
+> mentioned the possibility of defining pin control.
+> 
+> On the IRQ side, before switching to GPIO_REGMAP, I was able to define
+> the IRQ configuration using the irq member of the gpio_chip structure.
+> This does create the IRQ domain for me in a quite straightforward way.
+> Again, I will not be able to do that anymore, as the gpio_chip structure
+> is hidden. 
+
+Look how it's done in, e.g., drivers/gpio/gpio-104-idi-48.c.
+
+It's pretty straightforward. You create and register an IRQ chip with
+devm_regmap_add_irq_chip(). It creates a domain for you.
+
+> I saw I can specify my own irq_domain in gpio_regmap_config, so that
+> would be a way, but I was wondering if there is any way to have
+> something as easy as previously.
+> 
+> I had a quick look at existing drivers using GPIO_REGMAP and providing
+> IRQ support: I believe they are all using REGMAP_IRQ. And I believe I
+> cannot use REGMAP_IRQ here, as if I understood correctly, I would need
+> to have a register telling me exactly on which GPIO I have a pending
+> interrupt and I don't have such a thing: all I know is there was an
+> interrupt related to the GPIOs, and then I have to compare each GPIO
+> with the previous known state to know which pin is affected.
+> 
+> Do you have any thought about this?
+
+I briefly looked at the code of regmap IRQ and I don't see big impediments
+for your case. So, you seems to have mask, unmask, and input registers.
+What you most likely want to do is to use input as status (regmap IRQ
+supports configuration without status registers).
+
+What seems to be needed is the logic that uses previous state to handle a new
+one. This is not only this chip that may need this type of handling, so it
+will be beneficial for others that may be converted to use gpio-regmap.c.
+
+So, I don't think we need full bypass of the GPIO IRQ chip through
+gpio-regmap.c.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
