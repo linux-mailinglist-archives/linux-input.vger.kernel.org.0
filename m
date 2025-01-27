@@ -1,145 +1,88 @@
-Return-Path: <linux-input+bounces-9585-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9586-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D7DA1D6A6
-	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2025 14:25:53 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DACEDA1DA05
+	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2025 16:59:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 637093A3965
-	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2025 13:25:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 36AC5162033
+	for <lists+linux-input@lfdr.de>; Mon, 27 Jan 2025 15:59:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 392051FFC50;
-	Mon, 27 Jan 2025 13:25:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E268814E2E8;
+	Mon, 27 Jan 2025 15:59:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QSGUOvEZ"
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="lyjvegeF"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDFA1FF7B4;
-	Mon, 27 Jan 2025 13:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F2D60B8A
+	for <linux-input@vger.kernel.org>; Mon, 27 Jan 2025 15:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737984332; cv=none; b=odp24p0j+3utK+dhrDZp54Fqr5Vng5pVzNhMZP+6uWvNhaM5NdV3jnReXtHuLUHJ9+p6rObv2tN+KeceJ6ciDNuxculzSKgTCu3dOcTJhiFY4oV+ZkCrZ4Fo+Q3u7JVQz7ZaYMsyzG5qXlOrxlbJbWiuFkVQ7s7emVdSVz3ikUY=
+	t=1737993558; cv=none; b=Qx14R7jYtq2mxZlmNNeRKJDrpV2cSh+5NRdRLaoFaw1cdREfA3QCHmhfeuaS7drHOmaCFARtoRCpo13I3nGDVUv1wGdxr1YENc7Neo+Iu3/VPiHbpbbgc7vu3ZU/27uQmIQ6H6fzoNpOtRcSUMbpSLKHqivE8OT1CLBzyN4k0fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737984332; c=relaxed/simple;
-	bh=RjFj+btLOrA1I0c/0XDEPot6dd9rNyckywxmgkJzq3o=;
+	s=arc-20240116; t=1737993558; c=relaxed/simple;
+	bh=KiZpbSe+YKq2dVtM9Hv+gkb12+2RcrmxiwO1F8vXcS4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aEfhAR3RlQYiSsb42lAOvxkw+nUntoz6q6DHAY0pQYX9yAkuDsIcFi/ef/RPnfCGfMo6aaLv5F7HtRLQF2WK23ejmtY2BNY7EEaLm0JP2UncX78LDNu5Z20MP1wE0lxRljio5NohTrvoN6ZN1daJdMi5M+IsFEMnMgznBw9oovI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QSGUOvEZ; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737984330; x=1769520330;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RjFj+btLOrA1I0c/0XDEPot6dd9rNyckywxmgkJzq3o=;
-  b=QSGUOvEZzlCLg52m+Lkyf/+kcHVE68FvAFk33+V3UhwIx/K/THbEuyid
-   qJ438VnvterjDhGelKR5fP6BxrrxRkqifOI54cau6t1t8osjTRna9hBxM
-   No2vFYIs3XvcsO1WP4e5Biv+WmJTB68gdx3/u0mrAfgwMTVAD015W4iZ3
-   /IS6Kq3c9DS8MxtJuSPO9pAimIX5JPT9iSW8d4LmXW3YyQJxw6TCZ90TZ
-   /GjxSPzYFVZHfh4LDTMcdRhtiKIjHF1pelA8u+BGatnQUd04z2t7ouweY
-   lN5ljcLdmzwZ6ey8werqdArXQ+hfBfCOql1cBQHnUxfs2OPHqKl0LQjSz
-   w==;
-X-CSE-ConnectionGUID: WXPLNx9wSDWvyiA2ZoPUwA==
-X-CSE-MsgGUID: Ov3TekHxTxuVTp8Y/oIV5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="42105354"
-X-IronPort-AV: E=Sophos;i="6.13,238,1732608000"; 
-   d="scan'208";a="42105354"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 05:25:22 -0800
-X-CSE-ConnectionGUID: oOw//HyuRH2sXbDiVD3/cA==
-X-CSE-MsgGUID: F7vXYkyrSx2N1gt4t3xT9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="131730368"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 05:25:02 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1tcP6l-00000005jpm-3fIe;
-	Mon, 27 Jan 2025 15:24:55 +0200
-Date: Mon, 27 Jan 2025 15:24:55 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Damien Le Moal <dlemoal@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Corey Minyard <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Tero Kristo <kristo@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Len Brown <lenb@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	John Allen <john.allen@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Vinod Koul <vkoul@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Moritz Fischer <mdf@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Peter Rosin <peda@axentia.se>, Lars-Peter Clausen <lars@metafoo.de>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Markuss Broks <markuss.broks@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Lee Jones <lee@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Iyappan Subramanian <iyappan@os.amperecomputing.com>,
-	Yisen Zhuang <yisen.zhuang@huawei.com>,
-	Stanislaw Gruszka <stf_xl@wp.pl>, Kalle Valo <kvalo@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Tony Lindgren <tony@atomide.com>, Mark Brown <broonie@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Xiang Chen <chenxiang66@hisilicon.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Alex Elder <elder@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
-	Jacky Huang <ychuang3@nuvoton.com>, Helge Deller <deller@gmx.de>,
-	Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kees Cook <keescook@chromium.org>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Anna Schumaker <anna@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>, linuxppc-dev@lists.ozlabs.org,
-	linux-ide@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
-	linux-integrity@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-fpga@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-input@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	iommu@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 00/34] address all -Wunused-const warnings
-Message-ID: <Z5eJJ199QwL0HVJT@smile.fi.intel.com>
-References: <20240403080702.3509288-1-arnd@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=LAOGKEvnbflPKOn8ykJnO3Qrdoto101vbadaZNyurJIpB1hHwmrlxyWzpq1gCGcX/vpoXeJKvOIJOAAk6Azv/H4zLMSQOSNEE6Ln922BVUXcWSYEwNbjRMYA7aXi9CZOubX/3mP6XnoXmCZ6SEDKxKREnmhQq2HuNtxz046rlFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=lyjvegeF; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6d92cd1e811so49140756d6.1
+        for <linux-input@vger.kernel.org>; Mon, 27 Jan 2025 07:59:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1737993556; x=1738598356; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AEc9c8A+QfAwPXoTPFk0q427bu8TxsL6y6XWG2ckD+4=;
+        b=lyjvegeF/pM/Nhf5RDjqmyb4fAchyna87PXwKVGJm3lrNhP9KMSaWr4AecDEpyjf+K
+         yyDAx3/VxUw04STWXTPtnwwJ/PyqCWx296AtqE8Wi2a7ovjWJJ8ggH+w3+R9xM3Am3hx
+         vqI66lgAbZyi9cuX5YCbMusAT0mx3aUBA0FFf8iw4hLVoZ2h0G71lPwCikZRJv3aMved
+         EjmEJtyORoqjv7L6NP1LS3vYA2kOzcQTrxcdAI3ahqG+8B+RgYwLirePmufk4BEn1JYr
+         wcnbwA8JkNFZzEw17zH5/kRoWzQPNnF9r2+abKgN1QZarF/064BS36vkYTs3ApzTiE7g
+         OSXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737993556; x=1738598356;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AEc9c8A+QfAwPXoTPFk0q427bu8TxsL6y6XWG2ckD+4=;
+        b=DuwbTfoLfwZk4W4x5iRHgUw5kW2LCc8Xk8jKhnmHBUahI2jab7IMvIfcXEvjSDiTWa
+         zGn0pKp1dUlbphZdLI3GtQly+ddjZf5TONmQZGmeqoLO1MGFmWpC5VCgigcgEcOMyayG
+         MD7ilwG8uATNgWNYr6hGK+0qra/bLtBnMM5+ndkIbSXsIhKDI/qkbmILuCV9ZT1VKQOO
+         Z+6ALt6PP4TGjktCMFj0zfZAfCCv0d23YHXrIDfZeOki4SGvNtuCLDxaRELG4olGeFYM
+         a9TFT1P1NygiU5uHNhKw7EJUe2/caY8zXAMESdFwNC9EWNV3Kn1xtP/AJMS5Tui/g6wa
+         EkxA==
+X-Forwarded-Encrypted: i=1; AJvYcCWmNqrVesrBDVi+nh5251RCybxbi7EliyLs0PDzXbpHdhHVZxjoxXVfzFh8kFoiYzvKWb+Moi14QxEb2A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzH3a6odceMpdfbEDfrKCrEXnvuNZr5GOpF/NbmavPu1OuJiW4y
+	pSPK1SaO1NS9fd3E5Y1wLS4zGXEOUQCDR9Je0yfbIE8gNWfaqy276blvTf0XgQ==
+X-Gm-Gg: ASbGncuZ5GNcAPVBkmso7AExJWkH1T5Zs1wVv+8LcuyU6EmhX1axXxOy9E5yi/b2vCO
+	pIq9kUyiRlJoeWHKCjXXhhQAivOn6jc5kkn/QrFErwuEKGE8ZM5WyHTHxb7cfyBkOzSbUYobb1z
+	n+D6aFVJsvJQcwhjbGNC6PM/kHZFUJcNxY2GzXfQH4MuoXt0beSCeCX4b55dmY217VAG4uz2mUq
+	cE1mPVi4DATswU6Yqk8FX3sL0FvRGm8DKRb+tglYM3g1hZWsn2+dk0B57/ygyGBSuO7P+WEqFoq
+	WdHjMI5Yj2kEYxzhN+hoF6s=
+X-Google-Smtp-Source: AGHT+IHfNmKPV5UeHojXIwHd4RsLYy0KAUidQvsHi84UnE3xrAaBh3HiFV5nZx+d7JLw1W8STgZ/DA==
+X-Received: by 2002:a05:6214:29c2:b0:6d4:1613:be3e with SMTP id 6a1803df08f44-6e20627c995mr231273476d6.22.1737993555613;
+        Mon, 27 Jan 2025 07:59:15 -0800 (PST)
+Received: from rowland.harvard.edu ([140.247.181.15])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e2051362b1sm35720756d6.19.2025.01.27.07.59.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jan 2025 07:59:15 -0800 (PST)
+Date: Mon, 27 Jan 2025 10:59:12 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: syzbot <syzbot+9c9179ac46169c56c1ad@syzkaller.appspotmail.com>,
+	Karol Przybylski <karprzy7@gmail.com>,
+	Jiri Kosina <jikos@kernel.org>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+	linux-input@vger.kernel.org
+Subject: Re: [syzbot] [usb?] KASAN: stack-out-of-bounds Read in
+ usb_check_int_endpoints
+Message-ID: <bc2fb22a-f759-4664-b06c-4c30a535419a@rowland.harvard.edu>
+References: <6797072e.050a0220.2eae65.003f.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -148,48 +91,75 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <6797072e.050a0220.2eae65.003f.GAE@google.com>
 
-On Wed, Apr 03, 2024 at 10:06:18AM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Sun, Jan 26, 2025 at 08:10:22PM -0800, syzbot wrote:
+> Hello,
 > 
-> Compilers traditionally warn for unused 'static' variables, but not
-> if they are constant. The reason here is a custom for C++ programmers
-> to define named constants as 'static const' variables in header files
-> instead of using macros or enums.
+> syzbot found the following issue on:
 > 
-> In W=1 builds, we get warnings only static const variables in C
-> files, but not in headers, which is a good compromise, but this still
-> produces warning output in at least 30 files. These warnings are
-> almost all harmless, but also trivial to fix, and there is no
-> good reason to warn only about the non-const variables being unused.
+> HEAD commit:    21266b8df522 Merge tag 'AT_EXECVE_CHECK-v6.14-rc1' of git:..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=14bd9c24580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=f9e008bfc27b14db
+> dashboard link: https://syzkaller.appspot.com/bug?extid=9c9179ac46169c56c1ad
+> compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
 > 
-> I've gone through all the files that I found using randconfig and
-> allmodconfig builds and created patches to avoid these warnings,
-> with the goal of retaining a clean build once the option is enabled
-> by default.
+> Unfortunately, I don't have any reproducer for this issue yet.
 > 
-> Unfortunately, there is one fairly large patch ("drivers: remove
-> incorrect of_match_ptr/ACPI_PTR annotations") that touches
-> 34 individual drivers that all need the same one-line change.
-> If necessary, I can split it up by driver or by subsystem,
-> but at least for reviewing I would keep it as one piece for
-> the moment.
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/5249b29d55f2/disk-21266b8d.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/8413507597a1/vmlinux-21266b8d.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/9c84998b8cfb/bzImage-21266b8d.xz
 > 
-> Please merge the individual patches through subsystem trees.
-> I expect that some of these will have to go through multiple
-> revisions before they are picked up, so anything that gets
-> applied early saves me from resending.
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+9c9179ac46169c56c1ad@syzkaller.appspotmail.com
+> 
+> hid-thrustmaster 0003:044F:B65D.0004: hidraw0: USB HID v0.00 Device [HID 044f:b65d] on usb-dummy_hcd.2-1/input0
+> ==================================================================
+> BUG: KASAN: stack-out-of-bounds in usb_check_int_endpoints+0x1fe/0x280 drivers/usb/core/usb.c:277
+> Read of size 1 at addr ffffc9000213e831 by task kworker/1:1/80
+> 
+> CPU: 1 UID: 0 PID: 80 Comm: kworker/1:1 Not tainted 6.13.0-syzkaller-04858-g21266b8df522 #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 12/27/2024
+> Workqueue: usb_hub_wq hub_event
+> Call Trace:
+>  <TASK>
+>  __dump_stack lib/dump_stack.c:94 [inline]
+>  dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
+>  print_address_description mm/kasan/report.c:378 [inline]
+>  print_report+0x169/0x550 mm/kasan/report.c:489
+>  kasan_report+0x143/0x180 mm/kasan/report.c:602
+>  usb_check_int_endpoints+0x1fe/0x280 drivers/usb/core/usb.c:277
+>  thrustmaster_interrupts drivers/hid/hid-thrustmaster.c:176 [inline]
+>  thrustmaster_probe+0x47d/0xcb0 drivers/hid/hid-thrustmaster.c:347
 
-Arnd, can you refresh this one? It seems some misses still...
-I have got 3+ 0-day reports against one of the mux drivers.
+Karol:
 
-https://lore.kernel.org/all/?q=adg792a.c
+Your commit 50420d7c79c3 ("HID: hid-thrustmaster: Fix warning in 
+thrustmaster_probe by adding endpoint check") does this:
 
--- 
-With Best Regards,
-Andy Shevchenko
++	/* Are the expected endpoints present? */
++	u8 ep_addr[1] = {b_ep};
++
++	if (!usb_check_int_endpoints(usbif, ep_addr)) {
++		hid_err(hdev, "Unexpected non-int endpoint\n");
++		return;
++	}
 
+usb_check_int_endpoints() expects its second argument to be a 
+0-terminated byte array (see the kerneldoc).  Lack of the terminating 0 
+is what caused the syzbot error reported above.
 
+Also, usb_check_int_endpoints() is meant to be used by drivers in which 
+the endpoint number is a compile-time constant.  It's not appropriate 
+here.  You should have written the test as:
+
+	if (!usb_endpoint_is_int_out(&ep->desc)) {
+
+Alternatively, you could have called usb_find_common_endpoints().
+
+Would you like to submit a patch to fix this error?
+
+Alan Stern
 
