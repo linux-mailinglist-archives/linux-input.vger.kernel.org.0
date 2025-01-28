@@ -1,197 +1,141 @@
-Return-Path: <linux-input+bounces-9596-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9597-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1042AA20F55
-	for <lists+linux-input@lfdr.de>; Tue, 28 Jan 2025 18:00:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 610E7A212D2
+	for <lists+linux-input@lfdr.de>; Tue, 28 Jan 2025 21:04:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D557188A980
-	for <lists+linux-input@lfdr.de>; Tue, 28 Jan 2025 17:00:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A99EC1885883
+	for <lists+linux-input@lfdr.de>; Tue, 28 Jan 2025 20:04:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E56A1B21AA;
-	Tue, 28 Jan 2025 17:00:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7A2B158A09;
+	Tue, 28 Jan 2025 20:04:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="nlFWbreo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NNArdw4V"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2DC2A1BA
-	for <linux-input@vger.kernel.org>; Tue, 28 Jan 2025 17:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14FC029CE7;
+	Tue, 28 Jan 2025 20:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738083647; cv=none; b=gdh8RzEv05kdfL5UVkBN8DYwj4Preu86gT/rcQb/FOy7fE9VnuuOKSb3Og8Tx/msnxU+tTSIV/aniIpOKE+Cb9xFBdxLuKJn6vig/4JM+npn5yzdmuakv4aBQomhnhTfKaZCFtw1a26HiEhTycOGjiP2lKpGnUoSEDeJzFhbVIA=
+	t=1738094686; cv=none; b=nhfAD7vJpF1cpj1WnLQBlo1iSiieHU4LAVbUmyr9e/GHgDNcsihsgA3xOCQx73uxgVKzC2wZCNGSCt5mtKkBlsJT7UpaCo/rdWeL/lMnfQLJOqd304b/ODbFquDBw4EsTb6VI0Vf/JJaec3/7N4kIz+/IQsAqHz8Ot7FU63OFZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738083647; c=relaxed/simple;
-	bh=iIybshDrGhTpu5fdQslefhHPNdOHP0cFoqox0S5u16s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lgOsdDNrJXdIqbEmGvP2necWro7cmY1OdAfZ/gZKgInkfKEzPAEG6Uct3H/BcQao1TV2SnMvwu/5dTrRE2BD5PWc1y0PLReEf4pfH4WaBqG5Az6giQBof3UmnQHzEJGTF15fFuKPFVOSEHPlTAJIzlvcYUqGkhKAkYfPAd7IlqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=nlFWbreo; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-46fcbb96ba9so5896271cf.0
-        for <linux-input@vger.kernel.org>; Tue, 28 Jan 2025 09:00:45 -0800 (PST)
+	s=arc-20240116; t=1738094686; c=relaxed/simple;
+	bh=Dw3EBZel/atgQ98m82teBCg0RmY4V6owPiBwvQmEzLs=;
+	h=Date:To:Cc:Subject:From:References:In-Reply-To:Message-Id:
+	 MIME-Version:Content-Type; b=s27LTioFjP3q/OQnld+JR1jblR8/+5yyRUxKN+ztRSJyKzDsCTgbb73GuRk5P6piG+lapqtGQDUmwbDoY8uJhZyPCPNOlWNdG0kyy4zx0eO8SJh+Frin+GHvnRcXao27yFmIW0nA9xpt0aAIPozaupglO6bKOMwQYYnrOANiklI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NNArdw4V; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-aaf60d85238so1019842966b.0;
+        Tue, 28 Jan 2025 12:04:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1738083644; x=1738688444; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rYQbyDpHC1ac+WOYHWsMxWbSZSl6a353d6NzBjJrrrg=;
-        b=nlFWbreobHnKp+6q6YGyOrscYnZvnkWMEBziBelYxjduted3YxY2cwYb5GUg+nZwAd
-         c2dD2dBJdjWh9NPDToSlEi1g5Djr0q5SsZiQVHL26qD8PQM5LFMXPdzeqWyhn4XNaKU1
-         sB0c6byqdoTl4kdlGoYvz3svZpcPwFcpDTF5rBZatz8/D9rN+85AKd+4ryUrCVCI2itR
-         GRT4DaiP1y/ut4oYTUdSG3BHYVkgo7e0mjeVp8XudAbX4DnLflZAf/c5cA1+jSk22xi3
-         JHXpac3WezJdlf5nCMh4WZqkzLsSiWNPsXbkKQfva9J3x4C9my3HufPZWcS5iJaXZHi7
-         hy4A==
+        d=gmail.com; s=20230601; t=1738094683; x=1738699483; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:user-agent:message-id
+         :in-reply-to:references:from:subject:cc:to:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Dw3EBZel/atgQ98m82teBCg0RmY4V6owPiBwvQmEzLs=;
+        b=NNArdw4VNpTg+SvFPB7Ub0IiAQbKSNrZik9t6VWvJpBVIifDzPkeV0r0IvH2sweMfY
+         FUjjMat9a9D3nR1q7dhfQLqtBTttB8PozLGbSvdMqqyUx+4+miUzP/HdbQiw0PhjKpEZ
+         ArydUSvVlgit3FGlJtY1AYWxkjCJD32yTtYp6pO4C54bf8J4u7FdreeRpJJoICw7g9zj
+         IxWJPyIo2jnWPf9q7qNN5O1JXf2ywSQavoisy2NyVaW6lIYQDpyXX5LNnrGb+OZBuD4x
+         dxn7rp1WKIrRVwv21oiIh5X/uXxQJ5sX+NqR1aRH6J824t5GeuhaskLyhKVru+VKngyI
+         nmnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738083644; x=1738688444;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rYQbyDpHC1ac+WOYHWsMxWbSZSl6a353d6NzBjJrrrg=;
-        b=HLR8iDWIGC0jWSXa7/POiy3+suxNcjcRkBh1rW6380do8fQui7rWFN2UoPfYgj24qs
-         tH5Ohh6zdFzErK5H8UuZW+osC5G8cbSjfqGfNKi8pHtbOJVTLr4ClHwUuBhKTWXKH6Wx
-         5Iu3Yhbo3dC+hkxpZe5TMcp5KlKcTzO9fCYyGzWfQWZ5TiwsBgmfQlJ5GgRIlxAXsE4K
-         21YQo4lMJ1c3NFs5eumHV39yfhwZ3104IgS5x35oJXimJoochPx2uC+9V3tFRwrWJl7z
-         k3UxBQF/0KJVvnJ9MHvgm/zvA+Ntj5u6nXVIV47aawTc/kGi6yhidVrf1Z33KCmKc/EC
-         T7Dw==
-X-Forwarded-Encrypted: i=1; AJvYcCVS35dTfOi62Vif+xPM6HNSrFT9dr4pX69BfkrcXqe3Dc30rSb+x1nsbeXVIfKtH5TZDKC5IZzcNfeqgw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgSQtDYHROzctIPI1PTjjI+fz7kvkCGfGccx6X89vkkOdV4Ijg
-	2lHUwwDvoYtDjN077tEdg8e1iz/q1zk++9xb0nlrZxT9BZ6xYUBfJFCfEfQIWQ==
-X-Gm-Gg: ASbGncufHjo0tpBfWO79oCrmnJzwPrdt7zVvClTx9oFmrwQLhU4vV4hTiIMWsJSsQbO
-	VPc5oWrUC/aPXvtytmr5pI2vdAZhHMmSr1B0dyclRawajhM/ylj41Wx2VPLdI2ga6DNxTYDlynR
-	+pWidKjyDtEPVrLXQI51ibx2o2IGpGNfw3AuGSaHkQgjLs4q/5FGC9bsM2QCMSGw6PmWh21PPZC
-	LdwsmAE9+8WfDTwHztxtJrEvHtIWo/6SuIVMH7lqgj74rnF6fnT0i34Dk9l1XRPpoJD1XGAgwEk
-	bilgG7yvad8j2OXN2N+fuyK+kWdN15Yk7vq/rN3Fbp0pYIxr1Ggl2NDcK1YfrJSsOrN7RlXO+tB
-	5EUcD0Tux
-X-Google-Smtp-Source: AGHT+IFXtWLgYvf5afKDBq9IFcUR79Cv4+hTgX2p8X0VQsEnSg9GzqwrSx/uGsGZRVXzUnYEXoIRFw==
-X-Received: by 2002:a05:622a:190b:b0:467:4b8d:2eea with SMTP id d75a77b69052e-46e12b90d4emr687489221cf.34.1738083644545;
-        Tue, 28 Jan 2025 09:00:44 -0800 (PST)
-Received: from rowland.harvard.edu (nat-65-112-8-51.harvard-secure.wrls.harvard.edu. [65.112.8.51])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46e66b88e49sm52565771cf.68.2025.01.28.09.00.43
+        d=1e100.net; s=20230601; t=1738094683; x=1738699483;
+        h=content-transfer-encoding:mime-version:user-agent:message-id
+         :in-reply-to:references:from:subject:cc:to:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Dw3EBZel/atgQ98m82teBCg0RmY4V6owPiBwvQmEzLs=;
+        b=FWCHy9x/0lyDsdSBxpsxbIVkg+w9cfvK/cdVeyVR1kNnd+fPWoQ06pl/NFAa/FrnLr
+         AzjgUbGwQog1wmCDe1yGK/P6vbwXshug3Yh3GBsg3Zi60EMWJqtqBKE7ZjyJlOJ69JCQ
+         sXaPqf5lH+EcVCnp+epjmY/00REf7Jj6M4hiON9FdS/+ku6gcgs7UPGyTJu3KJyclhri
+         RxUzH/SywC7CdP/Wq1lG/ghNNbltjOR9/WsOlFYJY3pIuoXnNBINefh3zCceJBbg4KrX
+         eE6jHq7cYebfGaTx03KcjFtu6dn80BifoBIvVxiL+uKz1yW8eaHzICMbilq/XAm7OjNN
+         /BzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUhVV3uOoZbzO5qPew429xYfNJG4SY7LcRbQffQqV+OTH0pt9tzkc1mLrEhiuVPQs4IVCuDl1m4/DMH9Pm4@vger.kernel.org, AJvYcCVDMhFJFTBwrIK/NWf5S/+irl8ZoRw4SgG3dguGbhW6K0bKJYU8wiQQ+U9/xj+3xdnYWJha5JDe4ZGP+A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwV+JVWOJUVNnqGJ99OdSRksEBGq5CQXAeBnk5oyDy97jFejU+c
+	FnjYP7f01pNoWmTjjc8w01nn+tSs+9agd3bKsHfyudvsHP/mJ1d2pQ8e/ccH
+X-Gm-Gg: ASbGncsM9yn6p2XYI39QQ3fu6deR7EE6OYKwYIHu1IDwGMnHOhPQIaIv1bA+NMM42wN
+	mbWNq+IXIEioyuQpgtLY0qUBfMt3SOKu1Vhj02gCqq+KnxWBsJmduDz5Qqs1gK7iKnXH1+QO++V
+	BwlIUxxR+nIBst/V/D6IDnu5u6U7XDAHftJ1jAjJTetWHz8zMuDbO38NGuHWHbXoY8PIpp/2Pn5
+	BXazy9mo15+FTWUgVXc0F8M/n1CQwBOZx8mVJlfvIw50J4eXIwcMhKIa19/wZaKelxpPu6QhyOe
+	bbIBmVY=
+X-Google-Smtp-Source: AGHT+IFiwstnmotK/U8vd+AYc6NfuqtBYqItjR2hnyXwJPxfzkDG/Q84rzLR8CyEhlLh4lHRCQ0Iiw==
+X-Received: by 2002:a17:907:97d6:b0:aac:1e96:e7cf with SMTP id a640c23a62f3a-ab6cfcdf2d1mr43574866b.20.1738094682931;
+        Tue, 28 Jan 2025 12:04:42 -0800 (PST)
+Received: from localhost ([2a02:169:1e9:0:8f4d:9ee2:cc35:c67b])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ab676116ad6sm846801466b.176.2025.01.28.12.04.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jan 2025 09:00:44 -0800 (PST)
-Date: Tue, 28 Jan 2025 12:00:41 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-Cc: Kees Cook <kees@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>, linux-usb@vger.kernel.org,
-	linux-input@vger.kernel.org, syzkaller-bugs@googlegroups.com,
-	linux-kernel@vger.kernel.org,
-	syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] HID: usbhid: fix recurrent out-of-bounds bug in
- usbhid_parse()
-Message-ID: <649f5c1c-f3a7-420d-b727-f904d58f491f@rowland.harvard.edu>
-References: <20240524120112.28076-1-n.zhandarovich@fintech.ru>
- <nycvar.YFH.7.76.2406041015210.16865@cbobk.fhfr.pm>
- <E62FA5CB-D7AE-4A11-9D2E-7D78D7C10ADA@kernel.org>
- <nycvar.YFH.7.76.2406041614210.24940@cbobk.fhfr.pm>
- <2a38e355-af5c-4b3d-81be-0cc97376c1f5@fintech.ru>
- <202406041019.BCD0A93C@keescook>
- <d1ad84e3-7da9-4dc8-a095-b9fbe191eb56@rowland.harvard.edu>
- <807cfa6f-5863-4fe4-8294-76d5cdbc3aac@fintech.ru>
+        Tue, 28 Jan 2025 12:04:42 -0800 (PST)
+Date: Tue, 28 Jan 2025 21:04:41 +0100
+To: Ethan Carter Edwards <ethan@ethancedwards.com>
+Cc: djogorchock@gmail.com, jikos@kernel.org, bentiss@kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernelnewbies@kernelnewbies.org
+Subject: Re: [RFC/HELP] add support for POWER-A/THQ BDA NSW Nintendo
+ Controller
+From: "Silvan Jegen" <s.jegen@gmail.com>
+References: <fbjhelddqwf6yenezqqndihm7sebehpg4cubdwktxyw2nnirrs@2yz7fahu6nr6>
+In-Reply-To:
+ <fbjhelddqwf6yenezqqndihm7sebehpg4cubdwktxyw2nnirrs@2yz7fahu6nr6>
+Message-Id: <35EDK8BDVWSCG.2CILU67NZJL48@homearch.localdomain>
+User-Agent: mblaze/1.3-4-g04d14c4 (2025-01-02)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <807cfa6f-5863-4fe4-8294-76d5cdbc3aac@fintech.ru>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 28, 2025 at 05:45:21AM -0800, Nikita Zhandarovich wrote:
-> Hello,
-> 
-> On 6/4/24 10:45, Alan Stern wrote:
-> > On Tue, Jun 04, 2024 at 10:21:15AM -0700, Kees Cook wrote:
-> >> On Tue, Jun 04, 2024 at 10:09:43AM -0700, Nikita Zhandarovich wrote:
-> >>> Hi,
-> >>>
-> >>> On 6/4/24 07:15, Jiri Kosina wrote:
-> >>>> On Tue, 4 Jun 2024, Kees Cook wrote:
-> >>>>
-> >>>>> This isn't the right solution. The problem is that hid_class_descriptor 
-> >>>>> is a flexible array but was sized as a single element fake flexible 
-> >>>>> array:
-> >>>>>
-> >>>>> struct hid_descriptor {
-> >>>>> 	   __u8  bLength;
-> >>>>> 	   __u8  bDescriptorType;
-> >>>>> 	   __le16 bcdHID;
-> >>>>> 	   __u8  bCountryCode;
-> >>>>> 	   __u8  bNumDescriptors;
-> >>>>>
-> >>>>> 	   struct hid_class_descriptor desc[1];
-> >>>>> } __attribute__ ((packed));
-> >>>>>
-> >>>>> This likely needs to be: 
-> >>>>>
-> >>>>> struct hid_class_descriptor desc[] __counted_by(bNumDescriptors);
-> >>>>>
-> >>>>> And then check for any sizeof() uses of the struct that might have changed.
-> 
-> Alan, I finally got around to preparing a revised version of the
-> required patch and encountered a few issues. I could use some advice in
-> this matter...
-> 
-> If we change 'struct hid_descriptor' as you suggested,
+Hi Ethan
 
-I didn't make that suggestion.  Kees Cook did.
+Ethan Carter Edwards <ethan@ethancedwards.com> wrote:
+> Hello all,
+>=20
+> I have an unofficial USB Nintendo Switch Pro controller that I have had
+> for a few years and want to try to use on Linux. For reference, the
+> vendor id and device ids are as follows:
+>=20
+> Vendor: 20d6
+> Device: 0002
+>=20
+> I tried adding the device to the hid-nintendo module to add support but
+> that did not work (see below for code). I recieved a few errors from dmes=
+g
+>=20
+> nintendo 0003:20D6:0002.0011: Failed to get joycon info; ret=3D-110
+> nintendo 0003:20D6:0002.0011: Failed to retrieve controller info; ret=3D-=
+110
+> nintendo 0003:20D6:0002.0011: Failed to initialize controller; ret=3D-110=
 
->  which does make
-> sense, most occurrences of that type are easy enough to fix.
-> 
-> 1) usbhid_parse() starts working properly if there are more than 1
-> descriptors, sizeof(struct hid_descriptor) may be turned into something
-> crude but straightforward like sizeof(struct hid_descriptor) +
-> sizeof(struct hid_class_descriptor).
-> 
-> 2) 'hid_descriptor' in drivers/hid/hid-hyperv.c remains innocuous as
-> well as only 1 descriptor expected there. My impression is only some
-> small changes are needed there.
-> 
-> However, the issue that stumps me is the following: static struct
-> hid_descriptor hidg_desc in drivers/usb/gadget/function/f_hid.c relies
-> on a static nature of that one descriptor. hidg_desc ends up being used
-> elsewhere, in other static structures. Basically, using __counted_by
-> requires a lot of changes, as I see it, out of scope of merely closing
-> an UBSAN error.
+> nintendo 0003:20D6:0002.0011: probe - fail =3D -110
+> nintendo 0003:20D6:0002.0011: probe with driver nintendo failed with erro=
+r -110
+>=20
+> I understand that -110 is a timeout. But I don't understand much else.
 
-The hidg_desc structure needs to contain room for a single 
-hid_descriptor containing a single hid_class_descriptor.  I think you 
-can define it that way by doing something like this:
+I have tried to write a test for the Nintendo HID driver for a while and
+think I have encountered this error as well. If I remember correctly,
+this timeout happens because the controller does not respond with the
+reply that the driver is expecting (or at least not in time).
 
-static struct hid_descriptor hidg_desc = {
-	.bLength			= sizeof hidg_desc,
-	.bDescriptorType		= HID_DT_HID,
-	.bcdHID				= cpu_to_le16(0x0101),
-	.bCountryCode			= 0x00,
-	.bNumDescriptors		= 0x1,
-	.desc				= {
-		{
-			.bDescriptorType	= 0, /* DYNAMIC */
-			.wDescriptorLength	= 0, /* DYNAMIC */
-		}
-	}
-};
 
-Or maybe it needs to be:
+> And I am not sure where to go from here. Any suggestions?
 
-	.desc				= { {0, 0} } /* DYNAMIC */
+I'm a newbie as well but my understanding is that you would have
+to figure out what the controller is actually sending back and how it
+differs from what the driver expects. Then you might be able to either
+adapt the driver accordingly (if the behaviour of the device is similar
+enough to the official pro controller) or write a separate driver that
+can handle this controller ...
 
-I'm not sure what is the correct syntax; you'll have to figure that out.  
-
-You'll have to be more careful about the definition of hidg_desc_copy in 
-hidg_setup(), however.  You might want to define hidg_desc_copy as an 
-alias to the start of a byte array of the right size.
-
-> Is this approach still worthy pursuing or should I look into some neater
-> solution?
-
-I think you should persist with this approach.
-
-Alan Stern
+Cheers,
+Silvan
 
