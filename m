@@ -1,35 +1,36 @@
-Return-Path: <linux-input+bounces-9593-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9594-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E107A20C98
-	for <lists+linux-input@lfdr.de>; Tue, 28 Jan 2025 16:05:41 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 505ABA20CB6
+	for <lists+linux-input@lfdr.de>; Tue, 28 Jan 2025 16:14:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18C8A188A56B
-	for <lists+linux-input@lfdr.de>; Tue, 28 Jan 2025 15:05:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4B1297A367B
+	for <lists+linux-input@lfdr.de>; Tue, 28 Jan 2025 15:13:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C1DF1ACEBD;
-	Tue, 28 Jan 2025 15:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B9C21B0F2C;
+	Tue, 28 Jan 2025 15:14:16 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D920BE40;
-	Tue, 28 Jan 2025 15:05:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2237342AA3;
+	Tue, 28 Jan 2025 15:14:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738076705; cv=none; b=JWRqIaO3uXjZ2495E+QgOt2nUk1NAsaAEvuT0YlD3l2oFs3dzZh+HOukugmwc0c4pgjt4IfE7ZxARCPaqrE27afEfc/Z8ClU40RUbRV9AHMbbp7Md8Egs6gLBwJCEwenkKR4MBK9aK6OYDzqZ+/ZKy+FPEB1+/cDBsP08+An+Kc=
+	t=1738077256; cv=none; b=J6+N52GE3ocm8lflJZRvWLbJjcop5qzSrYcuxt9fAFS9Z/BBXCoMTWWZYEV2d4X3YUsDqYF85nQf8lCtaa8dTlatIBvLGK5v9ZwqPQr6QC1lXYMCG73+c71QMZzoU4R1H8ZM+5xyxkGZIK3oSPOhHRL00ZpwnOHEghlLoy2FxW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738076705; c=relaxed/simple;
-	bh=T/K5O5OcnPbR4x4zYpUjfQLx7hOQrPsuYE99u5KV4ew=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=DjSU+VCxAQrnNKfL/+0whli0UEzm6v59wkPdDTM954uqTefWcCJJekban8x4HPXw8EIb9MDQinHNnuOb7MYaRZIYGDvIczVX7y0f7jlauSfkglBwhH3j0c1SbgKkir3nFLCcx4+fJWgcFndg+GM2WkK90uVychYp7Ah+4fowAZI=
+	s=arc-20240116; t=1738077256; c=relaxed/simple;
+	bh=W6yFCVARpS+3ojPzRWRmAjVT58mW7GMrK2b6KLA6EK0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=V8INO1hOOysRxaT6Xw2TzlUIT9OdTSvSjmWZ7RcrOgiRdpgr4UIbiN0ripJaFp+EuSh4ry6p30EWlg/fw1cZJHJT9Mpa6vtlQdT0XG/Yp816cXbZ9U6PK1Yg4Hj9RsK7juK/5brrywhImZpsgtYqHTiOttqwsOYEs7Gl7t1OnF0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12ED6C4CEE4;
-	Tue, 28 Jan 2025 15:05:03 +0000 (UTC)
-Message-ID: <ec811552-6014-43d4-9fcc-2ac729a8b08e@xs4all.nl>
-Date: Tue, 28 Jan 2025 16:05:02 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9A9AC4CED3;
+	Tue, 28 Jan 2025 15:14:14 +0000 (UTC)
+Message-ID: <d96432bd-dda0-4d26-9825-391206ebf6ab@xs4all.nl>
+Date: Tue, 28 Jan 2025 16:14:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -37,12 +38,13 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: linux-input <linux-input@vger.kernel.org>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Nick Dyer <nick@shmanahar.org>
+Subject: Re: [PATCH 0/6]
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] input: drop vb2_ops_wait_prepare/finish
+To: linux-media@vger.kernel.org
+Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <cover.1738076484.git.hverkuil@xs4all.nl>
+Content-Language: en-US, nl
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -86,66 +88,14 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
+In-Reply-To: <cover.1738076484.git.hverkuil@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Since commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
-are NULL") it is no longer needed to set the wait_prepare/finish
-vb2_ops callbacks as long as the lock field in vb2_queue is set.
+On 28/01/2025 16:01, Hans Verkuil wrote:
+> 
 
-Since the vb2_ops_wait_prepare/finish callbacks already rely on that field,
-we can safely drop these callbacks.
+Sorry, email mishap. Just ignore.
 
-This simplifies the code and this is a step towards the goal of deleting
-these callbacks.
-
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
----
- drivers/input/rmi4/rmi_f54.c             | 2 --
- drivers/input/touchscreen/atmel_mxt_ts.c | 2 --
- drivers/input/touchscreen/sur40.c        | 2 --
- 3 files changed, 6 deletions(-)
-
-diff --git a/drivers/input/rmi4/rmi_f54.c b/drivers/input/rmi4/rmi_f54.c
-index 5c3da910b5b2..ac4041a69fcd 100644
---- a/drivers/input/rmi4/rmi_f54.c
-+++ b/drivers/input/rmi4/rmi_f54.c
-@@ -372,8 +372,6 @@ static const struct vb2_ops rmi_f54_queue_ops = {
- 	.queue_setup            = rmi_f54_queue_setup,
- 	.buf_queue              = rmi_f54_buffer_queue,
- 	.stop_streaming		= rmi_f54_stop_streaming,
--	.wait_prepare           = vb2_ops_wait_prepare,
--	.wait_finish            = vb2_ops_wait_finish,
- };
-
- static const struct vb2_queue rmi_f54_queue = {
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 3ddabc5a2c99..322d5a3d40a0 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -2535,8 +2535,6 @@ static void mxt_buffer_queue(struct vb2_buffer *vb)
- static const struct vb2_ops mxt_queue_ops = {
- 	.queue_setup		= mxt_queue_setup,
- 	.buf_queue		= mxt_buffer_queue,
--	.wait_prepare		= vb2_ops_wait_prepare,
--	.wait_finish		= vb2_ops_wait_finish,
- };
-
- static const struct vb2_queue mxt_queue = {
-diff --git a/drivers/input/touchscreen/sur40.c b/drivers/input/touchscreen/sur40.c
-index 8365a2ac6fce..7b3b10cbfcfc 100644
---- a/drivers/input/touchscreen/sur40.c
-+++ b/drivers/input/touchscreen/sur40.c
-@@ -1108,8 +1108,6 @@ static const struct vb2_ops sur40_queue_ops = {
- 	.buf_queue		= sur40_buffer_queue,
- 	.start_streaming	= sur40_start_streaming,
- 	.stop_streaming		= sur40_stop_streaming,
--	.wait_prepare		= vb2_ops_wait_prepare,
--	.wait_finish		= vb2_ops_wait_finish,
- };
-
- static const struct vb2_queue sur40_queue = {
--- 
-2.45.2
-
+	Hans
 
