@@ -1,191 +1,222 @@
-Return-Path: <linux-input+bounces-9604-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9605-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E620DA2248B
-	for <lists+linux-input@lfdr.de>; Wed, 29 Jan 2025 20:27:03 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7711A225AB
+	for <lists+linux-input@lfdr.de>; Wed, 29 Jan 2025 22:29:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E65B13A5E2D
-	for <lists+linux-input@lfdr.de>; Wed, 29 Jan 2025 19:26:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 635257A0F6D
+	for <lists+linux-input@lfdr.de>; Wed, 29 Jan 2025 21:28:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55E3C1DFE2C;
-	Wed, 29 Jan 2025 19:26:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CF761E25EC;
+	Wed, 29 Jan 2025 21:29:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SaXhthrQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from cosmicgizmosystems.com (cosmicgizmosystems.com [63.249.102.155])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF0D2C9D;
-	Wed, 29 Jan 2025 19:26:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840E51E2843;
+	Wed, 29 Jan 2025 21:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738178818; cv=none; b=ODKC7bZq+r8rxbsPqYSx1+1YItpgk5X4/nDKFDmYo69zobgmDcD/T0+mcic0GmqkdNZu8KCk6in8U8+kxy3oGJlP3gBXfbUymBMiAvUQZclRRq1L7e4o/1jW5+h1StL2jFV0KdNVxOBdBXEPNiIhQdgFIv2aJytB8y/nyh9SYn4=
+	t=1738186184; cv=none; b=SF+vaIfyPw723Mtze13ABKzrMqtyLM0GTfRotv7Iem8v/97J5RpmwM/xYCLzOaIXjMbjWs0Er3NmNZGu5zm0dSje4JVQ2HV7iLm8uFSdfmMvbB4zoZwQuaGM32scBrFCVQpt7BJGWkTnM9mbFqN0ctDz2qsxMiQ3QJot2H3CNzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738178818; c=relaxed/simple;
-	bh=cTXIpFUJ72rQ6X+qiqfdqHAIWXIwKPIqlawAGwvmTSM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=M7uWEkg4uUlYQNDCRB7kd52dUxPzlXgvAkOSvcXs0+eTBGoUL7mZlxN2kTHx97MKtO35wBZKcuuTRIKk7szVqHryCXpa487M7BvWFPxGtUVrgnyiTrRQ6sR59G+HxpxvJ4DQofUZv6zpWlOZ8K69ZM2L1AAqoZhiVGN07Y1WND8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
-Received: from [10.0.0.101] (c-73-190-111-195.hsd1.wa.comcast.net [73.190.111.195])
-	by host11.cruzio.com (Postfix) with ESMTPSA id E96F62463008;
-	Wed, 29 Jan 2025 11:21:25 -0800 (PST)
-Message-ID: <f7963a1d-e069-4ec9-82a1-e17fd324a44f@cosmicgizmosystems.com>
-Date: Wed, 29 Jan 2025 11:21:25 -0800
+	s=arc-20240116; t=1738186184; c=relaxed/simple;
+	bh=sbHJ0uIpLku5KYs03BS+ssj2TdgoIhLPm0Eq0UPvhv8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GsXyGKS+eW42vTrthQHziqP/xYXw4ishD523d/znkX40iMwaIfAiMkB2GVVZnN1eV+nePG0nCq1FN+sc1GYbVW4d0gA5HUNISSbqw/1EHZFptuL3BO9I03VUcq6dZIyxEpZGVSm8Wqhxn1T4HP2iMpvJebzLVTLOidmuzXIV5Ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SaXhthrQ; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5426f715afeso16797e87.3;
+        Wed, 29 Jan 2025 13:29:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738186180; x=1738790980; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6vP6XOeNtIpR3j4Jzf7uNXfoB57kT2cnSUlZqmTaCuQ=;
+        b=SaXhthrQmsocUVwKmyf5pGifC7vRgA5rl4ThWPoqqPDas+WqXgqIyqqkelbmwe609G
+         fRgPg4b8pJ1L/4nNhFgjaFCtA5KOxiZj+H8COwxYQcTQRPSLq1DnyNmGr8lgQ95lNjsI
+         Kl1FoNG8Urd4Ak38jULiMdQtw9cVH95J7cMIpNw8saBj3B/cJdorbFLzzrdb7jk8ZaFN
+         w8vpg2tMQnayDL83xauiGttj6/0sR3Q+fImjN4gZi6oR22hgifxw+oA6b5dA6MyVNYPS
+         Uhjwt30DlN1QiLq5AMWkneuAxcGyAw0WWk7yzB+XJbXTfMZaNPuWM6dFZsxIG5UZJCbu
+         yBRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738186180; x=1738790980;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6vP6XOeNtIpR3j4Jzf7uNXfoB57kT2cnSUlZqmTaCuQ=;
+        b=Zv0L1Uu1D1tyjn+ApM28uZPhVTsvtArn6QfD59w0F4sKClZFOOLbscGeKcI9ShK5FW
+         Oiv2tmryMdD3uhodGcsbBYm90bRy+fRDwedLoKooEB6CbahryYckm+G0ZdVljRVVFOyM
+         jfO9EmiH1vu6f/gdOsQ7/NtD7pKHZfHFC3iGHoFCeIMVJaWt+jYPBQNO4oGGHKZvEqd/
+         WtQpRd6SCGj620bvzckJSLrPO9g11TlSeQAvtJAHHVy7q1NsCwbsyiB4cB8+It2AcpHx
+         sj9+f4EJ4i5CM8v1tQd5nZSh5G9yIm4Zhx+nOSSbdAsvmdSc4c+Ot1Kj8XQaPdfKqtcy
+         6rew==
+X-Forwarded-Encrypted: i=1; AJvYcCWXEmawQNwfopH3GKHxrUmdFs5VbD6x+zTNm4RFdioXiWEzf5IicUDmxxmfefVHToaGtB1OX54Ll+4XwA==@vger.kernel.org, AJvYcCXQoCXj8CaXOMMyP5vDm39yNGo8uY1qN6a+reyzn30YFCaVTk34tlGU3BavxL50XKisP4Zduvhqf/OK@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxb7uV/VbwPNL49RLY3pdkjF1wdJ17YHepoj3UfVQ9bc8fFChTJ
+	nqN5kqlYzhd4PT3I7uEvbxvPNXqT9YQXlYk73DCUII9AuIjcfIQf8NFhwo8H
+X-Gm-Gg: ASbGncsGC4L6Np9mC/zsVS3KvU0HyCrwAHLu8GQ5F4iVmumymW9k6KTX04t9PkTOo+c
+	ducyF/Hwl9axNDtq/30u4aBzVJznwte7Go3K1bnk9xK0uZDu91dOc61kkTvf0Po92m7N/YRnkKo
+	dsUIqvyMGE5X5BkUpBJ0OD9K/kGasdKoDa/Tkmk6onchYomHdxzw2/psdqIIkwmfDMJKjVOKav/
+	WNov7s9v8pJK1qDXLgnpHujK0HZq6Wb9tE7L7oOlUTksCKFD8gJ684ImMVUdzHTSk4WWyQ1bNs+
+	z3GRf9iNj2qyZLtk1OMSVOXPSe4q6u2fmSqQc3pNRrPlOHg9PqzzaraGBMtPqA==
+X-Google-Smtp-Source: AGHT+IF4bbDSR6y8a18fIinxl3HFr6bkAbzwzUlqvW3q9xeH7mdix0VRLso6KVvaPDbVoaA7zBPkRg==
+X-Received: by 2002:a05:6512:1084:b0:540:3579:e4ed with SMTP id 2adb3069b0e04-543e4c3c099mr599297e87.11.1738186180223;
+        Wed, 29 Jan 2025 13:29:40 -0800 (PST)
+Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543c83799c0sm2100778e87.190.2025.01.29.13.29.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jan 2025 13:29:39 -0800 (PST)
+From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: anssi.hannula@gmail.com,
+	oleg@makarenk.ooo,
+	linux-input@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH v8 00/21] HID: Upgrade the generic pidff driver and add hid-universal-pidff
+Date: Wed, 29 Jan 2025 22:29:14 +0100
+Message-ID: <20250129212935.780998-1-tomasz.pakula.oficjalny@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] HID: usbhid: fix recurrent out-of-bounds bug in
- usbhid_parse()
-To: Kees Cook <kees@kernel.org>, Alan Stern <stern@rowland.harvard.edu>
-Cc: Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
- Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
- linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
- syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com,
- linux-hardening@vger.kernel.org
-References: <20240524120112.28076-1-n.zhandarovich@fintech.ru>
- <nycvar.YFH.7.76.2406041015210.16865@cbobk.fhfr.pm>
- <E62FA5CB-D7AE-4A11-9D2E-7D78D7C10ADA@kernel.org>
- <nycvar.YFH.7.76.2406041614210.24940@cbobk.fhfr.pm>
- <2a38e355-af5c-4b3d-81be-0cc97376c1f5@fintech.ru>
- <202406041019.BCD0A93C@keescook>
- <d1ad84e3-7da9-4dc8-a095-b9fbe191eb56@rowland.harvard.edu>
- <807cfa6f-5863-4fe4-8294-76d5cdbc3aac@fintech.ru>
- <649f5c1c-f3a7-420d-b727-f904d58f491f@rowland.harvard.edu>
- <202501281747.9690B3B@keescook>
-Content-Language: en-US
-From: Terry Junge <linuxhid@cosmicgizmosystems.com>
-In-Reply-To: <202501281747.9690B3B@keescook>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Sorry to join late and top post but I want to propose a direction change for this.
+This patch series is focused on improving the compatibility and usability of the
+hid-pidff force feedback driver. Last patch introduces a new, universal driver
+for PID devices that need some special handling like report fixups, remapping the
+button range, managing new pidff quirks and setting desirable fuzz/flat values.
 
-According to the HID 1.11 specification section 6.2.1, the first element of the desc array must be the type and size of the mandatory report descriptor. There is no need to scan through the array to look for it. So the for loop can be collapsed to:
+This work has been done in the span of the past months with the help of the great
+Linux simracing community, with a little input from sim flight fans from FFBeast.
 
-	if (hdesc->desc[0].bDescriptorType == HID_DT_REPORT)
-		rsize = le16_to_cpu(hdesc->desc[0].wDescriptorLength);
+No changes interfere with compliant and currently working PID devices.
+"Generic" codepath was tested as well with Moza and Simxperience AccuForce v2.
 
-and the out-of-bounds bug goes away.
+I'm not married to the name. It's what we used previously, but if "universal" is
+confusing (pidff is already the generic driver), we can come up with something
+better like "hid-quirky-pidff" :)
 
-I would be happy to submit a patch if you like.
+With v8, all the outstanding issues were resolved, additional pidff issues were
+fixed and hid-pidff defines moved to a dedicated header file. This patch series
+could be considered done bar any comments and requests from input maintainers.
 
-Thanks,
-Terry
+I could save more then a dozen lines of code by changing simple if statements
+to only occupy on line instead of two in there's a need for that.
 
-On 1/28/25 5:53 PM, Kees Cook wrote:
-> On Tue, Jan 28, 2025 at 12:00:41PM -0500, Alan Stern wrote:
->> On Tue, Jan 28, 2025 at 05:45:21AM -0800, Nikita Zhandarovich wrote:
->>> Hello,
->>>
->>> On 6/4/24 10:45, Alan Stern wrote:
->>>> On Tue, Jun 04, 2024 at 10:21:15AM -0700, Kees Cook wrote:
->>>>> On Tue, Jun 04, 2024 at 10:09:43AM -0700, Nikita Zhandarovich wrote:
->>>>>> Hi,
->>>>>>
->>>>>> On 6/4/24 07:15, Jiri Kosina wrote:
->>>>>>> On Tue, 4 Jun 2024, Kees Cook wrote:
->>>>>>>
->>>>>>>> This isn't the right solution. The problem is that hid_class_descriptor 
->>>>>>>> is a flexible array but was sized as a single element fake flexible 
->>>>>>>> array:
->>>>>>>>
->>>>>>>> struct hid_descriptor {
->>>>>>>> 	   __u8  bLength;
->>>>>>>> 	   __u8  bDescriptorType;
->>>>>>>> 	   __le16 bcdHID;
->>>>>>>> 	   __u8  bCountryCode;
->>>>>>>> 	   __u8  bNumDescriptors;
->>>>>>>>
->>>>>>>> 	   struct hid_class_descriptor desc[1];
->>>>>>>> } __attribute__ ((packed));
->>>>>>>>
->>>>>>>> This likely needs to be: 
->>>>>>>>
->>>>>>>> struct hid_class_descriptor desc[] __counted_by(bNumDescriptors);
->>>>>>>>
->>>>>>>> And then check for any sizeof() uses of the struct that might have changed.
->>>
->>> Alan, I finally got around to preparing a revised version of the
->>> required patch and encountered a few issues. I could use some advice in
->>> this matter...
->>>
->>> If we change 'struct hid_descriptor' as you suggested,
->>
->> I didn't make that suggestion.  Kees Cook did.
->>
->>>  which does make
->>> sense, most occurrences of that type are easy enough to fix.
->>>
->>> 1) usbhid_parse() starts working properly if there are more than 1
->>> descriptors, sizeof(struct hid_descriptor) may be turned into something
->>> crude but straightforward like sizeof(struct hid_descriptor) +
->>> sizeof(struct hid_class_descriptor).
->>>
->>> 2) 'hid_descriptor' in drivers/hid/hid-hyperv.c remains innocuous as
->>> well as only 1 descriptor expected there. My impression is only some
->>> small changes are needed there.
->>>
->>> However, the issue that stumps me is the following: static struct
->>> hid_descriptor hidg_desc in drivers/usb/gadget/function/f_hid.c relies
->>> on a static nature of that one descriptor. hidg_desc ends up being used
->>> elsewhere, in other static structures. Basically, using __counted_by
->>> requires a lot of changes, as I see it, out of scope of merely closing
->>> an UBSAN error.
->>
->> The hidg_desc structure needs to contain room for a single 
->> hid_descriptor containing a single hid_class_descriptor.  I think you 
->> can define it that way by doing something like this:
->>
->> static struct hid_descriptor hidg_desc = {
->> 	.bLength			= sizeof hidg_desc,
->> 	.bDescriptorType		= HID_DT_HID,
->> 	.bcdHID				= cpu_to_le16(0x0101),
->> 	.bCountryCode			= 0x00,
->> 	.bNumDescriptors		= 0x1,
->> 	.desc				= {
->> 		{
->> 			.bDescriptorType	= 0, /* DYNAMIC */
->> 			.wDescriptorLength	= 0, /* DYNAMIC */
->> 		}
->> 	}
->> };
->>
->> Or maybe it needs to be:
->>
->> 	.desc				= { {0, 0} } /* DYNAMIC */
->>
->> I'm not sure what is the correct syntax; you'll have to figure that out.  
-> 
-> Either should work.
-> 
->>
->> You'll have to be more careful about the definition of hidg_desc_copy in 
->> hidg_setup(), however.  You might want to define hidg_desc_copy as an 
->> alias to the start of a byte array of the right size.
-> 
-> For an on-stack fixed-size flex array structure, you can use:
-> 
-> 	DEFINE_FLEX(struct hid_descriptor, hidg_desc_copy,
-> 		    desc, bNumDescriptors, 1);
-> 	*hidg_desc_copy = hidg_desc;
-> 
-> and then adjust the "hidg_desc_copy." instances to "hidg_desc_copy->"
-> 
->>
->>> Is this approach still worthy pursuing or should I look into some neater
->>> solution?
->>
->> I think you should persist with this approach.
->>
->> Alan Stern
-> 
+Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+
+---
+Changes in v8:
+- Enabled rescaling for all the time fields instead of just periodic
+  effect period.
+- Fixed null pointer dereference in pidff_find_special_field and
+  pidff_init_fields when optional reports were missing. Reported
+  previously by Nolan Nicholson on LKML.
+- All hid-pidff defines were moved into a dedicated header instead
+  of residing in includes/linux/hid.h. They are not needed outside
+  of the kernel.
+- Fixed bitmask clearing in pidff_send_device_control
+- Greatly simplified pidff_rescale_signed
+- Macros in place of hardcoded u16,s16 min/max values
+- Added review signatures
+- Added testing signatures
+- Link to v7: https://lore.kernel.org/all/20250125222530.45944-1-tomasz.pakula.oficjalny@gmail.com
+
+Changes in v7:
+- Check if device gain field exists before setting device gain. Fixes
+  possible null pointer dereference.
+- Indentation fixes
+- Fixed typos and language style in commit messages
+- Link to v6: https://lore.kernel.org/all/20250125125439.1428460-1-tomasz.pakula.oficjalny@gmail.com
+
+Changes in v6:
+- Rebased on v6.13
+- Added missing SOBs
+- Reworked and fixed pidff_reset function
+- Simplified pidff_upload_effect function
+- Moved magic values into defines
+- Added PERIODIC effect period rescaling
+- Support "split" devices with a separate "input device" for buttons.
+- Fixed comment styling
+- Improved set_gain handling
+- Fixed MISSING_PBO quirk
+- Fix possible null pointer dereference while calling
+  pidff_needs_set_envelope
+- Link to v5: https://lore.kernel.org/all/20250119131356.1006582-1-tomasz.pakula.oficjalny@gmail.com
+
+Changes in v5:
+- Added PERIODIC_SINE_ONLY quirk
+- Link to v4: https://lore.kernel.org/all/20250113124923.234060-7-tomasz.pakula.oficjalny@gmail.com
+
+Changes in v4:
+- Added PXN devices and their hid ids
+- Added hid-universal-pidff entry in the MAINTAINERS file
+- Link to v3: https://lore.kernel.org/all/20250106213539.77709-2-tomasz.pakula.oficjalny@gmail.com
+
+Changes in v3:
+- Fixed a missed incompatible pointer type while assigning
+  hid_pidff_init_with_quirks to init_function pointer (void -> int)
+- Improved Kconfig entry name to adhere to the alphabetical order of
+  special HID drivers
+- Extended cover letter
+- Link to v2: https://lore.kernel.org/all/20250105193628.296350-1-tomasz.pakula.oficjalny@gmail.com
+
+Changes in v2:
+- Fix typo in a comment
+- Fix a possible null pointer dereference when calling
+  hid_pidff_init_with_quirks especially when compiling with HID_PID=n
+- Fix axis identifier when updating fuzz/flat for FFBeast Joystick
+- Link to v1: https://lore.kernel.org/all/20241231154731.1719919-1-tomasz.pakula.oficjalny@gmail.com
+
+---
+Tomasz Pakuła (21):
+  HID: pidff: Convert infinite length from Linux API to PID standard
+  HID: pidff: Do not send effect envelope if it's empty
+  HID: pidff: Clamp PERIODIC effect period to device's logical range
+  HID: pidff: Add MISSING_DELAY quirk and its detection
+  HID: pidff: Add MISSING_PBO quirk and its detection
+  HID: pidff: Add PERMISSIVE_CONTROL quirk
+  HID: pidff: Add hid_pidff_init_with_quirks and export as GPL symbol
+  HID: pidff: Add FIX_WHEEL_DIRECTION quirk
+  HID: pidff: Stop all effects before enabling actuators
+  HID: Add hid-universal-pidff driver and supported device ids
+  MAINTAINERS: Add entry for hid-universal-pidff driver
+  HID: pidff: Add PERIODIC_SINE_ONLY quirk
+  HID: pidff: Completely rework and fix pidff_reset function
+  HID: pidff: Simplify pidff_upload_effect function
+  HID: pidff: Define values used in pidff_find_special_fields
+  HID: pidff: Rescale time values to match field units
+  HID: pidff: Factor out code for setting gain
+  HID: pidff: Fix null pointer dereference in pidff_find_fields
+  HID: pidff: Move all hid-pidff definitions to a dedicated header
+  HID: pidff: Simplify pidff_rescale_signed
+  HID: pidff: Use macros instead of hardcoded min/max values for shorts
+
+ MAINTAINERS                       |   7 +
+ drivers/hid/Kconfig               |  14 +
+ drivers/hid/Makefile              |   1 +
+ drivers/hid/hid-ids.h             |  31 ++
+ drivers/hid/hid-universal-pidff.c | 198 ++++++++++++
+ drivers/hid/usbhid/hid-core.c     |   1 +
+ drivers/hid/usbhid/hid-pidff.c    | 494 ++++++++++++++++++++----------
+ drivers/hid/usbhid/hid-pidff.h    |  33 ++
+ include/linux/hid.h               |   6 -
+ 9 files changed, 616 insertions(+), 169 deletions(-)
+ create mode 100644 drivers/hid/hid-universal-pidff.c
+ create mode 100644 drivers/hid/usbhid/hid-pidff.h
+
+
+base-commit: ffd294d346d185b70e28b1a28abe367bbfe53c04
+-- 
+2.48.1
 
 
