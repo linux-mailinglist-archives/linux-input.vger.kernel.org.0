@@ -1,202 +1,197 @@
-Return-Path: <linux-input+bounces-9626-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9627-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB996A225D9
-	for <lists+linux-input@lfdr.de>; Wed, 29 Jan 2025 22:31:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08120A22755
+	for <lists+linux-input@lfdr.de>; Thu, 30 Jan 2025 01:51:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0682D3A2060
-	for <lists+linux-input@lfdr.de>; Wed, 29 Jan 2025 21:31:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 775881885A29
+	for <lists+linux-input@lfdr.de>; Thu, 30 Jan 2025 00:51:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9FE11EB9F6;
-	Wed, 29 Jan 2025 21:30:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BD90C8FE;
+	Thu, 30 Jan 2025 00:51:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EbYh+2FQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="buuoEBfU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0358F1E8837;
-	Wed, 29 Jan 2025 21:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88688BEC;
+	Thu, 30 Jan 2025 00:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738186213; cv=none; b=ltMbTTvTkRcdkgMGgyG47YOEUYZWruOsdMwICoG6frgb2f26pQMmfcxz2WQTrJj+PN5shlLiwmR2CwllixShDJTrTqavjSObrFTb4YwmRJpv56/BTbJTaFUiLbqVmpS8xJkKXePxRzyAah9+HIGkps7tjHZt5UHT0ToZuCL+Weo=
+	t=1738198280; cv=none; b=tfQQmJtAOZLZBNuotAsXxrcTHr2hf2k3SWkOhNB+Z4yYfT2L5YavXuZ/CwhJi59/gMgTt+c9fSy/T+DnMmCy2vmWd+ZrhbSQK7QcYnRRvvr1XlpnBkh/wd+5ueYOis0iDgrq16P8Z1oFaW8rpYqZczDvgGtqXCHKpPD5zfVrANA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738186213; c=relaxed/simple;
-	bh=KYoulX0+pP4wf+LAn9laV9dVI2wRk7dBV0OdGBJcfRI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DbZjVezhAyal6tRmYpjbavwjdSQ8ItsSPVfsOQmrqXaKj3zR+VUx5fbwTKpG2rrSAEfxRRdNU8B8vn/OCzQeP9TETcpv2AMZ7PRnEq72NmGqKxjAgvhEvFPaqhfnjdwqXZu3LYKbwVU37KtMJBCmmvh+W9l6KhRcUZdVlgJy8ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EbYh+2FQ; arc=none smtp.client-ip=209.85.167.48
+	s=arc-20240116; t=1738198280; c=relaxed/simple;
+	bh=jCfUknLaS1CyXTihImqPVo1F8ohfKeiPfI+MZmVjZ7g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JwPIf6NH4+SaZrR9GDSBRF9RuRoGG87vfNodLtZbbTy+j4BEel+VWEZ+A0Y3MKhMdY3TqnykK+VB6JkqH1G6XLNTHmcjdvFa2u625x7T+thG1sp/JflYFwKnOCL2Ar937cjJcBG6WGHvxlmjP/ulfCMZ3jsQi8dI0muyuE9r7a0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=buuoEBfU; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-543e070cda6so14369e87.0;
-        Wed, 29 Jan 2025 13:30:11 -0800 (PST)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2156e078563so3006845ad.2;
+        Wed, 29 Jan 2025 16:51:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738186210; x=1738791010; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1738198277; x=1738803077; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1mihAfDvNPJNPt4/37fGLK1NIIAZsOCg7/uXaTRSIRs=;
-        b=EbYh+2FQOn/LJF2uAl96ykjUBPL40gbIEaBmNI26xKN+7IEDwhGga/sSN1Y3UKtXi2
-         QgqaH/tkwtdPxsP8K7pLbZd/O8Nj0PYqnNIMXU4tUfwHVLHGn7mn87k79Aoj9GFEWhGo
-         SaJBxri3fzMB5QE0Uhf+v7+gULEa/hTtFVlbCV91gDgvz6sEfHJsS+GvgwZQSPHy84z/
-         CIGSzEhKGXBccsJEfsM0WE3cuh9ky3/c1/ZXIl3z8skRPzqlnIlh7MN08ULwmhMKKJVt
-         vI6nZTtTdDfaAnPc9VyNMg9osMkeNhGux/WjnuJETAnMCgrqoyAeBMl33yUArQDJ1mhJ
-         G4Cg==
+        bh=UfbNo5NJ7RPH7bh4Cu1MrHcyTN0KV+XSd/Gkhk5up30=;
+        b=buuoEBfUp/fBzkOHNnYZUOPDqNNYXeIV4UqFgGUlzuwln176QUJrROqSJWjJmY9d3i
+         I5WXLg/GX9i8G35t00qZ4w4DLeGhMzBtqajl15GZ0+p0kSLtgsGFXLAd3/yTbpZ/9CUQ
+         HXfnSailYKCs5uS/aL24O8Ei1mNVxFc/ZVU/XTKAsYniZr5BGfy2LKJ93lmF799nXfYL
+         sBrXlxustn5LkW1b7gV2HSkCrShmaxinuuU4CU0SO0FWetagGSui6LkP/koxZCdXKEPZ
+         WA1BoDTov4uScaT4blqBZNzYZYO+/v07yMBXvZlHPEWSmHvYCashw/XHeBxum9nUD+/c
+         aUfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738186210; x=1738791010;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1738198277; x=1738803077;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1mihAfDvNPJNPt4/37fGLK1NIIAZsOCg7/uXaTRSIRs=;
-        b=kJ1JVz29elVxIwm/TOwTlr4mhNIysa/EXGH6NqaGwM2zuQD83MJanNdykIItzsZajG
-         4qGMh0SCG4E7H9sl4fShqusJEC/NMxFvYphjntS8N5+WLmnYHn6EgjFQooCNmM5xupwA
-         dTZ4ow3WHRp0u1klZ2e+n2GqLOdYU2D0EZk0/6Zy/jBGM/SKH/BMLX+wnhISJiu79pKi
-         g3XSx0r6Dze47d5uSiOSn5Dp7DKzzQfvzgRlQmnW5Z5TkcVWIVPFN4iA/a+FkdyYue/P
-         4lOGi+O5vbjt3pW5EAVNUbtZ/GFiW/LHihZSLbydozFUj9AkM1KIF1GEru52mpaY/xFu
-         7A4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV+nPbZWnIKRw1sPX3y30f99M1Uv8fq0OYMTxPuC5Uj7u5MLGOCJBGBPh6yknn7ed36DjX1LJm/WR65fQ==@vger.kernel.org, AJvYcCVQYdzWRQ92uIwq59sFosJUcTOmhADjIoJ2YvX6F3QJbvPYogF5AzbxHBAShMuiqtJ/XKTvlThzbo50@vger.kernel.org
-X-Gm-Message-State: AOJu0YxL+WbEVa8WD+CwKKGzOoG/o+9LfIJV3H3WjIQiOCX2T+0U6wfX
-	7T2vOc17AVqvgqovet+SYEaHyEwgX7W/wJYvnt898J7QL6gGplEgCDvN7u+t
-X-Gm-Gg: ASbGnctfp+/93zT15LM1M2ar9PGd9eXw3NOLuc8IiUVs04SseSbMJ4rJjV+UEkdUBu8
-	oLMBO1QzYTAhCoTwjSoqDamIeRCyWmJ4jcmYicKGW5H48qk8aD9jZLx4MVOLLi5J6eBbwWQkb9l
-	L5DQOsVZbMnW1x4sIV+cMB8poKNS2VuN5PpzLuubjbB/FyKAK5SaH2vmiAEiN0ISEhsxZkzlNhJ
-	qhgNOw0PqQmNxv1XyElBugXkS26M/Trt4CVLBXR7LH6pqvoELgSo1dubcvjeCo/8iWGT2n0x6OG
-	UBu3qZ+RAmaOacP2fMxX3xJAwA2Y4nEbLJoqJNMzErzBEolxsnm0zNSCfH5ZvQ==
-X-Google-Smtp-Source: AGHT+IE50LiBQHPUWZ2irtGbuI2jGpfNWcVYLFchhttIOzUZsQwW82oGOJA2BKQ8Elp+hqnwxpHVdw==
-X-Received: by 2002:a05:6512:3041:b0:542:2990:6e9a with SMTP id 2adb3069b0e04-543ea824592mr67958e87.12.1738186209789;
-        Wed, 29 Jan 2025 13:30:09 -0800 (PST)
-Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543c83799c0sm2100778e87.190.2025.01.29.13.30.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jan 2025 13:30:09 -0800 (PST)
-From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: anssi.hannula@gmail.com,
-	oleg@makarenk.ooo,
-	linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH v8 21/21] HID: pidff: Use macros instead of hardcoded min/max values for shorts
-Date: Wed, 29 Jan 2025 22:29:35 +0100
-Message-ID: <20250129212935.780998-22-tomasz.pakula.oficjalny@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250129212935.780998-1-tomasz.pakula.oficjalny@gmail.com>
-References: <20250129212935.780998-1-tomasz.pakula.oficjalny@gmail.com>
+        bh=UfbNo5NJ7RPH7bh4Cu1MrHcyTN0KV+XSd/Gkhk5up30=;
+        b=NUgK5HkeBxdzSz6vpd5Gm7WLbO8w8Vq3B6rxlQeQCQfpeukQrQaI9P8dqUpQLP89+i
+         0VY0k9Fvc50QkXjxfrvrzCXziEVMpkywmqUiotaSTk71POpVQsXNn1rqz6GReteyvHHc
+         2f1nSwxQte4BgZSVX+d9BZ4+fW2S/lVKV8CxmLA4M2kh+rJ9EhxAjwcbMzd/3/U+62Qg
+         yQRpdLa6XEMMAC5tPs+VSLRgu5M6PnQVmQav8OPk8T7oHa6Abn1+cei46fkST6vW1NnY
+         s+kt4LetIq35G3tjxNAplczVqbkjvw48onhrZ9hqpX+HtLgQ45ES6UnGwQkqBymx2SVK
+         mK6w==
+X-Forwarded-Encrypted: i=1; AJvYcCUkkHx9Q14QjUN+0bEDc6kTxIOvE1dCNfeYHdmdZo008VS+4J+vEbU57kAkZRrh1kRWBcjAKC1ArojTkWmF@vger.kernel.org, AJvYcCUtQhebWLThWl73qsmOpe51VCZjQrS1y3srX4wCoC5XuCyMQcQ9hQneynNMF6XY3tktD7eNLNOea48qLZU=@vger.kernel.org, AJvYcCVyodWruTKBs6E86KBK5GSK2G3YS0CwKrQKA4QjS/B/hLp1hduxicx+g5+71kfsp5PfZNc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8ZGZ+RwkPFH+KOhf7LbAExcIy+2cufwwAq4lGJaztcJHmd8Mk
+	3X6KVvdea+faCzNafZHpR622Te4XKk9mN73FlhZDt9Qp2ZsfVZEmHn0FJpg7+f31DR6KW1AALht
+	APj8a4h1ZPY7P02k6UBS9IJMGo5M=
+X-Gm-Gg: ASbGnctv21NgM4SxELKXZCU1bfU7DnzksnqLH1eqy1FMy6NXs9fI/fl41YaGj746xi5
+	PV5iZfl/8emqt3WzGfS9gQ+AHiwwCWdsCLkSKMwaS7NKxxY9U0wCUScuSn6QY3ZER/V1Zu93pLu
+	jkrRWYHiDFchpn
+X-Google-Smtp-Source: AGHT+IGgaBMbfH+DAGW8rfwUFWjT/jC/KKLsk8AdYQ5680s3xyLzrfazlu6u+aG3v6IXn4AndfWzjwNBFBA528z2ehc=
+X-Received: by 2002:a05:6a20:9c8e:b0:1e1:b1bb:87a0 with SMTP id
+ adf61e73a8af0-1ed7a6b79d7mr11003646637.34.1738198276838; Wed, 29 Jan 2025
+ 16:51:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250123081950.173588-1-jinghao7@illinois.edu>
+ <20250123081950.173588-3-jinghao7@illinois.edu> <CAEf4BzbCm4=NLV4DOyRxvxEtZUONzqmXBOFMp5cg=4hPEEYUtA@mail.gmail.com>
+ <2sxhtfdzspkn5umtfpxiueb67v4jhl3nad6i66qtfry52o7sip@nm5oeplybppa> <501166cc-02fe-431c-9258-c2f44227ebc4@illinois.edu>
+In-Reply-To: <501166cc-02fe-431c-9258-c2f44227ebc4@illinois.edu>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Wed, 29 Jan 2025 16:51:02 -0800
+X-Gm-Features: AWEUYZn8HiygP7sKOljXPFeDY8nAwVLLg472aD4TUx7AZvMx7otTHm9d20Mh5j4
+Message-ID: <CAEf4BzbYUsPzyVkDOKYhKc+Gs4O=mZExJ1_gc=t1siMz8kvn2Q@mail.gmail.com>
+Subject: Re: [PATCH bpf v2 2/2] samples/{bpf,hid}: fix broken vmlinux path for VMLINUX_BTF
+To: Jinghao Jia <jinghao7@illinois.edu>
+Cc: Benjamin Tissoires <bentiss@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <n.schier@avm.de>, Ruowen Qin <ruqin@redhat.com>, 
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Makes it obvious these magic values ARE in fact derived from min and
-max values for s16 and u16
+On Wed, Jan 29, 2025 at 2:06=E2=80=AFAM Jinghao Jia <jinghao7@illinois.edu>=
+ wrote:
+>
+>
+>
+> On 1/24/25 2:04 PM, Benjamin Tissoires wrote:
+> > On Jan 24 2025, Andrii Nakryiko wrote:
+> >> On Thu, Jan 23, 2025 at 12:20=E2=80=AFAM Jinghao Jia <jinghao7@illinoi=
+s.edu> wrote:
+> >>>
+> >>> Commit 13b25489b6f8 ("kbuild: change working directory to external
+> >>> module directory with M=3D") changed kbuild working directory of bpf =
+and
+> >>> hid samples to samples/{bpf,hid}, which broke the vmlinux path for
+> >>> VMLINUX_BTF, as the Makefiles assume the current work directory to be
+> >>> the kernel output directory and use a relative path (i.e., ./vmlinux)=
+:
+> >>>
+> >>>   Makefile:316: *** Cannot find a vmlinux for VMLINUX_BTF at any of "=
+  /path/to/linux/samples/bpf/vmlinux", build the kernel or set VMLINUX_BTF =
+like "VMLINUX_BTF=3D/sys/kernel/btf/vmlinux" or VMLINUX_H variable.  Stop.
+> >>>
+> >>> Correctly refer to the kernel output directory using $(objtree).
+> >>>
+> >>> Fixes: 13b25489b6f8 ("kbuild: change working directory to external mo=
+dule directory with M=3D")
+> >>> Tested-by: Ruowen Qin <ruqin@redhat.com>
+> >>> Signed-off-by: Jinghao Jia <jinghao7@illinois.edu>
+> >>> ---
+> >>>  samples/bpf/Makefile | 2 +-
+> >>>  samples/hid/Makefile | 2 +-
+> >>>  2 files changed, 2 insertions(+), 2 deletions(-)
+> >>>
+> >>
+> >> can you please split samples/bpf from samples/hid changes, so we can
+> >> land samples/bpf fix through bpf-next tree independently from other
+> >> changes?
+> >
+> > FWIW, I don't mind if this goes through the bpf-next tree all at once.
+> >
+> > Acked-by: Benjamin Tissoires <bentiss@kernel.org>
+> >
+> > Cheers,
+> > Benjamin
+> >
+>
+> I wonder how we are going to move forward with this fix? Do we want to le=
+t
+> it go through bpf tree at once or split the changes?
 
-Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Reviewed-by: Michał Kopeć <michal@nozomi.space>
-Tested-by: Cristóferson Bueno <cbueno81@gmail.com>
----
- drivers/hid/usbhid/hid-pidff.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+I'd prefer the split and routing through respective trees. Is there
+any reason not to do that?
 
-diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index f478859682ad..a223557de099 100644
---- a/drivers/hid/usbhid/hid-pidff.c
-+++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -21,7 +21,7 @@
- 
- 
- #define	PID_EFFECTS_MAX		64
--#define	PID_INFINITE		0xffff
-+#define	PID_INFINITE		U16_MAX
- 
- /* Linux Force Feedback API uses miliseconds as time unit */
- #define FF_TIME_EXPONENT	-3
-@@ -226,12 +226,12 @@ static int pidff_rescale(int i, int max, struct hid_field *field)
- }
- 
- /*
-- * Scale a signed value in range -0x8000..0x7fff for the given field
-+ * Scale a signed value in range S16_MIN..S16_MAX for the given field
-  */
- static int pidff_rescale_signed(int i, struct hid_field *field)
- {
--	if (i > 0) return i * field->logical_maximum / 0x7fff;
--	if (i < 0) return i * field->logical_minimum / -0x8000;
-+	if (i > 0) return i * field->logical_maximum / S16_MAX;
-+	if (i < 0) return i * field->logical_minimum / S16_MIN;
- 	return 0;
- }
- 
-@@ -255,7 +255,7 @@ static u32 pidff_rescale_time(u16 time, struct hid_field *field)
- 
- static void pidff_set(struct pidff_usage *usage, u16 value)
- {
--	usage->value[0] = pidff_rescale(value, 0xffff, usage->field);
-+	usage->value[0] = pidff_rescale(value, U16_MAX, usage->field);
- 	pr_debug("calculated from %d to %d\n", value, usage->value[0]);
- }
- 
-@@ -266,10 +266,10 @@ static void pidff_set_signed(struct pidff_usage *usage, s16 value)
- 	else {
- 		if (value < 0)
- 			usage->value[0] =
--			    pidff_rescale(-value, 0x8000, usage->field);
-+			    pidff_rescale(-value, -S16_MIN, usage->field);
- 		else
- 			usage->value[0] =
--			    pidff_rescale(value, 0x7fff, usage->field);
-+			    pidff_rescale(value, S16_MAX, usage->field);
- 	}
- 	pr_debug("calculated from %d to %d\n", value, usage->value[0]);
- }
-@@ -306,11 +306,11 @@ static void pidff_set_envelope_report(struct pidff_device *pidff,
- 
- 	pidff->set_envelope[PID_ATTACK_LEVEL].value[0] =
- 	    pidff_rescale(envelope->attack_level >
--			  0x7fff ? 0x7fff : envelope->attack_level, 0x7fff,
-+			  S16_MAX ? S16_MAX : envelope->attack_level, S16_MAX,
- 			  pidff->set_envelope[PID_ATTACK_LEVEL].field);
- 	pidff->set_envelope[PID_FADE_LEVEL].value[0] =
- 	    pidff_rescale(envelope->fade_level >
--			  0x7fff ? 0x7fff : envelope->fade_level, 0x7fff,
-+			  S16_MAX ? S16_MAX : envelope->fade_level, S16_MAX,
- 			  pidff->set_envelope[PID_FADE_LEVEL].field);
- 
- 	pidff_set_time(&pidff->set_envelope[PID_ATTACK_TIME],
-@@ -399,7 +399,7 @@ static void pidff_set_effect_report(struct pidff_device *pidff,
- 	pidff->effect_direction->value[0] = pidff_rescale(
- 		pidff->quirks & HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION ?
- 		PIDFF_FIXED_WHEEL_DIRECTION : effect->direction,
--		0xffff, pidff->effect_direction);
-+		U16_MAX, pidff->effect_direction);
- 
- 	/* Omit setting delay field if it's missing */
- 	if (!(pidff->quirks & HID_PIDFF_QUIRK_MISSING_DELAY))
-@@ -1366,7 +1366,7 @@ static int pidff_check_autocenter(struct pidff_device *pidff,
- 
- 	if (pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0] ==
- 	    pidff->block_load[PID_EFFECT_BLOCK_INDEX].field->logical_minimum + 1) {
--		pidff_autocenter(pidff, 0xffff);
-+		pidff_autocenter(pidff, U16_MAX);
- 		set_bit(FF_AUTOCENTER, dev->ffbit);
- 	} else {
- 		hid_notice(pidff->hid,
-@@ -1424,7 +1424,7 @@ int hid_pidff_init_with_quirks(struct hid_device *hid, u32 initial_quirks)
- 	if (error)
- 		goto fail;
- 
--	pidff_set_gain_report(pidff, 0xffff);
-+	pidff_set_gain_report(pidff, U16_MAX);
- 	error = pidff_check_autocenter(pidff, dev);
- 	if (error)
- 		goto fail;
--- 
-2.48.1
-
+>
+> Best,
+> Jinghao
+>
+> >>
+> >> pw-bot: cr
+> >>
+> >>> diff --git a/samples/bpf/Makefile b/samples/bpf/Makefile
+> >>> index 96a05e70ace3..f5865fbbae62 100644
+> >>> --- a/samples/bpf/Makefile
+> >>> +++ b/samples/bpf/Makefile
+> >>> @@ -307,7 +307,7 @@ $(obj)/$(TRACE_HELPERS): TPROGS_CFLAGS :=3D $(TPR=
+OGS_CFLAGS) -D__must_check=3D
+> >>>
+> >>>  VMLINUX_BTF_PATHS ?=3D $(abspath $(if $(O),$(O)/vmlinux))           =
+                     \
+> >>>                      $(abspath $(if $(KBUILD_OUTPUT),$(KBUILD_OUTPUT)=
+/vmlinux)) \
+> >>> -                    $(abspath ./vmlinux)
+> >>> +                    $(abspath $(objtree)/vmlinux)
+> >>>  VMLINUX_BTF ?=3D $(abspath $(firstword $(wildcard $(VMLINUX_BTF_PATH=
+S))))
+> >>>
+> >>>  $(obj)/vmlinux.h: $(VMLINUX_BTF) $(BPFTOOL)
+> >>> diff --git a/samples/hid/Makefile b/samples/hid/Makefile
+> >>> index 69159c81d045..db5a077c77fc 100644
+> >>> --- a/samples/hid/Makefile
+> >>> +++ b/samples/hid/Makefile
+> >>> @@ -164,7 +164,7 @@ $(obj)/hid_surface_dial.o: $(obj)/hid_surface_dia=
+l.skel.h
+> >>>
+> >>>  VMLINUX_BTF_PATHS ?=3D $(abspath $(if $(O),$(O)/vmlinux))           =
+                     \
+> >>>                      $(abspath $(if $(KBUILD_OUTPUT),$(KBUILD_OUTPUT)=
+/vmlinux)) \
+> >>> -                    $(abspath ./vmlinux)
+> >>> +                    $(abspath $(objtree)/vmlinux)
+> >>>  VMLINUX_BTF ?=3D $(abspath $(firstword $(wildcard $(VMLINUX_BTF_PATH=
+S))))
+> >>>
+> >>>  $(obj)/vmlinux.h: $(VMLINUX_BTF) $(BPFTOOL)
+> >>> --
+> >>> 2.48.1
+> >>>
+>
 
