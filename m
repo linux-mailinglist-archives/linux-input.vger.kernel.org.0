@@ -1,816 +1,247 @@
-Return-Path: <linux-input+bounces-9635-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9636-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E90AEA2439D
-	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2025 21:02:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F22B1A243B3
+	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2025 21:13:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E40D166177
-	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2025 20:02:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DDBD167899
+	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2025 20:13:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 760C11F37B2;
-	Fri, 31 Jan 2025 20:02:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F7CE1F37D2;
+	Fri, 31 Jan 2025 20:12:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Hxe4+ylo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aPjvJgg8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3885D1F238D;
-	Fri, 31 Jan 2025 20:02:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F2E1F2C47;
+	Fri, 31 Jan 2025 20:12:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738353727; cv=none; b=SE3PdcrarxS2ER/d32cL9q7EJFk0cQMHKBUt2FeYEB0x+OKhKkmASD+n4vrfgunTKpBJ3VzpfFobQ6m/f5m428Ay+qf8Sra/CPfyOgIOvQRQzXOFVYm+4324+tYEyozo2862dEF+BQLx+2IiMK/BgFgnUCistkiQn9dNbk7o4No=
+	t=1738354377; cv=none; b=dz74HG6/JDCBrPrqiuZ4Xdi6aPY6F8wBIXlDHKcttAdhX4kQBB7auaKSkpgaZhufaCMdCtBCwDdQ5uccmmkuh4Y3aT5Hn+7RMzzZhuiZWqzj0YrpIr5a07pvas0hBDj0z+JyRk1+3KQSYYgR9HNCYRIKUsqrMz8ttnRCMBwbEEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738353727; c=relaxed/simple;
-	bh=fuWeLByj80754MOGlmEzAJX/L9c2TYV677lqCSUIZCE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LC8zpDnfQE03pCZ1eTcHbsdy1hGCREaW7H0sbZpGnWnFT+7RlqbLi9JtNR6k06kl0fX5t59ZYoRAaT+VUCtngvtI4IeNX+DWX3HN8jXOmHrO+BThNYeIzG4OdL2oH2QqNn+ySwgG79a2AucOU82fqBLDij/HGfM44mbDr9iLI2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Hxe4+ylo; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50V62RgC009728;
-	Fri, 31 Jan 2025 14:02:03 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=MF3LR1s1Rj7Ha12pV01Rjj4AA/V+w0HEuDHAs9QG5WU=; b=
-	Hxe4+yloBGg6yAopot811IHkin7x5WRBoA4RHpT44yb9pDZ1Icv/9N4pYDI14zcp
-	UcqwkOQHJtdqCzoEyYoqlWTfN8vDdk+TNzwMfN44ho1Ovs5iD0rdHxXsDOv9u/UC
-	pu2dRdT6QdQzxBPrZLsMudq0wu1AhwEuDOX/YiHCzI7rUvHGHs91oBU/zFZR1G1H
-	YBzNlEJ/Dxc3VS/5Dp0ty8C7YnrZXXVciHLPomyiyDpTmFidCs9f7WhR2OYJWj42
-	Gutq+aokVwnD1QTWthD5fAuZJurGcufB+JQPnznagq57WJsH48AjmQMptdvnfMZD
-	KmSV+f5hMN8J4+VPBvOokQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 44gf9215af-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 31 Jan 2025 14:02:02 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 31 Jan
- 2025 20:01:59 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Fri, 31 Jan 2025 20:01:54 +0000
-Received: from ftrev.crystal.cirrus.com (ftrev.ad.cirrus.com [141.131.145.81])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 0478282026C;
-	Fri, 31 Jan 2025 20:01:52 +0000 (UTC)
-From: Fred Treven <ftreven@opensource.cirrus.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        James Ogletree
-	<jogletre@opensource.cirrus.com>,
-        Fred Treven
-	<ftreven@opensource.cirrus.com>,
-        Ben Bright <ben.bright@cirrus.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-Subject: [PATCH 7/7] Input: cs40l26 - Add support for CS40L26 haptic driver
-Date: Fri, 31 Jan 2025 13:56:38 -0600
-Message-ID: <20250131195639.1784933-8-ftreven@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250131195639.1784933-1-ftreven@opensource.cirrus.com>
-References: <20250131195639.1784933-1-ftreven@opensource.cirrus.com>
+	s=arc-20240116; t=1738354377; c=relaxed/simple;
+	bh=vg/+jgyh0IRUSzgzqkliZ3s1/U6jUBUON10aCM43Ny0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ckp/AztJx+ISnGUizbYHdmkEXuTwyc3WDQ2JhpbeSpf0N+OtqsUerkMudVCfPIbmhpdWcipk2lqzQbEaEsnjS5JdZjcue7LrNtKo2izsHUYgUJvQ8fChVhnU4dFsc1Ax6MLzvsaEhs6SHDKCKOCMithgVYIpih6yG4QUOmviWVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aPjvJgg8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE04DC4CED1;
+	Fri, 31 Jan 2025 20:12:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738354376;
+	bh=vg/+jgyh0IRUSzgzqkliZ3s1/U6jUBUON10aCM43Ny0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aPjvJgg824gCc0kSN+GlX5Dpiy38UxR3gJgZjjj5ncm8Q++AU2ucBbsVw/s5wux3l
+	 Toq21AkU3/EwcM38tMsJrm7Tba/vCH/4/kAGe0I4Ib6DsnCbpCwi7lCAWMb85G6keN
+	 j32ZMFHCajK5eWy88W4we0y1vqBxLy8EXCRjwOMJw7TGhV97Bh9JoNOgpSlRhswBRr
+	 DFxVEm+Rdc3kbq/0y9LQ9YiR6QmKfJm/YFONVcxGqviDH3q3c62fToIzAFuF5Bhf9M
+	 HQ34yWIslw7TY9n8M80PMjhyZ0URLmmm7RQkpmAcvSbSt5LygBhHBj2QHEpUkCjMtk
+	 q93MrlW6U4tPA==
+Date: Fri, 31 Jan 2025 12:12:53 -0800
+From: Kees Cook <kees@kernel.org>
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Cc: Jiri Kosina <jikos@kernel.org>, Alan Stern <stern@rowland.harvard.edu>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Terry Junge <linuxhid@cosmicgizmosystems.com>,
+	linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	syzbot <syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com>,
+	syzkaller-bugs@googlegroups.com, lvc-project@linuxtesting.org
+Subject: Re: [PATCH v2] HID: usbhid: fix recurrent out-of-bounds bug in
+ usbhid_parse()
+Message-ID: <202501311205.DB75F95@keescook>
+References: <20250131151600.410242-1-n.zhandarovich@fintech.ru>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: sLTToGemZiqhAcKDNQVhCtVXFUwk1Y9f
-X-Authority-Analysis: v=2.4 cv=JPXBs9Kb c=1 sm=1 tr=0 ts=679d2c3a cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=VdSt8ZQiCzkA:10 a=w1d2syhTAAAA:8 a=u19Cq9sczE363Rxt_jsA:9 a=YXXWInSmI4Sqt1AkVdoW:22
-X-Proofpoint-ORIG-GUID: sLTToGemZiqhAcKDNQVhCtVXFUwk1Y9f
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250131151600.410242-1-n.zhandarovich@fintech.ru>
 
-Introduce support for Cirrus Logic Device CS40L26:
-a boosted haptics driver with integrated DSP and
-waveform memory with advanced closed loop algorithms
-and LRA protection.
+On Fri, Jan 31, 2025 at 06:15:58PM +0300, Nikita Zhandarovich wrote:
+> Syzbot reports [1] a reemerging out-of-bounds bug regarding hid
+> descriptors supposedly having unpredictable bNumDescriptors values in
+> usbhid_parse().
+> 
+> The issue stems from the fact that hid_class_descriptor is supposed
+> to be a flexible array, however it was sized as desc[1], using only
+> one element. Therefore, going beyond 1 element, courtesy of
+> bNumDescriptors, may lead to an error.
+> 
+> Modify struct hid_descriptor by employing __counted_by macro, tying
+> together struct hid_class_descriptor desc[] and number of descriptors
+> bNumDescriptors. Also, fix places where this change affects work with
+> newly updated struct.
+> 
+> [1] Syzbot report:
+> 
+> UBSAN: array-index-out-of-bounds in drivers/hid/usbhid/hid-core.c:1024:7
+> index 1 is out of range for type 'struct hid_class_descriptor[1]'
+> ...
+> Workqueue: usb_hub_wq hub_event
+> Call Trace:
+>  <TASK>
+>  __dump_stack lib/dump_stack.c:88 [inline]
+>  dump_stack_lvl+0x241/0x360 lib/dump_stack.c:114
+>  ubsan_epilogue lib/ubsan.c:231 [inline]
+>  __ubsan_handle_out_of_bounds+0x121/0x150 lib/ubsan.c:429
+>  usbhid_parse+0x5a7/0xc80 drivers/hid/usbhid/hid-core.c:1024
+>  hid_add_device+0x132/0x520 drivers/hid/hid-core.c:2790
+>  usbhid_probe+0xb38/0xea0 drivers/hid/usbhid/hid-core.c:1429
+>  usb_probe_interface+0x645/0xbb0 drivers/usb/core/driver.c:399
+>  really_probe+0x2b8/0xad0 drivers/base/dd.c:656
+>  __driver_probe_device+0x1a2/0x390 drivers/base/dd.c:798
+>  driver_probe_device+0x50/0x430 drivers/base/dd.c:828
+>  __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:956
+>  bus_for_each_drv+0x24e/0x2e0 drivers/base/bus.c:457
+>  __device_attach+0x333/0x520 drivers/base/dd.c:1028
+>  bus_probe_device+0x189/0x260 drivers/base/bus.c:532
+>  device_add+0x8ff/0xca0 drivers/base/core.c:3720
+>  usb_set_configuration+0x1976/0x1fb0 drivers/usb/core/message.c:2210
+>  usb_generic_driver_probe+0x88/0x140 drivers/usb/core/generic.c:254
+>  usb_probe_device+0x1b8/0x380 drivers/usb/core/driver.c:294
+> 
+> Reported-by: syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=c52569baf0c843f35495
+> Fixes: f043bfc98c19 ("HID: usbhid: fix out-of-bounds bug")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+> ---
+> v1: https://lore.kernel.org/all/20240524120112.28076-1-n.zhandarovich@fintech.ru/
+> 
+> v2: Instead of essentially forcing usbhid_parse() to only check
+> the first descriptor, modify hid_descriptor struct to anticipate
+> multiple hid_class_descriptor in desc[] by utilizing __counted_by
+> macro. This change, in turn, requires several other ones wherever
+> that struct is used. Adjust commit description accordingly.
+> 
+> P.S. Since syzbot currently breaks trying to reproduce the issue,
+> with or without this patch, I only managed to test it locally with
+> syz repros. Would greatly appreciate other people's effort to test
+> it as well.
+> 
+> P.P.S. Terry Junge <linuxhid@cosmicgizmosystems.com> suggested a
+> different approach to this issue, see:
+> Link: https://lore.kernel.org/all/f7963a1d-e069-4ec9-82a1-e17fd324a44f@cosmicgizmosystems.com/
+> 
+>  drivers/hid/usbhid/hid-core.c       |  2 +-
+>  drivers/usb/gadget/function/f_fs.c  |  3 ++-
+>  drivers/usb/gadget/function/f_hid.c | 22 ++++++++++++++--------
+>  include/linux/hid.h                 |  2 +-
+>  4 files changed, 18 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+> index a6eb6fe6130d..eb4807785d6d 100644
+> --- a/drivers/hid/usbhid/hid-core.c
+> +++ b/drivers/hid/usbhid/hid-core.c
+> @@ -1010,7 +1010,7 @@ static int usbhid_parse(struct hid_device *hid)
+>  		return -ENODEV;
+>  	}
+>  
+> -	if (hdesc->bLength < sizeof(struct hid_descriptor)) {
+> +	if (hdesc->bLength < struct_size(hdesc, desc, hdesc->bNumDescriptors)) {
+>  		dbg_hid("hid descriptor is too short\n");
+>  		return -EINVAL;
+>  	}
 
-The input driver provides the interface for control
-of haptic effects through the device.
+I don't think you want this hunk in the patch. The existing logic will
+correctly adapt num_descriptors to a size that fits within
+hdesc->bLength. In theory, the above change could break a weird but
+working device that reported too high bNumDescriptors but still worked
+with what num_descriptors walks.
 
-Signed-off-by: Fred Treven <ftreven@opensource.cirrus.com>
----
- drivers/input/misc/Kconfig         |  10 +
- drivers/input/misc/Makefile        |   1 +
- drivers/input/misc/cs40l26-vibra.c | 669 +++++++++++++++++++++++++++++
- 3 files changed, 680 insertions(+)
- create mode 100644 drivers/input/misc/cs40l26-vibra.c
+> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+> index 2dea9e42a0f8..a4b6d7cbf56d 100644
+> --- a/drivers/usb/gadget/function/f_fs.c
+> +++ b/drivers/usb/gadget/function/f_fs.c
+> @@ -2550,7 +2550,8 @@ static int __must_check ffs_do_single_desc(char *data, unsigned len,
+>  	case USB_TYPE_CLASS | 0x01:
+>  		if (*current_class == USB_INTERFACE_CLASS_HID) {
+>  			pr_vdebug("hid descriptor\n");
+> -			if (length != sizeof(struct hid_descriptor))
+> +			if (length < sizeof(struct hid_descriptor) +
+> +				     sizeof(struct hid_class_descriptor))
+>  				goto inv_length;
+>  			break;
+>  		} else if (*current_class == USB_INTERFACE_CLASS_CCID) {
 
-diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index 13d135257e06..2c9496c873e7 100644
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -147,6 +147,16 @@ config INPUT_BMA150
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called bma150.
- 
-+config INPUT_CS40L26_VIBRA
-+	tristate "CS40L26 Haptic Driver support"
-+	depends on MFD_CS40L26_CORE
-+	help
-+	  Say Y here to enable support for Cirrus Logic's CS40L26
-+	  haptic driver.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called cs40l26-vibra.
-+
- config INPUT_CS40L50_VIBRA
- 	tristate "CS40L50 Haptic Driver support"
- 	depends on MFD_CS40L50_CORE
-diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
-index 6d91804d0a6f..b6274a937a94 100644
---- a/drivers/input/misc/Makefile
-+++ b/drivers/input/misc/Makefile
-@@ -29,6 +29,7 @@ obj-$(CONFIG_INPUT_CMA3000)		+= cma3000_d0x.o
- obj-$(CONFIG_INPUT_CMA3000_I2C)		+= cma3000_d0x_i2c.o
- obj-$(CONFIG_INPUT_COBALT_BTNS)		+= cobalt_btns.o
- obj-$(CONFIG_INPUT_CPCAP_PWRBUTTON)	+= cpcap-pwrbutton.o
-+obj-$(CONFIG_INPUT_CS40L26_VIBRA)	+= cs40l26-vibra.o
- obj-$(CONFIG_INPUT_CS40L50_VIBRA)	+= cs40l50-vibra.o
- obj-$(CONFIG_INPUT_DA7280_HAPTICS)	+= da7280.o
- obj-$(CONFIG_INPUT_DA9052_ONKEY)	+= da9052_onkey.o
-diff --git a/drivers/input/misc/cs40l26-vibra.c b/drivers/input/misc/cs40l26-vibra.c
-new file mode 100644
-index 000000000000..d083be714a3a
---- /dev/null
-+++ b/drivers/input/misc/cs40l26-vibra.c
-@@ -0,0 +1,669 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * CS40L26 Advanced Haptic Driver with waveform memory,
-+ * integrated DSP, and closed-loop algorithms
-+ *
-+ * Copyright 2025 Cirrus Logic, Inc.
-+ *
-+ * Author: Fred Treven <ftreven@opensource.cirrus.com>
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/input.h>
-+#include <linux/mfd/cs40l26.h>
-+
-+#define CS40L26_EFFECTS_MAX	1
-+
-+#define CS40L26_NUM_PCT_MAP_VALUES	101
-+
-+#define CS40L26_STOP_PLAYBACK	0x05000000
-+
-+#define CS40L26_MAX_INDEX_MASK	GENMASK(15, 0)
-+
-+#define CS40L26_RAM_INDEX_START	0x01000000
-+#define CS40L26_RAM_INDEX_END	0x0100007F
-+
-+#define CS40L26_ROM_INDEX_START	0x01800000
-+#define CS40L26_ROM_INDEX_END	0x01800026
-+#define CS40L26_NUM_ROM_WAVES	(CS40L26_ROM_INDEX_END - CS40L26_ROM_INDEX_START + 1)
-+
-+#define CS40L26_BUZZGEN_INDEX_START	0x01800080
-+#define CS40L26_BUZZGEN_INDEX_END	0x01800085
-+
-+#define CS40L26_BUZZGEN_PER_MS_MAX	10
-+#define CS40L26_BUZZGEN_PER_MS_MIN	4
-+
-+#define CS40L26_BUZZGEN_LEVEL_MIN	0x00
-+#define CS40L26_BUZZGEN_LEVEL_MAX	0xFF
-+
-+#define CS40L26_BUZZGEN_NUM_CONFIGS	(CS40L26_BUZZGEN_INDEX_END - CS40L26_BUZZGEN_INDEX_START)
-+
-+enum cs40l26_bank {
-+	CS40L26_BANK_RAM,
-+	CS40L26_BANK_ROM,
-+	CS40L26_BANK_BUZ,
-+};
-+
-+struct cs40l26_effect {
-+	enum cs40l26_bank bank;
-+	u32 index;
-+	int id;
-+	struct list_head list;
-+};
-+
-+struct cs40l26_vibra {
-+	struct cs40l26 *cs40l26;
-+	struct input_dev *input;
-+	struct workqueue_struct *vib_wq;
-+	struct list_head effect_head;
-+};
-+
-+struct cs40l26_work {
-+	struct ff_effect *ff_effect;
-+	struct cs40l26_vibra *vib;
-+	struct work_struct work;
-+	s16 *custom_data;
-+	int custom_len;
-+	u16 gain_pct;
-+	int count;
-+	int error;
-+};
-+
-+struct cs40l26_buzzgen_config {
-+	const char *duration_name;
-+	const char *freq_name;
-+	const char *level_name;
-+	int effect_id;
-+};
-+
-+static struct cs40l26_buzzgen_config cs40l26_buzzgen_configs[] = {
-+	{
-+		.duration_name = "BUZZ_EFFECTS2_BUZZ_DURATION",
-+		.freq_name = "BUZZ_EFFECTS2_BUZZ_FREQ",
-+		.level_name = "BUZZ_EFFECTS2_BUZZ_LEVEL",
-+		.effect_id = -1
-+	},
-+	{
-+		.duration_name = "BUZZ_EFFECTS3_BUZZ_DURATION",
-+		.freq_name = "BUZZ_EFFECTS3_BUZZ_FREQ",
-+		.level_name = "BUZZ_EFFECTS3_BUZZ_LEVEL",
-+		.effect_id = -1
-+	},
-+	{
-+		.duration_name = "BUZZ_EFFECTS4_BUZZ_DURATION",
-+		.freq_name = "BUZZ_EFFECTS4_BUZZ_FREQ",
-+		.level_name = "BUZZ_EFFECTS4_BUZZ_LEVEL",
-+		.effect_id = -1
-+	},
-+	{
-+		.duration_name = "BUZZ_EFFECTS5_BUZZ_DURATION",
-+		.freq_name = "BUZZ_EFFECTS5_BUZZ_FREQ",
-+		.level_name = "BUZZ_EFFECTS5_BUZZ_LEVEL",
-+		.effect_id = -1
-+	},
-+	{
-+		.duration_name = "BUZZ_EFFECTS6_BUZZ_DURATION",
-+		.freq_name = "BUZZ_EFFECTS6_BUZZ_FREQ",
-+		.level_name = "BUZZ_EFFECTS6_BUZZ_LEVEL",
-+		.effect_id = -1
-+	},
-+};
-+
-+static int cs40l26_buzzgen_find_slot(int id)
-+{
-+	int effect_id, lowest_available_slot = -1, slot;
-+
-+	for (slot = CS40L26_BUZZGEN_NUM_CONFIGS - 1; slot >= 0; slot--) {
-+		effect_id = cs40l26_buzzgen_configs[slot].effect_id;
-+
-+		if (effect_id == id)
-+			return slot;
-+		else if (effect_id == -1)
-+			lowest_available_slot = slot;
-+	}
-+
-+	return lowest_available_slot;
-+}
-+
-+static int cs40l26_sine_upload(struct cs40l26_vibra *vib, struct cs40l26_work *work_data,
-+			       struct cs40l26_effect *effect)
-+{
-+	struct cs_dsp *dsp = &vib->cs40l26->dsp;
-+	unsigned int duration, freq, level;
-+	int error, slot;
-+
-+	slot = cs40l26_buzzgen_find_slot(work_data->ff_effect->id);
-+	if (slot == -1) {
-+		dev_err(vib->cs40l26->dev, "No free BUZZGEN slot available\n");
-+		return -ENOSPC;
-+	}
-+
-+	cs40l26_buzzgen_configs[slot].effect_id = work_data->ff_effect->id;
-+
-+	/* Firmware expects duration in ms divided by 4 */
-+	duration = (unsigned int)DIV_ROUND_UP(work_data->ff_effect->replay.length, 4);
-+
-+	freq = (unsigned int)(1000 / clamp_val(work_data->ff_effect->u.periodic.period,
-+					       CS40L26_BUZZGEN_PER_MS_MIN,
-+					       CS40L26_BUZZGEN_PER_MS_MAX));
-+
-+	level = (unsigned int)clamp_val(work_data->ff_effect->u.periodic.magnitude,
-+					CS40L26_BUZZGEN_LEVEL_MIN, CS40L26_BUZZGEN_LEVEL_MAX);
-+
-+	guard(mutex)(&dsp->pwr_lock);
-+
-+	error = cs40l26_fw_write(dsp, cs40l26_buzzgen_configs[slot].duration_name,
-+				 CS40L26_BUZZGEN_ALGO_ID, duration);
-+	if (error)
-+		return error;
-+
-+	error = cs40l26_fw_write(dsp, cs40l26_buzzgen_configs[slot].freq_name,
-+				 CS40L26_BUZZGEN_ALGO_ID, freq);
-+	if (error)
-+		return error;
-+
-+	error = cs40l26_fw_write(dsp, cs40l26_buzzgen_configs[slot].level_name,
-+				 CS40L26_BUZZGEN_ALGO_ID, level);
-+	if (error)
-+		return error;
-+
-+	effect->id = work_data->ff_effect->id;
-+	effect->bank = CS40L26_BANK_BUZ;
-+
-+	/* BUZZGEN slot 1 is reserved for OTP buzz so offset of 1 required */
-+	effect->index = CS40L26_BUZZGEN_INDEX_START + slot + 1;
-+
-+	return 0;
-+}
-+
-+static int cs40l26_num_ram_waves(struct cs40l26_vibra *vib)
-+{
-+	u32 nwaves;
-+	int error;
-+
-+	guard(mutex)(&vib->cs40l26->dsp.pwr_lock);
-+
-+	error = cs40l26_fw_read(&vib->cs40l26->dsp, "NUM_OF_WAVES",
-+				vib->cs40l26->variant->info->vibegen_algo_id, &nwaves);
-+
-+	return error ? error : (int)nwaves;
-+}
-+
-+static int cs40l26_trigger_index_get(struct cs40l26_vibra *vib, struct cs40l26_work *work_data,
-+				     enum cs40l26_bank bank, u32 *trigger_index)
-+{
-+	u16 index = (u16)(work_data->custom_data[1] & CS40L26_MAX_INDEX_MASK);
-+	struct device *dev = vib->cs40l26->dev;
-+	int error = 0, nwaves;
-+	u32 index_start;
-+
-+	switch (bank) {
-+	case CS40L26_BANK_RAM:
-+		nwaves = cs40l26_num_ram_waves(vib);
-+		if (nwaves < 0) {
-+			error = nwaves;
-+		} else if (nwaves == 0) {
-+			dev_err(dev, "No waveforms in RAM bank\n");
-+			error = -ENODATA;
-+		}
-+
-+		index_start = CS40L26_RAM_INDEX_START;
-+		break;
-+	case CS40L26_BANK_ROM:
-+		nwaves = CS40L26_NUM_ROM_WAVES;
-+		index_start = CS40L26_ROM_INDEX_START;
-+		break;
-+	default:
-+		dev_err(dev, "Invalid bank %u\n", bank);
-+		error = -EINVAL;
-+	}
-+
-+	if (error)
-+		return error;
-+
-+	if (index > nwaves - 1) {
-+		dev_err(dev, "Index %u invalid for bank %u (%d waveforms)\n", index, bank, nwaves);
-+		return -EINVAL;
-+	}
-+
-+	*trigger_index = index + index_start;
-+
-+	return 0;
-+}
-+
-+static int cs40l26_custom_upload(struct cs40l26_vibra *vib, struct cs40l26_work *work_data,
-+				 struct cs40l26_effect *effect)
-+{
-+	size_t data_len = work_data->ff_effect->u.periodic.custom_len;
-+	enum cs40l26_bank bank;
-+	int error;
-+
-+	if (data_len != 2) {
-+		dev_err(vib->cs40l26->dev, "Invalid custom data length %zd\n", data_len);
-+		return -EINVAL;
-+	}
-+
-+	bank = (enum cs40l26_bank)work_data->custom_data[0];
-+
-+	error = cs40l26_trigger_index_get(vib, work_data, bank, &effect->index);
-+	if (error)
-+		return error;
-+
-+	effect->id = work_data->ff_effect->id;
-+	effect->bank = bank;
-+
-+	return 0;
-+}
-+
-+static struct cs40l26_effect *cs40l26_find_effect(struct cs40l26_vibra *vib, int id)
-+{
-+	struct cs40l26_effect *effect;
-+
-+	if (list_empty(&vib->effect_head))
-+		return NULL;
-+
-+	list_for_each_entry(effect, &vib->effect_head, list) {
-+		if (effect->id == id)
-+			return effect;
-+	}
-+
-+	return NULL;
-+}
-+
-+static void cs40l26_upload_worker(struct work_struct *work)
-+{
-+	struct cs40l26_work *work_data = container_of(work, struct cs40l26_work, work);
-+	struct cs40l26_vibra *vib = work_data->vib;
-+	struct device *dev = vib->cs40l26->dev;
-+	struct cs40l26_effect *effect;
-+	bool new_effect = false;
-+	int error;
-+
-+	error = pm_runtime_resume_and_get(dev);
-+	if (error) {
-+		work_data->error = error;
-+		return;
-+	}
-+
-+	effect = cs40l26_find_effect(vib, work_data->ff_effect->id);
-+	if (!effect) {
-+		effect = devm_kzalloc(dev, sizeof(struct cs40l26_effect), GFP_KERNEL);
-+		if (!effect) {
-+			cs40l26_pm_exit(dev);
-+
-+			work_data->error = -ENOMEM;
-+			return;
-+		}
-+
-+		new_effect = true;
-+	}
-+
-+	if (work_data->ff_effect->u.periodic.waveform == FF_CUSTOM) {
-+		error = cs40l26_custom_upload(vib, work_data, effect);
-+	} else if (work_data->ff_effect->u.periodic.waveform == FF_SINE) {
-+		error = cs40l26_sine_upload(vib, work_data, effect);
-+	} else {
-+		dev_err(dev, "Type 0x%X unsupported\n", work_data->ff_effect->u.periodic.waveform);
-+		error = -EINVAL;
-+	}
-+
-+	if (error) {
-+		if (new_effect)
-+			devm_kfree(dev, effect);
-+
-+		cs40l26_pm_exit(dev);
-+
-+		work_data->error = error;
-+		return;
-+	}
-+
-+	if (new_effect)
-+		list_add(&effect->list, &vib->effect_head);
-+
-+	cs40l26_pm_exit(dev);
-+
-+	work_data->error = 0;
-+}
-+
-+static int cs40l26_upload(struct input_dev *dev, struct ff_effect *effect, struct ff_effect *old)
-+{
-+	struct cs40l26_vibra *vib = input_get_drvdata(dev);
-+	bool custom = false;
-+	struct cs40l26_work *work_data;
-+	int error;
-+
-+	work_data = kzalloc(sizeof(struct cs40l26_work), GFP_KERNEL);
-+	if (!work_data)
-+		return -ENOMEM;
-+
-+	if (effect->u.periodic.waveform == FF_CUSTOM) {
-+		work_data->custom_data = memdup_array_user(effect->u.periodic.custom_data,
-+							   effect->u.periodic.custom_len,
-+							   sizeof(s16));
-+		if (IS_ERR(work_data->custom_data)) {
-+			error = PTR_ERR(work_data->custom_data);
-+			goto out_free;
-+		}
-+
-+		custom = true;
-+		work_data->custom_len = effect->u.periodic.custom_len;
-+	}
-+
-+	work_data->vib = vib;
-+	work_data->ff_effect = effect;
-+
-+	INIT_WORK(&work_data->work, cs40l26_upload_worker);
-+
-+	queue_work(vib->vib_wq, &work_data->work);
-+	flush_work(&work_data->work);
-+
-+	error = work_data->error;
-+
-+out_free:
-+	if (custom)
-+		kfree(work_data->custom_data);
-+
-+	kfree(work_data);
-+
-+	return error;
-+}
-+
-+static void cs40l26_stop_playback_worker(struct work_struct *work)
-+{
-+	struct cs40l26_work *work_data = container_of(work, struct cs40l26_work, work);
-+	struct cs40l26_vibra *vib = work_data->vib;
-+
-+	if (pm_runtime_resume_and_get(vib->cs40l26->dev))
-+		goto out_free;
-+
-+	if (cs40l26_dsp_write(vib->cs40l26, CS40L26_STOP_PLAYBACK))
-+		dev_err(vib->cs40l26->dev, "Failed to stop haptic playback\n");
-+
-+	cs40l26_pm_exit(vib->cs40l26->dev);
-+out_free:
-+	kfree(work_data);
-+}
-+
-+static void cs40l26_start_playback_worker(struct work_struct *work)
-+{
-+	struct cs40l26_work *work_data = container_of(work, struct cs40l26_work, work);
-+	struct cs40l26 *cs40l26 = work_data->vib->cs40l26;
-+	struct cs40l26_effect *effect;
-+	u16 duration;
-+	int id;
-+
-+	id = work_data->ff_effect->id;
-+
-+	duration = work_data->ff_effect->replay.length;
-+
-+	if (pm_runtime_resume_and_get(cs40l26->dev))
-+		goto out_free;
-+
-+	guard(mutex)(&cs40l26->dsp.pwr_lock);
-+
-+	if (cs40l26_fw_write(&cs40l26->dsp, "TIMEOUT_MS", cs40l26->variant->info->vibegen_algo_id,
-+			     duration))
-+		goto out_pm;
-+
-+	effect = cs40l26_find_effect(work_data->vib, id);
-+	if (effect) {
-+		while (--work_data->count >= 0) {
-+			if (cs40l26_dsp_write(cs40l26, effect->index))
-+				goto out_pm;
-+
-+			usleep_range(duration, duration + 100);
-+		}
-+	} else {
-+		dev_err(cs40l26->dev, "No effect found with ID %d\n", id);
-+	}
-+
-+out_pm:
-+	cs40l26_pm_exit(cs40l26->dev);
-+
-+out_free:
-+	kfree(work_data);
-+}
-+
-+static int cs40l26_playback(struct input_dev *dev, int effect_id, int val)
-+{
-+	struct cs40l26_vibra *vib = input_get_drvdata(dev);
-+	struct cs40l26_work *work_data;
-+
-+	work_data = kzalloc(sizeof(struct cs40l26_work), GFP_ATOMIC);
-+	if (!work_data)
-+		return -ENOMEM;
-+
-+	work_data->vib = vib;
-+
-+	if (val > 0) {
-+		work_data->ff_effect = &dev->ff->effects[effect_id];
-+		work_data->count = val;
-+		INIT_WORK(&work_data->work, cs40l26_start_playback_worker);
-+	} else {
-+		INIT_WORK(&work_data->work, cs40l26_stop_playback_worker);
-+	}
-+
-+	queue_work(vib->vib_wq, &work_data->work);
-+
-+	return 0;
-+}
-+
-+static int cs40l26_sine_erase(struct cs40l26_vibra *vib, int id)
-+{
-+	int slot = cs40l26_buzzgen_find_slot(id);
-+
-+	if (slot == -1) {
-+		dev_err(vib->cs40l26->dev, "No BUZZGEN ID matching %d\n", id);
-+		return -EINVAL;
-+	}
-+
-+	cs40l26_buzzgen_configs[slot].effect_id = -1;
-+
-+	return 0;
-+}
-+
-+static void cs40l26_erase_worker(struct work_struct *work)
-+{
-+	struct cs40l26_work *work_data = container_of(work, struct cs40l26_work, work);
-+	struct cs40l26_vibra *vib = work_data->vib;
-+	struct device *dev = vib->cs40l26->dev;
-+	int id = work_data->ff_effect->id;
-+	struct cs40l26_effect *effect;
-+	int error;
-+
-+	error = pm_runtime_resume_and_get(dev);
-+	if (error) {
-+		work_data->error = error;
-+		return;
-+	}
-+
-+	effect = cs40l26_find_effect(vib, id);
-+	if (!effect) {
-+		dev_err(dev, "Cannot erase effect with ID %d, no such effect\n", id);
-+		error = -EINVAL;
-+		goto out_pm;
-+	}
-+
-+	if (effect->bank == CS40L26_BANK_BUZ) {
-+		error = cs40l26_sine_erase(vib, id);
-+		if (error)
-+			goto out_pm;
-+	}
-+
-+	list_del(&effect->list);
-+	devm_kfree(dev, effect);
-+
-+out_pm:
-+	cs40l26_pm_exit(dev);
-+
-+	work_data->error = error;
-+}
-+
-+static int cs40l26_erase(struct input_dev *dev, int effect_id)
-+{
-+	struct cs40l26_vibra *vib = input_get_drvdata(dev);
-+	struct cs40l26_work *work_data;
-+	int error;
-+
-+	work_data = kzalloc(sizeof(struct cs40l26_work), GFP_KERNEL);
-+	if (!work_data)
-+		return -ENOMEM;
-+
-+	work_data->vib = vib;
-+	work_data->error = 0;
-+	work_data->ff_effect = &dev->ff->effects[effect_id];
-+
-+	INIT_WORK(&work_data->work, cs40l26_erase_worker);
-+
-+	queue_work(vib->vib_wq, &work_data->work);
-+	flush_work(&work_data->work);
-+
-+	error = work_data->error;
-+
-+	kfree(work_data);
-+
-+	return error;
-+}
-+
-+/* LUT for converting gain percentage to attenuation in dB */
-+static const u32 cs40l26_atten_lut_q21_2[CS40L26_NUM_PCT_MAP_VALUES] = {
-+	/* MUTE */ 400, 160, 136, 122, 112, 104, 98, 92, 88, 84, 80, 77, 74,
-+	71, 68, 66, 64, 62, 60, 58, 56, 54, 53,	51, 50, 48, 47, 45, 44, 43,
-+	42, 41, 40, 39, 37, 36,	35, 35, 34, 33, 32, 31, 30, 29, 29, 28, 27,
-+	26, 26, 25, 24,	23, 23, 22, 21, 21, 20, 20, 19, 18, 18, 17, 17, 16,
-+	16, 15, 14, 14, 13, 13, 12, 12, 11, 11, 10, 10, 10, 9, 9, 8, 8, 7,
-+	7, 6, 6, 6, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1, 0, 0, /* 100% */
-+};
-+
-+static void cs40l26_set_gain_worker(struct work_struct *work)
-+{
-+	struct cs40l26_work *work_data = container_of(work, struct cs40l26_work, work);
-+	struct cs40l26_vibra *vib = work_data->vib;
-+	struct cs40l26 *cs40l26 = vib->cs40l26;
-+	int error;
-+
-+	error = pm_runtime_resume_and_get(vib->cs40l26->dev);
-+	if (error) {
-+		dev_err(vib->cs40l26->dev, "%s: Failed to exit hibernate\n", __func__);
-+		goto out_free;
-+	}
-+
-+	guard(mutex)(&vib->cs40l26->dsp.pwr_lock);
-+
-+	error = cs40l26_fw_write(&vib->cs40l26->dsp, "SOURCE_ATTENUATION",
-+				 cs40l26->variant->info->ram_ext_algo_id,
-+				 cs40l26_atten_lut_q21_2[work_data->gain_pct]);
-+	if (error)
-+		dev_err(vib->cs40l26->dev, "Failed to set attenuation\n");
-+
-+	cs40l26_pm_exit(vib->cs40l26->dev);
-+
-+out_free:
-+	kfree(work_data);
-+}
-+
-+static void cs40l26_set_gain(struct input_dev *dev, u16 gain)
-+{
-+	struct cs40l26_vibra *vib = input_get_drvdata(dev);
-+	struct cs40l26_work *work_data;
-+
-+	if (gain >= CS40L26_NUM_PCT_MAP_VALUES) {
-+		dev_err(vib->cs40l26->dev, "Gain value %u%% out of bounds\n", gain);
-+		return;
-+	}
-+
-+	work_data = kzalloc(sizeof(struct cs40l26_work), GFP_ATOMIC);
-+	if (!work_data)
-+		return;
-+
-+	work_data->gain_pct = gain;
-+	work_data->vib = vib;
-+
-+	INIT_WORK(&work_data->work, cs40l26_set_gain_worker);
-+
-+	queue_work(vib->vib_wq, &work_data->work);
-+}
-+
-+static void cs40l26_remove_wq(void *data)
-+{
-+	flush_workqueue(data);
-+	destroy_workqueue((struct workqueue_struct *)data);
-+}
-+
-+static int cs40l26_vibra_probe(struct platform_device *pdev)
-+{
-+	struct cs40l26 *cs40l26 = dev_get_drvdata(pdev->dev.parent);
-+	struct cs40l26_vibra *vib;
-+	int error;
-+
-+	vib = devm_kzalloc(cs40l26->dev, sizeof(struct cs40l26_vibra), GFP_KERNEL);
-+	if (!vib)
-+		return -ENOMEM;
-+
-+	vib->cs40l26 = cs40l26;
-+
-+	vib->input = devm_input_allocate_device(vib->cs40l26->dev);
-+	if (!vib->input)
-+		return -ENOMEM;
-+
-+	vib->input->id.product = cs40l26->devid;
-+	vib->input->id.version = cs40l26->revid;
-+	vib->input->name = "cs40l26_vibra";
-+
-+	input_set_drvdata(vib->input, vib);
-+	input_set_capability(vib->input, EV_FF, FF_PERIODIC);
-+	input_set_capability(vib->input, EV_FF, FF_CUSTOM);
-+	input_set_capability(vib->input, EV_FF, FF_SINE);
-+	input_set_capability(vib->input, EV_FF, FF_GAIN);
-+
-+	error = input_ff_create(vib->input, 1);
-+	if (error) {
-+		dev_err(vib->cs40l26->dev, "Failed to create input device\n");
-+		return error;
-+	}
-+
-+	clear_bit(FF_RUMBLE, vib->input->ffbit);
-+
-+	vib->input->ff->upload = cs40l26_upload;
-+	vib->input->ff->playback = cs40l26_playback;
-+	vib->input->ff->set_gain = cs40l26_set_gain;
-+	vib->input->ff->erase = cs40l26_erase;
-+
-+	INIT_LIST_HEAD(&vib->effect_head);
-+
-+	vib->vib_wq = alloc_ordered_workqueue("vib_wq", WQ_HIGHPRI);
-+	if (!vib->vib_wq)
-+		return -ENOMEM;
-+
-+	error = devm_add_action_or_reset(vib->cs40l26->dev, cs40l26_remove_wq, vib->vib_wq);
-+	if (error)
-+		return error;
-+
-+	error = input_register_device(vib->input);
-+	if (error)
-+		return error;
-+
-+	dev_info(vib->cs40l26->dev, "Loaded cs40l26-vibra with %d RAM waveforms\n",
-+		 cs40l26_num_ram_waves(vib));
-+
-+	return 0;
-+}
-+
-+static const struct platform_device_id cs40l26_vibra_id_match[] = {
-+	{ "cs40l26-vibra", },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(platform, cs40l26_vibra_id_match);
-+
-+static struct platform_driver cs40l26_vibra_driver = {
-+	.probe		= cs40l26_vibra_probe,
-+	.id_table	= cs40l26_vibra_id_match,
-+	.driver		= {
-+		.name	= "cs40l26-vibra",
-+	},
-+};
-+module_platform_driver(cs40l26_vibra_driver);
-+
-+MODULE_DESCRIPTION("CS40L26 Boosted Class D Amplifier for Haptics");
-+MODULE_AUTHOR("Fred Treven, Cirrus Logic Inc. <ftreven@opensource.cirrus.com>");
-+MODULE_LICENSE("GPL");
+Same here, I think? This isn't needed unless I'm misunderstanding
+something about the fix.
+
+> diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+> index 740311c4fa24..ec8c2e2d6812 100644
+> --- a/drivers/usb/gadget/function/f_hid.c
+> +++ b/drivers/usb/gadget/function/f_hid.c
+> @@ -139,13 +139,17 @@ static struct usb_interface_descriptor hidg_interface_desc = {
+>  };
+>  
+>  static struct hid_descriptor hidg_desc = {
+> -	.bLength			= sizeof hidg_desc,
+> +	.bLength			= struct_size(&hidg_desc, desc, 1),
+>  	.bDescriptorType		= HID_DT_HID,
+>  	.bcdHID				= cpu_to_le16(0x0101),
+>  	.bCountryCode			= 0x00,
+>  	.bNumDescriptors		= 0x1,
+> -	/*.desc[0].bDescriptorType	= DYNAMIC */
+> -	/*.desc[0].wDescriptorLenght	= DYNAMIC */
+> +	.desc				= {
+> +		{
+> +			.bDescriptorType	= 0, /* DYNAMIC */
+> +			.wDescriptorLength	= 0, /* DYNAMIC */
+> +		}
+> +	}
+>  };
+>  
+>  /* Super-Speed Support */
+> @@ -936,16 +940,18 @@ static int hidg_setup(struct usb_function *f,
+>  		switch (value >> 8) {
+>  		case HID_DT_HID:
+>  		{
+> -			struct hid_descriptor hidg_desc_copy = hidg_desc;
+> +			DEFINE_FLEX(struct hid_descriptor, hidg_desc_copy,
+> +				desc, bNumDescriptors, 1);
+> +			*hidg_desc_copy = hidg_desc;
+>  
+>  			VDBG(cdev, "USB_REQ_GET_DESCRIPTOR: HID\n");
+> -			hidg_desc_copy.desc[0].bDescriptorType = HID_DT_REPORT;
+> -			hidg_desc_copy.desc[0].wDescriptorLength =
+> +			hidg_desc_copy->desc[0].bDescriptorType = HID_DT_REPORT;
+> +			hidg_desc_copy->desc[0].wDescriptorLength =
+>  				cpu_to_le16(hidg->report_desc_length);
+>  
+>  			length = min_t(unsigned short, length,
+> -						   hidg_desc_copy.bLength);
+> -			memcpy(req->buf, &hidg_desc_copy, length);
+> +						   hidg_desc_copy->bLength);
+> +			memcpy(req->buf, hidg_desc_copy, length);
+>  			goto respond;
+>  			break;
+>  		}
+> diff --git a/include/linux/hid.h b/include/linux/hid.h
+> index cdc0dc13c87f..85a58ae2c4a0 100644
+> --- a/include/linux/hid.h
+> +++ b/include/linux/hid.h
+> @@ -739,7 +739,7 @@ struct hid_descriptor {
+>  	__u8  bCountryCode;
+>  	__u8  bNumDescriptors;
+>  
+> -	struct hid_class_descriptor desc[1];
+> +	struct hid_class_descriptor desc[] __counted_by(bNumDescriptors);
+>  } __attribute__ ((packed));
+>  
+>  #define HID_DEVICE(b, g, ven, prod)					\
+
+Otherwise, this looks correct to me.
+
 -- 
-2.34.1
-
+Kees Cook
 
