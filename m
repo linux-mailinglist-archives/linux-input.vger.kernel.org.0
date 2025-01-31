@@ -1,217 +1,816 @@
-Return-Path: <linux-input+bounces-9634-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9635-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B521A24109
-	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2025 17:51:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E90AEA2439D
+	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2025 21:02:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C126918844CF
-	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2025 16:51:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E40D166177
+	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2025 20:02:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3052F1898F2;
-	Fri, 31 Jan 2025 16:50:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 760C11F37B2;
+	Fri, 31 Jan 2025 20:02:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R598+GO/"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Hxe4+ylo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183D3335C7
-	for <linux-input@vger.kernel.org>; Fri, 31 Jan 2025 16:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3885D1F238D;
+	Fri, 31 Jan 2025 20:02:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738342259; cv=none; b=p+869B4Uv5p/3nXH09hlAMgNZyrdrbXOEonG37waW9DWskFNVHBB2aKyPgZ+k1KFgdbkYxMCnpevJnO8mnzbnikGh86uUD9nz5o6/GAsyulpx5YFTXYd4emzrU4JDr4QRlVJPiUSrYxXeBCheMkaOSofYGp2B837oyvk/Cygu2k=
+	t=1738353727; cv=none; b=SE3PdcrarxS2ER/d32cL9q7EJFk0cQMHKBUt2FeYEB0x+OKhKkmASD+n4vrfgunTKpBJ3VzpfFobQ6m/f5m428Ay+qf8Sra/CPfyOgIOvQRQzXOFVYm+4324+tYEyozo2862dEF+BQLx+2IiMK/BgFgnUCistkiQn9dNbk7o4No=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738342259; c=relaxed/simple;
-	bh=DZglw2xZvkHRFQ9IietiiVAvR9LNjMK6g3KH/6/z37w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=pjHBcc9lV2TaCa+WqMy6h65Z7ZPTO9l0P/jDSYiTphgMknmJDc8ARkeAhXmCUfp0lpLTx1YUAcdEWVL7S0YdUgMOLPbW61UNXulc6IvjD5RLxa9yUNDUhBHwf6n4M/vnxppy4pY2udftVml9+x+V+gLHZ1QGy21KsFzapj3+W3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R598+GO/; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-aaeef97ff02so381687466b.1
-        for <linux-input@vger.kernel.org>; Fri, 31 Jan 2025 08:50:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738342255; x=1738947055; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wlo1XDXgB7QmkNyLqb4pJiZuZmFIQpYWfJ+cFEsjg2U=;
-        b=R598+GO/LIH9QgBruN6TX57wcV+lFOmRTxKx9Q5nJqG/JFXKJq7IKfx+B87YhezlOk
-         yH/Krm9rvJGxwyPWXRRNGGLhwbC0XoxBZa0k/nPGmc/EaboLMVGfOFkrnEZYQJFGEuxj
-         QYQjxffhtfyRNHhUAj594+JDNRGWCZloGZLTrBrCMP006w7G//pKheNIuhm88UT1VbjB
-         9ffsO/hL6nyYIF+SfBTsvjP6pSKjATw2booiULTSHHIDvUTS9ncG9v37ROWHFzVAIEh4
-         bnjFjwh1+ajLge1wzIP+7llpwj+xyX3oDhW3Qb4O0NT24aK6wUK7Q9aNAJlboSVk3ncn
-         F9Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738342255; x=1738947055;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wlo1XDXgB7QmkNyLqb4pJiZuZmFIQpYWfJ+cFEsjg2U=;
-        b=LodItLsEaadJr7gCNCMbXKK1lyq4ShEiXkKRgAcKPDvA/kA6lt0y5cyB6JVFRSfKGk
-         FB7S5+Kj0D5m0kBJYMgFe/kfgWoz2spOe1VeaOAjJklRnOP3dQ+kWBrGgG7OKmc9DCI7
-         wbTQ3zVFZN7Hzil4A3X3f0nkgy+vKIi+O683O7a7Z9Zu7A6CJDXDIAga7Yeo02z15O3Z
-         /+PaFwLQ66oF5d4x4ohiIypDDenkfyRKyKitzL0aL+7Hgu+y24P2u3JgS9s/r+PVym6U
-         ciiT9dJ85QUxtqecrMyaboMJb6jtufXlm+sylfN3HXdqI+l9ihBs00inb/tal7vysibO
-         0xUw==
-X-Gm-Message-State: AOJu0Yx9g8tfdON1XzQESCLBSJosogVmYX4zC9I1v9c1sZdzTDuJLyCN
-	fL4pdYuExnUTU5OqZ727VjWCs3VCWeXexilineWuVAoKp1DIACP4AqIRl7lb
-X-Gm-Gg: ASbGnctSewTIZVIPDNiYji/vyRbSLAAS8BbfqwisQyR54aZ6WwsrrIOIFWwx6EW3z3L
-	ORfy4qalxybBKGh7ojYU09+zq5pyS5JOyRDyLBbcaNkMlIgPuVWpdQ7vVEx6hX7DDsizVPHoLXE
-	9We2xbEkJ1JGaB0NqPSeOVh7fQJUTUsn5dKxDmWOBu3Wko9BTcS1FKTKkuYdlqNfUJ0FcGZovzJ
-	ELiJQHBKeQTAi7bWfmBr838R+irwLGZD+2Ea/UsH+msB1oCu6fGkNQlgQaUrFPqvwqf6KacNDC9
-	eO78mGJAoiIj9gCj45LktFm+xJwnDUWb3xdTu3tkMJufUw+IhtHp2LerXncR
-X-Google-Smtp-Source: AGHT+IHzFUzP3hbfPr4DxTx+bYZ92O3AAoAiIoDyIVrYjlqFqlTA8fLXVsfF1c5If+fMm7py0LAkag==
-X-Received: by 2002:a17:907:2d8f:b0:aaf:117f:1918 with SMTP id a640c23a62f3a-ab6cfcb35a6mr1391364966b.5.1738342254935;
-        Fri, 31 Jan 2025 08:50:54 -0800 (PST)
-Received: from ?IPV6:2001:16b8:b49f:f600:30a7:137b:c10c:d47? ([2001:16b8:b49f:f600:30a7:137b:c10c:d47])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-ab6e47d0fa3sm320486566b.47.2025.01.31.08.50.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Jan 2025 08:50:54 -0800 (PST)
-Message-ID: <95f1f209-4b97-417b-b0f6-2245458fa1f5@gmail.com>
-Date: Fri, 31 Jan 2025 17:50:53 +0100
+	s=arc-20240116; t=1738353727; c=relaxed/simple;
+	bh=fuWeLByj80754MOGlmEzAJX/L9c2TYV677lqCSUIZCE=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LC8zpDnfQE03pCZ1eTcHbsdy1hGCREaW7H0sbZpGnWnFT+7RlqbLi9JtNR6k06kl0fX5t59ZYoRAaT+VUCtngvtI4IeNX+DWX3HN8jXOmHrO+BThNYeIzG4OdL2oH2QqNn+ySwgG79a2AucOU82fqBLDij/HGfM44mbDr9iLI2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Hxe4+ylo; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50V62RgC009728;
+	Fri, 31 Jan 2025 14:02:03 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=MF3LR1s1Rj7Ha12pV01Rjj4AA/V+w0HEuDHAs9QG5WU=; b=
+	Hxe4+yloBGg6yAopot811IHkin7x5WRBoA4RHpT44yb9pDZ1Icv/9N4pYDI14zcp
+	UcqwkOQHJtdqCzoEyYoqlWTfN8vDdk+TNzwMfN44ho1Ovs5iD0rdHxXsDOv9u/UC
+	pu2dRdT6QdQzxBPrZLsMudq0wu1AhwEuDOX/YiHCzI7rUvHGHs91oBU/zFZR1G1H
+	YBzNlEJ/Dxc3VS/5Dp0ty8C7YnrZXXVciHLPomyiyDpTmFidCs9f7WhR2OYJWj42
+	Gutq+aokVwnD1QTWthD5fAuZJurGcufB+JQPnznagq57WJsH48AjmQMptdvnfMZD
+	KmSV+f5hMN8J4+VPBvOokQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 44gf9215af-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 Jan 2025 14:02:02 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 31 Jan
+ 2025 20:01:59 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Fri, 31 Jan 2025 20:01:54 +0000
+Received: from ftrev.crystal.cirrus.com (ftrev.ad.cirrus.com [141.131.145.81])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 0478282026C;
+	Fri, 31 Jan 2025 20:01:52 +0000 (UTC)
+From: Fred Treven <ftreven@opensource.cirrus.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        James Ogletree
+	<jogletre@opensource.cirrus.com>,
+        Fred Treven
+	<ftreven@opensource.cirrus.com>,
+        Ben Bright <ben.bright@cirrus.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+Subject: [PATCH 7/7] Input: cs40l26 - Add support for CS40L26 haptic driver
+Date: Fri, 31 Jan 2025 13:56:38 -0600
+Message-ID: <20250131195639.1784933-8-ftreven@opensource.cirrus.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250131195639.1784933-1-ftreven@opensource.cirrus.com>
+References: <20250131195639.1784933-1-ftreven@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Input: xpad - add multiple supported devices
-To: linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
- gregkh@linuxfoundation.org
-References: <20250123175404.23254-1-rojtberg@gmail.com>
-Content-Language: en-US, de-DE
-From: Pavel Rojtberg <rojtberg@gmail.com>
-In-Reply-To: <20250123175404.23254-1-rojtberg@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: sLTToGemZiqhAcKDNQVhCtVXFUwk1Y9f
+X-Authority-Analysis: v=2.4 cv=JPXBs9Kb c=1 sm=1 tr=0 ts=679d2c3a cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=VdSt8ZQiCzkA:10 a=w1d2syhTAAAA:8 a=u19Cq9sczE363Rxt_jsA:9 a=YXXWInSmI4Sqt1AkVdoW:22
+X-Proofpoint-ORIG-GUID: sLTToGemZiqhAcKDNQVhCtVXFUwk1Y9f
+X-Proofpoint-Spam-Reason: safe
 
-Am 23.01.25 um 18:54 schrieb Pavel Rojtberg:
-> From: Pavel Rojtberg <rojtberg@gmail.com>
-> 
-> This is based on multiple commits at https://github.com/paroj/xpad
-> that had bouncing email addresses and were not signed off.
-> 
-> Signed-off-by: Pavel Rojtberg <rojtberg@gmail.com>
-> ---
->  drivers/input/joystick/xpad.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-> index b434a465bf72..0399fbf33835 100644
-> --- a/drivers/input/joystick/xpad.c
-> +++ b/drivers/input/joystick/xpad.c
-> @@ -140,6 +140,7 @@ static const struct xpad_device {
->  	{ 0x044f, 0x0f00, "Thrustmaster Wheel", 0, XTYPE_XBOX },
->  	{ 0x044f, 0x0f03, "Thrustmaster Wheel", 0, XTYPE_XBOX },
->  	{ 0x044f, 0x0f07, "Thrustmaster, Inc. Controller", 0, XTYPE_XBOX },
-> +	{ 0x044f, 0xd01e, "ThrustMaster, Inc. ESWAP X 2 ELDEN RING EDITION", 0, XTYPE_XBOXONE },
->  	{ 0x044f, 0x0f10, "Thrustmaster Modena GT Wheel", 0, XTYPE_XBOX },
->  	{ 0x044f, 0xb326, "Thrustmaster Gamepad GP XID", 0, XTYPE_XBOX360 },
->  	{ 0x045e, 0x0202, "Microsoft X-Box pad v1 (US)", 0, XTYPE_XBOX },
-> @@ -177,6 +178,7 @@ static const struct xpad_device {
->  	{ 0x06a3, 0x0200, "Saitek Racing Wheel", 0, XTYPE_XBOX },
->  	{ 0x06a3, 0x0201, "Saitek Adrenalin", 0, XTYPE_XBOX },
->  	{ 0x06a3, 0xf51a, "Saitek P3600", 0, XTYPE_XBOX360 },
-> +	{ 0x0738, 0x4503, "Mad Catz Racing Wheel", 0, XTYPE_XBOXONE },
->  	{ 0x0738, 0x4506, "Mad Catz 4506 Wireless Controller", 0, XTYPE_XBOX },
->  	{ 0x0738, 0x4516, "Mad Catz Control Pad", 0, XTYPE_XBOX },
->  	{ 0x0738, 0x4520, "Mad Catz Control Pad Pro", 0, XTYPE_XBOX },
-> @@ -238,6 +240,7 @@ static const struct xpad_device {
->  	{ 0x0e6f, 0x0146, "Rock Candy Wired Controller for Xbox One", 0, XTYPE_XBOXONE },
->  	{ 0x0e6f, 0x0147, "PDP Marvel Xbox One Controller", 0, XTYPE_XBOXONE },
->  	{ 0x0e6f, 0x015c, "PDP Xbox One Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
-> +	{ 0x0e6f, 0x015d, "PDP Mirror's Edge Official Wired Controller for Xbox One", XTYPE_XBOXONE },
->  	{ 0x0e6f, 0x0161, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
->  	{ 0x0e6f, 0x0162, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
->  	{ 0x0e6f, 0x0163, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
-> @@ -276,12 +279,15 @@ static const struct xpad_device {
->  	{ 0x0f0d, 0x0078, "Hori Real Arcade Pro V Kai Xbox One", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
->  	{ 0x0f0d, 0x00c5, "Hori Fighting Commander ONE", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
->  	{ 0x0f0d, 0x00dc, "HORIPAD FPS for Nintendo Switch", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
-> +	{ 0x0f0d, 0x0152, "Hori Racing Wheel Overdrive for Xbox Series X", 0, XTYPE_XBOXONE },
-> +	{ 0x0f0d, 0x0151, "Hori Racing Wheel Overdrive for Xbox Series X", 0, XTYPE_XBOXONE },
->  	{ 0x0f30, 0x010b, "Philips Recoil", 0, XTYPE_XBOX },
->  	{ 0x0f30, 0x0202, "Joytech Advanced Controller", 0, XTYPE_XBOX },
->  	{ 0x0f30, 0x8888, "BigBen XBMiniPad Controller", 0, XTYPE_XBOX },
->  	{ 0x102c, 0xff0c, "Joytech Wireless Advanced Controller", 0, XTYPE_XBOX },
->  	{ 0x1038, 0x1430, "SteelSeries Stratus Duo", 0, XTYPE_XBOX360 },
->  	{ 0x1038, 0x1431, "SteelSeries Stratus Duo", 0, XTYPE_XBOX360 },
-> +	{ 0x10f5, 0x7005, "Turtle Beach Recon Controller", 0, XTYPE_XBOXONE },
->  	{ 0x11c9, 0x55f0, "Nacon GC-100XF", 0, XTYPE_XBOX360 },
->  	{ 0x11ff, 0x0511, "PXN V900", 0, XTYPE_XBOX360 },
->  	{ 0x1209, 0x2882, "Ardwiino Controller", 0, XTYPE_XBOX360 },
-> @@ -366,6 +372,7 @@ static const struct xpad_device {
->  	{ 0x24c6, 0x5510, "Hori Fighting Commander ONE (Xbox 360/PC Mode)", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
->  	{ 0x24c6, 0x551a, "PowerA FUSION Pro Controller", 0, XTYPE_XBOXONE },
->  	{ 0x24c6, 0x561a, "PowerA FUSION Controller", 0, XTYPE_XBOXONE },
-> +	{ 0x24c6, 0x581a, "ThrustMaster XB1 Classic Controller", 0, XTYPE_XBOXONE },
->  	{ 0x24c6, 0x5b00, "ThrustMaster Ferrari 458 Racing Wheel", 0, XTYPE_XBOX360 },
->  	{ 0x24c6, 0x5b02, "Thrustmaster, Inc. GPX Controller", 0, XTYPE_XBOX360 },
->  	{ 0x24c6, 0x5b03, "Thrustmaster Ferrari 458 Racing Wheel", 0, XTYPE_XBOX360 },
-> @@ -376,8 +383,10 @@ static const struct xpad_device {
->  	{ 0x294b, 0x3404, "Snakebyte GAMEPAD RGB X", 0, XTYPE_XBOXONE },
->  	{ 0x2dc8, 0x2000, "8BitDo Pro 2 Wired Controller fox Xbox", 0, XTYPE_XBOXONE },
->  	{ 0x2dc8, 0x3106, "8BitDo Ultimate Wireless / Pro 2 Wired Controller", 0, XTYPE_XBOX360 },
-> +	{ 0x2dc8, 0x3109, "8BitDo Ultimate Wireless Bluetooth", 0, XTYPE_XBOX360 },
->  	{ 0x2dc8, 0x310a, "8BitDo Ultimate 2C Wireless Controller", 0, XTYPE_XBOX360 },
->  	{ 0x2e24, 0x0652, "Hyperkin Duke X-Box One pad", 0, XTYPE_XBOXONE },
-> +	{ 0x2e95, 0x0504, "SCUF Gaming Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
->  	{ 0x31e3, 0x1100, "Wooting One", 0, XTYPE_XBOX360 },
->  	{ 0x31e3, 0x1200, "Wooting Two", 0, XTYPE_XBOX360 },
->  	{ 0x31e3, 0x1210, "Wooting Lekker", 0, XTYPE_XBOX360 },
-> @@ -385,9 +394,14 @@ static const struct xpad_device {
->  	{ 0x31e3, 0x1230, "Wooting Two HE (ARM)", 0, XTYPE_XBOX360 },
->  	{ 0x31e3, 0x1300, "Wooting 60HE (AVR)", 0, XTYPE_XBOX360 },
->  	{ 0x31e3, 0x1310, "Wooting 60HE (ARM)", 0, XTYPE_XBOX360 },
-> +	{ 0x3285, 0x0603, "Nacon Pro Compact controller for Xbox", 0, XTYPE_XBOXONE },
->  	{ 0x3285, 0x0607, "Nacon GC-100", 0, XTYPE_XBOX360 },
-> +	{ 0x3285, 0x0614, "Nacon Pro Compact", 0, XTYPE_XBOXONE },
-> +	{ 0x3285, 0x0662, "Nacon Revolution5 Pro", 0, XTYPE_XBOX360 },
-> +	{ 0x3285, 0x0663, "Nacon Evol-X", 0, XTYPE_XBOXONE },
->  	{ 0x3537, 0x1004, "GameSir T4 Kaleid", 0, XTYPE_XBOX360 },
->  	{ 0x3767, 0x0101, "Fanatec Speedster 3 Forceshock Wheel", 0, XTYPE_XBOX },
-> +	{ 0x413d, 0x2104, "Black Shark Green Ghost Gamepad", 0, XTYPE_XBOX360 },
->  	{ 0xffff, 0xffff, "Chinese-made Xbox Controller", 0, XTYPE_XBOX },
->  	{ 0x0000, 0x0000, "Generic X-Box pad", 0, XTYPE_UNKNOWN }
->  };
-> @@ -486,6 +500,7 @@ static const struct usb_device_id xpad_table[] = {
->  	XPAD_XBOX360_VENDOR(0x03f0),		/* HP HyperX Xbox 360 controllers */
->  	XPAD_XBOXONE_VENDOR(0x03f0),		/* HP HyperX Xbox One controllers */
->  	XPAD_XBOX360_VENDOR(0x044f),		/* Thrustmaster Xbox 360 controllers */
-> +	XPAD_XBOXONE_VENDOR(0x044f),		/* Thrustmaster Xbox One controllers */
->  	XPAD_XBOX360_VENDOR(0x045e),		/* Microsoft Xbox 360 controllers */
->  	XPAD_XBOXONE_VENDOR(0x045e),		/* Microsoft Xbox One controllers */
->  	XPAD_XBOX360_VENDOR(0x046d),		/* Logitech Xbox 360-style controllers */
-> @@ -532,10 +547,13 @@ static const struct usb_device_id xpad_table[] = {
->  	XPAD_XBOXONE_VENDOR(0x2dc8),		/* 8BitDo Pro 2 Wired Controller for Xbox */
->  	XPAD_XBOXONE_VENDOR(0x2e24),		/* Hyperkin Duke Xbox One pad */
->  	XPAD_XBOX360_VENDOR(0x2f24),		/* GameSir controllers */
-> +	XPAD_XBOXONE_VENDOR(0x2e95),		/* SCUF Gaming Controller */
->  	XPAD_XBOX360_VENDOR(0x31e3),		/* Wooting Keyboards */
->  	XPAD_XBOX360_VENDOR(0x3285),		/* Nacon GC-100 */
-> +	XPAD_XBOXONE_VENDOR(0x3285),		/* Nacon Evol-X */
->  	XPAD_XBOX360_VENDOR(0x3537),		/* GameSir Controllers */
->  	XPAD_XBOXONE_VENDOR(0x3537),		/* GameSir Controllers */
-> +	XPAD_XBOX360_VENDOR(0x413d),		/* Black Shark Green Ghost Controller */
->  	{ }
->  };
->  
-> @@ -688,7 +706,9 @@ static const struct xboxone_init_packet xboxone_init_packets[] = {
->  	XBOXONE_INIT_PKT(0x045e, 0x0b00, xboxone_s_init),
->  	XBOXONE_INIT_PKT(0x045e, 0x0b00, extra_input_packet_init),
->  	XBOXONE_INIT_PKT(0x0e6f, 0x0000, xboxone_pdp_led_on),
-> +	XBOXONE_INIT_PKT(0x20d6, 0xa01a, xboxone_pdp_led_on),
->  	XBOXONE_INIT_PKT(0x0e6f, 0x0000, xboxone_pdp_auth),
-> +	XBOXONE_INIT_PKT(0x20d6, 0xa01a, xboxone_pdp_auth),
->  	XBOXONE_INIT_PKT(0x24c6, 0x541a, xboxone_rumblebegin_init),
->  	XBOXONE_INIT_PKT(0x24c6, 0x542a, xboxone_rumblebegin_init),
->  	XBOXONE_INIT_PKT(0x24c6, 0x543a, xboxone_rumblebegin_init),
+Introduce support for Cirrus Logic Device CS40L26:
+a boosted haptics driver with integrated DSP and
+waveform memory with advanced closed loop algorithms
+and LRA protection.
 
-are there any further changes that need to be made here?
+The input driver provides the interface for control
+of haptic effects through the device.
+
+Signed-off-by: Fred Treven <ftreven@opensource.cirrus.com>
+---
+ drivers/input/misc/Kconfig         |  10 +
+ drivers/input/misc/Makefile        |   1 +
+ drivers/input/misc/cs40l26-vibra.c | 669 +++++++++++++++++++++++++++++
+ 3 files changed, 680 insertions(+)
+ create mode 100644 drivers/input/misc/cs40l26-vibra.c
+
+diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+index 13d135257e06..2c9496c873e7 100644
+--- a/drivers/input/misc/Kconfig
++++ b/drivers/input/misc/Kconfig
+@@ -147,6 +147,16 @@ config INPUT_BMA150
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called bma150.
+ 
++config INPUT_CS40L26_VIBRA
++	tristate "CS40L26 Haptic Driver support"
++	depends on MFD_CS40L26_CORE
++	help
++	  Say Y here to enable support for Cirrus Logic's CS40L26
++	  haptic driver.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called cs40l26-vibra.
++
+ config INPUT_CS40L50_VIBRA
+ 	tristate "CS40L50 Haptic Driver support"
+ 	depends on MFD_CS40L50_CORE
+diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+index 6d91804d0a6f..b6274a937a94 100644
+--- a/drivers/input/misc/Makefile
++++ b/drivers/input/misc/Makefile
+@@ -29,6 +29,7 @@ obj-$(CONFIG_INPUT_CMA3000)		+= cma3000_d0x.o
+ obj-$(CONFIG_INPUT_CMA3000_I2C)		+= cma3000_d0x_i2c.o
+ obj-$(CONFIG_INPUT_COBALT_BTNS)		+= cobalt_btns.o
+ obj-$(CONFIG_INPUT_CPCAP_PWRBUTTON)	+= cpcap-pwrbutton.o
++obj-$(CONFIG_INPUT_CS40L26_VIBRA)	+= cs40l26-vibra.o
+ obj-$(CONFIG_INPUT_CS40L50_VIBRA)	+= cs40l50-vibra.o
+ obj-$(CONFIG_INPUT_DA7280_HAPTICS)	+= da7280.o
+ obj-$(CONFIG_INPUT_DA9052_ONKEY)	+= da9052_onkey.o
+diff --git a/drivers/input/misc/cs40l26-vibra.c b/drivers/input/misc/cs40l26-vibra.c
+new file mode 100644
+index 000000000000..d083be714a3a
+--- /dev/null
++++ b/drivers/input/misc/cs40l26-vibra.c
+@@ -0,0 +1,669 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * CS40L26 Advanced Haptic Driver with waveform memory,
++ * integrated DSP, and closed-loop algorithms
++ *
++ * Copyright 2025 Cirrus Logic, Inc.
++ *
++ * Author: Fred Treven <ftreven@opensource.cirrus.com>
++ */
++
++#include <linux/bitfield.h>
++#include <linux/input.h>
++#include <linux/mfd/cs40l26.h>
++
++#define CS40L26_EFFECTS_MAX	1
++
++#define CS40L26_NUM_PCT_MAP_VALUES	101
++
++#define CS40L26_STOP_PLAYBACK	0x05000000
++
++#define CS40L26_MAX_INDEX_MASK	GENMASK(15, 0)
++
++#define CS40L26_RAM_INDEX_START	0x01000000
++#define CS40L26_RAM_INDEX_END	0x0100007F
++
++#define CS40L26_ROM_INDEX_START	0x01800000
++#define CS40L26_ROM_INDEX_END	0x01800026
++#define CS40L26_NUM_ROM_WAVES	(CS40L26_ROM_INDEX_END - CS40L26_ROM_INDEX_START + 1)
++
++#define CS40L26_BUZZGEN_INDEX_START	0x01800080
++#define CS40L26_BUZZGEN_INDEX_END	0x01800085
++
++#define CS40L26_BUZZGEN_PER_MS_MAX	10
++#define CS40L26_BUZZGEN_PER_MS_MIN	4
++
++#define CS40L26_BUZZGEN_LEVEL_MIN	0x00
++#define CS40L26_BUZZGEN_LEVEL_MAX	0xFF
++
++#define CS40L26_BUZZGEN_NUM_CONFIGS	(CS40L26_BUZZGEN_INDEX_END - CS40L26_BUZZGEN_INDEX_START)
++
++enum cs40l26_bank {
++	CS40L26_BANK_RAM,
++	CS40L26_BANK_ROM,
++	CS40L26_BANK_BUZ,
++};
++
++struct cs40l26_effect {
++	enum cs40l26_bank bank;
++	u32 index;
++	int id;
++	struct list_head list;
++};
++
++struct cs40l26_vibra {
++	struct cs40l26 *cs40l26;
++	struct input_dev *input;
++	struct workqueue_struct *vib_wq;
++	struct list_head effect_head;
++};
++
++struct cs40l26_work {
++	struct ff_effect *ff_effect;
++	struct cs40l26_vibra *vib;
++	struct work_struct work;
++	s16 *custom_data;
++	int custom_len;
++	u16 gain_pct;
++	int count;
++	int error;
++};
++
++struct cs40l26_buzzgen_config {
++	const char *duration_name;
++	const char *freq_name;
++	const char *level_name;
++	int effect_id;
++};
++
++static struct cs40l26_buzzgen_config cs40l26_buzzgen_configs[] = {
++	{
++		.duration_name = "BUZZ_EFFECTS2_BUZZ_DURATION",
++		.freq_name = "BUZZ_EFFECTS2_BUZZ_FREQ",
++		.level_name = "BUZZ_EFFECTS2_BUZZ_LEVEL",
++		.effect_id = -1
++	},
++	{
++		.duration_name = "BUZZ_EFFECTS3_BUZZ_DURATION",
++		.freq_name = "BUZZ_EFFECTS3_BUZZ_FREQ",
++		.level_name = "BUZZ_EFFECTS3_BUZZ_LEVEL",
++		.effect_id = -1
++	},
++	{
++		.duration_name = "BUZZ_EFFECTS4_BUZZ_DURATION",
++		.freq_name = "BUZZ_EFFECTS4_BUZZ_FREQ",
++		.level_name = "BUZZ_EFFECTS4_BUZZ_LEVEL",
++		.effect_id = -1
++	},
++	{
++		.duration_name = "BUZZ_EFFECTS5_BUZZ_DURATION",
++		.freq_name = "BUZZ_EFFECTS5_BUZZ_FREQ",
++		.level_name = "BUZZ_EFFECTS5_BUZZ_LEVEL",
++		.effect_id = -1
++	},
++	{
++		.duration_name = "BUZZ_EFFECTS6_BUZZ_DURATION",
++		.freq_name = "BUZZ_EFFECTS6_BUZZ_FREQ",
++		.level_name = "BUZZ_EFFECTS6_BUZZ_LEVEL",
++		.effect_id = -1
++	},
++};
++
++static int cs40l26_buzzgen_find_slot(int id)
++{
++	int effect_id, lowest_available_slot = -1, slot;
++
++	for (slot = CS40L26_BUZZGEN_NUM_CONFIGS - 1; slot >= 0; slot--) {
++		effect_id = cs40l26_buzzgen_configs[slot].effect_id;
++
++		if (effect_id == id)
++			return slot;
++		else if (effect_id == -1)
++			lowest_available_slot = slot;
++	}
++
++	return lowest_available_slot;
++}
++
++static int cs40l26_sine_upload(struct cs40l26_vibra *vib, struct cs40l26_work *work_data,
++			       struct cs40l26_effect *effect)
++{
++	struct cs_dsp *dsp = &vib->cs40l26->dsp;
++	unsigned int duration, freq, level;
++	int error, slot;
++
++	slot = cs40l26_buzzgen_find_slot(work_data->ff_effect->id);
++	if (slot == -1) {
++		dev_err(vib->cs40l26->dev, "No free BUZZGEN slot available\n");
++		return -ENOSPC;
++	}
++
++	cs40l26_buzzgen_configs[slot].effect_id = work_data->ff_effect->id;
++
++	/* Firmware expects duration in ms divided by 4 */
++	duration = (unsigned int)DIV_ROUND_UP(work_data->ff_effect->replay.length, 4);
++
++	freq = (unsigned int)(1000 / clamp_val(work_data->ff_effect->u.periodic.period,
++					       CS40L26_BUZZGEN_PER_MS_MIN,
++					       CS40L26_BUZZGEN_PER_MS_MAX));
++
++	level = (unsigned int)clamp_val(work_data->ff_effect->u.periodic.magnitude,
++					CS40L26_BUZZGEN_LEVEL_MIN, CS40L26_BUZZGEN_LEVEL_MAX);
++
++	guard(mutex)(&dsp->pwr_lock);
++
++	error = cs40l26_fw_write(dsp, cs40l26_buzzgen_configs[slot].duration_name,
++				 CS40L26_BUZZGEN_ALGO_ID, duration);
++	if (error)
++		return error;
++
++	error = cs40l26_fw_write(dsp, cs40l26_buzzgen_configs[slot].freq_name,
++				 CS40L26_BUZZGEN_ALGO_ID, freq);
++	if (error)
++		return error;
++
++	error = cs40l26_fw_write(dsp, cs40l26_buzzgen_configs[slot].level_name,
++				 CS40L26_BUZZGEN_ALGO_ID, level);
++	if (error)
++		return error;
++
++	effect->id = work_data->ff_effect->id;
++	effect->bank = CS40L26_BANK_BUZ;
++
++	/* BUZZGEN slot 1 is reserved for OTP buzz so offset of 1 required */
++	effect->index = CS40L26_BUZZGEN_INDEX_START + slot + 1;
++
++	return 0;
++}
++
++static int cs40l26_num_ram_waves(struct cs40l26_vibra *vib)
++{
++	u32 nwaves;
++	int error;
++
++	guard(mutex)(&vib->cs40l26->dsp.pwr_lock);
++
++	error = cs40l26_fw_read(&vib->cs40l26->dsp, "NUM_OF_WAVES",
++				vib->cs40l26->variant->info->vibegen_algo_id, &nwaves);
++
++	return error ? error : (int)nwaves;
++}
++
++static int cs40l26_trigger_index_get(struct cs40l26_vibra *vib, struct cs40l26_work *work_data,
++				     enum cs40l26_bank bank, u32 *trigger_index)
++{
++	u16 index = (u16)(work_data->custom_data[1] & CS40L26_MAX_INDEX_MASK);
++	struct device *dev = vib->cs40l26->dev;
++	int error = 0, nwaves;
++	u32 index_start;
++
++	switch (bank) {
++	case CS40L26_BANK_RAM:
++		nwaves = cs40l26_num_ram_waves(vib);
++		if (nwaves < 0) {
++			error = nwaves;
++		} else if (nwaves == 0) {
++			dev_err(dev, "No waveforms in RAM bank\n");
++			error = -ENODATA;
++		}
++
++		index_start = CS40L26_RAM_INDEX_START;
++		break;
++	case CS40L26_BANK_ROM:
++		nwaves = CS40L26_NUM_ROM_WAVES;
++		index_start = CS40L26_ROM_INDEX_START;
++		break;
++	default:
++		dev_err(dev, "Invalid bank %u\n", bank);
++		error = -EINVAL;
++	}
++
++	if (error)
++		return error;
++
++	if (index > nwaves - 1) {
++		dev_err(dev, "Index %u invalid for bank %u (%d waveforms)\n", index, bank, nwaves);
++		return -EINVAL;
++	}
++
++	*trigger_index = index + index_start;
++
++	return 0;
++}
++
++static int cs40l26_custom_upload(struct cs40l26_vibra *vib, struct cs40l26_work *work_data,
++				 struct cs40l26_effect *effect)
++{
++	size_t data_len = work_data->ff_effect->u.periodic.custom_len;
++	enum cs40l26_bank bank;
++	int error;
++
++	if (data_len != 2) {
++		dev_err(vib->cs40l26->dev, "Invalid custom data length %zd\n", data_len);
++		return -EINVAL;
++	}
++
++	bank = (enum cs40l26_bank)work_data->custom_data[0];
++
++	error = cs40l26_trigger_index_get(vib, work_data, bank, &effect->index);
++	if (error)
++		return error;
++
++	effect->id = work_data->ff_effect->id;
++	effect->bank = bank;
++
++	return 0;
++}
++
++static struct cs40l26_effect *cs40l26_find_effect(struct cs40l26_vibra *vib, int id)
++{
++	struct cs40l26_effect *effect;
++
++	if (list_empty(&vib->effect_head))
++		return NULL;
++
++	list_for_each_entry(effect, &vib->effect_head, list) {
++		if (effect->id == id)
++			return effect;
++	}
++
++	return NULL;
++}
++
++static void cs40l26_upload_worker(struct work_struct *work)
++{
++	struct cs40l26_work *work_data = container_of(work, struct cs40l26_work, work);
++	struct cs40l26_vibra *vib = work_data->vib;
++	struct device *dev = vib->cs40l26->dev;
++	struct cs40l26_effect *effect;
++	bool new_effect = false;
++	int error;
++
++	error = pm_runtime_resume_and_get(dev);
++	if (error) {
++		work_data->error = error;
++		return;
++	}
++
++	effect = cs40l26_find_effect(vib, work_data->ff_effect->id);
++	if (!effect) {
++		effect = devm_kzalloc(dev, sizeof(struct cs40l26_effect), GFP_KERNEL);
++		if (!effect) {
++			cs40l26_pm_exit(dev);
++
++			work_data->error = -ENOMEM;
++			return;
++		}
++
++		new_effect = true;
++	}
++
++	if (work_data->ff_effect->u.periodic.waveform == FF_CUSTOM) {
++		error = cs40l26_custom_upload(vib, work_data, effect);
++	} else if (work_data->ff_effect->u.periodic.waveform == FF_SINE) {
++		error = cs40l26_sine_upload(vib, work_data, effect);
++	} else {
++		dev_err(dev, "Type 0x%X unsupported\n", work_data->ff_effect->u.periodic.waveform);
++		error = -EINVAL;
++	}
++
++	if (error) {
++		if (new_effect)
++			devm_kfree(dev, effect);
++
++		cs40l26_pm_exit(dev);
++
++		work_data->error = error;
++		return;
++	}
++
++	if (new_effect)
++		list_add(&effect->list, &vib->effect_head);
++
++	cs40l26_pm_exit(dev);
++
++	work_data->error = 0;
++}
++
++static int cs40l26_upload(struct input_dev *dev, struct ff_effect *effect, struct ff_effect *old)
++{
++	struct cs40l26_vibra *vib = input_get_drvdata(dev);
++	bool custom = false;
++	struct cs40l26_work *work_data;
++	int error;
++
++	work_data = kzalloc(sizeof(struct cs40l26_work), GFP_KERNEL);
++	if (!work_data)
++		return -ENOMEM;
++
++	if (effect->u.periodic.waveform == FF_CUSTOM) {
++		work_data->custom_data = memdup_array_user(effect->u.periodic.custom_data,
++							   effect->u.periodic.custom_len,
++							   sizeof(s16));
++		if (IS_ERR(work_data->custom_data)) {
++			error = PTR_ERR(work_data->custom_data);
++			goto out_free;
++		}
++
++		custom = true;
++		work_data->custom_len = effect->u.periodic.custom_len;
++	}
++
++	work_data->vib = vib;
++	work_data->ff_effect = effect;
++
++	INIT_WORK(&work_data->work, cs40l26_upload_worker);
++
++	queue_work(vib->vib_wq, &work_data->work);
++	flush_work(&work_data->work);
++
++	error = work_data->error;
++
++out_free:
++	if (custom)
++		kfree(work_data->custom_data);
++
++	kfree(work_data);
++
++	return error;
++}
++
++static void cs40l26_stop_playback_worker(struct work_struct *work)
++{
++	struct cs40l26_work *work_data = container_of(work, struct cs40l26_work, work);
++	struct cs40l26_vibra *vib = work_data->vib;
++
++	if (pm_runtime_resume_and_get(vib->cs40l26->dev))
++		goto out_free;
++
++	if (cs40l26_dsp_write(vib->cs40l26, CS40L26_STOP_PLAYBACK))
++		dev_err(vib->cs40l26->dev, "Failed to stop haptic playback\n");
++
++	cs40l26_pm_exit(vib->cs40l26->dev);
++out_free:
++	kfree(work_data);
++}
++
++static void cs40l26_start_playback_worker(struct work_struct *work)
++{
++	struct cs40l26_work *work_data = container_of(work, struct cs40l26_work, work);
++	struct cs40l26 *cs40l26 = work_data->vib->cs40l26;
++	struct cs40l26_effect *effect;
++	u16 duration;
++	int id;
++
++	id = work_data->ff_effect->id;
++
++	duration = work_data->ff_effect->replay.length;
++
++	if (pm_runtime_resume_and_get(cs40l26->dev))
++		goto out_free;
++
++	guard(mutex)(&cs40l26->dsp.pwr_lock);
++
++	if (cs40l26_fw_write(&cs40l26->dsp, "TIMEOUT_MS", cs40l26->variant->info->vibegen_algo_id,
++			     duration))
++		goto out_pm;
++
++	effect = cs40l26_find_effect(work_data->vib, id);
++	if (effect) {
++		while (--work_data->count >= 0) {
++			if (cs40l26_dsp_write(cs40l26, effect->index))
++				goto out_pm;
++
++			usleep_range(duration, duration + 100);
++		}
++	} else {
++		dev_err(cs40l26->dev, "No effect found with ID %d\n", id);
++	}
++
++out_pm:
++	cs40l26_pm_exit(cs40l26->dev);
++
++out_free:
++	kfree(work_data);
++}
++
++static int cs40l26_playback(struct input_dev *dev, int effect_id, int val)
++{
++	struct cs40l26_vibra *vib = input_get_drvdata(dev);
++	struct cs40l26_work *work_data;
++
++	work_data = kzalloc(sizeof(struct cs40l26_work), GFP_ATOMIC);
++	if (!work_data)
++		return -ENOMEM;
++
++	work_data->vib = vib;
++
++	if (val > 0) {
++		work_data->ff_effect = &dev->ff->effects[effect_id];
++		work_data->count = val;
++		INIT_WORK(&work_data->work, cs40l26_start_playback_worker);
++	} else {
++		INIT_WORK(&work_data->work, cs40l26_stop_playback_worker);
++	}
++
++	queue_work(vib->vib_wq, &work_data->work);
++
++	return 0;
++}
++
++static int cs40l26_sine_erase(struct cs40l26_vibra *vib, int id)
++{
++	int slot = cs40l26_buzzgen_find_slot(id);
++
++	if (slot == -1) {
++		dev_err(vib->cs40l26->dev, "No BUZZGEN ID matching %d\n", id);
++		return -EINVAL;
++	}
++
++	cs40l26_buzzgen_configs[slot].effect_id = -1;
++
++	return 0;
++}
++
++static void cs40l26_erase_worker(struct work_struct *work)
++{
++	struct cs40l26_work *work_data = container_of(work, struct cs40l26_work, work);
++	struct cs40l26_vibra *vib = work_data->vib;
++	struct device *dev = vib->cs40l26->dev;
++	int id = work_data->ff_effect->id;
++	struct cs40l26_effect *effect;
++	int error;
++
++	error = pm_runtime_resume_and_get(dev);
++	if (error) {
++		work_data->error = error;
++		return;
++	}
++
++	effect = cs40l26_find_effect(vib, id);
++	if (!effect) {
++		dev_err(dev, "Cannot erase effect with ID %d, no such effect\n", id);
++		error = -EINVAL;
++		goto out_pm;
++	}
++
++	if (effect->bank == CS40L26_BANK_BUZ) {
++		error = cs40l26_sine_erase(vib, id);
++		if (error)
++			goto out_pm;
++	}
++
++	list_del(&effect->list);
++	devm_kfree(dev, effect);
++
++out_pm:
++	cs40l26_pm_exit(dev);
++
++	work_data->error = error;
++}
++
++static int cs40l26_erase(struct input_dev *dev, int effect_id)
++{
++	struct cs40l26_vibra *vib = input_get_drvdata(dev);
++	struct cs40l26_work *work_data;
++	int error;
++
++	work_data = kzalloc(sizeof(struct cs40l26_work), GFP_KERNEL);
++	if (!work_data)
++		return -ENOMEM;
++
++	work_data->vib = vib;
++	work_data->error = 0;
++	work_data->ff_effect = &dev->ff->effects[effect_id];
++
++	INIT_WORK(&work_data->work, cs40l26_erase_worker);
++
++	queue_work(vib->vib_wq, &work_data->work);
++	flush_work(&work_data->work);
++
++	error = work_data->error;
++
++	kfree(work_data);
++
++	return error;
++}
++
++/* LUT for converting gain percentage to attenuation in dB */
++static const u32 cs40l26_atten_lut_q21_2[CS40L26_NUM_PCT_MAP_VALUES] = {
++	/* MUTE */ 400, 160, 136, 122, 112, 104, 98, 92, 88, 84, 80, 77, 74,
++	71, 68, 66, 64, 62, 60, 58, 56, 54, 53,	51, 50, 48, 47, 45, 44, 43,
++	42, 41, 40, 39, 37, 36,	35, 35, 34, 33, 32, 31, 30, 29, 29, 28, 27,
++	26, 26, 25, 24,	23, 23, 22, 21, 21, 20, 20, 19, 18, 18, 17, 17, 16,
++	16, 15, 14, 14, 13, 13, 12, 12, 11, 11, 10, 10, 10, 9, 9, 8, 8, 7,
++	7, 6, 6, 6, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1, 0, 0, /* 100% */
++};
++
++static void cs40l26_set_gain_worker(struct work_struct *work)
++{
++	struct cs40l26_work *work_data = container_of(work, struct cs40l26_work, work);
++	struct cs40l26_vibra *vib = work_data->vib;
++	struct cs40l26 *cs40l26 = vib->cs40l26;
++	int error;
++
++	error = pm_runtime_resume_and_get(vib->cs40l26->dev);
++	if (error) {
++		dev_err(vib->cs40l26->dev, "%s: Failed to exit hibernate\n", __func__);
++		goto out_free;
++	}
++
++	guard(mutex)(&vib->cs40l26->dsp.pwr_lock);
++
++	error = cs40l26_fw_write(&vib->cs40l26->dsp, "SOURCE_ATTENUATION",
++				 cs40l26->variant->info->ram_ext_algo_id,
++				 cs40l26_atten_lut_q21_2[work_data->gain_pct]);
++	if (error)
++		dev_err(vib->cs40l26->dev, "Failed to set attenuation\n");
++
++	cs40l26_pm_exit(vib->cs40l26->dev);
++
++out_free:
++	kfree(work_data);
++}
++
++static void cs40l26_set_gain(struct input_dev *dev, u16 gain)
++{
++	struct cs40l26_vibra *vib = input_get_drvdata(dev);
++	struct cs40l26_work *work_data;
++
++	if (gain >= CS40L26_NUM_PCT_MAP_VALUES) {
++		dev_err(vib->cs40l26->dev, "Gain value %u%% out of bounds\n", gain);
++		return;
++	}
++
++	work_data = kzalloc(sizeof(struct cs40l26_work), GFP_ATOMIC);
++	if (!work_data)
++		return;
++
++	work_data->gain_pct = gain;
++	work_data->vib = vib;
++
++	INIT_WORK(&work_data->work, cs40l26_set_gain_worker);
++
++	queue_work(vib->vib_wq, &work_data->work);
++}
++
++static void cs40l26_remove_wq(void *data)
++{
++	flush_workqueue(data);
++	destroy_workqueue((struct workqueue_struct *)data);
++}
++
++static int cs40l26_vibra_probe(struct platform_device *pdev)
++{
++	struct cs40l26 *cs40l26 = dev_get_drvdata(pdev->dev.parent);
++	struct cs40l26_vibra *vib;
++	int error;
++
++	vib = devm_kzalloc(cs40l26->dev, sizeof(struct cs40l26_vibra), GFP_KERNEL);
++	if (!vib)
++		return -ENOMEM;
++
++	vib->cs40l26 = cs40l26;
++
++	vib->input = devm_input_allocate_device(vib->cs40l26->dev);
++	if (!vib->input)
++		return -ENOMEM;
++
++	vib->input->id.product = cs40l26->devid;
++	vib->input->id.version = cs40l26->revid;
++	vib->input->name = "cs40l26_vibra";
++
++	input_set_drvdata(vib->input, vib);
++	input_set_capability(vib->input, EV_FF, FF_PERIODIC);
++	input_set_capability(vib->input, EV_FF, FF_CUSTOM);
++	input_set_capability(vib->input, EV_FF, FF_SINE);
++	input_set_capability(vib->input, EV_FF, FF_GAIN);
++
++	error = input_ff_create(vib->input, 1);
++	if (error) {
++		dev_err(vib->cs40l26->dev, "Failed to create input device\n");
++		return error;
++	}
++
++	clear_bit(FF_RUMBLE, vib->input->ffbit);
++
++	vib->input->ff->upload = cs40l26_upload;
++	vib->input->ff->playback = cs40l26_playback;
++	vib->input->ff->set_gain = cs40l26_set_gain;
++	vib->input->ff->erase = cs40l26_erase;
++
++	INIT_LIST_HEAD(&vib->effect_head);
++
++	vib->vib_wq = alloc_ordered_workqueue("vib_wq", WQ_HIGHPRI);
++	if (!vib->vib_wq)
++		return -ENOMEM;
++
++	error = devm_add_action_or_reset(vib->cs40l26->dev, cs40l26_remove_wq, vib->vib_wq);
++	if (error)
++		return error;
++
++	error = input_register_device(vib->input);
++	if (error)
++		return error;
++
++	dev_info(vib->cs40l26->dev, "Loaded cs40l26-vibra with %d RAM waveforms\n",
++		 cs40l26_num_ram_waves(vib));
++
++	return 0;
++}
++
++static const struct platform_device_id cs40l26_vibra_id_match[] = {
++	{ "cs40l26-vibra", },
++	{}
++};
++MODULE_DEVICE_TABLE(platform, cs40l26_vibra_id_match);
++
++static struct platform_driver cs40l26_vibra_driver = {
++	.probe		= cs40l26_vibra_probe,
++	.id_table	= cs40l26_vibra_id_match,
++	.driver		= {
++		.name	= "cs40l26-vibra",
++	},
++};
++module_platform_driver(cs40l26_vibra_driver);
++
++MODULE_DESCRIPTION("CS40L26 Boosted Class D Amplifier for Haptics");
++MODULE_AUTHOR("Fred Treven, Cirrus Logic Inc. <ftreven@opensource.cirrus.com>");
++MODULE_LICENSE("GPL");
+-- 
+2.34.1
 
 
