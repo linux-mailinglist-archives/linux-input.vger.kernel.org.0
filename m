@@ -1,224 +1,217 @@
-Return-Path: <linux-input+bounces-9633-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9634-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F26BA23F81
-	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2025 16:16:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B521A24109
+	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2025 17:51:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D78BD169858
-	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2025 15:16:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C126918844CF
+	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2025 16:51:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C5391E47C4;
-	Fri, 31 Jan 2025 15:16:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3052F1898F2;
+	Fri, 31 Jan 2025 16:50:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R598+GO/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C511CB9F0;
-	Fri, 31 Jan 2025 15:16:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183D3335C7
+	for <linux-input@vger.kernel.org>; Fri, 31 Jan 2025 16:50:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738336580; cv=none; b=WmVs8SRR0igqJPxUThs4C5Ccc5/u843NbxseOPcGKGihMenD+apJWqksxKusrB7BxciFVOLwna+p4JcsFdMy4Nqk1BGZE+brwJiq+xU/mXA0Uk/xbgzLa6Fbry061Yq2+WA2ZKJ6VZRo7mvUHecm1Y94gRP6FPnJx/yOfQPF9wg=
+	t=1738342259; cv=none; b=p+869B4Uv5p/3nXH09hlAMgNZyrdrbXOEonG37waW9DWskFNVHBB2aKyPgZ+k1KFgdbkYxMCnpevJnO8mnzbnikGh86uUD9nz5o6/GAsyulpx5YFTXYd4emzrU4JDr4QRlVJPiUSrYxXeBCheMkaOSofYGp2B837oyvk/Cygu2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738336580; c=relaxed/simple;
-	bh=XLMer+s9oHPsR+PkULh9oJsGpfaaW03RrZ34iF/YTqs=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JVSgK/JUyFdOrcfl4OHJeXVJc1+boBhXzQome32qdBprSHM4tBhVQO1S+w7Vg/wWe5hYpqNbo7cE9P/Ro2y7TiCGd3nB78MJCAGp9vg/XVSCpVsuE5QUqkKx+HITzNUyr02yCegCiVSYeoLyiJhDwtS20PvO587KlHZujqtvaGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.159) with Microsoft SMTP Server (TLS) id 14.3.498.0; Fri, 31 Jan
- 2025 18:16:01 +0300
-Received: from localhost (10.0.253.138) by Ex16-01.fintech.ru (10.0.10.18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 31 Jan
- 2025 18:16:01 +0300
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-To: Jiri Kosina <jikos@kernel.org>, Alan Stern <stern@rowland.harvard.edu>,
-	Kees Cook <kees@kernel.org>
-CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, Benjamin Tissoires
-	<bentiss@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Terry Junge
-	<linuxhid@cosmicgizmosystems.com>, <linux-usb@vger.kernel.org>,
-	<linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-hardening@vger.kernel.org>, syzbot
-	<syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com>,
-	<syzkaller-bugs@googlegroups.com>, <lvc-project@linuxtesting.org>
-Subject: [PATCH v2] HID: usbhid: fix recurrent out-of-bounds bug in usbhid_parse()
-Date: Fri, 31 Jan 2025 18:15:58 +0300
-Message-ID: <20250131151600.410242-1-n.zhandarovich@fintech.ru>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1738342259; c=relaxed/simple;
+	bh=DZglw2xZvkHRFQ9IietiiVAvR9LNjMK6g3KH/6/z37w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=pjHBcc9lV2TaCa+WqMy6h65Z7ZPTO9l0P/jDSYiTphgMknmJDc8ARkeAhXmCUfp0lpLTx1YUAcdEWVL7S0YdUgMOLPbW61UNXulc6IvjD5RLxa9yUNDUhBHwf6n4M/vnxppy4pY2udftVml9+x+V+gLHZ1QGy21KsFzapj3+W3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R598+GO/; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-aaeef97ff02so381687466b.1
+        for <linux-input@vger.kernel.org>; Fri, 31 Jan 2025 08:50:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738342255; x=1738947055; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wlo1XDXgB7QmkNyLqb4pJiZuZmFIQpYWfJ+cFEsjg2U=;
+        b=R598+GO/LIH9QgBruN6TX57wcV+lFOmRTxKx9Q5nJqG/JFXKJq7IKfx+B87YhezlOk
+         yH/Krm9rvJGxwyPWXRRNGGLhwbC0XoxBZa0k/nPGmc/EaboLMVGfOFkrnEZYQJFGEuxj
+         QYQjxffhtfyRNHhUAj594+JDNRGWCZloGZLTrBrCMP006w7G//pKheNIuhm88UT1VbjB
+         9ffsO/hL6nyYIF+SfBTsvjP6pSKjATw2booiULTSHHIDvUTS9ncG9v37ROWHFzVAIEh4
+         bnjFjwh1+ajLge1wzIP+7llpwj+xyX3oDhW3Qb4O0NT24aK6wUK7Q9aNAJlboSVk3ncn
+         F9Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738342255; x=1738947055;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wlo1XDXgB7QmkNyLqb4pJiZuZmFIQpYWfJ+cFEsjg2U=;
+        b=LodItLsEaadJr7gCNCMbXKK1lyq4ShEiXkKRgAcKPDvA/kA6lt0y5cyB6JVFRSfKGk
+         FB7S5+Kj0D5m0kBJYMgFe/kfgWoz2spOe1VeaOAjJklRnOP3dQ+kWBrGgG7OKmc9DCI7
+         wbTQ3zVFZN7Hzil4A3X3f0nkgy+vKIi+O683O7a7Z9Zu7A6CJDXDIAga7Yeo02z15O3Z
+         /+PaFwLQ66oF5d4x4ohiIypDDenkfyRKyKitzL0aL+7Hgu+y24P2u3JgS9s/r+PVym6U
+         ciiT9dJ85QUxtqecrMyaboMJb6jtufXlm+sylfN3HXdqI+l9ihBs00inb/tal7vysibO
+         0xUw==
+X-Gm-Message-State: AOJu0Yx9g8tfdON1XzQESCLBSJosogVmYX4zC9I1v9c1sZdzTDuJLyCN
+	fL4pdYuExnUTU5OqZ727VjWCs3VCWeXexilineWuVAoKp1DIACP4AqIRl7lb
+X-Gm-Gg: ASbGnctSewTIZVIPDNiYji/vyRbSLAAS8BbfqwisQyR54aZ6WwsrrIOIFWwx6EW3z3L
+	ORfy4qalxybBKGh7ojYU09+zq5pyS5JOyRDyLBbcaNkMlIgPuVWpdQ7vVEx6hX7DDsizVPHoLXE
+	9We2xbEkJ1JGaB0NqPSeOVh7fQJUTUsn5dKxDmWOBu3Wko9BTcS1FKTKkuYdlqNfUJ0FcGZovzJ
+	ELiJQHBKeQTAi7bWfmBr838R+irwLGZD+2Ea/UsH+msB1oCu6fGkNQlgQaUrFPqvwqf6KacNDC9
+	eO78mGJAoiIj9gCj45LktFm+xJwnDUWb3xdTu3tkMJufUw+IhtHp2LerXncR
+X-Google-Smtp-Source: AGHT+IHzFUzP3hbfPr4DxTx+bYZ92O3AAoAiIoDyIVrYjlqFqlTA8fLXVsfF1c5If+fMm7py0LAkag==
+X-Received: by 2002:a17:907:2d8f:b0:aaf:117f:1918 with SMTP id a640c23a62f3a-ab6cfcb35a6mr1391364966b.5.1738342254935;
+        Fri, 31 Jan 2025 08:50:54 -0800 (PST)
+Received: from ?IPV6:2001:16b8:b49f:f600:30a7:137b:c10c:d47? ([2001:16b8:b49f:f600:30a7:137b:c10c:d47])
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-ab6e47d0fa3sm320486566b.47.2025.01.31.08.50.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Jan 2025 08:50:54 -0800 (PST)
+Message-ID: <95f1f209-4b97-417b-b0f6-2245458fa1f5@gmail.com>
+Date: Fri, 31 Jan 2025 17:50:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Input: xpad - add multiple supported devices
+To: linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+ gregkh@linuxfoundation.org
+References: <20250123175404.23254-1-rojtberg@gmail.com>
+Content-Language: en-US, de-DE
+From: Pavel Rojtberg <rojtberg@gmail.com>
+In-Reply-To: <20250123175404.23254-1-rojtberg@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Syzbot reports [1] a reemerging out-of-bounds bug regarding hid
-descriptors supposedly having unpredictable bNumDescriptors values in
-usbhid_parse().
+Am 23.01.25 um 18:54 schrieb Pavel Rojtberg:
+> From: Pavel Rojtberg <rojtberg@gmail.com>
+> 
+> This is based on multiple commits at https://github.com/paroj/xpad
+> that had bouncing email addresses and were not signed off.
+> 
+> Signed-off-by: Pavel Rojtberg <rojtberg@gmail.com>
+> ---
+>  drivers/input/joystick/xpad.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+> index b434a465bf72..0399fbf33835 100644
+> --- a/drivers/input/joystick/xpad.c
+> +++ b/drivers/input/joystick/xpad.c
+> @@ -140,6 +140,7 @@ static const struct xpad_device {
+>  	{ 0x044f, 0x0f00, "Thrustmaster Wheel", 0, XTYPE_XBOX },
+>  	{ 0x044f, 0x0f03, "Thrustmaster Wheel", 0, XTYPE_XBOX },
+>  	{ 0x044f, 0x0f07, "Thrustmaster, Inc. Controller", 0, XTYPE_XBOX },
+> +	{ 0x044f, 0xd01e, "ThrustMaster, Inc. ESWAP X 2 ELDEN RING EDITION", 0, XTYPE_XBOXONE },
+>  	{ 0x044f, 0x0f10, "Thrustmaster Modena GT Wheel", 0, XTYPE_XBOX },
+>  	{ 0x044f, 0xb326, "Thrustmaster Gamepad GP XID", 0, XTYPE_XBOX360 },
+>  	{ 0x045e, 0x0202, "Microsoft X-Box pad v1 (US)", 0, XTYPE_XBOX },
+> @@ -177,6 +178,7 @@ static const struct xpad_device {
+>  	{ 0x06a3, 0x0200, "Saitek Racing Wheel", 0, XTYPE_XBOX },
+>  	{ 0x06a3, 0x0201, "Saitek Adrenalin", 0, XTYPE_XBOX },
+>  	{ 0x06a3, 0xf51a, "Saitek P3600", 0, XTYPE_XBOX360 },
+> +	{ 0x0738, 0x4503, "Mad Catz Racing Wheel", 0, XTYPE_XBOXONE },
+>  	{ 0x0738, 0x4506, "Mad Catz 4506 Wireless Controller", 0, XTYPE_XBOX },
+>  	{ 0x0738, 0x4516, "Mad Catz Control Pad", 0, XTYPE_XBOX },
+>  	{ 0x0738, 0x4520, "Mad Catz Control Pad Pro", 0, XTYPE_XBOX },
+> @@ -238,6 +240,7 @@ static const struct xpad_device {
+>  	{ 0x0e6f, 0x0146, "Rock Candy Wired Controller for Xbox One", 0, XTYPE_XBOXONE },
+>  	{ 0x0e6f, 0x0147, "PDP Marvel Xbox One Controller", 0, XTYPE_XBOXONE },
+>  	{ 0x0e6f, 0x015c, "PDP Xbox One Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
+> +	{ 0x0e6f, 0x015d, "PDP Mirror's Edge Official Wired Controller for Xbox One", XTYPE_XBOXONE },
+>  	{ 0x0e6f, 0x0161, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
+>  	{ 0x0e6f, 0x0162, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
+>  	{ 0x0e6f, 0x0163, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
+> @@ -276,12 +279,15 @@ static const struct xpad_device {
+>  	{ 0x0f0d, 0x0078, "Hori Real Arcade Pro V Kai Xbox One", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
+>  	{ 0x0f0d, 0x00c5, "Hori Fighting Commander ONE", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
+>  	{ 0x0f0d, 0x00dc, "HORIPAD FPS for Nintendo Switch", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+> +	{ 0x0f0d, 0x0152, "Hori Racing Wheel Overdrive for Xbox Series X", 0, XTYPE_XBOXONE },
+> +	{ 0x0f0d, 0x0151, "Hori Racing Wheel Overdrive for Xbox Series X", 0, XTYPE_XBOXONE },
+>  	{ 0x0f30, 0x010b, "Philips Recoil", 0, XTYPE_XBOX },
+>  	{ 0x0f30, 0x0202, "Joytech Advanced Controller", 0, XTYPE_XBOX },
+>  	{ 0x0f30, 0x8888, "BigBen XBMiniPad Controller", 0, XTYPE_XBOX },
+>  	{ 0x102c, 0xff0c, "Joytech Wireless Advanced Controller", 0, XTYPE_XBOX },
+>  	{ 0x1038, 0x1430, "SteelSeries Stratus Duo", 0, XTYPE_XBOX360 },
+>  	{ 0x1038, 0x1431, "SteelSeries Stratus Duo", 0, XTYPE_XBOX360 },
+> +	{ 0x10f5, 0x7005, "Turtle Beach Recon Controller", 0, XTYPE_XBOXONE },
+>  	{ 0x11c9, 0x55f0, "Nacon GC-100XF", 0, XTYPE_XBOX360 },
+>  	{ 0x11ff, 0x0511, "PXN V900", 0, XTYPE_XBOX360 },
+>  	{ 0x1209, 0x2882, "Ardwiino Controller", 0, XTYPE_XBOX360 },
+> @@ -366,6 +372,7 @@ static const struct xpad_device {
+>  	{ 0x24c6, 0x5510, "Hori Fighting Commander ONE (Xbox 360/PC Mode)", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+>  	{ 0x24c6, 0x551a, "PowerA FUSION Pro Controller", 0, XTYPE_XBOXONE },
+>  	{ 0x24c6, 0x561a, "PowerA FUSION Controller", 0, XTYPE_XBOXONE },
+> +	{ 0x24c6, 0x581a, "ThrustMaster XB1 Classic Controller", 0, XTYPE_XBOXONE },
+>  	{ 0x24c6, 0x5b00, "ThrustMaster Ferrari 458 Racing Wheel", 0, XTYPE_XBOX360 },
+>  	{ 0x24c6, 0x5b02, "Thrustmaster, Inc. GPX Controller", 0, XTYPE_XBOX360 },
+>  	{ 0x24c6, 0x5b03, "Thrustmaster Ferrari 458 Racing Wheel", 0, XTYPE_XBOX360 },
+> @@ -376,8 +383,10 @@ static const struct xpad_device {
+>  	{ 0x294b, 0x3404, "Snakebyte GAMEPAD RGB X", 0, XTYPE_XBOXONE },
+>  	{ 0x2dc8, 0x2000, "8BitDo Pro 2 Wired Controller fox Xbox", 0, XTYPE_XBOXONE },
+>  	{ 0x2dc8, 0x3106, "8BitDo Ultimate Wireless / Pro 2 Wired Controller", 0, XTYPE_XBOX360 },
+> +	{ 0x2dc8, 0x3109, "8BitDo Ultimate Wireless Bluetooth", 0, XTYPE_XBOX360 },
+>  	{ 0x2dc8, 0x310a, "8BitDo Ultimate 2C Wireless Controller", 0, XTYPE_XBOX360 },
+>  	{ 0x2e24, 0x0652, "Hyperkin Duke X-Box One pad", 0, XTYPE_XBOXONE },
+> +	{ 0x2e95, 0x0504, "SCUF Gaming Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
+>  	{ 0x31e3, 0x1100, "Wooting One", 0, XTYPE_XBOX360 },
+>  	{ 0x31e3, 0x1200, "Wooting Two", 0, XTYPE_XBOX360 },
+>  	{ 0x31e3, 0x1210, "Wooting Lekker", 0, XTYPE_XBOX360 },
+> @@ -385,9 +394,14 @@ static const struct xpad_device {
+>  	{ 0x31e3, 0x1230, "Wooting Two HE (ARM)", 0, XTYPE_XBOX360 },
+>  	{ 0x31e3, 0x1300, "Wooting 60HE (AVR)", 0, XTYPE_XBOX360 },
+>  	{ 0x31e3, 0x1310, "Wooting 60HE (ARM)", 0, XTYPE_XBOX360 },
+> +	{ 0x3285, 0x0603, "Nacon Pro Compact controller for Xbox", 0, XTYPE_XBOXONE },
+>  	{ 0x3285, 0x0607, "Nacon GC-100", 0, XTYPE_XBOX360 },
+> +	{ 0x3285, 0x0614, "Nacon Pro Compact", 0, XTYPE_XBOXONE },
+> +	{ 0x3285, 0x0662, "Nacon Revolution5 Pro", 0, XTYPE_XBOX360 },
+> +	{ 0x3285, 0x0663, "Nacon Evol-X", 0, XTYPE_XBOXONE },
+>  	{ 0x3537, 0x1004, "GameSir T4 Kaleid", 0, XTYPE_XBOX360 },
+>  	{ 0x3767, 0x0101, "Fanatec Speedster 3 Forceshock Wheel", 0, XTYPE_XBOX },
+> +	{ 0x413d, 0x2104, "Black Shark Green Ghost Gamepad", 0, XTYPE_XBOX360 },
+>  	{ 0xffff, 0xffff, "Chinese-made Xbox Controller", 0, XTYPE_XBOX },
+>  	{ 0x0000, 0x0000, "Generic X-Box pad", 0, XTYPE_UNKNOWN }
+>  };
+> @@ -486,6 +500,7 @@ static const struct usb_device_id xpad_table[] = {
+>  	XPAD_XBOX360_VENDOR(0x03f0),		/* HP HyperX Xbox 360 controllers */
+>  	XPAD_XBOXONE_VENDOR(0x03f0),		/* HP HyperX Xbox One controllers */
+>  	XPAD_XBOX360_VENDOR(0x044f),		/* Thrustmaster Xbox 360 controllers */
+> +	XPAD_XBOXONE_VENDOR(0x044f),		/* Thrustmaster Xbox One controllers */
+>  	XPAD_XBOX360_VENDOR(0x045e),		/* Microsoft Xbox 360 controllers */
+>  	XPAD_XBOXONE_VENDOR(0x045e),		/* Microsoft Xbox One controllers */
+>  	XPAD_XBOX360_VENDOR(0x046d),		/* Logitech Xbox 360-style controllers */
+> @@ -532,10 +547,13 @@ static const struct usb_device_id xpad_table[] = {
+>  	XPAD_XBOXONE_VENDOR(0x2dc8),		/* 8BitDo Pro 2 Wired Controller for Xbox */
+>  	XPAD_XBOXONE_VENDOR(0x2e24),		/* Hyperkin Duke Xbox One pad */
+>  	XPAD_XBOX360_VENDOR(0x2f24),		/* GameSir controllers */
+> +	XPAD_XBOXONE_VENDOR(0x2e95),		/* SCUF Gaming Controller */
+>  	XPAD_XBOX360_VENDOR(0x31e3),		/* Wooting Keyboards */
+>  	XPAD_XBOX360_VENDOR(0x3285),		/* Nacon GC-100 */
+> +	XPAD_XBOXONE_VENDOR(0x3285),		/* Nacon Evol-X */
+>  	XPAD_XBOX360_VENDOR(0x3537),		/* GameSir Controllers */
+>  	XPAD_XBOXONE_VENDOR(0x3537),		/* GameSir Controllers */
+> +	XPAD_XBOX360_VENDOR(0x413d),		/* Black Shark Green Ghost Controller */
+>  	{ }
+>  };
+>  
+> @@ -688,7 +706,9 @@ static const struct xboxone_init_packet xboxone_init_packets[] = {
+>  	XBOXONE_INIT_PKT(0x045e, 0x0b00, xboxone_s_init),
+>  	XBOXONE_INIT_PKT(0x045e, 0x0b00, extra_input_packet_init),
+>  	XBOXONE_INIT_PKT(0x0e6f, 0x0000, xboxone_pdp_led_on),
+> +	XBOXONE_INIT_PKT(0x20d6, 0xa01a, xboxone_pdp_led_on),
+>  	XBOXONE_INIT_PKT(0x0e6f, 0x0000, xboxone_pdp_auth),
+> +	XBOXONE_INIT_PKT(0x20d6, 0xa01a, xboxone_pdp_auth),
+>  	XBOXONE_INIT_PKT(0x24c6, 0x541a, xboxone_rumblebegin_init),
+>  	XBOXONE_INIT_PKT(0x24c6, 0x542a, xboxone_rumblebegin_init),
+>  	XBOXONE_INIT_PKT(0x24c6, 0x543a, xboxone_rumblebegin_init),
 
-The issue stems from the fact that hid_class_descriptor is supposed
-to be a flexible array, however it was sized as desc[1], using only
-one element. Therefore, going beyond 1 element, courtesy of
-bNumDescriptors, may lead to an error.
+are there any further changes that need to be made here?
 
-Modify struct hid_descriptor by employing __counted_by macro, tying
-together struct hid_class_descriptor desc[] and number of descriptors
-bNumDescriptors. Also, fix places where this change affects work with
-newly updated struct.
-
-[1] Syzbot report:
-
-UBSAN: array-index-out-of-bounds in drivers/hid/usbhid/hid-core.c:1024:7
-index 1 is out of range for type 'struct hid_class_descriptor[1]'
-...
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:114
- ubsan_epilogue lib/ubsan.c:231 [inline]
- __ubsan_handle_out_of_bounds+0x121/0x150 lib/ubsan.c:429
- usbhid_parse+0x5a7/0xc80 drivers/hid/usbhid/hid-core.c:1024
- hid_add_device+0x132/0x520 drivers/hid/hid-core.c:2790
- usbhid_probe+0xb38/0xea0 drivers/hid/usbhid/hid-core.c:1429
- usb_probe_interface+0x645/0xbb0 drivers/usb/core/driver.c:399
- really_probe+0x2b8/0xad0 drivers/base/dd.c:656
- __driver_probe_device+0x1a2/0x390 drivers/base/dd.c:798
- driver_probe_device+0x50/0x430 drivers/base/dd.c:828
- __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:956
- bus_for_each_drv+0x24e/0x2e0 drivers/base/bus.c:457
- __device_attach+0x333/0x520 drivers/base/dd.c:1028
- bus_probe_device+0x189/0x260 drivers/base/bus.c:532
- device_add+0x8ff/0xca0 drivers/base/core.c:3720
- usb_set_configuration+0x1976/0x1fb0 drivers/usb/core/message.c:2210
- usb_generic_driver_probe+0x88/0x140 drivers/usb/core/generic.c:254
- usb_probe_device+0x1b8/0x380 drivers/usb/core/driver.c:294
-
-Reported-by: syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=c52569baf0c843f35495
-Fixes: f043bfc98c19 ("HID: usbhid: fix out-of-bounds bug")
-Cc: stable@vger.kernel.org
-Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
----
-v1: https://lore.kernel.org/all/20240524120112.28076-1-n.zhandarovich@fintech.ru/
-
-v2: Instead of essentially forcing usbhid_parse() to only check
-the first descriptor, modify hid_descriptor struct to anticipate
-multiple hid_class_descriptor in desc[] by utilizing __counted_by
-macro. This change, in turn, requires several other ones wherever
-that struct is used. Adjust commit description accordingly.
-
-P.S. Since syzbot currently breaks trying to reproduce the issue,
-with or without this patch, I only managed to test it locally with
-syz repros. Would greatly appreciate other people's effort to test
-it as well.
-
-P.P.S. Terry Junge <linuxhid@cosmicgizmosystems.com> suggested a
-different approach to this issue, see:
-Link: https://lore.kernel.org/all/f7963a1d-e069-4ec9-82a1-e17fd324a44f@cosmicgizmosystems.com/
-
- drivers/hid/usbhid/hid-core.c       |  2 +-
- drivers/usb/gadget/function/f_fs.c  |  3 ++-
- drivers/usb/gadget/function/f_hid.c | 22 ++++++++++++++--------
- include/linux/hid.h                 |  2 +-
- 4 files changed, 18 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-index a6eb6fe6130d..eb4807785d6d 100644
---- a/drivers/hid/usbhid/hid-core.c
-+++ b/drivers/hid/usbhid/hid-core.c
-@@ -1010,7 +1010,7 @@ static int usbhid_parse(struct hid_device *hid)
- 		return -ENODEV;
- 	}
- 
--	if (hdesc->bLength < sizeof(struct hid_descriptor)) {
-+	if (hdesc->bLength < struct_size(hdesc, desc, hdesc->bNumDescriptors)) {
- 		dbg_hid("hid descriptor is too short\n");
- 		return -EINVAL;
- 	}
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 2dea9e42a0f8..a4b6d7cbf56d 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -2550,7 +2550,8 @@ static int __must_check ffs_do_single_desc(char *data, unsigned len,
- 	case USB_TYPE_CLASS | 0x01:
- 		if (*current_class == USB_INTERFACE_CLASS_HID) {
- 			pr_vdebug("hid descriptor\n");
--			if (length != sizeof(struct hid_descriptor))
-+			if (length < sizeof(struct hid_descriptor) +
-+				     sizeof(struct hid_class_descriptor))
- 				goto inv_length;
- 			break;
- 		} else if (*current_class == USB_INTERFACE_CLASS_CCID) {
-diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
-index 740311c4fa24..ec8c2e2d6812 100644
---- a/drivers/usb/gadget/function/f_hid.c
-+++ b/drivers/usb/gadget/function/f_hid.c
-@@ -139,13 +139,17 @@ static struct usb_interface_descriptor hidg_interface_desc = {
- };
- 
- static struct hid_descriptor hidg_desc = {
--	.bLength			= sizeof hidg_desc,
-+	.bLength			= struct_size(&hidg_desc, desc, 1),
- 	.bDescriptorType		= HID_DT_HID,
- 	.bcdHID				= cpu_to_le16(0x0101),
- 	.bCountryCode			= 0x00,
- 	.bNumDescriptors		= 0x1,
--	/*.desc[0].bDescriptorType	= DYNAMIC */
--	/*.desc[0].wDescriptorLenght	= DYNAMIC */
-+	.desc				= {
-+		{
-+			.bDescriptorType	= 0, /* DYNAMIC */
-+			.wDescriptorLength	= 0, /* DYNAMIC */
-+		}
-+	}
- };
- 
- /* Super-Speed Support */
-@@ -936,16 +940,18 @@ static int hidg_setup(struct usb_function *f,
- 		switch (value >> 8) {
- 		case HID_DT_HID:
- 		{
--			struct hid_descriptor hidg_desc_copy = hidg_desc;
-+			DEFINE_FLEX(struct hid_descriptor, hidg_desc_copy,
-+				desc, bNumDescriptors, 1);
-+			*hidg_desc_copy = hidg_desc;
- 
- 			VDBG(cdev, "USB_REQ_GET_DESCRIPTOR: HID\n");
--			hidg_desc_copy.desc[0].bDescriptorType = HID_DT_REPORT;
--			hidg_desc_copy.desc[0].wDescriptorLength =
-+			hidg_desc_copy->desc[0].bDescriptorType = HID_DT_REPORT;
-+			hidg_desc_copy->desc[0].wDescriptorLength =
- 				cpu_to_le16(hidg->report_desc_length);
- 
- 			length = min_t(unsigned short, length,
--						   hidg_desc_copy.bLength);
--			memcpy(req->buf, &hidg_desc_copy, length);
-+						   hidg_desc_copy->bLength);
-+			memcpy(req->buf, hidg_desc_copy, length);
- 			goto respond;
- 			break;
- 		}
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index cdc0dc13c87f..85a58ae2c4a0 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -739,7 +739,7 @@ struct hid_descriptor {
- 	__u8  bCountryCode;
- 	__u8  bNumDescriptors;
- 
--	struct hid_class_descriptor desc[1];
-+	struct hid_class_descriptor desc[] __counted_by(bNumDescriptors);
- } __attribute__ ((packed));
- 
- #define HID_DEVICE(b, g, ven, prod)					\
 
