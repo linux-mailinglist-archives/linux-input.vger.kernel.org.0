@@ -1,77 +1,77 @@
-Return-Path: <linux-input+bounces-9654-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9655-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB52A248A9
-	for <lists+linux-input@lfdr.de>; Sat,  1 Feb 2025 12:40:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 571EFA248AB
+	for <lists+linux-input@lfdr.de>; Sat,  1 Feb 2025 12:40:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 542233A8537
-	for <lists+linux-input@lfdr.de>; Sat,  1 Feb 2025 11:39:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C4BCF18860C8
+	for <lists+linux-input@lfdr.de>; Sat,  1 Feb 2025 11:40:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9714D1A0BD7;
-	Sat,  1 Feb 2025 11:39:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00CE31741D2;
+	Sat,  1 Feb 2025 11:39:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IYevY0jg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cMzyK+fm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19131A4F0A;
-	Sat,  1 Feb 2025 11:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E069F1ADC61;
+	Sat,  1 Feb 2025 11:39:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738409966; cv=none; b=qaYrGxHeYcXTVW1RpwC9arUf4zHtwxCwhDml3OFKEqUHN3CwDA6xLQU2m3oiRXrsPmoOynQAuRFiD/25KeGALvl70hbWVuq7IVK5kRhptFntnZMw7PPaF6UuIQCOLWTs+QCbGv/RXF96esUlaMVx6agKnRuTN1r32qfR7IekIJY=
+	t=1738409967; cv=none; b=Awrw8n3NDiaS3VQ3I5hXDCRvpdleS9sJ457bNDHrSsVUlO6oED2g0Hj4iYpwJkb1LL3hrUN79dH/egKH173yUPXCxb+1R7Fu5ML/PTrlPjdoxlB3QdJ4M9i/WZwdhry7MMBbaPb5T2kboXsdGfpM/eq1gsN2yBVe2O8iZa0CgwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738409966; c=relaxed/simple;
-	bh=8n2ijgu0lJdc/S8UqYY3kQNAGwdA7IE2ECei8RRfJnc=;
+	s=arc-20240116; t=1738409967; c=relaxed/simple;
+	bh=8LFuFtIC1/vLQVJjA69tBl8fDDkaiVeYj9ro2JZL3lQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CFwwtL1nZg5axbxwkOWuuGSy/IEq8/n162reAEm3qd0XkCc24lpO1Q8Y52It5O2oPR97/I8y8xjijtLCWUlVz4PgVS033yQG3c+cTJr4F7/L5eCgH0y5VQeUd35PfqX6UHZw7FpWnKar+O9AEaKfN3a8u+v9EWkETgwgw5iG9Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IYevY0jg; arc=none smtp.client-ip=209.85.208.48
+	 MIME-Version:Content-Type; b=orF84QTZtLSiXVqU69q3h3+igtOqYc0Qg5FXMb5Cbs/vNuuqm9RP/Gdf3Ukp2uUanMHOz1cKx/bpfveoirZRzVthH5402lV268UI16fAICy49ZuTQ3U+sw6rIvfJusKMeBq31zVsxYqLk2SupEeZg7jhKoGk+H+BXTFV1mP4ok8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cMzyK+fm; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5d3cfa1da14so435382a12.1;
-        Sat, 01 Feb 2025 03:39:24 -0800 (PST)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5d3cfa1da14so435383a12.1;
+        Sat, 01 Feb 2025 03:39:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738409963; x=1739014763; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1738409964; x=1739014764; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t2Z67RRzMMPveRgarwir0G5V0TGDQoDLTBNY2xeRHsI=;
-        b=IYevY0jgs7d1e8Kp1aZcc/o+aLSvDBEZ5ws3TGzv28rSxCNbUczb//D/VxDeIoI18m
-         k86u9awOp4FS6YsMeNHCEeAXvx6q1622k8QbwIzP42wx2+T+D9lXVmxlYwXTQN6RikeO
-         VXAeb7meFVj/mjy8HeV5a6w4AMQXvB7GXE1iX2RQsAH2CAlQz5/eaYGwiWkTfgx8T7zW
-         PbBsGSWMjwvGeRovCic0m1+AhEWORoYArAHjsZFNAmbvp7udS6SrH6RrjNXLQnqbXgSf
-         I5/7bcbQsbuX2TlNejAonglGraDx2KRCSQZUvRMr7h/VmSSvMk3sU5vC6bYk8eMtTU65
-         fwaQ==
+        bh=Y7HG0bNZuTLljq+7ywXHveK2FMv+kcD7yErDOYAErzU=;
+        b=cMzyK+fmWElUg9DVq1zGn803QvI5K7AA0UXir5peDxw+V1FNsgqtE4Q+3PMqB/l0An
+         03lfIFjaQGujNHZiQnR/TgPan8DuMpHNbqRpt5tgqxgikkdpPHjv0bF+n6ctdsm/1bz4
+         P3PgBuVABvb4U8xwciSSL2tGC6Kc91P8qspoY1sNnV1a96kWZHRE4eOprtwuCh82T9qL
+         AHP/fs8BfhshVkVw3U9kpczsbGRKjzFjNyWrmXukyu2pxknk84tdJrlPu3argiZ1JHue
+         azekge+Rfu4GXWk9CpgIqPBZeRZJZ6erKzcTwsXv0qP8irDenHhI8kLsOQiLp7VZzzvW
+         SnXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738409963; x=1739014763;
+        d=1e100.net; s=20230601; t=1738409964; x=1739014764;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=t2Z67RRzMMPveRgarwir0G5V0TGDQoDLTBNY2xeRHsI=;
-        b=llOeGWs84ETHWhFNm+UGnZeWJUzqf2mQJebd2gARd4fpAvo5upMaZDmo1i7SQUGroV
-         BXTnlLIjSH+K372pM6NYX/fAXeM0xHe2wihN6FIlCJcxyMTpfsutzg/WrEZvddNdaz3s
-         T+wl+VzaNYUx7iu5lm8zVoRHR5+iRLOMb+eyI1e/Y+kWc3DW2OXTdA79lc6cemktYpw5
-         0ui20Xaa1fu30XBAoTm3NL/9gNbtnkzwNrAhLV2LNSJvmvyk8lRfJYOXNJnvrB0mcEKR
-         7503FGhDJr+o6VlHRCej+m7xNsdj4Wx4VMRRcIbDvepVbXLH9xaTwiFpdUtmZQqMYUIq
-         5awA==
-X-Forwarded-Encrypted: i=1; AJvYcCUfSd/+z666URI2gbtz5Slk9lhwsBuMwMG1mjIvzWTaszhdKOkI2v7Qq7R8xQnkK2JCIjjV/T0N4AuH@vger.kernel.org, AJvYcCVl33grZhmufp26EXGiwUsZ8j8F38HBQ5yS1bVd+flQz1IHN+s2sbKQPnOn5gBhcBv5RFhLLJdrfgUrew==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmFSvgLLhUL4Y8MVlvHdpqbQqvt7zqKt+w3f2UpYPcawpnpyxx
-	zYInSXNrIFlwYrMdf0ObvINtaEnX8XXhCS+hcoj4gVAN7+G4kiWc
-X-Gm-Gg: ASbGncs+zn6rYCw/MVoThnIem0CTj6aDVu1bVgbP/BoSjMOdVnYAXDq3sYrANTtsl1k
-	BTCyoL6KOyGPFrg3+CbBnx5oxSjt/ctJjNyYJFa4wBAZgb6uZ6E9ZBEVSv0/I8fCok8Ejhhk2Zw
-	hk9IxQl5vYOGzQ9/XOhPWGJdKcA9keVUMPVYQCRIAKCVO/F61C5Uu7TlOIUVMIp2gDQQrLm+CnH
-	Q3OIlA4DtAQzG/hQB6BSk4mTth6ODHPksFs0avPPTOaulvH83khTIVvUTTyxcdvz7upitWsQgsk
-	5tZrGFKsB7OCdhDPyW/oM2xFmaoG9tHEaUARMhocLueWjs2CC+Hpk7Wl27ptBA==
-X-Google-Smtp-Source: AGHT+IFzhk1FGyzImJNfG2S9R2Hvf/i+naqIB5r7QstTKKHnbvq+xu3kQiezsurQa+g00sBRg0Y0mQ==
-X-Received: by 2002:a05:6402:234b:b0:5d3:d4cf:feba with SMTP id 4fb4d7f45d1cf-5dc5effcc18mr5547431a12.7.1738409962914;
-        Sat, 01 Feb 2025 03:39:22 -0800 (PST)
+        bh=Y7HG0bNZuTLljq+7ywXHveK2FMv+kcD7yErDOYAErzU=;
+        b=izpwJlojYoEpgiBq01URyAYAYLoaokL2sIdniuYBGupfQz/YTazKJuRsbGhSloxcRx
+         Flj7sSpEfsTEepzol7yAz4Q4hzQbesMpgnqBbHMnEe/e7NgNKHlXBU/1MDH557IVyGLA
+         TXTVxUHgkeXYsuI3O5gHoTLu1mNPSCGYmLh3xWdQMqJyla5rqJJC/oGXilTt23dFhlGw
+         A0Beggry+eidfjHDfEiYzYske5k5e6qvwJ+no+KJPHdSPIeMu4LL+ZbIafGjiyf2tT9n
+         x/vSVu/Qpo6FXAiUZliUaT2iIjJM8QimuR5t+sG3y3lUzAELWO5NjfZhqsZUy4+JhAlz
+         mPzw==
+X-Forwarded-Encrypted: i=1; AJvYcCVAqC01jId2qNQYKuNjBWFoswXoC38xSdm8Tf64eddsJoE1YNyXdNOVKlKF1+4LvHNLTWepvAffPx92@vger.kernel.org, AJvYcCWACHoEo+lJwBVy335EvhCV24Dv6twtiNlxTHnmpV0tah90wA2Ffx6/6HdfGfciICFo3riJoNbB7zcM+g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YySbLIkBwwBr6gdDdMe7KpBX3Y6PQQX6SjeJUEtrSZhUTQs5aD5
+	PvClHofz7fDYsL05sNTkNSdqrcn+0TUPjMzW5tiS+9SUAL0CblNCz29TDQ==
+X-Gm-Gg: ASbGnctmZTscUSSc3YzVQXogKOzfhg4Dg4elyYjoXV2oRB3FClXxw/kf+5NHwAOxWhG
+	LBzF8IGc8RntuGYAIE6ZwvIgdQofi49/n/z9EpFW8T3xoCfH83CI32l31nULE3NEpOKrSAdCoiS
+	ZnvQf/PL+Vz++U6oa17V/bept335nH9ch5u3e7knUL/OAHQjd0H91Fhk0lL+ukKBoSBWAti1IKl
+	p1llTAmwDB+TBH9XJSjsy7BJTXgwZ9SRWv2ZrtGaUsCHFN1h+Qj8JBFcOx2ATXX+/UO9fiiCuoP
+	Jf9nO9NQM7JvpG1bTOpqd4HYL/RsTaAZ00rKHMZpEdfuYRzNORyc17yAZeIQ4w==
+X-Google-Smtp-Source: AGHT+IHvi7XIGqpdsAWUGSGuuM4HHXLCWLfOlCuVBzFo+7FHjgKJVs7PyYFvmriuM8vL2C/9d+lcPw==
+X-Received: by 2002:a05:6402:4287:b0:5d0:bf79:e925 with SMTP id 4fb4d7f45d1cf-5dc5efec149mr6290271a12.6.1738409964066;
+        Sat, 01 Feb 2025 03:39:24 -0800 (PST)
 Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dc723e9fa7sm4304577a12.20.2025.02.01.03.39.21
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dc723e9fa7sm4304577a12.20.2025.02.01.03.39.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Feb 2025 03:39:22 -0800 (PST)
+        Sat, 01 Feb 2025 03:39:23 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
@@ -79,9 +79,9 @@ Cc: anssi.hannula@gmail.com,
 	oleg@makarenk.ooo,
 	linux-input@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v9 12/22] HID: pidff: Add PERIODIC_SINE_ONLY quirk
-Date: Sat,  1 Feb 2025 12:38:56 +0100
-Message-ID: <20250201113906.769162-13-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v9 13/22] HID: pidff: Completely rework and fix pidff_reset function
+Date: Sat,  1 Feb 2025 12:38:57 +0100
+Message-ID: <20250201113906.769162-14-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250201113906.769162-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20250201113906.769162-1-tomasz.pakula.oficjalny@gmail.com>
@@ -94,80 +94,248 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Some devices only support SINE periodic effect although they advertise
-support for all PERIODIC effect in their HID descriptor. Some just do
-nothing when trying to play such an effect (upload goes fine), some express
-undefined behavior like turning to one side.
+Previously, it was assumed that DEVICE_CONTROL usage is always an array
+but a lot of devices implements it as a bitmask variable. This led to
+the pidff_reset function not working and causing errors in such cases.
 
-This quirk forces all the periodic effects to be uploaded as SINE. This is
-acceptable as all these effects are similar in nature and are mostly used as
-rumble. SINE is the most popular with others seldom used (especially SAW_UP
-and SAW_DOWN).
+Selectors can come in three types. One selection of a set, N selections
+and Any selection in form of bitmask as from USB Hid Usage Tables v1.5,
+subsection 3.4.2.1
 
-Fixes periodic effects for PXN and LITE STAR wheels
+Added pidff_send_device_control which handles usage flag check which
+decides whether DEVICE_CONTROL should be handled as "One selection of a
+set" or "Any selection of a set".
 
+Reset was triggered once, on device initialization. Now, it's triggered
+every time when uploading an effect to an empty device (no currently
+stored effects), tracked by pidff->effect_count variable.
+
+Co-developed-by: Makarenko Oleg <oleg@makarenk.ooo>
+Signed-off-by: Makarenko Oleg <oleg@makarenk.ooo>
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 Reviewed-by: Michał Kopeć <michal@nozomi.space>
 Reviewed-by: Paul Dino Jones <paul@spacefreak18.xyz>
+Tested-by: Paul Dino Jones <paul@spacefreak18.xyz>
 Tested-by: Cristóferson Bueno <cbueno81@gmail.com>
+Tested-by: Pablo Cisneros <patchkez@protonmail.com>
 ---
- drivers/hid/hid-universal-pidff.c | 15 ++++++++++-----
- drivers/hid/usbhid/hid-pidff.c    |  3 +++
- include/linux/hid.h               |  1 +
- 3 files changed, 14 insertions(+), 5 deletions(-)
+ drivers/hid/usbhid/hid-pidff.c | 138 +++++++++++++++++++++------------
+ 1 file changed, 89 insertions(+), 49 deletions(-)
 
-diff --git a/drivers/hid/hid-universal-pidff.c b/drivers/hid/hid-universal-pidff.c
-index 55aad2e4ac1b..7ef5ab9146b1 100644
---- a/drivers/hid/hid-universal-pidff.c
-+++ b/drivers/hid/hid-universal-pidff.c
-@@ -168,11 +168,16 @@ static const struct hid_device_id universal_pidff_devices[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_FFBEAST, USB_DEVICE_ID_FFBEAST_JOYSTICK), },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_FFBEAST, USB_DEVICE_ID_FFBEAST_RUDDER), },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_FFBEAST, USB_DEVICE_ID_FFBEAST_WHEEL) },
--	{ HID_USB_DEVICE(USB_VENDOR_ID_LITE_STAR, USB_DEVICE_ID_PXN_V10) },
--	{ HID_USB_DEVICE(USB_VENDOR_ID_LITE_STAR, USB_DEVICE_ID_PXN_V12) },
--	{ HID_USB_DEVICE(USB_VENDOR_ID_LITE_STAR, USB_DEVICE_ID_PXN_V12_LITE) },
--	{ HID_USB_DEVICE(USB_VENDOR_ID_LITE_STAR, USB_DEVICE_ID_PXN_V12_LITE_2) },
--	{ HID_USB_DEVICE(USB_VENDOR_ID_LITE_STAR, USB_DEVICE_LITE_STAR_GT987_FF) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LITE_STAR, USB_DEVICE_ID_PXN_V10),
-+		.driver_data = HID_PIDFF_QUIRK_PERIODIC_SINE_ONLY },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LITE_STAR, USB_DEVICE_ID_PXN_V12),
-+		.driver_data = HID_PIDFF_QUIRK_PERIODIC_SINE_ONLY },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LITE_STAR, USB_DEVICE_ID_PXN_V12_LITE),
-+		.driver_data = HID_PIDFF_QUIRK_PERIODIC_SINE_ONLY },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LITE_STAR, USB_DEVICE_ID_PXN_V12_LITE_2),
-+		.driver_data = HID_PIDFF_QUIRK_PERIODIC_SINE_ONLY },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LITE_STAR, USB_DEVICE_LITE_STAR_GT987_FF),
-+		.driver_data = HID_PIDFF_QUIRK_PERIODIC_SINE_ONLY },
- 	{ }
- };
- MODULE_DEVICE_TABLE(hid, universal_pidff_devices);
 diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index c125f029b6d6..e6224e797dc6 100644
+index e6224e797dc6..7db63d686c62 100644
 --- a/drivers/hid/usbhid/hid-pidff.c
 +++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -651,6 +651,9 @@ static int pidff_upload_effect(struct input_dev *dev, struct ff_effect *effect,
- 				return -EINVAL;
- 			}
+@@ -109,9 +109,10 @@ static const u8 pidff_pool[] = { 0x80, 0x83, 0xa9 };
+ /* Special field key tables used to put special field keys into arrays */
  
-+			if (pidff->quirks & HID_PIDFF_QUIRK_PERIODIC_SINE_ONLY)
-+				type_id = PID_SINE;
+ #define PID_ENABLE_ACTUATORS	0
+-#define PID_STOP_ALL_EFFECTS	1
+-#define PID_RESET		2
+-static const u8 pidff_device_control[] = { 0x97, 0x99, 0x9a };
++#define PID_DISABLE_ACTUATORS	1
++#define PID_STOP_ALL_EFFECTS	2
++#define PID_RESET		3
++static const u8 pidff_device_control[] = { 0x97, 0x98, 0x99, 0x9a };
+ 
+ #define PID_CONSTANT	0
+ #define PID_RAMP	1
+@@ -190,6 +191,7 @@ struct pidff_device {
+ 	int pid_id[PID_EFFECTS_MAX];
+ 
+ 	u32 quirks;
++	u8 effect_count;
+ };
+ 
+ /*
+@@ -490,9 +492,83 @@ static int pidff_needs_set_ramp(struct ff_effect *effect, struct ff_effect *old)
+ 	       effect->u.ramp.end_level != old->u.ramp.end_level;
+ }
+ 
++/*
++ * Clear device control report
++ */
++static void pidff_send_device_control(struct pidff_device *pidff, int field)
++{
++	int i, tmp;
++	int field_index = pidff->control_id[field];
 +
- 			error = pidff_request_effect_upload(pidff,
- 					pidff->type_id[type_id]);
- 			if (error)
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 856bed149246..c6beb01ab00c 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -1234,6 +1234,7 @@ int hid_pidff_init_with_quirks(struct hid_device *hid, __u32 initial_quirks);
- #define HID_PIDFF_QUIRK_MISSING_PBO		BIT(1)
- #define HID_PIDFF_QUIRK_PERMISSIVE_CONTROL	BIT(2)
- #define HID_PIDFF_QUIRK_FIX_WHEEL_DIRECTION	BIT(3)
-+#define HID_PIDFF_QUIRK_PERIODIC_SINE_ONLY	BIT(4)
++	/* Detect if the field is a bitmask variable or an array */
++	if (pidff->device_control->flags & HID_MAIN_ITEM_VARIABLE) {
++		hid_dbg(pidff->hid, "DEVICE_CONTROL is a bitmask\n");
++		/* Clear current bitmask */
++		for(i = 0; i < sizeof(pidff_device_control); i++) {
++			tmp = pidff->control_id[i];
++			pidff->device_control->value[tmp] = 0;
++		}
++		pidff->device_control->value[field_index - 1] = 1;
++	} else {
++		hid_dbg(pidff->hid, "DEVICE_CONTROL is an array\n");
++		pidff->device_control->value[0] = field_index;
++	}
++
++	hid_hw_request(pidff->hid, pidff->reports[PID_DEVICE_CONTROL], HID_REQ_SET_REPORT);
++	hid_hw_wait(pidff->hid);
++}
++
++/*
++ * Modify actuators state
++ */
++static void pidff_modify_actuators_state(struct pidff_device *pidff, bool enable)
++{
++	hid_dbg(pidff->hid, "%s actuators\n", enable ? "Enable" : "Disable");
++	pidff_send_device_control(pidff,
++		enable ? PID_ENABLE_ACTUATORS : PID_DISABLE_ACTUATORS);
++}
++
++/*
++ * Reset the device, stop all effects, enable actuators
++ * Refetch pool report
++ */
++static void pidff_reset(struct pidff_device *pidff)
++{
++	int i = 0;
++
++	/* We reset twice as sometimes hid_wait_io isn't waiting long enough */
++	pidff_send_device_control(pidff, PID_RESET);
++	pidff_send_device_control(pidff, PID_RESET);
++	pidff->effect_count = 0;
++
++	pidff_send_device_control(pidff, PID_STOP_ALL_EFFECTS);
++	pidff_modify_actuators_state(pidff, 1);
++
++	/* pool report is sometimes messed up, refetch it */
++	hid_hw_request(pidff->hid, pidff->reports[PID_POOL], HID_REQ_GET_REPORT);
++	hid_hw_wait(pidff->hid);
++
++	if (pidff->pool[PID_SIMULTANEOUS_MAX].value) {
++		while (pidff->pool[PID_SIMULTANEOUS_MAX].value[0] < 2) {
++			if (i++ > 20) {
++				hid_warn(pidff->hid,
++					 "device reports %d simultaneous effects\n",
++					 pidff->pool[PID_SIMULTANEOUS_MAX].value[0]);
++				break;
++			}
++			hid_dbg(pidff->hid, "pid_pool requested again\n");
++			hid_hw_request(pidff->hid, pidff->reports[PID_POOL],
++					  HID_REQ_GET_REPORT);
++			hid_hw_wait(pidff->hid);
++		}
++	}
++}
++
+ /*
+  * Send a request for effect upload to the device
+  *
++ * Reset and enable actuators if no effects were present on the device
++ *
+  * Returns 0 if device reported success, -ENOSPC if the device reported memory
+  * is full. Upon unknown response the function will retry for 60 times, if
+  * still unsuccessful -EIO is returned.
+@@ -501,6 +577,9 @@ static int pidff_request_effect_upload(struct pidff_device *pidff, int efnum)
+ {
+ 	int j;
  
- #define dbg_hid(fmt, ...) pr_debug("%s: " fmt, __FILE__, ##__VA_ARGS__)
++	if (!pidff->effect_count)
++		pidff_reset(pidff);
++
+ 	pidff->create_new_effect_type->value[0] = efnum;
+ 	hid_hw_request(pidff->hid, pidff->reports[PID_CREATE_NEW_EFFECT],
+ 			HID_REQ_SET_REPORT);
+@@ -520,6 +599,8 @@ static int pidff_request_effect_upload(struct pidff_device *pidff, int efnum)
+ 			hid_dbg(pidff->hid, "device reported free memory: %d bytes\n",
+ 				 pidff->block_load[PID_RAM_POOL_AVAILABLE].value ?
+ 				 pidff->block_load[PID_RAM_POOL_AVAILABLE].value[0] : -1);
++
++			pidff->effect_count++;
+ 			return 0;
+ 		}
+ 		if (pidff->block_load_status->value[0] ==
+@@ -568,12 +649,16 @@ static int pidff_playback(struct input_dev *dev, int effect_id, int value)
  
+ /*
+  * Erase effect with PID id
++ * Decrease the device effect counter
+  */
+ static void pidff_erase_pid(struct pidff_device *pidff, int pid_id)
+ {
+ 	pidff->block_free[PID_EFFECT_BLOCK_INDEX].value[0] = pid_id;
+ 	hid_hw_request(pidff->hid, pidff->reports[PID_BLOCK_FREE],
+ 			HID_REQ_SET_REPORT);
++
++	if (pidff->effect_count > 0)
++		pidff->effect_count--;
+ }
+ 
+ /*
+@@ -1211,50 +1296,6 @@ static int pidff_init_fields(struct pidff_device *pidff, struct input_dev *dev)
+ 	return 0;
+ }
+ 
+-/*
+- * Reset the device
+- */
+-static void pidff_reset(struct pidff_device *pidff)
+-{
+-	struct hid_device *hid = pidff->hid;
+-	int i = 0;
+-
+-	pidff->device_control->value[0] = pidff->control_id[PID_RESET];
+-	/* We reset twice as sometimes hid_wait_io isn't waiting long enough */
+-	hid_hw_request(hid, pidff->reports[PID_DEVICE_CONTROL], HID_REQ_SET_REPORT);
+-	hid_hw_wait(hid);
+-	hid_hw_request(hid, pidff->reports[PID_DEVICE_CONTROL], HID_REQ_SET_REPORT);
+-	hid_hw_wait(hid);
+-
+-	pidff->device_control->value[0] = pidff->control_id[PID_STOP_ALL_EFFECTS];
+-	hid_hw_request(hid, pidff->reports[PID_DEVICE_CONTROL], HID_REQ_SET_REPORT);
+-	hid_hw_wait(hid);
+-
+-	pidff->device_control->value[0] =
+-		pidff->control_id[PID_ENABLE_ACTUATORS];
+-	hid_hw_request(hid, pidff->reports[PID_DEVICE_CONTROL], HID_REQ_SET_REPORT);
+-	hid_hw_wait(hid);
+-
+-	/* pool report is sometimes messed up, refetch it */
+-	hid_hw_request(hid, pidff->reports[PID_POOL], HID_REQ_GET_REPORT);
+-	hid_hw_wait(hid);
+-
+-	if (pidff->pool[PID_SIMULTANEOUS_MAX].value) {
+-		while (pidff->pool[PID_SIMULTANEOUS_MAX].value[0] < 2) {
+-			if (i++ > 20) {
+-				hid_warn(pidff->hid,
+-					 "device reports %d simultaneous effects\n",
+-					 pidff->pool[PID_SIMULTANEOUS_MAX].value[0]);
+-				break;
+-			}
+-			hid_dbg(pidff->hid, "pid_pool requested again\n");
+-			hid_hw_request(hid, pidff->reports[PID_POOL],
+-					  HID_REQ_GET_REPORT);
+-			hid_hw_wait(hid);
+-		}
+-	}
+-}
+-
+ /*
+  * Test if autocenter modification is using the supported method
+  */
+@@ -1320,6 +1361,7 @@ int hid_pidff_init_with_quirks(struct hid_device *hid, __u32 initial_quirks)
+ 
+ 	pidff->hid = hid;
+ 	pidff->quirks = initial_quirks;
++	pidff->effect_count = 0;
+ 
+ 	hid_device_io_start(hid);
+ 
+@@ -1336,8 +1378,6 @@ int hid_pidff_init_with_quirks(struct hid_device *hid, __u32 initial_quirks)
+ 	if (error)
+ 		goto fail;
+ 
+-	pidff_reset(pidff);
+-
+ 	if (test_bit(FF_GAIN, dev->ffbit)) {
+ 		pidff_set(&pidff->device_gain[PID_DEVICE_GAIN_FIELD], 0xffff);
+ 		hid_hw_request(hid, pidff->reports[PID_DEVICE_GAIN],
 -- 
 2.48.1
 
