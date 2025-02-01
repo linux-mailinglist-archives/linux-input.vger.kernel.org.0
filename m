@@ -1,48 +1,56 @@
-Return-Path: <linux-input+bounces-9638-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9639-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76DCA2448F
-	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2025 22:18:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DCF4A2470B
+	for <lists+linux-input@lfdr.de>; Sat,  1 Feb 2025 05:40:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A0A5B3A7CA0
-	for <lists+linux-input@lfdr.de>; Fri, 31 Jan 2025 21:18:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3507C3A74E6
+	for <lists+linux-input@lfdr.de>; Sat,  1 Feb 2025 04:40:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB4A31F2389;
-	Fri, 31 Jan 2025 21:18:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 743292B9A9;
+	Sat,  1 Feb 2025 04:40:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oLbPDdsA"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="MQIh6QsA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77F0139E;
-	Fri, 31 Jan 2025 21:18:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A68217BCE;
+	Sat,  1 Feb 2025 04:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738358315; cv=none; b=NHxhl/+xEcpdW3TVzhelBVliIueSpFppsN0AxFuLh3tj3LkiZb7iYxadkt8nz9q0H4EVI04BQUtHIxtKv0260D6uWCDK0/56UkVurk9qF/k+vCzhvKbhXtgTS6Uou1xf3GABNuoE7mlfnpCgHpo0fYgwM687CWthr8N3z/n6LzI=
+	t=1738384816; cv=none; b=rgtaCBDTe9CaT0KIJZCYf2MWWotm1tPtsjtGxXtX0DpQ7Qx/ohjZtrwsDbHr70Kkc2gkCELAebd+Q8FQvDOkY/lRKZUBz63YF/lup2A9US6YPhWH5QFjgsPHhAyoPaM1vNhF/ZY2qASg2EP/P0Jclu+2e29WCe7tAaPgJcsLqtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738358315; c=relaxed/simple;
-	bh=sM66QRyKMeDsKq/54eUtBNYXdMr+6numAYXYD8J90eU=;
+	s=arc-20240116; t=1738384816; c=relaxed/simple;
+	bh=xo7/q6vlZdNeRWEWkoAlNw1e0d6k7F8xJ30Ok5ww660=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JWx60BoN26ClZ61yvpSqmUzsh3gkErb7ByR0osmL66u6QNF26L9OoXpmNgA0oDsv0gpTJHJ9mLr5+KAIPP5Vz9uaFZCnGGrVYXvk04cSIWkjyq1pDupRanu26t9rwWzGHLBVG3xz+nSHWq2UKK25prw3Xd1LatWrVE0k0x/284g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oLbPDdsA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AEF8C4CED1;
-	Fri, 31 Jan 2025 21:18:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738358315;
-	bh=sM66QRyKMeDsKq/54eUtBNYXdMr+6numAYXYD8J90eU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oLbPDdsAMVcj3J8Pve6PZtT2wvHC8PTe1Qzx3j5VGPw6nbo9AUbVYUSPYI3yh0p3J
-	 ifjhD6MNSex6CszIGFcVMJ3fXgo7vtazv32Ck/syk8YC69P85P/ugE6ROBG4NOGWcC
-	 KliFmBlZCyFVzNmxw7zQLq8NzbPpfWS62uPNsnVWlOM4C52UyHTNvHF2nJBs2RjDR4
-	 uKHb3DtHidtJLSn20fANGWlELKgY2Ef00ZE2kvCZqsQurEWYTmS8WCNtJ+Nu2HRZPp
-	 eDiO2EThEiCX2+PG1Zm/9zO+Vrn4S9JpP25/Zqzq0EXaLbiSWrM2hoCc0uOIW1KQbc
-	 2ARA+2gVIvrKw==
-Message-ID: <c898680c-f1ac-4bfa-ac18-4b4b5c241dab@kernel.org>
-Date: Fri, 31 Jan 2025 22:18:24 +0100
+	 In-Reply-To:Content-Type; b=J1oF/TfvyQYcWuupYNpfUtQoMMJco5e9Y9BVefvrqo6rvV/qE14Dcyxy5QV7PCpdvY249lOqsZq1Jm7pku1PhSAwnjfotHU86Gk976O92Okw5a4Cut9jo9XlfcXWlJOZ2Fr68HV7o9Qu6HKcQ6Dto3ln+8Y/vB8pI/Bt/0Ub+20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=MQIh6QsA; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1738384794; x=1738989594; i=w_armin@gmx.de;
+	bh=LT750kSE9bF5YLcER4OJ17oUOtS5kE1L/aK//c9KpYI=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=MQIh6QsAP4n0PL5GuCxKJSQGqExqVDlX8C3QweLaIBInAPuSUu5+alz23ie5iJZX
+	 uh12nG66lz5URpJzwQoX/sOmnMRFDG4d+Nac8sQRbTA+b/kIEn0ea0Mam748kIxRZ
+	 +pOHSkrqmvoZ5wLF7TYwJ/BMnnYAsRQXA5lNDAaq/+TyiHB7HIJldx2OVkJ3LEMYH
+	 wCL8an077w8wRcAtbpGzMIcw/Q6l0rM/V9JnhMt9bwpFRi0ytl4F0ZmlTvn+321k1
+	 Ffv2PYhxHQqrNZ0Yu6S6FYebwxjrncDj5mBpeO2f3BxrFHfM4ZLPDe/gauNkCtIK7
+	 GuEfn1+/IAfFX0ks0Q==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.69] ([93.202.246.83]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N3bX1-1tVSRe3BeV-00w1d9; Sat, 01
+ Feb 2025 05:39:54 +0100
+Message-ID: <aa91e17f-0ea8-4645-a0f9-57c016e36a9e@gmx.de>
+Date: Sat, 1 Feb 2025 05:39:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,94 +58,125 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] Initial Support for CS40L26
-To: Fred Treven <ftreven@opensource.cirrus.com>,
- James Ogletree <jogletre@opensource.cirrus.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Ben Bright <ben.bright@cirrus.com>, simont@opensource.cirrus.com,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>,
- Jack Yu <jack.yu@realtek.com>, Igor Prusov <ivprusov@salutedevices.com>,
- Weidong Wang <wangweidong.a@awinic.com>, Binbin Zhou
- <zhoubinbin@loongson.cn>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
- Paul Handrigan <paulha@opensource.cirrus.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Nuno Sa <nuno.sa@analog.com>,
- Karel Balej <balejk@matfyz.cz>, Heiko Stuebner <heiko@sntech.de>,
- Jeff LaBundy <jeff@labundy.com>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20250131202057.1786324-1-ftreven@opensource.cirrus.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v5 0/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+To: Werner Sembach <wse@tuxedocomputers.com>, hdegoede@redhat.com,
+ ilpo.jarvinen@linux.intel.com, bentiss@kernel.org
+Cc: dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, onitake@gmail.com, pavel@ucw.cz, cs@tuxedo.de,
+ platform-driver-x86@vger.kernel.org, bpf@vger.kernel.org
+References: <20250121225510.751444-1-wse@tuxedocomputers.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250131202057.1786324-1-ftreven@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20250121225510.751444-1-wse@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:pALTMLKB7mMHQQycS43ma88A2gx+nB8dmXITJNjbom2JBMqBRwE
+ yAREBGOKW1CJoi+K++E1AoG5I2TTJ3LGkOF+Q14cht0DRbV1t9GJ6+lHcIVg0oJWMYtkQLK
+ BS+43+pJ+E5bHQHrjEidOHxT4AK7lzOO5Tjx7s8SGOOVZSPebrPUL9OVWSV1avdJcvo369N
+ zkbXj4deyhIg2gyAkXBMA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:BBsPRm+lS0Q=;NcG0FE4KxwiBnnABDwi8c+B+uPO
+ /vV9XuJGHiA78dys94k6fetrooym5vY5GtRjNXq7+TS0XITAK/pINMBIsB23SNsBb5eq+Kp2V
+ XMJLniMCtaCwMYJCSgYw6sSQuj9u8bLy9BOrCbo424Z1WMGeO/xSGuO9udGBzdf7XA+Yjaos9
+ JEM6oPZNSsGuASq976bBWWqzG6FQ+Zxv2VVfzuin5XMqunOplk4EfhwzPZ9BFBuP1LM40zfeV
+ Zf512LtToicTjtomIcdbAOdQ03I7YZ4xOF1gwpMtmCZToST3QOeAJzkrifJXKFdujkd5DOS2o
+ sK/APJi3ay1jpAkbGovg1DZpIcIWH4iSRpKDi2EaawzzLi2GrxMdnZRkjMdQ7lQeDI+XaLMmo
+ uud8cMSNfmGFhntp4n0HDxnCnrJJ8bRvEF5v4V6iuvavxVFrYmBcZmckhEzSTNEMqft9yorUx
+ U6vMjQptJLL7ObBhVmkibA9KQEmFo/svFIpy3Hoz64ByFKwGh2zt9E10epNVeMfcRPAG8Ph16
+ 44AJO1ma6eCpjIXFatkJqD9HUF0uvrZdfvLt07IXI1akqsPzQ3/CLXdZXeUdw79jsS4b80tLN
+ tXL0O1rhSTiSskxiwygqmG7WRmLMkLOpnxFw03WzrlPWzE0kJWIVfSz6KGKls7InESvzVDJ+J
+ X9CnCv+AUbT3M57HSAM6SxX3ipqXr5Wl6Ko+yoxcjqQ8blINi6vslVvXk+Jmy35dGDNu7nR5Y
+ 2ZHaBkf4gUsZ/YgKhkGuZ0lwVHBGPi34F9MQWUoQzhopA/OFJ+4VsljX9U9OSlvZKAtU3VQpl
+ d5mkaFir9d4fl1CTI5mB9KBmvQ/uS8t9gBbte+MHFB9KOfSi/xjIhh95BeiwthI9Wb6MFBgB2
+ Z7C+uHaJe1G0maH1tWwIy9LniKQgjHujVlAejxnGtR6g0qEb+btqtxDEJmq4ozXMrn283ItoL
+ Jyio6sANk8uhN2OcgJ1rhIvhoGdMC2DHNlPFCtO7ep8MhPzDl230tmrlyV7wdEP9kPLXmI81V
+ ramRIko9M9455Vaf1gJshjEtbDj/jVNJ0UoHKNDAV+AnTY3q1Hq4cB+CFDRtjBa/Kg+4KXSRx
+ s0VzBEeY6JSfR6r/HIbiSW5KYX512B4qSKG9vkpidJcWNyMdD1KL+AMmrQf3kSGp3aWydsTRQ
+ /Z14IGlLtRhqw3BAuxj4kRF6tpW3xmjx1lPt/zqVZPzh2NfIRWABTseRJ5k9i5TBbkM3kVBZb
+ 4e7kDj/3jBJDR7wRMRM3TUVWnCbQ8hSATAd6YTVQNCPYwXWNx2LwIamI/toVCsFZ2bMJHSqJn
+ DYTRVR3puZcIR6HBKmtacjDq1RvwmTjOCrw9Zhak+9Ejn8=
 
-On 31/01/2025 21:20, Fred Treven wrote:
-> Introduce driver for Cirrus Logic Device CS40L26:
-> A boosted haptics driver with integrated DSP and
-> waveform memory with advanced closed loop algorithms
-> and LRA protection.
-> 
-> The core CS40L26 driver is in MFD and touches the
-> Input Force Feedback subsystem for haptics and
-> the ASoC subsystem for audio to haptics streaming.
-> 
-> This patchset includes changes to the CS DSP firmware
-> driver which fixes two bugs and introduces support for
-> multiple coefficient files.
+Am 21.01.25 um 23:31 schrieb Werner Sembach:
 
-I got two emails from you out of this entire set, not even threaded. I
-think rest of your posting got lost.
+> Hi,
+> after some other work, picked this up again.
+> Only coding style changes vs v4.
+>
+>
+> I now got my feet a little wet with hid-bpf regarding something else, and
+> with that knowledge I would leave the long arrays in the beginning in the
+> kernel code for the time being:
+>
+> sirius_16_ansii_kbl_mapping and sirius_16_iso_kbl_mapping are required
+> during initialization so they have to exist in the kernel code anyway.
+>
+> report_descriptor will most likly not change even for future models and
+> afaik having report_descriptors in kernel drivers is not unheard of.
+>
+> So the only things that could be meaningfully moved to a hid-bpf program
+> are the sirius_16_*_kbl_mapping_pos_* arrays. But for these is have to give
+> out some fallback value anyway for the case where a hid-bpf file is missing
+> or fails to load. So why not use real world values from my test device for
+> these values?
+>
+> As soon as there is a future device that can use the same driver with just
+> these pos arrays different, then I would implement that change via a bpf
+> program instead of a change to the kernel driver.
+>
+> Let me know if you too think this is a sensefull approach?
+>
+>
+> Another question: Would this patch need to wait for a userspace
+> implementation of lamp array before it can get accepted?
 
-Best regards,
-Krzysztof
+It would be nice if you could test the LampArray implementation. But other than that
+userspace can catch up later.
+
+Still, i am interested in the opinion of the LED maintainers regarding the fake HID interface.
+
+Thanks,
+Armin Wolf
+
+>
+> The folder structure and naming scheme with nb04 is im preparation for
+> other parts of tuxedo-drivers to be upstreamed. NB04 is one of the
+> board_vendor dmi strings on TUXEDO devices that aligns with which part of
+> tuxedo-drivers implements the features of that device. They are independent
+> of each other so I plan to put them in different subfolders to reflect
+> that.
+>
+> Best regards,
+> Werner Sembach
+>
+> Werner Sembach (1):
+>    platform/x86/tuxedo: Add virtual LampArray for TUXEDO NB04 devices
+>
+>   MAINTAINERS                                   |   6 +
+>   drivers/platform/x86/Kconfig                  |   2 +
+>   drivers/platform/x86/Makefile                 |   3 +
+>   drivers/platform/x86/tuxedo/Kbuild            |   6 +
+>   drivers/platform/x86/tuxedo/Kconfig           |   6 +
+>   drivers/platform/x86/tuxedo/nb04/Kbuild       |   9 +
+>   drivers/platform/x86/tuxedo/nb04/Kconfig      |  14 +
+>   .../platform/x86/tuxedo/nb04/wmi_ab_init.c    | 103 +++
+>   .../platform/x86/tuxedo/nb04/wmi_ab_init.h    |  18 +
+>   .../x86/tuxedo/nb04/wmi_ab_virt_lamparray.c   | 772 ++++++++++++++++++
+>   .../x86/tuxedo/nb04/wmi_ab_virt_lamparray.h   |  18 +
+>   .../platform/x86/tuxedo/nb04/wmi_xx_util.c    |  97 +++
+>   .../platform/x86/tuxedo/nb04/wmi_xx_util.h    | 112 +++
+>   13 files changed, 1166 insertions(+)
+>   create mode 100644 drivers/platform/x86/tuxedo/Kbuild
+>   create mode 100644 drivers/platform/x86/tuxedo/Kconfig
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/Kbuild
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/Kconfig
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_ab_init.c
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_ab_init.h
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_ab_virt_lamparray.c
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_ab_virt_lamparray.h
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_xx_util.c
+>   create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_xx_util.h
+>
 
