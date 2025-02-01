@@ -1,190 +1,141 @@
-Return-Path: <linux-input+bounces-9640-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9641-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199E5A247A4
-	for <lists+linux-input@lfdr.de>; Sat,  1 Feb 2025 09:02:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0DFA247D0
+	for <lists+linux-input@lfdr.de>; Sat,  1 Feb 2025 09:55:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F6CB188731C
-	for <lists+linux-input@lfdr.de>; Sat,  1 Feb 2025 08:02:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14EE33A7D7C
+	for <lists+linux-input@lfdr.de>; Sat,  1 Feb 2025 08:55:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF80B224CC;
-	Sat,  1 Feb 2025 08:02:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D2C713E41A;
+	Sat,  1 Feb 2025 08:55:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="waW4Xrtk"
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="Cc6GyaHj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B528A926
-	for <linux-input@vger.kernel.org>; Sat,  1 Feb 2025 08:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511EFA935;
+	Sat,  1 Feb 2025 08:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738396968; cv=none; b=uqEyw6UBNBaFdbielxK6snIbbGjhi/d+uCdTo1VmDSGTLz0LxTvyXwKppDhZ/H4bMgVNBxEv8Df9p1muKWqppop6rBw+NMcldY4nlBJZ6StFowgb9f8TVbYV8NXBfiq+ad+B5QT+KysQjmPtno4+wcqb/5a34buFjHv/5Q25MYc=
+	t=1738400154; cv=none; b=rQj+DUJf/YyEnuocad+exk2jQGlX3qDQjqwP4YpXY7ATiiflT6UG7LtlQk/7Fc6PcejOJmcrCaaRCh0WobFpz7E9wVPioKX+5WWmFBrCWMFXgI5OnuDXR7kPNGDr5vWXxFnUM2p73Vy+cGnZzWyiQR/qgRmtfp05e9Cn2mKSEL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738396968; c=relaxed/simple;
-	bh=Ln6VjOmBxbuR60kAEjPBmN+pPllNWhgZf/q9RIUItSQ=;
+	s=arc-20240116; t=1738400154; c=relaxed/simple;
+	bh=sLqe1UM0fRkBMfE6INasFA8BOIgS22SSCi+w6VqaMv4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vA5Y/nrfwmMqoaWy12AMLH3AurWpV1Xcr60hdGZCn54vlTzWRiw93wFuGTpLsNdMWh1uCU1enJ/L6EMJKWWbBNSS7vhLa/8LIwy0ro+X3aDawySZx8cAld4c1YbG1KpDH5FsEzHN4voJ0fbn6ZgM+OzSXzp+DZzE6c1vtFUHhS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=waW4Xrtk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99CE1C4CED3;
-	Sat,  1 Feb 2025 08:02:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1738396968;
-	bh=Ln6VjOmBxbuR60kAEjPBmN+pPllNWhgZf/q9RIUItSQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=waW4XrtkX0lLS9F+ydAQstZYKKZ3hp8W38h6hLMz3kBpAA7yhKxlpPwU8BHppGZjp
-	 ha7kLgEKPKtUJh9di9dgiZ5wDKUh9t8GdPgDW+4XOnRVg1JS0Pd7qWJQuu5ZOwrlAw
-	 OxU4MT1wJKC5ROHPKK+XvKdSFTZF65yPW+bDEVhI=
-Date: Sat, 1 Feb 2025 09:02:44 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Pavel Rojtberg <rojtberg@gmail.com>
-Cc: linux-input@vger.kernel.org, dmitry.torokhov@gmail.com
-Subject: Re: [PATCH] Input: xpad - add multiple supported devices
-Message-ID: <2025020124-concept-shrunk-9407@gregkh>
-References: <20250123175404.23254-1-rojtberg@gmail.com>
- <95f1f209-4b97-417b-b0f6-2245458fa1f5@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=e+JFl4+a+4iA6Ku23QKUOzhEbZjO0NwoZr6oMUh3y+MSLqcE9mMLv/zQnQAKzhReCqy88FWea9PQldoGVZMzR4em3q7n/yr2h26iqopBzQ17B316Hhted+JWOG9Dw2wW2r6rC3q+MuJ0aME/OcqHZ5Zm+f/ynLcrKUjFl/w4u1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=Cc6GyaHj; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id B9C5C1C01A4; Sat,  1 Feb 2025 09:48:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1738399725;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S9/h32gsK9ywKqz5Lw4yDI62fcqfLayMm/eCbggP/f4=;
+	b=Cc6GyaHjdGK5vJNZmBRJZdW6cD7JZ5/g+lRg3vUYzcbG8jlBBAWeaIwJQ4wfcxU2Rog8nW
+	TmbodGUmcppl4wDtqneQdxt+PgGjRw8EcJj6lizfx+v5JYKlpDWrBg/55HhgDV9snGysTX
+	M1H958VDKPut1DTqxg5ljm2G82rF3Xk=
+Date: Sat, 1 Feb 2025 09:48:45 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Werner Sembach <wse@tuxedocomputers.com>, hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com, bentiss@kernel.org,
+	dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+	lee@kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
+	onitake@gmail.com, cs@tuxedo.de,
+	platform-driver-x86@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH v5 0/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+Message-ID: <Z53f7VNIgUWWFn9l@duo.ucw.cz>
+References: <20250121225510.751444-1-wse@tuxedocomputers.com>
+ <aa91e17f-0ea8-4645-a0f9-57c016e36a9e@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="t+WGy4gS/jMLitDQ"
+Content-Disposition: inline
+In-Reply-To: <aa91e17f-0ea8-4645-a0f9-57c016e36a9e@gmx.de>
+
+
+--t+WGy4gS/jMLitDQ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <95f1f209-4b97-417b-b0f6-2245458fa1f5@gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 31, 2025 at 05:50:53PM +0100, Pavel Rojtberg wrote:
-> Am 23.01.25 um 18:54 schrieb Pavel Rojtberg:
-> > From: Pavel Rojtberg <rojtberg@gmail.com>
-> > 
-> > This is based on multiple commits at https://github.com/paroj/xpad
-> > that had bouncing email addresses and were not signed off.
-> > 
-> > Signed-off-by: Pavel Rojtberg <rojtberg@gmail.com>
-> > ---
-> >  drivers/input/joystick/xpad.c | 20 ++++++++++++++++++++
-> >  1 file changed, 20 insertions(+)
-> > 
-> > diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-> > index b434a465bf72..0399fbf33835 100644
-> > --- a/drivers/input/joystick/xpad.c
-> > +++ b/drivers/input/joystick/xpad.c
-> > @@ -140,6 +140,7 @@ static const struct xpad_device {
-> >  	{ 0x044f, 0x0f00, "Thrustmaster Wheel", 0, XTYPE_XBOX },
-> >  	{ 0x044f, 0x0f03, "Thrustmaster Wheel", 0, XTYPE_XBOX },
-> >  	{ 0x044f, 0x0f07, "Thrustmaster, Inc. Controller", 0, XTYPE_XBOX },
-> > +	{ 0x044f, 0xd01e, "ThrustMaster, Inc. ESWAP X 2 ELDEN RING EDITION", 0, XTYPE_XBOXONE },
-> >  	{ 0x044f, 0x0f10, "Thrustmaster Modena GT Wheel", 0, XTYPE_XBOX },
-> >  	{ 0x044f, 0xb326, "Thrustmaster Gamepad GP XID", 0, XTYPE_XBOX360 },
-> >  	{ 0x045e, 0x0202, "Microsoft X-Box pad v1 (US)", 0, XTYPE_XBOX },
-> > @@ -177,6 +178,7 @@ static const struct xpad_device {
-> >  	{ 0x06a3, 0x0200, "Saitek Racing Wheel", 0, XTYPE_XBOX },
-> >  	{ 0x06a3, 0x0201, "Saitek Adrenalin", 0, XTYPE_XBOX },
-> >  	{ 0x06a3, 0xf51a, "Saitek P3600", 0, XTYPE_XBOX360 },
-> > +	{ 0x0738, 0x4503, "Mad Catz Racing Wheel", 0, XTYPE_XBOXONE },
-> >  	{ 0x0738, 0x4506, "Mad Catz 4506 Wireless Controller", 0, XTYPE_XBOX },
-> >  	{ 0x0738, 0x4516, "Mad Catz Control Pad", 0, XTYPE_XBOX },
-> >  	{ 0x0738, 0x4520, "Mad Catz Control Pad Pro", 0, XTYPE_XBOX },
-> > @@ -238,6 +240,7 @@ static const struct xpad_device {
-> >  	{ 0x0e6f, 0x0146, "Rock Candy Wired Controller for Xbox One", 0, XTYPE_XBOXONE },
-> >  	{ 0x0e6f, 0x0147, "PDP Marvel Xbox One Controller", 0, XTYPE_XBOXONE },
-> >  	{ 0x0e6f, 0x015c, "PDP Xbox One Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
-> > +	{ 0x0e6f, 0x015d, "PDP Mirror's Edge Official Wired Controller for Xbox One", XTYPE_XBOXONE },
-> >  	{ 0x0e6f, 0x0161, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
-> >  	{ 0x0e6f, 0x0162, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
-> >  	{ 0x0e6f, 0x0163, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
-> > @@ -276,12 +279,15 @@ static const struct xpad_device {
-> >  	{ 0x0f0d, 0x0078, "Hori Real Arcade Pro V Kai Xbox One", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
-> >  	{ 0x0f0d, 0x00c5, "Hori Fighting Commander ONE", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
-> >  	{ 0x0f0d, 0x00dc, "HORIPAD FPS for Nintendo Switch", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
-> > +	{ 0x0f0d, 0x0152, "Hori Racing Wheel Overdrive for Xbox Series X", 0, XTYPE_XBOXONE },
-> > +	{ 0x0f0d, 0x0151, "Hori Racing Wheel Overdrive for Xbox Series X", 0, XTYPE_XBOXONE },
-> >  	{ 0x0f30, 0x010b, "Philips Recoil", 0, XTYPE_XBOX },
-> >  	{ 0x0f30, 0x0202, "Joytech Advanced Controller", 0, XTYPE_XBOX },
-> >  	{ 0x0f30, 0x8888, "BigBen XBMiniPad Controller", 0, XTYPE_XBOX },
-> >  	{ 0x102c, 0xff0c, "Joytech Wireless Advanced Controller", 0, XTYPE_XBOX },
-> >  	{ 0x1038, 0x1430, "SteelSeries Stratus Duo", 0, XTYPE_XBOX360 },
-> >  	{ 0x1038, 0x1431, "SteelSeries Stratus Duo", 0, XTYPE_XBOX360 },
-> > +	{ 0x10f5, 0x7005, "Turtle Beach Recon Controller", 0, XTYPE_XBOXONE },
-> >  	{ 0x11c9, 0x55f0, "Nacon GC-100XF", 0, XTYPE_XBOX360 },
-> >  	{ 0x11ff, 0x0511, "PXN V900", 0, XTYPE_XBOX360 },
-> >  	{ 0x1209, 0x2882, "Ardwiino Controller", 0, XTYPE_XBOX360 },
-> > @@ -366,6 +372,7 @@ static const struct xpad_device {
-> >  	{ 0x24c6, 0x5510, "Hori Fighting Commander ONE (Xbox 360/PC Mode)", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
-> >  	{ 0x24c6, 0x551a, "PowerA FUSION Pro Controller", 0, XTYPE_XBOXONE },
-> >  	{ 0x24c6, 0x561a, "PowerA FUSION Controller", 0, XTYPE_XBOXONE },
-> > +	{ 0x24c6, 0x581a, "ThrustMaster XB1 Classic Controller", 0, XTYPE_XBOXONE },
-> >  	{ 0x24c6, 0x5b00, "ThrustMaster Ferrari 458 Racing Wheel", 0, XTYPE_XBOX360 },
-> >  	{ 0x24c6, 0x5b02, "Thrustmaster, Inc. GPX Controller", 0, XTYPE_XBOX360 },
-> >  	{ 0x24c6, 0x5b03, "Thrustmaster Ferrari 458 Racing Wheel", 0, XTYPE_XBOX360 },
-> > @@ -376,8 +383,10 @@ static const struct xpad_device {
-> >  	{ 0x294b, 0x3404, "Snakebyte GAMEPAD RGB X", 0, XTYPE_XBOXONE },
-> >  	{ 0x2dc8, 0x2000, "8BitDo Pro 2 Wired Controller fox Xbox", 0, XTYPE_XBOXONE },
-> >  	{ 0x2dc8, 0x3106, "8BitDo Ultimate Wireless / Pro 2 Wired Controller", 0, XTYPE_XBOX360 },
-> > +	{ 0x2dc8, 0x3109, "8BitDo Ultimate Wireless Bluetooth", 0, XTYPE_XBOX360 },
-> >  	{ 0x2dc8, 0x310a, "8BitDo Ultimate 2C Wireless Controller", 0, XTYPE_XBOX360 },
-> >  	{ 0x2e24, 0x0652, "Hyperkin Duke X-Box One pad", 0, XTYPE_XBOXONE },
-> > +	{ 0x2e95, 0x0504, "SCUF Gaming Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
-> >  	{ 0x31e3, 0x1100, "Wooting One", 0, XTYPE_XBOX360 },
-> >  	{ 0x31e3, 0x1200, "Wooting Two", 0, XTYPE_XBOX360 },
-> >  	{ 0x31e3, 0x1210, "Wooting Lekker", 0, XTYPE_XBOX360 },
-> > @@ -385,9 +394,14 @@ static const struct xpad_device {
-> >  	{ 0x31e3, 0x1230, "Wooting Two HE (ARM)", 0, XTYPE_XBOX360 },
-> >  	{ 0x31e3, 0x1300, "Wooting 60HE (AVR)", 0, XTYPE_XBOX360 },
-> >  	{ 0x31e3, 0x1310, "Wooting 60HE (ARM)", 0, XTYPE_XBOX360 },
-> > +	{ 0x3285, 0x0603, "Nacon Pro Compact controller for Xbox", 0, XTYPE_XBOXONE },
-> >  	{ 0x3285, 0x0607, "Nacon GC-100", 0, XTYPE_XBOX360 },
-> > +	{ 0x3285, 0x0614, "Nacon Pro Compact", 0, XTYPE_XBOXONE },
-> > +	{ 0x3285, 0x0662, "Nacon Revolution5 Pro", 0, XTYPE_XBOX360 },
-> > +	{ 0x3285, 0x0663, "Nacon Evol-X", 0, XTYPE_XBOXONE },
-> >  	{ 0x3537, 0x1004, "GameSir T4 Kaleid", 0, XTYPE_XBOX360 },
-> >  	{ 0x3767, 0x0101, "Fanatec Speedster 3 Forceshock Wheel", 0, XTYPE_XBOX },
-> > +	{ 0x413d, 0x2104, "Black Shark Green Ghost Gamepad", 0, XTYPE_XBOX360 },
-> >  	{ 0xffff, 0xffff, "Chinese-made Xbox Controller", 0, XTYPE_XBOX },
-> >  	{ 0x0000, 0x0000, "Generic X-Box pad", 0, XTYPE_UNKNOWN }
-> >  };
-> > @@ -486,6 +500,7 @@ static const struct usb_device_id xpad_table[] = {
-> >  	XPAD_XBOX360_VENDOR(0x03f0),		/* HP HyperX Xbox 360 controllers */
-> >  	XPAD_XBOXONE_VENDOR(0x03f0),		/* HP HyperX Xbox One controllers */
-> >  	XPAD_XBOX360_VENDOR(0x044f),		/* Thrustmaster Xbox 360 controllers */
-> > +	XPAD_XBOXONE_VENDOR(0x044f),		/* Thrustmaster Xbox One controllers */
-> >  	XPAD_XBOX360_VENDOR(0x045e),		/* Microsoft Xbox 360 controllers */
-> >  	XPAD_XBOXONE_VENDOR(0x045e),		/* Microsoft Xbox One controllers */
-> >  	XPAD_XBOX360_VENDOR(0x046d),		/* Logitech Xbox 360-style controllers */
-> > @@ -532,10 +547,13 @@ static const struct usb_device_id xpad_table[] = {
-> >  	XPAD_XBOXONE_VENDOR(0x2dc8),		/* 8BitDo Pro 2 Wired Controller for Xbox */
-> >  	XPAD_XBOXONE_VENDOR(0x2e24),		/* Hyperkin Duke Xbox One pad */
-> >  	XPAD_XBOX360_VENDOR(0x2f24),		/* GameSir controllers */
-> > +	XPAD_XBOXONE_VENDOR(0x2e95),		/* SCUF Gaming Controller */
-> >  	XPAD_XBOX360_VENDOR(0x31e3),		/* Wooting Keyboards */
-> >  	XPAD_XBOX360_VENDOR(0x3285),		/* Nacon GC-100 */
-> > +	XPAD_XBOXONE_VENDOR(0x3285),		/* Nacon Evol-X */
-> >  	XPAD_XBOX360_VENDOR(0x3537),		/* GameSir Controllers */
-> >  	XPAD_XBOXONE_VENDOR(0x3537),		/* GameSir Controllers */
-> > +	XPAD_XBOX360_VENDOR(0x413d),		/* Black Shark Green Ghost Controller */
-> >  	{ }
-> >  };
-> >  
-> > @@ -688,7 +706,9 @@ static const struct xboxone_init_packet xboxone_init_packets[] = {
-> >  	XBOXONE_INIT_PKT(0x045e, 0x0b00, xboxone_s_init),
-> >  	XBOXONE_INIT_PKT(0x045e, 0x0b00, extra_input_packet_init),
-> >  	XBOXONE_INIT_PKT(0x0e6f, 0x0000, xboxone_pdp_led_on),
-> > +	XBOXONE_INIT_PKT(0x20d6, 0xa01a, xboxone_pdp_led_on),
-> >  	XBOXONE_INIT_PKT(0x0e6f, 0x0000, xboxone_pdp_auth),
-> > +	XBOXONE_INIT_PKT(0x20d6, 0xa01a, xboxone_pdp_auth),
-> >  	XBOXONE_INIT_PKT(0x24c6, 0x541a, xboxone_rumblebegin_init),
-> >  	XBOXONE_INIT_PKT(0x24c6, 0x542a, xboxone_rumblebegin_init),
-> >  	XBOXONE_INIT_PKT(0x24c6, 0x543a, xboxone_rumblebegin_init),
-> 
-> are there any further changes that need to be made here?
+Hi!
 
-It's the middle of the merge window, we can't take any new changes until
-after -rc1 is out.  Please be patient :)
+> > I now got my feet a little wet with hid-bpf regarding something else, a=
+nd
+> > with that knowledge I would leave the long arrays in the beginning in t=
+he
+> > kernel code for the time being:
+> >=20
+> > sirius_16_ansii_kbl_mapping and sirius_16_iso_kbl_mapping are required
+> > during initialization so they have to exist in the kernel code anyway.
+> >=20
+> > report_descriptor will most likly not change even for future models and
+> > afaik having report_descriptors in kernel drivers is not unheard of.
+> >=20
+> > So the only things that could be meaningfully moved to a hid-bpf program
+> > are the sirius_16_*_kbl_mapping_pos_* arrays. But for these is have to =
+give
+> > out some fallback value anyway for the case where a hid-bpf file is mis=
+sing
+> > or fails to load. So why not use real world values from my test device =
+for
+> > these values?
+> >=20
+> > As soon as there is a future device that can use the same driver with j=
+ust
+> > these pos arrays different, then I would implement that change via a bpf
+> > program instead of a change to the kernel driver.
+> >=20
+> > Let me know if you too think this is a sensefull approach?
+> >=20
+> >=20
+> > Another question: Would this patch need to wait for a userspace
+> > implementation of lamp array before it can get accepted?
+>=20
+> It would be nice if you could test the LampArray implementation. But othe=
+r than that
+> userspace can catch up later.
+>=20
+> Still, i am interested in the opinion of the LED maintainers
+> regarding the fake HID interface.
 
-thanks,
+Comments from previous review were not addressed.
 
-greg k-h
+Most importantly, this is not a way to do kernel interface. We want
+reasonable interface that can be documented and modified as needed. We
+want to pass /dev/input to userspace, not raw HID. This is not ok.
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--t+WGy4gS/jMLitDQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZ53f7QAKCRAw5/Bqldv6
+8r1XAJ9ybQ25RhK01bbqWLJeDafym4vE7wCfcUwxRi+iQ738e+ZzEgfvabQY5NE=
+=upCv
+-----END PGP SIGNATURE-----
+
+--t+WGy4gS/jMLitDQ--
 
