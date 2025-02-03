@@ -1,115 +1,112 @@
-Return-Path: <linux-input+bounces-9703-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9704-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F4CA25672
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 10:56:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E72EA25681
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 10:57:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CB307167983
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 09:56:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D22803AA41F
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 09:57:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79389200119;
-	Mon,  3 Feb 2025 09:56:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81C4B200130;
+	Mon,  3 Feb 2025 09:57:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RnsijSIC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P3KzzirN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DE7101E6;
-	Mon,  3 Feb 2025 09:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC481FAC3D;
+	Mon,  3 Feb 2025 09:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738576600; cv=none; b=pGukPK+ywUei6uZ54pFuVvhIYT5QmLE1hsKEC6YFL/eu9K3mQZo8Qk0CA4LTlqq/i5QN1f7oXyyoAnLbuGF4vaTdjtp+cXw6jUsIjhvk0h5Ud8t3B4FLfn1UDpeBVHw5RtFnAIaabxh+yODvVWB8AqUzHdyVGi3yxmyxD0fpb1U=
+	t=1738576637; cv=none; b=PwP2vsSJJkmnfg2BVPWxEx2W+yJtvrvqP5mPk8/3wQZnb4Va84kPmXLoI9AGtJ7ncUp8Nak/XsWNapg2Ap+FIuqGm2p2mOrPwb9cera4VCjIZ3z8tKzFwAoIHdFR+IipLiqepMvcWQ4ZA+GVPBZ40lMRowWgIHyQwWJRJrZetLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738576600; c=relaxed/simple;
-	bh=zJ8G+yq3JQNXvQWV+vf4WMNnKxrU0sJViRg/T9+Hp7k=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=QodMTKFpgVl3uDJ6vqw0kV9yaX9EHWnvPRPIYjDFJ/hBIleQvlFG1xMijOWczMtz0HmTPRQLkLDR91wExM6J9mg5DDQq2XVoqEUnrGb3FJTNVmDeWvudyqSkp63eYn71XC/TrCO9IzpqtGFnfKevCdWLps9eN7jv5yJYm8lsIl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RnsijSIC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E158C4CED2;
-	Mon,  3 Feb 2025 09:56:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738576600;
-	bh=zJ8G+yq3JQNXvQWV+vf4WMNnKxrU0sJViRg/T9+Hp7k=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=RnsijSIC7HbiR+dnUJbyuafuvPzmeFLaodnYf9OunnTHfzEQwDVDPR3pEqGi3jaep
-	 lhW/1TQvDvjYvme8uUw/aTCkx3OAw004o6vB1NbErJoWopQKqsz0C6QBYEshPugLUo
-	 HaJqXMjJzzBw0AvkFAv+OU7dTJDz6lxj1FA5G6BQo3Y5mC8+rbVFBSuOFfIP03w9wb
-	 13KEfzAbj/eB9H5LgW0wAPzRpdagnEXTOCGvkk6zElFxzIf8NIGItXBF/B9Y+7ThL0
-	 +ITETJeRTmKy79c9Za9s0EiSu1Y6dIz0jWRgoONH0Pmi3pB6/Vt1hvJtjNuyG5MjXW
-	 CLxqDBwJekFdw==
-Date: Mon, 3 Feb 2025 10:56:36 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-cc: Benjamin Tissoires <bentiss@kernel.org>, 
-    Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
-    Mark Pearson <mpearson-lenovo@squebb.ca>, Arnd Bergmann <arnd@arndb.de>, 
-    Basavaraj Natikar <basavaraj.natikar@amd.com>, Even Xu <even.xu@intel.com>, 
-    Xinpeng Sun <xinpeng.sun@intel.com>, 
-    Maximilian Luz <luzmaximilian@gmail.com>, 
-    Marcel Holtmann <marcel@holtmann.org>, 
-    Johan Hedberg <johan.hedberg@gmail.com>, 
-    Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-    Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-    linux-usb@vger.kernel.org, linux-bluetooth@vger.kernel.org
-Subject: Re: [PATCH] hid: intel-thc: fix CONFIG_HID dependency
-In-Reply-To: <20250123134908.805346-1-arnd@kernel.org>
-Message-ID: <49022s2o-36qo-2s30-9136-q34p10p18r87@xreary.bet>
-References: <20250123134908.805346-1-arnd@kernel.org>
+	s=arc-20240116; t=1738576637; c=relaxed/simple;
+	bh=urrBZ/6GVCXqZdOoAIyHoDL2Fcu2h++C/73D15sq3tk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dEnf/duq7irRQifpoc60xpD6MQAHqwHcxh7lhAR8YZsn0KzBXnejwABg2pIVF8YVM1hFy9VqPqn7LZMY6J8DA8quLFf6HrTy9yQ3O6/rTarZn+r0k6zWAqS44a8Br4zcxZqcQtPYuZpQRioUn6PI2OcjZBDju8idrOhKHL8vRlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P3KzzirN; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738576635; x=1770112635;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=urrBZ/6GVCXqZdOoAIyHoDL2Fcu2h++C/73D15sq3tk=;
+  b=P3KzzirNUClWBYhJ6eFsfTbdSOPpJqEnLLjYI40WO597oS25k9xeKCQg
+   FakRiqzPoUZDIpqD6LpNqqtB4oReaQJEEE7ZF9dVx0lGo7AXZvirpcO2q
+   sf5lqgk1JPTgsRCMC7Ko/lSgpyLCTyHc0N7lUT00dQudA279BekprIatO
+   ydDXe3/S5GEc3F6SBSLEjVgLt67aMHf/aMs5P4JBhhuOSmhBlIz1XHDO3
+   iwapU9qVPN4snYoUR9FCD2jy19hRjjz/gDdqCNy9CIR5X34aR5eSTQ4nn
+   luqWmk4ytJuaPhEcM5045XA1iiMwW/uuVJt5PeTqNufj60Z3PAJsvmeDy
+   Q==;
+X-CSE-ConnectionGUID: RWc/S+SETYWe8tTMvh3gyg==
+X-CSE-MsgGUID: eMi2AGwjQ+OPVjw2jYnxig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="50053605"
+X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
+   d="scan'208";a="50053605"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 01:57:14 -0800
+X-CSE-ConnectionGUID: dttPdoLBRj6ws3opxLAL7g==
+X-CSE-MsgGUID: XaZxNjHLRBGGAqutSMq2pQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="147443589"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 01:57:11 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tetCV-00000007n5f-3FpQ;
+	Mon, 03 Feb 2025 11:57:07 +0200
+Date: Mon, 3 Feb 2025 11:57:07 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, linus.walleij@linaro.org,
+	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
+	lgirdwood@gmail.com, broonie@kernel.org, sre@kernel.org,
+	jic23@kernel.org, przemyslaw.kitszel@intel.com,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-iio@vger.kernel.org
+Subject: Re: [PATCH v3 18/20] ASoC: uda1380: use devm_kmemdup_array()
+Message-ID: <Z6CS88kG3dssSaIk@smile.fi.intel.com>
+References: <20250203080902.1864382-1-raag.jadav@intel.com>
+ <20250203080902.1864382-19-raag.jadav@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250203080902.1864382-19-raag.jadav@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, 23 Jan 2025, Arnd Bergmann wrote:
+On Mon, Feb 03, 2025 at 01:39:00PM +0530, Raag Jadav wrote:
+> Convert to use devm_kmemdup_array() which is more robust.
 
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> In drivers/hid/, most drivers depend on CONFIG_HID, while a couple of the
-> drivers in subdirectories instead depend on CONFIG_HID_SUPPORT and use
-> 'select HID'. With the newly added INTEL_THC_HID, this causes a build
-> warning for a circular dependency:
-> 
-> WARNING: unmet direct dependencies detected for HID
->   Depends on [m]: HID_SUPPORT [=y] && INPUT [=m]
->   Selected by [y]:
->   - INTEL_THC_HID [=y] && HID_SUPPORT [=y] && X86_64 [=y] && PCI [=y] && ACPI [=y]
-> 
-> WARNING: unmet direct dependencies detected for INPUT_FF_MEMLESS
->   Depends on [m]: INPUT [=m]
->   Selected by [y]:
->   - HID_MICROSOFT [=y] && HID_SUPPORT [=y] && HID [=y]
->   - GREENASIA_FF [=y] && HID_SUPPORT [=y] && HID [=y] && HID_GREENASIA [=y]
->   - HID_WIIMOTE [=y] && HID_SUPPORT [=y] && HID [=y] && LEDS_CLASS [=y]
->   - ZEROPLUS_FF [=y] && HID_SUPPORT [=y] && HID [=y] && HID_ZEROPLUS [=y]
->   Selected by [m]:
->   - HID_ACRUX_FF [=y] && HID_SUPPORT [=y] && HID [=y] && HID_ACRUX [=m]
->   - HID_EMS_FF [=m] && HID_SUPPORT [=y] && HID [=y]
->   - HID_GOOGLE_STADIA_FF [=m] && HID_SUPPORT [=y] && HID [=y]
->   - PANTHERLORD_FF [=y] && HID_SUPPORT [=y] && HID [=y] && HID_PANTHERLORD [=m]
-> 
-> It's better to be consistent and always use 'depends on HID' for HID
-> drivers. The notable exception here is USB_KBD/USB_MOUSE, which are
-> alternative implementations that do not depend on the HID subsystem.
-> 
-> Do this by extending the "if HID" section below, which means that a few
-> of the duplicate "depends on HID" and "depends on INPUT" statements
-> can be removed in the process.
-> 
-> Fixes: 1b2d05384c29 ("HID: intel-thc-hid: Add basic THC driver skeleton")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+...
 
-Applied to hid.git#for-6.14/upstream-fixes, thanks!
+> -	uda1380->reg_cache = devm_kmemdup(&i2c->dev,
+> -					uda1380_reg,
+> -					ARRAY_SIZE(uda1380_reg) * sizeof(u16),
+> -					GFP_KERNEL);
+> +	uda1380->reg_cache = devm_kmemdup_array(&i2c->dev, uda1380_reg, ARRAY_SIZE(uda1380_reg),
+> +						sizeof(u16), GFP_KERNEL);
+
+sizeof(*uda1380->reg_cache) ?
+
+>  	if (!uda1380->reg_cache)
+>  		return -ENOMEM;
 
 -- 
-Jiri Kosina
-SUSE Labs
+With Best Regards,
+Andy Shevchenko
+
 
 
