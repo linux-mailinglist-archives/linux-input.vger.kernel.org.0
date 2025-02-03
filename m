@@ -1,63 +1,50 @@
-Return-Path: <linux-input+bounces-9729-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9731-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1AE5A261A3
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 18:44:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 410D5A26380
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 20:17:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D0233A1959
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 17:43:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 94A56164324
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 19:17:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4BAB20E00B;
-	Mon,  3 Feb 2025 17:43:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 676D221127D;
+	Mon,  3 Feb 2025 19:15:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hYhm3W1Q"
 X-Original-To: linux-input@vger.kernel.org
-Received: from forward101d.mail.yandex.net (forward101d.mail.yandex.net [178.154.239.212])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75A820C47A;
-	Mon,  3 Feb 2025 17:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.212
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31553211269;
+	Mon,  3 Feb 2025 19:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738604625; cv=none; b=HcCYFwjUTmOrf+ejRRm0ot8Yl6dW+hzoNRuOMfA/wPfivjWcNHym7V/zlkTIR/Utk21juh+gWW0qkBTEjp41mD7Sj1Z9RrnUINTCnJwESgBGZeU9dLCoKMzQfE79RSdXKf2uOts4ADSC15TmJXUc4dmsaT+gLwbGWXitc9T3CUA=
+	t=1738610126; cv=none; b=gIvraDttNwcjHVBwEcMmk+f9KvTx5IxC+KUB0GYsCtj09UKp9ahAjpGxzj8kK+4R+cglSX3Hh8w1e+9k7nYus91M4ArqFL0ZBn9Plvh1jzkOcXiGlXsfUT9ksoJxj6t+P0oEjx4QvAzrQCAoJ3c9fA1ff1q9q2KbExnvVdgljSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738604625; c=relaxed/simple;
-	bh=Ga7cYMuManZGLjU7L9j83OmarEqLLmEeuzqPq8LvzcM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tJ7EN9PUtFRZwf1oLu7kP7ujr4QKzOyDVihJTW4DPFs5NpNvN7EuU4eXl76Kdecaf2fcdw/CDcpEV/a1li1rNZwVopQW19AuP82qVb0PbedeVMAP17MJNKd4E5xSrForf/NJ27AtLT2vHAGFfIlfVpZBCuBB6T1LN2tBN/Vn7+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=travitia.xyz; spf=none smtp.mailfrom=travitia.xyz; arc=none smtp.client-ip=178.154.239.212
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=travitia.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=travitia.xyz
-Received: from mail-nwsmtp-smtp-production-main-35.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-35.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:3ba4:0:640:5b85:0])
-	by forward101d.mail.yandex.net (Yandex) with ESMTPS id E86F4608FA;
-	Mon,  3 Feb 2025 20:43:36 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-35.klg.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id PhnTWxOOeeA0-eIPswsfo;
-	Mon, 03 Feb 2025 20:43:35 +0300
-X-Yandex-Fwd: 1
-Authentication-Results: mail-nwsmtp-smtp-production-main-35.klg.yp-c.yandex.net; dkim=pass
-From: Jens Reidel <adrian@travitia.xyz>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bastien Nocera <hadess@hadess.net>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Luca Weiss <luca.weiss@fairphone.com>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	phone-devel@vger.kernel.org,
-	linux@mainlining.org,
-	~postmarketos/upstreaming@lists.sr.ht,
-	Jens Reidel <adrian@travitia.xyz>
-Subject: [PATCH 2/2] Input: goodix_berlin - Add support for Berlin-A series
-Date: Mon,  3 Feb 2025 18:43:09 +0100
-Message-ID: <20250203174309.21574-3-adrian@travitia.xyz>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250203174309.21574-1-adrian@travitia.xyz>
-References: <20250203174309.21574-1-adrian@travitia.xyz>
+	s=arc-20240116; t=1738610126; c=relaxed/simple;
+	bh=BDPM7u1CRvEI1Kn3lZuF8kskwCiEX3Kitywmg+8MwZU=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=JVgbqGGoX14QL+VPu//ujlbZ6H7T+5koFGirLhEhbbXIfxbHqwzW+fzLSELMn8aVedZOL1rameY7EOIlhfnYPsDAmB6GraFI1PPAA8SDffXlE9iaHaZamwR8BfExug6OoE8PXZowK6XiNE1E/pBQs1vApbCdj/0FUNPriP4TPqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hYhm3W1Q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CC92C4CED2;
+	Mon,  3 Feb 2025 19:15:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738610125;
+	bh=BDPM7u1CRvEI1Kn3lZuF8kskwCiEX3Kitywmg+8MwZU=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=hYhm3W1QYCkDsN1crFMcC5vC3MonK+qkCAOz+WwdhOVUHZ0HLjZTQAsg3tl7o9s8H
+	 BU+bqi9jyOYbxwC9ei76Mq8ptcXqsd5SOh/+8og70lDYJL3RqtnPerGIZTHCANkamQ
+	 Yckq82B8xZnfo+4rNvq7hQkLnKU+EQGYkdYhQiJAOqj4uCdhBQcjpFfp1P/bTDp3Yi
+	 HOV2GGByqpfdPESu++AwzdFyQr0pmhKP6IC3N45Oo9VeJUx9wz3qUds6G2jzdwYpTR
+	 CH+85Ld4snwX3gUvih7vhRHBGwI6rZla+uTR8mjJBtjlPBw44r3zYQ1Yg3dnH2nSQb
+	 8qk8l0+zUOkqw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB437380AA67;
+	Mon,  3 Feb 2025 19:15:53 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -65,284 +52,73 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 00/12] pm: Introduce devm_pm_set_wake_irq
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <173861015275.3409359.13632354633861115390.git-patchwork-notify@kernel.org>
+Date: Mon, 03 Feb 2025 19:15:52 +0000
+References: <20250103-wake_irq-v2-0-e3aeff5e9966@nxp.com>
+In-Reply-To: <20250103-wake_irq-v2-0-e3aeff5e9966@nxp.com>
+To: Peng Fan <peng.fan@oss.nxp.com>
+Cc: linux-riscv@lists.infradead.org, rafael@kernel.org, len.brown@intel.com,
+ pavel@ucw.cz, gregkh@linuxfoundation.org, dmitry.torokhov@gmail.com,
+ alexandre.belloni@bootlin.com, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, linus.walleij@linaro.org,
+ conor.dooley@microchip.com, daire.mcnamara@microchip.com,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-rtc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ peng.fan@nxp.com
 
-The current implementation of the goodix_berlin driver lacks support for
-revisions A and B of the Berlin IC. This change adds support for the
-gt9897 IC, which is a Berlin-A revision part.
+Hello:
 
-The differences between revision D and A are rather minor, a handful of
-address changes and a slightly larger read buffer. They were taken from
-the driver published by Goodix, which does a few more things that don't
-appear to be necessary for the touchscreen to work properly.
+This series was applied to riscv/linux.git (fixes)
+by Rafael J. Wysocki <rafael.j.wysocki@intel.com>:
 
-Signed-off-by: Jens Reidel <adrian@travitia.xyz>
----
- drivers/input/touchscreen/goodix_berlin.h     |  9 ++++
- .../input/touchscreen/goodix_berlin_core.c    | 27 +++++++++---
- drivers/input/touchscreen/goodix_berlin_i2c.c |  6 ++-
- drivers/input/touchscreen/goodix_berlin_spi.c | 44 +++++++++++++++----
- 4 files changed, 72 insertions(+), 14 deletions(-)
+On Fri, 03 Jan 2025 16:41:12 +0800 you wrote:
+> This was a retry to address [1][2], to let common code handle
+> dev_pm_clear_wake_irq. Then no need to call dev_pm_clear_wake_irq
+> in each driver.remove() hook and error handling path.
+> 
+> In this patchset, I include input and rtc patches to show the usage
+> to avoid introducing an API without users. There are still
+> other places using dev_pm_clear_wake_irq. If this patchset is
+> good for you, I could start to clean up other drivers such as mmc and
+> etc.
+> 
+> [...]
 
-diff --git a/drivers/input/touchscreen/goodix_berlin.h b/drivers/input/touchscreen/goodix_berlin.h
-index 38b6f9ddbdef..a5232e58c166 100644
---- a/drivers/input/touchscreen/goodix_berlin.h
-+++ b/drivers/input/touchscreen/goodix_berlin.h
-@@ -12,6 +12,15 @@
- 
- #include <linux/pm.h>
- 
-+enum goodix_berlin_ic_type {
-+	IC_TYPE_BERLIN_A,
-+	IC_TYPE_BERLIN_D,
-+};
-+
-+struct goodix_berlin_ic_data {
-+	enum goodix_berlin_ic_type ic_type;
-+};
-+
- struct device;
- struct input_id;
- struct regmap;
-diff --git a/drivers/input/touchscreen/goodix_berlin_core.c b/drivers/input/touchscreen/goodix_berlin_core.c
-index 3fc03cf0ca23..b892ab901d64 100644
---- a/drivers/input/touchscreen/goodix_berlin_core.c
-+++ b/drivers/input/touchscreen/goodix_berlin_core.c
-@@ -12,7 +12,7 @@
-  * to the previous generations.
-  *
-  * Currently the driver only handles Multitouch events with already
-- * programmed firmware and "config" for "Revision D" Berlin IC.
-+ * programmed firmware and "config" for "Revision A/D" Berlin IC.
-  *
-  * Support is missing for:
-  * - ESD Management
-@@ -20,7 +20,7 @@
-  * - "Config" update/flashing
-  * - Stylus Events
-  * - Gesture Events
-- * - Support for older revisions (A & B)
-+ * - Support for revision B
-  */
- 
- #include <linux/bitfield.h>
-@@ -28,6 +28,7 @@
- #include <linux/input.h>
- #include <linux/input/mt.h>
- #include <linux/input/touchscreen.h>
-+#include <linux/of.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/sizes.h>
-@@ -54,9 +55,11 @@
- #define GOODIX_BERLIN_DEV_CONFIRM_VAL		0xAA
- #define GOODIX_BERLIN_BOOTOPTION_ADDR		0x10000
- #define GOODIX_BERLIN_FW_VERSION_INFO_ADDR	0x10014
-+#define GOODIX_BERLIN_FW_VERSION_INFO_ADDR_A	0x1000C
- 
- #define GOODIX_BERLIN_IC_INFO_MAX_LEN		SZ_1K
- #define GOODIX_BERLIN_IC_INFO_ADDR		0x10070
-+#define GOODIX_BERLIN_IC_INFO_ADDR_A		0x10068
- 
- #define GOODIX_BERLIN_CHECKSUM_SIZE		sizeof(u16)
- 
-@@ -297,9 +300,16 @@ static void goodix_berlin_power_off(struct goodix_berlin_core *cd)
- 
- static int goodix_berlin_read_version(struct goodix_berlin_core *cd)
- {
-+	const struct goodix_berlin_ic_data *ic_data = of_device_get_match_data(cd->dev);
-+	int fw_version_info_addr;
- 	int error;
- 
--	error = regmap_raw_read(cd->regmap, GOODIX_BERLIN_FW_VERSION_INFO_ADDR,
-+	if (ic_data->ic_type == IC_TYPE_BERLIN_A)
-+		fw_version_info_addr = GOODIX_BERLIN_FW_VERSION_INFO_ADDR_A;
-+	else
-+		fw_version_info_addr = GOODIX_BERLIN_FW_VERSION_INFO_ADDR;
-+
-+	error = regmap_raw_read(cd->regmap, fw_version_info_addr,
- 				&cd->fw_version, sizeof(cd->fw_version));
- 	if (error) {
- 		dev_err(cd->dev, "error reading fw version, %d\n", error);
-@@ -358,16 +368,23 @@ static int goodix_berlin_parse_ic_info(struct goodix_berlin_core *cd,
- 
- static int goodix_berlin_get_ic_info(struct goodix_berlin_core *cd)
- {
-+	const struct goodix_berlin_ic_data *ic_data = of_device_get_match_data(cd->dev);
- 	u8 *afe_data __free(kfree) = NULL;
- 	__le16 length_raw;
- 	u16 length;
-+	int ic_info_addr;
- 	int error;
- 
-+	if (ic_data->ic_type == IC_TYPE_BERLIN_A)
-+		ic_info_addr = GOODIX_BERLIN_IC_INFO_ADDR_A;
-+	else
-+		ic_info_addr = GOODIX_BERLIN_IC_INFO_ADDR;
-+
- 	afe_data = kzalloc(GOODIX_BERLIN_IC_INFO_MAX_LEN, GFP_KERNEL);
- 	if (!afe_data)
- 		return -ENOMEM;
- 
--	error = regmap_raw_read(cd->regmap, GOODIX_BERLIN_IC_INFO_ADDR,
-+	error = regmap_raw_read(cd->regmap, ic_info_addr,
- 				&length_raw, sizeof(length_raw));
- 	if (error) {
- 		dev_err(cd->dev, "failed get ic info length, %d\n", error);
-@@ -380,7 +397,7 @@ static int goodix_berlin_get_ic_info(struct goodix_berlin_core *cd)
- 		return -EINVAL;
- 	}
- 
--	error = regmap_raw_read(cd->regmap, GOODIX_BERLIN_IC_INFO_ADDR,
-+	error = regmap_raw_read(cd->regmap, ic_info_addr,
- 				afe_data, length);
- 	if (error) {
- 		dev_err(cd->dev, "failed get ic info data, %d\n", error);
-diff --git a/drivers/input/touchscreen/goodix_berlin_i2c.c b/drivers/input/touchscreen/goodix_berlin_i2c.c
-index ad7a60d94338..b3fd063b4242 100644
---- a/drivers/input/touchscreen/goodix_berlin_i2c.c
-+++ b/drivers/input/touchscreen/goodix_berlin_i2c.c
-@@ -53,8 +53,12 @@ static const struct i2c_device_id goodix_berlin_i2c_id[] = {
- 
- MODULE_DEVICE_TABLE(i2c, goodix_berlin_i2c_id);
- 
-+static const struct goodix_berlin_ic_data gt9916_data = {
-+	.ic_type = IC_TYPE_BERLIN_D,
-+};
-+
- static const struct of_device_id goodix_berlin_i2c_of_match[] = {
--	{ .compatible = "goodix,gt9916", },
-+	{ .compatible = "goodix,gt9916", .data = &gt9916_data },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, goodix_berlin_i2c_of_match);
-diff --git a/drivers/input/touchscreen/goodix_berlin_spi.c b/drivers/input/touchscreen/goodix_berlin_spi.c
-index 0662e87b8692..f48f11a76b6d 100644
---- a/drivers/input/touchscreen/goodix_berlin_spi.c
-+++ b/drivers/input/touchscreen/goodix_berlin_spi.c
-@@ -10,6 +10,7 @@
- #include <linux/unaligned.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/regmap.h>
- #include <linux/spi/spi.h>
- #include <linux/input.h>
-@@ -19,9 +20,13 @@
- #define GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN	1
- #define GOODIX_BERLIN_REGISTER_WIDTH		4
- #define GOODIX_BERLIN_SPI_READ_DUMMY_LEN	3
-+#define GOODIX_BERLIN_SPI_READ_DUMMY_LEN_A	4
- #define GOODIX_BERLIN_SPI_READ_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
- 						 GOODIX_BERLIN_REGISTER_WIDTH + \
- 						 GOODIX_BERLIN_SPI_READ_DUMMY_LEN)
-+#define GOODIX_BERLIN_SPI_READ_PREFIX_LEN_A	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
-+						 GOODIX_BERLIN_REGISTER_WIDTH + \
-+						 GOODIX_BERLIN_SPI_READ_DUMMY_LEN_A)
- #define GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
- 						 GOODIX_BERLIN_REGISTER_WIDTH)
- 
-@@ -33,32 +38,41 @@ static int goodix_berlin_spi_read(void *context, const void *reg_buf,
- 				  size_t val_size)
- {
- 	struct spi_device *spi = context;
-+	const struct goodix_berlin_ic_data *ic_data = of_device_get_match_data(&spi->dev);
- 	struct spi_transfer xfers;
- 	struct spi_message spi_msg;
- 	const u32 *reg = reg_buf; /* reg is stored as native u32 at start of buffer */
-+	ssize_t read_prefix_len, read_dummy_len;
- 	int error;
- 
-+	if (ic_data->ic_type == IC_TYPE_BERLIN_A) {
-+		read_prefix_len = GOODIX_BERLIN_SPI_READ_PREFIX_LEN_A;
-+		read_dummy_len = GOODIX_BERLIN_SPI_READ_DUMMY_LEN_A;
-+	} else {
-+		read_prefix_len = GOODIX_BERLIN_SPI_READ_PREFIX_LEN;
-+		read_dummy_len = GOODIX_BERLIN_SPI_READ_DUMMY_LEN;
-+	}
-+
- 	if (reg_size != GOODIX_BERLIN_REGISTER_WIDTH)
- 		return -EINVAL;
- 
- 	u8 *buf __free(kfree) =
--		kzalloc(GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size,
--			GFP_KERNEL);
-+		kzalloc(read_prefix_len + val_size, GFP_KERNEL);
- 	if (!buf)
- 		return -ENOMEM;
- 
- 	spi_message_init(&spi_msg);
- 	memset(&xfers, 0, sizeof(xfers));
- 
--	/* buffer format: 0xF1 + addr(4bytes) + dummy(3bytes) + data */
-+	/* buffer format: 0xF1 + addr(4bytes) + dummy(3/4bytes) + data */
- 	buf[0] = GOODIX_BERLIN_SPI_READ_FLAG;
- 	put_unaligned_be32(*reg, buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN);
- 	memset(buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + GOODIX_BERLIN_REGISTER_WIDTH,
--	       0xff, GOODIX_BERLIN_SPI_READ_DUMMY_LEN);
-+	       0xff, read_dummy_len);
- 
- 	xfers.tx_buf = buf;
- 	xfers.rx_buf = buf;
--	xfers.len = GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size;
-+	xfers.len = read_prefix_len + val_size;
- 	xfers.cs_change = 0;
- 	spi_message_add_tail(&xfers, &spi_msg);
- 
-@@ -68,7 +82,7 @@ static int goodix_berlin_spi_read(void *context, const void *reg_buf,
- 		return error;
- 	}
- 
--	memcpy(val_buf, buf + GOODIX_BERLIN_SPI_READ_PREFIX_LEN, val_size);
-+	memcpy(val_buf, buf + read_prefix_len, val_size);
- 	return error;
- }
- 
-@@ -123,6 +137,7 @@ static const struct input_id goodix_berlin_spi_input_id = {
- 
- static int goodix_berlin_spi_probe(struct spi_device *spi)
- {
-+	const struct goodix_berlin_ic_data *ic_data = of_device_get_match_data(&spi->dev);
- 	struct regmap_config regmap_config;
- 	struct regmap *regmap;
- 	size_t max_size;
-@@ -137,7 +152,10 @@ static int goodix_berlin_spi_probe(struct spi_device *spi)
- 	max_size = spi_max_transfer_size(spi);
- 
- 	regmap_config = goodix_berlin_spi_regmap_conf;
--	regmap_config.max_raw_read = max_size - GOODIX_BERLIN_SPI_READ_PREFIX_LEN;
-+	if (ic_data->ic_type == IC_TYPE_BERLIN_A)
-+		regmap_config.max_raw_read = max_size - GOODIX_BERLIN_SPI_READ_PREFIX_LEN_A;
-+	else
-+		regmap_config.max_raw_read = max_size - GOODIX_BERLIN_SPI_READ_PREFIX_LEN;
- 	regmap_config.max_raw_write = max_size - GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN;
- 
- 	regmap = devm_regmap_init(&spi->dev, NULL, spi, &regmap_config);
-@@ -153,13 +171,23 @@ static int goodix_berlin_spi_probe(struct spi_device *spi)
- }
- 
- static const struct spi_device_id goodix_berlin_spi_ids[] = {
-+	{ "gt9897" },
- 	{ "gt9916" },
- 	{ },
- };
- MODULE_DEVICE_TABLE(spi, goodix_berlin_spi_ids);
- 
-+static const struct goodix_berlin_ic_data gt9897_data = {
-+	.ic_type = IC_TYPE_BERLIN_A,
-+};
-+
-+static const struct goodix_berlin_ic_data gt9916_data = {
-+	.ic_type = IC_TYPE_BERLIN_D,
-+};
-+
- static const struct of_device_id goodix_berlin_spi_of_match[] = {
--	{ .compatible = "goodix,gt9916", },
-+	{ .compatible = "goodix,gt9897", .data = &gt9897_data },
-+	{ .compatible = "goodix,gt9916", .data = &gt9916_data },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, goodix_berlin_spi_of_match);
+Here is the summary with links:
+  - [v2,01/12] PM: sleep: wakeirq: Introduce device-managed variant of dev_pm_set_wake_irq
+    https://git.kernel.org/riscv/c/fd8318a32573
+  - [v2,02/12] input: keyboard: ep93xx_keypad: Use devm_pm_set_wake_irq
+    (no matching commit)
+  - [v2,03/12] input: keyboard: omap4_keypad: Use devm_pm_set_wake_irq
+    (no matching commit)
+  - [v2,04/12] input: misc: nxp-bbnsm-pwrkey: Use resource managed API to simplify code
+    (no matching commit)
+  - [v2,05/12] input: touchscreen: ti_am335x_tsc: Use resource managed API to simplify code
+    (no matching commit)
+  - [v2,06/12] rtc: stm32: Use resource managed API to simplify code
+    (no matching commit)
+  - [v2,07/12] rtc: nxp-bbnsm: Use resource managed API to simplify code
+    (no matching commit)
+  - [v2,08/12] rtc: ds1343: Use devm_pm_set_wake_irq
+    (no matching commit)
+  - [v2,09/12] rtc: pm8xxx: Use devm_pm_set_wake_irq
+    (no matching commit)
+  - [v2,10/12] rtc: ab8500: Use resource managed API to simplify code
+    (no matching commit)
+  - [v2,11/12] rtc: mpfs: Use devm_pm_set_wake_irq
+    (no matching commit)
+  - [v2,12/12] rtc: pl031: Use resource managed API to simplify code
+    (no matching commit)
+
+You are awesome, thank you!
 -- 
-2.48.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
