@@ -1,60 +1,56 @@
-Return-Path: <linux-input+bounces-9706-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9707-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981BAA256BD
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 11:17:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2EAA256C2
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 11:17:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 237A3161BAE
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 10:17:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9160F161BEA
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 10:17:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A29471E7C0E;
-	Mon,  3 Feb 2025 10:16:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77E6B1BEF8A;
+	Mon,  3 Feb 2025 10:17:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lpADL48e"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QDwB0XbD"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7725138F83;
-	Mon,  3 Feb 2025 10:16:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543BE38F83
+	for <linux-input@vger.kernel.org>; Mon,  3 Feb 2025 10:17:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738577816; cv=none; b=LKN+RqMg4GgmxsuwY3CX4+QhjR9Hu+aHOco1Pk4YHnkYzp523Z8vKmOv631Q8CANPukw3FgujbwyMfI1X65wFTWCzjpWkKowE6nNcONml54iexkR0jtYpVR4YFzbt2dWItgRkB+CdIHWZHg0QWsdnI32rSf3uDiFiaIHuolXqHM=
+	t=1738577874; cv=none; b=Z4+2RD0i8GGqDUDI73yHLzHGWS3fTFi3Qwkng6Df0b6ke9g/oF+/lBG7kmlEHohWm5NMpipi4v4igj6o/Dwt22evxTPOvD8wnNphfHzqMXs7i5I79KyGgryVZWnbh9m4ehfszqVWMJUNUQUWymqLOWqNkd4Ovten04RoCU1WZUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738577816; c=relaxed/simple;
-	bh=jEQEXcJrA+AyTpm1UhRXvi87pn7txfzFbDoxW5r1xw8=;
+	s=arc-20240116; t=1738577874; c=relaxed/simple;
+	bh=rmK0ntli1FdiD2wANbKF7BYqJwlUrb4P759zHdS+N/s=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=a3T9J3mE+kqPTMznYSbVorWd4Nwp3Fx0D5THXPmDXAXQsANe4oGAXpmrWRVAza4ImnXV9DuIUCCNw3gt4gkREkDGfTq+Bwb6VnduhHNx/1nBah266cwZXZwwyNtpcEEurxBiNj04iCDRTmkkyUOMqR6KJRcitqnp8R4ozJfsYIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lpADL48e; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEEF9C4CED2;
-	Mon,  3 Feb 2025 10:16:55 +0000 (UTC)
+	 MIME-Version:Content-Type; b=tTuN1T9Tqk79YJF71gIaEprUBmg2LYUDaEZBhU1G9K5xIFoaIO+a45lZ8LzgzZXNlnUg9l4FmK3+SyUvUucuqgxDJeXozfSv2dz/9vfIlwuNz1r/eGGpIe5ygo7ThuwcACxo5VYrGjVH9ga3AvLuzpIXLjKplI3iiEGJlO512Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QDwB0XbD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62F0CC4CEE0;
+	Mon,  3 Feb 2025 10:17:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738577816;
-	bh=jEQEXcJrA+AyTpm1UhRXvi87pn7txfzFbDoxW5r1xw8=;
+	s=k20201202; t=1738577872;
+	bh=rmK0ntli1FdiD2wANbKF7BYqJwlUrb4P759zHdS+N/s=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=lpADL48e+QhQVJlwEE+zihafuoiQX3d2DQHaQImZcegIU+we6DWn1tHN7Inljqqtn
-	 u/DjdLbjVzAuHInSuJpDxoiFRgTRcKrkoEwO6jF+LRkQVgJl3Y9yw0xahsDUNg1aMY
-	 wDefi/QdkTqJq0hHjut/QfISx1YY8ReOGK4eSgLlWHRq5Jn5lDTp0KGaUs7RBOiV7P
-	 eYE7Kk4O7vy5KBoVsls+U8gMzlQyAgeHWeE0BX75nl6xvc+n3eeptZT18TtSgE/NBt
-	 Uv4/8ofQCX230SRZdlkMB4KNcJB68vbir2x9Vu6mCrTOQQmydjj5gFp58vs6qKAyEl
-	 GGfBat1bWCGVQ==
-Date: Mon, 3 Feb 2025 11:16:53 +0100 (CET)
+	b=QDwB0XbDG7zlBKE2m2DvWCbBhDviD9fNPWXkn2jRHl88qXxq6xqJ7cCwoVTwG68P8
+	 n9nf+MjzIr++sbP/K3NSZtT6LQWvLzh+ORuJ99QmhlAyPeNwzFqf3QZhCgicyikLFn
+	 xoVNhOTioPaPxK/+K3enoTB4pWkgYes8hl3HaG1HPg29W0tvSy6m98rxOlSdx5nJPS
+	 ertlbJpyd8wtrgFQaBE0EHDZ5NbnqF2hGKH55ZBw+dL7Miu/2Gi7aD/lkxFtbv6UtS
+	 ostD5D0L/ac3+iAqPTEYac5ip6+Od4/18A8ecj/gSrdkgycqbawu3LOHGqV0ET1V0V
+	 Fl2xnKp7PoL8g==
+Date: Mon, 3 Feb 2025 11:17:49 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
-cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-    Peter Zijlstra <peterz@infradead.org>, 
-    Greg KH <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, 
-    Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
-    Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: quirks: ignore non-functional sensor in HP 5MP
- Camera
-In-Reply-To: <20250115070020.2777721-1-acelan.kao@canonical.com>
-Message-ID: <q316oqno-q188-n7o4-90s0-pn9p2p47sso2@xreary.bet>
-References: <20250115070020.2777721-1-acelan.kao@canonical.com>
+To: Vicki Pfau <vi@endrift.com>
+cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+    linux-input@vger.kernel.org, Eugeny Shcheglov <eugenyshcheglov@gmail.com>
+Subject: Re: [PATCH] HID: hid-steam: Fix issues with disabling both gamepad
+ mode and lizard mode
+In-Reply-To: <20250116012816.3478021-1-vi@endrift.com>
+Message-ID: <5s2nq40n-so5p-o2o0-rpn2-7n89prp18880@xreary.bet>
+References: <20250116012816.3478021-1-vi@endrift.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -63,22 +59,28 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Wed, 15 Jan 2025, Chia-Lin Kao (AceLan) wrote:
+On Wed, 15 Jan 2025, Vicki Pfau wrote:
 
-> The HP 5MP Camera (USB ID 0408:5473) reports a HID sensor interface that
-> is not actually implemented. Attempting to access this non-functional
-> sensor via iio_info causes system hangs as runtime PM tries to wake up
-> an unresponsive sensor.
+> When lizard mode is disabled, there were two issues:
 > 
->   [453] hid-sensor-hub 0003:0408:5473.0003: Report latency attributes: ffffffff:ffffffff
->   [453] hid-sensor-hub 0003:0408:5473.0003: common attributes: 5:1, 2:1, 3:1 ffffffff:ffffffff
+> 1. Switching between gamepad mode and desktop mode still functioned, even
+> though desktop mode did not. This lead to the ability to "break" gamepad mode
+> by holding down the Options key even while lizard mode is disabled
 > 
-> Add this device to the HID ignore list since the sensor interface is
-> non-functional by design and should not be exposed to userspace.
+> 2. If you were in desktop mode when lizard mode is disabled, you would
+> immediately enter this faulty mode.
 > 
-> Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+> This patch properly disables the ability to switch between gamepad mode and the
+> faulty desktop mode by holding the Options key, as well as effectively removing
+> the faulty mode by bypassing the early returns if lizard mode is disabled.
+> 
+> Reported-by: Eugeny Shcheglov <eugenyshcheglov@gmail.com>
+> Signed-off-by: Vicki Pfau <vi@endrift.com>
+> ---
+>  drivers/hid/hid-steam.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-Applied, thank you.
+Applied, thanks.
 
 -- 
 Jiri Kosina
