@@ -1,124 +1,111 @@
-Return-Path: <linux-input+bounces-9718-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9719-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B212BA25BB9
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 15:05:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DEEDA25C23
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 15:20:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC0A4165CE8
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 14:03:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E9CC163938
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 14:20:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DE10204C38;
-	Mon,  3 Feb 2025 14:00:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 465DA204595;
+	Mon,  3 Feb 2025 14:19:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VdoNMsdA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vMqOsxB3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E77111A8;
-	Mon,  3 Feb 2025 14:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E12F1EEF9;
+	Mon,  3 Feb 2025 14:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738591223; cv=none; b=gEikXXitnNalYeXrTKy6c7yhQJuM0uZ2l+5aEoYufELwsG8BhSS/9G79McYWHasbnSHHSq1ccbITV+kWgXkbn9/gtf5xfXFmxbc347MLR+YFd4mCncTSuYho1KFegWtaaKXAsyqw/W0wjrzXKwKgiKlYmuvogOUP0AN4B/JC3kY=
+	t=1738592356; cv=none; b=KGrMCYbx1x7MQ1UDpRlJi+ocAEk4qxRqqRqamwG8ttkuwkZWwFxAsvTiGRFE0kjgrIuYrok/9bwloBKGbnZY5Fu9FCyIkpijge5K8eFpfyiGSiHcZQKJFqD2ea/bNOF0uMMFsj5FQrddgbcezXSSn3Iyv5husAhpTDSV1au50hI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738591223; c=relaxed/simple;
-	bh=sFw6a6CBGX3CJQLHB6uvFLA/efvDiB+a7slUqjZU1do=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FLkvKfn/30+jNWc5Z7OF2unHUzQYeus9KZicEq5HPSHrQYlozmZ3y4Cr/1vfa/jqvl2+ZdyENaL0vBPtAWbk9itGatcjgp4dxpjSL6xlYwaiAivBRS4dUNYy7FATKLblgW79DYyb0EH3WBJXLUy6AjS03YAOWyAFtOyjRv1BYRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VdoNMsdA; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-218c8aca5f1so87388375ad.0;
-        Mon, 03 Feb 2025 06:00:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738591221; x=1739196021; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pj0X7gimYNbIdGaKy+0N9jNbkyEy+n6mQW8Dp8j+2Cs=;
-        b=VdoNMsdAmErNn3DqsJxbmDjre4uMlDsigErsqncEI8XPIzHTPdNrusdfhqnsIk0Oi2
-         +qerCwnunKYao9TiCIJCmVZul0t0p2l+ny4fzRxygcvxz4ejEZDxrTQkBqVHa+ZrT7Ko
-         tKb+UlREnEfMhUsrZNIZBhlAqe6q4SUgAeLWr1ZNB+3Q+///ZbNoAa8GFMC0QxZFg6Uo
-         W+QQbygxZzB1eXvXGn3X4uiXWHwv95zqo5zZqXZRGASsEv2ScYb4Ejma71oxPKN/g7GV
-         fcWeW54ua8d58DPtVfspQ8+Idm83+xFiY9yTyWEqJkFAbwsqQg8W3PPp6uPwXnRFaWNT
-         gnPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738591221; x=1739196021;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Pj0X7gimYNbIdGaKy+0N9jNbkyEy+n6mQW8Dp8j+2Cs=;
-        b=vYnQUtPzGMApZBWD//EV57s8N9uq1tkqIJ5BT/KrwAp8HiIXBI7mu5eZ8xlao2tjBD
-         Ll6lvuiJXgdeSZvPFQcCNl/bb6hRw1+UhA7uLwI/w2fvuOi4F01ZiAhaAyeRn5+tUZ9W
-         bMKbGAVQH3m924vIBAaSFA1wJHzE/YUMESvl5VTsQOAiY0VP7xr0HlvbArCTcNI+LYjg
-         0PMW0JofO9d1YLhjHHgXyBHy/MmImRCHplirZzVpiExzEg6wAzI4OE/Uo0irZBR4QyVV
-         jHYfGO3QOt92lXGPhChIioV8fSrKbWywtLos3pCrCuCyTXRvb8XU67f7bSZd37PTS1eh
-         Ro+A==
-X-Forwarded-Encrypted: i=1; AJvYcCVASC0I9yp1BAONQy+idNpkKR5WFqbTpRwe/skxnzu3oxIpWJgHouvAt03FyZ+cgMUIh3poclqWGCypCcY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPohzWbwyZTYYmAwDfAeX/9TB193UETlOC6bAfSHWQXkijcY/7
-	+TWcRF/PeqFhbZ9Er4RwcprlDmzOSqOHrvvSPMCiEFnL1Dv5p1bsiPP5j9Wn
-X-Gm-Gg: ASbGncsKiXolMGGJWv3GPqj5zp3twGwapyVLHl0NZAZ25c4ipphDXD6SIU/fqCD6ug/
-	A9P+RE7xSmH5WB6cFsgKioe9iJim9YgPGlcChv/HMq4JeQH/5ZJQxVnNGvUfPgXeWjTigFSRZEH
-	F8fkF2Jq2jIjIF6JPRxtxiQxDM+FMDqbAV29RjJUEAR3Ls72Q62yEvLissw4GI1LzHhUZcHtuC8
-	6H9AiaMKBCub3dioBQY9M+4EdaGP85JlckW5hDFHxHDIybZVutzPoP005tgUCbQfNerqF2p3Wzl
-	RrUyEnNOZSAWJGrm
-X-Google-Smtp-Source: AGHT+IHC4ljZnye2fYYzTrG8E2a6wT/HWcfxGLvpeyBRdqSi9lFX7cnVJl5DGUArJZzCX+u4II6hAQ==
-X-Received: by 2002:a17:903:40c9:b0:216:73f0:ef63 with SMTP id d9443c01a7336-21dd7e38f8cmr343177275ad.49.1738591220788;
-        Mon, 03 Feb 2025 06:00:20 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:bc03:a12b:a196:21f1])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21de33200e7sm76750375ad.240.2025.02.03.06.00.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 06:00:20 -0800 (PST)
-Date: Mon, 3 Feb 2025 06:00:18 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Marian Flor <marian.flor@posteo.net>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] gpio_keys.c: Send also event when EV_ABS axis button
- is released
-Message-ID: <Z6DL8v9hzkzfH3is@google.com>
-References: <717e71d6-5114-45ff-aa6b-0bb4a68b6261@posteo.net>
+	s=arc-20240116; t=1738592356; c=relaxed/simple;
+	bh=CyuPSaT6EpmILv83KdYCWP0EOLFCfthUST5njZOa9JI=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=sc6mltb+ONSTpzCvOSmyWfcT7QA54KZW98z6rzOK1QZAe1vzJKAgC2BsYdMPmseEY0EJnkuAjuFf9v/+l81r7dfviH6y9YiXL7Q8Uej/zB9SWi6SB639Ar9saGP6Zvuq4H3lbtoNq5o0oE+fVtk4w+jtS01/8X8l+XiqlT8a6Y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vMqOsxB3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 332F8C4CED2;
+	Mon,  3 Feb 2025 14:19:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738592353;
+	bh=CyuPSaT6EpmILv83KdYCWP0EOLFCfthUST5njZOa9JI=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=vMqOsxB39uc62qXM0iziBhor0TwYTtHHBa/0QiUC4lmxFzWZnvgqut5sh+b1lAkfP
+	 xE9WrYzqQY63rhFjdc6rYgplYcc2a416bopc2v17WAXHsFOf9oKaeTiQwyuP5MN4dq
+	 nKUHRhoPETkQwQM26oy/r/+8V6vm3R2acjD7aa787B66gZcnxiTdr+5uwULCRTJ1Jv
+	 dE1x8+w+C1/OxgBdrIHuqb6EJU1nMbzj1pZ4iu9XNXOKhdm/3w/4xbzKZn2t5izyVW
+	 3Tv7rmwjgk8Lr/ch7NO/IZDKOA11H77ERIbZwQnd5SrtLPaxRmfqfVAzEEtgG9EfIp
+	 wvv+OdAbCv57g==
+Date: Mon, 3 Feb 2025 15:19:10 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: =?ISO-8859-2?Q?Tomasz_Paku=B3a?= <tomasz.pakula.oficjalny@gmail.com>
+cc: bentiss@kernel.org, anssi.hannula@gmail.com, oleg@makarenk.ooo, 
+    linux-input@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v9 00/22] HID: Upgrade the generic pidff driver and add
+ hid-universal-pidff
+In-Reply-To: <20250201113906.769162-1-tomasz.pakula.oficjalny@gmail.com>
+Message-ID: <55p2r436-4o90-87qr-292o-on72n3pq1q9r@xreary.bet>
+References: <20250201113906.769162-1-tomasz.pakula.oficjalny@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <717e71d6-5114-45ff-aa6b-0bb4a68b6261@posteo.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-Hi Marian,
+On Sat, 1 Feb 2025, Tomasz Paku=C5=82a wrote:
 
-On Sat, Feb 01, 2025 at 04:20:15PM +0000, Marian Flor wrote:
-> The input EV_ABS does not emit an event when the axis button is
-> released.  It appears to libevdev as held, even when the axis
-> button is physically released.  This behavior is also opposing
-> to the devicetree documentation for gpio-keys.  Change the code
-> to additionally emit a zero valued event on axis button release.
+> This patch series is focused on improving the compatibility and usability=
+ of the
+> hid-pidff force feedback driver. Last patch introduces a new, universal d=
+river
+> for PID devices that need some special handling like report fixups, remap=
+ping the
+> button range, managing new pidff quirks and setting desirable fuzz/flat v=
+alues.
+>=20
+> This work has been done in the span of the past months with the help of t=
+he great
+> Linux simracing community, with a little input from sim flight fans from =
+FFBeast.
+>=20
+> No changes interfere with compliant and currently working PID devices.
+> "Generic" codepath was tested as well with Moza and Simxperience AccuForc=
+e v2.
+>=20
+> I'm not married to the name. It's what we used previously, but if "univer=
+sal" is
+> confusing (pidff is already the generic driver), we can come up with some=
+thing
+> better like "hid-quirky-pidff" :)
+>=20
+> With v8 and  tiny finx in v9, all the outstanding issues were resolved,
+> additional pidff issues were fixed and hid-pidff defines moved to a dedic=
+ated
+> header file. This patch series could be considered done bar any comments =
+and
+> requests from input maintainers.
+>=20
+> I could save more then a dozen lines of code by changing simple if statem=
+ents
+> to only occupy on line instead of two in there's a need for that.
+>=20
+> Signed-off-by: Tomasz Paku=C5=82a <tomasz.pakula.oficjalny@gmail.com>
 
-This unfortunately will not work: if you have several GPIOs with
-progression of values, such as:
+This is now queued in hid.git#for-6.15/pidff, so please send any further=20
+updates / fixups on top of that branch.
 
-GPIO1: EV_ABS/ABS_X/0
-GPIO2: EV_ABS/ABS_X/1
-GPIO3: EV_ABS/ABS_X/2
-GPIO4: EV_ABS/ABS_X/3
+Thanks!
 
-You do not want the values to bounce to 0 as they transition from let's
-say 1->2.
+--=20
+Jiri Kosina
+SUSE Labs
 
-The "return to 0 as resting point" behavior was originally only supposed
-to be valid for the polled variant of gpio keys, but commit fbfb9a60d5d0
-("dt-bindings: input: Convert gpio-keys bindings to schema") changed it
-without updating the driver. It was an oversight.
-
-To properly implement this behavior you need to scan all other GPIOs
-with the same type and code and see if any of them are still active.
-
-Thanks.
-
--- 
-Dmitry
 
