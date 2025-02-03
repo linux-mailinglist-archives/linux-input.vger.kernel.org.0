@@ -1,86 +1,84 @@
-Return-Path: <linux-input+bounces-9717-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9718-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90781A2598A
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 13:38:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B212BA25BB9
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 15:05:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8017D7A2379
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 12:37:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC0A4165CE8
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 14:03:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D4F82045B7;
-	Mon,  3 Feb 2025 12:38:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DE10204C38;
+	Mon,  3 Feb 2025 14:00:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O4ZmI1PT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VdoNMsdA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8EFB1FFC69;
-	Mon,  3 Feb 2025 12:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E77111A8;
+	Mon,  3 Feb 2025 14:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738586290; cv=none; b=Brphu3a3SszbLzizWEV/HoXDsbgxAGUC9IImpZp6Re70StR0nGfhWspk79/C9QzdGRU1Ei6IgVgTSACIW/7rY9gi8tMzAMtG62IgdshgxGtrtY5+ssF0jRyk/Yhptkv0kRlhJr7BB7Z4WeHjvhLZeBL/LTBJVzDyUOgi17aZKN4=
+	t=1738591223; cv=none; b=gEikXXitnNalYeXrTKy6c7yhQJuM0uZ2l+5aEoYufELwsG8BhSS/9G79McYWHasbnSHHSq1ccbITV+kWgXkbn9/gtf5xfXFmxbc347MLR+YFd4mCncTSuYho1KFegWtaaKXAsyqw/W0wjrzXKwKgiKlYmuvogOUP0AN4B/JC3kY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738586290; c=relaxed/simple;
-	bh=95zSiarw+ZpYO1scZRyBbxW/PIdZCHPvWMK0AC2GRpg=;
+	s=arc-20240116; t=1738591223; c=relaxed/simple;
+	bh=sFw6a6CBGX3CJQLHB6uvFLA/efvDiB+a7slUqjZU1do=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=prbJnwlqYdXaDCuLrnf9f10t9MeqnD2M2sW4ZoTYqBUKcaa1/5FepRC0NxFaNplTnSzTA5GDaX1lt4OJGRpHZ/h0awghZXcMVwxLj1fQwfUu7RNZFFwus8kcnpOa3YAXxvsUIk4z6mKTdejFUEnO2MjiXyxoKx6E0Pdhkdz2+js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O4ZmI1PT; arc=none smtp.client-ip=209.85.214.181
+	 Content-Type:Content-Disposition:In-Reply-To; b=FLkvKfn/30+jNWc5Z7OF2unHUzQYeus9KZicEq5HPSHrQYlozmZ3y4Cr/1vfa/jqvl2+ZdyENaL0vBPtAWbk9itGatcjgp4dxpjSL6xlYwaiAivBRS4dUNYy7FATKLblgW79DYyb0EH3WBJXLUy6AjS03YAOWyAFtOyjRv1BYRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VdoNMsdA; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2161eb94cceso50597995ad.2;
-        Mon, 03 Feb 2025 04:38:08 -0800 (PST)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-218c8aca5f1so87388375ad.0;
+        Mon, 03 Feb 2025 06:00:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738586288; x=1739191088; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1738591221; x=1739196021; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=W2CdPK9mSmhYyTyI9jvKkDvdm2j/cCoWc+2tilMgaC4=;
-        b=O4ZmI1PTP62EyhLfQG/lfuERZUeGOVUvW/TdA23HiYp2B04Lo5mwS3NDqsPk3YbqPE
-         coMrYrwCixUEVL6n9n3yZH4ofLUe4fhxzwca4goYRGJLbPecTBcdluo+XDtQej417mgQ
-         kPQPvZKjfhlpwYUWZU4NUSImCaNbNFDsZWEteFG5hRUtoXVpCzJkfftIGWBpBKoY1pCy
-         H0IuYpm20Yp3ES9VtJT+29V9knEAXtZhW1H/Nvn3pJgzawYssjPhW06yIUGwDno+jlaJ
-         EabSpZU1FiyqH5ahBecX/e3O/IXxAFtBAtYyRzI0BFLXMQxPhfV4K8oqeHarCuIlLdWZ
-         zrnw==
+        bh=Pj0X7gimYNbIdGaKy+0N9jNbkyEy+n6mQW8Dp8j+2Cs=;
+        b=VdoNMsdAmErNn3DqsJxbmDjre4uMlDsigErsqncEI8XPIzHTPdNrusdfhqnsIk0Oi2
+         +qerCwnunKYao9TiCIJCmVZul0t0p2l+ny4fzRxygcvxz4ejEZDxrTQkBqVHa+ZrT7Ko
+         tKb+UlREnEfMhUsrZNIZBhlAqe6q4SUgAeLWr1ZNB+3Q+///ZbNoAa8GFMC0QxZFg6Uo
+         W+QQbygxZzB1eXvXGn3X4uiXWHwv95zqo5zZqXZRGASsEv2ScYb4Ejma71oxPKN/g7GV
+         fcWeW54ua8d58DPtVfspQ8+Idm83+xFiY9yTyWEqJkFAbwsqQg8W3PPp6uPwXnRFaWNT
+         gnPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738586288; x=1739191088;
+        d=1e100.net; s=20230601; t=1738591221; x=1739196021;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W2CdPK9mSmhYyTyI9jvKkDvdm2j/cCoWc+2tilMgaC4=;
-        b=nWNa3lKxqHZrJdiK3g2AKiZCgUTn6C8Z+SaZgD7modp5hRN4ZlxeCRnhq3VKt9Q+07
-         nZGgGfIZVdxVpKKgj9DYFG220S646fAaRNpMqxOUFAUD+Hs87ENPU3NCwBvdTM2j2zkU
-         EOsmCQJ84RouxVXLdA2rl5Q4Y9+9Yp5Ffk7F4JwsmQ+fzQXc3BkZa4UyTWHohLrkx9Fv
-         nvrOQFU/WQw6yi9AFetLRwqQIqENgSFJM49XJodMac3772DRMM0AEAIR7MBHvBpn7fX6
-         3zMC9MCejfkfdyhZehtOs07G78Lj4aK5VraAEhhm8YWcwJaeyt3020kZxSTDmXJRVR3k
-         ZF2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUXL97rrGKZ80qO5g4IC30f3G8LZhagR6oq4fq0DVhWakLfHAWYHM1hIC7Eb/Cg4C9e7LAjXpG/RUcNfC/r@vger.kernel.org, AJvYcCVOJMirNNin3P5Y+pAjuZSTFtQoHwKKnJc1tTmzsDnE8cZw0tuvUxRjyUVGkcsTU9yMf7J57gFu@vger.kernel.org, AJvYcCXCJqF0O2/+4N99SrQ8EgKVQRyURZzJdN4yJyx3Swy5T0zN3Kzj6PHCRUwZJaqUBEvLC4h78UMge+Caqg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywa/t9e5bsXSY4tRbnpbqE7insSOYvhnAfdUY9o/vQFAk5hURG6
-	RyJ8g481HidWyJZu6/4atLnItNyD2/VLFbehNDOrH5u1kD9UI8mY
-X-Gm-Gg: ASbGncvLvv6C4qyG1NZ4l9P74y/GNzOUL4WhIEX6+1Q8a0gAztUi1cUjWRWLFnwz28V
-	syHi08j2ZSu2uPIHczwCP96tNJT7luEYI0m9X6n2kmqoGsJEP1Id1kzxln4zBkIq4rqXAf4v38B
-	TogAhlWeb1ooJeyubGrM/USBD/bt+sHm3/R3EibqzoKCJHvOZKtMpJ5B+ro880sOYwKUKAR+ILc
-	qwyi+OxNTGzKKX6kWvqvCQFn94066y7C/TGmweEBc1G8p42wjLVimcLArwDRpakM8bzHwHmG0L3
-	hFWheKPsslQSuw1Z
-X-Google-Smtp-Source: AGHT+IHLB5k+NQf/3MApmiIEbts83y659X52J6eS68pgCXtvSGPMZVtiEi8Ef66VZtCo58VhfA8gag==
-X-Received: by 2002:a17:902:ced2:b0:216:554a:212c with SMTP id d9443c01a7336-21dd7dff3ecmr332857605ad.46.1738586287839;
-        Mon, 03 Feb 2025 04:38:07 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:9519:ce7e:a33c:85df])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21de31fcddbsm74929425ad.105.2025.02.03.04.38.06
+        bh=Pj0X7gimYNbIdGaKy+0N9jNbkyEy+n6mQW8Dp8j+2Cs=;
+        b=vYnQUtPzGMApZBWD//EV57s8N9uq1tkqIJ5BT/KrwAp8HiIXBI7mu5eZ8xlao2tjBD
+         Ll6lvuiJXgdeSZvPFQcCNl/bb6hRw1+UhA7uLwI/w2fvuOi4F01ZiAhaAyeRn5+tUZ9W
+         bMKbGAVQH3m924vIBAaSFA1wJHzE/YUMESvl5VTsQOAiY0VP7xr0HlvbArCTcNI+LYjg
+         0PMW0JofO9d1YLhjHHgXyBHy/MmImRCHplirZzVpiExzEg6wAzI4OE/Uo0irZBR4QyVV
+         jHYfGO3QOt92lXGPhChIioV8fSrKbWywtLos3pCrCuCyTXRvb8XU67f7bSZd37PTS1eh
+         Ro+A==
+X-Forwarded-Encrypted: i=1; AJvYcCVASC0I9yp1BAONQy+idNpkKR5WFqbTpRwe/skxnzu3oxIpWJgHouvAt03FyZ+cgMUIh3poclqWGCypCcY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPohzWbwyZTYYmAwDfAeX/9TB193UETlOC6bAfSHWQXkijcY/7
+	+TWcRF/PeqFhbZ9Er4RwcprlDmzOSqOHrvvSPMCiEFnL1Dv5p1bsiPP5j9Wn
+X-Gm-Gg: ASbGncsKiXolMGGJWv3GPqj5zp3twGwapyVLHl0NZAZ25c4ipphDXD6SIU/fqCD6ug/
+	A9P+RE7xSmH5WB6cFsgKioe9iJim9YgPGlcChv/HMq4JeQH/5ZJQxVnNGvUfPgXeWjTigFSRZEH
+	F8fkF2Jq2jIjIF6JPRxtxiQxDM+FMDqbAV29RjJUEAR3Ls72Q62yEvLissw4GI1LzHhUZcHtuC8
+	6H9AiaMKBCub3dioBQY9M+4EdaGP85JlckW5hDFHxHDIybZVutzPoP005tgUCbQfNerqF2p3Wzl
+	RrUyEnNOZSAWJGrm
+X-Google-Smtp-Source: AGHT+IHC4ljZnye2fYYzTrG8E2a6wT/HWcfxGLvpeyBRdqSi9lFX7cnVJl5DGUArJZzCX+u4II6hAQ==
+X-Received: by 2002:a17:903:40c9:b0:216:73f0:ef63 with SMTP id d9443c01a7336-21dd7e38f8cmr343177275ad.49.1738591220788;
+        Mon, 03 Feb 2025 06:00:20 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:bc03:a12b:a196:21f1])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21de33200e7sm76750375ad.240.2025.02.03.06.00.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 04:38:07 -0800 (PST)
-Date: Mon, 3 Feb 2025 04:38:04 -0800
+        Mon, 03 Feb 2025 06:00:20 -0800 (PST)
+Date: Mon, 3 Feb 2025 06:00:18 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc: Marek Vasut <marex@denx.de>, Linus Walleij <linus.walleij@linaro.org>,
-	Nathan Chancellor <nathan@kernel.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, letux-kernel@openphoenux.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] Input: ads7846 - fix gpiod allocation
-Message-ID: <Z6C4rL4SMbUcAuh0@google.com>
-References: <6e9b143f19cdfda835711a8a7a3966e5a2494cff.1738410204.git.hns@goldelico.com>
+To: Marian Flor <marian.flor@posteo.net>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] gpio_keys.c: Send also event when EV_ABS axis button
+ is released
+Message-ID: <Z6DL8v9hzkzfH3is@google.com>
+References: <717e71d6-5114-45ff-aa6b-0bb4a68b6261@posteo.net>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -89,20 +87,37 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6e9b143f19cdfda835711a8a7a3966e5a2494cff.1738410204.git.hns@goldelico.com>
+In-Reply-To: <717e71d6-5114-45ff-aa6b-0bb4a68b6261@posteo.net>
 
-On Sat, Feb 01, 2025 at 12:43:24PM +0100, H. Nikolaus Schaller wrote:
-> commit 767d83361aaa ("Input: ads7846 - Convert to use software nodes")
-> 
-> has simplified the code but accidentially converted a devm_gpiod_get()
-> to gpiod_get(). This leaves the gpio reserved on module remove and the
-> driver can no longer be loaded again.
-> 
-> Fixes: 767d83361aaa ("Input: ads7846 - Convert to use software nodes")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+Hi Marian,
 
-Applied, thank you.
+On Sat, Feb 01, 2025 at 04:20:15PM +0000, Marian Flor wrote:
+> The input EV_ABS does not emit an event when the axis button is
+> released.  It appears to libevdev as held, even when the axis
+> button is physically released.  This behavior is also opposing
+> to the devicetree documentation for gpio-keys.  Change the code
+> to additionally emit a zero valued event on axis button release.
+
+This unfortunately will not work: if you have several GPIOs with
+progression of values, such as:
+
+GPIO1: EV_ABS/ABS_X/0
+GPIO2: EV_ABS/ABS_X/1
+GPIO3: EV_ABS/ABS_X/2
+GPIO4: EV_ABS/ABS_X/3
+
+You do not want the values to bounce to 0 as they transition from let's
+say 1->2.
+
+The "return to 0 as resting point" behavior was originally only supposed
+to be valid for the polled variant of gpio keys, but commit fbfb9a60d5d0
+("dt-bindings: input: Convert gpio-keys bindings to schema") changed it
+without updating the driver. It was an oversight.
+
+To properly implement this behavior you need to scan all other GPIOs
+with the same type and code and see if any of them are still active.
+
+Thanks.
 
 -- 
 Dmitry
