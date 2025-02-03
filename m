@@ -1,135 +1,125 @@
-Return-Path: <linux-input+bounces-9691-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9694-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49BC6A25509
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 09:56:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66592A2563E
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 10:49:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 167AE1883A91
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 08:56:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2BD3D188753D
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 09:49:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B9A12066E1;
-	Mon,  3 Feb 2025 08:55:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 663C11FF7DD;
+	Mon,  3 Feb 2025 09:49:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=illinois.edu header.i=@illinois.edu header.b="Zd2H/+Um"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NSxH4Fyo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-00007101.pphosted.com (mx0b-00007101.pphosted.com [148.163.139.28])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5731E202C40;
-	Mon,  3 Feb 2025 08:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C544B1FECC2;
+	Mon,  3 Feb 2025 09:49:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738572954; cv=none; b=SHML77EHtvOHUpn79lVGnkxi0FUCZIJd8fmaueuo43TW7t1cEyc5vnBT3SqtRe2qIaY9QYMI11eLCMHh1HEKnudzroucT3XQOyyUVyAtp0h5EtWeymPR1CN0d5ytu2ygKhXrrHr8K9w0jEyrL66hiCWawrmnYGUj8gPABPWlHzs=
+	t=1738576142; cv=none; b=bsfSucEZY2vppHkq9iHQFXEdm1+RZkp3epnPDFCIInzKrwUspm54qsqJAwNPz0FH6BIQhW5u6mE7qzPkzSUC+IcPnmXzocIWeZ9z6YFz4Te1E7JWILCDTYTeKYzIZczLR9TKmmDQ6Jfq8BcbBxGaO3lSwSkaa+QlbHyBFkNWwtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738572954; c=relaxed/simple;
-	bh=1YTO9INez+CnwjPY9kI4ZOAcWBmKf/Llmb8zbEm1NCA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OCjkLnxfwJkYLINsvCr8lgfPJm6mIpnYlxCeq4dr8O1CMA1vQ/J9sAZFssBmwkac+TTDLGCfd5aXHW5nCcAyyhH1Bx+VsI6CnFfAsY37E5qH0Gu1Vzzq9UzGov3EDcUwwEKk4o1NxsNKkdm4oXbk/310hDz19Eqdc3BzZBlpOBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=illinois.edu; spf=pass smtp.mailfrom=illinois.edu; dkim=pass (2048-bit key) header.d=illinois.edu header.i=@illinois.edu header.b=Zd2H/+Um; arc=none smtp.client-ip=148.163.139.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=illinois.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=illinois.edu
-Received: from pps.filterd (m0272703.ppops.net [127.0.0.1])
-	by mx0b-00007101.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5135Lxn0004344;
-	Mon, 3 Feb 2025 08:55:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=campusrelays; bh=RCfMUHG2
-	VmNAH/8CCuKfGREBh8Aoub4r2DhMd+5tnUw=; b=Zd2H/+UmzcjVU2FJnFAWQciM
-	rptV47Fj48QoHSPd0Afw+zR39O2mrobwfbRwpyqm+vBw5Tso1kczntTVEnwXErsz
-	eI3p2tLqnY8MssqxM08uqqBYlvnXvcsa95Ki6uUD9AYUmwE15dqz4tJFv5zzP0Rv
-	ZQ8q7HybQ+Sa/f5r5E6SPwkmXUcEtCKo7dJVMoAHwCiyiN3qIu0UyYJae/hZ+Mwa
-	E+ArBP7VDFpCMPjWjV+SYR2l0N9qjGUMCvoivwo/xhRjlaJME19h5L7EOnpDECrb
-	K+XPMPHCkDH6df7bszzl0oAC66nuZJGKLK7hgwcYlPs/FAi8GTtj9yEoqAMaOQ==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0b-00007101.pphosted.com (PPS) with ESMTPS id 44jjep9xet-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 03 Feb 2025 08:55:13 +0000 (GMT)
-Received: from m0272703.ppops.net (m0272703.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 5138q1nU024616;
-	Mon, 3 Feb 2025 08:55:13 GMT
-Received: from localhost.localdomain (oasis.cs.illinois.edu [130.126.137.13])
-	by mx0b-00007101.pphosted.com (PPS) with ESMTP id 44jjep9xed-4;
-	Mon, 03 Feb 2025 08:55:13 +0000 (GMT)
-From: Jinghao Jia <jinghao7@illinois.edu>
-To: Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-        Yonghong Song <yonghong.song@linux.dev>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <bentiss@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nicolas Schier <n.schier@avm.de>, Ruowen Qin <ruqin@redhat.com>,
-        Jinghao Jia <jinghao7@illinois.edu>
-Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: [PATCH v3 3/3] samples/hid: fix broken vmlinux path for VMLINUX_BTF
-Date: Mon,  3 Feb 2025 02:55:06 -0600
-Message-ID: <20250203085506.220297-4-jinghao7@illinois.edu>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20250203085506.220297-1-jinghao7@illinois.edu>
-References: <20250203085506.220297-1-jinghao7@illinois.edu>
+	s=arc-20240116; t=1738576142; c=relaxed/simple;
+	bh=zWGrZS1Fj/UWGsQmGsxasXV1/TVm5sUBsUTBhpui6aI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U6UMWY9k90VnJ2+wQwpg+nGXsgnTtTygYakwViPTRfrqmXBXifNxHRGgkDPmfsM8XxVsWVfxkFBXrBNs5AplYTMbtZ3Hwc6cjbyujWJuSxQXZtzl6Bdu7dKTQmp7wrTITMgEwZfzw38ZX8NPW9Y+npIRi8iTjCDDqSOORKbZshk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NSxH4Fyo; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738576142; x=1770112142;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zWGrZS1Fj/UWGsQmGsxasXV1/TVm5sUBsUTBhpui6aI=;
+  b=NSxH4FyouSpJaYLnIJD7lhf/+hxJTPXukKC8Z+qhJ8k6/oo6lzkCT3FO
+   19LehAcZIY/yiF/fbJ8LV9I68nGyYB76sYnOcaELPZ2BhdZnn+1667V+U
+   UgX6qHwBCM09kSF89q3KRRioZY5pHQgcQK+Q97nmmp404yrSiLhcOwHRC
+   osGq0TVHyxuBbL5UIxuHEu7L9M/qVuJ7pbz3XuXYcGVOvz8DTl47jGUNu
+   z9NlRtPoDzUC4ui+VqSkTW7FmBLUzADkGJRjchYfjLZJrYtvbSa+6OCUR
+   Vl39JdJjQY9kjzWrikDO3jSa79G50O5GZp5/YX1px3wEyVZTyJRJygBxj
+   Q==;
+X-CSE-ConnectionGUID: YtLSqG1UQyerYepsKkMF0g==
+X-CSE-MsgGUID: Gs/DId3rQESWPIyW3PHysg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="50052859"
+X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
+   d="scan'208";a="50052859"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 01:49:01 -0800
+X-CSE-ConnectionGUID: kd1tWlm7RnKODLNnZVynIg==
+X-CSE-MsgGUID: tHzNomfkRlyabZ+PaOXD+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="147441315"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 01:48:56 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tet4W-00000007mz6-3yhl;
+	Mon, 03 Feb 2025 11:48:52 +0200
+Date: Mon, 3 Feb 2025 11:48:52 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, linus.walleij@linaro.org,
+	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
+	lgirdwood@gmail.com, broonie@kernel.org, sre@kernel.org,
+	jic23@kernel.org, przemyslaw.kitszel@intel.com,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-iio@vger.kernel.org
+Subject: Re: [PATCH v3 00/20] Split devres APIs to device/devres.h and
+ introduce devm_kmemdup_array()
+Message-ID: <Z6CRBDpXpPha07mf@smile.fi.intel.com>
+References: <20250203080902.1864382-1-raag.jadav@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: OdQjC_8YDZj7se2XaZ61oCTyjWVSYnGU
-X-Proofpoint-GUID: c5o_IbYaaHI99HPpe15OxgXV0rmloE1j
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-03_03,2025-01-31_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0 adultscore=0
- malwarescore=0 clxscore=1015 mlxscore=0 phishscore=0 spamscore=0
- priorityscore=1501 mlxlogscore=887 bulkscore=0 suspectscore=0
- impostorscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2501170000 definitions=main-2502030071
-X-Spam-Score: 0
-X-Spam-OrigSender: jinghao7@illinois.edu
-X-Spam-Bar: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250203080902.1864382-1-raag.jadav@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Commit 13b25489b6f8 ("kbuild: change working directory to external
-module directory with M=") changed kbuild working directory of hid-bpf
-sample programs to samples/hid, which broke the vmlinux path for
-VMLINUX_BTF, as the Makefiles assume the current work directory to be
-the kernel output directory and use a relative path (i.e., ./vmlinux):
+On Mon, Feb 03, 2025 at 01:38:42PM +0530, Raag Jadav wrote:
+> This series
+> 
+> 1. Splits device/devres.h for the users that are only interested in devres APIs.
+>    Original work by Andy Shevchenko:
+>    https://lore.kernel.org/r/20241203195340.855879-1-andriy.shevchenko@linux.intel.com
+> 
+> 2. Introduces a more robust and cleaner devm_kmemdup_array() helper and uses it
+>    across drivers.
+> 
+> The idea behind embedding both work into a single series is to reduce conflicts
+> and dependencies while merging.
+> 
+> v2: Use size_mul() for multiplication (Dmitry)
+>     Update commit message (Dmitry)
+> 
+> v3: Embed devres.h work by Andy
 
-  Makefile:173: *** Cannot find a vmlinux for VMLINUX_BTF at any of "  /path/to/linux/samples/hid/vmlinux", build the kernel or set VMLINUX_BTF or VMLINUX_H variable.  Stop.
+>     Add more users of devm_kmemdup_array()
 
-Correctly refer to the kernel output directory using $(objtree).
+I understand the desire to cover as much as possible, but it becomes much
+harder to coordinate. My proposal stays the same, i.e. I may take the GPIO/pin
+control related (and already ACKed!) changes via Intel pin control tree and
+the rest may use that immutable tag as needed.
 
-Fixes: 13b25489b6f8 ("kbuild: change working directory to external module directory with M=")
-Tested-by: Ruowen Qin <ruqin@redhat.com>
-Suggested-by: Daniel Borkmann <daniel@iogearbox.net>
-Suggested-by: Andrii Nakryiko <andrii@kernel.org>
-Signed-off-by: Jinghao Jia <jinghao7@illinois.edu>
----
- samples/hid/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+What we need is an Ack for the first patch from Greg and perhaps I can take
+IIO, if Jonathan gives an Ack.
 
-diff --git a/samples/hid/Makefile b/samples/hid/Makefile
-index 69159c81d045..db5a077c77fc 100644
---- a/samples/hid/Makefile
-+++ b/samples/hid/Makefile
-@@ -164,7 +164,7 @@ $(obj)/hid_surface_dial.o: $(obj)/hid_surface_dial.skel.h
- 
- VMLINUX_BTF_PATHS ?= $(abspath $(if $(O),$(O)/vmlinux))				\
- 		     $(abspath $(if $(KBUILD_OUTPUT),$(KBUILD_OUTPUT)/vmlinux))	\
--		     $(abspath ./vmlinux)
-+		     $(abspath $(objtree)/vmlinux)
- VMLINUX_BTF ?= $(abspath $(firstword $(wildcard $(VMLINUX_BTF_PATHS))))
- 
- $(obj)/vmlinux.h: $(VMLINUX_BTF) $(BPFTOOL)
+>     Update tags and rebase
+
 -- 
-2.48.1
+With Best Regards,
+Andy Shevchenko
+
 
 
