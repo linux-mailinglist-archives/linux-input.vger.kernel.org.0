@@ -1,136 +1,109 @@
-Return-Path: <linux-input+bounces-9737-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9738-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99FDBA26629
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 22:55:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF2DA26640
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 22:58:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2D49B16478D
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 21:55:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 55C7B165829
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 21:58:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 423D320F094;
-	Mon,  3 Feb 2025 21:55:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2919211A08;
+	Mon,  3 Feb 2025 21:57:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rMJxRm5w"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tdUxdf6h"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1863720F07C;
-	Mon,  3 Feb 2025 21:55:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C669210F58
+	for <linux-input@vger.kernel.org>; Mon,  3 Feb 2025 21:57:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738619705; cv=none; b=XdNmiBokpYirtY7Q8GPZODekERKWCPcHgPGxEWIRkPa3GApuG5d+ezlptsUhVq2AiUfa8p4s/fVjpz+snEdlD/nQQ+/9OqtaBCE8JNcgLfmdh9OZ6CKaLLIorRT8vRD9Hdj7Dm61AA9bTj5tK+qjO15FNqkl/2HUCFBL7/TApCM=
+	t=1738619840; cv=none; b=K1QZTo8Y5gObYN5q2VyuSRDRMpR8GxB+wxFgwtOy46/VMdBz2lPX6OS3ftrsWcXk9M61d5lBYpC5i8fS1qhLeooQ9aaDkQ19cSbLWK7HDaNgfugMAZb0wHA48RZ6+BjWMzNXQXeTbs3agcgvCVYLgX5ofqngZ0wBGYoUXWDihKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738619705; c=relaxed/simple;
-	bh=bqZSeSIG7K2c5aXt9aUdAK9WqM9QVyxRpO2w329Vxtg=;
+	s=arc-20240116; t=1738619840; c=relaxed/simple;
+	bh=v0+gldag2tUiaaZPZE9acnP6cWUjrqcuntcV+ufiniE=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=f+p9O8WZ8hC/EjWi2mrJPMtUB22UffCgp5GyGKcM7wO5s8O//aCoXNX20sGfVqDSuRoa3s6MhbWIhJEDCFtk1tAgpMELYi3Lrs7BMEbgM7ySGMiMISpIa+EzjCmb24GFVwlS22f6LhO3VfobUQfGamP4mGiQbrr3wR+Xal2Sn0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rMJxRm5w; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23EB9C4CED2;
-	Mon,  3 Feb 2025 21:55:03 +0000 (UTC)
+	 MIME-Version:Content-Type; b=dOFEAhriw4Bm4YlrIV2zEXURrBOaUteEwyA1Roml2EwjLP5Hh39YDnz6e7OCRuI8h4Hv9YQg6eTZ3kCsXgeNmBaUOkptsOF23gaTmUz1bF/PGmxo0yjft+Mn41UIkbUu62lhd4rd8b96gxpn1ltQodPZgwx5drdQZXPG5oideu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tdUxdf6h; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F358C4CEE5;
+	Mon,  3 Feb 2025 21:57:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738619704;
-	bh=bqZSeSIG7K2c5aXt9aUdAK9WqM9QVyxRpO2w329Vxtg=;
+	s=k20201202; t=1738619840;
+	bh=v0+gldag2tUiaaZPZE9acnP6cWUjrqcuntcV+ufiniE=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=rMJxRm5wPDVYuxV7zZ3eLprQTH0/uf+YYhnnllY7mjkwLqLfTzlqOb7SQEunC2Y2s
-	 0u8EXvZmP37fuxC9F2NHUty49QA+qs5GJTfFvM8CLvClUhLr+z/FDB0UTmS0TF298R
-	 odx0Z0VlygeXVkDu6I84gOxImdPvGKFE3vsL/+h28AP2RPPpIUs1PxwmwVCCwSABzT
-	 5qdMQhJjvApPWPKisS8nlIyCC2ycGDoDW7kskk3m5LQAb1MfOEsdaFtZ/spIjImivl
-	 Lu4l0U0gWmn2aMEWvjlyt3jpTmD83Mx8b577NMzy8KVKYDwL8+SZRxndvyBH9P+z8Y
-	 80FWDKK7GnkkA==
-Date: Mon, 3 Feb 2025 22:55:01 +0100 (CET)
+	b=tdUxdf6hDIFMdyankQE2ZRVDS5OlbCws0wSGbeAES5CNYH3jyB3O66PdwIM14iQT5
+	 IosMHl3CXi9IBBlpHaFBZpVypo/fXs9Vk3++KAtycazQBSGEzOMj6d5JMGEyXja7pC
+	 oZ9AzeJV7asUfoQyOL+hloFFC/HRRsmKkprSZBfo30yz46j60UgEROsxzNUG/ETQOf
+	 7d3O0bvDy581je6k022Y60mjZ3pFPXFwsFkHWkjidBS+XJy8iqPoYUp62ffYMj3gIg
+	 Grq8DYAQDn1e+rKNeDmfCNS0QpjNw8gVw1owwboGj5jkyMau7IBgll62pn62WM9i2R
+	 GgNU9zasr24Cg==
+Date: Mon, 3 Feb 2025 22:57:17 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Aditya Garg <gargaditya08@live.com>
-cc: "bentiss@kernel.org" <bentiss@kernel.org>, 
-    Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>, 
-    =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <thomas@t-8ch.de>, 
-    Kerem Karabay <kekrby@gmail.com>, 
-    Orlando Chamberlain <orlandoch.dev@gmail.com>, 
-    Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-    "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: Re: [PATCH RESEND v2 1/4] HID: hid-appletb-bl: add driver for the
- backlight of Apple Touch Bars
-In-Reply-To: <2B5BC9B0-F882-481C-9B09-1FF3978B655D@live.com>
-Message-ID: <4818p982-4254-985r-73r6-380497qnp41p@xreary.bet>
-References: <5AEC08E1-0AEF-49BF-94F6-AA1AD71545D0@live.com> <2B5BC9B0-F882-481C-9B09-1FF3978B655D@live.com>
+To: Alex Henrie <alexhenrie24@gmail.com>
+cc: linux-input@vger.kernel.org, benjamin.tissoires@redhat.com
+Subject: Re: [PATCH resend] HID: apple: fix up the F6 key on the Omoton KB066
+ keyboard
+In-Reply-To: <20250117061254.196702-1-alexhenrie24@gmail.com>
+Message-ID: <9r2390oo-6p84-5645-8po7-68pqr1p41p03@xreary.bet>
+References: <20241001055146.543800-1-alexhenrie24@gmail.com> <20250117061254.196702-1-alexhenrie24@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 3 Feb 2025, Aditya Garg wrote:
+On Thu, 16 Jan 2025, Alex Henrie wrote:
 
-> From: Kerem Karabay <kekrby@gmail.com>
->=20
-> This commit adds a driver for the backlight of Apple Touch Bars on x86
-> Macs. Note that currently only T2 Macs are supported.
->=20
-> This driver is based on previous work done by Ronald Tschal=C3=A4r
-> <ronald@innovation.ch>.
->=20
-> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
-> Co-developed-by: Aditya Garg <gargaditya08@live.com>
-> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+> The Omoton KB066 is an Apple A1255 keyboard clone (HID product code
+> 05ac:022c). On both keyboards, the F6 key becomes Num Lock when the Fn
+> key is held. But unlike its Apple exemplar, when the Omoton's F6 key is
+> pressed without Fn, it sends the usage code 0xC0301 from the reserved
+> section of the consumer page instead of the standard F6 usage code
+> 0x7003F from the keyboard page. The nonstandard code is translated to
+> KEY_UNKNOWN and becomes useless on Linux. The Omoton KB066 is a pretty
+> popular keyboard, judging from its 29,058 reviews on Amazon at time of
+> writing, so let's account for its quirk to make it more usable.
+> 
+> By the way, it would be nice if we could automatically set fnmode to 0
+> for Omoton keyboards because they handle the Fn key internally and the
+> kernel's Fn key handling creates undesirable side effects such as making
+> F1 and F2 always Brightness Up and Brightness Down in fnmode=1 (the
+> default) or always F1 and F2 in fnmode=2. Unfortunately I don't think
+> there's a way to identify Bluetooth keyboards more specifically than the
+> HID product code which is obviously inaccurate. Users of Omoton
+> keyboards will just have to set fnmode to 0 manually to get full Fn key
+> functionality.
+> 
+> Signed-off-by: Alex Henrie <alexhenrie24@gmail.com>
 > ---
->  drivers/hid/Kconfig          |  10 ++
->  drivers/hid/Makefile         |   1 +
->  drivers/hid/hid-appletb-bl.c | 207 +++++++++++++++++++++++++++++++++++
->  drivers/hid/hid-quirks.c     |   4 +-
->  4 files changed, 221 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/hid/hid-appletb-bl.c
->=20
-> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> index 4d2a89d65..f6678db27 100644
-> --- a/drivers/hid/Kconfig
-> +++ b/drivers/hid/Kconfig
-> @@ -148,6 +148,16 @@ config HID_APPLEIR
-> =20
->  =09Say Y here if you want support for Apple infrared remote control.
-> =20
-> +config HID_APPLETB_BL
-> +=09tristate "Apple Touch Bar Backlight"
-> +=09depends on BACKLIGHT_CLASS_DEVICE
-> +=09help
-> +=09  Say Y here if you want support for the backlight of Touch Bars on x=
-86
-> +=09  MacBook Pros.
+>  drivers/hid/hid-apple.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+> index 7e1ae2a2bcc2..9767d17941d0 100644
+> --- a/drivers/hid/hid-apple.c
+> +++ b/drivers/hid/hid-apple.c
+> @@ -545,6 +545,9 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+>  		}
+>  	}
+>  
+> +	if (usage->hid == 0xc0301) /* Omoton KB066 quirk */
+> +		code = KEY_F6;
 > +
-> +=09  To compile this driver as a module, choose M here: the
-> +=09  module will be called hid-appletb-bl.
-> +
->  config HID_ASUS
->  =09tristate "Asus"
->  =09depends on USB_HID
-> diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-> index 24de45f36..444d24cec 100644
-> --- a/drivers/hid/Makefile
-> +++ b/drivers/hid/Makefile
-> @@ -29,6 +29,7 @@ obj-$(CONFIG_HID_ALPS)=09=09+=3D hid-alps.o
->  obj-$(CONFIG_HID_ACRUX)=09=09+=3D hid-axff.o
->  obj-$(CONFIG_HID_APPLE)=09=09+=3D hid-apple.o
->  obj-$(CONFIG_HID_APPLEIR)=09+=3D hid-appleir.o
-> +obj-$(CONFIG_HID_APPLETB_BL)=09+=3D hid-appletb-bl.o
 
-Is there a reason not to build hid-appletb-bl into hid-apple(.ko) driver=20
-proper?
-
-Otherwise the code looks good to me, but I'd prefer to have this built-in=
-=20
-as we generally try to keep things contained in one single per-vendor HID=
-=20
-driver.
+Sorry, it's not clear to me from the changelog why it's not possible to 
+make this quirk apply only in case we're known to have 0x5ac/0x022c 
+device. Is this VID/PID shared with other, differently-behaving devices?
 
 Thanks,
 
---=20
+-- 
 Jiri Kosina
 SUSE Labs
 
