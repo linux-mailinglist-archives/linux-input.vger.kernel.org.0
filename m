@@ -1,89 +1,113 @@
-Return-Path: <linux-input+bounces-9707-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9708-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2EAA256C2
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 11:17:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5930AA256FC
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 11:34:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9160F161BEA
-	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 10:17:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F14D53A4E93
+	for <lists+linux-input@lfdr.de>; Mon,  3 Feb 2025 10:34:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77E6B1BEF8A;
-	Mon,  3 Feb 2025 10:17:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D94D200110;
+	Mon,  3 Feb 2025 10:34:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QDwB0XbD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V8ItnX1b"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543BE38F83
-	for <linux-input@vger.kernel.org>; Mon,  3 Feb 2025 10:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA1B70809;
+	Mon,  3 Feb 2025 10:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738577874; cv=none; b=Z4+2RD0i8GGqDUDI73yHLzHGWS3fTFi3Qwkng6Df0b6ke9g/oF+/lBG7kmlEHohWm5NMpipi4v4igj6o/Dwt22evxTPOvD8wnNphfHzqMXs7i5I79KyGgryVZWnbh9m4ehfszqVWMJUNUQUWymqLOWqNkd4Ovten04RoCU1WZUw=
+	t=1738578853; cv=none; b=kAtQRjphXcfOhZpl+TcSacgy+YYFY5AReBelKVVoHxBtt2lOJMQZVuieloN4r4fUbnUl7s5wu44SXdMoGu1p0A8bDVCSNSVaUtgdfpWcbMZY7irv63dV9NqdwEjHgtsqDnVsylb0JTx3vcgsUpfes9sks+rKtAGNPPVrckPR0l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738577874; c=relaxed/simple;
-	bh=rmK0ntli1FdiD2wANbKF7BYqJwlUrb4P759zHdS+N/s=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=tTuN1T9Tqk79YJF71gIaEprUBmg2LYUDaEZBhU1G9K5xIFoaIO+a45lZ8LzgzZXNlnUg9l4FmK3+SyUvUucuqgxDJeXozfSv2dz/9vfIlwuNz1r/eGGpIe5ygo7ThuwcACxo5VYrGjVH9ga3AvLuzpIXLjKplI3iiEGJlO512Vk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QDwB0XbD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62F0CC4CEE0;
-	Mon,  3 Feb 2025 10:17:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738577872;
-	bh=rmK0ntli1FdiD2wANbKF7BYqJwlUrb4P759zHdS+N/s=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=QDwB0XbDG7zlBKE2m2DvWCbBhDviD9fNPWXkn2jRHl88qXxq6xqJ7cCwoVTwG68P8
-	 n9nf+MjzIr++sbP/K3NSZtT6LQWvLzh+ORuJ99QmhlAyPeNwzFqf3QZhCgicyikLFn
-	 xoVNhOTioPaPxK/+K3enoTB4pWkgYes8hl3HaG1HPg29W0tvSy6m98rxOlSdx5nJPS
-	 ertlbJpyd8wtrgFQaBE0EHDZ5NbnqF2hGKH55ZBw+dL7Miu/2Gi7aD/lkxFtbv6UtS
-	 ostD5D0L/ac3+iAqPTEYac5ip6+Od4/18A8ecj/gSrdkgycqbawu3LOHGqV0ET1V0V
-	 Fl2xnKp7PoL8g==
-Date: Mon, 3 Feb 2025 11:17:49 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Vicki Pfau <vi@endrift.com>
-cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    linux-input@vger.kernel.org, Eugeny Shcheglov <eugenyshcheglov@gmail.com>
-Subject: Re: [PATCH] HID: hid-steam: Fix issues with disabling both gamepad
- mode and lizard mode
-In-Reply-To: <20250116012816.3478021-1-vi@endrift.com>
-Message-ID: <5s2nq40n-so5p-o2o0-rpn2-7n89prp18880@xreary.bet>
-References: <20250116012816.3478021-1-vi@endrift.com>
+	s=arc-20240116; t=1738578853; c=relaxed/simple;
+	bh=uSP3FZGaYgB1Er254idTwB7j/p+pfihDDklq8RXpqDY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AY0sjm11WRI7Aa8qMsMWrq23K1iMofI7XeFQQzzn8/LOnQYKVRg55pAhFCcVJePRmeZ3FqQjNprxRLGDfioO2NUu7sJpLxpXREhrKJUTqtVmCGj0ekfe1kjyXq0Wku8Hjb4WkUdkOy3MIjy6XfY8DYnxUL/RpaSSjTkGc75uYuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V8ItnX1b; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738578852; x=1770114852;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uSP3FZGaYgB1Er254idTwB7j/p+pfihDDklq8RXpqDY=;
+  b=V8ItnX1bF97TaddkGth7+JiAUFHUuoLbJF17TjkjHlSs0++WGvf/QTgo
+   zRNtxmqmcfE3XN79wir34i91hV9xLPpWWeMIOEeUcotV2nOYXkTGmXRMm
+   sZwErn9HisRhYjCPgVl5GWsYSGodzcMWx4VEIQtMMjqojhJ+hZO9FM+Go
+   uHP3SFqlhG8aE3cJ6Q1sDdCkELBPeMlU1jkooj2AlCIc8oFQtZYwqUkI1
+   ieV59Z8XoFiBt5CeaRRJxnoqMnaMW+z0zlilMBuVre7t2yGm09p4Z8EGz
+   cMDs2Ifsz7zxr0cMqvpqMV0W4kGJammJXNPbd+RM6gkzrT84+MsPb8ing
+   g==;
+X-CSE-ConnectionGUID: ffHgfInsQTab2kahgY63gA==
+X-CSE-MsgGUID: 8BdOZRnjT7KtLMPAWqwxew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="42722111"
+X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
+   d="scan'208";a="42722111"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 02:34:11 -0800
+X-CSE-ConnectionGUID: mAtv9XmoS/GK/ej27d7W2Q==
+X-CSE-MsgGUID: DOC0sd2ERJ2eWClI1z6NAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
+   d="scan'208";a="141123795"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 02:34:07 -0800
+Date: Mon, 3 Feb 2025 12:34:03 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, linus.walleij@linaro.org,
+	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
+	lgirdwood@gmail.com, broonie@kernel.org, sre@kernel.org,
+	jic23@kernel.org, przemyslaw.kitszel@intel.com,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-iio@vger.kernel.org
+Subject: Re: [PATCH v3 00/20] Split devres APIs to device/devres.h and
+ introduce devm_kmemdup_array()
+Message-ID: <Z6Cbm3XAG-8XPvoU@black.fi.intel.com>
+References: <20250203080902.1864382-1-raag.jadav@intel.com>
+ <Z6CRBDpXpPha07mf@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z6CRBDpXpPha07mf@smile.fi.intel.com>
 
-On Wed, 15 Jan 2025, Vicki Pfau wrote:
-
-> When lizard mode is disabled, there were two issues:
+On Mon, Feb 03, 2025 at 11:48:52AM +0200, Andy Shevchenko wrote:
+> On Mon, Feb 03, 2025 at 01:38:42PM +0530, Raag Jadav wrote:
+> > This series
+> > 
+> > 1. Splits device/devres.h for the users that are only interested in devres APIs.
+> >    Original work by Andy Shevchenko:
+> >    https://lore.kernel.org/r/20241203195340.855879-1-andriy.shevchenko@linux.intel.com
+> > 
+> > 2. Introduces a more robust and cleaner devm_kmemdup_array() helper and uses it
+> >    across drivers.
+> > 
+> > The idea behind embedding both work into a single series is to reduce conflicts
+> > and dependencies while merging.
+> > 
+> > v2: Use size_mul() for multiplication (Dmitry)
+> >     Update commit message (Dmitry)
+> > 
+> > v3: Embed devres.h work by Andy
 > 
-> 1. Switching between gamepad mode and desktop mode still functioned, even
-> though desktop mode did not. This lead to the ability to "break" gamepad mode
-> by holding down the Options key even while lizard mode is disabled
+> >     Add more users of devm_kmemdup_array()
 > 
-> 2. If you were in desktop mode when lizard mode is disabled, you would
-> immediately enter this faulty mode.
-> 
-> This patch properly disables the ability to switch between gamepad mode and the
-> faulty desktop mode by holding the Options key, as well as effectively removing
-> the faulty mode by bypassing the early returns if lizard mode is disabled.
-> 
-> Reported-by: Eugeny Shcheglov <eugenyshcheglov@gmail.com>
-> Signed-off-by: Vicki Pfau <vi@endrift.com>
-> ---
->  drivers/hid/hid-steam.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> I understand the desire to cover as much as possible, but it becomes much
+> harder to coordinate.
 
-Applied, thanks.
+I have a few more patches which I'm delaying to reduce dependency.
 
--- 
-Jiri Kosina
-SUSE Labs
-
+Raag
 
