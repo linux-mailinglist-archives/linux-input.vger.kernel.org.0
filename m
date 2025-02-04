@@ -1,149 +1,139 @@
-Return-Path: <linux-input+bounces-9761-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9762-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6328AA27ACF
-	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2025 20:04:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC09A27CBD
+	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2025 21:24:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6CEBB3A5EBC
-	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2025 19:04:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 772811886768
+	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2025 20:24:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D5D0219A90;
-	Tue,  4 Feb 2025 19:04:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD85621A446;
+	Tue,  4 Feb 2025 20:24:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qm55WJ7V"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UmdQstuR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD78216E19;
-	Tue,  4 Feb 2025 19:04:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C71B219A80;
+	Tue,  4 Feb 2025 20:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738695861; cv=none; b=auX9Xr00e/O6lHt6kQ7UhoNFsu6OybPxgpBbBb6Fr71DpPo2qxAm4ZznOjQMoLXru2d5/wgzvj8eGopcMsPRQZt1fUYjQHPCGGFifT6jMD5/31Sfj7Skc9ZG+BKaPcrct+HyfAuUMQiuXeIZWjKOyVlgYH+umKPfcCBkeqsaUoU=
+	t=1738700662; cv=none; b=YviJBdOGYukaeMQ65ax8tyJBlOyYmk9LGypoUKnwzvQmdoz2lirsX7fRAzxgptLSI+dy1vbbBrFtH3No1QRbfgfbTUKlayKflr1j91AtJH5Dm+jxaq5+CSWt5l5EtnOYac+S/QqiQwQuCqkoaOnK4kpKv0+TVTmQvMMJC62il54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738695861; c=relaxed/simple;
-	bh=v8r4gg3IpnzC66jwjrXxr6aYUfmgZLy5LJ4cFgHuXWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ufimIT3VUUQIrjmwRAP5ttDJCcKCey/XnGxlKmNKF9an6qSh2i+GDR3A8GlKrkyU7I4ubBCJ4NIe8zUeaa0uTVHWK5Dc7p/DFJ/uAeoe4ezE+xMBxhgMhGi1cLHKIW90OWOrTIIFk4lZomre968Nts1G1GITAWhQrb0wMMz5bUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qm55WJ7V; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A038BC4CEE6;
-	Tue,  4 Feb 2025 19:04:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738695860;
-	bh=v8r4gg3IpnzC66jwjrXxr6aYUfmgZLy5LJ4cFgHuXWk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qm55WJ7V++ofH+9NdJIp2TUVPrgUBOq3LYr0DXa0rfxPMshEJdxIA1e6+0WNngOo6
-	 g0wvmw5eeQJyGSGZxqCw76SPDx2aEaYvrlfDdhRqVaIQrs37h09DmmdUHHfoUky1NE
-	 eyA+BL6k7iwn8iXkhIWfL8nQCgrqUR4a34o90tjkKmqHJbyYZLf9R/lNjTMl0K7jVR
-	 OoZtK/QrD7Pb3ftUogY/lomBj+fMekVJ/wvBTMc2xiuQe69zrLYHMFhV09OIlxNvmf
-	 NFVy+myPKj4Hh8ktc1Fk/Cup/FIQ4BSfTdzd17nViB1zBZ2b6r3EtZ84FQOj/xmJKg
-	 TNKfxMx0CGclg==
-Date: Tue, 4 Feb 2025 11:04:17 -0800
-From: Namhyung Kim <namhyung@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Quentin Monnet <qmo@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, bpf <bpf@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	"linux-perf-use." <linux-perf-users@vger.kernel.org>,
-	Linux Power Management <linux-pm@vger.kernel.org>,
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/2] tools: Unify top-level quiet infrastructure
-Message-ID: <Z6JksXDRh8OSAh-u@google.com>
-References: <20250203-quiet_tools-v1-0-d25c8956e59a@rivosinc.com>
- <CAADnVQKTqRBQBA-yxB9EYPMgayP3rOE4iDhg+QD++2d=jxfY=Q@mail.gmail.com>
- <Z6JdwSsAk1xCiSrn@ghost>
+	s=arc-20240116; t=1738700662; c=relaxed/simple;
+	bh=NgystBFVek4rgDALMPoy4tnJt9RIepRqklwo877v7FY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IZ3VqQ91n1bfPIZ4fxhq74Nyz+wjaST5WrgMXOTieCovD8/Ac+s1IeRgm8AfSHZ2fey9iIzj4GdV3TFQVUoVcrM+Vcns54s5aKQeTliJv2uArB8BG1ulFdao/BSVVFtLZ4mSUc07/QTt7lpU3WaQw2756o4nCqYY+bXOWutw0sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UmdQstuR; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2167141dfa1so2870595ad.1;
+        Tue, 04 Feb 2025 12:24:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738700660; x=1739305460; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GmYL3e8nYiPwvOrOQu/ZYZA6EzN4lzKoCHbW66QWa58=;
+        b=UmdQstuRddFDEE8RXmTRx7C99kHBLtnDRN9TZnittmd8+A6uxz0yzCdKzE3TkNMCk/
+         mXZi8Z5dEVjBin4h8X+oF51hPvCLbqGhZoYCoTrPBbcfAeVoLMavBWE9ajLJVgB/TBVa
+         ekciSuMt25Grwpo21TFpUzHC6SqU10XgvfjL1FqMu9DjAwrEq3AUcgvdpATyaFrBDA8X
+         iJc1/yYi3KlsC54xbTTDB2MUVs6GqcMGNcfqpKqpylbHZJFKrMY4WYiGe+TmrjwWzk7w
+         IKfWj/9qRsw3sQAIdJQlH63hIJ9CY9ZBTalWRryp/HhzJ54gECpEoa0b6XbbaBqLb+tq
+         hPmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738700660; x=1739305460;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GmYL3e8nYiPwvOrOQu/ZYZA6EzN4lzKoCHbW66QWa58=;
+        b=kEU49gL3TIVEUoR6967DtrKz5u4MCpebbqTq7yNAIAnKGhBaS+2+7ZFBjcod5FIsuo
+         /aqcTh8l2werGIw759IwN43JlhF1NdyJlhA4JiRj9mun0ZEjXfj3VNKBceLp6bMh029Q
+         7+fAgNNaNyMVBf+DqpgIQfF2XzXJJQtS/YxQ96l2tC2Vh+Vf+FVrS1YvcOgU59lIEX1/
+         S7vDO/SBkFh5K4N1MEDH/VHnuiMKcTgs30Vupiq9MHw0iEN4ub67wKnTU+P4LghdVamH
+         uX6K/M6Ciuqx/BIqff1MzoUnLf0KNf+s/IhhQ0FFAqX+PQUg/SP9+gEKMRtMkR/1Y1fA
+         pRAA==
+X-Forwarded-Encrypted: i=1; AJvYcCUIX72JWVmV0JokJFsi2lzhMw1BbggOB2bOAhHiNrf/mxD1w8a7uTFPSxHrkNTenfbYCkbxlLwTBhRASWQ=@vger.kernel.org, AJvYcCUe7ByaRn77I6bW/37D8G5h77rSHUzzHZfIAOFTcqQLn8UsoTuS6Ghv6VzlhDsrUrCOtAJNysChX6OKtjZJ@vger.kernel.org, AJvYcCVak2jS7284QI/q5tNL6PFfgex2wIBpUgwoil75yylutGddMKhQG6p5DA1e5dH5Dss3hIP1SwjKqAI=@vger.kernel.org, AJvYcCVi+WlZqfO0/yiU/CdITJRgAhyuknPyIFpP/i2g5RRuGzfpkVBAbSM5r5uCHD/sNuDL+4Y0UfOaHSrvu0E=@vger.kernel.org, AJvYcCXHyPoovCrzv22iy+OMxEGbjeaK8N0IfLLTHg0GcLqi09nmsF+AVHrRCIZHMNNe043cqCwdu7qJOBNf@vger.kernel.org
+X-Gm-Message-State: AOJu0YySfIgITkU7LncW8mnOOmFRFlmzPJ5G0kd9r7q+BWNbmgTVg3P0
+	97YSfHCgYr1BOiMrHBxWUU+T9XSa/3aljo4Nd5Nt7L2oZnICKQIv
+X-Gm-Gg: ASbGncs94Jen/i0t1yXxo1uP+gsk+ScsiCTbUPvyfni6Uvr7CmMUnZD2GcbpfBARQOD
+	UqkRlgiYy713nQBI3Ku+K2gG9mpmYsnXUtw7o2izR2Bmm9fFniay+2INLjYSoVm3Gd3RFABa0LL
+	oea8AU76AsmiOqB5/rZaiTvg45qq30q/ypWoK3w7b8dhHuP6Aj9hxLB+8qtv5qQoTiRml6nR+UI
+	uCLRelell/bK0yXpuRvQtQTL+3kMXnuQGhxyt8+bpEOKcYyeHxXacfjdro9QBP+p6IEaFNDfoXp
+	wTz8DQsehNmYJ6WT37RWrPEcVZB1XFbut1ZPgRSKH71ml74ZL3NJQ7ltFbTH4kUYNE8=
+X-Google-Smtp-Source: AGHT+IEyVcSQipBCNCsftZmHfqSpmk5D2wno+KimvTtSCQ1lngze1gSouuQw4tUMvdxO3FTOfFDU3Q==
+X-Received: by 2002:a17:902:da84:b0:216:3f6e:fabd with SMTP id d9443c01a7336-21f01c17563mr64580695ad.7.1738700660282;
+        Tue, 04 Feb 2025 12:24:20 -0800 (PST)
+Received: from ?IPV6:2409:40c0:1019:6a4a:444:3a1c:6970:6cad? ([2409:40c0:1019:6a4a:444:3a1c:6970:6cad])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f848acbd99sm11706439a91.46.2025.02.04.12.24.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Feb 2025 12:24:19 -0800 (PST)
+Message-ID: <ec91ca3b-d348-49b4-88b2-a3ce97ce2a2d@gmail.com>
+Date: Wed, 5 Feb 2025 01:54:11 +0530
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z6JdwSsAk1xCiSrn@ghost>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Fix spelling and grammatical issues
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: jikos@kernel.org, bentiss@kernel.org, corbet@lwn.net, jdelvare@suse.com,
+ linux@roeck-us.net, skhan@linuxfoundation.org, linux-usb@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org
+References: <20250204134806.28218-1-purvayeshi550@gmail.com>
+ <2025020411-ravine-stand-530a@gregkh>
+Content-Language: en-US
+From: Purva Yeshi <purvayeshi550@gmail.com>
+In-Reply-To: <2025020411-ravine-stand-530a@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello,
-
-On Tue, Feb 04, 2025 at 10:34:41AM -0800, Charlie Jenkins wrote:
-> On Tue, Feb 04, 2025 at 05:18:42PM +0000, Alexei Starovoitov wrote:
-> > On Tue, Feb 4, 2025 at 12:10 AM Charlie Jenkins <charlie@rivosinc.com> wrote:
-> > >
-> > > The quiet infrastructure was moved out of Makefile.build to accomidate
-> > > the new syscall table generation scripts in perf. Syscall table
-> > > generation wanted to also be able to be quiet, so instead of again
-> > > copying the code to set the quiet variables, the code was moved into
-> > > Makefile.perf to be used globally. This was not the right solution. It
-> > > should have been moved even further upwards in the call chain.
-> > > Makefile.include is imported in many files so this seems like a proper
-> > > place to put it.
-> > >
-> > > To:
-> > >
-> > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > > ---
-> > > Charlie Jenkins (2):
-> > >       tools: Unify top-level quiet infrastructure
-> > >       tools: Remove redundant quiet setup
-> > >
-> > >  tools/arch/arm64/tools/Makefile           |  6 -----
-> > >  tools/bpf/Makefile                        |  6 -----
-> > >  tools/bpf/bpftool/Documentation/Makefile  |  6 -----
-> > >  tools/bpf/bpftool/Makefile                |  6 -----
-> > >  tools/bpf/resolve_btfids/Makefile         |  2 --
-> > >  tools/bpf/runqslower/Makefile             |  5 +---
-> > >  tools/build/Makefile                      |  8 +-----
-> > >  tools/lib/bpf/Makefile                    | 13 ----------
-> > 
-> > Nack.
-> > libbpf and bpftool are synced independently to github
-> > and released from there.
-> > This change breaks it.
-
-Sorry, I overlooked this part and merged a change that touched the
-common files into the perf tree.
-
-f2868b1a66d4f40f ("perf tools: Expose quiet/verbose variables in Makefile.perf")
-
-Unfortunately, it's already in v6.14-rc1.
-
+On 04/02/25 19:37, Greg KH wrote:
+> On Tue, Feb 04, 2025 at 07:18:06PM +0530, Purva Yeshi wrote:
+>> Fix several spelling and grammatical errors across multiple
+>> documentation files.
+>>
+>> Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
 > 
-> Can you explain how it breaks it? Currently bpftool and resolve_btfids
-> don't build quietly so this was an attempt to fix that.
+> Hi,
+> 
+> This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+> a patch that has triggered this response.  He used to manually respond
+> to these common problems, but in order to save his sanity (he kept
+> writing the same thing over and over, yet to different people), I was
+> created.  Hopefully you will not take offence and will fix the problem
+> in your patch and resubmit it so that it can be accepted into the Linux
+> kernel tree.
+> 
+> You are receiving this message because of the following common error(s)
+> as indicated below:
+> 
+> - Your patch did many different things all at once, making it difficult
+>    to review.  All Linux kernel patches need to only do one thing at a
+>    time.  If you need to do multiple things (such as clean up all coding
+>    style issues in a file/driver), do it in a sequence of patches, each
+>    one doing only one thing.  This will make it easier to review the
+>    patches to ensure that they are correct, and to help alleviate any
+>    merge issues that larger patches can cause.
+> 
+> 
+> If you wish to discuss this problem further, or you have questions about
+> how to resolve this issue, please feel free to respond to this email and
+> Greg will reply once he has dug out from the pending patches received
+> from other developers.
+> 
+> thanks,
+> 
+> greg k-h's patch email bot
 
-So I think you will need something like this for v6.14.  Again, sorry
-about the trouble.
-
-Thanks,
-Namhyung
-
+I understand and will split my patch into smaller, logically grouped 
+changes to make the review process easier. I will resend the patches 
+accordingly.
 
