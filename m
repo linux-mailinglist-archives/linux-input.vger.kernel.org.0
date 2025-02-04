@@ -1,79 +1,65 @@
-Return-Path: <linux-input+bounces-9765-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9766-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31399A27CE1
-	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2025 21:40:51 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5A8A27E0C
+	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2025 23:09:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF3F81883052
-	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2025 20:40:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 89D347A0FDF
+	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2025 22:08:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5050521A426;
-	Tue,  4 Feb 2025 20:40:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77C4821ADB9;
+	Tue,  4 Feb 2025 22:09:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WwAbA/IT"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="E34U5F+c"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859832046B1;
-	Tue,  4 Feb 2025 20:40:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A41C0204F9F;
+	Tue,  4 Feb 2025 22:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738701644; cv=none; b=S5GAVUBrDuS184DW6rWPFTO4Y9kCng2tOD4esGxn65J14r+Il0NWnV+NdEqvcArYR5b0MupIZgmN7GSCGHIGTvSHjnJUElr+r44DLrACLQOb/QDFBhWXwk2kxFJdmmmqvYkhGvSV5mBfuN/T9/v93DXmRLYS0mxMj/9vAED0AVM=
+	t=1738706956; cv=none; b=LacRPobMeBhNiv6EqxBEkt8OZ6N5Wl4ApqKwKsCgAKu8jhY0v19WRijNdQHcSRfpo8NZgcZor1bBfAhendaGkZsJYN0KIc3RO21pgA8BmmFokEcoN8gBYUdPR7uUg/gomyWUviNZbxy95T+fa7frgF/1Cd5rohAsjOPXV3PXros=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738701644; c=relaxed/simple;
-	bh=SRzMGSmtEpDXjUNmYyZL8fks6sLAEiToYs7/QGOqyV4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WBWz+6Ic9f1v4hMLd+3ZO9JsDjqFd1rsOqOee5tEFh3SLX3ON336j8pRfo+LVoYpO4pEHAAw0TUO4PTnBFcdnFAANDBe0XX8g+rFNBj4Umoj3qpufnnu1VVZVrTKNPajjryrniAmzRhJwbHgKs3ytJO1l+V9Dg/KBv5BgzFhfNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WwAbA/IT; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-215770613dbso83050665ad.2;
-        Tue, 04 Feb 2025 12:40:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738701642; x=1739306442; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=u+oFMBIcsMhdHIl+irdZsSx263bXUd1INL92x0rjbcI=;
-        b=WwAbA/ITuF6Co3/ndOdDBHmXef/fBf3fFn1xUPr1mo1eZK2lftRbVc60Yi20tQp9EJ
-         DYfu7+sfYWYOnEZTbrLs+bSqX1zpFs8/iKHSvqLNkyBZKl8pzsE+PJrqSw2xTsPPLwAo
-         AAc6pQL4d27Mg6MtMD91MkhikR97CfKapVdC8p/oFdoFCaFS1hTHYcIrq9M3/IPN9MSD
-         MuKxgsVPerHm8r8KiYyhaE10IR5jCDNziN6WykAIP2yPygxaWZ5oHltohsTqYEcGvrsN
-         1ZTVbSnPsGVAYzff4xJ6kU9EpAejEr/bwa56sIo3R3RfTHn04C+zv1D3UO2u5CKHSGV3
-         KNSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738701642; x=1739306442;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u+oFMBIcsMhdHIl+irdZsSx263bXUd1INL92x0rjbcI=;
-        b=P0JF2akW5r70h3oX0A/8UjBBjrt9fglBi4Y9BF6iSsXJSpRSaVr83jUJvsoCFlUjbi
-         G/TxIkER3xJWL99CjUWOTO0+MtWGVt6bf6WTHrjOXW/r7L5eE7QeS7lsBgasVL9mjG17
-         rA3ZotlZy4giJd3wPB72BZxunoD0hrt7zKA5Gw85kx0jvbU45+ScvWJgy+DPozSm+tII
-         IsuNYZX1qqRHGQqYHXLCcLlrKDUP1p5CrrD6o+jtAkCvb0k2rdHlOe5sXc6QMLwLy/r/
-         9hi153mucUggOWuh708O5ZZSPD8YC9NJijloX7VzHYGe/0EY/E0/H0SDetoAPfDE+AXb
-         iRxg==
-X-Forwarded-Encrypted: i=1; AJvYcCUhT4O0RiwnOX88uhFrXQctWOcNJXTwFc3r5FkB/uhHHouLe6edIQmtOpk14SIQAG6Ss6VG26vAhepmZTg=@vger.kernel.org, AJvYcCVh0S5xAmbqAsHMCKYZQY2hgPy4EGRBx0gaMT2mJSha8UWkpJn5eXZDPWiAWEynrpZRO2pYnfmw9613a4H6@vger.kernel.org, AJvYcCW/V6ZxyKDK5uNh2rrNE5mWJEp3DcYotVDo3HieIAGlb4jj+ZvyR7aVT6yQVLZPbJLH0oe+jREcg4TSLcM=@vger.kernel.org, AJvYcCW5A6XUN++V0QEQE8lCfVLeH2SLqUOBbucoVVsWV9bqWm60vfLf82QI56lOvto4aEnQ4a9z1rYkzlur@vger.kernel.org, AJvYcCXMjZznjsycTgaVNNFZYPC7Rm8sOKy+I3mPbVOv99YaTVjpYq8+5nduPRrHWPXMlFYQixUxKKh3FEU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUixCGw9bq0XNO9pFlqbVZSMr5eMfe90vIFIfPMfScA99DT0a4
-	Lxh3cgR4jyZkQO2pY46DJtGpPxJ6nBdjaprMKP2SpWEZ8XqhITiv
-X-Gm-Gg: ASbGncvKusV1qdwZBzlAUzWuCA8Yghl+8BNa+MAcYDGg9PAUNSdlx/ljxK9pyR3PiDA
-	7hEZgp3JZE3aDUldPHrbddUSec/q3c6jiQgF9dZvy1bP8/JTwOmj6B1ZJffgEzpPsWNh1AIV/o5
-	15e5+pJk33m+AcCxl2jhqp4iMolOmIr3JqLXnZIcxJB/FUqKTZgm4MGOwRmt1sG6pM1H731TZCj
-	huKeE9Iw5rXQeln6IZf3FyfXPhnSCQiaa90KqJpMLfS9EZ4riJ8/aChsTIrFuFnHVc9YMkHzert
-	+P5TFah45gJvOEuhFGFSlEPhHgzw6vrMnJAB5xujWZpvNTCtUJVtCQGDQeB+dLo0oqQ=
-X-Google-Smtp-Source: AGHT+IEMgnRd6zWWmWT3HAYd1ONtSs7GdV2ZgW3hwM5xuZtT2hsOXMfDalCcWZHgvFKbWOnzb2sGgg==
-X-Received: by 2002:a17:902:cf05:b0:216:4e9f:4ebe with SMTP id d9443c01a7336-21f17ecbc46mr3078125ad.42.1738701641447;
-        Tue, 04 Feb 2025 12:40:41 -0800 (PST)
-Received: from ?IPV6:2409:40c0:1019:6a4a:444:3a1c:6970:6cad? ([2409:40c0:1019:6a4a:444:3a1c:6970:6cad])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21de32eda31sm100872475ad.109.2025.02.04.12.40.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 12:40:41 -0800 (PST)
-Message-ID: <dba648c4-416d-4c36-b93c-8a52f44be313@gmail.com>
-Date: Wed, 5 Feb 2025 02:10:33 +0530
+	s=arc-20240116; t=1738706956; c=relaxed/simple;
+	bh=Gg1PfhQrcNZ8VVgiwmEoY2Kz2OQ3nSYToplaJpOiMtY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=msJKB1DTNJ3dPEyfxM0IH/AcR9hEYUVEmpOr2As2DNYKq78v95+yDBYA1UOiNGteSRJiAn3ImGEk+h66D1w7np+Iy7wK+gGWEqys3YbG8iy3rSilk1nw/6zfO1LoFhMA6uatX1VJ6pLcd2xIKWmmiOZifralpqR1N9cFIO2KrO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=E34U5F+c; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 514Fm7xu022076;
+	Tue, 4 Feb 2025 16:07:56 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=PY2MhJyN2ZDavDNi3Zfbs8ZAfZ9//J4YR4KOi1D3d3I=; b=
+	E34U5F+cCLqO3e4GCQtxK11/4KFuhjCgWn3XVTCCZ9NGvxDpO04SUAqSAeaLMjUb
+	0jrwQtl5y49DMsGqpE0XuN9InaVMNATTrCA3b7EbwRHyfGVp9zY/rdutt0fxp0R3
+	F0i0q7VqlcbhYTdNgqp0M+ShI9vhx57ZKQlP6yb7B4tcFQY8YiuOMCoC94Fn2BZs
+	txROUF62cPPnG8swYEYv/ZEig3AVw+KnU2sxW8aB4PusPca4BIAzrfZTYJ2hcdQZ
+	CdoTQNrqPlqSh/aQoAxs3ddqKqpkiyW2kgdNpWVU5E85SjjzGh5qlvDX3fQZAUe1
+	os9m/rj/+IlJY86XxhzCzw==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 44hgwm3q5f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Feb 2025 16:07:56 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 4 Feb
+ 2025 22:07:54 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Tue, 4 Feb 2025 22:07:54 +0000
+Received: from [141.131.145.81] (ftrev.ad.cirrus.com [141.131.145.81])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 1F983820248;
+	Tue,  4 Feb 2025 22:07:49 +0000 (UTC)
+Message-ID: <2e5ef7d4-3dd1-476e-a00e-729b372a1520@opensource.cirrus.com>
+Date: Tue, 4 Feb 2025 16:07:49 -0600
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -81,145 +67,82 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: Fix spelling and grammatical issues
-To: Randy Dunlap <rdunlap@infradead.org>, jikos@kernel.org,
- bentiss@kernel.org, corbet@lwn.net, jdelvare@suse.com, linux@roeck-us.net
-Cc: skhan@linuxfoundation.org, linux-usb@vger.kernel.org,
- linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org
-References: <20250204134806.28218-1-purvayeshi550@gmail.com>
- <460e7278-440d-47a1-bbf3-7b7fbbe2f20d@infradead.org>
+Subject: Re: [PATCH 0/7] Initial Support for CS40L26
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+        James Ogletree
+	<jogletre@opensource.cirrus.com>,
+        Dmitry Torokhov
+	<dmitry.torokhov@gmail.com>,
+        Ben Bright <ben.bright@cirrus.com>, <simont@opensource.cirrus.com>,
+        Charles Keepax
+	<ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald
+	<rf@opensource.cirrus.com>,
+        Lee Jones <lee@kernel.org>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>,
+        David Rhodes <david.rhodes@cirrus.com>, Jack Yu
+	<jack.yu@realtek.com>,
+        Igor Prusov <ivprusov@salutedevices.com>,
+        Weidong Wang
+	<wangweidong.a@awinic.com>,
+        Binbin Zhou <zhoubinbin@loongson.cn>,
+        "Luca
+ Ceresoli" <luca.ceresoli@bootlin.com>,
+        Prasad Kumpatla
+	<quic_pkumpatl@quicinc.com>,
+        Paul Handrigan <paulha@opensource.cirrus.com>,
+        Masahiro Yamada <masahiroy@kernel.org>, Nuno Sa <nuno.sa@analog.com>,
+        "Karel
+ Balej" <balejk@matfyz.cz>, Heiko Stuebner <heiko@sntech.de>,
+        Jeff LaBundy
+	<jeff@labundy.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>
+References: <20250131202057.1786324-1-ftreven@opensource.cirrus.com>
+ <c898680c-f1ac-4bfa-ac18-4b4b5c241dab@kernel.org>
+From: Fredrik Treven <ftreven@opensource.cirrus.com>
 Content-Language: en-US
-From: Purva Yeshi <purvayeshi550@gmail.com>
-In-Reply-To: <460e7278-440d-47a1-bbf3-7b7fbbe2f20d@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <c898680c-f1ac-4bfa-ac18-4b4b5c241dab@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=EPv800ZC c=1 sm=1 tr=0 ts=67a28fbc cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=IkcTkHD0fZMA:10 a=T2h4t0Lz3GQA:10 a=xyGNDrhI266FjspNsRcA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: aUfKpE_VROKpu7O2X-QbMpR1iUx5AR9M
+X-Proofpoint-GUID: aUfKpE_VROKpu7O2X-QbMpR1iUx5AR9M
+X-Proofpoint-Spam-Reason: safe
 
-On 04/02/25 23:41, Randy Dunlap wrote:
-> 
-> 
-> On 2/4/25 5:48 AM, Purva Yeshi wrote:
->> Fix several spelling and grammatical errors across multiple
->> documentation files.
+On 1/31/25 15:18, Krzysztof Kozlowski wrote:
+> On 31/01/2025 21:20, Fred Treven wrote:
+>> Introduce driver for Cirrus Logic Device CS40L26:
+>> A boosted haptics driver with integrated DSP and
+>> waveform memory with advanced closed loop algorithms
+>> and LRA protection.
 >>
->> Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
->> ---
->>   Documentation/hid/hiddev.rst                | 4 ++--
->>   Documentation/hid/intel-ish-hid.rst         | 2 +-
->>   Documentation/hid/uhid.rst                  | 2 +-
->>   Documentation/hwmon/abituguru-datasheet.rst | 8 ++++----
->>   Documentation/hwmon/abituguru.rst           | 2 +-
->>   5 files changed, 9 insertions(+), 9 deletions(-)
+>> The core CS40L26 driver is in MFD and touches the
+>> Input Force Feedback subsystem for haptics and
+>> the ASoC subsystem for audio to haptics streaming.
 >>
->> diff --git a/Documentation/hid/hiddev.rst b/Documentation/hid/hiddev.rst
->> index 9b82c7f896aa..073485f84793 100644
->> --- a/Documentation/hid/hiddev.rst
->> +++ b/Documentation/hid/hiddev.rst
->> @@ -15,10 +15,10 @@ To support these disparate requirements, the Linux USB system provides
->>   HID events to two separate interfaces:
->>   * the input subsystem, which converts HID events into normal input
->>   device interfaces (such as keyboard, mouse and joystick) and a
->> -normalised event interface - see Documentation/input/input.rst
->> +normalized event interface - see Documentation/input/input.rst
->>   * the hiddev interface, which provides fairly raw HID events
->>   
->> -The data flow for a HID event produced by a device is something like
->> +The data flow for an HID event produced by a device is something like
+>> This patchset includes changes to the CS DSP firmware
+>> driver which fixes two bugs and introduces support for
+>> multiple coefficient files.
 > 
-> Not needed IMO, since I think ("say") the word "hid" when I see HID.
+> I got two emails from you out of this entire set, not even threaded. I
+> think rest of your posting got lost.
+> 
+> Best regards,
+> Krzysztof
 
-Thank you for your feedback! I’ll revise the patch accordingly and keep 
-it unchanged in the next version.
+Thanks for pointing this out, Krzysztof. I made a mistake when sending
+the email such that patches only got sent on a per-subsystem basis
+rather than grouping all email addresses together. I will do a resend
+to resolve this.
 
-> 
->>   the following::
->>   
->>    usb.c ---> hid-core.c  ----> hid-input.c ----> [keyboard/mouse/joystick/event]
->> diff --git a/Documentation/hid/intel-ish-hid.rst b/Documentation/hid/intel-ish-hid.rst
->> index 2adc174fb576..fdabf6ec60db 100644
->> --- a/Documentation/hid/intel-ish-hid.rst
->> +++ b/Documentation/hid/intel-ish-hid.rst
->> @@ -21,7 +21,7 @@ mainly use HID over I2C or USB. But ISH doesn't use either I2C or USB.
->>   Overview
->>   ========
->>   
->> -Using a analogy with a usbhid implementation, the ISH follows a similar model
->> +Using an analogy with a usbhid implementation, the ISH follows a similar model
->>   for a very high speed communication::
->>   
->>   	-----------------		----------------------
->> diff --git a/Documentation/hid/uhid.rst b/Documentation/hid/uhid.rst
->> index 2243a6b75914..2681038cd526 100644
->> --- a/Documentation/hid/uhid.rst
->> +++ b/Documentation/hid/uhid.rst
->> @@ -106,7 +106,7 @@ UHID_INPUT2:
->>   
->>   UHID_GET_REPORT_REPLY:
->>     If you receive a UHID_GET_REPORT request you must answer with this request.
->> -  You  must copy the "id" field from the request into the answer. Set the "err"
->> +  You must copy the "id" field from the request into the answer. Set the "err"
-> 
-> That part of the patch is OK but just not worth the effort IMHO.
-
-I will revise the patch and exclude the change in uhid.rst
-
-> 
->>     field to 0 if no error occurred or to EIO if an I/O error occurred.
->>     If "err" is 0 then you should fill the buffer of the answer with the results
->>     of the GET_REPORT request and set "size" correspondingly.
->> diff --git a/Documentation/hwmon/abituguru-datasheet.rst b/Documentation/hwmon/abituguru-datasheet.rst
->> index 0cd61471d2a2..8c55874061d4 100644
->> --- a/Documentation/hwmon/abituguru-datasheet.rst
->> +++ b/Documentation/hwmon/abituguru-datasheet.rst
->> @@ -6,9 +6,9 @@ First of all, what I know about uGuru is no fact based on any help, hints or
->>   datasheet from Abit. The data I have got on uGuru have I assembled through
->>   my weak knowledge in "backwards engineering".
->>   And just for the record, you may have noticed uGuru isn't a chip developed by
->> -Abit, as they claim it to be. It's really just an microprocessor (uC) created by
->> +Abit, as they claim it to be. It's really just a microprocessor (uC) created by
->>   Winbond (W83L950D). And no, reading the manual for this specific uC or
->> -mailing  Windbond for help won't give any useful data about uGuru, as it is
->> +mailing  Winbond for help won't give any useful data about uGuru, as it is
-> 
->            ^^ 2 spaces there also.
-> 
->>   the program inside the uC that is responding to calls.
->>   
->>   Olle Sandberg <ollebull@gmail.com>, 2005-05-25
->> @@ -35,7 +35,7 @@ As far as known the uGuru is always placed at and using the (ISA) I/O-ports
->>   ports are holding for detection. We will refer to 0xE0 as CMD (command-port)
->>   and 0xE4 as DATA because Abit refers to them with these names.
->>   
->> -If DATA holds 0x00 or 0x08 and CMD holds 0x00 or 0xAC an uGuru could be
->> +If DATA holds 0x00 or 0x08 and CMD holds 0x00 or 0xAC a uGuru could be
->>   present. We have to check for two different values at data-port, because
->>   after a reboot uGuru will hold 0x00 here, but if the driver is removed and
->>   later on attached again data-port will hold 0x08, more about this later.
->> @@ -46,7 +46,7 @@ have to test CMD for two different values. On these uGuru's DATA will initially
->>   hold 0x09 and will only hold 0x08 after reading CMD first, so CMD must be read
->>   first!
->>   
->> -To be really sure an uGuru is present a test read of one or more register
->> +To be really sure a uGuru is present a test read of one or more register
->>   sets should be done.
->>   
->>   
->> diff --git a/Documentation/hwmon/abituguru.rst b/Documentation/hwmon/abituguru.rst
->> index cfda60b757ce..4a5ee16b1048 100644
->> --- a/Documentation/hwmon/abituguru.rst
->> +++ b/Documentation/hwmon/abituguru.rst
->> @@ -40,7 +40,7 @@ Supported chips:
->>   
->>   .. [2]  There is a separate abituguru3 driver for these motherboards,
->>   	the abituguru (without the 3 !) driver will not work on these
->> -	motherboards (and visa versa)!
->> +	motherboards (and vice versa)!
-> 
-> Ack.
-> 
->>   
->>   Authors:
->>   	- Hans de Goede <j.w.r.degoede@hhs.nl>,
-> 
-
+Thanks,
+Fred
 
