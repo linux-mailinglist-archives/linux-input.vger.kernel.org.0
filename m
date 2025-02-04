@@ -1,148 +1,170 @@
-Return-Path: <linux-input+bounces-9766-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9767-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5A8A27E0C
-	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2025 23:09:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19EA2A27F37
+	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2025 00:03:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 89D347A0FDF
-	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2025 22:08:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C9EE61887896
+	for <lists+linux-input@lfdr.de>; Tue,  4 Feb 2025 23:03:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77C4821ADB9;
-	Tue,  4 Feb 2025 22:09:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D6DE21C17D;
+	Tue,  4 Feb 2025 23:02:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="E34U5F+c"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dUk8M4eu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A41C0204F9F;
-	Tue,  4 Feb 2025 22:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11341FF7A5;
+	Tue,  4 Feb 2025 23:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738706956; cv=none; b=LacRPobMeBhNiv6EqxBEkt8OZ6N5Wl4ApqKwKsCgAKu8jhY0v19WRijNdQHcSRfpo8NZgcZor1bBfAhendaGkZsJYN0KIc3RO21pgA8BmmFokEcoN8gBYUdPR7uUg/gomyWUviNZbxy95T+fa7frgF/1Cd5rohAsjOPXV3PXros=
+	t=1738710177; cv=none; b=a9rHeG1jir3xBbmRh4SF7FD1FuyJD3hdh3AdTJ1wU/mleYi+cJultz7LJIm0AV/iqX1u8xBSVKmFasW/pkJv6S3HB9IXiaZHLJs8psh/Sxvzt01bOmEaP1zOEnXRE4UCivzAGCMMqM6XI2nC9prhoY8lDJse3wslLfj2VpoDS70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738706956; c=relaxed/simple;
-	bh=Gg1PfhQrcNZ8VVgiwmEoY2Kz2OQ3nSYToplaJpOiMtY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=msJKB1DTNJ3dPEyfxM0IH/AcR9hEYUVEmpOr2As2DNYKq78v95+yDBYA1UOiNGteSRJiAn3ImGEk+h66D1w7np+Iy7wK+gGWEqys3YbG8iy3rSilk1nw/6zfO1LoFhMA6uatX1VJ6pLcd2xIKWmmiOZifralpqR1N9cFIO2KrO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=E34U5F+c; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 514Fm7xu022076;
-	Tue, 4 Feb 2025 16:07:56 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=PY2MhJyN2ZDavDNi3Zfbs8ZAfZ9//J4YR4KOi1D3d3I=; b=
-	E34U5F+cCLqO3e4GCQtxK11/4KFuhjCgWn3XVTCCZ9NGvxDpO04SUAqSAeaLMjUb
-	0jrwQtl5y49DMsGqpE0XuN9InaVMNATTrCA3b7EbwRHyfGVp9zY/rdutt0fxp0R3
-	F0i0q7VqlcbhYTdNgqp0M+ShI9vhx57ZKQlP6yb7B4tcFQY8YiuOMCoC94Fn2BZs
-	txROUF62cPPnG8swYEYv/ZEig3AVw+KnU2sxW8aB4PusPca4BIAzrfZTYJ2hcdQZ
-	CdoTQNrqPlqSh/aQoAxs3ddqKqpkiyW2kgdNpWVU5E85SjjzGh5qlvDX3fQZAUe1
-	os9m/rj/+IlJY86XxhzCzw==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 44hgwm3q5f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 04 Feb 2025 16:07:56 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 4 Feb
- 2025 22:07:54 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Tue, 4 Feb 2025 22:07:54 +0000
-Received: from [141.131.145.81] (ftrev.ad.cirrus.com [141.131.145.81])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 1F983820248;
-	Tue,  4 Feb 2025 22:07:49 +0000 (UTC)
-Message-ID: <2e5ef7d4-3dd1-476e-a00e-729b372a1520@opensource.cirrus.com>
-Date: Tue, 4 Feb 2025 16:07:49 -0600
+	s=arc-20240116; t=1738710177; c=relaxed/simple;
+	bh=4chpXDmqz5lXX5/+XxyEMN/H71iHm9gxiF5XFQT7cTY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Lo4pojSp+KSSj6KBxczUz3a0cMhaunv7JC70dnvJGjZpRTI24+lXhIgXOwV4IxzcWb5OfXa9ofH8FgAg314t8Z3FPxat0wfDG6+sDzXN4yspUaK1e1gXAqzYriv0QD+KLRymPM2AeF10Kjo9S2MjC3mUAyNKfsVxvR2l0qYgido=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dUk8M4eu; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-38db10ab86cso570510f8f.3;
+        Tue, 04 Feb 2025 15:02:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738710174; x=1739314974; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IhWUg+d3sCFwJhzK5U92SB6xZl56i8PiqJiND+AD1bg=;
+        b=dUk8M4eu1llzfiD1mVJ6Ij7draREF0DbUyY0v2MifbdaN9pfJ1+id0C9F8RBENijmR
+         Lde0wrIb1iMsfbPIQ30jSp8aAlyuJrUu4YcLODXbmkNTrXeY+jCqf+hjBg7Emj4/tLy2
+         iZPhITz8DnKBUwsgb86Y8/VHKNa9XAUrfCJkMAiH/3nsCRIZK0v5etZBA+xL3vLv7sKh
+         TYI5DYYfgDJtvfhiN3KRe+D7Ngz7wVgNh2PP2icoOCWFRP4w2Gufo599ikK74FhwsVI+
+         q/bbYXdb9vbRRaIkOa1+2fHNmolurGOcZ7ueDLSL8vwB09GAaU6hMKe238SMFRhYbz4S
+         yZlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738710174; x=1739314974;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IhWUg+d3sCFwJhzK5U92SB6xZl56i8PiqJiND+AD1bg=;
+        b=BpScS6wa6YJRZWtOEY0csTwsg4fwINdiTT75V7F3LN6V4jALuK4nNrWhDcnLbYiGNl
+         zXNpv9uRrYsqs7MHF9z8x8JraNQiUISOSAYnrrgvrXQxkvyApe/B24GWaudccvv8Nvrb
+         zer1uPzJjjVJEgfFeQL4EMGXQEqALgr56LhXGOMbJmDRkAM6iPhr3wBa0QU4DsnoPl0d
+         MvMEL0xaFCkBzFj12oivU/UEefiqSA1TO2oFHZxQzsGqqEynwiWrwYDgvIDvcMiy7S+8
+         SMhXR7MJFdee8ngsIaj8wGEAZp1aZ65li822BVEKb31n6PXd3qaqB0YBgxzNYBxrRg4+
+         UqSg==
+X-Forwarded-Encrypted: i=1; AJvYcCVAnqCiaGVWifGgKYoB7x0gPXtO320m4pqcVol0p13/YpS6aapXP+M174AN2/i7WfPfe49Z8Z1R+A/II7aa@vger.kernel.org, AJvYcCW+aenhEO1n4RP9C1dUOxI1aWouTSN08kzUcI9g6x97Q90Cv/QwoZDg82TYbwIeuuIVLuGplnxXvZI9GCB6Bn96gD8p@vger.kernel.org, AJvYcCWNE8e38yv8wWzFJzoV/VjwG4mmNYLvLtvoN5w/TXGYUfpuwrrUN0wFmToYlyG4MmWVsE0oj08/0EY=@vger.kernel.org, AJvYcCWQjQKMWeFHjdyU6SwWuizR6nGKzjnbms51D13USRj7drF1es7dd1BpqXEFdGwiA8CU/OY=@vger.kernel.org, AJvYcCWYg2xlEOlBmTmp4fETDPmxigchcYB1vmLR1/5ho1xDh+9kbwL7OK7PubYDlOkOnZlbrDhlvd8tkXp6Dp6MC55q@vger.kernel.org, AJvYcCXFRfdv7qTzU9MjbaagtfI1PXvCCnCniPn1Oq0vJ+2jqB1sUFPRXBSN9n/UDGv1dMz1bfECq11kZWW4Uf1BkkXQqQ==@vger.kernel.org, AJvYcCXqkSQdQYBluuTHTrmrFVE7KGTREFyeS4iRQ3oIN9/0uFYYrG8ykQB2y9ZYOtIMnY5M6gedbUxMav27lmQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YydjOCPiah1msFc729uQoKSoVZFoTanL8+9y1AV4SQJIXD+e8z5
+	Sydwq4vueWnJ5841tSBFBgJgeBoRM8WTPejTo1fzv+J75oC42FWqVRnKAZOhHtARJMPQE+vPNcS
+	TuNFchsJ0XZCEwkMcpwGGANri5jM=
+X-Gm-Gg: ASbGnctPPPItwq0EVanpqJGT0frvj3gXJtv4oDmYFIF4giQTq/vF/JBBMXVVS50FWv1
+	wbDvidjBukLfLrIDUhPzD6ITkn6I9BrmAo3misoKiRSdN2oNwwprcvuwk7SEhCltw3ZB2RSCK
+X-Google-Smtp-Source: AGHT+IGyAesYgSc23Slj9Jv3XtZGRWcCp0H3F9Kqsj8a9rDodsyQAVoifJDYZlGi89eBGwL+TzarCw79qmfJ114u8NM=
+X-Received: by 2002:a5d:69c8:0:b0:386:37f5:99e7 with SMTP id
+ ffacd0b85a97d-38db48f3787mr319907f8f.33.1738710173606; Tue, 04 Feb 2025
+ 15:02:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] Initial Support for CS40L26
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-        James Ogletree
-	<jogletre@opensource.cirrus.com>,
-        Dmitry Torokhov
-	<dmitry.torokhov@gmail.com>,
-        Ben Bright <ben.bright@cirrus.com>, <simont@opensource.cirrus.com>,
-        Charles Keepax
-	<ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald
-	<rf@opensource.cirrus.com>,
-        Lee Jones <lee@kernel.org>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>,
-        David Rhodes <david.rhodes@cirrus.com>, Jack Yu
-	<jack.yu@realtek.com>,
-        Igor Prusov <ivprusov@salutedevices.com>,
-        Weidong Wang
-	<wangweidong.a@awinic.com>,
-        Binbin Zhou <zhoubinbin@loongson.cn>,
-        "Luca
- Ceresoli" <luca.ceresoli@bootlin.com>,
-        Prasad Kumpatla
-	<quic_pkumpatl@quicinc.com>,
-        Paul Handrigan <paulha@opensource.cirrus.com>,
-        Masahiro Yamada <masahiroy@kernel.org>, Nuno Sa <nuno.sa@analog.com>,
-        "Karel
- Balej" <balejk@matfyz.cz>, Heiko Stuebner <heiko@sntech.de>,
-        Jeff LaBundy
-	<jeff@labundy.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>
-References: <20250131202057.1786324-1-ftreven@opensource.cirrus.com>
- <c898680c-f1ac-4bfa-ac18-4b4b5c241dab@kernel.org>
-From: Fredrik Treven <ftreven@opensource.cirrus.com>
-Content-Language: en-US
-In-Reply-To: <c898680c-f1ac-4bfa-ac18-4b4b5c241dab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=EPv800ZC c=1 sm=1 tr=0 ts=67a28fbc cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=IkcTkHD0fZMA:10 a=T2h4t0Lz3GQA:10 a=xyGNDrhI266FjspNsRcA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: aUfKpE_VROKpu7O2X-QbMpR1iUx5AR9M
-X-Proofpoint-GUID: aUfKpE_VROKpu7O2X-QbMpR1iUx5AR9M
-X-Proofpoint-Spam-Reason: safe
+References: <20250203-quiet_tools-v1-0-d25c8956e59a@rivosinc.com>
+ <CAADnVQKTqRBQBA-yxB9EYPMgayP3rOE4iDhg+QD++2d=jxfY=Q@mail.gmail.com>
+ <Z6JdwSsAk1xCiSrn@ghost> <Z6JksXDRh8OSAh-u@google.com>
+In-Reply-To: <Z6JksXDRh8OSAh-u@google.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Tue, 4 Feb 2025 23:02:42 +0000
+X-Gm-Features: AWEUYZlmDbliSpI2sm1GIy7yJu4eHOxWwrFAjie_1pp1QQTtFuZzNJaDrMgxEhU
+Message-ID: <CAADnVQKmKf6wY3dg+PfAxtrrFWGO7D-m83dEndjWksPfWDt5wQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] tools: Unify top-level quiet infrastructure
+To: Namhyung Kim <namhyung@kernel.org>
+Cc: Charlie Jenkins <charlie@rivosinc.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, Quentin Monnet <qmo@kernel.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, bpf <bpf@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, 
+	"linux-perf-use." <linux-perf-users@vger.kernel.org>, 
+	Linux Power Management <linux-pm@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, 
+	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/31/25 15:18, Krzysztof Kozlowski wrote:
-> On 31/01/2025 21:20, Fred Treven wrote:
->> Introduce driver for Cirrus Logic Device CS40L26:
->> A boosted haptics driver with integrated DSP and
->> waveform memory with advanced closed loop algorithms
->> and LRA protection.
->>
->> The core CS40L26 driver is in MFD and touches the
->> Input Force Feedback subsystem for haptics and
->> the ASoC subsystem for audio to haptics streaming.
->>
->> This patchset includes changes to the CS DSP firmware
->> driver which fixes two bugs and introduces support for
->> multiple coefficient files.
-> 
-> I got two emails from you out of this entire set, not even threaded. I
-> think rest of your posting got lost.
-> 
-> Best regards,
-> Krzysztof
+On Tue, Feb 4, 2025 at 7:04=E2=80=AFPM Namhyung Kim <namhyung@kernel.org> w=
+rote:
+>
+> Hello,
+>
+> On Tue, Feb 04, 2025 at 10:34:41AM -0800, Charlie Jenkins wrote:
+> > On Tue, Feb 04, 2025 at 05:18:42PM +0000, Alexei Starovoitov wrote:
+> > > On Tue, Feb 4, 2025 at 12:10=E2=80=AFAM Charlie Jenkins <charlie@rivo=
+sinc.com> wrote:
+> > > >
+> > > > The quiet infrastructure was moved out of Makefile.build to accomid=
+ate
+> > > > the new syscall table generation scripts in perf. Syscall table
+> > > > generation wanted to also be able to be quiet, so instead of again
+> > > > copying the code to set the quiet variables, the code was moved int=
+o
+> > > > Makefile.perf to be used globally. This was not the right solution.=
+ It
+> > > > should have been moved even further upwards in the call chain.
+> > > > Makefile.include is imported in many files so this seems like a pro=
+per
+> > > > place to put it.
+> > > >
+> > > > To:
+> > > >
+> > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > > > ---
+> > > > Charlie Jenkins (2):
+> > > >       tools: Unify top-level quiet infrastructure
+> > > >       tools: Remove redundant quiet setup
+> > > >
+> > > >  tools/arch/arm64/tools/Makefile           |  6 -----
+> > > >  tools/bpf/Makefile                        |  6 -----
+> > > >  tools/bpf/bpftool/Documentation/Makefile  |  6 -----
+> > > >  tools/bpf/bpftool/Makefile                |  6 -----
+> > > >  tools/bpf/resolve_btfids/Makefile         |  2 --
+> > > >  tools/bpf/runqslower/Makefile             |  5 +---
+> > > >  tools/build/Makefile                      |  8 +-----
+> > > >  tools/lib/bpf/Makefile                    | 13 ----------
+> > >
+> > > Nack.
+> > > libbpf and bpftool are synced independently to github
+> > > and released from there.
+> > > This change breaks it.
+>
+> Sorry, I overlooked this part and merged a change that touched the
+> common files into the perf tree.
+>
+> f2868b1a66d4f40f ("perf tools: Expose quiet/verbose variables in Makefile=
+.perf")
+>
+> Unfortunately, it's already in v6.14-rc1.
+>
+> >
+> > Can you explain how it breaks it? Currently bpftool and resolve_btfids
+> > don't build quietly so this was an attempt to fix that.
+>
+> So I think you will need something like this for v6.14.  Again, sorry
+> about the trouble.
 
-Thanks for pointing this out, Krzysztof. I made a mistake when sending
-the email such that patches only got sent on a per-subsystem basis
-rather than grouping all email addresses together. I will do a resend
-to resolve this.
-
-Thanks,
-Fred
+Just revert f2868b1a66d4f40f that created this mess.
 
