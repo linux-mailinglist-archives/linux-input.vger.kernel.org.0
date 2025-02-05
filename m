@@ -1,128 +1,146 @@
-Return-Path: <linux-input+bounces-9798-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9802-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D3AA29634
-	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2025 17:27:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4708EA2963E
+	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2025 17:27:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A5DB1684BE
-	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2025 16:27:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 053A93A2AEE
+	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2025 16:27:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F4045149C7B;
-	Wed,  5 Feb 2025 16:27:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78FB91DC185;
+	Wed,  5 Feb 2025 16:27:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eeqnleog"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VDS4cIJK"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAEA1B6CE3;
-	Wed,  5 Feb 2025 16:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F1C1D7E52;
+	Wed,  5 Feb 2025 16:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738772835; cv=none; b=WNA0WuGznMlBDtGB1rXGQD8+8hCzcORkCztD4EBTo5BFWsc3yeROF4E6isn2B6tMyDPJjaOZIcC44w9/NMpoNtsW5S5WtlHQRr5L8KzlByLBE1cDRSJ7qkzv8UwFkcdsabZFJroTk1ody2qUrojLKSl0MVVZCHytHkZ7lxpNuH8=
+	t=1738772857; cv=none; b=CKMiH6n8kmIycff5z+zfcs67jdGFUXIniTueME7Qntln31zptOuW/23+xChl8ICooV/ZA/G7N18i6eBYoX9FElN2Z8RRMrCd0zUVmitxT4k9kttvEAF+5/73aMN97L9nR/putlQU6VsA2kG4E0gv/tYvYsxKN21DNXYYDOks1tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738772835; c=relaxed/simple;
-	bh=kMFmV0IehhGOWygBpPpcYAxC51tino8AxCfonOIIqPg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MTgzFOc9o5Dg6L1uxKHvjzDoQOhbi/yr60KMOAEa+eWCEgVImqMhiFjjaplewsZDexRNEgEOq83ftR7/DECNQCPIahv2W4jI6/wTDpcdS2QbBjog18vpvfxTpwW8z3T7BpGp9kTMegObK95FTl8qNS7Uv3mugHMABMmLD3GdzbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eeqnleog; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738772834; x=1770308834;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kMFmV0IehhGOWygBpPpcYAxC51tino8AxCfonOIIqPg=;
-  b=Eeqnleoga2Q45nQL2sqOaTSNja4TMC9NsI+qCIFls3KckGk7fEl9z/NM
-   YOsS3l7q/Utwv//buxi4lpAYNDtxjTp/Qdveq16dJ7b0x3rE/wk2i4Fhc
-   z5a5xQx51ufWySFuIa5SyRdQ1vOtSd1lWMCdM2cp1l8vZXGEez+34QKue
-   txXhfdXh+/+H4Uh9JtK8snweAmPakPF8A9bRI1+8X00oqZcAv0VLRYiwn
-   8cGI+lJ/pRW5JmmJb+q1g7NAoS80XqgMwPm6zanUZJMSKuv+gmaMj5Gty
-   LafXZXlTjQfsxOtYL/Jujo7Ylbyw3D1ZYurWYkFTJSsajHxwqMDQdTBnb
-   A==;
-X-CSE-ConnectionGUID: kpJ8X0gtQSKq8lmrFLY5Og==
-X-CSE-MsgGUID: PzcyMN75Q+OplXhhPIN2xA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39245291"
-X-IronPort-AV: E=Sophos;i="6.13,262,1732608000"; 
-   d="scan'208";a="39245291"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 08:27:13 -0800
-X-CSE-ConnectionGUID: F55qeeNmQcmnG0H6IgCGsQ==
-X-CSE-MsgGUID: N9UgH9j7TG2lpT+LvpkA3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,262,1732608000"; 
-   d="scan'208";a="115994605"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Feb 2025 08:27:09 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tfiF1-000vmJ-0I;
-	Wed, 05 Feb 2025 16:27:07 +0000
-Date: Thu, 6 Feb 2025 00:27:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>, gregkh@linuxfoundation.org,
-	rafael@kernel.org, linus.walleij@linaro.org,
-	mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com,
-	dmitry.torokhov@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
-	sre@kernel.org, jic23@kernel.org, przemyslaw.kitszel@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-iio@vger.kernel.org, Raag Jadav <raag.jadav@intel.com>
-Subject: Re: [PATCH v3 01/20] driver core: Split devres APIs to
- device/devres.h
-Message-ID: <202502060025.XJwUub6I-lkp@intel.com>
-References: <20250203080902.1864382-2-raag.jadav@intel.com>
+	s=arc-20240116; t=1738772857; c=relaxed/simple;
+	bh=pdvJaLK1YetgfWtC/g4XRn1PEiiMbwT/keJUb2ZUpPw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iqJxDdkUDvBD1EeKsEPFzmmwKGJ9ouIg4wi1x0lPee4Uf4U9EPRrlTMXa6QwQT2unMQs8tlloX4H9T4sj58z5gMim5fY1X797+nhXKFoEKsUZw96xS8dL3kHgDeAVgQkVnMXHd20Pjf+rhuO86uZ1TGg02xooUq6o5a+aCkv6TA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VDS4cIJK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 97A1CC4CED1;
+	Wed,  5 Feb 2025 16:27:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738772856;
+	bh=pdvJaLK1YetgfWtC/g4XRn1PEiiMbwT/keJUb2ZUpPw=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=VDS4cIJKgxyjWsbVKccowfP1QCaNRBRW0tUk1nSxyvv/S1pyH0CESzVj8PORjcD3C
+	 ih9gh0ld7bwPiigMUXihJ64ZpL7Whqq7hSJhpGs6kiA7VPqfxau80hYBcUPb/MIDUO
+	 Yw5G0FEkdT8VBakEdctjvQ4y45KCwAII60cZkxvnKZrosuiAtfYrAr+daGombAol/K
+	 LkKu6NnvhFo/oRp5VV2eHL/USWDbIPc/9qdsY5iQxGLlbX7Qcn6iXbexyXXNMPa0/i
+	 y8tEpSWEyhQVkebg591LAsAxqt7B2xy+aRu0DaIC4Yi6xIIBzwdop0RuCXIVhjHM7q
+	 vq5nlLlzUs97Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 807A7C02198;
+	Wed,  5 Feb 2025 16:27:36 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Subject: [PATCH v6 0/4] Driver for Apple Z2 touchscreens.
+Date: Wed, 05 Feb 2025 17:27:25 +0100
+Message-Id: <20250205-z2-v6-0-cc60cbee1d5b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250203080902.1864382-2-raag.jadav@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAG6Ro2cC/13OQWrDMBAF0KsEraOiGWlkp6vcI3QhjeREkMTFD
+ iZt8N07VgkYL/9n3mdeasxDyaP63L3UkKcylv4uwe93ii/hfs66JMkKDToAdPoXNRvASNjmYJK
+ Sw+8hd+VZR05fki9lfPTDT92cYGnf3C98Am00O8uO2aMx6Xi+hXL94P6mFj7hmrSVoJDGM9Mhx
+ g6g2RL7JmTEVGKFEJtMRMmmDrbErQlV4oSkxnoIEXwMZktoTf4fIyE+2TYitQj+sCbzPP8B8AS
+ Q5mABAAA=
+X-Change-ID: 20241124-z2-c012b528ea0d
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Neal Gompa <neal@gompa.dev>, Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738772855; l=2592;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=pdvJaLK1YetgfWtC/g4XRn1PEiiMbwT/keJUb2ZUpPw=;
+ b=ohHUwa25UeGvPAIPFl6IHnroVpZ+96B3w9nWrr5pZpCtYgbIWoKI7jjWSOlH+SqAT1T8DJ2nF
+ PQKEcVGn36TBUI8dyW9cHuSLrnPvs9yrKG5HAHWmQyUGiGCp6o/F2xe
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
 
-Hi Raag,
+Hi.
 
-kernel test robot noticed the following build warnings:
+This series adds support for Apple touchscreens using the Z2 protocol.
+Those are used as the primary touchscreen on mobile Apple devices, and for the
+touchbar on laptops using the M-series chips. (T1/T2 laptops have a coprocessor
+in charge of speaking Z2 to the touchbar).
 
-[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
+Originally sent as a RFC at https://lore.kernel.org/all/20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com/
+The changes since then mostly address the review feedback, but also
+add another machine that has this specific controller.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/driver-core-Split-devres-APIs-to-device-devres-h/20250203-161554
-base:   2014c95afecee3e76ca4a56956a936e23283f05b
-patch link:    https://lore.kernel.org/r/20250203080902.1864382-2-raag.jadav%40intel.com
-patch subject: [PATCH v3 01/20] driver core: Split devres APIs to device/devres.h
-config: um-randconfig-r112-20250205 (https://download.01.org/0day-ci/archive/20250206/202502060025.XJwUub6I-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 355d0b186f178668b103068537e517f3d52ad639)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502060025.XJwUub6I-lkp@intel.com/reproduce)
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+Changes in v6:
+- Went back to build_cal_blob returning an allocated buffer, other fixes.
+- Link to v5: https://lore.kernel.org/r/20250118-z2-v5-0-6d38b2582169@gmail.com
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502060025.XJwUub6I-lkp@intel.com/
+Changes in v5:
+- Added missing \ns, removed 4kb-ish of wasted ram
+- Link to v4: https://lore.kernel.org/r/20250115-z2-v4-0-d7361ab16ba0@gmail.com
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/pcs/pcs-xpcs-plat.c: note: in included file (through include/linux/device.h):
->> include/linux/device/devres.h:106:23: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   include/linux/device/devres.h:106:23: sparse:     expected void [noderef] __iomem *
-   include/linux/device/devres.h:106:23: sparse:     got void *
+Changes in v4:
+- Dropped another allocation, other fixes.
+- Link to v3: https://lore.kernel.org/r/20250112-z2-v3-0-5c0e555d3df1@gmail.com
 
-vim +106 include/linux/device/devres.h
+Changes in v3:
+- Tx/Rx buffers used in interrupt handler are now allocated in probe and reused
+- Other various style fixes
+- Link to v2: https://lore.kernel.org/r/20241128-z2-v2-0-76cc59bbf117@gmail.com
 
-   102	
-   103	static inline
-   104	void __iomem *devm_ioremap_resource(struct device *dev, const struct resource *res)
-   105	{
- > 106		return ERR_PTR(-EINVAL);
-   107	}
-   108	
+Changes in v2:
+- In a separate patch, fixed an issue that prevented the SPI controller
+  from using GPIO CS, and as such, moved the hardware quirk to there
+- Went back to uploading the firmware in probe() instad of open()
+- Other changes addressing the review feedback
+- Link to v1: https://lore.kernel.org/r/20241126-z2-v1-0-c43c4cc6200d@gmail.com
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+---
+Sasha Finkelstein (4):
+      dt-bindings: input: touchscreen: Add Z2 controller
+      input: apple_z2: Add a driver for Apple Z2 touchscreens
+      arm64: dts: apple: Add touchbar digitizer nodes
+      MAINTAINERS: Add entries for Apple Z2 touchscreen driver
+
+ .../input/touchscreen/apple,z2-multitouch.yaml     |  70 +++
+ MAINTAINERS                                        |   2 +
+ arch/arm64/boot/dts/apple/t8103-j293.dts           |  27 ++
+ arch/arm64/boot/dts/apple/t8103.dtsi               |  19 +
+ arch/arm64/boot/dts/apple/t8112-j493.dts           |  23 +
+ arch/arm64/boot/dts/apple/t8112.dtsi               |  14 +
+ drivers/input/touchscreen/Kconfig                  |  13 +
+ drivers/input/touchscreen/Makefile                 |   1 +
+ drivers/input/touchscreen/apple_z2.c               | 473 +++++++++++++++++++++
+ 9 files changed, 642 insertions(+)
+---
+base-commit: b62cef9a5c673f1b8083159f5dc03c1c5daced2f
+change-id: 20241124-z2-c012b528ea0d
+
+
 
