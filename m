@@ -1,166 +1,122 @@
-Return-Path: <linux-input+bounces-9806-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9807-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32920A29BD5
-	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2025 22:25:09 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A68BA29C22
+	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2025 22:50:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A651B167BC2
-	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2025 21:25:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AEB3A166A14
+	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2025 21:50:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B03F20FAB9;
-	Wed,  5 Feb 2025 21:25:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F8E3215067;
+	Wed,  5 Feb 2025 21:50:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cV7XxIQW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eDxM/jIH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3A31FECAC
-	for <linux-input@vger.kernel.org>; Wed,  5 Feb 2025 21:25:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1989E215061
+	for <linux-input@vger.kernel.org>; Wed,  5 Feb 2025 21:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738790705; cv=none; b=dart6O08lq5Diyn7vbBSHnLUCEIC5mcVTY4br0YhSqwAUuBO9LC10RZ+nh1mzcKp629XHIpHdI2sNpqJdy7Gk3z2oRhN9sfEtg6y7lOzi1r/0S8c6OY6uRhoBfSPfoFT81so/Zf25dfVT2zfkQlSIvOeg68tw+B8VR7Cmg3uGpU=
+	t=1738792241; cv=none; b=W9ocvZXmR+/qM2VoG99hKofoVkdlI4a0Y3wv96NpxLef3NHBGRsEDn5H51zVjYUEI9AWc0Yph9mIf4qnbNFCGGqhW2qkmkBUUeLxSzxAL8SZb/arA4oBkWkA5bRSh2cv22uW9QVGogQhfBNbgroZvTGrrZSiVat8mTNsHwxLJRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738790705; c=relaxed/simple;
-	bh=VAcLtyqgTNLAXIPeg6L/B73KD3vZrEgmnhOmKANnVd8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uAt0zTUujQyBFjthXCCTf0goUURdzE9hCvxYzGy8p8jqwKM6xmyugKhL6Ft06s2PW8H05+VaTc+9WqvugK233Sj4rkCiG7tOlf3Zub56rKUYuRpxEWrNuxaAbuZVIIoQW6lXxE/lH/K5L65OzGEuBLFGfZ+jDRaROniTSJD0UYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cV7XxIQW; arc=none smtp.client-ip=209.85.219.52
+	s=arc-20240116; t=1738792241; c=relaxed/simple;
+	bh=mRM3zHH5uRnttL2NVeVOgzUWV2zzNQlxJnbKJjZqUMg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FPQzDHRpuevyi5A8l+HxLLuHuclnKvRdx2KLhUF8sSGOAgC/vZ6YZN4+YrZ1OEDpL/1a14Bnsncy0syb/OwyhY/axyaqjqo41gNlbNK0dxIgpKsSbpXWPAjbdb6c8a1UjcegZVI6LYs8Z3AakzjWE8JQNPYkbX90+//KKiSJxng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eDxM/jIH; arc=none smtp.client-ip=209.85.161.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6e43a496908so1705826d6.3
-        for <linux-input@vger.kernel.org>; Wed, 05 Feb 2025 13:25:03 -0800 (PST)
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5f304ac59b9so137222eaf.0
+        for <linux-input@vger.kernel.org>; Wed, 05 Feb 2025 13:50:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738790703; x=1739395503; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=da+EG8NDrxbR/ciSC9tOMhiRW26wRXI5KW/H9EvF5Mw=;
-        b=cV7XxIQW7QCSwdqAItohtb5/Xrf6j/hIxEgy0qeo1yOD7SPUxt7TNvREW/9vv8AN1F
-         q4SAZIMVQsmXC6KmxAPtPJFJhnZdaa5UngAl/PoViUepl38JkMXtfpXQ1+F9wEy2Mm3b
-         G4bvBIqol35NKjfMakjCbR+hcwd+bhykIcx0B1NKXwy1qbKPwyLJvsaVc3/23okViSU8
-         NJM245T0JdnqH1asQNOg0PExTvQ/NSs3iKagMpthDJWc9sHKpOih3r9rS2+6Kv6/zLuv
-         bU+WRacNcLPRFo4zydALJZ3Ld/fhDWrrq5qpOlo2UuWIaX2eBJ4f3Zs0RJsFFrTvLNuz
-         7wBQ==
+        d=gmail.com; s=20230601; t=1738792239; x=1739397039; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nvq0zvM+ZEFh4k+Sd8mEz15qlgRnyMRFvdqSUCvjXQg=;
+        b=eDxM/jIHJJDRwTpFAi0fOjn/MgrFHz/v1w79pZkyAL+BJWDF5vkG55jtAQ3Jx1lfhU
+         kZ4UHiAj8eAwOCo3i89+hIg7K0wYLitnxRM6vICY0slEgaw1ndGDlwUuUtZX775nv3Vz
+         XqfvOsYF3nIIoGagi5vteP30rANIa/CWoZpUkCNmSn1YUQ9FJPr5DZFYmYsNr0yHo3FF
+         VGPpVOsYK+HoeKJ/u5iARxMniPjguN8TtjfjwguWaUHlSlFY4IToGGEjQO2uQCHOSkny
+         K91WTqPA/KZcN6IpVqwZM7myV+r75etQvQrtVqnxnKlx231GvaTq37pEpHLxZRMfXjVj
+         /LOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738790703; x=1739395503;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=da+EG8NDrxbR/ciSC9tOMhiRW26wRXI5KW/H9EvF5Mw=;
-        b=ZbvuYgpVssMMxRYUu+siB4VU9YpgL1gJO7HKgFQK40BnA7V6M4jKDrczOD0Z5Iat4v
-         VcDLlGiwGPuTjBmalteowfLNo89/ZkLIbrx8lxUUMn+tHiKToy4griuI1rqZ1PEWGNLc
-         2BlV4tSEDBijWZj3RZBAR4MRpEtVOl8eGt3E1sZRM8ZhpyrN6Whpa234YRFV5pUUunY2
-         BheZ2CoPaMDhI4DjL5SGiUaDTAlsU9IcyQh0SOK/iu50ZMeVSuef/GuBjjTHsk34NCYI
-         cVrjdmg+0pl374ASr4nZ1e+dIjS65Diuc7QzUJa4vpboZwFDSoJIt5otOZYsWVgnSi6L
-         yTBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUQtc3sghitQQvxwPzzutLxLa0PN3UzUXj2fO1kK1n5wfZ/rTMSIARbk5b3hshwKknCPrzq/3R3RC6SWQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzECZnNTS0Qba0Sh/4tDXR3Rsb9IXPOUUVftMDJG16SEScG6QVn
-	L0yyCctsX9jqYvvw2PnXnkRC4VLJ+uGE1577DG3AOfhHlYfv69xCJxf9z3p64yNkiD64hNLskdu
-	/J+ixk4Cry6dqtj2BKpwvjGFLZG8syg==
-X-Gm-Gg: ASbGncso7dHbQNxhYDOCAFdTtZfKEe1RpkCthIZki3F+JYrAilJcc/qUf9U2vpX1AzP
-	GzV3wHNTAu6sQlysMuJMzgfwg8ejL+rvDEeHr6sSpVjoaYyC4Oupz5WG2eOqGtUiLSITU+vsIUV
-	9e5UgQ0ZLgMQ==
-X-Google-Smtp-Source: AGHT+IHnQ9o8xPQhLrjT/dSDsnOearueJoE2SI3ST89s4jpn9lYuWXtrkgi9FYWMZH7vElg1m8QYdlqt4rDc9b/FL4Q=
-X-Received: by 2002:ad4:4ee8:0:b0:6d8:a754:9647 with SMTP id
- 6a1803df08f44-6e42fbb8be9mr59517676d6.17.1738790702651; Wed, 05 Feb 2025
- 13:25:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738792239; x=1739397039;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nvq0zvM+ZEFh4k+Sd8mEz15qlgRnyMRFvdqSUCvjXQg=;
+        b=BYNEZwxVeoVZqRNOlUHSEAj4HtJrSjF+7izu9Gin2X88fWVeYiiyvZ/LJDWY/SnqG6
+         NHrV5suyzAiRVY9KHRRkld37W5M569cyOIbXO4GH3Nra6qYMV9LQvqDuSsXR4GaklGgL
+         BEVGdzCWzWDUfIBWzoHKLkESMQwqQiA+540ad9rHm2CsOBu2rRfA1TLfYZR2nOVrUGLb
+         Rk2h67MZZCu4ZLqcwWRQkOJvUA4d/MfTXaBbG+3Jras6rZZyr13KRTnCbkQ85xB4ZIfy
+         KMF7LiB41Gda13vlKBW+bol/70csjZ51C6TMYFd0w73HtzqjxNG2Sjj8bbQkl3nZk1z3
+         IYXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUkSx4alhx8gvOb66qTROZbyYUxwD0oE2U4PmG8VzyvAb7MfPchUbyGH51YhcjE8rK5EolIcOKirVgPXw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaBxonf8uBUUOlErAAGC51Pyw8RXtj24AmJPehKyJDW1V0raAo
+	0tWX/mQCsY74lddL70kBONIBvt1sp3pAIuGiLE3/Hk7XqTHH+nn2
+X-Gm-Gg: ASbGnct0uOj4sEDke1DHHGSLv6fNtRZ37Il5RhUQXqoWd6eqXO1eGryaNxDscgcKez6
+	AbNdB8R65wabnsRita++zFKh1PEygkovJj3qDbi3T73al0Fp3zag6ziczBrR2JOmGZsEA85gNg3
+	RCHq3GRxxuhfNoG89d8oOHfnxthPkhDrxHpiFfuE/eNK+zLsquofmhwmRCiPPA404/FoLDyVSgC
+	0gfY0FsaNkVjujjsiA5gNB7z4/khc7jMiHxtP5Zdv+9eUZiXoXNqcVe/a2C9XFJbk0lQ0J0PgMF
+	VyffqpVyOw1abVEMH5pRy6PeK3w=
+X-Google-Smtp-Source: AGHT+IHsLJrq1/6jsjnL70pI6+IKN2WaOK9OTZJjSiTC0t6yFL3CqtJmkJsDvX6eeDca3Db1hN1w8A==
+X-Received: by 2002:a05:6820:2289:b0:5fa:61b9:3e99 with SMTP id 006d021491bc7-5fc4798aa32mr3487824eaf.3.1738792239064;
+        Wed, 05 Feb 2025 13:50:39 -0800 (PST)
+Received: from localhost.localdomain ([146.70.177.76])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5fc1059a87esm3989322eaf.27.2025.02.05.13.50.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Feb 2025 13:50:38 -0800 (PST)
+From: Tulio Fernandes <tuliomf09@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-input@vger.kernel.org,
+	~lkcamp/patches@lists.sr.ht
+Subject: [PATCH] HID: hid-thrustmaster: fix stack-out-of-bounds read in usb_check_int_endpoints by null-terminating array
+Date: Wed,  5 Feb 2025 18:50:34 -0300
+Message-ID: <20250205215034.51291-1-tuliomf09@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250205202532.2586-1-dhenrale@amazon.com>
-In-Reply-To: <20250205202532.2586-1-dhenrale@amazon.com>
-From: Roderick Colenbrander <thunderbird2k@gmail.com>
-Date: Wed, 5 Feb 2025 13:24:51 -0800
-X-Gm-Features: AWEUYZn1YBXqQvj9zHkLbVWg0juyinzE8bK6HVCBEb11bRJr8RRsePXXd9ayvpg
-Message-ID: <CAEc3jaDtBwBdH2sqMFqR+0C+GeNJ5-p0JB7ruxwfmnB9CnfuZg@mail.gmail.com>
-Subject: Re: [PATCH] HID: Enable playstation driver independently of sony driver
-To: Alex Henrie <dhenrale@amazon.com>
-Cc: roderick@gaikai.com, roderick.colenbrander@sony.com, jkosina@suse.cz, 
-	linux-input@vger.kernel.org, alexhenrie24@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Alex,
+Syzbot[1] has detected a stack-out-of-bounds read of the ep_addr array from
+hid-thrustmaster driver. This array is passed to usb_check_int_endpoints
+function from usb.c core driver, which executes a for loop that iterates
+over the elements of the passed array. Not finding a null element at the end of
+the array, it tries to read the next, non-existent element, crashing the kernel.
 
-The change in general looks good to me. It had been an oversight.
-While add it, I guess also include the PS5 controllers in that list as
-well.
+To fix this, a 0 element was added at the end of the array to break the for
+loop.
 
-Thanks,
-Roderick Colenbrander
+[1] https://syzkaller.appspot.com/bug?extid=9c9179ac46169c56c1ad
 
-On Wed, Feb 5, 2025 at 12:28=E2=80=AFPM Alex Henrie <dhenrale@amazon.com> w=
-rote:
->
-> PlayStation 4 controllers use the hid-playstation driver now, but they
-> are still not included in the hid_have_special_driver table unless the
-> hid-sony driver is enabled. Split up that section of the table so that
-> hid-playstation works even in the absence of hid-sony.
->
-> Fixes: 4f1f391869ee ("HID: sony: remove DualShock4 support.")
-> Signed-off-by: Alex Henrie <dhenrale@amazon.com>
-> ---
->  drivers/hid/hid-quirks.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-> index e0bbf0c6345d..ff23a7ac7001 100644
-> --- a/drivers/hid/hid-quirks.c
-> +++ b/drivers/hid/hid-quirks.c
-> @@ -595,6 +595,13 @@ static const struct hid_device_id hid_have_special_d=
-river[] =3D {
->  #if IS_ENABLED(CONFIG_HID_PLANTRONICS)
->         { HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS, HID_ANY_ID) },
->  #endif
-> +#if IS_ENABLED(CONFIG_HID_PLAYSTATION)
-> +       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTR=
-OLLER) },
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4=
-_CONTROLLER) },
-> +       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTR=
-OLLER_2) },
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4=
-_CONTROLLER_2) },
-> +       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTR=
-OLLER_DONGLE) },
-> +#endif
->  #if IS_ENABLED(CONFIG_HID_PRIMAX)
->         { HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, USB_DEVICE_ID_PRIMAX_KEYBO=
-ARD) },
->  #endif
-> @@ -664,11 +671,6 @@ static const struct hid_device_id hid_have_special_d=
-river[] =3D {
->         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS3=
-_BDREMOTE) },
->         { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS3_CONTR=
-OLLER) },
->         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS3=
-_CONTROLLER) },
-> -       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTR=
-OLLER) },
-> -       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4=
-_CONTROLLER) },
-> -       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTR=
-OLLER_2) },
-> -       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4=
-_CONTROLLER_2) },
-> -       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTR=
-OLLER_DONGLE) },
->         { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_VAIO_VGX_=
-MOUSE) },
->         { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_VAIO_VGP_=
-MOUSE) },
->         { HID_USB_DEVICE(USB_VENDOR_ID_SINO_LITE, USB_DEVICE_ID_SINO_LITE=
-_CONTROLLER) },
-> --
-> 2.46.0
->
->
+Signed-off-by: Túlio Fernandes <tuliomf09@gmail.com>
+---
+ drivers/hid/hid-thrustmaster.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-thrustmaster.c b/drivers/hid/hid-thrustmaster.c
+index 6c3e758bbb09..3b81468a1df2 100644
+--- a/drivers/hid/hid-thrustmaster.c
++++ b/drivers/hid/hid-thrustmaster.c
+@@ -171,7 +171,7 @@ static void thrustmaster_interrupts(struct hid_device *hdev)
+ 	b_ep = ep->desc.bEndpointAddress;
+ 
+ 	/* Are the expected endpoints present? */
+-	u8 ep_addr[1] = {b_ep};
++	u8 ep_addr[2] = {b_ep, 0};
+ 
+ 	if (!usb_check_int_endpoints(usbif, ep_addr)) {
+ 		hid_err(hdev, "Unexpected non-int endpoint\n");
+-- 
+2.48.1
+
 
