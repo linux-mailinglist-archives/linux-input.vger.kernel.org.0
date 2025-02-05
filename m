@@ -1,129 +1,128 @@
-Return-Path: <linux-input+bounces-9797-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9798-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57566A2953D
-	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2025 16:51:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D3AA29634
+	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2025 17:27:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BDE7D18847C8
-	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2025 15:51:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A5DB1684BE
+	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2025 16:27:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CBD41946B1;
-	Wed,  5 Feb 2025 15:51:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F4045149C7B;
+	Wed,  5 Feb 2025 16:27:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="qaKuTW7g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eeqnleog"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1693619259E;
-	Wed,  5 Feb 2025 15:51:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAEA1B6CE3;
+	Wed,  5 Feb 2025 16:27:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738770670; cv=none; b=Yh9tHO49Y5m4x/TkTRheQJ0RFjLGwT6sRFscv3wnyuXU8qi8l4Kww2eXMyQzrd7fLgKRmNAF4MHCKcTXWUl6n42RCxff95J+m4CfZ9Xz7K+DGJygmqB5s7YCH7eb0YxM5dolrMhP5Rd2gsPGcMLzOmERMXeTwtMvSk53Z2tr03Q=
+	t=1738772835; cv=none; b=WNA0WuGznMlBDtGB1rXGQD8+8hCzcORkCztD4EBTo5BFWsc3yeROF4E6isn2B6tMyDPJjaOZIcC44w9/NMpoNtsW5S5WtlHQRr5L8KzlByLBE1cDRSJ7qkzv8UwFkcdsabZFJroTk1ody2qUrojLKSl0MVVZCHytHkZ7lxpNuH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738770670; c=relaxed/simple;
-	bh=NhPpYHkJzdx9mLMRYJYHdoEtTD8D6E2oHbhTAtJyPS4=;
-	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
-	 Content-Type:Subject; b=Mcx7eoS7JP4VsVSyJWOIHwyJPcAVUiU2fe0p6HFtZvZ+qvz+auXzyxN/+ZNMyW9T0LToOiHaYig6hXxQwl6/y744VnQlvqdJcr17ieQK7W4OeUclx4VMlwD7FH/bwIaFtFU+P35K3N5KB9L4hXO86vKiDC24oYVFxe5WGhxwaWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=qaKuTW7g; arc=none smtp.client-ip=162.243.120.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
-	:Date:subject:date:message-id:reply-to;
-	bh=yZg+oI2Ua6zX+3n+8KZ5jmQeWW9OzEWiVA+W0PmqN4g=; b=qaKuTW7g9kQeRBeSs7oa1DsKfy
-	RUuRDNQLfDkPUEcGFT6KRW7TMc+5cljAnwE/rqa8goG1GxP68+wKPx64KNjQhZrApLEbWUml611vv
-	eFNsIPLJB3lol1HPsmxrGvlpAoLDUXgAAoCNXMTKAkl1qugWoBvjnzEUFW2BT3+1T9mY=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:41000 helo=pettiford.lan)
-	by mail.hugovil.com with esmtpa (Exim 4.92)
-	(envelope-from <hugo@hugovil.com>)
-	id 1tfhg2-0000am-Jv; Wed, 05 Feb 2025 10:50:59 -0500
-Date: Wed, 5 Feb 2025 10:50:57 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Alistair Francis
- <alistair@alistair23.me>, Maxime Ripard <mripard@kernel.org>,
- =?ISO-8859-1?Q?Myl=E8ne?= Josserand <mylene.josserand@bootlin.com>, Hugo
- Villeneuve <hvilleneuve@dimonoff.com>, stable@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-Id: <20250205105057.3ec9fe8c8935c3a72061edad@hugovil.com>
-In-Reply-To: <Z6OE0IRgaovHMf34@google.com>
-References: <20250204190100.2210863-1-hugo@hugovil.com>
-	<Z6OE0IRgaovHMf34@google.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1738772835; c=relaxed/simple;
+	bh=kMFmV0IehhGOWygBpPpcYAxC51tino8AxCfonOIIqPg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MTgzFOc9o5Dg6L1uxKHvjzDoQOhbi/yr60KMOAEa+eWCEgVImqMhiFjjaplewsZDexRNEgEOq83ftR7/DECNQCPIahv2W4jI6/wTDpcdS2QbBjog18vpvfxTpwW8z3T7BpGp9kTMegObK95FTl8qNS7Uv3mugHMABMmLD3GdzbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eeqnleog; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738772834; x=1770308834;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kMFmV0IehhGOWygBpPpcYAxC51tino8AxCfonOIIqPg=;
+  b=Eeqnleoga2Q45nQL2sqOaTSNja4TMC9NsI+qCIFls3KckGk7fEl9z/NM
+   YOsS3l7q/Utwv//buxi4lpAYNDtxjTp/Qdveq16dJ7b0x3rE/wk2i4Fhc
+   z5a5xQx51ufWySFuIa5SyRdQ1vOtSd1lWMCdM2cp1l8vZXGEez+34QKue
+   txXhfdXh+/+H4Uh9JtK8snweAmPakPF8A9bRI1+8X00oqZcAv0VLRYiwn
+   8cGI+lJ/pRW5JmmJb+q1g7NAoS80XqgMwPm6zanUZJMSKuv+gmaMj5Gty
+   LafXZXlTjQfsxOtYL/Jujo7Ylbyw3D1ZYurWYkFTJSsajHxwqMDQdTBnb
+   A==;
+X-CSE-ConnectionGUID: kpJ8X0gtQSKq8lmrFLY5Og==
+X-CSE-MsgGUID: PzcyMN75Q+OplXhhPIN2xA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39245291"
+X-IronPort-AV: E=Sophos;i="6.13,262,1732608000"; 
+   d="scan'208";a="39245291"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 08:27:13 -0800
+X-CSE-ConnectionGUID: F55qeeNmQcmnG0H6IgCGsQ==
+X-CSE-MsgGUID: N9UgH9j7TG2lpT+LvpkA3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,262,1732608000"; 
+   d="scan'208";a="115994605"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 05 Feb 2025 08:27:09 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tfiF1-000vmJ-0I;
+	Wed, 05 Feb 2025 16:27:07 +0000
+Date: Thu, 6 Feb 2025 00:27:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Raag Jadav <raag.jadav@intel.com>, gregkh@linuxfoundation.org,
+	rafael@kernel.org, linus.walleij@linaro.org,
+	mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com,
+	dmitry.torokhov@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
+	sre@kernel.org, jic23@kernel.org, przemyslaw.kitszel@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-iio@vger.kernel.org, Raag Jadav <raag.jadav@intel.com>
+Subject: Re: [PATCH v3 01/20] driver core: Split devres APIs to
+ device/devres.h
+Message-ID: <202502060025.XJwUub6I-lkp@intel.com>
+References: <20250203080902.1864382-2-raag.jadav@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Level: 
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -2.8 NICE_REPLY_A Looks like a legit reply (A)
-Subject: Re: [PATCH] Input: cyttsp5 - ensure minimum reset pulse width
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250203080902.1864382-2-raag.jadav@intel.com>
 
-On Wed, 5 Feb 2025 07:33:36 -0800
-Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+Hi Raag,
 
-> On Tue, Feb 04, 2025 at 02:01:00PM -0500, Hugo Villeneuve wrote:
-> > From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> > 
-> > The current reset pulse width is measured to be 5us on a
-> > Renesas RZ/G2L SOM. The manufacturer's minimum reset pulse width is
-> > specified as 10us.
-> > 
-> > Extend reset pulse width to make sure it is long enough on all platforms.
-> > 
-> > Also reword confusing comments about reset pin assertion.
-> > 
-> > Fixes: 5b0c03e24a06 ("Input: Add driver for Cypress Generation 5 touchscreen")
-> > Cc: <stable@vger.kernel.org>
-> > Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> > ---
-> >  drivers/input/touchscreen/cyttsp5.c | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/input/touchscreen/cyttsp5.c b/drivers/input/touchscreen/cyttsp5.c
-> > index eafe5a9b8964..bb09e84d0e92 100644
-> > --- a/drivers/input/touchscreen/cyttsp5.c
-> > +++ b/drivers/input/touchscreen/cyttsp5.c
-> > @@ -870,13 +870,16 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
-> >  	ts->input->phys = ts->phys;
-> >  	input_set_drvdata(ts->input, ts);
-> >  
-> > -	/* Reset the gpio to be in a reset state */
-> > +	/* Assert gpio to be in a reset state */
-> >  	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-> >  	if (IS_ERR(ts->reset_gpio)) {
-> >  		error = PTR_ERR(ts->reset_gpio);
-> >  		dev_err(dev, "Failed to request reset gpio, error %d\n", error);
-> >  		return error;
-> >  	}
-> > +
-> > +	fsleep(1000); /* Ensure long-enough reset pulse (minimum 10us). */
-> > +
-> 
-> If the manufacturer specified that 10us is enough why do we want to wait
-> 100 times longer?
+kernel test robot noticed the following build warnings:
 
-Hi,
-10us would do fine. I simply put 1ms because it is then much easier to
-see the reset pulse on an oscilloscope when correlating it
-with other signals.
+[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
 
-Hugo.
+url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/driver-core-Split-devres-APIs-to-device-devres-h/20250203-161554
+base:   2014c95afecee3e76ca4a56956a936e23283f05b
+patch link:    https://lore.kernel.org/r/20250203080902.1864382-2-raag.jadav%40intel.com
+patch subject: [PATCH v3 01/20] driver core: Split devres APIs to device/devres.h
+config: um-randconfig-r112-20250205 (https://download.01.org/0day-ci/archive/20250206/202502060025.XJwUub6I-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 355d0b186f178668b103068537e517f3d52ad639)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502060025.XJwUub6I-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502060025.XJwUub6I-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/pcs/pcs-xpcs-plat.c: note: in included file (through include/linux/device.h):
+>> include/linux/device/devres.h:106:23: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
+   include/linux/device/devres.h:106:23: sparse:     expected void [noderef] __iomem *
+   include/linux/device/devres.h:106:23: sparse:     got void *
+
+vim +106 include/linux/device/devres.h
+
+   102	
+   103	static inline
+   104	void __iomem *devm_ioremap_resource(struct device *dev, const struct resource *res)
+   105	{
+ > 106		return ERR_PTR(-EINVAL);
+   107	}
+   108	
 
 -- 
-Hugo Villeneuve
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
