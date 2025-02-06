@@ -1,122 +1,144 @@
-Return-Path: <linux-input+bounces-9807-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9808-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A68BA29C22
-	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2025 22:50:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50566A29E17
+	for <lists+linux-input@lfdr.de>; Thu,  6 Feb 2025 01:54:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AEB3A166A14
-	for <lists+linux-input@lfdr.de>; Wed,  5 Feb 2025 21:50:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CBC91888EC7
+	for <lists+linux-input@lfdr.de>; Thu,  6 Feb 2025 00:54:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F8E3215067;
-	Wed,  5 Feb 2025 21:50:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5445E1C683;
+	Thu,  6 Feb 2025 00:54:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eDxM/jIH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="feM0neWn"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1989E215061
-	for <linux-input@vger.kernel.org>; Wed,  5 Feb 2025 21:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF962B9A5;
+	Thu,  6 Feb 2025 00:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738792241; cv=none; b=W9ocvZXmR+/qM2VoG99hKofoVkdlI4a0Y3wv96NpxLef3NHBGRsEDn5H51zVjYUEI9AWc0Yph9mIf4qnbNFCGGqhW2qkmkBUUeLxSzxAL8SZb/arA4oBkWkA5bRSh2cv22uW9QVGogQhfBNbgroZvTGrrZSiVat8mTNsHwxLJRg=
+	t=1738803286; cv=none; b=qJ3RJbhieJXkntQCjYBcKhYY6SpWLBY7OxiCpKl4LsZQGcywsY7/J5VU08pxn0NCK+BaInnkc7sBd/jqQWUdkpbZXs8C9fTck4mes/oRZtTzWBu0Ts6QPAbSr3Cj88jgUQ6sMVZfVfdfgn+qUe8vmMbv+LJW6HePiYhURHJijCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738792241; c=relaxed/simple;
-	bh=mRM3zHH5uRnttL2NVeVOgzUWV2zzNQlxJnbKJjZqUMg=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FPQzDHRpuevyi5A8l+HxLLuHuclnKvRdx2KLhUF8sSGOAgC/vZ6YZN4+YrZ1OEDpL/1a14Bnsncy0syb/OwyhY/axyaqjqo41gNlbNK0dxIgpKsSbpXWPAjbdb6c8a1UjcegZVI6LYs8Z3AakzjWE8JQNPYkbX90+//KKiSJxng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eDxM/jIH; arc=none smtp.client-ip=209.85.161.44
+	s=arc-20240116; t=1738803286; c=relaxed/simple;
+	bh=VpisVvIMFoCftNCpHixMUVnakOhW9UvSb7HD4i6fCr8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R70cbCn9Cn85xju+WCBRnwlDAMg6KV1sY/f3mmMy2nFrn67mkdvsPx7eR2FfqRrXiODn1a7fqL8OOMU8GoU5pIOyAey3Onv6elyvI3tIyBQGgdXf0m6ADtMQCzsVNm3TOJTn0tUM3Wr3+OlAPXijE8BkvfkLbm5vrnnrjkOQpD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=feM0neWn; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5f304ac59b9so137222eaf.0
-        for <linux-input@vger.kernel.org>; Wed, 05 Feb 2025 13:50:39 -0800 (PST)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2f9c3ef6849so572327a91.3;
+        Wed, 05 Feb 2025 16:54:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738792239; x=1739397039; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nvq0zvM+ZEFh4k+Sd8mEz15qlgRnyMRFvdqSUCvjXQg=;
-        b=eDxM/jIHJJDRwTpFAi0fOjn/MgrFHz/v1w79pZkyAL+BJWDF5vkG55jtAQ3Jx1lfhU
-         kZ4UHiAj8eAwOCo3i89+hIg7K0wYLitnxRM6vICY0slEgaw1ndGDlwUuUtZX775nv3Vz
-         XqfvOsYF3nIIoGagi5vteP30rANIa/CWoZpUkCNmSn1YUQ9FJPr5DZFYmYsNr0yHo3FF
-         VGPpVOsYK+HoeKJ/u5iARxMniPjguN8TtjfjwguWaUHlSlFY4IToGGEjQO2uQCHOSkny
-         K91WTqPA/KZcN6IpVqwZM7myV+r75etQvQrtVqnxnKlx231GvaTq37pEpHLxZRMfXjVj
-         /LOQ==
+        d=gmail.com; s=20230601; t=1738803284; x=1739408084; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cxpOkZOkCuxEBr8nyhrAOoznPB66YiDk0UNNr5Nt7mY=;
+        b=feM0neWnyAZSG6Exg8bNs5GjbzOjZl1EcUHN+a5f89waac2EwYG22p0Q0UMzuB7Ktv
+         LaVfA13dFtbTXJ1UHIOw/pwG63x8+3S9Yr+evSNXNtgaSxQ6fZVO/bsrTSQDWn+l6yP2
+         ToMJsCJLOOZThJ32kAQ02lY/NKsib3gxCunhcDofwE69+NU+RZmFqGkx6iy6G4bRKH6g
+         KkIs/Z6Mu0raDxTAItuuZaOoVaNbLVwOMWZZea7ldxVD9AbIv1XGpyltPBqxGGXvPMh0
+         jvdnMkrDc5nO78VSN0QQtuUR9rKyT27Xek8ZAxwGlHtSdv6mOP0iPWQYaZ4AFcYpgRsL
+         Vbnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738792239; x=1739397039;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nvq0zvM+ZEFh4k+Sd8mEz15qlgRnyMRFvdqSUCvjXQg=;
-        b=BYNEZwxVeoVZqRNOlUHSEAj4HtJrSjF+7izu9Gin2X88fWVeYiiyvZ/LJDWY/SnqG6
-         NHrV5suyzAiRVY9KHRRkld37W5M569cyOIbXO4GH3Nra6qYMV9LQvqDuSsXR4GaklGgL
-         BEVGdzCWzWDUfIBWzoHKLkESMQwqQiA+540ad9rHm2CsOBu2rRfA1TLfYZR2nOVrUGLb
-         Rk2h67MZZCu4ZLqcwWRQkOJvUA4d/MfTXaBbG+3Jras6rZZyr13KRTnCbkQ85xB4ZIfy
-         KMF7LiB41Gda13vlKBW+bol/70csjZ51C6TMYFd0w73HtzqjxNG2Sjj8bbQkl3nZk1z3
-         IYXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUkSx4alhx8gvOb66qTROZbyYUxwD0oE2U4PmG8VzyvAb7MfPchUbyGH51YhcjE8rK5EolIcOKirVgPXw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaBxonf8uBUUOlErAAGC51Pyw8RXtj24AmJPehKyJDW1V0raAo
-	0tWX/mQCsY74lddL70kBONIBvt1sp3pAIuGiLE3/Hk7XqTHH+nn2
-X-Gm-Gg: ASbGnct0uOj4sEDke1DHHGSLv6fNtRZ37Il5RhUQXqoWd6eqXO1eGryaNxDscgcKez6
-	AbNdB8R65wabnsRita++zFKh1PEygkovJj3qDbi3T73al0Fp3zag6ziczBrR2JOmGZsEA85gNg3
-	RCHq3GRxxuhfNoG89d8oOHfnxthPkhDrxHpiFfuE/eNK+zLsquofmhwmRCiPPA404/FoLDyVSgC
-	0gfY0FsaNkVjujjsiA5gNB7z4/khc7jMiHxtP5Zdv+9eUZiXoXNqcVe/a2C9XFJbk0lQ0J0PgMF
-	VyffqpVyOw1abVEMH5pRy6PeK3w=
-X-Google-Smtp-Source: AGHT+IHsLJrq1/6jsjnL70pI6+IKN2WaOK9OTZJjSiTC0t6yFL3CqtJmkJsDvX6eeDca3Db1hN1w8A==
-X-Received: by 2002:a05:6820:2289:b0:5fa:61b9:3e99 with SMTP id 006d021491bc7-5fc4798aa32mr3487824eaf.3.1738792239064;
-        Wed, 05 Feb 2025 13:50:39 -0800 (PST)
-Received: from localhost.localdomain ([146.70.177.76])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5fc1059a87esm3989322eaf.27.2025.02.05.13.50.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 13:50:38 -0800 (PST)
-From: Tulio Fernandes <tuliomf09@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-input@vger.kernel.org,
-	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH] HID: hid-thrustmaster: fix stack-out-of-bounds read in usb_check_int_endpoints by null-terminating array
-Date: Wed,  5 Feb 2025 18:50:34 -0300
-Message-ID: <20250205215034.51291-1-tuliomf09@gmail.com>
-X-Mailer: git-send-email 2.48.1
+        d=1e100.net; s=20230601; t=1738803284; x=1739408084;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cxpOkZOkCuxEBr8nyhrAOoznPB66YiDk0UNNr5Nt7mY=;
+        b=jkh+C2/3mYwcYTb9BrIJhHC+EWW8ZyAKG7CTl23MuLcbbbLSBb0+MZSKevvIrgKS8l
+         mMLwwp63cUOtR4CRu44fUUG2p3jUyYp2vXyA9qydXlvIpFQ2Vy4KiIr+YVtYSttid6t6
+         gc2ixQ2965egP+LVU8wfARKzQmmPu9JJ8FSg3wrKT88DwOcgMBxQ0ykfs4clL5YT+/mV
+         /Bn6/DN8WqSLUtf4KIa+7RzinrlUYpgdcJmUeVyNWRHnPKHmW+feYqioTO3hJhKRqwd4
+         bjG+jgHbVZyQRCw0Nrc+IDWy4fWEKEDLHIJksMBuz+6QmKhqr5YR4yt+zxzdVvPIrJZj
+         IXiw==
+X-Forwarded-Encrypted: i=1; AJvYcCUq4876JJomk7eMZVRY+O4wp4eVxOqJUdjXxveJyBJXq6t5E1X9QoAXbmPCaq4WCok6HzI=@vger.kernel.org, AJvYcCVRxjUM820pQ1rr0joBLtbUYntYqG/CdAdAmzHb+g9tzPR5hLQXA+wQpsP0IQiSQjrFWVN6Ph7dsf7s27M=@vger.kernel.org, AJvYcCWqsIlwB9Szfn1nKYM89X7j1vHux/dT4e2AHXm8Q6njvnvnabLnqwUAmkIjY50K9BO5jbscmTkAeRuPMTaq@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtWX/lB2JEJ9Ch9dmfHgH3ngebmt8dsCGmJJyurJz38uqMCrLs
+	VA+WyLhb7ooQhvQp1ye1gjiAOuFVj9vgo9hdDl/4X7CAdhlhV3eM2vjCxfFkgku/JfVa80KNRN9
+	Rh3ZkJxqMmWCqWRJ5hVIPmXAuyLhFOw==
+X-Gm-Gg: ASbGncv00k1Qyp1dq69WWaTvuEDHICTNCPiXLH15sQvZCwhsRz7c/9TS+1yK3vVya3C
+	SVpv++PUyljpZfucvfnuIe6eVT/B1wnVmP2DG9wZPysSBdWNKNZxFF3F14TVCzjz5cxBbgNKYNX
+	DQsEjTyUDnz9g8
+X-Google-Smtp-Source: AGHT+IFSLoc2DjjMKHytTrp0lZD2pPvYLRfUG7/NwwKFLJlmv6yD4/JsCoZrywCy9NBhx0rx9hBy/Qwjoa2ZPDm7Q+0=
+X-Received: by 2002:a05:6a00:aa05:b0:72a:a7a4:9c6d with SMTP id
+ d2e1a72fcca58-7303521c70amr9373134b3a.24.1738803283983; Wed, 05 Feb 2025
+ 16:54:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250203085506.220297-1-jinghao7@illinois.edu> <20250203085506.220297-3-jinghao7@illinois.edu>
+In-Reply-To: <20250203085506.220297-3-jinghao7@illinois.edu>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Wed, 5 Feb 2025 16:54:29 -0800
+X-Gm-Features: AWEUYZkOyXdnPrFYjkSJbomR9axi8zEcr4MqtCizAMblOi7zjWCfxqJ5_35asJU
+Message-ID: <CAEf4BzY7yML7=C8Z+T8_RdzZt1Ab+rwK0g7b0GKf99T-uaGpxQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] samples/bpf: fix broken vmlinux path for VMLINUX_BTF
+To: Jinghao Jia <jinghao7@illinois.edu>
+Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nicolas Schier <n.schier@avm.de>, Ruowen Qin <ruqin@redhat.com>, bpf@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Syzbot[1] has detected a stack-out-of-bounds read of the ep_addr array from
-hid-thrustmaster driver. This array is passed to usb_check_int_endpoints
-function from usb.c core driver, which executes a for loop that iterates
-over the elements of the passed array. Not finding a null element at the end of
-the array, it tries to read the next, non-existent element, crashing the kernel.
+On Mon, Feb 3, 2025 at 12:55=E2=80=AFAM Jinghao Jia <jinghao7@illinois.edu>=
+ wrote:
+>
+> Commit 13b25489b6f8 ("kbuild: change working directory to external
+> module directory with M=3D") changed kbuild working directory of bpf
+> sample programs to samples/bpf, which broke the vmlinux path for
+> VMLINUX_BTF, as the Makefiles assume the current work directory to be
+> the kernel output directory and use a relative path (i.e., ./vmlinux):
+>
+>   Makefile:316: *** Cannot find a vmlinux for VMLINUX_BTF at any of "  /p=
+ath/to/linux/samples/bpf/vmlinux", build the kernel or set VMLINUX_BTF like=
+ "VMLINUX_BTF=3D/sys/kernel/btf/vmlinux" or VMLINUX_H variable.  Stop.
+>
+> Correctly refer to the kernel output directory using $(objtree).
+>
+> Fixes: 13b25489b6f8 ("kbuild: change working directory to external module=
+ directory with M=3D")
+> Tested-by: Ruowen Qin <ruqin@redhat.com>
+> Signed-off-by: Jinghao Jia <jinghao7@illinois.edu>
+> ---
+>  samples/bpf/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
 
-To fix this, a 0 element was added at the end of the array to break the for
-loop.
+Applied this patch to bpf-next. I presume HID ones will go through the
+respective tree. Thanks!
 
-[1] https://syzkaller.appspot.com/bug?extid=9c9179ac46169c56c1ad
-
-Signed-off-by: Túlio Fernandes <tuliomf09@gmail.com>
----
- drivers/hid/hid-thrustmaster.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/hid/hid-thrustmaster.c b/drivers/hid/hid-thrustmaster.c
-index 6c3e758bbb09..3b81468a1df2 100644
---- a/drivers/hid/hid-thrustmaster.c
-+++ b/drivers/hid/hid-thrustmaster.c
-@@ -171,7 +171,7 @@ static void thrustmaster_interrupts(struct hid_device *hdev)
- 	b_ep = ep->desc.bEndpointAddress;
- 
- 	/* Are the expected endpoints present? */
--	u8 ep_addr[1] = {b_ep};
-+	u8 ep_addr[2] = {b_ep, 0};
- 
- 	if (!usb_check_int_endpoints(usbif, ep_addr)) {
- 		hid_err(hdev, "Unexpected non-int endpoint\n");
--- 
-2.48.1
-
+> diff --git a/samples/bpf/Makefile b/samples/bpf/Makefile
+> index dd9944a97b7e..5b632635e00d 100644
+> --- a/samples/bpf/Makefile
+> +++ b/samples/bpf/Makefile
+> @@ -307,7 +307,7 @@ $(obj)/$(TRACE_HELPERS): TPROGS_CFLAGS :=3D $(TPROGS_=
+CFLAGS) -D__must_check=3D
+>
+>  VMLINUX_BTF_PATHS ?=3D $(abspath $(if $(O),$(O)/vmlinux))               =
+                 \
+>                      $(abspath $(if $(KBUILD_OUTPUT),$(KBUILD_OUTPUT)/vml=
+inux)) \
+> -                    $(abspath ./vmlinux)
+> +                    $(abspath $(objtree)/vmlinux)
+>  VMLINUX_BTF ?=3D $(abspath $(firstword $(wildcard $(VMLINUX_BTF_PATHS)))=
+)
+>
+>  $(obj)/vmlinux.h: $(VMLINUX_BTF) $(BPFTOOL)
+> --
+> 2.48.1
+>
 
