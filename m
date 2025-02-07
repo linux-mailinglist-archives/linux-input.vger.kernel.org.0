@@ -1,90 +1,119 @@
-Return-Path: <linux-input+bounces-9838-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9839-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDDE3A2C342
-	for <lists+linux-input@lfdr.de>; Fri,  7 Feb 2025 14:07:18 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B80A5A2C369
+	for <lists+linux-input@lfdr.de>; Fri,  7 Feb 2025 14:21:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F44016AD04
-	for <lists+linux-input@lfdr.de>; Fri,  7 Feb 2025 13:07:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AA6427A20BD
+	for <lists+linux-input@lfdr.de>; Fri,  7 Feb 2025 13:20:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 259A47FD;
-	Fri,  7 Feb 2025 13:07:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 520C71E0DE5;
+	Fri,  7 Feb 2025 13:21:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RHnYRH1k"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tKGCkBJw"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E721E1023
-	for <linux-input@vger.kernel.org>; Fri,  7 Feb 2025 13:07:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7429454
+	for <linux-input@vger.kernel.org>; Fri,  7 Feb 2025 13:21:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738933635; cv=none; b=aq/usn9wBaZ8n0QaR4jkc/pGOGStMVEmt7JQ1ZWthooTYoh9KJSNeOgRqphVLuEkeElUX1Zyf67KZnsk3KVShzXatZC4CAR5fxvjHnRc098LtnVV+PhvbZqm7AnMv7VMXFY0byXirDW0Zhs/QT0cKIiEDOpAov+59/d6WxGRSsQ=
+	t=1738934472; cv=none; b=GwDZwB5Xj12jc10zaN9KbhJULHLPyQQLF51gItKud2dnHb5zvoLL6CRygiLxMCCAAIZbotqkMU0ZpJOkUjhNSXfaKmoEp8uCp/zuDAzH4sVjf6q6Dh6HBMfkgjav5bPL7l9azXx8qaOYml8GdXUs7lVY8dV3xR9xCpnmhMz7bhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738933635; c=relaxed/simple;
-	bh=PIzIt7kfe1FqK6WEeyibm+R8OtEl4VYdMyE8lL7wBaE=;
+	s=arc-20240116; t=1738934472; c=relaxed/simple;
+	bh=HwA3xfdUZwX9aiMwcaIn6qdcbIY+5UOHgxjCdv7v2mE=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=JZyLW+/bl+BivrrOVrv/C8Z+MRYmx3PKslvugTBYVLWczZoWIdJAQLZbjopgrxN1bU9ET5JWnjm+HTkYw+H69cmvVePsSvk3P9KrlJjKA189gSJmL/Xga0fz8BsUK5nSDbGL0JOopu7U2KD36AVQlVQinf4S01S5lI+1VGiPVg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RHnYRH1k; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73391C4CED1;
-	Fri,  7 Feb 2025 13:07:14 +0000 (UTC)
+	 MIME-Version:Content-Type; b=EOyGeYPS0yTIKFsAo6w5+YEbsgfQApaZ6DN+/ieJWw+blIVaUV4S6qRLTYIHQDL8x3fVLcoP0uauPS9NXRTGTxEUCr72qc8gx2lIEgjNuIZpS4bNs+LD/SgRL0sdcYA27Uv2IgFRAdgwK7pmPrjrcuHKpSFsPWfSjXJ3/QivJz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tKGCkBJw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 193A9C4CED1;
+	Fri,  7 Feb 2025 13:21:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738933634;
-	bh=PIzIt7kfe1FqK6WEeyibm+R8OtEl4VYdMyE8lL7wBaE=;
+	s=k20201202; t=1738934470;
+	bh=HwA3xfdUZwX9aiMwcaIn6qdcbIY+5UOHgxjCdv7v2mE=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=RHnYRH1kPDF4KneC3LFqHEXFTeOq/MXni7Hdi2N8eePuPbLd72Q28e14XU4utidrO
-	 35m3AbV1ir6uryp/jxLWpJ0rPiXp4eJ1TgnrVzVcL+KLZY3yPNNJT5vQsM9pCkySy1
-	 09rtMZG7KbLRfvKK+QHBE1eh8y5x2mTqDdEd40ch81yhGAPL1sf1beXRcO2Kmab+Cw
-	 ihBxk8/YmroU0u1XoNJjCvHMty1EoEeG4s8sqb2Ew3IzoruCAROzyqCF3ctM9Zy31F
-	 IkucQA4rCUw5cSkJkL7Cr+0xyn5Y5oE9EcXq5Af8uk89rp4X3yEUbKkn0w5KN/u1Mj
-	 mDuE7OVyiVlwA==
-Date: Fri, 7 Feb 2025 14:07:12 +0100 (CET)
+	b=tKGCkBJwj+pjkdVLYgeYDeLJ2H9NN9ntRjkGOrBD2niBF97XHKQWI//v2o/gXdX+t
+	 u5+JMbdfYEKOdlXO26h+4z6GF+N1OwSa3eA8eZRzL3ESx6Rkp7SB5xA1HKkDeY2skx
+	 Gk2r5mdsYhWdddGtCT0NjF4fyQFRwULInZpQL8FAFnmUqO54AylVdAwg6wAjKJBMFD
+	 KesOKZK7N2EPd/G+LGawx/MjLbZ7kEjDPqnXSBYFVHWA2aSb64sKRElgmTKhe8tKYN
+	 v+78KijFsS4Q+OvDbQkFV2trGdVqUZdkdI/phSBlWXRKLfI2YE+4G/fByOqo0eTnR7
+	 K1KGkcSFbzXSA==
+Date: Fri, 7 Feb 2025 14:21:07 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Alex Henrie <alexhenrie24@gmail.com>
-cc: linux-input@vger.kernel.org, benjamin.tissoires@redhat.com
-Subject: Re: [PATCH resend] HID: apple: fix up the F6 key on the Omoton KB066
- keyboard
-In-Reply-To: <20250117061254.196702-1-alexhenrie24@gmail.com>
-Message-ID: <372n46q0-s03r-52r7-48os-34o8n244nnr2@xreary.bet>
-References: <20241001055146.543800-1-alexhenrie24@gmail.com> <20250117061254.196702-1-alexhenrie24@gmail.com>
+To: Tulio Fernandes <tuliomf09@gmail.com>
+cc: bentiss@kernel.org, linux-input@vger.kernel.org, 
+    ~lkcamp/patches@lists.sr.ht, Karol Przybylski <karprzy7@gmail.com>
+Subject: Re: [PATCH] HID: hid-thrustmaster: fix stack-out-of-bounds read in
+ usb_check_int_endpoints by null-terminating array
+In-Reply-To: <20250205215034.51291-1-tuliomf09@gmail.com>
+Message-ID: <no7277o4-3964-4s97-0r95-154rr6rn4r88@xreary.bet>
+References: <20250205215034.51291-1-tuliomf09@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Thu, 16 Jan 2025, Alex Henrie wrote:
+On Wed, 5 Feb 2025, Tulio Fernandes wrote:
 
-> The Omoton KB066 is an Apple A1255 keyboard clone (HID product code
-> 05ac:022c). On both keyboards, the F6 key becomes Num Lock when the Fn
-> key is held. But unlike its Apple exemplar, when the Omoton's F6 key is
-> pressed without Fn, it sends the usage code 0xC0301 from the reserved
-> section of the consumer page instead of the standard F6 usage code
-> 0x7003F from the keyboard page. The nonstandard code is translated to
-> KEY_UNKNOWN and becomes useless on Linux. The Omoton KB066 is a pretty
-> popular keyboard, judging from its 29,058 reviews on Amazon at time of
-> writing, so let's account for its quirk to make it more usable.
-> 
-> By the way, it would be nice if we could automatically set fnmode to 0
-> for Omoton keyboards because they handle the Fn key internally and the
-> kernel's Fn key handling creates undesirable side effects such as making
-> F1 and F2 always Brightness Up and Brightness Down in fnmode=1 (the
-> default) or always F1 and F2 in fnmode=2. Unfortunately I don't think
-> there's a way to identify Bluetooth keyboards more specifically than the
-> HID product code which is obviously inaccurate. Users of Omoton
-> keyboards will just have to set fnmode to 0 manually to get full Fn key
-> functionality.
-> 
-> Signed-off-by: Alex Henrie <alexhenrie24@gmail.com>
+> Syzbot[1] has detected a stack-out-of-bounds read of the ep_addr array fr=
+om
+> hid-thrustmaster driver. This array is passed to usb_check_int_endpoints
+> function from usb.c core driver, which executes a for loop that iterates
+> over the elements of the passed array. Not finding a null element at the =
+end of
+> the array, it tries to read the next, non-existent element, crashing the =
+kernel.
+>=20
+> To fix this, a 0 element was added at the end of the array to break the f=
+or
+> loop.
+>=20
+> [1] https://syzkaller.appspot.com/bug?extid=3D9c9179ac46169c56c1ad
+>=20
+> Signed-off-by: T=C3=BAlio Fernandes <tuliomf09@gmail.com>
 
-Now applied to hid.git#for-6.14/upstream-fixes, thanks.
 
--- 
+
+> ---
+>  drivers/hid/hid-thrustmaster.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/hid/hid-thrustmaster.c b/drivers/hid/hid-thrustmaste=
+r.c
+> index 6c3e758bbb09..3b81468a1df2 100644
+> --- a/drivers/hid/hid-thrustmaster.c
+> +++ b/drivers/hid/hid-thrustmaster.c
+> @@ -171,7 +171,7 @@ static void thrustmaster_interrupts(struct hid_device=
+ *hdev)
+>  =09b_ep =3D ep->desc.bEndpointAddress;
+> =20
+>  =09/* Are the expected endpoints present? */
+> -=09u8 ep_addr[1] =3D {b_ep};
+> +=09u8 ep_addr[2] =3D {b_ep, 0};
+> =20
+>  =09if (!usb_check_int_endpoints(usbif, ep_addr)) {
+>  =09=09hid_err(hdev, "Unexpected non-int endpoint\n");
+
+Ugh. Makes me wonder how 50420d7c79c was tested at all in the first place.=
+=20
+CCing Karol.
+
+I've added
+
+    Reported-by: syzbot+9c9179ac46169c56c1ad@syzkaller.appspotmail.com
+    Fixes: 50420d7c79c3 ("HID: hid-thrustmaster: Fix warning in thrustmaste=
+r_probe by adding endpoint check")
+
+and applied.
+
+--=20
 Jiri Kosina
 SUSE Labs
 
