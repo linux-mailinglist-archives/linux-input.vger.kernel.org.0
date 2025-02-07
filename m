@@ -1,58 +1,56 @@
-Return-Path: <linux-input+bounces-9833-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9834-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808C6A2C30E
-	for <lists+linux-input@lfdr.de>; Fri,  7 Feb 2025 13:49:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F70A2C312
+	for <lists+linux-input@lfdr.de>; Fri,  7 Feb 2025 13:51:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8C6FA188C6EC
-	for <lists+linux-input@lfdr.de>; Fri,  7 Feb 2025 12:49:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3AF2618832A2
+	for <lists+linux-input@lfdr.de>; Fri,  7 Feb 2025 12:51:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78F9E1E1023;
-	Fri,  7 Feb 2025 12:49:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03BBB1DED54;
+	Fri,  7 Feb 2025 12:51:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jHvt6snT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cfTaJFyw"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D07D1DFE04;
-	Fri,  7 Feb 2025 12:49:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED81944E;
+	Fri,  7 Feb 2025 12:51:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738932554; cv=none; b=CaTygLo+8DXzB4bFzxcXnfrI7DkkG1PZ+yTwffExN5q6CNLj+fp9GRdg7USgg39P7zsAbLGan49wyrvsdnsZiz4Q7apWD6AOHO1ZZfw1jKLKbQu4oU5RyfJBATULWpozv8KGEPZ1JURsXALLWlWXDyx7rdcCKorYqkipDSjEKaY=
+	t=1738932690; cv=none; b=iSlYgCRrDrvpaN658tUc9TIro2ngOGREJeX8AmsBFvgXVKhyBbBq1rQbWa+Sov0c7c/0yv5M+VMemE5mwyvDapAzvNPJ259jKVz4PlA3zJfd9oNKj+bu8Evu5zpoZ00SN2Lj6dTjjk+WisVyN2enQ67gJ0ud++9h2s5UuEbRS+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738932554; c=relaxed/simple;
-	bh=rewFqSNHRICHMfqkDxgVEbgGirdxnhjcREMT1ec102k=;
+	s=arc-20240116; t=1738932690; c=relaxed/simple;
+	bh=M4IZZLK5uuuYEJ8jRtmP+IPC2DFQI1tfg7xzzDR0wgk=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=fbXioQtKfxLjTXPDtX0H2G1mqTuo4xnok2t/menyT+iksmFjhNmbGnnalKqjl2evdunnOnR16XOzXH68UBLDAK+fHL8dGeoy6ktRibbQhkiisQA1fFZ083AHBIqn4kjnz60re+j2011LXUESwDh+WU9yIEZNQP2YAhQ68OuRwbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jHvt6snT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EA43C4CED1;
-	Fri,  7 Feb 2025 12:49:13 +0000 (UTC)
+	 MIME-Version:Content-Type; b=Tjn9BbOolZ3LI4QEETWMkKv5t7c1V1lipa5F81fqzvWMwIo9BhQNTPML0VHwzFDi0p2a0i6XjHOjC6beiNAr0fQImQ1tSbBwJ+Ji7hoPnDliTwWa+S4HwzpIVipq46NSNlq0yGlFNliJI9sgBJ5LEQ2BXe4KsgQ191JPuznq+UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cfTaJFyw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53241C4CED1;
+	Fri,  7 Feb 2025 12:51:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738932553;
-	bh=rewFqSNHRICHMfqkDxgVEbgGirdxnhjcREMT1ec102k=;
+	s=k20201202; t=1738932690;
+	bh=M4IZZLK5uuuYEJ8jRtmP+IPC2DFQI1tfg7xzzDR0wgk=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=jHvt6snT8i5LVK0+zxXKmikH/dFAT8bh55vD4J+GS0yGZY9e1An4XHhqrV/KG7Mn3
-	 fZ3aPT8L9xIjwyktOU2tSf4mYly9Z6RhMW+k7C06amDzCUwio1BgcidR926HKam6HG
-	 npEVrC2x9DWWOfF8cYLrEu/X1JbwU4xZRGNzDgt0LNbupTSowKYR+WXJn0U6Ws9uHV
-	 5Txb88152dscL/tPpw/cUIiu2afCvOwNBKloajCBMShon3DO+6QQVJQO6RR/bp+mSq
-	 BYLxAEs1AVUA9edvNm1hDGwD3LA2LRdaroXEBTB7jsJUk7Iz9JCOI4fR0dU1z5a/r5
-	 LjzzXjZAGLdiQ==
-Date: Fri, 7 Feb 2025 13:49:10 +0100 (CET)
+	b=cfTaJFywbkSh9Z5oVdlWpL3WqhChC7srcuFk0WBxO7PIAZm7esAKyeP6xt/jAz8Wd
+	 OBGqGuxsA4fgnp3gjSNREUDbiecdiFRokQoWSdW4udysMBhK1Xw/XwEEJ+U3iJI4xy
+	 vxR/G/XzAuTVF7Bc1DH4m/xGpt8RyjZrIlSvakjn7Oxydv/lgZM64mpmlzGU5P77Ia
+	 LZngj3bwgLPhpHv2A3Fu2DruSwnTTNZoL6yBnPk1IJ1/5o+i6kCLGfiWE7nIeyVwRb
+	 IU0jdUPs+dBFBfudkaqh7/zt70KYCoo6HUGOc2BUgGOZcdkK/8iSgWozscMzQAQVHH
+	 chc7d5mewFdUA==
+Date: Fri, 7 Feb 2025 13:51:27 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Philipp Stanner <phasta@kernel.org>
-cc: Even Xu <even.xu@intel.com>, Xinpeng Sun <xinpeng.sun@intel.com>, 
-    Benjamin Tissoires <bentiss@kernel.org>, 
-    Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
-    Mark Pearson <mpearson-lenovo@squebb.ca>, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH] HID: intel-thc-hid: Remove deprecated PCI API calls
-In-Reply-To: <20250128101156.77868-2-phasta@kernel.org>
-Message-ID: <96151032-84p2-17q9-3997-sn60r0n13sp9@xreary.bet>
-References: <20250128101156.77868-2-phasta@kernel.org>
+To: Kate Hsuan <hpa@redhat.com>
+cc: Hans de Goede <hdegoede@redhat.com>, 
+    Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] hid: hid-lg-g15: Use standard multicolor LED API
+In-Reply-To: <20250131140241.586305-1-hpa@redhat.com>
+Message-ID: <10q50q4n-6p07-nn4p-n8r9-167o85661p25@xreary.bet>
+References: <20250131140241.586305-1-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -61,31 +59,26 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Tue, 28 Jan 2025, Philipp Stanner wrote:
+On Fri, 31 Jan 2025, Kate Hsuan wrote:
 
-> intel-thc-hid reintroduced the already deprecated PCI API functions
+> Replace the custom "color" sysfs attribute with the standard multicolor
+> LED API.
 > 
-> 	pcim_iomap_table(),
-> 	pcim_iomap_regions(),
-> 	pcim_iounmap_regions(),
+> This also removes the code for the custom "color" sysfs attribute,
+> the "color" sysfs attribute was never documented so hopefully, it is not
+> used by anyone.
 > 
-> none of which should be used anymore.
+> If we get complaints, we can re-add the "color" sysfs attribute as
+> a compatibility wrapper setting the subleds intensity.
 > 
-> Furthermore, calling managed (pcim_*) functions in remove() and probe()
-> for cleanup is not necessary, since the managed functions clean up
-> automatically.
-> 
-> Replace / remove the deprecated functions.
-> 
-> Fixes: 61bb2714dc3a1 ("HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver skeleton")
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
 > ---
-> Hi,
-> 
-> I'm trying to remove this API since a year. Please pay attention to the
-> docstrings in PCI which mark certain functions as deprecated.
+> Changes in v2:
+> 1. The commit message was revised with the reviewer's suggestions.
+> 2. The incorrect parameters for container_of() were fixed.
+> 3. The brightness values were converted by led_mc_calc_color_components().
 
-Applied, thanks.
+Applied, thank you.
 
 -- 
 Jiri Kosina
