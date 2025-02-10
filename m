@@ -1,188 +1,177 @@
-Return-Path: <linux-input+bounces-9871-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9872-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019D1A2E3CB
-	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 06:48:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4095A2E453
+	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 07:49:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9EB503A7D56
-	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 05:48:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 423791886262
+	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 06:49:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E361E130E58;
-	Mon, 10 Feb 2025 05:48:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF0011A4F1F;
+	Mon, 10 Feb 2025 06:49:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="dZzqJ7Qc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kpvdNqv9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF022F2E;
-	Mon, 10 Feb 2025 05:48:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07CD199237;
+	Mon, 10 Feb 2025 06:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739166508; cv=none; b=sDZSW9G9Ca5X9v4A8eJY5h0wm+NfRhOr9PKzvWwvlF0QB4LHmGdSc0F6EeQHy7zF86p5pAHo/jE3QtW7zTe/2z21Lz6sdiq29lFvne66ZjqYkeG8nzLdEOzy3Cg9+Sio2yVCwoN3kJqVWsi3HAz4d5Co00Cy0MMRe3h+f28Z//c=
+	t=1739170162; cv=none; b=e8oSo8ivaEo58xlhC1NgQ6TDFf2PpLZx48oe+vWh0RUqSOJYw7V3feUkXpvAcyOuxdc2hzvRQOVYkmVbT6/EtcSuHIKsnwmaNmXOvqEmh767eBNPR5+qtIqjHbYRTS1hDPIANYULPUp6WvgCb6GoKQgdyky+86/1nOb/i8fIN2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739166508; c=relaxed/simple;
-	bh=+NAxRQC5smRZ5HsmXOpBI0/Ve2ax8F4QGZ7SNEUkpNM=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=FyAFU2sN6sK/iyYVj/uPN/oTBoHYl6i/pxNkvtTI4WmyXDw0C7WQDfwqwvdtx/N6YWUw1P/qGeGm1F8CDMpmHZqjmWZDKW85omGG+9MHTTsRpbdb+uCHJoPON5dMduU3qj9HOudw6WHJfckoISrZeBFOzpqOktL7ZuAB2y52LMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=dZzqJ7Qc; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
-Received: from [127.0.0.1] (254C220D.nat.pool.telekom.hu [37.76.34.13])
-	by mail.mainlining.org (Postfix) with ESMTPSA id 83E49E4533;
-	Mon, 10 Feb 2025 05:48:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
-	s=psm; t=1739166504;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bwdoMmgPxPuwsmi4DTSKg54itX3LuYY47U5m5IBWkVQ=;
-	b=dZzqJ7Qc1i19o14nPMXRoCPBKMmBsnCzUVvxlm8fPvS99E2oX2o53PF/1MPyx+1nrjbRea
-	taI9xEel0OoM57zVdxmhpb00g1ty8nNpVYE+fbTYm7iXAuzBYQYsihLNgtnEcgsUJ1uP1f
-	yhBhWTqBACM49wK7vAbhYeaBibwQe3CzlXq6gLosiljz4J88CUjJbME3qx+kPK63+zD/ci
-	NI9Udny9cwzz1lW8FoDuO27CjmfBYBYK6Z4heVyIJY+ZRVUM0AINWC6QKoDUHO3jkxNgB1
-	z8xJn+HKfYunYMezBql7594CgSLJyHME3JOHrEmph8JvLbzwrLtOL4QGorRNBQ==
-Date: Mon, 10 Feb 2025 06:48:24 +0100
-From: =?ISO-8859-1?Q?Barnab=E1s_Cz=E9m=E1n?= <barnabas.czeman@mainlining.org>
-To: Felix Kaechele <felix@kaechele.ca>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] Input: rmi_i2c: introduce reset GPIO handling
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20250210050220.634497-2-felix@kaechele.ca>
-References: <20250210050220.634497-1-felix@kaechele.ca> <20250210050220.634497-2-felix@kaechele.ca>
-Message-ID: <8A6D08BB-B830-4275-B61B-15D367415D59@mainlining.org>
+	s=arc-20240116; t=1739170162; c=relaxed/simple;
+	bh=MT20+ISjNrsfj+JY6Luwuix13n0+yvZ1ZzVBv1EsCd4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=YATOc48gxaDk0X7n/PeJb4rdnwXRuq5lLbRBAhuiI49n0eF1/IJKsG5SOSlQTJSUnxWAqLM9fAYxKyuto6r/YLuwepoedsHr2nCLCwuziPPSI0lQW16AAPXceRrhyScNH9meOARjMtEeAhT7QRmYcYhlTfcFiXPSkXAsH5DPy+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kpvdNqv9; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739170161; x=1770706161;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MT20+ISjNrsfj+JY6Luwuix13n0+yvZ1ZzVBv1EsCd4=;
+  b=kpvdNqv9Fd+1whyAp/aVWUJHrScH/en1Z+YW8nMgasBcRoGPK9RF1sdc
+   e76bnh8Houf5kcOVKy/s25bbCUILKJxGHCR9lOzi0+2N2bNeeuBGxyPGa
+   3tXT1XPHAbIyWD/Pa+QNFKYtPUdjm3xHZ3W+WRhOd2LQbAeef7aF7EHCn
+   R2gvd5kpCn1HMdGxwziyai1se3aM6vefqcOamYQHbnrLZvD96RAketfH/
+   30/wWSpAZaGibGYv5oFmIkSkJYCYfR72bdcHW4uPEwP5v99kzH3KgyzK+
+   G6/SAx9iqeJeBS+0MM5Of/3L6Km9v6pT9LkmnpJy2PoQbr8vemy+QwcZv
+   g==;
+X-CSE-ConnectionGUID: x2pQQrB0TOaasgOwTyoVBg==
+X-CSE-MsgGUID: knOT/hnySd2JSPuq+HhAgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="43499274"
+X-IronPort-AV: E=Sophos;i="6.13,273,1732608000"; 
+   d="scan'208";a="43499274"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 22:49:20 -0800
+X-CSE-ConnectionGUID: ihMdF6JZSSKHTujs9K787g==
+X-CSE-MsgGUID: zszNhHMBSFCXLDb8sZw9yg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,273,1732608000"; 
+   d="scan'208";a="117122370"
+Received: from jraag-z790m-itx-wifi.iind.intel.com ([10.190.239.23])
+  by orviesa004.jf.intel.com with ESMTP; 09 Feb 2025 22:49:14 -0800
+From: Raag Jadav <raag.jadav@intel.com>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	linus.walleij@linaro.org,
+	mika.westerberg@linux.intel.com,
+	andriy.shevchenko@linux.intel.com,
+	dmitry.torokhov@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	sre@kernel.org,
+	jic23@kernel.org,
+	przemyslaw.kitszel@intel.com
+Cc: linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	Raag Jadav <raag.jadav@intel.com>
+Subject: [PATCH v4 00/20] Split devres APIs to device/devres.h and introduce devm_kmemdup_array()
+Date: Mon, 10 Feb 2025 12:18:46 +0530
+Message-Id: <20250210064906.2181867-1-raag.jadav@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This series
+
+1. Splits device/devres.h for the users that are only interested in devres APIs.
+   Original work by Andy Shevchenko:
+   https://lore.kernel.org/r/20241203195340.855879-1-andriy.shevchenko@linux.intel.com
+
+2. Introduces a more robust and cleaner devm_kmemdup_array() helper and uses it
+   across drivers.
+
+The idea behind embedding both work into a single series is to make the review
+process easier and reduce conflicts while merging.
+
+Current proposal is to merge initial patches with an immutable tag (volunteered
+by Andy) for other subsystems to use. Feel free to share a better alternative.
+
+v2: Use size_mul() for multiplication (Dmitry)
+    Update commit message (Dmitry)
+
+v3: Embed devres.h work by Andy
+    Add more users of devm_kmemdup_array()
+    Update tags and rebase
+
+v4: Use IOMEM_ERR_PTR() to fix sparse warnings (Andy)
+    Use source size and make it robust against type changes (Andy)
+
+Andy Shevchenko (2):
+  driver core: Split devres APIs to device/devres.h
+  iio: imu: st_lsm9ds0: Replace device.h with what is needed
+
+Raag Jadav (18):
+  devres: Introduce devm_kmemdup_array()
+  pinctrl: intel: copy communities using devm_kmemdup_array()
+  pinctrl: baytrail: copy communities using devm_kmemdup_array()
+  pinctrl: cherryview: use devm_kmemdup_array()
+  pinctrl: tangier: use devm_kmemdup_array()
+  pinctrl: pxa2xx: use devm_kmemdup_array()
+  input: sparse-keymap: use devm_kmemdup_array()
+  input: ipaq-micro-keys: use devm_kmemdup_array()
+  regulator: devres: use devm_kmemdup_array()
+  regulator: cros-ec: use devm_kmemdup_array()
+  power: supply: sc27xx: use devm_kmemdup_array()
+  iio: adc: xilinx-xadc-core: use devm_kmemdup_array()
+  ASoC: Intel: avs: use devm_kmemdup_array()
+  ASoC: hdac_hdmi: use devm_kmemdup_array()
+  ASoC: tlv320dac33: use devm_kmemdup_array()
+  ASoC: uda1380: use devm_kmemdup_array()
+  ASoC: meson: axg-tdm-interface: use devm_kmemdup_array()
+  ASoC: uniphier: use devm_kmemdup_array()
+
+ drivers/iio/adc/xilinx-xadc-core.c          |   4 +-
+ drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_i2c.c |   2 +-
+ drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_spi.c |   2 +-
+ drivers/input/keyboard/ipaq-micro-keys.c    |   5 +-
+ drivers/input/sparse-keymap.c               |   3 +-
+ drivers/pinctrl/intel/pinctrl-baytrail.c    |   6 +-
+ drivers/pinctrl/intel/pinctrl-cherryview.c  |   5 +-
+ drivers/pinctrl/intel/pinctrl-intel.c       |   6 +-
+ drivers/pinctrl/intel/pinctrl-tangier.c     |   5 +-
+ drivers/pinctrl/pxa/pinctrl-pxa2xx.c        |   8 +-
+ drivers/power/supply/sc27xx_fuel_gauge.c    |   5 +-
+ drivers/regulator/cros-ec-regulator.c       |   4 +-
+ drivers/regulator/devres.c                  |   5 +-
+ include/linux/device.h                      | 119 +-----------------
+ include/linux/device/devres.h               | 130 ++++++++++++++++++++
+ sound/soc/codecs/hdac_hdmi.c                |   3 +-
+ sound/soc/codecs/tlv320dac33.c              |   6 +-
+ sound/soc/codecs/uda1380.c                  |   6 +-
+ sound/soc/intel/avs/boards/da7219.c         |   3 +-
+ sound/soc/intel/avs/boards/es8336.c         |   3 +-
+ sound/soc/intel/avs/boards/nau8825.c        |   3 +-
+ sound/soc/intel/avs/boards/rt274.c          |   3 +-
+ sound/soc/intel/avs/boards/rt286.c          |   3 +-
+ sound/soc/intel/avs/boards/rt298.c          |   3 +-
+ sound/soc/intel/avs/boards/rt5663.c         |   3 +-
+ sound/soc/intel/avs/boards/rt5682.c         |   3 +-
+ sound/soc/meson/axg-tdm-interface.c         |   9 +-
+ sound/soc/uniphier/aio-cpu.c                |   8 +-
+ 28 files changed, 181 insertions(+), 184 deletions(-)
+ create mode 100644 include/linux/device/devres.h
 
 
+base-commit: a1e062ab4a1f19bb0e94093ef90ab9a74f1f7744
+-- 
+2.34.1
 
-On February 10, 2025 6:02:09 AM GMT+01:00, Felix Kaechele <felix@kaechele=
-=2Eca> wrote:
->Implement reset GPIO handling logic for the rmi_i2c driver=2E This logic
->is required for some mobile devices to successfully initialize the touch
->controller=2E
->
->The timings for the assertion of the reset GPIO were derived from the
->GPLv2+ licensed synaptics-dsx-v2=2E1 vendor driver release and research I
->conducted into downstream device tree sources=2E Values of 10ms to 20ms
->are commonly found=2E
->
->Tested-On: Motorola Moto G5 Plus (XT1685 "potter")
->
->Signed-off-by: Felix Kaechele <felix@kaechele=2Eca>
->---
-> drivers/input/rmi4/rmi_driver=2Ec |  1 -
-> drivers/input/rmi4/rmi_driver=2Eh |  2 ++
-> drivers/input/rmi4/rmi_i2c=2Ec    | 23 +++++++++++++++++++++++
-> 3 files changed, 25 insertions(+), 1 deletion(-)
-
-Tested-by: Barnab=C3=A1s Cz=C3=A9m=C3=A1n <barnabas=2Eczeman@mainlining=2E=
-org>
-
->
->diff --git a/drivers/input/rmi4/rmi_driver=2Ec b/drivers/input/rmi4/rmi_d=
-river=2Ec
->index 2168b6cd7167=2E=2Eff6aed6a11c1 100644
->--- a/drivers/input/rmi4/rmi_driver=2Ec
->+++ b/drivers/input/rmi4/rmi_driver=2Ec
->@@ -30,7 +30,6 @@
-> #define RMI4_PAGE_MASK 0xFF00
->=20
-> #define RMI_DEVICE_RESET_CMD	0x01
->-#define DEFAULT_RESET_DELAY_MS	100
->=20
-> void rmi_free_function_list(struct rmi_device *rmi_dev)
-> {
->diff --git a/drivers/input/rmi4/rmi_driver=2Eh b/drivers/input/rmi4/rmi_d=
-river=2Eh
->index 3bfe9013043e=2E=2Ee01453bd680f 100644
->--- a/drivers/input/rmi4/rmi_driver=2Eh
->+++ b/drivers/input/rmi4/rmi_driver=2Eh
->@@ -16,6 +16,8 @@
-> #define SYNAPTICS_INPUT_DEVICE_NAME "Synaptics RMI4 Touch Sensor"
-> #define SYNAPTICS_VENDOR_ID 0x06cb
->=20
->+#define DEFAULT_RESET_DELAY_MS	100
->+
-> #define GROUP(_attrs) { \
-> 	=2Eattrs =3D _attrs,  \
-> }
->diff --git a/drivers/input/rmi4/rmi_i2c=2Ec b/drivers/input/rmi4/rmi_i2c=
-=2Ec
->index 3c0c5fd44702=2E=2Ebeff566ca2c8 100644
->--- a/drivers/input/rmi4/rmi_i2c=2Ec
->+++ b/drivers/input/rmi4/rmi_i2c=2Ec
->@@ -4,6 +4,7 @@
->  * Copyright (c) 2011 Unixphere
->  */
->=20
->+#include <linux/gpio/consumer=2Eh>
-> #include <linux/i2c=2Eh>
-> #include <linux/rmi=2Eh>
-> #include <linux/of=2Eh>
->@@ -26,7 +27,9 @@
->  * @tx_buf_size: Size of the buffer
->  *
->  * @supplies: Array of voltage regulators
->+ * @reset_gpio: Reference to the reset GPIO
->  * @startup_delay: Milliseconds to pause after powering up the regulator=
-s
->+ * @reset_delay: Milliseconds to pause after resetting the device
->  */
-> struct rmi_i2c_xport {
-> 	struct rmi_transport_dev xport;
->@@ -39,7 +42,9 @@ struct rmi_i2c_xport {
-> 	size_t tx_buf_size;
->=20
-> 	struct regulator_bulk_data supplies[2];
->+	struct gpio_desc *reset_gpio;
-> 	u32 startup_delay;
->+	u32 reset_delay;
-> };
->=20
-> #define RMI_PAGE_SELECT_REGISTER 0xff
->@@ -227,6 +232,15 @@ static int rmi_i2c_probe(struct i2c_client *client)
-> 		return -ENODEV;
-> 	}
->=20
->+	rmi_i2c->reset_gpio =3D devm_gpiod_get_optional(&client->dev, "reset",
->+						      GPIOD_OUT_HIGH);
->+	if (IS_ERR(rmi_i2c->reset_gpio)) {
->+		error =3D PTR_ERR(rmi_i2c->reset_gpio);
->+		dev_err(&client->dev, "failed to get reset GPIO: %d\n", error);
->+		return error;
->+	}
->+	gpiod_set_consumer_name(rmi_i2c->reset_gpio, "rmi4 reset");
->+
-> 	rmi_i2c->supplies[0]=2Esupply =3D "vdd";
-> 	rmi_i2c->supplies[1]=2Esupply =3D "vio";
-> 	error =3D devm_regulator_bulk_get(&client->dev,
->@@ -251,6 +265,15 @@ static int rmi_i2c_probe(struct i2c_client *client)
->=20
-> 	msleep(rmi_i2c->startup_delay);
->=20
->+	if (rmi_i2c->reset_gpio) {
->+		of_property_read_u32(client->dev=2Eof_node, "syna,reset-delay-ms",
->+				     &rmi_i2c->reset_delay);
->+		gpiod_set_value_cansleep(rmi_i2c->reset_gpio, 1);
->+		usleep_range(10000, 20000);
->+		gpiod_set_value_cansleep(rmi_i2c->reset_gpio, 0);
->+		msleep(rmi_i2c->reset_delay ?: DEFAULT_RESET_DELAY_MS);
->+	}
->+
-> 	rmi_i2c->client =3D client;
-> 	mutex_init(&rmi_i2c->page_mutex);
->=20
 
