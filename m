@@ -1,111 +1,139 @@
-Return-Path: <linux-input+bounces-9911-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9912-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D3CA2F2EF
-	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 17:16:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84010A2F2F7
+	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 17:17:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 36566188A1CA
-	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 16:16:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 93FB41888831
+	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 16:16:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF2142580F8;
-	Mon, 10 Feb 2025 16:15:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 446312580C5;
+	Mon, 10 Feb 2025 16:16:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HMCYWpzP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n0sU5D/S"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F022580C9;
-	Mon, 10 Feb 2025 16:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968812580C6
+	for <linux-input@vger.kernel.org>; Mon, 10 Feb 2025 16:16:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739204126; cv=none; b=TXC9MVAHIf8Q6Z2Bvcb0bnkaY95jBB7HcSfbN48/RVYSQHeRImg2wQ/QNkwi2QZd8mX58Caz2cxJHP5JB6ew3cvdysmYLXanHDO/aukgcSA5mt+LSlf8q1yS7r5QtA9yLWaQJkU2ZT7/7eeJ0r/Z1ZCLTgebM0yGi7RtktZT98A=
+	t=1739204205; cv=none; b=P+i7GmfywHToFILSp2u0dkP1roDvvqm8Cw4qnB3+rxp3gI0Ce4TrHJtNYB04TfbIipqd4RZ++VQZq4RGgcOzCOFa61QHqisxE2w0ZH6WUavdLF1vlQX/ck1u7ihRbbpEakqKt2M3GSnPXiY0mFIv1B1E8sDmpieUupOVJfAZql0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739204126; c=relaxed/simple;
-	bh=UXDqlY9n1msb36iRIn+UVyGFu6AL1jpxFlahRfkA2VU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=anuRCUFJj/rnWI8+fwEASq/htobTbsMYX3ikvbKQAC5nNv+yQTpYS75c+rqQ9TcU2in/u2j3aRDAsdksXeXKUqmf3m5i83BNEJiwnlgHaD/7e7BPzF4ktoQQaPD4EDSKQM7PunxRvhiiNdhpJ+sAKskIass+IVHsU4PtEjEOrF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HMCYWpzP; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-38dc1dfd9f2so2981014f8f.3;
-        Mon, 10 Feb 2025 08:15:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739204123; x=1739808923; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QAvIhc8+F4Z/iCQGPEOkeXSN7GErg7UTH2cuNvRR8uw=;
-        b=HMCYWpzPI+Gz+1rxqjV8xKZHtURroX8KLTzYSkEwW8w+sIVzcruuk+GIU2bZ8OLcXT
-         W1FMqbLxV8/Xig9F5cBGTKjj9tzI03Dx8plXBA+AZAH+KfhsihUp0Z/adlz0JuTj0xgM
-         sOxRqsdzQ7AIJelHQF2eAEeGo9ypBKSljSkaRGWEGAngTXxmv+Hk9U+iAWeFpxWHN+Fw
-         tmOBdbTt7BSJEL7T7qAhMxu1pixq3vBql4phWAqUcqOkCQAvn4FQ38UscmD1q5KzyPSi
-         W7wcJc+mfCCoVTQZ3moF8iMA8d/DMP4pm3ZhXEy6Qi9It32Ok3bshLcqvF8jJi86f1Yf
-         iHjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739204123; x=1739808923;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QAvIhc8+F4Z/iCQGPEOkeXSN7GErg7UTH2cuNvRR8uw=;
-        b=XDxZMViDAoihvf6qCnhZQPENywXVJBEI9U2KOd68TNPteI0757U+nrKhVMnCco0F20
-         8A49Uly1Dr5oKEiKDkvWG7LSo0+ES9+OIdksh4AZ1GT3tLOZfUHwm3tXHH4ygRw2DA5l
-         RfedLnMWXOWcsmFPdiHMnWTQC293zfkMBW/0hahFShdBduJko+ObXwp/psoWLd1rEzM/
-         hCc1AC4ZqMChqsDgCWobPbbUWx7i2Vjzm4VNv49em+CLOJuCwO3DJ0j3oDi4WhjFn1+a
-         07O5kiYsj7FKT3TlpYK5n3EdredvFe6C3KdaD4FlRXRhzThQaGSti4HRhIZIrBdkAZnB
-         rhww==
-X-Forwarded-Encrypted: i=1; AJvYcCUaP1s+qpknMQKW538T2dpKYmydULHkQH7SO6VlWrZqdw6Yssk64hGziUXfcen1ZZpOFheAeAFCxcmRO88=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNtz2+V/j1XVXVFL2UcfEzkiMxCh+UORC7zK7JNVJzyKUQ8awF
-	0QGD/XINy5TI0LjCC29maL1o0/elSb28wNiUECtuOlpToNaHfNARZmqTVzIg4PiuIW9fFNFLu7Q
-	092FNhyjY/gzuYKUpNlw+SpYv9bVgkVqf
-X-Gm-Gg: ASbGncsRtaspboCBkiCeuZwOuwuvHp+QEslBwN3FkHagUdGyAry0ju8x+foRwU6Qp+I
-	iDYTBCQdWzGh5l90z/pHD8kt/G/ug6RHA18bPGeVkh47WLGC5fyme79byyNnQFSQo7yZrCpbbzQ
-	==
-X-Google-Smtp-Source: AGHT+IFnu09VB51eVbkID4img9JsElU5J7oM/IdYKee9PFnhjFeDbM1iN1xkor7JElGZV/CUF3Td52eXNDPXlqmKI/o=
-X-Received: by 2002:adf:f58d:0:b0:38d:a8f7:cb73 with SMTP id
- ffacd0b85a97d-38dc9138f08mr10197975f8f.40.1739204123229; Mon, 10 Feb 2025
- 08:15:23 -0800 (PST)
+	s=arc-20240116; t=1739204205; c=relaxed/simple;
+	bh=zEnjjRyLtXS3I4KbKrKTRjAXZce2M5q7xDw4IENALl0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iMX0HGHITPF41TpvV26ncEBaUR6h79zXsVMy1irRtMT1Z68h6uzZPC6aHE7EScb2GFGwy6cWs0iRXi9aHr4ULnrXv+42pLyKWThqhxSzd2C7/tqpecY7I5a+UZbuUS2B2B+4+/AR1Lape1vms+04cn+cXnSYYAajZtAKhf6eid0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n0sU5D/S; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739204203; x=1770740203;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zEnjjRyLtXS3I4KbKrKTRjAXZce2M5q7xDw4IENALl0=;
+  b=n0sU5D/SzxCF7auD89oR2kuanFMum56ERxchv00GsT4dE5mXovh/abnN
+   KzDBhQKbQQiUJ+Xslk+gtHRQ25XdBuV3RPLIgL9xnVPX0MAy2JlaZ+q2P
+   oHYJAuVa8zBOwehCdN3CmBXXQ18MpELavs96jfQAGMga8VK2vuGXb3COb
+   bcX7jczZyU+E2YCHhLAdkMpektg1QItjfhgHLO3xJhJv94FVojUKRlqRe
+   4HabljqhRT3Fqtmnjy9Gd9dN+c3wEM8HZU8BphKFxNWNcJ2vrzRnoQjp/
+   Cu+CslOQxjHiyp3H2QdXiZRARG0NaevMpPa2E1QU5N+NmpCjtevqEqd61
+   w==;
+X-CSE-ConnectionGUID: qo1jwAxjRt+kF4Yp659oFQ==
+X-CSE-MsgGUID: 18dQNRPgTmKuJ/nD+P0diA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39921280"
+X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
+   d="scan'208";a="39921280"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 08:16:43 -0800
+X-CSE-ConnectionGUID: GTENOyTBQWmjnK6wGkzA3g==
+X-CSE-MsgGUID: TF7NFCQeQDqVOWaFQaD0Yg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="117161377"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 10 Feb 2025 08:16:42 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1thWSd-00131l-1e;
+	Mon, 10 Feb 2025 16:16:39 +0000
+Date: Tue, 11 Feb 2025 00:16:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kate Hsuan <hpa@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>, Hans de Goede <hdegoede@redhat.com>
+Subject: [hid:for-6.15/logitech 1/1] drivers/hid/hid-lg-g15.c:241:undefined
+ reference to `led_mc_calc_color_components'
+Message-ID: <202502110032.VZ0J024X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241008233030.395126-3-stuart.a.hayhurst@gmail.com>
- <5cf187db-1eae-41a8-a33e-ef68a4f66db6@kernel.org> <afb96547-7ff3-4070-b960-33f4af7e3edc@kernel.org>
-In-Reply-To: <afb96547-7ff3-4070-b960-33f4af7e3edc@kernel.org>
-From: Stuart <stuart.a.hayhurst@gmail.com>
-Date: Mon, 10 Feb 2025 16:15:11 +0000
-X-Gm-Features: AWEUYZkEOeEjc8YvJEaBxjaHn72XKgHjXq465jVSG4TIidsUrxtnbqoRx3Qg8UA
-Message-ID: <CALTg27kaxGOzq2k-dAqbXZ0ez5e-WZRU47Z2eP5297VVHF81kA@mail.gmail.com>
-Subject: Re: [PATCH v5] HID: corsair-void: Add Corsair Void headset family driver
-To: Jiri Slaby <jirislaby@kernel.org>
-Cc: linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> This effectively kills the system. We came here via:
-> corsair_void_raw_event (hid_driver::raw_event)
->    -> corsair_void_process_receiver
->      -> scoped_guard(mutex, &drvdata->battery_mutex)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-6.15/logitech
+head:   a3a064146c507ee5207dcf7223cd7a3d7864e085
+commit: a3a064146c507ee5207dcf7223cd7a3d7864e085 [1/1] HID: hid-lg-g15: Use standard multicolor LED API
+config: powerpc-ppc6xx_defconfig (https://download.01.org/0day-ci/archive/20250211/202502110032.VZ0J024X-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502110032.VZ0J024X-lkp@intel.com/reproduce)
 
-> And hid_driver::raw_event can be called from the interrupt context. This
-> happened at:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502110032.VZ0J024X-lkp@intel.com/
 
-Damn it, I was suspicious that it was too easy. It's been running for a year
-without an issue on my system, I'll clearly have to read a bit more.
+All errors (new ones prefixed by >>):
 
-I'm not sure what the best solution is for this.
-'corsair_void_process_receiver()' shouldn't be called frequently, and
-the locks shouldn't be waiting on each other very often, so I suppose
-swapping the mutex for a spinlock is probably the best option, instead of
-increasing code complexity?
+   powerpc-linux-ld: drivers/hid/hid-lg-g15.o: in function `lg_g510_kbd_led_write':
+>> drivers/hid/hid-lg-g15.c:241:(.text+0x768): undefined reference to `led_mc_calc_color_components'
+   powerpc-linux-ld: drivers/hid/hid-lg-g15.o: in function `lg_g15_register_led':
+>> drivers/hid/hid-lg-g15.c:686:(.text+0xa9c): undefined reference to `devm_led_classdev_multicolor_register_ext'
 
-Happy to put a patch in for whatever seems best :)
 
-Thanks,
-Stuart
+vim +241 drivers/hid/hid-lg-g15.c
+
+   232	
+   233	/* Must be called with g15->mutex locked */
+   234	static int lg_g510_kbd_led_write(struct lg_g15_data *g15,
+   235					 struct lg_g15_led *g15_led,
+   236					 enum led_brightness brightness)
+   237	{
+   238		struct mc_subled *subleds = g15_led->mcdev.subled_info;
+   239		int ret;
+   240	
+ > 241		led_mc_calc_color_components(&g15_led->mcdev, brightness);
+   242	
+   243		g15->transfer_buf[0] = 5 + g15_led->led;
+   244		g15->transfer_buf[1] = subleds[0].brightness;
+   245		g15->transfer_buf[2] = subleds[1].brightness;
+   246		g15->transfer_buf[3] = subleds[2].brightness;
+   247	
+   248		ret = hid_hw_raw_request(g15->hdev,
+   249					 LG_G510_FEATURE_BACKLIGHT_RGB + g15_led->led,
+   250					 g15->transfer_buf, 4,
+   251					 HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
+   252		if (ret == 4) {
+   253			/* Success */
+   254			g15_led->brightness = brightness;
+   255			ret = 0;
+   256		} else {
+   257			hid_err(g15->hdev, "Error setting LED brightness: %d\n", ret);
+   258			ret = (ret < 0) ? ret : -EIO;
+   259		}
+   260	
+   261		return ret;
+   262	}
+   263	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
