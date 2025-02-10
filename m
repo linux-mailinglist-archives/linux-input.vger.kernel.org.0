@@ -1,47 +1,47 @@
-Return-Path: <linux-input+bounces-9916-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9917-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C76CA2F48C
-	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 18:03:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D083A2F4AF
+	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 18:08:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4342F163084
-	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 17:03:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2BDE118833BA
+	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 17:08:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA518157487;
-	Mon, 10 Feb 2025 17:03:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FAB51F4626;
+	Mon, 10 Feb 2025 17:08:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OqyjN72n"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d0wLt4Le"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CA1256C98;
-	Mon, 10 Feb 2025 17:03:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A765256C6B;
+	Mon, 10 Feb 2025 17:08:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739207023; cv=none; b=p882Dqpk1yUdEIzd8B6VOjIJhf0UARfS7DQUaUMCN28clS2OIhxfQk9dBkodvh9I4RhnbgfpFSxTs3Hzmu7BYgQTk3kw9QrsLik/44ej13XDZiFA8BAYKxbFBKK88SqkC8tZ7zEZUVnEl/Gy9nGQN8MpKgU9oG7p+nfgIKGeHV8=
+	t=1739207314; cv=none; b=KN7QM0TatYulPvOf0QGV44o460YIQ/mADF8xzfmxHo4HEAQVdg6XfVz6eIOTepqyD/hZZ1LyFzPw9a3Uimci9OY0qBoSMbBRitNkthYKwBfJlrhk5fIrCgOPNyACjebYkHFQTw52C1BGY03ZZHBYxw4BoWbNfxTuoVeKFWu8Nec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739207023; c=relaxed/simple;
-	bh=iVvbp5R9zaKcBDnKZNg70lQ2ednSs8Akic8k6kRGPko=;
+	s=arc-20240116; t=1739207314; c=relaxed/simple;
+	bh=YPiIV3FVQDgTvF1uzfq8I8ivVOEmSwK8YTY460GDFAw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KK7OLD4WJ/3zNjgEGeSANf29C21NGfEqdQRgTu9O65IH/HlWzUvK+DmSL05LEtUZG8+NAKKKEJ65uzL5sECAO82mvf+8g/DVXf1LVTZ9WhFjfZMGKR+xuO9aW50eLTNWNPbRXpQ4cqs730una/IRwMzkrH2Kw/Xm9g87hY9BIcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OqyjN72n; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AFA5C4CED1;
-	Mon, 10 Feb 2025 17:03:39 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=e7XMpREk8cXH4NuzH0ZLTsoS5kpgK6cNnD3Kt71sJRta8nEtV7uvAnvJDU83c6IoAhqh7+ULbPNSgcIuv2UDBZxcft2TkTh39/zQ/crHE7qEbgE84MJJ7R/NIEEhkm/6EcekMB9fjuNd/wyLPS7PLyEZmifEL2MB3jW6eKDxKuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d0wLt4Le; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64C3AC4CED1;
+	Mon, 10 Feb 2025 17:08:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739207023;
-	bh=iVvbp5R9zaKcBDnKZNg70lQ2ednSs8Akic8k6kRGPko=;
+	s=k20201202; t=1739207313;
+	bh=YPiIV3FVQDgTvF1uzfq8I8ivVOEmSwK8YTY460GDFAw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OqyjN72nrcnYbi9ScixNUWAuATL97nCR6anUGjoB7SeNwMlK3OPEWRggnQO29jQlM
-	 FfNI4vNfm4j7lZ9yhmREylOI8+VhfklD6abGsAUu1OqlXJ4DA5oPynXwjTHfdoqRKD
-	 U2FM4HcBafptDidoV9hTszuogYxibtbwUxN38PaS4zu/UKnrs/312g00/+y1buNVbH
-	 xx6/Nm/5s1r+/P8wurec+2DKgF5PKu+vtfSDiYIgWPOrbTg7VudGE4IeZODX0n/tLJ
-	 9q7RMDplTZNNL3zB8V5OooqgnGe5i46oMXXeKjF9pwZlyDYCSQsnpSJMWXnWw5uLV9
-	 a8GDpOp17ledA==
-Date: Mon, 10 Feb 2025 17:03:37 +0000
+	b=d0wLt4LeSACcXTPEuk37KpFhHehZdYr8F4InbpZn3f9Uikmlj3Su6Zk4uIILqeA0v
+	 WYIenmqtTTwRGHnHInzY5RsVw+W6Cx7PSsIo4B8/ljPxgDPRuGN7tb7GfdXqJFBVEX
+	 mP690288N2MA8gSZ/5T3XeX6tliEWXQ104SsCFL12lKin9if5xr0cBwkZyLI2HsYHg
+	 v58Qjz59fufrVCYSyAm3XsN7h1fGKvjEuo/gt3LZRptVOltfkqWdnTeTZfPXQB/2u2
+	 ltRQtBShL+D6luWGOyYNbJeZyhu0N4ek3vPMnnQp/00HAKgYDI78HfGg2kEphJTZh/
+	 5DZsRY4yAudlg==
+Date: Mon, 10 Feb 2025 17:08:27 +0000
 From: Lee Jones <lee@kernel.org>
 To: Dzmitry Sankouski <dsankouski@gmail.com>
 Cc: Sebastian Reichel <sre@kernel.org>,
@@ -57,11 +57,9 @@ Cc: Sebastian Reichel <sre@kernel.org>,
 	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
 	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v17 3/7] power: supply: max77705: Add charger driver for
- Maxim 77705
-Message-ID: <20250210170337.GE1868108@google.com>
+Subject: Re: [PATCH v17 0/7] Add support for Maxim Integrated MAX77705 PMIC
+Message-ID: <20250210170827.GF1868108@google.com>
 References: <20250123-starqltechn_integration_upstream-v17-0-8b06685b6612@gmail.com>
- <20250123-starqltechn_integration_upstream-v17-3-8b06685b6612@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -71,20 +69,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250123-starqltechn_integration_upstream-v17-3-8b06685b6612@gmail.com>
+In-Reply-To: <20250123-starqltechn_integration_upstream-v17-0-8b06685b6612@gmail.com>
 
 On Thu, 23 Jan 2025, Dzmitry Sankouski wrote:
 
-> Add driver for Maxim 77705 switch-mode charger.
-> It providing power supply class information to userspace.
+> The Maxim MAX77705 is a Companion Power Management and Type-C
+> interface IC which includes charger, fuelgauge, LED, haptic motor driver and
+> Type-C management IC. It's used in Samsung S series smart phones
+> starting from S9 model.
 > 
-> The driver is configured through DTS (battery and system related
-> settings).
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> Add features:
+>   - charger
+>   - fuelgauge
+>   - haptic
+>   - led
 
-Still needs an Ack from Sebastian.
+LGTM.
+
+Once Sebastian provides an ACK, I can take the set.
 
 -- 
 Lee Jones [李琼斯]
