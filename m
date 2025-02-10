@@ -1,135 +1,277 @@
-Return-Path: <linux-input+bounces-9918-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9919-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4379FA2F57D
-	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 18:43:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E17A2F718
+	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 19:31:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 768BE7A24FF
-	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 17:42:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 701A6188A12F
+	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 18:31:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A5B9255E24;
-	Mon, 10 Feb 2025 17:43:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79CA52566D3;
+	Mon, 10 Feb 2025 18:31:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ODw/PBDM"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="uPPNNnS0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228D82500BA;
-	Mon, 10 Feb 2025 17:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C8024418C
+	for <linux-input@vger.kernel.org>; Mon, 10 Feb 2025 18:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739209408; cv=none; b=LrQEb7l7KIZ8adqq+8jPpbZ2mpJ15gad8wX3bh7M+PDpYJXScYx2wC9H9G5Bl4+o4gSLx1EzucMeewdCZTis4Xf2Ftsan1KhjXe8lzRhDBh6L0h9NfxxEwG0YI6BbM6mLMscnmyn0Ce+UNkKBwJpnQMq4x1hfoa61lUdb6zfnZY=
+	t=1739212268; cv=none; b=cqQa+U6+xCYmT8iuh8GXNy1WJtd/AqUV033GUlEki12n8zoXM6ne4rmbMtzVYix3r6ZyMPo+Gi2t+UCHVt8Fcy05SaWmLG1QkBzj25ASJH2uRPdnL5IVKMHkRVam12fNrFfMDCdIq6ywHl23GvwOgEf/nbtwyztWYZ1jGHs1haQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739209408; c=relaxed/simple;
-	bh=XQfIVqMXGtFLiIZ5YdMD28vM54crvwUo7bL3shsfXMo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jkr4NYtf0psICUVVUbynlok+UmYPQ2VZBIO5Ov+9Zb5MSJtGk78f42DmY9QjWLGS7LicOVvXle0J+Wy+gbk4vUfI6TxF4LTBfjQID0eBvR3wUMizZnlnxgT+dAXHs88VwJDvJmlykwv73Awg123s6hHqzCTwz0rvnfzZjumNBcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ODw/PBDM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41952C4CED1;
-	Mon, 10 Feb 2025 17:43:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739209408;
-	bh=XQfIVqMXGtFLiIZ5YdMD28vM54crvwUo7bL3shsfXMo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ODw/PBDMJLnpTtLG9xR5HWdZAmESh2w6x9fRX22guCAayI+nF0MgHtXRZLkoIarac
-	 AB/1oqPCOnYiZqrXiWv9VvO3K2mZDddXEs5/oIqEhKAqA3IU8rXnmDbJDtVgP1+Maf
-	 D/qUVxNCUcgZif2bTEwbdCo3lbjxnCqMxkQjZ4Jt4McXauwmm8TVOWxh7kaBogtuSl
-	 y0uVhy2M6C8L/eCpvBJIgO9SI1QX30EFAYKAdK3gEh7/H3LD9+cLATHqxbGHXnircx
-	 v4fZjmRc2eFqsLikSovEzGTIKendYtvbp/xaphRV4AbtCG8b4brhChCZ4Q9NkwG7QF
-	 kHvZjsKrusl1A==
-Message-ID: <0bc098bf-6c02-4d62-bcb1-939e1f0b9f95@kernel.org>
-Date: Mon, 10 Feb 2025 18:43:24 +0100
+	s=arc-20240116; t=1739212268; c=relaxed/simple;
+	bh=NGOFeQX/94iKLC7KRyXn9K4Nt0CwgBBrM/PM50W0oY0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tww3hjUdCfOd5Jdxzz65R8X73uBa3lFdOJeUXGN5+3pldjz2Ng8tCnkITNmC76LcosODdznAMm5Hu15SOagmwXkWjo4xKPcDvpC4h+ZiKIOJlzzQ759UzdhueNe/irLMtYMHR/E6rnFAR6BwRmSa7eRxboEUx1xoRoM3z+7F+iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=uPPNNnS0; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e5b3391b033so3648574276.1
+        for <linux-input@vger.kernel.org>; Mon, 10 Feb 2025 10:31:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1739212265; x=1739817065; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KPwb4aI7pixw1RFAv20MaBbqn02tdpDM4Y6srTWRmRk=;
+        b=uPPNNnS04+JKCnArBtaVzbXinW+Z6sw8obI2LEZkIcEuXfK4sD6xH2vRUV7pbUuNlG
+         Y5k5sN9uXUvWVBhFL0VE3mesvv+WGMgHMAx/FjICw2cpmWW4KQ2u4FKPwG+rQ+lgzK8S
+         ZT6oikXG8OZ+vDptV+whm4dY2IU1UZCXfpKophp8tFe3E6KqtqNDqbgqaAon61IPwLBj
+         zUWF6Wson0GFjgnijp7GdoeTCDRIKDPzQnp3HHq6TZ7aH/iwoP7HjiTVzwBFOoePAPoZ
+         cpH77Motu1kIJmk+GTJZ9yym2DtuNZgfNEnSB8iJ0b1HB/a3C+GT4MAMOUEQKvJosiov
+         7XPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739212265; x=1739817065;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KPwb4aI7pixw1RFAv20MaBbqn02tdpDM4Y6srTWRmRk=;
+        b=Hn5e+ehQ4Bj9O93DtrSE3FvAVrrx6nwcygEELw4mK7n8VQNnMbOKCViOI+Mtyhs5uX
+         ZhxSsX7DejPAImuOx+KIVLPWqRGj9cY7YTkhkrKbFXZt3XZApn9A71ZCKEFn/TTpgiBK
+         qiOM9ygVLijNnG4PUa2TGDBtJByd5MDgemtJkL597Bl+W7x5qYB5NjCaFis4qr2uzY+c
+         1qR1vFlqxw4Vijc24LGiJ9cDY6I3S8HMqxVj7gRtrjIUW6nf4JjI/ha+PfhPzsjYknSt
+         ZVTb878atwifdCOoDx/3v1l4ZKsOC31ueoH38VguxXHaatptBoKXjJyZdvZawHMRnDOV
+         Z+nQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXF0Dsoqz5/uol1CMg5x2cz30l7tSYNBOykkAn9hDoBD8x7ynvLXNeYS9et3htJT5yI2QJDcZIT/fhy/A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNDaYzjRzSCWYzwOWS0YpLua4Mz3mc9uA9SHVA5GdVxdEJ92+P
+	5IIJ+7A4i8ztnGUySJf1DdY4kHkhySg2aes7Ydb4KmYG/C4mno1F4CQ758QV8qE=
+X-Gm-Gg: ASbGncsVHb9Hvls3IujknkzDC/PI6UVRYpv/NDqBrvTNr7MqrWBrYIj//iB/4/vVUt+
+	DvLqNTpV/Noo5BWOQN16d/Gq0SXpz9F3UgZ/Dm2LP3TR+mvZhhxzPZRtl4eW4MC88XRVabhT652
+	08DwKVSEcfcbaihtiA8yG+ETQ4tpch7hMy5lMjuMR5PAOC7pH/AgorSP/pekma5jdLqZM+U93JR
+	XIxVq6ZU6d9bplIje7BcQNv+P+R04eWxdX6X7+js+dib+iwNKX40aYeP0canDVJPr/23SMiQMfS
+	0bQ=
+X-Google-Smtp-Source: AGHT+IHP4/PfYe0pzIQUijWibiRiqcclWIqX6MxksiY/orFAxERUC+/zAt6c1cAXqUao8PQOqCSyhA==
+X-Received: by 2002:a05:6902:1793:b0:e5b:3394:ea0c with SMTP id 3f1490d57ef6-e5b461672f5mr12395154276.10.1739212264835;
+        Mon, 10 Feb 2025 10:31:04 -0800 (PST)
+Received: from ghost ([50.146.0.9])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e5b3a45d7f1sm2703301276.40.2025.02.10.10.31.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Feb 2025 10:31:04 -0800 (PST)
+Date: Mon, 10 Feb 2025 10:31:02 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Quentin Monnet <qmo@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, bpf <bpf@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	"linux-perf-use." <linux-perf-users@vger.kernel.org>,
+	Linux Power Management <linux-pm@vger.kernel.org>,
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/2] tools: Unify top-level quiet infrastructure
+Message-ID: <Z6pF5pkH_bqvDwMK@ghost>
+References: <20250203-quiet_tools-v1-0-d25c8956e59a@rivosinc.com>
+ <CAADnVQKTqRBQBA-yxB9EYPMgayP3rOE4iDhg+QD++2d=jxfY=Q@mail.gmail.com>
+ <Z6JdwSsAk1xCiSrn@ghost>
+ <Z6JksXDRh8OSAh-u@google.com>
+ <CAADnVQKmKf6wY3dg+PfAxtrrFWGO7D-m83dEndjWksPfWDt5wQ@mail.gmail.com>
+ <Z6Khl1rHIAb7wOXw@ghost>
+ <CAEf4Bza5nKk6_fVY2vmJjZgPb40zB+R3REy8==ZLc98eg1iHTA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] HID: corsair-void: Add Corsair Void headset family
- driver
-To: Stuart <stuart.a.hayhurst@gmail.com>
-Cc: linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-kernel@vger.kernel.org
-References: <20241008233030.395126-3-stuart.a.hayhurst@gmail.com>
- <5cf187db-1eae-41a8-a33e-ef68a4f66db6@kernel.org>
- <afb96547-7ff3-4070-b960-33f4af7e3edc@kernel.org>
- <CALTg27kaxGOzq2k-dAqbXZ0ez5e-WZRU47Z2eP5297VVHF81kA@mail.gmail.com>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <CALTg27kaxGOzq2k-dAqbXZ0ez5e-WZRU47Z2eP5297VVHF81kA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEf4Bza5nKk6_fVY2vmJjZgPb40zB+R3REy8==ZLc98eg1iHTA@mail.gmail.com>
 
-On 10. 02. 25, 17:15, Stuart wrote:
->> This effectively kills the system. We came here via:
->> corsair_void_raw_event (hid_driver::raw_event)
->>     -> corsair_void_process_receiver
->>       -> scoped_guard(mutex, &drvdata->battery_mutex)
+On Wed, Feb 05, 2025 at 05:28:19PM -0800, Andrii Nakryiko wrote:
+> On Tue, Feb 4, 2025 at 3:24 PM Charlie Jenkins <charlie@rivosinc.com> wrote:
+> >
+> > On Tue, Feb 04, 2025 at 11:02:42PM +0000, Alexei Starovoitov wrote:
+> > > On Tue, Feb 4, 2025 at 7:04 PM Namhyung Kim <namhyung@kernel.org> wrote:
+> > > >
+> > > > Hello,
+> > > >
+> > > > On Tue, Feb 04, 2025 at 10:34:41AM -0800, Charlie Jenkins wrote:
+> > > > > On Tue, Feb 04, 2025 at 05:18:42PM +0000, Alexei Starovoitov wrote:
+> > > > > > On Tue, Feb 4, 2025 at 12:10 AM Charlie Jenkins <charlie@rivosinc.com> wrote:
+> > > > > > >
+> > > > > > > The quiet infrastructure was moved out of Makefile.build to accomidate
+> > > > > > > the new syscall table generation scripts in perf. Syscall table
+> > > > > > > generation wanted to also be able to be quiet, so instead of again
+> > > > > > > copying the code to set the quiet variables, the code was moved into
+> > > > > > > Makefile.perf to be used globally. This was not the right solution. It
+> > > > > > > should have been moved even further upwards in the call chain.
+> > > > > > > Makefile.include is imported in many files so this seems like a proper
+> > > > > > > place to put it.
+> > > > > > >
+> > > > > > > To:
+> > > > > > >
+> > > > > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > > > > > > ---
+> > > > > > > Charlie Jenkins (2):
+> > > > > > >       tools: Unify top-level quiet infrastructure
+> > > > > > >       tools: Remove redundant quiet setup
+> > > > > > >
+> > > > > > >  tools/arch/arm64/tools/Makefile           |  6 -----
+> > > > > > >  tools/bpf/Makefile                        |  6 -----
+> > > > > > >  tools/bpf/bpftool/Documentation/Makefile  |  6 -----
+> > > > > > >  tools/bpf/bpftool/Makefile                |  6 -----
+> > > > > > >  tools/bpf/resolve_btfids/Makefile         |  2 --
+> > > > > > >  tools/bpf/runqslower/Makefile             |  5 +---
+> > > > > > >  tools/build/Makefile                      |  8 +-----
+> > > > > > >  tools/lib/bpf/Makefile                    | 13 ----------
+> > > > > >
+> > > > > > Nack.
+> > > > > > libbpf and bpftool are synced independently to github
+> > > > > > and released from there.
+> > > > > > This change breaks it.
+> > > >
+> > > > Sorry, I overlooked this part and merged a change that touched the
+> > > > common files into the perf tree.
+> > > >
+> > > > f2868b1a66d4f40f ("perf tools: Expose quiet/verbose variables in Makefile.perf")
+> > > >
+> > > > Unfortunately, it's already in v6.14-rc1.
+> > > >
+> > > > >
+> > > > > Can you explain how it breaks it? Currently bpftool and resolve_btfids
+> > > > > don't build quietly so this was an attempt to fix that.
+> > > >
+> > > > So I think you will need something like this for v6.14.  Again, sorry
+> > > > about the trouble.
+> > >
+> > > Just revert f2868b1a66d4f40f that created this mess.
+> >
+> > Why are you opposed to unifying this helpers among the various projects
+> > in tools? Can you explain what about this breaks the Github syncing flow
+> > and why it cannot be resolved? It doesn't make sense to duplicate "Q="
+> > in every Makefile anybody ever wants to add to tools just because bpf
+> > syncing isn't robust.
 > 
->> And hid_driver::raw_event can be called from the interrupt context. This
->> happened at:
+> Alexei's concern about Github mirrors of bpftool and libbpf isn't
+> valid. Github versions of those projects use their own independent
+> Makefiles anyways, so your change doesn't break that aspect.
 > 
-> Damn it, I was suspicious that it was too easy. It's been running for a year
-> without an issue on my system, I'll clearly have to read a bit more.
+> But your change *does* break both libbpf's and bpftool's make output
+> *in the kernel repo*. With this patch we basically don't have "quiet"
+> mode anymore:
 > 
-> I'm not sure what the best solution is for this.
-> 'corsair_void_process_receiver()' shouldn't be called frequently, and
-> the locks shouldn't be waiting on each other very often, so I suppose
-> swapping the mutex for a spinlock is probably the best option, instead of
-> increasing code complexity?
+> $ git co f2868b1a66d4f40f07e985b0beead606b2753602
+> HEAD is now at f2868b1a66d4 perf tools: Expose quiet/verbose variables
+> in Makefile.perf
+> $ git log --oneline -n1
+> f2868b1a66d4 (HEAD) perf tools: Expose quiet/verbose variables in Makefile.perf
+> $ pwd
+> /home/andriin/linux/tools/lib/bpf
+> $ make
+>   gcc -Wp,-MD,/data/users/andriin/linux/tools/lib/bpf/staticobjs/.libbpf.o.d
+> -Wp,-MT,/data/users/andriin/linux/tools/lib/bpf/staticobjs/libbpf.o -g
+> -O2 -std=gnu89 -Wbad-function-cast -Wdeclaration-after-statement
+> -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations
+> -Wmissing-prototypes -Wnested-externs -Wno-system-headers
+> -Wold-style-definition -Wpacked -Wredundant-decls -Wstrict-prototypes
+> -Wswitch-default -Wswitch-enum -Wundef -Wwrite-strings -Wformat
+> -Wno-type-limits -Wstrict-aliasing=3 -Wshadow -Wno-switch-enum -Werror
+> -Wall -I/data/users/andriin/linux/tools/lib/bpf/
+> -I/data/users/andriin/linux/tools/include
+> -I/data/users/andriin/linux/tools/include/uapi
+> -I/data/users/andriin/linux/tools/arch/x86/include -fvisibility=hidden
+> -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D"BUILD_STR(s)=#s" -c -o
+> /data/users/andriin/linux/tools/lib/bpf/staticobjs/libbpf.o libbpf.c
+> ^Cmake[2]: *** [/data/users/andriin/linux/tools/build/Makefile.build:86:
+> /data/users/andriin/linux/tools/lib/bpf/staticobjs/libbpf.o] Interrupt
+> make[1]: *** [Makefile:165:
+> /data/users/andriin/linux/tools/lib/bpf/staticobjs/libbpf-in.o]
+> Interrupt
+> make: *** [Makefile:143: all] Interrupt
+> 
+> $ git co HEAD~
+> Previous HEAD position was f2868b1a66d4 perf tools: Expose
+> quiet/verbose variables in Makefile.perf
+> HEAD is now at e9cbc854d8b1 perf config: Add a function to set one
+> variable in .perfconfig
+> $ make
+>   CC      /data/users/andriin/linux/tools/lib/bpf/staticobjs/libbpf.o
+> ^C
+> 
+> So, can you please check and fix?
 
-Not that easy, as AFAIR power unregister cannot sleep.
+I think I am misunderstanding what you are saying. The patch that we are
+discussing on is the patch to fix this? You are showing the output from
+the patch that is being fixed in this series.
 
--- 
-js
-suse labs
+> 
+> Also, looking at your patch:
+> 
+> a) you removed the `"$(origin V)", "command line"` check from both
+> perf and libbpf, so that's not really an equivalent change/behavior
+> now
+
+I don't believe it is required to keep that check.
+
+> 
+> b) a bit sloppy on assignment:
+> 
+> +ifeq ($(V),1)
+> +  quiet =
+> +  Q =
+> +else
+> +  quiet=quiet_
+> +  Q=@
+> +endif
+> 
+> note the spaces around '=', try to keep stuff like this consistent
+> (and if this was shell, it would bite you as well)
+
+Yes, I can make that consistent.
+
+> 
+> >
+> > - Charlie
+> >
 
