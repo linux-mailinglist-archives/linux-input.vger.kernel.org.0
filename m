@@ -1,77 +1,77 @@
-Return-Path: <linux-input+bounces-9904-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9905-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78B69A2F142
-	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 16:18:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B070A2F146
+	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 16:18:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D362F18851BC
-	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 15:18:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 562E3166DEF
+	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 15:18:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCC49237188;
-	Mon, 10 Feb 2025 15:18:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D07D02397B9;
+	Mon, 10 Feb 2025 15:18:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W57kOeYB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KSn2AkTR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0576220485F;
-	Mon, 10 Feb 2025 15:18:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07BC2528EB;
+	Mon, 10 Feb 2025 15:18:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739200683; cv=none; b=Ok1vjJEaUDdVjEYVdJyOLl3tmDNaXQMUbo2Qd9XCSjWLiQkvtCCbUJTDSK0k/Vu1y2iKq+synH2ExW/RmV8iNgQex1zfQtVuaOy9wa1ONM48vo6SN/esCpm8gYxx+GrgxG0/nN/HJWHf0mxT1LzLoLpU/wCOCxkVy8HmmRz12PM=
+	t=1739200684; cv=none; b=Ck31HfkiNeecTZN5WpddUsducpRKaj+XIt+32MrAWc4bD1awbKr8hTmLnFfKPUABKPo3jOvqd/i/49MDMjdabXEqFnyIlQBHGUHTaWOuO5ViYlkFQoyALui5FGJArbe3aaSo14qqND5+HXBKa7ZAtjfcwc1nf9ieIeaclACMP30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739200683; c=relaxed/simple;
-	bh=UWXrf7WRGjQt+teMGQjTFxcuMT0+nwb9fGdcN/5Iv4c=;
+	s=arc-20240116; t=1739200684; c=relaxed/simple;
+	bh=eUbxUt5xpTtxEzNiYKqCsSF7kyQ0xB70W44K9/NfqI8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BpRU2+HyW+dIX/vNmoAcSpbm/lMQ9go0y4Ulf2zdT03bDJICOTwCPth1iSV4415vY+qUxbtQhFNPANYInPAOqX2Tu6zFUlR1mvWzCiooQFu0rP2LpdjtrE7Z48/AWTY7O28C5SF2Axbrt/o34fHUCHlnpQybXI4voJ7NwTfJz4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W57kOeYB; arc=none smtp.client-ip=209.85.208.180
+	 MIME-Version:Content-Type; b=k6EIMKcnlFY6K45sWJtds1jPqQxL1EpNa6R0JH1r6753Nlqn12d/j6hUrJaRuB9SGNuOEfUR0uDjotcG8UD84Uluv2xHshHNa+Tf4gVTekh6kMeHZgKlc2ROsamGnLj69YgXsW0G9HXhZDxmc+gSfl/kuqIatDjADrYUWk/wpRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KSn2AkTR; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-307de92bce2so3643001fa.3;
-        Mon, 10 Feb 2025 07:18:01 -0800 (PST)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-308d9b7a888so2392891fa.1;
+        Mon, 10 Feb 2025 07:18:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739200680; x=1739805480; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1739200681; x=1739805481; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5qTyscYdIMBi+D+hFlA5BfNGHhqpENIsWeUFDb9bmok=;
-        b=W57kOeYBU/zbnApOQl67ocRuNh1wTmBBVos6UdqH0VBK2UWo4nQz2CuyD7+HVv+RUu
-         xRwCmIv+ogYRH5Rp8D6pSpVFNaYlgRHo2yAYE+VDBtfm1GGOU7jYLzUSifUi4lAEYB8n
-         k1OXaF2Ye27cNLYXBrLI0ZrBg7zT/wI4xrYX2/O3UIAIjInvNREzcBRsJAQCM7jS1mMR
-         UP38SVsgGQQjt8H4TkMt8/p80Hjng66jHULdR2k1Gnq6Hxlx/KHFF1q1WKKl3tagF97X
-         0fDNG+TCcCTOPd42g5QdKVKRHPpJdOvSLjpG5TYtIqEwd3w1jiXdOyYR4MzsAMAS+M0Y
-         GlZQ==
+        bh=KSNQINkXkN6zTTIn4J3zlyOnrY9qbrfu5RjfBEk7Udo=;
+        b=KSn2AkTRzFW3+/iXuT7/i6dZoNyvSs2BerOljgs26WRzGHtAdVxkO0SC/nXo6HxLnY
+         V2Y06c15eEXa0etF+2TWgKpq4mFTlLKKrDfoIzZIIqLZK/Sojawn8CO37vBKhfYce0ih
+         th8bABAYoZrLnGHknwO1SU7TsOpGkV/W29sj9iObJcx3p3ikiibtpV8imDeG7Rulz8Ah
+         FPwV6lvMg0q+kB1x1Xz8TWWTxRAQBdvJMuVvJtJdOExMqsh5I3CvDcWvgdIRgV2MYvqt
+         w+9adtQkAekMIrmCYx6xGc6+UlcbQhjfA4Qs26NKLGTsGooJkkKkYVRrNxnftytQ8EUD
+         jgCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739200680; x=1739805480;
+        d=1e100.net; s=20230601; t=1739200681; x=1739805481;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5qTyscYdIMBi+D+hFlA5BfNGHhqpENIsWeUFDb9bmok=;
-        b=b7vfjMVd6lUH/2ZK6jigqJf2xiMDAr2y6xIBXwQKcZzeCDvkJWOIId2KhHUv6JLju+
-         aRNN4qZziVa21LgrhN44ConUlbo7ba6YBTYfQTGkMMH2Z3Y1SBhvcR/wCrtgG3Wb/wG+
-         QMowBYsBI33PTlh9sk+LoBrHlQB9UUaaDQhPnSa7wCclBFAwUfOV1mtEh6x91dCWMKZ+
-         meLFIDIc4KJfs+YP1sDZ0rubAWA+XvIQoUhesD/3FfH6mMOcCjFUJyk8HSqIvIdVauv9
-         DlcMPGk/GdNbEgNa7NWpyEgDpGTV7S5LB5eVHPOOKloTISkSx/VHBL8LLAUbC/AIgnMM
-         ciwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUE2hiGjM0+kL+ijrGA+yRpp7i1syfTBy6RKuOSrsCrFrU4UvfAPDFfDxeLgNR4BvuGbnCln55R2XAO@vger.kernel.org, AJvYcCUrUeJUJguQWOe0SpD2mCToOnQeqsVOBnzRN6ZXnDvHESB2QuFj/TsUP7a0A4Oa0lOwIv3lcQvhCEvvKw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9Xxlc5jNs8CVtewoHhy+AgsULn2I3B6LZYoDeiO8ik0AdMEdL
-	pyRSoyXcsNvTUdRwU8yTvj5TVFATMEWbZIMPlEcslDhOrKBNfcpf
-X-Gm-Gg: ASbGncsnCBkoUd0AQEr/o4poatrQ52hKeQprkRiO+4TgQjPKoFktryQv+CZo2K5Jgjs
-	rWOw1it1mlcoyTpH10J17EKtToM2JsRGSSezJ363g3pvR2MU5tFz32OLQT9hdgPH7zfS6eDJ7Ko
-	s/If+5iWzldI96zEQP3YMzVQkuTCT0FxC20/YoFAKvkhoToe5jVFmNjxEeAIjPFmIEU+KfZXMvH
-	fy9IHmlqkHE4xA5wiWQR7h9Nk7hZJoRuhI4TbRBr8P94Ww6fXBc0cA0Fo8/L34YJxeUclTu2i8x
-	YWB9iKYEm0aZz9qX6X+zO9NaRd5l7BsHCQzumIJeX8q7tXZVuOZmP+3kx7nSJQ==
-X-Google-Smtp-Source: AGHT+IEE8BmQ+rgd8T/Zk/DGc/J8RquLoY/M9tzcBuWqY08uADI1yJBh3T+e+FGrJVf7wGQ7/bBS8A==
-X-Received: by 2002:a05:651c:1503:b0:300:c10:7c33 with SMTP id 38308e7fff4ca-307e5a88818mr22115271fa.7.1739200679762;
-        Mon, 10 Feb 2025 07:17:59 -0800 (PST)
+        bh=KSNQINkXkN6zTTIn4J3zlyOnrY9qbrfu5RjfBEk7Udo=;
+        b=gn9iILxoc25vLGvMwziVUa1j/4PS6WClO0k39OdDDiq9STYAExoepCMgWhMFqAVH3K
+         ZsWK+NTMbU4NtuhGiGOIbripuLEuewjxwR2sTbH/fvh3XyLrrOXdO9pfvXKAKQ5/0evZ
+         hsWfPCO7V/fKQ3Lb3qGwDKVsWVUa1iJo1FXa3gZis9tOdT0U48TvPrSOde/ur59xY0N3
+         yH+Lz6nBktyo4QbMOU1Y9pENdv1HkYSxlvsZSdHEFx8BWZhVXJs9BLHIh0f8iCojByRy
+         30FfH595CRNtwtOmk2DAi1Hta1jR4CAYSAZD09sGq9WPTLMe6G1q2JjI2HqP+0pKZHD9
+         xfuw==
+X-Forwarded-Encrypted: i=1; AJvYcCUN7oTNiR62TF0Tl5wDNyItKE6Q6IxnAgSGW4hchrIJdrZ7m63fcm238NjuwQnj61+Bl0ZSxQUTzpRI@vger.kernel.org, AJvYcCXtd2HMqpdp18v6IbUD3MsNuWbum3wEk75KCmDHAVjpwoHgPYkJtXhwcdH3NWKwPsSfsUH8NcvVT7XytQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiZX2J6u8Ua/+PsoM19UY9nndsfEPg9C4rtvagmG0DxBa/EQt+
+	RXE161bLR+MHkV1S2Wne93U5rqbMZnGLoH23R4sta4YwIIP5u7bb
+X-Gm-Gg: ASbGncsRgXyYL8eAg/zqe0/acHXHpYEG2EfPEAe3UiZpAXTK7im5k2wcgAmjoAAPYTJ
+	G3TC7kX49owZK79jvehORp+EaDFcxOZcy9M025wHZG04yKzDCFVajPko/xWoFA3pkK4eZtGIS/9
+	8ZvdCWhR/oIvURBNhNjqnkH4hWFWevqT296N29PyKcM5rsotpu4vCd4jpi+sAqp1UEdN2NckaAb
+	tjlXLpttcT3FRdoqmaCADV744fVUySGh74Yi7Fh1nplStiV8XpCI6XjvR3sOjIUHE4jBySiuaDe
+	3YkWsCwqH+Hw+Bq9/NMZNFROe21rEc4QelD+iGVmB+iuQH3Fn1MqFbITpDoFUQ==
+X-Google-Smtp-Source: AGHT+IEA2Mu156xWr0A57Ha9a7hXCVlLPkCy8Jduz79q9IapbfTcnHwDRtTH7d+l+DOn7vYshEun1g==
+X-Received: by 2002:a2e:be89:0:b0:307:2aea:559a with SMTP id 38308e7fff4ca-307e5b8d945mr15470521fa.9.1739200680601;
+        Mon, 10 Feb 2025 07:18:00 -0800 (PST)
 Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
         by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307de178201sm12090561fa.16.2025.02.10.07.17.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 07:17:59 -0800 (PST)
+        Mon, 10 Feb 2025 07:18:00 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
@@ -79,9 +79,9 @@ Cc: anssi.hannula@gmail.com,
 	oleg@makarenk.ooo,
 	linux-input@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v2 1/6] MAINTAINERS: Update hid-universal-pidff entry
-Date: Mon, 10 Feb 2025 16:17:49 +0100
-Message-ID: <20250210151754.368530-2-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v2 2/6] HID: pidff: Make sure to fetch pool before checking SIMULTANEOUS_MAX
+Date: Mon, 10 Feb 2025 16:17:50 +0100
+Message-ID: <20250210151754.368530-3-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250210151754.368530-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20250210151754.368530-1-tomasz.pakula.oficjalny@gmail.com>
@@ -94,29 +94,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add Makarenko Oleg as co-maintainer
+As noted by Anssi some 20 years ago, pool report is sometimes messed up.
+This worked fine on many devices but casued oops on VRS DirectForce PRO.
+
+Here, we're making sure pool report is refetched before trying to access
+any of it's fields. While loop was replaced with a for loop + exit
+conditions were moved aroud to decrease the possibility of creating an
+infinite loop scenario.
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- MAINTAINERS | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/hid/usbhid/hid-pidff.c | 29 +++++++++++++----------------
+ 1 file changed, 13 insertions(+), 16 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a7c37bb8f083..174d25d87371 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10258,9 +10258,10 @@ F:	include/linux/hid-sensor-*
+diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
+index f23381b6e344..503f643b59ca 100644
+--- a/drivers/hid/usbhid/hid-pidff.c
++++ b/drivers/hid/usbhid/hid-pidff.c
+@@ -604,28 +604,25 @@ static void pidff_reset(struct pidff_device *pidff)
+ }
  
- HID UNIVERSAL PIDFF DRIVER
- M:	Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-+M:	Makarenko Oleg <oleg.makarenk.ooo>
- L:	linux-input@vger.kernel.org
- S:	Maintained
--B:	https://github.com/Lawstorant/hid-universal-pidff/issues
-+B:	https://github.com/JacKeTUs/universal-pidff/issues
- F:	drivers/hid/hid-universal-pidff.c
+ /*
+- * Refetch pool report
++ * Fetch pool report
+  */
+ static void pidff_fetch_pool(struct pidff_device *pidff)
+ {
+-	if (!pidff->pool[PID_SIMULTANEOUS_MAX].value)
+-		return;
++	int i;
++	struct hid_device *hid = pidff->hid;
  
- HID VRC-2 CAR CONTROLLER DRIVER
+-	int i = 0;
+-	while (pidff->pool[PID_SIMULTANEOUS_MAX].value[0] < 2) {
+-		hid_dbg(pidff->hid, "pid_pool requested again\n");
+-		hid_hw_request(pidff->hid, pidff->reports[PID_POOL],
+-				HID_REQ_GET_REPORT);
+-		hid_hw_wait(pidff->hid);
++	/* Repeat if PID_SIMULTANEOUS_MAX < 2 to make sure it's correct */
++	for(i = 0; i < 20; i++) {
++		hid_hw_request(hid, pidff->reports[PID_POOL], HID_REQ_GET_REPORT);
++		hid_hw_wait(hid);
+ 
+-		/* break after 20 tries with SIMULTANEOUS_MAX < 2 */
+-		if (i++ > 20) {
+-			hid_warn(pidff->hid,
+-				 "device reports %d simultaneous effects\n",
+-				 pidff->pool[PID_SIMULTANEOUS_MAX].value[0]);
+-			break;
+-		}
++		if (!pidff->pool[PID_SIMULTANEOUS_MAX].value)
++			return;
++		if (pidff->pool[PID_SIMULTANEOUS_MAX].value[0] >= 2)
++			return;
+ 	}
++	hid_warn(hid, "device reports %d simultaneous effects\n",
++		 pidff->pool[PID_SIMULTANEOUS_MAX].value[0]);
+ }
+ 
+ /*
 -- 
 2.48.1
 
