@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-9895-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9896-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4CCA2E557
-	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 08:26:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD44A2E578
+	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 08:32:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7613E3A54AF
-	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 07:26:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1142188A7C8
+	for <lists+linux-input@lfdr.de>; Mon, 10 Feb 2025 07:32:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36A40199FBA;
-	Mon, 10 Feb 2025 07:26:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90D911922F8;
+	Mon, 10 Feb 2025 07:32:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KT/zJf+V"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X4Bed28b"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD728F49;
-	Mon, 10 Feb 2025 07:26:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B2E22097;
+	Mon, 10 Feb 2025 07:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739172373; cv=none; b=ErKeeoU3GsJbPSsufsTzbezIsmg3VzhSkPvqJIsmVsnaMHp+zaUcKk1gexxo49rXr06RFOX/tgrEnffnpMpV7ELPTQGDEwO98KwYlDSmQEiVfsEThYpxA011XOkadNdQPlV682sK8IS3cPBsX3ARdqqtQxkMmz0qJdyp2WooD+E=
+	t=1739172758; cv=none; b=of1viKwICsO5MEKoDwt9Uw3dxevGNiEjh6r5BBUakX7C/xlAwm0mZiZyrzKkeLkWrKVO/bbv6I0pokirSoq16NH2k4bYrnGj3ZbPVBaDksYHbWtiRkThlB09aENnVORn2US990Qehxl2NQfSaCLrejTfFxyRWJKdIGpSO9jtxRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739172373; c=relaxed/simple;
-	bh=hA2WQKcyIFGPy8Gcfi9P9tXtAN4ae9v97yc/jfyhsDY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kgPlyzoh00c6Ms02WOfoCsxrU8CdpyNZpKf6KlByvn68SCzMRgqDMfp/d/cWyJKfW4vfpDAM/M672x+h5KhLf0Rp0nKWAAjto69zJ3hVMusE7W8/eTGsGzYD5RR4GfBHeowySB4bKKC/g4F4TNXs3Pq9OU9KGnkih651MwKGFDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KT/zJf+V; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CB35C4CED1;
-	Mon, 10 Feb 2025 07:26:11 +0000 (UTC)
+	s=arc-20240116; t=1739172758; c=relaxed/simple;
+	bh=jp9Z2TeqrAacwnXqHRXsm5ujqwdnx/Ptk2cgGi2hDL0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Waa5w7SiWGAMFW/MHbQnJFwbwiuY/QzYm33kQgJ53Cgh3HpX50Qc3ZZjYXMp+A9Xl0HF9+99EiOumgopMld87xvZl8LfdmSJaFalDiFP95FH70KQT8s96dLQevCNladai8LObC18Ud4MMbMIhEnmYlQL7PAbRhVypbmKIWsy6RA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X4Bed28b; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C82EC4CED1;
+	Mon, 10 Feb 2025 07:32:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739172372;
-	bh=hA2WQKcyIFGPy8Gcfi9P9tXtAN4ae9v97yc/jfyhsDY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KT/zJf+VYZ5ByF25193/MCt1Kp/b+aa928muRkqsRfKUmcT28L+xxCMioQDQC30D+
-	 xLyjY46HaGxXsXi2zNi7nlwzx8Oyb7/KF3ka+6ZqLXOS/Anp7v0CwYxBCXVM1wuG8O
-	 kJR2jdaZCv4C84ppx3CTIXbzPRKc0xjW6mqW+JQEJGgna9+czEwdq0sVDkKlWiWdm6
-	 IIN3+E8mVR6kLRuPuxqgCcp26NNff/Np8WNULMTow04zYugFtgJtPpLO9vaS/WCLVK
-	 Eot2CMNlygJHhU35N5WQKd74GX2uFt/w1LhaPWdpthfwtopOdQt6eMCPmui2PrgxrQ
-	 gsFJUwWYnEl7A==
-Message-ID: <5cf187db-1eae-41a8-a33e-ef68a4f66db6@kernel.org>
-Date: Mon, 10 Feb 2025 08:26:09 +0100
+	s=k20201202; t=1739172757;
+	bh=jp9Z2TeqrAacwnXqHRXsm5ujqwdnx/Ptk2cgGi2hDL0=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=X4Bed28b7FH336VKUqARUgGS23ONoeD+yaTGuPQaahY7iQG1O2+7801GPa/ITkBR2
+	 Ov7DAMjr+nfxXJzwj1hw1RNPNS5H8Sxc7Xu4a0mYBfc3KF+jIjcqm7SvE9xK/kQkhh
+	 bSSRgjmEswkOwy6dw/lLGbQTh9XKJs3jxBfWAFhK3k27IgicvPaV1i1TD53/S7OVJR
+	 q6TcAAHGoz4Q2oQ3+J8oUzn78NQnZ9gcy2g6BrxAG3Hq1GOg5+QF5Rb2nHlzkPjyxj
+	 Z1uZ2xC1yC+XaR55Wgefp7tFbBgRbcfkpK6sKzB9oNElYHWIJfM19sbNgzFOoWnsTd
+	 aqfvrnQOVrgVA==
+Message-ID: <afb96547-7ff3-4070-b960-33f4af7e3edc@kernel.org>
+Date: Mon, 10 Feb 2025 08:32:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -52,13 +52,14 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5] HID: corsair-void: Add Corsair Void headset family
  driver
+From: Jiri Slaby <jirislaby@kernel.org>
 To: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>, linux-input@vger.kernel.org
 Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
  Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
  linux-kernel@vger.kernel.org
 References: <20241008233030.395126-3-stuart.a.hayhurst@gmail.com>
+ <5cf187db-1eae-41a8-a33e-ef68a4f66db6@kernel.org>
 Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
 Autocrypt: addr=jirislaby@kernel.org; keydata=
  xsFNBE6S54YBEACzzjLwDUbU5elY4GTg/NdotjA0jyyJtYI86wdKraekbNE0bC4zV+ryvH4j
  rrcDwGs6tFVrAHvdHeIdI07s1iIx5R/ndcHwt4fvI8CL5PzPmn5J+h0WERR5rFprRh6axhOk
@@ -101,110 +102,16 @@ Autocrypt: addr=jirislaby@kernel.org; keydata=
  f/bIWIr0cqQmqQ33FgRhrG1+Xml6UXyJ2jExmlO8JljuOGeXYh6ZkIEyzqzffzBLXZCujlYQ
  DFXpyMNVJ2ZwPmX2mWEoYuaBU0JN7wM+/zWgOf2zRwhEuD3A2cO2PxoiIfyUEfB9SSmffaK/
  S4xXoB6wvGENZ85Hg37C7WDNdaAt6Xh2uQIly5grkgvWppkNy4ZHxE+jeNsU7tg=
-In-Reply-To: <20241008233030.395126-3-stuart.a.hayhurst@gmail.com>
+In-Reply-To: <5cf187db-1eae-41a8-a33e-ef68a4f66db6@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09. 10. 24, 1:30, Stuart Hayhurst wrote:
-> Introduce a driver for the Corsair Void family of headsets, supporting:
->   - Battery reporting (power_supply)
->   - Sidetone setting support
->   - Physical microphone location reporting
->   - Headset and receiver firmware version reporting
->   - Built-in alert triggering
->   - USB wireless_status
-> 
-> Tested with a Void Pro Wireless, Void Elite Wireless and a Void Elite Wired
-...
-> --- /dev/null
-> +++ b/drivers/hid/hid-corsair-void.c
-> @@ -0,0 +1,829 @@
-...
-> +static void corsair_void_process_receiver(struct corsair_void_drvdata *drvdata,
-> +					  int raw_battery_capacity,
-> +					  int raw_connection_status,
-> +					  int raw_battery_status)
-> +{
-> +	struct corsair_void_battery_data *battery_data = &drvdata->battery_data;
-> +	struct corsair_void_battery_data orig_battery_data;
-> +
-> +	/* Save initial battery data, to compare later */
-> +	orig_battery_data = *battery_data;
-> +
-> +	/* Headset not connected, or it's wired */
-> +	if (raw_connection_status != CORSAIR_VOID_WIRELESS_CONNECTED)
-> +		goto unknown_battery;
-> +
-> +	/* Battery information unavailable */
-> +	if (raw_battery_status == 0)
-> +		goto unknown_battery;
-> +
-> +	/* Battery must be connected then */
-> +	battery_data->present = true;
-> +	battery_data->capacity_level = POWER_SUPPLY_CAPACITY_LEVEL_NORMAL;
-> +
-> +	/* Set battery status */
-> +	switch (raw_battery_status) {
-> +	case CORSAIR_VOID_BATTERY_NORMAL:
-> +	case CORSAIR_VOID_BATTERY_LOW:
-> +	case CORSAIR_VOID_BATTERY_CRITICAL:
-> +		battery_data->status = POWER_SUPPLY_STATUS_DISCHARGING;
-> +		if (raw_battery_status == CORSAIR_VOID_BATTERY_LOW)
-> +			battery_data->capacity_level = POWER_SUPPLY_CAPACITY_LEVEL_LOW;
-> +		else if (raw_battery_status == CORSAIR_VOID_BATTERY_CRITICAL)
-> +			battery_data->capacity_level = POWER_SUPPLY_CAPACITY_LEVEL_CRITICAL;
-> +
-> +		break;
-> +	case CORSAIR_VOID_BATTERY_CHARGED:
-> +		battery_data->status = POWER_SUPPLY_STATUS_FULL;
-> +		break;
-> +	case CORSAIR_VOID_BATTERY_CHARGING:
-> +		battery_data->status = POWER_SUPPLY_STATUS_CHARGING;
-> +		break;
-> +	default:
-> +		hid_warn(drvdata->hid_dev, "unknown battery status '%d'",
-> +			 raw_battery_status);
-> +		goto unknown_battery;
-> +		break;
-> +	}
-> +
-> +	battery_data->capacity = raw_battery_capacity;
-> +	corsair_void_set_wireless_status(drvdata);
-> +
-> +	goto success;
-> +unknown_battery:
-> +	corsair_void_set_unknown_batt(drvdata);
-> +success:
-> +
-> +	/* Inform power supply if battery values changed */
-> +	if (memcmp(&orig_battery_data, battery_data, sizeof(*battery_data))) {
-> +		scoped_guard(mutex, &drvdata->battery_mutex) {
+On 10. 02. 25, 8:26, Jiri Slaby wrote:
+> Or perhaps you unify the add/remove/update work into one?
 
-This effectively kills the system. We came here via:
-corsair_void_raw_event (hid_driver::raw_event)
-   -> corsair_void_process_receiver
-     -> scoped_guard(mutex, &drvdata->battery_mutex)
+That way, you seem you'd need no lock at all.
 
-And hid_driver::raw_event can be called from the interrupt context. This 
-happened at:
-https://bugzilla.suse.com/show_bug.cgi?id=1236843
-
-In particular, from BH (USB URB BH: usb_giveback_urb_bh()), see the 
-backtrace at:
-https://bugzilla.suse.com/attachment.cgi?id=880175
-
-Perhaps you need a separate _spin_ lock for drvdata->battery and use it 
-here for getting and on "= NULL" and "=new_supply" for setting? Or 
-schedule another work for power_supply_changed()? Or perhaps you unify 
-the add/remove/update work into one?
-
-> +			if (drvdata->battery) {
-> +				power_supply_changed(drvdata->battery);
-> +			}
-
-...
-
-thanks,
+> thanks,
 -- 
 js
 suse labs
