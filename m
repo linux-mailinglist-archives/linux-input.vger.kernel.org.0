@@ -1,144 +1,148 @@
-Return-Path: <linux-input+bounces-9942-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9943-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E929A30B15
-	for <lists+linux-input@lfdr.de>; Tue, 11 Feb 2025 13:04:09 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85437A30B61
+	for <lists+linux-input@lfdr.de>; Tue, 11 Feb 2025 13:13:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 149A31883CEF
-	for <lists+linux-input@lfdr.de>; Tue, 11 Feb 2025 12:03:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 98074188C656
+	for <lists+linux-input@lfdr.de>; Tue, 11 Feb 2025 12:13:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C19F31FBC84;
-	Tue, 11 Feb 2025 12:02:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53EA62147E9;
+	Tue, 11 Feb 2025 12:11:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MddYhHCq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UTmtaVyF"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98EEA1F9EC0;
-	Tue, 11 Feb 2025 12:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41EE2010E6;
+	Tue, 11 Feb 2025 12:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739275368; cv=none; b=cfz7hJflUlFozr80uIIGZKtP9GFrmYH3v0odydn0Vsl2zuRObxXVqYQ3jijbuQnQwq/UjidbDym69wjGUDpTkVF3EiQiOaUEqYBPQhY3IMpA8wK4tTeRJTV6YLPLDACpUKhcKGH01IZRmWbUjrhEXysACAkclmD0jzj6ZUt14vo=
+	t=1739275865; cv=none; b=iWnvs5MPcHUfNuitYfeUL8H6GA2wfv0iRqdYh8BPlxlqJXpUA65ZC9gBctBXLIH71a696ACv6jHKQ+zAQU58RuP4PotNDpdy9pKxBnQrXHfQDSAXTDjigzfVorATPusRZTF5M6ZOGwzRNQQ9DT472d1iq17zUoYq7fawkbpbrec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739275368; c=relaxed/simple;
-	bh=IdAWA65JOoviNywPn6FeAkzURZaUgPo9XI42eP8j0cU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Pig+musVSazXKgxxbJ1GZOzn0j7ZMgvB8bz2OjT7hTxzQ3CyiHR26rHDRyXIYrJuyGF9pbh/PmKjZ+K2vL1dgt5o+iCnTyWXXg6wzEST2+I/xDkD3BGEpKwZH+OMO1r/K81wwjUJgztiYas1aaKYGC7DCtx3Y+FIext/E4u1rEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MddYhHCq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8848C4CEDD;
-	Tue, 11 Feb 2025 12:02:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739275368;
-	bh=IdAWA65JOoviNywPn6FeAkzURZaUgPo9XI42eP8j0cU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MddYhHCqHBb46jNgncvSoCOthOmMcFny5sbqNwitTuQvizX2AL1KqDbkHT6K8OkJR
-	 Osgsso8Yxzy0bOOjlDQ4/UTJwNCAGBNA3nXrQXNwvu5biAm3QWY6t8blRlETP0h4dq
-	 yh2xrn52Z/S2YkaRn4vMjpcUBFwyliIvaT81tozAmLJnn8M650p+HZD0vOXdJ2eQ7U
-	 ru7LsALelALvMjpkzq0DlcPoTN25m/Te1C3jm6z7A2c7XG7Dcga2TmxpQZ7CduotY+
-	 3UIF1bDjDCX6/fXBy+qjv1TQW4XvM2jSh8+9mFonEvscoYIOKOBa+47mUaYf0AlVaB
-	 u9PJr6jl8NrQg==
-Message-ID: <183b2a4e-d8bb-454f-8ac7-f74ca9d56269@kernel.org>
-Date: Tue, 11 Feb 2025 13:02:45 +0100
+	s=arc-20240116; t=1739275865; c=relaxed/simple;
+	bh=dVa1v4FEnhdEcRKHgQOjoXmm0Uba3dBOZT5OrGPkID0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SGrF8EvVrQGhV9sDYG/15CNszsF0/+P5oHjZUC7HzV88pia+ItMmdkAhWlJhM9Zl4mHMTvWBF8fY9GyXHM9o4xNDabWTexp6BFgXLLJiWXo1PgR4CCO/9I76ax9xr/8z+CEeRhmWs2nBxM00Vn9DkeCVBOwTkT6YRM3PbiqkbU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UTmtaVyF; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739275862; x=1770811862;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dVa1v4FEnhdEcRKHgQOjoXmm0Uba3dBOZT5OrGPkID0=;
+  b=UTmtaVyFUY97Ydf7r/N8wWj92mNEZd4ajF/ZcIFPGNYOmYSu/fiZzXlT
+   nZ471/QyuD7sWsWD6Dtq0Axi+wfNCs9BPD8jVweJUK7Qao1B0qK22YEBU
+   9CzxVZB8CsRrD9sBAwPSQ2s7MnlLKv5/gtOLCKdGg6kc6u/4kVfYz1lIz
+   3ELumAaOQB10LpV1wcCSt7NUZrw5xWB2DMPX4NNE1UC+cP0hy3Y/z6fQ2
+   9cTR0e/h1xma7mmOQuMPLI3FRqWuVJ8JaYhGs+ElJxVhP8bUf2HhySuwy
+   mMXRdcKSETK2QVB5MUQWQknGtm0j5wovkcou2tTj00nu0Y2lSB1ZWjveq
+   w==;
+X-CSE-ConnectionGUID: vNd8oQahQmujvx4TI3s46Q==
+X-CSE-MsgGUID: TQLBJ/26RwS3V/2x8hAdcg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="40009046"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="40009046"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 04:11:01 -0800
+X-CSE-ConnectionGUID: 1c0JZ1woQzWllJevK0qSYw==
+X-CSE-MsgGUID: vEphLevZRnyj2ZPdgjfSpg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="113390239"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 04:10:55 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1thp6K-0000000AUm6-18UE;
+	Tue, 11 Feb 2025 14:10:52 +0200
+Date: Tue, 11 Feb 2025 14:10:51 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: kernel test robot <lkp@intel.com>, Raag Jadav <raag.jadav@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, lgirdwood@gmail.com,
+	Mark Brown <broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	oe-kbuild-all@lists.linux.dev,
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-iio@vger.kernel.org
+Subject: Re: [PATCH v4 01/20] driver core: Split devres APIs to
+ device/devres.h
+Message-ID: <Z6s-S67MdpVrXRji@smile.fi.intel.com>
+References: <20250210064906.2181867-2-raag.jadav@intel.com>
+ <202502102201.zLWaJC6V-lkp@intel.com>
+ <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
+ <7c42e438-22f9-40d9-bb8e-24feb7d58e64@app.fastmail.com>
+ <Z6sYAxRIeCzw12nY@smile.fi.intel.com>
+ <c1184a91-e216-423d-b956-d4b22116a171@app.fastmail.com>
+ <Z6siYlWfvfUvNLpX@smile.fi.intel.com>
+ <279d9f32-a1c9-41aa-b15a-e1485877b2d5@app.fastmail.com>
+ <Z6s2cGMM9R6SZ9Le@smile.fi.intel.com>
+ <49396042-31f0-4d8e-aa54-d89093ab5709@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] HID: corsair-void: Add Corsair Void headset family
- driver
-To: Stuart <stuart.a.hayhurst@gmail.com>
-Cc: linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-kernel@vger.kernel.org
-References: <20241008233030.395126-3-stuart.a.hayhurst@gmail.com>
- <5cf187db-1eae-41a8-a33e-ef68a4f66db6@kernel.org>
- <afb96547-7ff3-4070-b960-33f4af7e3edc@kernel.org>
- <CALTg27kaxGOzq2k-dAqbXZ0ez5e-WZRU47Z2eP5297VVHF81kA@mail.gmail.com>
- <0bc098bf-6c02-4d62-bcb1-939e1f0b9f95@kernel.org>
- <CALTg27meqwVyR_+doDzT6v-frx9hfy=fqkz-S2fTJpk8SMmThw@mail.gmail.com>
- <373c2d57-a513-4c2a-ae38-1aa01262c197@kernel.org>
- <CALTg27mhZ_O5=Q5QwmtAbFuz+phcmt7nVfJo7OAUcvCvDu9ggA@mail.gmail.com>
- <8b27c399-098c-48b7-b71d-a833594571af@kernel.org>
- <CALTg27mzuJsvrQneDKD9ni=tYspaap7=NfLgsBak4hALu+1jzw@mail.gmail.com>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <CALTg27mzuJsvrQneDKD9ni=tYspaap7=NfLgsBak4hALu+1jzw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <49396042-31f0-4d8e-aa54-d89093ab5709@app.fastmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 11. 02. 25, 12:30, Stuart wrote:
->> And what about having one work for all three (reg, up, unreg) as I
->> suggested. As I wrote, IMO, you would need no lock then. Only flags to
->> see what to do there.
+On Tue, Feb 11, 2025 at 12:56:11PM +0100, Arnd Bergmann wrote:
+> On Tue, Feb 11, 2025, at 12:37, Andy Shevchenko wrote:
+> >
+> > The problem this series solves at the beginning is that not all the consumers
+> > of device.h needs it, in many cases the device/devres.h (or subset of
+> > device/*.h) is enough to include. While solving this, it appears that
+> > the current code uses ERR_PTR() instead of IOMEM_ERR_PTR() in devm_*io*() APIs
+> > and kernel test robot found this and complained about. While solving
+> > this new issue, LKP found another issue that is circular dependency.
+> > But the original code only wants to have an access to IOMEM_ERR_PTR() which
+> > is in io.h and can be moved to err.h AFAICS. Does this sound reasonable?
 > 
-> I wasn't super keen on that because it felt like forcing three otherwise
-> separate things into one, but it makes sense if I look at it as corsair_void's
-> work function.
-> 
-> Is there a guarantee that the same work item won't run twice at the same time?
+> Yes, that sounds fine to me. I agree that not including linux/io.h
+> from device/devres.h is a good idea, same as no longer including
+> linux/device.h from asm/io.h. Moving IOMEM_ERR_PTR() as you
+> describe is the right idea.
 
-It's a single work, it cannot run twice.
+Thank you for confirming the idea. Raag, please follow as suggested:
 
-> Do I need to make a work queue for that? I'm also not sure how to pass
-> arguments to the work function. I'm sure all of that is answered by some
-> documentation somewhere, but I couldn't find it myself when I looked previously.
+Move IOMEM_ERR_PTR() to err.h (perhaps in a separate patch),
+and drop io.h from devres.h as it will be not needed.
 
-E.g. set_bit() (one bit per OP) to something like 'unsigned long flags' 
-in 'struct corsair_void_drvdata'. But it depends if you want to preserve 
-order of actions... (Which was not guaranteed with separate queues 
-anyway, so I assume not?)
+> Side note: I looked at large-scale header file cleanups in the past,
+> and in general the result of that was that the best way to reduce the
+> indirect inclusions is by splitting data structure definitions from
+> inline functions that use those data structures. The definition of
+> "struct device" clearly has too many dependencies, and to make
+> this one better. There has actually been some good preparatory work
+> done by Kent Overstreet a while ago that moves structures out
+> (e.g. work_struct and mutex), but not yet struct device and
+> struct kobject, which are needed in many other headers. The tricky
+> part that needs to happen to actually make it useful later on is
+> to replace all the unnecessary indirect includes with the minimal
+> ones, and that is a huge amount of work.
 
-thanks,
+Good to hear that somebody is working on the dependency hell untangling.
+
 -- 
-js
-suse labs
+With Best Regards,
+Andy Shevchenko
+
+
 
