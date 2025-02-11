@@ -1,77 +1,77 @@
-Return-Path: <linux-input+bounces-9950-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9951-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9020FA30D9A
-	for <lists+linux-input@lfdr.de>; Tue, 11 Feb 2025 15:03:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F7AA30D97
+	for <lists+linux-input@lfdr.de>; Tue, 11 Feb 2025 15:03:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D94407A2F4C
-	for <lists+linux-input@lfdr.de>; Tue, 11 Feb 2025 14:02:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2F1B23A33C1
+	for <lists+linux-input@lfdr.de>; Tue, 11 Feb 2025 14:03:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E56524C68F;
-	Tue, 11 Feb 2025 14:03:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66EE124C69E;
+	Tue, 11 Feb 2025 14:03:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="InKwrOwO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="delR3+b1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF0424C664;
-	Tue, 11 Feb 2025 14:03:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF2224C698;
+	Tue, 11 Feb 2025 14:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739282584; cv=none; b=NGgiK+zynsLNF5fbIU21ECQoaJrO/O5D0iK2/yNZeg35GV1xZL/NxRmlK3McjneSb75e/EgdcQfWe6cJEREFzoNCBxlraOwrE85379dpCUHEoJ1fBfOm8IdNTvHVUV0l8kQ7jmEePvdniracLuTGbCrS69ynvjrHx6q4y1yB2QE=
+	t=1739282586; cv=none; b=kVRyx5Y2xs5y2bz8YUUIlCsvyDZfi0i4MmTD2wdSHTzEErA50QARHofbbd2zzBWi+XhJjHGXSux1i04kEd2CXZfZkPwhXocOWanKX/T0Jz4jmnNIjmyIEDHLTTjrrpaubyD0Tu8ne04g7DxeYhnO4cbsqKQSK0Usbj3dqptT27U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739282584; c=relaxed/simple;
-	bh=rXfdeBMTBbtfJmYSRFooYj8KDxEnwCU5eVGSMsWbnNc=;
+	s=arc-20240116; t=1739282586; c=relaxed/simple;
+	bh=eUbxUt5xpTtxEzNiYKqCsSF7kyQ0xB70W44K9/NfqI8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kpaL37VJC/7bnZAYZxm3/3EyB9F9+kFYWJMfmYq4H2vA/wd9ouB8yKcdQoUeXUYZDUk+Fr2hc2uwK96lymnia6gPXRzAUyRf9b8Y32P/6i4gfyajTkT49BKom2wO4fN/U1SPyQPyTZOxmen0hkOWEHBI/rEF3pqzgfwjQBMcG08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=InKwrOwO; arc=none smtp.client-ip=209.85.167.46
+	 MIME-Version:Content-Type; b=WGwEN4X4Bj/xb+7aP+0m6cVOajCM1Fwd4Mud0UD5wbpSUDULVPKhGLdRswZfmGVOmUeltr7sKzm/3jZhjNEuLfFMFRP888SLb53LSWTW2ZmPDduxZ5A0sIAy/Z2OSWy7vsOadp0Gp/sikY/fQwP3hBLc9AH/8Fa6azGvphFOq7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=delR3+b1; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5450268e513so557363e87.3;
-        Tue, 11 Feb 2025 06:03:02 -0800 (PST)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5450e09b65fso250285e87.3;
+        Tue, 11 Feb 2025 06:03:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739282580; x=1739887380; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1739282583; x=1739887383; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s3jtMK7Cdw1QSg+0fiYiiJDikVdcPsB7CP5Wzet0gf8=;
-        b=InKwrOwOgLu+RESNoFDtkR0EjLmEc4pYTomJ3gbrzZQOuz0KMU+uwOPDCtWytV29ya
-         8Uhq5PnjGOyaqLkgntkuyJBTPaiLD9zzZxYhbV/G5esWd2cyQgI1RU/5lFia2qMzV5GR
-         m33pRnQXOxZv8xRbu1i9SrWmcIp4OYzJ05LhhDSVoGX61Rfbjq6fqjTaiepWT67iHsBP
-         TOEimJ0SADBU9kx9oFlgrDsQpUCrCrzZiu74TKEfeGSFFFFHSoYy6ZKXu/VOhC/RkUpJ
-         QemlLD7gxmcgMkrTclWxVzQIcTXAgHpSlgrFaszDrBnbXsJk4C2EXS28iLszPER6gOGN
-         43BQ==
+        bh=KSNQINkXkN6zTTIn4J3zlyOnrY9qbrfu5RjfBEk7Udo=;
+        b=delR3+b1DVqb5vs2ByU5cxrYZ11LsaB+uZNFfl5rbPNOiMDlz55CFOPXNaQVSmL37R
+         j/ZZpza0RERYOzuJM/QGEa8z7c9BhBqWE+50uP6cBlKb600Rq1KhqSSdd+kQNPgOdUd/
+         zOsRoEtLvRQ+0w1/Slg9iaH0TFM0g5Kq5wrjbTP8M6FHQxcS939VM2bbacDQars3ReoA
+         0wmbo7b+Vkdwf2pCt8S7P4QpL97P4/7f/MwdU5Xl82lvUMt6Ez/oWRGrDKtJ2GP7AyXC
+         P9e0JHjeZ8dHJDwGdYbbRh9Et9b7AeLdfUkt1yKwE8DASqtisq0euqRAnu9cgcg9dAF2
+         yL/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739282580; x=1739887380;
+        d=1e100.net; s=20230601; t=1739282583; x=1739887383;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s3jtMK7Cdw1QSg+0fiYiiJDikVdcPsB7CP5Wzet0gf8=;
-        b=YfOzKftNynSHLfyiMH0b855+u1vhF8FR8qTrqYi5EN5nsAE/RRVcf6svVsUZOzqnQ9
-         LzmxPuTp562taWPSN2wdcarNwtn9+7UK0MtxCQR1LlfLWVrjPO5DUSDcHtCR2JOfDYVU
-         PKGe2IJ0KvsKtkftdttHH4KgIG88J5rI7hnsB1XnCSHjywjug47NEOP7PPPhVRkyguKN
-         X2yFlyxWmUSGZbiWfdZS3u2vCm2enbNrcefJju7LgGtuEpNi5Ys+ulAEZjoDbK49qkaQ
-         6rH76ihGL6TS+7aiNmdcaeT5w0tbdjCNzkPhZjK4NtbcyqUQGmFV74JBgPfkybA4hFsw
-         fVEw==
-X-Forwarded-Encrypted: i=1; AJvYcCUQiT9ued4JHZ4zguFG5+8nmlIQhwzx8aIE109MRQzvPWUHY+0/selNulZiFG3m7K6CJNXeycHBp6L0@vger.kernel.org, AJvYcCX9JK8UNuHYoisXgHvpkvpxQc+3wjVaPDE4TzDxVbBFVXFQnBBqG9bFAGXyqR++gskVXlASjM4Y9zMQJQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQmnyS1wUod1s7IFaN9s0HqpsnYV+XKR9Q9gxNxWg3OYebxXYQ
-	eqxZdJyxPjEOXTeKhHueLQQ76CX4HnrKXe9ulj/qV/ADnDIUqsG9MSnqM2u1
-X-Gm-Gg: ASbGnct1eD3LKap4XssdCA22u8kKQYpDhFDTzHV0x7HWKwwa7sf14Uo/yN+A/wjCzd9
-	1DajE64DHZWJnsTi+GRiXIfA4Xft7uU/3UubEOx8DJH9/dBpI+5STItY8pb6JYF568iyvWOtu1q
-	htLnDdbcdTeT3a0+/rj7aHpVJ3nJ1tg60sIJ3UVBVO7d9VFBLm0viSBqGaLvslnTO0dwvJ90Np5
-	R+Wx8/fHrd+dxzTvuQsFVb8NSNqg7GmYHQe/yaxIYlQXQ7lDaLm5jiP43WJwW67lkNchKQMKbg6
-	bdu6+D2pPpn9bha67Oxu10y+WL01l4UzLQRHwhixd5avU4sl8SWYQc4stp2qrA==
-X-Google-Smtp-Source: AGHT+IH1D4AMGufWjQwGssvu6ILYKgy4YLH0BrY3nShVfo0iJwi3qqyLT2MsgIpVXk3Em0kUcwajkQ==
-X-Received: by 2002:a05:6512:3444:b0:545:842:fd34 with SMTP id 2adb3069b0e04-54513ad6c1amr256299e87.6.1739282580240;
-        Tue, 11 Feb 2025 06:03:00 -0800 (PST)
+        bh=KSNQINkXkN6zTTIn4J3zlyOnrY9qbrfu5RjfBEk7Udo=;
+        b=k0rG6J/r+/781yW6Rdp1Alvj1Py5SXuL44XLw3jP1C9ymKIqkGoqRxDgv7nroMcRBr
+         65kGer3mhtpbpLh6C88p0rSfvTMQvXG5zixpPSALgJ5RoOJcfb4r1dbKA7Qj5YqzwqUW
+         HXyYyBP4j5BbI1J1UsXVfjoyiCtiBe0H5O7ZincYJP5blyCH/Oi6/E3euE9Kfsv8pniT
+         OKwzCeqEteeb+eYB3tDAc5sdQJS+3gBWBqKo3PwlhYis7S9X2DPBi6xR5rq4muVzLebv
+         XP/xIS9mUY6HBmBnFpp5glsFqeuMeH7XnZn0kgwCaxqbmYnpr6rFUWdes5NQYOfvElGT
+         oftQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWPPyG47pWKFuBst8cAX93ZkIHXismQuxDm828yH93EV8h84PGnvPzXWkJJ2St8+eemyNulIFWeFp67@vger.kernel.org, AJvYcCXpX5X2QzDkr4eF/tNwpRlvgJL0pWWN1MIZ5eOzT+a4Q8cOkWU41smgHDh+pv6Yph8kYjdfCLA5H+NxiQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnOgLwhtBVL9HeYmFiY+14g9HBQiuStHDNUKWqfZGVxN/mcpQG
+	RIaJe+mg2Ofe1cCzwsnfMaAhsGafjyZZPRH68dYeq/5fvTF6+Dh9
+X-Gm-Gg: ASbGncu94RJy51uzUyih0PbbACc0eFvITlga91FPGxrmlSPL8pRcOh4XlBb+sMZbbHq
+	hVBGoO4GwxqGhadyI6EiTif4buRAxOcza9Pg2RnEPEV/O09d/CigqkRdHzjhT7PVJ1Wp/+m4XLb
+	new9SFKLiMfY5D9+H6Z5+RmwxJBjNt+ij3lxeTcJ6kzGu98nKhIahnDX6J+nw7L/LyH6EiT6bF9
+	S+2CguhAuzUATymZ1wIb3/2fAgtKCI/Fo2GukmQ/65DfvGrY5+poxCHCcrwJhCI7CZVEI226lai
+	oFvT5i439sHZxCeyRnZ49KkAaA8jZkiT2cUc8fOH16j/7/jGSZ9D4TOHP8WA6w==
+X-Google-Smtp-Source: AGHT+IFMwKZtZNvbeY1OPx+TfviYiHqhlkhU9e99ji237Ci+JASpfPOndVu+FqBJhHKDkXMuYqbdaw==
+X-Received: by 2002:ac2:57c2:0:b0:545:fa6:3590 with SMTP id 2adb3069b0e04-54513ad2d75mr237245e87.1.1739282581958;
+        Tue, 11 Feb 2025 06:03:01 -0800 (PST)
 Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-545014af0d0sm1118721e87.184.2025.02.11.06.02.58
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-545014af0d0sm1118721e87.184.2025.02.11.06.03.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 06:02:59 -0800 (PST)
+        Tue, 11 Feb 2025 06:03:00 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
@@ -79,9 +79,9 @@ Cc: anssi.hannula@gmail.com,
 	oleg@makarenk.ooo,
 	linux-input@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v3 1/6] MAINTAINERS: Update hid-universal-pidff entry
-Date: Tue, 11 Feb 2025 15:02:47 +0100
-Message-ID: <20250211140252.702104-2-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v3 2/6] HID: pidff: Make sure to fetch pool before checking SIMULTANEOUS_MAX
+Date: Tue, 11 Feb 2025 15:02:48 +0100
+Message-ID: <20250211140252.702104-3-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250211140252.702104-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20250211140252.702104-1-tomasz.pakula.oficjalny@gmail.com>
@@ -94,29 +94,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add Oleg Makarenko as co-maintainer
+As noted by Anssi some 20 years ago, pool report is sometimes messed up.
+This worked fine on many devices but casued oops on VRS DirectForce PRO.
+
+Here, we're making sure pool report is refetched before trying to access
+any of it's fields. While loop was replaced with a for loop + exit
+conditions were moved aroud to decrease the possibility of creating an
+infinite loop scenario.
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- MAINTAINERS | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/hid/usbhid/hid-pidff.c | 29 +++++++++++++----------------
+ 1 file changed, 13 insertions(+), 16 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a7c37bb8f083..df40587f6ada 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10258,9 +10258,10 @@ F:	include/linux/hid-sensor-*
+diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
+index f23381b6e344..503f643b59ca 100644
+--- a/drivers/hid/usbhid/hid-pidff.c
++++ b/drivers/hid/usbhid/hid-pidff.c
+@@ -604,28 +604,25 @@ static void pidff_reset(struct pidff_device *pidff)
+ }
  
- HID UNIVERSAL PIDFF DRIVER
- M:	Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-+M:	Oleg Makarenko <oleg.makarenk.ooo>
- L:	linux-input@vger.kernel.org
- S:	Maintained
--B:	https://github.com/Lawstorant/hid-universal-pidff/issues
-+B:	https://github.com/JacKeTUs/universal-pidff/issues
- F:	drivers/hid/hid-universal-pidff.c
+ /*
+- * Refetch pool report
++ * Fetch pool report
+  */
+ static void pidff_fetch_pool(struct pidff_device *pidff)
+ {
+-	if (!pidff->pool[PID_SIMULTANEOUS_MAX].value)
+-		return;
++	int i;
++	struct hid_device *hid = pidff->hid;
  
- HID VRC-2 CAR CONTROLLER DRIVER
+-	int i = 0;
+-	while (pidff->pool[PID_SIMULTANEOUS_MAX].value[0] < 2) {
+-		hid_dbg(pidff->hid, "pid_pool requested again\n");
+-		hid_hw_request(pidff->hid, pidff->reports[PID_POOL],
+-				HID_REQ_GET_REPORT);
+-		hid_hw_wait(pidff->hid);
++	/* Repeat if PID_SIMULTANEOUS_MAX < 2 to make sure it's correct */
++	for(i = 0; i < 20; i++) {
++		hid_hw_request(hid, pidff->reports[PID_POOL], HID_REQ_GET_REPORT);
++		hid_hw_wait(hid);
+ 
+-		/* break after 20 tries with SIMULTANEOUS_MAX < 2 */
+-		if (i++ > 20) {
+-			hid_warn(pidff->hid,
+-				 "device reports %d simultaneous effects\n",
+-				 pidff->pool[PID_SIMULTANEOUS_MAX].value[0]);
+-			break;
+-		}
++		if (!pidff->pool[PID_SIMULTANEOUS_MAX].value)
++			return;
++		if (pidff->pool[PID_SIMULTANEOUS_MAX].value[0] >= 2)
++			return;
+ 	}
++	hid_warn(hid, "device reports %d simultaneous effects\n",
++		 pidff->pool[PID_SIMULTANEOUS_MAX].value[0]);
+ }
+ 
+ /*
 -- 
 2.48.1
 
