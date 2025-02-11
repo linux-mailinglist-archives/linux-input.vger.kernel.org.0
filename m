@@ -1,86 +1,86 @@
-Return-Path: <linux-input+bounces-9959-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9960-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0162DA30E6D
-	for <lists+linux-input@lfdr.de>; Tue, 11 Feb 2025 15:35:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73568A30E71
+	for <lists+linux-input@lfdr.de>; Tue, 11 Feb 2025 15:35:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 47B83166ACF
-	for <lists+linux-input@lfdr.de>; Tue, 11 Feb 2025 14:35:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D0471679BB
+	for <lists+linux-input@lfdr.de>; Tue, 11 Feb 2025 14:35:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49165250C11;
-	Tue, 11 Feb 2025 14:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5C91250BF5;
+	Tue, 11 Feb 2025 14:35:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gt4VidWc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VeZeXkwV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C34D250BF5;
-	Tue, 11 Feb 2025 14:35:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C295A250C03;
+	Tue, 11 Feb 2025 14:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739284525; cv=none; b=g5Iz+uf9ofX48/MrXMoVi55PXYY06wktNt4sStjBCleeMHwYgGJ9bfz86wvHCYFWspUcgHlRTKaHrW8R4kQqtir+hqaeTTinWxYVt3vraFbsxMe7/wLnV24fbO73Aw6IaW2PJH+4/PsY69yzzgCz8O7bu+AhX8Y6TjXTzb89B5k=
+	t=1739284526; cv=none; b=pV9jf6bNPstwLofbA0DCfK7guY9txawmUvH790QhB1Ohn+FrwNhx54Bi+P1jwwbUS2tSul5e6yuIYpEVVGU7qS020tkq8f9ggfs5vY/EMDYFZEE2kXBYp+/Ex5tG82JvzUl3i2gnmfkYFTO4Y74cFAHgo8x3IfvbmbLYR6htmZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739284525; c=relaxed/simple;
-	bh=63N2CLR+q6W1xHPej8KWz2+AOl28NpDYsKe9GLcAMvY=;
+	s=arc-20240116; t=1739284526; c=relaxed/simple;
+	bh=M9WPL+4kweCWgWjygIKmUoc1um6eqqxRR5AeEaAqTc0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MzAIPnBUc+Yc2dgEeWIOizeY3I7GCTx5m/KFSB2ZlcTbCpm2GWhWh1bKfjTwutXzdcMtH0FWnjG7GzjuDZmNy2IrhKY+jQQq+qQfwGmG0yeCDzalzO7eT2UjSfsfMdQZBIxngH4LVZ8CtmXBB4TmgF602Y2LPQW6eKDSSRVFd/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gt4VidWc; arc=none smtp.client-ip=209.85.208.169
+	 MIME-Version:Content-Type; b=Y1Ftb1nTQCx45y/24FgubOXVmNULWof29sRIIwQ66FDCWIif/8zkQv/KhwrmfaQns5b6w2KNCRBY+uuRJ+iLQemh+9OhG4a70X47fxfrODs7OEEG4/eAebF0SPu+eT8V/FklMXGqPh1aQk9dDkc6BUWhFh2Dhen5CvyNmlSgqYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VeZeXkwV; arc=none smtp.client-ip=209.85.208.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-308e4bcd978so3324981fa.1;
-        Tue, 11 Feb 2025 06:35:23 -0800 (PST)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-307e4ac2eb5so3950571fa.2;
+        Tue, 11 Feb 2025 06:35:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739284521; x=1739889321; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1739284523; x=1739889323; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Kdkw8SKc2jEdMzydhzBcIQXPPdM4NJNLnID5/f9u6lI=;
-        b=gt4VidWckzF3cZKomr2Ojzt/ZydYiGHB9KGw92+VOCu7Vl97gaAAAwBbiUhsvboUbk
-         JcZj9pL5Bf5u3rP8iIIF05OyldQQNXyIX5OFA84R2+ylAI/Vnj6OrXoa9UW/nul/HGH9
-         GgRHdJ2Z/BoJ8vkFp2mJHUjqMjgJ/LHWib0lKni906rYoVELGVfdIjEOorwrr0OMk6bp
-         0L56PI68GJLXsUHN2fiEDPIXKf3ftkUfNmrctypzyJDspqqeMPj7sILqX6bQ3nCauFcs
-         jySHCRM3ftSEsVrjVsfeGfgh5rV7i/DXBoyGEHutjgFhSqOvsGn68eZB8nH2sXxWwyno
-         mlMw==
+        bh=ZKCqqk95xHc52Uxa1Lo1nVI5gf0jsVsMcqbVtjY5cOI=;
+        b=VeZeXkwVpvUtNKwD/bdoBuoeiNtEWJ73e9GdTku5rawPdT6hGzc8tyXdqfEaaGyEzF
+         jpEVQ4vLcQrKLU3LGq2YkHoeopdMwb2EW8EVf3wSTFDZQoCRxCdk1RgzknDi+y/A1T7F
+         ZxDa3jjQ8alXXzaVB8xhUjkgjp19riztM8LmmaRokKDv+3HnsWEQGNYQkzK9xkcwdQdK
+         Qb911cAVL9cckQCKtA2PtJmUXMMhxrtNII5rQIOoq9QAXY0nazBqbA62nhHv3BL/FnI0
+         IPLtFsjjD6zczg8w3wJXC17VzZpjyfHt1h3RUahx7lz20KZaUjMug4TdU3Tzeod5REt+
+         PpkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739284521; x=1739889321;
+        d=1e100.net; s=20230601; t=1739284523; x=1739889323;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Kdkw8SKc2jEdMzydhzBcIQXPPdM4NJNLnID5/f9u6lI=;
-        b=RZbBTLVCdh1pWD420z6y9taBK7+NR6J2Z5GUNp5u+WoPvForp0w7mMui1+m5SZd4B8
-         +re5mDV8etL89myL3jMajEosYXVbzaOb/E8/QlVKxUSx/SKgfXBv968p1ds9wAEbe4GN
-         hNVp8hnddr2pgyBCZXM2aXHIiYxr5t8vyjVkclkvHYoLFL1p6v0AmmB13ZuMGBrYAEFr
-         SvSaX8P406tF1F5WZqq9ZixFOZK++Bv/Qnb7FPa1c8VFDUakcLh3YFwJ4Ii+lCm3Bi6+
-         AJypc7R8dhAiQVn2QSt+PjDPrF001QZxqT0PTBBYDmEcGFvAYTx6owUICAgbbwYKzgfU
-         OdZw==
-X-Forwarded-Encrypted: i=1; AJvYcCVUHtUSqQ8s/Jo/iJpNDNGKQVv/YbFNZidn7RzYlNiJXXwCpztwIzF+mCQopQRWPYqgNflXi57K83znig==@vger.kernel.org, AJvYcCW4q0EQywnKI3RiS0yGGY0wscXvpOq92k+JsuUfK0Uwbb53Y4Ir7qDZOozPezI7SEscNYGrLJW/US29@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+8XCx2So+QUSA8oPEM638CwHFZPzfGF7ZbB3t5vuUe3a/oNYO
-	UyVjaiOGu109ob2qupK3bZ+92FuOJhCCRb0ODh+egfKmSTMMF7BJ
-X-Gm-Gg: ASbGncstwACytmwVlqGT+9/9iz1XzjZARBRi64URAgAUIGfFSrjHOw4yqtJGRAp8kX5
-	1pm20PW961xAIX+nNPuGqq7bEiC7fVWgxEfKo+oSCwikkWpa8voRsUu37cbwIyxilDf+EbE7taa
-	wR7yluKTFmVX3bFVVPNqno/9ppdqaBo4L79r6KSbr/M4dHpAuPYWvbLodqe4O1SFR85c2Z7K0go
-	QH9IsIDinRyfkQ4iv5k/m6lmSjV8ElMZ06yr7J6WVwgx/JfDLlOdWvoxcUcww2vMDzwlSrI4nZc
-	hwm6iqXDvJ2liiB2+3/dSfkCp30O20GWgSAzdQgkJgzDz6TVFnKibkhToNaC8A==
-X-Google-Smtp-Source: AGHT+IG3ip/jSb8wAk87NjyS3bhJUfHYby9ii42OFaym56d9/LZdyQO6xhU3OmzDIQN260D7H6jRGg==
-X-Received: by 2002:a05:651c:1503:b0:302:40ee:4c34 with SMTP id 38308e7fff4ca-307e57fcee3mr25830201fa.4.1739284521295;
-        Tue, 11 Feb 2025 06:35:21 -0800 (PST)
+        bh=ZKCqqk95xHc52Uxa1Lo1nVI5gf0jsVsMcqbVtjY5cOI=;
+        b=TLPThVng3rgYv8gUnGGZbYTK4cJ+uI8yO4bEKQnmc1gzu0c4ePjekQauhMabCJgZc1
+         hkGqgmQT9puInEffO/U8kSuvshVGBU9eqv8oGnFdgktEtXJzDCIVka8TvYsOBcXt05bz
+         N/TxYhX/pto9gVDYVMAGhXXIZwYH5wgM18qJQgnM5PxwBE1/DwsLzYSciioqa4Q7M7X2
+         qyHNxyGiSZTTfgXzb3cHCAV7Oeg/lmzWDURMgowz9UAbf6Q1eZz25LkxHFXTbAjJZhOm
+         YTYT6JRPSiEjm2JwZtrt/NKaOqL+ULqo8uCE0SdDSsiRYSpNUYutMOoCtU64Gt8dK2/w
+         c2tQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUiQVFt3cNVGARlfHIJti35tVzuo58F/4tJU1n10eRWZXHjgddb6/zlqsHbpTc9Q63uP7iA37m3VgiRzw==@vger.kernel.org, AJvYcCXa30Guijd17YRP+LmNwtbu3VifMSZXRAiWZDSCs9YV+jwUJLf5usfhboDh/IqIKdEx9QolADbJ71HP@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqMGHnf7uscqNEQvUAZqsEAvWOATJeDplKirRpnXOB7n7mWZxQ
+	hQONv0JgoMD6Ez39a0cX4oNJKVx4wHDksIkefD2Ct9uVIbqZpVW+Hw/SAKdq
+X-Gm-Gg: ASbGncuvJK8GQAvO/FjymbpY4R9dz5kGs078Gfvwd6doCo2ZxkcXTb/uC7Egpqn/BNt
+	f7OPfmrBdZrW26/54RjEadX+Q68MAlR0iUikz+c70TJH6sfg8vQ/zmg7JiPa+M7q0aDqC7VhSsd
+	ZuH/jM8l7fYa8Y7yhBcCxsVAOynejGgfXXLM4N21xmnZ0Qp9+akmRnv9bnlCj5c250q5kxp9hzN
+	tGGfu79o+z8C47JBYA/rV89IaJWMjBTRV164dEzN0QdKM4Gnv/5Wf4kMeFivVsdmEDr05bJ5NIQ
+	x0KAY/Rhefs3A7pD5lGVkLkCQQKr61Yz1dbOZW6Ci/mQG9olUhvHQMLEygADpg==
+X-Google-Smtp-Source: AGHT+IE3oQH8niAPreLtPjMpq9e9pcp5fjXC09dFFTz6Xk/POjcSvz0J2qP29sZYVkazN/pKrNeBOw==
+X-Received: by 2002:a05:651c:2104:b0:308:f0c9:c4ce with SMTP id 38308e7fff4ca-308fbe168aemr3733051fa.2.1739284522508;
+        Tue, 11 Feb 2025 06:35:22 -0800 (PST)
 Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-308ee4173edsm6132191fa.0.2025.02.11.06.35.20
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-308ee4173edsm6132191fa.0.2025.02.11.06.35.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 06:35:20 -0800 (PST)
+        Tue, 11 Feb 2025 06:35:21 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
 Cc: oleg@makarenk.ooo,
 	linux-input@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v4 3/6] HID: hid-universal-pidff: Add Asetek wheelbases support
-Date: Tue, 11 Feb 2025 15:35:09 +0100
-Message-ID: <20250211143512.720818-4-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v4 4/6] HID: pidff: Comment and code style update
+Date: Tue, 11 Feb 2025 15:35:10 +0100
+Message-ID: <20250211143512.720818-5-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250211143512.720818-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20250211143512.720818-1-tomasz.pakula.oficjalny@gmail.com>
@@ -93,81 +93,182 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Adds Asetek vendor id and product ids for:
-- Invicta
-- Forte
-- La Prima
-- Tony Kanaan
+Update comments to fully conform to the Linux comment styling.
+Define Linux infinite effect duration (0) as FF_INFINITE
 
-v2:
-- Misc spelling fix in driver loaded info
-
-v3:
-- Chanage Oleg's name order
+Chanage Oleg's name order
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- drivers/hid/hid-ids.h             |  6 ++++++
- drivers/hid/hid-universal-pidff.c | 10 +++++++---
- 2 files changed, 13 insertions(+), 3 deletions(-)
+ drivers/hid/usbhid/hid-pidff.c | 57 +++++++++++++++-------------------
+ 1 file changed, 25 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index dbac05649e9d..860adabbc625 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -189,6 +189,12 @@
- #define USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT 0x8102
- #define USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY 0x8302
- 
-+#define USB_VENDOR_ID_ASETEK			0x2433
-+#define USB_DEVICE_ID_ASETEK_INVICTA		0xf300
-+#define USB_DEVICE_ID_ASETEK_FORTE		0xf301
-+#define USB_DEVICE_ID_ASETEK_LA_PRIMA		0xf303
-+#define USB_DEVICE_ID_ASETEK_TONY_KANAAN	0xf306
-+
- #define USB_VENDOR_ID_ASUS		0x0486
- #define USB_DEVICE_ID_ASUS_T91MT	0x0185
- #define USB_DEVICE_ID_ASUSTEK_MULTITOUCH_YFO	0x0186
-diff --git a/drivers/hid/hid-universal-pidff.c b/drivers/hid/hid-universal-pidff.c
-index 1b713b741d19..5b89ec7b5c26 100644
---- a/drivers/hid/hid-universal-pidff.c
-+++ b/drivers/hid/hid-universal-pidff.c
-@@ -4,7 +4,7 @@
-  * hid-pidff wrapper for PID-enabled devices
-  * Handles device reports, quirks and extends usable button range
+diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
+index 503f643b59ca..e2508a4d754d 100644
+--- a/drivers/hid/usbhid/hid-pidff.c
++++ b/drivers/hid/usbhid/hid-pidff.c
+@@ -3,13 +3,9 @@
+  *  Force feedback driver for USB HID PID compliant devices
   *
-- * Copyright (c) 2024, 2025 Makarenko Oleg
-+ * Copyright (c) 2024, 2025 Oleg Makarenko
-  * Copyright (c) 2024, 2025 Tomasz Pakuła
+  *  Copyright (c) 2005, 2006 Anssi Hannula <anssi.hannula@gmail.com>
++ *  Upgraded 2025 by Oleg Makarenko and Tomasz Pakuła
   */
  
-@@ -104,7 +104,7 @@ static int universal_pidff_probe(struct hid_device *hdev,
- 		goto err;
- 	}
+-/*
+- */
+-
+-/* #define DEBUG */
+-
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
  
--	hid_info(hdev, "Universal pidff driver loaded sucesfully!");
-+	hid_info(hdev, "Universal pidff driver loaded sucessfully!");
+ #include "hid-pidff.h"
+@@ -25,9 +21,9 @@
+ 
+ /* Linux Force Feedback API uses miliseconds as time unit */
+ #define FF_TIME_EXPONENT	-3
++#define FF_INFINITE		0
+ 
+ /* Report usage table used to put reports into an array */
+-
+ #define PID_SET_EFFECT		0
+ #define PID_EFFECT_OPERATION	1
+ #define PID_DEVICE_GAIN		2
+@@ -48,12 +44,12 @@ static const u8 pidff_reports[] = {
+ 	0x21, 0x77, 0x7d, 0x7f, 0x89, 0x90, 0x96, 0xab,
+ 	0x5a, 0x5f, 0x6e, 0x73, 0x74
+ };
+-
+-/* device_control is really 0x95, but 0x96 specified as it is the usage of
+-the only field in that report */
++/*
++ * device_control is really 0x95, but 0x96 specified
++ * as it is the usage of the only field in that report.
++ */
+ 
+ /* PID special fields */
+-
+ #define PID_EFFECT_TYPE			0x25
+ #define PID_DIRECTION			0x57
+ #define PID_EFFECT_OPERATION_ARRAY	0x78
+@@ -61,7 +57,6 @@ the only field in that report */
+ #define PID_DEVICE_CONTROL_ARRAY	0x96
+ 
+ /* Value usage tables used to put fields and values into arrays */
+-
+ #define PID_EFFECT_BLOCK_INDEX	0
+ 
+ #define PID_DURATION		1
+@@ -119,7 +114,6 @@ static const u8 pidff_device_gain[] = { 0x7e };
+ static const u8 pidff_pool[] = { 0x80, 0x83, 0xa9 };
+ 
+ /* Special field key tables used to put special field keys into arrays */
+-
+ #define PID_ENABLE_ACTUATORS	0
+ #define PID_DISABLE_ACTUATORS	1
+ #define PID_STOP_ALL_EFFECTS	2
+@@ -176,8 +170,10 @@ struct pidff_device {
+ 	struct pidff_usage effect_operation[sizeof(pidff_effect_operation)];
+ 	struct pidff_usage block_free[sizeof(pidff_block_free)];
+ 
+-	/* Special field is a field that is not composed of
+-	   usage<->value pairs that pidff_usage values are */
++	/*
++	 * Special field is a field that is not composed of
++	 * usage<->value pairs that pidff_usage values are
++	 */
+ 
+ 	/* Special field in create_new_effect */
+ 	struct hid_field *create_new_effect_type;
+@@ -222,7 +218,7 @@ static s32 pidff_clamp(s32 i, struct hid_field *field)
+ static int pidff_rescale(int i, int max, struct hid_field *field)
+ {
+ 	return i * (field->logical_maximum - field->logical_minimum) / max +
+-	    field->logical_minimum;
++		field->logical_minimum;
+ }
+ 
+ /*
+@@ -282,9 +278,8 @@ static void pidff_set_time(struct pidff_usage *usage, u16 time)
+ 
+ static void pidff_set_duration(struct pidff_usage *usage, u16 duration)
+ {
+-	/* Convert infinite length from Linux API (0)
+-	   to PID standard (NULL) if needed */
+-	if (duration == 0)
++	/* Infinite value conversion from Linux API -> PID */
++	if (duration == FF_INFINITE)
+ 		duration = PID_INFINITE;
+ 
+ 	if (duration == PID_INFINITE) {
+@@ -302,16 +297,16 @@ static void pidff_set_envelope_report(struct pidff_device *pidff,
+ 				      struct ff_envelope *envelope)
+ {
+ 	pidff->set_envelope[PID_EFFECT_BLOCK_INDEX].value[0] =
+-	    pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0];
++		pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0];
+ 
+ 	pidff->set_envelope[PID_ATTACK_LEVEL].value[0] =
+-	    pidff_rescale(envelope->attack_level >
+-			  S16_MAX ? S16_MAX : envelope->attack_level, S16_MAX,
+-			  pidff->set_envelope[PID_ATTACK_LEVEL].field);
++		pidff_rescale(envelope->attack_level >
++			S16_MAX ? S16_MAX : envelope->attack_level, S16_MAX,
++			pidff->set_envelope[PID_ATTACK_LEVEL].field);
+ 	pidff->set_envelope[PID_FADE_LEVEL].value[0] =
+-	    pidff_rescale(envelope->fade_level >
+-			  S16_MAX ? S16_MAX : envelope->fade_level, S16_MAX,
+-			  pidff->set_envelope[PID_FADE_LEVEL].field);
++		pidff_rescale(envelope->fade_level >
++			S16_MAX ? S16_MAX : envelope->fade_level, S16_MAX,
++			pidff->set_envelope[PID_FADE_LEVEL].field);
+ 
+ 	pidff_set_time(&pidff->set_envelope[PID_ATTACK_TIME],
+ 			envelope->attack_length);
+@@ -702,9 +697,7 @@ static void pidff_playback_pid(struct pidff_device *pidff, int pid_id, int n)
+ static int pidff_playback(struct input_dev *dev, int effect_id, int value)
+ {
+ 	struct pidff_device *pidff = dev->ff->private;
+-
+ 	pidff_playback_pid(pidff, pidff->pid_id[effect_id], value);
+-
+ 	return 0;
+ }
+ 
+@@ -732,8 +725,11 @@ static int pidff_erase_effect(struct input_dev *dev, int effect_id)
+ 
+ 	hid_dbg(pidff->hid, "starting to erase %d/%d\n",
+ 		effect_id, pidff->pid_id[effect_id]);
+-	/* Wait for the queue to clear. We do not want a full fifo to
+-	   prevent the effect removal. */
++
++	/*
++	 * Wait for the queue to clear. We do not want
++	 * a full fifo to prevent the effect removal.
++	 */
+ 	hid_hw_wait(pidff->hid);
+ 	pidff_playback_pid(pidff, pid_id, 0);
+ 	pidff_erase_pid(pidff, pid_id);
+@@ -1239,7 +1235,6 @@ static int pidff_find_effects(struct pidff_device *pidff,
+ 		set_bit(FF_FRICTION, dev->ffbit);
  
  	return 0;
- err:
-@@ -179,6 +179,10 @@ static const struct hid_device_id universal_pidff_devices[] = {
- 		.driver_data = HID_PIDFF_QUIRK_PERIODIC_SINE_ONLY },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LITE_STAR, USB_DEVICE_LITE_STAR_GT987_FF),
- 		.driver_data = HID_PIDFF_QUIRK_PERIODIC_SINE_ONLY },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ASETEK, USB_DEVICE_ID_ASETEK_INVICTA) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ASETEK, USB_DEVICE_ID_ASETEK_FORTE) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ASETEK, USB_DEVICE_ID_ASETEK_LA_PRIMA) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ASETEK, USB_DEVICE_ID_ASETEK_TONY_KANAAN) },
- 	{ }
- };
- MODULE_DEVICE_TABLE(hid, universal_pidff_devices);
-@@ -194,5 +198,5 @@ module_hid_driver(universal_pidff);
+-
+ }
  
- MODULE_DESCRIPTION("Universal driver for USB PID Force Feedback devices");
- MODULE_LICENSE("GPL");
--MODULE_AUTHOR("Makarenko Oleg <oleg@makarenk.ooo>");
-+MODULE_AUTHOR("Oleg Makarenko <oleg@makarenk.ooo>");
- MODULE_AUTHOR("Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>");
+ #define PIDFF_FIND_FIELDS(name, report, strict) \
+@@ -1370,12 +1365,10 @@ static int pidff_check_autocenter(struct pidff_device *pidff,
+ 		hid_notice(pidff->hid,
+ 			   "device has unknown autocenter control method\n");
+ 	}
+-
+ 	pidff_erase_pid(pidff,
+ 			pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0]);
+ 
+ 	return 0;
+-
+ }
+ 
+ /*
 -- 
 2.48.1
 
