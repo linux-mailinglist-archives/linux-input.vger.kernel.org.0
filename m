@@ -1,117 +1,150 @@
-Return-Path: <linux-input+bounces-9992-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9993-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F4BA325C8
-	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 13:24:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1A06A3265B
+	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 13:57:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64E553A82A6
-	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 12:24:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 703811690C4
+	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 12:57:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02EBD20766F;
-	Wed, 12 Feb 2025 12:24:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8290C20D515;
+	Wed, 12 Feb 2025 12:57:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q7TIEy91"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="B98dfFuc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC8E271829;
-	Wed, 12 Feb 2025 12:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB19271824;
+	Wed, 12 Feb 2025 12:57:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739363058; cv=none; b=bgtJYKRC4/fP/GSMWDqk9zgsVBTJuFuJMpl4UVCmbDCHJPRNVrH2GKR5of4KPdRPyqwoscpbdkD9d75isxKknxewKgSiLBTEPbyBx4lZscoVgqhTGMhRNVL4uRvyIY4WlB85bhNiw79YLSowSEs+pjnwmK2usJLGsF/BB5FQHPc=
+	t=1739365066; cv=none; b=MRH4x/5gJjNxSXVHRm4TTsuTZpUaKCRjsTAH66uk+zvFrjeLbtupmYEsFdCGJacld/CTwG6BsNKtR5lttMSJv/uFxjhq51yTRw15WYOvj+jrdjsHWAORSqhXKW9I0FE41ti8U+n1qOzRIUhVHIQJJnDs5oYFbTyAVCRqWX9YxyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739363058; c=relaxed/simple;
-	bh=Lq92TNbdy7iFBABmyM4Tqt+wG4oPSZ8i+xhZzcRzluM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=d5DpwIOnclcWy63giYbcxl6bwfOmwc9F/gF+LkfjexQK/TSqPSP3n+RXviAU3gN4++inE/yjAyXl0qRHblUCaNRpewh1SDC+rWfGuN7Bhd1pT/Ma1uZ2LIc7v7KH7l1qIHsn7Ooj1CZMHMEvVzBArCbM6AK0dC4xWz/1QTuS5vY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q7TIEy91; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-38dcae0d6dcso3048493f8f.1;
-        Wed, 12 Feb 2025 04:24:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739363055; x=1739967855; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sf0fCUR6elaxXWiV1DtQUoY4//OKzn7UVKTG1pmy2mI=;
-        b=Q7TIEy91dqspc1GfyVP2LW5nIr0EQyGh5ult+JXAmWIQGEBzR/JvhvRO15wksiUlpi
-         IGaDkF7UmxrI7exudkypNKiPi7ZWiAwdIw9ulaGiz83D8fP5qZBzjAS/JxEKHMoRzSRT
-         OxiUVX9Q5g76qwDKMoTUQAuklJA/PMlSm/kKs1hQEwDPFqKOZqcJGmFeUt/SETSfswJe
-         0EY6P9zSiY6nZ0WPFSi48jEJLjG37WW8CkgQYRJxQFT3wy0QXDW5XAimvcYA9tGEc6nF
-         MozRDUl8upjk3jYIauMueO8t/DYH4LgcKZQ9CUq+ABCgDsBGLsMF/oJvpKu6HBYRrTPy
-         kRzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739363055; x=1739967855;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sf0fCUR6elaxXWiV1DtQUoY4//OKzn7UVKTG1pmy2mI=;
-        b=eE2TSKXRVWelUlBzf3V3j902TeTn7jBpbDNGFwSbZjrgeVRy6rM5P7h3WLrDG8xj/P
-         4tGrmXuKxJ6jKtte6rJpAiTSj6WjJ4wz3tszGizxREM/dtRBS+AsTIvn6TuTpZ6X3ds+
-         RIZ3FQUjki+BCeiqdJbQxGT8UjOJmnbDTjO64Nr0Ennbtzg7Mw4oK2uYlp9G247JDJ3c
-         qlhM6b2D5+XjGoDKcLkecqJMAQCircIPIyvyjGtql284YdlMVKZnWKW68UNv4rf8PSj8
-         IvN8mEFZvFpJsMkHtQo1wpRIIxVv7gP4pYWeWLWfUvfBrNJO8fgchswNEMAoJ/1U+oni
-         Y5vQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUAsBasxL+48+JdT1e0l6ifS16j73eoGZO7FtuQdGKVlpI8ics9/oFe2hAm4mzgTo02g/6XZ6PjK9TYCA==@vger.kernel.org, AJvYcCWZY9NILNv82CiOwbtPJ/nuCqPerfOwOXD0mptAcmWIsBK0/3Bd6BqjAZ6oEzodG9Ki+fjLVq31Qs1/cAsK@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxt3OxhzS1rzM8o13RPLpvdJTOimPQyfhlnNiG50rNO1pypIwcG
-	E3Eqii+HxekcRqoH6tJ6zIAL/pT3u9WVKbCSaB8I13h/0CDLlfKk8o3UmmBuhJoVAw==
-X-Gm-Gg: ASbGncth9y1xIFaSUouT1/NEsUnZ6nzcDgNbeTPVNj9qzgfydgJ4Mfn452fRpebwV07
-	p/CceLfg8odBkLIinUb0Q+qd03/euCBDFKP5eAhwIsF64j3ixKsLd43D3awWr2G6IR31Lw7s1K4
-	MYRrSQdOCAljfX0ImqZ69G+u5+IrV2rElI2piUktyL5XXVjQXZ1yK0NV0k4QY8DNvraLpr19K8Y
-	IV8ic40JtEPKEmrE4H748fR6kwZKLWfsB3GQd4T41NuMY7yG622NO1cEqTbJAlYY7tpCLGzamg9
-	SNs5GrsDgaHYNLIL
-X-Google-Smtp-Source: AGHT+IFB5hyOEVCQDsErW1G67bm7ykKDxXt7eMB6BeYyhuCNqMXc2bOwHBQPLVUhb2eJQCqpi7xn8g==
-X-Received: by 2002:a5d:648d:0:b0:38d:c9da:d0d8 with SMTP id ffacd0b85a97d-38dea256ec3mr2407904f8f.9.1739363055332;
-        Wed, 12 Feb 2025 04:24:15 -0800 (PST)
-Received: from localhost ([194.120.133.72])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-38dd9a6153dsm9805592f8f.60.2025.02.12.04.24.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 04:24:15 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
-	Oleg Makarenko <oleg@makarenk.ooo>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	linux-input@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] HID: hid-universal-pidff: Fix spelling mistake "sucessfully" -> "successfully"
-Date: Wed, 12 Feb 2025 12:23:47 +0000
-Message-ID: <20250212122347.495701-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1739365066; c=relaxed/simple;
+	bh=OPanrCfS1lvnoz7OwCheozB8dxHqLkWEb7Fz9X5l1dg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Subject:Cc:
+	 References:In-Reply-To; b=aaLyzrRBq6JJxWrvkljjezaJJFueHmUns7cRWZ/CiPeLzZknJSBYoWXn04LkFO+Uzr1yPoS2f9n3mQyqdQ1EA50w/S3J+iW8+LTclehzqNKK9t50oQNuPQuaqBsmaS0avs7VdRJ9RcXyUjfK5o7jSwCzYHksvzRgH2TaU7YaX5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=B98dfFuc; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 68FA242CCD;
+	Wed, 12 Feb 2025 12:57:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1739365056;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UQlDvmMNjG6HkmTEiN6yuUtQAxZ2XiJJ4GjbKF++9lE=;
+	b=B98dfFucobdoepjJa/+I5uJim69YPNxpmIzqWZbtDGtT74sp09+RvN0m8WCOUlplsmj11t
+	C+7hseTbDtcH3dNXP4f+LEAw8LQmksx2rM8BybUWtv9Ml4bJSurqALhWf8UdzL4K4jLlKU
+	JKIIFhLzDosYGbhYwG57aIt99iv8fOhSbw+wdfwpAxmANXeZJYJhGmMsaKir6yzRVKbE1+
+	csNMWKcihRpXeg44ZifqI1T7O8BKb2c0KUPy0yIUrSo5DAm9jkiWYwiOE/yXMSseIPGQ9k
+	oajfa4yP0TsfYqAxEDULdtEDCH+tqaAw7T9oaaiXlyFZaWJftnFCrwTEsdKfxQ==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 12 Feb 2025 13:57:34 +0100
+Message-Id: <D7QHGB7D0VSG.X255SDU7DFOF@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Andy Shevchenko" <andriy.shevchenko@intel.com>
+Subject: Re: [PATCH v3 4/7] gpio: max7360: Add MAX7360 gpio support
+Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
+ Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com>
+ <20250113-mdb-max7360-support-v3-4-9519b4acb0b1@bootlin.com>
+ <Z5eFGJspoGOINcG6@smile.fi.intel.com>
+In-Reply-To: <Z5eFGJspoGOINcG6@smile.fi.intel.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegfeelgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffhvffuvefofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepheevtdekffeuleehkedtvdejhfeihfegtdduveeghedvveelgfevteekveelleetnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudejpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhkohesihhnthgvlhdrtghomhdprhgtphhtthhopehlvggvsehkvghrnhgvlhdro
+ hhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrghmvghlrdgsohhuhhgrrhgrsegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-There is a spelling mistake in a hid_info message. Fix it.
+Hi Andy,
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/hid/hid-universal-pidff.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for your review. I've been addressing most of your comments in
+this mail and the ones related to regmap-irq. I should be able to send a
+new version in a few days.
 
-diff --git a/drivers/hid/hid-universal-pidff.c b/drivers/hid/hid-universal-pidff.c
-index 5b89ec7b5c26..001a0f5efb9d 100644
---- a/drivers/hid/hid-universal-pidff.c
-+++ b/drivers/hid/hid-universal-pidff.c
-@@ -104,7 +104,7 @@ static int universal_pidff_probe(struct hid_device *hdev,
- 		goto err;
- 	}
- 
--	hid_info(hdev, "Universal pidff driver loaded sucessfully!");
-+	hid_info(hdev, "Universal pidff driver loaded successfully!");
- 
- 	return 0;
- err:
--- 
-2.47.2
+However I have a few questions regarding some of the points.
+
+On Mon Jan 27, 2025 at 2:07 PM CET, Andy Shevchenko wrote:
+> On Mon, Jan 13, 2025 at 01:42:28PM +0100, Mathieu Dubois-Briand wrote:
+> > +	parent =3D to_platform_device(pdev->dev.parent);
+>
+> Why do you need this? Can't the fwnode be propagated to the children and =
+then
+> the respective APIs to be used?
+>
+
+I'm not sure to understand this correctly, what do you mean by
+propagating the fwnode to the children?
+
+Just a quick summary of the situation and what I try to do. The device
+tree looks like this, only keeping the interesting properties:
+
+io-expander@38 {
+  ...
+  interrupts =3D <23 IRQ_TYPE_LEVEL_LOW>,
+               <24 IRQ_TYPE_LEVEL_LOW>;
+  interrupt-names =3D "inti", "intk";
+
+  max7360_gpio: gpio {
+    ...
+  };
+
+  max7360_gpo: gpo {
+    ...
+  };
+};
+
+Our pdev fwnode points either to the "gpio" or "gpo" nodes, the one from
+our parent device points to "io-expander@38". Here we need to get the
+"inti" interrupt from the parent node. What would be the correct way to
+do it?
+
+> > +	if (!max7360_gpio)
+> > +		return -ENOMEM;
+>
+> > +	if (of_property_read_u32(pdev->dev.of_node, "ngpios", &ngpios)) {
+> > +		dev_err(&pdev->dev, "Missing ngpios OF property\n");
+> > +		return -ENODEV;
+> > +	}
+>
+> This is not needed, it is already done in GPIOLIB core.
+>
+
+I believe this is still needed:
+- For gpos, we need the gpio count to correctly set the partition
+  between gpo and keypad columns in max7360_set_gpos_count().
+- For gpios, we need the gpio count to setup the IRQs.
+
+Best regards,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
