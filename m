@@ -1,115 +1,117 @@
-Return-Path: <linux-input+bounces-9991-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9992-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FBC5A32440
-	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 12:05:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7F4BA325C8
+	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 13:24:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E05F8188A24A
-	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 11:05:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64E553A82A6
+	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 12:24:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C733C20A5E9;
-	Wed, 12 Feb 2025 11:05:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02EBD20766F;
+	Wed, 12 Feb 2025 12:24:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OuHO1Avs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q7TIEy91"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15662209F4F;
-	Wed, 12 Feb 2025 11:05:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC8E271829;
+	Wed, 12 Feb 2025 12:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739358325; cv=none; b=ZumrkzNwy9jAhY2dmnsjd1nTA6aeR4JiuEEVtkSwcCV8GxDRRW7HILxCURcXvYngoyGt6rCEeqS+tjm0HlPahqW7Fp8zD3Lild1W/LQ0wjv8WrTSjADk+85xeey09QnPczmtEQMFnVCPwhilC5H0fmpliLZxznTUS/RZnRkTmRw=
+	t=1739363058; cv=none; b=bgtJYKRC4/fP/GSMWDqk9zgsVBTJuFuJMpl4UVCmbDCHJPRNVrH2GKR5of4KPdRPyqwoscpbdkD9d75isxKknxewKgSiLBTEPbyBx4lZscoVgqhTGMhRNVL4uRvyIY4WlB85bhNiw79YLSowSEs+pjnwmK2usJLGsF/BB5FQHPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739358325; c=relaxed/simple;
-	bh=0g7QU6yu2LWPgfB5UYFK/r1xn2uufsX7snmqWwkUlsM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZnH8aajCHEw4CtKDtP0/HslIAUQ4PGK8RHbSkmbfCVz0HoPS6AsbZkkoUReQTC8GfenozyoM14biWShNgGR8zb4Y0RHFcsLZljAetNTI7LfbtCykuUh/IjQHyHShESPqjTpK3MJMY7ugpfmYxNg4pnB45eQQoBACnjelka6J7K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OuHO1Avs; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739358324; x=1770894324;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0g7QU6yu2LWPgfB5UYFK/r1xn2uufsX7snmqWwkUlsM=;
-  b=OuHO1Avsdi+lVHxQl8v+LeXNpoDY48twnHYOzqDaKN7JmwW+1jN9mZBO
-   Zazy9sBAvyW3TlgXK33Sz81l1FdbCMD91B7hN2z7fVvNgg2sPLVNuzYPW
-   hzF9X3XVHt5pNK57Yf1D+WVB4rpTnWN9bZpa5bFK9jt3axwcKh2nw65PV
-   gEKLOajH4G8Yh25bkELU1VgncIkrlMcAAIOZ317D1rGGBhV+I+MSvDTSR
-   D4JiR6otuo6xX2mvFcoj3oGhtvIfF84rEcSy+uI+5vIMD47AFKIieCFeu
-   WevFSD1ZTIOeYNXegrU6AkZXBJOiXU+Y0ed1r0g/sg5KKzdij3ZHiIaQt
-   A==;
-X-CSE-ConnectionGUID: ek+9dLuUS3ebJ2MHdTtuRg==
-X-CSE-MsgGUID: S9ZGn1OMQWi2hNphLvAffQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="40272344"
-X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="40272344"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 03:05:23 -0800
-X-CSE-ConnectionGUID: HKSKIniRRXaWdIMTlC8KYA==
-X-CSE-MsgGUID: iBOVjp/cQV+utTzuDskRyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117415953"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 03:05:20 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tiAYP-0000000AoRw-2ZHi;
-	Wed, 12 Feb 2025 13:05:17 +0200
-Date: Wed, 12 Feb 2025 13:05:17 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: arnd@arndb.de, gregkh@linuxfoundation.org, rafael@kernel.org,
-	linus.walleij@linaro.org, mika.westerberg@linux.intel.com,
-	dmitry.torokhov@gmail.com, jic23@kernel.org,
-	przemyslaw.kitszel@intel.com, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-iio@vger.kernel.org
-Subject: Re: [PATCH v5 00/12] Split devres APIs to device/devres.h and
- introduce devm_kmemdup_array()
-Message-ID: <Z6yAbfVtm8nlZzqu@smile.fi.intel.com>
-References: <20250212062513.2254767-1-raag.jadav@intel.com>
+	s=arc-20240116; t=1739363058; c=relaxed/simple;
+	bh=Lq92TNbdy7iFBABmyM4Tqt+wG4oPSZ8i+xhZzcRzluM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=d5DpwIOnclcWy63giYbcxl6bwfOmwc9F/gF+LkfjexQK/TSqPSP3n+RXviAU3gN4++inE/yjAyXl0qRHblUCaNRpewh1SDC+rWfGuN7Bhd1pT/Ma1uZ2LIc7v7KH7l1qIHsn7Ooj1CZMHMEvVzBArCbM6AK0dC4xWz/1QTuS5vY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q7TIEy91; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-38dcae0d6dcso3048493f8f.1;
+        Wed, 12 Feb 2025 04:24:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739363055; x=1739967855; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sf0fCUR6elaxXWiV1DtQUoY4//OKzn7UVKTG1pmy2mI=;
+        b=Q7TIEy91dqspc1GfyVP2LW5nIr0EQyGh5ult+JXAmWIQGEBzR/JvhvRO15wksiUlpi
+         IGaDkF7UmxrI7exudkypNKiPi7ZWiAwdIw9ulaGiz83D8fP5qZBzjAS/JxEKHMoRzSRT
+         OxiUVX9Q5g76qwDKMoTUQAuklJA/PMlSm/kKs1hQEwDPFqKOZqcJGmFeUt/SETSfswJe
+         0EY6P9zSiY6nZ0WPFSi48jEJLjG37WW8CkgQYRJxQFT3wy0QXDW5XAimvcYA9tGEc6nF
+         MozRDUl8upjk3jYIauMueO8t/DYH4LgcKZQ9CUq+ABCgDsBGLsMF/oJvpKu6HBYRrTPy
+         kRzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739363055; x=1739967855;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sf0fCUR6elaxXWiV1DtQUoY4//OKzn7UVKTG1pmy2mI=;
+        b=eE2TSKXRVWelUlBzf3V3j902TeTn7jBpbDNGFwSbZjrgeVRy6rM5P7h3WLrDG8xj/P
+         4tGrmXuKxJ6jKtte6rJpAiTSj6WjJ4wz3tszGizxREM/dtRBS+AsTIvn6TuTpZ6X3ds+
+         RIZ3FQUjki+BCeiqdJbQxGT8UjOJmnbDTjO64Nr0Ennbtzg7Mw4oK2uYlp9G247JDJ3c
+         qlhM6b2D5+XjGoDKcLkecqJMAQCircIPIyvyjGtql284YdlMVKZnWKW68UNv4rf8PSj8
+         IvN8mEFZvFpJsMkHtQo1wpRIIxVv7gP4pYWeWLWfUvfBrNJO8fgchswNEMAoJ/1U+oni
+         Y5vQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUAsBasxL+48+JdT1e0l6ifS16j73eoGZO7FtuQdGKVlpI8ics9/oFe2hAm4mzgTo02g/6XZ6PjK9TYCA==@vger.kernel.org, AJvYcCWZY9NILNv82CiOwbtPJ/nuCqPerfOwOXD0mptAcmWIsBK0/3Bd6BqjAZ6oEzodG9Ki+fjLVq31Qs1/cAsK@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxt3OxhzS1rzM8o13RPLpvdJTOimPQyfhlnNiG50rNO1pypIwcG
+	E3Eqii+HxekcRqoH6tJ6zIAL/pT3u9WVKbCSaB8I13h/0CDLlfKk8o3UmmBuhJoVAw==
+X-Gm-Gg: ASbGncth9y1xIFaSUouT1/NEsUnZ6nzcDgNbeTPVNj9qzgfydgJ4Mfn452fRpebwV07
+	p/CceLfg8odBkLIinUb0Q+qd03/euCBDFKP5eAhwIsF64j3ixKsLd43D3awWr2G6IR31Lw7s1K4
+	MYRrSQdOCAljfX0ImqZ69G+u5+IrV2rElI2piUktyL5XXVjQXZ1yK0NV0k4QY8DNvraLpr19K8Y
+	IV8ic40JtEPKEmrE4H748fR6kwZKLWfsB3GQd4T41NuMY7yG622NO1cEqTbJAlYY7tpCLGzamg9
+	SNs5GrsDgaHYNLIL
+X-Google-Smtp-Source: AGHT+IFB5hyOEVCQDsErW1G67bm7ykKDxXt7eMB6BeYyhuCNqMXc2bOwHBQPLVUhb2eJQCqpi7xn8g==
+X-Received: by 2002:a5d:648d:0:b0:38d:c9da:d0d8 with SMTP id ffacd0b85a97d-38dea256ec3mr2407904f8f.9.1739363055332;
+        Wed, 12 Feb 2025 04:24:15 -0800 (PST)
+Received: from localhost ([194.120.133.72])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-38dd9a6153dsm9805592f8f.60.2025.02.12.04.24.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2025 04:24:15 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
+	Oleg Makarenko <oleg@makarenk.ooo>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-input@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] HID: hid-universal-pidff: Fix spelling mistake "sucessfully" -> "successfully"
+Date: Wed, 12 Feb 2025 12:23:47 +0000
+Message-ID: <20250212122347.495701-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250212062513.2254767-1-raag.jadav@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 12, 2025 at 11:55:01AM +0530, Raag Jadav wrote:
-> This series
-> 
-> 1. Splits device/devres.h for the users that are only interested in devres APIs.
->    Original work by Andy Shevchenko:
->    https://lore.kernel.org/r/20241203195340.855879-1-andriy.shevchenko@linux.intel.com
-> 
-> 2. Introduces a more robust and cleaner devm_kmemdup_array() helper and uses it
->    across drivers.
-> 
-> The idea behind embedding both work into a single series is to make the review
-> process easier and reduce conflicts while merging.
-> 
-> Current proposal is to merge initial patches with an immutable tag (volunteered
-> by Andy) for other subsystems to use. Feel free to share a better alternative.
+There is a spelling mistake in a hid_info message. Fix it.
 
-> v5: Move IOMEM_ERR_PTR() to err.h (Andy)
->     Reduce distribution to pinctrl/iio/input patches
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/hid/hid-universal-pidff.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Weren't there two more patches that were actually Acked by Jonathan?
-
+diff --git a/drivers/hid/hid-universal-pidff.c b/drivers/hid/hid-universal-pidff.c
+index 5b89ec7b5c26..001a0f5efb9d 100644
+--- a/drivers/hid/hid-universal-pidff.c
++++ b/drivers/hid/hid-universal-pidff.c
+@@ -104,7 +104,7 @@ static int universal_pidff_probe(struct hid_device *hdev,
+ 		goto err;
+ 	}
+ 
+-	hid_info(hdev, "Universal pidff driver loaded sucessfully!");
++	hid_info(hdev, "Universal pidff driver loaded successfully!");
+ 
+ 	return 0;
+ err:
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.47.2
 
 
