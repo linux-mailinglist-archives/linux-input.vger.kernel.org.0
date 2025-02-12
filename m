@@ -1,162 +1,163 @@
-Return-Path: <linux-input+bounces-9996-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9997-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7FD5A32995
-	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 16:12:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60089A329B1
+	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 16:15:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E50C3A6EBC
-	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 15:11:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE2B73A6F86
+	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 15:15:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 939B421128D;
-	Wed, 12 Feb 2025 15:11:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE94E213232;
+	Wed, 12 Feb 2025 15:15:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="imuTfGHs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MPkye97P"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C302A271800;
-	Wed, 12 Feb 2025 15:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7808A20E038;
+	Wed, 12 Feb 2025 15:15:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739373116; cv=none; b=Y8N4I/r/YMg3xVX/7UfawLD6oByj3rWx0VgIdf6iYah2PFtf/AWyERwIeWDB4wue1JDgcbV7PiRjubignpcp1YHcJGxpZ0HA/VecvjQZBMsWlK0CebxXlll82Zs6CvaiH5h9QIzFyITWoQ8PuwS4mUarI20s3brCt4smpbnkwrY=
+	t=1739373320; cv=none; b=fTTTdwcpUhKFNLzh/nseyxDIrkZK5q6qUJN41921RvWtMM8YpvZl1n5wQ3huaM6hHuE9EZD9zaKLTPRZMmxGYb+Dq9kHLMpzRnubVRzLAWShNRUf4JU0tT3znmfcjzcAiiEyOd/GRwW9FKn86w3iF5HKOYEkmcgTcgnTqdzqoOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739373116; c=relaxed/simple;
-	bh=99arZH731iDZzfa8ZZPAfBQWn0acSMZBM8u1cuqUXuo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=HfEl+3/rLsWjFeqfpcHn4mJ9q/FWMLTUjktaGQPUAlSNg1fUvN4FjQFX1MvcVIf8UlJL56bLoEFrTJGjwL2J/uOknA2mIK3zd3trdNSyeh8xI0e/ZU2xJy/zlYJZ1AYzPMseE/AggvYufSLWBQfZi8PVSMkpOs2p2O1MVqBtNRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=imuTfGHs; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51C6u2Y2016943;
-	Wed, 12 Feb 2025 09:10:58 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=gaOUuX7MQMuia9McaDE2MM2EVmIcLDAQ3K7abX1j5EI=; b=
-	imuTfGHsfbgtQ94PMHcxX8dKsZW+Oc0j6LC0gyMYNSvSxqzXnaTaNlWMlRasdXb8
-	Nvpn0HrIn7DtIobeHILQes4oMoaNlG73Y8wm7zusuXTIV6LoUIk3ST5faNQWzKj7
-	2XJD6A9hHaGH09OdY5nTy3QSOpzWbQYodSyX3CAwKuhjM2+KS9YZc3YNNmmV8m25
-	D9i01azVLWhpnnkJTPvSjBepXblKH+VJ8YY/c8ZMwcYO3NAnwIbcl3MiiiWby1mp
-	TT9kYkZsv9tR2sHEUE1gVttwJMs81xJPVCfBthzNAaJGreCY6mhx/w0flyThJr4r
-	+d2ehwWTAzHOVJUxjx+Tfw==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 44rpsv8nss-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Feb 2025 09:10:58 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 12 Feb
- 2025 15:10:56 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Wed, 12 Feb 2025 15:10:51 +0000
-Received: from [198.90.208.18] (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 1F10582025A;
-	Wed, 12 Feb 2025 15:10:51 +0000 (UTC)
-Message-ID: <c92f8f5b-e6f4-41bb-86c1-dc45b80cd49b@opensource.cirrus.com>
-Date: Wed, 12 Feb 2025 15:10:51 +0000
+	s=arc-20240116; t=1739373320; c=relaxed/simple;
+	bh=36xnraS+6CjRXGXyxx9IPLW3xTJ9QTHCIwLdimGlQi0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SpjOxHfCFq5hqT8jbMKhkEJ5HDRXLoRGz2BeLn4vRb7sI2RwbSvqYqd7h56ofSA41jdJcsocOmH4TbXZ2Nien/fWHdeHJYfaSzSkkawy39sIffmiLMgD/KLoEfcbOWTxvycLXK8DDwSN/aYuxC5kHI4RuIXcrsvVQP7KAbsM9sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MPkye97P; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739373319; x=1770909319;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=36xnraS+6CjRXGXyxx9IPLW3xTJ9QTHCIwLdimGlQi0=;
+  b=MPkye97PwPbC3QXTuif17NJuoVr4Vyw7ScO/3X2sh/YBvmltSmymMEtD
+   hCyHjF3/Yk5sSGTb2BAM3au0/TqDwfJvf+w6dbTyyQbC+xsWMfMLuvG3j
+   QlupUwRJyQpMTNbF1z06OSHtcpcMFmzrZll4qV63wtkkByc4gZlJoMIJt
+   5djCmUHQYfP8zaWoJ/C9JEHnmapI4wfc8Ddet02Kzz8zo8swZLkHixptk
+   BdWh5n6/mvPh8R1GF5DlnfPLtlHW8SjLL+ZptOgiwnoHqFufwCV1r4fxc
+   YExmobPsXaZHTp6cDC0O5imwyt9Nq/AxsjamKWlyLYWYOFzwBugDAWf/x
+   g==;
+X-CSE-ConnectionGUID: COuVtPhUT7yfw/4vq/uVIg==
+X-CSE-MsgGUID: CSsubyjKQ4SDfUiTTTFAsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="40183840"
+X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; 
+   d="scan'208";a="40183840"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 07:14:54 -0800
+X-CSE-ConnectionGUID: NvtxVxtuSYmAOoy7n70nOA==
+X-CSE-MsgGUID: ZyAwoJg4Qj+b8TMPaP18dw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; 
+   d="scan'208";a="112621912"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 07:14:49 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1tiERq-0000000As7i-0VFM;
+	Wed, 12 Feb 2025 17:14:46 +0200
+Date: Wed, 12 Feb 2025 17:14:45 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 4/7] gpio: max7360: Add MAX7360 gpio support
+Message-ID: <Z6y65SnrprvnpKEa@smile.fi.intel.com>
+References: <20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com>
+ <20250113-mdb-max7360-support-v3-4-9519b4acb0b1@bootlin.com>
+ <Z5eFGJspoGOINcG6@smile.fi.intel.com>
+ <D7QHGB7D0VSG.X255SDU7DFOF@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 5/7] mfd: cs40l26: Add support for CS40L26 core
- driver
-To: Fred Treven <ftreven@opensource.cirrus.com>,
-        Krzysztof Kozlowski
-	<krzk@kernel.org>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Simon Trimmer <simont@opensource.cirrus.com>,
-        Charles Keepax
-	<ckeepax@opensource.cirrus.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        James Ogletree <jogletre@opensource.cirrus.com>,
-        Ben Bright
-	<ben.bright@cirrus.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        Jeff LaBundy
-	<jeff@labundy.com>, Heiko Stuebner <heiko@sntech.de>,
-        Karel Balej
-	<balejk@matfyz.cz>,
-        Igor Prusov <ivprusov@salutedevices.com>,
-        Jack Yu
-	<jack.yu@realtek.com>,
-        Weidong Wang <wangweidong.a@awinic.com>,
-        Binbin Zhou
-	<zhoubinbin@loongson.cn>,
-        Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
-        "Paul
- Handrigan" <paulha@opensource.cirrus.com>,
-        Masahiro Yamada
-	<masahiroy@kernel.org>, Nuno Sa <nuno.sa@analog.com>
-CC: <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-sound@vger.kernel.org>
-References: <20250204231835.2000457-1-ftreven@opensource.cirrus.com>
- <20250204231835.2000457-6-ftreven@opensource.cirrus.com>
- <4e5f0194-22bc-4e17-85f4-6dbc145a936b@kernel.org>
- <3bff0ff8-7397-414d-a701-011d5b5a41f4@opensource.cirrus.com>
-Content-Language: en-GB
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <3bff0ff8-7397-414d-a701-011d5b5a41f4@opensource.cirrus.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=O73DvA9W c=1 sm=1 tr=0 ts=67acba02 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=IkcTkHD0fZMA:10 a=T2h4t0Lz3GQA:10 a=_SCIqTSYrM5XDuVbtgUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: dGfg_TWu3AP67jc1rHjLAyjt-XIXdm3d
-X-Proofpoint-GUID: dGfg_TWu3AP67jc1rHjLAyjt-XIXdm3d
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <D7QHGB7D0VSG.X255SDU7DFOF@bootlin.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 11/02/2025 9:16 pm, Fred Treven wrote:
-> On 2/5/25 04:34, Krzysztof Kozlowski wrote:
->> On 05/02/2025 00:18, Fred Treven wrote:
->>> Introduce support for Cirrus Logic Device CS40L26:
->>> A boosted haptic driver with integrated DSP and
->>> waveform memory with advanced closed loop algorithms
->>> and LRA protection.
->>>
+On Wed, Feb 12, 2025 at 01:57:34PM +0100, Mathieu Dubois-Briand wrote:
+> On Mon Jan 27, 2025 at 2:07 PM CET, Andy Shevchenko wrote:
+> > On Mon, Jan 13, 2025 at 01:42:28PM +0100, Mathieu Dubois-Briand wrote:
 
-<SNIP>
+...
 
->>> +static const struct spi_device_id cs40l26_id_spi[] = {
->>> +    { "cs40l26a", 0 },
->>> +    { "cs40l27b", 1 },
->>
->> What are these 0 and 1?
+> > > +	parent = to_platform_device(pdev->dev.parent);
+> >
+> > Why do you need this? Can't the fwnode be propagated to the children and then
+> > the respective APIs to be used?
 > 
-> I will make it clear that these are enumerating the different possible
-> device variants.
+> I'm not sure to understand this correctly, what do you mean by
+> propagating the fwnode to the children?
 > 
+> Just a quick summary of the situation and what I try to do. The device
+> tree looks like this, only keeping the interesting properties:
 > 
->>
->>> +    {}
->>> +};
->>> +MODULE_DEVICE_TABLE(spi, cs40l26_id_spi);
->>> +
->>> +static const struct of_device_id cs40l26_of_match[] = {
->>> +    { .compatible = "cirrus,cs40l26a" },
->>> +    { .compatible = "cirrus,cs40l27b" },
->>
->> So devices are compatible? Or rather this is unsynced with other ID 
->> table.
-> I'm not sure what you mean by this.
+> io-expander@38 {
+>   ...
+>   interrupts = <23 IRQ_TYPE_LEVEL_LOW>,
+>                <24 IRQ_TYPE_LEVEL_LOW>;
+>   interrupt-names = "inti", "intk";
 > 
+>   max7360_gpio: gpio {
+>     ...
+>   };
+> 
+>   max7360_gpo: gpo {
+>     ...
+>   };
+> };
+> 
+> Our pdev fwnode points either to the "gpio" or "gpo" nodes, the one from
+> our parent device points to "io-expander@38". Here we need to get the
+> "inti" interrupt from the parent node. What would be the correct way to
+> do it?
 
-cs40l26_id_spi[] has the 0/1 cookie values to indicate which part
-variant is being instantiated. But cs40l26_of_match[] doesn't have
-these cookie values to indicate which part ID was matched.
+Ah, I see now. This is being used only for IRQs, but don't you want to call
+actually fwnode_irq_get_byname()? It will makes the intention clearer.
+
+...
+
+> > > +	if (of_property_read_u32(pdev->dev.of_node, "ngpios", &ngpios)) {
+> > > +		dev_err(&pdev->dev, "Missing ngpios OF property\n");
+> > > +		return -ENODEV;
+> > > +	}
+> >
+> > This is not needed, it is already done in GPIOLIB core.
+> 
+> I believe this is still needed:
+> - For gpos, we need the gpio count to correctly set the partition
+>   between gpo and keypad columns in max7360_set_gpos_count().
+
+Shouldn't be that done somewhere in the GPIO valid mask initialisation?
+
+> - For gpios, we need the gpio count to setup the IRQs.
+
+Doesn't GPIOLIB parse the property before initializing the IRQ valid mask
+and other init callbacks?
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
 
