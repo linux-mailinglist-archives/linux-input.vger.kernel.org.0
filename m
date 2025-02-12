@@ -1,150 +1,115 @@
-Return-Path: <linux-input+bounces-9993-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9994-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A06A3265B
-	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 13:57:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BBEA3271F
+	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 14:30:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 703811690C4
-	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 12:57:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 280BB1882452
+	for <lists+linux-input@lfdr.de>; Wed, 12 Feb 2025 13:30:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8290C20D515;
-	Wed, 12 Feb 2025 12:57:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4C0C1F94D;
+	Wed, 12 Feb 2025 13:30:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="B98dfFuc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C2o7GEuq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB19271824;
-	Wed, 12 Feb 2025 12:57:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7453205AA7;
+	Wed, 12 Feb 2025 13:30:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739365066; cv=none; b=MRH4x/5gJjNxSXVHRm4TTsuTZpUaKCRjsTAH66uk+zvFrjeLbtupmYEsFdCGJacld/CTwG6BsNKtR5lttMSJv/uFxjhq51yTRw15WYOvj+jrdjsHWAORSqhXKW9I0FE41ti8U+n1qOzRIUhVHIQJJnDs5oYFbTyAVCRqWX9YxyA=
+	t=1739367023; cv=none; b=tHFQL1Nbi4rWcPAdR0fAZJ2yUuXyTpLFTZNVXsV3DU8Bx2LunS52hStMK6KctS7qWtqtvHqN8r+Ff30XTdheidUl2gWRjf6O1TufSGYbaOvJfyxJCpkUKJs53LUSfQqnLji+UyXgv8dIl0Up9CGcoXkpqMI3FWtik+Sc/jh63GI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739365066; c=relaxed/simple;
-	bh=OPanrCfS1lvnoz7OwCheozB8dxHqLkWEb7Fz9X5l1dg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Subject:Cc:
-	 References:In-Reply-To; b=aaLyzrRBq6JJxWrvkljjezaJJFueHmUns7cRWZ/CiPeLzZknJSBYoWXn04LkFO+Uzr1yPoS2f9n3mQyqdQ1EA50w/S3J+iW8+LTclehzqNKK9t50oQNuPQuaqBsmaS0avs7VdRJ9RcXyUjfK5o7jSwCzYHksvzRgH2TaU7YaX5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=B98dfFuc; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 68FA242CCD;
-	Wed, 12 Feb 2025 12:57:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1739365056;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UQlDvmMNjG6HkmTEiN6yuUtQAxZ2XiJJ4GjbKF++9lE=;
-	b=B98dfFucobdoepjJa/+I5uJim69YPNxpmIzqWZbtDGtT74sp09+RvN0m8WCOUlplsmj11t
-	C+7hseTbDtcH3dNXP4f+LEAw8LQmksx2rM8BybUWtv9Ml4bJSurqALhWf8UdzL4K4jLlKU
-	JKIIFhLzDosYGbhYwG57aIt99iv8fOhSbw+wdfwpAxmANXeZJYJhGmMsaKir6yzRVKbE1+
-	csNMWKcihRpXeg44ZifqI1T7O8BKb2c0KUPy0yIUrSo5DAm9jkiWYwiOE/yXMSseIPGQ9k
-	oajfa4yP0TsfYqAxEDULdtEDCH+tqaAw7T9oaaiXlyFZaWJftnFCrwTEsdKfxQ==
+	s=arc-20240116; t=1739367023; c=relaxed/simple;
+	bh=8OarCyi/2sBPTXHgjyXYueHQFxb9Vqk/YkPHGmY0XbQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=swvcMW/UvT0dyfcz4ncMfkB+jO6XofRoGKCLoj3wlL6JU39uuwvD1/JH/JVaQKTsmVsghBlIHMv0EK6ZNJLHYhYYd/Aod6l+gPlW5PPpiqnZ/ZdB24pQ9kqTloCUz/hQ71U3QmKYZ5ANSVd1eUl1e3dVeHiu9jp44fD3L1bR7xY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C2o7GEuq; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-38a8b17d7a7so3587419f8f.2;
+        Wed, 12 Feb 2025 05:30:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739367020; x=1739971820; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8OarCyi/2sBPTXHgjyXYueHQFxb9Vqk/YkPHGmY0XbQ=;
+        b=C2o7GEuqzsfHT39dEX/2/J9EMiXxE8tNLzVd03uX8FmzuVURnN4WS2APlLNiMiV5vX
+         SPw6OlUUcNCPIwmDbMdC/Z8jEHXa9APinFLHsm6Jbs1lcugHDX3amd4ZDoUcTTZ7IrWO
+         o2o/J87gcFwX1HWy5d9Jqf29VPD1IyeJ/EijF3KgFv8WBILLiVZPER0oryQlLmh9OZeX
+         iL4s365x5jOLeFWU/6ctw8BQwyjMNgncn0xgUyPKX3tKbWe5dDDyrnT/EEBreNBiXpt6
+         JIXWvf+AOiqboDd0UuO9WJ6dAgOqpLRZS7nOnz3lIbsz7+7MGvBQ85eDELHhmJdwUVwl
+         KB9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739367020; x=1739971820;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8OarCyi/2sBPTXHgjyXYueHQFxb9Vqk/YkPHGmY0XbQ=;
+        b=n+oZmBydoaQvzK+uVfCToI1qOre/qwB1Suc9ShJ9KsRDbOotBs5xU4KbsdwmMV1esw
+         OSyrz3QQJBBsbcQrlK6KHuo4scICD3UNx9GKVO1iX1pSNpzWO11TXLKIEBaRY1gbOXs1
+         UsSH+JKDtkLrZiAy2XMWXD1yMcQfQTrQbUhxdULGBep/hjRrP7nrELf7LVkLWtysIeM1
+         6YY5PWZY9UyagTde7W7+B1dyRB8vOvwB0eK5cJq1lKBCQy35r7lysWZIhOtRSNFoDjAU
+         +MQs5xYYm5ks9TpXpPZnTLQ843DLBxpYtf5Hxd3GOR1aVdVdnIbZTFnPleEQBZKTUrTQ
+         0CfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBDIW9ibMLtIWMEf7sMCVPD1h7h6idcEuBxTDp71S3AC5NKujIg03pJrCxFXSClmMEWaMy0ZQX@vger.kernel.org, AJvYcCVBILCrGTHXm9DHmyLKqbum7vMim+jnBgEJfRfqGfaHzdCba4lsElK/lNH84/bs80SrMN8paTZmK/JYaqs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIK6YxHg3suKTMsuIL3vkZnf7rbDpGCk42q0UAceV1f0wlwtf5
+	JTp7yY0MaSPgCkEt4HYjknTed572WtVNL7DtkF32GqaOE57gx+x7jpRZtnAcf9CHcPZCU7Y/azQ
+	zpggXWoHB9UI5bHzkGkcZ3cWw3euWmbQflCk=
+X-Gm-Gg: ASbGnctj7nTNiXETQro7ttM4FH0KoE4fI/cfFC5VY/Qcl0YAwEEUNegFr70ERgW8uFc
+	kh/LLD5fj2j8rGrUjFSej8njjywaMxN19bcKHsoGePcfHpYsrCylbwnG3LItDM40K6i0LjRkZ7A
+	==
+X-Google-Smtp-Source: AGHT+IFHhh5oqpyH/D2cfy7b78tMJZ2mZRqa66iVfEVT5BzSiqHsS6yyRfF8NNzh1IUfxIUwZEPDfOysfmKOXL8O0Yo=
+X-Received: by 2002:a5d:6dac:0:b0:38d:c433:a97 with SMTP id
+ ffacd0b85a97d-38dea2ece71mr2616786f8f.47.1739367019588; Wed, 12 Feb 2025
+ 05:30:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20250211224705.13576-3-stuart.a.hayhurst@gmail.com> <49bc1a59-1f5b-456b-aba4-be056d091e26@kernel.org>
+In-Reply-To: <49bc1a59-1f5b-456b-aba4-be056d091e26@kernel.org>
+From: Stuart <stuart.a.hayhurst@gmail.com>
+Date: Wed, 12 Feb 2025 13:30:08 +0000
+X-Gm-Features: AWEUYZkEXnEYq6yzKdSaRoeVNiAFAPbvzkfeEth-6I9Rr5PKawyR8ob7sDkBRfw
+Message-ID: <CALTg27=ZNv5taGCXChRtW90WXfS8iz10koQcSScLJaTHbXwfYg@mail.gmail.com>
+Subject: Re: [PATCH v2] HID: corsair-void: Update power supply values with a
+ unified work handler
+To: Jiri Slaby <jirislaby@kernel.org>
+Cc: linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 12 Feb 2025 13:57:34 +0100
-Message-Id: <D7QHGB7D0VSG.X255SDU7DFOF@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Andy Shevchenko" <andriy.shevchenko@intel.com>
-Subject: Re: [PATCH v3 4/7] gpio: max7360: Add MAX7360 gpio support
-Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
- Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
- <gregory.clement@bootlin.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com>
- <20250113-mdb-max7360-support-v3-4-9519b4acb0b1@bootlin.com>
- <Z5eFGJspoGOINcG6@smile.fi.intel.com>
-In-Reply-To: <Z5eFGJspoGOINcG6@smile.fi.intel.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegfeelgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffhvffuvefofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepheevtdekffeuleehkedtvdejhfeihfegtdduveeghedvveelgfevteekveelleetnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudejpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhkohesihhnthgvlhdrtghomhdprhgtphhtthhopehlvggvsehkvghrnhgvlhdro
- hhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrghmvghlrdgsohhuhhgrrhgrsegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplh
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-Hi Andy,
+> No \n ^^ here.
 
-Thanks for your review. I've been addressing most of your comments in
-this mail and the ones related to regmap-irq. I should be able to send a
-new version in a few days.
+Thanks, corrected that
 
-However I have a few questions regarding some of the points.
+> I would do an enum, but it's a matter of taste/preference.
 
-On Mon Jan 27, 2025 at 2:07 PM CET, Andy Shevchenko wrote:
-> On Mon, Jan 13, 2025 at 01:42:28PM +0100, Mathieu Dubois-Briand wrote:
-> > +	parent =3D to_platform_device(pdev->dev.parent);
->
-> Why do you need this? Can't the fwnode be propagated to the children and =
-then
-> the respective APIs to be used?
->
+I suppose that makes more sense since they're related, applied
 
-I'm not sure to understand this correctly, what do you mean by
-propagating the fwnode to the children?
+> What is to skip a battery? Anyway, the comments here seem to be
+> superfluous as the code is obvious=E2=84=A2.
 
-Just a quick summary of the situation and what I try to do. The device
-tree looks like this, only keeping the interesting properties:
+It was supposed to indicate doing nothing if there was a request to remove =
+a
+battery and another to add the battery, what would you suggest?
 
-io-expander@38 {
-  ...
-  interrupts =3D <23 IRQ_TYPE_LEVEL_LOW>,
-               <24 IRQ_TYPE_LEVEL_LOW>;
-  interrupt-names =3D "inti", "intk";
+> Perhaps '&& drvdata->battery' instead of the nested 'if'?
 
-  max7360_gpio: gpio {
-    ...
-  };
+Sure, what about corsair_void_add_battery()? It's got an equivalent
+condition inside it, should I leave it there or move it to the
+'add_battery && !remove_battery' for consistency?
 
-  max7360_gpo: gpo {
-    ...
-  };
-};
+Thanks for the review,
 
-Our pdev fwnode points either to the "gpio" or "gpo" nodes, the one from
-our parent device points to "io-expander@38". Here we need to get the
-"inti" interrupt from the parent node. What would be the correct way to
-do it?
-
-> > +	if (!max7360_gpio)
-> > +		return -ENOMEM;
->
-> > +	if (of_property_read_u32(pdev->dev.of_node, "ngpios", &ngpios)) {
-> > +		dev_err(&pdev->dev, "Missing ngpios OF property\n");
-> > +		return -ENODEV;
-> > +	}
->
-> This is not needed, it is already done in GPIOLIB core.
->
-
-I believe this is still needed:
-- For gpos, we need the gpio count to correctly set the partition
-  between gpo and keypad columns in max7360_set_gpos_count().
-- For gpios, we need the gpio count to setup the IRQs.
-
-Best regards,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Stuart
 
