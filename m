@@ -1,316 +1,198 @@
-Return-Path: <linux-input+bounces-10009-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10010-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90520A33BC1
-	for <lists+linux-input@lfdr.de>; Thu, 13 Feb 2025 10:57:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2758DA33D28
+	for <lists+linux-input@lfdr.de>; Thu, 13 Feb 2025 12:00:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3F9401674EB
-	for <lists+linux-input@lfdr.de>; Thu, 13 Feb 2025 09:57:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8AA893A86FF
+	for <lists+linux-input@lfdr.de>; Thu, 13 Feb 2025 10:59:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F662210F45;
-	Thu, 13 Feb 2025 09:57:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E0202139DA;
+	Thu, 13 Feb 2025 10:59:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YanKuDTp"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="d/Mhh3Nd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E9C20DD5C
-	for <linux-input@vger.kernel.org>; Thu, 13 Feb 2025 09:57:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5C82139D2;
+	Thu, 13 Feb 2025 10:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739440647; cv=none; b=kZNpbQQV3curW4+KOkkb0zVW7BOPufT+X5brihBHSBO49KFxxobfyc9hNPNDziBu/LG3G979Qqu+OK4uAJBtlD2+Q1YhS56zSqcI5imDeFo4JFUqfk+3yEVtx5NUDdyPwD3n2QQkqX/7JT/pujAHIqJYfz/yLIbMvnZykMeOnes=
+	t=1739444384; cv=none; b=C0/0rxFFiEDEyiEtrotz0ajlSzWCRdybZElc0mS8lQUlzyLt50QPMpR3J4KbTVktsVv6aP/LuV/Oi16RX0TcYyFkxcWF1wll3xLEd/uiQE6lHoaDGfrNJpslvNpPqQcKWcoZoNMM3IMVINGAGB5WK2cuU8KnlTupCrgf7eAfR0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739440647; c=relaxed/simple;
-	bh=UGc9ObOcc9fiqV8aJE7rZhVXFHRLNN9VsFOqM6VnTkM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tzPNLKVTt/YVG+DGVmRcnpC8Pzm5rG0wf2xx1T8Pi+FlpwLoxAqDAz1zMm1dwBWfjYGMd9kpiuiO3WuLJdmbrS4iHduie7jxlGmp3unuAJypBu7YNYIIqXLsjB1ASH/1K7Bw8NX921tIBLJjYtvl8Tunr4413WFk1RAY/6+w1ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YanKuDTp; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-aaec61d0f65so169935466b.1
-        for <linux-input@vger.kernel.org>; Thu, 13 Feb 2025 01:57:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739440643; x=1740045443; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7dDnkFZgua1UqBGscNggAFQGfuNxy2VOU9Ws/6e96UA=;
-        b=YanKuDTpXT3WAR1fj0mZuuN8ORjEWwcfELM+8E4+pWYvwttnShGQc2MbdMXlXrpSXJ
-         D7SUlnf7oUPAQqgAdmPRyM+GOSojFQBiHHvzVi0uHOpDnhLOc/y6jkt0LhkrsQrk1NKl
-         Q7loB54Fd274jpK+c5YGLIGrEnzZhgRZUCQVtY5l5kketTVDZmPCemdtFWfAyGsRPhYN
-         kXw4Aij9CI/utHfSDpvdtt4r+TKD3gNFmOpm/Jdg6wJCngyYQIIy8QJtckGoXPBnMkH9
-         prNebnEdwYfaRkbMPpPjRnQbzwR/D+Y1xf8PWnBWmAmgMZmlnBeZHhXGnmaNlAFeUTCJ
-         rEdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739440643; x=1740045443;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7dDnkFZgua1UqBGscNggAFQGfuNxy2VOU9Ws/6e96UA=;
-        b=PW0u4cDXgIIiCWWanx1rqGnEXZ4/0oId/HOWau+rk6bJo/xiNuRC68E5kl9ocbRGvJ
-         6s0Q+89tQw3sbFvwrgenFGc7NYqxpSPGpUyh+IdpUKaodylrt/SHq9HM7jE8wrzR0jQt
-         XRIHbF3bndt7bE7FReqB1BpWxCG5hWjLumjD+ozc8Ved/kXRDdEIXZG+d8ycc1426XGD
-         m3QoBeVTKjJvIXN6MASrdu8yYiT8x/plzxSvQLVfAqP3zrwfaOFnzD8psBtv08FL9qH5
-         6ymZhPj12SskvNntQAX/oBm8Ui5tCMHVvO+B58iz+AYNbGY9ig1TvpNTTJep4KHgdX7N
-         RuTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXEy/j5OSwZLRK1S8IdUss8H6VjIERF5Fdxkpudr8TirwezirhWXUXSixi0kzFPVRBR0XbajgIRS16UhA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxlf1hruprbTB82kch94jnzwvxgzzxkpP5AlRxWLIYGfTkWz4ZU
-	GV3c6BjW2SaJz0aANsW23mY1hKYMY7Ia0Wzxd1RVKf02JUcDdq1Nn+NssvoqibU=
-X-Gm-Gg: ASbGncvtap6CaL+ojI7weiftp5zWCu4da8yNQUgujymDkpx6p5t+AmyDe9/Rz53DRku
-	lRSi7aedEIyVVQsX3Pmw2qYYyrPOn9KJCVXBl88B9Y8bklIM6GL9hLMx4eAdTTtFqPXHvFDYpye
-	UkrLYC9YZ/N5jQPVNC2mawdZfJG+6VBO/P49GlgUrQpsz/D7pGoiltXnkaPzWRJEvs5XOtRzrX5
-	ccUfGcAJisZ0Nm31CJ1UIILHZ6/H972RnMweXnP9NouWEbHnuaTYsYi7IyztxoliKUppok0zgA7
-	uZ0bK+bcjnsbyHH0hJu3Xyo9
-X-Google-Smtp-Source: AGHT+IGADwhh1icVC7s+gezl0zQBAJHdG1XGHb5ZLRS19iiprTI4XevZdOeG/8A3plTf3PiJD+eKew==
-X-Received: by 2002:a17:907:3d8e:b0:ab7:7c58:7bd0 with SMTP id a640c23a62f3a-aba4eb88d83mr293589766b.10.1739440643187;
-        Thu, 13 Feb 2025 01:57:23 -0800 (PST)
-Received: from linaro.org ([2a02:2454:ff21:ef30:546e:a2d:e86:b3d6])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aba532580e1sm97477466b.46.2025.02.13.01.57.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2025 01:57:22 -0800 (PST)
-Date: Thu, 13 Feb 2025 10:57:17 +0100
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, tiwai@suse.com,
-	krzk+dt@kernel.org, pierre-louis.bossart@linux.intel.com,
-	Thinh.Nguyen@synopsys.com, robh@kernel.org,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v34 00/31] Introduce QC USB SND audio offloading support
-Message-ID: <Z63B_UE61OdrgEJY@linaro.org>
-References: <20250121210518.2436771-1-quic_wcheng@quicinc.com>
+	s=arc-20240116; t=1739444384; c=relaxed/simple;
+	bh=xDVrlK0GSHvz7tJRAfdNrY4o62bDOvoV3gSyda5z/eY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
+	 References:In-Reply-To; b=rKlnWB/fwxYmjM7c+b1eCeu4XG/TajxFfo6k1k/R5iUuWp5p1WAUS/HlN73vsf0O8za0ZNBIaFpVpnejohoPL8lMNE9USEFbeN6IBmgBoUNco44RNyGDrblcqu/mhIspiguKZ9ZgXq+lAoxTM4FUdlOOMRFX2pECmpOtUyFaIf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=d/Mhh3Nd; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F0E6D432FC;
+	Thu, 13 Feb 2025 10:59:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1739444372;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oZl2hgZn7jehdjIzednng7eJxpp/nrLuv91gbdmRYjc=;
+	b=d/Mhh3Ndhg3JWzdTG+RTBCkhAXySiufk0uR/wo4ytLWc73hLlZvo2H8+IZYVuuOlY5b9Ge
+	PNN29nwIV+50n1wIo+baZ78rS7VGFoYGz/8Cm0DghC9TnB9dkrWUYRJI8beC68TRRJXh5V
+	eijwN0Yuso8xbb2ildJj686MKCaf9ht0P8HGziPcS8c8zjAes5zznOpgpua9OasFWa/Yqx
+	4oI1RYoji9hl94+Mp+tqQEQtYM8Efake2lhAacsQOM5AKT0Ob8IUhrrtGDt3jhDz7k7WYl
+	uNveQP3olQ8PPZ6X7hag01RNYtSzrOX86vVkNG3N7f02PGdplYge93E3Tr0Dsw==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250121210518.2436771-1-quic_wcheng@quicinc.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 13 Feb 2025 11:59:31 +0100
+Message-Id: <D7R9KGN6EMDM.1DCDL4P5RC23B@bootlin.com>
+Subject: Re: [PATCH v3 4/7] gpio: max7360: Add MAX7360 gpio support
+Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
+ Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Andy Shevchenko" <andriy.shevchenko@intel.com>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com>
+ <20250113-mdb-max7360-support-v3-4-9519b4acb0b1@bootlin.com>
+ <Z5eFGJspoGOINcG6@smile.fi.intel.com>
+ <D7QHGB7D0VSG.X255SDU7DFOF@bootlin.com>
+ <Z6y65SnrprvnpKEa@smile.fi.intel.com>
+ <D7QLITNTXRUJ.3NA44E6PQMAUX@bootlin.com>
+ <Z6zJljphfTuEhBTP@smile.fi.intel.com>
+In-Reply-To: <Z6zJljphfTuEhBTP@smile.fi.intel.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegieehlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffuvefhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkefhkeeifeethfejteevfeduheduvddvuedvvddugfffhfevkefftefhuefftddunecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudejpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhkohesihhnthgvlhdrtghomhdprhgtphhtthhopehlvggvsehkvghrnhgvlhdro
+ hhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrghmvghlrdgsohhuhhgrrhgrsegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-On Tue, Jan 21, 2025 at 01:04:47PM -0800, Wesley Cheng wrote:
-> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
-> 
-> Several Qualcomm based chipsets can support USB audio offloading to a
-> dedicated audio DSP, which can take over issuing transfers to the USB
-> host controller.  The intention is to reduce the load on the main
-> processors in the SoC, and allow them to be placed into lower power modes.
-> There are several parts to this design:
->   1. Adding ASoC binding layer
->   2. Create a USB backend for Q6DSP
->   3. Introduce XHCI interrupter support
->   4. Create vendor ops for the USB SND driver
-> 
->       USB                          |            ASoC
-> --------------------------------------------------------------------
->                                    |  _________________________
->                                    | |sm8250 platform card     |
->                                    | |_________________________|
->                                    |         |           |
->                                    |      ___V____   ____V____
->                                    |     |Q6USB   | |Q6AFE    |  
->                                    |     |"codec" | |"cpu"    |
->                                    |     |________| |_________|
->                                    |         ^  ^        ^
->                                    |         |  |________|
->                                    |      ___V____    |
->                                    |     |SOC-USB |   |
->    ________       ________               |        |   |
->   |USB SND |<--->|QC offld|<------------>|________|   |
->   |(card.c)|     |        |<----------                |
->   |________|     |________|___     | |                |
->       ^               ^       |    | |    ____________V_________
->       |               |       |    | |   |APR/GLINK             |
->    __ V_______________V_____  |    | |   |______________________|
->   |USB SND (endpoint.c)     | |    | |              ^
->   |_________________________| |    | |              |
->               ^               |    | |   ___________V___________
->               |               |    | |->|audio DSP              |
->    ___________V_____________  |    |    |_______________________|
->   |XHCI HCD                 |<-    |
->   |_________________________|      |
-> 
-> 
-> Adding ASoC binding layer
-> =========================
-> soc-usb: Intention is to treat a USB port similar to a headphone jack.
-> The port is always present on the device, but cable/pin status can be
-> enabled/disabled.  Expose mechanisms for USB backend ASoC drivers to
-> communicate with USB SND.
-> 
-> Create a USB backend for Q6DSP
-> ==============================
-> q6usb: Basic backend driver that will be responsible for maintaining the
-> resources needed to initiate a playback stream using the Q6DSP.  Will
-> be the entity that checks to make sure the connected USB audio device
-> supports the requested PCM format.  If it does not, the PCM open call will
-> fail, and userspace ALSA can take action accordingly.
-> 
-> Introduce XHCI interrupter support
-> ==================================
-> XHCI HCD supports multiple interrupters, which allows for events to be routed
-> to different event rings.  This is determined by "Interrupter Target" field
-> specified in Section "6.4.1.1 Normal TRB" of the XHCI specification.
-> 
-> Events in the offloading case will be routed to an event ring that is assigned
-> to the audio DSP.
-> 
-> Create vendor ops for the USB SND driver
-> ========================================
-> qc_audio_offload: This particular driver has several components associated
-> with it:
-> - QMI stream request handler
-> - XHCI interrupter and resource management
-> - audio DSP memory management
-> 
-> When the audio DSP wants to enable a playback stream, the request is first
-> received by the ASoC platform sound card.  Depending on the selected route,
-> ASoC will bring up the individual DAIs in the path.  The Q6USB backend DAI
-> will send an AFE port start command (with enabling the USB playback path), and
-> the audio DSP will handle the request accordingly.
-> 
-> Part of the AFE USB port start handling will have an exchange of control
-> messages using the QMI protocol.  The qc_audio_offload driver will populate the
-> buffer information:
-> - Event ring base address
-> - EP transfer ring base address
-> 
-> and pass it along to the audio DSP.  All endpoint management will now be handed
-> over to the DSP, and the main processor is not involved in transfers.
-> 
-> Overall, implementing this feature will still expose separate sound card and PCM
-> devices for both the platform card and USB audio device:
->  0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
->                       SM8250-MTP-WCD9380-WSA8810-VA-DMIC
->  1 [Audio          ]: USB-Audio - USB Audio
->                       Generic USB Audio at usb-xhci-hcd.1.auto-1.4, high speed
-> 
-> This is to ensure that userspace ALSA entities can decide which route to take
-> when executing the audio playback.  In the above, if card#1 is selected, then
-> USB audio data will take the legacy path over the USB PCM drivers, etc...
-> 
-> The current limitation is that the latest USB audio device that is identified
-> will be automatically selected by the Q6USB BE DAI for offloading.  Future
-> patches can be added to possibly add for more flexibility, but until the userpace
-> applications can be better defined, having these mechanisms will complicate the
-> overall implementation.
-> 
-> USB offload Kcontrols
-> =====================
-> Part of the vendor offload package will have a mixer driver associated with it
-> (mixer_usb_offload.c).  This entity will be responsible for coordinating with
-> SOC USB and the Q6USB backend DAI to fetch information about the sound card
-> and PCM device indices associated with the offload path.  The logic is done
-> based on the current implementation of how paths are controlled within the QC
-> ASoC implementation.
-> 
-> QC ASoC Q6Routing
-> -----------------
-> Within the Q6 ASOC design, the registered ASoC platform card will expose a set
-> of kcontrols for enabling the BE DAI links to the FE DAI link.  For example:
-> 
-> tinymix -D 0 contents
-> Number of controls: 1033
-> ctl     type    num     name                                    value
+On Wed Feb 12, 2025 at 5:17 PM CET, Andy Shevchenko wrote:
+> On Wed, Feb 12, 2025 at 05:08:56PM +0100, Mathieu Dubois-Briand wrote:
+> > On Wed Feb 12, 2025 at 4:14 PM CET, Andy Shevchenko wrote:
+> > > On Wed, Feb 12, 2025 at 01:57:34PM +0100, Mathieu Dubois-Briand wrote=
+:
+> > > > On Mon Jan 27, 2025 at 2:07 PM CET, Andy Shevchenko wrote:
+> > > > > On Mon, Jan 13, 2025 at 01:42:28PM +0100, Mathieu Dubois-Briand w=
+rote:
+>
 > ...
-> 1025    BOOL    1       USB Mixer MultiMedia1                   Off
-> 1026    BOOL    1       USB Mixer MultiMedia2                   Off
-> 1027    BOOL    1       USB Mixer MultiMedia3                   Off
-> 1028    BOOL    1       USB Mixer MultiMedia4                   Off
-> 1029    BOOL    1       USB Mixer MultiMedia5                   Off
-> 1030    BOOL    1       USB Mixer MultiMedia6                   Off
-> 1031    BOOL    1       USB Mixer MultiMedia7                   Off
-> 1032    BOOL    1       USB Mixer MultiMedia8                   Off
-> 
-> Each of these kcontrols will enable the USB BE DAI link (q6usb) to be connected
-> to a FE DAI link (q6asm).  Since each of these controls are DAPM widgets, when
-> it is enabled, the DAPM widget's "connect" flag is updated accordingly.
-> 
-> USB Offload Mapping
-> -------------------
-> Based on the Q6routing, the USB BE DAI link can determine which sound card and
-> PCM device is enabled for offloading.  Fetching the ASoC platform sound card's
-> information is fairly straightforward, and the bulk of the work goes to finding
-> the corresponding PCM device index.  As mentioned above, the USB BE DAI can
-> traverse the DAPM widgets to find the DAPM path that is related to the control
-> for the "USB Mixer."  Based on which "USB Mixer" is enabled, it can find the
-> corresponding DAPM widget associated w/ the FE DAI link (Multimedia*).  From there
-> it can find the PCM device created for the Multimedia* stream.
-> 
-> Only one BE DAI link can be enabled per FE DAI.  For example, if the HDMI path is
-> enabled for Multimedia1, the USB Mixer will be disabled and switched over.
-> 
-> Examples of kcontrol
-> --------------------
-> tinymix -D 0 contents
-> Number of controls: 1033
-> ctl     type    num     name 
-> ...
-> 1025    BOOL    1       USB Mixer MultiMedia1                   Off
-> 1026    BOOL    1       USB Mixer MultiMedia2                   On
-> 1027    BOOL    1       USB Mixer MultiMedia3                   Off
-> 1028    BOOL    1       USB Mixer MultiMedia4                   Off
-> 1029    BOOL    1       USB Mixer MultiMedia5                   Off
-> 1030    BOOL    1       USB Mixer MultiMedia6                   Off
-> 1031    BOOL    1       USB Mixer MultiMedia7                   Off
-> 1032    BOOL    1       USB Mixer MultiMedia8                   Off
-> 
-> tinymix -D 2 contents
-> Number of controls: 10
-> ctl     type    num     name                                    value
-> 0       INT     2       Capture Channel Map                     0, 0 (range 0->36)
-> 1       INT     2       Playback Channel Map                    0, 0 (range 0->36)
-> 2       BOOL    1       Headset Capture Switch                  On
-> 3       INT     1       Headset Capture Volume                  10 (range 0->13)
-> 4       BOOL    1       Sidetone Playback Switch                On
-> 5       INT     1       Sidetone Playback Volume                4096 (range 0->8192)
-> 6       BOOL    1       Headset Playback Switch                 On
-> 7       INT     2       Headset Playback Volume                 20, 20 (range 0->24)
-> 8       INT     1       USB Offload Playback Card Route PCM#0   0 (range -1->32)
-> 9       INT     1       USB Offload Playback PCM Route PCM#0    1 (range -1->255)
-> 
-> The example highlights that the userspace/application can utilize the offload path
-> for the USB device on card#0 PCM device#1.
-> 
-> When dealing with multiple USB audio devices, only the latest USB device identified
-> is going to be selected for offload capable.
-> 
-> tinymix -D 1 contents
-> Number of controls: 9
-> ctl     type    num     name                                    value
-> 0       INT     2       Capture Channel Map                     0, 0 (range 0->36)
-> 1       INT     2       Playback Channel Map                    0, 0 (range 0->36)
-> 2       BOOL    1       Headset Capture Switch                  On
-> 3       INT     1       Headset Capture Volume                  1 (range 0->4)
-> 4       BOOL    1       Sidetone Playback Switch                On
-> 5       INT     1       Sidetone Playback Volume                4096 (range 0->8192)
-> 6       BOOL    1       Headset Playback Switch                 On
-> 7       INT     2       Headset Playback Volume                 20, 20 (range 0->24)
-> 8       INT     1       USB Offload Playback Card Route PCM#0   -1 (range -1->32)
-> 9       INT     1       USB Offload Playback PCM Route PCM#0    -1 (range -1->255)
-> 
-> "-1, -1" shows that this device has no route to the offload path.
-> 
-> This feature was validated using:
-> - tinymix: set/enable the multimedia path to route to USB backend
-> - tinyplay: issue playback on platform card
-> 
+>
+> > > > > > +	if (of_property_read_u32(pdev->dev.of_node, "ngpios", &ngpios=
+)) {
+> > > > > > +		dev_err(&pdev->dev, "Missing ngpios OF property\n");
+> > > > > > +		return -ENODEV;
+> > > > > > +	}
+> > > > >
+> > > > > This is not needed, it is already done in GPIOLIB core.
+> > > >=20
+> > > > I believe this is still needed:
+> > > > - For gpos, we need the gpio count to correctly set the partition
+> > > >   between gpo and keypad columns in max7360_set_gpos_count().
+> > >
+> > > Shouldn't be that done somewhere in the GPIO valid mask initialisatio=
+n?
+> > >
+> > > > - For gpios, we need the gpio count to setup the IRQs.
+> > >
+> > > Doesn't GPIOLIB parse the property before initializing the IRQ valid =
+mask
+> > > and other init callbacks?
+> >=20
+> > No, I believe I have to register the IRQ before registering the GPIO, s=
+o
+> > I can get the IRQ domain.
+> >=20
+> > Right now I have something like:
+> >=20
+> > irq_chip->num_irqs =3D ngpios;
+> > devm_regmap_add_irq_chip_fwnode(dev, dev_fwnode(dev), max7360_gpio->reg=
+map,
+> > irq, flags, 0, irq_chip, &irq_chip_data);
+> > gpio_config.irq_domain =3D regmap_irq_get_domain(irq_chip_data);
+> > devm_gpio_regmap_register(dev, &gpio_config);
+> >=20
+> > Also, gpiolib will store ngpios in the gpio_chip structure, but while
+> > using gpio-regmap, this structure is masked behind the opaque
+> > gpio_regmap structure. So I believe there is no easy way to retrieve it=
+s
+> > value.
+> >=20
+> > This part of the code changed a lot, maybe it would be easier if I push
+> > a new version of the series and we continue the discussion there?
+>
+> So, what seems need to be added is some flag to GPIO regmap configuration
+> data structure and a code that is called after gpiochip_add_data() in
+> gpio_regmap_register() to create a domain. This will solve the above issu=
+e
+> and helps other drivers to get rid of potential duplication of
+> devm_regmap_add_irq_chip_fwnode() calls.
+>
+> Have you researched this path?
 
-Could you share the device tree changes for a board upstream and any
-other changes needed to be able to test this series? E.g. for
-sm8250-mtp.dts, based on your examples above.
+OK, so looking at the code, I believe it would need to:
+- Add some flag in gpio_regmap_config structure, so
+  gpio_regmap_register() creates a new IRQ domain.
+- Add a function allowing to retrieve this domain out of the gpio_regmap
+  structure.
+- Allow to pass a domain in the regmap_irq_chip structure, so
+  regmap_add_irq_chip_fwnode() use this domain instead of calling
+  regmap_irq_create_domain().
+- Make sure this domain is still populated with the IRQ data: number of
+  IRQs, IRQ base but also a pointer on the regmap_irq_chip_data
+  structure in .host_data. I believe this will be a bit tricky.
+- Add a function allowing to retrieve ngpio out of the
+  gpio_regmap.gpio_chip structure, so it can be used for IRQ setup and
+  other places of the driver.
 
-There are examples for qcom,q6usb etc in the bindings you submitted, but
-having a full example would be much easier.
+I'm sorry, but I feel like this is a lot of changes to solve this point.
+I've been thinking about it, and I can suggest a different solution.
 
-Thanks,
-Stephan
+For gpios, I will remove the ngpios property of the device tree and use
+a fixed value:
+- For the today version of the chip, this is always 8.
+- I a chip variant or a similar chip ever arise later with a different
+  number of gpios, the fixed value can be set according to the
+  "compatible" value.
+- This removes any issue with the IRQ setup.
+
+For gpos, we have to keep ngpios, as it depends of the implementation on
+the board. That means ngpios will be used:
+- For the gpio chip configuration: we let gpiolib retrieve it from the
+  device tree.
+- In gpio-regmap reg_mask_xlate callback: I can add a function allowing
+  to retrieve it from gpio_regmap.gpio_chip, as suggested above.
+- In max7360_set_gpos_count() to validate the coherency between
+  requested gpios and keypad columns and set the correct configuration
+  on the chip:
+  - I can also retrieve the value from gpio_regmap.gpio_chip, but that
+    means the check is made after the call to
+    devm_gpio_regmap_register().
+  - Or I will still need to retrieve it using device_property_read_u32()
+    here.
+
+How do you feel about this solution?
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
