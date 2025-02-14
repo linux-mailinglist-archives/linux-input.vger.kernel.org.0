@@ -1,57 +1,58 @@
-Return-Path: <linux-input+bounces-10036-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10037-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 506A4A35B18
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 11:05:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2522BA35B25
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 11:06:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BF2E31890B5F
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 10:05:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 841343AA705
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 10:06:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9155202C43;
-	Fri, 14 Feb 2025 10:05:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 005FD253B51;
+	Fri, 14 Feb 2025 10:06:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="RmCQZCF4"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="prFahGZQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazolkn19010013.outbound.protection.outlook.com [52.103.67.13])
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazolkn19011033.outbound.protection.outlook.com [52.103.67.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8939122CBDC;
-	Fri, 14 Feb 2025 10:05:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A8F245AFC;
+	Fri, 14 Feb 2025 10:06:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.33
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739527535; cv=fail; b=jS6qWni2K9SfJu2uvgGSZ/cYIKerfuFr84T7Vd7kNZosCFl5pw/u5Kq7iC5uJhqslcsPR0f0S7vJZUV7P6cWZ8TaEbBl4L/8hLJ0i6ohTez8CSWQ/JT5ZQj285u1+ZMztfRGdJEIadpXDqhsU9TVlJbKZPbQjtdIO+kfzdS39/c=
+	t=1739527596; cv=fail; b=CSHqq3CiEs00yKwhLTv0dZEom9zoksRZ9w5bAXXJ8mH9PzWuC2imN6+iaUY3ss5cQ+TfnKeEk3TA1pjM2NSiOUWQusaBA6unjDS/AmsNk+Mw1DBJ7h5l3jeE5jJkRBezAAhk/mLwvxRIM2dk7f6Q5wi1nQr5u8coLi7Qo/fV4dk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739527535; c=relaxed/simple;
-	bh=XTvodwTinyy2+ufmtzjWRABOtKUW6/pPNJ9zKENxV3M=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=uDUS8hAu0eGokkShiEHwTs+pcAYfL6lAgtFUFi/FgrsyC2cKvcMhzM6UWQjs/uzmvRFxByW313yEb32Lm7v8Ddvlf25KlRPR4fSoCotxpqFvH6+TRPKJJQH4CdZAOxheOCq66FSj6QBIL2/sGUsKc5xgqSJDTgixrdRucdIhHFs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=RmCQZCF4; arc=fail smtp.client-ip=52.103.67.13
+	s=arc-20240116; t=1739527596; c=relaxed/simple;
+	bh=sD1jvvWT2rxIO6OqFtPzmcjsMrwmOYQqylV168cdCbI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=THffvBS4hMFa4OTlAQ081BJpBy8xYOwsVyYxLE2sBsA2JCscoaV6lIvQg+YNsR6fm98Hk1GXNFQwalcg7RsrL+3lbaNcs5IU4gjVOEnKM7yYkPpoUHZVECCLHlVfCXJqtXcTwO1oeUGzH3YDcWZWqqI5IprlRtQDIHC444KqH4Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=prFahGZQ; arc=fail smtp.client-ip=52.103.67.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wgcBekfqQBc8p6UjB4xbBVhGTaE39bi6jpGLq4EKRJgp1a1yKHqlLVKwE9tHOX3i8VfR6bv2OlSx8Q6yWlDLq+//wH2ZiJCLMTPySdUlQB4FbC7Fm3nVfIo4g3kzzevRdzsTQej+sf5uj012BoSCpLoNcqUFJ1grB0Y6RJ7CeMT2ESvTqGeM4c9tPYwME2XqC3T6M9e5+6Z3Ra3tu3+pGERQLpnWaJru+58U8dLptTAQctaHwrZMKbKHGtz/o+e4bjRNL+7d8RKGkF/Zde4dK1uZZvOb+1hO1Coi8OxjX36RoPToiJwA1v6bOQ1TBdybrlPSJcbV/v/Fgx83CEkfkQ==
+ b=NbyZTpQQfdEKl/PSkR5Ni+yPzYb5SXtXtuQY5ZCUE2d/jj15fA8MWd0Uea2cq7s9qxLEqvySxY9PJfsU9ROpBspnT6dixphELCPsT+pTw/8ek7TrgKT54ieFRuPJekiXCc9Lzx7PcekaS0LnpfBlavGvyCZhIS1j9sR3YaYTdpMK/0znJOCmbqEfhaHgWTBjoivOqGi+CTUroYLjFrrTg4ia8XpnAXupX9otFVFGhu1pgmtpTuh8MDZjNl3Et2q3ojGnI1PSTT5iF29dHtmPvB2jP2lG3VO2QRQjkgfXF+1iLN/8S9CQOIqrZd7yBCEOgJ+cNXjOO5e6ak0q0rq3sA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZA6Bom3p67Ta/H6JO3JSBAAEHBKQlpKnv0VULtfz1bE=;
- b=zAZAffkVTZGoLW6LuoR7+dNaLIbk1UljQGbVq6633+8sd0xz9qRLaaio3axYriQdYupUcDZK2yOB2gsyQfjoV4NDp1XXpPGVofRnuHLuan4Stg+CH5s/dl3STbqSpzmgQcQpzA1NWj8tyMPizoOKbR/Z0X1Rw+95ToQTSdaxMrhOoLiaqJDKucW4CLNhvsOiQeJsozMK7qmCMYno2Z4I8/WKiFpum0xbGrMnW2o+R5DvpRU8IVVVnzxOmJOlbKPqqVcl9aZVHGZZBwJjjiYm4iZ/gvZvxbRY/lKDlBZ8ilF1hqXnq2gzQcthE0su537RZ33GFTLZxCxVb99+ddO3nA==
+ bh=RNTkrnDOQHTmcrrp4WpdDhTU3N+BTqCwYDZ6RHeBaCI=;
+ b=jlEND6Sz8K/NacFl7yL1SHoQNKnRmyxSJlp0fybmJ1N7P75svhC7zZC25hFPB1jZLu7CEUw6SYsi2NQwoze4gFmGAVzUUqDEqf1qUMiRurlMqKV4fixMsS6AH++cNk59ZKAuwBMMo0+nydD1KyHAUwHQO9OGxVkK5YBds9O3NRPGbFncgfRKjAJhXYLZGhW26HSwIJQIb5P142DZrEp5spp+rcCPxdlbXU3C70x17F5JGpoJ5Zilts97PFndWJx7HH54cJTqnDgkR4AjfRvis3gRtHNQBQLkPgZPdLthGw3kach8gopHapQugDnIgrVV5LQ+2gwI03vTfeXO0tricg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZA6Bom3p67Ta/H6JO3JSBAAEHBKQlpKnv0VULtfz1bE=;
- b=RmCQZCF4/em6TJ76vlMnq8sKpvhjU5nupaADgbZlJEyEzE+yqq7LgTMReZuB9MLZB7pjaKq6uitmrDcCbkIRgY2DSAZSRis8Cuor3+E3UxDl+oolPLtmxHPR5fK8dkV2bZxWaxO/bLVXdn68Ku4uLdpJtW0nM/TbpteNgv90kClyoxoWl32JUP731YpVObOhhwfDG+njnJFRyxo85cB97LZFwS25aEikqFG/dpH8a+X4tpIgAW7lYHbMJlCmjA+li/PeVrs8rq/Z0cinOAP5cfYlzRDzNgh4kxIchrHiY0N65awyecDSco/QOwdXTu7RitKCUU2n+aNMLY6YLHtOEA==
+ bh=RNTkrnDOQHTmcrrp4WpdDhTU3N+BTqCwYDZ6RHeBaCI=;
+ b=prFahGZQRIJBdipAMitzQC9skO2fn+9+jaoWOqXpn+xSeLJXhm4bmEJODCmUQhQ1UBuM5y/VvFV3VEhOeonhtyAodzE93Glu9Wq/aors1mYj6ZreShpBECtXyyysUEGdXMoAfb734yr8WuYYHuTsFt0D3+11etC5PuEAIKAE47bpHRSOJI+rtxZFRs5D8UeO3NkYoXAfRKuzeuQm+R1y//ibTb0BMXgx8G2sKx2KkODmROykHvx5JWbMI8vJ+dmDYG3ZHDIEou76Yq/tWPOC1h+WWUTEN15A0M/D3WgBDgkHf5ETZrCWJhDMRjHn6/xWKltMLYnJ2Bya1SoXYwC1EQ==
 Received: from PN3PR01MB9615.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:107::8)
  by MA0PR01MB10024.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:ea::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.15; Fri, 14 Feb
- 2025 10:05:28 +0000
+ 2025 10:06:29 +0000
 Received: from PN3PR01MB9615.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::8bdf:4c57:be81:7866]) by PN3PR01MB9615.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::8bdf:4c57:be81:7866%3]) with mapi id 15.20.8445.016; Fri, 14 Feb 2025
- 10:05:28 +0000
+ 10:06:29 +0000
 From: Aditya Garg <gargaditya08@live.com>
 To: Jiri Kosina <jikos@kernel.org>, "jkosina@suse.com" <jkosina@suse.com>,
 	"jkosina@suse.cz" <jkosina@suse.cz>, Benjamin Tissoires
@@ -61,13 +62,15 @@ CC: Alex Henrie <alexhenrie24@gmail.com>, "jose.exposito89@gmail.com"
 	"seobrien@chromium.org" <seobrien@chromium.org>, Linux Kernel Mailing List
 	<linux-kernel@vger.kernel.org>, "linux-input@vger.kernel.org"
 	<linux-input@vger.kernel.org>
-Subject: [PATCH v2 1/4] HID: apple: Use common table for MacBook Pro fn
- mapping
-Thread-Topic: [PATCH v2 1/4] HID: apple: Use common table for MacBook Pro fn
- mapping
-Thread-Index: AQHbfsf5UD5NJWu4E0KLZernE2BrTw==
-Date: Fri, 14 Feb 2025 10:05:28 +0000
-Message-ID: <CEFE855F-CC63-4361-8ABD-875BD5662294@live.com>
+Subject: [PATCH v2 2/4] HID: apple: Use common table for Magic Keyboard
+ aluminium and 2015 fn mapping
+Thread-Topic: [PATCH v2 2/4] HID: apple: Use common table for Magic Keyboard
+ aluminium and 2015 fn mapping
+Thread-Index: AQHbfsgdKRgIiIMrYkqoMoCRLaZDNA==
+Date: Fri, 14 Feb 2025 10:06:29 +0000
+Message-ID: <1DD2417C-2BC0-4B00-88CD-3A8583A36BFF@live.com>
+References: <CEFE855F-CC63-4361-8ABD-875BD5662294@live.com>
+In-Reply-To: <CEFE855F-CC63-4361-8ABD-875BD5662294@live.com>
 Accept-Language: en-IN, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -75,56 +78,56 @@ X-MS-TNEF-Correlator:
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: PN3PR01MB9615:EE_|MA0PR01MB10024:EE_
-x-ms-office365-filtering-correlation-id: 66005162-e7f5-4287-be60-08dd4cdf1b91
+x-ms-office365-filtering-correlation-id: 2f17cf07-7c5c-46a5-d369-08dd4cdf4000
 x-microsoft-antispam:
  BCL:0;ARA:14566002|19110799003|8062599003|8060799006|461199028|7092599003|15080799006|440099028|3412199025|102099032;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?dtoUMI2oXONv6G0thEzCUWWx8xIepNdCeA8bcw4GyawbzuKqiqrKAOgd4+7Q?=
- =?us-ascii?Q?i4k1olX9BwDxEGifucSBXvXEKiKmvOOmXPHSgRuM9h1DLWmwWI5TxRVaqd8P?=
- =?us-ascii?Q?6x+4jcarN0Nd2szZoScHkxEaZeTlXaHw1UnOZ+6/QbM23LXqKCSuFwIi2T9i?=
- =?us-ascii?Q?sQ42Rh699sqQ7XgRaZPfQQnbVrdRcfAwMQiwol0VTBpRYBUYS8N61A/IPoHm?=
- =?us-ascii?Q?BXmGww2J2jtS3rNPyaCaPyISMDxDrJKwPgXFovOrEw4M39MwD2UMdkwZxyxh?=
- =?us-ascii?Q?qsfl5lPLv0D5jkk6piCVMgF1B5x1t+Ju5CYxcILKYtOKaYezvO7oFfsCmk2t?=
- =?us-ascii?Q?uwGEVT/V8OSh4ZNPV5UMDNs/6Tws1+1H/UoR+/6v4sB7nD7zJJZ7fVPkwFMS?=
- =?us-ascii?Q?A4swiDlJ17DjUVuBoqjvoQ9TncPkKx+xXWnGteX/5xJ5Fpec+vAEuSk4fR74?=
- =?us-ascii?Q?YU2FcKOca3PWpX0SYlKviRfXKH+kKy2m0jEDq0/kECBDlzYKjppwqzcZochO?=
- =?us-ascii?Q?pMvYSG4vtWkzMSKqARfncYnT3T/TVjSmz/3QHft0qLKq5Wm1wMdQaE3KhXlW?=
- =?us-ascii?Q?h4R4sC0eioAxD5OC8l5Be0aOVqGgiq6jS066pWmycVTCnkRfm/+WQ85j1U+0?=
- =?us-ascii?Q?EugYRg3psnUtS9ZWSNINfXQvu68QyHQVINYu4KrhE4yyfxWaIy5UrFCnE4we?=
- =?us-ascii?Q?aumujXiZ3VSahgs59HGxgtdmrpc0wkWJHuEx0AnDYBP2n+pneyh7lR2s1nM7?=
- =?us-ascii?Q?6SltbI2SXzdpLF9bqt8RoAOhyZUh0EklphwGNRWqdHbD+d1b2ivJ5yiz+NkE?=
- =?us-ascii?Q?wuzjiGnF88C3uxpFBurPt/Z2cZ7kxu9wojhmc4/SHHPjV9YMx3jZzb/o7XE3?=
- =?us-ascii?Q?uk5WYm8/Qp+bItHMFe9g6d4BMsLa85xmvsyEd8/LWYKitIRlnq3+ppNWWXC+?=
- =?us-ascii?Q?qKQnPFeQQJAU884J5qyPpN3/2tRPuHlIPI66s8LGty87DrDmJOzB1gpa1U2c?=
- =?us-ascii?Q?A1l2XgRIXtEoE8syeaLxr7ifI8vSGuAoA5nNPzaJ2/by1IDmAd3CiCQ+tqMD?=
- =?us-ascii?Q?E8H257xXyr66cxCOCzsVKOhwlRhZxQ=3D=3D?=
+ =?us-ascii?Q?KV4f1zqTJAmZ7wQ11nJoNNUz1W7zFliIAXTXwMixWz7m/r1z+XAWx58Mv2j1?=
+ =?us-ascii?Q?/7wDNyXZKXc9gcnKejziJEwHxE4oBPTWV9ax3KB+4jj5GHkQSzXt2xtJKSlt?=
+ =?us-ascii?Q?3C/lRr+jsNJEh0SVo52E2LMqiZCL1BqUX41B7zw2CBwBdnmWHYqxSEDDtGBH?=
+ =?us-ascii?Q?Ll9YZyWOVh2r5maOnKEF6/RLYEgy4M3FTFX6vHYZGcJeTzERCOI0SQ1inqsW?=
+ =?us-ascii?Q?+guH+QMazIQXz96EL10H7lLuXRgscbUiQunZFGciMitYaLa9niC8fYnLb61p?=
+ =?us-ascii?Q?PhTUYY8K1eedX6mYJffYi8BpE5da5CZrRU6JpLFL5AY56mE+uJqJ18+noSJ1?=
+ =?us-ascii?Q?OL86d3pIHr+L73FM7SG0G7LEUFVaiQ526sBZYxVR9GIytJlr57ON9TOiBQMm?=
+ =?us-ascii?Q?mBt6ajQksYuoT+xb+YlbJQqouSIr9o6zzpe9VT3re4gtO4x28ZkwMc3/xEkL?=
+ =?us-ascii?Q?EXZy9/KZlYbNvmsGzSafrXr3vY4Cq83JVLrZTOyKgfxk/tyFRbpFDV6Qqrqx?=
+ =?us-ascii?Q?EC+g0QGYL7VHB2juH04o+bj+OQPL1chmthz4JsCdH6xXVACTyEBNQavWNam9?=
+ =?us-ascii?Q?XBpp3n6i6VFrP09ndnQL0iqoahocycNmveHd+vVxbisTzBOj72jzizuJUM5D?=
+ =?us-ascii?Q?YXrDvGE32a1nuC5hiHp2t/DmhmJVvi9P1Tuhs40ZrNP4vEGhJG6kN34aIhLp?=
+ =?us-ascii?Q?cT6V90EWqLPVdtidZxq6+X+sBUjcBwvdBwOGQqhjTvFzRY5Ef3OEe7knAcU0?=
+ =?us-ascii?Q?KGZQ8Vmp/WdoqZP4ceCzvpRQdhHwLsmkhRk2OdQiCCxkmuhES/tbL6bql2nD?=
+ =?us-ascii?Q?k9hlZRvG7GaDcM4FITFOMUkPDfRuHep1Zmp141LCRScvHizJPjD0lHsdGfYO?=
+ =?us-ascii?Q?dH10Pu3xAv9CW1wxuNCcBeR1de1dSM24Bgy0Cq5P3E8H9TawzgORna9r/k3Y?=
+ =?us-ascii?Q?feUxhHvcHXtURDbcg9xZN6d3nBukKIrfI2GxWD0ZNk2bM8Il3ykIIBbzClzj?=
+ =?us-ascii?Q?49y+3m4o4nvpCvYMGmIxeue8NKUmuWxNIyAuZRagb6EtOekIlkvN0a2Ucl8b?=
+ =?us-ascii?Q?IgHDfj3IHOi6KtVxBcBZKVHxLExYRQ=3D=3D?=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?BGTD9oTCuvaYtKHHlL34MlSdOTqVYczP1z/dh40gRaLOCu551M837y7z8ktx?=
- =?us-ascii?Q?kpZsp86JJcZtxNpeeGksxzaq8VUJVqn4hnnOTEbCnPmLE/WgbC2vsyQ965Jn?=
- =?us-ascii?Q?WGEm34UCo0TlkHAwLKOdAPk4/jYlqEFQDAhqCUcXoXby7dukv+Lg8RZnzCuM?=
- =?us-ascii?Q?CDPxTc8STxO5ZIRc8uURy4swAVYSwdRJXoe8vxhtRzALPC/sZGa6b3zu4IzJ?=
- =?us-ascii?Q?hTEXLXQxbLjv6IUr3yi9PvV65fi7SpJCYgDPUYDyvC7M1301eTbjRcAPeEk8?=
- =?us-ascii?Q?F6aXAbdBjs+3Xg69QKnl4MfgvDlV7UMYyqxALA+W6+KXJvd1ztwJJRmkfDRX?=
- =?us-ascii?Q?q8D4//MZIHnpjhE5Nwvdm1A2MlU1CvLgUoUdVhcxamF/BXhpPWloEKesJxWh?=
- =?us-ascii?Q?uYWs3NWU13vhp6pVUyRmDYxnCFX1h5dziQ7l5qxqbbF24nQf3yT6HTEMUAVj?=
- =?us-ascii?Q?x1QkFKoJjBlerDMpc5ldbVqdXQfjKIa4NEwVWTi+IDPQ6NMEi+5ukayoxpsl?=
- =?us-ascii?Q?WzqeWG4O+Dmkd3lbn/ZjymEd3hhgTbEm6g1aZYJVp5cbERP6iZGi5O6pLzDn?=
- =?us-ascii?Q?WwG8S4hmGA8fVXcyKJ+XpKdrq9bvpVsBt30ggbScNQEbVFGFXV6YMF30Gq0e?=
- =?us-ascii?Q?Y5tJuhgu+7+r+LXy1+Nh8nn5K9BfLg+SDq4bci7zdBnnp3+MC4b77bFVzquQ?=
- =?us-ascii?Q?RL8lkU0sEoUg47jCtuc1KRTTydFeepxhA+NTFmZ8E55QpROAFoQrqyELRYkg?=
- =?us-ascii?Q?ySLMBkJk5wWxYfM4qqtMiEGKtUd8Zfg/LRc9vBvqFgqwDsvAaMGzhr9PGFfV?=
- =?us-ascii?Q?AbgAObn1TB8X+4VFFjiTB+4b3y627KrBQItLhxpDh8X75tyu1KbpnSS3VvYw?=
- =?us-ascii?Q?v1rhGmIqUH8GlP96SoSffV0RQfdgZd9RdV4LwglVmpXW7JpKJ4HJPOsOdL8d?=
- =?us-ascii?Q?AHGS7+SzDONum/LWIyq9Ov9scdsOrQ2BzI+MVq/KXEGGxHpCrPSm1XNpqG0N?=
- =?us-ascii?Q?I+zAXQEZ9qsD5Fag0JmJ9RidMjbn/EZz6Vz2dZwOPCDMsa+1AjUlC5gBA8hc?=
- =?us-ascii?Q?m/AY1VwPf1vYli32d5z8M3Ku1koSlMoYW0f5cYPYtqqQuZ4jEU3Rz+P0cp3f?=
- =?us-ascii?Q?B7RE6xs7uQKHm/1Se9tSCpf7shFu8F8YmfIhFZdyYJjEciukSH7aHCLxmjcD?=
- =?us-ascii?Q?6/02kErq2k+aePP7jgQMROKaGBzUrI1/wEEfnpY75IJ4B1PgnlskwZzUn5a4?=
- =?us-ascii?Q?siLSHSG+Ibq5UrmAl/AZECqI+s9OqziknYUM7L8QpvEyubEA/cWB1ZgYjSd9?=
- =?us-ascii?Q?CqS8259wdf6olbMjEdCzvwIJ?=
+ =?us-ascii?Q?nv9iqEfKOGxp3VdOyGif3zrzzJUKoz82BYYzCF8x8IwY6vP+THnO6PSzgTXw?=
+ =?us-ascii?Q?/RKD0phvBYduwUjHyLGPEFXg3ePAeuJrFk/wxqIUt4z1eXq5nKjqy6E2m7Io?=
+ =?us-ascii?Q?ZYeE1U8y/6gDSbQzlDjUI/i6mOhsgYhMoBscLV8UV+9LB66R43/e0dE4Si2y?=
+ =?us-ascii?Q?LL+GgbRWhFZfCBNgzujRDJps9puQ/SEcmHhj2A7J+TC/01s+W+6KcZors5y9?=
+ =?us-ascii?Q?s17ObkiEsW1858MCzdYWUIVnsNtn9VKq6zAAVWmTSK9wAZlV0s2D9ykIqrpO?=
+ =?us-ascii?Q?w9jxOCxgRIA9Ll9UWyLyHRx4WNhCF2DHiBc0ICT717kBkz98X6nMe+K2ZmKp?=
+ =?us-ascii?Q?zRg+qY2YsmU152cWt3JQuGUJyRbii0IUtKms/qd+21MiP60FpKwlvWoEVBvY?=
+ =?us-ascii?Q?i3hrCIrAlH0Dfl3l4t0zDXwNQ6/4ZZEIK0NRFX1ndhAe+uDy1ZybxGJt2SzW?=
+ =?us-ascii?Q?0O5Yf/23Bd47tS2O0BMdlJPKXuvkKonppyyleSB/oQa0fjNI0EFFgChEFsxp?=
+ =?us-ascii?Q?BPLoixE2JPZ7VEoeKyfbqb8lrX9/qs2+U6G6NAl9FZje1eka/PZPAWK565YN?=
+ =?us-ascii?Q?n4CblifnBUylHQFq4VZVjKmtZEIDeyLFy8xeQRzBHVGa8ZUDjAJO6hGICDnX?=
+ =?us-ascii?Q?TWKELYmsjrwAAhMsAgAFF/tz1n0vVfkOu6fkjiyDI6deAG3/wvv4YQiFC4T7?=
+ =?us-ascii?Q?N08Y56GYqX5jZWUB+52m61+iIM93j/iPJ9pnXE2WwdAncle3Cucr9lC0jJOT?=
+ =?us-ascii?Q?ayb5bAF/EAmaBzD7cpEBy3nsZikGlDFMnPae0bqUqc6PtJAayrpZot4lnxq0?=
+ =?us-ascii?Q?NVsEzIVfIhWGrtoPEDFtseW9JLhQsX01I1h/NAoRUdz29zImWmAswq3QX0Ff?=
+ =?us-ascii?Q?Em9u3JZYIuvf6t1isJhx9fB2+tPnnNQF3afNOBTwryk2RsGcViirUvJ2zR6d?=
+ =?us-ascii?Q?qNX6ypccdgf3oR++/JQaKrW8Wsm0ruR2SbvHOJY6/bS8ujEPu/StAvnHCm/k?=
+ =?us-ascii?Q?6cS2mg71jXqUt5uZ5Ue6TBDJLLsN1ShNc89plSJ4eX3fstV4s/7E3VCoqifX?=
+ =?us-ascii?Q?1oPh5OBOiJRuIp52GfSXXON11woR4pmsQpd4f+TO+uSfS5pzhpZGnvQZXEoF?=
+ =?us-ascii?Q?nhkBbzCWNnn+YSiy+aJ7+6GzLxL0JzZtlKgxmz3BwnRWA1P1JHZZ9DvvI1KM?=
+ =?us-ascii?Q?m4YCm4TGZJBdPaJUt8hzYAe7B4z5Vt12r3iKE3MtlfS3sDkOZg4GzsX4MkRW?=
+ =?us-ascii?Q?MooTQ20rtWCGm2hqJs254m1d6pN66l/eQKfQDxHWj0AEbJ8L9DBOSLQxvqeb?=
+ =?us-ascii?Q?hO6VO3ft9P2Mn47SZNRmhu/a?=
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <3568FC6E05EF8340AA901D8626E5AED3@INDPRD01.PROD.OUTLOOK.COM>
+Content-ID: <217FB548C2D4224394574CB17CAA6336@INDPRD01.PROD.OUTLOOK.COM>
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -136,8 +139,8 @@ X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9615.INDPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66005162-e7f5-4287-be60-08dd4cdf1b91
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Feb 2025 10:05:28.0301
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f17cf07-7c5c-46a5-d369-08dd4cdf4000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Feb 2025 10:06:29.1667
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
@@ -146,107 +149,60 @@ X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0PR01MB10024
 
 From: Aditya Garg <gargaditya08@live.com>
 
-The only difference between the fn mapping of the MacBook Pros with esc key
-and those without is of the presence of KEY_GRAVE in the translation table.
+The only difference between the fn mapping of Magic Keyboard aluminium and
+2015 is of the presence of KEY_F6 in the translation table.
 
 We can easily use a flag instead of writing the whole table again to omit
-it from the models that have an esc key.
-
-Additionally, APPLE_IGNORE_MOUSE quirk was unused in this driver, so has
-been removed in this commit.
+it from 2015 model.
 
 Signed-off-by: Aditya Garg <gargaditya08@live.com>
 ---
-drivers/hid/hid-apple.c | 72 ++++++++++++++++-------------------------
-1 file changed, 27 insertions(+), 45 deletions(-)
+ drivers/hid/hid-apple.c | 37 ++++++++-----------------------------
+ 1 file changed, 8 insertions(+), 29 deletions(-)
 
 diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 49812a76b..e31c9e8e8 100644
+index e31c9e8e8..ca462e483 100644
 --- a/drivers/hid/hid-apple.c
 +++ b/drivers/hid/hid-apple.c
-@@ -30,7 +30,7 @@
-#include "hid-ids.h"
-
-#define APPLE_RDESC_JIS		BIT(0)
--#define APPLE_IGNORE_MOUSE	BIT(1)
-+/* BIT(1) reserved, was: APPLE_IGNORE_MOUSE */
-#define APPLE_HAS_FN		BIT(2)
-/* BIT(3) reserved, was: APPLE_HIDDEV */
-#define APPLE_ISO_TILDE_QUIRK	BIT(4)
-@@ -43,7 +43,8 @@
-#define APPLE_IS_NON_APPLE	BIT(11)
-#define APPLE_MAGIC_BACKLIGHT	BIT(12)
-
--#define APPLE_FLAG_FKEY		0x01
-+#define APPLE_FLAG_FKEY			0x01
-+#define APPLE_FLAG_DONT_TRANSLATE	0x02
-
-#define HID_COUNTRY_INTERNATIONAL_ISO	13
-#define APPLE_BATTERY_TIMEOUT_MS	60000
-@@ -89,6 +90,19 @@ struct apple_sc_backlight {
-	struct hid_device *hdev;
-};
-
-+struct apple_backlight_config_report {
-+	u8 report_id;
-+	u8 version;
-+	u16 backlight_off, backlight_on_min, backlight_on_max;
-+};
-+
-+struct apple_backlight_set_report {
-+	u8 report_id;
-+	u8 version;
-+	u16 backlight;
-+	u16 rate;
-+};
-+
-struct apple_magic_backlight {
-	struct led_classdev cdev;
-	struct hid_report *brightness;
-@@ -152,20 +166,6 @@ static const struct apple_key_translation magic_keyboa=
-rd_2015_fn_keys[] =3D {
-	{ }
-};
-
--struct apple_backlight_config_report {
--	u8 report_id;
--	u8 version;
--	u16 backlight_off, backlight_on_min, backlight_on_max;
--};
--
--struct apple_backlight_set_report {
--	u8 report_id;
--	u8 version;
--	u16 backlight;
--	u16 rate;
--};
--
--
-static const struct apple_key_translation apple2021_fn_keys[] =3D {
-	{ KEY_BACKSPACE, KEY_DELETE },
-	{ KEY_ENTER,	KEY_INSERT },
-@@ -209,32 +209,10 @@ static const struct apple_key_translation macbookair_=
-fn_keys[] =3D {
-	{ }
-};
-
--static const struct apple_key_translation macbookpro_no_esc_fn_keys[] =3D =
-{
+@@ -125,14 +125,14 @@ struct apple_key_translation {
+ 	u8 flags;
+ };
+=20
+-static const struct apple_key_translation magic_keyboard_alu_fn_keys[] =3D=
+ {
++static const struct apple_key_translation magic_keyboard_alu_and_2015_fn_k=
+eys[] =3D {
+ 	{ KEY_BACKSPACE, KEY_DELETE },
+ 	{ KEY_ENTER,	KEY_INSERT },
+ 	{ KEY_F1,	KEY_BRIGHTNESSDOWN, APPLE_FLAG_FKEY },
+ 	{ KEY_F2,	KEY_BRIGHTNESSUP,   APPLE_FLAG_FKEY },
+ 	{ KEY_F3,	KEY_SCALE,          APPLE_FLAG_FKEY },
+ 	{ KEY_F4,	KEY_DASHBOARD,      APPLE_FLAG_FKEY },
+-	{ KEY_F6,	KEY_NUMLOCK,        APPLE_FLAG_FKEY },
++	{ KEY_F6,	KEY_NUMLOCK,        APPLE_FLAG_FKEY | APPLE_FLAG_DONT_TRANSLATE=
+ },
+ 	{ KEY_F7,	KEY_PREVIOUSSONG,   APPLE_FLAG_FKEY },
+ 	{ KEY_F8,	KEY_PLAYPAUSE,      APPLE_FLAG_FKEY },
+ 	{ KEY_F9,	KEY_NEXTSONG,       APPLE_FLAG_FKEY },
+@@ -146,27 +146,7 @@ static const struct apple_key_translation magic_keyboa=
+rd_alu_fn_keys[] =3D {
+ 	{ }
+ };
+=20
+-static const struct apple_key_translation magic_keyboard_2015_fn_keys[] =
+=3D {
 -	{ KEY_BACKSPACE, KEY_DELETE },
 -	{ KEY_ENTER,	KEY_INSERT },
--	{ KEY_GRAVE,	KEY_ESC },
--	{ KEY_1,	KEY_F1 },
--	{ KEY_2,	KEY_F2 },
--	{ KEY_3,	KEY_F3 },
--	{ KEY_4,	KEY_F4 },
--	{ KEY_5,	KEY_F5 },
--	{ KEY_6,	KEY_F6 },
--	{ KEY_7,	KEY_F7 },
--	{ KEY_8,	KEY_F8 },
--	{ KEY_9,	KEY_F9 },
--	{ KEY_0,	KEY_F10 },
--	{ KEY_MINUS,	KEY_F11 },
--	{ KEY_EQUAL,	KEY_F12 },
+-	{ KEY_F1,	KEY_BRIGHTNESSDOWN, APPLE_FLAG_FKEY },
+-	{ KEY_F2,	KEY_BRIGHTNESSUP,   APPLE_FLAG_FKEY },
+-	{ KEY_F3,	KEY_SCALE,          APPLE_FLAG_FKEY },
+-	{ KEY_F4,	KEY_DASHBOARD,      APPLE_FLAG_FKEY },
+-	{ KEY_F7,	KEY_PREVIOUSSONG,   APPLE_FLAG_FKEY },
+-	{ KEY_F8,	KEY_PLAYPAUSE,      APPLE_FLAG_FKEY },
+-	{ KEY_F9,	KEY_NEXTSONG,       APPLE_FLAG_FKEY },
+-	{ KEY_F10,	KEY_MUTE,           APPLE_FLAG_FKEY },
+-	{ KEY_F11,	KEY_VOLUMEDOWN,     APPLE_FLAG_FKEY },
+-	{ KEY_F12,	KEY_VOLUMEUP,       APPLE_FLAG_FKEY },
 -	{ KEY_UP,	KEY_PAGEUP },
 -	{ KEY_DOWN,	KEY_PAGEDOWN },
 -	{ KEY_LEFT,	KEY_HOME },
@@ -254,66 +210,46 @@ fn_keys[] =3D {
 -	{ }
 -};
 -
--static const struct apple_key_translation macbookpro_dedicated_esc_fn_keys=
-[] =3D {
-+static const struct apple_key_translation macbookpro_fn_keys[] =3D {
-	{ KEY_BACKSPACE, KEY_DELETE },
-	{ KEY_ENTER,	KEY_INSERT },
-+	{ KEY_GRAVE,	KEY_ESC, APPLE_FLAG_DONT_TRANSLATE },
-	{ KEY_1,	KEY_F1 },
-	{ KEY_2,	KEY_F2 },
-	{ KEY_3,	KEY_F3 },
-@@ -415,6 +393,7 @@ static int hidinput_apple_event(struct hid_device *hid,=
- struct input_dev *input,
-	struct apple_sc *asc =3D hid_get_drvdata(hid);
-	const struct apple_key_translation *trans, *table;
-	bool do_translate;
-+	bool dont_translate_flagged_key =3D false;
-	u16 code =3D usage->code;
-	unsigned int real_fnmode;
-
-@@ -481,14 +460,14 @@ static int hidinput_apple_event(struct hid_device *hi=
+-static const struct apple_key_translation apple2021_fn_keys[] =3D {
++static const struct apple_key_translation magic_keyboard_2021_and_2024_fn_=
+keys[] =3D {
+ 	{ KEY_BACKSPACE, KEY_DELETE },
+ 	{ KEY_ENTER,	KEY_INSERT },
+ 	{ KEY_F1,	KEY_BRIGHTNESSDOWN, APPLE_FLAG_FKEY },
+@@ -448,15 +428,15 @@ static int hidinput_apple_event(struct hid_device *hi=
 d, struct input_dev *input,
-		else if (hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J132 ||
-			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J680 ||
-			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J213)
--				table =3D macbookpro_no_esc_fn_keys;
-+			table =3D macbookpro_fn_keys;
-		else if (hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J214K ||
-			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J223 ||
-			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J152F)
--				table =3D macbookpro_dedicated_esc_fn_keys;
-+			table =3D macbookpro_fn_keys, dont_translate_flagged_key =3D true;
-		else if (hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J140K ||
-			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J230K)
--				table =3D apple_fn_keys;
-+			table =3D apple_fn_keys;
-		else if (hid->product >=3D USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&
-				hid->product <=3D USB_DEVICE_ID_APPLE_WELLSPRING4A_JIS)
-			table =3D macbookair_fn_keys;
-@@ -525,6 +504,10 @@ static int hidinput_apple_event(struct hid_device *hid=
-, struct input_dev *input,
-					do_translate =3D asc->fn_on;
-				}
-
-+				if (dont_translate_flagged_key &&
-+						trans->flags & APPLE_FLAG_DONT_TRANSLATE)
-+					do_translate =3D false;
-+
-				if (do_translate)
-					code =3D trans->to;
-			}
-@@ -680,8 +663,7 @@ static void apple_setup_input(struct input_dev *input)
-	apple_setup_key_translation(input, magic_keyboard_alu_fn_keys);
-	apple_setup_key_translation(input, magic_keyboard_2015_fn_keys);
-	apple_setup_key_translation(input, apple2021_fn_keys);
--	apple_setup_key_translation(input, macbookpro_no_esc_fn_keys);
--	apple_setup_key_translation(input, macbookpro_dedicated_esc_fn_keys);
-+	apple_setup_key_translation(input, macbookpro_fn_keys);
-}
-
-static int apple_input_mapping(struct hid_device *hdev, struct hid_input *h=
-i,
+ 		    hid->product =3D=3D USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ANSI ||
+ 		    hid->product =3D=3D USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ISO ||
+ 		    hid->product =3D=3D USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_JIS)
+-			table =3D magic_keyboard_alu_fn_keys;
++			table =3D magic_keyboard_alu_and_2015_fn_keys;
+ 		else if (hid->product =3D=3D USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2015 ||
+ 			 hid->product =3D=3D USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2015)
+-			table =3D magic_keyboard_2015_fn_keys;
++			table =3D magic_keyboard_alu_and_2015_fn_keys, dont_translate_flagged_k=
+ey =3D true;
+ 		else if (hid->product =3D=3D USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021 ||
+ 			 hid->product =3D=3D USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024 ||
+ 			 hid->product =3D=3D USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_202=
+1 ||
+ 			 hid->product =3D=3D USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021)
+-			table =3D apple2021_fn_keys;
++			table =3D magic_keyboard_2021_and_2024_fn_keys;
+ 		else if (hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J132 ||
+ 			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J680 ||
+ 			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J213)
+@@ -660,9 +640,8 @@ static void apple_setup_input(struct input_dev *input)
+ 	apple_setup_key_translation(input, powerbook_fn_keys);
+ 	apple_setup_key_translation(input, powerbook_numlock_keys);
+ 	apple_setup_key_translation(input, apple_iso_keyboard);
+-	apple_setup_key_translation(input, magic_keyboard_alu_fn_keys);
+-	apple_setup_key_translation(input, magic_keyboard_2015_fn_keys);
+-	apple_setup_key_translation(input, apple2021_fn_keys);
++	apple_setup_key_translation(input, magic_keyboard_alu_and_2015_fn_keys);
++	apple_setup_key_translation(input, magic_keyboard_2021_and_2024_fn_keys);
+ 	apple_setup_key_translation(input, macbookpro_fn_keys);
+ }
+=20
 --=20
 2.43.0
 
