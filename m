@@ -1,118 +1,179 @@
-Return-Path: <linux-input+bounces-10041-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10042-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A271A35C20
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 12:05:28 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54CE2A35D0A
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 12:53:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F4CA3A6497
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 11:05:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 539FB1609C1
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 11:51:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B457425A64D;
-	Fri, 14 Feb 2025 11:05:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 177FB263C81;
+	Fri, 14 Feb 2025 11:50:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="AiN7Vw+K"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="QPic+FVV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8422F25A358;
-	Fri, 14 Feb 2025 11:05:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E292221541;
+	Fri, 14 Feb 2025 11:50:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739531119; cv=none; b=qKZgCimHoec9Kyt153NBA2uRRmz+vsReqtKe2Uc6PMo5d3sKU9yY3WKe0N//Iwe6fQ4vb1kKKNawuGgg5lL5h/ais857b3PaMUp5gcZgRaNPYBv5vdtBEv1R6axW+uAi3tyIzOS2KGbvAQ8gjInMEc89Z2u2o70MOza4IJfeW04=
+	t=1739533820; cv=none; b=mfcCaJhuYpYRHrTkdvJVBrRwLP2jyoy4KMjU4mqfpr0zmBGwUNi/KAVoSlcH/lmwx7QJM1cxeK3226IDHTtWSYEb4MaDqAOWW8nIYlfXIO6LWtPx4ic5zajYxOjEy2OcagwzGr+C/de0yfdQZP31IPY0BG+wXj0wTNJt4x0V3wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739531119; c=relaxed/simple;
-	bh=bfFvQR7b9Eo1y4+Wi3gy1LHrsKMeE2pW8w9ssUoqus8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Gp3E6+yNDae5ymjUkGJoyY5r38jZ72+yDSMRQBOCL5mOQY10v/OBn3W6wAdEY2RojWZv+yNT5epYhufhTyknSDAn9qHCO88m/7tCSEtS7cvYlOWTa2FiDv4NRmmxH7M87NU8tJLQoCueXVdXUlmkdHDhHk7loCj8q0MOLoDPQRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=AiN7Vw+K; arc=none smtp.client-ip=54.254.200.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1739531084;
-	bh=7q1XuqsIgd5QB4KaATSp9610UQQvNvpW6b5+d5deU7E=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=AiN7Vw+KxZ5aUjBoXSZMFl9QWHstKV9TFxgiOwy9b5vbRTN4jNuscbId7iOPpg9Ac
-	 OrdVbzJSrl684eTiarRHTgRsqbMnXkM8kq6fiG1CQnRFp2aD+8xop0VaTpa60fWdKI
-	 JIOY/4ShM1C5oypiKTkwJFQE8/tUBssYQ2mMaVK8=
-X-QQ-mid: bizesmtp78t1739531067temjoge9
-X-QQ-Originating-IP: yGJJ4u6eJcgJ0RBUkY++t7Lt6A4QNPsaP+onWTsvJZs=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 14 Feb 2025 19:04:25 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 14881646394383815706
-From: Wentao Guan <guanwentao@uniontech.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: dmitry.torokhov@gmail.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Wentao Guan <guanwentao@uniontech.com>
-Subject: [PATCH] HID: i2c-hid: improve i2c_hid_get_report error message
-Date: Fri, 14 Feb 2025 19:04:18 +0800
-Message-Id: <20250214110418.16000-1-guanwentao@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+	s=arc-20240116; t=1739533820; c=relaxed/simple;
+	bh=vF7KdmZH5zqFtRD2vuQTeuspsVDvQTjB8d+Y4ciyRFo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=s87GNOKBnKoUAzVXMkZNg9sRg+HOdjhd5BgNspaflusIer6jRJStfRl+hsEJkVEHKfS1dlNVVftH6Q10x9sL+0lGX0crsbViXvEbg2sKLN7M9WrSzEqKr0pbt4bAKh6Nuo2HkbsH49dBzisplq6WjqtYsN4Rsy4+n8rVWt0O5sI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=QPic+FVV; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 023C2442A3;
+	Fri, 14 Feb 2025 11:50:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1739533810;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=j07hPNU31IwHz1MTcTOgeAg+tNcqpIash75EC8z/CHk=;
+	b=QPic+FVV5piEk8dkiz7t9Mazjk+U8XvU6JhSf2TRidfE2fB/1cCvEo2e+fJDefk9U6D0Ax
+	lqUaEiG6Q3GF84hUjWMcYy+XoIm4ZXAcm73Edj3QpmpnGC+z1myy6GpMeaQPUNXC5KJswa
+	GeLIlQyfwtmmtj2Epmziohrcp4wI7WKHftB2OC4+e3ISjDUgFvzNuP4aHdUtm2eQk5Byqj
+	n4BRtbyhL6K0/FPFeAi1f+YmYqdt9tVwsb/+VOtFNeCbneR0MyiH3Pl06l2AcddF5Q3AkK
+	GYO022oO+75kPRw67OXxKZcXCBgpgcQ96O14VzRLBtR+tDRKh8kMO04AeQcOmQ==
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Subject: [PATCH v4 00/10] Add support for MAX7360
+Date: Fri, 14 Feb 2025 12:49:50 +0100
+Message-Id: <20250214-mdb-max7360-support-v4-0-8a35c6dbb966@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz5a-0
-X-QQ-XMAILINFO: MELI+WA1+YWQcZWBz7pJwqyge3tHMHZH919bCPhc+/ABH75xkJ1p99uA
-	OaX/lZ9XFbdVOix34z/HyzokFjMfvqXKTQN/p4DTVY7c5bpTJnNoUICzUe9JTCfPlN+6r2h
-	EQWhXkybYVmd/dhMLEsS9DuZO55ZVXt+ZAhZXUwkJYuhDVvajTIaY21jyIYT9XrOONv+Kg9
-	f582nAjqAAN9vZ5B8e8nn032iqrloWilEF2wItxnjQNFW1arQEMT+aRXepCKKOCS92nYUkp
-	kU6J/g4LcLp700tpZfA/q3gS7Pxe7GudZZiisZ1aDSYe/XB3GXIqNSzIMb7WtKRzzeciPyg
-	rPpZkHcGZQMryCgnaWu0S8tN68syAMzfyKW6Q6RDfw745t0vlJZbOvMXyM/zO/LO8EuzVW9
-	zF3ZHnAsmuINKvEbanrAPctpJJc/CFMK7KEKanL2zmUR1M5rRaWW/fObqWMJM5YQDK27xt4
-	+G5pniZE8+xdtSUyYLbgRmISvYkFb8O64U4No+NAFu4N/ypWW12n+KEwndjwZlEO068Bw3g
-	S+VH7rM4wajeiVrmYZB6wgoXxndHmX+RBI6fbLPUyrVzVUpgwP0SEw6RImLixfb488ytrY2
-	tgFWIEjBORLD30GITBh8LSh2R+HEL9S/z0JPERQb8LL6fIHwjZjaG4djCVSNluwBBrtkBsg
-	09LHydf8K9IEcyQR7YLLvl0bdlbK4Y+z2twK86ZIY3iYHgEhHsHmGmZ5LB8ErI0f3oo6vBX
-	v864q4EsWtD4LbRJ5mpQExPGFWTt845lkly0II8MJWXMWJWHt9IztgroO4oys6qRLDwEorI
-	cZxba6upKXw6mJRJJudi88aqfBDES3dLmBwVMRBLWPUVx8WSpX21JvJvwfhM64obJTP/mnF
-	g4V1h3bsboyweP/hNfBQ1zKlQKMgd/cZpS7/LitGDCTCkAzFJrbMehSfRieq1cWoRF4ZpBY
-	QV/Mip5XYZs91mEH5Bg2K3DVrFPVt+8bS5JvLO11Wzp2OX499PIr8ZHds
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAN4tr2cC/33OTQ6CMBAF4KuYrq1pZygUV97DuGhLlSZCSYsEQ
+ 7i7hcTE+Ld8k3nfzESiDc5Gst9MJNjBRefbFLLthphatRdLXZUyAQYZB17SptK0UWOBOaPx1nU
+ +9BQAlTQ2E1ohSc0u2LMbV/V4Srl2sffhvh4Z+DL97w2cMiqtRF4IuawdtPf91bU74xuyiAO8K
+ IDfFUgKFkpWAAZzW30q+FQE4/yHgkkpBS91poxm+u2XeZ4fEDIF70QBAAA=
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Kamel Bouhara <kamel.bouhara@bootlin.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, andriy.shevchenko@intel.com, 
+ =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739533806; l=3966;
+ i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
+ bh=vF7KdmZH5zqFtRD2vuQTeuspsVDvQTjB8d+Y4ciyRFo=;
+ b=nalo6LQVrcVi6TAQQteq3ondrkR6920KTYGAX58OdoLnGbnugFDBc/qFXP9dJrIUtCmdt+8Qh
+ +1ecjLGGKGmDWHoEiGULZP77LuNhg4fP8RmK3ZTL7BItzrShPEHhoeF
+X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
+ pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegleehjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffufffkgggtgffvvefosehtjeertdertdejnecuhfhrohhmpeforghthhhivghuucffuhgsohhishdquehrihgrnhguuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnheptdeujeelieelffeufedvgfffgfegvdehvddukeehledvkeettdelvdelfeffteevnecuffhomhgrihhnpedugedqrhgtvddrqdhlihhnkhdpkhgvrhhnvghlrdhorhhgnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopegluddvjedrtddruddrudgnpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdefpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepm
+ hgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdprhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghhrvghgohhrhidrtghlvghmvghnthessghoohhtlhhinhdrtghomhdprhgtphhtthhopegurghkrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplhdprhgtphhtthhopehlihhnuhigqdhgphhiohesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-We have two places to print "failed to set a report to ...",
-use "get a report from" instead of "set a report to", it makes
-people who knows less about the module to know where the error
-happened.
+This series implements a set of drivers allowing to support the Maxim
+Integrated MAX7360 device.
 
-Before:
-i2c_hid_acpi i2c-FTSC1000:00: failed to set a report to device: -11
+The MAX7360 is an I2C key-switch and led controller, with following
+functionalities:
+- Keypad controller for a key matrix of up to 8 rows and 8 columns.
+- Rotary encoder support, for a single rotary encoder.
+- Up to 8 PWM outputs.
+- Up to 8 GPIOs with support for interrupts and 6 GPOs.
 
-After:
-i2c_hid_acpi i2c-FTSC1000:00: failed to get a report from device: -11
+Chipset pins are shared between all functionalities, so all cannot be
+used at the same time.
 
-Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 ---
- drivers/hid/i2c-hid/i2c-hid-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v4:
+- Modified the GPIO driver to use gpio-regmap and regmap-irq.
+- Add support for request()/free() callbacks in gpio-regmap.
+- Add support for status_is_level in regmap-irq.
+- Switched the PWM driver to waveform callbacks.
+- Various small fixes in MFD, PWM, GPIO drivers and dt bindings.
+- Rebased on v6.14-rc2.
+- Link to v3: https://lore.kernel.org/r/20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 75544448c2393..d3912e3f2f13a 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -290,7 +290,7 @@ static int i2c_hid_get_report(struct i2c_hid *ihid,
- 			     ihid->rawbuf, recv_len + sizeof(__le16));
- 	if (error) {
- 		dev_err(&ihid->client->dev,
--			"failed to set a report to device: %d\n", error);
-+			"failed to get a report from device: %d\n", error);
- 		return error;
- 	}
- 
+Changes in v3:
+- Fix MFD device tree binding to add gpio child nodes.
+- Fix various small issues in device tree bindings.
+- Add missing line returns in error messages.
+- Use dev_err_probe() when possible.
+- Link to v2: https://lore.kernel.org/r/20241223-mdb-max7360-support-v2-0-37a8d22c36ed@bootlin.com
+
+Changes in v2:
+- Removing device tree subnodes for keypad, rotary encoder and pwm
+  functionalities.
+- Fixed dt-bindings syntax and naming.
+- Fixed missing handling of requested period in PWM driver.
+- Cleanup of the code
+- Link to v1: https://lore.kernel.org/r/20241219-mdb-max7360-support-v1-0-8e8317584121@bootlin.com
+
+---
+Kamel Bouhara (2):
+      mfd: Add max7360 support
+      pwm: max7360: Add MAX7360 PWM support
+
+Mathieu Dubois-Briand (8):
+      dt-bindings: mfd: gpio: Add MAX7360
+      gpio: regmap: Allow to provide request and free callbacks
+      gpio: regmap: Allow to retrieve ngpio
+      regmap: irq: Add support for chips without separate IRQ status
+      gpio: max7360: Add MAX7360 gpio support
+      input: keyboard: Add support for MAX7360 keypad
+      input: misc: Add support for MAX7360 rotary
+      MAINTAINERS: Add entry on MAX7360 driver
+
+ .../bindings/gpio/maxim,max7360-gpio.yaml          |  91 +++++++
+ .../devicetree/bindings/mfd/maxim,max7360.yaml     | 139 ++++++++++
+ MAINTAINERS                                        |  12 +
+ drivers/base/regmap/regmap-irq.c                   |  83 ++++--
+ drivers/gpio/Kconfig                               |  11 +
+ drivers/gpio/Makefile                              |   1 +
+ drivers/gpio/gpio-max7360.c                        | 253 ++++++++++++++++++
+ drivers/gpio/gpio-regmap.c                         |   8 +
+ drivers/input/keyboard/Kconfig                     |  12 +
+ drivers/input/keyboard/Makefile                    |   1 +
+ drivers/input/keyboard/max7360-keypad.c            | 282 +++++++++++++++++++++
+ drivers/input/misc/Kconfig                         |  11 +
+ drivers/input/misc/Makefile                        |   1 +
+ drivers/input/misc/max7360-rotary.c                | 182 +++++++++++++
+ drivers/mfd/Kconfig                                |  14 +
+ drivers/mfd/Makefile                               |   1 +
+ drivers/mfd/max7360.c                              | 218 ++++++++++++++++
+ drivers/pwm/Kconfig                                |  10 +
+ drivers/pwm/Makefile                               |   1 +
+ drivers/pwm/pwm-max7360.c                          | 213 ++++++++++++++++
+ include/linux/gpio/regmap.h                        |  10 +
+ include/linux/mfd/max7360.h                        | 112 ++++++++
+ include/linux/regmap.h                             |   3 +
+ 23 files changed, 1649 insertions(+), 20 deletions(-)
+---
+base-commit: a64dcfb451e254085a7daee5fe51bf22959d52d3
+change-id: 20241219-mdb-max7360-support-223a8ce45ba3
+
+Best regards,
 -- 
-2.20.1
+Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 
 
