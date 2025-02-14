@@ -1,337 +1,222 @@
-Return-Path: <linux-input+bounces-10029-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10031-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1665A3563B
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 06:30:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6CDCA356B9
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 07:06:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2303D7A3CE6
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 05:29:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 181F03ACF43
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 06:06:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC19618CC15;
-	Fri, 14 Feb 2025 05:30:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EED4A1DB924;
+	Fri, 14 Feb 2025 06:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dKSwJXxt"
 X-Original-To: linux-input@vger.kernel.org
-Received: from forward102b.mail.yandex.net (forward102b.mail.yandex.net [178.154.239.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9187418BBBB;
-	Fri, 14 Feb 2025 05:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E211DB54C;
+	Fri, 14 Feb 2025 06:06:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739511019; cv=none; b=vBrK0kOySfBiJlGkzElczQng5V7zcifUZ82Uk+NrUElyP2Ci1OmeYF7xtOfRLlqJlf2qdmaM2P0vSJ10DbfO6/2GGtQZbKGpBWZup3i0O6qDWA/b4szDpr4bWyFYWWzdxnXnDe4mFSGl6id77Zp2aLg+mf3T8r7vSBruDJb3c1Y=
+	t=1739513190; cv=none; b=U371IFmWAB44s9EfsWQpn23ASWHaaTuOdauIUABa5DrWSzh0GetsZhvLfPTzaXFVQ94P2FEWLTdCkrnkJGGCq7rFAgicDsnDK5M2kX6L+meO0r6wFRDPgjAHvSDGUxyoCHdMAcDD1TAQejn1Btg6hylqAVuP8bynpEgQJzoLrZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739511019; c=relaxed/simple;
-	bh=GnnIU2g5Q/b+SC5krhcY37z+aYNNrKQCvvcAKc2v6Y0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BWFkpbijSUMtitB6TjBuxM1Qj/BMrEWkfPmzVuSgqO4KzLebNMaBti9uGpVA0Xg449hqRLLatiu0u3V8XdYmSrwmpCCN7Xs+8l3Mr2EdMQUjgvYZOxEzkqGPXalEZjOkK5vkQxbUxt7AwTnPtN371KAAcQGDgVI0ZmSx4gwcGDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=travitia.xyz; spf=none smtp.mailfrom=travitia.xyz; arc=none smtp.client-ip=178.154.239.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=travitia.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=travitia.xyz
-Received: from mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net [IPv6:2a02:6b8:c10:2d9f:0:640:f6ce:0])
-	by forward102b.mail.yandex.net (Yandex) with ESMTPS id C783A60964;
-	Fri, 14 Feb 2025 08:30:13 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 5UJF7UBMgqM0-L03ZfJmy;
-	Fri, 14 Feb 2025 08:30:12 +0300
-X-Yandex-Fwd: 1
-Authentication-Results: mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net; dkim=pass
-From: Jens Reidel <adrian@travitia.xyz>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bastien Nocera <hadess@hadess.net>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Luca Weiss <luca.weiss@fairphone.com>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	phone-devel@vger.kernel.org,
-	linux@mainlining.org,
-	~postmarketos/upstreaming@lists.sr.ht,
-	Jens Reidel <adrian@travitia.xyz>
-Subject: [PATCH v2 2/2] Input: goodix_berlin - Add support for Berlin-A series
-Date: Fri, 14 Feb 2025 06:29:59 +0100
-Message-ID: <20250214052959.222668-3-adrian@travitia.xyz>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250214052959.222668-1-adrian@travitia.xyz>
-References: <20250214052959.222668-1-adrian@travitia.xyz>
+	s=arc-20240116; t=1739513190; c=relaxed/simple;
+	bh=ayIdhlNLb2GKZSSeWxAq9c/c2OPatpC52A3/OfNRRcM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TYHrGbl8u3Xcuo1ChRsxOBB4ix+MfXYyfvhrP3UwPimS4UfEYrjnqu19h6JU7J1+LTaB6EEYkuMvKX0p+zo7NW7koA8Lt2wfsnSFQcXupSUeTxKslAo8TuIYU1oE/xHDMYoKdCi16NWv2cWCFXDnHan1OS1u0e0XWX1ZJPgHgD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dKSwJXxt; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-307bc125e2eso17505091fa.3;
+        Thu, 13 Feb 2025 22:06:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739513187; x=1740117987; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gqAdZtNTVsfW+y8D7cFv5lvL1LQWxEuSxZZ2eTAoaGc=;
+        b=dKSwJXxtgs3O6zhryozE5DEKy0HhaTMp7GZ9RQBzVYcHN4YHr5SM5B/DEq6oaVmqTf
+         Et2Ze8obCjVfkRibTX64S8Ei/+HHWGXov0ct4We9flak1oHiT0SYcUEQ4bkjhg/ZqJ9F
+         kybWic+kO9CcT55AzRym3YLVcMslizRiUYT7hrjXDAjs60a+itxYFuCfcb2od5fSmXXo
+         jiPV2nQh0lNxFY7s1+448GV1g9+G0cjStShyMYdeJ7od5kEIPQolwL7hdA7JNvv5xe/n
+         eWRruyOWKPXD0EpCkycb0ijyP31NXW7+h45M4BsERJBpVMfl9pTGcICtrubv6BrxZODz
+         whaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739513187; x=1740117987;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gqAdZtNTVsfW+y8D7cFv5lvL1LQWxEuSxZZ2eTAoaGc=;
+        b=U4lUJCu5MrkznYy61ZcImRxhqZhdXXLMgpqZsJJduNysP7elkHZAwlB2vrbe3RoB8e
+         32c+2OoeGc5EZ2OuYFJDw+1nUrShK1Fzg74300ZJDZA2Nve8zMG9+Oh9LCtD1s0NDNJI
+         I4HNAR10r6kUZnwTxQQlwIvZOieWSVIF0I4nit7aM8i8qUjaIJWYepXOqmHq+iVsMWLB
+         8/cJ12blDOhqg6axElZIVzWJ/unqpgwMjexhBfu5AXq6Gp5FKzpPPdtZv1vzvYCe/bEu
+         fgAAJX5oPDXgfsnXvdASAXoma3vtD4GbAOpR7YRs1y37ZvjfzBQ+Eou3o7ZevWAFhCM4
+         EiKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWrwp5oVUDAfsELvXra85hq7mkCH4pg8GcM5cfv4k6SX0OcqxkbhMpCR78FlmA6x2Hib6PrsPtNYptbYi8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUwQZPd5ufdSD8P9JDrPB4Zpnxop/rZHmIv41EH41+JT9eM2/1
+	Hn/Sz09pOW3zp3bx5y4yxbGPopdsoE1X8Ice0Ub37hIkvx7VzRVkNdLkLvsr9UKIuFlT+C9SEA5
+	lvxkMZ1GmiY0LbBJ1Xnj7X0gTDa4=
+X-Gm-Gg: ASbGncsRRw5qsazQkBf6vEn/WxX/Bja13IXQKeR1lk6aMT6f7DnXr3qzN6wxSIq/d7s
+	j6xvl9rOAhUdFtFHnvZ5BVLNzmyNBFFP+s5QgICXPqrPTYIk7fNTK7cDzX5XNai0psw+H6wpl
+X-Google-Smtp-Source: AGHT+IHPqui+cXa8lH/ms719wR+czTAzvCdYJZEYAhb8mlpoe3XX6QltZFbLJDP0xvxV6GBUE8HKHPteKhMAAWdehUI=
+X-Received: by 2002:a05:651c:a0a:b0:307:dc1f:e465 with SMTP id
+ 38308e7fff4ca-3090dd06af3mr18151961fa.22.1739513186599; Thu, 13 Feb 2025
+ 22:06:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250125000202.20868-1-coolreader18@gmail.com>
+In-Reply-To: <20250125000202.20868-1-coolreader18@gmail.com>
+From: Daniel Ogorchock <djogorchock@gmail.com>
+Date: Fri, 14 Feb 2025 01:06:14 -0500
+X-Gm-Features: AWEUYZnZBpXqrOIQvba5AWr20SzZvvKiaCRfp898MjSVIAl4QLUruh9S104uiQA
+Message-ID: <CAEVj2t=mHasbuve8cwWpuPRsN=Wvsfrf+u5hLP_16GR3XqkMfg@mail.gmail.com>
+Subject: Re: [PATCH] Enable HW LED blinking for hid-nintendo controllers
+To: Noa <coolreader18@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The current implementation of the goodix_berlin driver lacks support for
-revisions A and B of the Berlin IC. This change adds support for the
-gt9897 IC, which is a Berlin-A revision part.
+Hi Noa,
 
-The differences between revision D and A are rather minor, a handful of
-address changes and a slightly larger read buffer. They were taken from
-the driver published by Goodix, which does a few more things that don't
-appear to be necessary for the touchscreen to work properly.
+Thanks for this patch. Integrating the firmware LED blinking support
+is something I've wanted the driver to have for a long time.
+Especially for joycond when it places the controller in "pairing"
+mode.
 
-Signed-off-by: Jens Reidel <adrian@travitia.xyz>
-Tested-by: Luca Weiss <luca.weiss@fairphone.com>
----
- drivers/input/touchscreen/goodix_berlin.h     | 13 ++++++
- .../input/touchscreen/goodix_berlin_core.c    | 15 ++++---
- drivers/input/touchscreen/goodix_berlin_i2c.c |  9 +++-
- drivers/input/touchscreen/goodix_berlin_spi.c | 45 ++++++++++++++-----
- 4 files changed, 61 insertions(+), 21 deletions(-)
+Can you prepend the commit title with "HID: nintendo: " to match the
+convention for other commits in the hid folder?
 
-diff --git a/drivers/input/touchscreen/goodix_berlin.h b/drivers/input/touchscreen/goodix_berlin.h
-index 38b6f9ddbdef..b186a7fb3586 100644
---- a/drivers/input/touchscreen/goodix_berlin.h
-+++ b/drivers/input/touchscreen/goodix_berlin.h
-@@ -12,6 +12,19 @@
- 
- #include <linux/pm.h>
- 
-+#define GOODIX_BERLIN_FW_VERSION_INFO_ADDR_A	0x1000C
-+#define GOODIX_BERLIN_FW_VERSION_INFO_ADDR_D	0x10014
-+
-+#define GOODIX_BERLIN_IC_INFO_ADDR_A		0x10068
-+#define GOODIX_BERLIN_IC_INFO_ADDR_D		0x10070
-+
-+struct goodix_berlin_ic_data {
-+	int fw_version_info_addr;
-+	int ic_info_addr;
-+	ssize_t read_dummy_len;
-+	ssize_t read_prefix_len;
-+};
-+
- struct device;
- struct input_id;
- struct regmap;
-diff --git a/drivers/input/touchscreen/goodix_berlin_core.c b/drivers/input/touchscreen/goodix_berlin_core.c
-index 3fc03cf0ca23..f9fbde63ab52 100644
---- a/drivers/input/touchscreen/goodix_berlin_core.c
-+++ b/drivers/input/touchscreen/goodix_berlin_core.c
-@@ -12,7 +12,7 @@
-  * to the previous generations.
-  *
-  * Currently the driver only handles Multitouch events with already
-- * programmed firmware and "config" for "Revision D" Berlin IC.
-+ * programmed firmware and "config" for "Revision A/D" Berlin IC.
-  *
-  * Support is missing for:
-  * - ESD Management
-@@ -20,7 +20,7 @@
-  * - "Config" update/flashing
-  * - Stylus Events
-  * - Gesture Events
-- * - Support for older revisions (A & B)
-+ * - Support for revision B
-  */
- 
- #include <linux/bitfield.h>
-@@ -28,6 +28,7 @@
- #include <linux/input.h>
- #include <linux/input/mt.h>
- #include <linux/input/touchscreen.h>
-+#include <linux/property.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/sizes.h>
-@@ -53,10 +54,8 @@
- 
- #define GOODIX_BERLIN_DEV_CONFIRM_VAL		0xAA
- #define GOODIX_BERLIN_BOOTOPTION_ADDR		0x10000
--#define GOODIX_BERLIN_FW_VERSION_INFO_ADDR	0x10014
- 
- #define GOODIX_BERLIN_IC_INFO_MAX_LEN		SZ_1K
--#define GOODIX_BERLIN_IC_INFO_ADDR		0x10070
- 
- #define GOODIX_BERLIN_CHECKSUM_SIZE		sizeof(u16)
- 
-@@ -297,9 +296,10 @@ static void goodix_berlin_power_off(struct goodix_berlin_core *cd)
- 
- static int goodix_berlin_read_version(struct goodix_berlin_core *cd)
- {
-+	const struct goodix_berlin_ic_data *ic_data = device_get_match_data(cd->dev);
- 	int error;
- 
--	error = regmap_raw_read(cd->regmap, GOODIX_BERLIN_FW_VERSION_INFO_ADDR,
-+	error = regmap_raw_read(cd->regmap, ic_data->fw_version_info_addr,
- 				&cd->fw_version, sizeof(cd->fw_version));
- 	if (error) {
- 		dev_err(cd->dev, "error reading fw version, %d\n", error);
-@@ -358,6 +358,7 @@ static int goodix_berlin_parse_ic_info(struct goodix_berlin_core *cd,
- 
- static int goodix_berlin_get_ic_info(struct goodix_berlin_core *cd)
- {
-+	const struct goodix_berlin_ic_data *ic_data = device_get_match_data(cd->dev);
- 	u8 *afe_data __free(kfree) = NULL;
- 	__le16 length_raw;
- 	u16 length;
-@@ -367,7 +368,7 @@ static int goodix_berlin_get_ic_info(struct goodix_berlin_core *cd)
- 	if (!afe_data)
- 		return -ENOMEM;
- 
--	error = regmap_raw_read(cd->regmap, GOODIX_BERLIN_IC_INFO_ADDR,
-+	error = regmap_raw_read(cd->regmap, ic_data->ic_info_addr,
- 				&length_raw, sizeof(length_raw));
- 	if (error) {
- 		dev_err(cd->dev, "failed get ic info length, %d\n", error);
-@@ -380,7 +381,7 @@ static int goodix_berlin_get_ic_info(struct goodix_berlin_core *cd)
- 		return -EINVAL;
- 	}
- 
--	error = regmap_raw_read(cd->regmap, GOODIX_BERLIN_IC_INFO_ADDR,
-+	error = regmap_raw_read(cd->regmap, ic_data->ic_info_addr,
- 				afe_data, length);
- 	if (error) {
- 		dev_err(cd->dev, "failed get ic info data, %d\n", error);
-diff --git a/drivers/input/touchscreen/goodix_berlin_i2c.c b/drivers/input/touchscreen/goodix_berlin_i2c.c
-index ad7a60d94338..7db234c74db8 100644
---- a/drivers/input/touchscreen/goodix_berlin_i2c.c
-+++ b/drivers/input/touchscreen/goodix_berlin_i2c.c
-@@ -46,15 +46,20 @@ static int goodix_berlin_i2c_probe(struct i2c_client *client)
- 	return 0;
- }
- 
-+static const struct goodix_berlin_ic_data gt9916_data = {
-+	.fw_version_info_addr = GOODIX_BERLIN_FW_VERSION_INFO_ADDR_D,
-+	.ic_info_addr = GOODIX_BERLIN_IC_INFO_ADDR_D,
-+};
-+
- static const struct i2c_device_id goodix_berlin_i2c_id[] = {
--	{ "gt9916" },
-+	{ .name = "gt9916", .driver_data = (long)&gt9916_data },
- 	{ }
- };
- 
- MODULE_DEVICE_TABLE(i2c, goodix_berlin_i2c_id);
- 
- static const struct of_device_id goodix_berlin_i2c_of_match[] = {
--	{ .compatible = "goodix,gt9916", },
-+	{ .compatible = "goodix,gt9916", .data = &gt9916_data },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, goodix_berlin_i2c_of_match);
-diff --git a/drivers/input/touchscreen/goodix_berlin_spi.c b/drivers/input/touchscreen/goodix_berlin_spi.c
-index 0662e87b8692..a5e77e6585e8 100644
---- a/drivers/input/touchscreen/goodix_berlin_spi.c
-+++ b/drivers/input/touchscreen/goodix_berlin_spi.c
-@@ -18,10 +18,14 @@
- 
- #define GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN	1
- #define GOODIX_BERLIN_REGISTER_WIDTH		4
--#define GOODIX_BERLIN_SPI_READ_DUMMY_LEN	3
--#define GOODIX_BERLIN_SPI_READ_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
-+#define GOODIX_BERLIN_SPI_READ_DUMMY_LEN_A	4
-+#define GOODIX_BERLIN_SPI_READ_DUMMY_LEN_D	3
-+#define GOODIX_BERLIN_SPI_READ_PREFIX_LEN_A	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
- 						 GOODIX_BERLIN_REGISTER_WIDTH + \
--						 GOODIX_BERLIN_SPI_READ_DUMMY_LEN)
-+						 GOODIX_BERLIN_SPI_READ_DUMMY_LEN_A)
-+#define GOODIX_BERLIN_SPI_READ_PREFIX_LEN_D	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
-+						 GOODIX_BERLIN_REGISTER_WIDTH + \
-+						 GOODIX_BERLIN_SPI_READ_DUMMY_LEN_D)
- #define GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
- 						 GOODIX_BERLIN_REGISTER_WIDTH)
- 
-@@ -33,6 +37,7 @@ static int goodix_berlin_spi_read(void *context, const void *reg_buf,
- 				  size_t val_size)
- {
- 	struct spi_device *spi = context;
-+	const struct goodix_berlin_ic_data *ic_data = spi_get_device_match_data(spi);
- 	struct spi_transfer xfers;
- 	struct spi_message spi_msg;
- 	const u32 *reg = reg_buf; /* reg is stored as native u32 at start of buffer */
-@@ -42,23 +47,22 @@ static int goodix_berlin_spi_read(void *context, const void *reg_buf,
- 		return -EINVAL;
- 
- 	u8 *buf __free(kfree) =
--		kzalloc(GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size,
--			GFP_KERNEL);
-+		kzalloc(ic_data->read_prefix_len + val_size, GFP_KERNEL);
- 	if (!buf)
- 		return -ENOMEM;
- 
- 	spi_message_init(&spi_msg);
- 	memset(&xfers, 0, sizeof(xfers));
- 
--	/* buffer format: 0xF1 + addr(4bytes) + dummy(3bytes) + data */
-+	/* buffer format: 0xF1 + addr(4bytes) + dummy(3/4bytes) + data */
- 	buf[0] = GOODIX_BERLIN_SPI_READ_FLAG;
- 	put_unaligned_be32(*reg, buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN);
- 	memset(buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + GOODIX_BERLIN_REGISTER_WIDTH,
--	       0xff, GOODIX_BERLIN_SPI_READ_DUMMY_LEN);
-+	       0xff, ic_data->read_dummy_len);
- 
- 	xfers.tx_buf = buf;
- 	xfers.rx_buf = buf;
--	xfers.len = GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size;
-+	xfers.len = ic_data->read_prefix_len + val_size;
- 	xfers.cs_change = 0;
- 	spi_message_add_tail(&xfers, &spi_msg);
- 
-@@ -68,7 +72,7 @@ static int goodix_berlin_spi_read(void *context, const void *reg_buf,
- 		return error;
- 	}
- 
--	memcpy(val_buf, buf + GOODIX_BERLIN_SPI_READ_PREFIX_LEN, val_size);
-+	memcpy(val_buf, buf + ic_data->read_prefix_len, val_size);
- 	return error;
- }
- 
-@@ -123,6 +127,7 @@ static const struct input_id goodix_berlin_spi_input_id = {
- 
- static int goodix_berlin_spi_probe(struct spi_device *spi)
- {
-+	const struct goodix_berlin_ic_data *ic_data = spi_get_device_match_data(spi);
- 	struct regmap_config regmap_config;
- 	struct regmap *regmap;
- 	size_t max_size;
-@@ -137,7 +142,7 @@ static int goodix_berlin_spi_probe(struct spi_device *spi)
- 	max_size = spi_max_transfer_size(spi);
- 
- 	regmap_config = goodix_berlin_spi_regmap_conf;
--	regmap_config.max_raw_read = max_size - GOODIX_BERLIN_SPI_READ_PREFIX_LEN;
-+	regmap_config.max_raw_read = max_size - ic_data->read_prefix_len;
- 	regmap_config.max_raw_write = max_size - GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN;
- 
- 	regmap = devm_regmap_init(&spi->dev, NULL, spi, &regmap_config);
-@@ -152,14 +157,30 @@ static int goodix_berlin_spi_probe(struct spi_device *spi)
- 	return 0;
- }
- 
-+static const struct goodix_berlin_ic_data gt9897_data = {
-+	.fw_version_info_addr = GOODIX_BERLIN_FW_VERSION_INFO_ADDR_A,
-+	.ic_info_addr = GOODIX_BERLIN_IC_INFO_ADDR_A,
-+	.read_dummy_len = GOODIX_BERLIN_SPI_READ_DUMMY_LEN_A,
-+	.read_prefix_len = GOODIX_BERLIN_SPI_READ_PREFIX_LEN_A,
-+};
-+
-+static const struct goodix_berlin_ic_data gt9916_data = {
-+	.fw_version_info_addr = GOODIX_BERLIN_FW_VERSION_INFO_ADDR_D,
-+	.ic_info_addr = GOODIX_BERLIN_IC_INFO_ADDR_D,
-+	.read_dummy_len = GOODIX_BERLIN_SPI_READ_DUMMY_LEN_D,
-+	.read_prefix_len = GOODIX_BERLIN_SPI_READ_PREFIX_LEN_D,
-+};
-+
- static const struct spi_device_id goodix_berlin_spi_ids[] = {
--	{ "gt9916" },
-+	{ .name = "gt9897", .driver_data = (long)&gt9897_data },
-+	{ .name = "gt9916", .driver_data = (long)&gt9916_data },
- 	{ },
- };
- MODULE_DEVICE_TABLE(spi, goodix_berlin_spi_ids);
- 
- static const struct of_device_id goodix_berlin_spi_of_match[] = {
--	{ .compatible = "goodix,gt9916", },
-+	{ .compatible = "goodix,gt9897", .data = &gt9897_data },
-+	{ .compatible = "goodix,gt9916", .data = &gt9916_data },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, goodix_berlin_spi_of_match);
--- 
-2.48.1
+On Fri, Jan 24, 2025 at 7:02=E2=80=AFPM Noa <coolreader18@gmail.com> wrote:
+>
+> This is my first patch, so hopefully I'm doing this right. I noticed
+> when trying to use `ledtrig-timer` on the Joycon LEDS that it at times
+> would hang for a while (I assume the firmware isn't a fan of frequent
+> LED subcommands, or something), and I've tested with this patch and it
+> blinks consistently with carefree abandon.
+>
+> Separately, I was also thinking about exposing the LEDs as evdev codes,
+> but it doesn't seem like there's any good options of the `LED_*`
+> constants to represent them.
+>
+> Signed-off-by: Noa <coolreader18@gmail.com>
+> ---
+>  drivers/hid/hid-nintendo.c | 45 ++++++++++++++++++++++++++++++++------
+>  1 file changed, 38 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+> index 11ac246176ae..83dff0c4f7e1 100644
+> --- a/drivers/hid/hid-nintendo.c
+> +++ b/drivers/hid/hid-nintendo.c
+> @@ -2183,14 +2183,13 @@ static int joycon_input_create(struct joycon_ctlr=
+ *ctlr)
+>         return 0;
+>  }
+>
+> -/* Because the subcommand sets all the leds at once, the brightness argu=
+ment is ignored */
+> -static int joycon_player_led_brightness_set(struct led_classdev *led,
+> -                                           enum led_brightness brightnes=
+s)
+> +/* Update the on/flash status of the leds according to their led_classde=
+v fields */
+> +static int joycon_update_player_leds(struct device *dev)
+>  {
+> -       struct device *dev =3D led->dev->parent;
+>         struct hid_device *hdev =3D to_hid_device(dev);
+>         struct joycon_ctlr *ctlr;
+>         int val =3D 0;
+> +       int flash =3D 0;
+>         int i;
+>         int ret;
+>
+> @@ -2200,16 +2199,47 @@ static int joycon_player_led_brightness_set(struc=
+t led_classdev *led,
+>                 return -ENODEV;
+>         }
+>
+> -       for (i =3D 0; i < JC_NUM_LEDS; i++)
+> -               val |=3D ctlr->leds[i].brightness << i;
+> +       for (i =3D 0; i < JC_NUM_LEDS; i++) {
+> +               if (ctlr->leds[i].blink_delay_on || ctlr->leds[i].blink_d=
+elay_off)
+> +                       flash |=3D 1 << i;
+> +               else if (ctlr->leds[i].brightness)
+> +                       val |=3D 1 << i;
+> +       }
+>
+>         mutex_lock(&ctlr->output_mutex);
+> -       ret =3D joycon_set_player_leds(ctlr, 0, val);
+> +       ret =3D joycon_set_player_leds(ctlr, flash, val);
+>         mutex_unlock(&ctlr->output_mutex);
+>
+>         return ret;
+>  }
+>
+> +static int joycon_player_led_brightness_set(struct led_classdev *led,
+> +                                           enum led_brightness brightnes=
+s)
+> +{
+> +       led->brightness =3D brightness;
+> +
+> +       if (!brightness)
+> +               led->blink_delay_on =3D led->blink_delay_off =3D 0;
+> +
+> +       return joycon_update_player_leds(led->dev->parent);
+> +}
+> +
+> +/* the blink period of the leds can't be changed, and is always these va=
+lues */
+> +static const JC_LED_BLINK_DELAY_ON =3D 500;
+> +static const JC_LED_BLINK_DELAY_OFF =3D 200;
 
+nit: it might be nice to append the constant names with "_MS" for
+clarity on the time unit used.
+
+
+> +/* the different leds on a joycon can't actually be set to hw blink inde=
+pendently
+> + * of each other, since they all use the same one subcommand, so this fu=
+nction
+> + * actually resets the cycle of all the leds */
+> +static int joycon_player_led_blink_set(struct led_classdev *led,
+> +                                    unsigned long *delay_on,
+> +                                    unsigned long *delay_off)
+> +{
+> +       led->blink_delay_on =3D *delay_on =3D JC_LED_BLINK_DELAY_ON;
+> +       led->blink_delay_off =3D *delay_off =3D JC_LED_BLINK_DELAY_OFF;
+> +
+> +       return joycon_update_player_leds(led->dev->parent);
+> +}
+> +
+>  static int joycon_home_led_brightness_set(struct led_classdev *led,
+>                                           enum led_brightness brightness)
+>  {
+> @@ -2268,6 +2298,7 @@ static int joycon_leds_create(struct joycon_ctlr *c=
+tlr)
+>                 led->max_brightness =3D 1;
+>                 led->brightness_set_blocking =3D
+>                                         joycon_player_led_brightness_set;
+> +               led->blink_set =3D joycon_player_led_blink_set;
+>                 led->flags =3D LED_CORE_SUSPENDRESUME | LED_HW_PLUGGABLE;
+>
+>                 led_val |=3D joycon_player_led_patterns[player_led_patter=
+n][i] << i;
+> --
+> 2.48.1
+>
+
+
+Looks good overall to me other than the commit message format.
+
+Thanks,
+Daniel
 
