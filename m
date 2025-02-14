@@ -1,101 +1,211 @@
-Return-Path: <linux-input+bounces-10055-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10056-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE3D3A35F58
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 14:38:23 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7586DA35FDD
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 15:07:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 130D33A6F8F
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 13:32:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C2F57A1F80
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 14:06:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42BC3264A88;
-	Fri, 14 Feb 2025 13:32:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B27B8264A71;
+	Fri, 14 Feb 2025 14:07:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gB/fRXJE"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="mv9X1xeH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0B12139A8;
-	Fri, 14 Feb 2025 13:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87579265604;
+	Fri, 14 Feb 2025 14:07:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739539954; cv=none; b=az2eELY4hxJHYJW+Ri4/3vZWSSnSynx2TlLzWkNwgFvOFdd4WFngkvrOOu0MXVDqUunBNi8+PvN7zdR24dInnY4w5NIFshpqtzn+WMYQE9NTOFElPxo+s7hZlv5S4v/BsYHs26NfqYMxP3hqklZDy0nMZ9TSkYHXSKB+0QVWQH0=
+	t=1739542044; cv=none; b=bLc7QmVE/C07aniHT3wqiAMjPv6zXGTPH0fYXedhBRLjoC1/ia3pfUgf6mhtLX7OzqdH+kR1fHZPEXKjMxeuy43UZs2aTD6q4lBUZV5mqhSWdoa9XgNpMkeeLnQt7Lx8E9RpPfIxRgaFxtNt5a2HB2kfgI4GslEtXpEIhytWR/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739539954; c=relaxed/simple;
-	bh=V5/OO3BqjGF7YYqHo1ixFHMsG/BHYH5z79AbUXkeGc0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FwPM9hwE6jblA4/CXu3rRQnJsdAUytx05izcigGzdc7MHqVB3K/AUNtTVGJrR08eymdZ///DdzCOmuthKE1g+PbGKbCKoUOQHVd7MwVN0ud+5QG9o4j2mOdlcsprYw9/oR98Gy+bYOqdPKP7n+fUl1sGTIRDsW9o8HlDuoBeG1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gB/fRXJE; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-38dcac27bcbso2006449f8f.0;
-        Fri, 14 Feb 2025 05:32:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739539951; x=1740144751; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=V5/OO3BqjGF7YYqHo1ixFHMsG/BHYH5z79AbUXkeGc0=;
-        b=gB/fRXJEjGgdMuchrApMi/MeQfqebYJKRjAfjqXaJ56gyE1UXgYbiKTFthgtVczKpO
-         iGBJ3lHE0WmweSIIql3smcs5I1SYjNLHZhtAVn+NUyx0txKxg7ixhpZejGZgaIuGlJfj
-         GXN9nfectMh9ZlmSGRZUgVcIBD9P4c5PXsclGLM2LLPaMe1KkVl1f0UTAM/fOXZ3Ejiy
-         dibr4yzCwcSR2PrpPsYQ8F2r4SM381ZBTrPPq7aXg+jLAOcteDGSJpYks8SRzSm2S9Lc
-         cvIe4ierAVA/hzf+9xkT8ITaK28ypyNAhQ7t/2jBXXQVeSrUupUcexarI8D0+MZ+G6jj
-         IhAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739539951; x=1740144751;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V5/OO3BqjGF7YYqHo1ixFHMsG/BHYH5z79AbUXkeGc0=;
-        b=YmQ6dICxbabIvHKh7gQFI26+c6NAYNSZrzCtcz3eAnAQviuudPtjFFGALsgS1NyD1V
-         HpDVBzN0xXHvAdnH0eAXSN7FExTeZhn8KAFSsc3BZwjPm6qcn5iDzFcKMVI56zG/heVN
-         jYhcbECwFC10baKbsp8prTwrSfR2qfrLY5qgjmRyzI4eQ6SzUZEFA2aDIfJzs0zvb8Yx
-         K2U1L/Dcqex/3HEIA42/rjlWGvTaHYtUvhxm2twa+kDvkPnJxXEf6/YRtSyWNqpKA0T8
-         bS010jctcw4Nngt3o0CxArR3evPKT4cKdS7gN44HX81HnEnrZjSBf0sTLCv0xchNlIrO
-         mLKg==
-X-Forwarded-Encrypted: i=1; AJvYcCUYdup2OAV4OQXxHeX8NWQum7Pnl7D5xaUpFMrv1IJdTMrBsmOdlVV3DqBn89QZ/RhanjMRVPDS@vger.kernel.org, AJvYcCXPiTio5F4Tnn0CCuihHFLlIZwlSLXZwpmn+xQgN1cBZMuL/GX0dCX3AnacHz3yiCPAQLnwpSuqIHd4qH0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxc0Y9Xu/WjpxRSDB5GnAeLemczp+PY155FXpxLDuHaNbZe0hVw
-	D8jKErEtqv6ULzCH5xokuBpcZXGamaFhfkGqGkgVr2ldTwQmqpHFClHdBtUR48kQfeRJcV+Exuw
-	Z+NSlrVPZMoGCsN5zgQNCUusmqcBZ5cCCXAw=
-X-Gm-Gg: ASbGncuETM2DvUxfh4CPn52JWPblx2loNhVtEHhDd+dUoETe8i0+y8GkPaiXHKlgOFm
-	QPga4YSD/YQi54PsQhbrmQx7ZdXQFokGC8FpmWpTTNLZzbxnqVF2UT0wtRrpff4G6nCmVcOvwzw
-	==
-X-Google-Smtp-Source: AGHT+IG9WP8+ZNo83h0WeFmRnnKi+HLuePMl2SVa9DOJjwkyOlXU88efT5p0gmxEYkDj3zX7PEnLqKgxLdJGs3e3KFQ=
-X-Received: by 2002:a05:6000:4024:b0:38d:afc8:954e with SMTP id
- ffacd0b85a97d-38f24cfa3dbmr9449189f8f.11.1739539950482; Fri, 14 Feb 2025
- 05:32:30 -0800 (PST)
+	s=arc-20240116; t=1739542044; c=relaxed/simple;
+	bh=qBGbTmxFDry4hLodx8viqkr7hSXg5gs/5jRFHGvVHRA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AEZL2vVBp4YO3xCOMxfBmzCaa8mfUi8rsqUULXIOzkQGusTVAwH8uI8W6+yDhDhMkKuHJTowvPxf40K7NQd04ENeKLPB5c/EAvBj/iAbJ1UvcB0/0E5Q3viFdocchGIGpJNyQprT7RWFikp0nSNbXmLpHUbWP0TgPb53y+iQCOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=mv9X1xeH; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.116] (pd9e59260.dip0.t-ipconnect.de [217.229.146.96])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 3C4C32FC0061;
+	Fri, 14 Feb 2025 15:07:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1739542038;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OJTWuIHY44NBI7aj5CMpyUXofz7/LAy5BKfQL5cWm+Y=;
+	b=mv9X1xeHky7cqxaCE1N2PmBEuJkUhHkK+f6xJ6yNekz3YQuzUJK2Xuf5IFo+WfRDONkvHm
+	eRkQsSNw4vZzJqSiuzTqshxaNt+DS/Yc5vRtXt6JQ+7ensivIVHXNrV2UPg2tUsV1ypDNc
+	vRTOAACbk1eOyD7dt6TjL8rB7qx6S7k=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <40020511-1bd6-476a-94a2-ac77a9972aaa@tuxedocomputers.com>
+Date: Fri, 14 Feb 2025 15:07:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250213133854.100866-3-stuart.a.hayhurst@gmail.com> <eae04827-0d87-48f5-929a-9f1f23359f24@kernel.org>
-In-Reply-To: <eae04827-0d87-48f5-929a-9f1f23359f24@kernel.org>
-From: Stuart <stuart.a.hayhurst@gmail.com>
-Date: Fri, 14 Feb 2025 13:32:19 +0000
-X-Gm-Features: AWEUYZleqHgvL8C3DS0N7zLUwLcLSDIaKydireboWkZiXcihIMcSrRiQcTlFnXk
-Message-ID: <CALTg27kDRv+_y9qS3eCZUaQ6f5A-P8Y2GFyL-EMHZxixW=jYaw@mail.gmail.com>
-Subject: Re: [PATCH v3] HID: corsair-void: Update power supply values with a
- unified work handler
-To: Jiri Slaby <jirislaby@kernel.org>
-Cc: linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] Input: i8042: Swap old quirk combination with new
+ quirk for severl devices
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250213160832.74484-1-wse@tuxedocomputers.com>
+ <20250213160832.74484-3-wse@tuxedocomputers.com>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <20250213160832.74484-3-wse@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> Now I think, what is actually expected to happen if both add_battery and
-> remove_battery is set? Do nothing as the code does?
+Oops typo in the header line, should I resend it?
 
-It means that either the headset connected and then disconnected again, or
-it disconnected and reconnected again. Either way, the battery should be left
-in its current state.
-
-Of course it could connect, disconnect and connect again to end up in
-that state,
-but if the driver is 3 events (a physical action) behind, we're already done for
-
-Stuart
+Am 13.02.25 um 16:47 schrieb Werner Sembach:
+> Some older Clevo barebones have problems like no or laggy keyboard after
+> resume or boot which can be fixed with the SERIO_QUIRK_FORCENORESTORE
+> quirk.
+>
+> While the old quirk combination did not show negative effects on these
+> devices specifically, the new quirk works just as well and seems more
+> stable in general.
+>
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> ---
+>   drivers/input/serio/i8042-acpipnpio.h | 40 ++++++++++-----------------
+>   1 file changed, 14 insertions(+), 26 deletions(-)
+>
+> diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
+> index a0a99f06c6685..d4ff34d36b42c 100644
+> --- a/drivers/input/serio/i8042-acpipnpio.h
+> +++ b/drivers/input/serio/i8042-acpipnpio.h
+> @@ -1080,16 +1080,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>   			DMI_MATCH(DMI_BOARD_VENDOR, "TUXEDO"),
+>   			DMI_MATCH(DMI_BOARD_NAME, "AURA1501"),
+>   		},
+> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+>   	},
+>   	{
+>   		.matches = {
+>   			DMI_MATCH(DMI_BOARD_VENDOR, "TUXEDO"),
+>   			DMI_MATCH(DMI_BOARD_NAME, "EDUBOOK1502"),
+>   		},
+> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+>   	},
+>   	{
+>   		/* Mivvy M310 */
+> @@ -1171,8 +1169,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>   		.matches = {
+>   			DMI_MATCH(DMI_BOARD_NAME, "LAPQC71A"),
+>   		},
+> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+>   	},
+>   	{
+>   		.matches = {
+> @@ -1205,8 +1202,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>   		.matches = {
+>   			DMI_MATCH(DMI_BOARD_NAME, "NH5xAx"),
+>   		},
+> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+>   	},
+>   	{
+>   		/*
+> @@ -1225,8 +1221,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>   		.matches = {
+>   			DMI_MATCH(DMI_BOARD_NAME, "NL5xRU"),
+>   		},
+> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+>   	},
+>   	/*
+>   	 * At least one modern Clevo barebone has the touchpad connected both
+> @@ -1242,17 +1237,15 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>   		.matches = {
+>   			DMI_MATCH(DMI_BOARD_NAME, "NS50MU"),
+>   		},
+> -		.driver_data = (void *)(SERIO_QUIRK_NOAUX | SERIO_QUIRK_NOMUX |
+> -					SERIO_QUIRK_RESET_ALWAYS | SERIO_QUIRK_NOLOOP |
+> -					SERIO_QUIRK_NOPNP)
+> +		.driver_data = (void *)(SERIO_QUIRK_NOAUX |
+> +					SERIO_QUIRK_FORCENORESTORE)
+>   	},
+>   	{
+>   		.matches = {
+>   			DMI_MATCH(DMI_BOARD_NAME, "NS50_70MU"),
+>   		},
+> -		.driver_data = (void *)(SERIO_QUIRK_NOAUX | SERIO_QUIRK_NOMUX |
+> -					SERIO_QUIRK_RESET_ALWAYS | SERIO_QUIRK_NOLOOP |
+> -					SERIO_QUIRK_NOPNP)
+> +		.driver_data = (void *)(SERIO_QUIRK_NOAUX |
+> +					SERIO_QUIRK_FORCENORESTORE)
+>   	},
+>   	{
+>   		.matches = {
+> @@ -1326,8 +1319,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>   		.matches = {
+>   			DMI_MATCH(DMI_PRODUCT_NAME, "P65_67RS"),
+>   		},
+> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+>   	},
+>   	{
+>   		/*
+> @@ -1345,8 +1337,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>   		.matches = {
+>   			DMI_MATCH(DMI_BOARD_NAME, "PB50_70DFx,DDx"),
+>   		},
+> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+>   	},
+>   	{
+>   		.matches = {
+> @@ -1370,8 +1361,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>   		.matches = {
+>   			DMI_MATCH(DMI_BOARD_NAME, "PCX0DX"),
+>   		},
+> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+>   	},
+>   	/* See comment on TUXEDO InfinityBook S17 Gen6 / Clevo NS70MU above */
+>   	{
+> @@ -1384,15 +1374,13 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>   		.matches = {
+>   			DMI_MATCH(DMI_BOARD_NAME, "X170SM"),
+>   		},
+> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+>   	},
+>   	{
+>   		.matches = {
+>   			DMI_MATCH(DMI_BOARD_NAME, "X170KM-G"),
+>   		},
+> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+>   	},
+>   	{
+>   		/*
 
