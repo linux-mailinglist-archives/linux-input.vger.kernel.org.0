@@ -1,211 +1,282 @@
-Return-Path: <linux-input+bounces-10056-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10057-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7586DA35FDD
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 15:07:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE86EA36119
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 16:11:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C2F57A1F80
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 14:06:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 810541895D9A
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 15:11:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B27B8264A71;
-	Fri, 14 Feb 2025 14:07:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4FEA26659F;
+	Fri, 14 Feb 2025 15:10:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="mv9X1xeH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eq4KpSyL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87579265604;
-	Fri, 14 Feb 2025 14:07:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5728E26659A;
+	Fri, 14 Feb 2025 15:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739542044; cv=none; b=bLc7QmVE/C07aniHT3wqiAMjPv6zXGTPH0fYXedhBRLjoC1/ia3pfUgf6mhtLX7OzqdH+kR1fHZPEXKjMxeuy43UZs2aTD6q4lBUZV5mqhSWdoa9XgNpMkeeLnQt7Lx8E9RpPfIxRgaFxtNt5a2HB2kfgI4GslEtXpEIhytWR/k=
+	t=1739545825; cv=none; b=EPiEs52aQLJQwBPETT+lmLb92TlH5Mgiy2mwXw8LCvTZFjyecofaZBNxIui+IkdrWRJZUu/SNL5ZgfqS2UUhs4xks+F3iIsPoOckMtTKRLglyXM0/Ffr67CAueze5LoNo1VtUbP4ZyhcauCO7U9P+HKNDVHxnPoS9vtG/iIqJEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739542044; c=relaxed/simple;
-	bh=qBGbTmxFDry4hLodx8viqkr7hSXg5gs/5jRFHGvVHRA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AEZL2vVBp4YO3xCOMxfBmzCaa8mfUi8rsqUULXIOzkQGusTVAwH8uI8W6+yDhDhMkKuHJTowvPxf40K7NQd04ENeKLPB5c/EAvBj/iAbJ1UvcB0/0E5Q3viFdocchGIGpJNyQprT7RWFikp0nSNbXmLpHUbWP0TgPb53y+iQCOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=mv9X1xeH; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.116] (pd9e59260.dip0.t-ipconnect.de [217.229.146.96])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 3C4C32FC0061;
-	Fri, 14 Feb 2025 15:07:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1739542038;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OJTWuIHY44NBI7aj5CMpyUXofz7/LAy5BKfQL5cWm+Y=;
-	b=mv9X1xeHky7cqxaCE1N2PmBEuJkUhHkK+f6xJ6yNekz3YQuzUJK2Xuf5IFo+WfRDONkvHm
-	eRkQsSNw4vZzJqSiuzTqshxaNt+DS/Yc5vRtXt6JQ+7ensivIVHXNrV2UPg2tUsV1ypDNc
-	vRTOAACbk1eOyD7dt6TjL8rB7qx6S7k=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <40020511-1bd6-476a-94a2-ac77a9972aaa@tuxedocomputers.com>
-Date: Fri, 14 Feb 2025 15:07:17 +0100
+	s=arc-20240116; t=1739545825; c=relaxed/simple;
+	bh=D+uHq0k343FqJFRy9KVkDXZiYD6MshK/nRMVZIrXXp0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z8QQtBAd2uZpaR3wuVq7Mp7CSQBpkUyY5iWt+WX9AFak3tnICskAHFlAfPGexhebtse0AxJMVqj54RyP1aR8a1J1A6mJ6weZbd29DBe9DEJpHRA+/pSWpl/opH4FcU7Vv0hI4F7Qm8eyIkGWArk/gyoXDGBv9aSWzdrCxwv6iWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eq4KpSyL; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739545824; x=1771081824;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=D+uHq0k343FqJFRy9KVkDXZiYD6MshK/nRMVZIrXXp0=;
+  b=Eq4KpSyLTmr6CDKFavQHb0blNVwY316Z8T1WMBKnNUg5Ty2jn8La6/k1
+   LCoJe4mS/gyX+g+KkzD7cZFLw1FoG3vrS+iEn3auHmFQluxaEnM7ayzEv
+   X+OHHAY5Y91p1skPpP5PI2OVpsWZRer8QARorgmjZKx03nzvgZjGCZ7Re
+   TyPy/+VXPaM9P23M8ZQ/MhrofpAYu/yhWWimchziUTVdW7nE/NZVnVpbi
+   ugZ6NPpapoBEGrS5LsBLAOfKY8hCUIWspoKosO5PCEutWy2bfi7X5JmPq
+   V9gsw8Isx73vaZtCXJYprL954AlRz6AIYV9I/SFWPdNFblVgGC/AIFJ7g
+   A==;
+X-CSE-ConnectionGUID: 9BgsUX/dRXOoaCI7slF53Q==
+X-CSE-MsgGUID: KsHhVcguSSWuGoDzCp5rOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="50510459"
+X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
+   d="scan'208";a="50510459"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 07:10:23 -0800
+X-CSE-ConnectionGUID: 2wKz+ewVQo66/w6hC1ftIw==
+X-CSE-MsgGUID: K+awIMD6TmCr9xRtkbSDsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="118410858"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 07:10:16 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1tixKW-0000000BWep-3HVY;
+	Fri, 14 Feb 2025 17:10:12 +0200
+Date: Fri, 14 Feb 2025 17:10:12 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: mathieu.dubois-briand@bootlin.com
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 03/10] pwm: max7360: Add MAX7360 PWM support
+Message-ID: <Z69c1BQHmlbmwUYf@smile.fi.intel.com>
+References: <20250214-mdb-max7360-support-v4-0-8a35c6dbb966@bootlin.com>
+ <20250214-mdb-max7360-support-v4-3-8a35c6dbb966@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] Input: i8042: Swap old quirk combination with new
- quirk for severl devices
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250213160832.74484-1-wse@tuxedocomputers.com>
- <20250213160832.74484-3-wse@tuxedocomputers.com>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <20250213160832.74484-3-wse@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250214-mdb-max7360-support-v4-3-8a35c6dbb966@bootlin.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Oops typo in the header line, should I resend it?
+On Fri, Feb 14, 2025 at 12:49:53PM +0100, mathieu.dubois-briand@bootlin.com wrote:
+> From: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> 
+> Add driver for Maxim Integrated MAX7360 PWM controller, supporting up to
+> 8 independent PWM outputs.
 
-Am 13.02.25 um 16:47 schrieb Werner Sembach:
-> Some older Clevo barebones have problems like no or laggy keyboard after
-> resume or boot which can be fixed with the SERIO_QUIRK_FORCENORESTORE
-> quirk.
->
-> While the old quirk combination did not show negative effects on these
-> devices specifically, the new quirk works just as well and seems more
-> stable in general.
->
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> ---
->   drivers/input/serio/i8042-acpipnpio.h | 40 ++++++++++-----------------
->   1 file changed, 14 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-> index a0a99f06c6685..d4ff34d36b42c 100644
-> --- a/drivers/input/serio/i8042-acpipnpio.h
-> +++ b/drivers/input/serio/i8042-acpipnpio.h
-> @@ -1080,16 +1080,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->   			DMI_MATCH(DMI_BOARD_VENDOR, "TUXEDO"),
->   			DMI_MATCH(DMI_BOARD_NAME, "AURA1501"),
->   		},
-> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
->   	},
->   	{
->   		.matches = {
->   			DMI_MATCH(DMI_BOARD_VENDOR, "TUXEDO"),
->   			DMI_MATCH(DMI_BOARD_NAME, "EDUBOOK1502"),
->   		},
-> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
->   	},
->   	{
->   		/* Mivvy M310 */
-> @@ -1171,8 +1169,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->   		.matches = {
->   			DMI_MATCH(DMI_BOARD_NAME, "LAPQC71A"),
->   		},
-> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
->   	},
->   	{
->   		.matches = {
-> @@ -1205,8 +1202,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->   		.matches = {
->   			DMI_MATCH(DMI_BOARD_NAME, "NH5xAx"),
->   		},
-> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
->   	},
->   	{
->   		/*
-> @@ -1225,8 +1221,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->   		.matches = {
->   			DMI_MATCH(DMI_BOARD_NAME, "NL5xRU"),
->   		},
-> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
->   	},
->   	/*
->   	 * At least one modern Clevo barebone has the touchpad connected both
-> @@ -1242,17 +1237,15 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->   		.matches = {
->   			DMI_MATCH(DMI_BOARD_NAME, "NS50MU"),
->   		},
-> -		.driver_data = (void *)(SERIO_QUIRK_NOAUX | SERIO_QUIRK_NOMUX |
-> -					SERIO_QUIRK_RESET_ALWAYS | SERIO_QUIRK_NOLOOP |
-> -					SERIO_QUIRK_NOPNP)
-> +		.driver_data = (void *)(SERIO_QUIRK_NOAUX |
-> +					SERIO_QUIRK_FORCENORESTORE)
->   	},
->   	{
->   		.matches = {
->   			DMI_MATCH(DMI_BOARD_NAME, "NS50_70MU"),
->   		},
-> -		.driver_data = (void *)(SERIO_QUIRK_NOAUX | SERIO_QUIRK_NOMUX |
-> -					SERIO_QUIRK_RESET_ALWAYS | SERIO_QUIRK_NOLOOP |
-> -					SERIO_QUIRK_NOPNP)
-> +		.driver_data = (void *)(SERIO_QUIRK_NOAUX |
-> +					SERIO_QUIRK_FORCENORESTORE)
->   	},
->   	{
->   		.matches = {
-> @@ -1326,8 +1319,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->   		.matches = {
->   			DMI_MATCH(DMI_PRODUCT_NAME, "P65_67RS"),
->   		},
-> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
->   	},
->   	{
->   		/*
-> @@ -1345,8 +1337,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->   		.matches = {
->   			DMI_MATCH(DMI_BOARD_NAME, "PB50_70DFx,DDx"),
->   		},
-> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
->   	},
->   	{
->   		.matches = {
-> @@ -1370,8 +1361,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->   		.matches = {
->   			DMI_MATCH(DMI_BOARD_NAME, "PCX0DX"),
->   		},
-> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
->   	},
->   	/* See comment on TUXEDO InfinityBook S17 Gen6 / Clevo NS70MU above */
->   	{
-> @@ -1384,15 +1374,13 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->   		.matches = {
->   			DMI_MATCH(DMI_BOARD_NAME, "X170SM"),
->   		},
-> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
->   	},
->   	{
->   		.matches = {
->   			DMI_MATCH(DMI_BOARD_NAME, "X170KM-G"),
->   		},
-> -		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> -					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
->   	},
->   	{
->   		/*
+...
+
++ bits.h
+
++ dev_printk.h
+
+> +#include <linux/err.h>
+
+
+> +#include <linux/math.h>
+
+Other way around, id est you need math64.h (see below).
+
+> +#include <linux/mfd/max7360.h>
+
++ minmax.h
+
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+
+> +#include <linux/of.h>
+
+Is this used? Cargo cult?
+
+> +#include <linux/platform_device.h>
+> +#include <linux/pwm.h>
+> +#include <linux/regmap.h>
+
++ types.h
+
+...
+
+> +#define MAX7360_PWM_PERIOD_NS			2000000 /* 500 Hz */
+
+Comment is superfluous, if you need HZ units, define the respective one.
+Also you can use something like (2 * NSEC_PER_MSEC) which will immediately
+gives a hint of how long this is and reduces potential 0:s miscalculations.
+This will need time.h
+
+...
+
+> +#define MAX7360_PWM_CTRL_ENABLE(n)		BIT(n)
+> +#define MAX7360_PWM_PORT(n)			BIT(n)
+
+Personally I find these macros overkill. The value of them much shorter and
+equally readable.
+
+...
+
+> +struct max7360_pwm {
+
+> +	struct device *parent;
+
+Is it not the same as you can derive from regmap?
+
+> +	struct regmap *regmap;
+
+Btw, have you checked the code generation if you place regmap the first in the
+structure? It might affect it.
+
+> +};
+
+...
+
+> +	/*
+> +	 * Ignore user provided values for period_length_ns and duty_offset_ns:
+> +	 * we only support fixed period of MAX7360_PWM_PERIOD_NS and offset of
+
+> +	 * 0.
+
+Easy to read with 0 be on previous line.
+
+> +	 */
+
+> +
+
+No need for this blank line.
+
+> +	duty_steps = mul_u64_u64_div_u64(wf->duty_length_ns, MAX7360_PWM_MAX_RES,
+> +					 MAX7360_PWM_PERIOD_NS);
+
+This comes from math64.h
+
+> +
+> +	wfhw->duty_steps = min(MAX7360_PWM_MAX_RES, duty_steps);
+
+...
+
+> +static int max7360_pwm_write_waveform(struct pwm_chip *chip,
+> +				      struct pwm_device *pwm,
+> +				      const void *_wfhw)
+> +{
+> +	const struct max7360_pwm_waveform *wfhw = _wfhw;
+> +	struct max7360_pwm *max7360_pwm;
+> +	unsigned int val;
+> +	int ret;
+> +
+> +	max7360_pwm = max7360_pwm_from_chip(chip);
+> +
+> +	val = (wfhw->duty_steps == 0) ? 0 : MAX7360_PWM_CTRL_ENABLE(pwm->hwpwm);
+> +	ret = regmap_write_bits(max7360_pwm->regmap, MAX7360_REG_GPIOCTRL,
+> +				MAX7360_PWM_CTRL_ENABLE(pwm->hwpwm), val);
+
+> +
+> +	if (!ret && wfhw->duty_steps != 0) {
+> +		ret = regmap_write(max7360_pwm->regmap, MAX7360_REG_PWM(pwm->hwpwm),
+> +				   wfhw->duty_steps);
+> +	}
+> +
+> +	return ret;
+
+Please, improve readability by rewriting like this:
+
+	ret = regmap_write_bits(max7360_pwm->regmap, MAX7360_REG_GPIOCTRL,
+				MAX7360_PWM_CTRL_ENABLE(pwm->hwpwm), val);
+	if (ret)
+		return ret;
+
+	if (wfhw->duty_steps)
+		return regmap_write(max7360_pwm->regmap, MAX7360_REG_PWM(pwm->hwpwm),
+				    wfhw->duty_steps);
+
+	return 0;
+
+> +}
+
+...
+
+> +static int max7360_pwm_probe(struct platform_device *pdev)
+> +{
+
+With
+
+	struct device *dev = &pdev->dev;
+
+all below will look shorter and nicer.
+
+> +	struct max7360_pwm *max7360_pwm;
+> +	struct pwm_chip *chip;
+> +	int ret;
+> +
+> +	if (!pdev->dev.parent)
+> +		return dev_err_probe(&pdev->dev, -ENODEV, "no parent device\n");
+> +
+> +	chip = devm_pwmchip_alloc(pdev->dev.parent, MAX7360_NUM_PWMS,
+> +				  sizeof(*max7360_pwm));
+> +	if (IS_ERR(chip))
+> +		return PTR_ERR(chip);
+> +	chip->ops = &max7360_pwm_ops;
+> +
+> +	max7360_pwm = max7360_pwm_from_chip(chip);
+> +	max7360_pwm->parent = pdev->dev.parent;
+> +
+> +	max7360_pwm->regmap = dev_get_regmap(pdev->dev.parent, NULL);
+> +	if (!max7360_pwm->regmap)
+> +		return dev_err_probe(&pdev->dev, -ENODEV,
+> +				     "could not get parent regmap\n");
+
+Will become one line (with the above suggestion).
+
+> +	ret = devm_pwmchip_add(&pdev->dev, chip);
+
+> +	if (ret != 0)
+
+Please, be consistent with the style, and moreover this style is unusual.
+
+> +		return dev_err_probe(&pdev->dev, ret,
+> +				     "failed to add PWM chip\n");
+> +
+> +	return 0;
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
