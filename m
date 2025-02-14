@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-10032-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10033-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47AF2A3572C
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 07:35:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6FD8A35736
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 07:36:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD563188FB7F
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 06:35:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 175CA3A4DD5
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 06:36:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2940D200BA8;
-	Fri, 14 Feb 2025 06:34:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED442200BA8;
+	Fri, 14 Feb 2025 06:36:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QBP5ZkaU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SK4r6WDf"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06871487DC;
-	Fri, 14 Feb 2025 06:34:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B0817E;
+	Fri, 14 Feb 2025 06:36:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739514898; cv=none; b=TME06eFM3YV8jWm4nMBZvy9z6a1gZtlXBEwFNI7YYx9eQS08SC2t9x/edvKvmWULz/9EZsZ50UZraSGyHR89DGVDdCtt+iGExMNShaAMOLLNNt4A2asAobj/V0b+6MKbybUTXa51gnRSA6iCxe3UZjPnFeGeoKm/9ErnmjjZf54=
+	t=1739515012; cv=none; b=q4iHmiYN8uhZHNwFFlYbzjAkciinwdASnHijDeu13yuhsqbtvuOP85INzjnN7FWg+3h2QBhqve2vyYE6gGGO3n2gsI2MMEnXTNEPPx+I+KppN4bJdAwqC/Qayf8Bxs7s4nY9EPGIkoQa11KvtCe6nqp9BR5FQGAESCuiRNBg34Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739514898; c=relaxed/simple;
-	bh=6i1lj9PJMx7pwzWpK68uyl+G2erKTsNld3CyKjGLASU=;
+	s=arc-20240116; t=1739515012; c=relaxed/simple;
+	bh=L4J8LFwop0QLpIHC9H15nA1SToDohIpHtDHezJWRFNE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AcrIGBP/A8KIL7vwIl9+byfIddZhHpVRQSGzOvxKzYm2YbtT1WfpNe3fGWZ+f1eOuNBoa/t5s65yeHbF1VSzMd/EBFzPm+h5sIdRweK3JIELy+aPLF2T4RddP819vfUUo49X2yLsWRyLw/+N1Qku3wl9hUrF21wIqGfsyRlqDHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QBP5ZkaU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07039C4CED1;
-	Fri, 14 Feb 2025 06:34:55 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Lb9g+bRJA0+BxOnh33ozJAML6Nfvc94gg3dvskzUGSVDqGc7UglkOLGRykPMPdkkbnwujojBL/oPO3flDTpbmthswJU/NK3RtZfRFTJtGCd+sXI5/olHaVSd3a5jw75LToeKDqJLxBr5kYk3IKPQWilfs0gHRV1X6kBWBtMIGdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SK4r6WDf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 002BEC4CED1;
+	Fri, 14 Feb 2025 06:36:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739514897;
-	bh=6i1lj9PJMx7pwzWpK68uyl+G2erKTsNld3CyKjGLASU=;
+	s=k20201202; t=1739515012;
+	bh=L4J8LFwop0QLpIHC9H15nA1SToDohIpHtDHezJWRFNE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QBP5ZkaU5yZShfYjc2597mH0eobLPpYXJ7o3sDgfW0zTtW6cvr2JHp8mKD78Nv/dT
-	 0SiirV78UZWIg0DDQ4xUpRjJy5Bi9UtXThaxniuwinp2+8Gml0sPJP7Btvk4ilVXbX
-	 zqBqgHMiH1E1+uUscMxfrF3T2kjpxsHvod4U0FaPGai9DQ1QxvSxIf1cEEjpoQKfis
-	 sRgW/MA1TMIixYeurJGcPJPFX/6PLX7JUGTwJj3fk2hMZX0CZaPvETl1aZmhngKpp2
-	 vnEWedJy5Tw6Fw6FiLYwZJ6bT2bvvkm/afpp+xrdL7s7kfStOID8ThY9/SrwZwfiF4
-	 yMmzo6Z0isXoQ==
-Message-ID: <eae04827-0d87-48f5-929a-9f1f23359f24@kernel.org>
-Date: Fri, 14 Feb 2025 07:34:54 +0100
+	b=SK4r6WDf3RGRJENQ0qi4RtuzIc1w9Eg869eREJ5U87IHHY1GJUUaV43fkEM9koun2
+	 2OSWW24UrBllR2JEGv56BHxuqiDuiN82PrImoiZx6D3PhbeHeoeVJ7hkKYp8g872Js
+	 YYp49AOPZZFoN89LN3tOHlH8U0tIQp3RpXbG18pkkR0tX+I179bcPA37z99EwM22r7
+	 rjCVvM4HK2psCz800ympBjsnGrkOEl6VwqXB6rxetQTBTLkdG8G/py+TdTDeMKe5JR
+	 zj/w5xkTz2+ZFRsNq42sma/M3hi6vUaz+rzQgS30qZ7inovPkCoIs5an8WgGpIv84b
+	 F87yw3GANDGkQ==
+Message-ID: <d1e07053-8f0a-40b2-a473-941e8180c570@kernel.org>
+Date: Fri, 14 Feb 2025 07:36:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -115,17 +115,11 @@ On 13. 02. 25, 14:38, Stuart Hayhurst wrote:
 > Fixes: 6ea2a6fd3872 ("HID: corsair-void: Add Corsair Void headset family driver")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
-
-Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
-
 > ---
 > 
 > v2 -> v3:
 >   - Use an enum instead of a define for battery flag values
 >   - Use an integer instead of BIT() for the bit index
-
-Good catch :).
-
 >   - Drop unhelpful comments
 >   - Simplify corsair_void_battery_work_handler logic
 >   - Remove extra newline in commit message
@@ -140,39 +134,29 @@ Good catch :).
 > index 56e858066c3c..afbd67aa9719 100644
 > --- a/drivers/hid/hid-corsair-void.c
 > +++ b/drivers/hid/hid-corsair-void.c
-...
-> @@ -583,16 +567,42 @@ static void corsair_void_battery_add_work_handler(struct work_struct *work)
->   	drvdata->battery = new_supply;
->   }
+> @@ -71,11 +71,9 @@
 >   
-> +static void corsair_void_battery_work_handler(struct work_struct *work)
-> +{
-> +	struct corsair_void_drvdata *drvdata = container_of(work,
-> +		struct corsair_void_drvdata, battery_work);
-> +
-> +	bool add_battery = test_and_clear_bit(CORSAIR_VOID_ADD_BATTERY,
-> +					      &drvdata->battery_work_flags);
-> +	bool remove_battery = test_and_clear_bit(CORSAIR_VOID_REMOVE_BATTERY,
-> +						 &drvdata->battery_work_flags);
-> +	bool update_battery = test_and_clear_bit(CORSAIR_VOID_UPDATE_BATTERY,
-> +						 &drvdata->battery_work_flags);
-> +
-> +	if (add_battery && !remove_battery) {
-> +		corsair_void_add_battery(drvdata);
-> +	} else if (remove_battery && !add_battery && drvdata->battery) {
-> +		power_supply_unregister(drvdata->battery);
-> +		drvdata->battery = NULL;
-> +	}
+>   #include <linux/bitfield.h>
+>   #include <linux/bitops.h>
+> -#include <linux/cleanup.h>
+>   #include <linux/device.h>
+>   #include <linux/hid.h>
+>   #include <linux/module.h>
+> -#include <linux/mutex.h>
+>   #include <linux/power_supply.h>
+>   #include <linux/usb.h>
+>   #include <linux/workqueue.h>
+> @@ -120,6 +118,12 @@ enum {
+>   	CORSAIR_VOID_BATTERY_CHARGING	= 5,
+>   };
+>   
+> +enum {
+> +	CORSAIR_VOID_ADD_BATTERY	= 0,
+> +	CORSAIR_VOID_REMOVE_BATTERY	= 1,
+> +	CORSAIR_VOID_UPDATE_BATTERY	= 2,
 
-Now I think, what is actually expected to happen if both add_battery and 
-remove_battery is set? Do nothing as the code does?
+BTW numbering these explicitly is superfluous.
 
-> +	if (update_battery && drvdata->battery)
-> +		power_supply_changed(drvdata->battery);
-> +
-> +}
-
-thanks,
 -- 
 js
 suse labs
