@@ -1,294 +1,320 @@
-Return-Path: <linux-input+bounces-10035-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10036-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A30A35920
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 09:42:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 506A4A35B18
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 11:05:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6D9E9188FC43
-	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 08:42:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BF2E31890B5F
+	for <lists+linux-input@lfdr.de>; Fri, 14 Feb 2025 10:05:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15E1922689D;
-	Fri, 14 Feb 2025 08:42:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9155202C43;
+	Fri, 14 Feb 2025 10:05:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="I+Swiiek"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="RmCQZCF4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazolkn19010013.outbound.protection.outlook.com [52.103.67.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076C9224885;
-	Fri, 14 Feb 2025 08:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739522567; cv=none; b=XBgRWyz6cu4Qa9jFM0Vt67+Gab9eaJnDbyYgq8/v4baItJrWppN42h7mbWe/eYL4J3temVYO86t/fzZMnWtfFBbON5yGQMpwEF2Vq2cOasJgAWV97wfl8CRHVndnFk9s8a4uXsO3yaTEllAmbI92YIDDJ0Vr9GZscpR1jAQEOVY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739522567; c=relaxed/simple;
-	bh=YOuWlVlJF2/9JdvrDcQy0Y2zEBg9CBaU/IWtjC5i2MM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Subject:Cc:From:
-	 References:In-Reply-To; b=tDCcGCtgAFZPgOHyG8D8oVJadxUtSK/toUDNEw7xvTfkvOsHx44Ve1Fb+2MHWgWupfBSZN12gZHNPUZUOuRQLUVwIIr0uAPn7vUww4Z6Yq9OniUHB/CRm8zOl4puzL1S+IOEAVOayHQ9pZA9+YsATdCYCtBVLTpH3p4JDIPUhs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=I+Swiiek; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4BF844444F;
-	Fri, 14 Feb 2025 08:42:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1739522562;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7L/XQV8UaijUO2KR/30CL5wbDGjOf9zE9dTPVuOH4pk=;
-	b=I+SwiieknndU+K/HVq7ErnKOzcepu/p2/98NciiCFqVoPuZETfbv/NMifaB06G261pGtlp
-	p1is70BhxsZE2101yPaeX8t1TQu4opl+SrfQMnfxWWxt9HhGiPhHcnj8hHPgI+gg+YnU7a
-	rGaIB7XJWv8JF8wwnUgOp+737pZ1JC2QuKseQ4EuIcFB8AloxwuH6wRCwJDJMJo5yuuCTw
-	G1lVkVr4bSmOMgvGhLWMYuluaPoboYQaJm0vx0PD87rOPCDMtL4kHQ1xpBdbDBkvAKSM67
-	0/7+gpt2R6sv2JDCHH7NdmnCxWA4lEOIHQu2nGKcZxFsPQ5TLJ1FA/wffYZQUQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8939122CBDC;
+	Fri, 14 Feb 2025 10:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739527535; cv=fail; b=jS6qWni2K9SfJu2uvgGSZ/cYIKerfuFr84T7Vd7kNZosCFl5pw/u5Kq7iC5uJhqslcsPR0f0S7vJZUV7P6cWZ8TaEbBl4L/8hLJ0i6ohTez8CSWQ/JT5ZQj285u1+ZMztfRGdJEIadpXDqhsU9TVlJbKZPbQjtdIO+kfzdS39/c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739527535; c=relaxed/simple;
+	bh=XTvodwTinyy2+ufmtzjWRABOtKUW6/pPNJ9zKENxV3M=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=uDUS8hAu0eGokkShiEHwTs+pcAYfL6lAgtFUFi/FgrsyC2cKvcMhzM6UWQjs/uzmvRFxByW313yEb32Lm7v8Ddvlf25KlRPR4fSoCotxpqFvH6+TRPKJJQH4CdZAOxheOCq66FSj6QBIL2/sGUsKc5xgqSJDTgixrdRucdIhHFs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=RmCQZCF4; arc=fail smtp.client-ip=52.103.67.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wgcBekfqQBc8p6UjB4xbBVhGTaE39bi6jpGLq4EKRJgp1a1yKHqlLVKwE9tHOX3i8VfR6bv2OlSx8Q6yWlDLq+//wH2ZiJCLMTPySdUlQB4FbC7Fm3nVfIo4g3kzzevRdzsTQej+sf5uj012BoSCpLoNcqUFJ1grB0Y6RJ7CeMT2ESvTqGeM4c9tPYwME2XqC3T6M9e5+6Z3Ra3tu3+pGERQLpnWaJru+58U8dLptTAQctaHwrZMKbKHGtz/o+e4bjRNL+7d8RKGkF/Zde4dK1uZZvOb+1hO1Coi8OxjX36RoPToiJwA1v6bOQ1TBdybrlPSJcbV/v/Fgx83CEkfkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZA6Bom3p67Ta/H6JO3JSBAAEHBKQlpKnv0VULtfz1bE=;
+ b=zAZAffkVTZGoLW6LuoR7+dNaLIbk1UljQGbVq6633+8sd0xz9qRLaaio3axYriQdYupUcDZK2yOB2gsyQfjoV4NDp1XXpPGVofRnuHLuan4Stg+CH5s/dl3STbqSpzmgQcQpzA1NWj8tyMPizoOKbR/Z0X1Rw+95ToQTSdaxMrhOoLiaqJDKucW4CLNhvsOiQeJsozMK7qmCMYno2Z4I8/WKiFpum0xbGrMnW2o+R5DvpRU8IVVVnzxOmJOlbKPqqVcl9aZVHGZZBwJjjiYm4iZ/gvZvxbRY/lKDlBZ8ilF1hqXnq2gzQcthE0su537RZ33GFTLZxCxVb99+ddO3nA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZA6Bom3p67Ta/H6JO3JSBAAEHBKQlpKnv0VULtfz1bE=;
+ b=RmCQZCF4/em6TJ76vlMnq8sKpvhjU5nupaADgbZlJEyEzE+yqq7LgTMReZuB9MLZB7pjaKq6uitmrDcCbkIRgY2DSAZSRis8Cuor3+E3UxDl+oolPLtmxHPR5fK8dkV2bZxWaxO/bLVXdn68Ku4uLdpJtW0nM/TbpteNgv90kClyoxoWl32JUP731YpVObOhhwfDG+njnJFRyxo85cB97LZFwS25aEikqFG/dpH8a+X4tpIgAW7lYHbMJlCmjA+li/PeVrs8rq/Z0cinOAP5cfYlzRDzNgh4kxIchrHiY0N65awyecDSco/QOwdXTu7RitKCUU2n+aNMLY6YLHtOEA==
+Received: from PN3PR01MB9615.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:107::8)
+ by MA0PR01MB10024.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:ea::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.15; Fri, 14 Feb
+ 2025 10:05:28 +0000
+Received: from PN3PR01MB9615.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::8bdf:4c57:be81:7866]) by PN3PR01MB9615.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::8bdf:4c57:be81:7866%3]) with mapi id 15.20.8445.016; Fri, 14 Feb 2025
+ 10:05:28 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Jiri Kosina <jikos@kernel.org>, "jkosina@suse.com" <jkosina@suse.com>,
+	"jkosina@suse.cz" <jkosina@suse.cz>, Benjamin Tissoires
+	<benjamin.tissoires@redhat.com>, "bentiss@kernel.org" <bentiss@kernel.org>
+CC: Alex Henrie <alexhenrie24@gmail.com>, "jose.exposito89@gmail.com"
+	<jose.exposito89@gmail.com>, "bruners@gmail.com" <bruners@gmail.com>,
+	"seobrien@chromium.org" <seobrien@chromium.org>, Linux Kernel Mailing List
+	<linux-kernel@vger.kernel.org>, "linux-input@vger.kernel.org"
+	<linux-input@vger.kernel.org>
+Subject: [PATCH v2 1/4] HID: apple: Use common table for MacBook Pro fn
+ mapping
+Thread-Topic: [PATCH v2 1/4] HID: apple: Use common table for MacBook Pro fn
+ mapping
+Thread-Index: AQHbfsf5UD5NJWu4E0KLZernE2BrTw==
+Date: Fri, 14 Feb 2025 10:05:28 +0000
+Message-ID: <CEFE855F-CC63-4361-8ABD-875BD5662294@live.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3PR01MB9615:EE_|MA0PR01MB10024:EE_
+x-ms-office365-filtering-correlation-id: 66005162-e7f5-4287-be60-08dd4cdf1b91
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|19110799003|8062599003|8060799006|461199028|7092599003|15080799006|440099028|3412199025|102099032;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?dtoUMI2oXONv6G0thEzCUWWx8xIepNdCeA8bcw4GyawbzuKqiqrKAOgd4+7Q?=
+ =?us-ascii?Q?i4k1olX9BwDxEGifucSBXvXEKiKmvOOmXPHSgRuM9h1DLWmwWI5TxRVaqd8P?=
+ =?us-ascii?Q?6x+4jcarN0Nd2szZoScHkxEaZeTlXaHw1UnOZ+6/QbM23LXqKCSuFwIi2T9i?=
+ =?us-ascii?Q?sQ42Rh699sqQ7XgRaZPfQQnbVrdRcfAwMQiwol0VTBpRYBUYS8N61A/IPoHm?=
+ =?us-ascii?Q?BXmGww2J2jtS3rNPyaCaPyISMDxDrJKwPgXFovOrEw4M39MwD2UMdkwZxyxh?=
+ =?us-ascii?Q?qsfl5lPLv0D5jkk6piCVMgF1B5x1t+Ju5CYxcILKYtOKaYezvO7oFfsCmk2t?=
+ =?us-ascii?Q?uwGEVT/V8OSh4ZNPV5UMDNs/6Tws1+1H/UoR+/6v4sB7nD7zJJZ7fVPkwFMS?=
+ =?us-ascii?Q?A4swiDlJ17DjUVuBoqjvoQ9TncPkKx+xXWnGteX/5xJ5Fpec+vAEuSk4fR74?=
+ =?us-ascii?Q?YU2FcKOca3PWpX0SYlKviRfXKH+kKy2m0jEDq0/kECBDlzYKjppwqzcZochO?=
+ =?us-ascii?Q?pMvYSG4vtWkzMSKqARfncYnT3T/TVjSmz/3QHft0qLKq5Wm1wMdQaE3KhXlW?=
+ =?us-ascii?Q?h4R4sC0eioAxD5OC8l5Be0aOVqGgiq6jS066pWmycVTCnkRfm/+WQ85j1U+0?=
+ =?us-ascii?Q?EugYRg3psnUtS9ZWSNINfXQvu68QyHQVINYu4KrhE4yyfxWaIy5UrFCnE4we?=
+ =?us-ascii?Q?aumujXiZ3VSahgs59HGxgtdmrpc0wkWJHuEx0AnDYBP2n+pneyh7lR2s1nM7?=
+ =?us-ascii?Q?6SltbI2SXzdpLF9bqt8RoAOhyZUh0EklphwGNRWqdHbD+d1b2ivJ5yiz+NkE?=
+ =?us-ascii?Q?wuzjiGnF88C3uxpFBurPt/Z2cZ7kxu9wojhmc4/SHHPjV9YMx3jZzb/o7XE3?=
+ =?us-ascii?Q?uk5WYm8/Qp+bItHMFe9g6d4BMsLa85xmvsyEd8/LWYKitIRlnq3+ppNWWXC+?=
+ =?us-ascii?Q?qKQnPFeQQJAU884J5qyPpN3/2tRPuHlIPI66s8LGty87DrDmJOzB1gpa1U2c?=
+ =?us-ascii?Q?A1l2XgRIXtEoE8syeaLxr7ifI8vSGuAoA5nNPzaJ2/by1IDmAd3CiCQ+tqMD?=
+ =?us-ascii?Q?E8H257xXyr66cxCOCzsVKOhwlRhZxQ=3D=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?BGTD9oTCuvaYtKHHlL34MlSdOTqVYczP1z/dh40gRaLOCu551M837y7z8ktx?=
+ =?us-ascii?Q?kpZsp86JJcZtxNpeeGksxzaq8VUJVqn4hnnOTEbCnPmLE/WgbC2vsyQ965Jn?=
+ =?us-ascii?Q?WGEm34UCo0TlkHAwLKOdAPk4/jYlqEFQDAhqCUcXoXby7dukv+Lg8RZnzCuM?=
+ =?us-ascii?Q?CDPxTc8STxO5ZIRc8uURy4swAVYSwdRJXoe8vxhtRzALPC/sZGa6b3zu4IzJ?=
+ =?us-ascii?Q?hTEXLXQxbLjv6IUr3yi9PvV65fi7SpJCYgDPUYDyvC7M1301eTbjRcAPeEk8?=
+ =?us-ascii?Q?F6aXAbdBjs+3Xg69QKnl4MfgvDlV7UMYyqxALA+W6+KXJvd1ztwJJRmkfDRX?=
+ =?us-ascii?Q?q8D4//MZIHnpjhE5Nwvdm1A2MlU1CvLgUoUdVhcxamF/BXhpPWloEKesJxWh?=
+ =?us-ascii?Q?uYWs3NWU13vhp6pVUyRmDYxnCFX1h5dziQ7l5qxqbbF24nQf3yT6HTEMUAVj?=
+ =?us-ascii?Q?x1QkFKoJjBlerDMpc5ldbVqdXQfjKIa4NEwVWTi+IDPQ6NMEi+5ukayoxpsl?=
+ =?us-ascii?Q?WzqeWG4O+Dmkd3lbn/ZjymEd3hhgTbEm6g1aZYJVp5cbERP6iZGi5O6pLzDn?=
+ =?us-ascii?Q?WwG8S4hmGA8fVXcyKJ+XpKdrq9bvpVsBt30ggbScNQEbVFGFXV6YMF30Gq0e?=
+ =?us-ascii?Q?Y5tJuhgu+7+r+LXy1+Nh8nn5K9BfLg+SDq4bci7zdBnnp3+MC4b77bFVzquQ?=
+ =?us-ascii?Q?RL8lkU0sEoUg47jCtuc1KRTTydFeepxhA+NTFmZ8E55QpROAFoQrqyELRYkg?=
+ =?us-ascii?Q?ySLMBkJk5wWxYfM4qqtMiEGKtUd8Zfg/LRc9vBvqFgqwDsvAaMGzhr9PGFfV?=
+ =?us-ascii?Q?AbgAObn1TB8X+4VFFjiTB+4b3y627KrBQItLhxpDh8X75tyu1KbpnSS3VvYw?=
+ =?us-ascii?Q?v1rhGmIqUH8GlP96SoSffV0RQfdgZd9RdV4LwglVmpXW7JpKJ4HJPOsOdL8d?=
+ =?us-ascii?Q?AHGS7+SzDONum/LWIyq9Ov9scdsOrQ2BzI+MVq/KXEGGxHpCrPSm1XNpqG0N?=
+ =?us-ascii?Q?I+zAXQEZ9qsD5Fag0JmJ9RidMjbn/EZz6Vz2dZwOPCDMsa+1AjUlC5gBA8hc?=
+ =?us-ascii?Q?m/AY1VwPf1vYli32d5z8M3Ku1koSlMoYW0f5cYPYtqqQuZ4jEU3Rz+P0cp3f?=
+ =?us-ascii?Q?B7RE6xs7uQKHm/1Se9tSCpf7shFu8F8YmfIhFZdyYJjEciukSH7aHCLxmjcD?=
+ =?us-ascii?Q?6/02kErq2k+aePP7jgQMROKaGBzUrI1/wEEfnpY75IJ4B1PgnlskwZzUn5a4?=
+ =?us-ascii?Q?siLSHSG+Ibq5UrmAl/AZECqI+s9OqziknYUM7L8QpvEyubEA/cWB1ZgYjSd9?=
+ =?us-ascii?Q?CqS8259wdf6olbMjEdCzvwIJ?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3568FC6E05EF8340AA901D8626E5AED3@INDPRD01.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 14 Feb 2025 09:42:40 +0100
-Message-Id: <D7S1A8EKR194.1L3ZLGX8V2ZT7@bootlin.com>
-To: "Andy Shevchenko" <andriy.shevchenko@intel.com>
-Subject: Re: [PATCH v3 4/7] gpio: max7360: Add MAX7360 gpio support
-Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
- Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
- <gregory.clement@bootlin.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20250113-mdb-max7360-support-v3-0-9519b4acb0b1@bootlin.com>
- <20250113-mdb-max7360-support-v3-4-9519b4acb0b1@bootlin.com>
- <Z5eFGJspoGOINcG6@smile.fi.intel.com>
- <D7QHGB7D0VSG.X255SDU7DFOF@bootlin.com>
- <Z6y65SnrprvnpKEa@smile.fi.intel.com>
- <D7QLITNTXRUJ.3NA44E6PQMAUX@bootlin.com>
- <Z6zJljphfTuEhBTP@smile.fi.intel.com>
- <D7R9KGN6EMDM.1DCDL4P5RC23B@bootlin.com>
- <D7RD3K56C2CQ.1WGUSI809P246@bootlin.com>
- <Z65MalVYafUvR7LH@smile.fi.intel.com>
-In-Reply-To: <Z65MalVYafUvR7LH@smile.fi.intel.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegledvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffvufevhffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnheptefhieehheehgeehkeeuiefgkeffvdehgeefieevgfekfedthefhtdfhheeujeefnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudejpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhkohesihhnthgvlhdrtghomhdprhgtphhtthhopehlvggvsehkvghrnhgvlhdro
- hhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrghmvghlrdgsohhuhhgrrhgrsegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplh
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+MIME-Version: 1.0
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9615.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66005162-e7f5-4287-be60-08dd4cdf1b91
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Feb 2025 10:05:28.0301
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0PR01MB10024
 
-On Thu Feb 13, 2025 at 8:47 PM CET, Andy Shevchenko wrote:
-> On Thu, Feb 13, 2025 at 02:45:31PM +0100, Mathieu Dubois-Briand wrote:
-> > On Thu Feb 13, 2025 at 11:59 AM CET, Mathieu Dubois-Briand wrote:
-> > > On Wed Feb 12, 2025 at 5:17 PM CET, Andy Shevchenko wrote:
-> > > > On Wed, Feb 12, 2025 at 05:08:56PM +0100, Mathieu Dubois-Briand wro=
-te:
-> > > > > On Wed Feb 12, 2025 at 4:14 PM CET, Andy Shevchenko wrote:
-> > > > > > On Wed, Feb 12, 2025 at 01:57:34PM +0100, Mathieu Dubois-Briand=
- wrote:
-> > > > > > > On Mon Jan 27, 2025 at 2:07 PM CET, Andy Shevchenko wrote:
-> > > > > > > > On Mon, Jan 13, 2025 at 01:42:28PM +0100, Mathieu Dubois-Br=
-iand wrote:
->
-> ...
->
-> > > > > > > > > +	if (of_property_read_u32(pdev->dev.of_node, "ngpios", &=
-ngpios)) {
-> > > > > > > > > +		dev_err(&pdev->dev, "Missing ngpios OF property\n");
-> > > > > > > > > +		return -ENODEV;
-> > > > > > > > > +	}
-> > > > > > > >
-> > > > > > > > This is not needed, it is already done in GPIOLIB core.
-> > > > > > >=20
-> > > > > > > I believe this is still needed:
-> > > > > > > - For gpos, we need the gpio count to correctly set the parti=
-tion
-> > > > > > >   between gpo and keypad columns in max7360_set_gpos_count().
-> > > > > >
-> > > > > > Shouldn't be that done somewhere in the GPIO valid mask initial=
-isation?
-> > > > > >
-> > > > > > > - For gpios, we need the gpio count to setup the IRQs.
-> > > > > >
-> > > > > > Doesn't GPIOLIB parse the property before initializing the IRQ =
-valid mask
-> > > > > > and other init callbacks?
-> > > > >=20
-> > > > > No, I believe I have to register the IRQ before registering the G=
-PIO, so
-> > > > > I can get the IRQ domain.
-> > > > >=20
-> > > > > Right now I have something like:
-> > > > >=20
-> > > > > irq_chip->num_irqs =3D ngpios;
-> > > > > devm_regmap_add_irq_chip_fwnode(dev, dev_fwnode(dev), max7360_gpi=
-o->regmap,
-> > > > > irq, flags, 0, irq_chip, &irq_chip_data);
-> > > > > gpio_config.irq_domain =3D regmap_irq_get_domain(irq_chip_data);
-> > > > > devm_gpio_regmap_register(dev, &gpio_config);
-> > > > >=20
-> > > > > Also, gpiolib will store ngpios in the gpio_chip structure, but w=
-hile
-> > > > > using gpio-regmap, this structure is masked behind the opaque
-> > > > > gpio_regmap structure. So I believe there is no easy way to retri=
-eve its
-> > > > > value.
->
-> Would it be needed in your driver ->probe() after all? (See also below)
->
+From: Aditya Garg <gargaditya08@live.com>
 
-No necessarily in the probe with the changes previously described, but I
-will need it in other functions. So either I get it in the probe and
-store it, or I will need to retrieve it by other means.
+The only difference between the fn mapping of the MacBook Pros with esc key
+and those without is of the presence of KEY_GRAVE in the translation table.
 
-> > > > > This part of the code changed a lot, maybe it would be easier if =
-I push
-> > > > > a new version of the series and we continue the discussion there?
-> > > >
-> > > > So, what seems need to be added is some flag to GPIO regmap configu=
-ration
-> > > > data structure and a code that is called after gpiochip_add_data() =
-in
-> > > > gpio_regmap_register() to create a domain. This will solve the abov=
-e issue
-> > > > and helps other drivers to get rid of potential duplication of
-> > > > devm_regmap_add_irq_chip_fwnode() calls.
-> > > >
-> > > > Have you researched this path?
-> > >
-> > > OK, so looking at the code, I believe it would need to:
-> > > - Add some flag in gpio_regmap_config structure, so
-> > >   gpio_regmap_register() creates a new IRQ domain.
->
-> Easy.
->
-> > > - Add a function allowing to retrieve this domain out of the gpio_reg=
-map
-> > >   structure.
->
-> Easy, as there is an API available for regmaps, so it looks like one-line=
-r.
->
-> > > - Allow to pass a domain in the regmap_irq_chip structure, so
-> > >   regmap_add_irq_chip_fwnode() use this domain instead of calling
-> > >   regmap_irq_create_domain().
->
-> You need this because of...? (Please, remind me what the obstacle is ther=
-e
-> that requires this to be done)
->
+We can easily use a flag instead of writing the whole table again to omit
+it from the models that have an esc key.
 
-OK, maybe I misunderstood you idea. Or maybe I misunderstood something
-about IRQ domains.
+Additionally, APPLE_IGNORE_MOUSE quirk was unused in this driver, so has
+been removed in this commit.
 
-So what I understood is, in the probe, we first call
-gpio_regmap_register(), that will create a new IRQ domain, and we call
-regmap_add_irq_chip_fwnode() in second. But this second call will again
-create an IRQ domain, so we would end-up with a second one. We have to
-prevent this second creation and make it use the one we created first.
+Signed-off-by: Aditya Garg <gargaditya08@live.com>
+---
+drivers/hid/hid-apple.c | 72 ++++++++++++++++-------------------------
+1 file changed, 27 insertions(+), 45 deletions(-)
 
-Did I miss something?
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index 49812a76b..e31c9e8e8 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -30,7 +30,7 @@
+#include "hid-ids.h"
 
-> > > - Make sure this domain is still populated with the IRQ data: number =
-of
-> > >   IRQs, IRQ base but also a pointer on the regmap_irq_chip_data
-> > >   structure in .host_data. I believe this will be a bit tricky.
->
-> Hmm... But wouldn't gpio-regmap internals have all this information avail=
-able?
->
+#define APPLE_RDESC_JIS		BIT(0)
+-#define APPLE_IGNORE_MOUSE	BIT(1)
++/* BIT(1) reserved, was: APPLE_IGNORE_MOUSE */
+#define APPLE_HAS_FN		BIT(2)
+/* BIT(3) reserved, was: APPLE_HIDDEV */
+#define APPLE_ISO_TILDE_QUIRK	BIT(4)
+@@ -43,7 +43,8 @@
+#define APPLE_IS_NON_APPLE	BIT(11)
+#define APPLE_MAGIC_BACKLIGHT	BIT(12)
 
-I don't think so. It will not know the IRQ base nor the
-regmap_irq_chip_data as it is not created at this point.
+-#define APPLE_FLAG_FKEY		0x01
++#define APPLE_FLAG_FKEY			0x01
++#define APPLE_FLAG_DONT_TRANSLATE	0x02
 
-> > > - Add a function allowing to retrieve ngpio out of the
-> > >   gpio_regmap.gpio_chip structure, so it can be used for IRQ setup an=
-d
-> > >   other places of the driver.
->
-> I'm not sure where it can be needed.
->
+#define HID_COUNTRY_INTERNATIONAL_ISO	13
+#define APPLE_BATTERY_TIMEOUT_MS	60000
+@@ -89,6 +90,19 @@ struct apple_sc_backlight {
+	struct hid_device *hdev;
+};
 
-Let's discuss this on the next version, but yes, I do need to know ngpio
-in the driver.
++struct apple_backlight_config_report {
++	u8 report_id;
++	u8 version;
++	u16 backlight_off, backlight_on_min, backlight_on_max;
++};
++
++struct apple_backlight_set_report {
++	u8 report_id;
++	u8 version;
++	u16 backlight;
++	u16 rate;
++};
++
+struct apple_magic_backlight {
+	struct led_classdev cdev;
+	struct hid_report *brightness;
+@@ -152,20 +166,6 @@ static const struct apple_key_translation magic_keyboa=
+rd_2015_fn_keys[] =3D {
+	{ }
+};
 
-> > > I'm sorry, but I feel like this is a lot of changes to solve this poi=
-nt.
-> > > I've been thinking about it, and I can suggest a different solution.
-> > >
-> > > For gpios, I will remove the ngpios property of the device tree and u=
-se
-> > > a fixed value:
-> > > - For the today version of the chip, this is always 8.
-> > > - I a chip variant or a similar chip ever arise later with a differen=
-t
-> > >   number of gpios, the fixed value can be set according to the
-> > >   "compatible" value.
-> > > - This removes any issue with the IRQ setup.
-> > >
-> > > For gpos, we have to keep ngpios, as it depends of the implementation=
- on
-> > > the board. That means ngpios will be used:
-> > > - For the gpio chip configuration: we let gpiolib retrieve it from th=
-e
-> > >   device tree.
-> > > - In gpio-regmap reg_mask_xlate callback: I can add a function allowi=
-ng
-> > >   to retrieve it from gpio_regmap.gpio_chip, as suggested above.
-> > > - In max7360_set_gpos_count() to validate the coherency between
-> > >   requested gpios and keypad columns and set the correct configuratio=
-n
-> > >   on the chip:
-> > >   - I can also retrieve the value from gpio_regmap.gpio_chip, but tha=
-t
-> > >     means the check is made after the call to
-> > >     devm_gpio_regmap_register().
-> > >   - Or I will still need to retrieve it using device_property_read_u3=
-2()
-> > >     here.
-> > >
-> > > How do you feel about this solution?
-> >=20
-> > Actually there is an additional issue: today, relying on gpiolib to
-> > parse the "ngpios" property does not work with gpio-regmap.
-> >=20
-> > The gpiochip_get_ngpios() function in gpiolib is called in
-> > gpiochip_add_data_with_key(), but when using gpio_regmap_register(),
-> > we first ensure ngpio is set correctly before calling anything.
-> >=20
-> > Yet I believe this check can safely be removed, allowing the magic in
-> > gpiolib happen as expected.
->
-> Not really. I'm about to send a series to address this issue.
-> Please, test.
+-struct apple_backlight_config_report {
+-	u8 report_id;
+-	u8 version;
+-	u16 backlight_off, backlight_on_min, backlight_on_max;
+-};
+-
+-struct apple_backlight_set_report {
+-	u8 report_id;
+-	u8 version;
+-	u16 backlight;
+-	u16 rate;
+-};
+-
+-
+static const struct apple_key_translation apple2021_fn_keys[] =3D {
+	{ KEY_BACKSPACE, KEY_DELETE },
+	{ KEY_ENTER,	KEY_INSERT },
+@@ -209,32 +209,10 @@ static const struct apple_key_translation macbookair_=
+fn_keys[] =3D {
+	{ }
+};
 
-I will test it today.
+-static const struct apple_key_translation macbookpro_no_esc_fn_keys[] =3D =
+{
+-	{ KEY_BACKSPACE, KEY_DELETE },
+-	{ KEY_ENTER,	KEY_INSERT },
+-	{ KEY_GRAVE,	KEY_ESC },
+-	{ KEY_1,	KEY_F1 },
+-	{ KEY_2,	KEY_F2 },
+-	{ KEY_3,	KEY_F3 },
+-	{ KEY_4,	KEY_F4 },
+-	{ KEY_5,	KEY_F5 },
+-	{ KEY_6,	KEY_F6 },
+-	{ KEY_7,	KEY_F7 },
+-	{ KEY_8,	KEY_F8 },
+-	{ KEY_9,	KEY_F9 },
+-	{ KEY_0,	KEY_F10 },
+-	{ KEY_MINUS,	KEY_F11 },
+-	{ KEY_EQUAL,	KEY_F12 },
+-	{ KEY_UP,	KEY_PAGEUP },
+-	{ KEY_DOWN,	KEY_PAGEDOWN },
+-	{ KEY_LEFT,	KEY_HOME },
+-	{ KEY_RIGHT,	KEY_END },
+-	{ }
+-};
+-
+-static const struct apple_key_translation macbookpro_dedicated_esc_fn_keys=
+[] =3D {
++static const struct apple_key_translation macbookpro_fn_keys[] =3D {
+	{ KEY_BACKSPACE, KEY_DELETE },
+	{ KEY_ENTER,	KEY_INSERT },
++	{ KEY_GRAVE,	KEY_ESC, APPLE_FLAG_DONT_TRANSLATE },
+	{ KEY_1,	KEY_F1 },
+	{ KEY_2,	KEY_F2 },
+	{ KEY_3,	KEY_F3 },
+@@ -415,6 +393,7 @@ static int hidinput_apple_event(struct hid_device *hid,=
+ struct input_dev *input,
+	struct apple_sc *asc =3D hid_get_drvdata(hid);
+	const struct apple_key_translation *trans, *table;
+	bool do_translate;
++	bool dont_translate_flagged_key =3D false;
+	u16 code =3D usage->code;
+	unsigned int real_fnmode;
 
->
-> ...
->
-> P.S.
-> Maybe it's time to send a new version based on this discussion even
-> if not finished / working, so we can see the exact issues we still have
-> and target them.
+@@ -481,14 +460,14 @@ static int hidinput_apple_event(struct hid_device *hi=
+d, struct input_dev *input,
+		else if (hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J132 ||
+			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J680 ||
+			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J213)
+-				table =3D macbookpro_no_esc_fn_keys;
++			table =3D macbookpro_fn_keys;
+		else if (hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J214K ||
+			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J223 ||
+			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J152F)
+-				table =3D macbookpro_dedicated_esc_fn_keys;
++			table =3D macbookpro_fn_keys, dont_translate_flagged_key =3D true;
+		else if (hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J140K ||
+			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J230K)
+-				table =3D apple_fn_keys;
++			table =3D apple_fn_keys;
+		else if (hid->product >=3D USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&
+				hid->product <=3D USB_DEVICE_ID_APPLE_WELLSPRING4A_JIS)
+			table =3D macbookair_fn_keys;
+@@ -525,6 +504,10 @@ static int hidinput_apple_event(struct hid_device *hid=
+, struct input_dev *input,
+					do_translate =3D asc->fn_on;
+				}
 
-Sure, I will send a new version, probably today.
++				if (dont_translate_flagged_key &&
++						trans->flags & APPLE_FLAG_DONT_TRANSLATE)
++					do_translate =3D false;
++
+				if (do_translate)
+					code =3D trans->to;
+			}
+@@ -680,8 +663,7 @@ static void apple_setup_input(struct input_dev *input)
+	apple_setup_key_translation(input, magic_keyboard_alu_fn_keys);
+	apple_setup_key_translation(input, magic_keyboard_2015_fn_keys);
+	apple_setup_key_translation(input, apple2021_fn_keys);
+-	apple_setup_key_translation(input, macbookpro_no_esc_fn_keys);
+-	apple_setup_key_translation(input, macbookpro_dedicated_esc_fn_keys);
++	apple_setup_key_translation(input, macbookpro_fn_keys);
+}
 
-Thanks again for your help.
-
+static int apple_input_mapping(struct hid_device *hdev, struct hid_input *h=
+i,
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.43.0
 
 
