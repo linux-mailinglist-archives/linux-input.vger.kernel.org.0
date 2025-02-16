@@ -1,124 +1,100 @@
-Return-Path: <linux-input+bounces-10078-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10079-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 542AFA37483
-	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2025 14:17:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7042FA3761A
+	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2025 17:59:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2133A16C5FA
-	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2025 13:17:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F17B16C96B
+	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2025 16:59:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87FFD191F74;
-	Sun, 16 Feb 2025 13:17:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DF5919CD0B;
+	Sun, 16 Feb 2025 16:59:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="Yot2FZiX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LjOK0BAh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B643F18E05F
-	for <linux-input@vger.kernel.org>; Sun, 16 Feb 2025 13:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B729450FE;
+	Sun, 16 Feb 2025 16:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739711837; cv=none; b=jkUkVpFZhCqeRnfJW9vIbgKhmKeFHwRJkLUtGSufrl/SfSz8KLeHMo3L+g1re03hVysOoCC5pQ49otmJMkR0NwujPZZPqNW4+XgfYNsyOCK7MA8o846szpy42RqTZkBI3MRxBuv2BtLxXxiu5fLwdvYTYRte4Xtgt/gyNVZyTtE=
+	t=1739725188; cv=none; b=c9RC1m3h34kdDIwPBPV8ke4V/T6mgZRC9e5eK0HTasMxwzZGskg6vExMXSjKJpV4NO6uTrCCyXpWyAfcatxa8q1YiOneSrubN1tK6Q2gv11ONEGztMPisggo1O+0rv542WB+RmRDPD5i51b0eJV7xScqsWnRuX+Cz7XU/8MN+8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739711837; c=relaxed/simple;
-	bh=sfcZRcJwPeOIU9XKiIxo6nI71to/19D4OItEfcVxOMg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bfjcnkiiyS3WB0lvU9CmkuHoQyN0UJfl5kEvl4OVZGNapExLm5KLANNL3CG9vfbDb9Kb8a/4k6kVl0ZmSVABdMehx9f5iqK0WGuAcPVg2c7rBbzHBl7aSWECbOd8P8Cm15Dss58N1kCho4/HpDlpVNs4Liv7a04UbJegbDPbl9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=Yot2FZiX; arc=none smtp.client-ip=84.16.241.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
-Received: from [192.168.90.187] (unknown [94.110.49.146])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sander@svanheule.net)
-	by polaris.svanheule.net (Postfix) with ESMTPSA id B328F5BC49F;
-	Sun, 16 Feb 2025 14:17:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-	s=mail1707; t=1739711826;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R7IgcHlLJeAGnnUahqICvLFnrNle5U16KsUlP1mgP+Y=;
-	b=Yot2FZiXf09qLXMd9tESzQK0lwOv9lDJrcNbgrtNqVH8Viq/fgK+IqIQ78mTa/3zAELodY
-	yYp8smZjK54QLZe3O/w4Tmce6kR/YOR+A9fg74IufA7M6pfBl0roUHFID/a5wjEw3S+++A
-	nr2UzzByfTBT6SMkf61HHDwTOzzuwL1y9b9fUnVpQdxzivcCNcmhDMrcFEx4oeURoV1Xt8
-	uUZfBzmOX8oxwLou9vH6R4GAZf6mQuHlWWwjWv+UElwom8Ed7cWYNTpXIunpxYCjssXshw
-	o1XKSyGg49erUrdHTUs75fcI5oepn0TB6rkJiVd8nGvGUJFJWeE/U69Qax3Y/w==
-Message-ID: <e6194c5ed4f305f2150ab89a91a998028ac687c0.camel@svanheule.net>
-Subject: Re: [PATCH v4 04/10] gpio: regmap: Allow to provide request and
- free callbacks
-From: Sander Vanheule <sander@svanheule.net>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, Lee Jones
-	 <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Kamel Bouhara
-	 <kamel.bouhara@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski
-	 <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?=
-	 <ukleinek@kernel.org>, Michael Walle <mwalle@kernel.org>, Mark Brown
-	 <broonie@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki"
-	 <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, andriy.shevchenko@intel.com, 
- =?ISO-8859-1?Q?Gr=E9gory?= Clement	 <gregory.clement@bootlin.com>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>
-Date: Sun, 16 Feb 2025 14:17:03 +0100
-In-Reply-To: <20250214-mdb-max7360-support-v4-4-8a35c6dbb966@bootlin.com>
-References: <20250214-mdb-max7360-support-v4-0-8a35c6dbb966@bootlin.com>
-	 <20250214-mdb-max7360-support-v4-4-8a35c6dbb966@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	s=arc-20240116; t=1739725188; c=relaxed/simple;
+	bh=SC/tuAOm11oCVUJiOo+McB3iHWTWiP1gMTvFuGu89bk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MpK9qa5+sJ4bzrg/bmD5rt5sJ5TMrKNMVDEl4WY7f2WWc6qzo56ik7F35n1kl8kr22ANwvXar7afpK+ief+lHpv9FumFTkAYnm6Ua0hpLmTzrBxZRIiXAf2RNhfFFgsPvnL+j7mHpEwV4CYV+fz7vTy2IOh4kZ4YSGCWF1BoCno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LjOK0BAh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70575C4CEDD;
+	Sun, 16 Feb 2025 16:59:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739725187;
+	bh=SC/tuAOm11oCVUJiOo+McB3iHWTWiP1gMTvFuGu89bk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=LjOK0BAhP4tBI99Nx5vy4ZiuXj1NO3gslpAEUnCkgPVmaZbtVzp+7U0Gc0QARywLo
+	 hN70p05uB7/X2PfK05gNdKRgjq+A7ZkmI5wJWzLRYfCVXNT4xFBdGw+5QtUY03ToSm
+	 nw3+phcjHe8Slp0xIE1PFgySsx735f7meh+Qtx7uwlG1IvEdyjVrXi0hB92wZZQm24
+	 VIG7vofvWX6djtnOKo47FwpFtU7FqK3St46CzRF6vTOfdp01F4+wO3iz5OZeeEE7dR
+	 cxpAlsOluSe7u5qWo6f36DTqYASC84d4Ut6Vj1+HUN3inYk9Lo9xBlqxADFihM21t0
+	 SY3xdX+a08lRw==
+Date: Sun, 16 Feb 2025 16:59:39 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: arnd@arndb.de, gregkh@linuxfoundation.org, rafael@kernel.org,
+ linus.walleij@linaro.org, mika.westerberg@linux.intel.com,
+ andriy.shevchenko@linux.intel.com, dmitry.torokhov@gmail.com,
+ przemyslaw.kitszel@intel.com, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-iio@vger.kernel.org
+Subject: Re: [PATCH v5 10/12] iio: adc: xilinx-xadc-core: use
+ devm_kmemdup_array()
+Message-ID: <20250216165939.4780c4f4@jic23-huawei>
+In-Reply-To: <20250212062513.2254767-11-raag.jadav@intel.com>
+References: <20250212062513.2254767-1-raag.jadav@intel.com>
+	<20250212062513.2254767-11-raag.jadav@intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Mathieu,
+On Wed, 12 Feb 2025 11:55:11 +0530
+Raag Jadav <raag.jadav@intel.com> wrote:
 
-On Fri, 2025-02-14 at 12:49 +0100, Mathieu Dubois-Briand wrote:
-> Allows to populate the gpio_regmap_config structure with request() and
-> free() callbacks to set on the final gpio_chip structure.
->=20
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> Convert to use devm_kmemdup_array() and while at it, use source size
+> instead of destination.
+> 
+> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
+
+Seems fine to me.
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
 > ---
-> =C2=A0drivers/gpio/gpio-regmap.c=C2=A0 | 2 ++
-> =C2=A0include/linux/gpio/regmap.h | 7 +++++++
-> =C2=A02 files changed, 9 insertions(+)
->=20
-> diff --git a/drivers/gpio/gpio-regmap.c b/drivers/gpio/gpio-regmap.c
-> index 05f8781b5204..ba72c23bcf97 100644
-> --- a/drivers/gpio/gpio-regmap.c
-> +++ b/drivers/gpio/gpio-regmap.c
-> @@ -261,6 +261,8 @@ struct gpio_regmap *gpio_regmap_register(const struct
-> gpio_regmap_config *config
-> =C2=A0	chip->names =3D config->names;
-> =C2=A0	chip->label =3D config->label ?: dev_name(config->parent);
-> =C2=A0	chip->can_sleep =3D regmap_might_sleep(config->regmap);
-> +	chip->request =3D config->request;
-> +	chip->free =3D config->free;
-> =C2=A0
-> =C2=A0	chip->request =3D gpiochip_generic_request;
-> =C2=A0	chip->free =3D gpiochip_generic_free;
-
-You probably have a bad rebase here, as the chip->{request,free} functions =
-are immediately
-overwritten by gpiochip_generic_{request,free}. Perhaps those can actually =
-be used if you
-provide a pinctrl driver for the MFD.
-
-
-Best,
-Sander
+>  drivers/iio/adc/xilinx-xadc-core.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/xilinx-xadc-core.c b/drivers/iio/adc/xilinx-xadc-core.c
+> index cfbfcaefec0f..e1f8740ae688 100644
+> --- a/drivers/iio/adc/xilinx-xadc-core.c
+> +++ b/drivers/iio/adc/xilinx-xadc-core.c
+> @@ -1245,8 +1245,8 @@ static int xadc_parse_dt(struct iio_dev *indio_dev, unsigned int *conf, int irq)
+>  		channel_templates = xadc_us_channels;
+>  		max_channels = ARRAY_SIZE(xadc_us_channels);
+>  	}
+> -	channels = devm_kmemdup(dev, channel_templates,
+> -				sizeof(channels[0]) * max_channels, GFP_KERNEL);
+> +	channels = devm_kmemdup_array(dev, channel_templates, max_channels,
+> +				      sizeof(*channel_templates), GFP_KERNEL);
+>  	if (!channels)
+>  		return -ENOMEM;
+>  
 
 
