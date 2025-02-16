@@ -1,192 +1,257 @@
-Return-Path: <linux-input+bounces-10073-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10074-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E9D5A3702B
-	for <lists+linux-input@lfdr.de>; Sat, 15 Feb 2025 19:40:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4919FA3718D
+	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2025 02:09:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ADF4C3ACCE5
-	for <lists+linux-input@lfdr.de>; Sat, 15 Feb 2025 18:40:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3B5317A2FB0
+	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2025 01:08:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C6B81DF964;
-	Sat, 15 Feb 2025 18:40:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6266DA2D;
+	Sun, 16 Feb 2025 01:09:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="t1B2Z2uB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bgW311Fn"
 X-Original-To: linux-input@vger.kernel.org
-Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19010013.outbound.protection.outlook.com [52.103.68.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB7E2904;
-	Sat, 15 Feb 2025 18:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739644845; cv=fail; b=OXCMtXBpH9YWArDNjyb+mfEXmo9mb94sJDz2uBcdUIRx260E36vlXuoPp19QJPBl6n7b26ek4qINP/SnGi8VjgZLZbHVrMjXMggNR/5bozwpHHQbvrCPwE5VCAGMijiAa/9/ZK81OEUyxmdnmEItGFLN7P6+A/xSod195UY/IjI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739644845; c=relaxed/simple;
-	bh=EI1iUBfX+9thqSUzPCI7BTTksSpt3IlZH59T2DrPIHA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=W0V/QQJxGwnn9byMyD8sewcur/5VaVYkbZIPFsANCxK9l17HqHSR7pB13DdlztQLZ+/Uv75CurDqQAk0NetgcYZBTKp3yuFiomU6xNLV1G2UCoqfDFXQq63K5SjZc3VrYYETk+qQcLOOYxJrAnXPFCJsOxjBzdFtghjhJgrACzI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=t1B2Z2uB; arc=fail smtp.client-ip=52.103.68.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YkkCReYF5Yv8iH7QR8CksP5LqKQde6GrgCeunT0Fec3S2FqW+BZzkmYfDy3ARaf/0WwjSiJzk2AA09BtAnSE/yV6+WTqrZ5Aawb8hlUULxad127FohDg5n+5kS7Ubg34c5h13HS6AKrJisV4pOkyots72R62Wdo3qvv84v2cSs5x0TWHD3S5fatCeHmCC7cQ3BpOQYGJKDzVDVc/6LeB9Lia+Z2eYWprpYv44Mx/8g9skdI+Yos9/dHxg9yqI1JYZn4rL4glI0isugFc191dbauL/jN7dvCjKvDar7c4m0rH7/qwXTTujq0t/pEHzAN3NIdJUniAFUsMKLp3cwteMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qz/1wR3VVxY1g8W0ay10UtcVapP6BwDGzQyoX4R/CGw=;
- b=i8PiUBlHvTVTBdGl7lDK5wGFGm6enz3M4uZZF1TSehvZxoplaAmZRbmBMxWqK2XPX8TM4xHBMn4AUxsot/Dur3AfoI98MzzACyzZKYNPk/DWReJwuUaKDQPCHWixE7XJAgsL4unNx55QHjG1WDWyS4pIKJ6JBJ6MXetpjceod5NQuBYlc1GvBTBsBKvNiUzY6mcTiogojY0N13D8r2BXYGH+hvGdTebIjS5s9vJgRGDIyU2RXKdx9WW+sLw5ChssY2TOmvlEdUl/aE5IpEuTZH58XG9WXuc3dhZn+Vvx3i8X24McACF1cV71YZQnYOfktYBapE1rQAtTTY2rTcGNeQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qz/1wR3VVxY1g8W0ay10UtcVapP6BwDGzQyoX4R/CGw=;
- b=t1B2Z2uBfDEshZD9IkwK0mUfbfHmus24t7EmJMPtZpuvVHotAqhP07LWVX5oIqc7Q68FewKyGuCIkqS14rZ+p6TixH7ar08LNU+/Rv27AuASbDK7/FLIWwi98gCDjYe76BjrxW9xfZAU1B4Qs+PoJjdXUftyuXUvF0lz3dExXVGtKP/k+wkJ6vda49/SQVrZPjl8nuD3vmT5PH6m1MNDg7Tiq9P0YJKK9XT6VgH+sxhXGWH4mRyyP19sEGmNbuqo5zUqfRwF88xD8O65SdrVVDxOY9MYGKJoxucxbr24gcx5r3L6u9hDTEyoPSSLowt63CyuynO8wKCqNKrOoHv7jA==
-Received: from PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:110::10)
- by MA0PR01MB7817.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:2b::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Sat, 15 Feb
- 2025 18:40:39 +0000
-Received: from PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::972:abe8:752:bbde]) by PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::972:abe8:752:bbde%6]) with mapi id 15.20.8445.016; Sat, 15 Feb 2025
- 18:40:39 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: Jiri Kosina <jikos@kernel.org>, "jkosina@suse.com" <jkosina@suse.com>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, "bentiss@kernel.org"
-	<bentiss@kernel.org>
-CC: Orlando Chamberlain <orlandoch.dev@gmail.com>, Kerem Karabay
-	<kekrby@gmail.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: [PATCH v3 3/3] HID: appletb-kbd: Fix inconsistent indentation and
- pass -ENODEV to dev_err_probe
-Thread-Topic: [PATCH v3 3/3] HID: appletb-kbd: Fix inconsistent indentation
- and pass -ENODEV to dev_err_probe
-Thread-Index: AQHbf9kcTTu6+SMmkUul9eC3vJ51Ow==
-Date: Sat, 15 Feb 2025 18:40:39 +0000
-Message-ID: <21F8BD96-7E20-463A-A997-4FBCF0934D87@live.com>
-References: <00768D5D-F9CB-45DA-8F5A-3E21E84A8AA8@live.com>
-In-Reply-To: <00768D5D-F9CB-45DA-8F5A-3E21E84A8AA8@live.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN0PR01MB9608:EE_|MA0PR01MB7817:EE_
-x-ms-office365-filtering-correlation-id: a484bf8d-d29b-406b-d169-08dd4df03ead
-x-microsoft-antispam:
- BCL:0;ARA:14566002|461199028|7092599003|15080799006|19110799003|8060799006|8062599003|102099032|1602099012|19061999003|440099028|3412199025|4302099013|10035399004;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?ecm02s7PUFMA2m+jo3ie0/GPzuvfp3bfqyo+ikoSauZ5DeofrMSFCXUaxOco?=
- =?us-ascii?Q?Tl9E90ZpGh2MZQYDkkS3KBV61TSm3RmVYtyi+EfoliRrzzt1sOAgpBeheBl2?=
- =?us-ascii?Q?CDkN2+43Y5OM0GyqwexBhswL9iIenhOUm3SPK8p1ipc+NxOpHVaXihOeSgSE?=
- =?us-ascii?Q?8hykbkgfc6cAxGZiy4phnO3gyCIMV9Rfk07nE5BGYTnJ8LlXXV0wACfydZfX?=
- =?us-ascii?Q?o8Spk/MSr+nbetim+EBWpROVM0XrfszFDfsynQiW9Gi2En3inw0G6VLnGVI8?=
- =?us-ascii?Q?5deGtex7K1IOYRXl2eNGHvZZeRqWgyO+vJHOgagAKZB80iuWBQ7BJPrp+bdB?=
- =?us-ascii?Q?HgtBNFrc5Y/ZyV22rG+y4+AfwgLfg6CEJH716QRe5W3+XN1BpDjSj4XcCNwe?=
- =?us-ascii?Q?nY961D4XxFj1LA41gAwqmqYDMytXV4PfCBOYH14GJRjSVwS6YLVWKDsqlow/?=
- =?us-ascii?Q?GTfsLB68vP9O5oJRt9JKVrZQyjY24acOeCjr39eF5vuLxx7EZl2snQJimbH3?=
- =?us-ascii?Q?0XiX42UpNePtzoRxYupb/kQ0qXyKvdkF8Leui3ZirjP4AediYYy9JIJSeMks?=
- =?us-ascii?Q?8A+MnrPRr9yLWTupUK23GaJKITDFshuNN04U4anAcC0GTZDya6dgzu0CRDqP?=
- =?us-ascii?Q?wtTQ13x0/fPyWMWBsWilRnu36l77Y6X8GH4eEb7YRlxmZTILAHQc4e2ZMTQh?=
- =?us-ascii?Q?SKUEFhbwa2XcDxtkNS7BqsnO9mwc01R19UZlDSrEDfIX3AsRwG2vtiSZJ3LG?=
- =?us-ascii?Q?+xtPTULukPMIUFonQSdwQr+trbEtW/avGqBV8raNbjNGisUvWXp2iNCSYWEi?=
- =?us-ascii?Q?9g4CwC6kr6ZcBYVL6KZaSSOpIEa0pma9bTrUaE1bMr6qnVH7l5wnB0YkLxJQ?=
- =?us-ascii?Q?bYEQSwAProacCHK7cZBVPRFPQ5pvGke/LbUTbjNlwI19Z0m456J1MnrfpkJF?=
- =?us-ascii?Q?tKEWP/DuwTOQqLPnwKReNwLPKPNW2t6tFR+q5Qw9IZ42cXSp7nMpcGqgSvR+?=
- =?us-ascii?Q?kT2L8PEznvY/Vsl448gxq/C52m8InaUa8clk4uwPsmvOIUA39r7rUYcJhPLV?=
- =?us-ascii?Q?nt+93SS0MYcMeKyxMI2f6Mk/nFYf4ysyUwEuJUOBls/TUtN7C5aGsm9iDvPf?=
- =?us-ascii?Q?EWKp4cO4HnBamuL+FlLnT8cgSpYFGy+ilBsuzTkoiwjwQ7TxonYcsQ/ECX3A?=
- =?us-ascii?Q?LstFGDXBD6KH1jZW6R1e+Kkf71UpioSO6qkqqLVLAv9OaiHrRiBLqu3gB+gy?=
- =?us-ascii?Q?VnkWOBULNoLpzFplhjSzGruTfoBQnu89gzzAHLObwQ=3D=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?ID5JWiYep8YY451nDnxy5ka714P6tNh91shcr4Nb3wr6HMuRX+AhBiLia8Sr?=
- =?us-ascii?Q?K+qWTKbaGLzZD7V79BSOwqcL64eHHWHOdur7Df07swdZ3vVqnCNPkA0MM0qG?=
- =?us-ascii?Q?8xCC5xmU0uggcwDJkmlLkEzvOfhbC7u9hljz/GXrpxkxZVd2S4DqoTjvP3cs?=
- =?us-ascii?Q?gVosTybJOTGDjGfyM+AGpVJbJhci7zXzoymGcM9o8yMfHfojn94HdgtTbh0n?=
- =?us-ascii?Q?kuGUXmfGi38f9PP8oleHs5hfrVSKr7Vtkd26rJBIjW84KntsWVz7bS5OuREQ?=
- =?us-ascii?Q?BsgsO9i/OyaCF/qlTzBqf0groXCe9gHnJzqPuZ1ndUxvKlXc7JyAi3ggxC0e?=
- =?us-ascii?Q?Lxh7nyKU6VtYLPmsRMcmtSWrmXLp8bew0ltpLBAvkUUvecw5qYNhRSVsT6t/?=
- =?us-ascii?Q?HA8QLBp1M0STOLD3M7dhG85HiJosQt2ZuIUEsQHU8EtA3HE/MvYPTKScuXVi?=
- =?us-ascii?Q?0fxBIc7EP9Dpyr8L8pDHHZ7vJET2fF98mdopShrrCAO/bawccVwVc/fecKkO?=
- =?us-ascii?Q?+EA32rNjxWf2mYp6RTxsDMFHaLkmpB79bgn/P8UTRS5hpvsa+6E1SwncirCe?=
- =?us-ascii?Q?j9m0yZhhsGHLZvIzoa6bwc/+EWK2jP83/2fLL7SAslvvGdgNJCVocZMbTFaF?=
- =?us-ascii?Q?+a7kCJVP/sGAvqpDArThhm0XHIfpt8iAMl86pIBNgEbrqjRDr6Y4R32vUEV5?=
- =?us-ascii?Q?PpD0/p+P0ZJZuNmLLaiAzU26CjDgJLOB2X2Asyc5mTW95yaa/CjL9SdbJFXu?=
- =?us-ascii?Q?Fh9ip+ruYm17R2D54rpppB5XxVOK9wgoslpinoTlICSFTCm9Wpb9YMakNLZg?=
- =?us-ascii?Q?/pm0nllu2xqCtwkfx+Cp2w253L6GQk8U0Gu/BydnfCZAS0Vne4CVYYnODKyg?=
- =?us-ascii?Q?oJDAlfJdHshQ3+JwmVNO1UMaz73HLc3QQpc15h53SQ5VID/lRvILsjhSaSOz?=
- =?us-ascii?Q?MLhulD9mpN/ggU3gqfmLTUqiNt/Rc83Flk2Gw1/ARt43ARBBsc0mDWkD9hyb?=
- =?us-ascii?Q?KHFR/lLLTLbX6526EMVLUBGuatrcMuhndoi+W6qb5YfZ+VuwHn5TRUBT+Sla?=
- =?us-ascii?Q?mrApX3SntmymQGe9vUn/B0684sRFt8+sLeGMzl2kPwOa3yhD2PrjM1jGneFL?=
- =?us-ascii?Q?1+vXjyTbvmkSq6RNVHnb9wrQNAmDE1vu2nq1VRlw8bom8GYz5Mt5wGG6t55N?=
- =?us-ascii?Q?K83fU3bNAduNooWx6VhpZFwXMwXqEFx6tmgfI6LFj0fw6sXfJCIDvM+eiKop?=
- =?us-ascii?Q?TArigM2cZdCT7jrZ5tgr6pSY3eiug/G/pybSULR+ro5B4Dh03vtJbpfhie0S?=
- =?us-ascii?Q?RooRdxLuEamX8Xz4n4yhj+S+?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <965AC5FF0C11054BA3D2E11864593090@INDPRD01.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975AB4C70
+	for <linux-input@vger.kernel.org>; Sun, 16 Feb 2025 01:09:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739668152; cv=none; b=bt15P16fGk4QAAkwtSY2FMroQ3r9N5WjY3Il/AIwLIp3IAjIdSwn3HgpheWOYqclIJivlvoaT6Y4/kmWmf1oCkM9MgF/PnChgWOgz3BVAA9hREbVVCY0kG0kMxmWht3giLkvfIVTiHgp/bOzRrTnpF/TnGRBuDQDpvLrXTwOeAg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739668152; c=relaxed/simple;
+	bh=HcHVkLAqtjsJ/7gwMSJe6SCnYdWmFQ6PkDMXvaWKywk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qAwpfkbJ2kwFqjhVW9/HuMBypYVgShYul11OecT5fiK449q90IumjUoQ6qqAvnmUzQc5LkJQ28RFp7dXJJhG28H+LOlStn2tllnbRQZG2netqQMhgyc2t7Nzn9E2OwhFrzawgHqKB/x1rUXn14A9PtBfujS7yY1HC++eyKbDqS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bgW311Fn; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e46ebe19368so2468712276.0
+        for <linux-input@vger.kernel.org>; Sat, 15 Feb 2025 17:09:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739668149; x=1740272949; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HcHVkLAqtjsJ/7gwMSJe6SCnYdWmFQ6PkDMXvaWKywk=;
+        b=bgW311Fnc5SudviYl5N3FF1PqbaasfkoHFJfj319E5aZKpmyVh94zVFun+od9DOw3m
+         1uidcUrfKqSdupB+AJPWE9lX4S2vPzGSKIJR9JgGykH/tPgSqE1uUQ3VlXaMaBgn1PjP
+         7vKCbt5phu3gG/8NWdWUi1Z330K8rPQVw0CvwQ3f35aTww+CSOXIxvNeqGTZZ+mGvyNf
+         wChBvLfPwtlQCeE07xT7Q1uKUdaR8I0FmUO/dVj/Zm0H61kVOFAPzkXMIF45J6838TX0
+         JRFeTHZXtZ+mp/9f2GRLk45YQVESpxtNwRvPkOwGhzIuQCxhy1Hruk1Ss24EYWPg0uPc
+         6VPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739668149; x=1740272949;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HcHVkLAqtjsJ/7gwMSJe6SCnYdWmFQ6PkDMXvaWKywk=;
+        b=pLlkJVtb090ghg8qkYL5O0/tQSxOgi8IoJzmxMbiaNRcDBgQb2efzJqUB8s3PGtW3M
+         S04iuu5XUVtIC6Zsb4AkY/JrZe91bV+3FeVA34SjmEDccx+xJFNAry4V+axVeqT+eMIi
+         LuXk9qHhR1rb+Bg2FfIsg3zrlYq3Jdg+ZnhY0ibETxt2kq+2h9m3wEPCOvmwAfw5u8Wa
+         Jxbfn86jwxSQ4gQLMM8QLOtVxYHv1CBQZ2CBPh2vzGtq7JyuV4FuX5adqwuh346tArE5
+         aWQe49lpdJQmga7MRAbvA1yHQqeRN1MnxAeol50bCkqN8oyf0f231oi/P95x/aPkxibX
+         bwDg==
+X-Gm-Message-State: AOJu0YyA6ciZnqdJuawMVohUExq7jDInmL6erQWHLPiQyXtTfKZoeUZp
+	an/C5oexgPU2RM4OWhEY4FKlNTABuYcl7ml/PhVi0GU9NyKh2z4lWeQsoy1WczkoIs5vw+mb9he
+	pISeS1Xb7XOv7bb4MWmaTrBbTTLM=
+X-Gm-Gg: ASbGncsExPfU5h7t/50OiYS3NX+jx51LB4agLJGXoYY9QiCP5ZkegagyqgWol9T7Ttc
+	OyPw5uXEM6IHCBnB74CDVAo8rc7xHs5CEdeLPNq7Ym487SWKgBIHnUkXP4G6pijDO2kY/rSSM1Q
+	UTZxrF0yDSEAn6sKRR2pkCVoBw1tT+HqE=
+X-Google-Smtp-Source: AGHT+IHPPJajh5/GQSy57HwCa7+f8JJnTmmZWtjETIoZ4Z2shtGXIl9eqNpFXDSwE7uURGIRqBaWqB8v+qOS7fO12j0=
+X-Received: by 2002:a05:6902:845:b0:e59:dbac:d993 with SMTP id
+ 3f1490d57ef6-e5dc9043ed6mr3687030276.17.1739668149084; Sat, 15 Feb 2025
+ 17:09:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: a484bf8d-d29b-406b-d169-08dd4df03ead
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Feb 2025 18:40:39.5460
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0PR01MB7817
+References: <20241001055146.543800-1-alexhenrie24@gmail.com>
+ <20250117061254.196702-1-alexhenrie24@gmail.com> <3137A636-3FC2-4016-BC64-F5CEF308F834@live.com>
+ <55B3D2BA-F363-4335-820F-21DB90312CD2@live.com>
+In-Reply-To: <55B3D2BA-F363-4335-820F-21DB90312CD2@live.com>
+From: Alex Henrie <alexhenrie24@gmail.com>
+Date: Sat, 15 Feb 2025 18:08:32 -0700
+X-Gm-Features: AWEUYZnPEWMKnGWw1kzvVmR0zAjEB5ZIoTnE4F7Qyp5WmO_NYlkVb7z31ren8kM
+Message-ID: <CAMMLpeTgY0pnAr9Q=_Dc4iUWkmZc3ixGU656CK+KU8qY2sLBsg@mail.gmail.com>
+Subject: Re: [PATCH resend] HID: apple: fix up the F6 key on the Omoton KB066 keyboard
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, "jkosina@suse.cz" <jkosina@suse.cz>, 
+	"benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Aditya Garg <gargaditya08@live.com>
+On Wed, Feb 12, 2025 at 10:44=E2=80=AFAM Aditya Garg <gargaditya08@live.com=
+> wrote:
 
-The following warnings were flagged by the kernel test robot:
+> > On 12 Feb 2025, at 11:06=E2=80=AFPM, Aditya Garg <gargaditya08@live.com=
+> wrote:
 
-drivers/hid/hid-appletb-kbd.c:405 appletb_kbd_probe() warn: inconsistent in=
-denting
-drivers/hid/hid-appletb-kbd.c:406 appletb_kbd_probe() warn: passing zero to=
- 'dev_err_probe'
+> >> On 17 Jan 2025, at 11:42=E2=80=AFAM, Alex Henrie <alexhenrie24@gmail.c=
+om> wrote:
+> >>
+> >> The Omoton KB066 is an Apple A1255 keyboard clone (HID product code
+> >> 05ac:022c). On both keyboards, the F6 key becomes Num Lock when the Fn
+> >> key is held. But unlike its Apple exemplar, when the Omoton's F6 key i=
+s
+> >> pressed without Fn, it sends the usage code 0xC0301 from the reserved
+> >> section of the consumer page instead of the standard F6 usage code
+> >> 0x7003F from the keyboard page. The nonstandard code is translated to
+> >> KEY_UNKNOWN and becomes useless on Linux. The Omoton KB066 is a pretty
+> >> popular keyboard, judging from its 29,058 reviews on Amazon at time of
+> >> writing, so let's account for its quirk to make it more usable.
+> >>
+> >> By the way, it would be nice if we could automatically set fnmode to 0
+> >> for Omoton keyboards because they handle the Fn key internally and the
+> >> kernel's Fn key handling creates undesirable side effects such as maki=
+ng
+> >> F1 and F2 always Brightness Up and Brightness Down in fnmode=3D1 (the
+> >> default) or always F1 and F2 in fnmode=3D2. Unfortunately I don't thin=
+k
+> >> there's a way to identify Bluetooth keyboards more specifically than t=
+he
+> >> HID product code which is obviously inaccurate. Users of Omoton
+> >> keyboards will just have to set fnmode to 0 manually to get full Fn ke=
+y
+> >> functionality.
+> >
+> > Regarding the the fnmode=3D0 thing, could you test this patch:
+> >
+> > -->8=E2=80=94
+> > From e2b2ef3f579800f11ee293fb45838a4004ccaf23 Mon Sep 17 00:00:00 2001
+> > From: Aditya Garg <gargaditya08@live.com>
+> > Date: Wed, 12 Feb 2025 22:57:58 +0530
+> > Subject: [PATCH] HID: apple: Add quirk to disable fn key on some non-ap=
+ple
+> > keyboards
+> >
+> > ---
+> > drivers/hid/hid-apple.c | 54 +++++++++++++++++++++++++++++------------
+> > 1 file changed, 39 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+> > index 49812a76b..9d4cbe636 100644
+> > --- a/drivers/hid/hid-apple.c
+> > +++ b/drivers/hid/hid-apple.c
+> > @@ -42,6 +42,7 @@
+> > #define APPLE_BACKLIGHT_CTL BIT(10)
+> > #define APPLE_IS_NON_APPLE BIT(11)
+> > #define APPLE_MAGIC_BACKLIGHT BIT(12)
+> > +#define APPLE_DISABLE_FN BIT(13)
+> >
+> > #define APPLE_FLAG_FKEY 0x01
+> >
+> > @@ -89,6 +90,19 @@ struct apple_sc_backlight {
+> > struct hid_device *hdev;
+> > };
+> >
+> > +struct apple_backlight_config_report {
+> > + u8 report_id;
+> > + u8 version;
+> > + u16 backlight_off, backlight_on_min, backlight_on_max;
+> > +};
+> > +
+> > +struct apple_backlight_set_report {
+> > + u8 report_id;
+> > + u8 version;
+> > + u16 backlight;
+> > + u16 rate;
+> > +};
+> > +
+> > struct apple_magic_backlight {
+> > struct led_classdev cdev;
+> > struct hid_report *brightness;
+> > @@ -152,20 +166,6 @@ static const struct apple_key_translation magic_ke=
+yboard_2015_fn_keys[] =3D {
+> > { }
+> > };
+> >
+> > -struct apple_backlight_config_report {
+> > - u8 report_id;
+> > - u8 version;
+> > - u16 backlight_off, backlight_on_min, backlight_on_max;
+> > -};
+> > -
+> > -struct apple_backlight_set_report {
+> > - u8 report_id;
+> > - u8 version;
+> > - u16 backlight;
+> > - u16 rate;
+> > -};
+> > -
+> > -
+> > static const struct apple_key_translation apple2021_fn_keys[] =3D {
+> > { KEY_BACKSPACE, KEY_DELETE },
+> > { KEY_ENTER, KEY_INSERT },
+> > @@ -364,6 +364,10 @@ static const struct apple_non_apple_keyboard non_a=
+pple_keyboards[] =3D {
+> > { "WKB603" },
+> > };
+> >
+> > +static const struct apple_non_apple_keyboard non_apple_keyboards_disab=
+le_fn[] =3D {
+> > + { "Omoton" },
+>
+> You could try replacing Omoton with OMOTON as well here if it does not wo=
+rk. Alternatively, you could try logging hdev->name for this device and put=
+ it in this table to get the correct name.
 
-This patch aims at fixing those warnings.
+On the Omoton KB066, hdev->name is "Bluetooth Keyboard". I think I saw
+that name in Blueman and assumed that it was just a default for when a
+keyboard has no name, but you're right, that string must be coming
+from the keyboard itself. After changing "Omoton" to "Bluetooth
+Keyboard" in non_apple_keyboards_disable_fn, your patch works!
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202502152006.fBBCdEr3-lkp@int=
-el.com/
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
----
- drivers/hid/hid-appletb-kbd.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Unfortunately, this keyboard is even more messed up than I realized.
+It is indeed sending different key codes depending on whether or not
+the Fn key is held. For example, F11 and F12 are Volume Down and
+Volume Up by default, but ordinary F11 and F12 when Fn is held.
+However, I was wrong about F1 and F2: With or without Fn, the Omoton
+_never_ changes F1 to Brightness Down or F2 to Brightness Up. I
+managed to pick the one bad example: All of the other special keys
+(Esc, F3 through F12, and Del) are translated internally, but not F1
+or F2. That also means that I was wrong about the Fn key not doing
+anything in fnmode=3D2. When Fn is held, all of the special keys do
+become ordinary keys in both fnmode=3D0 and fnmode=3D2, except for F1 and
+F2 which remain ordinary F1 and F2.
 
-diff --git a/drivers/hid/hid-appletb-kbd.c b/drivers/hid/hid-appletb-kbd.c
-index e45cc3ac4..200db518a 100644
---- a/drivers/hid/hid-appletb-kbd.c
-+++ b/drivers/hid/hid-appletb-kbd.c
-@@ -402,9 +402,9 @@ static int appletb_kbd_probe(struct hid_device *hdev, c=
-onst struct hid_device_id
- 	}
-=20
- 	kbd->backlight_dev =3D backlight_device_get_by_name("appletb_backlight");
--		if (!kbd->backlight_dev)
--			dev_err_probe(dev, ret, "Failed to get backlight device\n");
--		else {
-+		if (!kbd->backlight_dev) {
-+			dev_err_probe(dev, -ENODEV, "Failed to get backlight device\n");
-+		} else {
- 			backlight_device_set_brightness(kbd->backlight_dev, 2);
- 			timer_setup(&kbd->inactivity_timer, appletb_inactivity_timer, 0);
- 			mod_timer(&kbd->inactivity_timer, jiffies + msecs_to_jiffies(appletb_tb=
-_dim_timeout * 1000));
---=20
-2.43.0
+When connected to macOS, the results are similar: All of the special
+keys are special keys regardless of whether Fn is held, except F1 and
+F2, which by default are always translated to Brightness Down and
+Brightness Up like in Linux's fnmode=3D1. If the setting "Use F1, F2,
+etc. keys as standard function keys" is enabled in the system keyboard
+settings, all of the special keys change to ordinary keys when Fn is
+held, except for F1 and F2 which remain F1 and F2, just like in
+Linux's fnmode=3D0 and fnmode=3D2.
 
+It seems to me that the best way to support the Omoton KB066 would be
+to give it its own key translation table that has F1 and F2 and
+nothing else. But on the bright side, pun humorously intended, we
+wouldn't have to change the default fnmode. Just like on macOS, F1 and
+F2 would always be Brightness Down and Brightness Up, unless key
+translation is disabled. But unlike macOS (and the current state of
+Linux), we wouldn't undo the keyboard's own Fn key handling for the
+special keys that it translates internally.
+
+Circling back to the original problem of distinguishing between the
+Apple A1255 and the Omoton KB066, changing an Apple keyboard's name in
+the macOS keyboard settings also changes the name that it reports to
+Linux. Because "Bluetooth Keyboard" is so generic that someone might
+actually give their keyboard that name intentionally, if we add
+special behavior to look for that name, I think we should restrict it
+to PID 022c. For example, we could add the new quirk flag to
+USB_DEVICE_ID_APPLE_ALU_WIRELESS_ANSI in the apple_devices table and
+then clear the flag if the keyboard's name is not "Bluetooth
+Keyboard".
+
+Thanks for the help!
+
+-Alex
 
