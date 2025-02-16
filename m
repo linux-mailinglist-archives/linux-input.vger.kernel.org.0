@@ -1,257 +1,295 @@
-Return-Path: <linux-input+bounces-10074-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10075-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4919FA3718D
-	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2025 02:09:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9062FA3723A
+	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2025 07:06:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3B5317A2FB0
-	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2025 01:08:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4EB4E16CB64
+	for <lists+linux-input@lfdr.de>; Sun, 16 Feb 2025 06:06:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6266DA2D;
-	Sun, 16 Feb 2025 01:09:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EAF817BBF;
+	Sun, 16 Feb 2025 06:06:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bgW311Fn"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="Jmu1cafi"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19010011.outbound.protection.outlook.com [52.103.68.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975AB4C70
-	for <linux-input@vger.kernel.org>; Sun, 16 Feb 2025 01:09:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739668152; cv=none; b=bt15P16fGk4QAAkwtSY2FMroQ3r9N5WjY3Il/AIwLIp3IAjIdSwn3HgpheWOYqclIJivlvoaT6Y4/kmWmf1oCkM9MgF/PnChgWOgz3BVAA9hREbVVCY0kG0kMxmWht3giLkvfIVTiHgp/bOzRrTnpF/TnGRBuDQDpvLrXTwOeAg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739668152; c=relaxed/simple;
-	bh=HcHVkLAqtjsJ/7gwMSJe6SCnYdWmFQ6PkDMXvaWKywk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qAwpfkbJ2kwFqjhVW9/HuMBypYVgShYul11OecT5fiK449q90IumjUoQ6qqAvnmUzQc5LkJQ28RFp7dXJJhG28H+LOlStn2tllnbRQZG2netqQMhgyc2t7Nzn9E2OwhFrzawgHqKB/x1rUXn14A9PtBfujS7yY1HC++eyKbDqS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bgW311Fn; arc=none smtp.client-ip=209.85.219.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e46ebe19368so2468712276.0
-        for <linux-input@vger.kernel.org>; Sat, 15 Feb 2025 17:09:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739668149; x=1740272949; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HcHVkLAqtjsJ/7gwMSJe6SCnYdWmFQ6PkDMXvaWKywk=;
-        b=bgW311Fnc5SudviYl5N3FF1PqbaasfkoHFJfj319E5aZKpmyVh94zVFun+od9DOw3m
-         1uidcUrfKqSdupB+AJPWE9lX4S2vPzGSKIJR9JgGykH/tPgSqE1uUQ3VlXaMaBgn1PjP
-         7vKCbt5phu3gG/8NWdWUi1Z330K8rPQVw0CvwQ3f35aTww+CSOXIxvNeqGTZZ+mGvyNf
-         wChBvLfPwtlQCeE07xT7Q1uKUdaR8I0FmUO/dVj/Zm0H61kVOFAPzkXMIF45J6838TX0
-         JRFeTHZXtZ+mp/9f2GRLk45YQVESpxtNwRvPkOwGhzIuQCxhy1Hruk1Ss24EYWPg0uPc
-         6VPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739668149; x=1740272949;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HcHVkLAqtjsJ/7gwMSJe6SCnYdWmFQ6PkDMXvaWKywk=;
-        b=pLlkJVtb090ghg8qkYL5O0/tQSxOgi8IoJzmxMbiaNRcDBgQb2efzJqUB8s3PGtW3M
-         S04iuu5XUVtIC6Zsb4AkY/JrZe91bV+3FeVA34SjmEDccx+xJFNAry4V+axVeqT+eMIi
-         LuXk9qHhR1rb+Bg2FfIsg3zrlYq3Jdg+ZnhY0ibETxt2kq+2h9m3wEPCOvmwAfw5u8Wa
-         Jxbfn86jwxSQ4gQLMM8QLOtVxYHv1CBQZ2CBPh2vzGtq7JyuV4FuX5adqwuh346tArE5
-         aWQe49lpdJQmga7MRAbvA1yHQqeRN1MnxAeol50bCkqN8oyf0f231oi/P95x/aPkxibX
-         bwDg==
-X-Gm-Message-State: AOJu0YyA6ciZnqdJuawMVohUExq7jDInmL6erQWHLPiQyXtTfKZoeUZp
-	an/C5oexgPU2RM4OWhEY4FKlNTABuYcl7ml/PhVi0GU9NyKh2z4lWeQsoy1WczkoIs5vw+mb9he
-	pISeS1Xb7XOv7bb4MWmaTrBbTTLM=
-X-Gm-Gg: ASbGncsExPfU5h7t/50OiYS3NX+jx51LB4agLJGXoYY9QiCP5ZkegagyqgWol9T7Ttc
-	OyPw5uXEM6IHCBnB74CDVAo8rc7xHs5CEdeLPNq7Ym487SWKgBIHnUkXP4G6pijDO2kY/rSSM1Q
-	UTZxrF0yDSEAn6sKRR2pkCVoBw1tT+HqE=
-X-Google-Smtp-Source: AGHT+IHPPJajh5/GQSy57HwCa7+f8JJnTmmZWtjETIoZ4Z2shtGXIl9eqNpFXDSwE7uURGIRqBaWqB8v+qOS7fO12j0=
-X-Received: by 2002:a05:6902:845:b0:e59:dbac:d993 with SMTP id
- 3f1490d57ef6-e5dc9043ed6mr3687030276.17.1739668149084; Sat, 15 Feb 2025
- 17:09:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9E5367
+	for <linux-input@vger.kernel.org>; Sun, 16 Feb 2025 06:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739686012; cv=fail; b=EWDpic3aZN+SZyBXdydWW15K+m8RFMyCUvCe/PZSJ+WUipRSOoq/AyFFehTpm3+R7bLk79jfvbS1zEwMNp87YYe4ZKLizUPvspLjsdA3IOrHAgNfZ3nTZ8ntXnICXEj0ty847+lop5QgKatiek/sOLTSJUT02MV0jjuraEe9+yk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739686012; c=relaxed/simple;
+	bh=aehxb6VAwQtoLTYq07Ye33gWeMC4Kbsgx6TU5IbcqPo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=L2rqGNnsZAjbdINdXscQPBLAO6GmbNRBM3mVMjlcD3LFLesTI/137G+U+odisC8EXN4uURCPmrmFSzWUoGDj0UwWTsvtcaxZULe1+TAJLBSpMST27UiLzCDbUtCakelLyPzg0GpKNd98b4LpjZMGm2fvFtoir7Dl7k4PjJsxLZk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=Jmu1cafi; arc=fail smtp.client-ip=52.103.68.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SVMV7nOVmJo9IgHi09siaec6DLr08D8ruStNS3ypPT7PaqGUl31G0fcs6W0NLitztuXyTMAgDdsPpWy0XLyzlvmwhy0FknfTPwb9A0ETYzIFIEHN18ET/e/epTV/VAP4p5/puLk9/rC+bTUgLDgXePuxN6io4xoWQhyA5q9PsMtuY4ys8p9dMz4TstQ1eemEgf+lx2RgjdlD7ci89mTUiAASvVTt4R4ZO+fMZGsUdqrMp9R7fGbfqTI3RC+sPof2X1MgYcbJrx+JdsCZ4pBqYF0MINpH+BS5WATtOOXTQIICFtDXkdoUwG/BVMOq7pKu3/ZCjrCqSTMudjoPpxjjFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aehxb6VAwQtoLTYq07Ye33gWeMC4Kbsgx6TU5IbcqPo=;
+ b=Ri7+URdzMtxV/TEKMGEvEVyNHTyFSL19utLvk/iy/QLdUp3mQYfn3Sc93F+OLfJ9PVxDV/V0HEUdrmjHuyeV/9v6gAdA9F5fi/zw4gT6RO7856hUvdJd4n7UuN6P+x/v90Z/+eICUGPvKHiDEIXjJwjg3AgvatSTWZhtIeplryKfECXFCHviSkKl0DuqBECz/yUqfiZlLELmeRLpibGLzmmfVvIcoQy7Eq6sss1ouz2imKy/1QNGgYmOrqnKBfCCtfrg/yVR0u3m4dfOSGiisSlTMEq4FFvbOeIuF+Wg7Yoile71HtEos0qMXb6T+zgDkxy7PkMnbNYvdIcFbYFmTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aehxb6VAwQtoLTYq07Ye33gWeMC4Kbsgx6TU5IbcqPo=;
+ b=Jmu1cafiMkMv/jVK2hsfKc9I8BIJ0DODitlvzdZmUhZLV/2SDaNsOo668tqqpix2HchfN9KBVRFAdsO+QJ/mMIqNszj+y2Sn/1uJmllLWGfusyNTDCKiw4hzW6M4c6CZWHvZbpHSnAOV4ZXpUW7AD0/BKc++Qae6Cy3ISHm9Lz7kUf3jcNQLJONygFuDyOTok/tKPAEXTo66RUzPZ2duhxe2W4bpXl/4hxtjhmYbNscTh1Zg6Zr/YztyTI88t+E+/IP7f0LTa44b0hZ4b5lVOtRAIzvUQ9J98QnmpVGGFuuYhuyyNQM0fbB3yJ4oF4CLNs5GTh3mKEJQFajCIiFx1w==
+Received: from PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:110::10)
+ by PN0PR01MB9054.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:169::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Sun, 16 Feb
+ 2025 06:06:45 +0000
+Received: from PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::972:abe8:752:bbde]) by PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::972:abe8:752:bbde%6]) with mapi id 15.20.8445.017; Sun, 16 Feb 2025
+ 06:06:45 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Alex Henrie <alexhenrie24@gmail.com>
+CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"jkosina@suse.cz" <jkosina@suse.cz>, "benjamin.tissoires@redhat.com"
+	<benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH resend] HID: apple: fix up the F6 key on the Omoton KB066
+ keyboard
+Thread-Topic: [PATCH resend] HID: apple: fix up the F6 key on the Omoton KB066
+ keyboard
+Thread-Index: AQHbfXSaek/9eKHa2UOEiOnSSu3oB7ND8GeAgAUzRwCAAFNAAA==
+Date: Sun, 16 Feb 2025 06:06:45 +0000
+Message-ID: <F209BEE2-29F0-4A0B-8B94-2D5BFA00AC90@live.com>
+References: <20241001055146.543800-1-alexhenrie24@gmail.com>
+ <20250117061254.196702-1-alexhenrie24@gmail.com>
+ <3137A636-3FC2-4016-BC64-F5CEF308F834@live.com>
+ <55B3D2BA-F363-4335-820F-21DB90312CD2@live.com>
+ <CAMMLpeTgY0pnAr9Q=_Dc4iUWkmZc3ixGU656CK+KU8qY2sLBsg@mail.gmail.com>
+In-Reply-To:
+ <CAMMLpeTgY0pnAr9Q=_Dc4iUWkmZc3ixGU656CK+KU8qY2sLBsg@mail.gmail.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN0PR01MB9608:EE_|PN0PR01MB9054:EE_
+x-ms-office365-filtering-correlation-id: 2ad25d59-ea6d-4598-6ad0-08dd4e5017a4
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|8062599003|12121999004|19110799003|7092599003|8022599003|8060799006|461199028|15080799006|440099028|3412199025|41001999003|102099032;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?RXRCK1JjcGhZUjhxanR0aHlzR0M5YUxjYlMrNHo0T0lyNFAzUnpYaWhWWlR3?=
+ =?utf-8?B?VVhoL1FkdEl0WkRCK01jMUhyWG4wZmtXNEtrOHZXVGVBd3BHY1g0bEtBZHA0?=
+ =?utf-8?B?dnVzSzUxNHk4d3BibytIQVRxMDBZY1BOTU9vZlhrbUF2Q0JSMTVWdVRnN1Q4?=
+ =?utf-8?B?dG5OeVd2cks5NUJvRTJ3VHprNEp5dXNWdWRNZFhwZzRCYUtVQUVub3ZZSmo2?=
+ =?utf-8?B?TWlBTzNGSk1YWU1aOXlja1hOcWVLb3krZEJUdFRDZUMwOER3Z0JrYXdYMytm?=
+ =?utf-8?B?ZXkzU3E4V1RJbGdrK0lIVHNzQ055ZTRWSURGL2VybDh4dDc3TlJTYVQ3NEdU?=
+ =?utf-8?B?N1FFbGs4MjNUSG5hY25QRVNRd1dGMzg3RW13Y056OXJtalRpMHk3WXg1UFEw?=
+ =?utf-8?B?dzFPK0lYOTkvTjFuNTdaYUttUFp1VUhWMTNheWxaT0d4MTRpOXVYOXRFUDBI?=
+ =?utf-8?B?dTkwTzl6NTFDckpXMnU3MFBEVngyNnk3QmlwaGI2TTZuT0lPcU14a25BNzRa?=
+ =?utf-8?B?b2ZlQkpWMFBwZTY2M1UrMWRxaWJzMjlacTM3S0pUdXN6K1RmSERYbHRUaTRZ?=
+ =?utf-8?B?cEpCMUc4ZzRYOFpuUlJOVWRNZjBrTUhBRnpGMVppS1FxaXgzTWV6S096RUdN?=
+ =?utf-8?B?V0FhT3NVbnZhNHd0ZktDQ0d1NjM4VnoyRG16Ymh1cTRzeFcrSnNJaVlsTkV6?=
+ =?utf-8?B?ZERxSXRPV3drUGI3V1h5bVlrN3hqRDdHZXlQdjk4d1AwR25LZWl4WXE3RFha?=
+ =?utf-8?B?QWYzZDhFaUFpaUdCQlFQTkRpdlo0MGNqVnBCL3VUY2ZwS2Y0dytjOXphTkhT?=
+ =?utf-8?B?TURpM3g4aXkxNFhtMkJsZHMxQkV0SGtyR2ZMU1hoejNIZGJLUm9XZVR4c2J3?=
+ =?utf-8?B?RHJQSXd5dTVwbGpKYnFrYTl0MlpXRVVlaE9xaG1yeVBZNDhvb0F3d1c3MTRI?=
+ =?utf-8?B?VWdyZHBhdnhhbHFLR2s2OVpmN3Jkbjd5VklQREVEc3JkeXBZSmdIdXFieWlY?=
+ =?utf-8?B?SlFlTXYyRVFQNjUzMXBZUHBTSUFrQTJYMGxrd0Z5U1VnUEx1VkZxUzE2SkFn?=
+ =?utf-8?B?ZWROMHFmRWJRbmwxWnZtK0ZobUFDY0hKb0UwM1prd2lkMGJQM3ltSWp0MkV1?=
+ =?utf-8?B?Q0hvM0lJWVplK1d5U2VHNGdpUkp0OHBWeTFpYUkwWGN4SXNSWW1GVjdUc3ND?=
+ =?utf-8?B?TlZENjNSQ3BIZU9jbHN5Sy92bDI1RGVjcWNwTUhkZFdnQU85UEt1ZWJFb1cv?=
+ =?utf-8?B?RS8xSGVJWTZ0aUdUa1k5cjhPbldQbGIyajIrNXNRRjArYks5OENmdUxXM2lo?=
+ =?utf-8?B?L0tWeUtaclJBZVErbURneUMvemxycDdkUm9xVUxRdG5tRjhLMXBOYTBSS1ox?=
+ =?utf-8?B?Y3YzSENJc3FsVFdqQkExdG1DTFczRjFaWWRTOUErSm9OY0FKUFRkdFRETVFI?=
+ =?utf-8?B?RWRlbVRsU1gzeGIxcUtxMGFlRlZXZC85Y0VTQmxMbTVGczFMc2hXMXdIM1lJ?=
+ =?utf-8?B?WmVnNTBUV3diU2wxTUJLWlp5aE8zdVMyZ28wVG9OdnU1KzRjaFZ2OUMrUmFU?=
+ =?utf-8?Q?SC7E3nbrnBqemWVpIMLCf9jf0=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?M2doS1p6Uyswa3JLcWRqZzlEcW5OL0lnTFIwaklvaDFCUTlBMmd4YnZ2M0Ny?=
+ =?utf-8?B?MGJUVXBpOWNaQzVoajFjbnBDQ1gvZm1vZ3J6TUt5NTBoclM4Y3ZRMDM1OFZy?=
+ =?utf-8?B?eEVyOXpIeHorRFB3MFk4MFZ6SjBrb0tkMU5wU3JNQmdYcjd6RTMyU2dxam1L?=
+ =?utf-8?B?eUZzaS9wc0FNVGt0QlFicnZweXJHeGhFTW5YbFdwR1RWMnNWWFZUQkRpMWdE?=
+ =?utf-8?B?czh1bjlicEM5ZWFtUTgzMzlRaTlHOEtHZGNJd2ZBbzNLY3dJZ1FvVGYxbFdw?=
+ =?utf-8?B?WlFtakJrTGNHbkRPLzl1WUs1T2xlVzFHK0xxVk5ZTlFyWWpEOXZ3d3JIOHBy?=
+ =?utf-8?B?Tm1NSUE2TnlJbmpPUXBEUWV2NG5HWXZlaVlqZ3MzY1RtNnNpQU5XcWxZTHZY?=
+ =?utf-8?B?Ui9vYkZXTHk2YW5yREFLNFoyWkVMcWdKS09hRWx4aE4zcVovS2xIN1NGTCtO?=
+ =?utf-8?B?Ynd5RjhLQ2NMU1dnQ0EvZGRhM3RRbDRHMVFCTFNreXlSOStrR016Yi9RZ0hm?=
+ =?utf-8?B?a3cxOGFBWjhvdjZ2dEw3OSttMWI0UlY5Smh1cTZZYlJTdlpqTGRJQS9IY3lQ?=
+ =?utf-8?B?Si95alk5RnJ3bHI1ZGZBNlFaNHJIMVJRdy84ZGRJMUwwb3NXQWpVRlJQNll5?=
+ =?utf-8?B?TUFNYXdRbTRscmRETmxrVnhnN2xFTWxvYThXNUJEMWVROGhwV3pGQlo5VDZ0?=
+ =?utf-8?B?NzBRYzVyTXpNaXlJcmRHMmVOQXVvakFGMFdzYUZWRmhOaWs1NjJjQm9zZ05Z?=
+ =?utf-8?B?bVY5VVhQaWFBSmdPWEU2SlZuSXZwUUNaQmdoKzJnWThyVUVudmN3NkZrMU0r?=
+ =?utf-8?B?Z3pVaXNSZlpjaVRiVFAwQUhhNk9qazJ5TWZ1Q1Y3VmNNQ0dsajRXSzF3ZHpN?=
+ =?utf-8?B?VnVDTmt4ZEY3anFFTGY1NzR2WkJVNGdKSXZIaGF6WVBYaDJOSU9PVmpnUVFq?=
+ =?utf-8?B?SlMxM0JaV2VTaFNvVDVqUDNKWHczL1NGYUl5aXI5eG8wTGtNaENNQ1JxdG5M?=
+ =?utf-8?B?UUVSVFpyNUxYNVpKOExVQmF3RWdXSGNUU0U1N21IZDFWWHlxeDFmTGxWWXA3?=
+ =?utf-8?B?Yy85ZjVGcEVCVmZmMEpuM3k2R3Q1WUo4aFV1TXNLdlVsVWM5ZlZMcUgyaTZC?=
+ =?utf-8?B?REtjUEEzdGVqNTBmdXdITWdocFRJMFlzUlJJbTFzQi9zc0l2SElBK1FRSmtt?=
+ =?utf-8?B?YzZLaGN5LzExZ1hITm52cFQ4N2xDWEhhMXd0cGlrUndITjRIekVNK2U2K3dT?=
+ =?utf-8?B?SVBoMzUrMEdjcCt2SGVDcjRGYXBSendmSlFTY1FPRzFIMmJvVUhXUFlMQXFv?=
+ =?utf-8?B?MThMZ3NwV2NmTHFwMVBYblZMbW9KR01pTTcrMFRyM1V6b2JWcFdjM0FwajdK?=
+ =?utf-8?B?TjFDdDB0NlNybFl1MTBoVEo5eWpuVkY5ampnZGNNZ25OeDZEdVN3SUxHMGJl?=
+ =?utf-8?B?VmRMSmRJUWxmQURETEl3WHYvc2ZlY014bFRMUjIvTnhFUjQzTVRhQ3lTMnU2?=
+ =?utf-8?B?S0ZIVUh5Nkp6OVJid2RpTjRxbzRRMjAzTDZ1WDBFNjRHY1VOblJsZVJIelF1?=
+ =?utf-8?B?cHcreGpwU3hRRUFBbkYrRWdDWS9jM0VMOGxRZldHK2t4N1lkZkJ3WlpWQzRi?=
+ =?utf-8?B?UFVlbjJwOTRrR2lHT1lSc1RyTUZNSE5TeCtKYlBwZ2dOTW5MdzVUQXUyUGU0?=
+ =?utf-8?B?K1RhTXFWTTlKNW9kYkFRMnY1ajExcEJjMGhNL0MvdlpNUHJZZGhOcFJYclJ2?=
+ =?utf-8?Q?qJJElutxrrs27SKBC2IU17uepBTTSsh+STkXbcC?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2C8070E9B2C55848BA251A5CFC2C8A6F@INDPRD01.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241001055146.543800-1-alexhenrie24@gmail.com>
- <20250117061254.196702-1-alexhenrie24@gmail.com> <3137A636-3FC2-4016-BC64-F5CEF308F834@live.com>
- <55B3D2BA-F363-4335-820F-21DB90312CD2@live.com>
-In-Reply-To: <55B3D2BA-F363-4335-820F-21DB90312CD2@live.com>
-From: Alex Henrie <alexhenrie24@gmail.com>
-Date: Sat, 15 Feb 2025 18:08:32 -0700
-X-Gm-Features: AWEUYZnPEWMKnGWw1kzvVmR0zAjEB5ZIoTnE4F7Qyp5WmO_NYlkVb7z31ren8kM
-Message-ID: <CAMMLpeTgY0pnAr9Q=_Dc4iUWkmZc3ixGU656CK+KU8qY2sLBsg@mail.gmail.com>
-Subject: Re: [PATCH resend] HID: apple: fix up the F6 key on the Omoton KB066 keyboard
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, "jkosina@suse.cz" <jkosina@suse.cz>, 
-	"benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ad25d59-ea6d-4598-6ad0-08dd4e5017a4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Feb 2025 06:06:45.7089
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB9054
 
-On Wed, Feb 12, 2025 at 10:44=E2=80=AFAM Aditya Garg <gargaditya08@live.com=
-> wrote:
-
-> > On 12 Feb 2025, at 11:06=E2=80=AFPM, Aditya Garg <gargaditya08@live.com=
-> wrote:
-
-> >> On 17 Jan 2025, at 11:42=E2=80=AFAM, Alex Henrie <alexhenrie24@gmail.c=
-om> wrote:
-> >>
-> >> The Omoton KB066 is an Apple A1255 keyboard clone (HID product code
-> >> 05ac:022c). On both keyboards, the F6 key becomes Num Lock when the Fn
-> >> key is held. But unlike its Apple exemplar, when the Omoton's F6 key i=
-s
-> >> pressed without Fn, it sends the usage code 0xC0301 from the reserved
-> >> section of the consumer page instead of the standard F6 usage code
-> >> 0x7003F from the keyboard page. The nonstandard code is translated to
-> >> KEY_UNKNOWN and becomes useless on Linux. The Omoton KB066 is a pretty
-> >> popular keyboard, judging from its 29,058 reviews on Amazon at time of
-> >> writing, so let's account for its quirk to make it more usable.
-> >>
-> >> By the way, it would be nice if we could automatically set fnmode to 0
-> >> for Omoton keyboards because they handle the Fn key internally and the
-> >> kernel's Fn key handling creates undesirable side effects such as maki=
-ng
-> >> F1 and F2 always Brightness Up and Brightness Down in fnmode=3D1 (the
-> >> default) or always F1 and F2 in fnmode=3D2. Unfortunately I don't thin=
-k
-> >> there's a way to identify Bluetooth keyboards more specifically than t=
-he
-> >> HID product code which is obviously inaccurate. Users of Omoton
-> >> keyboards will just have to set fnmode to 0 manually to get full Fn ke=
-y
-> >> functionality.
-> >
-> > Regarding the the fnmode=3D0 thing, could you test this patch:
-> >
-> > -->8=E2=80=94
-> > From e2b2ef3f579800f11ee293fb45838a4004ccaf23 Mon Sep 17 00:00:00 2001
-> > From: Aditya Garg <gargaditya08@live.com>
-> > Date: Wed, 12 Feb 2025 22:57:58 +0530
-> > Subject: [PATCH] HID: apple: Add quirk to disable fn key on some non-ap=
-ple
-> > keyboards
-> >
-> > ---
-> > drivers/hid/hid-apple.c | 54 +++++++++++++++++++++++++++++------------
-> > 1 file changed, 39 insertions(+), 15 deletions(-)
-> >
-> > diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-> > index 49812a76b..9d4cbe636 100644
-> > --- a/drivers/hid/hid-apple.c
-> > +++ b/drivers/hid/hid-apple.c
-> > @@ -42,6 +42,7 @@
-> > #define APPLE_BACKLIGHT_CTL BIT(10)
-> > #define APPLE_IS_NON_APPLE BIT(11)
-> > #define APPLE_MAGIC_BACKLIGHT BIT(12)
-> > +#define APPLE_DISABLE_FN BIT(13)
-> >
-> > #define APPLE_FLAG_FKEY 0x01
-> >
-> > @@ -89,6 +90,19 @@ struct apple_sc_backlight {
-> > struct hid_device *hdev;
-> > };
-> >
-> > +struct apple_backlight_config_report {
-> > + u8 report_id;
-> > + u8 version;
-> > + u16 backlight_off, backlight_on_min, backlight_on_max;
-> > +};
-> > +
-> > +struct apple_backlight_set_report {
-> > + u8 report_id;
-> > + u8 version;
-> > + u16 backlight;
-> > + u16 rate;
-> > +};
-> > +
-> > struct apple_magic_backlight {
-> > struct led_classdev cdev;
-> > struct hid_report *brightness;
-> > @@ -152,20 +166,6 @@ static const struct apple_key_translation magic_ke=
-yboard_2015_fn_keys[] =3D {
-> > { }
-> > };
-> >
-> > -struct apple_backlight_config_report {
-> > - u8 report_id;
-> > - u8 version;
-> > - u16 backlight_off, backlight_on_min, backlight_on_max;
-> > -};
-> > -
-> > -struct apple_backlight_set_report {
-> > - u8 report_id;
-> > - u8 version;
-> > - u16 backlight;
-> > - u16 rate;
-> > -};
-> > -
-> > -
-> > static const struct apple_key_translation apple2021_fn_keys[] =3D {
-> > { KEY_BACKSPACE, KEY_DELETE },
-> > { KEY_ENTER, KEY_INSERT },
-> > @@ -364,6 +364,10 @@ static const struct apple_non_apple_keyboard non_a=
-pple_keyboards[] =3D {
-> > { "WKB603" },
-> > };
-> >
-> > +static const struct apple_non_apple_keyboard non_apple_keyboards_disab=
-le_fn[] =3D {
-> > + { "Omoton" },
->
-> You could try replacing Omoton with OMOTON as well here if it does not wo=
-rk. Alternatively, you could try logging hdev->name for this device and put=
- it in this table to get the correct name.
-
-On the Omoton KB066, hdev->name is "Bluetooth Keyboard". I think I saw
-that name in Blueman and assumed that it was just a default for when a
-keyboard has no name, but you're right, that string must be coming
-from the keyboard itself. After changing "Omoton" to "Bluetooth
-Keyboard" in non_apple_keyboards_disable_fn, your patch works!
-
-Unfortunately, this keyboard is even more messed up than I realized.
-It is indeed sending different key codes depending on whether or not
-the Fn key is held. For example, F11 and F12 are Volume Down and
-Volume Up by default, but ordinary F11 and F12 when Fn is held.
-However, I was wrong about F1 and F2: With or without Fn, the Omoton
-_never_ changes F1 to Brightness Down or F2 to Brightness Up. I
-managed to pick the one bad example: All of the other special keys
-(Esc, F3 through F12, and Del) are translated internally, but not F1
-or F2. That also means that I was wrong about the Fn key not doing
-anything in fnmode=3D2. When Fn is held, all of the special keys do
-become ordinary keys in both fnmode=3D0 and fnmode=3D2, except for F1 and
-F2 which remain ordinary F1 and F2.
-
-When connected to macOS, the results are similar: All of the special
-keys are special keys regardless of whether Fn is held, except F1 and
-F2, which by default are always translated to Brightness Down and
-Brightness Up like in Linux's fnmode=3D1. If the setting "Use F1, F2,
-etc. keys as standard function keys" is enabled in the system keyboard
-settings, all of the special keys change to ordinary keys when Fn is
-held, except for F1 and F2 which remain F1 and F2, just like in
-Linux's fnmode=3D0 and fnmode=3D2.
-
-It seems to me that the best way to support the Omoton KB066 would be
-to give it its own key translation table that has F1 and F2 and
-nothing else. But on the bright side, pun humorously intended, we
-wouldn't have to change the default fnmode. Just like on macOS, F1 and
-F2 would always be Brightness Down and Brightness Up, unless key
-translation is disabled. But unlike macOS (and the current state of
-Linux), we wouldn't undo the keyboard's own Fn key handling for the
-special keys that it translates internally.
-
-Circling back to the original problem of distinguishing between the
-Apple A1255 and the Omoton KB066, changing an Apple keyboard's name in
-the macOS keyboard settings also changes the name that it reports to
-Linux. Because "Bluetooth Keyboard" is so generic that someone might
-actually give their keyboard that name intentionally, if we add
-special behavior to look for that name, I think we should restrict it
-to PID 022c. For example, we could add the new quirk flag to
-USB_DEVICE_ID_APPLE_ALU_WIRELESS_ANSI in the apple_devices table and
-then clear the flag if the keyboard's name is not "Bluetooth
-Keyboard".
-
-Thanks for the help!
-
--Alex
+U28gaWYgSSB1bmRlcnN0YW5kIGNvcnJlY3RseQ0KDQpJZiBGbiBtb2RlIGlzIDAgb3IgMjoNCg0K
+RjEgYW5kIEYyIGFyZSBicmlnaHRuZXNzIGtleXMNClJlc3QgYXJlIGZ1bmN0aW9uIGtleXMNCg0K
+SWYgRm4gbW9kZSBpcyAxOg0KDQpGMSBhbmQgRjIgYXJlIGZ1bmN0aW9uIGtleXMNClJlc3QgYXJl
+IG1lZGlhIGtleXMNCg0KRm4ga2V5IGRvZXMgbm90IHdvcmsgaW4gYW55IG1vZGUNCg0KSW4gY2Fz
+ZSBJIGFtIHdyb25nLCBjYW4geW91IHNoYXJlIHdoYXQgZXhhY3RseSBoYXBwZW5zIGluIGVhY2gg
+bW9kZSB3aXRoIGZuIG9uIGFzIHdlbGwgYXMgb2ZmPw0KDQoNCj4gT24gMTYgRmViIDIwMjUsIGF0
+IDY6MzjigK9BTSwgQWxleCBIZW5yaWUgPGFsZXhoZW5yaWUyNEBnbWFpbC5jb20+IHdyb3RlOg0K
+PiANCj4gT24gV2VkLCBGZWIgMTIsIDIwMjUgYXQgMTA6NDTigK9BTSBBZGl0eWEgR2FyZyA8Z2Fy
+Z2FkaXR5YTA4QGxpdmUuY29tPiB3cm90ZToNCj4gDQo+Pj4gT24gMTIgRmViIDIwMjUsIGF0IDEx
+OjA24oCvUE0sIEFkaXR5YSBHYXJnIDxnYXJnYWRpdHlhMDhAbGl2ZS5jb20+IHdyb3RlOg0KPiAN
+Cj4+Pj4gT24gMTcgSmFuIDIwMjUsIGF0IDExOjQy4oCvQU0sIEFsZXggSGVucmllIDxhbGV4aGVu
+cmllMjRAZ21haWwuY29tPiB3cm90ZToNCj4+Pj4gDQo+Pj4+IFRoZSBPbW90b24gS0IwNjYgaXMg
+YW4gQXBwbGUgQTEyNTUga2V5Ym9hcmQgY2xvbmUgKEhJRCBwcm9kdWN0IGNvZGUNCj4+Pj4gMDVh
+YzowMjJjKS4gT24gYm90aCBrZXlib2FyZHMsIHRoZSBGNiBrZXkgYmVjb21lcyBOdW0gTG9jayB3
+aGVuIHRoZSBGbg0KPj4+PiBrZXkgaXMgaGVsZC4gQnV0IHVubGlrZSBpdHMgQXBwbGUgZXhlbXBs
+YXIsIHdoZW4gdGhlIE9tb3RvbidzIEY2IGtleSBpcw0KPj4+PiBwcmVzc2VkIHdpdGhvdXQgRm4s
+IGl0IHNlbmRzIHRoZSB1c2FnZSBjb2RlIDB4QzAzMDEgZnJvbSB0aGUgcmVzZXJ2ZWQNCj4+Pj4g
+c2VjdGlvbiBvZiB0aGUgY29uc3VtZXIgcGFnZSBpbnN0ZWFkIG9mIHRoZSBzdGFuZGFyZCBGNiB1
+c2FnZSBjb2RlDQo+Pj4+IDB4NzAwM0YgZnJvbSB0aGUga2V5Ym9hcmQgcGFnZS4gVGhlIG5vbnN0
+YW5kYXJkIGNvZGUgaXMgdHJhbnNsYXRlZCB0bw0KPj4+PiBLRVlfVU5LTk9XTiBhbmQgYmVjb21l
+cyB1c2VsZXNzIG9uIExpbnV4LiBUaGUgT21vdG9uIEtCMDY2IGlzIGEgcHJldHR5DQo+Pj4+IHBv
+cHVsYXIga2V5Ym9hcmQsIGp1ZGdpbmcgZnJvbSBpdHMgMjksMDU4IHJldmlld3Mgb24gQW1hem9u
+IGF0IHRpbWUgb2YNCj4+Pj4gd3JpdGluZywgc28gbGV0J3MgYWNjb3VudCBmb3IgaXRzIHF1aXJr
+IHRvIG1ha2UgaXQgbW9yZSB1c2FibGUuDQo+Pj4+IA0KPj4+PiBCeSB0aGUgd2F5LCBpdCB3b3Vs
+ZCBiZSBuaWNlIGlmIHdlIGNvdWxkIGF1dG9tYXRpY2FsbHkgc2V0IGZubW9kZSB0byAwDQo+Pj4+
+IGZvciBPbW90b24ga2V5Ym9hcmRzIGJlY2F1c2UgdGhleSBoYW5kbGUgdGhlIEZuIGtleSBpbnRl
+cm5hbGx5IGFuZCB0aGUNCj4+Pj4ga2VybmVsJ3MgRm4ga2V5IGhhbmRsaW5nIGNyZWF0ZXMgdW5k
+ZXNpcmFibGUgc2lkZSBlZmZlY3RzIHN1Y2ggYXMgbWFraW5nDQo+Pj4+IEYxIGFuZCBGMiBhbHdh
+eXMgQnJpZ2h0bmVzcyBVcCBhbmQgQnJpZ2h0bmVzcyBEb3duIGluIGZubW9kZT0xICh0aGUNCj4+
+Pj4gZGVmYXVsdCkgb3IgYWx3YXlzIEYxIGFuZCBGMiBpbiBmbm1vZGU9Mi4gVW5mb3J0dW5hdGVs
+eSBJIGRvbid0IHRoaW5rDQo+Pj4+IHRoZXJlJ3MgYSB3YXkgdG8gaWRlbnRpZnkgQmx1ZXRvb3Ro
+IGtleWJvYXJkcyBtb3JlIHNwZWNpZmljYWxseSB0aGFuIHRoZQ0KPj4+PiBISUQgcHJvZHVjdCBj
+b2RlIHdoaWNoIGlzIG9idmlvdXNseSBpbmFjY3VyYXRlLiBVc2VycyBvZiBPbW90b24NCj4+Pj4g
+a2V5Ym9hcmRzIHdpbGwganVzdCBoYXZlIHRvIHNldCBmbm1vZGUgdG8gMCBtYW51YWxseSB0byBn
+ZXQgZnVsbCBGbiBrZXkNCj4+Pj4gZnVuY3Rpb25hbGl0eS4NCj4+PiANCj4+PiBSZWdhcmRpbmcg
+dGhlIHRoZSBmbm1vZGU9MCB0aGluZywgY291bGQgeW91IHRlc3QgdGhpcyBwYXRjaDoNCj4+PiAN
+Cj4+PiAtLT444oCUDQo+Pj4gRnJvbSBlMmIyZWYzZjU3OTgwMGYxMWVlMjkzZmI0NTgzOGE0MDA0
+Y2NhZjIzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQ0KPj4+IEZyb206IEFkaXR5YSBHYXJnIDxn
+YXJnYWRpdHlhMDhAbGl2ZS5jb20+DQo+Pj4gRGF0ZTogV2VkLCAxMiBGZWIgMjAyNSAyMjo1Nzo1
+OCArMDUzMA0KPj4+IFN1YmplY3Q6IFtQQVRDSF0gSElEOiBhcHBsZTogQWRkIHF1aXJrIHRvIGRp
+c2FibGUgZm4ga2V5IG9uIHNvbWUgbm9uLWFwcGxlDQo+Pj4ga2V5Ym9hcmRzDQo+Pj4gDQo+Pj4g
+LS0tDQo+Pj4gZHJpdmVycy9oaWQvaGlkLWFwcGxlLmMgfCA1NCArKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKy0tLS0tLS0tLS0tLQ0KPj4+IDEgZmlsZSBjaGFuZ2VkLCAzOSBpbnNlcnRpb25z
+KCspLCAxNSBkZWxldGlvbnMoLSkNCj4+PiANCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9oaWQv
+aGlkLWFwcGxlLmMgYi9kcml2ZXJzL2hpZC9oaWQtYXBwbGUuYw0KPj4+IGluZGV4IDQ5ODEyYTc2
+Yi4uOWQ0Y2JlNjM2IDEwMDY0NA0KPj4+IC0tLSBhL2RyaXZlcnMvaGlkL2hpZC1hcHBsZS5jDQo+
+Pj4gKysrIGIvZHJpdmVycy9oaWQvaGlkLWFwcGxlLmMNCj4+PiBAQCAtNDIsNiArNDIsNyBAQA0K
+Pj4+ICNkZWZpbmUgQVBQTEVfQkFDS0xJR0hUX0NUTCBCSVQoMTApDQo+Pj4gI2RlZmluZSBBUFBM
+RV9JU19OT05fQVBQTEUgQklUKDExKQ0KPj4+ICNkZWZpbmUgQVBQTEVfTUFHSUNfQkFDS0xJR0hU
+IEJJVCgxMikNCj4+PiArI2RlZmluZSBBUFBMRV9ESVNBQkxFX0ZOIEJJVCgxMykNCj4+PiANCj4+
+PiAjZGVmaW5lIEFQUExFX0ZMQUdfRktFWSAweDAxDQo+Pj4gDQo+Pj4gQEAgLTg5LDYgKzkwLDE5
+IEBAIHN0cnVjdCBhcHBsZV9zY19iYWNrbGlnaHQgew0KPj4+IHN0cnVjdCBoaWRfZGV2aWNlICpo
+ZGV2Ow0KPj4+IH07DQo+Pj4gDQo+Pj4gK3N0cnVjdCBhcHBsZV9iYWNrbGlnaHRfY29uZmlnX3Jl
+cG9ydCB7DQo+Pj4gKyB1OCByZXBvcnRfaWQ7DQo+Pj4gKyB1OCB2ZXJzaW9uOw0KPj4+ICsgdTE2
+IGJhY2tsaWdodF9vZmYsIGJhY2tsaWdodF9vbl9taW4sIGJhY2tsaWdodF9vbl9tYXg7DQo+Pj4g
+K307DQo+Pj4gKw0KPj4+ICtzdHJ1Y3QgYXBwbGVfYmFja2xpZ2h0X3NldF9yZXBvcnQgew0KPj4+
+ICsgdTggcmVwb3J0X2lkOw0KPj4+ICsgdTggdmVyc2lvbjsNCj4+PiArIHUxNiBiYWNrbGlnaHQ7
+DQo+Pj4gKyB1MTYgcmF0ZTsNCj4+PiArfTsNCj4+PiArDQo+Pj4gc3RydWN0IGFwcGxlX21hZ2lj
+X2JhY2tsaWdodCB7DQo+Pj4gc3RydWN0IGxlZF9jbGFzc2RldiBjZGV2Ow0KPj4+IHN0cnVjdCBo
+aWRfcmVwb3J0ICpicmlnaHRuZXNzOw0KPj4+IEBAIC0xNTIsMjAgKzE2Niw2IEBAIHN0YXRpYyBj
+b25zdCBzdHJ1Y3QgYXBwbGVfa2V5X3RyYW5zbGF0aW9uIG1hZ2ljX2tleWJvYXJkXzIwMTVfZm5f
+a2V5c1tdID0gew0KPj4+IHsgfQ0KPj4+IH07DQo+Pj4gDQo+Pj4gLXN0cnVjdCBhcHBsZV9iYWNr
+bGlnaHRfY29uZmlnX3JlcG9ydCB7DQo+Pj4gLSB1OCByZXBvcnRfaWQ7DQo+Pj4gLSB1OCB2ZXJz
+aW9uOw0KPj4+IC0gdTE2IGJhY2tsaWdodF9vZmYsIGJhY2tsaWdodF9vbl9taW4sIGJhY2tsaWdo
+dF9vbl9tYXg7DQo+Pj4gLX07DQo+Pj4gLQ0KPj4+IC1zdHJ1Y3QgYXBwbGVfYmFja2xpZ2h0X3Nl
+dF9yZXBvcnQgew0KPj4+IC0gdTggcmVwb3J0X2lkOw0KPj4+IC0gdTggdmVyc2lvbjsNCj4+PiAt
+IHUxNiBiYWNrbGlnaHQ7DQo+Pj4gLSB1MTYgcmF0ZTsNCj4+PiAtfTsNCj4+PiAtDQo+Pj4gLQ0K
+Pj4+IHN0YXRpYyBjb25zdCBzdHJ1Y3QgYXBwbGVfa2V5X3RyYW5zbGF0aW9uIGFwcGxlMjAyMV9m
+bl9rZXlzW10gPSB7DQo+Pj4geyBLRVlfQkFDS1NQQUNFLCBLRVlfREVMRVRFIH0sDQo+Pj4geyBL
+RVlfRU5URVIsIEtFWV9JTlNFUlQgfSwNCj4+PiBAQCAtMzY0LDYgKzM2NCwxMCBAQCBzdGF0aWMg
+Y29uc3Qgc3RydWN0IGFwcGxlX25vbl9hcHBsZV9rZXlib2FyZCBub25fYXBwbGVfa2V5Ym9hcmRz
+W10gPSB7DQo+Pj4geyAiV0tCNjAzIiB9LA0KPj4+IH07DQo+Pj4gDQo+Pj4gK3N0YXRpYyBjb25z
+dCBzdHJ1Y3QgYXBwbGVfbm9uX2FwcGxlX2tleWJvYXJkIG5vbl9hcHBsZV9rZXlib2FyZHNfZGlz
+YWJsZV9mbltdID0gew0KPj4+ICsgeyAiT21vdG9uIiB9LA0KPj4gDQo+PiBZb3UgY291bGQgdHJ5
+IHJlcGxhY2luZyBPbW90b24gd2l0aCBPTU9UT04gYXMgd2VsbCBoZXJlIGlmIGl0IGRvZXMgbm90
+IHdvcmsuIEFsdGVybmF0aXZlbHksIHlvdSBjb3VsZCB0cnkgbG9nZ2luZyBoZGV2LT5uYW1lIGZv
+ciB0aGlzIGRldmljZSBhbmQgcHV0IGl0IGluIHRoaXMgdGFibGUgdG8gZ2V0IHRoZSBjb3JyZWN0
+IG5hbWUuDQo+IA0KPiBPbiB0aGUgT21vdG9uIEtCMDY2LCBoZGV2LT5uYW1lIGlzICJCbHVldG9v
+dGggS2V5Ym9hcmQiLiBJIHRoaW5rIEkgc2F3DQo+IHRoYXQgbmFtZSBpbiBCbHVlbWFuIGFuZCBh
+c3N1bWVkIHRoYXQgaXQgd2FzIGp1c3QgYSBkZWZhdWx0IGZvciB3aGVuIGENCj4ga2V5Ym9hcmQg
+aGFzIG5vIG5hbWUsIGJ1dCB5b3UncmUgcmlnaHQsIHRoYXQgc3RyaW5nIG11c3QgYmUgY29taW5n
+DQo+IGZyb20gdGhlIGtleWJvYXJkIGl0c2VsZi4gQWZ0ZXIgY2hhbmdpbmcgIk9tb3RvbiIgdG8g
+IkJsdWV0b290aA0KPiBLZXlib2FyZCIgaW4gbm9uX2FwcGxlX2tleWJvYXJkc19kaXNhYmxlX2Zu
+LCB5b3VyIHBhdGNoIHdvcmtzIQ0KPiANCj4gVW5mb3J0dW5hdGVseSwgdGhpcyBrZXlib2FyZCBp
+cyBldmVuIG1vcmUgbWVzc2VkIHVwIHRoYW4gSSByZWFsaXplZC4NCj4gSXQgaXMgaW5kZWVkIHNl
+bmRpbmcgZGlmZmVyZW50IGtleSBjb2RlcyBkZXBlbmRpbmcgb24gd2hldGhlciBvciBub3QNCj4g
+dGhlIEZuIGtleSBpcyBoZWxkLiBGb3IgZXhhbXBsZSwgRjExIGFuZCBGMTIgYXJlIFZvbHVtZSBE
+b3duIGFuZA0KPiBWb2x1bWUgVXAgYnkgZGVmYXVsdCwgYnV0IG9yZGluYXJ5IEYxMSBhbmQgRjEy
+IHdoZW4gRm4gaXMgaGVsZC4NCj4gSG93ZXZlciwgSSB3YXMgd3JvbmcgYWJvdXQgRjEgYW5kIEYy
+OiBXaXRoIG9yIHdpdGhvdXQgRm4sIHRoZSBPbW90b24NCj4gX25ldmVyXyBjaGFuZ2VzIEYxIHRv
+IEJyaWdodG5lc3MgRG93biBvciBGMiB0byBCcmlnaHRuZXNzIFVwLiBJDQo+IG1hbmFnZWQgdG8g
+cGljayB0aGUgb25lIGJhZCBleGFtcGxlOiBBbGwgb2YgdGhlIG90aGVyIHNwZWNpYWwga2V5cw0K
+PiAoRXNjLCBGMyB0aHJvdWdoIEYxMiwgYW5kIERlbCkgYXJlIHRyYW5zbGF0ZWQgaW50ZXJuYWxs
+eSwgYnV0IG5vdCBGMQ0KPiBvciBGMi4gVGhhdCBhbHNvIG1lYW5zIHRoYXQgSSB3YXMgd3Jvbmcg
+YWJvdXQgdGhlIEZuIGtleSBub3QgZG9pbmcNCj4gYW55dGhpbmcgaW4gZm5tb2RlPTIuIFdoZW4g
+Rm4gaXMgaGVsZCwgYWxsIG9mIHRoZSBzcGVjaWFsIGtleXMgZG8NCj4gYmVjb21lIG9yZGluYXJ5
+IGtleXMgaW4gYm90aCBmbm1vZGU9MCBhbmQgZm5tb2RlPTIsIGV4Y2VwdCBmb3IgRjEgYW5kDQo+
+IEYyIHdoaWNoIHJlbWFpbiBvcmRpbmFyeSBGMSBhbmQgRjIuDQo+IA0KPiBXaGVuIGNvbm5lY3Rl
+ZCB0byBtYWNPUywgdGhlIHJlc3VsdHMgYXJlIHNpbWlsYXI6IEFsbCBvZiB0aGUgc3BlY2lhbA0K
+PiBrZXlzIGFyZSBzcGVjaWFsIGtleXMgcmVnYXJkbGVzcyBvZiB3aGV0aGVyIEZuIGlzIGhlbGQs
+IGV4Y2VwdCBGMSBhbmQNCj4gRjIsIHdoaWNoIGJ5IGRlZmF1bHQgYXJlIGFsd2F5cyB0cmFuc2xh
+dGVkIHRvIEJyaWdodG5lc3MgRG93biBhbmQNCj4gQnJpZ2h0bmVzcyBVcCBsaWtlIGluIExpbnV4
+J3MgZm5tb2RlPTEuIElmIHRoZSBzZXR0aW5nICJVc2UgRjEsIEYyLA0KPiBldGMuIGtleXMgYXMg
+c3RhbmRhcmQgZnVuY3Rpb24ga2V5cyIgaXMgZW5hYmxlZCBpbiB0aGUgc3lzdGVtIGtleWJvYXJk
+DQo+IHNldHRpbmdzLCBhbGwgb2YgdGhlIHNwZWNpYWwga2V5cyBjaGFuZ2UgdG8gb3JkaW5hcnkg
+a2V5cyB3aGVuIEZuIGlzDQo+IGhlbGQsIGV4Y2VwdCBmb3IgRjEgYW5kIEYyIHdoaWNoIHJlbWFp
+biBGMSBhbmQgRjIsIGp1c3QgbGlrZSBpbg0KPiBMaW51eCdzIGZubW9kZT0wIGFuZCBmbm1vZGU9
+Mi4NCj4gDQo+IEl0IHNlZW1zIHRvIG1lIHRoYXQgdGhlIGJlc3Qgd2F5IHRvIHN1cHBvcnQgdGhl
+IE9tb3RvbiBLQjA2NiB3b3VsZCBiZQ0KPiB0byBnaXZlIGl0IGl0cyBvd24ga2V5IHRyYW5zbGF0
+aW9uIHRhYmxlIHRoYXQgaGFzIEYxIGFuZCBGMiBhbmQNCj4gbm90aGluZyBlbHNlLiBCdXQgb24g
+dGhlIGJyaWdodCBzaWRlLCBwdW4gaHVtb3JvdXNseSBpbnRlbmRlZCwgd2UNCj4gd291bGRuJ3Qg
+aGF2ZSB0byBjaGFuZ2UgdGhlIGRlZmF1bHQgZm5tb2RlLiBKdXN0IGxpa2Ugb24gbWFjT1MsIEYx
+IGFuZA0KPiBGMiB3b3VsZCBhbHdheXMgYmUgQnJpZ2h0bmVzcyBEb3duIGFuZCBCcmlnaHRuZXNz
+IFVwLCB1bmxlc3Mga2V5DQo+IHRyYW5zbGF0aW9uIGlzIGRpc2FibGVkLiBCdXQgdW5saWtlIG1h
+Y09TIChhbmQgdGhlIGN1cnJlbnQgc3RhdGUgb2YNCj4gTGludXgpLCB3ZSB3b3VsZG4ndCB1bmRv
+IHRoZSBrZXlib2FyZCdzIG93biBGbiBrZXkgaGFuZGxpbmcgZm9yIHRoZQ0KPiBzcGVjaWFsIGtl
+eXMgdGhhdCBpdCB0cmFuc2xhdGVzIGludGVybmFsbHkuDQo+IA0KPiBDaXJjbGluZyBiYWNrIHRv
+IHRoZSBvcmlnaW5hbCBwcm9ibGVtIG9mIGRpc3Rpbmd1aXNoaW5nIGJldHdlZW4gdGhlDQo+IEFw
+cGxlIEExMjU1IGFuZCB0aGUgT21vdG9uIEtCMDY2LCBjaGFuZ2luZyBhbiBBcHBsZSBrZXlib2Fy
+ZCdzIG5hbWUgaW4NCj4gdGhlIG1hY09TIGtleWJvYXJkIHNldHRpbmdzIGFsc28gY2hhbmdlcyB0
+aGUgbmFtZSB0aGF0IGl0IHJlcG9ydHMgdG8NCj4gTGludXguIEJlY2F1c2UgIkJsdWV0b290aCBL
+ZXlib2FyZCIgaXMgc28gZ2VuZXJpYyB0aGF0IHNvbWVvbmUgbWlnaHQNCj4gYWN0dWFsbHkgZ2l2
+ZSB0aGVpciBrZXlib2FyZCB0aGF0IG5hbWUgaW50ZW50aW9uYWxseSwgaWYgd2UgYWRkDQo+IHNw
+ZWNpYWwgYmVoYXZpb3IgdG8gbG9vayBmb3IgdGhhdCBuYW1lLCBJIHRoaW5rIHdlIHNob3VsZCBy
+ZXN0cmljdCBpdA0KPiB0byBQSUQgMDIyYy4gRm9yIGV4YW1wbGUsIHdlIGNvdWxkIGFkZCB0aGUg
+bmV3IHF1aXJrIGZsYWcgdG8NCj4gVVNCX0RFVklDRV9JRF9BUFBMRV9BTFVfV0lSRUxFU1NfQU5T
+SSBpbiB0aGUgYXBwbGVfZGV2aWNlcyB0YWJsZSBhbmQNCj4gdGhlbiBjbGVhciB0aGUgZmxhZyBp
+ZiB0aGUga2V5Ym9hcmQncyBuYW1lIGlzIG5vdCAiQmx1ZXRvb3RoDQo+IEtleWJvYXJkIi4NCj4g
+DQo+IFRoYW5rcyBmb3IgdGhlIGhlbHAhDQo+IA0KPiAtQWxleA0KDQoNCg==
 
