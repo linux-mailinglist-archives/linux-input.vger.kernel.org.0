@@ -1,118 +1,131 @@
-Return-Path: <linux-input+bounces-10092-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10093-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6BEA37B9E
-	for <lists+linux-input@lfdr.de>; Mon, 17 Feb 2025 07:42:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 128B8A37BB9
+	for <lists+linux-input@lfdr.de>; Mon, 17 Feb 2025 08:00:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D9E777A204B
-	for <lists+linux-input@lfdr.de>; Mon, 17 Feb 2025 06:41:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28FAC3A4CB3
+	for <lists+linux-input@lfdr.de>; Mon, 17 Feb 2025 07:00:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3C8918F2C3;
-	Mon, 17 Feb 2025 06:42:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F66D18801A;
+	Mon, 17 Feb 2025 07:00:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k2ib7WJW"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dfUNyF4+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DCCE18DB3A
-	for <linux-input@vger.kernel.org>; Mon, 17 Feb 2025 06:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AACA155322
+	for <linux-input@vger.kernel.org>; Mon, 17 Feb 2025 07:00:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739774562; cv=none; b=EQ+Ok5EaPwKRBh1m9K3BswD/gv92Dl7xb73+RVT1wjncLzNByOh7dQmlmqnqD8uRv6kpWNf8tUdm9g/ieEUGA6TJ/1VaWBIAMftpbrycjYvkm98YQLvZjCh0wgoYlZKlkhQksnNc6hhf+G7ChOo3CYnHcZLZ9/t17PRIJRurWpQ=
+	t=1739775646; cv=none; b=JJTy1CqATeed9WefB9lBU+NflzURMgLpgqb/4VqXBpzJ7kADq7PG6FJi3OcQMQYwp6SrRjuxf1ZXPhKnqr9dSV6HUhjfUMENoVESBOPjPtPTg+rXOub+cdaOonZTpKVYU1mVCQr41I7tREU0WmVMMtfgPEvvTVUMdQARMRaLSvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739774562; c=relaxed/simple;
-	bh=ofDVVUVYDd8OFohxZP64eLr6VG7FCwqZ8Qpg4oL7RHY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o66XaIB4P+kiGcxo+I/tT0KD9jqr9F90n+rI1umXkFbwCOiiyktr07oG1w1o175xA4uC+x9mick4e50abbIQc73cD5Opa9LEvL6ZaXPVVDwYEfs5OGzTb/WkC0epOyKqvi0cdgbrUi5njrCyqO72mKxxYwPYDWHaGSITJxDJVsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k2ib7WJW; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e46ebe19368so2950870276.0
-        for <linux-input@vger.kernel.org>; Sun, 16 Feb 2025 22:42:41 -0800 (PST)
+	s=arc-20240116; t=1739775646; c=relaxed/simple;
+	bh=rlS6RaCELZ1rbSCxR23/5RfQtNdGSWC5e1WoqLaz/H0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=niW3FjvrX1Ri86ELz/S9vWniOTxoQYOaH1nctIfyyzMEzSgo4sCpUY7xaEdpDFL9gQ+kGd/RDOaYQ0wwFC90uAKoVdetE+oRVIiWY52lMa38+gTiTwilHmmunaeNNkhDIrrLLWVVpASnmp+K/YStwGjEyFpCcSgDG7YTYo2mc9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dfUNyF4+; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-abb8045c3f3so162249066b.2
+        for <linux-input@vger.kernel.org>; Sun, 16 Feb 2025 23:00:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739774560; x=1740379360; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ofDVVUVYDd8OFohxZP64eLr6VG7FCwqZ8Qpg4oL7RHY=;
-        b=k2ib7WJWFf3tLXYbwrUhNTfGavr/ozFf4A+c/gGUIFu6m/sl/vWI0/Bt5p0azQE+VV
-         SK75v26v/WmideUlA5EXoQME5JyeKFkFUHYT3TErtpCN8W8rf0IxJv6/qJoyEabsP5sh
-         v+iCoAHMWbmkQnF/4xFx100Mor2XC1YLcfjzvYR+DW2s/JQwjBvrk5utBKxPQeV62tGE
-         TAw8rQW4dMT0gnNfrbWJdzyzzki8kz3ysaaesnwk9ey2DTVkXB/H7X4Ue5Wd1WQq1NGw
-         KlwkENVnCD0sbAlA0iXfUxscFAw5kXo8b4l+yu3TW1g1/oPzwMWN8ZoIfXg6LmTcYJo5
-         iAdA==
+        d=linaro.org; s=google; t=1739775642; x=1740380442; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=5Nz1gS/A3+CD9/JL6NUM7slPWKwzJdRJHFdoydh0jao=;
+        b=dfUNyF4+LJtlzncDnNYsFqWj3lWi8TD1QEU003OxYZ/KSAbnSymrer9UVVEdGkdFJL
+         ZDozAaZR5kF1f+lW0cBa/BBNn5MdcjTdDuGvkt89erJUsUpP5NgjYlnzzcgEZSYmreFL
+         754AA867eaHu9qtKS0E55xylXzg4DjKaJ/Zi59wq9OWkTjhrQHOBZhxzcnbEBgWhA3fP
+         R9XiNt0J4NSUzWhZmTQu3EfNWVqb6pNVxl3WyTm6SmwjIYaVL9kz994PygvLkRZeKech
+         JHPuVZCOoOFlHfZ31mVvKOaU92O3Dx5scombHtbwIQujypyGERracFWSDdZ/iSkx9l3B
+         gSNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739774560; x=1740379360;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ofDVVUVYDd8OFohxZP64eLr6VG7FCwqZ8Qpg4oL7RHY=;
-        b=CS6gPLKT0bEFWs87+zQJpgg4a+uoDsqdo1rKGeCOpTIr1OHnu1ErFM3hMRn1v0e4h7
-         FcMIsvF9O/dQL6hRa1nrr7l4zUKsnpK75EjKuFNx5Aef431aP81CoqsHMCX+S8PwKG9G
-         sHFzOqhEJproiFWEZ+j3eOy0WOeH4juE9Mgr+Al+7ISLbmLewVWsCdO6IJPh8MnQFHKR
-         K6+Cnjf7jHoFhQkQ+ljviIlAapXzHtWOUpcgdUuZqujp2CKe5+DU1uvWnUTc2BunMcSg
-         ese9MhaN3bK27bFzVEIUNSzgU+BtaTJhH23F1PZvgu8InB4ZCOMGtkYWE1ing8OQ5/wr
-         tycg==
-X-Gm-Message-State: AOJu0YwalpTDrhH4c11BEAzrL7yWqpGTfXNbRfef9GF4037/SXQQ0Bip
-	qQjGp2KsolHzvd736QiXNvXGZ1SXoXbAMMYbdJzIdKTAC15pwDMtLFlizip+GR+9iq23quixW9M
-	zKKjnqtt54oviDT+BI5T/LvbCFWw=
-X-Gm-Gg: ASbGncuJI73KVwCVbrS3LTs8a1/YDagMr1TeEEpdJWgOYwKNvUcUG/rBIQa0Sttbs2X
-	dFIDVI3hw5lDM/gcVhZfZhfiOu9KPtMt+pOuIFUhkop9UONYJQiydfFN5i0Yqd2VHfg/SgxXV8q
-	LrYZcYTQ3TDO9DIsLmgPRBrsEOAOAWyg==
-X-Google-Smtp-Source: AGHT+IFK6yddIhfVcNU1Tx8tE2fr9HCt5eiw3yqgGgwOyTRViNgd1JU1E1XKKoN6QRtO5raI6ElX02d4Z1Or2TfAY3c=
-X-Received: by 2002:a05:6902:845:b0:e59:dbac:d993 with SMTP id
- 3f1490d57ef6-e5dc9043ed6mr6524635276.17.1739774560172; Sun, 16 Feb 2025
- 22:42:40 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739775642; x=1740380442;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Nz1gS/A3+CD9/JL6NUM7slPWKwzJdRJHFdoydh0jao=;
+        b=e+xoCns8KX2p5wZK6QsWyjsHASBKizPRLgU5fPSGX8g6ms3KeZn6F65HowFzmJdqK+
+         WuCRdUMJzux1t9WbtUuAVNNOWWObpnivXlQpGbq2pz5wJrxcyg6vWC9de/X3jw4QD5Pb
+         cZQ1mNglDWuCtHcrOeJoF+K4KFN9c0teYbG0S2tafBeaBsNv5Et3FT0vlOB8TOVYDpid
+         vPbqNwLlhee5jBbPIul9pWyF198/gKlw+c2OA7VgjjmAaiyQb1/EgVuxktUMMA1TvUvt
+         4RPkRKs7zcR+/54s2xkRcVG8008S31ApbYUD9czeqYjy1LHPwtxA4V1l0QdJtsC+hwMs
+         Ux/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV7aR93B8cdjqYf+3Bncrj9bpad2/r9gs6G58LDlW0B4BZkUb3uQdcCssPgiMosp4j0AvdHSuDbXw9lFw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvPk9VYgQNAVBiCkvhbm5IRTA5PArb1owHVm9HXwfqQNuXdr+2
+	6LPpmaZuv2mSP9jB/1mege0m26wsagneSKV6Wng2cL21zDs9h5KT5qHO6owv4LE=
+X-Gm-Gg: ASbGnctC42iWkfAPsAPU/stiaiEkqbqDmlZ06ZcPOFsRaMgpM/lvzOiFb6NEczPR0mk
+	B/8ltP8euFD0/0wB4B6uN+MD+2H6mOhyM64EqmynlZDNhAf92DxO8rGC9F7KNw1tAxH18qKXdiz
+	Xv3bSCcKAkpwT1BzJWAOPr84lZj523zPn9q7Uf6UUuqq2mNlN+SiT5MHa6ctxcvoojV07RPx6mD
+	0UZncJJ2BjdAzXP/v0pLWWt8D2QHjUi3T5Je7erXiTyelxQH7K+5sdhklXbz2v2sliAwjgcrJWr
+	+K1PxPUMn0MdeLcC44Ew
+X-Google-Smtp-Source: AGHT+IHGLk2AgxpFhmi2zhy4TIlmMYpy/A9mfUB4/XkNESR5sGaOmk6zpgg+rCL2DGBJAQCxq9VeOg==
+X-Received: by 2002:a17:907:9308:b0:aba:6378:5ba8 with SMTP id a640c23a62f3a-abb70e53d76mr734753466b.55.1739775641785;
+        Sun, 16 Feb 2025 23:00:41 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abb88c69c1bsm300147466b.110.2025.02.16.23.00.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Feb 2025 23:00:41 -0800 (PST)
+Date: Mon, 17 Feb 2025 10:00:37 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: Jiri Kosina <jikos@kernel.org>, "jkosina@suse.com" <jkosina@suse.com>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: [bug report] HID: hid-appletb-kbd: add support for automatic
+ brightness control while using the touchbar
+Message-ID: <b8a25a68-fd1f-412f-b357-c9f4a6de7c10@stanley.mountain>
+References: <6263a1a2-4d50-41db-aa54-cfcb3e0523a4@stanley.mountain>
+ <88774FD7-0DF2-4F93-B4C7-3D26FFFC48A1@live.com>
+ <539DA7C2-18D0-40C3-AB5A-25037AED611D@live.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241001055146.543800-1-alexhenrie24@gmail.com>
- <20250117061254.196702-1-alexhenrie24@gmail.com> <3137A636-3FC2-4016-BC64-F5CEF308F834@live.com>
- <55B3D2BA-F363-4335-820F-21DB90312CD2@live.com> <CAMMLpeTgY0pnAr9Q=_Dc4iUWkmZc3ixGU656CK+KU8qY2sLBsg@mail.gmail.com>
- <F209BEE2-29F0-4A0B-8B94-2D5BFA00AC90@live.com> <67482FB6-C303-4578-8B3D-6F4A4039D379@live.com>
- <CAMMLpeQDVinMKsRi-u5afKSYzoG=FGgYPsHwibHgheZwHaJSQg@mail.gmail.com> <99960098-E28B-4C83-BC52-BF5DEC1A16AB@live.com>
-In-Reply-To: <99960098-E28B-4C83-BC52-BF5DEC1A16AB@live.com>
-From: Alex Henrie <alexhenrie24@gmail.com>
-Date: Sun, 16 Feb 2025 23:42:03 -0700
-X-Gm-Features: AWEUYZmoTwrgGujwKIgeeC1MqF3mx4rauUuNx01VABEtHFm2HSIahucgMi3-O6I
-Message-ID: <CAMMLpeSaND7MTYYF=uccM_HBYysHX_GuuTp3YSWzV_kx_9D6hA@mail.gmail.com>
-Subject: Re: [PATCH resend] HID: apple: fix up the F6 key on the Omoton KB066 keyboard
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, "jkosina@suse.cz" <jkosina@suse.cz>, 
-	"benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <539DA7C2-18D0-40C3-AB5A-25037AED611D@live.com>
 
-On Sun, Feb 16, 2025 at 10:18=E2=80=AFPM Aditya Garg <gargaditya08@live.com=
-> wrote:
+On Mon, Feb 17, 2025 at 05:27:42AM +0000, Aditya Garg wrote:
+> >>   397 
+> >>   398         ret = hid_hw_open(hdev);
+> >>   399         if (ret) {
+> >>   400                 dev_err_probe(dev, ret, "HID hw open failed\n");
+> >>   401                 goto stop_hw;
+> >>   402         }
+> >>   403 
+> >>   404         kbd->backlight_dev = backlight_device_get_by_name("appletb_backlight");
+> >>   405                 if (!kbd->backlight_dev)
+> >> --> 406                         dev_err_probe(dev, ret, "Failed to get backlight device\n");
+> >>                                                  ^^^
+> >> s/ret/-EINVAL/?
+> > 
+> > Should be -ENODEV
+> > 
+> >> 
+> >> Why is this indented an extra tab?
+> > 
+> > Thanks for pointing this out.
+> > 
+> > Patch series with some issues I myself found out, along with the one you flagged are sent here:
+> 
+> 
+> Btw, I wonder what’s wrong with checkpatch. I didn't get any errors/warnings regarding these.
 
-> BTW, are there any differences in HID reports if Fn+F1 and only F1 are pr=
-essed?
 
-No.
+These are Smatch warnings:
+https://github.com/error27/smatch/blob/master/Documentation/smatch.rst
 
-> You also said F6 shows a reserved keycode, which IIRC, you sent in a patc=
-h to translate to F6. Is the keycode same with and without Fn?
+~/smatch_dir/smatch_scripts/kchecker drivers/hid/hid-appletb-kbd.c
 
-When Fn is held, F6 is plain F6 and no translation is required.
-
-> In case you have an Apple A1255, could you check whether hdev->name is di=
-fferent from "Bluetooth Keyboard=E2=80=9D. We don=E2=80=99t really want to =
-break the original Apple version just because of this defective clone.
-
-If I understand correctly Mac OS sets each Apple keyboard's internal
-name to "<username>'s keyboard" by default, and that's what mine is,
-but a user could conceivably override that with "Bluetooth Keyboard".
-It's also possible "Bluetooth Keyboard" is the name that all A1255's
-had when they walked out of the factory, before they were connected to
-an Apple device.
-
--Alex
+regards,
+dan carpenter
 
