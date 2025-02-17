@@ -1,132 +1,178 @@
-Return-Path: <linux-input+bounces-10105-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10106-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAAEAA38A09
-	for <lists+linux-input@lfdr.de>; Mon, 17 Feb 2025 17:50:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AFDAA38D08
+	for <lists+linux-input@lfdr.de>; Mon, 17 Feb 2025 21:09:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 062733A6472
-	for <lists+linux-input@lfdr.de>; Mon, 17 Feb 2025 16:50:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23C0C1887A94
+	for <lists+linux-input@lfdr.de>; Mon, 17 Feb 2025 20:08:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C28DC225790;
-	Mon, 17 Feb 2025 16:50:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1A34237163;
+	Mon, 17 Feb 2025 20:08:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cXnI11hK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SMLrfFky"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B33A3E499;
-	Mon, 17 Feb 2025 16:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DD713AA5D;
+	Mon, 17 Feb 2025 20:08:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739811020; cv=none; b=ZgG+BBMlLkTZPtjJSRepiqtPSbMfcKIlHlhGCgCY+0Yl5wOB8QzhDHqAMyh9ib0NGpRw3nFOgBgcxzSQyGWu37Lg0csqNa2dYKX3ps5VuSujTiYMBbfghRAAi0ybLJcdtMHyOy6qFua5+3e1FCy32BqIqSQeGOh1806jaCJpy6s=
+	t=1739822925; cv=none; b=I651ztCk0P3wqKmxEtNeO4xwlxMs5Axn1tiJElOeZa33buyoVpZyrHBP2KtWoumBxqTpMeXVhv7XbtzPnGsqwfprWLsDM+Wmwq4ev2KAxMe0dosazGVBryaMdgo4MLbGQFm/D6QbaRJxy7+oCC50MeomJjpRv53umQkVx8j/l3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739811020; c=relaxed/simple;
-	bh=yAEGnFq1fPaXAmVZjlGJVKmHOFgrUr8C7FYb/aComRw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b8weUvO+yfP8DiNV3L0wi5T7ENXh0UTmccSENvo7PkrtXPf76sWNod2xs0NvaE6loYJAIX+99Qc2CKWb5MfhtCy+4/ATKtswfOsQXrwHYpWx5fujxErlgyQaP65lx6yVuXW908eT8bGJj+ZaYDZeYrp43wfAk3yVG1DpFpQB4aM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cXnI11hK; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-21f2339dcfdso68411845ad.1;
-        Mon, 17 Feb 2025 08:50:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739811018; x=1740415818; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rVha0vnwTsgyqq719hlczMyoarwoABW1JsVuks2CDC0=;
-        b=cXnI11hKSa/Ib+LFz7xrKa8uGGXjKwjw05G5sCbdJU/x4fi5sW1ciViPGLTq35xfly
-         wveoBchlnFmRW22tOGcOsAv+0YXJ2FQB59M0CGLAWRypBqQcZs/+AMAoEDJpreAvspS5
-         i5WDn8NtZnOX625WnyDpq/5VR1gPO5y4rM3505DcPcp1D/VcsqFVmFQdZ3Y10kwYkTYn
-         XQ7tMP0sYTRcjU4KGifGcwHWUgTE/U6kHs9mIt7wa2k4JJrtzzMDKwnImQEZD+YpGTO9
-         ZPDLPnv3Kv7zSrjs8TZG3suKCO21UmbB2iN1UxYIrxehyLDjHNku7rnu6BvQR4435GK3
-         Riiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739811018; x=1740415818;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rVha0vnwTsgyqq719hlczMyoarwoABW1JsVuks2CDC0=;
-        b=eGPOPm2y4wRJ0x/JLQO68sjZUqnPd78RiZYuY+IEA4lg4qX3O//Aq/LjlUNW2lRFya
-         drBMRfQGvKSScSutd1o6WH14EPtr99cqIggTPDg9wuc+K74FqaqzyhEtfI8IUNx6Q5iV
-         ZoFgGuoFCH7G31VwHj20O48r3YH56s4mGXz2FxQDEWGud9ZG/avOTm9x9JxxCj1i6vTq
-         3fiwDywao9hivS8MHuIsal9HgotiTZU0/5FN2KA3LUDH0b9tegpy6KCUJARhEt8YUEVS
-         bwfMrrCReiswmGQ4rLb2YvlMPE3FrrGwjMlrMQddoVT+7Wy39CISayVN5V4tBDgutalH
-         DbJg==
-X-Forwarded-Encrypted: i=1; AJvYcCV5UYa0Xz05KwKObvOiMfZ4y0lH94XPmALEtekXi+jiUP8KwSB7XCl8UqT/hYf5A8OabUWxB3ZUbfka3ds=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSQeMbt3hnOgSheZi8JpbTddEkbc5e0VO3iQqq7UMDEe1g3pWh
-	lvsTaji+s9v9GxvBniN1beegLp1sHr6NwyKoNQFjPgbP3M5XtOCsoM7H8LHg
-X-Gm-Gg: ASbGnctU5qYvOWYI637QV88fabfMLmMDnaxa1cHYrHno5Nq9iNWXCgXOz/qpXwwglnl
-	xcluxTmz6lDLydDTTLsXO5op6JljrJWvqVsNz6KUCxG8WOemjsDrC5DIRFEJmvZD3kMz7JEo7Iq
-	ODAPFWtkWYVi+A7BcOJftFmhxKPVxncMjaOI4DHHgfHDUNT2qC4yYkqpR7MLWDt1zHnlHbEPJOs
-	KnSCE5JQxYL+EVVqufiYtLoXFOQHZ7bXxxK1mqrg3zh5A4u/8EBLV+Q+EoSkSYAsPDtqqDQP+sK
-	DXAiAL9vwqzyekqmojve
-X-Google-Smtp-Source: AGHT+IGae3GRlXdF+pgCtKzT6SeTR9I+IgSqKay6v3m4V9/F3mIDQm6wX/S7ZeOX0WPK6at+hio4DQ==
-X-Received: by 2002:a17:902:ce06:b0:21f:40de:ae4e with SMTP id d9443c01a7336-2210458f528mr177744535ad.9.1739811018447;
-        Mon, 17 Feb 2025 08:50:18 -0800 (PST)
-Received: from eleanor-wkdl.. ([140.116.96.205])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d5585220sm72560555ad.215.2025.02.17.08.50.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2025 08:50:17 -0800 (PST)
-From: Yu-Chun Lin <eleanor15x@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	visitorckw@gmail.com,
-	jserv@ccns.ncku.edu.tw,
-	Yu-Chun Lin <eleanor15x@gmail.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH RESEND] HID: google: fix unused variable warning under !CONFIG_ACPI
-Date: Tue, 18 Feb 2025 00:50:13 +0800
-Message-ID: <20250217165013.3127063-1-eleanor15x@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1739822925; c=relaxed/simple;
+	bh=VFMG6NziVLhzXatJ1ZtCN9l/hVuOYcrvdIJmUyyZjYA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VJhm8sr9W4M/Whhum6xjEkzKJqvFlnTCRiWwD0baSwgGjGYNH++Xhp9kgcAkivFVXher6JwENrLGy3RUrVoR9xbBwBYWGScOYJctnc+q/8rHgwB6CFx6bZNsQrYGJ+TCmBOk7n0uGU79RjnYch88O4dDyGVDdKCIpvT2wViYHc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SMLrfFky; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739822924; x=1771358924;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VFMG6NziVLhzXatJ1ZtCN9l/hVuOYcrvdIJmUyyZjYA=;
+  b=SMLrfFkyYkGAejn/bv90RRNqruinOo6GhY+SEY8DJBZ+WAqddB1XjF6i
+   Sw1L/6+n4biRvp/c+RNFveZnwQbC60ZHDqOhejScZqDrp17+yhFqeoeW3
+   h0HJXWxJoxzbqZgy+xHGUiA7NGUGF/YKkI/rQxzHAujzFLvEYqWgVcNbU
+   MnKUVFHC2es9N+zg3vu/h5grTZYEDXW+Ko+eZxlusaYF1uaJecUf0+jYQ
+   ql855g+t2csdO8c6Q8BYnQrfIkMDLEpLy61FkNXlKv26nGdcL2XqanTmi
+   bbeCdB2IvlsGJ3ONFL7xO3JVsIAR0q2FR2KOss3XIeAcrub+MG+VUHnR1
+   Q==;
+X-CSE-ConnectionGUID: FMendW1UQ3qI+n55Nyoomw==
+X-CSE-MsgGUID: DflpHOgaTI+PsjHPa+gIiQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40369269"
+X-IronPort-AV: E=Sophos;i="6.13,293,1732608000"; 
+   d="scan'208";a="40369269"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 12:08:43 -0800
+X-CSE-ConnectionGUID: LDsaFI0DSXeqLi85M8zeBA==
+X-CSE-MsgGUID: NotF7x3HSBWH36vhwpW31g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="114076131"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 12:08:38 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1tk7Pv-0000000CVST-09Tt;
+	Mon, 17 Feb 2025 22:08:35 +0200
+Date: Mon, 17 Feb 2025 22:08:34 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 07/10] gpio: max7360: Add MAX7360 gpio support
+Message-ID: <Z7OXQqyPjtGgTySf@smile.fi.intel.com>
+References: <20250214-mdb-max7360-support-v4-0-8a35c6dbb966@bootlin.com>
+ <20250214-mdb-max7360-support-v4-7-8a35c6dbb966@bootlin.com>
+ <Z69oa8_LKFxUacbj@smile.fi.intel.com>
+ <D7UOIHL2WOZP.LLGRKMILNJFU@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <D7UOIHL2WOZP.LLGRKMILNJFU@bootlin.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-As reported by the kernel test robot, the following warning occurs:
+On Mon, Feb 17, 2025 at 12:20:13PM +0100, Mathieu Dubois-Briand wrote:
+> On Fri Feb 14, 2025 at 4:59 PM CET, Andy Shevchenko wrote:
+> > On Fri, Feb 14, 2025 at 12:49:57PM +0100, Mathieu Dubois-Briand wrote:
+> > > Add driver for Maxim Integrated MAX7360 GPIO/GPO controller.
 
->> drivers/hid/hid-google-hammer.c:261:36: warning: 'cbas_ec_acpi_ids' defined but not used [-Wunused-const-variable=]
-     261 | static const struct acpi_device_id cbas_ec_acpi_ids[] = {
-         |                                    ^~~~~~~~~~~~~~~~
+...
 
-The 'cbas_ec_acpi_ids' array is only used when CONFIG_ACPI is enabled.
-Wrapping its definition and 'MODULE_DEVICE_TABLE' in '#ifdef CONFIG_ACPI'
-prevents a compiler warning when ACPI is disabled.
+> > > +static int max7360_gpo_reg_mask_xlate(struct gpio_regmap *gpio,
+> > > +				      unsigned int base, unsigned int offset,
+> > > +				      unsigned int *reg, unsigned int *mask)
+> > > +{
+> > > +	u16 ngpios = gpio_regmap_get_ngpio(gpio);
+> > > +
+> > > +	*reg = base;
+> > > +	*mask = BIT(MAX7360_MAX_KEY_COLS - (ngpios - offset));
+> > > +
+> > > +	return 0;
+> >
+> > Does this GPIO controller only capable of servicing keypads?
+> > I think no, hence I'm not sure why this split is needed to be
+> > here and not in the input driver.
+> 
+> I would say it's more a keypad controller able to support some GPIOs.
+> Some of the keypad columns, if unused, can be used as output-only gpios.
+> So I believe the split has its place here, because in the default
+> configuration, the split is set to have 8 keypad columns and no gpio. As
+> a consequence, the keypad driver can work without having to worry about
+> the split; the gpio driver needs to know about it.
+> 
+> To provide a bit more details, there is basically two set of pins usable
+> as GPIOs.
+> 
+> On one side we have what I refer to as GPIOs:
+>   - PORT0 to PORT7 pins of the chip.
+>   - Shared with PWM and rotary encoder functionalities. Functionality
+>     selection can be made independently for each pin. We have to ensure
+>     the same pin is not used by two drivers at the same time. E.g. we
+>     cannot have at the same time GPIO4 and PWM4.
+>   - Supports input and interrupts.
+>   - Outputs may be configured as constant current.
+>   - 8 GPIOS supported, so ngpios is fixed to MAX7360_MAX_GPIO.
+>   - maxim,max7360-gpio compatible, gpio_function == MAX7360_GPIO_PORT.
+> 
+> On the other side, we have what I refer to as GPOs:
+>   - COL2 to COL7 pins of the chip.
+>   - Shared with the keypad functionality. Selections is made by
+>     partitioning the pins: first pins for keypad columns, last pins for
+>     GPOs. Partition is described by the ngpios property.
+>   - Only support outputs.
+>   - maxim,max7360-gpo compatible, gpio_function == MAX7360_GPIO_COL.
+> 
+> > Or you mean that there output only GPIO lines in HW after all?
+> > Is there a link to the datasheet?
+> 
+> A datasheet is available on https://www.analog.com/en/products/max7360.html
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202501201141.jctFH5eB-lkp@intel.com/
-Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
----
- drivers/hid/hid-google-hammer.c | 2 ++
- 1 file changed, 2 insertions(+)
+Thank you for this good elaboration!
+I will check on the datasheet later on, having one week off.
 
-diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-index 0f292b5d3e26..eb6fd2dc75d0 100644
---- a/drivers/hid/hid-google-hammer.c
-+++ b/drivers/hid/hid-google-hammer.c
-@@ -268,11 +268,13 @@ static void cbas_ec_remove(struct platform_device *pdev)
- 	mutex_unlock(&cbas_ec_reglock);
- }
- 
-+#ifdef CONFIG_ACPI
- static const struct acpi_device_id cbas_ec_acpi_ids[] = {
- 	{ "GOOG000B", 0 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(acpi, cbas_ec_acpi_ids);
-+#endif
- 
- #ifdef CONFIG_OF
- static const struct of_device_id cbas_ec_of_match[] = {
+But what I have read above sounds to me like the following:
+
+1) the PORT0-PORT7 should be just a regular pin control with the respective
+function being provided (see pinctrl-cy8c95x0.c as an example);
+
+2) the COL2 COL7 case can be modeled as a simplest GPIO (GPO) driver with
+reserved lines property (this will set valid mask and let GPIOLIB to refuse any
+use of the keypad connected pins.
+
+So, with this approach the entire handling becomes less hackish and quite
+straightforward!
+
+
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
 
