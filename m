@@ -1,59 +1,59 @@
-Return-Path: <linux-input+bounces-10128-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10129-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32DBA3A92A
-	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 21:35:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB32A3A92E
+	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 21:35:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BAF2018983B2
-	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 20:33:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EDD571899F65
+	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 20:33:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 754931DAC9C;
-	Tue, 18 Feb 2025 20:26:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E25521F3BA3;
+	Tue, 18 Feb 2025 20:26:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fAzjPNS8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SnJF9GI0"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 497B51F30A2;
-	Tue, 18 Feb 2025 20:26:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5BF21DB37B;
+	Tue, 18 Feb 2025 20:26:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739910393; cv=none; b=l/dupRu4pA6PPFN8R9OEJ64/a4m6GNsod2xF7PSRB6PiMSqabE++3Om2RPShWjPk249Aq/ApZ+jIDDTk35K80Btxc8XmG04MHeU2Z2QIYx2OXXLDHXYtUdDAODZKh1IgTe2w2sFgaYqVIV9bUT4Z1PyRGnFChCMrArz6BSadNM4=
+	t=1739910394; cv=none; b=nyZkWPpvvkdVxFOJH+Bps0kCel4pHOqqu2ZgnGk3s5WKnniLwLpKL5lz64V+vkTo8mXs18zhlIfi1AtAFhyLUUPDiEuxEM9rsBSnioWT7SNsQ0/XLFfbytj6dalM4ZsPHeIf+11wBnMx728NLHEY+xXThSUMaq6+sWF+WbO2QDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739910393; c=relaxed/simple;
-	bh=n0zAX2wGEtSsYuoVTmnUf5RPIV1084TLrTDGpATDTd8=;
+	s=arc-20240116; t=1739910394; c=relaxed/simple;
+	bh=OgFAUTqFF3LdTRTOO5ZdAmG2PjdIkoKvvuaRA59lPfw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sl+w2XNVKWwHy/ruCcsVc3DhEOZAUYOT56xT46jS2DM1MwCOa+vYzugm154xEbK5BUH727cE4ZR25ZgHeYF507fRbvQ07q8eZDF3BnvcPWCOemtI7Wm3DPkEHyssRv47qOeldyjDmKaIqRSSGNY8kEEoNwLq4JfHQ+jNpP0NyEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fAzjPNS8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 348BEC4CEE8;
-	Tue, 18 Feb 2025 20:26:32 +0000 (UTC)
+	 MIME-Version; b=bIUnQI8chbs/6tHkT6Bj0pC7RzZoBupteqG1m4V7sruHW5ogg+HchHmSkBQwEp2GjXpvSYc5WsYQ2IotpWaeFqW3o9V+17dhBt3QQ5rP3+QWhicbI8gw/Ub+gzUh/9HnP5hd2YUpSHa+ddLoWm4DBcMfDROuF/AcKReO2UF0TyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SnJF9GI0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1115C4CEE2;
+	Tue, 18 Feb 2025 20:26:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739910393;
-	bh=n0zAX2wGEtSsYuoVTmnUf5RPIV1084TLrTDGpATDTd8=;
+	s=k20201202; t=1739910394;
+	bh=OgFAUTqFF3LdTRTOO5ZdAmG2PjdIkoKvvuaRA59lPfw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fAzjPNS8KzwBNA/HB8YEG6VetBwVt1I5WIiGxw73sPnMRJoFz8HInvIHzotazv60y
-	 33yk+Eu6sUgX3QH3WkjfHyM8LCTqh1cxrBPLhFUHkAYhduipV97rqUt/UK4jx+43m1
-	 QlmyBmVcBOVTqeEalNagVWxeoETKn4UaThhA4D2Wm/WBiqy5aBf1HrtlyAn1GULjdx
-	 OzW15Vl3nYUeXoOlxjH7rGwXJ22rR9PxWF/VzhFSmvgufIr/AVxNKVT0tNKm026PIY
-	 DiopFECZ8+mTZgCEfp3IZp4FC0RuPtXznJn4LtZ77H0fVO1B313idATbKpEXA4W2C1
-	 RBeT8sbl5mk4g==
+	b=SnJF9GI0X83Xo+GQUgFOThnvxG5rhH5aP9dzD+GDT5RTP+afHzvlM3kvpPziOVTN2
+	 3SqGD/nWj3c51PBG8gIp8JlfRl2wHNY9DZBqfuyyEeytYO7iYu+39sKFKCH3GtbABf
+	 g8ekW8y9vB9PB/fb9N7Jx+6gd2KDSBoGrxprHuITgkml4RHUH65n0+u6eadzWjE6AP
+	 yFX8cK0/2l5BWoUPjyq5N6lzS+a3npR1Um8bxP89/IqlyNPKJguJcxTwwFIuoZ6TVD
+	 pz7ZEi7wXVNzVokNPxYIHeSRI5BfOXgBCFi3blo+St8txxAhuciPPcSICkD9ageZGc
+	 XTdgflQhj4qRA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+Cc: Vicki Pfau <vi@endrift.com>,
+	Eugeny Shcheglov <eugenyshcheglov@gmail.com>,
 	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
 	bentiss@kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 04/31] HID: ignore non-functional sensor in HP 5MP Camera
-Date: Tue, 18 Feb 2025 15:25:50 -0500
-Message-Id: <20250218202619.3592630-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 05/31] HID: hid-steam: Fix issues with disabling both gamepad mode and lizard mode
+Date: Tue, 18 Feb 2025 15:25:51 -0500
+Message-Id: <20250218202619.3592630-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250218202619.3592630-1-sashal@kernel.org>
 References: <20250218202619.3592630-1-sashal@kernel.org>
@@ -68,54 +68,65 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.15
 Content-Transfer-Encoding: 8bit
 
-From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+From: Vicki Pfau <vi@endrift.com>
 
-[ Upstream commit 363236d709e75610b628c2a4337ccbe42e454b6d ]
+[ Upstream commit 05c4ede6951b5d8e083b6bb237950cac59bdeb92 ]
 
-The HP 5MP Camera (USB ID 0408:5473) reports a HID sensor interface that
-is not actually implemented. Attempting to access this non-functional
-sensor via iio_info causes system hangs as runtime PM tries to wake up
-an unresponsive sensor.
+When lizard mode is disabled, there were two issues:
 
-  [453] hid-sensor-hub 0003:0408:5473.0003: Report latency attributes: ffffffff:ffffffff
-  [453] hid-sensor-hub 0003:0408:5473.0003: common attributes: 5:1, 2:1, 3:1 ffffffff:ffffffff
+1. Switching between gamepad mode and desktop mode still functioned, even
+though desktop mode did not. This lead to the ability to "break" gamepad mode
+by holding down the Options key even while lizard mode is disabled
 
-Add this device to the HID ignore list since the sensor interface is
-non-functional by design and should not be exposed to userspace.
+2. If you were in desktop mode when lizard mode is disabled, you would
+immediately enter this faulty mode.
 
-Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+This patch properly disables the ability to switch between gamepad mode and the
+faulty desktop mode by holding the Options key, as well as effectively removing
+the faulty mode by bypassing the early returns if lizard mode is disabled.
+
+Reported-by: Eugeny Shcheglov <eugenyshcheglov@gmail.com>
+Signed-off-by: Vicki Pfau <vi@endrift.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/hid/hid-steam.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index ceb3b1a72e235..6e8bcb1518bd7 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1089,6 +1089,7 @@
- #define USB_DEVICE_ID_QUANTA_OPTICAL_TOUCH_3001		0x3001
- #define USB_DEVICE_ID_QUANTA_OPTICAL_TOUCH_3003		0x3003
- #define USB_DEVICE_ID_QUANTA_OPTICAL_TOUCH_3008		0x3008
-+#define USB_DEVICE_ID_QUANTA_HP_5MP_CAMERA_5473		0x5473
+diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
+index bf8b633114be6..749e44dad75f1 100644
+--- a/drivers/hid/hid-steam.c
++++ b/drivers/hid/hid-steam.c
+@@ -1050,10 +1050,10 @@ static void steam_mode_switch_cb(struct work_struct *work)
+ 							struct steam_device, mode_switch);
+ 	unsigned long flags;
+ 	bool client_opened;
+-	steam->gamepad_mode = !steam->gamepad_mode;
+ 	if (!lizard_mode)
+ 		return;
  
- #define I2C_VENDOR_ID_RAYDIUM		0x2386
- #define I2C_PRODUCT_ID_RAYDIUM_4B33	0x4b33
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index e0bbf0c6345d6..5d7a418ccdbec 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -891,6 +891,7 @@ static const struct hid_device_id hid_ignore_list[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_DPAD) },
- #endif
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_YEALINK, USB_DEVICE_ID_YEALINK_P1K_P4K_B2K) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_QUANTA, USB_DEVICE_ID_QUANTA_HP_5MP_CAMERA_5473) },
- 	{ }
- };
++	steam->gamepad_mode = !steam->gamepad_mode;
+ 	if (steam->gamepad_mode)
+ 		steam_set_lizard_mode(steam, false);
+ 	else {
+@@ -1598,7 +1598,7 @@ static void steam_do_deck_input_event(struct steam_device *steam,
+ 		schedule_delayed_work(&steam->mode_switch, 45 * HZ / 100);
+ 	}
  
+-	if (!steam->gamepad_mode)
++	if (!steam->gamepad_mode && lizard_mode)
+ 		return;
+ 
+ 	lpad_touched = b10 & BIT(3);
+@@ -1668,7 +1668,7 @@ static void steam_do_deck_sensors_event(struct steam_device *steam,
+ 	 */
+ 	steam->sensor_timestamp_us += 4000;
+ 
+-	if (!steam->gamepad_mode)
++	if (!steam->gamepad_mode && lizard_mode)
+ 		return;
+ 
+ 	input_event(sensors, EV_MSC, MSC_TIMESTAMP, steam->sensor_timestamp_us);
 -- 
 2.39.5
 
