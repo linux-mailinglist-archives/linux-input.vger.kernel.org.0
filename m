@@ -1,61 +1,59 @@
-Return-Path: <linux-input+bounces-10127-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10128-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C5BA3A927
-	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 21:34:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D32DBA3A92A
+	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 21:35:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D572818981D7
-	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 20:33:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BAF2018983B2
+	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 20:33:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 643D21EFFB6;
-	Tue, 18 Feb 2025 20:26:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 754931DAC9C;
+	Tue, 18 Feb 2025 20:26:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tK6wevjZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fAzjPNS8"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CD31C6FFA;
-	Tue, 18 Feb 2025 20:26:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 497B51F30A2;
+	Tue, 18 Feb 2025 20:26:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739910392; cv=none; b=Cj8ElU41dLGDoPo+c62zg23oxv4ogk9n6GZHuTmy6dvGS90rDCqbwv61Gispo1bxuoaH/rZ3UobKkQmpW/MkHFK0LpF6QGFx07TYrrCKNQnq5NjQ7onpT7vDppLs1kyysljG9Z1JIfPwkQVUQ6nvVHC/YKN3mtLmdkVAnknGxuo=
+	t=1739910393; cv=none; b=l/dupRu4pA6PPFN8R9OEJ64/a4m6GNsod2xF7PSRB6PiMSqabE++3Om2RPShWjPk249Aq/ApZ+jIDDTk35K80Btxc8XmG04MHeU2Z2QIYx2OXXLDHXYtUdDAODZKh1IgTe2w2sFgaYqVIV9bUT4Z1PyRGnFChCMrArz6BSadNM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739910392; c=relaxed/simple;
-	bh=pVOoDpWjbnxIdBWRJkyoj9v86S/OZbRdwlaUviOAvaY=;
+	s=arc-20240116; t=1739910393; c=relaxed/simple;
+	bh=n0zAX2wGEtSsYuoVTmnUf5RPIV1084TLrTDGpATDTd8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=S0gyq11+d/ZatvKBWKRRw0+oOlAW/T+s4IM0ddAAJ1hsAfGvr9pZ6Weyzo205r0jPbIOTAz+y1lkLMG1uAomilOMIWLKEvPDs3aFMy7FO0ab4EsO3wMj2OkmDPR9EzSEw/rEk2ANABA6G+zYewj/Fl49nVJgZG2slIPcB0UTXIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tK6wevjZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B2B5C4CEE2;
-	Tue, 18 Feb 2025 20:26:30 +0000 (UTC)
+	 MIME-Version; b=sl+w2XNVKWwHy/ruCcsVc3DhEOZAUYOT56xT46jS2DM1MwCOa+vYzugm154xEbK5BUH727cE4ZR25ZgHeYF507fRbvQ07q8eZDF3BnvcPWCOemtI7Wm3DPkEHyssRv47qOeldyjDmKaIqRSSGNY8kEEoNwLq4JfHQ+jNpP0NyEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fAzjPNS8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 348BEC4CEE8;
+	Tue, 18 Feb 2025 20:26:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739910391;
-	bh=pVOoDpWjbnxIdBWRJkyoj9v86S/OZbRdwlaUviOAvaY=;
+	s=k20201202; t=1739910393;
+	bh=n0zAX2wGEtSsYuoVTmnUf5RPIV1084TLrTDGpATDTd8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tK6wevjZ3myT9GPS8gLan/8/CkYOI1KmkzBqaI5mjY37b2CqkBnVwkCdoJFEl/iO0
-	 l0Hzp71QghqYDqEqHRWRdUYGFnYh23r8owxfnodMQ5iejIuIIVpgf769BFhN1G1z6u
-	 b75AEoUzxY6ObckdxTwOTfDAbo6x9jNDXleCHIGWE2Ii9p783x8MsnOpuAdMVsPek5
-	 i4KZ25tSQ4IBpoVydiUqufzc6qaBsG6Mydc509g2xDYqQordqspzXNuxQHTaGGYDhK
-	 pHKGgacaZYpcgccjDPOtFRAi81HmDLTRpfXpemQps1+8DTbAdw0Usg/cB7zIstWLZg
-	 OR1E9d+NW2Oxg==
+	b=fAzjPNS8KzwBNA/HB8YEG6VetBwVt1I5WIiGxw73sPnMRJoFz8HInvIHzotazv60y
+	 33yk+Eu6sUgX3QH3WkjfHyM8LCTqh1cxrBPLhFUHkAYhduipV97rqUt/UK4jx+43m1
+	 QlmyBmVcBOVTqeEalNagVWxeoETKn4UaThhA4D2Wm/WBiqy5aBf1HrtlyAn1GULjdx
+	 OzW15Vl3nYUeXoOlxjH7rGwXJ22rR9PxWF/VzhFSmvgufIr/AVxNKVT0tNKm026PIY
+	 DiopFECZ8+mTZgCEfp3IZp4FC0RuPtXznJn4LtZ77H0fVO1B313idATbKpEXA4W2C1
+	 RBeT8sbl5mk4g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zhang Lixu <lixu.zhang@intel.com>,
+Cc: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
 	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
 	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
 	bentiss@kernel.org,
-	andriy.shevchenko@intel.com,
-	linux@treblig.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 03/31] HID: intel-ish-hid: Send clock sync message immediately after reset
-Date: Tue, 18 Feb 2025 15:25:49 -0500
-Message-Id: <20250218202619.3592630-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 04/31] HID: ignore non-functional sensor in HP 5MP Camera
+Date: Tue, 18 Feb 2025 15:25:50 -0500
+Message-Id: <20250218202619.3592630-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250218202619.3592630-1-sashal@kernel.org>
 References: <20250218202619.3592630-1-sashal@kernel.org>
@@ -70,75 +68,54 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.15
 Content-Transfer-Encoding: 8bit
 
-From: Zhang Lixu <lixu.zhang@intel.com>
+From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
 
-[ Upstream commit 7e0d1cff12b895f44f4ddc8cf50311bc1f775201 ]
+[ Upstream commit 363236d709e75610b628c2a4337ccbe42e454b6d ]
 
-The ISH driver performs a clock sync with the firmware once at system
-startup and then every 20 seconds. If a firmware reset occurs right
-after a clock sync, the driver would wait 20 seconds before performing
-another clock sync with the firmware. This is particularly problematic
-with the introduction of the "load firmware from host" feature, where
-the driver performs a clock sync with the bootloader and then has to
-wait 20 seconds before syncing with the main firmware.
+The HP 5MP Camera (USB ID 0408:5473) reports a HID sensor interface that
+is not actually implemented. Attempting to access this non-functional
+sensor via iio_info causes system hangs as runtime PM tries to wake up
+an unresponsive sensor.
 
-This patch clears prev_sync immediately upon receiving an IPC reset,
-so that the main firmware and driver will perform a clock sync
-immediately after completing the IPC handshake.
+  [453] hid-sensor-hub 0003:0408:5473.0003: Report latency attributes: ffffffff:ffffffff
+  [453] hid-sensor-hub 0003:0408:5473.0003: common attributes: 5:1, 2:1, 3:1 ffffffff:ffffffff
 
-Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
+Add this device to the HID ignore list since the sensor interface is
+non-functional by design and should not be exposed to userspace.
+
+Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
 Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/intel-ish-hid/ipc/ipc.c         | 9 ++++++---
- drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h | 2 ++
- 2 files changed, 8 insertions(+), 3 deletions(-)
+ drivers/hid/hid-ids.h    | 1 +
+ drivers/hid/hid-quirks.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-ish-hid/ipc/ipc.c
-index cb956a8c386cb..4c861119e97aa 100644
---- a/drivers/hid/intel-ish-hid/ipc/ipc.c
-+++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
-@@ -517,6 +517,10 @@ static int ish_fw_reset_handler(struct ishtp_device *dev)
- 	/* ISH FW is dead */
- 	if (!ish_is_input_ready(dev))
- 		return	-EPIPE;
-+
-+	/* Send clock sync at once after reset */
-+	ishtp_dev->prev_sync = 0;
-+
- 	/*
- 	 * Set HOST2ISH.ILUP. Apparently we need this BEFORE sending
- 	 * RESET_NOTIFY_ACK - FW will be checking for it
-@@ -577,13 +581,12 @@ static void fw_reset_work_fn(struct work_struct *work)
-  */
- static void _ish_sync_fw_clock(struct ishtp_device *dev)
- {
--	static unsigned long	prev_sync;
- 	struct ipc_time_update_msg time = {};
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index ceb3b1a72e235..6e8bcb1518bd7 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1089,6 +1089,7 @@
+ #define USB_DEVICE_ID_QUANTA_OPTICAL_TOUCH_3001		0x3001
+ #define USB_DEVICE_ID_QUANTA_OPTICAL_TOUCH_3003		0x3003
+ #define USB_DEVICE_ID_QUANTA_OPTICAL_TOUCH_3008		0x3008
++#define USB_DEVICE_ID_QUANTA_HP_5MP_CAMERA_5473		0x5473
  
--	if (prev_sync && time_before(jiffies, prev_sync + 20 * HZ))
-+	if (dev->prev_sync && time_before(jiffies, dev->prev_sync + 20 * HZ))
- 		return;
+ #define I2C_VENDOR_ID_RAYDIUM		0x2386
+ #define I2C_PRODUCT_ID_RAYDIUM_4B33	0x4b33
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index e0bbf0c6345d6..5d7a418ccdbec 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -891,6 +891,7 @@ static const struct hid_device_id hid_ignore_list[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_DPAD) },
+ #endif
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_YEALINK, USB_DEVICE_ID_YEALINK_P1K_P4K_B2K) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_QUANTA, USB_DEVICE_ID_QUANTA_HP_5MP_CAMERA_5473) },
+ 	{ }
+ };
  
--	prev_sync = jiffies;
-+	dev->prev_sync = jiffies;
- 	/* The fields of time would be updated while sending message */
- 	ipc_send_mng_msg(dev, MNG_SYNC_FW_CLOCK, &time, sizeof(time));
- }
-diff --git a/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h b/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
-index cdacce0a4c9d7..b35afefd036d4 100644
---- a/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
-+++ b/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
-@@ -242,6 +242,8 @@ struct ishtp_device {
- 	unsigned int	ipc_tx_cnt;
- 	unsigned long long	ipc_tx_bytes_cnt;
- 
-+	/* Time of the last clock sync */
-+	unsigned long prev_sync;
- 	const struct ishtp_hw_ops *ops;
- 	size_t	mtu;
- 	uint32_t	ishtp_msg_hdr;
 -- 
 2.39.5
 
