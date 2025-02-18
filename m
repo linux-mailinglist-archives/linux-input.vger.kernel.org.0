@@ -1,59 +1,58 @@
-Return-Path: <linux-input+bounces-10136-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10137-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0C9A3A9A3
-	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 21:45:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F558A3A96E
+	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 21:41:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 936A33B9338
-	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 20:40:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D57C7A2B83
+	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 20:40:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4046421507A;
-	Tue, 18 Feb 2025 20:27:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 170C221519F;
+	Tue, 18 Feb 2025 20:27:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aw0DF62U"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ap9alKiO"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7DFF215075;
-	Tue, 18 Feb 2025 20:27:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22F4215194;
+	Tue, 18 Feb 2025 20:27:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739910474; cv=none; b=M7oTY5Y8GsXYmIMA+sgtTy/ICNC/w7QI56InLaiSK++92A58fHn0CIAcW5TgjZh1FzFhFvpe2xAqvGc7gKkKANjYK33Z5/LBS9mUDpvCDmOWUGVYfN8sjXGu62pJRQ30GrpEpkejXOTLyq4D64Vrq8r0YpKnIw4pOdw39s+LDwQ=
+	t=1739910478; cv=none; b=MLmU7KgLGcGkOG34NQ1bJ6SLddCLnChbI0zsNtgFu4WO0EmynLTaQVAwedbPfcLY+bhqxStmeDYgCAwR5HqdYxxELP0lGI8yvtxyPLbyEBiYrgnTQgqx1+jw4/B7QXBSLfexhXZlRz4s/2sIyzt2ap2qzF8ZYa9J0gdNq+2Ybxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739910474; c=relaxed/simple;
-	bh=quaDW4ilmiJ5G5g4zyEK9fiu6rbxDkyGw0HMaBztHnY=;
+	s=arc-20240116; t=1739910478; c=relaxed/simple;
+	bh=c7Yb66aVzPwl1jZ51yRqIvDvE1XIEwTRDCJYU4pnHTc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rYDg1NorHfK8iPFhOOJ6tzePZn8pBbK9TS916VLNZAra8tDUk1GcDq7vfWWZNL/KsDA6Hj69aSz9jSKwLaWoGKZK2mLshQosGoBq0Hn5o/qt6KlNJBun0phTvv9KR5WF6+wuaiSOZxxojgLRELvhYkUzs7joPUCXpIUHWzCt7Gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aw0DF62U; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67764C4CEE2;
-	Tue, 18 Feb 2025 20:27:52 +0000 (UTC)
+	 MIME-Version; b=iHOn/9cOaIwcdg74zT6uZtCm6A9efH4RjXzZuZGI5C8ST1a7XwI3NHs+zotINDDlMq7jZ+OK7MGS97ekrNCjMAzH1xYRj2LRYq5taUpQWCdM+ZIlA/k7sFW1LuC9oxGKDKRCdLcNC+wMlrB2HyGlwg7lwkzdiD4rA5DwnVqAiS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ap9alKiO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3666C4CEE2;
+	Tue, 18 Feb 2025 20:27:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739910473;
-	bh=quaDW4ilmiJ5G5g4zyEK9fiu6rbxDkyGw0HMaBztHnY=;
+	s=k20201202; t=1739910477;
+	bh=c7Yb66aVzPwl1jZ51yRqIvDvE1XIEwTRDCJYU4pnHTc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aw0DF62U6uWXJsyub3NBqO7bSLAC41MQe29g8F6wBnYfmNiBwUuEtYQfOkCB2SQtN
-	 is9Ko5v16/7nbJWGt9MdhTCiI83GQ/scBAdI6gKFqcC/ReG0wr8cYLTfUhdaVD17Sf
-	 puThJkcKOWTcWXzm0VcvjzVPSOJPQW3+qiy8tC/wVm3ZP0/eMiBrV0xK88isX1pNwf
-	 nicLxsXjOe9jZOF6fgFavS+7cSrLYquiveovG9QkN9qWMsujVlmAtWrZcUwPqj8xA1
-	 iyFtO32zNYDW8VfLd9PScVL0iuHTWhG5yGDVazDJzXcusbw1Fi7kroDNgmzMCORIU5
-	 p+e6lO1lLtDDw==
+	b=Ap9alKiOWPNgrZf/JVBdV5fWudzYI6ZOt9eoX0slY+vnXGoLXGCRAXk/4UFExd8/z
+	 cNhnQXYkNd97TvAEgsRyQU9BGzy7pjYJHV0exz+FU2K5qOBzmCDrARt799+V8ajn8q
+	 +cZ+KxGOnv4yw5H+dZBaMrs0fKWTEb8m8m9v7mXFqMyJNwJn9i/ePlnXpPRTTNwoMx
+	 shqox9qXc89/eBdDpKztRHPIr7DHJcduxbG8ku4xHDHfBn5N9Lp0EyDcUgFbtZYgjn
+	 h4uPOQ5Ty978zPwb5qdS9/8LCUCaNU5qOK1xjE75Ew2agG0onMVvkNqIfKzRc4P2k9
+	 /Xce9QoBwWYFg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+Cc: Daniel Brackenbury <daniel.brackenbury@gmail.com>,
 	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
 	bentiss@kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 03/17] HID: ignore non-functional sensor in HP 5MP Camera
-Date: Tue, 18 Feb 2025 15:27:27 -0500
-Message-Id: <20250218202743.3593296-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 05/17] HID: topre: Fix n-key rollover on Realforce R3S TKL boards
+Date: Tue, 18 Feb 2025 15:27:29 -0500
+Message-Id: <20250218202743.3593296-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250218202743.3593296-1-sashal@kernel.org>
 References: <20250218202743.3593296-1-sashal@kernel.org>
@@ -68,54 +67,77 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.78
 Content-Transfer-Encoding: 8bit
 
-From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+From: Daniel Brackenbury <daniel.brackenbury@gmail.com>
 
-[ Upstream commit 363236d709e75610b628c2a4337ccbe42e454b6d ]
+[ Upstream commit 9271af9d846c7e49c8709b58d5853cb73c00b193 ]
 
-The HP 5MP Camera (USB ID 0408:5473) reports a HID sensor interface that
-is not actually implemented. Attempting to access this non-functional
-sensor via iio_info causes system hangs as runtime PM tries to wake up
-an unresponsive sensor.
+Newer model R3* Topre Realforce keyboards share an issue with their older
+R2 cousins where a report descriptor fixup is needed in order for n-key
+rollover to work correctly, otherwise only 6-key rollover is available.
+This patch adds some new hardware IDs for the R3S 87-key keyboard and
+makes amendments to the existing hid-topre driver in order to change the
+correct byte in the new model.
 
-  [453] hid-sensor-hub 0003:0408:5473.0003: Report latency attributes: ffffffff:ffffffff
-  [453] hid-sensor-hub 0003:0408:5473.0003: common attributes: 5:1, 2:1, 3:1 ffffffff:ffffffff
-
-Add this device to the HID ignore list since the sensor interface is
-non-functional by design and should not be exposed to userspace.
-
-Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Signed-off-by: Daniel Brackenbury <daniel.brackenbury@gmail.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/hid/Kconfig     | 3 ++-
+ drivers/hid/hid-ids.h   | 1 +
+ drivers/hid/hid-topre.c | 7 +++++++
+ 3 files changed, 10 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 9e2cde55b465c..979ebe69c8e30 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -1151,7 +1151,8 @@ config HID_TOPRE
+ 	tristate "Topre REALFORCE keyboards"
+ 	depends on HID
+ 	help
+-	  Say Y for N-key rollover support on Topre REALFORCE R2 108/87 key keyboards.
++	  Say Y for N-key rollover support on Topre REALFORCE R2 108/87 key and
++          Topre REALFORCE R3S 87 key keyboards.
+ 
+ config HID_THINGM
+ 	tristate "ThingM blink(1) USB RGB LED"
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 1174626904cb0..ff996accd371d 100644
+index ff996accd371d..b807d01ecca6e 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
-@@ -1085,6 +1085,7 @@
- #define USB_DEVICE_ID_QUANTA_OPTICAL_TOUCH_3001		0x3001
- #define USB_DEVICE_ID_QUANTA_OPTICAL_TOUCH_3003		0x3003
- #define USB_DEVICE_ID_QUANTA_OPTICAL_TOUCH_3008		0x3008
-+#define USB_DEVICE_ID_QUANTA_HP_5MP_CAMERA_5473		0x5473
+@@ -1285,6 +1285,7 @@
+ #define USB_VENDOR_ID_TOPRE			0x0853
+ #define USB_DEVICE_ID_TOPRE_REALFORCE_R2_108			0x0148
+ #define USB_DEVICE_ID_TOPRE_REALFORCE_R2_87			0x0146
++#define USB_DEVICE_ID_TOPRE_REALFORCE_R3S_87			0x0313
  
- #define I2C_VENDOR_ID_RAYDIUM		0x2386
- #define I2C_PRODUCT_ID_RAYDIUM_4B33	0x4b33
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index e0bbf0c6345d6..5d7a418ccdbec 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -891,6 +891,7 @@ static const struct hid_device_id hid_ignore_list[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_DPAD) },
- #endif
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_YEALINK, USB_DEVICE_ID_YEALINK_P1K_P4K_B2K) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_QUANTA, USB_DEVICE_ID_QUANTA_HP_5MP_CAMERA_5473) },
+ #define USB_VENDOR_ID_TOPSEED		0x0766
+ #define USB_DEVICE_ID_TOPSEED_CYBERLINK	0x0204
+diff --git a/drivers/hid/hid-topre.c b/drivers/hid/hid-topre.c
+index d1d5ca310eadc..e69367267d841 100644
+--- a/drivers/hid/hid-topre.c
++++ b/drivers/hid/hid-topre.c
+@@ -29,6 +29,11 @@ static __u8 *topre_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 		hid_info(hdev,
+ 			"fixing up Topre REALFORCE keyboard report descriptor\n");
+ 		rdesc[72] = 0x02;
++	} else if (*rsize >= 106 && rdesc[28] == 0x29 && rdesc[29] == 0xe7 &&
++				    rdesc[30] == 0x81 && rdesc[31] == 0x00) {
++		hid_info(hdev,
++			"fixing up Topre REALFORCE keyboard report descriptor\n");
++		rdesc[31] = 0x02;
+ 	}
+ 	return rdesc;
+ }
+@@ -38,6 +43,8 @@ static const struct hid_device_id topre_id_table[] = {
+ 			 USB_DEVICE_ID_TOPRE_REALFORCE_R2_108) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_TOPRE,
+ 			 USB_DEVICE_ID_TOPRE_REALFORCE_R2_87) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_TOPRE,
++			 USB_DEVICE_ID_TOPRE_REALFORCE_R3S_87) },
  	{ }
  };
- 
+ MODULE_DEVICE_TABLE(hid, topre_id_table);
 -- 
 2.39.5
 
