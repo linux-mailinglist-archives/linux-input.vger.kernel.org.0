@@ -1,445 +1,243 @@
-Return-Path: <linux-input+bounces-10110-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10111-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB47A39852
-	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 11:12:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 009A8A3A5DC
+	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 19:41:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 82A997A239A
-	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 10:11:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3C8C71896572
+	for <lists+linux-input@lfdr.de>; Tue, 18 Feb 2025 18:40:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 885F82376E1;
-	Tue, 18 Feb 2025 10:09:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6913C1EB5EA;
+	Tue, 18 Feb 2025 18:39:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UQ4W974U"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vIkr4LKr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72863237193;
-	Tue, 18 Feb 2025 10:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0922356D6;
+	Tue, 18 Feb 2025 18:39:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739873393; cv=none; b=ekplXN6zvwDnoUFX+9psGSxcRFAtq20WyEkvBD/8G6qfzXUvchW8hqOL6flWLMWYu7vZI1/siYY36cVmZEoelOcn89uIV6Y+42TUOpZqOEHxOB5GSeow9aalhV6h9EkWvo+aonnWG9u7afvc6yMXwEFgn5HvqFY3Hdxc5c1Uivk=
+	t=1739903984; cv=none; b=hcsQZQ/7S3x0RcmmGN7CtUfQwSymljFba9mQppFTvGTyl+5dO5xY/+uu/hircyZo7A+cfm4/GiaGe6M/fkIf4FsCep76/39OOKkJjOVLvrCQEhnT0AW9Cm9RMWkSm0o0/aWpXbS4kyVWTjoWFBm0tyLkt4npPIJUUEdKMsbkNG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739873393; c=relaxed/simple;
-	bh=Nt+r2U4lRQb0wBBJSIqF6I1c5UIQTs60Mq/IwlHvIi8=;
+	s=arc-20240116; t=1739903984; c=relaxed/simple;
+	bh=Ou8KiLZLHzNrLWIVPdXFzquRxMgMgDClrgJgKs9eQE8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jht4YVv5ybQiaA6jZJLHMvOVOwtck8io0lJAPXd9XGKTODXv1p81gvYS3AjYGtlxkYPSY5/TrM61Yk8Jp20k47XaDOyVex0Jxp2SUDqITKJxk7LXMUe6KdX+EHLF3VYA9QttY/kbBFxjNL7ycEflwM22eaWWBdk36r7u6AmLfTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UQ4W974U; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739873392; x=1771409392;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Nt+r2U4lRQb0wBBJSIqF6I1c5UIQTs60Mq/IwlHvIi8=;
-  b=UQ4W974U88pX96lQHwaE33b2bZQzpvjw17InvJuHlfZODEQPNYNPz8YW
-   TrtbuunWD3cFlPOGlYsYUG+/D4VSJu3lr5+XhoFPGbGmrczvBEDogHYG6
-   BM3grKbzxvOklWT5Spge8mPzgsTiQEtYIKvg37PZ5LOJDIJhP7UEbhaHB
-   i4gtU7pIdrqRyi/X6VYDt8CYag3kQ/JN9X5wNUhEZAGgU9ljP2zfS0KAL
-   HHXUbqV/mvwXIxbSO73JSiWjr4TiRhNOFsFFFOn/1ONvdeZyHDr00q0zK
-   Sm/KHJYAAFuaw8AZvr6hJk+iMG7k1+D4/G+DPSMWgokYWaroWTZr4ZYXM
-   A==;
-X-CSE-ConnectionGUID: x6RD3Wd+RYaeFEE0NJKA+A==
-X-CSE-MsgGUID: 8VmDmWMcROOq2iYiemPTjQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="63038654"
-X-IronPort-AV: E=Sophos;i="6.13,295,1732608000"; 
-   d="scan'208";a="63038654"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 02:09:51 -0800
-X-CSE-ConnectionGUID: PKQbFVlRSzWvGhgZQffbeQ==
-X-CSE-MsgGUID: n5z72ZWARnuJNXFaz7NP8A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="145256230"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 02:09:45 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1tkKXu-0000000CgaK-41Xm;
-	Tue, 18 Feb 2025 12:09:42 +0200
-Date: Tue, 18 Feb 2025 12:09:42 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: mathieu.dubois-briand@bootlin.com
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=miK+t550iztEXXaXYIqBlcKm3EtDDul/datYPxGO3FxmQbEwm/u00ldIfpd+R7wtIUZDhvOnXKXMBAhCPWLnbAPv8tBgGR8/OVvCTEx759HaELmc8sRGjbYKjOgL+hUuuoSipLPkKp74GDTgXP3EtNzChMwYgn5weHi49NVfiWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vIkr4LKr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7189AC4CEE2;
+	Tue, 18 Feb 2025 18:39:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739903984;
+	bh=Ou8KiLZLHzNrLWIVPdXFzquRxMgMgDClrgJgKs9eQE8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vIkr4LKr95n1sgWF9eEKIJtFMEX2I2pw8roaOiQU1XD153ZTLXDZ/mxRjmNnouq8f
+	 hCJAs1u7Lcmk1DsOmrf5X9sqrHdn6+BqgSxvoB9xQ48YhhDZVUkd095jxxSj64Q2A/
+	 dE3jGIV9Deg1JrO11Pjdtednrud/M5DAzOcVuvzGlWsSFobWfDsfA609icoCTjThG5
+	 H/5ftZ/mejgknk5xj8NRzZnmoBZ5pOHD/RKFznLFZlPXb0HoCZZWt/f/eqU1XMqgJh
+	 Ws4wCzl1lxD2gu5weFETthkXl8KvnCMevgDaweHSnsnVdtPAmnXTW9MWORDWIHj5bF
+	 MHI/IZhPoLTIw==
+Date: Tue, 18 Feb 2025 19:39:40 +0100
+From: Arnaldo Carvalho de Melo <acme@kernel.org>
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: Charlie Jenkins <charlie@rivosinc.com>,
+	Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Quentin Monnet <qmo@kernel.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
-	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 02/10] mfd: Add max7360 support
-Message-ID: <Z7RcZi8tIfxrG6_1@smile.fi.intel.com>
-References: <20250214-mdb-max7360-support-v4-0-8a35c6dbb966@bootlin.com>
- <20250214-mdb-max7360-support-v4-2-8a35c6dbb966@bootlin.com>
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, bpf <bpf@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	"linux-perf-use." <linux-perf-users@vger.kernel.org>,
+	Linux Power Management <linux-pm@vger.kernel.org>,
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/2] tools: Unify top-level quiet infrastructure
+Message-ID: <Z7TT7Jw5QDx2G81v@x1>
+References: <20250203-quiet_tools-v1-0-d25c8956e59a@rivosinc.com>
+ <CAADnVQKTqRBQBA-yxB9EYPMgayP3rOE4iDhg+QD++2d=jxfY=Q@mail.gmail.com>
+ <Z6JdwSsAk1xCiSrn@ghost>
+ <Z6JksXDRh8OSAh-u@google.com>
+ <CAADnVQKmKf6wY3dg+PfAxtrrFWGO7D-m83dEndjWksPfWDt5wQ@mail.gmail.com>
+ <Z6Khl1rHIAb7wOXw@ghost>
+ <CAEf4Bza5nKk6_fVY2vmJjZgPb40zB+R3REy8==ZLc98eg1iHTA@mail.gmail.com>
+ <Z6pF5pkH_bqvDwMK@ghost>
+ <CAEf4BzYqOtfOiYcHWRP44rwkrdzi3aMkjgD1-Td5DVAOLV=2kA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250214-mdb-max7360-support-v4-2-8a35c6dbb966@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEf4BzYqOtfOiYcHWRP44rwkrdzi3aMkjgD1-Td5DVAOLV=2kA@mail.gmail.com>
 
-On Fri, Feb 14, 2025 at 12:49:52PM +0100, mathieu.dubois-briand@bootlin.com wrote:
-> From: Kamel Bouhara <kamel.bouhara@bootlin.com>
+On Mon, Feb 10, 2025 at 04:23:49PM -0800, Andrii Nakryiko wrote:
+> On Mon, Feb 10, 2025 at 10:31 AM Charlie Jenkins <charlie@rivosinc.com> wrote:
+> >
+> > On Wed, Feb 05, 2025 at 05:28:19PM -0800, Andrii Nakryiko wrote:
+> > > On Tue, Feb 4, 2025 at 3:24 PM Charlie Jenkins <charlie@rivosinc.com> wrote:
+> > > >
+> > > > On Tue, Feb 04, 2025 at 11:02:42PM +0000, Alexei Starovoitov wrote:
+> > > > > On Tue, Feb 4, 2025 at 7:04 PM Namhyung Kim <namhyung@kernel.org> wrote:
+> > > > > >
+> > > > > > Hello,
+> > > > > >
+> > > > > > On Tue, Feb 04, 2025 at 10:34:41AM -0800, Charlie Jenkins wrote:
+> > > > > > > On Tue, Feb 04, 2025 at 05:18:42PM +0000, Alexei Starovoitov wrote:
+> > > > > > > > On Tue, Feb 4, 2025 at 12:10 AM Charlie Jenkins <charlie@rivosinc.com> wrote:
+> > > > > > > > >
+> > > > > > > > > The quiet infrastructure was moved out of Makefile.build to accomidate
+> > > > > > > > > the new syscall table generation scripts in perf. Syscall table
+> > > > > > > > > generation wanted to also be able to be quiet, so instead of again
+> > > > > > > > > copying the code to set the quiet variables, the code was moved into
+> > > > > > > > > Makefile.perf to be used globally. This was not the right solution. It
+> > > > > > > > > should have been moved even further upwards in the call chain.
+> > > > > > > > > Makefile.include is imported in many files so this seems like a proper
+> > > > > > > > > place to put it.
+> > > > > > > > >
+> > > > > > > > > To:
+> > > > > > > > >
+> > > > > > > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > > > > > > > > ---
+> > > > > > > > > Charlie Jenkins (2):
+> > > > > > > > >       tools: Unify top-level quiet infrastructure
+> > > > > > > > >       tools: Remove redundant quiet setup
+> > > > > > > > >
+> > > > > > > > >  tools/arch/arm64/tools/Makefile           |  6 -----
+> > > > > > > > >  tools/bpf/Makefile                        |  6 -----
+> > > > > > > > >  tools/bpf/bpftool/Documentation/Makefile  |  6 -----
+> > > > > > > > >  tools/bpf/bpftool/Makefile                |  6 -----
+> > > > > > > > >  tools/bpf/resolve_btfids/Makefile         |  2 --
+> > > > > > > > >  tools/bpf/runqslower/Makefile             |  5 +---
+> > > > > > > > >  tools/build/Makefile                      |  8 +-----
+> > > > > > > > >  tools/lib/bpf/Makefile                    | 13 ----------
+> > > > > > > >
+> > > > > > > > Nack.
+> > > > > > > > libbpf and bpftool are synced independently to github
+> > > > > > > > and released from there.
+> > > > > > > > This change breaks it.
+> > > > > >
+> > > > > > Sorry, I overlooked this part and merged a change that touched the
+> > > > > > common files into the perf tree.
+> > > > > >
+> > > > > > f2868b1a66d4f40f ("perf tools: Expose quiet/verbose variables in Makefile.perf")
+> > > > > >
+> > > > > > Unfortunately, it's already in v6.14-rc1.
+> > > > > >
+> > > > > > >
+> > > > > > > Can you explain how it breaks it? Currently bpftool and resolve_btfids
+> > > > > > > don't build quietly so this was an attempt to fix that.
+> > > > > >
+> > > > > > So I think you will need something like this for v6.14.  Again, sorry
+> > > > > > about the trouble.
+> > > > >
+> > > > > Just revert f2868b1a66d4f40f that created this mess.
+> > > >
+> > > > Why are you opposed to unifying this helpers among the various projects
+> > > > in tools? Can you explain what about this breaks the Github syncing flow
+> > > > and why it cannot be resolved? It doesn't make sense to duplicate "Q="
+> > > > in every Makefile anybody ever wants to add to tools just because bpf
+> > > > syncing isn't robust.
+> > >
+> > > Alexei's concern about Github mirrors of bpftool and libbpf isn't
+> > > valid. Github versions of those projects use their own independent
+> > > Makefiles anyways, so your change doesn't break that aspect.
+> > >
+> > > But your change *does* break both libbpf's and bpftool's make output
+> > > *in the kernel repo*. With this patch we basically don't have "quiet"
+> > > mode anymore:
+> > >
+> > > $ git co f2868b1a66d4f40f07e985b0beead606b2753602
+> > > HEAD is now at f2868b1a66d4 perf tools: Expose quiet/verbose variables
+> > > in Makefile.perf
+> > > $ git log --oneline -n1
+> > > f2868b1a66d4 (HEAD) perf tools: Expose quiet/verbose variables in Makefile.perf
+> > > $ pwd
+> > > /home/andriin/linux/tools/lib/bpf
+> > > $ make
+> > >   gcc -Wp,-MD,/data/users/andriin/linux/tools/lib/bpf/staticobjs/.libbpf.o.d
+> > > -Wp,-MT,/data/users/andriin/linux/tools/lib/bpf/staticobjs/libbpf.o -g
+> > > -O2 -std=gnu89 -Wbad-function-cast -Wdeclaration-after-statement
+> > > -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations
+> > > -Wmissing-prototypes -Wnested-externs -Wno-system-headers
+> > > -Wold-style-definition -Wpacked -Wredundant-decls -Wstrict-prototypes
+> > > -Wswitch-default -Wswitch-enum -Wundef -Wwrite-strings -Wformat
+> > > -Wno-type-limits -Wstrict-aliasing=3 -Wshadow -Wno-switch-enum -Werror
+> > > -Wall -I/data/users/andriin/linux/tools/lib/bpf/
+> > > -I/data/users/andriin/linux/tools/include
+> > > -I/data/users/andriin/linux/tools/include/uapi
+> > > -I/data/users/andriin/linux/tools/arch/x86/include -fvisibility=hidden
+> > > -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D"BUILD_STR(s)=#s" -c -o
+> > > /data/users/andriin/linux/tools/lib/bpf/staticobjs/libbpf.o libbpf.c
+> > > ^Cmake[2]: *** [/data/users/andriin/linux/tools/build/Makefile.build:86:
+> > > /data/users/andriin/linux/tools/lib/bpf/staticobjs/libbpf.o] Interrupt
+> > > make[1]: *** [Makefile:165:
+> > > /data/users/andriin/linux/tools/lib/bpf/staticobjs/libbpf-in.o]
+> > > Interrupt
+> > > make: *** [Makefile:143: all] Interrupt
+> > >
+> > > $ git co HEAD~
+> > > Previous HEAD position was f2868b1a66d4 perf tools: Expose
+> > > quiet/verbose variables in Makefile.perf
+> > > HEAD is now at e9cbc854d8b1 perf config: Add a function to set one
+> > > variable in .perfconfig
+> > > $ make
+> > >   CC      /data/users/andriin/linux/tools/lib/bpf/staticobjs/libbpf.o
+> > > ^C
+> > >
+> > > So, can you please check and fix?
+> >
+> > I think I am misunderstanding what you are saying. The patch that we are
+> > discussing on is the patch to fix this? You are showing the output from
+> > the patch that is being fixed in this series.
 > 
-> Add core driver to support MAX7360 i2c chip, multi function device
-> with keypad, gpio, pwm, gpo and rotary encoder submodules.
+> Ah, it's me getting confused. It was the earlier perf commit that
+> broke all this, makes sense. I just double-checked with your patches
+> applied locally. It indeed fixes the issue, LGTM.
+> 
+> Acked-by: Andrii Nakryiko <andrii@kernel.org>
 
-GPIO, PWM, GPO
+Thanks, b4 didn't pick this one, probably because you provided the Ack
+for a previous version of this series, but the patch in it is the same
+as in v2, so I'm keeping it, ok?
 
-...
+Also since you applied the patches and tested it, can I promote the tag
+to Tested-by you?
 
-> +/*
-> + * Maxim MAX7360 Core Driver
-> + *
-> + * Copyright (C) 2024 Kamel Bouhara
+Humm, there is a slight difference, checking that in the e-mails
+thread...
 
-Shouldn't you add yours / switch to 2025?
++  quiet = quiet_
++  Q = @
 
-> + * Author: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> + */
+The above doesn´t  have spaces surrounding the = sign, lemme see...
 
-...
-
-+ bits.h
-
-> +#include <linux/delay.h>
-
-+ device.h // devm_kzalloc(), etc.
-
-> +#include <linux/i2c.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/mfd/core.h>
-> +#include <linux/mfd/max7360.h>
-> +#include <linux/module.h>
-
-+ mod_devicetable.h // OF device ID table and so on...
-
-> +#include <linux/of.h>
-
-Is this being used? How?
-
-> +#include <linux/regmap.h>
-
-+ types.h // bool and so on...
-
-...
-
-> +struct max7360 {
-> +	struct device *dev;
-
-Same as dev in regmap?
-
-> +	struct regmap *regmap;
-> +	unsigned int requested_ports;
-> +};
-
-...
-
-> +	}, {
-> +		.range_min = 0x48,
-> +		.range_max = 0x4a,
-
-Hmm... No self-explanatory names for these addresses?
-
-> +	},
-
-> +static const struct regmap_config max7360_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-
-> +	.max_register = 0xff,
-
-Is it for real? I mean does the chip have 256 defined registers?
-
-> +	.volatile_table = &max7360_volatile_table,
-> +	.cache_type = REGCACHE_MAPLE,
-> +};
-
-...
-
-> +int max7360_port_pin_request(struct device *dev, unsigned int pin, bool request)
-> +{
-> +	struct i2c_client *client;
-> +	struct max7360 *max7360;
-
-> +	unsigned long flags;
-> +	int ret = 0;
-
-Unneeded (see below)
-
-> +	client = to_i2c_client(dev);
-> +	max7360 = i2c_get_clientdata(client);
-
-What's wrong with dev_get_drvdata()?
-And this can be done in the block definition above.
-
-> +	spin_lock_irqsave(&request_lock, flags);
-
-Consider use guard()() / scoped_guard(). This will make ret and flags unneeded
-besides better and robust code. You will need to include cleanup.h.
-
-> +	if (request) {
-> +		if (max7360->requested_ports & BIT(pin))
-> +			ret = -EBUSY;
-> +		else
-> +			max7360->requested_ports |= BIT(pin);
-> +	} else {
-> +		max7360->requested_ports &= ~BIT(pin);
-> +	}
-> +	spin_unlock_irqrestore(&request_lock, flags);
-> +
-> +	return ret;
-> +}
-
-...
-
-> +EXPORT_SYMBOL_GPL(max7360_port_pin_request);
-
-No namespace?
-
-...
-
-> +	for (int i = 0; i < MAX7360_PORT_PWM_COUNT; i++) {
-
-Why signed?
-
-> +		ret = regmap_write_bits(max7360->regmap, MAX7360_REG_PWMCFG(i),
-> +					MAX7360_PORT_CFG_INTERRUPT_MASK,
-> +					MAX7360_PORT_CFG_INTERRUPT_MASK);
-> +		if (ret) {
-> +			dev_err(max7360->dev, "Failed to write max7360 port configuration");
-> +			return ret;
-> +		}
-> +	}
-
-...
-
-> +	/* Read GPIO in register, to ACK any pending IRQ. */
-> +	ret = regmap_read(max7360->regmap, MAX7360_REG_GPIOIN, &val);
-> +	if (ret) {
-> +		dev_err(max7360->dev, "Failed to read gpio values: %d\n", ret);
-
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-
-	return ret;
-
-instead of 4 LoCs.
-
-> +}
-
-...
-
-> +static int max7360_reset(struct max7360 *max7360)
-> +{
-> +	int err;
-
-Please, be consistent with the variable naming with the same semantics.
-
-> +	err = regmap_write(max7360->regmap, MAX7360_REG_GPIOCFG,
-> +			   MAX7360_GPIO_CFG_GPIO_RST);
-> +	if (err) {
-> +		dev_err(max7360->dev, "Failed to reset GPIO configuration: %x\n", err);
-> +		return err;
-> +	}
-> +
-> +	err = regcache_drop_region(max7360->regmap, MAX7360_REG_GPIOCFG,
-> +				   MAX7360_REG_GPIO_LAST);
-> +	if (err) {
-> +		dev_err(max7360->dev, "Failed to drop regmap cache: %x\n", err);
-> +		return err;
-> +	}
-> +
-> +	err = regmap_write(max7360->regmap, MAX7360_REG_SLEEP, 0);
-> +	if (err) {
-> +		dev_err(max7360->dev, "Failed to reset autosleep configuration: %x\n", err);
-> +		return err;
-> +	}
-> +
-> +	err = regmap_write(max7360->regmap, MAX7360_REG_DEBOUNCE, 0);
-> +	if (err) {
-> +		dev_err(max7360->dev, "Failed to reset GPO port count: %x\n", err);
-
-> +		return err;
-> +	}
-> +
-> +	return 0;
-
-	return ret;
-
-> +}
-
-...
-
-> +static int max7360_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct regmap *regmap;
-> +	struct max7360 *max7360;
-
-> +	int err;
-
-A bit of consistency, please.
-
-> +}
-
-...
-
-> +static const struct of_device_id max7360_dt_match[] = {
-> +	{ .compatible = "maxim,max7360" },
-> +	{},
-
-No comma for the terminator entry.
-
-> +};
-
-...
-
-> +#ifndef __LINUX_MFD_MAX7360_H
-> +#define __LINUX_MFD_MAX7360_H
-
-> +#include <linux/bitfield.h>
-> +#include <linux/device.h>
-
-None of these are in use AFACS. Missing
-
-bits.h
-types.h
-
-struct device;
-
-> +#define MAX7360_MAX_KEY_ROWS	8
-> +#define MAX7360_MAX_KEY_COLS	8
-> +#define MAX7360_MAX_KEY_NUM	(MAX7360_MAX_KEY_ROWS * MAX7360_MAX_KEY_COLS)
-> +#define MAX7360_ROW_SHIFT	3
-> +
-> +#define MAX7360_MAX_GPIO 8
-> +#define MAX7360_MAX_GPO 6
-> +#define MAX7360_PORT_PWM_COUNT	8
-> +#define MAX7360_PORT_RTR_PIN	(MAX7360_PORT_PWM_COUNT - 1)
-> +
-> +/*
-> + * MAX7360 registers
-> + */
-> +#define MAX7360_REG_KEYFIFO	0x00
-> +#define MAX7360_REG_CONFIG	0x01
-> +#define MAX7360_REG_DEBOUNCE	0x02
-> +#define MAX7360_REG_INTERRUPT	0x03
-> +#define MAX7360_REG_PORTS	0x04
-> +#define MAX7360_REG_KEYREP	0x05
-> +#define MAX7360_REG_SLEEP	0x06
-> +
-> +/*
-> + * MAX7360 GPIO registers
-> + *
-> + * All these registers are reset together when writing bit 3 of
-> + * MAX7360_REG_GPIOCFG.
-> + */
-> +#define MAX7360_REG_GPIOCFG	0x40
-> +#define MAX7360_REG_GPIOCTRL	0x41
-> +#define MAX7360_REG_GPIODEB	0x42
-> +#define MAX7360_REG_GPIOCURR	0x43
-> +#define MAX7360_REG_GPIOOUTM	0x44
-> +#define MAX7360_REG_PWMCOM	0x45
-> +#define MAX7360_REG_RTRCFG	0x46
-> +#define MAX7360_REG_GPIOIN	0x49
-> +#define MAX7360_REG_RTR_CNT	0x4A
-> +#define MAX7360_REG_PWMBASE	0x50
-> +#define MAX7360_REG_PWMCFGBASE	0x58
-> +
-> +#define MAX7360_REG_GPIO_LAST	0x5F
-> +
-> +#define MAX7360_REG_PWM(x)	(MAX7360_REG_PWMBASE + (x))
-> +#define MAX7360_REG_PWMCFG(x)	(MAX7360_REG_PWMCFGBASE + (x))
-> +
-> +/*
-> + * Configuration register bits
-> + */
-> +#define MAX7360_FIFO_EMPTY	0x3f
-> +#define MAX7360_FIFO_OVERFLOW	0x7f
-> +#define MAX7360_FIFO_RELEASE	BIT(6)
-> +#define MAX7360_FIFO_COL	GENMASK(5, 3)
-> +#define MAX7360_FIFO_ROW	GENMASK(2, 0)
-> +
-> +#define MAX7360_CFG_SLEEP	BIT(7)
-> +#define MAX7360_CFG_INTERRUPT	BIT(5)
-> +#define MAX7360_CFG_KEY_RELEASE	BIT(3)
-> +#define MAX7360_CFG_WAKEUP	BIT(1)
-> +#define MAX7360_CFG_TIMEOUT	BIT(0)
-> +
-> +#define MAX7360_DEBOUNCE	GENMASK(4, 0)
-> +#define MAX7360_DEBOUNCE_MIN	9
-> +#define MAX7360_DEBOUNCE_MAX	40
-> +#define MAX7360_PORTS		GENMASK(8, 5)
-> +
-> +#define MAX7360_INTERRUPT_TIME_MASK GENMASK(4, 0)
-> +#define MAX7360_INTERRUPT_FIFO_MASK GENMASK(7, 5)
-> +
-> +#define MAX7360_PORT_CFG_INTERRUPT_MASK BIT(7)
-> +#define MAX7360_PORT_CFG_INTERRUPT_EDGES BIT(6)
-> +
-> +#define MAX7360_REG_GPIOCURR_FIXED 0xC0
-> +
-> +/*
-> + * Autosleep register values (ms)
-
-Instead of this ' (ms)' part, add a unit suffix, or where do the units apply?
-To the number in the name? If so, extend comment to explain this.
-
-> + */
-> +#define MAX7360_AUTOSLEEP_8192	0x01
-> +#define MAX7360_AUTOSLEEP_4096	0x02
-> +#define MAX7360_AUTOSLEEP_2048	0x03
-> +#define MAX7360_AUTOSLEEP_1024	0x04
-> +#define MAX7360_AUTOSLEEP_512	0x05
-> +#define MAX7360_AUTOSLEEP_256	0x06
-> +
-> +#define MAX7360_GPIO_CFG_RTR_EN		BIT(7)
-> +#define MAX7360_GPIO_CFG_GPIO_EN	BIT(4)
-> +#define MAX7360_GPIO_CFG_GPIO_RST	BIT(3)
-> +
-> +#define MAX7360_ROT_DEBOUNCE	GENMASK(3, 0)
-> +#define MAX7360_ROT_DEBOUNCE_MIN 0
-> +#define MAX7360_ROT_DEBOUNCE_MAX 15
-> +#define MAX7360_ROT_INTCNT	GENMASK(6, 4)
-> +#define MAX7360_ROT_INTCNT_DLY	BIT(7)
-> +
-> +#define MAX7360_INT_INTI	0
-> +#define MAX7360_INT_INTK	1
-> +
-> +#define MAX7360_INT_GPIO   0
-> +#define MAX7360_INT_KEYPAD 1
-> +#define MAX7360_INT_ROTARY 2
-> +
-> +#define MAX7360_NR_INTERNAL_IRQS	3
-> +
-> +int max7360_port_pin_request(struct device *dev, unsigned int pin, bool request);
-> +
-> +#endif
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+- Arnaldo
 
