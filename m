@@ -1,246 +1,545 @@
-Return-Path: <linux-input+bounces-10186-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10187-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70202A3AE23
-	for <lists+linux-input@lfdr.de>; Wed, 19 Feb 2025 01:59:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C84A3AF10
+	for <lists+linux-input@lfdr.de>; Wed, 19 Feb 2025 02:45:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 113027A5B64
-	for <lists+linux-input@lfdr.de>; Wed, 19 Feb 2025 00:58:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C2911887DBE
+	for <lists+linux-input@lfdr.de>; Wed, 19 Feb 2025 01:45:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC7A485260;
-	Wed, 19 Feb 2025 00:49:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 839A233E1;
+	Wed, 19 Feb 2025 01:45:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XKObsqqT"
+	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="Cgzqu15Q"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from endrift.com (endrift.com [173.255.198.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECCA1EA80;
-	Wed, 19 Feb 2025 00:49:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739926168; cv=fail; b=Upy/hd+bDuQztU5bGosMoTk+25dUs5ujQpuw1OUTqnxgSWq1LEONQNWnXsMbXfFFILTmM3Cs6F3uS2hdXn/Xi5m+3cJ483UfrJ4zps8OpPfqMmIhXJgOU1f8sdU1Y4IKHmV+nXBVGBGFi8aEyoQivdeDI5SLQXpvbfhBWTu7epU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739926168; c=relaxed/simple;
-	bh=ac/XZ9NzRRBb/4SM8P91FlO9Qu0jdDJYV7MptIdEnw0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=XjQneRQLYut4PfgLB2yC31SN5dbzG2tllVwOxOEPMJWCQz2Ao1f1hmTplR5+Zg92+eBAITKIJuOwRxReowdOXGCGzHD9HdtbRQnm4C5wN2rzbILBC/ji/DIR/6195P3FkgUwD5Se2jaxl3R1/79ovBkodfCR5m6lXl3HN8YCSTA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XKObsqqT; arc=fail smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739926167; x=1771462167;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ac/XZ9NzRRBb/4SM8P91FlO9Qu0jdDJYV7MptIdEnw0=;
-  b=XKObsqqTeihXKyzQn0FM0juDZbk42eaoaGzfsvQIPVJBrqchzn2o3Ofd
-   5hQIhj73LPCnMlXTT8deGIei5gkxs+OCB1jl0YLquUqj2darh3w0ViqBW
-   h/hEVmh5iLHL9/DwKpiyVehTfJCnnXPuVICbRKA+MmjNbdwSDd9BkdNHs
-   B2Ak7RHCyfE5EFMRQe8UQq/gzOTp68ej0t/uOF/L6hEgiQT3epmHkfxoT
-   sUXy7WBrut1+40tXerqKXXPMkDOoABRQ8pT6/TOCONJiNz3uxZCbAkhj3
-   tlq/Zst6bAd3oNoyqORc+h3ZXF19a+guVc+kH8wkly+R1EM5/kn5sAmtN
-   A==;
-X-CSE-ConnectionGUID: wRWeO2bwQ9+pYwkbMS0TbA==
-X-CSE-MsgGUID: 8JdFmbMXQ8W957NRNeqOOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40511790"
-X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
-   d="scan'208";a="40511790"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 16:49:26 -0800
-X-CSE-ConnectionGUID: 31NY7UyvRNibDPEN00dJBA==
-X-CSE-MsgGUID: 9rvDoX2AS5+7NXHpxFWaRQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
-   d="scan'208";a="114415899"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 16:49:26 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Tue, 18 Feb 2025 16:49:25 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Tue, 18 Feb 2025 16:49:25 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 18 Feb 2025 16:49:25 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OeaRoZhk7xBzOG6uopgH0PeOSyKc+YvpkvE1tNrzkrCrOizfXw88YjNzxyko3QEuuUczwlseO15ef/dtMNrOtkHW12cTBay2DVeP+uAASPV1Wlk6unCfsLakx7PVaiuYV4VBoCvvT1PnTxr/9AX9fcNn709NN9EL3+0Ys+WytNCa4wHwLPSCWH6z74xa+/ERATE+01TteLp7rVS9Rf7ciZE4y5YXhlZiD5uu87Z4XKRwd0387AzLf0KgI1SOAf/WnWRrV/8nHavuaUY4PrEcwrwVXCrW1PWRqlKpxiwtp/q1NnEGzW8R3CSjyXmBpaixiG3lAocohgBHT+wPZdbC5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kILe2GNYYmso0uNmF0RkhZRbbSwpYcoe5wgsoRe86dk=;
- b=oQHlTD+2+UAcyNCpsr5X9LXSJCui5ihpn6vvu4R3TpmUdciSeAc9fwkeLbbchqRYTghER/l9njcxpUp8nRQWJB2BT2cv2fXtJ/CWvQZf5W8DkPHRrsUk9qselxE7wdY0W07cBrnaj43svTd90iFyyQU4m7xUg1RIR3z3XWDwijmNnWbqE4nMf0MXd+O9T2OlE0NrCMkRMA/YpKqvK9bJ8goC/FO/g4BkmgQV3lM0/euLbdyNKQliK1OuMx/I64Dr5i/bVunyZcDqtqGMxcqr3y+DKQzRJtficQvlgMd9CSXWsboiovrI/wyDcJ4YDl+EUB/FPlo2Uj+eyq8COO7w7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA1PR11MB6098.namprd11.prod.outlook.com (2603:10b6:208:3d6::20)
- by SA1PR11MB8595.namprd11.prod.outlook.com (2603:10b6:806:3a9::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Wed, 19 Feb
- 2025 00:49:23 +0000
-Received: from IA1PR11MB6098.namprd11.prod.outlook.com
- ([fe80::cbbd:ed55:576c:fd55]) by IA1PR11MB6098.namprd11.prod.outlook.com
- ([fe80::cbbd:ed55:576c:fd55%3]) with mapi id 15.20.8445.017; Wed, 19 Feb 2025
- 00:49:22 +0000
-From: "Xu, Even" <even.xu@intel.com>
-To: Jiri Kosina <jikos@kernel.org>
-CC: "david.laight.linux@gmail.com" <david.laight.linux@gmail.com>,
-	"bentiss@kernel.org" <bentiss@kernel.org>,
-	"srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>,
-	"mpearson-lenovo@squebb.ca" <mpearson-lenovo@squebb.ca>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, lkp
-	<lkp@intel.com>
-Subject: RE: [PATCH] Hid: Intel-thc-hid: Intel-thc: Fix "dubious: !x | !y"
- issue
-Thread-Topic: [PATCH] Hid: Intel-thc-hid: Intel-thc: Fix "dubious: !x | !y"
- issue
-Thread-Index: AQHbfcCxQAvd/xFGzk65HxJbLEAy9bNNl4IAgAA9IwA=
-Date: Wed, 19 Feb 2025 00:49:22 +0000
-Message-ID: <IA1PR11MB609867E0BE78125CF48E99B8F4C52@IA1PR11MB6098.namprd11.prod.outlook.com>
-References: <20250213024021.2477473-1-even.xu@intel.com>
- <04553pqn-2s4r-593r-q8pq-4s18q5380p9n@xreary.bet>
-In-Reply-To: <04553pqn-2s4r-593r-q8pq-4s18q5380p9n@xreary.bet>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA1PR11MB6098:EE_|SA1PR11MB8595:EE_
-x-ms-office365-filtering-correlation-id: 0571d8d8-9edc-49eb-b0b0-08dd507f406b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?0qYioTI12thwM35inLyDlo07cvzdInOunHmzXshFdJAxPlP3Qf2QtyE+P4RF?=
- =?us-ascii?Q?heYofYJQNppEWQyCG05mygZVXfsDbnLHuiWC6rrBFcocy2KSy6mEaT86C607?=
- =?us-ascii?Q?3OCytOkuRPXvRNz4ZuGE0vZZo98+NWkauOjoIceSvCaR9x7qWLOBV8d03JUV?=
- =?us-ascii?Q?+jcJ6LZnjLailjk21QvXZqOP6s5v+Wex7P67u21ljL8ULwMw+fPYA26JYGaE?=
- =?us-ascii?Q?u2+Gk0HzbZ7TKedN5yOJvU/PMPCYWf3O0KxSGW5S7WWNgk6vjKpdbu5/HT/+?=
- =?us-ascii?Q?RVDkTQ5imxJ/bTnvXs48zh+U6uQ9MZS2e6W5+pPVQ1G1YRFJ8ybDvUaWzmqy?=
- =?us-ascii?Q?5y/AD0w1bQVvDJ2imtQgSWuCP4rCJtZuTVmAegx7hCldinFOB+tEJQLa5PrL?=
- =?us-ascii?Q?r4kP1P2kNMh2sb4rXDydgNA4t/yP/1kcI4UVYVWf616HfNzsANn7pD2NTSwD?=
- =?us-ascii?Q?HZCzeld0FEtPmcbhbM8bfrILzes0672cBsonylNgBjTyYNE1fLkmP/xb1e2h?=
- =?us-ascii?Q?x9a/fYPrC4819rovWw67rcCe2ucJkGUsUV7WIZMW+yfGNMj4kWst1BkcJUM4?=
- =?us-ascii?Q?PaDjEkI9sB4zIDow3BNGpLbJfxYEkbWg3Vrzbal9aHEGmKnZrGNvPslEFS+A?=
- =?us-ascii?Q?cL890S01p/hy6vrbyiETnd0JbL5snzj80Ps+ESbLZ3U7KOJWzZfnvIBAtbcU?=
- =?us-ascii?Q?KK1zBAqSTjHs34XkOAGjn96kpjUTd1mdMoewbUO4XP9xLDtLVfR5/kF9ZRrc?=
- =?us-ascii?Q?sE9yrlTAlXUqEMN73TUrVZnyM4k1tRkkdUEsCnpolS6gmU/qOYIZiBZI+JPb?=
- =?us-ascii?Q?VfWadUO77+40/fcvxr/G3hLxrEtd0b/1pI8aWk/gHd6kU5n+THgzLXJ9La4K?=
- =?us-ascii?Q?yQhlJinzqBn7naWHOvQAk4wlFZI3H9I0waNwl40urGTVwQr2sgN2rReCgm12?=
- =?us-ascii?Q?r0AyzHpvpc8fh2BtL67S24MWtJXuFfGQuky09z2IESx2cb/tPhTuhuKVitIt?=
- =?us-ascii?Q?IPs8J7Uz+YbbtIHCBxWh1SOtzoXy/O3040Nlprv+IOu23aoOowqkY2uIUOcZ?=
- =?us-ascii?Q?i/gqGVbeo+URzqIXvECYlMm2Tab8LvIvzTY+3hKqswqYK82mKxfCouxcL+dB?=
- =?us-ascii?Q?+4dGG77mRH50s5k34WnnLQFokYnSHCafN1rzKOzAoH6tu1KBsGVANjON7Wy6?=
- =?us-ascii?Q?KtMcfBY6xKonPKTMQw3rUhT1jcy769pmQjYvXMYOfddfxILuXCVPJkO8ZPY7?=
- =?us-ascii?Q?ITD+VboSJmM2yGTg9va+WoZQwyJ2vh+ZtXWq09urC8DbkTsuELpkjtfvV5X3?=
- =?us-ascii?Q?SlGx09dvyaE0nEwC4c4CEuRl6HaP3IHkyHRPyp6ixQlhx8oRm6EbWNQO5Z7Y?=
- =?us-ascii?Q?Hhf+zsobeqRoUUsYY8omQqE9gwvwJPEbaLPzslG4pMFaer3oBupSH7IkPxgT?=
- =?us-ascii?Q?/vmaKS4E44zRgdn8URk3K6jOMs2axKEQ?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6098.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?9hyWlMC5CIEY7PkdQbnZ95VjsIcQgus8J3OxPR633sTjtXadr2ry5QMaVIoS?=
- =?us-ascii?Q?+oRC+8zUG2T9+bf8mEf7lQswIS9TpXwUL7w6iax6zoUYzLjKakk957hI/Qip?=
- =?us-ascii?Q?FsC+PQacIeBxzuV/RFhJ0bplZpjIU6qzE0XnMMAGFn49HG9DBe0aNghqpR0C?=
- =?us-ascii?Q?OYQCGWT8FqFouPT+jfvY+iSnC9LW/eYv2BWKD44conL86Kx7Kh/fonTQAucW?=
- =?us-ascii?Q?0lbAIJr/s7ll99aw8wLbUcn5zU5cpZYUWKZxpDECfKEE+/AENF8kRqQqfbzi?=
- =?us-ascii?Q?tYhTT2O8YvlYeEBGqWHJvWStwfUSO510iX8512XJNGoNbWB+NsuyKG32JbJa?=
- =?us-ascii?Q?YWlrsGkkxr09z2zylEO/GCZZRFP/x/pHFP2Ll9yKpv24rDn4dIgnyJy+AeP7?=
- =?us-ascii?Q?mL9cQBSso7T9vClZ5HPccaAwYSzMrpyQtDV6EXzUCvLQIPSUNEJev7r57edQ?=
- =?us-ascii?Q?CDBWbiZ9uMRqYS4XRNyyz/zjMzRvZYrB97gmgj9otHE4moRcCLRPXolDyG4Y?=
- =?us-ascii?Q?gR/MJTL9z54Z1LG7RVLNLEXWpmBwC2oBsdz2A2i6NZL394D+i3ceyYEf3wtK?=
- =?us-ascii?Q?/zGJnRBTABn1/hzJR0wqHiDlSzQ2NcE15tN7G88eGVdHXbmkeJos2vQu+k3I?=
- =?us-ascii?Q?myLN+p5/Vx3apI1+++w8C+tLfcuJzm5LdTf6lbhxZ/KuQ1s1mn8Kvtb+wCz+?=
- =?us-ascii?Q?Sr1d+FN9XLTX2lW6syoNMOOf+A4lg4sCAufcKzW97NeqHdpFAQQi/TlwQR29?=
- =?us-ascii?Q?QXh3lXtu86xuvMIU2JqHWookAKXFscQ5PcHjD4ZLgLx1RC/Xb0XFXh+bnytS?=
- =?us-ascii?Q?+c+c0anwlFiIFVP/NAzLalNygMm+pkmd5aSVTZVBbNE51teOeZmnZ9rNAtfT?=
- =?us-ascii?Q?inMAToL+W8UDpcxAFRNHpf+yVZ2ZkYtD0KqhMbgWibhWyjfJOtw94YBuvOW1?=
- =?us-ascii?Q?RO/3CozT77QWcy40POS3RfR3O/23QCToy9hA/TjgmoirAMzXgFdJ5Rt8WOna?=
- =?us-ascii?Q?ClJCRHHlnCh0rTnvuy34XldsltPnesMeImgyE7frCwoSDMo/4KnePGik1Ufu?=
- =?us-ascii?Q?X+Dijwqe4WJ9Zy34ePm1vz8HNhJ1apW5ZG7N3fesyZ8Fq6IT3xUSBe5J6c3w?=
- =?us-ascii?Q?MbX2o4zv9Ze5V1Pcf5pAw86H1MTXTGpbVivNbEoSOeIw90pVqKgpAlFhKyYL?=
- =?us-ascii?Q?WkfwPAtJKDw8BlMbABPZ2DExi45H6LboAHptiax9BH5rjRkbRKOmgD1P1CXt?=
- =?us-ascii?Q?6XXtafCqDIeVNqIgkxwfcGIB+KscOJbBHfF9p7cOMHnSwo7H6+AQCdAPWAJG?=
- =?us-ascii?Q?qWPZsba3l95gF67hkjrc5iUOMorgcgFbS4rXmYSEUrn87UuVr3mtOgdIyFNl?=
- =?us-ascii?Q?Z9ElEhFQbywRHPeQu0JH0aYiRuVwbUEkV4Gqkmmfe5Ft59Vf5yUfRGOLlziT?=
- =?us-ascii?Q?lLqMmjBkG+8wP4YfAs2Miwl13AgU4NytqHCSU5vfl9eGOSWZmmhd/RXu4pB+?=
- =?us-ascii?Q?NKMYVs60iaAJKK1SwwOwnsAsXB6V21F2dSUgaZCHXGUNBGr8oVrCGsRC3fta?=
- =?us-ascii?Q?W963Xia6gp24JrfeeR0=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C7FF2862B2
+	for <linux-input@vger.kernel.org>; Wed, 19 Feb 2025 01:45:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739929528; cv=none; b=iqPFdp5/06caWafWmEWYyzW7f3oFHUErrYmWTJPmSGcomGgPaS7owFeetY4a+ksvZYg5euJrP3D3cW6MM5uhmPl9imw3xa+jslTehNzyVYBuPdSgh4xmUoEqRybZWHTqpN/i02VVte3jpkUxPYkalVPy8P9095/0zIDw/poZgbg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739929528; c=relaxed/simple;
+	bh=ResTMnB7wrNYOushV+WLR+VIyqlxq/4UkxZgLrgejTU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UCNzcDDODa5kSyPWc2PtOBJT0AJcn2YLSDX3wmEjPnPl2TS+B5UEcnX6H+6ErdGWOFdm/6ACavNMWxXVlt3kNOIB0rIS5NmmialliGUYcAdZQkiMN200LQLFKQlWH9mgmL1oveANCkZr4iTElpo1HgyO/wBzsa9udkUrDVCDxcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=Cgzqu15Q; arc=none smtp.client-ip=173.255.198.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
+	t=1739929115; bh=ResTMnB7wrNYOushV+WLR+VIyqlxq/4UkxZgLrgejTU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Cgzqu15QJuL0OhkOwrQHTuP1LjMgvCExD0W2uCOgSZaWYTgzieaKjED/q7hcBNx/l
+	 waYkxphXCS5OS+pdVLQueTfEzEf4cPrBz00hTdmg1yFp30NipCkWPnergx8mnbv4fC
+	 sBhTIxxWNj+emACNp6TMcfLR4D75xQSgnYtbEb5qdcrxvq8Lg+NKOZK7xcZlNMRBLR
+	 xTjiBW3a3C+lwVcZPNioNPFsPckBp/84jHPfJsUjEF/HXN4tADlnP/EF1wx5B8BgkJ
+	 DGbgnm0FXGrmMQ/SYeYhJiY6rkc/0RnLvsaG0W8q+dcnwr2k0bXRVO0GTuBWlSgMKD
+	 9rl7XPisfnQzg==
+Received: from nebulosa.vulpes.eutheria.net (71-212-74-234.tukw.qwest.net [71.212.74.234])
+	by endrift.com (Postfix) with ESMTPSA id C2A42A124;
+	Tue, 18 Feb 2025 17:38:34 -0800 (PST)
+From: Vicki Pfau <vi@endrift.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: Vicki Pfau <vi@endrift.com>
+Subject: [PATCH] Input: xpad - Allow disabling Xbox One support
+Date: Tue, 18 Feb 2025 17:38:24 -0800
+Message-ID: <20250219013824.3955748-1-vi@endrift.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6098.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0571d8d8-9edc-49eb-b0b0-08dd507f406b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Feb 2025 00:49:22.8124
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8QmNK51aKg97CigfrX651osyCcjlYtebI44ju9u88UjByXoWkaijkb5Qzex39KIvCDDR4x2o351/xLI/bk0mkQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8595
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-Thanks Jiri!
+The xpad driver has historically had lackluster Xbox One controller support.
+Multiple out-of-tree driver projects have started up with the eventual goal of
+getting merged upstream, but they require either blacklisting xpad or building
+a custom version without Xbox One support to avoid the drivers stepping on each
+other. In advance of one of these drivers getting upstreamed, this patch add
+supports for disabling Xbox One support to avoid the need for downstream
+changes.
 
-Best Regards,
-Even Xu
+Signed-off-by: Vicki Pfau <vi@endrift.com>
+---
+ drivers/input/joystick/Kconfig |   6 ++
+ drivers/input/joystick/xpad.c  | 164 +++++++++++++++++++--------------
+ 2 files changed, 102 insertions(+), 68 deletions(-)
 
-> -----Original Message-----
-> From: Jiri Kosina <jikos@kernel.org>
-> Sent: Wednesday, February 19, 2025 5:10 AM
-> To: Xu, Even <even.xu@intel.com>
-> Cc: david.laight.linux@gmail.com; bentiss@kernel.org;
-> srinivas.pandruvada@linux.intel.com; mpearson-lenovo@squebb.ca; linux-
-> input@vger.kernel.org; linux-kernel@vger.kernel.org; lkp <lkp@intel.com>
-> Subject: Re: [PATCH] Hid: Intel-thc-hid: Intel-thc: Fix "dubious: !x | !y=
-" issue
->=20
-> On Thu, 13 Feb 2025, Even Xu wrote:
->=20
-> > Change to use "||" to make it more readable and avoid miss
-> > understanding.
-> >
-> > Signed-off-by: Even Xu <even.xu@intel.com>
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes:
-> > https://lore.kernel.org/oe-kbuild-all/202501292144.eFDq4ovr-lkp@intel.
-> > com
-> > ---
-> >  drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c
-> > b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c
-> > index eb23bea77686..8f97e71df7f4 100644
-> > --- a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c
-> > +++ b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c
-> > @@ -295,7 +295,7 @@ static void release_dma_buffers(struct thc_device
-> *dev,
-> >  		return;
-> >
-> >  	for (i =3D 0; i < config->prd_tbl_num; i++) {
-> > -		if (!config->sgls[i] | !config->sgls_nent[i])
-> > +		if (!config->sgls[i] || !config->sgls_nent[i])
-> >  			continue;
->=20
-> Applied, thanks.
->=20
-> --
-> Jiri Kosina
-> SUSE Labs
+diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
+index 7755e5b454d2..abfda29df47c 100644
+--- a/drivers/input/joystick/Kconfig
++++ b/drivers/input/joystick/Kconfig
+@@ -320,6 +320,12 @@ config JOYSTICK_XPAD_LEDS
+ 	  This option enables support for the LED which surrounds the Big X on
+ 	  Xbox 360 controllers.
+ 
++config JOYSTICK_XPAD_XBOXONE
++	bool "Xbox One gamepad support in xpad"
++	depends on JOYSTICK_XPAD && INPUT
++	help
++	  Say Y here if you want the xpad driver to support Xbox One controllers.
++
+ config JOYSTICK_WALKERA0701
+ 	tristate "Walkera WK-0701 RC transmitter"
+ 	depends on HIGH_RES_TIMERS && PARPORT
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index b434a465bf72..3dbaf6945024 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -133,10 +133,6 @@ static const struct xpad_device {
+ 	{ 0x03eb, 0xff02, "Wooting Two (Legacy)", 0, XTYPE_XBOX360 },
+ 	{ 0x03f0, 0x038D, "HyperX Clutch", 0, XTYPE_XBOX360 },			/* wired */
+ 	{ 0x03f0, 0x048D, "HyperX Clutch", 0, XTYPE_XBOX360 },			/* wireless */
+-	{ 0x03f0, 0x0495, "HyperX Clutch Gladiate", 0, XTYPE_XBOXONE },
+-	{ 0x03f0, 0x07A0, "HyperX Clutch Gladiate RGB", 0, XTYPE_XBOXONE },
+-	{ 0x03f0, 0x08B6, "HyperX Clutch Gladiate", 0, XTYPE_XBOXONE },		/* v2 */
+-	{ 0x03f0, 0x09B4, "HyperX Clutch Tanto", 0, XTYPE_XBOXONE },
+ 	{ 0x044f, 0x0f00, "Thrustmaster Wheel", 0, XTYPE_XBOX },
+ 	{ 0x044f, 0x0f03, "Thrustmaster Wheel", 0, XTYPE_XBOX },
+ 	{ 0x044f, 0x0f07, "Thrustmaster, Inc. Controller", 0, XTYPE_XBOX },
+@@ -151,14 +147,7 @@ static const struct xpad_device {
+ 	{ 0x045e, 0x028f, "Microsoft X-Box 360 pad v2", 0, XTYPE_XBOX360 },
+ 	{ 0x045e, 0x0291, "Xbox 360 Wireless Receiver (XBOX)", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
+ 	{ 0x045e, 0x02a9, "Xbox 360 Wireless Receiver (Unofficial)", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
+-	{ 0x045e, 0x02d1, "Microsoft X-Box One pad", 0, XTYPE_XBOXONE },
+-	{ 0x045e, 0x02dd, "Microsoft X-Box One pad (Firmware 2015)", 0, XTYPE_XBOXONE },
+-	{ 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", MAP_PADDLES, XTYPE_XBOXONE },
+-	{ 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE },
+ 	{ 0x045e, 0x0719, "Xbox 360 Wireless Receiver", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
+-	{ 0x045e, 0x0b00, "Microsoft X-Box One Elite 2 pad", MAP_PADDLES, XTYPE_XBOXONE },
+-	{ 0x045e, 0x0b0a, "Microsoft X-Box Adaptive Controller", MAP_PROFILE_BUTTON, XTYPE_XBOXONE },
+-	{ 0x045e, 0x0b12, "Microsoft Xbox Series S|X Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
+ 	{ 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
+ 	{ 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360 },
+ 	{ 0x046d, 0xc21f, "Logitech Gamepad F710", 0, XTYPE_XBOX360 },
+@@ -198,7 +187,6 @@ static const struct xpad_device {
+ 	{ 0x0738, 0x4740, "Mad Catz Beat Pad", 0, XTYPE_XBOX360 },
+ 	{ 0x0738, 0x4743, "Mad Catz Beat Pad Pro", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX },
+ 	{ 0x0738, 0x4758, "Mad Catz Arcade Game Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+-	{ 0x0738, 0x4a01, "Mad Catz FightStick TE 2", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
+ 	{ 0x0738, 0x6040, "Mad Catz Beat Pad Pro", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX },
+ 	{ 0x0738, 0x9871, "Mad Catz Portable Drum", 0, XTYPE_XBOX360 },
+ 	{ 0x0738, 0xb726, "Mad Catz Xbox controller - MW2", 0, XTYPE_XBOX360 },
+@@ -209,8 +197,6 @@ static const struct xpad_device {
+ 	{ 0x0738, 0xcb29, "Saitek Aviator Stick AV8R02", 0, XTYPE_XBOX360 },
+ 	{ 0x0738, 0xf738, "Super SFIV FightStick TE S", 0, XTYPE_XBOX360 },
+ 	{ 0x07ff, 0xffff, "Mad Catz GamePad", 0, XTYPE_XBOX360 },
+-	{ 0x0b05, 0x1a38, "ASUS ROG RAIKIRI", 0, XTYPE_XBOXONE },
+-	{ 0x0b05, 0x1abb, "ASUS ROG RAIKIRI PRO", 0, XTYPE_XBOXONE },
+ 	{ 0x0c12, 0x0005, "Intec wireless", 0, XTYPE_XBOX },
+ 	{ 0x0c12, 0x8801, "Nyko Xbox Controller", 0, XTYPE_XBOX },
+ 	{ 0x0c12, 0x8802, "Zeroplus Xbox Controller", 0, XTYPE_XBOX },
+@@ -233,33 +219,10 @@ static const struct xpad_device {
+ 	{ 0x0e6f, 0x011f, "Rock Candy Gamepad Wired Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x0e6f, 0x0131, "PDP EA Sports Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x0e6f, 0x0133, "Xbox 360 Wired Controller", 0, XTYPE_XBOX360 },
+-	{ 0x0e6f, 0x0139, "Afterglow Prismatic Wired Controller", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x013a, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x0146, "Rock Candy Wired Controller for Xbox One", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x0147, "PDP Marvel Xbox One Controller", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x015c, "PDP Xbox One Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x0161, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x0162, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x0163, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x0164, "PDP Battlefield One", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x0165, "PDP Titanfall 2", 0, XTYPE_XBOXONE },
+ 	{ 0x0e6f, 0x0201, "Pelican PL-3601 'TSZ' Wired Xbox 360 Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x0e6f, 0x0213, "Afterglow Gamepad for Xbox 360", 0, XTYPE_XBOX360 },
+ 	{ 0x0e6f, 0x021f, "Rock Candy Gamepad for Xbox 360", 0, XTYPE_XBOX360 },
+-	{ 0x0e6f, 0x0246, "Rock Candy Gamepad for Xbox One 2015", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x02a0, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x02a1, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x02a2, "PDP Wired Controller for Xbox One - Crimson Red", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x02a4, "PDP Wired Controller for Xbox One - Stealth Series", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x02a6, "PDP Wired Controller for Xbox One - Camo Series", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x02a7, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x02a8, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x02ab, "PDP Controller for Xbox One", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x02ad, "PDP Wired Controller for Xbox One - Stealth Series", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x02b3, "Afterglow Prismatic Wired Controller", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x02b8, "Afterglow Prismatic Wired Controller", 0, XTYPE_XBOXONE },
+ 	{ 0x0e6f, 0x0301, "Logic3 Controller", 0, XTYPE_XBOX360 },
+-	{ 0x0e6f, 0x0346, "Rock Candy Gamepad for Xbox One 2016", 0, XTYPE_XBOXONE },
+ 	{ 0x0e6f, 0x0401, "Logic3 Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x0e6f, 0x0413, "Afterglow AX.1 Gamepad for Xbox 360", 0, XTYPE_XBOX360 },
+ 	{ 0x0e6f, 0x0501, "PDP Xbox 360 Controller", 0, XTYPE_XBOX360 },
+@@ -271,10 +234,6 @@ static const struct xpad_device {
+ 	{ 0x0f0d, 0x000d, "Hori Fighting Stick EX2", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+ 	{ 0x0f0d, 0x0016, "Hori Real Arcade Pro.EX", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+ 	{ 0x0f0d, 0x001b, "Hori Real Arcade Pro VX", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+-	{ 0x0f0d, 0x0063, "Hori Real Arcade Pro Hayabusa (USA) Xbox One", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
+-	{ 0x0f0d, 0x0067, "HORIPAD ONE", 0, XTYPE_XBOXONE },
+-	{ 0x0f0d, 0x0078, "Hori Real Arcade Pro V Kai Xbox One", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
+-	{ 0x0f0d, 0x00c5, "Hori Fighting Commander ONE", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
+ 	{ 0x0f0d, 0x00dc, "HORIPAD FPS for Nintendo Switch", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+ 	{ 0x0f30, 0x010b, "Philips Recoil", 0, XTYPE_XBOX },
+ 	{ 0x0f30, 0x0202, "Joytech Advanced Controller", 0, XTYPE_XBOX },
+@@ -294,9 +253,6 @@ static const struct xpad_device {
+ 	{ 0x1430, 0xf801, "RedOctane Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x146b, 0x0601, "BigBen Interactive XBOX 360 Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x146b, 0x0604, "Bigben Interactive DAIJA Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+-	{ 0x1532, 0x0a00, "Razer Atrox Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
+-	{ 0x1532, 0x0a03, "Razer Wildcat", 0, XTYPE_XBOXONE },
+-	{ 0x1532, 0x0a29, "Razer Wolverine V2", 0, XTYPE_XBOXONE },
+ 	{ 0x15e4, 0x3f00, "Power A Mini Pro Elite", 0, XTYPE_XBOX360 },
+ 	{ 0x15e4, 0x3f0a, "Xbox Airflo wired controller", 0, XTYPE_XBOX360 },
+ 	{ 0x15e4, 0x3f10, "Batarang Xbox 360 controller", 0, XTYPE_XBOX360 },
+@@ -343,8 +299,6 @@ static const struct xpad_device {
+ 	{ 0x1bad, 0xfa01, "MadCatz GamePad", 0, XTYPE_XBOX360 },
+ 	{ 0x1bad, 0xfd00, "Razer Onza TE", 0, XTYPE_XBOX360 },
+ 	{ 0x1bad, 0xfd01, "Razer Onza", 0, XTYPE_XBOX360 },
+-	{ 0x20d6, 0x2001, "BDA Xbox Series X Wired Controller", 0, XTYPE_XBOXONE },
+-	{ 0x20d6, 0x2009, "PowerA Enhanced Wired Controller for Xbox Series X|S", 0, XTYPE_XBOXONE },
+ 	{ 0x20d6, 0x281f, "PowerA Wired Controller For Xbox 360", 0, XTYPE_XBOX360 },
+ 	{ 0x2345, 0xe00b, "Machenike G5 Pro Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x5000, "Razer Atrox Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+@@ -353,9 +307,6 @@ static const struct xpad_device {
+ 	{ 0x24c6, 0x530a, "Xbox 360 Pro EX Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x531a, "PowerA Pro Ex", 0, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x5397, "FUS1ON Tournament Controller", 0, XTYPE_XBOX360 },
+-	{ 0x24c6, 0x541a, "PowerA Xbox One Mini Wired Controller", 0, XTYPE_XBOXONE },
+-	{ 0x24c6, 0x542a, "Xbox ONE spectra", 0, XTYPE_XBOXONE },
+-	{ 0x24c6, 0x543a, "PowerA Xbox One wired controller", 0, XTYPE_XBOXONE },
+ 	{ 0x24c6, 0x5500, "Hori XBOX 360 EX 2 with Turbo", 0, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x5501, "Hori Real Arcade Pro VX-SA", 0, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x5502, "Hori Fighting Stick VX Alt", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+@@ -364,20 +315,14 @@ static const struct xpad_device {
+ 	{ 0x24c6, 0x550d, "Hori GEM Xbox controller", 0, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x550e, "Hori Real Arcade Pro V Kai 360", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x5510, "Hori Fighting Commander ONE (Xbox 360/PC Mode)", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+-	{ 0x24c6, 0x551a, "PowerA FUSION Pro Controller", 0, XTYPE_XBOXONE },
+-	{ 0x24c6, 0x561a, "PowerA FUSION Controller", 0, XTYPE_XBOXONE },
+ 	{ 0x24c6, 0x5b00, "ThrustMaster Ferrari 458 Racing Wheel", 0, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x5b02, "Thrustmaster, Inc. GPX Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x5b03, "Thrustmaster Ferrari 458 Racing Wheel", 0, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x5d04, "Razer Sabertooth", 0, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0xfafe, "Rock Candy Gamepad for Xbox 360", 0, XTYPE_XBOX360 },
+ 	{ 0x2563, 0x058d, "OneXPlayer Gamepad", 0, XTYPE_XBOX360 },
+-	{ 0x294b, 0x3303, "Snakebyte GAMEPAD BASE X", 0, XTYPE_XBOXONE },
+-	{ 0x294b, 0x3404, "Snakebyte GAMEPAD RGB X", 0, XTYPE_XBOXONE },
+-	{ 0x2dc8, 0x2000, "8BitDo Pro 2 Wired Controller fox Xbox", 0, XTYPE_XBOXONE },
+ 	{ 0x2dc8, 0x3106, "8BitDo Ultimate Wireless / Pro 2 Wired Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x2dc8, 0x310a, "8BitDo Ultimate 2C Wireless Controller", 0, XTYPE_XBOX360 },
+-	{ 0x2e24, 0x0652, "Hyperkin Duke X-Box One pad", 0, XTYPE_XBOXONE },
+ 	{ 0x31e3, 0x1100, "Wooting One", 0, XTYPE_XBOX360 },
+ 	{ 0x31e3, 0x1200, "Wooting Two", 0, XTYPE_XBOX360 },
+ 	{ 0x31e3, 0x1210, "Wooting Lekker", 0, XTYPE_XBOX360 },
+@@ -389,6 +334,63 @@ static const struct xpad_device {
+ 	{ 0x3537, 0x1004, "GameSir T4 Kaleid", 0, XTYPE_XBOX360 },
+ 	{ 0x3767, 0x0101, "Fanatec Speedster 3 Forceshock Wheel", 0, XTYPE_XBOX },
+ 	{ 0xffff, 0xffff, "Chinese-made Xbox Controller", 0, XTYPE_XBOX },
++#ifdef CONFIG_JOYSTICK_XPAD_XBOXONE
++	{ 0x03f0, 0x0495, "HyperX Clutch Gladiate", 0, XTYPE_XBOXONE },
++	{ 0x03f0, 0x07A0, "HyperX Clutch Gladiate RGB", 0, XTYPE_XBOXONE },
++	{ 0x03f0, 0x08B6, "HyperX Clutch Gladiate", 0, XTYPE_XBOXONE },		/* v2 */
++	{ 0x03f0, 0x09B4, "HyperX Clutch Tanto", 0, XTYPE_XBOXONE },
++	{ 0x045e, 0x02d1, "Microsoft X-Box One pad", 0, XTYPE_XBOXONE },
++	{ 0x045e, 0x02dd, "Microsoft X-Box One pad (Firmware 2015)", 0, XTYPE_XBOXONE },
++	{ 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", MAP_PADDLES, XTYPE_XBOXONE },
++	{ 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE },
++	{ 0x045e, 0x0b00, "Microsoft X-Box One Elite 2 pad", MAP_PADDLES, XTYPE_XBOXONE },
++	{ 0x045e, 0x0b0a, "Microsoft X-Box Adaptive Controller", MAP_PROFILE_BUTTON, XTYPE_XBOXONE },
++	{ 0x045e, 0x0b12, "Microsoft Xbox Series S|X Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
++	{ 0x0738, 0x4a01, "Mad Catz FightStick TE 2", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
++	{ 0x0b05, 0x1a38, "ASUS ROG RAIKIRI", 0, XTYPE_XBOXONE },
++	{ 0x0b05, 0x1abb, "ASUS ROG RAIKIRI PRO", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x0139, "Afterglow Prismatic Wired Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x013a, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x0146, "Rock Candy Wired Controller for Xbox One", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x0147, "PDP Marvel Xbox One Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x015c, "PDP Xbox One Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x0161, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x0162, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x0163, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x0164, "PDP Battlefield One", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x0165, "PDP Titanfall 2", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x0246, "Rock Candy Gamepad for Xbox One 2015", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02a0, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02a1, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02a2, "PDP Wired Controller for Xbox One - Crimson Red", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02a4, "PDP Wired Controller for Xbox One - Stealth Series", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02a6, "PDP Wired Controller for Xbox One - Camo Series", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02a7, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02a8, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02ab, "PDP Controller for Xbox One", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02ad, "PDP Wired Controller for Xbox One - Stealth Series", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02b3, "Afterglow Prismatic Wired Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02b8, "Afterglow Prismatic Wired Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x0346, "Rock Candy Gamepad for Xbox One 2016", 0, XTYPE_XBOXONE },
++	{ 0x0f0d, 0x0063, "Hori Real Arcade Pro Hayabusa (USA) Xbox One", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
++	{ 0x0f0d, 0x0067, "HORIPAD ONE", 0, XTYPE_XBOXONE },
++	{ 0x0f0d, 0x0078, "Hori Real Arcade Pro V Kai Xbox One", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
++	{ 0x0f0d, 0x00c5, "Hori Fighting Commander ONE", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
++	{ 0x1532, 0x0a00, "Razer Atrox Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
++	{ 0x1532, 0x0a03, "Razer Wildcat", 0, XTYPE_XBOXONE },
++	{ 0x1532, 0x0a29, "Razer Wolverine V2", 0, XTYPE_XBOXONE },
++	{ 0x20d6, 0x2001, "BDA Xbox Series X Wired Controller", 0, XTYPE_XBOXONE },
++	{ 0x20d6, 0x2009, "PowerA Enhanced Wired Controller for Xbox Series X|S", 0, XTYPE_XBOXONE },
++	{ 0x24c6, 0x541a, "PowerA Xbox One Mini Wired Controller", 0, XTYPE_XBOXONE },
++	{ 0x24c6, 0x542a, "Xbox ONE spectra", 0, XTYPE_XBOXONE },
++	{ 0x24c6, 0x543a, "PowerA Xbox One wired controller", 0, XTYPE_XBOXONE },
++	{ 0x24c6, 0x551a, "PowerA FUSION Pro Controller", 0, XTYPE_XBOXONE },
++	{ 0x24c6, 0x561a, "PowerA FUSION Controller", 0, XTYPE_XBOXONE },
++	{ 0x294b, 0x3303, "Snakebyte GAMEPAD BASE X", 0, XTYPE_XBOXONE },
++	{ 0x294b, 0x3404, "Snakebyte GAMEPAD RGB X", 0, XTYPE_XBOXONE },
++	{ 0x2dc8, 0x2000, "8BitDo Pro 2 Wired Controller fox Xbox", 0, XTYPE_XBOXONE },
++	{ 0x2e24, 0x0652, "Hyperkin Duke X-Box One pad", 0, XTYPE_XBOXONE },
++#endif
+ 	{ 0x0000, 0x0000, "Generic X-Box pad", 0, XTYPE_UNKNOWN }
+ };
+ 
+@@ -484,26 +486,19 @@ static const struct usb_device_id xpad_table[] = {
+ 	XPAD_XBOX360_VENDOR(0x0079),		/* GPD Win 2 controller */
+ 	XPAD_XBOX360_VENDOR(0x03eb),		/* Wooting Keyboards (Legacy) */
+ 	XPAD_XBOX360_VENDOR(0x03f0),		/* HP HyperX Xbox 360 controllers */
+-	XPAD_XBOXONE_VENDOR(0x03f0),		/* HP HyperX Xbox One controllers */
+ 	XPAD_XBOX360_VENDOR(0x044f),		/* Thrustmaster Xbox 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x045e),		/* Microsoft Xbox 360 controllers */
+-	XPAD_XBOXONE_VENDOR(0x045e),		/* Microsoft Xbox One controllers */
+ 	XPAD_XBOX360_VENDOR(0x046d),		/* Logitech Xbox 360-style controllers */
+ 	XPAD_XBOX360_VENDOR(0x056e),		/* Elecom JC-U3613M */
+ 	XPAD_XBOX360_VENDOR(0x06a3),		/* Saitek P3600 */
+ 	XPAD_XBOX360_VENDOR(0x0738),		/* Mad Catz Xbox 360 controllers */
+ 	{ USB_DEVICE(0x0738, 0x4540) },		/* Mad Catz Beat Pad */
+-	XPAD_XBOXONE_VENDOR(0x0738),		/* Mad Catz FightStick TE 2 */
+ 	XPAD_XBOX360_VENDOR(0x07ff),		/* Mad Catz Gamepad */
+-	XPAD_XBOXONE_VENDOR(0x0b05),		/* ASUS controllers */
+ 	XPAD_XBOX360_VENDOR(0x0c12),		/* Zeroplus X-Box 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x0db0),		/* Micro Star International X-Box 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x0e6f),		/* 0x0e6f Xbox 360 controllers */
+-	XPAD_XBOXONE_VENDOR(0x0e6f),		/* 0x0e6f Xbox One controllers */
+ 	XPAD_XBOX360_VENDOR(0x0f0d),		/* Hori controllers */
+-	XPAD_XBOXONE_VENDOR(0x0f0d),		/* Hori controllers */
+ 	XPAD_XBOX360_VENDOR(0x1038),		/* SteelSeries controllers */
+-	XPAD_XBOXONE_VENDOR(0x10f5),		/* Turtle Beach Controllers */
+ 	XPAD_XBOX360_VENDOR(0x11c9),		/* Nacon GC100XF */
+ 	XPAD_XBOX360_VENDOR(0x11ff),		/* PXN V900 */
+ 	XPAD_XBOX360_VENDOR(0x1209),		/* Ardwiino Controllers */
+@@ -511,7 +506,6 @@ static const struct usb_device_id xpad_table[] = {
+ 	XPAD_XBOX360_VENDOR(0x1430),		/* RedOctane Xbox 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x146b),		/* Bigben Interactive controllers */
+ 	XPAD_XBOX360_VENDOR(0x1532),		/* Razer Sabertooth */
+-	XPAD_XBOXONE_VENDOR(0x1532),		/* Razer Wildcat */
+ 	XPAD_XBOX360_VENDOR(0x15e4),		/* Numark Xbox 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x162e),		/* Joytech Xbox 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x1689),		/* Razer Onza */
+@@ -520,27 +514,38 @@ static const struct usb_device_id xpad_table[] = {
+ 	XPAD_XBOX360_VENDOR(0x1a86),		/* QH Electronics */
+ 	XPAD_XBOX360_VENDOR(0x1bad),		/* Harmonix Rock Band guitar and drums */
+ 	XPAD_XBOX360_VENDOR(0x20d6),		/* PowerA controllers */
+-	XPAD_XBOXONE_VENDOR(0x20d6),		/* PowerA controllers */
+ 	XPAD_XBOX360_VENDOR(0x2345),		/* Machenike Controllers */
+ 	XPAD_XBOX360_VENDOR(0x24c6),		/* PowerA controllers */
+-	XPAD_XBOXONE_VENDOR(0x24c6),		/* PowerA controllers */
+ 	XPAD_XBOX360_VENDOR(0x2563),		/* OneXPlayer Gamepad */
+ 	XPAD_XBOX360_VENDOR(0x260d),		/* Dareu H101 */
+-       XPAD_XBOXONE_VENDOR(0x294b),            /* Snakebyte */
+ 	XPAD_XBOX360_VENDOR(0x2c22),		/* Qanba Controllers */
+ 	XPAD_XBOX360_VENDOR(0x2dc8),            /* 8BitDo Pro 2 Wired Controller */
+-	XPAD_XBOXONE_VENDOR(0x2dc8),		/* 8BitDo Pro 2 Wired Controller for Xbox */
+-	XPAD_XBOXONE_VENDOR(0x2e24),		/* Hyperkin Duke Xbox One pad */
+ 	XPAD_XBOX360_VENDOR(0x2f24),		/* GameSir controllers */
+ 	XPAD_XBOX360_VENDOR(0x31e3),		/* Wooting Keyboards */
+ 	XPAD_XBOX360_VENDOR(0x3285),		/* Nacon GC-100 */
+ 	XPAD_XBOX360_VENDOR(0x3537),		/* GameSir Controllers */
++#ifdef CONFIG_JOYSTICK_XPAD_XBOXONE
++	XPAD_XBOXONE_VENDOR(0x03f0),		/* HP HyperX Xbox One controllers */
++	XPAD_XBOXONE_VENDOR(0x045e),		/* Microsoft Xbox One controllers */
++	XPAD_XBOXONE_VENDOR(0x0738),		/* Mad Catz FightStick TE 2 */
++	XPAD_XBOXONE_VENDOR(0x0b05),		/* ASUS controllers */
++	XPAD_XBOXONE_VENDOR(0x0e6f),		/* 0x0e6f Xbox One controllers */
++	XPAD_XBOXONE_VENDOR(0x0f0d),		/* Hori controllers */
++	XPAD_XBOXONE_VENDOR(0x10f5),		/* Turtle Beach Controllers */
++	XPAD_XBOXONE_VENDOR(0x1532),		/* Razer Wildcat */
++	XPAD_XBOXONE_VENDOR(0x20d6),		/* PowerA controllers */
++	XPAD_XBOXONE_VENDOR(0x24c6),		/* PowerA controllers */
++	XPAD_XBOXONE_VENDOR(0x294b),		/* Snakebyte */
++	XPAD_XBOXONE_VENDOR(0x2dc8),		/* 8BitDo Pro 2 Wired Controller for Xbox */
++	XPAD_XBOXONE_VENDOR(0x2e24),		/* Hyperkin Duke Xbox One pad */
+ 	XPAD_XBOXONE_VENDOR(0x3537),		/* GameSir Controllers */
++#endif
+ 	{ }
+ };
+ 
+ MODULE_DEVICE_TABLE(usb, xpad_table);
+ 
++#ifdef CONFIG_JOYSTICK_XPAD_XBOXONE
+ struct xboxone_init_packet {
+ 	u16 idVendor;
+ 	u16 idProduct;
+@@ -696,6 +701,7 @@ static const struct xboxone_init_packet xboxone_init_packets[] = {
+ 	XBOXONE_INIT_PKT(0x24c6, 0x542a, xboxone_rumbleend_init),
+ 	XBOXONE_INIT_PKT(0x24c6, 0x543a, xboxone_rumbleend_init),
+ };
++#endif
+ 
+ struct xpad_output_packet {
+ 	u8 data[XPAD_PKT_LEN];
+@@ -752,7 +758,9 @@ struct usb_xpad {
+ 
+ static int xpad_init_input(struct usb_xpad *xpad);
+ static void xpad_deinit_input(struct usb_xpad *xpad);
++#ifdef CONFIG_JOYSTICK_XPAD_XBOXONE
+ static void xpadone_ack_mode_report(struct usb_xpad *xpad, u8 seq_num);
++#endif
+ static void xpad360w_poweroff_controller(struct usb_xpad *xpad);
+ 
+ /*
+@@ -990,6 +998,7 @@ static void xpad360w_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned cha
+ 	rcu_read_unlock();
+ }
+ 
++#ifdef CONFIG_JOYSTICK_XPAD_XBOXONE
+ /*
+  *	xpadone_process_packet
+  *
+@@ -1155,6 +1164,7 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
+ 	if (do_sync)
+ 		input_sync(dev);
+ }
++#endif
+ 
+ static void xpad_irq_in(struct urb *urb)
+ {
+@@ -1188,9 +1198,11 @@ static void xpad_irq_in(struct urb *urb)
+ 	case XTYPE_XBOX360W:
+ 		xpad360w_process_packet(xpad, 0, xpad->idata);
+ 		break;
++#ifdef CONFIG_JOYSTICK_XPAD_XBOXONE
+ 	case XTYPE_XBOXONE:
+ 		xpadone_process_packet(xpad, 0, xpad->idata);
+ 		break;
++#endif
+ 	default:
+ 		xpad_process_packet(xpad, 0, xpad->idata);
+ 	}
+@@ -1202,6 +1214,7 @@ static void xpad_irq_in(struct urb *urb)
+ 			__func__, retval);
+ }
+ 
++#ifdef CONFIG_JOYSTICK_XPAD_XBOXONE
+ /* Callers must hold xpad->odata_lock spinlock */
+ static bool xpad_prepare_next_init_packet(struct usb_xpad *xpad)
+ {
+@@ -1233,6 +1246,7 @@ static bool xpad_prepare_next_init_packet(struct usb_xpad *xpad)
+ 
+ 	return false;
+ }
++#endif
+ 
+ /* Callers must hold xpad->odata_lock spinlock */
+ static bool xpad_prepare_next_out_packet(struct usb_xpad *xpad)
+@@ -1240,9 +1254,11 @@ static bool xpad_prepare_next_out_packet(struct usb_xpad *xpad)
+ 	struct xpad_output_packet *pkt, *packet = NULL;
+ 	int i;
+ 
++#ifdef CONFIG_JOYSTICK_XPAD_XBOXONE
+ 	/* We may have init packets to send before we can send user commands */
+ 	if (xpad_prepare_next_init_packet(xpad))
+ 		return true;
++#endif
+ 
+ 	for (i = 0; i < XPAD_NUM_OUT_PACKETS; i++) {
+ 		if (++xpad->last_out_packet >= XPAD_NUM_OUT_PACKETS)
+@@ -1418,6 +1434,7 @@ static int xpad_inquiry_pad_presence(struct usb_xpad *xpad)
+ 	return xpad_try_sending_next_out_packet(xpad);
+ }
+ 
++#ifdef CONFIG_JOYSTICK_XPAD_XBOXONE
+ static int xpad_start_xbox_one(struct usb_xpad *xpad)
+ {
+ 	int error;
+@@ -1468,6 +1485,7 @@ static void xpadone_ack_mode_report(struct usb_xpad *xpad, u8 seq_num)
+ 	xpad->last_out_packet = -1;
+ 	xpad_try_sending_next_out_packet(xpad);
+ }
++#endif
+ 
+ #ifdef CONFIG_JOYSTICK_XPAD_FF
+ static int xpad_play_effect(struct input_dev *dev, void *data, struct ff_effect *effect)
+@@ -1527,6 +1545,7 @@ static int xpad_play_effect(struct input_dev *dev, void *data, struct ff_effect
+ 		packet->pending = true;
+ 		break;
+ 
++#ifdef CONFIG_JOYSTICK_XPAD_XBOXONE
+ 	case XTYPE_XBOXONE:
+ 		packet->data[0] = GIP_CMD_RUMBLE; /* activate rumble */
+ 		packet->data[1] = 0x00;
+@@ -1544,6 +1563,7 @@ static int xpad_play_effect(struct input_dev *dev, void *data, struct ff_effect
+ 		packet->len = 13;
+ 		packet->pending = true;
+ 		break;
++#endif
+ 
+ 	default:
+ 		dev_dbg(&xpad->dev->dev,
+@@ -1723,6 +1743,7 @@ static int xpad_start_input(struct usb_xpad *xpad)
+ 	if (usb_submit_urb(xpad->irq_in, GFP_KERNEL))
+ 		return -EIO;
+ 
++#ifdef CONFIG_JOYSTICK_XPAD_XBOXONE
+ 	if (xpad->xtype == XTYPE_XBOXONE) {
+ 		error = xpad_start_xbox_one(xpad);
+ 		if (error) {
+@@ -1730,6 +1751,7 @@ static int xpad_start_input(struct usb_xpad *xpad)
+ 			return error;
+ 		}
+ 	}
++#endif
+ 	if (xpad->xtype == XTYPE_XBOX360) {
+ 		/*
+ 		 * Some third-party controllers Xbox 360-style controllers
+@@ -2032,8 +2054,10 @@ static int xpad_probe(struct usb_interface *intf, const struct usb_device_id *id
+ 		if (intf->cur_altsetting->desc.bInterfaceClass == USB_CLASS_VENDOR_SPEC) {
+ 			if (intf->cur_altsetting->desc.bInterfaceProtocol == 129)
+ 				xpad->xtype = XTYPE_XBOX360W;
++#ifdef CONFIG_JOYSTICK_XPAD_XBOXONE
+ 			else if (intf->cur_altsetting->desc.bInterfaceProtocol == 208)
+ 				xpad->xtype = XTYPE_XBOXONE;
++#endif
+ 			else
+ 				xpad->xtype = XTYPE_XBOX360;
+ 		} else {
+@@ -2048,6 +2072,7 @@ static int xpad_probe(struct usb_interface *intf, const struct usb_device_id *id
+ 			xpad->mapping |= MAP_STICKS_TO_NULL;
+ 	}
+ 
++#ifdef CONFIG_JOYSTICK_XPAD_XBOXONE
+ 	if (xpad->xtype == XTYPE_XBOXONE &&
+ 	    intf->cur_altsetting->desc.bInterfaceNumber != GIP_WIRED_INTF_DATA) {
+ 		/*
+@@ -2058,6 +2083,7 @@ static int xpad_probe(struct usb_interface *intf, const struct usb_device_id *id
+ 		error = -ENODEV;
+ 		goto err_free_in_urb;
+ 	}
++#endif
+ 
+ 	ep_irq_in = ep_irq_out = NULL;
+ 
+@@ -2232,6 +2258,7 @@ static int xpad_resume(struct usb_interface *intf)
+ 	if (input_device_enabled(input))
+ 		return xpad_start_input(xpad);
+ 
++#ifdef CONFIG_JOYSTICK_XPAD_XBOXONE
+ 	if (xpad->xtype == XTYPE_XBOXONE) {
+ 		/*
+ 		 * Even if there are no users, we'll send Xbox One pads
+@@ -2240,6 +2267,7 @@ static int xpad_resume(struct usb_interface *intf)
+ 		 */
+ 		return xpad_start_xbox_one(xpad);
+ 	}
++#endif
+ 
+ 	return 0;
+ }
+-- 
+2.48.1
 
 
