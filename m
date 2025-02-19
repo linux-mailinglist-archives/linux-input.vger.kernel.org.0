@@ -1,62 +1,62 @@
-Return-Path: <linux-input+bounces-10197-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10198-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BCA0A3C547
-	for <lists+linux-input@lfdr.de>; Wed, 19 Feb 2025 17:42:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B28EA3C563
+	for <lists+linux-input@lfdr.de>; Wed, 19 Feb 2025 17:47:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 765E63AF9F0
-	for <lists+linux-input@lfdr.de>; Wed, 19 Feb 2025 16:41:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4585219C05FC
+	for <lists+linux-input@lfdr.de>; Wed, 19 Feb 2025 16:42:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 359621FECA1;
-	Wed, 19 Feb 2025 16:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15284209F3F;
+	Wed, 19 Feb 2025 16:42:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b="pRDuzr7U"
+	dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b="XYh/VsjC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2040.outbound.protection.outlook.com [40.107.241.40])
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com (mail-vi1eur03on2080.outbound.protection.outlook.com [40.107.103.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7E11FBEB0;
-	Wed, 19 Feb 2025 16:41:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.241.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593371FF1DE;
+	Wed, 19 Feb 2025 16:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.103.80
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739983273; cv=fail; b=VBXO5ZwHPNIIoiENwrjC7dy+vDCedBNkJJZ2obbkZ64ct+dU31vEAM6bQh3ks60M7CDY+45t0DSVWV5IuExlku/1L6Cscwq0CzpojJkeI+lB1Jb4UAOWhYTxi6qe6VTWEa7uFCjAOKPFnQuOJFXabPID61eU5hMJ4GIodKg/Sys=
+	t=1739983327; cv=fail; b=WD+NIAFPPIwjC06zsbOHhqf0KWuyr7OKQ9S7JjFbjeQ3lB/o3NGfsiUwoRo4++kRR0A5lix9FvYevuQhe9bw2Vyx/yZmmF35GdBJHuQakKRj4N/Ax5UwqC3FJdDb5WvVW9rwa+M11L+ZUI1ttpUsE1ViUjIS/qrVJHOdRX6jBsQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739983273; c=relaxed/simple;
-	bh=qzcjpz8roldwNkREJPpBhW3VCWLqj9PXJDaWTzgPWi8=;
+	s=arc-20240116; t=1739983327; c=relaxed/simple;
+	bh=1yvkT8HjENIetB/rw3UBhKC8VGvGCykTxqmz+6l/C7E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Oc0Esvenukq7jLBVPo5Y6kfrDLA56LdEW1921iu1YCckcGNMeLWXa3URzLt45Z9iNeecTB01Nz0R36whqSfNjkLsQde0eoXvKoeC0FV6Pqjn71lVtSKqK9LqT9QxsCYGtSc2DumwftYtDeMbekC+CABgqaYNAbb7ND2GviybSD8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com; spf=pass smtp.mailfrom=mt.com; dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b=pRDuzr7U; arc=fail smtp.client-ip=40.107.241.40
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Hd3QXeVy9ZidnzSSWYbeYR6L67vA0xr/YmXqUeHFjBGfAR97+5QdG70V3KfsDsDRYB6xpX4g7FSIVf8Pqf1/tgNyorSjBwseXSmotEwSWrmnVit+7txVnXo0TS5DoNcPYcIMPdYTXc0yZG6DQ538ePv+7anbREWiMBMnJForw3o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com; spf=pass smtp.mailfrom=mt.com; dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b=XYh/VsjC; arc=fail smtp.client-ip=40.107.103.80
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HMyoI6ZpQU8/Zw9jT3axYmMuyGNPPVT5QsXx1cGVYpo/T63Q7mieB/JJHz19uh7vURTPsn6trDP+oYSCDvUchaOmTldWi/cyEzuOuVKhJe+Qjt7w2EHb/2R5iMslGwdD+A8qrHISZ8GqKxuWRa+U/T38BrK6CgEqfYHcZgVwd/e/skVggdojlg3gEkwIqfbewbbXuQ6yuNv6T1LqSQvuFcUPa0dUc1aNCVzQbwZkED6EB+AQVsMNnEfosrrmVddAk0zYWLFoD2SxXsYEOsrjQeMNKeLO7tdwamkESw++Zm94eU9n2hnS6H2NobJ7q1YX1WGnWAnwVNNRwhzvo/h6iA==
+ b=LBMEJ+YxqCvyuoqxD2vTBe59XI5UeOG6FHKRtD9RNri06SnH9Q90ZDqxDhysE3rBpnqm/iUla+cNz1R8e0XnwuBupV8/n/pt04ifCkwExrdtgNsk9V2UyWdJJx4Ltkam0mJYQUSAWaZCwFhQnrB5A4lpi7wVqdkMHUoOVyula+8mZvdeDnJ7OBtbL+aUw2feEMVI1tXKX5Jn0mDusHtNmgoUh+PMMiJ/cyU3xVmDo7eVxzhViwjWRArSwc0zbaMAtO3pmn5rk3gczBjfMtipAE7PPnLCuM0OCHDjoqzc4p6z6nOgjJEQoOEaV8qZr2XD/Erz7XIlb/rHvo3XkXoGzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EOhvWVu9UALmG2f598CcbW5uSfJoehRQwsYwymzWEmo=;
- b=kJFY93knKmDO0mzzuVs1q3vIgOC0izNYsNXxEovffBQcHcfe2zWE4sw6IwF+uHzOTAepBr2/6PX4cPBJN2PzdccjRpXmpgP/1a4RKFY15XsdF7w5nKWOxZ2tJw1j2oX2+F27LCKFsG+qQ2GiB6psUWSMVF/kaueFHI1XABNUZF247RmRUmx+RHJHcUSGP801I0de2G/Nbji1AutsjWyhEUN3VHT5HhszOYxAbqjb2yKnjFsvgztetFBotBW8QjK0vlyCVPCfEdF7Obq0yKTOKXsXAjxefjJff8y9Gx7uG53XbauaMmzFwFAiH3KlE3kDls0IuYxBSby38eTIXdSheA==
+ bh=4ONb0TyHRHBZIP8AqklbOZSfQASkdIRav7y/hq/1nck=;
+ b=ma7r/6HurREmJu0OTewX+ypL0UOrV3fKv4e5Pd78lKvAnOL+iV5CmZZ4hwMKD/7CuWH4IZPRpKbrwfEIhk/vBAL81N8GMdWQw8Fd2PDet9MC/QuR+Mt4YnGQKCeNjj7iNPYLU9KD10NcU5AxssTqhh/c46DPpdfGx3KNbLmYn66pmtbDcuPvPp671EpnNXKZDyhAGJ8tNgk3UfZpP9iETwLiCzUYrYRoS90YIZCNOxUo3GGaa4MH47Dz2JCblyTdkgaEd6FtAQtcb/rW/wuHzhcscE7mWnr2bRDzDF1NWbzJWVQ1DT/vbA1HCs5I/c+2EznGsR+GtldCq3hgmovEcw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
  header.d=mt.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EOhvWVu9UALmG2f598CcbW5uSfJoehRQwsYwymzWEmo=;
- b=pRDuzr7UNiNeYvUoLvLdgirSkbgvz4RyZt1mZFsJio8c2A3PKXdacpaerFhWyyaoKLCG2r/V8HUzKXFlEP+FkAWVh0XA7BkfrmWL7lSMzhSerxIMGAFk+Rv5VaYdJ/A+ETURXVN4oT/Ttwzif91Q8ArRyMalLCZF6SHmNQbE8RVoHyxCRAQk6hoL1dBL6Bdb4Nmy+YbEbH/GOv1AM0FnVB8hxYgdOw8CA500thUBITSOyynTwqaqlkOPoZ/Rwu8S6oAJuAvjx5urHWusMEhpbyjiiNWhln2BXd6pwjMhkgqJR9V66XZCMoTAuoPKKdcgXnsulIhPPPhyVvKr7hd9Hg==
+ bh=4ONb0TyHRHBZIP8AqklbOZSfQASkdIRav7y/hq/1nck=;
+ b=XYh/VsjCrcMWVW2iA/5XOPE77yh/+Ei72iAEvx5b4iPjVYJ9Y43/gMLEdCzHlnzmmq+aYmIZZuAluT7HvjyFpxcSoxL54Tt3KKklMek0RP9qf3m/h5mwJbsp+/T3iUqnX6k7+uEeLg0TGUOsVimhNWLyc3WUyJyJknDE+/JXV1ngGR0/bABLJCYp1aXhUGQDu+3z+TCFHITuXXg2u1JZZGODYSbRhkLV5sITVcf0vf2Oadh5yDX2GkKrvnkjdbhcFrsdc8S7nAbHMS4TrFGgttoyJwgXlBmV0/rJpyjxH4IiLBOZybbK6gXIHhEsnJdp4N2xIVu/6UmgItbK3FgnpA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=mt.com;
 Received: from AS8PR03MB6775.eurprd03.prod.outlook.com (2603:10a6:20b:29d::16)
- by DU0PR03MB8574.eurprd03.prod.outlook.com (2603:10a6:10:3e5::8) with
+ by DB9PR03MB7385.eurprd03.prod.outlook.com (2603:10a6:10:222::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Wed, 19 Feb
- 2025 16:41:07 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.14; Wed, 19 Feb
+ 2025 16:42:02 +0000
 Received: from AS8PR03MB6775.eurprd03.prod.outlook.com
  ([fe80::8a03:2bdb:89c5:32e8]) by AS8PR03MB6775.eurprd03.prod.outlook.com
  ([fe80::8a03:2bdb:89c5:32e8%4]) with mapi id 15.20.8466.015; Wed, 19 Feb 2025
- 16:41:07 +0000
-Date: Wed, 19 Feb 2025 17:41:05 +0100
+ 16:42:02 +0000
+Date: Wed, 19 Feb 2025 17:42:00 +0100
 From: Manuel Traut <manuel.traut@mt.com>
 To: Markus Burri <markus.burri@mt.com>
 Cc: linux-kernel@vger.kernel.org,
@@ -66,16 +66,16 @@ Cc: linux-kernel@vger.kernel.org,
 	Conor Dooley <conor+dt@kernel.org>,
 	Marek Vasut <marek.vasut@gmail.com>, linux-input@vger.kernel.org,
 	devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 3/7] dt-bindings: input: matrix_keypad - convert to
- YAML
-Message-ID: <Z7YJoTWrves_KtVa@mt.com>
+Subject: Re: [PATCH v5 4/7] dt-bindings: input: matrix_keypad - add missing
+ property
+Message-ID: <Z7YJ2ENZ04Nktnwf@mt.com>
 References: <20250110054906.354296-1-markus.burri@mt.com>
- <20250110054906.354296-4-markus.burri@mt.com>
+ <20250110054906.354296-5-markus.burri@mt.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250110054906.354296-4-markus.burri@mt.com>
-X-ClientProxiedBy: MI2P293CA0005.ITAP293.PROD.OUTLOOK.COM
- (2603:10a6:290:45::12) To AS8PR03MB6775.eurprd03.prod.outlook.com
+In-Reply-To: <20250110054906.354296-5-markus.burri@mt.com>
+X-ClientProxiedBy: MI1P293CA0019.ITAP293.PROD.OUTLOOK.COM
+ (2603:10a6:290:3::16) To AS8PR03MB6775.eurprd03.prod.outlook.com
  (2603:10a6:20b:29d::16)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -84,257 +84,110 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR03MB6775:EE_|DU0PR03MB8574:EE_
-X-MS-Office365-Filtering-Correlation-Id: 803c61fa-d125-4813-1d2e-08dd51043589
+X-MS-TrafficTypeDiagnostic: AS8PR03MB6775:EE_|DB9PR03MB7385:EE_
+X-MS-Office365-Filtering-Correlation-Id: 031c3836-c399-4249-2b54-08dd5104560c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014;
+	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?SDN1dXKzXIgn/MA+BzesjAlgg40RKjrHszDhbWHtqxnH+tSXcASUFoqJmJRt?=
- =?us-ascii?Q?1Z5/KSeobuhQYT8NyitEfuDMw+0g5mB+bARwedt25LISpfwprIVrooqRLNw1?=
- =?us-ascii?Q?aY4hVP7HwnLPipmZ38tXHA52Trw0g7NCMvlXY1BlcoZoMKGEdOcOpfwEAXEb?=
- =?us-ascii?Q?7SUTJyhEUIs0sshWwLalfMyPQmgJEbGo6QN5ibHRJbbRY9U8viSRg1lOE9Qb?=
- =?us-ascii?Q?X4bsgkjOXQll2U1EPWaIcWKYEINQHtauhsi8PwGv/o21w4TDf1XUNDnae6hw?=
- =?us-ascii?Q?pyoXG1ClDYdm7qH8MPwWCmgAHUcsB3uVQmm4jVDLReyrYRudKy6lu+lQ22o9?=
- =?us-ascii?Q?b9DI9t3d8t3TB4ZMb2wnE0hrEosE2lTghC/S4saV/GpqbpcQg/P1AR9TUpDg?=
- =?us-ascii?Q?ddJYV9zQxCCMfB9GnEWPT/9FkEFIe8dUh9iiHNvXa6kSnSv8bdI1s76lrgul?=
- =?us-ascii?Q?cQL05WYOalb1ET8B1x7D+dfaSkcUqwqde7q7lJ62u9zTakoy+ZPSxBIJ8aPc?=
- =?us-ascii?Q?/e/jgp82WA5XTrv0KYqDK1Wahtt5yYVlBOdCwOcwShWBI5C113Jbrc63ayQT?=
- =?us-ascii?Q?AP3AO9VruTrXFsnR1NCQbZqWAEmqhe7XCC37slps8jkdPiy0KPh+4kcgOpih?=
- =?us-ascii?Q?/yWmglnN4EpPQbWfKgRq5XU9wuouEVT+AEzjQgQKeZOVJXVX3LppsYeqfE80?=
- =?us-ascii?Q?9gzRv+8wBmPtxy1nCyt+k5rZLQ89BYdyO0hvm0pZO+v048WN5Vpl/Xhpq9s+?=
- =?us-ascii?Q?FsdosFcV4WYzbj2moLV/XxfNhitlrCtXJC5SMwvq8ipbrFRxIQr+CcgHWdt/?=
- =?us-ascii?Q?gPaJLF/CLJYlY+aw03xF2dNkvCWL3aQAd8vCpyJxkqT/HDH7zRc0i6tCu7zw?=
- =?us-ascii?Q?Vi4asP5K1dgqm0LSjV9lBF5Y8rRoC3ua00z55LJ1JRjJWwLMtemvNAnE3Szt?=
- =?us-ascii?Q?LJdI08jOnMV0vFPBX4HNARCfcj5tIa3ee0mXMbeDV6XRljUb2bBIn/ekq2DL?=
- =?us-ascii?Q?RLFXq64ocjmbaBgfARGUJkd/zKhxEGO8R3hEQEB8mpBg8B6NNWKvjjhrGQpv?=
- =?us-ascii?Q?snCqsoKA3IoD01WfQUPI+7cFb4KmuAw+Uiiap3eNhtMQFJ5YkG4so3wuUiC+?=
- =?us-ascii?Q?Z19TFRvg4OJbtdgciiFF5YgV45WKUap8xQjwg8Kbk1q3X9/iFw0OsLqfZwZ/?=
- =?us-ascii?Q?+75XddzVWyjXvw2Ep8Oobor+cITkpSERI2+Z9EBX8RQgOQwJxDZZ35H9BsJC?=
- =?us-ascii?Q?flkOdn8EjOTRpJavYIdazDAGuIk3GTkF1fg7cpM1x5HbDK2V59aj3/XEzPSs?=
- =?us-ascii?Q?iTZA0sJ42OTZifTTlhXV6LY1t0EGOdtUjMne9KGDnRK03NkPFJqckL0vT033?=
- =?us-ascii?Q?+F1meHBjlbl/Ut3X0LSMx6Ed16Z6?=
+	=?us-ascii?Q?4qrpfcNYbiVkF0gjRUcgxu6S72ieb2VFmDzv0sX9h7KTLCnyh3vJ0ySJv+Kv?=
+ =?us-ascii?Q?L83RT2pP8stUKpidGvHm3fA5TlZNVjz4JksSTuzzNpRervyz+wn67ITVlieB?=
+ =?us-ascii?Q?t6Jc1QdHBny2B/E9/jGvyhR33uY5+/rdGIXHBiWi6iEdQLaWxolTItCLSTUj?=
+ =?us-ascii?Q?zU0Qlt/wfz87FjJuUiytP7z4HjmHyEfPIXUVH4oVolz1/hh/axTynG0QuR74?=
+ =?us-ascii?Q?RkQSO9IBB8jn222cjbG43rAkvT89rbg6EnRK+Ls3Gqd7bHdRoNRacDecn95U?=
+ =?us-ascii?Q?8Py+A/GOtZHlWzGFDDnmodpp9HTstHZNpZcfWUmeDbwj6PjCfWZqVxSt8wHA?=
+ =?us-ascii?Q?LBqkpEKFBDEQ/7dtHT/vP++ynC5MOg1YVQhGEbTmwxoFi0+FUxl+tiNorAPD?=
+ =?us-ascii?Q?ZYg2Cv4qpR0z20eHY0jl0i7rXzy+MxedskFBNsER2eGrI6QQ24rL7TcSvg3C?=
+ =?us-ascii?Q?431dkqt48MSdjX1jJEnY78s48T4GK2yAuS7LQq9ReEikZJSum2yY32GC2RzG?=
+ =?us-ascii?Q?Svs9udm1Zmuoy4Dszmr0SS+e/hvpSyXsbABNuQ4+YbZIJILKr1KOwvpgSQic?=
+ =?us-ascii?Q?yMkeVMDTkSpT3vE5HGG1Nun87wbl6MiVD2g7dmzZbO3nLEzEWNVRUh4YW8r2?=
+ =?us-ascii?Q?WBj948DcKaM0Fj5esxjx0XYm8IhvQI/n3z61ahvVU7g47CPqJXLcCd6FDwYx?=
+ =?us-ascii?Q?tcA6WANkvF2gn3witirmOLSmncdK4lLf8jdiFZ8DZL5bKipjuyxSZQMYjv37?=
+ =?us-ascii?Q?NrF8QlRl5WJ/ZBBXlTQhfz9ymo0u+9HvF3eU08dgniTOi1WhQaF4N/6oYyYK?=
+ =?us-ascii?Q?47Yfi9ztobCA/XL5TQP3kCnT93QgsLnZQZO+T5L+K4XYMSpjxacN3N0C/iPf?=
+ =?us-ascii?Q?K8ic6nLSN5Dd+1wrxEvM8+R1MkIIudB6joPV7CuQhmpB1GW+agj2bl/DzB2L?=
+ =?us-ascii?Q?o8SLmRXmd5sSXJb77SRsby83yWqy+opCN1kH6GPg25uXBiLIr05RHmN/S3a0?=
+ =?us-ascii?Q?uvyir2ugxBshRFYvq/5cmt1BptVsTwsJGFco4Y6Yq6Lpi4r5gpkMVsdh+fsF?=
+ =?us-ascii?Q?ldPW5Cm+iK4iLwsoy3qhSIYPCE3NQ+eMwEGovLKknSVJ6H4vZyiiZcfFrUGV?=
+ =?us-ascii?Q?2Cc8xgj6HU0zHEkqfILQPAz5xNBWi3uQbwFdLkYhiSHvh5dYCm58NoNUgQGY?=
+ =?us-ascii?Q?N0YQN+S2aOg2cS8rxelqD4fgNCs+uFPhHv8ZHN6PRvzRCzaWHzmFnN+Z4iRI?=
+ =?us-ascii?Q?jzdvawbsIgb/tao3noxJzxiqEFE4HeY4k76RWUX5D7ONA31asbdF9cIKVpxI?=
+ =?us-ascii?Q?JzUw2a4bPnj0XgmFNJs0GEmXPiGixUwwz6jti4l/ecAg8Dw3fnFTgcHOxUUm?=
+ =?us-ascii?Q?VXWtErn3wjvLBbPUmtZWU7AjWVL2RimB6tcV/8iUjd1N62J0pe8Jjs1ddzED?=
+ =?us-ascii?Q?T0q3NJyLPwFhpFJtQGFqri2b6FYZzBrC?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR03MB6775.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR03MB6775.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?oj/rcIVvgfoeejKBJ7ZpsZf2xTC2wPu2qwO/uNL3x8r0i/dXlhFHY+fDjkR8?=
- =?us-ascii?Q?sh41jSoHtVjI9Y7VrkqyV7lh5IJT3V3UZCLzjsw+BSaeuAOjKaQArmbmcNga?=
- =?us-ascii?Q?4wzzybva342c3O+O9q7BUGuSOhSJycaZ1Sm4x9WRuNlTCGHr8IjJVCvg3K3O?=
- =?us-ascii?Q?3jRx+FOzWXbxV0d9+5tOmB+tAgSVjEob7LVU1rYXuBhUzKBkWG4Ikss+3SXf?=
- =?us-ascii?Q?+vkyVb9Fq5qunWqg57x5a1MjUcTZxPAc/edQQMPb0nnUPJyo2N00vELcMmVA?=
- =?us-ascii?Q?+4jcnk8OTS4aS//mihwVyz2GL3LVmyNDRF26WuMKWVuHkAyOYJ9yr38EB91n?=
- =?us-ascii?Q?gWR/3m++frdNz0ng8dtt9pbwEPi0iv6HEJYnttKudPeR/aTwp/hoJD7KusNX?=
- =?us-ascii?Q?c2THplZtMMZXR9qj6X369w5b5P2wfApG1xSJcna0JOFgxMwwN8dIU3v6/hGP?=
- =?us-ascii?Q?WyX2j+TQPb+uP3IsQ/STYO87Lwdj5cDDFWm/jCif3/UpI7lRXV3CcAXmHOOV?=
- =?us-ascii?Q?NfN4kBd8z8MT2HC1ZE06XnzWKj60akYErlK/DrgcAUuiDbs+rg4xHjTWh5Pp?=
- =?us-ascii?Q?Yc6GedenADL2l4860Z3Ui/GjTx1AepPuSxEmEP6WgMmfCa/JCPQi9yDHlXq4?=
- =?us-ascii?Q?/VsgJ40Svco0BECpd569LiA8tHL9u/QU6zdL+d1Z2eT5XIgccCMAXGIOn3uA?=
- =?us-ascii?Q?83GqCUZRAEA/22zflUPb6fJuZ7kve5jnEDdIRPc7xNJODxTOf87bHMJnwmFo?=
- =?us-ascii?Q?4CQEhaB3gHhk8iLYszo/AjqLDOQsnd6RE1MWXLsTGXOroZn1AK4Ht0sbGr+C?=
- =?us-ascii?Q?QeJ+6EQWn+1vJgHYiCrb+PZ2UmIqXyMfgWZwp9yZoFtXeJdcVEkQU9JIGCJa?=
- =?us-ascii?Q?IN6/qJyQb8hT3xA0kS1NaIXcSEDBSW5cs47LfE+l6kw31m91okEPkINfGKtx?=
- =?us-ascii?Q?LOQZRcczadtZFDPohNWosq0m417QKPP3eeyewCYevLF8fsKW+pxQh61fy9zT?=
- =?us-ascii?Q?Y1fMKI25lhxqe00r5A925Cimt8mcUv29NI/wR8gT68EJ7BdvmEevYt3+Cysg?=
- =?us-ascii?Q?AiCMOmLRrMGimJXoFWpOoTir08Ybaue+uwM3OH6JfZn/Q/yaeowI48e92nxf?=
- =?us-ascii?Q?W6yYQNAVLJo6M+1qptzYPqGuYHR8H5cG6aPjpSeFuwHkMwa73Ux9o2Mx1zlg?=
- =?us-ascii?Q?Y2imU9CyDYBOIX49lQrlIwxW+6lTpL9iufjSmQ75mHQYd6ttrRrXyj/7f1pm?=
- =?us-ascii?Q?3z71FrU7oPxZtaXoBYuPfi6KAxPuF7hstQOogRzTIW9aCLr1jVjc1eRQnXfw?=
- =?us-ascii?Q?nzn+XiAIk6xRkmRNKijwr4vxZcG2bbvROg7qyhkTHTXd9LHuCM6nQIEliy74?=
- =?us-ascii?Q?jShCmXkP/h4+Mzpknx1r2oUYZWjCgSoJICD1ncQKqGhhAIIptqVmHzCNuhsO?=
- =?us-ascii?Q?c65vHtH1DnzucToQ086lDyKZKqR+3nGWYI4A3so7wJwvQDKpYBx+2gElKmIR?=
- =?us-ascii?Q?oywccYzcKeuG7kxDdVuHtu1FjUgl1s9kWsCW9sIwB5Mb/+XBYSW3WH13rnIt?=
- =?us-ascii?Q?eRNPfh7Ppc34mPMJUrgO6JKvSQMuyAXMIPHCxk2K?=
+	=?us-ascii?Q?g5lBJBGNUOQquxQF+l3r1XT0saXJdrd2jcluCy2/Otm47xmwhBa/N1g29Mx/?=
+ =?us-ascii?Q?AAsFEXLbp68p4WiNDd1qZ8V4YVeSGn+drth+hGrh0xsO0vDNtsWEGJx8Vc/S?=
+ =?us-ascii?Q?RbRl3b0hJNR5/10QagxQK+rx7AJds876cHPsjTu0MHq4kZ0qm15XlAzEAXnI?=
+ =?us-ascii?Q?jyBO0UXAcWlJCT0uGe+Jq3i69kJu2U/CF/UcAJPZpvcH/fldKRm8qW8GMrbO?=
+ =?us-ascii?Q?l0N+o4Hx2P53qUoy82IlgpMczwOV0rETPELP4AuXsXmhYt5LVqJtFC5QDrry?=
+ =?us-ascii?Q?Jwxwev83dxxRbaUssWlo887dO91VzXb66n5ntbnQsc3l0u/NDd3FqehwFrUD?=
+ =?us-ascii?Q?VXtyCkjmdztwBe90JjF1B6rdDBy0uVnrISQm5u1DNPFUN0fCcOd4lFZcvnoH?=
+ =?us-ascii?Q?svqU1eMnpz//tSBmRjeiH0l2RZ4K60WAyD/yZlSQPfirYKqaCQOsjo6zXh2O?=
+ =?us-ascii?Q?4tEEsK1N477N/wFsd9r+u9ZOS5dJNBaqMW0+R9IothD91Ln2Jfxxaev2Nvb1?=
+ =?us-ascii?Q?jVWlUS6XOZnAlv7aN/L2LKbGLTYMpZnfSaaNhG0j20D1Lj76HmwklY4xQQvG?=
+ =?us-ascii?Q?1i1jdXTK2XKjJ/yng/GXYrxjjjPLmAwlIWwSdsUZePxDy9Qi8BN8fVfOUzre?=
+ =?us-ascii?Q?0PSu2AsmIkvc4tOmklY2utHQYLDb1n9JwZdPQzylNm5gQjz9jGbiEa142bR4?=
+ =?us-ascii?Q?2QXwtnYX1XuzS0cs7kr8voTT2HLt+XqXF83KY0ql/lmHfjA/sAwKdvPx97bY?=
+ =?us-ascii?Q?9F8Hge4JqTFaldX/xFZLT+zbrRFpMdQMRBLvhP9yrdIHboUXprMDonH+tbcu?=
+ =?us-ascii?Q?oFt7LsKDNjsaNCsieYfuZjplDZxUm7ymOm4+kD5vGALT4cghtoY0vD8ahRgV?=
+ =?us-ascii?Q?TeOyMwcTpEuwIQdIuPhXfvgkgUWNV/8EwPUoYHKiA1188kWI9nFt6khtQg8I?=
+ =?us-ascii?Q?DN7pPSm96ONwmBB1okqq9/LIA3NnJmwkC4xmSU337czouv1ExZaw5ps/uYMt?=
+ =?us-ascii?Q?85m239cHCI0OcR2d8JZP6WAXvXXacOr5uv0207Y9Ec40s5t17gP0cxWx+OC0?=
+ =?us-ascii?Q?w3XHj733ystCjmjTupOAcDgSeqGzpZLAVd/dmrC000qkCJHxUfYJXpqhMQkf?=
+ =?us-ascii?Q?XJ9m1zQ1WcyjbiUuy/chwvPnl09q1jFoEiNLBSRTXJCu6ItDksQMvHGQ6V4d?=
+ =?us-ascii?Q?t3IZt7R7kvQMZ9r2S59P/Dmmx70XnDTH1wTsVgFKOMNgQJ052K+1QCss4Jyg?=
+ =?us-ascii?Q?eeVPM5pmVxoBO0FU0972Q7q2HYtSFtM2wDsu1gnQij5hY2NcrZOtYV4kaXGl?=
+ =?us-ascii?Q?o6zy9lLXJtKTuXtWlvcZZXL/9CcmhCpvgR6dA/JJNS34f9SOgQeW2N/Foqn5?=
+ =?us-ascii?Q?Ds05a2iNgGc4aTTNoMBlgTIW8EKZlpZOWPYKtGDHIZ433PptFAOpUwPhgYey?=
+ =?us-ascii?Q?Lepjbwp4y2kR4jNFXk20lWY0Xhwxc3qJ4Oy26oqoTzM2QRaoD5mlcDDateHt?=
+ =?us-ascii?Q?Ym0ps6maYMdCqngXiYjrucDUH+9x3fYtU0ft/20WVnMRFDSKtPE+ErCXHprv?=
+ =?us-ascii?Q?EErj6lb2cdJc+6vtFukq2uSehUrtKvqX2Hhougmo?=
 X-OriginatorOrg: mt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 803c61fa-d125-4813-1d2e-08dd51043589
+X-MS-Exchange-CrossTenant-Network-Message-Id: 031c3836-c399-4249-2b54-08dd5104560c
 X-MS-Exchange-CrossTenant-AuthSource: AS8PR03MB6775.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2025 16:41:07.7882
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2025 16:42:02.2756
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lrHKORu1zH0hrQsXbrjwsxjhuDqGFgKanhNoiOQdFDsXkiAlcuTX6LikY54cirLKvJOONmUdvV5TRgdEPi3+uA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR03MB8574
+X-MS-Exchange-CrossTenant-UserPrincipalName: AK0tAu34kFQUYg2V+BQBpM8UysdupQCRGb0AOdCSCOesCDALGiCLSjyHzqeIJlP1Us7OPON3LIX0MiFWzMmZKQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR03MB7385
 
-On Fri, Jan 10, 2025 at 06:49:02AM +0100, Markus Burri wrote:
-> Convert the gpio-matrix-keypad bindings from text to DT schema.
+On Fri, Jan 10, 2025 at 06:49:03AM +0100, Markus Burri wrote:
+> The property is implemented in the driver but not described in dt-bindings.
+> Add missing property 'gpio-activelow' to DT schema.
 > 
 > Signed-off-by: Markus Burri <markus.burri@mt.com>
 
 Reviewed-by: Manuel Traut <manuel.traut@mt.com>
 
 > ---
->  .../bindings/input/gpio-matrix-keypad.txt     | 49 -----------
->  .../bindings/input/gpio-matrix-keypad.yaml    | 88 +++++++++++++++++++
->  .../bindings/power/wakeup-source.txt          |  2 +-
->  3 files changed, 89 insertions(+), 50 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/input/gpio-matrix-keypad.txt
->  create mode 100644 Documentation/devicetree/bindings/input/gpio-matrix-keypad.yaml
+>  .../devicetree/bindings/input/gpio-matrix-keypad.yaml       | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/input/gpio-matrix-keypad.txt b/Documentation/devicetree/bindings/input/gpio-matrix-keypad.txt
-> deleted file mode 100644
-> index 570dc10..0000000
-> --- a/Documentation/devicetree/bindings/input/gpio-matrix-keypad.txt
-> +++ /dev/null
-> @@ -1,49 +0,0 @@
-> -* GPIO driven matrix keypad device tree bindings
-> -
-> -GPIO driven matrix keypad is used to interface a SoC with a matrix keypad.
-> -The matrix keypad supports multiple row and column lines, a key can be
-> -placed at each intersection of a unique row and a unique column. The matrix
-> -keypad can sense a key-press and key-release by means of GPIO lines and
-> -report the event using GPIO interrupts to the cpu.
-> -
-> -Required Properties:
-> -- compatible:		Should be "gpio-matrix-keypad"
-> -- row-gpios:		List of gpios used as row lines. The gpio specifier
-> -			for this property depends on the gpio controller to
-> -			which these row lines are connected.
-> -- col-gpios:		List of gpios used as column lines. The gpio specifier
-> -			for this property depends on the gpio controller to
-> -			which these column lines are connected.
-> -- linux,keymap:		The definition can be found at
-> -			bindings/input/matrix-keymap.txt
-> -
-> -Optional Properties:
-> -- linux,no-autorepeat:	do no enable autorepeat feature.
-> -- wakeup-source:	use any event on keypad as wakeup event.
-> -			(Legacy property supported: "linux,wakeup")
-> -- debounce-delay-ms:	debounce interval in milliseconds
-> -- col-scan-delay-us:	delay, measured in microseconds, that is needed
-> -			before we can scan keypad after activating column gpio
-> -- drive-inactive-cols:	drive inactive columns during scan,
-> -			default is to turn inactive columns into inputs.
-> -
-> -Example:
-> -	matrix-keypad {
-> -		compatible = "gpio-matrix-keypad";
-> -		debounce-delay-ms = <5>;
-> -		col-scan-delay-us = <2>;
-> -
-> -		row-gpios = <&gpio2 25 0
-> -			     &gpio2 26 0
-> -			     &gpio2 27 0>;
-> -
-> -		col-gpios = <&gpio2 21 0
-> -			     &gpio2 22 0>;
-> -
-> -		linux,keymap = <0x0000008B
-> -				0x0100009E
-> -				0x02000069
-> -				0x0001006A
-> -				0x0101001C
-> -				0x0201006C>;
-> -	};
 > diff --git a/Documentation/devicetree/bindings/input/gpio-matrix-keypad.yaml b/Documentation/devicetree/bindings/input/gpio-matrix-keypad.yaml
-> new file mode 100644
-> index 0000000..0f348b9
-> --- /dev/null
+> index 0f348b9..9c91224 100644
+> --- a/Documentation/devicetree/bindings/input/gpio-matrix-keypad.yaml
 > +++ b/Documentation/devicetree/bindings/input/gpio-matrix-keypad.yaml
-> @@ -0,0 +1,88 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +
-> +$id: http://devicetree.org/schemas/input/gpio-matrix-keypad.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: GPIO matrix keypad
-> +
-> +maintainers:
-> +  - Marek Vasut <marek.vasut@gmail.com>
-> +
-> +description:
-> +  GPIO driven matrix keypad is used to interface a SoC with a matrix keypad.
-> +  The matrix keypad supports multiple row and column lines, a key can be
-> +  placed at each intersection of a unique row and a unique column. The matrix
-> +  keypad can sense a key-press and key-release by means of GPIO lines and
-> +  report the event using GPIO interrupts to the cpu.
-> +
-> +allOf:
-> +  - $ref: /schemas/input/matrix-keymap.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: gpio-matrix-keypad
-> +
-> +  row-gpios:
-> +    description:
-> +      List of GPIOs used as row lines. The gpio specifier for this property
-> +      depends on the gpio controller to which these row lines are connected.
-> +
-> +  col-gpios:
-> +    description:
-> +      List of GPIOs used as column lines. The gpio specifier for this property
-> +      depends on the gpio controller to which these column lines are connected.
-> +
-> +  linux,keymap: true
-> +
-> +  linux,no-autorepeat:
-> +    type: boolean
-> +    description: Do not enable autorepeat feature.
-> +
-> +
-> +  debounce-delay-ms:
-> +    description: Debounce interval in milliseconds.
-> +    default: 0
-> +
-> +  col-scan-delay-us:
-> +    description:
-> +      Delay, measured in microseconds, that is needed
-> +      before we can scan keypad after activating column gpio.
-> +    default: 0
-> +
-> +  drive-inactive-cols:
-> +    type: boolean
-> +    description:
-> +      Drive inactive columns during scan,
-> +      default is to turn inactive columns into inputs.
-> +
-> +required:
-> +  - compatible
-> +  - row-gpios
-> +  - col-gpios
-> +  - linux,keymap
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    matrix-keypad {
-> +        compatible = "gpio-matrix-keypad";
-> +        debounce-delay-ms = <5>;
-> +        col-scan-delay-us = <2>;
-> +
-> +        row-gpios = <&gpio2 25 0
-> +                     &gpio2 26 0
-> +                     &gpio2 27 0>;
-> +
-> +        col-gpios = <&gpio2 21 0
-> +                     &gpio2 22 0>;
-> +
-> +        linux,keymap = <0x0000008B
-> +                        0x0100009E
-> +                        0x02000069
-> +                        0x0001006A
-> +                        0x0101001C
-> +                        0x0201006C>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/power/wakeup-source.txt b/Documentation/devicetree/bindings/power/wakeup-source.txt
-> index 27f1797..66bb016 100644
-> --- a/Documentation/devicetree/bindings/power/wakeup-source.txt
-> +++ b/Documentation/devicetree/bindings/power/wakeup-source.txt
-> @@ -23,7 +23,7 @@ List of legacy properties and respective binding document
+> @@ -40,6 +40,12 @@ properties:
+>      type: boolean
+>      description: Do not enable autorepeat feature.
 >  
->  1. "gpio-key,wakeup"		Documentation/devicetree/bindings/input/gpio-keys{,-polled}.txt
->  2. "has-tpo"			Documentation/devicetree/bindings/rtc/rtc-opal.txt
-> -3. "linux,wakeup"		Documentation/devicetree/bindings/input/gpio-matrix-keypad.txt
-> +3. "linux,wakeup"		Documentation/devicetree/bindings/input/gpio-matrix-keypad.yaml
->  				Documentation/devicetree/bindings/mfd/tc3589x.txt
->  				Documentation/devicetree/bindings/input/touchscreen/ti,ads7843.yaml
->  4. "linux,keypad-wakeup"	Documentation/devicetree/bindings/input/qcom,pm8921-keypad.yaml
+> +  gpio-activelow:
+> +    type: boolean
+> +    deprecated: true
+> +    description:
+> +      The GPIOs are low active (deprecated).
+> +      Use the GPIO-flags in gpio controller instead of this property.
+>  
+>    debounce-delay-ms:
+>      description: Debounce interval in milliseconds.
 > -- 
 > 2.39.5
 > 
