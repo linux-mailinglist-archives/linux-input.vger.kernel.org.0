@@ -1,96 +1,176 @@
-Return-Path: <linux-input+bounces-10215-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10216-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC809A3E3E1
-	for <lists+linux-input@lfdr.de>; Thu, 20 Feb 2025 19:31:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4B5A3E8F9
+	for <lists+linux-input@lfdr.de>; Fri, 21 Feb 2025 01:00:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C633B171138
-	for <lists+linux-input@lfdr.de>; Thu, 20 Feb 2025 18:31:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E6EA189966E
+	for <lists+linux-input@lfdr.de>; Fri, 21 Feb 2025 00:00:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C8582135B2;
-	Thu, 20 Feb 2025 18:31:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2F891EE03D;
+	Thu, 20 Feb 2025 23:59:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gb70yxo3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nT82sR/V"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D988920CCC3;
-	Thu, 20 Feb 2025 18:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B651D5160
+	for <linux-input@vger.kernel.org>; Thu, 20 Feb 2025 23:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740076284; cv=none; b=URu0XOLdHS64xLI3EAN+lncr7wCrD3ia26ePtDuEbs7CvxkQmIz3f0/SzRxrw+uL8sfJ5ltgkc5MMpqPTWMp8K24PUtoP6xIgPoyNYyD2w1efJlg4BAy6xq7ZA2kbRv6zsF1ZZMo9xHxe1HPMQ8xHns44BiCeCj9uxR5O6LQg8o=
+	t=1740095999; cv=none; b=hjX9v9xcadmwupN2i2Ail8c4Rt2TWLRiem0gG4LyWEq9nEPH1nV85XCkCMNoU169j1s6eBHDf5+Lx6cMXPL+KzRlmfIC39WrTV8SssaGnyL++6mO4LwZ7rYn7Gy6SRiHXzY52/83YY7t5b4jKbM1TSboKaFF3NEb9dug89opyUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740076284; c=relaxed/simple;
-	bh=SNAAWQ33HpVVduE2oRVRlawGqqSdycOEpSVND6/hyV8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=m8/legu0LkOFfEc/dDvPbZj1ZlIurEJKUIWteJd1m4ovPzjY7NY+hZVT2qj1Gc44sYqilZ3c96CoJLhOMpl/1DpjGxtf3o+fa1rG/2U4YE4GWx7asFwFla/wCe6jI81ckkwJEr922hkQb40axJLx1roXhQeUe9R+PZYcVD2H9i4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gb70yxo3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CEEBC4CED1;
-	Thu, 20 Feb 2025 18:31:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740076283;
-	bh=SNAAWQ33HpVVduE2oRVRlawGqqSdycOEpSVND6/hyV8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=gb70yxo3D9wzQFqM+oIz4IPWXd/QJIqtMUb8XTPUStiIMP8ctxt5Uup2GZDloVX4I
-	 DYf0W1Fezhs3B37UtFMNkutVePIN1U4qLrO5geX86rSFlz2ncp3FpDOm7hyxlUxDQS
-	 SC1GoAaIzEQLSdsIAJuuiZBbkE7ittigUMh92p/VXnPwc4w1nsJM3p4vU7ZzibQQ25
-	 qFiNcHzG76Co2ilxX+BohbaBOM2gOzneo1rJQqr/fURJYszcYjhAqKs4N18j5c/bp4
-	 BmQ/90AMtNS6JNSX3TRu6rnxknQ4Jvy/++T1dVy+LOld2Am8zktohkD2/MDeiIlqNy
-	 L5UpN9iT8EWJg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3402F380CEE2;
-	Thu, 20 Feb 2025 18:31:55 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1740095999; c=relaxed/simple;
+	bh=mKnZZM5+oIq5ZfXw7ZaFO2A02bRkolCJwDaSR+l9BGg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XhnFEY6Lr01p2Hjh/fRkQg/UnnTNicr6vX7mDv6AadFeg4bKmZAWneGuG38MMgb6VXihpyghAYJ4yrc9m5FlQSyazoBCaR5cF/HC+mKUBdCqHzG9IvnyN0nQjQYMKeIi/vSP3ae3y2TFi6ozBIweaYSORqx71ruiIvQHlmo5tcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nT82sR/V; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740095996; x=1771631996;
+  h=date:from:to:cc:subject:message-id;
+  bh=mKnZZM5+oIq5ZfXw7ZaFO2A02bRkolCJwDaSR+l9BGg=;
+  b=nT82sR/VsrigbFI0KrOKueu8reS6mJKIjk9luLmHKbk6Oo2U7/NnlBYo
+   9UH5GjzYJdcBzlcdfKXAnV7gCDTAcvZjuoTnS3oyONZPZ+ZFcyWNRNnGs
+   R5ulcbEZUMMlJNJotLO2O4hCu9/w/OWy/H9t/vTZTv3V4RaUHkgdGHRsA
+   6rLgypRlaBLoYod318gDm5t4Ajmfus57GP50UOc00+pa6rmyZeY1l8CbD
+   iVMJ7/XmZ+HyjSAQwf5s4NX7HJSqsLGGu6Im1LKQ/jt1BHKvTwfDfJ8tH
+   zkS1LkeuwHJ3PYlHn8YYS4iaM2wliT/c+I5JMB+ACEHytMoOZXfRqnmqo
+   A==;
+X-CSE-ConnectionGUID: sLDQSkwWRL+iXt6OWcydDw==
+X-CSE-MsgGUID: bAr2ewW3RBCZe4zZqcZYZA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="44546642"
+X-IronPort-AV: E=Sophos;i="6.13,303,1732608000"; 
+   d="scan'208";a="44546642"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 15:59:55 -0800
+X-CSE-ConnectionGUID: 6UcoeNasRWOTfsx9YBE1Ww==
+X-CSE-MsgGUID: ekujGRVQScS0I+e+w2nxtQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="115704478"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 20 Feb 2025 15:59:55 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tlGSM-0004tD-2q;
+	Thu, 20 Feb 2025 23:59:51 +0000
+Date: Fri, 21 Feb 2025 07:59:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ 9995b98a4b2a704fa6744d2bee9c5d50b2c33836
+Message-ID: <202502210732.kYwiAWWH-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] hid: intel-thc: fix CONFIG_HID dependency
-From: patchwork-bot+bluetooth@kernel.org
-Message-Id: 
- <174007631401.1417233.14540583372854918839.git-patchwork-notify@kernel.org>
-Date: Thu, 20 Feb 2025 18:31:54 +0000
-References: <20250123134908.805346-1-arnd@kernel.org>
-In-Reply-To: <20250123134908.805346-1-arnd@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: jikos@kernel.org, bentiss@kernel.org, srinivas.pandruvada@linux.intel.com,
- mpearson-lenovo@squebb.ca, arnd@arndb.de, basavaraj.natikar@amd.com,
- even.xu@intel.com, xinpeng.sun@intel.com, luzmaximilian@gmail.com,
- marcel@holtmann.org, johan.hedberg@gmail.com, luiz.dentz@gmail.com,
- dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-bluetooth@vger.kernel.org
 
-Hello:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 9995b98a4b2a704fa6744d2bee9c5d50b2c33836  MAINTAINERS: Add entries for Apple Z2 touchscreen driver
 
-This patch was applied to bluetooth/bluetooth-next.git (master)
-by Jiri Kosina <jkosina@suse.com>:
+elapsed time: 1449m
 
-On Thu, 23 Jan 2025 14:48:12 +0100 you wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> In drivers/hid/, most drivers depend on CONFIG_HID, while a couple of the
-> drivers in subdirectories instead depend on CONFIG_HID_SUPPORT and use
-> 'select HID'. With the newly added INTEL_THC_HID, this causes a build
-> warning for a circular dependency:
-> 
-> [...]
+configs tested: 83
+configs skipped: 2
 
-Here is the summary with links:
-  - hid: intel-thc: fix CONFIG_HID dependency
-    https://git.kernel.org/bluetooth/bluetooth-next/c/a5a056c8d2ba
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+tested configs:
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                   randconfig-001-20250220    gcc-13.2.0
+arc                   randconfig-002-20250220    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                              allyesconfig    gcc-14.2.0
+arm                   randconfig-001-20250220    gcc-14.2.0
+arm                   randconfig-002-20250220    gcc-14.2.0
+arm                   randconfig-003-20250220    gcc-14.2.0
+arm                   randconfig-004-20250220    gcc-14.2.0
+arm64                            allmodconfig    clang-18
+arm64                 randconfig-001-20250220    gcc-14.2.0
+arm64                 randconfig-002-20250220    gcc-14.2.0
+arm64                 randconfig-003-20250220    clang-21
+arm64                 randconfig-004-20250220    gcc-14.2.0
+csky                  randconfig-001-20250220    gcc-14.2.0
+csky                  randconfig-002-20250220    gcc-14.2.0
+hexagon                          allmodconfig    clang-21
+hexagon                          allyesconfig    clang-18
+hexagon               randconfig-001-20250220    clang-21
+hexagon               randconfig-002-20250220    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250220    gcc-12
+i386        buildonly-randconfig-002-20250220    gcc-12
+i386        buildonly-randconfig-003-20250220    gcc-12
+i386        buildonly-randconfig-004-20250220    clang-19
+i386        buildonly-randconfig-005-20250220    clang-19
+i386        buildonly-randconfig-006-20250220    clang-19
+i386                                defconfig    clang-19
+loongarch             randconfig-001-20250220    gcc-14.2.0
+loongarch             randconfig-002-20250220    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250220    gcc-14.2.0
+nios2                 randconfig-002-20250220    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                randconfig-001-20250220    gcc-14.2.0
+parisc                randconfig-002-20250220    gcc-14.2.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-16
+powerpc               randconfig-001-20250220    gcc-14.2.0
+powerpc               randconfig-002-20250220    clang-16
+powerpc               randconfig-003-20250220    clang-21
+powerpc64             randconfig-001-20250220    clang-16
+powerpc64             randconfig-002-20250220    clang-18
+powerpc64             randconfig-003-20250220    gcc-14.2.0
+riscv                 randconfig-001-20250220    gcc-14.2.0
+riscv                 randconfig-002-20250220    clang-21
+s390                             allmodconfig    clang-19
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250220    clang-19
+s390                  randconfig-002-20250220    gcc-14.2.0
+sh                               allmodconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                    randconfig-001-20250220    gcc-14.2.0
+sh                    randconfig-002-20250220    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                 randconfig-001-20250220    gcc-14.2.0
+sparc                 randconfig-002-20250220    gcc-14.2.0
+sparc64               randconfig-001-20250220    gcc-14.2.0
+sparc64               randconfig-002-20250220    gcc-14.2.0
+um                               allmodconfig    clang-21
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250220    gcc-12
+um                    randconfig-002-20250220    gcc-12
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250220    gcc-12
+x86_64      buildonly-randconfig-002-20250220    gcc-12
+x86_64      buildonly-randconfig-003-20250220    gcc-12
+x86_64      buildonly-randconfig-004-20250220    gcc-12
+x86_64      buildonly-randconfig-005-20250220    gcc-12
+x86_64      buildonly-randconfig-006-20250220    gcc-12
+x86_64                              defconfig    gcc-11
+xtensa                randconfig-001-20250220    gcc-14.2.0
+xtensa                randconfig-002-20250220    gcc-14.2.0
 
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
