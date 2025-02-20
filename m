@@ -1,138 +1,181 @@
-Return-Path: <linux-input+bounces-10204-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10205-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 828EFA3CE1A
-	for <lists+linux-input@lfdr.de>; Thu, 20 Feb 2025 01:29:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F9AA3D159
+	for <lists+linux-input@lfdr.de>; Thu, 20 Feb 2025 07:23:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EF96B7A6E12
-	for <lists+linux-input@lfdr.de>; Thu, 20 Feb 2025 00:28:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BC0D21753B5
+	for <lists+linux-input@lfdr.de>; Thu, 20 Feb 2025 06:23:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F3872BD11;
-	Thu, 20 Feb 2025 00:28:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF3C01DE896;
+	Thu, 20 Feb 2025 06:23:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="YZf3DmPr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dpDVkIfG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4C11BC4E;
-	Thu, 20 Feb 2025 00:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740011336; cv=pass; b=Q/Mt86qBMZhYITTHxFLrFGDmJH4xg/k1Wl65YMYQ631jefXvdQFVokc8yXDDU592DOq4A5uEZgA1bpt64sURARWfhPODXYeS7YhTl7f32/oXydbDeY21+KK6EsZiaN30TZZUKIji+pFAzwWSK3ucTUxkFFpTgmnT9DA5w6XaWGc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740011336; c=relaxed/simple;
-	bh=XrJymkHrg4Xa0F5pql+/LHtQtO2mzkx0YoxP4rSgNYc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ff8G+sOLg+cfO2tNmlcdpbkSIdf61IuGsLf+A0pZPAObW0PMkUR5YmVfkb6Jo2kJ+VXfkVvtxDyypmSt3l0jBaxDPBgeduon/0AfV985nKdurMkuRMe0MnXX5joiHjZDpy//LiS00TUAFvLhjVQOaITx3Qtzk8MlwyCFQkJF7lQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=YZf3DmPr; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1740011319; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=mI2Sw7AZkRks4H3TBok7Wulcmgc4fxoK31qfcsFac99ofE146PaC37j1Wpn0WbU0hFg7dSSdjA1opkdoufEbmoVMxizRV/KA/D43Ysjc5xgenSW0gOV3gRhuRKPb9TljwczuCXr6C375Je8UzQEC9Tb/WZ6JOnD00Zb3apuqFPw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1740011319; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=XrJymkHrg4Xa0F5pql+/LHtQtO2mzkx0YoxP4rSgNYc=; 
-	b=iJFiOBBMktREJcG4508TBVNnSUJWECR32GrVlzA6/itFP2lftKZWUg22iezBT23gM+Ir0zP7JFYeI2EWgnmeOcX0dBGhA9TjWtmHQABR5TgLY4yvU55NjyLZPHTrB37MUtyhgwkHwHosIqWtYhST1ytEnwDAeUO3aUnhQa7u2rk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740011319;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=XrJymkHrg4Xa0F5pql+/LHtQtO2mzkx0YoxP4rSgNYc=;
-	b=YZf3DmPrSiKg9BP2Z02sidOoJbb8hciHp+HY9zGoFEyf29Ipyrssi7oi8H6rhTwj
-	spEKONGkq9i+eiaaZDyExHX7kEHaqFZ1lr5ximCwH+GRYV1V0BRpeD57/EhGJMECWwB
-	mv84XSorJA3nuDeQqrw8V9nzaOlSf2uxAwTro0Bo=
-Received: by mx.zohomail.com with SMTPS id 1740011316822711.7300853021816;
-	Wed, 19 Feb 2025 16:28:36 -0800 (PST)
-Received: by venus (Postfix, from userid 1000)
-	id AF4B6180608; Thu, 20 Feb 2025 01:28:31 +0100 (CET)
-Date: Thu, 20 Feb 2025 01:28:31 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Lee Jones <lee@kernel.org>
-Cc: Dzmitry Sankouski <dsankouski@gmail.com>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
-	Purism Kernel Team <kernel@puri.sm>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v17 3/7] power: supply: max77705: Add charger driver for
- Maxim 77705
-Message-ID: <fvmtrsk2e63zmpn2zlgvv73ir5pvhemipyvytpzbjya4zxcrfr@bv72ij4qgpew>
-References: <20250123-starqltechn_integration_upstream-v17-0-8b06685b6612@gmail.com>
- <20250123-starqltechn_integration_upstream-v17-3-8b06685b6612@gmail.com>
- <20250210170337.GE1868108@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EABD1632DF;
+	Thu, 20 Feb 2025 06:23:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740032624; cv=none; b=BhltIu2d1B+yJ2byBdc80JZn9zfz6zCFNCBTp968YYUVbCFy+PcGKRe+FAlnYgx++t0yfYbMF4QNYMyKvKSWCrJW7MAvhURBdvrLj8Sl55gqOVTSl7gzlE4So7jqvTSDa7ZUul0dyeyfDW70s+uJMswxFqa6BWdkT5nD2swHi2o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740032624; c=relaxed/simple;
+	bh=OeAKObEC1ELmSic1Gmxo/Jpyvka7NFTArvvfEjMLtaQ=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=G9cSW+erXrRbIzI59RYVq3JunqAm2l0okDAxmCHVWD5Md7VVNVsoExgLD24XoemO8HHhaPqueV7qlTfUPbzhMxgtrxN8SSj/bCrubSrAcxp8An02e81nEGoVaW/Kk6QgJ1twbvGYWJAwfWIKB269z/ZCePKn0g/CEmq0Rxcz8Bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dpDVkIfG; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6f88509dad2so4707167b3.3;
+        Wed, 19 Feb 2025 22:23:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740032620; x=1740637420; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=XlUZDiO9LUz4j6hPlY1toz2JqwWzQZnCcPciqsBFfS8=;
+        b=dpDVkIfG6cxe6THMe/qSZ7Qqn9bdQCYgh8OJ2xBnuZxVak2PcR6Au3eMwb1pijI8B7
+         KGvD58M9fM7E052RUcPkzBvnWomIIivKLGOLdDXluSVV9UZAeGcuRjLGnmjvScR1uC+m
+         bVDxNIsPFrLsCqC1XjtB7zYXnC8ojs5RQri0h7xWfmzb0ZMRwvlqrFKdPVuBGSijLcvA
+         BHf0XWlH08jPRhkthEGu9AeS2h/ZMzo3PTvgTqy8wPzID6NRcGXUJYSfWP7A2uByMNXi
+         xaeCuRCwzXJMcsJVGpORybLxj2SB+SUUoH+577xily4GOHzFMEj2StbYlLDkeo66EIgp
+         VwCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740032620; x=1740637420;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XlUZDiO9LUz4j6hPlY1toz2JqwWzQZnCcPciqsBFfS8=;
+        b=blQuzCG4SOD5AzJ+YgtYD5eTIn+06eH1I+trtPKE6cTXexcIZbiX8IaaVvXW+hMjBK
+         a0AuallSRqZomJBezCLF/xg4V489Y+rNcirJHNQ5sE5xJ8PXw78ZqYO7TNSM3MWZWELG
+         xendnneJTqnhjDGjF3ttuzqLsMGiagmjw4kttfd3/eupPkmw6LApPWLGkxokZsIKQz1U
+         8TjnbLS5yvGrR67W07fCGtd92lYAYHufG3awoADqfVblE8VjEIkdJh0QJyFTU71wjg5o
+         g1tboE4ff37tiYj5ycavwyJM1KhipjBKr1IxUmt3AyvYnxBLM8RcOORF19fXmYun2Sfm
+         xkig==
+X-Forwarded-Encrypted: i=1; AJvYcCWnY+9q6gmnF5ADnHakTwLlVp0j+Grhxgl44NsDJTXZYQO41GJD4Q7bftU8rDe0ZizHNhICAZq2iLkCCYA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCALTpAbCDg5N/KOkIzS185KxQ4V2uvBeGgAR20Rx/sFUeJm0A
+	XNm/v0u2kdk2ztLf8TaYGByTZBkg3tzDvPHX+6Nj4Vku72utW6exfrgGpxceZ/THf4kHo68Qr5m
+	BcvmcE0lN/Vh+0iexzJ9EpNIQarw0t2Ux5+djeA==
+X-Gm-Gg: ASbGnctLyTETpTg6SvL1xZKYu9rW5TXHss+GQR895usqdyw0+scQ1r3gBLzRvdgoavI
+	F8Nwj/oKUA5sLRBpalCnYAd1Czu65O8jONOHHe55Jye1hk9YyQsr+w7blN3tPY+0zJvFzmY1rec
+	8zh/wZ8QSs9OA=
+X-Google-Smtp-Source: AGHT+IEAM9/39/mv6i/s+rtgJIVunf+g3NtbpiKTGslQI7o0dw9TYGS5OkXNIswUKaBXOAxnBBX+kinMKdiYx5W2a/Y=
+X-Received: by 2002:a05:690c:4447:b0:6ef:a4ec:f698 with SMTP id
+ 00721157ae682-6fb58275a6dmr182728607b3.3.1740032619757; Wed, 19 Feb 2025
+ 22:23:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="r62awjc3xphv45jw"
-Content-Disposition: inline
-In-Reply-To: <20250210170337.GE1868108@google.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.3.1/239.939.29
-X-ZohoMailClient: External
+From: Eliah Reeves <ereeclimb@gmail.com>
+Date: Wed, 19 Feb 2025 22:23:27 -0800
+X-Gm-Features: AWEUYZlNkH6Ro-o2g0nBz_seXpbdBzE5rMTy5lpntrhylez0_BRmgectToTxQXY
+Message-ID: <CAEvyrHnEY-ppdAN8gXPZu89_mqVvQgf3HLm16mF901Qp2kSoaQ@mail.gmail.com>
+Subject: [PATCH] input: revert commit 9140ce4 to fix ELAN1206 touchpad issues
+To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+From: Eliah Reeves <ereeclimb@gmail.com>
+From dd4478d63b6a2b6891fcc1800eb26ce3f1ead1d4 Mon Sep 17 00:00:00 2001
+Date: Wed, 19 Feb 2025 20:58:52 -0800
+Subject: [PATCH] input: revert commit 9140ce4 to fix ELAN1206 touchpad issues
 
---r62awjc3xphv45jw
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v17 3/7] power: supply: max77705: Add charger driver for
- Maxim 77705
-MIME-Version: 1.0
+Reverting commit 9140ce47872bfd89fca888c2f992faa51d20c2bc fixes a
+regression that caused touchpad malfunctions. The original change
+introduced unintended behavior affecting touchpad input.
+---
+ drivers/dma/idma64.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Hi,
+diff --git a/drivers/dma/idma64.c b/drivers/dma/idma64.c
+index d147353d47ab..afcce6f5a636 100644
+--- a/drivers/dma/idma64.c
++++ b/drivers/dma/idma64.c
+@@ -171,9 +171,10 @@ static irqreturn_t idma64_irq(int irq, void *dev)
+        u32 status_err;
+        unsigned short i;
 
-On Mon, Feb 10, 2025 at 05:03:37PM +0000, Lee Jones wrote:
-> On Thu, 23 Jan 2025, Dzmitry Sankouski wrote:
->=20
-> > Add driver for Maxim 77705 switch-mode charger.
-> > It providing power supply class information to userspace.
-> >=20
-> > The driver is configured through DTS (battery and system related
-> > settings).
-> >=20
-> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
->=20
-> Still needs an Ack from Sebastian.
++       /* Commented to restore ELAN1206 Touchpad functionality */
+        /* Since IRQ may be shared, check if DMA controller is powered on */
+-       if (status == GENMASK(31, 0))
+-               return IRQ_NONE;
++       /* if (status == GENMASK(31, 0))
++             return IRQ_NONE; */
 
-Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+        dev_vdbg(idma64->dma.dev, "%s: status=%#x\n", __func__, status);
 
--- Sebastian
+--
+2.48.1
 
---r62awjc3xphv45jw
-Content-Type: application/pgp-signature; name="signature.asc"
+1: Description
+===========
 
------BEGIN PGP SIGNATURE-----
+Reverting commit 9140ce47872bfd89fca888c2f992faa51d20c2bc fixes a
+regression that caused touchpad malfunctions. The original change
+introduced unintended behavior affecting touchpad input with the
+ELAN1206.
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAme2dy8ACgkQ2O7X88g7
-+poaFRAAh/PmM9J04UJMB9Roae3PIGt5e7cnlutZrbKnikubUsy65QA6E1KzaQKM
-ubkWPTr4UxQ2EBRzYTaDnvqgMD/r8T5in987cz3oGF0041QpxALkERRg5e6MtLxB
-UVHsp/SR8Og1QUveCDzwgvkszdqayxwyLIGchYUNNvPnWzcRgN5WMfL9W+KwpRkO
-/eJbg90YYLLyABEn7JAORpelIyVL6TD1jWMC3XUKQT4c/1mygSbQI71yYaUGhW4a
-WJfxcZeufE3Y4UOlyzS5woBWYOoisw5N440k3R95sS451jKjyCXa5+fWVL8SC0IX
-kelq+n7QfjxRDsm9oUYq4vXYAQVMNbxJGekEaGGt5hMoRidsJ3jmPVXatBj5NXuG
-wPnhJrxnO/NgZc4SRBL/cAPnl4iRjwiAiw3hNFrZDilGfnkG6Vc3+zu2ABOGelVH
-4/Uuw0l1EOxpXIe+MYkChRvRy2Xz70RwP296kKn/RPaISG/ycdeVRj1GHnx0tTtB
-GwbAYVG5XvYdAJgPDtYK7XbXEGpJLoBwQomktolBspnhK1upkk6tDCBAZ61n4cFt
-+frSTUajG6L/Mulpt1FIK72sLK1UTKOj4XVIYf5zzmoGhASoPJHXX5B9uewHqEzp
-z51oV+E9O1g/F/6LgcbeWF6QHi/MXQ6ZxR34wUov0CRCMHwsXTM=
-=9mGS
------END PGP SIGNATURE-----
+2: Touchpad Behavior with 9140ce47872bfd89fca888c2f992faa51d20c2bc
+===========
+The touchpad appears to send an event indicating touch up immediately
+after each touch down event. This prevents libinput from moving the
+cursor rendering the touchpad useless. It is also worth noting that in
+addition to incorrect events the touchpad also appears to send events
+much less frequently.
 
---r62awjc3xphv45jw--
+evtest output:
+
+  Event: time 1738819278.422243, type 3 (EV_ABS), code 57
+(ABS_MT_TRACKING_ID), value 73
+  Event: time 1738819278.422243, type 3 (EV_ABS), code 53
+(ABS_MT_POSITION_X), value 1264
+  Event: time 1738819278.422243, type 3 (EV_ABS), code 54
+(ABS_MT_POSITION_Y), value 860
+  Event: time 1738819278.422243, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
+  Event: time 1738819278.422243, type 1 (EV_KEY), code 325
+(BTN_TOOL_FINGER), value 1
+  Event: time 1738819278.422243, type 3 (EV_ABS), code 0 (ABS_X), value 1264
+  Event: time 1738819278.422243, type 3 (EV_ABS), code 1 (ABS_Y), value 860
+  Event: time 1738819278.422243, type 4 (EV_MSC), code 5
+(MSC_TIMESTAMP), value 0
+  Event: time 1738819278.422243, -------------- SYN_REPORT ------------
+  Event: time 1738819278.526021, type 3 (EV_ABS), code 57
+(ABS_MT_TRACKING_ID), value -1
+  Event: time 1738819278.526021, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 0
+  Event: time 1738819278.526021, type 1 (EV_KEY), code 325
+(BTN_TOOL_FINGER), value 0
+  Event: time 1738819278.526021, -------------- SYN_REPORT ------------
+  Event: time 1738819278.630874, type 3 (EV_ABS), code 57
+(ABS_MT_TRACKING_ID), value 74
+  Event: time 1738819278.630874, type 3 (EV_ABS), code 53
+(ABS_MT_POSITION_X), value 1415
+  Event: time 1738819278.630874, type 3 (EV_ABS), code 54
+(ABS_MT_POSITION_Y), value 799
+
+3: Touchpad Behavior without 9140ce47872bfd89fca888c2f992faa51d20c2bc
+===========
+The touchpad functions smoothly and consistently.
+
+4: Fixes
+===========
+closes: https://bugzilla.kernel.org/show_bug.cgi?id=219799
+
+5: Impacts
+===========
+Reverting 9140ce47872bfd89fca888c2f992faa51d20c2bc would theoretically
+reopen https://lore.kernel.org/r/700bbb84-90e1-4505-8ff0-3f17ea8bc631@gmail.com
+
+6: Methods
+===========
+I bisected the Linux kernel and found that
+9140ce47872bfd89fca888c2f992faa51d20c2bc was the first commit where my
+touchpad didn't work. Building the latest kernel with 9140ce4 removed
+resulted in a working touchpad.
+
+Let me know if I can help.
+Signed-off-by: Eliah Reeves <ereeclimb@gmail.com>
 
