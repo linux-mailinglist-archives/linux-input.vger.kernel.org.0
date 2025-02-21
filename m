@@ -1,176 +1,162 @@
-Return-Path: <linux-input+bounces-10216-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10217-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4B5A3E8F9
-	for <lists+linux-input@lfdr.de>; Fri, 21 Feb 2025 01:00:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E900A3F31C
+	for <lists+linux-input@lfdr.de>; Fri, 21 Feb 2025 12:39:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E6EA189966E
-	for <lists+linux-input@lfdr.de>; Fri, 21 Feb 2025 00:00:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 745D7189DD0C
+	for <lists+linux-input@lfdr.de>; Fri, 21 Feb 2025 11:39:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2F891EE03D;
-	Thu, 20 Feb 2025 23:59:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CCB120967D;
+	Fri, 21 Feb 2025 11:39:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nT82sR/V"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="deOZsFKN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B651D5160
-	for <linux-input@vger.kernel.org>; Thu, 20 Feb 2025 23:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A720207DF8;
+	Fri, 21 Feb 2025 11:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740095999; cv=none; b=hjX9v9xcadmwupN2i2Ail8c4Rt2TWLRiem0gG4LyWEq9nEPH1nV85XCkCMNoU169j1s6eBHDf5+Lx6cMXPL+KzRlmfIC39WrTV8SssaGnyL++6mO4LwZ7rYn7Gy6SRiHXzY52/83YY7t5b4jKbM1TSboKaFF3NEb9dug89opyUI=
+	t=1740137977; cv=none; b=LmF0+eq1qNKRVBFuO5WVyR+DXkmYSaYfZEynwCb3/2zrewlDBkCEpBcLIOoQpwqs3XnchNNCRVXcHHVk8hEpv+iwaMg8r36uvZ+k/TvbEC6Dd8VvTtNPPM6hG0V0PtV0X2zctJt129q6qkVgIX44FTPt6x5jgOj1cb5uCazPweU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740095999; c=relaxed/simple;
-	bh=mKnZZM5+oIq5ZfXw7ZaFO2A02bRkolCJwDaSR+l9BGg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XhnFEY6Lr01p2Hjh/fRkQg/UnnTNicr6vX7mDv6AadFeg4bKmZAWneGuG38MMgb6VXihpyghAYJ4yrc9m5FlQSyazoBCaR5cF/HC+mKUBdCqHzG9IvnyN0nQjQYMKeIi/vSP3ae3y2TFi6ozBIweaYSORqx71ruiIvQHlmo5tcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nT82sR/V; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740095996; x=1771631996;
-  h=date:from:to:cc:subject:message-id;
-  bh=mKnZZM5+oIq5ZfXw7ZaFO2A02bRkolCJwDaSR+l9BGg=;
-  b=nT82sR/VsrigbFI0KrOKueu8reS6mJKIjk9luLmHKbk6Oo2U7/NnlBYo
-   9UH5GjzYJdcBzlcdfKXAnV7gCDTAcvZjuoTnS3oyONZPZ+ZFcyWNRNnGs
-   R5ulcbEZUMMlJNJotLO2O4hCu9/w/OWy/H9t/vTZTv3V4RaUHkgdGHRsA
-   6rLgypRlaBLoYod318gDm5t4Ajmfus57GP50UOc00+pa6rmyZeY1l8CbD
-   iVMJ7/XmZ+HyjSAQwf5s4NX7HJSqsLGGu6Im1LKQ/jt1BHKvTwfDfJ8tH
-   zkS1LkeuwHJ3PYlHn8YYS4iaM2wliT/c+I5JMB+ACEHytMoOZXfRqnmqo
-   A==;
-X-CSE-ConnectionGUID: sLDQSkwWRL+iXt6OWcydDw==
-X-CSE-MsgGUID: bAr2ewW3RBCZe4zZqcZYZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="44546642"
-X-IronPort-AV: E=Sophos;i="6.13,303,1732608000"; 
-   d="scan'208";a="44546642"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 15:59:55 -0800
-X-CSE-ConnectionGUID: 6UcoeNasRWOTfsx9YBE1Ww==
-X-CSE-MsgGUID: ekujGRVQScS0I+e+w2nxtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="115704478"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 20 Feb 2025 15:59:55 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tlGSM-0004tD-2q;
-	Thu, 20 Feb 2025 23:59:51 +0000
-Date: Fri, 21 Feb 2025 07:59:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 9995b98a4b2a704fa6744d2bee9c5d50b2c33836
-Message-ID: <202502210732.kYwiAWWH-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1740137977; c=relaxed/simple;
+	bh=Sml3o/HkUO8vLaWWXWZk2o3At1Jy/794DhB7GIldb6s=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=FanRKyu7Iw3SFIxYfNJFJwrxER4X442MQRy8gCB/2U7j3rZYv+xWJIUArfpVFyBERgWElyQZqIVaLrnS98MknBPtCnlEHcWSoBcbOoMCQXcx7kEOijrNwGvS+eTSyt0+KdZJRpok5R44feWBTiDJGJ9o+/yxIU2qtYzXiGPScMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=deOZsFKN; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.116] (pd9e59d4d.dip0.t-ipconnect.de [217.229.157.77])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 305C82FC0182;
+	Fri, 21 Feb 2025 12:39:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1740137966;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LqXUo1FZ4TpebA15goo8baRIskVIN6WUi38uv9gPwFc=;
+	b=deOZsFKNmuJi0lPeSPivrTX2+2wjtvvKLqs7wSbApPPMJx4ziaoUyUlgNkvW+JfIP1tVeh
+	7e/mRwslMZtcjVNpm2dPNZABksf3cyyJYZwFCmc00DVTLG8/NOqGPhZOwxBn6/nU2bACwZ
+	wdhXvtekzZvIu+hG/nglgxoVs3tvMok=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <ea88c72e-a03f-4aac-9182-ece94fb99e54@tuxedocomputers.com>
+Date: Fri, 21 Feb 2025 12:39:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: Pavel Machek <pavel@ucw.cz>, Armin Wolf <W_Armin@gmx.de>,
+ Benjamin Tissoires <bentiss@kernel.org>, Hans de Goede <hdegoede@redhat.com>
+Cc: ilpo.jarvinen@linux.intel.com, dri-devel@lists.freedesktop.org,
+ jelle@vdwaa.nl, jikos@kernel.org, lee@kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, onitake@gmail.com, cs@tuxedo.de,
+ platform-driver-x86@vger.kernel.org, bpf@vger.kernel.org
+References: <20250121225510.751444-1-wse@tuxedocomputers.com>
+ <aa91e17f-0ea8-4645-a0f9-57c016e36a9e@gmx.de> <Z53f7VNIgUWWFn9l@duo.ucw.cz>
+ <b69e2766-2238-4913-ae2d-21d8716f2eef@tuxedocomputers.com>
+Content-Language: en-US
+In-Reply-To: <b69e2766-2238-4913-ae2d-21d8716f2eef@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 9995b98a4b2a704fa6744d2bee9c5d50b2c33836  MAINTAINERS: Add entries for Apple Z2 touchscreen driver
+Hi,
 
-elapsed time: 1449m
+Am 06.02.25 um 17:18 schrieb Werner Sembach:
+> Hi,
+>
+> Am 01.02.25 um 09:48 schrieb Pavel Machek:
+>> Hi!
+>>
+>>>> I now got my feet a little wet with hid-bpf regarding something else, and
+>>>> with that knowledge I would leave the long arrays in the beginning in the
+>>>> kernel code for the time being:
+>>>>
+>>>> sirius_16_ansii_kbl_mapping and sirius_16_iso_kbl_mapping are required
+>>>> during initialization so they have to exist in the kernel code anyway.
+>>>>
+>>>> report_descriptor will most likly not change even for future models and
+>>>> afaik having report_descriptors in kernel drivers is not unheard of.
+>>>>
+>>>> So the only things that could be meaningfully moved to a hid-bpf program
+>>>> are the sirius_16_*_kbl_mapping_pos_* arrays. But for these is have to give
+>>>> out some fallback value anyway for the case where a hid-bpf file is missing
+>>>> or fails to load. So why not use real world values from my test device for
+>>>> these values?
+>>>>
+>>>> As soon as there is a future device that can use the same driver with just
+>>>> these pos arrays different, then I would implement that change via a bpf
+>>>> program instead of a change to the kernel driver.
+>>>>
+>>>> Let me know if you too think this is a sensefull approach?
+>>>>
+>>>>
+>>>> Another question: Would this patch need to wait for a userspace
+>>>> implementation of lamp array before it can get accepted?
+>>> It would be nice if you could test the LampArray implementation. But other 
+>>> than that
+>>> userspace can catch up later.
+>>>
+>>> Still, i am interested in the opinion of the LED maintainers
+>>> regarding the fake HID interface.
+>> Comments from previous review were not addressed.
+>>
+>> Most importantly, this is not a way to do kernel interface. We want
+>> reasonable interface that can be documented and modified as needed. We
+>> want to pass /dev/input to userspace, not raw HID. This is not ok.
+>
+> There are already 2 endless discussions about this:
+>
+> https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com/ 
+>
+>
+> https://lore.kernel.org/all/73c36418-34d6-46cf-9f10-6ca5e569274f@tuxedocomputers.com/ 
+>
+>
+> And a shorter one before that:
+>
+> https://lore.kernel.org/all/30cbbf20-08cf-a69b-4f58-359a9802e86f@tuxedocomputers.com/ 
+>
+>
+> The brief:
+>
+> - LampArray is a standard that will hit the Linux world anyway.
+>
+> - The alternative proposal via a led matrix does not even really fit 
+> keyboards, and does not at all fit all other device types.
+>
+> Hans and Benjamin already agree with me that LampArray is the way to go.
+>
+> So after over 2 years can I please have a final decision on how to implement 
+> this?
 
-configs tested: 83
-configs skipped: 2
+Any update?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Best regards,
 
-tested configs:
-alpha                            allyesconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-13.2.0
-arc                              allyesconfig    gcc-13.2.0
-arc                   randconfig-001-20250220    gcc-13.2.0
-arc                   randconfig-002-20250220    gcc-13.2.0
-arm                              allmodconfig    gcc-14.2.0
-arm                              allyesconfig    gcc-14.2.0
-arm                   randconfig-001-20250220    gcc-14.2.0
-arm                   randconfig-002-20250220    gcc-14.2.0
-arm                   randconfig-003-20250220    gcc-14.2.0
-arm                   randconfig-004-20250220    gcc-14.2.0
-arm64                            allmodconfig    clang-18
-arm64                 randconfig-001-20250220    gcc-14.2.0
-arm64                 randconfig-002-20250220    gcc-14.2.0
-arm64                 randconfig-003-20250220    clang-21
-arm64                 randconfig-004-20250220    gcc-14.2.0
-csky                  randconfig-001-20250220    gcc-14.2.0
-csky                  randconfig-002-20250220    gcc-14.2.0
-hexagon                          allmodconfig    clang-21
-hexagon                          allyesconfig    clang-18
-hexagon               randconfig-001-20250220    clang-21
-hexagon               randconfig-002-20250220    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250220    gcc-12
-i386        buildonly-randconfig-002-20250220    gcc-12
-i386        buildonly-randconfig-003-20250220    gcc-12
-i386        buildonly-randconfig-004-20250220    clang-19
-i386        buildonly-randconfig-005-20250220    clang-19
-i386        buildonly-randconfig-006-20250220    clang-19
-i386                                defconfig    clang-19
-loongarch             randconfig-001-20250220    gcc-14.2.0
-loongarch             randconfig-002-20250220    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250220    gcc-14.2.0
-nios2                 randconfig-002-20250220    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                randconfig-001-20250220    gcc-14.2.0
-parisc                randconfig-002-20250220    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                          allyesconfig    clang-16
-powerpc               randconfig-001-20250220    gcc-14.2.0
-powerpc               randconfig-002-20250220    clang-16
-powerpc               randconfig-003-20250220    clang-21
-powerpc64             randconfig-001-20250220    clang-16
-powerpc64             randconfig-002-20250220    clang-18
-powerpc64             randconfig-003-20250220    gcc-14.2.0
-riscv                 randconfig-001-20250220    gcc-14.2.0
-riscv                 randconfig-002-20250220    clang-21
-s390                             allmodconfig    clang-19
-s390                             allyesconfig    gcc-14.2.0
-s390                  randconfig-001-20250220    clang-19
-s390                  randconfig-002-20250220    gcc-14.2.0
-sh                               allmodconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                    randconfig-001-20250220    gcc-14.2.0
-sh                    randconfig-002-20250220    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                 randconfig-001-20250220    gcc-14.2.0
-sparc                 randconfig-002-20250220    gcc-14.2.0
-sparc64               randconfig-001-20250220    gcc-14.2.0
-sparc64               randconfig-002-20250220    gcc-14.2.0
-um                               allmodconfig    clang-21
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250220    gcc-12
-um                    randconfig-002-20250220    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20250220    gcc-12
-x86_64      buildonly-randconfig-002-20250220    gcc-12
-x86_64      buildonly-randconfig-003-20250220    gcc-12
-x86_64      buildonly-randconfig-004-20250220    gcc-12
-x86_64      buildonly-randconfig-005-20250220    gcc-12
-x86_64      buildonly-randconfig-006-20250220    gcc-12
-x86_64                              defconfig    gcc-11
-xtensa                randconfig-001-20250220    gcc-14.2.0
-xtensa                randconfig-002-20250220    gcc-14.2.0
+Werner Sembach
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> Regards,
+>
+> Werner
+>
+>>
+>> Best regards,
+>>                                 Pavel
 
