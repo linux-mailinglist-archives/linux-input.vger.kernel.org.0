@@ -1,39 +1,39 @@
-Return-Path: <linux-input+bounces-10222-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10221-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F167A4033F
-	for <lists+linux-input@lfdr.de>; Sat, 22 Feb 2025 00:02:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC77BA4033A
+	for <lists+linux-input@lfdr.de>; Sat, 22 Feb 2025 00:02:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F07003B9B20
-	for <lists+linux-input@lfdr.de>; Fri, 21 Feb 2025 23:01:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8722817A170
+	for <lists+linux-input@lfdr.de>; Fri, 21 Feb 2025 23:02:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 566CE204F6F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5663B204F6A;
 	Fri, 21 Feb 2025 23:02:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="XA5fK0+k"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="cF8fZ5Bb"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CD81FBC99;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D3D1FF1AF;
 	Fri, 21 Feb 2025 23:01:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740178920; cv=none; b=Kr4Sp2QcDgMYFqtzJP5D3W1K3JNVO8i7OiseFt0Hkhnd1mYhO3sWNEN854EnZFajZK3Z48Ki4uDuEU2QCgBlhUlY8nL9CMfbqh3WPZjsB47O1ew83zeRFa0/htFmO8AqKJLoUBya9+XVb2EJy4dm3Nfj7272SZtHXdcYDeKkRVY=
+	t=1740178920; cv=none; b=cJhId9zxSLXWCVq5BW2o1IOoTDX8a0o4lpicJbpeCgqm8ac5kuwWdmBSmMkMocDR+VtFMThYbhQZCZadUgLp3/XplTp3o1R6GH9tpZI4U473pXRurKV+wTiCjLD5XUQInAhIqg8JopGP7e9NBcRGPYm0dg2os/CES4M1sQxYpcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1740178920; c=relaxed/simple;
-	bh=DegeoGwVYljjNqey6muh/VN0r5oPKh/ANQQodhqzJes=;
+	bh=LTsyFTipTsKBfEmoPHffpWMQ8gQ7c756taSQTbVB3S4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jEN8EGYG43cj8G9mHDcxZQ+puIPRNaw919jODJdVROxUEkSIF6ACCfoZ9re2I9/ZiJBxvs95oHAnb25k18HFJ18Aiac5RjIpdtUyjbPlCAX1Ue3VutbrFvYhd7BBKkzjzFKWxh3L+IYb55yh3EEa0iXueAdhOMIQvaMmwChKgaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=XA5fK0+k; arc=none smtp.client-ip=157.90.84.7
+	 MIME-Version; b=r04Os6xG0o08zGOYyjCFkfERP7NtKyLBHbAA5b4ZcTzznePm7v+Uied2+WkXfFLMJGvxMDQHoo1bi2EFvpeRzSslhSWRC6RUDH380H6/l5Cwe9J5eDkS62Mkky/QbK4EUHhmMpFD1ozo+9M0K+Vvivqt1AhdgW61biYeeYYKPlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=cF8fZ5Bb; arc=none smtp.client-ip=157.90.84.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Received: from wse-pc.fritz.box (pd9e59f4f.dip0.t-ipconnect.de [217.229.159.79])
 	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 5E2682FC0185;
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id D52B02FC0186;
 	Sat, 22 Feb 2025 00:01:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
 	s=default; t=1740178915;
@@ -41,10 +41,10 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tHhmzhr7Ziur0krdvCYRc2Lh7LuD7GacPURNA5oynU4=;
-	b=XA5fK0+kLTlvPBJNVVcySMoJwKlt8Gwk0nLuCLe7C+PA1mvb5isD2zmyxzJFTnLgycsEC2
-	Po0fbd3QPu6q/GVq8IN7wuPOfZXW3jcocdOCqU4RGlYjKxlrUeQhwrrtyNhg5sIBNVTMMD
-	i8hrfGtvoMMWxm7oqMkkoXmUinQRfwc=
+	bh=v5H3CcfKMe7Rs4JzuvfurJEf6hv+z/iGJA7dEBv0QLg=;
+	b=cF8fZ5Bb8JrYXx7XRFGbCqn9gdQWUolNz8VKeaG8h1bXwIDUQCBECZcJXeg+wIduriM6dV
+	mL61eHh38K990+nnJ/SYTZOZxSmx88ZEzL3ECYgz7dAkrXE9Fa67KxndrKLFjS/4F2MJ1l
+	zrkrd4tLIA4fPWMWHKRmrThmu8n9hI0=
 Authentication-Results: mail.tuxedocomputers.com;
 	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
 From: Werner Sembach <wse@tuxedocomputers.com>
@@ -52,9 +52,9 @@ To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: Werner Sembach <wse@tuxedocomputers.com>,
 	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/4] Input: i8042: Add required quirks for missing old boardnames
-Date: Sat, 22 Feb 2025 00:01:23 +0100
-Message-ID: <20250221230137.70292-2-wse@tuxedocomputers.com>
+Subject: [PATCH v2 3/4] Input: i8042: Swap old quirk combination with new quirk for several devices
+Date: Sat, 22 Feb 2025 00:01:24 +0100
+Message-ID: <20250221230137.70292-3-wse@tuxedocomputers.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250221230137.70292-1-wse@tuxedocomputers.com>
 References: <20250221230137.70292-1-wse@tuxedocomputers.com>
@@ -70,71 +70,139 @@ Some older Clevo barebones have problems like no or laggy keyboard after
 resume or boot which can be fixed with the SERIO_QUIRK_FORCENORESTORE
 quirk.
 
-The PB71RD keyboard is sometimes laggy after resume and the PC70DR, PB51RF,
-P640RE, and PCX0DX_GN20 keyboard is sometimes unresponsive after resume.
-This quirk fixes that.
+While the old quirk combination did not show negative effects on these
+devices specifically, the new quirk works just as well and seems more
+stable in general.
 
 Cc: stable@vger.kernel.org
 Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
 ---
- drivers/input/serio/i8042-acpipnpio.h | 30 +++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ drivers/input/serio/i8042-acpipnpio.h | 40 ++++++++++-----------------
+ 1 file changed, 14 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-index a764248ea11d3..57a6eec4c2a5d 100644
+index 57a6eec4c2a5d..9df1ef6032dd0 100644
 --- a/drivers/input/serio/i8042-acpipnpio.h
 +++ b/drivers/input/serio/i8042-acpipnpio.h
-@@ -1260,6 +1260,12 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
- 					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
- 	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "P640RE"),
-+		},
+@@ -1080,16 +1080,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "TUXEDO"),
+ 			DMI_MATCH(DMI_BOARD_NAME, "AURA1501"),
+ 		},
+-		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+-					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
 +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
-+	},
+ 	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "TUXEDO"),
+ 			DMI_MATCH(DMI_BOARD_NAME, "EDUBOOK1502"),
+ 		},
+-		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+-					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
++		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+ 	},
+ 	{
+ 		/* Mivvy M310 */
+@@ -1171,8 +1169,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "LAPQC71A"),
+ 		},
+-		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+-					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
++		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+ 	},
+ 	{
+ 		.matches = {
+@@ -1205,8 +1202,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "NH5xAx"),
+ 		},
+-		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+-					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
++		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+ 	},
+ 	{
+ 		.matches = {
+@@ -1218,8 +1214,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "NL5xRU"),
+ 		},
+-		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+-					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
++		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+ 	},
+ 	/*
+ 	 * At least one modern Clevo barebone has the touchpad connected both
+@@ -1235,17 +1230,15 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "NS50MU"),
+ 		},
+-		.driver_data = (void *)(SERIO_QUIRK_NOAUX | SERIO_QUIRK_NOMUX |
+-					SERIO_QUIRK_RESET_ALWAYS | SERIO_QUIRK_NOLOOP |
+-					SERIO_QUIRK_NOPNP)
++		.driver_data = (void *)(SERIO_QUIRK_NOAUX |
++					SERIO_QUIRK_FORCENORESTORE)
+ 	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "NS50_70MU"),
+ 		},
+-		.driver_data = (void *)(SERIO_QUIRK_NOAUX | SERIO_QUIRK_NOMUX |
+-					SERIO_QUIRK_RESET_ALWAYS | SERIO_QUIRK_NOLOOP |
+-					SERIO_QUIRK_NOPNP)
++		.driver_data = (void *)(SERIO_QUIRK_NOAUX |
++					SERIO_QUIRK_FORCENORESTORE)
+ 	},
+ 	{
+ 		.matches = {
+@@ -1319,8 +1312,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+ 		.matches = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "P65_67RS"),
+ 		},
+-		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+-					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
++		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+ 	},
  	{
  		/*
- 		 * This is only a partial board_name and might be followed by
-@@ -1335,6 +1341,24 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
- 					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+@@ -1338,8 +1330,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "PB50_70DFx,DDx"),
+ 		},
+-		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+-					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
++		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
  	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "PB51RF"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "PB71RD"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "PC70DR"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
-+	},
  	{
+ 		.matches = {
+@@ -1363,8 +1354,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
  		.matches = {
  			DMI_MATCH(DMI_BOARD_NAME, "PCX0DX"),
-@@ -1342,6 +1366,12 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
- 					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
- 	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "PCX0DX_GN20"),
-+		},
+ 		},
+-		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+-					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
 +		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
-+	},
- 	/* See comment on TUXEDO InfinityBook S17 Gen6 / Clevo NS70MU above */
+ 	},
  	{
  		.matches = {
+@@ -1383,15 +1373,13 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "X170SM"),
+ 		},
+-		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+-					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
++		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+ 	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "X170KM-G"),
+ 		},
+-		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+-					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
++		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
+ 	},
+ 	{
+ 		/*
 -- 
 2.43.0
 
