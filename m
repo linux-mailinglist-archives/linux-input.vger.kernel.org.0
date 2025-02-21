@@ -1,162 +1,131 @@
-Return-Path: <linux-input+bounces-10217-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10218-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E900A3F31C
-	for <lists+linux-input@lfdr.de>; Fri, 21 Feb 2025 12:39:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6621CA3FA81
+	for <lists+linux-input@lfdr.de>; Fri, 21 Feb 2025 17:15:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 745D7189DD0C
-	for <lists+linux-input@lfdr.de>; Fri, 21 Feb 2025 11:39:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D15451894EF8
+	for <lists+linux-input@lfdr.de>; Fri, 21 Feb 2025 16:10:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CCB120967D;
-	Fri, 21 Feb 2025 11:39:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8BB020CCFA;
+	Fri, 21 Feb 2025 16:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="deOZsFKN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z9ky2b6a"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A720207DF8;
-	Fri, 21 Feb 2025 11:39:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E6E1EBA14;
+	Fri, 21 Feb 2025 16:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740137977; cv=none; b=LmF0+eq1qNKRVBFuO5WVyR+DXkmYSaYfZEynwCb3/2zrewlDBkCEpBcLIOoQpwqs3XnchNNCRVXcHHVk8hEpv+iwaMg8r36uvZ+k/TvbEC6Dd8VvTtNPPM6hG0V0PtV0X2zctJt129q6qkVgIX44FTPt6x5jgOj1cb5uCazPweU=
+	t=1740153809; cv=none; b=Af+STjCDiy+btnFJIPKepoIH0r8ZaqA8cJ9HbWAuLFP1hKdE9gZPJVyPGHNMscINLXV29aVF2hP+QB+wq2grS/zWwYKt+eYV6+AZ+wDZ7rk1uZE1JIDotBODV1r7rQKTfsSzF7omgUSl8D1UFipwwwbDdrIfXHpiG6ERttiOZd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740137977; c=relaxed/simple;
-	bh=Sml3o/HkUO8vLaWWXWZk2o3At1Jy/794DhB7GIldb6s=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=FanRKyu7Iw3SFIxYfNJFJwrxER4X442MQRy8gCB/2U7j3rZYv+xWJIUArfpVFyBERgWElyQZqIVaLrnS98MknBPtCnlEHcWSoBcbOoMCQXcx7kEOijrNwGvS+eTSyt0+KdZJRpok5R44feWBTiDJGJ9o+/yxIU2qtYzXiGPScMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=deOZsFKN; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.116] (pd9e59d4d.dip0.t-ipconnect.de [217.229.157.77])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 305C82FC0182;
-	Fri, 21 Feb 2025 12:39:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1740137966;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LqXUo1FZ4TpebA15goo8baRIskVIN6WUi38uv9gPwFc=;
-	b=deOZsFKNmuJi0lPeSPivrTX2+2wjtvvKLqs7wSbApPPMJx4ziaoUyUlgNkvW+JfIP1tVeh
-	7e/mRwslMZtcjVNpm2dPNZABksf3cyyJYZwFCmc00DVTLG8/NOqGPhZOwxBn6/nU2bACwZ
-	wdhXvtekzZvIu+hG/nglgxoVs3tvMok=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <ea88c72e-a03f-4aac-9182-ece94fb99e54@tuxedocomputers.com>
-Date: Fri, 21 Feb 2025 12:39:24 +0100
+	s=arc-20240116; t=1740153809; c=relaxed/simple;
+	bh=LclqReflO2tGzw33tF/ps3Kyb0oFA93UVfVnH0V8JCM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a6KwJFzbYAudapzQD41nuCQkm4GTQSxNH9PV4YcHoIS9IWtHmaiWLs+RvGo5MOFYz9OxGALSqxwshvDFmMei5oRPvj8dwKWzojTRI4pMpDZuhYYzfB2m0dRHNsUUrpIzgMCj0Y/Cyu+rQ2h8V95YLZBhJtCgqe/OteyPr8TWAdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z9ky2b6a; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F4DCC4CED6;
+	Fri, 21 Feb 2025 16:03:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740153809;
+	bh=LclqReflO2tGzw33tF/ps3Kyb0oFA93UVfVnH0V8JCM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z9ky2b6aFfaWFuN7W9X4tHxmNSwKIfI7KNaXLJTAOoGsU0zfXloi5LMuxani8P7Gk
+	 +V7rhWSbe6zbftjcnj3QBKnUOSYeyMKkd4kAI+knzSAod1nlDKBGBp+/pytgh/wHsi
+	 knqjuG52ZtxQWnfEb526TbdoYwcHUAof5D59eRGSXDnZVcA9tgVdYW33K8n++Wvaxk
+	 X92VgjNBsv3nxa+y89M4ifD6jB5F1dAaC0ePclV2w+Rt91l22aEKzMbJ2jfSZeR2/4
+	 Bcb7ItLXJn3B/5+EjTYn64Pn8DnoDTa8qwYg7X7EtIXC2RwPWszhZEATOQhlimg8V5
+	 mjDLj9XH5osTw==
+Date: Fri, 21 Feb 2025 16:03:22 +0000
+From: Lee Jones <lee@kernel.org>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Sebastian Reichel <sre@kernel.org>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [GIT PULL] Immutable branch between MFD, Input, LEDs and Power due
+ for the v6.15 merge window
+Message-ID: <20250221160322.GE824852@google.com>
+References: <20250123-starqltechn_integration_upstream-v17-0-8b06685b6612@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO NB04 devices
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Pavel Machek <pavel@ucw.cz>, Armin Wolf <W_Armin@gmx.de>,
- Benjamin Tissoires <bentiss@kernel.org>, Hans de Goede <hdegoede@redhat.com>
-Cc: ilpo.jarvinen@linux.intel.com, dri-devel@lists.freedesktop.org,
- jelle@vdwaa.nl, jikos@kernel.org, lee@kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com, cs@tuxedo.de,
- platform-driver-x86@vger.kernel.org, bpf@vger.kernel.org
-References: <20250121225510.751444-1-wse@tuxedocomputers.com>
- <aa91e17f-0ea8-4645-a0f9-57c016e36a9e@gmx.de> <Z53f7VNIgUWWFn9l@duo.ucw.cz>
- <b69e2766-2238-4913-ae2d-21d8716f2eef@tuxedocomputers.com>
-Content-Language: en-US
-In-Reply-To: <b69e2766-2238-4913-ae2d-21d8716f2eef@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250123-starqltechn_integration_upstream-v17-0-8b06685b6612@gmail.com>
 
-Hi,
+Enjoy!
 
-Am 06.02.25 um 17:18 schrieb Werner Sembach:
-> Hi,
->
-> Am 01.02.25 um 09:48 schrieb Pavel Machek:
->> Hi!
->>
->>>> I now got my feet a little wet with hid-bpf regarding something else, and
->>>> with that knowledge I would leave the long arrays in the beginning in the
->>>> kernel code for the time being:
->>>>
->>>> sirius_16_ansii_kbl_mapping and sirius_16_iso_kbl_mapping are required
->>>> during initialization so they have to exist in the kernel code anyway.
->>>>
->>>> report_descriptor will most likly not change even for future models and
->>>> afaik having report_descriptors in kernel drivers is not unheard of.
->>>>
->>>> So the only things that could be meaningfully moved to a hid-bpf program
->>>> are the sirius_16_*_kbl_mapping_pos_* arrays. But for these is have to give
->>>> out some fallback value anyway for the case where a hid-bpf file is missing
->>>> or fails to load. So why not use real world values from my test device for
->>>> these values?
->>>>
->>>> As soon as there is a future device that can use the same driver with just
->>>> these pos arrays different, then I would implement that change via a bpf
->>>> program instead of a change to the kernel driver.
->>>>
->>>> Let me know if you too think this is a sensefull approach?
->>>>
->>>>
->>>> Another question: Would this patch need to wait for a userspace
->>>> implementation of lamp array before it can get accepted?
->>> It would be nice if you could test the LampArray implementation. But other 
->>> than that
->>> userspace can catch up later.
->>>
->>> Still, i am interested in the opinion of the LED maintainers
->>> regarding the fake HID interface.
->> Comments from previous review were not addressed.
->>
->> Most importantly, this is not a way to do kernel interface. We want
->> reasonable interface that can be documented and modified as needed. We
->> want to pass /dev/input to userspace, not raw HID. This is not ok.
->
-> There are already 2 endless discussions about this:
->
-> https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com/ 
->
->
-> https://lore.kernel.org/all/73c36418-34d6-46cf-9f10-6ca5e569274f@tuxedocomputers.com/ 
->
->
-> And a shorter one before that:
->
-> https://lore.kernel.org/all/30cbbf20-08cf-a69b-4f58-359a9802e86f@tuxedocomputers.com/ 
->
->
-> The brief:
->
-> - LampArray is a standard that will hit the Linux world anyway.
->
-> - The alternative proposal via a led matrix does not even really fit 
-> keyboards, and does not at all fit all other device types.
->
-> Hans and Benjamin already agree with me that LampArray is the way to go.
->
-> So after over 2 years can I please have a final decision on how to implement 
-> this?
+The following changes since commit 2014c95afecee3e76ca4a56956a936e23283f05b:
 
-Any update?
+  Linux 6.14-rc1 (2025-02-02 15:39:26 -0800)
 
-Best regards,
+are available in the Git repository at:
 
-Werner Sembach
+  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git tags/ib-mfd-input-leds-power-v6.15
 
->
-> Regards,
->
-> Werner
->
->>
->> Best regards,
->>                                 Pavel
+for you to fetch changes up to aebb5fc9a0d87916133b911e1ef2cc04a7996335:
+
+  leds: max77705: Add LEDs support (2025-02-20 16:38:37 +0000)
+
+----------------------------------------------------------------
+Immutable branch between MFD, Input, LEDs and Power due for the v6.15 merge window
+
+----------------------------------------------------------------
+Dzmitry Sankouski (7):
+      dt-bindings: power: supply: add maxim,max77705 charger
+      dt-bindings: mfd: Add maxim,max77705
+      power: supply: max77705: Add charger driver for Maxim 77705
+      mfd: simple-mfd-i2c: Add MAX77705 support
+      mfd: Add new driver for MAX77705 PMIC
+      Input: max77693 - add max77705 haptic support
+      leds: max77705: Add LEDs support
+
+ .../devicetree/bindings/mfd/maxim,max77705.yaml    | 158 ++++++
+ .../bindings/power/supply/maxim,max77705.yaml      |  50 ++
+ MAINTAINERS                                        |   4 +
+ drivers/input/misc/Kconfig                         |   6 +-
+ drivers/input/misc/max77693-haptic.c               |  13 +-
+ drivers/leds/Kconfig                               |   8 +
+ drivers/leds/Makefile                              |   1 +
+ drivers/leds/leds-max77705.c                       | 275 ++++++++++
+ drivers/mfd/Kconfig                                |  13 +
+ drivers/mfd/Makefile                               |   1 +
+ drivers/mfd/max77705.c                             | 182 +++++++
+ drivers/mfd/simple-mfd-i2c.c                       |  11 +
+ drivers/power/supply/Kconfig                       |   6 +
+ drivers/power/supply/Makefile                      |   1 +
+ drivers/power/supply/max77705_charger.c            | 581 +++++++++++++++++++++
+ include/linux/mfd/max77693-common.h                |   4 +-
+ include/linux/mfd/max77705-private.h               | 195 +++++++
+ include/linux/power/max77705_charger.h             | 195 +++++++
+ 18 files changed, 1699 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/maxim,max77705.yaml
+ create mode 100644 Documentation/devicetree/bindings/power/supply/maxim,max77705.yaml
+ create mode 100644 drivers/leds/leds-max77705.c
+ create mode 100644 drivers/mfd/max77705.c
+ create mode 100644 drivers/power/supply/max77705_charger.c
+ create mode 100644 include/linux/mfd/max77705-private.h
+ create mode 100644 include/linux/power/max77705_charger.h
+
+-- 
+Lee Jones [李琼斯]
 
