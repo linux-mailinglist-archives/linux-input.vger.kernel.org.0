@@ -1,67 +1,58 @@
-Return-Path: <linux-input+bounces-10229-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10230-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60170A40A36
-	for <lists+linux-input@lfdr.de>; Sat, 22 Feb 2025 17:45:51 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3363A40A70
+	for <lists+linux-input@lfdr.de>; Sat, 22 Feb 2025 18:00:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BE17D4201D7
-	for <lists+linux-input@lfdr.de>; Sat, 22 Feb 2025 16:44:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B3CA57A4CCD
+	for <lists+linux-input@lfdr.de>; Sat, 22 Feb 2025 16:59:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7A1120B815;
-	Sat, 22 Feb 2025 16:43:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B92AA207675;
+	Sat, 22 Feb 2025 17:00:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="AjWrAo7O"
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="ioZCh8N9"
 X-Original-To: linux-input@vger.kernel.org
 Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BFC20B1FA;
-	Sat, 22 Feb 2025 16:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F63A13BAF1;
+	Sat, 22 Feb 2025 17:00:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740242625; cv=none; b=GsE7dnixPr1bI5xOl2JqYvvEvBVNqnpBBN+sMmQW7SHk4ahA27zGKNqg8o8zRnBBoNl+SMtjKIwFcvrf6E07TKdy7MmmDLgxwL9bEMvjnAyKISJMu/nz+u4urNCwQPDB5Sku8DEp0/6T1KEujs/7tqX53ymZC2RJmeBZIRwFapc=
+	t=1740243619; cv=none; b=J4gGGQhYKnlp6e00d/BWwLMiqXc1HwzgUfX4Ws+vF2MjehBdGFP/RBET+o919yNIskZcdEAZpKI1Jl8bQd0P0hkGXTDL1gXBv/dwQq68b0t4pQYTozaAf5eqHjfSQAkJ2KJPW+KFu25bCaTkqm5tVhLLyPrpU3oVQbz3NU7a3lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740242625; c=relaxed/simple;
-	bh=ZWvuNuTGzTtD3KCVToEPAXJUSNgsnXet5pV38jIOG4s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=emeoWaHCzVI89YfEsq+KpqnIHXdeJlDmrl0DBbTfUq7Y3W5jKZ/c5uY/x03TRqfy1i/s5qHfGAxqdtNBvQp7U2+urMkG4W3VIanJ3VvTrMocdISsDD3kxeLDPo/5aIa7jU5cndjpZiF6r7nsRh7hWpm4zlYBbx8A2Lu9M4KuOZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=AjWrAo7O; arc=none smtp.client-ip=185.138.42.100
+	s=arc-20240116; t=1740243619; c=relaxed/simple;
+	bh=lsiSpM+P2RSpdomwDhHwSrSih7ILxLhRF44Rf6OyVYM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aDwmm/0+/q+FRh9mEsweCKs0tmsslhO5CbFujK7B8wK5rWmd/aGcch3sEEOZi8qGqI1x2jsaNNBb088H9H1xEirikbiGDXze1sCBM6DGG9VTwZfUW5JaX69BbpqyzD1pMwWKi8uQkHTMakare5Zt9hLn3bXNNdpci7sm6K20sV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=ioZCh8N9; arc=none smtp.client-ip=185.138.42.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Received: from localhost.localdomain (unknown [IPv6:2a05:f6c2:511b:0:cbc0:999f:73ad:33bd])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id ADEE82E08EC8;
-	Sat, 22 Feb 2025 18:43:40 +0200 (EET)
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 1A1172E08F8D;
+	Sat, 22 Feb 2025 19:00:13 +0200 (EET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1740242621;
-	bh=JY7i/CHpn3DuO8TtJvACKM8sX47bE38l/OGmAdi73O0=; h=From:To:Subject;
-	b=AjWrAo7OKNxUkbB4r17HnP10t6OEw28sXfJ2UI0odPquioWl9V7gO1rNQJKcw53TH
-	 X5od51B5bh+4bKGKg+hnI9bUhyQxp22sK/64bj1gB7PFGYltPKdoXtHbfNg9Y+2YHg
-	 bmqO1INKOK3s+GyRUJgKoKnSSE5LZklyO4BF7VTE=
+	s=default; t=1740243614;
+	bh=BuMwn5K5BtMsHAaTnFeuTeO2u8iznSlPA41xYCQSPGY=; h=From:To:Subject;
+	b=ioZCh8N9xR8iXWc8UE2VS7g6QYFw/3cfeQY/dmTL43gZVMHp4RI8qYefQGISB+GgO
+	 3xhNLt+xZ1Ke/sc+jmg2FGEYGXodizCFLgf2oqBUXqPEcAmbeH9g+2hgx1tu7GZals
+	 KHUy88VNbUE4CKmMZ4rnvtxhO/e/VswdWBMXOEMQ=
 Authentication-Results: linux1587.grserver.gr;
 	spf=pass (sender IP is 2a05:f6c2:511b:0:cbc0:999f:73ad:33bd) smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
 Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
 From: Antheas Kapenekakis <lkml@antheas.dev>
-To: linux-kernel@vger.kernel.org,
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	linux-input@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
+Cc: linux-kernel@vger.kernel.org,
+	pgriffais@valvesoftware.com,
 	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH 5/5] drm: panel-orientation-quirks: Add Zotac Gaming Zone
- quirk
-Date: Sat, 22 Feb 2025 17:43:21 +0100
-Message-ID: <20250222164321.181340-6-lkml@antheas.dev>
+Subject: [PATCH 0/3] Input: xpad - add Zotac Zone, TECNO Pocket Go,
+ rename Go S
+Date: Sat, 22 Feb 2025 18:00:07 +0100
+Message-ID: <20250222170010.188761-1-lkml@antheas.dev>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250222164321.181340-1-lkml@antheas.dev>
-References: <20250222164321.181340-1-lkml@antheas.dev>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -69,37 +60,29 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <174024262176.17489.912637765842968378@linux1587.grserver.gr>
+X-PPP-Message-ID: <174024361383.6735.786605406099440853@linux1587.grserver.gr>
 X-PPP-Vhost: antheas.dev
 X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
 X-Virus-Status: Clean
 
-The Zotac Gaming Zone handheld features a 1080p portrait OLED screen.
-Add the rotation to the panel orientation quirks.
+Add two new xpad entries for Zotac Zone and TECNO Pocket Go, and rename the
+mysterious "GH Electronics" controller into Legion Go S. This way, it
+matches the rest of the device and is coherent.
 
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
----
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+@Pierre-Loup: for upcoming devices you do not want to leak the existence
+of, a little trick for enabling the xpad driver is via udev rule [1].
+This is also good for backwards compatibility.
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index f08cdc81dd9a..bbbe707f541d 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -479,6 +479,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER F1 EVA-02"),
- 		},
- 		.driver_data = (void *)&lcd1080x1920_leftside_up,
-+	}, {	/* Zotac Gaming Zone (OLED) */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ZOTAC"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ZOTAC GAMING ZONE"),
-+		},
-+		.driver_data = (void *)&lcd1080x1920_leftside_up,
- 	}, {	/* OrangePi Neo */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
+[1]: https://github.com/hhd-dev/hhd/blob/06b857f31359ab04ce0fd92988284874cc4e1c7c/usr/lib/udev/rules.d/83-hhd.rules#L40
+
+Antheas Kapenekakis (3):
+  Input: xpad - add support for ZOTAC Gaming Zone
+  Input: xpad - add support for TECNO Pocket Go
+  Input: xpad - rename QH controller to Legion Go S
+
+ drivers/input/joystick/xpad.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
 -- 
 2.48.1
 
