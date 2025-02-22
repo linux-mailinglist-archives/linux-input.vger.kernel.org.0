@@ -1,63 +1,64 @@
-Return-Path: <linux-input+bounces-10223-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10224-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76781A4033C
-	for <lists+linux-input@lfdr.de>; Sat, 22 Feb 2025 00:02:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06C13A40A25
+	for <lists+linux-input@lfdr.de>; Sat, 22 Feb 2025 17:43:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51CEB17A2BF
-	for <lists+linux-input@lfdr.de>; Fri, 21 Feb 2025 23:02:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 36FA31721B2
+	for <lists+linux-input@lfdr.de>; Sat, 22 Feb 2025 16:43:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D33382063EF;
-	Fri, 21 Feb 2025 23:02:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02B6B200138;
+	Sat, 22 Feb 2025 16:43:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="cabzcWSv"
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="HguWFOoX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD2B1FF5EF;
-	Fri, 21 Feb 2025 23:01:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27FA13C81B;
+	Sat, 22 Feb 2025 16:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740178920; cv=none; b=ecsbg3dKD6zFwQeg8jPYrF25I46jZFfIZU/L+PtCq2Bb9FPJ11EMKuR2Hd08XRuXaGHVLocVLzEAUXKxv4dRaQeH9yamLu6SeTCZ7ySMi+QWpogTvfd3AnEXEi/TxxqNXSdWCjIB+hneDqw1UwPjbWb2LaUlBKSmard1p2slWUg=
+	t=1740242610; cv=none; b=hDho9NodL5Z4kA1DORG6/q2qnpPYjejXavvEAlXic3fl6hn5IF34TspQVEwC/Oe7HT6m57oqZJ8kgRv/KL12IJ6gooj+dJIA2uBgByhKpIxz3aDgE7yh9lZr4BroZqMoCMBOHwav6dJsspqxFA4A3basJT3bnyZuLefcIxI1cgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740178920; c=relaxed/simple;
-	bh=OachKzT2qae4SgKkmWDuqmXctVhEzcBUNYqyh+eA2Ow=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rtFgkLEI7mCiMuOjbVF3Of/G9oibjG1sAJG9AKYnY8zxWpzbKQ2DHFTwGCQgVDN1yw8Ed5/X6ba1nGHCrube1FvUmDEIIwPNr02YbDxVWRP89KJR5mT5RbDCBrHm0eBW9sgyZ8Jb1EQYMGP+eE8C2biDV/fXWRkknxb9/fjUaM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=cabzcWSv; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from wse-pc.fritz.box (pd9e59f4f.dip0.t-ipconnect.de [217.229.159.79])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 5E0432FC0187;
-	Sat, 22 Feb 2025 00:01:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1740178916;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1d/jtSUvd1W5JvrKkkLP0a8sNzVu0PMIg17cruqw1HQ=;
-	b=cabzcWSvzXI0ZKYzinshoLn9LoG0EICCCkXZl1jnTLXqR8BBq4FIEdaiccWb32Mr7tOZ0Q
-	UjTJfJCnMC3ZYIVFo19G8W+Olbf5wvxLm3IPd2e+78URIL8XxZGufHsGneNE0H0HJ5t4eY
-	uh8dtpEg66JxRQwk5tNIcQhdW7FXn3U=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Werner Sembach <wse@tuxedocomputers.com>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] Input: i8042: Swap old quirk combination with new quirk for more devices
-Date: Sat, 22 Feb 2025 00:01:25 +0100
-Message-ID: <20250221230137.70292-4-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250221230137.70292-1-wse@tuxedocomputers.com>
-References: <20250221230137.70292-1-wse@tuxedocomputers.com>
+	s=arc-20240116; t=1740242610; c=relaxed/simple;
+	bh=L1mZNeCIvfsn418CJpCBd3oaduHwwkogqa54kPF2PjA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i9WfaU8UVft94Z220bA28EtetTuytQzZGWo+TVS1IOhrcaIfGgVxqcPpEcvwOxRoWFJvFNwBJMo+iBnJYPT51zxYqlFyBYO5F6SiXmZSkIXI0HBx7v2pihzApzutstv8Lzn5Ex3F1mOsieO3wx8+MUkff1ErLS1mP+rXFDiAkgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=HguWFOoX; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+Received: from localhost.localdomain (unknown [IPv6:2a05:f6c2:511b:0:cbc0:999f:73ad:33bd])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 36E962E08EC1;
+	Sat, 22 Feb 2025 18:43:24 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1740242606;
+	bh=R34snHbWvdFAPt2gGr+NDVYXXncXippn9g9TO+/e1Ok=; h=From:To:Subject;
+	b=HguWFOoXcVlboMy1+IpohjqhqnYAOIkUA02wy4BZ0LcQHkHUs1g5t5OoWdNSRRlQR
+	 64/qa5rmQlwS/hkNTfBySw0zznghp+yIXZdDEHdYehf2lvezRcc8jaSWL79bHqXuni
+	 Gq+3HmjzQys4+74dWxvei56E/GHQE+F2V4GbjLSI=
+Authentication-Results: linux1587.grserver.gr;
+	spf=pass (sender IP is 2a05:f6c2:511b:0:cbc0:999f:73ad:33bd) smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+From: Antheas Kapenekakis <lkml@antheas.dev>
+To: linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: [PATCH 0/5] drm: panel-orientation-quirks: Add 2024 OneXPlayer line &
+ ZOTAC Zone orientation quirks
+Date: Sat, 22 Feb 2025 17:43:16 +0100
+Message-ID: <20250222164321.181340-1-lkml@antheas.dev>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -65,123 +66,31 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: 
+ <174024260593.17001.10533932745276244185@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
-Some older Clevo barebones have problems like no or laggy keyboard after
-resume or boot which can be fixed with the SERIO_QUIRK_FORCENORESTORE
-quirk.
+A number of OneXPlayer handhelds have come out with portrait panels.
+Specifically, those are the X1 AMD and Intel variants, X1 Mini, and F1 Pro.
+For X1 specifically, they also have spurious battery reporting within their
+digitizer. The Zotac Gaming Zone also has a portrait OLED panel, so add
+that as well.
 
-We could not activly retest these devices because we no longer have them in
-our archive, but based on the other old Clevo barebones we tested where the
-new quirk had the same or a better behaviour I think it would be good to
-apply it on these too.
+Antheas Kapenekakis (5):
+  drm: panel-orientation-quirks: Add OneXPlayer X1 AMD and Intel quirk
+  drm: panel-orientation-quirks: Add OneXPlayer X1 Mini (AMD) quirk
+  drm: panel-orientation-quirks: Add OneXPlayer F1Pro quirk
+  HID: Add quirk to ignore the touchscreen battery on OneXPlayer X1
+  drm: panel-orientation-quirks: Add Zotac Gaming Zone quirk
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
----
- drivers/input/serio/i8042-acpipnpio.h | 31 +++++++++------------------
- 1 file changed, 10 insertions(+), 21 deletions(-)
+ .../gpu/drm/drm_panel_orientation_quirks.c    | 42 +++++++++++++++++++
+ drivers/hid/hid-ids.h                         |  1 +
+ drivers/hid/hid-input.c                       |  2 +
+ 3 files changed, 45 insertions(+)
 
-diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-index 9df1ef6032dd0..6ed9fc34948cb 100644
---- a/drivers/input/serio/i8042-acpipnpio.h
-+++ b/drivers/input/serio/i8042-acpipnpio.h
-@@ -1157,9 +1157,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 	},
- 	/*
- 	 * A lot of modern Clevo barebones have touchpad and/or keyboard issues
--	 * after suspend fixable with nomux + reset + noloop + nopnp. Luckily,
--	 * none of them have an external PS/2 port so this can safely be set for
--	 * all of them.
-+	 * after suspend fixable with the forcenorestore quirk.
- 	 * Clevo barebones come with board_vendor and/or system_vendor set to
- 	 * either the very generic string "Notebook" and/or a different value
- 	 * for each individual reseller. The only somewhat universal way to
-@@ -1175,22 +1173,19 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_NAME, "LAPQC71B"),
- 		},
--		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
--					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
- 	},
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_NAME, "N140CU"),
- 		},
--		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
--					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
- 	},
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_NAME, "N141CU"),
- 		},
--		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
--					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
- 	},
- 	{
- 		.matches = {
-@@ -1250,8 +1245,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_NAME, "NJ50_70CU"),
- 		},
--		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
--					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
- 	},
- 	{
- 		.matches = {
-@@ -1268,16 +1262,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		.matches = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "P65xH"),
- 		},
--		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
--					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
- 	},
- 	{
- 		/* Clevo P650RS, 650RP6, Sager NP8152-S, and others */
- 		.matches = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "P65xRP"),
- 		},
--		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
--					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
- 	},
- 	{
- 		/*
-@@ -1288,8 +1280,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		.matches = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "P65_P67H"),
- 		},
--		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
--					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
- 	},
- 	{
- 		/*
-@@ -1300,8 +1291,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		.matches = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "P65_67RP"),
- 		},
--		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
--					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
- 	},
- 	{
- 		/*
-@@ -1323,8 +1313,7 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		.matches = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "P67xRP"),
- 		},
--		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
--					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
- 	},
- 	{
- 		.matches = {
 -- 
-2.43.0
+2.48.1
 
 
