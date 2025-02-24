@@ -1,85 +1,89 @@
-Return-Path: <linux-input+bounces-10279-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10280-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D3DA41930
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 10:33:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D36A41937
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 10:34:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5954A162194
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 09:30:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F98B3A3357
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 09:30:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7522244195;
-	Mon, 24 Feb 2025 09:30:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0410B21D3C0;
+	Mon, 24 Feb 2025 09:30:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g/5L0Fp+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WH78KHBX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC7B245007
-	for <linux-input@vger.kernel.org>; Mon, 24 Feb 2025 09:30:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405B3158D96
+	for <linux-input@vger.kernel.org>; Mon, 24 Feb 2025 09:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740389415; cv=none; b=F9hzT7wAidzMhtlb/xISL2hloBk4RKy0dB9qokOIUstC/A/gduc7xFZGz4Q2yGMeFVo5iQb03NyYyTXFO1EGe0jh5lObzE4BdIAHnMOWuxgMMsycdyrpac7UUdD/UToldYFvi3hMmohkh+z/nz4EFtXYCxUOyxYR8fW20LnkW6g=
+	t=1740389416; cv=none; b=NqIWZ2iYSPUdrUB7kDosbTwCGVaT1E3wIPQX1fb3HKbZNH1PUVwfpWxpmpDn13bKtl5UxUt8btEcerq1sQ8tg8/rz0+55ygctqcH+WSxZjvZ+U/Q6d2mTiBPJUI4fvYeOD5uJqMFnvNQ7gVN36ydBIjEetkBD2P9GhXVEy/QOGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740389415; c=relaxed/simple;
-	bh=NbfFUQMrfkBzQH3R++I65gqPG9gERgDcRkS/gf2HSDY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UvxSTr0MGvJp2kjL3JO7fE3ayDg4eP80QRF/1bvTMG3nemEqK44+figwSAcAiGDeY3/CrJcX08ub2WLFekmDKGqLhh5fe6fEkuJqFfYZD1xH0RkSNuAkR/6wyfotOj17e3OD9UY08i7cvEkEnoaKX9jOSeq3Sd+3OVjxxQAXQEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g/5L0Fp+; arc=none smtp.client-ip=209.85.218.43
+	s=arc-20240116; t=1740389416; c=relaxed/simple;
+	bh=3T4YzAQURkv2cYSaZM4p2LxoTFID/ZnnSccXjrjxqf8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bFcNTVIcIiKaY/tg27g8T/i+1obmluHPaMO7yg6QryLWj14ozPf8kaVH4z96FbGIwnDhnS1Lk1dC6HD8UKNq+kliVAvYooTKvW4vI/uuT58oqmq5H7yzQvqzgEIiL0YOwmNX4Uuae1gRId+IEbDkAUrZtMIuZudrqn2GNqVXE4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WH78KHBX; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ab7dd005cb0so57963666b.3
-        for <linux-input@vger.kernel.org>; Mon, 24 Feb 2025 01:30:13 -0800 (PST)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5de8e26f69fso768019a12.0
+        for <linux-input@vger.kernel.org>; Mon, 24 Feb 2025 01:30:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740389412; x=1740994212; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gf6A2LCef6MhSbmSY37k0s1wKSCT0J6Y4GQFFO0azts=;
-        b=g/5L0Fp+zNATdMuEtQ/+kLesAQfjdgJyRdw7o1pl8N0PYZ0eFrQOyKq9tvADla8PZf
-         HQndx3GGp9nieX+Z64h+9B/l7c1DhAUdbYXwisHD+RaeTzk9KQiQ+ZKsLoQ0sIoMf28K
-         AU8nkTg8jSa4GjDb4lDqueQymFso3/Y/PhdVfHj4gZOBUF1J6swGTOj9g5QYaMv8itZt
-         alpzIkP5IQWdcLTtZ5r3sMY9xC+h9Ld4ff4w95HCeHCcFebjhnIz5qAf14YNetmfc6WH
-         g1zdrA3od2/jVC8BbCIn0BvrVrXtuk8mGIDhkU+sNoDe4u8PK7nmVwIEcK/fUMFDnh4a
-         LqsQ==
+        d=gmail.com; s=20230601; t=1740389413; x=1740994213; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bZYzwX+kmo0dpwpxSXaKJth2MnjzSzA80scLUp1v0LE=;
+        b=WH78KHBXaXkuyVzSuJ63Gz4GB8ksvgBwJnGsQH5+HtylqcCE18tiruETFNeIrqYAEd
+         D4TGQpDS9y+mR4YHm1t3Ksjx3XZS+xdVqBQeXlmUyqh909rcNYEqw+9CzeoVAnyy33+K
+         CfqNFgQDrqZ2M9v570xdDhM4Ll5XUPKyARxfDRazeK/nJUSXwk/4eZMMFUfn81rryUgl
+         Q7wbb/80RE0UZ8h/4nPMoaVZHTLtLXfN66j2tEtAWQOlu1qFPwn9TMC57m1wvlgWSGD4
+         brK+KwbQlZgTkVjysnnaNNUJFP1ywUa9y0mw7eiQN4lj3HaHZeLo/WVlSYMGooREkBL8
+         maVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740389412; x=1740994212;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gf6A2LCef6MhSbmSY37k0s1wKSCT0J6Y4GQFFO0azts=;
-        b=vyBfo7E4c+20uP0e740CC1wCCcTCjl/sZXK9yajETnqpk4i96vWVh7qH5vUy/gdmjO
-         cqLPTtjkNR3DrxuF6BcEuLiLgwzic7mi/Ij0pjSrJzi5jkEA5du2PX4Ya1TNa3VWDauT
-         qmTwxc/Z+STjrsPPc3kort8Nk6SIkMcwgHd4BahvEOkQo/c38xMkGbufFbivIyPSEQ3M
-         OYmG6yvUu2o73kaXBgF/pn+NM8NRLDblpzgLe3c2weLTpwIEnISMinpJzhADYqXKQIOE
-         qKz4VuGGXX0pHt02jmo1kDMors2f9dQspqOHOb1bGf6SuueUO1juE/os5bA1ekNszcZG
-         JmLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWTvGMZK0NsUI1qS3GUbsCEJbNCOS3fcOZcUCmYFqu3cB1Iw4IZ07meJJYsgFduG+6mYoFUE+rPOrsN8w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0rFRH7cbySeVyqJLXp03B/HIezBc+YcHk0aON6Pakm8QFCpSS
-	PwjZrw9WpkA+/bjsKIlJO2eKQ9wL9e7CPGDv45HXqStV39PuJNG6tULdSPSv
-X-Gm-Gg: ASbGncsP80np9oFOQ+m4+nhWUy4kCHDS1yUsiP72DPd4UKuwVAMRslRyLa7F1czlSTk
-	lE+K5UHJ/GnJRZWiUjhecVYc6pYA52enDsUooykChr8tVcQDKxY398ky71LJyJ8jlIcdmxv8rgI
-	4mz6tF5tfKOJut90/8P0SMwG2upm24PscbBzsiBtJLDIXymisd7feJOEgfohn8C/pWhlQ4mV8xW
-	DDom2q0StH+XgFJjCvHen3Aw1cdLJgdtGa5svO647HDbkenOsRIUWP9OOb74sKquN/zbEIPFh6b
-	6steqio3Uif9/X0uqdfMoJf5GkHZpd/8cczo7kKwHIYt0WeQV70kYpHnNQCz+FCAeq175Ive
-X-Google-Smtp-Source: AGHT+IE8NlsZmzxwOc9a92Z2cz4sREriNmiALhF9Ny+WADGwTFYQSqvpWXDkPRe6Hqgi1AtE2SdHcw==
-X-Received: by 2002:a17:907:7f9e:b0:abb:e7b0:5437 with SMTP id a640c23a62f3a-abc096c807fmr494369466b.0.1740389411782;
-        Mon, 24 Feb 2025 01:30:11 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740389413; x=1740994213;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bZYzwX+kmo0dpwpxSXaKJth2MnjzSzA80scLUp1v0LE=;
+        b=viak6HGOqdqJbh6u0KILwrLryiUlgdboFPTKZO+KsGmkD/2gDdIKEg0q3MSGZZ0eyL
+         vJFl0/7UKKDSYg9EIWsXfyx2roZABK53ETUWYIFB78BHrLLWdPp4O6cYEgeuLQu/Yheb
+         36qRxY0WXENhYp+HVjRbG+KXJIlFfC8MNAaqnM8ySzZgWul0U5oHPOx2xqwWZLhwk2W/
+         2VatesHfuXCw/xf1E6MowCaMlJg4tXaZZII+K8lDoVLgJPF2VuwMDRY8AFBAPD7qVs14
+         kDw5Ayu7te196n97HXoYoT61S5OYBHshH87qd7GiTKAuxonSBBiG7HcnpXqqwQG/YoPt
+         pYLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCURCnsoAdnqImOmQDYXh3wLlqKLgK35Ddoo/gWlD0TWJnRQWVRTcNb7OtRuB5eSlffbHBZy0zb10/Me8g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbKgqtvPnt5mFPFDxVKD+FA06KCIBDZp3bbJQrd5hddkY+w3O1
+	zhyedgVU7RMt0D7W5NLgjRUToK5O7dIzz5iFKGG+IYRvvP+2Gc05
+X-Gm-Gg: ASbGnctD2Dl0IyoStLicrhOkQEUNZSIPZjhhsAY2I/vOL0bESBiPh7mD8d2jdDcEmsu
+	oEday9kkPMFdhVC5HxKz23jH8yO+wWVcvCdfL4T2mGo1Z755O4FNLlomudhSb9blExLYmdJb2Tt
+	wdy/Q6Iw/ns5aM7K6dtlep01YIhAkD0eQd6E0eS0njiiCcVddon2XyTxCTvhRLw7ts9Ji6g2z4N
+	t7fH0BGknV1xTYpMXKTHLhhGClg9Kgn98/0jMJCocoTHpWy7Pc0meD/TGtfVl+VnVVbe5CGgt06
+	LESWvAosvcL9ImRtLcP13M9Uujjra2TRW6N2kOldQD/Qx+XSUMAbkDFFpbeKkO3CbsUcjNKR
+X-Google-Smtp-Source: AGHT+IHEQJuB3LEkS8l8wyPHKNcNXQ7jeJNq+3Wha+UPjwFsNF1grnDTQGLz9ZFiafrz8lIBapCuTA==
+X-Received: by 2002:a17:906:16d5:b0:abc:37ac:6e6b with SMTP id a640c23a62f3a-abc37ac700emr208910766b.7.1740389413069;
+        Mon, 24 Feb 2025 01:30:13 -0800 (PST)
 Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abba4b9ee98sm1416668666b.167.2025.02.24.01.30.10
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abba4b9ee98sm1416668666b.167.2025.02.24.01.30.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2025 01:30:11 -0800 (PST)
+        Mon, 24 Feb 2025 01:30:12 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
 Cc: oleg@makarenk.ooo,
 	anssi.hannula@gmail.com,
 	linux-input@vger.kernel.org
-Subject: [PATCH 0/3] hid-pidff fixes and PID compliance improvement
-Date: Mon, 24 Feb 2025 10:30:06 +0100
-Message-ID: <20250224093009.1831811-1-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH 1/3] HID: pidff: Rename two functions to align them with naming convention
+Date: Mon, 24 Feb 2025 10:30:07 +0100
+Message-ID: <20250224093009.1831811-2-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250224093009.1831811-1-tomasz.pakula.oficjalny@gmail.com>
+References: <20250224093009.1831811-1-tomasz.pakula.oficjalny@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -89,47 +93,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Based on top of current hid.git#for-6.15/pidff
+Driver uses "set" everywhere to indicate setting report values and
+requesting HID_REQ_SET_REPORT
 
-Another batch of updated to the generic USB PID driver. Apart from
-realigning two function names with the rest of the driver, clamping
-LOOP_COUNT value to the logical max to fix some errors.
+Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+---
+ drivers/hid/usbhid/hid-pidff.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Infinite values were previously hardcoded to 0xffff but the standard
-actually calls for the max possible value for the presented field size.
-If the duration is not 16 bit, but 32 bit 0xffff won't work as infinite.
-
-Setting infinite value works now by computing this value from report
-size. We still need to look out for 0xffff as that's the max possible
-value we can get from the ff API. 0 was never actually defined in the
-Linux kernel as explicitly INFINITE but it seems like it has become a
-de-facto standard.
-
-After pidff, I'll (at least try) working on extending and updating
-the ff API as it lacks some features and could be considered incomplete.
-The biggest issue is that there's currently no way of obtaining effect
-status or sending device control commands.
-
-And a quick question. If Anssi is not active in the kernel development
-maybe we should remove his email from the hid_info message:
-"Force feedback for USB HID PID devices by Anssi Hannula <anssi.hannula@gmail.com>"
-
-Just the email as a user with potential issues might email him
-directly instead of coming to mailing lists or bugzilla? I've seen
-that it was a bit of a standard to include this info in old drivers
-but IMO it would be good to alter all these messages to not include
-any direct contact info as it might get/be outdated at some point.
-
-Tomasz Pakuła (3):
-  HID: pidff: Rename two functions to align them with naming convention
-  HID: pidff: Clamp effect playback LOOP_COUNT value
-  HID: pidff: Compute INFINITE value instead of using hardcoded 0xffff
-
- drivers/hid/usbhid/hid-pidff.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
-
-
-base-commit: b9c340b67b33cd37e543195b157c73a7bb0c8d4a
+diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
+index 6f6c47bd57ea..ffecc712be00 100644
+--- a/drivers/hid/usbhid/hid-pidff.c
++++ b/drivers/hid/usbhid/hid-pidff.c
+@@ -552,7 +552,7 @@ static void pidff_set_gain_report(struct pidff_device *pidff, u16 gain)
+ /*
+  * Clear device control report
+  */
+-static void pidff_send_device_control(struct pidff_device *pidff, int field)
++static void pidff_set_device_control(struct pidff_device *pidff, int field)
+ {
+ 	int i, tmp;
+ 	int field_index = pidff->control_id[field];
+@@ -578,10 +578,10 @@ static void pidff_send_device_control(struct pidff_device *pidff, int field)
+ /*
+  * Modify actuators state
+  */
+-static void pidff_modify_actuators_state(struct pidff_device *pidff, bool enable)
++static void pidff_set_actuators(struct pidff_device *pidff, bool enable)
+ {
+ 	hid_dbg(pidff->hid, "%s actuators\n", enable ? "Enable" : "Disable");
+-	pidff_send_device_control(pidff,
++	pidff_set_device_control(pidff,
+ 		enable ? PID_ENABLE_ACTUATORS : PID_DISABLE_ACTUATORS);
+ }
+ 
+@@ -591,12 +591,12 @@ static void pidff_modify_actuators_state(struct pidff_device *pidff, bool enable
+ static void pidff_reset(struct pidff_device *pidff)
+ {
+ 	/* We reset twice as sometimes hid_wait_io isn't waiting long enough */
+-	pidff_send_device_control(pidff, PID_RESET);
+-	pidff_send_device_control(pidff, PID_RESET);
++	pidff_set_device_control(pidff, PID_RESET);
++	pidff_set_device_control(pidff, PID_RESET);
+ 	pidff->effect_count = 0;
+ 
+-	pidff_send_device_control(pidff, PID_STOP_ALL_EFFECTS);
+-	pidff_modify_actuators_state(pidff, 1);
++	pidff_set_device_control(pidff, PID_STOP_ALL_EFFECTS);
++	pidff_set_actuators(pidff, 1);
+ }
+ 
+ /*
 -- 
 2.48.1
 
