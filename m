@@ -1,154 +1,115 @@
-Return-Path: <linux-input+bounces-10255-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10256-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADEF6A41185
-	for <lists+linux-input@lfdr.de>; Sun, 23 Feb 2025 21:25:56 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68307A413A9
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 03:46:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0788B3B4026
-	for <lists+linux-input@lfdr.de>; Sun, 23 Feb 2025 20:25:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D6B421891288
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 02:47:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB53D23A986;
-	Sun, 23 Feb 2025 20:25:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 603724430;
+	Mon, 24 Feb 2025 02:46:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LOwLQwd0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KyuAAanR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE615383;
-	Sun, 23 Feb 2025 20:25:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B947F1A23BA
+	for <linux-input@vger.kernel.org>; Mon, 24 Feb 2025 02:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740342349; cv=none; b=CsZnXysJimq0Im4hj7scGdMUYV+Bapyup4UAQTfewh1BX6Yf/ipwMR/Ye0j5YQM9grqDXgIAy91cSC4vRLQ37qThiB/oI6Q0S6vxUFjZi2F4ir6ZmONU44vS6OHNIshElNF2aUca4iwofiTIcYsU2Nnaq1bvTI7aWfTP47ylOpI=
+	t=1740365209; cv=none; b=i9A8/c8p6GkU1Ad59ZRc1h1mKKNiomvoT8tSz1q+zlRr4Pgq9M6uJdxdVsb1eg0uEKF7WIB+rJo7fvLbVHwi2nswF8Aa/pH7YOSAeY6p12FxolvSzo0S77PjTgRMQCLjrG1/L8JL98q8k/8cxQ8rhEXxPmmz03xO7r+hmzCTr4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740342349; c=relaxed/simple;
-	bh=3yjKIYgRIOVvhYFiwNZ7Mv6DvekS5KCI6HkyIkBNqjw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QhN4QEcKdBlbi7g+pYMdRaB2VGCMXPGsuVMp3me5tKXOmjS3YBQCvb31XvxhZ3sgWV8R8vX3VDxNWiDsyPpmY1SN4zEzSg+lSjzaqZ+Rlr9xBf+KIeUo8PoibqpV6TfIv4rpEAtLKjVoN3XeN7lBMid62VMngiCdPLgtXv+5gEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LOwLQwd0; arc=none smtp.client-ip=209.85.218.47
+	s=arc-20240116; t=1740365209; c=relaxed/simple;
+	bh=J6f0Ffr3rK5vkGDKjnZe9Ntxy7bL7IFtthkkDEgLAPI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dSgkux3GF3zf5h+JumRxl15TWJnMvfLVb+5VwKFcn5CoLm76DztkSdlcxYsgoOhfrObQnd0YOUwv1nSm2XTujtg97ARoh8gMNqw86kKz1L4FS/tbbU5X8iJSme5J1EKWvNA28gP6Kf8o0KNLyPsf1/ivld5WhIqrpvjglCZxvJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KyuAAanR; arc=none smtp.client-ip=209.85.128.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-abb8d63b447so476933466b.0;
-        Sun, 23 Feb 2025 12:25:47 -0800 (PST)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6fbaf4cf2b5so27713927b3.3
+        for <linux-input@vger.kernel.org>; Sun, 23 Feb 2025 18:46:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740342346; x=1740947146; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KO/NRoKuG8XetnuWE85hFK1fCgTrWENxYrVqAq/LSbo=;
-        b=LOwLQwd0M8LRhLR7CcdbRek0krkmzr4tJ2xMBNYOiJImX6w/9xk+SWXv2lSAOrwWdd
-         +oV8Ka9/OSvR/smJVHjO+p6LLiWnOxrcxobJGgqT/ER9HCHJCswk/NYshODNR3V2whqY
-         +8W0IGn1fNlSBzUyCXGrtj8lLxIti1Fii0qL5pgmgqzPqlqvh8iiDbyoTTfD4inQCUDE
-         diRinKyaElCu9NuYDudVMVYg5XriQOePiCdjbPcPxEgPsrPoxeiTeFx1cLG+5gnV+NGz
-         ZYiJ9LkTd5YWFNMt0jyy3BBCxbVxYA6Win+o6Z3ku9nt/VTaUo+l8OCfMa3MhPxj/fgn
-         HxSQ==
+        d=gmail.com; s=20230601; t=1740365206; x=1740970006; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J6f0Ffr3rK5vkGDKjnZe9Ntxy7bL7IFtthkkDEgLAPI=;
+        b=KyuAAanRtey0huRlAQSzlsplH4zIKbKd74xN8rR3n/zI5ewNw+kFgP06P0FdH6Z9t+
+         Gm9IJcQOwMiT6LO8NWEeFL59UekyN8d7taQbebyL+fgO9fLEqSp9g2btB8J2kjezZFqv
+         j2gbPABBEV/+WQMIoSSFSgKYIoL0c7qEkndIWApC3THJgyx1q/eadA+JUOCsXuPnwO/P
+         nYQRSM4VPVtjZyiwjex3UwTPTdcfw2V4fEfQrOWsTxYu2RPXwMgIKsJBCBUrPl3TXqXP
+         /23uban3OK4kl9c/Ews06xjb7/DEpftHKZevdW5VidurpAyyMRqLnCIDC42uxnvv2Eqe
+         1TMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740342346; x=1740947146;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KO/NRoKuG8XetnuWE85hFK1fCgTrWENxYrVqAq/LSbo=;
-        b=FEcMpsoB/YjPSJL/M8nU33bxsFYnJ4L0Njc5eO3ovOCE95qUVI4Ps9B6XhHfSm9ud/
-         Mdy3UJiUmvmi7GWVn7daI7ZXqVt+6Me8lzoNMt6EWad+TPyykVpPmE2gxpjHyqqOT+Or
-         /0YRexageJZNdTa1TzoWIGJyYyu85H00mf65zdEWuQdzVztDz/T4TLvWkRXHltAIK95N
-         lwgBkwjDI9q+3UslhtrU92jgesR4oe5lmQxR2n+MISUF8ZXO4tvNpz3+981RMyRRpCsU
-         ATiRiWhULJF+k592zBZOidbtG620IK5vpqzqUsG62iqZpE3qZxk3zbe37IO3Y32p/gHj
-         cVEA==
-X-Forwarded-Encrypted: i=1; AJvYcCURD/9W5PNUNUfDY6kS5p+l6AJhLr6eOWdJq2md2Vd+xP++U3s0BO9uruUmugsv8dScpTk=@vger.kernel.org, AJvYcCUfsxJjD0AKVL4HewWtKJjpWJGjl7fR1JGDixrQzBNuSDH8RpoQXxYPkbvjK5pBNxnTzwh9PjEyjJ6tbJl1@vger.kernel.org, AJvYcCVNSWNYm8c3auuvf/MlifN1yRiDZA+sXjhLFyPlOnv5tqTC6+Bah8DqWL8qiVUC8CnPfUoUKn/A@vger.kernel.org, AJvYcCVWKRcXyzwQgUBY0ybWdJRZfRHY2pOmd+036ROFck6H/gUsWIwi1DWLkblOI7bWmhzCW6b74C/D/igXO+1GzFE=@vger.kernel.org, AJvYcCVXhQpKQJXjw5/Nm98L0v2S+r44NM/dOPxdhe9Gk5u6SC8qe63KgRaBbWRzHVSFLmFZcxlzs+3DI6RwdT8=@vger.kernel.org, AJvYcCWoiN1r0NC84EsXeCwSlXdpJA3cbW4m5zhznSUnqZx40tJuIaQr272adQ+mjH9ecb8dvQmm56MZRfbxYKs=@vger.kernel.org, AJvYcCXno489TQCns5mk3gcEqf4Di9Sryzgl6r5DxcMmMi1lASdDvz7+aMrg+3e3OfZiI2e4WGZPJRQVRltOS8MX@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEmtkMoYXyOxiVQDQ+wtAsYE2k2emxAprGVKGxhDcHurqhYhfi
-	gcEjXxykNuN3JjkYHFQ87qbR2yEvcz0btKApnZOD7UT22XEYlbCi
-X-Gm-Gg: ASbGncugjrP0Ab07AZ+biXLJg7mpalkI1oW6K4jW58XRfbzi8ip+GfkclXYgXQ0RlCF
-	zCV5gRPkyDQEbsZKSmY1+QP87APkECxPm+AHtPc0sGp96n2lt++TPZso1RJuXFezDBVvKW/55ZX
-	Hkors6FSNxjvQYp3ZEiEPkgoiUTHYBhq4geGOTnZwsVAu4bf9Ep4jBOhDemQaSjxy7jsq/XJNCd
-	6kOP+ww4S070622LbQd3/6b9GthnCvAGftvACbKHy1nkR26MxZlM1tUq5AM49vgzqcHeSOlI6Nl
-	39joOLi/kd4RcJb+0YZX1i8pISE=
-X-Google-Smtp-Source: AGHT+IEASkBZDUs2HV66FfbppKxrXfiPEOQdWl35/1TkX9MbOUwdnZRhQOYUiSPPWnjZ/EnkcBUtNQ==
-X-Received: by 2002:a17:907:1b26:b0:ab7:be81:8944 with SMTP id a640c23a62f3a-abc099b88ccmr1174431166b.6.1740342346244;
-        Sun, 23 Feb 2025 12:25:46 -0800 (PST)
-Received: from [192.168.1.100] ([46.248.82.114])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abbbe74100asm1142813766b.95.2025.02.23.12.25.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Feb 2025 12:25:45 -0800 (PST)
-Message-ID: <602e03fd-ce4b-feef-5053-e95834ab35d7@gmail.com>
-Date: Sun, 23 Feb 2025 21:25:42 +0100
+        d=1e100.net; s=20230601; t=1740365206; x=1740970006;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=J6f0Ffr3rK5vkGDKjnZe9Ntxy7bL7IFtthkkDEgLAPI=;
+        b=jtHGOHDweQwzCIFjtu+G/4CdJuunUUpnH+Jj83+0sSnHCJZ5BICuXn2eWroHWsqcST
+         Ym4AX/G6ByfTz88rAzXKDy5oqd9pCB/7NrcmiRVofrNaaZXidVUBqYQ6UgMj2+5UThJZ
+         tB3g+YS0PfOf3jcdJtX59nw+ignz5K2r9hK/dQPvSxI99Wb0LjkjW9z6wc0FoJ8bmr25
+         BfjMMycVf1DLPvcnlF8fHgwwfkAYYtAi375fIGujLHiM8n7q8q3TNOqQmEYu01h09h5F
+         uk0MMEXQyL0jxHnUgQR5r7Xw1202o+32SsEhqn11ITerh/3Uj/mJYBbZFgHuyJJXuVGp
+         QVYg==
+X-Gm-Message-State: AOJu0Yzw1VtUUn8RVZMa7kQWMXnQAalxIDgq0UWuT6+13Paf+W8hmQgQ
+	IUh8EKdaOm4KSEjm5qnKIYol8xcfUMMY7Yuk25NKP+RrrXOoSOR+7w+jHMlkyARMqh4C8uFPJ48
+	ECIsCpml0BIMwP6AeNq286zddVQI=
+X-Gm-Gg: ASbGncvgnTKbTnsq4ogmihQhf7w4eZA8vvves/BxYjSeSacapOlQTlmFYCql9hvC8RT
+	1Qn2Nmf74+HeDg1nCZRvTpmbRg4fHFjvDe+WPH/dnvnl64Zudu7E60QMAyJuYmdyit7GY1giFig
+	yZ+ee1d/JESY6eFWkVRuIXNEVsJ51suYidL2HFvjw=
+X-Google-Smtp-Source: AGHT+IGzOpi6QB3/D2+Dr0cPK8rLTuz8Hy2kqDkmqboXh9uyyqDKbO5kLtQo/ryIDfw8BC7Nf7l+SEo7pHcbc5JtDUY=
+X-Received: by 2002:a05:690c:6e07:b0:6fb:b907:d965 with SMTP id
+ 00721157ae682-6fbcc1f2389mr98765887b3.3.1740365206480; Sun, 23 Feb 2025
+ 18:46:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 00/17] Introduce and use generic parity32/64 helper
-To: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
- jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
- mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com, parthiban.veerasooran@microchip.com,
- arend.vanspriel@broadcom.com, johannes@sipsolutions.net,
- gregkh@linuxfoundation.org, jirislaby@kernel.org, yury.norov@gmail.com,
- akpm@linux-foundation.org
-Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
- linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
- linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Yu-Chun Lin <eleanor15x@gmail.com>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
-Content-Language: en-US
-From: Uros Bizjak <ubizjak@gmail.com>
-In-Reply-To: <20250223164217.2139331-1-visitorckw@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241001055146.543800-1-alexhenrie24@gmail.com>
+ <20250117061254.196702-1-alexhenrie24@gmail.com> <3137A636-3FC2-4016-BC64-F5CEF308F834@live.com>
+ <55B3D2BA-F363-4335-820F-21DB90312CD2@live.com> <CAMMLpeTgY0pnAr9Q=_Dc4iUWkmZc3ixGU656CK+KU8qY2sLBsg@mail.gmail.com>
+ <F209BEE2-29F0-4A0B-8B94-2D5BFA00AC90@live.com> <67482FB6-C303-4578-8B3D-6F4A4039D379@live.com>
+ <CAMMLpeQDVinMKsRi-u5afKSYzoG=FGgYPsHwibHgheZwHaJSQg@mail.gmail.com>
+ <99960098-E28B-4C83-BC52-BF5DEC1A16AB@live.com> <CAMMLpeSaND7MTYYF=uccM_HBYysHX_GuuTp3YSWzV_kx_9D6hA@mail.gmail.com>
+In-Reply-To: <CAMMLpeSaND7MTYYF=uccM_HBYysHX_GuuTp3YSWzV_kx_9D6hA@mail.gmail.com>
+From: Alex Henrie <alexhenrie24@gmail.com>
+Date: Sun, 23 Feb 2025 19:46:06 -0700
+X-Gm-Features: AWEUYZnPCmFBoCtr4gywDNcheRtUilA4lpTCqBH8BpSQEuRGpdpiaBmCjQNeLRA
+Message-ID: <CAMMLpeQW2LhK__fXvQbFLumrVNSzvU0=bwFgzmMkRf137X7s2Q@mail.gmail.com>
+Subject: Re: [PATCH resend] HID: apple: fix up the F6 key on the Omoton KB066 keyboard
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, "jkosina@suse.cz" <jkosina@suse.cz>, 
+	"benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sun, Feb 16, 2025 at 11:42=E2=80=AFPM Alex Henrie <alexhenrie24@gmail.co=
+m> wrote:
 
+> If I understand correctly Mac OS sets each Apple keyboard's internal
+> name to "<username>'s keyboard" by default, and that's what mine is,
+> but a user could conceivably override that with "Bluetooth Keyboard".
+> It's also possible "Bluetooth Keyboard" is the name that all A1255's
+> had when they walked out of the factory, before they were connected to
+> an Apple device.
 
-On 23. 02. 25 17:42, Kuan-Wei Chiu wrote:
-> Several parts of the kernel contain redundant implementations of parity
-> calculations for 32-bit and 64-bit values. Introduces generic
-> parity32() and parity64() helpers in bitops.h, providing a standardized
-> and optimized implementation.
-> 
-> Subsequent patches refactor various kernel components to replace
-> open-coded parity calculations with the new helpers, reducing code
-> duplication and improving maintainability.
+Today I successfully used a MacBook5,1 from 2008 to factory-reset my
+A1255 keyboard, by holding Shift and Option while clicking the
+Bluetooth icon in the menu bar and clicking Debug > Factory reset all
+connected Apple devices. After the reset, the keyboard's name reverted
+to "Apple Wireless Keyboard". Now that we know that the name
+"Bluetooth Keyboard" is not used by default on a real Apple keyboard
+and is unlikely to have been set manually, I think it will be fine to
+have the hid-apple driver behave differently if the PID is 022c and
+the keyboard name is "Bluetooth Keyboard".
 
-Please note that GCC (and clang) provide __builtin_parity{,l,ll}() 
-family of builtin functions. Recently, I have tried to use this builtin 
-in a couple of places [1], [2], but I had to retract the patches, 
-because __builtin functions aren't strictly required to be inlined and 
-can generate a library call [3].
-
-As explained in [2], the compilers are able to emit optimized 
-target-dependent code (also automatically using popcnt insn when 
-avaialble), so ideally the generic parity64() and parity32() would be 
-implemented using __builtin_parity(), where the generic library would 
-provide a fallback __paritydi2() and __paritysi2() functions, otherwise 
-provided by the compiler support library.
-
-For x86, we would like to exercise the hardware parity calculation or 
-optimized code sequences involving HW parity calculation, as shown in 
-[1] and [2].
-
-[1] https://lore.kernel.org/lkml/20250129205746.10963-1-ubizjak@gmail.com/
-
-[2] https://lore.kernel.org/lkml/20250129154920.6773-2-ubizjak@gmail.com/
-
-[3] 
-https://lore.kernel.org/linux-mm/CAKbZUD0N7bkuw_Le3Pr9o1V2BjjcY_YiLm8a8DPceubTdZ00GQ@mail.gmail.com/
-
-Thanks,
-Uros.
+-Alex
 
