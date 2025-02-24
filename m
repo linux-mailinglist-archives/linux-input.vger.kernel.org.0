@@ -1,120 +1,188 @@
-Return-Path: <linux-input+bounces-10291-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10292-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42330A41BE8
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 12:01:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3366EA420CA
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 14:36:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 95C79171EC6
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 11:01:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 26647189AA3C
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 13:34:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB5AD2586DD;
-	Mon, 24 Feb 2025 11:01:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 648A2248864;
+	Mon, 24 Feb 2025 13:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mRM6O5VX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b3Vnd94C"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB922580FC;
-	Mon, 24 Feb 2025 11:01:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DAD2192EB;
+	Mon, 24 Feb 2025 13:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740394877; cv=none; b=pXPDEak+t9udZso996NzR0zkyT0LoeTIEflNgzCQlQbW5XEIPwBG58KsT3RbaFa2oHslFLaSXr/AXDJggC9pxw0p29w2GOnbMdFrqRKS6MAKyPLZBk1ktU/1NpJ/L9W5ZsjQIYgQ2LYiTyViIPs+mNvTvrf/6i4SaYxIlCDCCss=
+	t=1740404079; cv=none; b=D61tis13biS1TpE05nLBy9dEs5CXrIiGtlZ+RB6lDOiF2t0HlGAzcvbeiVVGVU2CCGejA628nYJJoCFFlVCsg+DgkinHf+6Eq242eDtu/ECVSStIxb/bWA+3TiOtzpWs5P18PG4hHyS2UCzNFiPfVwVofqaAvl8cyBYdjw4eE2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740394877; c=relaxed/simple;
-	bh=vJ4rRARvHvI+TqMh5YEfuph2abkuxCb70so77AF6Lp0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=U+p8V/dG8VJ+QP/vHYa5aDrPtA11M9/leYAFLS1MmgVchG8H5Y5O21RZvzXetcdWdRAc3lqjtApSd+VwGrI+B5XSfKVZmh08Afy/h2PDgGyZRFrVob7xpdxKwp7G3UT/wZw//34u0QeyjIHr15VoRDWM5mE1MACfu4lvqkVhUac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mRM6O5VX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 13696C4CEEF;
-	Mon, 24 Feb 2025 11:01:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740394877;
-	bh=vJ4rRARvHvI+TqMh5YEfuph2abkuxCb70so77AF6Lp0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=mRM6O5VXNxAMRU33unb5BPIIXKNwXflqCxHpDOizSrEr0LIGFmbeCXncHXBWRsa3m
-	 jFaEVWy6tK0X2kUat9KnUfRP/atgkQW+TAM3yFOnQvGCwMjbvGiiiG8jEyA7shZUvm
-	 9eylcWhF+D4RB+H5josVun0O3hgdnPRmSxWEt49dEvbezTpnjsxdt80ZuszkFtbahM
-	 tY+PFAn5Thf4cPU7SWb4pmz1/cTH7uihcpl2RtePqRq7UnFZLVmeEYhKA6/aQC1rEi
-	 W9LHQ77BM69xdOk/AEC2XYbU+rcRmcDbe2XSdM/6mYqgVihDTG6xG26cGb8maouVLI
-	 YBE5OsfQ07yvg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 099D6C021A6;
-	Mon, 24 Feb 2025 11:01:17 +0000 (UTC)
-From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Mon, 24 Feb 2025 12:01:12 +0100
-Subject: [PATCH v7 4/4] MAINTAINERS: Add entries for Apple Z2 touchscreen
- driver
+	s=arc-20240116; t=1740404079; c=relaxed/simple;
+	bh=qKTv7i9UlJGQGohAN6G2hXNKurAdQm5fSABB4QmmjxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IF/24xrDwahvUNO1mHuVVWMecjjBORmBCjLZDpM31m0nWcmBV830caIJ574+HABb1v/h8zQ77R9BL7/g2uCT3iSlYmAXV2ClBVyWY7BDzKEj2mm8AVb9cMAiv6kWSU0GRsIBjrDkFIPaO80o5yqfx7wB40gpv3YvbT5BraGuCjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b3Vnd94C; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-388cae9eb9fso2261532f8f.3;
+        Mon, 24 Feb 2025 05:34:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740404076; x=1741008876; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OAg+3nWpCX28gp0yop3cTi7eprtgpHgYieQoEXp/Zxw=;
+        b=b3Vnd94Czp22iPPbmF1QjAipNC/mjrMwD0kY/y1TN9tkLtO545t+gXG6bkecLBW3YV
+         X+oDZlaP6Xl5R6b9DWG903WYIw1CPl7l+TSzM2uisR+yNB1iP0PQAQRJoMU6B0nN2HKH
+         J/tfQ0el5pOnj1G4UCDCOkHar23j3z5sVjZixuZSQWPMeSJENfAsLuygifsEUxD5YlQH
+         srNUC+fEpKmlLEQXS5vTZEZU/jHvyShwtg9j124Gs2uSpmtCoR8SpxtOlFF+007WZAK9
+         uqC2ygnjY/ZG8hz7N6Ch4yi2gor/VV8T6e3tJv+Ph2J6mxXIuewSWzdoTEL/7nl5M0Uq
+         ugag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740404076; x=1741008876;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OAg+3nWpCX28gp0yop3cTi7eprtgpHgYieQoEXp/Zxw=;
+        b=e7cKMhGpwcE+ZC+iJioT9judghM38yENB+tI2zRs0ywJ3yVuoZuDsZhlneRho6Q7wz
+         8+5CzdPPWjVby35SJNAu0BPMqQfVDZtfqFsRp83AyqJxdQK9V9S6vjR8TNWfJTa4MlWS
+         Vtuq2g3gcybgQcFWQbvMJGrUkvEMQZP5Mb7+G/QXdrlIwDX7wvlwYgYYjZy4HGoe+jHq
+         PGwq2f8c6aayDJaHS9D3arcZ/M9sSBVOPjrqasPHn1moGV5pDINkF8I1l4KbM8a6KLat
+         AeMSb9hMYGgekWt0E/V7Zu62Pk2vpoV6Fqv4B4jc5Udj3eNQ5u1lhFdzQtiRocXqJr3l
+         NF9w==
+X-Forwarded-Encrypted: i=1; AJvYcCUSZHMamAxdObwlu+553UP0KoAx7qxf2HCtPF3WXXIlucsY75TLUYwIradYXlznVATN5TPKJIfX@vger.kernel.org, AJvYcCUVUpYCVCWR5y0LWZKmtP5yLuJ6FOk8M7kpqlJ1sU6TLR7c/i/sMs25qKXmOS/OeqqBrSwEpxVmGHoeYCY=@vger.kernel.org, AJvYcCV0WvZdj+PhPEl3168XSO0ERTZLZLmi3jK8JH7N+QRlA3xQUSVI3OmU+1bbuQ/5VzgPFZDTt4mJhStelrc=@vger.kernel.org, AJvYcCVTiw83QFXvut+KB0EEZ+ElPZk/tPiCeUrOlgW9jIj2hBTCHiF0nIyte3DuZcS0fCQzCz5ssXZmK+Z5CyCQ@vger.kernel.org, AJvYcCVtZPuaHfEcTEKkKI+0jQyDK1Bkg/GHrJ/S1EyBY1oLRDN0e5BQ+Bq6EAawWjUGmygPDBjlUgY+M3rBYtnduDs=@vger.kernel.org, AJvYcCWS6FaGPdavjkXGQIo5JeOxFxiY1a1T5Iy3MWlRjDitY/fkalmRDKfQI8OUONbyoN8Xn5eZyhadjnC1YGFm@vger.kernel.org, AJvYcCWj5D78JXhBDANAVeQrJgSmEEO72bhG2TYl3JM6RrySaED8574udSkyVliMu/gbFG/y2vA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx60hqBGYKOnp+F+DK9f19+6OCEDNpvBy0vFBmyujKLHd/mJIUV
+	WmOf7Ll7qSQ0ZScbclUcclZxPEaHOo09G+Ivnsnwhs7iCrMklbxy
+X-Gm-Gg: ASbGncvya1YKaExg/UFr4ZM/sC2A6TyckrL/HnHbyqjZw4h5Wd1D+RB/81+LoEt/Cx/
+	h0GaoqsxIff7GsoN6L/ijoiZ88O27GFaAfJUsXA0fhSa9a2mFfnVFYDDQmlyOcAPWlZvyREd9Po
+	jfp9+NIC0biKjrHBJG6fmFWALDdGgQCmCSL3YDJuucg8JJIf5HRJ+dURKfAs0tjDPqdfz9u/+2o
+	eybWR5zEeZ3KhLcUiJLzgWOjXqP4Fno8gVFlzYq8ueXuhpvYu+3lLq/NpXdku3Wm4xMPI3jayZ4
+	nxiB9KnCHvy+Z4eKjZo8wCBo/pV1Osha5t89Q6x86d9oo4p4YkRSKzK4PZtkRZ4T
+X-Google-Smtp-Source: AGHT+IHAk3Wvwyk1vqkRenvO3RPC8nmIGBVFBN9gj/vKmwdIoVhq2/WUUPGNh8lDJR1/QVDS5j7zIQ==
+X-Received: by 2002:a05:6000:144a:b0:38f:4d40:358 with SMTP id ffacd0b85a97d-38f6e7587c5mr11099286f8f.9.1740404075459;
+        Mon, 24 Feb 2025 05:34:35 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f74817cbdsm9492882f8f.68.2025.02.24.05.34.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Feb 2025 05:34:35 -0800 (PST)
+Date: Mon, 24 Feb 2025 13:34:31 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Jiri Slaby <jirislaby@kernel.org>
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ x86@kernel.org, jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
+ mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ yury.norov@gmail.com, akpm@linux-foundation.org, hpa@zytor.com,
+ alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+Message-ID: <20250224133431.2c38213f@pumpkin>
+In-Reply-To: <bde62fee-4617-4db7-b92c-59fb958c4ca6@kernel.org>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+	<20250223164217.2139331-3-visitorckw@gmail.com>
+	<bde62fee-4617-4db7-b92c-59fb958c4ca6@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250224-z2-v7-4-2746f2bd07d0@gmail.com>
-References: <20250224-z2-v7-0-2746f2bd07d0@gmail.com>
-In-Reply-To: <20250224-z2-v7-0-2746f2bd07d0@gmail.com>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Neal Gompa <neal@gompa.dev>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740394875; l=1303;
- i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=InMRbHicu7oJRHDFwDtDafdNISTi0qP6MkyrWoUFJQU=;
- b=StrleJYWyCW3mxJijSSbvIVN+zNZiEorwJEgx7XgXLNkkAjajSr8aYL/Kxl5dmpb0XwqYidZt
- KHEp4dA24rDC8CqcnfvMZ2d3VvUfInBfemQ24mt6ivqbwabsF/Q5sCz
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
-X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
- auth_id=283
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reply-To: fnkl.kernel@gmail.com
 
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+On Mon, 24 Feb 2025 08:09:43 +0100
+Jiri Slaby <jirislaby@kernel.org> wrote:
 
-Add the MAINTAINERS entries for the driver
+> On 23. 02. 25, 17:42, Kuan-Wei Chiu wrote:
+> > Several parts of the kernel open-code parity calculations using
+> > different methods. Add a generic parity64() helper implemented with the
+> > same efficient approach as parity8().
+> > 
+> > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > ---
+> >   include/linux/bitops.h | 22 ++++++++++++++++++++++
+> >   1 file changed, 22 insertions(+)
+> > 
+> > diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> > index fb13dedad7aa..67677057f5e2 100644
+> > --- a/include/linux/bitops.h
+> > +++ b/include/linux/bitops.h
+> > @@ -281,6 +281,28 @@ static inline int parity32(u32 val)
+> >   	return (0x6996 >> (val & 0xf)) & 1;
+> >   }
+> >   
+> > +/**
+> > + * parity64 - get the parity of an u64 value
+> > + * @value: the value to be examined
+> > + *
+> > + * Determine the parity of the u64 argument.
+> > + *
+> > + * Returns:
+> > + * 0 for even parity, 1 for odd parity
+> > + */
+> > +static inline int parity64(u64 val)
+> > +{
+> > +	/*
+> > +	 * One explanation of this algorithm:
+> > +	 * https://funloop.org/codex/problem/parity/README.html
+> > +	 */
+> > +	val ^= val >> 32;  
+> 
+> Do we need all these implementations? Can't we simply use parity64() for 
+> any 8, 16 and 32-bit values too? I.e. have one parity().
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Acked-by: Sven Peter <sven@svenpeter.dev>
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+I'm not sure you can guarantee that the compiler will optimise away
+the unnecessary operations.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a87ddad78e26f28ffd0f3433560d6db1518f9f95..8b3776eb748e128f87c44886b117e0652447fb37 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2191,6 +2191,7 @@ F:	Documentation/devicetree/bindings/clock/apple,nco.yaml
- F:	Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
- F:	Documentation/devicetree/bindings/dma/apple,admac.yaml
- F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
-+F:	Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
- F:	Documentation/devicetree/bindings/iommu/apple,dart.yaml
- F:	Documentation/devicetree/bindings/iommu/apple,sart.yaml
-@@ -2211,6 +2212,7 @@ F:	drivers/dma/apple-admac.c
- F:	drivers/pmdomain/apple/
- F:	drivers/i2c/busses/i2c-pasemi-core.c
- F:	drivers/i2c/busses/i2c-pasemi-platform.c
-+F:	drivers/input/touchscreen/apple_z2.c
- F:	drivers/iommu/apple-dart.c
- F:	drivers/iommu/io-pgtable-dart.c
- F:	drivers/irqchip/irq-apple-aic.c
+But:
+static inline int parity64(u64 val)
+{
+	return parity32(val ^ (val >> 32))
+}
 
--- 
-2.48.1
+should be ok.
+It will also work on x86-32 where parity32() can just check the parity flag.
+Although you are unlikely to manage to use the the PF the xor sets.
 
+	David
+
+> 
+> > +	val ^= val >> 16;
+> > +	val ^= val >> 8;
+> > +	val ^= val >> 4;
+> > +	return (0x6996 >> (val & 0xf)) & 1;
+> > +}
+> > +
+> >   /**
+> >    * __ffs64 - find first set bit in a 64 bit word
+> >    * @word: The 64 bit word  
+> 
+> 
 
 
