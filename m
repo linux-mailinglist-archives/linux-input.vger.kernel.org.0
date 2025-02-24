@@ -1,152 +1,206 @@
-Return-Path: <linux-input+bounces-10297-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10298-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33B72A427C8
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 17:22:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD27A428D0
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 18:05:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C0633B0606
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 16:19:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8E62D3BEE9F
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 17:00:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61AD426159C;
-	Mon, 24 Feb 2025 16:19:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E91EA267AE3;
+	Mon, 24 Feb 2025 16:56:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UjR5Iyoz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cEZhAAqz"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE21C25A35D;
-	Mon, 24 Feb 2025 16:19:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10711266599;
+	Mon, 24 Feb 2025 16:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740413977; cv=none; b=BFJdQWrFJJibsJwalEvEIJTs9uHu1dHSOBW+V7XWzvynOQ2iddvjzUkJy6+Fp427Vh3LU5ZNZ4fblKhx6TM1ssf7nDoCobZcSlv4KxKV2WH5bUpcxLjgZC3BtTGlwnnqx1jnzrotOitLQ+/eqKAZReJink+7O1fkZdgz4BMRy8c=
+	t=1740416204; cv=none; b=DoUmvSGWWM3iYnbYAR9/EO1jLSJ0DIYvvQ9O9o7y4LpTo6mN05cMH5n86ufTjtTsFo73p53FKIeiRHmkQqHVg7uuPW+RS5ZGHao9uJqm1mrMoLYhJefKvCIqlJpWebd7n4oCfa2RaB+7Yuct/h679HdPR1O1KDL2dB69SJQG+L4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740413977; c=relaxed/simple;
-	bh=4GzgfkJb2gmKexeq9dwq5MdgAoigbYl7qj0gsU2qFuc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NcoBb4ddsy66h2qvFJSrS+B56qVpaMz8ciC4lZigy+YAYOSgXZYWGzfcTOXSaUPOgnvsWmR7dBryS509oKTNego8tC0aQGS32vylwgM0p8dHds+IMuwup1PBqUaV8VIGahoK+Lq8dogOodPW0fSPlPnfZ2mLXfksZneu+rsxgN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UjR5Iyoz; arc=none smtp.client-ip=209.85.216.52
+	s=arc-20240116; t=1740416204; c=relaxed/simple;
+	bh=5G5oGYh1CaRHc2d1pU1YAOARWQsm2s7Z+o+/b8xWRQE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cQbbtxpCnUwiFym8551S2GhQX4biMNstcQhnTeiQNkcLMDjOzhop9eZR8wupPaxtkz2/slpu8ZvKbZ9dMQqpuT1CcUF1neb/q47RL4WmHM1MpCRA8aG27TWLr7a7eujWPRuyYCqwMQGaEqAYAM4MSly4SUibo0iAXMfDBMXqEr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cEZhAAqz; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2fc0bd358ccso9325397a91.2;
-        Mon, 24 Feb 2025 08:19:35 -0800 (PST)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-221057b6ac4so89038365ad.2;
+        Mon, 24 Feb 2025 08:56:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740413975; x=1741018775; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FWqm33tm+BoJJmuTVNeID7zEMxZd7DFzwDY9FfAP8Gs=;
-        b=UjR5IyozaW0Mr3Dd2gV3GJpdsk8MwHODrZ9DRmcrSCjZ6Vk0bVbHLzTepLbTAT2wjg
-         MfdR4H5hZzc80XIfF38oZvclN8YikBw5CoO2vntUOVmL9sVkTAYvw/TywKTIK+ChPBv7
-         lEZFrzpQtGt6/XngKDEtAcWUBwtPCNR8Fxwx4ApbpKw7jCxCVCNT89L8Dt2KjL+yVOy4
-         tJHJNgMrkXqkRdsZAB/q5mwErx2MyHKbnOM23AIGC0xTYaMfBi1T33u3yqhF9ztGm48h
-         WXBPtLWJv7h6iEs9uEEUAoeiEBfYzrRkwvr1u9jv5jQMNlE4sD3gJRkdiG7Mk4UzjYij
-         LuVw==
+        d=gmail.com; s=20230601; t=1740416202; x=1741021002; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uiOFRZn2H6lerxDkJoj1wxqiGhkAtJgTGIELTuQhums=;
+        b=cEZhAAqzCsAWehsy2m8SvMlKBj6e4Rf3fkqkxHM+Euy8xATo2R35GQ0bt9RwE/fcFh
+         y1uvBeeGvg0ujDplELvufLpbMYQwU/6n3mhQ8zPfGkDewFXyaD0l5IcoSZ1C2tfgLFk+
+         d5CRXcmqVXitlh58Fn7FOwh2agJ10BJiSH9Qb2ZyO/cM9I6Hy/KuVAA0i0Wt9hNLixf5
+         iZ4FjI8LjgsxGExu5FP5ZBJg9agTe0SElmgqHcM+rPKaYuEkfTyREygd4cMQ6CjO8dm6
+         v4kKEz/L1B2mgK0vivaUclcfl5nqBBmNc110t13DKAB1O0TCJyY+bWT3n+VJkh80zm6k
+         90vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740413975; x=1741018775;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FWqm33tm+BoJJmuTVNeID7zEMxZd7DFzwDY9FfAP8Gs=;
-        b=Cmi/KNWrcRtflTbbbKDWf+C4PhfJGU6bhAZnmbJ11xymJgewQjdDphq9Tp2lEUoZIt
-         YjPukvgCUd9l3qEWHZn6ipiUtraHcHkYZlfugN4ODlCpG48IKDWpnD9pn5eLTmRo3mjr
-         jZSH7LH8VJe03oO33BzB9gIBAFLAYjiO5KLpZYXRTET8Azxcam9mVW7mekfziDUTV5ku
-         0uOsqAJ0B5sl4yx+kzxCoZNyG8/bnbSKLG20LpCiQLHi5uctUZnon4iQJtmAV6s5To4X
-         qJ4pVdMSR3QF+95Ca0eQ8npW5LmD7foZLP6vDuJU2vN5yynRd/zb7k9DbBrILK11ESHM
-         Y24A==
-X-Forwarded-Encrypted: i=1; AJvYcCVZqxpFDiUIrxBqHTaywDU6VmORq1hKcQr5PL/k1ArdG4dwBhyiI5IuHKZrL+wLIRCz0lV41uvyPZXbdg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyb88GeJr/sLbHsq+v9rQg2opGZ64PxKwvzOyLpxJspRTysQzdm
-	QuebN33ttAQ0nR4/725KAcAvmFIYmiRdVJc8RH1G4XabGNH2zy2OogF9OekrLhOeiUcdnSqUBhV
-	1BcRKS2ZWDtrMkHukbKg84KibpoP7gbWA
-X-Gm-Gg: ASbGncs9+EwZ9xZHTPHFa3XdH6kGSGgU7XYs+L482+cSrRUfOy0m0CucEVVM6itMjFy
-	QA1cHclmBn/KTsr00u5QeGIHe/WPiS5EPfiGQ5r2oeT5SzywSboa9lkos2mL/nza0NvlDPspXVt
-	IyYdKEJb0=
-X-Google-Smtp-Source: AGHT+IHN3+7tc4CILBRG8b0xSgeYbA+sxSkEYT5Xr/Gx4lEYIQmkQKUDZdyZskgwXw75GXiXPMcjSu0+hBt4DcqVppA=
-X-Received: by 2002:a17:90b:3946:b0:2f4:434d:c7ed with SMTP id
- 98e67ed59e1d1-2fce78c7fd8mr26255470a91.16.1740413974738; Mon, 24 Feb 2025
- 08:19:34 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740416202; x=1741021002;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uiOFRZn2H6lerxDkJoj1wxqiGhkAtJgTGIELTuQhums=;
+        b=l8f/NsfAuAR3PReXRRsuYVzQOHEv4/3KaZ5VT/jkV4SxrwPxHGcZpZyJRDV3kMHhZE
+         kbhNUvrPGziCrWQKRPvLsVOVbONTyAULPWmZmXxxtu2JRzOqOJFv45nj3xAkV+SV6uDX
+         TIJ3A5N63E219Q/djhRPDiugxyPbNMDMw6Kfx2uZIpY1ax6PxT04NnT2/IEJJZNIZyC4
+         T4TxHmiCKSabZqQXDRUSFGf28DtOEq8v75FltwjAh6PFqTyVpOi9QjfN9xBM/b5HB+Ko
+         gJP/O3xe7EZwjtPm71yQWTFka6+dJueoSX2fI/mWEeVv4SyyFXhBcgxrAruXxNWI3DN5
+         paMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUCgCbaBzq9fKe6FKJEYKAcFFTrnZx2udHzb0F0vYdJVmp1XYzhiuNM24084X/zy+rNSCKkmX8ywoe4lcU7@vger.kernel.org, AJvYcCUOVpPu6Lh3dBC5DqE79mqP3AhLLqDHhWoG/wcytDKp62p1pTpkIFHzHIn4hw6vfmuPw2L3vbR8MxkgK4IXIpQ=@vger.kernel.org, AJvYcCV6eaHqzGSYhiIyN9ZMKon+gXyFH/SV4278oVJcwgrEBHk38hhTaEQWWqJAb7DNAtb9545OWAKYkLIJ9LSi@vger.kernel.org, AJvYcCVIyEQUQD1rTXw+I4IgViyWIs0Wb0LLRTymfULJ13/d6lJsO6oWynO2v0CGiSEe0IEaaxM=@vger.kernel.org, AJvYcCVyt57IAKQv77uOT39maNHKVXX3xc34itm7bFrRG/zYsxVWoUfrI7nhoDdKBv43Qq7aQ7vmwDit38pVw+o=@vger.kernel.org, AJvYcCXeOGlUtvEujBwq+2eLJo6hRE396LATNA+O+tx4lN7LoJ8JEjV09KjJT55dqFjnCDOO1YcH/Mpf@vger.kernel.org, AJvYcCXfSi1yw1ly9s5TovwmcdXKdmtRSs+zzFvwOde9jNRkPd1UzflW8iBBDFMT9xu1cCD04HiF/gI7klADCLE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyK+XKClVqyfk/K9SEIcrKr77+7160Fj2D6o7Ap6NM3e1bASkue
+	aHFVkF+dC7ukofjnyCpCBHUQfvfLcEl+w7RWF5CDE2ja3IzsJaWl
+X-Gm-Gg: ASbGncsFufCa1KHv59coqIT4kIwy10FUKS6ZmnCe908AO0EJ37yK9zyRuEgAyySdz2T
+	h6Xt2mOn/5JulXy7WVF7CqJoatb9DLvgjyRp1zWko2TV0IWNakC2r3gjgDglk+vhJaiLlrUylVA
+	pRMhj1CSShhmtKyLG9zIZP+Xy+kaVyKukxZgSPvFRq+pkToykR2VaEResVv/JkyCLtSIV8+O4kB
+	LFP61iGnavhcC9Go/Iy4OiWV/btY/HY5eOl1UnwQxirKwmq8qKKl//0y7k18Nqd0Yv6E84s0c9o
+	IR4CmWWihJzkFYyd0n3bLBeabqw3
+X-Google-Smtp-Source: AGHT+IFVgQBLmZYFNL+ZV4HrxXg4lZgXZnXGnGr0U7DF5esCoQcIST0NuWk3m7oQnTUJjc9HIW9Ozw==
+X-Received: by 2002:a17:902:d492:b0:220:c63b:d93c with SMTP id d9443c01a7336-221a11b9493mr230835105ad.44.1740416201946;
+        Mon, 24 Feb 2025 08:56:41 -0800 (PST)
+Received: from eleanor-wkdl ([140.116.96.203])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d534afadsm185140065ad.26.2025.02.24.08.56.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Feb 2025 08:56:41 -0800 (PST)
+Date: Tue, 25 Feb 2025 00:56:29 +0800
+From: Yu-Chun Lin <eleanor15x@gmail.com>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Jiri Slaby <jirislaby@kernel.org>, Kuan-Wei Chiu <visitorckw@gmail.com>,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+	joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	dmitry.torokhov@gmail.com, mchehab@kernel.org,
+	awalls@md.metrocast.net, hverkuil@xs4all.nl,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	louis.peens@corigine.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+	yury.norov@gmail.com, akpm@linux-foundation.org, hpa@zytor.com,
+	alistair@popple.id.au, linux@rasmusvillemoes.dk,
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, kuba@kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	oss-drivers@corigine.com, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+Message-ID: <Z7ykvf1g03XDLXKc@eleanor-wkdl>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-3-visitorckw@gmail.com>
+ <bde62fee-4617-4db7-b92c-59fb958c4ca6@kernel.org>
+ <20250224133431.2c38213f@pumpkin>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241202123351.86957-1-guille.rodriguez@gmail.com>
-In-Reply-To: <20241202123351.86957-1-guille.rodriguez@gmail.com>
-From: Guillermo Rodriguez Garcia <guille.rodriguez@gmail.com>
-Date: Mon, 24 Feb 2025 17:19:23 +0100
-X-Gm-Features: AWEUYZnZqpr1FP9G-sfegvfp2isrZ6N1y1AiiaaSdkYjWRfT1uN6s1MBNMRAkDg
-Message-ID: <CABDcavYkGAGA5CVsMZGE9g_HLTvE3kAM25Uu8h6ccqerLp5oWQ@mail.gmail.com>
-Subject: Re: [PATCH 0/1] Input: evdev - fix wrong timestamp after SYN_DROPPED
-To: linux-kernel@vger.kernel.org
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250224133431.2c38213f@pumpkin>
 
-Hi all,
+On Mon, Feb 24, 2025 at 01:34:31PM +0000, David Laight wrote:
+> On Mon, 24 Feb 2025 08:09:43 +0100
+> Jiri Slaby <jirislaby@kernel.org> wrote:
+> 
+> > On 23. 02. 25, 17:42, Kuan-Wei Chiu wrote:
+> > > Several parts of the kernel open-code parity calculations using
+> > > different methods. Add a generic parity64() helper implemented with the
+> > > same efficient approach as parity8().
+> > > 
+> > > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > > ---
+> > >   include/linux/bitops.h | 22 ++++++++++++++++++++++
+> > >   1 file changed, 22 insertions(+)
+> > > 
+> > > diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> > > index fb13dedad7aa..67677057f5e2 100644
+> > > --- a/include/linux/bitops.h
+> > > +++ b/include/linux/bitops.h
+> > > @@ -281,6 +281,28 @@ static inline int parity32(u32 val)
+> > >   	return (0x6996 >> (val & 0xf)) & 1;
+> > >   }
+> > >   
+> > > +/**
+> > > + * parity64 - get the parity of an u64 value
+> > > + * @value: the value to be examined
+> > > + *
+> > > + * Determine the parity of the u64 argument.
+> > > + *
+> > > + * Returns:
+> > > + * 0 for even parity, 1 for odd parity
+> > > + */
+> > > +static inline int parity64(u64 val)
+> > > +{
+> > > +	/*
+> > > +	 * One explanation of this algorithm:
+> > > +	 * https://funloop.org/codex/problem/parity/README.html
+> > > +	 */
+> > > +	val ^= val >> 32;  
+> > 
+> > Do we need all these implementations? Can't we simply use parity64() for 
+> > any 8, 16 and 32-bit values too? I.e. have one parity().
+> 
+> I'm not sure you can guarantee that the compiler will optimise away
+> the unnecessary operations.
 
-Any comments on the patch below?
+Hi Jiri and David,
 
-Thank you,
+Unless we can be certain about the compiler's optimization behavior, we
+prefer to follow an approach similar to hweight, distinguishing
+implementations based on different bit sizes.
 
-Guillermo Rodriguez Garcia
-guille.rodriguez@gmail.com
+> 
+> But:
+> static inline int parity64(u64 val)
+> {
+> 	return parity32(val ^ (val >> 32))
+> }
+> 
+> should be ok.
 
-El lun, 2 dic 2024 a las 13:34, Guillermo Rodr=C3=ADguez
-(<guille.rodriguez@gmail.com>) escribi=C3=B3:
->
-> Hi all,
->
-> We are seeing an issue with gpio_keys where the first event after
-> a SYN_DROPPED has the same timestamp as the SYN_DROPPED event itself.
-> After some investigation it looks like this is an issue with evdev
-> and not specific to gpio_keys.
->
-> The issue was originally introduced in commit 3b51c44 ("Input: allow
-> drivers specify timestamp for input events").
->
-> This commit introduced input_set_timestamp and input_get_timestamp.
-> The latter (despite the name) actually generates and stores a timestamp
-> in dev->timestamp if the driver did not set one itself. This timestamp
-> needs to be reset when events are flushed; otherwise the next event
-> will use a stale timestamp. A partial fix was implemented in 4370b23
-> ("Input: reset device timestamp on sync"), but this does not cover the
-> case of SYN_DROPPED.
->
-> If a SYN_DROPPED is generated (currently only done by evdev), the
-> following happens:
->
-> - evdev calls input_get_timestamp to generate a timestamp for the
->   SYN_DROPPED event.
-> - input_get_timestamp generates a timestamp and stores it in
->   dev->timestamp
-> - When the next real event is reported (in evdev_events), evdev
->   calls input_get_timestamp, which uses the timestamp already
->   stored in dev->timestamp, which corresponds to the SYN_DROPPED event
->
-> How to fix:
->
-> - When a SYN_DROPPED is generated, after calling input_get_timestamp,
->   the timestamp stored in dev->timestamp should be reset (same as is
->   currently done in input_handle_event). The attached patch does that.
->
-> (Perhaps the underlying problem is that it is not expected that a
-> function called input_get_timestamp will have side effects. The
-> commit history of input.c shows that this has actually caused a
-> few issues since 3b51c44.)
->
->
-> Guillermo Rodr=C3=ADguez (1):
->   Input: evdev - fix wrong timestamp after SYN_DROPPED event
->
->  drivers/input/evdev.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->
->
-> base-commit: e70140ba0d2b1a30467d4af6bcfe761327b9ec95
-> 2.25.1
->
+We will adopt this approach, as it is indeed more concise.
+
+Thank you all for your feedback.
+
+Best regards,
+
+Yu-Chun Lin
+
+> It will also work on x86-32 where parity32() can just check the parity flag.
+> Although you are unlikely to manage to use the the PF the xor sets.
+> 
+> 	David
+> 
+> > 
+> > > +	val ^= val >> 16;
+> > > +	val ^= val >> 8;
+> > > +	val ^= val >> 4;
+> > > +	return (0x6996 >> (val & 0xf)) & 1;
+> > > +}
+> > > +
+> > >   /**
+> > >    * __ffs64 - find first set bit in a 64 bit word
+> > >    * @word: The 64 bit word  
+> > 
+> > 
+> 
 
