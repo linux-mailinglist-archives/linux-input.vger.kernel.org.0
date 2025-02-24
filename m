@@ -1,186 +1,180 @@
-Return-Path: <linux-input+bounces-10269-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10270-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98D46A41548
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 07:23:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3477A415FC
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 08:10:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CFF3616438C
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 06:23:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2BE1B1884888
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 07:10:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F27BD1C7012;
-	Mon, 24 Feb 2025 06:23:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B010241678;
+	Mon, 24 Feb 2025 07:09:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="ZNEhha4M"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FFicEGbS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19011037.outbound.protection.outlook.com [52.103.68.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E712E28DB3
-	for <linux-input@vger.kernel.org>; Mon, 24 Feb 2025 06:23:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740378185; cv=fail; b=Sbxwx2kZgQwxgQ8G/a1eNCHPqJixPbu8QNi53Oj/U7nCCc2SQ4aNaFP8MOE7aM3YkXs9sf4BICJMNZrZ4416viZ3qxxEdwh8+aXdOgLu4SmByV9f4AhOGrN/U156VYr2g9kbECsCSpcQhHdbnGVgqSqbMWYJn+nufWCJYxju44M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740378185; c=relaxed/simple;
-	bh=Mc7QmT4ZMaTLB+WSGAzguCOJyhYkiURgqumkzKZPpxY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=s+lhRkyV9umqP/kpw548ebXExWk9bFQW8VwPtCuavlaBThb0/zL/hgMGYF+QJVrLdB4Co1xN1VYbX3Pcr82SCZCde7rtYXyYKqUju85TQVCzQc5geDnz/uOPYK9ehs6hl6daPICTVUtHI1bYm8mcQ4mrKq0OoyQqAw9p5u64Rz8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=ZNEhha4M; arc=fail smtp.client-ip=52.103.68.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vsmSHWxRy9K5Hvj6p7t9cv+iTf4pouaHwGEwYI9DMLmLCxhJvUNf+xf/dm6yiGxiDRebS7fTQfKplXovyxdgDp/xG8wxJwZJkULA4QwCKZV8UHOolRsPq5yoCSn0U4/gt787xjjiUj7rNsATkq7g/uN4RWmeezxJVLolwmCFTwBQVqf9bPEj+hhxeugnft1xMAzJKZ+gyTb9ZWiCtkAXrdkmpdgB9/HwJQ9KJsAGZTf9N/3UsUVzAwm80raCbyRIp7HjNeDjEUYrkVVPX/lSfn9kc9yJTcJT6YGUk6FcQh0upw4EhisWm6oFnph+MSRoKMpokMlz1eqaFboHDxB6oQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Mc7QmT4ZMaTLB+WSGAzguCOJyhYkiURgqumkzKZPpxY=;
- b=dmEZ3QPU0R5syb91/QuOPYoPj7wDU5aznLoIKoIoS2acROo9XUfdniAPx4XtXgGmxQsFWf8EtecB1/3a9Q1mXiJWgycFz+Ndf9FKup71DkQj2VK+sFcu5gAlvDtLRdgERiXJcYP0XB5ZNwkeLYhssPKgnBNa8oos4ZLa14obbGSRDr4g9h9KwHkqU1XS0WjdVoNrJPBRKCdjuAbNB9UtVecxzE2zndRK2Zs1AXmEEuJk23MzUnqYp5/kjaGJTVFcSGXyGYDfmg3e/iNgtVgQEkxuFXLw3kwGR2Q+IUB9c1/cPfgsKqc+4pxEWlOC34KnZjnpmKn2PdyqKIq1mWrbnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mc7QmT4ZMaTLB+WSGAzguCOJyhYkiURgqumkzKZPpxY=;
- b=ZNEhha4MPoaeb3L9AQ887j4ve9Zitjl3Hdu4aYnhkHTIa6DE+dyBOdUzVDe9vjlbFrJM1+9uVkBlVVSZ44e7CAkgJymx1g3PGXp9sAnAwIDVZI3MiQUWLcPdBHyCeGTikSqhsG4BghfY0Z1ujz2kXJFRGdHBc4H1aLgsb5WMdekQKUS6C1Tf8CYKFnJi7e4q6mwwWCanEJHr5k0+PPN6jMqGglDAWLrYwQsvegGSxEx74L6LEh985qZkYvPnKwHnACOsv9dm+u2XU+Xybh30KpThG1AZNfzDxkiK6xjkrt0n7i6FdDFl12dRryh48I3YppxIi8PPhMvNhCflyLmhOw==
-Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1d::9)
- by PN2PPF10F160173.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c04:1::586) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.20; Mon, 24 Feb
- 2025 06:22:58 +0000
-Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::27a3:3d7e:30be:e1d1]) by PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::27a3:3d7e:30be:e1d1%3]) with mapi id 15.20.8466.016; Mon, 24 Feb 2025
- 06:22:58 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: Alex Henrie <alexhenrie24@gmail.com>
-CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"jkosina@suse.cz" <jkosina@suse.cz>, "benjamin.tissoires@redhat.com"
-	<benjamin.tissoires@redhat.com>, Alex Henrie <alexhenrie24@gmail.com>
-Subject: Re: [PATCH] hid: apple: disable Fn key handling on the Omoton KB066
-Thread-Topic: [PATCH] hid: apple: disable Fn key handling on the Omoton KB066
-Thread-Index: AQHbhn4lZ9IKkTrshEyIJtvBtkR/LbNV/Bv0
-Date: Mon, 24 Feb 2025 06:22:58 +0000
-Message-ID:
- <PNZPR01MB4478FB4D4B19259EB4746A94B8C02@PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM>
-References: <20250224053632.2800-1-alexhenrie24@gmail.com>
-In-Reply-To: <20250224053632.2800-1-alexhenrie24@gmail.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-IN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PNZPR01MB4478:EE_|PN2PPF10F160173:EE_
-x-ms-office365-filtering-correlation-id: 92b9fb0a-8cae-4df8-9408-08dd549baeae
-x-microsoft-antispam:
- BCL:0;ARA:14566002|8062599003|8060799006|19110799003|461199028|6072599003|7092599003|15080799006|3412199025|440099028|102099032;
-x-microsoft-antispam-message-info:
- =?utf-8?B?VUtpSVZvWFdKVS9kSWZRa3VyYVdxS210UytveVlEWm01Z2JpS2NUZnNwREY4?=
- =?utf-8?B?QlpHTzQ4dlJpT0RiR1JzUG95Zm02eGdZYjJSaEpCQW5sZHBFSmoxRk8rR3hF?=
- =?utf-8?B?bEZyV1hUVWZKUGs0aFhzQ01IUE9Cc0NWMmdRYVpKMjBGdmZydTdOMEZvYWxm?=
- =?utf-8?B?dHl5bHhSKzc2S3hEa0NGQzNVakFEbjQzWHpmNjdzMGJjQ3ZaNzlsSWtkZ0xl?=
- =?utf-8?B?Q01vTE56MkdCU0pITm8vSW53N0hrRmphNi9sYmtJYlBmTlY5OTBWS1lnOWFC?=
- =?utf-8?B?NUJ2YjJYbVNLTXBDS2lkNFRPS2NVNGFNMm1Vb2FnK3V1UEZCeEUvRTVmYTh3?=
- =?utf-8?B?VmZJVFdtK05Yb0EyT1gzNFBVTWlzeXRodHdwY0IvWHU3WXNkb0cyeXdVeWtl?=
- =?utf-8?B?WVNaWXRuclp4dndqUmI3YUZxd0FON2VqNlhsR29QZ0l5VE8yMHFHRm5NbUw5?=
- =?utf-8?B?R1UxYVFHVXJrc1FIU3BXMzFNQ1d6MFhsSHBVZDNCdVFhblRyNFRTTFk1TWVu?=
- =?utf-8?B?Ym9aRU1yb1pwZjE1V09NRWIwcE5FdFMzWjdMVDVrVmR5aWNQT1UxMWZMUmlj?=
- =?utf-8?B?YzB3U09mL1o0WkcxYWJlekFWT3ZERWlJU2c1NVJ6QVpFdFd1cU12NGE0MWs1?=
- =?utf-8?B?bVo3ZUVxWGNDYllWUllLbzY0WWtrOFRVTXp3b1YvZ25FcDlvVlBJMm16eVZs?=
- =?utf-8?B?NHNwMDVpeTFJRFQ1b1R4SWdobloxeWhFWFM4NzZWdm9DMDZsb0lxZ0hjRTRq?=
- =?utf-8?B?ZVFhbUlJTzdJRnBwVFBBT2VpcWVGSUhEZlRWUGdGUHkyNllQS3NBYXphanBw?=
- =?utf-8?B?aUNhS1htektXek5na2hHdUhBaWNzUXNuU1E1ZnZ0K0RXQVgrak9vRHZmUHM4?=
- =?utf-8?B?NGRqdkJnMVlYRm5FUjJnQkJ4K0hZdDFHOE5rMkpwb3FneC9YMkhscFI1TThR?=
- =?utf-8?B?eG5MR3pyRk5IOWlRaGdwSnRmcXlHWFZ0RWJhemF6dmQvZG5aQnlzSTBZUUNX?=
- =?utf-8?B?VVNWeHpMM05qVFdhb1FoT3pUbnVIOEZWQW1oWHF3WG5BRDlqV3NRT0E1NzZR?=
- =?utf-8?B?MGpRcUlnWEZHZTlPVU1pNVlMeWZ0NXJlMGZZZXJpbXkwOHNyczJKTk5MTWJy?=
- =?utf-8?B?YkU5Qjl3T2JpZGxnNTZXdHBmMlVvTjAzMlNSdFhkUzRiUXg5cTNCUlFHbUh0?=
- =?utf-8?B?SktDTCtFZTJremh4cmMzWng3eDR5MEJsTS9qTlVoQ1NLVHdWa2N1ZEtJQTdB?=
- =?utf-8?B?VDAxZnRrQWJzZ2R4NVlnS25UOVhPbUxST09MUEJ4UlRhOEQyZXNDSzFqaElL?=
- =?utf-8?B?cDliUUFaQjdiVHcwOFdMUWVNRkF6eU1CdUJJTkhGV1ZRQmppa2VQN1Y4S3Iy?=
- =?utf-8?B?bWt4QWx2d1VyMEUvZlRSZU15UjVkakljL2o5aGQxMnUyS2JlK0JpWmZxRE50?=
- =?utf-8?B?VGZhZ2RGZW5nRS9KYnFNNm00U3ZJRTFqVWxobVZ5dy9razJpTkJvVHVCRHR6?=
- =?utf-8?Q?Fo2+QY=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?ZThoQTBIdHJjbXN4dnBSR1JLRWpYMzd1UlVta0Z0TWtldHR1UU1NSWRmbFlC?=
- =?utf-8?B?QVN6Qk5zN2ZUaUVtd3dMTUJOUzdWdTRxeUxpQkg2OS85UDc2eG5wcEFES1Ex?=
- =?utf-8?B?SmM3VVlGTXNEUnpGRGdldlJxRHFPaGR5Sm1xYXFiN1ZQTWF2eUJRWGxoU0lj?=
- =?utf-8?B?cnptVTJqWnM4d0hmeG9WcmtnOGp0K0xpQm15MjNWenJvYkJzanIxZ1JzQlN5?=
- =?utf-8?B?VG9EZG83MDBJdnFRR0FFcldtVWV4VnMreW5laDdhMkVOMnJUaTM2ano3RDV4?=
- =?utf-8?B?bWRYV0FqUEdQTXd3RHExSEpEa1BXSWRFcVhvVGwvSjY1ZFJxWUJvbW5KMWdF?=
- =?utf-8?B?MW5jVkJXcW5SNHcxcy95UkVyT25pS1YrNSt1NDg3TGdZVnNpZDdLMFFud21L?=
- =?utf-8?B?UDlZRVRYL3lwUjZwaVFJOFpPd3hCaktFWDZ5em1yby9pYit0L2JmSXN0ZmhH?=
- =?utf-8?B?dE1nOVNxZnZraHRvVFd5ZTYxQUUvbENkRS9hS01YWkphV2xRWk5NNnliYS9p?=
- =?utf-8?B?b3o5ZXlVTTgxS1ZtQi9EOWFpWjlJazVIYWpxWXNkajB5eXpWUlFCWU9lSWQz?=
- =?utf-8?B?aVIxa3hiTllOZCs0TDlOb3BvcHllc0I2NGJXQzh6T3ptNllzTkJpWmZWMlhI?=
- =?utf-8?B?QkZ5ejlsT3puVHhpRFJUelJqWDMvWXBSMGZ3MEVZYnluTHY2N3REcTRFRFNF?=
- =?utf-8?B?UlVjY3RXVGZBNU9kM2pocU9IU0UrZ2VndnJLTWxCNmxLeWs4NmpWZUZRb0E4?=
- =?utf-8?B?eGNQS3pobXVGNXBzS0l1RDQrZkFSKzlsS3B2a0VIaVh3cEppR1ZHOXZkcXQ1?=
- =?utf-8?B?aHpMNjRpVmtlNW1Ra3oxWWpGb0NpVzFmMGJsT0lZZE1acHd6OUk2MjhyUUpD?=
- =?utf-8?B?WEdTYmxTc0FYTkdKaVlrNzdnOW9OOGQvVDBrL0grQVhRbFB2MWs2enY5dWk1?=
- =?utf-8?B?WHpaMXR0OXRRWWV5Q0tvOTlMQkQweS9UbDJZL2t1NUIvSWZ0N0o3S3NxVmtU?=
- =?utf-8?B?V0pmV0oydjA4ZkxtV3FRc2NOTkdYdmVSYkJ0TVZNTnQ5aVpDakN5dGhkendu?=
- =?utf-8?B?L2hZSVN3ODBpVFpSQzZ2MHBFSzdqQ0k0MHYzdWJUeHBJOTY1WmZIUC9JcnRo?=
- =?utf-8?B?YVJKZ0hOVDc2SWV1bHNQK2I1Q1Y2Rkt0L2lkQnlUYXREZDhZY05NZnZwd3JR?=
- =?utf-8?B?MVF6Z2w4aEVxQ3o0eHVIc1N6bUFJcmlXcEkxS3JoeWtGYmN6cXNlczdlek52?=
- =?utf-8?B?NklieDVqY0RWMWNwR1BvWGVvV2FOQ2dEZlJCUXlSUDJRZXhTY0VZVXl1cXcx?=
- =?utf-8?B?SzE4L1Y1NFJjcFdQT3BIK0xyTmgxWjlwV2xsMy8yZ2Z1OHVHL1JGWXllNXlZ?=
- =?utf-8?B?Z1F2RSt6eTA2UzhKbTIyY2lNbndueEN2SXhPSGN5T3VGNENldGFWUWsxSUQw?=
- =?utf-8?B?UlBGRmxSZDk0SFVBVU4zOFI4RjJDNTdVbGtDai9MN29mSWxJNkJIRVZDVWNq?=
- =?utf-8?B?d2dWb1FSTXVsL0RObkpnMTAwUC9YK2pleXNMaFVLZWRiakNLOWdYckpFTnA2?=
- =?utf-8?B?bzVxZ1pCTUFUUGtwWmlHK0pIaXhmdE1GQW45Q2FlSjFZK2U1VnRMMlA4MFIx?=
- =?utf-8?B?K3pKRDdUakJYc3BicEpwclpQTmFmL2dVRVpYY01COW1zMTc1TWRNV2xpZnlG?=
- =?utf-8?B?TTE0ZDV0UlhpM0w3eHRlV1hyRS9QalY2QVg1clQ5eHZpOFErTXk2ZTlqRVFj?=
- =?utf-8?Q?STa8Kvdhj6V27BFvXU=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C21B1DF963;
+	Mon, 24 Feb 2025 07:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740380997; cv=none; b=OTISCSAYBlcavBnIiqFAE1BBitL0hfotO8UxlUC0LOOTXq/m5kKxd5aSmaXjOSkl9sabv3jjRsd4B6cy82EQhmdHfFjzKSESMHsy8U52jZX2gmNKwTkLYDMh/XV1jaXlfvndY/g5Blo3vyw298kNGxtUzPfScLgtWgGkI/bncHY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740380997; c=relaxed/simple;
+	bh=fkASXmTFBo3Vl/klcz2dL1xKweKD4YSi26z5tvTK/J4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=vAFy4pOywzmnZCemICpHZIglVjKx/rcOjhnxAxq6d4JXNC4L5qYuhyVuZkmsXN0EuePfx7TBPGUuEI3W/Ox6o1KLlOUajXP8K9v0qxfo+HoovaviHZDnz9tTpiXalcOpWABSa9EghVfvb81iTRxEtaWe5VjggFPTqLcJwVu3PIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FFicEGbS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03944C4CED6;
+	Mon, 24 Feb 2025 07:09:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740380996;
+	bh=fkASXmTFBo3Vl/klcz2dL1xKweKD4YSi26z5tvTK/J4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FFicEGbSi56eSM0TXBdNGJZR6fyVj+36fd8Gmxf4LjhTEySCctA9GqzxpCjUDpfSL
+	 08Dx0KXfpmwPYGDHCDryGnRcCWDrE/aZF5kNI8zw1N4i9gU8E2AhbeTcQjT1TJqMNA
+	 7ykt4xwW+uATbSuqvLn2zrI+hZSeC+1/RAttYQTvRzkwbCUVR++Xv8GzLBF7nbG80w
+	 JZblYfa/c4q/ZdVDmLtzW/ix78wFgASzmTk9H/f+Z51ByZZhEvlKT9bGXwtBj1WjDq
+	 Pww4k4uxAbknRXPdJkgCEAFJpaVEcCST592dPPd9SJ3YLnKwsyg2B+yILZVl8zJg7A
+	 8hY8zjq85rorg==
+Message-ID: <bde62fee-4617-4db7-b92c-59fb958c4ca6@kernel.org>
+Date: Mon, 24 Feb 2025 08:09:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92b9fb0a-8cae-4df8-9408-08dd549baeae
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2025 06:22:58.3665
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2PPF10F160173
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+To: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
+ mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, parthiban.veerasooran@microchip.com,
+ arend.vanspriel@broadcom.com, johannes@sipsolutions.net,
+ gregkh@linuxfoundation.org, yury.norov@gmail.com, akpm@linux-foundation.org
+Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-3-visitorckw@gmail.com>
+Content-Language: en-US
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <20250223164217.2139331-3-visitorckw@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-DQoNCj4gT24gMjQgRmViIDIwMjUsIGF0IDExOjA34oCvQU0sIEFsZXggSGVucmllIDxhbGV4aGVu
-cmllMjRAZ21haWwuY29tPiB3cm90ZToNCj4gDQo+IO+7v1JlbW92ZSB0aGUgZml4dXAgdG8gbWFr
-ZSB0aGUgT21vdG9uIEtCMDY2J3MgRjYga2V5IEY2IHdoZW4gbm90IGhvbGRpbmcNCj4gRm4uIFRo
-YXQgd2FzIHJlYWxseSBqdXN0IGEgaGFjayB0byBhbGxvdyB0eXBpbmcgRjYgaW4gZm5tb2RlPjAs
-IGFuZCBpdA0KPiBkaWRuJ3QgZml4IGFueSBvZiB0aGUgb3RoZXIgRiBrZXlzIHRoYXQgd2VyZSBs
-aWtld2lzZSB1bnR5cGFibGUgaW4NCj4gZm5tb2RlPjAuIEluc3RlYWQsIGJlY2F1c2UgdGhlIE9t
-b3RvbidzIEZuIGtleSBpcyBlbnRpcmVseSBpbnRlcm5hbCB0bw0KPiB0aGUga2V5Ym9hcmQsIGNv
-bXBsZXRlbHkgZGlzYWJsZSBGbiBrZXkgdHJhbnNsYXRpb24gd2hlbiBhbiBPbW90b24gaXMNCj4g
-ZGV0ZWN0ZWQsIHdoaWNoIHdpbGwgcHJldmVudCB0aGUgaGlkLWFwcGxlIGRyaXZlciBmcm9tIGlu
-dGVyZmVyaW5nIHdpdGgNCj4gdGhlIGtleWJvYXJkJ3MgYnVpbHQtaW4gRm4ga2V5IGhhbmRsaW5n
-LiBBbGwgb2YgdGhlIEYga2V5cywgaW5jbHVkaW5nDQo+IEY2LCBhcmUgdGhlbiB0eXBhYmxlIHdo
-ZW4gRm4gaXMgaGVsZC4NCj4gDQo+IFRoZSBPbW90b24gS0IwNjYgYW5kIHRoZSBBcHBsZSBBMTI1
-NSBib3RoIGhhdmUgSElEIHByb2R1Y3QgY29kZQ0KPiAwNWFjOjAyMmMuIFRoZSBzZWxmLXJlcG9y
-dGVkIG5hbWUgb2YgZXZlcnkgb3JpZ2luYWwgQTEyNTUgd2hlbiB0aGV5IGxlZnQNCj4gdGhlIGZh
-Y3Rvcnkgd2FzICJBcHBsZSBXaXJlbGVzcyBLZXlib2FyZCIuIEJ5IGRlZmF1bHQsIE1hYyBPUyBj
-aGFuZ2VzDQo+IHRoZSBuYW1lIHRvICI8dXNlcm5hbWU+J3Mga2V5Ym9hcmQiIHdoZW4gcGFpcmlu
-ZyB3aXRoIHRoZSBrZXlib2FyZCwgYnV0DQo+IE1hYyBPUyBhbGxvd3MgdGhlIHVzZXIgdG8gc2V0
-IHRoZSBpbnRlcm5hbCBuYW1lIG9mIEFwcGxlIGtleWJvYXJkcyB0bw0KPiBhbnl0aGluZyB0aGV5
-IGxpa2UuIFRoZSBPbW90b24gS0IwNjYncyBuYW1lLCBvbiB0aGUgb3RoZXIgaGFuZCwgaXMgbm90
-DQo+IGNvbmZpZ3VyYWJsZTogSXQgaXMgYWx3YXlzICJCbHVldG9vdGggS2V5Ym9hcmQiLiBCZWNh
-dXNlIHRoYXQgbmFtZSBpcyBzbw0KPiBnZW5lcmljIHRoYXQgYSB1c2VyIG1pZ2h0IGNvbmNlaXZh
-Ymx5IHVzZSB0aGUgc2FtZSBuYW1lIGZvciBhIHJlYWwgQXBwbGUNCj4ga2V5Ym9hcmQsIGRldGVj
-dCBPbW90b24ga2V5Ym9hcmRzIGJhc2VkIG9uIGJvdGggaGF2aW5nIHRoYXQgZXhhY3QgbmFtZQ0K
-PiBhbmQgaGF2aW5nIEhJRCBwcm9kdWN0IGNvZGUgMDIyYy4NCj4gDQo+IEZpeGVzOiA4MTkwODNj
-YjZlZWQgKCJISUQ6IGFwcGxlOiBmaXggdXAgdGhlIEY2IGtleSBvbiB0aGUgT21vdG9uIEtCMDY2
-IGtleWJvYXJkIikNCj4gU2lnbmVkLW9mZi1ieTogQWxleCBIZW5yaWUgPGFsZXhoZW5yaWUyNEBn
-bWFpbC5jb20+DQo+IC0tLQ0KDQpSZXZpZXdlZC1ieTogQWRpdHlhIEdhcmcgPGdhcmdhZGl0eWEw
-OEBsaXZlLmNvbT4=
+On 23. 02. 25, 17:42, Kuan-Wei Chiu wrote:
+> Several parts of the kernel open-code parity calculations using
+> different methods. Add a generic parity64() helper implemented with the
+> same efficient approach as parity8().
+> 
+> Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> ---
+>   include/linux/bitops.h | 22 ++++++++++++++++++++++
+>   1 file changed, 22 insertions(+)
+> 
+> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> index fb13dedad7aa..67677057f5e2 100644
+> --- a/include/linux/bitops.h
+> +++ b/include/linux/bitops.h
+> @@ -281,6 +281,28 @@ static inline int parity32(u32 val)
+>   	return (0x6996 >> (val & 0xf)) & 1;
+>   }
+>   
+> +/**
+> + * parity64 - get the parity of an u64 value
+> + * @value: the value to be examined
+> + *
+> + * Determine the parity of the u64 argument.
+> + *
+> + * Returns:
+> + * 0 for even parity, 1 for odd parity
+> + */
+> +static inline int parity64(u64 val)
+> +{
+> +	/*
+> +	 * One explanation of this algorithm:
+> +	 * https://funloop.org/codex/problem/parity/README.html
+> +	 */
+> +	val ^= val >> 32;
+
+Do we need all these implementations? Can't we simply use parity64() for 
+any 8, 16 and 32-bit values too? I.e. have one parity().
+
+> +	val ^= val >> 16;
+> +	val ^= val >> 8;
+> +	val ^= val >> 4;
+> +	return (0x6996 >> (val & 0xf)) & 1;
+> +}
+> +
+>   /**
+>    * __ffs64 - find first set bit in a 64 bit word
+>    * @word: The 64 bit word
+
+
+-- 
+js
+suse labs
 
