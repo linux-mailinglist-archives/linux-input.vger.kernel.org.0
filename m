@@ -1,127 +1,105 @@
-Return-Path: <linux-input+bounces-10282-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10283-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8419AA41926
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 10:32:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A78FA41A3F
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 11:09:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 00C271883DE3
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 09:30:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0ADDE17909A
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 10:05:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 213DA243369;
-	Mon, 24 Feb 2025 09:30:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E04252512DC;
+	Mon, 24 Feb 2025 10:03:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WP3+kOa3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d0bkq428"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61EEC158D96
-	for <linux-input@vger.kernel.org>; Mon, 24 Feb 2025 09:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3684E250BFD;
+	Mon, 24 Feb 2025 10:03:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740389419; cv=none; b=S9eG83lTfnxFeT6992/oEOh8C7Rqx92QAd3UYIZHTrKnxfuCWPYeMQiZ2pH6hslxcq2IWqCy7vojvNRj+g8mK8l7pil255mfqAOG2ssIy+PrSyLbOf/ww/tklAk/FAYX6kz906Rv8e8x1zkSxO6vSlQKAeOKQPOQoI9TkVT0nVE=
+	t=1740391407; cv=none; b=ChIu1/tz4+JjPAW8Gk84dX2kHOey1WfrUHKeFZ1nlRzXjL/UUeBb3QcwReS6OXuO02js+HHtCytIGEPHaYfNUGyhzp7JJpSqp+p3Tp3NfmrtB3K1lsfe8CAux0pcfsTy8+9buonvG1GMpYnFuExJTufzFPa+/VQ18WiYmL2Kj+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740389419; c=relaxed/simple;
-	bh=YQExJ7jUd/Cw+KmuNvncQzBndAiLM9ouibxbO6Z7Hb0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pFkrzDAO4I+ioF4KxtOOugc/NuwUQhrg3ciDksnoIuSN3HBwYt+UHonDI0Q3scBlkMydF/hTUpP3jafL+6zWHfgSNIfhUg5iGNvliTakVKkRu2Ic4xWdCzuf30tXk/IFX3q0I+gk6JOZ2UzU87ZnmCcAeeOkEyw3g7X9eJViQzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WP3+kOa3; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-abb88d2b67eso46775166b.0
-        for <linux-input@vger.kernel.org>; Mon, 24 Feb 2025 01:30:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740389415; x=1740994215; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HLX8/NM8OxV+h6FP7c/FoaB9RiQlmNSOqyds5cH+az8=;
-        b=WP3+kOa3qKe8+UYYjUoFCs9Z84Eads58NGDKV9RV4vAk3toT+ZmwDXkWKTLF6sJ+4x
-         8wtiwCBea60W8RnvD+uLtsYYG+cjbQ+NjTqPNMgm7hynP66Ytdc3O+KXSDbT7v5VuDcR
-         fM4Hdg430vlALMvaweNLhJXkptWSAwZU3f+9CET/J2SjXKT85phxZHCkdPGhwgj/nDgH
-         tnc9FYsl3ws8REsVLuJx3PcFhFXh4BTi1khQ27gvRGC2e3z3lHgijkOyX6mDmO9vhu7U
-         UEhq2cUGRIsNzuh7BM7s4yTbJXVNiRUROhiKsKrxs/o7JedTlxkXV4/DnBEzfEZdxPst
-         c7Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740389415; x=1740994215;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HLX8/NM8OxV+h6FP7c/FoaB9RiQlmNSOqyds5cH+az8=;
-        b=nY7TTFLk9ZQoxyGCAUpN9wcjKkDkT1z1vRG+jsPpPBpT1v9qLgcy59Xv6aXwjz4nxJ
-         ZzLSRr8XPu3R8hI0a7N/zaO1y8hmFvf6RnRqgBJFu5sKdjVGWU6jzIpp/LTXy+zjWSn+
-         t5zPtEbyt0mP1tZ4UJC3eHzEGrlASbGGTmLLgaw26LufPh/xIcyBeFiQGJ9NzUWAK6X4
-         ebx/9s/HtATfATUJQkl0MYmDbG5v7DCawTGd2JyIvxf9Hs3nhkShRZsCuDJAoQLpValW
-         ccJJVO50vd/iEOBgt7RgZ6iGVUnFu6+5rQZYgRi/2oByA20hJOy9Caz6GFXmYEzrozTG
-         majA==
-X-Forwarded-Encrypted: i=1; AJvYcCVSR2JSJtB/T3BkT1xl6D+IR/iKaeCd8WxOD2pBv0M5iwtL/ow5NlsPVEb9QYjQY0M9Cs9qpmA0Gg1i7g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9nRRxps5Im44SaXXXTUPhYAg8vft92MB2UiLON2CfzTYsx9hC
-	gBIEsol5nGIuHSQ0DsBQCwmLfNUV24INQRLh2cMKiQ4JOplSpdL8
-X-Gm-Gg: ASbGncsgoV4p1HA92N9r4WA6xlS9lAx2YbwNXDXFKKu64J7S3UnA80Zj192s/VwM4qz
-	8PTk74MipIc8H34I6+jFqZR1xtEn69AkTge4jI2XT1k0abTbmuRPZ4xRe5eaR+QYUpuJq8SEaYx
-	kmFso7PVUM+iYG5iRuys2vuVkcYWYJ6rJFKsFFFyAMWYy9rhdyEuZ70AVzT/rmGfPchGn4cm05n
-	4ZhIxUc+RfvfR9brUCHyqmVaihzwQFRM4xrcaEqr+La4/WZ4T8zGjL1w3Cg8pIfKaUIj93DW2se
-	vZqd1ZZMxreXSCyzeI7R2aczshvlyD5GaEdd2JdCgltz2gJQ5BzTzrQ3kHxnd/yAlWU6KwRp
-X-Google-Smtp-Source: AGHT+IFKSl+K6Z7qlMaI6GrBCAiX2Y+x+CxhBcBRGWjUmiwW5Ec/V+BJGDkkC7pIWqISid2WD5xn7Q==
-X-Received: by 2002:a17:907:608f:b0:ab7:5fcd:d4d5 with SMTP id a640c23a62f3a-abc09bd169dmr465665466b.8.1740389415455;
-        Mon, 24 Feb 2025 01:30:15 -0800 (PST)
-Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abba4b9ee98sm1416668666b.167.2025.02.24.01.30.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2025 01:30:15 -0800 (PST)
-From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: oleg@makarenk.ooo,
-	anssi.hannula@gmail.com,
-	linux-input@vger.kernel.org
-Subject: [PATCH 3/3] HID: pidff: Compute INFINITE value instead of using hardcoded 0xffff
-Date: Mon, 24 Feb 2025 10:30:09 +0100
-Message-ID: <20250224093009.1831811-4-tomasz.pakula.oficjalny@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250224093009.1831811-1-tomasz.pakula.oficjalny@gmail.com>
-References: <20250224093009.1831811-1-tomasz.pakula.oficjalny@gmail.com>
+	s=arc-20240116; t=1740391407; c=relaxed/simple;
+	bh=KQ22hIAPpKO2ylb4LULSdWfYR5KIsCrd+boJQZ3jYNA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fg9NPp7gB+AC/m9FrhJzhV8Nu6LDRQbL+wXFpBjqiRsI68BjmmPkA2S9a9/zOS6aT5aNgl+M4yIQ+wl/RAzcGoZbhhjGulM8CkL6FotCcmPoWPJG/YqdMFAgx2Mb9t0L3DK0JIlWqXbWCx8iIQ+a9erOwi0dNilThMWkm0a33FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d0bkq428; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740391407; x=1771927407;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KQ22hIAPpKO2ylb4LULSdWfYR5KIsCrd+boJQZ3jYNA=;
+  b=d0bkq428NtGl3DzqDa3Cs7O2849pUhkY7dPojf8SlBxakyx/tey5vf1f
+   USQ1vb00lVPac5WY+PYOhb45jdvP2dKLmfzrANpimbD6K3q8Zb5XEgizI
+   cOLtWWKms2xrPkceHxzNmfyR/yC8nsR5xIqd7MLLAtANb6jGXKGTeK0og
+   ObFTzb6LuudBgkLb+YKeyP3EYulJHiiLMD+207f7fdlNBS9W+e8LITUoE
+   1pzMZhjpEmDN93RksuMo6VSIvPWYMkUkhZ8dAtWVVblPOTytMtP6WmCcP
+   KGtpLeesnOE73x03zvjnOc9jqL4usnCy0dLsXgr07+Wfy08qlzYfXG6qs
+   g==;
+X-CSE-ConnectionGUID: KJjfjTDBQWCcHOysW09lcw==
+X-CSE-MsgGUID: iAUwRwQ/QH6hAbXyvxLfWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="41050692"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="41050692"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:03:26 -0800
+X-CSE-ConnectionGUID: uj88UQdMR8SCvxpT/Z2gzQ==
+X-CSE-MsgGUID: Cb3A/5pxTMGR+phwiX1iIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="121284335"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:03:23 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tmVJ2-0000000Eevo-0M9z;
+	Mon, 24 Feb 2025 12:03:20 +0200
+Date: Mon, 24 Feb 2025 12:03:19 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Linux pin control <linux-gpio@vger.kernel.org>,
+	linux-iio@vger.kernel.org, linux-input@vger.kernel.org
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [GIT PULL] devres-iio-input-pinctrl-v6.15
+Message-ID: <Z7xD57sjj4sbwMv5@smile.fi.intel.com>
+References: <Z7cqCaME4LxTTBn6@black.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z7cqCaME4LxTTBn6@black.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-As per USB PID standard:
-INFINITE - Referrers to the maximum value of a range. i.e. if in an 8
-bit unsigned field the value of 255 would indicate INFINITE.
+On Thu, Feb 20, 2025 at 03:11:37PM +0200, Andy Shevchenko wrote:
+> 
+> Hi Linux kernel maintainers,
+> 
+> Here is an immutable tag of the "Split devres APIs to device/devres.h and
+> introduce devm_kmemdup_array()" series [1], please pull if needed.
+> 
+> Link: https://lore.kernel.org/r/20250212062513.2254767-1-raag.jadav@intel.com [1]
 
-Detecting 0xffff (U16_MAX) is still important as we MIGHT get this value
-as infinite from some native software as 0 was never actually defined
-in Linux' FF api as the infinite value. I'm working on it though.
+Stephen reported that some of the commits miss my SoB tag (as the committer).
+I will issue another tag with than being fixed.
 
-Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
----
- drivers/hid/usbhid/hid-pidff.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index 74b033a4ac1b..a614438e43bd 100644
---- a/drivers/hid/usbhid/hid-pidff.c
-+++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -283,8 +283,9 @@ static void pidff_set_duration(struct pidff_usage *usage, u16 duration)
- 	if (duration == FF_INFINITE)
- 		duration = PID_INFINITE;
- 
-+	/* PID defines INFINITE as the max possible value for duration field */
- 	if (duration == PID_INFINITE) {
--		usage->value[0] = PID_INFINITE;
-+		usage->value[0] = (1U << usage->field->report_size) - 1;
- 		return;
- 	}
- 
 -- 
-2.48.1
+With Best Regards,
+Andy Shevchenko
+
 
 
