@@ -1,217 +1,119 @@
-Return-Path: <linux-input+bounces-10263-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10264-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C0F1A414D8
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 06:40:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1598A414DA
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 06:41:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B34151892041
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 05:40:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EFFA93B2F4C
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 05:40:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36DD51A76AC;
-	Mon, 24 Feb 2025 05:40:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7220A1B413D;
+	Mon, 24 Feb 2025 05:41:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="lx5hT3IL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PrJAwp8P"
 X-Original-To: linux-input@vger.kernel.org
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19011036.outbound.protection.outlook.com [52.103.68.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED88B1428E7
-	for <linux-input@vger.kernel.org>; Mon, 24 Feb 2025 05:40:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740375627; cv=fail; b=GT8Bkt4l/m+J04BQ9AfoiVSta0YLEEpCzYUO7+SJn0qyqQTRlTbnYs9rjPGVMg3DOH25IGasBwmrBMNrilyPsAAH2B6VhsUPZWiGxRxxe299uHUtMl2DrHtKTu59uEwLr35eS+eCiSt/cGDtN9ZfW1vqVQ6ozQLFrvWFjlJXQt0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740375627; c=relaxed/simple;
-	bh=++FFCXs9sCV1OpaUByCO7FfVxHnEpEBbWUXCbigTfcI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=IvsJt9xKXV5iIZ/xSSlLeVWqpmdoE1Aw0SSz7a9d+OG6MIndCE+33TRXHdLPcRtuzxlE4UZb3P1Ip9hZr3uImnqQ+fdFIRvfCGXQ/LV8ncvBQi5J7S1x02IjR9GJHD91TnXa5fdEUNp9ktQ/SBziFCVnkirXOIyVCYwhPHwcB9o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=lx5hT3IL; arc=fail smtp.client-ip=52.103.68.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Wsh6wLjOLQ6/EmIx6JC+QlR5WukMrocQcCMoD2yssD3A84RiCOdsQ12FSekRXHI9/PHPoQDX341ZFyimSpc1b4TcCRSHr07gkc3o5mYWwqDWmfP802iS+UX/2RZZCcfwbcJUpXrhhPcxGhk8jlZzly+k3IyL5NRtDvtzX4GsgYznBPM0CV6tWqVnI4Kwdqh+NRheM+MYK+if+KKTpG0fcrZBH7YI0XXZ0IRAwI2loTzkupkT64IoL+0Rf02qwU9CznrhVAAavUJKP5y4+r3Ymwp9uvbV1LP8tEEYc3Vc8l4CItm+3H9dEXKsOULQmoNzKyVUQ9RU1x6ihSayAvcegw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=++FFCXs9sCV1OpaUByCO7FfVxHnEpEBbWUXCbigTfcI=;
- b=B7rZ0gplQnnhHMS5R5D2g6XMdEhdxA/9LxfEP6o77LvNfCa4/qNBUPFdevYdTibzKuATkWpiGFSfU10+PEQjPFXtxg0u7BWC/D8m1Ex/p/9tuDiFcVwqEiPs3N2c4XqWlMBL+NAZqfTOuxPs0bvoExIRR0Gaob8yp44Zx40nRDpuJfeVm6S0EGGSZ2MwIfqZxCcJyMzb1Y5pYP2vrBUYFr2YcTObubO+TAFYMjhStvfxgsmFyBSAlZLtugoD5GHxUHbKgq5LUegIRfGsYkI960/NWeH2Ma8Fka3bVWgKmNf+L8mWwfNVf9HBmPsTrlLcZ9uFjjR6C9EqM17aaF8tlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=++FFCXs9sCV1OpaUByCO7FfVxHnEpEBbWUXCbigTfcI=;
- b=lx5hT3ILUqQpRemoK9T5YqeSNdBCeNPiIvpVYbKrhfz2SUirv+VnGn5zcLWWHtYuBDW9xX4/Xe8Ht0/gxeZhD/+i3S4sgydgSKO+ISGPCMdtdP8M2drsnSYNHB5VgAwuOHaJ5LTXvYSIKLEemLxJQUAgDviuPJFcbAqr8xP2URmexsM5MnF12Uo/LHK3MHLz0yachrINqTakf4oO6HFvHTQPpixJaS4Ek3+Rs2VKdwPy7C/3s3zmhSB+PRlF7Xr0lp8P8X9AaW0lZxoQIzZEwz3FfIOnjbv1A7UTUqAiuGIhzfBOIQYwOO9p6kqANOHhKyZahq+xqCAO78L9GMCFVw==
-Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1d::9)
- by MA1PPF1F03EA81C.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a04::30b) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.21; Mon, 24 Feb
- 2025 05:40:20 +0000
-Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::27a3:3d7e:30be:e1d1]) by PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::27a3:3d7e:30be:e1d1%3]) with mapi id 15.20.8466.016; Mon, 24 Feb 2025
- 05:40:20 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: Alex Henrie <alexhenrie24@gmail.com>
-CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"jkosina@suse.cz" <jkosina@suse.cz>, "benjamin.tissoires@redhat.com"
-	<benjamin.tissoires@redhat.com>, Alex Henrie <alexhenrie24@gmail.com>
-Subject: Re: [PATCH] hid: apple: disable Fn key handling on the Omoton KB066
-Thread-Topic: [PATCH] hid: apple: disable Fn key handling on the Omoton KB066
-Thread-Index: AQHbhn4lZ9IKkTrshEyIJtvBtkR/LbNV8DEa
-Date: Mon, 24 Feb 2025 05:40:19 +0000
-Message-ID:
- <PNZPR01MB447838FBA8CE5A22C8096A4BB8C02@PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM>
-References: <20250224053632.2800-1-alexhenrie24@gmail.com>
-In-Reply-To: <20250224053632.2800-1-alexhenrie24@gmail.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-IN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PNZPR01MB4478:EE_|MA1PPF1F03EA81C:EE_
-x-ms-office365-filtering-correlation-id: b3846962-74b2-413b-34cc-08dd5495b9c0
-x-microsoft-antispam:
- BCL:0;ARA:14566002|461199028|8062599003|7092599003|15080799006|6072599003|19110799003|8060799006|3412199025|440099028|41001999003|102099032;
-x-microsoft-antispam-message-info:
- =?utf-8?B?Q2k5TDJiRWNxVzd6TGtUZEpMa2JkamtYb2pzYVF3c3gyK0hYa0dIR1Ewdzlk?=
- =?utf-8?B?d0lxTkhnaE5JVkUvdTIxNG5yajl5L3Bpa0dMUnJJWnJxYnRTV2M4MzZLa1li?=
- =?utf-8?B?VG51M09NbDg0dDFHZ0l3N0VHR0JrNDFqaU9zSlEzM2VKcG55bnFWb21EWEE2?=
- =?utf-8?B?T0hHKzI0M2J1QUh6VW90SEM4K1RxWmtBKzZUNFYrYmQwck9ib1JMV0pBQzRp?=
- =?utf-8?B?WUVzRitMOHNrcW1ZMkxaMWpvOTdSQ0FMbE8yQkxVWjJZTExxRmRCWWJiTHBr?=
- =?utf-8?B?TmRJZU9CSVBJK25NOGNUaHhZU29NU0U4bndqc3ArbE1vUktDUlo0cm9ydmxm?=
- =?utf-8?B?WGN3eEpoRTNpMzNhR3JnNnVjcnpwYnNOeTdDOVE3SXE5cXNQTkVRQjE4WEJI?=
- =?utf-8?B?U0VsU3hXNDhET3pBcXAyNGJnTTgxaXMzenZQT3FXZytKWW1WZk83TEVQSlVw?=
- =?utf-8?B?TjVqNFhjSXpweHd4M0NuNVpNVjllNnMrUkZuZDdvZ2pjaUQ4Y05jbG52azVr?=
- =?utf-8?B?V3hxWmdzajA0OHpTSlRDNDN2NDVtVE1YbUxCRFB1Yjc4bGcydVcyOW10TjQv?=
- =?utf-8?B?ZVVST2h6SDF5OU43VGlaVHVPSlg1YjJqQ2FDRytjNmZqSUowTzJXWklTcTN4?=
- =?utf-8?B?b0hHdit1d0MyZm9obFhHTlN0aDVGb2RlNGZwQkRQZG42b0ZCcGZnZkdtYUpU?=
- =?utf-8?B?U1ZPSnVFZU9uZ3RNKzFVTDdmOHdiUzBiMkpEcG1ZTHloeEhBaHJnVWNwRDBw?=
- =?utf-8?B?YXFRelJETHNpQzlYa3g2L2JQNUZScTVpbUJBcXFFK2ZpMmFHRksvajZEQzNO?=
- =?utf-8?B?TWN1SzliRDVGZXN4VGpLV3BHQzR5eXFFS21MUG5hSS82ZTdVOGZvdkhXcWg2?=
- =?utf-8?B?OEpqTWNqNmdLakJWc0xpc0t5ZmNqSW9HUFpGb3YxU0ZCZ3UyZm9jN1JiaWpR?=
- =?utf-8?B?bDBXbWgyZzkrZnRHVXRMWTN0R1l6ZHJDWUIySGEwMlBRSzVBQ09IdTFCRjJF?=
- =?utf-8?B?QmkySmJ3dFRJc2xvaVc4TVJCLzJXeXMwUmJ5SHJDNDhhVjc0cDAzMERRMkhN?=
- =?utf-8?B?ci9VV0QxeXlEaUhFYVdjNUoreHd5TXlKR3Z3d0hUWWRFM0o2MFJiSzErQ1Fl?=
- =?utf-8?B?MVVZaTVIUWR5RkNZSklUNnNxSjdKMVE2R1N2RkRMamlhUjNmNFRWbVk4QmY5?=
- =?utf-8?B?c3NsZzdSTmpOWnMyUUZSWTRza1JMY1JHRkRETno0eTh0emJrR1pNUWIxUEw3?=
- =?utf-8?B?Z3J2R3I2TG95dlZrK2tmR2JsNGtueDc3ZkVXaFJFRldDcU8rWlBBVzBYS0dL?=
- =?utf-8?B?VkJGMkZYWExHRWo2WkVXTERpT2s5c1VEYjhqWDlVeThkRHpRYm9Ibk1rUDA1?=
- =?utf-8?B?cmNpTTFEbk5xaFFaaXVuelRwWmlIM1NXK2RJbW5WQi9mWHRkV1BNTTFpN2o4?=
- =?utf-8?B?VEFDaWNsN2xCN1NTQ2Z0emYySUhDMmpOWndIVVl6d0MwbDgrWko0eGxQOGhz?=
- =?utf-8?B?V2Fxa1NDVmN3WUlxd29Ma2cwS2NxbGF4cjVRTVNQSFpacHBnRU0vV1VEanJ6?=
- =?utf-8?B?bWRJUT09?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?OGc2aVFDWmJrS3d6ckF5ZUNpS2RmeDFLTkQvYUx0TXFkMXhGNWR5YSsxdzJs?=
- =?utf-8?B?V3hHWGNmNFVJdUMzNC9tMEVQMU1ocE14K3pobEhGdXcyLzRtRjJ6WDFpOTcz?=
- =?utf-8?B?bjdtdG0yZkZFNyt1cHAxSW5LK3VYNERmNHVCMU1YU3BRY1IzUmhHVTlmUzJP?=
- =?utf-8?B?WUVLUFkzanZPNTRWYmxpTHJRQVhJV2hmdURJOGo2QkQ1Y3hEbW93ZGtJVUhk?=
- =?utf-8?B?a2MrTlgrUi9xOFpGOEd2TXpoVEFOeWRmRmRUTlQ5OHFSeTdZejRXYm52SVdL?=
- =?utf-8?B?dWdFQ04xbE0wZGQ4WmlwTytGcGd2bitVMmIxNTA0VHJUbWJaSERidUttSVln?=
- =?utf-8?B?SFRJYkNZZFp0VkxFMmNlSGd6aUNHMG5Eb1ZJRTF4cDNTbml0OXZxV1VZUGRu?=
- =?utf-8?B?YzdGUW9wVzZzT1Z6ekpGcUNOY1h2Q0cyelJKS2RlKzBTWld2aUJuNGsza0hZ?=
- =?utf-8?B?RzZzbys1ejJIUFlOaW11cEVaZC9ObTYwM21LZ1Jza0RXVjZVMjdudWtYdDRi?=
- =?utf-8?B?anQ3VnJKY3JjM1BsdVlKSlVicnp3UUU4MXFITi91YUgrWVl0QjMyRktzc0pQ?=
- =?utf-8?B?dFJzZWR5RERLZzhDQTJ1bmU2OFVmTE1nL1lnOFMwT3ZpMXAzRlhYUldCbStU?=
- =?utf-8?B?cW8vRktZV3NLYm45MnlHNjZPRllDbnpGS1UrNDBnZ2g1RlhKYWVCU3FhR3pQ?=
- =?utf-8?B?c3RIMzgyVUdDZUZOTmVqRUlwcHRCN200Y09UZzN4S0VxNGcvNXpaUlVMT0hm?=
- =?utf-8?B?R0tyck4rRDhtMG1IWmdKVCs5eUU4WTlPRXRQZHhQelNTdkxsaGNKcFlwZEVn?=
- =?utf-8?B?dVVvUmZZWnVwMmpSbjl6QmtmVlVsbGs4SG8zd0tjek1vbmxUOG9wTUw3YlVi?=
- =?utf-8?B?SFZjQnpUeTJVblkzb3BSWjFRTlErcDFJN0R3b3lOSkVzN3NDZ1BlUE9zYnp3?=
- =?utf-8?B?R1hzWVF3Qk9aTk90cGNkYXZpTTd2bFN3aWVkZzQrYlJweXFSTVZEZElVaVJX?=
- =?utf-8?B?NENYQzYrYzVML29iTktkT1k1MWoyc241YlA1cmVhRkUxQ3dZU2x0bkNOd0dl?=
- =?utf-8?B?TkVPMHJIL0dnYXg5TDZ2OExpR09GRk11TlNYMGRBVDNZTlhHOGd2cGhpT3BU?=
- =?utf-8?B?eG52dXV2ek9vckg1TWtEajZrNU5jdC9yeGhoVUNYMHA0ZFBoaHE2M2g3Q3pG?=
- =?utf-8?B?QmhtdHRpeHArSjdaT0Q3ODBWWWdIUTNCdmdqdTIwRCtDWWhiUzVtR1kwekJs?=
- =?utf-8?B?MldMc2oyVlpjNWRMZlZwSkowMU9DTlR0K0krdFRkUitveDRpUUFjZkUvSXc1?=
- =?utf-8?B?QnZwK0xkWkxwYndVS0h2QTZUcGhGUGxreEZ0L1BsR2h2VWZ5emQ2ZlE3Rjla?=
- =?utf-8?B?Sjd6d2toaWhFV1ZpSGVhWE1KZGF3VlYyUjNJbjFRNHlWcFVWUG96RmZjM0U1?=
- =?utf-8?B?V0R3R3NyeSsvMDhvMXdxVThFUVNoWWdneFRoWFQ3VEFWbTg0RjlOODkrZnlX?=
- =?utf-8?B?cEQ3dGFLSjhBOUxYbzIrRGp5SE51WWlqSWtzVHVncUIvdkdDUjNEMlNZczNQ?=
- =?utf-8?B?QzUwVW05MTFwdHRPYkhKQkwyeHZtTjZSajFZUnlzUEhaWnVTc1d3ZjNxQWdI?=
- =?utf-8?B?eHJuY3k2blNkaE4ySmJVeCtIckFyWDk5aDk1R2FMSHozQzV1d0lRZzltZ1cw?=
- =?utf-8?B?N1BQN0psRmVSVFJ4Zy9rU1I0NUJPcUV5Q3ZYaytMZlRxQzg0cmNOSmh1UmIr?=
- =?utf-8?Q?ttZaD5wiAwzmbZwiGM=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E419A3C14
+	for <linux-input@vger.kernel.org>; Mon, 24 Feb 2025 05:41:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740375663; cv=none; b=MuEASPunRXP322BAljYkYCfPCDM6K240gsHKtBb8vsLqgaF7Wnt1KYJtQjxHijG31AEjMFdej6ejCYx23Qk2XDLArXC1XouJLLJAxfeElOb4rug9/fHn5m0qxhouaRDDh5TYD/5yzi8sl0PD6MPZuba2GniY659vFdbAE79rJL8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740375663; c=relaxed/simple;
+	bh=3shVKq+vgkmYzSHF0zoCaneGsGaR26e5UOCR0+KUo1c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fBT+UUgp24eid5j81VmnTBelaDFB4tlfVSNKMGJ0uOzEDYTxPaTGKBJP8fmXLg5R+vRkCEf3zah/KnycJQ91JCWEqGes+99YNJMrISY1LHeiEp2XFYnsXDdwHBAp2R6uKJuSGsah7+OEDeCqkAZ+Wrp6ygVPJBdnYORd5YmfV7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PrJAwp8P; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6fcdf0980a6so11423667b3.1
+        for <linux-input@vger.kernel.org>; Sun, 23 Feb 2025 21:41:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740375661; x=1740980461; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3shVKq+vgkmYzSHF0zoCaneGsGaR26e5UOCR0+KUo1c=;
+        b=PrJAwp8Pp6lVk4y6TcOn1gSTn8GKzbPgwJdHfH8IPmxygdMxVlk9hHW6eZOJbjwych
+         ZoMsaL0XIIZIPsWegqwvjxK0p5nXwjzOyX5RLXPgkj/kw+llHP4oAxeN2MToGt6v/v3d
+         1o9lpXx/gTRFYl5FFlnarDsjODAjOIwIGuW3B4aOrw1MxYUV2kll6ILQXycy9k+/YfBg
+         L4YgNVZOzBntji0XJznS4ynfR7amRh4TrnofHp+vAY8yVnVFR0gJigS9IhTHf21Wc3ID
+         t2+UIg5JRPUgK+YZhODhzzDJH6zQVogXYcBKeYe/aw9G+8siOdrS6/qlMyxIv5+yEQRf
+         92bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740375661; x=1740980461;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3shVKq+vgkmYzSHF0zoCaneGsGaR26e5UOCR0+KUo1c=;
+        b=HtEFb3NaAjyCp/dkiFYNhy7pw88KJYSFx64GkXpfpDvttpEsfVRG2lO8muEVbmY78k
+         aQkaeWq/wJUGycDLYD9+9DqLjpg/7oMlv+1S+gVy6MF3iq4cmWanhSwC8zoX/J7PcTU4
+         L8wMIDR25Z1FI7r584Mo0BsEwWii2kWOLlQId353QoDR2ipNQ18iVGp801tfIHjJxEqT
+         LrJJyShgecanCd5Aoz24576TXXJWi6RqCNNsAA1ngQpXaPo/9MJnAa+ORcAaGnQcVafT
+         c60LwRslANzxeMQnSo+XtiY5r2OKCZDg+72uu5Ziwxw1C915RpVSLlrelhDWQep9JO1x
+         kCkQ==
+X-Gm-Message-State: AOJu0YwW3WfqlVe4OIwqykmGKhaFV1XMfMgYTsLLBMBW7F43OyRgRVFk
+	Mg5sWkfNnALhedPIXOAK9FpNqewSpNCfQlnT3+UJ5JBfh4Koxsou6Gb6khT8B+KEMAdH04Ij++H
+	ADVBzt5Gnn3kqOxwPrRTzzMrD9Cyljg==
+X-Gm-Gg: ASbGncvs7GAGofx4yKZyGpFovaCVKRlpS9hES0kvh7g+/cqIovXBimJE/7vP7Teyovt
+	qMgYoAntsP2MHPm0i/XNUwl8twkzlEW2XmUTJ7ja8kpyXk4bfCf6bN+Qc51JX7mSefjydt9NNr2
+	ptou2KMJM9ntd8TIZ22noo/xZpJe6u+AYX1QIK+puY
+X-Google-Smtp-Source: AGHT+IF7VkFp2uLB8/9+F7ywE3OLWQifZKT3dUMwR7HEJhBdiLCyJaKDXpqEAUOZJdMpeE7u2+C8eOssRVkJsizcm64=
+X-Received: by 2002:a05:690c:6a06:b0:6f6:7b02:2568 with SMTP id
+ 00721157ae682-6fbcc38c9c1mr98851087b3.32.1740375660680; Sun, 23 Feb 2025
+ 21:41:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3846962-74b2-413b-34cc-08dd5495b9c0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2025 05:40:19.9401
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA1PPF1F03EA81C
+References: <20241001055146.543800-1-alexhenrie24@gmail.com>
+ <20250117061254.196702-1-alexhenrie24@gmail.com> <3137A636-3FC2-4016-BC64-F5CEF308F834@live.com>
+ <55B3D2BA-F363-4335-820F-21DB90312CD2@live.com> <CAMMLpeTgY0pnAr9Q=_Dc4iUWkmZc3ixGU656CK+KU8qY2sLBsg@mail.gmail.com>
+ <F209BEE2-29F0-4A0B-8B94-2D5BFA00AC90@live.com> <67482FB6-C303-4578-8B3D-6F4A4039D379@live.com>
+ <CAMMLpeQDVinMKsRi-u5afKSYzoG=FGgYPsHwibHgheZwHaJSQg@mail.gmail.com>
+ <99960098-E28B-4C83-BC52-BF5DEC1A16AB@live.com> <CAMMLpeSaND7MTYYF=uccM_HBYysHX_GuuTp3YSWzV_kx_9D6hA@mail.gmail.com>
+ <A58096D0-D8FC-42F6-BCAE-8D099E81E3AA@live.com> <CAMMLpeRg8RhncwwK7yyJsT=8Q7221euMA7=-mySN3YLFpWPQjQ@mail.gmail.com>
+ <CAMMLpeReEKgizVQ6Z9=Go2y9djoTBPofbB8vJbPDbjvunuLDLw@mail.gmail.com>
+ <PNZPR01MB4478510C11E2D619C793D23BB8C02@PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM>
+ <CAMMLpeQwAiD1_7Wc+25Gt4UHKwn6vfup+xdvekpEfr2G=-vW3g@mail.gmail.com> <PNZPR01MB4478184BF3EBAE540C876EA9B8C02@PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM>
+In-Reply-To: <PNZPR01MB4478184BF3EBAE540C876EA9B8C02@PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM>
+From: Alex Henrie <alexhenrie24@gmail.com>
+Date: Sun, 23 Feb 2025 22:40:25 -0700
+X-Gm-Features: AWEUYZmNRC68ZcolQwDPkTtRE0Vnqm-VsYnJWsbftM3W45boHm04V2R74mb7F8Q
+Message-ID: <CAMMLpeQ_pT5310atonw2-bs8Zn9a+Uwe_Pb16WQ3dV8SG6vZbw@mail.gmail.com>
+Subject: Re: [PATCH resend] HID: apple: fix up the F6 key on the Omoton KB066 keyboard
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "open list:HID CORE LAYER" <linux-input@vger.kernel.org>, "jkosina@suse.cz" <jkosina@suse.cz>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SSB3YXMgYWJvdXQgdG8gc2VuZCBzb21ldGhpbmcgc2ltaWxhcg0KDQo+IE9uIDI0IEZlYiAyMDI1
-LCBhdCAxMTowN+KAr0FNLCBBbGV4IEhlbnJpZSA8YWxleGhlbnJpZTI0QGdtYWlsLmNvbT4gd3Jv
-dGU6DQo+IA0KPiDvu79SZW1vdmUgdGhlIGZpeHVwIHRvIG1ha2UgdGhlIE9tb3RvbiBLQjA2Nidz
-IEY2IGtleSBGNiB3aGVuIG5vdCBob2xkaW5nDQo+IEZuLiBUaGF0IHdhcyByZWFsbHkganVzdCBh
-IGhhY2sgdG8gYWxsb3cgdHlwaW5nIEY2IGluIGZubW9kZT4wLCBhbmQgaXQNCj4gZGlkbid0IGZp
-eCBhbnkgb2YgdGhlIG90aGVyIEYga2V5cyB0aGF0IHdlcmUgbGlrZXdpc2UgdW50eXBhYmxlIGlu
-DQo+IGZubW9kZT4wLiBJbnN0ZWFkLCBiZWNhdXNlIHRoZSBPbW90b24ncyBGbiBrZXkgaXMgZW50
-aXJlbHkgaW50ZXJuYWwgdG8NCj4gdGhlIGtleWJvYXJkLCBjb21wbGV0ZWx5IGRpc2FibGUgRm4g
-a2V5IHRyYW5zbGF0aW9uIHdoZW4gYW4gT21vdG9uIGlzDQo+IGRldGVjdGVkLCB3aGljaCB3aWxs
-IHByZXZlbnQgdGhlIGhpZC1hcHBsZSBkcml2ZXIgZnJvbSBpbnRlcmZlcmluZyB3aXRoDQo+IHRo
-ZSBrZXlib2FyZCdzIGJ1aWx0LWluIEZuIGtleSBoYW5kbGluZy4gQWxsIG9mIHRoZSBGIGtleXMs
-IGluY2x1ZGluZw0KPiBGNiwgYXJlIHRoZW4gdHlwYWJsZSB3aGVuIEZuIGlzIGhlbGQuDQo+IA0K
-PiBUaGUgT21vdG9uIEtCMDY2IGFuZCB0aGUgQXBwbGUgQTEyNTUgYm90aCBoYXZlIEhJRCBwcm9k
-dWN0IGNvZGUNCj4gMDVhYzowMjJjLiBUaGUgc2VsZi1yZXBvcnRlZCBuYW1lIG9mIGV2ZXJ5IG9y
-aWdpbmFsIEExMjU1IHdoZW4gdGhleSBsZWZ0DQo+IHRoZSBmYWN0b3J5IHdhcyAiQXBwbGUgV2ly
-ZWxlc3MgS2V5Ym9hcmQiLiBCeSBkZWZhdWx0LCBNYWMgT1MgY2hhbmdlcw0KPiB0aGUgbmFtZSB0
-byAiPHVzZXJuYW1lPidzIGtleWJvYXJkIiB3aGVuIHBhaXJpbmcgd2l0aCB0aGUga2V5Ym9hcmQs
-IGJ1dA0KPiBNYWMgT1MgYWxsb3dzIHRoZSB1c2VyIHRvIHNldCB0aGUgaW50ZXJuYWwgbmFtZSBv
-ZiBBcHBsZSBrZXlib2FyZHMgdG8NCj4gYW55dGhpbmcgdGhleSBsaWtlLiBUaGUgT21vdG9uIEtC
-MDY2J3MgbmFtZSwgb24gdGhlIG90aGVyIGhhbmQsIGlzIG5vdA0KPiBjb25maWd1cmFibGU6IEl0
-IGlzIGFsd2F5cyAiQmx1ZXRvb3RoIEtleWJvYXJkIi4gQmVjYXVzZSB0aGF0IG5hbWUgaXMgc28N
-Cj4gZ2VuZXJpYyB0aGF0IGEgdXNlciBtaWdodCBjb25jZWl2YWJseSB1c2UgdGhlIHNhbWUgbmFt
-ZSBmb3IgYSByZWFsIEFwcGxlDQo+IGtleWJvYXJkLCBkZXRlY3QgT21vdG9uIGtleWJvYXJkcyBi
-YXNlZCBvbiBib3RoIGhhdmluZyB0aGF0IGV4YWN0IG5hbWUNCj4gYW5kIGhhdmluZyBISUQgcHJv
-ZHVjdCBjb2RlIDAyMmMuDQo+IA0KPiBGaXhlczogODE5MDgzY2I2ZWVkICgiSElEOiBhcHBsZTog
-Zml4IHVwIHRoZSBGNiBrZXkgb24gdGhlIE9tb3RvbiBLQjA2NiBrZXlib2FyZCIpDQo+IFNpZ25l
-ZC1vZmYtYnk6IEFsZXggSGVucmllIDxhbGV4aGVucmllMjRAZ21haWwuY29tPg0KPiAtLS0NCj4g
-ZHJpdmVycy9oaWQvaGlkLWFwcGxlLmMgfCAxMSArKysrKysrLS0tLQ0KPiAxIGZpbGUgY2hhbmdl
-ZCwgNyBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvaGlkL2hpZC1hcHBsZS5jIGIvZHJpdmVycy9oaWQvaGlkLWFwcGxlLmMNCj4gaW5kZXgg
-NDk4MTJhNzZiN2VkLi5kOTAwZGQwNWMzMzUgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvaGlkL2hp
-ZC1hcHBsZS5jDQo+ICsrKyBiL2RyaXZlcnMvaGlkL2hpZC1hcHBsZS5jDQo+IEBAIC0zNzgsNiAr
-Mzc4LDEyIEBAIHN0YXRpYyBib29sIGFwcGxlX2lzX25vbl9hcHBsZV9rZXlib2FyZChzdHJ1Y3Qg
-aGlkX2RldmljZSAqaGRldikNCj4gICAgcmV0dXJuIGZhbHNlOw0KPiB9DQo+IA0KPiArc3RhdGlj
-IGJvb2wgYXBwbGVfaXNfb21vdG9uX2tiMDY2KHN0cnVjdCBoaWRfZGV2aWNlICpoZGV2KQ0KPiAr
-ew0KPiArICAgIHJldHVybiBoZGV2LT5wcm9kdWN0ID09IFVTQl9ERVZJQ0VfSURfQVBQTEVfQUxV
-X1dJUkVMRVNTX0FOU0kgJiYNCj4gKyAgICAgICAgc3RyY21wKGhkZXYtPm5hbWUsICJCbHVldG9v
-dGggS2V5Ym9hcmQiKSA9PSAwOw0KPiArfQ0KPiArDQoNClNob3VsZCBiZSBtYWtlIGEgdGFibGUg
-aGVyZSBzbyB0aGF0IHNpbWlsYXIga2V5Ym9hcmRzIHdobyB3YW50IGZuIHRvIGJlIGRpc2FibGVk
-IGNhbiBiZSBwdXQ/DQoNCj4gc3RhdGljIGlubGluZSB2b2lkIGFwcGxlX3NldHVwX2tleV90cmFu
-c2xhdGlvbihzdHJ1Y3QgaW5wdXRfZGV2ICppbnB1dCwNCj4gICAgICAgIGNvbnN0IHN0cnVjdCBh
-cHBsZV9rZXlfdHJhbnNsYXRpb24gKnRhYmxlKQ0KPiB7DQo+IEBAIC01NDYsOSArNTUyLDYgQEAg
-c3RhdGljIGludCBoaWRpbnB1dF9hcHBsZV9ldmVudChzdHJ1Y3QgaGlkX2RldmljZSAqaGlkLCBz
-dHJ1Y3QgaW5wdXRfZGV2ICppbnB1dCwNCj4gICAgICAgIH0NCj4gICAgfQ0KPiANCj4gLSAgICBp
-ZiAodXNhZ2UtPmhpZCA9PSAweGMwMzAxKSAvKiBPbW90b24gS0IwNjYgcXVpcmsgKi8NCj4gLSAg
-ICAgICAgY29kZSA9IEtFWV9GNjsNCj4gLQ0KPiAgICBpZiAodXNhZ2UtPmNvZGUgIT0gY29kZSkg
-ew0KPiAgICAgICAgaW5wdXRfZXZlbnRfd2l0aF9zY2FuY29kZShpbnB1dCwgdXNhZ2UtPnR5cGUs
-IGNvZGUsIHVzYWdlLT5oaWQsIHZhbHVlKTsNCj4gDQo+IEBAIC03MjgsNyArNzMxLDcgQEAgc3Rh
-dGljIGludCBhcHBsZV9pbnB1dF9jb25maWd1cmVkKHN0cnVjdCBoaWRfZGV2aWNlICpoZGV2LA0K
-PiB7DQo+ICAgIHN0cnVjdCBhcHBsZV9zYyAqYXNjID0gaGlkX2dldF9kcnZkYXRhKGhkZXYpOw0K
-PiANCj4gLSAgICBpZiAoKGFzYy0+cXVpcmtzICYgQVBQTEVfSEFTX0ZOKSAmJiAhYXNjLT5mbl9m
-b3VuZCkgew0KPiArICAgIGlmICgoKGFzYy0+cXVpcmtzICYgQVBQTEVfSEFTX0ZOKSAmJiAhYXNj
-LT5mbl9mb3VuZCkgfHwgYXBwbGVfaXNfb21vdG9uX2tiMDY2KGhkZXYpKSB7DQo+ICAgICAgICBo
-aWRfaW5mbyhoZGV2LCAiRm4ga2V5IG5vdCBmb3VuZCAoQXBwbGUgV2lyZWxlc3MgS2V5Ym9hcmQg
-Y2xvbmU/KSwgZGlzYWJsaW5nIEZuIGtleSBoYW5kbGluZ1xuIik7DQoNClByb2JhYmx5IGNoYW5n
-ZSB0aGUgbWVzc2FnZSBoZXJlIHRvIEZuIGtleSBub3QgZm91bmQgb3IgaGFzIGludGVybmFsIGhh
-bmRsaW5nDQoNCj4gICAgICAgIGFzYy0+cXVpcmtzICY9IH5BUFBMRV9IQVNfRk47DQo+ICAgIH0N
-Cj4gLS0NCj4gMi40OC4xDQo+IA0KDQpUaGFua3MNCkFkaXR5YQ==
+On Sun, Feb 23, 2025 at 10:30=E2=80=AFPM Aditya Garg <gargaditya08@live.com=
+> wrote:
+
+> > On 24 Feb 2025, at 10:49=E2=80=AFAM, Alex Henrie <alexhenrie24@gmail.co=
+m> wrote:
+> >
+> > =EF=BB=BFOn Sun, Feb 23, 2025 at 10:05=E2=80=AFPM Aditya Garg <gargadit=
+ya08@live.com> wrote:
+
+> >> Removing APPLE_HAS_FN quirk seems to be a better idea tbh
+> >
+> > I agree. I'll send a patch shortly that will do exactly that.
+>
+> I just made a patch. I'll sent it soon.
+
+I was going to spend a little more time looking over the patch I wrote
+before I sent it, but I just sent it to avoid wasting your time on
+duplicated effort. The most difficult part of the patch was writing a
+clear explanation in the commit message.
+
+-Alex
 
