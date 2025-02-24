@@ -1,128 +1,197 @@
-Return-Path: <linux-input+bounces-10295-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10296-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B59CA42675
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 16:38:30 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F118A42796
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 17:15:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E08DA1785B9
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 15:36:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AFA0C7A63AB
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 16:14:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A4AD248897;
-	Mon, 24 Feb 2025 15:36:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CTSbhAxR"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 736E324EF78;
+	Mon, 24 Feb 2025 16:15:35 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-il1-f206.google.com (mail-il1-f206.google.com [209.85.166.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84E615E90;
-	Mon, 24 Feb 2025 15:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33CC17799F
+	for <linux-input@vger.kernel.org>; Mon, 24 Feb 2025 16:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740411362; cv=none; b=IFuS2J5ulD8S7afYs2pJjS7QCr5kd8cv154XnhkX+mBCa+tKpRRD8RK/1h3iTRvkZEvW00iHn26jBTI1dDmLt66bcJ0MNyp4R4v1djS8sgdGAhEPatA6ZV39NPg8iUDW7isc1rSO6khI+Tu2LKvIf9KxcwwXNHpJCONzl4gDeiQ=
+	t=1740413735; cv=none; b=PV5CpNg/usdVHI0Ua8vy7rBrgZHWcN53tjdl3UFHX0yAmj1Cge6MZVPEN3iysI3BH7+2RiTHJ1QzgdfKixgfjACEDJrNUH3TTke9ci2VGEW8nra9LG83rL7DmitILA4pCZPMOBXOLL8mY4HCokHNJj6ciFsY5VdIzkE0Ulzig7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740411362; c=relaxed/simple;
-	bh=f8eRj/AuYAHUZhC8jvYuxxDYnuW5TL83F7ZoXDKXJ9Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LfRo7rTec28h2SeL1u5kTkk34df6P9yKPNm44BEULT4PieIaI1K4+Wu7NGi25Y+YGMzBiXC1dELQ3LqrtpssTsNa+agw4rPwtmw+kRfG1FUZEZODX6K2GYtt6bGO7cQR16P2z6Sgoatiphk2VK+4kWtQr6wrhxz3b8IqLb596q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CTSbhAxR; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-220ec47991aso61789775ad.1;
-        Mon, 24 Feb 2025 07:36:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740411360; x=1741016160; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TvUBzAQsQhizjRbALhklVYcHMIlUUFNb0lUUZGXIVX0=;
-        b=CTSbhAxR00BOGQqfN4/XJySA6tKQwjjV+i2Gn+giHm7lfAJO1JHiWGTBhh/H46SkSW
-         nPQBS1yyzUxdlDjUW1NIzhrApizN8AARhqbWflNizp1QdvR1IOshLZ0kaa/pI+tMGoKM
-         Q3kD4s7CYZldwTAIRWc1VS7vz33Xw+hVQrZDlWpRR51NiZ1z4r7cqs6IjXyHnTfycmTS
-         3NGrwHHktUVi4NrSE3JsKR8k2aDF5AtGtFfD4VZzJaSNGtWTl7QbOQxhudFflPo3aDLw
-         3Q+vT1/ipJ9+bNhErVoMWAyHCOd/NuXwPdkXqh2KZKALjZsDJqDh6JfpdKfgVw0a+CGk
-         ZyZg==
+	s=arc-20240116; t=1740413735; c=relaxed/simple;
+	bh=ydXaMC6zS9e4LSddJroFvhRyHHAr7tsNfPBCVg94X7Y=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=RMIVCFOeUQN1xl+9J34iWwBC/pdDr1CL0zTsqj1WBoPuniNlA9aTxdth2qHXgE0n4WC2PvDaY3OiiGpz1bgexKJCBK4LLG210Yr7C4PAmDBBrTt/GJaBsjOEjymhZPHxnUA1YFyEIB68veJo9WFtsSQR8niLZQ/TOwWb5Gk+A/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f206.google.com with SMTP id e9e14a558f8ab-3d2aba48f44so46779525ab.0
+        for <linux-input@vger.kernel.org>; Mon, 24 Feb 2025 08:15:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740411360; x=1741016160;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TvUBzAQsQhizjRbALhklVYcHMIlUUFNb0lUUZGXIVX0=;
-        b=aZWSiaqTwcfqwNsddP0SPOBecRzFJy+26sMjKyhQ4lTB8fZ0KcKcgbKHZ6gDUpNzKK
-         OQ3VfzzcWEVitn8ER+ZpVH+v5CIQetBhhz04ieoAqtS0T6PfvLyA9CrOERYUkBEOYJyl
-         Q+MhCRDSRXVGvJA4RT4Tp32FNCV4tkI4ClE0Ag7faqjWvDFyq7O4ZdsmvTa2sIowveut
-         2Wae7/Do3eu2T+GqaMKqelZthDH9S53lUKa2gN7jKQFA76cvUiu4/Zuk77gtkN3Rl+Pk
-         72Y6Fl/Bkhw9DIt41hFulZSiw5sWC9Vzl2gJMrXGT1PrBq8mus+P9bAN1AcQ7lQT6eqb
-         tDJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU88iHQ1AROnpOQh0y1vD6H3KlufijjX48TIh/gbVQKv2fJCoC2MEgXQxvcb5Rt1cy1pA0TwJtu@vger.kernel.org, AJvYcCUgpAQanoVvBxBweNkIZB3kvlwgR2EYfZA94Ch3msGpdhQ/Y4AoOmzFpjGYQu6wUXFTqJ+RA+X394s4md8=@vger.kernel.org, AJvYcCVJlouplWNbSR2DNuxCSYD2Js0mAxDg6UEYVTV1P/am+oVBXWMKYkVO/kS0pib8b1UADXU+5kbsXsEH21jtTpU=@vger.kernel.org, AJvYcCVPle4znU+I/ALLrhH7xQcGJGbFy/4E9YMN4no/doE4SyI/2xMaMEbArmnvpN+AUV20ZkIVj0zZdmO6xZA=@vger.kernel.org, AJvYcCW79pyE9jv6BnMMTbt7sSIMwd7sPKK73lAR0VEaNm83eBISdUaM8uyzhkncB/6uO4SGdEdYhPJp8s9uSgQI@vger.kernel.org, AJvYcCWqQQPj4G+DVuDQDZoreWROvhcMAz+wcR9E5i68obka7i99SJZDgW6kApVodIJ2Tr3A59RrLmFVpE+ruSqY@vger.kernel.org, AJvYcCXuaRXJZX3GvfljtLKoXFTR+mhARZTc3TC8MHV7qyzaUW6PcEihYiuWrnshGJaf888By3w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaKFwHo3cOdTBICifcMgserbxve+fqFkBp6WtAACxUuXDOZSgq
-	tlR1W+wDTIAqGB2rmzrmoZWcCBuqlU4xZ6nbIlScQ7tFB0EkOsHn
-X-Gm-Gg: ASbGncvQ03OVf/mkX9PQOy9eyW8VDO9p0pjRtt08Ccv+F+cc2AIJUvwaI4HWHZ+0VDJ
-	h877HJAG/sclgHzHhLovgxbJrfQBQF28SYklcHBT4ullzmi5XJ+Z91DDve6tdfTMdYs1rGLRrfe
-	+mL7/+oJ4XyRLkmmogsYJMN7s3oqGXxm80RVRGR8Ub+2RyNdXrDix/SbPBkBfZN31KobhnTauTX
-	htMU0C5O/2VEBPrfNu2QUCQX7OqLTOmH74eYJKMeXJ/Gw57ZbZ0mXCHETKacCUfoaGCc8kdIQIp
-	TTjioiqKIdRc3YYSsGYP/LfDfoya
-X-Google-Smtp-Source: AGHT+IHd2msCEkxFy+eTP0g8bXm0gN1PJPrXpracR00S9KkpiQvppU+iNHJWil/lk2n6JQBTakl5Tg==
-X-Received: by 2002:a17:902:f706:b0:220:faa2:c917 with SMTP id d9443c01a7336-2219ffa74demr245408665ad.34.1740411359935;
-        Mon, 24 Feb 2025 07:35:59 -0800 (PST)
-Received: from eleanor-wkdl ([140.116.96.203])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d5348f29sm181794265ad.37.2025.02.24.07.35.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2025 07:35:59 -0800 (PST)
-Date: Mon, 24 Feb 2025 23:35:48 +0800
-From: Yu-Chun Lin <eleanor15x@gmail.com>
-To: Jeremy Kerr <jk@ozlabs.org>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, joel@jms.id.au, eajames@linux.ibm.com,
-	andrzej.hajda@intel.com, neil.armstrong@linaro.org,
-	rfoss@kernel.org, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	simona@ffwll.ch, dmitry.torokhov@gmail.com, mchehab@kernel.org,
-	awalls@md.metrocast.net, hverkuil@xs4all.nl,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	louis.peens@corigine.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
-	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, yury.norov@gmail.com,
-	akpm@linux-foundation.org, hpa@zytor.com, alistair@popple.id.au,
-	linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
-	jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-	oss-drivers@corigine.com, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw
-Subject: Re: [PATCH 00/17] Introduce and use generic parity32/64 helper
-Message-ID: <Z7yR1C4nC1UTrX5e@eleanor-wkdl>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
- <1cebfebb9c205a1ebc5722ca7e3b87339ceb3c79.camel@ozlabs.org>
+        d=1e100.net; s=20230601; t=1740413733; x=1741018533;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Q94TLh93rwphFT6Rw5s+2aRbj+FkZ2+KBTTzXF1Vz/A=;
+        b=mwDS3y/2nQli+6qBe9UypqE+u+mrXDQQM+5URE3FT0NxcipBh/5+hWPMYqsaSbZ1SI
+         e0S7mhe93ARKC3Z7be3+yLdMDng1qloNtw2GzijCgunkmHKATGOipO4tLJmZM9gOcAHd
+         M2NaGWD1sxCohZpgD+spQFC/2C4sbiP13lspZhOxku9wAdte3jZ9RvY6hbVG+abrORXF
+         g9hfJsqIatrh9g6ugsTNwGpGw1aJUJzzWlUvR6eD9nrMM6hU2hheost0QYHdKEMYbeua
+         hhdEv86t8x3AorZt4tz0+kkNKyFr2nMKZOCpIYpKqnOeyc2kdI5FgsdofKKG+D22PdYe
+         2V8g==
+X-Forwarded-Encrypted: i=1; AJvYcCVOHcY+/ikLrIDQvz6QIyz9MEHA8j0gZItDo5f9xg67aQFoYW6zFFInBuODUm4uV8UT3l+j57qHYnWO7A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBQJix2gI0pnUkJHJFapTT1UykGkRd9KvVsG0zjTRW8AXdWaHG
+	FzJ4yDqbWA2UbL98kTU/XkZIdBddSK3hArbYZD6cm1jgJQamxFEYva6K75+H18cflFb7oUkzym0
+	+qCeL7rkux54lZn4i/dhQSVArhzYrZpeZsVPAu3kBtNPWQmVDxxqdfK8=
+X-Google-Smtp-Source: AGHT+IFvHqikWUSpJ7okF8fU05+4z27G+fhPH+6u1seiHFbMdxzpSz/ddpywMj8xOz1tS7XdMwMEd9IZ2tbLz/ffeaZrZl0Fk+LV
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1cebfebb9c205a1ebc5722ca7e3b87339ceb3c79.camel@ozlabs.org>
+X-Received: by 2002:a05:6e02:1d9e:b0:3a9:cde3:2ecc with SMTP id
+ e9e14a558f8ab-3d2c020d145mr200185565ab.6.1740413732695; Mon, 24 Feb 2025
+ 08:15:32 -0800 (PST)
+Date: Mon, 24 Feb 2025 08:15:32 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67bc9b24.050a0220.bbfd1.008e.GAE@google.com>
+Subject: [syzbot] [kernel?] INFO: task hung in __fput
+From: syzbot <syzbot+5014f30b0de0d4b77ae3@syzkaller.appspotmail.com>
+To: anna-maria@linutronix.de, benjamin.tissoires@redhat.com, 
+	bristot@redhat.com, bsegall@google.com, corbet@lwn.net, 
+	david.rheinsberg@gmail.com, dietmar.eggemann@arm.com, frederic@kernel.org, 
+	jiangshanlai@gmail.com, jikos@kernel.org, juri.lelli@redhat.com, 
+	linux-doc@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, mgorman@suse.de, mingo@redhat.com, 
+	peterz@infradead.org, rostedt@goodmis.org, syzkaller-bugs@googlegroups.com, 
+	tglx@linutronix.de, tj@kernel.org, vincent.guittot@linaro.org, 
+	vschneid@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Feb 24, 2025 at 03:58:49PM +0800, Jeremy Kerr wrote:
-> More so than __builtin_parity() ?
-> 
-> I'm all for reducing the duplication, but the compiler may well have a
-> better parity approach than the xor-folding implementation here. Looks
-> like we can get this to two instructions on powerpc64, for example.
+Hello,
 
-Hi Jeremy,
+syzbot found the following issue on:
 
-Thank for your input. We will do that in V2.
+HEAD commit:    d082ecbc71e9 Linux 6.14-rc4
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=164ae7a4580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8de9cc84d5960254
+dashboard link: https://syzkaller.appspot.com/bug?extid=5014f30b0de0d4b77ae3
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=114ae7a4580000
 
-Best regards,
-Yu-Chun Lin
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/2538edcc866d/disk-d082ecbc.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/fe2b2d244cf7/vmlinux-d082ecbc.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/471967bae80b/bzImage-d082ecbc.xz
+
+The issue was bisected to:
+
+commit 616db8779b1e3f93075df691432cccc5ef3c3ba0
+Author: Tejun Heo <tj@kernel.org>
+Date:   Thu May 18 03:02:08 2023 +0000
+
+    workqueue: Automatically mark CPU-hogging work items CPU_INTENSIVE
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1217e7a4580000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=1117e7a4580000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1617e7a4580000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+5014f30b0de0d4b77ae3@syzkaller.appspotmail.com
+Fixes: 616db8779b1e ("workqueue: Automatically mark CPU-hogging work items CPU_INTENSIVE")
+
+INFO: task syz.0.22:6033 blocked for more than 152 seconds.
+      Not tainted 6.14.0-rc4-syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz.0.22        state:D stack:25656 pid:6033  tgid:6033  ppid:5937   task_flags:0x400040 flags:0x00000004
+ <TASK>
+ __schedule_loop kernel/sched/core.c:6842 [inline]
+ schedule+0x14b/0x320 kernel/sched/core.c:6857
+ schedule_timeout+0xb0/0x290 kernel/time/sleep_timeout.c:75
+ __cancel_work_sync+0xbc/0x110 kernel/workqueue.c:4362
+ uhid_dev_destroy drivers/hid/uhid.c:584 [inline]
+ uhid_char_release+0xac/0x600 drivers/hid/uhid.c:662
+ __fput+0x3e9/0x9f0 fs/file_table.c:464
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:329 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x13f/0x340 kernel/entry/common.c:218
+ do_syscall_64+0x100/0x230 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f0f6998d169
+RSP: 002b:00007ffe4cd3e698 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
+RAX: 0000000000000000 RBX: 0000000000019525 RCX: 00007f0f6998d169
+RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
+RBP: 00007f0f69ba7ba0 R08: 0000000000000001 R09: 000000024cd3e98f
+R10: 00007f0f69800000 R11: 0000000000000246 R12: 00007f0f69ba5fac
+R13: 00007f0f69ba5fa0 R14: ffffffffffffffff R15: 00007ffe4cd3e7b0
+ </TASK>
+INFO: task syz.2.18:6035 blocked for more than 156 seconds.
+      Not tainted 6.14.0-rc4-syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz.2.18        state:D stack:25984 pid:6035  tgid:6035  ppid:5945   task_flags:0x400040 flags:0x00000004
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5378 [inline]
+ __schedule+0x18bc/0x4c40 kernel/sched/core.c:6765
+ __schedule_loop kernel/sched/core.c:6842 [inline]
+ schedule+0x14b/0x320 kernel/sched/core.c:6857
+ schedule_timeout+0xb0/0x290 kernel/time/sleep_timeout.c:75
+ do_wait_for_common kernel/sched/completion.c:95 [inline]
+ __wait_for_common kernel/sched/completion.c:116 [inline]
+ wait_for_common kernel/sched/completion.c:127 [inline]
+ wait_for_completion+0x355/0x620 kernel/sched/completion.c:148
+ __flush_work+0xa47/0xc60 kernel/workqueue.c:4242
+ __fput+0x3e9/0x9f0 fs/file_table.c:464
+ task_work_run+0x24f/0x310 kernel/task_work.c:227
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:329 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x13f/0x340 kernel/entry/common.c:218
+ do_syscall_64+0x100/0x230 arch/x86/entry/common.c:89
+RIP: 0033:0x7f4cedb8d169
+RAX: 0000000000000000 RBX: 0000000000019540 RCX: 00007f4cedb8d169
+RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
+RBP: 00007f4cedda7ba0 R08: 0000000000000001 R09: 0000000243e0cb6f
+R10: 00007f4ceda00000 R11: 0000000000000246 R12: 00007f4cedda5fac
+      Not tainted 6.14.0-rc4-syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz.1.17        state:D
+ stack:25984 pid:6037  tgid:6037  ppid:5940   task_flags:0x400040 flags:0x00000004
+ context_switch kernel/sched/core.c:5378 [inline]
+ __schedule+0x18bc/0x4c40 kernel/sched/core.c:6765
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
