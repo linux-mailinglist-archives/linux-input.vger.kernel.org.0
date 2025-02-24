@@ -1,146 +1,294 @@
-Return-Path: <linux-input+bounces-10299-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10300-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F098BA42A45
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 18:47:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E14A42CBC
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 20:27:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 65141169A15
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 17:47:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49D543AFB36
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 19:27:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39F351A704B;
-	Mon, 24 Feb 2025 17:46:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AE2E200138;
+	Mon, 24 Feb 2025 19:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j4q+SHA7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-out.aladdin-rd.ru (mail-out.aladdin-rd.ru [91.199.251.16])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7965B264FBE;
-	Mon, 24 Feb 2025 17:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.199.251.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757591EDA0F;
+	Mon, 24 Feb 2025 19:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740419183; cv=none; b=NjTZEWHtOqskRtakp4MJ4hT3c7FIPSybSeWRwJsj+h6BGpJBLQmuZ05ANaK6lUS53KwTyK+FfNht//CEXDLHM6+/24aMMvaer0jyo1lSzL3xsJABwSrMGDNXLLl0dqmAt2RQdTH0LIBmU3RRGOnAV34spsVHQ8koF0dbLzoLpDQ=
+	t=1740425229; cv=none; b=cclm2t5G++aynQHLJLWuhmPXQudPRbQpYBMYlxI0aCcMwSypjiVM5YLCv0A/LAdvoRuMuMXa9eSjl19OsZYifb+dtZS33lJMeGf3C8R2+c9hyw21JEl1KxmbLNpCm8smqWlhZaRpagbX/VH6qJtEo8lOP4qos79BmMQCFiRjJvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740419183; c=relaxed/simple;
-	bh=h4vHkd7NvNOMcaOcKnN/iPLZ4J16YOGMpBWzbaz6Amg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FvCpd/5rECUAmj9SLUVSqqAVcvwBYskq3O/ZycHMDZ4KGAFelkKskYbHJkFai7wgwO89i/dyUbror6Cyu2r582km0D4MueMII2TaZcQ+FChZrAieUgEtRZ940TN+xdMW9Md6YpbV2yt4v1IPbxbpFMsBazoApF+iGNDtI2d2/zw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=aladdin.ru; spf=pass smtp.mailfrom=aladdin.ru; arc=none smtp.client-ip=91.199.251.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=aladdin.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aladdin.ru
-From: Daniil Dulov <d.dulov@aladdin.ru>
-To: Jiri Kosina <jikos@kernel.org>
-CC: Daniil Dulov <d.dulov@aladdin.ru>, Benjamin Tissoires
-	<bentiss@kernel.org>, <linux-input@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>,
-	<stable@vger.kernel.org>
-Subject: [PATCH] HID: appleir: Fix potential NULL dereference at raw event handle
-Date: Mon, 24 Feb 2025 20:30:30 +0300
-Message-ID: <20250224173031.496048-1-d.dulov@aladdin.ru>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1740425229; c=relaxed/simple;
+	bh=zms8AwfScWDNRnCzKtbTRceK4ozgPM3XizahJfE+6tI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p7GhyiyUVnT1yRTNL9fMSdPDqtmE9zMWFrlg0KRKnm9PPQpJZhIHWjqiiX++MNWCV3jyhJ7jYg+G7UYOxbFpFrKrbHuj95Fbu+UW+mAa7vxz19h1b1JcVs0m9kSi1DXYKuTympQXLNUqXnr1Y/KeBZBQapdbt+ypynVFUv93Eag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j4q+SHA7; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2fbfa8c73a6so9616717a91.2;
+        Mon, 24 Feb 2025 11:27:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740425227; x=1741030027; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fNLdUwijT6W41ZsoblnFA+2AFZPup2ylwdIktRpNhS8=;
+        b=j4q+SHA7EXf0knh8DM6GL/5Og6eZo6oZM6cSRjq4gqADlhgYT4gukZ1QGPtCsBihtH
+         BLVVI/DwEe7J2F1a6rAtV5SfbhncGYtNJAlYgBx9h13EUPh1uJzqn5Dmffa80o/2fLBI
+         1tUd26LAmdyunCp4Eh1Oj5Yg8Tv8YfsmGn8HfqITk1P0UfX4NApKA4uo0q0m6FJBDPlN
+         3Rfzmw4XyjCFV1NkjafHGKrrjAVgbLOXxGNEOZZEXCTtFi2DUty88sIq7BWcT1xHmzmo
+         y5DirFpC3T4gSE3b4Q5z14px4GdYPctnLMkWXL0nuLeGmiUx+dzOamueqQC/UkyIM3ss
+         oKsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740425227; x=1741030027;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fNLdUwijT6W41ZsoblnFA+2AFZPup2ylwdIktRpNhS8=;
+        b=kgp8QZIxb98RP24ZmcHLLgN0vAPgBaP4qfG63wyVJ04U41fDbvOZ4K4KNEyCoIEMqp
+         nCmsjsc7/dOSzHPhuTl6CVXxea/2WMqYkozT4SgRYe/IG6s50IZ8muaARJrM38722MJD
+         +DBl+mQwfpndVY9fBFmqesHJ7LKaqRksWMUzm2Dr2EJeyvEquhXvZAdXzmKEkrn1qn33
+         lQVgcFUdL6Oku3Sd9oLyzQwHrO/bCx1Fhs3+Zvh5Kn4ba9FYOsgcoGkGfzFqn7pwc/n7
+         CJtAE1en4JL+sI0gGV8+gmJvZ5XI2ft0n/WLFPcbgswOvWK1JG4e3PvfIuc1pu6r0hkU
+         Fusg==
+X-Forwarded-Encrypted: i=1; AJvYcCVo+24H2n6s1NmNizHYw1Q3Q4YtGmWl4l8Eg1wlxo+WSR8Ri69zUjh7zvBViKkVG+7dmchvCwgQak0vZa0=@vger.kernel.org, AJvYcCVo6wzUwuk1Sa5Ghlc6klClWEcsEuJsj0ayuXvLaHwEd24vlVNswETrj9Gf7WcxtZv4usE=@vger.kernel.org, AJvYcCW/8tFvT2PEFpPLVjI8A1G7IVa0aFk5EUmUJ+Ynrx5jpC635ZpY3kg77SoZWa07zs/0E76WsIe5NJ7Iay3Ni30=@vger.kernel.org, AJvYcCW9uELGb6sfcagREh6YWsJyYOvlTb+/MXqU5B7X0vCyLda0XtPyR6+/t6mIU/+Ao44iO3/6a7NnPjDaHc4E@vger.kernel.org, AJvYcCWAJPTxxwInFlBgAS/ehVMhO2fT6Y07TpxBz4Twa09BsdwE16eXYY30kM5MD8fBNO/6hr7Xn0sllnf92eY=@vger.kernel.org, AJvYcCWlo1rtLxuGqu62bLDODjtj8ItqOTX2tn2CnGFwjGtGNAWi1O7yWcWR5fE4iwikr61j56i8UonCx7nshIew@vger.kernel.org, AJvYcCWpr2XrYzwJq/kf4Zu2ElH1yxXfaGA5jYPJrwCHT/CEe56zweEu1SHE4/h3nFq8xch/ybAAQZ53@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1z2cWOtNzHmZC1FeZL25CsRi53MqFEN7IfGOX7XQR0OLFvu9x
+	wBnDqX14OHOuyqqQQ6+HlHb87viLHqHQ1n5D/yYMeUDlbRj0zO2S
+X-Gm-Gg: ASbGncsGuZ7wjRMB2Gjp/GNDozuepRqQFwiZ2aYesZi0E9cJi931jagv+n+W71ZYH4l
+	7Dkkzi//rwVlwxEP5dDXt+yxLX4wVxrftANsfBqsOQIU6ZixJRh2AdOvhfNMSAP3Nf9wyAof58r
+	Uza6656YWI6MKHMV1uNwieo18izVgj/ZyL537+uEPwY6H0/Uo+DwH3p64cEDwdHRoFCnbpGMwUV
+	6/S3olmjAthWDxq9kZ7Ta6pqRZz3hIixcBKTsjd0UBBUMjx5Ghj0u5FMtn4S0i8BUu9hOf/KUf6
+	aUZaiZYgZ0UbxBaHPtkr64O/4Q6BouUOm6jIxZHdny/4brC+jA==
+X-Google-Smtp-Source: AGHT+IH68TTuhENvYMBVibjVTmGrUAIBmwlMSF4lzlrMkZQD90CN6i4oKdfqdXSCYQRlTI+LIK96VA==
+X-Received: by 2002:a17:90b:38ca:b0:2ee:e945:5355 with SMTP id 98e67ed59e1d1-2fce86cf118mr21465186a91.19.1740425226496;
+        Mon, 24 Feb 2025 11:27:06 -0800 (PST)
+Received: from localhost (maglev-oncall.nvidia.com. [216.228.125.128])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fe6a3da759sm31947a91.13.2025.02.24.11.27.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Feb 2025 11:27:05 -0800 (PST)
+Date: Mon, 24 Feb 2025 14:27:03 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+	joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	dmitry.torokhov@gmail.com, mchehab@kernel.org,
+	awalls@md.metrocast.net, hverkuil@xs4all.nl,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	louis.peens@corigine.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
+	alistair@popple.id.au, linux@rasmusvillemoes.dk,
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, kuba@kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	oss-drivers@corigine.com, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+	Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+Message-ID: <Z7zIBwH4aUA7G9MY@thinkpad>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-3-visitorckw@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EXCH-2016-01.aladdin.ru (192.168.1.101) To
- EXCH-2016-01.aladdin.ru (192.168.1.101)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250223164217.2139331-3-visitorckw@gmail.com>
 
-Syzkaller reports a NULL pointer dereference issue in input_event().
+On Mon, Feb 24, 2025 at 12:42:02AM +0800, Kuan-Wei Chiu wrote:
+> Several parts of the kernel open-code parity calculations using
+> different methods. Add a generic parity64() helper implemented with the
+> same efficient approach as parity8().
 
-BUG: KASAN: null-ptr-deref in instrument_atomic_read include/linux/instrumented.h:68 [inline]
-BUG: KASAN: null-ptr-deref in _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
-BUG: KASAN: null-ptr-deref in is_event_supported drivers/input/input.c:67 [inline]
-BUG: KASAN: null-ptr-deref in input_event+0x42/0xa0 drivers/input/input.c:395
-Read of size 8 at addr 0000000000000028 by task syz-executor199/2949
+No reason to add parity32() and parity64() in separate patches
+ 
+> Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> ---
+>  include/linux/bitops.h | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> index fb13dedad7aa..67677057f5e2 100644
+> --- a/include/linux/bitops.h
+> +++ b/include/linux/bitops.h
+> @@ -281,6 +281,28 @@ static inline int parity32(u32 val)
+>  	return (0x6996 >> (val & 0xf)) & 1;
+>  }
+>  
+> +/**
+> + * parity64 - get the parity of an u64 value
+> + * @value: the value to be examined
+> + *
+> + * Determine the parity of the u64 argument.
+> + *
+> + * Returns:
+> + * 0 for even parity, 1 for odd parity
+> + */
+> +static inline int parity64(u64 val)
+> +{
+> +	/*
+> +	 * One explanation of this algorithm:
+> +	 * https://funloop.org/codex/problem/parity/README.html
 
-CPU: 0 UID: 0 PID: 2949 Comm: syz-executor199 Not tainted 6.13.0-rc4-syzkaller-00076-gf097a36ef88d #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
- kasan_report+0xd9/0x110 mm/kasan/report.c:602
- check_region_inline mm/kasan/generic.c:183 [inline]
- kasan_check_range+0xef/0x1a0 mm/kasan/generic.c:189
- instrument_atomic_read include/linux/instrumented.h:68 [inline]
- _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
- is_event_supported drivers/input/input.c:67 [inline]
- input_event+0x42/0xa0 drivers/input/input.c:395
- input_report_key include/linux/input.h:439 [inline]
- key_down drivers/hid/hid-appleir.c:159 [inline]
- appleir_raw_event+0x3e5/0x5e0 drivers/hid/hid-appleir.c:232
- __hid_input_report.constprop.0+0x312/0x440 drivers/hid/hid-core.c:2111
- hid_ctrl+0x49f/0x550 drivers/hid/usbhid/hid-core.c:484
- __usb_hcd_giveback_urb+0x389/0x6e0 drivers/usb/core/hcd.c:1650
- usb_hcd_giveback_urb+0x396/0x450 drivers/usb/core/hcd.c:1734
- dummy_timer+0x17f7/0x3960 drivers/usb/gadget/udc/dummy_hcd.c:1993
- __run_hrtimer kernel/time/hrtimer.c:1739 [inline]
- __hrtimer_run_queues+0x20a/0xae0 kernel/time/hrtimer.c:1803
- hrtimer_run_softirq+0x17d/0x350 kernel/time/hrtimer.c:1820
- handle_softirqs+0x206/0x8d0 kernel/softirq.c:561
- __do_softirq kernel/softirq.c:595 [inline]
- invoke_softirq kernel/softirq.c:435 [inline]
- __irq_exit_rcu+0xfa/0x160 kernel/softirq.c:662
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:678
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1049 [inline]
- sysvec_apic_timer_interrupt+0x90/0xb0 arch/x86/kernel/apic/apic.c:1049
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:702
- __mod_timer+0x8f6/0xdc0 kernel/time/timer.c:1185
- add_timer+0x62/0x90 kernel/time/timer.c:1295
- schedule_timeout+0x11f/0x280 kernel/time/sleep_timeout.c:98
- usbhid_wait_io+0x1c7/0x380 drivers/hid/usbhid/hid-core.c:645
- usbhid_init_reports+0x19f/0x390 drivers/hid/usbhid/hid-core.c:784
- hiddev_ioctl+0x1133/0x15b0 drivers/hid/usbhid/hiddev.c:794
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:906 [inline]
- __se_sys_ioctl fs/ioctl.c:892 [inline]
- __x64_sys_ioctl+0x190/0x200 fs/ioctl.c:892
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
- </TASK>
+This is already referenced in sources. No need to spread it for more.
 
-This happens due to the malformed report items sent by the emulated device
-which results in a report, that has no fields, being added to the report list.
-Due to this appleir_input_configured() is never called, hidinput_connect()
-fails which results in the HID_CLAIMED_INPUT flag is not being set. However,
-it  does not make appleir_probe() fail and lets the event callback to be
-called without the associated input device.
+> +	 */
+> +	val ^= val >> 32;
+> +	val ^= val >> 16;
+> +	val ^= val >> 8;
+> +	val ^= val >> 4;
+> +	return (0x6996 >> (val & 0xf)) & 1;
 
-Thus, add a check for the HID_CLAIMED_INPUT flag and leave the event hook
-early if the driver didn't claim any input_dev for some reason. Moreover,
-some other hid drivers accessing input_dev in their event callbacks do have
-similar checks, too.
+It's better to avoid duplicating the same logic again and again.
 
-Found by Linux Verification Center (linuxtesting.org) with Syzkaller.
+> +}
+> +
 
-Fixes: 9a4a5574ce42 ("HID: appleir: add support for Apple ir devices")
-Cc: stable@vger.kernel.org
-Signed-off-by: Daniil Dulov <d.dulov@aladdin.ru>
+So maybe make it a macro?
+
+
+From f17a28ae3429f49825d65ebc0f7717c6a191a3e2 Mon Sep 17 00:00:00 2001
+From: Yury Norov <yury.norov@gmail.com>
+Date: Mon, 24 Feb 2025 14:14:27 -0500
+Subject: [PATCH] bitops: generalize parity8()
+
+The generic parity calculation approach may be easily generalized for
+other standard types. Do that and drop sub-optimal implementation of
+parity calculation in x86 code.
+
+Signed-off-by: Yury Norov [NVIDIA] <yury.norov@gmail.com>
 ---
- drivers/hid/hid-appleir.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/x86/kernel/bootflag.c | 14 +-----------
+ include/linux/bitops.h     | 47 +++++++++++++++++++++++++++-----------
+ 2 files changed, 35 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/hid/hid-appleir.c b/drivers/hid/hid-appleir.c
-index 8deded185725..c45e5aa569d2 100644
---- a/drivers/hid/hid-appleir.c
-+++ b/drivers/hid/hid-appleir.c
-@@ -188,7 +188,7 @@ static int appleir_raw_event(struct hid_device *hid, struct hid_report *report,
- 	static const u8 flatbattery[] = { 0x25, 0x87, 0xe0 };
+diff --git a/arch/x86/kernel/bootflag.c b/arch/x86/kernel/bootflag.c
+index 3fed7ae58b60..4a85c69a28f8 100644
+--- a/arch/x86/kernel/bootflag.c
++++ b/arch/x86/kernel/bootflag.c
+@@ -2,6 +2,7 @@
+ /*
+  *	Implement 'Simple Boot Flag Specification 2.0'
+  */
++#include <linux/bitops.h>
+ #include <linux/types.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
+@@ -20,19 +21,6 @@
+ 
+ int sbf_port __initdata = -1;	/* set via acpi_boot_init() */
+ 
+-static int __init parity(u8 v)
+-{
+-	int x = 0;
+-	int i;
+-
+-	for (i = 0; i < 8; i++) {
+-		x ^= (v & 1);
+-		v >>= 1;
+-	}
+-
+-	return x;
+-}
+-
+ static void __init sbf_write(u8 v)
+ {
  	unsigned long flags;
+diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+index c1cb53cf2f0f..29601434f5f4 100644
+--- a/include/linux/bitops.h
++++ b/include/linux/bitops.h
+@@ -230,10 +230,10 @@ static inline int get_count_order_long(unsigned long l)
+ }
  
--	if (len != 5)
-+	if (len != 5 || !(hid->claimed & HID_CLAIMED_INPUT))
- 		goto out;
+ /**
+- * parity8 - get the parity of an u8 value
++ * parity - get the parity of a value
+  * @value: the value to be examined
+  *
+- * Determine the parity of the u8 argument.
++ * Determine parity of the argument.
+  *
+  * Returns:
+  * 0 for even parity, 1 for odd parity
+@@ -241,24 +241,45 @@ static inline int get_count_order_long(unsigned long l)
+  * Note: This function informs you about the current parity. Example to bail
+  * out when parity is odd:
+  *
+- *	if (parity8(val) == 1)
++ *	if (parity(val) == 1)
+  *		return -EBADMSG;
+  *
+  * If you need to calculate a parity bit, you need to draw the conclusion from
+  * this result yourself. Example to enforce odd parity, parity bit is bit 7:
+  *
+- *	if (parity8(val) == 0)
++ *	if (parity(val) == 0)
+  *		val ^= BIT(7);
++ *
++ * One explanation of this algorithm:
++ * https://funloop.org/codex/problem/parity/README.html
+  */
+-static inline int parity8(u8 val)
+-{
+-	/*
+-	 * One explanation of this algorithm:
+-	 * https://funloop.org/codex/problem/parity/README.html
+-	 */
+-	val ^= val >> 4;
+-	return (0x6996 >> (val & 0xf)) & 1;
+-}
++#define parity(val)					\
++({							\
++	u64 __v = (val);				\
++	int __ret;					\
++	switch (BITS_PER_TYPE(val)) {			\
++	case 64:					\
++		__v ^= __v >> 32;			\
++		fallthrough;				\
++	case 32:					\
++		__v ^= __v >> 16;			\
++		fallthrough;				\
++	case 16:					\
++		__v ^= __v >> 8;			\
++		fallthrough;				\
++	case 8:						\
++		__v ^= __v >> 4;			\
++		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
++		break;					\
++	default:					\
++		BUILD_BUG();				\
++	}						\
++	__ret;						\
++})
++
++#define parity8(val)	parity((u8)(val))
++#define parity32(val)	parity((u32)(val))
++#define parity64(val)	parity((u64)(val))
  
- 	if (!memcmp(data, keydown, sizeof(keydown))) {
+ /**
+  * __ffs64 - find first set bit in a 64 bit word
 -- 
-2.34.1
+2.43.0
 
 
