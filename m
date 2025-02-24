@@ -1,109 +1,150 @@
-Return-Path: <linux-input+bounces-10286-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10287-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E864A41B09
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 11:31:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9152A41BE4
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 12:01:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 937517A26F0
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 10:29:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D043E171A83
+	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 11:01:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DFC42566EB;
-	Mon, 24 Feb 2025 10:29:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D1272580C3;
+	Mon, 24 Feb 2025 11:01:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VU+AI1l6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qcvClc0M"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7F02566D7;
-	Mon, 24 Feb 2025 10:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF4524500B;
+	Mon, 24 Feb 2025 11:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740392946; cv=none; b=ceWv4I/YMhexWK3mO++Wi+vqRU1hS9SumhEuVyp/Foe5S79KWvEFs+JQ+7n7qy9BYUwKsENj4Dn0wFn15/b3/lLlmQuHEKA+9K3cD96iq7AyTdGiU/2Zo4Hi4cLgLOhjW83kQ0ZzL1Kha3HvJIFS9iM10vbUr2HuWP1CpxXWEY4=
+	t=1740394877; cv=none; b=Tdy66yXjNn9DLKr7tMxDrlOzl/wvW+7ef+oPXL7PhGxOXbmKb/JbzEjFAwJhfjN6JVDMDCazwhmOTyySqlSy05vOSqQZ/lUkY5MTLoclnC6bhFgOzfTc8jf0/5/07MbvZqMegaDN2b92ykbVFXGm+xVW6uK1LdjZt1TOd96sqps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740392946; c=relaxed/simple;
-	bh=CP0KX0I6NAiiu5eDDamsNgSBHLhb9+BF6VI5OfOdp9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iLDYso5pgdRR205licqM28kYw82xFjec8Zu1Fai5PAhg247KdVfeMnv+oQXvP1u6xMBF3cP1HFZFuhQjtyxp82akqPTSkquBPShwNW9d9klNfhQI6lxArRLglqa2Wf2xChVUyaojbXVAVP94wJuH0qirjjtG2rDNh97PK18+tw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VU+AI1l6; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740392945; x=1771928945;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CP0KX0I6NAiiu5eDDamsNgSBHLhb9+BF6VI5OfOdp9Y=;
-  b=VU+AI1l6UPSzNSrHJFPjMnWa9rnVx3hcxdodtKGBEcoHRAkAmS0CISS8
-   4P9FwhVQIwqV6P6xEnx3EMnTjJ0YHx6LnsUO0XexQgvOw8K7V+8xUVTV3
-   f0TT/JMd/rKGka21iqgag0KSczySSBwqP3Fe482npyvdcfHktT/IcJELb
-   10gODM1pHjOSfDlPOWvAFhlskR3/U1eOzKl/K9wjoEEB9xFBp0c6CIS7Q
-   0Yo2m3Z0vPyvk2FBiH+CHrXvxM6KzWo77e0SJ8i1+K3ZGUxm7lVjesNa8
-   Q/Tdxd/MCcQ5lq34qiaW7wTWTKcaHc0R1IBheqg23LGywOD/nLYpPgyar
-   w==;
-X-CSE-ConnectionGUID: v1YiTDBES2adXhoItJH9Mw==
-X-CSE-MsgGUID: wmKk+uiUS3myO+l60QJXdg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="40328552"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="40328552"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:29:04 -0800
-X-CSE-ConnectionGUID: chlxjm6uTEuANndZsQCVZQ==
-X-CSE-MsgGUID: bRm10SqjT6K/0Wm9qth3FA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="121289979"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:29:02 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tmVhq-0000000EfIt-3WP4;
-	Mon, 24 Feb 2025 12:28:58 +0200
-Date: Mon, 24 Feb 2025 12:28:58 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Linux pin control <linux-gpio@vger.kernel.org>,
-	linux-iio@vger.kernel.org, linux-input@vger.kernel.org
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [GIT PULL] devres-iio-input-pinctrl-v6.15
-Message-ID: <Z7xJ6gZ4fo2cu8_b@smile.fi.intel.com>
-References: <Z7cqCaME4LxTTBn6@black.fi.intel.com>
- <Z7xD57sjj4sbwMv5@smile.fi.intel.com>
+	s=arc-20240116; t=1740394877; c=relaxed/simple;
+	bh=IRBOBjOupyewlrDGtPHlu0OHXgrrC2CpFC42RCnOQDE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=n4RFRpktDH8XCnhe8PR4s8skTrTVhwR4hQe9cXKonmIu+6jnrsr2dXFBDtyljsKdL3R85NdcZgUKrnVmnM2KZLp6T1QSJuVgrUtC12H9bAoLZ2BsYZk/J1K7lxCPCt8XCJT32NJHEAqPCJMHZlRPQWy1nAgckWHdRVpR82q25qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qcvClc0M; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CF051C4CED6;
+	Mon, 24 Feb 2025 11:01:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740394876;
+	bh=IRBOBjOupyewlrDGtPHlu0OHXgrrC2CpFC42RCnOQDE=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=qcvClc0MEi8wMe+Rwou+0c+/zWq6CShV0abErzYBLVxp9jw0LhvpLSDBfQo8aYm/r
+	 7i1tb6UXPF272N5VNMLOFbklT6ASG5KYs9+SwBcRm5FZfyvF8nXFx+d6QY18UbNUXx
+	 0cl5s9oybhxeeCeRTgcGl8iBz6zTlgKZYrg6upplER6yCDJL4ICitw5HTL7ngXtoW5
+	 bfMayWgRzt4U/M47UW6Le3Iz43gGmKa1joVczp3aL3kO2x3YkMRwi2KeCVRtBQ1QZD
+	 JkpT18qnxFT2iuY27xgIBAYuwsqaNhlrOWs/Do5Of3bXiwKq9W9Lf2xjKbpY9HFH5G
+	 m8wBx1UWuXutA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF87EC021A4;
+	Mon, 24 Feb 2025 11:01:16 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Subject: [PATCH v7 0/4] Driver for Apple Z2 touchscreens.
+Date: Mon, 24 Feb 2025 12:01:08 +0100
+Message-Id: <20250224-z2-v7-0-2746f2bd07d0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z7xD57sjj4sbwMv5@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHRRvGcC/13PzU7DMAwH8FeZcibIdmK348R7IA6Nk26R2IpaV
+ AFT350000TV49/yzx83M6Uxp8m8HG5mTHOe8nAtoXk6GD1311OyOZZsCMgjkre/ZBWQAlObOoi
+ mNH6Oqc/fdcjbe8nnPH0N40+dOeNafXBZ+YwWrHqnXlUIIL6eLl3+eNbhYlY+05a0lVAhjajyM
+ YQesdkT9yAMxVTiCmGFxMzRxR73xG8JV+ILiY0T7AJK6GBPeEvuh3EhEl0biFtCOe6J/BOC+xZ
+ Z31cBDSlh5LAly7L8AbWoL1aTAQAA
+X-Change-ID: 20241124-z2-c012b528ea0d
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Neal Gompa <neal@gompa.dev>, Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740394875; l=2765;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=IRBOBjOupyewlrDGtPHlu0OHXgrrC2CpFC42RCnOQDE=;
+ b=FJOVBRwuAD8k0F5ggHNq+YETM0cbGKs7+eewX3jq6+WWMtPjJpWcJBEFZEgKLsV1iTpN8MLuT
+ ltMNgXuBQ2eATILFiJU6bjscMI2ilQ+B90otPxPOj1+8PfHch7EWwhz
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
 
-On Mon, Feb 24, 2025 at 12:03:20PM +0200, Andy Shevchenko wrote:
-> On Thu, Feb 20, 2025 at 03:11:37PM +0200, Andy Shevchenko wrote:
-> > 
-> > Hi Linux kernel maintainers,
-> > 
-> > Here is an immutable tag of the "Split devres APIs to device/devres.h and
-> > introduce devm_kmemdup_array()" series [1], please pull if needed.
-> > 
-> > Link: https://lore.kernel.org/r/20250212062513.2254767-1-raag.jadav@intel.com [1]
-> 
-> Stephen reported that some of the commits miss my SoB tag (as the committer).
-> I will issue another tag with than being fixed.
+Hi.
 
-Done as https://lore.kernel.org/r/Z7xGpz3Q4Zj6YHx7@black.fi.intel.com.
+This series adds support for Apple touchscreens using the Z2 protocol.
+Those are used as the primary touchscreen on mobile Apple devices, and for the
+touchbar on laptops using the M-series chips. (T1/T2 laptops have a coprocessor
+in charge of speaking Z2 to the touchbar).
 
--- 
-With Best Regards,
-Andy Shevchenko
+Originally sent as a RFC at https://lore.kernel.org/all/20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com/
+The changes since then mostly address the review feedback, but also
+add another machine that has this specific controller.
+
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+Changes in v7:
+- Added a dependency on ARCH_APPLE to prevent potential confusion on x86
+- Link to v6: https://lore.kernel.org/r/20250205-z2-v6-0-cc60cbee1d5b@gmail.com
+
+Changes in v6:
+- Went back to build_cal_blob returning an allocated buffer, other fixes.
+- Link to v5: https://lore.kernel.org/r/20250118-z2-v5-0-6d38b2582169@gmail.com
+
+Changes in v5:
+- Added missing \ns, removed 4kb-ish of wasted ram
+- Link to v4: https://lore.kernel.org/r/20250115-z2-v4-0-d7361ab16ba0@gmail.com
+
+Changes in v4:
+- Dropped another allocation, other fixes.
+- Link to v3: https://lore.kernel.org/r/20250112-z2-v3-0-5c0e555d3df1@gmail.com
+
+Changes in v3:
+- Tx/Rx buffers used in interrupt handler are now allocated in probe and reused
+- Other various style fixes
+- Link to v2: https://lore.kernel.org/r/20241128-z2-v2-0-76cc59bbf117@gmail.com
+
+Changes in v2:
+- In a separate patch, fixed an issue that prevented the SPI controller
+  from using GPIO CS, and as such, moved the hardware quirk to there
+- Went back to uploading the firmware in probe() instad of open()
+- Other changes addressing the review feedback
+- Link to v1: https://lore.kernel.org/r/20241126-z2-v1-0-c43c4cc6200d@gmail.com
+
+---
+Sasha Finkelstein (4):
+      dt-bindings: input: touchscreen: Add Z2 controller
+      input: apple_z2: Add a driver for Apple Z2 touchscreens
+      arm64: dts: apple: Add touchbar digitizer nodes
+      MAINTAINERS: Add entries for Apple Z2 touchscreen driver
+
+ .../input/touchscreen/apple,z2-multitouch.yaml     |  70 +++
+ MAINTAINERS                                        |   2 +
+ arch/arm64/boot/dts/apple/t8103-j293.dts           |  27 ++
+ arch/arm64/boot/dts/apple/t8103.dtsi               |  19 +
+ arch/arm64/boot/dts/apple/t8112-j493.dts           |  23 +
+ arch/arm64/boot/dts/apple/t8112.dtsi               |  14 +
+ drivers/input/touchscreen/Kconfig                  |  13 +
+ drivers/input/touchscreen/Makefile                 |   1 +
+ drivers/input/touchscreen/apple_z2.c               | 473 +++++++++++++++++++++
+ 9 files changed, 642 insertions(+)
+---
+base-commit: b62cef9a5c673f1b8083159f5dc03c1c5daced2f
+change-id: 20241124-z2-c012b528ea0d
 
 
 
