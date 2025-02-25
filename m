@@ -1,77 +1,77 @@
-Return-Path: <linux-input+bounces-10372-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10373-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1E1A45030
-	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 23:32:16 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F6AA45048
+	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 23:35:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0206F188E04E
-	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 22:32:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 41B6F3AA43A
+	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 22:32:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CF8421883D;
-	Tue, 25 Feb 2025 22:30:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0A6C217701;
+	Tue, 25 Feb 2025 22:30:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G6U6fphL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K7j+iEYX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC4221858F;
-	Tue, 25 Feb 2025 22:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F237F21764B;
+	Tue, 25 Feb 2025 22:30:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740522615; cv=none; b=dF4yLgcL1avgto7DeO8kM49gAnGM0/+rdCNiWPlCrHRP3gpsY3XRkhcYAnnns28nd6KMkAk7rmYyOu9fBz37+hUBFl7eaRfY3DzyPpL8WVn8upS+1K8/l1kkpfhgYoezSF89qmVdkJ3i2PuqpXLXT3NYAmMOLlvq+S5uBZv6aQo=
+	t=1740522617; cv=none; b=ASP5CvgitDnsP1GDRY+GsiuKumaWxBVKdHovdTcc2HWYzBVC8uMG7rLnqi1CRQJSwJOUTWrORYvG2ZS/x7lic/xP0wNPDXmuhYOuw3jmq/a+Zy+Q9o8ieAzj8ORjqjgpb49cmifyZQrPGY1Umtw2eJzCa6HD6YvoaPrcikEJNUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740522615; c=relaxed/simple;
-	bh=wpX4MDEKrwsvmMZvujrY/Z5rpaU0povc3dRNk6Rz7rQ=;
+	s=arc-20240116; t=1740522617; c=relaxed/simple;
+	bh=LxP1w2fDXhSKHW4DmQrxZDK3o4bs4aHBt/iXf7J3zJE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LGrnnDibejchRUWB5Vm2JpbjfSVVM80+Zqmb2r04HwG8+/c/OxouzvTNU89yDijN5qo8yiQCikBWt9JTs2JK3ECkw3eHrzXVeccvH9TVEuIUvBD/HwvSGEuSfg4r6gIz1SwZX/pjd1asiDTpeBOJy3UaXrsF5dplU9KnYJ15tdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G6U6fphL; arc=none smtp.client-ip=209.85.218.51
+	 MIME-Version; b=OLvBjE3OUo4NHNr8jjTZy6056cTIgwn5k1o22a40T8arC/7ftTcgwJk52KLPaekwHwAo86/bQaJ5QhWELGybVIP1jhLuHPFUuOXsj7hPMbxH1F7QXjtZJVe9KpOuwKiBgwcDh//6ZGWz/JUvd5ksIEdYx8BXLsWhFTc9aWx9NVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K7j+iEYX; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ab7e08f56a0so110149266b.1;
-        Tue, 25 Feb 2025 14:30:13 -0800 (PST)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-abc28af1ba4so58241166b.1;
+        Tue, 25 Feb 2025 14:30:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740522612; x=1741127412; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1740522614; x=1741127414; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KepluMyj1J69FmALxGaavPqtO2RMuar8Zd14QOrTqME=;
-        b=G6U6fphLvpiLiirpHU0P7eAyXVzzp7KEZDODQcpmEyacbk82B3NarZcO3GrI/Hg68z
-         8x104QEJe3OoCN5K+8iThDYuydplg/Em65wxrElYRFoIlXBwQmWNdBYSDf+DiA8pI1xn
-         Zg2Qcz8mLYljAklk8rGi+PeAl4RW3LSkYxpU6Q5rUnDr5HaupulyyR61LvK+stcPM88r
-         P9d0PBWjkF9DeqTPHqU2nzt/BB0IZnYnyHa2m/OtYPSGWNmf7pXU5WidC33fi6lbVKBR
-         MCzaDDbIKLJD2ycfaKkP6m3k7kAAdiiRB6IK0iw5T7hETC4Lt383AvcjJ+ShF71o3m4M
-         4vFA==
+        bh=WP49R5haUfKyNUf4TSS1VSNg1Ke2bHVz8VYWeoVRzB8=;
+        b=K7j+iEYXALAx19tG3jS7hRbhruguK6YFWm0mOBAkT2XzkEBkXpV7DD0t7qaSb8iCnX
+         wmH8zR8whAun8+LYAKM5Y6FK84NdVFQ5w6nDMpHD2hcQPzVxVi5cMYQ7WkAG9XCyHn89
+         P6yOt2J+lwadqEu1Qo6UGd1wyA5CHxNA8NIOA4SPSsTG022sefQO2NR8ruAHYg2uIEzp
+         4w949MzZb0UoM8cYc7G0llUQxMDttB+XwBtZ31Y4YdVHZfuhfgip6I9/Kt0gGINE+M/A
+         XpIDdLQTnrMNsZvwaOqfgPY9mT7EFXb4AhToCd7sst8Ui53Bo9IZTfrN5ZYKRvPIqUvy
+         igxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740522612; x=1741127412;
+        d=1e100.net; s=20230601; t=1740522614; x=1741127414;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KepluMyj1J69FmALxGaavPqtO2RMuar8Zd14QOrTqME=;
-        b=c1m1w2aDeJUp2s1hDPhp/KgJ/TxYNeaohPhXfZ5ymupRAT8t6LPe/xMkkv/HBb2zPJ
-         WnIBWi0z+K45BiiXLevo+u1nEk4mB2/ntfMyA18D13jGl+KFUvDBq8J3YZcXSaRK7vms
-         I0bEei1BmtrwpKoNVhSmD/f95htiqW0fRlLrLx8WLGZxxUY44FJ/NvJzbWkStj8cTbg5
-         AmSKfHhjhDtWgffFGrufo8nwHUqOwAUm4x1YdzcTBP8MA93pDMU7UOpNoEOJyT/wx8AY
-         Xtc3h5VhpFk4u1OeW//8Fh8pkeEj/v/zWAFiEPMoXveZ8h0MIDB+9lp2kS3hj+WHvdtm
-         SJDg==
-X-Forwarded-Encrypted: i=1; AJvYcCUQP8Tjj8Ut2l5qexoP+Mnkxearn8q+3hli/NU3jnMiwW11E8rq9ZtE8ddCx1COmb7O5vme15EKxJqvnQ==@vger.kernel.org, AJvYcCVmNDH3sV7Mc/CK6m+jsJlen9bus6XzmoAu0Rq6UAIn9aKUiaE5ewbM36wZ6pzrQVRti525nvpZgggK@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzRAfwsia57RA6biw70dsbFnjyWoLE8uTEi5fSAlDqw9aTeRbU
-	WbLM5YWboGdwb/hJbQbPxh9RfzjTKf4ZB/eUF5yUyYGcqKd5S+na3Y3Ca6l4
-X-Gm-Gg: ASbGnct2V9PpqJy8q3+p7DYdTZdBiHFYxe/w+0QsuGJqyFPMkdC32Wis3142q2Ryos1
-	NlMLlhd8NZ27yMd/yqQAymIXvTz3ahhNk4XanBsuNcMd5aIZIZYjrtJhPxvLn4ZaiAdrTwFZKMR
-	LKSNXuo6whsQDaXiAp/sJELoD6MExS1h5pZbGC1zV7Rmqj3+hLd5EBjDc/1s3Q2h6tL65KJvwjk
-	MspfyLjbhgbWZ6ol9gh9rn5v1it3Kif/HwRkboOFQmm9pgf92E1m37Eaz9m2rZZWAkQrwS2+IO9
-	Yr1V6lS0j3zi80NyutPU7MatdpLNVD5G3/hk0ujdKKx3Yxl0podwpMvO0L7POcpjLuKEilUo
-X-Google-Smtp-Source: AGHT+IFKK6j26Hyyk9NmDTaQWRrTWWtem6M9BzVP3zEJfldl8BXwXmh0hdZuH40tvJfCUQPtXAdUPA==
-X-Received: by 2002:a17:907:2ce2:b0:ab7:cd83:98bb with SMTP id a640c23a62f3a-abc09a3c1c5mr721291066b.5.1740522612359;
-        Tue, 25 Feb 2025 14:30:12 -0800 (PST)
+        bh=WP49R5haUfKyNUf4TSS1VSNg1Ke2bHVz8VYWeoVRzB8=;
+        b=XIj2mBus8lZ8sCbOW3K6j0G33/rvzfiOE+IuM+ZHqkAMiuvNSRXwhvEGv7C+VBp9iD
+         3C4oh/+CKZoOGMTHCoz8wdyFx02WeFotiBr3g8tuRkv1t65I0xabJdS1CnQYbR7dLPrW
+         EDNuVvfDOVE3xYU6MH2YjlRJUOtAhYGZedBmBgMwtOyHuA/lCvYQL1+Mj9bbjTYcKJbv
+         NmRivoXTuTtHqYAsYAP1nCyFFc/Yl4FqRdWelsDVGMgiRrcAjOWi1JItcvZzv/3AVWQR
+         9qZzRChqsrWRfNB5kW72mV0+DR1unN2+FEMI5+LZPC4i852qIuziRlFG9oqS/ruZeBKx
+         C/Ag==
+X-Forwarded-Encrypted: i=1; AJvYcCWZWBtu2uCKEqVieVlWOFUl/iPw0OvLTl/b/nr0Fn1/fAWtTfpftyhnLcqJnFd9OI6XbUCUeNaycfql@vger.kernel.org, AJvYcCXtnr/QwZBkWsApZbC8jv4Tp20WV+zD/coggfGQaa0XInqfr0sD7KDSsamhABUi/dYXBGBqCBv91eqsjA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJvuxWFv0b/yBESvL0tBI7dTa7LHJdEilhLCq7nwPrQaIckawQ
+	qQ9RivCQuP6YgaTdtMPd18yq7uJA16fOj8tIHQ36vDIkDo+szIgdpxoxItGc
+X-Gm-Gg: ASbGncvE/J23WIYJVQS4WNhSsEOFgr3VdKoF6JBcP5y2l18cNwpqD4cX7BRi+b1mk1B
+	ihdfJ3Gc1uHr90nSyNgwbAnMGXMNoau5JbgMIL7mVkrlDsDUWYuZj6HuziUWbWaY1HaFTuwoDeq
+	45I2QCCuSigTYA4ycPUZSyxW6/nz61voXnEc8k1StLdUW/G3ldn4XvJ33SaE/w6YfSrTbxtP4De
+	7pW5c4TIN99kBxk4+GWpjhD9k0yV7oLyga5kgV70iwguBPWBCXRjxbWWkVFfZkP7MpALaKLA2Wa
+	KbMDsrGk+McSMz+FO6uPX8o2m/kuGOrNMKVhU13VXLHE86qmHjDfpa9AIpUD0PEn9pTqC334
+X-Google-Smtp-Source: AGHT+IH69g//NfxWb0Kab5MOLwotpee9YXDyBgsgymsMk09zCHxIXCf9doYTp0X8ia0bVf1kt3pymg==
+X-Received: by 2002:a17:906:dc8b:b0:aab:8f0f:6919 with SMTP id a640c23a62f3a-abc09c12d97mr741445366b.11.1740522614081;
+        Tue, 25 Feb 2025 14:30:14 -0800 (PST)
 Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abed2010f74sm209122566b.121.2025.02.25.14.30.11
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abed2010f74sm209122566b.121.2025.02.25.14.30.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 14:30:11 -0800 (PST)
+        Tue, 25 Feb 2025 14:30:13 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
@@ -79,9 +79,9 @@ Cc: anssi.hannula@gmail.com,
 	oleg@makarenk.ooo,
 	linux-input@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v2 4/5] HID: pidff: Fix 90 degrees direction name North -> East
-Date: Tue, 25 Feb 2025 23:30:03 +0100
-Message-ID: <20250225223004.415965-5-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v2 5/5] HID: pidff: Fix set_device_control()
+Date: Tue, 25 Feb 2025 23:30:04 +0100
+Message-ID: <20250225223004.415965-6-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250225223004.415965-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20250225223004.415965-1-tomasz.pakula.oficjalny@gmail.com>
@@ -93,23 +93,67 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+As the search for Device Control report is permissive, make sure the
+desired field was actually found, before trying to set it.
+
+Fix bitmask clearing as it was erronously using index instead of
+index - 1 (HID arrays index is 1-based).
+
+Add last two missing Device Control usages to the defined array.
+PID_PAUSE and PID_CONTINUE.
 ---
- drivers/hid/usbhid/hid-pidff.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/usbhid/hid-pidff.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index a614438e43bd..6eb7934c8f53 100644
+index 6eb7934c8f53..8dfd2c554a27 100644
 --- a/drivers/hid/usbhid/hid-pidff.c
 +++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -145,7 +145,7 @@ static const u8 pidff_block_load_status[] = { 0x8c, 0x8d, 0x8e};
- #define PID_EFFECT_STOP		1
- static const u8 pidff_effect_operation_status[] = { 0x79, 0x7b };
+@@ -118,7 +118,9 @@ static const u8 pidff_pool[] = { 0x80, 0x83, 0xa9 };
+ #define PID_DISABLE_ACTUATORS	1
+ #define PID_STOP_ALL_EFFECTS	2
+ #define PID_RESET		3
+-static const u8 pidff_device_control[] = { 0x97, 0x98, 0x99, 0x9a };
++#define PID_PAUSE		4
++#define PID_CONTINUE		5
++static const u8 pidff_device_control[] = { 0x97, 0x98, 0x99, 0x9a, 0x9b, 0x9c };
  
--/* Polar direction 90 degrees (North) */
-+/* Polar direction 90 degrees (East) */
- #define PIDFF_FIXED_WHEEL_DIRECTION	0x4000
+ #define PID_CONSTANT	0
+ #define PID_RAMP	1
+@@ -551,21 +553,29 @@ static void pidff_set_gain_report(struct pidff_device *pidff, u16 gain)
+ }
  
- struct pidff_usage {
+ /*
+- * Clear device control report
++ * Send device control report to the device
+  */
+ static void pidff_set_device_control(struct pidff_device *pidff, int field)
+ {
+-	int i, tmp;
++	int i, index;
+ 	int field_index = pidff->control_id[field];
+ 
++	if (field_index < 1)
++		return;
++
+ 	/* Detect if the field is a bitmask variable or an array */
+ 	if (pidff->device_control->flags & HID_MAIN_ITEM_VARIABLE) {
+ 		hid_dbg(pidff->hid, "DEVICE_CONTROL is a bitmask\n");
++
+ 		/* Clear current bitmask */
+ 		for(i = 0; i < sizeof(pidff_device_control); i++) {
+-			tmp = pidff->control_id[i];
+-			pidff->device_control->value[tmp] = 0;
++			index = pidff->control_id[i];
++			if (index < 1)
++				continue;
++
++			pidff->device_control->value[index - 1] = 0;
+ 		}
++
+ 		pidff->device_control->value[field_index - 1] = 1;
+ 	} else {
+ 		hid_dbg(pidff->hid, "DEVICE_CONTROL is an array\n");
 -- 
 2.48.1
 
