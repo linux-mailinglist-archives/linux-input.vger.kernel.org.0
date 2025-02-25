@@ -1,115 +1,84 @@
-Return-Path: <linux-input+bounces-10306-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10307-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73FFA43023
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 23:31:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 340A9A4321D
+	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 01:54:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF5E3189E6DF
-	for <lists+linux-input@lfdr.de>; Mon, 24 Feb 2025 22:30:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4FB9B3A8DDE
+	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 00:52:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E80C207E1F;
-	Mon, 24 Feb 2025 22:30:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2936D63CB;
+	Tue, 25 Feb 2025 00:53:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ALDr1FWS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JuqQrvKh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3682054E7;
-	Mon, 24 Feb 2025 22:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8A13A27B;
+	Tue, 25 Feb 2025 00:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740436213; cv=none; b=tw955Mt8NmwkRYe2+KqV0vOc3KxeIZeBU0gZkMYib6WVKQ07iXHVE0FoFAHojr9q1Z7wQoR1FzDuD9YjZ74C7soaPxO56QQQa7AlYS4UcGpVvtdKb+CC8MF5DFbPKvmBRP9/YXzUlsmugTDp+r5fF+oISgFSoSQ40xCOv2GZbMo=
+	t=1740444784; cv=none; b=PJBWOQuv9/so8Lp9WE2EyYOYJ9c6+zuJs/He4xZ3On/Ylmlj5BqAy+bAqgbYzbYCsjooraxnsjeofBAR7VPTusJiu7ARUJb+cvLKwJJDzHeDd+3TnvIlHehnBd4VtbBZI9nZ9PigawiJHei58u3wDwaoz86UnUpQODNRegQFe6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740436213; c=relaxed/simple;
-	bh=EBRZfjLcwg5g2rsoSMmRqbsYdSeJMfXkKTCLAauJNJE=;
+	s=arc-20240116; t=1740444784; c=relaxed/simple;
+	bh=6Eqh1u8ZeHsCE0wX4nbaCoJEd0C+Yput5YmMDMIcWbI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fXlYo+3VWnHp4HWfSDQhlhIgd7PfdsCKOqixHwW/J6BG6P4AHLeq70zzDV4vVUrO81I7knsdtokh5ZG3+PnvcoYiYq6T28k3pgMl0uquzYxbP8LD9oNVIcoH0GF+rRP8CsdKRnZhmQWGzr+J479MAHK/e83mSdbDY19a9eLu+dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ALDr1FWS; arc=none smtp.client-ip=209.85.214.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=SJmN7gNJHBHO/jXPHH6EdV9qZ5zq+51jG8kMZfuQHrFDX9vn0OHZdmqQGdTB/J/Ag4Yo25XRI7YHoXs4bDTe4Bioxb5clz15TZ4Q+f65ZCmnAR+PlhifmyuML1x4mdF9BdxM/W0dOFiH9hYNk94DyNfOIqXHME7bdhIIHg0BnEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JuqQrvKh; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-220d398bea9so78500525ad.3;
-        Mon, 24 Feb 2025 14:30:11 -0800 (PST)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2230c74c8b6so1934625ad.0;
+        Mon, 24 Feb 2025 16:53:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740436211; x=1741041011; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1740444781; x=1741049581; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=8Me2tClMPt10g2IbqRw63NkEwXox0kTNxKyczDkCN+Y=;
-        b=ALDr1FWSwzNPx25YKPUPh6lWHjNEy//M98/2ftHtYDEPhJxUrYVlaHR3PoPbRubQmd
-         QhoLAliczh35GvXTAbpYRi6b877nH8bjawZPsuShz+OaaOep4VYnAJddufWHBntfx4Vm
-         KxJCdEQ8OJHF81Fp+Hebkorjkfk6wmradOnD/DcnSJbndE4US/hHbqAwntMhmRJh5J6l
-         9F4LXkg2rw3YBD76k2D/5cq0jXAIOeOX59xGDQNPCmZ3rRBS9QFiAhaSI9m9STU8o0SP
-         VkoiAkgOGRYxMZAswLz2wpFusSOm+rNodpt9n538JcK7NKSgdZBbEJRb3T7DiQRR7fVm
-         Yp0g==
+        bh=ni16q3lUg55hroWQM+WeY1LNmMBQAc6C68Nk7KUZcug=;
+        b=JuqQrvKhVL1lZyTLIO1Wg+SNlb+481a8A2aRS3TXiJIBpqDWjm4TQC0S2p1hjSOPTA
+         rSKYF2YWI8VSajMPSH+5ANuNLIv7/gkh/E7yyZ+hh1/CTGGhRzl3ZjLCExK5PXqlPyeR
+         6UVigyfOSWO7l9L9PlhZBLdijupeQjqpjxrPptT1Wjs6CEDSIiKxxJxe8en2htQXpraf
+         1+C3/kOohVSxAFhIFOG11sY8iNY0Pd2HXWJlXNSpbSQmnrWlSkHjS9IwkeRPIZ46OueZ
+         4wB7wCjsnKcwbEXH+Du4yd5/tCamh8L4CAEllvUvZkbAH4K8bddkFIUPnkAsb20/Qqgx
+         wfBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740436211; x=1741041011;
+        d=1e100.net; s=20230601; t=1740444781; x=1741049581;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8Me2tClMPt10g2IbqRw63NkEwXox0kTNxKyczDkCN+Y=;
-        b=lcQ+sHa1mqm2Zb8wcazwW3ADx2xwrmpfB5XOUfkkssJ45xpX57GBXjDU9klc2D0TvJ
-         J6bVdvrwhtBnlkEC0Gz71PnW9pBJj+WDvokKuWgjtCkZwtRwrmwwjRDoJYMOzKyMGj0U
-         +jHPQLcgOfYGHeMgCNr2QMjLSmmksz+XBgr1AspmkjVb8k4D1y/DggrhnCgVQy7OFQ6i
-         BEFfnE6fOudtNG6FnxykDH3XFuSuIuac8U//zfk8OWSaQHj+hqkjc91zNuR8ykzFcvLT
-         rZgdY8BlrVQ0qUSRyKfNduJ1Gc5z0gR4r97Ojxi7d96ECnYeLS1qSYCecnYWa2TAZOWr
-         672Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVKrgAjNK7cJjM3vyDR+o3XsEm+2gB/Osf6FRFp29yen7F6B3Yy5gjYPRLL7flutfpF/0PCsyMvaqBHlXc=@vger.kernel.org, AJvYcCW4EQQrzcImDgNXT0C/zmDLLKrgl4gxxxDUeuH/SGRfohhKFWr/tFK1S9RjJGzICHwHTcvI2X8Q@vger.kernel.org, AJvYcCWwUessm6H77O27EoOes5mH6IF/35urqtSy2GjJUz8e0ot8vj4K9vFycY7yUIDQVyTgbxw=@vger.kernel.org, AJvYcCXBaJIOCDHKV4p7KwXaoEiwa25JdGddbJuudriTImnzut5rQCy6Lx6MzVpGsH32yP4wkZ5FxervgYRwfEA=@vger.kernel.org, AJvYcCXdvd7ZpG//htgS2ZQiKodSSeVlZzBCuj1KCxNcWAE25Fxzb2iwVYWL5BtoxRtGSkkJBvc1besTDeGXc9Ic@vger.kernel.org, AJvYcCXeRb9tfKeqhtvMxMDgyazFkJY+onzJJUMeeQlVCSW7Z2NDAipRKuVe2R9LfDLyAA8t+EWlb74I0Aq4Xxk2sos=@vger.kernel.org, AJvYcCXowpaAjkzGdWdzbCAuR+5e2X6QxLC4MQnEatK5nvX0ebo2IZ6b0VIIuCJC5oxXa8nTwozPVPh9FFt7pWB0@vger.kernel.org
-X-Gm-Message-State: AOJu0Yykdhq1zMJVbAictdxsnkefoSJHCPcRnd28Scm/j132ggNzq8Lq
-	XO6mLvmUNHxu+iQF6JKi772ow9DrZN0VCzGJ6Oj1s528hTGezdP8
-X-Gm-Gg: ASbGnct8AgQmehe2sEf6a6gvJoQMLM5t5FvniL5qXGisPYvWEi/qeFoHQpbggulhepr
-	z/tUkSOLIh/wnwT3dua0EooAvmrzqalDO5aU/KEokyd+8quWZZnnOzchyUTSlWNKeOZxqpdeXpB
-	dluSKbFbM9Iz6LHLQ+dfTIEMXmGJgz0MUbKITxeQiOWQlGANcjhUDaaMFL1CJCZPJYRkzBMq9HD
-	r54QXs7jHCYiGdjfowGW9BHz8yEdKBGCziYVqOULRCygOkGLQYpoNdNtXaJlVnCc+fNp3lWmQ5O
-	AIjGxx1JMLoO4yeoIO/G3NpV9MPIJY9rMLejBVByvlI0xP3Bbg==
-X-Google-Smtp-Source: AGHT+IHSWZzc6ZuJ7NuejlOnvhXRMbFaz5+ejvmVe/JbcFGg9XTfI3FePFDJqFfvVera5WJ+OS97IQ==
-X-Received: by 2002:a17:902:e542:b0:220:ff3f:6cc0 with SMTP id d9443c01a7336-221a1191974mr248692865ad.38.1740436210908;
-        Mon, 24 Feb 2025 14:30:10 -0800 (PST)
-Received: from localhost (maglev-oncall.nvidia.com. [216.228.125.128])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2230a092fc9sm1130585ad.126.2025.02.24.14.30.09
+        bh=ni16q3lUg55hroWQM+WeY1LNmMBQAc6C68Nk7KUZcug=;
+        b=FybRcrKUEvCY1oXGb2UR9oMyyvrwyzc19YPbbXAlUOFSifRCrInBxXt1SIRrJhnBA6
+         HwJD8lVIbCvChVL500IQcTkJfcVkQuQlT/zUVfY7btZbzVVpwInGT4S7SB5/rt+0a6n0
+         dcWuaVIG11TyVsOvUaGnftil+WC4QWoJP8y94ScRSpQRvJOa0m6vkaZvZXdVQaaoY34b
+         EJkmUfh3G8kCtZRxQGoP/BjVMEIarkmf67Av6Usch8AxnkzhP1PAT+8B34A8V1D06wuh
+         nuYlr3LLN7KDUuIDPq47XxK0auALxQovYO3Tr74Z6mvgNyJxGLrgd51ntkn3kQ9LcclY
+         vL1g==
+X-Forwarded-Encrypted: i=1; AJvYcCUsYL0yKjbRVVVWaPY4DWtF0+jugdTIhEQv5uupKdkB8o7xvpZZqLbag/c+nOye+h/sZigbMwOAFfOgqg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIXamIG3/N9T12wg/m76QX+R4gPJmcCAmFAPeYMOlA8NhJbBN0
+	i+47DjTCCvByujr/h8WioXng+WxVk6RtwFcb7rqYtCxVVuUPgjfP
+X-Gm-Gg: ASbGncux/78sNDvVBSa886rGcEdCF5n7jQBS60SlZn8ibszB2eAuOBntTlC6jm9Pl6W
+	Hykz2z94Y3DLyymkSgS4ZD2pnWNQZlD99VdmhVgV3WByGaoWy6SkJrGtK3TYbs0IVYQ87P1CTVr
+	bsMrWv14Ahy5pzT3H9H13HloUjkRgmUApRvXhEAghb5yB6Usgcfr5kNo9P36t18V49ozaCGHLGs
+	5IYVhTt0lxwnX8VgyP+PY6+7ufw6LfTqKXRwwrgizna4j/J+xfgTg+KpaI6ssxEpkC4JoFCAlgX
+	g+a6dALgbJmqijDL3dyQG7AENQY=
+X-Google-Smtp-Source: AGHT+IHeeI88NajexuIR9appPZ/TdMLLXOXQqlAuAA+eSd9GwIET0fAx3xwSUK8GuPSm2oOBMhC5lg==
+X-Received: by 2002:a17:902:d50a:b0:20c:6399:d637 with SMTP id d9443c01a7336-22307e65a63mr23441015ad.40.1740444781281;
+        Mon, 24 Feb 2025 16:53:01 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:464c:6229:2280:227e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2230a0217e7sm2314505ad.104.2025.02.24.16.53.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2025 14:30:10 -0800 (PST)
-Date: Mon, 24 Feb 2025 17:30:08 -0500
-From: Yury Norov <yury.norov@gmail.com>
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Uros Bizjak <ubizjak@gmail.com>, Kuan-Wei Chiu <visitorckw@gmail.com>,
-	tglx@linutronix.de, Ingo Molnar <mingo@redhat.com>, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
-	joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org, rfoss@kernel.org,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-	dmitry.torokhov@gmail.com, mchehab@kernel.org,
-	awalls@md.metrocast.net, hverkuil@xs4all.nl,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	louis.peens@corigine.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
-	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, akpm@linux-foundation.org, mingo@kernel.org,
-	alistair@popple.id.au, linux@rasmusvillemoes.dk,
-	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, kuba@kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-	oss-drivers@corigine.com, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
-	Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH 03/17] x86: Replace open-coded parity calculation with
- parity8()
-Message-ID: <Z7zy8AOpAo4JQu8W@thinkpad>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
- <20250223164217.2139331-4-visitorckw@gmail.com>
- <d080a2d6-9ec7-1c86-4cf4-536400221f68@gmail.com>
- <e0b1c299-7f19-4453-a1ce-676068601213@zytor.com>
- <Z7zv-c4A76jeMAKf@thinkpad>
- <68F1ED19-B0C2-4E78-B504-2F7C040ACC0A@zytor.com>
+        Mon, 24 Feb 2025 16:53:00 -0800 (PST)
+Date: Mon, 24 Feb 2025 16:52:58 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Guillermo =?iso-8859-1?Q?Rodr=EDguez?= <guille.rodriguez@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH 0/1] Input: evdev - fix wrong timestamp after SYN_DROPPED
+Message-ID: <Z70UagY4hxDwUDHv@google.com>
+References: <20241202123351.86957-1-guille.rodriguez@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -119,63 +88,214 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <68F1ED19-B0C2-4E78-B504-2F7C040ACC0A@zytor.com>
+In-Reply-To: <20241202123351.86957-1-guille.rodriguez@gmail.com>
 
-On Mon, Feb 24, 2025 at 02:21:13PM -0800, H. Peter Anvin wrote:
-> On February 24, 2025 2:17:29 PM PST, Yury Norov <yury.norov@gmail.com> wrote:
-> >On Mon, Feb 24, 2025 at 01:55:28PM -0800, H. Peter Anvin wrote:
-> >> On 2/24/25 07:24, Uros Bizjak wrote:
-> >> > 
-> >> > 
-> >> > On 23. 02. 25 17:42, Kuan-Wei Chiu wrote:
-> >> > > Refactor parity calculations to use the standard parity8() helper. This
-> >> > > change eliminates redundant implementations and improves code
-> >> > > efficiency.
-> >> > 
-> >> > The patch improves parity assembly code in bootflag.o from:
-> >> > 
-> >> >    58:    89 de                    mov    %ebx,%esi
-> >> >    5a:    b9 08 00 00 00           mov    $0x8,%ecx
-> >> >    5f:    31 d2                    xor    %edx,%edx
-> >> >    61:    89 f0                    mov    %esi,%eax
-> >> >    63:    89 d7                    mov    %edx,%edi
-> >> >    65:    40 d0 ee                 shr    %sil
-> >> >    68:    83 e0 01                 and    $0x1,%eax
-> >> >    6b:    31 c2                    xor    %eax,%edx
-> >> >    6d:    83 e9 01                 sub    $0x1,%ecx
-> >> >    70:    75 ef                    jne    61 <sbf_init+0x51>
-> >> >    72:    39 c7                    cmp    %eax,%edi
-> >> >    74:    74 7f                    je     f5 <sbf_init+0xe5>
-> >> >    76:
-> >> > 
-> >> > to:
-> >> > 
-> >> >    54:    89 d8                    mov    %ebx,%eax
-> >> >    56:    ba 96 69 00 00           mov    $0x6996,%edx
-> >> >    5b:    c0 e8 04                 shr    $0x4,%al
-> >> >    5e:    31 d8                    xor    %ebx,%eax
-> >> >    60:    83 e0 0f                 and    $0xf,%eax
-> >> >    63:    0f a3 c2                 bt     %eax,%edx
-> >> >    66:    73 64                    jae    cc <sbf_init+0xbc>
-> >> >    68:
-> >> > 
-> >> > which is faster and smaller (-10 bytes) code.
-> >> > 
-> >> 
-> >> Of course, on x86, parity8() and parity16() can be implemented very simply:
-> >> 
-> >> (Also, the parity functions really ought to return bool, and be flagged
-> >> __attribute_const__.)
-> >
-> >There was a discussion regarding return type when parity8() was added.
-> >The integer type was taken over bool with a sort of consideration that
-> >bool should be returned as an answer to some question, like parity_odd().
-> >
-> >To me it's not a big deal. We can switch to boolean and describe in
-> >comment what the 'true' means for the parity() function.
+Hi Guillermo,
+
+On Mon, Dec 02, 2024 at 01:33:50PM +0100, Guillermo Rodríguez wrote:
+> Hi all,
 > 
-> Bool is really the single-bit type, and gives the compiler more information. You could argue that the function really should be called parity_odd*() in general, but that's kind of excessive IMO.
+> We are seeing an issue with gpio_keys where the first event after
+> a SYN_DROPPED has the same timestamp as the SYN_DROPPED event itself.
+> After some investigation it looks like this is an issue with evdev
+> and not specific to gpio_keys.
+> 
+> The issue was originally introduced in commit 3b51c44 ("Input: allow
+> drivers specify timestamp for input events").
+> 
+> This commit introduced input_set_timestamp and input_get_timestamp.
+> The latter (despite the name) actually generates and stores a timestamp
+> in dev->timestamp if the driver did not set one itself. This timestamp
+> needs to be reset when events are flushed; otherwise the next event
+> will use a stale timestamp. A partial fix was implemented in 4370b23
+> ("Input: reset device timestamp on sync"), but this does not cover the
+> case of SYN_DROPPED.
+> 
+> If a SYN_DROPPED is generated (currently only done by evdev), the
+> following happens:
+> 
+> - evdev calls input_get_timestamp to generate a timestamp for the
+>   SYN_DROPPED event.
+> - input_get_timestamp generates a timestamp and stores it in
+>   dev->timestamp
+> - When the next real event is reported (in evdev_events), evdev
+>   calls input_get_timestamp, which uses the timestamp already
+>   stored in dev->timestamp, which corresponds to the SYN_DROPPED event
+>
+> How to fix:
+>
+> - When a SYN_DROPPED is generated, after calling input_get_timestamp,
+>   the timestamp stored in dev->timestamp should be reset (same as is
+>   currently done in input_handle_event). The attached patch does that.
 
-Yes, I could, but I will not. :) I also feel like bool looks more
-natural here.
+So this happens after you change clock type of a client, right?
+
+I do dot think having one client affecting timestamp for everyone is a
+good idea. Instead I think __evdev_queue_syn_dropped() should either:
+
+- use "now" time for SYN_DROPPED generated when user requests clock
+  change or reads device's current state, or
+
+- check if input device has timestamp set and use it or use "now". This
+  option is needed if we are concerned about timestamps potentially
+  going backwards if clock change happens in a middle of delivering
+  input packet.
+
+>
+> (Perhaps the underlying problem is that it is not expected that a
+> function called input_get_timestamp will have side effects. The
+> commit history of input.c shows that this has actually caused a
+> few issues since 3b51c44.)
+
+Yes, maybe something like below will work better. It does not address
+the keeping timestamp for SYN_DROPPED though.
+
+Thanks.
+
+-- 
+Dmitry
+
+
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index 54d35c1a2a24..954c5104a1c1 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -61,6 +61,66 @@ static const unsigned int input_max_code[EV_CNT] = {
+ 	[EV_FF] = FF_MAX,
+ };
+ 
++/**
++ * input_set_timestamp - set timestamp for input events
++ * @dev: input device to set timestamp for
++ * @timestamp: the time at which the event has occurred
++ *   in CLOCK_MONOTONIC
++ *
++ * This function is intended to provide to the input system a more
++ * accurate time of when an event actually occurred. The driver should
++ * call this function as soon as a timestamp is acquired ensuring
++ * clock conversions in input_set_timestamp are done correctly.
++ *
++ * The system entering suspend state between timestamp acquisition and
++ * calling input_set_timestamp can result in inaccurate conversions.
++ */
++void input_set_timestamp(struct input_dev *dev, ktime_t timestamp)
++{
++	dev->timestamp[INPUT_CLK_MONO] = timestamp;
++	dev->timestamp[INPUT_CLK_REAL] = ktime_mono_to_real(timestamp);
++	dev->timestamp[INPUT_CLK_BOOT] = ktime_mono_to_any(timestamp,
++							   TK_OFFS_BOOT);
++}
++EXPORT_SYMBOL(input_set_timestamp);
++
++/**
++ * input_get_timestamp - get timestamp for input events
++ * @dev: input device to get timestamp from
++ *
++ * A valid timestamp is a timestamp of non-zero value.
++ */
++ktime_t *input_get_timestamp(struct input_dev *dev)
++{
++	bool have_timestamp;
++
++	/* TODO: remove setting of the timestamp in a few releases. */
++	have_timestamp = ktime_compare(dev->timestamp[INPUT_CLK_MONO],
++				       ktime_set(0, 0));
++	if (WARN_ON_ONCE(!have_timestamp))
++		input_set_timestamp(dev, ktime_get());
++
++	return dev->timestamp;
++}
++EXPORT_SYMBOL(input_get_timestamp);
++
++static bool input_is_timestamp_set(struct input_dev *dev)
++{
++	return ktime_compare(dev->timestamp[INPUT_CLK_MONO], ktime_set(0, 0));
++}
++
++/*
++ * Reset timestamp for an input device so that next input event will get
++ * a new one.
++ *
++ * Note we only need to reset the monolithic one as we use its presence when
++ * deciding whether to generate a synthetic timestamp.
++ */
++static void input_reset_timestamp(struct input_dev *dev)
++{
++	dev->timestamp[INPUT_CLK_MONO] = ktime_set(0, 0);
++}
++
+ static inline int is_event_supported(unsigned int code,
+ 				     unsigned long *bm, unsigned int max)
+ {
+@@ -342,11 +402,9 @@ static void input_event_dispose(struct input_dev *dev, int disposition,
+ 		dev->num_vals = 0;
+ 		/*
+ 		 * Reset the timestamp on flush so we won't end up
+-		 * with a stale one. Note we only need to reset the
+-		 * monolithic one as we use its presence when deciding
+-		 * whether to generate a synthetic timestamp.
++		 * with a stale one in the next event packet.
+ 		 */
+-		dev->timestamp[INPUT_CLK_MONO] = ktime_set(0, 0);
++		input_reset_timestamp(dev);
+ 	} else if (dev->num_vals >= dev->max_vals - 2) {
+ 		dev->vals[dev->num_vals++] = input_value_sync;
+ 		input_pass_values(dev, dev->vals, dev->num_vals);
+@@ -366,6 +424,9 @@ void input_handle_event(struct input_dev *dev,
+ 		if (type != EV_SYN)
+ 			add_input_randomness(type, code, value);
+ 
++		if (!input_is_timestamp_set(dev))
++			input_set_timestamp(dev, ktime_get());
++
+ 		input_event_dispose(dev, disposition, type, code, value);
+ 	}
+ }
+@@ -2053,46 +2114,6 @@ void input_free_device(struct input_dev *dev)
+ }
+ EXPORT_SYMBOL(input_free_device);
+ 
+-/**
+- * input_set_timestamp - set timestamp for input events
+- * @dev: input device to set timestamp for
+- * @timestamp: the time at which the event has occurred
+- *   in CLOCK_MONOTONIC
+- *
+- * This function is intended to provide to the input system a more
+- * accurate time of when an event actually occurred. The driver should
+- * call this function as soon as a timestamp is acquired ensuring
+- * clock conversions in input_set_timestamp are done correctly.
+- *
+- * The system entering suspend state between timestamp acquisition and
+- * calling input_set_timestamp can result in inaccurate conversions.
+- */
+-void input_set_timestamp(struct input_dev *dev, ktime_t timestamp)
+-{
+-	dev->timestamp[INPUT_CLK_MONO] = timestamp;
+-	dev->timestamp[INPUT_CLK_REAL] = ktime_mono_to_real(timestamp);
+-	dev->timestamp[INPUT_CLK_BOOT] = ktime_mono_to_any(timestamp,
+-							   TK_OFFS_BOOT);
+-}
+-EXPORT_SYMBOL(input_set_timestamp);
+-
+-/**
+- * input_get_timestamp - get timestamp for input events
+- * @dev: input device to get timestamp from
+- *
+- * A valid timestamp is a timestamp of non-zero value.
+- */
+-ktime_t *input_get_timestamp(struct input_dev *dev)
+-{
+-	const ktime_t invalid_timestamp = ktime_set(0, 0);
+-
+-	if (!ktime_compare(dev->timestamp[INPUT_CLK_MONO], invalid_timestamp))
+-		input_set_timestamp(dev, ktime_get());
+-
+-	return dev->timestamp;
+-}
+-EXPORT_SYMBOL(input_get_timestamp);
+-
+ /**
+  * input_set_capability - mark device as capable of a certain event
+  * @dev: device that is capable of emitting or accepting event
 
