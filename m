@@ -1,364 +1,164 @@
-Return-Path: <linux-input+bounces-10366-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10367-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84ED3A44EDB
-	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 22:29:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3851EA44F1A
+	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 22:43:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A9B016EAA4
-	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 21:28:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 524763AFFD4
+	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 21:43:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 814B41A9B46;
-	Tue, 25 Feb 2025 21:28:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6739A20FA9E;
+	Tue, 25 Feb 2025 21:43:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="PfgA2r01";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RoJ3Gond"
+	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="iwkrKkZf"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689361922DD;
-	Tue, 25 Feb 2025 21:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B78419CD16
+	for <linux-input@vger.kernel.org>; Tue, 25 Feb 2025 21:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740518897; cv=none; b=onh62Szxe1G+qSwoYKanMtKH09knHXkTQUUXgV4HIVLJ9DwwyckdO7EN+bW/4d7CXfF8F0y418PglS69NfqUDp2at+70DtxfBj3LY43xqH+52PCRbcDtSM+cUubE2ay8UNtu+axB5ntcn4cO7uePUgBhdpbt0R4ld7vcV7seoxI=
+	t=1740519814; cv=none; b=C7zz3/t6iA0Wjam+YydLxanS46IPgj7lxoKGLtOibjgsKBACYn6gkXnHbN85T5GurHENEtZ3exk5EDPAbErfw4fd67ljJVe2v+rptAuUSqxHIvN7myMq6S/mjQhDJ3D/OiDiqYJ7oqiodRLXoiWho30DBxf2bd0229/QSJadU9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740518897; c=relaxed/simple;
-	bh=1jJ3DPz9rPIN4m9zPtY7SDJfgJPKWR1kYVbqG1gjhbY=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=t12/1j+CjtqKo0cDBxhss021R8RLLiAoFHa99ivXBR6wcnfgyIcUl/0DRuWJYdHNQnyTS+NmJ4QIdnReae6lN72GYUDb8nLZJ1+UUlRexmRQy+n71/fDWRrB2p4DOu9RuqlGyrFtyJnfvHa9BeUXjH5wyl/XB+a5aiKVH4kdNyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=PfgA2r01; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RoJ3Gond; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id 7DE631380A18;
-	Tue, 25 Feb 2025 16:28:14 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-11.internal (MEProxy); Tue, 25 Feb 2025 16:28:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1740518894;
-	 x=1740605294; bh=MtdYR/vb9G3ff/av9xKkRUdGCwEQqS/NHkU708blTyo=; b=
-	PfgA2r0175nB+9AZCdNkZJVEuPBRPK+x8XFvJVX23UCSjqK/zg/P3Q/DTPl78uZz
-	NDdixu0A/ylm/9CsoPS4qW3Rsr4MpsF2dx9wKYN1D89JG1ww5yvBVY5Qfeeu2aZl
-	Y1siKR9M8Fr0McVny9a4aP016h2wiJ2k6G68GGAHWu5OiniexkPfOCz87Jpn1OB9
-	2i/4xXAnQ5Kck3xv1rSNLt9JB6lJPpqIoQDf4h2DBQdDUSaZogfOSCkG7Ywx7Ld3
-	u58fldAo/yP/+4Qs995+K8Ihfr/4iESy++1s0oihNLV5CLFOiu7iDsdt+CXxpFW/
-	i7CIxV0J2P16ft2EUOSqAQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740518894; x=
-	1740605294; bh=MtdYR/vb9G3ff/av9xKkRUdGCwEQqS/NHkU708blTyo=; b=R
-	oJ3Gond8a8niXCP/Qit4wtWf/3Jln5eizJKHsrADztHcfkQ2avURcliG9rL6BJtc
-	LvvKePVZldrEw5M+iF9LPqNFWHkxYg1maPmqxrWrrL83P7QdqrtsUCQ2Wm3v9Nmb
-	ZV0M4fvI56i70ctRb0a0iV8hnTVyJ9fnAP3a/uEEMmQMhTOJ9k8ab148efi+e3eE
-	HWZg6ubCCuoBjLw4P6tpZKQ8jPqcmJW+jywwjZdMpPYYBgGL/IJHOCzblBp3Z6RC
-	t27qp14dI9/dayTUIckPXI4QPk12OpixyA3ZCi6QuVbOalma/lWO97FsTNhBVHA7
-	pmE1LTmxIwyaaesAZdMPQ==
-X-ME-Sender: <xms:7TW-Z9Hj8frpn7R37xRxq9_2uuMG1ccp-aB6dIUP2jgjCeATUN1ZIw>
-    <xme:7TW-ZyXiTbarRFD3PB18jF10wDbug04ggOpsXmoHqQhkLrqz3-ig5n2gPAztlMRj3
-    2Ly-jaUM0cMJpVdCrI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekvdejkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthhqredtredt
-    jeenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
-    druggvqeenucggtffrrghtthgvrhhnpedvhfdvkeeuudevfffftefgvdevfedvleehvddv
-    geejvdefhedtgeegveehfeeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopedu
-    vddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepuhdrkhhlvghinhgvqdhkohgvnh
-    highessggrhihlihgsrhgvrdgtohhmpdhrtghpthhtoheprghlvgigrghnughrvgdrthho
-    rhhguhgvsehfohhsshdrshhtrdgtohhmpdhrtghpthhtohepughmihhtrhihrdhtohhroh
-    hkhhhovhesghhmrghilhdrtghomhdprhgtphhtthhopehmtghoqhhuvghlihhnrdhsthhm
-    fedvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopeholhhivhgvrhdrghhrrghuthgvsehkohgtohgtohhnnhgvtghtohhr
-    rdgtohhmpdhrtghpthhtohepkhhriiihshiithhofhdrkhhoiihlohifshhkiheslhhinh
-    grrhhordhorhhgpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhs
-    thhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinhhugidqshhtmhefvd
-    esshhtqdhmugdqmhgrihhlmhgrnhdrshhtohhrmhhrvghplhihrdgtohhm
-X-ME-Proxy: <xmx:7TW-Z_Lf0h_F9LfHlAbPSHJ1M7dqaYA9o2zdhTqjUf6fTlXrfBoPZQ>
-    <xmx:7TW-ZzEy-JXrFHyi8ig_wxGun2sIisjYJ7X1sbaaESVNPE9stejGEQ>
-    <xmx:7TW-ZzUpNdeb9dSrxfeAWG3pserYEQjUk-qDMHVXZanXNxiduZjORg>
-    <xmx:7TW-Z-PFath8dLqwtCIY0EkLhBoN0kAJLAR4XKn115qWVQr6PmgLGA>
-    <xmx:7jW-Z2MXGtKopnNDXF4v6CWGGu41RDXkX3vnqZUDqEntea_244bFd27Q>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 92F0E2220072; Tue, 25 Feb 2025 16:28:13 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1740519814; c=relaxed/simple;
+	bh=v6VBRIDfPPAuGSOJ6DX9lU3J+goTuMImOESXIUQcXCg=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=lCUbV+1r37Lp6r4x88AniA5DZS63Z3ym+CQknJPFDD8yFwjisF/T2KhD0c4Do5a6/acODXVY7RzN7/kFUmKb/GZwjxgi6PchOZLmSrdvAVEs4Am29EiHA1vXw2IRlRXrqdxTwOyArJs2/7pCF/ACnljPbbL+M+DCP1GwkkXZyL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com; spf=pass smtp.mailfrom=cloud.com; dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b=iwkrKkZf; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloud.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-38f5fc33602so162488f8f.0
+        for <linux-input@vger.kernel.org>; Tue, 25 Feb 2025 13:43:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=citrix.com; s=google; t=1740519811; x=1741124611; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:subject:references:cc:to:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=v6VBRIDfPPAuGSOJ6DX9lU3J+goTuMImOESXIUQcXCg=;
+        b=iwkrKkZfK5JLovU1AIT6FvRG5xXzwhjAndt70ieTPZUZ3hWeCAwvl8WsEhTub+jbMZ
+         FduPMPMiLE05BfqfKEoWYZDTGo3AkijYv2FS/e3thDGMoBC99j/OdpbWJK5mCfnw+MEO
+         wUjVUS9YC9Yc5V7JFngbKuVXqBV5ti6ueYYhA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740519811; x=1741124611;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:subject:references:cc:to:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v6VBRIDfPPAuGSOJ6DX9lU3J+goTuMImOESXIUQcXCg=;
+        b=CbCsxwBIO7ULV+L5AI5bewGGEDr7uk5+LjDuOLwANaxBJEm6V5n7/tFUvhOKcMTA17
+         SQB5G/IUx59/2NKSp+0V7/TP7414ezPk8ZSdHFbQb43tgAHEjS7xy4yN+Sk5kmNSzkt4
+         vfLLJ0PlFJ6rOzC+Pmy+6j/TAKoiM2o84SclMWrzyekaHTodQHXGEySfN3rknSu4iHAZ
+         +j8LtW1mK4DE9GwlgqMbSgClSQL/anVLCILfTVG5QgLr1kYL0UOvRhECRoWz2c7ZyoGu
+         FgYnCdJWorEkQ4hlwOeDd67pSUZ1SB5yeoGYD1qznBeYrr9qmXWV+Hf2hXWjZbrZlsaf
+         RF0A==
+X-Forwarded-Encrypted: i=1; AJvYcCVUXYzNZ551y3wuWWHQ8J9G2Gef/U2SwRD26qhCtWIfqY6fsQb2AOLfVh9HA9PpZ6FJvvLGLxdF+iSwHA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxM9+rLtlCkNWMlrAkkEDhlhNaBOLbTEBoVZqqMUqv8O/Qtl/2g
+	CgnEcioHfXWU9FIJCBYcnfFaE5ekfJOWWt1B3hBNN1NKXSr7k17/6mo1unwHT5c=
+X-Gm-Gg: ASbGncvl/52gpfEau2MZ/PlzJCWLsiOsU8pSfxnp2ZKh66TqKGD+AttGSBnY/HjFeQk
+	WxFbn12ozd4M7QQ7q3gDEb3pGaxJwcEl4uqOAhXXhY3rDelU8kNwe4/3g8/RxncZmPcnMQmMFdV
+	gcKggZ3e1TXyXwWPO8RzL6bvys4eyq9UdUPRpd0aStZFCvlYsGL4OKHPRxurqXMv228olGJb2QK
+	h0r5MVx0T2WUOCU7Od59djWTgv+T3g+g+pdVm8Gm2WzVflki/ks2CvLZE21oZ2woUv/cW0wBpI9
+	CFuu8/leoY4ZaFUlQ/yRGNYRUWfeuNI9k/FVdhOdpeewY4sxLNz12Rujk//TPJf0LQ==
+X-Google-Smtp-Source: AGHT+IHSlhsBYfXGudlA126ARnimf5DJid2NXAt0zMRZRmjxnTP+DlMFj1fR7Dt14yukNzUQAYX1Dg==
+X-Received: by 2002:a5d:64a7:0:b0:38b:f4e6:21aa with SMTP id ffacd0b85a97d-38f6f3c50b0mr11926957f8f.5.1740519810679;
+        Tue, 25 Feb 2025 13:43:30 -0800 (PST)
+Received: from [192.168.1.10] (host-92-26-98-202.as13285.net. [92.26.98.202])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390cd8fcf29sm3520900f8f.100.2025.02.25.13.43.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Feb 2025 13:43:30 -0800 (PST)
+Message-ID: <8052b316-9f72-42c7-9e11-e23e690d80c4@citrix.com>
+Date: Tue, 25 Feb 2025 21:43:27 +0000
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 25 Feb 2025 22:27:24 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: "Arnd Bergmann" <arnd@kernel.org>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- "Maxime Coquelin" <mcoquelin.stm32@gmail.com>,
- "Alexandre Torgue" <alexandre.torgue@foss.st.com>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
- "Yu Jiaoliang" <yujiaoliang@vivo.com>,
- "Oliver Graute" <oliver.graute@kococonnector.com>,
- linux-input@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Message-Id: <181dbdb8-c050-4966-8cb4-2f39495ff3f9@app.fastmail.com>
-In-Reply-To: 
- <ccjng5mrvqngfg6eujq6mtl6dj2sz5vsqvjoqz6gm5ntcibduz@wqoc6zhchrvv>
-References: <20250225145332.1116557-1-arnd@kernel.org>
- <6xoycaft6wnd4sm74f2o4koc7lvyl2mtxp2kc6lc4dzpjvby53@ejm5ssbfzbph>
- <a6d10d80-79d3-426f-9dc8-0ddab77e89d9@app.fastmail.com>
- <ccjng5mrvqngfg6eujq6mtl6dj2sz5vsqvjoqz6gm5ntcibduz@wqoc6zhchrvv>
-Subject: Re: [PATCH] [v2] Input: stmpe-ts - mark OF related data as maybe unused
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+To: hpa@zytor.com
+Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
+ akpm@linux-foundation.org, alistair@popple.id.au, andrew+netdev@lunn.ch,
+ andrzej.hajda@intel.com, arend.vanspriel@broadcom.com,
+ awalls@md.metrocast.net, bp@alien8.de, bpf@vger.kernel.org,
+ brcm80211-dev-list.pdl@broadcom.com, brcm80211@lists.linux.dev,
+ dave.hansen@linux.intel.com, davem@davemloft.net,
+ david.laight.linux@gmail.com, dmitry.torokhov@gmail.com,
+ dri-devel@lists.freedesktop.org, eajames@linux.ibm.com, edumazet@google.com,
+ eleanor15x@gmail.com, gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
+ jernej.skrabec@gmail.com, jirislaby@kernel.org, jk@ozlabs.org,
+ joel@jms.id.au, johannes@sipsolutions.net, jonas@kwiboo.se,
+ jserv@ccns.ncku.edu.tw, kuba@kernel.org, linux-fsi@lists.ozlabs.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-serial@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux@rasmusvillemoes.dk, louis.peens@corigine.com,
+ maarten.lankhorst@linux.intel.com, mchehab@kernel.org, mingo@redhat.com,
+ miquel.raynal@bootlin.com, mripard@kernel.org, neil.armstrong@linaro.org,
+ netdev@vger.kernel.org, oss-drivers@corigine.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, rfoss@kernel.org, richard@nod.at,
+ simona@ffwll.ch, tglx@linutronix.de, tzimmermann@suse.de, vigneshr@ti.com,
+ visitorckw@gmail.com, x86@kernel.org, yury.norov@gmail.com
+References: <3BC57C78-1DFF-4B83-85AA-A908DBF2B958@zytor.com>
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+Content-Language: en-GB
+From: Andrew Cooper <andrew.cooper3@citrix.com>
+Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
+ 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
+ 6+ahAA==
+In-Reply-To: <3BC57C78-1DFF-4B83-85AA-A908DBF2B958@zytor.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 25, 2025, at 21:17, Uwe Kleine-K=C3=B6nig wrote:
-> On Tue, Feb 25, 2025 at 05:25:05PM +0100, Arnd Bergmann wrote:
->> On Tue, Feb 25, 2025, at 16:47, Uwe Kleine-K=C3=B6nig wrote:
->> > On Tue, Feb 25, 2025 at 03:53:26PM +0100, Arnd Bergmann wrote:
->> > the warning goes away and stmpe_ts_ids isn't included in the .o file
->> > without having to add __maybe_unused to the driver.
->> >
->> > I would consider that a superior approach.
->>=20
->> Not sure, I can see how this avoids some warnings, but this is
->> currently the only remaining instance of this problem (I fixed
->> another two recently), and in most cases a MODULE_DEVICE_TABLE()
->> entry that is completely unused ends up pointing to a real bug,
->> where there is a table but it's not also part of the
->> device_driver definition.
->
-> It might be the only instance without __maybe_unused and so triggering=
- a
-> warning. But there is also:
->
-> $ git grep -E 'of_device_id.*__maybe_unused' | wc -l
-> 231
->
-> $ git grep -E 'mdio_device_id.*__maybe_unused' | wc -l
-> 58
+> Incidentally, in all of this, didn't anyone notice __builtin_parity()?
 
-I'm not really worried about these at the moment, other than not
-wanting to pile on to that mess with more __maybe_unused
-annotations.
+Yes.  It it has done sane for a decade on x86, yet does things such as
+emitting a library call on other architectures.
 
-My goal here is to get the point of enabling -Wunused-const-variable
-by default in order to find other bugs before they make it into
-the kernel.
+https://godbolt.org/z/6qG3noebq
 
-Andy Shevchenko really wants to remove the of_match_ptr()
-macro so we can stop adding pointless __maybe_unused annotations
-for every driver that accidentally uses of_match_ptr(). This
-is certainly a good idea as well, just not what I'm trying to
-do this time.
-
-Apparently we have already accumulated a bunch of drivers that
-ended up with __maybe_unused but no actual reference from
-of_match_ptr():
-
-$ git grep -l 'of_device_id.*__maybe_unused' |xargs grep -Lw of_match_pt=
-r | wc -l
-
-but only a couple of drivers that don't use of_match_ptr()
-or of_match_node():
-
-$ git grep -l 'of_device_id.*__maybe_unused' |xargs grep -Lw 'of_match_t=
-able\|of_match_node'
-drivers/cpufreq/armada-37xx-cpufreq.c
-drivers/cpufreq/armada-8k-cpufreq.c
-drivers/cpufreq/highbank-cpufreq.c
-drivers/cpufreq/sti-cpufreq.c
-drivers/hwmon/isl28022.c
-drivers/input/touchscreen/stmpe-ts.c
-drivers/mfd/twl6030-irq.c
-drivers/tty/serial/sc16is7xx.c
-
-I do think it makes sense to change of_match_node() to have a
-reference to its arguments, as in the patch below. That
-probably needs a few extra fixups.
-
-     Arnd
-
-
-diff --git a/include/linux/of.h b/include/linux/of.h
-index 9d6b8a61607f..83cfa6c26ee4 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -907,7 +907,11 @@ static inline const void *of_device_get_match_data(=
-const struct device *dev)
- }
-=20
- #define of_match_ptr(_ptr)	NULL
--#define of_match_node(_matches, _node)	NULL
-+static inline const struct of_device_id *of_match_node(
-+	const struct of_device_id *matches, const struct device_node *node)
-+{
-+	return NULL;
-+}
- #endif /* CONFIG_OF */
-=20
- /* Default string compare functions, Allow arch asm/prom.h to override =
-*/
-diff --git a/drivers/crypto/caam/ctrl.c b/drivers/crypto/caam/ctrl.c
-index d4b39184dbdb..bd418dea586d 100644
---- a/drivers/crypto/caam/ctrl.c
-+++ b/drivers/crypto/caam/ctrl.c
-@@ -80,7 +80,6 @@ static void build_deinstantiation_desc(u32 *desc, int =
-handle)
- 	append_jump(desc, JUMP_CLASS_CLASS1 | JUMP_TYPE_HALT);
- }
-=20
--#ifdef CONFIG_OF
- static const struct of_device_id imx8m_machine_match[] =3D {
- 	{ .compatible =3D "fsl,imx8mm", },
- 	{ .compatible =3D "fsl,imx8mn", },
-@@ -89,7 +88,6 @@ static const struct of_device_id imx8m_machine_match[]=
- =3D {
- 	{ .compatible =3D "fsl,imx8ulp", },
- 	{ }
- };
--#endif
-=20
- /*
-  * run_descriptor_deco0 - runs a descriptor on DECO0, under direct cont=
-rol of
-diff --git a/drivers/dma/dw/rzn1-dmamux.c b/drivers/dma/dw/rzn1-dmamux.c
-index 4fb8508419db..9dcba3a3ffaa 100644
---- a/drivers/dma/dw/rzn1-dmamux.c
-+++ b/drivers/dma/dw/rzn1-dmamux.c
-@@ -104,12 +104,10 @@ static void *rzn1_dmamux_route_allocate(struct of_=
-phandle_args *dma_spec,
- 	return ERR_PTR(ret);
- }
-=20
--#ifdef CONFIG_OF
- static const struct of_device_id rzn1_dmac_match[] =3D {
- 	{ .compatible =3D "renesas,rzn1-dma" },
- 	{}
- };
--#endif
-=20
- static int rzn1_dmamux_probe(struct platform_device *pdev)
- {
-diff --git a/drivers/i2c/busses/i2c-at91-core.c b/drivers/i2c/busses/i2c=
--at91-core.c
-index edc047e3e535..3a9be06dd967 100644
---- a/drivers/i2c/busses/i2c-at91-core.c
-+++ b/drivers/i2c/busses/i2c-at91-core.c
-@@ -108,7 +108,6 @@ static const struct platform_device_id at91_twi_devt=
-ypes[] =3D {
- 	}
- };
-=20
--#if defined(CONFIG_OF)
- static struct at91_twi_pdata at91sam9x5_config =3D {
- 	.clk_max_div =3D 7,
- 	.clk_offset =3D 4,
-@@ -178,7 +177,6 @@ static const struct of_device_id atmel_twi_dt_ids[] =
-=3D {
- 	}
- };
- MODULE_DEVICE_TABLE(of, atmel_twi_dt_ids);
--#endif
-=20
- static struct at91_twi_pdata *at91_twi_get_driver_data(
- 					struct platform_device *pdev)
-diff --git a/drivers/i2c/busses/i2c-xiic.c b/drivers/i2c/busses/i2c-xiic=
-.c
-index dc1e46d834dc..969e08e4d4f4 100644
---- a/drivers/i2c/busses/i2c-xiic.c
-+++ b/drivers/i2c/busses/i2c-xiic.c
-@@ -1409,7 +1409,6 @@ static const struct i2c_adapter xiic_adapter =3D {
- 	.algo =3D &xiic_algorithm,
- };
-=20
--#if defined(CONFIG_OF)
- static const struct xiic_version_data xiic_2_00 =3D {
- 	.quirks =3D DYNAMIC_MODE_READ_BROKEN_BIT,
- };
-@@ -1420,7 +1419,6 @@ static const struct of_device_id xiic_of_match[] =3D=
- {
- 	{},
- };
- MODULE_DEVICE_TABLE(of, xiic_of_match);
--#endif
-=20
- static int xiic_i2c_probe(struct platform_device *pdev)
- {
-diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
-index 35a196341534..3db592f3b451 100644
---- a/drivers/misc/atmel-ssc.c
-+++ b/drivers/misc/atmel-ssc.c
-@@ -111,7 +111,6 @@ static const struct platform_device_id atmel_ssc_dev=
-types[] =3D {
- 	}
- };
-=20
--#ifdef CONFIG_OF
- static const struct of_device_id atmel_ssc_dt_ids[] =3D {
- 	{
- 		.compatible =3D "atmel,at91rm9200-ssc",
-@@ -127,7 +126,6 @@ static const struct of_device_id atmel_ssc_dt_ids[] =
-=3D {
- 	}
- };
- MODULE_DEVICE_TABLE(of, atmel_ssc_dt_ids);
--#endif
-=20
- static inline const struct atmel_ssc_platform_data *
- 	atmel_ssc_get_driver_data(struct platform_device *pdev)
-diff --git a/drivers/net/can/at91_can.c b/drivers/net/can/at91_can.c
-index 191707d7e3da..9fbbf3587b0c 100644
---- a/drivers/net/can/at91_can.c
-+++ b/drivers/net/can/at91_can.c
-@@ -1013,7 +1013,6 @@ static const struct attribute_group at91_sysfs_att=
-r_group =3D {
- 	.attrs =3D at91_sysfs_attrs,
- };
-=20
--#if defined(CONFIG_OF)
- static const struct of_device_id at91_can_dt_ids[] =3D {
- 	{
- 		.compatible =3D "atmel,at91sam9x5-can",
-@@ -1026,7 +1025,6 @@ static const struct of_device_id at91_can_dt_ids[]=
- =3D {
- 	}
- };
- MODULE_DEVICE_TABLE(of, at91_can_dt_ids);
--#endif
-=20
- static const struct at91_devtype_data *at91_can_get_driver_data(struct =
-platform_device *pdev)
- {
-diff --git a/drivers/net/ethernet/cadence/macb_main.c b/drivers/net/ethe=
-rnet/cadence/macb_main.c
-index 6c462de81f20..f942c6e54a1b 100644
---- a/drivers/net/ethernet/cadence/macb_main.c
-+++ b/drivers/net/ethernet/cadence/macb_main.c
-@@ -4425,7 +4425,6 @@ static const struct macb_usrio_config macb_default=
-_usrio =3D {
- 	.refclk =3D MACB_BIT(CLKEN),
- };
-=20
--#if defined(CONFIG_OF)
- /* 1518 rounded up */
- #define AT91ETHER_MAX_RBUFF_SZ	0x600
- /* max number of receive buffers */
-@@ -5144,7 +5143,6 @@ static const struct of_device_id macb_dt_ids[] =3D=
- {
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, macb_dt_ids);
--#endif /* CONFIG_OF */
-=20
- static const struct macb_config default_gem_config =3D {
- 	.caps =3D MACB_CAPS_GIGABIT_MODE_AVAILABLE |
+~Andrew
 
