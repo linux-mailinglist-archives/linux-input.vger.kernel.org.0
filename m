@@ -1,141 +1,107 @@
-Return-Path: <linux-input+bounces-10360-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10361-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC8FA44E02
-	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 21:47:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A65A44E21
+	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 21:59:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C87987A22B1
-	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 20:42:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0A743A932F
+	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 20:59:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87A9819F41B;
-	Tue, 25 Feb 2025 20:43:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E24D42046B1;
+	Tue, 25 Feb 2025 20:59:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="sqzs/H1V";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BhAJADjs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hODyeU+R"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FEC31A2396;
-	Tue, 25 Feb 2025 20:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC1EDF59;
+	Tue, 25 Feb 2025 20:59:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740516225; cv=none; b=PFmF2TfNyAsE0z0UEzk2ZG4VxGfg7ci/rCRLj8RZ1xbbtt7UV4v1wSxYHi6xUHn3VlCNEXH+mcxr8as6cJ6EnKP3moRTm/r54tgXFVtlLnoHd9wdlYKXwseap987e956Ut2ltvGLVlvE+4zPsuNUZugyhCcWGdas2nUrJMmPFeg=
+	t=1740517150; cv=none; b=Y4Nix9oX32G3Acde0SW2svrr/nx4ozGnhYTKkt6oJwP5XGf7DuZVTxlZQnK8t8iVbEPp9URcpwA2Q76tdoVx02xK9zVGDFCjLYyyAZKpU0C0w8It0tB39c0szgVmQvlK56DlxnxFHgYt1SEmAQ7SaB8aZhIeX7KluPvPxdoVp2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740516225; c=relaxed/simple;
-	bh=O/fhfATb4AiUXDJCmjcXCXRXVNJS4e8/TecLMtuchqQ=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=jTjQQCoymsBnJrXK8hlgiOvaTS5xYIhjFr6buPLurZsvYY7eyTcQwaLKph6lpGYVy2IIVA4SjzeatR0aQhY6gtjGuWHU9ZAzbICAxQNXPSjEW28teChkcKj3nYCT+V0acwcq57/kMMlJzMHK9ZAQYcTgXYuG0GEvLWcOuhzNwbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=sqzs/H1V; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BhAJADjs; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id DFBD52540158;
-	Tue, 25 Feb 2025 15:43:40 -0500 (EST)
-Received: from phl-imap-07 ([10.202.2.97])
-  by phl-compute-10.internal (MEProxy); Tue, 25 Feb 2025 15:43:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
-	 t=1740516220; x=1740602620; bh=O/fhfATb4AiUXDJCmjcXCXRXVNJS4e8/
-	TecLMtuchqQ=; b=sqzs/H1VLTKz+ic/Ses3INJph9n2k4WuTOxFo+MvtoLX169Y
-	nSkD4oDB9axeueV5vNigULRe7V9Mu71G0wgnXLmN3vS16206nonzNfN9cLp7zOwB
-	b46FBm0BJcFBpq68axremRPUQlqIdkYY0zz6q8e4FGsjUM4fLRxHYpLQ68BzmZgx
-	xiFtLpYME1Oocxe6/yZ6fSV+mYVtdAaRREo/8nHe6UWV38WbyrzeK0FX1kDo7Uxk
-	jLBd4wFmGuEeXmNGcAf5w8GMA9lmfVAlz+V6+s2/hrhaxewpyRSxxENXymJanLIc
-	DM1hEzl7Vhz2z9XTidYlovfeqfLoIFMWitLV7A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740516220; x=
-	1740602620; bh=O/fhfATb4AiUXDJCmjcXCXRXVNJS4e8/TecLMtuchqQ=; b=B
-	hAJADjsSmaVl9LVtpfE6cRAsxXwwuTg1N7861zIRXibXgg2MxKhe+aikLrrD5MYY
-	BiUooc93Mf8BsbhWcMow1u3RQFNKr+lXhLXazMqVa9Bg/by/lAeF7zTcm9g9k32U
-	LOQAu/sFMy7FXiBL5+vU++XTFY4U7+IcqiQ820mF9pY+1RoTOXWaEitR2V+ptCfZ
-	WJqdLfdhwUcM/QpXuDkpvn2Uf2Mzj6i+/MmXL9x4tTgwytoe5zUXbM4n59+2gJKX
-	kBk7Yu/gI/JeJe36RNZxUYPdSN+zx3GuLfPJgv0uP7DdvOIWe+qh0vGhZct/9XFj
-	6rxueUVS3Wx/36OK80jIw==
-X-ME-Sender: <xms:eyu-Z4C34Fh3XE97I_u7gERDrdNerw9w3TP03wXikKnfqf5RKF8_GQ>
-    <xme:eyu-Z6g9gS4J2rwHWVuwYOTTTiErGSRRsvFXQqt44vO_0E7TSNN76phlHbZJ6MRuE
-    Gpbv8-vsjNXnuSRF1o>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekvdeilecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdfuvhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvg
-    hrrdguvghvqeenucggtffrrghtthgvrhhnpeegheduteffteeguefgteeugeffvdejgefg
-    gfegkedthffgudfhudduieelkeekkeenucffohhmrghinhepghhithhhuhgsrdgtohhmne
-    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvghn
-    sehsvhgvnhhpvghtvghrrdguvghvpdhnsggprhgtphhtthhopeduhedpmhhouggvpehsmh
-    htphhouhhtpdhrtghpthhtoheprhihuggsvghrghessghithhmrghthhdrohhrghdprhgt
-    phhtthhopegumhhithhrhidrthhorhhokhhhohhvsehgmhgrihhlrdgtohhmpdhrtghpth
-    htohepfhhnkhhlrdhkvghrnhgvlhesghhmrghilhdrtghomhdprhgtphhtthhopehnvggr
-    lhesghhomhhprgdruggvvhdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprhgtph
-    htthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihk
-    odgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhn
-    fhhrrgguvggrugdrohhrgh
-X-ME-Proxy: <xmx:fCu-Z7mIrGgSvFW5O80C-vreKzrTwA4iGXV1Ro_0fyX3q1pRBxe8Tg>
-    <xmx:fCu-Z-zYu1EGdl3h3FKh3drCYacxHtXezkfwDqZdxjihmMbGRQYAFQ>
-    <xmx:fCu-Z9Qos28BREiaYB0D-yS_S_9S-SrA8KYEkGIq5EUF3NSdWLJrGg>
-    <xmx:fCu-Z5Z2TYLoOG5jGqeS938z0CwNI11CKJlvFB0XatiQbrawZxKJCA>
-    <xmx:fCu-Z5pbHil56P7IpzzlVm65q57AwXFOM7H0nmnKK9xQPlbnpUhxW4xr>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id D655BBA006F; Tue, 25 Feb 2025 15:43:39 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1740517150; c=relaxed/simple;
+	bh=IUa/EqCGMggMTdvnmZ98pkhqTkwU3QTApiJmSgwhVzY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BlN3n+mIxlckqQ7QVIjq9CGUiS6L0pxT0BEZSfa49zahbINin/ldaFCFxT3G/le1v7kGGrkT4k06BHwShORji5zp9CvkNFyTSW3UaTq5ioNfjAL4LyH1mZ2TwiW/oaPO3lE8l8JvbhIsVHdpFVQ5aNSpoT21iXR63N+mVIki+AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hODyeU+R; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-220c4159f87so87538295ad.0;
+        Tue, 25 Feb 2025 12:59:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740517149; x=1741121949; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cx+DTuM+S3pjCkvjagETiUApcILKF8GI4XrxIDKV1Ds=;
+        b=hODyeU+R5DmdYF+0YPUnU6jO5wrMeyxVVByXDTPiuAq96Vvn98pWYgNTTQjdYJvFK4
+         v2cSl8b0COucaMbxC6DsyCCRoE1eeaMl0bwl+BdKQCQ+ckUsI5Y3U7+HXTl3QtuybpqL
+         YQFcPWmDs+PhFo5ctWlcDFpFM/eyw6sRquE+7DT/OHeKXxXoAss0r2SXEGtn5Ywh4pHW
+         3nOEQP9NP2d24gSAwGh2CVTNcvE/Shfm/bILPm1a8J/6+2V5lAKV4Z8sYOCBzSl9CeL9
+         PbCpHShGiBYmMvvZcShI8gGQr68nIDRMEZbOc5ExPpGGuE+J1+6or+q5FUBGLdvq3Ue8
+         xSOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740517149; x=1741121949;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cx+DTuM+S3pjCkvjagETiUApcILKF8GI4XrxIDKV1Ds=;
+        b=hbWyxRiRnuuK+kB1kZ/RbD888bMQRhqDvS9PLLKEjOwMP/vpHm+ZKTGPeeLu+tVMUH
+         BGz9elz/rI5SR1XpM//9U8B0RQdp1ipeLHHwNinvn3pBN66OCfHP9HicXmhG+K622gUo
+         09KzwLTczI6/Y7FQ0v6Nf/4M+7RYSuiCa9cLgka83yg82VdXeNNzeVsn+iRwlGCgKqL5
+         MALaj28+BExhOWzwHFSZXVe72Y3iCBZ4Br0drPkc5sjFj0auZcyTVgt3JMjCljuGfeSZ
+         LviARZtekNBZ6xQ/l1IKCoyd3JcZ/QAdzRmq4QJNhlY6NLwyQnY4AQcELJInnXYe2YWW
+         o1Hg==
+X-Forwarded-Encrypted: i=1; AJvYcCX5ZpGRn+Wk7vdK4+fvZ0TPF12ZigI7A9gbI7J6PRI2GCik5cSoGCdxU9qHanqqfAUtyENL6+m3DW5xX0I=@vger.kernel.org, AJvYcCXzrfT44z3+hvPHW46gsuTCXH2FUC3pf0BPXMcUBiXDnx2KIHfQAugad2gUP5T2PwfLq3nG7vj0NaoCWGAw@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+RifLJ767+4kudBzjPybZhebbev0X2DWQLWG434EEEeiRVtJd
+	Qmjxg+NNZy9uR15IoUy+RNTK9QacoOpjDzsf0wFTtJQ/w/hrV3nKrsc2sg==
+X-Gm-Gg: ASbGncvQ/lBKmgjanlXQYV4n/3AZPE6m8mjzLd9Yl4fszr7joEy23wE3C4OfUKaiLWA
+	Kp99PEW7orHjh6NsiA64ta0CNXBHXzVNwf5cJRebZ8pxCTADtRV5X7FfyK0xF8IzYDY7iUmwXw7
+	EaSxC3o6bhYJDBdDHDRX3iWWCPiau5VewoIGY3ptZ4UCWjL7/82g47GMSpO+Pgia3nH36hk3ujv
+	HMoHqnlr2+yRjYQCPgQAUnRF2dHfc+zxKjjdutOhHg7aCQ/zxmaFsvjEOJO3NFVYTfFxAKnrkPg
+	xEIc9n7wYTFEpmYPhVXOTajx1kE=
+X-Google-Smtp-Source: AGHT+IEHlT6XytMKDLbwVbqri8gh4lG8ehdNDBBokqPrCzaiiSa2E1XKUddLHDA7h8HfKgYPjGB1FA==
+X-Received: by 2002:a05:6a00:1ad4:b0:730:888a:252a with SMTP id d2e1a72fcca58-7347918d99bmr6418549b3a.15.1740517148664;
+        Tue, 25 Feb 2025 12:59:08 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:987e:29fc:176a:2ed5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7347a6ace59sm1989107b3a.5.2025.02.25.12.59.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2025 12:59:08 -0800 (PST)
+Date: Tue, 25 Feb 2025 12:59:05 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Dmitry Antipov <dmantipov@yandex.ru>
+Cc: David Collins <quic_collinsd@quicinc.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Anjelique Melendez <quic_amelende@quicinc.com>,
+	linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH] input: pm8941-pwrkey: fix dev_dbg() output in
+ pm8941_pwrkey_irq()
+Message-ID: <Z74vGRGiHPT9wdn5@google.com>
+References: <20250216170336.861025-1-dmantipov@yandex.ru>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 25 Feb 2025 21:43:08 +0100
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Sasha Finkelstein" <fnkl.kernel@gmail.com>,
- "Hector Martin" <marcan@marcan.st>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Henrik Rydberg" <rydberg@bitmath.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, "Janne Grunau" <j@jannau.net>,
- "Neal Gompa" <neal@gompa.dev>
-Message-Id: <4394a92e-8024-431e-a667-1644171472d2@app.fastmail.com>
-In-Reply-To: <20250224-z2-v7-3-2746f2bd07d0@gmail.com>
-References: <20250224-z2-v7-0-2746f2bd07d0@gmail.com>
- <20250224-z2-v7-3-2746f2bd07d0@gmail.com>
-Subject: Re: [PATCH v7 3/4] arm64: dts: apple: Add touchbar digitizer nodes
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250216170336.861025-1-dmantipov@yandex.ru>
 
-On Mon, Feb 24, 2025, at 12:01, Sasha Finkelstein via B4 Relay wrote:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
->
-> Adds device tree entries for the touchbar digitizer
->
-> Co-developed-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Acked-by: Sven Peter <sven@svenpeter.dev>
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
+On Sun, Feb 16, 2025 at 08:03:36PM +0300, Dmitry Antipov wrote:
+> Since 'sw_debounce_end_time' of 'struct pm8941_pwrkey' is of type
+> 'ktime_t', use 'ktime_to_us()' to print the value in microseconds
+> as it is announced in a call to 'dev_dbg()'. Compile tested only.
+> 
+> Fixes: 0b65118e6ba3 ("Input: pm8941-pwrkey - add software key press debouncing support")
+> Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
 
-Hi,
+Applied, thank you.
 
-this doesn't apply anymore on top of asahi-soc/dt [1]. Can you rebase and resend?
-
-[1] https://github.com/AsahiLinux/linux/tree/asahi-soc/dt
-
-Thanks,
-
-
-Sven
+-- 
+Dmitry
 
