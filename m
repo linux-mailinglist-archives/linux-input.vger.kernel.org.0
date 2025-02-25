@@ -1,75 +1,77 @@
-Return-Path: <linux-input+bounces-10336-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10337-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A988DA4380E
-	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 09:50:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D252A43814
+	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 09:50:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E69216EEAA
-	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 08:50:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 45E01173D72
+	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 08:50:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25436257422;
-	Tue, 25 Feb 2025 08:50:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBA1325D55D;
+	Tue, 25 Feb 2025 08:50:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SA8RJIjw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qt5F1TdT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74703153803;
-	Tue, 25 Feb 2025 08:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B2E153803;
+	Tue, 25 Feb 2025 08:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740473409; cv=none; b=dcRs8txZmJG+PamXRvpdTqDoXFZIcFBy78syKjSEPp3qaJ9ZbsRvgZDicTT7ODJThW3s2QlMaZ9SNgOL4R5szm1EikKw0W3L+0AjbOV8H7HOJMZi1QoFKjwwk/Ew2hOOP867AK/De6X5J9CgkEEqBHpO4F3YCV3xRlfGuuX+6fU=
+	t=1740473415; cv=none; b=SWpHYjpzIZYYTeIwcL3NOizonCnq1v3J5S21HVfsNAHAWIedFfZXkGp+zqrKh4gbvv8qC5Isf0fK+9UwdzLxLN2UOCFBuKZ02cTxPW8BvCKjt2kxnvcxRG8iXNgsUQ+hxV9Uu0nwr9/pMCLq2605rq36m1dso62NH2BiHTuHjkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740473409; c=relaxed/simple;
-	bh=XpUsFaeP/4EuHOSFzpnjeESHSFOoXTew5nmBDmFIWtk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gqiPzuCnInKFyLyy/PSaOq1CQraTHyjRtv7JTN1Yly6kQBgGUFrLKmFzxCkgej5gYoUtF+j6rFR5YLPTKqiQoiZUd9HbcJC8mulWatpdy/B0pRP5XRA7GWZ3ZjZy9l6pqO7y4OEog9VToUwD2jTg3YxjHMuC61o6snjiO4w7a3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SA8RJIjw; arc=none smtp.client-ip=209.85.221.48
+	s=arc-20240116; t=1740473415; c=relaxed/simple;
+	bh=PO7I6vIhrfdARQrbL/nWwiztXZlIwf45LmsyWQUdf9o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qopwAkfdlkYdbc0vRgJUBuiN2Wt0jc5cGbOp7BwzgG55Sct20EiqCW3RI6nXBNoA7tLiawCF441fjSVWxvsZb5XuQisoELo2mA2pHua8gan2DfxNJDXNAzLNWRQDnk+wr4jnf4M30mBf0pQupq9jsjNZcN7id0YUEInlpT1NUcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qt5F1TdT; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-38f1e8efef5so3079719f8f.1;
-        Tue, 25 Feb 2025 00:50:07 -0800 (PST)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4394345e4d5so34698325e9.0;
+        Tue, 25 Feb 2025 00:50:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740473406; x=1741078206; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sHXSg8VZ9v5h0G5Tv70nt8LfXIvRNemWc4WVPgwWg+Q=;
-        b=SA8RJIjwGaNPUUoYkqRUTfmVD4GZl0Oq94tAKwNMjbcPWDKYu0uwblOqGgS1xE3CaR
-         DTqYzgm7YEtL72WQsM6CA9XJUhA7JDxRcAJw1eMwamQ2DU4f9/e4mx1+hNHGazmmH19C
-         /nJdSPDk3AAKL4PqNrUBo6cva21vxv6MmfSFnnG8h4kO8HUnOUUw7uN9AD01iB8M+IKB
-         EvrBkpdydasIGMCJ44dq4aasLor0067M4p5FdoQ3A2KyOn7AmmPcZPn9GMlDkMQnRe00
-         rnulph9B7zPuSSNP/R0AAgFXSACfIQ8XIa8Zn62nN1MWNHdvqx7xb1dfGgsy2LT0TVLK
-         zBLw==
+        d=gmail.com; s=20230601; t=1740473412; x=1741078212; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wsd/cgXtCGv2pR8kczPb4Pv0GKROKEDl93Shuf17Dtw=;
+        b=Qt5F1TdT95YR3Faohkv47/3hsC0hNt6yXv5i/ub1NrEhOwRj5rkOu4MFAAo4oWz9Jq
+         7ygIZXCczpoDls2j/TjbwABYuKvMohdTN3WA18XTsbML1XUzEFYyzakGHQsqvP9OL9FM
+         YaWVznsei9JvvoV+CrVzr3TgHZMa3XFMYGylZ96MzqOeoAItKm/801cbJeyCZWzI6+NX
+         4S2W8BdSoTpoEv2Vv2Cxyp7bSxsS8VBKoxEtmfRAUa5uf+EAN7IHitZRu49NY7W9HfwC
+         C+Z8AvyyPkC6uje9LILVa7YYl2NaqeJx+/22ffdbzRE/t7HQTek80M2j8xiU4b7lreBd
+         ZUuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740473406; x=1741078206;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sHXSg8VZ9v5h0G5Tv70nt8LfXIvRNemWc4WVPgwWg+Q=;
-        b=Cwr/RiLHFS9vzYl38uTX+0SpLv7eg7BXf3MDkqmQl5fMg+ukKcXej3uV1JqR0d6pg2
-         erD5ORtZhnnoCrP4a0RHmYSgawMOHJlm6NhUkQCDZZXk5i5FiqKKZ5PtwFGbxXWk/6gZ
-         Gld184hsb3Du0X/QRPw8J5qgUW2ZFutD8rfpYYkS2iKaY9aX24ym1Luwi+7vS2MD0918
-         XL16kXZ6RTto2C1+nhHAmMl3WVT32tGOeSdAc9fkHyXAGYYTTfzj7OXWH87jXH09Fxhu
-         OiyJH+3yQ+H+U1pkOTxT63MbsAjMVHEPpWU5sfMNUOrKslZ39nHT514THZNAS225Q6f+
-         vBuA==
-X-Forwarded-Encrypted: i=1; AJvYcCUAfzyK2VAV7r2S85gNCj++II0lsUPkkzW5afi7U6Rqt5hcu43ufTErong2eNtW48L9ivErgFpJX0bJhU0=@vger.kernel.org, AJvYcCUMrTJec+1l2L0DlDzpQ/3mK2fT0liNtnvteWHlQxjTbW3jCZuiG8fdRnz5GS2pyq/zpzsB9TTvAu0f@vger.kernel.org, AJvYcCWCsotHKJ2MDXSQYc6V3zMu1SjpH4QpXjJsC8v8ustBdJMIzLZmvRG7tl14NJLrbEq+VtcdLlhCw1x3UXM3@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw54HlQ+OcaeEbS6W6Tf6hO//w+Qcgqws4SK8dqaTJfurKiGTuA
-	7NahdJk29YdNOzQnTHrVDf7lwddqd5yyCKEDivqoxJOYIFVbsK2gHFCIPG59k5Y=
-X-Gm-Gg: ASbGnct3maqeeZWdUzjYXP93R6YCW6VlI0isopq3Xgy1x5GMnpiZHQBrAKZMevzgLj9
-	yOMQXbKIFW0PU98tPge7cpwD5/D1YDj1ub2JVJ8xbyaqwpmszko7/bdzsDfgTPwGAkGnBeUGuPF
-	f28p/QjmrJDIhvK7N1QUB3s7+7de5xHpVDBX2HpCMC9U01rpsv7wDhziYCbxyKyFUTmJIH/0SOW
-	JnyORubV25jmqjfCakJE0g6hZzkJM4nsfgzCUKLB/w95Osf4mE0v+FXwOKyXgbDinPjK1PB4bZv
-	6mZQxL0sZO0sVKkbU+evTQ+fuzBQeALZEoX6r3SpIGVtooaJYHWjGAWhk75SjA==
-X-Google-Smtp-Source: AGHT+IHhPvYQNhtYLskqMqtvAoq4ChhJsu5DYr2jsTpaPgizulGwceX6XLSoAE7kDyBHTXilzLi8og==
-X-Received: by 2002:a5d:64e4:0:b0:38d:a879:4778 with SMTP id ffacd0b85a97d-390cc60aeb6mr2147479f8f.33.1740473405557;
-        Tue, 25 Feb 2025 00:50:05 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740473412; x=1741078212;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wsd/cgXtCGv2pR8kczPb4Pv0GKROKEDl93Shuf17Dtw=;
+        b=tTobqtKiMgPC5uu534BXej5IGJ11FCWZXcDPUFpZ1Vc6xHd0xPY2sxMrVu/k9MmyM5
+         bp+k7AEOc6uxjoXSjFsoZuAJG1oH7pKHMUXsHtN8QHJz474jzoLMHbPNRkyZEjUue7yK
+         8OZAksA1PKco8EJ++y7X2pVVtw6Zw0/xcb5M0usPXZ4hhlt17WHA9Fl5/8wl7d+cT27t
+         F6MD3U5d2YQxcfntKLBsttEKx7gLmEnzMgSiIjuTJTRt0jhPdu3tOF7Hd5025+nKIQHd
+         3RBupYRabeGa/z1LqswqNEq8UCY3IzrbnVUmJ6XEIDMMhPUK44P1PIm5FdXAkH3rs9tB
+         cosw==
+X-Forwarded-Encrypted: i=1; AJvYcCUni6lMMXecQR4d4uPsFP7KI7gGZ8kQLBOa7C8bj8LSotL7NKonCUl/2l8BXpQ8GFAV0JMhL/DXwoVmziE=@vger.kernel.org, AJvYcCWh26i+B+pQD+0TpnQYUF69/A+OHSKz+Fc9dQuFL+O+O9p7YOzxLFHvaSpMOC9GSsIFfLB+D0JRvtKC@vger.kernel.org, AJvYcCWt7Wq6T00+JmduSyUjrE1899aO8Jy6Qj3s8q+idsWn01Z1MzATelGe/+/A4wYwraPGbW7Hb6yy/R4qUlix@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJmC5+15WGeyM8quZkV+rTM12d1qTJvxMTd/csxwNHo5JMCaDh
+	JUP9b3FRb+HFoFiljKuS/IOpFiqtFnzyznlbjjM9WlzjJHJWgu7xPE0eZV2cQR0=
+X-Gm-Gg: ASbGnctF9C8/nS5WOlgpe3u7NfsZEfEDG00B9moFcFFVtxPnZuPCCORywX51jRcPcm5
+	jsuNIYibSpKIljBlmhGKox4rSqPpA9mgBKo0h1kOGT+n0F/EaRqbBOFtL6jeapq8nmfWvyNx2jI
+	xcinpqoN0ImNRwPk/PR6imOnlK0t/XUz7hmG7qJ9/LgLtY8WEXBgrhSUS1YjQP3P8KXclOAp+SE
+	HM/COexQvZzRABpB+pFXXCrdYLZimghNZ+YxpOeEgUrlDaID1KtzX2lhweci1nqJPSJgmeZGCj4
+	aAzQoR1oGCjV5AT0yVSwg1mu06+0YtskAHT1kJXNX7CC5K4JWvumupblliEtXQ==
+X-Google-Smtp-Source: AGHT+IHYc31eiu/SCD3UJprh4BS0DeKV9J/IJVzVv2JzeNJeugWejzImURodWD6IJ4cbjffXkkvJPQ==
+X-Received: by 2002:a5d:59a7:0:b0:38d:e304:7478 with SMTP id ffacd0b85a97d-38f7082b185mr17425774f8f.38.1740473412129;
+        Tue, 25 Feb 2025 00:50:12 -0800 (PST)
 Received: from fedora.. (84-236-81-135.pool.digikabel.hu. [84.236.81.135])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390cd8fbcabsm1503582f8f.86.2025.02.25.00.50.04
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390cd8fbcabsm1503582f8f.86.2025.02.25.00.50.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 00:50:05 -0800 (PST)
+        Tue, 25 Feb 2025 00:50:11 -0800 (PST)
 From: Andras Sebok <sebokandris2009@gmail.com>
 To: markuss.broks@gmail.com,
 	dmitry.torokhov@gmail.com,
@@ -82,10 +84,12 @@ Cc: phone-devel@vger.kernel.org,
 	conor+dt@kernel.org,
 	devicetree@vger.kernel.org,
 	Andras Sebok <sebokandris2009@gmail.com>
-Subject: [PATCH v2 1/2] dt-bindings: input/touchscreen: imagis: add compatible for ist3038h
-Date: Tue, 25 Feb 2025 09:47:00 +0100
-Message-ID: <20250225084914.81715-1-sebokandris2009@gmail.com>
+Subject: [PATCH v2 2/2] Input: imagis - add support for imagis IST3038H
+Date: Tue, 25 Feb 2025 09:47:01 +0100
+Message-ID: <20250225084914.81715-2-sebokandris2009@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250225084914.81715-1-sebokandris2009@gmail.com>
+References: <20250225084914.81715-1-sebokandris2009@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -94,11 +98,13 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-IST3038H is a touchscreen IC which seems mostly compatible with IST3038C
-except that it reports a different chip ID value.
+Add support for imagis IST3038H, which seems mostly compatible with
+IST3038C except that it reports a different chip ID value.
+
+Tested on samsung,j5y17lte.
 
 Signed-off-by: Andras Sebok <sebokandris2009@gmail.com>
-Link: https://lore.kernel.org/r/20250224090354.102903-4-sebokandris2009@gmail.com
+Link: https://lore.kernel.org/r/20250224090354.102903-2-sebokandris2009@gmail.com
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
 
@@ -106,21 +112,41 @@ This is the fixed version of the patch, which is already applied to
 Dmitry Torokhov's input tree.
 Sorry for not CC-ing the devicetree list and maintainers before.
 
- .../devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml   | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/input/touchscreen/imagis.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml b/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
-index e24cbd960993..bd8ede3a4ad8 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
-@@ -19,6 +19,7 @@ properties:
-       - imagis,ist3038
-       - imagis,ist3038b
-       - imagis,ist3038c
-+      - imagis,ist3038h
+diff --git a/drivers/input/touchscreen/imagis.c b/drivers/input/touchscreen/imagis.c
+index abeae9102323..3c8bbe284b73 100644
+--- a/drivers/input/touchscreen/imagis.c
++++ b/drivers/input/touchscreen/imagis.c
+@@ -22,6 +22,7 @@
  
-   reg:
-     maxItems: 1
+ #define IST3032C_WHOAMI			0x32c
+ #define IST3038C_WHOAMI			0x38c
++#define IST3038H_WHOAMI			0x38d
+ 
+ #define IST3038B_REG_CHIPID		0x30
+ #define IST3038B_WHOAMI			0x30380b
+@@ -428,11 +429,19 @@ static const struct imagis_properties imagis_3038c_data = {
+ 	.protocol_b = true,
+ };
+ 
++static const struct imagis_properties imagis_3038h_data = {
++	.interrupt_msg_cmd = IST3038C_REG_INTR_MESSAGE,
++	.touch_coord_cmd = IST3038C_REG_TOUCH_COORD,
++	.whoami_cmd = IST3038C_REG_CHIPID,
++	.whoami_val = IST3038H_WHOAMI,
++};
++
+ static const struct of_device_id imagis_of_match[] = {
+ 	{ .compatible = "imagis,ist3032c", .data = &imagis_3032c_data },
+ 	{ .compatible = "imagis,ist3038", .data = &imagis_3038_data },
+ 	{ .compatible = "imagis,ist3038b", .data = &imagis_3038b_data },
+ 	{ .compatible = "imagis,ist3038c", .data = &imagis_3038c_data },
++	{ .compatible = "imagis,ist3038h", .data = &imagis_3038h_data },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, imagis_of_match);
 -- 
 2.48.1
 
