@@ -1,77 +1,77 @@
-Return-Path: <linux-input+bounces-10346-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10347-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4939A4441D
-	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 16:16:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC272A44432
+	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 16:21:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 497DF1899CEB
-	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 15:16:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51B77173E90
+	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 15:19:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8221E267721;
-	Tue, 25 Feb 2025 15:16:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ACA326B08D;
+	Tue, 25 Feb 2025 15:18:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="dTCsezpz"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="z8/bQpQq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2073.outbound.protection.outlook.com [40.107.93.73])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2086.outbound.protection.outlook.com [40.107.92.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8496625D546;
-	Tue, 25 Feb 2025 15:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640CB42A92;
+	Tue, 25 Feb 2025 15:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.86
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740496601; cv=fail; b=Wr85oFixSTIDFpvII1juWBwKVQgC3oEMXxhSCtq42krQObmBuekQP/k6RaLFHzvHHCO/WI9Fsupm8YYD4eczsjHFyh20FFnnVN7OUNDkV3hbC40qMUahM/AcPk3XXD63FJ83uj6TLE+KIcLOjPb4BYXGgwWiTtwbG8/fqlAlADU=
+	t=1740496738; cv=fail; b=bSK3jOwwNUDkKg7SZiFAa+TTiV602Rib2RSnvqvcK58umObKrKT7rxy8yoRsMZTzWeprNmgCWiPalm/EBhH/yctdBdi6iqcx/rzfO3/i2Hvcb3dox9D5zZKmRqzZvA2hs5o66aoqdY/kOdYzxxEO96L0vPTPkX3IsiOl4brKDDE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740496601; c=relaxed/simple;
-	bh=5S3mnaJdlZ0cgU0MJJgtZmWeOOeTGT9FSB0YyR5pasE=;
+	s=arc-20240116; t=1740496738; c=relaxed/simple;
+	bh=xTTM2iSMT8k0//mLo+YX9p9/DUaXwOqZVplXVqeWwUU=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Jw35RFN6SPBSNsXLEgp6120Cj0j8i7c392QlpKwGf/Fw/ffSMbepAexMPHXJcjtaZbNKj1pCU7pVqFAkGWajLv696Tw81l1WI7WwFlIvYhxgdEaUYkYGmUVWckVADByIgcbgJr3dmu1obureyVujH8W0vsoweR/GEGOE5uWWFeY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=dTCsezpz; arc=fail smtp.client-ip=40.107.93.73
+	 Content-Type:MIME-Version; b=kJW8ogjqjYa1Ev9F9zOpXgkGBBjr6n26pE9yiDoglgg/HkY6hiexlzEccR/6I1wFzBcJA2eb9bqZyb1AJlP7+W2JcGQl9s47ehHYl0vBq7A4lmP17+sjJ1hZLMAiAgbjFUFzO94z9UP2vFlb0cI6pBgxlV23UAaZsdPHrdsPazM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=z8/bQpQq; arc=fail smtp.client-ip=40.107.92.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ubWgwLcH4+/ugDFA1lXGEQA+lbPk180xUI4UvdS/E4k7oQC/1nkAEhTQIxXoyUUg1vrWEP0sctXJYvbUdAS+jSRqjRDvR5kHGRdqFT9HKEkVxmqJYLIaNGaP2x1qFlPWx+lvYTELwNc6GzSm8hJDU/Z5XmeaDn7z6ztm0eyd0LL/Db70Mw1ExEGJHvcuyqeRxDPVRQZjW1qSJi/pHkBuyjxqPbw6sMtOFuy8yXdyO67JzT8Z2USdDvt9Sae4OIRcH80embUVycRZwQKSr7/3ycmw1/4vpJOSM1X+usj6f+UbrT1njfr4VAe4iFKtACmhv+iO/puGVbuq6o1PgSkNFw==
+ b=xKNrt4rNy12HzYiOIE3mz72G027vwOJai9rV1yDYea5/1V+WPOgT+wNAFP1tvSEyhdYubo/jGuUqFjk8gVlHbFV6ovgqNbwiMUyeADNcHcKMloPT/04It+1UhMSCfgJSheMQk3lr0wl3KMVNpDb6D99pUIoq8b5gOKEUuWRNuD+e63/7vlrJ5yWUl2LQdeNu8YskjZ7VYf1jjaaPWzBYHYc0gTmSo9q6PMAfiSJEk/5EO+asODKbMvltt+WXtkwsQCjOs1Ghbcw+9f/NReQg9rcX3uUhVtgW04RiEsgy0ZMNK/ubsfNfMZwr7jOP95PBHb/ZaJKauqZkWUY7+ecOpg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iGdQW6e6UCCG7Jd+zEmBMA0K/G1h8tscelbhq6E42xU=;
- b=W2GgVdeQIi1nDs6OtYOFuijwh0odaQX7THPvVjhY9ulgwbAZKXSsOqtvQzZJ6yOUBSSnZeTWO4LbaoHDSMKXIjwU8dax+BmEI5PrF1eOHF+MeaODcLPwEQRKn+UHji0wlK3obkB4O13oNsmYQ493wh2vamUMwq+tMDC2AHe4rRel7jqrZfunE0xi71+IYVqRe+wyzqSMUxaE0GmEjGWy4aM2JcFAypAf07CA9q3i9MB981Wg4ZWnl+W3EgxcgCYBfYVST69T5A/QDKJufEconpUaUaBv878qqwZLxi4pAjQdRsWJ3c1pPlvQGqGKHsvwxSU1h5B9KvCpF34XhfrQKA==
+ bh=n2fMkPZpvjH2yKfGZy0X1zHGKRmdm65QHoJBBXCigG8=;
+ b=gcftUKH57lsuY3ywB60wPbJBN6WQYMJqn9YKrc3EE6HP8AAJWzjjQy3hQwhnTXQYEtsjuNPHJAUsTJLNxYmaAwoj7rDktY5VQ1b/DKTWUz9rPWckP+Wg+kqiOJkQFsCGKsIHoPuVqxbrxIozqX3NJhq+DE3QJtl84MXEt4ZctF968KVU47Cgi8XRFoV4odPlk4nMxup/+uC5Hv+H9u0Dj54/KLRAxL5GUIBszeB9+LxzoB8q6ZJoJBh/FdhxX+cn/FKsjtJmzMuvsYdaasF2MKrI8AD+TFY/gKPCvE22nNUsBB9pM2SW3ILHLiLmP8QXl1LNZM0gnnKS8ZoJnEKnIw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iGdQW6e6UCCG7Jd+zEmBMA0K/G1h8tscelbhq6E42xU=;
- b=dTCsezpzyYiXIRalkfl3Za7EZV5E/Ql9kNB9LsOjtsHBULJURAGCS4fuCKVTENT4bMWbjBlOoJHmlXWuhejZokKFUXR+Vslm8ouG/RrpzdN8ZcvEDC/rx9xpipdI/RsP+fEBeElAYpbdW5nHqJaFEstbcGh4h11mGRZqai2BvdA=
+ bh=n2fMkPZpvjH2yKfGZy0X1zHGKRmdm65QHoJBBXCigG8=;
+ b=z8/bQpQqKiaMvGW7uRrLx/AVrOtQgSKT5Hw/f25Q/QVE9o8E++4m+mRHCYT0vS7jBVuLdeq8hJ/w5xiHxnO3QiQuJ/MDF569hTLE+luhi1Y67+kyBmHOvcVxXABJnMttzTNNLOHM9IizOCvCfP5/L/RZm9Z12V1wyyPhXNavNbA=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from DS7PR12MB6095.namprd12.prod.outlook.com (2603:10b6:8:9c::19) by
- IA1PR12MB6353.namprd12.prod.outlook.com (2603:10b6:208:3e3::9) with Microsoft
+ DM4PR12MB6038.namprd12.prod.outlook.com (2603:10b6:8:ab::12) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8466.20; Tue, 25 Feb 2025 15:16:36 +0000
+ 15.20.8466.20; Tue, 25 Feb 2025 15:18:54 +0000
 Received: from DS7PR12MB6095.namprd12.prod.outlook.com
  ([fe80::c48a:6eaf:96b0:8405]) by DS7PR12MB6095.namprd12.prod.outlook.com
  ([fe80::c48a:6eaf:96b0:8405%5]) with mapi id 15.20.8466.016; Tue, 25 Feb 2025
- 15:16:36 +0000
-Message-ID: <e55711bb-5e5c-40a5-a2e1-a5a4aac9816c@amd.com>
-Date: Tue, 25 Feb 2025 07:16:33 -0800
+ 15:18:54 +0000
+Message-ID: <323ade14-4d11-49b4-9657-a7f1900ec334@amd.com>
+Date: Tue, 25 Feb 2025 07:18:51 -0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] hid-asus: check ROG Ally MCU version and warn
+Subject: Re: [PATCH 2/2] platform/x86: asus-wmi: Refactor Ally suspend/resume
 To: Luke Jones <luke@ljones.dev>, linux-kernel@vger.kernel.org
 Cc: hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com,
  platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
  bentiss@kernel.org, jikos@kernel.org
 References: <20250225081744.92841-1-luke@ljones.dev>
- <20250225081744.92841-2-luke@ljones.dev>
+ <20250225081744.92841-3-luke@ljones.dev>
 Content-Language: en-US
 From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20250225081744.92841-2-luke@ljones.dev>
+In-Reply-To: <20250225081744.92841-3-luke@ljones.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR04CA0009.namprd04.prod.outlook.com
- (2603:10b6:a03:217::14) To DS7PR12MB6095.namprd12.prod.outlook.com
+X-ClientProxiedBy: SJ0PR05CA0201.namprd05.prod.outlook.com
+ (2603:10b6:a03:330::26) To DS7PR12MB6095.namprd12.prod.outlook.com
  (2603:10b6:8:9c::19)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -80,304 +80,389 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB6095:EE_|IA1PR12MB6353:EE_
-X-MS-Office365-Filtering-Correlation-Id: a9bb7556-97d7-48a8-67a7-08dd55af6501
+X-MS-TrafficTypeDiagnostic: DS7PR12MB6095:EE_|DM4PR12MB6038:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9aafb456-614c-4b54-1512-08dd55afb734
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?eW40T0YxemF3NFloTUJJa1NYTGZNSnpWcU83Sit3bGkweU52cUNXOHBpdXd0?=
- =?utf-8?B?d1JkNUJZV0dKUHJ2OUVuTWR2aFZsZVJIUDVGMVFqTzhxQUlOYTVYNjNvd0Er?=
- =?utf-8?B?MklxSUR5bk1IL0E0ckVoSnZYQXI5cUJvcG1uc0hPV1F6ZitiY3hIeWdlRVNW?=
- =?utf-8?B?bDk5UlBVVzRvT0dGVXpZVDJLZlpxZWlvekNFclNZMERVbGpGekQvVWpzRnpX?=
- =?utf-8?B?ZHYrZmpSc1VUNFprbFlyNlZMbTBydG5IUWpDTW91YWZTcnB6S0k1MkxNYlVr?=
- =?utf-8?B?K1J4aFhlaUZzaXFnNE9vUTBTcHdBSzFuRDVEc1BnQzBmU3VVaENzeHNuZEVo?=
- =?utf-8?B?YVpuTXl2eUdmajA1RngzYlpPN3FtNVBQK01PTHptWDZlazF6WTN6dStveEVq?=
- =?utf-8?B?RzdTa05JSzQyNEUweWtUQnUxWTFUc280WStTS3pSOGNWYW1wWkFnb1ZTMHJF?=
- =?utf-8?B?U2xoZFpCdmxocVdWK3BYN3Vka2czZmFSOWtGNS83NUhvRENXcUpTejRBVUNC?=
- =?utf-8?B?WnFXWkhSV0NhMDlpbzFMdTJUdWh3Q2pNUkM0enhobkhxZUZhWTFObjhXMFZP?=
- =?utf-8?B?WWhNZnhMQldhblZhZ0ZYWHZuNFZDeWljRmE3K2pWSGpUeTkrSENveUNQWjEv?=
- =?utf-8?B?QnNkZUlKY3lDSnEzaG1kaHU5dWxGaUtZZS9RNllXaHY0MkNtK29VQnd6NUEv?=
- =?utf-8?B?eWQ3Wkl1TFVucFAvZ0tRK1VMdkh6UFFna09nenVieGRMVDBnS3pzNlZYeVMx?=
- =?utf-8?B?WStSUnl0TXRJQ3l6cVp0TVZTclMwOFlGTzVFRFA3L3VZd0RYZmVjUFBTTk5z?=
- =?utf-8?B?T3NpVGxEM1BqNFdOQzJoQm1tOEpqMzNuOCt5SmlZVzBBUGNSR1JubW4xQ0pS?=
- =?utf-8?B?WGNFWTlHeEVySGtOV2R0NHY2dkRYNkFCZjJjbi85cnVqaSsvdGtBTnFlTExI?=
- =?utf-8?B?TW5jcXR0bGFqbkRic01LNEI5cTJCUFZYL3loSk1JZWhxd0l6TXBWM2Fla3N1?=
- =?utf-8?B?dTVuUXh6TDBXSG5kZGpoL25NcUhrYmlsOXNKOFkzOVcwUGo4TGg4bVI5ZlBP?=
- =?utf-8?B?MGMxRGsvYnhrQnczdXU5Q0cyeVBpNVh2dGFuTlFYTzJ5MS85a3J1NXJycklM?=
- =?utf-8?B?a0wrc3hOR0JvdmVrd2kzN1BXeHllRjlCOHVJSHFReTNrb0pIdWt3V05RcG12?=
- =?utf-8?B?TTNsbzcrczVndFlKeWkzc0FYM0NrQWl0L3JPRlgyWm8rSFJPOWtwYkFabFJl?=
- =?utf-8?B?czBkTTY1RFlnNlZIYllSdkFtOGlYMDYrd0k5YkMwOUlob0EySzJwQ1dLL0dt?=
- =?utf-8?B?ckY0alhjaHdqdmxjNnBTU1phN0UrUTEvYXNwNVdGN2tzT3B1NVhRRXV1RllX?=
- =?utf-8?B?WkpQbHdXK251aXN3VVZ1bUZvVzluSWVjcjJRWTRBK0FUa1FmTzB2amNDZTBR?=
- =?utf-8?B?SjZSb3BodFJHZnozWkp2U21MSm5HRWhjZCtlUktlalVxVGh6My8zeEY1cXJ6?=
- =?utf-8?B?UXN1eTB6TTZ5OU9HVTRPUnlQVS9hQm5YaTFDekVCMkVRTkJjdENjSUZiUVh0?=
- =?utf-8?B?d2xscXpnV1ZRR29nektHT2x2Qy9ZZXdKL0R1TExsMDFQMGNjNjN3NFdFUXhC?=
- =?utf-8?B?QWNlamR6eTNjUHNyWGlTMWcrUUJvUFdUcGtvK3pyek5QKzFRVzEwWmY2ZHVo?=
- =?utf-8?B?ODMwNFJNVEhhVEFKMUs2Zit1a2FiZVdEYnB5UUVGU2hqelVKOXFrSWZka3Iw?=
- =?utf-8?B?RE5TNlNxbnlJUXJDR25QWWV3amFjT3R5MlBEbklxWTc1T05VVm1RMzdPY2VV?=
- =?utf-8?B?d1FwSjVHeWdnY2oyWlhRQUtnM2EvT2VKcU16c2ZuMDNBMW5kb2V5RDRTSUQ1?=
- =?utf-8?Q?evR2/p3jXwBU0?=
+	=?utf-8?B?MXNpWFFtWnplc3NnNDVBQzFnd3pqdjFldnhBaVZsNjY0SlFUNkoxaStRSDhI?=
+ =?utf-8?B?c0VtRSt3b0YrUVBROUhGWlFWekYwNEpIZjhHUkc3bUNLdXp4dUJxQjlhOFpp?=
+ =?utf-8?B?WTltSlVYRDhYSzY0SzkxTG5HN3pueUNkUVBhYUE2b2lLVEk5WDdHdUQyaENQ?=
+ =?utf-8?B?c3YwQ1EvSXg3M1k5cXhIWDNqVjJtRjZpdFdqWk5CMnFSQ2doOFhSaFFPL0FN?=
+ =?utf-8?B?NHhEZ3l0QUdEV2tnZjczdExFZFNpT3pXVFl4dXdLT0VIYTZtU0ppTmwwYnJO?=
+ =?utf-8?B?akF5Q3JMd0JmTk5nRitoV1VzdnNvSWNHQmdHM2c5bHBienI1MVJpblpuUisr?=
+ =?utf-8?B?UFZIeUhnQS9VRzhpalBPeFRFa215WmxxWUI5aVBINWJtdHFiUFJaQXcwY2l3?=
+ =?utf-8?B?NDBPYmVMYk04U21pMkdIMXN2YlFRMmUwd3ZGWVZQVjBZOGRsN2M1S1dGdUF1?=
+ =?utf-8?B?MlF1QW9ZczFleFd4YzhiL0R0S3NtemkwRU1Ia0IxNjRZejZTb0tYNXh6VWRi?=
+ =?utf-8?B?bVZqVnBvMWI0cyttK1lMdG1mTE41UldJWU5wZ0J6NFptUGw5TEowQW9rQ1FM?=
+ =?utf-8?B?NlAvSEliZ2w3YXlpVUN5TzlBNmt1TDBsbUlFaDhRNDRPRXJOYjBZeVd4QWtI?=
+ =?utf-8?B?Y0oxMjdzSDEvK09rUkxxclA1cUJub2VoS2hkQUgyQ2RpMnI3dFR4c1dkbXdv?=
+ =?utf-8?B?cElFMXJBWU9uOUpNdEZqOTZXaDEwVkt1d0lRSnh4dU1Dait3NGVGa0FreVpS?=
+ =?utf-8?B?dEpsTGtoRGRKOEJQdXhWVkwyanV2T0VLVHpLNk1lckRiY01nVi9VRE96RnVW?=
+ =?utf-8?B?R3ROdjZQTG5VY28rdHhMQnJac1dUZG9FcmZMWkJocVZBdXFlTXhlSk5rQ3U2?=
+ =?utf-8?B?ZWpHdVZKWVlEKzhwY25qMExnQWVpbnRhN3o3aElCNTNrQWZsa1ZLTlh3RG9C?=
+ =?utf-8?B?RW5FSVQ0Qnh1OHJ4OCtRWDlQRisxMTVuZ0pZYWJraUtGZHVaeEYrSWEwd25H?=
+ =?utf-8?B?bllkSktjWkRqWkdiZ2ZwVGxGSUh0ZHVTSjhqbHdOOHJ0Q09aV28wNi9wcFFJ?=
+ =?utf-8?B?SU1FSDhnNkpkbXJMQ3JldHBwYTRRdFE2VlVjeGo2am5mdGtndHNoTHRrczZy?=
+ =?utf-8?B?aFhjZS9qSSt2VnlkenFZekthQmxRVzg5YzZ2Rkd1eGdmRVlwOEZQTnplbGtZ?=
+ =?utf-8?B?M2t5Z1AyZnVBSnFTUXlPM2tJenBQM3FyMjRIWWdza0w0cytha0lPL1VnV1Aw?=
+ =?utf-8?B?WDM2MHZVSzNRRThzZEFFOUtldDU2b3VOWlNSQzBXTTg1akdPaUVNU0Y2MFd3?=
+ =?utf-8?B?UDRRNDRYVU4wUG9PM3hQdHQrODNvRzJQOFZmVWRKcCtHZSswcjJ2U0tLWmNr?=
+ =?utf-8?B?NFdaSXlnWW5KcVIxR2U5eTNQL0xleU50b2hJMTMwZVBLOE1vdUg4Zmx2bXJG?=
+ =?utf-8?B?cmw4OGlwWHhVZWJFUnVkTXdCMjlzUG10eklrWGc2N0lWMTluQjNOT3I0Wkl3?=
+ =?utf-8?B?WGRTaGcxTjdPNWRIbUJzRW5xVmVXN0FDV3dLSXNHNDRHQ1RTMTZRQTlRR0JL?=
+ =?utf-8?B?b2FObjJwbERHY1B4blNqM1plb2N3Q050UE1WalFvWnhjcWlFUmhYVFhya3pK?=
+ =?utf-8?B?Y2kzYkh1ZEZqTmJHcFF1ZjhacXp2UzUxeVRQVk9qc21VKzc4Q2F0NURKOStm?=
+ =?utf-8?B?MU9kbWhVY0RjMEZ3US9wTzJtd0tIdDlHU0JCTWs2d3RmanFmQm94Sk9kQlVX?=
+ =?utf-8?B?QUZCYnlMTVdsSWg1WHRra1dtSDVTUTVnaGVnK3RLcHJJWDNieEpMd0p3RGpH?=
+ =?utf-8?B?UlAveldtWW13YlNIT0ZHb3RPMmQyNncvbWZ0bGYyeW9RTjFMRU1qQnZYMlBE?=
+ =?utf-8?Q?/Hp5mmIApNo1t?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6095.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6095.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aTNtYnFIN0J2dEpiRkdmQXE2Q1QwQjZ5d29zcld3UWphTS9YTHJzZUg5SWVB?=
- =?utf-8?B?ZWxLQ2V0ZmVlbWVoZDVUeDJwR0RtVU9CR0FTczdMc0VKMXQ5WXVHMllGTTNB?=
- =?utf-8?B?QlV4ZlViSlNEODZSZEEvZHZqajNhQWdscEt4UEowME9WWDA0V1h4MG1LTS9t?=
- =?utf-8?B?UTdMeEkxZWFMdjNWTFdheFRobFVHRXZKcnVlWGM5UDV5VWFpblpaYWdPNlVo?=
- =?utf-8?B?cVVoMmpORWpVaHgyV3c3U1dzSktiSVVVSHlsdFpYbGlLT1FiMmE3cnNQNjU2?=
- =?utf-8?B?L0lyd2E4MkppYnNzRmZsMVZPb1JITEVqcTRMTlNVWExYN2c5Nk9Oc2R2Q09z?=
- =?utf-8?B?TXV0azFNckswZjBiQmFlZTlUMHNlOGZYRVlEQ20wcFh0NThRMjJ5bEpobGZ5?=
- =?utf-8?B?L2syd1pORzFUQU0yNXo0eGxxazNFaVkwMndSWjJPN1FZUGtPUEp0TEhRU3dt?=
- =?utf-8?B?UFdGZ2xLemNKcUdOT2FyWTdBZUU1dGtXVVZSaGNUWEdaaHJMSFhiVXJOdzlx?=
- =?utf-8?B?T3NtVUhBNU1KdFh4L1ZnSW0xZDhkWUlWZ2dyNi9wZDQyNDNZQXFYT2YxTTFk?=
- =?utf-8?B?NVhPaHAvMUlyajVBU2FKb2Jqdy83UzgvNjREY1NqTzQ5TVBiZ1BJb0FsWHdP?=
- =?utf-8?B?WUhlU2IrRTlUaTJVdUFCVzQxMGUzbVBBeWIzYUxmMVkyM2pONDBSV2hBbGRu?=
- =?utf-8?B?U3pqS3RrQnlIMy9sMU8yMEY1Ry8yRjE0d0x4RjZ5Z1ZaczZ2cnVCSmhXdlpm?=
- =?utf-8?B?QUJxWHQwZXlxVW9BZXFzZ0V5UUVnWml1UmNBcEdBczNWOUVSNXNoV3N1N0NQ?=
- =?utf-8?B?di9tN1I4d2ViekZ6TWJDQU81bENCSVJYOEdST2FVOXhwOENZY1BKY1lJZ2R1?=
- =?utf-8?B?SHRSQUowRXdjcFpkeHFRT3FOUHRKMjdDbisvRjQxTms2NGt2UTdZMVdBMGsx?=
- =?utf-8?B?UE9YVDF5S1hNTkNTazhIa2VjU1B2cDZ1MjJXenowZU1hY2VaTFV6MU1Bamhz?=
- =?utf-8?B?TkRKK2NNWUhUd0gydWxzR0w2QkdwM0FNRmU3b0NoYlR2cVZDVzhlUXk2SWdi?=
- =?utf-8?B?ekxVSXp3RU91a093WGFLYnRLam11TXc1MTE5T3NsS0VYMUdpNVd2Tjg3Y1pD?=
- =?utf-8?B?blkzY0JWR3ZjL1FISzJQY1hpRlZ3TmhzUjFqTTZpUTFYdXVOWkw0NFc4cCsy?=
- =?utf-8?B?ZXViaUEvUVpNYkdrZnlhNlUxSjJQQXhTd1p5cjNGVTVTYlNyVStka1pZZ2d2?=
- =?utf-8?B?QVp4US9RQkErQVYxVS9JK2hZa0tpV3FvVDY2SEFkMXFnT0VBQWJGVzgrcER4?=
- =?utf-8?B?TW95cStza1dCRWR4R0pRZUQ5MnJBaUQ1K0ZqWGgrSHFkdjFWQi9zRlVnQWVk?=
- =?utf-8?B?bnFpeTg4bFBTdHFuVnYxc3VtdG10cm1rQXk2VUZuZ25EQi9kQ2VPZHY5bDJl?=
- =?utf-8?B?V2FkY3Q0TjhzU3lpNVphQlM3dVBhNWVLTExhZU40ZFcwSWtuWm1XNVVBZkUr?=
- =?utf-8?B?T2pnVVFYMDc4T2dJWi9ZV2JtbmtOQnpFSGpaU2VDMzJCNUtEOFlzM2krMW5F?=
- =?utf-8?B?L29nYUFwQ0tRR0lveG00bSsrbkxPQmI4cnEwRE5tbE1sVW1KU25sTC9yNmFU?=
- =?utf-8?B?dDVpRFQ1MWJidlQrRStTL0hSV3E4QVgvVmlRLy9iVEpnS2s3b1RLYmw1cm8y?=
- =?utf-8?B?NG1Ib2VNcWZSWU95K1FnSjhCTmp1aEJKcUd5cnRDb1RjL3YzK1g0azRwdWdU?=
- =?utf-8?B?MGR3RDg2dHRwYnUxcHJXajk5WFNJN0orOFNRY2FpRWpTTjU1ZkZramw1Kzdq?=
- =?utf-8?B?azkrNWdvU3g0U1ZPN1pYR0lhNGZnRWptVjFBL1ZvZFdCaUxsWlBDVnVzeDd1?=
- =?utf-8?B?dmZvSHZUSldkcTdOWjk4dEwyTDdJL0laNGVsMmhmTFM1TDI5dFRmbWlTTkkr?=
- =?utf-8?B?THkvNnNrdXd0V05ZMi9uTXdqOTBIY09LS3VUdmlEbjE1ZGRZVTBYK0NhdDcz?=
- =?utf-8?B?NTY1bDFWb1d0V3o4QzlRUEVNYVlVdUVQajBya1RidTZMMlA2YVk0c2FRckRR?=
- =?utf-8?B?K2U5aFpGOExYZGx6U29jY1hsOHIvVVgwTm90VUc1QVMwQ3RpeXNCdmtMNW9n?=
- =?utf-8?Q?BGEqs68zDVc7dTO/m9p/IuZtW?=
+	=?utf-8?B?L3ZxWlNDWWZnaHM5d1AzS096WWZKbVFrYzlYS0I5QXdKNjRxWHE1dTluWVk2?=
+ =?utf-8?B?MGVHL2E2VkRVVWgyb0tqdG9pcW5OVU5nUnVUQ1cwUlp4RFluUnRmUDhnbkpm?=
+ =?utf-8?B?ZVdMOGJQcWpuUGNwcTY4Nm82Y2JHYkZYWGF3cFpua0N5SnA0M2JiNERDblRR?=
+ =?utf-8?B?ZmtqaEk3MjZNdlRRc3hnMXBqQUhJaUN5WXJuTHlIenZvYjQ2SGFSUEFuSm9r?=
+ =?utf-8?B?MHFkeGtnOWpzUUdMMG4ra0pTbTc1b0huelpEM0ZOT0lGMkRUbE8rMjVod1Bq?=
+ =?utf-8?B?WVRqSEdybWpNd3Yva0RCcHZwUjViT3cwOFRaZ0t6NGdCSGptOHEzTmJ6a21I?=
+ =?utf-8?B?NllhODZyVUkyUm1UdXZCNVlVNVIzWktaUVF5WVBSRjI4bWo5ZFhjRVYzOThn?=
+ =?utf-8?B?QjFEZ0gxTVQ2SWxoY0paZnYycFFBQ1pROGZNeENDU09JQjArNTlTUXVMcitV?=
+ =?utf-8?B?UDRvUk5iNW02NDZhZVRkMjcwSktPRUZRWFBKNXRnQkR4VXJFMW4yMlpCa0xv?=
+ =?utf-8?B?S21iZ2lxaU83dFZzcEVUeS9qaE5IZW01elRHUWZjY1FMYTNCbmdnWmRlYXgz?=
+ =?utf-8?B?c1loalhzMXp0ZEpmWWVvUUZkT01lYXF3UURUa3A4QTBxcWRPY1B4QndjNTdo?=
+ =?utf-8?B?akNhR1R5UUNac1BJbXdVd1VDYXlBUUsxVS9nNGVSeDNJTjJ0aUtIbXdCRmps?=
+ =?utf-8?B?Y3JuV1BUVmtncHY2aVhQamRqVm5PNWRQU2JUZzVFZU5WcUdnYy9jSFBidFVM?=
+ =?utf-8?B?Vi9uM0pNVEI3QXZ1RSswSWFMS1pTUFF0V0JmWEY0MklZYlRoejhmTXVTQk5w?=
+ =?utf-8?B?Wm9xdDB6dUV4SGpIbEJNbTJpaVUzMStFK081VVQ2Y3c5R1JTa1RzQ1p1VXVX?=
+ =?utf-8?B?eWJQclFINndlOWRuMnRpa0NwM1RDNVpYU3BQM0hjT2dkN1RnM2h4VXJJUWVl?=
+ =?utf-8?B?VDhPVlBCSWVDZDFPekcybE5ldEFZSFplM2l2Mm85UFd2by9LU01BU0taK0VH?=
+ =?utf-8?B?aXIvVXh0d3F5YUs3YmdkdXd5OWhYVmNLa2VSTXRhNlNwQ1NsSVdzWlQwOW5j?=
+ =?utf-8?B?LzN2a1RaekZ1d2JaY2NnS21scWJVTmtmR2RmQUdyV1A4ZHk3SnJmbjFQTkpK?=
+ =?utf-8?B?aCt4emR5bU5BVldHWVVzU3gyZ1hvZm53KzRNbDEzbE5LWDBXU3dzeDhuakdG?=
+ =?utf-8?B?Z1p0em5BSklXbEFFdXZrT0FFMG1VbTVhMjYwVGN4alA1akRiSDZiaGRMUnUw?=
+ =?utf-8?B?MFVsbmRwZ2hUTjRpSVBxellPdzhtRU9SWUJGczFvbk5qQ2hMbnEyWTcvVkF5?=
+ =?utf-8?B?aVNBOHpJakxGRUtGR1g0S3VyMWRERlVFbGE3M21USDNJc0VHb0sxRFBrK3RJ?=
+ =?utf-8?B?cUtKYTl6aWg3YW03WklZOTBoRi8wcDZVeXRJVzB6Y1hlRy9waFVoeDZtMXl0?=
+ =?utf-8?B?bmwvMVIzbkgzVVRDelBkYndyUGNCSDVYUWFwY0oxTERMRjFFSDhkUTFEM3Vt?=
+ =?utf-8?B?SStwZnhSWHZlbGRZc3pESXlEc1ROMUtPWXpNY2l3RkdkemhEMHhEeVBmandM?=
+ =?utf-8?B?ZnA3djFNNGNGaGhsdk5GZ0ZPVDVSQ0hwQnBweUhQZ1BWRGZZU3lmSldTWDQ4?=
+ =?utf-8?B?YVVselh3NktIV2pTN084YURpUmN6bmhhWFBuUzdvVUFGVXgxeTQzWUk3Sk1C?=
+ =?utf-8?B?LzNuTU43RDRISVlUS1hiK3lGa3ZzYTlldXlNaTVJY3krRmhTTFRWUGc4b3Zx?=
+ =?utf-8?B?Wk53RjltaHVpQTF0QkFMWG9SbFVNT2ZxU0pRczRjU0cyelh6UnY0MThGQVJh?=
+ =?utf-8?B?K3pBa08xTWEyOWlqWStmOEtSTktwUm85OWZQNmhMZWY5emF6Qzh6clpyWTFN?=
+ =?utf-8?B?MjdnQWZHQ2IrOFlJSjFVWWk5T0JKeUhvVTU1NkZwTSttbldFVlRqUWZZemRw?=
+ =?utf-8?B?bXVPVXlUL29MbW1tRnNaRzFRSFRLVEh1Q2VzTE1IT3BnMHR6YzBUUk50cGp4?=
+ =?utf-8?B?MHBNRGdZclROdHE3dldKc2lZTnBtRDY1TmZlaWh2R2V1eXQ5Q2tUUW1XMHZO?=
+ =?utf-8?B?eGRpTWljUnFMcFhRajFpOTlsY0hxeDNxQm81aGhjOEZZUk9qMzlqd0FCeSt1?=
+ =?utf-8?Q?sLUuvvhHN09QAU0UUQFvOgLHR?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9bb7556-97d7-48a8-67a7-08dd55af6501
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9aafb456-614c-4b54-1512-08dd55afb734
 X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6095.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2025 15:16:36.0909
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2025 15:18:53.9704
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xhWNVjCWCdEYvc5/e+y+kN9azG+BZYoZrpGHf5n4KYBRzmD9dCH3xWbp9BZhgiSAeZOQf04MY4aXdPRK7POy8w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6353
+X-MS-Exchange-CrossTenant-UserPrincipalName: YNl/LPUMABl+2aUpCBPmsz+7Iawn5T7dkIHxt8xyZnWCce8XqcHl9nx+XAofnlrw6TMG+kwlrKBFckhfZ1FY6w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6038
 
 On 2/25/2025 00:17, Luke Jones wrote:
 > From: "Luke D. Jones" <luke@ljones.dev>
 > 
-> ASUS have fixed suspend issues arising from a flag not being cleared in
-> the MCU FW in both the ROG Ally 1 and the ROG Ally X.
+> Adjust how the CSEE direct call hack is used.
 > 
-> Implement a check and a warning to encourage users to update the FW to
-> a minimum supported version.
+> The results of months of testing combined with help from ASUS to
+> determine the actual cause of suspend issues has resulted in this
+> refactoring which immensely improves the reliability for devices which
+> do not have the following minimum MCU FW version:
+> - ROG Ally X: 313
+> - ROG Ally 1: 319
+> 
+> For MCU FW versions that match the minimum or above the CSEE hack is
+> disabled and mcu_powersave set to on by default as there are no
+> negatives beyond a slightly slower device reinitialization due to the
+> MCU being powered off.
+> 
+> As this is set only at module load time, it is still possible for
+> mcu_powersave sysfs attributes to change it at runtime if so desired.
 > 
 > Signed-off-by: Luke D. Jones <luke@ljones.dev>
 > ---
->   drivers/hid/hid-asus.c | 97 +++++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 95 insertions(+), 2 deletions(-)
+>   drivers/hid/hid-asus.c                     |   4 +
+>   drivers/platform/x86/asus-wmi.c            | 124 ++++++++++++++-------
+>   include/linux/platform_data/x86/asus-wmi.h |  15 +++
+>   3 files changed, 104 insertions(+), 39 deletions(-)
 > 
 > diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> index 46e3e42f9eb5..e1e60b80115a 100644
+> index e1e60b80115a..58794c9024cf 100644
 > --- a/drivers/hid/hid-asus.c
 > +++ b/drivers/hid/hid-asus.c
-> @@ -52,6 +52,10 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
->   #define FEATURE_KBD_LED_REPORT_ID1 0x5d
->   #define FEATURE_KBD_LED_REPORT_ID2 0x5e
->   
-> +#define ROG_ALLY_REPORT_SIZE 64
-> +#define ROG_ALLY_X_MIN_MCU 313
-> +#define ROG_ALLY_MIN_MCU 319
-> +
->   #define SUPPORT_KBD_BACKLIGHT BIT(0)
->   
->   #define MAX_TOUCH_MAJOR 8
-> @@ -84,6 +88,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
->   #define QUIRK_MEDION_E1239T		BIT(10)
->   #define QUIRK_ROG_NKEY_KEYBOARD		BIT(11)
->   #define QUIRK_ROG_CLAYMORE_II_KEYBOARD BIT(12)
-> +#define QUIRK_ROG_ALLY_XPAD		BIT(13)
->   
->   #define I2C_KEYBOARD_QUIRKS			(QUIRK_FIX_NOTEBOOK_REPORT | \
->   						 QUIRK_NO_INIT_REPORTS | \
-> @@ -534,9 +539,89 @@ static bool asus_kbd_wmi_led_control_present(struct hid_device *hdev)
->   	return !!(value & ASUS_WMI_DSTS_PRESENCE_BIT);
+> @@ -614,6 +614,9 @@ static void validate_mcu_fw_version(struct hid_device *hdev, int idProduct)
+>   			 "The MCU firmware version must be %d or greater\n"
+>   			 "Please update your MCU with official ASUS firmware release\n",
+>   			 min_version);
+> +	} else {
+> +		set_ally_mcu_hack(false);
+
+Rather than calling this to set a global, how about just unregistering 
+the s2idle devops?
+
+> +		set_ally_mcu_powersave(true);
+>   	}
 >   }
 >   
-> +/*
-> + * We don't care about any other part of the string except the version section.
-> + * Example strings: FGA80100.RC72LA.312_T01, FGA80100.RC71LS.318_T01
-> + */
-> +static int mcu_parse_version_string(const u8 *response, size_t response_size)
-> +{
-> +	const u8 *end = response + response_size;
-> +	const u8 *p = response;
-> +	int dots, err;
-> +	long version;
-> +
-> +	dots = 0;
-> +	while (p < end && dots < 2) {
-> +		if (*p++ == '.')
-> +			dots++;
-> +	}
-> +
-
-I think it would be good to use strsep() here.
-
-> +	if (dots != 2 || p >= end)
-> +		return -EINVAL;
-> +
-> +	err = kstrtol((const char *)p, 10, &version);
-> +	if (err || version < 0)
-> +		return -EINVAL;
-> +
-> +	return version;
-> +}
-> +
-> +static int mcu_request_version(struct hid_device *hdev)
-> +{
-> +	const u8 request[] = { 0x5a, 0x05, 0x03, 0x31, 0x00, 0x20 };
-> +	u8 *response;
-> +	int ret;
-> +
-> +	response = kzalloc(ROG_ALLY_REPORT_SIZE, GFP_KERNEL);
-> +	if (!response)
-> +		return -ENOMEM;
-> +
-> +	ret = asus_kbd_set_report(hdev, request, sizeof(request));
-> +	if (ret < 0)
-> +		goto out;
-> +
-> +	ret = hid_hw_raw_request(hdev, FEATURE_REPORT_ID, response,
-> +				ROG_ALLY_REPORT_SIZE, HID_FEATURE_REPORT,
-> +				HID_REQ_GET_REPORT);
-> +	if (ret < 0)
-> +		goto out;
-> +
-> +	ret = mcu_parse_version_string(response, ROG_ALLY_REPORT_SIZE);
-> +
-> +out:
-> +	if (ret < 0)
-> +		hid_err(hdev, "Failed to get MCU version: %d, response: %*ph\n",
-> +					ret, ROG_ALLY_REPORT_SIZE, response);
-> +	kfree(response);
-> +	return ret;
-> +}
-> +
-> +static void validate_mcu_fw_version(struct hid_device *hdev, int idProduct)
-> +{
-> +	int min_version = ROG_ALLY_X_MIN_MCU;
-> +	int version;
-> +
-> +	version = mcu_request_version(hdev);
-> +	if (version < 0)
-> +		return;
-> +
-> +	if (idProduct == USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY)
-> +		min_version = ROG_ALLY_MIN_MCU;
-> +
-> +	hid_info(hdev, "Ally device MCU version: %d\n", version);
-> +	if (version < min_version) {
-> +		hid_warn(hdev,
-> +			 "The MCU firmware version must be %d or greater\n"
-
-What do you think about:
-
-"The MCU firmware version must be %d or greater to avoid issues with 
-suspend.\n"
-
-> +			 "Please update your MCU with official ASUS firmware release\n",
-> +			 min_version);
-> +	}
-> +}
-
-Thinking forward to any future hypothetical devices that don't have a 
-min MCU version type of bug I have a suggestion that you put the 
-min_version into a lookup method of some sort.
-
-So the flow can be something like this:
-
-static void validate_mcu_fw_version(struct hid_device *hdev, int idProduct)
-{
-
-	int min_version = get_min_version(idProduct);
-
-	if (!min_version)
-		return;
-	.
-	.
-	.
-}
-
-Or you can do a switch/case instead of get_min_version().
-
-static void validate_mcu_fw_version(struct hid_device *hdev, int idProduct)
-{
-
-	int min_version;
-
-	switch(idProduct) {
-	case USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY:
-		min_version = ROG_ALLY_MIN_MCU;
-		break;
-	case USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLYX:
-		min_version = ROG_ALLYX_MIN_MCU;
-		break;
-	default:
-		return;
-	}
-
-	.
-	.
-	.
-}
-
-That way you have really straight forward logic that 
-validate_mcu_version only runs on devices that you specify.
-
-> +
->   static int asus_kbd_register_leds(struct hid_device *hdev)
->   {
->   	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
-> +	struct usb_interface *intf;
-> +	struct usb_device *udev;
->   	unsigned char kbd_func;
->   	int ret;
+> @@ -1420,4 +1423,5 @@ static struct hid_driver asus_driver = {
+>   };
+>   module_hid_driver(asus_driver);
 >   
-> @@ -560,6 +645,14 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
->   			if (ret < 0)
->   				return ret;
->   		}
+> +MODULE_IMPORT_NS("ASUS_WMI");
+>   MODULE_LICENSE("GPL");
+> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+> index 38ef778e8c19..9dba88a29e2c 100644
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+> @@ -142,16 +142,20 @@ module_param(fnlock_default, bool, 0444);
+>   #define ASUS_MINI_LED_2024_STRONG	0x01
+>   #define ASUS_MINI_LED_2024_OFF		0x02
+>   
+> -/* Controls the power state of the USB0 hub on ROG Ally which input is on */
+>   #define ASUS_USB0_PWR_EC0_CSEE "\\_SB.PCI0.SBRG.EC0.CSEE"
+> -/* 300ms so far seems to produce a reliable result on AC and battery */
+> -#define ASUS_USB0_PWR_EC0_CSEE_WAIT 1500
+> +/*
+> + * The period required to wait after screen off/on/s2idle.check in MS.
+> + * Time here greatly impacts the wake behaviour. Used in suspend/wake.
+> + */
+> +#define ASUS_USB0_PWR_EC0_CSEE_WAIT	600
+> +#define ASUS_USB0_PWR_EC0_CSEE_OFF	0xB7
+> +#define ASUS_USB0_PWR_EC0_CSEE_ON	0xB8
+>   
+>   static const char * const ashs_ids[] = { "ATK4001", "ATK4002", NULL };
+>   
+>   static int throttle_thermal_policy_write(struct asus_wmi *);
+>   
+> -static const struct dmi_system_id asus_ally_mcu_quirk[] = {
+> +static const struct dmi_system_id asus_rog_ally_device[] = {
+>   	{
+>   		.matches = {
+>   			DMI_MATCH(DMI_BOARD_NAME, "RC71L"),
+> @@ -274,9 +278,6 @@ struct asus_wmi {
+>   	u32 tablet_switch_dev_id;
+>   	bool tablet_switch_inverted;
+>   
+> -	/* The ROG Ally device requires the MCU USB device be disconnected before suspend */
+> -	bool ally_mcu_usb_switch;
+> -
+>   	enum fan_type fan_type;
+>   	enum fan_type gpu_fan_type;
+>   	enum fan_type mid_fan_type;
+> @@ -335,6 +336,9 @@ struct asus_wmi {
+>   	struct asus_wmi_driver *driver;
+>   };
+>   
+> +/* Global to allow setting externally without requiring driver data */
+> +static bool use_ally_mcu_hack;
 > +
-> +		if (drvdata->quirks & QUIRK_ROG_ALLY_XPAD) {
-> +			intf = to_usb_interface(hdev->dev.parent);
-> +			udev = interface_to_usbdev(intf);
-> +			validate_mcu_fw_version(hdev,
-> +				le16_to_cpu(udev->descriptor.idProduct));
-> +		}
+>   /* WMI ************************************************************************/
+>   
+>   static int asus_wmi_evaluate_method3(u32 method_id,
+> @@ -549,7 +553,7 @@ static int asus_wmi_get_devstate(struct asus_wmi *asus, u32 dev_id, u32 *retval)
+>   	return 0;
+>   }
+>   
+> -static int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param,
+> +int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param,
+>   				 u32 *retval)
+>   {
+>   	return asus_wmi_evaluate_method(ASUS_WMI_METHODID_DEVS, dev_id,
+> @@ -1343,6 +1347,38 @@ static ssize_t nv_temp_target_show(struct device *dev,
+>   static DEVICE_ATTR_RW(nv_temp_target);
+>   
+>   /* Ally MCU Powersave ********************************************************/
 > +
->   	} else {
->   		/* Initialize keyboard */
->   		ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
-> @@ -1280,10 +1373,10 @@ static const struct hid_device_id asus_devices[] = {
->   	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
->   	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
->   	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY),
-> -	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> +	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_ALLY_XPAD},
->   	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
->   	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY_X),
-> -	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> +	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_ALLY_XPAD },
->   	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
->   	    USB_DEVICE_ID_ASUSTEK_ROG_CLAYMORE_II_KEYBOARD),
->   	  QUIRK_ROG_CLAYMORE_II_KEYBOARD },
+> +/*
+> + * The HID driver needs to check MCU version and set this to false if the MCU FW
+> + * version is >= the minimum requirements. New FW do not need the hacks.
+> + */
+> +void set_ally_mcu_hack(bool enabled)
+> +{
+> +	use_ally_mcu_hack = enabled;
+> +	pr_info("Disabled Ally MCU suspend quirks");
+> +}
+> +EXPORT_SYMBOL_NS_GPL(set_ally_mcu_hack, "ASUS_WMI");
+> +
+> +/*
+> + * mcu_powersave should be enabled always, as it is fixed in MCU FW versions:
+> + * - v313 for Ally X
+> + * - v319 for Ally 1
+> + * The HID driver checks MCU versions and so should set this if requirements match
+> + */
+> +void set_ally_mcu_powersave(bool enabled)
+> +{
+> +	int result, err;
+> +
+> +	err = asus_wmi_set_devstate(ASUS_WMI_DEVID_MCU_POWERSAVE, enabled, &result);
+> +	if (err)
+> +		pr_warn("Failed to set MCU powersave: %d\n", err);
+> +	if (result > 1)
+> +		pr_warn("Failed to set MCU powersave (result): 0x%x\n", result);
+> +
+> +	pr_info("Set mcu_powersave to enabled");
+> +}
+> +EXPORT_SYMBOL_NS_GPL(set_ally_mcu_powersave, "ASUS_WMI");
+> +
+>   static ssize_t mcu_powersave_show(struct device *dev,
+>   				   struct device_attribute *attr, char *buf)
+>   {
+> @@ -4711,6 +4747,18 @@ static int asus_wmi_add(struct platform_device *pdev)
+>   	if (err)
+>   		goto fail_platform;
+>   
+> +	use_ally_mcu_hack = acpi_has_method(NULL, ASUS_USB0_PWR_EC0_CSEE)
+> +				&& dmi_check_system(asus_rog_ally_device);
+> +	if (use_ally_mcu_hack && dmi_match(DMI_BOARD_NAME, "RC71")) {
+> +		/*
+> +		 * These steps ensure the device is in a valid good state, this is
+> +		 * especially important for the Ally 1 after a reboot.
+> +		 */
+> +		acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE,
+> +					   ASUS_USB0_PWR_EC0_CSEE_ON);
+> +		msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+> +	}
+> +
+>   	/* ensure defaults for tunables */
+>   	asus->ppt_pl2_sppt = 5;
+>   	asus->ppt_pl1_spl = 5;
+> @@ -4723,8 +4771,6 @@ static int asus_wmi_add(struct platform_device *pdev)
+>   	asus->egpu_enable_available = asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_EGPU);
+>   	asus->dgpu_disable_available = asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_DGPU);
+>   	asus->kbd_rgb_state_available = asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_TUF_RGB_STATE);
+> -	asus->ally_mcu_usb_switch = acpi_has_method(NULL, ASUS_USB0_PWR_EC0_CSEE)
+> -						&& dmi_check_system(asus_ally_mcu_quirk);
+>   
+>   	if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_MINI_LED_MODE))
+>   		asus->mini_led_dev_id = ASUS_WMI_DEVID_MINI_LED_MODE;
+> @@ -4910,34 +4956,6 @@ static int asus_hotk_resume(struct device *device)
+>   	return 0;
+>   }
+>   
+> -static int asus_hotk_resume_early(struct device *device)
+> -{
+> -	struct asus_wmi *asus = dev_get_drvdata(device);
+> -
+> -	if (asus->ally_mcu_usb_switch) {
+> -		/* sleep required to prevent USB0 being yanked then reappearing rapidly */
+> -		if (ACPI_FAILURE(acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE, 0xB8)))
+> -			dev_err(device, "ROG Ally MCU failed to connect USB dev\n");
+> -		else
+> -			msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+> -	}
+> -	return 0;
+> -}
+> -
+> -static int asus_hotk_prepare(struct device *device)
+> -{
+> -	struct asus_wmi *asus = dev_get_drvdata(device);
+> -
+> -	if (asus->ally_mcu_usb_switch) {
+> -		/* sleep required to ensure USB0 is disabled before sleep continues */
+> -		if (ACPI_FAILURE(acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE, 0xB7)))
+> -			dev_err(device, "ROG Ally MCU failed to disconnect USB dev\n");
+> -		else
+> -			msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+> -	}
+> -	return 0;
+> -}
+> -
+>   static int asus_hotk_restore(struct device *device)
+>   {
+>   	struct asus_wmi *asus = dev_get_drvdata(device);
+> @@ -4978,11 +4996,34 @@ static int asus_hotk_restore(struct device *device)
+>   	return 0;
+>   }
+>   
+> +static void asus_ally_s2idle_restore(void)
+> +{
+> +	if (use_ally_mcu_hack) {
+> +		acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE,
+> +					   ASUS_USB0_PWR_EC0_CSEE_ON);
+> +		msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+> +	}
+> +}
+> +
+> +static int asus_hotk_prepare(struct device *device)
+> +{
+> +	if (use_ally_mcu_hack) {
+> +		acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE,
+> +					   ASUS_USB0_PWR_EC0_CSEE_OFF);
+> +		msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+> +	}
+> +	return 0;
+> +}
+> +
+> +/* Use only for Ally devices due to the wake_on_ac */
+> +static struct acpi_s2idle_dev_ops asus_ally_s2idle_dev_ops = {
+> +	.restore = asus_ally_s2idle_restore,
+> +};
+> +
+>   static const struct dev_pm_ops asus_pm_ops = {
+>   	.thaw = asus_hotk_thaw,
+>   	.restore = asus_hotk_restore,
+>   	.resume = asus_hotk_resume,
+> -	.resume_early = asus_hotk_resume_early,
+>   	.prepare = asus_hotk_prepare,
+>   };
+>   
+> @@ -5010,6 +5051,10 @@ static int asus_wmi_probe(struct platform_device *pdev)
+>   			return ret;
+>   	}
+>   
+> +	ret = acpi_register_lps0_dev(&asus_ally_s2idle_dev_ops);
+> +	if (ret)
+> +		pr_warn("failed to register LPS0 sleep handler in asus-wmi\n");
+> +
+>   	return asus_wmi_add(pdev);
+>   }
+>   
+> @@ -5042,6 +5087,7 @@ EXPORT_SYMBOL_GPL(asus_wmi_register_driver);
+>   
+>   void asus_wmi_unregister_driver(struct asus_wmi_driver *driver)
+>   {
+> +	acpi_unregister_lps0_dev(&asus_ally_s2idle_dev_ops);
+>   	platform_device_unregister(driver->platform_device);
+>   	platform_driver_unregister(&driver->platform_driver);
+>   	used = false;
+> diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+> index 783e2a336861..a32cb8865b2f 100644
+> --- a/include/linux/platform_data/x86/asus-wmi.h
+> +++ b/include/linux/platform_data/x86/asus-wmi.h
+> @@ -158,8 +158,23 @@
+>   #define ASUS_WMI_DSTS_LIGHTBAR_MASK	0x0000000F
+>   
+>   #if IS_REACHABLE(CONFIG_ASUS_WMI)
+> +void set_ally_mcu_hack(bool enabled);
+> +void set_ally_mcu_powersave(bool enabled);
+> +int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval);
+>   int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
+>   #else
+> +static inline void set_ally_mcu_hack(bool enabled)
+> +{
+> +	return -ENODEV;
+> +}
+> +static inline void set_ally_mcu_powersave(bool enabled)
+> +{
+> +	return -ENODEV;
+> +}
+> +static inline int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval)
+> +{
+> +	return -ENODEV;
+> +}
+>   static inline int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1,
+>   					   u32 *retval)
+>   {
 
 
