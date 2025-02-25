@@ -1,83 +1,91 @@
-Return-Path: <linux-input+bounces-10319-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10320-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D574CA43529
-	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 07:24:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 025D5A4353E
+	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 07:30:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 77A807A8806
-	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 06:22:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 964E6188D580
+	for <lists+linux-input@lfdr.de>; Tue, 25 Feb 2025 06:30:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD97E257438;
-	Tue, 25 Feb 2025 06:23:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46402257420;
+	Tue, 25 Feb 2025 06:29:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IWWElMs9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WqrmB6Ao"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4390A256C8B;
-	Tue, 25 Feb 2025 06:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F26257429;
+	Tue, 25 Feb 2025 06:29:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740464593; cv=none; b=PjY9H/5CUXZQFHpOh4PXODjvazJ3//pK8k2cULJdYLXxNNzfkAQxIc48LMgxb2v+F8G2ZEyTE3amjgMAGIzlpb5b2w9T0qzJa9JPzNQkJ/UFj1pJGFO7cr7NWzi9Bt6GxxqKF2JkQVDT0LCc2g51PQL1mqzcE5ox6F9WkQoHi50=
+	t=1740464976; cv=none; b=Np1rwGnZ0ztZsH/IgbnoiQzGer15VW+y8AKxrBw90t3mi/oLUJUXMQs28EIRnO0F5cRNW3EwXIKGIGiUsMSrJeSrcy8z9zTqgYvSW1ZM1EEHMjpTvaAQ5lSfbnLa0QEW1ajU7tShO3shMclBSKBgjg6sMw9zp2UwtQmkh106HUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740464593; c=relaxed/simple;
-	bh=YVeIwzDTtCyqXNkuVoCKtquXcD4I+MNGiP1f6BEIbhI=;
+	s=arc-20240116; t=1740464976; c=relaxed/simple;
+	bh=9E4tHldaOh3rJ13NGLgu0713HpspGXzpaub+CWVGSVs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N/3OwuGQxR9cTJqjtnMRU3F213ZDEJY3Q4C4LzK9JVxFGN8Mg0AlzPlvovt9xYh4bt9+ObeL4bzbivhgMGWrWdoUfLUkohlubWJCSHUPmENiZCMy8tm4LkuD6x7xMV4W8lU6Q9R66DLGeK+nRdIIEu01pC3bWpYy+THuxBgmNMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IWWElMs9; arc=none smtp.client-ip=209.85.214.175
+	 Content-Type:Content-Disposition:In-Reply-To; b=lYXWmweQnS8SfhpC435PLx17BRjDIw5ELIxhYMTIFj/JQhpJrMfGnIUegEkIKnLyrEHpF8xqwOkY+w4OS5cAaevQJVDQxtp4EyAVH1wqSp653wUgNC3L9n5EXRIvN40hCIVvQluarLKA8HmeOh3AHVJ9AKYB2++bRD+ZnOG17fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WqrmB6Ao; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2211acda7f6so116134275ad.3;
-        Mon, 24 Feb 2025 22:23:11 -0800 (PST)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-220c2a87378so87730135ad.1;
+        Mon, 24 Feb 2025 22:29:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740464591; x=1741069391; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1740464974; x=1741069774; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7QzF0DMqKSo2WVEUbrWBzNJQGDM2P+lB3ezMHc1NlR8=;
-        b=IWWElMs9EpPwNPJgBoKGKOQK4B164CKI0AmxYp1GCuPk9iaPO4ZGxUdC9ufOYND71/
-         bWCv9H0nZVwHu/56HVz53VqXaooUF/KRLv/fS/wqul5IeauLihObQyB/NB9kXwzhXb13
-         PqAjKPu6pXXiytFE2NbLLMoL+nQdANF7TPWUJ01m6zPfNHeb41lILXtL985qxjph2i91
-         69jC/GIFCf0GZ+IoE2OjCTyKZ05Fi5gD7j1jm28zKI8nT75P3lRpNtMcwDV+cYh9I4tk
-         LepKr19rzk5mIY2oDEliYSTxNJJtFP609MAy8KuFYvM1ziMrqb5hAR3D7noOMI3HSObN
-         y4Yg==
+        bh=j4+q8/0z6WPZe5ZERpSVEokcuGv3BB2C4ZIRL289vZA=;
+        b=WqrmB6AoHdMU0uUIxQMLg9ETVcbmOoYVRqTpPD8ljzbDNOudORFlmCF8UaOxgMP/KT
+         /+t/39ov6zTzGquQJO2zVEPYqetbVJw0qp0gYY9EQQOykOhQNwuIc6y0IJgo5a+82dWN
+         H1zCfJJ38+AccXA/dke6WqK1QsYq/b0yyGXDdAsGNlYHsu3YmEq+5RzqLre7KIgHcDyF
+         rmUolhxMhYL2lh6xaiTz030/QSyX0Jc4qwR4o0jtEZlwHt5dHA9YRDDomIxsCRzhenPu
+         XgtuHXZc2+8xlSP8nycktSX3xXJnaPWo+FwRYhT/nCzLpkHQEn/VQ7H/733d4rwTLuu3
+         UUTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740464591; x=1741069391;
+        d=1e100.net; s=20230601; t=1740464974; x=1741069774;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7QzF0DMqKSo2WVEUbrWBzNJQGDM2P+lB3ezMHc1NlR8=;
-        b=Hy44+0QSV8J1o1OQO964xo3qUnoBIe96Ix22ety3uH1pdD6oZSsAIgt2OXPc1VrQ9a
-         V/jUTRnwx6n2kxnFLKz0ReCBR8rzLBe9lWgtGTb53bllcrStPUqOQLH1hBA9FXaJ4C8j
-         qT9i8kmrN0D1Cw2qIKv6BSgxucF0viGzOQbx5uMZzbS1nvxg9KoBCMYw6lRLoYHrfZYv
-         v6Y5AZFzblc2msfAIUJdVcClfRkHeEwJ/UADh+/fT+tI8Izr7ZxwUFJk6i+dNu0RlIDd
-         lzMY64gFNHH4FtqOsZcB3z3GASdEcSgx8RNGl3GEn/aMhgQk84DqyYDG3iPlXsiuYSCt
-         R34g==
-X-Forwarded-Encrypted: i=1; AJvYcCXM1OYrmG96iaKLNdeq+tShgh+QEaEL5eMX1xe/TzWxwW1ytdgzBj6rHvSbQhawc+F81TNyrmLRNqKPCzI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxdrvw2LFTodKBZP0amnDHAUFPWoOweFsSZx75qca0ezuDXniMc
-	lDE7kkugzpHXps+oSf6non5STvUpqHPSsiM5jjas88IE+YZ8SZNh
-X-Gm-Gg: ASbGncun0TM06BFpjENl0KgaejlGrNleuS645bSzOKSd2s9yTZGJOsjWXKBLJP1A32A
-	6qrm3EwADkZKyF4ZKZ6qZvx1wZJVV928cov+8jpREW5POuDsgt4Yeu0qYliZVOOPHXgw3tPPACg
-	e+tYprR6JN31IMPwiObaWhal02Qn3L9o9ZD53kuAA1lvqbo8rS7K4W6h5hFdfpKMJh1j0JvD8yg
-	RUg/Oqb1gXo1x3MxwOmAMsk/Xbid1TMcamYYLyP64AUmJYEIBiB2jy8ju3FITG4cJW4kuMssV3C
-	G6Gevz99aXPgbAfEuOvy0viNzHI=
-X-Google-Smtp-Source: AGHT+IFclVUW/0xPsdueGkrCc6Oh1M4ZdZ85h8Qc6YgsOtm5BGCUA5ar4j71aNoLGYVp/VC4u73agQ==
-X-Received: by 2002:a05:6a00:4f8f:b0:730:9242:e68 with SMTP id d2e1a72fcca58-73426d96062mr25025869b3a.23.1740464591344;
-        Mon, 24 Feb 2025 22:23:11 -0800 (PST)
+        bh=j4+q8/0z6WPZe5ZERpSVEokcuGv3BB2C4ZIRL289vZA=;
+        b=JhIY1PrGy+2ANqSZ5hyhSPHpXCVo1WPc1OXq05NumUsSz6JikT/dAqeni20FED6fzC
+         gvWSnljetrl+zuCAAoRgTdbKKq8j033p/kIkyTVdgBIQ7HTbqi3bxriG19cqVH2nmZuD
+         CvnL8spwiNXSow2gOTC+McRdHD6T78jRzejz+5lWFgDuAiS1oxa/d5ofWFkwhN08hkHS
+         7LnROhAMheG28vnqTnl2YngwyLabPx59UAmY7uOpSBppIVHnTMuNmV3EZHFlK90bO3fg
+         ozl7zwQxhw0mEsqKOomaCwPsQ1731X42A+uymB/PWKoIrxGDWNdREo3X3cv/IsJJ1Wjy
+         7DZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ27dFdxwLHtf2uLM9GOJc7/QCJ61kTe2odmH7USsVttw+5lwzY8Kk0d08nxOiV+hoJsiDsQPHbPdPNe77@vger.kernel.org, AJvYcCUbOeBnZRIglvj6pNly16n9ySlFw3FS6MpHoCLTK0fNo4Ouh1MqlFJbWoYJmqgnRi6OOCTZyNZwNICK3vA=@vger.kernel.org, AJvYcCVhEt5SzTr0Ieoe2oKwlkVmWY4l56wQ8iBzvWUR/cFy+KGGhzXYuiLD1OM+TXCb/9x6xF012nzIxG95gw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+V8RoxNoLBr5k6DqnjOcrR0WeIid9U6KP3rE5hEgrhhMgk3ln
+	eeUPzPGhrNfFkS1grz51BApqftX2FwApgX8X6mNhn3otRZ78mcoX
+X-Gm-Gg: ASbGncs+6BRN9CRu5tV2ddDRi6ZnjQPasjt5tduiWO+VbWz3CY1+HqWj+0WVYav66mU
+	qmRx0FVkQdORRSBudgDgNpP/mLHTFUX3yuiFrYcHmtGXlVrv5kqNhGyjhb6MajR6A4fNzW30FcN
+	TyYZAkixfPRFMDu11mE5RdJWrUa5mnyzOw5RfnJmnbP0PRLoHy0TSn4Hvp36pX5O+T6wn8EOcLU
+	euzz5jR3HxCa5LtPAiTUOwYhooUNZDlPUGG9ujd0anMU6beTXfopJ/o9uTzfraG0KaqWMzKPr/8
+	xufyT9HcCm2ts/8wMbIWxEG2x0U=
+X-Google-Smtp-Source: AGHT+IFsisg7kq4qoJMHCuHfj79GZoynxTMSU11v305fq5VKE1tV/Xn9I6Jksi84K3R5tdsWMDlsqw==
+X-Received: by 2002:a17:902:ccc7:b0:220:e8a1:c819 with SMTP id d9443c01a7336-221a1191665mr295309715ad.34.1740464973913;
+        Mon, 24 Feb 2025 22:29:33 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:464c:6229:2280:227e])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7347a81ef2esm707815b3a.145.2025.02.24.22.23.10
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2230a00054dsm6608305ad.4.2025.02.24.22.29.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2025 22:23:10 -0800 (PST)
-Date: Mon, 24 Feb 2025 22:23:08 -0800
+        Mon, 24 Feb 2025 22:29:33 -0800 (PST)
+Date: Mon, 24 Feb 2025 22:29:30 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Yunli Liu <ylliu3788@163.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH input] input: add BUS_I3C definition to input.h
-Message-ID: <Z71hzP-LYpnx-hyH@google.com>
-References: <20250215142035.1745664-1-ylliu3788@163.com>
+To: Luca Weiss <luca.weiss@fairphone.com>
+Cc: Bastien Nocera <hadess@hadess.net>, Hans de Goede <hdegoede@redhat.com>,
+	Jeff LaBundy <jeff@labundy.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Charles Wang <charles.goodix@gmail.com>,
+	Jens Reidel <adrian@travitia.xyz>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] Input: goodix-berlin - fix comment referencing wrong
+ regulator
+Message-ID: <Z71jSubLQIaqGTRX@google.com>
+References: <20250103-goodix-berlin-fixes-v1-0-b014737b08b2@fairphone.com>
+ <20250103-goodix-berlin-fixes-v1-1-b014737b08b2@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -86,42 +94,17 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250215142035.1745664-1-ylliu3788@163.com>
+In-Reply-To: <20250103-goodix-berlin-fixes-v1-1-b014737b08b2@fairphone.com>
 
-Hi Yunli,
-
-On Sat, Feb 15, 2025 at 10:20:35PM +0800, Yunli Liu wrote:
-> Add BUS_I3C (0x21) bus type definition to the input subsystem header.
-> This value is reserved for devices utilizing the I3C bus, which is
-> increasingly adopted in modern embedded systems due to its enhanced
-> capabilities over I2C/SPI.
-
-I would like to see a user of this #define before adding it to the
-kernel.
-
+On Fri, Jan 03, 2025 at 10:21:35AM +0100, Luca Weiss wrote:
+> In the statement above AVDD gets enabled, and not IOVDD, so fix this
+> copy-paste mistake.
 > 
-> Signed-off-by: Yunli Liu <ylliu3788@163.com>
-> ---
->  include/uapi/linux/input.h | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
-> index 2557eb7b0561..c6fbcbad5b7c 100644
-> --- a/include/uapi/linux/input.h
-> +++ b/include/uapi/linux/input.h
-> @@ -275,6 +275,7 @@ struct input_mask {
->  #define BUS_CEC			0x1E
->  #define BUS_INTEL_ISHTP		0x1F
->  #define BUS_AMD_SFH		0x20
-> +#define BUS_I3C			0x21
->  
->  /*
->   * MT_TOOL types
-> -- 
-> 2.34.1
-> 
+> Fixes: 44362279bdd4 ("Input: add core support for Goodix Berlin Touchscreen IC")
+> Reported-by: Jens Reidel <adrian@travitia.xyz>
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
 
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
