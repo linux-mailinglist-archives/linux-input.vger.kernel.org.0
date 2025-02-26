@@ -1,106 +1,202 @@
-Return-Path: <linux-input+bounces-10385-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10386-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27EC3A45246
-	for <lists+linux-input@lfdr.de>; Wed, 26 Feb 2025 02:39:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1E0A453B6
+	for <lists+linux-input@lfdr.de>; Wed, 26 Feb 2025 04:08:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4ADD93B0EDC
-	for <lists+linux-input@lfdr.de>; Wed, 26 Feb 2025 01:39:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97EA4188931F
+	for <lists+linux-input@lfdr.de>; Wed, 26 Feb 2025 03:08:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FCCA19ABCE;
-	Wed, 26 Feb 2025 01:39:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0D32225388;
+	Wed, 26 Feb 2025 03:08:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="DSr0p5U6"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="XpNjFti0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vnVNPGAc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ADA8199EBB;
-	Wed, 26 Feb 2025 01:39:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509A6224B0E;
+	Wed, 26 Feb 2025 03:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740533965; cv=none; b=dOS7CTBjYzn+yCHcmpCBbAEWgHwdDiut8P9lzBSIdmKIRhE3Jcw1vBhOyyWdThHRE3Di2qQBT2ogsddVZN8E1OLjo7QxV4L14cw6WjK4VEOBKhhh+rhmaA6/NmeJ+vb+UvrEjlKEJqEcml8/RIfTViOEWDb9KolQJmQVYnvzsbY=
+	t=1740539307; cv=none; b=Bdj0YFK0nTVbiJY5V44/U8mQRmXmYtZE8FqKQdArSvaLM6a+NqtAXT4mlAp0Zfoh6YV0wnKe2P7UIWAV+BH8Fsejc0fzaTRK3u3YI/2pbUhIcR3TjLU9GXS2THb5jmYZ8vByXIGPXOKXX8LmHlkExrFtEGocqQl4IVYY6ci4UYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740533965; c=relaxed/simple;
-	bh=T0pKCclIvHKyDRUHCJs7P4mfoEs4SIcJGp6SSmwXCZc=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=l8J0kNGUdlNTI1ROnga+P6ZKjzmHhtm58VmT54d4SFKrvZU49bRDqNtemU45s5igZsN4W+2YCm/fWU+ZQxWPJkU6w+BBhKfe2BTTNqpbEch4mrZ3A8HI2hHEkvprDT9dTgg/v+rb7mZXyzYdNsH8WteQCCz82zAavl5g4EZDm0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=DSr0p5U6; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from [127.0.0.1] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 51Q1ZSdu1502812
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Tue, 25 Feb 2025 17:35:29 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 51Q1ZSdu1502812
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025021701; t=1740533740;
-	bh=T0pKCclIvHKyDRUHCJs7P4mfoEs4SIcJGp6SSmwXCZc=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=DSr0p5U6PuFacB2sJlJBShpK+caegDMEmn8OYplTp/ukKNtEFfrkn97ga+OT2dXpz
-	 K/n5OJZ9p7wF026A4N5Ms8I4Ha7wXxIE31o+eevCv66LWleUk5egaKa/T1wzR+OiP5
-	 pBftNRMbRUke7ubIKWI6Trw88YIoPJ//UlgWSqbBalJrMQ6XLeWdsBqjIBFJ2BqBTU
-	 NxN3soIqU4psmCdpeI68cUVCZ/T8YSni/GX+FUYtyTt8DqQzRz5FBJx8rRSkQsq+0n
-	 LFOV9xO0DwzRQLOdgcR413cBdNqea/GHzmtBr2NpUvBJ8KgVfK7MCUU4fZDlrEdXny
-	 PWA/+ls6AlysA==
-Date: Tue, 25 Feb 2025 17:35:26 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Andrew Cooper <andrew.cooper3@citrix.com>
-CC: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
-        akpm@linux-foundation.org, alistair@popple.id.au,
-        andrew+netdev@lunn.ch, andrzej.hajda@intel.com,
-        arend.vanspriel@broadcom.com, awalls@md.metrocast.net, bp@alien8.de,
-        bpf@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
-        brcm80211@lists.linux.dev, dave.hansen@linux.intel.com,
-        davem@davemloft.net, david.laight.linux@gmail.com,
-        dmitry.torokhov@gmail.com, dri-devel@lists.freedesktop.org,
-        eajames@linux.ibm.com, edumazet@google.com, eleanor15x@gmail.com,
-        gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
-        jernej.skrabec@gmail.com, jirislaby@kernel.org, jk@ozlabs.org,
-        joel@jms.id.au, johannes@sipsolutions.net, jonas@kwiboo.se,
-        jserv@ccns.ncku.edu.tw, kuba@kernel.org, linux-fsi@lists.ozlabs.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-serial@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux@rasmusvillemoes.dk, louis.peens@corigine.com,
-        maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
-        mingo@redhat.com, miquel.raynal@bootlin.com, mripard@kernel.org,
-        neil.armstrong@linaro.org, netdev@vger.kernel.org,
-        oss-drivers@corigine.com, pabeni@redhat.com,
-        parthiban.veerasooran@microchip.com, rfoss@kernel.org, richard@nod.at,
-        simona@ffwll.ch, tglx@linutronix.de, tzimmermann@suse.de,
-        vigneshr@ti.com, visitorckw@gmail.com, x86@kernel.org,
-        yury.norov@gmail.com
-Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
-User-Agent: K-9 Mail for Android
-In-Reply-To: <8052b316-9f72-42c7-9e11-e23e690d80c4@citrix.com>
-References: <3BC57C78-1DFF-4B83-85AA-A908DBF2B958@zytor.com> <8052b316-9f72-42c7-9e11-e23e690d80c4@citrix.com>
-Message-ID: <4259A207-7B5F-4D25-A8AE-144D24554201@zytor.com>
+	s=arc-20240116; t=1740539307; c=relaxed/simple;
+	bh=+WpUxyhixO+xvs7xpfPGl9WG65KdWQhk1GqatJbAmIA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tPzIMKd8QYBCampZqgYc576tfbOODYgL5A6wktvellaLwrJV4LTaR1aGs1J862vLx46uoU459acVtYbRyALqTMz/8FGiJGC0s7+s+A4uvfE4ic5RedRKPaty2IIO4lqbLPVc3Mg+0dRGEfcLt8uWWuD2FTVqSSDyMXEvYAZ8Zd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=XpNjFti0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vnVNPGAc; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfout.phl.internal (Postfix) with ESMTP id 363381380A38;
+	Tue, 25 Feb 2025 22:08:24 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-11.internal (MEProxy); Tue, 25 Feb 2025 22:08:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1740539304;
+	 x=1740625704; bh=+WpUxyhixO+xvs7xpfPGl9WG65KdWQhk1GqatJbAmIA=; b=
+	XpNjFti0qRuBGJ7Y9PHjuVG4AT2iF8uGzdGtR5Nok2cgCd/NKZwPHK9K2E+GGJEt
+	cUirfpENXMLiMCjdWu64QJbopozD8ry9rrH6yvvjZY3xe5Tf2MKSAFprTg6rawd7
+	jp6i153322NzQNxvcWUzXnKXjoGHKm4hfkGWYaCkC0HRRAreNQtfptrRU+mKyitu
+	0hiEGVVDEdfc4EadMI4rlEa73C+29dFFF+RLHMpEtGz0PwOVKXGTIiZt+6eiIj5+
+	js3NzoYQiWaaUcZB5CTynnR6S4uGI1kplLSi24yHPYX05ayGhZ9EqUYexErefRpU
+	gbrbOIRPidu4d/dk1orsGw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740539304; x=
+	1740625704; bh=+WpUxyhixO+xvs7xpfPGl9WG65KdWQhk1GqatJbAmIA=; b=v
+	nVNPGAcajaKNdC7/3mswz1ulFKg6vmBW4MVV0o+0HoMWeB+dTttQ64VOAHiEF4zY
+	g03CKAb95lNgrEJq3WBR+2N63IwhcR8QnxEvHsHMlpo3UdQBc1eix7wig1i3BZMV
+	RW9jK7y2tFoe9HqhnTceXegfNp3sbDJ39SJIy6CAQXToQVTI0UzrMUFKkbnrPe+K
+	V47owvczDJ+UQFJzWRgNqdzn5ix/kp5txG9jk74lHT1p/eNTxdZjJrx1u5MT1Vai
+	fGHbhySNF5xg12NILi2oDelOIOpM+NQ1XIy3t81mgZ+Z9Q0FRsLpPs8iCV6H+CKO
+	KJPf7aCmBLuc5DOk1udrg==
+X-ME-Sender: <xms:poW-Z6r2beDFH8rRGoNn9Fq-uiKbcCy2bEl5tSzac9Psz8vE4qi0GA>
+    <xme:poW-Z4reHHOyTTgFuNcfJDVnSB3CVldJyruj5ieJLDtA_cy39SrMI3wGgVcOjPH4s
+    lB8E9k5kJhJthEP5Lc>
+X-ME-Received: <xmr:poW-Z_MU072OqUA7AMRqBjQOVBPBkLX3-1TN9ZwDstDH3ZWn0Pd3rpNobMnSFX0W-6Djbp7Cce_2xt6clQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekfeeghecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecunecujfgurhepkffuhf
+    fvveffjghftgfgfgggsehtqhertddtreejnecuhfhrohhmpefnuhhkvgculfhonhgvshcu
+    oehluhhkvgeslhhjohhnvghsrdguvghvqeenucggtffrrghtthgvrhhnpeekfeffueejve
+    eujeeugeelleehtdegvdeludektddtfffhieefledvudehfeejieenucevlhhushhtvghr
+    ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehluhhkvgeslhhjohhnvghsrd
+    guvghvpdhnsggprhgtphhtthhopeekpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
+    pehlkhhmlhesrghnthhhvggrshdruggvvhdprhgtphhtthhopegsvghnthhishhssehkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehhuggvghhovgguvgesrhgvughhrghtrdgtohhm
+    pdhrtghpthhtohepihhlphhordhjrghrvhhinhgvnheslhhinhhugidrihhnthgvlhdrtg
+    homhdprhgtphhtthhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehl
+    ihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
+    hinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
+    phhlrghtfhhorhhmqdgurhhivhgvrhdqgiekieesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:poW-Z56pmcbhkl_KT2ceEZY_uuK_KAg-_3lpL42XRuuEyZzlPbT6NQ>
+    <xmx:poW-Z57wvDvW4JbTh1TLLWSZZVM58qXCxh5y8zmen_F5g1zoJvJc4Q>
+    <xmx:poW-Z5gDL4ZB-yKqfN1qLmfsYiUbQ5jN16LuYM4IzrFzLZ7J68Md6g>
+    <xmx:poW-Zz6p_PG8aZfyKBKKcAPxSy7zZ6GBc17kUIfnly0sBvFdZwWjVQ>
+    <xmx:qIW-Z0YfA_3rIN5rM7NbJisHV8xukvenfwH4LGWJQoPY1EdkGcE_9kkX>
+Feedback-ID: i5ec1447f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 25 Feb 2025 22:08:20 -0500 (EST)
+Message-ID: <027706ba7b19a4eefb51aeddb5d10cc235751780.camel@ljones.dev>
+Subject: Re: [PATCH 2/2] platform/x86: asus-wmi: Refactor Ally suspend/resume
+From: Luke Jones <luke@ljones.dev>
+To: Antheas Kapenekakis <lkml@antheas.dev>
+Cc: bentiss@kernel.org, hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, 
+	jikos@kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	platform-driver-x86@vger.kernel.org
+Date: Wed, 26 Feb 2025 16:08:15 +1300
+In-Reply-To: <20250225141549.11165-1-lkml@antheas.dev>
+References: <20250225081744.92841-3-luke@ljones.dev>
+	 <20250225141549.11165-1-lkml@antheas.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-On February 25, 2025 1:43:27 PM PST, Andrew Cooper <andrew=2Ecooper3@citrix=
-=2Ecom> wrote:
->> Incidentally, in all of this, didn't anyone notice __builtin_parity()?
->
->Yes=2E=C2=A0 It it has done sane for a decade on x86, yet does things suc=
-h as
->emitting a library call on other architectures=2E
->
->https://godbolt=2Eorg/z/6qG3noebq
->
->~Andrew
+On Tue, 2025-02-25 at 15:15 +0100, Antheas Kapenekakis wrote:
+> Hi Luke,
+> setting MCU powersave too close to the boot-up sequence can cause the
+> controller of the original Ally to malfunction.
 
-And not even a smart one at that=2E
+Read the code. It doesn't, as it is set by hid driver. Zero issues in
+all our testing.
+
+> Which is why you created
+> this little init sequence in which you call CSEE manually. In
+> addition,
+
+No it wasn't.
+
+> MCU powersave (which is called Extreme Standby in Windows and you
+> named
+> incorrectly in asus-wmi), causes a very large 8 second delay in the
+
+That is a UI label. ASUS call it Mcu Powersave in internal emails to
+me. It is also called *MCUPowerSaving in their source code.
+
+> resume
+> process. It should under no circumstance be set enabled by default.
+>=20
+> Users that want it can enable it manually. Following, distributions
+> that
+> want it and lack the appropriate configuration interface can use a
+> udev
+> rule with an 8 second delay to enable it, and then, the udev rule
+> should
+> first check if mcu_powersave is disabled before enabling it. This is
+> because writing to it even with the same value causes an issue
+> regardless.
+>=20
+
+No it does not.
+
+> Therefore, please remove both parts of it from the second patch in
+> your
+> series and produce a v2, which contains no hints of CSEE. When you
+> do:
+>=20
+> Suggested-by: Antheas Kapenekakis <lkml@antheas.dev>
+>=20
+
+No. You've suggested changes with zero testing, simply in an attempt to
+get a tag.
+
+> Following, when you do finish the new Asus Armoury patch series,
+> please
+> rename MCU powersave to extreme standby, and add a suggested-by in
+> the
+> appropriate patch. Since to avoid user confusion, the names should
+> match
+> their windows branding.
+>=20
+
+No. See first response.
+
+> During our testing of the controller, we found that the lack of a
+> delay
+> causes the RGB of both the Ally and the Ally X to malfunction, so
+
+This is to do with your own code in userspace.=20
+
+> this is
+> a small nack for me (the old quirk is preferable in that regard). But
+> then
+> again, this patch series is not getting anywhere close to our users
+> even
+> if it is accepted, so you can do as you wish (given appropriate
+> attribution).
+>=20
+
+Your message attempts to frame this as a personal matter ("small nack
+for me," "you can do as you wish") rather than providing substantive
+technical feedback appropriate for LKML.
+
+To be clear: This patch is submitted for mainline Linux kernel
+consideration, not your downstream project. Your NACK lacks technical
+merit relevant to mainline development, as you yourself acknowledge
+these changes would not affect your users.
+
+As I am the maintainer on this driver I will proceed with the
+submission process as there are no valid technical objections to
+address. Further non-technical commentary on this thread is
+unnecessary.
+
+Cheers,
+Luke.
 
