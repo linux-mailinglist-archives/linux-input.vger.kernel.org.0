@@ -1,113 +1,193 @@
-Return-Path: <linux-input+bounces-10379-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10380-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B7F8A4514E
-	for <lists+linux-input@lfdr.de>; Wed, 26 Feb 2025 01:14:32 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7349FA45174
+	for <lists+linux-input@lfdr.de>; Wed, 26 Feb 2025 01:31:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1DF29168C10
-	for <lists+linux-input@lfdr.de>; Wed, 26 Feb 2025 00:14:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7F1647A585E
+	for <lists+linux-input@lfdr.de>; Wed, 26 Feb 2025 00:30:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85BD0139B;
-	Wed, 26 Feb 2025 00:14:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC06542A9D;
+	Wed, 26 Feb 2025 00:30:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GjuYup+U"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Vx7b+pHI"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B21D224D7;
-	Wed, 26 Feb 2025 00:14:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9BB4C96;
+	Wed, 26 Feb 2025 00:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740528863; cv=none; b=XijC60v0mGhsh9JVclk1FgiDMpzOYcnRyhSK4hTlkf2g6OfVS07/ShRS5fdiz5gDxnlgGUK8cWPESHxvdawRREitsmZp8YsFq3s3iXw8v7gLjLhLcjfAaK1Ki36HzHOlzN01Zh6xYnC3d2tR9fxlQ2fo5m+tb8PjyX0HbF4Yp8Q=
+	t=1740529853; cv=none; b=aWAoFOOo4y+sSEkT3d/YoSHE3rKpNIz60QsbBcvsg+O+U7d47jn+z6BfkAO/ggfZI/wf4bYrnKDU1lOKDVpQ2rtCaDEM9m6WHwE8ocULVWVMvWSxGsPDFopvNE45S+flJxGgGfEgHHPPPSgz1qu6qsoBaLElrRSQuJWD3KEzTU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740528863; c=relaxed/simple;
-	bh=A3aTVVDpMdzFTZk8e/XAL8nIRDLIylq/gkn+dPvim5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W0APIviL2ahUtw29TNr9AcT1/xeKBgDOIL2EKfdHhfqwW/Hl6z6G1dsObVN9dh5eAcvdE4QYDRBu240nAMz5HHDMu3YmZ+v71CIMab68GuSjenqH1ICi6EOXfzlOMcpyGMQQQjyn1esq32xtUoVasRFNsnmrd5lL9y+Fymj20Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GjuYup+U; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-22185cddbffso5690415ad.1;
-        Tue, 25 Feb 2025 16:14:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740528861; x=1741133661; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q4My5jVEJErIjStZdjbUIXFTXSHwzHdArtm4CRaNrmw=;
-        b=GjuYup+UMTwyYXtAEN+x8Ur6+cqkPAhnFl3+ROGVRqa0uOFpNff+X6mk92W3BmkXxQ
-         9/C9hyfzSzYSmuuFzeb5Z3XYyY74ugMSzm+Dgn+9AWiJxh+lcIAM6vcioxDQ23NPPca7
-         +u//4Vk9lT2fQRn4AbsJP2RYOL3P3rEVUh6FRCZe1wGgofBYrOdnPhn6qV+B90gDlRGA
-         LwQSia8klsYJVFqm8hjqcj7+0vXDVuqe4xzCJfyjCF8zChoXFAW/ozTgsYyav6SpcoV/
-         1tbhJgLDOj2mdco+aCb/RZOvigVdShZ42diCW5AmMzptij/iDxO2LTXRsKiakkwoLA1k
-         Z71Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740528861; x=1741133661;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q4My5jVEJErIjStZdjbUIXFTXSHwzHdArtm4CRaNrmw=;
-        b=ZMDVgU0IpS6OUcwYphEwjaz0L+WSasR/UVkmqA/2j4AT9JA3QDPcbfJwSrdse8a2Dc
-         w0YtPNfdevQX3NMn/7tUT3AgLLER2RTmHSQj/2SL3YEABAUstgtjwmRqxBQzVGK5LSyP
-         HKWXeLks0IyNrF9AcPhBc2NPlLHtvojETPGE23AsqV3maIjzqwIi/eJrHyd6vrbz4qdU
-         EcmdmTVowUiXNC7UhMTGkh26e4h7fJ6aZ/K0UhzueM2mE6wn8PxTeQXjkHAqOxlZpzuD
-         qoXCCJMAES05tEj1VnfXi5G3hQv808TfYjWgfZNzXsK53P0X1aETOXfTFLEu4A59SjF0
-         Uzvw==
-X-Forwarded-Encrypted: i=1; AJvYcCVBF8Oi4nEHKgEu2lbvnc0VFn2vCzQ5IB+SS+bMPDIvuCHgHveIZFp2OJ3Hv2WbYxn9HElg1Kol2EBCgL4=@vger.kernel.org, AJvYcCWjzrQdW04j3eUYQkrqkuAhBo/0ijw8LX+DMy+YZqK+qnXrp2zR3JMSjlAW2HeIgYo4SxM5469ZBMj4@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3k1RWMt5dgdRX5XoL4IztZYH7fDKadks/CTsMJJsj+FpRVCG9
-	Hzy0PscR13FJiz3ZxPoqmNPGnyaqz1UidzMe3PhoO4uEeEc16py0
-X-Gm-Gg: ASbGncutIgE5wvSgjR5XbDgaKc5Pk/7I++r7R4OOO5JmlhRmLR/jB8ui1MBsxUrDEoc
-	kjFeFsMqTT+cnM5JVYCsLCIOzvNdSYQbiSoL9ZXqEvZC5qEoSt4nVI7OrXKLHFgrCPVU/O8Ll7f
-	FuhVjlbIVb2w+AW5Ov76UJVhRXg2KFhuVaXlKnWBp3JqS5mbVvXuhPEmOK6qpSF2gMXoE84mFX8
-	mJGOgVuOroJM7LH9DYw9+uBF8gM14F0pozl1+rzBX8nukN4yHpCkZ6kJAvnYnUhNEl1SBahOWN3
-	SnYt3mMYNjTbckM9AnAuv748Rjs=
-X-Google-Smtp-Source: AGHT+IG0WrLRbRMKYCzj2SQyPymEOT3Tmxu8/JqVUhCISyUsQBmHftX1S9Eu28nOKs1Y8EIesne7MQ==
-X-Received: by 2002:a05:6a00:2e14:b0:730:9637:b2ff with SMTP id d2e1a72fcca58-73425ca201fmr31364323b3a.7.1740528861223;
-        Tue, 25 Feb 2025 16:14:21 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:987e:29fc:176a:2ed5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7347a7f9a8asm2230890b3a.95.2025.02.25.16.14.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 16:14:20 -0800 (PST)
-Date: Tue, 25 Feb 2025 16:14:17 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Markus Burri <markus.burri@mt.com>
-Cc: linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Marek Vasut <marek.vasut@gmail.com>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, Manuel Traut <manuel.traut@mt.com>
-Subject: Re: [PATCH v5 6/7] Input: matrix_keypad - add settle time after
- enable all columns
-Message-ID: <Z75c2QU01g5ZLUHo@google.com>
-References: <20250110054906.354296-1-markus.burri@mt.com>
- <20250110054906.354296-7-markus.burri@mt.com>
+	s=arc-20240116; t=1740529853; c=relaxed/simple;
+	bh=pJ1KehZbitu0kLsVW9eiCKwsgGO686FG7mqY1q5DjlY=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=Bj/BkWhpOHNBlBA53+pOA6qo18/fNedtLDxOoHw8Mu5hRr2L+OzUG5ZgMHIg+GKQfIlUjh9XVH1LTWO12KvIOCE0pF1yN3jMIv58ICnLUWyoNECaHYioNIRP788HMsZKZpgsmEEx2Lh6nN8BRXPtY3EzY50N4mgW+lAIya6UYY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=Vx7b+pHI; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Received: from [127.0.0.1] ([76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 51Q0Qj6t1485832
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Tue, 25 Feb 2025 16:26:45 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 51Q0Qj6t1485832
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025021701; t=1740529613;
+	bh=/hX8/LeT9m/0VDN5crD4IR806wwsnn6QY9gkxuzs4a0=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=Vx7b+pHI31WYClRevJ90WGCmYkzsC0O4yjSFPubrFkDlFo2vpZqzZ9G40N2ZAk70A
+	 1cQPgYLnd5I5ey7wLfCgJ8Wa0Jqy8sY2mmwkmCFEYEUtcYkP8RXNAjd1Y+xeDCqwyy
+	 AVyJIpfagXD4ZTFbnWuOR5XQI14sBmquPHuWbhW+8b2Y38BEQzTU/x+sgB61KqUTHa
+	 KrIofANBe7vt+iRKzcTlXNAf7DT6yzoW1HRWvAy9pthuwqTbtWlxOjUH2euKtYzuHK
+	 KQskzKcNpxdcsPJFrGasTa7yfZ2Zs9ZcwOmb/PzgE+W9UnEKLynUNcREeGm0XPaNtx
+	 a3lIkp85qLD3w==
+Date: Tue, 25 Feb 2025 16:26:43 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: David Laight <david.laight.linux@gmail.com>
+CC: Uros Bizjak <ubizjak@gmail.com>, Kuan-Wei Chiu <visitorckw@gmail.com>,
+        tglx@linutronix.de, Ingo Molnar <mingo@redhat.com>, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+        joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+        neil.armstrong@linaro.org, rfoss@kernel.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+        dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
+        hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
+        vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
+        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+        parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+        johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, yury.norov@gmail.com, akpm@linux-foundation.org,
+        mingo@kernel.org, alistair@popple.id.au, linux@rasmusvillemoes.dk,
+        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+        jernej.skrabec@gmail.com, kuba@kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+        oss-drivers@corigine.com, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+        brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+        bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+        Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_03/17=5D_x86=3A_Replace_open-c?=
+ =?US-ASCII?Q?oded_parity_calculation_with_parity8=28=29?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20250225224623.6edaaaa9@pumpkin>
+References: <20250223164217.2139331-1-visitorckw@gmail.com> <20250223164217.2139331-4-visitorckw@gmail.com> <d080a2d6-9ec7-1c86-4cf4-536400221f68@gmail.com> <e0b1c299-7f19-4453-a1ce-676068601213@zytor.com> <20250225224623.6edaaaa9@pumpkin>
+Message-ID: <E07B61E5-324E-4CDC-AE68-A63CDF4325F4@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250110054906.354296-7-markus.burri@mt.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 10, 2025 at 06:49:05AM +0100, Markus Burri wrote:
-> Matrix_keypad with high capacity need a longer settle time after enable
-> all columns and re-enabling interrupts.
-> This to give time stable the system and not generate interrupts.
-> 
-> Add a new optional device-tree property to configure the time before
-> enabling interrupts after disable all columns.
-> The default is no delay.
-> 
-> Signed-off-by: Markus Burri <markus.burri@mt.com>
-> 
+On February 25, 2025 2:46:23 PM PST, David Laight <david=2Elaight=2Elinux@g=
+mail=2Ecom> wrote:
+>On Mon, 24 Feb 2025 13:55:28 -0800
+>"H=2E Peter Anvin" <hpa@zytor=2Ecom> wrote:
+>
+>> On 2/24/25 07:24, Uros Bizjak wrote:
+>> >=20
+>> >=20
+>> > On 23=2E 02=2E 25 17:42, Kuan-Wei Chiu wrote: =20
+>> >> Refactor parity calculations to use the standard parity8() helper=2E=
+ This
+>> >> change eliminates redundant implementations and improves code
+>> >> efficiency=2E =20
+>=2E=2E=2E
+>> Of course, on x86, parity8() and parity16() can be implemented very sim=
+ply:
+>>=20
+>> (Also, the parity functions really ought to return bool, and be flagged=
+=20
+>> __attribute_const__=2E)
+>>=20
+>> static inline __attribute_const__ bool _arch_parity8(u8 val)
+>> {
+>> 	bool parity;
+>> 	asm("and %0,%0" : "=3D@ccnp" (parity) : "q" (val));
+>> 	return parity;
+>> }
+>>=20
+>> static inline __attribute_const__ bool _arch_parity16(u16 val)
+>> {
+>> 	bool parity;
+>> 	asm("xor %h0,%b0" : "=3D@ccnp" (parity), "+Q" (val));
+>> 	return parity;
+>> }
+>
+>The same (with fixes) can be done for parity64() on 32bit=2E
+>
+>>=20
+>> In the generic algorithm, you probably should implement parity16() in=
+=20
+>> terms of parity8(), parity32() in terms of parity16() and so on:
+>>=20
+>> static inline __attribute_const__ bool parity16(u16 val)
+>> {
+>> #ifdef ARCH_HAS_PARITY16
+>> 	if (!__builtin_const_p(val))
+>> 		return _arch_parity16(val);
+>> #endif
+>> 	return parity8(val ^ (val >> 8));
+>> }
+>>=20
+>> This picks up the architectural versions when available=2E
+>
+>Not the best way to do that=2E
+>Make the name in the #ifdef the same as the function and define
+>a default one if the architecture doesn't define one=2E
+>So:
+>
+>static inline parity16(u16 val)
+>{
+>	return __builtin_const_p(val) ? _parity_const(val) : _parity16(val);
+>}
+>
+>#ifndef _parity16
+>static inline _parity16(u15 val)
+>{
+>	return _parity8(val ^ (val >> 8));
+>}
+>#endif
+>
+>You only need one _parity_const()=2E
+>
+>>=20
+>> Furthermore, if a popcnt instruction is known to exist, then the parity=
+=20
+>> is simply popcnt(x) & 1=2E
+>
+>Beware that some popcnt instructions are slow=2E
+>
+>	David
+>
+>>=20
+>> 	-hpa
+>>=20
+>>=20
+>
 
-Applied, thank you.
+Seems more verbose than just #ifdef _arch_parity8 et al since the const an=
+d generic code cases are the same (which they aren't always=2E)
 
--- 
-Dmitry
+But that part is a good idea, especially since on at least *some* architec=
+tures like x86 doing:=20
+
+#define _arch_parity8(x) __builtin_parity(x)
+
+=2E=2E=2E etc is entirely reasonable and lets gcc use an already available=
+ parity flag should one be available=2E
+
+The inline wrapper, of course, takes care of the type mangling=2E
 
