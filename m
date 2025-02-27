@@ -1,244 +1,153 @@
-Return-Path: <linux-input+bounces-10418-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10419-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DF9A486C7
-	for <lists+linux-input@lfdr.de>; Thu, 27 Feb 2025 18:36:42 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE5BA486CC
+	for <lists+linux-input@lfdr.de>; Thu, 27 Feb 2025 18:37:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 521541889577
-	for <lists+linux-input@lfdr.de>; Thu, 27 Feb 2025 17:36:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2FF491888F7F
+	for <lists+linux-input@lfdr.de>; Thu, 27 Feb 2025 17:37:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 425161E51EF;
-	Thu, 27 Feb 2025 17:36:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 410941DE8AB;
+	Thu, 27 Feb 2025 17:37:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="Xl94Qrpq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k2CPtnoX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19011027.outbound.protection.outlook.com [52.103.68.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725D61D63CF;
-	Thu, 27 Feb 2025 17:36:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.27
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740677778; cv=fail; b=DW8K2ngihYUlnC0CAr3LWHCb4HhSOfpBH6RsLMDKyTeDzLn0kiI0Uqj/tmpVUZ9FEKfgce/vmxr4bzQQ/Iayms698xr5ZfoosZHgKPuVD1Ix2M2kLkiV2pUK3DVhsCIVOXLkEXPdqFAcd5WwaTGWuxSjo41JSpmQvXKNwwRijdw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740677778; c=relaxed/simple;
-	bh=A+RnlCnxqk/FXWtfGywQ0faeL9vDUtsw3aN3Cd9Mh8w=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=MvSLRSnoXxfHri3O9MSmuX1QuqSkBpDszgKOYkkHKLAg0U8ESyjRKYAQ0XtL90aWaYzu80IqJeDcouo0QTr/0VH8DsLr2AX+qWEGQVVEnG5LQA+X4/jX0MymUwRPuPN4KgHMdKxyCfpLo/HKPd8hmO2hiuVTpur0DkfalGMqAqc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=Xl94Qrpq; arc=fail smtp.client-ip=52.103.68.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jwIQcLqJSt9TsNB80ZoSKS6HyNaCIcLQ6qd7K8GL6IdNBVkwOslCDQoa81ZaXv7Oh7JkW3ehdd8Pw1x25vTbnG6h06pMDl34JfS6ClKjXuLbQlNsaOyqCI4L+CleN5lSBxLTwh2RvaYhf4GTFjCw9bmiZ0RS/Ks7PtB5vEJP5qSyo3GLnoDued7ZEEjf/iPnS6opFuil+7TWQ4TFlK1iIi67wsfhufDjQ3UmLdBolBeWk9SeJpJBDZ3fnERZzibXWIDVV/gMbmoEyRpxEyVm1eF0IRYp/7F7ncLD1/Vw++bGufr925Ey+J9IFjLjGVapo00I5M5MtHArjxxzfpq5dA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2ReDvTgeIRITbPf0iSR2vMf/gEIGRR9UeRdo6xkH+DY=;
- b=NYodZgQbNyqBNWBcM/GUsGlWz0ZzWhqYaGE5Hi5alo8QP3YAQ+wmQ4xA4gDOnTUtFVGuSV/QKU9NV8Lxl/WVAcdC5sllQ+GbKtulUpttxS52+PlzcyG8lRFfNFa+DPqIRm/AfnvjvGsncN3lRjYQ+SnVkW4Bm3jkayrdNuzmGazIPEEUPW8Ugq4sYdrmMQ5ipj7uQ5N2mlxS/5TU0Os70pmBTARoFGeP1OtjDv0jLvW5KBuRwTvUdm654qmvBhRS6p1Tazi0I7h/TK6qpayvrFP6Dbcxi4Mya9oVSYb6nDgKGcbGohhkdYPgUP31eHMpzQ4NSNJJG5EJu16FVVEx3w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2ReDvTgeIRITbPf0iSR2vMf/gEIGRR9UeRdo6xkH+DY=;
- b=Xl94QrpqfaE+craF82KCsjrJAh3K2N7pYr+WitPI6p+4JdWJPsDsPcFmGh84iW0Ry3na1k9wGnkZkhAqRVY4DgWhSxHfZzXxbPa9Hbe272bqPxiAhjxsdbWR1DZlIiSXIt6NqEOFF8sVvOFKJtcdC9YyFryeFZ5vPHFWdRnuf3X/r2BsWs5Hvqao2TlCluR2KENNkd/cHtwGf7BVRumG39NLlrLF6eyHdBAtxPUwt9Oo5zq9KyfQ2QPYG/oFvFyo8XZQ6HXGvNbLO4tJTX5Sek2W9YEJjdG68l1M19nx9gvn1jTL+jZIS3oS9WyyP0sC/C8ioo790uvCL4V/0NLL0g==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by MAXPR01MB4422.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:2::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.22; Thu, 27 Feb
- 2025 17:36:11 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8489.021; Thu, 27 Feb 2025
- 17:36:11 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: Jiri Kosina <jikos@kernel.org>, "jkosina@suse.com" <jkosina@suse.com>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, "bentiss@kernel.org"
-	<bentiss@kernel.org>
-CC: Kerem Karabay <kekrby@gmail.com>, Linux Kernel Mailing List
-	<linux-kernel@vger.kernel.org>, "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>
-Subject: [PATCH 5/5] HID: multitouch: add device ID for Apple Touch Bar
-Thread-Topic: [PATCH 5/5] HID: multitouch: add device ID for Apple Touch Bar
-Thread-Index: AQHbiT4XygWhKwXARUOQeR1AGw0jQA==
-Date: Thu, 27 Feb 2025 17:36:11 +0000
-Message-ID: <CEEAE215-C209-4FE0-8629-834AD5C48EE1@live.com>
-References: <4C367CCA-2994-46EA-A139-7B4E23E33ADF@live.com>
-In-Reply-To: <4C367CCA-2994-46EA-A139-7B4E23E33ADF@live.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|MAXPR01MB4422:EE_
-x-ms-office365-filtering-correlation-id: f1daa8d1-98bb-4b15-f3ce-08dd575539d4
-x-microsoft-antispam:
- BCL:0;ARA:14566002|461199028|19110799003|8062599003|15080799006|7092599003|8060799006|440099028|3412199025|41001999003|102099032;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?MW7VoupqOnRQLzPPtE+9vycGfABRRsxWDnvSFGNHoS6bAfXq2j/D5Tg/QzVg?=
- =?us-ascii?Q?ahUP0cytgBdqOgMJe3hReZcvLOI1rgc/TIlhmScANdamEOzUOX6IwVG0G4bm?=
- =?us-ascii?Q?c8gcVzP+sEBROXalQ1trppyUohLWPKCl2IdqNKmrIwiwce/xJSP60OOt0z01?=
- =?us-ascii?Q?vkEA5avNeh6DbUxrpHUQNHQ4JNltsA1MRCpT7JeAulcaq3NbVtsFo6c3mtpc?=
- =?us-ascii?Q?GqNj7/8vloM3pNS1zhx9gVvNr2hpBjbhfvw36KhnISzHSv8ovrX9sPgqFD0W?=
- =?us-ascii?Q?dUUQ+lf7jZgcnq3qhiPYSAcFtRxLowRUG96kZyoWzz5WAcccnfZ4TiYESzfe?=
- =?us-ascii?Q?oPYLKsE8S19+48sxLRUHZI6996HD5cTJ3kBVanPwnwDNoVljMaOQRPApcksy?=
- =?us-ascii?Q?LgqfRD3D0OmEDqQTd41i61fIkttJK+BVU3MOJA4KdpxM/Q+dvlUFGhd9W10P?=
- =?us-ascii?Q?Wy6jenzLg1CKWkNU56Yrr0X+0fiaHw9+tqCrkv0uCBztwqGRsHrPaohvLPdJ?=
- =?us-ascii?Q?wAYlJihld8yh7EzMbKPBMWGzmB7HxDXORvbdMcBl1AYLtxHbuivKp8jzKRzW?=
- =?us-ascii?Q?toSD9hFcYuK2SIdu52+VRnBgNxR30FZ0Z8jLFkwAnmXW4BPAxH4cQxQ7JuRg?=
- =?us-ascii?Q?JvigjKP23syeMMB7GKbIKfpDbsCYu+aBY7EQREk4pXu98COp2lI/skLRjyG1?=
- =?us-ascii?Q?NMGzLYLQQKTNI6QQ/BIpTDU3yocZ0z+F4RqKd6zswRR9UedVR96XJUEyltd3?=
- =?us-ascii?Q?kvUW72Scl3Vg5xc5lOV5AfhZO2Ml6yRkKR1bIjA1Z1nFq6uy784M0uNNkRwm?=
- =?us-ascii?Q?zYvvq4uoYdV+TdsiBfqluQklIdudA8FQa3End+fcYVpNtmoiPg885zyeN7nl?=
- =?us-ascii?Q?skfkLWJHMaZdOZGAii+klaa39K7FNSJpLpQe4bOntyV6tJcIVMp6930m2cD1?=
- =?us-ascii?Q?iefYXM8BX8V3XhGCZL0zhjvkSNvV4FNHGpwoDMAYywhSuPIWm8HinO/M7RV4?=
- =?us-ascii?Q?bBPrQZq/Xp0QS+XvIyXpUYv0pwYEoZ2LjdMkaV3LGZIKyDAIxf2gidy01zyn?=
- =?us-ascii?Q?Qzych/bl6M0LbFHqtkCG8et/St9Zb0g/Ichqk285xmVAuuNB/Jw=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?2A4ndslnJcXrCWlaL/v5hmiifl5l2JNJ/MIYx31gFWGmY181Bz1+IHs7DkFZ?=
- =?us-ascii?Q?e5CRlleqOjso4sPnwyXc+Qe1oa0BaR3hZ+MUd18I3LCWJRjwxL7Filz1toy2?=
- =?us-ascii?Q?8volRZe36VnkedHa1+pSnntcrfopk8ehTZpLaBp0vX/iTYDo4D4Kwz3G5+ht?=
- =?us-ascii?Q?S2j5Q08vkx9umbWcMIrz4hNntblfCSWAxpfQRnGvRO/wWAhaWH/xynWp8nG3?=
- =?us-ascii?Q?DN3kVjsrszr5D3guaVgCtSDBdUxiASBhxswAW1ZlDvDJzV6L6vl+7tqyCu+m?=
- =?us-ascii?Q?50oNAtp1qDSuABdce8B4KK3GgVmtcpDuQ/GiYXekFSOFAs27eG4/oit8IjLa?=
- =?us-ascii?Q?pNVcKYlRJkSDhWvzUu4VfrQo2amnjqU9i/XSZDT9fV26qGcL62OQkZpChZrg?=
- =?us-ascii?Q?bc+NhMqsMWKxEz5JK46IEL8Qts/hxdAgs3zb+kmCxDVdJUQHRUOCeoIBQKtR?=
- =?us-ascii?Q?vLV9C83LXWNbKVOJn83nkYyNdo9USv2UGOADIuQS0XnBWtH17o/KF04ZUOi1?=
- =?us-ascii?Q?nmQwqjB4WMQhb1dOXyuAm5MNuke793RHJsTBromhb0/0Sh5+NUCizEtD1nl6?=
- =?us-ascii?Q?umdGSPm9BCVGA2FuuUvmO/3di7NhpiHK3nwpe41T9CilGzWSldiNPJEXKq56?=
- =?us-ascii?Q?JlJF2XdiUlMUu6vt1ry5L7thF/mOJG4HshwDxzdJ+GEmKuOEAfoMCPyLHgUX?=
- =?us-ascii?Q?tMVwhU4Clj5miGSjeafXVLMaHef3rCL51ha9NGeiGefhu2J6BC0jrwup3KIn?=
- =?us-ascii?Q?t3Ew0cretrGuxyx1zYc9X2ZckgaDoTNxFmB6YsXN5pTCVBLqUcDFxowrCzee?=
- =?us-ascii?Q?tsb1i4ETuv3BiPXuoiUUQwqQenV4Ot7bj4fzQ7sVbA9nsXo9mKKWljdvkm8f?=
- =?us-ascii?Q?yWkv3RyvyLSBI5dvJiWi3jRX6fzKTt19pQ9yZyP6kwW7BAYFHJJ9Ac/fBVEj?=
- =?us-ascii?Q?otgEaTn3oUwnooZ+mG2GOnDmzXy3t0UyvfDMuLbr2gFWGa8pFXO9hn9xydge?=
- =?us-ascii?Q?Gic1wBm9Ud2DBEF4dP4VrRBeH0cLOft5TPeUhsqGevLLkhpmidRCbMxcrrxa?=
- =?us-ascii?Q?etpg3HO0a8dMNmVpSvsAjAisUherOoObIRBrAk/zge9AEmkWI9OUObnrrK/0?=
- =?us-ascii?Q?h8QFDeE5PdweyDygxYrJ2OjpCPfSHPN3bebqWSTQFpO6iVSclTv8xUj2GrDB?=
- =?us-ascii?Q?hclAezy5SST1Xn7qR1ApIBLza4Y6MCjTLBUCPg6gkRwNmKuEA5dkeMjdJJy1?=
- =?us-ascii?Q?uPzGqnKLSoN79uk/KuIZ0IkXyM509NF9fnLxZPp4dd+TTNMFG3O9+VWf/Skr?=
- =?us-ascii?Q?o0uRcHSNxQETybqoSiW7/bL6?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <75AC845104370942820B4F516E02302F@INDPRD01.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B5C1DDC29;
+	Thu, 27 Feb 2025 17:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740677828; cv=none; b=AR7wnk5c7f5o3Bjl2LIZjcz9dZUsLwuhSv1GPJbV6vNm5abTB0epkSduUZhg7ofTw936rF1Z7lLqxUxBlfhYbbcDK4yN9BbdpIvHBRjOg7Vzw16pdplOytspWD0GZYDsbmnfZIfoK8pQzK+dazbtRvVZczNRiM+Knlfq9xsUEh0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740677828; c=relaxed/simple;
+	bh=3VhhTqGt87a5LXVZ8xAbJKCD+r0MSBo9AvP4EXdhZvc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ezwsb0trh6xyZeC+AoW6+B+ljnMChTreoH31oFLGPbRllrsMUlUjfhGqF33Ol1UH0l2W94vCQxc6AW+5+flmKmwHXo2VWkYwpm8GeT0u4ZqoF2IVVKy4ZqlYyE+00iA9tSHrrIPMbw0iejaa7+kzwWEDMDSwR68BAlLu+ShxVzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k2CPtnoX; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-223378e2b0dso20452605ad.0;
+        Thu, 27 Feb 2025 09:37:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740677826; x=1741282626; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VUAFuA6WyxlqIwMao9P+DyP+C2TxjteBYJ1MyyDLQfw=;
+        b=k2CPtnoXP+Nu/D9591DpLIaKIB63ulgvz8LnuAS0Gvpy9tT7B2X8uSVT7amvEwHYN5
+         xVS9I4r+3RVO5D94QO85PqOFY6Zp3qgx98bOkOWLt4Wiu4tiG3UvwEUzcWqicEPZg3wW
+         DrpkJcct3mPAd/teLAglXvpBIOZv2OhEqbg7BVLvTD4piL1wskgOYWI2OFLey43KQVwz
+         JujPkxDVtkSPoC9Y01eeNxNLX06GizP3MKRHs/aT0whflsBfOXPBPxHEMdx10HKEdUdm
+         nHuxJQeCsYqKcBCUaLS1TSAkaUoK/66c657XNZ7MzdvTOdCV8F7+j+hc7+9LtJ8CFncw
+         YQlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740677826; x=1741282626;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VUAFuA6WyxlqIwMao9P+DyP+C2TxjteBYJ1MyyDLQfw=;
+        b=CBW51xVRP/LaIIU1A6CZ4OkqZgrUu7nfhjFZxIgfGDo1MHeLTMhoBk9ls9aSHnsDEJ
+         Hq+I/rEhi3ZvI+LTdwCfGZPul2qRFflSFwVypc9sxMGK/73EaXD81gNmJRO0ZxnRshjC
+         7byUXeIDC5XhpRRdk/keR4/Vqaj2Sj0ftemu+0NRgC7BFGizWLQ1wt1UjWNHW1fnLBHZ
+         hBc+KIaV2cj5yQ7MPhgs3lgClVUJC0CF+Nfh7gwYi28ihhiy7Ar+Vi5sw+vXQ/R8/cB4
+         vZNw/Bb2hoblNmV89dDBLZrPAHpgzRpiI9+tsCit7EyEDhQ7BOiCMi9O+FIj2ZOp5UCx
+         nSBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU9j0q98O9kyB9dWy5+b/tCfcMULttjt2DdRUxvfMxTLipKIVPbXk36nnKn8ofIZXzKtnv5o5EW8XCJzfM2@vger.kernel.org, AJvYcCUU6DzcBdtZZlq0E1+Y65cMvM5A/vA56hExKka8pqUJSXol/OIszuzTLD7LRf8m3msgoow=@vger.kernel.org, AJvYcCUWoy5TgbRAMHlO22hv3NOK7IdgC4Dqz/uXeEKAGFFb9bQuPI97kIfvolb6QfhpcjBc5CtbcUB/iRGVdqj1Gf0=@vger.kernel.org, AJvYcCVYyDkiB2aBGstAzk7mXzYSeUUTbes3GGJGZGd7CCnrhDl1n3r5rSSQJf5eVYm6EFMZ+GdoGX19igFjUuk=@vger.kernel.org, AJvYcCVlFQZSDXAlsbdAdSwO1zAj04bh4oPZ6xPbwX22YjTub52352CSEKLD7CiQJjZrQp2E8tAUgrr4@vger.kernel.org, AJvYcCWOtFmG0JEQTKrqkgsWR/0Jav2B60EvClk8mWib2+01meIMohoVedGCHepPH//u4qoj5PIzSpZ0IxR9GjhB@vger.kernel.org, AJvYcCX1xVA7bQ90BxTYRQOzgeZ8GmLaqz5Ju20K54lixDEkIlByWx1apZHF9TG2jT8v5/Uayny7RHf4pqeUhPc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKRHiQFsKxRA/aOoRfrGExObZRfbhIy6eAK1GbCUQvo3xvzOUH
+	3M6UBSB0EaoN1bNAwSbbAuGw2bfeZfCy/gR4LMK0dymuk5b6Uu7C
+X-Gm-Gg: ASbGncs53cL6ikyZG4g3aeg9EySDog3pal+DI2I48LU8w6YCk+ekeaiHRf1K53mh2y3
+	+BhxobvZ76YBn+DXHMq12bFe97eX0jQCyuuMCYylHw/Yl/UWSsJL7WF44n/xXJwCHvhQO3q69oK
+	PQEoouzvrFevT7/yAsIhAfYkD4XLbcRjcDMf9yazm7xeSU+LjSo/YWFwTqWWODEmrdwY+0WHVjl
+	kowOZGonIYgf+9GfkpJfBDRu880K4DuM4v/Di256mKI0+MTK6v6SiD+1ohubIjOVNmk3ePSNKRL
+	mggknlz/2No67vWDjkJj+nM45VuFkp/IJl9vmpaBeLYcQM2g9w==
+X-Google-Smtp-Source: AGHT+IGK2yvXxMwGzFuS4qAPXT9dc4oLUeTze+y8wAtciDVfBiItiQouqHwlR4imml9fxjD4qYJfDg==
+X-Received: by 2002:a05:6a20:9146:b0:1ee:d6da:b651 with SMTP id adf61e73a8af0-1f0fc993ffdmr22305716637.35.1740677825727;
+        Thu, 27 Feb 2025 09:37:05 -0800 (PST)
+Received: from localhost (maglev-oncall.nvidia.com. [216.228.125.128])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-aee7de19d3fsm1745501a12.18.2025.02.27.09.37.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Feb 2025 09:37:05 -0800 (PST)
+Date: Thu, 27 Feb 2025 12:37:02 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: Jiri Slaby <jirislaby@kernel.org>
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
+	eajames@linux.ibm.com, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	dmitry.torokhov@gmail.com, mchehab@kernel.org,
+	awalls@md.metrocast.net, hverkuil@xs4all.nl,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	louis.peens@corigine.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+	akpm@linux-foundation.org, hpa@zytor.com, alistair@popple.id.au,
+	linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
+	jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	oss-drivers@corigine.com, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+	Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+Message-ID: <Z8Civv0QaBzmFPTq@thinkpad>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-3-visitorckw@gmail.com>
+ <Z7zIBwH4aUA7G9MY@thinkpad>
+ <Z73FxIv353lbXO3A@visitorckw-System-Product-Name>
+ <b5236ae4-7ebe-4a88-bbc9-3b9b3374de53@kernel.org>
+ <Z79ebv630yuNOJKV@thinkpad>
+ <a8c29dec-6178-4f8f-80f5-aece636c410b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1daa8d1-98bb-4b15-f3ce-08dd575539d4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2025 17:36:11.0130
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAXPR01MB4422
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a8c29dec-6178-4f8f-80f5-aece636c410b@kernel.org>
 
-From: Kerem Karabay <kekrby@gmail.com>
+On Thu, Feb 27, 2025 at 07:38:58AM +0100, Jiri Slaby wrote:
+> On 26. 02. 25, 19:33, Yury Norov wrote:
+> > > Not in cases where macros are inevitable. I mean, do we need parityXX() for
+> > > XX in (8, 16, 32, 64) at all? Isn't the parity() above enough for everybody?
+> > 
+> > The existing codebase has something like:
+> > 
+> >          int ret;
+> > 
+> >          ret = i3c_master_get_free_addr(m, last_addr + 1);
+> >          ret |= parity8(ret) ? 0 : BIT(7)
+> > 
+> > So if we'll switch it to a macro like one above, it will become a
+> > 32-bit parity. It wouldn't be an error because i3c_master_get_free_addr()
+> > returns an u8 or -ENOMEM, and the error code is checked explicitly.
+> > 
+> > But if we decide to go with parity() only, some users will have to
+> > call it like parity((u8)val) explicitly. Which is not bad actually.
+> 
+> That cast looks ugly -- we apparently need parityXX(). (In this particular
+> case we could do parity8(last_addr), but I assume there are more cases like
+> this.) Thanks for looking up the case for this.
 
-This patch adds the device ID of Apple Touch Bar found on x86 MacBook Pros
-to the hid-multitouch driver.
+This parity8() is used in just 2 drivers - i3c and hwmon/spd5118. The hwmon
+driver looks good. I3C, yeah, makes this implied typecast, which is nasty
+regardless.
 
-Note that this is device ID is for T2 Macs. Testing on T1 Macs would be
-appreciated.
+This is the new code, and I think if we all agree that generic parity()
+would be a better API, it's a good time to convert existing users now.
 
-Signed-off-by: Kerem Karabay <kekrby@gmail.com>
-Co-developed-by: Aditya Garg <gargaditya08@live.com>
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
----
- drivers/hid/Kconfig          |  1 +
- drivers/hid/hid-multitouch.c | 25 +++++++++++++++++++++----
- 2 files changed, 22 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index dfc245867..727a2ed0d 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -743,6 +743,7 @@ config HID_MULTITOUCH
- 	  Say Y here if you have one of the following devices:
- 	  - 3M PCT touch screens
- 	  - ActionStar dual touch panels
-+	  - Apple Touch Bar on x86 MacBook Pros
- 	  - Atmel panels
- 	  - Cando dual touch panels
- 	  - Chunghwa panels
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 66e33a482..078ceef62 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -221,6 +221,7 @@ static void mt_post_parse(struct mt_device *td, struct =
-mt_application *app);
- #define MT_CLS_GOOGLE				0x0111
- #define MT_CLS_RAZER_BLADE_STEALTH		0x0112
- #define MT_CLS_SMART_TECH			0x0113
-+#define MT_CLS_APPLE_TOUCHBAR			0x0114
- #define MT_CLS_SIS				0x0457
-=20
- #define MT_DEFAULT_MAXCONTACT	10
-@@ -406,6 +407,12 @@ static const struct mt_class mt_classes[] =3D {
- 			MT_QUIRK_CONTACT_CNT_ACCURATE |
- 			MT_QUIRK_SEPARATE_APP_REPORT,
- 	},
-+	{ .name =3D MT_CLS_APPLE_TOUCHBAR,
-+		.quirks =3D MT_QUIRK_HOVERING |
-+			MT_QUIRK_SLOT_IS_CONTACTID_MINUS_ONE |
-+			MT_QUIRK_APPLE_TOUCHBAR,
-+		.maxcontacts =3D 11,
-+	},
- 	{ .name =3D MT_CLS_SIS,
- 		.quirks =3D MT_QUIRK_NOT_SEEN_MEANS_UP |
- 			MT_QUIRK_ALWAYS_VALID |
-@@ -1807,6 +1814,15 @@ static int mt_probe(struct hid_device *hdev, const s=
-truct hid_device_id *id)
- 		}
- 	}
-=20
-+	ret =3D hid_parse(hdev);
-+	if (ret !=3D 0)
-+		return ret;
-+
-+	if (mtclass->name =3D=3D MT_CLS_APPLE_TOUCHBAR &&
-+	    !hid_find_field(hdev, HID_INPUT_REPORT,
-+			    HID_DG_TOUCHPAD, HID_DG_TRANSDUCER_INDEX))
-+		return -ENODEV;
-+
- 	td =3D devm_kzalloc(&hdev->dev, sizeof(struct mt_device), GFP_KERNEL);
- 	if (!td) {
- 		dev_err(&hdev->dev, "cannot allocate multitouch data\n");
-@@ -1854,10 +1870,6 @@ static int mt_probe(struct hid_device *hdev, const s=
-truct hid_device_id *id)
-=20
- 	timer_setup(&td->release_timer, mt_expired_timeout, 0);
-=20
--	ret =3D hid_parse(hdev);
--	if (ret !=3D 0)
--		return ret;
--
- 	if (mtclass->quirks & MT_QUIRK_FIX_CONST_CONTACT_ID)
- 		mt_fix_const_fields(hdev, HID_DG_CONTACTID);
-=20
-@@ -2339,6 +2351,11 @@ static const struct hid_device_id mt_devices[] =3D {
- 		MT_USB_DEVICE(USB_VENDOR_ID_XIROKU,
- 			USB_DEVICE_ID_XIROKU_CSR2) },
-=20
-+	/* Apple Touch Bar */
-+	{ .driver_data =3D MT_CLS_APPLE_TOUCHBAR,
-+		HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
-+			USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
-+
- 	/* Google MT devices */
- 	{ .driver_data =3D MT_CLS_GOOGLE,
- 		HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY, USB_VENDOR_ID_GOOGLE,
---=20
-2.43.0
-
+Thanks,
+Yury
 
