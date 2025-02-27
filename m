@@ -1,166 +1,207 @@
-Return-Path: <linux-input+bounces-10403-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10404-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34BDEA46E92
-	for <lists+linux-input@lfdr.de>; Wed, 26 Feb 2025 23:29:28 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D63D7A47029
+	for <lists+linux-input@lfdr.de>; Thu, 27 Feb 2025 01:25:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2B55516D007
-	for <lists+linux-input@lfdr.de>; Wed, 26 Feb 2025 22:29:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C09FD7A7313
+	for <lists+linux-input@lfdr.de>; Thu, 27 Feb 2025 00:24:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C39EE25D90D;
-	Wed, 26 Feb 2025 22:29:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7251DA47;
+	Thu, 27 Feb 2025 00:24:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mAPGceqs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZOpgoAD/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0732725D8ED;
-	Wed, 26 Feb 2025 22:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE944A24
+	for <linux-input@vger.kernel.org>; Thu, 27 Feb 2025 00:24:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740608958; cv=none; b=lWohgfoJArUcboHq0hdk0hgwxlceF/J5w0qx/O/aDagwtH5GNjOHl30IjYfbHAj9nY5SnAtx8o3Lxew+FWIld0Ok78Ml+Ml4cEuWU90GfDElQZl0GlChdvQeHKP0EdpF7fVv688Ofx0T1GY6BN/NJUd+FFYCmOtdqc02S5/BKDU=
+	t=1740615899; cv=none; b=T8e8zTWZE6ndoSLzN2XqIWAIxcZD7p3Js22SGOAXgZqc+vW4hombroaavW91xy6flOI1ws30PbEOEGxT30keuZfgHyk1DOORgBSbsgggSib8/zJmuu/iIU8vjHwA1YPVMsEhmkWCJQsdw3aOl4Dl5m6e8BfKD/w8RDnKZ+2eBuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740608958; c=relaxed/simple;
-	bh=WHPKx1WninINjpWP2dwg3Iq53rxsjrVAY5O3XcMBM0U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PCEYrYsqLT8Hqns0k9L+Qq5BVoBaVSOr/DdcEtZxrdW7zVILO6NbxQ6D6ipHYpptalhi7lygcvtZ/UkSiJz98KkMic7KVf9WxT8eIGIM/AN0bL8apJeN/isctvcz6UGqO8fCTgFrjJNyMbwV9++YRzhqaeG+LotA/DyuFT20nH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mAPGceqs; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1740615899; c=relaxed/simple;
+	bh=Au8tru+Gz0jodoFSVF4YX68/96EGLDQWoF/YDUhYVbU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ITRwTxKU2NR4kT5KA4dD6zdtm/sY2QyQj+qjc952I/+aj/9LXBH/qJhoVhejUS3TkSgapxzdtD/eBRX6QR87mZvI6SPitM3bnL/axgIPmnG/7rQUOCnGLVBUosR7YfE2fI/OQn2gL0C1ZxItaMy4hmJmUHBD4/0Bo371ILmGBHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZOpgoAD/; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43996e95114so2115805e9.3;
-        Wed, 26 Feb 2025 14:29:15 -0800 (PST)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2234bec7192so8464425ad.2
+        for <linux-input@vger.kernel.org>; Wed, 26 Feb 2025 16:24:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740608954; x=1741213754; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TfWwQBkEse5FRQekJZuNar17CRdvAyTkX7+fO0J+m/4=;
-        b=mAPGceqsRiBwro2u6mE4tdLIvHypC6x3rq8R2BkrIw9c08g6CT61YYdRX8LwVYl9a0
-         L23sG7MFeKtUvpU8ulTO7a2GjLEeB0lTzfP69l9shHuvZV/TCbp/GWMcOhIYVXaSusfM
-         G2wAJnjVzcq9dz3EWpJO9WmsMUPddKBc9j4zmePlsssROu+zQpIVDPW9arFQW6EM2mN4
-         Pf0vPX3HLdJIOCU7HfXAjiVbGlpQ7MJO8FJsnk7slUv1lkA+Pbv8mvQ6QeYGlmxeCQKg
-         9xRVdnBxt33dJiMvQff136CAnYsVk1Mp38soium3nTkU3dk+Z7U3eX8P0K5SCVKa7Zo/
-         VJTQ==
+        d=gmail.com; s=20230601; t=1740615897; x=1741220697; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+i/baOCq+ObGuAYT7WXOxMxNIVpNdT/cir/+OF7LiAk=;
+        b=ZOpgoAD/xs5YIWishmzyQR7NNczKyrYEhpMfHSzYArlLeIEO12D/60ns3JiYUb1SgE
+         jkMQChI1qTG6pbHWNmAGSaUzpQcGmc3xmGzvyqwihcPN1ZYQVJx7IxKKsgk3RLOgVUg/
+         1jL9JH49wi3q/m3bN9a1G0o72sL/FDEovIqSiE6cXC67I9xXjj2SN9s4pbtjwOPRs2eD
+         DoCLeHD/s1t4vGrAmC8zFBmP4Y2kKgzDaUDhkOMqhvGS3hVs2EW3dWoDjeB18ks8q5Mg
+         ap7cUHkULja9Pc0I/SevwO67N8sO1qrddc+7oPl2hwvIBpMEw642suV9pkYE8PD00n3Z
+         13eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740608954; x=1741213754;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TfWwQBkEse5FRQekJZuNar17CRdvAyTkX7+fO0J+m/4=;
-        b=Ab864Cp894avTWcJ0fEIv6snhEK2B0xsnhvBcmSS74hmdUOEKL3QOhX0oopbeneKpD
-         0opR5ELUr9xQjNOboSDcMqxZrO/0/MxLxT9pUDqN0g6hMVw3uCwCwCFzDOf5g3vt43Zo
-         ZLRWQqNDB3VRh36+Y4Cf4vUCToEm0/7fhh0dy9BpLnB0k0y3IfqRpio+Yz2glKNwOZDx
-         jvFNXwBlezZE/ykkTJZ2VTnrPG/DvA/KCMio6g3VPFQt1ZSxyJLqej2B2tCEWXjgt5ZY
-         gxMR72dPtJvKlG9nCjoBTdwEvB1XEOA5Kzblg9vxvqmxYG8HL1vfapCYaLlBU6lKH2mJ
-         BEVA==
-X-Forwarded-Encrypted: i=1; AJvYcCUcNfx1uaYKScnWlN3fUKjtfkSh6WNQ5rCAh51/NsztiySMXF3DD8Ux3BJsU5AkBl7fqj//FNFZ0QjmBnFi@vger.kernel.org, AJvYcCUg/+sayvUqWupvNgCrW9vceXG5h6dS0pnktB/+xQVDmoKfKxvpn9WBoHEumtO+qcR5fpQToQjnE31phr03uGw=@vger.kernel.org, AJvYcCUz4sAkVRKqKQnkjhzaMn+KS+V1umQkMTE79pq0f1Kb3ikfYS1Td/egN3dSLaZDeXoCVpcx2XQPzYuyhwU=@vger.kernel.org, AJvYcCVXJFaF6Rs5LBKhU5QuEjAwBINQiGW35ytnwXMOaL+ETzBFAMNfb2euxP3sGNmE2grcrn1+crkTv5FwNx0=@vger.kernel.org, AJvYcCWKGrdFEboUQaLDqPjCbECF6naJuvrYV5/ayy8XI2qLcjfpzU/DG4xFHTWinEObilVH2rdPtop83WBj6hu9@vger.kernel.org, AJvYcCX52jR8VfIQrbEtx3spW+rzY/CX3RmwjvBNWepLZDB+LTKytULXOfE45EulhRI24AyuZQM=@vger.kernel.org, AJvYcCXrKKUYGU91ltUYwlvveMm0jPs8QY79pD+PPbrbGxFoEdQ6/7nogrzHz8oJFHVmg3W/SkYdS5xd@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy71pFyZNLU6R36Qe4VCP9tZLuYS/idH5gV8GnmKhBOz6tAGo0Q
-	0yybyVlA4xga7vUpG339ZUvvc5Z08CWBSWt0x6EUtrKwE5/QP7Wl
-X-Gm-Gg: ASbGncu4KOpJYTW6w8+crEAMbINgJOEz0I2rgFL1dVXgXUYiErDPQnu7QWR6TpJk9rY
-	ALaCMk2eN6yUxoVpFt5+AyFSSJzCGdmPnW0jt0GEXm5YYCF7bOftpQ5CguNSU46wPIgO8RRqnh7
-	x4sUJ3/jCw+10JZC3x1wVqw8bUfPUmDV0T1nyzdllzqqIrfsSEvQA5jGu3ZkhNyqXb+K3vLsibS
-	MbDIh79NL2wN5ZfVHylaSGI4d7Ho8oMKiMZgvZg17Nmbwqh9FpqY1TXSVFCtSdULWd2mkNItCGN
-	EjE/f5P/meTo2xmAVHuK0KrD+eCYaOIYHXIgRwGfnlz5M19dTWX2zAsaxcXXgXIm
-X-Google-Smtp-Source: AGHT+IGOLpw4Ro1gZlLbKLPuJeugBpGxKDyhpAzWxjxf7AIm0WuOoMev7XCdFdyak+Spbs3OpN2AOA==
-X-Received: by 2002:a05:600c:4f47:b0:439:9828:c42c with SMTP id 5b1f17b1804b1-439aebc27cfmr188697005e9.23.1740608953906;
-        Wed, 26 Feb 2025 14:29:13 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ab37403cfsm55655745e9.1.2025.02.26.14.29.12
+        d=1e100.net; s=20230601; t=1740615897; x=1741220697;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+i/baOCq+ObGuAYT7WXOxMxNIVpNdT/cir/+OF7LiAk=;
+        b=h/yVO7veC/6BOwI4GlWSVFFRpaSBcdQvz/oMMTym24bQml91oBpQl//4M8r+pvCnM8
+         MNtU7xLHAB+Rw7D73WLA04Z7k8YFJZVAt/hRGg25I2VtuSXHyb+S8PIfbXa/GshoOQPT
+         Aei1g6+X6+GFmQWEfRwuWLWjEG/x8Y46h8wlz9u2DKCLptYKJOcWKoYOMoGo6NzARNph
+         SWZ0hjNEU8p1ni2LkFioQEWeKge7MxRpwJAPtg5XCJowC+0h8qKhtWmUML392b+soqJ1
+         b14fWLdO/OgJC3u51dYXDQDjs4YzXlKPw8TklgG0d4nGEZIMgvBQTyW1IPKVVBMWbXGI
+         I4Hw==
+X-Forwarded-Encrypted: i=1; AJvYcCVrZhTKNnvDHkuWaJMVbSVRQ7rNlN6q+iTyrAO0TnSf27vv0PsaikJSJ+BRw8a2vd3SR0RrFtBUE1JYfQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzs6HOt9TWqQ5ktddOI710Rot9z3JlRY4Jju4evyW0d9cBttA93
+	Tvpd/ALESnDYX6sstLs6kMAC1XbpTRg7AFZA/QdsH6NriWbpiF4/
+X-Gm-Gg: ASbGncsiTFRvfAHWu9oAudUMH4gNKf0SSe2wLSfYJbGA1DR0Gur+OXA2hdKxFb3lz3P
+	jfNvf1nM82ufXjnpKcXJTEH4LzyM+qhDddl4F3NJ/LbsIQAjZTA3DrPne/8O2OXSoqMrW4GQPCl
+	r3GydMFOWySvJzD+kKLhMsvAyyBEOkk+YoQBWVaRE+EbgJGkXp62tHTQHNy5Hyv4azIIBNY19ra
+	X3m01/PJ2lpl0wWWZlj7+fbtiJ0OOm4/7CS2tb8lOBRMWlI5fpwX7wk+7YMwLhzGzUrNHES8MwV
+	kfmIw97rEx9wg8bg7rfeYoNKJB4=
+X-Google-Smtp-Source: AGHT+IF+fZiwX+0IEaJzB+4gZbHk8ApooNDGyi+QcSPuLbmZMHXIQUAOH6AtdhblGhXTXspRAyaWTw==
+X-Received: by 2002:a05:6a00:a1a:b0:731:737c:3224 with SMTP id d2e1a72fcca58-7348bdb4540mr7272974b3a.10.1740615896773;
+        Wed, 26 Feb 2025 16:24:56 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:1985:668b:1f60:e500])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7349fe2b537sm208340b3a.27.2025.02.26.16.24.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2025 14:29:13 -0800 (PST)
-Date: Wed, 26 Feb 2025 22:29:11 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- x86@kernel.org, jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
- mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
- johannes@sipsolutions.net, gregkh@linuxfoundation.org,
- jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
- alistair@popple.id.au, linux@rasmusvillemoes.dk,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
- linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
- linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
-Message-ID: <20250226222911.22cb0c18@pumpkin>
-In-Reply-To: <Z7zIBwH4aUA7G9MY@thinkpad>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
-	<20250223164217.2139331-3-visitorckw@gmail.com>
-	<Z7zIBwH4aUA7G9MY@thinkpad>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Wed, 26 Feb 2025 16:24:56 -0800 (PST)
+Date: Wed, 26 Feb 2025 16:24:53 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Vicki Pfau <vi@endrift.com>
+Cc: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	linux-input@vger.kernel.org
+Subject: Re: [PATCH 1/3] hid-steam: Move hidraw input (un)registering to work
+Message-ID: <Z7-w1fO4H0oOt8MP@google.com>
+References: <20250205035529.1022143-1-vi@endrift.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250205035529.1022143-1-vi@endrift.com>
 
-On Mon, 24 Feb 2025 14:27:03 -0500
-Yury Norov <yury.norov@gmail.com> wrote:
-....
-> +#define parity(val)					\
-> +({							\
-> +	u64 __v = (val);				\
-> +	int __ret;					\
-> +	switch (BITS_PER_TYPE(val)) {			\
-> +	case 64:					\
-> +		__v ^= __v >> 32;			\
-> +		fallthrough;				\
-> +	case 32:					\
-> +		__v ^= __v >> 16;			\
-> +		fallthrough;				\
-> +	case 16:					\
-> +		__v ^= __v >> 8;			\
-> +		fallthrough;				\
-> +	case 8:						\
-> +		__v ^= __v >> 4;			\
-> +		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
-> +		break;					\
-> +	default:					\
-> +		BUILD_BUG();				\
-> +	}						\
-> +	__ret;						\
-> +})
+Hi Vicki,
+
+On Tue, Feb 04, 2025 at 07:55:27PM -0800, Vicki Pfau wrote:
+> Due to an interplay between locking in the input and hid transport subsystems,
+> attempting to register or deregister the relevant input devices during the
+> hidraw open/close events can lead to a lock ordering issue. Though this
+> shouldn't cause a deadlock, this commit moves the input device manipulation to
+> deferred work to sidestep the issue.
+> 
+> Signed-off-by: Vicki Pfau <vi@endrift.com>
+> ---
+>  drivers/hid/hid-steam.c | 38 +++++++++++++++++++++++++++++++-------
+>  1 file changed, 31 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
+> index af38fc8eb34f..395dbe642f00 100644
+> --- a/drivers/hid/hid-steam.c
+> +++ b/drivers/hid/hid-steam.c
+> @@ -313,6 +313,7 @@ struct steam_device {
+>  	u16 rumble_left;
+>  	u16 rumble_right;
+>  	unsigned int sensor_timestamp_us;
+> +	struct work_struct unregister_work;
+>  };
+>  
+>  static int steam_recv_report(struct steam_device *steam,
+> @@ -1072,6 +1073,31 @@ static void steam_mode_switch_cb(struct work_struct *work)
+>  	}
+>  }
+>  
+> +static void steam_work_unregister_cb(struct work_struct *work)
+> +{
+> +	struct steam_device *steam = container_of(work, struct steam_device,
+> +							unregister_work);
+> +	unsigned long flags;
+> +	bool connected;
+> +	bool opened;
 > +
+> +	spin_lock_irqsave(&steam->lock, flags);
+> +	opened = steam->client_opened;
+> +	connected = steam->connected;
+> +	spin_unlock_irqrestore(&steam->lock, flags);
+> +
+> +	if (connected) {
+> +		if (opened) {
+> +			steam_sensors_unregister(steam);
+> +			steam_input_unregister(steam);
+> +		} else {
+> +			steam_set_lizard_mode(steam, lizard_mode);
+> +			steam_input_register(steam);
+> +			steam_sensors_register(steam);
+> +		}
+> +	}
+> +}
+> +
+>  static bool steam_is_valve_interface(struct hid_device *hdev)
+>  {
+>  	struct hid_report_enum *rep_enum;
+> @@ -1117,8 +1143,7 @@ static int steam_client_ll_open(struct hid_device *hdev)
+>  	steam->client_opened++;
+>  	spin_unlock_irqrestore(&steam->lock, flags);
+>  
+> -	steam_sensors_unregister(steam);
+> -	steam_input_unregister(steam);
+> +	schedule_work(&steam->unregister_work);
+>  
+>  	return 0;
+>  }
+> @@ -1135,11 +1160,7 @@ static void steam_client_ll_close(struct hid_device *hdev)
+>  	connected = steam->connected && !steam->client_opened;
+>  	spin_unlock_irqrestore(&steam->lock, flags);
+>  
+> -	if (connected) {
+> -		steam_set_lizard_mode(steam, lizard_mode);
+> -		steam_input_register(steam);
+> -		steam_sensors_register(steam);
+> -	}
+> +	schedule_work(&steam->unregister_work);
+>  }
+>  
+>  static int steam_client_ll_raw_request(struct hid_device *hdev,
+> @@ -1231,6 +1252,7 @@ static int steam_probe(struct hid_device *hdev,
+>  	INIT_LIST_HEAD(&steam->list);
+>  	INIT_WORK(&steam->rumble_work, steam_haptic_rumble_cb);
+>  	steam->sensor_timestamp_us = 0;
+> +	INIT_WORK(&steam->unregister_work, steam_work_unregister_cb);
+>  
+>  	/*
+>  	 * With the real steam controller interface, do not connect hidraw.
+> @@ -1291,6 +1313,7 @@ static int steam_probe(struct hid_device *hdev,
+>  	cancel_work_sync(&steam->work_connect);
+>  	cancel_delayed_work_sync(&steam->mode_switch);
+>  	cancel_work_sync(&steam->rumble_work);
+> +	cancel_work_sync(&steam->unregister_work);
+>  
+>  	return ret;
+>  }
+> @@ -1307,6 +1330,7 @@ static void steam_remove(struct hid_device *hdev)
+>  	cancel_delayed_work_sync(&steam->mode_switch);
+>  	cancel_work_sync(&steam->work_connect);
+>  	cancel_work_sync(&steam->rumble_work);
+> +	cancel_work_sync(&steam->unregister_work);
 
-You really don't want to do that!
-gcc makes a right hash of it for x86 (32bit).
-See https://www.godbolt.org/z/jG8dv3cvs
+So what happens if you actually cancel the work here? Will you be
+leaking input device?
 
-You do better using a __v32 after the 64bit xor.
+And bigger question - do you actually need to unregister devices? Or it
+is just a matter of not delivering data through them when device is in
+the different mode?
 
-Even the 64bit version is probably sub-optimal (both gcc and clang).
-The whole lot ends up being a bit single register dependency chain.
-You want to do:
-	mov %eax, %edx
-	shrl $n, %eax
-	xor %edx, %eax
-so that the 'mov' and 'shrl' can happen in the same clock
-(without relying on the register-register move being optimised out).
+Thanks.
 
-I dropped in the arm64 for an example of where the magic shift of 6996
-just adds an extra instruction.
-
-	David
-
-
+-- 
+Dmitry
 
