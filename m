@@ -1,211 +1,198 @@
-Return-Path: <linux-input+bounces-10429-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10430-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4FFA48E37
-	for <lists+linux-input@lfdr.de>; Fri, 28 Feb 2025 02:55:01 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C245A491B9
+	for <lists+linux-input@lfdr.de>; Fri, 28 Feb 2025 07:42:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0CEF27A2D9D
-	for <lists+linux-input@lfdr.de>; Fri, 28 Feb 2025 01:54:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E854D1893264
+	for <lists+linux-input@lfdr.de>; Fri, 28 Feb 2025 06:42:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75E9153363;
-	Fri, 28 Feb 2025 01:54:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1DCA1C4A20;
+	Fri, 28 Feb 2025 06:42:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="hc1Wnley"
+	dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b="uHhkYeid"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2083.outbound.protection.outlook.com [40.107.20.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3C33596A;
-	Fri, 28 Feb 2025 01:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740707694; cv=none; b=MVcY+OUHKRQoVYGJ4Iuw/Li+wYHu5Pn93ey6V1Dbw8PN20fwPSsL+yYcNATTdFxA53VDYGLV8nmKU0hKZI5+yFHeeueUewSqIdX3KFhyc6WzLnN7JzY/YiuIseQuJS/EyHv65p8TY4wFUWUJqQ1oPRlAf+VGHJiMhe7rfomnao0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740707694; c=relaxed/simple;
-	bh=Lp1jbP3VtIoZJb7DDjRQCPnuT/WqIWZRzxbJAQE3YnA=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=sUhwxFtUg5sQeFToy9qKPq/jAjjiANiSkNnECv0FVDxh0NPznBVx4EMQS1swHyYlkcYKmef1Mt+RTowM2DbKTpS6KCGYGbZbHyBy6o5vMpZHTpspSVQwTI58XBQsxIGnLVXdVPD9aSQN+UsTBCo1PdGkmnEYx65O7YoqTCNweeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=hc1Wnley; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from [127.0.0.1] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 51S1ouig2394050
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Thu, 27 Feb 2025 17:50:57 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 51S1ouig2394050
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025021701; t=1740707463;
-	bh=zdxlCZN7qRmiM8/WMWaSChORmP5U1+mg9Dd2GNfsbGA=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=hc1WnleyPiNvmeMgkj0Fbb3sTWrGCmnnaxiRXiZvVvO6Is3ZJKu6mp+YJv2Dbs05X
-	 aVxT1zsm98Egcx7g7dDapGUM1ppk6QkyAa2wZSKXLVi8I4OeDG/xzxwpW4dEA2MBFx
-	 T1ntM64Z768sGTrScS8Wa6oiWHo2Bu8akRlkAIPTgcwVRV0sgRtvWguE9SobXFYNdw
-	 ClhsdUIvwPyfzfAd+XeT/JQ5MtCRtjegffTL4YeiMAwTwSfCb9k77v5gFOVLmhUpKy
-	 VYHzzZXLAdv9xzXZj/lrKYrLB5diO6XmkXYCixEjE5jI7GVtxQxUpXMNKybtxiJAEr
-	 DXDmmmDy5eD+w==
-Date: Thu, 27 Feb 2025 17:50:55 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: David Laight <david.laight.linux@gmail.com>,
-        Yury Norov <yury.norov@gmail.com>
-CC: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
-        andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-        dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
-        hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
-        vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
-        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-        parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
-        johannes@sipsolutions.net, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, akpm@linux-foundation.org, alistair@popple.id.au,
-        linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
-        jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-        oss-drivers@corigine.com, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-        brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-        bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
-        Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20250227215741.1c2e382f@pumpkin>
-References: <20250223164217.2139331-1-visitorckw@gmail.com> <20250223164217.2139331-3-visitorckw@gmail.com> <Z7zIBwH4aUA7G9MY@thinkpad> <20250226222911.22cb0c18@pumpkin> <Z8CpaaHv0ahHFVuK@thinkpad> <20250227215741.1c2e382f@pumpkin>
-Message-ID: <EF874FA4-2719-44EA-B0DB-93A0980142BE@zytor.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1B71C5D42;
+	Fri, 28 Feb 2025 06:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.83
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740724942; cv=fail; b=rCuqwymUUESqcTm+WzSruCxH7M1o+GCpBLhRB8SdobCuRexlTesSg4PICdTsxM/75syASFzT+UTTzcYXD1wBqzWdxhhEfS2dkqBmNC1Qbn6Htjd7VZLPpKrz+VvTURXq1E6CSTLH4Dc19eDZqWHLFeQvwysbEfWmn7x6B6Ts6bI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740724942; c=relaxed/simple;
+	bh=/9fDI96w8I1NPlmJ7LWfvATXkyqCvWc2GZqTCb/2oz4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=STQkBxHUfbzYqeCn2kvGXheVsCYjEzY5HSeQLSOhCrR9krXwDwy+bW/xRjjKeSCNGGYa1Ih3tHs8VdkGFOn3+eVmsIPy+cWYXuV9gz+euCyBc8NTspd2D/8krEdlMjyPtd8lSQ0Fwc58fdSgAc1q0HCcdvwgFHOV5ZT8ndz3pjA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com; spf=pass smtp.mailfrom=mt.com; dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b=uHhkYeid; arc=fail smtp.client-ip=40.107.20.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bYfyHnZX4Or0nGJAhJr1PhVgl32QGBJlQTeZrU5DC+Bb1feQI0KDFcbF1ZYQ3dgPmDwmMUWRqlAIPJrBxp/dhP9l0a6k0r6RLf3CraBqTzGbBAPQdx62/PW3hrPe44WclvwkvAKfdUmFZZkMtp3Sue+jpHnEYGMd2m/Dd3XjSuTaaCxzHXDhFwH9VHIFH3pbW9Ri8iTU2QU3m97kk8fnwaqHxkWvVpfTkF3IMqWV/ti3hkHZZZJMrfyuyPzDK0Xwla2eiPvhkM85ShHMjd2X2YEQX3jhUr6qVBIgVphQSSY7Nfoc7bTZxOB8jepoGX8gvcuoKml8jkIHsRGJBzVhvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UhTDWYC+4mxaOZ0SbGDO1FsA91DjNdd7I8ASFwD4G+8=;
+ b=YMaVhum2Wamq73kO4s4RHEGdWeusuuaS1M0YUXStVSrNgem7FBWG87I2aC5MKhamDBS6UHuO/BEz959htXS5IHwhatGMs+0HMvAg8E/UzkevAEcnoiHplPEvSAbzrtZW5XQu1d2AQVHdaCuA8bVj7P7UCDH+nIicdaS42phB1oA6OFzblY8gPq+ohmZUm3DLPeOEgMhLx4kfTHbA6wWQ1v9DWxEWVL36EFnPrI8wKxHrF9+fegUpk5tP/3FS28O9SnKtdPsM/Gba/wbJMcJb6LWRjuas6F6EmszE2JNz3I2zEMOhTkeGTAYY+5vXpftZzX6UMFRyd4MaKgh1ou6MZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
+ header.d=mt.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UhTDWYC+4mxaOZ0SbGDO1FsA91DjNdd7I8ASFwD4G+8=;
+ b=uHhkYeidIfzlh05Lo0CaM3p4cKbdcq6DFjfw76/RtF93kt3Icv8jSgt+yQxHrdRYxf2V75MVQawpPOct1y22yt3hj/GI3MEKTSc+q4lh5qpD3UXcsLKO/avIzihrJy7FoLzNcghuGuvy2VWfY23vQ8Q1YiwdA33Agi+IqylGw1dHpUMhDuhu+EEeU/NQMVcRFtn3DzeIj/wsDtdTvbAyVBZ7rSWRD04vA0+LPixZfpysn2QKHbV3dU86aGdwbYnE/oK28Z6bOMFaQ+3T5cygRjnDpXy/CFFGLGRG1xDG1QEiF3EfGr4hizZSyWV/nLC8C630GgE7tCiP+XaZfrFmew==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mt.com;
+Received: from AS8PR03MB6775.eurprd03.prod.outlook.com (2603:10a6:20b:29d::16)
+ by AS8PR03MB6743.eurprd03.prod.outlook.com (2603:10a6:20b:29e::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.23; Fri, 28 Feb
+ 2025 06:42:11 +0000
+Received: from AS8PR03MB6775.eurprd03.prod.outlook.com
+ ([fe80::8a03:2bdb:89c5:32e8]) by AS8PR03MB6775.eurprd03.prod.outlook.com
+ ([fe80::8a03:2bdb:89c5:32e8%4]) with mapi id 15.20.8489.021; Fri, 28 Feb 2025
+ 06:42:10 +0000
+Date: Fri, 28 Feb 2025 07:42:04 +0100
+From: Manuel Traut <manuel.traut@mt.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-input@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Markus Burri <markus.burri@mt.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: input: matrix_keypad - add wakeup-source
+ property
+Message-ID: <Z8FavNuODoIVepuj@mt.com>
+References: <Z8EMI9ALqYY72VBV@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z8EMI9ALqYY72VBV@google.com>
+X-ClientProxiedBy: MI2P293CA0002.ITAP293.PROD.OUTLOOK.COM
+ (2603:10a6:290:45::17) To AS8PR03MB6775.eurprd03.prod.outlook.com
+ (2603:10a6:20b:29d::16)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR03MB6775:EE_|AS8PR03MB6743:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5623ed3a-acaa-486c-27c9-08dd57c3072a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|7053199007|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?gIaDcgAtZRwaUFnZOIjfmUmIw+reTMdHTHdVeM8+InWHDtLWbEc1XcIHykLS?=
+ =?us-ascii?Q?1zHXkKhS5BHN38QbmYzG1vW4HrL1mAiu6BPGB2Yl+nXbzfkabXvO4ewystvk?=
+ =?us-ascii?Q?5NEn23BW1R5qU+N1xtegplxmOowyBjtsKIEDSA6iqKtYBc6+v/M74mn11P5z?=
+ =?us-ascii?Q?Qno2+nLm5meaqg/LKPIKpM0S1UuooAu8BfqLhZpzfEKrSnMR20bvT/4Wta+0?=
+ =?us-ascii?Q?DdWexUl7qx/vxcDxrFZbgtjLWEY/k/LrQWM7IvkoMyU5n6OKMA7Fg4kLrArV?=
+ =?us-ascii?Q?11YO+JiTcZb/0BjrYPBIag1PmRf9k1hmYlyEIznLkNkrUP5XbErMyila2i9N?=
+ =?us-ascii?Q?U+F1dquslUgTI9ld1WFh52GeULktObwj5IDtwT+yys0ja0uYt5IDmvT160Bg?=
+ =?us-ascii?Q?Q6AfHS9+jFajXQIMTRbnxaEGy2h5vFfNJnfC3kVnKzUIcNBMkMQmp6Yp9tfX?=
+ =?us-ascii?Q?CDfU/ho311m+dB9D2xm1vcWP/0gjTE4zdljk3LcB2Q8yovKcUgMyrsOcL6U8?=
+ =?us-ascii?Q?caQee+xT3NjwLtwx6d8c0TFWbuZ8cze/SRXekrD31tq8vnNP+JXzXs1gLF0L?=
+ =?us-ascii?Q?ss57DxA1lbygQKzgO5iGQKPXa8f99AvHiTzr8aeGa0vXjfo57Fymgw5HQ6Jy?=
+ =?us-ascii?Q?5CcDxpzqrgBJCBKIAgJs+43EZ0qFl1Gh+xRYpQMf7bxP7CCI1pRsrJInUdHc?=
+ =?us-ascii?Q?7VpGjdSYaIIQFI0Uo8F9JjmwWWpjpWQNeXC9f6M9+howF6gTN8Auw/afu/+c?=
+ =?us-ascii?Q?JvuwAAzR/DrLY1FJ8QRF4k/DxLUKZPJ1YHNwHZP5wYRCwBbi+IiJxqQRp4JX?=
+ =?us-ascii?Q?b2QXFBuTRmnlbHWN31tWHSSRoKoL85uWIzX8i6FPLkQWX2DMkzhCND0OsAd9?=
+ =?us-ascii?Q?2Wsdk/IU8ib+CnIPT1d2MzQYLY3Ue6+nWXy6PVuTJAWF2yFAeycLX2BzXCbL?=
+ =?us-ascii?Q?1auGI/tqKhzwfUus2PREHd1KsGMOMzay+QUOs8/sBVTrzLbLsfOn0fXZYjox?=
+ =?us-ascii?Q?TN2YGzyu9qMjQ/MjqPqORT3x9+6buNxldO3S4qLjp0XDFJoDw1ifJnxpI+NC?=
+ =?us-ascii?Q?l9vChcQw8xJKaKXcRbKUz+WUW6+rf+GymxWN3p7CJEno0Sl84jBnfKZxYoJI?=
+ =?us-ascii?Q?WnPu78IAte7PQGk6SmYq51HCczVEAEUDwQgKf3cP8fdP3IwrGto4S/khyt1R?=
+ =?us-ascii?Q?6isLPT8nmX3AefuqsahpUhHLfaGuqQ6gUb+2oya0C9dTSIEidPTklf53arKD?=
+ =?us-ascii?Q?jsDUonIXket4wGk/FD3ljuQtWVEIN0ifH8463OIKeLSnfEbDYiSncWciChsO?=
+ =?us-ascii?Q?f01YaEdRIzcooyQrYk2pYAdIeR7GcIyDknbR6jU2Db2PTpXCj5phyCiqERB8?=
+ =?us-ascii?Q?4r4mc/5I4iETlW62h1o4QAHGwdb/Sd00h2G0G/Z2zM59ADcHxCkJb4zgNWkL?=
+ =?us-ascii?Q?GY+VFE/TRv5QudPM06mztSONoqSdeG2f?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR03MB6775.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(7053199007)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?9mbDCwo20SMX9L9kEj9lSuaXvHLD4N3j3CaFvisQ/1LCibNEBaXZdFsUQ5+y?=
+ =?us-ascii?Q?fFQ9/Z8NYLYyXplz9ctccNnMTwvsR3fxwGwBR1zDh/Gs/iYqdHIJxcwtAAPb?=
+ =?us-ascii?Q?sUD7hTzt5hTRCPNlukgV0glWF3UQpcZA7xNfpxH2LWi7Aq12OqM8pBMy+1j7?=
+ =?us-ascii?Q?g9cbfI0b/RVQ8FZtAUTO4LNMYqxUXrjNiSY6VeZRaaAe4St9QGFxSgp2SP1a?=
+ =?us-ascii?Q?hXAuCOmkB/gIPlG3miW/Aw7IaRq0JPx8oqjp8OVFaYxPsh4cTkikJObHsuDX?=
+ =?us-ascii?Q?kvPDMj+X4quN7OCcHCjNLHDR+f9kSzeUYOQqimHym5U7bKAiEhIcckuH3t62?=
+ =?us-ascii?Q?T32tLNCwuTIj4r+Lik3kguWRasXbGMgh1m6Xk0HG0tCFg7silcdp/UnlCcY/?=
+ =?us-ascii?Q?Q8ywngggLGYyO3z6nMdCIVSv/FBhzBudea4endCJeBwU4LT1yqkK/wpTRrA1?=
+ =?us-ascii?Q?fcyGBjXDrBM5itLG5+hGIpG2BAlqCOB/TRBAfDrsWza64eOy/ZDgxOsb8/6h?=
+ =?us-ascii?Q?tTsGcYCuH9Njd12dKVCX9Ig2twEA/kE08aj0RdnCZwBHM8mggwspnlduyFAd?=
+ =?us-ascii?Q?8upHoakty5nU7RKq1GHUL6Xrz5sG3P+uFh7daOXAdU7mV5jqJHXDOZzbAI96?=
+ =?us-ascii?Q?nE0/xw9BToQa3HImV4uP4DGJify1XqzsgUyWIXAgLCh4cmKfZD2Vj1awlbmd?=
+ =?us-ascii?Q?QW0TMTBJYCdHyNMx96oj7ga3yDdbrefKGAfFgq5e/PcI6t/zThS76mKgOeRE?=
+ =?us-ascii?Q?IJ4eWbCy/liPh77qQTuLrBBAwbliI1Q7X20MHNc1B0R+yuoAvHb9aOT2f9pY?=
+ =?us-ascii?Q?TtyCEFHrKaXGtnRe9+6y9ejk6bja5eAMW98ffvzReet2QrmvPWQq4j3uMhIH?=
+ =?us-ascii?Q?kJuWKeJms3vJ3Bkrj/MG/uyMtCuDtVNKV5hg10T9rD+P2fP23zpHzqwMNRwo?=
+ =?us-ascii?Q?ls0LwJ8z9UuGxQyZbPTFEe32UIAgySXpnoCmowx/mI0t/hwhgVcVt9TQ04ux?=
+ =?us-ascii?Q?9DZXTxI6QTCHYtNJFJOZsQG0LG5bSLd420yZDimmPB7bMO1E29joZJyL+mF9?=
+ =?us-ascii?Q?mU/yuyg+nenSfMFqiJ5mePi11XAqbFpUAQ+EZxXZ8xvuKLdNf35X55Ml5LZv?=
+ =?us-ascii?Q?GkILuJA6PMKpQPP0pTosPz7pd4aJJE/7npVWzAv03af03ANcGzllwMfSBn8q?=
+ =?us-ascii?Q?NsfgwQjQK0+GrA3hzaboTUVy9j4AOZ7hGQQYmVRV5Vm5nwjXUW3fqwpueZyh?=
+ =?us-ascii?Q?O8MUjOOuFlzwzy0Dx1S0Bqry0Ny/mo+3jOa7ac6TipgMBAGGpRPs6k8OdNtE?=
+ =?us-ascii?Q?E/kRjsL/mjxlbUlSZI9bbeAEfl7KhqEl90Bp1s0msjmrSNPLHMSZYo3ALkvF?=
+ =?us-ascii?Q?K1inbWtBX8ptlWUVha8TmV8/IgL/joLFM4QDGM0wIeJ4oKzx9qXWe4LKKdKN?=
+ =?us-ascii?Q?Otzi3Tr5ouqE504M0UVikRoP9n5viKZt4znZGTTCf/Uxgz1byyssu9U5Fr/k?=
+ =?us-ascii?Q?8L01bPhIpTdFClYot19PGHI75XNNJ7RGC2ZP0rlsB7Mbp2sdsQpmAtVVFnGi?=
+ =?us-ascii?Q?OVijIw7Rr68jHlP5Nxl7vMo6O6Vj097jUtRrv81/?=
+X-OriginatorOrg: mt.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5623ed3a-acaa-486c-27c9-08dd57c3072a
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR03MB6775.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2025 06:42:10.8156
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: V3ajf+2aK6X+vtfmyg8h/EsAHgV9lR929gosibhPjVSq+N/GEzVkC6ULA1dClEjbhBJfRJh4pYNR1Xl76HrkGQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR03MB6743
 
-On February 27, 2025 1:57:41 PM PST, David Laight <david=2Elaight=2Elinux@g=
-mail=2Ecom> wrote:
->On Thu, 27 Feb 2025 13:05:29 -0500
->Yury Norov <yury=2Enorov@gmail=2Ecom> wrote:
->
->> On Wed, Feb 26, 2025 at 10:29:11PM +0000, David Laight wrote:
->> > On Mon, 24 Feb 2025 14:27:03 -0500
->> > Yury Norov <yury=2Enorov@gmail=2Ecom> wrote:
->> > =2E=2E=2E=2E =20
->> > > +#define parity(val)					\
->> > > +({							\
->> > > +	u64 __v =3D (val);				\
->> > > +	int __ret;					\
->> > > +	switch (BITS_PER_TYPE(val)) {			\
->> > > +	case 64:					\
->> > > +		__v ^=3D __v >> 32;			\
->> > > +		fallthrough;				\
->> > > +	case 32:					\
->> > > +		__v ^=3D __v >> 16;			\
->> > > +		fallthrough;				\
->> > > +	case 16:					\
->> > > +		__v ^=3D __v >> 8;			\
->> > > +		fallthrough;				\
->> > > +	case 8:						\
->> > > +		__v ^=3D __v >> 4;			\
->> > > +		__ret =3D  (0x6996 >> (__v & 0xf)) & 1;	\
->> > > +		break;					\
->> > > +	default:					\
->> > > +		BUILD_BUG();				\
->> > > +	}						\
->> > > +	__ret;						\
->> > > +})
->> > > + =20
->> >=20
->> > You really don't want to do that!
->> > gcc makes a right hash of it for x86 (32bit)=2E
->> > See https://www=2Egodbolt=2Eorg/z/jG8dv3cvs =20
->>=20
->> GCC fails to even understand this=2E Of course, the __v should be an
->> __auto_type=2E But that way GCC fails to understand that case 64 is
->> a dead code for all smaller type and throws a false-positive=20
->> Wshift-count-overflow=2E This is a known issue, unfixed for 25 years!
->
->Just do __v ^=3D __v >> 16 >> 16
->
->>=20
->> https://gcc=2Egnu=2Eorg/bugzilla/show_bug=2Ecgi?id=3D4210
->> =20
->> > You do better using a __v32 after the 64bit xor=2E =20
->>=20
->> It should be an __auto_type=2E I already mentioned=2E So because of tha=
-t,
->> we can either do something like this:
->>=20
->>   #define parity(val)					\
->>   ({							\
->>   #ifdef CLANG                                          \
->>   	__auto_type __v =3D (val);			\
->>   #else /* GCC; because of this and that */             \
->>   	u64 __v =3D (val);			        \
->>   #endif                                                \
->>   	int __ret;					\
->>=20
->> Or simply disable Wshift-count-overflow for GCC=2E
->
->For 64bit values on 32bit it is probably better to do:
->int p32(unsigned long long x)
->{
->    unsigned int lo =3D x;
->    lo ^=3D x >> 32;
->    lo ^=3D lo >> 16;
->    lo ^=3D lo >> 8;
->    lo ^=3D lo >> 4;
->    return (0x6996 >> (lo & 0xf)) & 1;
->}
->That stops the compiler doing 64bit shifts (ok on x86, but probably not e=
-lsewhere)=2E
->It is likely to be reasonably optimal for most 64bit cpu as well=2E
->(For x86-64 it probably removes a load of REX prefix=2E)
->(It adds an extra instruction to arm because if its barrel shifter=2E)
->
->
->>=20
->> > Even the 64bit version is probably sub-optimal (both gcc and clang)=
-=2E
->> > The whole lot ends up being a bit single register dependency chain=2E
->> > You want to do: =20
->>=20
->> No, I don't=2E I want to have a sane compiler that does it for me=2E
->>=20
->> > 	mov %eax, %edx
->> > 	shrl $n, %eax
->> > 	xor %edx, %eax
->> > so that the 'mov' and 'shrl' can happen in the same clock
->> > (without relying on the register-register move being optimised out)=
-=2E
->> >=20
->> > I dropped in the arm64 for an example of where the magic shift of 699=
-6
->> > just adds an extra instruction=2E =20
->>=20
->> It's still unclear to me that this parity thing is used in hot paths=2E
->> If that holds, it's unclear that your hand-made version is better than
->> what's generated by GCC=2E
->
->I wasn't seriously considering doing that optimisation=2E
->Perhaps just hoping is might make a compiler person think :-)
->
->	David
->
->>=20
->> Do you have any perf test?
->>=20
->> Thanks,
->> Yury
->
+On Thu, Feb 27, 2025 at 05:06:43PM -0800, Dmitry Torokhov wrote:
+> The driver recognizes standard "wakeup-source" property and there are
+> DTS files using it. Add the property to the binding.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202502280105.REZ29MVg-lkp@intel.com/
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-What the compiler people need to do is to not make __builtin_parity*() gen=
-erate crap=2E
+Reviewed-by: Manuel Traut <manuel.traut@mt.com>
+
+> ---
+>  .../devicetree/bindings/input/gpio-matrix-keypad.yaml         | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/gpio-matrix-keypad.yaml b/Documentation/devicetree/bindings/input/gpio-matrix-keypad.yaml
+> index 73bb153ed241..ebfff9e42a36 100644
+> --- a/Documentation/devicetree/bindings/input/gpio-matrix-keypad.yaml
+> +++ b/Documentation/devicetree/bindings/input/gpio-matrix-keypad.yaml
+> @@ -68,6 +68,8 @@ properties:
+>        Drive inactive columns during scan,
+>        default is to turn inactive columns into inputs.
+>  
+> +  wakeup-source: true
+> +
+>  required:
+>    - compatible
+>    - row-gpios
+> @@ -96,4 +98,6 @@ examples:
+>                          0x0001006A
+>                          0x0101001C
+>                          0x0201006C>;
+> +
+> +        wakeup-source;
+>      };
+> -- 
+> 2.48.1.711.g2feabab25a-goog
+> 
+> 
+> -- 
+> Dmitry
 
