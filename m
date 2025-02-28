@@ -1,112 +1,211 @@
-Return-Path: <linux-input+bounces-10428-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10429-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CFB5A48DA6
-	for <lists+linux-input@lfdr.de>; Fri, 28 Feb 2025 02:07:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4FFA48E37
+	for <lists+linux-input@lfdr.de>; Fri, 28 Feb 2025 02:55:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 520533B3DD3
-	for <lists+linux-input@lfdr.de>; Fri, 28 Feb 2025 01:07:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0CEF27A2D9D
+	for <lists+linux-input@lfdr.de>; Fri, 28 Feb 2025 01:54:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1626317BD6;
-	Fri, 28 Feb 2025 01:07:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75E9153363;
+	Fri, 28 Feb 2025 01:54:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GAOuNqDm"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="hc1Wnley"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6241DFE1;
-	Fri, 28 Feb 2025 01:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3C33596A;
+	Fri, 28 Feb 2025 01:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740704865; cv=none; b=RC5qmUj0BHKBjgR2Qu/qkMGbRm6R/CnB+S+1RPEqeA17esbmpKJiscOpb2CUvP/i49pAlO1CHsX2zGVq4oh/FDlBEsmkfcnl+IzDPVwBgduqUeBvVaot31E7V319B/C51LZqXsnk+dtV+yEUvP4yJ8wcAhjj/TufgHsAydsWT9Y=
+	t=1740707694; cv=none; b=MVcY+OUHKRQoVYGJ4Iuw/Li+wYHu5Pn93ey6V1Dbw8PN20fwPSsL+yYcNATTdFxA53VDYGLV8nmKU0hKZI5+yFHeeueUewSqIdX3KFhyc6WzLnN7JzY/YiuIseQuJS/EyHv65p8TY4wFUWUJqQ1oPRlAf+VGHJiMhe7rfomnao0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740704865; c=relaxed/simple;
-	bh=7F+485a2GYMpEoCglv0JpYsO64gxsh7+k5AuHXZ43jE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CZFFdkkz4a0RLuZ39dVNpOIwHOS+Tbm9UU7PJHCyFjqkin92J3L335wjzWT+AuDf2HS+tA3/ri5HT6EWOmKLbleDIp89q2fOmCGTN0pzf4fxgw1j/31xv2vh2zODIVOP4kpoBOV8ekksokEIGAfuZ6xUkQ/okUGEjiw7Y9uucU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GAOuNqDm; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-22185cddbffso47601575ad.1;
-        Thu, 27 Feb 2025 17:07:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740704863; x=1741309663; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1laYBHFjrGeFBi7DbEcxWjegyvsUli4cG4YPheS1ZSE=;
-        b=GAOuNqDmbNXLwgqehyAO5tev7ko8IpaANECV6Oxv2mw80kv65ju/LpHYbc/0YXuY2m
-         32X9HzHK8XnaNxsL5aMTj44ZlZBu5s1Ne02mXUc2BUHVA68NPwc2eMK8tzHHscXkECm3
-         iqjxvEWFw/cVpIDoJTsLGmlr0PEciM9ExC4DqCTum2DewFu/xUTnGDSz423hh2TQi/pD
-         aOrR+YIaGp779Jg15NvvXhVHIKbwchRSArv4dKN3CLSDe1bALEN+E4Epq1qEGmGTwpaM
-         djNym791Pul358ahvLYUk0tyKE4e4SwH1GB2VfVrSnEm9i8m+7AJ+aEoqp90ahzuq+fN
-         0a/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740704863; x=1741309663;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1laYBHFjrGeFBi7DbEcxWjegyvsUli4cG4YPheS1ZSE=;
-        b=qmbUR6RitdprpbBDbeWsgKNUL4BA+6odaHvgycMU/530lAGVm9ro8xJHpZimgFSF9C
-         exc0EZNljLgOP9g5xbObh7ab4wVIm1vJWbEH382AFlPqJfwNfvJ1Vz7+ij6c+3fJ6pEc
-         3l5NrLUwmwiVru3/EvzYi7Xh7Qd6Ee0+kG+YqsYEX/v+QoUQ2MytgSgFkcDOhbRlOJFH
-         +MrpKBkhfqwIByfHMK6bwwgpqpawhPUoexH0FzEI9ICVB43YCJoNk7M9I08lCcKt84+L
-         lz4uGMUG7DVPgJDq6WOWBMo9B/4A92CLWnfxoAd5mswhmmJIwvyrEHEQ8zCZT5BKiHD8
-         PM+w==
-X-Forwarded-Encrypted: i=1; AJvYcCWdcF7lJk3HfasFzcF7FCw1GyxP5l18kIbPuezxG98CDy0HhLV+SM9cOCtx2+jmNVWheWV2oawAouMvbnw=@vger.kernel.org, AJvYcCXMWcu63E8qnWlhLm760Zduw9BNT2l2s4xK4BNkzdrqsa1mrcllsueSApt4BGrD2dLZ0HvfQOPann7s@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzvtfkj49J7KGXDOahjbngHCUW16O/xSWRquHJ9qMzTiA61sfX8
-	dQGNolmiQQnM82CGHK8FZzDfsj6GH24CEe+39ePh6MY4x7b+DDXlcAORSw==
-X-Gm-Gg: ASbGncuCspojmtLoIK17o8nXoB3N3nsqbfeIjJNCBRkh7QpWr7LMzhb+D2bGOEb3jV2
-	iGPwOv0B2ehW7pwIPX/T5n2mIUOBGXcghZeY98FspY0cLU7X7qTK9LKt6FkM5GudbWcvEJs+8U8
-	6YnoGkNStvem/wpkaTApgN6QRKUGiYwEVKG96MwVE9ipT/xb8etY1VYIuMMw1GbzGBduGk4Cpz2
-	vgcR3CBdi54N64IRu2cmzoYjHihpcuC5ohY4rRRcqPj9SMGvyiECGogNBH7HMOsrzd0YU2zosUi
-	C1G8yWNzgiuKaWHMnZ2hpYbyq+o=
-X-Google-Smtp-Source: AGHT+IEpGrcNoN5NEVxEEM1ywW1LEQdRBk6lpjhv0z2LW/RIfXXQXJPUjLCHRU3Ba0uCJH+CiwmDig==
-X-Received: by 2002:a05:6a21:6014:b0:1ee:a410:4aa5 with SMTP id adf61e73a8af0-1f2f3e11c7fmr2583907637.17.1740704862744;
-        Thu, 27 Feb 2025 17:07:42 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:c0e7:f2be:7020:c4a6])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-aee7dec4142sm2193005a12.56.2025.02.27.17.07.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Feb 2025 17:07:42 -0800 (PST)
-Date: Thu, 27 Feb 2025 17:07:39 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Markus Burri <markus.burri@mt.com>
-Cc: linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Marek Vasut <marek.vasut@gmail.com>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, Markus Burri <markus.burri@bbv.ch>,
-	Manuel Traut <manuel.traut@mt.com>
-Subject: Re: [PATCH v6 2/3] dt-bindings: input: matrix_keypad - add missing
- property
-Message-ID: <Z8EMW2MmIrhUIpAS@google.com>
-References: <20250226152843.43932-1-markus.burri@mt.com>
- <20250226152843.43932-3-markus.burri@mt.com>
+	s=arc-20240116; t=1740707694; c=relaxed/simple;
+	bh=Lp1jbP3VtIoZJb7DDjRQCPnuT/WqIWZRzxbJAQE3YnA=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=sUhwxFtUg5sQeFToy9qKPq/jAjjiANiSkNnECv0FVDxh0NPznBVx4EMQS1swHyYlkcYKmef1Mt+RTowM2DbKTpS6KCGYGbZbHyBy6o5vMpZHTpspSVQwTI58XBQsxIGnLVXdVPD9aSQN+UsTBCo1PdGkmnEYx65O7YoqTCNweeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=hc1Wnley; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Received: from [127.0.0.1] ([76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 51S1ouig2394050
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Thu, 27 Feb 2025 17:50:57 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 51S1ouig2394050
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025021701; t=1740707463;
+	bh=zdxlCZN7qRmiM8/WMWaSChORmP5U1+mg9Dd2GNfsbGA=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=hc1WnleyPiNvmeMgkj0Fbb3sTWrGCmnnaxiRXiZvVvO6Is3ZJKu6mp+YJv2Dbs05X
+	 aVxT1zsm98Egcx7g7dDapGUM1ppk6QkyAa2wZSKXLVi8I4OeDG/xzxwpW4dEA2MBFx
+	 T1ntM64Z768sGTrScS8Wa6oiWHo2Bu8akRlkAIPTgcwVRV0sgRtvWguE9SobXFYNdw
+	 ClhsdUIvwPyfzfAd+XeT/JQ5MtCRtjegffTL4YeiMAwTwSfCb9k77v5gFOVLmhUpKy
+	 VYHzzZXLAdv9xzXZj/lrKYrLB5diO6XmkXYCixEjE5jI7GVtxQxUpXMNKybtxiJAEr
+	 DXDmmmDy5eD+w==
+Date: Thu, 27 Feb 2025 17:50:55 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: David Laight <david.laight.linux@gmail.com>,
+        Yury Norov <yury.norov@gmail.com>
+CC: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
+        andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+        dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
+        hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
+        vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
+        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+        parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+        johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, akpm@linux-foundation.org, alistair@popple.id.au,
+        linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
+        jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+        oss-drivers@corigine.com, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+        brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+        bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+        Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20250227215741.1c2e382f@pumpkin>
+References: <20250223164217.2139331-1-visitorckw@gmail.com> <20250223164217.2139331-3-visitorckw@gmail.com> <Z7zIBwH4aUA7G9MY@thinkpad> <20250226222911.22cb0c18@pumpkin> <Z8CpaaHv0ahHFVuK@thinkpad> <20250227215741.1c2e382f@pumpkin>
+Message-ID: <EF874FA4-2719-44EA-B0DB-93A0980142BE@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226152843.43932-3-markus.burri@mt.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 26, 2025 at 04:28:42PM +0100, Markus Burri wrote:
-> The property is implemented in the driver but not described in dt-bindings.
-> Add missing property 'gpio-activelow' to DT schema.
-> 
-> Signed-off-by: Markus Burri <markus.burri@mt.com>
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+On February 27, 2025 1:57:41 PM PST, David Laight <david=2Elaight=2Elinux@g=
+mail=2Ecom> wrote:
+>On Thu, 27 Feb 2025 13:05:29 -0500
+>Yury Norov <yury=2Enorov@gmail=2Ecom> wrote:
+>
+>> On Wed, Feb 26, 2025 at 10:29:11PM +0000, David Laight wrote:
+>> > On Mon, 24 Feb 2025 14:27:03 -0500
+>> > Yury Norov <yury=2Enorov@gmail=2Ecom> wrote:
+>> > =2E=2E=2E=2E =20
+>> > > +#define parity(val)					\
+>> > > +({							\
+>> > > +	u64 __v =3D (val);				\
+>> > > +	int __ret;					\
+>> > > +	switch (BITS_PER_TYPE(val)) {			\
+>> > > +	case 64:					\
+>> > > +		__v ^=3D __v >> 32;			\
+>> > > +		fallthrough;				\
+>> > > +	case 32:					\
+>> > > +		__v ^=3D __v >> 16;			\
+>> > > +		fallthrough;				\
+>> > > +	case 16:					\
+>> > > +		__v ^=3D __v >> 8;			\
+>> > > +		fallthrough;				\
+>> > > +	case 8:						\
+>> > > +		__v ^=3D __v >> 4;			\
+>> > > +		__ret =3D  (0x6996 >> (__v & 0xf)) & 1;	\
+>> > > +		break;					\
+>> > > +	default:					\
+>> > > +		BUILD_BUG();				\
+>> > > +	}						\
+>> > > +	__ret;						\
+>> > > +})
+>> > > + =20
+>> >=20
+>> > You really don't want to do that!
+>> > gcc makes a right hash of it for x86 (32bit)=2E
+>> > See https://www=2Egodbolt=2Eorg/z/jG8dv3cvs =20
+>>=20
+>> GCC fails to even understand this=2E Of course, the __v should be an
+>> __auto_type=2E But that way GCC fails to understand that case 64 is
+>> a dead code for all smaller type and throws a false-positive=20
+>> Wshift-count-overflow=2E This is a known issue, unfixed for 25 years!
+>
+>Just do __v ^=3D __v >> 16 >> 16
+>
+>>=20
+>> https://gcc=2Egnu=2Eorg/bugzilla/show_bug=2Ecgi?id=3D4210
+>> =20
+>> > You do better using a __v32 after the 64bit xor=2E =20
+>>=20
+>> It should be an __auto_type=2E I already mentioned=2E So because of tha=
+t,
+>> we can either do something like this:
+>>=20
+>>   #define parity(val)					\
+>>   ({							\
+>>   #ifdef CLANG                                          \
+>>   	__auto_type __v =3D (val);			\
+>>   #else /* GCC; because of this and that */             \
+>>   	u64 __v =3D (val);			        \
+>>   #endif                                                \
+>>   	int __ret;					\
+>>=20
+>> Or simply disable Wshift-count-overflow for GCC=2E
+>
+>For 64bit values on 32bit it is probably better to do:
+>int p32(unsigned long long x)
+>{
+>    unsigned int lo =3D x;
+>    lo ^=3D x >> 32;
+>    lo ^=3D lo >> 16;
+>    lo ^=3D lo >> 8;
+>    lo ^=3D lo >> 4;
+>    return (0x6996 >> (lo & 0xf)) & 1;
+>}
+>That stops the compiler doing 64bit shifts (ok on x86, but probably not e=
+lsewhere)=2E
+>It is likely to be reasonably optimal for most 64bit cpu as well=2E
+>(For x86-64 it probably removes a load of REX prefix=2E)
+>(It adds an extra instruction to arm because if its barrel shifter=2E)
+>
+>
+>>=20
+>> > Even the 64bit version is probably sub-optimal (both gcc and clang)=
+=2E
+>> > The whole lot ends up being a bit single register dependency chain=2E
+>> > You want to do: =20
+>>=20
+>> No, I don't=2E I want to have a sane compiler that does it for me=2E
+>>=20
+>> > 	mov %eax, %edx
+>> > 	shrl $n, %eax
+>> > 	xor %edx, %eax
+>> > so that the 'mov' and 'shrl' can happen in the same clock
+>> > (without relying on the register-register move being optimised out)=
+=2E
+>> >=20
+>> > I dropped in the arm64 for an example of where the magic shift of 699=
+6
+>> > just adds an extra instruction=2E =20
+>>=20
+>> It's still unclear to me that this parity thing is used in hot paths=2E
+>> If that holds, it's unclear that your hand-made version is better than
+>> what's generated by GCC=2E
+>
+>I wasn't seriously considering doing that optimisation=2E
+>Perhaps just hoping is might make a compiler person think :-)
+>
+>	David
+>
+>>=20
+>> Do you have any perf test?
+>>=20
+>> Thanks,
+>> Yury
+>
 
-Applied but dropped Rob's reviewed-by because the patch is different
-from what he has reviewed.
-
-Thanks.
-
--- 
-Dmitry
+What the compiler people need to do is to not make __builtin_parity*() gen=
+erate crap=2E
 
