@@ -1,95 +1,107 @@
-Return-Path: <linux-input+bounces-10445-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10446-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77EA2A49EE4
-	for <lists+linux-input@lfdr.de>; Fri, 28 Feb 2025 17:34:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F4CA4A106
+	for <lists+linux-input@lfdr.de>; Fri, 28 Feb 2025 18:59:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C9F53BC88E
-	for <lists+linux-input@lfdr.de>; Fri, 28 Feb 2025 16:32:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5017A168928
+	for <lists+linux-input@lfdr.de>; Fri, 28 Feb 2025 17:59:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D9B4277817;
-	Fri, 28 Feb 2025 16:32:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7B681C175A;
+	Fri, 28 Feb 2025 17:59:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mgygkE0c"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="kOJrMZjT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269F5277812;
-	Fri, 28 Feb 2025 16:32:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90821F4C8E
+	for <linux-input@vger.kernel.org>; Fri, 28 Feb 2025 17:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740760339; cv=none; b=hBCx9sCohdrtJ8+Fad/SWWmsuGWTcBmJNkHzZmIhpsSbXPrvv4bBnIj1mZHDkfji9zB5TvuBY+V5W1xmbQteqiHyNk3cmFWdOthvJYoQ9I/F4QbqZ2R85ufSQs+2TTTnD0TaFLC3unHl8cOioJNhvM20CSsMAHe4hVs2DmGF+kg=
+	t=1740765549; cv=none; b=Tb3PSQChAh5DiaBkGZgjfljjlwRytJLl+L7oVtmX+jzSuVdir3sUtura1Wd/TRDEacVmWJvEaS/c/6uv6cBRGYSYFF7J8J2OczS9vLPnUAOOo/FDFMGPwXVYSQdpr9GXrQZ2uX+6UdZ2TCmXVTMivwR0kegIGYLNzi2NtBRd2mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740760339; c=relaxed/simple;
-	bh=P/RcA4P+v+ljSl+5AN9FN5lP81wuZbneRs9Oo7I8WlQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uH9+56X35l5alpwl+eayAc+FlpEGXIZM8r0snYxcYmYSpVL/a6nl4p9M65H8chpEdjXiWYtWrncDno7z4FwicilhA5Tswd2DgxMS5Lb7pzPoNOtf/svr5rUfpkxGNJ8RpLPjGoKhtPij2ZZHfb4PB8+F1Ai/+6g3Bvu7n7dUGng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mgygkE0c; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE9DEC4CED6;
-	Fri, 28 Feb 2025 16:32:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740760337;
-	bh=P/RcA4P+v+ljSl+5AN9FN5lP81wuZbneRs9Oo7I8WlQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mgygkE0cniB6CNWpyJm5orUa820AWr6Al74fOmB5Adv0DHZj4hMkEUM08Y2QU5wq+
-	 xRm3tYzGsVSuA21y9YNLLypFfcoItSGIc2yrxbLlVXKIwapeE9yNJ7iiA0tfjLsraP
-	 /ze+vCzXmSmdt1aHE6D+fYt/1Ctd0AABzJrhtkETmZ2HHxmi/d34ssJ7ZlrgeuN/ht
-	 BhXp23mzTO+zCODQfqtbFVPXeQVdSGyAE2r5XJtfsYUI5Y3bDEaN1vFYpIGda6xn96
-	 /9aJZGr3sbMi4et8+k0WkD0UTNpR/hkVmeb9YsphvaXMY1eHRmJl1tvQDnNbkU7iZO
-	 VKhRjsWJubk5Q==
-From: Mario Limonciello <superm1@kernel.org>
-To: Basavaraj Natikar <basavaraj.natikar@amd.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-kernel@vger.kernel.org (open list),
-	linux-input@vger.kernel.org (open list:AMD SENSOR FUSION HUB DRIVER),
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Pratap Nirujogi <pratap.nirujogi@amd.com>,
-	Anson Tsao <anson.tsao@amd.com>
-Subject: [PATCH 3/3] HID: amd_sfh: Don't show wrong status for amd_sfh_hpd_info()
-Date: Fri, 28 Feb 2025 10:31:53 -0600
-Message-ID: <20250228163153.2554935-4-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250228163153.2554935-1-superm1@kernel.org>
-References: <20250228163153.2554935-1-superm1@kernel.org>
+	s=arc-20240116; t=1740765549; c=relaxed/simple;
+	bh=NZFoaf4zSJMllmjO2mXpc5yFyD5MEK90v3SfJLOJQz0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=OA1f2nIjxa7YU2RICxDfGLrQTGbwpFll1RgHJBGynvuh1Ye97rqbTzgToO7dvtEYneHAUb/JYqnlySIU+4tdTQBy70peLq2c15zpqrKhLzRP7LNN64YEhG8CHf8NaMS9X4JdDkg57pbHRJWsusl3IACTByoW8173lMozALQZqAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=kOJrMZjT; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.116] (pd9e59f4f.dip0.t-ipconnect.de [217.229.159.79])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 6AC542FC0059;
+	Fri, 28 Feb 2025 18:59:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1740765543;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NcrKki3bqHiCKdj6Or16A3iLGtQRGRvZyhdskyxAZh4=;
+	b=kOJrMZjToRuUhiyY+aReo3RDv1o9X6NAxxY2vP56moBw8wLwHUneBwksoIfwY4c4OogobI
+	ds8kzNhE8FABVl5A7Hb1kl3/UrHDTVirpgcKj8Zd7XvF8E6mzU891cRbdvp7RPYYnv/e1h
+	eDMB6XQRguuNS3yAaq0D8DYx0lJAvQo=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <f9ff0025-d801-4129-9622-09f99e410fcb@tuxedocomputers.com>
+Date: Fri, 28 Feb 2025 18:59:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: Fix strange media key for PS/2 keyboard in a driver
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: linux-input@vger.kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>
+References: <75f6f0bd-084d-48a2-b7d9-b8a05fa80f55@tuxedocomputers.com>
+ <d41e5d88-818f-40a8-8691-b5ebc42ec042@tuxedocomputers.com>
+Content-Language: en-US
+In-Reply-To: <d41e5d88-818f-40a8-8691-b5ebc42ec042@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Mario Limonciello <mario.limonciello@amd.com>
 
-When HPD is present but has been disabled, avoid reporting HPD status
-to PMF.
+Am 27.02.25 um 22:29 schrieb Werner Sembach:
+> Hi,
+>
+> Am 02.01.25 um 18:49 schrieb Werner Sembach:
+>> Hi,
+>>
+>> TongFang/Uniwill Notebook barebones have their internal keyboard connected 
+>> via PS/2 and pressing the touchpad toggle media key sends the 3 key combo 
+>> KEY_LEFTMETA + KEY_LEFTCTRL + KEY_ZENKAKUHANKAKU.
+>>
+>> If it were a HID keyboard I could use a HID-BPF program to remap this 3 key 
+>> combo to a singular press of F21 which seems to be the default for touchpad 
+>> toggle and now I wonder if something similar is possible for PS/2 keyboards?
+>
+> Gentle bump.
 
-Cc: Pratap Nirujogi <pratap.nirujogi@amd.com>
-Tested-by: Anson Tsao <anson.tsao@amd.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think I found what I was looking for: i8042_install_filter
 
-diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
-index ffb98b4c36cbd..837d59e7a6610 100644
---- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
-+++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
-@@ -129,7 +129,7 @@ static int amd_sfh_hpd_info(u8 *user_present)
- 	if (!user_present)
- 		return -EINVAL;
- 
--	if (!emp2 || !emp2->dev_en.is_hpd_present)
-+	if (!emp2 || !emp2->dev_en.is_hpd_present || !emp2->dev_en.is_hpd_enabled)
- 		return -ENODEV;
- 
- 	hpdstatus.val = readl(emp2->mmio + amd_get_c2p_val(emp2, 4));
--- 
-2.43.0
+https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/linux/i8042.h?h=v6.13#n62
 
+https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/input/serio/i8042.c#n197
+
+>
+> In the meantime I tried fixing it on the XKB level but that comes with it's 
+> own challenges: 
+> https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/merge_requests/794
+>
+> Best regards,
+>
+> Werner
+>
+>>
+>> Kind regards,
+>>
+>> Werner
+>>
+>>
 
