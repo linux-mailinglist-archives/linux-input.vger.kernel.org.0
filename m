@@ -1,205 +1,138 @@
-Return-Path: <linux-input+bounces-10470-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10474-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D26A4AC38
-	for <lists+linux-input@lfdr.de>; Sat,  1 Mar 2025 15:34:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20E9EA4AE6D
+	for <lists+linux-input@lfdr.de>; Sun,  2 Mar 2025 00:43:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 22AE01634C4
-	for <lists+linux-input@lfdr.de>; Sat,  1 Mar 2025 14:34:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CBE783AF571
+	for <lists+linux-input@lfdr.de>; Sat,  1 Mar 2025 23:43:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC4FB1E8342;
-	Sat,  1 Mar 2025 14:28:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 409A41E98E0;
+	Sat,  1 Mar 2025 23:43:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J3tuGt4W"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KwJGGqM9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3721E25EF;
-	Sat,  1 Mar 2025 14:28:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2EE51DB546;
+	Sat,  1 Mar 2025 23:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740839305; cv=none; b=L+yGH+GFizU0QP5FA3LlaBfWwzNLv7g3nf0vLzkTxcTNKGqJLdv5jB/PD/e6zxxdQtiio13q/9hl3SYLkuL+aJmijr+odAwUi4LKA1uQvXvs0lIdrjzll8wdoolAGZ7oHLlt5pZgjQHk4lQ/9R6685kjqYzQjorjJ1zaEiQahDg=
+	t=1740872605; cv=none; b=XP+gmBwlu+xupUJZRNDIHpCLwPjtPyMAcvKXWjTxNDCAlcUSI+XQLal9F1N6PuDfgu9DUX9ZMA0yp5S+fCrU8O9YuRvTenSY3v+yVNi+HI9nB76h+RwwtVAcIkGMiqZexivM/+wQp8NfnyGXwCgO8VZNRm7jZNGfqZyzXlXEoB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740839305; c=relaxed/simple;
-	bh=wv6ajOFVKcvTUlaSn3pgXaNKGIdVIim/LCFNOWca2tg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tlUh9CKR48nrvz3Qmgr36ItRQvNYMj91+57RzX05T0oSsTTeGmup5IY+EldyxGCKxDlkf7UTev5DSMOgZ8jV02UVmfGpBSZqLVZKL6sUewFX5SKpazF8fP1lkeWrowJYeRuj8C1wVHLeiWS5wjgbtpp6QA+1aU06bGKZOHvHbOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J3tuGt4W; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2235908a30aso28682805ad.3;
-        Sat, 01 Mar 2025 06:28:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740839303; x=1741444103; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U+YDx3nsS23nFYRYOsOtDL2pw2M9KWSnqwRamUvuzKU=;
-        b=J3tuGt4WusOwpDTr/68d86e2jtux6vfI2+v2wtPK7Jsx3EH7CqDy3ywlnV3dNou49k
-         zwzk6DOan2l0xXDJttHoOFobD1qRwhm2s4KBY/4hU8vcufDSc7CJB0L9Jc6OM+gI3UmZ
-         C1NCBId8QTT/M7jFDRKilaqsEb06bprXtZygXUw6+Z9MOrrJizb3urjWeymrWSKjXwEX
-         2otRuYtdGtgGlX9hyi1GHhFRw05C/f+MqPs5TQeztbzbVU0Ou5K/bIy60u9sxMiQEyfF
-         CilkXYeC6COXPoYW8EEN+FLCCP+guYBFpY9ADJTn3RlTZlS4Rl7AESV2KJW6omgbaiDd
-         VEQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740839303; x=1741444103;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=U+YDx3nsS23nFYRYOsOtDL2pw2M9KWSnqwRamUvuzKU=;
-        b=aRG+k5jCdtIemLzSobBYlbNKdWGrgg4DnylDyOTzyDwO6Y6jCQ3cZ7lF4TWSp6V7Rs
-         zNWylzDeWuUyU9F39fCwitTF2fqsfvuJfoutB42w0S00qmOjzbfbCJeN6ylMYrafzXeq
-         U8zYpaQ0Oy0ecNjSKXdLBadZJstp09eZznPjb4RAR4+i9NfQ2wufl2XJG6wgQdBBrgfu
-         6KCq9o7dEAwqbi8f6st+86fnsOBS+H6fz04ifquNR9ZSxoYz/SHPiB3sHLTysyEnskEm
-         jCc9S2EOjitR1S6Jny9o/r05EQ8lzQaqb3MYOgOn1yiBvTVgMvDzEO0YE/G23tfvjaTQ
-         aXTg==
-X-Forwarded-Encrypted: i=1; AJvYcCUOR1/kUkOP4Sr4G90j6lzzmOcHqVbiiwngMl025UOBnGddb1Zz2e9/QQDHH9ov/kKal/Hi8MLv@vger.kernel.org, AJvYcCVqEHG/p7Fs0aUthBcuuQMYJSYsqePGrDQozwj+BckJV6KFM3bhzft70+6zM+hr+IiI0IrstPyKfMGMaX5J@vger.kernel.org, AJvYcCVuk4eRBlVOSv8qJ8WGh/66Vpb9pgzrZXAsg2Etk3meaoHjSaWJgwuQlXa7YVNs5j7CYL2cYNbN3qKkj2I=@vger.kernel.org, AJvYcCVwpcvEwLRpFCtjY8cqBLJ/cswY0duq4oXRPDVP9AgQRJGk8DHURvofQR5j6fkYXOMj/OmiVgvLT2WGkJFZ2/4=@vger.kernel.org, AJvYcCWDSqefjCOJB80lbdbFS+wPq992JAc9lzHSW+pbe0qK8HDt8MVySCV+IHK1FFDBPPo8MfiU4dvMY7pk8JfD@vger.kernel.org, AJvYcCWc0PxkpcQW5NdVHxwIskHOEEojHlJidMi7XByhfgOOGNOsk8qgER4rez9tiZGdCrgE0c0=@vger.kernel.org, AJvYcCXlOSC6Z8XRoU3+5ZQwUbw3ATEyO3yU9gcAdaKWVqBmse6K3JUGWFVlMwd7i/wSdhhDM/C5R6R2m+c+350=@vger.kernel.org
-X-Gm-Message-State: AOJu0YynEqnLrbkeAEbUxCZ0RzFjwKytSmv7QVC3oJQYhiAiODmU5FZc
-	QTD7ZOcmiuCwyvTJyTRDyioIW5ZJEvVDRxi9EKllwvQiBg20CiSm
-X-Gm-Gg: ASbGncuKLSJeWKaFKl1jCnx4Qkzi7nrFBrYZTetTr1Qr30rGBwMkTrDkI4olOpZ91Xw
-	llOeXTqPXD/BR7t0YkmNcMpxsUBxen/2co34NaPvPrf7a6mSUPrdtvaadVJCG5+ppEAJ9tM6O1X
-	nsYKf90z6EvllJ3eQ+3E58bwaUeIFO5iAt93OhabEwcadEjwE/BUduVfnmLnoB+VwB9fAaSysmU
-	v7sH6i3/uK4fvmDfyJDgGV2Si/tFtumty2HTvcW6GSGU8sMl/jCyhCIekxcI4qncXT/loXVRWUl
-	o5w6mZana30b8x4NSXBdQD2fU+2m4pfIA8sDmP4a+JgLaOvD7h8DdxY2d4d+Yfogq9kUIsV+JFs
-	=
-X-Google-Smtp-Source: AGHT+IGhHD61bMoj/kNCGfxuoRIMfZUbm2G8Vzi7r2Cl3xtga31v9ygF/WbFM3AD1XuJUCHC8w75/Q==
-X-Received: by 2002:a17:903:41cf:b0:21f:164d:93fe with SMTP id d9443c01a7336-2236922174bmr117354565ad.53.1740839303516;
-        Sat, 01 Mar 2025 06:28:23 -0800 (PST)
-Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-223501fa8f1sm49231965ad.90.2025.03.01.06.28.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Mar 2025 06:28:22 -0800 (PST)
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	jk@ozlabs.org,
-	joel@jms.id.au,
-	eajames@linux.ibm.com,
-	andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org,
-	rfoss@kernel.org,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	dmitry.torokhov@gmail.com,
-	mchehab@kernel.org,
-	awalls@md.metrocast.net,
-	hverkuil@xs4all.nl,
-	miquel.raynal@bootlin.com,
-	richard@nod.at,
-	vigneshr@ti.com,
-	louis.peens@corigine.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	parthiban.veerasooran@microchip.com,
-	arend.vanspriel@broadcom.com,
-	johannes@sipsolutions.net,
-	gregkh@linuxfoundation.org,
-	jirislaby@kernel.org,
-	yury.norov@gmail.com,
-	akpm@linux-foundation.org
-Cc: hpa@zytor.com,
-	alistair@popple.id.au,
-	linux@rasmusvillemoes.dk,
-	Laurent.pinchart@ideasonboard.com,
-	jonas@kwiboo.se,
-	jernej.skrabec@gmail.com,
-	kuba@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsi@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	oss-drivers@corigine.com,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com,
-	linux-serial@vger.kernel.org,
-	bpf@vger.kernel.org,
-	jserv@ccns.ncku.edu.tw,
-	david.laight.linux@gmail.com,
-	andrew.cooper3@citrix.com,
-	Kuan-Wei Chiu <visitorckw@gmail.com>,
-	Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH v2 18/18] bitops: Add parity() macro for automatic type-based selection
-Date: Sat,  1 Mar 2025 22:24:09 +0800
-Message-Id: <20250301142409.2513835-19-visitorckw@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250301142409.2513835-1-visitorckw@gmail.com>
-References: <20250301142409.2513835-1-visitorckw@gmail.com>
+	s=arc-20240116; t=1740872605; c=relaxed/simple;
+	bh=K9r+CeRz9jBowVrKSobN2M/+LfenUmgb4FvoMordLq4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=c5d+/TcQITI+DtzIJ5Sb6ITa7o6wsPF7vV64SwYp5yNs6Ii8gfu7yeVcV2aqWJgBjEkyh2Sl0WaVCFa1SHRF7piPhN7293UAlcrcHcWtuzXi8YrdtWE4jZm+bhWTy9AwukA4lEsNCHxuBcLqT0e+sNkXKo1cP5BaxRTqFad7Tks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KwJGGqM9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 55CBAC4CEDD;
+	Sat,  1 Mar 2025 23:43:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740872604;
+	bh=K9r+CeRz9jBowVrKSobN2M/+LfenUmgb4FvoMordLq4=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=KwJGGqM9zIz5uDWkc9bJ2sPJWcUbMl5OSO3a/lwLsHw0KC62Pw4tnrDhW7absHTL/
+	 eWNHbkUHg+ZRk5ufAGFX2x1eZ5rT9/NCmHlDDE17aPOEnx5zYdzGp/Z+yuvbTIbZxD
+	 8o2SyW+l/EOlLbLNF2rm4fzlrCDOK+MKFG2flRnK5V78pPT4g2lNcnesz5xkpUAOqx
+	 erIIpTmaSdnYAiYecSYEZCdzO2jce+sDZXL/A+0jBkAXlzBymLQ0Wxrqi8rAdfxRgF
+	 7Ziwsx1N3KUVRr6RJeCIItgSt9zhL79XKT4g9gsMIyHuSXZYazcpW6SL0NfhYBVyVl
+	 sKytPvQdW2wrg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EE21C021B8;
+	Sat,  1 Mar 2025 23:43:24 +0000 (UTC)
+From: Joel Selvaraj via B4 Relay <devnull+foss.joelselvaraj.com@kernel.org>
+Subject: [PATCH v3 0/4] Add Xiaomi Poco F1 touchscreen support
+Date: Sat, 01 Mar 2025 17:43:06 -0600
+Message-Id: <20250301-pocof1-touchscreen-support-v3-0-af01c3b30b55@joelselvaraj.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIqbw2cC/43QwW7DIAwG4FeJOI8JnBBCT3uPaQdwnIWqDRkQ1
+ Krqu4+0h12maTf/tvRZ9o0lip4SOzQ3Fqn45MNSQ/vSMJzt8kncjzUzENBJITRfA4ZJ8hw2nBN
+ GooWnbV1DzBy1Ait7wBGBVWCNNPnLA3//qHn2KYd4fewqcu/+iy2SCz66VjqQgxxQvR0DnRKdi
+ o32+IrhzHa9wI8IYvhThCoq25PWraGp+028Pw+I9LXVp+TnFczZRLzOzz4fGhTketWZjpQZzdB
+ 2dtLo7F72YMgIqR0oKyt2/wYyMb/xaQEAAA==
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+ Joel Selvaraj <foss@joelselvaraj.com>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740872603; l=2644;
+ i=foss@joelselvaraj.com; s=20241007; h=from:subject:message-id;
+ bh=K9r+CeRz9jBowVrKSobN2M/+LfenUmgb4FvoMordLq4=;
+ b=h5QRTpLlN5FZdTNMPQYqVJJpB7q3bFovbFwyIclaQOZoTTn2kogF5215WuTOkS4aWVdMwa6kH
+ lErUZiNdq5nBzhIYgZlxtqYfyHx50a1jqG6l6QYNVpv5tWb2fAaLTCI
+X-Developer-Key: i=foss@joelselvaraj.com; a=ed25519;
+ pk=pqYvzJftxCPloaoUbVsfQE7Gwv8bynZPy8mjYohwMCc=
+X-Endpoint-Received: by B4 Relay for foss@joelselvaraj.com/20241007 with
+ auth_id=238
+X-Original-From: Joel Selvaraj <foss@joelselvaraj.com>
+Reply-To: foss@joelselvaraj.com
 
-Introduce the parity() macro, which selects the appropriate parity
-function (parity8(), parity16(), parity32(), or parity64()) based on
-the size of the input type. This improves usability by allowing a
-generic parity calculation without requiring explicit function
-selection.
+In the first patch, I have updated the edt-ft5x06 touchscreen binding 
+documentation. In Xiaomi Poco F1(qcom/sdm845-xiaomi-beryllium-ebbg.dts),
+the FocalTech FT8719 touchscreen is integrally connected to the display 
+panel (EBBG FT8719) and thus should be power sequenced together with 
+display panel for proper functioning using the panel property. Since the
+edt-ft5x06 touchscreen binding uses almost all the properties present in 
+touchscreen.yaml, let's remove additionalProperties: false and use 
+unevaluatedProperties to include all the properties, including the needed
+panel property.
 
-If the input type does not match the supported sizes, BUILD_BUG() is
-triggered to catch invalid usage at compile time.
+In the second patch, I have enabled the qupv3_id_1 and gpi_dma1 as they
+are required for configuring touchscreen. Also added the pinctrl
+configurations. These are common for both the Poco F1 Tianma and EBBG
+panel variant.
 
-Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
-Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
-Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+In the subsequent patches, I have enabled support for the Novatek NT36672a
+touchscreen and FocalTech FT8719 touchscreen that are used in the Poco F1
+Tianma and EBBG panel variant respectively.
+
+Signed-off-by: Joel Selvaraj <foss@joelselvaraj.com>
 ---
-Place this patch last in the series to avoid compilation errors.
+Changes in v3:
+- Fix SoB email id mismatch (suggested by Krzysztof Kozlowski)
+- Use unevaluatedProperties instead additionalProperties in dt-binding (suggested by Krzysztof Kozlowski)
+- Link to v2: https://lore.kernel.org/r/20241208-pocof1-touchscreen-support-v2-0-5a6e7739ef45@joelselvaraj.com
 
- include/linux/bitops.h | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+Changes in v2:
+- Fixed the missing "panel" property dt-binding error reported by Rob Herring's bot.
+- Change the "input-enable" property to "output-disable" in qcom/sdm845-xiaomi-beryllium-common.dtsi
+  (Based on a patch suggested by Konrad Dybcio).
+- Link to v1: https://lore.kernel.org/r/20241007-pocof1-touchscreen-support-v1-0-db31b21818c5@joelselvaraj.com
 
-diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-index 41e9e7fb894b..fa4e45741dff 100644
---- a/include/linux/bitops.h
-+++ b/include/linux/bitops.h
-@@ -339,6 +339,28 @@ static inline __attribute_const__ int parity64(u64 val)
- 	return __builtin_constant_p(val) ? _parity_const(val) : _parity64(val);
- }
- 
-+#define parity(val)			\
-+({					\
-+	int __ret;			\
-+	switch (BITS_PER_TYPE(val)) {	\
-+	case 64:			\
-+		__ret = parity64(val);	\
-+		break;			\
-+	case 32:			\
-+		__ret = parity32(val);	\
-+		break;			\
-+	case 16:			\
-+		__ret = parity16(val);	\
-+		break;			\
-+	case 8:				\
-+		__ret = parity8(val);	\
-+		break;			\
-+	default:			\
-+		BUILD_BUG();		\
-+	}				\
-+	__ret;				\
-+})
-+
- /**
-  * __ffs64 - find first set bit in a 64 bit word
-  * @word: The 64 bit word
+---
+Joel Selvaraj (4):
+      dt-bindings: input: touchscreen: edt-ft5x06: use unevaluatedProperties
+      arm64: dts: qcom: sdm845-xiaomi-beryllium-common: add touchscreen related nodes
+      arm64: dts: qcom: sdm845-xiaomi-beryllium-tianma: introduce touchscreen support
+      arm64: dts: qcom: sdm845-xiaomi-beryllium-ebbg: introduce touchscreen support
+
+ .../bindings/input/touchscreen/edt-ft5x06.yaml     |  9 +----
+ .../dts/qcom/sdm845-xiaomi-beryllium-common.dtsi   | 39 ++++++++++++++++++++++
+ .../boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts | 23 +++++++++++++
+ .../dts/qcom/sdm845-xiaomi-beryllium-tianma.dts    | 23 +++++++++++++
+ 4 files changed, 86 insertions(+), 8 deletions(-)
+---
+base-commit: c0eb65494e59d9834af7cbad983629e9017b25a1
+change-id: 20241007-pocof1-touchscreen-support-c752a162cdc2
+
+Best regards,
 -- 
-2.34.1
+Joel Selvaraj <foss@joelselvaraj.com>
+
 
 
