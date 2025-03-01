@@ -1,163 +1,221 @@
-Return-Path: <linux-input+bounces-10451-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10452-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2924A4AAAB
-	for <lists+linux-input@lfdr.de>; Sat,  1 Mar 2025 12:37:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCDB0A4ABAF
+	for <lists+linux-input@lfdr.de>; Sat,  1 Mar 2025 15:25:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 334247A6F54
-	for <lists+linux-input@lfdr.de>; Sat,  1 Mar 2025 11:36:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D990E3B9B21
+	for <lists+linux-input@lfdr.de>; Sat,  1 Mar 2025 14:25:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ED881CEAC3;
-	Sat,  1 Mar 2025 11:36:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A03B1E0DE3;
+	Sat,  1 Mar 2025 14:25:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V6lpU45i"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i3ndEQJC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70081DE8A2
-	for <linux-input@vger.kernel.org>; Sat,  1 Mar 2025 11:36:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2B51E0DB0;
+	Sat,  1 Mar 2025 14:25:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740829012; cv=none; b=tKZ2NFt5pEyIxGKPX/J5h+W9vx7smJnhdmesyRUmZGtrfeTqpuL8LNs+bOKR1dG7LQfFJTQlsOWmWM2583c1Ka2jAL5Xu7gqlLLW0LhkmQaRnQK8RFSf2rvU0ryg97mXpxbFO0TmCxglI+EdIGdRLm31SRUdWVydQM/J/FJoa4g=
+	t=1740839117; cv=none; b=gNoAk6/cQSX19VzRQSTM5GUOmNgdFqYvEr+m55EMCxwuHbavA+vCSHI6mui0AiKG7IawU8gp1L4QeVZIVa+IPBPmNg+k25kVK38KoKI9YHrFE4GZGvR7H1aKUTTcb9+BLLxCWowmFNzlkXR9V3Z9fkJa0QOoOt6z+r6GxSs5jEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740829012; c=relaxed/simple;
-	bh=1N0XJWm2DllF8RnfekMenla1Kf7ixW0UheHRRT6WGPU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AOwBI+L7P3F2wOOLceYlPqSej4Pz/mm6a13buy3KDOkqW095mv+OyxPMAZEjBX1/CxPuNLbj8IYeGgFwBVtwQIU/ubNcBTRDNF/XZbAQJkl8df36JvruWYCfWNQ/ldXFESi9cZkovSfQj4hfxRfpar1nGB/q+T+cWC5IUs2Yl+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V6lpU45i; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1740829009;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fbORu6qgQcd6DUt/THQ0CSEvNH/qSwH/OAlOYxx8xys=;
-	b=V6lpU45iQbnVav4OdIV4F2Ffl6Jd5fDAmxIM+jM90nzmaGh0pxkWSOnC3UA5FsQUEPnLzO
-	rNlYb3lLNL/PlCe9cfzb8yDMsZ0quskhstwluVh85a6qQdLYFHeLJO/0eApE4+IiAIRUAZ
-	mx1q+CyDwpUyBt0++icrwvD6UX/jqGg=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-142-smPxdpSjMCWGVAaCXigm-w-1; Sat, 01 Mar 2025 06:36:43 -0500
-X-MC-Unique: smPxdpSjMCWGVAaCXigm-w-1
-X-Mimecast-MFC-AGG-ID: smPxdpSjMCWGVAaCXigm-w_1740829002
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-abba6d94ae4so355296766b.1
-        for <linux-input@vger.kernel.org>; Sat, 01 Mar 2025 03:36:43 -0800 (PST)
+	s=arc-20240116; t=1740839117; c=relaxed/simple;
+	bh=cIgJmn96AbC/m2stobLaS3QgXAnH7idqnvJn+4l7pgc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ocXxjKUPNZHYxDb8C6vxQNaT+W2BQnHlJjgtomRM74F0nwtAKA8iMJISAPxI3TOInouHWCKFT1lRTuC3cGI2ScnyJ2r16d82IZzJ9uB3xzFlnilosdxUAYFNNjl+cnc3VRyiAotYX5v5ZINItaR/VZLP1RznfhfpXO1EtNO57Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i3ndEQJC; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2239f8646f6so57445ad.2;
+        Sat, 01 Mar 2025 06:25:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740839115; x=1741443915; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DNP1gcd9iHRxzh69rYhVl4jkjT7XmE00fWzfP312xis=;
+        b=i3ndEQJClmDzMWL3NOKYrEJ4gwyeV+dugWN9ELB8HKagKqg2KPmf8luEz4A3qFaUys
+         yko/p+6vq8nD++wEFtdlMMdxlJGf6CjdBA8uHA573gwR1+s7FjHgnI4M4iuEbE/aqgKr
+         mlSfcTRXaQNXuBEp3CEttHLdQApbgvY3UW+s81l+uKweh6JyJF6fWv/Cejcyts3vCff/
+         KnQ3WgVLSYTUmY1IOsz+5LWO75eLBU4mJH52WzF+XSfd8ziL48DQ8fI1i+9a7M0dI6pf
+         h+c1lG/nALmM2hIUeQjnAOR3k9J+zU7OhOkfAlZGcomKZTK8gtm6LuzoGua/dWVCB98E
+         zcSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740829002; x=1741433802;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fbORu6qgQcd6DUt/THQ0CSEvNH/qSwH/OAlOYxx8xys=;
-        b=lKsT3agu5zeh0n/Jd5m68U7T9xKy5Zg9QrctZLyOvuEUc6qeib/1NCyOAF1hyCgJHs
-         otWnagTyJ74l+OIBN4IZwXdGDZDyoG/bHkvvF3DqcBCETEmu6WCMlUI3YSsU40K11AE0
-         IpwWjIKppd9LVfyTtsUMv2HuWllYyFDZyf4+DO+cIxWzWtMMeMOPReUtI6GaheT/U0QJ
-         i8yQ7Ec+sRKVyLkKbjuI3RqvkH/jeiQEVnBHki4qYVYYPPizIkUiCJfLFHQumENfq3NV
-         UpUGy/tvNJaRd/htDJsiBOZbXm4kUz4WYNo7aaztTAEIWuFt9ek1tZtyupUwxDW2un0u
-         4Rjg==
-X-Forwarded-Encrypted: i=1; AJvYcCXMja+xHMbdxvaUtkDxxkMZ4GZijqyrv1OzDtsQpkq308TPDI990lkTl6COoOOUD6E/4xDnQkeGT+XIaA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8YZVBL50OPt/mOGeQ3bRcsoHK5SWNDD+MI+Id7S41BPk1k+8l
-	Skma1M41FymrBUlEVHA4blUYC8xmEve2ZM0MrfdLvoli4+WKUsxytDPNmF8J9VbJvcg9Kn9DVKO
-	XbQlh9TNBqxTfrGm5nHHHpE1it1pu1XYbaeHhA7J3SLyrpN0VPk2wOPeRWDjz
-X-Gm-Gg: ASbGncuHxn7spzHVJ3bFFV9C/oNeHnVs/yrmvQCZS5TrTLBT0kng6jOFPg5o7cbJt7O
-	G1Q877+gXr69I+IUYomtQiIm+tIP1beYOoMfydCIQTfbbDW1hfyIRAznIKupoDiizLGLPvvN6lK
-	nMyIuZ70jqJnUTbLUmI/v0MkBAFIhrYJToqQQ0iZgdiu9A5rDsfWgaapLL0EIc271y3Fz4+F11v
-	VshLHsqVmqfb6tuY5ypJJanUS28Tyg8d/spyuo4lv8NVkBALblgIUEIZWQaikQ4QJ3fKa3pL8v8
-	WjgzZtVT080QXaMYSvV6nx93l79+P2jWp5PMB8TuetHVwLBh4NucKkIC26koF7ztyBZrdNoV9a9
-	dS1BYRiem9A+OPDjzo3LormO5ZTL7wKRG0Xsccs6tfIkwNm/ocF2U+cHeIMHeJYPurA==
-X-Received: by 2002:a17:907:7285:b0:abf:2b4:c6fb with SMTP id a640c23a62f3a-abf2686a09amr843681666b.57.1740829002234;
-        Sat, 01 Mar 2025 03:36:42 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHPCf2wWBViuMG6idxiK+1QfLm7qmZEGg/zDdM1CgqlrIMVKlaPktbzXdcY8xCu+LIzOF/c0g==
-X-Received: by 2002:a17:907:7285:b0:abf:2b4:c6fb with SMTP id a640c23a62f3a-abf2686a09amr843679466b.57.1740829001798;
-        Sat, 01 Mar 2025 03:36:41 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abf0c0b92d3sm463900866b.12.2025.03.01.03.36.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Mar 2025 03:36:41 -0800 (PST)
-Message-ID: <72619870-bf83-47f9-9b66-6678e245364c@redhat.com>
-Date: Sat, 1 Mar 2025 12:36:40 +0100
+        d=1e100.net; s=20230601; t=1740839115; x=1741443915;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DNP1gcd9iHRxzh69rYhVl4jkjT7XmE00fWzfP312xis=;
+        b=nzL0UKzKgXsh+dXNjnAjYd66d4t6HTyIzkWvdCLdZJNX9nZ4Jt6084QnthQecnZHkE
+         eXs+dDCvO5hvysHYn1XFry+F0c+nE4K4n6HQbCzWh0ZurwYLxtc2pJeck+2aRzuOZkGq
+         54QZrrLvY7cZEmXu0YEqIN4k6a5PAlQCGZw7SfzJljPNzuTCAXjIAw54lROnBZ+WZZ6U
+         teiFfTqPtFunaNHJsbsJydSL5VAtjEo8HkKUIVHhWIMKCGclo6E1v6Wk6as3vOMntK78
+         RfksWeqU5O2bPCyFq73e4PVeuEnfCSE/c0ApOw5TbaQ/2u4iVdZH/GBMMJqSB5mVZNvH
+         qA4w==
+X-Forwarded-Encrypted: i=1; AJvYcCUioUEt7t7V7c/ZwCt/tPaua6oJmIReFKpkTIvYWgBL0iKfE8QYLx+nZaWN9na1/g7q7shg3ZC4cLbl49Ozgnw=@vger.kernel.org, AJvYcCV/VBIPZ9qQ0vzEuZPv5F97aQQ9rk02srOoMrdcnJfZh16bs9sdKNSqZ6POha5SM8g6QVHyhUkBXUuWxVU=@vger.kernel.org, AJvYcCVTVbxgZeKEVpZvZo0xqZLqe/ti61NbQ6wZCWHwfQS5QGe5lDvRDkOCWNQ6Ymt0hBy5tM2Xpm0vZujEw3E=@vger.kernel.org, AJvYcCVr5yb25BL70ZfQQU1f+BAhXQCs5J/B32dxDr383DaxTl8jpQLhXtezWIV4tcWXBoUQ4Ok=@vger.kernel.org, AJvYcCWhqIm2y/pfqo0w+XbakgaGQwVpgopTl7lhLa7lwc9BZXRXSi0LRdJAca6JFQGXxJZClfU+nyBkhFR4bwfP@vger.kernel.org, AJvYcCXUxRZ9d8ig+DZIocM7n7Hn3Exh1W1FvcVxHkyVuRDo/oZ8Q7ZmRaY9Wlo3pSv6aZOA69nQb7r5@vger.kernel.org, AJvYcCXmNUbVm1Iu/xszePIt0idmKi1dwOki2eCNT5hcSTPA6q1RNy3yH434ahHVn4fHKTW/OYkAU7MTGBf3I3H1@vger.kernel.org
+X-Gm-Message-State: AOJu0YzcKu5mdP09HZDzmhGHMiNlt3oKwdbjsKlMHfqOiHjrfo46Xx3O
+	b1mX7y+0hYLP53Dizsqb5KvQW5gkvUSeXgujrL6Ce5Ji6iqvbBkm
+X-Gm-Gg: ASbGncvIRE7m57OKmUjcluZ342g8I6mAzBzMtTCH5vAz4t15kR1bDCeoMUGNM9gXOmn
+	7RcYhQ7wDWuMAWUQYyW+G4yvqdLuUYt5Tczz9HwfM2nPpHLWqhbKP5NuHQKzqq2XDviOUtZr6v8
+	6MGM3wmFMyIoSf/B8ppn4F+aTNIjpwoIgb9vET9nbca65Rtl9ctVuJQxN7Pl2d/qN6rqM5Ibbo2
+	wtwRAE3OvHGMJ4SsW/+Ct4DLN+4JrFZj0UJBCdmn9vfGgZpZEReUIO4YxH3qjGDpqcGOzq+/OsK
+	HVAwhjXwhpG/LLaFnbLArbLVCNjoX1APvWYmVTww3tgWGg+e010QmJQ2U57g2lcVrrN6gkYHCas
+	=
+X-Google-Smtp-Source: AGHT+IFmQ7+Wt4EJx82M81pMqmqG6vjS1UaCqAsjmQIBhBcvOofXBIwpdWFf7GWkoh7LWsBn9NTlfg==
+X-Received: by 2002:a17:902:c948:b0:220:d79f:60f1 with SMTP id d9443c01a7336-2236920765bmr101611195ad.42.1740839114994;
+        Sat, 01 Mar 2025 06:25:14 -0800 (PST)
+Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-223501fa8f1sm49231965ad.90.2025.03.01.06.25.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Mar 2025 06:25:14 -0800 (PST)
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	jk@ozlabs.org,
+	joel@jms.id.au,
+	eajames@linux.ibm.com,
+	andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org,
+	rfoss@kernel.org,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	dmitry.torokhov@gmail.com,
+	mchehab@kernel.org,
+	awalls@md.metrocast.net,
+	hverkuil@xs4all.nl,
+	miquel.raynal@bootlin.com,
+	richard@nod.at,
+	vigneshr@ti.com,
+	louis.peens@corigine.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com,
+	arend.vanspriel@broadcom.com,
+	johannes@sipsolutions.net,
+	gregkh@linuxfoundation.org,
+	jirislaby@kernel.org,
+	yury.norov@gmail.com,
+	akpm@linux-foundation.org
+Cc: hpa@zytor.com,
+	alistair@popple.id.au,
+	linux@rasmusvillemoes.dk,
+	Laurent.pinchart@ideasonboard.com,
+	jonas@kwiboo.se,
+	jernej.skrabec@gmail.com,
+	kuba@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsi@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org,
+	linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	oss-drivers@corigine.com,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com,
+	linux-serial@vger.kernel.org,
+	bpf@vger.kernel.org,
+	jserv@ccns.ncku.edu.tw,
+	david.laight.linux@gmail.com,
+	andrew.cooper3@citrix.com,
+	Kuan-Wei Chiu <visitorckw@gmail.com>,
+	Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: [PATCH v2 00/18] Introduce and use generic parity16/32/64 helper
+Date: Sat,  1 Mar 2025 22:23:51 +0800
+Message-Id: <20250301142409.2513835-1-visitorckw@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [QUESTION] Plans for GDIX1003 Support in Goodix Touchscreen
- Driver
-To: Weikang Guo <guoweikang.kernel@gmail.com>
-Cc: Bastien Nocera <hadess@hadess.net>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org
-References: <CAOm6qnnhR9++REgtjhZpqNXkBbBAZsGAY8Oy89cXUF9S=Vy-9Q@mail.gmail.com>
- <8c7b5560-27d0-42bc-8f25-0797500fb889@redhat.com>
- <CAOm6qnmYSQz_YVaWw1c-fMm3NCVV9MoQhLQ0XGzK9o2RybLHmw@mail.gmail.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAOm6qnmYSQz_YVaWw1c-fMm3NCVV9MoQhLQ0XGzK9o2RybLHmw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi WeiKang,
+Several parts of the kernel contain redundant implementations of parity
+calculations for 16/32/64-bit values. Introduces generic
+parity16/32/64() helpers in bitops.h, providing a standardized
+and optimized implementation.  
 
-On 27-Feb-25 12:36 PM, Weikang Guo wrote:
-> Hi, Hans
-> 
-> On Tue, 25 Feb 2025 at 20:09, Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi WeiKang,
->>
->> On 25-Feb-25 3:04 AM, Weikang Guo wrote:
->>> Hi Bastien, Hans, Dmitry,
->>>
->>> I am currently working on the Ayaneo Flip DS device, which I installed Kali
->>> Linux with kernel version 6.8.11-amd. This device has two touchscreens,
->>> but only one is functional. After investigating, I found that the second
->>> touchscreen has the device ID GDIX1003(confirmed by exporting the results
->>> through acpidump), and upon comparing with the current driver, I noticed
->>> that only GDIX1001, GDIX1002, and GDX9110 are supported.
->>>
->>> I have also reviewed the ACPI description and can provide the details if
->>> needed. Any guidance or updates on this would be greatly appreciated.
->>
->> I think this might just work with the existing goodix driver, just
->> add the new GDIX1003 HID to the goodix_acpi_match table:
->>
->> diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
->> index a3e8a51c9144..4b497540ed2d 100644
->> --- a/drivers/input/touchscreen/goodix.c
->> +++ b/drivers/input/touchscreen/goodix.c
->> @@ -1519,6 +1519,7 @@ MODULE_DEVICE_TABLE(i2c, goodix_ts_id);
->>  static const struct acpi_device_id goodix_acpi_match[] = {
->>         { "GDIX1001", 0 },
->>         { "GDIX1002", 0 },
->> +       { "GDIX1003", 0 },
->>         { "GDX9110", 0 },
->>         { }
->>  };
->>
->> Note I'm not sure this will work, but is worth a try.
->>
-> 
-> It works, thank you very much.
+Subsequent patches refactor various kernel components to replace
+open-coded parity calculations with the new helpers, reducing code
+duplication and improving maintainability.
 
-Thank you for testing.
+Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+---
 
-I've submitted a patch upstream to add this new hardware-ID
-to the kernel:
+This patch series is based on next-20250228.
 
-https://lore.kernel.org/linux-input/20250301113525.6997-1-hdegoede@redhat.com/
+Changes in v2:
+- Provide fallback functions for __builtin_parity() when the compiler
+  decides not to inline it
+- Use __builtin_parity() when no architecture-specific implementation
+  is available
+- Optimize for constant folding when val is a compile-time constant
+- Add a generic parity() macro
+- Drop the x86 bootflag conversion patch since it has been merged into
+  the tip tree
 
-Regards,
+Kuan-Wei Chiu (18):
+  lib/parity: Add __builtin_parity() fallback implementations
+  bitops: Optimize parity8() using __builtin_parity()
+  bitops: Add parity16(), parity32(), and parity64() helpers
+  media: media/test_drivers: Replace open-coded parity calculation with
+    parity8()
+  media: pci: cx18-av-vbi: Replace open-coded parity calculation with
+    parity8()
+  media: saa7115: Replace open-coded parity calculation with parity8()
+  serial: max3100: Replace open-coded parity calculation with parity8()
+  lib/bch: Replace open-coded parity calculation with parity32()
+  Input: joystick - Replace open-coded parity calculation with
+    parity32()
+  net: ethernet: oa_tc6: Replace open-coded parity calculation with
+    parity32()
+  wifi: brcm80211: Replace open-coded parity calculation with parity32()
+  drm/bridge: dw-hdmi: Replace open-coded parity calculation with
+    parity32()
+  mtd: ssfdc: Replace open-coded parity calculation with parity32()
+  fsi: i2cr: Replace open-coded parity calculation with parity32()
+  fsi: i2cr: Replace open-coded parity calculation with parity64()
+  Input: joystick - Replace open-coded parity calculation with
+    parity64()
+  nfp: bpf: Replace open-coded parity calculation with parity64()
+  bitops: Add parity() macro for automatic type-based selection
 
-Hans
+ drivers/fsi/fsi-master-i2cr.c                 |  18 +--
+ .../drm/bridge/synopsys/dw-hdmi-ahb-audio.c   |   8 +-
+ drivers/input/joystick/grip_mp.c              |  17 +--
+ drivers/input/joystick/sidewinder.c           |  24 +---
+ drivers/media/i2c/saa7115.c                   |  12 +-
+ drivers/media/pci/cx18/cx18-av-vbi.c          |  12 +-
+ .../media/test-drivers/vivid/vivid-vbi-gen.c  |   8 +-
+ drivers/mtd/ssfdc.c                           |  17 +--
+ drivers/net/ethernet/netronome/nfp/nfp_asm.c  |   7 +-
+ drivers/net/ethernet/oa_tc6.c                 |  19 +--
+ .../broadcom/brcm80211/brcmsmac/dma.c         |  16 +--
+ drivers/tty/serial/max3100.c                  |   3 +-
+ include/linux/bitops.h                        | 115 ++++++++++++++++--
+ lib/Makefile                                  |   2 +-
+ lib/bch.c                                     |  14 +--
+ lib/parity.c                                  |  48 ++++++++
+ 16 files changed, 185 insertions(+), 155 deletions(-)
+ create mode 100644 lib/parity.c
 
-
+-- 
+2.34.1
 
 
