@@ -1,212 +1,151 @@
-Return-Path: <linux-input+bounces-10497-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10498-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F756A4C585
-	for <lists+linux-input@lfdr.de>; Mon,  3 Mar 2025 16:44:53 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4104A4C60B
+	for <lists+linux-input@lfdr.de>; Mon,  3 Mar 2025 17:04:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB0423A5F80
-	for <lists+linux-input@lfdr.de>; Mon,  3 Mar 2025 15:43:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 95739171825
+	for <lists+linux-input@lfdr.de>; Mon,  3 Mar 2025 16:03:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DE812144DD;
-	Mon,  3 Mar 2025 15:43:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63E4021ADB2;
+	Mon,  3 Mar 2025 16:02:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MSW77dWK"
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="G6zQRxWr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 605842139AF;
-	Mon,  3 Mar 2025 15:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3AD4218AA5
+	for <linux-input@vger.kernel.org>; Mon,  3 Mar 2025 16:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741016612; cv=none; b=dkwE+/hO3qoN2tnhMdZbHk6ZBABzyH1FzRGiPG/mnJQZtO9YbVBJZVTimuw8aLDItw67YYQh77y/TtT63FTpL/4at0Fi5OLN34uFEAPJBDZPvESGnNgLqXyrTJ8UaNvcjUmwJVVq8OPs4V3RTEeOAHuBbSvQGUFNLbcEmVuXf+s=
+	t=1741017758; cv=none; b=Ps8/rnhyKDLurBA7mfgsOaUw0rT5t63oxG3ZHRwp0pMiVgdSKbLwEWDufjFl9UellObU2xSSl+kPd4eaYDMJfPSphf1H9KNVjwHMHkZKrCkkIqizzSrO7yMuuKkUtxqNcDHHKE46kzZc7m4xs6Lr6teAlJCS0UKgUE6/h4RZP4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741016612; c=relaxed/simple;
-	bh=e7sJsPxftEmqUF7aflD0iSt9xRNb7hVvNLp83A2uWUU=;
+	s=arc-20240116; t=1741017758; c=relaxed/simple;
+	bh=f3z1YJDae+7qKzu1a/ULS1y8fv2jKayJhoYaJjgj1Lw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ExVFCEk3QObOG23CBGVE9CQ+dIXpODx875OUJ69brDh88WtbHsDemGJT3JscIT4YgPGcT7i33IzCNzVeG2LXl38mXx48IHgkpBkS4ZmE2bS5EqIlAUOVGyyFnCX+pw3J6e30mguxNf5xAWaXekArCQ4YKcb3HDHlSBQXcP60ihw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MSW77dWK; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e573136107bso3977622276.3;
-        Mon, 03 Mar 2025 07:43:31 -0800 (PST)
+	 Content-Type:Content-Disposition:In-Reply-To; b=JkfTY7oDQSgFZ7dePIKPnq+TCLpozJd3DtF+NltMv8OAqs10vU6XZlP8Pa0WsfdDs+wuyAuslD8ngAkGeXsxTrPN/+PsQD784CQg/zECWnPp7ZyKftvwfXeRxHOvpjZGP2ZdytfsVmMWhtoYkHmegX6jrfibimD726GNnOoXC9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=G6zQRxWr; arc=none smtp.client-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6e895f3365aso36833786d6.0
+        for <linux-input@vger.kernel.org>; Mon, 03 Mar 2025 08:02:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741016610; x=1741621410; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1bze7IhHFHWNKOAl2fnuzVpo5poDDbwUFQZHYPw6zzY=;
-        b=MSW77dWKKqQYBCIuYbBldZvCWQBURrH6RSVrIpNFTXQSNAP7HH5YYJrPx+oEZsrdal
-         AJJ/Dp6pSCBg5xQAmfjt8AbIB/Ru2EHASncEWqc+mDp2tBsoZEsvdspUoiXTr6dbLQw3
-         Zx/BWpGkWqYOyn5zaSBTQPmh5p6QHYu38ngl7XR5DplVvGJ59jjKjx5DLqH1FEhvtpAY
-         C64s2i6WEX0OwGpDMoRa1IdwAY6m11d+l0BvuO37W5Zh/1Azd4BaV0xD+BHwh7gAEySw
-         unppoE5n41e4q8VzquI4rsEbHpLcALTV8QSy6fPgQYrvY8VL4EMhaS0OsYu6qicd9998
-         PKFQ==
+        d=rowland.harvard.edu; s=google; t=1741017754; x=1741622554; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=j0kf09Xt7w2q49Ub1BV7dNTILamWt8grEXO5Ja6in+c=;
+        b=G6zQRxWrNMhTkxwZBqgMdPht5fUcUaayMq50TzI7kuwgCrW5voPoi9QHBl+fojC0xP
+         ceiDEiw3v/wVl31JD9/6Sv8WYjJOapEJ7uVw3yCj5RaCHkXDHAqVdQOlPqOKZVvk/+3N
+         vXjaQPFQ1/tchjgTBvNkxE8IJRVa7a8YLpi2L0HM03nk76aF1bag13c/+f/SjIuzFAx4
+         OWHdVWr3mIchCDbvFpU/Q3tiAITjYTlkcvQGkJwJxEyNYufZ5mWUBfjSHEJBFI3xJgur
+         6+zP5M9mUR27gfq9BF4ncYUKI4sUVuIkhPKh00Zi5RdDyOUdvQb/kBtoYSBlGpsiREgH
+         2WrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741016610; x=1741621410;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1bze7IhHFHWNKOAl2fnuzVpo5poDDbwUFQZHYPw6zzY=;
-        b=EiUtULyDpYRQ+yfdIBJfNTeqnI0bBvc5V1w0ZgIowNt9JGpHwusoFifqDDQJ/XiQBN
-         43brz++vRCbEklJMo0K02zsqg93YNfD3aLkCvTzr65rHTzUVwlq4nNPYQiGTR9g+oY6Q
-         J06V5D4elFSTqLoCRiqk70miDfX6gPL6TiCDU0UpPyc6PChH4G1sLBjWa76TQQwEyvgQ
-         sB9QEvv25Ds2xm0w6QiXq/AOm7erpa/e/LASrmPwGCO3mIflD3rB7NGUI+sVX5hPXer0
-         XMAzMLyXlfUTGUnprzVzc760duAh3P0ezANQwlNAIHds7p+d0WbZns2lFG3CibumdWXx
-         CDSg==
-X-Forwarded-Encrypted: i=1; AJvYcCUk0EY4SyY+CBSnHkpMue+TW7MR6YurwPNARyZPugnTJ703/lk+qdlXeoRDi9b154cN4NTb9fKBBfvSxaev@vger.kernel.org, AJvYcCUufWErN3Gf00htD+wfNx9QI9cawDBSnrSoCjxOcqvxWh6ktM+UxaqYV7HY/9Jn0cihRWj0SYbejtQ1AQI=@vger.kernel.org, AJvYcCV/+iOOOuu0W9J+kT3Cs3tvrtFo47/1e5iFESbpxTcrHJPKr6XWA78G25EWs91vxFfK6VpwrKZJFVot92VF@vger.kernel.org, AJvYcCVwXglx0EYn6ych4MDvm+FVjj+GP6U7yr5Gczp3p9dOe59l24rXIazxaFl4ZccKVqaLMEE=@vger.kernel.org, AJvYcCVzsCt6v/AmeVJEFvrZ8np9z9XTKcM6tIbiiHxhTPvkWNoEna9kjiAqmzJVsa7VxV0C8KgS7iQq@vger.kernel.org, AJvYcCWf2jjqoAAp6NwYStaHivhIRe9Wf/N5wJgTgM8/iMUgTkZK9D07Oeh4AdC8dGMSv/t1n33CCD+DaUqKl/w=@vger.kernel.org, AJvYcCWp9r2FNMe/rI1ykDlUp1KmUrHGzr0Yc47cUQ46MEROr0H588FWgOnw7DOL3vSZk3wyvwrhRfBku7AZxmzO54c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUn2XbWOJQXhaNQCWR4qFUNUmpoVGpbUCPlMPEO9/HVTOzoszU
-	ScZmqg9yFDIeuAoctMssqO9YeU+FgJo/ewPtAMp1YyYGbuZsCxbS
-X-Gm-Gg: ASbGnctxP0Saxc6TV060unwXbNIKhKfp5hTYXxNYSphjEFdWzW0L5wjh1WJ7/dkhFal
-	y8hUSXoh7LtRD2uHgVn/YGKaakCZBAv9UMrwkjz07A1pU/JLgSrwzR0FKqMW+NS+s4bz8zmgI4s
-	DpJ/6rR9Rt0XN3pkXWrqye7wo4rCuUyCB8IWBFP+eCdEfz9rQY9/7xPpgbm8yitJ/l4G3nq9eW+
-	Mnd+n5IAliOCRz3nu8J92//c6myisor7K8umsunF0BNYBcg7xSfVCrofIAqUkxHNIMeWtdZKKdd
-	YK2vOa8Hu7aOO3qLeDLYtnnP7Ji6oetnuDQYCk/SQROBOLhOUvaWGESjX3AgBVSQ167r9MstDwA
-	JT/Ep
-X-Google-Smtp-Source: AGHT+IG89LZIvDJlj/3HacLk9/vOGUR8YR6jlY63nvw+Gy77ela/IFHbq/QbvXbn9Hpv7+y9TBQguw==
-X-Received: by 2002:a05:6902:2748:b0:e5d:dda6:d25 with SMTP id 3f1490d57ef6-e60b2f5f1d5mr16067385276.45.1741016609877;
-        Mon, 03 Mar 2025 07:43:29 -0800 (PST)
-Received: from localhost (c-73-224-175-84.hsd1.fl.comcast.net. [73.224.175.84])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e60a3a20448sm3017480276.3.2025.03.03.07.43.29
+        d=1e100.net; s=20230601; t=1741017754; x=1741622554;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=j0kf09Xt7w2q49Ub1BV7dNTILamWt8grEXO5Ja6in+c=;
+        b=HF1SemD/4jr8fX+5+kLgPKoV/uhepLdBE+4h7gmg00yiemaY1TNw8QTEi6X2kzRIaA
+         rCumiZ0Y+z7RyYYIiDEUJ+8zLkiJ1ixy4mgMfWESZ5AkP72gmHMBPubwJJiKQbz2asrC
+         EzcgPq4yK1D38n9y9HavG06LMlhU+Iwb1fi7Itx4bXO5LG0/j2lruWq2ZEtsIaDt6qEs
+         yLGJwXywTYQemWczbU+8f+VLDnUA4BgyDZG/NPzkSxvnzUfgtyHojxv0Rg4WMAzRsRmU
+         BNj8UKLr2wIncw5XrYjspJ5w948a4+w+gf+Z9Z1LtrDLp/D9SeUeNh+ozG7UpJI2yV/L
+         TDLg==
+X-Forwarded-Encrypted: i=1; AJvYcCWBo/RlwsTnvfspjubnRAJHYiynlAq5JO3hnulsZEN/0V26EHuEe21TqXAqq8RzsyF38c6hte6jK97ERQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxM0t7JS4W8MUod+dMYkmVisz4aEYfK3OfeMNSKjQknQzFTeU4t
+	pFSqrdFCbu0WmI+XuC8oMvAPKsQhjpgZxlgixyszogvRhj+X4x7VTPLbZR4uCw==
+X-Gm-Gg: ASbGncs/Fhp4+NJHF32SJKluPL/G6DZ3uId6zuOdqeggMZOUdrayueAKl0GiH19Ur5K
+	zLn6RWp1AR89br00BX4STPfKvDGyzqeFGL/zpZXUryrY03Y++dQTUiv7Le5mjcRFC9mWt+iI5JB
+	jw3SiE5mRBZTyj+51/qCUKFHTjfi6S/sweQLlrXuF+ONhPsj3Fhjkrc45esMK+UPF57RPoGNPcK
+	wecw59If+FSGKObW9M+14g4yuPVAWeNu3Drsnz3Qk8Xb2ApU3L3dBmPw3ZUjoLLbgoXpdoXLwE5
+	yXVqhAf/yxelY4nfMYm8xToKJtmFAC9Tw8PewLeuXj1I0vo5CY7z+bYVX+Xvx0Y=
+X-Google-Smtp-Source: AGHT+IGftmtJ1H46cLxhxWAbdbWJGM0W0W4u3xExTd+O5te0WpEQdDeILfCXfX/nJATaCR1Ljm0czw==
+X-Received: by 2002:a05:6214:da8:b0:6e8:96f4:73a with SMTP id 6a1803df08f44-6e8a0d3901dmr235750906d6.19.1741017754321;
+        Mon, 03 Mar 2025 08:02:34 -0800 (PST)
+Received: from rowland.harvard.edu ([140.247.181.15])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e8976ccba1sm54361766d6.90.2025.03.03.08.02.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Mar 2025 07:43:29 -0800 (PST)
-Date: Mon, 3 Mar 2025 10:43:28 -0500
-From: Yury Norov <yury.norov@gmail.com>
-To: Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: David Laight <david.laight.linux@gmail.com>, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
-	eajames@linux.ibm.com, andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org, rfoss@kernel.org,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-	dmitry.torokhov@gmail.com, mchehab@kernel.org,
-	awalls@md.metrocast.net, hverkuil@xs4all.nl,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	louis.peens@corigine.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
-	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
-	alistair@popple.id.au, linux@rasmusvillemoes.dk,
-	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, kuba@kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-	oss-drivers@corigine.com, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
-	andrew.cooper3@citrix.com, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH v2 01/18] lib/parity: Add __builtin_parity() fallback
- implementations
-Message-ID: <Z8XOF2DMMRKqam6R@thinkpad>
-References: <20250301142409.2513835-1-visitorckw@gmail.com>
- <20250301142409.2513835-2-visitorckw@gmail.com>
- <Z8PMHLYHOkCZJpOh@thinkpad>
- <Z8QUsgpCB0m2qKJR@visitorckw-System-Product-Name>
- <Z8SBBM_81wyHfvC0@thinkpad>
- <Z8SVb4xD4tTiMEpL@visitorckw-System-Product-Name>
- <20250302190954.2d7e068f@pumpkin>
- <Z8UYOD2tyjS25gIc@visitorckw-System-Product-Name>
+        Mon, 03 Mar 2025 08:02:33 -0800 (PST)
+Date: Mon, 3 Mar 2025 11:02:31 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Strforexc yn <strforexc@gmail.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+	Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
+	linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [BUG] UBSAN: Array-Index-Out-of-Bounds in usbhid_parse (HID) on
+ 6.14.0-rc4
+Message-ID: <21b63d7e-5141-426b-af06-9465609e2ca2@rowland.harvard.edu>
+References: <CA+HokZreT4LYLbru4cc0iU4jKkdf40YnVunaGX0hFV2GAnnuEg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Z8UYOD2tyjS25gIc@visitorckw-System-Product-Name>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+HokZreT4LYLbru4cc0iU4jKkdf40YnVunaGX0hFV2GAnnuEg@mail.gmail.com>
 
-On Mon, Mar 03, 2025 at 10:47:20AM +0800, Kuan-Wei Chiu wrote:
-> > > #define parity(val)					\
-> > > ({							\
-> > > 	__auto_type __v = (val);			\
-> > > 	bool __ret;					\
-> > > 	switch (BITS_PER_TYPE(val)) {			\
-> > > 	case 64:					\
-> > > 		__v ^= __v >> 16 >> 16;			\
-> > > 		fallthrough;				\
-> > > 	case 32:					\
-> > > 		__v ^= __v >> 16;			\
-> > > 		fallthrough;				\
-> > > 	case 16:					\
-> > > 		__v ^= __v >> 8;			\
-> > > 		fallthrough;				\
-> > > 	case 8:						\
-> > > 		__v ^= __v >> 4;			\
-> > > 		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
-> > > 		break;					\
-> > > 	default:					\
-> > > 		BUILD_BUG();				\
-> > > 	}						\
-> > > 	__ret;						\
-> > > })
-> > 
-> > I'm seeing double-register shifts for 64bit values on 32bit systems.
-> > And gcc is doing 64bit double-register maths all the way down.
-> > 
-> > That is fixed by changing the top of the define to
-> > #define parity(val)					\
-> > ({							\
-> > 	unsigned int __v = (val);			\
-> > 	bool __ret;					\
-> > 	switch (BITS_PER_TYPE(val)) {			\
-> > 	case 64:					\
-> > 		__v ^= val >> 16 >> 16;			\
-> > 		fallthrough;				\
-> > 
-> > But it's need changing to only expand 'val' once.
-> > Perhaps:
-> > 	auto_type _val = (val);
-> > 	u32 __ret = val;
-> > and (mostly) s/__v/__ret/g
-> >
-> I'm happy to make this change, though I'm a bit confused about how much
-> we care about the code generated by gcc. So this is the macro expected
-> in v3:
+On Mon, Mar 03, 2025 at 04:52:33PM +0800, Strforexc yn wrote:
+> Dear Maintainers, When using our customized Syzkaller to fuzz the
+> latest Linux kernel, the following crash was triggered.
+> 
+> Kernel commit: v6.14-rc4 (Commits on Feb 24, 2025)
+> Kernel Config : https://github.com/Strforexc/LinuxKernelbug/blob/main/.config
+> Kernel Log:  https://github.com/Strforexc/LinuxKernelbug/blob/main/array-index-out-of-bounds_usbhid_parse/log0
+> Reproduce C: https://github.com/Strforexc/LinuxKernelbug/blob/main/array-index-out-of-bounds_usbhid_parse/repro.cprog
+> 
+> I’ve encountered a UBSAN-reported array-index-out-of-bounds issue in
+> the USB HID driver on Linux 6.14.0-rc4 during device probing, likely
+> triggered by a malformed USB descriptor. Here are the details:
+> 
+> UBSAN detects an out-of-bounds access at
+> drivers/hid/usbhid/hid-core.c:1025:18 in usbhid_parse, where index 1
+> exceeds the bounds of hid_class_descriptor [1] in struct
+> hid_descriptor. This occurs when parsing a HID device descriptor
+> during USB probing.
+> 
+> Location: The fault occurs in a loop: for (n = 0; n < num_descriptors;
+> n++) if (hdesc->desc[n].bDescriptorType == HID_DT_REPORT), accessing
+> hdesc->desc[n].
+> 
+> Cause: struct hid_descriptor defines desc as a fixed-size array [1],
+> but the loop iterates up to num_descriptors (based on
+> hdesc->bNumDescriptors). UBSAN flags n=1 as out-of-bounds, though the
+> underlying descriptor buffer may be larger.
+> 
+> Context: Preceded by a USB descriptor error (-22), suggesting a
+> malformed HID device (likely Syzkaller-crafted), triggering the loop
+> with bNumDescriptors > 1.
+> 
+> Impact: No immediate crash, but a code hygiene issue flagged by UBSAN.
+> Runtime safety depends on descriptor buffer allocation, but it’s a
+> potential source of confusion or future bugs.
+> 
+> Could HID maintainers investigate? Suggested fixes:
+> 1. Use a flexible array member (desc[]) in struct hid_descriptor and
+> adjust parsing to rely on runtime buffer size.
+> 2. Add stricter validation of hdesc->bNumDescriptors against bLength
+> to reject malformed descriptors earlier.
+> 
+> Our knowledge of the kernel is somewhat limited, and we'd appreciate
+> it if you could determine if there is such an issue. If this issue
+> doesn't have an impact, please ignore it ☺.
+> If you fix this issue, please add the following tag to the commit:
+> Reported-by: Zhizhuo Tang <strforexctzzchange@foxmail.com>, Jianzhou
+> Zhao <xnxc22xnxc22@qq.com>, Haoran Liu <cherest_san@163.com>
 
-We do care about code generated by any compiler. But we don't spread
-hacks here and there just to make GCC happy. This is entirely broken
-strategy. Things should work the other way: compiler people should
-collect real-life examples and learn from them.
+Have you seen this patch or tried to test it?
 
-I'm not happy even with this 'v >> 16 >> 16' hack, I just think that
-disabling Wshift-count-overflow is the worse option. Hacking the macro
-to optimize parity64() on 32-bit arch case doesn't worth it entirely.
+https://lore.kernel.org/linux-usb/20250131151600.410242-1-n.zhandarovich@fintech.ru/
 
-In your patchset, you have only 3 drivers using parity64(). For each
-of them, please in the commit message refer that calling generic
-parity() with 64-bit argument may lead to sub-optimal code generation
-with a certain compiler against 32-bit arches. If you'll get a
-feedback that it's a real problem for somebody, we'll think about
-mitigating it. 
- 
-> #define parity(val)					\
-> ({							\
-> 	__auto_type __v = (val);			\
-> 	u32 __ret = val;				\
-> 	switch (BITS_PER_TYPE(val)) {			\
-> 	case 64:					\
->                 __ret ^= __v >> 16 >> 16;		\
-> 		fallthrough;				\
-> 	case 32:					\
-> 		__ret ^= __ret >> 16;			\
-> 		fallthrough;				\
-> 	case 16:					\
-> 		__ret ^= __ret >> 8;			\
-> 		fallthrough;				\
-> 	case 8:						\
-> 		__ret ^= __ret >> 4;			\
-> 		__ret = (0x6996 >> (__ret & 0xf)) & 1;	\
-> 		break;					\
-> 	default:					\
-> 		BUILD_BUG();				\
-> 	}						\
-> 	__ret;						\
-> })
+Alan Stern
 
