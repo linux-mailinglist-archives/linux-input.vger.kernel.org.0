@@ -1,122 +1,119 @@
-Return-Path: <linux-input+bounces-10522-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10525-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D46AA4E0B1
-	for <lists+linux-input@lfdr.de>; Tue,  4 Mar 2025 15:24:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 303F8A4E397
+	for <lists+linux-input@lfdr.de>; Tue,  4 Mar 2025 16:36:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14DAF3A48AE
-	for <lists+linux-input@lfdr.de>; Tue,  4 Mar 2025 14:17:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EA6FF19C14BE
+	for <lists+linux-input@lfdr.de>; Tue,  4 Mar 2025 15:30:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32C0A204C2B;
-	Tue,  4 Mar 2025 14:18:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2621424EA9D;
+	Tue,  4 Mar 2025 15:18:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FT3uUVTP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EeEmGMRu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from beeline1.cc.itu.edu.tr (beeline1.cc.itu.edu.tr [160.75.25.115])
+Received: from beeline3.cc.itu.edu.tr (beeline3.cc.itu.edu.tr [160.75.25.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30830204C13
-	for <linux-input@vger.kernel.org>; Tue,  4 Mar 2025 14:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=160.75.25.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2996724EA90
+	for <linux-input@vger.kernel.org>; Tue,  4 Mar 2025 15:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=160.75.25.117
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741097880; cv=pass; b=GKyi61Y9paHmUv91zFS7uICz6mbfJKIYcX4Gqnvbqs5UG0re3JdUoHuU3y/YNF6KlYj4Goch7zZvlzrnGZRlSH3eX14mkBXJR7m7zFvU06/wvZFVdzHFWOVX010AjJLqQ91ftX0aUlFZxC+eyEzbICqJOKkbEW4jxElJErOqE2w=
+	t=1741101507; cv=pass; b=VV885AA187zZ8fPJpxSIJkZKFhK++G5/uSOmXQ2NZcwzgypP7eCELFz5Qqcl70dP1b3JotNNqSPX7pvb5JaFhFXSqrnTSbmXYgSeUKAG9G8iq/NhgIaLLPFxRWvifLbfkN52FwI9GoygX7DeySk77kq1ETJMKcoiR1KkTi2l6vY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741097880; c=relaxed/simple;
-	bh=vaauKdgQ/xBP5Sjd+ekagRTM0cnkT9564ZcWHomNZAU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=blkefLyd6vG4DG6NKdjgr5Q7diNCyEuXbL6T5ymqJsY7BXk3S4q4qemHJRf9BUVKEGlMqYA2Ijfu+qBxYvcWnRorFCi/+IAQwNA+5uGNNgZ2GVPLn3hKH+5kVcLlpo80vtxXnl3JHVx2TK8uip4uePF2/z8kNnWDcvCLMlEbEEw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=none smtp.mailfrom=cc.itu.edu.tr; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FT3uUVTP; arc=none smtp.client-ip=209.85.216.42; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; arc=pass smtp.client-ip=160.75.25.115
+	s=arc-20240116; t=1741101507; c=relaxed/simple;
+	bh=drQ0NcaIMsfTKB8JBITxEr57F74h1+2an2c5LUxLz6s=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=SdK8WDvHGw7HicL1TSraHRWZDRSwwyFr1ThxUwnof+GNGyurVzYYxrlm6hYeA3o5ObVxQifO6u1QFYEhmSqr9MJXuzj9RHIvhCJeF17sMWPA83zRdjS6OAcXyQEguAei8AwB+8aMLeCHQFT7GIPDmG7UNAvcPvX2uNpc72Fg9qU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=none smtp.mailfrom=cc.itu.edu.tr; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EeEmGMRu; arc=none smtp.client-ip=209.85.210.42; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; arc=pass smtp.client-ip=160.75.25.117
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cc.itu.edu.tr
 Received: from lesvatest1.cc.itu.edu.tr (lesvatest1.cc.itu.edu.tr [10.146.128.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by beeline1.cc.itu.edu.tr (Postfix) with ESMTPS id 403E240D052C
-	for <linux-input@vger.kernel.org>; Tue,  4 Mar 2025 17:17:56 +0300 (+03)
+	by beeline3.cc.itu.edu.tr (Postfix) with ESMTPS id 1EE1540D0C8F
+	for <linux-input@vger.kernel.org>; Tue,  4 Mar 2025 18:18:23 +0300 (+03)
 X-Envelope-From: <root@cc.itu.edu.tr>
 Authentication-Results: lesvatest1.cc.itu.edu.tr;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FT3uUVTP
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=EeEmGMRu
 Received: from lesva1.cc.itu.edu.tr (unknown [160.75.70.79])
-	by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6d5L1ZbyzFwBW
-	for <linux-input@vger.kernel.org>; Tue,  4 Mar 2025 17:16:06 +0300 (+03)
+	by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6fS55c4ZzFyQP
+	for <linux-input@vger.kernel.org>; Tue,  4 Mar 2025 18:17:25 +0300 (+03)
 Received: by le1 (Postfix, from userid 0)
-	id 2BB0A42769; Tue,  4 Mar 2025 17:15:51 +0300 (+03)
+	id D625642740; Tue,  4 Mar 2025 18:17:22 +0300 (+03)
 Authentication-Results: lesva1.cc.itu.edu.tr;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FT3uUVTP
-X-Envelope-From: <linux-kernel+bounces-541319-bozkiru=itu.edu.tr@vger.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EeEmGMRu
+X-Envelope-From: <linux-kernel+bounces-541209-bozkiru=itu.edu.tr@vger.kernel.org>
 Authentication-Results: lesva2.cc.itu.edu.tr;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FT3uUVTP
-Received: from fgw2.itu.edu.tr (fgw2.itu.edu.tr [160.75.25.104])
-	by le2 (Postfix) with ESMTP id 01A8542FC1
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 12:58:21 +0300 (+03)
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by fgw2.itu.edu.tr (Postfix) with SMTP id 5F07B2DCDE
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 12:58:21 +0300 (+03)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EeEmGMRu
+Received: from fgw1.itu.edu.tr (fgw1.itu.edu.tr [160.75.25.103])
+	by le2 (Postfix) with ESMTP id 6393241F76
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 11:56:24 +0300 (+03)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by fgw1.itu.edu.tr (Postfix) with SMTP id 3B5293063EFC
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 11:56:24 +0300 (+03)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C0863B4493
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 09:56:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED1911893415
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 08:56:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85EEC1F130B;
-	Mon,  3 Mar 2025 09:56:53 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2E7D1F3BA9;
+	Mon,  3 Mar 2025 08:52:50 +0000 (UTC)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2BE1F12F6;
-	Mon,  3 Mar 2025 09:56:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4961F37C5;
+	Mon,  3 Mar 2025 08:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740995809; cv=none; b=IQwmMIACLkQkNvB10yHX9OY4U3HNnu9QgLKHYnKHmU2fQD9lwx54rATy0smWP+laXCKnHLZoXr/JvNQHJVX/0SmQeXgx19cDQySUKcSocEne6ybjbFJQXaFUg0sLxbuhUV2bQM44GRpvyxk7aOitnFviDXSp6J/6I7Nn9UE2EDs=
+	t=1740991967; cv=none; b=VrRFrND/gWaK9KYL9+EZ21DVEd2o41LXvRP+z7HWqWJZCTQuX+MlNBTIXX7+R4IBjv2n1Ev55ZXlaxUp6Nc/3hetstfKoW/Dlm5cgYcl10TZarhbUHMebASabhq8ojVYYvbSiZtjvBchwZeAkKy1IJbOKXf7WS3VAsG6WHLxOfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740995809; c=relaxed/simple;
-	bh=vaauKdgQ/xBP5Sjd+ekagRTM0cnkT9564ZcWHomNZAU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bF0RDFxIpHdpLEkSU7Bzor/55RE1AUKFvJNuf0G1nGgOEbED1vyhKiF7cf1bpkpT/wRT3TYk6c02JJvkChRKTnmIvKw0GFeIJpkCOIeTKhusg3UZyo6QZiR7Lu4hvRWpufzYMliJ6xdjp6xnEfuPdovb++p143OrrTzteSmMbYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FT3uUVTP; arc=none smtp.client-ip=209.85.216.42
+	s=arc-20240116; t=1740991967; c=relaxed/simple;
+	bh=drQ0NcaIMsfTKB8JBITxEr57F74h1+2an2c5LUxLz6s=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=WISIGZMb/wbrLOGMW+mZX8OgtelL47kp83OnuehJAB9VzOKRR/95FvzWISiaG7NjSL9QjSeW7ZFG4N44RUy7b2BWUvTwYKmelSVCqrQLkrSJiozEtmx5GEFeZhU4Hkw/bVZBeBZzgDJpxAtLc14dA4Kvf3VbxeLBP0VG6k9TPDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EeEmGMRu; arc=none smtp.client-ip=209.85.210.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2ff187f027fso732976a91.1;
-        Mon, 03 Mar 2025 01:56:47 -0800 (PST)
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7272f9d216dso2284930a34.3;
+        Mon, 03 Mar 2025 00:52:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740995806; x=1741600606; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XWd07D6pFSSlTwQImXpRLf8JSaFpJSpotQCtmwnI1O8=;
-        b=FT3uUVTPPepSgkWj1aVTWXQCyWdmtS0QymYOm02KfxLvowRoLGoKYzHzFT95Atj1Mc
-         nTNXA+Hl9ezJLnubbcbe0wtpDKfhCkBTSmeoduBOhoflds+cfyuOdLhYuOiaJQKdSTyH
-         Dv25I0pIhmwJrhOg4OKL1HTGCMWH8abLLp+E15Q6zeMCJqyl9qQ5ZMfBsqho02xPlV0B
-         RD8VLHS8if+3JmsXqx+JwpySfVUIkqeCqvON4y0+XMmJ3dYU5c9g8tpHqvinI3mcjwNk
-         OfQXAiGBWhgdkQ/DtquQQNRn1PAvIEIAfQmKJpEmOEXZXFE16P6NN52T8/88TYZP1avV
-         Q/Dw==
+        d=gmail.com; s=20230601; t=1740991964; x=1741596764; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=l3apEbB5XmEDlQN1GZTf5UAqshLkDwzJqPRGdkDFXaI=;
+        b=EeEmGMRu3cSkc+A4/nY2/llbDpK8+4XpQIs4hOO9m1hMtgM4Psv6qkd8olZFpjI/6r
+         ICaEQA0/hcTz9Uab0L0zU7POys9PM0GZiCUigdfMdX5dwSNYwx8rBiLHJJqF+IfxRl5y
+         Q9aAHvpr/vUaAaPp1HICq1czQqaNCuQqNPuukOPteeNaw0Xv2WDdxvcOX5Aa4i/wOdc4
+         H+uUgQ/OVJrq7aUTuOr102phUW/cZCs1Zq9uM9lL9HPpMtBCfJTbZrmoQwAZbMuK+2Z5
+         kEaX9uppQPCAygQwszKGea/0bY5r4tBCt4+xIWu/ay+HwKuHQGzwj7lpPxNjseMZSX+t
+         0FBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740995806; x=1741600606;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XWd07D6pFSSlTwQImXpRLf8JSaFpJSpotQCtmwnI1O8=;
-        b=lmhG8wH6MNT79c9rAw0BfWy94PJMQ9Oj100htRlxfXcFJhTaJvFO168F1WpaCITltJ
-         XiGPY4llfz0MtF2f4xbRJ1YKfw06mLYdzu+RhetmugycwqxE1qc5g9zsI6g/irGu7yxV
-         RI8XmP1f/3sMrxyl5k1U3Mc29CorLiEO2h77JW5DpVZaFe+QDpyxZtogxREXYTQmGmTW
-         sjO+WE67PO8YRfXmnaHewPC0at2TvgOa6YvGVKBBz2DLpg4Nv+X8Br0xYQ3vujpzbReD
-         bcAUMdbtCSs2R5I8twYydNyNzsMd4OSP/89vmjAIMxnEkpQsMQH9wu8s+v7lGXf9rDVf
-         LRYA==
-X-Forwarded-Encrypted: i=1; AJvYcCW+ndhOQJYhw+FvjmGVXOTnrvDf8l8ER2sR86hTSMd0F9ZHNrHsS/vKcdM3mJgTj3Np00e/huIIDcjJyQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOHLXNLaXgqHqgGGR8XCZ/QqsMwq87xCkCLGGDevUkn4Kr0pMR
-	eU13q8t3dj4cz7t97GUGZcoj+1BLivtHk/+I5fp+GhYo+580p7qcAgDzqSd3DSjvSaf6d1OgLuB
-	hL91ct4ktMYn1UypVRiVA7WTXLIvMNGOnfNg=
-X-Gm-Gg: ASbGncvYDkSD7tsxTnp2Z5Y+UoptfZtfbMLgO5dn1idNELPO1IaunDL2sgqBc7QTEaH
-	oTwbIwvdCFAbJlH+8kX6ER3wyH4y36rp7SmF9foUcFMests3nsgAnyYJ4tCxIKIZi346m7uKk+h
-	mNgcQylpuo7lX3T1vwMhQLuEfY1g==
-X-Google-Smtp-Source: AGHT+IEIGVq/NZk6ndWbqLLtN3JumLWvzn/7rxT8lru/+JgeRqnyR+BSdC3a6d2o5WeoVkSyhRK2tsEkoia7e3kQwno=
-X-Received: by 2002:a17:90b:4b0d:b0:2e2:c2b0:d03e with SMTP id
- 98e67ed59e1d1-2feba5edb2emr18685076a91.5.1740995806361; Mon, 03 Mar 2025
- 01:56:46 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740991964; x=1741596764;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l3apEbB5XmEDlQN1GZTf5UAqshLkDwzJqPRGdkDFXaI=;
+        b=VdlpiWOqhuefJrlopXv4loTeYVt44DIQV/DAup9GLXYTA8dh0n1d/vI+hbKmBGym8k
+         XdnGK3TBTx+f/yBIWhuRvHXIDS4BW4BiSxDORuEHFdmT4YDlIOOSemNVToJNFMKi+Qrf
+         2U+8Tx/9en2CF1yQcuveoR1UNUNX+OuPF+beQ0jj7tbQZw0yorilXMDvcdWsn0qPy2/B
+         iYfMDDbKOkUNVH1fOWnFAbUzVvjiwaC53l/KfxorqPLNzAkrgJ5I0PvHeK+L7dMGXkov
+         K6HWLC2qBXVpKWiBJjPZ6ggcgPiR4V2gvyRM8y6IRalN5cAPH6QWCkv/7NqBASlfeMX4
+         KruA==
+X-Forwarded-Encrypted: i=1; AJvYcCUh6D4KAUGvl2jr8NWxyaYUClxsE/+hXNpkXHTshb3ZQI/mxMwOVsQNh4jjL5ODDRgtmEKvYKOLnYUBFngx@vger.kernel.org, AJvYcCWaiY7GNWwHqwSXqo5Ltp92wtzpb2qI0ij98SIrWUvycNciL9S8iA0/xUOthc26mIXtNysc+A6Eb9kG@vger.kernel.org, AJvYcCXjQLRrWJ//nJnvTbUym2AtVinJhis/1Cf94NdaEtIqQMfGZxr1EDWLJzVt3Eb2rHP7VdjuKDiJ5iKYxA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+KTk7OVDWCQYCpEsRV4QMcsFv3D7rmI9IcTMm0THc3JcSDTH0
+	teLjKn1QVikkqrNEz2GSdgk/SJLyw0Ehn4WjrwqQQ9s238bShX4+7Ut0Si+LfoMVURZIQnPxN4U
+	8RM9+f40tlBuNZqzWaefgdhw1Wtotc+PR/AwjiA==
+X-Gm-Gg: ASbGncuJaOyOC65hneezNPzkj/+IR/WAUfIuZSyKsDAvWN2sBRJbRNxWVFUQOzhl15J
+	ikAKl/J//CgLeAusCGPfsoUntouE1OeAqEXA2hGaYrPGsDNTJlhDJMyYzBxssWuQDfp5xx64moJ
+	nBwjsbeXhuu9i2RvJtdrHbXFee6Q==
+X-Google-Smtp-Source: AGHT+IGVw/xJYQA906dGaO2+AaOusBSJUMAjNkCzF49gdrArCYWq6L9wwEYN61Kf36dyc8ic6/ICgpx5E/hW6yrJVvQ=
+X-Received: by 2002:a05:6830:2801:b0:726:fca9:bab with SMTP id
+ 46e09a7af769-728b827570emr7635281a34.2.1740991964435; Mon, 03 Mar 2025
+ 00:52:44 -0800 (PST)
 Precedence: bulk
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -124,290 +121,131 @@ List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241202123351.86957-1-guille.rodriguez@gmail.com> <Z70UagY4hxDwUDHv@google.com>
-In-Reply-To: <Z70UagY4hxDwUDHv@google.com>
-From: Guillermo Rodriguez Garcia <guille.rodriguez@gmail.com>
-Date: Mon, 3 Mar 2025 10:56:35 +0100
-X-Gm-Features: AQ5f1JpRULr_d7hOptF-J_vi5pYdZoBChQKqNTeGXMyf-KRJy_AwNg324XxObME
-Message-ID: <CABDcavYXBrZMMj1gn7CzNbA4f-L4c+q555goU+U0KUEs-6rW+w@mail.gmail.com>
-Subject: Re: [PATCH 0/1] Input: evdev - fix wrong timestamp after SYN_DROPPED
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+From: Strforexc yn <strforexc@gmail.com>
+Date: Mon, 3 Mar 2025 16:52:33 +0800
+X-Gm-Features: AQ5f1Jr_302gzLK2k61JcHxbnXykQb8ALHoLNT99PGA7rQZs-ybQ35Sv4Y0ZQ2w
+Message-ID: <CA+HokZreT4LYLbru4cc0iU4jKkdf40YnVunaGX0hFV2GAnnuEg@mail.gmail.com>
+Subject: [BUG] UBSAN: Array-Index-Out-of-Bounds in usbhid_parse (HID) on 6.14.0-rc4
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, linux-usb@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-ITU-Libra-ESVA-Information: Please contact Istanbul Teknik Universitesi for more information
-X-ITU-Libra-ESVA-ID: 4Z6d5L1ZbyzFwBW
+X-ITU-Libra-ESVA-ID: 4Z6fS55c4ZzFyQP
 X-ITU-Libra-ESVA: No virus found
 X-ITU-Libra-ESVA-From: root@cc.itu.edu.tr
-X-ITU-Libra-ESVA-Watermark: 1741702582.44482@sUPZhpHSWPZVwRKrkz4IWQ
+X-ITU-Libra-ESVA-Watermark: 1741706253.78917@0EKdWui9crBdgLt8CM9cnQ
 X-ITU-MailScanner-SpamCheck: not spam
 
-Hi Dmitry,
+Dear Maintainers, When using our customized Syzkaller to fuzz the
+latest Linux kernel, the following crash was triggered.
 
-El mar, 25 feb 2025 a las 1:53, Dmitry Torokhov
-(<dmitry.torokhov@gmail.com>) escribi=C3=B3:
->
-> Hi Guillermo,
->
-> On Mon, Dec 02, 2024 at 01:33:50PM +0100, Guillermo Rodr=C3=ADguez wrote:
-> > Hi all,
-> >
-> > We are seeing an issue with gpio_keys where the first event after
-> > a SYN_DROPPED has the same timestamp as the SYN_DROPPED event itself.
-> > After some investigation it looks like this is an issue with evdev
-> > and not specific to gpio_keys.
-> >
-> > The issue was originally introduced in commit 3b51c44 ("Input: allow
-> > drivers specify timestamp for input events").
-> >
-> > This commit introduced input_set_timestamp and input_get_timestamp.
-> > The latter (despite the name) actually generates and stores a timestamp
-> > in dev->timestamp if the driver did not set one itself. This timestamp
-> > needs to be reset when events are flushed; otherwise the next event
-> > will use a stale timestamp. A partial fix was implemented in 4370b23
-> > ("Input: reset device timestamp on sync"), but this does not cover the
-> > case of SYN_DROPPED.
-> >
-> > If a SYN_DROPPED is generated (currently only done by evdev), the
-> > following happens:
-> >
-> > - evdev calls input_get_timestamp to generate a timestamp for the
-> >   SYN_DROPPED event.
-> > - input_get_timestamp generates a timestamp and stores it in
-> >   dev->timestamp
-> > - When the next real event is reported (in evdev_events), evdev
-> >   calls input_get_timestamp, which uses the timestamp already
-> >   stored in dev->timestamp, which corresponds to the SYN_DROPPED event
-> >
-> > How to fix:
-> >
-> > - When a SYN_DROPPED is generated, after calling input_get_timestamp,
-> >   the timestamp stored in dev->timestamp should be reset (same as is
-> >   currently done in input_handle_event). The attached patch does that.
->
-> So this happens after you change clock type of a client, right?
+Kernel commit: v6.14-rc4 (Commits on Feb 24, 2025)
+Kernel Config : https://github.com/Strforexc/LinuxKernelbug/blob/main/.conf=
+ig
+Kernel Log:  https://github.com/Strforexc/LinuxKernelbug/blob/main/array-in=
+dex-out-of-bounds_usbhid_parse/log0
+Reproduce C: https://github.com/Strforexc/LinuxKernelbug/blob/main/array-in=
+dex-out-of-bounds_usbhid_parse/repro.cprog
 
-Yes.
+I=E2=80=99ve encountered a UBSAN-reported array-index-out-of-bounds issue i=
+n
+the USB HID driver on Linux 6.14.0-rc4 during device probing, likely
+triggered by a malformed USB descriptor. Here are the details:
 
->
-> I do dot think having one client affecting timestamp for everyone is a
-> good idea.
+UBSAN detects an out-of-bounds access at
+drivers/hid/usbhid/hid-core.c:1025:18 in usbhid_parse, where index 1
+exceeds the bounds of hid_class_descriptor [1] in struct
+hid_descriptor. This occurs when parsing a HID device descriptor
+during USB probing.
 
-Do you mean the timestamp of the SYN_DROPPED event itself?
-I am not sure if this is an issue. The timestamp of the SYN_DROPPED
-event is not particularly meaningful.
-A client that sees a SYN_DROPPED only knows that some events were
-dropped, but the timestamp of the SYN_DROPPED event itself does not
-carry any useful information -- it is not, for example, the timestamp
-of the event that was dropped (in fact you cannot even know how many
-events were dropped).
+Location: The fault occurs in a loop: for (n =3D 0; n < num_descriptors;
+n++) if (hdesc->desc[n].bDescriptorType =3D=3D HID_DT_REPORT), accessing
+hdesc->desc[n].
 
-> Instead I think __evdev_queue_syn_dropped() should either:
->
-> - use "now" time for SYN_DROPPED generated when user requests clock
->   change or reads device's current state, or
->
-> - check if input device has timestamp set and use it or use "now". This
->   option is needed if we are concerned about timestamps potentially
->   going backwards if clock change happens in a middle of delivering
->   input packet.
+Cause: struct hid_descriptor defines desc as a fixed-size array [1],
+but the loop iterates up to num_descriptors (based on
+hdesc->bNumDescriptors). UBSAN flags n=3D1 as out-of-bounds, though the
+underlying descriptor buffer may be larger.
 
-If you want to do it like this I would advise to just use "now".
+Context: Preceded by a USB descriptor error (-22), suggesting a
+malformed HID device (likely Syzkaller-crafted), triggering the loop
+with bNumDescriptors > 1.
 
-CLOCK_MONOTONIC (and CLOCK_BOOTTIME) cannot go backwards by definition.
+Impact: No immediate crash, but a code hygiene issue flagged by UBSAN.
+Runtime safety depends on descriptor buffer allocation, but it=E2=80=99s a
+potential source of confusion or future bugs.
 
-The wall clock (CLOCK_REALTIME) can go backwards but this is a
-"feature" and should not be "fixed". if client code wants to see wall
-clock timestamps then it should be prepared to see time going
-backwards, for example when the time is updated, or in the middle of
-DST changes.
+Could HID maintainers investigate? Suggested fixes:
+1. Use a flexible array member (desc[]) in struct hid_descriptor and
+adjust parsing to rely on runtime buffer size.
+2. Add stricter validation of hdesc->bNumDescriptors against bLength
+to reject malformed descriptors earlier.
 
->
-> >
-> > (Perhaps the underlying problem is that it is not expected that a
-> > function called input_get_timestamp will have side effects. The
-> > commit history of input.c shows that this has actually caused a
-> > few issues since 3b51c44.)
->
-> Yes, maybe something like below will work better. It does not address
-> the keeping timestamp for SYN_DROPPED though.
+Our knowledge of the kernel is somewhat limited, and we'd appreciate
+it if you could determine if there is such an issue. If this issue
+doesn't have an impact, please ignore it =E2=98=BA.
+If you fix this issue, please add the following tag to the commit:
+Reported-by: Zhizhuo Tang <strforexctzzchange@foxmail.com>, Jianzhou
+Zhao <xnxc22xnxc22@qq.com>, Haoran Liu <cherest_san@163.com>
 
-Could be.
-But I can't help wondering whether 3b51c44 was a good idea.
-input_set_timestamp was supposed to "allow drivers to provide a more
-accurate timestamp" but I wonder if there was a real need for that --
-it did not seem to have in-tree users except for uinput and more
-recently wacom_wac.
-
-Anyway the original problem I reported is not related to the timestamp
-of the SYN_DROPPED event itself, but to the fact that this timestamp
-is then reused for the next "real" event after SYN_DROPPED. My patch
-clears the timestamp after the SYN_DROPPED is handled, in the same way
-it was already being done on flush, in input_handle_event (now moved
-to input_dispose_event).
-
-Thanks,
-
-Guillermo
-
->
-> Thanks.
->
-> --
-> Dmitry
->
->
-> diff --git a/drivers/input/input.c b/drivers/input/input.c
-> index 54d35c1a2a24..954c5104a1c1 100644
-> --- a/drivers/input/input.c
-> +++ b/drivers/input/input.c
-> @@ -61,6 +61,66 @@ static const unsigned int input_max_code[EV_CNT] =3D {
->         [EV_FF] =3D FF_MAX,
->  };
->
-> +/**
-> + * input_set_timestamp - set timestamp for input events
-> + * @dev: input device to set timestamp for
-> + * @timestamp: the time at which the event has occurred
-> + *   in CLOCK_MONOTONIC
-> + *
-> + * This function is intended to provide to the input system a more
-> + * accurate time of when an event actually occurred. The driver should
-> + * call this function as soon as a timestamp is acquired ensuring
-> + * clock conversions in input_set_timestamp are done correctly.
-> + *
-> + * The system entering suspend state between timestamp acquisition and
-> + * calling input_set_timestamp can result in inaccurate conversions.
-> + */
-> +void input_set_timestamp(struct input_dev *dev, ktime_t timestamp)
-> +{
-> +       dev->timestamp[INPUT_CLK_MONO] =3D timestamp;
-> +       dev->timestamp[INPUT_CLK_REAL] =3D ktime_mono_to_real(timestamp);
-> +       dev->timestamp[INPUT_CLK_BOOT] =3D ktime_mono_to_any(timestamp,
-> +                                                          TK_OFFS_BOOT);
-> +}
-> +EXPORT_SYMBOL(input_set_timestamp);
-> +
-> +/**
-> + * input_get_timestamp - get timestamp for input events
-> + * @dev: input device to get timestamp from
-> + *
-> + * A valid timestamp is a timestamp of non-zero value.
-> + */
-> +ktime_t *input_get_timestamp(struct input_dev *dev)
-> +{
-> +       bool have_timestamp;
-> +
-> +       /* TODO: remove setting of the timestamp in a few releases. */
-> +       have_timestamp =3D ktime_compare(dev->timestamp[INPUT_CLK_MONO],
-> +                                      ktime_set(0, 0));
-> +       if (WARN_ON_ONCE(!have_timestamp))
-> +               input_set_timestamp(dev, ktime_get());
-> +
-> +       return dev->timestamp;
-> +}
-> +EXPORT_SYMBOL(input_get_timestamp);
-> +
-> +static bool input_is_timestamp_set(struct input_dev *dev)
-> +{
-> +       return ktime_compare(dev->timestamp[INPUT_CLK_MONO], ktime_set(0,=
- 0));
-> +}
-> +
-> +/*
-> + * Reset timestamp for an input device so that next input event will get
-> + * a new one.
-> + *
-> + * Note we only need to reset the monolithic one as we use its presence =
-when
-> + * deciding whether to generate a synthetic timestamp.
-> + */
-> +static void input_reset_timestamp(struct input_dev *dev)
-> +{
-> +       dev->timestamp[INPUT_CLK_MONO] =3D ktime_set(0, 0);
-> +}
-> +
->  static inline int is_event_supported(unsigned int code,
->                                      unsigned long *bm, unsigned int max)
->  {
-> @@ -342,11 +402,9 @@ static void input_event_dispose(struct input_dev *de=
-v, int disposition,
->                 dev->num_vals =3D 0;
->                 /*
->                  * Reset the timestamp on flush so we won't end up
-> -                * with a stale one. Note we only need to reset the
-> -                * monolithic one as we use its presence when deciding
-> -                * whether to generate a synthetic timestamp.
-> +                * with a stale one in the next event packet.
->                  */
-> -               dev->timestamp[INPUT_CLK_MONO] =3D ktime_set(0, 0);
-> +               input_reset_timestamp(dev);
->         } else if (dev->num_vals >=3D dev->max_vals - 2) {
->                 dev->vals[dev->num_vals++] =3D input_value_sync;
->                 input_pass_values(dev, dev->vals, dev->num_vals);
-> @@ -366,6 +424,9 @@ void input_handle_event(struct input_dev *dev,
->                 if (type !=3D EV_SYN)
->                         add_input_randomness(type, code, value);
->
-> +               if (!input_is_timestamp_set(dev))
-> +                       input_set_timestamp(dev, ktime_get());
-> +
->                 input_event_dispose(dev, disposition, type, code, value);
->         }
->  }
-> @@ -2053,46 +2114,6 @@ void input_free_device(struct input_dev *dev)
->  }
->  EXPORT_SYMBOL(input_free_device);
->
-> -/**
-> - * input_set_timestamp - set timestamp for input events
-> - * @dev: input device to set timestamp for
-> - * @timestamp: the time at which the event has occurred
-> - *   in CLOCK_MONOTONIC
-> - *
-> - * This function is intended to provide to the input system a more
-> - * accurate time of when an event actually occurred. The driver should
-> - * call this function as soon as a timestamp is acquired ensuring
-> - * clock conversions in input_set_timestamp are done correctly.
-> - *
-> - * The system entering suspend state between timestamp acquisition and
-> - * calling input_set_timestamp can result in inaccurate conversions.
-> - */
-> -void input_set_timestamp(struct input_dev *dev, ktime_t timestamp)
-> -{
-> -       dev->timestamp[INPUT_CLK_MONO] =3D timestamp;
-> -       dev->timestamp[INPUT_CLK_REAL] =3D ktime_mono_to_real(timestamp);
-> -       dev->timestamp[INPUT_CLK_BOOT] =3D ktime_mono_to_any(timestamp,
-> -                                                          TK_OFFS_BOOT);
-> -}
-> -EXPORT_SYMBOL(input_set_timestamp);
-> -
-> -/**
-> - * input_get_timestamp - get timestamp for input events
-> - * @dev: input device to get timestamp from
-> - *
-> - * A valid timestamp is a timestamp of non-zero value.
-> - */
-> -ktime_t *input_get_timestamp(struct input_dev *dev)
-> -{
-> -       const ktime_t invalid_timestamp =3D ktime_set(0, 0);
-> -
-> -       if (!ktime_compare(dev->timestamp[INPUT_CLK_MONO], invalid_timest=
-amp))
-> -               input_set_timestamp(dev, ktime_get());
-> -
-> -       return dev->timestamp;
-> -}
-> -EXPORT_SYMBOL(input_get_timestamp);
-> -
->  /**
->   * input_set_capability - mark device as capable of a certain event
->   * @dev: device that is capable of emitting or accepting event
-
-
-
---=20
-Guillermo Rodriguez Garcia
-guille.rodriguez@gmail.com
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+usb 1-1: string descriptor 0 read error: -22
+usb 1-1: New USB device found, idVendor=3D080e, idProduct=3D4eb9, bcdDevice=
+=3Dd7.f6
+usb 1-1: New USB device strings: Mfr=3D1, Product=3D2, SerialNumber=3D3
+------------[ cut here ]------------
+UBSAN: array-index-out-of-bounds in drivers/hid/usbhid/hid-core.c:1025:18
+index 1 is out of range for type 'hid_class_descriptor [1]'
+CPU: 1 UID: 0 PID: 11382 Comm: kworker/1:5 Not tainted 6.14.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/=
+2014
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x180/0x1b0 lib/dump_stack.c:120
+ ubsan_epilogue lib/ubsan.c:231 [inline]
+ __ubsan_handle_out_of_bounds+0xdb/0x120 lib/ubsan.c:429
+ usbhid_parse+0x9a4/0xa70 drivers/hid/usbhid/hid-core.c:1025
+ hid_add_device+0x193/0xa90 drivers/hid/hid-core.c:2870
+ usbhid_probe+0xf43/0x1440 drivers/hid/usbhid/hid-core.c:1431
+ usb_probe_interface+0x30b/0x9e0 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x252/0xaa0 drivers/base/dd.c:658
+ __driver_probe_device+0x1df/0x460 drivers/base/dd.c:800
+ driver_probe_device+0x49/0x120 drivers/base/dd.c:830
+ __device_attach_driver+0x1e3/0x2f0 drivers/base/dd.c:958
+ bus_for_each_drv+0x14c/0x1e0 drivers/base/bus.c:462
+ __device_attach+0x1f2/0x4d0 drivers/base/dd.c:1030
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:537
+ device_add+0xc5e/0x1490 drivers/base/core.c:3665
+ usb_set_configuration+0x11a5/0x1c50 drivers/usb/core/message.c:2210
+ usb_generic_driver_probe+0xbf/0x120 drivers/usb/core/generic.c:250
+ usb_probe_device+0xed/0x3e0 drivers/usb/core/driver.c:291
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x252/0xaa0 drivers/base/dd.c:658
+ __driver_probe_device+0x1df/0x460 drivers/base/dd.c:800
+ driver_probe_device+0x49/0x120 drivers/base/dd.c:830
+ __device_attach_driver+0x1e3/0x2f0 drivers/base/dd.c:958
+ bus_for_each_drv+0x14c/0x1e0 drivers/base/bus.c:462
+ __device_attach+0x1f2/0x4d0 drivers/base/dd.c:1030
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:537
+ device_add+0xc5e/0x1490 drivers/base/core.c:3665
+ usb_new_device+0x8f4/0x1430 drivers/usb/core/hub.c:2663
+ hub_port_connect+0x1122/0x2730 drivers/usb/core/hub.c:5533
+ hub_port_connect_change+0x27c/0x7f0 drivers/usb/core/hub.c:5673
+ port_event+0xe3d/0x1220 drivers/usb/core/hub.c:5833
+ hub_event+0x517/0xca0 drivers/usb/core/hub.c:5915
+ process_one_work+0x109d/0x18c0 kernel/workqueue.c:3236
+ process_scheduled_works kernel/workqueue.c:3317 [inline]
+ worker_thread+0x677/0xe90 kernel/workqueue.c:3398
+ kthread+0x3b3/0x760 kernel/kthread.c:464
+ ret_from_fork+0x48/0x80 arch/x86/kernel/process.c:148
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+---[ end trace ]---
 
 
