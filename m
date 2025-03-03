@@ -1,176 +1,217 @@
-Return-Path: <linux-input+bounces-10493-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10494-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E434EA4C063
-	for <lists+linux-input@lfdr.de>; Mon,  3 Mar 2025 13:32:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 719BEA4C081
+	for <lists+linux-input@lfdr.de>; Mon,  3 Mar 2025 13:41:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 704E93A6339
-	for <lists+linux-input@lfdr.de>; Mon,  3 Mar 2025 12:31:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6C8B41893554
+	for <lists+linux-input@lfdr.de>; Mon,  3 Mar 2025 12:41:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 039532AD25;
-	Mon,  3 Mar 2025 12:32:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76BF520E032;
+	Mon,  3 Mar 2025 12:41:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lodewillems.com header.i=@lodewillems.com header.b="nqQxDPLN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BCh0EpN5"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18B35661;
-	Mon,  3 Mar 2025 12:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8AF51E5B78;
+	Mon,  3 Mar 2025 12:41:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741005121; cv=none; b=GNY47cqt7DVogciHDiwwoCSwSQaiWe33gez8/4iZOlOhLwO6m8TWa5oEEEcdq9twZde1e8PrZWjLzCxQ5qhUI6JWGJL/+1cnoek8vuXFPVDaT1vgOOnAWetiloZnOpT1AL4j+j1Q7+c0c0HzIFucqfK4qJF8NyKOw5Y81wGQctc=
+	t=1741005694; cv=none; b=Dw0ibGYs2XtKDMioWiHlDZjEC5HIcQHs9h3zvZIkiWteCqdQ+f/06n0c/imzNfriB/ykPnWz0GRMJIOUYNq75ufyKFQ8xRa8miaTL7zGKvedw3Yst6hZqphfZfnBxuTgsihhVNmR7iEECvV41HPkGiaHH3CP/GN5vV1KzYlu/XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741005121; c=relaxed/simple;
-	bh=gagOntmUOKs7s/ZA88qS4PKYLjTS5R1ysGSHJfH1Pjs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DgE3Tu0i++ZrXJMonBobBJRVOxormJ3ReuBa+J/wAPm+ceKa7i/5IHm4+SqWRF97SC/eoUberz+vwditwQIHdNyRId8o2L1CI/3JNWERcL+GuAlXirnPoOsOn9SVG9B2JhjYscj8vXHB+3gCc+S6XxRpPYbjjIt4hfYmx8Wr0Oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lodewillems.com; spf=pass smtp.mailfrom=lodewillems.com; dkim=pass (2048-bit key) header.d=lodewillems.com header.i=@lodewillems.com header.b=nqQxDPLN; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lodewillems.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lodewillems.com
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Z5yqV0lHqz9sV2;
-	Mon,  3 Mar 2025 13:31:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lodewillems.com;
-	s=MBO0001; t=1741005110;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=w0z31W3/zSJDKXvZaWqF0G0zeeEUb7BYE0kz46facZM=;
-	b=nqQxDPLNx40p0EwQY2AiSJYsu52DxzGBkcIIakHgeNwm0y6eupJ5bbbf2eIAFUWUQLu7cQ
-	SMpQ+JOtgKs+tWr3gxkCKAw0E6lLP9e7y41oNRkyy8yu6Dz9q7D33iky79zsPMuxMUGmNj
-	O+liqOFZ4X8jcuArMr1Xa2foGqKHgOr7reRBz6A5sPO/cICwUqrXfb4wV8JrGV42DgXM7f
-	bw5jrsiK7KYMw6lT6IBXgKKcxHQkl0lJpkc5okFV0CCU6v9lbC7Buo8RXJAkR4yVAmcqQ2
-	TiDQqtgtM0x1M9Ocbndn7Gr4Z7lcTn5t9Nr7eME8jRCAb+u9VgIC+Uk6RfIU/A==
-From: Lode Willems <me@lodewillems.com>
-To: linux-input@vger.kernel.org
-Cc: jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lode Willems <me@lodewillems.com>
-Subject: [PATCH] HID: Kysona: Add periodic online check
-Date: Mon,  3 Mar 2025 13:30:42 +0100
-Message-ID: <20250303123118.31627-1-me@lodewillems.com>
+	s=arc-20240116; t=1741005694; c=relaxed/simple;
+	bh=tieKiWfa1sevnfvQv3qDEqr93B2c4NJALDpA5GWbCFY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=I9tw+JZF2rscdkWaVqj47IzotWLifJ5COseuJi0T2opfmhcM3jYrSjr16GW6NQbkBSl3rHxt4xyU3EMLYYzO6LJQ+P7Y8ahqqKSYuLnGvFOHxvFmqqfGeHYsL9RtLjIky4+/X0lwvAdr/EbBQn5vvF6DY0WToKUna7HiBjts2kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BCh0EpN5; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5e538388dd1so1593547a12.1;
+        Mon, 03 Mar 2025 04:41:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741005691; x=1741610491; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kLW0AYaLwkO6JC1piDU5qS15yDYOQslsP1SvNrbEZfE=;
+        b=BCh0EpN5tIK1oBLaioFtekgI+vxaIGegQHb4FLsuNTy7QlQAmJ1LupdH20WO/5g9+f
+         fNkEhCCgSvAl5AgpflQmlc61Wvh1ajd2aUrEcA3kizps54FP7N/geoZ1GuvbK9Y+XJN6
+         MiHj5VbDeUb+HbY2YswCcaL3BJ8b294jxoE1JEjItqpytK/MDPAqtDJ35RM6iZjm5INa
+         ICAfeCmpZy/PoTsbRFSIupNcnkYCNkQOkcA7rCD5Sk70wOBwH/NgV/pKSznzTx3kB6r1
+         UcjV6S1bDfoLb3cKblFpxulvNurwjMRdRxuWBFcQM/gK01tGkH6wEEpcucgR2F01o/nB
+         j9eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741005691; x=1741610491;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kLW0AYaLwkO6JC1piDU5qS15yDYOQslsP1SvNrbEZfE=;
+        b=pgujbgtbMAMF+CHR4wOsKyno5jVrvWWBdLmc7FcvWPLNzzr01hr/MvZ297NAAhmxlO
+         yF3IULHLF9KeS88JYyzPggDFJvAzihbmU+v6waqL5Fs2enjsYpFX0RTqcvWWWyZY8GZ8
+         O/mxHIj24io2GQBh8778AmyZItPm5owngLLCmpBovxwfcCflZRV46IwFR3U6XuZgRdx2
+         GPjP4eOvy58YehIwdR5gvH72/iZRqzWwPk78AMAjA81+eX/Cqo3FmWjb2y+dyges5Mkq
+         Djqcs3ts/CzTT/dYcy07NuGSGMdWOLtclYlQx58qtEgvoCgRH6TGgiUW9YO6qHNeHOH/
+         jVcA==
+X-Forwarded-Encrypted: i=1; AJvYcCUCr0hV2nZoej47LtHdw2SxV5dg56c0Tc7nvkTDoZMDyaIAt4KpTYclumZY4sI4AE4iRpi86TxXU79RWnE=@vger.kernel.org, AJvYcCUpIUzvpFGNeHJZi3m8X1HFZhMVBsOa27P3jRjdX8kwA6gI5KQzxcRptQyYrv7dNlHOuwwlWCDlVzjPZmMK@vger.kernel.org, AJvYcCV1qr0F+utL90FsmZkKo+zQu/o6RwEAwGOeM9hmMXJxNodGW+ASqTqwABlXxPPaV/5W+JrDlLrUMcXgRIfhY2U=@vger.kernel.org, AJvYcCW38iV904+Lt0CpE+AKGpvJo5B4tHgDDXnF/FWj7azbcOseBzKfzpRcY/axlvKNzlZl4BVsKPqbDJEWAPNA@vger.kernel.org, AJvYcCWSE4cuRW8QWqsh2MdxaPKQc72nAy3FYO8JT9qE8b2aO1qPe5NZ/TbvA11I1LdSwlvn04Db847sd3yn61s=@vger.kernel.org, AJvYcCWSF2SZ2kWxhNh3j5OBrj8GeWgyA3s8FCWu9MsuxsfULvQi56LIxwQq3rXKEBjNoxe0AdWmEpqD@vger.kernel.org, AJvYcCWvN5oOleyvgMaVZvjx9gpyfoafFJOXG5ZLZyRVKUKqKd02b57B3ns8dX5BHyP2YhU3uXA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpXdOPRgDv5ltNkdlpqMTfpweyQ/twLowJfO6DKU9anmxnL43q
+	pzOc/fUFjXu1X6QpDJ5qwCyZF/g9NC3aSosfLGp4CkR1tdDtKe84
+X-Gm-Gg: ASbGnctkqxAryEx+16m4xz25P4L2oTOP2KyycrntiiR67FD1CaPB/SskqofVe1wWXs8
+	yvcN8XTDxjEGdTiqMa/124Mgg07cpDYQE5Vw2Ntpw0YTtX6tyi1ZvAUKoBmShe5pab8t/L1LFeA
+	eWKPDSht3DqI09XZPWI2F3A8GhZvmM6wxF26xurgxiMV2Z919fI5890LEDMMMG/nT5nUJpqRg+/
+	/M3MiKxAguSyKmGwC7HIjvfFjAuj7HXx3wDNFUZNleh4xYP0DtC0Qjhvf4A3bW7KK6xYgdK/ljH
+	UKfUP9epbYmIOig1tZCX5h1lYXslYOqf1QMAfvS9uQDvZ5v+bX1nsI5ijSHF4YCy/VOzamv4Ucb
+	wJugEqNk=
+X-Google-Smtp-Source: AGHT+IGmsdmZpDuU64/zBFVRQ3e/o9vGnleqAFoX6F+q7Lw2p71TWS5SPeiWtsRpxGv/SLlt+kfa+w==
+X-Received: by 2002:a05:6402:2808:b0:5e4:d2d4:b4f3 with SMTP id 4fb4d7f45d1cf-5e4d6af1582mr13492784a12.14.1741005688031;
+        Mon, 03 Mar 2025 04:41:28 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e4c3fb4384sm6903702a12.49.2025.03.03.04.41.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Mar 2025 04:41:27 -0800 (PST)
+Date: Mon, 3 Mar 2025 12:41:25 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: Yury Norov <yury.norov@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+ joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
+ mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
+ alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ andrew.cooper3@citrix.com, Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v2 01/18] lib/parity: Add __builtin_parity() fallback
+ implementations
+Message-ID: <20250303124125.4975afdc@pumpkin>
+In-Reply-To: <Z8UYOD2tyjS25gIc@visitorckw-System-Product-Name>
+References: <20250301142409.2513835-1-visitorckw@gmail.com>
+	<20250301142409.2513835-2-visitorckw@gmail.com>
+	<Z8PMHLYHOkCZJpOh@thinkpad>
+	<Z8QUsgpCB0m2qKJR@visitorckw-System-Product-Name>
+	<Z8SBBM_81wyHfvC0@thinkpad>
+	<Z8SVb4xD4tTiMEpL@visitorckw-System-Product-Name>
+	<20250302190954.2d7e068f@pumpkin>
+	<Z8UYOD2tyjS25gIc@visitorckw-System-Product-Name>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-This patch adds a periodic online check at the same interval the battery
-status gets requested.
-With this change the driver can detect when the mouse is turned off while
-the dongle is still plugged in.
+On Mon, 3 Mar 2025 10:47:20 +0800
+Kuan-Wei Chiu <visitorckw@gmail.com> wrote:
 
-Tested with a Kysona M600 V-HUB Special Edition.
+> On Sun, Mar 02, 2025 at 07:09:54PM +0000, David Laight wrote:
+> > On Mon, 3 Mar 2025 01:29:19 +0800
+> > Kuan-Wei Chiu <visitorckw@gmail.com> wrote:
+> >   
+> > > Hi Yury,
+> > > 
+...
+> > > #define parity(val)					\
+> > > ({							\
+> > > 	__auto_type __v = (val);			\
+> > > 	bool __ret;					\
+> > > 	switch (BITS_PER_TYPE(val)) {			\
+> > > 	case 64:					\
+> > > 		__v ^= __v >> 16 >> 16;			\
+> > > 		fallthrough;				\
+> > > 	case 32:					\
+> > > 		__v ^= __v >> 16;			\
+> > > 		fallthrough;				\
+> > > 	case 16:					\
+> > > 		__v ^= __v >> 8;			\
+> > > 		fallthrough;				\
+> > > 	case 8:						\
+> > > 		__v ^= __v >> 4;			\
+> > > 		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
+> > > 		break;					\
+> > > 	default:					\
+> > > 		BUILD_BUG();				\
+> > > 	}						\
+> > > 	__ret;						\
+> > > })  
+> > 
+> > I'm seeing double-register shifts for 64bit values on 32bit systems.
+> > And gcc is doing 64bit double-register maths all the way down.
+> > 
+> > That is fixed by changing the top of the define to
+> > #define parity(val)					\
+> > ({							\
+> > 	unsigned int __v = (val);			\
+> > 	bool __ret;					\
+> > 	switch (BITS_PER_TYPE(val)) {			\
+> > 	case 64:					\
+> > 		__v ^= val >> 16 >> 16;			\
+> > 		fallthrough;				\
+> > 
+> > But it's need changing to only expand 'val' once.
+> > Perhaps:
+> > 	auto_type _val = (val);
+> > 	u32 __ret = val;
+> > and (mostly) s/__v/__ret/g
+> >  
+> I'm happy to make this change, though I'm a bit confused about how much
+> we care about the code generated by gcc. So this is the macro expected
+> in v3:
 
-Signed-off-by: Lode Willems <me@lodewillems.com>
----
- drivers/hid/hid-kysona.c | 46 ++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 44 insertions(+), 2 deletions(-)
+There is 'good', 'bad' and 'ugly' - it was in the 'bad' to 'ugly' area.
 
-diff --git a/drivers/hid/hid-kysona.c b/drivers/hid/hid-kysona.c
-index d4c0406b3323..09bfe30d02cb 100644
---- a/drivers/hid/hid-kysona.c
-+++ b/drivers/hid/hid-kysona.c
-@@ -14,6 +14,7 @@
- 
- #define BATTERY_TIMEOUT_MS 5000
- 
-+#define ONLINE_REPORT_ID 3
- #define BATTERY_REPORT_ID 4
- 
- struct kysona_drvdata {
-@@ -80,11 +81,46 @@ static int kysona_battery_get_property(struct power_supply *psy,
- 	return ret;
- }
- 
-+static const char kysona_online_request[] = {
-+	0x08, ONLINE_REPORT_ID, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x4a
-+};
-+
- static const char kysona_battery_request[] = {
- 	0x08, BATTERY_REPORT_ID, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x49
- };
- 
-+static int kysona_m600_fetch_online(struct hid_device *hdev)
-+{
-+	u8 *write_buf;
-+	int ret;
-+
-+	/* Request online information */
-+	write_buf = kmemdup(kysona_online_request, sizeof(kysona_online_request), GFP_KERNEL);
-+	if (!write_buf)
-+		return -ENOMEM;
-+
-+	ret = hid_hw_raw_request(hdev, kysona_online_request[0],
-+				 write_buf, sizeof(kysona_online_request),
-+				 HID_OUTPUT_REPORT, HID_REQ_SET_REPORT);
-+	if (ret < (int)sizeof(kysona_online_request)) {
-+		hid_err(hdev, "hid_hw_raw_request() failed with %d\n", ret);
-+		ret = -ENODATA;
-+	}
-+	kfree(write_buf);
-+	return ret;
-+}
-+
-+static void kysona_fetch_online(struct hid_device *hdev)
-+{
-+	int ret = kysona_m600_fetch_online(hdev);
-+
-+	if (ret < 0)
-+		hid_dbg(hdev,
-+			"Online query failed (err: %d)\n", ret);
-+}
-+
- static int kysona_m600_fetch_battery(struct hid_device *hdev)
- {
- 	u8 *write_buf;
-@@ -121,6 +157,7 @@ static void kysona_battery_timer_tick(struct work_struct *work)
- 		struct kysona_drvdata, battery_work.work);
- 	struct hid_device *hdev = drv_data->hdev;
- 
-+	kysona_fetch_online(hdev);
- 	kysona_fetch_battery(hdev);
- 	schedule_delayed_work(&drv_data->battery_work,
- 			      msecs_to_jiffies(BATTERY_TIMEOUT_MS));
-@@ -160,6 +197,7 @@ static int kysona_battery_probe(struct hid_device *hdev)
- 	power_supply_powers(drv_data->battery, &hdev->dev);
- 
- 	INIT_DELAYED_WORK(&drv_data->battery_work, kysona_battery_timer_tick);
-+	kysona_fetch_online(hdev);
- 	kysona_fetch_battery(hdev);
- 	schedule_delayed_work(&drv_data->battery_work,
- 			      msecs_to_jiffies(BATTERY_TIMEOUT_MS));
-@@ -206,12 +244,16 @@ static int kysona_raw_event(struct hid_device *hdev,
- {
- 	struct kysona_drvdata *drv_data = hid_get_drvdata(hdev);
- 
--	if (drv_data->battery && size == sizeof(kysona_battery_request) &&
-+	if (size == sizeof(kysona_online_request) &&
-+	    data[0] == 8 && data[1] == ONLINE_REPORT_ID) {
-+		drv_data->online = data[6];
-+	}
-+
-+	if (size == sizeof(kysona_battery_request) &&
- 	    data[0] == 8 && data[1] == BATTERY_REPORT_ID) {
- 		drv_data->battery_capacity = data[6];
- 		drv_data->battery_charging = data[7];
- 		drv_data->battery_voltage = (data[8] << 8) | data[9];
--		drv_data->online = true;
- 	}
- 
- 	return 0;
--- 
-2.48.1
+> 
+> #define parity(val)					\
+> ({							\
+> 	__auto_type __v = (val);			\
+> 	u32 __ret = val;				\
+> 	switch (BITS_PER_TYPE(val)) {			\
+> 	case 64:					\
+>                 __ret ^= __v >> 16 >> 16;		\
+> 		fallthrough;				\
+> 	case 32:					\
+> 		__ret ^= __ret >> 16;			\
+> 		fallthrough;				\
+> 	case 16:					\
+> 		__ret ^= __ret >> 8;			\
+> 		fallthrough;				\
+> 	case 8:						\
+> 		__ret ^= __ret >> 4;			\
+> 		__ret = (0x6996 >> (__ret & 0xf)) & 1;	\
+> 		break;					\
+> 	default:					\
+> 		BUILD_BUG();				\
+> 	}						\
+> 	__ret;						\
+> })
+
+That looks like it will avoid double-register shifts on 32bit archs.
+arm64 can do slightly better (a couple of instructions) because of its
+barrel shifter.
+x86 can do a lot better because of the cpu 'parity' flag.
+But maybe it is never used anywhere that really matters.
+
+	David
+
 
 
