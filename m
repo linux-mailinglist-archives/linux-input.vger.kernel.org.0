@@ -1,57 +1,59 @@
-Return-Path: <linux-input+bounces-10537-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10538-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332FCA4EEB6
-	for <lists+linux-input@lfdr.de>; Tue,  4 Mar 2025 21:46:53 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6387AA4EEB7
+	for <lists+linux-input@lfdr.de>; Tue,  4 Mar 2025 21:47:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5FDC4175257
-	for <lists+linux-input@lfdr.de>; Tue,  4 Mar 2025 20:46:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 434767A37C6
+	for <lists+linux-input@lfdr.de>; Tue,  4 Mar 2025 20:46:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96ECE2063F3;
-	Tue,  4 Mar 2025 20:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54414255250;
+	Tue,  4 Mar 2025 20:47:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bqpQPLD2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mAwy1Ndl"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73340205E18
-	for <linux-input@vger.kernel.org>; Tue,  4 Mar 2025 20:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E9A156C76;
+	Tue,  4 Mar 2025 20:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741121206; cv=none; b=t3a39CePvCu07LsRTQ/r2h4t5XsqL29J/TCwv/sXBOz9wQ5Ct5EC8j5FdDRiesSicARHuA8cAdFduqVcER7/vDLWBjYYCDLqWDYXJTYjyiVWq+/q6MBm5uwq19zuTGs72kTBexy560tfkzSoHG0YOQ8Btpwf5J57zldTu/502qA=
+	t=1741121271; cv=none; b=bii/wVGR0hGgMJyCWLBgvpQiaG90tSnEjAbr0ThxH223faXmFAbiYUf+wg64JcWoEWgOUurNQwDwWgMtGfk3BakBDiFxfyBEkssPD32Uqe43Fyd5+c1Uc3GU0pjrBFGQae5I6nv3176UHb85UAQIDCWnzBsffR+gei7cxNsmwhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741121206; c=relaxed/simple;
-	bh=ZdB/PhkzVPTLGQgFy4lKsCk+VSHuR6by4lNMaxEU9Yo=;
+	s=arc-20240116; t=1741121271; c=relaxed/simple;
+	bh=8YjeZC0STAUEMN8Yn7Msxcjr0MuyyeihkUkLSg6nhMc=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=jmfzsqSEQUmNwUf/a6FuZ3Qt87qK8BzryaikQKcr9zFNAxwwLIIHQxb5wxND4wnGMknJUr417FJo11eWdExOxv6RXsCjxvNcJmdRN8wGNcSsGHH65NXEXgmFfAmsFo3ah667iDSn25lXeDok9D7aKGOH7K5pZF43kkC8oPZ8cas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bqpQPLD2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F58EC4CEE5;
-	Tue,  4 Mar 2025 20:46:45 +0000 (UTC)
+	 MIME-Version:Content-Type; b=FvJJW8Dx6xO6z4n0TNk/WiOSfmjbHd7SVKLUm2JvPv6Pehzpy634oX3fx270DwHLr79oFPSpRDQZidKyoSLyaaLyRcbBfo54AN8SDpTSFgi/ATk/YFod3GZbAyuIp3nuMMTEkURtlZk9Z//BfYe0xcSSSs1xT6voyKO/cfOlDNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mAwy1Ndl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40A42C4CEE5;
+	Tue,  4 Mar 2025 20:47:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741121205;
-	bh=ZdB/PhkzVPTLGQgFy4lKsCk+VSHuR6by4lNMaxEU9Yo=;
+	s=k20201202; t=1741121270;
+	bh=8YjeZC0STAUEMN8Yn7Msxcjr0MuyyeihkUkLSg6nhMc=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=bqpQPLD2iO2fdA+Q+gA48MWzMB5Y6RQyr/6g/TFZ88QGzBv8Poyxco4QwBpv+kZy6
-	 OtXKDTT25HqNUrrA3opYWa2aCXq79y9P8srnt1KRSzK0hFPkYV0XYgtXwdpvm+E/hu
-	 wxncQzVMJDHX0cHVhpnevgYvihiCtKCQTd5ho9g4pf/EEK5ETrO66WTAc4t6s0E4HM
-	 oWxlHj2DFYF+IHjIGMkSHIvn2FrANSW/PbbtbbgW4GCM0UzRHOEXKicaOWKqGj8tqX
-	 KmwtyQSEvtMbiYxcTjwDh0Fcdrvp6p3uGxerUBLbha0iFq+Bza7wspmye5m1/YDjst
-	 vyr/kkNXG4kDA==
-Date: Tue, 4 Mar 2025 21:46:43 +0100 (CET)
+	b=mAwy1NdlF7TFfwDvD6XFBEiD+hhzSfNDiL4q6vvOwZy/a8rqaxkcd6S+nf1PYjhWk
+	 M3kumpeNG2hlfR9nITKN2aqVMAdfJ3TYJ3O2OYnQUIIhK2j2IRJ0dghNI5oYJtoyL0
+	 DSjBDB31Hef1L3daRIAiz5xPhNFNi0SCO1mdNACwwlM9xSlMW5R9SEVNBbPqgkAaSY
+	 a19X4rQ7876IBtxkbOfw4wKjbKCYgMjAJKGJ2XrhgfCkDhWitjKisDHKkwognaVxBy
+	 OqZQaUo5M6j9KhnTtK/qtCAnidlELKkPPAI5uqZr9GcbGrBjZFSDPNc8JOXWQyCI2D
+	 a/GoUrolGagMg==
+Date: Tue, 4 Mar 2025 21:47:48 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Vicki Pfau <vi@endrift.com>
-cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    linux-input@vger.kernel.org, 
-    syzbot+0154da2d403396b2bd59@syzkaller.appspotmail.com
-Subject: Re: [PATCH] HID: hid-steam: Fix use-after-free when detaching
- device
-In-Reply-To: <20250227234133.997805-1-vi@endrift.com>
-Message-ID: <06po5nqp-829s-3o28-q3o3-nnnn0n2no34o@xreary.bet>
-References: <20250227234133.997805-1-vi@endrift.com>
+To: Colin Ian King <colin.i.king@gmail.com>
+cc: Even Xu <even.xu@intel.com>, Xinpeng Sun <xinpeng.sun@intel.com>, 
+    Benjamin Tissoires <bentiss@kernel.org>, 
+    Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+    Mark Pearson <mpearson-lenovo@squebb.ca>, linux-input@vger.kernel.org, 
+    kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: intel-thc-hid: Fix spelling mistake "intput" ->
+ "input"
+In-Reply-To: <20250228084139.677391-1-colin.i.king@gmail.com>
+Message-ID: <771711n0-rnp4-4n94-ps74-481n3nr2sr99@xreary.bet>
+References: <20250228084139.677391-1-colin.i.king@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -60,20 +62,28 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Thu, 27 Feb 2025, Vicki Pfau wrote:
+On Fri, 28 Feb 2025, Colin Ian King wrote:
 
-> When a hid-steam device is removed it must clean up the client_hdev used for
-> intercepting hidraw access. This can lead to scheduling deferred work to
-> reattach the input device. Though the cleanup cancels the deferred work, this
-> was done before the client_hdev itself is cleaned up, so it gets rescheduled.
-> This patch fixes the ordering to make sure the deferred work is properly
-> canceled.
+> There is a spelling mistake in a dev_err_once message. Fix it.
 > 
-> Reported-by: syzbot+0154da2d403396b2bd59@syzkaller.appspotmail.com
-> Fixes: 79504249d7e2 ("HID: hid-steam: Move hidraw input (un)registering to work")
-> Signed-off-by: Vicki Pfau <vi@endrift.com>
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> ---
+>  drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c
+> index 7373238ceb18..918050af73e5 100644
+> --- a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c
+> +++ b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c
+> @@ -107,7 +107,7 @@ static int quickspi_get_device_descriptor(struct quickspi_device *qsdev)
+>  		return 0;
+>  	}
+>  
+> -	dev_err_once(qsdev->dev, "Unexpected intput report type: %d\n", input_rep_type);
+> +	dev_err_once(qsdev->dev, "Unexpected input report type: %d\n", input_rep_type);
+>  	return -EINVAL;
 
-Applied to hid.git#for-6.14/upstream-fixes. Thanks,
+Applied, thanks.
 
 -- 
 Jiri Kosina
