@@ -1,113 +1,199 @@
-Return-Path: <linux-input+bounces-10542-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10543-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62137A4EEE8
-	for <lists+linux-input@lfdr.de>; Tue,  4 Mar 2025 21:56:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A53C1A4F0B3
+	for <lists+linux-input@lfdr.de>; Tue,  4 Mar 2025 23:47:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E2D616FBDC
-	for <lists+linux-input@lfdr.de>; Tue,  4 Mar 2025 20:56:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B3925188D55A
+	for <lists+linux-input@lfdr.de>; Tue,  4 Mar 2025 22:47:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A5C7204F61;
-	Tue,  4 Mar 2025 20:56:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 605A41FF7BF;
+	Tue,  4 Mar 2025 22:46:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SXApZhyT"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="D/jcaYBg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3071C84D7;
-	Tue,  4 Mar 2025 20:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A7D1F4611;
+	Tue,  4 Mar 2025 22:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741121789; cv=none; b=rej9G5eV5m7VXAPfLw2sCctAZcCyiqqBWUFTNKQSC2+UXyvASNskz+A0Uc+rjW8/2pJuLZko0y9KBfKzhBZrep1CJPfcw83JpyWQGC+XEl96erHe2gQWy+FEzgZ4qLyHStNWgr7yjcmRZuIYc5cIYyHV/vlR/HYX9TEAnvPxVlA=
+	t=1741128415; cv=none; b=J8RYXTSXzjqwvVnlcboyfnC2lDveBwG4xnancIVJb++yTybgMNrJz9+KfE4EfZjPE2Tpu8wZYeTtdCJ+myV6YlLnEXLM3lVbrZPlyaHxmEyM1+Gn1nzhli/ZJIVx6mMqoLpUXzx28b15RZCKZaDxVRJmzJvt52ehecV0RPkDoJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741121789; c=relaxed/simple;
-	bh=1Avo1J1t/55foolZqszBHMkSIlhzUvvxah+3+Q5by1o=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=bzZxGQVURo3iMl/Ce9grxeeJAcZH6QOjZ9n94TJbdkBauNyzhfU0WZJOo08oW6ohBhcBTYxkeDONHN93j9gZ2+fnZI7L/PjyKcVHBG07zAfrmejo6EArV6JxMa4rHL5Gu2dcHWuyKDIxLurL3qaldF/H2FUBM337uHUjBNSuT1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SXApZhyT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD5BBC4CEE5;
-	Tue,  4 Mar 2025 20:56:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741121789;
-	bh=1Avo1J1t/55foolZqszBHMkSIlhzUvvxah+3+Q5by1o=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=SXApZhyTz5vv9wzRJoXczuOEVj7QwpGl+xE+oChVkj99OVOC+nKeJbb9O5J3i5AS1
-	 sh1Jl7awqRzxXB122sCCzUa5IRRTN8TFMGqClySmfEynCcjnWyKU7f99eNCZfiaCA0
-	 LjSUzbhvPwUZGEJyIBUXCbzp71o/PzSFen0jCvXPanD1jWRi5qr/GSEzPsiaiqGLMD
-	 5VPm4mFzchDw6WPATpKr9pHJKoZLBdQfM+OV2GrMEM7lUgtnyvEY0nx88ODmJWAoeD
-	 bT9/a/9FAYXj7pPQcuaYoFvc2xYLO+fWDa40ofUmbbfy2DS8vDwvvunyFBbpvFgSBl
-	 2XOYFIXGS24nQ==
-Date: Tue, 4 Mar 2025 21:56:26 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Luke Jones <luke@ljones.dev>
-cc: linux-kernel@vger.kernel.org, hdegoede@redhat.com, 
-    ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org, 
-    linux-input@vger.kernel.org, bentiss@kernel.org, mario.limonciello@amd.com
-Subject: Re: [PATCH v3 0/2] hid-asus: asus-wmi: refactor Ally
- suspend/resume
-In-Reply-To: <20250227085817.1007697-1-luke@ljones.dev>
-Message-ID: <878o9n16-33p1-orpr-q957-91ns25pp4804@xreary.bet>
-References: <20250227085817.1007697-1-luke@ljones.dev>
+	s=arc-20240116; t=1741128415; c=relaxed/simple;
+	bh=v0g4BhzX+oxQUTu43WMPEeP6GZ8btdAYmtKYz+4cFHY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=QhEEVd3O4uE2VW8LaXmYOyvFK+XPWpPff7r+4LS9ErBEdwkfpqnbmAeaP09A2N4gZHZYrAsjY9mm9hWhybhQXgjDLeEiu18AZtFRsTlaPC/WF/jNSQ41rKLSIVUg+QAEavL6LQMgvZaphNMyYFcY9U6St6OkiG5o8ajtU7WQyrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=D/jcaYBg; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 524Kio0i000988;
+	Tue, 4 Mar 2025 22:46:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	3NwIGTcVv3klJr/RLcrTlS8Yu+Du9AxTXUb6muo8eOw=; b=D/jcaYBgLoLOBV00
+	30atQphosIV3bb+gin5IEbuDqLl9VQzDD0IXU8mQz+cOy8eFei7LqghxLy8V4aEO
+	8tThITjPrIJkzmj4eI1uQNEch495xGUyYS59cOmWWXOl2C5QO3leyUAEzpUzVVcR
+	ccekj81muoEpnd3kKbdMuB5rK+3oaRrs6J32K6iYw5Fe5pr6AXtO1Pm+7Gn3M6yw
+	hIvZjrr1cj+sAjFnv0Mt+nEG8DWASyD0n9qPdHqJoqJPBt9hVMlcrcKlO0SZvx8f
+	RitwiINpVd9iq4MSNY+OSHnuMmS9FxYxQLIef9EtaPdbPNRgE39G0vbxVRTBOJJ2
+	ybPkYA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6vkf5d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Mar 2025 22:46:35 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 524MkYrs002179
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 4 Mar 2025 22:46:34 GMT
+Received: from [10.71.114.206] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 4 Mar 2025
+ 14:46:33 -0800
+Message-ID: <ee5cb6bc-963a-4e31-8ac4-07120fb9ff70@quicinc.com>
+Date: Tue, 4 Mar 2025 14:46:28 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v35 00/31] Introduce QC USB SND audio offloading support
+To: Stephan Gerhold <stephan.gerhold@linaro.org>
+CC: Greg KH <gregkh@linuxfoundation.org>, <srinivas.kandagatla@linaro.org>,
+        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
+        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
+        <lgirdwood@gmail.com>, <tiwai@suse.com>, <krzk+dt@kernel.org>,
+        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
+        <robh@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20250219004754.497985-1-quic_wcheng@quicinc.com>
+ <Z7W_Vz_kVDjIcp5N@linaro.org>
+ <82ce69a3-d248-494f-6ddb-098f392c78a0@quicinc.com>
+ <Z8a4WYq4GqWBVNyX@linaro.org>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <Z8a4WYq4GqWBVNyX@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Lbil9AyCLexrYewfigB777EYp9i9QjEK
+X-Authority-Analysis: v=2.4 cv=LYfG6ifi c=1 sm=1 tr=0 ts=67c782cb cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=OF3dkDXz7wlyf22mrvMA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: Lbil9AyCLexrYewfigB777EYp9i9QjEK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-04_09,2025-03-04_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 clxscore=1015 phishscore=0 adultscore=0 lowpriorityscore=0
+ impostorscore=0 bulkscore=0 mlxscore=0 suspectscore=0 malwarescore=0
+ mlxlogscore=999 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2502100000 definitions=main-2503040181
 
-On Thu, 27 Feb 2025, Luke Jones wrote:
+Hi Stephan,
 
-> This short series refactors the Ally suspend/resume functionality in the
-> asus-wmi driver along with adding support for ROG Ally MCU version checking.
+On 3/4/2025 12:22 AM, Stephan Gerhold wrote:
+> On Mon, Mar 03, 2025 at 06:39:52PM -0800, Wesley Cheng wrote:
+>>
+>>
+>> On 2/19/2025 3:24 AM, Stephan Gerhold wrote:
+>>> On Tue, Feb 18, 2025 at 04:47:23PM -0800, Wesley Cheng wrote:
+>>>> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
+>>>>
+>>>> Several Qualcomm based chipsets can support USB audio offloading to a
+>>>> dedicated audio DSP, which can take over issuing transfers to the USB
+>>>> host controller.  The intention is to reduce the load on the main
+>>>> processors in the SoC, and allow them to be placed into lower power modes.
+>>>> There are several parts to this design:
+>>>>   1. Adding ASoC binding layer
+>>>>   2. Create a USB backend for Q6DSP
+>>>>   3. Introduce XHCI interrupter support
+>>>>   4. Create vendor ops for the USB SND driver
+>>>>
+>>>>       USB                          |            ASoC
+>>>> --------------------------------------------------------------------
+>>>>                                    |  _________________________
+>>>>                                    | |sm8250 platform card     |
+>>>>                                    | |_________________________|
+>>>>                                    |         |           |
+>>>>                                    |      ___V____   ____V____
+>>>>                                    |     |Q6USB   | |Q6AFE    |
+>>>> |     |"codec" | |"cpu"    |
+>>>>                                    |     |________| |_________|
+>>>>                                    |         ^  ^        ^
+>>>>                                    |         |  |________|
+>>>>                                    |      ___V____    |
+>>>>                                    |     |SOC-USB |   |
+>>>>    ________       ________               |        |   |
+>>>>   |USB SND |<--->|QC offld|<------------>|________|   |
+>>>>   |(card.c)|     |        |<----------                |
+>>>>   |________|     |________|___     | |                |
+>>>>       ^               ^       |    | |    ____________V_________
+>>>>       |               |       |    | |   |APR/GLINK             |
+>>>>    __ V_______________V_____  |    | |   |______________________|
+>>>>   |USB SND (endpoint.c)     | |    | |              ^
+>>>>   |_________________________| |    | |              |
+>>>>               ^               |    | |   ___________V___________
+>>>>               |               |    | |->|audio DSP              |
+>>>>    ___________V_____________  |    |    |_______________________|
+>>>>   |XHCI HCD                 |<-    |
+>>>>   |_________________________|      |
+>>>>
+>>>
+>>> As I noted on v34 [1], this version is still missing instructions and
+>>> changes needed for testing this series. The device tree changes don't
+>>> need to be part of the same series, but there should be at least a link
+>>> provided to give other people the chance to provide Tested-by tags.
+>>>
+>>> IMO we shouldn't merge this series without those instructions, otherwise
+>>> we risk that this just ends up being dead code that no one can use.
+>>>
+>>> Can you please share the device tree changes for a board upstream and
+>>> any other changes needed to be able to test this series? E.g. for
+>>> sm8250-mtp.dts, based on the examples in your cover letter.
+>>>
+>>
+>> To clarify I'm testing this on sm8350 in recent times, but utilizing sm8250
+>> definitions for the ASoC platform card, as the platform sound card is more
+>> or less the same between the two SoCs.  Back
+>> when I started this series, sm8350 was missing a bunch of dependent
+>> components, such as aDSP not being loaded, and missing platform sound card
+>> definition, so I had to define and enable those on my own, which required a
+>> slew of new DT nodes, hence why it wasn't as straight forward to include
+>> the DT definitions yet for sm8350.  Not thinking that this series would
+>> take as long as it did, I was planning on separating out the DT changes in
+>> a different series to enable offloading for the devices I have tested with.
+>> (sm8150, sm8250 and sm8350)
+>>
+>> There's still a pretty big chunk of dependencies missing from sm8350, so
+>> those would also be handled in the follow up DT submission.  For now, its a
+>> much bigger hurdle to get the main/functional changes in, and that was
+>> taking a significant amount of time from my end to manage.
+>>
+>> If you want, I can give you the changes I have offline to enable this for
+>> sm8350, since I haven't spent time formatting/prepping the changes for
+>> submission yet.
+>>
 > 
-> The version checking is then used to toggle the use of older CSEE call hacks
-> that were initially used to combat Ally suspend/wake issues arising from the MCU
-> not clearing a particular flag on resume. ASUS have since corrected this
-> especially for Linux in newer firmware versions.
-> 
-> - hid-asus requests the MCU version and displays a warning if the version is
->   older than the one that fixes the issue.
-> - hid-asus awill also toggle the CSEE hack off, and mcu_powersave to on if the
-> version is high enough.
-> 
-> *Note: In review it was requested by Mario that I try strsep() for parsing
-> the version. I did try this and a few variations but the result was much
-> more code due to having to check more edge cases due to the input being
-> raw bytes. In the end the cleaned up while loop proved more robust.
-> 
-> - Changelog:
->   + V2: https://lore.kernel.org/platform-driver-x86/20250226010129.32043-1-luke@ljones.dev/T/#t
->     - Adjust warning message to explicitly mention suspend issues
->     - Use switch/case block to set min_version
->       - Set min_version to 0 by default and toggle hacks off
->   + V3
->     - Remove noise (excess pr_info)
->     - Use kstrtoint, not kstrtolong
->     - Use __free(kfree) for allocated mem and drop goto + logging
->     - Use print_hex_dump() to show failed data after pr_err in mcu_request_version()
->     - Use pr_debug in set_ally_mcu_hack() and set_ally_mcu_powersave() plus
->       correct the message.
-> 
-> Luke D. Jones (2):
->   hid-asus: check ROG Ally MCU version and warn
->   platform/x86: asus-wmi: Refactor Ally suspend/resume
-> 
->  drivers/hid/hid-asus.c                     | 111 +++++++++++++++++-
->  drivers/platform/x86/asus-wmi.c            | 130 ++++++++++++++-------
->  include/linux/platform_data/x86/asus-wmi.h |  15 +++
->  3 files changed, 215 insertions(+), 41 deletions(-)
+> Can you push it to a public branch somewhere (e.g. on CodeLinaro)? I was
+> talking to some people from the community about testing this on some of
+> the smartphones we have in upstream, so it wouldn't help if I just have
+> the changes privately.
 
-Hans, are you OK taking both patches through your tree?
+Which CLO project/branch did you want me to push it to?  Sorry, I haven't
+worked too much with the CLO open branches.  I have an account though.
 
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Thanks
+Wesley Cheng
 
