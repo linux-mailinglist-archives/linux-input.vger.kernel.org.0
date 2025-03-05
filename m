@@ -1,54 +1,87 @@
-Return-Path: <linux-input+bounces-10562-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10563-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F763A4FE84
-	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 13:20:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6CB5A4FF0F
+	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 13:55:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E82B4167350
-	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 12:18:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B62D6188FE80
+	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 12:55:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85D5724397B;
-	Wed,  5 Mar 2025 12:18:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40D852451F3;
+	Wed,  5 Mar 2025 12:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="UPWebGGY"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QmBPsZUy"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151FA214818;
-	Wed,  5 Mar 2025 12:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D87C2441A0
+	for <linux-input@vger.kernel.org>; Wed,  5 Mar 2025 12:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741177112; cv=none; b=TCOutC049vTftPkKRg1lh43wce4SEvquwVV1ZEI695x6GlUaQrLEXsli8yhUmYiA7Yl7RfK0OTM6BS8FXQO8k6B7z/UNub9u3ALXT6PCT+3chBc0fRBOMH2rWozgQFOQ+RPV0AcUbRs+ocmxPkthXQVl5wo9EDC/7EowsSk2vaU=
+	t=1741179318; cv=none; b=a7tVr1ee4drMvmq9EOysu/NPzHJWcBNi4nvj5RDd2KXdFHxpCLHxFbBD2JkmA4g2//quGJGQP134d3O4yyEUKOCFQdlwuncF7FvjOYWhW5KoSRIK+x8snBtlTCMzA2YxtJZcA9cNEiM+udaeNA2qfn31itfsWeIiFw27cCsdhtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741177112; c=relaxed/simple;
-	bh=cHCNQkRlbbJCycq/FOXZKuwItO75piOrRI8svoO7IeM=;
+	s=arc-20240116; t=1741179318; c=relaxed/simple;
+	bh=YNboN6HasUd8fdaZmn76+5CG2qlIfABQ284AytGS6lo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EQpGEuM62m9hEWLSYhxs7v9XZwnyshWJ1ty6dTK4EC35Ruw9FiErjMF9Rsw9RdbgM+l3PLPCvryy2wLW3+byHaRz4iJKF5ejcRoWUMdgvzgXYsaTOHXCN3RJbPeIVjlf62KI5WcPYJ6Zirb/rBkzuWQcghAnTpQjOaafYvaxxaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=UPWebGGY; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.116] (pd9e59f4f.dip0.t-ipconnect.de [217.229.159.79])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id DBDE72FC0048;
-	Wed,  5 Mar 2025 13:18:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1741177106;
+	 In-Reply-To:Content-Type; b=JwgxKOxh37ui2nvFS/dSyuWVsMXnXiffy3Wq/RAyKiUfuPRut9dd5tVma3BNeeponaikxyk9VC9nzhoU44Mwh4PTc3uzArsmeuoq2l4UZzgkMutVisl/w/ZiD2R9S6NyunjLdoDnsMBZ1VSWFXJMVtcin81x6LhkD/LWfx/yMJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QmBPsZUy; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1741179314;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nN9wsZwsCAYB5Tf9dubdxQ4GyUYF8whMsNAQF81IBK0=;
-	b=UPWebGGYdQFJAiSjzIeqvXo49cpPs0X1ucZTQMCY95D8HOPxezDEvZhrRkF7lpSbwwYH7N
-	Ah5MfHjQkltsLDl7a0n2JNGCLKCep1lVwV4bm9DwLWC3+oVltez0JsG6asN6AVNzfUS8VP
-	SRHrzjEzQs0m6hG3lNDd4yJbmv0GrSI=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <9f3e1a77-246d-4880-af99-dcbfc94a573f@tuxedocomputers.com>
-Date: Wed, 5 Mar 2025 13:18:25 +0100
+	bh=R+I52jkpTGKKh5i8x7etc2AkECbsYxHYCuFAnAyZIoQ=;
+	b=QmBPsZUy2CxTrRMPSP0NuV5rC4BTcohs/ujq6EWLFrWfLX5eXX5yevEFnhrYYe2EeDIeNF
+	SsJ+EQhqNXnYDiBrnUykfXvuiJiq6CfvenX48SncWAZ9UQpobCmB1bU5fHa9lFKmdUpb7Q
+	gXjFug2VDZVXFZVGLGY2PNRuipDCVcI=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-635-8t-HMtXVPVeVmV7s2-5Z0A-1; Wed, 05 Mar 2025 07:55:13 -0500
+X-MC-Unique: 8t-HMtXVPVeVmV7s2-5Z0A-1
+X-Mimecast-MFC-AGG-ID: 8t-HMtXVPVeVmV7s2-5Z0A_1741179312
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-5e5810f84cbso3436399a12.3
+        for <linux-input@vger.kernel.org>; Wed, 05 Mar 2025 04:55:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741179311; x=1741784111;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=R+I52jkpTGKKh5i8x7etc2AkECbsYxHYCuFAnAyZIoQ=;
+        b=rS0toAzBO4KXgsa/yRFWXgrTx+bnraBwxkgjimlHX5fbLpqvdnC9CPaAFALJ8Isvci
+         w0RNtsoNUbLF8zXCccggA+BGnvoku1OSJFUuWfwkGWOWSpzpJag9DLXEJ3OoYWMkKAUY
+         +yab9Md1bRyaYDOgI/M8dGfUNKCbG3RSPRZ8R8MOwu1ago0kwf11hHA9/Ufzd5KD59N2
+         JFbttnurMx9gXzfO/Y/xU2emD+z3mUWcrlUh7OA2GB//oXTJ766Z17e4tDX5v1ohgYTI
+         T2Jmm4eiLJAanqvFmQWXBPOl6cnt+oV3AZ5R1QlcFCGPEWB8NfHf7bUmI4cXtoei1oNn
+         7W6g==
+X-Forwarded-Encrypted: i=1; AJvYcCVzpkc+7MFobeBn9fVgQ6VENkN99ONWUuGD45HHBBU+5mtMA1udnvM0JlLK7Kalm8aCyhHyTZH5WGK+dg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YywIu1O0jhjMc8mG0rwilnOB3G2pa4Bk0NfunmZ01Ahft28NbP6
+	Niek/PW4MVIZy6FxK+hBAQVJ3f42jufoVeChA/hcIgBsu7vxqPJbY/PTv+627d1EOgMF+LD62jJ
+	0UGnn5pkCagkxfUJ9U5NoUpOYjuj+06vSJqehAW0RzobVqHwBPNEJ+vowg8WsPSoRMNjF
+X-Gm-Gg: ASbGncv4/bDIsBQvq1XXQWrgKpVqcuN9E9FLKREwe3G/JIMirACb91WmY1hFmnCASAj
+	fESo/RYSsdRFgblcAXqPwOtzNaIlfgtsTGqy9Z7isU/fTIvrSublmVacKP8t1IgQ4JgWcdBIuQP
+	jweTUzCXmwMRMNuAle1cRuOP0MLsyNpFUHCkAfJCBIe5zh5gjV0xSwq6tZrFLgh+8spk5wUJ4Kl
+	hI+6GDMCTTSov6Tpayiq8zWg01JXbJHVB+BnMYsuUqQQqwvtF7bRldazZFt4cKxNfxSA87McEUm
+	hiFfjgB4YkXCHIeGtb93xrdJ1lwQzAW2kJ8qgPjMlu33ScFTPfiOSqP0jTRNpjnjF9eEUL+d0E6
+	o1lUxwPq5CHIoslThvLSfrwvH3WiSCRaSSsVO5wXJReruhKveQ2HvvS92rcCb1RUsdQ==
+X-Received: by 2002:a05:6402:5109:b0:5e5:2d8c:7fa8 with SMTP id 4fb4d7f45d1cf-5e59f4a48eemr2821280a12.31.1741179311432;
+        Wed, 05 Mar 2025 04:55:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFNhQ4Yxbj6HpL5AMkaYg0O4lq4C1AslkF+2EMDH6GYW4hEnJ3ulGuOIG+oOC0bGtzW+rS94w==
+X-Received: by 2002:a05:6402:5109:b0:5e5:2d8c:7fa8 with SMTP id 4fb4d7f45d1cf-5e59f4a48eemr2821253a12.31.1741179311069;
+        Wed, 05 Mar 2025 04:55:11 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e4c3bc80b1sm9739558a12.47.2025.03.05.04.55.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Mar 2025 04:55:10 -0800 (PST)
+Message-ID: <18da2efb-c0c2-4417-8c99-623f6ecb2b21@redhat.com>
+Date: Wed, 5 Mar 2025 13:55:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -58,84 +91,48 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 1/2] Input: atkbd - map F21 key to support touchpad
  toggle keys
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: mario.limonciello@amd.com, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Werner Sembach <wse@tuxedocomputers.com>
+Cc: mario.limonciello@amd.com, ilpo.jarvinen@linux.intel.com,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250303190442.551961-1-wse@tuxedocomputers.com>
  <Z8f1EzASdCfa2h_7@google.com>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
 In-Reply-To: <Z8f1EzASdCfa2h_7@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Dmitry,
+Hi,
 
-Am 05.03.25 um 07:54 schrieb Dmitry Torokhov:
+On 5-Mar-25 7:54 AM, Dmitry Torokhov wrote:
 > Hi Werner,
->
+> 
 > On Mon, Mar 03, 2025 at 08:04:34PM +0100, Werner Sembach wrote:
 >> In the default xkeyboard-config used by both X11 and wayland touchpad
 >> toggle is assigned to F21.
+> 
 > We have dedicated KEY_TOUCHPAD_TOGGLE that is being used by several
 > platform drivers:
->
-> dtor@dtor-ws:~/kernel/work $ git grep -l KEY_TOUCHPAD_TOGGLE --
-> drivers/platform/x86/
-> drivers/platform/x86/acer-wmi.c
-> drivers/platform/x86/asus-laptop.c
-> drivers/platform/x86/asus-nb-wmi.c
-> drivers/platform/x86/eeepc-wmi.c
-> drivers/platform/x86/fujitsu-laptop.c
-> drivers/platform/x86/ideapad-laptop.c
-> drivers/platform/x86/msi-wmi.c
-> drivers/platform/x86/toshiba_acpi.c
->
-> Instead of piling on F21 hacks we should be using it.
-Afaik KEY_TOUCHPAD_TOGGLE is not implemented in userspace, but a patch for 
-xkeboard-configs could probably be enough to change that ... have to look into it.
->
->> This patch is in preparation for i8042 filter patches to be able to remap
->> bogus scancode(-combinations), produced by notebooks uppon pressing a
->> touchpad toggle key.
-> Since you already creating a vendor-specific platform driver I think it
-> would be better for it to register a separate input device and have it
-> emit KEY_TOUCHPAD_TOGGLE instead of involving atkbd.
 
-Thought of that also, but since the scancode was unmapped and unused anyway I 
-thought this could be a much simpler and therefore more elegant solution.
+Ah right that is a good point.
 
-Learning question: What actually is the reason why F13-F24 are not fully mapped 
-in the default config?
+Werner, we were using F21 in the past because we could not use evdev
+keycodes >= 248 (256 - 8 modifier keys) because of Xorg limitations.
 
-Best regards,
+But recently the mapping of things like KEY_TOUCHPAD_TOGGLE /
+KEY_TOUCHPAD_ON / KEY_TOUCHPAD_OFF to F2x keys has been moved to
+xorg-x11-drv-libinput which gets the full range key-codes from
+libinput and can then do this mapping before passing the keys
+to the X-server.
 
-Werner
+So it is no longer necessary to use KEY_F21 and even in the past
+we used to do the mapping in udev / hwdb rules not in the kernel
+in the kernel we've always (with a few exceptions which are my
+fault) used KEY_TOUCHPAD_TOGGLE as that is the correct keycode.
 
->
->> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
->> Cc: <stable@vger.kernel.org>
->> ---
->>   drivers/input/keyboard/atkbd.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
->> index adf0f311996c9..2ba3493de88cc 100644
->> --- a/drivers/input/keyboard/atkbd.c
->> +++ b/drivers/input/keyboard/atkbd.c
->> @@ -88,7 +88,7 @@ static const unsigned short atkbd_set2_keycode[ATKBD_KEYMAP_SIZE] = {
->>   	  0, 56, 42, 93, 29, 16,  2,  0,  0,  0, 44, 31, 30, 17,  3,  0,
->>   	  0, 46, 45, 32, 18,  5,  4, 95,  0, 57, 47, 33, 20, 19,  6,183,
->>   	  0, 49, 48, 35, 34, 21,  7,184,  0,  0, 50, 36, 22,  8,  9,185,
->> -	  0, 51, 37, 23, 24, 11, 10,  0,  0, 52, 53, 38, 39, 25, 12,  0,
->> +	  0, 51, 37, 23, 24, 11, 10,  0,191, 52, 53, 38, 39, 25, 12,  0,
->>   	  0, 89, 40,  0, 26, 13,  0,193, 58, 54, 28, 27,  0, 43,  0, 85,
->>   	  0, 86, 91, 90, 92,  0, 14, 94,  0, 79,124, 75, 71,121,  0,  0,
->>   	 82, 83, 80, 76, 77, 72,  1, 69, 87, 78, 81, 74, 55, 73, 70, 99,
->> -- 
->> 2.43.0
->>
-> Thanks.
->
+Regards,
+
+Hans
+
 
