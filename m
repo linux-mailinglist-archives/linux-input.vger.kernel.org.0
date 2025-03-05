@@ -1,87 +1,87 @@
-Return-Path: <linux-input+bounces-10563-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10564-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6CB5A4FF0F
-	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 13:55:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F224A4FF17
+	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 13:56:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B62D6188FE80
-	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 12:55:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8DD1418908B1
+	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 12:56:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40D852451F3;
-	Wed,  5 Mar 2025 12:55:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7438C245011;
+	Wed,  5 Mar 2025 12:56:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QmBPsZUy"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UtUSxtwB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D87C2441A0
-	for <linux-input@vger.kernel.org>; Wed,  5 Mar 2025 12:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EFFC1EDA26
+	for <linux-input@vger.kernel.org>; Wed,  5 Mar 2025 12:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741179318; cv=none; b=a7tVr1ee4drMvmq9EOysu/NPzHJWcBNi4nvj5RDd2KXdFHxpCLHxFbBD2JkmA4g2//quGJGQP134d3O4yyEUKOCFQdlwuncF7FvjOYWhW5KoSRIK+x8snBtlTCMzA2YxtJZcA9cNEiM+udaeNA2qfn31itfsWeIiFw27cCsdhtc=
+	t=1741179389; cv=none; b=SBfiV5wyKnDgOUx34Dlp3SIdFzYbNe0ZPVmTm1sSrnoUeYwfCIzYX6UMkdK6FeTdzxYZEWuh2Tq2ExBmbcayVEOffA01wfI2yaRHeYbGJxEYvPQt9gBDALOk0DK2230fsfpoKYDhZBmddXGw8jIbJ3F7I6eGb9o4rcgNXGsCVBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741179318; c=relaxed/simple;
-	bh=YNboN6HasUd8fdaZmn76+5CG2qlIfABQ284AytGS6lo=;
+	s=arc-20240116; t=1741179389; c=relaxed/simple;
+	bh=e1mwfxZUt3ptBte/jqIYvM3cOusxv8qa+gGvqR+6sII=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JwgxKOxh37ui2nvFS/dSyuWVsMXnXiffy3Wq/RAyKiUfuPRut9dd5tVma3BNeeponaikxyk9VC9nzhoU44Mwh4PTc3uzArsmeuoq2l4UZzgkMutVisl/w/ZiD2R9S6NyunjLdoDnsMBZ1VSWFXJMVtcin81x6LhkD/LWfx/yMJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QmBPsZUy; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=sxNvovNLVzKL/0L5veopw0DvHLaju54KAgtzjD6cYuJvqFmsSPC5VWSLzM2RGjyThXFmhNxHe9d3qvIGF5aqJ23lfDbCQWHqqdEQpEdrAe8jvi5pFNpQROQYK8AQQza6GNSPD86eGDtwvQOM/Vg2PDiiOfKWmPfRy8bm31fH+Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UtUSxtwB; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741179314;
+	s=mimecast20190719; t=1741179386;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=R+I52jkpTGKKh5i8x7etc2AkECbsYxHYCuFAnAyZIoQ=;
-	b=QmBPsZUy2CxTrRMPSP0NuV5rC4BTcohs/ujq6EWLFrWfLX5eXX5yevEFnhrYYe2EeDIeNF
-	SsJ+EQhqNXnYDiBrnUykfXvuiJiq6CfvenX48SncWAZ9UQpobCmB1bU5fHa9lFKmdUpb7Q
-	gXjFug2VDZVXFZVGLGY2PNRuipDCVcI=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=Za8i7LJ2q5ph41mgejRxdkDOeTZPIJR92M7/oekDxSE=;
+	b=UtUSxtwBPSfYKEyiqtjE9cRrQhJuldeXzQlLcMSVtVA7dfVNQjSw4Ud8hZAZv4A7c0Fs4Y
+	tF4YTg0mUMQ8dEdh3SA20KX7c65EIvRf6UD9o4i0khcc5UursdvtzPPyjfJTvHeK5XaoeQ
+	5DYUUjQD95GN/6a/tVGweZFSG50dSvk=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-635-8t-HMtXVPVeVmV7s2-5Z0A-1; Wed, 05 Mar 2025 07:55:13 -0500
-X-MC-Unique: 8t-HMtXVPVeVmV7s2-5Z0A-1
-X-Mimecast-MFC-AGG-ID: 8t-HMtXVPVeVmV7s2-5Z0A_1741179312
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-5e5810f84cbso3436399a12.3
-        for <linux-input@vger.kernel.org>; Wed, 05 Mar 2025 04:55:13 -0800 (PST)
+ us-mta-320-xAuMGdo-NHWM8CTxs7L0cg-1; Wed, 05 Mar 2025 07:56:20 -0500
+X-MC-Unique: xAuMGdo-NHWM8CTxs7L0cg-1
+X-Mimecast-MFC-AGG-ID: xAuMGdo-NHWM8CTxs7L0cg_1741179379
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-ab68fbe53a4so946743866b.2
+        for <linux-input@vger.kernel.org>; Wed, 05 Mar 2025 04:56:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741179311; x=1741784111;
+        d=1e100.net; s=20230601; t=1741179378; x=1741784178;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R+I52jkpTGKKh5i8x7etc2AkECbsYxHYCuFAnAyZIoQ=;
-        b=rS0toAzBO4KXgsa/yRFWXgrTx+bnraBwxkgjimlHX5fbLpqvdnC9CPaAFALJ8Isvci
-         w0RNtsoNUbLF8zXCccggA+BGnvoku1OSJFUuWfwkGWOWSpzpJag9DLXEJ3OoYWMkKAUY
-         +yab9Md1bRyaYDOgI/M8dGfUNKCbG3RSPRZ8R8MOwu1ago0kwf11hHA9/Ufzd5KD59N2
-         JFbttnurMx9gXzfO/Y/xU2emD+z3mUWcrlUh7OA2GB//oXTJ766Z17e4tDX5v1ohgYTI
-         T2Jmm4eiLJAanqvFmQWXBPOl6cnt+oV3AZ5R1QlcFCGPEWB8NfHf7bUmI4cXtoei1oNn
-         7W6g==
-X-Forwarded-Encrypted: i=1; AJvYcCVzpkc+7MFobeBn9fVgQ6VENkN99ONWUuGD45HHBBU+5mtMA1udnvM0JlLK7Kalm8aCyhHyTZH5WGK+dg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YywIu1O0jhjMc8mG0rwilnOB3G2pa4Bk0NfunmZ01Ahft28NbP6
-	Niek/PW4MVIZy6FxK+hBAQVJ3f42jufoVeChA/hcIgBsu7vxqPJbY/PTv+627d1EOgMF+LD62jJ
-	0UGnn5pkCagkxfUJ9U5NoUpOYjuj+06vSJqehAW0RzobVqHwBPNEJ+vowg8WsPSoRMNjF
-X-Gm-Gg: ASbGncv4/bDIsBQvq1XXQWrgKpVqcuN9E9FLKREwe3G/JIMirACb91WmY1hFmnCASAj
-	fESo/RYSsdRFgblcAXqPwOtzNaIlfgtsTGqy9Z7isU/fTIvrSublmVacKP8t1IgQ4JgWcdBIuQP
-	jweTUzCXmwMRMNuAle1cRuOP0MLsyNpFUHCkAfJCBIe5zh5gjV0xSwq6tZrFLgh+8spk5wUJ4Kl
-	hI+6GDMCTTSov6Tpayiq8zWg01JXbJHVB+BnMYsuUqQQqwvtF7bRldazZFt4cKxNfxSA87McEUm
-	hiFfjgB4YkXCHIeGtb93xrdJ1lwQzAW2kJ8qgPjMlu33ScFTPfiOSqP0jTRNpjnjF9eEUL+d0E6
-	o1lUxwPq5CHIoslThvLSfrwvH3WiSCRaSSsVO5wXJReruhKveQ2HvvS92rcCb1RUsdQ==
-X-Received: by 2002:a05:6402:5109:b0:5e5:2d8c:7fa8 with SMTP id 4fb4d7f45d1cf-5e59f4a48eemr2821280a12.31.1741179311432;
-        Wed, 05 Mar 2025 04:55:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFNhQ4Yxbj6HpL5AMkaYg0O4lq4C1AslkF+2EMDH6GYW4hEnJ3ulGuOIG+oOC0bGtzW+rS94w==
-X-Received: by 2002:a05:6402:5109:b0:5e5:2d8c:7fa8 with SMTP id 4fb4d7f45d1cf-5e59f4a48eemr2821253a12.31.1741179311069;
-        Wed, 05 Mar 2025 04:55:11 -0800 (PST)
+        bh=Za8i7LJ2q5ph41mgejRxdkDOeTZPIJR92M7/oekDxSE=;
+        b=DTucIr9EUb3sWnZhVzub6pst9fX0iVqaEFZAZRiVhrVkNd3b8LDRRmBBGhyeTsOWHe
+         VVhaY5MRj7G9jWm1fnvhkKKx3vwXzXvjMuxOPCptyyx3x+hpljD14eOtFzj0vSyUTyyU
+         tSLkWmn/i0Xm7yXsfbEUBl28GcrCIG50Fx5DPstfzp0VZVuiaas41wYvHQKJ2nzLUrq/
+         QFoE0cke0H9AtyBJWFoLkhNROMk7UmVmMVMUCZvo92sdu7Nawq2xYXODYwCwNXQpnDXL
+         rjsyrA8B7zD8sINIrodJof7nEKBjFTYDwgW0FbGhRDNyyzxkmENwR4rhhSbPjavwiCFa
+         qzeA==
+X-Forwarded-Encrypted: i=1; AJvYcCXSARyPWtIX48xVa8SKrpOlfTlzrlMh0Dsz/K9TQ3a2HtcdkE0Nn5G/uA+w7nL9h5xPYRhCinXl2eWcRg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/56rYB9rmvGyZvk9J76jRHQdtiRfoQMZRiOoSFUNEhtPMDYni
+	VeCEKQq5P2cL6csAEzzBb5mvUu6S/Qi/0s/rtEvV7jOp5vYQQdB04GvqGF+lpBALewkaYiR3yyZ
+	PmTsdboaO2oXwZXBbCTf+VtpSb0qQM2Mg9jr06u5ZQpAdtQXQKf6TK7d9RGM4mbAmwD4Z
+X-Gm-Gg: ASbGnctsu9OXM1naIsxxZFXu03cxzLE2nN+AgxvqBjsGnuvuhhlwHkSeSyUuvNA95th
+	78yDNS5Na87u991cKfgzd1wt+VLmKc0XOraSMMB1oHB4E+lMRWoyv8mZVxu+22q/08Dm1S+ZDbe
+	9wY+T0YaZ3YYodaD2ZCbgb6PVouIptpYXyuRX1czjV8aRYkMtm3Q2w8vcb+DjWZhEc+KrumefTK
+	6vQKx3gJUTmhqW6V63wCNEW1e86GSCZjZk2RaTIDxaZK/vSswKDZNbneJKnGmLd+qSQ8UHZtSzM
+	WFzDNiZWjh6GvD2atLTLW1+BdYlPx5NmCpGhSAgytDzJRjheUEe96HOPD1a1gk3mGChhVr6QN4a
+	1O0MdPfuaZxdOXmrA9+oDxoCj9xa1d4P4FGkJnta178YCOm/v+9r1p9eA/wkCr3x7tQ==
+X-Received: by 2002:a17:907:d27:b0:abf:4c82:22b1 with SMTP id a640c23a62f3a-ac20d92d645mr264906966b.32.1741179378492;
+        Wed, 05 Mar 2025 04:56:18 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH7FU069uMF1dnQAV6+DOZu+Ac8Fl/LVt/1+ht6q83IgFnbpvYl09QsqZR11ilEO2jA0VLHfg==
+X-Received: by 2002:a17:907:d27:b0:abf:4c82:22b1 with SMTP id a640c23a62f3a-ac20d92d645mr264905466b.32.1741179378157;
+        Wed, 05 Mar 2025 04:56:18 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e4c3bc80b1sm9739558a12.47.2025.03.05.04.55.10
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac1fcc6f986sm239728266b.93.2025.03.05.04.56.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Mar 2025 04:55:10 -0800 (PST)
-Message-ID: <18da2efb-c0c2-4417-8c99-623f6ecb2b21@redhat.com>
-Date: Wed, 5 Mar 2025 13:55:09 +0100
+        Wed, 05 Mar 2025 04:56:17 -0800 (PST)
+Message-ID: <44e18b80-8160-46a7-a891-de9014128d2e@redhat.com>
+Date: Wed, 5 Mar 2025 13:56:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -91,31 +91,49 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 1/2] Input: atkbd - map F21 key to support touchpad
  toggle keys
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Werner Sembach <wse@tuxedocomputers.com>
+To: Werner Sembach <wse@tuxedocomputers.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: mario.limonciello@amd.com, ilpo.jarvinen@linux.intel.com,
  linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250303190442.551961-1-wse@tuxedocomputers.com>
  <Z8f1EzASdCfa2h_7@google.com>
+ <9f3e1a77-246d-4880-af99-dcbfc94a573f@tuxedocomputers.com>
 Content-Language: en-US, nl
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Z8f1EzASdCfa2h_7@google.com>
+In-Reply-To: <9f3e1a77-246d-4880-af99-dcbfc94a573f@tuxedocomputers.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Werner,
 
-On 5-Mar-25 7:54 AM, Dmitry Torokhov wrote:
-> Hi Werner,
+On 5-Mar-25 1:18 PM, Werner Sembach wrote:
+> Hi Dmitry,
 > 
-> On Mon, Mar 03, 2025 at 08:04:34PM +0100, Werner Sembach wrote:
->> In the default xkeyboard-config used by both X11 and wayland touchpad
->> toggle is assigned to F21.
-> 
-> We have dedicated KEY_TOUCHPAD_TOGGLE that is being used by several
-> platform drivers:
+> Am 05.03.25 um 07:54 schrieb Dmitry Torokhov:
+>> Hi Werner,
+>>
+>> On Mon, Mar 03, 2025 at 08:04:34PM +0100, Werner Sembach wrote:
+>>> In the default xkeyboard-config used by both X11 and wayland touchpad
+>>> toggle is assigned to F21.
+>> We have dedicated KEY_TOUCHPAD_TOGGLE that is being used by several
+>> platform drivers:
+>>
+>> dtor@dtor-ws:~/kernel/work $ git grep -l KEY_TOUCHPAD_TOGGLE --
+>> drivers/platform/x86/
+>> drivers/platform/x86/acer-wmi.c
+>> drivers/platform/x86/asus-laptop.c
+>> drivers/platform/x86/asus-nb-wmi.c
+>> drivers/platform/x86/eeepc-wmi.c
+>> drivers/platform/x86/fujitsu-laptop.c
+>> drivers/platform/x86/ideapad-laptop.c
+>> drivers/platform/x86/msi-wmi.c
+>> drivers/platform/x86/toshiba_acpi.c
+>>
+>> Instead of piling on F21 hacks we should be using it.
+> Afaik KEY_TOUCHPAD_TOGGLE is not implemented in userspace, but a patch for xkeboard-configs could probably be enough to change that ... have to look into it.
 
-Ah right that is a good point.
+Quoting from the other reply in this thread I just send
+(our email crossed):
 
 Werner, we were using F21 in the past because we could not use evdev
 keycodes >= 248 (256 - 8 modifier keys) because of Xorg limitations.
@@ -134,5 +152,6 @@ fault) used KEY_TOUCHPAD_TOGGLE as that is the correct keycode.
 Regards,
 
 Hans
+
 
 
