@@ -1,83 +1,77 @@
-Return-Path: <linux-input+bounces-10560-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10561-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6714CA4F922
-	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 09:49:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E0EA4FB2D
+	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 11:06:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5115716BC1C
-	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 08:49:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D89071885825
+	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 10:06:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D10D1FC0EC;
-	Wed,  5 Mar 2025 08:49:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04F5E1F3D30;
+	Wed,  5 Mar 2025 10:06:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mPHDgOfU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xah4hXZa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0887D155342
-	for <linux-input@vger.kernel.org>; Wed,  5 Mar 2025 08:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C99A86340;
+	Wed,  5 Mar 2025 10:06:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741164578; cv=none; b=hKxppu9ffELENPwZCsv1pb1krEcJKrB58gORP39NdDm/8Sqe+1JJ9XP33KPbjOBc19/Du0Xn9aMyxAl1kldkZ2vDV3pUvBjgHpgFtSijB0aV9s4tsow8JxqklC6IdKsMg4kIpdOph6lSt2M1jpno1Bbxu70Yk3r6c2VlBBn8wd4=
+	t=1741169200; cv=none; b=l7R1QQNBeE5gS/dfalWFOSG0trtNJtWyvPaQ1cC1Q3Nyb3AyizLQ8H2AHx1Rc45rrHB7LYk93hzYR3AKfWk2bW/cSo9Bj5UPPHvcBS+1Lnp1WRkwuA60ovghWjlV0AERCMYw7XHyzCboewOWc0rHd9XPGNJUk5aIbSYickZ4Onk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741164578; c=relaxed/simple;
-	bh=9jWIOwtHWCTu1CHSD2EUwqj9F2735xzQJKcxTaurzFc=;
+	s=arc-20240116; t=1741169200; c=relaxed/simple;
+	bh=qWiqRPWuWlcvad2jEzaD6pGE723pyQK05mb61fmkq+c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qOXF/WmUfU+C/g7u2BdAm7Q/5BFLnIdcIR4qYGTFxENnN25Ev1Lnhcp/sl/r5akUoxDBDhM3EdsovlWUAXyY/E+nQ+APNqTFUmH6GRJWBNPwRpCO+H6IFE5PV5UcfrJ/z2PtLQxoMiBr1NDPYEQGpH2TDDLkSvWy5q2okIw41C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mPHDgOfU; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-390e3b3d3bcso7532271f8f.3
-        for <linux-input@vger.kernel.org>; Wed, 05 Mar 2025 00:49:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741164575; x=1741769375; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EYPK4LJGUkg+fyK9eN8maHW7dtazvwmJQIM9Nya9H0c=;
-        b=mPHDgOfUTWHiDhLy7czrVYZJzQ2LKFVCn6RCc+KCbOIwmxThmYBCYS2MbflG38qWl8
-         pn/IL03jclZjFPiyzpNDU7fXha2Y9f2r6LSNKkstp97r4XpCgnxfhKHEkkpRJjRQo+KZ
-         K9TjYBssq6TyABuy5FlPBALjHZJEeFm1Mq/M7XlY8JwO4Pcm5zO2GXBKmLhBICvIm1so
-         jYorT2jCaB9S9TlQX9fohD7s0sdZqYpSb0N0t1YSTFVRRaf8a0vC1Vtp8/JpOC6QHpij
-         w8pMSPcoUKO2popa/t7l1Xy+AwfckWg1XYu+++S2BFzJpcndHJHgkdspp49xlhWZPdTo
-         yP9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741164575; x=1741769375;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EYPK4LJGUkg+fyK9eN8maHW7dtazvwmJQIM9Nya9H0c=;
-        b=qYqH60tFmrU3q9C5TFxQAuI7125VKaSvleXkWoCATgPDjfEfdk9L6IINDN53qQcPxs
-         b41pJyy9b5A6kXcOza1+JQH9IY3+CWgZL99EHc4rDoiqfTxOFqkLWHwvlUw0raME8zhU
-         43SVNLDo7/ufWcVnh6kmHfJ81Jp2q+FMZ4d6tUn+RYAgtl1jJ8xneQQI6H6PdVvJ9Zn3
-         +dndr8ark3LF3jK2W2g2Ju1IOGXNlAqnkcYnjTWcVOOGTEVS3RZTzOWmqSG3cNDxLZW3
-         8bY/M94CEds6TBzP6KTcfxt41vS5LPgKLqXOfD+32QuQ5mvms+ocHFfWJhnTiuyFWxTQ
-         unIQ==
-X-Gm-Message-State: AOJu0YwDWQX+zRcWM49aKAN2NY78aFFgGBycwB7zQ8FWAmdgiC6+RNgA
-	t6jU++aj12kHgE+3UsYFCxOz5WfJnnK9XgM2ylfB7kCdl1hIIKhEc6ZZzqNUmgQ=
-X-Gm-Gg: ASbGncsDxKQ+cBTyLDx9Wos0P9kjmoA1wsfmDqxjLVrBELSNBleDrg27sOe+SRWXN40
-	WFLD63Kbdqr22VyF8HNZcPKziinK3Z6tgmKEoK+aDoDmRYfYJCwPNegRitZ0KhBfa3StE7FuWHD
-	hj82qePl5EqIE4JdM8Sry2hepHMR9N2xuoAoc99AX4ufFQHXDph5S8txZsJwsz8XppHHMYI0xfJ
-	bqRtZKwZqM5gxt+HdGQMame9B4HnsazcGfdJzkcV6bWeep9fkFQlswcGQTd37pk7y/rMG5GUDrD
-	jEKwaPcuZ4uO8fpL8u09bBDGVPmaCWnM8PL8BoiB+R6jVeQubw==
-X-Google-Smtp-Source: AGHT+IErh6D4k6HrXpvyI/+0aERvcaeOMx/1gfNmQ4VSvej6ewlkLHJe/aA/MCy4zwQw+RnwIFPgOQ==
-X-Received: by 2002:a5d:5f91:0:b0:390:e9e0:5cb3 with SMTP id ffacd0b85a97d-3911f73b6b4mr1403969f8f.12.1741164575162;
-        Wed, 05 Mar 2025 00:49:35 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-390e4796084sm20632902f8f.19.2025.03.05.00.49.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Mar 2025 00:49:34 -0800 (PST)
-Date: Wed, 5 Mar 2025 11:49:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=hTBwvf7+CmZ9UEAntmOKUZo44Cy/OFX07QCkF4nCwwfYYAwkzgKHK3XcKBXDyxIiUzsEh1r93+H9DcyaWokjCjpcci4R/hnb+2BXCzyBnO4U7QhK0LSUY12a+dKsLSnjKskjavQAWNJIOfrEvUwJ/gQAKo3NMIIHhKFYmUXpe6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xah4hXZa; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741169190; x=1772705190;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qWiqRPWuWlcvad2jEzaD6pGE723pyQK05mb61fmkq+c=;
+  b=Xah4hXZar118erhLAZvg2dH7Oc8hucFZCtyaiCaKcPKO/5JccuDrip9x
+   gd3Y2t1n0TDBBZR4rpvye3uJ2P0H6jV6FjX6eX+ZzeJ6F9cYdcKAa5pen
+   c3dYiW+5ZxKWFS4m8w05VoehywiyM6sanVwR8jXaarzE8GSbfxc/C3n9a
+   mRW9ThW2zig3N08NXKtXIulrrCXDPnhfNZFuQtrayBtnTLDXKTtxdUBH3
+   G9ZrFUmpLPikJ7Di8mutfdHLShWYB5HtlzpmOR9xK1Uh9IjsuW9HwuzBD
+   qwrnDrBFZ0kkiB13f9pDzCtOQPyZ6nBsqwxc1nGoRNsy/Vjd4DCg9FmgF
+   Q==;
+X-CSE-ConnectionGUID: er82+ACWS/SR1kA8SCQzig==
+X-CSE-MsgGUID: 5QKlYnXHRN+dcOtu7cMnlA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="45899832"
+X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; 
+   d="scan'208";a="45899832"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 02:06:29 -0800
+X-CSE-ConnectionGUID: FXsqt1nlRAydAT8YsrBNEQ==
+X-CSE-MsgGUID: tz7V+kYGSFGKTBL5/o0JjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; 
+   d="scan'208";a="123240245"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 02:06:27 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tpldx-0000000HNT4-1B8J;
+	Wed, 05 Mar 2025 12:06:25 +0200
+Date: Wed, 5 Mar 2025 12:06:24 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: Re: [bug report] Input: atkbd - restore repeat rate when resuming
-Message-ID: <715978b4-8de1-489a-9792-643dbe72508a@stanley.mountain>
-References: <cd3caca2-607e-4cf4-9262-bc5867b690a7@stanley.mountain>
- <Z8f4r2AbNX-6EpO7@google.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
+Subject: Re: [PATCH v1 0/4] Input: Increase size of phys in the drivers
+Message-ID: <Z8giINd3FySw44UO@smile.fi.intel.com>
+References: <20250228121147.242115-1-andriy.shevchenko@linux.intel.com>
+ <Z8bulFaTKJ06YLrL@smile.fi.intel.com>
+ <Z8f63ImfQMB-Wp5R@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -86,96 +80,50 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z8f4r2AbNX-6EpO7@google.com>
+In-Reply-To: <Z8f63ImfQMB-Wp5R@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Mar 04, 2025 at 11:09:35PM -0800, Dmitry Torokhov wrote:
-> Hi Dan,
+On Tue, Mar 04, 2025 at 11:18:52PM -0800, Dmitry Torokhov wrote:
+> On Tue, Mar 04, 2025 at 02:14:12PM +0200, Andy Shevchenko wrote:
+> > On Fri, Feb 28, 2025 at 02:07:43PM +0200, Andy Shevchenko wrote:
+> > > The drivers are using local member of 32 bytes to hold up to 40 (one-byte)
+> > > characters. GCC complains on that. This series fixes the issue in the affected
+> > > input drivers. Note, this is currently the biggest part of the warnings that
+> > > are being treated as errors with the default configurations on x86. With this
+> > > being applied we become quite close to enable CONFIG_WERROR=y (which is default
+> > > and basically reverted) in CIs. Clang, OTOH, has currently no issues with that.
+> > 
+> > Would be nice to have a comment on this rather sooner as this impacts
+> > the compilation by `make W=1` with WERROR=y (which is default).
 > 
-> On Mon, Mar 03, 2025 at 11:11:35AM +0300, Dan Carpenter wrote:
-> > [ This bug seems really ancient.  But so far as I can see it really is
-> >   super old.  I'm not sure why it's only showing up now.  -dan ]
-> > 
-> > Hello Dmitry Torokhov,
-> > 
-> > Commit 3d0f0fa0cb55 ("Input: atkbd - restore repeat rate when
-> > resuming") from Aug 4, 2006 (linux-next), leads to the following
-> > Smatch static checker warning:
-> > 
-> > 	drivers/input/keyboard/atkbd.c:604 atkbd_set_repeat_rate()
-> > 	warn: sleeping in atomic context
-> > 
-> > drivers/input/keyboard/atkbd.c
-> >     583 static int atkbd_set_repeat_rate(struct atkbd *atkbd)
-> >     584 {
-> >     585         const short period[32] =
-> >     586                 { 33,  37,  42,  46,  50,  54,  58,  63,  67,  75,  83,  92, 100, 109, 116, 125,
-> >     587                  133, 149, 167, 182, 200, 217, 232, 250, 270, 303, 333, 370, 400, 435, 470, 500 };
-> >     588         const short delay[4] =
-> >     589                 { 250, 500, 750, 1000 };
-> >     590 
-> >     591         struct input_dev *dev = atkbd->dev;
-> >     592         unsigned char param;
-> >     593         int i = 0, j = 0;
-> >     594 
-> >     595         while (i < ARRAY_SIZE(period) - 1 && period[i] < dev->rep[REP_PERIOD])
-> >     596                 i++;
-> >     597         dev->rep[REP_PERIOD] = period[i];
-> >     598 
-> >     599         while (j < ARRAY_SIZE(delay) - 1 && delay[j] < dev->rep[REP_DELAY])
-> >     600                 j++;
-> >     601         dev->rep[REP_DELAY] = delay[j];
-> >     602 
-> >     603         param = i | (j << 5);
-> > --> 604         return ps2_command(&atkbd->ps2dev, &param, ATKBD_CMD_SETREP);
-> > 
-> > This fucntion call takes a mutex.
-> > 
-> >     605 }
-> > 
-> > The call tree is:
-> > 
-> > atkbd_reconnect() <- disables preempt
-> > -> atkbd_set_repeat_rate()
-> > 
-> > In atkbd_reconnect() it's the atkbd_disable(atkbd) which takes a
-> > spinlock.
-> 
-> I think your tools are confused by the guard notation. atkbd_disable()
-> not only takes but also releases the spinlock.
+> I do not like the change.
 
-Argh...  Yeah.  Sorry.  I'll fix that.  I guess the problem is that
-Smatch is confused by the if statement in class_serio_pause_rx_destructor()
+Independently on your opinion in this case GCC is correct.
+We are trying to squeeze up to 40 bytes into 32-byte storage.
+I.o.w. GCC can't prove that and reader of the code can't prove
+that either.
 
-regards,
-dan carpenter
+> There are no bugs, only GCC being paranoid.
 
-From b045578c121afaba0522b26a617b45e8c2307da8 Mon Sep 17 00:00:00 2001
-From: Dan Carpenter <dan.carpenter@linaro.org>
-Date: Wed, 5 Mar 2025 11:47:37 +0300
-Subject: [PATCH] preempt_info: add class_serio_pause_rx_destructor()
+I'm not so sure. But probably it works because the user space is parsing full
+"inputX" string in the names
 
-The class_serio_pause_rx_destructor() function enables preemption again.
-This silences some false positives in atkbd.c.
+> Are there any other ways to shut it up? In [1] Jeff says that switching
+> to scnprintf() shuts GCC up...
 
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- check_preempt_info.c | 1 +
- 1 file changed, 1 insertion(+)
+I do not like this, because it's just a hiding the problem and not solving it.
+At some point GCC may start issuing warning on those cases as well when it
+realizes the above. If you like that solution, please fix in that way. We have
+4 drivers break the compilation currently.
 
-diff --git a/check_preempt_info.c b/check_preempt_info.c
-index 8fabd64cff24..2f5ab7648951 100644
---- a/check_preempt_info.c
-+++ b/check_preempt_info.c
-@@ -129,6 +129,7 @@ static struct preempt_info func_table[] = {
- 	{ "rht_unlock",				PREEMPT_SUB },
- 	{ "bit_spin_unlock",			PREEMPT_SUB },
- 	{ "__bit_spin_unlock",			PREEMPT_SUB },
-+	{ "class_serio_pause_rx_destructor",	PREEMPT_SUB },
- 
- 	{ "mtk_wed_device_attach",		PREEMPT_IGNORE },
- };
+> [1] https://lore.kernel.org/r/Z3rIvp0hzS+yzvJA@nixie71
+
+So, consider this series as a bug report that prevents compilation.
+I would expect somebody to fix this rather sooner than later.
+
 -- 
-2.47.2
+With Best Regards,
+Andy Shevchenko
 
 
 
