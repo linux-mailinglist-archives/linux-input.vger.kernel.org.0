@@ -1,129 +1,141 @@
-Return-Path: <linux-input+bounces-10561-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10562-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E0EA4FB2D
-	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 11:06:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F763A4FE84
+	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 13:20:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D89071885825
-	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 10:06:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E82B4167350
+	for <lists+linux-input@lfdr.de>; Wed,  5 Mar 2025 12:18:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04F5E1F3D30;
-	Wed,  5 Mar 2025 10:06:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85D5724397B;
+	Wed,  5 Mar 2025 12:18:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xah4hXZa"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="UPWebGGY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C99A86340;
-	Wed,  5 Mar 2025 10:06:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151FA214818;
+	Wed,  5 Mar 2025 12:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741169200; cv=none; b=l7R1QQNBeE5gS/dfalWFOSG0trtNJtWyvPaQ1cC1Q3Nyb3AyizLQ8H2AHx1Rc45rrHB7LYk93hzYR3AKfWk2bW/cSo9Bj5UPPHvcBS+1Lnp1WRkwuA60ovghWjlV0AERCMYw7XHyzCboewOWc0rHd9XPGNJUk5aIbSYickZ4Onk=
+	t=1741177112; cv=none; b=TCOutC049vTftPkKRg1lh43wce4SEvquwVV1ZEI695x6GlUaQrLEXsli8yhUmYiA7Yl7RfK0OTM6BS8FXQO8k6B7z/UNub9u3ALXT6PCT+3chBc0fRBOMH2rWozgQFOQ+RPV0AcUbRs+ocmxPkthXQVl5wo9EDC/7EowsSk2vaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741169200; c=relaxed/simple;
-	bh=qWiqRPWuWlcvad2jEzaD6pGE723pyQK05mb61fmkq+c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hTBwvf7+CmZ9UEAntmOKUZo44Cy/OFX07QCkF4nCwwfYYAwkzgKHK3XcKBXDyxIiUzsEh1r93+H9DcyaWokjCjpcci4R/hnb+2BXCzyBnO4U7QhK0LSUY12a+dKsLSnjKskjavQAWNJIOfrEvUwJ/gQAKo3NMIIHhKFYmUXpe6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xah4hXZa; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741169190; x=1772705190;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qWiqRPWuWlcvad2jEzaD6pGE723pyQK05mb61fmkq+c=;
-  b=Xah4hXZar118erhLAZvg2dH7Oc8hucFZCtyaiCaKcPKO/5JccuDrip9x
-   gd3Y2t1n0TDBBZR4rpvye3uJ2P0H6jV6FjX6eX+ZzeJ6F9cYdcKAa5pen
-   c3dYiW+5ZxKWFS4m8w05VoehywiyM6sanVwR8jXaarzE8GSbfxc/C3n9a
-   mRW9ThW2zig3N08NXKtXIulrrCXDPnhfNZFuQtrayBtnTLDXKTtxdUBH3
-   G9ZrFUmpLPikJ7Di8mutfdHLShWYB5HtlzpmOR9xK1Uh9IjsuW9HwuzBD
-   qwrnDrBFZ0kkiB13f9pDzCtOQPyZ6nBsqwxc1nGoRNsy/Vjd4DCg9FmgF
-   Q==;
-X-CSE-ConnectionGUID: er82+ACWS/SR1kA8SCQzig==
-X-CSE-MsgGUID: 5QKlYnXHRN+dcOtu7cMnlA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="45899832"
-X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; 
-   d="scan'208";a="45899832"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 02:06:29 -0800
-X-CSE-ConnectionGUID: FXsqt1nlRAydAT8YsrBNEQ==
-X-CSE-MsgGUID: tz7V+kYGSFGKTBL5/o0JjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; 
-   d="scan'208";a="123240245"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 02:06:27 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tpldx-0000000HNT4-1B8J;
-	Wed, 05 Mar 2025 12:06:25 +0200
-Date: Wed, 5 Mar 2025 12:06:24 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
-Subject: Re: [PATCH v1 0/4] Input: Increase size of phys in the drivers
-Message-ID: <Z8giINd3FySw44UO@smile.fi.intel.com>
-References: <20250228121147.242115-1-andriy.shevchenko@linux.intel.com>
- <Z8bulFaTKJ06YLrL@smile.fi.intel.com>
- <Z8f63ImfQMB-Wp5R@google.com>
+	s=arc-20240116; t=1741177112; c=relaxed/simple;
+	bh=cHCNQkRlbbJCycq/FOXZKuwItO75piOrRI8svoO7IeM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EQpGEuM62m9hEWLSYhxs7v9XZwnyshWJ1ty6dTK4EC35Ruw9FiErjMF9Rsw9RdbgM+l3PLPCvryy2wLW3+byHaRz4iJKF5ejcRoWUMdgvzgXYsaTOHXCN3RJbPeIVjlf62KI5WcPYJ6Zirb/rBkzuWQcghAnTpQjOaafYvaxxaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=UPWebGGY; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.116] (pd9e59f4f.dip0.t-ipconnect.de [217.229.159.79])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id DBDE72FC0048;
+	Wed,  5 Mar 2025 13:18:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1741177106;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nN9wsZwsCAYB5Tf9dubdxQ4GyUYF8whMsNAQF81IBK0=;
+	b=UPWebGGYdQFJAiSjzIeqvXo49cpPs0X1ucZTQMCY95D8HOPxezDEvZhrRkF7lpSbwwYH7N
+	Ah5MfHjQkltsLDl7a0n2JNGCLKCep1lVwV4bm9DwLWC3+oVltez0JsG6asN6AVNzfUS8VP
+	SRHrzjEzQs0m6hG3lNDd4yJbmv0GrSI=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <9f3e1a77-246d-4880-af99-dcbfc94a573f@tuxedocomputers.com>
+Date: Wed, 5 Mar 2025 13:18:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z8f63ImfQMB-Wp5R@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] Input: atkbd - map F21 key to support touchpad
+ toggle keys
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: mario.limonciello@amd.com, hdegoede@redhat.com,
+ ilpo.jarvinen@linux.intel.com, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250303190442.551961-1-wse@tuxedocomputers.com>
+ <Z8f1EzASdCfa2h_7@google.com>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <Z8f1EzASdCfa2h_7@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 04, 2025 at 11:18:52PM -0800, Dmitry Torokhov wrote:
-> On Tue, Mar 04, 2025 at 02:14:12PM +0200, Andy Shevchenko wrote:
-> > On Fri, Feb 28, 2025 at 02:07:43PM +0200, Andy Shevchenko wrote:
-> > > The drivers are using local member of 32 bytes to hold up to 40 (one-byte)
-> > > characters. GCC complains on that. This series fixes the issue in the affected
-> > > input drivers. Note, this is currently the biggest part of the warnings that
-> > > are being treated as errors with the default configurations on x86. With this
-> > > being applied we become quite close to enable CONFIG_WERROR=y (which is default
-> > > and basically reverted) in CIs. Clang, OTOH, has currently no issues with that.
-> > 
-> > Would be nice to have a comment on this rather sooner as this impacts
-> > the compilation by `make W=1` with WERROR=y (which is default).
-> 
-> I do not like the change.
+Hi Dmitry,
 
-Independently on your opinion in this case GCC is correct.
-We are trying to squeeze up to 40 bytes into 32-byte storage.
-I.o.w. GCC can't prove that and reader of the code can't prove
-that either.
+Am 05.03.25 um 07:54 schrieb Dmitry Torokhov:
+> Hi Werner,
+>
+> On Mon, Mar 03, 2025 at 08:04:34PM +0100, Werner Sembach wrote:
+>> In the default xkeyboard-config used by both X11 and wayland touchpad
+>> toggle is assigned to F21.
+> We have dedicated KEY_TOUCHPAD_TOGGLE that is being used by several
+> platform drivers:
+>
+> dtor@dtor-ws:~/kernel/work $ git grep -l KEY_TOUCHPAD_TOGGLE --
+> drivers/platform/x86/
+> drivers/platform/x86/acer-wmi.c
+> drivers/platform/x86/asus-laptop.c
+> drivers/platform/x86/asus-nb-wmi.c
+> drivers/platform/x86/eeepc-wmi.c
+> drivers/platform/x86/fujitsu-laptop.c
+> drivers/platform/x86/ideapad-laptop.c
+> drivers/platform/x86/msi-wmi.c
+> drivers/platform/x86/toshiba_acpi.c
+>
+> Instead of piling on F21 hacks we should be using it.
+Afaik KEY_TOUCHPAD_TOGGLE is not implemented in userspace, but a patch for 
+xkeboard-configs could probably be enough to change that ... have to look into it.
+>
+>> This patch is in preparation for i8042 filter patches to be able to remap
+>> bogus scancode(-combinations), produced by notebooks uppon pressing a
+>> touchpad toggle key.
+> Since you already creating a vendor-specific platform driver I think it
+> would be better for it to register a separate input device and have it
+> emit KEY_TOUCHPAD_TOGGLE instead of involving atkbd.
 
-> There are no bugs, only GCC being paranoid.
+Thought of that also, but since the scancode was unmapped and unused anyway I 
+thought this could be a much simpler and therefore more elegant solution.
 
-I'm not so sure. But probably it works because the user space is parsing full
-"inputX" string in the names
+Learning question: What actually is the reason why F13-F24 are not fully mapped 
+in the default config?
 
-> Are there any other ways to shut it up? In [1] Jeff says that switching
-> to scnprintf() shuts GCC up...
+Best regards,
 
-I do not like this, because it's just a hiding the problem and not solving it.
-At some point GCC may start issuing warning on those cases as well when it
-realizes the above. If you like that solution, please fix in that way. We have
-4 drivers break the compilation currently.
+Werner
 
-> [1] https://lore.kernel.org/r/Z3rIvp0hzS+yzvJA@nixie71
-
-So, consider this series as a bug report that prevents compilation.
-I would expect somebody to fix this rather sooner than later.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+>
+>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+>> Cc: <stable@vger.kernel.org>
+>> ---
+>>   drivers/input/keyboard/atkbd.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
+>> index adf0f311996c9..2ba3493de88cc 100644
+>> --- a/drivers/input/keyboard/atkbd.c
+>> +++ b/drivers/input/keyboard/atkbd.c
+>> @@ -88,7 +88,7 @@ static const unsigned short atkbd_set2_keycode[ATKBD_KEYMAP_SIZE] = {
+>>   	  0, 56, 42, 93, 29, 16,  2,  0,  0,  0, 44, 31, 30, 17,  3,  0,
+>>   	  0, 46, 45, 32, 18,  5,  4, 95,  0, 57, 47, 33, 20, 19,  6,183,
+>>   	  0, 49, 48, 35, 34, 21,  7,184,  0,  0, 50, 36, 22,  8,  9,185,
+>> -	  0, 51, 37, 23, 24, 11, 10,  0,  0, 52, 53, 38, 39, 25, 12,  0,
+>> +	  0, 51, 37, 23, 24, 11, 10,  0,191, 52, 53, 38, 39, 25, 12,  0,
+>>   	  0, 89, 40,  0, 26, 13,  0,193, 58, 54, 28, 27,  0, 43,  0, 85,
+>>   	  0, 86, 91, 90, 92,  0, 14, 94,  0, 79,124, 75, 71,121,  0,  0,
+>>   	 82, 83, 80, 76, 77, 72,  1, 69, 87, 78, 81, 74, 55, 73, 70, 99,
+>> -- 
+>> 2.43.0
+>>
+> Thanks.
+>
 
