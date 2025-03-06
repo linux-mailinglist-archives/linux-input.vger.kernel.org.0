@@ -1,265 +1,174 @@
-Return-Path: <linux-input+bounces-10597-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10598-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF1BA55778
-	for <lists+linux-input@lfdr.de>; Thu,  6 Mar 2025 21:32:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD6DFA557B1
+	for <lists+linux-input@lfdr.de>; Thu,  6 Mar 2025 21:45:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D13911898470
-	for <lists+linux-input@lfdr.de>; Thu,  6 Mar 2025 20:32:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E8E23188789C
+	for <lists+linux-input@lfdr.de>; Thu,  6 Mar 2025 20:46:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C15D714F9FF;
-	Thu,  6 Mar 2025 20:31:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DD901F63F0;
+	Thu,  6 Mar 2025 20:45:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=g-sokol-info.20230601.gappssmtp.com header.i=@g-sokol-info.20230601.gappssmtp.com header.b="hwft884u"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yo8GMXYQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF81249E5
-	for <linux-input@vger.kernel.org>; Thu,  6 Mar 2025 20:31:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D521A23BD;
+	Thu,  6 Mar 2025 20:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741293116; cv=none; b=uBpfkGDPLT2cZ2i7Ee/g1wgIEBcYjvxbBl/mqIVrZ32cVpZqEO2QyooPCsrGvvma9W9JYQZO+oGAC73H1dvVLXibcoJwVsLF6zIaCOu3jhYINVQEUpQMRh5fC31dhQPuV9o/QGwQ4Y+oq0q11ALP7/+aOUKNmN1GcEs6m4SvQww=
+	t=1741293950; cv=none; b=gBpufuVS7owY7AJpKyHGEiChOHs5GjxdhQ/GvxD+OB/y0gmFRRgDkrzXfPX/VcL6RXzeipxQh3wJ8h8LzePDDBy23PhxeKEFK7UCdurfP9k3WEun2plUEyQw53ZO8NIrG1Xtdm8sURa0A7mCMifAI1vkCI+2N476C9GofsHisZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741293116; c=relaxed/simple;
-	bh=sR7K7LYqnZvdyy5ipBXq7TBLq32GsQeJsZsQqVXzuTE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LPNbJuHScNsuF+lALb1FM7jXMhTl4fg9Rx9MFaHCTCju/we4AN2nCrT1wmxNH1Y4CxJ8hagGKfQTWBzt8SwcVkH0UL4Nc9Bii4LQcF3zMo4cxTVXTFzWKaNA86DFFkKf6dXC8ZRN7nMl1DacsilBB3/VrsbzQl7yQBNJlTO+eaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=g-sokol.info; spf=none smtp.mailfrom=g-sokol.info; dkim=pass (2048-bit key) header.d=g-sokol-info.20230601.gappssmtp.com header.i=@g-sokol-info.20230601.gappssmtp.com header.b=hwft884u; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=g-sokol.info
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=g-sokol.info
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3912c09bea5so853689f8f.1
-        for <linux-input@vger.kernel.org>; Thu, 06 Mar 2025 12:31:54 -0800 (PST)
+	s=arc-20240116; t=1741293950; c=relaxed/simple;
+	bh=YRiEklZgyKif9YQuFPeDNCuPRKOpVl4Sp4NBuCatdYk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EqdfaPhY605s4c6GqFcl/zo0MjHxNNOqB426UKNjTnw9V2K9ivq5XtcBYGh7xcW5b53IoBsy7jESaXPkT9am8zzlxDZi+32fsNKMqt8MpVrrpuRf6y1jQGxvO8kqLTAn/WxeBm8NR3n3ybrVonMpMz+B3mue2lvNJKMlffuRzB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yo8GMXYQ; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-390d98ae34dso876605f8f.3;
+        Thu, 06 Mar 2025 12:45:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=g-sokol-info.20230601.gappssmtp.com; s=20230601; t=1741293113; x=1741897913; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1741293947; x=1741898747; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iB9LckH3XbzVx9wwukrdYpRl0Nel5kMP289ilJTbmz4=;
-        b=hwft884uSGbCqO8J7xt+9+L9nCFz+3ONWlObbKOUwIH4b8+Izczut2Wc32zdqmsbsM
-         zGfpVwrO3OZCDktav9OMvNp5VaAWVXFoRxADHbJQLjKnVZwyf4bVw2NDO4e8CoezWDlp
-         zITa1rTCfGkAhR+pg/VKna9QqTSdt+nMJIZP1mi8mSEZSwol2k0dtrv2XJATk+A1aTr6
-         CQWqKi33Vc8/ASuQGfW0Ve2CjqvIaDD58z4taxYhR+pNJmmbZ/LXyAME9IhCnNux5ge9
-         4VghTqKpUfPFxTqYAe/2P6agUgtx7AZe6RTe258bDwP88ks8XIRRGCL1PA8iXzqwAzGR
-         EMsQ==
+        bh=U/2AW/XQ+C1Dkr/bifBKVXkd3UKdww00iQvvrQ69JSo=;
+        b=Yo8GMXYQY66Qke/AigSX3nfeldGlI4YA8pihoQyOws62kK/g2lLRepvjNAgN+XL6cR
+         ZBqg5LkSaU3JXTpUBUFJheGjOmvViwCbwV2t/v6AxJegDBfljJCkazn2KioQou8rgkJ1
+         VqMHqOwujeGuYyx6dYQubWKWZVgG150yAvNIRLSf5MfxerDbgCLcnu3aoEjy+be4FppB
+         Xie6o5bIcKevKXUWUmPgHbrrvDche+/zHf3uh1oXVEUxPK9BuNgCttNmi3QWQLZDIj0E
+         mrABgL4PTwo5Hy25mk4gYqaa94/c4x61pnMQSy4fwItFJdFhJHNzoYy5euy+blTnPiAA
+         3wmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741293113; x=1741897913;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1741293947; x=1741898747;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iB9LckH3XbzVx9wwukrdYpRl0Nel5kMP289ilJTbmz4=;
-        b=WXEg1QdusXawUyPJY8z7lKF3bzEgG5tWAip5iwrbjQE2SXxu/Qjv/xu5T0uayzbZY7
-         EQ5ERIXMf/vPWvPlQXhFjPL4Zm82O1SJP7V6w4NgFWEkQvULIcS9+P/2oeJqejwkL4Vh
-         zrDhtLEonjtDbtjOIr6WwfWWPOLkfcYFNlxPcfnRKtJmCQyKM3JITGL5hAmHDpfe5rAR
-         UotAWy7UAKvcDDR1b+VvNSetrBT1J9nXf6IpZ16rJlHWtvmR2AhT0uwnVjL01rN9I9l7
-         cJGEHKqpjeTvh2+GH2Ph2kWbqitkvHnXvkPkZWeIjAhw2K4ybpbxH27L6zpFGwCTZVkx
-         gX9A==
-X-Gm-Message-State: AOJu0YwML6aQcrBs4kGO2K710VLy6+ySHZ7cbCYLPB1/lvOzg/Xol6Z2
-	N7zoGSbhY+/QBw9lXEewhOz5O+f0GsHlTtDG7/bHnWPeo2C9SsJuZvFmDnkSvxZhfVmlzhq4w2l
-	XtkmVQ5+2B7YOuMdRK3mJNMLkwrffeBKxwncf8A==
-X-Gm-Gg: ASbGnctc3azLo5WP5D7qZLGz4MFXqEfZPnYXaiegwdIBOfYExu8Qi9swQI4Utpqypjg
-	URzltbxWcHbgUBlJSR6q3/SCM37fq88I7eoewt8ALxp/1N8SBQL4Nny4pkBvaxZaEH9uD47rOuR
-	SVzy2ArpUfwVX7Rx3+Pz/CoVS8
-X-Google-Smtp-Source: AGHT+IEJIMaR/sbGbscdgoXq+6BnY+g9gnrLSJVUWAu5ybD7k3yc33Y1dMnUtL1wP44kK9d6yXeGNvdfTljOlKJaqe0=
-X-Received: by 2002:a5d:648f:0:b0:391:2e0f:efce with SMTP id
- ffacd0b85a97d-39132d06d53mr277966f8f.1.1741293112654; Thu, 06 Mar 2025
- 12:31:52 -0800 (PST)
+        bh=U/2AW/XQ+C1Dkr/bifBKVXkd3UKdww00iQvvrQ69JSo=;
+        b=dGk4qQnr5wTn0Qt6k6QAu/0Eq5sBYTc3fiB1xeSxjUtuXuScwx1F9Ls7+pQeMQaL5h
+         cbgaWMd2Ue89OBod/8v50SpZmKwQDcUkd6ID1wZnoUz824WONUe5K9BZP05/Kvg9Hdk/
+         Vja/7tw0VTkPXBY/pudXc1edRllvOQKRLThBG3G1UzTZLYiyq6W8WXAWVd+K+EOLVutR
+         pa/V/3TLkCNdjbg6BWL23g4SLT5hSP2FAOZnfy8sMpAOxeWIzmG3e42AuL+GsJxmvJ0P
+         GZ9qXJJ5GZZUJeaG9Bjm0tT839FvCJXeO0lPWNO3ZASr84Wfnn8vSwEaRgExibSGzvkb
+         Ua5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUAA6Y2WGbWYU+CfGFBVpNZp27DAMP5AXS6Yi603QwE/qdsMqn6klEBZ8Q3vyPMR7RwjCILOT7e@vger.kernel.org, AJvYcCVLpF6g/9OucMzsFrmUNI6Zep3ugGq6WrIlzXGlSoqd9u8es1OlPFuMyL5eSWTC4Pcerz5xoJYrIS4Mpvo=@vger.kernel.org, AJvYcCVb/K+WKCPbEriErmdbYMpqC4JhbsmKk1Ko+aDksTb+dFHszy1l/EtwwZlsYqkPOy/R4+liiXoneZm1glFv@vger.kernel.org, AJvYcCWMUC6Xz/HI0Fs5x2itxY03lT3gnHWLPu/zdqb3KOZ30Nd1Qv7D+ET1s1qJYCgBMU3WCA1gohZwYLbWyEoA@vger.kernel.org, AJvYcCWRBwtOHCvnkEG52PyJyybFHECALqeRSUKIkKhePFHMjJPfFB50341yxdMdGhyihwbALtkfNxbjLfItXx/hzuE=@vger.kernel.org, AJvYcCXHqXLyitFhoJGpm+nGHxoOKXslNU6p16OgAtpgod9J2qpeZoygAIRmRWaTRt1tJTSAgD0=@vger.kernel.org, AJvYcCXhZ6RBFFDE6j/t5bUBHV6e7fdLCXeQB/LGXJxdN/BQpBjSx2tu7cUKBbz5xpbztTGjd/pN141sOomb9RQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyv1tkDo+b+EAxhTsNHEFESwkWTPtgZEXGF+ZbhaSzuSC0M5WyU
+	t/kPBAG/wX+QebzoUo5aBWmHJ06RyMmbqgKXipm51sNI/Ar6xF5x
+X-Gm-Gg: ASbGncsQoFz0KdJ5miS5ff6gASWPNKOWRLiMzEQXLHirJgIwJzw5cGb1NcuxBwr7w9X
+	gD3ERHVQsRamYkJakm9mbiynZN0cCVG5AxOAnCBq/fG0B+geRsf/xsVnlkAf1xwhM5G3MEznnlB
+	NPfOVGK7kjapW6Qk+1cPV0U26V4Xg72ZdGAS/51PTBDb8mBskqARsIrhWcA19M9mUUHjTOoavfK
+	pwVkWr92bbSizQ6c441xIvsG4wqxG/qgu6xPiRflAeb2dphewEjNdpcoQNwLqku6v/g+JUM+zx6
+	iV1F51T7UQRoVK/+JnPo1ItDxIxwCjvT1ycXYpfK5Cn3jhuSM6JEmxuYHH7X9lkLNmC1ROQ4Tsd
+	moGlN3Rk=
+X-Google-Smtp-Source: AGHT+IGypB/6b6ARKmDBu94pyV9a8VQg2efcRX5KU7nOp2iuQaxkdpIq9rBXtaXWDKzDk6KRW6vJqA==
+X-Received: by 2002:a05:6000:4112:b0:391:b87:37ad with SMTP id ffacd0b85a97d-39132dad239mr349795f8f.42.1741293946634;
+        Thu, 06 Mar 2025 12:45:46 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912c01de21sm3140996f8f.59.2025.03.06.12.45.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Mar 2025 12:45:46 -0800 (PST)
+Date: Thu, 6 Mar 2025 20:45:44 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
+ eajames@linux.ibm.com, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
+ hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
+ vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, yury.norov@gmail.com, akpm@linux-foundation.org,
+ hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v3 01/16] bitops: Change parity8() return type to bool
+Message-ID: <20250306204544.35086b52@pumpkin>
+In-Reply-To: <20250306162541.2633025-2-visitorckw@gmail.com>
+References: <20250306162541.2633025-1-visitorckw@gmail.com>
+	<20250306162541.2633025-2-visitorckw@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250306070027.532052-1-g.sokol99@g-sokol.info>
- <20250306070027.532052-2-g.sokol99@g-sokol.info> <31E267B8-6B70-46F2-873E-4E58478E3C93@live.com>
- <C5E429C3-4838-4A9A-9D61-4138FD14BB6E@live.com>
-In-Reply-To: <C5E429C3-4838-4A9A-9D61-4138FD14BB6E@live.com>
-From: Grigorii Sokolik <g.sokol99@g-sokol.info>
-Date: Thu, 6 Mar 2025 22:31:41 +0200
-X-Gm-Features: AQ5f1JrMc2oAnOjuAkqSbvYLsT-8faKIfWT-Tg_zqZqzyM5t0o1HZJlpt6IAx28
-Message-ID: <CADjZRiS0uvKTxT68G3pQ44phQUG42rTf-Sv66i9--7uY3AwGww@mail.gmail.com>
-Subject: Re: [PATCH 2/2] HID: hid-apple: Apple Magic Keyboard a3118 USB-C support
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Thank you so much. Here is the fix:
+On Fri,  7 Mar 2025 00:25:26 +0800
+Kuan-Wei Chiu <visitorckw@gmail.com> wrote:
 
----
-[PATCH] HID: hid-apple: Apple Magic Keyboard a3118 USB-C support
+> Change return type to bool for better clarity. Update the kernel doc
+> comment accordingly, including fixing "@value" to "@val" and adjusting
+> examples. Also mark the function with __attribute_const__ to allow
+> potential compiler optimizations.
 
-Add Apple Magic Keyboard with fingerprint 2024 model (with USB-C port)
-device ID (0321) to those recognized by the hid-apple driver. Keyboard
-is otherwise compatible with the existing implementation for its
-earlier 2021 model.
+If the result type is 'bool' you should just check it.
+Not compare against true/false.
 
-Signed-off-by: Grigorii Sokolik <g.sokol99@g-sokol.info>
----
- drivers/hid/hid-apple.c | 5 +++++
- drivers/hid/hid-ids.h   | 1 +
- 2 files changed, 6 insertions(+)
+	David
 
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index d900dd05c..ecdfbda66 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -482,6 +482,7 @@ static int hidinput_apple_event(struct hid_device
-*hid, struct input_dev *input,
-  else if (hid->product =3D=3D USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021 ||
-  hid->product =3D=3D USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024 ||
-  hid->product =3D=3D USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021 |=
-|
-+ hid->product =3D=3D USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2024 |=
-|
-  hid->product =3D=3D USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021)
-  table =3D apple2021_fn_keys;
-  else if (hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J132 ||
-@@ -1165,6 +1166,10 @@ static const struct hid_device_id apple_devices[] =
-=3D {
-  .driver_data =3D APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK | APPLE_RDESC_BATTE=
-RY },
-  { HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE,
-USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021),
-  .driver_data =3D APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
-+ { HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
-USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2024),
-+ .driver_data =3D APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK | APPLE_RDESC_BATTE=
-RY },
-+ { HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE,
-USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2024),
-+ .driver_data =3D APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
-  { HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
-USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021),
-  .driver_data =3D APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK | APPLE_RDESC_BATTE=
-RY },
-  { HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE,
-USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021),
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 7e4006249..d59c28495 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -186,6 +186,7 @@
- #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021   0x029c
- #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024   0x0320
- #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021   0x029a
-+#define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2024   0x0321
- #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021   0x029f
- #define USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT 0x8102
- #define USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY 0x8302
---=20
-2.48.1
+> 
+> Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> ---
+>  include/linux/bitops.h | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> index c1cb53cf2f0f..44e5765b8bec 100644
+> --- a/include/linux/bitops.h
+> +++ b/include/linux/bitops.h
+> @@ -231,26 +231,26 @@ static inline int get_count_order_long(unsigned long l)
+>  
+>  /**
+>   * parity8 - get the parity of an u8 value
+> - * @value: the value to be examined
+> + * @val: the value to be examined
+>   *
+>   * Determine the parity of the u8 argument.
+>   *
+>   * Returns:
+> - * 0 for even parity, 1 for odd parity
+> + * false for even parity, true for odd parity
+>   *
+>   * Note: This function informs you about the current parity. Example to bail
+>   * out when parity is odd:
+>   *
+> - *	if (parity8(val) == 1)
+> + *	if (parity8(val) == true)
+>   *		return -EBADMSG;
+>   *
+>   * If you need to calculate a parity bit, you need to draw the conclusion from
+>   * this result yourself. Example to enforce odd parity, parity bit is bit 7:
+>   *
+> - *	if (parity8(val) == 0)
+> + *	if (parity8(val) == false)
+>   *		val ^= BIT(7);
+>   */
+> -static inline int parity8(u8 val)
+> +static inline __attribute_const__ bool parity8(u8 val)
+>  {
+>  	/*
+>  	 * One explanation of this algorithm:
 
----
- drivers/hid/hid-apple.c | 5 +++++
- drivers/hid/hid-ids.h   | 1 +
- 2 files changed, 6 insertions(+)
-
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 3c3f67d0bf..daf4c505e7 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -475,6 +475,7 @@ static int hidinput_apple_event(struct hid_device
-*hid, struct input_dev *input,
-                        table =3D magic_keyboard_2015_fn_keys;
-                else if (hid->product =3D=3D
-USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021 ||
-                         hid->product =3D=3D
-USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024 ||
-+                        hid->product =3D=3D
-USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024_V2 ||
-                         hid->product =3D=3D
-USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021 ||
-                         hid->product =3D=3D
-USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021)
-                        table =3D apple2021_fn_keys;
-@@ -1155,6 +1156,10 @@ static const struct hid_device_id apple_devices[] =
-=3D {
-                .driver_data =3D APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK |
-APPLE_RDESC_BATTERY },
-        { HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE,
-USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024),
-                .driver_data =3D APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
-+       { HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
-USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024_V2),
-+               .driver_data =3D APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK |
-APPLE_RDESC_BATTERY },
-+       { HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE,
-USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024_V2),
-+               .driver_data =3D APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
-        { HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
-USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021),
-                .driver_data =3D APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK |
-APPLE_RDESC_BATTERY },
-        { HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE,
-USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021),
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 4f583d6f2e..953850f043 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -185,6 +185,7 @@
- #define USB_DEVICE_ID_APPLE_IRCONTROL5 0x8243
- #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021   0x029c
- #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024   0x0320
-+#define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024_V2   0x0320
- #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021   0x029a
- #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021   0x029f
- #define USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT 0x8102
---
-2.48.1
-On Thu, Mar 6, 2025 at 9:05=E2=80=AFPM Aditya Garg <gargaditya08@live.com> =
-wrote:
->
->
->
-> > On 7 Mar 2025, at 12:24=E2=80=AFAM, Aditya Garg <gargaditya08@live.com>=
- wrote:
-> >
-> >
-> >
-> >> On 6 Mar 2025, at 12:30=E2=80=AFPM, Grigorii Sokolik <g.sokol99@g-soko=
-l.info> wrote:
-> >>
-> >> Add Apple Magic Keyboard 2024 model (with USB-C port) device ID (0321)
-> >> to those recognized by the hid-apple driver. Keyboard is otherwise
-> >> compatible with the existing implementation for its earlier 2021 model=
-.
-> >>
-> >> Signed-off-by: Grigorii Sokolik <g.sokol99@g-sokol.info>
-> >> ---
-> >> drivers/hid/hid-apple.c | 5 +++++
-> >> drivers/hid/hid-ids.h   | 1 +
-> >> 2 files changed, 6 insertions(+)
-> >>
-> >> --- a/drivers/hid/hid-ids.h
-> >> +++ b/drivers/hid/hid-ids.h
-> >> @@ -185,6 +185,7 @@
-> >> #define USB_DEVICE_ID_APPLE_IRCONTROL5 0x8243
-> >> #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021   0x029c
-> >> #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024   0x0320
-> >> +#define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024_V2   0x0320
->
-> A3118 is the one with Touch ID. Name should be USB_DEVICE_ID_APPLE_MAGIC_=
-KEYBOARD_FINGERPRINT_2024 to be more clear.
-> >
-> > It=E2=80=99s the same ID as USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024, wh=
-y are you adding this again? Typo?
-> >
-> > Also, please use switch case, you can submit your patch as a part of:
-> >
-> > https://lore.kernel.org/linux-input/A50C1CF0-B927-4FCF-828F-1F5F79BA376=
-2@live.com/
-> >
-> > Just resubmit those 2 patches along with your patch and make a v2.
->
-
-
---
-
-Thanks!
-Kind regards,
-Grigorii!
 
