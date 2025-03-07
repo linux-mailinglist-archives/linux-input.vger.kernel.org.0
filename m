@@ -1,93 +1,156 @@
-Return-Path: <linux-input+bounces-10629-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10630-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4CAFA56ACC
-	for <lists+linux-input@lfdr.de>; Fri,  7 Mar 2025 15:49:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D73A56CA9
+	for <lists+linux-input@lfdr.de>; Fri,  7 Mar 2025 16:55:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D53AD3A2E74
-	for <lists+linux-input@lfdr.de>; Fri,  7 Mar 2025 14:48:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1180516CBBB
+	for <lists+linux-input@lfdr.de>; Fri,  7 Mar 2025 15:55:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0554916EB4C;
-	Fri,  7 Mar 2025 14:49:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F3E121D5A2;
+	Fri,  7 Mar 2025 15:55:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="izNuZKWz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MoNSryUg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFEF8BE5;
-	Fri,  7 Mar 2025 14:49:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7833121D58C;
+	Fri,  7 Mar 2025 15:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741358942; cv=none; b=gzel7KF2NqcLlwqjIrYyYzRZK4FG5aknq327x7f2kyre29lXY2OqywiJMXEsIvOGjQBRxY70NN8Kku5HR6cW/omLJxIHpt1ZrEpdKWm3rKoVebY/M23OcpMNJddcEaMpkW6AjNGwRi0nY+tVDm1fsbihSp8DJ/Zd1DgAaqoXCPI=
+	t=1741362917; cv=none; b=An26vNhBwEy2zQMHYU8LUN6HBAjjseR9B7zyIni82wCflsoy4K1p7/C752MlCfA9zpV8//PVv2Qj4wh7Ae9Z0rNub5q85+pNvHs9NmgdSnBSqGIpw3UeuogJohzhd1hPrmxOpl+8+D3yriq+uMtQpvRFIKTinjS7w4r/euEu+eA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741358942; c=relaxed/simple;
-	bh=iZZ2xdpV8WeIZB4WfHwtkSgx+wy9w34BMYHyQVeaHVI=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=HSIlNodvavyzFTTX3wyhl4+g+lqZuVFy9KTkDZmWyCn2l5E3wgsT9xmFTfY9IxATgtQlW386fk290lMAhyb+XDjs2avWdXninEdWnfF3GOsvTltXj5BtCA5bHTN0JgUNIDCu9mzX3ZWaJ47UAKEdvpVrKCYtKOGkqFiGNRRdogU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=izNuZKWz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0288CC4CED1;
-	Fri,  7 Mar 2025 14:49:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741358942;
-	bh=iZZ2xdpV8WeIZB4WfHwtkSgx+wy9w34BMYHyQVeaHVI=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=izNuZKWz01HzeSy2QUnGbH5YMQNqaYDRu9XDL0u4kPEmGy+jBlRfToG0UhTH74t4c
-	 osYs6Go0UkEJgQgkvMGR099KLNXY2hu+z4f+A07O8QQS9mXdBUmo1NvyELgvsoS5qE
-	 W1TTKC9hqTayMCRpNm3amOAmLbEcoh5uqJWgCRwEpjPV1RekvaGjBQgTqsheBWBz1D
-	 X7ieEQd+hR7D5wNRaATruuYRSD6O9pPb2akigd8dWJ/r/PHTKoUphB28y1Nk1iKSGy
-	 +nc6TiWy0ylqtp7AafAk2s3+SHjk0KLKKL513i8z4b6ws3wbBctUZpUIcq2gzOljA0
-	 Z8ABGzu8Q8hyw==
-Date: Fri, 7 Mar 2025 15:48:59 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Bastien Nocera <hadess@hadess.net>
-cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Remove myself from the goodix touchscreen
- maintainers
-In-Reply-To: <20250307143740.960328-1-hadess@hadess.net>
-Message-ID: <n3p454qo-937r-6sq6-3721-6p794r3sn4qn@xreary.bet>
-References: <20250307143740.960328-1-hadess@hadess.net>
+	s=arc-20240116; t=1741362917; c=relaxed/simple;
+	bh=tzrS+lI9W7w2w8k6AVE6C+sBU6gvdTLX5BacFbhKkPs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RFS0s25W/Kegb1/hJwypJrcXJNHcTxSBVBoCwOnZZPeLt3UG8F53m0sf23YMlcoVNGBrKXlcE/AXdXHkoZJnIykVvEMh17Iz12rlBqoXap4Xf9p2jTvCpIbCWiuVEzYTRnraziKtlmNOqKUM9UgpqTUK4GQvYdU3tMREvs9uTuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MoNSryUg; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e549be93d5eso1809081276.1;
+        Fri, 07 Mar 2025 07:55:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741362914; x=1741967714; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=IySwQu8sBAq2SiiOusmnVT2gVfPlf25OMd3Kg55m+0M=;
+        b=MoNSryUgYwzQerG+wqBnZ3LwaxBw5rKz1lrFhtPwodTPOWzrJaFLUkB16VDIZ3Osn3
+         IEbbIk0qiamuy5RPiTk/F9+OTn9vVa0s/LJpiJALEeyfnB4GGPyJeuOgqEXFWbYnmGzr
+         RKrmSsmpKryN2PmE8OIJ3ZqsjgIA+tMOwGzdP/rbySqiHj0n+uWKb4JFl4w/+d9ByAZt
+         xDwODih1iWvqoGe+00JY9odyDslhqflV7z6madXRtpagTVq4F9TDnaNi43PiEB7eHzCe
+         DLtF/9aEjdwpX9scT05HRKfRYZF9QRDf3MtXs6PrFJOMGkqPUVpL53Q+1VmrNaDIu75b
+         Hhyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741362914; x=1741967714;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IySwQu8sBAq2SiiOusmnVT2gVfPlf25OMd3Kg55m+0M=;
+        b=Sa5P45M01YrxIk2iUH8FYbd5ZuzI4NfbNW9JEw5TLnG76V1qVuEAJBkR/HATHM8DUW
+         J6BRQ481ZQK7ISjHkrC+cIrkmeUvnAgbKApE8tGuPa/AH1T8end/4rPtdtZLXe+N7XK/
+         kHp4TGw94jVWOThwnXPic9atW7IC3vqiRmG+MEvVUToFedIe4FggCZGvpyTlBz3yJmUA
+         W1YnAddg3aRabApA6wm4BgO2dhod16yAgLfKuJhZJo0lRhxVt0h2it81fXmzHbSu/fDT
+         6CQQrcUYboSqps+g9f8yCmTFTuBRohHo6j47fHa57Ye6IJIWHpn337lwTC/1Awr/zXKw
+         Tc6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUhuWYJxV5fBa8kyCJMhqbB1L3XcqMLwdtoQ+byuLKEX6WTiJsLYn8aY7KjoFuIOos1n9s5kmS7@vger.kernel.org, AJvYcCUq393gUss7rzw4GRMC2SmkmcEBNHEbVnl8/4+7eRNF7gQMKcNV5uSoYqlngqq2MJfc932kKzAjlEUJ+Vp4@vger.kernel.org, AJvYcCVo+cd6/iOdkubleklrMUpyYU6cUxrIQoTZ7Ip8bZeL73dIZdrXAv49D/LLqRmtWID4mI1NORYHlfRytPeOCKI=@vger.kernel.org, AJvYcCW7c+uKZUDGiWXG/Ngvx72IhE814vfXzSJiMylH91JsJ9iPigLBClzE3WSkd+wScVSILnxpgMQK6oGSapeq@vger.kernel.org, AJvYcCWGO86lryyZPaLQRm9Lyk9QNfYYkzNfFO9k4mc9BZBrCXcouzJD842GI+rD36B+nhm78xc=@vger.kernel.org, AJvYcCX0j+97TcVPh+Co5rVgE71IinFPEx7UF3GT70qjFFrll+qRSoOf79Iu4nEWFegXrAT0POzxqCSmmF23lPc=@vger.kernel.org, AJvYcCXU1uvyht2x1BjqtB2Z8N8lNyl+bk0xueIjZGqZJuQ/r/6qJW+POeTERqBHKj2PlOnxnWPsj+zpP1qDMe0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnpUb3lo34ZsMPgOZjI6dSQqdILNXqbzmnKMyVkfypdeViQbMg
+	kqS3UleZcuNIjz57AOYqmlE9JK5T3o15wJd9Svr2V9Kk6pb/PuBW
+X-Gm-Gg: ASbGncuheKUa6QfnJC/P9wknbtwLVyRiRiTBO96kNw6dvJcv6U7NL4r/6pgMw3vGIzy
+	mxlRSwfJ/sIg5S4ilj3aBRQ/tiWB3g7eJ2PjeKioC/qLqE/FWs10GdIN8Jj7z/aKDI4x2ipASou
+	ygz83pbH1Q39PPMmgBTcEHg76FxTP2ujDCatDkOzHQ0am1SeDrNxPkHmTfogDKp6RjctJKukyRM
+	5BfhvWOTm51Qwt1Xij3oeMSFKUHadk9S3Ktgg50c04kvr442YQdPUJrvPPtdvwzEo78EIEghSwB
+	oVFPXZ78ZVHdUbmCjvD0A84KhG2mwQo702B8eqas87gX6yzX//ZSSZgV48NEqJlZ6bgZdxrtBJ2
+	57cqS
+X-Google-Smtp-Source: AGHT+IGXsVm03RpeRs7naE92Mk1v2+BdYsqkQh0ckjckzDu/bnevFLrinU7kQnO5Z9/M1SdGBh4guA==
+X-Received: by 2002:a05:6902:2292:b0:e60:c79f:6f6c with SMTP id 3f1490d57ef6-e635c0f80admr4791285276.8.1741362914172;
+        Fri, 07 Mar 2025 07:55:14 -0800 (PST)
+Received: from localhost (c-73-224-175-84.hsd1.fl.comcast.net. [73.224.175.84])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e635e4c8f69sm386658276.42.2025.03.07.07.55.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Mar 2025 07:55:13 -0800 (PST)
+Date: Fri, 7 Mar 2025 10:55:13 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: Jiri Slaby <jirislaby@kernel.org>
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
+	eajames@linux.ibm.com, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	dmitry.torokhov@gmail.com, mchehab@kernel.org,
+	awalls@md.metrocast.net, hverkuil@xs4all.nl,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	louis.peens@corigine.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+	akpm@linux-foundation.org, hpa@zytor.com, alistair@popple.id.au,
+	linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
+	jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	oss-drivers@corigine.com, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+	Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
+Message-ID: <Z8sW4c5LxV-ITdCi@thinkpad>
+References: <20250306162541.2633025-1-visitorckw@gmail.com>
+ <3dfc81eb-caa1-42fe-8fd6-61101de0ef13@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3dfc81eb-caa1-42fe-8fd6-61101de0ef13@kernel.org>
 
-On Fri, 7 Mar 2025, Bastien Nocera wrote:
-
-> Haven't authored any commits to that driver in 10 years, and haven't
-> had supported hardware for nearly as long.
+On Fri, Mar 07, 2025 at 07:57:48AM +0100, Jiri Slaby wrote:
+> On 06. 03. 25, 17:25, Kuan-Wei Chiu wrote:
+> > Several parts of the kernel contain redundant implementations of parity
+> > calculations for 16/32/64-bit values. Introduces generic
+> > parity16/32/64() helpers in bitops.h, providing a standardized
+> > and optimized implementation.
+> > 
+> > Subsequent patches refactor various kernel components to replace
+> > open-coded parity calculations with the new helpers, reducing code
+> > duplication and improving maintainability.
+> > 
+> > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > ---
+> > In v3, I use parityXX() instead of the parity() macro since the
+> > parity() macro may generate suboptimal code and requires special hacks
+> > to make GCC happy. If anyone still prefers a single parity() macro,
+> > please let me know.
 > 
-> Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> ---
->  MAINTAINERS | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 896a307fa065..d076e2d34c5b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9827,7 +9827,6 @@ S:	Maintained
->  F:	drivers/media/usb/go7007/
->  
->  GOODIX TOUCHSCREEN
-> -M:	Bastien Nocera <hadess@hadess.net>
->  M:	Hans de Goede <hdegoede@redhat.com>
->  L:	linux-input@vger.kernel.org
->  S:	Maintained
+> What is suboptimal and where exactly it matters? Have you actually measured
+> it?
 
-As this driver lives in input subsystem and not HID, let's CC Dmitry for 
-the removal.
+I asked exactly this question at least 3 times, and have never
+received perf tests or asm listings - nothing. I've never received
+any comments from driver maintainers about how performance of the
+parity() is important for them, as well.
 
--- 
-Jiri Kosina
-SUSE Labs
+With the absence of _any_ feedback, I'm not going to take this series,
+of course, for the reason: overengineering.
 
+With that said, the simplest way would be replacing parity8(u8) with
+parity(u64) 'one size fits all' thing. I even made a one extra step,
+suggesting a macro that would generate a better code for smaller types
+with almost no extra maintenance burden. This is another acceptable
+option to me.
+
+Thanks,
+Yury
 
