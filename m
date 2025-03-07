@@ -1,190 +1,234 @@
-Return-Path: <linux-input+bounces-10600-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10601-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0782A55E23
-	for <lists+linux-input@lfdr.de>; Fri,  7 Mar 2025 04:17:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FF91A55FBD
+	for <lists+linux-input@lfdr.de>; Fri,  7 Mar 2025 06:02:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0FC541896B58
-	for <lists+linux-input@lfdr.de>; Fri,  7 Mar 2025 03:17:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A9AD17295B
+	for <lists+linux-input@lfdr.de>; Fri,  7 Mar 2025 05:02:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F022F187346;
-	Fri,  7 Mar 2025 03:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="XeY620eU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF5138635D;
+	Fri,  7 Mar 2025 05:02:32 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cosmicgizmosystems.com (cosmicgizmosystems.com [63.249.102.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C41829408;
-	Fri,  7 Mar 2025 03:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58981C27;
+	Fri,  7 Mar 2025 05:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741317461; cv=none; b=jsLoyJ6GxmDcLYRjYw++8rwdtYNbAMk3vGsyzYo1+zdjt44w1OY5S8xP47Id5Tuj5VqEIgkgQX9HUlqPACiOu4KuSkHOpTLt9+/f+onejQr/8uGwvbPrbw056EunbNe7pga9ZlaWdH1TUMd58zfeWqEZRc1Sdd2GWp1zhHNCJJE=
+	t=1741323752; cv=none; b=Kn/Ennbvl+D2aZvj23sXSro2bjP6yFT2JKLiYuuXmey8GWN3mOC0QNHoGDSwrwYpT9rnnogxfqFDk8fdKg7aBgxeZgNnmv/G0sMVqYMg3u1nFLxBSAsT/yl7Uk8QvOC497y4vreCACaMdGVfqLsAR1UOouhhzui+D5ukMhjq7G4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741317461; c=relaxed/simple;
-	bh=SaHWAsYe/9KqOVBf8OkOQT2uuUcRHvd28XQ7nb1mCP0=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=rBWmGO0Sinox3+cbHVtlSt5POPG5Jbzh77JIWDRqIOW45dqoVONeEoKP9us/JF9rfWnLK9z74zEikQcCk0e1SdIU/wb8xeXoQKiWfyOBE53f61kTGj0+Pkp85gVIKC6m+Gx5uaUxO7c1Oot3/RWGBU6K+CB/hlC/6JkkDtKIOSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=XeY620eU; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from [127.0.0.1] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 5273EFGO029055
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Thu, 6 Mar 2025 19:14:16 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 5273EFGO029055
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025021701; t=1741317259;
-	bh=hyUZKDF5+ooUtYLzko1Czdm29ayQGeHv7M7tkZymGRA=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=XeY620eULnP2/+TN4Y4Oy+L1kjV0g9g4gLF3bGbxoub6oXCjIocCsux0s9lsBThor
-	 D5MCM8jchD63LZA41Z+zQXpcfDD0kw68ZvT5gJFtkglJP52RigyVCCeTtLHz5T59Sf
-	 BdcfD+nIIh4OJ7E3YNolewxhV+KD9eYVj9gc77UPIV5o6BkuLWAjitNYqDwOVS12jl
-	 DqNQVt47yWF1ZUW8TzhPps1sdTJ6LcbKbxzoFjRF0/a0IBkoL6S6dVIt6/UEGX2S2i
-	 fnnZIzD2De4gOv+3QNiBzF/iHmcOV6iyiEfSH8J1h96iKhLsl8VHaAdju6VU38SRaP
-	 yKG9JyADkfy7g==
-Date: Thu, 06 Mar 2025 19:14:13 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
-        andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-        dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
-        hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
-        vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
-        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-        parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
-        johannes@sipsolutions.net, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, yury.norov@gmail.com, akpm@linux-foundation.org
-CC: alistair@popple.id.au, linux@rasmusvillemoes.dk,
-        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-        jernej.skrabec@gmail.com, kuba@kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-        oss-drivers@corigine.com, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-        brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-        bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
-        Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20250306162541.2633025-1-visitorckw@gmail.com>
-References: <20250306162541.2633025-1-visitorckw@gmail.com>
-Message-ID: <F134DC06-54DE-4B8E-8AE0-3740275835C1@zytor.com>
+	s=arc-20240116; t=1741323752; c=relaxed/simple;
+	bh=Zo3xPSerTkoI1tokLWdOrJC6QxrtBXMex6Fy9lgq5xk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SXclrp6WVSuECHlimpSq9Md6s9KkwwPlqa7g94bNaFxc9dLn4zwSpWTjxsMyJeAo5dks5Z4qRkjof6wIqwO9iVvgwlNSau1gpirB3VYWuptCjrqvyf1HOJat5ikUmIXv3ysCxS3IjrPA9HKQ4e/zqVXb1pnsBM+Adw4q7Sh8KQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
+Received: from terrys-Precision-M4600.hsd1.wa.comcast.net (c-71-63-147-217.hsd1.wa.comcast.net [71.63.147.217])
+	by host11.cruzio.com (Postfix) with ESMTPSA id 8A4B2274BD23;
+	Thu,  6 Mar 2025 20:56:06 -0800 (PST)
+From: Terry Junge <linuxhid@cosmicgizmosystems.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Terry Junge <linuxhid@cosmicgizmosystems.com>,
+	Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-input@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	lvc-project@linuxtesting.org,
+	syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH v1] HID: usbhid: Eliminate recurrent out-of-bounds bug in usbhid_parse()
+Date: Thu,  6 Mar 2025 20:54:43 -0800
+Message-ID: <20250307045449.745634-1-linuxhid@cosmicgizmosystems.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On March 6, 2025 8:25:25 AM PST, Kuan-Wei Chiu <visitorckw@gmail=2Ecom> wro=
-te:
->Several parts of the kernel contain redundant implementations of parity
->calculations for 16/32/64-bit values=2E Introduces generic
->parity16/32/64() helpers in bitops=2Eh, providing a standardized
->and optimized implementation=2E=20
->
->Subsequent patches refactor various kernel components to replace
->open-coded parity calculations with the new helpers, reducing code
->duplication and improving maintainability=2E
->
->Co-developed-by: Yu-Chun Lin <eleanor15x@gmail=2Ecom>
->Signed-off-by: Yu-Chun Lin <eleanor15x@gmail=2Ecom>
->Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail=2Ecom>
->---
->In v3, I use parityXX() instead of the parity() macro since the
->parity() macro may generate suboptimal code and requires special hacks
->to make GCC happy=2E If anyone still prefers a single parity() macro,
->please let me know=2E
->
->Additionally, I changed parityXX() << y users to !!parityXX() << y
->because, unlike C++, C does not guarantee that true casts to int as 1=2E
->
->Changes in v3:
->- Avoid using __builtin_parity=2E
->- Change return type to bool=2E
->- Drop parity() macro=2E
->- Change parityXX() << y to !!parityXX() << y=2E
->
->
->Changes in v2:
->- Provide fallback functions for __builtin_parity() when the compiler
->  decides not to inline it
->- Use __builtin_parity() when no architecture-specific implementation
->  is available
->- Optimize for constant folding when val is a compile-time constant
->- Add a generic parity() macro
->- Drop the x86 bootflag conversion patch since it has been merged into
->  the tip tree
->
->v1: https://lore=2Ekernel=2Eorg/lkml/20250223164217=2E2139331-1-visitorck=
-w@gmail=2Ecom/
->v2: https://lore=2Ekernel=2Eorg/lkml/20250301142409=2E2513835-1-visitorck=
-w@gmail=2Ecom/
->
->Kuan-Wei Chiu (16):
->  bitops: Change parity8() return type to bool
->  bitops: Add parity16(), parity32(), and parity64() helpers
->  media: media/test_drivers: Replace open-coded parity calculation with
->    parity8()
->  media: pci: cx18-av-vbi: Replace open-coded parity calculation with
->    parity8()
->  media: saa7115: Replace open-coded parity calculation with parity8()
->  serial: max3100: Replace open-coded parity calculation with parity8()
->  lib/bch: Replace open-coded parity calculation with parity32()
->  Input: joystick - Replace open-coded parity calculation with
->    parity32()
->  net: ethernet: oa_tc6: Replace open-coded parity calculation with
->    parity32()
->  wifi: brcm80211: Replace open-coded parity calculation with parity32()
->  drm/bridge: dw-hdmi: Replace open-coded parity calculation with
->    parity32()
->  mtd: ssfdc: Replace open-coded parity calculation with parity32()
->  fsi: i2cr: Replace open-coded parity calculation with parity32()
->  fsi: i2cr: Replace open-coded parity calculation with parity64()
->  Input: joystick - Replace open-coded parity calculation with
->    parity64()
->  nfp: bpf: Replace open-coded parity calculation with parity64()
->
-> drivers/fsi/fsi-master-i2cr=2Ec                 | 18 ++-----
-> =2E=2E=2E/drm/bridge/synopsys/dw-hdmi-ahb-audio=2Ec   |  8 +--
-> drivers/input/joystick/grip_mp=2Ec              | 17 +-----
-> drivers/input/joystick/sidewinder=2Ec           | 24 ++-------
-> drivers/media/i2c/saa7115=2Ec                   | 12 +----
-> drivers/media/pci/cx18/cx18-av-vbi=2Ec          | 12 +----
-> =2E=2E=2E/media/test-drivers/vivid/vivid-vbi-gen=2Ec  |  8 +--
-> drivers/mtd/ssfdc=2Ec                           | 20 ++-----
-> drivers/net/ethernet/netronome/nfp/nfp_asm=2Ec  |  7 +--
-> drivers/net/ethernet/oa_tc6=2Ec                 | 19 ++-----
-> =2E=2E=2E/broadcom/brcm80211/brcmsmac/dma=2Ec         | 16 +-----
-> drivers/tty/serial/max3100=2Ec                  |  3 +-
-> include/linux/bitops=2Eh                        | 52 +++++++++++++++++--
-> lib/bch=2Ec                                     | 14 +----
-> 14 files changed, 77 insertions(+), 153 deletions(-)
->
+Update struct hid_descriptor to better reflect the mandatory and
+optional parts of the HID Descriptor as per USB HID 1.11 specification.
+Note: the kernel currently does not parse any optional HID class
+descriptors, only the mandatory report descriptor.
 
-!!x is used with a value that is not necessary booleanized already, and is=
- exactly equivalent to (x ? true : false)=2E It is totally redundant on a v=
-alue known to be bool=2E
+Update all references to member element desc[0] to rpt_desc.
 
-If (int)true wasn't inherently 1, then !! wouldn't work either=2E=20
+Add test to verify bLength and bNumDescriptors values are valid.
 
-There was a time when some code would use as a temporary hack:=20
+Replace the for loop with direct access to the mandatory HID class
+descriptor member for the report descriptor. This eliminates the
+possibility of getting an out-of-bounds fault.
 
-typedef enum { false, true } bool;
+Add a warning message if the HID descriptor contains any unsupported
+optional HID class descriptors.
 
-=2E=2E=2E when compiling on pre-C99 compilers; in that case a (bool) case =
-wouldn't necessarily work as expected, whereas !! would=2E Furthermore, unl=
-ike (bool), !! works in the preprocessor=2E
+Reported-by: syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=c52569baf0c843f35495
+Fixes: f043bfc98c19 ("HID: usbhid: fix out-of-bounds bug")
+Cc: stable@vger.kernel.org
+Signed-off-by: Terry Junge <linuxhid@cosmicgizmosystems.com>
+---
+v1: Remove unnecessary for loop searching for the report descriptor size.
+base-commit: 58c9bf3363e596d744f56616d407278ef5f97f5a
+
+P.S. This is an alternative to the solution proposed by Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Link: https://lore.kernel.org/all/20250131151600.410242-1-n.zhandarovich@fintech.ru/
+
+ include/linux/hid.h                 |  3 ++-
+ drivers/usb/gadget/function/f_hid.c | 12 ++++++------
+ drivers/hid/hid-hyperv.c            |  4 ++--
+ drivers/hid/usbhid/hid-core.c       | 25 ++++++++++++++-----------
+ 4 files changed, 24 insertions(+), 20 deletions(-)
+
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index cdc0dc13c87f..7abc8c74bdd5 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -738,8 +738,9 @@ struct hid_descriptor {
+ 	__le16 bcdHID;
+ 	__u8  bCountryCode;
+ 	__u8  bNumDescriptors;
++	struct hid_class_descriptor rpt_desc;
+ 
+-	struct hid_class_descriptor desc[1];
++	struct hid_class_descriptor opt_descs[];
+ } __attribute__ ((packed));
+ 
+ #define HID_DEVICE(b, g, ven, prod)					\
+diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+index 740311c4fa24..c7a05f842745 100644
+--- a/drivers/usb/gadget/function/f_hid.c
++++ b/drivers/usb/gadget/function/f_hid.c
+@@ -144,8 +144,8 @@ static struct hid_descriptor hidg_desc = {
+ 	.bcdHID				= cpu_to_le16(0x0101),
+ 	.bCountryCode			= 0x00,
+ 	.bNumDescriptors		= 0x1,
+-	/*.desc[0].bDescriptorType	= DYNAMIC */
+-	/*.desc[0].wDescriptorLenght	= DYNAMIC */
++	/*.rpt_desc.bDescriptorType	= DYNAMIC */
++	/*.rpt_desc.wDescriptorLength	= DYNAMIC */
+ };
+ 
+ /* Super-Speed Support */
+@@ -939,8 +939,8 @@ static int hidg_setup(struct usb_function *f,
+ 			struct hid_descriptor hidg_desc_copy = hidg_desc;
+ 
+ 			VDBG(cdev, "USB_REQ_GET_DESCRIPTOR: HID\n");
+-			hidg_desc_copy.desc[0].bDescriptorType = HID_DT_REPORT;
+-			hidg_desc_copy.desc[0].wDescriptorLength =
++			hidg_desc_copy.rpt_desc.bDescriptorType = HID_DT_REPORT;
++			hidg_desc_copy.rpt_desc.wDescriptorLength =
+ 				cpu_to_le16(hidg->report_desc_length);
+ 
+ 			length = min_t(unsigned short, length,
+@@ -1210,8 +1210,8 @@ static int hidg_bind(struct usb_configuration *c, struct usb_function *f)
+ 	 * We can use hidg_desc struct here but we should not relay
+ 	 * that its content won't change after returning from this function.
+ 	 */
+-	hidg_desc.desc[0].bDescriptorType = HID_DT_REPORT;
+-	hidg_desc.desc[0].wDescriptorLength =
++	hidg_desc.rpt_desc.bDescriptorType = HID_DT_REPORT;
++	hidg_desc.rpt_desc.wDescriptorLength =
+ 		cpu_to_le16(hidg->report_desc_length);
+ 
+ 	hidg_hs_in_ep_desc.bEndpointAddress =
+diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
+index 0fb210e40a41..9eafff0b6ea4 100644
+--- a/drivers/hid/hid-hyperv.c
++++ b/drivers/hid/hid-hyperv.c
+@@ -192,7 +192,7 @@ static void mousevsc_on_receive_device_info(struct mousevsc_dev *input_device,
+ 		goto cleanup;
+ 
+ 	input_device->report_desc_size = le16_to_cpu(
+-					desc->desc[0].wDescriptorLength);
++					desc->rpt_desc.wDescriptorLength);
+ 	if (input_device->report_desc_size == 0) {
+ 		input_device->dev_info_status = -EINVAL;
+ 		goto cleanup;
+@@ -210,7 +210,7 @@ static void mousevsc_on_receive_device_info(struct mousevsc_dev *input_device,
+ 
+ 	memcpy(input_device->report_desc,
+ 	       ((unsigned char *)desc) + desc->bLength,
+-	       le16_to_cpu(desc->desc[0].wDescriptorLength));
++	       le16_to_cpu(desc->rpt_desc.wDescriptorLength));
+ 
+ 	/* Send the ack */
+ 	memset(&ack, 0, sizeof(struct mousevsc_prt_msg));
+diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+index a6eb6fe6130d..e668143b559d 100644
+--- a/drivers/hid/usbhid/hid-core.c
++++ b/drivers/hid/usbhid/hid-core.c
+@@ -983,12 +983,11 @@ static int usbhid_parse(struct hid_device *hid)
+ 	struct usb_host_interface *interface = intf->cur_altsetting;
+ 	struct usb_device *dev = interface_to_usbdev (intf);
+ 	struct hid_descriptor *hdesc;
++	struct hid_class_descriptor *hcdesc;
+ 	u32 quirks = 0;
+ 	unsigned int rsize = 0;
+ 	char *rdesc;
+-	int ret, n;
+-	int num_descriptors;
+-	size_t offset = offsetof(struct hid_descriptor, desc);
++	int ret;
+ 
+ 	quirks = hid_lookup_quirk(hid);
+ 
+@@ -1010,20 +1009,19 @@ static int usbhid_parse(struct hid_device *hid)
+ 		return -ENODEV;
+ 	}
+ 
+-	if (hdesc->bLength < sizeof(struct hid_descriptor)) {
+-		dbg_hid("hid descriptor is too short\n");
++	if (!hdesc->bNumDescriptors ||
++	    hdesc->bLength != sizeof(*hdesc) +
++			      (hdesc->bNumDescriptors - 1) * sizeof(*hcdesc)) {
++		dbg_hid("hid descriptor invalid, bLen=%hhu bNum=%hhu\n",
++			hdesc->bLength, hdesc->bNumDescriptors);
+ 		return -EINVAL;
+ 	}
+ 
+ 	hid->version = le16_to_cpu(hdesc->bcdHID);
+ 	hid->country = hdesc->bCountryCode;
+ 
+-	num_descriptors = min_t(int, hdesc->bNumDescriptors,
+-	       (hdesc->bLength - offset) / sizeof(struct hid_class_descriptor));
+-
+-	for (n = 0; n < num_descriptors; n++)
+-		if (hdesc->desc[n].bDescriptorType == HID_DT_REPORT)
+-			rsize = le16_to_cpu(hdesc->desc[n].wDescriptorLength);
++	if (hdesc->rpt_desc.bDescriptorType == HID_DT_REPORT)
++		rsize = le16_to_cpu(hdesc->rpt_desc.wDescriptorLength);
+ 
+ 	if (!rsize || rsize > HID_MAX_DESCRIPTOR_SIZE) {
+ 		dbg_hid("weird size of report descriptor (%u)\n", rsize);
+@@ -1051,6 +1049,11 @@ static int usbhid_parse(struct hid_device *hid)
+ 		goto err;
+ 	}
+ 
++	if (hdesc->bNumDescriptors > 1)
++		hid_warn(intf,
++			"%hhu unsupported optional hid class descriptors\n",
++			hdesc->bNumDescriptors - 1);
++
+ 	hid->quirks |= quirks;
+ 
+ 	return 0;
+-- 
+2.43.0
+
 
