@@ -1,455 +1,299 @@
-Return-Path: <linux-input+bounces-10612-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10613-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9E1A5648D
-	for <lists+linux-input@lfdr.de>; Fri,  7 Mar 2025 11:03:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03404A564A0
+	for <lists+linux-input@lfdr.de>; Fri,  7 Mar 2025 11:08:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98A333A6514
-	for <lists+linux-input@lfdr.de>; Fri,  7 Mar 2025 10:03:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E6F543A683C
+	for <lists+linux-input@lfdr.de>; Fri,  7 Mar 2025 10:08:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B62920CCFD;
-	Fri,  7 Mar 2025 10:03:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76E251E1E11;
+	Fri,  7 Mar 2025 10:08:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XWfjqrlR"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="kwWkIQ1U"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazolkn19011029.outbound.protection.outlook.com [52.103.67.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7341E1DE3
-	for <linux-input@vger.kernel.org>; Fri,  7 Mar 2025 10:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741341796; cv=none; b=hzrxCjla3mdfQehz1sggo1KWbOK9lqzJ7erHgkxOunrFAzOpkG3bkjv7dT5o1CyC4EyLnwX6s+wz2mSXpk9yjJHGi6BkRUZ1UluFVEgT9WEjiwuuRKXyiitran0CDBqJhhslJaoIhEZmNQG6fNKk9t4JPA1Weh4P10funoLKojM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741341796; c=relaxed/simple;
-	bh=qC09XvL+E4XxS8W7QyWzuLFEczeFsZDxtV2iyUyjsVQ=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=sRJHjmoSAvkXQqImFm+yIaP4vvw4Vw6lMOnTtlMcA160NG/nJymna/28esd4mAzLFP9EG/ay3mq5Cmqjmnu6Z7O4/W8Mnj1zz1XeuBydnkXTzOKWfwpvEVVcvoKi0l8Xh+1DHgE4emUB89mYoZOeVUj4CCfCnBijDiVkfMg/pas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XWfjqrlR; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43bd45e4d91so10035335e9.1
-        for <linux-input@vger.kernel.org>; Fri, 07 Mar 2025 02:03:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741341792; x=1741946592; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1vEF9+tsv2YIJlxjHnRIp5QhDr50rxu5AlAzHayFtoM=;
-        b=XWfjqrlRfa59PagAnn86Rh7JE2dflA3yM9Ja/trGLYfuFioSz8H0JYxbdf/UU6bPNE
-         HQL/EGLS5gX6glvTxHRSzbLpG2/4w0Y9wmNPQfKbn7gI/Zk8jG19Vbfl7Och9Dp6jApT
-         kUhouAo4zmg/psY9vFz+fdkUqQSv53DSp/nPpfYx+XpaVTT6KsN969LvAQUV60SBux+G
-         95BDbtmhP0z5iIUYn2T0xoweWt5sA4t7PH5am4eqwKmeeWI8Kn1zf2evLiurudsWsA9R
-         WKWXW9Uw2py9Wx2XprwxVJ6xYClMyRfZUgVoNp0rzcpPSJtOrfqcmpqEcQLDW1+GK7Wx
-         xgFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741341792; x=1741946592;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1vEF9+tsv2YIJlxjHnRIp5QhDr50rxu5AlAzHayFtoM=;
-        b=gbnBPLMJ3Q57q8DIOAAH+6bhsX91GDiLrzdtKI3gYjRrguVQs++vBCcJ1+6OJA26Dj
-         2WDYfBXFDjLTj2uZdt0q/WJQQ3bLcPHMMgMA5kF13nWNl75OZ/MdW1oPTocIIW+9Gtvy
-         8GgtjX8IzK+VfSfuetor0nkT4O39UV+L1cAr7hZuWpIL5FxjaZOB79XnfpG0qt5W5xVf
-         eGrxfs+acUxT5fanUAhVl/PStpRuP4f2o9sniR++Pr4JaQKcKm45cV5V2V/fDLCUrlyh
-         GhCoL7Ram03NJHi0giOBRbNWYsjiOmjJS1lI41pP1DvQLM2K+QIw1nQBPq7e8MxMhHY7
-         fPfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXCpK9vu4zQJ7NOKKYyhkVLNHI5kuiF4nvnfUV8RPmP6sBaL+sZsx1YR1dqGyOzweFPo63hwoipGgSVEA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTVKng9ecf0zF13Ypm7yDBD5CqSK6ZPDkKl1vkWpw/PDEQazbY
-	xTW/fC2ziVKNiKOiQHQwhKOyyvtZWsWfAzwfZowy+pGIbCrdMY5IQ8uIuQE1DqY=
-X-Gm-Gg: ASbGncutF3/VeLHpr4DwGco/Lh8h1DHXFruzIdC6CWwVgfNMTTxJVGe3FmC5M5A1Jxi
-	h/nxePc32Gq0Wazk1VWJZx4w7WQYveeryjSRxTctwiEq0R44OS+vSqg0YaRHRQ9fwl+J6jQ6lYF
-	IVM0lx+euOq9VDdulxDWWpuWIlqNkO77p8mAyojQJGsdCqzSIkaEwdxcv01eUu/nEOI++xJz6UY
-	PMJVbQkaELh7uhI0ZzPkqEbttuw/TTEYwcQcDKD3hpS18pyntn2NSP2AuPaJ0sUKTaVUMuU3T7z
-	W2xyvW5HjsI/5WLUZc782GAtEvQ0gMe5EjTa+JmA6sb3NN83KW3opfRrLi0u8Z007kE9kSdPgia
-	pjocAshtZF14bLNBpWUAbhA==
-X-Google-Smtp-Source: AGHT+IGNzDh/kKDNpCLZ2JuvWaD1TESNfBPS1qik4baGkJKQtiSCovQ66r/C2qv98cepZ6On8oiNUQ==
-X-Received: by 2002:a05:600c:1c9f:b0:439:8634:9909 with SMTP id 5b1f17b1804b1-43c601cc6b2mr18520465e9.14.1741341791815;
-        Fri, 07 Mar 2025 02:03:11 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:1ea4:9158:5668:7977? ([2a01:e0a:982:cbb0:1ea4:9158:5668:7977])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43bdd8c3173sm47504605e9.11.2025.03.07.02.03.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Mar 2025 02:03:11 -0800 (PST)
-Message-ID: <edb4c8f2-afef-4892-914f-33bd5b25301a@linaro.org>
-Date: Fri, 7 Mar 2025 11:03:10 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E28A18785D
+	for <linux-input@vger.kernel.org>; Fri,  7 Mar 2025 10:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.29
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741342114; cv=fail; b=fmSG/2/IDRV8QrPLvy1tHhtwUIGZae78C97VrchSDW+QTF/8kfNMea6N6f8O8XY4ehc2YuxHjZG4gT30yOEiySyVKq0XA4O8fMfTbSo/kDTj9ZIVPJEaX6H+A8ehQmn/vglVzegzOqvLJm0zT0dMJGQROEJ/F3HzP8jT1q28RD8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741342114; c=relaxed/simple;
+	bh=Bld4Wm+QKnuAWqpw85RiF9LS86+Gu96rImohwzN11bo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=GNHyGeX8pMAp9aJyp0Qcc+WjbdX2TmI2FaNSfgnxKigxzmCm1j4hw+VXryMZZoveq6qW6EWtspAXtaSN8rQD918qLmkTyEyUf0LXr/5VG96J8KXT4lL4HgTeMxZuE/+Iv6+eMJweKh+Oox/g5m/nJR+CimHsQ1HbjcV199/9Gm4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=kwWkIQ1U; arc=fail smtp.client-ip=52.103.67.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PivB4bs+VRpv8w1MGtfXP5knmfYIBpWrRPEtCX9Gl8WbCr6RNDNwyDB4TWIOT5GYOG7wNMYjXDmNqP7mm3aUu2dpyX7S12zjVmJTgCI2S/3E9Bhgl1BsuvxMEJzRjNVzr7tmK8trdyBhnIkAxbW5PJgD3CQIXBYluHi7HBDIj6rlyS2OoPy1cqiVO4c/hWLcRNkF3nFFmw4KEtUNGhCwLAyFVX3pgaTtZwfW/xirP3H1uCPOEOb+TSHFrsl03repyM8jXniIsSkm8QXxLcyMmHYsNa3IhZoANGVKsKgqNQSv7ZtBi0ZOdf/GwYkycF5/VS0c3LU4SMdvg8Y6R8JkkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bld4Wm+QKnuAWqpw85RiF9LS86+Gu96rImohwzN11bo=;
+ b=P58wTERMMSH5pVizV7AbBW2eIpVIj0VtzXA0Kqbg8qkwWvGgVN+2kaHtOkmLmAJnoEZ+tWmifrAfoEF7mzKHfgezJvtIeGQzqGEmPOJ2WBeXHYVAW/NqeCytdcw2bcMcaKHM5eap+ewsb2wy8GfN5RzWygrIk2OQgl5/OziUL0IxBvFdIBC40gL5HhtkbJ2PRosX0QsteqCqXFmNaNIIHgXVsYF4K0y00J3oTDWcuhbHF3Wc47PfxPUsUi5WQwEZR0DwV5Y5qZK8rVXf3MF3XD42wRRJdKXhgSm61BEfp8YK7Sl5Cm6OzgCW4F+Imj7CjPBVOl337Nk6NnaNhDI0MA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bld4Wm+QKnuAWqpw85RiF9LS86+Gu96rImohwzN11bo=;
+ b=kwWkIQ1UJh9vfZvDoyvKRaRzqUWqa46NXZYvSzjuSxkrSjotaanWuJkHaQHz52R69ebEdSn/LjjaygT5hyzXFQIS4PqL7GviGKO1kE/OApothO9TfkYp1tM2NkA4Me2pzNhUolH3JxuX+j5LeRy1zHF6Dkla+GvStfx7J94waWo9ts1bIyg7RBhSNwrc35Jo7F/9cJn5Gryx5EqUBMcj3iAyxq9hw4KiYckCY1b5a6pZd4I97GcpmelkeGz1jxya/6gUU8qJ2fqqzbLYMXby4o3jb/Ycbvj9gi1EJ4Tro30i33xw+c1O6kwzR1MyUyKWBXnYLOhPVk3PwjaALqm2iw==
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
+ by MAZPR01MB5917.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:64::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.22; Fri, 7 Mar
+ 2025 10:08:28 +0000
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8511.019; Fri, 7 Mar 2025
+ 10:08:28 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Grigorii Sokolik <g.sokol99@g-sokol.info>
+CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: [PATCH 2/2] HID: hid-apple: Apple Magic Keyboard a3118 USB-C
+ support
+Thread-Topic: [PATCH 2/2] HID: hid-apple: Apple Magic Keyboard a3118 USB-C
+ support
+Thread-Index: AQHbjsktiTHRxGBV1Ee2CRRU/jlylbNmd8KAgAAYNICAAOQ0tw==
+Date: Fri, 7 Mar 2025 10:08:28 +0000
+Message-ID:
+ <PN3PR01MB95972A18CA28F0154A3C4454B8D52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+References: <20250306070027.532052-1-g.sokol99@g-sokol.info>
+ <20250306070027.532052-2-g.sokol99@g-sokol.info>
+ <31E267B8-6B70-46F2-873E-4E58478E3C93@live.com>
+ <C5E429C3-4838-4A9A-9D61-4138FD14BB6E@live.com>
+ <CADjZRiS0uvKTxT68G3pQ44phQUG42rTf-Sv66i9--7uY3AwGww@mail.gmail.com>
+In-Reply-To:
+ <CADjZRiS0uvKTxT68G3pQ44phQUG42rTf-Sv66i9--7uY3AwGww@mail.gmail.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-IN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|MAZPR01MB5917:EE_
+x-ms-office365-filtering-correlation-id: b97c4c7c-aa12-4fcb-9789-08dd5d6001d6
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|461199028|8062599003|8060799006|19110799003|7092599003|6072599003|15080799006|440099028|4302099013|3412199025|10035399004|102099032|1602099012;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?MWVVTWxDU1BCV1BYTGEvMnJqSXB6TktLSUdxZFhPd0VDZVROd3M0UmdHaEpt?=
+ =?utf-8?B?ZjlianZIcEs0Z2dUaWwxQ0Y3TEZEZnJqaXd1WS9kZjJXTk9yVjNtNWRrY3Zo?=
+ =?utf-8?B?Zk5FNzVhU3F1MDNlcVpRZ3QwbGd6UGNWbm9uQno3WjBqajFZa3NXNWNUMnN5?=
+ =?utf-8?B?YTRGMXUxRHUrVEV4VlRsU3lLaFVnTFdSdjQ1aUpFNXU3Vm1CeFB0Qk9zbWxS?=
+ =?utf-8?B?MHJ2VVBNOGRvYTZCWTdLOStManBPTzJha0NuUGJFSXRFTnpzUmJCSjVaejBG?=
+ =?utf-8?B?S0JwVWRhMlU1VmRxUlY2MVo5RnRsQmQyU1VqUXlNeURNL0tlL1RQbVhCMXdK?=
+ =?utf-8?B?N1NMcGczL1dCdXU1Z01HRC83ZlB6d2xZTXJBWlBadzNyV2NETDd2dUdYNExs?=
+ =?utf-8?B?c0h0dXlUTzRHa1VTUE1iblRERWRabWttNjY5N3BNOGZQV0lkZjJyTmRXU1Fl?=
+ =?utf-8?B?QkVCMUp4YUVURllSeHhpNGpTRUFkZ0k1QitOVWkyMUVLODN6K01PZjJRZ2lj?=
+ =?utf-8?B?bG1OaVcvK1Q1N2JHWWZ1T0RhQmJQVG04dUdmYzljajRqeDdQT1Z4dEttT2s0?=
+ =?utf-8?B?ekZRNkRyR1BsSGJUcHFYR2JreDFocFdtRnU3QUZaM3ByYU11N2NqOTIvTERR?=
+ =?utf-8?B?QTdmc3d3bVRTdkc3Sk90WXhuNGJ0WFVHZm02WFd4RXZlL0o4b0JXanBEOW5U?=
+ =?utf-8?B?Z0hTYzg1cmpJM2FYRi9qd3luYVBBM25FQ0ZHZ1VubHpuRHVMN1NxSlFUQ3NE?=
+ =?utf-8?B?RndTa1FiYU5wM2xwT2J1WWE0L24xT2hpZEg0Qm8zWDNKQ25TUVJhSllzUEth?=
+ =?utf-8?B?blhwRmd3VzNrTU5lcGdiOFovd1NiY0pjeWJhMmtpdUQ1UTI1YTZ6aUZEckdU?=
+ =?utf-8?B?cGttNUVoYmNXelVMT3Z5NDdENEphT1FpdGo5ZWtCbDZHZkVINGVzNC9wdUVl?=
+ =?utf-8?B?bnRsTUtaVlNxZmVEd0J5em1FL09Pa3RKdGt3WDZFTUZZcUtZMVVrR2JHTCtr?=
+ =?utf-8?B?dU53Z1k2VFJ1UmJURnZqYkxHdWhJYTZVcnEwM3dqK0lHZEFkV01zYXk1L0Ev?=
+ =?utf-8?B?ZnFWdHUvelNGdTkyZGx6QTFUUzNmUXVTdnNERFJrQVdlNGgxZU9uN3V4cUFI?=
+ =?utf-8?B?SlJUK0Ntd0hxK0d0WXdOaWVxbjNWYTBSa2NBOXdNYmUwdGNmYXRtN3VwTS9m?=
+ =?utf-8?B?YnhNMDBucTEyQ05pOCtsN29DMzloRFFDMktBcVNEb0hvZHlXdEpRR2hqSFZZ?=
+ =?utf-8?B?Qmh2TU9yMDlDY0lpakFXdTlrcUZjb2xMQW9Ta01rbEZTMTg0cmJiSE40endK?=
+ =?utf-8?B?VjBTQk5HZ0MrYjk0Y0IvZzdNelBjVEljWFJxcE1KYUM0bUxEaVVJVUJFSG5N?=
+ =?utf-8?B?emJpSC9OU254UUh5cHVXSU91QzJNM2xIOTZzOW5JZWIralhNcGZLa21ka3Vv?=
+ =?utf-8?B?SEEyVG1XZzdvYVVjZFZMUW9qQjArUllHZTN1cjQ0bHFTNDE2RHhzMHcxNUZu?=
+ =?utf-8?B?RzNIN0IzbS9neFNWRTRBRHVrOW5QY0FXYkUwcThYdzgxTHdocHYyWlRsWTJU?=
+ =?utf-8?B?Y0NuQnVFbEc1Y3B5aGtIeGZzYUV1MnZ2UGxXVEZZeHgxeFoyNWNCQmdmZVZq?=
+ =?utf-8?B?NkpNVEdJWTI2Y045cHJmYWJzdWhRVXJnbnFYeExHb3FVZTE1cVlGTGpYYWhp?=
+ =?utf-8?B?OTZnVnQreU5aZ1F2MXZBMXRVelh5V1N0L0dmTWUvSndPdUZocllXS0p3PT0=?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?bWFiZnpOSThpR3NHUnB6cnlFcCsvYm93SlpacHFyaXNWSnc2a1JTOVNvT1RX?=
+ =?utf-8?B?ZEhFNkt5eXp1UTJsYWQ3QTZWczlrU0JQQm1jTE5MTnVWM1lSeUx6c2ZDaG5h?=
+ =?utf-8?B?NHZReHZJaTNKMXkrTTB1aFBnczdrbnpNMUlIWnFBbkR6UTczVHUwN2tQa0xY?=
+ =?utf-8?B?anRpOSszd084UVdwSTZwVGJCbDdzcldqaE5jRk9BY0lSS3FUR2lkaVg5VTdi?=
+ =?utf-8?B?Z2lWM2NwaFZFdVc4UlNpMVVWWFptTVNHR0ZOSTAvRWFUdDlOYWI3Q2xhZVc0?=
+ =?utf-8?B?d285WXFWajdTK2wvbm5oWG85dFhMRnVPcTdlNlNMazlKRkMrUFBxMXNaZVVX?=
+ =?utf-8?B?dEVoSGtITWFUMTNwanAzcGdDQzk1d1grOFFXbmpZUncyNmk5akhEWEh4Rkxw?=
+ =?utf-8?B?Y1NlQWZkdjdFRUZOdk1qd29mNzVoOHpPQUt2VnljdFFOMldGU29qTCtnUUNi?=
+ =?utf-8?B?VHZzM0NBd01nVUJWeGtMRExRRDgyMytyWkVrZWtzeXlseTh0cHVLNFUzRXZh?=
+ =?utf-8?B?T1ZLTzJ1VnNhcFNUWVkzVk1xbm9tVVlSQXRQYTRhY2xnMXNCbVI3YnFuY0FT?=
+ =?utf-8?B?L294NnVXMnNLWmlHZlZ0cTZkZ1RvSlJDak5DWVYzL1lYVDN3TklQK2FIMG5u?=
+ =?utf-8?B?VnMybVdsSnJ5L1MrWnVCM2pueUVnZXZjaC9RVE1hNCttdEM5Z0N2NUt3dmU4?=
+ =?utf-8?B?cVdtZ3EydVZwd2VKODhGejZWOHNKMWlybE9UTGR2NklJRURaeHFiRTdoU0ZQ?=
+ =?utf-8?B?NXlFU0l6Rmk4LzFYeU95S0thVVl2cEVFZDhWN2ttUTlyV09xYjBiVzRqTExq?=
+ =?utf-8?B?L0RJT3NIR3c3TDl5WUVWaWhscTRMN1U2QnkrRmVNMVdZMWM4cUMrV1pKemc3?=
+ =?utf-8?B?bEZzN3JFZldjTlhsdUhBNjJ2NFIyS2lUekRHT0FoUWNIQTJMRGVhL3BRc3Rw?=
+ =?utf-8?B?LzhZNmZkMmVjOVlwL2lhUk04YXRGWGVGaHlyNFhLQUU5dk5RYnhudmczZm9i?=
+ =?utf-8?B?c1lES2hjQlNsTUhXWFM1aXdwUEE2RUk5SkIrbkEzbnhySHQveVc3NVlHZm9E?=
+ =?utf-8?B?TW5GUlJ0d2pBR2s0UzdhY1VpVG5saHJPQ1cvdTc4WHl0N3c0TXd4OTJjME93?=
+ =?utf-8?B?ZVZ1Q3JWdmN0Q1JDY3dqTEIyWXQ3c3k0UnRFTFVGME84U0Uxb05abnJTRUUw?=
+ =?utf-8?B?SVdhRHU3UXZJYittN2NPMHE5T2hLWGVZa1ZjaUVJd3FOSEd1ZnBkeE1RUDZm?=
+ =?utf-8?B?a0hlZjVscWRnemh3SGNCQVhCcDcwSlFja1pJUmpIZjM0SHd4OU8rMEJWYnZ2?=
+ =?utf-8?B?VEFhT1Zta1pCRXVVbmJ4N3l4ZlV0ZEd3aW5tMFkyR3FiOVlXYUlXQ0puMHZh?=
+ =?utf-8?B?dkthRklUcmNxMUJQb3c2U0RkNkVSTXRPbmZhZzI0dUZVejd6dmR1Z2hqTGQ5?=
+ =?utf-8?B?U0szWUlsektHT0phUzd6NWlvZFZ0eERQdXZ3NnFpQXhoVGJnV09sSDhRbEtu?=
+ =?utf-8?B?eHhPUG56MEY1R3ROUGFiNi9lbkcrR2RJeDB5WWQzdnJoanJOOXpkSGw2bHB4?=
+ =?utf-8?B?NWI2RnVqc2tEbk1xZkViSDhlV0ZlWFRISHRIdW1LOXNvUWUwY2xCSm5WSUlx?=
+ =?utf-8?B?d1ZTSW9aV2lwRC9XWmJoNHNrcGc5Wk5rRERHVndXRlFoNVpTZDU3dVBOQWpZ?=
+ =?utf-8?B?eXpXR1dkamJrSjlqS0xTdFdDbzFKVm5VaWxRODJUL3crNTdYbGhpQTVydksx?=
+ =?utf-8?Q?Hgaf5so7uYK01rGPo8=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v3 2/2] Input: goodix_berlin - Add support for Berlin-A
- series
-To: Jens Reidel <adrian@mainlining.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bastien Nocera <hadess@hadess.net>,
- Hans de Goede <hdegoede@redhat.com>
-Cc: Luca Weiss <luca.weiss@fairphone.com>, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org, linux@mainlining.org,
- ~postmarketos/upstreaming@lists.sr.ht
-References: <20250307094823.478152-1-adrian@mainlining.org>
- <20250307094823.478152-3-adrian@mainlining.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250307094823.478152-3-adrian@mainlining.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: b97c4c7c-aa12-4fcb-9789-08dd5d6001d6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Mar 2025 10:08:28.5170
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZPR01MB5917
 
-On 07/03/2025 10:48, Jens Reidel wrote:
-> The current implementation of the goodix_berlin driver lacks support for
-> revisions A and B of the Berlin IC. This change adds support for the
-> gt9897 IC, which is a Berlin-A revision part.
-> 
-> The differences between revision D and A are rather minor, a handful of
-> address changes and a slightly larger read buffer. They were taken from
-> the driver published by Goodix, which does a few more things that don't
-> appear to be necessary for the touchscreen to work properly.
-> 
-> Tested-by: Luca Weiss <luca.weiss@fairphone.com>
-> Signed-off-by: Jens Reidel <adrian@mainlining.org>
-> ---
->   drivers/input/touchscreen/goodix_berlin.h     | 16 ++++++-
->   .../input/touchscreen/goodix_berlin_core.c    | 21 ++++----
->   drivers/input/touchscreen/goodix_berlin_i2c.c | 14 ++++--
->   drivers/input/touchscreen/goodix_berlin_spi.c | 48 ++++++++++++++-----
->   4 files changed, 73 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/goodix_berlin.h b/drivers/input/touchscreen/goodix_berlin.h
-> index 38b6f9ddbdef..d8bbd4853206 100644
-> --- a/drivers/input/touchscreen/goodix_berlin.h
-> +++ b/drivers/input/touchscreen/goodix_berlin.h
-> @@ -12,12 +12,26 @@
->   
->   #include <linux/pm.h>
->   
-> +#define GOODIX_BERLIN_FW_VERSION_INFO_ADDR_A	0x1000C
-> +#define GOODIX_BERLIN_FW_VERSION_INFO_ADDR_D	0x10014
-> +
-> +#define GOODIX_BERLIN_IC_INFO_ADDR_A		0x10068
-> +#define GOODIX_BERLIN_IC_INFO_ADDR_D		0x10070
-> +
-> +struct goodix_berlin_ic_data {
-> +	int fw_version_info_addr;
-> +	int ic_info_addr;
-> +	ssize_t read_dummy_len;
-> +	ssize_t read_prefix_len;
-> +};
-> +
->   struct device;
->   struct input_id;
->   struct regmap;
->   
->   int goodix_berlin_probe(struct device *dev, int irq, const struct input_id *id,
-> -			struct regmap *regmap);
-> +			struct regmap *regmap,
-> +			const struct goodix_berlin_ic_data *ic_data);
->   
->   extern const struct dev_pm_ops goodix_berlin_pm_ops;
->   extern const struct attribute_group *goodix_berlin_groups[];
-> diff --git a/drivers/input/touchscreen/goodix_berlin_core.c b/drivers/input/touchscreen/goodix_berlin_core.c
-> index f7ea443b152e..02a1d9a465f2 100644
-> --- a/drivers/input/touchscreen/goodix_berlin_core.c
-> +++ b/drivers/input/touchscreen/goodix_berlin_core.c
-> @@ -12,7 +12,7 @@
->    * to the previous generations.
->    *
->    * Currently the driver only handles Multitouch events with already
-> - * programmed firmware and "config" for "Revision D" Berlin IC.
-> + * programmed firmware and "config" for "Revision A/D" Berlin IC.
->    *
->    * Support is missing for:
->    * - ESD Management
-> @@ -20,7 +20,7 @@
->    * - "Config" update/flashing
->    * - Stylus Events
->    * - Gesture Events
-> - * - Support for older revisions (A & B)
-> + * - Support for revision B
->    */
->   
->   #include <linux/bitfield.h>
-> @@ -28,6 +28,7 @@
->   #include <linux/input.h>
->   #include <linux/input/mt.h>
->   #include <linux/input/touchscreen.h>
-> +#include <linux/property.h>
->   #include <linux/regmap.h>
->   #include <linux/regulator/consumer.h>
->   #include <linux/sizes.h>
-> @@ -53,10 +54,8 @@
->   
->   #define GOODIX_BERLIN_DEV_CONFIRM_VAL		0xAA
->   #define GOODIX_BERLIN_BOOTOPTION_ADDR		0x10000
-> -#define GOODIX_BERLIN_FW_VERSION_INFO_ADDR	0x10014
->   
->   #define GOODIX_BERLIN_IC_INFO_MAX_LEN		SZ_1K
-> -#define GOODIX_BERLIN_IC_INFO_ADDR		0x10070
->   
->   #define GOODIX_BERLIN_CHECKSUM_SIZE		sizeof(u16)
->   
-> @@ -175,6 +174,8 @@ struct goodix_berlin_core {
->   	/* Runtime parameters extracted from IC_INFO buffer  */
->   	u32 touch_data_addr;
->   
-> +	const struct goodix_berlin_ic_data *ic_data;
-> +
->   	struct goodix_berlin_event event;
->   };
->   
-> @@ -299,7 +300,7 @@ static int goodix_berlin_read_version(struct goodix_berlin_core *cd)
->   {
->   	int error;
->   
-> -	error = regmap_raw_read(cd->regmap, GOODIX_BERLIN_FW_VERSION_INFO_ADDR,
-> +	error = regmap_raw_read(cd->regmap, cd->ic_data->fw_version_info_addr,
->   				&cd->fw_version, sizeof(cd->fw_version));
->   	if (error) {
->   		dev_err(cd->dev, "error reading fw version, %d\n", error);
-> @@ -367,7 +368,7 @@ static int goodix_berlin_get_ic_info(struct goodix_berlin_core *cd)
->   	if (!afe_data)
->   		return -ENOMEM;
->   
-> -	error = regmap_raw_read(cd->regmap, GOODIX_BERLIN_IC_INFO_ADDR,
-> +	error = regmap_raw_read(cd->regmap, cd->ic_data->ic_info_addr,
->   				&length_raw, sizeof(length_raw));
->   	if (error) {
->   		dev_err(cd->dev, "failed get ic info length, %d\n", error);
-> @@ -380,8 +381,8 @@ static int goodix_berlin_get_ic_info(struct goodix_berlin_core *cd)
->   		return -EINVAL;
->   	}
->   
-> -	error = regmap_raw_read(cd->regmap, GOODIX_BERLIN_IC_INFO_ADDR,
-> -				afe_data, length);
-> +	error = regmap_raw_read(cd->regmap, cd->ic_data->ic_info_addr, afe_data,
-> +				length);
->   	if (error) {
->   		dev_err(cd->dev, "failed get ic info data, %d\n", error);
->   		return error;
-> @@ -716,7 +717,8 @@ const struct attribute_group *goodix_berlin_groups[] = {
->   EXPORT_SYMBOL_GPL(goodix_berlin_groups);
->   
->   int goodix_berlin_probe(struct device *dev, int irq, const struct input_id *id,
-> -			struct regmap *regmap)
-> +			struct regmap *regmap,
-> +			const struct goodix_berlin_ic_data *ic_data)
->   {
->   	struct goodix_berlin_core *cd;
->   	int error;
-> @@ -733,6 +735,7 @@ int goodix_berlin_probe(struct device *dev, int irq, const struct input_id *id,
->   	cd->dev = dev;
->   	cd->regmap = regmap;
->   	cd->irq = irq;
-> +	cd->ic_data = ic_data;
->   
->   	cd->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
->   	if (IS_ERR(cd->reset_gpio))
-> diff --git a/drivers/input/touchscreen/goodix_berlin_i2c.c b/drivers/input/touchscreen/goodix_berlin_i2c.c
-> index ad7a60d94338..059a25537aad 100644
-> --- a/drivers/input/touchscreen/goodix_berlin_i2c.c
-> +++ b/drivers/input/touchscreen/goodix_berlin_i2c.c
-> @@ -31,6 +31,8 @@ static const struct input_id goodix_berlin_i2c_input_id = {
->   
->   static int goodix_berlin_i2c_probe(struct i2c_client *client)
->   {
-> +	const struct goodix_berlin_ic_data *ic_data =
-> +		i2c_get_match_data(cd->dev);
->   	struct regmap *regmap;
->   	int error;
->   
-> @@ -39,22 +41,28 @@ static int goodix_berlin_i2c_probe(struct i2c_client *client)
->   		return PTR_ERR(regmap);
->   
->   	error = goodix_berlin_probe(&client->dev, client->irq,
-> -				    &goodix_berlin_i2c_input_id, regmap);
-> +				    &goodix_berlin_i2c_input_id, regmap,
-> +				    ic_data);
->   	if (error)
->   		return error;
->   
->   	return 0;
->   }
->   
-> +static const struct goodix_berlin_ic_data gt9916_data = {
-> +	.fw_version_info_addr = GOODIX_BERLIN_FW_VERSION_INFO_ADDR_D,
-> +	.ic_info_addr = GOODIX_BERLIN_IC_INFO_ADDR_D,
-> +};
-> +
->   static const struct i2c_device_id goodix_berlin_i2c_id[] = {
-> -	{ "gt9916" },
-> +	{ .name = "gt9916", .driver_data = (long)&gt9916_data },
->   	{ }
->   };
->   
->   MODULE_DEVICE_TABLE(i2c, goodix_berlin_i2c_id);
->   
->   static const struct of_device_id goodix_berlin_i2c_of_match[] = {
-> -	{ .compatible = "goodix,gt9916", },
-> +	{ .compatible = "goodix,gt9916", .data = &gt9916_data },
->   	{ }
->   };
->   MODULE_DEVICE_TABLE(of, goodix_berlin_i2c_of_match);
-> diff --git a/drivers/input/touchscreen/goodix_berlin_spi.c b/drivers/input/touchscreen/goodix_berlin_spi.c
-> index 0662e87b8692..01f850f484c2 100644
-> --- a/drivers/input/touchscreen/goodix_berlin_spi.c
-> +++ b/drivers/input/touchscreen/goodix_berlin_spi.c
-> @@ -18,10 +18,14 @@
->   
->   #define GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN	1
->   #define GOODIX_BERLIN_REGISTER_WIDTH		4
-> -#define GOODIX_BERLIN_SPI_READ_DUMMY_LEN	3
-> -#define GOODIX_BERLIN_SPI_READ_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
-> +#define GOODIX_BERLIN_SPI_READ_DUMMY_LEN_A	4
-> +#define GOODIX_BERLIN_SPI_READ_DUMMY_LEN_D	3
-> +#define GOODIX_BERLIN_SPI_READ_PREFIX_LEN_A	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
->   						 GOODIX_BERLIN_REGISTER_WIDTH + \
-> -						 GOODIX_BERLIN_SPI_READ_DUMMY_LEN)
-> +						 GOODIX_BERLIN_SPI_READ_DUMMY_LEN_A)
-> +#define GOODIX_BERLIN_SPI_READ_PREFIX_LEN_D	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
-> +						 GOODIX_BERLIN_REGISTER_WIDTH + \
-> +						 GOODIX_BERLIN_SPI_READ_DUMMY_LEN_D)
->   #define GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
->   						 GOODIX_BERLIN_REGISTER_WIDTH)
->   
-> @@ -33,6 +37,7 @@ static int goodix_berlin_spi_read(void *context, const void *reg_buf,
->   				  size_t val_size)
->   {
->   	struct spi_device *spi = context;
-> +	const struct goodix_berlin_ic_data *ic_data = spi_get_device_match_data(spi);
->   	struct spi_transfer xfers;
->   	struct spi_message spi_msg;
->   	const u32 *reg = reg_buf; /* reg is stored as native u32 at start of buffer */
-> @@ -42,23 +47,22 @@ static int goodix_berlin_spi_read(void *context, const void *reg_buf,
->   		return -EINVAL;
->   
->   	u8 *buf __free(kfree) =
-> -		kzalloc(GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size,
-> -			GFP_KERNEL);
-> +		kzalloc(ic_data->read_prefix_len + val_size, GFP_KERNEL);
->   	if (!buf)
->   		return -ENOMEM;
->   
->   	spi_message_init(&spi_msg);
->   	memset(&xfers, 0, sizeof(xfers));
->   
-> -	/* buffer format: 0xF1 + addr(4bytes) + dummy(3bytes) + data */
-> +	/* buffer format: 0xF1 + addr(4bytes) + dummy(3/4bytes) + data */
->   	buf[0] = GOODIX_BERLIN_SPI_READ_FLAG;
->   	put_unaligned_be32(*reg, buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN);
->   	memset(buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + GOODIX_BERLIN_REGISTER_WIDTH,
-> -	       0xff, GOODIX_BERLIN_SPI_READ_DUMMY_LEN);
-> +	       0xff, ic_data->read_dummy_len);
->   
->   	xfers.tx_buf = buf;
->   	xfers.rx_buf = buf;
-> -	xfers.len = GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size;
-> +	xfers.len = ic_data->read_prefix_len + val_size;
->   	xfers.cs_change = 0;
->   	spi_message_add_tail(&xfers, &spi_msg);
->   
-> @@ -68,7 +72,7 @@ static int goodix_berlin_spi_read(void *context, const void *reg_buf,
->   		return error;
->   	}
->   
-> -	memcpy(val_buf, buf + GOODIX_BERLIN_SPI_READ_PREFIX_LEN, val_size);
-> +	memcpy(val_buf, buf + ic_data->read_prefix_len, val_size);
->   	return error;
->   }
->   
-> @@ -123,6 +127,7 @@ static const struct input_id goodix_berlin_spi_input_id = {
->   
->   static int goodix_berlin_spi_probe(struct spi_device *spi)
->   {
-> +	const struct goodix_berlin_ic_data *ic_data = spi_get_device_match_data(spi);
->   	struct regmap_config regmap_config;
->   	struct regmap *regmap;
->   	size_t max_size;
-> @@ -137,7 +142,7 @@ static int goodix_berlin_spi_probe(struct spi_device *spi)
->   	max_size = spi_max_transfer_size(spi);
->   
->   	regmap_config = goodix_berlin_spi_regmap_conf;
-> -	regmap_config.max_raw_read = max_size - GOODIX_BERLIN_SPI_READ_PREFIX_LEN;
-> +	regmap_config.max_raw_read = max_size - ic_data->read_prefix_len;
->   	regmap_config.max_raw_write = max_size - GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN;
->   
->   	regmap = devm_regmap_init(&spi->dev, NULL, spi, &regmap_config);
-> @@ -145,21 +150,38 @@ static int goodix_berlin_spi_probe(struct spi_device *spi)
->   		return PTR_ERR(regmap);
->   
->   	error = goodix_berlin_probe(&spi->dev, spi->irq,
-> -				    &goodix_berlin_spi_input_id, regmap);
-> +				    &goodix_berlin_spi_input_id, regmap,
-> +				    ic_data);
->   	if (error)
->   		return error;
->   
->   	return 0;
->   }
->   
-> +static const struct goodix_berlin_ic_data gt9897_data = {
-> +	.fw_version_info_addr = GOODIX_BERLIN_FW_VERSION_INFO_ADDR_A,
-> +	.ic_info_addr = GOODIX_BERLIN_IC_INFO_ADDR_A,
-> +	.read_dummy_len = GOODIX_BERLIN_SPI_READ_DUMMY_LEN_A,
-> +	.read_prefix_len = GOODIX_BERLIN_SPI_READ_PREFIX_LEN_A,
-> +};
-> +
-> +static const struct goodix_berlin_ic_data gt9916_data = {
-> +	.fw_version_info_addr = GOODIX_BERLIN_FW_VERSION_INFO_ADDR_D,
-> +	.ic_info_addr = GOODIX_BERLIN_IC_INFO_ADDR_D,
-> +	.read_dummy_len = GOODIX_BERLIN_SPI_READ_DUMMY_LEN_D,
-> +	.read_prefix_len = GOODIX_BERLIN_SPI_READ_PREFIX_LEN_D,
-> +};
-> +
->   static const struct spi_device_id goodix_berlin_spi_ids[] = {
-> -	{ "gt9916" },
-> +	{ .name = "gt9897", .driver_data = (long)&gt9897_data },
-> +	{ .name = "gt9916", .driver_data = (long)&gt9916_data },
->   	{ },
->   };
->   MODULE_DEVICE_TABLE(spi, goodix_berlin_spi_ids);
->   
->   static const struct of_device_id goodix_berlin_spi_of_match[] = {
-> -	{ .compatible = "goodix,gt9916", },
-> +	{ .compatible = "goodix,gt9897", .data = &gt9897_data },
-> +	{ .compatible = "goodix,gt9916", .data = &gt9916_data },
->   	{ }
->   };
->   MODULE_DEVICE_TABLE(of, goodix_berlin_spi_of_match);
-
-Thanks !
-
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+DQoNCj4gT24gNyBNYXIgMjAyNSwgYXQgMjowMuKAr0FNLCBHcmlnb3JpaSBTb2tvbGlrIDxnLnNv
+a29sOTlAZy1zb2tvbC5pbmZvPiB3cm90ZToNCj4gDQo+IO+7v1RoYW5rIHlvdSBzbyBtdWNoLiBI
+ZXJlIGlzIHRoZSBmaXg6DQo+IA0KPiAtLS0NCj4gW1BBVENIXSBISUQ6IGhpZC1hcHBsZTogQXBw
+bGUgTWFnaWMgS2V5Ym9hcmQgYTMxMTggVVNCLUMgc3VwcG9ydA0KPiANCj4gQWRkIEFwcGxlIE1h
+Z2ljIEtleWJvYXJkIHdpdGggZmluZ2VycHJpbnQgMjAyNCBtb2RlbCAod2l0aCBVU0ItQyBwb3J0
+KQ0KPiBkZXZpY2UgSUQgKDAzMjEpIHRvIHRob3NlIHJlY29nbml6ZWQgYnkgdGhlIGhpZC1hcHBs
+ZSBkcml2ZXIuIEtleWJvYXJkDQo+IGlzIG90aGVyd2lzZSBjb21wYXRpYmxlIHdpdGggdGhlIGV4
+aXN0aW5nIGltcGxlbWVudGF0aW9uIGZvciBpdHMNCj4gZWFybGllciAyMDIxIG1vZGVsLg0KPiAN
+Cj4gU2lnbmVkLW9mZi1ieTogR3JpZ29yaWkgU29rb2xpayA8Zy5zb2tvbDk5QGctc29rb2wuaW5m
+bz4NCj4gLS0tDQo+IGRyaXZlcnMvaGlkL2hpZC1hcHBsZS5jIHwgNSArKysrKw0KPiBkcml2ZXJz
+L2hpZC9oaWQtaWRzLmggICB8IDEgKw0KPiAyIGZpbGVzIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygr
+KQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaGlkL2hpZC1hcHBsZS5jIGIvZHJpdmVycy9o
+aWQvaGlkLWFwcGxlLmMNCj4gaW5kZXggZDkwMGRkMDVjLi5lY2RmYmRhNjYgMTAwNjQ0DQo+IC0t
+LSBhL2RyaXZlcnMvaGlkL2hpZC1hcHBsZS5jDQo+ICsrKyBiL2RyaXZlcnMvaGlkL2hpZC1hcHBs
+ZS5jDQo+IEBAIC00ODIsNiArNDgyLDcgQEAgc3RhdGljIGludCBoaWRpbnB1dF9hcHBsZV9ldmVu
+dChzdHJ1Y3QgaGlkX2RldmljZQ0KPiAqaGlkLCBzdHJ1Y3QgaW5wdXRfZGV2ICppbnB1dCwNCj4g
+IGVsc2UgaWYgKGhpZC0+cHJvZHVjdCA9PSBVU0JfREVWSUNFX0lEX0FQUExFX01BR0lDX0tFWUJP
+QVJEXzIwMjEgfHwNCj4gIGhpZC0+cHJvZHVjdCA9PSBVU0JfREVWSUNFX0lEX0FQUExFX01BR0lD
+X0tFWUJPQVJEXzIwMjQgfHwNCj4gIGhpZC0+cHJvZHVjdCA9PSBVU0JfREVWSUNFX0lEX0FQUExF
+X01BR0lDX0tFWUJPQVJEX0ZJTkdFUlBSSU5UXzIwMjEgfHwNCj4gKyBoaWQtPnByb2R1Y3QgPT0g
+VVNCX0RFVklDRV9JRF9BUFBMRV9NQUdJQ19LRVlCT0FSRF9GSU5HRVJQUklOVF8yMDI0IHx8DQoN
+Ck5pdDogY2FuIHdlIGtlZXAgYWxsIHRoZSAyMDIxIGFuZCAyMDI0IGtleWJvYXJkcyBzZXBlcmF0
+ZT8gQXMgaW4gdGhlIDMgdmFyaWFudHMgb2YgMjAyMSBmaXJzdCB0aGVuIDIwMjQ/DQo+ICBoaWQt
+PnByb2R1Y3QgPT0gVVNCX0RFVklDRV9JRF9BUFBMRV9NQUdJQ19LRVlCT0FSRF9OVU1QQURfMjAy
+MSkNCj4gIHRhYmxlID0gYXBwbGUyMDIxX2ZuX2tleXM7DQoNCkkgdGhpbmsgcmVuYW1pbmcgYXBw
+bGUyMDIxX2ZuX2tleXMgdG8gbWFnaWNfa2V5Ym9hcmRfMjAyMV9hbmRfMjAyNF9mbl9rZXlzIHdv
+dWxkIG1ha2UgbW9yZSBzZW5zZS4NCg0KPiAgZWxzZSBpZiAoaGlkLT5wcm9kdWN0ID09IFVTQl9E
+RVZJQ0VfSURfQVBQTEVfV0VMTFNQUklOR1QyX0oxMzIgfHwNCj4gQEAgLTExNjUsNiArMTE2Niwx
+MCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGhpZF9kZXZpY2VfaWQgYXBwbGVfZGV2aWNlc1tdID0g
+ew0KPiAgLmRyaXZlcl9kYXRhID0gQVBQTEVfSEFTX0ZOIHwgQVBQTEVfSVNPX1RJTERFX1FVSVJL
+IHwgQVBQTEVfUkRFU0NfQkFUVEVSWSB9LA0KPiAgeyBISURfQkxVRVRPT1RIX0RFVklDRShCVF9W
+RU5ET1JfSURfQVBQTEUsDQo+IFVTQl9ERVZJQ0VfSURfQVBQTEVfTUFHSUNfS0VZQk9BUkRfRklO
+R0VSUFJJTlRfMjAyMSksDQo+ICAuZHJpdmVyX2RhdGEgPSBBUFBMRV9IQVNfRk4gfCBBUFBMRV9J
+U09fVElMREVfUVVJUksgfSwNCj4gKyB7IEhJRF9VU0JfREVWSUNFKFVTQl9WRU5ET1JfSURfQVBQ
+TEUsDQo+IFVTQl9ERVZJQ0VfSURfQVBQTEVfTUFHSUNfS0VZQk9BUkRfRklOR0VSUFJJTlRfMjAy
+NCksDQoNCkFnYWluLCByZWdyb3VwIDIwMjEgYW5kIDIwMjQgc2VwYXJhdGVseS4NCj4gKyAuZHJp
+dmVyX2RhdGEgPSBBUFBMRV9IQVNfRk4gfCBBUFBMRV9JU09fVElMREVfUVVJUksgfCBBUFBMRV9S
+REVTQ19CQVRURVJZIH0sDQo+ICsgeyBISURfQkxVRVRPT1RIX0RFVklDRShCVF9WRU5ET1JfSURf
+QVBQTEUsDQo+IFVTQl9ERVZJQ0VfSURfQVBQTEVfTUFHSUNfS0VZQk9BUkRfRklOR0VSUFJJTlRf
+MjAyNCksDQo+ICsgLmRyaXZlcl9kYXRhID0gQVBQTEVfSEFTX0ZOIHwgQVBQTEVfSVNPX1RJTERF
+X1FVSVJLIH0sDQo+ICB7IEhJRF9VU0JfREVWSUNFKFVTQl9WRU5ET1JfSURfQVBQTEUsDQo+IFVT
+Ql9ERVZJQ0VfSURfQVBQTEVfTUFHSUNfS0VZQk9BUkRfTlVNUEFEXzIwMjEpLA0KPiAgLmRyaXZl
+cl9kYXRhID0gQVBQTEVfSEFTX0ZOIHwgQVBQTEVfSVNPX1RJTERFX1FVSVJLIHwgQVBQTEVfUkRF
+U0NfQkFUVEVSWSB9LA0KPiAgeyBISURfQkxVRVRPT1RIX0RFVklDRShCVF9WRU5ET1JfSURfQVBQ
+TEUsDQo+IFVTQl9ERVZJQ0VfSURfQVBQTEVfTUFHSUNfS0VZQk9BUkRfTlVNUEFEXzIwMjEpLA0K
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9oaWQvaGlkLWlkcy5oIGIvZHJpdmVycy9oaWQvaGlkLWlk
+cy5oDQo+IGluZGV4IDdlNDAwNjI0OS4uZDU5YzI4NDk1IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJz
+L2hpZC9oaWQtaWRzLmgNCj4gKysrIGIvZHJpdmVycy9oaWQvaGlkLWlkcy5oDQo+IEBAIC0xODYs
+NiArMTg2LDcgQEANCj4gI2RlZmluZSBVU0JfREVWSUNFX0lEX0FQUExFX01BR0lDX0tFWUJPQVJE
+XzIwMjEgICAweDAyOWMNCj4gI2RlZmluZSBVU0JfREVWSUNFX0lEX0FQUExFX01BR0lDX0tFWUJP
+QVJEXzIwMjQgICAweDAzMjANCj4gI2RlZmluZSBVU0JfREVWSUNFX0lEX0FQUExFX01BR0lDX0tF
+WUJPQVJEX0ZJTkdFUlBSSU5UXzIwMjEgICAweDAyOWENCj4gKyNkZWZpbmUgVVNCX0RFVklDRV9J
+RF9BUFBMRV9NQUdJQ19LRVlCT0FSRF9GSU5HRVJQUklOVF8yMDI0ICAgMHgwMzIxDQoNCkFnYWlu
+LCByZWdyb3VwIDIwMjEgYW5kIDIwMjQgc2VwYXJhdGVseS4NCj4gI2RlZmluZSBVU0JfREVWSUNF
+X0lEX0FQUExFX01BR0lDX0tFWUJPQVJEX05VTVBBRF8yMDIxICAgMHgwMjlmDQo+ICNkZWZpbmUg
+VVNCX0RFVklDRV9JRF9BUFBMRV9UT1VDSEJBUl9CQUNLTElHSFQgMHg4MTAyDQo+ICNkZWZpbmUg
+VVNCX0RFVklDRV9JRF9BUFBMRV9UT1VDSEJBUl9ESVNQTEFZIDB4ODMwMg0KPiAtLQ0KPiAyLjQ4
+LjENCj4gDQo+IC0tLQ0KPiBkcml2ZXJzL2hpZC9oaWQtYXBwbGUuYyB8IDUgKysrKysNCj4gZHJp
+dmVycy9oaWQvaGlkLWlkcy5oICAgfCAxICsNCj4gMiBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlv
+bnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2hpZC9oaWQtYXBwbGUuYyBiL2RyaXZl
+cnMvaGlkL2hpZC1hcHBsZS5jDQo+IGluZGV4IDNjM2Y2N2QwYmYuLmRhZjRjNTA1ZTcgMTAwNjQ0
+DQo+IC0tLSBhL2RyaXZlcnMvaGlkL2hpZC1hcHBsZS5jDQo+ICsrKyBiL2RyaXZlcnMvaGlkL2hp
+ZC1hcHBsZS5jDQo+IEBAIC00NzUsNiArNDc1LDcgQEAgc3RhdGljIGludCBoaWRpbnB1dF9hcHBs
+ZV9ldmVudChzdHJ1Y3QgaGlkX2RldmljZQ0KPiAqaGlkLCBzdHJ1Y3QgaW5wdXRfZGV2ICppbnB1
+dCwNCj4gICAgICAgICAgICAgICAgICAgICAgICB0YWJsZSA9IG1hZ2ljX2tleWJvYXJkXzIwMTVf
+Zm5fa2V5czsNCj4gICAgICAgICAgICAgICAgZWxzZSBpZiAoaGlkLT5wcm9kdWN0ID09DQo+IFVT
+Ql9ERVZJQ0VfSURfQVBQTEVfTUFHSUNfS0VZQk9BUkRfMjAyMSB8fA0KPiAgICAgICAgICAgICAg
+ICAgICAgICAgICBoaWQtPnByb2R1Y3QgPT0NCj4gVVNCX0RFVklDRV9JRF9BUFBMRV9NQUdJQ19L
+RVlCT0FSRF8yMDI0IHx8DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBoaWQtPnByb2R1Y3Qg
+PT0NCj4gVVNCX0RFVklDRV9JRF9BUFBMRV9NQUdJQ19LRVlCT0FSRF8yMDI0X1YyIHx8DQo+ICAg
+ICAgICAgICAgICAgICAgICAgICAgIGhpZC0+cHJvZHVjdCA9PQ0KDQpXaHkgYXJlIHlvdSBzZW5k
+aW5nIHRoaXMgYWdhaW4/DQo+IFVTQl9ERVZJQ0VfSURfQVBQTEVfTUFHSUNfS0VZQk9BUkRfRklO
+R0VSUFJJTlRfMjAyMSB8fA0KPiAgICAgICAgICAgICAgICAgICAgICAgICBoaWQtPnByb2R1Y3Qg
+PT0NCj4gVVNCX0RFVklDRV9JRF9BUFBMRV9NQUdJQ19LRVlCT0FSRF9OVU1QQURfMjAyMSkNCj4g
+ICAgICAgICAgICAgICAgICAgICAgICB0YWJsZSA9IGFwcGxlMjAyMV9mbl9rZXlzOw0KPiBAQCAt
+MTE1NSw2ICsxMTU2LDEwIEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgaGlkX2RldmljZV9pZCBhcHBs
+ZV9kZXZpY2VzW10gPSB7DQo+ICAgICAgICAgICAgICAgIC5kcml2ZXJfZGF0YSA9IEFQUExFX0hB
+U19GTiB8IEFQUExFX0lTT19USUxERV9RVUlSSyB8DQo+IEFQUExFX1JERVNDX0JBVFRFUlkgfSwN
+Cj4gICAgICAgIHsgSElEX0JMVUVUT09USF9ERVZJQ0UoQlRfVkVORE9SX0lEX0FQUExFLA0KPiBV
+U0JfREVWSUNFX0lEX0FQUExFX01BR0lDX0tFWUJPQVJEXzIwMjQpLA0KPiAgICAgICAgICAgICAg
+ICAuZHJpdmVyX2RhdGEgPSBBUFBMRV9IQVNfRk4gfCBBUFBMRV9JU09fVElMREVfUVVJUksgfSwN
+Cj4gKyAgICAgICB7IEhJRF9VU0JfREVWSUNFKFVTQl9WRU5ET1JfSURfQVBQTEUsDQo+IFVTQl9E
+RVZJQ0VfSURfQVBQTEVfTUFHSUNfS0VZQk9BUkRfMjAyNF9WMiksDQo+ICsgICAgICAgICAgICAg
+ICAuZHJpdmVyX2RhdGEgPSBBUFBMRV9IQVNfRk4gfCBBUFBMRV9JU09fVElMREVfUVVJUksgfA0K
+PiBBUFBMRV9SREVTQ19CQVRURVJZIH0sDQo+ICsgICAgICAgeyBISURfQkxVRVRPT1RIX0RFVklD
+RShCVF9WRU5ET1JfSURfQVBQTEUsDQo+IFVTQl9ERVZJQ0VfSURfQVBQTEVfTUFHSUNfS0VZQk9B
+UkRfMjAyNF9WMiksDQo+ICsgICAgICAgICAgICAgICAuZHJpdmVyX2RhdGEgPSBBUFBMRV9IQVNf
+Rk4gfCBBUFBMRV9JU09fVElMREVfUVVJUksgfSwNCj4gICAgICAgIHsgSElEX1VTQl9ERVZJQ0Uo
+VVNCX1ZFTkRPUl9JRF9BUFBMRSwNCj4gVVNCX0RFVklDRV9JRF9BUFBMRV9NQUdJQ19LRVlCT0FS
+RF9GSU5HRVJQUklOVF8yMDIxKSwNCj4gICAgICAgICAgICAgICAgLmRyaXZlcl9kYXRhID0gQVBQ
+TEVfSEFTX0ZOIHwgQVBQTEVfSVNPX1RJTERFX1FVSVJLIHwNCj4gQVBQTEVfUkRFU0NfQkFUVEVS
+WSB9LA0KPiAgICAgICAgeyBISURfQkxVRVRPT1RIX0RFVklDRShCVF9WRU5ET1JfSURfQVBQTEUs
+DQo+IFVTQl9ERVZJQ0VfSURfQVBQTEVfTUFHSUNfS0VZQk9BUkRfRklOR0VSUFJJTlRfMjAyMSks
+DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2hpZC9oaWQtaWRzLmggYi9kcml2ZXJzL2hpZC9oaWQt
+aWRzLmgNCj4gaW5kZXggNGY1ODNkNmYyZS4uOTUzODUwZjA0MyAxMDA2NDQNCj4gLS0tIGEvZHJp
+dmVycy9oaWQvaGlkLWlkcy5oDQo+ICsrKyBiL2RyaXZlcnMvaGlkL2hpZC1pZHMuaA0KPiBAQCAt
+MTg1LDYgKzE4NSw3IEBADQo+ICNkZWZpbmUgVVNCX0RFVklDRV9JRF9BUFBMRV9JUkNPTlRST0w1
+IDB4ODI0Mw0KPiAjZGVmaW5lIFVTQl9ERVZJQ0VfSURfQVBQTEVfTUFHSUNfS0VZQk9BUkRfMjAy
+MSAgIDB4MDI5Yw0KPiAjZGVmaW5lIFVTQl9ERVZJQ0VfSURfQVBQTEVfTUFHSUNfS0VZQk9BUkRf
+MjAyNCAgIDB4MDMyMA0KPiArI2RlZmluZSBVU0JfREVWSUNFX0lEX0FQUExFX01BR0lDX0tFWUJP
+QVJEXzIwMjRfVjIgICAweDAzMjANCj4gI2RlZmluZSBVU0JfREVWSUNFX0lEX0FQUExFX01BR0lD
+X0tFWUJPQVJEX0ZJTkdFUlBSSU5UXzIwMjEgICAweDAyOWENCj4gI2RlZmluZSBVU0JfREVWSUNF
+X0lEX0FQUExFX01BR0lDX0tFWUJPQVJEX05VTVBBRF8yMDIxICAgMHgwMjlmDQo+ICNkZWZpbmUg
+VVNCX0RFVklDRV9JRF9BUFBMRV9UT1VDSEJBUl9CQUNLTElHSFQgMHg4MTAyDQo+IC0tDQo+IDIu
+NDguMQ0KPj4gT24gVGh1LCBNYXIgNiwgMjAyNSBhdCA5OjA14oCvUE0gQWRpdHlhIEdhcmcgPGdh
+cmdhZGl0eWEwOEBsaXZlLmNvbT4gd3JvdGU6DQo+PiANCj4+IA0KPj4gDQo+Pj4+IE9uIDcgTWFy
+IDIwMjUsIGF0IDEyOjI04oCvQU0sIEFkaXR5YSBHYXJnIDxnYXJnYWRpdHlhMDhAbGl2ZS5jb20+
+IHdyb3RlOg0KPj4+IA0KPj4+IA0KPj4+IA0KPj4+PiBPbiA2IE1hciAyMDI1LCBhdCAxMjozMOKA
+r1BNLCBHcmlnb3JpaSBTb2tvbGlrIDxnLnNva29sOTlAZy1zb2tvbC5pbmZvPiB3cm90ZToNCj4+
+Pj4gDQo+Pj4+IEFkZCBBcHBsZSBNYWdpYyBLZXlib2FyZCAyMDI0IG1vZGVsICh3aXRoIFVTQi1D
+IHBvcnQpIGRldmljZSBJRCAoMDMyMSkNCj4+Pj4gdG8gdGhvc2UgcmVjb2duaXplZCBieSB0aGUg
+aGlkLWFwcGxlIGRyaXZlci4gS2V5Ym9hcmQgaXMgb3RoZXJ3aXNlDQo+Pj4+IGNvbXBhdGlibGUg
+d2l0aCB0aGUgZXhpc3RpbmcgaW1wbGVtZW50YXRpb24gZm9yIGl0cyBlYXJsaWVyIDIwMjEgbW9k
+ZWwuDQo+Pj4+IA0KPj4+PiBTaWduZWQtb2ZmLWJ5OiBHcmlnb3JpaSBTb2tvbGlrIDxnLnNva29s
+OTlAZy1zb2tvbC5pbmZvPg0KPj4+PiAtLS0NCj4+Pj4gZHJpdmVycy9oaWQvaGlkLWFwcGxlLmMg
+fCA1ICsrKysrDQo+Pj4+IGRyaXZlcnMvaGlkL2hpZC1pZHMuaCAgIHwgMSArDQo+Pj4+IDIgZmls
+ZXMgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspDQo+Pj4+IA0KPj4+PiAtLS0gYS9kcml2ZXJzL2hp
+ZC9oaWQtaWRzLmgNCj4+Pj4gKysrIGIvZHJpdmVycy9oaWQvaGlkLWlkcy5oDQo+Pj4+IEBAIC0x
+ODUsNiArMTg1LDcgQEANCj4+Pj4gI2RlZmluZSBVU0JfREVWSUNFX0lEX0FQUExFX0lSQ09OVFJP
+TDUgMHg4MjQzDQo+Pj4+ICNkZWZpbmUgVVNCX0RFVklDRV9JRF9BUFBMRV9NQUdJQ19LRVlCT0FS
+RF8yMDIxICAgMHgwMjljDQo+Pj4+ICNkZWZpbmUgVVNCX0RFVklDRV9JRF9BUFBMRV9NQUdJQ19L
+RVlCT0FSRF8yMDI0ICAgMHgwMzIwDQo+Pj4+ICsjZGVmaW5lIFVTQl9ERVZJQ0VfSURfQVBQTEVf
+TUFHSUNfS0VZQk9BUkRfMjAyNF9WMiAgIDB4MDMyMA0KPj4gDQo+PiBBMzExOCBpcyB0aGUgb25l
+IHdpdGggVG91Y2ggSUQuIE5hbWUgc2hvdWxkIGJlIFVTQl9ERVZJQ0VfSURfQVBQTEVfTUFHSUNf
+S0VZQk9BUkRfRklOR0VSUFJJTlRfMjAyNCB0byBiZSBtb3JlIGNsZWFyLg0KPj4+IA0KPj4+IEl0
+4oCZcyB0aGUgc2FtZSBJRCBhcyBVU0JfREVWSUNFX0lEX0FQUExFX01BR0lDX0tFWUJPQVJEXzIw
+MjQsIHdoeSBhcmUgeW91IGFkZGluZyB0aGlzIGFnYWluPyBUeXBvPw0KPj4+IA0KPj4+IEFsc28s
+IHBsZWFzZSB1c2Ugc3dpdGNoIGNhc2UsIHlvdSBjYW4gc3VibWl0IHlvdXIgcGF0Y2ggYXMgYSBw
+YXJ0IG9mOg0KPj4+IA0KPj4+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LWlucHV0L0E1
+MEMxQ0YwLUI5MjctNEZDRi04MjhGLTFGNUY3OUJBMzc2MkBsaXZlLmNvbS8NCj4+PiANCj4+PiBK
+dXN0IHJlc3VibWl0IHRob3NlIDIgcGF0Y2hlcyBhbG9uZyB3aXRoIHlvdXIgcGF0Y2ggYW5kIG1h
+a2UgYSB2Mi4NCj4+IA0KPiANCj4gDQo+IC0tDQo+IA0KPiBUaGFua3MhDQo+IEtpbmQgcmVnYXJk
+cywNCj4gR3JpZ29yaWkhDQo=
 
