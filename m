@@ -1,275 +1,223 @@
-Return-Path: <linux-input+bounces-10650-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10653-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30B8FA57AEB
-	for <lists+linux-input@lfdr.de>; Sat,  8 Mar 2025 15:09:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA9DA57F01
+	for <lists+linux-input@lfdr.de>; Sat,  8 Mar 2025 22:49:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D873E3B1DF6
-	for <lists+linux-input@lfdr.de>; Sat,  8 Mar 2025 14:08:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1FDB3A9821
+	for <lists+linux-input@lfdr.de>; Sat,  8 Mar 2025 21:49:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 305BE1D934B;
-	Sat,  8 Mar 2025 14:08:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0118F1EDA00;
+	Sat,  8 Mar 2025 21:49:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vJwhmt9w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gw+iAH3r"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0071BD4E5;
-	Sat,  8 Mar 2025 14:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0394549620;
+	Sat,  8 Mar 2025 21:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741442924; cv=none; b=MDpzn/ZBoA9bRePiO240YeqVeA5FSFGluf8d8OiwVfvuPueGD4zabbETJWwaGSZEmvLpvwGA9bQqzVJWLTbd7Yu65QLBkx4E7lJdvTMpS/HyYAeCWC755L1mipBy8a9yqbt8QY6j4tWHKIQty+xcALqr850HW+BzjGEH12Xu6wI=
+	t=1741470556; cv=none; b=dYonMs77+J72zow/jqWrMojVQ8ZJyuWKc/AACkeVnc3zBO/uouOlwjusQsbOUDoVG13a2Lrn6N3Po97u1EfcDQiWi4kLYbHICEzYaz2afT5NrMRfU/LwlUTCp4s6sB6j2D9cIbxNAkRu0KEoYZCbUbdFwXBjAgiuBfNS2HU9Ito=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741442924; c=relaxed/simple;
-	bh=Ib1RxKPJXDynmwe5rkzdveYc0pqL9TtucOCQXMLF+aQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lDhTf9pjsA2B8XhCAauPTro7mapsKHN0WPPsnUbIr5/Yqg/SsU0lzciKCpZxRzkw+BTyVAFxRxKkKe2iq93k/UJ1GXZdNi1MYC4suTp91Mpoea09l87zX5lDLnhpWNQNEdiCejvZr4yXxXYI4aNsVsm18YS+3OBhe/KrZlY+dGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vJwhmt9w; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 805CEC4CEFB;
-	Sat,  8 Mar 2025 14:08:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741442924;
-	bh=Ib1RxKPJXDynmwe5rkzdveYc0pqL9TtucOCQXMLF+aQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=vJwhmt9wEXKMyvyyfgyOii7S36GnSv8DBHl6qDMRxlD/mL5qIoWa4Npki09dtcRp7
-	 qoxLmbi3YtiTvOguyXcfTzAMCMgmWtx4RPvBwZzZ0gJkaEiQhtuWeJhgtf1ni9/jPb
-	 ntmtynaLx7IEt7EJbNTowItltQUVSJBKqf9n+amc+TkDYOAw2vi96L4yccJ3CREl7Y
-	 JL06d8jQp5PSGNs9K3kKPPNiufJ1y12TzTocFr5hsbAjs4+7CQKQLaWHvztgH70sW4
-	 qiQzeXvxnWVDaYuQ8gPkLNytMM4B4uMrMCDrsx3oy+sLrjWTmR7B6qjKiuLNtuuEpa
-	 ToTJIon34FHtw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74A28C282EC;
-	Sat,  8 Mar 2025 14:08:44 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Sat, 08 Mar 2025 15:08:43 +0100
-Subject: [PATCH v3 7/7] Input: synaptics-rmi4 - support fallback values for
- PDT descriptor bytes
+	s=arc-20240116; t=1741470556; c=relaxed/simple;
+	bh=ogZX1Fgf0emz5/XgrE7Jdv5XjH7+aPutVc/+AUG8ok4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DZck+DK0UCssg75aP1GpIZbM3f/ugABpwKEO+UnuPqm1HDMJZRF9kNMuU3jzvtha02z8V+J6NlZBXsTWYKMT6yYngehsHoWEVxfQQEdvLGi7pT241ApP1Sr8F+w7uiuSUDkd4GpGq0csz9w/g6GkT2OLFXTgDq2xLfpS6bphB8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gw+iAH3r; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741470555; x=1773006555;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ogZX1Fgf0emz5/XgrE7Jdv5XjH7+aPutVc/+AUG8ok4=;
+  b=Gw+iAH3raUMyQy7OAKWtJ8Ka9tZ/Z2KkBf68tcX94RIePeGdUN9njJc3
+   exc02j2jvEPbJ3rozwJiWOlispnIIIxKpKVhAx0uU1qFvPprvCjlx+j4k
+   +NWNkQ7/FZG9GF9tGBUQwUO5btdx4lEeSijg/2LFOVg6DBNs02UMXf4aP
+   JvSeW+yMK0KSYzrdwKnLMG40c2YdQuKJkLPSgdEVShTyEmeBqRtQ2acGp
+   kOK2aiWLfa5XNEXE4idV8/wlrLkBc04Km0JnNwG7DFokfmkxuFDjWEmZ4
+   E23BvIgl3KcPfNrSXHBVgXKSp2aUhoNqUVYVoOn9kL7NEeZkW5SC1IaEU
+   g==;
+X-CSE-ConnectionGUID: sCJ57nLET3+3LYKzuTSg7w==
+X-CSE-MsgGUID: OIvyMOrPTSqmfgSpaCFlrQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="42638753"
+X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
+   d="scan'208";a="42638753"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 13:49:14 -0800
+X-CSE-ConnectionGUID: TZmFUD+/TReB/RTeelOYBQ==
+X-CSE-MsgGUID: L14Hls9FQ+yTxKkK2KpU5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
+   d="scan'208";a="142863193"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 08 Mar 2025 13:49:11 -0800
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tr22e-0002Mw-0F;
+	Sat, 08 Mar 2025 21:49:08 +0000
+Date: Sun, 9 Mar 2025 05:49:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Terry Junge <linuxhid@cosmicgizmosystems.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Terry Junge <linuxhid@cosmicgizmosystems.com>,
+	Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
+	Alan Stern <stern@rowland.harvard.edu>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+	lvc-project@linuxtesting.org,
+	syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v1] HID: usbhid: Eliminate recurrent out-of-bounds bug in
+ usbhid_parse()
+Message-ID: <202503090701.715nV1DW-lkp@intel.com>
+References: <20250307045449.745634-1-linuxhid@cosmicgizmosystems.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250308-synaptics-rmi4-v3-7-215d3e7289a2@ixit.cz>
-References: <20250308-synaptics-rmi4-v3-0-215d3e7289a2@ixit.cz>
-In-Reply-To: <20250308-synaptics-rmi4-v3-0-215d3e7289a2@ixit.cz>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
- Matthias Schiffer <matthias.schiffer@ew.tq-group.com>, 
- Vincent Huang <vincent.huang@tw.synaptics.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
- ~postmarketos/upstreaming@lists.sr.ht, methanal <baclofen@tuta.io>, 
- Caleb Connolly <caleb.connolly@linaro.org>, 
- David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6298; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=Dn5bsYg4pf/Oeca1et0GD9N++L1Q1XHbzr6rlTyTyRc=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBnzE9qXHjqdifeUGdAvEjMz8T7DdSjpZMWlnOYu
- zAQbOZe63WJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCZ8xPagAKCRBgAj/E00kg
- curOD/wJdyymSHG97wQFh8EeZ1106F5az7WIyDPmIUgofVsYkTF3uasNhbkgfPE80jS85WoqIa4
- gIAp+YZEC/F//wfVz8hzOm/OFsYJJNTvnYoybV5h4MkK1U4PPo1KUyj3f+Z2UmM5I9HrkDJEiaj
- QlBtUgF9SNH34XVm4vN2PjKJLk7+zzd8fIedwYu0zhkhRoY98VDAUgn0S6R3lHmpgTxgCJh686F
- T3kc4BtmMSrLjyTEljMpU0l3WRMH/hNqRassLVwHCVIE9FB65NeknQQwUHYeRP2tknO6qoM5YGc
- UI/IPQ5ZRjdt6KzmxbzZPeDDeXzMZYEV9PY/2nngYnoDhCQvVamDcFH3gJq3FbW2hZxMgZI5noc
- rhRL690JIj9kaXtpthFeRL/G8vEuup4FQL15lGCtTIWYMVkkdFDP8s95SBUR8/SGGCUrtyzIED7
- Ss9iNQZTgr23jdG/Z3WlD0wOqUMSHmJXJDCTtm+HhaHOnWQZhbF7DMM2Gzs0S5AjsvEQGq09bMu
- ETE3dnr3vmzi4XnE5gTI57M6y39szjMX3tw1x4S+LEpmqD6Mgu3UO3LUQMtkgL5umfJ2y9qnhV4
- HNJMCT094qzX+cbETpNHiJA1cuJiTuIvohMkDId6s8FpXfNjXwejtqcWFklieRj6lrPIJj4xzoz
- epJI+EeucsSY4jQ==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250307045449.745634-1-linuxhid@cosmicgizmosystems.com>
 
-From: methanal <baclofen@tuta.io>
+Hi Terry,
 
-Some replacement displays include third-party touch ICs which do not
-expose the function number and the interrupt status in its PDT entries.
+kernel test robot noticed the following build warnings:
 
-OnePlus 6 (original touch IC)
-  rmi4_i2c 12-0020: read 6 bytes at 0x00e3: 0 (2b 22 0d 06 01 01)
+[auto build test WARNING on 58c9bf3363e596d744f56616d407278ef5f97f5a]
 
-OnePlus 6 (aftermarket touch IC)
-  rmi4_i2c 12-0020: read 6 bytes at 0x00e3: 0 (2c 23 0d 06 00 00)
+url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Junge/HID-usbhid-Eliminate-recurrent-out-of-bounds-bug-in-usbhid_parse/20250307-130514
+base:   58c9bf3363e596d744f56616d407278ef5f97f5a
+patch link:    https://lore.kernel.org/r/20250307045449.745634-1-linuxhid%40cosmicgizmosystems.com
+patch subject: [PATCH v1] HID: usbhid: Eliminate recurrent out-of-bounds bug in usbhid_parse()
+config: s390-randconfig-r133-20250308 (https://download.01.org/0day-ci/archive/20250309/202503090701.715nV1DW-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20250309/202503090701.715nV1DW-lkp@intel.com/reproduce)
 
-Introduce a new devicetree property `syna,pdt-desc` which can be used to
-provide platform-specific fallback values for users with a replacement
-display with an aftermarket touch IC.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503090701.715nV1DW-lkp@intel.com/
 
-Signed-off-by: methanal <baclofen@tuta.io>
-[codeflow adjustments, checkpatch fixes, wording]
-Signed-off-by: Caleb Connolly <caleb.connolly@linaro.org>
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- drivers/input/rmi4/rmi_driver.c | 73 ++++++++++++++++++++++++++++++++++++-----
- drivers/input/rmi4/rmi_driver.h |  2 ++
- include/linux/rmi.h             |  3 ++
- 3 files changed, 70 insertions(+), 8 deletions(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
-index 2790f00a58bc66c04656d0cd1b4afe9f843ee093..f233c0b1f8e6a936089fd81344c46b6741d3d82d 100644
---- a/drivers/input/rmi4/rmi_driver.c
-+++ b/drivers/input/rmi4/rmi_driver.c
-@@ -461,9 +461,10 @@ static int rmi_driver_reset_handler(struct rmi_device *rmi_dev)
- 	return 0;
- }
- 
--static int rmi_read_pdt_entry(struct rmi_device *rmi_dev,
--			      struct pdt_entry *entry, u16 pdt_address)
-+static int rmi_read_pdt_entry(struct rmi_device *rmi_dev, struct pdt_entry *entry,
-+			      struct pdt_scan_state *state, u16 pdt_address)
- {
-+	const struct rmi_device_platform_data *pdata = rmi_get_platform_data(rmi_dev);
- 	u8 buf[RMI_PDT_ENTRY_SIZE];
- 	int error;
- 
-@@ -474,6 +475,21 @@ static int rmi_read_pdt_entry(struct rmi_device *rmi_dev,
- 		return error;
- 	}
- 
-+	if (pdata->pdt_fallback_size > state->pdt_count * RMI_OF_PDT_DESC_CELLS + 1) {
-+		/* Use the description bytes from DT */
-+		buf[5] = pdata->pdt_fallback_desc[state->pdt_count * RMI_OF_PDT_DESC_CELLS];
-+		buf[4] = pdata->pdt_fallback_desc[state->pdt_count * RMI_OF_PDT_DESC_CELLS + 1];
-+
-+		error = rmi_read_block(rmi_dev, pdt_address, buf,
-+				RMI_PDT_ENTRY_SIZE - 2);
-+		if (error) {
-+			dev_err(&rmi_dev->dev,
-+					"Read PDT entry at %#06x failed, code: %d.\n",
-+					pdt_address, error);
-+			return error;
-+		}
-+	}
-+
- 	entry->page_start = pdt_address & RMI4_PAGE_MASK;
- 	entry->query_base_addr = buf[0];
- 	entry->command_base_addr = buf[1];
-@@ -551,7 +567,7 @@ static int rmi_scan_pdt_page(struct rmi_device *rmi_dev,
- 	int retval;
- 
- 	for (addr = pdt_start; addr >= pdt_end; addr -= RMI_PDT_ENTRY_SIZE) {
--		error = rmi_read_pdt_entry(rmi_dev, &pdt_entry, addr);
-+		error = rmi_read_pdt_entry(rmi_dev, &pdt_entry, state, addr);
- 		if (error)
- 			return error;
- 
-@@ -1028,9 +1044,11 @@ static int rmi_driver_remove(struct device *dev)
- }
- 
- #ifdef CONFIG_OF
--static int rmi_driver_of_probe(struct device *dev,
--				struct rmi_device_platform_data *pdata)
-+static int rmi_driver_of_probe(struct rmi_device *rmi_dev,
-+			       struct rmi_device_platform_data *pdata)
- {
-+	struct device *dev = rmi_dev->xport->dev;
-+	u8 buf[RMI_PDT_ENTRY_SIZE];
- 	int retval;
- 
- 	retval = rmi_of_property_read_u32(dev, &pdata->reset_delay_ms,
-@@ -1038,11 +1056,50 @@ static int rmi_driver_of_probe(struct device *dev,
- 	if (retval)
- 		return retval;
- 
-+	/*
-+	 * In some aftermerket touch ICs, the first PDT entry is empty and
-+	 * the function number register is 0. If so, the platform
-+	 * may have provided backup PDT entries in the device tree.
-+	 */
-+
-+	retval = rmi_read_block(rmi_dev, PDT_START_SCAN_LOCATION,
-+			buf, RMI_PDT_ENTRY_SIZE);
-+	if (retval) {
-+		dev_err(dev, "Read PDT entry at %#06x failed, code: %d.\n",
-+			PDT_START_SCAN_LOCATION, retval);
-+		return retval;
-+	}
-+
-+	if (!RMI4_END_OF_PDT(buf[5]))
-+		return 0;
-+
-+	pdata->pdt_fallback_size = of_property_count_u8_elems(dev->of_node,
-+						  "syna,pdt-fallback-desc");
-+
-+	/* The rmi4 driver would fail later anyway, so just error out now. */
-+	if (pdata->pdt_fallback_size == -EINVAL) {
-+		dev_err(dev, "First PDT entry is empty and no backup values provided\n");
-+		return -EINVAL;
-+	}
-+
-+	if (pdata->pdt_fallback_size < 0) {
-+		dev_err(dev, "syna,pdt-fallback-desc property was not specified properly: %d\n",
-+			pdata->pdt_fallback_size);
-+		return pdata->pdt_fallback_size;
-+	}
-+
-+	pdata->pdt_fallback_desc = devm_kzalloc(dev, pdata->pdt_fallback_size, GFP_KERNEL);
-+
-+	retval = of_property_read_u8_array(dev->of_node, "syna,pdt-fallback-desc",
-+		pdata->pdt_fallback_desc, pdata->pdt_fallback_size);
-+	if (retval < 0)
-+		return retval;
-+
- 	return 0;
- }
- #else
--static inline int rmi_driver_of_probe(struct device *dev,
--					struct rmi_device_platform_data *pdata)
-+static inline int rmi_driver_of_probe(struct rmi_device *rmi_dev,
-+				      struct rmi_device_platform_data *pdata)
- {
- 	return -ENODEV;
- }
-@@ -1163,7 +1220,7 @@ static int rmi_driver_probe(struct device *dev)
- 	pdata = rmi_get_platform_data(rmi_dev);
- 
- 	if (rmi_dev->xport->dev->of_node) {
--		retval = rmi_driver_of_probe(rmi_dev->xport->dev, pdata);
-+		retval = rmi_driver_of_probe(rmi_dev, pdata);
- 		if (retval)
- 			return retval;
- 	}
-diff --git a/drivers/input/rmi4/rmi_driver.h b/drivers/input/rmi4/rmi_driver.h
-index 0ecbd19cefffe00ce7c8001db6479a2e213ac466..67a04133a4d85c56d80d0eafee65797319c75c54 100644
---- a/drivers/input/rmi4/rmi_driver.h
-+++ b/drivers/input/rmi4/rmi_driver.h
-@@ -31,6 +31,8 @@
- #define RMI_PDT_FUNCTION_VERSION_MASK   0x60
- #define RMI_PDT_INT_SOURCE_COUNT_MASK   0x07
- 
-+#define RMI_OF_PDT_DESC_CELLS 2
-+
- #define PDT_START_SCAN_LOCATION 0x00e9
- #define PDT_END_SCAN_LOCATION	0x0005
- #define RMI4_END_OF_PDT(id) ((id) == 0x00 || (id) == 0xff)
-diff --git a/include/linux/rmi.h b/include/linux/rmi.h
-index ab7eea01ab4274bfc9efcefcdb0cced6ec34966f..974597960b5ee61b670ab55a78c317710022d7cc 100644
---- a/include/linux/rmi.h
-+++ b/include/linux/rmi.h
-@@ -214,6 +214,9 @@ struct rmi_device_platform_data {
- 	int reset_delay_ms;
- 	int irq;
- 
-+	u8 *pdt_fallback_desc;
-+	int pdt_fallback_size;
-+
- 	struct rmi_device_platform_data_spi spi_data;
- 
- 	/* function handler pdata */
+>> drivers/hid/usbhid/hid-core.c:1055:4: warning: format specifies type 'unsigned char' but the argument has type 'int' [-Wformat]
+                           hdesc->bNumDescriptors - 1);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:1239:31: note: expanded from macro 'hid_warn'
+           dev_warn(&(hid)->dev, fmt, ##__VA_ARGS__)
+                                 ~~~    ^~~~~~~~~~~
+   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
+           dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                                       ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
+                                ~~~    ^~~~~~~~~~~
+   1 warning generated.
+
+
+vim +1055 drivers/hid/usbhid/hid-core.c
+
+   979	
+   980	static int usbhid_parse(struct hid_device *hid)
+   981	{
+   982		struct usb_interface *intf = to_usb_interface(hid->dev.parent);
+   983		struct usb_host_interface *interface = intf->cur_altsetting;
+   984		struct usb_device *dev = interface_to_usbdev (intf);
+   985		struct hid_descriptor *hdesc;
+   986		struct hid_class_descriptor *hcdesc;
+   987		u32 quirks = 0;
+   988		unsigned int rsize = 0;
+   989		char *rdesc;
+   990		int ret;
+   991	
+   992		quirks = hid_lookup_quirk(hid);
+   993	
+   994		if (quirks & HID_QUIRK_IGNORE)
+   995			return -ENODEV;
+   996	
+   997		/* Many keyboards and mice don't like to be polled for reports,
+   998		 * so we will always set the HID_QUIRK_NOGET flag for them. */
+   999		if (interface->desc.bInterfaceSubClass == USB_INTERFACE_SUBCLASS_BOOT) {
+  1000			if (interface->desc.bInterfaceProtocol == USB_INTERFACE_PROTOCOL_KEYBOARD ||
+  1001				interface->desc.bInterfaceProtocol == USB_INTERFACE_PROTOCOL_MOUSE)
+  1002					quirks |= HID_QUIRK_NOGET;
+  1003		}
+  1004	
+  1005		if (usb_get_extra_descriptor(interface, HID_DT_HID, &hdesc) &&
+  1006		    (!interface->desc.bNumEndpoints ||
+  1007		     usb_get_extra_descriptor(&interface->endpoint[0], HID_DT_HID, &hdesc))) {
+  1008			dbg_hid("class descriptor not present\n");
+  1009			return -ENODEV;
+  1010		}
+  1011	
+  1012		if (!hdesc->bNumDescriptors ||
+  1013		    hdesc->bLength != sizeof(*hdesc) +
+  1014				      (hdesc->bNumDescriptors - 1) * sizeof(*hcdesc)) {
+  1015			dbg_hid("hid descriptor invalid, bLen=%hhu bNum=%hhu\n",
+  1016				hdesc->bLength, hdesc->bNumDescriptors);
+  1017			return -EINVAL;
+  1018		}
+  1019	
+  1020		hid->version = le16_to_cpu(hdesc->bcdHID);
+  1021		hid->country = hdesc->bCountryCode;
+  1022	
+  1023		if (hdesc->rpt_desc.bDescriptorType == HID_DT_REPORT)
+  1024			rsize = le16_to_cpu(hdesc->rpt_desc.wDescriptorLength);
+  1025	
+  1026		if (!rsize || rsize > HID_MAX_DESCRIPTOR_SIZE) {
+  1027			dbg_hid("weird size of report descriptor (%u)\n", rsize);
+  1028			return -EINVAL;
+  1029		}
+  1030	
+  1031		rdesc = kmalloc(rsize, GFP_KERNEL);
+  1032		if (!rdesc)
+  1033			return -ENOMEM;
+  1034	
+  1035		hid_set_idle(dev, interface->desc.bInterfaceNumber, 0, 0);
+  1036	
+  1037		ret = hid_get_class_descriptor(dev, interface->desc.bInterfaceNumber,
+  1038				HID_DT_REPORT, rdesc, rsize);
+  1039		if (ret < 0) {
+  1040			dbg_hid("reading report descriptor failed\n");
+  1041			kfree(rdesc);
+  1042			goto err;
+  1043		}
+  1044	
+  1045		ret = hid_parse_report(hid, rdesc, rsize);
+  1046		kfree(rdesc);
+  1047		if (ret) {
+  1048			dbg_hid("parsing report descriptor failed\n");
+  1049			goto err;
+  1050		}
+  1051	
+  1052		if (hdesc->bNumDescriptors > 1)
+  1053			hid_warn(intf,
+  1054				"%hhu unsupported optional hid class descriptors\n",
+> 1055				hdesc->bNumDescriptors - 1);
+  1056	
+  1057		hid->quirks |= quirks;
+  1058	
+  1059		return 0;
+  1060	err:
+  1061		return ret;
+  1062	}
+  1063	
 
 -- 
-2.47.2
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
