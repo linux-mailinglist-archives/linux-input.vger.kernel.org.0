@@ -1,58 +1,58 @@
-Return-Path: <linux-input+bounces-10677-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10678-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D44A58F20
-	for <lists+linux-input@lfdr.de>; Mon, 10 Mar 2025 10:12:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD81A58F2A
+	for <lists+linux-input@lfdr.de>; Mon, 10 Mar 2025 10:13:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F9E9188FA28
-	for <lists+linux-input@lfdr.de>; Mon, 10 Mar 2025 09:12:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 755E9188FA9E
+	for <lists+linux-input@lfdr.de>; Mon, 10 Mar 2025 09:13:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16BE121422E;
-	Mon, 10 Mar 2025 09:12:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 188F52248B4;
+	Mon, 10 Mar 2025 09:13:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="vKkH1b2u"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="WVEYgIWK"
 X-Original-To: linux-input@vger.kernel.org
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19011036.outbound.protection.outlook.com [52.103.68.36])
+Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19010001.outbound.protection.outlook.com [52.103.68.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C12170826;
-	Mon, 10 Mar 2025 09:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4034A2206A4;
+	Mon, 10 Mar 2025 09:13:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.1
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741597966; cv=fail; b=FksjEYHIGXEcVmsZuD/LKTau3Uv7sVLMm+Dsn5S7OuvNLICij6GCPQ9cLTII5pjOdmdky63TbjelNTitmdzmkvCXeab4ZR2Tr8fpDdvlX94y6ico/rBsbPWfOe6wpMhtrDdnKqu4bMca2a97C/nF6SMigl3aiZaSOkO+v3mZXGA=
+	t=1741598004; cv=fail; b=BOYyVlO8TsEUcQ6iuwdBZmhiA42+UnrAhTvRVMsbQxZQyeGGQmsrfpaDikX17H18VriMkB8sTwnv/9rKKiDmAdRoBvYBAEIRARvn8fviQLlw8JSZICM9lTQN7+EmdMei7s9Yt/LBXubFlIIU4e4QyIbxT3PSvDp8KTj01lrDP10=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741597966; c=relaxed/simple;
-	bh=Hd6y0t7ybwlnGFKggZ0+d1s87oGPE1rRMDOzDiMCMXc=;
+	s=arc-20240116; t=1741598004; c=relaxed/simple;
+	bh=eFqnGs/8/i44OtRFQ+w//BfIyVvfgW6k1ilbQIKRSF4=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=IDjfi5vT2cSL9uQnnwShGcPmUdkef9h3FQ1Vz6jx3KoYk4lnYRv1HJWDBOoNth30ByVWBJ+FuubAApTSQ46SysIlC3QYrfIR3t5oM6lDL/4hgqPBqXzpBXjaJ//PuPT9t2MUyCPirub41GkRK3S3Uv9bdStwYnNvyjnDzRLe8mI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=vKkH1b2u; arc=fail smtp.client-ip=52.103.68.36
+	 Content-Type:MIME-Version; b=afA8ZSuJkhR6u1X7z1or/N93ycuE5hSZkSK2JtdvnhAPitTKVWyojXTX380lwI23OoPaQQ8PCXQK7Jxn0MK/iqhw3h5fd9mK9aaMvQBrFzVT/NUZK1owX+BG0HWAher/vNn9JLnYJJn+wJaHXWf8vSeCVy1XiI2sOtwRAMf0r28=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=WVEYgIWK; arc=fail smtp.client-ip=52.103.68.1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bxAgG5ncGc/ngURwz+rEAzhCqQyLvunEByBm6hM6BjlF1gBMiHBlFw5f+D8yFTZw2W6o9yYf9wBKh+r+fcnqVgwwOkQmZ8ktie4aJLn6RdYrPrdD9IHGcvXIa2/D7Ynbli7C3DrBLhXFMHMju/yTCGzQRTBy2re4DtqldKZTkmthzp28daw5Kw/awdrA/P363Lhe25qHrcaECCKcQNyDgoBIa6erjhXwpZJsAQv7L9F0z1sXAtqHF5HJ0kUhCHM5jFOaZb/OiBeMtQkdMVIHcLpa3LWqjm1J+rPvf4oJOaontlZYlOr6MC8uoH30p/B/R5/Lssxp8gkAe9e3qREG+w==
+ b=KnCA+iCJDKurISBToJgeadSP1uQCl810CxF8tS9CkzmXqXJeeKr7vxd538TnuGS0pMO2q9q/h46kw30QGfIGAlAvPTGKzDAG3VaqXaRRPJAXjbwQc41QhDIG3Sp1k5VP5aKWBti56oj3QPvHAZ4oBxegoC67wwCy3HxVpRmAEltGjQhZcmOFvr4XbkHBGnTEZRGzEnkiba2/LB1S5V4FqlqBNx97cAcM5ysjZusLDJ5Da729wOztmmztQ4I7hCuAyp8CPycDpfX96WU5WcB97fviceQxv4yy6SPGiimAIqF2GoDtLioaVVU/Jt30XF0wV51Gk6MCOhgQTZ3PYeKNjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=74JDL78FFxPmkNw5CBr/tGtgziCBGn5Q7VmZhATL5CM=;
- b=BPcefS3SP7yEevj+mzXBc5ylxE9sBJ4YFeFPgwkDIwuRH8NPvHIoXjzPNwJswH16WLP4TISdW8Garhofi2YC082mX95PmGOFXZwRd3xun33fo/MYSpXkdtCULufQpSksNw/EzUz642/hnteODy5MBLjbeZ4eGrfWY8FTchn4zYigQgRHWS3RleZ34c3Y/pzf/2irN8O23aqwii6VsVwWkYrDWZs/ncnZRFUaD2IK5DFSOI1roJx5dcIpde7XdikQsQbpUmfBQvayiAS4JWLi4iYLfhnoeBXLOLnBTkrBn95Vl+wYDkm/Xp2mKws4AfBSzvlv0jFy28Gj0steTkssbw==
+ bh=HjSltGec9qsTH8QrOjYyF6dlhYH67W89spYjkatgt+8=;
+ b=kEMuxZPsyWdhED/Bg8xdZ0FXGkhM/nAgN1JyvfX9HJGXOHVVyHPuhzgkMVXG/3KiRRGQp1UzbganEfrhujpvuCUez3sxJ3XCdHZMJNA797O+KBns0l3m/v7gIitmXZJJlubf/hfyvx+q/Oa9oLtxHqMubgXHHFAWVu/FEJHVIK71ycQ8XSnQ5kuVlB+XWBWLt2eI7+axRbIsnasGeH5XAhOIZfoO97DDt6NEilm7dF9RwKQf9BrJinSdh4d2MoTwSPJkZhwUC/zA01EoO8/QZZucwh0yWXrHEBxEu3PFRJ8T01Nfdb8i54lvcurA2OtAeHHElSrKHfesrdiUihUd/Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=74JDL78FFxPmkNw5CBr/tGtgziCBGn5Q7VmZhATL5CM=;
- b=vKkH1b2ugy1qT33Gl2aZOMhRs5FVrW+taWCGAQEWWUk58s9WWFobdXuOqlulgP+DctOpCIxHdWJ9IkEGVirtJUS7V83h0qeEyGQFdba8ktgmzneadBYhhR08gYAaMpqT5QJHcxCG1OtjKjLm2ePyvrA+15cX1afw+/yk4cg93xuaIyZg8pO1gz+Sajk8RPRjkd/toqzvQto4LWue89m+ILYEHS0bhhH8WxCJqeNJabap3CnS8VMC3vgFA0+HV38ZHuZ7UVLVjHKc8F/mxsLyLwXLF9XstMqW4u+FO4y82uMGGpYeLwQ66eVi4kJQK3xecI0VsHEv74xTgOxlE0or5Q==
+ bh=HjSltGec9qsTH8QrOjYyF6dlhYH67W89spYjkatgt+8=;
+ b=WVEYgIWKstcSeo73I6aur4x0EjmGi3r2plICXwezfqBHFjv35iTZftmpItC5W5nlwG2PpQgjjskcg9E5aEMPart9uRs+4d/DcHWclnQrErjrlSEph64ZoZP5aM+JQCswBoc1fLSA4E7VEYMGaKjm4wPkD6xxR7C7dM2Tiqj5kemxSl9os9gJJZdMVYyysxPE2j/+vi+kGtQYNQmTaeM2bqNbD1pi6zyVXFvIpeXaSp2kb2BRagJExv8+gMvwc9A56JMrKGJv1wiVJK1Nusg03DsH+YJ5cBwvHwY9RFB/ntqeR6XK87ztPDzGxPn8qMMyMWnYH2WvzTOpDz/ECVu9Sw==
 Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
  by MAYPR01MB10587.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:159::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.26; Mon, 10 Mar
- 2025 09:12:37 +0000
+ 2025 09:13:18 +0000
 Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8511.025; Mon, 10 Mar 2025
- 09:12:37 +0000
+ 09:13:18 +0000
 From: Aditya Garg <gargaditya08@live.com>
 To: Jiri Kosina <jikos@kernel.org>, Jiri Kosina <jkosina@suse.com>, Benjamin
  Tissoires <benjamin.tissoires@redhat.com>, "bentiss@kernel.org"
@@ -61,13 +61,13 @@ CC: Kerem Karabay <kekrby@gmail.com>, Orlando Chamberlain
 	<orlandoch.dev@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>, Linux Kernel
  Mailing List <linux-kernel@vger.kernel.org>, "linux-input@vger.kernel.org"
 	<linux-input@vger.kernel.org>
-Subject: [PATCH RESEND 2/5] HID: multitouch: support getting the tip state
- from HID_DG_TOUCH fields in Apple Touch Bar
-Thread-Topic: [PATCH RESEND 2/5] HID: multitouch: support getting the tip
- state from HID_DG_TOUCH fields in Apple Touch Bar
-Thread-Index: AQHbkZyR09yrvivHAU+hr8BQkrWIYQ==
-Date: Mon, 10 Mar 2025 09:12:37 +0000
-Message-ID: <0699DD36-24C5-4859-85BF-75480B87128F@live.com>
+Subject: [PATCH RESEND 3/5] HID: multitouch: take cls->maxcontacts into
+ account for Apple Touch Bar even without a HID_DG_CONTACTMAX field
+Thread-Topic: [PATCH RESEND 3/5] HID: multitouch: take cls->maxcontacts into
+ account for Apple Touch Bar even without a HID_DG_CONTACTMAX field
+Thread-Index: AQHbkZypZAY1oMb9jU2pdgjB7D6KRQ==
+Date: Mon, 10 Mar 2025 09:13:18 +0000
+Message-ID: <F34F161B-0904-4E83-94CA-091EF716A78A@live.com>
 References: <ECE4880B-2A87-4147-B83B-2D832639F3B2@live.com>
 In-Reply-To: <ECE4880B-2A87-4147-B83B-2D832639F3B2@live.com>
 Accept-Language: en-IN, en-US
@@ -77,55 +77,56 @@ X-MS-TNEF-Correlator:
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|MAYPR01MB10587:EE_
-x-ms-office365-filtering-correlation-id: 89a5e1cf-a026-42e0-5512-08dd5fb3b389
+x-ms-office365-filtering-correlation-id: 5b987ea5-4bc5-4aee-e255-08dd5fb3cbfb
 x-microsoft-antispam:
- BCL:0;ARA:14566002|7092599003|461199028|15080799006|19110799003|8060799006|8062599003|41001999003|440099028|102099032|3412199025;
+ BCL:0;ARA:14566002|15080799006|19110799003|8060799006|8062599003|7092599003|461199028|102099032|3412199025|440099028|11091999006|12071999003|21061999003;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?CEf/Uscj3XroRPIea890KzTP+BqPNTT+u532gC9kkU33Cz1ZvOhcKBHO6Px5?=
- =?us-ascii?Q?i+erWh6SuRQb3X09+Lp3YzB5zfRTPDvx+HfaNtlBaM0lKaBb+aspD7skTrCM?=
- =?us-ascii?Q?TPKoC5/0rjMP2zmQfjUobqUYRGgUFQVst6p+Pz0DBFz70xgPCwbOGLBKIugw?=
- =?us-ascii?Q?6d1r1qadAkKBKbo/f/4Xe/ywwi3bQzA5wlftI6nodyBmvVnUM07WZQ3VCZJg?=
- =?us-ascii?Q?/Kc6JAQIc1GGWXAad5tkTcmVUbs/kna2Jwsv1boBURtDI7Hhm43lFzGuS/MO?=
- =?us-ascii?Q?xfJSRTfHaFmpY1qbupMsYxNdzqJnM6NTM17zPtuFD2wxgCzwcQ6W6NbUrUaB?=
- =?us-ascii?Q?tnrRv7iMMwy8VVVSAsjK5X0iFKkJds+2JWFjFgIbsRJZArr754K9xf3nASSP?=
- =?us-ascii?Q?US1513TvAEJan8fUEDwtrs64GtWTe5ZSvRck/bF7TvTYA+lOYwOhBlqbLjtv?=
- =?us-ascii?Q?w/Y7BPiO0wYZmbcSyvfpWIQjQ8xpNdy7e+QB3WPRuYDxXOWK6VDjlsjFz/sC?=
- =?us-ascii?Q?U9vg9tsf19a1g0og6A/tn51E5OfknUI700onj+Eo2kdhWvuYSDdRK1uvmkhU?=
- =?us-ascii?Q?vdlB0Mwm4BkTf/3hvoPjFsDbtqVz5R+CdLsENZ7GRhavwTkXiHnfXgUh0002?=
- =?us-ascii?Q?FwdumKcbypOxUesMDyAqBSIzyKFYSg9F1DXxXwPM+eaReyYpFEDaWTlZIKGA?=
- =?us-ascii?Q?51O2y1foX1Qyxz74I9lq4HI2upsVkGFVOETyVYs+rrk8C1bznPkYuF03jrc4?=
- =?us-ascii?Q?oiCxHfcmbHf8oifFqeFT8SicJEicfAfEYkv0IZtFNZs6Z31msMoc3NWvxNep?=
- =?us-ascii?Q?wXhLtK3hjjy4TkS6+7JRUhifElADhgP6l3q80YNCbp57VQCmY3yIbwOnKBBp?=
- =?us-ascii?Q?j/P+bCTnjszh5+R8MVL2a2G6jaZ0qLu8HMppcj2FEwOMr4RB131TOGIhQtLY?=
- =?us-ascii?Q?UAYwbbC3cWe3uKGfs/HEPk9+lmwLOmloRwFKcIyZ5hPwDY4Nut7dgr/XoV6C?=
- =?us-ascii?Q?XS1n42YbXbwB4j0g4n80yW1tlAhJ08g+2hkAV1AF1KA9SCC98wghKpT3GTdy?=
- =?us-ascii?Q?ggW1LqsLK3qkbOYAGfEGDVk2rpErST4TPpWwyDiHRYzUy1TDbOw=3D?=
+ =?us-ascii?Q?6JjaCydg1DvnL29hUf8oGkiM7w2+vaa+W2upJn0OsHJykl6fuu2SqSCZJ3is?=
+ =?us-ascii?Q?vJ41XSWNBsMnWRUG3q5WtoVLbhtp+marMn9qpy5fB4u5PIMxzbcck3OV+My8?=
+ =?us-ascii?Q?PEjCY8CAWij9cr+6jFqd6Qz/Q7U1ZYUwf/OXY82C7A5Svg2OHHoFtRn0rl9c?=
+ =?us-ascii?Q?Id2tQdCYVK3UzT5AmYXzIa5Jw/Kr+0ZPSeWNPOdQmI4ryoBQJs43bxLqfUpX?=
+ =?us-ascii?Q?wxrLdC2kp3vp1fMrN3Z5gZa36oFDVzy0l6bh84+GuTOii4ki7cX8kCroDXqG?=
+ =?us-ascii?Q?wguXMYxnjMjMPUkjj8r9l7iU+o62Wi+U9gpEYvgM3D+nJJA74yfVw5fkF4nW?=
+ =?us-ascii?Q?j6lXDAl1lu2DuZngfBCkgHnWlUEk+xIY1U71bDwvJuxFpNu1+H9nFqrxok0R?=
+ =?us-ascii?Q?FgZAQD/L311omh7pIfpslpI2lZdA9D5VH8bNg4N+V7mcAesal2dkOvf+BLIp?=
+ =?us-ascii?Q?Lfy4wrNO/kJqnpJg/ZI1cXhzOd2tqcUOM4WjQIJYCzqvc2JsHqaUKbXxRby8?=
+ =?us-ascii?Q?a5OBR7/+A31lOEFJbulzI/yAWsQjKn7uXWLpADEYy+z6KLm2R085jWukyNn+?=
+ =?us-ascii?Q?1If7gwyfgWofqKImbrFN69VyMohgmUau0obLU2kO0SP3XnAz9vV0tyE7/k55?=
+ =?us-ascii?Q?ZcORA62vr5nVrSpq9fDib6PyEzItjnq/Emc/ieKbE+/jgLPxrYR1EilDs0wC?=
+ =?us-ascii?Q?6jDhnIAVHdaJIzRs86ACGilYssbgXBQNm+SEJT/g4i7AOt6dWYKT51LvHrOO?=
+ =?us-ascii?Q?mB4DbmITQO2s0Odf50hL+HZmtryiJf8mp3+v0Zx6Jq8Vx0nab2hUk4Hy3mu3?=
+ =?us-ascii?Q?lScvoFPAdbTLq2XyfaNhooFNL3Hjw0UR/UrmvcG0W3arbdqZOQo1SZzWmZ8t?=
+ =?us-ascii?Q?de6Nqfa572BCD4LAphQBNb/+movh2z88JS829lvsJbRrl8HFbM4zTXRSnKQs?=
+ =?us-ascii?Q?5M+ltkL1Eda/qU5XbNhokzZXLOnMvpK5/v5YiVfAqtib6RiRYb50jfs0VSGw?=
+ =?us-ascii?Q?Tr+MWwDCsUr/z6DBrDfex0AisaYmSdAUmPFmVk5Q4xsqtVQSFIaJYuz2PMur?=
+ =?us-ascii?Q?RKogLcHvMieLh2B83hAZW+0Olix75Zilkpurpc7wu9yM7pb2o7/oktqxPZlD?=
+ =?us-ascii?Q?/jgpvV/aSqJM3cb1J1pH1U12SJJ5S92b70tjz8AlJgHTK9GOY9bbLq0=3D?=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?gGtc6CVbjAa+k+xaURvQllSlFvG0m6lRExVRcpi8VUCzeDxv+h0T23aFjdsV?=
- =?us-ascii?Q?4k4p8hCzmjv1U4LLI1I48fei7CDJC6/kJ1JHmJOTWFAeF4IFZAeAa5ydkFkk?=
- =?us-ascii?Q?k79yDps7v/rKzPGZMt7mDmq2nFiFyx67Mf9/V3/wAOoL5ksB1LKyr+svM17K?=
- =?us-ascii?Q?4cKHm4Quyxi/xJcUbfmJ2QlcK10p18+4oX6O7266JmaBg1UOFqJfmmSZeBzc?=
- =?us-ascii?Q?Xcq9ZF+ndK15TAX/k02uqc4ch/WzeBForqWworkWt/I0kcsa03xgZ8ru9YVy?=
- =?us-ascii?Q?ndiooNgTgd7UXLnBPcD8n4bUd2/xiHVkiM6S5xkHSiqGtB0kdQMxkdPf8O64?=
- =?us-ascii?Q?etaVmHXOxXebJueO1mhMp9SIj2+0ul+SVUBmmvZA+L4vbL6tPNOVXxcUvQXk?=
- =?us-ascii?Q?4XLO0p4GU5Ta3djQC1MCmmL2IT+fR5aAvgLfAmfMigQeOS/wmVnq6MXbiAp5?=
- =?us-ascii?Q?1XJCWsKQgPz5JmbdLRJBYJJrhmCXYtTsDz3Or2h2bE+kqc+PsI/Fy6TVxeQe?=
- =?us-ascii?Q?KtOInd1vIgFNfuj76QMZwBCqMyhvqkggeETNbmymLTI4SKcoo0p3xIr5hMx2?=
- =?us-ascii?Q?eUDOGipRFKwt9rZ4FCiwf/pPikZhfEHf3bD9xIig2Dgh0jZ2KwwbhWNgaQNI?=
- =?us-ascii?Q?GN6UhRzRw6/Go7a0lbd2b9p/ipBnPRYKUUfGxPciKRud7H/8+Ts6dXIb6GGl?=
- =?us-ascii?Q?N3jieL4vjCHY6fG9xyle/mLx7VKajwPiWOLw8uidfIRFxvdzUoMGZ6NKdnVi?=
- =?us-ascii?Q?IVuoIhc+GCb+tUzWw/kxUrmhenKps2185/r2zRmYs73T+ktGVoHiUIOMdH0S?=
- =?us-ascii?Q?5gZf03GtvVZQWsEjzfvDnSLIH0xf5RIkXKroD+Nfojjb9gqfXcVxW7eccKu3?=
- =?us-ascii?Q?IROfy31ar+j4/9qIO6/RIoVxUyL8ZgY6ND01oDmSnKYjmOdQH2dEuRYk5tGT?=
- =?us-ascii?Q?Qx7PmRC1Kv4fGTBIpM2BEgg90sNY5xItzCBPlLMuqs4C/ioMWhOr9uGU67Db?=
- =?us-ascii?Q?Wkv0h4gL3d6JNGqI8GFr90JO1nU0XCIshVi2eMRqDeYltGFYVaaEGo9Prai5?=
- =?us-ascii?Q?VGK6DSCyVgaDHlJkzc7FoSUx/h6eJOFyrPvoUSS/0VLBlHsVEyUdlM08p8XP?=
- =?us-ascii?Q?/cbbWXVE3MCfbhphEeIW7BQnj1E0C2CGiReV6c3BD6P1xS++7rf7KgenR3/d?=
- =?us-ascii?Q?SdQeQMglCH0NsSnz9DE8EyVPHk86gpXrmsksl/UijHfPci3XyPjeR+uEZqs2?=
- =?us-ascii?Q?wtixu/VELQF9ztG/NeMe?=
+ =?us-ascii?Q?Lb7JjwfhkO6beZZkce6p+etK8zDl6urRFAk4VS9jePfa3fE+I9mvmHdWCmXt?=
+ =?us-ascii?Q?IH6KNft4Dcz5oAoe9qV7o24uHVpRZ79DW8KriwBDP99TlVe+pWnLBer23W3u?=
+ =?us-ascii?Q?/sQV0sJdVOdJkgzPWuAKR99ptpvD32vx+SXDlCtGWzDzu8ieNrZa7bKohutL?=
+ =?us-ascii?Q?tNU+6O0WggmYkuqOmyQQoSwO8NoPCr9SUu/2+m+UZQBf/lQcAQ/WEiz5XMzf?=
+ =?us-ascii?Q?5rSZUwmoY6cRSKAwQCJBFce7MMNtQ1BRiNS0FapY5s0NpaKQCMTasZYoKdcO?=
+ =?us-ascii?Q?2NdwyZYJSStcaC8Dvcaj3b+dLhudoR1fMnBF7i6rrBgM8pgE7XdeVDYrYqAh?=
+ =?us-ascii?Q?7NXrMELrSrdyEXA2ycrQUgxUGnE6xuZ99MvlIdu3JmcoLgwpV2M5yc9Ee98K?=
+ =?us-ascii?Q?0ekdCNbUbRa/uP6f9AY4/tY5bhEIbtmSoj/Vu9lM32Hso3+CgmUFYlIgkIPl?=
+ =?us-ascii?Q?jrY3Eeqw1P7vKXwuAuaYIu6Ul2a1TBqE1U1LXVuXTJPYLQwory8lpWiHs9tz?=
+ =?us-ascii?Q?B/d6GwQrMt6bKS0PcprK6te1RrraRrRhpnzlPzmejzFGKwNWMgHUfPUV9XV6?=
+ =?us-ascii?Q?HGI/H4sMDBI1rLzxJuD+hiN9VZN72blbSe3Jl7m8eIw9GpRw6u9WQUiR1ewd?=
+ =?us-ascii?Q?215AIkGOhXHB2ELHQ5RUb8NPQDZUwou9TYI7SWwPP5shr2IUrGoDSz4K/QCd?=
+ =?us-ascii?Q?Y14Vc9n7JS0HVE8gcjtwfFR43mFo942+Ky0/dJRXe+9hXjCL+XBiuoyXwYl+?=
+ =?us-ascii?Q?USxpXKHCC97sYZJPaRs+brXRbfQlZfCeRQ7EwtLv8pHewQR9tEVIT3NaMnF2?=
+ =?us-ascii?Q?PrcIOiPGC2y19hSkuGGKqB/KjvDryhQwlwlF19utGjj04vuWqRW7AFLJwdTv?=
+ =?us-ascii?Q?Z6vDeHdgB1/DusLl4FWag5soXWe9jD2sZY0O7plxZ+6N0p3dPBYrS3l57Eow?=
+ =?us-ascii?Q?w9SmnbROzCDgPgTeS8AggwV9B/Y4OeawGsqi3mNag5f+XYS2f/XCC6DdSXgv?=
+ =?us-ascii?Q?yBdmW2YiTVY6Z6yFGHMsKxdu7K+TFwF5FcYwv7KXl0xxQNfs0S2R6npYlLGS?=
+ =?us-ascii?Q?5Zb1m7PFJwuCnRLW3Ug1M6wlFFCGdznUd7RI47E5VGCJKdfY97/h3HFneynB?=
+ =?us-ascii?Q?O2EZFnzLgd436YuD5I29kdY/Gx9giNG/ei6ETK5E338KAQRgPPGJn5witfc3?=
+ =?us-ascii?Q?kUGZiBFMzl9+56sFoEycEl3g3D9kqeF1Q08bhIZHo49rO5IW4/aNybDnAUS+?=
+ =?us-ascii?Q?EiqHhE36yRHfLvXna2F6?=
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1C5914A3117585449ECC60BC8227CEAD@INDPRD01.PROD.OUTLOOK.COM>
+Content-ID: <D6239FB1AEFCF344AA4EF0769A1FE52F@INDPRD01.PROD.OUTLOOK.COM>
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -137,8 +138,8 @@ X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89a5e1cf-a026-42e0-5512-08dd5fb3b389
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2025 09:12:37.2352
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b987ea5-4bc5-4aee-e255-08dd5fb3cbfb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2025 09:13:18.2347
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
@@ -147,53 +148,35 @@ X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAYPR01MB10587
 
 From: Kerem Karabay <kekrby@gmail.com>
 
-In Apple Touch Bar, the tip state is contained in fields with the
-HID_DG_TOUCH usage. This feature is gated by a quirk in order to
-prevent breaking other devices, see commit c2ef8f21ea8f
-("HID: multitouch: add support for trackpads").
+In Apple Touch Bar, the HID_DG_CONTACTMAX is not present, but the maximum
+contact count is still greater than the default. Add quirks for the same.
 
 Signed-off-by: Kerem Karabay <kekrby@gmail.com>
 Co-developed-by: Aditya Garg <gargaditya08@live.com>
 Signed-off-by: Aditya Garg <gargaditya08@live.com>
 ---
- drivers/hid/hid-multitouch.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ drivers/hid/hid-multitouch.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 6e7f34a47..70fdd8cf9 100644
+index 70fdd8cf9..f7fe6aab8 100644
 --- a/drivers/hid/hid-multitouch.c
 +++ b/drivers/hid/hid-multitouch.c
-@@ -827,6 +827,17 @@ static int mt_touch_input_mapping(struct hid_device *h=
-dev, struct hid_input *hi,
+@@ -1335,6 +1335,13 @@ static int mt_touch_input_configured(struct hid_devi=
+ce *hdev,
+ 	struct input_dev *input =3D hi->input;
+ 	int ret;
 =20
- 			MT_STORE_FIELD(confidence_state);
- 			return 1;
-+		case HID_DG_TOUCH:
-+			/*
-+			 * Legacy devices use TIPSWITCH and not TOUCH.
-+			 * One special case here is of the Apple Touch Bars.
-+			 * In these devices, the tip state is contained in
-+			 * fields with the HID_DG_TOUCH usage.
-+			 * Let's just ignore this field for other devices.
-+			 */
-+			if (!(cls->quirks & MT_QUIRK_APPLE_TOUCHBAR))
-+				return -1;
-+			fallthrough;
- 		case HID_DG_TIPSWITCH:
- 			if (field->application !=3D HID_GD_SYSTEM_MULTIAXIS)
- 				input_set_capability(hi->input,
-@@ -897,10 +908,6 @@ static int mt_touch_input_mapping(struct hid_device *h=
-dev, struct hid_input *hi,
- 		case HID_DG_CONTACTMAX:
- 			/* contact max are global to the report */
- 			return -1;
--		case HID_DG_TOUCH:
--			/* Legacy devices use TIPSWITCH and not TOUCH.
--			 * Let's just ignore this field. */
--			return -1;
- 		}
- 		/* let hid-input decide for the others */
- 		return 0;
++	/*
++	 * HID_DG_CONTACTMAX field is not present on Apple Touch Bars,
++	 * but the maximum contact count is greater than the default.
++	 */
++	if (cls->quirks & MT_QUIRK_APPLE_TOUCHBAR && cls->maxcontacts)
++		td->maxcontacts =3D cls->maxcontacts;
++
+ 	if (!td->maxcontacts)
+ 		td->maxcontacts =3D MT_DEFAULT_MAXCONTACT;
+=20
 --=20
 2.43.0
 
