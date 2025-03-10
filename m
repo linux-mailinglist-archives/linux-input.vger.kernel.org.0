@@ -1,108 +1,122 @@
-Return-Path: <linux-input+bounces-10685-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10686-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5950A599CE
-	for <lists+linux-input@lfdr.de>; Mon, 10 Mar 2025 16:21:45 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D74AEA59BBC
+	for <lists+linux-input@lfdr.de>; Mon, 10 Mar 2025 17:55:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2BACA3A48DF
-	for <lists+linux-input@lfdr.de>; Mon, 10 Mar 2025 15:21:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 426EF7A443D
+	for <lists+linux-input@lfdr.de>; Mon, 10 Mar 2025 16:54:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A3EA22CBEC;
-	Mon, 10 Mar 2025 15:21:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0D2E1E5205;
+	Mon, 10 Mar 2025 16:54:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tN6SUlZf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jlfMDeRt"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188BD2206B2;
-	Mon, 10 Mar 2025 15:21:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D1319004A
+	for <linux-input@vger.kernel.org>; Mon, 10 Mar 2025 16:54:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741620079; cv=none; b=Aa8qV/wKjbB1iM5H64ljOL6u5TEhlpwG/9zK3gjP1iTa6W1/j/nYlUDp3aHGZ1c29iOaOrvDY/UhKI+Gp5xPZJv2jF54cAVOYSkFxCdcq0eZIgJZ25iYecjvN9W9Fq9vgw8RdfvWtBNeLAoeVBdyFk2qx62uj8bL6FqPUE7CYGs=
+	t=1741625670; cv=none; b=WQPwSDA6rTrFFkJ54WddQOIMBcoDlEBJ5H1zFFSxd8YaIzCRQWkU/jcRiljojdcjH2xvca0pQKK+W7mKgNvTBDnWRn0nD9DzEjAbTZlcRGrkeySYkGnt5be7JciHxvrOIYUBiBy5qyQnKHXVw2qPNBQexB4Oly1II29TQC1J7KA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741620079; c=relaxed/simple;
-	bh=Lq4ng9tUDh+Do3SLF+xgV+HmrJ7By4mHdda8vZYyX2o=;
+	s=arc-20240116; t=1741625670; c=relaxed/simple;
+	bh=Na3jxNTRah5DY5P57ee7lS91A4yGdTCMR3cfVSWJRDs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HUugrkI+wd+tBxG2EtoJ/vOAxrJL/z7P8tG+9d4sDF02TKMXQc4tCVj/oAsPhLx1pzA85nkRxeNZWNCpLyxLEDNgixA10wj0N7hz6MUx25O7I8ZOfL97xEGSH00unkQ5JnqFYCteC6u0pQzQwFZAHR+Vz7xOQA4Vj5yChbVLm9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tN6SUlZf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 420A6C4CEF0;
-	Mon, 10 Mar 2025 15:21:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741620077;
-	bh=Lq4ng9tUDh+Do3SLF+xgV+HmrJ7By4mHdda8vZYyX2o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tN6SUlZfZij8LZDhONGQZYa0e7YUVUuznQJoN7QxJNnpe+jbNxOnouR+r6lsg7jz3
-	 4Lnrtw2jbVBA9IJxSTQbHidaF0Xgxo30DQX/+dScJ3X+P/HfURJVPE7azLzRl75Iuj
-	 R8qcVAe8zjuSBe0ms+K4GbTB1xyvm5SpRUbS7iX6tIkR0RqnWdsnTrb6c3W7zMZDv7
-	 l93X3XUIGRPiEP671e+UX6rqe3SSv1Mnw8M1IfM3zl0B/hdXNP+qm2TErT9R6lsSAV
-	 DzqqaC9VfMcf1rxLXbPztaw+62TIEvlf6O7v94iUwpFr2XUemJJ7QAOlLrT9UrMiF8
-	 HR7YneCmAO6Ug==
-Date: Mon, 10 Mar 2025 15:21:07 +0000
-From: Mark Brown <broonie@kernel.org>
-To: linux@treblig.org
-Cc: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com,
-	sre@kernel.org, lgirdwood@gmail.com, alexandre.belloni@bootlin.com,
-	danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
-	linus.walleij@linaro.org, brgl@bgdev.pl, tsbogend@alpha.franken.de,
-	linux-mips@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/9] regulator: pcf50633-regulator: Remove
-Message-ID: <a45de47a-d3f8-4730-bb91-2782f52fd25f@sirena.org.uk>
-References: <20250309193612.251929-1-linux@treblig.org>
- <20250309193612.251929-7-linux@treblig.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pkAyxIjoInaBvm10vvpavT8ITWjuR1NZnT39T31X8QUi0PJ9W3xk7C89zUiKw3RH/gqe+2r4QyxTLi830Ir0wX0OcvVfxugOnUBdG99jiV1XgU4XwbKZtD3pZjFyRjkMAGbMWAEAGTM0bHeGqRCGvLu2RG7I9CjqDnAUSrDfW7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jlfMDeRt; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22438c356c8so50920475ad.1
+        for <linux-input@vger.kernel.org>; Mon, 10 Mar 2025 09:54:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741625668; x=1742230468; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=eb2GYBadpnSomZPYGTCJbaqYXWFsOeCfH9pcOkGW/ek=;
+        b=jlfMDeRtJi2FssUt4tNnLdmN7fkWv6yR+Z3M88MKfidOYTtdlDyDpMAMbGcokkEs4I
+         sZLXn9ewxZxD65aIc+HBszYazE0Y/A3OH62jOlcXGL6ydR5H4E+n5mz6hPcKcIR/6m3y
+         eMDy+7RKsvcz/UXqclILPS3sobkFUY2CiMT3zt/w8z4Dt23ySMvsTevDNdRPeDHcBTM0
+         Py4vpXB2asVvHx8wTpgWohk519c5G/PSt6O11IIC41N/UoywBB3lyC0cLcmrY+XDdM1K
+         3541Nl5l7VjHodoVGFzbvH2sYi5NZm45BEAiaEvnVelz4bOfe3mrEYFqypQDtbRDupEI
+         5KDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741625668; x=1742230468;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eb2GYBadpnSomZPYGTCJbaqYXWFsOeCfH9pcOkGW/ek=;
+        b=FNworb21Uby5m31WyFYQWQRYu9Rayoh2uX81iKBnbyf5xIpAoROxnN5JS0it9cS8b1
+         7N4CC+rOs4NKvmlrAnUEMHqnK2K4/+vzIAP0L/btRYH9cw5Mnu8/YvEfRB6d8AcFXZD2
+         VWPDzdZPDk3ooGmClCGYpy5/UQwJHJkrt9ZwfBpp/pcuBo60/fz54dH3KRh0lENcyKkI
+         BDDC78Nbp+FM71qbZtm1iasG8FYspgysi41KrQqFFSWPOHuEuPBSwZSv8+Sx0O+Vjtba
+         GRuk9RSSs/mXVQFRc5NtdQznJsTYqjpGwBxegDU6Da8gHYNyLBppL2CHLI0n+amBLANE
+         6gxA==
+X-Gm-Message-State: AOJu0YyUix6CazkvCtk0MdhvqUVeecFH+IDrLnuIhZv+bBXhOlBHkWi1
+	ksf3NbgSC66rRTna1ARDC4GORZyQUDhnPCowesKIzY3aAfVQjthY
+X-Gm-Gg: ASbGncuOaq8VRtwUAUgTYyw7y4PYIcoLFZ8ms4I9DjDV6pPPkOkA1NIM1nHSsKSQIbk
+	pZlABsbwlh7KPyIpX/iKmqAmtNRZdulgj97P8aqt55ukL7Ie8uNRJVBDj33WOD6/Fnm/LvSiStr
+	0drmdqWz0ZWHhjOmTfxij6BMYtkDSKVFclxjW9ULRQ1MEsptGtEb6gMB1vMeYRS2aT3F9XCuGKb
+	JMUq8JVfGV8lCDbkQaw34+MSBptRZOG/OCyZZdX34t8NQjVCXAvu9x7DgZTJ8FXZV3Ypm+flkdU
+	AKBzdz29vlWE9oPF8e/C49+IZAhYhJRTz6hJiiMgOoTl
+X-Google-Smtp-Source: AGHT+IHq26Y182PYisU5gSZlT2OztlLJBRbL6ukaAbe4H03O3SnO/NujUPei/G50zDZfUZevx4RZpQ==
+X-Received: by 2002:a17:902:d48c:b0:223:6657:5003 with SMTP id d9443c01a7336-22428bd57e4mr230732955ad.32.1741625668192;
+        Mon, 10 Mar 2025 09:54:28 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:eb9f:29c2:9ede:46d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-224109e9fedsm80974345ad.67.2025.03.10.09.54.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Mar 2025 09:54:27 -0700 (PDT)
+Date: Mon, 10 Mar 2025 09:54:25 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Jeff LaBundy <jeff@labundy.com>
+Cc: linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: iqs7222 - preserve system status register
+Message-ID: <Z88ZQcJ78NJg-A-1@google.com>
+References: <Z85Alw+d9EHKXx2e@nixie71>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xd0V7MnYEiEQnSNp"
-Content-Disposition: inline
-In-Reply-To: <20250309193612.251929-7-linux@treblig.org>
-X-Cookie: I'm having an emotional outburst!!
-
-
---xd0V7MnYEiEQnSNp
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Z85Alw+d9EHKXx2e@nixie71>
 
-On Sun, Mar 09, 2025 at 07:36:09PM +0000, linux@treblig.org wrote:
+On Sun, Mar 09, 2025 at 08:29:59PM -0500, Jeff LaBundy wrote:
+> Some register groups reserve a byte at the end of their continuous
+> address space. Depending on the variant of silicon, this field may
+> share the same memory space as the lower byte of the system status
+> register (0x10).
+> 
+> In these cases, caching the reserved byte and writing it later may
+> effectively reset the device depending on what happened in between
+> the read and write operations.
+> 
+> Solve this problem by avoiding any access to this last byte within
+> offending register groups. This method replaces a workaround which
+> attempted to write the reserved byte with up-to-date contents, but
+> left a small window in which updates by the device could have been
+> clobbered.
+> 
+> Now that the driver does not touch these reserved bytes, the order
+> in which the device's registers are written no longer matters, and
+> they can be written in their natural order. The new method is also
+> much more generic, and can be more easily extended to new variants
+> of silicon with different register maps.
+> 
+> As part of this change, the register read and write functions must
+> be gently updated to support byte access instead of word access.
+> 
+> Fixes: 2e70ef525b73 ("Input: iqs7222 - acknowledge reset before writing registers")
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> ---
->  drivers/mfd/pcf50633-core.c            |  35 +------
->  drivers/regulator/Kconfig              |   7 --
->  drivers/regulator/Makefile             |   1 -
->  drivers/regulator/pcf50633-regulator.c | 124 -------------------------
->  include/linux/mfd/pcf50633/core.h      |   1 -
+Applied, thank you.
 
-Putting MFD changes into the subsystem changes just makes everything
-harder to apply, please keep things separate unless there's a strong
-need to keep everything integrated.
-
-Acked-by: Mark Brown <broonie@kernel.org>
-
---xd0V7MnYEiEQnSNp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfPA2MACgkQJNaLcl1U
-h9DJ2Af/XTN0nfI5RCpJ/Fr/iN6MekiWRzaQb3lLzvZytMpntNc4uPwT7p5rYEHa
-ydU9MVFQh7Dyt0gJynsGwsny1gwwpV6lbD/t9Larxqo0gCebDw8KDzLqOEuj2U3k
-0qHsl4zlFCcPbafwODYl+E6ZsaE2i6qIaaYkuRVNtMVDmJ60E3NBfow87xLD56q3
-VH/Vp8e4kPNG/tHAfDadzy705WzmwwJHYSt1JCDPoyxlbXSrCzEDyN5w2+hq0Jvf
-YbmzdUrP2MUQlvOolK/ciND0mX/VT17xsO6Wg2b4t2ZyuDkxJ9bod08/xTZk7BxA
-j94zeh1q8atD27MZlCcC4ibCsF317A==
-=A1eA
------END PGP SIGNATURE-----
-
---xd0V7MnYEiEQnSNp--
+-- 
+Dmitry
 
