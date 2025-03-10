@@ -1,74 +1,77 @@
-Return-Path: <linux-input+bounces-10692-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10693-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD754A5AA11
-	for <lists+linux-input@lfdr.de>; Mon, 10 Mar 2025 23:58:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA09A5AA38
+	for <lists+linux-input@lfdr.de>; Tue, 11 Mar 2025 00:00:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A30F07A5B7A
-	for <lists+linux-input@lfdr.de>; Mon, 10 Mar 2025 22:57:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 714E617192C
+	for <lists+linux-input@lfdr.de>; Mon, 10 Mar 2025 23:00:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65C1C1E5B90;
-	Mon, 10 Mar 2025 22:58:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 125DC1E834E;
+	Mon, 10 Mar 2025 22:59:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="dJyAC58g"
+	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="jRmeLJvw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2103.outbound.protection.outlook.com [40.107.94.103])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2106.outbound.protection.outlook.com [40.107.223.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9DA1ADC83;
-	Mon, 10 Mar 2025 22:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.103
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3784A02;
+	Mon, 10 Mar 2025 22:59:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.106
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741647510; cv=fail; b=D+bB8OtlkpS6XbjiCuqIBbYd2hLJQDD5d3S+xouKwsw9Qzz9HdBKHvrQvcPPg1UmhRZHZPmG0gfkIj9a4Lkn0jpPTCBy6IKt3YV8rYxcCFJ9/hfyq69W5nWtLpEevx/hwlTUgQ+fG7OTSUdsOde43ljOh2sNcszkx528YP+z1LA=
+	t=1741647598; cv=fail; b=ZZjGDWbXhRxYhdx8Ehhx8Vltvu7nnbwhm9GO23+k3qRtFs8BHKkDLeDfTG15iNgRAFCiH/TDMFl7+/tVfPZSoBkg6SLY/msN5CbBOAIiTx8VNbnV6j0LdDtCjcshNpe0I6ZIiWbL9viKN2ODzF0ZORxbXRWOXW8mfY4Uu46rTes=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741647510; c=relaxed/simple;
-	bh=QypWaajYq7ZGgl7QcK35VgJ17X9PPXhskoq2otVNf+M=;
+	s=arc-20240116; t=1741647598; c=relaxed/simple;
+	bh=ODmoL8QpMRtFM6pfYgP7g1CLZqjos2VhFF5I8lX1mY4=;
 	h=Date:From:To:Cc:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=sfc7pyRHZe7xfNx5frDIismQ/Y8m9L9anVwD9WBHIZr3D4U05L8irJyatOg/ah62VFBhM1pIkkvLgK0EyPGg6jCs4wbA1NeuzA0mGZ7fnQBZ2SFga6H43YeECrJBiAIEVS6JyEb3WrxQoUKh8X90d0tzAm7hywUem3Cj1G2YJew=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com; spf=pass smtp.mailfrom=labundy.com; dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b=dJyAC58g; arc=fail smtp.client-ip=40.107.94.103
+	 Content-Disposition:In-Reply-To:References:MIME-Version; b=VZCnV6ZXXVAiKu2UloWrBpBDjlFgCAB7naZdABTPGSxrphqSpDl9CwBLSo4mp3+YVawiRAcuW1J4kOtuzIvsz1KS51Y7mBW3PZtYL6c3Y8EGttDW0IdkBhOmSYbQ+HcIioP6gwOnF9k6obCR0w9f2gN1S8JbH6W7agNZst7f6zQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com; spf=pass smtp.mailfrom=labundy.com; dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b=jRmeLJvw; arc=fail smtp.client-ip=40.107.223.106
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=labundy.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Aap+4ANLro2zg2Ny5t3iHrulpNEGF3xXQHKcA8JljFCEJ/VF0eLbSeMrfbhD0JFpirfLzLUY07C9m2S6LPUT2zoy9H7NJIoUx/dxLpyBiJLpOdbwczhxKExD49jNPvbZQu8NlrvDpek6izrmtf7h3Ai6llAvzOxXXHbf906vo4lRpBiBvyEsqWdPT8WkT8KgmyKppUQUeVucTqDB+f0Mofidc1N1QtHJeRKl5iGHQ/Ip5wqv16XhsNqTcwEvb+j0qAw570ZICymg/NvK878XqLFv0MRDSYErxEdZ8ywQWzJiy89rJYHcp3kH6tXYRD/i1OLBSYGyOw9OcDPpvdq9Qw==
+ b=f1DnUlcuY9d8PfCp6wwgBqXyfpZAuxwyp0rKHYRGPj2te73Yh6vf0tg5OlYQuYqFuSPV7JsSVCr3k6FDRfgIB8fyhLdcM85wGkAzrUnsRCHZ7rKkRvsHHz8K65Qum1qlzIwo+Mn/Rw52bkJEA8OhqDo1C5iYFsuvHpc93+73gtLYagLoEzXy/k8kD5IOiJIH+bF1uqUHQZr548zUBBZ4M5cU0+WSdAOX2BCkjpRF0+DoSbvIW3zgOc1caufHcR8uCQjr88BHlqxbnYQmWCKIV2/r/8+yF2aLOX+M+ciEpTHY+C447gn2EL5COZnYjaZD/O19fRPxMEIbD00+RJEsmA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a8F3cWCUL5jn3ocvG38YDs6ZlUIEQuKl2FhuCC5sM2w=;
- b=kTzvRJ7QSKHXth2qT3fiNcuHHFkfQcSJSehHENfmJP9Tsuekiha4GkRNPFYBxzdEsBm7U5TPNvRbvtoGAIuLsSZy7HLnwMZ2Ch5zw9HB3UqzjEBNvq8Sd4SXBdAyXqwKNaBHYutSohPeTRWTUnPv8v3JFTVE7qzfljbhe51ZfxEOPfd11eOw1s11yy0cGKh9Hq4xkK7xjTsRADAhGzkid/ts90l15FTa3ClimzFhBvX/aDSKs5GqVW9CRJw5DO6Aagp/wIBqJQAsCJ9oC/awWZap2U5INcQaFpfeu6dCONYv8WAxub9zsuv2BFHfSiWMVpa8fVR9SlqA2k0TEs/l2g==
+ bh=BnvGi5RopCNtC6GalGMprqIegr4JNPXQtB7Pd5EdzKY=;
+ b=dYE7NLuKcasd2bMnkmewFgrUSYL+P6R2asZjUf9Ky0YXSFGLeTGyrHgihLnBU02COX7iv6lkRdx5c+AQqDQH6Gmt1//wVFPy35i/ffJg+GrM4529Q6vMdDnQ73n8BWW/oO7+ZSPkakDqBLKsKY8k1ll8Kpc1BvwdYzCCmtKwymjC2iHmVYJwWYthZhWKcCTvTox2MycNZgfEyWG9GwTYRDwWMPsoe5/4gus5jhiwnXLYIC7b0AcW0SdE54uOAZfW6Zk1pw1kkjx5fC9LF8NoqxE0y1efogcGvO13igmhlUbP+DwzU3z+ylzgdXfeg4XAMQkwy+gYfVA3DdGt5hamCQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a8F3cWCUL5jn3ocvG38YDs6ZlUIEQuKl2FhuCC5sM2w=;
- b=dJyAC58g1GR5cAtVelSdDxgAplC0jQIketyakzSf3vxOyBxFqJry3mJXSe7KLPKYKa/QqNrszm3+insgR59stk6WcmBa990RFfyVGdW9l+KjzKcosJTTj1b8avMev0wMnYCkKoSx+Pjk1Jc+Ek9RYQQLOFCCCzuaGQndKLpqOSM=
+ bh=BnvGi5RopCNtC6GalGMprqIegr4JNPXQtB7Pd5EdzKY=;
+ b=jRmeLJvwyt/Hr/XbGfU0klVFQl40TftCIediQik3dutU6yO9uSeeilM1h4Mj/6Htm38pYp8eVw6btkOo7a5WcAWLnRc/0EdXGbsea2LN+oFrII4qem/nvJ1d+PUNOkS1ryykhDe/C78x8AmTax61ql9JvSVwkqo10hTuo+bH7n4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from BN7PR08MB3937.namprd08.prod.outlook.com (2603:10b6:406:8f::25)
- by SA2PR08MB6666.namprd08.prod.outlook.com (2603:10b6:806:fa::18) with
+ by SA3PR08MB8826.namprd08.prod.outlook.com (2603:10b6:806:397::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.19; Mon, 10 Mar
- 2025 22:58:21 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.26; Mon, 10 Mar
+ 2025 22:59:52 +0000
 Received: from BN7PR08MB3937.namprd08.prod.outlook.com
  ([fe80::b729:b21d:93b4:504d]) by BN7PR08MB3937.namprd08.prod.outlook.com
  ([fe80::b729:b21d:93b4:504d%4]) with mapi id 15.20.8511.025; Mon, 10 Mar 2025
- 22:58:21 +0000
-Date: Mon, 10 Mar 2025 17:58:08 -0500
+ 22:59:52 +0000
+Date: Mon, 10 Mar 2025 17:59:49 -0500
 From: Jeff LaBundy <jeff@labundy.com>
 To: dmitry.torokhov@gmail.com, robh+dt@kernel.org,
 	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
 Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
 	jeff@labundy.com
-Subject: [PATCH 1/2] Input: remove support for Azoteq IQS269A and IQS626A
-Message-ID: <Z89ugIeYkJ7rAzJP@nixie71>
+Subject: [PATCH 2/2] dt-bindings: input: Remove bindings for Azoteq IQS269A
+ and IQS626A
+Message-ID: <Z89u5UBMDXtMw/Hq@nixie71>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-ClientProxiedBy: SA9PR13CA0076.namprd13.prod.outlook.com
- (2603:10b6:806:23::21) To BN7PR08MB3937.namprd08.prod.outlook.com
+In-Reply-To: <Z89ugIeYkJ7rAzJP@nixie71>
+References: <Z89ugIeYkJ7rAzJP@nixie71>
+X-ClientProxiedBy: CYZPR14CA0044.namprd14.prod.outlook.com
+ (2603:10b6:930:a0::28) To BN7PR08MB3937.namprd08.prod.outlook.com
  (2603:10b6:406:8f::25)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -77,3951 +80,1631 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN7PR08MB3937:EE_|SA2PR08MB6666:EE_
-X-MS-Office365-Filtering-Correlation-Id: 97085bd1-f2a4-481d-dc68-08dd60270d37
+X-MS-TrafficTypeDiagnostic: BN7PR08MB3937:EE_|SA3PR08MB8826:EE_
+X-MS-Office365-Filtering-Correlation-Id: 20add3cb-5474-4d2b-90d7-08dd60274417
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?B/Df3kqeXeGY6lLkglE3l9K3uG2l+V9YVff2Ps5JZcW3T3PAH3gpJU3zxltQ?=
- =?us-ascii?Q?lAzasYl1GotHlSGHF60H0h1Bwdrfz9Vcgg75NjaA9XO2odHFde6UP4XJHbW/?=
- =?us-ascii?Q?ujUO+eCK/5hYNeY1ukF1r7RhGJ7tz5Bn/gWbJ58JM4M4ABZOZ+b/P9SEH82B?=
- =?us-ascii?Q?D0+G3oQt6GHj6kVDxUSLGNAz3Wxa1uZCcZQijTRcutjI2A8S7bKBM+zF0j7v?=
- =?us-ascii?Q?iYivy+GXTWewKYsEIPDeL3IECvFfwkQbma1R9C/pg0cm6jhyiwV64/n6x7UL?=
- =?us-ascii?Q?4w0Q4a194KY495ZsRfsu0CGyMhzrPOXPZN0/qYrITJDTOdA/JyodJmHsIHS4?=
- =?us-ascii?Q?Nl7qM4E26Mkwmo3RxWCW6NmecEGgvIvnFJXFn8+UV6XXJJ28xmoYAnP5be9h?=
- =?us-ascii?Q?BbHGv6hJI2TERJEFQRAHbcEVQbN0H/U2jCnWVVp/OhzSaM/NVzh3vzTuzdEl?=
- =?us-ascii?Q?FHlYDGH3fJKs2gbKFBH8uPIiyFbgtqNzxYTnBtwRFIQQdf0FStZK1Zt0jIT0?=
- =?us-ascii?Q?icvoOxM59TmUfG0GgG9IMu2ku8wK3MZozG47/N2oXvb+E2L1jqCiJALU8lOL?=
- =?us-ascii?Q?vObDyeqzJNDqWA3tZDamLoe6MKRhIrUfhcOgpsAvtvfWt8uMDFcaHlZoOD4W?=
- =?us-ascii?Q?xU4wO/QdL5CVlgtTMt/e2D8rXRaO87HJ52WoqCMwWOWp9/kV57aE3GdLj3+G?=
- =?us-ascii?Q?0T1DljiknGsq954KmFnFCMscnzZ8TgyGfpYyCht6UY7fDVr1veIrViWz6yKn?=
- =?us-ascii?Q?s5icWyGeradGqrrR+ihI9y9CRCeQT44oMsFmHxwD8kNr4mXyPso2IgEjyAVq?=
- =?us-ascii?Q?WX+rRVvCLpbYNV5mdAtpH20DHnF0KvUvMqOYadLuT8C0RMH4JZs0drlZoxxk?=
- =?us-ascii?Q?zA21IJ0xdzS8l3/Acih8TeRfLEXw9FZOF0cWdEx0Out2w47cv6sm0DJSQ+MH?=
- =?us-ascii?Q?6TBtSaHC1OXYppIIXKFdJqm4AjaRBVuOHRKqfd5buesHtGHoH0eH+fxhinxM?=
- =?us-ascii?Q?h810LB6At5JpqdZ9Yh497YB5dUCYPAbL1+/Wsx9eySJV+hWZXCtBC5AQuCRh?=
- =?us-ascii?Q?RVKz7egBFjP3UCUFIDJTJkz2eaLPNN69HieJ2ww7LyhOvuxuRBbvZJU4RluD?=
- =?us-ascii?Q?QYRum4Wje8sy8n5tlg/8Nlx39kbtwZaW3X2c35G5hF7jV1lt+lqVmYcZ9btZ?=
- =?us-ascii?Q?/83+9lXadEGjF3s330qjEeL6dYA0hd143smG+TnhUfqgUa/HNOX9pCR4GB43?=
- =?us-ascii?Q?31VEpJeWqV63qpOf16QghVzJfgNP6riXGySJGSbLedE5M0mGJJLsyCqCkpE3?=
- =?us-ascii?Q?a1Ga5FnozD7kAR86wHay0dTrrOPf9ulYdY8OM05livQzy1Oy3tJaSE4Zobr/?=
- =?us-ascii?Q?w5qY5qNJDVg6H8+p8gkxQ+l6guTJ?=
+	=?us-ascii?Q?JGmrJ9DA/FHUGyBJ2wfVGI1r2oyF1sdF9JRK4ajg+ndqgdaUlC/TT94kOY68?=
+ =?us-ascii?Q?udc6nVysgXzXRwZit/dDVDxxzzqvDFDRCEwI0oFnB8TQ2A4ZTVcha+TDGa6x?=
+ =?us-ascii?Q?rxvOMjJJ7PMeHa2F81uMIz/qevaVknpgGWXNtBCG6AgytywfEZxZzIq9fOXr?=
+ =?us-ascii?Q?9/+17k0ToR//ugfjUj8uDJnkyeVjO6FBuLwmn1mIbKNcaLCYxi2h4fQr/w65?=
+ =?us-ascii?Q?s1Rp1u749qHIoVW0GJBqcftCVM1m979Bb4gux/w9dTNDMeY92NXs2VfdCLjJ?=
+ =?us-ascii?Q?hHbHOQmbnjL1O+1I/1UBKKXBifMJl5cnJEjrBHZEzdo2lHZgvJo6y4OuBIAr?=
+ =?us-ascii?Q?+7Z7nWUC/x4RWmqr6aTpawgDujW6W67lcbC8LivRLzbzU8k8e7JEcXZ+b26v?=
+ =?us-ascii?Q?Zj3WeFTnwZ5sbRw/G9Z0vrZxHxcfWgpwSRBjnQITb8avYUWAmJ2deQCC3RLM?=
+ =?us-ascii?Q?p2oZw241nNu5rjPx4gM+gQ3oHagoYwnzztAgc6+E/9SX/st1c8CuRLudouas?=
+ =?us-ascii?Q?26vFAc8VDgVKbE83pgmimpma6ftu4SJIG7K9M70w360sFd/76unNUB0czOta?=
+ =?us-ascii?Q?2EbMHtlkjiO0oE5pul0UywSNWEmKJTstIWjBde3E3+WkyOGvKCdq3TKFHFUV?=
+ =?us-ascii?Q?dYH+po0C+uybTMRMSNozZHUODJBmASZNqZV7VGIdIo0Gr0BgzRgGdNbrbT73?=
+ =?us-ascii?Q?Gnl5e8+XIErZN8Fu29QogrQy5JZ/wAqVUAg0D9S7L21yaIv1s+rIGCmyNepA?=
+ =?us-ascii?Q?GOISvx7yAs+ybN0HllNQBP0NwQYhjEQkdPUcw+ISk5CJOn6wT6k8dcW5wNxZ?=
+ =?us-ascii?Q?QfU2b7tKnwgCRxCrAAlp7Tc2I2pg6LeBS+pb9CzMkrBWq9PbAPwik+21Yx+3?=
+ =?us-ascii?Q?/EWIrpikBu6DKPvSz4tbq9QIiU3GafQMoHq1IFK+7QzU7/cNgATITxVyQiY7?=
+ =?us-ascii?Q?RvaxF/hQb9tLLWJiFxSQNISJExPKIB0qITRlpyaHk2ScX7Psqn6W5T2VMu4W?=
+ =?us-ascii?Q?3MNRg9ijJC+kvrngEB0wsJtkKIgStvUAP1IPM9+DTgt+CBAKYnhthCziGQqX?=
+ =?us-ascii?Q?U5GSrpA+tD6b8Djz1Q6NTGsfCEr4W00v9ZQMpoMYBOFwB6NB4yTl/haLCPZ1?=
+ =?us-ascii?Q?tYVCfMyVEnzD9xm+DKjNn/K5R4DDH+hme3VSSWaZCK82NRjZnnIHffdYcr5u?=
+ =?us-ascii?Q?zy2RFaj3l7h77SchdUVLZGCOLe25y37iBvxutA2b+hMccuG3pcehXhxc7Ifh?=
+ =?us-ascii?Q?e4q7KQBqnFjBLFjcUTwVWS+uIm/mgTWQrkjj0tzuN52QdOD7Wg3+d1w0tS56?=
+ =?us-ascii?Q?uehwXkWmVs4xwVWetrWrfiqCsOsjM5xk9GEqQ9UBLyOBbA=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR08MB3937.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR08MB3937.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(13003099007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?FD3xM0k/j6Lj7aMJCLm2HCa0rOnBC9fYMTSZvZI4pKEJOs/8aoA9Temxn7sV?=
- =?us-ascii?Q?CvA8iEulqyhLOUKSkFxO+PTV/QI1yPk9ggHWD4A6/IbTxub3Fqkt1yHzAR3f?=
- =?us-ascii?Q?xHm0FC5S8l5WaaTs3efX2YpWWMk7F2HgMwTrHDVsVYQYtsTSSsWVLHeQoCDm?=
- =?us-ascii?Q?BOR0C1WsVljvwtjTYiCx7AkmrsWU5N0uO15vJDQdAGiUEvklKlxx3gBs7Dr7?=
- =?us-ascii?Q?WGfm3I4CSBPqA8W4fEA8/AnLnBafDe8/7BD3G4TWjgrORkstE8WQRUnCVn6M?=
- =?us-ascii?Q?IpPMV4RcW9JsSKtXTum+otg3A9C9CrPGBWNq04UWRYZYc5sR0bE9BdhfvZak?=
- =?us-ascii?Q?76cUegrYiXDKEfOIQKlUE0b2wX2ikTcJGVRC8qWy8Vgawn+sn0+I4Lx4nHhF?=
- =?us-ascii?Q?Bc4nOFXg1mMBr6AmNSs7qcs517ZMFkyt19njaigCyAmQFcF0xNElAQLIN6wi?=
- =?us-ascii?Q?RB0ymm9ipuqKzagyJVV7MfCKpzToiV+yfrJRWVgD4d3L+ps0WnyxL4WDvwVr?=
- =?us-ascii?Q?VR88HtFht1Fjm3F4yStmh+LfaPVFlBycJVDwIxLxbr4/w4MOX+4HN5TUq7dv?=
- =?us-ascii?Q?moxx6Be0gIM3TZlP8d8j5VBXwtyzbXKl2QNV9g/jLvF/d9qmbRoCqvu271jf?=
- =?us-ascii?Q?Vcz/HHLK6+sLUwkhaiQ8auN9a+lOANQqZHooa3yzmhYFUXK8HVwOVM6idBqg?=
- =?us-ascii?Q?SFrZONhBI01/SqqsHq8zVwQJJj0NKlqGfasTZKQ0+QIJlreb1cxkSg6Tg4X3?=
- =?us-ascii?Q?ayMa4dmtaaGT0rRCsCcvKfu60FdC+TX2mRigx+WfCGev6CrGSxE9EKJ6vxl5?=
- =?us-ascii?Q?kBg6rQrIbvHQZiq30UQVuzx8Lolod6AMW1x/WvXNO/IzArvgPLDClW4/iFUo?=
- =?us-ascii?Q?gPymVtFDUopmS5SWPCyOFXHdyAHO+rKBLBDUiyQ00yqbToHFyQ++JF4Wmggs?=
- =?us-ascii?Q?nlH5dT8yxrbEJFXDXMC1e6INzdzHCGhVwIE2gJQUXybhvcNcGlvXnAe46DEN?=
- =?us-ascii?Q?mZci0lzciJP61x5eXEOYzHqWT7EPCuh1IKdCnoV+C41frO0HtlBlY4eMbSMb?=
- =?us-ascii?Q?xOgguh/eahnP/6GaI9o2Z2hkST+rAc+/6rFrQBrEX20Tbi5eyPSqKC5Efcrp?=
- =?us-ascii?Q?NCAaQxcDm0wy7tZjyPsmSnniagLcvaV/rDxq+KkNXrhCu19qoxbUzSiIWr9h?=
- =?us-ascii?Q?XViivOIPJXYExlo1eeVSNHDkzO/C1hJQpZYkLVfL4u7QzXtW8CE6d+5rAzd3?=
- =?us-ascii?Q?lJvuEr3mSmaUM7u3penfbQyYZ0tfBwg8rBNK9FDKMLhcjqTvxISzN+UCRtMR?=
- =?us-ascii?Q?hiJc2emD8tU4KFtOXoVeAyCfQZmmde/lwghKjxoUanE24qhkEaaIx0fuqwwV?=
- =?us-ascii?Q?towShCx47+3aPCh9s6k0KkNWwEfmaBs3+Ct+3UbzsnfxWaXRtDHYPj5VVJ3Q?=
- =?us-ascii?Q?BxhvTpMONmXXcUCPenM2tSc3/G+Q+bIMQ9JCaUUTPxpRc4yqETJs2ucAQnfK?=
- =?us-ascii?Q?V1MhSOelZPwVkzz1+7pFrURkBJ4eFs1Azm3WoPw9p3T7Ahd/BD0I7+JxV4ks?=
- =?us-ascii?Q?mxRCKH6nO8Hi9MqmXUc0M2Ku2grbJS4hFyMJ3yTR?=
+	=?us-ascii?Q?Mn4aLjdLz6k9thvPm3fZXgeYhqxS5/2v6KS0GQ3HL0FtggFg9xJdoSmkKSHA?=
+ =?us-ascii?Q?1FeWh+z8uoliuNVlMOvidcucdBlJ3fP9wtZP6eO70oIr/wI1t8gfVuBs74Gm?=
+ =?us-ascii?Q?NttGqhJyJ+SSEAW5yaJHUD23bE8MQ8mt/hIVJyyjYCfE8v5EqmEdc0UXRUXG?=
+ =?us-ascii?Q?8n5zuapgoE/WYPO5j+DenNkl4oqAfta5kaaUT7aMLzUuU6RDC85XU2aKRzlO?=
+ =?us-ascii?Q?vZJOH/CL4s2M3eiY2VED79f5uNRA+INf0YDo0LNoJvQTaiQfN2KIlYwPzo0Z?=
+ =?us-ascii?Q?ozs5qKHJ8sk9DwOGMIvxTqRY8AUm4yqxTYEqUsoujsMzBCqtiAjMVEWUNAR2?=
+ =?us-ascii?Q?3mrVi5BIawDtYFx2D1dwTHXEunPVYJHghhgMRaHlVDuiZiT0O4/cLiLz5PQZ?=
+ =?us-ascii?Q?7GUSLiTk8//Ia0Jz9c4uak+eEgH8DnVeIC1LFMgYwNFYdOyg06jKL1rzLJ5x?=
+ =?us-ascii?Q?5HYIfWKgqYnv7IKt0iofAEPxMJgIBz+0ixRu++GI+cpH7kxf/qhMx10SIfMh?=
+ =?us-ascii?Q?KvldU3gpF8EgEfHSX+95TEBtcmW3Uti2BRJAbnnrR6ADn8UvNyc/NIAz5YZK?=
+ =?us-ascii?Q?B+XIMCwThD0d6uA91MERZCR3yyC4J3NdeLS0pCDRKln+0jHAMnXBwoeFuXtr?=
+ =?us-ascii?Q?84qRPpthfVEQn6FvtuwR1XIiLk0vLsLhxPDlfy64z9y3z0jlyCWZypniIJA0?=
+ =?us-ascii?Q?frpfPRpSvAKnc/Yy1atFSWCkc2MgLH23bcYdtdXaqf2rFB4bdMHenytPMTCF?=
+ =?us-ascii?Q?xdsvgSyflptq7eJwrjjPgoZza5HhERjECfVE/I7vqX2sOygQq3VKm7z7HHfs?=
+ =?us-ascii?Q?xVD1chI4f59YOZsu7XsSB+cUzibXG2uV3KhIqGKEVeFGB/qf9X+6Q+GBRyYM?=
+ =?us-ascii?Q?wtek4yVsbJczqnal32wZivFU+ObGyic62fmtmo6cb2AfuJepgukdW81FlHVk?=
+ =?us-ascii?Q?YX0PhRJAeV7cpIVCthXkq2RcKsEfXQXIvnMDbU1ZxMZwIcMqPHExK8Bsp2so?=
+ =?us-ascii?Q?PGOMwnfNSSQIgvvtBDquDBRCyHo0baouF1hH37t2gSBGJMxkOflfTn6Z5VeL?=
+ =?us-ascii?Q?iFuzlHOBnJw1be1HdzPTXPRZ4XKvPZxCt5gUiidjFFCjyaETzta2yJ1fEnTj?=
+ =?us-ascii?Q?C4+yRuCIqat6EMhzkvHDTG2D3JMWPaHfX448kkdXK4NO3qlzHAzYxpR5HWWY?=
+ =?us-ascii?Q?RdZcPS3D//Tz3kY3fD/EfoxWuLAMg12/FbTwC8PdTzOspfXhf4ZfW84rvDp4?=
+ =?us-ascii?Q?vuf/CZN65KZnnrvSJEjPYcjnjTee1dIoLHv9qZ4xHY0UFOVz+JlkLLCHDe/j?=
+ =?us-ascii?Q?nwXacGnkVC+JZpjIqtcvR3dRxfWQP5NkQSNyI73trSzwbaqUl1p8QlXiK/ls?=
+ =?us-ascii?Q?zDVkKz1TvjwPnCm7vVg6PX81H2A0nHUAQC/wK7VZfKkU2e3SmqsuIN8oBqv4?=
+ =?us-ascii?Q?iFzkzQV9owP+j6vt9ljR+pFZupmLOyyx6Yh+ebKx09EObch+W5QZGUjNdPWQ?=
+ =?us-ascii?Q?tlKDDG0kAOr76l7Q0o83NDjycDL979jzgs0Qei2ogwCpf2VrdZAC4lzjvd8H?=
+ =?us-ascii?Q?VdwGSaBkKemPOCNLC2AzBn/KZv9M8HGQ8skhF+Sc?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97085bd1-f2a4-481d-dc68-08dd60270d37
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20add3cb-5474-4d2b-90d7-08dd60274417
 X-MS-Exchange-CrossTenant-AuthSource: BN7PR08MB3937.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2025 22:58:20.9954
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2025 22:59:52.2077
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xuv1Nfyf+vhuDZ+AyWP2XRh1f1AgcoZ4RW1YdOcezkHZrVOeT+KWCCAshMHCbBrzLR78puXgrBvPgTEQrNX11A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR08MB6666
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8l/8RUwGlydNNcDNuex8uCSF/XJiptfiK4H5p1NaniHDya2zLGZrBPI2srwJnYCWzyu3V5C8OneKywNqEsOyew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR08MB8826
 
 The vendor no longer recommends IQS269A for new designs, and no
 longer manufacturers the highly similar IQS626A. No new product
 development will use either device.
 
-Remove both drivers to prune unused code and avoid the need for
-any further maintenance.
+Remove both bindings to prune unused documentation and avoid the
+need for any further maintenance.
 
 Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 ---
- drivers/input/misc/Kconfig   |   22 -
- drivers/input/misc/Makefile  |    2 -
- drivers/input/misc/iqs269a.c | 1976 ----------------------------------
- drivers/input/misc/iqs626a.c | 1821 -------------------------------
- 4 files changed, 3821 deletions(-)
- delete mode 100644 drivers/input/misc/iqs269a.c
- delete mode 100644 drivers/input/misc/iqs626a.c
+ .../devicetree/bindings/input/iqs269a.yaml    | 648 -------------
+ .../devicetree/bindings/input/iqs626a.yaml    | 878 ------------------
+ 2 files changed, 1526 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/iqs269a.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/iqs626a.yaml
 
-diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index 13d135257e06..74aa8ed45a13 100644
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -785,28 +785,6 @@ config INPUT_IMS_PCU
- 	  To compile this driver as a module, choose M here: the module will be
- 	  called ims_pcu.
- 
--config INPUT_IQS269A
--	tristate "Azoteq IQS269A capacitive touch controller"
--	depends on I2C
--	select REGMAP_I2C
--	help
--	  Say Y to enable support for the Azoteq IQS269A capacitive
--	  touch controller.
--
--	  To compile this driver as a module, choose M here: the
--	  module will be called iqs269a.
--
--config INPUT_IQS626A
--	tristate "Azoteq IQS626A capacitive touch controller"
--	depends on I2C
--	select REGMAP_I2C
--	help
--	  Say Y to enable support for the Azoteq IQS626A capacitive
--	  touch controller.
--
--	  To compile this driver as a module, choose M here: the
--	  module will be called iqs626a.
--
- config INPUT_IQS7222
- 	tristate "Azoteq IQS7222A/B/C/D capacitive touch controller"
- 	depends on I2C
-diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
-index 6d91804d0a6f..3cc4f77536e0 100644
---- a/drivers/input/misc/Makefile
-+++ b/drivers/input/misc/Makefile
-@@ -45,8 +45,6 @@ obj-$(CONFIG_INPUT_HISI_POWERKEY)	+= hisi_powerkey.o
- obj-$(CONFIG_HP_SDC_RTC)		+= hp_sdc_rtc.o
- obj-$(CONFIG_INPUT_IBM_PANEL)		+= ibm-panel.o
- obj-$(CONFIG_INPUT_IMS_PCU)		+= ims-pcu.o
--obj-$(CONFIG_INPUT_IQS269A)		+= iqs269a.o
--obj-$(CONFIG_INPUT_IQS626A)		+= iqs626a.o
- obj-$(CONFIG_INPUT_IQS7222)		+= iqs7222.o
- obj-$(CONFIG_INPUT_KEYSPAN_REMOTE)	+= keyspan_remote.o
- obj-$(CONFIG_INPUT_KXTJ9)		+= kxtj9.o
-diff --git a/drivers/input/misc/iqs269a.c b/drivers/input/misc/iqs269a.c
+diff --git a/Documentation/devicetree/bindings/input/iqs269a.yaml b/Documentation/devicetree/bindings/input/iqs269a.yaml
 deleted file mode 100644
-index 1851848e2cd3..000000000000
---- a/drivers/input/misc/iqs269a.c
+index 2c3f693b8982..000000000000
+--- a/Documentation/devicetree/bindings/input/iqs269a.yaml
 +++ /dev/null
-@@ -1,1976 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0+
--/*
-- * Azoteq IQS269A Capacitive Touch Controller
-- *
-- * Copyright (C) 2020 Jeff LaBundy <jeff@labundy.com>
-- *
-- * This driver registers up to 3 input devices: one representing capacitive or
-- * inductive keys as well as Hall-effect switches, and one for each of the two
-- * axial sliders presented by the device.
-- */
--
--#include <linux/bits.h>
--#include <linux/completion.h>
--#include <linux/delay.h>
--#include <linux/device.h>
--#include <linux/err.h>
--#include <linux/i2c.h>
--#include <linux/input.h>
--#include <linux/interrupt.h>
--#include <linux/kernel.h>
--#include <linux/mod_devicetable.h>
--#include <linux/module.h>
--#include <linux/mutex.h>
--#include <linux/property.h>
--#include <linux/regmap.h>
--#include <linux/slab.h>
--
--#define IQS269_VER_INFO				0x00
--#define IQS269_VER_INFO_PROD_NUM		0x4F
--#define IQS269_VER_INFO_FW_NUM_2		0x03
--#define IQS269_VER_INFO_FW_NUM_3		0x10
--
--#define IQS269_SYS_FLAGS			0x02
--#define IQS269_SYS_FLAGS_SHOW_RESET		BIT(15)
--#define IQS269_SYS_FLAGS_PWR_MODE_MASK		GENMASK(12, 11)
--#define IQS269_SYS_FLAGS_PWR_MODE_SHIFT		11
--#define IQS269_SYS_FLAGS_IN_ATI			BIT(10)
--
--#define IQS269_CHx_COUNTS			0x08
--
--#define IQS269_SLIDER_X				0x30
--
--#define IQS269_CAL_DATA_A			0x35
--#define IQS269_CAL_DATA_A_HALL_BIN_L_MASK	GENMASK(15, 12)
--#define IQS269_CAL_DATA_A_HALL_BIN_L_SHIFT	12
--#define IQS269_CAL_DATA_A_HALL_BIN_R_MASK	GENMASK(11, 8)
--#define IQS269_CAL_DATA_A_HALL_BIN_R_SHIFT	8
--
--#define IQS269_SYS_SETTINGS			0x80
--#define IQS269_SYS_SETTINGS_CLK_DIV		BIT(15)
--#define IQS269_SYS_SETTINGS_ULP_AUTO		BIT(14)
--#define IQS269_SYS_SETTINGS_DIS_AUTO		BIT(13)
--#define IQS269_SYS_SETTINGS_PWR_MODE_MASK	GENMASK(12, 11)
--#define IQS269_SYS_SETTINGS_PWR_MODE_SHIFT	11
--#define IQS269_SYS_SETTINGS_PWR_MODE_MAX	3
--#define IQS269_SYS_SETTINGS_ULP_UPDATE_MASK	GENMASK(10, 8)
--#define IQS269_SYS_SETTINGS_ULP_UPDATE_SHIFT	8
--#define IQS269_SYS_SETTINGS_ULP_UPDATE_MAX	7
--#define IQS269_SYS_SETTINGS_SLIDER_SWIPE	BIT(7)
--#define IQS269_SYS_SETTINGS_RESEED_OFFSET	BIT(6)
--#define IQS269_SYS_SETTINGS_EVENT_MODE		BIT(5)
--#define IQS269_SYS_SETTINGS_EVENT_MODE_LP	BIT(4)
--#define IQS269_SYS_SETTINGS_REDO_ATI		BIT(2)
--#define IQS269_SYS_SETTINGS_ACK_RESET		BIT(0)
--
--#define IQS269_FILT_STR_LP_LTA_MASK		GENMASK(7, 6)
--#define IQS269_FILT_STR_LP_LTA_SHIFT		6
--#define IQS269_FILT_STR_LP_CNT_MASK		GENMASK(5, 4)
--#define IQS269_FILT_STR_LP_CNT_SHIFT		4
--#define IQS269_FILT_STR_NP_LTA_MASK		GENMASK(3, 2)
--#define IQS269_FILT_STR_NP_LTA_SHIFT		2
--#define IQS269_FILT_STR_NP_CNT_MASK		GENMASK(1, 0)
--#define IQS269_FILT_STR_MAX			3
--
--#define IQS269_EVENT_MASK_SYS			BIT(6)
--#define IQS269_EVENT_MASK_GESTURE		BIT(3)
--#define IQS269_EVENT_MASK_DEEP			BIT(2)
--#define IQS269_EVENT_MASK_TOUCH			BIT(1)
--#define IQS269_EVENT_MASK_PROX			BIT(0)
--
--#define IQS269_RATE_NP_MS_MAX			255
--#define IQS269_RATE_LP_MS_MAX			255
--#define IQS269_RATE_ULP_MS_MAX			4080
--#define IQS269_TIMEOUT_PWR_MS_MAX		130560
--#define IQS269_TIMEOUT_LTA_MS_MAX		130560
--
--#define IQS269_MISC_A_ATI_BAND_DISABLE		BIT(15)
--#define IQS269_MISC_A_ATI_LP_ONLY		BIT(14)
--#define IQS269_MISC_A_ATI_BAND_TIGHTEN		BIT(13)
--#define IQS269_MISC_A_FILT_DISABLE		BIT(12)
--#define IQS269_MISC_A_GPIO3_SELECT_MASK		GENMASK(10, 8)
--#define IQS269_MISC_A_GPIO3_SELECT_SHIFT	8
--#define IQS269_MISC_A_DUAL_DIR			BIT(6)
--#define IQS269_MISC_A_TX_FREQ_MASK		GENMASK(5, 4)
--#define IQS269_MISC_A_TX_FREQ_SHIFT		4
--#define IQS269_MISC_A_TX_FREQ_MAX		3
--#define IQS269_MISC_A_GLOBAL_CAP_SIZE		BIT(0)
--
--#define IQS269_MISC_B_RESEED_UI_SEL_MASK	GENMASK(7, 6)
--#define IQS269_MISC_B_RESEED_UI_SEL_SHIFT	6
--#define IQS269_MISC_B_RESEED_UI_SEL_MAX		3
--#define IQS269_MISC_B_TRACKING_UI_ENABLE	BIT(4)
--#define IQS269_MISC_B_FILT_STR_SLIDER		GENMASK(1, 0)
--
--#define IQS269_TOUCH_HOLD_SLIDER_SEL		0x89
--#define IQS269_TOUCH_HOLD_DEFAULT		0x14
--#define IQS269_TOUCH_HOLD_MS_MIN		256
--#define IQS269_TOUCH_HOLD_MS_MAX		65280
--
--#define IQS269_TIMEOUT_TAP_MS_MAX		4080
--#define IQS269_TIMEOUT_SWIPE_MS_MAX		4080
--#define IQS269_THRESH_SWIPE_MAX			255
--
--#define IQS269_CHx_ENG_A_MEAS_CAP_SIZE		BIT(15)
--#define IQS269_CHx_ENG_A_RX_GND_INACTIVE	BIT(13)
--#define IQS269_CHx_ENG_A_LOCAL_CAP_SIZE		BIT(12)
--#define IQS269_CHx_ENG_A_ATI_MODE_MASK		GENMASK(9, 8)
--#define IQS269_CHx_ENG_A_ATI_MODE_SHIFT		8
--#define IQS269_CHx_ENG_A_ATI_MODE_MAX		3
--#define IQS269_CHx_ENG_A_INV_LOGIC		BIT(7)
--#define IQS269_CHx_ENG_A_PROJ_BIAS_MASK		GENMASK(6, 5)
--#define IQS269_CHx_ENG_A_PROJ_BIAS_SHIFT	5
--#define IQS269_CHx_ENG_A_PROJ_BIAS_MAX		3
--#define IQS269_CHx_ENG_A_SENSE_MODE_MASK	GENMASK(3, 0)
--#define IQS269_CHx_ENG_A_SENSE_MODE_MAX		15
--
--#define IQS269_CHx_ENG_B_LOCAL_CAP_ENABLE	BIT(13)
--#define IQS269_CHx_ENG_B_SENSE_FREQ_MASK	GENMASK(10, 9)
--#define IQS269_CHx_ENG_B_SENSE_FREQ_SHIFT	9
--#define IQS269_CHx_ENG_B_SENSE_FREQ_MAX		3
--#define IQS269_CHx_ENG_B_STATIC_ENABLE		BIT(8)
--#define IQS269_CHx_ENG_B_ATI_BASE_MASK		GENMASK(7, 6)
--#define IQS269_CHx_ENG_B_ATI_BASE_75		0x00
--#define IQS269_CHx_ENG_B_ATI_BASE_100		0x40
--#define IQS269_CHx_ENG_B_ATI_BASE_150		0x80
--#define IQS269_CHx_ENG_B_ATI_BASE_200		0xC0
--#define IQS269_CHx_ENG_B_ATI_TARGET_MASK	GENMASK(5, 0)
--#define IQS269_CHx_ENG_B_ATI_TARGET_MAX		2016
--
--#define IQS269_CHx_WEIGHT_MAX			255
--#define IQS269_CHx_THRESH_MAX			255
--#define IQS269_CHx_HYST_DEEP_MASK		GENMASK(7, 4)
--#define IQS269_CHx_HYST_DEEP_SHIFT		4
--#define IQS269_CHx_HYST_TOUCH_MASK		GENMASK(3, 0)
--#define IQS269_CHx_HYST_MAX			15
--
--#define IQS269_CHx_HALL_INACTIVE		6
--#define IQS269_CHx_HALL_ACTIVE			7
--
--#define IQS269_HALL_PAD_R			BIT(0)
--#define IQS269_HALL_PAD_L			BIT(1)
--#define IQS269_HALL_PAD_INV			BIT(6)
--
--#define IQS269_HALL_UI				0xF5
--#define IQS269_HALL_UI_ENABLE			BIT(15)
--
--#define IQS269_MAX_REG				0xFF
--
--#define IQS269_OTP_OPTION_DEFAULT		0x00
--#define IQS269_OTP_OPTION_TWS			0xD0
--#define IQS269_OTP_OPTION_HOLD			BIT(7)
--
--#define IQS269_NUM_CH				8
--#define IQS269_NUM_SL				2
--
--#define iqs269_irq_wait()			usleep_range(200, 250)
--
--enum iqs269_local_cap_size {
--	IQS269_LOCAL_CAP_SIZE_0,
--	IQS269_LOCAL_CAP_SIZE_GLOBAL_ONLY,
--	IQS269_LOCAL_CAP_SIZE_GLOBAL_0pF5,
--};
--
--enum iqs269_st_offs {
--	IQS269_ST_OFFS_PROX,
--	IQS269_ST_OFFS_DIR,
--	IQS269_ST_OFFS_TOUCH,
--	IQS269_ST_OFFS_DEEP,
--};
--
--enum iqs269_th_offs {
--	IQS269_TH_OFFS_PROX,
--	IQS269_TH_OFFS_TOUCH,
--	IQS269_TH_OFFS_DEEP,
--};
--
--enum iqs269_event_id {
--	IQS269_EVENT_PROX_DN,
--	IQS269_EVENT_PROX_UP,
--	IQS269_EVENT_TOUCH_DN,
--	IQS269_EVENT_TOUCH_UP,
--	IQS269_EVENT_DEEP_DN,
--	IQS269_EVENT_DEEP_UP,
--};
--
--enum iqs269_slider_id {
--	IQS269_SLIDER_NONE,
--	IQS269_SLIDER_KEY,
--	IQS269_SLIDER_RAW,
--};
--
--enum iqs269_gesture_id {
--	IQS269_GESTURE_TAP,
--	IQS269_GESTURE_HOLD,
--	IQS269_GESTURE_FLICK_POS,
--	IQS269_GESTURE_FLICK_NEG,
--	IQS269_NUM_GESTURES,
--};
--
--struct iqs269_switch_desc {
--	unsigned int code;
--	bool enabled;
--};
--
--struct iqs269_event_desc {
--	const char *name;
--	enum iqs269_st_offs st_offs;
--	enum iqs269_th_offs th_offs;
--	bool dir_up;
--	u8 mask;
--};
--
--static const struct iqs269_event_desc iqs269_events[] = {
--	[IQS269_EVENT_PROX_DN] = {
--		.name = "event-prox",
--		.st_offs = IQS269_ST_OFFS_PROX,
--		.th_offs = IQS269_TH_OFFS_PROX,
--		.mask = IQS269_EVENT_MASK_PROX,
--	},
--	[IQS269_EVENT_PROX_UP] = {
--		.name = "event-prox-alt",
--		.st_offs = IQS269_ST_OFFS_PROX,
--		.th_offs = IQS269_TH_OFFS_PROX,
--		.dir_up = true,
--		.mask = IQS269_EVENT_MASK_PROX,
--	},
--	[IQS269_EVENT_TOUCH_DN] = {
--		.name = "event-touch",
--		.st_offs = IQS269_ST_OFFS_TOUCH,
--		.th_offs = IQS269_TH_OFFS_TOUCH,
--		.mask = IQS269_EVENT_MASK_TOUCH,
--	},
--	[IQS269_EVENT_TOUCH_UP] = {
--		.name = "event-touch-alt",
--		.st_offs = IQS269_ST_OFFS_TOUCH,
--		.th_offs = IQS269_TH_OFFS_TOUCH,
--		.dir_up = true,
--		.mask = IQS269_EVENT_MASK_TOUCH,
--	},
--	[IQS269_EVENT_DEEP_DN] = {
--		.name = "event-deep",
--		.st_offs = IQS269_ST_OFFS_DEEP,
--		.th_offs = IQS269_TH_OFFS_DEEP,
--		.mask = IQS269_EVENT_MASK_DEEP,
--	},
--	[IQS269_EVENT_DEEP_UP] = {
--		.name = "event-deep-alt",
--		.st_offs = IQS269_ST_OFFS_DEEP,
--		.th_offs = IQS269_TH_OFFS_DEEP,
--		.dir_up = true,
--		.mask = IQS269_EVENT_MASK_DEEP,
--	},
--};
--
--struct iqs269_ver_info {
--	u8 prod_num;
--	u8 sw_num;
--	u8 hw_num;
--	u8 fw_num;
--} __packed;
--
--struct iqs269_ch_reg {
--	u8 rx_enable;
--	u8 tx_enable;
--	__be16 engine_a;
--	__be16 engine_b;
--	__be16 ati_comp;
--	u8 thresh[3];
--	u8 hyst;
--	u8 assoc_select;
--	u8 assoc_weight;
--} __packed;
--
--struct iqs269_sys_reg {
--	__be16 general;
--	u8 active;
--	u8 filter;
--	u8 reseed;
--	u8 event_mask;
--	u8 rate_np;
--	u8 rate_lp;
--	u8 rate_ulp;
--	u8 timeout_pwr;
--	u8 timeout_rdy;
--	u8 timeout_lta;
--	__be16 misc_a;
--	__be16 misc_b;
--	u8 blocking;
--	u8 padding;
--	u8 slider_select[IQS269_NUM_SL];
--	u8 timeout_tap;
--	u8 timeout_swipe;
--	u8 thresh_swipe;
--	u8 redo_ati;
--	struct iqs269_ch_reg ch_reg[IQS269_NUM_CH];
--} __packed;
--
--struct iqs269_flags {
--	__be16 system;
--	u8 gesture;
--	u8 padding;
--	u8 states[4];
--} __packed;
--
--struct iqs269_private {
--	struct i2c_client *client;
--	struct regmap *regmap;
--	struct mutex lock;
--	struct iqs269_switch_desc switches[ARRAY_SIZE(iqs269_events)];
--	struct iqs269_ver_info ver_info;
--	struct iqs269_sys_reg sys_reg;
--	struct completion ati_done;
--	struct input_dev *keypad;
--	struct input_dev *slider[IQS269_NUM_SL];
--	unsigned int keycode[ARRAY_SIZE(iqs269_events) * IQS269_NUM_CH];
--	unsigned int sl_code[IQS269_NUM_SL][IQS269_NUM_GESTURES];
--	unsigned int otp_option;
--	unsigned int ch_num;
--	bool hall_enable;
--	bool ati_current;
--};
--
--static enum iqs269_slider_id iqs269_slider_type(struct iqs269_private *iqs269,
--						int slider_num)
--{
--	int i;
--
--	/*
--	 * Slider 1 is unavailable if the touch-and-hold option is enabled via
--	 * OTP. In that case, the channel selection register is repurposed for
--	 * the touch-and-hold timer ceiling.
--	 */
--	if (slider_num && (iqs269->otp_option & IQS269_OTP_OPTION_HOLD))
--		return IQS269_SLIDER_NONE;
--
--	if (!iqs269->sys_reg.slider_select[slider_num])
--		return IQS269_SLIDER_NONE;
--
--	for (i = 0; i < IQS269_NUM_GESTURES; i++)
--		if (iqs269->sl_code[slider_num][i] != KEY_RESERVED)
--			return IQS269_SLIDER_KEY;
--
--	return IQS269_SLIDER_RAW;
--}
--
--static int iqs269_ati_mode_set(struct iqs269_private *iqs269,
--			       unsigned int ch_num, unsigned int mode)
--{
--	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
--	u16 engine_a;
--
--	if (ch_num >= IQS269_NUM_CH)
--		return -EINVAL;
--
--	if (mode > IQS269_CHx_ENG_A_ATI_MODE_MAX)
--		return -EINVAL;
--
--	guard(mutex)(&iqs269->lock);
--
--	engine_a = be16_to_cpu(ch_reg[ch_num].engine_a);
--
--	engine_a &= ~IQS269_CHx_ENG_A_ATI_MODE_MASK;
--	engine_a |= (mode << IQS269_CHx_ENG_A_ATI_MODE_SHIFT);
--
--	ch_reg[ch_num].engine_a = cpu_to_be16(engine_a);
--	iqs269->ati_current = false;
--
--	return 0;
--}
--
--static int iqs269_ati_mode_get(struct iqs269_private *iqs269,
--			       unsigned int ch_num, unsigned int *mode)
--{
--	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
--	u16 engine_a;
--
--	if (ch_num >= IQS269_NUM_CH)
--		return -EINVAL;
--
--	guard(mutex)(&iqs269->lock);
--
--	engine_a = be16_to_cpu(ch_reg[ch_num].engine_a);
--
--	engine_a &= IQS269_CHx_ENG_A_ATI_MODE_MASK;
--	*mode = (engine_a >> IQS269_CHx_ENG_A_ATI_MODE_SHIFT);
--
--	return 0;
--}
--
--static int iqs269_ati_base_set(struct iqs269_private *iqs269,
--			       unsigned int ch_num, unsigned int base)
--{
--	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
--	u16 engine_b;
--
--	if (ch_num >= IQS269_NUM_CH)
--		return -EINVAL;
--
--	switch (base) {
--	case 75:
--		base = IQS269_CHx_ENG_B_ATI_BASE_75;
--		break;
--
--	case 100:
--		base = IQS269_CHx_ENG_B_ATI_BASE_100;
--		break;
--
--	case 150:
--		base = IQS269_CHx_ENG_B_ATI_BASE_150;
--		break;
--
--	case 200:
--		base = IQS269_CHx_ENG_B_ATI_BASE_200;
--		break;
--
--	default:
--		return -EINVAL;
--	}
--
--	guard(mutex)(&iqs269->lock);
--
--	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
--
--	engine_b &= ~IQS269_CHx_ENG_B_ATI_BASE_MASK;
--	engine_b |= base;
--
--	ch_reg[ch_num].engine_b = cpu_to_be16(engine_b);
--	iqs269->ati_current = false;
--
--	return 0;
--}
--
--static int iqs269_ati_base_get(struct iqs269_private *iqs269,
--			       unsigned int ch_num, unsigned int *base)
--{
--	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
--	u16 engine_b;
--
--	if (ch_num >= IQS269_NUM_CH)
--		return -EINVAL;
--
--	guard(mutex)(&iqs269->lock);
--
--	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
--
--	switch (engine_b & IQS269_CHx_ENG_B_ATI_BASE_MASK) {
--	case IQS269_CHx_ENG_B_ATI_BASE_75:
--		*base = 75;
--		return 0;
--
--	case IQS269_CHx_ENG_B_ATI_BASE_100:
--		*base = 100;
--		return 0;
--
--	case IQS269_CHx_ENG_B_ATI_BASE_150:
--		*base = 150;
--		return 0;
--
--	case IQS269_CHx_ENG_B_ATI_BASE_200:
--		*base = 200;
--		return 0;
--
--	default:
--		return -EINVAL;
--	}
--}
--
--static int iqs269_ati_target_set(struct iqs269_private *iqs269,
--				 unsigned int ch_num, unsigned int target)
--{
--	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
--	u16 engine_b;
--
--	if (ch_num >= IQS269_NUM_CH)
--		return -EINVAL;
--
--	if (target > IQS269_CHx_ENG_B_ATI_TARGET_MAX)
--		return -EINVAL;
--
--	guard(mutex)(&iqs269->lock);
--
--	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
--
--	engine_b &= ~IQS269_CHx_ENG_B_ATI_TARGET_MASK;
--	engine_b |= target / 32;
--
--	ch_reg[ch_num].engine_b = cpu_to_be16(engine_b);
--	iqs269->ati_current = false;
--
--	return 0;
--}
--
--static int iqs269_ati_target_get(struct iqs269_private *iqs269,
--				 unsigned int ch_num, unsigned int *target)
--{
--	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
--	u16 engine_b;
--
--	if (ch_num >= IQS269_NUM_CH)
--		return -EINVAL;
--
--	guard(mutex)(&iqs269->lock);
--
--	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
--	*target = (engine_b & IQS269_CHx_ENG_B_ATI_TARGET_MASK) * 32;
--
--	return 0;
--}
--
--static int iqs269_parse_mask(const struct fwnode_handle *fwnode,
--			     const char *propname, u8 *mask)
--{
--	unsigned int val[IQS269_NUM_CH];
--	int count, error, i;
--
--	count = fwnode_property_count_u32(fwnode, propname);
--	if (count < 0)
--		return 0;
--
--	if (count > IQS269_NUM_CH)
--		return -EINVAL;
--
--	error = fwnode_property_read_u32_array(fwnode, propname, val, count);
--	if (error)
--		return error;
--
--	*mask = 0;
--
--	for (i = 0; i < count; i++) {
--		if (val[i] >= IQS269_NUM_CH)
--			return -EINVAL;
--
--		*mask |= BIT(val[i]);
--	}
--
--	return 0;
--}
--
--static int iqs269_parse_chan(struct iqs269_private *iqs269,
--			     const struct fwnode_handle *ch_node)
--{
--	struct i2c_client *client = iqs269->client;
--	struct iqs269_ch_reg *ch_reg;
--	u16 engine_a, engine_b;
--	unsigned int reg, val;
--	int error, i;
--
--	error = fwnode_property_read_u32(ch_node, "reg", &reg);
--	if (error) {
--		dev_err(&client->dev, "Failed to read channel number: %d\n",
--			error);
--		return error;
--	} else if (reg >= IQS269_NUM_CH) {
--		dev_err(&client->dev, "Invalid channel number: %u\n", reg);
--		return -EINVAL;
--	}
--
--	iqs269->sys_reg.active |= BIT(reg);
--	if (!fwnode_property_present(ch_node, "azoteq,reseed-disable"))
--		iqs269->sys_reg.reseed |= BIT(reg);
--
--	if (fwnode_property_present(ch_node, "azoteq,blocking-enable"))
--		iqs269->sys_reg.blocking |= BIT(reg);
--
--	if (fwnode_property_present(ch_node, "azoteq,slider0-select"))
--		iqs269->sys_reg.slider_select[0] |= BIT(reg);
--
--	if (fwnode_property_present(ch_node, "azoteq,slider1-select") &&
--	    !(iqs269->otp_option & IQS269_OTP_OPTION_HOLD))
--		iqs269->sys_reg.slider_select[1] |= BIT(reg);
--
--	ch_reg = &iqs269->sys_reg.ch_reg[reg];
--
--	error = iqs269_parse_mask(ch_node, "azoteq,rx-enable",
--				  &ch_reg->rx_enable);
--	if (error) {
--		dev_err(&client->dev, "Invalid channel %u RX enable mask: %d\n",
--			reg, error);
--		return error;
--	}
--
--	error = iqs269_parse_mask(ch_node, "azoteq,tx-enable",
--				  &ch_reg->tx_enable);
--	if (error) {
--		dev_err(&client->dev, "Invalid channel %u TX enable mask: %d\n",
--			reg, error);
--		return error;
--	}
--
--	engine_a = be16_to_cpu(ch_reg->engine_a);
--	engine_b = be16_to_cpu(ch_reg->engine_b);
--
--	engine_a |= IQS269_CHx_ENG_A_MEAS_CAP_SIZE;
--	if (fwnode_property_present(ch_node, "azoteq,meas-cap-decrease"))
--		engine_a &= ~IQS269_CHx_ENG_A_MEAS_CAP_SIZE;
--
--	engine_a |= IQS269_CHx_ENG_A_RX_GND_INACTIVE;
--	if (fwnode_property_present(ch_node, "azoteq,rx-float-inactive"))
--		engine_a &= ~IQS269_CHx_ENG_A_RX_GND_INACTIVE;
--
--	engine_a &= ~IQS269_CHx_ENG_A_LOCAL_CAP_SIZE;
--	engine_b &= ~IQS269_CHx_ENG_B_LOCAL_CAP_ENABLE;
--	if (!fwnode_property_read_u32(ch_node, "azoteq,local-cap-size", &val)) {
--		switch (val) {
--		case IQS269_LOCAL_CAP_SIZE_0:
--			break;
--
--		case IQS269_LOCAL_CAP_SIZE_GLOBAL_0pF5:
--			engine_a |= IQS269_CHx_ENG_A_LOCAL_CAP_SIZE;
--			fallthrough;
--
--		case IQS269_LOCAL_CAP_SIZE_GLOBAL_ONLY:
--			engine_b |= IQS269_CHx_ENG_B_LOCAL_CAP_ENABLE;
--			break;
--
--		default:
--			dev_err(&client->dev,
--				"Invalid channel %u local cap. size: %u\n", reg,
--				val);
--			return -EINVAL;
--		}
--	}
--
--	engine_a &= ~IQS269_CHx_ENG_A_INV_LOGIC;
--	if (fwnode_property_present(ch_node, "azoteq,invert-enable"))
--		engine_a |= IQS269_CHx_ENG_A_INV_LOGIC;
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,proj-bias", &val)) {
--		if (val > IQS269_CHx_ENG_A_PROJ_BIAS_MAX) {
--			dev_err(&client->dev,
--				"Invalid channel %u bias current: %u\n", reg,
--				val);
--			return -EINVAL;
--		}
--
--		engine_a &= ~IQS269_CHx_ENG_A_PROJ_BIAS_MASK;
--		engine_a |= (val << IQS269_CHx_ENG_A_PROJ_BIAS_SHIFT);
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,sense-mode", &val)) {
--		if (val > IQS269_CHx_ENG_A_SENSE_MODE_MAX) {
--			dev_err(&client->dev,
--				"Invalid channel %u sensing mode: %u\n", reg,
--				val);
--			return -EINVAL;
--		}
--
--		engine_a &= ~IQS269_CHx_ENG_A_SENSE_MODE_MASK;
--		engine_a |= val;
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,sense-freq", &val)) {
--		if (val > IQS269_CHx_ENG_B_SENSE_FREQ_MAX) {
--			dev_err(&client->dev,
--				"Invalid channel %u sensing frequency: %u\n",
--				reg, val);
--			return -EINVAL;
--		}
--
--		engine_b &= ~IQS269_CHx_ENG_B_SENSE_FREQ_MASK;
--		engine_b |= (val << IQS269_CHx_ENG_B_SENSE_FREQ_SHIFT);
--	}
--
--	engine_b &= ~IQS269_CHx_ENG_B_STATIC_ENABLE;
--	if (fwnode_property_present(ch_node, "azoteq,static-enable"))
--		engine_b |= IQS269_CHx_ENG_B_STATIC_ENABLE;
--
--	ch_reg->engine_a = cpu_to_be16(engine_a);
--	ch_reg->engine_b = cpu_to_be16(engine_b);
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,ati-mode", &val)) {
--		error = iqs269_ati_mode_set(iqs269, reg, val);
--		if (error) {
--			dev_err(&client->dev,
--				"Invalid channel %u ATI mode: %u\n", reg, val);
--			return error;
--		}
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,ati-base", &val)) {
--		error = iqs269_ati_base_set(iqs269, reg, val);
--		if (error) {
--			dev_err(&client->dev,
--				"Invalid channel %u ATI base: %u\n", reg, val);
--			return error;
--		}
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,ati-target", &val)) {
--		error = iqs269_ati_target_set(iqs269, reg, val);
--		if (error) {
--			dev_err(&client->dev,
--				"Invalid channel %u ATI target: %u\n", reg,
--				val);
--			return error;
--		}
--	}
--
--	error = iqs269_parse_mask(ch_node, "azoteq,assoc-select",
--				  &ch_reg->assoc_select);
--	if (error) {
--		dev_err(&client->dev, "Invalid channel %u association: %d\n",
--			reg, error);
--		return error;
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,assoc-weight", &val)) {
--		if (val > IQS269_CHx_WEIGHT_MAX) {
--			dev_err(&client->dev,
--				"Invalid channel %u associated weight: %u\n",
--				reg, val);
--			return -EINVAL;
--		}
--
--		ch_reg->assoc_weight = val;
--	}
--
--	for (i = 0; i < ARRAY_SIZE(iqs269_events); i++) {
--		struct fwnode_handle *ev_node __free(fwnode_handle) =
--			fwnode_get_named_child_node(ch_node,
--						    iqs269_events[i].name);
--		if (!ev_node)
--			continue;
--
--		if (!fwnode_property_read_u32(ev_node, "azoteq,thresh", &val)) {
--			if (val > IQS269_CHx_THRESH_MAX) {
--				dev_err(&client->dev,
--					"Invalid channel %u threshold: %u\n",
--					reg, val);
--				return -EINVAL;
--			}
--
--			ch_reg->thresh[iqs269_events[i].th_offs] = val;
--		}
--
--		if (!fwnode_property_read_u32(ev_node, "azoteq,hyst", &val)) {
--			u8 *hyst = &ch_reg->hyst;
--
--			if (val > IQS269_CHx_HYST_MAX) {
--				dev_err(&client->dev,
--					"Invalid channel %u hysteresis: %u\n",
--					reg, val);
--				return -EINVAL;
--			}
--
--			if (i == IQS269_EVENT_DEEP_DN ||
--			    i == IQS269_EVENT_DEEP_UP) {
--				*hyst &= ~IQS269_CHx_HYST_DEEP_MASK;
--				*hyst |= (val << IQS269_CHx_HYST_DEEP_SHIFT);
--			} else if (i == IQS269_EVENT_TOUCH_DN ||
--				   i == IQS269_EVENT_TOUCH_UP) {
--				*hyst &= ~IQS269_CHx_HYST_TOUCH_MASK;
--				*hyst |= val;
--			}
--		}
--
--		error = fwnode_property_read_u32(ev_node, "linux,code", &val);
--		if (error == -EINVAL) {
--			continue;
--		} else if (error) {
--			dev_err(&client->dev,
--				"Failed to read channel %u code: %d\n", reg,
--				error);
--			return error;
--		}
--
--		switch (reg) {
--		case IQS269_CHx_HALL_ACTIVE:
--			if (iqs269->hall_enable) {
--				iqs269->switches[i].code = val;
--				iqs269->switches[i].enabled = true;
--			}
--			fallthrough;
--
--		case IQS269_CHx_HALL_INACTIVE:
--			if (iqs269->hall_enable)
--				break;
--			fallthrough;
--
--		default:
--			iqs269->keycode[i * IQS269_NUM_CH + reg] = val;
--		}
--
--		iqs269->sys_reg.event_mask &= ~iqs269_events[i].mask;
--	}
--
--	return 0;
--}
--
--static int iqs269_parse_prop(struct iqs269_private *iqs269)
--{
--	struct iqs269_sys_reg *sys_reg = &iqs269->sys_reg;
--	struct i2c_client *client = iqs269->client;
--	u16 general, misc_a, misc_b;
--	unsigned int val;
--	int error;
--
--	iqs269->hall_enable = device_property_present(&client->dev,
--						      "azoteq,hall-enable");
--
--	error = regmap_raw_read(iqs269->regmap, IQS269_SYS_SETTINGS, sys_reg,
--				sizeof(*sys_reg));
--	if (error)
--		return error;
--
--	if (!device_property_read_u32(&client->dev, "azoteq,filt-str-lp-lta",
--				      &val)) {
--		if (val > IQS269_FILT_STR_MAX) {
--			dev_err(&client->dev, "Invalid filter strength: %u\n",
--				val);
--			return -EINVAL;
--		}
--
--		sys_reg->filter &= ~IQS269_FILT_STR_LP_LTA_MASK;
--		sys_reg->filter |= (val << IQS269_FILT_STR_LP_LTA_SHIFT);
--	}
--
--	if (!device_property_read_u32(&client->dev, "azoteq,filt-str-lp-cnt",
--				      &val)) {
--		if (val > IQS269_FILT_STR_MAX) {
--			dev_err(&client->dev, "Invalid filter strength: %u\n",
--				val);
--			return -EINVAL;
--		}
--
--		sys_reg->filter &= ~IQS269_FILT_STR_LP_CNT_MASK;
--		sys_reg->filter |= (val << IQS269_FILT_STR_LP_CNT_SHIFT);
--	}
--
--	if (!device_property_read_u32(&client->dev, "azoteq,filt-str-np-lta",
--				      &val)) {
--		if (val > IQS269_FILT_STR_MAX) {
--			dev_err(&client->dev, "Invalid filter strength: %u\n",
--				val);
--			return -EINVAL;
--		}
--
--		sys_reg->filter &= ~IQS269_FILT_STR_NP_LTA_MASK;
--		sys_reg->filter |= (val << IQS269_FILT_STR_NP_LTA_SHIFT);
--	}
--
--	if (!device_property_read_u32(&client->dev, "azoteq,filt-str-np-cnt",
--				      &val)) {
--		if (val > IQS269_FILT_STR_MAX) {
--			dev_err(&client->dev, "Invalid filter strength: %u\n",
--				val);
--			return -EINVAL;
--		}
--
--		sys_reg->filter &= ~IQS269_FILT_STR_NP_CNT_MASK;
--		sys_reg->filter |= val;
--	}
--
--	if (!device_property_read_u32(&client->dev, "azoteq,rate-np-ms",
--				      &val)) {
--		if (val > IQS269_RATE_NP_MS_MAX) {
--			dev_err(&client->dev, "Invalid report rate: %u\n", val);
--			return -EINVAL;
--		}
--
--		sys_reg->rate_np = val;
--	}
--
--	if (!device_property_read_u32(&client->dev, "azoteq,rate-lp-ms",
--				      &val)) {
--		if (val > IQS269_RATE_LP_MS_MAX) {
--			dev_err(&client->dev, "Invalid report rate: %u\n", val);
--			return -EINVAL;
--		}
--
--		sys_reg->rate_lp = val;
--	}
--
--	if (!device_property_read_u32(&client->dev, "azoteq,rate-ulp-ms",
--				      &val)) {
--		if (val > IQS269_RATE_ULP_MS_MAX) {
--			dev_err(&client->dev, "Invalid report rate: %u\n", val);
--			return -EINVAL;
--		}
--
--		sys_reg->rate_ulp = val / 16;
--	}
--
--	if (!device_property_read_u32(&client->dev, "azoteq,timeout-pwr-ms",
--				      &val)) {
--		if (val > IQS269_TIMEOUT_PWR_MS_MAX) {
--			dev_err(&client->dev, "Invalid timeout: %u\n", val);
--			return -EINVAL;
--		}
--
--		sys_reg->timeout_pwr = val / 512;
--	}
--
--	if (!device_property_read_u32(&client->dev, "azoteq,timeout-lta-ms",
--				      &val)) {
--		if (val > IQS269_TIMEOUT_LTA_MS_MAX) {
--			dev_err(&client->dev, "Invalid timeout: %u\n", val);
--			return -EINVAL;
--		}
--
--		sys_reg->timeout_lta = val / 512;
--	}
--
--	misc_a = be16_to_cpu(sys_reg->misc_a);
--	misc_b = be16_to_cpu(sys_reg->misc_b);
--
--	misc_a &= ~IQS269_MISC_A_ATI_BAND_DISABLE;
--	if (device_property_present(&client->dev, "azoteq,ati-band-disable"))
--		misc_a |= IQS269_MISC_A_ATI_BAND_DISABLE;
--
--	misc_a &= ~IQS269_MISC_A_ATI_LP_ONLY;
--	if (device_property_present(&client->dev, "azoteq,ati-lp-only"))
--		misc_a |= IQS269_MISC_A_ATI_LP_ONLY;
--
--	misc_a &= ~IQS269_MISC_A_ATI_BAND_TIGHTEN;
--	if (device_property_present(&client->dev, "azoteq,ati-band-tighten"))
--		misc_a |= IQS269_MISC_A_ATI_BAND_TIGHTEN;
--
--	misc_a &= ~IQS269_MISC_A_FILT_DISABLE;
--	if (device_property_present(&client->dev, "azoteq,filt-disable"))
--		misc_a |= IQS269_MISC_A_FILT_DISABLE;
--
--	if (!device_property_read_u32(&client->dev, "azoteq,gpio3-select",
--				      &val)) {
--		if (val >= IQS269_NUM_CH) {
--			dev_err(&client->dev, "Invalid GPIO3 selection: %u\n",
--				val);
--			return -EINVAL;
--		}
--
--		misc_a &= ~IQS269_MISC_A_GPIO3_SELECT_MASK;
--		misc_a |= (val << IQS269_MISC_A_GPIO3_SELECT_SHIFT);
--	}
--
--	misc_a &= ~IQS269_MISC_A_DUAL_DIR;
--	if (device_property_present(&client->dev, "azoteq,dual-direction"))
--		misc_a |= IQS269_MISC_A_DUAL_DIR;
--
--	if (!device_property_read_u32(&client->dev, "azoteq,tx-freq", &val)) {
--		if (val > IQS269_MISC_A_TX_FREQ_MAX) {
--			dev_err(&client->dev,
--				"Invalid excitation frequency: %u\n", val);
--			return -EINVAL;
--		}
--
--		misc_a &= ~IQS269_MISC_A_TX_FREQ_MASK;
--		misc_a |= (val << IQS269_MISC_A_TX_FREQ_SHIFT);
--	}
--
--	misc_a &= ~IQS269_MISC_A_GLOBAL_CAP_SIZE;
--	if (device_property_present(&client->dev, "azoteq,global-cap-increase"))
--		misc_a |= IQS269_MISC_A_GLOBAL_CAP_SIZE;
--
--	if (!device_property_read_u32(&client->dev, "azoteq,reseed-select",
--				      &val)) {
--		if (val > IQS269_MISC_B_RESEED_UI_SEL_MAX) {
--			dev_err(&client->dev, "Invalid reseed selection: %u\n",
--				val);
--			return -EINVAL;
--		}
--
--		misc_b &= ~IQS269_MISC_B_RESEED_UI_SEL_MASK;
--		misc_b |= (val << IQS269_MISC_B_RESEED_UI_SEL_SHIFT);
--	}
--
--	misc_b &= ~IQS269_MISC_B_TRACKING_UI_ENABLE;
--	if (device_property_present(&client->dev, "azoteq,tracking-enable"))
--		misc_b |= IQS269_MISC_B_TRACKING_UI_ENABLE;
--
--	if (!device_property_read_u32(&client->dev, "azoteq,filt-str-slider",
--				      &val)) {
--		if (val > IQS269_FILT_STR_MAX) {
--			dev_err(&client->dev, "Invalid filter strength: %u\n",
--				val);
--			return -EINVAL;
--		}
--
--		misc_b &= ~IQS269_MISC_B_FILT_STR_SLIDER;
--		misc_b |= val;
--	}
--
--	sys_reg->misc_a = cpu_to_be16(misc_a);
--	sys_reg->misc_b = cpu_to_be16(misc_b);
--
--	sys_reg->active = 0;
--	sys_reg->reseed = 0;
--
--	sys_reg->blocking = 0;
--
--	sys_reg->slider_select[0] = 0;
--
--	/*
--	 * If configured via OTP to do so, the device asserts a pulse on the
--	 * GPIO4 pin for approximately 60 ms once a selected channel is held
--	 * in a state of touch for a configurable length of time.
--	 *
--	 * In that case, the register used for slider 1 channel selection is
--	 * repurposed for the touch-and-hold timer ceiling.
--	 */
--	if (iqs269->otp_option & IQS269_OTP_OPTION_HOLD) {
--		if (!device_property_read_u32(&client->dev,
--					      "azoteq,touch-hold-ms", &val)) {
--			if (val < IQS269_TOUCH_HOLD_MS_MIN ||
--			    val > IQS269_TOUCH_HOLD_MS_MAX) {
--				dev_err(&client->dev,
--					"Invalid touch-and-hold ceiling: %u\n",
--					val);
--				return -EINVAL;
--			}
--
--			sys_reg->slider_select[1] = val / 256;
--		} else if (iqs269->ver_info.fw_num < IQS269_VER_INFO_FW_NUM_3) {
--			/*
--			 * The default touch-and-hold timer ceiling initially
--			 * read from early revisions of silicon is invalid if
--			 * the device experienced a soft reset between power-
--			 * on and the read operation.
--			 *
--			 * To protect against this case, explicitly cache the
--			 * default value so that it is restored each time the
--			 * device is re-initialized.
--			 */
--			sys_reg->slider_select[1] = IQS269_TOUCH_HOLD_DEFAULT;
--		}
--	} else {
--		sys_reg->slider_select[1] = 0;
--	}
--
--	sys_reg->event_mask = ~((u8)IQS269_EVENT_MASK_SYS);
--
--	device_for_each_child_node_scoped(&client->dev, ch_node) {
--		error = iqs269_parse_chan(iqs269, ch_node);
--		if (error)
--			return error;
--	}
--
--	/*
--	 * Volunteer all active channels to participate in ATI when REDO-ATI is
--	 * manually triggered.
--	 */
--	sys_reg->redo_ati = sys_reg->active;
--
--	general = be16_to_cpu(sys_reg->general);
--
--	if (device_property_present(&client->dev, "azoteq,clk-div"))
--		general |= IQS269_SYS_SETTINGS_CLK_DIV;
--
--	/*
--	 * Configure the device to automatically switch between normal and low-
--	 * power modes as a function of sensing activity. Ultra-low-power mode,
--	 * if enabled, is reserved for suspend.
--	 */
--	general &= ~IQS269_SYS_SETTINGS_ULP_AUTO;
--	general &= ~IQS269_SYS_SETTINGS_DIS_AUTO;
--	general &= ~IQS269_SYS_SETTINGS_PWR_MODE_MASK;
--
--	if (!device_property_read_u32(&client->dev, "azoteq,suspend-mode",
--				      &val)) {
--		if (val > IQS269_SYS_SETTINGS_PWR_MODE_MAX) {
--			dev_err(&client->dev, "Invalid suspend mode: %u\n",
--				val);
--			return -EINVAL;
--		}
--
--		general |= (val << IQS269_SYS_SETTINGS_PWR_MODE_SHIFT);
--	}
--
--	if (!device_property_read_u32(&client->dev, "azoteq,ulp-update",
--				      &val)) {
--		if (val > IQS269_SYS_SETTINGS_ULP_UPDATE_MAX) {
--			dev_err(&client->dev, "Invalid update rate: %u\n", val);
--			return -EINVAL;
--		}
--
--		general &= ~IQS269_SYS_SETTINGS_ULP_UPDATE_MASK;
--		general |= (val << IQS269_SYS_SETTINGS_ULP_UPDATE_SHIFT);
--	}
--
--	if (device_property_present(&client->dev, "linux,keycodes")) {
--		int scale = 1;
--		int count = device_property_count_u32(&client->dev,
--						      "linux,keycodes");
--		if (count > IQS269_NUM_GESTURES * IQS269_NUM_SL) {
--			dev_err(&client->dev, "Too many keycodes present\n");
--			return -EINVAL;
--		} else if (count < 0) {
--			dev_err(&client->dev, "Failed to count keycodes: %d\n",
--				count);
--			return count;
--		}
--
--		error = device_property_read_u32_array(&client->dev,
--						       "linux,keycodes",
--						       *iqs269->sl_code, count);
--		if (error) {
--			dev_err(&client->dev, "Failed to read keycodes: %d\n",
--				error);
--			return error;
--		}
--
--		if (device_property_present(&client->dev,
--					    "azoteq,gesture-swipe"))
--			general |= IQS269_SYS_SETTINGS_SLIDER_SWIPE;
--
--		/*
--		 * Early revisions of silicon use a more granular step size for
--		 * tap and swipe gesture timeouts; scale them appropriately.
--		 */
--		if (iqs269->ver_info.fw_num < IQS269_VER_INFO_FW_NUM_3)
--			scale = 4;
--
--		if (!device_property_read_u32(&client->dev,
--					      "azoteq,timeout-tap-ms", &val)) {
--			if (val > IQS269_TIMEOUT_TAP_MS_MAX / scale) {
--				dev_err(&client->dev, "Invalid timeout: %u\n",
--					val);
--				return -EINVAL;
--			}
--
--			sys_reg->timeout_tap = val / (16 / scale);
--		}
--
--		if (!device_property_read_u32(&client->dev,
--					      "azoteq,timeout-swipe-ms",
--					      &val)) {
--			if (val > IQS269_TIMEOUT_SWIPE_MS_MAX / scale) {
--				dev_err(&client->dev, "Invalid timeout: %u\n",
--					val);
--				return -EINVAL;
--			}
--
--			sys_reg->timeout_swipe = val / (16 / scale);
--		}
--
--		if (!device_property_read_u32(&client->dev,
--					      "azoteq,thresh-swipe", &val)) {
--			if (val > IQS269_THRESH_SWIPE_MAX) {
--				dev_err(&client->dev, "Invalid threshold: %u\n",
--					val);
--				return -EINVAL;
--			}
--
--			sys_reg->thresh_swipe = val;
--		}
--
--		sys_reg->event_mask &= ~IQS269_EVENT_MASK_GESTURE;
--	}
--
--	general &= ~IQS269_SYS_SETTINGS_RESEED_OFFSET;
--	if (device_property_present(&client->dev, "azoteq,reseed-offset"))
--		general |= IQS269_SYS_SETTINGS_RESEED_OFFSET;
--
--	general |= IQS269_SYS_SETTINGS_EVENT_MODE;
--
--	/*
--	 * As per the datasheet, enable streaming during normal-power mode if
--	 * raw coordinates will be read from either slider. In that case, the
--	 * device returns to event mode during low-power mode.
--	 */
--	if (iqs269_slider_type(iqs269, 0) == IQS269_SLIDER_RAW ||
--	    iqs269_slider_type(iqs269, 1) == IQS269_SLIDER_RAW)
--		general |= IQS269_SYS_SETTINGS_EVENT_MODE_LP;
--
--	general |= IQS269_SYS_SETTINGS_REDO_ATI;
--	general |= IQS269_SYS_SETTINGS_ACK_RESET;
--
--	sys_reg->general = cpu_to_be16(general);
--
--	return 0;
--}
--
--static const struct reg_sequence iqs269_tws_init[] = {
--	{ IQS269_TOUCH_HOLD_SLIDER_SEL, IQS269_TOUCH_HOLD_DEFAULT },
--	{ 0xF0, 0x580F },
--	{ 0xF0, 0x59EF },
--};
--
--static int iqs269_dev_init(struct iqs269_private *iqs269)
--{
--	int error;
--
--	guard(mutex)(&iqs269->lock);
--
--	/*
--	 * Early revisions of silicon require the following workaround in order
--	 * to restore any OTP-enabled functionality after a soft reset.
--	 */
--	if (iqs269->otp_option == IQS269_OTP_OPTION_TWS &&
--	    iqs269->ver_info.fw_num < IQS269_VER_INFO_FW_NUM_3) {
--		error = regmap_multi_reg_write(iqs269->regmap, iqs269_tws_init,
--					       ARRAY_SIZE(iqs269_tws_init));
--		if (error)
--			return error;
--	}
--
--	error = regmap_update_bits(iqs269->regmap, IQS269_HALL_UI,
--				   IQS269_HALL_UI_ENABLE,
--				   iqs269->hall_enable ? ~0 : 0);
--	if (error)
--		return error;
--
--	error = regmap_raw_write(iqs269->regmap, IQS269_SYS_SETTINGS,
--				 &iqs269->sys_reg, sizeof(iqs269->sys_reg));
--	if (error)
--		return error;
--
--	/*
--	 * The following delay gives the device time to deassert its RDY output
--	 * so as to prevent an interrupt from being serviced prematurely.
--	 */
--	usleep_range(2000, 2100);
--
--	iqs269->ati_current = true;
--
--	return 0;
--}
--
--static int iqs269_input_init(struct iqs269_private *iqs269)
--{
--	struct i2c_client *client = iqs269->client;
--	unsigned int sw_code, keycode;
--	int error, i, j;
--
--	iqs269->keypad = devm_input_allocate_device(&client->dev);
--	if (!iqs269->keypad)
--		return -ENOMEM;
--
--	iqs269->keypad->keycodemax = ARRAY_SIZE(iqs269->keycode);
--	iqs269->keypad->keycode = iqs269->keycode;
--	iqs269->keypad->keycodesize = sizeof(*iqs269->keycode);
--
--	iqs269->keypad->name = "iqs269a_keypad";
--	iqs269->keypad->id.bustype = BUS_I2C;
--
--	for (i = 0; i < ARRAY_SIZE(iqs269_events); i++) {
--		sw_code = iqs269->switches[i].code;
--
--		for (j = 0; j < IQS269_NUM_CH; j++) {
--			keycode = iqs269->keycode[i * IQS269_NUM_CH + j];
--
--			/*
--			 * Hall-effect sensing repurposes a pair of dedicated
--			 * channels, only one of which reports events.
--			 */
--			switch (j) {
--			case IQS269_CHx_HALL_ACTIVE:
--				if (iqs269->hall_enable &&
--				    iqs269->switches[i].enabled)
--					input_set_capability(iqs269->keypad,
--							     EV_SW, sw_code);
--				fallthrough;
--
--			case IQS269_CHx_HALL_INACTIVE:
--				if (iqs269->hall_enable)
--					continue;
--				fallthrough;
--
--			default:
--				if (keycode != KEY_RESERVED)
--					input_set_capability(iqs269->keypad,
--							     EV_KEY, keycode);
--			}
--		}
--	}
--
--	for (i = 0; i < IQS269_NUM_SL; i++) {
--		if (iqs269_slider_type(iqs269, i) == IQS269_SLIDER_NONE)
--			continue;
--
--		iqs269->slider[i] = devm_input_allocate_device(&client->dev);
--		if (!iqs269->slider[i])
--			return -ENOMEM;
--
--		iqs269->slider[i]->keycodemax = ARRAY_SIZE(iqs269->sl_code[i]);
--		iqs269->slider[i]->keycode = iqs269->sl_code[i];
--		iqs269->slider[i]->keycodesize = sizeof(**iqs269->sl_code);
--
--		iqs269->slider[i]->name = i ? "iqs269a_slider_1"
--					    : "iqs269a_slider_0";
--		iqs269->slider[i]->id.bustype = BUS_I2C;
--
--		for (j = 0; j < IQS269_NUM_GESTURES; j++)
--			if (iqs269->sl_code[i][j] != KEY_RESERVED)
--				input_set_capability(iqs269->slider[i], EV_KEY,
--						     iqs269->sl_code[i][j]);
--
--		/*
--		 * Present the slider as a narrow trackpad if one or more chan-
--		 * nels have been selected to participate, but no gestures have
--		 * been mapped to a keycode.
--		 */
--		if (iqs269_slider_type(iqs269, i) == IQS269_SLIDER_RAW) {
--			input_set_capability(iqs269->slider[i],
--					     EV_KEY, BTN_TOUCH);
--			input_set_abs_params(iqs269->slider[i],
--					     ABS_X, 0, 255, 0, 0);
--		}
--
--		error = input_register_device(iqs269->slider[i]);
--		if (error) {
--			dev_err(&client->dev,
--				"Failed to register slider %d: %d\n", i, error);
--			return error;
--		}
--	}
--
--	return 0;
--}
--
--static int iqs269_report(struct iqs269_private *iqs269)
--{
--	struct i2c_client *client = iqs269->client;
--	struct iqs269_flags flags;
--	unsigned int sw_code, keycode;
--	int error, i, j;
--	u8 slider_x[IQS269_NUM_SL];
--	u8 dir_mask, state;
--
--	error = regmap_raw_read(iqs269->regmap, IQS269_SYS_FLAGS, &flags,
--				sizeof(flags));
--	if (error) {
--		dev_err(&client->dev, "Failed to read device status: %d\n",
--			error);
--		return error;
--	}
--
--	/*
--	 * The device resets itself if its own watchdog bites, which can happen
--	 * in the event of an I2C communication error. In this case, the device
--	 * asserts a SHOW_RESET interrupt and all registers must be restored.
--	 */
--	if (be16_to_cpu(flags.system) & IQS269_SYS_FLAGS_SHOW_RESET) {
--		dev_err(&client->dev, "Unexpected device reset\n");
--
--		error = iqs269_dev_init(iqs269);
--		if (error)
--			dev_err(&client->dev,
--				"Failed to re-initialize device: %d\n", error);
--
--		return error;
--	}
--
--	if (be16_to_cpu(flags.system) & IQS269_SYS_FLAGS_IN_ATI)
--		return 0;
--
--	if (iqs269_slider_type(iqs269, 0) == IQS269_SLIDER_RAW ||
--	    iqs269_slider_type(iqs269, 1) == IQS269_SLIDER_RAW) {
--		error = regmap_raw_read(iqs269->regmap, IQS269_SLIDER_X,
--					slider_x, sizeof(slider_x));
--		if (error) {
--			dev_err(&client->dev,
--				"Failed to read slider position: %d\n", error);
--			return error;
--		}
--	}
--
--	for (i = 0; i < IQS269_NUM_SL; i++) {
--		flags.gesture >>= (i * IQS269_NUM_GESTURES);
--
--		switch (iqs269_slider_type(iqs269, i)) {
--		case IQS269_SLIDER_NONE:
--			continue;
--
--		case IQS269_SLIDER_KEY:
--			for (j = 0; j < IQS269_NUM_GESTURES; j++)
--				input_report_key(iqs269->slider[i],
--						 iqs269->sl_code[i][j],
--						 flags.gesture & BIT(j));
--
--			if (!(flags.gesture & (BIT(IQS269_GESTURE_FLICK_NEG) |
--					       BIT(IQS269_GESTURE_FLICK_POS) |
--					       BIT(IQS269_GESTURE_TAP))))
--				break;
--
--			input_sync(iqs269->slider[i]);
--
--			/*
--			 * Momentary gestures are followed by a complementary
--			 * release cycle so as to emulate a full keystroke.
--			 */
--			for (j = 0; j < IQS269_NUM_GESTURES; j++)
--				if (j != IQS269_GESTURE_HOLD)
--					input_report_key(iqs269->slider[i],
--							 iqs269->sl_code[i][j],
--							 0);
--			break;
--
--		case IQS269_SLIDER_RAW:
--			/*
--			 * The slider is considered to be in a state of touch
--			 * if any selected channels are in a state of touch.
--			 */
--			state = flags.states[IQS269_ST_OFFS_TOUCH];
--			state &= iqs269->sys_reg.slider_select[i];
--
--			input_report_key(iqs269->slider[i], BTN_TOUCH, state);
--
--			if (state)
--				input_report_abs(iqs269->slider[i],
--						 ABS_X, slider_x[i]);
--			break;
--		}
--
--		input_sync(iqs269->slider[i]);
--	}
--
--	for (i = 0; i < ARRAY_SIZE(iqs269_events); i++) {
--		dir_mask = flags.states[IQS269_ST_OFFS_DIR];
--		if (!iqs269_events[i].dir_up)
--			dir_mask = ~dir_mask;
--
--		state = flags.states[iqs269_events[i].st_offs] & dir_mask;
--
--		sw_code = iqs269->switches[i].code;
--
--		for (j = 0; j < IQS269_NUM_CH; j++) {
--			keycode = iqs269->keycode[i * IQS269_NUM_CH + j];
--
--			switch (j) {
--			case IQS269_CHx_HALL_ACTIVE:
--				if (iqs269->hall_enable &&
--				    iqs269->switches[i].enabled)
--					input_report_switch(iqs269->keypad,
--							    sw_code,
--							    state & BIT(j));
--				fallthrough;
--
--			case IQS269_CHx_HALL_INACTIVE:
--				if (iqs269->hall_enable)
--					continue;
--				fallthrough;
--
--			default:
--				input_report_key(iqs269->keypad, keycode,
--						 state & BIT(j));
--			}
--		}
--	}
--
--	input_sync(iqs269->keypad);
--
--	/*
--	 * The following completion signals that ATI has finished, any initial
--	 * switch states have been reported and the keypad can be registered.
--	 */
--	complete_all(&iqs269->ati_done);
--
--	return 0;
--}
--
--static irqreturn_t iqs269_irq(int irq, void *context)
--{
--	struct iqs269_private *iqs269 = context;
--
--	if (iqs269_report(iqs269))
--		return IRQ_NONE;
--
--	/*
--	 * The device does not deassert its interrupt (RDY) pin until shortly
--	 * after receiving an I2C stop condition; the following delay ensures
--	 * the interrupt handler does not return before this time.
--	 */
--	iqs269_irq_wait();
--
--	return IRQ_HANDLED;
--}
--
--static ssize_t counts_show(struct device *dev,
--			   struct device_attribute *attr, char *buf)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--	struct i2c_client *client = iqs269->client;
--	__le16 counts;
--	int error;
--
--	if (!iqs269->ati_current || iqs269->hall_enable)
--		return -EPERM;
--
--	if (!completion_done(&iqs269->ati_done))
--		return -EBUSY;
--
--	/*
--	 * Unsolicited I2C communication prompts the device to assert its RDY
--	 * pin, so disable the interrupt line until the operation is finished
--	 * and RDY has been deasserted.
--	 */
--	disable_irq(client->irq);
--
--	error = regmap_raw_read(iqs269->regmap,
--				IQS269_CHx_COUNTS + iqs269->ch_num * 2,
--				&counts, sizeof(counts));
--
--	iqs269_irq_wait();
--	enable_irq(client->irq);
--
--	if (error)
--		return error;
--
--	return sysfs_emit(buf, "%u\n", le16_to_cpu(counts));
--}
--
--static ssize_t hall_bin_show(struct device *dev,
--			     struct device_attribute *attr, char *buf)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
--	struct i2c_client *client = iqs269->client;
--	unsigned int val;
--	int error;
--
--	disable_irq(client->irq);
--
--	error = regmap_read(iqs269->regmap, IQS269_CAL_DATA_A, &val);
--
--	iqs269_irq_wait();
--	enable_irq(client->irq);
--
--	if (error)
--		return error;
--
--	switch (ch_reg[IQS269_CHx_HALL_ACTIVE].rx_enable &
--		ch_reg[IQS269_CHx_HALL_INACTIVE].rx_enable) {
--	case IQS269_HALL_PAD_R:
--		val &= IQS269_CAL_DATA_A_HALL_BIN_R_MASK;
--		val >>= IQS269_CAL_DATA_A_HALL_BIN_R_SHIFT;
--		break;
--
--	case IQS269_HALL_PAD_L:
--		val &= IQS269_CAL_DATA_A_HALL_BIN_L_MASK;
--		val >>= IQS269_CAL_DATA_A_HALL_BIN_L_SHIFT;
--		break;
--
--	default:
--		return -EINVAL;
--	}
--
--	return sysfs_emit(buf, "%u\n", val);
--}
--
--static ssize_t hall_enable_show(struct device *dev,
--				struct device_attribute *attr, char *buf)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--
--	return sysfs_emit(buf, "%u\n", iqs269->hall_enable);
--}
--
--static ssize_t hall_enable_store(struct device *dev,
--				 struct device_attribute *attr, const char *buf,
--				 size_t count)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--	unsigned int val;
--	int error;
--
--	error = kstrtouint(buf, 10, &val);
--	if (error)
--		return error;
--
--	guard(mutex)(&iqs269->lock);
--
--	iqs269->hall_enable = val;
--	iqs269->ati_current = false;
--
--	return count;
--}
--
--static ssize_t ch_number_show(struct device *dev,
--			      struct device_attribute *attr, char *buf)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--
--	return sysfs_emit(buf, "%u\n", iqs269->ch_num);
--}
--
--static ssize_t ch_number_store(struct device *dev,
--			       struct device_attribute *attr, const char *buf,
--			       size_t count)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--	unsigned int val;
--	int error;
--
--	error = kstrtouint(buf, 10, &val);
--	if (error)
--		return error;
--
--	if (val >= IQS269_NUM_CH)
--		return -EINVAL;
--
--	iqs269->ch_num = val;
--
--	return count;
--}
--
--static ssize_t rx_enable_show(struct device *dev,
--			      struct device_attribute *attr, char *buf)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
--
--	return sysfs_emit(buf, "%u\n", ch_reg[iqs269->ch_num].rx_enable);
--}
--
--static ssize_t rx_enable_store(struct device *dev,
--			       struct device_attribute *attr, const char *buf,
--			       size_t count)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--	struct iqs269_ch_reg *ch_reg = iqs269->sys_reg.ch_reg;
--	unsigned int val;
--	int error;
--
--	error = kstrtouint(buf, 10, &val);
--	if (error)
--		return error;
--
--	if (val > 0xFF)
--		return -EINVAL;
--
--	guard(mutex)(&iqs269->lock);
--
--	ch_reg[iqs269->ch_num].rx_enable = val;
--	iqs269->ati_current = false;
--
--	return count;
--}
--
--static ssize_t ati_mode_show(struct device *dev,
--			     struct device_attribute *attr, char *buf)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--	unsigned int val;
--	int error;
--
--	error = iqs269_ati_mode_get(iqs269, iqs269->ch_num, &val);
--	if (error)
--		return error;
--
--	return sysfs_emit(buf, "%u\n", val);
--}
--
--static ssize_t ati_mode_store(struct device *dev,
--			      struct device_attribute *attr, const char *buf,
--			      size_t count)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--	unsigned int val;
--	int error;
--
--	error = kstrtouint(buf, 10, &val);
--	if (error)
--		return error;
--
--	error = iqs269_ati_mode_set(iqs269, iqs269->ch_num, val);
--	if (error)
--		return error;
--
--	return count;
--}
--
--static ssize_t ati_base_show(struct device *dev,
--			     struct device_attribute *attr, char *buf)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--	unsigned int val;
--	int error;
--
--	error = iqs269_ati_base_get(iqs269, iqs269->ch_num, &val);
--	if (error)
--		return error;
--
--	return sysfs_emit(buf, "%u\n", val);
--}
--
--static ssize_t ati_base_store(struct device *dev,
--			      struct device_attribute *attr, const char *buf,
--			      size_t count)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--	unsigned int val;
--	int error;
--
--	error = kstrtouint(buf, 10, &val);
--	if (error)
--		return error;
--
--	error = iqs269_ati_base_set(iqs269, iqs269->ch_num, val);
--	if (error)
--		return error;
--
--	return count;
--}
--
--static ssize_t ati_target_show(struct device *dev,
--			       struct device_attribute *attr, char *buf)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--	unsigned int val;
--	int error;
--
--	error = iqs269_ati_target_get(iqs269, iqs269->ch_num, &val);
--	if (error)
--		return error;
--
--	return sysfs_emit(buf, "%u\n", val);
--}
--
--static ssize_t ati_target_store(struct device *dev,
--				struct device_attribute *attr, const char *buf,
--				size_t count)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--	unsigned int val;
--	int error;
--
--	error = kstrtouint(buf, 10, &val);
--	if (error)
--		return error;
--
--	error = iqs269_ati_target_set(iqs269, iqs269->ch_num, val);
--	if (error)
--		return error;
--
--	return count;
--}
--
--static ssize_t ati_trigger_show(struct device *dev,
--				struct device_attribute *attr, char *buf)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--
--	return sysfs_emit(buf, "%u\n",
--			  iqs269->ati_current &&
--			  completion_done(&iqs269->ati_done));
--}
--
--static ssize_t ati_trigger_store(struct device *dev,
--				 struct device_attribute *attr, const char *buf,
--				 size_t count)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--	struct i2c_client *client = iqs269->client;
--	unsigned int val;
--	int error;
--
--	error = kstrtouint(buf, 10, &val);
--	if (error)
--		return error;
--
--	if (!val)
--		return count;
--
--	disable_irq(client->irq);
--	reinit_completion(&iqs269->ati_done);
--
--	error = iqs269_dev_init(iqs269);
--
--	iqs269_irq_wait();
--	enable_irq(client->irq);
--
--	if (error)
--		return error;
--
--	if (!wait_for_completion_timeout(&iqs269->ati_done,
--					 msecs_to_jiffies(2000)))
--		return -ETIMEDOUT;
--
--	return count;
--}
--
--static DEVICE_ATTR_RO(counts);
--static DEVICE_ATTR_RO(hall_bin);
--static DEVICE_ATTR_RW(hall_enable);
--static DEVICE_ATTR_RW(ch_number);
--static DEVICE_ATTR_RW(rx_enable);
--static DEVICE_ATTR_RW(ati_mode);
--static DEVICE_ATTR_RW(ati_base);
--static DEVICE_ATTR_RW(ati_target);
--static DEVICE_ATTR_RW(ati_trigger);
--
--static struct attribute *iqs269_attrs[] = {
--	&dev_attr_counts.attr,
--	&dev_attr_hall_bin.attr,
--	&dev_attr_hall_enable.attr,
--	&dev_attr_ch_number.attr,
--	&dev_attr_rx_enable.attr,
--	&dev_attr_ati_mode.attr,
--	&dev_attr_ati_base.attr,
--	&dev_attr_ati_target.attr,
--	&dev_attr_ati_trigger.attr,
--	NULL,
--};
--ATTRIBUTE_GROUPS(iqs269);
--
--static const struct regmap_config iqs269_regmap_config = {
--	.reg_bits = 8,
--	.val_bits = 16,
--	.max_register = IQS269_MAX_REG,
--};
--
--static int iqs269_probe(struct i2c_client *client)
--{
--	struct iqs269_private *iqs269;
--	int error;
--
--	iqs269 = devm_kzalloc(&client->dev, sizeof(*iqs269), GFP_KERNEL);
--	if (!iqs269)
--		return -ENOMEM;
--
--	i2c_set_clientdata(client, iqs269);
--	iqs269->client = client;
--
--	iqs269->regmap = devm_regmap_init_i2c(client, &iqs269_regmap_config);
--	if (IS_ERR(iqs269->regmap)) {
--		error = PTR_ERR(iqs269->regmap);
--		dev_err(&client->dev, "Failed to initialize register map: %d\n",
--			error);
--		return error;
--	}
--
--	mutex_init(&iqs269->lock);
--	init_completion(&iqs269->ati_done);
--
--	iqs269->otp_option = (uintptr_t)device_get_match_data(&client->dev);
--
--	error = regmap_raw_read(iqs269->regmap, IQS269_VER_INFO,
--				&iqs269->ver_info, sizeof(iqs269->ver_info));
--	if (error)
--		return error;
--
--	if (iqs269->ver_info.prod_num != IQS269_VER_INFO_PROD_NUM) {
--		dev_err(&client->dev, "Unrecognized product number: 0x%02X\n",
--			iqs269->ver_info.prod_num);
--		return -EINVAL;
--	}
--
--	error = iqs269_parse_prop(iqs269);
--	if (error)
--		return error;
--
--	error = iqs269_dev_init(iqs269);
--	if (error) {
--		dev_err(&client->dev, "Failed to initialize device: %d\n",
--			error);
--		return error;
--	}
--
--	error = iqs269_input_init(iqs269);
--	if (error)
--		return error;
--
--	error = devm_request_threaded_irq(&client->dev, client->irq,
--					  NULL, iqs269_irq, IRQF_ONESHOT,
--					  client->name, iqs269);
--	if (error) {
--		dev_err(&client->dev, "Failed to request IRQ: %d\n", error);
--		return error;
--	}
--
--	if (!wait_for_completion_timeout(&iqs269->ati_done,
--					 msecs_to_jiffies(2000))) {
--		dev_err(&client->dev, "Failed to complete ATI\n");
--		return -ETIMEDOUT;
--	}
--
--	/*
--	 * The keypad may include one or more switches and is not registered
--	 * until ATI is complete and the initial switch states are read.
--	 */
--	error = input_register_device(iqs269->keypad);
--	if (error) {
--		dev_err(&client->dev, "Failed to register keypad: %d\n", error);
--		return error;
--	}
--
--	return error;
--}
--
--static u16 iqs269_general_get(struct iqs269_private *iqs269)
--{
--	u16 general = be16_to_cpu(iqs269->sys_reg.general);
--
--	general &= ~IQS269_SYS_SETTINGS_REDO_ATI;
--	general &= ~IQS269_SYS_SETTINGS_ACK_RESET;
--
--	return general | IQS269_SYS_SETTINGS_DIS_AUTO;
--}
--
--static int iqs269_suspend(struct device *dev)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--	struct i2c_client *client = iqs269->client;
--	int error;
--	u16 general = iqs269_general_get(iqs269);
--
--	if (!(general & IQS269_SYS_SETTINGS_PWR_MODE_MASK))
--		return 0;
--
--	disable_irq(client->irq);
--
--	error = regmap_write(iqs269->regmap, IQS269_SYS_SETTINGS, general);
--
--	iqs269_irq_wait();
--	enable_irq(client->irq);
--
--	return error;
--}
--
--static int iqs269_resume(struct device *dev)
--{
--	struct iqs269_private *iqs269 = dev_get_drvdata(dev);
--	struct i2c_client *client = iqs269->client;
--	int error;
--	u16 general = iqs269_general_get(iqs269);
--
--	if (!(general & IQS269_SYS_SETTINGS_PWR_MODE_MASK))
--		return 0;
--
--	disable_irq(client->irq);
--
--	error = regmap_write(iqs269->regmap, IQS269_SYS_SETTINGS,
--			     general & ~IQS269_SYS_SETTINGS_PWR_MODE_MASK);
--	if (!error)
--		error = regmap_write(iqs269->regmap, IQS269_SYS_SETTINGS,
--				     general & ~IQS269_SYS_SETTINGS_DIS_AUTO);
--
--	iqs269_irq_wait();
--	enable_irq(client->irq);
--
--	return error;
--}
--
--static DEFINE_SIMPLE_DEV_PM_OPS(iqs269_pm, iqs269_suspend, iqs269_resume);
--
--static const struct of_device_id iqs269_of_match[] = {
--	{
--		.compatible = "azoteq,iqs269a",
--		.data = (void *)IQS269_OTP_OPTION_DEFAULT,
--	},
--	{
--		.compatible = "azoteq,iqs269a-00",
--		.data = (void *)IQS269_OTP_OPTION_DEFAULT,
--	},
--	{
--		.compatible = "azoteq,iqs269a-d0",
--		.data = (void *)IQS269_OTP_OPTION_TWS,
--	},
--	{ }
--};
--MODULE_DEVICE_TABLE(of, iqs269_of_match);
--
--static struct i2c_driver iqs269_i2c_driver = {
--	.driver = {
--		.name = "iqs269a",
--		.dev_groups = iqs269_groups,
--		.of_match_table = iqs269_of_match,
--		.pm = pm_sleep_ptr(&iqs269_pm),
--	},
--	.probe = iqs269_probe,
--};
--module_i2c_driver(iqs269_i2c_driver);
--
--MODULE_AUTHOR("Jeff LaBundy <jeff@labundy.com>");
--MODULE_DESCRIPTION("Azoteq IQS269A Capacitive Touch Controller");
--MODULE_LICENSE("GPL");
-diff --git a/drivers/input/misc/iqs626a.c b/drivers/input/misc/iqs626a.c
+@@ -1,648 +0,0 @@
+-# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+-%YAML 1.2
+----
+-$id: http://devicetree.org/schemas/input/iqs269a.yaml#
+-$schema: http://devicetree.org/meta-schemas/core.yaml#
+-
+-title: Azoteq IQS269A Capacitive Touch Controller
+-
+-maintainers:
+-  - Jeff LaBundy <jeff@labundy.com>
+-
+-allOf:
+-  - $ref: input.yaml#
+-
+-description: |
+-  The Azoteq IQS269A is an 8-channel capacitive touch controller that features
+-  additional Hall-effect and inductive sensing capabilities.
+-
+-  Link to datasheet: https://www.azoteq.com/
+-
+-properties:
+-  compatible:
+-    enum:
+-      - azoteq,iqs269a
+-      - azoteq,iqs269a-00
+-      - azoteq,iqs269a-d0
+-
+-  reg:
+-    maxItems: 1
+-
+-  interrupts:
+-    maxItems: 1
+-
+-  "#address-cells":
+-    const: 1
+-
+-  "#size-cells":
+-    const: 0
+-
+-  azoteq,hall-enable:
+-    type: boolean
+-    description:
+-      Enables Hall-effect sensing on channels 6 and 7. In this case, keycodes
+-      assigned to channel 6 are ignored and keycodes assigned to channel 7 are
+-      interpreted as switch codes. Refer to the datasheet for requirements im-
+-      posed on channels 6 and 7 by Hall-effect sensing.
+-
+-  azoteq,suspend-mode:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    enum: [0, 1, 2, 3]
+-    default: 0
+-    description: |
+-      Specifies the power mode during suspend as follows:
+-      0: Automatic (same as normal runtime, i.e. suspend/resume disabled)
+-      1: Low power (all sensing at a reduced reporting rate)
+-      2: Ultra-low power (channel 0 proximity sensing)
+-      3: Halt (no sensing)
+-
+-  azoteq,clk-div:
+-    type: boolean
+-    description: Divides the device's core clock by a factor of 4.
+-
+-  azoteq,ulp-update:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    minimum: 0
+-    maximum: 7
+-    default: 3
+-    description: Specifies the ultra-low-power mode update rate.
+-
+-  azoteq,reseed-offset:
+-    type: boolean
+-    description:
+-      Applies an 8-count offset to all long-term averages upon either ATI or
+-      reseed events.
+-
+-  azoteq,filt-str-lp-lta:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    enum: [0, 1, 2, 3]
+-    default: 0
+-    description:
+-      Specifies the long-term average filter strength during low-power mode.
+-
+-  azoteq,filt-str-lp-cnt:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    enum: [0, 1, 2, 3]
+-    default: 0
+-    description:
+-      Specifies the raw count filter strength during low-power mode.
+-
+-  azoteq,filt-str-np-lta:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    enum: [0, 1, 2, 3]
+-    default: 0
+-    description:
+-      Specifies the long-term average filter strength during normal-power mode.
+-
+-  azoteq,filt-str-np-cnt:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    enum: [0, 1, 2, 3]
+-    default: 0
+-    description:
+-      Specifies the raw count filter strength during normal-power mode.
+-
+-  azoteq,rate-np-ms:
+-    minimum: 0
+-    maximum: 255
+-    default: 16
+-    description: Specifies the report rate (in ms) during normal-power mode.
+-
+-  azoteq,rate-lp-ms:
+-    minimum: 0
+-    maximum: 255
+-    default: 160
+-    description: Specifies the report rate (in ms) during low-power mode.
+-
+-  azoteq,rate-ulp-ms:
+-    multipleOf: 16
+-    minimum: 0
+-    maximum: 4080
+-    default: 160
+-    description: Specifies the report rate (in ms) during ultra-low-power mode.
+-
+-  azoteq,timeout-pwr-ms:
+-    multipleOf: 512
+-    minimum: 0
+-    maximum: 130560
+-    default: 2560
+-    description:
+-      Specifies the length of time (in ms) to wait for an event during normal-
+-      power mode before transitioning to low-power mode.
+-
+-  azoteq,timeout-lta-ms:
+-    multipleOf: 512
+-    minimum: 0
+-    maximum: 130560
+-    default: 32768
+-    description:
+-      Specifies the length of time (in ms) to wait before resetting the long-
+-      term average of all channels. Specify the maximum timeout to disable it
+-      altogether.
+-
+-  azoteq,ati-band-disable:
+-    type: boolean
+-    description: Disables the ATI band check.
+-
+-  azoteq,ati-lp-only:
+-    type: boolean
+-    description: Limits automatic ATI to low-power mode.
+-
+-  azoteq,ati-band-tighten:
+-    type: boolean
+-    description: Tightens the ATI band from 1/8 to 1/16 of the desired target.
+-
+-  azoteq,filt-disable:
+-    type: boolean
+-    description: Disables all raw count filtering.
+-
+-  azoteq,gpio3-select:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    minimum: 0
+-    maximum: 7
+-    default: 0
+-    description:
+-      Selects the channel for which the GPIO3 pin represents touch state.
+-
+-  azoteq,dual-direction:
+-    type: boolean
+-    description:
+-      Specifies that long-term averages are to freeze in the presence of either
+-      increasing or decreasing counts, thereby permitting events to be reported
+-      in either direction.
+-
+-  azoteq,tx-freq:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    enum: [0, 1, 2, 3]
+-    default: 0
+-    description: |
+-      Specifies the inductive sensing excitation frequency as follows (paren-
+-      thesized numbers represent the frequency if 'azoteq,clk-div' is present):
+-      0: 16 MHz (4 MHz)
+-      1: 8 MHz (2 MHz)
+-      2: 4 MHz (1 MHz)
+-      3: 2 MHz (500 kHz)
+-
+-  azoteq,global-cap-increase:
+-    type: boolean
+-    description: Increases the global capacitance adder from 0.5 pF to 1.5 pF.
+-
+-  azoteq,reseed-select:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    enum: [0, 1, 2, 3]
+-    default: 0
+-    description: |
+-      Specifies the event(s) that prompt the device to reseed (i.e. reset the
+-      long-term average) of an associated channel as follows:
+-      0: None
+-      1: Proximity
+-      2: Proximity or touch
+-      3: Proximity, touch or deep touch
+-
+-  azoteq,tracking-enable:
+-    type: boolean
+-    description:
+-      Enables all associated channels to track their respective reference
+-      channels.
+-
+-  azoteq,filt-str-slider:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    enum: [0, 1, 2, 3]
+-    default: 1
+-    description: Specifies the slider coordinate filter strength.
+-
+-  azoteq,touch-hold-ms:
+-    multipleOf: 256
+-    minimum: 256
+-    maximum: 65280
+-    default: 5120
+-    description:
+-      Specifies the length of time (in ms) for which the channel selected by
+-      'azoteq,gpio3-select' must be held in a state of touch in order for an
+-      approximately 60-ms pulse to be asserted on the GPIO4 pin.
+-
+-  linux,keycodes:
+-    minItems: 1
+-    maxItems: 8
+-    description: |
+-      Specifies the numeric keycodes associated with each available gesture in
+-      the following order (enter 0 for unused gestures):
+-      0: Slider 0 tap
+-      1: Slider 0 hold
+-      2: Slider 0 positive flick or swipe
+-      3: Slider 0 negative flick or swipe
+-      4: Slider 1 tap
+-      5: Slider 1 hold
+-      6: Slider 1 positive flick or swipe
+-      7: Slider 1 negative flick or swipe
+-
+-  azoteq,gesture-swipe:
+-    type: boolean
+-    description:
+-      Directs the device to interpret axial gestures as a swipe (finger remains
+-      on slider) instead of a flick (finger leaves slider).
+-
+-  azoteq,timeout-tap-ms:
+-    multipleOf: 16
+-    minimum: 0
+-    maximum: 4080
+-    default: 400
+-    description:
+-      Specifies the length of time (in ms) within which a slider touch must be
+-      released in order to be interpreted as a tap. Default and maximum values
+-      as well as step size are reduced by a factor of 4 with device version 2.
+-
+-  azoteq,timeout-swipe-ms:
+-    multipleOf: 16
+-    minimum: 0
+-    maximum: 4080
+-    default: 2000
+-    description:
+-      Specifies the length of time (in ms) within which an axial gesture must be
+-      completed in order to be interpreted as a flick or swipe. Default and max-
+-      imum values as well as step size are reduced by a factor of 4 with device
+-      version 2.
+-
+-  azoteq,thresh-swipe:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    minimum: 0
+-    maximum: 255
+-    default: 128
+-    description:
+-      Specifies the number of points across which an axial gesture must travel
+-      in order to be interpreted as a flick or swipe.
+-
+-dependencies:
+-  azoteq,gesture-swipe: ["linux,keycodes"]
+-  azoteq,timeout-tap-ms: ["linux,keycodes"]
+-  azoteq,timeout-swipe-ms: ["linux,keycodes"]
+-  azoteq,thresh-swipe: ["linux,keycodes"]
+-
+-patternProperties:
+-  "^channel@[0-7]$":
+-    type: object
+-    description:
+-      Represents a single sensing channel. A channel is active if defined and
+-      inactive otherwise.
+-
+-    properties:
+-      reg:
+-        minimum: 0
+-        maximum: 7
+-        description: Index of the channel.
+-
+-      azoteq,reseed-disable:
+-        type: boolean
+-        description:
+-          Prevents the channel from being reseeded if the long-term average
+-          timeout (defined in 'azoteq,timeout-lta') expires.
+-
+-      azoteq,blocking-enable:
+-        type: boolean
+-        description: Specifies that the channel is a blocking channel.
+-
+-      azoteq,slider0-select:
+-        type: boolean
+-        description: Specifies that the channel participates in slider 0.
+-
+-      azoteq,slider1-select:
+-        type: boolean
+-        description: Specifies that the channel participates in slider 1.
+-
+-      azoteq,rx-enable:
+-        $ref: /schemas/types.yaml#/definitions/uint32-array
+-        minItems: 1
+-        maxItems: 8
+-        items:
+-          minimum: 0
+-          maximum: 7
+-        description:
+-          Specifies the CRX pin(s) associated with the channel. By default, only
+-          the CRX pin corresponding to the channel's index is enabled (e.g. CRX0
+-          for channel 0).
+-
+-      azoteq,tx-enable:
+-        $ref: /schemas/types.yaml#/definitions/uint32-array
+-        minItems: 1
+-        maxItems: 8
+-        items:
+-          minimum: 0
+-          maximum: 7
+-        default: [0, 1, 2, 3, 4, 5, 6, 7]
+-        description: Specifies the TX pin(s) associated with the channel.
+-
+-      azoteq,meas-cap-decrease:
+-        type: boolean
+-        description:
+-          Decreases the internal measurement capacitance from 60 pF to 15 pF.
+-
+-      azoteq,rx-float-inactive:
+-        type: boolean
+-        description: Floats any inactive CRX pins instead of grounding them.
+-
+-      azoteq,local-cap-size:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2]
+-        default: 0
+-        description: |
+-          Specifies the capacitance to be added to the channel as follows:
+-          0: None
+-          1: Global adder (based on 'azoteq,global-cap-increase')
+-          2: Global adder + 0.5 pF
+-
+-      azoteq,invert-enable:
+-        type: boolean
+-        description:
+-          Inverts the polarity of the states reported for proximity, touch and
+-          deep-touch events relative to their respective thresholds.
+-
+-      azoteq,proj-bias:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        default: 2
+-        description: |
+-          Specifies the bias current applied during projected-capacitance
+-          sensing as follows:
+-          0: 2.5 uA
+-          1: 5 uA
+-          2: 10 uA
+-          3: 20 uA
+-
+-      azoteq,sense-mode:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 9, 14, 15]
+-        default: 0
+-        description: |
+-          Specifies the channel's sensing mode as follows:
+-          0:  Self capacitance
+-          1:  Projected capacitance
+-          9:  Self or mutual inductance
+-          14: Hall effect
+-          15: Temperature
+-
+-      azoteq,sense-freq:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        default: 1
+-        description: |
+-          Specifies the channel's sensing frequency as follows (parenthesized
+-          numbers represent the frequency if 'azoteq,clk-div' is present):
+-          0: 4 MHz (1 MHz)
+-          1: 2 MHz (500 kHz)
+-          2: 1 MHz (250 kHz)
+-          3: 500 kHz (125 kHz)
+-
+-      azoteq,static-enable:
+-        type: boolean
+-        description: Enables the static front-end for the channel.
+-
+-      azoteq,ati-mode:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        default: 3
+-        description: |
+-          Specifies the channel's ATI mode as follows:
+-          0: Disabled
+-          1: Semi-partial
+-          2: Partial
+-          3: Full
+-
+-      azoteq,ati-base:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [75, 100, 150, 200]
+-        default: 100
+-        description: Specifies the channel's ATI base.
+-
+-      azoteq,ati-target:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        multipleOf: 32
+-        minimum: 0
+-        maximum: 2016
+-        default: 512
+-        description: Specifies the channel's ATI target.
+-
+-      azoteq,assoc-select:
+-        $ref: /schemas/types.yaml#/definitions/uint32-array
+-        minItems: 1
+-        maxItems: 8
+-        items:
+-          minimum: 0
+-          maximum: 7
+-        description:
+-          Specifies the associated channels for which the channel serves as a
+-          reference channel. By default, no channels are selected.
+-
+-      azoteq,assoc-weight:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        minimum: 0
+-        maximum: 255
+-        default: 0
+-        description:
+-          Specifies the channel's impact weight if it acts as an associated
+-          channel (0 = 0% impact, 255 = 200% impact).
+-
+-    patternProperties:
+-      "^event-prox(-alt)?$":
+-        type: object
+-        $ref: input.yaml#
+-        description:
+-          Represents a proximity event reported by the channel in response to
+-          a decrease in counts. Node names suffixed with '-alt' instead corre-
+-          spond to an increase in counts.
+-
+-          By default, the long-term average tracks an increase in counts such
+-          that only events corresponding to a decrease in counts are reported
+-          (refer to the datasheet for more information).
+-
+-          Specify 'azoteq,dual-direction' to freeze the long-term average when
+-          the counts increase or decrease such that events of either direction
+-          can be reported. Alternatively, specify 'azoteq,invert-enable' to in-
+-          vert the polarity of the states reported by the channel.
+-
+-          Complementary events (e.g. event-touch and event-touch-alt) can both
+-          be present and specify different key or switch codes, but not differ-
+-          ent thresholds or hysteresis (if applicable).
+-
+-        properties:
+-          azoteq,thresh:
+-            $ref: /schemas/types.yaml#/definitions/uint32
+-            minimum: 0
+-            maximum: 255
+-            default: 10
+-            description: Specifies the threshold for the event.
+-
+-          linux,code: true
+-
+-        additionalProperties: false
+-
+-      "^event-touch(-alt)?$":
+-        type: object
+-        $ref: input.yaml#
+-        description: Represents a touch event reported by the channel.
+-
+-        properties:
+-          azoteq,thresh:
+-            $ref: /schemas/types.yaml#/definitions/uint32
+-            minimum: 0
+-            maximum: 255
+-            default: 8
+-            description: Specifies the threshold for the event.
+-
+-          azoteq,hyst:
+-            $ref: /schemas/types.yaml#/definitions/uint32
+-            minimum: 0
+-            maximum: 15
+-            default: 4
+-            description: Specifies the hysteresis for the event.
+-
+-          linux,code: true
+-
+-        additionalProperties: false
+-
+-      "^event-deep(-alt)?$":
+-        type: object
+-        $ref: input.yaml#
+-        description: Represents a deep-touch event reported by the channel.
+-
+-        properties:
+-          azoteq,thresh:
+-            $ref: /schemas/types.yaml#/definitions/uint32
+-            minimum: 0
+-            maximum: 255
+-            default: 26
+-            description: Specifies the threshold for the event.
+-
+-          azoteq,hyst:
+-            $ref: /schemas/types.yaml#/definitions/uint32
+-            minimum: 0
+-            maximum: 15
+-            default: 0
+-            description: Specifies the hysteresis for the event.
+-
+-          linux,code: true
+-
+-        additionalProperties: false
+-
+-    required:
+-      - reg
+-
+-    additionalProperties: false
+-
+-if:
+-  properties:
+-    compatible:
+-      contains:
+-        enum:
+-          - azoteq,iqs269a-d0
+-then:
+-  patternProperties:
+-    "^channel@[0-7]$":
+-      properties:
+-        azoteq,slider1-select: false
+-else:
+-  properties:
+-    azoteq,touch-hold-ms: false
+-
+-required:
+-  - compatible
+-  - reg
+-  - interrupts
+-  - "#address-cells"
+-  - "#size-cells"
+-
+-additionalProperties: false
+-
+-examples:
+-  - |
+-    #include <dt-bindings/input/input.h>
+-    #include <dt-bindings/interrupt-controller/irq.h>
+-
+-    i2c {
+-            #address-cells = <1>;
+-            #size-cells = <0>;
+-
+-            touch@44 {
+-                    #address-cells = <1>;
+-                    #size-cells = <0>;
+-
+-                    compatible = "azoteq,iqs269a";
+-                    reg = <0x44>;
+-                    interrupt-parent = <&gpio>;
+-                    interrupts = <17 IRQ_TYPE_LEVEL_LOW>;
+-
+-                    azoteq,hall-enable;
+-                    azoteq,suspend-mode = <2>;
+-
+-                    linux,keycodes = <KEY_PLAYPAUSE>,
+-                                     <KEY_STOPCD>,
+-                                     <KEY_NEXTSONG>,
+-                                     <KEY_PREVIOUSSONG>;
+-
+-                    azoteq,timeout-tap-ms = <400>;
+-                    azoteq,timeout-swipe-ms = <800>;
+-
+-                    channel@0 {
+-                            reg = <0x0>;
+-
+-                            event-prox {
+-                                    linux,code = <KEY_POWER>;
+-                            };
+-                    };
+-
+-                    channel@1 {
+-                            reg = <0x1>;
+-                            azoteq,slider0-select;
+-                    };
+-
+-                    channel@2 {
+-                            reg = <0x2>;
+-                            azoteq,slider0-select;
+-                    };
+-
+-                    channel@3 {
+-                            reg = <0x3>;
+-                            azoteq,slider0-select;
+-                    };
+-
+-                    channel@4 {
+-                            reg = <0x4>;
+-                            azoteq,slider0-select;
+-                    };
+-
+-                    channel@5 {
+-                            reg = <0x5>;
+-                            azoteq,slider0-select;
+-                    };
+-
+-                    channel@6 {
+-                            reg = <0x6>;
+-                            azoteq,invert-enable;
+-                            azoteq,static-enable;
+-                            azoteq,reseed-disable;
+-                            azoteq,rx-enable = <0>;
+-                            azoteq,sense-freq = <0x0>;
+-                            azoteq,sense-mode = <0xE>;
+-                            azoteq,ati-mode = <0x0>;
+-                            azoteq,ati-base = <200>;
+-                            azoteq,ati-target = <320>;
+-                    };
+-
+-                    channel@7 {
+-                            reg = <0x7>;
+-                            azoteq,invert-enable;
+-                            azoteq,static-enable;
+-                            azoteq,reseed-disable;
+-                            azoteq,rx-enable = <0>, <6>;
+-                            azoteq,sense-freq = <0x0>;
+-                            azoteq,sense-mode = <0xE>;
+-                            azoteq,ati-mode = <0x3>;
+-                            azoteq,ati-base = <200>;
+-                            azoteq,ati-target = <320>;
+-
+-                            event-touch {
+-                                    linux,code = <SW_LID>;
+-                            };
+-                    };
+-            };
+-    };
+-
+-...
+diff --git a/Documentation/devicetree/bindings/input/iqs626a.yaml b/Documentation/devicetree/bindings/input/iqs626a.yaml
 deleted file mode 100644
-index 7a6e6927f331..000000000000
---- a/drivers/input/misc/iqs626a.c
+index e424d67b0542..000000000000
+--- a/Documentation/devicetree/bindings/input/iqs626a.yaml
 +++ /dev/null
-@@ -1,1821 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0+
--/*
-- * Azoteq IQS626A Capacitive Touch Controller
-- *
-- * Copyright (C) 2020 Jeff LaBundy <jeff@labundy.com>
-- *
-- * This driver registers up to 2 input devices: one representing capacitive or
-- * inductive keys as well as Hall-effect switches, and one for a trackpad that
-- * can express various gestures.
-- */
--
--#include <linux/bits.h>
--#include <linux/completion.h>
--#include <linux/delay.h>
--#include <linux/device.h>
--#include <linux/err.h>
--#include <linux/i2c.h>
--#include <linux/input.h>
--#include <linux/input/touchscreen.h>
--#include <linux/interrupt.h>
--#include <linux/kernel.h>
--#include <linux/mod_devicetable.h>
--#include <linux/module.h>
--#include <linux/property.h>
--#include <linux/regmap.h>
--#include <linux/slab.h>
--
--#define IQS626_VER_INFO				0x00
--#define IQS626_VER_INFO_PROD_NUM		0x51
--
--#define IQS626_SYS_FLAGS			0x02
--#define IQS626_SYS_FLAGS_SHOW_RESET		BIT(15)
--#define IQS626_SYS_FLAGS_IN_ATI			BIT(12)
--#define IQS626_SYS_FLAGS_PWR_MODE_MASK		GENMASK(9, 8)
--#define IQS626_SYS_FLAGS_PWR_MODE_SHIFT		8
--
--#define IQS626_HALL_OUTPUT			0x23
--
--#define IQS626_SYS_SETTINGS			0x80
--#define IQS626_SYS_SETTINGS_CLK_DIV		BIT(15)
--#define IQS626_SYS_SETTINGS_ULP_AUTO		BIT(14)
--#define IQS626_SYS_SETTINGS_DIS_AUTO		BIT(13)
--#define IQS626_SYS_SETTINGS_PWR_MODE_MASK	GENMASK(12, 11)
--#define IQS626_SYS_SETTINGS_PWR_MODE_SHIFT	11
--#define IQS626_SYS_SETTINGS_PWR_MODE_MAX	3
--#define IQS626_SYS_SETTINGS_ULP_UPDATE_MASK	GENMASK(10, 8)
--#define IQS626_SYS_SETTINGS_ULP_UPDATE_SHIFT	8
--#define IQS626_SYS_SETTINGS_ULP_UPDATE_MAX	7
--#define IQS626_SYS_SETTINGS_EVENT_MODE		BIT(5)
--#define IQS626_SYS_SETTINGS_EVENT_MODE_LP	BIT(4)
--#define IQS626_SYS_SETTINGS_REDO_ATI		BIT(2)
--#define IQS626_SYS_SETTINGS_ACK_RESET		BIT(0)
--
--#define IQS626_MISC_A_ATI_BAND_DISABLE		BIT(7)
--#define IQS626_MISC_A_TPx_LTA_UPDATE_MASK	GENMASK(6, 4)
--#define IQS626_MISC_A_TPx_LTA_UPDATE_SHIFT	4
--#define IQS626_MISC_A_TPx_LTA_UPDATE_MAX	7
--#define IQS626_MISC_A_ATI_LP_ONLY		BIT(3)
--#define IQS626_MISC_A_GPIO3_SELECT_MASK		GENMASK(2, 0)
--#define IQS626_MISC_A_GPIO3_SELECT_MAX		7
--
--#define IQS626_EVENT_MASK_SYS			BIT(6)
--#define IQS626_EVENT_MASK_GESTURE		BIT(3)
--#define IQS626_EVENT_MASK_DEEP			BIT(2)
--#define IQS626_EVENT_MASK_TOUCH			BIT(1)
--#define IQS626_EVENT_MASK_PROX			BIT(0)
--
--#define IQS626_RATE_NP_MS_MAX			255
--#define IQS626_RATE_LP_MS_MAX			255
--#define IQS626_RATE_ULP_MS_MAX			4080
--#define IQS626_TIMEOUT_PWR_MS_MAX		130560
--#define IQS626_TIMEOUT_LTA_MS_MAX		130560
--
--#define IQS626_MISC_B_RESEED_UI_SEL_MASK	GENMASK(7, 6)
--#define IQS626_MISC_B_RESEED_UI_SEL_SHIFT	6
--#define IQS626_MISC_B_RESEED_UI_SEL_MAX		3
--#define IQS626_MISC_B_THRESH_EXTEND		BIT(5)
--#define IQS626_MISC_B_TRACKING_UI_ENABLE	BIT(4)
--#define IQS626_MISC_B_TPx_SWIPE			BIT(3)
--#define IQS626_MISC_B_RESEED_OFFSET		BIT(2)
--#define IQS626_MISC_B_FILT_STR_TPx		GENMASK(1, 0)
--
--#define IQS626_THRESH_SWIPE_MAX			255
--#define IQS626_TIMEOUT_TAP_MS_MAX		4080
--#define IQS626_TIMEOUT_SWIPE_MS_MAX		4080
--
--#define IQS626_CHx_ENG_0_MEAS_CAP_SIZE		BIT(7)
--#define IQS626_CHx_ENG_0_RX_TERM_VSS		BIT(5)
--#define IQS626_CHx_ENG_0_LINEARIZE		BIT(4)
--#define IQS626_CHx_ENG_0_DUAL_DIR		BIT(3)
--#define IQS626_CHx_ENG_0_FILT_DISABLE		BIT(2)
--#define IQS626_CHx_ENG_0_ATI_MODE_MASK		GENMASK(1, 0)
--#define IQS626_CHx_ENG_0_ATI_MODE_MAX		3
--
--#define IQS626_CHx_ENG_1_CCT_HIGH_1		BIT(7)
--#define IQS626_CHx_ENG_1_CCT_HIGH_0		BIT(6)
--#define IQS626_CHx_ENG_1_PROJ_BIAS_MASK		GENMASK(5, 4)
--#define IQS626_CHx_ENG_1_PROJ_BIAS_SHIFT	4
--#define IQS626_CHx_ENG_1_PROJ_BIAS_MAX		3
--#define IQS626_CHx_ENG_1_CCT_ENABLE		BIT(3)
--#define IQS626_CHx_ENG_1_SENSE_FREQ_MASK	GENMASK(2, 1)
--#define IQS626_CHx_ENG_1_SENSE_FREQ_SHIFT	1
--#define IQS626_CHx_ENG_1_SENSE_FREQ_MAX		3
--#define IQS626_CHx_ENG_1_ATI_BAND_TIGHTEN	BIT(0)
--
--#define IQS626_CHx_ENG_2_LOCAL_CAP_MASK		GENMASK(7, 6)
--#define IQS626_CHx_ENG_2_LOCAL_CAP_SHIFT	6
--#define IQS626_CHx_ENG_2_LOCAL_CAP_MAX		3
--#define IQS626_CHx_ENG_2_LOCAL_CAP_ENABLE	BIT(5)
--#define IQS626_CHx_ENG_2_SENSE_MODE_MASK	GENMASK(3, 0)
--#define IQS626_CHx_ENG_2_SENSE_MODE_MAX		15
--
--#define IQS626_CHx_ENG_3_TX_FREQ_MASK		GENMASK(5, 4)
--#define IQS626_CHx_ENG_3_TX_FREQ_SHIFT		4
--#define IQS626_CHx_ENG_3_TX_FREQ_MAX		3
--#define IQS626_CHx_ENG_3_INV_LOGIC		BIT(0)
--
--#define IQS626_CHx_ENG_4_RX_TERM_VREG		BIT(6)
--#define IQS626_CHx_ENG_4_CCT_LOW_1		BIT(5)
--#define IQS626_CHx_ENG_4_CCT_LOW_0		BIT(4)
--#define IQS626_CHx_ENG_4_COMP_DISABLE		BIT(1)
--#define IQS626_CHx_ENG_4_STATIC_ENABLE		BIT(0)
--
--#define IQS626_TPx_ATI_BASE_MIN			45
--#define IQS626_TPx_ATI_BASE_MAX			300
--#define IQS626_CHx_ATI_BASE_MASK		GENMASK(7, 6)
--#define IQS626_CHx_ATI_BASE_75			0x00
--#define IQS626_CHx_ATI_BASE_100			0x40
--#define IQS626_CHx_ATI_BASE_150			0x80
--#define IQS626_CHx_ATI_BASE_200			0xC0
--#define IQS626_CHx_ATI_TARGET_MASK		GENMASK(5, 0)
--#define IQS626_CHx_ATI_TARGET_MAX		2016
--
--#define IQS626_CHx_THRESH_MAX			255
--#define IQS626_CHx_HYST_DEEP_MASK		GENMASK(7, 4)
--#define IQS626_CHx_HYST_DEEP_SHIFT		4
--#define IQS626_CHx_HYST_TOUCH_MASK		GENMASK(3, 0)
--#define IQS626_CHx_HYST_MAX			15
--
--#define IQS626_FILT_STR_NP_TPx_MASK		GENMASK(7, 6)
--#define IQS626_FILT_STR_NP_TPx_SHIFT		6
--#define IQS626_FILT_STR_LP_TPx_MASK		GENMASK(5, 4)
--#define IQS626_FILT_STR_LP_TPx_SHIFT		4
--
--#define IQS626_FILT_STR_NP_CNT_MASK		GENMASK(7, 6)
--#define IQS626_FILT_STR_NP_CNT_SHIFT		6
--#define IQS626_FILT_STR_LP_CNT_MASK		GENMASK(5, 4)
--#define IQS626_FILT_STR_LP_CNT_SHIFT		4
--#define IQS626_FILT_STR_NP_LTA_MASK		GENMASK(3, 2)
--#define IQS626_FILT_STR_NP_LTA_SHIFT		2
--#define IQS626_FILT_STR_LP_LTA_MASK		GENMASK(1, 0)
--#define IQS626_FILT_STR_MAX			3
--
--#define IQS626_ULP_PROJ_ENABLE			BIT(4)
--#define IQS626_GEN_WEIGHT_MAX			255
--
--#define IQS626_MAX_REG				0xFF
--
--#define IQS626_NUM_CH_TP_3			9
--#define IQS626_NUM_CH_TP_2			6
--#define IQS626_NUM_CH_GEN			3
--#define IQS626_NUM_CRx_TX			8
--
--#define IQS626_PWR_MODE_POLL_SLEEP_US		50000
--#define IQS626_PWR_MODE_POLL_TIMEOUT_US		500000
--
--#define iqs626_irq_wait()			usleep_range(350, 400)
--
--enum iqs626_ch_id {
--	IQS626_CH_ULP_0,
--	IQS626_CH_TP_2,
--	IQS626_CH_TP_3,
--	IQS626_CH_GEN_0,
--	IQS626_CH_GEN_1,
--	IQS626_CH_GEN_2,
--	IQS626_CH_HALL,
--};
--
--enum iqs626_rx_inactive {
--	IQS626_RX_INACTIVE_VSS,
--	IQS626_RX_INACTIVE_FLOAT,
--	IQS626_RX_INACTIVE_VREG,
--};
--
--enum iqs626_st_offs {
--	IQS626_ST_OFFS_PROX,
--	IQS626_ST_OFFS_DIR,
--	IQS626_ST_OFFS_TOUCH,
--	IQS626_ST_OFFS_DEEP,
--};
--
--enum iqs626_th_offs {
--	IQS626_TH_OFFS_PROX,
--	IQS626_TH_OFFS_TOUCH,
--	IQS626_TH_OFFS_DEEP,
--};
--
--enum iqs626_event_id {
--	IQS626_EVENT_PROX_DN,
--	IQS626_EVENT_PROX_UP,
--	IQS626_EVENT_TOUCH_DN,
--	IQS626_EVENT_TOUCH_UP,
--	IQS626_EVENT_DEEP_DN,
--	IQS626_EVENT_DEEP_UP,
--};
--
--enum iqs626_gesture_id {
--	IQS626_GESTURE_FLICK_X_POS,
--	IQS626_GESTURE_FLICK_X_NEG,
--	IQS626_GESTURE_FLICK_Y_POS,
--	IQS626_GESTURE_FLICK_Y_NEG,
--	IQS626_GESTURE_TAP,
--	IQS626_GESTURE_HOLD,
--	IQS626_NUM_GESTURES,
--};
--
--struct iqs626_event_desc {
--	const char *name;
--	enum iqs626_st_offs st_offs;
--	enum iqs626_th_offs th_offs;
--	bool dir_up;
--	u8 mask;
--};
--
--static const struct iqs626_event_desc iqs626_events[] = {
--	[IQS626_EVENT_PROX_DN] = {
--		.name = "event-prox",
--		.st_offs = IQS626_ST_OFFS_PROX,
--		.th_offs = IQS626_TH_OFFS_PROX,
--		.mask = IQS626_EVENT_MASK_PROX,
--	},
--	[IQS626_EVENT_PROX_UP] = {
--		.name = "event-prox-alt",
--		.st_offs = IQS626_ST_OFFS_PROX,
--		.th_offs = IQS626_TH_OFFS_PROX,
--		.dir_up = true,
--		.mask = IQS626_EVENT_MASK_PROX,
--	},
--	[IQS626_EVENT_TOUCH_DN] = {
--		.name = "event-touch",
--		.st_offs = IQS626_ST_OFFS_TOUCH,
--		.th_offs = IQS626_TH_OFFS_TOUCH,
--		.mask = IQS626_EVENT_MASK_TOUCH,
--	},
--	[IQS626_EVENT_TOUCH_UP] = {
--		.name = "event-touch-alt",
--		.st_offs = IQS626_ST_OFFS_TOUCH,
--		.th_offs = IQS626_TH_OFFS_TOUCH,
--		.dir_up = true,
--		.mask = IQS626_EVENT_MASK_TOUCH,
--	},
--	[IQS626_EVENT_DEEP_DN] = {
--		.name = "event-deep",
--		.st_offs = IQS626_ST_OFFS_DEEP,
--		.th_offs = IQS626_TH_OFFS_DEEP,
--		.mask = IQS626_EVENT_MASK_DEEP,
--	},
--	[IQS626_EVENT_DEEP_UP] = {
--		.name = "event-deep-alt",
--		.st_offs = IQS626_ST_OFFS_DEEP,
--		.th_offs = IQS626_TH_OFFS_DEEP,
--		.dir_up = true,
--		.mask = IQS626_EVENT_MASK_DEEP,
--	},
--};
--
--struct iqs626_ver_info {
--	u8 prod_num;
--	u8 sw_num;
--	u8 hw_num;
--	u8 padding;
--} __packed;
--
--struct iqs626_flags {
--	__be16 system;
--	u8 gesture;
--	u8 padding_a;
--	u8 states[4];
--	u8 ref_active;
--	u8 padding_b;
--	u8 comp_min;
--	u8 comp_max;
--	u8 trackpad_x;
--	u8 trackpad_y;
--} __packed;
--
--struct iqs626_ch_reg_ulp {
--	u8 thresh[2];
--	u8 hyst;
--	u8 filter;
--	u8 engine[2];
--	u8 ati_target;
--	u8 padding;
--	__be16 ati_comp;
--	u8 rx_enable;
--	u8 tx_enable;
--} __packed;
--
--struct iqs626_ch_reg_tp {
--	u8 thresh;
--	u8 ati_base;
--	__be16 ati_comp;
--} __packed;
--
--struct iqs626_tp_grp_reg {
--	u8 hyst;
--	u8 ati_target;
--	u8 engine[2];
--	struct iqs626_ch_reg_tp ch_reg_tp[IQS626_NUM_CH_TP_3];
--} __packed;
--
--struct iqs626_ch_reg_gen {
--	u8 thresh[3];
--	u8 padding;
--	u8 hyst;
--	u8 ati_target;
--	__be16 ati_comp;
--	u8 engine[5];
--	u8 filter;
--	u8 rx_enable;
--	u8 tx_enable;
--	u8 assoc_select;
--	u8 assoc_weight;
--} __packed;
--
--struct iqs626_ch_reg_hall {
--	u8 engine;
--	u8 thresh;
--	u8 hyst;
--	u8 ati_target;
--	__be16 ati_comp;
--} __packed;
--
--struct iqs626_sys_reg {
--	__be16 general;
--	u8 misc_a;
--	u8 event_mask;
--	u8 active;
--	u8 reseed;
--	u8 rate_np;
--	u8 rate_lp;
--	u8 rate_ulp;
--	u8 timeout_pwr;
--	u8 timeout_rdy;
--	u8 timeout_lta;
--	u8 misc_b;
--	u8 thresh_swipe;
--	u8 timeout_tap;
--	u8 timeout_swipe;
--	u8 redo_ati;
--	u8 padding;
--	struct iqs626_ch_reg_ulp ch_reg_ulp;
--	struct iqs626_tp_grp_reg tp_grp_reg;
--	struct iqs626_ch_reg_gen ch_reg_gen[IQS626_NUM_CH_GEN];
--	struct iqs626_ch_reg_hall ch_reg_hall;
--} __packed;
--
--struct iqs626_channel_desc {
--	const char *name;
--	int num_ch;
--	u8 active;
--	bool events[ARRAY_SIZE(iqs626_events)];
--};
--
--static const struct iqs626_channel_desc iqs626_channels[] = {
--	[IQS626_CH_ULP_0] = {
--		.name = "ulp-0",
--		.num_ch = 1,
--		.active = BIT(0),
--		.events = {
--			[IQS626_EVENT_PROX_DN] = true,
--			[IQS626_EVENT_PROX_UP] = true,
--			[IQS626_EVENT_TOUCH_DN] = true,
--			[IQS626_EVENT_TOUCH_UP] = true,
--		},
--	},
--	[IQS626_CH_TP_2] = {
--		.name = "trackpad-3x2",
--		.num_ch = IQS626_NUM_CH_TP_2,
--		.active = BIT(1),
--		.events = {
--			[IQS626_EVENT_TOUCH_DN] = true,
--		},
--	},
--	[IQS626_CH_TP_3] = {
--		.name = "trackpad-3x3",
--		.num_ch = IQS626_NUM_CH_TP_3,
--		.active = BIT(2) | BIT(1),
--		.events = {
--			[IQS626_EVENT_TOUCH_DN] = true,
--		},
--	},
--	[IQS626_CH_GEN_0] = {
--		.name = "generic-0",
--		.num_ch = 1,
--		.active = BIT(4),
--		.events = {
--			[IQS626_EVENT_PROX_DN] = true,
--			[IQS626_EVENT_PROX_UP] = true,
--			[IQS626_EVENT_TOUCH_DN] = true,
--			[IQS626_EVENT_TOUCH_UP] = true,
--			[IQS626_EVENT_DEEP_DN] = true,
--			[IQS626_EVENT_DEEP_UP] = true,
--		},
--	},
--	[IQS626_CH_GEN_1] = {
--		.name = "generic-1",
--		.num_ch = 1,
--		.active = BIT(5),
--		.events = {
--			[IQS626_EVENT_PROX_DN] = true,
--			[IQS626_EVENT_PROX_UP] = true,
--			[IQS626_EVENT_TOUCH_DN] = true,
--			[IQS626_EVENT_TOUCH_UP] = true,
--			[IQS626_EVENT_DEEP_DN] = true,
--			[IQS626_EVENT_DEEP_UP] = true,
--		},
--	},
--	[IQS626_CH_GEN_2] = {
--		.name = "generic-2",
--		.num_ch = 1,
--		.active = BIT(6),
--		.events = {
--			[IQS626_EVENT_PROX_DN] = true,
--			[IQS626_EVENT_PROX_UP] = true,
--			[IQS626_EVENT_TOUCH_DN] = true,
--			[IQS626_EVENT_TOUCH_UP] = true,
--			[IQS626_EVENT_DEEP_DN] = true,
--			[IQS626_EVENT_DEEP_UP] = true,
--		},
--	},
--	[IQS626_CH_HALL] = {
--		.name = "hall",
--		.num_ch = 1,
--		.active = BIT(7),
--		.events = {
--			[IQS626_EVENT_TOUCH_DN] = true,
--			[IQS626_EVENT_TOUCH_UP] = true,
--		},
--	},
--};
--
--struct iqs626_private {
--	struct i2c_client *client;
--	struct regmap *regmap;
--	struct iqs626_sys_reg sys_reg;
--	struct completion ati_done;
--	struct input_dev *keypad;
--	struct input_dev *trackpad;
--	struct touchscreen_properties prop;
--	unsigned int kp_type[ARRAY_SIZE(iqs626_channels)]
--			    [ARRAY_SIZE(iqs626_events)];
--	unsigned int kp_code[ARRAY_SIZE(iqs626_channels)]
--			    [ARRAY_SIZE(iqs626_events)];
--	unsigned int tp_code[IQS626_NUM_GESTURES];
--	unsigned int suspend_mode;
--};
--
--static noinline_for_stack int
--iqs626_parse_events(struct iqs626_private *iqs626,
--		    struct fwnode_handle *ch_node, enum iqs626_ch_id ch_id)
--{
--	struct iqs626_sys_reg *sys_reg = &iqs626->sys_reg;
--	struct i2c_client *client = iqs626->client;
--	const char *ev_name;
--	u8 *thresh, *hyst;
--	unsigned int val;
--	int i;
--
--	switch (ch_id) {
--	case IQS626_CH_ULP_0:
--		thresh = sys_reg->ch_reg_ulp.thresh;
--		hyst = &sys_reg->ch_reg_ulp.hyst;
--		break;
--
--	case IQS626_CH_TP_2:
--	case IQS626_CH_TP_3:
--		thresh = &sys_reg->tp_grp_reg.ch_reg_tp[0].thresh;
--		hyst = &sys_reg->tp_grp_reg.hyst;
--		break;
--
--	case IQS626_CH_GEN_0:
--	case IQS626_CH_GEN_1:
--	case IQS626_CH_GEN_2:
--		i = ch_id - IQS626_CH_GEN_0;
--		thresh = sys_reg->ch_reg_gen[i].thresh;
--		hyst = &sys_reg->ch_reg_gen[i].hyst;
--		break;
--
--	case IQS626_CH_HALL:
--		thresh = &sys_reg->ch_reg_hall.thresh;
--		hyst = &sys_reg->ch_reg_hall.hyst;
--		break;
--
--	default:
--		return -EINVAL;
--	}
--
--	for (i = 0; i < ARRAY_SIZE(iqs626_events); i++) {
--		if (!iqs626_channels[ch_id].events[i])
--			continue;
--
--		struct fwnode_handle *ev_node __free(fwnode_handle) = NULL;
--		if (ch_id == IQS626_CH_TP_2 || ch_id == IQS626_CH_TP_3) {
--			/*
--			 * Trackpad touch events are simply described under the
--			 * trackpad child node.
--			 */
--			ev_node = fwnode_handle_get(ch_node);
--		} else {
--			ev_name = iqs626_events[i].name;
--			ev_node = fwnode_get_named_child_node(ch_node, ev_name);
--			if (!ev_node)
--				continue;
--
--			if (!fwnode_property_read_u32(ev_node, "linux,code",
--						      &val)) {
--				iqs626->kp_code[ch_id][i] = val;
--
--				if (fwnode_property_read_u32(ev_node,
--							     "linux,input-type",
--							     &val)) {
--					if (ch_id == IQS626_CH_HALL)
--						val = EV_SW;
--					else
--						val = EV_KEY;
--				}
--
--				if (val != EV_KEY && val != EV_SW) {
--					dev_err(&client->dev,
--						"Invalid input type: %u\n",
--						val);
--					return -EINVAL;
--				}
--
--				iqs626->kp_type[ch_id][i] = val;
--
--				sys_reg->event_mask &= ~iqs626_events[i].mask;
--			}
--		}
--
--		if (!fwnode_property_read_u32(ev_node, "azoteq,hyst", &val)) {
--			if (val > IQS626_CHx_HYST_MAX) {
--				dev_err(&client->dev,
--					"Invalid %s channel hysteresis: %u\n",
--					fwnode_get_name(ch_node), val);
--				return -EINVAL;
--			}
--
--			if (i == IQS626_EVENT_DEEP_DN ||
--			    i == IQS626_EVENT_DEEP_UP) {
--				*hyst &= ~IQS626_CHx_HYST_DEEP_MASK;
--				*hyst |= (val << IQS626_CHx_HYST_DEEP_SHIFT);
--			} else if (i == IQS626_EVENT_TOUCH_DN ||
--				   i == IQS626_EVENT_TOUCH_UP) {
--				*hyst &= ~IQS626_CHx_HYST_TOUCH_MASK;
--				*hyst |= val;
--			}
--		}
--
--		if (ch_id != IQS626_CH_TP_2 && ch_id != IQS626_CH_TP_3 &&
--		    !fwnode_property_read_u32(ev_node, "azoteq,thresh", &val)) {
--			if (val > IQS626_CHx_THRESH_MAX) {
--				dev_err(&client->dev,
--					"Invalid %s channel threshold: %u\n",
--					fwnode_get_name(ch_node), val);
--				return -EINVAL;
--			}
--
--			if (ch_id == IQS626_CH_HALL)
--				*thresh = val;
--			else
--				*(thresh + iqs626_events[i].th_offs) = val;
--		}
--	}
--
--	return 0;
--}
--
--static noinline_for_stack int
--iqs626_parse_ati_target(struct iqs626_private *iqs626,
--			struct fwnode_handle *ch_node, enum iqs626_ch_id ch_id)
--{
--	struct iqs626_sys_reg *sys_reg = &iqs626->sys_reg;
--	struct i2c_client *client = iqs626->client;
--	unsigned int val;
--	u8 *ati_target;
--	int i;
--
--	switch (ch_id) {
--	case IQS626_CH_ULP_0:
--		ati_target = &sys_reg->ch_reg_ulp.ati_target;
--		break;
--
--	case IQS626_CH_TP_2:
--	case IQS626_CH_TP_3:
--		ati_target = &sys_reg->tp_grp_reg.ati_target;
--		break;
--
--	case IQS626_CH_GEN_0:
--	case IQS626_CH_GEN_1:
--	case IQS626_CH_GEN_2:
--		i = ch_id - IQS626_CH_GEN_0;
--		ati_target = &sys_reg->ch_reg_gen[i].ati_target;
--		break;
--
--	case IQS626_CH_HALL:
--		ati_target = &sys_reg->ch_reg_hall.ati_target;
--		break;
--
--	default:
--		return -EINVAL;
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,ati-target", &val)) {
--		if (val > IQS626_CHx_ATI_TARGET_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel ATI target: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		*ati_target &= ~IQS626_CHx_ATI_TARGET_MASK;
--		*ati_target |= (val / 32);
--	}
--
--	if (ch_id != IQS626_CH_TP_2 && ch_id != IQS626_CH_TP_3 &&
--	    !fwnode_property_read_u32(ch_node, "azoteq,ati-base", &val)) {
--		switch (val) {
--		case 75:
--			val = IQS626_CHx_ATI_BASE_75;
--			break;
--
--		case 100:
--			val = IQS626_CHx_ATI_BASE_100;
--			break;
--
--		case 150:
--			val = IQS626_CHx_ATI_BASE_150;
--			break;
--
--		case 200:
--			val = IQS626_CHx_ATI_BASE_200;
--			break;
--
--		default:
--			dev_err(&client->dev,
--				"Invalid %s channel ATI base: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		*ati_target &= ~IQS626_CHx_ATI_BASE_MASK;
--		*ati_target |= val;
--	}
--
--	return 0;
--}
--
--static int iqs626_parse_pins(struct iqs626_private *iqs626,
--			     struct fwnode_handle *ch_node,
--			     const char *propname, u8 *enable)
--{
--	struct i2c_client *client = iqs626->client;
--	unsigned int val[IQS626_NUM_CRx_TX];
--	int error, count, i;
--
--	if (!fwnode_property_present(ch_node, propname))
--		return 0;
--
--	count = fwnode_property_count_u32(ch_node, propname);
--	if (count > IQS626_NUM_CRx_TX) {
--		dev_err(&client->dev,
--			"Too many %s channel CRX/TX pins present\n",
--			fwnode_get_name(ch_node));
--		return -EINVAL;
--	} else if (count < 0) {
--		dev_err(&client->dev,
--			"Failed to count %s channel CRX/TX pins: %d\n",
--			fwnode_get_name(ch_node), count);
--		return count;
--	}
--
--	error = fwnode_property_read_u32_array(ch_node, propname, val, count);
--	if (error) {
--		dev_err(&client->dev,
--			"Failed to read %s channel CRX/TX pins: %d\n",
--			fwnode_get_name(ch_node), error);
--		return error;
--	}
--
--	*enable = 0;
--
--	for (i = 0; i < count; i++) {
--		if (val[i] >= IQS626_NUM_CRx_TX) {
--			dev_err(&client->dev,
--				"Invalid %s channel CRX/TX pin: %u\n",
--				fwnode_get_name(ch_node), val[i]);
--			return -EINVAL;
--		}
--
--		*enable |= BIT(val[i]);
--	}
--
--	return 0;
--}
--
--static int iqs626_parse_trackpad(struct iqs626_private *iqs626,
--				 struct fwnode_handle *ch_node,
--				 enum iqs626_ch_id ch_id)
--{
--	struct iqs626_sys_reg *sys_reg = &iqs626->sys_reg;
--	struct i2c_client *client = iqs626->client;
--	u8 *hyst = &sys_reg->tp_grp_reg.hyst;
--	int error, count, i;
--	unsigned int val;
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,lta-update", &val)) {
--		if (val > IQS626_MISC_A_TPx_LTA_UPDATE_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel update rate: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		sys_reg->misc_a &= ~IQS626_MISC_A_TPx_LTA_UPDATE_MASK;
--		sys_reg->misc_a |= (val << IQS626_MISC_A_TPx_LTA_UPDATE_SHIFT);
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,filt-str-trackpad",
--				      &val)) {
--		if (val > IQS626_FILT_STR_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel filter strength: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		sys_reg->misc_b &= ~IQS626_MISC_B_FILT_STR_TPx;
--		sys_reg->misc_b |= val;
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,filt-str-np-cnt",
--				      &val)) {
--		if (val > IQS626_FILT_STR_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel filter strength: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		*hyst &= ~IQS626_FILT_STR_NP_TPx_MASK;
--		*hyst |= (val << IQS626_FILT_STR_NP_TPx_SHIFT);
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,filt-str-lp-cnt",
--				      &val)) {
--		if (val > IQS626_FILT_STR_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel filter strength: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		*hyst &= ~IQS626_FILT_STR_LP_TPx_MASK;
--		*hyst |= (val << IQS626_FILT_STR_LP_TPx_SHIFT);
--	}
--
--	for (i = 0; i < iqs626_channels[ch_id].num_ch; i++) {
--		u8 *ati_base = &sys_reg->tp_grp_reg.ch_reg_tp[i].ati_base;
--		u8 *thresh = &sys_reg->tp_grp_reg.ch_reg_tp[i].thresh;
--		char tc_name[10];
--
--		snprintf(tc_name, sizeof(tc_name), "channel-%d", i);
--
--		struct fwnode_handle *tc_node __free(fwnode_handle) =
--				fwnode_get_named_child_node(ch_node, tc_name);
--		if (!tc_node)
--			continue;
--
--		if (!fwnode_property_read_u32(tc_node, "azoteq,ati-base",
--					      &val)) {
--			if (val < IQS626_TPx_ATI_BASE_MIN ||
--			    val > IQS626_TPx_ATI_BASE_MAX) {
--				dev_err(&client->dev,
--					"Invalid %s %s ATI base: %u\n",
--					fwnode_get_name(ch_node), tc_name, val);
--				return -EINVAL;
--			}
--
--			*ati_base = val - IQS626_TPx_ATI_BASE_MIN;
--		}
--
--		if (!fwnode_property_read_u32(tc_node, "azoteq,thresh",
--					      &val)) {
--			if (val > IQS626_CHx_THRESH_MAX) {
--				dev_err(&client->dev,
--					"Invalid %s %s threshold: %u\n",
--					fwnode_get_name(ch_node), tc_name, val);
--				return -EINVAL;
--			}
--
--			*thresh = val;
--		}
--	}
--
--	if (!fwnode_property_present(ch_node, "linux,keycodes"))
--		return 0;
--
--	count = fwnode_property_count_u32(ch_node, "linux,keycodes");
--	if (count > IQS626_NUM_GESTURES) {
--		dev_err(&client->dev, "Too many keycodes present\n");
--		return -EINVAL;
--	} else if (count < 0) {
--		dev_err(&client->dev, "Failed to count keycodes: %d\n", count);
--		return count;
--	}
--
--	error = fwnode_property_read_u32_array(ch_node, "linux,keycodes",
--					       iqs626->tp_code, count);
--	if (error) {
--		dev_err(&client->dev, "Failed to read keycodes: %d\n", error);
--		return error;
--	}
--
--	sys_reg->misc_b &= ~IQS626_MISC_B_TPx_SWIPE;
--	if (fwnode_property_present(ch_node, "azoteq,gesture-swipe"))
--		sys_reg->misc_b |= IQS626_MISC_B_TPx_SWIPE;
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,timeout-tap-ms",
--				      &val)) {
--		if (val > IQS626_TIMEOUT_TAP_MS_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel timeout: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		sys_reg->timeout_tap = val / 16;
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,timeout-swipe-ms",
--				      &val)) {
--		if (val > IQS626_TIMEOUT_SWIPE_MS_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel timeout: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		sys_reg->timeout_swipe = val / 16;
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,thresh-swipe",
--				      &val)) {
--		if (val > IQS626_THRESH_SWIPE_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel threshold: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		sys_reg->thresh_swipe = val;
--	}
--
--	sys_reg->event_mask &= ~IQS626_EVENT_MASK_GESTURE;
--
--	return 0;
--}
--
--static noinline_for_stack int
--iqs626_parse_channel(struct iqs626_private *iqs626,
--		     struct fwnode_handle *ch_node, enum iqs626_ch_id ch_id)
--{
--	struct iqs626_sys_reg *sys_reg = &iqs626->sys_reg;
--	struct i2c_client *client = iqs626->client;
--	u8 *engine, *filter, *rx_enable, *tx_enable;
--	u8 *assoc_select, *assoc_weight;
--	unsigned int val;
--	int error, i;
--
--	switch (ch_id) {
--	case IQS626_CH_ULP_0:
--		engine = sys_reg->ch_reg_ulp.engine;
--		break;
--
--	case IQS626_CH_TP_2:
--	case IQS626_CH_TP_3:
--		engine = sys_reg->tp_grp_reg.engine;
--		break;
--
--	case IQS626_CH_GEN_0:
--	case IQS626_CH_GEN_1:
--	case IQS626_CH_GEN_2:
--		i = ch_id - IQS626_CH_GEN_0;
--		engine = sys_reg->ch_reg_gen[i].engine;
--		break;
--
--	case IQS626_CH_HALL:
--		engine = &sys_reg->ch_reg_hall.engine;
--		break;
--
--	default:
--		return -EINVAL;
--	}
--
--	error = iqs626_parse_ati_target(iqs626, ch_node, ch_id);
--	if (error)
--		return error;
--
--	error = iqs626_parse_events(iqs626, ch_node, ch_id);
--	if (error)
--		return error;
--
--	if (!fwnode_property_present(ch_node, "azoteq,ati-exclude"))
--		sys_reg->redo_ati |= iqs626_channels[ch_id].active;
--
--	if (!fwnode_property_present(ch_node, "azoteq,reseed-disable"))
--		sys_reg->reseed |= iqs626_channels[ch_id].active;
--
--	*engine |= IQS626_CHx_ENG_0_MEAS_CAP_SIZE;
--	if (fwnode_property_present(ch_node, "azoteq,meas-cap-decrease"))
--		*engine &= ~IQS626_CHx_ENG_0_MEAS_CAP_SIZE;
--
--	*engine |= IQS626_CHx_ENG_0_RX_TERM_VSS;
--	if (!fwnode_property_read_u32(ch_node, "azoteq,rx-inactive", &val)) {
--		switch (val) {
--		case IQS626_RX_INACTIVE_VSS:
--			break;
--
--		case IQS626_RX_INACTIVE_FLOAT:
--			*engine &= ~IQS626_CHx_ENG_0_RX_TERM_VSS;
--			if (ch_id == IQS626_CH_GEN_0 ||
--			    ch_id == IQS626_CH_GEN_1 ||
--			    ch_id == IQS626_CH_GEN_2)
--				*(engine + 4) &= ~IQS626_CHx_ENG_4_RX_TERM_VREG;
--			break;
--
--		case IQS626_RX_INACTIVE_VREG:
--			if (ch_id == IQS626_CH_GEN_0 ||
--			    ch_id == IQS626_CH_GEN_1 ||
--			    ch_id == IQS626_CH_GEN_2) {
--				*engine &= ~IQS626_CHx_ENG_0_RX_TERM_VSS;
--				*(engine + 4) |= IQS626_CHx_ENG_4_RX_TERM_VREG;
--				break;
--			}
--			fallthrough;
--
--		default:
--			dev_err(&client->dev,
--				"Invalid %s channel CRX pin termination: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--	}
--
--	*engine &= ~IQS626_CHx_ENG_0_LINEARIZE;
--	if (fwnode_property_present(ch_node, "azoteq,linearize"))
--		*engine |= IQS626_CHx_ENG_0_LINEARIZE;
--
--	*engine &= ~IQS626_CHx_ENG_0_DUAL_DIR;
--	if (fwnode_property_present(ch_node, "azoteq,dual-direction"))
--		*engine |= IQS626_CHx_ENG_0_DUAL_DIR;
--
--	*engine &= ~IQS626_CHx_ENG_0_FILT_DISABLE;
--	if (fwnode_property_present(ch_node, "azoteq,filt-disable"))
--		*engine |= IQS626_CHx_ENG_0_FILT_DISABLE;
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,ati-mode", &val)) {
--		if (val > IQS626_CHx_ENG_0_ATI_MODE_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel ATI mode: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		*engine &= ~IQS626_CHx_ENG_0_ATI_MODE_MASK;
--		*engine |= val;
--	}
--
--	if (ch_id == IQS626_CH_HALL)
--		return 0;
--
--	*(engine + 1) &= ~IQS626_CHx_ENG_1_CCT_ENABLE;
--	if (!fwnode_property_read_u32(ch_node, "azoteq,cct-increase",
--				      &val) && val) {
--		unsigned int orig_val = val--;
--
--		/*
--		 * In the case of the generic channels, the charge cycle time
--		 * field doubles in size and straddles two separate registers.
--		 */
--		if (ch_id == IQS626_CH_GEN_0 ||
--		    ch_id == IQS626_CH_GEN_1 ||
--		    ch_id == IQS626_CH_GEN_2) {
--			*(engine + 4) &= ~IQS626_CHx_ENG_4_CCT_LOW_1;
--			if (val & BIT(1))
--				*(engine + 4) |= IQS626_CHx_ENG_4_CCT_LOW_1;
--
--			*(engine + 4) &= ~IQS626_CHx_ENG_4_CCT_LOW_0;
--			if (val & BIT(0))
--				*(engine + 4) |= IQS626_CHx_ENG_4_CCT_LOW_0;
--
--			val >>= 2;
--		}
--
--		if (val & ~GENMASK(1, 0)) {
--			dev_err(&client->dev,
--				"Invalid %s channel charge cycle time: %u\n",
--				fwnode_get_name(ch_node), orig_val);
--			return -EINVAL;
--		}
--
--		*(engine + 1) &= ~IQS626_CHx_ENG_1_CCT_HIGH_1;
--		if (val & BIT(1))
--			*(engine + 1) |= IQS626_CHx_ENG_1_CCT_HIGH_1;
--
--		*(engine + 1) &= ~IQS626_CHx_ENG_1_CCT_HIGH_0;
--		if (val & BIT(0))
--			*(engine + 1) |= IQS626_CHx_ENG_1_CCT_HIGH_0;
--
--		*(engine + 1) |= IQS626_CHx_ENG_1_CCT_ENABLE;
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,proj-bias", &val)) {
--		if (val > IQS626_CHx_ENG_1_PROJ_BIAS_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel bias current: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		*(engine + 1) &= ~IQS626_CHx_ENG_1_PROJ_BIAS_MASK;
--		*(engine + 1) |= (val << IQS626_CHx_ENG_1_PROJ_BIAS_SHIFT);
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,sense-freq", &val)) {
--		if (val > IQS626_CHx_ENG_1_SENSE_FREQ_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel sensing frequency: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		*(engine + 1) &= ~IQS626_CHx_ENG_1_SENSE_FREQ_MASK;
--		*(engine + 1) |= (val << IQS626_CHx_ENG_1_SENSE_FREQ_SHIFT);
--	}
--
--	*(engine + 1) &= ~IQS626_CHx_ENG_1_ATI_BAND_TIGHTEN;
--	if (fwnode_property_present(ch_node, "azoteq,ati-band-tighten"))
--		*(engine + 1) |= IQS626_CHx_ENG_1_ATI_BAND_TIGHTEN;
--
--	if (ch_id == IQS626_CH_TP_2 || ch_id == IQS626_CH_TP_3)
--		return iqs626_parse_trackpad(iqs626, ch_node, ch_id);
--
--	if (ch_id == IQS626_CH_ULP_0) {
--		sys_reg->ch_reg_ulp.hyst &= ~IQS626_ULP_PROJ_ENABLE;
--		if (fwnode_property_present(ch_node, "azoteq,proj-enable"))
--			sys_reg->ch_reg_ulp.hyst |= IQS626_ULP_PROJ_ENABLE;
--
--		filter = &sys_reg->ch_reg_ulp.filter;
--
--		rx_enable = &sys_reg->ch_reg_ulp.rx_enable;
--		tx_enable = &sys_reg->ch_reg_ulp.tx_enable;
--	} else {
--		i = ch_id - IQS626_CH_GEN_0;
--		filter = &sys_reg->ch_reg_gen[i].filter;
--
--		rx_enable = &sys_reg->ch_reg_gen[i].rx_enable;
--		tx_enable = &sys_reg->ch_reg_gen[i].tx_enable;
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,filt-str-np-cnt",
--				      &val)) {
--		if (val > IQS626_FILT_STR_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel filter strength: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		*filter &= ~IQS626_FILT_STR_NP_CNT_MASK;
--		*filter |= (val << IQS626_FILT_STR_NP_CNT_SHIFT);
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,filt-str-lp-cnt",
--				      &val)) {
--		if (val > IQS626_FILT_STR_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel filter strength: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		*filter &= ~IQS626_FILT_STR_LP_CNT_MASK;
--		*filter |= (val << IQS626_FILT_STR_LP_CNT_SHIFT);
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,filt-str-np-lta",
--				      &val)) {
--		if (val > IQS626_FILT_STR_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel filter strength: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		*filter &= ~IQS626_FILT_STR_NP_LTA_MASK;
--		*filter |= (val << IQS626_FILT_STR_NP_LTA_SHIFT);
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,filt-str-lp-lta",
--				      &val)) {
--		if (val > IQS626_FILT_STR_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel filter strength: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		*filter &= ~IQS626_FILT_STR_LP_LTA_MASK;
--		*filter |= val;
--	}
--
--	error = iqs626_parse_pins(iqs626, ch_node, "azoteq,rx-enable",
--				  rx_enable);
--	if (error)
--		return error;
--
--	error = iqs626_parse_pins(iqs626, ch_node, "azoteq,tx-enable",
--				  tx_enable);
--	if (error)
--		return error;
--
--	if (ch_id == IQS626_CH_ULP_0)
--		return 0;
--
--	*(engine + 2) &= ~IQS626_CHx_ENG_2_LOCAL_CAP_ENABLE;
--	if (!fwnode_property_read_u32(ch_node, "azoteq,local-cap-size",
--				      &val) && val) {
--		unsigned int orig_val = val--;
--
--		if (val > IQS626_CHx_ENG_2_LOCAL_CAP_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel local cap. size: %u\n",
--				fwnode_get_name(ch_node), orig_val);
--			return -EINVAL;
--		}
--
--		*(engine + 2) &= ~IQS626_CHx_ENG_2_LOCAL_CAP_MASK;
--		*(engine + 2) |= (val << IQS626_CHx_ENG_2_LOCAL_CAP_SHIFT);
--
--		*(engine + 2) |= IQS626_CHx_ENG_2_LOCAL_CAP_ENABLE;
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,sense-mode", &val)) {
--		if (val > IQS626_CHx_ENG_2_SENSE_MODE_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel sensing mode: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		*(engine + 2) &= ~IQS626_CHx_ENG_2_SENSE_MODE_MASK;
--		*(engine + 2) |= val;
--	}
--
--	if (!fwnode_property_read_u32(ch_node, "azoteq,tx-freq", &val)) {
--		if (val > IQS626_CHx_ENG_3_TX_FREQ_MAX) {
--			dev_err(&client->dev,
--				"Invalid %s channel excitation frequency: %u\n",
--				fwnode_get_name(ch_node), val);
--			return -EINVAL;
--		}
--
--		*(engine + 3) &= ~IQS626_CHx_ENG_3_TX_FREQ_MASK;
--		*(engine + 3) |= (val << IQS626_CHx_ENG_3_TX_FREQ_SHIFT);
--	}
--
--	*(engine + 3) &= ~IQS626_CHx_ENG_3_INV_LOGIC;
--	if (fwnode_property_present(ch_node, "azoteq,invert-enable"))
--		*(engine + 3) |= IQS626_CHx_ENG_3_INV_LOGIC;
--
--	*(engine + 4) &= ~IQS626_CHx_ENG_4_COMP_DISABLE;
--	if (fwnode_property_present(ch_node, "azoteq,comp-disable"))
--		*(engine + 4) |= IQS626_CHx_ENG_4_COMP_DISABLE;
--
--	*(engine + 4) &= ~IQS626_CHx_ENG_4_STATIC_ENABLE;
--	if (fwnode_property_present(ch_node, "azoteq,static-enable"))
--		*(engine + 4) |= IQS626_CHx_ENG_4_STATIC_ENABLE;
--
--	i = ch_id - IQS626_CH_GEN_0;
--	assoc_select = &sys_reg->ch_reg_gen[i].assoc_select;
--	assoc_weight = &sys_reg->ch_reg_gen[i].assoc_weight;
--
--	*assoc_select = 0;
--	if (!fwnode_property_present(ch_node, "azoteq,assoc-select"))
--		return 0;
--
--	for (i = 0; i < ARRAY_SIZE(iqs626_channels); i++) {
--		if (fwnode_property_match_string(ch_node, "azoteq,assoc-select",
--						 iqs626_channels[i].name) < 0)
--			continue;
--
--		*assoc_select |= iqs626_channels[i].active;
--	}
--
--	if (fwnode_property_read_u32(ch_node, "azoteq,assoc-weight", &val))
--		return 0;
--
--	if (val > IQS626_GEN_WEIGHT_MAX) {
--		dev_err(&client->dev,
--			"Invalid %s channel associated weight: %u\n",
--			fwnode_get_name(ch_node), val);
--		return -EINVAL;
--	}
--
--	*assoc_weight = val;
--
--	return 0;
--}
--
--static int iqs626_parse_prop(struct iqs626_private *iqs626)
--{
--	struct iqs626_sys_reg *sys_reg = &iqs626->sys_reg;
--	struct i2c_client *client = iqs626->client;
--	unsigned int val;
--	int error, i;
--	u16 general;
--
--	if (!device_property_read_u32(&client->dev, "azoteq,suspend-mode",
--				      &val)) {
--		if (val > IQS626_SYS_SETTINGS_PWR_MODE_MAX) {
--			dev_err(&client->dev, "Invalid suspend mode: %u\n",
--				val);
--			return -EINVAL;
--		}
--
--		iqs626->suspend_mode = val;
--	}
--
--	error = regmap_raw_read(iqs626->regmap, IQS626_SYS_SETTINGS, sys_reg,
--				sizeof(*sys_reg));
--	if (error)
--		return error;
--
--	general = be16_to_cpu(sys_reg->general);
--	general &= IQS626_SYS_SETTINGS_ULP_UPDATE_MASK;
--
--	if (device_property_present(&client->dev, "azoteq,clk-div"))
--		general |= IQS626_SYS_SETTINGS_CLK_DIV;
--
--	if (device_property_present(&client->dev, "azoteq,ulp-enable"))
--		general |= IQS626_SYS_SETTINGS_ULP_AUTO;
--
--	if (!device_property_read_u32(&client->dev, "azoteq,ulp-update",
--				      &val)) {
--		if (val > IQS626_SYS_SETTINGS_ULP_UPDATE_MAX) {
--			dev_err(&client->dev, "Invalid update rate: %u\n", val);
--			return -EINVAL;
--		}
--
--		general &= ~IQS626_SYS_SETTINGS_ULP_UPDATE_MASK;
--		general |= (val << IQS626_SYS_SETTINGS_ULP_UPDATE_SHIFT);
--	}
--
--	sys_reg->misc_a &= ~IQS626_MISC_A_ATI_BAND_DISABLE;
--	if (device_property_present(&client->dev, "azoteq,ati-band-disable"))
--		sys_reg->misc_a |= IQS626_MISC_A_ATI_BAND_DISABLE;
--
--	sys_reg->misc_a &= ~IQS626_MISC_A_ATI_LP_ONLY;
--	if (device_property_present(&client->dev, "azoteq,ati-lp-only"))
--		sys_reg->misc_a |= IQS626_MISC_A_ATI_LP_ONLY;
--
--	if (!device_property_read_u32(&client->dev, "azoteq,gpio3-select",
--				      &val)) {
--		if (val > IQS626_MISC_A_GPIO3_SELECT_MAX) {
--			dev_err(&client->dev, "Invalid GPIO3 selection: %u\n",
--				val);
--			return -EINVAL;
--		}
--
--		sys_reg->misc_a &= ~IQS626_MISC_A_GPIO3_SELECT_MASK;
--		sys_reg->misc_a |= val;
--	}
--
--	if (!device_property_read_u32(&client->dev, "azoteq,reseed-select",
--				      &val)) {
--		if (val > IQS626_MISC_B_RESEED_UI_SEL_MAX) {
--			dev_err(&client->dev, "Invalid reseed selection: %u\n",
--				val);
--			return -EINVAL;
--		}
--
--		sys_reg->misc_b &= ~IQS626_MISC_B_RESEED_UI_SEL_MASK;
--		sys_reg->misc_b |= (val << IQS626_MISC_B_RESEED_UI_SEL_SHIFT);
--	}
--
--	sys_reg->misc_b &= ~IQS626_MISC_B_THRESH_EXTEND;
--	if (device_property_present(&client->dev, "azoteq,thresh-extend"))
--		sys_reg->misc_b |= IQS626_MISC_B_THRESH_EXTEND;
--
--	sys_reg->misc_b &= ~IQS626_MISC_B_TRACKING_UI_ENABLE;
--	if (device_property_present(&client->dev, "azoteq,tracking-enable"))
--		sys_reg->misc_b |= IQS626_MISC_B_TRACKING_UI_ENABLE;
--
--	sys_reg->misc_b &= ~IQS626_MISC_B_RESEED_OFFSET;
--	if (device_property_present(&client->dev, "azoteq,reseed-offset"))
--		sys_reg->misc_b |= IQS626_MISC_B_RESEED_OFFSET;
--
--	if (!device_property_read_u32(&client->dev, "azoteq,rate-np-ms",
--				      &val)) {
--		if (val > IQS626_RATE_NP_MS_MAX) {
--			dev_err(&client->dev, "Invalid report rate: %u\n", val);
--			return -EINVAL;
--		}
--
--		sys_reg->rate_np = val;
--	}
--
--	if (!device_property_read_u32(&client->dev, "azoteq,rate-lp-ms",
--				      &val)) {
--		if (val > IQS626_RATE_LP_MS_MAX) {
--			dev_err(&client->dev, "Invalid report rate: %u\n", val);
--			return -EINVAL;
--		}
--
--		sys_reg->rate_lp = val;
--	}
--
--	if (!device_property_read_u32(&client->dev, "azoteq,rate-ulp-ms",
--				      &val)) {
--		if (val > IQS626_RATE_ULP_MS_MAX) {
--			dev_err(&client->dev, "Invalid report rate: %u\n", val);
--			return -EINVAL;
--		}
--
--		sys_reg->rate_ulp = val / 16;
--	}
--
--	if (!device_property_read_u32(&client->dev, "azoteq,timeout-pwr-ms",
--				      &val)) {
--		if (val > IQS626_TIMEOUT_PWR_MS_MAX) {
--			dev_err(&client->dev, "Invalid timeout: %u\n", val);
--			return -EINVAL;
--		}
--
--		sys_reg->timeout_pwr = val / 512;
--	}
--
--	if (!device_property_read_u32(&client->dev, "azoteq,timeout-lta-ms",
--				      &val)) {
--		if (val > IQS626_TIMEOUT_LTA_MS_MAX) {
--			dev_err(&client->dev, "Invalid timeout: %u\n", val);
--			return -EINVAL;
--		}
--
--		sys_reg->timeout_lta = val / 512;
--	}
--
--	sys_reg->event_mask = ~((u8)IQS626_EVENT_MASK_SYS);
--	sys_reg->redo_ati = 0;
--
--	sys_reg->reseed = 0;
--	sys_reg->active = 0;
--
--	for (i = 0; i < ARRAY_SIZE(iqs626_channels); i++) {
--		struct fwnode_handle *ch_node __free(fwnode_handle) =
--			device_get_named_child_node(&client->dev,
--						    iqs626_channels[i].name);
--		if (!ch_node)
--			continue;
--
--		error = iqs626_parse_channel(iqs626, ch_node, i);
--		if (error)
--			return error;
--
--		sys_reg->active |= iqs626_channels[i].active;
--	}
--
--	general |= IQS626_SYS_SETTINGS_EVENT_MODE;
--
--	/*
--	 * Enable streaming during normal-power mode if the trackpad is used to
--	 * report raw coordinates instead of gestures. In that case, the device
--	 * returns to event mode during low-power mode.
--	 */
--	if (sys_reg->active & iqs626_channels[IQS626_CH_TP_2].active &&
--	    sys_reg->event_mask & IQS626_EVENT_MASK_GESTURE)
--		general |= IQS626_SYS_SETTINGS_EVENT_MODE_LP;
--
--	general |= IQS626_SYS_SETTINGS_REDO_ATI;
--	general |= IQS626_SYS_SETTINGS_ACK_RESET;
--
--	sys_reg->general = cpu_to_be16(general);
--
--	error = regmap_raw_write(iqs626->regmap, IQS626_SYS_SETTINGS,
--				 &iqs626->sys_reg, sizeof(iqs626->sys_reg));
--	if (error)
--		return error;
--
--	iqs626_irq_wait();
--
--	return 0;
--}
--
--static int iqs626_input_init(struct iqs626_private *iqs626)
--{
--	struct iqs626_sys_reg *sys_reg = &iqs626->sys_reg;
--	struct i2c_client *client = iqs626->client;
--	int error, i, j;
--
--	iqs626->keypad = devm_input_allocate_device(&client->dev);
--	if (!iqs626->keypad)
--		return -ENOMEM;
--
--	iqs626->keypad->keycodemax = ARRAY_SIZE(iqs626->kp_code);
--	iqs626->keypad->keycode = iqs626->kp_code;
--	iqs626->keypad->keycodesize = sizeof(**iqs626->kp_code);
--
--	iqs626->keypad->name = "iqs626a_keypad";
--	iqs626->keypad->id.bustype = BUS_I2C;
--
--	for (i = 0; i < ARRAY_SIZE(iqs626_channels); i++) {
--		if (!(sys_reg->active & iqs626_channels[i].active))
--			continue;
--
--		for (j = 0; j < ARRAY_SIZE(iqs626_events); j++) {
--			if (!iqs626->kp_type[i][j])
--				continue;
--
--			input_set_capability(iqs626->keypad,
--					     iqs626->kp_type[i][j],
--					     iqs626->kp_code[i][j]);
--		}
--	}
--
--	if (!(sys_reg->active & iqs626_channels[IQS626_CH_TP_2].active))
--		return 0;
--
--	iqs626->trackpad = devm_input_allocate_device(&client->dev);
--	if (!iqs626->trackpad)
--		return -ENOMEM;
--
--	iqs626->trackpad->keycodemax = ARRAY_SIZE(iqs626->tp_code);
--	iqs626->trackpad->keycode = iqs626->tp_code;
--	iqs626->trackpad->keycodesize = sizeof(*iqs626->tp_code);
--
--	iqs626->trackpad->name = "iqs626a_trackpad";
--	iqs626->trackpad->id.bustype = BUS_I2C;
--
--	/*
--	 * Present the trackpad as a traditional pointing device if no gestures
--	 * have been mapped to a keycode.
--	 */
--	if (sys_reg->event_mask & IQS626_EVENT_MASK_GESTURE) {
--		u8 tp_mask = iqs626_channels[IQS626_CH_TP_3].active;
--
--		input_set_capability(iqs626->trackpad, EV_KEY, BTN_TOUCH);
--		input_set_abs_params(iqs626->trackpad, ABS_Y, 0, 255, 0, 0);
--
--		if ((sys_reg->active & tp_mask) == tp_mask)
--			input_set_abs_params(iqs626->trackpad,
--					     ABS_X, 0, 255, 0, 0);
--		else
--			input_set_abs_params(iqs626->trackpad,
--					     ABS_X, 0, 128, 0, 0);
--
--		touchscreen_parse_properties(iqs626->trackpad, false,
--					     &iqs626->prop);
--	} else {
--		for (i = 0; i < IQS626_NUM_GESTURES; i++)
--			if (iqs626->tp_code[i] != KEY_RESERVED)
--				input_set_capability(iqs626->trackpad, EV_KEY,
--						     iqs626->tp_code[i]);
--	}
--
--	error = input_register_device(iqs626->trackpad);
--	if (error)
--		dev_err(&client->dev, "Failed to register trackpad: %d\n",
--			error);
--
--	return error;
--}
--
--static int iqs626_report(struct iqs626_private *iqs626)
--{
--	struct iqs626_sys_reg *sys_reg = &iqs626->sys_reg;
--	struct i2c_client *client = iqs626->client;
--	struct iqs626_flags flags;
--	__le16 hall_output;
--	int error, i, j;
--	u8 state;
--	u8 *dir_mask = &flags.states[IQS626_ST_OFFS_DIR];
--
--	error = regmap_raw_read(iqs626->regmap, IQS626_SYS_FLAGS, &flags,
--				sizeof(flags));
--	if (error) {
--		dev_err(&client->dev, "Failed to read device status: %d\n",
--			error);
--		return error;
--	}
--
--	/*
--	 * The device resets itself if its own watchdog bites, which can happen
--	 * in the event of an I2C communication error. In this case, the device
--	 * asserts a SHOW_RESET interrupt and all registers must be restored.
--	 */
--	if (be16_to_cpu(flags.system) & IQS626_SYS_FLAGS_SHOW_RESET) {
--		dev_err(&client->dev, "Unexpected device reset\n");
--
--		error = regmap_raw_write(iqs626->regmap, IQS626_SYS_SETTINGS,
--					 sys_reg, sizeof(*sys_reg));
--		if (error)
--			dev_err(&client->dev,
--				"Failed to re-initialize device: %d\n", error);
--
--		return error;
--	}
--
--	if (be16_to_cpu(flags.system) & IQS626_SYS_FLAGS_IN_ATI)
--		return 0;
--
--	/*
--	 * Unlike the ULP or generic channels, the Hall channel does not have a
--	 * direction flag. Instead, the direction (i.e. magnet polarity) can be
--	 * derived based on the sign of the 2's complement differential output.
--	 */
--	if (sys_reg->active & iqs626_channels[IQS626_CH_HALL].active) {
--		error = regmap_raw_read(iqs626->regmap, IQS626_HALL_OUTPUT,
--					&hall_output, sizeof(hall_output));
--		if (error) {
--			dev_err(&client->dev,
--				"Failed to read Hall output: %d\n", error);
--			return error;
--		}
--
--		*dir_mask &= ~iqs626_channels[IQS626_CH_HALL].active;
--		if (le16_to_cpu(hall_output) < 0x8000)
--			*dir_mask |= iqs626_channels[IQS626_CH_HALL].active;
--	}
--
--	for (i = 0; i < ARRAY_SIZE(iqs626_channels); i++) {
--		if (!(sys_reg->active & iqs626_channels[i].active))
--			continue;
--
--		for (j = 0; j < ARRAY_SIZE(iqs626_events); j++) {
--			if (!iqs626->kp_type[i][j])
--				continue;
--
--			state = flags.states[iqs626_events[j].st_offs];
--			state &= iqs626_events[j].dir_up ? *dir_mask
--							 : ~(*dir_mask);
--			state &= iqs626_channels[i].active;
--
--			input_event(iqs626->keypad, iqs626->kp_type[i][j],
--				    iqs626->kp_code[i][j], !!state);
--		}
--	}
--
--	input_sync(iqs626->keypad);
--
--	/*
--	 * The following completion signals that ATI has finished, any initial
--	 * switch states have been reported and the keypad can be registered.
--	 */
--	complete_all(&iqs626->ati_done);
--
--	if (!(sys_reg->active & iqs626_channels[IQS626_CH_TP_2].active))
--		return 0;
--
--	if (sys_reg->event_mask & IQS626_EVENT_MASK_GESTURE) {
--		state = flags.states[IQS626_ST_OFFS_TOUCH];
--		state &= iqs626_channels[IQS626_CH_TP_2].active;
--
--		input_report_key(iqs626->trackpad, BTN_TOUCH, state);
--
--		if (state)
--			touchscreen_report_pos(iqs626->trackpad, &iqs626->prop,
--					       flags.trackpad_x,
--					       flags.trackpad_y, false);
--	} else {
--		for (i = 0; i < IQS626_NUM_GESTURES; i++)
--			input_report_key(iqs626->trackpad, iqs626->tp_code[i],
--					 flags.gesture & BIT(i));
--
--		if (flags.gesture & GENMASK(IQS626_GESTURE_TAP, 0)) {
--			input_sync(iqs626->trackpad);
--
--			/*
--			 * Momentary gestures are followed by a complementary
--			 * release cycle so as to emulate a full keystroke.
--			 */
--			for (i = 0; i < IQS626_GESTURE_HOLD; i++)
--				input_report_key(iqs626->trackpad,
--						 iqs626->tp_code[i], 0);
--		}
--	}
--
--	input_sync(iqs626->trackpad);
--
--	return 0;
--}
--
--static irqreturn_t iqs626_irq(int irq, void *context)
--{
--	struct iqs626_private *iqs626 = context;
--
--	if (iqs626_report(iqs626))
--		return IRQ_NONE;
--
--	/*
--	 * The device does not deassert its interrupt (RDY) pin until shortly
--	 * after receiving an I2C stop condition; the following delay ensures
--	 * the interrupt handler does not return before this time.
--	 */
--	iqs626_irq_wait();
--
--	return IRQ_HANDLED;
--}
--
--static const struct regmap_config iqs626_regmap_config = {
--	.reg_bits = 8,
--	.val_bits = 16,
--	.max_register = IQS626_MAX_REG,
--};
--
--static int iqs626_probe(struct i2c_client *client)
--{
--	struct iqs626_ver_info ver_info;
--	struct iqs626_private *iqs626;
--	int error;
--
--	iqs626 = devm_kzalloc(&client->dev, sizeof(*iqs626), GFP_KERNEL);
--	if (!iqs626)
--		return -ENOMEM;
--
--	i2c_set_clientdata(client, iqs626);
--	iqs626->client = client;
--
--	iqs626->regmap = devm_regmap_init_i2c(client, &iqs626_regmap_config);
--	if (IS_ERR(iqs626->regmap)) {
--		error = PTR_ERR(iqs626->regmap);
--		dev_err(&client->dev, "Failed to initialize register map: %d\n",
--			error);
--		return error;
--	}
--
--	init_completion(&iqs626->ati_done);
--
--	error = regmap_raw_read(iqs626->regmap, IQS626_VER_INFO, &ver_info,
--				sizeof(ver_info));
--	if (error)
--		return error;
--
--	if (ver_info.prod_num != IQS626_VER_INFO_PROD_NUM) {
--		dev_err(&client->dev, "Unrecognized product number: 0x%02X\n",
--			ver_info.prod_num);
--		return -EINVAL;
--	}
--
--	error = iqs626_parse_prop(iqs626);
--	if (error)
--		return error;
--
--	error = iqs626_input_init(iqs626);
--	if (error)
--		return error;
--
--	error = devm_request_threaded_irq(&client->dev, client->irq,
--					  NULL, iqs626_irq, IRQF_ONESHOT,
--					  client->name, iqs626);
--	if (error) {
--		dev_err(&client->dev, "Failed to request IRQ: %d\n", error);
--		return error;
--	}
--
--	if (!wait_for_completion_timeout(&iqs626->ati_done,
--					 msecs_to_jiffies(2000))) {
--		dev_err(&client->dev, "Failed to complete ATI\n");
--		return -ETIMEDOUT;
--	}
--
--	/*
--	 * The keypad may include one or more switches and is not registered
--	 * until ATI is complete and the initial switch states are read.
--	 */
--	error = input_register_device(iqs626->keypad);
--	if (error)
--		dev_err(&client->dev, "Failed to register keypad: %d\n", error);
--
--	return error;
--}
--
--static int iqs626_suspend(struct device *dev)
--{
--	struct iqs626_private *iqs626 = dev_get_drvdata(dev);
--	struct i2c_client *client = iqs626->client;
--	unsigned int val;
--	int error;
--
--	if (!iqs626->suspend_mode)
--		return 0;
--
--	disable_irq(client->irq);
--
--	/*
--	 * Automatic power mode switching must be disabled before the device is
--	 * forced into any particular power mode. In this case, the device will
--	 * transition into normal-power mode.
--	 */
--	error = regmap_update_bits(iqs626->regmap, IQS626_SYS_SETTINGS,
--				   IQS626_SYS_SETTINGS_DIS_AUTO, ~0);
--	if (error)
--		goto err_irq;
--
--	/*
--	 * The following check ensures the device has completed its transition
--	 * into normal-power mode before a manual mode switch is performed.
--	 */
--	error = regmap_read_poll_timeout(iqs626->regmap, IQS626_SYS_FLAGS, val,
--					!(val & IQS626_SYS_FLAGS_PWR_MODE_MASK),
--					 IQS626_PWR_MODE_POLL_SLEEP_US,
--					 IQS626_PWR_MODE_POLL_TIMEOUT_US);
--	if (error)
--		goto err_irq;
--
--	error = regmap_update_bits(iqs626->regmap, IQS626_SYS_SETTINGS,
--				   IQS626_SYS_SETTINGS_PWR_MODE_MASK,
--				   iqs626->suspend_mode <<
--				   IQS626_SYS_SETTINGS_PWR_MODE_SHIFT);
--	if (error)
--		goto err_irq;
--
--	/*
--	 * This last check ensures the device has completed its transition into
--	 * the desired power mode to prevent any spurious interrupts from being
--	 * triggered after iqs626_suspend has already returned.
--	 */
--	error = regmap_read_poll_timeout(iqs626->regmap, IQS626_SYS_FLAGS, val,
--					 (val & IQS626_SYS_FLAGS_PWR_MODE_MASK)
--					 == (iqs626->suspend_mode <<
--					     IQS626_SYS_FLAGS_PWR_MODE_SHIFT),
--					 IQS626_PWR_MODE_POLL_SLEEP_US,
--					 IQS626_PWR_MODE_POLL_TIMEOUT_US);
--
--err_irq:
--	iqs626_irq_wait();
--	enable_irq(client->irq);
--
--	return error;
--}
--
--static int iqs626_resume(struct device *dev)
--{
--	struct iqs626_private *iqs626 = dev_get_drvdata(dev);
--	struct i2c_client *client = iqs626->client;
--	unsigned int val;
--	int error;
--
--	if (!iqs626->suspend_mode)
--		return 0;
--
--	disable_irq(client->irq);
--
--	error = regmap_update_bits(iqs626->regmap, IQS626_SYS_SETTINGS,
--				   IQS626_SYS_SETTINGS_PWR_MODE_MASK, 0);
--	if (error)
--		goto err_irq;
--
--	/*
--	 * This check ensures the device has returned to normal-power mode
--	 * before automatic power mode switching is re-enabled.
--	 */
--	error = regmap_read_poll_timeout(iqs626->regmap, IQS626_SYS_FLAGS, val,
--					!(val & IQS626_SYS_FLAGS_PWR_MODE_MASK),
--					 IQS626_PWR_MODE_POLL_SLEEP_US,
--					 IQS626_PWR_MODE_POLL_TIMEOUT_US);
--	if (error)
--		goto err_irq;
--
--	error = regmap_update_bits(iqs626->regmap, IQS626_SYS_SETTINGS,
--				   IQS626_SYS_SETTINGS_DIS_AUTO, 0);
--	if (error)
--		goto err_irq;
--
--	/*
--	 * This step reports any events that may have been "swallowed" as a
--	 * result of polling PWR_MODE (which automatically acknowledges any
--	 * pending interrupts).
--	 */
--	error = iqs626_report(iqs626);
--
--err_irq:
--	iqs626_irq_wait();
--	enable_irq(client->irq);
--
--	return error;
--}
--
--static DEFINE_SIMPLE_DEV_PM_OPS(iqs626_pm, iqs626_suspend, iqs626_resume);
--
--static const struct of_device_id iqs626_of_match[] = {
--	{ .compatible = "azoteq,iqs626a" },
--	{ }
--};
--MODULE_DEVICE_TABLE(of, iqs626_of_match);
--
--static struct i2c_driver iqs626_i2c_driver = {
--	.driver = {
--		.name = "iqs626a",
--		.of_match_table = iqs626_of_match,
--		.pm = pm_sleep_ptr(&iqs626_pm),
--	},
--	.probe = iqs626_probe,
--};
--module_i2c_driver(iqs626_i2c_driver);
--
--MODULE_AUTHOR("Jeff LaBundy <jeff@labundy.com>");
--MODULE_DESCRIPTION("Azoteq IQS626A Capacitive Touch Controller");
--MODULE_LICENSE("GPL");
+@@ -1,878 +0,0 @@
+-# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+-%YAML 1.2
+----
+-$id: http://devicetree.org/schemas/input/iqs626a.yaml#
+-$schema: http://devicetree.org/meta-schemas/core.yaml#
+-
+-title: Azoteq IQS626A Capacitive Touch Controller
+-
+-maintainers:
+-  - Jeff LaBundy <jeff@labundy.com>
+-
+-description: |
+-  The Azoteq IQS626A is a 14-channel capacitive touch controller that features
+-  additional Hall-effect and inductive sensing capabilities.
+-
+-  Link to datasheet: https://www.azoteq.com/
+-
+-allOf:
+-  - $ref: touchscreen/touchscreen.yaml#
+-
+-properties:
+-  compatible:
+-    const: azoteq,iqs626a
+-
+-  reg:
+-    maxItems: 1
+-
+-  interrupts:
+-    maxItems: 1
+-
+-  "#address-cells":
+-    const: 1
+-
+-  "#size-cells":
+-    const: 0
+-
+-  azoteq,suspend-mode:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    enum: [0, 1, 2, 3]
+-    default: 0
+-    description: |
+-      Specifies the power mode during suspend as follows:
+-      0: Automatic (same as normal runtime, i.e. suspend/resume disabled)
+-      1: Low power (all sensing at a reduced reporting rate)
+-      2: Ultra-low power (ULP channel proximity sensing)
+-      3: Halt (no sensing)
+-
+-  azoteq,clk-div:
+-    type: boolean
+-    description: Divides the device's core clock by a factor of 4.
+-
+-  azoteq,ulp-enable:
+-    type: boolean
+-    description:
+-      Permits the device to automatically enter ultra-low-power mode from low-
+-      power mode.
+-
+-  azoteq,ulp-update:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    enum: [0, 1, 2, 3, 4, 5, 6, 7]
+-    default: 3
+-    description: |
+-      Specifies the rate at which the trackpad, generic and Hall channels are
+-      updated during ultra-low-power mode as follows:
+-      0: 8
+-      1: 13
+-      2: 28
+-      3: 54
+-      4: 89
+-      5: 135
+-      6: 190
+-      7: 256
+-
+-  azoteq,ati-band-disable:
+-    type: boolean
+-    description: Disables the ATI band check.
+-
+-  azoteq,ati-lp-only:
+-    type: boolean
+-    description: Limits automatic ATI to low-power mode.
+-
+-  azoteq,gpio3-select:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    enum: [0, 1, 2, 3, 4, 5, 6, 7]
+-    default: 1
+-    description: |
+-      Selects the channel or group of channels for which the GPIO3 pin
+-      represents touch state as follows:
+-      0: None
+-      1: ULP channel
+-      2: Trackpad
+-      3: Trackpad
+-      4: Generic channel 0
+-      5: Generic channel 1
+-      6: Generic channel 2
+-      7: Hall channel
+-
+-  azoteq,reseed-select:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    enum: [0, 1, 2, 3]
+-    default: 0
+-    description: |
+-      Specifies the event(s) that prompt the device to reseed (i.e. reset the
+-      long-term average) of an associated channel as follows:
+-      0: None
+-      1: Proximity
+-      2: Proximity or touch
+-      3: Proximity, touch or deep touch
+-
+-  azoteq,thresh-extend:
+-    type: boolean
+-    description: Multiplies all touch and deep-touch thresholds by 4.
+-
+-  azoteq,tracking-enable:
+-    type: boolean
+-    description:
+-      Enables all associated channels to track their respective reference
+-      channels.
+-
+-  azoteq,reseed-offset:
+-    type: boolean
+-    description:
+-      Applies an 8-count offset to all long-term averages upon either ATI or
+-      reseed events.
+-
+-  azoteq,rate-np-ms:
+-    minimum: 0
+-    maximum: 255
+-    default: 150
+-    description: Specifies the report rate (in ms) during normal-power mode.
+-
+-  azoteq,rate-lp-ms:
+-    minimum: 0
+-    maximum: 255
+-    default: 150
+-    description: Specifies the report rate (in ms) during low-power mode.
+-
+-  azoteq,rate-ulp-ms:
+-    multipleOf: 16
+-    minimum: 0
+-    maximum: 4080
+-    default: 0
+-    description: Specifies the report rate (in ms) during ultra-low-power mode.
+-
+-  azoteq,timeout-pwr-ms:
+-    multipleOf: 512
+-    minimum: 0
+-    maximum: 130560
+-    default: 2560
+-    description:
+-      Specifies the length of time (in ms) to wait for an event before moving
+-      from normal-power mode to low-power mode, or (if 'azoteq,ulp-enable' is
+-      present) from low-power mode to ultra-low-power mode.
+-
+-  azoteq,timeout-lta-ms:
+-    multipleOf: 512
+-    minimum: 0
+-    maximum: 130560
+-    default: 40960
+-    description:
+-      Specifies the length of time (in ms) to wait before resetting the long-
+-      term average of all channels. Specify the maximum timeout to disable it
+-      altogether.
+-
+-  touchscreen-inverted-x: true
+-  touchscreen-inverted-y: true
+-  touchscreen-swapped-x-y: true
+-
+-patternProperties:
+-  "^ulp-0|generic-[0-2]|hall$":
+-    type: object
+-    description:
+-      Represents a single sensing channel. A channel is active if defined and
+-      inactive otherwise.
+-
+-    properties:
+-      azoteq,ati-exclude:
+-        type: boolean
+-        description:
+-          Prevents the channel from participating in an ATI event that is
+-          manually triggered during initialization.
+-
+-      azoteq,reseed-disable:
+-        type: boolean
+-        description:
+-          Prevents the channel from being reseeded if the long-term average
+-          timeout (defined in 'azoteq,timeout-lta') expires.
+-
+-      azoteq,meas-cap-decrease:
+-        type: boolean
+-        description:
+-          Decreases the internal measurement capacitance from 60 pF to 15 pF.
+-
+-      azoteq,rx-inactive:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2]
+-        default: 0
+-        description: |
+-          Specifies how inactive CRX pins are to be terminated as follows:
+-          0: VSS
+-          1: Floating
+-          2: VREG (generic channels only)
+-
+-      azoteq,linearize:
+-        type: boolean
+-        description:
+-          Enables linearization of the channel's counts (generic and Hall
+-          channels) or inverts the polarity of the channel's proximity or
+-          touch states (ULP channel).
+-
+-      azoteq,dual-direction:
+-        type: boolean
+-        description:
+-          Specifies that the channel's long-term average is to freeze in the
+-          presence of either increasing or decreasing counts, thereby permit-
+-          ting events to be reported in either direction.
+-
+-      azoteq,filt-disable:
+-        type: boolean
+-        description: Disables raw count filtering for the channel.
+-
+-      azoteq,ati-mode:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        description: |
+-          Specifies the channel's ATI mode as follows:
+-          0: Disabled
+-          1: Semi-partial
+-          2: Partial
+-          3: Full
+-
+-          The default value is a function of the channel and the device's reset
+-          user interface (RUI); reference the datasheet for further information
+-          about the available RUI options.
+-
+-      azoteq,ati-base:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [75, 100, 150, 200]
+-        description:
+-          Specifies the channel's ATI base. The default value is a function
+-          of the channel and the device's RUI.
+-
+-      azoteq,ati-target:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        multipleOf: 32
+-        minimum: 0
+-        maximum: 2016
+-        description:
+-          Specifies the channel's ATI target. The default value is a function
+-          of the channel and the device's RUI.
+-
+-      azoteq,cct-increase:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        minimum: 0
+-        maximum: 16
+-        default: 0
+-        description:
+-          Specifies the degree to which the channel's charge cycle time is to
+-          be increased, with 0 representing no increase. The maximum value is
+-          limited to 4 in the case of the ULP channel, and the property is un-
+-          available entirely in the case of the Hall channel.
+-
+-      azoteq,proj-bias:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        default: 0
+-        description: |
+-          Specifies the bias current applied during projected-capacitance
+-          sensing as follows:
+-          0: 2.5 uA
+-          1: 5 uA
+-          2: 10 uA
+-          3: 20 uA
+-
+-          This property is unavailable in the case of the Hall channel.
+-
+-      azoteq,sense-freq:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        description: |
+-          Specifies the channel's sensing frequency as follows (parenthesized
+-          numbers represent the frequency if 'azoteq,clk-div' is present):
+-          0: 4 MHz (1 MHz)
+-          1: 2 MHz (500 kHz)
+-          2: 1 MHz (250 kHz)
+-          3: 500 kHz (125 kHz)
+-
+-          This property is unavailable in the case of the Hall channel. The
+-          default value is a function of the channel and the device's RUI.
+-
+-      azoteq,ati-band-tighten:
+-        type: boolean
+-        description:
+-          Tightens the ATI band from 1/8 to 1/16 of the desired target (ULP and
+-          generic channels only).
+-
+-      azoteq,proj-enable:
+-        type: boolean
+-        description: Enables projected-capacitance sensing (ULP channel only).
+-
+-      azoteq,filt-str-np-cnt:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        default: 0
+-        description:
+-          Specifies the raw count filter strength during normal-power mode (ULP
+-          and generic channels only).
+-
+-      azoteq,filt-str-lp-cnt:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        default: 0
+-        description:
+-          Specifies the raw count filter strength during low-power mode (ULP and
+-          generic channels only).
+-
+-      azoteq,filt-str-np-lta:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        default: 0
+-        description:
+-          Specifies the long-term average filter strength during normal-power
+-          mode (ULP and generic channels only).
+-
+-      azoteq,filt-str-lp-lta:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        default: 0
+-        description:
+-          Specifies the long-term average filter strength during low-power mode
+-          (ULP and generic channels only).
+-
+-      azoteq,rx-enable:
+-        $ref: /schemas/types.yaml#/definitions/uint32-array
+-        minItems: 1
+-        maxItems: 8
+-        items:
+-          minimum: 0
+-          maximum: 7
+-        description:
+-          Specifies the CRX pin(s) associated with the channel.
+-
+-          This property is unavailable in the case of the Hall channel. The
+-          default value is a function of the channel and the device's RUI.
+-
+-      azoteq,tx-enable:
+-        $ref: /schemas/types.yaml#/definitions/uint32-array
+-        minItems: 1
+-        maxItems: 8
+-        items:
+-          minimum: 0
+-          maximum: 7
+-        description:
+-          Specifies the TX pin(s) associated with the channel.
+-
+-          This property is unavailable in the case of the Hall channel. The
+-          default value is a function of the channel and the device's RUI.
+-
+-      azoteq,local-cap-size:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3, 4]
+-        default: 0
+-        description: |
+-          Specifies the capacitance to be added to the channel as follows:
+-          0: 0 pF
+-          1: 0.5 pF
+-          2: 1.0 pF
+-          3: 1.5 pF
+-          4: 2.0 pF
+-
+-          This property is unavailable in the case of the ULP or Hall channels.
+-
+-      azoteq,sense-mode:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 8, 9, 12, 14, 15]
+-        description: |
+-          Specifies the channel's sensing mode as follows:
+-          0:  Self capacitance
+-          1:  Projected capacitance
+-          8:  Self inductance
+-          9:  Mutual inductance
+-          12: External
+-          14: Hall effect
+-          15: Temperature
+-
+-          This property is unavailable in the case of the ULP or Hall channels.
+-          The default value is a function of the channel and the device's RUI.
+-
+-      azoteq,tx-freq:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        default: 0
+-        description: |
+-          Specifies the inductive sensing excitation frequency as follows
+-          (parenthesized numbers represent the frequency if 'azoteq,clk-div'
+-          is present):
+-          0: 16 MHz (4 MHz)
+-          1: 8 MHz (2 MHz)
+-          2: 4 MHz (1 MHz)
+-          3: 2 MHz (500 kHz)
+-
+-          This property is unavailable in the case of the ULP or Hall channels.
+-
+-      azoteq,invert-enable:
+-        type: boolean
+-        description:
+-          Inverts the polarity of the states reported for proximity, touch and
+-          deep-touch events relative to their respective thresholds (generic
+-          channels only).
+-
+-      azoteq,comp-disable:
+-        type: boolean
+-        description:
+-          Disables compensation for the channel (generic channels only).
+-
+-      azoteq,static-enable:
+-        type: boolean
+-        description:
+-          Enables the static front-end for the channel (generic channels only).
+-
+-      azoteq,assoc-select:
+-        $ref: /schemas/types.yaml#/definitions/string-array
+-        minItems: 1
+-        maxItems: 6
+-        items:
+-          enum:
+-            - ulp-0
+-            - trackpad-3x2
+-            - trackpad-3x3
+-            - generic-0
+-            - generic-1
+-            - generic-2
+-            - hall
+-        description:
+-          Specifies the associated channels for which the channel serves as a
+-          reference channel. By default, no channels are selected. This prop-
+-          erty is only available for the generic channels.
+-
+-      azoteq,assoc-weight:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        minimum: 0
+-        maximum: 255
+-        default: 0
+-        description:
+-          Specifies the channel's impact weight if it acts as an associated
+-          channel (0 = 0% impact, 255 = 200% impact). This property is only
+-          available for the generic channels.
+-
+-    patternProperties:
+-      "^event-(prox|touch|deep)(-alt)?$":
+-        type: object
+-        $ref: input.yaml#
+-        description:
+-          Represents a proximity, touch or deep-touch event reported by the
+-          channel in response to a decrease in counts. Node names suffixed with
+-          '-alt' instead correspond to an increase in counts.
+-
+-          By default, the long-term average tracks an increase in counts such
+-          that only events corresponding to a decrease in counts are reported
+-          (refer to the datasheet for more information).
+-
+-          Specify 'azoteq,dual-direction' to freeze the long-term average when
+-          the counts increase or decrease such that events of either direction
+-          can be reported. Alternatively, specify 'azoteq,invert-enable' to in-
+-          vert the polarity of the states reported by the channel.
+-
+-          Complementary events (e.g. event-touch and event-touch-alt) can both
+-          be present and specify different key or switch codes, but not differ-
+-          ent thresholds or hysteresis (if applicable).
+-
+-          Proximity events are unavailable in the case of the Hall channel, and
+-          deep-touch events are only available for the generic channels. Unless
+-          otherwise specified, default values are a function of the channel and
+-          the device's RUI.
+-
+-        properties:
+-          azoteq,thresh:
+-            $ref: /schemas/types.yaml#/definitions/uint32
+-            minimum: 0
+-            maximum: 255
+-            description: Specifies the threshold for the event.
+-
+-          azoteq,hyst:
+-            $ref: /schemas/types.yaml#/definitions/uint32
+-            minimum: 0
+-            maximum: 15
+-            description:
+-              Specifies the hysteresis for the event (touch and deep-touch
+-              events only).
+-
+-          linux,code: true
+-
+-          linux,input-type:
+-            enum: [1, 5]
+-            description:
+-              Specifies whether the event is to be interpreted as a key (1) or
+-              a switch (5). By default, Hall-channel events are interpreted as
+-              switches and all others are interpreted as keys.
+-
+-        additionalProperties: false
+-
+-    dependencies:
+-      azoteq,assoc-weight: ["azoteq,assoc-select"]
+-
+-    additionalProperties: false
+-
+-  "^trackpad-3x[2-3]$":
+-    type: object
+-    $ref: input.yaml#
+-    description:
+-      Represents all channels associated with the trackpad. The channels are
+-      collectively active if the trackpad is defined and inactive otherwise.
+-
+-    properties:
+-      azoteq,ati-exclude:
+-        type: boolean
+-        description:
+-          Prevents the trackpad channels from participating in an ATI event
+-          that is manually triggered during initialization.
+-
+-      azoteq,reseed-disable:
+-        type: boolean
+-        description:
+-          Prevents the trackpad channels from being reseeded if the long-term
+-          average timeout (defined in 'azoteq,timeout-lta') expires.
+-
+-      azoteq,meas-cap-decrease:
+-        type: boolean
+-        description:
+-          Decreases the internal measurement capacitance from 60 pF to 15 pF.
+-
+-      azoteq,rx-inactive:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1]
+-        default: 0
+-        description: |
+-          Specifies how inactive CRX pins are to be terminated as follows:
+-          0: VSS
+-          1: Floating
+-
+-      azoteq,linearize:
+-        type: boolean
+-        description: Inverts the polarity of the trackpad's touch state.
+-
+-      azoteq,dual-direction:
+-        type: boolean
+-        description:
+-          Specifies that the trackpad's long-term averages are to freeze in
+-          the presence of either increasing or decreasing counts, thereby
+-          permitting events to be reported in either direction.
+-
+-      azoteq,filt-disable:
+-        type: boolean
+-        description: Disables raw count filtering for the trackpad channels.
+-
+-      azoteq,ati-mode:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        default: 0
+-        description: |
+-          Specifies the trackpad's ATI mode as follows:
+-          0: Disabled
+-          1: Semi-partial
+-          2: Partial
+-          3: Full
+-
+-      azoteq,ati-target:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        multipleOf: 32
+-        minimum: 0
+-        maximum: 2016
+-        default: 0
+-        description: Specifies the trackpad's ATI target.
+-
+-      azoteq,cct-increase:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        minimum: 0
+-        maximum: 4
+-        default: 0
+-        description:
+-          Specifies the degree to which the trackpad's charge cycle time is to
+-          be increased, with 0 representing no increase.
+-
+-      azoteq,proj-bias:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        default: 0
+-        description: |
+-          Specifies the bias current applied during projected-capacitance
+-          sensing as follows:
+-          0: 2.5 uA
+-          1: 5 uA
+-          2: 10 uA
+-          3: 20 uA
+-
+-      azoteq,sense-freq:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        default: 0
+-        description: |
+-          Specifies the trackpad's sensing frequency as follows (parenthesized
+-          numbers represent the frequency if 'azoteq,clk-div' is present):
+-          0: 4 MHz (1 MHz)
+-          1: 2 MHz (500 kHz)
+-          2: 1 MHz (250 kHz)
+-          3: 500 kHz (125 kHz)
+-
+-      azoteq,ati-band-tighten:
+-        type: boolean
+-        description:
+-          Tightens the ATI band from 1/8 to 1/16 of the desired target.
+-
+-      azoteq,hyst:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        minimum: 0
+-        maximum: 15
+-        default: 0
+-        description: Specifies the trackpad's touch hysteresis.
+-
+-      azoteq,lta-update:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3, 4, 5, 6, 7]
+-        default: 0
+-        description: |
+-          Specifies the update rate of the trackpad's long-term average during
+-          ultra-low-power mode as follows:
+-          0: 2
+-          1: 4
+-          2: 8
+-          3: 16
+-          4: 32
+-          5: 64
+-          6: 128
+-          7: 255
+-
+-      azoteq,filt-str-trackpad:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        default: 0
+-        description: Specifies the trackpad coordinate filter strength.
+-
+-      azoteq,filt-str-np-cnt:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        default: 0
+-        description:
+-          Specifies the raw count filter strength during normal-power mode.
+-
+-      azoteq,filt-str-lp-cnt:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        enum: [0, 1, 2, 3]
+-        default: 0
+-        description:
+-          Specifies the raw count filter strength during low-power mode.
+-
+-      linux,keycodes:
+-        minItems: 1
+-        maxItems: 6
+-        description: |
+-          Specifies the numeric keycodes associated with each available gesture
+-          in the following order (enter 0 for unused gestures):
+-          0: Positive flick or swipe in X direction
+-          1: Negative flick or swipe in X direction
+-          2: Positive flick or swipe in Y direction
+-          3: Negative flick or swipe in Y direction
+-          4: Tap
+-          5: Hold
+-
+-      azoteq,gesture-swipe:
+-        type: boolean
+-        description:
+-          Directs the device to interpret axial gestures as a swipe (finger
+-          remains on trackpad) instead of a flick (finger leaves trackpad).
+-
+-      azoteq,timeout-tap-ms:
+-        multipleOf: 16
+-        minimum: 0
+-        maximum: 4080
+-        default: 0
+-        description:
+-          Specifies the length of time (in ms) within which a trackpad touch
+-          must be released in order to be interpreted as a tap.
+-
+-      azoteq,timeout-swipe-ms:
+-        multipleOf: 16
+-        minimum: 0
+-        maximum: 4080
+-        default: 0
+-        description:
+-          Specifies the length of time (in ms) within which an axial gesture
+-          must be completed in order to be interpreted as a flick or swipe.
+-
+-      azoteq,thresh-swipe:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+-        minimum: 0
+-        maximum: 255
+-        default: 0
+-        description:
+-          Specifies the number of points across which an axial gesture must
+-          travel in order to be interpreted as a flick or swipe.
+-
+-    patternProperties:
+-      "^channel-[0-8]$":
+-        type: object
+-        description: Represents a single trackpad channel.
+-
+-        properties:
+-          azoteq,thresh:
+-            $ref: /schemas/types.yaml#/definitions/uint32
+-            minimum: 0
+-            maximum: 255
+-            default: 0
+-            description: Specifies the threshold for the channel.
+-
+-          azoteq,ati-base:
+-            $ref: /schemas/types.yaml#/definitions/uint32
+-            minimum: 45
+-            maximum: 300
+-            default: 45
+-            description: Specifies the channel's ATI base.
+-
+-        additionalProperties: false
+-
+-    dependencies:
+-      azoteq,gesture-swipe: ["linux,keycodes"]
+-      azoteq,timeout-tap-ms: ["linux,keycodes"]
+-      azoteq,timeout-swipe-ms: ["linux,keycodes"]
+-      azoteq,thresh-swipe: ["linux,keycodes"]
+-
+-    additionalProperties: false
+-
+-required:
+-  - compatible
+-  - reg
+-  - interrupts
+-  - "#address-cells"
+-  - "#size-cells"
+-
+-additionalProperties: false
+-
+-examples:
+-  - |
+-    #include <dt-bindings/input/input.h>
+-    #include <dt-bindings/interrupt-controller/irq.h>
+-
+-    i2c {
+-            #address-cells = <1>;
+-            #size-cells = <0>;
+-
+-            touch@44 {
+-                    #address-cells = <1>;
+-                    #size-cells = <0>;
+-
+-                    compatible = "azoteq,iqs626a";
+-                    reg = <0x44>;
+-                    interrupt-parent = <&gpio>;
+-                    interrupts = <17 IRQ_TYPE_LEVEL_LOW>;
+-
+-                    azoteq,rate-np-ms = <16>;
+-                    azoteq,rate-lp-ms = <160>;
+-
+-                    azoteq,timeout-pwr-ms = <2560>;
+-                    azoteq,timeout-lta-ms = <32768>;
+-
+-                    ulp-0 {
+-                            azoteq,meas-cap-decrease;
+-
+-                            azoteq,ati-base = <75>;
+-                            azoteq,ati-target = <1024>;
+-
+-                            azoteq,rx-enable = <2>, <3>, <4>,
+-                                               <5>, <6>, <7>;
+-
+-                            event-prox {
+-                                    linux,code = <KEY_POWER>;
+-                            };
+-                    };
+-
+-                    trackpad-3x3 {
+-                            azoteq,filt-str-np-cnt = <1>;
+-                            azoteq,filt-str-lp-cnt = <1>;
+-
+-                            azoteq,hyst = <4>;
+-
+-                            azoteq,ati-mode = <3>;
+-                            azoteq,ati-target = <512>;
+-
+-                            azoteq,proj-bias = <1>;
+-                            azoteq,sense-freq = <2>;
+-
+-                            linux,keycodes = <KEY_VOLUMEUP>,
+-                                             <KEY_VOLUMEDOWN>,
+-                                             <KEY_NEXTSONG>,
+-                                             <KEY_PREVIOUSSONG>,
+-                                             <KEY_PLAYPAUSE>,
+-                                             <KEY_STOPCD>;
+-
+-                            azoteq,gesture-swipe;
+-                            azoteq,timeout-swipe-ms = <800>;
+-                            azoteq,timeout-tap-ms = <400>;
+-                            azoteq,thresh-swipe = <40>;
+-
+-                            channel-0 {
+-                                    azoteq,thresh = <35>;
+-                                    azoteq,ati-base = <195>;
+-                            };
+-
+-                            channel-1 {
+-                                    azoteq,thresh = <40>;
+-                                    azoteq,ati-base = <195>;
+-                            };
+-
+-                            channel-2 {
+-                                    azoteq,thresh = <40>;
+-                                    azoteq,ati-base = <195>;
+-                            };
+-
+-                            channel-3 {
+-                                    azoteq,thresh = <38>;
+-                                    azoteq,ati-base = <195>;
+-                            };
+-
+-                            channel-4 {
+-                                    azoteq,thresh = <33>;
+-                                    azoteq,ati-base = <195>;
+-                            };
+-
+-                            channel-5 {
+-                                    azoteq,thresh = <38>;
+-                                    azoteq,ati-base = <195>;
+-                            };
+-
+-                            channel-6 {
+-                                    azoteq,thresh = <35>;
+-                                    azoteq,ati-base = <195>;
+-                            };
+-
+-                            channel-7 {
+-                                    azoteq,thresh = <35>;
+-                                    azoteq,ati-base = <195>;
+-                            };
+-
+-                            channel-8 {
+-                                    azoteq,thresh = <35>;
+-                                    azoteq,ati-base = <195>;
+-                            };
+-                    };
+-
+-                    /*
+-                     * Preserve the default register settings for
+-                     * the temperature-tracking channel leveraged
+-                     * by reset user interface (RUI) 1.
+-                     *
+-                     * Scalar properties (e.g. ATI mode) are left
+-                     * untouched by simply omitting them; boolean
+-                     * properties must be specified explicitly as
+-                     * needed.
+-                     */
+-                    generic-2 {
+-                            azoteq,reseed-disable;
+-                            azoteq,meas-cap-decrease;
+-                            azoteq,dual-direction;
+-                            azoteq,comp-disable;
+-                            azoteq,static-enable;
+-                    };
+-
+-                    hall {
+-                            azoteq,reseed-disable;
+-                            azoteq,meas-cap-decrease;
+-
+-                            event-touch {
+-                                    linux,code = <SW_LID>;
+-                            };
+-                    };
+-            };
+-    };
+-
+-...
 -- 
 2.34.1
 
