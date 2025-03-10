@@ -1,82 +1,91 @@
-Return-Path: <linux-input+bounces-10686-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10687-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74AEA59BBC
-	for <lists+linux-input@lfdr.de>; Mon, 10 Mar 2025 17:55:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6112A59BBF
+	for <lists+linux-input@lfdr.de>; Mon, 10 Mar 2025 17:56:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 426EF7A443D
-	for <lists+linux-input@lfdr.de>; Mon, 10 Mar 2025 16:54:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 617B73A4545
+	for <lists+linux-input@lfdr.de>; Mon, 10 Mar 2025 16:56:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0D2E1E5205;
-	Mon, 10 Mar 2025 16:54:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FBE7230BC1;
+	Mon, 10 Mar 2025 16:56:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jlfMDeRt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZbnvJvpZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D1319004A
-	for <linux-input@vger.kernel.org>; Mon, 10 Mar 2025 16:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F287E158538;
+	Mon, 10 Mar 2025 16:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741625670; cv=none; b=WQPwSDA6rTrFFkJ54WddQOIMBcoDlEBJ5H1zFFSxd8YaIzCRQWkU/jcRiljojdcjH2xvca0pQKK+W7mKgNvTBDnWRn0nD9DzEjAbTZlcRGrkeySYkGnt5be7JciHxvrOIYUBiBy5qyQnKHXVw2qPNBQexB4Oly1II29TQC1J7KA=
+	t=1741625780; cv=none; b=ShQBdjB9/MW4r31sTrRoKU6Ml6ckelkpnItLvgqCKMZD0vdUcUBD3nLRgx3KdIdnrliOdZFZikGqCpqaXs1ZfAqrp1li6/bCYDToFTxpNbVfCqUzTxkFj5Rjd6/RNh17bsvvcP7dLa8hc8/u1bAKgPOroCMqfUs+LXD3/jTHz/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741625670; c=relaxed/simple;
-	bh=Na3jxNTRah5DY5P57ee7lS91A4yGdTCMR3cfVSWJRDs=;
+	s=arc-20240116; t=1741625780; c=relaxed/simple;
+	bh=Ezrb2dDSxROW84dqyY1v4CU/Kk64AT53I36HDbsTtQk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pkAyxIjoInaBvm10vvpavT8ITWjuR1NZnT39T31X8QUi0PJ9W3xk7C89zUiKw3RH/gqe+2r4QyxTLi830Ir0wX0OcvVfxugOnUBdG99jiV1XgU4XwbKZtD3pZjFyRjkMAGbMWAEAGTM0bHeGqRCGvLu2RG7I9CjqDnAUSrDfW7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jlfMDeRt; arc=none smtp.client-ip=209.85.214.169
+	 Content-Type:Content-Disposition:In-Reply-To; b=OJ08ezdM/magf97BPZUswS1Ds/OCYLGfWJwtV+4ZZCYQChb9gx8QWSuKX3w30rpJY6faOYtrz8oHBL+W4dseMY8PZ3fEqfucMIDaBYPHEhptXI1WVZ3aEBL9jWi1EUQMTgQpAaqvQ2xEgQ3AmcA3Rf/d12xr+oWMAotmN0fkunE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZbnvJvpZ; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22438c356c8so50920475ad.1
-        for <linux-input@vger.kernel.org>; Mon, 10 Mar 2025 09:54:29 -0700 (PDT)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-22355618fd9so82303125ad.3;
+        Mon, 10 Mar 2025 09:56:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741625668; x=1742230468; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1741625778; x=1742230578; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eb2GYBadpnSomZPYGTCJbaqYXWFsOeCfH9pcOkGW/ek=;
-        b=jlfMDeRtJi2FssUt4tNnLdmN7fkWv6yR+Z3M88MKfidOYTtdlDyDpMAMbGcokkEs4I
-         sZLXn9ewxZxD65aIc+HBszYazE0Y/A3OH62jOlcXGL6ydR5H4E+n5mz6hPcKcIR/6m3y
-         eMDy+7RKsvcz/UXqclILPS3sobkFUY2CiMT3zt/w8z4Dt23ySMvsTevDNdRPeDHcBTM0
-         Py4vpXB2asVvHx8wTpgWohk519c5G/PSt6O11IIC41N/UoywBB3lyC0cLcmrY+XDdM1K
-         3541Nl5l7VjHodoVGFzbvH2sYi5NZm45BEAiaEvnVelz4bOfe3mrEYFqypQDtbRDupEI
-         5KDw==
+        bh=APYb9FkXg1vRuxJSuYQo7eXa16DnhsCOqDRxqHiUv+k=;
+        b=ZbnvJvpZrR/6OyWLVffVa+1G+W+uUjqkFBDzc4RSK8/q5OnQikw1dcQKpCovEt4fXT
+         noLpdp3k/4pOz2kt0jJsBkUHTIqVnlsqaVVV6Wgb2Dr28VJbTkiz2O4zToa5yfVgWrUH
+         Y2EzbOh4OheaYEGBzR9b+j54DcH5IAdBoW8a+iMWEbdbI4v1Lz8DuIXqiv8g1WVfgJJT
+         ihM6OR4DS0T4stqcnZcGFncFgmn9G8KV6/xtcBC+tXbphiCB5q4B0Y0dL2rCIZRe1dW+
+         8pw+TAjvy+rah4q1GyJBlQBXGsNolBLRMPQ69wmEP01MGJ25OWBDXU9SzkgDAwrcKwkf
+         gSmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741625668; x=1742230468;
+        d=1e100.net; s=20230601; t=1741625778; x=1742230578;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eb2GYBadpnSomZPYGTCJbaqYXWFsOeCfH9pcOkGW/ek=;
-        b=FNworb21Uby5m31WyFYQWQRYu9Rayoh2uX81iKBnbyf5xIpAoROxnN5JS0it9cS8b1
-         7N4CC+rOs4NKvmlrAnUEMHqnK2K4/+vzIAP0L/btRYH9cw5Mnu8/YvEfRB6d8AcFXZD2
-         VWPDzdZPDk3ooGmClCGYpy5/UQwJHJkrt9ZwfBpp/pcuBo60/fz54dH3KRh0lENcyKkI
-         BDDC78Nbp+FM71qbZtm1iasG8FYspgysi41KrQqFFSWPOHuEuPBSwZSv8+Sx0O+Vjtba
-         GRuk9RSSs/mXVQFRc5NtdQznJsTYqjpGwBxegDU6Da8gHYNyLBppL2CHLI0n+amBLANE
-         6gxA==
-X-Gm-Message-State: AOJu0YyUix6CazkvCtk0MdhvqUVeecFH+IDrLnuIhZv+bBXhOlBHkWi1
-	ksf3NbgSC66rRTna1ARDC4GORZyQUDhnPCowesKIzY3aAfVQjthY
-X-Gm-Gg: ASbGncuOaq8VRtwUAUgTYyw7y4PYIcoLFZ8ms4I9DjDV6pPPkOkA1NIM1nHSsKSQIbk
-	pZlABsbwlh7KPyIpX/iKmqAmtNRZdulgj97P8aqt55ukL7Ie8uNRJVBDj33WOD6/Fnm/LvSiStr
-	0drmdqWz0ZWHhjOmTfxij6BMYtkDSKVFclxjW9ULRQ1MEsptGtEb6gMB1vMeYRS2aT3F9XCuGKb
-	JMUq8JVfGV8lCDbkQaw34+MSBptRZOG/OCyZZdX34t8NQjVCXAvu9x7DgZTJ8FXZV3Ypm+flkdU
-	AKBzdz29vlWE9oPF8e/C49+IZAhYhJRTz6hJiiMgOoTl
-X-Google-Smtp-Source: AGHT+IHq26Y182PYisU5gSZlT2OztlLJBRbL6ukaAbe4H03O3SnO/NujUPei/G50zDZfUZevx4RZpQ==
-X-Received: by 2002:a17:902:d48c:b0:223:6657:5003 with SMTP id d9443c01a7336-22428bd57e4mr230732955ad.32.1741625668192;
-        Mon, 10 Mar 2025 09:54:28 -0700 (PDT)
+        bh=APYb9FkXg1vRuxJSuYQo7eXa16DnhsCOqDRxqHiUv+k=;
+        b=XB1qIz/UAEgE+WfDXgYJlKUQ1UKPxPUiQWO7Zs1RFRGuYR5Ik24nGxlFEtENXcw7HF
+         iE4GvgFXfMf+852PMfJykf7xScqN9KJOKk7AJvbOxXUZrcg7W4MlKkk7CWBzYHw0C9Zy
+         s9Ut/ds6L6gpCOJXmervkatLL3QiRFOoko09qR2odKYO3QVwlE2AgYWFS2ZpjI9lWwJw
+         ZAc7lhDKIsVoz8ZF2U6dkXU/UU7rm6KENpKMG2g56JI5ZsjX+GavURWbFA5uF0HSay10
+         2wCithAzjxeZjB+uTviq4HxC/QSo+qmHwhHfYlg7uU2G/RhSErIJlXXxwEfxQLjMsLEJ
+         TjuA==
+X-Forwarded-Encrypted: i=1; AJvYcCUJTb9up35aQvuRgA7Xniw1/u9+uiFQERbRlAdwgj9ejtM2YYVaR+1Fnte2ICLRbLJk4/3pERa4BCo=@vger.kernel.org, AJvYcCUVtJ2MykojNbAk5VTUWvKJhI7zRCn1NsnqityaEzJxPtV7tzj2n6pl/KKCgXAj+K+TVj4agg1oIGNMENHZ@vger.kernel.org, AJvYcCUurg6P4ucTLcGCIa8q5KZDBlnRufl0kbNZQ4isqT4Y1jb2trUoKWk52/OIXde8jH35TCVz5q4LLWFzsA==@vger.kernel.org, AJvYcCVe3g6DXfsRZVLaXvqKzYh+sM/Ej5V4eXEzItymWyElzMO3BoF3fjFSfBI9nlFr9vbxHWW6LSQh70GYEQ==@vger.kernel.org, AJvYcCXHq5ZhmjDDbF6YNMtOX/JVlUrwBMX5i1BzdCqHAaIvRzgmRwCL3Hi54jV9ZrhaAs/ZYqcWJM83CJMV4Ms=@vger.kernel.org, AJvYcCXYE95uRPwvio9bsJzEHdR7EnGrfuT7v+LcWFSmhd3l20zSlZawvPUBqzIaPEKf/lHF4GQwsXhk6csp@vger.kernel.org, AJvYcCXuYKzrZiE0bQRL+VZ6ItAUlM8T8umWkr9Snh1frX4tIRKWW5LwqPcezp+03+17SiIMZEhtsOng5LTyGw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyqr+roQoIfhlwJ3SBZELwazs789um9PmJ41r99aqHb+Ribc1gr
+	aRl7rG1YsYIdDq0AuTXEUAqVPAA3B0lFv89tFxpMMO8VXcmn1ZHReC90TQ==
+X-Gm-Gg: ASbGncurFjlNPQOZs3629vKQ4xJACKuCPRx6T8g/ERO6qqMDVJP27C8XzCGYi8k+coz
+	fUHA5OA1UmPZuRPItYR64d9VGJFmeq3DiSgMq6pdeXHju4YbIyg1UpoFM8p2x1ALUqMlIafsaTW
+	92uyVEyvTEF3UGcfPcY+3Nu7/Rf2kFeAmnwO6Y8/3tXAekmIh9Nh9oNqc3TvaXWUFAViGyrCWm7
+	qfX4/WkyhR3ceoqIZbm9uwMJzfS2j3j5ACmaZg5k2f9I/q/ZbQ8TaYoSwxthfUBsQOp3YeIIoVd
+	55hJQN/Rqe+txuqxsX15yk18rK9zFh2XpU4Jmg1nwjT0
+X-Google-Smtp-Source: AGHT+IHYlGgo1/vzV4si4Qn81FbyVTTf4l8pjPxaAUEx+//suEtoprSuUAAYpRMpt6VXcEwCFKWneQ==
+X-Received: by 2002:a05:6a20:db0c:b0:1f3:4427:74ae with SMTP id adf61e73a8af0-1f58cb46b0amr604930637.25.1741625777842;
+        Mon, 10 Mar 2025 09:56:17 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:eb9f:29c2:9ede:46d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-224109e9fedsm80974345ad.67.2025.03.10.09.54.27
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af28126e09dsm7864964a12.53.2025.03.10.09.56.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Mar 2025 09:54:27 -0700 (PDT)
-Date: Mon, 10 Mar 2025 09:54:25 -0700
+        Mon, 10 Mar 2025 09:56:17 -0700 (PDT)
+Date: Mon, 10 Mar 2025 09:56:14 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jeff LaBundy <jeff@labundy.com>
-Cc: linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: iqs7222 - preserve system status register
-Message-ID: <Z88ZQcJ78NJg-A-1@google.com>
-References: <Z85Alw+d9EHKXx2e@nixie71>
+To: linux@treblig.org
+Cc: arnd@arndb.de, lee@kernel.org, sre@kernel.org, lgirdwood@gmail.com,
+	broonie@kernel.org, alexandre.belloni@bootlin.com,
+	danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+	linus.walleij@linaro.org, brgl@bgdev.pl, tsbogend@alpha.franken.de,
+	linux-mips@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/9] Input: pcf50633-input - Remove
+Message-ID: <Z88ZroxO32c0HLV0@google.com>
+References: <20250309193612.251929-1-linux@treblig.org>
+ <20250309193612.251929-6-linux@treblig.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -85,37 +94,26 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z85Alw+d9EHKXx2e@nixie71>
+In-Reply-To: <20250309193612.251929-6-linux@treblig.org>
 
-On Sun, Mar 09, 2025 at 08:29:59PM -0500, Jeff LaBundy wrote:
-> Some register groups reserve a byte at the end of their continuous
-> address space. Depending on the variant of silicon, this field may
-> share the same memory space as the lower byte of the system status
-> register (0x10).
+On Sun, Mar 09, 2025 at 07:36:08PM +0000, linux@treblig.org wrote:
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
 > 
-> In these cases, caching the reserved byte and writing it later may
-> effectively reset the device depending on what happened in between
-> the read and write operations.
+> The pcf50633 was used as part of the OpenMoko devices but
+> the support for its main chip was recently removed in:
+> commit 61b7f8920b17 ("ARM: s3c: remove all s3c24xx support")
 > 
-> Solve this problem by avoiding any access to this last byte within
-> offending register groups. This method replaces a workaround which
-> attempted to write the reserved byte with up-to-date contents, but
-> left a small window in which updates by the device could have been
-> clobbered.
+> See https://lore.kernel.org/all/Z8z236h4B5A6Ki3D@gallifrey/
 > 
-> Now that the driver does not touch these reserved bytes, the order
-> in which the device's registers are written no longer matters, and
-> they can be written in their natural order. The new method is also
-> much more generic, and can be more easily extended to new variants
-> of silicon with different register maps.
+> Remove it.
 > 
-> As part of this change, the register read and write functions must
-> be gently updated to support byte access instead of word access.
-> 
-> Fixes: 2e70ef525b73 ("Input: iqs7222 - acknowledge reset before writing registers")
-> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 
-Applied, thank you.
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+Please merge with the rest of the changes.
+
+Thanks.
 
 -- 
 Dmitry
