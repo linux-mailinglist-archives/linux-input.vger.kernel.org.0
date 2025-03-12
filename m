@@ -1,238 +1,219 @@
-Return-Path: <linux-input+bounces-10746-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10747-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3229A5E74E
-	for <lists+linux-input@lfdr.de>; Wed, 12 Mar 2025 23:24:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6C9A5E835
+	for <lists+linux-input@lfdr.de>; Thu, 13 Mar 2025 00:17:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8AB1167F9B
-	for <lists+linux-input@lfdr.de>; Wed, 12 Mar 2025 22:24:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A961E189B7AB
+	for <lists+linux-input@lfdr.de>; Wed, 12 Mar 2025 23:17:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 692711EC017;
-	Wed, 12 Mar 2025 22:24:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCE2B1F1517;
+	Wed, 12 Mar 2025 23:17:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ChrNTiDY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from cosmicgizmosystems.com (cosgizsys.com [63.249.102.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE5719E96D;
-	Wed, 12 Mar 2025 22:24:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17CA1EE7A5;
+	Wed, 12 Mar 2025 23:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741818271; cv=none; b=RWI5g5SvrsVK+RRcAYehmR5paF6jqMidBQEcsvb8ifw426qcQda9tf2mrYrSn64t9U4fml1X5UZPkW6O0aaVgq4WT+EpCz9ltLnrFZxCGT9Rm0bJvbtGqAENzaBNFQd2qvHteGfcg5zaDd1SYXJDvhx0G3fjdKILEKVwkVmb01g=
+	t=1741821453; cv=none; b=anWoRJuHgb/HgFeuJiF6hVCD1q1W4cr/ukCQVSWEzrYZym9vegQiEIRL7MnLm2HadlGBCX9NyDaEL3Ysf84t3qUOhEpx8EwHtOyO4hiGWHyABUhUjqytEFTgmVkcMODaIGeUKoAkyFfWq5ig7dfz4IVHOL/z0vP0zsBZdGJxolY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741818271; c=relaxed/simple;
-	bh=aKB6uJLD7Tj/jkqWr7UbVcwzSVHvViuFhCAApt4sCe8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mqfVRRwOOx8OEihvKJTBl8zfz1zzIOgJIdVcSlF4PNxm5FjwZ/Vo16Eb002tlxwBZH9HbpssrenPGFGVr5dt6pmYAkkRo7efwGzpQErq6BsacdK8kEltq48MC7ive6FeCjh8HG0fnYwBuZ42pUpkYsnQCEMkD5BLks+IDv+hgtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
-Received: from terrys-Precision-M4600.hsd1.wa.comcast.net (c-71-63-147-217.hsd1.wa.comcast.net [71.63.147.217])
-	by host11.cruzio.com (Postfix) with ESMTPSA id B6B2428A6324;
-	Wed, 12 Mar 2025 15:24:20 -0700 (PDT)
-From: Terry Junge <linuxhid@cosmicgizmosystems.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Terry Junge <linuxhid@cosmicgizmosystems.com>,
-	Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	lvc-project@linuxtesting.org,
-	syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH v2] HID: usbhid: Eliminate recurrent out-of-bounds bug in usbhid_parse()
-Date: Wed, 12 Mar 2025 15:23:31 -0700
-Message-ID: <20250312222333.2296363-1-linuxhid@cosmicgizmosystems.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250307045449.745634-1-linuxhid@cosmicgizmosystems.com>
-References: <20250307045449.745634-1-linuxhid@cosmicgizmosystems.com>
+	s=arc-20240116; t=1741821453; c=relaxed/simple;
+	bh=02EX/DMIDDWf9CWuaXFpleHjT8LOS9O+SlqdOnu+alw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=HR3iW8kFuQE2VlP9VE+s09qsXHwjKaNyDuzBKiUEqEq7qjA4ndBYlJjRTZemJmThb+4z+EC/7m9uGMU89KRM5vt9sfDPFiwTmC2JJpxbhiNdn++BCQoWR6HnZHKjlBPTyJUs9JRNzprQwHXkngIV102tKpWEHf/OkObd/siuYCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ChrNTiDY; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52CAKruW008924;
+	Wed, 12 Mar 2025 23:17:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	YxUIuMuJ8heLhO7n/roAvP6nMwwqgMTF3z65WOJS+lE=; b=ChrNTiDYUmKKJ9k9
+	hCg7bnLOrdkfpkLnzpcBOu5c23KEXV6ZtlDTPJAm7VBVXmSXfYrlOeP5axy78QEK
+	z4FvrlFZavYX+cN4j3T8v4LrGZv9t2aWdVRLgbxYubwM5gayeIWfAd7HMX03KLin
+	REYq3AiPN53E1FXrJL11U1ItwJPIpjTPiSYGob/+tME0y2tDcs7QWYjcKeYt6dLv
+	TywjcyDAAusMShc/0n483ZSLr0tBbYT/DelahZ/MGmUcw6MR3nWCiE5qWIpBMp6k
+	/Ek4EmNQZlompprZgCIgKAIsua9bB2+8KVfSoH9aFgQfVImby64n4/SLxJ3TP0lM
+	8YZIfA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45au2rbvkv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Mar 2025 23:17:13 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52CNHC01030751
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Mar 2025 23:17:12 GMT
+Received: from [10.110.30.156] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Mar
+ 2025 16:17:11 -0700
+Message-ID: <9d30efc3-3315-4ff5-8eb0-c50bccc0a725@quicinc.com>
+Date: Wed, 12 Mar 2025 16:17:07 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v35 00/31] Introduce QC USB SND audio offloading support
+To: Stephan Gerhold <stephan.gerhold@linaro.org>
+CC: Greg KH <gregkh@linuxfoundation.org>, <srinivas.kandagatla@linaro.org>,
+        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
+        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
+        <lgirdwood@gmail.com>, <tiwai@suse.com>, <krzk+dt@kernel.org>,
+        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
+        <robh@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20250219004754.497985-1-quic_wcheng@quicinc.com>
+ <Z7W_Vz_kVDjIcp5N@linaro.org>
+ <82ce69a3-d248-494f-6ddb-098f392c78a0@quicinc.com>
+ <Z8a4WYq4GqWBVNyX@linaro.org>
+ <ee5cb6bc-963a-4e31-8ac4-07120fb9ff70@quicinc.com>
+ <Z8ikt2K0uekU2dVZ@linaro.org>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <Z8ikt2K0uekU2dVZ@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=D6NHKuRj c=1 sm=1 tr=0 ts=67d215f9 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=qC_FGOx9AAAA:8 a=HTecfl5s7U67J0CcF8QA:9 a=QEXdDO2ut3YA:10
+ a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-GUID: SH3MPeN7uBXWUDXli7heUJQlcykyMSVV
+X-Proofpoint-ORIG-GUID: SH3MPeN7uBXWUDXli7heUJQlcykyMSVV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-12_06,2025-03-11_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
+ priorityscore=1501 mlxscore=0 spamscore=0 lowpriorityscore=0 phishscore=0
+ adultscore=0 malwarescore=0 mlxlogscore=999 clxscore=1015 impostorscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503120166
 
-Update struct hid_descriptor to better reflect the mandatory and
-optional parts of the HID Descriptor as per USB HID 1.11 specification.
-Note: the kernel currently does not parse any optional HID class
-descriptors, only the mandatory report descriptor.
+Hi Stephan,
 
-Update all references to member element desc[0] to rpt_desc.
+On 3/5/2025 11:23 AM, Stephan Gerhold wrote:
+> On Tue, Mar 04, 2025 at 02:46:28PM -0800, Wesley Cheng wrote:
+>> On 3/4/2025 12:22 AM, Stephan Gerhold wrote:
+>>> On Mon, Mar 03, 2025 at 06:39:52PM -0800, Wesley Cheng wrote:
+>>>> On 2/19/2025 3:24 AM, Stephan Gerhold wrote:
+>>>>> On Tue, Feb 18, 2025 at 04:47:23PM -0800, Wesley Cheng wrote:
+>>>>>> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
+>>>>>>
+>>>>>> Several Qualcomm based chipsets can support USB audio offloading to a
+>>>>>> dedicated audio DSP, which can take over issuing transfers to the USB
+>>>>>> host controller.  The intention is to reduce the load on the main
+>>>>>> processors in the SoC, and allow them to be placed into lower power modes.
+>>>>>> There are several parts to this design:
+>>>>>>   1. Adding ASoC binding layer
+>>>>>>   2. Create a USB backend for Q6DSP
+>>>>>>   3. Introduce XHCI interrupter support
+>>>>>>   4. Create vendor ops for the USB SND driver
+>>>>>>
+>>>>>>       USB                          |            ASoC
+>>>>>> --------------------------------------------------------------------
+>>>>>>                                    |  _________________________
+>>>>>>                                    | |sm8250 platform card     |
+>>>>>>                                    | |_________________________|
+>>>>>>                                    |         |           |
+>>>>>>                                    |      ___V____   ____V____
+>>>>>>                                    |     |Q6USB   | |Q6AFE    |
+>>>>>> |     |"codec" | |"cpu"    |
+>>>>>>                                    |     |________| |_________|
+>>>>>>                                    |         ^  ^        ^
+>>>>>>                                    |         |  |________|
+>>>>>>                                    |      ___V____    |
+>>>>>>                                    |     |SOC-USB |   |
+>>>>>>    ________       ________               |        |   |
+>>>>>>   |USB SND |<--->|QC offld|<------------>|________|   |
+>>>>>>   |(card.c)|     |        |<----------                |
+>>>>>>   |________|     |________|___     | |                |
+>>>>>>       ^               ^       |    | |    ____________V_________
+>>>>>>       |               |       |    | |   |APR/GLINK             |
+>>>>>>    __ V_______________V_____  |    | |   |______________________|
+>>>>>>   |USB SND (endpoint.c)     | |    | |              ^
+>>>>>>   |_________________________| |    | |              |
+>>>>>>               ^               |    | |   ___________V___________
+>>>>>>               |               |    | |->|audio DSP              |
+>>>>>>    ___________V_____________  |    |    |_______________________|
+>>>>>>   |XHCI HCD                 |<-    |
+>>>>>>   |_________________________|      |
+>>>>>>
+>>>>>
+>>>>> As I noted on v34 [1], this version is still missing instructions and
+>>>>> changes needed for testing this series. The device tree changes don't
+>>>>> need to be part of the same series, but there should be at least a link
+>>>>> provided to give other people the chance to provide Tested-by tags.
+>>>>>
+>>>>> IMO we shouldn't merge this series without those instructions, otherwise
+>>>>> we risk that this just ends up being dead code that no one can use.
+>>>>>
+>>>>> Can you please share the device tree changes for a board upstream and
+>>>>> any other changes needed to be able to test this series? E.g. for
+>>>>> sm8250-mtp.dts, based on the examples in your cover letter.
+>>>>>
+>>>>
+>>>> To clarify I'm testing this on sm8350 in recent times, but utilizing sm8250
+>>>> definitions for the ASoC platform card, as the platform sound card is more
+>>>> or less the same between the two SoCs.  Back
+>>>> when I started this series, sm8350 was missing a bunch of dependent
+>>>> components, such as aDSP not being loaded, and missing platform sound card
+>>>> definition, so I had to define and enable those on my own, which required a
+>>>> slew of new DT nodes, hence why it wasn't as straight forward to include
+>>>> the DT definitions yet for sm8350.  Not thinking that this series would
+>>>> take as long as it did, I was planning on separating out the DT changes in
+>>>> a different series to enable offloading for the devices I have tested with.
+>>>> (sm8150, sm8250 and sm8350)
+>>>>
+>>>> There's still a pretty big chunk of dependencies missing from sm8350, so
+>>>> those would also be handled in the follow up DT submission.  For now, its a
+>>>> much bigger hurdle to get the main/functional changes in, and that was
+>>>> taking a significant amount of time from my end to manage.
+>>>>
+>>>> If you want, I can give you the changes I have offline to enable this for
+>>>> sm8350, since I haven't spent time formatting/prepping the changes for
+>>>> submission yet.
+>>>>
+>>>
+>>> Can you push it to a public branch somewhere (e.g. on CodeLinaro)? I was
+>>> talking to some people from the community about testing this on some of
+>>> the smartphones we have in upstream, so it wouldn't help if I just have
+>>> the changes privately.
+>>
+>> Which CLO project/branch did you want me to push it to?  Sorry, I haven't
+>> worked too much with the CLO open branches.  I have an account though.
+>>
+> 
+> Any project/branch is fine for me, I suggested CLO only because I
+> assumed you already have an account there.
+> 
+> You should be able to create a personal project and push it there. You
+> could also use the fork button on
+> https://git.codelinaro.org/linaro/linux/kernel/torvalds/linux to avoid
+> having to push the full history yourself. It should result in a project
+> similar to mine: https://git.codelinaro.org/stephan.gerhold/linux
+> 
 
-Add test to verify bLength and bNumDescriptors values are valid.
+Can you access the following branch?
+https://git.codelinaro.org/clo/linux-kernel/kernel-qcom/-/commits/usb_audio_offload/?ref_type=heads
 
-Replace the for loop with direct access to the mandatory HID class
-descriptor member for the report descriptor. This eliminates the
-possibility of getting an out-of-bounds fault.
+Should have the DT change I'm using to verify.
 
-Add a warning message if the HID descriptor contains any unsupported
-optional HID class descriptors.
-
-Reported-by: syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=c52569baf0c843f35495
-Fixes: f043bfc98c19 ("HID: usbhid: fix out-of-bounds bug")
-Cc: stable@vger.kernel.org
-Signed-off-by: Terry Junge <linuxhid@cosmicgizmosystems.com>
----
-v1: Remove unnecessary for loop searching for the report descriptor size.
-v2: Fix compiler warning.
-base-commit: 58c9bf3363e596d744f56616d407278ef5f97f5a
-
-P.S. This is an alternative to the solution proposed by Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-Link: https://lore.kernel.org/all/20250131151600.410242-1-n.zhandarovich@fintech.ru/
-
- include/linux/hid.h                 |  3 ++-
- drivers/usb/gadget/function/f_hid.c | 12 ++++++------
- drivers/hid/hid-hyperv.c            |  4 ++--
- drivers/hid/usbhid/hid-core.c       | 25 ++++++++++++++-----------
- 4 files changed, 24 insertions(+), 20 deletions(-)
-
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index cdc0dc13c87f..7abc8c74bdd5 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -738,8 +738,9 @@ struct hid_descriptor {
- 	__le16 bcdHID;
- 	__u8  bCountryCode;
- 	__u8  bNumDescriptors;
-+	struct hid_class_descriptor rpt_desc;
- 
--	struct hid_class_descriptor desc[1];
-+	struct hid_class_descriptor opt_descs[];
- } __attribute__ ((packed));
- 
- #define HID_DEVICE(b, g, ven, prod)					\
-diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
-index 740311c4fa24..c7a05f842745 100644
---- a/drivers/usb/gadget/function/f_hid.c
-+++ b/drivers/usb/gadget/function/f_hid.c
-@@ -144,8 +144,8 @@ static struct hid_descriptor hidg_desc = {
- 	.bcdHID				= cpu_to_le16(0x0101),
- 	.bCountryCode			= 0x00,
- 	.bNumDescriptors		= 0x1,
--	/*.desc[0].bDescriptorType	= DYNAMIC */
--	/*.desc[0].wDescriptorLenght	= DYNAMIC */
-+	/*.rpt_desc.bDescriptorType	= DYNAMIC */
-+	/*.rpt_desc.wDescriptorLength	= DYNAMIC */
- };
- 
- /* Super-Speed Support */
-@@ -939,8 +939,8 @@ static int hidg_setup(struct usb_function *f,
- 			struct hid_descriptor hidg_desc_copy = hidg_desc;
- 
- 			VDBG(cdev, "USB_REQ_GET_DESCRIPTOR: HID\n");
--			hidg_desc_copy.desc[0].bDescriptorType = HID_DT_REPORT;
--			hidg_desc_copy.desc[0].wDescriptorLength =
-+			hidg_desc_copy.rpt_desc.bDescriptorType = HID_DT_REPORT;
-+			hidg_desc_copy.rpt_desc.wDescriptorLength =
- 				cpu_to_le16(hidg->report_desc_length);
- 
- 			length = min_t(unsigned short, length,
-@@ -1210,8 +1210,8 @@ static int hidg_bind(struct usb_configuration *c, struct usb_function *f)
- 	 * We can use hidg_desc struct here but we should not relay
- 	 * that its content won't change after returning from this function.
- 	 */
--	hidg_desc.desc[0].bDescriptorType = HID_DT_REPORT;
--	hidg_desc.desc[0].wDescriptorLength =
-+	hidg_desc.rpt_desc.bDescriptorType = HID_DT_REPORT;
-+	hidg_desc.rpt_desc.wDescriptorLength =
- 		cpu_to_le16(hidg->report_desc_length);
- 
- 	hidg_hs_in_ep_desc.bEndpointAddress =
-diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
-index 0fb210e40a41..9eafff0b6ea4 100644
---- a/drivers/hid/hid-hyperv.c
-+++ b/drivers/hid/hid-hyperv.c
-@@ -192,7 +192,7 @@ static void mousevsc_on_receive_device_info(struct mousevsc_dev *input_device,
- 		goto cleanup;
- 
- 	input_device->report_desc_size = le16_to_cpu(
--					desc->desc[0].wDescriptorLength);
-+					desc->rpt_desc.wDescriptorLength);
- 	if (input_device->report_desc_size == 0) {
- 		input_device->dev_info_status = -EINVAL;
- 		goto cleanup;
-@@ -210,7 +210,7 @@ static void mousevsc_on_receive_device_info(struct mousevsc_dev *input_device,
- 
- 	memcpy(input_device->report_desc,
- 	       ((unsigned char *)desc) + desc->bLength,
--	       le16_to_cpu(desc->desc[0].wDescriptorLength));
-+	       le16_to_cpu(desc->rpt_desc.wDescriptorLength));
- 
- 	/* Send the ack */
- 	memset(&ack, 0, sizeof(struct mousevsc_prt_msg));
-diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-index a6eb6fe6130d..f8b853180680 100644
---- a/drivers/hid/usbhid/hid-core.c
-+++ b/drivers/hid/usbhid/hid-core.c
-@@ -983,12 +983,11 @@ static int usbhid_parse(struct hid_device *hid)
- 	struct usb_host_interface *interface = intf->cur_altsetting;
- 	struct usb_device *dev = interface_to_usbdev (intf);
- 	struct hid_descriptor *hdesc;
-+	struct hid_class_descriptor *hcdesc;
- 	u32 quirks = 0;
- 	unsigned int rsize = 0;
- 	char *rdesc;
--	int ret, n;
--	int num_descriptors;
--	size_t offset = offsetof(struct hid_descriptor, desc);
-+	int ret;
- 
- 	quirks = hid_lookup_quirk(hid);
- 
-@@ -1010,20 +1009,19 @@ static int usbhid_parse(struct hid_device *hid)
- 		return -ENODEV;
- 	}
- 
--	if (hdesc->bLength < sizeof(struct hid_descriptor)) {
--		dbg_hid("hid descriptor is too short\n");
-+	if (!hdesc->bNumDescriptors ||
-+	    hdesc->bLength != sizeof(*hdesc) +
-+			      (hdesc->bNumDescriptors - 1) * sizeof(*hcdesc)) {
-+		dbg_hid("hid descriptor invalid, bLen=%hhu bNum=%hhu\n",
-+			hdesc->bLength, hdesc->bNumDescriptors);
- 		return -EINVAL;
- 	}
- 
- 	hid->version = le16_to_cpu(hdesc->bcdHID);
- 	hid->country = hdesc->bCountryCode;
- 
--	num_descriptors = min_t(int, hdesc->bNumDescriptors,
--	       (hdesc->bLength - offset) / sizeof(struct hid_class_descriptor));
--
--	for (n = 0; n < num_descriptors; n++)
--		if (hdesc->desc[n].bDescriptorType == HID_DT_REPORT)
--			rsize = le16_to_cpu(hdesc->desc[n].wDescriptorLength);
-+	if (hdesc->rpt_desc.bDescriptorType == HID_DT_REPORT)
-+		rsize = le16_to_cpu(hdesc->rpt_desc.wDescriptorLength);
- 
- 	if (!rsize || rsize > HID_MAX_DESCRIPTOR_SIZE) {
- 		dbg_hid("weird size of report descriptor (%u)\n", rsize);
-@@ -1051,6 +1049,11 @@ static int usbhid_parse(struct hid_device *hid)
- 		goto err;
- 	}
- 
-+	if (hdesc->bNumDescriptors > 1)
-+		hid_warn(intf,
-+			"%u unsupported optional hid class descriptors\n",
-+			(int)(hdesc->bNumDescriptors - 1));
-+
- 	hid->quirks |= quirks;
- 
- 	return 0;
--- 
-2.43.0
-
+Thanks
+Wesley Cheng
 
