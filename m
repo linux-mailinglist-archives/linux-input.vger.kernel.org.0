@@ -1,95 +1,164 @@
-Return-Path: <linux-input+bounces-10730-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10731-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35A1A5D7D9
-	for <lists+linux-input@lfdr.de>; Wed, 12 Mar 2025 09:08:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B714EA5DAB0
+	for <lists+linux-input@lfdr.de>; Wed, 12 Mar 2025 11:44:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E2C6C169E3D
-	for <lists+linux-input@lfdr.de>; Wed, 12 Mar 2025 08:08:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 361113B32BC
+	for <lists+linux-input@lfdr.de>; Wed, 12 Mar 2025 10:44:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B580230278;
-	Wed, 12 Mar 2025 08:08:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B13D723ED60;
+	Wed, 12 Mar 2025 10:43:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gok7tGpa"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="irDXNeaj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25FF7A94A;
-	Wed, 12 Mar 2025 08:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1768623E33C
+	for <linux-input@vger.kernel.org>; Wed, 12 Mar 2025 10:43:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741766905; cv=none; b=GJvujqGouVRr+YKX5WnbYWHFSTPCznfNqfXBmtTQLEh2O/GlCcO05OuY7FaJ0Ig2HPjMVWITFge1/82j9vUUdp9fgXeQJmaelApvNuQ5fwzkBCgEO33zKA0uMXKqqHSHTfvP6gXNbbvtNqPj7vyJILVNN0nd22XRDQn48NyktUw=
+	t=1741776234; cv=none; b=mKsV8Drq0kqrvEgDbwcthcrCvILCO8J11XKMjyr8xUsS11aOmDHBe2+CVT0Ss99ZYEFCFbPWF8ZvZe4ufpJ6iVXyCr2U7FJYpgOmVo/986WRAw0nRXV4dsQswYONW2HCULHJiTGsy0x2CD4mRYjjtmhU6XQGb2LeL0FioFCkokY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741766905; c=relaxed/simple;
-	bh=9Z5jsYiK81qAnjfa5azm4CeqbWktXoLhQ8QfCpB11c0=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=mSr16CVZGykyfviCC2IvpVhehmj39JlvOiGZMsc+vKx4+R0W1L7OqsBD9XEqndusB/w/rcoP+DfkgoIZU1mOP9xiumCFNmzprlSC63FyB03iWgsXLCoN1G9Q+VOoDPCKAWskbLvhEXO7KIsDQfWgD1/d7Ak1HYx7k63UYHUsfa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gok7tGpa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8154EC4CEF0;
-	Wed, 12 Mar 2025 08:08:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741766904;
-	bh=9Z5jsYiK81qAnjfa5azm4CeqbWktXoLhQ8QfCpB11c0=;
-	h=Date:From:To:cc:Subject:From;
-	b=Gok7tGpaTClZOQI2k+XxVj4RcWhxp73enzY8xWkw13xCdP9+0k88Vu33Qu5aAZXBY
-	 IK3T4o0IgW+5xVbVU1mzAKbqB1SRZEkcdRanYxYumnwoPjffmAd31pYbhZrED2XVYh
-	 fc947+cPYDqhQfDyI/2kKCMtsPXXUOXWN8ZgmIn1jzUo5cnJp0T2xUgoE4w7dIvOja
-	 BAv0hO0Edx/bTBosG53USWaV8QHuBkTy8N2pvu2iLrWI2sDVysHI6RpHMzY/wtIWcg
-	 7VvLViPFSGEiljRhQqKbJjp1vWg1Kas2PzoSu8k08LKM3iqwcjKKXb/RoVtoQf+IRl
-	 o4RZKer+jSs6g==
-Date: Wed, 12 Mar 2025 09:08:22 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Benjamin Tissoires <bentiss@kernel.org>, 
-    Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
-    Nick Crews <ncrews@chromium.org>, Jett Rink <jettrink@chromium.org>
-cc: Jiri Slaby <jirislaby@kernel.org>, linux-kernel@vger.kernel.org, 
-    linux-input@vger.kernel.org
-Subject: [PATCH] HID: remove superfluous (and wrong) Makefile entry for
- CONFIG_INTEL_ISH_FIRMWARE_DOWNLOADER
-Message-ID: <54o2s270-779o-q635-37o5-7s0o11o74o25@xreary.bet>
+	s=arc-20240116; t=1741776234; c=relaxed/simple;
+	bh=E5HHwUQ5W46oZ14AYATkIXSSrCcrAZBPe8OWfY2dZGQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vekd/ncTJbKNeBPaMnyCp+5HsqtrSdAQADDvGqGx90vgBQ+dnVycsTqlU4AnQvDf5xB6Zl4Q3oMqYAwxKvcKVSfbPIGB0u/srXS6W+PDUdrP+qVIIT4at2NKGt9PGndaX+KwxEkqtyTY6GVzGPiXld5Rz9B3lsYf1FO+vKI8aPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=irDXNeaj; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3012885752dso224049a91.2
+        for <linux-input@vger.kernel.org>; Wed, 12 Mar 2025 03:43:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1741776232; x=1742381032; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=L51FLDBP/NVINxb14cO3l0go6Z1l639IzpDfowui3bI=;
+        b=irDXNeaj4pbye9y+Q5j3WEXXsu/kghUwhTRGPCv64kQiyV9nrSP1/0m6R/IXzRAsjI
+         26wixjVhXtkXgNTCh5HMhb/bTx0Sc1NbcTrbeKWvdnmrcNbF9tIgl08yZD2ZBbWgT7+Q
+         M9Gk+QHAsdSodSLAZY0GSKgDq2QglHsu4I4YQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741776232; x=1742381032;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L51FLDBP/NVINxb14cO3l0go6Z1l639IzpDfowui3bI=;
+        b=BVWOMnrZXGQh7fxuvimWbPom3yuDKmGrV7DXCWYcXzhFxxOGML4O8K9W1q/Ojfpg5a
+         +FEgmO8Ww0uqJK99whUPN1UI4Y33sUeU5NfqfagYo8NCevVu3/b/jaGFlPFVRR/u31iy
+         DbnvAw/mLI4RlzxibGR/U3xNBPehBSnT1IfiBWEo6/sDVm5a7FLTsII8tCWMpcB9XDtq
+         MjvXfjrVWSp4OPVlz+md84Kf/xxeiaF5+663T3As0HNDfFDvegS1xPPpO0rfVEO33+uP
+         GBmdRkYswvAEPdSyjqXQmDruDTDKTfTIjWFsLwwNZkEPkBhetoQu4wtxG5Fz4W2Ef2tn
+         WPLg==
+X-Forwarded-Encrypted: i=1; AJvYcCXtpPRCuxF9DYSfl6MaqQPfmhUL4lvwOpDKoPn9aOVAQdVuf+kvYVv2iVbIgSczsywaa538JNyf3V7M8w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YywA22ouSMTH3IiCvRmH9JCheeFbV35kXQCuywp2fsBqGMu4MFR
+	mJc4F/kvKYAhjU7X7FwJPKUpcNTKFKc7D5mFSOJmkHyodQJyTun63KSxOEms+Meyz+xHq/hrgrg
+	=
+X-Gm-Gg: ASbGncv8zLaC+MAwSct5eqA9u9RCept5fiDmwJEs3GZhYiVsEeHMVuY+ZeyBgDzi0vC
+	lSBllEHtcSPXFjXh8mc4JpoxjiLnZ30DxtWiEmIP3PnB2LLDxlFjFlzjXmoqGhMVklKIfHP7jUn
+	Rv4K8rPVOkkWHoTKnhZZTMwgITHOz+mK6JszSHx/yRXKULqC3uoVDPCbjiWnSsH8vxJ4/5NcMiF
+	GTGzQZA/I2nrnVzS6Qbk9hHVIptAPohBErrZ0o7zAl70t3XUWF31QET1kCXaJm3x2ycRiiKIsqs
+	2JqVHENhmRJXKl7L1WGiL2GYIWbWZtmqn2R8ORnh+Hn9jsEYsHN/un8KSv/gxTM=
+X-Google-Smtp-Source: AGHT+IFwYKsuYFk05Yb2ZLG7oOnOSu3sTQBXUECA3daxKB2RdxKe0gDbN37+1iCGZOUpVOTrPKRIXQ==
+X-Received: by 2002:a17:90b:4f87:b0:2fe:b774:3ec8 with SMTP id 98e67ed59e1d1-2ff7cf13a91mr25942847a91.23.1741776232319;
+        Wed, 12 Mar 2025 03:43:52 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:b5ed:b71c:fb14:a696])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3011926599csm1405675a91.35.2025.03.12.03.43.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Mar 2025 03:43:51 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	chrome-platform@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH 0/8] arm64: mediatek: mt8186-corsola: Consolidate and add new devices
+Date: Wed, 12 Mar 2025 18:43:34 +0800
+Message-ID: <20250312104344.3084425-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.49.0.rc0.332.g42c0ae87b1-goog
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-From: Jiri Kosina <jkosina@suse.com>
+Hi everyone,
 
-The line
+Here's a follow up series of the I2C component probers for Chromebooks.
+This series enables the component prober for the Corsola series of
+devices, combines the two existing Voltorb SKUs, and adds a new
+device, codename Squirtle.
 
-	obj-$(INTEL_ISH_FIRMWARE_DOWNLOADER)   += intel-ish-hid/
+Patch 1 adds a new HID-over-I2C touchscreen from Elan.
 
-in top-level HID Makefile is both superfluous (as CONFIG_INTEL_ISH_FIRMWARE_DOWNLOADER
-depends on CONFIG_INTEL_ISH_HID, which contains intel-ish-hid/ already) and wrong (as it's
-missing the CONFIG_ prefix).
+Patch 2 merges the Voltorb entries in the device tree bindings into one.
 
-Just remove it.
+Patch 3 adds a new entry for the Squirtle device to the bindings.
 
-Reported-by: Jiri Slaby <jirislaby@kernel.org>
-Fixes: 91b228107da3e ("HID: intel-ish-hid: ISH firmware loader client driver")
-Signed-off-by: Jiri Kosina <jkosina@suse.com>
----
- drivers/hid/Makefile | 1 -
- 1 file changed, 1 deletion(-)
+Patch 4 fixes up the existing device trees for the component prober to
+be active.
 
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index 482b096eea28..0abfe51704a0 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -166,7 +166,6 @@ obj-$(CONFIG_USB_KBD)		+= usbhid/
- obj-$(CONFIG_I2C_HID_CORE)	+= i2c-hid/
- 
- obj-$(CONFIG_INTEL_ISH_HID)	+= intel-ish-hid/
--obj-$(INTEL_ISH_FIRMWARE_DOWNLOADER)	+= intel-ish-hid/
- 
- obj-$(CONFIG_AMD_SFH_HID)       += amd-sfh-hid/
- 
+Patch 5 merges the device trees for the Voltorb device.
+
+Patch 6 adds a device tree file for the Squirtle device, with I2C
+components ready to be probed by the prober.
+
+Patch 7 enables the prober to probe trackpads on some devices in the
+Corsola family.
+
+Patch 8 enables the prober to probe touchscreens on Squirtle.
+
+Please take a look.
+
+
+Thanks
+ChenYu
+
+
+Chen-Yu Tsai (8):
+  dt-bindings: HID: i2c-hid: elan: Introduce Elan eKTH8D18
+  dt-bindings: arm: mediatek: Merge MT8186 Voltorb entries
+  dt-bindings: arm: mediatek: Add MT8186 Squirtle Chromebooks
+  arm64: dts: mediatek: mt8186-steelix: Mark second source components
+    for probing
+  arm64: dts: mediatek: mt8186: Merge Voltorb device trees
+  arm64: dts: mediatek: mt8186: Add Squirtle Chromebooks
+  platform/chrome: of_hw_prober: Support trackpad probing on Corsola
+    family
+  platform/chrome: of_hw_prober: Support touchscreen probing on Squirtle
+
+ .../devicetree/bindings/arm/mediatek.yaml     |   7 +-
+ .../bindings/input/elan,ekth6915.yaml         |  29 ++++-
+ arch/arm64/boot/dts/mediatek/Makefile         |   4 +-
+ .../dts/mediatek/mt8186-corsola-squirtle.dts  | 107 ++++++++++++++++++
+ .../dts/mediatek/mt8186-corsola-steelix.dtsi  |   9 +-
+ .../mt8186-corsola-tentacool-sku327683.dts    |   2 +
+ .../mt8186-corsola-tentacruel-sku262148.dts   |   2 +
+ .../mt8186-corsola-voltorb-sku589824.dts      |  13 ---
+ ...u589825.dts => mt8186-corsola-voltorb.dts} |   5 +-
+ .../boot/dts/mediatek/mt8186-corsola.dtsi     |  10 +-
+ .../platform/chrome/chromeos_of_hw_prober.c   |  29 +++++
+ 11 files changed, 185 insertions(+), 32 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dts
+ delete mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dts
+ rename arch/arm64/boot/dts/mediatek/{mt8186-corsola-voltorb-sku589825.dts => mt8186-corsola-voltorb.dts} (76%)
+
 -- 
-2.43.0
+2.49.0.rc0.332.g42c0ae87b1-goog
 
 
