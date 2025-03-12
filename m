@@ -1,106 +1,95 @@
-Return-Path: <linux-input+bounces-10729-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10730-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3323AA5D751
-	for <lists+linux-input@lfdr.de>; Wed, 12 Mar 2025 08:30:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B35A1A5D7D9
+	for <lists+linux-input@lfdr.de>; Wed, 12 Mar 2025 09:08:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6CDAE175317
-	for <lists+linux-input@lfdr.de>; Wed, 12 Mar 2025 07:30:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E2C6C169E3D
+	for <lists+linux-input@lfdr.de>; Wed, 12 Mar 2025 08:08:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C74121ADC6D;
-	Wed, 12 Mar 2025 07:30:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B580230278;
+	Wed, 12 Mar 2025 08:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gok7tGpa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8064E44C7C;
-	Wed, 12 Mar 2025 07:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25FF7A94A;
+	Wed, 12 Mar 2025 08:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741764630; cv=none; b=rCoNtTvu8Um2yv6dsQye5HFiynjlTvdDMqhP5IxSed68hv9x7QzXV2yLArJKM0iMGUrX5ltU3Cf6wJ5qogFRUtphQev/bemiV+iWNx5hqR48KC2CCTFaDhd1+qXSRbIyoHyd1POv2uw3Urrf8lpRvtJhYVLLydYuZADZy7z2yus=
+	t=1741766905; cv=none; b=GJvujqGouVRr+YKX5WnbYWHFSTPCznfNqfXBmtTQLEh2O/GlCcO05OuY7FaJ0Ig2HPjMVWITFge1/82j9vUUdp9fgXeQJmaelApvNuQ5fwzkBCgEO33zKA0uMXKqqHSHTfvP6gXNbbvtNqPj7vyJILVNN0nd22XRDQn48NyktUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741764630; c=relaxed/simple;
-	bh=C7+kXOfAnAi2hiBYO/4ZGQbS90UPNCQ5WsYRnA5PCdo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EUZj6WEQaNRjMaWVMxBv4QAUt/Dns4a6LbBtjtMtOelfB2xCSDg8NCPEIOJdmGMzLv0mUGaJG4O5mQIdyJUNUT4Td/pxL3ov2ZXVStVQnVrk9bR8kD8+ksN7p6Yr1akNT7syKbFc9VKW9eNeG1210GS0t9R1rLQLWK6PEpnbzLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-01 (Coremail) with SMTP id qwCowADX39MQONFnQ8N8FA--.4329S2;
-	Wed, 12 Mar 2025 15:30:24 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: jogletre@opensource.cirrus.com,
-	fred.treven@cirrus.com,
-	ben.bright@cirrus.com,
-	dmitry.torokhov@gmail.com,
-	patches@opensource.cirrus.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] Input: cs40l50 - Remove redundant 'flush_workqueue()' calls
-Date: Wed, 12 Mar 2025 15:29:40 +0800
-Message-Id: <20250312072940.1429931-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1741766905; c=relaxed/simple;
+	bh=9Z5jsYiK81qAnjfa5azm4CeqbWktXoLhQ8QfCpB11c0=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=mSr16CVZGykyfviCC2IvpVhehmj39JlvOiGZMsc+vKx4+R0W1L7OqsBD9XEqndusB/w/rcoP+DfkgoIZU1mOP9xiumCFNmzprlSC63FyB03iWgsXLCoN1G9Q+VOoDPCKAWskbLvhEXO7KIsDQfWgD1/d7Ak1HYx7k63UYHUsfa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gok7tGpa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8154EC4CEF0;
+	Wed, 12 Mar 2025 08:08:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741766904;
+	bh=9Z5jsYiK81qAnjfa5azm4CeqbWktXoLhQ8QfCpB11c0=;
+	h=Date:From:To:cc:Subject:From;
+	b=Gok7tGpaTClZOQI2k+XxVj4RcWhxp73enzY8xWkw13xCdP9+0k88Vu33Qu5aAZXBY
+	 IK3T4o0IgW+5xVbVU1mzAKbqB1SRZEkcdRanYxYumnwoPjffmAd31pYbhZrED2XVYh
+	 fc947+cPYDqhQfDyI/2kKCMtsPXXUOXWN8ZgmIn1jzUo5cnJp0T2xUgoE4w7dIvOja
+	 BAv0hO0Edx/bTBosG53USWaV8QHuBkTy8N2pvu2iLrWI2sDVysHI6RpHMzY/wtIWcg
+	 7VvLViPFSGEiljRhQqKbJjp1vWg1Kas2PzoSu8k08LKM3iqwcjKKXb/RoVtoQf+IRl
+	 o4RZKer+jSs6g==
+Date: Wed, 12 Mar 2025 09:08:22 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: Benjamin Tissoires <bentiss@kernel.org>, 
+    Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+    Nick Crews <ncrews@chromium.org>, Jett Rink <jettrink@chromium.org>
+cc: Jiri Slaby <jirislaby@kernel.org>, linux-kernel@vger.kernel.org, 
+    linux-input@vger.kernel.org
+Subject: [PATCH] HID: remove superfluous (and wrong) Makefile entry for
+ CONFIG_INTEL_ISH_FIRMWARE_DOWNLOADER
+Message-ID: <54o2s270-779o-q635-37o5-7s0o11o74o25@xreary.bet>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADX39MQONFnQ8N8FA--.4329S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKF1xZFy7tr1DuryrtFyxZrb_yoW3KFc_uF
-	W3Kws7KrWUK3yjkFyqqr13XFyvk3Wqvay8ZFsxKr98G3409ws8Z34IvF40v3yDX34DKFnr
-	u34qga4avrnrGjkaLaAFLSUrUUUU1b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb-8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAq
-	x4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72
-	CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7
-	MxkF7I0En4kS14v26r1q6r43MxkIecxEwVAFwVW8CwCF04k20xvY0x0EwIxGrwCFx2IqxV
-	CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
-	6r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
-	WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG
-	6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
-	1UYxBIdaVFxhVjvjDU0xZFpf9x0JUkUUUUUUUU=
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+Content-Type: text/plain; charset=US-ASCII
 
-'destroy_workqueue()' already drains the queue before destroying it, so
-there is no need to flush it explicitly.
+From: Jiri Kosina <jkosina@suse.com>
 
-Remove the redundant 'flush_workqueue()' calls.
+The line
 
-This was generated with coccinelle:
+	obj-$(INTEL_ISH_FIRMWARE_DOWNLOADER)   += intel-ish-hid/
 
-@@
-expression E;
-@@
-- flush_workqueue(E);
-  destroy_workqueue(E);
+in top-level HID Makefile is both superfluous (as CONFIG_INTEL_ISH_FIRMWARE_DOWNLOADER
+depends on CONFIG_INTEL_ISH_HID, which contains intel-ish-hid/ already) and wrong (as it's
+missing the CONFIG_ prefix).
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+Just remove it.
+
+Reported-by: Jiri Slaby <jirislaby@kernel.org>
+Fixes: 91b228107da3e ("HID: intel-ish-hid: ISH firmware loader client driver")
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
 ---
- drivers/input/misc/cs40l50-vibra.c | 1 -
+ drivers/hid/Makefile | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/input/misc/cs40l50-vibra.c b/drivers/input/misc/cs40l50-vibra.c
-index dce3b0ec8cf3..0fc7ab032cf5 100644
---- a/drivers/input/misc/cs40l50-vibra.c
-+++ b/drivers/input/misc/cs40l50-vibra.c
-@@ -480,7 +480,6 @@ static int cs40l50_erase(struct input_dev *dev, int effect_id)
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index 482b096eea28..0abfe51704a0 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -166,7 +166,6 @@ obj-$(CONFIG_USB_KBD)		+= usbhid/
+ obj-$(CONFIG_I2C_HID_CORE)	+= i2c-hid/
  
- static void cs40l50_remove_wq(void *data)
- {
--	flush_workqueue(data);
- 	destroy_workqueue(data);
- }
+ obj-$(CONFIG_INTEL_ISH_HID)	+= intel-ish-hid/
+-obj-$(INTEL_ISH_FIRMWARE_DOWNLOADER)	+= intel-ish-hid/
+ 
+ obj-$(CONFIG_AMD_SFH_HID)       += amd-sfh-hid/
  
 -- 
-2.25.1
+2.43.0
 
 
