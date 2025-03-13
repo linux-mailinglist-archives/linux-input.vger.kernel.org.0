@@ -1,128 +1,176 @@
-Return-Path: <linux-input+bounces-10783-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10784-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF49A5FC30
-	for <lists+linux-input@lfdr.de>; Thu, 13 Mar 2025 17:41:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AC25A5FC50
+	for <lists+linux-input@lfdr.de>; Thu, 13 Mar 2025 17:43:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1C93E18911DB
-	for <lists+linux-input@lfdr.de>; Thu, 13 Mar 2025 16:41:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B6264163FEE
+	for <lists+linux-input@lfdr.de>; Thu, 13 Mar 2025 16:43:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60CD226B097;
-	Thu, 13 Mar 2025 16:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 671AA268FE4;
+	Thu, 13 Mar 2025 16:43:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="TAd1C3YU"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="gB5+ydLY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C97326A0E3;
-	Thu, 13 Mar 2025 16:40:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBDC944F;
+	Thu, 13 Mar 2025 16:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741884007; cv=none; b=Ho5ccutEvWUvgehKhax/lAM1zDIUjz9c3dLl67HOMwbhsXUsxRVle+DnSU4xqdoPd7Qyu+Cpq0q8xz+dP+E7YT655C1rHAKsFbe/gImTP8Xecs8o31E7EPnZB+lE2m92//Uqoi71JBcTb4LfGWSBgzVcXliIbFO/BA0HKSQMhy8=
+	t=1741884187; cv=none; b=C73V521vapuoNtusHkl1OrtGkuyIGqIEwnCsxz/hqeBujZn6STHkP1WSEszm/rqnbgfUGQdj08zE+vl1t3UVE/yKVxfJrbrh70p2HK1VZJkhCbv7Nv8o4Y8LqlJpO/jAqko/kmoO6zkLW1Q5PkKrVCmZzaQ4vD2RqPgTdzPZ66g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741884007; c=relaxed/simple;
-	bh=SaFIw7UgTgo6VXgT9++j90cTZypncDuuppnQ2OyQAgc=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=XwrVdY4yIgQLzHK/yci8I062cMN8L9HWzu3DZOXND7271pUjNd1O7agzs70OJWiMj/zpgKq58vOo+xFhQrKA6PdkUpUDKOrGGvWcxhYuFVf/nfdg8SSgDCGEAGYx7BCyrAN3hiv0+T5s4dq/SGu1JgAFQuQzRd+bpBo6sRndv9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=TAd1C3YU; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from [127.0.0.1] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52DGaDdt3043136
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Thu, 13 Mar 2025 09:36:13 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52DGaDdt3043136
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025021701; t=1741883777;
-	bh=SaFIw7UgTgo6VXgT9++j90cTZypncDuuppnQ2OyQAgc=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=TAd1C3YUnz1/m04KvWprrt25c59hDoEqP/HObNA2f0Bp4rp+Nb9PEJCNVXCw14Iiu
-	 q9Abs6+zDLtcCpZhdLC2JCZczf1qLTKYIQIMECs16cttjTwMK/9bSrYGHwOie5HClz
-	 /jcP+3xeKGlwUu0aUrtIeDMZT1ZuV3Y4f2fDZOzvoKjLs6qNj/nOaMpj13f7/0wDQR
-	 FTgUDEoLrytWaP9YL4WrPdL93XJwGvTwIwSUgo+vtkpLhxBsY0ibsq0svVoyhEkaAa
-	 CHnCGjith9nzaUr6Ath+5dakagWjzMXxHAYsyl+rXq8ZXPjgmXLSW6QTYUQphTnOMM
-	 hLTpcEZzd0lKw==
-Date: Thu, 13 Mar 2025 09:36:11 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Yury Norov <yury.norov@gmail.com>
-CC: Jacob Keller <jacob.e.keller@intel.com>,
-        David Laight <david.laight.linux@gmail.com>,
-        Jiri Slaby <jirislaby@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
-        andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-        dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
-        hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
-        vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
-        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-        parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
-        johannes@sipsolutions.net, gregkh@linuxfoundation.org,
-        akpm@linux-foundation.org, alistair@popple.id.au,
-        linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
-        jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-        oss-drivers@corigine.com, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-        brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-        bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
-        Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH v3 01/16] bitops: Change parity8() return type to bool
-User-Agent: K-9 Mail for Android
-In-Reply-To: <Z9MGxknjluvbX19w@thinkpad>
-References: <20250306162541.2633025-1-visitorckw@gmail.com> <20250306162541.2633025-2-visitorckw@gmail.com> <9d4b77da-18c5-4551-ae94-a2b9fe78489a@kernel.org> <Z8ra0s9uRoS35brb@gmail.com> <a4040c78-8765-425e-a44e-c374dfc02a9c@kernel.org> <20250307193643.28065d2d@pumpkin> <cbb26a91-807b-4227-be81-8114e9ea72cb@intel.com> <0F794C6F-32A9-4F34-9516-CEE24EA4BC49@zytor.com> <Z9MGxknjluvbX19w@thinkpad>
-Message-ID: <795281B1-9B8A-477F-8012-DECD14CB53E5@zytor.com>
+	s=arc-20240116; t=1741884187; c=relaxed/simple;
+	bh=nE5EpPB4If8RqZq+HFcWNMkObw2tBdQFgI8fiUTDjP4=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Subject:Cc:From:
+	 References:In-Reply-To; b=ZhEBVqOFwN0ZOEX3ZXEudYPOiTPwHgBzeWlrdHQ1t2tzZiUbKd1BYPb3QgsStcXttxQ0BosbnBqXFUdLCh8d/QtOCESWtdnKLkihzcua6OIpxqxT5bCQThkmYo+RrOU0eOsscybIyOylyCC+jz2QgyKr3lru5TqdJG2WY+favWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=gB5+ydLY; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E64B2442CE;
+	Thu, 13 Mar 2025 16:43:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1741884182;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JMMCggDw9vDK2Yxc6oEQTEtAehkSZ19aO0voX4jpN6E=;
+	b=gB5+ydLYSuiVzCjCgsFLD1v5Xg6uPAl9hgRIkOQ62erSYfMfiN8CxjC/KEIp7uMIb3FgiW
+	CkGGDvjg1H8uDThSdWsan1bxhecSegifJ/ZMy3q0RqOM3UKZ+vCOuiRLhlW9BrhNvaNzHU
+	98ZmovIgKi0dfziYVoixlN3vCydQDuRXH+XRTMEmdAkTPVqrO48lL1dFBb9o7KNscuRQma
+	PuDBH+wTgnFfnwSCSg4cEoHci33rnawP30QclnihHIffpvp+FbmbTZ+BGcjieQUiwlN4vb
+	VWav564x6se7tOYtg2OPwbPYx9QH/UuQR1u97o8geAjybwSQiOXEEVHmcUzR+Q==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 13 Mar 2025 17:43:00 +0100
+Message-Id: <D8FAEPI26C8F.397VN87KK9VIO@bootlin.com>
+To: "Andy Shevchenko" <andriy.shevchenko@intel.com>
+Subject: Re: [PATCH v4 07/10] gpio: max7360: Add MAX7360 gpio support
+Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
+ Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, "Michael Walle"
+ <mwalle@kernel.org>, "Mark Brown" <broonie@kernel.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20250214-mdb-max7360-support-v4-0-8a35c6dbb966@bootlin.com>
+ <20250214-mdb-max7360-support-v4-7-8a35c6dbb966@bootlin.com>
+ <Z69oa8_LKFxUacbj@smile.fi.intel.com>
+ <D7UOIHL2WOZP.LLGRKMILNJFU@bootlin.com>
+ <Z7OXQqyPjtGgTySf@smile.fi.intel.com>
+In-Reply-To: <Z7OXQqyPjtGgTySf@smile.fi.intel.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduvdekgeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkvffuvefhofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeihfetgfdtudelteeuvdetjeeihfegledtgffgtdeivdduhedvveekjeegkeelteenucffohhmrghinheprghnrghlohhgrdgtohhmpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddvpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhkohesihhnthgvlhdrtghomhdprhgtphhtthhop
+ ehlvggvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrghmvghlrdgsohhuhhgrrhgrsegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-On March 13, 2025 9:24:38 AM PDT, Yury Norov <yury=2Enorov@gmail=2Ecom> wro=
-te:
->On Wed, Mar 12, 2025 at 05:09:16PM -0700, H=2E Peter Anvin wrote:
->> On March 12, 2025 4:56:31 PM PDT, Jacob Keller <jacob=2Ee=2Ekeller@inte=
-l=2Ecom> wrote:
+On Mon Feb 17, 2025 at 9:08 PM CET, Andy Shevchenko wrote:
+> On Mon, Feb 17, 2025 at 12:20:13PM +0100, Mathieu Dubois-Briand wrote:
+> > To provide a bit more details, there is basically two set of pins usabl=
+e
+> > as GPIOs.
+> >=20
+> > On one side we have what I refer to as GPIOs:
+> >   - PORT0 to PORT7 pins of the chip.
+> >   - Shared with PWM and rotary encoder functionalities. Functionality
+> >     selection can be made independently for each pin. We have to ensure
+> >     the same pin is not used by two drivers at the same time. E.g. we
+> >     cannot have at the same time GPIO4 and PWM4.
+> >   - Supports input and interrupts.
+> >   - Outputs may be configured as constant current.
+> >   - 8 GPIOS supported, so ngpios is fixed to MAX7360_MAX_GPIO.
+> >   - maxim,max7360-gpio compatible, gpio_function =3D=3D MAX7360_GPIO_PO=
+RT.
+> >=20
+> > On the other side, we have what I refer to as GPOs:
+> >   - COL2 to COL7 pins of the chip.
+> >   - Shared with the keypad functionality. Selections is made by
+> >     partitioning the pins: first pins for keypad columns, last pins for
+> >     GPOs. Partition is described by the ngpios property.
+> >   - Only support outputs.
+> >   - maxim,max7360-gpo compatible, gpio_function =3D=3D MAX7360_GPIO_COL=
+.
+> >=20
+> > > Or you mean that there output only GPIO lines in HW after all?
+> > > Is there a link to the datasheet?
+> >=20
+> > A datasheet is available on https://www.analog.com/en/products/max7360.=
+html
 >
->[=2E=2E=2E]
+> Thank you for this good elaboration!
+> I will check on the datasheet later on, having one week off.
 >
->> >This is really a question of whether you expect odd or even parity as
->> >the "true" value=2E I think that would depend on context, and we may n=
-ot
->> >reach a good consensus=2E
->> >
->> >I do agree that my brain would jump to "true is even, false is odd"=2E
->> >However, I also agree returning the value as 0 for even and 1 for odd
->> >kind of made sense before, and updating this to be a bool and then
->> >requiring to switch all the callers is a bit obnoxious=2E=2E=2E
->>=20
->> Odd =3D 1 =3D true is the only same definition=2E It is a bitwise XOR, =
-or sum mod 1=2E
->
->The x86 implementation will be "popcnt(val) & 1", right? So if we
->choose to go with odd =3D=3D false, we'll have to add an extra negation=
-=2E
->So because it's a purely conventional thing, let's just pick a simpler
->one?
->
->Compiler's builtin parity() returns 1 for odd=2E
->
->Thanks,
->Yury
 
-The x86 implementation, no, but there will be plenty of others having that=
- exact definition=2E
+Thanks for your feedback! Sorry I haven't been able to work on this
+series for the last few weeks, but I finally had the opportunity to
+integrate your comments.
+
+> But what I have read above sounds to me like the following:
+>
+> 1) the PORT0-PORT7 should be just a regular pin control with the respecti=
+ve
+> function being provided (see pinctrl-cy8c95x0.c as an example);
+>
+
+Ok, so I created a pin control driver for the PORT pins. This will
+effectively help to prevent concurrent use of pins in place of the
+request()/free() callbacks.
+
+My only concern is: as there is no real pin muxing on the chip, my
+.set_mux callabck in pinmux_ops structure is not doing anything. It
+looks like I'm not the only one
+(drivers/pinctrl/pinctrl-microchip-sgpio.c does the same thing), but I
+hope this is OK.
+
+> 2) the COL2 COL7 case can be modeled as a simplest GPIO (GPO) driver with
+> reserved lines property (this will set valid mask and let GPIOLIB to refu=
+se any
+> use of the keypad connected pins.
+>
+
+I mostly went that way, just a few notes.
+
+I chose to not use the reserved lines property in the device tree, but
+instead implemented a gpiolib init_valid_mask() callback. In believe
+this is better, as:
+- We can automatically generate the valid gpios mask, based on the
+  number of columns used.
+- It allows to get rid of the compatibility check between the number of
+  columns and the number of GPIOs provided by the device tree: DT
+  provides the number of columns, we deduct the number of GPIOs.
+
+I chose to number GPIOs from 0 to 7.
+- This might be a bit questionable, as GPIO 0 and 1 will always be
+  invalid: pins 0 and 1 of the chip cannot be used as GPIOs. I'm
+  definitely open to discussion on this point.
+- Yet I believe it simplifies everything for the user: pin numbers and
+  GPIO numbers are the same instead of having an offset of 2.
+- It also simplifies a bit the GPIO driver code.
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
