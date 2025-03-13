@@ -1,236 +1,165 @@
-Return-Path: <linux-input+bounces-10756-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10757-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE6BA5F433
-	for <lists+linux-input@lfdr.de>; Thu, 13 Mar 2025 13:22:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A23A5F772
+	for <lists+linux-input@lfdr.de>; Thu, 13 Mar 2025 15:19:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2B8B3A8E7E
-	for <lists+linux-input@lfdr.de>; Thu, 13 Mar 2025 12:22:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CFCE53BCE41
+	for <lists+linux-input@lfdr.de>; Thu, 13 Mar 2025 14:19:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B6C0266F0B;
-	Thu, 13 Mar 2025 12:22:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B53E6267F64;
+	Thu, 13 Mar 2025 14:19:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gehealthcare.com header.i=@gehealthcare.com header.b="p3UqI9Ol"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T/J0MeeR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2052.outbound.protection.outlook.com [40.107.100.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8D01F3B94;
-	Thu, 13 Mar 2025 12:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741868532; cv=fail; b=rABtH9uGnzLcmhRX/PmTIojz1OP7DEJsWmLTrDN43d4XDI279E9bQ1cE5iTnii+5LVSVtyWYB2AbTtSi0qzgVBGjx31/uuFhghNPvhamsCdP6F/fWFtTxz5CzTFec9nuz3X8J0NxcOTPuG5ojG9wbMtKJ2pG8BwoMtgeVlHx4UA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741868532; c=relaxed/simple;
-	bh=It9TSTvVG+jmeLqtUZnTM/zAOc7smiQsXZTXKU6KnRI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YGQxtdSmdl9+56Q+zQz67n/4Xjjyavbmcpbpj2T+/6jgm5nSzoIvjBB8LrMbG+1UJqR+HpQCMwMZiT8AAbXtqXjCsua1ToOfoSdyAZ2tL8xNd87jzpWc26JzR3Ss/zG8NIkiOF6lOZ0AfsJXl0Fyri7oc6V8/dCjyIgq6YSDUt8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gehealthcare.com; spf=pass smtp.mailfrom=gehealthcare.com; dkim=pass (2048-bit key) header.d=gehealthcare.com header.i=@gehealthcare.com header.b=p3UqI9Ol; arc=fail smtp.client-ip=40.107.100.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gehealthcare.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gehealthcare.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=foelEtSqD2YZz43FdT+phWBW8caxRQXXs8wSuTeP84G3Bjav5QTk89wU5eg/vsB0H6ti+bAONU3g6Apme4MED75l1LXzT59jGumKH66tKAsi/HCjl8TjiVXMtkYs3n8nW+7IBNdyBSor0FIzexTEjPhIwAWv/Rda/pgnMfX1z7hrhgugw5Clog18DABi3FGhlz4gGhtEuSmJoujdnPhmK+zNVr8uW6JTRhWK+mAPtSOUQBLCC7yDIdWjUzbbc61uTdLaznLUe7Ttw81osP8ctYr1jmeGfkEcFmtcTDmwYFWthUBX+iqIcwXmof5ePqyS3tlgG4Zt/Z5NPzrFTaSfdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2U8c4HcGbPrBMsg3vLvBJgynwmqmpK1g9HcO6wt1Ru0=;
- b=gjPDWWmzYAPs9HB7jZNDYMgi2YldlTcuBOl7LqkPvd7rjEWthM1GLODSY0eNltzqlisGL+DLA/LG8VQfQwYPSLspRX/2xrx2qFouVU2gThQLFiLjBEUIfebGkv/hOVAvFOBTfnjeGet8U4+5rbQm4WQ2me5mVeHXTKDCDwj5/MebVNGrPN4QiyWYkADevYgCDKaETwwM42TqcIwL44PKqaQ8RnDsuemh3d2cl0AVeHrDDd3S+sVaQugs44uUO3HXLBqgQDAx+n9TQ4N6pDcmcHs3nSFt8spKQxO9Fw5K+LIZIgZOgNZdLUzXyRW5grSTUMy6yZlvE/S8V32PSrGm9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 165.85.157.49) smtp.rcpttodomain=vger.kernel.org
- smtp.mailfrom=gehealthcare.com; dmarc=fail (p=quarantine sp=quarantine
- pct=100) action=quarantine header.from=gehealthcare.com; dkim=none (message
- not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gehealthcare.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2U8c4HcGbPrBMsg3vLvBJgynwmqmpK1g9HcO6wt1Ru0=;
- b=p3UqI9Olmeu1Z4UkxBVvneIT7k9dumCjfZWDR7cZKnjvEWdZtB3ryn97DZXJizWYR+t80ygbg7O2wduzuhe+mnz3S9IWyCWJ5vogsj3Avn2drgNfqxQzCDXJf+layKRLdIoeSj+OkB15gtWfByfoa40immvSVHYrh1q4S9i3BMk00ycDP/FNec6b91rWtk+IiyVG//wJl83/LBY2aOmRMLOQn5bcxi9Bk+mQ+Ok4M+JVZyDhvNOWI/ugqBaplejELg34lPlTJo6BH/BkaOvweXxgX4KyS9vajaYDgMsRyJyG9N64hgq69UxWr/NMwGyHPvAFbG5J1PTvc3U8HEsjNw==
-Received: from MN2PR05CA0043.namprd05.prod.outlook.com (2603:10b6:208:236::12)
- by LV8PR22MB5570.namprd22.prod.outlook.com (2603:10b6:408:231::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.28; Thu, 13 Mar
- 2025 12:22:07 +0000
-Received: from BN1PEPF00004682.namprd03.prod.outlook.com
- (2603:10b6:208:236:cafe::ed) by MN2PR05CA0043.outlook.office365.com
- (2603:10b6:208:236::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.27 via Frontend Transport; Thu,
- 13 Mar 2025 12:22:06 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 165.85.157.49)
- smtp.mailfrom=gehealthcare.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=gehealthcare.com;
-Received-SPF: Fail (protection.outlook.com: domain of gehealthcare.com does
- not designate 165.85.157.49 as permitted sender)
- receiver=protection.outlook.com; client-ip=165.85.157.49;
- helo=atlrelay2.compute.ge-healthcare.net;
-Received: from atlrelay2.compute.ge-healthcare.net (165.85.157.49) by
- BN1PEPF00004682.mail.protection.outlook.com (10.167.243.88) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8534.20 via Frontend Transport; Thu, 13 Mar 2025 12:22:06 +0000
-Received: from 782be41d2a0d (zoo13.fihel.lab.ge-healthcare.net [10.168.174.111])
-	by builder1.fihel.lab.ge-healthcare.net (Postfix) with SMTP id C5536AD4D0;
-	Thu, 13 Mar 2025 14:22:03 +0200 (EET)
-Date: Thu, 13 Mar 2025 14:22:03 +0200
-From: Ian Ray <ian.ray@gehealthcare.com>
-To: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ian.ray@gehealthcare.com
-Subject: Re: [PATCH 2/2] Input: snvs_pwrkey - add configurable force shutdown
- time
-Message-ID: <Z9LN63R1IhMDieP7@782be41d2a0d>
-References: <20250313114453.702-1-ian.ray@gehealthcare.com>
- <20250313114453.702-3-ian.ray@gehealthcare.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D22842077;
+	Thu, 13 Mar 2025 14:19:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741875557; cv=none; b=DmtRPO1uWQS3xmMTqsPqYSfSk6oeyylKdOu5ZjY9ubqEIdzS0NfyNxTh2F1Dzb3pm77VJdHV5gOklcKtf+Di+UQWk6dl3YCYhNfj+G3wShxXaYkeAnpdpngskvUfeD4VitLw1/lcNr0VDIDV9K67Ail2oZy8T4IG+cGim5AyAJ8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741875557; c=relaxed/simple;
+	bh=1hmYFCYRlnFEnOVA+8j1hptv02veyE2YwfRsJCXsjL4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OjEBwA8btYYPvaIgg9n5EG2bIFc7ysQglQBouN8ZX1yao1GZWGK/DICIjuS+pm4+7JLpfpdp2ZvhDvcWKlc/UxJU0Ev1uOj4EfeJ+rucQlh48W8H/jPGDt1C6HvL6S/FokvzZBXCAyH16LMVG2ek6En5Bl7a5/86ltxpTzqPnDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T/J0MeeR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 44272C4CEEB;
+	Thu, 13 Mar 2025 14:19:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741875557;
+	bh=1hmYFCYRlnFEnOVA+8j1hptv02veyE2YwfRsJCXsjL4=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=T/J0MeeRFpV6kuvJc2wFRZW5+InTiZiBs5wpHWZU9pp3uBRRL611Mvw5HUrkUdHZl
+	 T0eic7qKHXsHuFQgoIZD9Q8XWbUJcNjwVYVxbGkCoVkWqHSAFdo4qVNAykKMdVPOAR
+	 Wcku3mKRUbUcLrLcADd1aNuVkk8AM5eWn71e8T8rukykkBOBMiKJV8GEB5nIm/OQEH
+	 pjIjNSdH7Wc2ozqdLphVmmb5SwQDTOZDLINj6GJY8fl3Uhg1C+KKID1OV59ez/64Kr
+	 Y1/g780EVCdeSgtfVuRib5XDjCj5c5sX5WE8imuMn5yCjicCSZnejFw3ONUq3y1EbR
+	 D7iwETtQ91XHg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 366CCC282EC;
+	Thu, 13 Mar 2025 14:19:17 +0000 (UTC)
+From: =?utf-8?q?Nuno_S=C3=A1_via_B4_Relay?= <devnull+nuno.sa.analog.com@kernel.org>
+Subject: [PATCH 00/18] mfd: adp5585: support keymap events and drop legacy
+ Input driver
+Date: Thu, 13 Mar 2025 14:19:17 +0000
+Message-Id: <20250313-dev-adp5589-fw-v1-0-20e80d4bd4ea@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250313114453.702-3-ian.ray@gehealthcare.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004682:EE_|LV8PR22MB5570:EE_
-X-MS-Office365-Filtering-Correlation-Id: c982a2cf-57e0-43eb-4bdf-08dd6229ab6e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?r6Cw3onfqwnBo0uK2CIHmM+6GHOKX/5YP688Kx+V3ucrZX3CfXe7rZcwie9K?=
- =?us-ascii?Q?orqUMUN+eF/jvm191JBwrFyYT9SI3j2vDBCWXxjr5JvL2ZYtKANwKgdcHAJJ?=
- =?us-ascii?Q?p6sy0JEvHm8tQ/sa6oV1NnXUZB90BoPFh4c+tua7/VJuopRxnLAlzjosU7PO?=
- =?us-ascii?Q?1cdG/m9XAkjZsi7EbD528SeLl93DAujsr2LQWjZkis/pnAmVwV+hv9bvEw5A?=
- =?us-ascii?Q?pZplPQcc7WS+JuUgRjjafjVubjU02p8SsA1vRXAeLmYYe0eVcH0CDmaUoNnl?=
- =?us-ascii?Q?tP/kOVuZOqWZbRECIBG/bpGgYzKK7SRWQMtx6ENt5rxxRQKXoqJURKbunglV?=
- =?us-ascii?Q?6oRbBtC6BxxUcW1oRjUgTH6lrLHkCADdl6RztYxuZ0mjo4R86r3QV7aFDQDV?=
- =?us-ascii?Q?Uw3lVa9alO8ZquRYEeRSmiX4YRn7BrhhumnLdTQUimAjp2RUgoGQhnqebgnI?=
- =?us-ascii?Q?PSSVCBHl8SNS14BW7tOBzQu/yB6TkQGVWmIN74DMUoVHDc7M4VqzUp2qvaN1?=
- =?us-ascii?Q?CbTGYFxcjCCXcOk4nHoPMonZs0e4q9HebDRIS/TaITAO8uX5jtAI/81VmSxs?=
- =?us-ascii?Q?JXms0JOvMjQuJnksx8jB4xXHaCkcS+x3n4RtOS3wyMJeckQy/jPKHzM63mTS?=
- =?us-ascii?Q?UY6gPu3siK+0CJqCWrsq2lPVBYLZhwLuPpWiPfT+IyP6kGvoIrdAw5C0l0hb?=
- =?us-ascii?Q?S2vPSjKpyVaGUuuIqAMDxslEMnZ9jPzh9mI6sBPmYNVYr9lfN22l3QAWQ0jk?=
- =?us-ascii?Q?vKqDcXlJsv2NC4AH7EM7D5BwWvxpTPi8uGq674hZS4gcc5/RvTIvC4BwwoL7?=
- =?us-ascii?Q?8+9ylBp9XmvbaukgwqP4bPZXNqDNGzzL+jLekJoA4AA6oFe5BOJz4oudiLdQ?=
- =?us-ascii?Q?eSn6JQDS9lbgO+QP2dne1qVKgVOvfLV2wGIMbvF1YiyJtiuq/+1I5QxHEgp+?=
- =?us-ascii?Q?zlpq3vqNHzuCmTsD9GxEdIxSwCD8qHZy8yiroJERRkQQBfNLepib/fkB/CO8?=
- =?us-ascii?Q?Uq1irg3JNagtEUgGjHAWk4gXYkSi1oGwmkIKSbpHJgBS+nrp9W6ZpMm6td3O?=
- =?us-ascii?Q?eCC64uTp523+yflcWepic1021CxnAQZO2tuQcblboa3fZNypTqweJfFxJjKf?=
- =?us-ascii?Q?1my/ViBp6xCzmzadLPpiUNEcPHeYvpqZ+pPlsJZyO1sVkRBd2NKTsvQinfN7?=
- =?us-ascii?Q?fwq47DXWNVwCXvZ+aRKoTIBUqOfYQAU4+XXkU/EQhx9ZyRNkwzRg2C7tFgxQ?=
- =?us-ascii?Q?JglmmLl5+gD/stN7h5M9ZX5aA2yL0d53gYrf4Cm5xJpCVhkic5iFwuQFCB/J?=
- =?us-ascii?Q?i8K9jHjcqZUyxYXUKi9L7MnTvpZ6Q20zjqxYVTo94T2fZjiYdktFv/w6yELN?=
- =?us-ascii?Q?U0MjuBeGF4HVB8OBFjZrwTJzIZUsxMa2/gX9mhR799TW+zXE+aZSLMY0XM9K?=
- =?us-ascii?Q?WPpySxG6+2X9wf2wtcnDVHWBvFOSDjKeaZtApqwtgFWbmBz+FtJxjw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.85.157.49;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:atlrelay2.compute.ge-healthcare.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: gehealthcare.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2025 12:22:06.2041
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c982a2cf-57e0-43eb-4bdf-08dd6229ab6e
-X-MS-Exchange-CrossTenant-Id: 9a309606-d6ec-4188-a28a-298812b4bbbf
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=9a309606-d6ec-4188-a28a-298812b4bbbf;Ip=[165.85.157.49];Helo=[atlrelay2.compute.ge-healthcare.net]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN1PEPF00004682.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR22MB5570
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAGbp0mcC/x3MQQqAIBBA0avErBtQ06iuEi1Ex5qNhUIF4t2Tl
+ m/xf4FMiSnD0hVIdHPmMzbIvgN32LgTsm8GJZQRg5To6UbrL2OmGcODJLQLftZGTSO06EoU+P2
+ H61brB2w0KPRgAAAA
+X-Change-ID: 20250311-dev-adp5589-fw-e04cfd945286
+To: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Liu Ying <victor.liu@nxp.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741875561; l=3601;
+ i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
+ bh=1hmYFCYRlnFEnOVA+8j1hptv02veyE2YwfRsJCXsjL4=;
+ b=HO4x96uZcuESctomGU8fatWdFsgoQn9KLUeut0G8836eRXN3jvJMzSkjvrZOH486P6BzuEohr
+ QbgRIWaUh1RD8yCObB7uHdwzu2js9lzPZHXjqenm/x/MH8Whl/wHbit
+X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
+ pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
+X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
+ auth_id=100
+X-Original-From: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
+Reply-To: nuno.sa@analog.com
 
-On Thu, Mar 13, 2025 at 01:44:53PM +0200, Ian Ray wrote:
-> Support configurable shutdown period using a new, optional, device tree
-> property.
-> 
-> The force shutdown time is configured in LPCR[17:16] BTN_PRESS_TIME:
-> 
->  * b00:  5 seconds (SoC default)
->  * b01: 10 seconds
->  * b10: 15 seconds
->  * b11: PMIC is not disabled
-> 
-> Signed-off-by: Ian Ray <ian.ray@gehealthcare.com>
-> ---
->  .../arm64/boot/dts/freescale/imx8mp-ppdv2.dts |  4 ++++
->  drivers/input/keyboard/snvs_pwrkey.c          | 24 +++++++++++++++++++
->  2 files changed, 28 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mp-ppdv2.dts b/arch/arm64/boot/dts/freescale/imx8mp-ppdv2.dts
-> index 7cc427f23e59..921eda35154a 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mp-ppdv2.dts
-> +++ b/arch/arm64/boot/dts/freescale/imx8mp-ppdv2.dts
-> @@ -699,6 +699,10 @@ &pinctrl_usdhc2_200mhz {
->  		<MX8MP_IOMUXC_GPIO1_IO04__GPIO1_IO04		0x106>;
->  };
->  
-> +&snvs_pwrkey {
-> +	force-shutdown-time = <0>;
-> +};
-> +
+The adp5585 MFD driver was introduced in 6.11 adding support for gpio
+and PWM. However, the gpio part of it was already supported as part of
+the keyboard driver:
 
-Sorry, please disregard this hunk which was accidentally included.
-(Should I send a V2?)
+https://elixir.bootlin.com/linux/v6.14-rc6/source/drivers/input/keyboard/adp5589-keys.c#L532
+
+On top of that it also overlapped with my refactoring of the above driver [1]
+to drop usage of platform data and use FW properties instead.
+
+Now, it actually makes sense for this device to be supported under MFD
+and since the "legacy" input device depends on platform data that is not
+defined anywhere the plan in this series is to add support for the
+keyboard and adp5589 devices as part of the MFD driver. Once the MFD
+driver supports all that's supported in the Input one, we drop it...
+
+For DT Maintainers:
+
+The compatible for adp5589 is part of trivial devices. To me, it makes
+sense to remove it in the patch where we drop the driver but doing so
+would result in a warning when adding the same compatible for the MFD
+bindings. Hence, I remove it in that patch. Is that ok?
+
+Uwe:
+
+In my eval board, I could see that reading the GPIO value (when
+configured as input) does not work when OSC_EN is not set. Therefore,
+commit ("pwm: adp5585: don't control OSC_EN in the pwm driver") could
+very well have a Fixes tag. However I'm not 100% sure it's a real issue
+or something special to my eval board.
+
+It would be nice if Laurent or Liu could test the PWM bits or even
+check that the above is also an issue for their platform.
+
+[1]: https://lore.kernel.org/linux-input/d1395bd61ce58b3734121bca4e09605a3e997af3.camel@gmail.com/
+
+---
+Nuno Sá (18):
+      dt-bindings: mfd: adp5585: ease on the required properties
+      mfd: adp5585: enable oscilator during probe
+      pwm: adp5585: don't control OSC_EN in the pwm driver
+      mfd: adp5585: make use of MFD_CELL_NAME()
+      dt-bindings: mfd: adp5585: document adp5589 I/O expander
+      mfd: adp5585: add support for adp5589
+      gpio: adp5585: add support for the ad5589 expander
+      pwm: adp5585: add support for adp5589
+      dt-bindings: mfd: adp5585: add properties for input events
+      mfd: adp5585: add support for key events
+      gpio: adp5585: support gpi events
+      Input: adp5585: Add Analog Devices ADP5585/89 support
+      Input: adp5589: remove the driver
+      mfd: adp5585: support getting vdd regulator
+      dt-bindings: mfd: adp5585: document reset gpio
+      mfd: adp5585: add support for a reset pin
+      pwm: adp5585: make sure to include mod_devicetable.h
+      gpio: adp5585: make sure to include mod_devicetable.h
+
+ .../devicetree/bindings/mfd/adi,adp5585.yaml       |  243 ++++-
+ .../devicetree/bindings/trivial-devices.yaml       |    2 -
+ MAINTAINERS                                        |    1 +
+ drivers/gpio/Kconfig                               |    1 +
+ drivers/gpio/gpio-adp5585.c                        |  299 +++++-
+ drivers/input/keyboard/Kconfig                     |   21 +-
+ drivers/input/keyboard/Makefile                    |    2 +-
+ drivers/input/keyboard/adp5585-keys.c              |  221 ++++
+ drivers/input/keyboard/adp5589-keys.c              | 1066 --------------------
+ drivers/mfd/adp5585.c                              |  799 ++++++++++++++-
+ drivers/pwm/pwm-adp5585.c                          |   57 +-
+ include/linux/mfd/adp5585.h                        |  153 ++-
+ 12 files changed, 1703 insertions(+), 1162 deletions(-)
+---
+base-commit: 4d395cb071a343196ca524d3694790f06978fe91
+change-id: 20250311-dev-adp5589-fw-e04cfd945286
+--
+
+Thanks!
+- Nuno Sá
 
 
->  &usdhc2 {
->  	/delete-property/ cd-gpios;
->  	/delete-property/ wp-gpios;
-> diff --git a/drivers/input/keyboard/snvs_pwrkey.c b/drivers/input/keyboard/snvs_pwrkey.c
-> index f7b5f1e25c80..2ba848df061c 100644
-> --- a/drivers/input/keyboard/snvs_pwrkey.c
-> +++ b/drivers/input/keyboard/snvs_pwrkey.c
-> @@ -27,7 +27,10 @@
->  #define SNVS_HPSR_BTN		BIT(6)
->  #define SNVS_LPSR_SPO		BIT(18)
->  #define SNVS_LPCR_DEP_EN	BIT(5)
-> +#define SNVS_LPCR_BPT_SHIFT	16
-> +#define SNVS_LPCR_BPT_MASK	(3 << SNVS_LPCR_BPT_SHIFT)
->  
-> +#define FORCE_SHUTDOWN_TIME	5	/* LPCR 17:16 default */
->  #define DEBOUNCE_TIME		30
->  #define REPEAT_INTERVAL		60
->  
-> @@ -114,6 +117,8 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
->  	struct device_node *np;
->  	struct clk *clk;
->  	int error;
-> +	int force_shutdown_time;
-> +	int bpt;
->  	u32 vid;
->  
->  	/* Get SNVS register Page */
-> @@ -148,11 +153,30 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
->  	if (pdata->irq < 0)
->  		return -EINVAL;
->  
-> +	force_shutdown_time = FORCE_SHUTDOWN_TIME;
-> +	of_property_read_u32(np, "force-shutdown-time", &force_shutdown_time);
-> +	switch (force_shutdown_time) {
-> +		case 0:
-> +			/* Disable long-press detection. */
-> +			bpt = 0x3;
-> +			break;
-> +		case 5:
-> +		case 10:
-> +		case 15:
-> +			bpt = (force_shutdown_time / 5) - 1;
-> +			break;
-> +		default:
-> +			dev_err(&pdev->dev, "Invalid force-shutdown-time %d\n", force_shutdown_time);
-> +			return -EINVAL;
-> +	}
-> +
->  	regmap_read(pdata->snvs, SNVS_HPVIDR1_REG, &vid);
->  	pdata->minor_rev = vid & 0xff;
->  
->  	regmap_update_bits(pdata->snvs, SNVS_LPCR_REG, SNVS_LPCR_DEP_EN, SNVS_LPCR_DEP_EN);
->  
-> +	regmap_update_bits(pdata->snvs, SNVS_LPCR_REG, SNVS_LPCR_BPT_MASK, bpt << SNVS_LPCR_BPT_SHIFT);
-> +
->  	/* clear the unexpected interrupt before driver ready */
->  	regmap_write(pdata->snvs, SNVS_LPSR_REG, SNVS_LPSR_SPO);
->  
-> -- 
-> 2.39.5
 
