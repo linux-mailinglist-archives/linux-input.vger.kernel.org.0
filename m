@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-10839-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10840-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8DF7A610B2
-	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 13:16:09 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2719FA611D3
+	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 13:55:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 70EF219C2A7A
-	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 12:16:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 663843AE28F
+	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 12:55:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F03031FDE31;
-	Fri, 14 Mar 2025 12:15:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4D7E1FF1B9;
+	Fri, 14 Mar 2025 12:55:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pichpc16"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qQPn0PkY"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB28015252D;
-	Fri, 14 Mar 2025 12:15:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CB01C878E;
+	Fri, 14 Mar 2025 12:55:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741954559; cv=none; b=Q3GSvYQoblqJhgeHHYaLYnCuQoYDEGfpZxn/FMTAC/o/LLbcy/4Hm81p6oJi1OJcw3adW8AIC5rVMscvCQ2u3CtfAP7ovkfMOYJ4p/PCRG+uPz1w83FM77lYg9S+wKjMVvr1HyT+4OIVgxaevoeQAjHzhiTVR/qCrGUoP+EGvwM=
+	t=1741956954; cv=none; b=vErGHpaECktHMgAHCPPW/C+YChvjMGz8LHPkoL6RWixAjvl0VH+WzQJlKKZNXT7TDsfQGUtor/VjeNjunvezHBxz+uO96KDciKpyYEg/U331/xtlBPY7NDvzcFlOM/ybSjknO6riAs8XgJuLovvYjKiVVvvB55dgGfga/5cz9yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741954559; c=relaxed/simple;
-	bh=syyfjmm1ILVSuq9iD+2uDPwICAchoBLMuHILst+2s14=;
+	s=arc-20240116; t=1741956954; c=relaxed/simple;
+	bh=iN+hODNYt5XRXkiFgu707K+n/OW/geztkm8B2yjmKCc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WWc0Lr3NjJfeDg72pr9BysOhG6HcX5iMErxiZQSC87dD5E2XuTEVohHz0YsiaWFd7usbmsf8Z9zdhM54Bi6LjPMHqbSnDe5mk+K5w5QOV15xsMucndtdOv7aeMlMxGHqBTAIWidFj9NLhrUn5gykRxxPkohuPuQg5+zQF64q1yM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pichpc16; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B097C4CEE3;
-	Fri, 14 Mar 2025 12:15:54 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=r1u9ZgcroUdL3tqX/7xpzV+D4/BstVhcvO2JvKrT+LeL1DfYyNEUE9sgzwWZmXsy5kh0SrXfFveXTAaIYQv7tNOagg7g6628iGEHUTfF9LxQUDPdZ/+tFW32iokxRdKZw/REhLH3GzdbS9HGgBsHDbGCui7pL/V1fTvb88bZJMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qQPn0PkY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8777C4CEE3;
+	Fri, 14 Mar 2025 12:55:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741954559;
-	bh=syyfjmm1ILVSuq9iD+2uDPwICAchoBLMuHILst+2s14=;
+	s=k20201202; t=1741956954;
+	bh=iN+hODNYt5XRXkiFgu707K+n/OW/geztkm8B2yjmKCc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Pichpc16VJLp7OPpMBWAS8J28BjePgu2HLwegUy/x8qaj0zQoI7iMfZ5uHB4pbWsN
-	 t3sB9Tk49VClQtqKyFiLiFEk/GsIqJuyXYr36qp/O2d/eMk4nbyFf6zKtQFhmrVklP
-	 72kbKSYocc8g30uDviLAgkF8KVTWG7YI+2KiHCs4VPP+HHbjoAKZCMYVRI5fLKQHqO
-	 9IEyRlVYIVfrrKcoTU2LmoiaxDnOwxAbcFQvGTFQf/Ney/v/fjj/JznEV9Ll7XQoQj
-	 Hdkpr+/z5LcbVmC3lqLhua4Bonmd6srD+0fMOhzzJ8SB1qw+nIa+eGxyg8clf8Gv9e
-	 p8fsxvtddMwdw==
-Message-ID: <b4318673-f2b6-4740-ba80-32bb33e91f3f@kernel.org>
-Date: Fri, 14 Mar 2025 13:15:52 +0100
+	b=qQPn0PkYHlIP5ErIucRRgov4noel6lgsvil/plYm30pf84qMHS+KOjvWpHNcVA5MI
+	 Srh8IvXuhXFqa/iZdNBZVbMUWTjlARkhoopIQtQZetsRLDaQmknmNjjvy9ckkFzJWN
+	 2G+SQjuHgkyLv5XlxBF1oCdEnX2FOv/f/BlyQYleJ1JwLMvX7cv2zbWDwa+CWWTK1c
+	 tVlsqh/WIBy1sxEZ5A26Rtvu5KaT9+iBEHGdihJ3yzw3R6mtlzAFOIv/1rywGxBZwh
+	 JvHXD9lFN5GvJHxgTt3rqL4C/tHHjood1khQ3U+Rl5N88com4D19qp3iNAEGBPVaWo
+	 VQ7s6txxaNzeg==
+Message-ID: <aa893df6-fe40-49a8-920d-7d7240bb18b8@kernel.org>
+Date: Fri, 14 Mar 2025 13:55:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,25 +50,13 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOWbnuWkjTogW1BBVENIIDEvNV0gcG1pYzogbWVkaWF0ZWs6IEFk?=
- =?UTF-8?Q?d_pmic_auxadc_driver?=
-To: =?UTF-8?B?THUgVGFuZyAo5rGk55KQKQ==?= <Lu.Tang@mediatek.com>,
- =?UTF-8?B?Q2hlbiBaaG9uZyAo6ZKf6L6wKQ==?= <Chen.Zhong@mediatek.com>,
- =?UTF-8?B?U2VuIENodSAo5YKo5qOuKQ==?= <Sen.Chu@mediatek.com>
-Cc: "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>
-References: <20250314073307.25092-1-Lu.Tang@mediatek.com>
- <20250314073307.25092-2-Lu.Tang@mediatek.com>
- <90d1c0f2-b037-482e-a569-f75b713e3a71@collabora.com>
- <SEZPR03MB68910F9B60DAF0060440503980D22@SEZPR03MB6891.apcprd03.prod.outlook.com>
+Subject: Re: [PATCH v2 1/1] Input: snvs_pwrkey - support power-off-time-sec
+To: Ian Ray <ian.ray@gehealthcare.com>, dmitry.torokhov@gmail.com,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250314094213.902-1-ian.ray@gehealthcare.com>
+ <20250314094213.902-2-ian.ray@gehealthcare.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -114,14 +102,21 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <SEZPR03MB68910F9B60DAF0060440503980D22@SEZPR03MB6891.apcprd03.prod.outlook.com>
+In-Reply-To: <20250314094213.902-2-ian.ray@gehealthcare.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 14/03/2025 10:21, Lu Tang (汤璐) wrote:
-> Update email
-> 
-You just sent 10 emails like this to everyone. This is pointless, don't.
+On 14/03/2025 10:42, Ian Ray wrote:
+>  
+>  	/* Get SNVS register Page */
+> @@ -148,6 +152,24 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
+>  	if (pdata->irq < 0)
+>  		return -EINVAL;
+>  
+> +	if (!of_property_read_u32(np, "power-off-time-sec", &val)) {
+
+And when you test your DTS against binding what do you see? I suspect
+new warning.
 
 Best regards,
 Krzysztof
