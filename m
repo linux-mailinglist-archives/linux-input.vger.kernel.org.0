@@ -1,114 +1,89 @@
-Return-Path: <linux-input+bounces-10836-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10837-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C818A60F67
-	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 11:55:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA290A61020
+	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 12:38:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B85D83BC9F1
-	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 10:55:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 229AB882E9A
+	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 11:37:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA1C81FCFD3;
-	Fri, 14 Mar 2025 10:55:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 756EE1FE470;
+	Fri, 14 Mar 2025 11:36:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sdch8sUn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V0WnNX0b"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972F71FCFE3
-	for <linux-input@vger.kernel.org>; Fri, 14 Mar 2025 10:55:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0DB1DF963;
+	Fri, 14 Mar 2025 11:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741949708; cv=none; b=F2w/SYiR05He4EdRtk5XXhybfcJ1I3GSKSGYZV934cTUbe/7FRTSCAUPhqtBF+Qb6Efo5LndepEQro/moqdo5LR6lDp4e5grNLtYdsvIweTGQ/HROvOL5n0UtXP2QgBPIBUEBRWz8fNxMqGHSefxg5DOBGaWRDDulCPYaqF+I6A=
+	t=1741952216; cv=none; b=V+kh1I4p2J9giGDD+pF3vlxO4ZBHRYCi1KkvC/DucIYmtIrJA027Y3fKm9/IDQNO4PwSERBvZ69OCHDlCYnhcbJEVpBZFC4N+/gQiG7XFzFvGVHtWEIR+tYIqGjPjpxpsV/AUNqG3y/F4VhDpvTAGFR1BC+t4EhdvL/A5nxtFhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741949708; c=relaxed/simple;
-	bh=XIpCWEJtNCIGCcSRjvUMMAFsp4KmagBzuNVM5BTwhsU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cbOHUdkF5wNOa4LCBXstWH/bJqLvbxyWiYhw8KIPGXhq39anzRZG+cy3kOJUax6ph+NXyE5N6lGyIcpBxzeVDlK46HA8fx5IZnD9Gh5fu6hhIlzB+Y1AL4Po2rX8eNY6p6gc6OY2ba8U0kNokqtW/xcgpepPWqvsXfQ5fgY9A28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sdch8sUn; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5499659e669so2193181e87.3
-        for <linux-input@vger.kernel.org>; Fri, 14 Mar 2025 03:55:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741949704; x=1742554504; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XIpCWEJtNCIGCcSRjvUMMAFsp4KmagBzuNVM5BTwhsU=;
-        b=sdch8sUn0m3ZUuXHazJ6G51yTLicPv0gbfRoH2b8IJ5OA7B8t9p1D8Q9arfe9he/YQ
-         MtEPe44ujMdJJ/BplAywwFwbKUfTfZvPuIsTZZj5vVdPstVdvYY3Yd13O3pPvsIMAUg0
-         nSaHm856SOFBygvWdGSlk+AaKAccYk5QClHUBl/jlr/HEGtsWTo3CSsyE53VO0Ft4I14
-         WRbOlgeXZDoK0vySL2q4s9cBdeTs/rIVilH+cc5U9aTv3VzQuHOcIPN9bA9tTEGFvUFl
-         2IGULBHWU57F7AthPy5p/rd4vhZeYUdBTU6jp5bTfPMQ7LrLZ/VuCSHoIybQkY7orcu2
-         PtOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741949704; x=1742554504;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XIpCWEJtNCIGCcSRjvUMMAFsp4KmagBzuNVM5BTwhsU=;
-        b=RcuZPVixy7hAhD9YcM36XRHC7zE445f0eUbN7L7IiYnvZqLIhqpzEEdyZFvACEimzv
-         Q3AkeWMMkA8v+tARCkKbhrNQJAFkVr+rxBDUEXaSoC5IQw8YeE1nfwHQaywRljkG2CPs
-         i/tf9TrqqEOx32aH6/3UlODTcHinnDWoY9TJhKC1f1UJpxhmOM3cBTQe8gksyPk4aKao
-         7BcpGdbnAu51hi6jsf/sg26fiEQO9+PhC3k+mGzP1ygOAUpMkDgZmntzF5bak5ssTQ8d
-         SZ0z8A88dtGDJv5KKvorAeUA8YyKwQEQ5lmFUZbo66ken9+cpDGrszFW8uv1bG4XQ9+/
-         ZhQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXPlI81Dp2uVuuOJZFstDHoLCAN8nxJC22BBYNPJNbXCRx0SQRNbGhn7xuoGwPOXmgR0oL7jbGu0O7Vow==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywsdaja2TqnZhc1ydXZDiCAHmy5VXn3gKW3g9CVoZryGdrYsH5p
-	+tD8IGCEk+SgoopuzjwhuVCuzZBgW5cCwW9VOmCjKEgZKClRWuUA2iGUx0NvsH6WyxEgDog7wwJ
-	eY8PLcfhRY9KTr+YiSpcoV5yMjoXRl7FROz6UrQ==
-X-Gm-Gg: ASbGncuDz88hJ8CmMfmwqSuelyUh87+KzgTTj3TER0nzlQUIKa9GqpspHEQHLiElHi5
-	V22O6Mtd09W9Zjx5atY4Oh061D7tnRdctmWgifFGIJ/lz52cgx3YhFKcuV3vmf+rt50R0TREGJ9
-	lRAVu6Or1zjzyCFGFkB0ng/Wg=
-X-Google-Smtp-Source: AGHT+IHKqO2wuQsD20shcKJtT1g24wSPoOvFTAbujcg70cpsAoOwYHT2ffsYZ6WR4VBvcwwrqMsnJJ4lBJxDq0iv4ro=
-X-Received: by 2002:a05:6512:280d:b0:549:7d6e:fe84 with SMTP id
- 2adb3069b0e04-549c3c977c1mr524438e87.53.1741949703593; Fri, 14 Mar 2025
- 03:55:03 -0700 (PDT)
+	s=arc-20240116; t=1741952216; c=relaxed/simple;
+	bh=5jbzIcEu7rwa00GINfO3vvUggjO6E96rtOU63PwyPi4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=H4QpAWBgFT4hiuCO/BIqCUfAEK2jTh6en3AT7batD7LFlsQGnKjP5ofsI673Y/OY1m2Vt9oS5dmr5Ax1pCkIgPZso5gBAd/zrySMp9jn/LGuf1r5+hvQJw1V4utxp0E9i5qPwKE1QkpOhOZUhOLUynBIuHj1ZcgZUYibx0w17J8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V0WnNX0b; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB385C4CEEB;
+	Fri, 14 Mar 2025 11:36:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741952215;
+	bh=5jbzIcEu7rwa00GINfO3vvUggjO6E96rtOU63PwyPi4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=V0WnNX0bpdne7Oo1Vrr2fMv+OrFpEA/37KemBFxHsSPz5TI3wC8GPeFO163Tgof98
+	 rmhHEndV9+n2gQ4Z2qVnWDrKyZh0sA8qzXaY1Tjm1mp8VW9DU24zXaUheG+FEC0k0c
+	 tlwblQjPzdXvlsgUku9P/NKtVXWqznEe1+a9PujHoXItR/pxaUgpA0++3mdYp4xSza
+	 nDQQBF/dpmSJcVgdlm+pKvKwzmxRXWWv36T0znSxjlvgg8w9sAXOg6Ou36Ks7h9iVb
+	 YJVT9eXa4Yt96SfVsHe1O1po5Oc9oDs2Pijl7bub2ta8Vn+s6xaujUuTC4GNxaNXvD
+	 WaSp2fEyAdp2g==
+From: Lee Jones <lee@kernel.org>
+To: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com, 
+ sre@kernel.org, lgirdwood@gmail.com, broonie@kernel.org, 
+ alexandre.belloni@bootlin.com, danielt@kernel.org, jingoohan1@gmail.com, 
+ deller@gmx.de, linus.walleij@linaro.org, brgl@bgdev.pl, 
+ tsbogend@alpha.franken.de, linux@treblig.org
+Cc: linux-mips@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250311014959.743322-8-linux@treblig.org>
+References: <20250311014959.743322-1-linux@treblig.org>
+ <20250311014959.743322-8-linux@treblig.org>
+Subject: Re: (subset) [PATCH v2 7/9] backlight: pcf50633-backlight: Remove
+Message-Id: <174195221155.4008217.14149921373468540055.b4-ty@kernel.org>
+Date: Fri, 14 Mar 2025 11:36:51 +0000
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250313-dev-adp5589-fw-v1-0-20e80d4bd4ea@analog.com> <20250313-dev-adp5589-fw-v1-11-20e80d4bd4ea@analog.com>
-In-Reply-To: <20250313-dev-adp5589-fw-v1-11-20e80d4bd4ea@analog.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 14 Mar 2025 11:54:52 +0100
-X-Gm-Features: AQ5f1JrPxPh4c4bYA0cvnXpc2tJw16dQM_pzuKi8siw5LSsCNQbWwLPz0jdlU_0
-Message-ID: <CACRpkdahKt0gCfL_pyAMZW9rReJ+X8dyRk25hdvq6gf_QpBPzw@mail.gmail.com>
-Subject: Re: [PATCH 11/18] gpio: adp5585: support gpi events
-To: nuno.sa@analog.com
-Cc: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
-	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Liu Ying <victor.liu@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-510f9
 
-On Thu, Mar 13, 2025 at 3:19=E2=80=AFPM Nuno S=C3=A1 via B4 Relay
-<devnull+nuno.sa.analog.com@kernel.org> wrote:
+On Tue, 11 Mar 2025 01:49:57 +0000, linux@treblig.org wrote:
+> The pcf50633 was used as part of the OpenMoko devices but
+> the support for its main chip was recently removed in:
+> commit 61b7f8920b17 ("ARM: s3c: remove all s3c24xx support")
+> 
+> See https://lore.kernel.org/all/Z8z236h4B5A6Ki3D@gallifrey/
+> 
+> Remove it.
+> 
+> [...]
 
-> From: Nuno S=C3=A1 <nuno.sa@analog.com>
->
-> Add support for adding GPIs to the event FIFO. This is done by adding
-> irq_chip support. Like this, one can use the input gpio_keys driver as a
-> "frontend" device and input handler.
->
-> As part of this change, we now implement .init_valid_mask() as we can't
-> blindly consume all available pins as GPIOs (example: some pins can be
-> used for forming a keymap matrix).
->
-> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+Applied, thanks!
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+[7/9] backlight: pcf50633-backlight: Remove
+      commit: dfc034a0494b8fb8ea881aeb41a0c4e2619ff1e4
 
-Yours,
-Linus Walleij
+--
+Lee Jones [李琼斯]
+
 
