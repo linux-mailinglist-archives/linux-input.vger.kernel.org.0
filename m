@@ -1,130 +1,114 @@
-Return-Path: <linux-input+bounces-10831-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10832-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0AE6A60DBC
-	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 10:48:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49707A60ED4
+	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 11:28:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 391978812BD
-	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 09:47:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4F1C3B3543
+	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 10:28:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE50F1F181F;
-	Fri, 14 Mar 2025 09:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E2531F427D;
+	Fri, 14 Mar 2025 10:28:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pqWbMK3I"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Jq0KWvbC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46191EEA36;
-	Fri, 14 Mar 2025 09:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3495B1F4170
+	for <linux-input@vger.kernel.org>; Fri, 14 Mar 2025 10:28:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741945658; cv=none; b=APHAej6wLStY7qVGpvIPl92wTTWDfOCkNTSoFinUl/K413eTNPj7JDIbAMytu3ig4gBpebuefp8NPwDuoqx5Wfq3J3Sfa2PZQ1HXR9V7d+CHAe0KW80fYvz82PuvG0CmheqcKcNRu5Gvn+PRO06YymSBemFW+2udxDGyLlpifDA=
+	t=1741948097; cv=none; b=K/at7cWOBF2sYVVv1ySAc+zBm/zr3omtJHt/Cx0M0kiC8IJ2IHHgOs6B372oB8e943JpdzVwYqGyoQkDdcYkIq2BoKscmmjEYernQ5suGfKfmTpPYp+U+h8VOxcNdSXzJTK1UTK8gIijGScsBmF82GmExpC47iz6KO1kKaWPCeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741945658; c=relaxed/simple;
-	bh=GiqhQYgwNaCAQ86P7jRzLoUtt/6XmyAbfRPrIv6/4/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ip3q6g4tlqho46fgOZVr69unyXdllDuNAeR5rKRcSUBvnxLBh0awKKtwMA77499A999y+kS2OztUN3ZCpe+3IVYzkJdy9sZNnqKnctjqeYP47wWt3LwUsX2aQyrZO7qA5XndIRQIRFQX4IB3oXQJ/LYEtu2+uN8bF2NGImUXmPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pqWbMK3I; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBD2AC4CEE3;
-	Fri, 14 Mar 2025 09:47:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741945658;
-	bh=GiqhQYgwNaCAQ86P7jRzLoUtt/6XmyAbfRPrIv6/4/U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pqWbMK3I8GlUQbAG7hEG6Hq4IeCZA+8ts7oj147BauszkdwI+h11xzROAPJ+9jT+e
-	 9Xf4r7T5SBwV1UvsaiAYMsp7s3d2NleLznfpfhmcyE8ocT7jLUgUwJkgAsQ3pQXave
-	 OK85ozDXGsmtZlNF2HyUtSLf44VszdJuvYUKg+qp8/6JBi+Yzp39qNt/caKfjRHh9u
-	 z+tEmcQIpJv+r3NoE66YplPYJWcEfDpmT0tyQYlNEi/B7jV/lx/Gf8pv4ivSVqGE85
-	 aJr3EXiVrSbf3XniXSvqEowF25cs3wquigGpYsL4OsqZPcohUmFTRzHEme98dgrMOJ
-	 JSUPHqE9Bo5kg==
-Date: Fri, 14 Mar 2025 09:47:31 +0000
-From: Lee Jones <lee@kernel.org>
-To: Lu Tang =?utf-8?B?KOaxpOeSkCk=?= <Lu.Tang@mediatek.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Sean Wang <sean.wang@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Chen Zhong =?utf-8?B?KOmSn+i+sCk=?= <Chen.Zhong@mediatek.com>,
-	Sen Chu =?utf-8?B?KOWCqOajrik=?= <Sen.Chu@mediatek.com>,
-	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	Project_Global_Chrome_Upstream_Group <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: Re: =?utf-8?B?5Zue5aSN?= =?utf-8?Q?=3A?= [PATCH 3/5] pmic: mediatek:
- Add spmi pmic mfd driver
-Message-ID: <20250314094731.GA3890718@google.com>
-References: <20250314073307.25092-1-Lu.Tang@mediatek.com>
- <20250314073307.25092-4-Lu.Tang@mediatek.com>
- <SEZPR03MB6891D404A7AA2BC5244A992A80D22@SEZPR03MB6891.apcprd03.prod.outlook.com>
+	s=arc-20240116; t=1741948097; c=relaxed/simple;
+	bh=7lhUJ6eiiWP9IJ/FYhzjbXh+LAJRJWyTLSUXs2Uq9+Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ej88ZCiegXEsXkcCeOVzufq3hea6bQr2/UFmzYIpeSlJlV+L2F8Vi8sEHnrkUIKr0GLuX31nXRU6e/7wqW1F54ZY55+lJ9aH/7nF3DT0kQWABtg1G3qA/c72cNMf62XhPitv2K3LwhjZwPWSefMDFZGndlO+rwtilC95DYL4HaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Jq0KWvbC; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5493b5bc6e8so2047211e87.2
+        for <linux-input@vger.kernel.org>; Fri, 14 Mar 2025 03:28:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741948093; x=1742552893; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7lhUJ6eiiWP9IJ/FYhzjbXh+LAJRJWyTLSUXs2Uq9+Y=;
+        b=Jq0KWvbC+RGapBxE/79RV0BIeD9VvGdw1Fpe1TB3FQiE3Mx7M1ug74I43skmk/ysed
+         pW0eyKCVeuPLLFbAr8/7rZaVq+ypvWIqqp98ONbAm/K0er06k802QP0sKmwApc01jN5E
+         LJkRPCM7GjMxbAZVdkkbB+WFpnQ3yeovdkzSGgBhRM8hxbnIqo7S1fIfuHXiO9Srwm6f
+         0krXnLDsipucb1cr4hOpq8EflJ5+JkQWavCGVohox/GL31nKFJGEb3tY1JskSboySuXw
+         evvwW11mE8FMNJVAwglnLWQuelsD1w2tLYtm1nHAHAZQlQ3gbq3yJ1khhhuBRD+qlb/f
+         Bh5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741948093; x=1742552893;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7lhUJ6eiiWP9IJ/FYhzjbXh+LAJRJWyTLSUXs2Uq9+Y=;
+        b=iz2NTHfqaoJpJAoM8pumSRMu6288ay2a5Eu3/TgvycNCPZOOBD2PB7El+KNGYojfQr
+         yeTA7h5GQ/8GvTaoiwniScmPfyve73YRAuc952Y0dB5LvKD/XI3EVbTEba5p5YDMywnf
+         J3BXXiIr06AIBRGF17TC2884Fikp9Wh8VCJbAcLex7+BZfkoc+Esn1eneNmpjTNLpUkw
+         8BqYNJzh5HYxmlaQvN5uy+TyobAFC0nufCfaTBB+yiCPTtJxEDT7Ds1/8GUL8VHcbbzU
+         Ryix3GWrwuVwN0tHPrSYFKcGDw4vwEGYqZ+yIkLPrAqeGCozAcULkU6Hxrs5A73MA0E+
+         8iwg==
+X-Forwarded-Encrypted: i=1; AJvYcCV6uRmhJnoVekdZw5M481HJ9b3n/xOvfCyEkE4EmRsQkXTOVunOIQduqlmBpxkcDmGpxuoa/tlExGN2xQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywp+PP3kMR4hvJ7zEzCmENQdHRZgxWXInpw5D4aDhjynkQNcrFH
+	64gxjeIs8DPVye47X3w0MFM2Br0h/lof2BD0F5lCJnV4s5wTmw4YKP5l6UPeAyKGKWUJibQj0/X
+	M2k1mzthnIs1sWdWdwA+Bg/9+WGSyIBcxwWWLsQ==
+X-Gm-Gg: ASbGncu+BGrlOWiXGGSATx6j85czzt6aYnZIoTBEnp6VTbau8oFJHbkR/UMl/q84Oi8
+	v4pPBwGVSNmXH/p/7lzpVZdvEbU1Wm1IRWW07osMdzmLNbknvnkTR0/xVHo/PlpmC0T9+6EEHt5
+	t4sWmD0F5pzwj7w4qqxqmf/1o=
+X-Google-Smtp-Source: AGHT+IEn/Zc2evX7ABWKYXK/Rs9IfMZdPR9tSjfOKy1a8kRLZcgdXcqx09hfLow4+l9JiJIqttYJQGRGb5b/H78iKJ8=
+X-Received: by 2002:a05:6512:3087:b0:549:7330:6a5a with SMTP id
+ 2adb3069b0e04-549c3913d63mr621103e87.23.1741948093287; Fri, 14 Mar 2025
+ 03:28:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <SEZPR03MB6891D404A7AA2BC5244A992A80D22@SEZPR03MB6891.apcprd03.prod.outlook.com>
+References: <20250309193612.251929-1-linux@treblig.org> <20250309193612.251929-5-linux@treblig.org>
+In-Reply-To: <20250309193612.251929-5-linux@treblig.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 14 Mar 2025 11:28:02 +0100
+X-Gm-Features: AQ5f1Jo6nSq2AFqXUDepXvu8J8Xduf-drgRoP8FzPPUsiMaA2xVOQZlsv65trtc
+Message-ID: <CACRpkdY2oZtu4vtTwHRMFxaoYWu3B5bfPN==thz=BT2F6BHQQw@mail.gmail.com>
+Subject: Re: [PATCH 4/9] mfd: pcF50633-gpio: Remove
+To: linux@treblig.org
+Cc: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com, sre@kernel.org, 
+	lgirdwood@gmail.com, broonie@kernel.org, alexandre.belloni@bootlin.com, 
+	danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de, brgl@bgdev.pl, 
+	tsbogend@alpha.franken.de, linux-mips@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-rtc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-fbdev@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 14 Mar 2025, Lu Tang (汤璐) wrote:
+On Sun, Mar 9, 2025 at 8:36=E2=80=AFPM <linux@treblig.org> wrote:
 
-> Update email address
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+>
+> The pcf50633 was used as part of the OpenMoko devices but
+> the support for its main chip was recently removed in:
+> commit 61b7f8920b17 ("ARM: s3c: remove all s3c24xx support")
+>
+> See https://lore.kernel.org/all/Z8z236h4B5A6Ki3D@gallifrey/
+>
+> Remove it.
+>
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 
-What is this?
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-Please refrain from top-posting.
-
-> -----邮件原件-----
-> 发件人: Lu.Tang <Lu.Tang@mediatek.com> 
-> 发送时间: 2025年3月14日 15:32
-> 收件人: Jonathan Cameron <jic23@kernel.org>; Lars-Peter Clausen <lars@metafoo.de>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Dmitry Torokhov <dmitry.torokhov@gmail.com>; Lee Jones <lee@kernel.org>; Matthias Brugger <matthias.bgg@gmail.com>; AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>; Sean Wang <sean.wang@kernel.org>; Linus Walleij <linus.walleij@linaro.org>; Liam Girdwood <lgirdwood@gmail.com>; Mark Brown <broonie@kernel.org>; Stephen Boyd <sboyd@kernel.org>; Chen Zhong (钟辰) <Chen.Zhong@mediatek.com>; Sen Chu <shen.chu@mediatek.com>
-> 抄送: linux-iio@vger.kernel.org; devicetree@vger.kernel.org; linux-kernel@vger.kernel.org; linux-input@vger.kernel.org; linux-arm-kernel@lists.infradead.org; linux-mediatek@lists.infradead.org; linux-gpio@vger.kernel.org; Project_Global_Chrome_Upstream_Group <Project_Global_Chrome_Upstream_Group@mediatek.com>; Lu Tang (汤璐) <Lu.Tang@mediatek.com>
-> 主题: [PATCH 3/5] pmic: mediatek: Add spmi pmic mfd driver
-
-Fix your mailer.  Headers have no place in the body of an email.
-
-> From: "Lu.Tang" <lu.tang@mediatek.com>
-> 
-> Add spmi pmic mfd driver for mt8196
-
-7 words for a 900 line change is not going to fly.
-
-What is this device?  What does it provide?  What are its dependencies?
-
-Etc.
-
-> Signed-off-by: Lu Tang <lu.tang@mediatek.com>
-> ---
->  drivers/mfd/Kconfig                  |  26 ++
->  drivers/mfd/Makefile                 |   2 +
->  drivers/mfd/mt6685-core.c            |  83 +++++
->  drivers/mfd/mtk-spmi-pmic.c          | 518 +++++++++++++++++++++++++++
->  include/linux/mfd/mt6363/core.h      | 134 +++++++
->  include/linux/mfd/mt6363/registers.h | 168 +++++++++
->  include/linux/mfd/mt6373/core.h      |  94 +++++
->  include/linux/mfd/mt6373/registers.h |  53 +++
->  8 files changed, 1078 insertions(+)
->  create mode 100644 drivers/mfd/mt6685-core.c  create mode 100644 drivers/mfd/mtk-spmi-pmic.c  create mode 100644 include/linux/mfd/mt6363/core.h  create mode 100644 include/linux/mfd/mt6363/registers.h
->  create mode 100644 include/linux/mfd/mt6373/core.h  create mode 100644 include/linux/mfd/mt6373/registers.h
-
-Please try again.
-
--- 
-Lee Jones [李琼斯]
+Yours,
+Linus Walleij
 
