@@ -1,114 +1,212 @@
-Return-Path: <linux-input+bounces-10832-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10833-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49707A60ED4
-	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 11:28:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83E0FA60F07
+	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 11:34:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4F1C3B3543
-	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 10:28:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1DFCE3B69BE
+	for <lists+linux-input@lfdr.de>; Fri, 14 Mar 2025 10:34:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E2531F427D;
-	Fri, 14 Mar 2025 10:28:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEB851FC7D7;
+	Fri, 14 Mar 2025 10:32:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Jq0KWvbC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="naYBomTg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3495B1F4170
-	for <linux-input@vger.kernel.org>; Fri, 14 Mar 2025 10:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97BFC1FC7C9;
+	Fri, 14 Mar 2025 10:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741948097; cv=none; b=K/at7cWOBF2sYVVv1ySAc+zBm/zr3omtJHt/Cx0M0kiC8IJ2IHHgOs6B372oB8e943JpdzVwYqGyoQkDdcYkIq2BoKscmmjEYernQ5suGfKfmTpPYp+U+h8VOxcNdSXzJTK1UTK8gIijGScsBmF82GmExpC47iz6KO1kKaWPCeI=
+	t=1741948345; cv=none; b=L2tkwlCDQUbI4DIo8CqG0WODgtdAtukVwLQus1cQORmeKjlYT6tC9H7eff6irBe1gryTv0buf2lJGQdi3tAp3t1EBRMN0LAKh4LZCMbqlimmtgAkX5qgkdBd1fYgRjAidY0pcvtSxazUT9bSUqDfBsyl2ewzf/Q4bdTL84aWLPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741948097; c=relaxed/simple;
-	bh=7lhUJ6eiiWP9IJ/FYhzjbXh+LAJRJWyTLSUXs2Uq9+Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ej88ZCiegXEsXkcCeOVzufq3hea6bQr2/UFmzYIpeSlJlV+L2F8Vi8sEHnrkUIKr0GLuX31nXRU6e/7wqW1F54ZY55+lJ9aH/7nF3DT0kQWABtg1G3qA/c72cNMf62XhPitv2K3LwhjZwPWSefMDFZGndlO+rwtilC95DYL4HaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Jq0KWvbC; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5493b5bc6e8so2047211e87.2
-        for <linux-input@vger.kernel.org>; Fri, 14 Mar 2025 03:28:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741948093; x=1742552893; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7lhUJ6eiiWP9IJ/FYhzjbXh+LAJRJWyTLSUXs2Uq9+Y=;
-        b=Jq0KWvbC+RGapBxE/79RV0BIeD9VvGdw1Fpe1TB3FQiE3Mx7M1ug74I43skmk/ysed
-         pW0eyKCVeuPLLFbAr8/7rZaVq+ypvWIqqp98ONbAm/K0er06k802QP0sKmwApc01jN5E
-         LJkRPCM7GjMxbAZVdkkbB+WFpnQ3yeovdkzSGgBhRM8hxbnIqo7S1fIfuHXiO9Srwm6f
-         0krXnLDsipucb1cr4hOpq8EflJ5+JkQWavCGVohox/GL31nKFJGEb3tY1JskSboySuXw
-         evvwW11mE8FMNJVAwglnLWQuelsD1w2tLYtm1nHAHAZQlQ3gbq3yJ1khhhuBRD+qlb/f
-         Bh5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741948093; x=1742552893;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7lhUJ6eiiWP9IJ/FYhzjbXh+LAJRJWyTLSUXs2Uq9+Y=;
-        b=iz2NTHfqaoJpJAoM8pumSRMu6288ay2a5Eu3/TgvycNCPZOOBD2PB7El+KNGYojfQr
-         yeTA7h5GQ/8GvTaoiwniScmPfyve73YRAuc952Y0dB5LvKD/XI3EVbTEba5p5YDMywnf
-         J3BXXiIr06AIBRGF17TC2884Fikp9Wh8VCJbAcLex7+BZfkoc+Esn1eneNmpjTNLpUkw
-         8BqYNJzh5HYxmlaQvN5uy+TyobAFC0nufCfaTBB+yiCPTtJxEDT7Ds1/8GUL8VHcbbzU
-         Ryix3GWrwuVwN0tHPrSYFKcGDw4vwEGYqZ+yIkLPrAqeGCozAcULkU6Hxrs5A73MA0E+
-         8iwg==
-X-Forwarded-Encrypted: i=1; AJvYcCV6uRmhJnoVekdZw5M481HJ9b3n/xOvfCyEkE4EmRsQkXTOVunOIQduqlmBpxkcDmGpxuoa/tlExGN2xQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywp+PP3kMR4hvJ7zEzCmENQdHRZgxWXInpw5D4aDhjynkQNcrFH
-	64gxjeIs8DPVye47X3w0MFM2Br0h/lof2BD0F5lCJnV4s5wTmw4YKP5l6UPeAyKGKWUJibQj0/X
-	M2k1mzthnIs1sWdWdwA+Bg/9+WGSyIBcxwWWLsQ==
-X-Gm-Gg: ASbGncu+BGrlOWiXGGSATx6j85czzt6aYnZIoTBEnp6VTbau8oFJHbkR/UMl/q84Oi8
-	v4pPBwGVSNmXH/p/7lzpVZdvEbU1Wm1IRWW07osMdzmLNbknvnkTR0/xVHo/PlpmC0T9+6EEHt5
-	t4sWmD0F5pzwj7w4qqxqmf/1o=
-X-Google-Smtp-Source: AGHT+IEn/Zc2evX7ABWKYXK/Rs9IfMZdPR9tSjfOKy1a8kRLZcgdXcqx09hfLow4+l9JiJIqttYJQGRGb5b/H78iKJ8=
-X-Received: by 2002:a05:6512:3087:b0:549:7330:6a5a with SMTP id
- 2adb3069b0e04-549c3913d63mr621103e87.23.1741948093287; Fri, 14 Mar 2025
- 03:28:13 -0700 (PDT)
+	s=arc-20240116; t=1741948345; c=relaxed/simple;
+	bh=fNvNDqVEbRp/SUOH8DN2J2EdftYPKxBHy32M6zxTM9I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V/DSUAjqhLP7qn59cgYaSEIPOJwQ7TRA2oUANuoBuJkwvgyPxXM9DYk90MB1iNI/DrRN1A/jnKfszwWRW6nt1eLAA5vpjFYoMIJlh92yE/lthbYCHyLWy4p+oHqj1WSJmTay/Vv1na4irIifqQdGvoy8cWC2eBKnZucavYztCSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=naYBomTg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA27CC4CEE3;
+	Fri, 14 Mar 2025 10:32:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741948345;
+	bh=fNvNDqVEbRp/SUOH8DN2J2EdftYPKxBHy32M6zxTM9I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=naYBomTgPGZbIg5N19AAYOb4jjzvS+OurVkqTiN/o2E46M+WWwbK0wxDrB+w0AaP6
+	 dCQS3tL9/Pi68+rBvn4AsggnZgUvPpvuZzwZUpI6zGeUrq4EUbKfRFl9T4P2HAwBW5
+	 1C6425kADzUzfterlxQMykmGE6TAJCzwzoR+SFw4Ia9u6ztyjq2/lcgZoth6SNNpPR
+	 gNwcnWZ/Fh6MvKLIecXyoJsh7YrncAol26Hi2GCBdZQJOMQ5OQ7FknBUJJmos43YL7
+	 rHVuaG6/0EC0u2Y61LYPUl8EBLhoV1/u8XjYm5bBA3jQOYY/zrQJbf5gAGB7TX/PVi
+	 OaqO+q556XM0g==
+Message-ID: <19ddb133-7f11-4c1b-b0e1-91523d42040c@kernel.org>
+Date: Fri, 14 Mar 2025 11:32:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250309193612.251929-1-linux@treblig.org> <20250309193612.251929-5-linux@treblig.org>
-In-Reply-To: <20250309193612.251929-5-linux@treblig.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 14 Mar 2025 11:28:02 +0100
-X-Gm-Features: AQ5f1Jo6nSq2AFqXUDepXvu8J8Xduf-drgRoP8FzPPUsiMaA2xVOQZlsv65trtc
-Message-ID: <CACRpkdY2oZtu4vtTwHRMFxaoYWu3B5bfPN==thz=BT2F6BHQQw@mail.gmail.com>
-Subject: Re: [PATCH 4/9] mfd: pcF50633-gpio: Remove
-To: linux@treblig.org
-Cc: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com, sre@kernel.org, 
-	lgirdwood@gmail.com, broonie@kernel.org, alexandre.belloni@bootlin.com, 
-	danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de, brgl@bgdev.pl, 
-	tsbogend@alpha.franken.de, linux-mips@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-rtc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-fbdev@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] dt-bindings: pmic: mediatek: Add pmic documents
+To: "Lu.Tang" <Lu.Tang@mediatek.com>, Jonathan Cameron <jic23@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Lee Jones <lee@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sean Wang <sean.wang@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Chen Zhong <chen.zhong@mediatek.com>,
+ Sen Chu <shen.chu@mediatek.com>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-gpio@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20250314073307.25092-1-Lu.Tang@mediatek.com>
+ <20250314073307.25092-6-Lu.Tang@mediatek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250314073307.25092-6-Lu.Tang@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Mar 9, 2025 at 8:36=E2=80=AFPM <linux@treblig.org> wrote:
+On 14/03/2025 08:32, Lu.Tang wrote:
 
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->
-> The pcf50633 was used as part of the OpenMoko devices but
-> the support for its main chip was recently removed in:
-> commit 61b7f8920b17 ("ARM: s3c: remove all s3c24xx support")
->
-> See https://lore.kernel.org/all/Z8z236h4B5A6Ki3D@gallifrey/
->
-> Remove it.
->
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+There is no subsystem "pmic".
 
-Yours,
-Linus Walleij
+> Add new pmic mfd and adc documents for mt8196
+> 
+> Signed-off-by: Lu.Tang <Lu.Tang@mediatek.com>
+
+Are you sure Latin transcription of your name includes '.' or you just
+copy-paste email address?
+
+
+...
+
+> +  - Lu Tang <lu.tang@mediatek.com>
+> +
+> +description:
+> +  The Auxiliary Analog/Digital Converter (AUXADC) is an ADC found
+> +  in some MediaTek PMICs, performing various PMIC related measurements
+> +  such as battery and PMIC internal voltage regulators temperatures,
+> +  other than voltages for various PMIC internal components.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mediatek,mt6363-auxadc
+> +      - mediatek,mt6373-auxadc
+
+Just fold the device to the parent node.
+
+
+
+..
+
+
+
+> diff --git a/Documentation/devicetree/bindings/mfd/mediatek,spmi-pmic.yaml b/Documentation/devicetree/bindings/mfd/mediatek,spmi-pmic.yaml
+> new file mode 100644
+> index 000000000000..a8f1231623cf
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/mediatek,spmi-pmic.yaml
+
+Filename matching one of the compatibles, e.g. the oldest one.
+
+> @@ -0,0 +1,173 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/mediatek,spmi-pmic.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek SPMI PMICs multi-function device
+> +
+> +maintainers:
+> +  - Lu Tang <lu.tang@mediatek.com>
+> +
+> +description: |
+> +  Some Mediatek PMICs are interfaced to the chip via the SPMI (System Power
+> +  Management Interface) bus.
+> +
+> +  The Mediatek SPMI series includes the MT6363, MT6373, MT6316 and other
+> +  PMICs.Please see the sub-modules below for supported features.
+> +
+> +   MT6363/MT6373 is a multifunction device with the following sub modules:
+> +  - Regulators
+> +  - ADC
+> +  - GPIO
+> +  - Keys
+> +   MT6316 is a multifunction device with the following sub modules:
+> +  - Regulators
+
+I don't get why they are in the same schema. It would result in
+unnecessary big if:then with half of children not applicable for other
+variants.
+
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - enum:
+> +          - mediatek,mt6363
+> +          - mediatek,mt6373
+> +          - mediatek,mt6316
+Sort these with alphanumeric order.
+
+Best regards,
+Krzysztof
 
