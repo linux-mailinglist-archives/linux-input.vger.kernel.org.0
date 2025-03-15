@@ -1,89 +1,89 @@
-Return-Path: <linux-input+bounces-10852-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10853-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D380A6272F
-	for <lists+linux-input@lfdr.de>; Sat, 15 Mar 2025 07:23:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9623DA62A38
+	for <lists+linux-input@lfdr.de>; Sat, 15 Mar 2025 10:35:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5AE1919C3C35
-	for <lists+linux-input@lfdr.de>; Sat, 15 Mar 2025 06:23:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C474F3B3CEF
+	for <lists+linux-input@lfdr.de>; Sat, 15 Mar 2025 09:35:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69CB619047F;
-	Sat, 15 Mar 2025 06:23:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B8321F582A;
+	Sat, 15 Mar 2025 09:35:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="d49fuP0c"
+	dkim=pass (2048-bit key) header.d=gehealthcare.com header.i=@gehealthcare.com header.b="HFPrFt25"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2053.outbound.protection.outlook.com [40.107.220.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB8E18A6B5
-	for <linux-input@vger.kernel.org>; Sat, 15 Mar 2025 06:23:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742019800; cv=none; b=Uplt1AbL+fRX60C2hbJSPVbR1+iaO8A0wIqYTk9c0lPQzPUzTlBxTV6rdaQLFb98XZR7NTuxiBe/T8VDVJ+Wlkv3V2F5Jlny7uZynMWOh+/DYFiRpH3K6UwSXM4oCnJRA4hFF4ILgZ1MOrQ331h7/20s2sqr6PZoDLH1gFSCrvI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742019800; c=relaxed/simple;
-	bh=UhBM4pXTlWVL12L7lqL0+yBZvc2QuVzc9NuuMd1x+bU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IW5Nz/ST2hrIOxbdDN5Zt62bgCzl8Nvid7ZycYQlz9x2qvLvziOleFx2ZuIdjxdyjUGkssmimq8ggy0m09OZnEDSM/MfQJdHnfRoyseD3wIP8gHEhc0A0nQj0X2oIwXGxNmeIu7qBh1pYeTNFuAlrKwcGgTTrJU1trlQZn1mMck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=huaqin.corp-partner.google.com; spf=pass smtp.mailfrom=huaqin.corp-partner.google.com; dkim=pass (2048-bit key) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b=d49fuP0c; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=huaqin.corp-partner.google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaqin.corp-partner.google.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-22548a28d0cso80159085ad.3
-        for <linux-input@vger.kernel.org>; Fri, 14 Mar 2025 23:23:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601; t=1742019798; x=1742624598; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0KszbQGYSFCwVUgrvxHeEGEUnJnSO7Z/8njq0GzUlMo=;
-        b=d49fuP0cxjLOAacVpRk3LHSMwbit0ISU2US/HptD8YhrtZUbz71/nqt6Y7t1rV7log
-         aFB42RNGx6JOyTrdYkzEiOJg8UtIZLbGsJbhpJo0VOh33BbRIHxKZ7I9Uqsmr0raA+Ep
-         gAq63m2Gec9Czf5c0Mk/Bnq/JEwF5mifbo1wpssBbyCApr79Pbwq0AxDZPNmkrSVwXQS
-         7H7R/og2O+pv5EpSUd5/ypb9MkaxEWnQDoV1sLhgPbypoAHzJKNp3ZoKPnas4Zv5+Vk7
-         bNxQqCInPKSH2BVmIq++FYdSf/qRzwQ9PZSQ/CN8EwiTy0kbVt4rrnWsDGGAceZX2Pk8
-         Q+KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742019798; x=1742624598;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0KszbQGYSFCwVUgrvxHeEGEUnJnSO7Z/8njq0GzUlMo=;
-        b=LUnPz6oznR+o1x2PPtKLvj+xQ70oJ4lPRgvA9zjUd3qWPGykwAWdybgdoqmpmYPLJ2
-         fLBjsZp/3iMe3McdJaGPedgJ5t0xbopArTCzkTJb6OE+2DYHA09kc04+sX5JqN1Gy2Nw
-         up4+KnUU34IzlJwgRclgGHvUo3T0h5+dndz49Xg+phjSpIr4PwZCCnGkfeIM19TvRsd5
-         bHrfB41OjkpljX4GpKL8m8xiZgp8KqodKbAo4XRUqCaSrBv95YuJJiz2mnwcohKUMFui
-         1dQ/RLdZMlgD9eujwT2BIG3RokUIRocoMyLVEoFLIJw0AVHULoS0k0IOq7Dl5Lwi6/lu
-         3P5A==
-X-Forwarded-Encrypted: i=1; AJvYcCWQskE24tAgOgV+3fp1TihuzgD4Uq6op8sd2jheSn4+YeZYbNsd6I8WpT92f5hOvqTum2qhQFK3p7LwBg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFvRzw+5qx/W3exxbwxeiHsrGc5ubGXrKiVRhoUBjLxK2tugx/
-	4N6GMdTmwzfn0hE/6ddGt2dpDCNQX22NgskD5GFjDP9NplA16ENJkVjnNTGt5VE=
-X-Gm-Gg: ASbGncuPdOyx7VEGiVaaBFb544y44S9vh/a0MFolWUojNyoihT8RoBey4MkAul0ze3y
-	MBlmls++ouekSduq6ji7VIr/Zx/rsXLgxO4IpzCmiSNNf7UoXu6XOmwxfuS18lyNWahkZLXxP0A
-	vItrsf3A7eauJuPZdgRL3wWoL2Oqai/2/GPDg8oc5WHAnliBREzWbINNpAGQ7EypBuLKJSRumTo
-	9ny0EXgWCB0xhTr2H85idGOzZBJIl2y4JyP6h6MASTK6v5XJ1OmvcWByQN8mSsl3qLrxcR45UKq
-	E7dfNAEreIxzpp56T8Igz4G5LFDj/nhg4ASaMM6uboUkII8nTQKZ/jUGSc/oIWe8WYnJEr+NBce
-	sMHJ5JPcEbqpz3+28bICi
-X-Google-Smtp-Source: AGHT+IGY+JD/8omgd5y0cv+isNKK+7SjEmHaBED8D/f2KvED9loo4lspOXbT86nTlHw856WYq5ydqg==
-X-Received: by 2002:a17:902:ef4d:b0:223:8256:533d with SMTP id d9443c01a7336-225e0b1961fmr75841485ad.46.1742019798054;
-        Fri, 14 Mar 2025 23:23:18 -0700 (PDT)
-Received: from zhk-CBG100025892.huaqin.com ([116.66.212.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c68aa6absm38405815ad.90.2025.03.14.23.23.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 23:23:17 -0700 (PDT)
-From: Haikun Zhou <zhouhaikun5@huaqin.corp-partner.google.com>
-To: linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org
-Cc: benjamin.tissoires@redhat.com,
-	bentiss@kernel.org,
-	jikos@kernel.org,
-	phoenixshen@chromium.org,
-	lschyi@chromium.org,
-	Haikun Zhou <zhouhaikun5@huaqin.corp-partner.google.com>
-Subject: [PATCH V1 RESEND] HID: google: add whitebeard USB id
-Date: Sat, 15 Mar 2025 14:23:05 +0800
-Message-Id: <20250315062305.1606963-1-zhouhaikun5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19661F561B;
+	Sat, 15 Mar 2025 09:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742031304; cv=fail; b=WTyAXMj6S1A+LFdmkabaWkGnLhEMhLafkrILKNRWcAHnIfTxshHGM5RER6sloHV+N+tN9zQef7mQXH0c+rguMfYPpKcyEII+Ic7k8lM/b05ehih8Fch2lLbT/u5JcWiSE8l7cqnzKxLn1ybMTxwSVFHUSFghDbBp33lYBtBbScg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742031304; c=relaxed/simple;
+	bh=vcRyZY+gOjl3fwuxO0T6ypy1CBDG4H1dzGDg/wvNm4c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=i7nRbbbmaqWyUzvamiI8JfCW2vjYh1m6weO57djksK8rME3HOHnyJeBrwKsnnLuGrHZO+vYjzCczm7+c8wo13pI3R8nqOaLNfAYyFwhRdWY1tooEXgoz7m3hvWnutY7RD2kGGxSPC3+EUX0qxnfIn8REOngjkr7iDDJ9BO33oHQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gehealthcare.com; spf=pass smtp.mailfrom=gehealthcare.com; dkim=pass (2048-bit key) header.d=gehealthcare.com header.i=@gehealthcare.com header.b=HFPrFt25; arc=fail smtp.client-ip=40.107.220.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gehealthcare.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gehealthcare.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CpDiPYtMid8zyLMEB9najsrX2xtuQQpIMLzqEjlzeYOiA9yGEX4yLYxpXUgyqmToG3uic/46XBY09xUzue5yIreimJgssQUjlv2p6df6VD+lnM3c7nMQofNn0qeU48ddDMIUYMJ7wi4QOVRlLybGrpVe8D8g8jiyPQs0vAk2rOPLAnwSR0VOgj6LIzHSLezSfrS0EiAy7sJQXZRyJqJVJ+1pLdo/lrAYs4qxlcEsRDapoeOgTNPR2++ZpRttAZzlsGws39kbE1qWkkNexEuOGftFc5/MXFUmWkwaPpmcOd79LNRx/P5qQvnNQcQhqvTfBh0tQXA+kxI2tq6CwLXzHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=L21BrEY0MwQnNKmPPGyjOqbNdDpqz3gMjzZYSw0qqmw=;
+ b=wnhjfGWXpySmHk75T5c6hVzBuWFfpck+5GRTA72wtT1KlCpWBebbx2O3+vzXdVVf1LL8getcfOon6KA/gjcT8mOSQMewmnG4iIgUpNYUmF4UdChCT/0rvyoXWZpVr6qdPx3CZjNH/m7pmSYylAJ/yiXYFv0dxUmbor77Xhgo9QoZSJol69NH3e4ZWNu1K7uDZvY/CQxR0oZuByx+8PzzQ/QYxL/A0hHRIr8ZP42m68F1EUI90uWX3zRrgcSmaNW4cQeI6q0Zr5S/MEbJS/3lQkrMe2DjV8Q58ioskQ5j+zzGV7rSRV7jlu586kCm/otbdQc8oh6uQ8ZH7SDWtiF/Tg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 165.85.157.49) smtp.rcpttodomain=vger.kernel.org
+ smtp.mailfrom=gehealthcare.com; dmarc=fail (p=quarantine sp=quarantine
+ pct=100) action=quarantine header.from=gehealthcare.com; dkim=none (message
+ not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gehealthcare.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L21BrEY0MwQnNKmPPGyjOqbNdDpqz3gMjzZYSw0qqmw=;
+ b=HFPrFt25WfobwQmbObnCN0BOM1HAB5iYfdRJ/5cjRfUWZEekUAfW08QCwf9ap1pDqn1BgPtmEUuWdylDoM7nYdpr+UsG9mg6Q8hEn8vTcw5oYF13JWykPFajCey7eoHZO2I/SrTSGs1AAZtobFfB4o2eZy7T+upCf+m+QYi6OFZVzbrMLpm3sLQLS+3ZELJfunAExJwfar7ztTfGudzSoSW+LJBZr4UPMQb6/vPGa6df5XEYIdg3vC2SCxrpeCHkN/SBIYfpHMHCy1McyCYZdqz/pVLOvl9SOX+GZYFzq7YU/cPCJVxA7SeTuhJ3g7DxXJ5rh8816vtT/FzEStcJXQ==
+Received: from BY5PR17CA0027.namprd17.prod.outlook.com (2603:10b6:a03:1b8::40)
+ by LV3PR22MB5229.namprd22.prod.outlook.com (2603:10b6:408:1d9::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.25; Sat, 15 Mar
+ 2025 09:35:00 +0000
+Received: from SJ1PEPF00001CE5.namprd03.prod.outlook.com
+ (2603:10b6:a03:1b8:cafe::c) by BY5PR17CA0027.outlook.office365.com
+ (2603:10b6:a03:1b8::40) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.28 via Frontend Transport; Sat,
+ 15 Mar 2025 09:34:59 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 165.85.157.49)
+ smtp.mailfrom=gehealthcare.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=gehealthcare.com;
+Received-SPF: Fail (protection.outlook.com: domain of gehealthcare.com does
+ not designate 165.85.157.49 as permitted sender)
+ receiver=protection.outlook.com; client-ip=165.85.157.49;
+ helo=atlrelay1.compute.ge-healthcare.net;
+Received: from atlrelay1.compute.ge-healthcare.net (165.85.157.49) by
+ SJ1PEPF00001CE5.mail.protection.outlook.com (10.167.242.21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8534.20 via Frontend Transport; Sat, 15 Mar 2025 09:34:59 +0000
+Received: from 67fd243a5d78.fihel.lab.ge-healthcare.net (zoo13.fihel.lab.ge-healthcare.net [10.168.174.111])
+	by builder1.fihel.lab.ge-healthcare.net (Postfix) with ESMTP id 1226EAD4D0;
+	Sat, 15 Mar 2025 11:34:57 +0200 (EET)
+From: Ian Ray <ian.ray@gehealthcare.com>
+To: dmitry.torokhov@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: ian.ray@gehealthcare.com,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/2] Input: snvs_pwrkey - add configurable force shutdown time
+Date: Sat, 15 Mar 2025 11:34:53 +0200
+Message-Id: <20250315093455.1100-1-ian.ray@gehealthcare.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -91,41 +91,73 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE5:EE_|LV3PR22MB5229:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: f9aec251-81a7-465d-8006-08dd63a4a7ea
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|1800799024|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?3yoD0O+CNrC8viDofpzrf4PJL/HqzMWJw4PD5+VdLbZ0H5b0GqZjUpdhXNfa?=
+ =?us-ascii?Q?SkuPte+pw60ljnjDrfqZqpdelo+iDYmKbIjmNYofTZvgIYT3ngEk2DRjyxSZ?=
+ =?us-ascii?Q?3VlKKs70pYgOk1oH2io/rvj14n3ZKM+OmktAMazRBnHVaq6RpONX2hAaPFoU?=
+ =?us-ascii?Q?g7PYnJ8xf6syi1RUywAaAjd9sVyWp/TWrdCgsAxsB0WiCkZrCqM4849nm/OV?=
+ =?us-ascii?Q?YX3rRuQdnieND79ebLa7xVyeGo77iUtxhXf+jdvHIjM5rfV3Hg+/yYnzrNWA?=
+ =?us-ascii?Q?ZDSJ35aiSgOkOAdOHSD28Hr0g5ajGDsKIs1/e8Etpxn4i+67q6ieuItWhNV0?=
+ =?us-ascii?Q?MxRkDmN9DQMIFli/xiTolF5prUXx0PtZR+AJV3ewJA3a6kkQWAvbHUDYC7rP?=
+ =?us-ascii?Q?4BkgmvexrhqHORtwARInEeHU+IXM6tKRqiSTlhmvtqz8O8i7wbSH4dAnos+b?=
+ =?us-ascii?Q?HqbP7gQSY47SB+dGHDQJFNQbt7B5fF6EJo6naQd4UNLvEgEQZ6IITiCA9mQb?=
+ =?us-ascii?Q?0Ydxdpk8+kVroe8UItCIaK1mwUXYZL2VkDgJZSlRX2mmqA3cj3EO3cy1LDLH?=
+ =?us-ascii?Q?WDjorPnLKnYEsneftxElU5hl6aOFPFUeBUKarhn/X/Zn4uv2rElfpQcPuPtN?=
+ =?us-ascii?Q?a0jAQ/x+rzYwWQfY890cQib6NZfhYxIbKlJN7vCljt6G2UznrRzMQ62dPRzw?=
+ =?us-ascii?Q?b3zOAYZ4Dp3AaR5IRjHFQI+Sxc2+/9es52Gk2OiCK/oKn/b+h0UxsjhDaqDs?=
+ =?us-ascii?Q?GSKrhmDICFxdBus28oH65Fo2iGbloi1zjpKK7b2uwpLeh+k+cmavT8ibrukS?=
+ =?us-ascii?Q?GkG5vorGp9PheAuVZDvDXPWDAsWIUnhEAY0lqUb7Q5mTbFIXpneNDX9/svf3?=
+ =?us-ascii?Q?RDt/9sKmsPpEPD7XzyAA1Da3vkDSX3kTBsLGD0W6/HcRxioCZ2iEwlp6Bvdu?=
+ =?us-ascii?Q?OuHKl96O9L+rQXRpEFdv72WXXv62gKvwVTfwPSelH4OuJgnDPPGOFnWPZeaX?=
+ =?us-ascii?Q?cUFMCnaasjOoWMUuSmfA2MvMEFEDEus0c1+rVJOjekjK/Yd8N7HITwx7wpXh?=
+ =?us-ascii?Q?lH69dWiNnbd+gPOXWA2MV/jc+QXyiOAZ2uwRd70/va+DhEkgsGaTgPaUd3eP?=
+ =?us-ascii?Q?fxoaSU94sM/w/E0dgjQ+Gsg2A4RoxraEXIKHoG3gSRIsa3tkOv/zgr9hq5is?=
+ =?us-ascii?Q?QGn5JiG7D2ojop3UbbMO/Lt4KgvhovaOPUqh8RvXnOlj/T73BkkgSFEY/pH6?=
+ =?us-ascii?Q?Hz5d9K9K6kQCRb7uICodnZN20MIX38R/K5S4e6dKqQrMeJZGahDIRnzsvro7?=
+ =?us-ascii?Q?Y/WnU00EQWz3YuYzTIY2C3oLMvd8EEuCqNIrcINHZRRTCuLpCIhGupstZBCG?=
+ =?us-ascii?Q?sPWwCtkKj5WouG4v+Ws7J2pOQaJ6Cc1rvG4lMxLgBVYahZaxrcmnVSYfMpgw?=
+ =?us-ascii?Q?7rakUW1o3V0xhddKcEkIuLDYgv+R7Iv3fMxlQdnfxuK0cLb1XZhHEKfYYgmm?=
+ =?us-ascii?Q?Yp0MMQo6OwQdgjI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.85.157.49;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:atlrelay1.compute.ge-healthcare.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(1800799024)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: gehealthcare.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2025 09:34:59.5053
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9aec251-81a7-465d-8006-08dd63a4a7ea
+X-MS-Exchange-CrossTenant-Id: 9a309606-d6ec-4188-a28a-298812b4bbbf
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=9a309606-d6ec-4188-a28a-298812b4bbbf;Ip=[165.85.157.49];Helo=[atlrelay1.compute.ge-healthcare.net]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ1PEPF00001CE5.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR22MB5229
 
-Add 1 additional hammer-like device.
+PATCH 1 - update binding
+PATCH 2 - add support to driver
 
-Signed-off-by: Haikun Zhou <zhouhaikun5@huaqin.corp-partner.google.com>
----
- drivers/hid/hid-google-hammer.c | 2 ++
- drivers/hid/hid-ids.h           | 1 +
- 2 files changed, 3 insertions(+)
+Changes since v2:
+* Fix dtbs_check (thank you, Krzysztof, for pointing this out)
 
-diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-index 0f292b5d3e26..c3bd9448ef56 100644
---- a/drivers/hid/hid-google-hammer.c
-+++ b/drivers/hid/hid-google-hammer.c
-@@ -576,6 +576,8 @@ static const struct hid_device_id hammer_devices[] = {
- 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_WAND) },
- 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
- 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_WHISKERS) },
-+	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-+		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_WHITEBEARD) },
- 	{ }
- };
- MODULE_DEVICE_TABLE(hid, hammer_devices);
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 7e400624908e..981908a9e1dc 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -527,6 +527,7 @@
- #define USB_DEVICE_ID_GOOGLE_DON	0x5050
- #define USB_DEVICE_ID_GOOGLE_EEL	0x5057
- #define USB_DEVICE_ID_GOOGLE_JEWEL	0x5061
-+#define USB_DEVICE_ID_GOOGLE_WHITEBEARD	0x5074
- #define USB_DEVICE_ID_GOOGLE_STADIA	0x9400
- 
- #define USB_VENDOR_ID_GOTOP		0x08f2
+Changes since v1:
+* Drop binding
+
+Ian Ray (2):
+  dt-bindings: crypto: fsl,sec-v4.0-mon: Add "power-off-time-sec"
+  Input: snvs_pwrkey - support power-off-time-sec
+
+ .../bindings/crypto/fsl,sec-v4.0-mon.yaml     |  5 +++++
+ drivers/input/keyboard/snvs_pwrkey.c          | 22 +++++++++++++++++++
+ 2 files changed, 27 insertions(+)
+
 -- 
-2.34.1
+2.39.5
 
 
