@@ -1,206 +1,831 @@
-Return-Path: <linux-input+bounces-10856-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10857-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88685A62C5C
-	for <lists+linux-input@lfdr.de>; Sat, 15 Mar 2025 13:15:32 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4FD8A62CFE
+	for <lists+linux-input@lfdr.de>; Sat, 15 Mar 2025 13:50:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A510F3BBA5B
-	for <lists+linux-input@lfdr.de>; Sat, 15 Mar 2025 12:15:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1412B7A80BB
+	for <lists+linux-input@lfdr.de>; Sat, 15 Mar 2025 12:49:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D6731F75AC;
-	Sat, 15 Mar 2025 12:15:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 202C51F8676;
+	Sat, 15 Mar 2025 12:50:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="SK0ixNpC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lps6mPH4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19010005.outbound.protection.outlook.com [52.103.68.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01FC1F4E37;
-	Sat, 15 Mar 2025 12:15:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742040927; cv=fail; b=aVh7yFWc0MlbqmsheGEeoCeYsZzOL7X17OaDLkhRgtXjrOD+z9F7Bz8CSBT7tLwJhtyd1Xs0QZNDJsHohKQwC0SF+xuigoTkxH6jTFE+/EfKBZSBQ3wAVr3+5B9vxcXb03iXjaYXxJTc3Oc0Z5ayEI/bpP/eXeOq3Aq0t1Eedho=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742040927; c=relaxed/simple;
-	bh=+HpEq0QMntHyivhJItvW0Oc2A1RjZwRFNtqXHKpm8kM=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=FLr1gU+FvbHA2j06E4Uc6ycnsj2ic/yPZFn/8VlpSyG2Dyi1pQ7hYriiTw9Q4tR+5of/jmIgrINL2LOEeOMmcJziQmFijV81cavhqdrRhx7Zxf9FLfOkj6+2JShHHErcchvc55jkjdgnFKPJyt1xoolZPGbgfsAEKs8UrKqJGac=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=SK0ixNpC; arc=fail smtp.client-ip=52.103.68.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ijd1lU+1/SDOIRBXTO1AZPXXfAV+lqoqMxeQV/gXyXnTCOLdPglnsM9lstM7wpRVozGPXkzX2sxVCLH/79j8im9M6I7d2siZlujCFGgv5ixu+6uferdoGY9NYDPkx1rmYPVzcLoP3+rUBnblPunHOCk0OlsNfy3KzpyVlOUXw7zCsIJ78mQ0RQMHlgZVtg9yUD8Tz2uZFbpk9TAxIvcezPPaxj+lBXqT3/9bFbNJLjFyqfsdfCiszcgM2EQ9FdPB2E/uTtNniGYe56XJGLTTg5Ss9/uJw45rq2q/RDUz1WMlfpO1dkW6sAq95wVZvX186FlJ77p/F4DYtBCFR2gdAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kBLRe1odI7c8Xvc46BqGyGymcKIFzuV3NwaThi/S3NM=;
- b=Rjaht1Qg+/EG2WM3Uaug4xrUj9UPu2G+wZT/RoBPqrdRRLXuz0Zob4s0y/eIlcxzRkGGCWsYUn4ONCysD22/7Ax0faAEcLDt65x7B4DUhtWHqxm+MGGcBDVmeUbY0tZlDH8er+s+ym5DhudiATzZTpedPZf2+xxuDegjzeDFlpIgE8kUOaagNr9CvzN6gl+6FNrMfSo/tUDadWbjaeNg+rw9Ou/vx5oLG4aFoOvIjPcallLqdvdrKlP+JBgV3XvgmB20XGM/CZ5LasnugmJrPC4UupTOj0XE6tXO6YdPWUxXn49Ap6RJQx2vbsi4dj8MB1MVEGo3GRsCSGS7W4L0KQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kBLRe1odI7c8Xvc46BqGyGymcKIFzuV3NwaThi/S3NM=;
- b=SK0ixNpCcYT+fuj4/jOR0770tcPl6q5q/8SswcBLZBTfi9/J99t2DHnt1WDDJtpHvdAdUL90tCuRZEFDWbsREYayq0fgiW7O1eFnvGnjFPIOgq+K04D9be91QjlbMGWaODyxaAgmaGXow1lNBDHiVqvtimArf1YxCXFLUPueYplZFA8cJgooAKkr8kfT63c8T5Na6L+wHP+nYKTV5MPx8aQFWrxU6utcKJwjU0zndLwMwT9RsjEHgoX0r8PsvOQdaLeyjZop0ckAmB1tI6ZcjR/sS8Nb/wpS1MHuAq93JGOI6rbxXPE7FFG6b6qRSFJJc7NTw59fSVVliukBc29jsA==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by PN2PPFA5D857650.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c04:1::1c3) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.25; Sat, 15 Mar
- 2025 12:15:20 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8534.025; Sat, 15 Mar 2025
- 12:15:20 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: Jiri Kosina <jikos@kernel.org>, Jiri Kosina <jkosina@suse.com>, Benjamin
- Tissoires <benjamin.tissoires@redhat.com>, "bentiss@kernel.org"
-	<bentiss@kernel.org>
-CC: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: [PATCH] HID: quirks: Add HID_QUIRK_IGNORE_MOUSE quirk
-Thread-Topic: [PATCH] HID: quirks: Add HID_QUIRK_IGNORE_MOUSE quirk
-Thread-Index: AQHblaPrvblGKSYYd0mdHJI74Dg9zg==
-Date: Sat, 15 Mar 2025 12:15:20 +0000
-Message-ID: <1168B1D0-BCF7-467F-9850-A6CB48E6914F@live.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|PN2PPFA5D857650:EE_
-x-ms-office365-filtering-correlation-id: 5d527dd5-5257-4dfa-4491-08dd63bb0e34
-x-microsoft-antispam:
- BCL:0;ARA:14566002|8062599003|461199028|15080799006|19110799003|7092599003|8060799006|41001999003|3412199025|440099028|102099032;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?TTEMZ0IF8IdAI4Vdys1r3qJ5OBPhJWtTk6yVUrSeQu5EyYt3i31E2JCaYuAS?=
- =?us-ascii?Q?ZqUiL7WBCWsXdyW+rf+IY28Wo+iQXFP6qnYXu26A1toZ5xNIdArdnRXK6Y3g?=
- =?us-ascii?Q?mpK7ra47GbF/dh4MugMQu4lmK8vv8evuOr8RC+3geoTjhNCp/SRoejCpwc4Y?=
- =?us-ascii?Q?gIULPODig+cd8UnrZL6ZCTHKbvyUISQ2PklIpsPio1y+XYnn7lTpj2gV3QHS?=
- =?us-ascii?Q?Ejvn8VrKHKRIvdVKrjN6RaE3yjBcZ2nck+Nw0x579mX4Qhghuu7I+ZyofbB4?=
- =?us-ascii?Q?lPGZOXU+ibXLwUk9XLJ+OLO7C2fB9Zm/GJ6/q1l6ipOHf8NkKT5jwtXc3mIS?=
- =?us-ascii?Q?MhSd6eH/Rvw8bcd5q6vZCwR0vxjQUC2igdhkmoK1XRrT8jXrMpHI8nXOoixm?=
- =?us-ascii?Q?qivkA+7F6Dq6dmanMDvPU7xFIK0BtTziYt1vqZGCXix/aqUenJut09/t7HG/?=
- =?us-ascii?Q?r2FvY7LEDHKGCHZ5mwOCHrvaT/KpvQNjfDYKPJtUqNqfgSNyx8GBWcIUoKeo?=
- =?us-ascii?Q?cdK1/TNWj1/TbIT3CJmoRDDIVRrAPYzW6XTQK2Raedxb1+kTjCT2+1xrzXdR?=
- =?us-ascii?Q?QxE2fMS5bVYel9GPcp/fttSIpTf0GeiE73O86FIBUDjquy/ezGhR5ZCqXt1K?=
- =?us-ascii?Q?PgPLusWSeDLZBtXNrzZiDCzKieMVNwkw4sOO6PjNv1nNbWFS9gwj2zxzdsvA?=
- =?us-ascii?Q?4b1Z3FHRJmxjZBBN1VI6+0EqKMvcH+0VpjR2p+WMUiC/fHoQ8RS82vFmEOdH?=
- =?us-ascii?Q?6GYIBrUkG/qBJCSs2yg08asxX4EIXFvnzBZ739wxFdp+uU9X2CVXzKaUE0VG?=
- =?us-ascii?Q?4gY5v11j8+hdFdK6XS8Go8e9KBuxsnXx9YoRovgDjlD+3h+PJRpuOwf/RFHi?=
- =?us-ascii?Q?m1yMJBIwXMHTiZ5KSSuPLqBnZZ9RS06BHhpbG/JE2BJg89kOFsMYXf16mojy?=
- =?us-ascii?Q?khgc6LGMltNq8OjHbbs/Tkmi3YILw12oggIxMfQWRq5p12yyJD52O55Nu+2t?=
- =?us-ascii?Q?0eVyv5Rp0Wceo/DCSC3GSKGp17/t/34GIrRS5Yeknn4IiGxGK2QUozTpZkFk?=
- =?us-ascii?Q?ovFformfN4J3ZHUadbl1I2sy4kbPvhFGiVDd9rs86Za6WNxdlpT3F2HnFmu6?=
- =?us-ascii?Q?KCkNwpJytHPFUo2KrE7ntjOh04hbjdmydQ=3D=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?6hzPcl6Wi3qck5ZlHWjj+bMktmQPzbvcEEiP4WsthdGXMGX1lNrObVV+Tjec?=
- =?us-ascii?Q?PP3U6ipMdelxxHTeoDCa9WQyq6cnEclLG0bCgoA4X2pBUO2UY/xPsMjax2Ly?=
- =?us-ascii?Q?DTZ1vOtlvpZpEUrhBwBoDW9owqtm5buWAKGJiQDRN4uuav7hs6je14Tqh7Eq?=
- =?us-ascii?Q?z47DIDuQLFx/LRtxRF5FdLIt74wTuU4rdmimVLz8zXXrUhuuG4pIPES7ue42?=
- =?us-ascii?Q?2k7vgQ7mQnB+0BGgkt/8LSKb4pR5F2YeuolusGNM+U68od3/4xUsAo5c2+Ir?=
- =?us-ascii?Q?Ywei7//x556IYosA9vN9kVzwK/g870Y08sM9kJ3Lk5qqowtlaLPm9wCmUaVn?=
- =?us-ascii?Q?TGc5498vW0ubEBuz6f0yCRfQcCZXP87pk9nKartYsSZAhdDeFQlmrzSs9TC0?=
- =?us-ascii?Q?3akoxVxOJNEF3Li7+5bVWvUCBsxvErzu+xpKCSNvgMK7ppPTrMa+ZA+FiMCw?=
- =?us-ascii?Q?RmcVYfPeQXUNrcLlcBMKf4h7COojs0FguE6JhGHyFnxj93nmieR1AeUg7SiW?=
- =?us-ascii?Q?52acgAJD8XpikBdODOG24vtrDYN7u+66y3mrPHs2PuTvV6ve9Egc4yUqsAsl?=
- =?us-ascii?Q?jxDOZyV+IHMUQvx6c5rwS6vHQxlz7VNA572a2L9fGtqtVKJD16gfuxqCYkO4?=
- =?us-ascii?Q?B55BK3W3BeWvP6DUQTJEm21dTwCFO35UrE8FsBObFZg7Zag/sShuZRoiWKLC?=
- =?us-ascii?Q?r36FPR4Pp0IeXZENF25+29u8X419Ta00+TYMmV3nw/2IOHMoXTmwtFtLHSvb?=
- =?us-ascii?Q?ed70H1apTTDN0NWQsiXlS9yTKJLW4afeC0AAPFsVnzzcylOXMpBbkrdg3GVo?=
- =?us-ascii?Q?vUquM77FmzqL2GrMRIwyMBTuuzWQ4mvKGXxE321IcCKfqwV6Ux3lBMwniHc1?=
- =?us-ascii?Q?U0JzlnCySk2Aq0xvnZy/hVFdAKpiX7qfn4pACa0i4zKr8ikm3WUPFg7idSyz?=
- =?us-ascii?Q?REs7IODtkCL+cRrMhOxmvogBd5+qXOSmydGvruJ5LNjPajKMT7GnxN5u43eS?=
- =?us-ascii?Q?9sr2siMiVB7lD3IextX5PPtM4f8Y0RfTduQDWxbrHhZB5oPqhKWZNmi0DnsI?=
- =?us-ascii?Q?vj10OQ4fQvFm9hWf6cW8/rIWDInh6wrsYxIF1T+cW3E/4bVL1j3b1rXSFr+p?=
- =?us-ascii?Q?GJaNIlA1HuXVCZ7z6oZnENiFatHuMzo2623mIYCVoeCZK2GyLIIqhRIEOyau?=
- =?us-ascii?Q?h9HkBJX+LipQu6yULoYNtJjR++9rP5g28n0vxESWS0Fg/FV/U5PgjkeppirF?=
- =?us-ascii?Q?XsPraLyrG0Ys1b2jv2/bPPbBxtxtqhFeo0QxqhSG1iOuMrpTvGTGshnDaV7V?=
- =?us-ascii?Q?tKcTrKem9qsEWH14mt/8Rwdw?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <BC31E982EED2C246BCF5D7743614F664@INDPRD01.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7F61862;
+	Sat, 15 Mar 2025 12:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742043043; cv=none; b=g4VFYPbjWXhN9sRElKEhscMnOfCaisbb/WzORmta5Lib9/fnwH3slab887ghSinceRjx/Io6fgGR9Kr5qfLdexuUqLj1WRgjxvjLSiKvhcmIcghgWIcMvlVBfJXsfUP1dJ9fEXjFbaadsH5fvcw/a1JffQs3VD3rEUBdhszjH6g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742043043; c=relaxed/simple;
+	bh=EOB596Kg39pWo9it64zOXJBRApV/K8/djVobuAhtFJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mBzKpTbhNbGcuqjI37DwlHwKKLaIy3NZBch0+DDwwdvO/KqK6AlzLrho5hey3nOO7OKW3p/pRFOkZZwaB2nav5LbeUQ2HFrdBVQulq2Wv+G91iX6QX63lAYRSArlKFJx81HTumnOyWI8WV3r1QMTb0HbObP0mCf+WsPIs6+e6RQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lps6mPH4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4547C4CEE5;
+	Sat, 15 Mar 2025 12:50:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742043042;
+	bh=EOB596Kg39pWo9it64zOXJBRApV/K8/djVobuAhtFJ0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lps6mPH4T3p+8I7CrgfSf3S/rDk6jMZuIjsDXVjl8fGKQc2ArrRZmFrsS68GBUEaS
+	 yd1CvnBa1dqZF4eaBXDglKWZ+WGTYTVNId18L1ujMqtl1dRkPNG+LWGv8V08PV98p9
+	 lhWML1RL2g/uQ9jF5CMB8KPmezO2Z/9JdcPn3cfobzYCoopiByHKxePJHxsRd7KQZP
+	 rY2LnOF8UTtY6xpFtBHhm1bsLLyFp0CxMDA7nou+qUAwQyMjlhB5PdkOGuUR5iz7zi
+	 rlwIx2WuJBNUwe/D9+LkGX3WEjum4oAWhLvY71IeeTqg4+rk73LqVjtIfVjISTZa+Z
+	 lnrS1zAj6x/zg==
+Date: Sat, 15 Mar 2025 12:50:28 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: "Lu.Tang" <Lu.Tang@mediatek.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee
+ Jones <lee@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sean
+ Wang <sean.wang@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Liam
+ Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Stephen
+ Boyd <sboyd@kernel.org>, Chen Zhong <chen.zhong@mediatek.com>, Sen Chu
+ <shen.chu@mediatek.com>, <linux-iio@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-input@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-gpio@vger.kernel.org>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: Re: [PATCH 1/5] pmic: mediatek: Add pmic auxadc driver
+Message-ID: <20250315125028.038fc488@jic23-huawei>
+In-Reply-To: <20250314073307.25092-2-Lu.Tang@mediatek.com>
+References: <20250314073307.25092-1-Lu.Tang@mediatek.com>
+	<20250314073307.25092-2-Lu.Tang@mediatek.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d527dd5-5257-4dfa-4491-08dd63bb0e34
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Mar 2025 12:15:20.4533
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2PPFA5D857650
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Aditya Garg <gargaditya08@live.com>
+On Fri, 14 Mar 2025 15:32:27 +0800
+Lu.Tang <Lu.Tang@mediatek.com> wrote:
 
-Some USB HID mice have drivers both in HID as well as a separate USB
-driver. The already existing hid_mouse_ignore_list in hid-quirks manages
-this, but is not yet configurable by usbhid.quirks, unlike all others like
-hid_ignore_list. Thus in some HID devices, where the vendor provides USB
-drivers only for the mouse and lets keyboard handled by the generic hid
-drivers, presence of such a quirk prevents the user from compiling hid core
-again to add the device to the table.
+> From: "Lu.Tang" <lu.tang@mediatek.com>
+> 
+> Add pmic mt6363 and mt6373 auxadc driver
 
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
----
- drivers/hid/hid-quirks.c | 5 ++++-
- include/linux/hid.h      | 2 ++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+On assumption that there is good reason to not combine this with existing
+driver I'll give it a quick review.  Definitely confirm why this can't
+be combined with existing driver though before looking at this.
 
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 2eb15a7ae..8917fc223 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -1042,7 +1042,7 @@ bool hid_ignore(struct hid_device *hdev)
- 	}
-=20
- 	if (hdev->type =3D=3D HID_TYPE_USBMOUSE &&
--	    hid_match_id(hdev, hid_mouse_ignore_list))
-+	    hdev->quirks & HID_QUIRK_IGNORE_MOUSE)
- 		return true;
-=20
- 	return !!hid_match_id(hdev, hid_ignore_list);
-@@ -1246,6 +1246,9 @@ static unsigned long hid_gets_squirk(const struct hid=
-_device *hdev)
- 	if (hid_match_id(hdev, hid_ignore_list))
- 		quirks |=3D HID_QUIRK_IGNORE;
-=20
-+	if (hid_match_id(hdev, hid_mouse_ignore_list))
-+		quirks |=3D HID_QUIRK_IGNORE_MOUSE;
-+
- 	if (hid_match_id(hdev, hid_have_special_driver))
- 		quirks |=3D HID_QUIRK_HAVE_SPECIAL_DRIVER;
-=20
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 1d54bba08..a00c58c0b 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -355,6 +355,7 @@ struct hid_item {
-  * | @HID_QUIRK_INPUT_PER_APP:
-  * | @HID_QUIRK_X_INVERT:
-  * | @HID_QUIRK_Y_INVERT:
-+ * | @HID_QUIRK_IGNORE_MOUSE:
-  * | @HID_QUIRK_SKIP_OUTPUT_REPORTS:
-  * | @HID_QUIRK_SKIP_OUTPUT_REPORT_ID:
-  * | @HID_QUIRK_NO_OUTPUT_REPORTS_ON_INTR_EP:
-@@ -380,6 +381,7 @@ struct hid_item {
- #define HID_QUIRK_INPUT_PER_APP			BIT(11)
- #define HID_QUIRK_X_INVERT			BIT(12)
- #define HID_QUIRK_Y_INVERT			BIT(13)
-+#define HID_QUIRK_IGNORE_MOUSE			BIT(14)
- #define HID_QUIRK_SKIP_OUTPUT_REPORTS		BIT(16)
- #define HID_QUIRK_SKIP_OUTPUT_REPORT_ID		BIT(17)
- #define HID_QUIRK_NO_OUTPUT_REPORTS_ON_INTR_EP	BIT(18)
---=20
-2.43.0
+Jonathan
+
+
+> 
+> Signed-off-by: Lu Tang <lu.tang@mediatek.com>
+> ---
+>  drivers/iio/adc/Kconfig             |  10 +
+>  drivers/iio/adc/Makefile            |   1 +
+>  drivers/iio/adc/mtk-spmi-pmic-adc.c | 576 ++++++++++++++++++++++++++++
+>  3 files changed, 587 insertions(+)
+>  create mode 100644 drivers/iio/adc/mtk-spmi-pmic-adc.c
+> 
+> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+> index 27413516216c..7c4b5f8f7209 100644
+> --- a/drivers/iio/adc/Kconfig
+> +++ b/drivers/iio/adc/Kconfig
+> @@ -1039,6 +1039,16 @@ config MEDIATEK_MT6577_AUXADC
+>  	  This driver can also be built as a module. If so, the module will be
+>  	  called mt6577_auxadc.
+>  
+> +config MEDIATEK_SPMI_PMIC_ADC
+
+Clearly a history of non compatible mediatek parts so it is probably better
+to just name this after one of the supported parts than it is to use
+a generic name.
+
+> +	tristate "MediaTek SPMI PMIC ADC Support"
+> +	depends on MFD_MTK_SPMI_PMIC
+> +	help
+> +	  Say yes here to enable support for MediaTek SPMI PMIC ADC.
+> +	  The driver supports multiple channels read.
+> +
+> +	  This driver can also be built as a module. If so, the module will be
+> +	  called mtk-spmi-pmic-adc.
+> +
+
+> diff --git a/drivers/iio/adc/mtk-spmi-pmic-adc.c b/drivers/iio/adc/mtk-spmi-pmic-adc.c
+> new file mode 100644
+> index 000000000000..61e062bc8cf5
+> --- /dev/null
+> +++ b/drivers/iio/adc/mtk-spmi-pmic-adc.c
+> @@ -0,0 +1,576 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2024 MediaTek Inc.
+
+Update?
+
+> + */
+> +
+> +#include <linux/completion.h>
+> +#include <linux/delay.h>
+> +#include <linux/err.h>
+> +#include <linux/iio/iio.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mfd/mt6363/registers.h>
+> +#include <linux/mfd/mt6373/registers.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_device.h>
+These shouldn't be used.
+> +#include <linux/property.h>
+only this should be so the of includes should be dropped.
+> +#include <linux/platform_device.h>
+> +#include <linux/power_supply.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/syscore_ops.h>
+> +
+> +#include <dt-bindings/iio/mt635x-auxadc.h>
+
+
+> +
+> +#define AUXADC_RDY_BIT			BIT(15)
+> +
+> +#define AUXADC_DEF_R_RATIO		1
+> +#define AUXADC_DEF_AVG_NUM		32
+> +
+> +#define AUXADC_AVG_TIME_US		10
+> +#define AUXADC_POLL_DELAY_US		100
+> +#define AUXADC_TIMEOUT_US		32000
+These aren't really magic values so the only benefit in a define
+would be to put a comment giving a spec reference next to them.
+If not consider just putting the values inline.
+
+> +#define VOLT_FULL			1840
+
+Prefix all defines with something related to the driver.
+MT8195_AUXADC_xx
+That avoid potential aliasing that can occur with generic names.
+
+> +
+> +#define IMP_VOLT_FULL			18400
+> +#define IMIX_R_MIN_MOHM			100
+> +#define IMIX_R_CALI_CNT			2
+> +
+> +#define EXT_THR_PURES_SHIFT		3
+> +#define EXT_THR_SEL_MASK		0x1F
+> +
+> +#define DT_CHANNEL_CONVERT(val)		((val) & 0xFF)
+> +#define DT_PURES_CONVERT(val)		(((val) & 0xFF00) >> 8)
+> +
+> +struct pmic_adc_device {
+> +	struct device *dev;
+> +	struct regmap *regmap;
+> +	struct mutex lock;
+All locks must have comment describing the scope of data they protect.
+> +	struct iio_chan_spec *iio_chans;
+
+Looks like some of these only exist to avoid passing more variables
+into the dt parsing function.  Make them local to the caller of that
+and pass them in.  We should not have them in here.
+
+> +	unsigned int nchannels;
+> +	const struct auxadc_info *info;
+> +	struct regulator *isink_load;
+> +	int imix_r;
+> +	int imp_curr;
+> +	int pre_uisoc;
+> +};
+> +
+> +static struct pmic_adc_device *imix_r_dev;
+> +
+> +/*
+
+Make this correct kernel-doc. It nearly is already!
+
+> + * @ch_name:	HW channel name
+> + * @res:	ADC resolution
+> + * @r_ratio:	resistance ratio, represented by r_ratio[0] / r_ratio[1]
+> + * @avg_num:	sampling times of AUXADC measurements then average it
+> + * @regs:	request and data output registers for this channel
+> + */
+> +struct auxadc_channels {
+> +	enum iio_chan_type type;
+
+Random things aren't documented. Document all structure elements.
+
+> +	long info_mask;
+> +	/* AUXADC channel attribute */
+> +	const char *ch_name;
+> +	unsigned char res;
+> +	unsigned char r_ratio[2];
+> +	unsigned short avg_num;
+> +	const struct auxadc_regs *regs;
+> +};
+> +
+> +#define AUXADC_CHANNEL(_ch_name, _res)	\
+> +	[AUXADC_##_ch_name] = {				\
+> +		.type = IIO_VOLTAGE,			\
+> +		.info_mask = BIT(IIO_CHAN_INFO_RAW) |		\
+> +			     BIT(IIO_CHAN_INFO_PROCESSED),	\
+
+We almost never allow both raw and processed. There are a few exceptions
+to that rule though. Why does it make sense here?
+
+> +		.ch_name = __stringify(_ch_name),	\
+> +		.res = _res,				\
+> +	}
+> +
+> +/*
+> + * The array represents all possible AUXADC channels found
+> + * in the supported PMICs.
+> + */
+> +static struct auxadc_channels auxadc_chans[] = {
+> +	AUXADC_CHANNEL(BATADC, 15),
+> +	AUXADC_CHANNEL(VCDT, 12),
+> +	AUXADC_CHANNEL(BAT_TEMP, 12),
+> +	AUXADC_CHANNEL(CHIP_TEMP, 12),
+> +	AUXADC_CHANNEL(VCORE_TEMP, 12),
+> +	AUXADC_CHANNEL(VPROC_TEMP, 12),
+> +	AUXADC_CHANNEL(VGPU_TEMP, 12),
+> +	AUXADC_CHANNEL(ACCDET, 12),
+> +	AUXADC_CHANNEL(HPOFS_CAL, 15),
+> +	AUXADC_CHANNEL(VTREF, 12),
+> +	AUXADC_CHANNEL(VBIF, 12),
+> +	AUXADC_CHANNEL(IMP, 15),
+> +	[AUXADC_IMIX_R] = {
+> +		.type = IIO_RESISTANCE,
+> +		.info_mask = BIT(IIO_CHAN_INFO_RAW),
+> +		.ch_name = "IMIX_R",
+> +	},
+> +	AUXADC_CHANNEL(VSYSSNS, 15),
+> +	AUXADC_CHANNEL(VIN1, 15),
+> +	AUXADC_CHANNEL(VIN2, 15),
+> +	AUXADC_CHANNEL(VIN3, 15),
+> +	AUXADC_CHANNEL(VIN4, 15),
+> +	AUXADC_CHANNEL(VIN5, 15),
+> +	AUXADC_CHANNEL(VIN6, 15),
+> +	AUXADC_CHANNEL(VIN7, 15),
+> +};
+> +
+> +struct auxadc_regs {
+> +	unsigned int enable_reg;
+> +	unsigned int enable_mask;
+> +	unsigned int ready_reg;
+> +	unsigned int ready_mask;
+> +	unsigned int value_reg;
+> +	unsigned int ext_thr_sel;
+> +	u8 src_sel;
+> +};
+> +
+> +#define AUXADC_REG(_ch_name, _chip, _enable_reg, _enable_mask, _value_reg) \
+> +	[AUXADC_##_ch_name] = {				\
+> +		.enable_reg = _chip##_##_enable_reg,	\
+> +		.enable_mask = _enable_mask,		\
+> +		.ready_reg = _chip##_##_value_reg,	\
+> +		.ready_mask = AUXADC_RDY_BIT,		\
+> +		.value_reg = _chip##_##_value_reg,	\
+> +	}						\
+Should be no \ on last line.
+
+> +
+> +#define TIA_ADC_REG(_src_sel, _chip)	\
+> +	[AUXADC_VIN##_src_sel] = {			\
+> +		.enable_reg = _chip##_AUXADC_RQST1,	\
+> +		.enable_mask = BIT(4),			\
+> +		.ready_reg = _chip##_AUXADC_ADC_CH12_L,	\
+> +		.ready_mask = AUXADC_RDY_BIT,		\
+> +		.value_reg = _chip##_AUXADC_ADC_CH12_L,	\
+> +		.ext_thr_sel = _chip##_SDMADC_CON0,	\
+> +		.src_sel = _src_sel,			\
+> +	}						\
+same here.
+
+> +
+> +static const struct auxadc_regs mt6363_auxadc_regs_tbl[] = {
+> +	AUXADC_REG(BATADC, MT6363, AUXADC_RQST0, BIT(0), AUXADC_ADC0_L),
+> +	AUXADC_REG(BAT_TEMP, MT6363, AUXADC_RQST0, BIT(3), AUXADC_ADC3_L),
+> +	AUXADC_REG(CHIP_TEMP, MT6363, AUXADC_RQST0, BIT(4), AUXADC_ADC4_L),
+> +	AUXADC_REG(VCORE_TEMP, MT6363, AUXADC_RQST3, BIT(0), AUXADC_ADC38_L),
+> +	AUXADC_REG(VPROC_TEMP, MT6363, AUXADC_RQST3, BIT(1), AUXADC_ADC39_L),
+> +	AUXADC_REG(VGPU_TEMP, MT6363, AUXADC_RQST3, BIT(2), AUXADC_ADC40_L),
+> +	AUXADC_REG(VTREF, MT6363, AUXADC_RQST1, BIT(3), AUXADC_ADC11_L),
+> +	[AUXADC_IMP] = {
+> +		.enable_reg = MT6363_AUXADC_IMP0,
+> +		.enable_mask = BIT(0),
+> +		.ready_reg = MT6363_AUXADC_IMP1,
+> +		.ready_mask = BIT(7),
+> +		.value_reg = MT6363_AUXADC_ADC42_L,
+> +	},
+> +	AUXADC_REG(VSYSSNS, MT6363, AUXADC_RQST1, BIT(6), AUXADC_ADC_CH14_L),
+> +	TIA_ADC_REG(1, MT6363),
+> +	TIA_ADC_REG(2, MT6363),
+> +	TIA_ADC_REG(3, MT6363),
+> +	TIA_ADC_REG(4, MT6363),
+> +	TIA_ADC_REG(5, MT6363),
+> +	TIA_ADC_REG(6, MT6363),
+> +	TIA_ADC_REG(7, MT6363),
+> +};
+> +
+> +static const struct auxadc_regs mt6373_auxadc_regs_tbl[] = {
+> +	AUXADC_REG(CHIP_TEMP, MT6373, AUXADC_RQST0, BIT(4), AUXADC_ADC4_L),
+> +	AUXADC_REG(VCORE_TEMP, MT6373, AUXADC_RQST3, BIT(0), AUXADC_ADC38_L),
+> +	AUXADC_REG(VPROC_TEMP, MT6373, AUXADC_RQST3, BIT(1), AUXADC_ADC39_L),
+> +	AUXADC_REG(VGPU_TEMP, MT6373, AUXADC_RQST3, BIT(2), AUXADC_ADC40_L),
+> +	TIA_ADC_REG(1, MT6373),
+> +	TIA_ADC_REG(2, MT6373),
+> +	TIA_ADC_REG(3, MT6373),
+> +	TIA_ADC_REG(4, MT6373),
+> +	TIA_ADC_REG(5, MT6373),
+> +};
+> +
+> +struct auxadc_info {
+> +	const struct auxadc_regs *regs_tbl;
+> +};
+> +
+> +static const struct auxadc_info mt6363_info = {
+> +	.regs_tbl = mt6363_auxadc_regs_tbl,
+> +};
+> +
+> +static const struct auxadc_info mt6373_info = {
+> +	.regs_tbl = mt6373_auxadc_regs_tbl,
+> +};
+> +
+> +#define regmap_bulk_read_poll_timeout(map, addr, val, val_count, cond, sleep_us, timeout_us) \
+
+This looks generic so shouldn't be in a driver.  Either propose it
+for the regmap core, or give it a non generic driver specific name.
+
+> +({ \
+> +	u64 __timeout_us = (timeout_us); \
+> +	unsigned long __sleep_us = (sleep_us); \
+> +	ktime_t __timeout = ktime_add_us(ktime_get(), __timeout_us); \
+> +	int __ret; \
+> +	might_sleep_if(__sleep_us); \
+> +	for (;;) { \
+> +		__ret = regmap_bulk_read((map), (addr), (u8 *) &(val), val_count); \
+> +		if (__ret) \
+> +			break; \
+> +		if (cond) \
+> +			break; \
+> +		if ((__timeout_us) && \
+> +		    ktime_compare(ktime_get(), __timeout) > 0) { \
+> +			__ret = regmap_bulk_read((map), (addr), (u8 *) &(val), val_count); \
+> +			break; \
+> +		} \
+> +		if (__sleep_us) \
+> +			usleep_range((__sleep_us >> 2) + 1, __sleep_us); \
+> +	} \
+> +	__ret ?: ((cond) ? 0 : -ETIMEDOUT); \
+> +})
+> +
+> +/*
+For this sort of text make it all kernel-doc style and run the script
+on the file to make sure no warnings / errors.
+
+> + * @adc_dev:	 pointer to the struct pmic_adc_device
+> + * @auxadc_chan: pointer to the struct auxadc_channels, it represents specific
+> +		 auxadc channel
+> + * @val:	 pointer to output value
+> + */
+> +static int get_auxadc_out(struct pmic_adc_device *adc_dev,
+> +			  int channel, int channel2, int *val)
+
+For example these parameters are different from the docs and
+the kernel-doc script would point that out for you.
+
+> +{
+> +	int ret;
+> +	u16 buf = 0;
+> +	const struct auxadc_channels *auxadc_chan = &auxadc_chans[channel];
+> +
+> +	if (!auxadc_chan->regs)
+> +		return -EINVAL;
+
+Why would that happen?  Don't defend against things that can't occur.
+
+> +
+> +	if (auxadc_chan->regs->ext_thr_sel) {
+> +		buf = (channel2 << EXT_THR_PURES_SHIFT)
+> +			| auxadc_chan->regs->src_sel;
+
+FIELD_PREP plus use appropriate mask not shift.  Also apply
+FIELD_PREP() for the src_sel.
+
+Avoids anyone needing to check values are in range or where the
+various register fields are.
+
+> +		ret = regmap_update_bits(adc_dev->regmap,
+> +					 auxadc_chan->regs->ext_thr_sel,
+> +					 EXT_THR_SEL_MASK, buf);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> +	regmap_write(adc_dev->regmap,
+Check for errors.
+
+> +		     auxadc_chan->regs->enable_reg,
+> +		     auxadc_chan->regs->enable_mask);
+> +	usleep_range(auxadc_chan->avg_num * AUXADC_AVG_TIME_US,
+> +		     (auxadc_chan->avg_num + 1) * AUXADC_AVG_TIME_US);
+> +
+> +	ret = regmap_bulk_read_poll_timeout(adc_dev->regmap,
+> +					    auxadc_chan->regs->value_reg,
+> +					    buf, 2,
+
+buf should be u16 and use sizeof(buf) for that 2.
+
+> +					    (buf & AUXADC_RDY_BIT),
+brackets add nothing.
+> +					    AUXADC_POLL_DELAY_US,
+> +					    AUXADC_TIMEOUT_US);
+> +	*val = buf & (BIT(auxadc_chan->res) - 1);
+> +	if (ret)
+> +		dev_err(adc_dev->dev, "%s ret error code:%d!\n", auxadc_chan->ch_name, ret);
+> +
+> +	/* set PURES to OPEN after measuring done */
+> +	if (auxadc_chan->regs->ext_thr_sel) {
+> +		buf = (ADC_PURES_OPEN << EXT_THR_PURES_SHIFT)
+> +			| auxadc_chan->regs->src_sel;
+FIELD_PREP() for both of those.
+
+> +		ret = regmap_update_bits(adc_dev->regmap,
+> +					 auxadc_chan->regs->ext_thr_sel,
+> +					 EXT_THR_SEL_MASK, buf);
+
+Overwrite the earlier error potentially which is not something we normally
+want to do as can make debugging harder.
+
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int gauge_get_imp_ibat(void)
+> +{
+> +	struct power_supply *psy;
+> +	union power_supply_propval prop;
+> +	int ret;
+> +
+> +	psy = power_supply_get_by_name("mtk-gauge");
+> +	if (!psy)
+> +		return 0;
+> +
+> +	ret = power_supply_get_property(psy, POWER_SUPPLY_PROP_CURRENT_NOW, &prop);
+> +	if (ret)
+> +		return ret;
+> +
+> +	power_supply_put(psy);
+> +	return prop.intval;
+> +}
+> +
+> +static int get_imp_out(struct pmic_adc_device *adc_dev, int *val)
+> +{
+> +	int ret;
+> +	unsigned int buf = 0;
+> +	const struct auxadc_channels *auxadc_chan = &auxadc_chans[AUXADC_IMP];
+> +
+> +	if (!auxadc_chan->regs)
+> +		return -EINVAL;
+> +
+> +	regmap_write(adc_dev->regmap,
+
+Probably worth a local variable for the regmap to shorten some lines.
+
+> +		     auxadc_chan->regs->enable_reg,
+> +		     auxadc_chan->regs->enable_mask);
+
+Check for errors.
+
+> +	ret = regmap_read_poll_timeout(adc_dev->regmap, auxadc_chan->regs->ready_reg,
+> +					   buf, buf & auxadc_chan->regs->ready_mask,
+> +					   AUXADC_POLL_DELAY_US,
+> +					   AUXADC_TIMEOUT_US);
+> +	if (ret) {
+> +		dev_err(adc_dev->dev, "%s %s ret error code:%d!\n",
+> +			__func__, auxadc_chan->ch_name, ret);
+No need for the __func__ in here.  Say what failed in the error message.
+> +		return ret;
+> +	}
+> +
+> +	ret = regmap_bulk_read(adc_dev->regmap, auxadc_chan->regs->value_reg, (u8 *) &buf, 2);
+
+Why cast to u8 *?  It takes a void * and you never need to cast to that.
+However, you also shouldn't be doing a 2 byte read into a integer.  Use a u16
+and get the size with appropriate sizeof()
+
+
+
+> +	if (ret)
+> +		return ret;
+> +	*val = buf & (BIT(auxadc_chan->res) - 1);
+> +	adc_dev->imp_curr = gauge_get_imp_ibat();
+> +
+> +	regmap_write(adc_dev->regmap,
+> +		     auxadc_chan->regs->enable_reg, 0);
+
+Check for errors.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int pmic_adc_read_raw(struct iio_dev *indio_dev,
+
+All functions should be prefixed with driver name. Avoids
+potential clashes if generic stuff ends up in headers later.
+
+> +			     struct iio_chan_spec const *chan,
+> +			     int *val, int *val2, long mask)
+> +{
+> +	struct pmic_adc_device *adc_dev = iio_priv(indio_dev);
+> +	const struct auxadc_channels *auxadc_chan;
+> +	int auxadc_out = 0;
+> +	int ret = 0;
+> +
+> +	mutex_lock(&adc_dev->lock);
+consider pushing the lock down into the various implementations.
+> +	switch (chan->channel) {
+> +	case AUXADC_IMP:
+> +		ret = get_imp_out(adc_dev, &auxadc_out);
+> +		break;
+> +	case AUXADC_IMIX_R:
+> +		auxadc_out = adc_dev->imix_r;
+> +		break;
+> +	default:
+> +		ret = get_auxadc_out(adc_dev,
+> +				     chan->channel, chan->channel2,
+> +				     &auxadc_out);
+> +		break;
+> +	}
+> +	mutex_unlock(&adc_dev->lock);
+> +
+> +	if (ret && ret != -ETIMEDOUT)
+> +		return ret;
+
+Why would you carry on if it timed out?
+
+> +
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_PROCESSED:
+> +		auxadc_chan = &auxadc_chans[chan->channel];
+> +		*val = auxadc_out * auxadc_chan->r_ratio[0] * VOLT_FULL;
+> +		*val = (*val / auxadc_chan->r_ratio[1]) >> auxadc_chan->res;
+This looks linear - in which case why not leave the maths to userspace
+and provide IIO_CHAN_INFO_SCALE + _RAW
+
+> +		ret = IIO_VAL_INT;
+> +		break;
+> +	case IIO_CHAN_INFO_RAW:
+
+Why provide this at all if you are providing processed output.
+
+> +		*val = auxadc_out;
+> +		ret = IIO_VAL_INT;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +	if (chan->channel == AUXADC_IMP) {
+> +		*val2 = adc_dev->imp_curr;
+> +		ret = IIO_VAL_INT_MULTIPLE;
+> +	}
+> +
+> +	return ret;
+> +}
+
+> +
+> +static const struct iio_info pmic_adc_info = {
+> +	.read_raw = &pmic_adc_read_raw,
+> +	.fwnode_xlate = &pmic_adc_fwnode_xlate,
+> +};
+> +
+> +static int auxadc_init_imix_r(struct pmic_adc_device *adc_dev,
+> +			      struct device_node *imix_r_node)
+> +{
+> +	unsigned int val = 0;
+> +	int ret;
+> +
+> +	if (!adc_dev)
+> +		return -EINVAL;
+> +
+> +	adc_dev->isink_load = devm_regulator_get_exclusive(adc_dev->dev, "isink_load");
+> +	if (IS_ERR(adc_dev->isink_load)) {
+> +		dev_err(adc_dev->dev, "Failed to get isink_load regulator, ret=%d\n",
+> +			(int)PTR_ERR(adc_dev->isink_load));
+> +		return PTR_ERR(adc_dev->isink_load);
+
+Use dev_err_probe() which will also pretty print the return value so remember to
+drop that bit.
+
+> +	}
+> +
+> +	imix_r_dev = adc_dev;
+> +	if (imix_r_dev->imix_r)
+> +		return 0;
+> +
+> +	ret = of_property_read_u32(imix_r_node, "val", &val);
+> +	if (ret)
+> +		dev_notice(imix_r_dev->dev, "no imix_r, ret=%d\n", ret);
+> +	imix_r_dev->imix_r = (int)val;
+> +	imix_r_dev->pre_uisoc = 101;
+> +	return 0;
+> +}
+> +
+> +static int auxadc_get_data_from_dt(struct pmic_adc_device *adc_dev,
+
+from_fw() and use the generic property.h accessors, not the dt specific ones.
+
+> +				   struct iio_chan_spec *iio_chan,
+> +				   struct device_node *node)
+> +{
+> +	struct auxadc_channels *auxadc_chan;
+> +	unsigned int channel = 0;
+> +	unsigned int value = 0;
+> +	unsigned int val_arr[2] = {0};
+> +	int ret;
+> +
+> +	ret = of_property_read_u32(node, "channel", &channel);
+
+That doesn't looks like a standard dt binding. why do you need it
+vs what is in adc.yaml?  Probably just reg is enough.
+
+
+> +	if (ret) {
+> +		dev_err(adc_dev->dev, "invalid channel in node:%s\n",
+> +			   node->name);
+
+use return dev_err_probe() for all error prints that are part of probe.
+Gives prettier printing and other benefits in some cases.
+
+> +		return ret;
+> +	}
+> +	if (channel > AUXADC_CHAN_MAX) {
+> +		dev_err(adc_dev->dev, "invalid channel number %d in node:%s\n",
+> +			   channel, node->name);
+> +		return -EINVAL;
+> +	}
+> +	if (channel >= ARRAY_SIZE(auxadc_chans)) {
+> +		dev_err(adc_dev->dev, "channel number %d in node:%s not exists\n",
+> +			   channel, node->name);
+> +		return -EINVAL;
+> +	}
+> +	iio_chan->channel = channel;
+> +	iio_chan->datasheet_name = auxadc_chans[channel].ch_name;
+> +	iio_chan->info_mask_separate = auxadc_chans[channel].info_mask;
+> +	iio_chan->type = auxadc_chans[channel].type;
+> +	iio_chan->extend_name = node->name;
+
+No. This is almost never used in a modern driver as it makes for really nasty
+userspace ABI.  Use label if you need to mark a channel as something specific.
+
+> +	ret = of_property_read_u32(node, "pures", &value);
+
+I have no idea what this one is or why you'd put anything in channel2 for
+a single ended ADC channel with no modifier.
+
+
+> +	if (!ret)
+> +		iio_chan->channel2 = value;
+> +
+> +	if (channel == AUXADC_IMIX_R)
+> +		return auxadc_init_imix_r(adc_dev, node);
+> +
+> +	auxadc_chan = &auxadc_chans[channel];
+> +	auxadc_chan->regs = &adc_dev->info->regs_tbl[channel];
+> +
+> +	ret = of_property_read_u32_array(node, "resistance-ratio", val_arr, 2);
+
+Interesting but not standard DT binding. In general this seems to have no connect
+to the dt bindings in this seris.
+
+> +	if (!ret) {
+> +		auxadc_chan->r_ratio[0] = val_arr[0];
+> +		auxadc_chan->r_ratio[1] = val_arr[1];
+> +	} else {
+> +		auxadc_chan->r_ratio[0] = AUXADC_DEF_R_RATIO;
+> +		auxadc_chan->r_ratio[1] = 1;
+> +	}
+> +
+> +	ret = of_property_read_u32(node, "avg-num", &value);
+
+Also not a standing binding and rarely found in DT because it
+is usually a policy decision on noise vs sampling rate and exposed as
+oversampling control to userspace.
+
+> +	if (!ret)
+> +		auxadc_chan->avg_num = value;
+> +	else
+> +		auxadc_chan->avg_num = AUXADC_DEF_AVG_NUM;
+> +
+> +	return 0;
+> +}
+> +
+> +static int auxadc_parse_dt(struct pmic_adc_device *adc_dev,
+
+parse_fw() as you'll be using generic accessors thoughout.
+
+> +			   struct device_node *node)
+> +{
+> +	struct iio_chan_spec *iio_chan;
+> +	struct device_node *child;
+> +	unsigned int index = 0;
+> +	int ret;
+> +
+> +	adc_dev->nchannels = of_get_available_child_count(node);
+
+Use generic property accessors, not of specific ones (property.h)
+
+> +	if (!adc_dev->nchannels)
+> +		return -EINVAL;
+> +
+> +	adc_dev->iio_chans = devm_kcalloc(adc_dev->dev, adc_dev->nchannels,
+> +		sizeof(*adc_dev->iio_chans), GFP_KERNEL);
+> +	if (!adc_dev->iio_chans)
+> +		return -ENOMEM;
+> +	iio_chan = adc_dev->iio_chans;
+> +
+> +	for_each_available_child_of_node(node, child) {
+> +		ret = auxadc_get_data_from_dt(adc_dev, iio_chan, child);
+> +		if (ret < 0) {
+> +			of_node_put(child);
+> +			return ret;
+> +		}
+> +		iio_chan->indexed = 1;
+> +		iio_chan->address = index++;
+> +		iio_chan++;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int pmic_adc_probe(struct platform_device *pdev)
+> +{
+> +	struct device_node *node = pdev->dev.of_node;
+> +	struct pmic_adc_device *adc_dev;
+> +	struct iio_dev *indio_dev;
+> +	int ret;
+> +
+> +	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*adc_dev));
+> +	if (!indio_dev)
+> +		return -ENOMEM;
+> +
+> +	adc_dev = iio_priv(indio_dev);
+> +	adc_dev->dev = &pdev->dev;
+> +	adc_dev->regmap = dev_get_regmap(pdev->dev.parent, NULL);
+> +	mutex_init(&adc_dev->lock);
+In new drivers I prefer to see
+	ret = devm_mutex_init()
+	if (ret)
+		return ret;
+
+Brings only a minor debug benefit, but the cost of getting that is
+low so it is a nice thing to have!
+
+> +	adc_dev->info = of_device_get_match_data(&pdev->dev);
+> +
+> +	ret = auxadc_parse_dt(adc_dev, node);
+> +	if (ret) {
+> +		dev_notice(&pdev->dev, "auxadc_parse_dt fail, ret=%d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	indio_dev->dev.parent = &pdev->dev;
+
+No need for that - it's done the IIO core.
+
+> +	indio_dev->name = dev_name(&pdev->dev);
+
+This needs to be the part number, not come from the device name which can
+be very different depending on how the device is created etc.
+So just hard code the part number in the info structure and set it here.
+
+
+> +	indio_dev->info = &pmic_adc_info;
+> +	indio_dev->modes = INDIO_DIRECT_MODE;
+> +	indio_dev->channels = adc_dev->iio_chans;
+> +	indio_dev->num_channels = adc_dev->nchannels;
+> +
+> +	ret = devm_iio_device_register(&pdev->dev, indio_dev);
+> +	if (ret < 0) {
+> +		dev_notice(&pdev->dev, "failed to register iio device!\n");
+dev_err() given if you manage to hit here you definitely have an error.
+Same for other error paths.
+
+> +		return ret;
+> +	}
+> +
+> +	dev_dbg(&pdev->dev, "probe done\n");
+No purpose in this one.  It is very easy to see if probe succeeded without it.
+> +
+> +	return 0;
+> +}
 
 
