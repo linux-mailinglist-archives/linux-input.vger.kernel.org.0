@@ -1,58 +1,58 @@
-Return-Path: <linux-input+bounces-10862-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10863-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC00BA6334E
-	for <lists+linux-input@lfdr.de>; Sun, 16 Mar 2025 03:07:45 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87338A63353
+	for <lists+linux-input@lfdr.de>; Sun, 16 Mar 2025 03:20:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B9C9B189369A
-	for <lists+linux-input@lfdr.de>; Sun, 16 Mar 2025 02:07:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0184A7A71BC
+	for <lists+linux-input@lfdr.de>; Sun, 16 Mar 2025 02:19:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4D767DA66;
-	Sun, 16 Mar 2025 02:07:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F88A5672;
+	Sun, 16 Mar 2025 02:20:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="rKGg+q+2"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="K3Mx80VS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-10631.protonmail.ch (mail-10631.protonmail.ch [79.135.106.31])
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85F818027
-	for <linux-input@vger.kernel.org>; Sun, 16 Mar 2025 02:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F08322A;
+	Sun, 16 Mar 2025 02:20:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742090852; cv=none; b=BgTF0TDXdGY3h7njXfYWIsl40g7VJlAXq4x/OUyf/3SliyyoNYK/4B0hTA6hbuTy0AwagOpOzkOYZXNPhuuPNHlU7rLajITw5czSJHtdU1kDu4N6tMOQN4I6nbw4yZgWi9M+miq6pZmT8nzNgG8/YxRmJyitwUciIR58yrXe2gc=
+	t=1742091652; cv=none; b=R+Tfpd38Ykouadg/WK9+fdQakjHneF/lmHPMiHyj7UDfBzhHUEHvI4TadwCVY91n4txXzr4fol6hne2spcxiuVYT/+MdnlKm2wLq2I/k4zusgWDzu60GRu3UM0/nko9gwPlj2oQ2Bz7zR2EBtlb4snL7Qra3VehDzf8N5r9KTM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742090852; c=relaxed/simple;
-	bh=Ev22rK7cc16tyszcZE6I8fb+5s/qOR2us6bG6wbbdkc=;
+	s=arc-20240116; t=1742091652; c=relaxed/simple;
+	bh=KkBO96VC2Ajl9ONruM05l7E3RGo1jmxFIu3LiHOqDxY=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uyaD9UPt3K8130Y5FVGQckfA9MyLhe6Q87GD+uZng7YjT66gU8Y+x4LX054zhVym5Y0VnwLdDJvonIZOZfcN8KJqs22ur4L7c2BC1DpVpsw2QvO7LuCNMMAqJ9jfv8ZI25wNTWWGfLV0UvbFmdY2Ld8CZnSuVhGhONMG8kNX334=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=rKGg+q+2; arc=none smtp.client-ip=79.135.106.31
+	 MIME-Version:Content-Type; b=O5g/dvw12xIDF7VwIVfHdixfkU4BpVpVx+8Ap26PPWz9xvJaeyG27qq3nonGZN47MIrEZp+K/vNsdQICiyHR+rQ2uGp0Zd9f/kfdPGngt8azqbHueDa9e7gODnFm992ntv1GHXz9m0wZau57Pxr8fSdFChDvfYplhPA4+wstl4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=K3Mx80VS; arc=none smtp.client-ip=185.70.43.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1742090847; x=1742350047;
-	bh=S9wvDxFFV55Kpm0wLouwtnx2HBvBJqfAtgQP31lkJo0=;
+	s=protonmail3; t=1742091648; x=1742350848;
+	bh=KkBO96VC2Ajl9ONruM05l7E3RGo1jmxFIu3LiHOqDxY=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=rKGg+q+2KkXH0Ntn+txbqmNh6wohiKHA7wxeIKTlzqqe8FaL6lduNJmWpuraCsZxO
-	 nZRBupsu3te1ufPPtMKKsiMzZBbAymryfllxe4vH/ZRHt5sGYWd39Z2Fpw3aWeUIgp
-	 rIMjBtC5NNz9Fr3mao0QWpQcdBbgNd13dMdd7d7mbsqRVhoKJ+X7Gkp1NqebsUzojf
-	 JHBtHAATL+ZOtJ4xuoh2I538dwr4ZsOYF8x1p5hpaFHwobg7B5vGWPiptsy+qoWKg0
-	 YQZauRmQVjVEMV+3nTQzdAVKklbQTDUzTsEZsmjlDjAhWTZLSB0FavPms/2W2fri9c
-	 VvnvE5Emt3vHg==
-Date: Sun, 16 Mar 2025 02:07:23 +0000
-To: Danilo Krummrich <dakr@kernel.org>
+	b=K3Mx80VSnZPWn0drq3jeNdrbw4DjDTQ8f4VrtBAJ3PfAjR9jqmAfvdTM6XJ5JdW3j
+	 M+0+jhfXdk7Bxi0o/6VYStF/hCnPXMvZgM1ORyCoyHVQexdiZAkhDNwvYrvw4dHZBz
+	 aMHadawZKTcEtI7vEMZuMHSbxWdJxvkBl+QCI0PliIVNASW61kTxYif8GXgHBVrDbe
+	 jzSAx7WqQNST1c+bkPeqCJtIa4HwykRjcrulHzh7P3lQiFhVTCKCPkn51yxFmZqAGz
+	 zBM4SazogYEGa0i1Y0PcFvAUnNxKNidoEPLi2fxxidEH/oieES5BxN58PKc0P5TQ/V
+	 6tiTqk72KOCVg==
+Date: Sun, 16 Mar 2025 02:20:44 +0000
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-input@vger.kernel.org, dri-devel@lists.freedesktop.org, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>
-Subject: Re: [PATCH RFC 1/3] rust: core abstractions for HID drivers
-Message-ID: <87r02xhgoa.fsf@protonmail.com>
-In-Reply-To: <Z9MxI0u2yCfSzTvD@cassiopeiae>
-References: <20250313160220.6410-2-sergeantsagara@protonmail.com> <20250313160220.6410-4-sergeantsagara@protonmail.com> <Z9MxI0u2yCfSzTvD@cassiopeiae>
+Cc: Benjamin Tissoires <bentiss@kernel.org>, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-input@vger.kernel.org, dri-devel@lists.freedesktop.org, Jiri Kosina <jikos@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Julius Zint <julius@zint.sh>
+Subject: Re: [PATCH RFC 2/3] rust: hid: USB Monitor Control Class driver
+Message-ID: <87msdlhg2a.fsf@protonmail.com>
+In-Reply-To: <CANiq72njsmokSeQG=nzRDUUmYHnpRCGNwWJ1ZXj_khxXwrZxEQ@mail.gmail.com>
+References: <20250313160220.6410-2-sergeantsagara@protonmail.com> <20250313160220.6410-5-sergeantsagara@protonmail.com> <7ajr2aukrd7bdnns34ur7d37xk4aibaqsjyuoc334uiclay3yt@qiym6ju2kn3c> <CANiq72njsmokSeQG=nzRDUUmYHnpRCGNwWJ1ZXj_khxXwrZxEQ@mail.gmail.com>
 Feedback-ID: 26003777:user:proton
-X-Pm-Message-ID: a809a0f3d843457d74b3a960eda86d103553a560
+X-Pm-Message-ID: 3b508d8e81a47104014adc6c6acf04d2783efd94
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -62,120 +62,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 13 Mar, 2025 20:25:23 +0100 "Danilo Krummrich" <dakr@kernel.org> wr=
-ote:
-> On Thu, Mar 13, 2025 at 04:03:35PM +0000, Rahul Rameshbabu wrote:
->> These abstractions enable the development of HID drivers in Rust by bind=
-ing
->> with the HID core C API. They provide Rust types that map to the
->> equivalents in C. In this initial draft, only hid_device and hid_device_=
-id
->> are provided direct Rust type equivalents. hid_driver is specially wrapp=
-ed
->> with a custom Driver type. The module_hid_driver! macro provides analogo=
-us
->> functionality to its C equivalent.
+On Fri, 14 Mar, 2025 15:41:02 +0100 "Miguel Ojeda" <miguel.ojeda.sandonis@g=
+mail.com> wrote:
+> On Thu, Mar 13, 2025 at 5:58=E2=80=AFPM Benjamin Tissoires <bentiss@kerne=
+l.org> wrote:
 >>
->> Future work for these abstractions would include more bindings for commo=
-n
->> HID-related types, such as hid_field, hid_report_enum, and hid_report.
->> Providing Rust equivalents to useful core HID functions will also be
->> necessary for HID driver development in Rust.
+>> skeletons are good for documentation, but not really for code review as
+>> they can not compile.
 >>
->> Some concerns with this initial draft
->>   - The need for a DeviceId and DeviceIdShallow type.
->>     + DeviceIdShallow is used to guarantee the safety requirement for th=
-e
->>       Sync trait.
->>   - The create_hid_driver call in the module_hid_driver! macro does not =
-use
->>     Pin semantics for passing the ID_TABLE. I could not get Pin semantic=
-s
->>     to work in a const fn. I get a feeling this might be safe but need h=
-elp
->>     reviewing this.
+>> You should make this patch part of a documentation in
+>> Documentation/hid/, and squash it with the next one (having a minimal
+>> full driver instead of skeleton+fill in the voids).
 >
-> For a lot of things in this patch we have common infrastructure, please s=
-ee
-> rust/kernel/{device.rs, driver.rs, device_id.rs}. I think you should make=
- use of
-> the common infrastructure that solves the corresponding problems already.
-
-Absolutely! 9b90864bb42b ("rust: implement `IdArray`, `IdTable` and
-`RawDeviceId`"). The types here look really useful, so I am sorry for
-missing this. Will refactor my next revision to make use of this common
-infrastructure.
-
+> It could be part of the documentation of the `module_hid_driver!` for
+> instance, like we have done for other of those macros.
 >
-> It provides generic infrastructure for handling device IDs, a generalized
-> Registration type, based on InPlaceModule with a common module_driver!
-> implementation for busses to implement their corresponding module macro, =
-etc.
-
-Wow, module_driver! is very nice. On one hand, out of all of Rust's
-semantics, writing macro_rules! and proc macros were difficult for me
-before I started working on this. I think I am a bit better with them
-now after this. On the other hand looking at how module_pci_driver is
-implemented, I love how much this common infrastructure simplifies the
-effort for various buses. Will be moving to this in my next revision as
-well.
-
+> (In general, we try to use `Documentation/` for things that do not fit
+> as documentation for any of the code "items".)
 >
-> There are two busses upstream, which are based on this infrastructure:
-> rust/kernel/{pci.rs, platform.rs}.
+> Cheers,
+> Miguel
 
-Thanks for the pointers.
-
->
-> There is a patch series that improves soundness of those two bus abstract=
-ions
-> [1], which should be taken into consideration too. Even though your
-> implementation isn't prone to the addressed issue, it would be good to al=
-ign
-> things accordingly.
->
-> There is a third bus abstraction (auxiliary) on the mailing list [2], whi=
-ch
-> already implements the mentioned improvements, which you can use as canon=
-ical
-> example too.
->
-> [1] https://lore.kernel.org/rust-for-linux/20250313021550.133041-1-dakr@k=
-ernel.org/
-> [2] https://lore.kernel.org/rust-for-linux/20250313022454.147118-1-dakr@k=
-ernel.org/
-
-Will base my work on top of the patches in
-https://web.git.kernel.org/pub/scm/linux/kernel/git/dakr/linux.git/log/?h=
-=3Drust/device.
-
-Haven't had a chance yet to go through the patches in detail but the
-main one of importance seems to be "rust: device: implement device
-context marker" which adds the Normal and Core contexts for restricting
-certain device functions from being called in certain bus callbacks
-only. Will look at how the auxiliary bus abstraction makes use of this.
-
->
-
-I did have a question with regards to a pattern of "getters" that I have
-been implementing in my abstractions. Benjamin Tissoires brought up that
-the pattern looked repetitive and was wondering if it can be generated
-dynamically. I replied that I was of the opinion that it could not[1].
-
-[1] https://lore.kernel.org/rust-for-linux/Z9MxI0u2yCfSzTvD@cassiopeiae/T/#=
-m1b5b1ca96503a542c0da3089ef3f97e606032240
+In general, I will add a lot more documentation in my next revision. For
+example, I have a bunch of unsafe usage right now without any SAFETY
+comments.
 
 Thanks for the review,
 Rahul Rameshbabu
-
->> Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
->> ---
->>  drivers/hid/Kconfig             |   8 ++
->>  rust/bindings/bindings_helper.h |   1 +
->>  rust/kernel/hid.rs              | 245 ++++++++++++++++++++++++++++++++
->>  rust/kernel/lib.rs              |   2 +
->>  4 files changed, 256 insertions(+)
->>  create mode 100644 rust/kernel/hid.rs
-
 
 
