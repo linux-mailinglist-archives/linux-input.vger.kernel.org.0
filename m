@@ -1,533 +1,169 @@
-Return-Path: <linux-input+bounces-10859-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10860-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9BEA6330B
-	for <lists+linux-input@lfdr.de>; Sun, 16 Mar 2025 02:09:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99894A6330F
+	for <lists+linux-input@lfdr.de>; Sun, 16 Mar 2025 02:18:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 84A86172140
-	for <lists+linux-input@lfdr.de>; Sun, 16 Mar 2025 01:09:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA8EC3AF8A9
+	for <lists+linux-input@lfdr.de>; Sun, 16 Mar 2025 01:18:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF50818027;
-	Sun, 16 Mar 2025 01:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6D0763CF;
+	Sun, 16 Mar 2025 01:18:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="Q051WPht"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nIYl3MuV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465ECBE4A
-	for <linux-input@vger.kernel.org>; Sun, 16 Mar 2025 01:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DD318024;
+	Sun, 16 Mar 2025 01:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742087378; cv=none; b=ZyEZ6TNOmJCynfhCgE3luOWldbTzgCr1QLJTimkw+Azda9pEVH8kjZCEeOsWemo9tjQ0CjBCbIGX0fkvWx0HAu1k170yAFBFUDWCTEvbvq4bu6ogdwJRRvkZfQw9jUZ3AWNjFLghhq+58KggG8rfQl/rU9Jap0RgW2PZM0r8gCI=
+	t=1742087906; cv=none; b=PS2xtcRDMffJHB4Iy/XJc45irTzMUysGvk2LVZa3kQaZuyiNu8FxBNO6x0eY8kiADyPJvtVrc73vht67PZr9i2OuKDu5TxwPiSU0zwaD9oNSj2KzvUqcEe+9daDK0HSyixAVHz1yR4AQsP9AFEqZb2BDzMnNeF15MAz0B4dxa8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742087378; c=relaxed/simple;
-	bh=WwZ45oimIxQTSx72HxQmlkPmKM4lzGRqnZ/POQF8leo=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Q7bF2kfsii/brjOOhO7maRCMv0CpWmkNMzJmuSbbceD/MIz+xGbnqcg8PAofwJIjwhSkBNN489AIduP85OvBhbGuaq8enKMzQzCUZ8XbVrlq96z8J1RteuJmkiIuwkSprHSsHa6y5uqLp6u35gWTRPinoOBjGbACcLNRl6SOXSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=Q051WPht; arc=none smtp.client-ip=185.70.43.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1742087372; x=1742346572;
-	bh=MqmS0orb2WnUl2paHYYKtX6297b3GG+ztGyGpJUohpU=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
-	 List-Unsubscribe:List-Unsubscribe-Post;
-	b=Q051WPhtp2O0j1ZA1aNGhOakQJhGFb3efJhsoJ68TIwCbOYc+8JvfwoMrWBQBwZbM
-	 J0sl8xC7pUvkNdI5RGYJXRKVzuTzPNO09Dsggabg4C6ZIeLYXx3RadCi8/JVh8qUwM
-	 zJ7zG+opIm5M0zH3mOLAjueHSZ8SRv1knw4MElnY68KMwGcmPhTsYHqJGqgEAGS29g
-	 lgi0WH5YwyYXEsZIzrSBmuTs9RHn/qRkFk7xLhJ7R0HuPrEb9pYIVoaKhTWI4NNkco
-	 TWCgHLJf8ZmZkWCA6G+jazc5rHLHQlMBFplIRw+ULFQuNaQ9x3XWXtRirX2Smjf5Z0
-	 kgoc+NYrTV+Hg==
-Date: Sun, 16 Mar 2025 01:09:27 +0000
-To: Benjamin Tissoires <bentiss@kernel.org>
-From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH RFC 1/3] rust: core abstractions for HID drivers
-Message-ID: <87v7s9hjcy.fsf@protonmail.com>
-Feedback-ID: 26003777:user:proton
-X-Pm-Message-ID: f342f64941e007e2a1ca4b858f36b51900ebc90e
+	s=arc-20240116; t=1742087906; c=relaxed/simple;
+	bh=FR4BAfAqRSJF647xGHiWbjKV9KTJlwYPqUqzXncZFJY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=X+TWdY3wAX5gaUb73XAsr45SASjc7Aa6RTDwlyfzl598tB6SCsNdOL1kRU4NiwO/aboOQDbE2LI/j6/RDiEzIp2N/20zdRUZZgoF8f56pNKeiDPDt/fMRbTVSjuni9fG+npdNmjggCobXHbosOJMIJpj7GnMWCDgnfqaTqIjoek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nIYl3MuV; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-224191d92e4so62592655ad.3;
+        Sat, 15 Mar 2025 18:18:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742087904; x=1742692704; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4cSjt+tmC9IHZzjRkQR+eQSCX9XoU66Ykqk0J+mC1ik=;
+        b=nIYl3MuV9YniQX4ED13ZdSGoWRyJbt8Dbsib3wrgiaG0jPAeQAxXUNPeDsM3E6S2gg
+         u6u0U57vvBFVmYlF2RplvJpaVBbAZYquUGHXHSYkKCvEXlorA8rykbxn958O8LHcx3IC
+         gPXzadHoIc6bBDCcw92DsEUivXllK9HWjiF1JLJ12ikykalBuzc6cHTKR78Cq0pLGb0u
+         vWs/KtFJAZ5/rD3vK8Dml7Q1wawJAVavih6M9InCk9FvGSZBcHso+TnhvbJJNGrAVq0C
+         YD+YQj+2hwMPDVc0mCr7XZY9E1ue4/yBRe4mjWo3iB2oVLBoNpY9FXMGhhio87nFUu4R
+         cJFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742087904; x=1742692704;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4cSjt+tmC9IHZzjRkQR+eQSCX9XoU66Ykqk0J+mC1ik=;
+        b=hEtIJ5AOMfJR1sqUy8me61QblfdF44aD1kOOtw2kRaBOo03YzRYrVlISKjCezk1bfu
+         B8GpMCzg0xvXbPRZNnK46QPu4ibT6YpllYyc+YAIX3LpHQRpbb9IAr6oVrx+/EUJxSDz
+         DjvJc1BZI99TKKOqCP74QkOalImc2SJ6qf2P6s14gB3F0WzZbaeShc9ved6AEbLMBpfw
+         rqjBYH1xxs0yU1sac9GXWq8/1HgP7Cj4e0jSVUhc+8JjfmRl2lQ+gpfmyvBYvCBBOQFO
+         iN9O87KyW9CpVGWrbJLe4yaYTi1dKbFZajT1e+33MWVbzSWTztrAazmqK7a+9Nx7EHUX
+         jiEw==
+X-Forwarded-Encrypted: i=1; AJvYcCWk3ghleFRAakwPxuTngVfMrS6Vd3XOpnXauR8hoBpGeVjBKa4kleZ+VNYzIvHEixsT4CbmNJZKEZ22Yw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz33oxaUOpxbq5QcJBMw7brypXbKd6NFiV2amCglvNTEnRT0wXZ
+	PCuRsK/Cfk7HqAu8Gw9E3FEegkNWT5zb15iByxlHNwrqxTWWzDIi
+X-Gm-Gg: ASbGncsjkgp7JecPl9GCLFe0uYfVU/6slZmTUyLXnYAf7ygB7rZNsP14HfVeRBgWUv+
+	0/XBAKnupSty42dRFrMN8pjLotB26FhTD9ylBBpBmbtW6JFQcIFaea5VRpSY/tUmMgG6yZyjufr
+	DiT2v0uUHLAYZUG++iucARtQb/cT+DPPHfYXnPQ7aSBUB25y7o1Zri/dHXGkpSNgRK/m5CqP7Rj
+	xkWg57nHwgO0CPOIU3ISzfhOuM+/H/apekvGAVQp8VLOL0dY3GyEvRwRIBNtYRV7RproM5zraXW
+	cTK6UJelPzVM/vt7oibI28Ad8JE0ssP5Rrm8eVHGq+7/nQ==
+X-Google-Smtp-Source: AGHT+IE65S62rB3Jgo4wyNFrKsx70lqmZtblVsgPbjIj2VdOrOA7O6JoCAGVIqt1EdLt7B4+m84tOw==
+X-Received: by 2002:a05:6a21:58d:b0:1f5:8153:93fb with SMTP id adf61e73a8af0-1f5c114b9abmr10264427637.10.1742087904052;
+        Sat, 15 Mar 2025 18:18:24 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:56d6:e54a:e07b:d824])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7371169549fsm5181985b3a.131.2025.03.15.18.18.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Mar 2025 18:18:23 -0700 (PDT)
+Date: Sat, 15 Mar 2025 18:18:12 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v6.14-rc6
+Message-ID: <Z9Ym1Da9oT9CdxVR@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 13 Mar, 2025 17:54:57 +0100 "Benjamin Tissoires" <bentiss@kernel.or=
-g> wrote:
-> On Mar 13 2025, Rahul Rameshbabu wrote:
->> These abstractions enable the development of HID drivers in Rust by bind=
-ing
->> with the HID core C API. They provide Rust types that map to the
->> equivalents in C. In this initial draft, only hid_device and hid_device_=
-id
->> are provided direct Rust type equivalents. hid_driver is specially wrapp=
-ed
->> with a custom Driver type. The module_hid_driver! macro provides analogo=
-us
->> functionality to its C equivalent.
->>
->> Future work for these abstractions would include more bindings for commo=
-n
->> HID-related types, such as hid_field, hid_report_enum, and hid_report.
->
-> Yes, but you can also bypass this as a first step in the same way we do
-> for HID-BPF: we just consider everything to be a stream of bytes, and
-> we only care about .report_fixup() and .raw_event().
->
+Hi Linus,
 
-Thanks, I took a look at struct hid_bpf_ops and how it is used in
-drivers/hid/bpf/hid_bpf_dispatch.c. Would you then suggest doing this
-for the C-Rust layer and just having pure Rust code for handling the
-stream of bytes, instead of doing more C-Rust bindings? This is
-something that can be discussed after implementing a Rust abstraction
-with a "simple" reference HID driver.
+Please pull from:
 
->> Providing Rust equivalents to useful core HID functions will also be
->> necessary for HID driver development in Rust.
->
-> Yeah, you'll need the back and forth communication with the HID device,
-> but this can come in later.
->
->>
->> Some concerns with this initial draft
->>   - The need for a DeviceId and DeviceIdShallow type.
->>     + DeviceIdShallow is used to guarantee the safety requirement for th=
-e
->>       Sync trait.
->>   - The create_hid_driver call in the module_hid_driver! macro does not =
-use
->>     Pin semantics for passing the ID_TABLE. I could not get Pin semantic=
-s
->>     to work in a const fn. I get a feeling this might be safe but need h=
-elp
->>     reviewing this.
->>
->> Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
->> ---
->>  drivers/hid/Kconfig             |   8 ++
->>  rust/bindings/bindings_helper.h |   1 +
->>  rust/kernel/hid.rs              | 245 ++++++++++++++++++++++++++++++++
->>  rust/kernel/lib.rs              |   2 +
->>  4 files changed, 256 insertions(+)
->>  create mode 100644 rust/kernel/hid.rs
->>
->> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
->> index b53eb569bd49..e085964c7ffc 100644
->> --- a/drivers/hid/Kconfig
->> +++ b/drivers/hid/Kconfig
->> @@ -714,6 +714,14 @@ config HID_MEGAWORLD_FF
->>  =09Say Y here if you have a Mega World based game controller and want
->>  =09to have force feedback support for it.
->>
->> +config RUST_HID_ABSTRACTIONS
->> +=09bool "Rust HID abstractions support"
->> +=09depends on RUST
->> +=09depends on HID=3Dy
->
-> naive question: does it has to be 'y', some distributions are using 'm'.
->
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.14-rc6
 
-My distribution of choice uses 'm' as well. I probably should double
-check how the #[cfg(CONFIG_RUST_HID_ABSTRACTIONS)] Rust attribute works.
-I think the problem here is that all the Rust abstrations today get
-compiled into the kernel image, so if the HID Rust abstrations depend on
-a module, that sort of breaks the abstration that components compiled
-into the kernel as built-in do not depend on symbols from a module.
+to receive updates for the input subsystem. You will get:
 
-I believe there are a number of other Rust abstractions that fall into
-this problem. CONFIG_RUST_FW_LOADER_ABSTRACTIONS is one such example. I
-would definitely be interested in discussion on how to solve this
-problem in general for the Rust abstractions.
+- several new device IDs added to xpad game controller driver
 
->> +=09help
->> +=09Adds support needed for HID drivers written in Rust. It provides a
->> +=09wrapper around the C hid core.
->> +
->>  config HID_REDRAGON
->>  =09tristate "Redragon keyboards"
->>  =09default !EXPERT
->> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_he=
-lper.h
->> index 55354e4dec14..e2e95afe9f4a 100644
->> --- a/rust/bindings/bindings_helper.h
->> +++ b/rust/bindings/bindings_helper.h
->> @@ -16,6 +16,7 @@
->>  #include <linux/file.h>
->>  #include <linux/firmware.h>
->>  #include <linux/fs.h>
->> +#include <linux/hid.h>
->>  #include <linux/jiffies.h>
->>  #include <linux/jump_label.h>
->>  #include <linux/mdio.h>
->> diff --git a/rust/kernel/hid.rs b/rust/kernel/hid.rs
->> new file mode 100644
->> index 000000000000..f13476b49e7d
->> --- /dev/null
->> +++ b/rust/kernel/hid.rs
->> @@ -0,0 +1,245 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +// Copyright (C) 2025 Rahul Rameshbabu <sergeantsagara@protonmail.com>
->> +
->> +use crate::{error::*, prelude::*, types::Opaque};
->> +use core::marker::PhantomData;
->> +
->> +#[repr(transparent)]
->> +pub struct Device(Opaque<bindings::hid_device>);
->> +
->> +impl Device {
->> +    unsafe fn from_ptr<'a>(ptr: *mut bindings::hid_device) -> &'a mut S=
-elf {
->> +        let ptr =3D ptr.cast::<Self>();
->> +
->> +        unsafe { &mut *ptr }
->> +    }
->> +
->> +    pub fn vendor(&self) -> u32 {
->> +        let hdev =3D self.0.get();
->> +
->> +        unsafe { (*hdev).vendor }
->> +    }
->> +
->> +    pub fn product(&self) -> u32 {
->> +        let hdev =3D self.0.get();
->> +
->> +        unsafe { (*hdev).product }
->> +    }
->
-> I know this is a RFC, but there are a lot more of interesting fields
-> you'll want to export.
->
-> Can/Should this be automated somehow?
->
+- support for imagis IST3038H variant of chip added to imagis touch
+  controller driver
 
-That would be interesting. I am not sure there is a path for automation
-of this right now. This is a similar problem to C++ with
-setters/getters. I would be interested if someone from the Rust for
-Linux side has any commentary on this topic.
+- a fix for GPIO allocation for ads7846 touch controller driver
 
->> +}
->> +
->> +#[repr(transparent)]
->> +pub struct DeviceIdShallow(Opaque<bindings::hid_device_id>);
->> +
->> +// SAFETY: `DeviceIdShallow` doesn't expose any &self method to access =
-internal data, so it's safe to
->> +// share `&DriverVTable` across execution context boundaries.
->> +unsafe impl Sync for DeviceIdShallow {}
->> +
->> +impl DeviceIdShallow {
->
-> I have a hard time understanding the "DeviceId" part.
->
-> In struct hid_device, we have a .id field which is incremented for every
-> new device. I assume this is different, but this still confuses me.
->
-> If that's the rust way of doing it that's fine of course.
->
-> [few minutes later] Oh, so you are mapping struct hid_device_id :)
-> Why dropping the 'HID' in front?
+- a fix for iqs7222 driver to properly support status register
 
-This has to do with module scoping in Rust (similar to namespaces in C++
-as an analogy). The way I would reference this in HID drivers would be
-hid::DeviceId vs hid::HidDeviceId. I think, because of this, its more
-common among the Rust abstraction to drop the name of the subsystem in
-the type name prefixes.
+- a fix for goodix-berlin touch controller driver to use the right name
+  for the regulator
 
->
-> I guess the docs would explain that in the actual submission.
->
+- more i8042 quirks to better handle several old Clevo devices.
 
-I'll work an adding proper documentation in my next RFC revision. I
-wanted to get this initial RFC out just to make sure I am on the right
-path.
+Changelog:
+---------
 
->
->> +    pub const fn new() -> Self {
->> +        DeviceIdShallow(Opaque::new(bindings::hid_device_id {
->> +            // SAFETY: The rest is zeroed out to initialize `struct hid=
-_device_id`,
->> +            // sets `Option<&F>` to be `None`.
->> +            ..unsafe { ::core::mem::MaybeUninit::<bindings::hid_device_=
-id>::zeroed().assume_init() }
->> +        }))
->> +    }
->> +
->> +    pub const fn new_usb(vendor: u32, product: u32) -> Self {
->
-> We probably need the group here as well.
->
+Andras Sebok (2):
+      dt-bindings: input/touchscreen: imagis: add compatible for ist3038h
+      Input: imagis - add support for imagis IST3038H
 
-  #define HID_USB_DEVICE(ven, prod)=09=09=09=09\
-    .bus =3D BUS_USB, .vendor =3D (ven), .product =3D (prod)
+Antheas Kapenekakis (3):
+      Input: xpad - add support for ZOTAC Gaming Zone
+      Input: xpad - add support for TECNO Pocket Go
+      Input: xpad - rename QH controller to Legion Go S
 
-When we use HID_USB_DEVICE to instantiate a hid_device_id element in the
-.id_table, the C macro does not populate the .group field. Is the ideal
-for anything new in the HID subsystem to explicitly specify groups?
-Through git blaming, I found 070748ed0b52 ("HID: Create a generic device
-group"). The commit description was very useful.
+Bastien Nocera (1):
+      MAINTAINERS: Remove myself from the goodix touchscreen maintainers
 
-  Devices that do not have a special driver are handled by the generic
-  driver. This patch does the same thing using device groups; Instead of
-  forcing a particular driver, the appropriate driver is picked up by
-  udev. As a consequence, one can now move a device from generic to
-  specific handling by a simple rebind.
+H. Nikolaus Schaller (1):
+      Input: ads7846 - fix gpiod allocation
 
-I assume we want to explicitly specify group going forward for matching
-with the generic driver or not and for rebinding purposes with udev?
+Jeff LaBundy (1):
+      Input: iqs7222 - preserve system status register
 
->> +        DeviceIdShallow(Opaque::new(bindings::hid_device_id {
->> +            bus: 0x3, /* BUS_USB */
->
-> group???
->
->> +            vendor: vendor,
->> +            product: product,
->> +            // SAFETY: The rest is zeroed out to initialize `struct hid=
-_device_id`,
->> +            // sets `Option<&F>` to be `None`.
->> +            ..unsafe { ::core::mem::MaybeUninit::<bindings::hid_device_=
-id>::zeroed().assume_init() }
->> +        }))
->> +    }
->> +
->> +    const unsafe fn as_ptr(&self) -> *const bindings::hid_device_id {
->> +        self.0.get()
->> +    }
->> +}
->> +
->> +#[repr(transparent)]
->> +pub struct DeviceId(Opaque<bindings::hid_device_id>);
->> +
->> +impl DeviceId {
->> +    unsafe fn from_ptr<'a>(ptr: *mut bindings::hid_device_id) -> &'a mu=
-t Self {
->> +        let ptr =3D ptr.cast::<Self>();
->> +
->> +        unsafe { &mut *ptr }
->> +    }
->> +
->> +    unsafe fn from_const_ptr<'a>(ptr: *const bindings::hid_device_id) -=
-> &'a Self {
->> +        let ptr =3D ptr.cast::<Self>();
->> +
->> +        unsafe { &(*ptr) }
->> +    }
->> +
->> +    pub fn vendor(&self) -> u32 {
->> +        let hdev_id =3D self.0.get();
->> +
->> +        unsafe { (*hdev_id).vendor }
->> +    }
->> +
->> +    pub fn product(&self) -> u32 {
->> +        let hdev_id =3D self.0.get();
->> +
->> +        unsafe { (*hdev_id).product }
->> +    }
->
-> Again, you need the group and the bus at least.
->
+Luca Weiss (2):
+      Input: goodix-berlin - fix comment referencing wrong regulator
+      Input: goodix-berlin - fix vddio regulator references
 
-Will add throw those and more in my next revision.
+Nilton Perim Neto (1):
+      Input: xpad - add 8BitDo SN30 Pro, Hyperkin X91 and Gamesir G7 SE controllers
 
->> +}
->> +
->> +/*
->> +#[repr(transparent)]
->> +pub struct Field(Opaque<bindings::hid_field>);
->> +
->> +#[repr(transparent)]
->> +pub struct ReportEnum(Opaque<bindings::hid_report_enum>);
->> +
->> +#[repr(transparent)]
->> +pub struct Report(Opaque<bindings::hid_report>);
->> +*/
->> +
->> +#[vtable]
->> +pub trait Driver {
->> +    fn probe(_dev: &mut Device, _id: &DeviceId) -> Result {
->> +        build_error!(VTABLE_DEFAULT_ERROR)
->> +    }
->> +
->> +    fn remove(_dev: &mut Device) {
->> +    }
->> +}
->> +
->> +struct Adapter<T: Driver> {
->> +    _p: PhantomData<T>,
->> +}
->> +
->> +impl<T: Driver> Adapter<T> {
->> +    unsafe extern "C" fn probe_callback(
->> +        hdev: *mut bindings::hid_device,
->> +        hdev_id: *const bindings::hid_device_id,
->> +    ) -> crate::ffi::c_int {
->> +        from_result(|| {
->> +            let dev =3D unsafe { Device::from_ptr(hdev) };
->> +            let dev_id =3D unsafe { DeviceId::from_const_ptr(hdev_id) }=
-;
->> +            T::probe(dev, dev_id)?;
->> +            Ok(0)
->> +        })
->> +    }
->> +
->> +    unsafe extern "C" fn remove_callback(hdev: *mut bindings::hid_devic=
-e) {
->> +        let dev =3D unsafe { Device::from_ptr(hdev) };
->> +        T::remove(dev);
->> +    }
->> +}
->> +
->> +#[repr(transparent)]
->> +pub struct DriverVTable(Opaque<bindings::hid_driver>);
->> +
->> +// SAFETY: `DriverVTable` doesn't expose any &self method to access int=
-ernal data, so it's safe to
->> +// share `&DriverVTable` across execution context boundaries.
->> +unsafe impl Sync for DriverVTable {}
->> +
->> +pub const fn create_hid_driver<T: Driver>(
->> +    name: &'static CStr,
->> +    id_table: &'static DeviceIdShallow,
->> +) -> DriverVTable {
->> +    DriverVTable(Opaque::new(bindings::hid_driver {
->> +        name: name.as_char_ptr().cast_mut(),
->> +        id_table: unsafe { id_table.as_ptr() },
->> +        probe: if T::HAS_PROBE {
->> +            Some(Adapter::<T>::probe_callback)
->> +        } else {
->> +            None
->> +        },
->> +        remove: if T::HAS_REMOVE {
->> +            Some(Adapter::<T>::remove_callback)
->> +        } else {
->> +            None
->> +        },
->> +        // SAFETY: The rest is zeroed out to initialize `struct hid_dri=
-ver`,
->> +        // sets `Option<&F>` to be `None`.
->> +        ..unsafe { core::mem::MaybeUninit::<bindings::hid_driver>::zero=
-ed().assume_init() }
->> +    }))
->> +}
->> +
->> +pub struct Registration {
->> +    driver: Pin<&'static mut DriverVTable>,
->> +}
->> +
->> +unsafe impl Send for Registration {}
->> +
->> +impl Registration {
->> +    pub fn register(
->> +        module: &'static crate::ThisModule,
->> +        driver: Pin<&'static mut DriverVTable>,
->> +        name: &'static CStr,
->> +    ) -> Result<Self> {
->> +        to_result(unsafe {
->> +            bindings::__hid_register_driver(driver.0.get(), module.0, n=
-ame.as_char_ptr())
->> +        })?;
->> +
->> +        Ok(Registration { driver })
->> +    }
->> +}
->> +
->> +impl Drop for Registration {
->> +    fn drop(&mut self) {
->> +        unsafe {
->> +            bindings::hid_unregister_driver(self.driver.0.get())
->> +        };
->> +    }
->> +}
->> +
->> +#[macro_export]
->> +macro_rules! usb_device {
->> +    (vendor: $vendor:expr, product: $product:expr $(,)?) =3D> {
->> +        $crate::hid::DeviceIdShallow::new_usb($vendor, $product)
->> +    }
->> +}
->> +
->> +#[macro_export]
->> +macro_rules! module_hid_driver {
->> +    (@replace_expr $_t:tt $sub:expr) =3D> {$sub};
->> +
->> +    (@count_devices $($x:expr),*) =3D> {
->> +        0usize $(+ $crate::module_hid_driver!(@replace_expr $x 1usize))=
-*
->> +    };
->> +
->> +    (driver: $driver:ident, id_table: [$($dev_id:expr),+ $(,)?], name: =
-$name:tt, $($f:tt)*) =3D> {
->> +        struct Module {
->> +            _reg: $crate::hid::Registration,
->> +        }
->> +
->> +        $crate::prelude::module! {
->> +            type: Module,
->> +            name: $name,
->> +            $($f)*
->> +        }
->> +
->> +        const _: () =3D {
->> +            static NAME: &$crate::str::CStr =3D $crate::c_str!($name);
->> +
->> +            static ID_TABLE: [$crate::hid::DeviceIdShallow;
->> +                $crate::module_hid_driver!(@count_devices $($dev_id),+)=
- + 1] =3D [
->> +                $($dev_id),+,
->> +                $crate::hid::DeviceIdShallow::new(),
->> +            ];
->> +
->> +            static mut DRIVER: $crate::hid::DriverVTable =3D
->> +                $crate::hid::create_hid_driver::<$driver>(NAME, unsafe =
-{ &ID_TABLE[0] });
->> +
->> +            impl $crate::Module for Module {
->> +                fn init(module: &'static $crate::ThisModule) -> Result<=
-Self> {
->> +                    let driver =3D unsafe { &mut DRIVER };
->> +                    let mut reg =3D $crate::hid::Registration::register=
-(
->> +                        module,
->> +                        ::core::pin::Pin::static_mut(driver),
->> +                        NAME,
->> +                    )?;
->> +                    Ok(Module { _reg: reg })
->> +                }
->> +            }
->> +        };
->> +    }
->> +}
->> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
->> index 496ed32b0911..51b8c2689264 100644
->> --- a/rust/kernel/lib.rs
->> +++ b/rust/kernel/lib.rs
->> @@ -49,6 +49,8 @@
->>  #[cfg(CONFIG_RUST_FW_LOADER_ABSTRACTIONS)]
->>  pub mod firmware;
->>  pub mod fs;
->> +#[cfg(CONFIG_RUST_HID_ABSTRACTIONS)]
->> +pub mod hid;
->>  pub mod init;
->>  pub mod io;
->>  pub mod ioctl;
->> --
->> 2.47.2
->>
->>
->
-> Cheers,
-> Benjamin
+Pavel Rojtberg (1):
+      Input: xpad - add multiple supported devices
 
-Thanks so much for the review,
-Rahul Rameshbabu
+Werner Sembach (4):
+      Input: i8042 - swap old quirk combination with new quirk for NHxxRZQ
+      Input: i8042 - add required quirks for missing old boardnames
+      Input: i8042 - swap old quirk combination with new quirk for several devices
+      Input: i8042 - swap old quirk combination with new quirk for more devices
 
+Yu-Chun Lin (1):
+      Input: wdt87xx_i2c - fix compiler warning
+
+Diffstat:
+--------
+
+ .../input/touchscreen/imagis,ist3038c.yaml         |   1 +
+ MAINTAINERS                                        |   1 -
+ drivers/input/joystick/xpad.c                      |  39 ++++++--
+ drivers/input/misc/iqs7222.c                       |  50 ++++------
+ drivers/input/serio/i8042-acpipnpio.h              | 111 ++++++++++-----------
+ drivers/input/touchscreen/ads7846.c                |   2 +-
+ drivers/input/touchscreen/goodix_berlin_core.c     |  26 ++---
+ drivers/input/touchscreen/imagis.c                 |   9 ++
+ drivers/input/touchscreen/wdt87xx_i2c.c            |   2 +
+ 9 files changed, 135 insertions(+), 106 deletions(-)
+
+Thanks.
+
+
+-- 
+Dmitry
 
