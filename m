@@ -1,163 +1,127 @@
-Return-Path: <linux-input+bounces-10866-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10867-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB49A635BB
-	for <lists+linux-input@lfdr.de>; Sun, 16 Mar 2025 14:04:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C63A6362D
+	for <lists+linux-input@lfdr.de>; Sun, 16 Mar 2025 16:13:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5203916C7FB
-	for <lists+linux-input@lfdr.de>; Sun, 16 Mar 2025 13:04:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A30C73AEF1C
+	for <lists+linux-input@lfdr.de>; Sun, 16 Mar 2025 15:13:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 240C21A5B89;
-	Sun, 16 Mar 2025 13:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i1mXDZrW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58EA71AF0A7;
+	Sun, 16 Mar 2025 15:13:31 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from air.basealt.ru (air.basealt.ru [193.43.8.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9812139B;
-	Sun, 16 Mar 2025 13:03:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8849918B494;
+	Sun, 16 Mar 2025 15:13:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.43.8.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742130240; cv=none; b=CwlMv68Zzyw/GNKyjTdnHP/n0i/1tYwYNW5Dx1jnxbWC3zaGXA/tw7b9tRh99oInLx00mbUwH0RcRzuii9bnMSZM7JAD/6s78eatY1DEm+t0Wt6KahSRsIehdMYHZNKMInoPpPXEdM+ot4jRco/x+JzX3taElOu8xpb2kjS515E=
+	t=1742138011; cv=none; b=nsukDz0//z+FvWB0oslaK5roFU7+B2qQ7sDI3A2zhXHXJPEj08JZV6V3u/RT5Z8uyn5Ij7snnnbOVdheTiLL7lXMdhY/OTgBX3m/65+1Nhk6/AK8VAXzx34HjIu4jrsCiCnZfZMNSTneu5O3C2Abj6Jm4P5Zik5cLdKgNlYU6rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742130240; c=relaxed/simple;
-	bh=HEXeQgREjCl2cboBt4IGZ0XJkceBqK9SYOGeCX0PGdM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CvhoaclxcgpV+rPOY9b4yUN4XmUdLs1zEFeea/pOc4JzWofSepBfrdYwJJPK/k3bQKu0cd3uKZvxBYstmcAKP9bVbcR027Tkuo1jrqEN1GgXz/fY+E8ALNGJPiMy/ziRretIYUKla3ryIApNPP7Jkajl9y3aoRm9Gmdv2zmmP6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i1mXDZrW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59706C4CEDD;
-	Sun, 16 Mar 2025 13:03:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742130239;
-	bh=HEXeQgREjCl2cboBt4IGZ0XJkceBqK9SYOGeCX0PGdM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=i1mXDZrWi/EthwT/OheBAJXydlyseTnbq9IX6Oba83niWW9acYi68YhN5GB6xSLjj
-	 LgP1Ur2LtE/HJZYJO5/aHcGkeLCtZf9v/SGZulU15TcBJOIJg6AQw99KyMBC2hL1Bw
-	 DMVGZ9VlznPBY/QpKI/MAMnjTkvKtSUdLwjKbSpJYgYPlS579xKkzY9IilhkZU4YIl
-	 zW1mR/VDRnDP7HdAhGvZNuy793mkyZ7aEumfm/qifACQUhxqvOLclvIb0/u5oLNmZ0
-	 NPD7OYMnaJ4BNHZGFWK+yWUOUGKZ0vjnIzOiXDFGhuKmVasyKb7dLTRsSdMCt5Bh6e
-	 tb8jXW5WROfww==
-Message-ID: <97cc25c3-4538-4f28-a551-309943ba0768@kernel.org>
-Date: Sun, 16 Mar 2025 14:03:52 +0100
+	s=arc-20240116; t=1742138011; c=relaxed/simple;
+	bh=8xBIj0ohP0OxF9nPiLVO1cAieoNZZTn1nW1yoPD0r7Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Pd5abSKn2/sCwZyWodfkI8Ax6iBDEGbUK+z0rxf5FAeG+i/8fvRN+PLsBJbigvp+Mz/8Onk/EV/hNh24jPVWg/24wzqUjnIx7Qr+U77bzbOmY1wyfuiixf5diKWQF6QIrqMz/Kv1WKa72sgkpP5OQe5Sh5zv0XRkE8/eLIuKjFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=193.43.8.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: from altlinux.ipa.basealt.ru (unknown [178.76.204.78])
+	(Authenticated sender: kovalevvv)
+	by air.basealt.ru (Postfix) with ESMTPSA id 7DA4F2336B;
+	Sun, 16 Mar 2025 18:13:19 +0300 (MSK)
+From: Vasiliy Kovalev <kovalev@altlinux.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Erick Archer <erick.archer@outlook.com>,
+	Xing Wei <weixing@hanwang.com.cn>,
+	Jiri Kosina <jikos@kernel.org>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: lvc-project@linuxtesting.org,
+	kovalev@altlinux.org
+Subject: [PATCH] Input: hanwang - require Interrupt IN endpoint
+Date: Sun, 16 Mar 2025 18:13:19 +0300
+Message-Id: <20250316151319.1310765-1-kovalev@altlinux.org>
+X-Mailer: git-send-email 2.33.8
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] Input: snvs_pwrkey - support power-off-time-sec
-To: Ian Ray <ian.ray@gehealthcare.com>
-Cc: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250314094213.902-1-ian.ray@gehealthcare.com>
- <20250314094213.902-2-ian.ray@gehealthcare.com>
- <aa893df6-fe40-49a8-920d-7d7240bb18b8@kernel.org>
- <Z9QuC7tZoXj3DRZs@9e5302bffcb7>
- <e58f5851-9988-463b-824e-ad3da1137c33@kernel.org>
- <Z9RBmVQ1l6wx_WJf@c052f8094844>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <Z9RBmVQ1l6wx_WJf@c052f8094844>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 14/03/2025 15:47, Ian Ray wrote:
-> On Fri, Mar 14, 2025 at 02:31:12PM +0100, Krzysztof Kozlowski wrote:
->> On 14/03/2025 14:24, Ian Ray wrote:
->>> On Fri, Mar 14, 2025 at 01:55:47PM +0100, Krzysztof Kozlowski wrote:
->>>> On 14/03/2025 10:42, Ian Ray wrote:
->>>>>
->>>>>       /* Get SNVS register Page */
->>>>> @@ -148,6 +152,24 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
->>>>>       if (pdata->irq < 0)
->>>>>               return -EINVAL;
->>>>>
->>>>> +     if (!of_property_read_u32(np, "power-off-time-sec", &val)) {
->>>>
->>>> And when you test your DTS against binding what do you see? I suspect
->>>> new warning.
->>>
->>> I checked the build logs (from a clean workarea), plus run-time dmesg,
->>> both with the DTS change -- and without it.  There are no new warnings
->>> (specifically nothing mentioning snvs-pwrkey or dts or power-off-time).
->>>
->>> If an invalid value (such as "42") is chosen then the probe fails with
->>> -EINVAL as expected.
->>>
->>> Is there something else that I should have checked?
->>
->> I don't know what your build logs process has. I meant dtbs_check
->> against the bindings.
-> 
-> $ dt-validate -s Documentation/devicetree/bindings/input/input.yaml \
->   arch/arm64/boot/dts/freescale/imx8mp-ppdv2.dtb 
+Fix binding to compromised USB devices using non-Interrupt endpoint
+(e.g., Bulk), which can trigger a system crash with panic_on_warn
+enabled. Replace endpoint count check with usb_find_int_in_endpoint()
+to enforce Interrupt IN.
 
+Syzbot report:
+usb 1-1: BOGUS urb xfer, pipe 1 != type 3
+WARNING: CPU: 0 PID: 2827 at drivers/usb/core/urb.c:503 usb_submit_urb+0xe4b/0x1730 drivers/usb/core/urb.c:503
+Modules linked in:
+CPU: 0 UID: 0 PID: 2827 Comm: acpid Not tainted 6.14.0-rc3-syzkaller-00071-gb331a3d8097f #0
 
-input.yaml is not your binding, unless something changed. Did it? Is it
-being applied here?
+Call Trace:
+ <TASK>
+ hanwang_open+0xa8/0xf0 drivers/input/tablet/hanwang.c:284
+ input_open_device+0x230/0x390 drivers/input/input.c:600
+ evdev_open+0x52d/0x690 drivers/input/evdev.c:478
+ chrdev_open+0x237/0x6a0 fs/char_dev.c:414
+ do_dentry_open+0x6cb/0x1390 fs/open.c:956
+ vfs_open+0x82/0x3f0 fs/open.c:1086
+ do_open fs/namei.c:3830 [inline]
+ path_openat+0x1e88/0x2d80 fs/namei.c:3989
+ do_filp_open+0x20c/0x470 fs/namei.c:4016
+ do_sys_openat2+0x17a/0x1e0 fs/open.c:1428
+ __x64_sys_openat+0x175/0x210 fs/open.c:1454
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-Test all bindings, so your schema will be applied.
+Found by Linux Verification Center (linuxtesting.org) with
+"USB Gadget Tests" [1]:
 
-<form letter>
-It does not look like you tested the DTS against bindings. Please run
-`make dtbs_check W=1` (see
-Documentation/devicetree/bindings/writing-schema.rst or
-https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
-for instructions).
-Maybe you need to update your dtschema and yamllint. Don't rely on
-distro packages for dtschema and be sure you are using the latest
-released dtschema.
-</form letter>
+$ make input-tab-hanwang
+$ sudo ./src/input-tab-hanwang/input-tab-hanwang --invalid_ep_int_type
 
-Best regards,
-Krzysztof
+Fixes: bba5394ad3bd ("Input: add support for Hanwang tablets")
+Cc: stable@vger.kernel.org
+[1] Link: https://github.com/kovalev0/usb-gadget-tests
+Reported-by: syzbot+9fe8f6caeb5661802ca2@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=9fe8f6caeb5661802ca2
+Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
+---
+ drivers/input/tablet/hanwang.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/tablet/hanwang.c b/drivers/input/tablet/hanwang.c
+index 42c1e5eaddd50..7315bee4f3fe7 100644
+--- a/drivers/input/tablet/hanwang.c
++++ b/drivers/input/tablet/hanwang.c
+@@ -319,8 +319,11 @@ static int hanwang_probe(struct usb_interface *intf, const struct usb_device_id
+ 	int error;
+ 	int i;
+ 
+-	if (intf->cur_altsetting->desc.bNumEndpoints < 1)
++	if (usb_find_int_in_endpoint(intf->cur_altsetting,
++				     &endpoint) != 0) {
++		dev_err(&intf->dev, "int in endpoint not found\n");
+ 		return -ENODEV;
++	}
+ 
+ 	hanwang = kzalloc(sizeof(*hanwang), GFP_KERNEL);
+ 	input_dev = input_allocate_device();
+@@ -387,7 +390,6 @@ static int hanwang_probe(struct usb_interface *intf, const struct usb_device_id
+ 	input_set_abs_params(input_dev, ABS_PRESSURE,
+ 			     0, hanwang->features->max_pressure, 0, 0);
+ 
+-	endpoint = &intf->cur_altsetting->endpoint[0].desc;
+ 	usb_fill_int_urb(hanwang->irq, dev,
+ 			usb_rcvintpipe(dev, endpoint->bEndpointAddress),
+ 			hanwang->data, hanwang->features->pkg_len,
+-- 
+2.42.2
+
 
