@@ -1,143 +1,349 @@
-Return-Path: <linux-input+bounces-10893-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10894-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D247A65697
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 16:53:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F24A9A65706
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 17:01:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 939DB189C764
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 15:51:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 70EE03BE645
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 15:54:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47ACE155322;
-	Mon, 17 Mar 2025 15:50:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D1AE199235;
+	Mon, 17 Mar 2025 15:53:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="tIyE4DQH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ratPUe7I"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4EBC176FB0;
-	Mon, 17 Mar 2025 15:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B89B16DEB1;
+	Mon, 17 Mar 2025 15:53:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742226631; cv=none; b=FfceBY9RDzIsNAk1wJwQQufSpt3qCXOwrbTRKjyFbk9Zbw/0saNDaOmeMAl0GO+eQJX5TY1rBF15jdjeOzl/w0xSSNvuEWjluhBNMZeU+N/aq+0OupOnDyVr7KOn3+KE9sxvm0FXJWY82EY84H3oiUiwZHvgwi17GWCS0ffRFzc=
+	t=1742226782; cv=none; b=QRYtp/ODoG51H4/BoMy5Ju3ujnJP63YmVpMhLS8LeA48zexEZ6nRqqVVuAOpCbPNPNgi/O0BjYOBBUw4bum4M4NmKmqvhqEOs6rwDanpABmHPJCnCViKkbNZ+mlCfzEygp9/ZcCJIkCFNwGPLPXMvhZg4FNTZWCv/ei0HxDuP2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742226631; c=relaxed/simple;
-	bh=CUAJUgXFRoz/F10qYSrcXjYPVLaJQj+7drzHz1Sn2qg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nmPWXS3/OXMiPCSHnfd6pIqJ45KfxDud10iB3LsmmgLvMLt0PVnCn9LGuAdtfgtU+/M8ECz+jHtEoMOoxiNeUSKwz+Bjbz54kaqkxx9lvuNetlvHOAz8P+W3W9xzRBhJ1AX3OeHde6kJ0XZ80SmFzbantODEiYrGf8K9RZyZrv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=tIyE4DQH; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.116] (p5b164989.dip0.t-ipconnect.de [91.22.73.137])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 921AD2FC0048;
-	Mon, 17 Mar 2025 16:50:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1742226619;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZXcsoGMlj8tsZB4SwvPHKOwuNRZW8eH31FMsoZOIFds=;
-	b=tIyE4DQH3rm8FbVGClKio+Ctl4Yyedvhqo6jXugvDY5QttTv41qKGeFVPNXZDCtMK9JdA+
-	D6q3LCRV8FWjwJ56g/D+o9jELaC2pfJaNUCdTYfdifEtbva2BZDCcbJr5ua6x+5FIhnvCR
-	GFMRMl44WCYtDILJfUDTAahpkcBnNNo=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <b28ce8e7-2b3f-40bb-9d1f-dbeade67e3d6@tuxedocomputers.com>
-Date: Mon, 17 Mar 2025 16:50:19 +0100
+	s=arc-20240116; t=1742226782; c=relaxed/simple;
+	bh=I4KiVVHC5g1m2cFhjhHnsy8qLJknEwLQDwed2imfmnI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eyBbuzDhWdtwAVfX6duh4mpgLbtH6S+EIrDECxn8dUAQnK/WYCHrszMrFeRTD8cR6xeLgf4igRAsI1rtzoTdyUFH5alClY8EeuPUqNl/DaT9z7QscJgDKxDQW5597gUVzRtxY/oArbusQrV1AX5/DlnnC06nBmsy/giCF4X3Iis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ratPUe7I; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9730AC4CEE3;
+	Mon, 17 Mar 2025 15:53:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742226781;
+	bh=I4KiVVHC5g1m2cFhjhHnsy8qLJknEwLQDwed2imfmnI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ratPUe7INMUI9VoydGNNTxUXZzpJ1WbD/MmC+Y2ESLHNk2w/ViH44RDbLy1+1C5FT
+	 oUg1w3ua9XLZGqJAcitld3fUOMKxk+KvQyBR1ruIGPC2MD3UzOfzJa98vgX/hx8VLW
+	 jKvRDUNUP97feARLQAESpLQ2KC0cfdKnklHn5bZf8yfkScnF4oS31XP4P7Br/VDxGp
+	 LoLV7v8yQ72VoDpH+/ABydDosXXWxulOZ22KgeEhy4zSiOwXrrS22ZaO8PZUvBROYg
+	 iSNGnrbQRKjbts2SRnnLNBFcgjPSdfwmdF16xKViulsogOjcP3rp/J4/49llYg126c
+	 6awtQvmueYmRw==
+Date: Mon, 17 Mar 2025 10:53:00 -0500
+From: Rob Herring <robh@kernel.org>
+To: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
+Cc: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+	Lee Jones <lee@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH 09/18] dt-bindings: mfd: adp5585: add properties for
+ input events
+Message-ID: <20250317155300.GA4188705-robh@kernel.org>
+References: <20250313-dev-adp5589-fw-v1-0-20e80d4bd4ea@analog.com>
+ <20250313-dev-adp5589-fw-v1-9-20e80d4bd4ea@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] Input: atkbd - Map FN-key for TongFang barebones
-To: Hans de Goede <hdegoede@redhat.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250311180643.1107430-1-wse@tuxedocomputers.com>
- <4e37c7b2-85bc-459e-b2ea-2e362c16e9aa@redhat.com>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <4e37c7b2-85bc-459e-b2ea-2e362c16e9aa@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250313-dev-adp5589-fw-v1-9-20e80d4bd4ea@analog.com>
 
-Hi Hans,
+On Thu, Mar 13, 2025 at 02:19:26PM +0000, Nuno Sá wrote:
+> Add properties related to input events. These devices can act as
+> keyboards and can support events either via a keymap Matrix or through
+> GPIs. Note that the device needs to be an interrupt controller for GPIs
+> based events.
+> 
+> We specifically need a property specifying the pins used by the keymap
+> matrix since these devices have no requirement for rows and columns to be
+> contiguous without holes which is enforced by the standard input
+> properties.
+> 
+> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+> ---
+>  .../devicetree/bindings/mfd/adi,adp5585.yaml       | 188 ++++++++++++++++++++-
+>  1 file changed, 187 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/adi,adp5585.yaml b/Documentation/devicetree/bindings/mfd/adi,adp5585.yaml
+> index 87256a37b5f4b6a019f581b164c276d8805d2e52..e976c9240df79afae1d0949e6ac91d477bfaceef 100644
+> --- a/Documentation/devicetree/bindings/mfd/adi,adp5585.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/adi,adp5585.yaml
+> @@ -49,6 +49,85 @@ properties:
+>    "#pwm-cells":
+>      const: 3
+>  
+> +  interrupt-controller: true
+> +
+> +  '#interrupt-cells':
+> +    const: 2
+> +
+> +  adi,keypad-pins:
+> +    description: Specifies the pins used for the keypad matrix.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
 
-Am 17.03.25 um 12:04 schrieb Hans de Goede:
-> Hi Werner,
->
-> Thank you for your patches / your work on this.
->
-> On 11-Mar-25 19:06, Werner Sembach wrote:
->> TongFangs firmware sends scancode 0xe0 0x78 upon pressing the FN key.
->>
->> This patch maps this scancode to avoid a dmesg warning printed every FN-keypress
->> and to enable userspace to use they key in other shortcuts than the firmware
->> builtin ones.
->>
->> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> This laptop specific mapping really belongs in hwdb, 0xe0 0x78
-> translates to KEYBOARD_KEY_f8 in hwdb and if you look for that in:
->
-> /lib/udev/hwdb.d/60-keyboard.hwdb
->
-> You already find several entries, e.g. :
->
-> evdev:atkbd:dmi:bvn*:bvr*:bd*:svnAcer*:pn*:*
-> ...
->   KEYBOARD_KEY_f8=fn
->
-> And e.g. also for some Clevo models:
->
->   KEYBOARD_KEY_f8=f21                                    # Touchpad Toggle
->
-> and:
->
-> # HP Elite x2 1013 G3
-> evdev:atkbd:dmi:bvn*:bvr*:svnHP*:pnHPElitex21013G3:*
->   KEYBOARD_KEY_f8=unknown                               # rfkill is also reported by HP Wireless hotkeys
->
-> these first couple of hits show that 0xf8 is not
-> universally mapped to Fn, so putting this mapping in the kernel's
-> default key table is wrong IMHO.
+I would would assume there's a minimum of 3 pins (unless someone wants 
+to implement 1 key with 2 pins) and a maximum number of pins the chip 
+supports. And what about constraints on the values of each entry?
 
-Sorry I was somehow mistaken that hwdb maps the keycodes and not the scancodes.
+> +
+> +  adi,key-poll-ms:
+> +    description: Configure time between consecutive scan cycles.
+> +    enum: [10, 20, 30, 40]
+> +    default: 10
 
-So yeah, this patch first can be ignored.
+Use the common property "poll-interval".
 
-Best regards,
+> +
+> +  adi,unlock-keys:
+> +    description:
+> +      Specifies a maximum of 2 keys that can be used to unlock the keypad.
+> +      If this property is set, the keyboard will be locked and only unlocked
+> +      after these keys are pressed. The value 127 serves as a wildcard which
+> +      means any key can be used for unlocking.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 2
+> +    items:
+> +      anyOf:
+> +        - minimum: 1
+> +          maximum: 88
+> +        - minimum: 97
+> +          maximum: 115
+> +        - const: 127
+> +
+> +  adi,unlock-trigger-sec:
+> +    description:
+> +      Defines the time in which the second unlock event must occur after the
+> +      first unlock event has occurred.
+> +    maximum: 7
+> +    default: 0
+> +
+> +  adi,reset1-keys:
+> +    description:
+> +      Defines the trigger events (key presses) that can generate reset
+> +      conditions one the reset1 block.
 
-Werner
+Are these in raw key values or keymap values?
 
->
-> Regards,
->
-> Hans
->
->
->
->> ---
->>   drivers/input/keyboard/atkbd.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
->> index adf0f311996c9..3598a21d9d014 100644
->> --- a/drivers/input/keyboard/atkbd.c
->> +++ b/drivers/input/keyboard/atkbd.c
->> @@ -98,7 +98,7 @@ static const unsigned short atkbd_set2_keycode[ATKBD_KEYMAP_SIZE] = {
->>   	173,114,  0,113,  0,  0,  0,126,128,  0,  0,140,  0,  0,  0,127,
->>   	159,  0,115,  0,164,  0,  0,116,158,  0,172,166,  0,  0,  0,142,
->>   	157,  0,  0,  0,  0,  0,  0,  0,155,  0, 98,  0,  0,163,  0,  0,
->> -	226,  0,  0,  0,  0,  0,  0,  0,  0,255, 96,  0,  0,  0,143,  0,
->> +	226,  0,  0,464,  0,  0,  0,  0,  0,255, 96,  0,  0,  0,143,  0,
->>   	  0,  0,  0,  0,  0,  0,  0,  0,  0,107,  0,105,102,  0,  0,112,
->>   	110,111,108,112,106,103,  0,119,  0,118,109,  0, 99,104,119,  0,
->>   
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 3
+> +
+> +  adi,reset2-keys:
+> +    description:
+> +      Defines the trigger events (key presses) that can generate reset
+> +      conditions one the reset2 block.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  adi,reset1-active-high:
+> +    description: Sets the reset1 signal as active high.
+> +    type: boolean
+> +
+> +  adi,reset2-active-high:
+> +    description: Sets the reset2 signal as active high.
+> +    type: boolean
+> +
+> +  adi,rst-passtrough-enable:
+> +    description: Allows the RST pin to override (OR with) the reset1 signal.
+> +    type: boolean
+> +
+> +  adi,reset-trigger-ms:
+> +    description:
+> +      Defines the length of time that the reset events must be active before a
+> +      reset signal is generated. All events must be active at the same time for
+> +      the same duration.
+> +    enum: [0, 1000, 1500, 2000, 2500, 3000, 3500, 4000]
+> +    default: 0
+> +
+> +  adi,reset-pulse-width-us:
+> +    description: Defines the pulse width of the reset signals.
+> +    enum: [500, 1000, 2000, 10000]
+> +    default: 500
+> +
+>  patternProperties:
+>    "-hog(-[0-9]+)?$":
+>      type: object
+> @@ -56,11 +135,28 @@ patternProperties:
+>      required:
+>        - gpio-hog
+>  
+> +dependencies:
+> +  linux,keymap:
+> +    - adi,keypad-pins
+> +    - interrupts
+> +  interrupt-controller:
+> +    - interrupts
+> +  adi,unlock-trigger-sec:
+> +    - adi,unlock-keys
+> +  adi,reset1-active-high:
+> +    - adi,reset1-keys
+> +  adi,rst-passtrough-enable:
+> +    - adi,reset1-keys
+> +  adi,reset2-active-high:
+> +    - adi,reset2-keys
+> +
+>  required:
+>    - compatible
+>    - reg
+>  
+>  allOf:
+> +  - $ref: /schemas/input/matrix-keymap.yaml#
+> +  - $ref: /schemas/input/input.yaml#
+>    - if:
+>        properties:
+>          compatible:
+> @@ -68,7 +164,29 @@ allOf:
+>              const: adi,adp5585-01
+>      then:
+>        properties:
+> +        adi,unlock-keys: false
+> +        adi,unlock-trigger-sec: false
+>          gpio-reserved-ranges: false
+> +        adi,keypad-pins:
+> +          minItems: 2
+> +          maxItems: 11
+> +          items:
+> +            minimum: 0
+> +            maximum: 10
+> +        adi,reset1-keys:
+> +          items:
+> +            anyOf:
+> +              - minimum: 1
+> +                maximum: 30
+> +              - minimum: 37
+> +                maximum: 47
+> +        adi,reset2-keys:
+> +          items:
+> +            anyOf:
+> +              - minimum: 1
+> +                maximum: 30
+> +              - minimum: 37
+> +                maximum: 47
+>      else:
+>        if:
+>          properties:
+> @@ -81,6 +199,25 @@ allOf:
+>                  - adi,adp5585-04
+>        then:
+>          properties:
+> +          adi,unlock-keys: false
+> +          adi,unlock-trigger-sec: false
+> +          adi,keypad-pins:
+> +            minItems: 2
+> +            maxItems: 10
+> +            items:
+> +              enum: [0, 1, 2, 3, 4, 6, 7, 8, 9, 10]
+> +          adi,reset1-keys:
+> +            items:
+> +              anyOf:
+> +                - minimum: 1
+> +                  maximum: 25
+> +                - enum: [37, 38, 39, 40, 41, 43, 44, 45, 46, 47]
+> +          adi,reset2-keys:
+> +            items:
+> +              anyOf:
+> +                - minimum: 1
+> +                  maximum: 25
+> +                - enum: [37, 38, 39, 40, 41, 43, 44, 45, 46, 47]
+>            gpio-reserved-ranges:
+>              maxItems: 1
+>              items:
+> @@ -90,11 +227,33 @@ allOf:
+>        else:
+>          properties:
+>            gpio-reserved-ranges: false
+> +          adi,keypad-pins:
+> +            minItems: 2
+> +            maxItems: 19
+> +            items:
+> +              minimum: 0
+> +              maximum: 18
+> +          adi,reset1-keys:
+> +            items:
+> +              anyOf:
+> +                - minimum: 1
+> +                  maximum: 88
+> +                - minimum: 97
+> +                  maximum: 115
+> +          adi,reset2-keys:
+> +            items:
+> +              anyOf:
+> +                - minimum: 1
+> +                  maximum: 88
+> +                - minimum: 97
+> +                  maximum: 115
+>  
+> -additionalProperties: false
+> +unevaluatedProperties: false
+>  
+>  examples:
+>    - |
+> +    #include <dt-bindings/input/input.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+>      i2c {
+>          #address-cells = <1>;
+>          #size-cells = <0>;
+> @@ -110,6 +269,33 @@ examples:
+>              gpio-reserved-ranges = <5 1>;
+>  
+>              #pwm-cells = <3>;
+> +
+> +            interrupts = <16 IRQ_TYPE_EDGE_FALLING>;
+> +            interrupt-parent = <&gpio>;
+> +
+> +            adi,reset1-keys = <1 43>;
+> +            adi,reset2-keys = <2 3>;
+> +            adi,reset-trigger-ms = <2000>;
+> +
+> +            /*
+> +             * col0, col1, col2
+> +             * row0, row1, row2
+> +             */
+> +            adi,keypad-pins = <0 1 2 6 7 8>;
+> +
+> +            linux,keymap = <
+> +                MATRIX_KEY(0x00, 0x00, KEY_1)
+> +                MATRIX_KEY(0x00, 0x01, KEY_2)
+> +                MATRIX_KEY(0x00, 0x02, KEY_3)
+> +
+> +                MATRIX_KEY(0x01, 0x00, KEY_A)
+> +                MATRIX_KEY(0x01, 0x01, KEY_B)
+> +                MATRIX_KEY(0x01, 0x02, KEY_C)
+> +
+> +                MATRIX_KEY(0x02, 0x00, BTN_1)
+> +                MATRIX_KEY(0x02, 0x01, BTN_2)
+> +                MATRIX_KEY(0x02, 0x02, BTN_3)
+> +            >;
+>          };
+>      };
+>  
+> 
+> -- 
+> 2.48.1
+> 
 
