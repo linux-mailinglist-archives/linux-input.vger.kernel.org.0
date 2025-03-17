@@ -1,134 +1,143 @@
-Return-Path: <linux-input+bounces-10892-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10893-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313FFA6541A
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 15:46:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D247A65697
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 16:53:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 472B37AAAE2
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 14:44:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 939DB189C764
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 15:51:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77AB5245035;
-	Mon, 17 Mar 2025 14:44:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47ACE155322;
+	Mon, 17 Mar 2025 15:50:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="W6M9urUR"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="tIyE4DQH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485092459FE;
-	Mon, 17 Mar 2025 14:44:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4EBC176FB0;
+	Mon, 17 Mar 2025 15:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742222688; cv=none; b=Hmbd14FFQGC1wJz1OPpgWrLEMZZTQ/6CzrUR77BYhN/OafWrToyOXPheU2mWwoz0du2rv/0sSPK/Td8/Wabpdp/HLel+8SeiAJOkB3GPN5EpMQqnLeWHmm86Qb7+mGiVv7gaPkrhj37gjOtIcN962umOu6dUcPqyaS6Ojx35BU8=
+	t=1742226631; cv=none; b=FfceBY9RDzIsNAk1wJwQQufSpt3qCXOwrbTRKjyFbk9Zbw/0saNDaOmeMAl0GO+eQJX5TY1rBF15jdjeOzl/w0xSSNvuEWjluhBNMZeU+N/aq+0OupOnDyVr7KOn3+KE9sxvm0FXJWY82EY84H3oiUiwZHvgwi17GWCS0ffRFzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742222688; c=relaxed/simple;
-	bh=VkpWTCYEICFBtQwKpzObrfzZpr0tvkzC5CozTqVThw8=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:From:To:Mime-Version:
-	 References:In-Reply-To; b=RXW7sfWbt6wSz/8rIPS+EKDigNGESzh44Otn7QqsvKY0FRNtYQ7ZzH0Dr1JMIYf3COnz9rq1xTVSHkx7/tiS6bRARHF0fX/1O4sq7d4Ulwt5tYSoOcCKrSZCTMeBYO7OJb5su3Q8x3R4VTiQj7/F1iJRziq6H+IzQnvaC4+Sdm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=W6M9urUR; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 77F2520580;
-	Mon, 17 Mar 2025 14:44:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1742222683;
+	s=arc-20240116; t=1742226631; c=relaxed/simple;
+	bh=CUAJUgXFRoz/F10qYSrcXjYPVLaJQj+7drzHz1Sn2qg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nmPWXS3/OXMiPCSHnfd6pIqJ45KfxDud10iB3LsmmgLvMLt0PVnCn9LGuAdtfgtU+/M8ECz+jHtEoMOoxiNeUSKwz+Bjbz54kaqkxx9lvuNetlvHOAz8P+W3W9xzRBhJ1AX3OeHde6kJ0XZ80SmFzbantODEiYrGf8K9RZyZrv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=tIyE4DQH; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.116] (p5b164989.dip0.t-ipconnect.de [91.22.73.137])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 921AD2FC0048;
+	Mon, 17 Mar 2025 16:50:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1742226619;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VkpWTCYEICFBtQwKpzObrfzZpr0tvkzC5CozTqVThw8=;
-	b=W6M9urUROw0JcmJwg0uLFTceqVb2aMnrVlkiX3lY1gjOhP/3UxUQJez9m4DyvL06W/4cQV
-	JzvtW9fqe9DBvq5NlabZ/0F3qCE9JhsiE8YLFltJ/gp5r5na7PIK7zP132ukz6DZFkcB7K
-	3nYMgphUPTvJglJGgaK/DAdgMItyxD1MPqvO+AhV8RVOvdLJbcZ2j44gHe0iUkhxZP921h
-	Za/yDv/ouvlzVVchP1dOeTIygGI5KvrJTKo3YvAV/WY/L6alTmzFKEne0GN78BmfHjlj7b
-	iVIZy/ppP8C2qV2xivMwmVFkUha0fAxLWcGqiIfSrwKmwC4BQMXvdryCRszylA==
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 17 Mar 2025 15:44:42 +0100
-Message-Id: <D8IMEB2UP6KS.2GOJ4M6INKKN8@bootlin.com>
-Subject: Re: [PATCH v4 07/10] gpio: max7360: Add MAX7360 gpio support
-Cc: "Andy Shevchenko" <andriy.shevchenko@intel.com>, "Lee Jones"
- <lee@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Kamel Bouhara"
- <kamel.bouhara@bootlin.com>, "Linus Walleij" <linus.walleij@linaro.org>,
- "Bartosz Golaszewski" <brgl@bgdev.pl>, "Dmitry Torokhov"
- <dmitry.torokhov@gmail.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, "Michael Walle" <mwalle@kernel.org>, "Mark Brown"
- <broonie@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, "Danilo Krummrich"
- <dakr@kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
- <linux-input@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Andy Shevchenko" <andy.shevchenko@gmail.com>
+	bh=ZXcsoGMlj8tsZB4SwvPHKOwuNRZW8eH31FMsoZOIFds=;
+	b=tIyE4DQH3rm8FbVGClKio+Ctl4Yyedvhqo6jXugvDY5QttTv41qKGeFVPNXZDCtMK9JdA+
+	D6q3LCRV8FWjwJ56g/D+o9jELaC2pfJaNUCdTYfdifEtbva2BZDCcbJr5ua6x+5FIhnvCR
+	GFMRMl44WCYtDILJfUDTAahpkcBnNNo=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <b28ce8e7-2b3f-40bb-9d1f-dbeade67e3d6@tuxedocomputers.com>
+Date: Mon, 17 Mar 2025 16:50:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20250214-mdb-max7360-support-v4-0-8a35c6dbb966@bootlin.com>
- <20250214-mdb-max7360-support-v4-7-8a35c6dbb966@bootlin.com>
- <Z69oa8_LKFxUacbj@smile.fi.intel.com>
- <D7UOIHL2WOZP.LLGRKMILNJFU@bootlin.com>
- <Z7OXQqyPjtGgTySf@smile.fi.intel.com>
- <D8FAEPI26C8F.397VN87KK9VIO@bootlin.com>
- <Z9PikuvAR-XsYhPF@surfacebook.localdomain>
-In-Reply-To: <Z9PikuvAR-XsYhPF@surfacebook.localdomain>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeeljeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegtfffkufevhffvggfgofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefhtdeuhfehtdekueeltdejffdtuefgueffhfeiueegleffueevvefgtedtkeegjeenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvfedprhgtphhtthhopegrnhguhidrshhhvghvtghhvghnkhhosehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghnughrihihrdhshhgvvhgth
- hgvnhhkohesihhnthgvlhdrtghomhdprhgtphhtthhopehlvggvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrghmvghlrdgsohhuhhgrrhgrsegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhg
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] Input: atkbd - Map FN-key for TongFang barebones
+To: Hans de Goede <hdegoede@redhat.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250311180643.1107430-1-wse@tuxedocomputers.com>
+ <4e37c7b2-85bc-459e-b2ea-2e362c16e9aa@redhat.com>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <4e37c7b2-85bc-459e-b2ea-2e362c16e9aa@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri Mar 14, 2025 at 9:02 AM CET, Andy Shevchenko wrote:
-> Thu, Mar 13, 2025 at 05:43:00PM +0100, Mathieu Dubois-Briand kirjoitti:
-> > On Mon Feb 17, 2025 at 9:08 PM CET, Andy Shevchenko wrote:
-> > > On Mon, Feb 17, 2025 at 12:20:13PM +0100, Mathieu Dubois-Briand wrote=
-:
+Hi Hans,
+
+Am 17.03.25 um 12:04 schrieb Hans de Goede:
+> Hi Werner,
 >
+> Thank you for your patches / your work on this.
+>
+> On 11-Mar-25 19:06, Werner Sembach wrote:
+>> TongFangs firmware sends scancode 0xe0 0x78 upon pressing the FN key.
+>>
+>> This patch maps this scancode to avoid a dmesg warning printed every FN-keypress
+>> and to enable userspace to use they key in other shortcuts than the firmware
+>> builtin ones.
+>>
+>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> This laptop specific mapping really belongs in hwdb, 0xe0 0x78
+> translates to KEYBOARD_KEY_f8 in hwdb and if you look for that in:
+>
+> /lib/udev/hwdb.d/60-keyboard.hwdb
+>
+> You already find several entries, e.g. :
+>
+> evdev:atkbd:dmi:bvn*:bvr*:bd*:svnAcer*:pn*:*
 > ...
+>   KEYBOARD_KEY_f8=fn
 >
-> > > But what I have read above sounds to me like the following:
-> > >
-> > > 1) the PORT0-PORT7 should be just a regular pin control with the resp=
-ective
-> > > function being provided (see pinctrl-cy8c95x0.c as an example);
-> >=20
-> > Ok, so I created a pin control driver for the PORT pins. This will
-> > effectively help to prevent concurrent use of pins in place of the
-> > request()/free() callbacks.
-> >=20
-> > My only concern is: as there is no real pin muxing on the chip, my
-> > .set_mux callabck in pinmux_ops structure is not doing anything. It
-> > looks like I'm not the only one
-> > (drivers/pinctrl/pinctrl-microchip-sgpio.c does the same thing), but I
-> > hope this is OK.
+> And e.g. also for some Clevo models:
 >
-> Hmm... This is strange. The PWM/GPIO block has 3 functions (GPIO/PWM/rota=
-ry),
-> How comes you have no switch between them?
+>   KEYBOARD_KEY_f8=f21                                    # Touchpad Toggle
 >
-> As far as I read in the datasheet this is controlled by register 0x40
-> (and seems implicitly by other registers when it's in PWM mode).
+> and:
 >
+> # HP Elite x2 1013 G3
+> evdev:atkbd:dmi:bvn*:bvr*:svnHP*:pnHPElitex21013G3:*
+>   KEYBOARD_KEY_f8=unknown                               # rfkill is also reported by HP Wireless hotkeys
+>
+> these first couple of hits show that 0xf8 is not
+> universally mapped to Fn, so putting this mapping in the kernel's
+> default key table is wrong IMHO.
 
-Yes, on pins 6 and 7, we do switch between rotary encoder and other
-modes by writing in the register at 0x40, but that's all. My point was
-more about all other modes. There is no difference between PWM and GPIO,
-at least in output mode: GPIO level is just a PWM with duty cycle either
-to 0% or 100%.
+Sorry I was somehow mistaken that hwdb maps the keycodes and not the scancodes.
 
+So yeah, this patch first can be ignored.
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Best regards,
 
+Werner
+
+>
+> Regards,
+>
+> Hans
+>
+>
+>
+>> ---
+>>   drivers/input/keyboard/atkbd.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
+>> index adf0f311996c9..3598a21d9d014 100644
+>> --- a/drivers/input/keyboard/atkbd.c
+>> +++ b/drivers/input/keyboard/atkbd.c
+>> @@ -98,7 +98,7 @@ static const unsigned short atkbd_set2_keycode[ATKBD_KEYMAP_SIZE] = {
+>>   	173,114,  0,113,  0,  0,  0,126,128,  0,  0,140,  0,  0,  0,127,
+>>   	159,  0,115,  0,164,  0,  0,116,158,  0,172,166,  0,  0,  0,142,
+>>   	157,  0,  0,  0,  0,  0,  0,  0,155,  0, 98,  0,  0,163,  0,  0,
+>> -	226,  0,  0,  0,  0,  0,  0,  0,  0,255, 96,  0,  0,  0,143,  0,
+>> +	226,  0,  0,464,  0,  0,  0,  0,  0,255, 96,  0,  0,  0,143,  0,
+>>   	  0,  0,  0,  0,  0,  0,  0,  0,  0,107,  0,105,102,  0,  0,112,
+>>   	110,111,108,112,106,103,  0,119,  0,118,109,  0, 99,104,119,  0,
+>>   
 
