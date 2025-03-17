@@ -1,86 +1,86 @@
-Return-Path: <linux-input+bounces-10902-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10903-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 084CEA6617C
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 23:22:39 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D205A6617E
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 23:23:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF3743A62B9
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 22:22:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 498031885492
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 22:23:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF7C91F4179;
-	Mon, 17 Mar 2025 22:22:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 121F01DDC16;
+	Mon, 17 Mar 2025 22:23:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="i75Qgrw+"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="W2aRkBWi"
 X-Original-To: linux-input@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F320E176FB0
-	for <linux-input@vger.kernel.org>; Mon, 17 Mar 2025 22:22:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430D28BE5
+	for <linux-input@vger.kernel.org>; Mon, 17 Mar 2025 22:23:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742250154; cv=none; b=i+1HQ6Kbfa+4zJj9K/fSHaJbfYmD1F1R93jzzXp4GW2zYG+ZkMOtYojeEvKtZy+PJtRQM3VfJcDPZSYZQP+iFx47Id1i2CvAdizUdwn3phtAjofaAWXaLheR8FosX2rMlgQq7I8LzrQUQNmJaoVelnj7KbT5uxUqMoNznSDWEOU=
+	t=1742250227; cv=none; b=eek+PxejSlbZcqTv3ubZyelyi2WdGwAlGbGecy8D+kVSyNqppuJi7ggcuzgcQDrKWMbKW/WcUM1ac8/dE5/dpKbEKA4BkMb07Irqb9MJ5WDmdn1P/eE7hBWkZvVfcYMMjAXaa/hgTTOoZl7eEDYCEfSYi+SpOY4T/5pvVnf6cQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742250154; c=relaxed/simple;
-	bh=UTka+Bwl7U3oXDZYsAkYcn3UttkrMbvEepURyaX8aTM=;
+	s=arc-20240116; t=1742250227; c=relaxed/simple;
+	bh=qOBL8abCZ+DPrUe5SzCaYB3GqooW5w/t+KRdMC+tS7o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nZFe44qCs3hc9JNzMlXFe7O/UJu9ilL5RVq4NZ/8GRw6W37IabLisMNX+du3iCJSv5mqMRwzBAHyTylCYVTM6sae2m1OZGgKSE8SLDLycxs4bwienqZMU8wM5tk/NkQ43bMjK6CeYedxq8ryFPAAZFXDLq/UtMhj10wq0GVbdyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=i75Qgrw+; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=OY4bIERwFS1cpa7JgnkHOEgbsYzc0iOdKH48UWtugIPUDwRnivZLEvLIp6Vyc1h70YYbT/RZ2WeYmEjswn4TN3e7SMw0m4Fu7Jm//0BilSZzPmUo8qYTtqcMGIQOhx+mvUd+1vVlIzj4V20y/VpWQt3V0tGmphbPnz1yI+kmhag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=W2aRkBWi; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1742250151;
+	s=mimecast20190719; t=1742250224;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5G+gLRdT0H152n57X0RhbxihhCG56hjU9sd24nfwpes=;
-	b=i75Qgrw+h+7LwiV3FliECusp/N/rqUqHY/1wJL4kU2w0EFywZkw9gaxJM/lxCFMgIUXTRA
-	oQzeSI1M+DJiBa7QtmdyXSuXliyyKhpBssRr1KyEOFHrTqpg5J5UslVHN1Ba7J0qOATweR
-	Ve3dCU6OryDgTDqD3fS/eKcHyc2EirM=
+	bh=ypzfvWknX9NmdbuGXtvnIjLZ0pscGe7eRm486DVoM6Y=;
+	b=W2aRkBWiCdjcuMB/tKPhZ3+KSoT+yGzpKkxviMCwh+PFcp81/cc7KwJ0rZSbtgVwS5507M
+	XRIiII5C4dLU+KOi84TEK0oF+oszLW1s77gfiuHwXfxz+l84n03Dz368tjznzl9Vk7jPHt
+	c18jMNvhyHqHz/4QvSgDmSNxiDVJjHU=
 Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
  [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-335-B9p3r5f7P2-YMA8HNoGyQQ-1; Mon, 17 Mar 2025 18:22:30 -0400
-X-MC-Unique: B9p3r5f7P2-YMA8HNoGyQQ-1
-X-Mimecast-MFC-AGG-ID: B9p3r5f7P2-YMA8HNoGyQQ_1742250149
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-ac218738618so424381766b.2
-        for <linux-input@vger.kernel.org>; Mon, 17 Mar 2025 15:22:30 -0700 (PDT)
+ us-mta-297-bbHwCVC0PM2prQgxkKv0yw-1; Mon, 17 Mar 2025 18:23:42 -0400
+X-MC-Unique: bbHwCVC0PM2prQgxkKv0yw-1
+X-Mimecast-MFC-AGG-ID: bbHwCVC0PM2prQgxkKv0yw_1742250222
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-ac29ae0b2fbso494218166b.0
+        for <linux-input@vger.kernel.org>; Mon, 17 Mar 2025 15:23:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742250149; x=1742854949;
+        d=1e100.net; s=20230601; t=1742250221; x=1742855021;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5G+gLRdT0H152n57X0RhbxihhCG56hjU9sd24nfwpes=;
-        b=DaS69Z8tbtpWbJjls5KuI2ti3Y5I7dSAc8s0oD4SjSeckarMJ0mYjXnuzHphYp93SG
-         0xaz9r41G5IKT+W7abC22ll/28kz9qsLHbF1KCAgNteq9Wm1JRyv2OQbdeZV3tdIwY/f
-         qYlzP2hI6CF8IvxzsbzOJpsJoU4kSDhdmz7o5fGYdE6jJI5P7bTwb7CC5EuyXLbQ6Fz3
-         IPT78PeSSF7ECvyo1u1BurQBip8NFaedg1WCEzlkz6/iVgcLL4iSqJGYmPyO5rETy419
-         8BTIxuIAKqSoT85KaG+8uMImaOF/EZd8E2bkhGaS4mJ+rwdy5ZcCq3xqaMeZn40UMT35
-         lkYQ==
-X-Gm-Message-State: AOJu0YzMdagUW0N1ehAl9DRlcpmPEE30ffu6wIu5UyprnjpgAOgD0HkC
-	sjGcmUEmFYEB9bkxRzHkISPwT8+cObY6xbRI7gg8Mz9Mm3hu8yKHfmOvV6yrQFeV7tatyu1M0Ff
-	S6fM0UMh5RK+b3+IMm87F29Wvy7tJNvwkww4pl2orFmt5i8XG74zOvMewkCpc
-X-Gm-Gg: ASbGnctOtdsMvwDNGu9Iia6qDRNvtTx2qreS4CDFbsfT8x3PffrfME895M4LmGfmniW
-	Z78bq/EAL6ZQjFBIqAoMjhtBI2F3k6p2BVVhh9j8DnB/SA0jgQO4jPcrET8myxKGdcUJ4Ozz8Iv
-	RJiNjl32EBTYyQMa21XBTlx+Yz7I04PUwhRDAGtRd1U13Tx41ZV68+1174S1lKY0KYeHDw67GG1
-	iLTtTnomYaO+xFLFPz8b/tJBppj+R3erWF38kcqWsbQ+APClrXyBm5pUeqvqXxXBrfMJtvqprzw
-	tIukszpXV1ptgHJh9QyRxCz3b8XlTtzXDj6Wa2LZjQ7G3Ae+sD5q9Thh5J1AxEkrCkgSLJeoJBb
-	kzw770lhDkpkg5QEr2wMFvlgiDFcGA/R+GVzqp7CjwvJF90KMaF5mvaB/d+UiFlv+RA==
-X-Received: by 2002:a17:907:9713:b0:abf:5f3c:58e7 with SMTP id a640c23a62f3a-ac3301e0b4cmr1470097866b.3.1742250149310;
-        Mon, 17 Mar 2025 15:22:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGX3P/YcE4PXvKt4s3YzLuI8eWICwMlFaui05RS2ZN2lx93D9W9d2+yiuWdCPJJlpPqcWVhhQ==
-X-Received: by 2002:a17:907:9713:b0:abf:5f3c:58e7 with SMTP id a640c23a62f3a-ac3301e0b4cmr1470096866b.3.1742250148945;
-        Mon, 17 Mar 2025 15:22:28 -0700 (PDT)
+        bh=ypzfvWknX9NmdbuGXtvnIjLZ0pscGe7eRm486DVoM6Y=;
+        b=Qdl4Pxq7gCkxZRd+YofT1Nb+O1Hb3LTy7sulUExsU/6s3j5ViAiBePmN8BxhV7plZf
+         PphC2I0DbBPXgXYZMU0bB3JkU7NgM5RevxjJxgTCybVHy2ePRLWh+5x5stjzu1FBLDfx
+         AR5tdq4Se7vUQRB6QLXMAZ7FF9z9EQ5lLISKJ2a87weu68yZaNKtTGcAdOcH7vLdl+VZ
+         BrHC5gxjEzY6sFzmmblf61ap7uVzyPgxkmFGjzBpuk8WM5BsmvR9iYkmAqHabZYta4Na
+         o0Vg2d0sttOMWgm3uLGA452Kh7W1fuIRIlWIGNFYr2ONODG0EVc4GvEVRdG7IyyFdDI0
+         jmTw==
+X-Gm-Message-State: AOJu0Yw88RdRVVy88ZZZMXEfu1WJX/6TWtng9Z1exBxZrbKnyauBJISL
+	hzK1uRigylwTXpnRW6TzrB+hoFLkOtkezE0ZmlOjsPpjCvmZPJ5eV6TLgawPINpv2kSYKpc0NGQ
+	fp1dVzII0Uyq69f7MGRshzwylnstsFLVJxS5rjAgXI4PQtOGBQ41rNrwNYQWj
+X-Gm-Gg: ASbGnctieyGNxT/e4rnl+zYR8xzYnSsgtUFjbIegO8IVA2fWo01IulWrJA5TP7RNO0Z
+	vSwEp/Xq2aUugYpLd2/VEfOSKIgsNlYfnUvZqSvkIZ8l83yQ6McSKSs7cAUBhQYCBcXqlokSFC2
+	xluY+oX6dvJO2n0rh9vpsTAJJWIHXNldEhmzUQIS09ftFolWs1Tio5m5u/+jnvIricPjLyIDrzt
+	2GjDVBKYJi0Ex7uDE3BPNBrttfdd14WqngRxPCEB6ZQJN8j0kKjqUAJCdPp7UBw9OPzY6WSuc+C
+	aSbT7chlhnSuzLlmI1bKUVdVHq2cfWSaI0NXPF2UVu/kdUG7FmBUoaMUeaGOlNCHywI4E0wIthT
+	Adv/gT6yQXkagIfOQpuwi6Wbc8XDPivTFuxFnG4g+pHAGEYzAuI0bxpC7zLBYeCpbNA==
+X-Received: by 2002:a17:907:868e:b0:ac2:c1e:dff0 with SMTP id a640c23a62f3a-ac38d405dc7mr128282366b.19.1742250221509;
+        Mon, 17 Mar 2025 15:23:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFnx3tTbnPNibxhllxurHdd8mGoxavBaNeUmJVl8iuJ7TCzMANf3gUFSzFxuhrkSoc2i9Y1tA==
+X-Received: by 2002:a17:907:868e:b0:ac2:c1e:dff0 with SMTP id a640c23a62f3a-ac38d405dc7mr128281266b.19.1742250221123;
+        Mon, 17 Mar 2025 15:23:41 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3149cf0a8sm740785666b.97.2025.03.17.15.22.28
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac314aa6083sm726182766b.182.2025.03.17.15.23.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Mar 2025 15:22:28 -0700 (PDT)
-Message-ID: <bd05271b-eefc-4a4d-90aa-9345e8d01807@redhat.com>
-Date: Mon, 17 Mar 2025 23:22:27 +0100
+        Mon, 17 Mar 2025 15:23:40 -0700 (PDT)
+Message-ID: <de3969b9-7134-4bfd-bc65-9d5b7e53a31c@redhat.com>
+Date: Mon, 17 Mar 2025 23:23:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -94,94 +94,91 @@ To: Werner Sembach <wse@tuxedocomputers.com>,
 Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250311180643.1107430-1-wse@tuxedocomputers.com>
  <20250311180643.1107430-2-wse@tuxedocomputers.com>
- <83ea44f6-c0ad-4cb0-a16e-dd4fa17b63c7@tuxedocomputers.com>
- <45fff318-7925-4328-9dca-999c00e271d2@redhat.com>
- <f742f82e-d533-431f-bf64-01cec4bead09@tuxedocomputers.com>
+ <76c57b22-04d3-4331-a10c-b210db5f9055@redhat.com>
+ <9da24c58-25ab-4b21-b0ed-f777970affe7@tuxedocomputers.com>
 Content-Language: en-US, nl
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <f742f82e-d533-431f-bf64-01cec4bead09@tuxedocomputers.com>
+In-Reply-To: <9da24c58-25ab-4b21-b0ed-f777970affe7@tuxedocomputers.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Hi Werner,
 
-On 17-Mar-25 5:47 PM, Werner Sembach wrote:
-> Hi again,
+On 17-Mar-25 6:00 PM, Werner Sembach wrote:
+> Hi,
 > 
-> Am 17.03.25 um 13:06 schrieb Hans de Goede:
->> Hi,
+> Am 17.03.25 um 12:58 schrieb Hans de Goede:
+>> Hi Werner,
 >>
->> On 11-Mar-25 19:10, Werner Sembach wrote:
->>> Hi Hans, Hi Dimitry,
+>> On 11-Mar-25 19:06, Werner Sembach wrote:
+>>> Currently only F23 is correctly mapped for PS/2 keyboards.
 >>>
->>> resending this too on the v2 to not cause confusion:
+>>> Following to this table:
+>>> https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/translate.pdf
+>> That is a very interesting document, good find!
+>>
+>>> - F24 and Zenkaku/Hankaku share the same scancode, but since in real world
+>>> Zenkaku/Hankaku keys seem to just use the tilde scancode, this patch binds the
+>>> scancode to F24. Note that on userspace side the KEY_ZENKAKUHANKAKU keycode is
+>>> currently not bound in xkeyboard-config, so it is (mostly*) unused anyway.
 >>>
->>> Regarding remapping KEY_ZENKAKUHANKAKU to KEY_TOUCHPAD_TOGGLE:
+>>> * Qt on Wayland and therefore KDE on Wayland can see the keypress anyway for
+>>> some reason and it is actually used in a touchpad toggle shortcut, but this is
+>>> currently being fixed in both KDE and xkeyboard-config to make this less weird,
+>>> so it could directly be fixed to correctly handle the F24 keypress instead.
 >>>
->>> Am 11.03.25 um 19:06 schrieb Werner Sembach:
->>>> Currently only F23 is correctly mapped for PS/2 keyboards.
->>>>
->>>> Following to this table:
->>>> https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/translate.pdf
->>>>
->>>> - F24 and Zenkaku/Hankaku share the same scancode, but since in real world
->>>> Zenkaku/Hankaku keys seem to just use the tilde scancode, this patch binds the
->>>> scancode to F24. Note that on userspace side the KEY_ZENKAKUHANKAKU keycode is
->>>> currently not bound in xkeyboard-config, so it is (mostly*) unused anyway.
->>> I think what the firmware vendor actually wanted to do was to send ctrl+super+f24 upon touchpad toggle. This would somewhat fall in line with, for example, the copilot key being implemented as shift+super+f23.
->> I agree that that seems to be the intent.
+>>> - The scancodes for F13-F22 are currently unmapped so there will probably be no
+>>> harm in mapping them. This would also fix the issue that some of these keys
+>>> can't be mapped as the target from userspace using the `setkeycodes` command.
+>>>
+>>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+>> Thanks, patch looks good to me:
 >>
->>> Following this, my suggestion is to do this remapping and handle the rest in xkeyboard-config
->> xkeyboard config already contains mappings for F13 - F18 and F20-F23 in
->> /usr/share/X11/xkb/symbols/inet
->>
->> So all that needs to happen there is map FK19 -> F19 and FK24 -> F24.
->>
->> And then teach KDE + GNOME that ctrl+super+f24 means touchpad-toggle.
+>> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 > 
-> Alternative suggestion, again following how the copilot key is implemented:
+> Thanks for reviewing.
 > 
-> key <FK19>   {      [ F19 ]       };
-> [...]
-> key <FK23>   {      [ XF86TouchpadOff, XF86Assistant ], type[Group1] = "PC_SHIFT_SUPER_LEVEL2" };
-> key <FK24>   {      [ F24, XF86TouchpadToggle ], type[Group1] = "PC_CONTROL_SUPER_LEVEL2" };
-> 
-> Then only xkb has to be touched again, but not KDE and GNOME.
+> Should I resend the patch standalone because the first of this Patchset will likely be rejected?
 
-Ah I did not know you could do this. Yes this sounds like a very good
-plan wrt the xkbconfig changes and then indeed we can do all the handling
-in xkbconfig.
+I think this one will apply cleanly without applying patch 1/2
+first, so no reason for a resend / v3 AFAICT.
 
-
-> 
->>
->> We could maybe get away with also dropping the weird mappings for FK13 - FK18
->> and map those straight to F13 - F18, but we need the special mappings
->> for F20 - F23 to stay in place to not break stuff.
-> 
-> Good question
-> 
-> XF86Tools launches system settings on KDE.
-
-Right, but XF86Tools is also send for KEY_CONFIG which makes more sense,
-the question is are there any devices actually sending KEY_F13 in
-a case where they really should be sending KEY_CONFIG instead.
-
-Note this is unrelated to the XF86TouchpadToggle thing though, just
-something which I noticed while looking at things.
-
-> Looking at the links in the git log of xkeyboard-config (commit 1e94d48801bf8cb75741aa308d4cdfb63b03c66c and 01d742bc5cd22543d21edb2101fec6558d4075db) these seems to be device specific bindings that got accepted in the default config because the keys where unbound before.
-
-I see, so it might be worthwhile to try and fix these, but in
-a separate pull-request from the:
-
-key <FK24>   {      [ F24, XF86TouchpadToggle ], type[Group1] = "PC_CONTROL_SUPER_LEVEL2" };
-
-addition.
+Let's wait and see what feedback Dmitry have once he can make
+some time to take a look at this.
 
 Regards,
 
 Hans
 
+
+
+
+>>> ---
+>>>   drivers/input/keyboard/atkbd.c | 12 ++++++------
+>>>   1 file changed, 6 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
+>>> index 3598a21d9d014..4bd6e6ef0715e 100644
+>>> --- a/drivers/input/keyboard/atkbd.c
+>>> +++ b/drivers/input/keyboard/atkbd.c
+>>> @@ -84,12 +84,12 @@ static const unsigned short atkbd_set2_keycode[ATKBD_KEYMAP_SIZE] = {
+>>>   #include "hpps2atkbd.h"    /* include the keyboard scancodes */
+>>>     #else
+>>> -      0, 67, 65, 63, 61, 59, 60, 88,  0, 68, 66, 64, 62, 15, 41,117,
+>>> -      0, 56, 42, 93, 29, 16,  2,  0,  0,  0, 44, 31, 30, 17,  3,  0,
+>>> -      0, 46, 45, 32, 18,  5,  4, 95,  0, 57, 47, 33, 20, 19,  6,183,
+>>> -      0, 49, 48, 35, 34, 21,  7,184,  0,  0, 50, 36, 22,  8,  9,185,
+>>> -      0, 51, 37, 23, 24, 11, 10,  0,  0, 52, 53, 38, 39, 25, 12,  0,
+>>> -      0, 89, 40,  0, 26, 13,  0,193, 58, 54, 28, 27,  0, 43,  0, 85,
+>>> +      0, 67, 65, 63, 61, 59, 60, 88,183, 68, 66, 64, 62, 15, 41,117,
+>>> +    184, 56, 42, 93, 29, 16,  2,  0,185,  0, 44, 31, 30, 17,  3,  0,
+>>> +    186, 46, 45, 32, 18,  5,  4, 95,187, 57, 47, 33, 20, 19,  6,183,
+>>> +    188, 49, 48, 35, 34, 21,  7,184,189,  0, 50, 36, 22,  8,  9,185,
+>>> +    190, 51, 37, 23, 24, 11, 10,  0,191, 52, 53, 38, 39, 25, 12,  0,
+>>> +    192, 89, 40,  0, 26, 13,  0,193, 58, 54, 28, 27,  0, 43,  0,194,
+>>>         0, 86, 91, 90, 92,  0, 14, 94,  0, 79,124, 75, 71,121,  0,  0,
+>>>        82, 83, 80, 76, 77, 72,  1, 69, 87, 78, 81, 74, 55, 73, 70, 99,
+>>>   
+> 
 
 
