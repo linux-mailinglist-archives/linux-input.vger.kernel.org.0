@@ -1,62 +1,62 @@
-Return-Path: <linux-input+bounces-10878-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10879-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06A3A646FD
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 10:21:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF62BA6471B
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 10:23:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1FE4816B92B
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 09:21:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0DB1D16F904
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 09:23:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4B3621D3DF;
-	Mon, 17 Mar 2025 09:21:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E9B822171B;
+	Mon, 17 Mar 2025 09:23:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="gWYR2sG3"
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="o6ME4Bjl"
 X-Original-To: linux-input@vger.kernel.org
 Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8CC219313;
-	Mon, 17 Mar 2025 09:21:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FEDD2222D5;
+	Mon, 17 Mar 2025 09:23:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742203293; cv=none; b=d6ZoWLBIWCwNpkS5m/roNjTuQzlrtkpMKL/DUlWN1l/gd4HMxaXyQZF+Y84r8pcdE3UkEYj9QBn9JZR/Zj4Ieq94qaEJ5ymMeMiDeM/8hXa08Usp26y6wE70hWkUwUwNLSl9rLiIpUBoCqOMwxC9I2S4PyFLMPJPK+VXJIDnpwQ=
+	t=1742203404; cv=none; b=KbcVISHS+V2OvHQNOrS8Becb+uNpdZtjQL3MvQvi2+W0RVIx+cBC7rHOGet3bBuRQGTzAaYKDSL3irxtm5gjNUb45uzvsoB/ZMGWrB4fgeP/b49Ov4MMkTw/FhWiGa8yt07VH8pbT0/euzleNXoFyrzPSN6OU6n8xGBCMWN8AOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742203293; c=relaxed/simple;
-	bh=nSrWTm8QPPkkG2oT32D/+WaEUfEA+lLGWlWaysVjSDY=;
+	s=arc-20240116; t=1742203404; c=relaxed/simple;
+	bh=aq5Zls+Ijc6uFlGNIxrbDLG+JLk7nCLttjJwFfdbiMA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mLmaFE8nFaRR40x0QITcO4tVRCc6zGkhuCfMVMWvC+/WBS+XCxGgHKciUmV+a5gQMAZjhMNiBLSdwrhFLMaGu6TG7xqDNYobbT8YjEPIFYYADoDsX4tDS0O+PXIoucK5T09Mr1lFICZoD5KEY04n+rcddryO3Jt/J0deh5I6Kug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=gWYR2sG3; arc=none smtp.client-ip=185.138.42.100
+	 To:Cc:Content-Type; b=hgQeeUNF0bcIpkTpfOi1AdZsugjfRw2X2Aj6B5gRviG3QcXENnOXvyUzC/rQ4/CZ4jjxWy4Mi3+ka/SeNRByBezUwtpWqMOseTPqIktQ791nPmuVfZiuriArRjSuP3RPiDhOd2jx1QW+Z7pBAmPW32R/FYtycwMBJNSib5yThfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=o6ME4Bjl; arc=none smtp.client-ip=185.138.42.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id CE5032E0537B;
-	Mon, 17 Mar 2025 11:21:26 +0200 (EET)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 011B62E0625C;
+	Mon, 17 Mar 2025 11:23:18 +0200 (EET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1742203287;
-	bh=BXcfOF08ViHrsQBfZ+rJ2oo3QoNtkI4oSo8dH1AIiSo=;
+	s=default; t=1742203400;
+	bh=bMWZV6Y+CvWUJMijtT6uLEoH46eXhT+qDmoUd1vNxBw=;
 	h=Received:From:Subject:To;
-	b=gWYR2sG3vKkoNC6BHrjMXzD581nXJArrNiMhkjVFSVd3ZVd+4wMh3TyK4qY4KFzmt
-	 Ei7B6PSv5xZnpPKM/fDW0tMD9VKH4AJ54Jy+vJRx6kFeXnrDh3jnWjXX92FPe+JkcU
-	 Og06rsua0pcip7+p+9LkZMbMzzWP5k5SDKo84+h4=
+	b=o6ME4Bjl2fJvvawHGOQwbNQEg34H1aRS4VcDnyO4QxhStZdJkt4bS59UGezH+0iE6
+	 gy1k6+uv5dJxf+rSHm/vFWBe3n/yck6CEz4PbD2kcIEsXuxzscH//uuhRG+53A1UW0
+	 hk18RnuAgdt3LC18gDPfBkVJ3WWazY2W304BPNck=
 Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.208.179) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f179.google.com
+        spf=pass (sender IP is 209.85.208.170) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f170.google.com
 Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-30bf1d48843so39978551fa.2;
-        Mon, 17 Mar 2025 02:21:26 -0700 (PDT)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-30bd11bfec6so42527721fa.0;
+        Mon, 17 Mar 2025 02:23:18 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCV03zXOlQzfd1HzKni9vD0CtT/HVbiXlDt/X5ts25AsP6QvBdBzEtgWNk49xaXTl5ffxBVvgQ34t25qYQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdxZ9UBkMze6UD5I5+ewd1RT2/xbqz64EOG93IPctqLAFa1whA
-	uTVIaNgVqhRuA7wlZ2V9qXDmhUaFn5ymJeEomOTsUX3NKTNXva9fbYty2/Yomth0Ck9lBxfxAZt
-	h2CFowUsWvV+7X0DMz9qHxrEyiR4=
+ AJvYcCUhNhu5Bap8p2c8oFZs2AOlux6x0ww9GisE8yvtOTfPswbabiu2VTXc1pTmbZeoHGYrC9yIVWnGsmqnkg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkPY73K4My3biT55hjyia0i1RztsZ1cpX7BfM4CXg8nqod5Fbh
+	r9IGteBzNG2HKEfy+XXrF6KktoHg+lKstNnaeCSNAa241Suk+I36fPNp/KaQxrYx1RKnPkn3wRu
+	kdh6xBDENuNLckNr+nLozSHWlU7U=
 X-Google-Smtp-Source: 
- AGHT+IGGgDjr9jB21RMJBMF2G0m7hDY1KPdRlnVvBOzz+dWYQDMCT353VmXdXjgLUxLHjyh97KXBeSTx0QeN2PHcvjU=
-X-Received: by 2002:a2e:be06:0:b0:30c:1fc4:418e with SMTP id
- 38308e7fff4ca-30c4a8d225bmr68178521fa.26.1742203286038; Mon, 17 Mar 2025
- 02:21:26 -0700 (PDT)
+ AGHT+IGnX0Dxok6dcb+rjWQwufCJAoqGhc6ZRb6GFGcDlijV4M5H5bpenR0zhTIAvk4LfpODCGWQbJmvgBgIb4j1so0=
+X-Received: by 2002:a2e:bc09:0:b0:30b:b78e:c473 with SMTP id
+ 38308e7fff4ca-30c4a754732mr55899831fa.7.1742203398342; Mon, 17 Mar 2025
+ 02:23:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -64,17 +64,17 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250222164321.181340-1-lkml@antheas.dev>
- <20250222164321.181340-4-lkml@antheas.dev>
- <bce3cdbf-2056-4735-9c6e-d67e0cd1dcd4@redhat.com>
-In-Reply-To: <bce3cdbf-2056-4735-9c6e-d67e0cd1dcd4@redhat.com>
+ <20250222164321.181340-6-lkml@antheas.dev>
+ <65813e62-aa0f-4167-83c1-49200fc4ca20@redhat.com>
+In-Reply-To: <65813e62-aa0f-4167-83c1-49200fc4ca20@redhat.com>
 From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Mon, 17 Mar 2025 10:21:14 +0100
+Date: Mon, 17 Mar 2025 10:23:06 +0100
 X-Gmail-Original-Message-ID: 
- <CAGwozwGub9FVh0rTnaE3FkuGrc5qRQJQ+_25-Jo61=OtmxXNMA@mail.gmail.com>
-X-Gm-Features: AQ5f1JqWmYcGUB_R7mLjJE59S9cK3w1pEurwt-0kdg5gnLR_vSOrWvA3nrJWhvQ
+ <CAGwozwE9=Vh6M5CVAkTCDj5x8twtm3n_28DH1DFbbBKekhn9hw@mail.gmail.com>
+X-Gm-Features: AQ5f1JrQiT3dbA-hsykAHt-BAHevZp__oLHonDIs7jMsVuuegGkdIf4udvIsUfo
 Message-ID: 
- <CAGwozwGub9FVh0rTnaE3FkuGrc5qRQJQ+_25-Jo61=OtmxXNMA@mail.gmail.com>
-Subject: Re: [PATCH 3/5] drm: panel-orientation-quirks: Add OneXPlayer F1Pro
+ <CAGwozwE9=Vh6M5CVAkTCDj5x8twtm3n_28DH1DFbbBKekhn9hw@mail.gmail.com>
+Subject: Re: [PATCH 5/5] drm: panel-orientation-quirks: Add Zotac Gaming Zone
  quirk
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
@@ -86,70 +86,66 @@ Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
 	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-PPP-Message-ID: 
- <174220328721.13359.13091823917999892304@linux1587.grserver.gr>
+ <174220339987.22458.11008987463524674951@linux1587.grserver.gr>
 X-PPP-Vhost: antheas.dev
 X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
 X-Virus-Status: Clean
 
-On Mon, 17 Mar 2025 at 10:15, Hans de Goede <hdegoede@redhat.com> wrote:
+On Mon, 17 Mar 2025 at 10:20, Hans de Goede <hdegoede@redhat.com> wrote:
 >
 > Hi,
 >
 > On 22-Feb-25 17:43, Antheas Kapenekakis wrote:
-> > The OneXPlayer F1Pro has a 144hz 1920x1080 portrait OLED panel.
-> > Add a quirk to correct the panel portrait orientation. In addition,
-> > it comes with a red limited edition variant in the Chinese market,
-> > so add that as well.
+> > The Zotac Gaming Zone handheld features a 1080p portrait OLED screen.
+> > Add the rotation to the panel orientation quirks.
 > >
 > > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> > ---
+> >  drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> > index f08cdc81dd9a..bbbe707f541d 100644
+> > --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> > +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> > @@ -479,6 +479,12 @@ static const struct dmi_system_id orientation_data[] = {
+> >                 DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER F1 EVA-02"),
+> >               },
+> >               .driver_data = (void *)&lcd1080x1920_leftside_up,
+> > +     }, {    /* Zotac Gaming Zone (OLED) */
+> > +             .matches = {
+> > +               DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ZOTAC"),
+> > +               DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ZOTAC GAMING ZONE"),
+> > +             },
+> > +             .driver_data = (void *)&lcd1080x1920_leftside_up,
+> >       }, {    /* OrangePi Neo */
 >
-> Thanks, patch looks good to me:
+> The entries in this list are alphabetically sorted. Please post
+> a v2 (of just this patch) with this entry moved to the end, just
+> above the special "One Mix 2S" entry which is at the very end
+> because its DMI matches are all "Default string".
 >
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> Note another entry for another Zotac device, with a board name of
+> "G0A1W" has been added in drm-misc/next, so please base your v2
+> on top of drm-misc/next.
 >
-> drm-misc maintainers, I'm dealing with a huge backlog of
-> patch-review, bugs and other work.
->
-> So I would appreciate it if one of you can merge patches 1-3
-> into drm-misc.
+> Also the freedesktop.org infra is currently being migrated to
+> another data center, so the drm-misc tree currently is not
+> available I think.
 >
 > Regards,
 >
 > Hans
 >
-> > ---
-> >  drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> > index 1378690b7287..f08cdc81dd9a 100644
-> > --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> > +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> > @@ -467,6 +467,18 @@ static const struct dmi_system_id orientation_data[] = {
-> >                 DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1 mini"),
-> >               },
-> >               .driver_data = (void *)&lcd1600x2560_leftside_up,
-> > +     }, {    /* OneXPlayer OneXFly F1 Pro (OLED) */
-> > +             .matches = {
-> > +               DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-> > +               DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER F1Pro"),
-> > +             },
-> > +             .driver_data = (void *)&lcd1080x1920_leftside_up,
-> > +     }, {    /* OneXPlayer OneXFly F1 Pro (OLED) LE Red variant */
-> > +             .matches = {
-> > +               DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-> > +               DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER F1 EVA-02"),
-> > +             },
-> > +             .driver_data = (void *)&lcd1080x1920_leftside_up,
-> >       }, {    /* OrangePi Neo */
+>
+>
+>
 > >               .matches = {
 > >                 DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
 >
 
-Hi Hans,
-patch 5 is also a panel quirk. Can you review that real quick as well
-so it is not dangling?
+Ok thanks. I will do that in a few days. Patches 1-4 hopefully should
+be good to merge.
 
-Thanks,
 Antheas
 
