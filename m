@@ -1,160 +1,285 @@
-Return-Path: <linux-input+bounces-10880-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10881-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92091A6473A
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 10:27:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24020A64779
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 10:32:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5388F3B4856
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 09:25:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD0FE3A7C0A
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 09:30:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44985221F14;
-	Mon, 17 Mar 2025 09:24:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BD20221F1A;
+	Mon, 17 Mar 2025 09:30:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="Tyv/ZaCl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XQqDGFA/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614BD3AC17;
-	Mon, 17 Mar 2025 09:24:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FBC133987;
+	Mon, 17 Mar 2025 09:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742203475; cv=none; b=iSPlNRiOnqJuuVu+7823IuOh0h7U/jibpDmc1n+dmmVm/sURjEmsh+h7n7n8YpczD5Al8ijEHEyAZskh/yOqucavWyY0lrwzVYgs7O9nlrQLitJGkFCO12bXA/+XFj4NsaomZUx8DYqSO1mUFECixZozMWMYoibvwD51SyG5sec=
+	t=1742203837; cv=none; b=cVnOmEOEMJjNVjMZbkKKOwukUGDz6RgUSORSgy4AL8BEzwz658tPGS7FMNOmp0QBmZnyV1WFfEqRxrvR4fWsFgrcGZjVihl/v+ObFHl6y13ZMZYkDmS9GLZRk4sRix0d6x05beSXh1k6iCMh9MFrSKdn2rOp+stsDQlMoM73Vv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742203475; c=relaxed/simple;
-	bh=HdqM+Kw7auoJFKOG+1yFmuAYczQRqYv6xSwAwWis1+c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=G49mbpe2pgCwza6dSbKkgdfeiChNpwzxPJny5dBhId8aNaKfUfYwpldwdvHe0jIx0I7cBeaV7729XBL6yOEg/aLRujGo1oyQ9yXfZN5zB5RHXsb8Fc1swyivFvge8yC0AiHtqSvPGy3LyVU1yUwAI4zOoDIuqmpDDwnh/FKRwL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=Tyv/ZaCl; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id B25A92E087A4;
-	Mon, 17 Mar 2025 11:24:30 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1742203471;
-	bh=bpaJAokI/NQ/T1FCGS5iJELae0H5brpgDUQIsXXbr10=;
-	h=Received:From:Subject:To;
-	b=Tyv/ZaClVMNh7lp3NZiJU8GNe3SheFs3oZT+hyLZ1FVZpqWmiURjNvvvVfrIAqkOz
-	 Y2szcK/teCu1vJIUD73DepLHCRuZSY8q42DCU3bO6JcYPxs/cvCn5kIQn1XKcYeWyZ
-	 aJVUYqiwLfFuvMd7/8rqItBAb4Psp+yX4ynrynXE=
-Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.208.180) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f180.google.com
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-30613802a04so47453751fa.2;
-        Mon, 17 Mar 2025 02:24:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUuwxMr2s0jtk1mlWWoWZnUutSRAxwsnD7TsyuGNGpQGJVVbU1nviA+R/DfyssyOa+wUsuwydT7gHDrLQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZB+sgDtZWoO97GyNk9cbg8s/XGadmpCYqBpGjx2V91do431B+
-	SJZ22YySjsEvCdVpd+ILMr2qaC+IVGwA+bhD1THY9xa9O+UV4J7AqFh62wfKCvv1B3/KMFRNPE9
-	NvoUQIzEWLjVQeA711T7CQtM85+o=
-X-Google-Smtp-Source: 
- AGHT+IG393WDcLxj+nSCn5lGo0OfnHjTTcYTFzDoGSO/uYVmGzb6auCXghb6wLrVDzKXWRc1QRDf0xlBxHPaJlSuMtE=
-X-Received: by 2002:a2e:9842:0:b0:30b:c6fe:4500 with SMTP id
- 38308e7fff4ca-30c4a863bb0mr55001111fa.10.1742203470092; Mon, 17 Mar 2025
- 02:24:30 -0700 (PDT)
+	s=arc-20240116; t=1742203837; c=relaxed/simple;
+	bh=qhhkurOO1/r/FUzk14/TdKBO8AXtyjU2NgmH4MtYBt4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=WZayaYHgwDCEu8NLHjJuys87iedt640GmpTz205j+rd9okX9H6Qv2LsZHXJjAp29+AnTG8ZoM7aV4aTPlsPXhX4yDl2fYKnHSkbTNo74H0iroS05LY/5+J5j8hMQmyu8jfW/kOZWF30KhcPt+5wYF4cnn17C5FkCnwEW5/Bpbls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XQqDGFA/; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-390cf7458f5so3628221f8f.2;
+        Mon, 17 Mar 2025 02:30:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742203832; x=1742808632; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=eig1iFcSepoHSxapZeehFNku7IVWpcgwRa3rcpt4M5U=;
+        b=XQqDGFA/5CQere/6/1YS2zgzVWNHR5+vqYPWHl9MlLrtQ60ki/uaN4G7dn8IQofybW
+         Mb+WPly4p5ZuDL0hlRCDmzZTpm/uwA4yXdTzhSpSZjV0kHHFmh6U0SMl+DTjwlRe8Kan
+         yU6PkJv3o2q1OZowZrv3CWKO74z3Le0uILCQKjXMgle2qW7AFHRfkKQu3mVT6m1Iz0bn
+         ecXpQQ+C0JKfBbLXZc3DWyV6ifym/3rgoSeiNGbOGUMrIBgYCvmqrjdFZwKgBsDgs1pH
+         QgNdl2Ene34rxqX9m1EJJjgQHl7JQNEIlUtImcFgpzs8MKeB8tk3OdajErqlgdRG/HiD
+         Et7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742203832; x=1742808632;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eig1iFcSepoHSxapZeehFNku7IVWpcgwRa3rcpt4M5U=;
+        b=DmkxMp/GTGhTL1DnKH4JiiR9JNCXKkCBgQPmoX5/pe7vvNUveKHUsSmBNz0qWEcQq/
+         X/+7UZWg9pAkqrVUYA4m/dAkBohR1XE0urYkTSieE7hwgD6WiW1dRqe/MkbFU1F/Qgsx
+         oaVCk/ZxhFLu5sWxRfs9skucYPe5UL4FiIApxM0fcnhoHlRT1Z8qS2C1d4EDteX/1VaX
+         B0HJKI/pRBc3cduU2Su+2Lnb149DZklONvfZe+jwXotBXcotL5ZuJ+XlRh5xzkXxguID
+         4gJ3RzisuHn/ywfPaun8RxAkcEn60Q0qERlX+kNEybwRuSDGE0qdYEN55bvzR547H8zk
+         VpnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5wxGiT5OKEgdjiQtK7vOGoMpcOgcpJjXUS6hsAO/XyX2W++WTcH5Twob5Ecvq5i4dWa9hiohCAmB5@vger.kernel.org, AJvYcCWnoJKhuOwTCz7xmjF5ORANqDcws5pOeUMbuwc+5PkSU2iE6bqkYU73gkAVx1PN6tbP6qZLf5Ujo2f3oTs=@vger.kernel.org, AJvYcCX+OqppIL7P3RS3jCRCUjNl7RgQlgvWobRAjm2cwTMF5+hSxK5yEyKa7gEXZq2s+lIQqpoKDoBgKjtp@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywz7phetZrsF5XZwRibPsj2WTlRUhWcun+kTpWPqXb/y9RV9vUK
+	OujaCY5oMOc29Jrvpp8Nvgme3u6nFe4B83JVXd7QiS1Uxu/QGsF5lWgWyo5CUJg=
+X-Gm-Gg: ASbGncvNQrpGDyG6uXc/FiVhF2TD+5NUflq6l8VNQRXJcoZPEsJF9QAzi2FqyHe2qmp
+	Z9TAd8jGop3KCt10CfCyyGCnkPiio36mlEPgcrn359n9CRI5mFg0ihqtuIClHKK0ZwoF+jYfB8P
+	alseYzJ5YcaKKgrnETV9Fa+h7f/Xj4iewhzaDlygwnwJG1fvPxpU6Dp+gAdyk5tgMXqm5mTSg0N
+	7SOt36zD6oI/zutOR+dlrxWap3rwCKlj7YKA2NcGwTnxuBErv5KybbGDuvhuXSsGZzUyCwEMOTY
+	gMv9wGMIsFjzY6nSMU+Qg++ywMJx7Kn4aA+ERlQkt19tBB45UXYRMa9ZUkX2pWUxX8FzhKz6ibP
+	9iLvX5xmRixcwclHg
+X-Google-Smtp-Source: AGHT+IHZsuR0ksLjZ4G7uF6NVcvU+eKQUxiFAy9W0UbHlBwE5CRiQBUmT4llbb7TORGwpiUiTLd8Hw==
+X-Received: by 2002:a5d:47ae:0:b0:391:a43:8bbd with SMTP id ffacd0b85a97d-3971e876615mr13523314f8f.21.1742203832369;
+        Mon, 17 Mar 2025 02:30:32 -0700 (PDT)
+Received: from ?IPv6:2001:818:ea8e:7f00:2575:914:eedd:620e? ([2001:818:ea8e:7f00:2575:914:eedd:620e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c7df3506sm14803542f8f.11.2025.03.17.02.30.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Mar 2025 02:30:31 -0700 (PDT)
+Message-ID: <ae74d31e8b3874da91ec5c2c9a20274358073266.camel@gmail.com>
+Subject: Re: [PATCH 05/18] dt-bindings: mfd: adp5585: document adp5589 I/O
+ expander
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?=
+	 <nuno.sa@analog.com>
+Cc: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org, Lee Jones
+ <lee@kernel.org>,  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,  Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?=	 <ukleinek@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Dmitry
+ Torokhov <dmitry.torokhov@gmail.com>, Laurent Pinchart	
+ <laurent.pinchart@ideasonboard.com>, Liu Ying <victor.liu@nxp.com>
+Date: Mon, 17 Mar 2025 09:30:37 +0000
+In-Reply-To: <f1ccbdc1-3f47-46a8-bcc2-ca6135882392@kernel.org>
+References: <20250313-dev-adp5589-fw-v1-0-20e80d4bd4ea@analog.com>
+	 <20250313-dev-adp5589-fw-v1-5-20e80d4bd4ea@analog.com>
+	 <20250314-outstanding-futuristic-cat-5d8240@krzk-bin>
+	 <c59477b2a94cbd10bc530809fbcdc0f2d1b79d07.camel@gmail.com>
+	 <f1ccbdc1-3f47-46a8-bcc2-ca6135882392@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250222164321.181340-1-lkml@antheas.dev>
- <20250222164321.181340-6-lkml@antheas.dev>
- <65813e62-aa0f-4167-83c1-49200fc4ca20@redhat.com>
- <CAGwozwE9=Vh6M5CVAkTCDj5x8twtm3n_28DH1DFbbBKekhn9hw@mail.gmail.com>
-In-Reply-To: 
- <CAGwozwE9=Vh6M5CVAkTCDj5x8twtm3n_28DH1DFbbBKekhn9hw@mail.gmail.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Mon, 17 Mar 2025 10:24:18 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwH_htUrKukTQ1QDa+qHJjKnU-A2QCzFharVGiiTC-vCRw@mail.gmail.com>
-X-Gm-Features: AQ5f1JpyVorMHWlhiauUBhSWuscYucyza1t1M5lYYzEnht5BWKBWX2AD_k03mpY
-Message-ID: 
- <CAGwozwH_htUrKukTQ1QDa+qHJjKnU-A2QCzFharVGiiTC-vCRw@mail.gmail.com>
-Subject: Re: [PATCH 5/5] drm: panel-orientation-quirks: Add Zotac Gaming Zone
- quirk
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <174220347106.27635.1170059049294012610@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
 
-On Mon, 17 Mar 2025 at 10:23, Antheas Kapenekakis <lkml@antheas.dev> wrote:
->
-> On Mon, 17 Mar 2025 at 10:20, Hans de Goede <hdegoede@redhat.com> wrote:
-> >
-> > Hi,
-> >
-> > On 22-Feb-25 17:43, Antheas Kapenekakis wrote:
-> > > The Zotac Gaming Zone handheld features a 1080p portrait OLED screen.
-> > > Add the rotation to the panel orientation quirks.
-> > >
-> > > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> > > ---
-> > >  drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
-> > >  1 file changed, 6 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> > > index f08cdc81dd9a..bbbe707f541d 100644
-> > > --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> > > +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> > > @@ -479,6 +479,12 @@ static const struct dmi_system_id orientation_data[] = {
-> > >                 DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER F1 EVA-02"),
-> > >               },
-> > >               .driver_data = (void *)&lcd1080x1920_leftside_up,
-> > > +     }, {    /* Zotac Gaming Zone (OLED) */
-> > > +             .matches = {
-> > > +               DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ZOTAC"),
-> > > +               DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ZOTAC GAMING ZONE"),
-> > > +             },
-> > > +             .driver_data = (void *)&lcd1080x1920_leftside_up,
-> > >       }, {    /* OrangePi Neo */
-> >
-> > The entries in this list are alphabetically sorted. Please post
-> > a v2 (of just this patch) with this entry moved to the end, just
-> > above the special "One Mix 2S" entry which is at the very end
-> > because its DMI matches are all "Default string".
-> >
-> > Note another entry for another Zotac device, with a board name of
-> > "G0A1W" has been added in drm-misc/next, so please base your v2
-> > on top of drm-misc/next.
-> >
-> > Also the freedesktop.org infra is currently being migrated to
-> > another data center, so the drm-misc tree currently is not
-> > available I think.
-> >
-> > Regards,
-> >
-> > Hans
-> >
-> >
-> >
-> >
-> > >               .matches = {
-> > >                 DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
-> >
->
-> Ok thanks. I will do that in a few days. Patches 1-4 hopefully should
-> be good to merge.
->
-> Antheas
+On Mon, 2025-03-17 at 08:41 +0100, Krzysztof Kozlowski wrote:
+> On 14/03/2025 10:38, Nuno S=C3=A1 wrote:
+> > On Fri, 2025-03-14 at 09:49 +0100, Krzysztof Kozlowski wrote:
+> > > On Thu, Mar 13, 2025 at 02:19:22PM +0000, Nuno S=C3=A1 wrote:
+> > > > =C2=A0=C2=A0 reg:
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > > > @@ -63,13 +70,26 @@ allOf:
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpio-reserved-rang=
+es: false
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0 else:
+> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
+> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpio-reserved-ranges:
+> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 items:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if:
+> > >=20
+> > > Do not nest if:then:else:if:then, it leads to code impossible to read=
+.
+> > > Just provide if-then cases for each of your variant.
+> > >=20
+> >=20
+> > Alright...
+> >=20
+> > >=20
+> > >=20
+> > >=20
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compatible:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ contains:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 enum:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 - adi,adp5585-00
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 - adi,adp5585-02
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 - adi,adp5585-03
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 - adi,adp5585-04
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 then:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpio-reserv=
+ed-ranges:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ maxItems: 1
+> > >=20
+> > > one tem?
+> > >=20
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 items:
+> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 - const: 5
+> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 - const: 1
+> > >=20
+> > > But here two...
+> > >=20
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 items:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 - const: 5
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 - const: 1
+> > >=20
+> > > and this is confusing. I don't get what you want to express.
+> > >=20
+> >=20
+> > I just kept it as before (maybe I messed up in some other way but the 2
+> > items:
+>=20
+> No, your code is very different.
+>=20
+> > were already in the binding):
+>=20
+> I see only one GPIO range.
+>=20
+> >=20
+> > https://elixir.bootlin.com/linux/v6.14-rc6/source/Documentation/devicet=
+ree/bindings/mfd/adi,adp5585.yaml#L70
+> >=20
+> > If this is not needed I can simplifying during this patch. Is this
+> > sufficient?
+> >=20
+> > ...
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpio-reserved-ranges:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 items:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - co=
+nst: 5
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - co=
+nst: 1
+>=20
+> Again, different code and not correct as you have now two ranges. Open
+> original code - it is clear not the same. So two tries - your patch and
+> code above - are different but I don't get why you claim your code is
+> identical.
+>=20
 
-Actually nevermind, this is the Zotac Zone so it is a dupe. It is fine
-to drop this patch from the series and merge the rest.
+I'm really missing something obvious but how is it different? The original =
+code
+was:
 
-Antheas
+- if:
+      properties:
+        compatible:
+          contains:
+            const: adi,adp5585-01
+    then:
+      properties:
+        gpio-reserved-ranges: false
+    else:
+      properties:
+        gpio-reserved-ranges:
+          maxItems: 1
+          items:
+            items:
+              - const: 5
+              - const: 1
+
+Now, I have:
+
+- if:
+      properties:
+        compatible:
+          contains:
+            const: adi,adp5585-01
+    then:
+      properties:
+        gpio-reserved-ranges: false
+    else:
+      if:
+        properties:
+          compatible:
+            contains:
+              enum:
+                - adi,adp5585-00
+                - adi,adp5585-02
+                - adi,adp5585-03
+                - adi,adp5585-04
+      then:
+        properties:
+          gpio-reserved-ranges:
+            maxItems: 1
+            items:
+              items:
+                - const: 5
+                - const: 1
+      else:
+        properties:
+          gpio-reserved-ranges: false
+
+
+So the only thing I have is the nested 'if else' (that you already complain=
+ed
+about) and I need to have 'gpio-reserved-ranges: false' for the adp5589 fam=
+ily
+of devices since there is no such constrain. But this part:
+
+properties:
+  gpio-reserved-ranges:
+    maxItems: 1
+    items:
+      items:
+        - const: 5
+        - const: 1
+
+is very much what we have today.
+
+So, sorry if I'm missing something obvious but I'm really not getting what =
+you
+mean...
+
+- Nuno S=C3=A1
+
+
 
