@@ -1,285 +1,101 @@
-Return-Path: <linux-input+bounces-10881-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10882-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24020A64779
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 10:32:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A46A64798
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 10:36:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD0FE3A7C0A
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 09:30:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 96EAB3A6DC7
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 09:35:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BD20221F1A;
-	Mon, 17 Mar 2025 09:30:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 274C9226D09;
+	Mon, 17 Mar 2025 09:35:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XQqDGFA/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QqbPJk5Q"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FBC133987;
-	Mon, 17 Mar 2025 09:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB52225A3E;
+	Mon, 17 Mar 2025 09:35:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742203837; cv=none; b=cVnOmEOEMJjNVjMZbkKKOwukUGDz6RgUSORSgy4AL8BEzwz658tPGS7FMNOmp0QBmZnyV1WFfEqRxrvR4fWsFgrcGZjVihl/v+ObFHl6y13ZMZYkDmS9GLZRk4sRix0d6x05beSXh1k6iCMh9MFrSKdn2rOp+stsDQlMoM73Vv0=
+	t=1742204154; cv=none; b=hzI0QMyUt6s+IFZXWNcPDniAPzsJXZlZRuOgzPAb4Xf0cV4I0JsrfFw8JFLacFHgZzQW54ncDX90cuC+DIhrXobIecqS3GObA+4SfOQZZoOXAwp4/JhzfqF8Ezj8XPTe5ioLuz2tAeHNwkt3mGksbcQ4wVTbzduCZI88zgJQBA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742203837; c=relaxed/simple;
-	bh=qhhkurOO1/r/FUzk14/TdKBO8AXtyjU2NgmH4MtYBt4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=WZayaYHgwDCEu8NLHjJuys87iedt640GmpTz205j+rd9okX9H6Qv2LsZHXJjAp29+AnTG8ZoM7aV4aTPlsPXhX4yDl2fYKnHSkbTNo74H0iroS05LY/5+J5j8hMQmyu8jfW/kOZWF30KhcPt+5wYF4cnn17C5FkCnwEW5/Bpbls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XQqDGFA/; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-390cf7458f5so3628221f8f.2;
-        Mon, 17 Mar 2025 02:30:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742203832; x=1742808632; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=eig1iFcSepoHSxapZeehFNku7IVWpcgwRa3rcpt4M5U=;
-        b=XQqDGFA/5CQere/6/1YS2zgzVWNHR5+vqYPWHl9MlLrtQ60ki/uaN4G7dn8IQofybW
-         Mb+WPly4p5ZuDL0hlRCDmzZTpm/uwA4yXdTzhSpSZjV0kHHFmh6U0SMl+DTjwlRe8Kan
-         yU6PkJv3o2q1OZowZrv3CWKO74z3Le0uILCQKjXMgle2qW7AFHRfkKQu3mVT6m1Iz0bn
-         ecXpQQ+C0JKfBbLXZc3DWyV6ifym/3rgoSeiNGbOGUMrIBgYCvmqrjdFZwKgBsDgs1pH
-         QgNdl2Ene34rxqX9m1EJJjgQHl7JQNEIlUtImcFgpzs8MKeB8tk3OdajErqlgdRG/HiD
-         Et7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742203832; x=1742808632;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eig1iFcSepoHSxapZeehFNku7IVWpcgwRa3rcpt4M5U=;
-        b=DmkxMp/GTGhTL1DnKH4JiiR9JNCXKkCBgQPmoX5/pe7vvNUveKHUsSmBNz0qWEcQq/
-         X/+7UZWg9pAkqrVUYA4m/dAkBohR1XE0urYkTSieE7hwgD6WiW1dRqe/MkbFU1F/Qgsx
-         oaVCk/ZxhFLu5sWxRfs9skucYPe5UL4FiIApxM0fcnhoHlRT1Z8qS2C1d4EDteX/1VaX
-         B0HJKI/pRBc3cduU2Su+2Lnb149DZklONvfZe+jwXotBXcotL5ZuJ+XlRh5xzkXxguID
-         4gJ3RzisuHn/ywfPaun8RxAkcEn60Q0qERlX+kNEybwRuSDGE0qdYEN55bvzR547H8zk
-         VpnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV5wxGiT5OKEgdjiQtK7vOGoMpcOgcpJjXUS6hsAO/XyX2W++WTcH5Twob5Ecvq5i4dWa9hiohCAmB5@vger.kernel.org, AJvYcCWnoJKhuOwTCz7xmjF5ORANqDcws5pOeUMbuwc+5PkSU2iE6bqkYU73gkAVx1PN6tbP6qZLf5Ujo2f3oTs=@vger.kernel.org, AJvYcCX+OqppIL7P3RS3jCRCUjNl7RgQlgvWobRAjm2cwTMF5+hSxK5yEyKa7gEXZq2s+lIQqpoKDoBgKjtp@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywz7phetZrsF5XZwRibPsj2WTlRUhWcun+kTpWPqXb/y9RV9vUK
-	OujaCY5oMOc29Jrvpp8Nvgme3u6nFe4B83JVXd7QiS1Uxu/QGsF5lWgWyo5CUJg=
-X-Gm-Gg: ASbGncvNQrpGDyG6uXc/FiVhF2TD+5NUflq6l8VNQRXJcoZPEsJF9QAzi2FqyHe2qmp
-	Z9TAd8jGop3KCt10CfCyyGCnkPiio36mlEPgcrn359n9CRI5mFg0ihqtuIClHKK0ZwoF+jYfB8P
-	alseYzJ5YcaKKgrnETV9Fa+h7f/Xj4iewhzaDlygwnwJG1fvPxpU6Dp+gAdyk5tgMXqm5mTSg0N
-	7SOt36zD6oI/zutOR+dlrxWap3rwCKlj7YKA2NcGwTnxuBErv5KybbGDuvhuXSsGZzUyCwEMOTY
-	gMv9wGMIsFjzY6nSMU+Qg++ywMJx7Kn4aA+ERlQkt19tBB45UXYRMa9ZUkX2pWUxX8FzhKz6ibP
-	9iLvX5xmRixcwclHg
-X-Google-Smtp-Source: AGHT+IHZsuR0ksLjZ4G7uF6NVcvU+eKQUxiFAy9W0UbHlBwE5CRiQBUmT4llbb7TORGwpiUiTLd8Hw==
-X-Received: by 2002:a5d:47ae:0:b0:391:a43:8bbd with SMTP id ffacd0b85a97d-3971e876615mr13523314f8f.21.1742203832369;
-        Mon, 17 Mar 2025 02:30:32 -0700 (PDT)
-Received: from ?IPv6:2001:818:ea8e:7f00:2575:914:eedd:620e? ([2001:818:ea8e:7f00:2575:914:eedd:620e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c7df3506sm14803542f8f.11.2025.03.17.02.30.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Mar 2025 02:30:31 -0700 (PDT)
-Message-ID: <ae74d31e8b3874da91ec5c2c9a20274358073266.camel@gmail.com>
-Subject: Re: [PATCH 05/18] dt-bindings: mfd: adp5585: document adp5589 I/O
- expander
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?=
-	 <nuno.sa@analog.com>
-Cc: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org, Lee Jones
- <lee@kernel.org>,  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,  Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?=	 <ukleinek@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Dmitry
- Torokhov <dmitry.torokhov@gmail.com>, Laurent Pinchart	
- <laurent.pinchart@ideasonboard.com>, Liu Ying <victor.liu@nxp.com>
-Date: Mon, 17 Mar 2025 09:30:37 +0000
-In-Reply-To: <f1ccbdc1-3f47-46a8-bcc2-ca6135882392@kernel.org>
-References: <20250313-dev-adp5589-fw-v1-0-20e80d4bd4ea@analog.com>
-	 <20250313-dev-adp5589-fw-v1-5-20e80d4bd4ea@analog.com>
-	 <20250314-outstanding-futuristic-cat-5d8240@krzk-bin>
-	 <c59477b2a94cbd10bc530809fbcdc0f2d1b79d07.camel@gmail.com>
-	 <f1ccbdc1-3f47-46a8-bcc2-ca6135882392@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 
+	s=arc-20240116; t=1742204154; c=relaxed/simple;
+	bh=GjvD1ewWzETOMGlfQ7B3N9h5hZXjx7lZzpixsXgl16E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K3U48FrrmNR1Kw93UTtvfIbjg3FQgeH9np1eId+3Ezao8klf95UGUvRLJj/s7nQNjfJVzL5lnOw/EmGR5CFE/J2WfSOefe7A6NI40y5OA48Dj2TOUn8SWuyaP+RPVGQuxjKeNxCvnDFVXye+oQ2/FW+BHL2+SUJH7dGxSWsLETg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QqbPJk5Q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D44C4CEEF;
+	Mon, 17 Mar 2025 09:35:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742204152;
+	bh=GjvD1ewWzETOMGlfQ7B3N9h5hZXjx7lZzpixsXgl16E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QqbPJk5Q186gRSpCJlqlboZIDiG1TnMQJaedonqAVzDsxu63zDWvAwL7KBiQGns6l
+	 ezfwS2d9R+RbaEsbxHnts6JgHeTzQ3blYdsjX0/7MnrSAsCATLs3J91SHyQdrKcYOQ
+	 975cYve+yp1GFFT8y53o2ajRLMaoOjlVpBdckafYMtSbNHhyDOpEvzNisVjQAuskWC
+	 xtFGfg8Yo7nolmeJ/r9U5dQHwq1Al8/glJaM5eQ5UFv78QEVilGgJEAgVf9BvQCOYS
+	 J53EmVtUtI3HUuVhdO9Z4l8wqWVdT1HDKfjfKTKuPfMI+SZN8Ty1+1SGSlBAtlxnZp
+	 cQLBdFdk2zrPw==
+Date: Mon, 17 Mar 2025 10:35:49 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Ian Ray <ian.ray@gehealthcare.com>
+Cc: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: crypto: fsl,sec-v4.0-mon: Add
+ "power-off-time-sec"
+Message-ID: <20250317-fine-swift-of-acumen-ea2bad@krzk-bin>
+References: <20250315093455.1100-1-ian.ray@gehealthcare.com>
+ <20250315093455.1100-2-ian.ray@gehealthcare.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250315093455.1100-2-ian.ray@gehealthcare.com>
 
-On Mon, 2025-03-17 at 08:41 +0100, Krzysztof Kozlowski wrote:
-> On 14/03/2025 10:38, Nuno S=C3=A1 wrote:
-> > On Fri, 2025-03-14 at 09:49 +0100, Krzysztof Kozlowski wrote:
-> > > On Thu, Mar 13, 2025 at 02:19:22PM +0000, Nuno S=C3=A1 wrote:
-> > > > =C2=A0=C2=A0 reg:
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > > > @@ -63,13 +70,26 @@ allOf:
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpio-reserved-rang=
-es: false
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 else:
-> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
-> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpio-reserved-ranges:
-> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 items:
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if:
-> > >=20
-> > > Do not nest if:then:else:if:then, it leads to code impossible to read=
-.
-> > > Just provide if-then cases for each of your variant.
-> > >=20
-> >=20
-> > Alright...
-> >=20
-> > >=20
-> > >=20
-> > >=20
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compatible:
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- contains:
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 enum:
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 - adi,adp5585-00
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 - adi,adp5585-02
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 - adi,adp5585-03
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 - adi,adp5585-04
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 then:
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpio-reserv=
-ed-ranges:
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- maxItems: 1
-> > >=20
-> > > one tem?
-> > >=20
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 items:
-> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 - const: 5
-> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 - const: 1
-> > >=20
-> > > But here two...
-> > >=20
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 items:
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 - const: 5
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 - const: 1
-> > >=20
-> > > and this is confusing. I don't get what you want to express.
-> > >=20
-> >=20
-> > I just kept it as before (maybe I messed up in some other way but the 2
-> > items:
->=20
-> No, your code is very different.
->=20
-> > were already in the binding):
->=20
-> I see only one GPIO range.
->=20
-> >=20
-> > https://elixir.bootlin.com/linux/v6.14-rc6/source/Documentation/devicet=
-ree/bindings/mfd/adi,adp5585.yaml#L70
-> >=20
-> > If this is not needed I can simplifying during this patch. Is this
-> > sufficient?
-> >=20
-> > ...
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpio-reserved-ranges:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 items:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - co=
-nst: 5
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - co=
-nst: 1
->=20
-> Again, different code and not correct as you have now two ranges. Open
-> original code - it is clear not the same. So two tries - your patch and
-> code above - are different but I don't get why you claim your code is
-> identical.
->=20
+On Sat, Mar 15, 2025 at 11:34:54AM +0200, Ian Ray wrote:
+> Update to reference the input.yaml schema, thus enabling the use of the
+> common 'power-off-time' property.
+> 
+> The hardware supports one of four fixed values, and the new property is
+> optional.
+> 
+> Signed-off-by: Ian Ray <ian.ray@gehealthcare.com>
+> ---
+>  .../devicetree/bindings/crypto/fsl,sec-v4.0-mon.yaml         | 5 +++++
+>  1 file changed, 5 insertions(+)
 
-I'm really missing something obvious but how is it different? The original =
-code
-was:
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-- if:
-      properties:
-        compatible:
-          contains:
-            const: adi,adp5585-01
-    then:
-      properties:
-        gpio-reserved-ranges: false
-    else:
-      properties:
-        gpio-reserved-ranges:
-          maxItems: 1
-          items:
-            items:
-              - const: 5
-              - const: 1
+---
 
-Now, I have:
+<form letter>
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you know the process, you can skip it (please do
+not feel offended by me posting it here - no bad intentions intended).
+If you do not know the process, here is a short explanation:
 
-- if:
-      properties:
-        compatible:
-          contains:
-            const: adi,adp5585-01
-    then:
-      properties:
-        gpio-reserved-ranges: false
-    else:
-      if:
-        properties:
-          compatible:
-            contains:
-              enum:
-                - adi,adp5585-00
-                - adi,adp5585-02
-                - adi,adp5585-03
-                - adi,adp5585-04
-      then:
-        properties:
-          gpio-reserved-ranges:
-            maxItems: 1
-            items:
-              items:
-                - const: 5
-                - const: 1
-      else:
-        properties:
-          gpio-reserved-ranges: false
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions of patchset, under or above your Signed-off-by tag, unless
+patch changed significantly (e.g. new properties added to the DT
+bindings). Tag is "received", when provided in a message replied to you
+on the mailing list. Tools like b4 can help here. However, there's no
+need to repost patches *only* to add the tags. The upstream maintainer
+will do that for tags received on the version they apply.
 
+https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
+</form letter>
 
-So the only thing I have is the nested 'if else' (that you already complain=
-ed
-about) and I need to have 'gpio-reserved-ranges: false' for the adp5589 fam=
-ily
-of devices since there is no such constrain. But this part:
-
-properties:
-  gpio-reserved-ranges:
-    maxItems: 1
-    items:
-      items:
-        - const: 5
-        - const: 1
-
-is very much what we have today.
-
-So, sorry if I'm missing something obvious but I'm really not getting what =
-you
-mean...
-
-- Nuno S=C3=A1
-
+Best regards,
+Krzysztof
 
 
