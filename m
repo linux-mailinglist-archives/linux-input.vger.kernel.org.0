@@ -1,109 +1,163 @@
-Return-Path: <linux-input+bounces-10884-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10885-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18D41A64AD2
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 11:51:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634ECA64BB9
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 12:07:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37BD4188B3A6
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 10:50:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA03A1885E94
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 11:05:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1442A233127;
-	Mon, 17 Mar 2025 10:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B7FA221560;
+	Mon, 17 Mar 2025 11:05:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FTMTEiay"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NBefQiZA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0861993BD;
-	Mon, 17 Mar 2025 10:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6CD38B
+	for <linux-input@vger.kernel.org>; Mon, 17 Mar 2025 11:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742208570; cv=none; b=uwerHvGdRkHMUgYXCRnXAz1PfJRzZm79e1PjA82uBoDqGeqQBWqbgGjET3dwZgf/1Io7B+f0oa3k/WulQimby1mZ3pD303foQRarxal8OIOZ7TD8VkI4ihb+A4v3luwoesRBHsV5iknn0Mjvi80ir4Wch7TybKDeOEqvI3lMv8o=
+	t=1742209511; cv=none; b=E3BEQk7Lm1vZrwLLr+YidAdy/q4Xia3myzCWpB+yeNNUyW4EmpZtL+Gd1XO0Stepj7lf1rjgv2HW2ISRhnbqsDmkQ7jItVYlSJ/Z1W3AwgmBTc3LKTwBldvpcQJ6mTOS0DKXcmS0bbTbDSqzbghq1tMjotr4WwRlQe7dK+c0Hq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742208570; c=relaxed/simple;
-	bh=DHLKtqKokb5/ORaPjnoa21RvlOzXzzI+TwJQN4jKmm8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XKhgCSzcGFNrDoh3u35jdNaCtDKZgLs+8x23SqdHmbJRtRIAy92MnpaQjXg6hlzqVicqgAszuOztMb74KxiWBxDOuFtVRRKs4eJAaoyjYCaBjyuG93hYVFNbGVluPSlR46618iLBDskF0dbWJPAyuUMWD87ey1BYWSUtRfqm5mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FTMTEiay; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62BD1C4CEE3;
-	Mon, 17 Mar 2025 10:49:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742208569;
-	bh=DHLKtqKokb5/ORaPjnoa21RvlOzXzzI+TwJQN4jKmm8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FTMTEiayCOljtv8GLrylo8HGHweUsQRLbmaUiKxoofC4/CYB8N2vxqCoTaE1F5Z6D
-	 A2k5slyoogC1NQGauUeuQTMSB4yYKO+KrpsOJqfiHJLQDZBfQdlJJCwcGRiwGzMuN/
-	 Hy3m/rCrQPwnptuswFLkxHEzWN2b4U+hha7f8aEn9/uT4elbWZYqcjGej2yWiDPskr
-	 WfJuU8/qfKryhJoH3KcgN5y2dWHwn7x02FTiz6DXznKfslnJBwlQwxCEw2mWVWmMT9
-	 7dF9xr3GXqRs+0Na8zNmlP5ny5KLkY+VRdQ5fHl0TaTdbRdRI3msX75tfZo8dahRl7
-	 bM+FkVf599Q3Q==
-Date: Mon, 17 Mar 2025 11:49:24 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Lu Tang =?utf-8?B?KOaxpOeSkCk=?= <Lu.Tang@mediatek.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sean Wang <sean.wang@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Chen Zhong =?utf-8?B?KOmSn+i+sCk=?= <Chen.Zhong@mediatek.com>, Sen Chu =?utf-8?B?KOWCqOajrik=?= <Sen.Chu@mediatek.com>, 
-	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
-	Project_Global_Chrome_Upstream_Group <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: Re: =?utf-8?B?5Zue5aSN?= =?utf-8?Q?=3A?= [PATCH 5/5] dt-bindings:
- pmic: mediatek: Add pmic documents
-Message-ID: <20250317-mighty-dolphin-of-downpour-e7a9f5@krzk-bin>
-References: <20250314073307.25092-1-Lu.Tang@mediatek.com>
- <20250314073307.25092-6-Lu.Tang@mediatek.com>
- <SEZPR03MB6891E21CD04880AB1AC91BFC80D22@SEZPR03MB6891.apcprd03.prod.outlook.com>
+	s=arc-20240116; t=1742209511; c=relaxed/simple;
+	bh=q1p2RryvxXZOam8aZ9xn/h3XCaJjpYdoRqVclsSyld4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QZsyiYNMf/mvXpHhV9iB4qMF/+McMTq6sP/0u1VaZ0QurZti1sX4o8nIwGpamZ7ugD259JfPRSg7M2OzF8mW5TOc6fHXNXx2fu+ApYPrrGQwand2E4PrakIpCmoMkewzAHXIhpcp7Y2qc/F23mQkYg8LAtdUVq0TFU9QyCiIsKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NBefQiZA; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1742209504;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aBvUwzP789HFV3ICxplLlIM9nxvDPZjAQBuQvtsW2zo=;
+	b=NBefQiZAWj4BoSGFX4eqmxpQn7yGvyGWVsEYwwqT9htTqLaJQbf3fUjfWjHP+jllYN7xBK
+	ahGtyPtCIJg3wHi/uYAh8c+U3UuitSyCjIywL8PV5y3Xmm2mR3i5CWcvY6vFuqu0LcxzzU
+	fsZo6rNte2rN7bTWSHwcJYVCQRW5n/A=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-191-SjLtu2UuO8qxIJYI6mPxPw-1; Mon, 17 Mar 2025 07:05:03 -0400
+X-MC-Unique: SjLtu2UuO8qxIJYI6mPxPw-1
+X-Mimecast-MFC-AGG-ID: SjLtu2UuO8qxIJYI6mPxPw_1742209502
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-abb9b2831b7so565188266b.1
+        for <linux-input@vger.kernel.org>; Mon, 17 Mar 2025 04:05:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742209502; x=1742814302;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aBvUwzP789HFV3ICxplLlIM9nxvDPZjAQBuQvtsW2zo=;
+        b=DPNJKKaTDRuQ9/EQF4nwIXVodFhaOLeaLs9CItq/jpFzhoXHKnDcv1bsUN6GF+wsiW
+         gH6YGEZH3A1zekzhi4cBabRfqB6GOcNM/S+M6pa7yn/EVF/d5JZErMJfRF+67ehX5nK0
+         8foUD0+sVj8H2/0Av7lHzIhVKhEXaPygrqHkapzTGpMzMbjyXVv1pg+5mWN2gToc0Khm
+         cTdeTpte7G4qS6vBbHMPS/aXb94ITBzYBfZlvHqTjHTfNKQwFv68Pv4aeEFLwuK+EhKA
+         qg2cbPueMgyKs3suL0OsH/9yxSwMsvM8TniAUEZfeXjej0TFB0N06frs2z8gd4hk++r5
+         zuvA==
+X-Gm-Message-State: AOJu0YzXYvsRXvCSc6M28OoOmeeQg3hxVLF0QE81xrtC30euGHdNmjiJ
+	cpjBehburmkhRkTP7C7G6n/Qo6oBx8m6Qu61yq76k4wVHzxf4etLsxsCIov0QDXW/UxTPK0XJ8t
+	ol2WULmz9ofAJ1nnUvuaTfGZ6mM1O+E+UdzsD88gpB1/iWTulA0HPMYI8oGuUqZ5UWYM+850=
+X-Gm-Gg: ASbGncsKY3lvA2Xw83mV11sJOmal2OiCamSh5hceI35BCW9fqgbAHh63dOU6bg+MG6H
+	PDxsH+EiJZGvT81fVJ65Ul3zUvDH7dCdFPsV2Snb1KpSZe9GsicxFlHxbGnBjVphTr6ym3pAKJt
+	9UA/y+nOOcQkGmctQnGw/oDX9ZsYZ20Iq5lssM8UicV5tFf+kzcIAHieS2s1eG/qxxGgcDWf8NM
+	w1fH3lEBToipAGFcQiFBUmBxb4nk386KUyPlEkwUarRDxcPk4hzdsgNs+LVGGDwqGFaL3DC6nJS
+	9RtkhD6udOPVCXr33W8=
+X-Received: by 2002:a17:907:c247:b0:abf:6ead:2e57 with SMTP id a640c23a62f3a-ac31250719fmr1579388966b.24.1742209501666;
+        Mon, 17 Mar 2025 04:05:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFg67v2/9e+4jJswcJERm7K//dGMJHq/JlGnG8h8sQJj6Ko8ZyvaXXpwZPR+bSl3ASos+fM1g==
+X-Received: by 2002:a17:907:c247:b0:abf:6ead:2e57 with SMTP id a640c23a62f3a-ac31250719fmr1579386766b.24.1742209501267;
+        Mon, 17 Mar 2025 04:05:01 -0700 (PDT)
+Received: from [10.40.98.122] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3147e9fe0sm654695166b.55.2025.03.17.04.05.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Mar 2025 04:05:00 -0700 (PDT)
+Message-ID: <4e37c7b2-85bc-459e-b2ea-2e362c16e9aa@redhat.com>
+Date: Mon, 17 Mar 2025 12:04:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <SEZPR03MB6891E21CD04880AB1AC91BFC80D22@SEZPR03MB6891.apcprd03.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] Input: atkbd - Map FN-key for TongFang barebones
+To: Werner Sembach <wse@tuxedocomputers.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250311180643.1107430-1-wse@tuxedocomputers.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20250311180643.1107430-1-wse@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 14, 2025 at 09:01:11AM +0000, Lu Tang (=E6=B1=A4=E7=92=90) wrot=
-e:
-> Update email
->=20
-> -----=E9=82=AE=E4=BB=B6=E5=8E=9F=E4=BB=B6-----
-> =E5=8F=91=E4=BB=B6=E4=BA=BA: Lu.Tang <Lu.Tang@mediatek.com>=20
-> =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2025=E5=B9=B43=E6=9C=8814=E6=97=A5 =
-15:33
-> =E6=94=B6=E4=BB=B6=E4=BA=BA: Jonathan Cameron <jic23@kernel.org>; Lars-Pe=
-ter Clausen <lars@metafoo.de>; Rob Herring <robh@kernel.org>; Krzysztof Koz=
-lowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Dmitry Tor=
-okhov <dmitry.torokhov@gmail.com>; Lee Jones <lee@kernel.org>; Matthias Bru=
-gger <matthias.bgg@gmail.com>; AngeloGioacchino Del Regno <angelogioacchino=
-=2Edelregno@collabora.com>; Sean Wang <sean.wang@kernel.org>; Linus Walleij=
- <linus.walleij@linaro.org>; Liam Girdwood <lgirdwood@gmail.com>; Mark Brow=
-n <broonie@kernel.org>; Stephen Boyd <sboyd@kernel.org>; Chen Zhong (=E9=92=
-=9F=E8=BE=B0) <Chen.Zhong@mediatek.com>; Sen Chu <shen.chu@mediatek.com>
-> =E6=8A=84=E9=80=81: linux-iio@vger.kernel.org; devicetree@vger.kernel.org=
-; linux-kernel@vger.kernel.org; linux-input@vger.kernel.org; linux-arm-kern=
-el@lists.infradead.org; linux-mediatek@lists.infradead.org; linux-gpio@vger=
-=2Ekernel.org; Project_Global_Chrome_Upstream_Group <Project_Global_Chrome_=
-Upstream_Group@mediatek.com>; Lu Tang (=E6=B1=A4=E7=92=90) <Lu.Tang@mediate=
-k.com>
-> =E4=B8=BB=E9=A2=98: [PATCH 5/5] dt-bindings: pmic: mediatek: Add pmic doc=
-uments
+Hi Werner,
 
-The amount of errors shown by checkpatch on this is just shocking.
+Thank you for your patches / your work on this.
 
-Best regards,
-Krzysztof
+On 11-Mar-25 19:06, Werner Sembach wrote:
+> TongFangs firmware sends scancode 0xe0 0x78 upon pressing the FN key.
+> 
+> This patch maps this scancode to avoid a dmesg warning printed every FN-keypress
+> and to enable userspace to use they key in other shortcuts than the firmware
+> builtin ones.
+> 
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+
+This laptop specific mapping really belongs in hwdb, 0xe0 0x78
+translates to KEYBOARD_KEY_f8 in hwdb and if you look for that in:
+
+/lib/udev/hwdb.d/60-keyboard.hwdb
+
+You already find several entries, e.g. :
+
+evdev:atkbd:dmi:bvn*:bvr*:bd*:svnAcer*:pn*:*
+...
+ KEYBOARD_KEY_f8=fn
+
+And e.g. also for some Clevo models:
+
+ KEYBOARD_KEY_f8=f21                                    # Touchpad Toggle
+
+and:
+
+# HP Elite x2 1013 G3
+evdev:atkbd:dmi:bvn*:bvr*:svnHP*:pnHPElitex21013G3:*
+ KEYBOARD_KEY_f8=unknown                               # rfkill is also reported by HP Wireless hotkeys
+
+these first couple of hits show that 0xf8 is not
+universally mapped to Fn, so putting this mapping in the kernel's
+default key table is wrong IMHO.
+
+Regards,
+
+Hans
+
+
+
+> ---
+>  drivers/input/keyboard/atkbd.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
+> index adf0f311996c9..3598a21d9d014 100644
+> --- a/drivers/input/keyboard/atkbd.c
+> +++ b/drivers/input/keyboard/atkbd.c
+> @@ -98,7 +98,7 @@ static const unsigned short atkbd_set2_keycode[ATKBD_KEYMAP_SIZE] = {
+>  	173,114,  0,113,  0,  0,  0,126,128,  0,  0,140,  0,  0,  0,127,
+>  	159,  0,115,  0,164,  0,  0,116,158,  0,172,166,  0,  0,  0,142,
+>  	157,  0,  0,  0,  0,  0,  0,  0,155,  0, 98,  0,  0,163,  0,  0,
+> -	226,  0,  0,  0,  0,  0,  0,  0,  0,255, 96,  0,  0,  0,143,  0,
+> +	226,  0,  0,464,  0,  0,  0,  0,  0,255, 96,  0,  0,  0,143,  0,
+>  	  0,  0,  0,  0,  0,  0,  0,  0,  0,107,  0,105,102,  0,  0,112,
+>  	110,111,108,112,106,103,  0,119,  0,118,109,  0, 99,104,119,  0,
+>  
 
 
