@@ -1,48 +1,86 @@
-Return-Path: <linux-input+bounces-10873-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10874-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A9E0A643FD
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 08:41:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7E8A6469D
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 10:08:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0ED253A780A
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 07:41:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 21ECE1893A31
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 09:08:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6DD221ABAA;
-	Mon, 17 Mar 2025 07:41:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5473A21B1A3;
+	Mon, 17 Mar 2025 09:08:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TqUTHxNP"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ct5qDh/J"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861BC1D9A79;
-	Mon, 17 Mar 2025 07:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A7E21D5AA
+	for <linux-input@vger.kernel.org>; Mon, 17 Mar 2025 09:08:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742197284; cv=none; b=t4Sg/eN2V+RQAIVd09wDEJQARH3m3jxLkUQkhWiIKKmfA0aZ801J0Pu6mD18Z55a7/lZz3MwZHUIqfeocp1LGWOvmAtzlLrEy3vvjiuksLzPVJeF6PIphdpVoKKs0exUzYD1wbc/W322WEwjjt5H6pf+0NtDY85HNvbjHnKA/eI=
+	t=1742202517; cv=none; b=ibq5Z7fgeFIwe473UddR5vm37lsXr5azzOqNRtMZmEUX60Zi9svQe+V9/Y5/FM0e1TM8IZcuaf1Uv6corpYkPBF7j+ElQQSdny+EdHLs8nArEq0Dvd9AzFl86bToH8k3LktcNQpTdFaNr9GPj3GH2uL0iKhWsUsyP64269kq73M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742197284; c=relaxed/simple;
-	bh=ViqUjySpVr7jXmsPFEtRuHWYsn4CWdA3BUmtlzRVBa0=;
+	s=arc-20240116; t=1742202517; c=relaxed/simple;
+	bh=Mvvbh0DDMRiK6miWCiwmpqH/0S/RSOBLo8iD/n/pR/w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LScnbM7yY3rm63JQIR0lI45GE3LOTmJ9ew52Ko1cO3FK+Fu/x2EoDr8E9o2TtMBuFcvuVTmFHvA0roomZzwJ+9Eq5z56ZQjLYC/O8F+FHTcQ0EC4aCyjRGrjzsFTu6Bru8biRZHZAkkaKRYswmP5k/RFu6z3BdI/AeEBlmI0GmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TqUTHxNP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13A2AC4CEE3;
-	Mon, 17 Mar 2025 07:41:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742197284;
-	bh=ViqUjySpVr7jXmsPFEtRuHWYsn4CWdA3BUmtlzRVBa0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TqUTHxNPAsxSeuUrVIpUjcP4rDPWjGrchbZ5vzsVbUrPVDYg4A8HxqlUhcQBJK7MX
-	 evwO55/sPDbHTWd+Lr03hcV/K7pbenFUttJ+aaDVkxX1Wipp5oTisI9jJt+kaubef6
-	 EjEEtWiTtwggRPkL8T+PYHnDUJFgqOvZqN5ViLosx0dIdidaLdo9Z8oZzXSf9Jb71b
-	 4UGC8S9/zNV2hzIgKxUP/zkJS0JQ+tyyZPveiZaX5jQHeU8Q1i2NmDcUqwCcad0TZF
-	 HSBCbSvxS91sujsu/WKJHHO7Me1ehj2d0iSW5X2XS1WZBZ6GvSod5kwKt8DPWCgp47
-	 1xLY/didS5Mow==
-Message-ID: <f1ccbdc1-3f47-46a8-bcc2-ca6135882392@kernel.org>
-Date: Mon, 17 Mar 2025 08:41:15 +0100
+	 In-Reply-To:Content-Type; b=gUr31ViWTs33U5Lta3g09/hyQmm0ig+uX/lhGAhpj49OAEN8G1mTQAvQ37wtMBDxI/GjR78ODyLtnOmIVE9w2XrADJQW3QVo5L8xqF7DQEt4feJvHTSucl6SvcqmmriGVzydXKKryHXPIQYNfzIJBm3fI3ImHavuAaiOZe+ZeNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ct5qDh/J; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1742202514;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OUxnWcopxnoAhgCDsSFoLxlEg/lKC1XzCkjkry+Y1ZU=;
+	b=ct5qDh/JSX7PdWrP967/2nsL6yi1xBRNtzz7Dn2OWonwCKQfHRNDsfRU3RE5T0SEtc7CV7
+	JopwsDOrLMiKaepOXvVPKPHYtoMOw/STsWfKsBFP8Ag+AYj7upm12PGA2pIuhIVnfJXIXO
+	Yh6NXQudx10DUIsuCL5ubngtg2lF5oM=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-344-9d5ziYocP2GM8xFv0BZVTQ-1; Mon, 17 Mar 2025 05:08:32 -0400
+X-MC-Unique: 9d5ziYocP2GM8xFv0BZVTQ-1
+X-Mimecast-MFC-AGG-ID: 9d5ziYocP2GM8xFv0BZVTQ_1742202512
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-ac27d8ac365so305480166b.2
+        for <linux-input@vger.kernel.org>; Mon, 17 Mar 2025 02:08:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742202512; x=1742807312;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OUxnWcopxnoAhgCDsSFoLxlEg/lKC1XzCkjkry+Y1ZU=;
+        b=GS4LlT7X2CfwvMDPtzQbh3LHjQsKYTkTnleg2Mm6fokRnhkloWLlpoVodjYfFMEyC8
+         zXg04d/usMppweZkd+Jy6amoMroDrwwApuVV82oVsV53xSN8KUvNhuFYOD182ep/CYGp
+         v8sZoqTtMZ0vEVXFfzTDHeXqjDH7ALpBq1E89eda8ua6c5iP16lYYh6TfD4zEgQLLHHy
+         +/jqO6IMOLdwy8MWmagJIPSGJ9AvhA0tc4pWnnRhP+AbWo03tVMNNlAbbGzKRUq86WA/
+         GA2TyVsdV+yCytTJ3rmWQGYr9Jg/R/BYqp+MT/RyykMK6BlydC3kZUdclUzisvieAmJs
+         J1CQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVY344OTMWd/GyWr4sDP+fsuBYe0WNXKvlzhIM0RP1sqSQsySrMGk7aAiskR73TXJigpplJMJp1vPnD3Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkQIZiC50QWrmAmWxfqOvB7GSrE/Ub89OS2BCCLnfTRpUVKoM7
+	BGWzloX8tDZh085/lpNYmHIbuQ4rxMAIqFA/lWC4vR+z1xU1Qrt63aaMuPx28o4PgYOTr+BMqeU
+	9+BtuGG2T12KqvuZyjtQO1/geN+UHQi7/llSXD3gmnBCt6WXuQYpxtRYuPayE
+X-Gm-Gg: ASbGncsbNwUhTVqq8buuOyH+bOZr9qP70ibhUBQ+/V2+YSO/mY8GGSy6FuAT8gzORuh
+	VyTmP9AfCKWmWIfBXiNfnjLA+9uFDDiD0T1PMZHjXgTRsU6dAxJC1BrdoPAvRiQOskEUjfKg+Re
+	6FeMzLQmcsVi9gS4nQEymWZvciA4FCvpBDnGGOmRlrevhy2UvoN8QXtTojxkIqW2XoW4KSesfF9
+	bkSuAkrg1WQYp51bH2OYGEdKG4SmEWblY5LseJDH9C9QFdUMAdQZ0nCri8y8KCba0IJ3jK+5fji
+	6lY/WxsZGOznXnAqy4A=
+X-Received: by 2002:a17:907:6ea9:b0:ac2:e2bf:d437 with SMTP id a640c23a62f3a-ac3303defb7mr1289819566b.52.1742202511689;
+        Mon, 17 Mar 2025 02:08:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFmMlwZG7U70Z6pyeZp1t0JdJ780owI88UMoZl46g79qE+kJtjGHcJF7BeCcZnIxxakzcQWHQ==
+X-Received: by 2002:a17:907:6ea9:b0:ac2:e2bf:d437 with SMTP id a640c23a62f3a-ac3303defb7mr1289816766b.52.1742202511336;
+        Mon, 17 Mar 2025 02:08:31 -0700 (PDT)
+Received: from [10.40.98.122] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3146aea1fsm625177366b.22.2025.03.17.02.08.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Mar 2025 02:08:30 -0700 (PDT)
+Message-ID: <77079344-5355-4595-a56c-26bf2e39e52c@redhat.com>
+Date: Mon, 17 Mar 2025 10:08:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,151 +88,73 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/18] dt-bindings: mfd: adp5585: document adp5589 I/O
- expander
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
-Cc: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-input@vger.kernel.org,
- Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Liu Ying <victor.liu@nxp.com>
-References: <20250313-dev-adp5589-fw-v1-0-20e80d4bd4ea@analog.com>
- <20250313-dev-adp5589-fw-v1-5-20e80d4bd4ea@analog.com>
- <20250314-outstanding-futuristic-cat-5d8240@krzk-bin>
- <c59477b2a94cbd10bc530809fbcdc0f2d1b79d07.camel@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <c59477b2a94cbd10bc530809fbcdc0f2d1b79d07.camel@gmail.com>
+Subject: Re: [PATCH 1/5] drm: panel-orientation-quirks: Add OneXPlayer X1 AMD
+ and Intel quirk
+To: Antheas Kapenekakis <lkml@antheas.dev>, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+References: <20250222164321.181340-1-lkml@antheas.dev>
+ <20250222164321.181340-2-lkml@antheas.dev>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20250222164321.181340-2-lkml@antheas.dev>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 14/03/2025 10:38, Nuno Sá wrote:
-> On Fri, 2025-03-14 at 09:49 +0100, Krzysztof Kozlowski wrote:
->> On Thu, Mar 13, 2025 at 02:19:22PM +0000, Nuno Sá wrote:
->>>    reg:
->>>      maxItems: 1
->>> @@ -63,13 +70,26 @@ allOf:
->>>        properties:
->>>          gpio-reserved-ranges: false
->>>      else:
->>> -      properties:
->>> -        gpio-reserved-ranges:
->>> -          maxItems: 1
->>> -          items:
->>> +      if:
->>
->> Do not nest if:then:else:if:then, it leads to code impossible to read.
->> Just provide if-then cases for each of your variant.
->>
-> 
-> Alright...
-> 
->>
->>
->>
->>> +        properties:
->>> +          compatible:
->>> +            contains:
->>> +              enum:
->>> +                - adi,adp5585-00
->>> +                - adi,adp5585-02
->>> +                - adi,adp5585-03
->>> +                - adi,adp5585-04
->>> +      then:
->>> +        properties:
->>> +          gpio-reserved-ranges:
->>> +            maxItems: 1
->>
->> one tem?
->>
->>>              items:
->>> -              - const: 5
->>> -              - const: 1
->>
->> But here two...
->>
->>> +              items:
->>> +                - const: 5
->>> +                - const: 1
->>
->> and this is confusing. I don't get what you want to express.
->>
-> 
-> I just kept it as before (maybe I messed up in some other way but the 2 items:
+Hi,
 
-No, your code is very different.
-
-> were already in the binding):
-
-I see only one GPIO range.
-
+On 22-Feb-25 17:43, Antheas Kapenekakis wrote:
+> The OneXPlayer X1 series features a 2k 10.95 display with a portrait
+> orientation. Add a quirk to set the panel orientation to portrait mode
+> to both the Intel and AMD variants.
 > 
-> https://elixir.bootlin.com/linux/v6.14-rc6/source/Documentation/devicetree/bindings/mfd/adi,adp5585.yaml#L70
-> 
-> If this is not needed I can simplifying during this patch. Is this sufficient?
-> 
-> ...
-> 
->         gpio-reserved-ranges:
->           maxItems: 1
->           items:
->             - const: 5
->             - const: 1
+> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 
-Again, different code and not correct as you have now two ranges. Open
-original code - it is clear not the same. So two tries - your patch and
-code above - are different but I don't get why you claim your code is
-identical.
+Thanks, patch looks good to me:
 
-Best regards,
-Krzysztof
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Regards,
+
+Hans
+
+
+> ---
+>  drivers/gpu/drm/drm_panel_orientation_quirks.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> index 4a73821b81f6..17b4f57d64d7 100644
+> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> @@ -443,6 +443,24 @@ static const struct dmi_system_id orientation_data[] = {
+>  		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
+>  		},
+>  		.driver_data = (void *)&lcd1600x2560_leftside_up,
+> +	}, {	/* OneXPlayer X1 AMD */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1 A"),
+> +		},
+> +		.driver_data = (void *)&lcd1600x2560_leftside_up,
+> +	}, {	/* OneXPlayer X1 AMD Strix Point */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1Pro"),
+> +		},
+> +		.driver_data = (void *)&lcd1600x2560_leftside_up,
+> +	}, {	/* OneXPlayer X1 Intel */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1 i"),
+> +		},
+> +		.driver_data = (void *)&lcd1600x2560_leftside_up,
+>  	}, {	/* OrangePi Neo */
+>  		.matches = {
+>  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
+
 
