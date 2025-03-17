@@ -1,120 +1,99 @@
-Return-Path: <linux-input+bounces-10900-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10901-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 947B9A659BC
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 18:09:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D72D6A6610A
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 22:56:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D3AE3B90D2
-	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 17:04:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C664B3B8E96
+	for <lists+linux-input@lfdr.de>; Mon, 17 Mar 2025 21:56:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C6FC1AA1D8;
-	Mon, 17 Mar 2025 17:02:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07ACD20468E;
+	Mon, 17 Mar 2025 21:56:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ao9RUyOn"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LlHMBRN4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134AA1A0BFD;
-	Mon, 17 Mar 2025 17:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FEF1FDE2E;
+	Mon, 17 Mar 2025 21:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742230959; cv=none; b=HGZORtHtFaQHeFfP7iE9EjRaMzXD7l/IMyV5+iw5WRnRDWla57qXb3zp1OaaHGEUmXAn/KxF3E9BPIoPszq3QQDIEDgshf6GN72K2tjPyXTYTQDfCMi2Y7yWGHxa8chwvJ/OevuVuFr9PL4JwO+79hW2vYol7epAVLde+/tSdwk=
+	t=1742248579; cv=none; b=rr2SqkIKuoJrxAsKYaJ5ywOdPMu7uZOxPaFG9QOoPDD1IQ7N2KTE+Sl4725FS9BAChMXUumhUEwYeP2cyNNL2F/aEHksuhTKXG9cMIq9Uj7Xp7AjGYu0MiOOJu2A4WJuYC8XBgLmv1aPzyhOdyrrAkpM4QMGEdMt4r9RB4HKfSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742230959; c=relaxed/simple;
-	bh=wmAQpWrbnl5KpOhZB+M44f4YKrDesD193thOm41Mty4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gflkUaGVHjKXUyUlSvuzgLvZHx/0HYGazan4O8mqM79fJf1wDsveqXfeasaUpmXhz/g1Uts0GAk02+hMNKQ9F3C0C4FwarPvxou84Obbd2FYfigfN+ich7Sq1ODDFap7+VD1ihU4j46dFm5wHsBqZAbpT9SEu1/88m9mwUQxD3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ao9RUyOn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D499C4CEF2;
-	Mon, 17 Mar 2025 17:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742230958;
-	bh=wmAQpWrbnl5KpOhZB+M44f4YKrDesD193thOm41Mty4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Ao9RUyOnn62fb0KVAiHTegwxi15GPbyJbLSIAd0btxQAMQP+bXHtton1vYC2D7fec
-	 nWNcR2F8rqhKkvJcAMAE1xiikaOPQAkDaa+FfNmive6OjF4K83g5frzYQtjBqEjcwi
-	 5M+gIwBwGywIYIfYkWpIWdEhS4bp566w3h9KQwog5JBckbwP22hVk4eoj+ktBFs5N/
-	 9sC8ryScjL/Dro5HAFlUB1KbFHwe6glbMpFqd8CWE5RMz+QG/wDYi6FmRx3YbSEVXx
-	 lU129MhDtB5nccU/UMgxJublcx81OgUn9yYDImNVJAjfRxT65vGSIrtmJuZ+4v8i0T
-	 +nZdtW6DmV5/g==
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5e5b6f3025dso6828786a12.1;
-        Mon, 17 Mar 2025 10:02:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUXu0A4Dv5UnF/jtTpZ5cWgq0Kuh9aRBYKCrAwpnaWVtKVNoxVLS84L3+NKJ+PZD9HYF04kwq49mZo=@vger.kernel.org, AJvYcCUlxNNo4Ipi5ZpLxjtvKEJTBzGQ4BNLyrE3xnxMltn/7XOhNQVGVl3rSxauR47foWufrBlj5xzizaLC0qA=@vger.kernel.org, AJvYcCWntVQR5ZcoofVxfyTr2lD8MKiUWX2LTNhyQoRvQi2kCMwt4w6PBLJUx9IllpH1ybnrTIjTUqSMr6Q9Dg==@vger.kernel.org, AJvYcCXLLNtZd0fN1w6+qXtioaNk7lebOseVkNmsxV36l8mGL48nxOcbbEpeuhiy9EmbsDkGyXbC5I2ATYBS@vger.kernel.org, AJvYcCXTv7C7ycAjBluDBG7FTDh35aDMAwGNI+7c3f9oJfn0fiJ59rf1Rs+fTCvcuA6ag/nzbBg0ldtKJkdLz+4g@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3zHRx77Jd3KcI6/YIJ3sv5Z99hibtfDqssUMChq5BIYpZu7C1
-	rAfvJVqJze03oIEZ9nC+FqBpcJp9DMKaF6hVXfJzgwG0FYkHUJp1hJxHCn0XQG3UkBnmUHKu4rP
-	Nd3R2Tv/sv3xXvEfggXAqoY8EWA==
-X-Google-Smtp-Source: AGHT+IELNK7EJqeju5Ff6Mi3w6hvTrNHJTNTnaKN8BlBDScpmQHS2FI/3UdKP632/dHKwxiBT7Jwm7K4RNzFWhl+jw0=
-X-Received: by 2002:a05:6402:4409:b0:5e7:97d1:e371 with SMTP id
- 4fb4d7f45d1cf-5eb1decc924mr428618a12.13.1742230956827; Mon, 17 Mar 2025
- 10:02:36 -0700 (PDT)
+	s=arc-20240116; t=1742248579; c=relaxed/simple;
+	bh=inAtUwWXZw6O+qaTrGoLKXAeQwhcqR+I5Hy9wJp/Kto=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s4ZNDGGRu0FZ+XYp3LWRT29proHaolmhUoOewzEQ3p3e5w+5YEvZ70nlaxQFt7s8EQRN/UTOe9GUQjkZO+JhkF/IDLkn7PfrMQKRHLRf2/5xusmKvGsnOZAzzdBEehpPq3WYuJiUSru90X4XvokO33X/1Fasy9cqJ7iF5Fmng0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LlHMBRN4; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8FEF32057C;
+	Mon, 17 Mar 2025 21:56:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1742248573;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2+2T3UFKZNQqzYcppRSeRT40EIToHYWw5aJ/ZTMJlsg=;
+	b=LlHMBRN4dd1wr3rT/5fl9FvLjlU9W0MrimdfbNvbBLmagR523h+WFWVHELxVrwnr0AfKe8
+	ukIUFAYhDvBj14lILUTc8VuKNOeQFbdP6N31lMeCB4rgKBTFhfnLu0UNK4UEiV9x4b2J8z
+	FODZFbe0VD3kW/Fe0/x/2OSWKJSok7HbxuwLO8aX/OGP+sQ/57sLDj0U2NSAMytvG4ozlw
+	MMAkehhE4kvQHPoYD4sXllnsp7IqWM5rJSm1tESA9G0kq76sLK5m0A7HTknvrio+tWCebf
+	VYStkCnS/CxnZo0zorWUmQgBwRrEVqrP+mCb+1lDaJ9mNFAIaeVZHXYdaDnfdQ==
+Date: Mon, 17 Mar 2025 22:56:12 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com,
+	sre@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
+	danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+	linus.walleij@linaro.org, brgl@bgdev.pl, tsbogend@alpha.franken.de,
+	linux@treblig.org
+Cc: linux-mips@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH v2 2/9] rtc: pcf50633: Remove
+Message-ID: <174224855863.1587763.1321316355670597238.b4-ty@bootlin.com>
+References: <20250311014959.743322-1-linux@treblig.org>
+ <20250311014959.743322-3-linux@treblig.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250123-starqltechn_integration_upstream-v17-0-8b06685b6612@gmail.com>
- <20250221160322.GE824852@google.com>
-In-Reply-To: <20250221160322.GE824852@google.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 17 Mar 2025 12:02:24 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+f23KniKZuTHkOq5a7WL=pBy6PwuQwXmbPXMjq3Qax4A@mail.gmail.com>
-X-Gm-Features: AQ5f1JoasT_jUUldML7pER3fUWB0fDR2taZ4qNmmgf7ICMfbcDnTgm4IkhLwvaQ
-Message-ID: <CAL_Jsq+f23KniKZuTHkOq5a7WL=pBy6PwuQwXmbPXMjq3Qax4A@mail.gmail.com>
-Subject: Re: [GIT PULL] Immutable branch between MFD, Input, LEDs and Power
- due for the v6.15 merge window
-To: Lee Jones <lee@kernel.org>
-Cc: Dzmitry Sankouski <dsankouski@gmail.com>, Sebastian Reichel <sre@kernel.org>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, Purism Kernel Team <kernel@puri.sm>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-leds@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250311014959.743322-3-linux@treblig.org>
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugedtieeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheptehlvgigrghnughrvgcuuegvlhhlohhnihcuoegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeijeefhfffkeejueehveeuveejvdelveejteduffehuedtffdufeejudffuedvtdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemvgdtrgemvdgumeeifeejtdemjeekvgdtmegttdgvkeemvdektdeimeekrggtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemvdgumeeifeejtdemjeekvgdtmegttdgvkeemvdektdeimeekrggtiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomheprghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddupdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvgdprhgtphhtthhopehlvggvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegumhhithhrhidrthhorhhokhhhohhvsehgmhgrihhlrdgtohhmpdhrtghpt
+ hhtohepshhrvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhgihhrugifohhougesghhmrghilhdrtghomhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghnihgvlhhtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjihhnghhoohhhrghnudesghhmrghilhdrtghomh
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-On Fri, Feb 21, 2025 at 10:03=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
->
-> Enjoy!
->
-> The following changes since commit 2014c95afecee3e76ca4a56956a936e23283f0=
-5b:
->
->   Linux 6.14-rc1 (2025-02-02 15:39:26 -0800)
->
-> are available in the Git repository at:
->
->   ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git tags=
-/ib-mfd-input-leds-power-v6.15
->
-> for you to fetch changes up to aebb5fc9a0d87916133b911e1ef2cc04a7996335:
->
->   leds: max77705: Add LEDs support (2025-02-20 16:38:37 +0000)
->
-> ----------------------------------------------------------------
-> Immutable branch between MFD, Input, LEDs and Power due for the v6.15 mer=
-ge window
->
-> ----------------------------------------------------------------
-> Dzmitry Sankouski (7):
->       dt-bindings: power: supply: add maxim,max77705 charger
->       dt-bindings: mfd: Add maxim,max77705
->       power: supply: max77705: Add charger driver for Maxim 77705
->       mfd: simple-mfd-i2c: Add MAX77705 support
->       mfd: Add new driver for MAX77705 PMIC
->       Input: max77693 - add max77705 haptic support
->       leds: max77705: Add LEDs support
+On Tue, 11 Mar 2025 01:49:52 +0000, linux@treblig.org wrote:
+> The pcf50633 was used as part of the OpenMoko devices but
+> the support for its main chip was recently removed in:
+> commit 61b7f8920b17 ("ARM: s3c: remove all s3c24xx support")
+> 
+> See https://lore.kernel.org/all/Z8z236h4B5A6Ki3D@gallifrey/
+> 
+> Remove it.
+> 
+> [...]
 
-None of this seems to be in linux-next, but now we have users in .dts files=
-.
+Applied, thanks!
 
-Rob
+[2/9] rtc: pcf50633: Remove
+      https://git.kernel.org/abelloni/c/0a243de9d009
+
+Best regards,
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
