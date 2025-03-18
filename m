@@ -1,258 +1,174 @@
-Return-Path: <linux-input+bounces-10904-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10905-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B78A0A6644E
-	for <lists+linux-input@lfdr.de>; Tue, 18 Mar 2025 01:57:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A172A66F8D
+	for <lists+linux-input@lfdr.de>; Tue, 18 Mar 2025 10:20:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0DDC0178AF1
-	for <lists+linux-input@lfdr.de>; Tue, 18 Mar 2025 00:57:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5A201189196E
+	for <lists+linux-input@lfdr.de>; Tue, 18 Mar 2025 09:19:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C939B7E105;
-	Tue, 18 Mar 2025 00:57:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79F60206F2B;
+	Tue, 18 Mar 2025 09:19:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VkK0OIJc"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="YeiSX+H4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C272840849;
-	Tue, 18 Mar 2025 00:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742259422; cv=fail; b=YZ/AHphJFkhEaMIvZArmdPhTl5CRwtEosQnFjJER6fjl75fG2sTBhUCIzQfa+DtKUWsysuGhjr7rjbwpbpncam4mpn4dfybESUX4Baa4Wv9hReKlU8FKyZkbClIY3Z/tYqmCJ4GinSbQVKUwDQpueRSG4cOD9xrTKppLUorL1ko=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742259422; c=relaxed/simple;
-	bh=KZQVil6TxStZqgbIxSVUlBi1TytDBxQ3Oxu4bFVVhgE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Wkm581qmoWc3QZ347VplesKmpyvujDgHtaHoRUjojVA0cdKJzp/mAMwsoGSCZl+zQVyN9B/8pi1Qtv8VmQwqsLA7di7ceEAoNiF61cfXQ6jJikwSO2ZGRerV2pktIdg6bFHRs4VnowHFe23sxQbZJRzm2rrXhlce08yujRwKAtg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VkK0OIJc; arc=fail smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742259421; x=1773795421;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=KZQVil6TxStZqgbIxSVUlBi1TytDBxQ3Oxu4bFVVhgE=;
-  b=VkK0OIJcUV8L1pImoAfRKnGyxX+WBkHTeHgtFsXvH5pSxCyVNwmOQRod
-   i7GnjV5FlRCKOQURd/N6KkD8sT89EgxxakI8+uSGoXe7g2T4uo8PjwU50
-   oL9/SpdDUATSY3sUelLsA92TAczyKmNfAtDA4gYpadxw72NjMQklnr/bU
-   Mroln3SFUTDW4HaXUyHgTNDl8WnYOy7Aqd9J4EieuFjKYMuXhFCmZWUJB
-   0fm8gugSRS+5VMxj13y/TZAFfFuwH35zAUnDFhLFTDJwIB4QGmtW2BpED
-   +yeJA54IepnEI6u8b6Mfn5UGdPljUg34zekLf2bMCQC0l71kfqsKk4yjq
-   w==;
-X-CSE-ConnectionGUID: wsgq4yihQ8aSZvns2wjRHQ==
-X-CSE-MsgGUID: Or7njux2SN+isbgSFQKTcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="43116789"
-X-IronPort-AV: E=Sophos;i="6.14,255,1736841600"; 
-   d="scan'208";a="43116789"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 17:57:00 -0700
-X-CSE-ConnectionGUID: ehn/95ybQtO15IMu+Trj5A==
-X-CSE-MsgGUID: OBclofHLSzy/Pr9w06B6PA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,255,1736841600"; 
-   d="scan'208";a="122589719"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 17:57:00 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Mon, 17 Mar 2025 17:56:59 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Mon, 17 Mar 2025 17:56:59 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.49) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 17 Mar 2025 17:56:59 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PgUScJwTX7WNPGtzEXV50FnGZ4zBKh3c6urBSeBIX7bXuL5oMl98LV9Eg2jga7YFdI9Ict5dp0l5fsReg11utzVX0J/19/+aXqVBEWjodXtx9fKibVMV/MzUG1H/3QJinUtSeY2xxaRXazMmm0batupNcoK+ITd0ykoDtEMuTNJx3bQNaEtrtX0BnkDmz1BJ79sqZqJeEZm0nvhiaXxNelFpFX+NdbQJtjOW2F9Zcb5uqkALTjjjbzPBr5VIEA0GMBQL0Cldql2H+tFMNQCqH+CG7Vdra+vb8D5LDD9GwNQvYLdFpJFqjCMimODuChHstYgSj2OUOgs47EiOehIWMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VPMQeM346bKmWrJS12ze9VpwcZjxpd9NBvY/nJedp4M=;
- b=IcBtRW4oqGzfsv14eSCtWyR7rpVu6wa935V7Qbgh1sbc46TqxoJzdFH8IMDUlL2kXe4upM59HrLEYnLlfibm9wErCDqOy5r3W2SCDibfgB+KBYrt/ob6oq6dA139w9+viKRl/EsKESorz2vi+Jj74OcPfvJ8yKaI2YWvQjupALm4NALnTwy/C2vBqu5g5RGdVl+6nFuC/eh6Cuufax6iSoa1D+62+upu7qqwLWpPKLcX3hXFsvgEe6q/z6aeZD46PAhQEg7pu01xGMdqcfpJSiZAmTxPEheAJUvuDaIq6Km7O6WKCzZQ3GsJIsEcJpIr4IzAbA33PM74vfNH9ca3uw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB5995.namprd11.prod.outlook.com (2603:10b6:8:5e::11) by
- SA1PR11MB6893.namprd11.prod.outlook.com (2603:10b6:806:2b4::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Tue, 18 Mar
- 2025 00:56:44 +0000
-Received: from DM4PR11MB5995.namprd11.prod.outlook.com
- ([fe80::654c:a738:ac8:7908]) by DM4PR11MB5995.namprd11.prod.outlook.com
- ([fe80::654c:a738:ac8:7908%5]) with mapi id 15.20.8534.031; Tue, 18 Mar 2025
- 00:56:43 +0000
-From: "Zhang, Lixu" <lixu.zhang@intel.com>
-To: Jonathan Cameron <jic23@kernel.org>
-CC: "jikos@kernel.org" <jikos@kernel.org>,
-	"srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>,
-	"lars@metafoo.de" <lars@metafoo.de>, "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>, "linux-iio@vger.kernel.org"
-	<linux-iio@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] iio: hid-sensor-prox: Add support for 16-bit report size
-Thread-Topic: [PATCH] iio: hid-sensor-prox: Add support for 16-bit report size
-Thread-Index: AQHblt0VMcTFkTf3iUKhSQjxjhJ5lrN3QEgAgADSjVA=
-Date: Tue, 18 Mar 2025 00:56:43 +0000
-Message-ID: <DM4PR11MB5995BA99252884FFFDD7234393DE2@DM4PR11MB5995.namprd11.prod.outlook.com>
-References: <20250317013634.4117399-1-lixu.zhang@intel.com>
- <20250317122044.22091c4b@jic23-huawei>
-In-Reply-To: <20250317122044.22091c4b@jic23-huawei>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB5995:EE_|SA1PR11MB6893:EE_
-x-ms-office365-filtering-correlation-id: 3327ec7f-298f-4ee9-a340-08dd65b7bffd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?hequF0gP05WMJmyy+bMw4dTLBAzWmHWRv0LjEz6Av5/aXJZuFZkiyNhl4ZFD?=
- =?us-ascii?Q?B0JkHQHv6iYVFvvjA/jYtTFXRz5xmpJ+Be4k7V7ou5lGlqgpgXi0MwSAY6Wm?=
- =?us-ascii?Q?iuI4bGEKZO2LbjtfykG32HikQofpu5ET4OiaQUyfBukUYzE6V15O6Z/nbQ3Z?=
- =?us-ascii?Q?7TiL4tNf3Rxf7RVA8E+0AS8w4qHj/75eJvAM+c6CXgNzDPjA3GqaHza4Rowd?=
- =?us-ascii?Q?Qcm+SmxT6jDY7hJX7EidcTh0vaYYn947BtXboDzww6sAXPZGwXfW2WI9bvgs?=
- =?us-ascii?Q?VzUd8K5pIvMttP9Iv1CHuXLSAPNbtdEdD43qSDSklgY+0e45GeVmvCy7GMof?=
- =?us-ascii?Q?IQ8gEP3BuW237No85yfRv7BAJlCq+Lno/ydLgcgpTB4ESnImZzmL3KmtmhhD?=
- =?us-ascii?Q?6wgJm7KX2Fjibae0J6scMg/sq4J7VhZLtF6X31C8lo0bXnl0R0ILhxZ8jT3w?=
- =?us-ascii?Q?NcAybmtB3RT90oaIkcz8sP+LIkSwm8p/QKps9RqyWKhdybB7bF1aMBV7tMHw?=
- =?us-ascii?Q?kCjJVYu4iLJaQJh/FqVJRDbed9kVZG1PtaoEM7ngoqRD+39iYxIJY1s71Vzh?=
- =?us-ascii?Q?dgqjm51/PaHZqgV44r6zPj2OTcSnxAQsy1RZNXCFK//EguGf1YhJZJOWfkAu?=
- =?us-ascii?Q?d0KokxYbtmzQjwl3VgJ9qTu4Iw/gpv+C4lsfTNvXXJaK7DyMXk2dsN95QrSv?=
- =?us-ascii?Q?/GSKmagVQ+XdajT+ieknB616gRuLddt6uSzwVCidaTelME+HgKVkzpKy6hw+?=
- =?us-ascii?Q?sKOMEJhyuqAhmTZ8IuDDJXi1KGzFOFHvszOmwgBzXyTBHS/8A1ugBsO+3xBQ?=
- =?us-ascii?Q?FR6w6d0BTaQMqTTOxBosJK9xhn7aA0UIcKz3Ld3XLPCEiusuXc3/pmT9aqZC?=
- =?us-ascii?Q?5uOYqND/1Ownxq4DB3hu7HBUvYQlKmRJtfA8y2K1Ks6yBqRPwuQXsKoqYXZ8?=
- =?us-ascii?Q?qzM6ijY1xlZfGNzM44bOG0DsijEjXRd42LbEYAQOFN+tE/Da8Okt22tkPKo+?=
- =?us-ascii?Q?i6t/p7TmTLljaWM+efDv5GX3s/VovAhbdkqPe/nyhCBPzjteVa/eH0la8rh9?=
- =?us-ascii?Q?F6iu7cb69iaIDF5sm0flfqKnbCOrAevp24CUtXQoJ0BPywPq/d0t4KFMir+N?=
- =?us-ascii?Q?w+xE3M/bPWEkhSqbT6TG+m6pSt9XAguUU4IV3Lo3M/MCoetH/mxX5jbe0YEa?=
- =?us-ascii?Q?DnvtNBbPYe4zCYNKmH2SK5d886Ol2KiiT+8WrRqk+iCspBaZcCQrM+AWR/Jr?=
- =?us-ascii?Q?yj1iDWm7KF9weyYR37QJ6YrIcpgnCI3dyflsLvCdnIB0difW2h1lh1TEBoqt?=
- =?us-ascii?Q?GcYGviJ8xbgHaF+aN9zU4PwZqkE7NiEj5TnfpmF8t/uS6y2MXMKPh72d3z5o?=
- =?us-ascii?Q?XP1y1POCUbXAbzcjUtepnWNxSbLV0hqZEQ2H/Zb+e3W0H1/P+VKW51lY1oZz?=
- =?us-ascii?Q?awHy6k/Jy+sKRvm3+2pC9YhqmWlYv0+o?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?UPk84epBRqeX1eicDLORYaNBYmLfyUI2jUkLHezXeyveFJItqM5sRGrYym/D?=
- =?us-ascii?Q?MPBehkl7YTDMFfx4NsLBzo5sQHjn7M/wFFQWdGU5wydIWJMKEsMgZWj8jsl5?=
- =?us-ascii?Q?wq6mhbvusDk/AImz4io5AA+ust8tRfEE4Gg+HL0BpW3CpSSLppfIfDzGJHTa?=
- =?us-ascii?Q?cbrXF0P4pYiUpgJ4TIfmGjc7alFgUgCpL6TF4rV5UrIfpEK9Mbk54V+T3WO7?=
- =?us-ascii?Q?GbRTT0OO24lA+gpRNa47OciA7QXgrDSdn/h+IoVpWECgA/gYg6mZq1h1pRav?=
- =?us-ascii?Q?uE++sApbdgKtn/W5aHbqibz1v87PhpzqeY8raNXO5TRLcNSiyku2Da/OPj3r?=
- =?us-ascii?Q?lnWQJT+syyk0hZpWWCZTHGcIHJdFpXoSL8QxRUjErIoEmXPt7QhiWlu6lu8d?=
- =?us-ascii?Q?1W5k5Zh6BOj+g5jnC1t625uIRngaw2KSCNKkFDGLXYzYi2W6oWGgE76NlQ3y?=
- =?us-ascii?Q?z3Pehe+IQn94KRWCwwQwlH7JOV4EyAIhpipJaq3eMNEqW0kCzhIG3B0idoyZ?=
- =?us-ascii?Q?4UFMdOmkH/UzfqQ9rSe7i9vVQn62CegonxoK2kD5oTpVCd4U5yDCortJQI6o?=
- =?us-ascii?Q?AvgFVJ/LHUax2xsVlVpnXGDr2lC0bA3y/Le6vavNLAdoMWcAlDqlfAlLwljG?=
- =?us-ascii?Q?UuD88qnXpsCCe9uW5rml7QEf4+my0C1w7xaZ7Gc/jEMBDbTrzE7xRlDk8b20?=
- =?us-ascii?Q?r2CXNoIN02fyCXBirejtwKrA+UtAZbYnaFST0y7CjMByrRtk/g9TfbzSYyah?=
- =?us-ascii?Q?bYyf8kBQOzwiVPHDiSqybfmN7kRvqwAeZ0mOd4XMh2+ruOHM6+Q8ad70ne09?=
- =?us-ascii?Q?TDPOCMNipH0hW94GGoc3KMrsL0p+tgTrgrdRl/ITLsoJONWv7bC7daxAa2/k?=
- =?us-ascii?Q?5zvEXnr4E7Uf+2YioZElrAaJyINDXuPTDsllKCkw/9odkpbdnAbQQSjajOvr?=
- =?us-ascii?Q?iPUYqp7owFJvjfdXWeT96ZjklKzYQHjHBrdFJOnoETjuRnMmO3eKL8Rfo6sb?=
- =?us-ascii?Q?Tbk+nEdYL+ZjgLjmZMjVjqNXzS3TLA+ihStZrclFuiEMof954Ka/PDtRKhlQ?=
- =?us-ascii?Q?pN3kZleAdS1mqvc0OtLf0GP7nEyPoVH7voPsaLYn2zpRK2Szh1HyjULbn0mO?=
- =?us-ascii?Q?LCyJkRZCExiGzjrfDH6Rrtbqzil5t7YbuXbDa6E04KhFJ9qwK+eeHXmquqgh?=
- =?us-ascii?Q?vJbqT2KLijuL7DTqnGjCbdv0t3eo7Q//sb+pvCO0cM3CuZd5qM2hxf3dgEPm?=
- =?us-ascii?Q?kv7qRNVLKh6DiYrZqfVKVKyBNFNM22ZYkl9OXTqLQamf3Dj7uy/elVOX5kMo?=
- =?us-ascii?Q?3p3a28AADRjsCknzBTAg5INbnXyOZElCxe9z3ELhw8Nf7nULsEvocHV0skh0?=
- =?us-ascii?Q?krB9QqgGFGaDa5tVRiVPSPej5Vk7OXJgpsL3Zpr+4lAnixBPzrGiwHaFvQJN?=
- =?us-ascii?Q?Zahy8+sCgmcfuhjfahJP0IKFa20IUoI5gL+WM6HbKk2rMrAXNrUI6Sq7NokY?=
- =?us-ascii?Q?6WigZ19b448BMeexia96QFP3KhRKt9/YFByjTGxhil9qTEznU0kbGmrgOQlz?=
- =?us-ascii?Q?pn/dGpsWwaAknBX5QBGZuOEE094kwT1CYaphK1RG?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA1F206F12
+	for <linux-input@vger.kernel.org>; Tue, 18 Mar 2025 09:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742289552; cv=none; b=aoQaF7rdFeyaP4YfftIcYqAOQsRt36BaUMYEqVDD3l6GZZiUtaCfEIcEYdaqEupM2v/loeH5Qmb+eEGEuRUqi0pYXNWHOSUChAgw7NYeLwO1YRPGuDZtVty94VcDO0kUaO5gH4kX/gQmfF6i922MOCoBPEYfH1NiIabJ+hb2Agw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742289552; c=relaxed/simple;
+	bh=P4lroIrdjW+wWo+cj0mN2WGn6w305766fFhpOj+Gm1Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sPyES72uIgB1ROaJDWJTHMKg76lXdFs4ev3TQ4XTRdvaD2e4dz8SSwoKaanY8eJs2GLHPz3xh1RJ/Zv/D8NSHl6bj0yqNEOyYNM2xaCZ05u+jEmA5xT+roUdPdU9fKWB7BobLA/eS8jRsbPdHRqbvz+oz5uR76nfivr4QG00yDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=YeiSX+H4; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=LO9Bbrk77YxKzi
+	fj7EKPXFN6fdXvBJl+Jb+cXqZg9EQ=; b=YeiSX+H4EZQr7xMEpvWp0cJbnqSFf6
+	H1lctCg8L8fbsZwcEC8CwYg4nyAyf7VrwrvvhAWe3VypWKT7zJ1m0Bo3JA4KekJy
+	tje8gxFuNkeou61RXTV/dAzcnrii4AOetz93GGdDj1Jb3fPyFzupGgJro2suJX5r
+	5Ofp8bRBceLSkBInvkYCKcwSYTXIWJVIBC8rutNQYYATM5bx+2DFYMhC5GYQ6nhH
+	7jGa8/j1O2S5/0ab8U40LOr39QYVRu5r9z4GwYPzPWJhuL/2FJSL4USlkl9aN+id
+	ibHReB3t82GglOYIW7C604tjt66NYqDP3ZUtGW7RRyfFpTdJKWZ+4tug==
+Received: (qmail 3664335 invoked from network); 18 Mar 2025 10:19:08 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Mar 2025 10:19:08 +0100
+X-UD-Smtp-Session: l3s3148p1@LqyaZZow1JMgAwDPXyTHAJp038nK7dx+
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [RFC PATCH] Input: edt-ft5x06 - use per-client debugfs directory
+Date: Tue, 18 Mar 2025 10:17:41 +0100
+Message-ID: <20250318091904.22468-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5995.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3327ec7f-298f-4ee9-a340-08dd65b7bffd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Mar 2025 00:56:43.0357
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: apxYBtRkr65qdjZl9hFgShspD3Owcve3i+Nn5fBhwO0cpjBImizPtTb9kgqHlQ0PwxIFVdVrjSR9/Z//pkN5Zg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6893
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
->-----Original Message-----
->From: Jonathan Cameron <jic23@kernel.org>
->Sent: Monday, March 17, 2025 8:21 PM
->To: Zhang, Lixu <lixu.zhang@intel.com>
->Cc: jikos@kernel.org; srinivas.pandruvada@linux.intel.com; lars@metafoo.de=
-;
->linux-input@vger.kernel.org; linux-iio@vger.kernel.org; linux-
->kernel@vger.kernel.org
->Subject: Re: [PATCH] iio: hid-sensor-prox: Add support for 16-bit report s=
-ize
->
->On Mon, 17 Mar 2025 09:36:34 +0800
->Zhang Lixu <lixu.zhang@intel.com> wrote:
->
->> On Intel platforms, the HID_USAGE_SENSOR_HUMAN_PROXIMITY report size
->> is 16 bits. This patch adds support for handling 16-bit report sizes
->> for the HID_USAGE_SENSOR_HUMAN_PROXIMITY usage in the HID sensor
->proximity driver.
->>
->> Previously, the driver only supported 8-bit and 32-bit report sizes.
->> With this change, the driver can now correctly process 16-bit
->> proximity data, ensuring accurate human presence detection on
->> platforms where this report size is used.
->>
->> Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
->> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
->Applied. Thanks.
->
->If it is reasonably urgent we could slip this in after rc1 as it smells a =
-bit fix like.
->For now I've queued it for next cycle.
+The I2C core now provides a debugfs entry for each client. Let this
+driver use it instead of the custom directory in debugfs root. Further
+improvements by this change: support of multiple instances.
 
-I don't think it's urgent, I'm fine with whatever. Thanks.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Lixu
+Build tested only, by me and buildbots. Trying to cleanup the debugfs a
+little. But not sure if this is too complicated for users. Opinions?
 
->Jonathan
->
->> ---
->>  drivers/iio/light/hid-sensor-prox.c | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/drivers/iio/light/hid-sensor-prox.c
->> b/drivers/iio/light/hid-sensor-prox.c
->> index 76b76d12b388..3a7b48803d50 100644
->> --- a/drivers/iio/light/hid-sensor-prox.c
->> +++ b/drivers/iio/light/hid-sensor-prox.c
->> @@ -213,6 +213,9 @@ static int prox_capture_sample(struct
->hid_sensor_hub_device *hsdev,
->>  	case 1:
->>  		prox_state->human_presence[chan] =3D *(u8 *)raw_data *
->multiplier;
->>  		return 0;
->> +	case 2:
->> +		prox_state->human_presence[chan] =3D *(u16 *)raw_data *
->multiplier;
->> +		return 0;
->>  	case 4:
->>  		prox_state->human_presence[chan] =3D *(u32 *)raw_data *
->multiplier;
->>  		return 0;
->>
->> base-commit: eea255893718268e1ab852fb52f70c613d109b99
+ Documentation/input/devices/edt-ft5x06.rst | 21 +++++++++++++++++++--
+ drivers/input/touchscreen/edt-ft5x06.c     | 20 ++++++++------------
+ 2 files changed, 27 insertions(+), 14 deletions(-)
+
+diff --git a/Documentation/input/devices/edt-ft5x06.rst b/Documentation/input/devices/edt-ft5x06.rst
+index 1ccc94b192b7..e410d73d4841 100644
+--- a/Documentation/input/devices/edt-ft5x06.rst
++++ b/Documentation/input/devices/edt-ft5x06.rst
+@@ -29,8 +29,25 @@ The driver allows configuration of the touch screen via a set of sysfs files:
+ 
+ 
+ For debugging purposes the driver provides a few files in the debug
+-filesystem (if available in the kernel). In /sys/kernel/debug/edt_ft5x06
+-you'll find the following files:
++filesystem (if available in the kernel). They are located in:
++
++    /sys/kernel/debug/i2c/<i2c-bus>/<i2c-device>/
++
++If you don't know the bus and device numbers, you can look them up with this
++command:
++
++    $ ls -l /sys/bus/i2c/drivers/edt_ft5x06
++
++The dereference of the symlink will contain the needed information. You will
++need the last two elements of its path:
++
++    0-0038 -> ../../../../devices/platform/soc/fcfee800.i2c/i2c-0/0-0038
++
++So in this case, the location for the debug files is:
++
++    /sys/kernel/debug/i2c/i2c-0/0-0038/
++
++There, you'll find the following files:
+ 
+ num_x, num_y:
+     (readonly) contains the number of sensor fields in X- and
+diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+index 0d7bf18e2508..abc5bbb5c8c9 100644
+--- a/drivers/input/touchscreen/edt-ft5x06.c
++++ b/drivers/input/touchscreen/edt-ft5x06.c
+@@ -120,7 +120,6 @@ struct edt_ft5x06_ts_data {
+ 	struct regmap *regmap;
+ 
+ #if defined(CONFIG_DEBUG_FS)
+-	struct dentry *debug_dir;
+ 	u8 *raw_buffer;
+ 	size_t raw_bufsize;
+ #endif
+@@ -815,23 +814,21 @@ static const struct file_operations debugfs_raw_data_fops = {
+ 	.read = edt_ft5x06_debugfs_raw_data_read,
+ };
+ 
+-static void edt_ft5x06_ts_prepare_debugfs(struct edt_ft5x06_ts_data *tsdata,
+-					  const char *debugfs_name)
++static void edt_ft5x06_ts_prepare_debugfs(struct edt_ft5x06_ts_data *tsdata)
+ {
+-	tsdata->debug_dir = debugfs_create_dir(debugfs_name, NULL);
++	struct dentry *debug_dir = tsdata->client->debugfs;
+ 
+-	debugfs_create_u16("num_x", S_IRUSR, tsdata->debug_dir, &tsdata->num_x);
+-	debugfs_create_u16("num_y", S_IRUSR, tsdata->debug_dir, &tsdata->num_y);
++	debugfs_create_u16("num_x", S_IRUSR, debug_dir, &tsdata->num_x);
++	debugfs_create_u16("num_y", S_IRUSR, debug_dir, &tsdata->num_y);
+ 
+ 	debugfs_create_file("mode", S_IRUSR | S_IWUSR,
+-			    tsdata->debug_dir, tsdata, &debugfs_mode_fops);
++			    debug_dir, tsdata, &debugfs_mode_fops);
+ 	debugfs_create_file("raw_data", S_IRUSR,
+-			    tsdata->debug_dir, tsdata, &debugfs_raw_data_fops);
++			    debug_dir, tsdata, &debugfs_raw_data_fops);
+ }
+ 
+ static void edt_ft5x06_ts_teardown_debugfs(struct edt_ft5x06_ts_data *tsdata)
+ {
+-	debugfs_remove_recursive(tsdata->debug_dir);
+ 	kfree(tsdata->raw_buffer);
+ }
+ 
+@@ -842,8 +839,7 @@ static int edt_ft5x06_factory_mode(struct edt_ft5x06_ts_data *tsdata)
+ 	return -ENOSYS;
+ }
+ 
+-static void edt_ft5x06_ts_prepare_debugfs(struct edt_ft5x06_ts_data *tsdata,
+-					  const char *debugfs_name)
++static void edt_ft5x06_ts_prepare_debugfs(struct edt_ft5x06_ts_data *tsdata)
+ {
+ }
+ 
+@@ -1349,7 +1345,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client)
+ 	if (error)
+ 		return error;
+ 
+-	edt_ft5x06_ts_prepare_debugfs(tsdata, dev_driver_string(&client->dev));
++	edt_ft5x06_ts_prepare_debugfs(tsdata);
+ 
+ 	dev_dbg(&client->dev,
+ 		"EDT FT5x06 initialized: IRQ %d, WAKE pin %d, Reset pin %d.\n",
+-- 
+2.47.2
 
 
