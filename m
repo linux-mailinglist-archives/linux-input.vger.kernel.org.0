@@ -1,45 +1,45 @@
-Return-Path: <linux-input+bounces-10983-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10984-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1CDA698DF
-	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 20:15:56 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8A47A698D5
+	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 20:14:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 031D2480928
-	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 19:14:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 471621B632E3
+	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 19:14:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE821214A92;
-	Wed, 19 Mar 2025 19:13:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A905D215773;
+	Wed, 19 Mar 2025 19:13:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="GuGVBCkS"
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="WmnHHAcc"
 X-Original-To: linux-input@vger.kernel.org
 Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F67A2147FD;
-	Wed, 19 Mar 2025 19:13:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11994211A24;
+	Wed, 19 Mar 2025 19:13:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742411613; cv=none; b=iOykOsuZLL9E3sE4NVL1F22W/0/Fgg3FX47rZPT2A5FBOsYcJo0L4yDiwWAmnBHaV8gkrT1HaLpnO6r2pxrN6eaN3P+cq3U2DPbLOETRLFom4p8qN7dYVrsBARjL2YUtApSd2YdxcOJrm58zcpY7tL5NaAyCU2cOk/QpGTYmGK0=
+	t=1742411615; cv=none; b=XqGz78Ips/IlcVE6t2YDHrwYTeSrLwsbIeZ0EDzKUXqrCXCLcgLqZk37gVf6SePS3tTvno34WHRvVSOit72YW1ZXjN14jUJXhO0Mwb7GGTveSYt/k1oCflp3+ESRIW7/iXhvg0h2I5i+uVY5cXlqxiS/WHRPJxsd+T57jpCXZdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742411613; c=relaxed/simple;
-	bh=rmisatLur1khpgNdf78Pr6n6L9e9uepCL2eCXs2uvJc=;
+	s=arc-20240116; t=1742411615; c=relaxed/simple;
+	bh=wAhH0wCyLMYN5siRxm3cdhd9sDXfVTdnZj90NLYy+Z4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Do0YkE2GHHKE8TL56npUjdo/i357BljrseuDOEwfRVYRegHxm2SRLTkgjOVkDmB6Q2FR0LME0UJrkGQmLFKfqP25UggP67tPu0ocYJrA5vALTKq9z4LcL4/JRVOA182e2ukKUCKR9jAXzHgYHcoa2zVcqdDF68iWBjeYXGeFaUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=GuGVBCkS; arc=none smtp.client-ip=185.138.42.100
+	 MIME-Version; b=mwKTzJ6ELW27XFxXvNgVCBmCwfo2A76mOfJ/hNyA4sJXhKC4S5+4Y0VOJIJ/cOa+LveXbyzZCehF2IFZYoUdLagpj3H4OK6IB5b0anmqkK74wuSAFBE5RQA2qT+cGIHpDAQQRmGo+TUAFSmOeBcJE9cUXhHhYhQMbxsgpf5BYvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=WmnHHAcc; arc=none smtp.client-ip=185.138.42.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Received: from localhost.localdomain (unknown [IPv6:2a05:f6c2:511b:0:cbc0:999f:73ad:33bd])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id D38F52E0927F;
-	Wed, 19 Mar 2025 21:13:28 +0200 (EET)
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 7BEAF2E095C5;
+	Wed, 19 Mar 2025 21:13:30 +0200 (EET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1742411610;
-	bh=pC9nP4f3CD+iwAPbd/5jHhvg+lorSG81w2KEeyHY9ik=; h=From:To:Subject;
-	b=GuGVBCkSJfD0lMhFhVUdl0CKRuDsJ0ZjDiCQ+HxJcWfZoI7X6Hae+XbBOq6uAVDQX
-	 YV469Uk/S3ojTkyyYTJtNgO0Y2LuXKl7CnOzBdE+qu5B8/0ehGB4cEyEUVPN/bYTb3
-	 QPclMZzRtcMu9XDgTb8w42Qhu3aDlIXP+2uYQMPQ=
+	s=default; t=1742411611;
+	bh=dyuxnbEjcCrtzEd+4OBqfcYOiyJ+75xQVkyMc6sKd7Q=; h=From:To:Subject;
+	b=WmnHHAccp3DOLoI+/kFKSE53ZeknXQoqpFalDvKehOEDLV/jazQDby1MSOyu3rtTJ
+	 2g61KAMYB/a4weT5q3247l0SwwovoevuVo2dfdJM+/PsewELC5OWD2Tid3LLSn2tlF
+	 tUaAniTPPo1/0SZRCGGiDHe5zB+mWrNKx5aS531o=
 Authentication-Results: linux1587.grserver.gr;
 	spf=pass (sender IP is 2a05:f6c2:511b:0:cbc0:999f:73ad:33bd) smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
 Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
@@ -54,9 +54,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Hans de Goede <hdegoede@redhat.com>,
 	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH 04/11] HID: asus: rename keyboard3 to Z13_FOLIO
-Date: Wed, 19 Mar 2025 20:13:12 +0100
-Message-ID: <20250319191320.10092-5-lkml@antheas.dev>
+Subject: [PATCH 05/11] HID: asus: add Asus Z13 2025 Fan key
+Date: Wed, 19 Mar 2025 20:13:13 +0100
+Message-ID: <20250319191320.10092-6-lkml@antheas.dev>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250319191320.10092-1-lkml@antheas.dev>
 References: <20250319191320.10092-1-lkml@antheas.dev>
@@ -68,46 +68,31 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-PPP-Message-ID: 
- <174241160991.7865.2952503598076359399@linux1587.grserver.gr>
+ <174241161162.8006.15779185311527245548@linux1587.grserver.gr>
 X-PPP-Vhost: antheas.dev
 X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
 X-Virus-Status: Clean
 
-Rename the generic keyboard3 to Z13_FOLIO as it refers to the folio of
-the Z13. Both 2023 and 2025 variants.
+The ASUS Z13 2025 uses the vendor code 0xec for
+its Fn+F5 fan key. Add a quirk for it.
 
 Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 ---
- drivers/hid/hid-asus.c | 2 +-
- drivers/hid/hid-ids.h  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/hid/hid-asus.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 490a7ea369961..cdd9d9c4fc95f 100644
+index cdd9d9c4fc95f..85ae75478b796 100644
 --- a/drivers/hid/hid-asus.c
 +++ b/drivers/hid/hid-asus.c
-@@ -1332,7 +1332,7 @@ static const struct hid_device_id asus_devices[] = {
- 	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD2),
- 	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
--	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD3),
-+	    USB_DEVICE_ID_ASUSTEK_ROG_Z13_FOLIO),
- 	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
- 	    USB_DEVICE_ID_ASUSTEK_ROG_Z13_LIGHTBAR),
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 7e400624908e3..b1fe7582324ff 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -209,7 +209,7 @@
- #define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD3 0x1822
- #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD	0x1866
- #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD2	0x19b6
--#define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD3	0x1a30
-+#define USB_DEVICE_ID_ASUSTEK_ROG_Z13_FOLIO		0x1a30
- #define USB_DEVICE_ID_ASUSTEK_ROG_Z13_LIGHTBAR		0x18c6
- #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY		0x1abe
- #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY_X		0x1b4c
+@@ -897,6 +897,7 @@ static int asus_input_mapping(struct hid_device *hdev,
+ 		case 0x5c: asus_map_key_clear(KEY_PROG3);	break; /* Fn+Space Power4Gear */
+ 		case 0x99: asus_map_key_clear(KEY_PROG4);	break; /* Fn+F5 "fan" symbol */
+ 		case 0xae: asus_map_key_clear(KEY_PROG4);	break; /* Fn+F5 "fan" symbol */
++		case 0xec: asus_map_key_clear(KEY_PROG4);	break; /* Fn+F5 "fan" symbol (Z13 2025) */
+ 		case 0x92: asus_map_key_clear(KEY_CALC);	break; /* Fn+Ret "Calc" symbol */
+ 		case 0xb2: asus_map_key_clear(KEY_PROG2);	break; /* Fn+Left previous aura */
+ 		case 0xb3: asus_map_key_clear(KEY_PROG3);	break; /* Fn+Left next aura */
 -- 
 2.48.1
 
