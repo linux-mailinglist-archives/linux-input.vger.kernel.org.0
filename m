@@ -1,181 +1,139 @@
-Return-Path: <linux-input+bounces-10961-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10962-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B655A6859D
-	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 08:16:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA02A685C0
+	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 08:26:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E6A3178AAC
-	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 07:16:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AF2CC179E83
+	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 07:26:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66BB6211484;
-	Wed, 19 Mar 2025 07:16:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3F0820FA90;
+	Wed, 19 Mar 2025 07:26:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HKIlGAa6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC06158DD4;
-	Wed, 19 Mar 2025 07:16:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.201.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F5E1991CD;
+	Wed, 19 Mar 2025 07:26:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742368563; cv=none; b=DPUGQuIAanzo4JM+eL3EDoXYUV3KLuLXP3INcUSOsMCLfTovsvOwZXRfmeBwhs5ovSSiKqKKqm0Czj4hHWjNkgYZvpOB1HMcSKA/8aJOVHMr3Ns8Xuaxvhlb5acBZacZVEtlCnXYELEyh8n1/Fx0FQ2DKEiaQoVMmuh9DFiRORs=
+	t=1742369214; cv=none; b=n2tSP2ZrkJOFn5g+E5O96rnTF284OIxcZ8ubAAWYz8vW2szbGOuJC8HAMRJO5NGSXFWpn6rV/7FmZQXWnU8QFREYUiPB0+ftlkjmEXYD2Vzp2uI92KVJvT/I/B5g3DrVHQygD5niriTj6iJsPt57bHfL28n9SuUljf0piNam1DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742368563; c=relaxed/simple;
-	bh=twxEXN+zS1pPm3HtYqQyQXyi8XjLzXje+sYlHiLVYa8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Subject:Cc:
-	 References:In-Reply-To; b=WW2WjArDMx0y/IeDtBFnj2t5Xr6E2mspv6qfwR5s6tG171M0cVbn5X7pUkF3poRaOiLGE3JSkDZQNum0zdUby4MOhQH0oSHfUtnvfl9WEJX3hYGfTZ4oNq/HQPVxWxXb8A3eBsB1KCvmOg/CqeVzieoFzMS/KckCW3M0LIV96T4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=walle.cc; arc=none smtp.client-ip=159.69.201.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=walle.cc
-Received: from localhost (unknown [IPv6:2a02:810b:4320:1000:4685:ff:fe12:5967])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.3ffe.de (Postfix) with ESMTPSA id 12ADE3B8;
-	Wed, 19 Mar 2025 08:15:58 +0100 (CET)
+	s=arc-20240116; t=1742369214; c=relaxed/simple;
+	bh=cEwBozw022HdVhKz+7v+0VVZA8O6n8pvPB98ingzlWA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uxax1dV32MTgjovCOK+1oCyPMbEy2gpE3kKkAff/rbmDB99H+BxCGSa4sjBB/4Tnb5hZ1BaTlwKBAv1XsSqV+TasxUnPJN4jSj7ODx7UVhaRyk8qeoiSlXYX/4GDATloS6sutahZcPDoNmbAbJ3iaVeUQYnpPeO3oA7b7V9stDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HKIlGAa6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2244C4CEE9;
+	Wed, 19 Mar 2025 07:26:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742369214;
+	bh=cEwBozw022HdVhKz+7v+0VVZA8O6n8pvPB98ingzlWA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=HKIlGAa6/HZvakHA2JEzUEga1MjZMaHxHnMqWmcV5aIMByHYX4U4+55HN9uUAAgqI
+	 +NqBmQtjLofv5TEeM/P2zilvQat8t9VvZQ4eUVWDhL8rbisFoL0IAaebojnYySt+VD
+	 Do+IH0QkcrG5TZnDrd8PbLl+6OZK3ec6y5wehIWx/sn8xgGOjvMFWkpm/lSCoGbfjQ
+	 zgsfT5XlgwKlOIEffMvq4TGUJ3fvb5HjCMI9olYlfCZqsX2duiyQtazTIFgumN4VH4
+	 52i9EEef3qpNKu1ZozHmRw3qN56U9l3sVT2yVO+MyY0s0enl/RQjTKG4MJGBHWX5vW
+	 XUo6OkDeI3FzA==
+Message-ID: <e9c3eca1-5dc9-46e1-a356-87643434cee0@kernel.org>
+Date: Wed, 19 Mar 2025 08:26:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] HID: appletb-kbd: Replace msecs_to_jiffies with
+ secs_to_jiffies for timer settings
+To: xie.ludan@zte.com.cn, bentiss@kernel.org
+Cc: jikos@kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, xu.xin16@zte.com.cn, yang.yang29@zte.com.cn,
+ jiang.peng9@zte.com.cn
+References: <20250319101242304iR6PbYo3hAvFto8weR2Ps@zte.com.cn>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250319101242304iR6PbYo3hAvFto8weR2Ps@zte.com.cn>
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 19 Mar 2025 08:15:57 +0100
-Message-Id: <D8K23TCWC5TO.3T1YPKL3G0OY5@kernel.org>
-From: "Michael Walle" <mwalle@kernel.org>
-To: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>, "Lee Jones"
- <lee@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Kamel Bouhara"
- <kamel.bouhara@bootlin.com>, "Linus Walleij" <linus.walleij@linaro.org>,
- "Bartosz Golaszewski" <brgl@bgdev.pl>, "Dmitry Torokhov"
- <dmitry.torokhov@gmail.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, "Mark Brown" <broonie@kernel.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v5 06/11] gpio: regmap: Allow to allocate regmap-irq
- device
-Cc: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, <andriy.shevchenko@intel.com>,
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>
-X-Mailer: aerc 0.16.0
-References: <20250318-mdb-max7360-support-v5-0-fb20baf97da0@bootlin.com>
- <20250318-mdb-max7360-support-v5-6-fb20baf97da0@bootlin.com>
-In-Reply-To: <20250318-mdb-max7360-support-v5-6-fb20baf97da0@bootlin.com>
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 19/03/2025 03:12, xie.ludan@zte.com.cn wrote:
+> From: Peng Jiang <jiang.peng9@zte.com.cn>
+> 
+> The variables `appletb_tb_idle_timeout` and `appletb_tb_dim_timeout`
+> are already defined in seconds, so using `secs_to_jiffies` directly
+> makes the code more readable and consistent with the units used.
+> 
+> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
+> the following Coccinelle rules:
 
-> GPIO controller often have support for IRQ: allow to easily allocate
-> both gpio-regmap and regmap-irq in one operation.
->
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> ---
->  drivers/gpio/gpio-regmap.c  | 23 +++++++++++++++++++++--
->  include/linux/gpio/regmap.h | 15 +++++++++++++++
->  2 files changed, 36 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpio/gpio-regmap.c b/drivers/gpio/gpio-regmap.c
-> index 05f8781b5204..61d5f48b445d 100644
-> --- a/drivers/gpio/gpio-regmap.c
-> +++ b/drivers/gpio/gpio-regmap.c
-> @@ -203,6 +203,7 @@ EXPORT_SYMBOL_GPL(gpio_regmap_get_drvdata);
->   */
->  struct gpio_regmap *gpio_regmap_register(const struct gpio_regmap_config=
- *config)
->  {
-> +	struct irq_domain *irq_domain;
->  	struct gpio_regmap *gpio;
->  	struct gpio_chip *chip;
->  	int ret;
-> @@ -280,8 +281,26 @@ struct gpio_regmap *gpio_regmap_register(const struc=
-t gpio_regmap_config *config
->  	if (ret < 0)
->  		goto err_free_gpio;
-> =20
-> -	if (config->irq_domain) {
-> -		ret =3D gpiochip_irqchip_add_domain(chip, config->irq_domain);
-> +	irq_domain =3D config->irq_domain;
-> +#ifdef CONFIG_GPIOLIB_IRQCHIP
+Why do you need to paste here contentx of existing cocci script? It's
+already mainlined, no?
 
-Why do we need this ifdef?
+> 
+> @depends on patch@
+> expression E;
+> @@
+> 
+> -msecs_to_jiffies
+> +secs_to_jiffies
+> (E
+> - * \( 1000 \| MSEC_PER_SEC \)
+> )
+> 
+> Signed-off-by: Peng Jiang <jiang.peng9@zte.com.cn>
+> Signed-off-by: XieLudan <xie.ludan@zte.com.cn>
+Same comment as before. Did you respond to previous feedbacks? No.
 
-> +	if (config->regmap_irq_chip) {
-> +		struct regmap_irq_chip_data *irq_chip_data;
-> +
-> +		ret =3D devm_regmap_add_irq_chip_fwnode(config->parent, dev_fwnode(con=
-fig->parent),
-> +						      config->regmap, config->regmap_irq_irqno,
-> +						      config->regmap_irq_flags, 0,
-> +						      config->regmap_irq_chip, &irq_chip_data);
-> +		if (ret)
-> +			goto err_free_gpio;
-> +
-> +		irq_domain =3D regmap_irq_get_domain(irq_chip_data);
-> +		if (config->regmap_irq_chip_data)
-> +			*config->regmap_irq_chip_data =3D irq_chip_data;
-
-I'm not a fan of misusing the config to return any data. Can we have
-a normal gpio_regmap_get_...()? Usually, the config is on the stack
-of the caller, what if you need to get irq_chip_data afterwards?
-Then your caller has to save it somewhere.
-
-Also, what is the advantage of this? Your caller doesn't have to
-call devm_regmap_add_irq_chip_fwnode(), but on the flip side you
-have to cram all its parameters in the gpio_regmap config. I'd like
-to keep that small and simple (but still extensible!). IMHO just
-setting the irq_domain is enough to achieve that.
-
--michael
-
-> +	}
-> +#endif
-> +
-> +	if (irq_domain) {
-> +		ret =3D gpiochip_irqchip_add_domain(chip, irq_domain);
->  		if (ret)
->  			goto err_remove_gpiochip;
->  	}
-> diff --git a/include/linux/gpio/regmap.h b/include/linux/gpio/regmap.h
-> index a9f7b7faf57b..55df2527b982 100644
-> --- a/include/linux/gpio/regmap.h
-> +++ b/include/linux/gpio/regmap.h
-> @@ -40,6 +40,14 @@ struct regmap;
->   * @drvdata:		(Optional) Pointer to driver specific data which is
->   *			not used by gpio-remap but is provided "as is" to the
->   *			driver callback(s).
-> + * @regmap_irq_chip:	(Optional) Pointer on an regmap_irq_chip structure.=
- If
-> + *			set, a regmap-irq device will be created and the IRQ
-> + *			domain will be set accordingly.
-> + * @regmap_irq_chip_data: (Optional) Pointer on an regmap_irq_chip_data
-> + *                      structure pointer. If set, it will be populated =
-with a
-> + *                      pointer on allocated regmap_irq data.
-> + * @regmap_irq_irqno	(Optional) The IRQ the device uses to signal interr=
-upts.
-> + * @regmap_irq_flags	(Optional) The IRQF_ flags to use for the interrupt=
-.
->   *
->   * The ->reg_mask_xlate translates a given base address and GPIO offset =
-to
->   * register and mask pair. The base address is one of the given register
-> @@ -78,6 +86,13 @@ struct gpio_regmap_config {
->  	int ngpio_per_reg;
->  	struct irq_domain *irq_domain;
-> =20
-> +#ifdef CONFIG_GPIOLIB_IRQCHIP
-> +	struct regmap_irq_chip *regmap_irq_chip;
-> +	struct regmap_irq_chip_data **regmap_irq_chip_data;
-> +	int regmap_irq_irqno;
-> +	unsigned long regmap_irq_flags;
-> +#endif
-> +
->  	int (*reg_mask_xlate)(struct gpio_regmap *gpio, unsigned int base,
->  			      unsigned int offset, unsigned int *reg,
->  			      unsigned int *mask);
-
+Best regards,
+Krzysztof
 
