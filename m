@@ -1,205 +1,166 @@
-Return-Path: <linux-input+bounces-10978-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10979-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49078A69542
-	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 17:46:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5972A698D1
+	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 20:14:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 98756161238
-	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 16:43:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B43F17F32E
+	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 19:13:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19CF01DF974;
-	Wed, 19 Mar 2025 16:43:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36324211A1D;
+	Wed, 19 Mar 2025 19:13:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="O0afLCMd"
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="NJoS2zjn"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3DE1DED44;
-	Wed, 19 Mar 2025 16:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093F0211715;
+	Wed, 19 Mar 2025 19:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742402600; cv=none; b=a+9vlgTMgIvcHdfGmpoHrqqzi0cnOsopF4WDUDIIGlNpaXPRlb1F0bgu5R8nLJlYoRqT8FjMiM6q+9mLQiCF0S9BHlA2KlUkA0PSDAJr6eIjnJsyhLKK4/AyjYJEHRAGexIE7rVVj/Z/HqSinT6LcAsG9z+YIf+bqpxjakDC4fw=
+	t=1742411609; cv=none; b=MtLb0TE9XwDtktu8q8H3TF1djJelJzjAIbGwOCP4DEuEtbOj1ogbzeWo4uxLbf54lsDEmrCuIqrTlH9ZPaM+aT7iJ1olEynK/InedBPv5PKRICznd7zmmHW3jyM74Zt77Ta0Pmdtdr6fJpWTyIK8zxY8aXkNaUWMA/rlkCrqtY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742402600; c=relaxed/simple;
-	bh=ZBQvYxGhQSH0Yw5IAUgX+qNDMDI41AR+NNF1w+Ttoik=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:From:To:Subject:
-	 References:In-Reply-To; b=YBDEvjDTxdDf/zw1zu5IbrTYxnJrnDZ3SCStyghZ5te7xYBUw/M3FVrdFUOQDrSP6vZjoAqByDUAFAknuNnojIyRhdnVw4MHm32Jtz7XnejDOEM7md2pcu0NJGimWEiw8tDlsvU2zaodBTLYS4xCEbMlcIe7OBT8nzTw9TgDx1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=O0afLCMd; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2DFE1443C5;
-	Wed, 19 Mar 2025 16:43:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1742402588;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aEftfqUViqbyks2Nod6W5VcZut5c+VqF8qcwHjc/Cq4=;
-	b=O0afLCMdM8LsDaWO5uzNKe9f6iLnloSalc3qlYsHWmDpkVdFuDWGtULBDXdJNZ9Ggkh0i/
-	GCxfuTsPnAvx4zjxBYsDnyH8Kw9b0zU1FHdXOe9WRhrKTyRDMDcNUr2rKJGUcBR4FF/cwj
-	1VvLXpmS839TkiJDKnWcveuXNKNSrNrJ/pk82iheN8O+qIigEfQkydf+c7DkrSvGzjegGW
-	hhPEC4C2eDvGas61Z/C8Xq5CjWhGGh/RYQ2UzI8gEKLicN+jR5mSjnnq6V7GUoHfDrbtsU
-	lPTlHFx9NvDeHO8HSI35Qu+t2R0Pe5OdhygOE1tqWjlEWXzKMgVP36HaGAqCcw==
+	s=arc-20240116; t=1742411609; c=relaxed/simple;
+	bh=vSvZxZ0NwBGmwepE94KBT72M3Ac8sdqVeI1o403IOgY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qOYvfuqJWWIy9mcEMxxJ1QtSH9XqDafuJDSySxxto4iciBAcyXM/CjqEFoIz4giGp5hl4gIL6/F27OgfGXy2HrBwdrf6tqqW9Hl7m4wEo9Hdta0AmU2gBVzKHK2fxzSRnTHWCTeTYzv8aHnojEBMxOcu11/L/YdYKa5/XrrqUc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=NJoS2zjn; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+Received: from localhost.localdomain (unknown [IPv6:2a05:f6c2:511b:0:cbc0:999f:73ad:33bd])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 442D42E029B7;
+	Wed, 19 Mar 2025 21:13:22 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1742411603;
+	bh=ZCfvDS6gXGAxsTeXHoTWtoXKbmrBvPEnxWQeAGaa6is=; h=From:To:Subject;
+	b=NJoS2zjnObAFoTSqMo9oJDAbnM9VBMuOQsoToOBh+EiDViY2Tu56dm9goK7ZakUhF
+	 3SeOcaY9gnGSWR0FECZ4nMr5ewuEBBChVfKDHURvY1FF0gSXSHjPfTzt6eHNgKi6b6
+	 UdV59TQaeqPb7hB6LPjBnlSIHGW9fWbmHpoDhPcw=
+Authentication-Results: linux1587.grserver.gr;
+	spf=pass (sender IP is 2a05:f6c2:511b:0:cbc0:999f:73ad:33bd) smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+From: Antheas Kapenekakis <lkml@antheas.dev>
+To: platform-driver-x86@vger.kernel.org,
+	linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Corentin Chary <corentin.chary@gmail.com>,
+	"Luke D . Jones" <luke@ljones.dev>,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: [PATCH 00/11] HID: asus: hid-asus and asus-wmi backlight unification,
+ Z13 QOL improvements
+Date: Wed, 19 Mar 2025 20:13:08 +0100
+Message-ID: <20250319191320.10092-1-lkml@antheas.dev>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 19 Mar 2025 17:43:06 +0100
-Message-Id: <D8KE623GMSW0.2FWRYKEDOJ4UH@bootlin.com>
-Cc: "Lee Jones" <lee@kernel.org>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Kamel Bouhara"
- <kamel.bouhara@bootlin.com>, "Linus Walleij" <linus.walleij@linaro.org>,
- "Bartosz Golaszewski" <brgl@bgdev.pl>, "Dmitry Torokhov"
- <dmitry.torokhov@gmail.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, "Michael Walle" <mwalle@kernel.org>, "Mark Brown"
- <broonie@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, "Danilo Krummrich"
- <dakr@kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
- <linux-input@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
- <andriy.shevchenko@intel.com>, =?utf-8?q?Gr=C3=A9gory_Clement?=
- <gregory.clement@bootlin.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Rob Herring" <robh@kernel.org>
-Subject: Re: [PATCH v5 01/11] dt-bindings: mfd: gpio: Add MAX7360
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20250318-mdb-max7360-support-v5-0-fb20baf97da0@bootlin.com>
- <20250318-mdb-max7360-support-v5-1-fb20baf97da0@bootlin.com>
- <20250318173902.GA3256960-robh@kernel.org>
-In-Reply-To: <20250318173902.GA3256960-robh@kernel.org>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugeehkeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkvefhvffuofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeftedvgfegteehjeejtdefgffhteevvddtvdejleeghfefuefgledtteduvdetkeenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvvddprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepk
- hhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrghmvghlrdgsohhuhhgrrhgrsegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplhdprhgtphhtthhopegumhhithhrhidrthhorhhokhhhohhvsehgmhgrihhlrdgtohhm
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: 
+ <174241160339.7553.16834624348433775118@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
-On Tue Mar 18, 2025 at 6:39 PM CET, Rob Herring wrote:
-> On Tue, Mar 18, 2025 at 05:26:17PM +0100, Mathieu Dubois-Briand wrote:
-> > Add device tree bindings for Maxim Integrated MAX7360 device with
-> > support for keypad, rotary, gpios and pwm functionalities.
-> >=20
-> > Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com=
->
-> > ---
-> >  .../bindings/gpio/maxim,max7360-gpio.yaml          |  83 ++++++++++
-> >  .../devicetree/bindings/mfd/maxim,max7360.yaml     | 170 +++++++++++++=
-++++++++
-> >  2 files changed, 253 insertions(+)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/gpio/maxim,max7360-gpio.=
-yaml b/Documentation/devicetree/bindings/gpio/maxim,max7360-gpio.yaml
-> > new file mode 100644
-> > index 000000000000..21d603d9504c
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/gpio/maxim,max7360-gpio.yaml
-> > @@ -0,0 +1,83 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+This is a three part series that does the following: first, it cleans up
+the hid-asus driver initialization, preventing excess renames and dmesg
+errors on ROG devices. Then, it adds support for the Z13 2025 keyboard,
+by fixing its keyboard to not be stuck in BIOS mode and enabling its fan
+key. Finally, the bigger piece of this series is the unification of the
+backlight controls between hid-asus and asus-wmi.
 
-...
+This requires some context. First, some ROG devices expose both WMI and
+HID controls for RGB. In addition, some ROG devices (such as the Z13)
+have two AURA devices where both have backlight controls (lightbar and
+keyboard). Under Windows, Armoury Crate exposes a single brightness control
+for all Aura devices.
 
-> > +
-> > +  keypad-debounce-delay-ms:
->
-> The existing debounce-delay-ms or poll-interval properties don't work=20
-> for you?
->
+However, currently in the linux kernel this is not the case, with asus-wmi
+and hid-asus relying on a quirk system to figure out which should control
+the backlight. But what about the other one? There might be silent
+regressions such as part of the RGB of the device not responding properly.
 
-The issue is this node also describes the rotary encoder (just below),
-so I feel using only debounce-delay-ms is a bit misleading.
+In the Z13, this is the case, with a race condition causing the lightbar
+to control the asus::kbd_backlight device most of the time, with the
+keyboard being renamed to asus::kbd_backlight_1 and not doing anything
+under KDE controls.
 
-> > +    description: Keypad debounce delay in ms
-> > +    minimum: 9
-> > +    maximum: 40
-> > +    default: 9
-> > +
-> > +  rotary-debounce-delay-ms:
-> > +    description: Rotary encoder debounce delay in ms
-> > +    minimum: 0
-> > +    maximum: 15
-> > +    default: 0
-> > +
-> > +  linux,axis:
-> > +    description: The input subsystem axis to map to this rotary encode=
-r.
->
-> You should have a $ref to rotary-encoder.yaml too. None of the other=20
-> properties in it are needed?=20
+Here, we should note that most backlight handlers are hardcoded to check
+for backlight once, and for one backlight, during boot, so any other
+solution would require a large rewrite of userspace.
 
-Makes sense, thanks!
+Even when brightness controls are fixed, we still have the problem of the
+backlight key being on/off when controlled by KDE and 0/33/66/100 when
+the device has a WMI keyboard. Ideally, we would like the 0/33/66/100 to
+be done under hid as well, regardless of whether the backlight of the
+device is controlled by WMI or HID.
 
-And no, I believe this is the only property we need.
+Therefore, this is what the third part of this series does. It sets up
+asus-wmi to expose accepting listeners for the asus::kbd_backlight device
+and being the one that sets it up. Then, it makes hid-asus devices
+register a listener there, so that all of them are controlled by
+asus::kbd_backlight. Finally, it adds an event handler for keyboard keys,
+so that HID led controls are handled by the kernel instead of userspace.
+This way, even when userspace is not active the key works, and we get the
+desired behavior of 0/33/66/100 across all Aura devices (currently, that
+is keyboards, and embedded devices such as lightbars). This results
+removing the quirk system as well, eliminating a point of failure.
 
->
-> > +
-> > +  "#pwm-cells":
-> > +    const: 3
-> > +
-> > +  gpio:
-> > +    $ref: /schemas/gpio/maxim,max7360-gpio.yaml#
-> > +    description:
-> > +      PORT0 to PORT7 general purpose input/output pins configuration.
-> > +
-> > +  gpo:
-> > +    $ref: /schemas/gpio/maxim,max7360-gpio.yaml#
-> > +    description: >
-> > +      COL2 to COL7 general purpose output pins configuration.
-> > +      Allows to use unused keypad columns as outputs.
->
-> Are these paragraphs? If so, add a blank line between paragraphs. If=20
-> not, re-wrap the lines.
->
+I tested this on an Asus Z13 2025, and testing by other devices would be
+appreciated for sure. This series is designed to be transparent to
+userspace behavior-wise compared previous kernels, with all existing
+laptops either having the same behavior or being better.
 
-OK
+The Z13 keyboard folio RGB controls work beautifully, with KDE led
+notifications working and doing 0/33/66/100 as expected. This also happens
+with hotplugging, as the lightbar is always available and keeps the
+endpoint alive from boot, even if the folio is not connected (a quirk
+can be added later if there is a device where this is not the case).
 
-> > +      The MAX7360 has 8 column lines and 6 of them can be used as GPOs=
-. GPIOs
-> > +      numbers used for this gpio-controller node do correspond to the =
-column
-> > +      numbers: values 0 and 1 are never valid, values from 2 to 7 migh=
-t be valid
-> > +      depending on the value of the keypad,num-column property.
-> > +
-> > +patternProperties:
-> > +  '-pins$':
-> > +    type: object
-> > +    description:
-> > +      Pinctrl node's client devices use subnodes for desired pin confi=
-guration.
-> > +      Client device subnodes use below standard properties.
-> > +    $ref: /schemas/pinctrl/pincfg-node.yaml
-> > +
-> > +    properties:
-> > +      pins:
-> > +        description:
-> > +          List of gpio pins affected by the properties specified in th=
-is
-> > +          subnode.
-> > +        items:
-> > +          pattern: '^PORT[0-7]|ROTARY$'
->
-> Don't you need ()?:
->
-> ^(PORT[0-7]|ROTARY)$'
->
+The first two parts of the series can also be merged independently of the
+third part, so we can iterate on that more. Perhaps there is a better way
+to handle this cohesion,
 
-Yes!
+Oh, by the way Luke, I developed this series with a variant of
+your Armoury series merged, and only switched to 6.14-v7 for this
+submission. You will be happy to know that there are no conflicts :)
+(at least with that version from ~January). Also, please factcheck
+my initialization sequence is correct in the 0x5d and 0x5e devices
+you added when you made that refactor last year. Are those handshakes
+needed?
 
-Thanks for your review.
-Mathieu
+Antheas Kapenekakis (11):
+  HID: asus: refactor init sequence per spec
+  HID: asus: cleanup keyboard backlight check
+  HID: asus: prevent binding to all HID devices on ROG
+  HID: asus: rename keyboard3 to Z13_FOLIO
+  HID: asus: add Asus Z13 2025 Fan key
+  HID: asus: introduce small delay on Asus Z13 RGB init
+  platform/x86: asus-wmi: Add support for multiple kbd RGB handlers
+  HID: asus: listen to the asus-wmi brightness device instead of
+    creating one
+  platform/x86: asus-wmi: remove unused keyboard backlight quirk
+  platform/x86: asus-wmi: add keyboard brightness event handler
+  HID: asus: add support for the asus-wmi brightness handler
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+ drivers/hid/hid-asus.c                     | 220 ++++++++++++---------
+ drivers/hid/hid-ids.h                      |   2 +-
+ drivers/platform/x86/asus-wmi.c            | 137 +++++++++++--
+ include/linux/platform_data/x86/asus-wmi.h |  66 +++----
+ 4 files changed, 279 insertions(+), 146 deletions(-)
+
+
+base-commit: 4701f33a10702d5fc577c32434eb62adde0a1ae1
+-- 
+2.48.1
 
 
