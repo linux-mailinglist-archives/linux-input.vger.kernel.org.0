@@ -1,124 +1,130 @@
-Return-Path: <linux-input+bounces-10991-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10992-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A9DA69B38
-	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 22:50:57 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1BF1A69C1E
+	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 23:34:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 412D146408C
-	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 21:50:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 634177A5E48
+	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 22:33:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FB83219312;
-	Wed, 19 Mar 2025 21:50:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2BA021B1AC;
+	Wed, 19 Mar 2025 22:34:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="o+ckQGHF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I/cnx18F"
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE97213232;
-	Wed, 19 Mar 2025 21:50:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20C921859F;
+	Wed, 19 Mar 2025 22:34:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742421049; cv=none; b=GBQ8zqdQvQQuK8xHrjiZG8+Pzcm70wx21w+1XBWYBLNR/xk1/H7g+rXHhX3nHKsRAPgvjNeI4Zgu76Aj1XBVL0hqGsuIndiXlzerjrv71eRTSBWKue5ZGa7tzh1ElnptC5Rt4hcNj/d5yCdqBlLebNldReYLO4BiSu0mJfXWtjo=
+	t=1742423683; cv=none; b=rn2r7lk3p5/Ap3uBsVfV+PSQ5mzuQ8wmPp7PFJSGdlvj/FD95S0ua+5T6zzx0h6VwYekLul035YZXn6NOSuw3EuaOjPxm2PhnrM9IdaDCzwJ+3VWzUwOSVJ9cQoYjN+jjEvpsuxvjn8bs7U1+nePYyl2Oznh8qTJ/Yvoalq6juw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742421049; c=relaxed/simple;
-	bh=K4wGqb99oqd7yQEItz1omH6NbLHTyJworzFHW5W9+bw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LDnv8Xmq9gM5nJRuSp2BIRjqRaJBHGqJtW4i/23pW7Ww8zSrcK+QOl2GR18huIbYttVgKAUmZIon9UKP/ySsDJb1gMZWVhSxVDELn5otNAXPP2oBKJgSFLqVwvQOujkDlQ/7hO/7JNAQ9Qt7wyAE/RTN0NYB2D+J57OtcYymkjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=o+ckQGHF; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id C3A642E095D8;
-	Wed, 19 Mar 2025 23:50:42 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1742421043;
-	bh=K4wGqb99oqd7yQEItz1omH6NbLHTyJworzFHW5W9+bw=;
-	h=Received:From:Subject:To;
-	b=o+ckQGHFi4LIIwwyU426LqntYKeQjh7ZTeSJRRR+CS6E4/zhCzEoFVk+s8GK7ysGD
-	 DYeRke9Gtvo7+PgG0NcP1E8HedX1OcxEIEc75ZMoYwYFR8E11s82sciAAMbdW0PhK8
-	 sjWLOHQTxTlJNdfQc380YpPgAl5NhNqI9+PKjLcY=
-Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.208.177) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f177.google.com
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-30bee278c2aso13988201fa.0;
-        Wed, 19 Mar 2025 14:50:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUbuQdC8donVcKVRzWOn8BwKn8mV0ro8nz6y2kwY6N/T8hAJzjZCABXvheKtZ+JcGPZ5TPoIcwr8Fpl3g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzogrt7JD1GTGHLW2UkMf9uhNWRs/1jVAGf8TN075jIE5/TDJWu
-	eVIafcRczPfwmSB50M9EWPiWIZ+DI1wi+BhXZGE5h1hOvq40S80sk8R1WbDgHW6Z88SBL+BQeUv
-	Iw7j2q2GVSRu1DGEEr5AcvQeb8ek=
-X-Google-Smtp-Source: 
- AGHT+IGoMfjWZwDQBc1Y3rzGZQMdxLDjvKT9WTt0vZ+2gI80gbAaLzW4nvm6rQAHHJkVzE9dMKLlwJcuZ5OEJZAaUjA=
-X-Received: by 2002:a2e:96ca:0:b0:30b:f0fd:5136 with SMTP id
- 38308e7fff4ca-30d727b936bmr3911971fa.18.1742421041942; Wed, 19 Mar 2025
- 14:50:41 -0700 (PDT)
+	s=arc-20240116; t=1742423683; c=relaxed/simple;
+	bh=KCy7t8Yz0VMqKbVcqZL+O6hHMwl4B/WS992u8Lny0Kg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WqGjJgewvBlt+rIYzGQ9aAejSdaQ8N5VKeElbm8XzNPnNjVojq9jXSq0nYw/gWjQebCEZ1cJiNlioRsjk1HlfcrTUMqYagkFUjFtgpsCwu6sIFdKTznlcVq0Yfuf3Ahqx5Fmmle/50J86MNyl+Cxv4MyjqLqOKtqaOPD0bae9R8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I/cnx18F; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742423681; x=1773959681;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KCy7t8Yz0VMqKbVcqZL+O6hHMwl4B/WS992u8Lny0Kg=;
+  b=I/cnx18FPa1ChEEgs9fJJeUywZoIyt+KC1X9nQwl7LEL24aP124qu0i+
+   Ny+8l9wyUiHSCrIVr41AGeDikF8ZvHQiI/5LEzqN/sQA1+9K4g8P5ojED
+   VN/ndewqzb42CGW0apJGZDh4DlamC9bae0xwQJlPc8p2LBRcTm8RPNImL
+   p+aJPC9ZnSK+lT77DkiGiQ7srAKNdSjCyU7XTRtVGIDa1IHll0QjM4iy+
+   o2uYjucb3pMuY7io8NF0Y6jHA0B46P/FDekbiG+uOQimQMPkyFTq+kX0p
+   ecwCVGij3N0Z3GSVLkTEy4i3NIgIqowOnlJlB9pTpfGkRZUxAAes/u3me
+   Q==;
+X-CSE-ConnectionGUID: piZcfzYoSyOkzVXxH7ZO/Q==
+X-CSE-MsgGUID: 87U0rLZ2S6KOFWy30P5aQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="47291528"
+X-IronPort-AV: E=Sophos;i="6.14,260,1736841600"; 
+   d="scan'208";a="47291528"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 15:34:40 -0700
+X-CSE-ConnectionGUID: kICRZPFERJ2rAPiyNjOawA==
+X-CSE-MsgGUID: b+aJhSqARFSmGqGIMsFwgQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,260,1736841600"; 
+   d="scan'208";a="122823583"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 19 Mar 2025 15:34:34 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tv1zc-000FiY-07;
+	Wed, 19 Mar 2025 22:34:32 +0000
+Date: Thu, 20 Mar 2025 06:34:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+	andriy.shevchenko@intel.com,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Subject: Re: [PATCH v5 08/11] gpio: max7360: Add MAX7360 gpio support
+Message-ID: <202503200617.h8re2FlY-lkp@intel.com>
+References: <20250318-mdb-max7360-support-v5-8-fb20baf97da0@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250319191320.10092-1-lkml@antheas.dev>
-In-Reply-To: <20250319191320.10092-1-lkml@antheas.dev>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Wed, 19 Mar 2025 22:50:30 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwFRScPtHnnBGe-tftbBqYNM1hAsdGtowSdOpmpaq_Vh7g@mail.gmail.com>
-X-Gm-Features: AQ5f1JoKzjfFv42v98ZgUMxbcgV3GyCzYUNLoxZghsnsNCSVWMLHXuvVHYvDna0
-Message-ID: 
- <CAGwozwFRScPtHnnBGe-tftbBqYNM1hAsdGtowSdOpmpaq_Vh7g@mail.gmail.com>
-Subject: Re: [PATCH 00/11] HID: asus: hid-asus and asus-wmi backlight
- unification, Z13 QOL improvements
-To: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	"Limonciello, Mario" <Mario.Limonciello@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <174242104316.21484.5198359461273586559@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250318-mdb-max7360-support-v5-8-fb20baf97da0@bootlin.com>
 
-On Wed, 19 Mar 2025 at 22:38, Antheas Kapenekakis <lkml@antheas.dev> wrote:
->
-> This is a three part series that does the following: first, it cleans up
-> the hid-asus driver initialization, preventing excess renames and dmesg
-> errors on ROG devices. Then, it adds support for the Z13 2025 keyboard,
-> by fixing its keyboard to not be stuck in BIOS mode and enabling its fan
-> key. Finally, the bigger piece of this series is the unification of the
-> backlight controls between hid-asus and asus-wmi.
->
-> <snip>
-> --
-> 2.48.1
->
+Hi Mathieu,
 
-Update on this. I made a minor refactor today to fix some edge cases
-where it was obvious the mutex was not guarding stuff and ended up
-locking during unregistering in this series. So skip testing it.
+kernel test robot noticed the following build warnings:
 
-I'll send the fixed version tomorrow, in the meantime you can find it
-here [1]. Fixes were very minor, moving the mutexes around in 2
-places, so feel free to comment on this series.
+[auto build test WARNING on a64dcfb451e254085a7daee5fe51bf22959d52d3]
 
-Also, the init delay seems to not have worked for the mouse touchpad
-bug. Seems like 5 reboots were not enough testing. I will say it is
-peculiar that hid-generic works properly, when this series makes
-hid-asus mimic it very closely. Also, one rmmod to hid-asus fixes
-this, regardless of how many times hid-asus is reloaded afterwards.
+url:    https://github.com/intel-lab-lkp/linux/commits/Mathieu-Dubois-Briand/dt-bindings-mfd-gpio-Add-MAX7360/20250319-003750
+base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
+patch link:    https://lore.kernel.org/r/20250318-mdb-max7360-support-v5-8-fb20baf97da0%40bootlin.com
+patch subject: [PATCH v5 08/11] gpio: max7360: Add MAX7360 gpio support
+config: nios2-kismet-CONFIG_PINCTRL_MAX7360-CONFIG_GPIO_MAX7360-0-0 (https://download.01.org/0day-ci/archive/20250320/202503200617.h8re2FlY-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250320/202503200617.h8re2FlY-lkp@intel.com/reproduce)
 
-Antheas
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503200617.h8re2FlY-lkp@intel.com/
 
-+CC Mario in case you want to review
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for PINCTRL_MAX7360 when selected by GPIO_MAX7360
+   WARNING: unmet direct dependencies detected for PINCTRL_MAX7360
+     Depends on [n]: PINCTRL [=n] && MFD_MAX7360 [=y]
+     Selected by [y]:
+     - GPIO_MAX7360 [=y] && GPIOLIB [=y] && MFD_MAX7360 [=y]
 
-[1] https://github.com/bazzite-org/patchwork/tree/upstream/asusrgb
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
