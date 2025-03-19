@@ -1,139 +1,97 @@
-Return-Path: <linux-input+bounces-10962-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-10963-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA02A685C0
-	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 08:26:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53950A68647
+	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 09:02:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AF2CC179E83
-	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 07:26:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 96A1A19C2615
+	for <lists+linux-input@lfdr.de>; Wed, 19 Mar 2025 08:02:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3F0820FA90;
-	Wed, 19 Mar 2025 07:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HKIlGAa6"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C6BEE552;
+	Wed, 19 Mar 2025 08:02:14 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F5E1991CD;
-	Wed, 19 Mar 2025 07:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91B6801;
+	Wed, 19 Mar 2025 08:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742369214; cv=none; b=n2tSP2ZrkJOFn5g+E5O96rnTF284OIxcZ8ubAAWYz8vW2szbGOuJC8HAMRJO5NGSXFWpn6rV/7FmZQXWnU8QFREYUiPB0+ftlkjmEXYD2Vzp2uI92KVJvT/I/B5g3DrVHQygD5niriTj6iJsPt57bHfL28n9SuUljf0piNam1DQ=
+	t=1742371334; cv=none; b=CMyC5lGSkQbOwqd7nAaYUUnrol1Ka4Y38leC8tziThZ5W3sSiZhhmWp5vqXOyh9CDVheo3gIs+dH0WtRrjgSQ697pyFAX++U0RBEba4NQnnEYMPjZhZgtse4SWQdZmA1NYSQfTfDkmy7lFz0AEy2AmM/OL419270UYru3JE8cbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742369214; c=relaxed/simple;
-	bh=cEwBozw022HdVhKz+7v+0VVZA8O6n8pvPB98ingzlWA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uxax1dV32MTgjovCOK+1oCyPMbEy2gpE3kKkAff/rbmDB99H+BxCGSa4sjBB/4Tnb5hZ1BaTlwKBAv1XsSqV+TasxUnPJN4jSj7ODx7UVhaRyk8qeoiSlXYX/4GDATloS6sutahZcPDoNmbAbJ3iaVeUQYnpPeO3oA7b7V9stDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HKIlGAa6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2244C4CEE9;
-	Wed, 19 Mar 2025 07:26:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742369214;
-	bh=cEwBozw022HdVhKz+7v+0VVZA8O6n8pvPB98ingzlWA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HKIlGAa6/HZvakHA2JEzUEga1MjZMaHxHnMqWmcV5aIMByHYX4U4+55HN9uUAAgqI
-	 +NqBmQtjLofv5TEeM/P2zilvQat8t9VvZQ4eUVWDhL8rbisFoL0IAaebojnYySt+VD
-	 Do+IH0QkcrG5TZnDrd8PbLl+6OZK3ec6y5wehIWx/sn8xgGOjvMFWkpm/lSCoGbfjQ
-	 zgsfT5XlgwKlOIEffMvq4TGUJ3fvb5HjCMI9olYlfCZqsX2duiyQtazTIFgumN4VH4
-	 52i9EEef3qpNKu1ZozHmRw3qN56U9l3sVT2yVO+MyY0s0enl/RQjTKG4MJGBHWX5vW
-	 XUo6OkDeI3FzA==
-Message-ID: <e9c3eca1-5dc9-46e1-a356-87643434cee0@kernel.org>
-Date: Wed, 19 Mar 2025 08:26:48 +0100
+	s=arc-20240116; t=1742371334; c=relaxed/simple;
+	bh=uS79caWa81NSdZ0jpSgTKUOYgTKaiUefA2Fi3y73Sys=;
+	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=LXiR8Ty+SLWXjG1oHyHyKhXgA9EJBPum/bJwNW70i8b4q84A08o8dTksuBl395pl4sMkixj2Eq4/SuSHe9oURukZm9Ybyf6/lkJZ7OoyooJn93Wu80Wmsnxc9d+rQ4c3g4NnyJaUub7ChDKWOsKLTuJMw3v/1a25iZtAq6pOXFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4ZHh4t0vRhz501bt;
+	Wed, 19 Mar 2025 16:02:06 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl2.zte.com.cn with SMTP id 52J81a4v057960;
+	Wed, 19 Mar 2025 16:01:37 +0800 (+08)
+	(envelope-from jiang.peng9@zte.com.cn)
+Received: from mapi (xaxapp04[null])
+	by mapi (Zmail) with MAPI id mid31;
+	Wed, 19 Mar 2025 16:01:39 +0800 (CST)
+Date: Wed, 19 Mar 2025 16:01:39 +0800 (CST)
+X-Zmail-TransId: 2afb67da79e37b8-3feea
+X-Mailer: Zmail v1.0
+Message-ID: <20250319160139161M5v1ERrZqTRfyixTQV7bU@zte.com.cn>
+In-Reply-To: <e9c3eca1-5dc9-46e1-a356-87643434cee0@kernel.org>
+References: 20250319101242304iR6PbYo3hAvFto8weR2Ps@zte.com.cn,e9c3eca1-5dc9-46e1-a356-87643434cee0@kernel.org
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] HID: appletb-kbd: Replace msecs_to_jiffies with
- secs_to_jiffies for timer settings
-To: xie.ludan@zte.com.cn, bentiss@kernel.org
-Cc: jikos@kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, xu.xin16@zte.com.cn, yang.yang29@zte.com.cn,
- jiang.peng9@zte.com.cn
-References: <20250319101242304iR6PbYo3hAvFto8weR2Ps@zte.com.cn>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250319101242304iR6PbYo3hAvFto8weR2Ps@zte.com.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+From: <jiang.peng9@zte.com.cn>
+To: <krzk@kernel.org>
+Cc: <xie.ludan@zte.com.cn>, <bentiss@kernel.org>, <jikos@kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSF0gSElEOiBhcHBsZXRiLWtiZDogUmVwbGFjZSBtc2Vjc190b19qaWZmaWVzIHdpdGggc2Vjc190b19qaWZmaWVzIGZvciB0aW1lciBzZXR0aW5ncw==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 52J81a4v057960
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 67DA79FE.000/4ZHh4t0vRhz501bt
 
-On 19/03/2025 03:12, xie.ludan@zte.com.cn wrote:
-> From: Peng Jiang <jiang.peng9@zte.com.cn>
-> 
-> The variables `appletb_tb_idle_timeout` and `appletb_tb_dim_timeout`
-> are already defined in seconds, so using `secs_to_jiffies` directly
-> makes the code more readable and consistent with the units used.
-> 
-> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
-> the following Coccinelle rules:
+> > From: Peng Jiang <jiang.peng9@zte.com.cn>
+> >
+> > The variables `appletb_tb_idle_timeout` and `appletb_tb_dim_timeout`
+> > are already defined in seconds, so using `secs_to_jiffies` directly
+> > makes the code more readable and consistent with the units used.
+> >
+> > This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
+> > the following Coccinelle rules:
+>
+> Why do you need to paste here contentx of existing cocci script? It's
+> already mainlined, no?
+>
+> >
+> > @depends on patch@
+> > expression E;
+> > @@
+> >
+> > -msecs_to_jiffies
+> > +secs_to_jiffies
+> > (E
+> > - * \( 1000 \| MSEC_PER_SEC \)
+> > )
+> >
+I intended to refer to the source of the modifications. Therefore, removing the Coccinelle script is appropriate.
 
-Why do you need to paste here contentx of existing cocci script? It's
-already mainlined, no?
-
-> 
-> @depends on patch@
-> expression E;
-> @@
-> 
-> -msecs_to_jiffies
-> +secs_to_jiffies
-> (E
-> - * \( 1000 \| MSEC_PER_SEC \)
-> )
-> 
-> Signed-off-by: Peng Jiang <jiang.peng9@zte.com.cn>
-> Signed-off-by: XieLudan <xie.ludan@zte.com.cn>
-Same comment as before. Did you respond to previous feedbacks? No.
+Thank you for your feedback!
 
 Best regards,
-Krzysztof
+Peng Jiang
 
