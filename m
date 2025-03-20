@@ -1,121 +1,152 @@
-Return-Path: <linux-input+bounces-11019-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11020-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 231EFA6A840
-	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 15:19:44 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB3EA6A89C
+	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 15:33:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B207885BBA
-	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 14:17:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B09D1887A6C
+	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 14:25:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BADD222580;
-	Thu, 20 Mar 2025 14:17:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8E98221549;
+	Thu, 20 Mar 2025 14:25:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=m.fudan.edu.cn header.i=@m.fudan.edu.cn header.b="hf4C7rB8"
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="maky9Uhj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6015822258E;
-	Thu, 20 Mar 2025 14:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363241DE8BE
+	for <linux-input@vger.kernel.org>; Thu, 20 Mar 2025 14:25:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742480249; cv=none; b=lJnFEoVnggmxjVpTw154+OF6HA/7N4Lwbdu/7hm2mIePCwfApuXPgdy00gLcahxMzykS5u13Ao9rUZxzwgvO+igZklp6OLi2+FuILDXLuz4cRoDkShVB8p5ALIMM9sn0TF+W8keRnOeT2ki850+BcfPydES0Q+ZUGtdbdSpZ6O4=
+	t=1742480711; cv=none; b=X5dtClP1SkLvIrRh93OGAn78C/HKd5Jq7MRPWiHD8ccYqnvYs7EQJSDntdhALD+VJ57HsYqNqBrm+S90nselD3R8FS+i6t9LDkdLMr1nyfH5FxHjH3NkQPrD9yydypNfR5Ofpmym52wE3H4lKc6d4HDzee1a9L+2N8OPLYUpc+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742480249; c=relaxed/simple;
-	bh=O5+PMMImWSlLIZMHvHFfTGwuJGQlGWVt+Bfj8MRQI0Q=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=ScliododI9MZ9sg5enz1nkLzOsp48DG3t/rxIPHHezSUjrlCqN+f47crHEZFZs/dB/PbevE5+EznanU9geh1zb4J6A5MFI5nza5/Cyi6xBwiFHuv3foa9BsN/SF7rn5EgNubyzVWla14Mda6+f5QsBcZLrxk/LhWry5aCccgNCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=m.fudan.edu.cn; spf=pass smtp.mailfrom=m.fudan.edu.cn; dkim=pass (1024-bit key) header.d=m.fudan.edu.cn header.i=@m.fudan.edu.cn header.b=hf4C7rB8; arc=none smtp.client-ip=54.207.19.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=m.fudan.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m.fudan.edu.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=m.fudan.edu.cn;
-	s=sorc2401; t=1742480188;
-	bh=O5+PMMImWSlLIZMHvHFfTGwuJGQlGWVt+Bfj8MRQI0Q=;
-	h=Mime-Version:Subject:From:Date:Message-Id:To;
-	b=hf4C7rB8bFmh+o9Yf1ummK6fEoFdrhM4PhbDdP9QZ6gUgOeDP8+O259wczqzUvXNI
-	 WIKyXpbU/J8e363oBKIfGTrdXMsw9JDaE0cAhKDjTqjhyauVG06qqAsq/fgrSQRNh+
-	 /m314NTRSh/1vi4uswS+11GvyFULbC8+xxb+TXV4=
-X-QQ-mid: bizesmtpsz14t1742480180thbid1
-X-QQ-Originating-IP: He84DqGcpyn07WS2Zc1FpA8Hw1bftlnlA1zC6PWKZiQ=
-Received: from smtpclient.apple ( [202.120.235.103])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 20 Mar 2025 22:16:18 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 7772875267381703017
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1742480711; c=relaxed/simple;
+	bh=F4KnFhSzOX6eIyHkk5hZbAmDvmdul5GOQycv8LDllbU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JL8wrGhc42LgpKJd78210jrG7PjecbWp60XQhBJybUh36UwQVjaGgjjnS7OeYKkuSWU0ALr3oUFMiLO5X96OLl54LT8EasEfvuAvVXbyIUK0rd67vk1N4leZPd1NOVQFOjsypekMLKDz3g8b14yCRAADQOf9WtOKKGHxP5gRcL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=maky9Uhj; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6e91d323346so8798766d6.1
+        for <linux-input@vger.kernel.org>; Thu, 20 Mar 2025 07:25:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1742480708; x=1743085508; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=NcufIoTquObc4xvWCnB60+ugCUZsUArli95nP/Pg8FY=;
+        b=maky9Uhje3w22PFPZzsqOOZpe0FBdsqRk8zLWN4jEAWlz/oCpfVEjQ4K9Ym/hP+0qU
+         coKT4dlLGqv0+Es24b02TTuW5Xm8jwLp6Zp+KRPfV/O6Ze7dlN/yqzUJDKENx9OyUEre
+         J8n2UCGBJuI3734QQBfMqWL+00VRxsrU9nGprgw4RbWGTM/YNIT0SMmTaiunQKeIOgDe
+         zAxqclnfdpKqkT15En3Z19FTfhGGq0h6TL3sdfieQnWtiWUJqXPcH6YmKvZ4IjF/hTn0
+         L3Ay0+huKJXj4g8KgS7N5igke6LMK6jIus297DwDYkEGOxEVizJykWoNr0lLvAzETIm0
+         dnsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742480708; x=1743085508;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NcufIoTquObc4xvWCnB60+ugCUZsUArli95nP/Pg8FY=;
+        b=GRvI6TOQNSoXI0cjl/PSukASeWNNQzXSg0WxfMS4wjSzZcIu4+aXQPPSHtcmSnjDno
+         ZHa8FtRmuApBQKe7TXq8Bm9i9WNSLNpLHnu1cgdC8lH12j6wKk3LcoHmvv3+k8WeiwQo
+         IJyiIDu+gL3m4ewRZ8IiU2rmWsebbAebHssTeUhTot47Nw+5kN+kSY7UzHzh2g5RyrNA
+         usxy8cu45AuXrkbXz9p8IiCaeLTGuqFYF+Se1iIE1g4xDnxwCcBwu0S1mug1Ntv203Ti
+         0ygqeDRvFZ1ilgGeU6QKvh/ExTaXINJi7naLm1BFuaYMFZ8lu3S6lfceZjoEAw4Aqv2P
+         GzPA==
+X-Forwarded-Encrypted: i=1; AJvYcCUM9H0KxhYp8Gyp9h+IwiunVHJPH4OflUDTcWo1BYU4K3lJj2KtXzRb13g4Ag754BMHJ4nItVGz+bUL7A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2/7NXpING40o/DB0HztkecLjqYOL7SUEv9bC9v+qe4zlH6YiN
+	NwFw6sR8yC0pGbvjCz2SGBAfKCI5asFU+6QbzkG0+hwu/BDlQufuGD20W/e6EA==
+X-Gm-Gg: ASbGncv4owTlpk2QmYHQneZZpWzZhuNZwdmLlJvaXS2WwF4ICAJ7GiKA7MKHMGTp08/
+	NyqFl+9Dot7iJnMGg8qLtuQJZUhGEiVhOl2htKSKiZw7YSNaMfx27ODHSXLGmJDHMtjoTu/bUJ0
+	8uaUVVzwpX38Jj2apczTUV3bPRTQa+lVqABVOV7StNSAvq8qwcQkXemCDfEGzy/ByN8v8rAp6ce
+	E83vwkWVL6tVKs7mMTldETs3jfgbOGBiSwtvDbQ0FQqbPuzYCjgsVymgGxpPLfAydQ5Yx9V+hQJ
+	7AgQk1og+Vu4GFX0UfxfAPH71YqjKzU9hcIWlhcG2Vl5TSpK4wAA3X82sb0rK7+taYxN8Kh7Dwm
+	uyFT3KpeqqXGqnbQ5suSmFnLUq4YYDUokMn8kyA==
+X-Google-Smtp-Source: AGHT+IHfUR49FUmIocj39iu24611PkyzTcnBbnp3e5L3vO6SSH1McNWe6SG8aTCWtlijcQKBijjCLA==
+X-Received: by 2002:a05:6214:1d2f:b0:6e4:2e5b:8d3f with SMTP id 6a1803df08f44-6eb349d1a0bmr59972906d6.14.1742480708068;
+        Thu, 20 Mar 2025 07:25:08 -0700 (PDT)
+Received: from rowland.harvard.edu (nat-65-112-8-24.harvard-secure.wrls.harvard.edu. [65.112.8.24])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eade209beesm94796156d6.10.2025.03.20.07.25.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Mar 2025 07:25:07 -0700 (PDT)
+Date: Thu, 20 Mar 2025 10:25:05 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: =?utf-8?B?55m954OB5YaJ?= <baishuoran@hrbeu.edu.cn>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Kun Hu <huk23@m.fudan.edu.cn>, Jiaji Qin <jjtan24@m.fudan.edu.cn>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, syzkaller@googlegroups.com
+Subject: Re: WARNING in cm109_urb_irq_callback/usb_submit_urb
+Message-ID: <a3f66f2e-a99e-47f2-a3ef-742b6903cc5d@rowland.harvard.edu>
+References: <559eddf1.5c68.195b1d950ef.Coremail.baishuoran@hrbeu.edu.cn>
+ <62d91b68-2137-4a3a-a78a-c765402edd35@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3818.100.11.1.3\))
-Subject: Re: WARNING in cm109_urb_irq_callback/usb_submit_urb
-From: =?utf-8?B?6IOh54Sc?= <huk23@m.fudan.edu.cn>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <62d91b68-2137-4a3a-a78a-c765402edd35@suse.com>
-Date: Thu, 20 Mar 2025 22:16:07 +0800
-Cc: =?utf-8?B?55m954OB5YaJ?= <baishuoran@hrbeu.edu.cn>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- "jjtan24@m.fudan.edu.cn" <jjtan24@m.fudan.edu.cn>,
- linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org,
- syzkaller@googlegroups.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <E720A166-B87D-49C3-BD89-FC09694D3721@m.fudan.edu.cn>
-References: <559eddf1.5c68.195b1d950ef.Coremail.baishuoran@hrbeu.edu.cn>
- <62d91b68-2137-4a3a-a78a-c765402edd35@suse.com>
-To: Oliver Neukum <oneukum@suse.com>
-X-Mailer: Apple Mail (2.3818.100.11.1.3)
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpsz:m.fudan.edu.cn:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MoDvVhotnPBEQdOczHKalWZc/d74TdNh6kqey4zIsae5LTBmOXkGxfrJ
-	IhMGR16aMXMKVpmBv2M4t4oTdGCl4K1NdWxxWVS0yXuC6aYkPXltumANXrpeKr+qSQt+A1T
-	ZYJy2CDim7D+Iujh2YEVjW4vNeOqzpdtF+KNkLWnHOt8A0e1ftsUINV7uOV9KnQy/c5oJXI
-	Ih0SzICakhXKstRHDTWfe5JB6FAiuwGCfZxLahkRS0xv5z1Qxvp+2LlZeCNseiFh98Dmux9
-	nz70n3GuyzwPK6M2hxOnzMaeaXZG+xyVmrv8m+Y7yYLDJ/Zpy4ejWDNGIXFw1yJvvZdJ/ZX
-	UBLpbQV36raghIFkChRT0SyvDD8CtQwbl7w/si/YnJ2CFyed/XD6hfg11hhQfroull8uKDK
-	WURIq85EtFVcmXJEPEbADOL35VqaavWE0V5gKnharjOvXZe9UqvGyhOqp71sKzHd6D0YSIP
-	YUQ768d1cUbHhXEAxM8HQmnB04Ln/D2jNhgUxO/z+sh6zBLlvDOdlmxG1/U+ODAWezPg1H5
-	b3xoWqjbbOyifYmuRzDJ1K0cjADb5brzCRwUhMJYTCKjkK8jXK10RYT8+vW1cgP0zo5X475
-	fYLvgI0fDLhIiNe2UamM1RgyTkK2o9Zx3ey1nTBqVvJMRBL3YCstbm6DiEhzyWcSUABSB0m
-	zz1rTe/tT9tiun5qQ7hr3TaWvwIc/bCZN3kcKFYrwSRnjSKBOKDFiC4rohK+fCxNnZP5OXV
-	tpiSA8rNRGa4xP/eS1p9gBM2NaJHwCH+RVm/6jZbjyZlEHm/2hHUB2KH/3aGTcuhUA0hV2N
-	n9rlRzirMEe0s4GPq3X7+RCkhI3ekLs4nji8mKlFZBsOLAGET3H8ZMMVsmdkfqEzQWGe9aK
-	sqLamSg9BCJ+I/K9zU+zeN047EzZ9QNJzqgXSgDb/CCn0xHq9bihBxMstbX82tW1ERrE0EF
-	7pQ99zoantfAGUTnKSUNzmG7tz7OaTReVblDhy5b2a7qxMQ==
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-X-QQ-RECHKSPAM: 0
 
-
-
-> 2025=E5=B9=B43=E6=9C=8820=E6=97=A5 21:35=EF=BC=8COliver Neukum =
-<oneukum@suse.com> =E5=86=99=E9=81=93=EF=BC=9A
->=20
->=20
-> On 20.03.25 05:39, =E7=99=BD=E7=83=81=E5=86=89 wrote:
->> Dear Maintainers,
->> When using our customized Syzkaller to fuzz the latest Linux kernel, =
-the following crash (94th)was triggered.
->=20
+On Thu, Mar 20, 2025 at 02:35:23PM +0100, Oliver Neukum wrote:
+> 
+> 
+> On 20.03.25 05:39, 白烁冉 wrote:
+> > Dear Maintainers,
+> > 
+> > When using our customized Syzkaller to fuzz the latest Linux kernel, the following crash (94th)was triggered.
+> > 
+> 
 > Hi,
->=20
+> 
 > is there a way to use the syzkaller for testing a patch?
->=20
-> Regards
-> Oliver
-> <0001-USB-cm109-fix-race-between-restarting-and-close.patch>
+> 
+> 	Regards
+> 		Oliver
 
+> From 03d78ca8c47c8c888df7c7ae2c7109825799d236 Mon Sep 17 00:00:00 2001
+> From: Oliver Neukum <oneukum@suse.com>
+> Date: Thu, 20 Mar 2025 14:29:17 +0100
+> Subject: [PATCH] USB: cm109: fix race between restarting and close
+> 
+> cm109_input_close() can race with cm109_restore_state()
+> Hence cm109_submit_buzz_toggle() needs to check
+> the shutdown flag
+> 
+> Signed-off-by: Oliver Neukum <oneukum@suse.com>
+> ---
+>  drivers/input/misc/cm109.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/input/misc/cm109.c b/drivers/input/misc/cm109.c
+> index 0cfe5d4a573c..8ae62b5e45f6 100644
+> --- a/drivers/input/misc/cm109.c
+> +++ b/drivers/input/misc/cm109.c
+> @@ -348,6 +348,8 @@ static void cm109_submit_buzz_toggle(struct cm109_dev *dev)
+>  	else
+>  		dev->ctl_data->byte[HID_OR0] &= ~BUZZER_ON;
+>  
+> +	if (dev->shutdown)
+> +		return;
 
-Thanks,
+This test must itself be subject to the same race, right?  There needs 
+to be some kind of synchronization between the two tasks (i.e., a mutex, 
+spinlock, or something similar).
 
-I=E2=80=99ll test the patch for multiple rounds to check if it works.
+Alan Stern
 
-Best,
-Kun=
+>  	error = usb_submit_urb(dev->urb_ctl, GFP_ATOMIC);
+>  	if (error)
+>  		dev_err(&dev->intf->dev,
+> -- 
+> 2.48.1
 
