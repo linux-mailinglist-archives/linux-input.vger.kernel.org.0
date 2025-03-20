@@ -1,170 +1,265 @@
-Return-Path: <linux-input+bounces-11002-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11003-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8204DA6A0DB
-	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 08:56:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE53DA6A14E
+	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 09:27:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D585F7AD0EE
-	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 07:55:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 419ED7A33D0
+	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 08:26:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78547204851;
-	Thu, 20 Mar 2025 07:56:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C656620FA98;
+	Thu, 20 Mar 2025 08:27:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="A2d7DrN7"
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="INUCbk5q"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED231E3769;
-	Thu, 20 Mar 2025 07:56:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0257920D519;
+	Thu, 20 Mar 2025 08:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742457370; cv=none; b=AF7QRjiw+EC47/A1FMNw+TJu8KLqbjGEqMbjslp+/8Aooc7KGruv14DDnHh/R+gDBFDJeDgI2qN0a/oBf1KiZmqvEu5tN0VKfTbXtjl22KDXPG4s+EK1WT+23ovHQg99sMPFuJ610YmzVwmRi6A384SrSVbAVV2lXEOWyvzQs5I=
+	t=1742459230; cv=none; b=ugCH1nPSf0GsOvCEIrTTozECq6uWIFrW9UxLRrbGqu3XIhbsiuDjftczWgJmjauvQrEriHkanfGcAwDBy+fnwR2vZt0cIvC4A/MQP02+Ri71igGb0B9c3GWlR97FWvM5SdhQS2Nh5HpD4a/wyZrXuJ1Y5Tbd687Gx+c1RrudZgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742457370; c=relaxed/simple;
-	bh=COjos0khRUH9y6KLguMtzNcd2P1JRnsqbD84w4Yq88A=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Subject:Cc:
-	 References:In-Reply-To; b=cSYPN5RuRK3JY4ATwvheq3nCjnvD+EuQJ6ejAnQRmFfsz/HpKHH0x+DPWzFZoJF8JCsonF/Vv71/mjhR11tdE1iTFE4zPRVS7Juc+Jsx8Tk/VOjlCB8J+cj0TnAccygopnq8n4JRq2cgNrjyXR61F2UqL3SVjTXnN4QdxGJFHTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=A2d7DrN7; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6614B42E7E;
-	Thu, 20 Mar 2025 07:55:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1742457358;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8twcIz9qrGerD1E+A0oaKwo2dI3Ee3wQa3t5hEGonhc=;
-	b=A2d7DrN7hvTOb7mYRP1SiVjjzU8D1VxR1xAMCzM9im2Fv5+IHM0w2NF+vgW0SGill6O0la
-	uJ+Aq+rn6j2LWEl4zMPhYaaJ0HimXIl//j3wMyjQVZRQ2eithV4ijnZC3XTkE88Za5XqDo
-	rNpFAF4U7daZWXhhTGWDBE8YpmIHJniXgwsdcU8FaE6jZm8s36mZEhjQFy0mOyN4rLCnke
-	pv5TIhQk9v/bHrTYfh2vzoIN3kNQJnyydHUg2HnwcwtzXJ55wtluki4YiMxd7MJ/MlPwRG
-	pUqOj8cimOFmE3pzF9/jrL4YVJeoC1lKtgN6DaMHnU1BNcS+/Fzc/nAWkZJyFQ==
+	s=arc-20240116; t=1742459230; c=relaxed/simple;
+	bh=UphgpuAPMf3tf7KQM2Boilb2G7jKlAXNIWMYx3DdvMM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YJBSGJmV/m2ZfGf/CGwRDMoH2RQYucZ7/lNAN1WFJVHUnHjQYFAJ43eoBmDoOJIJ3Tv0sq85xzvxCh/KAsBjpK5y6eQfKyj32+lgHF/EjLPbbe4k/skV5J/hdsn1HWEa/FJJGtAkatrFKHUgvwBglpPSqnteJORXBFGH65XFDZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=INUCbk5q; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 30ECD2E086E4;
+	Thu, 20 Mar 2025 10:27:01 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1742459223;
+	bh=cGT8Npx0AQvi1FCK0MCkuVQ1ID1zQgypm7GeoNfZDgI=;
+	h=Received:From:Subject:To;
+	b=INUCbk5qzlJs4QgOMoKRR+7FwiRboPDHDHeMAGmLyU8fTkoe02rht/wwAPCLMxFAD
+	 Ze6ZRbPuXLhPqL8HHfc3i/iUSVhZVnPqmLb2LQnWhl5mvQV4mKMQTvKob52wW3rusn
+	 RTHYLd39RoxJ6wW6GIXC+B+cyffg+dfo+0+xLVYU=
+Authentication-Results: linux1587.grserver.gr;
+        spf=pass (sender IP is 209.85.208.173) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f173.google.com
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f173.google.com with SMTP id
+ 38308e7fff4ca-307c13298eeso6110181fa.0;
+        Thu, 20 Mar 2025 01:27:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVcrjy0zHsROE85x3P0YH6JUnBx7kOLaWXH9mroUM+yhujwkEN6IHb4u4eXtZ6+S2HwOCScP0dpvPg9Ng==@vger.kernel.org,
+ AJvYcCX0ao4ITCod0ffrsFsFpU4ThEH7fpFUtVe45XEuoRvpGadQHXr+pV8ojA8NEocIVA3VmjdYkJAyMBNJKzfd@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJOgL3r1e0y7ba9xlQJYiHkBaotYgCmgZlCna/L4EDr6A6InYi
+	xh0KOajAJbjSoLffF3B0fWBwapkB5NB4ceF7bX/+f5//sZwoxtSqnZGZR6yDXZN7PJt4XozIj7Q
+	2EFb5eN7uwuFap0KVaeS4PAL1myc=
+X-Google-Smtp-Source: 
+ AGHT+IFb6NXzWVly1BTXf5EamfZpu1xsr1fWnjr2cAli/V2e3+3qw/aVgKYYNiacfad7jo2065ylnm070JzKFec3PlQ=
+X-Received: by 2002:a2e:b8cb:0:b0:30c:1aa6:5565 with SMTP id
+ 38308e7fff4ca-30d727d4064mr9007151fa.20.1742459220412; Thu, 20 Mar 2025
+ 01:27:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20250319191320.10092-1-lkml@antheas.dev>
+ <bbc18a3d-fd01-420c-b616-4a1757d4e8ed@app.fastmail.com>
+In-Reply-To: <bbc18a3d-fd01-420c-b616-4a1757d4e8ed@app.fastmail.com>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Thu, 20 Mar 2025 09:26:48 +0100
+X-Gmail-Original-Message-ID: 
+ <CAGwozwF1agMaBdxNjc8uox0GfH1D4wtiFPF6QiibMsTaeeYf_g@mail.gmail.com>
+X-Gm-Features: AQ5f1Jpv3uklShMQoOBKUA46PXrDKs26BnmQHdtXh2sndA444q0vhOug4rTOans
+Message-ID: 
+ <CAGwozwF1agMaBdxNjc8uox0GfH1D4wtiFPF6QiibMsTaeeYf_g@mail.gmail.com>
+Subject: Re: [PATCH 00/11] HID: asus: hid-asus and asus-wmi backlight
+ unification, Z13 QOL improvements
+To: Luke Jones <luke@ljones.dev>
+Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+ Corentin Chary <corentin.chary@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 20 Mar 2025 08:55:57 +0100
-Message-Id: <D8KXKZ53OKGH.4LG4L2LRY9XS@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Andy Shevchenko" <andriy.shevchenko@intel.com>
-Subject: Re: [PATCH v5 06/11] gpio: regmap: Allow to allocate regmap-irq
- device
-Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>, "Linus
- Walleij" <linus.walleij@linaro.org>, "Bartosz Golaszewski" <brgl@bgdev.pl>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, "Michael Walle"
- <mwalle@kernel.org>, "Mark Brown" <broonie@kernel.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, =?utf-8?q?Gr=C3=A9gory_Clement?=
- <gregory.clement@bootlin.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20250318-mdb-max7360-support-v5-0-fb20baf97da0@bootlin.com>
- <20250318-mdb-max7360-support-v5-6-fb20baf97da0@bootlin.com>
- <Z9mksuMAlNCa447h@smile.fi.intel.com>
-In-Reply-To: <Z9mksuMAlNCa447h@smile.fi.intel.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugeejieeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkhffvufevofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehvedtkeffueelheektddvjefhiefhgedtudevgeehvdevlefgveetkeevleelteenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegvtdgrmegrieeimeefudektdemtgdtsggvmegslegrkeemvgehledvmeeirgeffhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemrgeiieemfedukedtmegttdgsvgemsgelrgekmegvheelvdemiegrfehfpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvvddprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehinhhtvghlrdgtohhmpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhor
- hhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgrmhgvlhdrsghouhhhrghrrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopegsrhhglhessghguggvvhdrphhl
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+X-PPP-Message-ID: 
+ <174245922164.8458.8395070378525584835@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
-On Tue Mar 18, 2025 at 5:52 PM CET, Andy Shevchenko wrote:
-> On Tue, Mar 18, 2025 at 05:26:22PM +0100, Mathieu Dubois-Briand wrote:
-> > GPIO controller often have support for IRQ: allow to easily allocate
-> > both gpio-regmap and regmap-irq in one operation.
+On Thu, 20 Mar 2025 at 07:10, Luke Jones <luke@ljones.dev> wrote:
 >
-> ...
+> Hi Antheas,
 >
-> > -	if (config->irq_domain) {
-> > -		ret =3D gpiochip_irqchip_add_domain(chip, config->irq_domain);
+> On Thu, 20 Mar 2025, at 8:13 AM, Antheas Kapenekakis wrote:
+> > This is a three part series that does the following: first, it cleans u=
+p
+> > the hid-asus driver initialization, preventing excess renames and dmesg
+> > errors on ROG devices. Then, it adds support for the Z13 2025 keyboard,
+> > by fixing its keyboard to not be stuck in BIOS mode and enabling its fa=
+n
+> > key. Finally, the bigger piece of this series is the unification of the
+> > backlight controls between hid-asus and asus-wmi.
+> >
+> > This requires some context. First, some ROG devices expose both WMI and
+> > HID controls for RGB. In addition, some ROG devices (such as the Z13)
+> > have two AURA devices where both have backlight controls (lightbar and
+> > keyboard). Under Windows, Armoury Crate exposes a single brightness con=
+trol
+> > for all Aura devices.
+> >
+> > However, currently in the linux kernel this is not the case, with asus-=
+wmi
+> > and hid-asus relying on a quirk system to figure out which should contr=
+ol
+> > the backlight. But what about the other one? There might be silent
+> > regressions such as part of the RGB of the device not responding proper=
+ly.
+> >
+> > In the Z13, this is the case, with a race condition causing the lightba=
+r
+> > to control the asus::kbd_backlight device most of the time, with the
+> > keyboard being renamed to asus::kbd_backlight_1 and not doing anything
+> > under KDE controls.
+> >
+> > Here, we should note that most backlight handlers are hardcoded to chec=
+k
+> > for backlight once, and for one backlight, during boot, so any other
+> > solution would require a large rewrite of userspace.
 >
-> > +	irq_domain =3D config->irq_domain;
->
-> Better to move it into #else, so we avoid double assignment (see below).
->
+> This makes me wish there was better standardization. Maybe filing some re=
+ports upstream to those various projects could get the ball rolling?
 
-OK
+I think KDE has some improvements for it for multi-device support. But
+specifically for brightness, it seems that all currently supported
+manufacturers work fine with this so it would be a lot of work just
+for asus to do this through userspace.
 
-> > +#ifdef CONFIG_GPIOLIB_IRQCHIP
-> > +	if (config->regmap_irq_chip) {
-> > +		struct regmap_irq_chip_data *irq_chip_data;
-> > +
-> > +		ret =3D devm_regmap_add_irq_chip_fwnode(config->parent, dev_fwnode(c=
-onfig->parent),
-> > +						      config->regmap, config->regmap_irq_irqno,
-> > +						      config->regmap_irq_flags, 0,
-> > +						      config->regmap_irq_chip, &irq_chip_data);
-> > +		if (ret)
-> > +			goto err_free_gpio;
-> > +
-> > +		irq_domain =3D regmap_irq_get_domain(irq_chip_data);
-> > +		if (config->regmap_irq_chip_data)
-> > +			*config->regmap_irq_chip_data =3D irq_chip_data;
+> > Even when brightness controls are fixed, we still have the problem of t=
+he
+> > backlight key being on/off when controlled by KDE and 0/33/66/100 when
+> > the device has a WMI keyboard. Ideally, we would like the 0/33/66/100 t=
+o
+> > be done under hid as well, regardless of whether the backlight of the
+> > device is controlled by WMI or HID.
+> >
+> > Therefore, this is what the third part of this series does. It sets up
+> > asus-wmi to expose accepting listeners for the asus::kbd_backlight devi=
+ce
+> > and being the one that sets it up. Then, it makes hid-asus devices
+> > register a listener there, so that all of them are controlled by
+> > asus::kbd_backlight. Finally, it adds an event handler for keyboard key=
+s,
+> > so that HID led controls are handled by the kernel instead of userspace=
+.
+> > This way, even when userspace is not active the key works, and we get t=
+he
+> > desired behavior of 0/33/66/100 across all Aura devices (currently, tha=
+t
+> > is keyboards, and embedded devices such as lightbars). This results
+> > removing the quirk system as well, eliminating a point of failure.
 >
-> Hmm... I was under impression that we don't need this to be returned.
-> Do we have any user of it right now? If not, no need to export until
-> it is needed.
+> Nice, I'd been looking at doing something similar but unfortunately hadn'=
+t the time for it, nor the device appropriate for testing (keyboard, detach=
+able, lightbar). TBH I wish there was a much better way in kernel to handle=
+ these sorts of lighting situations, especially given that we have laptops =
+across vendors and models with different modes, zones, per-key, MCU mode vs=
+ software mode etc etc. There is a *very* long thread on lkml bikeshedding =
+it all too - see https://lore.kernel.org/lkml/20231011190017.1230898-1-wse@=
+tuxedocomputers.com/
 >
+> The LampArray thing is out of scope for this, but I thought maybe worth m=
+entioning in case you weren't aware. The major pitfall of it is that per-ke=
+y devices update per-row and when you do a single key update to update a wh=
+ole keyboard it sends N-Key amounts of packets..
+>
+> Off-topic though. But if you have some ideas please email me.
 
-Right, I will remove it.
+For me, I think when it comes to Asus, getting the brightness to work
+is 90% of the way. Then, getting simple RGB that works with KDE but if
+the KDE option is ticked off it defers to other userspace programs
+such as your own is the other 10%.
 
-> > +	}
->
-> 	} else
->
-> > +#endif
->
-> 	irq_domain =3D config->irq_domain;
->
-> > +
-> > +	if (irq_domain) {
-> > +		ret =3D gpiochip_irqchip_add_domain(chip, irq_domain);
-> >  		if (ret)
-> >  			goto err_remove_gpiochip;
-> >  	}
->
-> ...
->
-> > +#ifdef CONFIG_GPIOLIB_IRQCHIP
-> > +	struct regmap_irq_chip *regmap_irq_chip;
-> > +	struct regmap_irq_chip_data **regmap_irq_chip_data;
->
-> But why double pointer?
->
+And for that, I think having hid-asus create its own handlers in
+addition to the one for backlight in WMI would be appropriate
 
-I believe this has to be a double pointer, as it is going to be assigned
-a pointer value: data buffer is allocated inside of
-devm_regmap_add_irq_chip_fwnode().
-
-But as you said, it's better to remove it and add it later if there is
-an use case.
-
-> > +	int regmap_irq_irqno;
-> > +	unsigned long regmap_irq_flags;
-> > +#endif
-
-Thanks for your review.
-
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+> > I tested this on an Asus Z13 2025, and testing by other devices would b=
+e
+> > appreciated for sure. This series is designed to be transparent to
+> > userspace behavior-wise compared previous kernels, with all existing
+> > laptops either having the same behavior or being better.
+>
+> I have a handful of laptops I can test, including my old GA501, I'll get =
+on it.
+>
+> > The Z13 keyboard folio RGB controls work beautifully, with KDE led
+> > notifications working and doing 0/33/66/100 as expected. This also happ=
+ens
+> > with hotplugging, as the lightbar is always available and keeps the
+> > endpoint alive from boot, even if the folio is not connected (a quirk
+> > can be added later if there is a device where this is not the case).
+>
+> Very good. This will make a lot of folks happy, I suspect the Z13 is goin=
+g to be a very popular device.
+>
+> > The first two parts of the series can also be merged independently of t=
+he
+> > third part, so we can iterate on that more. Perhaps there is a better w=
+ay
+> > to handle this cohesion,
+>
+> After a quick cursory look, this looks good so far. Perhaps after review =
+and iteration you could submit as an independent series to get those parts =
+in quicker - but hey we can cross that when we get to it.
+>
+> > Oh, by the way Luke, I developed this series with a variant of
+> > your Armoury series merged, and only switched to 6.14-v7 for this
+> > submission. You will be happy to know that there are no conflicts :)
+> > (at least with that version from ~January). Also, please factcheck
+> > my initialization sequence is correct in the 0x5d and 0x5e devices
+> > you added when you made that refactor last year. Are those handshakes
+> > needed?
+>
+> I would hope the armoury driver stays out of the way of most things, I tr=
+ied to make it independent. The handshakes are needed for sure, depending o=
+n device it may be partial or more, but it's always been the same ASCII rig=
+ht back to when I first started on this with a 2018 laptop - we never bothe=
+red with the response check though. I do forget what required the 0x5e init=
+, I'll need to check through some old notes.
+>
+> I'll apologize in advance for the time it might take me to review - I'll =
+attempt some now for the smaller patches, but hopefully I can get some time=
+ in this weekend and we can work together to make asus stuff even better.
+>
+> Cheers,
+> Luke.
+>
+> > Antheas Kapenekakis (11):
+> >   HID: asus: refactor init sequence per spec
+> >   HID: asus: cleanup keyboard backlight check
+> >   HID: asus: prevent binding to all HID devices on ROG
+> >   HID: asus: rename keyboard3 to Z13_FOLIO
+> >   HID: asus: add Asus Z13 2025 Fan key
+> >   HID: asus: introduce small delay on Asus Z13 RGB init
+> >   platform/x86: asus-wmi: Add support for multiple kbd RGB handlers
+> >   HID: asus: listen to the asus-wmi brightness device instead of
+> >     creating one
+> >   platform/x86: asus-wmi: remove unused keyboard backlight quirk
+> >   platform/x86: asus-wmi: add keyboard brightness event handler
+> >   HID: asus: add support for the asus-wmi brightness handler
+> >
+> >  drivers/hid/hid-asus.c                     | 220 ++++++++++++---------
+> >  drivers/hid/hid-ids.h                      |   2 +-
+> >  drivers/platform/x86/asus-wmi.c            | 137 +++++++++++--
+> >  include/linux/platform_data/x86/asus-wmi.h |  66 +++----
+> >  4 files changed, 279 insertions(+), 146 deletions(-)
+> >
+> >
+> > base-commit: 4701f33a10702d5fc577c32434eb62adde0a1ae1
+> > --
+> > 2.48.1
 
