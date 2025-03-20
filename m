@@ -1,137 +1,173 @@
-Return-Path: <linux-input+bounces-11005-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11006-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41DBAA6A160
-	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 09:30:28 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D6CA6A176
+	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 09:35:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8B5E882FFA
-	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 08:30:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 74013465141
+	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 08:35:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 472B920AF6C;
-	Thu, 20 Mar 2025 08:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8BDC20B803;
+	Thu, 20 Mar 2025 08:35:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="OJs07coR"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Vs2Zs7IE"
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EC01487E9;
-	Thu, 20 Mar 2025 08:30:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7984D135A53;
+	Thu, 20 Mar 2025 08:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742459423; cv=none; b=rLyaI5H0DLRiff431x/M7+wNad0oKVNOmHjXhHcu3qBnQeA1LZQnpo+3O1ht4jR6P8f2uDkJCb5+nSIwdjA4K0Wl7fxs0do+eoKLN+mOwUHv28YMr26oQ/rH3Os6wijwOKUhqrwC6Ia8Ib8zh7ojrqDr1EHsIiHkQEXAXurYrNk=
+	t=1742459722; cv=none; b=EMvvw6yOUhmTFWac0XaOWqBsFyp9/xzWiIwBJC8XjYF7Kt4/+uVHSp36B/1s/4BDCTt9f9NOB9t8zDVcV/Pp/Qs7dIE37YL2VKeJXfphHQA47id/4YEnWF0dCF3M8o85ktYOJlqFF0HgRXyG6ERDTPICg6hxcSW/xzXqoCOuv/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742459423; c=relaxed/simple;
-	bh=lM8uEMqGloIIhxK8we3YSOHTRitLpbY76DwJKVqm0E8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i+kxfVzV2pn5vg91Ek8xAFRILwqpAIydaqEDkIUMEkxgHOS0aVJJVJPr2cbJqGUEpX9FphhIR3CXvrJ4T5Pxf4xKlrkfcgyWtiicTrSc83OpVEp+B087edQLwoVlVrk1hWTqu0XlNX+Dhd/tO3S9PPOvJwW6tX5GGWMzKGvHvTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=OJs07coR; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id 9F4992E08704;
-	Thu, 20 Mar 2025 10:30:18 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1742459419;
-	bh=ziUOA57vt7GRj6E5P8yVSLpiyhos2lGfmA35dWw4RKQ=;
-	h=Received:From:Subject:To;
-	b=OJs07coRP0qkVVQWNT+V/uyICgTESo9ryX6o8hzD48IwSJBTfwTKXyhJbRe6PgUL6
-	 OzJRZJ16TbAdMISN0p7vzZ9of+t16BvrzgqzFlGpD6CVgiroqya/h4kAPML9bKyJjV
-	 isDIGLDHCeX7xKZ9sq1v796pTLUGHUrtDE70cvj8=
-Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.208.169) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f169.google.com
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-307c13298eeso6138621fa.0;
-        Thu, 20 Mar 2025 01:30:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVMPS17GIVeRw8VdBAfbjzRwT8te04H0sjaC7051Q4Zbp4BjJr5SAH/0J9ZDMj1mnBwDgxy2t1BwI/lrw==@vger.kernel.org,
- AJvYcCXTpMetBctO0T4jCGdEO4NCaef1QQBtzsR7Vou38mgWCPUnjrxweRhPq1I4FLgJteX69yVO/tDnmyLcHuDC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4EjdUbK+aQbt68CZNzqTlkbzzp12D5L/Llpvo1eUTgE0fNtUa
-	3mm3ylRsxeKq1Adiz20fdDmlDMEq2ng1feOkFjSp20qAmMZnzEztgP3o0t5SHimuIdRxPdXNABt
-	Op5Bn9076KRXUkVdst1wXe7E25to=
-X-Google-Smtp-Source: 
- AGHT+IG09r4aPlZS9FtR6xYfWQ819/Rg9PKjIpTRksh0LUYjkf/MLyEpy6CnX91Ix7+RKHE2FaX+3aOiS9tE6pQnZFc=
-X-Received: by 2002:a05:651c:547:b0:308:ee65:7f44 with SMTP id
- 38308e7fff4ca-30d72789e95mr8912211fa.8.1742459417875; Thu, 20 Mar 2025
- 01:30:17 -0700 (PDT)
+	s=arc-20240116; t=1742459722; c=relaxed/simple;
+	bh=sUziqnDx5HipdXEQZzKdU/xJa6kyN7gQKQ+NgAfVeEU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
+	 References:In-Reply-To; b=Lh1Vkfd7e/M7y6M0ZQ85anHZDQjOsDJa1jPrxB8JzBn+WOzsLpW1oWLY6Nl3g1apyaNDGEjOqqSCuSFU0XP0vQMIW/NZg8N60obpRtTqddMCSNCTdT7Z+OobX7w7urZHuOKGaaRnsGtUX1aeX+4w4lSYtUlse2UEFqBnzJnhSkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Vs2Zs7IE; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 63F1E44352;
+	Thu, 20 Mar 2025 08:35:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1742459716;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=akGvbcc/DlR2ufwKb6VM3ncFhbuTbmowB2fKkrdI8X0=;
+	b=Vs2Zs7IEPUnrYZWWQRTcAjYTOYWWnkRbgrKvEU4tI1weTDrwLQd4wPE7ZDzmJKE90Ie4gD
+	oiSV5oiBE1AeC6xRrpAmsRJu7nkHKa2ObeAlOfjz0xjz5MtGs9Yth5fSFLyLD/Fgpu87qJ
+	iyfXg464IGz39lN7lIB1npGQBBed6W1dkioQvarDVMN5sTtQOw6rX+LB4k0/pcAuqh2Awc
+	sF4hHRFk6vNNybfj4F9aXJBRagYyhXJvgRybpKtANdkjJGKZl0llddqEQwFq/uNrfJPwnX
+	KjN4DAMMb4+/k2zAtRvsQNIUF2n8KRrvWcZ25vLbBfZWuuy/FfQI+vMEf/FN1A==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250319191320.10092-1-lkml@antheas.dev>
- <20250319191320.10092-7-lkml@antheas.dev>
- <51c78ba6-9518-4259-85da-d761b031df7f@ljones.dev>
-In-Reply-To: <51c78ba6-9518-4259-85da-d761b031df7f@ljones.dev>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Thu, 20 Mar 2025 09:30:06 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwGsB4UjsHa=CWT2zzbpHx5yPEOtTA9RmVqR1jqMB4_C6Q@mail.gmail.com>
-X-Gm-Features: AQ5f1JouLn7odMmdLAzBP_cRIF3KVlpUpTATrLGK3AEzwIsAOS-pTxSfQUzL9PY
-Message-ID: 
- <CAGwozwGsB4UjsHa=CWT2zzbpHx5yPEOtTA9RmVqR1jqMB4_C6Q@mail.gmail.com>
-Subject: Re: [PATCH 06/11] HID: asus: introduce small delay on Asus Z13 RGB
- init
-To: "Luke D. Jones" <luke@ljones.dev>
-Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <174245941904.26145.17944018537723476768@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 20 Mar 2025 09:35:15 +0100
+Message-Id: <D8KYF2DZOBT4.1337YU51E0ZKH@bootlin.com>
+Subject: Re: [PATCH v5 06/11] gpio: regmap: Allow to allocate regmap-irq
+ device
+Cc: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, <andriy.shevchenko@intel.com>,
+ =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Michael Walle" <mwalle@kernel.org>, "Lee Jones" <lee@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Kamel Bouhara"
+ <kamel.bouhara@bootlin.com>, "Linus Walleij" <linus.walleij@linaro.org>,
+ "Bartosz Golaszewski" <brgl@bgdev.pl>, "Dmitry Torokhov"
+ <dmitry.torokhov@gmail.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, "Mark Brown" <broonie@kernel.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20250318-mdb-max7360-support-v5-0-fb20baf97da0@bootlin.com>
+ <20250318-mdb-max7360-support-v5-6-fb20baf97da0@bootlin.com>
+ <D8K23TCWC5TO.3T1YPKL3G0OY5@kernel.org>
+In-Reply-To: <D8K23TCWC5TO.3T1YPKL3G0OY5@kernel.org>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugeejjeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkufevhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekhfekieeftefhjeetveefudehuddvvdeuvddvudfgfffhveekffethfeuffdtudenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegvtdgrmegrieeimeefudektdemtgdtsggvmegslegrkeemvgehledvmeeirgeffhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemrgeiieemfedukedtmegttdgsvgemsgelrgekmegvheelvdemiegrfehfpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvvddprhgtphhtthhopehmfigrlhhlvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepr
+ hhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgrmhgvlhdrsghouhhhrghrrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopegsrhhglhessghguggvvhdrphhl
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-On Thu, 20 Mar 2025 at 08:12, Luke D. Jones <luke@ljones.dev> wrote:
+On Wed Mar 19, 2025 at 8:15 AM CET, Michael Walle wrote:
+> Hi,
 >
-> On 20/03/25 08:13, Antheas Kapenekakis wrote:
-> > The folio keyboard of the Z13 can get stuck in its BIOS mode, where the
-> > touchpad behaves like a mouse and the keyboard start button is not
-> > reliable if we perform the initialization too quickly. This mostly
-> > happens during boot, and can be verified to be caused by hid-asus
-> > through simple blacklisting. A small delay fixes it.
+> > GPIO controller often have support for IRQ: allow to easily allocate
+> > both gpio-regmap and regmap-irq in one operation.
 > >
-> > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> > Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com=
+>
 > > ---
-> >   drivers/hid/hid-asus.c | 4 ++++
-> >   1 file changed, 4 insertions(+)
+> >  drivers/gpio/gpio-regmap.c  | 23 +++++++++++++++++++++--
+> >  include/linux/gpio/regmap.h | 15 +++++++++++++++
+> >  2 files changed, 36 insertions(+), 2 deletions(-)
 > >
-> > diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> > index 85ae75478b796..5b75ee83ae290 100644
-> > --- a/drivers/hid/hid-asus.c
-> > +++ b/drivers/hid/hid-asus.c
-> > @@ -571,6 +571,10 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
-> >       unsigned char kbd_func;
-> >       int ret;
-> >
-> > +     /* Wait a bit before init to prevent locking the keyboard */
-> > +     if (dmi_match(DMI_PRODUCT_FAMILY, "ROG Flow Z13"))
-> > +             msleep(500);
+> > diff --git a/drivers/gpio/gpio-regmap.c b/drivers/gpio/gpio-regmap.c
+> > index 05f8781b5204..61d5f48b445d 100644
+> > --- a/drivers/gpio/gpio-regmap.c
+> > +++ b/drivers/gpio/gpio-regmap.c
+> > @@ -203,6 +203,7 @@ EXPORT_SYMBOL_GPL(gpio_regmap_get_drvdata);
+> >   */
+> >  struct gpio_regmap *gpio_regmap_register(const struct gpio_regmap_conf=
+ig *config)
+> >  {
+> > +	struct irq_domain *irq_domain;
+> >  	struct gpio_regmap *gpio;
+> >  	struct gpio_chip *chip;
+> >  	int ret;
+> > @@ -280,8 +281,26 @@ struct gpio_regmap *gpio_regmap_register(const str=
+uct gpio_regmap_config *config
+> >  	if (ret < 0)
+> >  		goto err_free_gpio;
+> > =20
+> > -	if (config->irq_domain) {
+> > -		ret =3D gpiochip_irqchip_add_domain(chip, config->irq_domain);
+> > +	irq_domain =3D config->irq_domain;
+> > +#ifdef CONFIG_GPIOLIB_IRQCHIP
+>
+> Why do we need this ifdef?
+>
+
+Hum yes, on second thought we probably need to depend on
+CONFIG_REGMAP_IRQ here.
+
+> > +	if (config->regmap_irq_chip) {
+> > +		struct regmap_irq_chip_data *irq_chip_data;
 > > +
-> >       ret = asus_kbd_init(hdev);
-> >       if (ret < 0)
-> >               return ret;
+> > +		ret =3D devm_regmap_add_irq_chip_fwnode(config->parent, dev_fwnode(c=
+onfig->parent),
+> > +						      config->regmap, config->regmap_irq_irqno,
+> > +						      config->regmap_irq_flags, 0,
+> > +						      config->regmap_irq_chip, &irq_chip_data);
+> > +		if (ret)
+> > +			goto err_free_gpio;
+> > +
+> > +		irq_domain =3D regmap_irq_get_domain(irq_chip_data);
+> > +		if (config->regmap_irq_chip_data)
+> > +			*config->regmap_irq_chip_data =3D irq_chip_data;
 >
-> See my comment on patch 1 about trying a loop with the init
-> request/response as a hopeful way to test readiness.
+> I'm not a fan of misusing the config to return any data. Can we have
+> a normal gpio_regmap_get_...()? Usually, the config is on the stack
+> of the caller, what if you need to get irq_chip_data afterwards?
+> Then your caller has to save it somewhere.
 >
-> Cheers,
-> Luke.
 
-Turns out there isn't an init problem. I have removed this patch from V2.
+Yes, makes sense. As suggested by Andy Shevchenko, I will remove this
+parameter as there is no user today: a way to retrieve it can be added
+later if needed.
 
-It was hid-asus taking control of the touchpad from hid-multitouch. So
-adding HID_GROUP_GENERIC fixes this. I replaced it with that and
-squashed the rename patch alongside it.
+> Also, what is the advantage of this? Your caller doesn't have to
+> call devm_regmap_add_irq_chip_fwnode(), but on the flip side you
+> have to cram all its parameters in the gpio_regmap config. I'd like
+> to keep that small and simple (but still extensible!). IMHO just
+> setting the irq_domain is enough to achieve that.
 
-Antheas
+This was a request from Andy on my previous series.
+
+>
+> -michael
+>
+
+Thanks for your review.
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
