@@ -1,155 +1,129 @@
-Return-Path: <linux-input+bounces-11011-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11012-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01CA8A6A36D
-	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 11:19:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D9CA6A415
+	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 11:50:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6C28D7A94AF
-	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 10:18:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B866146002B
+	for <lists+linux-input@lfdr.de>; Thu, 20 Mar 2025 10:48:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A7BE21481B;
-	Thu, 20 Mar 2025 10:19:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA7F1222593;
+	Thu, 20 Mar 2025 10:48:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YUzMyr+Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O7iLOW5O"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23061EEA56;
-	Thu, 20 Mar 2025 10:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8497C2080D9;
+	Thu, 20 Mar 2025 10:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742465953; cv=none; b=WY6JdFoEFbzHLE3p/TjVBUMDHSNH3koQhgy6rCB34WGl33DWl98jqgp8vK1OEHX3/keDB99JVbpk+lAeSvlDELx/IQIenhs7iY/0niRzN2Tsb6+mUkMrs9hutQLGii+2/DaWWzsFan9LfFp9IArOm1eAMSpiVvPzMPMTn/8tBIA=
+	t=1742467712; cv=none; b=B8CBwvW54leWMUGgqH5SzY9UNAx1kEE5EDJFFW4lLSf7BGD8VyQVhRZJnu84Z0TTZcq3LuIZ1Yvw9yJA8PMsWPqLwBQCE8tbm6jMJNd7RVOQMeHB7Uj9kxLuYByUTzZhOuS7yHU0C+i1qqi4ZZJHs66wU4iByQ/reyBjhtpCvvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742465953; c=relaxed/simple;
-	bh=8WDPQ7/wmjD0kkZAXaPY1dsidVCmiWqFIXWkKeaRNEw=;
+	s=arc-20240116; t=1742467712; c=relaxed/simple;
+	bh=YXf76glTiVLhkyc7lbXE2+pKrx3GYsR3bIlNF0cGzTo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GWeUenCHOpaJz+6vCf3yr3KK3T6Coklp0TSG+/BGAz6tJL8vj/nAy6Ed44zGhkgDrMRMvaO5s7Xd2wJKMFbPVdK8LT6Z7QQfLDiqYnlniSFiSAsukap5R47KI4P4OwWZQ6BS2kd6CuJ/OSvksHA7YeZICphBHwIVEqSS/9x1qCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YUzMyr+Y; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=N4VYU6MZKypxLHA0B4KCYvjTyVPSA6VAKet97azpA5hdGszKZ5iPCKmrydulq8neByUrpEwwbCYOThMem9l212fI7cnLdao1tlbIAYq+4uELQl96f1kf/7qSUhgK3gZshj6GQebDjDAV1Q3+HyTZAs2ijpEjoA3jn7g2eKtYxHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O7iLOW5O; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742465952; x=1774001952;
+  t=1742467711; x=1774003711;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8WDPQ7/wmjD0kkZAXaPY1dsidVCmiWqFIXWkKeaRNEw=;
-  b=YUzMyr+Y/bVgJt92QxYMiPnQtMUpIQMO62HNnKdSKGTPMBe5a+h5f5td
-   AbY0GBj/znuIFWDHihZ2YroXZyuTFLMekz/deztdDNFpChMEdDYC5CO53
-   dh78GhdVUHTM8lKEnhk0OON/Oim1FskTD8jXgkfDJ0QhvDCUn1WfNgsCo
-   nyhpmpFF4aV+apgGA+v8FhFWOJ2n6NTPRHZH/pA4s0WwuE9BGVRc1ct7c
-   49ne9Dp5JfvCNNC4m/HCyV7Mqo4mdUyZCZGlQWNDIBEISs9RrVD7Ee7to
-   VJtnCW03sk/uGf8QQ2TrePY0GwTpRfCETITGYICfzjurANKitCz6l6fVn
-   Q==;
-X-CSE-ConnectionGUID: uaq7BB6oQ8OLr7hQcTjz1A==
-X-CSE-MsgGUID: R50ZMYAGTkmdNewX5WLP/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="66150346"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=YXf76glTiVLhkyc7lbXE2+pKrx3GYsR3bIlNF0cGzTo=;
+  b=O7iLOW5OmmxTKKl8e8BrTlqBfLv9X0YUzA4jKDEjWzrLXxlpUlBaPcQQ
+   7c7tTihnIlYYhmL2jqYjmv/pJHNkqi/ZdRF2e5DtpvVkXXy12xjgoC4Eo
+   zNPf6X81jB4Kw/fsT0aDpbeEXwQGIj32mvg5RKMCj5hAh6SLmnjtt9HXW
+   7cGspFC0gsJmJgbBIVHEGuFMr1bILWl8thHBGea3lixjJCmCrvZbW4xv8
+   +hhQhtR1aJUkHNsbKIMs5tWne0bHynRY0o3AR9wD2qNF3ZgWReqeNjqc5
+   6Rd4eH6a7SixRGwfVnSarSwiFLwHmSXFlFgqBWxMbV6shIbGdLrsDeZXX
+   A==;
+X-CSE-ConnectionGUID: WvGSGFJdS/iEeGU9B2QbDw==
+X-CSE-MsgGUID: 7my3w65pSfGe7m3hchTrXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="55067736"
 X-IronPort-AV: E=Sophos;i="6.14,261,1736841600"; 
-   d="scan'208";a="66150346"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 03:19:11 -0700
-X-CSE-ConnectionGUID: 2aJi/B0kRWybmQ6SvR0Z9w==
-X-CSE-MsgGUID: Hl5aCehrRqeOZpoxMUZ72g==
+   d="scan'208";a="55067736"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 03:48:30 -0700
+X-CSE-ConnectionGUID: 8e2ihiKmRAKcZ+OnwvAfXQ==
+X-CSE-MsgGUID: Pl152daVTTKnuQ8fxUuEhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,261,1736841600"; 
-   d="scan'208";a="128143941"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Mar 2025 03:19:09 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tvCzS-0000Mp-22;
-	Thu, 20 Mar 2025 10:19:06 +0000
-Date: Thu, 20 Mar 2025 18:18:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Antheas Kapenekakis <lkml@antheas.dev>,
-	platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: Re: [PATCH 11/11] HID: asus: add support for the asus-wmi brightness
- handler
-Message-ID: <202503201739.4NJJCyeZ-lkp@intel.com>
-References: <20250319191320.10092-12-lkml@antheas.dev>
+   d="scan'208";a="122778298"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 03:48:24 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1tvDRl-00000004CLa-2QSo;
+	Thu, 20 Mar 2025 12:48:21 +0200
+Date: Thu, 20 Mar 2025 12:48:21 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
+Cc: mathieu.dubois-briand@bootlin.com, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v5 04/11] pwm: max7360: Add MAX7360 PWM support
+Message-ID: <Z9vydaUguJiVaHtU@smile.fi.intel.com>
+References: <20250318-mdb-max7360-support-v5-0-fb20baf97da0@bootlin.com>
+ <20250318-mdb-max7360-support-v5-4-fb20baf97da0@bootlin.com>
+ <Z9qoGmNKcozbIjeH@smile.fi.intel.com>
+ <hinocg3itjqizbmzgaxv6cfnhtus6wbykouiy6pa27cxnjjuuk@l5ppwh7md6ul>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250319191320.10092-12-lkml@antheas.dev>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <hinocg3itjqizbmzgaxv6cfnhtus6wbykouiy6pa27cxnjjuuk@l5ppwh7md6ul>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Antheas,
+On Thu, Mar 20, 2025 at 08:50:00AM +0100, Uwe Kleine-König wrote:
+> On Wed, Mar 19, 2025 at 01:18:50PM +0200, Andy Shevchenko wrote:
+> > On Tue, Mar 18, 2025 at 05:26:20PM +0100, mathieu.dubois-briand@bootlin.com wrote:
 
-kernel test robot noticed the following build errors:
+...
 
-[auto build test ERROR on 4701f33a10702d5fc577c32434eb62adde0a1ae1]
+> > > +	chip = devm_pwmchip_alloc(dev->parent, MAX7360_NUM_PWMS, 0);
+> > 
+> > This is quite worrying. The devm_ to parent makes a lot of assumptions that may
+> > not be realised. If you really need this, it has to have a very good comment
+> > explaining why and object lifetimes.
+> 
+> Pretty sure this is broken. This results for example in the device link
+> being created on the parent. So if the pwm devices goes away a consumer
+> might not notice (at least in the usual way). I guess this was done to
+> ensure that #pwm-cells is parsed from the right dt node? If so, that
+> needs a different adaption. That will probably involve calling
+> device_set_of_node_from_dev().
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Antheas-Kapenekakis/HID-asus-refactor-init-sequence-per-spec/20250320-031740
-base:   4701f33a10702d5fc577c32434eb62adde0a1ae1
-patch link:    https://lore.kernel.org/r/20250319191320.10092-12-lkml%40antheas.dev
-patch subject: [PATCH 11/11] HID: asus: add support for the asus-wmi brightness handler
-config: s390-randconfig-002-20250320 (https://download.01.org/0day-ci/archive/20250320/202503201739.4NJJCyeZ-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503201739.4NJJCyeZ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503201739.4NJJCyeZ-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/hid/hid-asus.c: In function 'asus_event':
->> drivers/hid/hid-asus.c:325:11: error: invalid use of void expression
-       return !asus_brt_event(ASUS_BRT_UP);
-              ^
-   drivers/hid/hid-asus.c:327:11: error: invalid use of void expression
-       return !asus_brt_event(ASUS_BRT_DOWN);
-              ^
-   drivers/hid/hid-asus.c:329:11: error: invalid use of void expression
-       return !asus_brt_event(ASUS_BRT_TOGGLE);
-              ^
-
-
-vim +325 drivers/hid/hid-asus.c
-
-   311	
-   312	static int asus_event(struct hid_device *hdev, struct hid_field *field,
-   313			      struct hid_usage *usage, __s32 value)
-   314	{
-   315		if ((usage->hid & HID_USAGE_PAGE) == 0xff310000 &&
-   316		    (usage->hid & HID_USAGE) != 0x00 &&
-   317		    (usage->hid & HID_USAGE) != 0xff && !usage->type) {
-   318			hid_warn(hdev, "Unmapped Asus vendor usagepage code 0x%02x\n",
-   319				 usage->hid & HID_USAGE);
-   320		}
-   321	
-   322		if (usage->type == EV_KEY && value) {
-   323			switch (usage->code) {
-   324			case KEY_KBDILLUMUP:
- > 325				return !asus_brt_event(ASUS_BRT_UP);
-   326			case KEY_KBDILLUMDOWN:
-   327				return !asus_brt_event(ASUS_BRT_DOWN);
-   328			case KEY_KBDILLUMTOGGLE:
-   329				return !asus_brt_event(ASUS_BRT_TOGGLE);
-   330			}
-   331		}
-   332	
-   333		return 0;
-   334	}
-   335	
+It's an MFD based driver, and MFD core cares about propagating fwnode by
+default. I believe it should just work if we drop that '->parent' part.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
 
