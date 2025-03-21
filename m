@@ -1,71 +1,71 @@
-Return-Path: <linux-input+bounces-11050-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11051-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D7CA6B376
-	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 04:51:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD09DA6B379
+	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 04:52:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E5C5F19C3A4C
-	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 03:51:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 35A1919C3A5A
+	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 03:52:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D30C11E834B;
-	Fri, 21 Mar 2025 03:51:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7581F1E521F;
+	Fri, 21 Mar 2025 03:51:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="dxjFfhun";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aQwIqyC8"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="Y+iVG79n";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="m+clOlaN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B493C00;
-	Fri, 21 Mar 2025 03:51:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76BD81E47B3;
+	Fri, 21 Mar 2025 03:51:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742529089; cv=none; b=fX5m2rnAWoTE17/5HAV5XL6tBDUT1kcPhZEjVZPUmFX2Ymw2dRJnoISq0R+RwTJGngQ8p3JOKi1/BnbWdvke8jUW6HZdCaZwhwKJdoZhhXeoQLHDYe5+xa2/ZqBWdaCBlqIEdnRbB/2j0lJ6UL9vbHuOLxp0mQGemQ0d/Q/8MDQ=
+	t=1742529096; cv=none; b=i4us7M8d8Uo2aifhNd1IqlJjgBBe5GaxQ4NT4H6aaqNDXFDuNkueX1qXuUapa4M6runtSRAvITZVAm0srBcHTCequaXXJcSVvjgfAbUnA7JhwjL9bm0ypin4N7+CJX36fz8Dq5CFwXxcD4hMgKZjGAN6Q0NkF/RTaaoZAVRwRjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742529089; c=relaxed/simple;
-	bh=ul0SCM1a1SBOw+pM4ehI3QlVax89fM+x7Ej8MRTtqNE=;
+	s=arc-20240116; t=1742529096; c=relaxed/simple;
+	bh=fvOcMUj031QPaxcRp6qj/TPOKZull9w0UaqTBkQtnso=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XbXePBcVGyqJ+/OQHBM7LOiREGY1DSqGBMMYRhd4M3m9ESG3lOOv6Y2A8R6tkCy7yqpxLfU9HsuVHmDuB3Gc+CrQge4x5nkXiFlkSk1t71a1sGyyzilshDwN9LEZLA4Dzwt9Jl61OKgn744Tazsi6YU+Im8od44ioeA0VKoiCgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=dxjFfhun; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aQwIqyC8; arc=none smtp.client-ip=202.12.124.151
+	 MIME-Version; b=WFmv3JzTqYx+zm7HDYGbvbzUl4uFYA/H8x/PZ+YxgnnTyXk+sMNQamGoXIsG/efD0obnEAKEF6wgS3D9u78GfTz6Tem4FDQhHmisJm6nPsGpmlJ8Q+lCfnfTMzPcllDsq3Tzxi+PZObnVZOxXq3ZmBLm4p+aI6DYqufzi0dHnjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=Y+iVG79n; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=m+clOlaN; arc=none smtp.client-ip=202.12.124.159
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
-Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id CB8841140162;
-	Thu, 20 Mar 2025 23:51:26 -0400 (EDT)
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 360892540217;
+	Thu, 20 Mar 2025 23:51:33 -0400 (EDT)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Thu, 20 Mar 2025 23:51:27 -0400
+  by phl-compute-03.internal (MEProxy); Thu, 20 Mar 2025 23:51:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
 	:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1742529086; x=
-	1742615486; bh=Y/GhYOg4JqfXJHzGwcRCLvEHQC1zVxrplBNn76M9WLQ=; b=d
-	xjFfhun0lSBpAJWaLXr47xN2g6DW8QrVRkxT8eNlhPZllz6+mBcrfZ49bSKN+jEt
-	IIaj6+XmoX97UTnLKc6J/vuRWLlOC6jKLPR1wZC0l0M/BwlGLC0eWRwXXnZQCl1i
-	UEHoSbkHT+fITATxofGSkxh9pvpTu+/xPQwPfnq+8gi3TW5/Vcs4yag8IY4PKT+e
-	MVOwv+bK57GYP8utxc+rBK8RydoDDFjLgGafpmXK2ncxNlwSik0fwWhmLAb9nQ+u
-	McFVfHejZF3Top1pVxBt0qk7YmTYYz7VJwEXf3hjG162VtANmDtzTc1FTv8K+aYl
-	zNUSw3hOFxY7sgTC5S8ww==
+	:reply-to:subject:subject:to:to; s=fm3; t=1742529093; x=
+	1742615493; bh=QwrDYLKsoP1d8ylieDKDhLNnzEYYlYeNkjCd0HfRToM=; b=Y
+	+iVG79n9tnvmYFiVmMz5Zj6A0hDj0saf6zekz0uiituG/RIYaUpXNLULdnzIqkKf
+	d10iTqLxBYq0DG/MiR5ogtNiIRuN2LSNrTFwyQ0bM96W0TIZOkUC+vmvpgkaVDmm
+	naDav4/ACbsHi3C9COwcErBtHJhEmUyKfFMaf4FQbRBFraiiMvTXbSnE7cz41hkH
+	HHtM+TUVfu58pFeObNwmXHFH2inZxIbnLYb45VHWIKalUdgkAXvZKoF8j321octJ
+	bFDjddpBiNxZp+MMLKGDucsg29J1IDxHnRw5Syx/Lzt7LS6dYrPqZDUxe1UbC5qy
+	EIfzZQVUwgC9WzM//D6uQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1742529086; x=1742615486; bh=Y
-	/GhYOg4JqfXJHzGwcRCLvEHQC1zVxrplBNn76M9WLQ=; b=aQwIqyC8SFYb4FoAa
-	dARvSFmoC9RFJEaGtl6UJ9SBInpAtgPOW2suYJKwODvhH20Pfx/mszSzw/ufpZsp
-	7ekg0qWddEsbzZQInwpC1AXNsYZHogJo9TgEHmjS2wEwl8Ir44oR0C3qVn2wgU5t
-	HQ5h6wjDesAepnWmy0MZpnzYQAziWZrZ3C7iO3NNTrR9HFlOG8wLckcoK8GJboIt
-	/aPDJ6luv04we0ovss7OeAEQsygXbMe277/ZveEL+RM8jjl+GOeur+/rE7GLP1Kn
-	vcgM9vTCGojZmv17UyvS3xT3QgfLFG85pAA0BhUw2bMy4wZuOCuoHU4OOUFTbX2G
-	jc8EA==
-X-ME-Sender: <xms:PuLcZxjswKV-43zcRpSJyErkhIXb_mFVwH5WShahfT56sRIFCvy5rg>
-    <xme:PuLcZ2AyWKVN7TxYOdB0-uU4raDqQcFByohWqO_3i25zcu_sBkuyddqllwL-aoVsL
-    xWHe3OxWOmjaMbUMOc>
-X-ME-Received: <xmr:PuLcZxELsEudVG-U9hjbUJAIQS7Ri_j1LDiX6H6SfVtXjVgN_BJK9tReN9Y-GOuFCLwm4SMNVdPQ-oQcDQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduhedttdehucetufdoteggodetrf
+	:x-me-sender:x-sasl-enc; s=fm1; t=1742529093; x=1742615493; bh=Q
+	wrDYLKsoP1d8ylieDKDhLNnzEYYlYeNkjCd0HfRToM=; b=m+clOlaNJ4Svj4FW3
+	2yrSb2f9s7oB4ot27UHwt93UnAI7qsQGk3IwgMDpf/jDOk4JM0rWoZLdEANJxRdY
+	I2NvlkBWz3RWfXgzKYJDjj1D/hcBsuRlXmOVxSoKaNk4ftIaOMze/wOUGsIkMdgV
+	aYDi3w0luehpY4E/xjGxD7IGbVff/liCq2ff60plEwh9mWKHXSO/pUUhpFNIEFvn
+	pWTb4/PqJt5bINW+n0jQdQ/ZE7YEWZmhTvC2AQGHmWaSPC0J6NE8v7FHvLnJfPZ3
+	n9MnNY1q2VF8aS6E8y3/Bo+FsPLQYfI5Buua2Jn1iNtr4y8SWTw5gmd0t+BXpHM+
+	O/b7w==
+X-ME-Sender: <xms:ROLcZ8QMA0d-Bt8SzFwXA5HqiG9cb7oALvQ_ZBlBfQMIcrqIn_J_Wg>
+    <xme:ROLcZ5yjav4jISxWwksRttet2wdb9grd_sCl9yWbTFeyw5Y0Hoab7Trbw_hhVM-iI
+    EELe_DsZ5sAPZbUJUc>
+X-ME-Received: <xmr:ROLcZ50pljXWLb2WFp_9bjNao_546wWByjZypD01edA9fteMQR8VJlI_joJJ0KFf_ddePv_9c7zrkrnbig>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduhedttdeiucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
     pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
     gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredt
@@ -82,14 +82,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduhedttdehucetufdote
     nhgvlhdrohhrghdprhgtphhtthhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtph
     htthhopehmrghrihhordhlihhmohhntghivghllhhosegrmhgurdgtohhmpdhrtghpthht
     oheplhhkmhhlsegrnhhthhgvrghsrdguvghv
-X-ME-Proxy: <xmx:PuLcZ2RodZqyiHKNN_4tlNfn_RG1kpbmIvnwWWYWy7OkKfQJJGKj3w>
-    <xmx:PuLcZ-wOO3Ad5YKJ15Ll9dGLUv8QlSELr1PgaLWNoO5UhiCSQrTQhg>
-    <xmx:PuLcZ87-A8O-ADtkF85mHBUQL50Kpb8SzIz-BsUgrZwx9Qhq_Lafxw>
-    <xmx:PuLcZzwjJpxCPDTAh1mkwtxUNXtrKriqBuk8qpcjWMTKL_nXeB5u-Q>
-    <xmx:PuLcZydqBQ3KSbzwOoAbxO8argxyeoKzlYeoktwhicgK48Zl6B6XCl5x>
+X-ME-Proxy: <xmx:ROLcZwAy8oE1TVl6HE4d0TBAoLXQE3E-9WKqks297XngpOAPM9YONA>
+    <xmx:ROLcZ1gOT0HbuK-wQxxtJy4TYWGAzyiQT7dwmE-i3waSCwwd2UJQTw>
+    <xmx:ROLcZ8rHkt_QFlhmd6hNsbaFdz3-Mg7YH1MBvazEA2x4z9frvOLlCA>
+    <xmx:ROLcZ4ge1N2LfDMcSqChZ3_Y88x_PyL_yz6Y9HW5IZ4hE3lPSb8Jrw>
+    <xmx:ReLcZ8PS96cg8Il7tVb7pVoROXjLiHqWOdGzB_A71Sz1KyeoHH5NwemR>
 Feedback-ID: i5ec1447f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 20 Mar 2025 23:51:21 -0400 (EDT)
+ 20 Mar 2025 23:51:27 -0400 (EDT)
 From: Luke Jones <luke@ljones.dev>
 To: linux-kernel@vger.kernel.org
 Cc: hdegoede@redhat.com,
@@ -101,9 +101,9 @@ Cc: hdegoede@redhat.com,
 	mario.limonciello@amd.com,
 	lkml@antheas.dev,
 	"Luke D. Jones" <luke@ljones.dev>
-Subject: [PATCH v3 1/2] hid-asus: check ROG Ally MCU version and warn
-Date: Fri, 21 Mar 2025 16:51:05 +1300
-Message-ID: <20250321035106.26752-2-luke@ljones.dev>
+Subject: [PATCH v3 2/2] platform/x86: asus-wmi: Refactor Ally suspend/resume
+Date: Fri, 21 Mar 2025 16:51:06 +1300
+Message-ID: <20250321035106.26752-3-luke@ljones.dev>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250321035106.26752-1-luke@ljones.dev>
 References: <20250321035106.26752-1-luke@ljones.dev>
@@ -117,168 +117,297 @@ Content-Transfer-Encoding: 8bit
 
 From: "Luke D. Jones" <luke@ljones.dev>
 
-ASUS have fixed suspend issues arising from a flag not being cleared in
-the MCU FW in both the ROG Ally 1 and the ROG Ally X.
+Adjust how the CSEE direct call hack is used.
 
-Implement a check and a warning to encourage users to update the FW to
-a minimum supported version.
+The results of months of testing combined with help from ASUS to
+determine the actual cause of suspend issues has resulted in this
+refactoring which immensely improves the reliability for devices which
+do not have the following minimum MCU FW version:
+- ROG Ally X: 313
+- ROG Ally 1: 319
+
+For MCU FW versions that match the minimum or above the CSEE hack is
+disabled and mcu_powersave set to on by default as there are no
+negatives beyond a slightly slower device reinitialization due to the
+MCU being powered off.
+
+As this is set only at module load time, it is still possible for
+mcu_powersave sysfs attributes to change it at runtime if so desired.
 
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
- drivers/hid/hid-asus.c | 107 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 105 insertions(+), 2 deletions(-)
+ drivers/hid/hid-asus.c                     |   4 +
+ drivers/platform/x86/asus-wmi.c            | 130 ++++++++++++++-------
+ include/linux/platform_data/x86/asus-wmi.h |  13 +++
+ 3 files changed, 108 insertions(+), 39 deletions(-)
 
 diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 46e3e42f9eb5..599c836507ff 100644
+index 599c836507ff..66bae5cea4f9 100644
 --- a/drivers/hid/hid-asus.c
 +++ b/drivers/hid/hid-asus.c
-@@ -52,6 +52,10 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
- #define FEATURE_KBD_LED_REPORT_ID1 0x5d
- #define FEATURE_KBD_LED_REPORT_ID2 0x5e
- 
-+#define ROG_ALLY_REPORT_SIZE 64
-+#define ROG_ALLY_X_MIN_MCU 313
-+#define ROG_ALLY_MIN_MCU 319
-+
- #define SUPPORT_KBD_BACKLIGHT BIT(0)
- 
- #define MAX_TOUCH_MAJOR 8
-@@ -84,6 +88,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
- #define QUIRK_MEDION_E1239T		BIT(10)
- #define QUIRK_ROG_NKEY_KEYBOARD		BIT(11)
- #define QUIRK_ROG_CLAYMORE_II_KEYBOARD BIT(12)
-+#define QUIRK_ROG_ALLY_XPAD		BIT(13)
- 
- #define I2C_KEYBOARD_QUIRKS			(QUIRK_FIX_NOTEBOOK_REPORT | \
- 						 QUIRK_NO_INIT_REPORTS | \
-@@ -534,9 +539,99 @@ static bool asus_kbd_wmi_led_control_present(struct hid_device *hdev)
- 	return !!(value & ASUS_WMI_DSTS_PRESENCE_BIT);
+@@ -624,6 +624,9 @@ static void validate_mcu_fw_version(struct hid_device *hdev, int idProduct)
+ 		hid_warn(hdev,
+ 			"The MCU firmware version must be %d or greater to avoid issues with suspend.\n",
+ 			min_version);
++	} else {
++		set_ally_mcu_hack(false);
++		set_ally_mcu_powersave(true);
+ 	}
  }
  
-+/*
-+ * We don't care about any other part of the string except the version section.
-+ * Example strings: FGA80100.RC72LA.312_T01, FGA80100.RC71LS.318_T01
-+ * The bytes "5a 05 03 31 00 1a 13" and possibly more come before the version
-+ * string, and there may be additional bytes after the version string such as
-+ * "75 00 74 00 65 00" or a postfix such as "_T01"
-+ */
-+static int mcu_parse_version_string(const u8 *response, size_t response_size)
-+{
-+	const u8 *end = response + response_size;
-+	const u8 *p = response;
-+	int dots, err, version;
-+	char buf[4];
-+
-+	dots = 0;
-+	while (p < end && dots < 2) {
-+		if (*p++ == '.')
-+			dots++;
-+	}
-+
-+	if (dots != 2 || p >= end || (p + 3) >= end)
-+		return -EINVAL;
-+
-+	memcpy(buf, p, 3);
-+	buf[3] = '\0';
-+
-+	err = kstrtoint(buf, 10, &version);
-+	if (err || version < 0)
-+		return -EINVAL;
-+
-+	return version;
-+}
-+
-+static int mcu_request_version(struct hid_device *hdev)
-+{
-+	u8 *response __free(kfree) = kzalloc(ROG_ALLY_REPORT_SIZE, GFP_KERNEL);
-+	const u8 request[] = { 0x5a, 0x05, 0x03, 0x31, 0x00, 0x20 };
-+	int ret;
-+
-+	if (!response)
-+		return -ENOMEM;
-+
-+	ret = asus_kbd_set_report(hdev, request, sizeof(request));
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = hid_hw_raw_request(hdev, FEATURE_REPORT_ID, response,
-+				ROG_ALLY_REPORT_SIZE, HID_FEATURE_REPORT,
-+				HID_REQ_GET_REPORT);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = mcu_parse_version_string(response, ROG_ALLY_REPORT_SIZE);
-+	if (ret < 0) {
-+		pr_err("Failed to parse MCU version: %d\n", ret);
-+		print_hex_dump(KERN_ERR, "MCU: ", DUMP_PREFIX_NONE,
-+			      16, 1, response, ROG_ALLY_REPORT_SIZE, false);
-+	}
-+
-+	return ret;
-+}
-+
-+static void validate_mcu_fw_version(struct hid_device *hdev, int idProduct)
-+{
-+	int min_version, version;
-+
-+	version = mcu_request_version(hdev);
-+	if (version < 0)
-+		return;
-+
-+	switch (idProduct) {
-+	case USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY:
-+		min_version = ROG_ALLY_MIN_MCU;
-+		break;
-+	case USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY_X:
-+		min_version = ROG_ALLY_X_MIN_MCU;
-+		break;
-+	default:
-+		min_version = 0;
-+	}
-+
-+	if (version < min_version) {
-+		hid_warn(hdev,
-+			"The MCU firmware version must be %d or greater to avoid issues with suspend.\n",
-+			min_version);
-+	}
-+}
-+
- static int asus_kbd_register_leds(struct hid_device *hdev)
- {
- 	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
-+	struct usb_interface *intf;
-+	struct usb_device *udev;
- 	unsigned char kbd_func;
- 	int ret;
+@@ -1430,4 +1433,5 @@ static struct hid_driver asus_driver = {
+ };
+ module_hid_driver(asus_driver);
  
-@@ -560,6 +655,14 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
- 			if (ret < 0)
- 				return ret;
- 		}
++MODULE_IMPORT_NS("ASUS_WMI");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index 38ef778e8c19..10936a091c42 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -142,16 +142,20 @@ module_param(fnlock_default, bool, 0444);
+ #define ASUS_MINI_LED_2024_STRONG	0x01
+ #define ASUS_MINI_LED_2024_OFF		0x02
+ 
+-/* Controls the power state of the USB0 hub on ROG Ally which input is on */
+ #define ASUS_USB0_PWR_EC0_CSEE "\\_SB.PCI0.SBRG.EC0.CSEE"
+-/* 300ms so far seems to produce a reliable result on AC and battery */
+-#define ASUS_USB0_PWR_EC0_CSEE_WAIT 1500
++/*
++ * The period required to wait after screen off/on/s2idle.check in MS.
++ * Time here greatly impacts the wake behaviour. Used in suspend/wake.
++ */
++#define ASUS_USB0_PWR_EC0_CSEE_WAIT	600
++#define ASUS_USB0_PWR_EC0_CSEE_OFF	0xB7
++#define ASUS_USB0_PWR_EC0_CSEE_ON	0xB8
+ 
+ static const char * const ashs_ids[] = { "ATK4001", "ATK4002", NULL };
+ 
+ static int throttle_thermal_policy_write(struct asus_wmi *);
+ 
+-static const struct dmi_system_id asus_ally_mcu_quirk[] = {
++static const struct dmi_system_id asus_rog_ally_device[] = {
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "RC71L"),
+@@ -274,9 +278,6 @@ struct asus_wmi {
+ 	u32 tablet_switch_dev_id;
+ 	bool tablet_switch_inverted;
+ 
+-	/* The ROG Ally device requires the MCU USB device be disconnected before suspend */
+-	bool ally_mcu_usb_switch;
+-
+ 	enum fan_type fan_type;
+ 	enum fan_type gpu_fan_type;
+ 	enum fan_type mid_fan_type;
+@@ -335,6 +336,9 @@ struct asus_wmi {
+ 	struct asus_wmi_driver *driver;
+ };
+ 
++/* Global to allow setting externally without requiring driver data */
++static bool use_ally_mcu_hack;
 +
-+		if (drvdata->quirks & QUIRK_ROG_ALLY_XPAD) {
-+			intf = to_usb_interface(hdev->dev.parent);
-+			udev = interface_to_usbdev(intf);
-+			validate_mcu_fw_version(hdev,
-+				le16_to_cpu(udev->descriptor.idProduct));
-+		}
+ /* WMI ************************************************************************/
+ 
+ static int asus_wmi_evaluate_method3(u32 method_id,
+@@ -549,7 +553,7 @@ static int asus_wmi_get_devstate(struct asus_wmi *asus, u32 dev_id, u32 *retval)
+ 	return 0;
+ }
+ 
+-static int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param,
++int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param,
+ 				 u32 *retval)
+ {
+ 	return asus_wmi_evaluate_method(ASUS_WMI_METHODID_DEVS, dev_id,
+@@ -1343,6 +1347,44 @@ static ssize_t nv_temp_target_show(struct device *dev,
+ static DEVICE_ATTR_RW(nv_temp_target);
+ 
+ /* Ally MCU Powersave ********************************************************/
 +
- 	} else {
- 		/* Initialize keyboard */
- 		ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
-@@ -1280,10 +1383,10 @@ static const struct hid_device_id asus_devices[] = {
- 	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
- 	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY),
--	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-+	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_ALLY_XPAD},
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
- 	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY_X),
--	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-+	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_ALLY_XPAD },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
- 	    USB_DEVICE_ID_ASUSTEK_ROG_CLAYMORE_II_KEYBOARD),
- 	  QUIRK_ROG_CLAYMORE_II_KEYBOARD },
++/*
++ * The HID driver needs to check MCU version and set this to false if the MCU FW
++ * version is >= the minimum requirements. New FW do not need the hacks.
++ */
++void set_ally_mcu_hack(bool enabled)
++{
++	use_ally_mcu_hack = enabled;
++	pr_debug("%s Ally MCU suspend quirk\n",
++		 enabled ? "Enabled" : "Disabled");
++}
++EXPORT_SYMBOL_NS_GPL(set_ally_mcu_hack, "ASUS_WMI");
++
++/*
++ * mcu_powersave should be enabled always, as it is fixed in MCU FW versions:
++ * - v313 for Ally X
++ * - v319 for Ally 1
++ * The HID driver checks MCU versions and so should set this if requirements match
++ */
++void set_ally_mcu_powersave(bool enabled)
++{
++	int result, err;
++
++	err = asus_wmi_set_devstate(ASUS_WMI_DEVID_MCU_POWERSAVE, enabled, &result);
++	if (err) {
++		pr_warn("Failed to set MCU powersave: %d\n", err);
++		return;
++	}
++	if (result > 1) {
++		pr_warn("Failed to set MCU powersave (result): 0x%x\n", result);
++		return;
++	}
++
++	pr_debug("%s MCU Powersave\n",
++		 enabled ? "Enabled" : "Disabled");
++}
++EXPORT_SYMBOL_NS_GPL(set_ally_mcu_powersave, "ASUS_WMI");
++
+ static ssize_t mcu_powersave_show(struct device *dev,
+ 				   struct device_attribute *attr, char *buf)
+ {
+@@ -4711,6 +4753,18 @@ static int asus_wmi_add(struct platform_device *pdev)
+ 	if (err)
+ 		goto fail_platform;
+ 
++	use_ally_mcu_hack = acpi_has_method(NULL, ASUS_USB0_PWR_EC0_CSEE)
++				&& dmi_check_system(asus_rog_ally_device);
++	if (use_ally_mcu_hack && dmi_match(DMI_BOARD_NAME, "RC71")) {
++		/*
++		 * These steps ensure the device is in a valid good state, this is
++		 * especially important for the Ally 1 after a reboot.
++		 */
++		acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE,
++					   ASUS_USB0_PWR_EC0_CSEE_ON);
++		msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
++	}
++
+ 	/* ensure defaults for tunables */
+ 	asus->ppt_pl2_sppt = 5;
+ 	asus->ppt_pl1_spl = 5;
+@@ -4723,8 +4777,6 @@ static int asus_wmi_add(struct platform_device *pdev)
+ 	asus->egpu_enable_available = asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_EGPU);
+ 	asus->dgpu_disable_available = asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_DGPU);
+ 	asus->kbd_rgb_state_available = asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_TUF_RGB_STATE);
+-	asus->ally_mcu_usb_switch = acpi_has_method(NULL, ASUS_USB0_PWR_EC0_CSEE)
+-						&& dmi_check_system(asus_ally_mcu_quirk);
+ 
+ 	if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_MINI_LED_MODE))
+ 		asus->mini_led_dev_id = ASUS_WMI_DEVID_MINI_LED_MODE;
+@@ -4910,34 +4962,6 @@ static int asus_hotk_resume(struct device *device)
+ 	return 0;
+ }
+ 
+-static int asus_hotk_resume_early(struct device *device)
+-{
+-	struct asus_wmi *asus = dev_get_drvdata(device);
+-
+-	if (asus->ally_mcu_usb_switch) {
+-		/* sleep required to prevent USB0 being yanked then reappearing rapidly */
+-		if (ACPI_FAILURE(acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE, 0xB8)))
+-			dev_err(device, "ROG Ally MCU failed to connect USB dev\n");
+-		else
+-			msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+-	}
+-	return 0;
+-}
+-
+-static int asus_hotk_prepare(struct device *device)
+-{
+-	struct asus_wmi *asus = dev_get_drvdata(device);
+-
+-	if (asus->ally_mcu_usb_switch) {
+-		/* sleep required to ensure USB0 is disabled before sleep continues */
+-		if (ACPI_FAILURE(acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE, 0xB7)))
+-			dev_err(device, "ROG Ally MCU failed to disconnect USB dev\n");
+-		else
+-			msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+-	}
+-	return 0;
+-}
+-
+ static int asus_hotk_restore(struct device *device)
+ {
+ 	struct asus_wmi *asus = dev_get_drvdata(device);
+@@ -4978,11 +5002,34 @@ static int asus_hotk_restore(struct device *device)
+ 	return 0;
+ }
+ 
++static void asus_ally_s2idle_restore(void)
++{
++	if (use_ally_mcu_hack) {
++		acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE,
++					   ASUS_USB0_PWR_EC0_CSEE_ON);
++		msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
++	}
++}
++
++static int asus_hotk_prepare(struct device *device)
++{
++	if (use_ally_mcu_hack) {
++		acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE,
++					   ASUS_USB0_PWR_EC0_CSEE_OFF);
++		msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
++	}
++	return 0;
++}
++
++/* Use only for Ally devices due to the wake_on_ac */
++static struct acpi_s2idle_dev_ops asus_ally_s2idle_dev_ops = {
++	.restore = asus_ally_s2idle_restore,
++};
++
+ static const struct dev_pm_ops asus_pm_ops = {
+ 	.thaw = asus_hotk_thaw,
+ 	.restore = asus_hotk_restore,
+ 	.resume = asus_hotk_resume,
+-	.resume_early = asus_hotk_resume_early,
+ 	.prepare = asus_hotk_prepare,
+ };
+ 
+@@ -5010,6 +5057,10 @@ static int asus_wmi_probe(struct platform_device *pdev)
+ 			return ret;
+ 	}
+ 
++	ret = acpi_register_lps0_dev(&asus_ally_s2idle_dev_ops);
++	if (ret)
++		pr_warn("failed to register LPS0 sleep handler in asus-wmi\n");
++
+ 	return asus_wmi_add(pdev);
+ }
+ 
+@@ -5042,6 +5093,7 @@ EXPORT_SYMBOL_GPL(asus_wmi_register_driver);
+ 
+ void asus_wmi_unregister_driver(struct asus_wmi_driver *driver)
+ {
++	acpi_unregister_lps0_dev(&asus_ally_s2idle_dev_ops);
+ 	platform_device_unregister(driver->platform_device);
+ 	platform_driver_unregister(&driver->platform_driver);
+ 	used = false;
+diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+index 783e2a336861..9ca408480502 100644
+--- a/include/linux/platform_data/x86/asus-wmi.h
++++ b/include/linux/platform_data/x86/asus-wmi.h
+@@ -158,8 +158,21 @@
+ #define ASUS_WMI_DSTS_LIGHTBAR_MASK	0x0000000F
+ 
+ #if IS_REACHABLE(CONFIG_ASUS_WMI)
++void set_ally_mcu_hack(bool enabled);
++void set_ally_mcu_powersave(bool enabled);
++int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval);
+ int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
+ #else
++static inline void set_ally_mcu_hack(bool enabled)
++{
++}
++static inline void set_ally_mcu_powersave(bool enabled)
++{
++}
++static inline int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval)
++{
++	return -ENODEV;
++}
+ static inline int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1,
+ 					   u32 *retval)
+ {
 -- 
 2.49.0
 
