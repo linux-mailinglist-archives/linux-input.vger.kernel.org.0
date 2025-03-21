@@ -1,34 +1,34 @@
-Return-Path: <linux-input+bounces-11058-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11059-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BBF9A6C29E
-	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 19:40:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7583A6C2A4
+	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 19:40:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5DFBD3B7B75
-	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 18:40:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C027189EEE1
+	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 18:40:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D295122FE17;
-	Fri, 21 Mar 2025 18:40:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A72722FF41;
+	Fri, 21 Mar 2025 18:40:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c3P4mNjN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W6j8OeVQ"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2001A22F15E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33E422FDEE;
 	Fri, 21 Mar 2025 18:40:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742582404; cv=none; b=HAEtwWO+6j+4NKlzWAOifLgqSKK8dcWGVvwFFo7K3Qa0bHrjKkqw/+Tih6yYCiyO0mJT6bHsaISPhoxpBEN/AwCcbD1KX9Lgpm/XoEmmiFQO2M76hfq02LkwSIO/JkPx09EikYqHavak4+6rl+YlBkiW72U3nFSqCBgrKEFtFMo=
+	t=1742582405; cv=none; b=Db1SewChu7RSvNy+aImqDUcoKBsvRB5HKDlO3lyKahaBjnEwWFJj8KsoZ84vRtpvBoHFC65A//HTEuyl3ljEidfTZ3xEtgucqDMKLbkzWzpk96bPB/Xf6k7SgWlmNsVfkbbZkLtwx12huIaKK5lRYW36PwMVwUbD+DBoip01RZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742582404; c=relaxed/simple;
-	bh=w92w8TSyFieWZo0U810gsK3z/XuQidLvqgnyWqkbBZs=;
+	s=arc-20240116; t=1742582405; c=relaxed/simple;
+	bh=qwFfDqNHPdLRRnwRsODwWrfD4a77T7dH0CDqJSAlhC4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gCpQqaVbItkrV45GuH2/bLyjyJkNJof3WeCK0S+3fM+MJeS+PzZq6s/7ClRSd8CYQErtnoYomS1mzjnoS9+o6NvWX6UipezoVlwzZisThfc5nLAtJMqooBbj4rSH7lIaWEi7wxipCwdCHExieERW3X0D+/PbbKXom5whj+R2SZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c3P4mNjN; arc=none smtp.client-ip=192.198.163.15
+	 MIME-Version; b=rgflFuoU/+TfeJ7bYYVe0kKiMbt+bd7kTvzXvI0teCmulXxzDnfItyq6dPIN00+0aSIzQmY2Lve1eGV1IIhTboDuExoyZHONFvuYYpczTsy7WapBeEocC74qqab8DKwBdVcDbQC+k2HXxSAgVgb/AYuuA6ekKhxxNMUZH7lVOts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W6j8OeVQ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
@@ -36,38 +36,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   t=1742582403; x=1774118403;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=w92w8TSyFieWZo0U810gsK3z/XuQidLvqgnyWqkbBZs=;
-  b=c3P4mNjNwMIEp2xPSTs8N5O+LXnzr0F0SwifvUZ7zgVJUoKbf1fbK/X2
-   PmEbUdC78pbq+58xO4SlZfTJIiHQ2LNOqB8u6Lmx7RfAYcOaDNVetOcUW
-   SSd+nE6dLPshWcrsFL27JReVUFD8++kU4pBEO+oSm8QQXTHr4m2cOqWmv
-   GwZE98vJLqQpPyynVOwXMsv2lZXQRC3g8ksv7JxBhREXGOabY4lQmhkNj
-   n7Drmk3qJJI0cpxvaBQEFutWIPEYFgwzRF5lPn1kr6iVphtXGpWi8zNzv
-   osnOygqbBqiXsEwVM9ItqWUgkYTS1eaHy/DSuh6dA1R4qoXL2OGmaxqVp
-   A==;
-X-CSE-ConnectionGUID: lEr5EIedT+C529N0aaGtsg==
-X-CSE-MsgGUID: BrD/TT0+TSa6vgcokieq2Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="43986457"
+  bh=qwFfDqNHPdLRRnwRsODwWrfD4a77T7dH0CDqJSAlhC4=;
+  b=W6j8OeVQ9zknguV5blm1oPOM9va1Wrj4HoHVIg5UBvmVSu+LRduqXBsP
+   VSuCkJCXCH7GfBo41+fw1uAFUtXQRq8Lj2PJ7NT7JzQ/kSi6au2oENGvu
+   9Cqwto5243rk4/1ALjjfgF71drJ52H2mmQoYHPY8Yt/GdjhL6nmrQvTGL
+   O90kIW7zv+2gfuEp13Uq8Ntts3ymSQ9GXCL+bP0eQ60csQQjmkCAFLK8K
+   P4HcaDJL6xksxxGbXnS/sDBFGiLEfyIUsHCbRGNmyH3qvbOwO35L7xSyv
+   WWZPk0/hGpHp7V8uu7/141KkXGng2VgYJxeeZuqTInD3JQo6fsOmiM97Y
+   Q==;
+X-CSE-ConnectionGUID: zGOPCBVvRoGGZI6/RXB1DQ==
+X-CSE-MsgGUID: 6K71nTDsT+ycDDwGgnCRhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="43986460"
 X-IronPort-AV: E=Sophos;i="6.14,265,1736841600"; 
-   d="scan'208";a="43986457"
+   d="scan'208";a="43986460"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 11:40:00 -0700
-X-CSE-ConnectionGUID: jwrZnqRJQwa8Nh9GmJZ0/A==
-X-CSE-MsgGUID: QRZySN90SjelWavrN6utxg==
+X-CSE-ConnectionGUID: QVbV26ScTTGkifBNj9YC5A==
+X-CSE-MsgGUID: LS9Opvy1Royqn257UvE7rA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,265,1736841600"; 
-   d="scan'208";a="123282492"
+   d="scan'208";a="123282491"
 Received: from black.fi.intel.com ([10.237.72.28])
   by fmviesa006.fm.intel.com with ESMTP; 21 Mar 2025 11:39:59 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 17D32AF; Fri, 21 Mar 2025 20:39:58 +0200 (EET)
+	id 22ED9214; Fri, 21 Mar 2025 20:39:58 +0200 (EET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: [PATCH v1 1/2] Input: wdt87xx_i2c - tidy up ACPI ID table
-Date: Fri, 21 Mar 2025 20:39:17 +0200
-Message-ID: <20250321183957.455518-2-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 2/2] Input: wdt87xx_i2c - switch to use dev_err_probe()
+Date: Fri, 21 Mar 2025 20:39:18 +0200
+Message-ID: <20250321183957.455518-3-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250321183957.455518-1-andriy.shevchenko@linux.intel.com>
 References: <20250321183957.455518-1-andriy.shevchenko@linux.intel.com>
@@ -79,72 +79,64 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Tidy up ACPI ID table:
-- drop ACPI_PTR() and hence replace acpi.h with mod_devicetable.h et al.
-- remove explicit driver_data initializer
+Switch to use dev_err_probe() to simplify the error path and
+unify a message template.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/input/touchscreen/wdt87xx_i2c.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ drivers/input/touchscreen/wdt87xx_i2c.c | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/input/touchscreen/wdt87xx_i2c.c b/drivers/input/touchscreen/wdt87xx_i2c.c
-index 88d376090e6e..99636d6eb0f3 100644
+index 99636d6eb0f3..3e7fbc4d7549 100644
 --- a/drivers/input/touchscreen/wdt87xx_i2c.c
 +++ b/drivers/input/touchscreen/wdt87xx_i2c.c
-@@ -9,17 +9,24 @@
-  * may be copied, distributed, and modified under those terms.
-  */
+@@ -1033,10 +1033,8 @@ static int wdt87xx_ts_create_input_device(struct wdt87xx_data *wdt)
+ 	int error;
  
-+#include <linux/array_size.h>
-+#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/firmware.h>
- #include <linux/i2c.h>
- #include <linux/input.h>
-+#include <linux/input/mt.h>
- #include <linux/interrupt.h>
--#include <linux/delay.h>
- #include <linux/irq.h>
- #include <linux/io.h>
-+#include <linux/math.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/pm.h>
- #include <linux/slab.h>
--#include <linux/firmware.h>
--#include <linux/input/mt.h>
--#include <linux/acpi.h>
-+#include <linux/sysfs.h>
-+#include <linux/types.h>
- #include <linux/unaligned.h>
+ 	input = devm_input_allocate_device(dev);
+-	if (!input) {
+-		dev_err(dev, "failed to allocate input device\n");
+-		return -ENOMEM;
+-	}
++	if (!input)
++		return dev_err_probe(dev, -ENOMEM, "failed to allocate input device\n");
+ 	wdt->input = input;
  
- #define WDT87XX_NAME		"wdt87xx_i2c"
-@@ -1153,13 +1160,11 @@ static const struct i2c_device_id wdt87xx_dev_id[] = {
- };
- MODULE_DEVICE_TABLE(i2c, wdt87xx_dev_id);
+ 	input->name = "WDT87xx Touchscreen";
+@@ -1060,16 +1058,15 @@ static int wdt87xx_ts_create_input_device(struct wdt87xx_data *wdt)
+ 			    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
  
--#ifdef CONFIG_ACPI
- static const struct acpi_device_id wdt87xx_acpi_id[] = {
--	{ "WDHT0001", 0 },
-+	{ "WDHT0001" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(acpi, wdt87xx_acpi_id);
--#endif
+ 	error = input_register_device(input);
+-	if (error) {
+-		dev_err(dev, "failed to register input device: %d\n", error);
+-		return error;
+-	}
++	if (error)
++		return dev_err_probe(dev, error, "failed to register input device\n");
  
- static struct i2c_driver wdt87xx_driver = {
- 	.probe		= wdt87xx_ts_probe,
-@@ -1168,7 +1173,7 @@ static struct i2c_driver wdt87xx_driver = {
- 		.name = WDT87XX_NAME,
- 		.dev_groups = wdt87xx_groups,
- 		.pm = pm_sleep_ptr(&wdt87xx_pm_ops),
--		.acpi_match_table = ACPI_PTR(wdt87xx_acpi_id),
-+		.acpi_match_table = wdt87xx_acpi_id,
- 	},
- };
- module_i2c_driver(wdt87xx_driver);
+ 	return 0;
+ }
+ 
+ static int wdt87xx_ts_probe(struct i2c_client *client)
+ {
++	struct device *dev = &client->dev;
+ 	struct wdt87xx_data *wdt;
+ 	int error;
+ 
+@@ -1103,10 +1100,8 @@ static int wdt87xx_ts_probe(struct i2c_client *client)
+ 					  NULL, wdt87xx_ts_interrupt,
+ 					  IRQF_ONESHOT,
+ 					  client->name, wdt);
+-	if (error) {
+-		dev_err(&client->dev, "request irq failed: %d\n", error);
+-		return error;
+-	}
++	if (error)
++		return dev_err_probe(dev, error, "request irq failed\n");
+ 
+ 	return 0;
+ }
 -- 
 2.47.2
 
