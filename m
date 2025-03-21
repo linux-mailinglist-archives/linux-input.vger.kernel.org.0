@@ -1,132 +1,151 @@
-Return-Path: <linux-input+bounces-11046-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11047-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE79A6B2E4
-	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 03:25:50 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95618A6B2FB
+	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 03:33:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A20719C3BBC
-	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 02:25:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 266F03AB3FF
+	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 02:33:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D9BA1DF965;
-	Fri, 21 Mar 2025 02:25:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08BAA6A009;
+	Fri, 21 Mar 2025 02:33:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tju9ABUA"
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="Y5a+VVD1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30711A7264;
-	Fri, 21 Mar 2025 02:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11CB208A7
+	for <linux-input@vger.kernel.org>; Fri, 21 Mar 2025 02:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742523946; cv=none; b=c0/pLZpqvpCHNnJIXxHm29lY2/sMEzKvywYsJ+PmQaPyXQhH7lFfGzK6s+f/WpDPRUA9kymAVDPCKD32UjKxRUSR7lUIyfk96irY3QLVIe6BSrG4ptpNnHzJn1wp7++M4FMIFKjFR2yyp8cTsjAh2queoqZNT+agL277Vqi40n0=
+	t=1742524395; cv=none; b=cnfpHffFlCIMo7wm5XfD/+bc8YfaLNQp+hsiY5AAJ967JTWugOOdb2VnHouUgAheMaF6bUcMmLGQF2Wn7acPc62VXXS6hnS0IiTd82EXVPJXOdtHfsHfT5lHWFEPe9J191s3d7LDSSABJW8iUmbGB+AuATtkFceE2HnSVNvCdTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742523946; c=relaxed/simple;
-	bh=f8Q5gFv76Yqzy7eSwBd46q4NtWdgVRvKR4UJwRCum7s=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=JUFm4CRvkwE8YmLZrDICRbi5itXXxiGRQ0UnSMAqKNrPEF6+6v57DKOBPbRIW0wnl+20HH8kE54TWAVZa29pg/k9acOE9lSKc+DbtfOpYCPk3/NbwH1CQGRyDxwzDfcrpz8iJN0ZOk2L4nVOOBa5eZstlhrXI3B1n9TS+CDURII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tju9ABUA; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22622ddcc35so37490405ad.2;
-        Thu, 20 Mar 2025 19:25:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742523942; x=1743128742; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=+DxvPmAFs621/zKMJ4zXjt30xecPkzXgHkzi7VvKLgc=;
-        b=Tju9ABUAJoVp8WyG1Q4QN9KCgFxCnezEa1LEcjBsuxy7huPb5x5AGiFZpnJvydEF71
-         XvI2XS6FzX5BzVZbYfHJ3nEUL3Ik0e8n2OxuGAD5uqg85ZH2pZIbjqfPoEduzUjUYItO
-         TiHbhsUwvbscDCuacZCaFbjTPB/sUTUSTendBExDrrz+Yh0osl0hrAymHqyRP2FMKHlM
-         e/1H9OcYIrd98PF02ducluR9tPsCI8As/nuEwHO0/QlJX09N8tYQel2/P6ZJ9pRgKzEi
-         AOhrG7ggOXJ4Wjo40cHgI96kizkTwHBj3OycK69LUNOZQruULax8WxO4XG6WlHFupu4S
-         R2Kg==
+	s=arc-20240116; t=1742524395; c=relaxed/simple;
+	bh=fh8/hKnhmAdMmulO3dOA/fUcq3ROAQN7CvfWvXaT2R0=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SY73dZqIzr9WqTZD8jzR0H6j8OZUb+F9Kc8AVyChptkM+8zdu+uXk9wHR1GuZ04jBWaYk7xyJ/8FiCNBPzAgGbnXTT/Nkyj5142IeQnw2wP6/hxm6uNczgx6bI2jYZXwBuFle+142gRGdPdn1VWcfEysQHbV10IgNIx8prBn93I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=Y5a+VVD1; arc=none smtp.client-ip=185.125.188.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 37ABB3F22B
+	for <linux-input@vger.kernel.org>; Fri, 21 Mar 2025 02:33:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1742524385;
+	bh=yGdWxK9JVirSn2lLRI6kllOEuz1GJUXaDgPsY8xB3Nc=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:In-Reply-To;
+	b=Y5a+VVD1ojOke5htLTf4yD0SGufb5rXBJVmoC4q56tCfqu9vd0sAHqv4WzVOTAF76
+	 QXxg6z4hOX+nqa1HK3LpLP5u/o1EYmT40onjG9ieLQvLT8TeL7znact5YBkCjrE1i3
+	 IhBLvr5LPKmSq5RfEpzuRUY63Ca2Y7UmwSzfwVJLzQwFtrLbMO9cMlusjTyagpmCzd
+	 dBVQjTiqiP/iD0Jv3vJ92qqdyZ7DlLxsn3DObfOMk6UNCgrEjqP1Qe71PsGpU4BvBS
+	 MP0JdX0Y6Z5h6f97onu6Da/hBKBT9un+ma8YdsPdvfwF/+L7mcGbDGe5ODnV0L/tLm
+	 IwsdKHmzVyOjA==
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2242ce15cc3so20592575ad.1
+        for <linux-input@vger.kernel.org>; Thu, 20 Mar 2025 19:33:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742523942; x=1743128742;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+DxvPmAFs621/zKMJ4zXjt30xecPkzXgHkzi7VvKLgc=;
-        b=AG4IVgiSaN8qWCoztPugQ4tNSsqIS4N+LLXaGqhGT5/NWrfaclyvftSq5vOVsx5bpk
-         h5TUaTI13fqib0WZxy0BRTG/gr+UA53PoaHSiKntSqXjOJ5bqaPP1SX8EM8WQt4Yfvg7
-         5D9BdYeOMczmH9qc9Nb+De9R+/3mQl4KFy3x+fp96Kvp8h1DXhtLrmEzE6i0WZeMkLTS
-         B8ZJhOhd3sJhwd+TBTUxp0T/sYKAjg8NUSpHR0b740oaTOWfr9bewAqyd2tur0Ktfj1d
-         9iQDjUw+rfPrt9JWoRBpk/pziVVgsqJ1YNe5vwa2PyRRl8/vuHvW2UC/2tF9GAMolTNn
-         tjnA==
-X-Forwarded-Encrypted: i=1; AJvYcCW80Xe0HL6Dr1IlQATxsTA72bHBrE1BsW7Pgn04my7oMyf5UguSH0Hxrd0uHhTuzdrBGr9udlIL3AbRrg==@vger.kernel.org, AJvYcCWF2pbP4TIL3RNHHIEaV0FNQY+13UijCHq5I5ev84rk0KyjY8DCoCcXyamt9doPAxrCe1JUXcElJKInwhSy@vger.kernel.org
-X-Gm-Message-State: AOJu0YwggGO+8sDOVJHTrh1H/GQz2YKeyEHaqXX6Gz9h5P9CPUqL7n/x
-	12Cjar5a6DSFq0hFLD9JWIcwofi7XYWLbUvyki9x4SYJR7t6tJXXzkImGaZynX1mcg==
-X-Gm-Gg: ASbGncvbpHsJi8m86z71rQKt9GSJdgMlM70Lh87Ham1QqkDQdGWye1+ya7aDlEjKn4N
-	qJgOfLqJOXQPw0J3CxFwYQjW6YiDbunOANlniTNQRKv/p3LbB53+QVvwD6gsIK26fpbr40ttJ8y
-	c59FvTQwukT5WZDhLktW+ia1Kwo8AeivuM3h1xDGK3ot/SAR4v97Lr/l8vpfZLAoYoCw3AwpCDf
-	UtWHEKnsRYA7r50ejDbrhuO0+tnth5nxQrHNrmP//0xZcyUR9RaWWqUWumC3dU59Kq9MPmrQgQU
-	aWs+DbHsbW1hQqOweMrIIPKclitgiT+7SNPdfIb3GwOeXURIlkL+AX13QF/Uo8/DnYUJN0M=
-X-Google-Smtp-Source: AGHT+IGAYzPXIW3C7GhdeNHZHyfqTAkL6j4RiHaeMPqcvuug3znIOTZLhC6HretCJc3arNYS6OsrSQ==
-X-Received: by 2002:a17:90b:1848:b0:2ea:bf1c:1e3a with SMTP id 98e67ed59e1d1-3030fe9e646mr2875641a91.12.1742523942052;
-        Thu, 20 Mar 2025 19:25:42 -0700 (PDT)
-Received: from localhost (220-135-95-34.hinet-ip.hinet.net. [220.135.95.34])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3030f7ea89esm650725a91.32.2025.03.20.19.25.41
+        d=1e100.net; s=20230601; t=1742524383; x=1743129183;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yGdWxK9JVirSn2lLRI6kllOEuz1GJUXaDgPsY8xB3Nc=;
+        b=r78IKFX95uYZxu6ejZoN0u90mTV3Wkr0S2pCM5oZKaEGa6isHaP5K5kF/xyqjs7Ucc
+         ylhPmunKceEMhaHY1NXdaPGnmozjEZP8SLKvCHa4SAQFZb54c50i+iTL89ZA/og+Brcu
+         xmWBPwsMSCXYxX5LxENmptVyGeiM4cu6KSG1QSFd9SrO9PEPEpiKwN/m7I79KGCidxB6
+         ZX+jDrI97ot/u0g8mIvo76KevrjVJrqwvfDP9wmMNhiC5yRaTh2AV2BExnxHmSepNjVM
+         5gEsQW/G8H9spF2Z1JwYhGEtMQBoUIV0Pst6fS+zAlcJco2n5MuRumL2p6ZywDpyMNus
+         EZMA==
+X-Forwarded-Encrypted: i=1; AJvYcCUVQfKVyvByNLePd+JVBaoIb72BPnP0TCkDaqPvuWUGmQaPJGf4W15MLcn8vyu/lpSpC82KpPEn/+uMkg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yww1awtwH9QSrxgnJMc7mLpuswqZgEDhtNrTcQg3xVrU4y+Ay2a
+	wOgkeT/VM5xWmidPBeB4WjBXY4+HjQtVcY1cqXM5HONqR5L/J5oS8bopeJgbwV4s4RqYMlmPhF6
+	MAxtuZ6a+9jPN/mH9iXZpMROwZKVvm94m+eF0hLunP2FzntdRD85AqS7krWIY4t9Kv9jIRqe1sE
+	36BnaqgcxVO2I=
+X-Gm-Gg: ASbGnctk2+uR2DzV6H1B1ggCWIXmk2IHJkn/ZMhQJcKbikAI+jmxXekPpCYJJdKDIgh
+	uoS0H2Hsg48b4Aw60FeIcSyFVWr8OfNnJnccN5Gjcl79EmZmQ6ayBCKzSWH//LMsVnMf7D13xtS
+	xCgffctQEzVd60ksMdwR2rk1hoBkodCoWJ8gYGxEy1WfeSA/eWSh9S2rNUC0zEcKYDJ/j8OT8X0
+	n+CSKOm7iNobXNQZ7aZwKzQs9aC+/aga78XdbIBXX/dHwEfz83/gtFxLBHSbH7uV2EsR3dhiFMU
+	yNWqymzfj2NBmpv67KPnownF6mB69VxuT8xr7I9jNsEZFJAYWZcfVRrnik5u5tF5YeQ=
+X-Received: by 2002:a17:902:e78f:b0:224:c46:d162 with SMTP id d9443c01a7336-22780c7bfecmr26407545ad.20.1742524382835;
+        Thu, 20 Mar 2025 19:33:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEGOUGS7kWShHwzPKCmuY0RVOFosLtvfv77lN3gqgOkwEjIa7sd9qLWWEZv2O+6vYApUGXhmw==
+X-Received: by 2002:a17:902:e78f:b0:224:c46:d162 with SMTP id d9443c01a7336-22780c7bfecmr26407305ad.20.1742524382384;
+        Thu, 20 Mar 2025 19:33:02 -0700 (PDT)
+Received: from acelan-precision5470 (220-135-95-34.hinet-ip.hinet.net. [220.135.95.34])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22780f39692sm5535345ad.44.2025.03.20.19.33.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Mar 2025 19:25:41 -0700 (PDT)
-Sender: AceLan Kao <acelan@gmail.com>
+        Thu, 20 Mar 2025 19:33:01 -0700 (PDT)
+Date: Fri, 21 Mar 2025 10:32:57 +0800
 From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: quirks: Add quirk for another Chicony Electronics HP 5MP Camera
-Date: Fri, 21 Mar 2025 10:25:40 +0800
-Message-ID: <20250321022540.4016923-1-acelan.kao@canonical.com>
-X-Mailer: git-send-email 2.43.0
+To: Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: quirks: Add quirk for another Chicony Electronics
+ HP 5MP Camera
+Message-ID: <sgvhxwvrylxdev77hb4hlfcviopljj3i64vempkxaigioyvcki@2fgjvotmp6d4>
+Mail-Followup-To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>, 
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250321022540.4016923-1-acelan.kao@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250321022540.4016923-1-acelan.kao@canonical.com>
 
-The Chicony Electronics HP 5MP Camera (USB ID 04F2:B824) reports a HID
-sensor interface that is not actually implemented. Attempting to access
-this non-functional sensor via iio_info causes system hangs as runtime PM
-tries to wake up an unresponsive sensor.
+On Fri, Mar 21, 2025 at 10:25:40AM +0800, Chia-Lin Kao (AceLan) wrote:
+> The Chicony Electronics HP 5MP Camera (USB ID 04F2:B824) reports a HID
+> sensor interface that is not actually implemented. Attempting to access
+> this non-functional sensor via iio_info causes system hangs as runtime PM
+> tries to wake up an unresponsive sensor.
+> 
+> Add this device to the HID ignore list since the sensor interface is
+> non-functional by design and should not be exposed to userspace.
+We found another Chicony device with the same issue.
+Please apply this patch after the previous submitted one.
+Thanks.
 
-Add this device to the HID ignore list since the sensor interface is
-non-functional by design and should not be exposed to userspace.
-
-Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
----
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
-
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 5fdea9116a3e..554dbed3f3ed 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -298,6 +298,7 @@
- #define USB_DEVICE_ID_CHICONY_TOSHIBA_WT10A	0x1408
- #define USB_DEVICE_ID_CHICONY_ACER_SWITCH12	0x1421
- #define USB_DEVICE_ID_CHICONY_HP_5MB_CAMERA	0xb82c
-+#define USB_DEVICE_ID_CHICONY_HP_5MB_CAMERA2	0xb824
- 
- #define USB_VENDOR_ID_CHUNGHWAT		0x2247
- #define USB_DEVICE_ID_CHUNGHWAT_MULTITOUCH	0x0001
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 452fac15550b..91b3d121bb1f 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -371,6 +371,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_ASUS_AK1D) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_ACER_SWITCH12) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_HP_5MB_CAMERA) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_HP_5MB_CAMERA2) },
- #endif
- #if IS_ENABLED(CONFIG_HID_CMEDIA)
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CM6533) },
--- 
-2.43.0
-
+https://lore.kernel.org/lkml/20250312063532.551938-1-acelan.kao@canonical.com/T/
+> 
+> Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+> ---
+>  drivers/hid/hid-ids.h    | 1 +
+>  drivers/hid/hid-quirks.c | 1 +
+>  2 files changed, 2 insertions(+)
+> 
+> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> index 5fdea9116a3e..554dbed3f3ed 100644
+> --- a/drivers/hid/hid-ids.h
+> +++ b/drivers/hid/hid-ids.h
+> @@ -298,6 +298,7 @@
+>  #define USB_DEVICE_ID_CHICONY_TOSHIBA_WT10A	0x1408
+>  #define USB_DEVICE_ID_CHICONY_ACER_SWITCH12	0x1421
+>  #define USB_DEVICE_ID_CHICONY_HP_5MB_CAMERA	0xb82c
+> +#define USB_DEVICE_ID_CHICONY_HP_5MB_CAMERA2	0xb824
+>  
+>  #define USB_VENDOR_ID_CHUNGHWAT		0x2247
+>  #define USB_DEVICE_ID_CHUNGHWAT_MULTITOUCH	0x0001
+> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+> index 452fac15550b..91b3d121bb1f 100644
+> --- a/drivers/hid/hid-quirks.c
+> +++ b/drivers/hid/hid-quirks.c
+> @@ -371,6 +371,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_ASUS_AK1D) },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_ACER_SWITCH12) },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_HP_5MB_CAMERA) },
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_HP_5MB_CAMERA2) },
+>  #endif
+>  #if IS_ENABLED(CONFIG_HID_CMEDIA)
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CM6533) },
+> -- 
+> 2.43.0
 
