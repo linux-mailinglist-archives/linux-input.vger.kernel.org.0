@@ -1,202 +1,132 @@
-Return-Path: <linux-input+bounces-11045-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11046-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74283A6B235
-	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 01:23:56 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE79A6B2E4
+	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 03:25:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 803F73B1ED2
-	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 00:23:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A20719C3BBC
+	for <lists+linux-input@lfdr.de>; Fri, 21 Mar 2025 02:25:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 590BF3D76;
-	Fri, 21 Mar 2025 00:23:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D9BA1DF965;
+	Fri, 21 Mar 2025 02:25:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="s+dfSq5R"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tju9ABUA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2F92C182;
-	Fri, 21 Mar 2025 00:23:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30711A7264;
+	Fri, 21 Mar 2025 02:25:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742516612; cv=none; b=VV5SBw3MlgJ4p+4cOC8yRBEQGZ5jvzMtS5cg3hfFqEZITvFUbPND2f8JITxniGdqdl0O6cXmaQBm4FCGVG23ZZMxLVFw89bKYkk/Y/MQKWtpAtq18bqq5k5UiAjM3hjB21vz3xl4FPiWztyHtIqrO7yfA0U9I3TjYnbkZ/nS+Pg=
+	t=1742523946; cv=none; b=c0/pLZpqvpCHNnJIXxHm29lY2/sMEzKvywYsJ+PmQaPyXQhH7lFfGzK6s+f/WpDPRUA9kymAVDPCKD32UjKxRUSR7lUIyfk96irY3QLVIe6BSrG4ptpNnHzJn1wp7++M4FMIFKjFR2yyp8cTsjAh2queoqZNT+agL277Vqi40n0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742516612; c=relaxed/simple;
-	bh=XiBVzxWuMP75Lf3JOuywE0fJX4RWc46dIGCi9V95zQo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gIRMqJe6rEsPnV8EdWdUC+0ScLZDIPbY+QTL/E2K5BAnEEkSi5fBZF6vAHVlZTQVJKKmYE71uSWw6tvwJampVYUpOVdacMKhczDvUJQOPpI1rVOl7TmKZG1ZY1jJASVLpNJgo7/YAeUUixRsM8sCtKIyzfsEUm39yLOkGHBMwJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=s+dfSq5R; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id 832DA2E09F0B;
-	Fri, 21 Mar 2025 02:23:25 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1742516606;
-	bh=rycKiZkMDvsHzmc5HyGNlogDLpqUzYvCxxDzhBvTk48=;
-	h=Received:From:Subject:To;
-	b=s+dfSq5R1lM2hEejcNnTrjrGJhMIIS46AIvVRFJXSilmAfnX845PCxs1GZCDdPtgw
-	 pibWhcofcJ55zbbNapIgIY7JWHJRQozhViyLZExk7cL2QhmGyPNJwn/4/jfPL1RUqg
-	 Hze0FCw06He3pOlfimu5z3za7SeVmmarUxvOYllE=
-Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.208.182) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f182.google.com
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-30b83290b7bso14427711fa.1;
-        Thu, 20 Mar 2025 17:23:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXBLr4uIzKp2heC+MLAFsj/yPfZsw/ZWLUXh8+xpGYvTJXRpNZHYtWEKXAvgmjboM73BWKVQVsR4zGAQML5@vger.kernel.org,
- AJvYcCXgOJLwJFLYs970QPpGPiFitxeunPgTcc8NtO4qztqv0QMSSZCZ1YW9qEG36aUxBj4Hmw1dFr3ENBQpbw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwU8rqxNCqREEJ6bRT5B+6/BDbANWsid9ohBqVs/mMltFz8jW3C
-	MNRdrRmo0tHfx/LmaAmw4S/wEDMn/0GUTlmQ+nPEmup9BMkWVC2UXQIZYWq9RmqmPcTtoy1IX2O
-	3oVsrJMdk+rCYGUaUPy9z5wFO13g=
-X-Google-Smtp-Source: 
- AGHT+IHv5Gi0/dpuFPXhqwCzQTaXhguD71sw2H/LyPEAzJnlFkAi/TYYYf+ZYfeIs/T3D7azVqoqCxnLG1fIHm8aC+A=
-X-Received: by 2002:a05:651c:1502:b0:30c:6f3a:dce9 with SMTP id
- 38308e7fff4ca-30d7e21a70cmr4705571fa.10.1742516604701; Thu, 20 Mar 2025
- 17:23:24 -0700 (PDT)
+	s=arc-20240116; t=1742523946; c=relaxed/simple;
+	bh=f8Q5gFv76Yqzy7eSwBd46q4NtWdgVRvKR4UJwRCum7s=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=JUFm4CRvkwE8YmLZrDICRbi5itXXxiGRQ0UnSMAqKNrPEF6+6v57DKOBPbRIW0wnl+20HH8kE54TWAVZa29pg/k9acOE9lSKc+DbtfOpYCPk3/NbwH1CQGRyDxwzDfcrpz8iJN0ZOk2L4nVOOBa5eZstlhrXI3B1n9TS+CDURII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tju9ABUA; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22622ddcc35so37490405ad.2;
+        Thu, 20 Mar 2025 19:25:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742523942; x=1743128742; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=+DxvPmAFs621/zKMJ4zXjt30xecPkzXgHkzi7VvKLgc=;
+        b=Tju9ABUAJoVp8WyG1Q4QN9KCgFxCnezEa1LEcjBsuxy7huPb5x5AGiFZpnJvydEF71
+         XvI2XS6FzX5BzVZbYfHJ3nEUL3Ik0e8n2OxuGAD5uqg85ZH2pZIbjqfPoEduzUjUYItO
+         TiHbhsUwvbscDCuacZCaFbjTPB/sUTUSTendBExDrrz+Yh0osl0hrAymHqyRP2FMKHlM
+         e/1H9OcYIrd98PF02ducluR9tPsCI8As/nuEwHO0/QlJX09N8tYQel2/P6ZJ9pRgKzEi
+         AOhrG7ggOXJ4Wjo40cHgI96kizkTwHBj3OycK69LUNOZQruULax8WxO4XG6WlHFupu4S
+         R2Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742523942; x=1743128742;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+DxvPmAFs621/zKMJ4zXjt30xecPkzXgHkzi7VvKLgc=;
+        b=AG4IVgiSaN8qWCoztPugQ4tNSsqIS4N+LLXaGqhGT5/NWrfaclyvftSq5vOVsx5bpk
+         h5TUaTI13fqib0WZxy0BRTG/gr+UA53PoaHSiKntSqXjOJ5bqaPP1SX8EM8WQt4Yfvg7
+         5D9BdYeOMczmH9qc9Nb+De9R+/3mQl4KFy3x+fp96Kvp8h1DXhtLrmEzE6i0WZeMkLTS
+         B8ZJhOhd3sJhwd+TBTUxp0T/sYKAjg8NUSpHR0b740oaTOWfr9bewAqyd2tur0Ktfj1d
+         9iQDjUw+rfPrt9JWoRBpk/pziVVgsqJ1YNe5vwa2PyRRl8/vuHvW2UC/2tF9GAMolTNn
+         tjnA==
+X-Forwarded-Encrypted: i=1; AJvYcCW80Xe0HL6Dr1IlQATxsTA72bHBrE1BsW7Pgn04my7oMyf5UguSH0Hxrd0uHhTuzdrBGr9udlIL3AbRrg==@vger.kernel.org, AJvYcCWF2pbP4TIL3RNHHIEaV0FNQY+13UijCHq5I5ev84rk0KyjY8DCoCcXyamt9doPAxrCe1JUXcElJKInwhSy@vger.kernel.org
+X-Gm-Message-State: AOJu0YwggGO+8sDOVJHTrh1H/GQz2YKeyEHaqXX6Gz9h5P9CPUqL7n/x
+	12Cjar5a6DSFq0hFLD9JWIcwofi7XYWLbUvyki9x4SYJR7t6tJXXzkImGaZynX1mcg==
+X-Gm-Gg: ASbGncvbpHsJi8m86z71rQKt9GSJdgMlM70Lh87Ham1QqkDQdGWye1+ya7aDlEjKn4N
+	qJgOfLqJOXQPw0J3CxFwYQjW6YiDbunOANlniTNQRKv/p3LbB53+QVvwD6gsIK26fpbr40ttJ8y
+	c59FvTQwukT5WZDhLktW+ia1Kwo8AeivuM3h1xDGK3ot/SAR4v97Lr/l8vpfZLAoYoCw3AwpCDf
+	UtWHEKnsRYA7r50ejDbrhuO0+tnth5nxQrHNrmP//0xZcyUR9RaWWqUWumC3dU59Kq9MPmrQgQU
+	aWs+DbHsbW1hQqOweMrIIPKclitgiT+7SNPdfIb3GwOeXURIlkL+AX13QF/Uo8/DnYUJN0M=
+X-Google-Smtp-Source: AGHT+IGAYzPXIW3C7GhdeNHZHyfqTAkL6j4RiHaeMPqcvuug3znIOTZLhC6HretCJc3arNYS6OsrSQ==
+X-Received: by 2002:a17:90b:1848:b0:2ea:bf1c:1e3a with SMTP id 98e67ed59e1d1-3030fe9e646mr2875641a91.12.1742523942052;
+        Thu, 20 Mar 2025 19:25:42 -0700 (PDT)
+Received: from localhost (220-135-95-34.hinet-ip.hinet.net. [220.135.95.34])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3030f7ea89esm650725a91.32.2025.03.20.19.25.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Mar 2025 19:25:41 -0700 (PDT)
+Sender: AceLan Kao <acelan@gmail.com>
+From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: quirks: Add quirk for another Chicony Electronics HP 5MP Camera
+Date: Fri, 21 Mar 2025 10:25:40 +0800
+Message-ID: <20250321022540.4016923-1-acelan.kao@canonical.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250320220924.5023-1-lkml@antheas.dev>
- <a9697222-59ed-4673-aff6-ae4ca50bb824@ljones.dev>
-In-Reply-To: <a9697222-59ed-4673-aff6-ae4ca50bb824@ljones.dev>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Fri, 21 Mar 2025 01:23:13 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwF4BwRapZ2O0UR5-RyrdrO=_r29hWkSO5xEWc0aoKxJWA@mail.gmail.com>
-X-Gm-Features: AQ5f1JrsPCNDkSOefrCvhn278OboBEGkRTwJzFYXmc-52DlNQW3mWkb9_7Mrsao
-Message-ID: 
- <CAGwozwF4BwRapZ2O0UR5-RyrdrO=_r29hWkSO5xEWc0aoKxJWA@mail.gmail.com>
-Subject: Re: [PATCH 00/11] HID: Asus: Add RGB Support to Asus Z13, Ally, unify
- backlight asus-wmi, and Z13 QOL
-To: "Luke D. Jones" <luke@ljones.dev>
-Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <174251660590.6943.3115647025904587249@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 
-On Fri, 21 Mar 2025 at 01:03, Luke D. Jones <luke@ljones.dev> wrote:
->
-> On 21/03/25 11:09, Antheas Kapenekakis wrote:
-> > This is a three part series which does the following:
-> >    - Clean init sequence, fix the keyboard of the Z13 (touchpad,fan button)
-> >    - Unifies backlight handling to happen under asus-wmi so that all Aura
-> >      devices have synced brightness controls and the backlight button works
-> >      properly when it is on a USB laptop keyboard instead of one w/ WMI.
-> >    - Adds RGB support to hid-asus, solid colors only, and for the ROG Ally
-> >      units and the Asus Z13 2025 first.
-> >
-> > For context, see cover letter of V1.
-> >
-> > The last two patches are still a bit experimental, the rest is getting to
-> > be pretty stable by now. I will test my Ally in the weekend. Also, I am
-> > not a fan of the asus-0003:0B05:1A30.0001-led name, so suggestions would
-> > be appreciated.
-> >
-> > ---
-> > V1: https://lore.kernel.org/all/20250319191320.10092-1-lkml@antheas.dev/
->
-> Hi Antheas, just a very quick note before I review - did you forget to
-> add `-v2` to git format-patch? Don't do it now, it's just a reminder for
-> next version.
+The Chicony Electronics HP 5MP Camera (USB ID 04F2:B824) reports a HID
+sensor interface that is not actually implemented. Attempting to access
+this non-functional sensor via iio_info causes system hangs as runtime PM
+tries to wake up an unresponsive sensor.
 
-Yes I did. It's been a long day.
+Add this device to the HID ignore list since the sensor interface is
+non-functional by design and should not be exposed to userspace.
 
-> Also I guess asus_brt_ means asus_bright_, but maybe we can rename to
-> asus_led_ or even asus_rgbw_? I think something a tad more descriptive
-> while still keeping the length down would help future contributors
-> quickly understand intent. I'll mention it again when I get to that
-> actual patch during test and review.
+Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+---
+ drivers/hid/hid-ids.h    | 1 +
+ drivers/hid/hid-quirks.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-I am not particularly happy with brt either, I chose it because the
-events are named BRT. rgbw is a bit misleading, the notifier will
-never do RGB. Since Aura devices can hotplug they need their own led
-device. It will always passthrough brightness only. Perhaps led is
-misleading for that reason as well. Bright seems a bit weird, and
-brightness seems a bit long. So I am a bit stuck
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 5fdea9116a3e..554dbed3f3ed 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -298,6 +298,7 @@
+ #define USB_DEVICE_ID_CHICONY_TOSHIBA_WT10A	0x1408
+ #define USB_DEVICE_ID_CHICONY_ACER_SWITCH12	0x1421
+ #define USB_DEVICE_ID_CHICONY_HP_5MB_CAMERA	0xb82c
++#define USB_DEVICE_ID_CHICONY_HP_5MB_CAMERA2	0xb824
+ 
+ #define USB_VENDOR_ID_CHUNGHWAT		0x2247
+ #define USB_DEVICE_ID_CHUNGHWAT_MULTITOUCH	0x0001
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 452fac15550b..91b3d121bb1f 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -371,6 +371,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_ASUS_AK1D) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_ACER_SWITCH12) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_HP_5MB_CAMERA) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_HP_5MB_CAMERA2) },
+ #endif
+ #if IS_ENABLED(CONFIG_HID_CMEDIA)
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CM6533) },
+-- 
+2.43.0
 
-What I think would be better is to refocus from leds, to maybe
-hid_ref. As I'd like the fan key to passthrough to asus-wmi too to
-cycle the profiles. I'd also like to tweak the profile cycling
-behavior a bit and make it customizable. But very minor changes, just
-to cycling behavior. Essentially, I want to get to a point where doing
-Fn+Fan cycles the profiles properly without userspace, and then
-userspace can take over the cycler and update the KDE slider live.
-
-However, that refactor on 6.14 for platform profiles was brutal. So I
-have to wait for fedora to get on 6.14 for me to even start thinking
-about that. Otherwise I will not be able to deploy any changes on
-Bazzite. I currently carry 287 patches (~100 is XDNA+NTSYNC+platform
-profiles minus Kurt's series) for 6.13. I would also like try to
-target Thinkpads too, and maybe the Legion Go with that, but it
-depends on how much progress Derek makes on his driver by then.
-
-As far as the Z13 is concerned, it will be this patch series + 1-3
-patches to tweak the ROG button on the side to stop acting like a wifi
-killswitch.
-
-Antheas
-
-> Looks like good progress so far.
->
-> Cheers,
-> Luke.
->
-> > Changes since V1:
-> >    - Add basic RGB support on hid-asus, (Z13/Ally) tested in KDE/Z13
-> >    - Fix ifdef else having an invalid signature (reported by kernel robot)
-> >    - Restore input arguments to init and keyboard function so they can
-> >      be re-used for RGB controls.
-> >    - Remove Z13 delay (it did not work to fix the touchpad) and replace it
-> >      with a HID_GROUP_GENERIC quirk to allow hid-multitouch to load. Squash
-> >      keyboard rename into it.
-> >    - Unregister brightness listener before removing work queue to avoid
-> >      a race condition causing corruption
-> >    - Remove spurious mutex unlock in asus_brt_event
-> >    - Place mutex lock in kbd_led_set after LED_UNREGISTERING check to avoid
-> >      relocking the mutex and causing a deadlock when unregistering leds
-> >    - Add extra check during unregistering to avoid calling unregister when
-> >      no led device is registered.
-> >    - Temporarily HID_QUIRK_INPUT_PER_APP from the ROG endpoint as it causes
-> >      the driver to create 4 RGB handlers per device. I also suspect some
-> >      extra events sneak through (KDE had the @@@@@@).
-> >
-> > Antheas Kapenekakis (11):
-> >    HID: asus: refactor init sequence per spec
-> >    HID: asus: prevent binding to all HID devices on ROG
-> >    HID: asus: add Asus Z13 2025 Fan key
-> >    HID: Asus: add Z13 folio to generic group for multitouch to work
-> >    platform/x86: asus-wmi: Add support for multiple kbd RGB handlers
-> >    HID: asus: listen to the asus-wmi brightness device instead of
-> >      creating one
-> >    platform/x86: asus-wmi: remove unused keyboard backlight quirk
-> >    platform/x86: asus-wmi: add keyboard brightness event handler
-> >    HID: asus: add support for the asus-wmi brightness handler
-> >    HID: asus: add basic RGB support
-> >    HID: asus: add RGB support to the ROG Ally units
-> >
-> >   drivers/hid/hid-asus.c                     | 342 ++++++++++++++++-----
-> >   drivers/hid/hid-ids.h                      |   2 +-
-> >   drivers/platform/x86/asus-wmi.c            | 138 ++++++++-
-> >   include/linux/platform_data/x86/asus-wmi.h |  67 ++--
-> >   4 files changed, 411 insertions(+), 138 deletions(-)
-> >
-> >
-> > base-commit: 4701f33a10702d5fc577c32434eb62adde0a1ae1
->
 
