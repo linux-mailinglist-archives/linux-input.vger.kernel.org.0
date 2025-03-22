@@ -1,97 +1,97 @@
-Return-Path: <linux-input+bounces-11082-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11083-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1389A6C890
-	for <lists+linux-input@lfdr.de>; Sat, 22 Mar 2025 10:16:12 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE16AA6C897
+	for <lists+linux-input@lfdr.de>; Sat, 22 Mar 2025 10:18:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E4BE1B62DA0
-	for <lists+linux-input@lfdr.de>; Sat, 22 Mar 2025 09:16:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 819E07A8087
+	for <lists+linux-input@lfdr.de>; Sat, 22 Mar 2025 09:17:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A6711B6CE0;
-	Sat, 22 Mar 2025 09:16:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2E061B6CE0;
+	Sat, 22 Mar 2025 09:18:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="dRe46BMg";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Er9UOR4T"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="w387SnAj";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="8FnrZ4ro"
 X-Original-To: linux-input@vger.kernel.org
 Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC06D155A30;
-	Sat, 22 Mar 2025 09:16:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1067478F3B;
+	Sat, 22 Mar 2025 09:18:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742634967; cv=none; b=fMBjQj/FOzznNW1irwM0zbcqVtjV7+0oZoB8qHAk0n0l/nK1hVgblypnNM8DshorXRf114WzXofasSBlCLgL660clU6ulY1eBDcnNnmfLEbdvCdVGM0ineolO7VB9R1dG8TIpF6nDM/uYVntCXnse1ij6vuQy07xQvOmP+2gQTk=
+	t=1742635110; cv=none; b=ARMLvI2725DjDzZ2Qe3I/GH2aonrDWjv25/zqIocg6CE0gHZPsruw9NVcdG4HpuKsjh8wCU+XHorOjlO40oI2DGw1Sjk9Dbqc/XsQTpb7lG7FChRxWPmZc7gX+G+1ru1oEqHBE73mKBY02CshVqnXcKGNS4edkMe7uj/65aXXQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742634967; c=relaxed/simple;
-	bh=2b2RIuJ9BKzPrR5JHaNGWY25O2QcLpeB3BGid21wCxE=;
+	s=arc-20240116; t=1742635110; c=relaxed/simple;
+	bh=lhmJElLyWDzdWM/YAe8y7Mm9McKBcs0xsUVu2fwdS0A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CunaGkdC83FgnSsdUujIo0jd41n5Ytp01XlVKeocOHv+Mm8aflMz6YmK2UqT26/wDEdi7Qx8ziO/PYl67OOW9JAAgfkgGWeeyDpyP5aE6jAbh7ru5dCFoIYJfeSKSHBxw0/qgAkf8U57rcKcfoilHz0OXI7yZ2WiGFQ8cmj5EsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=dRe46BMg; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Er9UOR4T; arc=none smtp.client-ip=202.12.124.145
+	 In-Reply-To:Content-Type; b=fA+R6zZvpAfpfMtXW7DDbFiwTjMv92WxtdrgkI+/b8WmXGdW+O3UsQCLex3E/7zrkAvTFC8VGozr3Fp5dZc1V/ra7YXo1vAqWYU2K9J8iGyijWxdzR+9dpjjX089e/06RthV54loyloYbjL27YfC5JWYafleYb7TXPRC5BbFsp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=w387SnAj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=8FnrZ4ro; arc=none smtp.client-ip=202.12.124.145
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfout.stl.internal (Postfix) with ESMTP id 86EB81140184;
-	Sat, 22 Mar 2025 05:16:02 -0400 (EDT)
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfout.stl.internal (Postfix) with ESMTP id E180D1140180;
+	Sat, 22 Mar 2025 05:18:25 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Sat, 22 Mar 2025 05:16:02 -0400
+  by phl-compute-11.internal (MEProxy); Sat, 22 Mar 2025 05:18:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1742634962;
-	 x=1742721362; bh=csSxBraXxWQnYxyjkyp3aIlK3AEF7WKAVfmyigKW3x4=; b=
-	dRe46BMgu5KhHaKWxzrMHyV07G5vKSf83LNJVTbZEOtGS0gOeJPt9Pi+HRFXOmg8
-	pJYWQBDEmFzuqbPye/4AUly2IOGeY9/LV6eoErYRAKgPKSS1dR1pIt5c3CVgc6ti
-	v2AH790x8avuMwSMBG3AOqYjP93B3st71fLZnAuQF62mFz2B7z7gOIa7BCyfDrU8
-	6OhJt8JdWmBhOXOHxN0o1VVoTXkKtPQlf4hp/u/qlGaZMByLzkrA+4kXry6cjuyV
-	v/822a+1ALo2dcwdCORhRdP+DXO1A41pYVPOoxWCBThhpGpaU3JWuxShB9ybrNTv
-	UrNs2bt8n04HsteJLgL9QA==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1742635105;
+	 x=1742721505; bh=DS0FncZZ3ctJTt2AHSnsfPRMoWiWWBF/ZtDL4GeHqgk=; b=
+	w387SnAjJN5K0eLqSTOE4gpwIB12mPcEVTTHm9mDJ5VYtvfh8HtqH9QAkFXrVBII
+	6Ebj14ZvvrPYBYvj3DbrA6iYbkoe+JWng0IxRQLxxhU0vjUdbtivuZm2IYDU0wzA
+	vDZ6+P8VLP+brGqWSa+7Fb1I23GaD93jQGEr3nV7YB5gakLrXsBn5dTxQ0yAds+2
+	ob3R9GQPMwgWb3hmQOxE64GExspVTrb6XyDrXNjdGbcMBgDnXzS1ceX5++04T43L
+	NXnMixaM9AYdwjjtGl2br9ZBgY9DofuPLoHWswFL1lzqQa+3EKZY03rvX03wLTu3
+	RIUicOKy56DLvaafEjI/SQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742634962; x=
-	1742721362; bh=csSxBraXxWQnYxyjkyp3aIlK3AEF7WKAVfmyigKW3x4=; b=E
-	r9UOR4TwBctSp2pu1gvueQiqxvEithudDrI78E5CaSTNT2mDSiUV9eK3wLeyfmbP
-	SSPpS6ZksCSdrFEp1BQFCtYKs576LY5Hi6nolG09a9w1E/HLZZGV8WYzTKQaVbfO
-	85/wMRLmfXnhMlAYecprxLOfNDVSqUDNgMUNEye61lJD6Z6eBOZF9VALqTO4+KCD
-	PZOp/u+VEtnStekWSJbTEkhYUKTmMFUoRCvdPEo8UQPO6I72xpcT2z00tuVzgPte
-	XIJOWfkHow69r0lLQz38mlVpXImzTfVgRGzHPqXjmptiQn89NWufCvOBg+amwPpl
-	cXWdeKt2hFy3vwz+SVxvw==
-X-ME-Sender: <xms:0X_eZ-77q435CWyV6dxOD8zI2L1YP4yf5drHNKeBvhqgcJcz45q-gw>
-    <xme:0X_eZ3408MEoLn-8qeZKqccME1v5fVQIl-5YHdhjKAJuJuXFOJMGzjXM2TDuAQbp7
-    cQKGar94qGPHW2dzNk>
-X-ME-Received: <xmr:0X_eZ9fl9wGh-grJBGtbMMkK8hUitkOvE4EyldbaQ0X09DLV4p7PDK2ZPgeB38jxGgAfoKYb>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduheefheekucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742635105; x=
+	1742721505; bh=DS0FncZZ3ctJTt2AHSnsfPRMoWiWWBF/ZtDL4GeHqgk=; b=8
+	FnrZ4rownYdAZ6+aCLV70YFh6vrEBK5JieaEU95iIGWcTxJF5eqBliCw2T0A6bvc
+	bdwIH6NrrGsiyqCXHrfDcM2+wQcUnV5BRw9sZkgKGu/XFTh5iDDFwRRWlNYJUsUX
+	MOvqhqK1T2ZumGyHCbXQBE+prL8pZ5YGr3T+Y16B7Y1P4vipPBApls6ah9Znr3FR
+	XasGPJIL/srdr0Uk59nfB0L2L9gzlKwPTwbC/omVdfhHDH2JZ324WUpM7U7MajBp
+	b+5vtMvE9FnsquPJTflsBBWLVocT9qZbqW4D6mfNNY7E+cq5g37RnelB6fnvlhR6
+	f2CtaK/Zv1V5e0FD6w/wQ==
+X-ME-Sender: <xms:YYDeZ_k0lbMxWROhnlY7YQzEoLvpD-xxrBCpZ3yIJF2MzR0JABHuCQ>
+    <xme:YYDeZy1goY9j0pGTFmyVrGI4VncryWBfeX3eE7YFcud2ZZzXNy32lbihqC0dOUOMI
+    EyyuLxQz5eMm7GEGYc>
+X-ME-Received: <xmr:YYDeZ1q5-soEXbFGwwOKbqBS5R0HT0VpLHi3xufZB1gBJlwXNQDWF2OkqAMkOZFsBixQ8uxB>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduheefheelucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddt
-    vdejnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehljhhonh
-    gvshdruggvvheqnecuggftrfgrthhtvghrnhepveduueevtdetgfehfeeliedvvdfhtdei
-    hfdtkeejuddvgeeivddtkeffgeekueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvhdpnhgspghrtghp
-    thhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhkmhhlsegrnhhthh
-    gvrghsrdguvghvpdhrtghpthhtohepphhlrghtfhhorhhmqdgurhhivhgvrhdqgiekiees
-    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhinhhpuhhtse
-    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghl
-    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhikhhosheskhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtohepsggvnhhtihhssheskhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtoheptghorhgvnhhtihhnrdgthhgrrhihsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
-    ephhguvghgohgvuggvsehrvgguhhgrthdrtghomhdprhgtphhtthhopehilhhpohdrjhgr
-    rhhvihhnvghnsehlihhnuhigrdhinhhtvghlrdgtohhm
-X-ME-Proxy: <xmx:0X_eZ7JyIyipjuZSC8AuxLqApyWhNjuMDVbvDivSSrH747ob81_50w>
-    <xmx:0X_eZyKGf0QT2vTftXRSBEBpeT-fXMOux3CRn8ai4Gwg5gH-sSKy8A>
-    <xmx:0X_eZ8xEDWGTFTWrP7xlU29-UWWCZUi__OV0oXD7ADptdyvMELQcLw>
-    <xmx:0X_eZ2IkIwV-A7oxmDbb9wHVEg5NagheDLAFNp7Z9TdXKdys-DJMYg>
-    <xmx:0n_eZx_y12yMoBEkUnWz_utdD4iWl9qNpbqSXatAwBURDCiAVwb7ivU3>
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefkff
+    ggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepfdfnuhhkvgcuffdrucfl
+    ohhnvghsfdcuoehluhhkvgeslhhjohhnvghsrdguvghvqeenucggtffrrghtthgvrhhnpe
+    evudeuvedttefgheefleeivddvhfdtiefhtdekjeduvdegiedvtdekffegkeeuffenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehluhhkvgeslh
+    hjohhnvghsrdguvghvpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdp
+    rhgtphhtthhopehlkhhmlhesrghnthhhvggrshdruggvvhdprhgtphhtthhopehlihhnuh
+    igqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehhuggv
+    ghhovgguvgesrhgvughhrghtrdgtohhmpdhrtghpthhtohepihhlphhordhjrghrvhhinh
+    gvnheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehplhgrthhfohhrmhdq
+    ughrihhvvghrqdigkeeisehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
+    hinhhugidqihhnphhuthesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegs
+    vghnthhishhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjihhkohhssehkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopehmrghrihhordhlihhmohhntghivghllhhosegrmhgu
+    rdgtohhm
+X-ME-Proxy: <xmx:YYDeZ3kzI99Tc0spGGcUtxnvM1bSYaaF_-d8NBNq1ucT4dJ81QcQqA>
+    <xmx:YYDeZ91kC0BUtQSsvjLvqSs8PZpL7GLwVXBiepU2r-zl8tcdbHiSQg>
+    <xmx:YYDeZ2scG6QLhi9VSE6X647G7nWjcKgAvgyaF2yvtWXMia7CQha4TQ>
+    <xmx:YYDeZxXNVKoDJZLEJwuvH3lJgfXC5tJWTj0djj49lvp_MXkNliq8SA>
+    <xmx:YYDeZ2KsknNOpcoarhGk9AK09A1wZr7NOaXco2NjiU1c6TEsDozWHZaQ>
 Feedback-ID: i5ec1447f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 22 Mar 2025 05:15:58 -0400 (EDT)
-Message-ID: <fed995c3-5591-43d3-ac82-dcb6fe1c0c61@ljones.dev>
-Date: Sat, 22 Mar 2025 22:15:56 +1300
+ 22 Mar 2025 05:18:21 -0400 (EDT)
+Message-ID: <31de0734-3e3c-4092-9a18-b9f78cc72006@ljones.dev>
+Date: Sat, 22 Mar 2025 22:18:19 +1300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -99,117 +99,667 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/11] HID: asus: add RGB support to the ROG Ally units
+Subject: Re: [PATCH v3 2/2] platform/x86: asus-wmi: Refactor Ally
+ suspend/resume
 To: Antheas Kapenekakis <lkml@antheas.dev>
-Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-References: <20250320220924.5023-1-lkml@antheas.dev>
- <20250320220924.5023-12-lkml@antheas.dev>
- <d2746ddf-92d5-4ac8-b361-60d1ec9aabb5@ljones.dev>
- <CAGwozwGMNchNXckSZ=HPyi=sFEjrLDzayqjHDSOwwb8MQ=rJPg@mail.gmail.com>
+Cc: linux-kernel@vger.kernel.org, hdegoede@redhat.com,
+ ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
+ linux-input@vger.kernel.org, bentiss@kernel.org, jikos@kernel.org,
+ mario.limonciello@amd.com
+References: <20250321035106.26752-1-luke@ljones.dev>
+ <20250321035106.26752-3-luke@ljones.dev>
+ <CAGwozwFxbzpHhmWGAjWFB49Mc5Pdo4Xj76kghB-D_b5a2c7s_w@mail.gmail.com>
+ <81c9f2a5-a875-442a-8890-be39c8d416c3@ljones.dev>
+ <CAGwozwE-GAjXnR-anoeLa94TrS02U8PQQEAC+BB6ZE06+KSJmQ@mail.gmail.com>
+ <9c4e9ae7-a338-4489-90d9-ef296f062a12@ljones.dev>
+ <CAGwozwFNLwMvyUwDO=OaXoBDZCp1868dYZSM=9PJOdnxtsG0Ew@mail.gmail.com>
+ <b516c6cd-807a-4873-b862-2461a5bfcf14@ljones.dev>
+ <CAGwozwEknXptqTF_0T0tR_ZCia1idFx6p85MYL_AkYsvgWVbEA@mail.gmail.com>
 Content-Language: en-US
 From: "Luke D. Jones" <luke@ljones.dev>
-In-Reply-To: <CAGwozwGMNchNXckSZ=HPyi=sFEjrLDzayqjHDSOwwb8MQ=rJPg@mail.gmail.com>
+In-Reply-To: <CAGwozwEknXptqTF_0T0tR_ZCia1idFx6p85MYL_AkYsvgWVbEA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 22/03/25 20:56, Antheas Kapenekakis wrote:
-> On Sat, 22 Mar 2025 at 03:30, Luke D. Jones <luke@ljones.dev> wrote:
+On 22/03/25 21:53, Antheas Kapenekakis wrote:
+> On Sat, 22 Mar 2025 at 09:49, Luke D. Jones <luke@ljones.dev> wrote:
 >>
->> On 21/03/25 11:09, Antheas Kapenekakis wrote:
->>> Apply the RGB quirk to the QOG Ally units to enable basic RGB support.
+>> On 22/03/25 21:24, Antheas Kapenekakis wrote:
+>>> On Sat, 22 Mar 2025 at 09:14, Luke D. Jones <luke@ljones.dev> wrote:
+>>>>
+>>>> On 22/03/25 18:07, Antheas Kapenekakis wrote:
+>>>>> Let me reply to this real quick so you have something to work on. The
+>>>>> rest I can reply in a few hours
+>>>>>
+>>>>> On Sat, 22 Mar 2025 at 01:33, Luke D. Jones <luke@ljones.dev> wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 22/03/25 07:55, Antheas Kapenekakis wrote:
+>>>>>>> This series would benefit from some pr_info as it does important stuff
+>>>>>>> for bug reporting. I had to add some myself.
+>>>>>>
+>>>>>> I did have some but was asked to remove it.
+>>>>>>
+>>>>>>> On Fri, 21 Mar 2025 at 04:51, Luke Jones <luke@ljones.dev> wrote:
+>>>>>>>>
+>>>>>>>> From: "Luke D. Jones" <luke@ljones.dev>
+>>>>>>>>
+>>>>>>>> Adjust how the CSEE direct call hack is used.
+>>>>>>>>
+>>>>>>>> The results of months of testing combined with help from ASUS to
+>>>>>>>> determine the actual cause of suspend issues has resulted in this
+>>>>>>>> refactoring which immensely improves the reliability for devices which
+>>>>>>>> do not have the following minimum MCU FW version:
+>>>>>>>> - ROG Ally X: 313
+>>>>>>>> - ROG Ally 1: 319
+>>>>>>>>
+>>>>>>>> For MCU FW versions that match the minimum or above the CSEE hack is
+>>>>>>>> disabled and mcu_powersave set to on by default as there are no
+>>>>>>>> negatives beyond a slightly slower device reinitialization due to the
+>>>>>>>> MCU being powered off.
+>>>>>>>>
+>>>>>>>> As this is set only at module load time, it is still possible for
+>>>>>>>> mcu_powersave sysfs attributes to change it at runtime if so desired.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Luke D. Jones <luke@ljones.dev>
+>>>>>>>> ---
+>>>>>>>>      drivers/hid/hid-asus.c                     |   4 +
+>>>>>>>>      drivers/platform/x86/asus-wmi.c            | 130 ++++++++++++++-------
+>>>>>>>>      include/linux/platform_data/x86/asus-wmi.h |  13 +++
+>>>>>>>>      3 files changed, 108 insertions(+), 39 deletions(-)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+>>>>>>>> index 599c836507ff..66bae5cea4f9 100644
+>>>>>>>> --- a/drivers/hid/hid-asus.c
+>>>>>>>> +++ b/drivers/hid/hid-asus.c
+>>>>>>>> @@ -624,6 +624,9 @@ static void validate_mcu_fw_version(struct hid_device *hdev, int idProduct)
+>>>>>>>>                     hid_warn(hdev,
+>>>>>>>>                             "The MCU firmware version must be %d or greater to avoid issues with suspend.\n",
+>>>>>>>>                             min_version);
+>>>>>>>> +       } else {
+>>>>>>>> +               set_ally_mcu_hack(false);
+>>>>>>>> +               set_ally_mcu_powersave(true);
+>>>>>>>>             }
+>>>>>>>>      }
+>>>>>>>>
+>>>>>>>> @@ -1430,4 +1433,5 @@ static struct hid_driver asus_driver = {
+>>>>>>>>      };
+>>>>>>>>      module_hid_driver(asus_driver);
+>>>>>>>>
+>>>>>>>> +MODULE_IMPORT_NS("ASUS_WMI");
+>>>>>>>>      MODULE_LICENSE("GPL");
+>>>>>>>> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+>>>>>>>> index 38ef778e8c19..10936a091c42 100644
+>>>>>>>> --- a/drivers/platform/x86/asus-wmi.c
+>>>>>>>> +++ b/drivers/platform/x86/asus-wmi.c
+>>>>>>>> @@ -142,16 +142,20 @@ module_param(fnlock_default, bool, 0444);
+>>>>>>>>      #define ASUS_MINI_LED_2024_STRONG      0x01
+>>>>>>>>      #define ASUS_MINI_LED_2024_OFF         0x02
+>>>>>>>>
+>>>>>>>> -/* Controls the power state of the USB0 hub on ROG Ally which input is on */
+>>>>>>>>      #define ASUS_USB0_PWR_EC0_CSEE "\\_SB.PCI0.SBRG.EC0.CSEE"
+>>>>>>>> -/* 300ms so far seems to produce a reliable result on AC and battery */
+>>>>>>>> -#define ASUS_USB0_PWR_EC0_CSEE_WAIT 1500
+>>>>>>>> +/*
+>>>>>>>> + * The period required to wait after screen off/on/s2idle.check in MS.
+>>>>>>>> + * Time here greatly impacts the wake behaviour. Used in suspend/wake.
+>>>>>>>> + */
+>>>>>>>> +#define ASUS_USB0_PWR_EC0_CSEE_WAIT    600
+>>>>>>>> +#define ASUS_USB0_PWR_EC0_CSEE_OFF     0xB7
+>>>>>>>> +#define ASUS_USB0_PWR_EC0_CSEE_ON      0xB8
+>>>>>>>>
+>>>>>>>>      static const char * const ashs_ids[] = { "ATK4001", "ATK4002", NULL };
+>>>>>>>>
+>>>>>>>>      static int throttle_thermal_policy_write(struct asus_wmi *);
+>>>>>>>>
+>>>>>>>> -static const struct dmi_system_id asus_ally_mcu_quirk[] = {
+>>>>>>>> +static const struct dmi_system_id asus_rog_ally_device[] = {
+>>>>>>>>             {
+>>>>>>>>                     .matches = {
+>>>>>>>>                             DMI_MATCH(DMI_BOARD_NAME, "RC71L"),
+>>>>>>>> @@ -274,9 +278,6 @@ struct asus_wmi {
+>>>>>>>>             u32 tablet_switch_dev_id;
+>>>>>>>>             bool tablet_switch_inverted;
+>>>>>>>>
+>>>>>>>> -       /* The ROG Ally device requires the MCU USB device be disconnected before suspend */
+>>>>>>>> -       bool ally_mcu_usb_switch;
+>>>>>>>> -
+>>>>>>>>             enum fan_type fan_type;
+>>>>>>>>             enum fan_type gpu_fan_type;
+>>>>>>>>             enum fan_type mid_fan_type;
+>>>>>>>> @@ -335,6 +336,9 @@ struct asus_wmi {
+>>>>>>>>             struct asus_wmi_driver *driver;
+>>>>>>>>      };
+>>>>>>>>
+>>>>>>>> +/* Global to allow setting externally without requiring driver data */
+>>>>>>>> +static bool use_ally_mcu_hack;
+>>>>>>>> +
+>>>>>>>>      /* WMI ************************************************************************/
+>>>>>>>>
+>>>>>>>>      static int asus_wmi_evaluate_method3(u32 method_id,
+>>>>>>>> @@ -549,7 +553,7 @@ static int asus_wmi_get_devstate(struct asus_wmi *asus, u32 dev_id, u32 *retval)
+>>>>>>>>             return 0;
+>>>>>>>>      }
+>>>>>>>>
+>>>>>>>> -static int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param,
+>>>>>>>> +int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param,
+>>>>>>>>                                      u32 *retval)
+>>>>>>>>      {
+>>>>>>>>             return asus_wmi_evaluate_method(ASUS_WMI_METHODID_DEVS, dev_id,
+>>>>>>>> @@ -1343,6 +1347,44 @@ static ssize_t nv_temp_target_show(struct device *dev,
+>>>>>>>>      static DEVICE_ATTR_RW(nv_temp_target);
+>>>>>>>>
+>>>>>>>>      /* Ally MCU Powersave ********************************************************/
+>>>>>>>> +
+>>>>>>>> +/*
+>>>>>>>> + * The HID driver needs to check MCU version and set this to false if the MCU FW
+>>>>>>>> + * version is >= the minimum requirements. New FW do not need the hacks.
+>>>>>>>> + */
+>>>>>>>> +void set_ally_mcu_hack(bool enabled)
+>>>>>>>> +{
+>>>>>>>> +       use_ally_mcu_hack = enabled;
+>>>>>>>> +       pr_debug("%s Ally MCU suspend quirk\n",
+>>>>>>>> +                enabled ? "Enabled" : "Disabled");
+>>>>>>>> +}
+>>>>>>>> +EXPORT_SYMBOL_NS_GPL(set_ally_mcu_hack, "ASUS_WMI");
+>>>>>>>> +
+>>>>>>>> +/*
+>>>>>>>> + * mcu_powersave should be enabled always, as it is fixed in MCU FW versions:
+>>>>>>>> + * - v313 for Ally X
+>>>>>>>> + * - v319 for Ally 1
+>>>>>>>> + * The HID driver checks MCU versions and so should set this if requirements match
+>>>>>>>> + */
+>>>>>>>> +void set_ally_mcu_powersave(bool enabled)
+>>>>>>>
+>>>>>>> I just AB tested setting powersave on boot and it seems the behavior
+>>>>>>> is similar. Since this will only happen on new firmware, it should be
+>>>>>>> OK even though I would rather distros use a udev rule. Note the MCU
+>>>>>>> difference in the OG Ally might cause different behavior and there
+>>>>>>> might be other smaller issues with longer term testing.
+>>>>>>
+>>>>>> I have both the OG, and the X so I've thoroughly tested both, and others
+>>>>>> have tested also. I'm against the udev rule as IMO powersave should be
+>>>>>> the default since it has such big powersaving benefits. The main issue
+>>>>>> though is that it needs exposure in userspace in a way for users to
+>>>>>> easily change it - if they run steamos or similar that won't happen so I
+>>>>>> do prefer making it default in driver and let other distros handle it.
+>>>>>
+>>>>> The option is sticky so even without setting it it defers to the
+>>>>> user's previous choice with windows. IMO it somewhat goes somewhat the
+>>>>> other way. Because powersave affects suspend behavior (ie resume takes
+>>>>> longer) and linux does not have a lockscreen, it is a lot more
+>>>>> debateable. You also cause a flip flop in case the user does not want
+>>>>> it, where it goes from false to true and that might cause issues as it
+>>>>> is a sensitive attributte.
+>>>>
+>>>> I know it's saved to nvram. What issues do you mean?
+>>>>
+>>>>>>> By the way, why not turn off powersave on old firmware instead? That
+>>>>>>> would be where the regression is. If anything hid-asus should check
+>>>>>>> and disable it on lower firmware versions, not enable it on new ones.
+>>>>>>> Ideally before sleep, just like you had it last march.
+>>>>>>
+>>>>>> As above I really think it has big benefits, and the hack does still
+>>>>>> work for those older FW.
+>>>>>
+>>>>> Older firmware does not support powersave with your series. But if the
+>>>>> user uses older firmware, you leave powersave on so the controller
+>>>>> breaks
+>>>>
+>>>> It doesn't break though. The quirk was heavily tested with and without
+>>>> powersave enabled. And on firmware before the fix ASUS put out. This
+>>>> testing was also part of what enabled ASUS to pinpoint the root issue.
 >>>
->>> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
->>> ---
->>>    drivers/hid/hid-asus.c | 4 ++--
->>>    1 file changed, 2 insertions(+), 2 deletions(-)
+>>> But how is this quirk different?
+>>
+>> I thought it was obvious from the code? Or do you mean behaviour-wise?
+> 
+> I did not look at it too closely. But it seems reliable. My concern
+> was adding an lsp0 handler
+> 
+>> 1. shorter msleep (300ms is too short, 1500 is excessive, above 1500
+>> causes issues. repeated testing found 600 was a good middleground),
+>> 2. move the resume callback to later in the chain, to nearly last (also
+>> tested, and used a lot of logging to trace order)
+>>
+>> So this should be much more reliable. If we prove it's not then I'm fine
+>> with changing back too.
+> 
+> If you say it is better I am ok with it. It works great with the new firmware.
+> 
+>>>>>>>> +{
+>>>>>>>> +       int result, err;
+>>>>>>>> +
+>>>>>>>> +       err = asus_wmi_set_devstate(ASUS_WMI_DEVID_MCU_POWERSAVE, enabled, &result);
+>>>>>>>> +       if (err) {
+>>>>>>>> +               pr_warn("Failed to set MCU powersave: %d\n", err);
+>>>>>>>> +               return;
+>>>>>>>> +       }
+>>>>>>>> +       if (result > 1) {
+>>>>>>>> +               pr_warn("Failed to set MCU powersave (result): 0x%x\n", result);
+>>>>>>>> +               return;
+>>>>>>>> +       }
+>>>>>>>> +
+>>>>>>>> +       pr_debug("%s MCU Powersave\n",
+>>>>>>>> +                enabled ? "Enabled" : "Disabled");
+>>>>>>>> +}
+>>>>>>>> +EXPORT_SYMBOL_NS_GPL(set_ally_mcu_powersave, "ASUS_WMI");
+>>>>>>>> +
+>>>>>>>>      static ssize_t mcu_powersave_show(struct device *dev,
+>>>>>>>>                                        struct device_attribute *attr, char *buf)
+>>>>>>>>      {
+>>>>>>>> @@ -4711,6 +4753,18 @@ static int asus_wmi_add(struct platform_device *pdev)
+>>>>>>>>             if (err)
+>>>>>>>>                     goto fail_platform;
+>>>>>>>>
+>>>>>>>> +       use_ally_mcu_hack = acpi_has_method(NULL, ASUS_USB0_PWR_EC0_CSEE)
+>>>>>>>> +                               && dmi_check_system(asus_rog_ally_device);
+>>>>>>>> +       if (use_ally_mcu_hack && dmi_match(DMI_BOARD_NAME, "RC71")) {
+>>>>>>>> +               /*
+>>>>>>>> +                * These steps ensure the device is in a valid good state, this is
+>>>>>>>> +                * especially important for the Ally 1 after a reboot.
+>>>>>>>> +                */
+>>>>>>>> +               acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE,
+>>>>>>>> +                                          ASUS_USB0_PWR_EC0_CSEE_ON);
+>>>>>>>> +               msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+>>>>>>>> +       }
+>>>>>>>> +
+>>>>>>>>             /* ensure defaults for tunables */
+>>>>>>>>             asus->ppt_pl2_sppt = 5;
+>>>>>>>>             asus->ppt_pl1_spl = 5;
+>>>>>>>> @@ -4723,8 +4777,6 @@ static int asus_wmi_add(struct platform_device *pdev)
+>>>>>>>>             asus->egpu_enable_available = asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_EGPU);
+>>>>>>>>             asus->dgpu_disable_available = asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_DGPU);
+>>>>>>>>             asus->kbd_rgb_state_available = asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_TUF_RGB_STATE);
+>>>>>>>> -       asus->ally_mcu_usb_switch = acpi_has_method(NULL, ASUS_USB0_PWR_EC0_CSEE)
+>>>>>>>> -                                               && dmi_check_system(asus_ally_mcu_quirk);
+>>>>>>>>
+>>>>>>>>             if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_MINI_LED_MODE))
+>>>>>>>>                     asus->mini_led_dev_id = ASUS_WMI_DEVID_MINI_LED_MODE;
+>>>>>>>> @@ -4910,34 +4962,6 @@ static int asus_hotk_resume(struct device *device)
+>>>>>>>>             return 0;
+>>>>>>>>      }
+>>>>>>>>
+>>>>>>>> -static int asus_hotk_resume_early(struct device *device)
+>>>>>>>> -{
+>>>>>>>> -       struct asus_wmi *asus = dev_get_drvdata(device);
+>>>>>>>> -
+>>>>>>>> -       if (asus->ally_mcu_usb_switch) {
+>>>>>>>> -               /* sleep required to prevent USB0 being yanked then reappearing rapidly */
+>>>>>>>> -               if (ACPI_FAILURE(acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE, 0xB8)))
+>>>>>>>> -                       dev_err(device, "ROG Ally MCU failed to connect USB dev\n");
+>>>>>>>> -               else
+>>>>>>>> -                       msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+>>>>>>>> -       }
+>>>>>>>> -       return 0;
+>>>>>>>> -}
+>>>>>>>> -
+>>>>>>>> -static int asus_hotk_prepare(struct device *device)
+>>>>>>>> -{
+>>>>>>>
+>>>>>>> Using prepare is needed for old firmware, you are correct. The s2idle
+>>>>>>> quirk does not work prior to suspend but it works after. But if that's
+>>>>>>> the case, why not keep the previous quirk and just allow disabling it?
+>>>>>>> You still call CSEE on both.
+>>>>>>
+>>>>>> The change is just the result of a dozen or so people testing many many
+>>>>>> scenarios while I worked with ASUS to find the root cause of the issues.
+>>>>>> I am *so* glad we were able to get it properly fixed in FW.
+>>>>>
+>>>>> Can you justify it as being better than the previous one though?
+>>>>
+>>>> Yes, faster resume, and more reliable.
+>>>>
+>>>>>>>> -       struct asus_wmi *asus = dev_get_drvdata(device);
+>>>>>>>> -
+>>>>>>>> -       if (asus->ally_mcu_usb_switch) {
+>>>>>>>> -               /* sleep required to ensure USB0 is disabled before sleep continues */
+>>>>>>>> -               if (ACPI_FAILURE(acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE, 0xB7)))
+>>>>>>>> -                       dev_err(device, "ROG Ally MCU failed to disconnect USB dev\n");
+>>>>>>>> -               else
+>>>>>>>> -                       msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+>>>>>>>> -       }
+>>>>>>>> -       return 0;
+>>>>>>>> -}
+>>>>>>>> -
+>>>>>>>>      static int asus_hotk_restore(struct device *device)
+>>>>>>>>      {
+>>>>>>>>             struct asus_wmi *asus = dev_get_drvdata(device);
+>>>>>>>> @@ -4978,11 +5002,34 @@ static int asus_hotk_restore(struct device *device)
+>>>>>>>>             return 0;
+>>>>>>>>      }
+>>>>>>>>
+>>>>>>>> +static void asus_ally_s2idle_restore(void)
+>>>>>>>> +{
+>>>>>>>> +       if (use_ally_mcu_hack) {
+>>>>>>>> +               acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE,
+>>>>>>>> +                                          ASUS_USB0_PWR_EC0_CSEE_ON);
+>>>>>>>> +               msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+>>>>>>>> +       }
+>>>>>>>> +}
+>>>>>>>> +
+>>>>>>>> +static int asus_hotk_prepare(struct device *device)
+>>>>>>>> +{
+>>>>>>>> +       if (use_ally_mcu_hack) {
+>>>>>>>
+>>>>>>> For some reason on my device, even though I go through the
+>>>>>>> compatibility check with a custom log
+>>>>>>>
+>>>>>>>> Mar 21 19:00:29 arch-dev-tools kernel: asus 0003:0B05:1B4C.0003: MCU firmware version 313 is compatible.
+>>>>>>>> Mar 21 19:00:29 arch-dev-tools kernel: asus_wmi: Enabled MCU Powersave
+>>>>>>>
+>>>>>>> During sleep the quirk is still active. So behavior is OK.
+>>>>>>>
+>>>>>>> Again, with custom log in quirk:
+>>>>>>> Mar 21 19:03:24 arch-dev-tools kernel: asus_wmi: Ally device detected,
+>>>>>>> disabling USB0_PWR_EC0_CSEE
+>>>>>>>
+>>>>>>> So the previous quirk is still active. It is also obvious because you
+>>>>>>> can see the light fade, which does not happen without the quirk, where
+>>>>>>> it just cuts.
+>>>>>>>
+>>>>>>> I think you have a race condition here, where asus-wmi enables it
+>>>>>>> after you disable it.
+>>>>>>
+>>>>>> I'm a little confused. By previous quirk do you mean the older one
+>>>>>> before this refactor? asus-wmi doesn't enable anything, it only sets a
+>>>>>> bool on module load, and since the hid-asus module requires some symbols
+>>>>>> from asus-wmi the module load order is set in concrete to be asus-wmi
+>>>>>> first, with hid-asus making the correct calls after verifying the
+>>>>>> firmware version..
+>>>>>
+>>>>> Let me rephrase. "previous quirk" -> "older firmware quirk".
+>>>>
+>>>> Understood, thanks.
+>>>>
+>>>>>> from asus-wmi the module load order is set in concrete to be asus-wmi
+>>>>>> first, with hid-asus making the correct calls after verifying the
+>>>>>
+>>>>> The module LOAD, not the WMI PROBE. I tested 2 restarts with this and
+>>>>> in both the probe of hid-asus happened both times BEFORE the probe of
+>>>>> asus-wmi. So you end up using the older firmware quirk on newer
+>>>>> firmware.
+>>>>
+>>>> I never encountered this, but yes I can see that it would be an issue.
+>>>> What I'll do is since use_ally_mcu_hack is a global, that can be checked
+>>>> in the asus_wmi_add(). I'll switch to an int and use negative for
+>>>> not-initialised.
+>>>>
+>>>> Thanks for pointing that out.
+>>>>
+>>>>> This is a very big bug, since the quirk improves the MCU behavior a
+>>>>> lot and it means that on most of your testing/users testing of this
+>>>>> series the quirk has been active. As it is a race condition, maybe it
+>>>>> is active on eg 70% of the boots. But that still improves the
+>>>>> perceived reliability of this series. To fix this you might need a
+>>>>> second var.
+>>>>
+>>>> If you continue to test I might suggest unload/load the hid-asus module
+>>>> after boot. As above I'll fix correctly.
+>>>>
+>>>>>>> So I force disable it.
+>>>>>>>
+>>>>>>> When I do force disable it, with powersave on, the light cuts after
+>>>>>>> the screen turns off, as the USB gets put into D3 before the CSEE
+>>>>>>> call. Other than that powersave behavior is similar.
+>>>>>>>
+>>>>>>> Powersave off regresses (at least visually) a lot. First, it blinks
+>>>>>>> before sleep, as the controller gets confused and restarts after
+>>>>>>> receiving the Display Off call even though it is supposed to be in D3.
+>>>>>>> It also flashes a previous color which is weird. Then it flickers
+>>>>>>> after suspend. It also seems to not disconnect and reconnect, which
+>>>>>>> might increase standby consumption. On the original Ally, as Denis had
+>>>>>>> said, the XInput MCU might stay awake, so key presses might wake the
+>>>>>>> device too.
+>>>>>>
+>>>>>> The Ally OG has two MCU yes, one is for the gamepad only, and that one
+>>>>>> does stay powered. With powersave enabled only the RGB/keyboard MCU has
+>>>>>> power removed. ASUS never made it clear to me which was primary and
+>>>>>> secondary, not that it matters here.
+>>>>>>
+>>>>>>     > Powersave off regresses
+>>>>>>
+>>>>>> Yes this is the standard behaviour of powersave-off. It's essentially
+>>>>>> the exact same as laptops (and the Z13). Cutting power to the MCU is
+>>>>>> unique to the Ally and they added it in bios/fw revisions while bringing
+>>>>>> up all the features over time.
+>>>>>
+>>>>> It is not. With the quirk it is much nicer as the light fades properly and once.
+>>>>
+>>>> We might have been talking past each other.. I was assuming you talk
+>>>> about the status LED, whcih blinks when suspended with powersave off.
 >>>
->>> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
->>> index 5e87923b35520..589b32b508bbf 100644
->>> --- a/drivers/hid/hid-asus.c
->>> +++ b/drivers/hid/hid-asus.c
->>> @@ -1449,10 +1449,10 @@ static const struct hid_device_id asus_devices[] = {
->>>          QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_RGB },
->>>        { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
->>>            USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY),
->>> -       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
->>> +       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_RGB },
->>>        { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
->>>            USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY_X),
->>> -       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
->>> +       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_RGB },
->>>        { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
->>>            USB_DEVICE_ID_ASUSTEK_ROG_CLAYMORE_II_KEYBOARD),
->>>          QUIRK_ROG_CLAYMORE_II_KEYBOARD },
+>>> No, I was talking about the rings. They do a momentary flash with a
+>>> stale color as if they are broken when powersave is not on. The power
+>>> mask is set so that it doesnt do the blink with the status light, so
+>>> that should not happen.
 >>
->> I need to NACK this one sorry, if only because I added the RGB control
->> in hid-asus-ally as a per-LED control and it works very well. You'll see
->> it once I submit that series upstream again.
-> 
-> Depending on when your driver is ready to merge, it might be
-> beneficial for this to merge ahead of time for some basic support.
-> Then you can yank it after your driver is in. For your driver, I think
-> it would be good to make it separate from hid-asus and yank ally
-> completely from here.
-
-The driver is fully standalone and that is what I do yes.
-
-I do think it would be better for you to do the RGB part separate to the 
-main lot of patches as those can definitely be signed off and merged a 
-lot quicker. You still have the bazzite kernel right? I hope it's 
-acceptable to carry just the RGB there for a tiny bit longer.
-
->> The distinction between MCU mode and Software mode for RGB is frankly a
->> pain in the arse. For Ally we will want software mode (per-led) as that
->> allows just one USB write for all LEDs, and no need to do a set/apply to
->> make the LEDs change. The benefit being that the LEDs can change rapidly
->> and there will be no "blink".
-> 
-> The blink happens when the B4(/B5) command is sent. If they are not,
-> it is perfectly fine. B4 just needs to be sent initially, as it
-> switches the controller to solid mode if it is not there already. Then
-> B4/B5 could be sent on shutdown to save the color to memory. I
-> purposely did not do it as it would break the driver if userspace
-> controls the leds inbetween led switches and it is needlessly
-> complicated for what this support is meant for (basic RGB).
-
-Hmm, I thought the colour wasn't actually applied until at least a "set" 
-was sent. Maybe it's on older devices.. I haven't looked at that for a 
-while now.
-
-> Also, multizone is expected to be of little utility, so it is not
-> worth making concessions over. I never found a use for it or anyone
-> ask for it. If single zone has performance benefits, it should be used
-> instead. A lot of devices do not support multizone, and when they do,
-> it is in different forms, so it is not something that can be
-> intuitively put into a kernel driver imo.
-
-Would you like to know how many varieties of single, multi, and per key 
-there are? I have a rather large spread sheet tracking everything so 
-far. Per-key + bars is something like 12-13 packets to send :|
-
-> Aura mode is especially buggy during boot and resume, since the
-> controller briefly switches from the MCU mode to that, so it uses a
-> stale color which is ugly. Even when you try to match the colors, as
-> you did, it is not 1-1. You know this too. In addition, Aura mode will
-> break userspace Aura programs running through Wine. Although they are
-> already broken due to the hiddevs merging which I had to revert for
-> V2. But we could fix that, and I will try to for V3.
-
-Aura programs can set the device back to MCU mode. Or they should be 
-able to. The RGB setup is done only when called through the mcled class, 
-and on suspend (to colour match and set static).
-
-Cheers,
-Luke.
-
->> I'll write more on patch 10
+>> I'm not sure I'm following you at all..
+>> With powersave on the mcu power is cut once the screen-off is reached.
+>> So the led rings cut. I've never seen the stale colour, unless what you
+>> mean is the period between waking and usersapce sending colour? Please
+>> keep in mind that all my testing has been with the hid-asus-ally driver
+>> in place.
 >>
+>> Is what you mean, that with the old 1.5 second delay quirk, and
+>> powersave on, it has time to fade them?
+> 
+> Sorry. Powersave off, new firmware, power states (boot/suspend/live) disabled.
+> 
+> With this combination, around 60% of the suspends the leds flicker
+> before sleep or blink once. Whereas with the quirk they fade off.
+> 
+>> The LED rings will blink with the status LED, as long as:
+>> 1. powersave is off
+>> 2. the setting for power states (boot/suspend/live) has suspend enabled
+>>
+>> Is number 2 what you mean by mask?
+>>
+>>>>> For the last 6 months I have been using my series, where it also does the same.
+>>>>>
+>>>>>>> But RGB does not seem to get stuck anymore in my ah 30 min testing?
+>>>>>>> Perhaps over a longer play session with hours inbetween suspends there
+>>>>>>> are other regressions.
+>>>>>>>
+>>>>>>> So if I compare it to the previous quirk, I find it a bit of a mixed
+>>>>>>> bag. The previous quirk is very solid and never fails, on all
+>>>>>>> firmwares. The new quirk makes sleep and suspend faster on new
+>>>>>>> firmware, but at the cost of some visual blemishes (at my current
+>>>>>>> testing; there might be other regressions).
+>>>>>>
+>>>>>> I'll make sure I do some further testing this weekend. But I no-longer
+>>>>>> have older FW on the MCU and I'm not going to go through the process of
+>>>>>> downgrading it when we should be encouraging everyone to update since
+>>>>>> there are very real improvements.
+>>>>>
+>>>>> That is OK, especially if you end up using the previous quirk which
+>>>>> has been very thoroughly tested on the older firmwares.
+>>>>
+>>>> It might come to that. In the end it shouldn't be an issue either way
+>>>> for new FW where it disables.
+>>>>
+>>>>>>> If you still want to go through with this series, IMO you should keep
+>>>>>>> the hid check and the previous quirk. Then, on new firmwares, you can
+>>>>>>> tighten the delay. 500ms prior to suspend and removing the quirk after
+>>>>>>> suspend completely should do it. As you see from my previous email
+>>>>>>> timestamp I spent more than an hour on this testing, so I might not be
+>>>>>>> able to test again (I did most of the testing without any userspace
+>>>>>>> software running, only turning it on for the RGB if powersave turned
+>>>>>>> it off)
+>>>>>>
+>>>>>> Thank you for taking the time to test, it is appreciated. I assume you
+>>>>>> tested on newest FW? If you can, I'd love a little more detail on your
+>>>>>> sceanrios so i know what to check.
+>>>>>
+>>>>> Yes, newer firmware. Test setup was a KDE arch build, no gamescope
+>>>>> with no userspace touching the controller running on firmware 313 as
+>>>>> you see in the log.
+>>>>>
+>>>>> To make sure RGB was on/working I flipped hhd on/off before/after suspends
+>>>>
+>>>> How long did you wait? With powersave on it's something like 2-3
+>>>> seconds. You can guage it by when the gamepad begins to respond again.
+>>>
+>>> Around 10. It was completely outside the suspend path. I made sure for
+>>> it to not interfere.
+>>>
+>>>>>> On new FW the patch fully disables the CSEE calls and delays making it a
+>>>>>> NO-OP essentially. I'd much rather fully remove the hacks and have only
+>>>>>> a version check with warning but there's still folks on older fw. TBH as
+>>>>>> bazzite has a much larger reach than I in handheld, it would be
+>>>>>> wonderfully helpfull if bazzite encouraged users to fully update their
+>>>>>> Ally devices - it can be done through a win2go usb safely.
+>>>>>>
+>>>>>>> On the series I developed I kept 500ms before D3, the controller needs
+>>>>>>> 300ms to shutdown otherwise it causes the above. Yes, it has other
+>>>>>>> (structural) issues, but I'd like to completely rewrite it and resend
+>>>>>>> closer to 6.16. The powerprofiles + hidden choices stuff gave me some
+>>>>>>> ideas.
+>>>>>>>
+>>>>>>> Whatever you end up doing, make sure to test the RGB, as powersave
+>>>>>>> turns to force it off.
+>>>>>>
+>>>>>>
+>>>>>> Speaking of RGB, I found that userspace control of it could run in to
+>>>>>> issues with powersave - something like racing against enablement vs MCU
+>>>>>> being ready. With the hid-asus-ally driver I moved RGB control in to it
+>>>>>> and exposed the LEDs as "RGB RGB RGB RGB" in the mcled class dev. Making
+>>>>>> userspace use that instead works really well and means that it could use
+>>>>>> the "device ready" check.
+>>>>>>
+>>>>>> So I suspect that might be what you're seeing, I assume you're still
+>>>>>> using hidraw calls for it in HHD?
+>>>>>>
+>>>>>> I'll clean that series up this weekend and send (tagging you ofc). Maybe
+>>>>>> there's some ideas in it that could be useful for your recent LED patchwork.
+>>>>>
+>>>>> What I see is that once powersave triggers a controller restart after
+>>>>> suspend, the RGB stays off until it is set again. Not the end of the
+>>>>> world but not the prettiest. However, that means that to be able to
+>>>>> see what the MCU is doing, you need to reenable RGB after suspend.
+>>>>
+>>>> Yes it's depending on userspace for it. Part of the reason is because
+>>>> it's switched to mcu software mode for LED. I might revisit that
+>>>> however. MCU hardware mode will always restore regardless of userspace
+>>>> (but doesn't allow rapid addressing).
+>>>>
+>>>>> As for what I found in my testing, perhaps there is a ready check for
+>>>>> Aura, but the other mode works fine without one. Yes it is a bit
+>>>>> tricky though. Because of the controller restart/reinit, if userspace
+>>>>> is not aware of it it can set the rgb color before that finishes so it
+>>>>> gets lost. But all of that has been dealt with long ago.
+>>>>>
+>>>> Using a decky plugin to set LED (assumign we're still talking about
+>>>> hid-asus-ally) hasn't shown any issues - the RGB is put in a work queue.
+>>>>
+>>>> I will submit a V4 later this weekend. Thanks for testing so far, it's
+>>>> been helpful.
+>>>
+>>> Its mostly in the brief second after suspend or 2-3 seconds during
+>>> boot that it happens before the takeover. I would strongly look into
+>>> using something more basic.
+>>
+>> It's already very basic.. Even more so than the old hack. Tracking init
+>> state with use_ally_mcu_hack instead of a simple bool will most likely
+>> solve the issue since use_ally_mcu_hack is a global static.
+> 
+> I meant using Aura for the RGB. The quirk hack is ok if you fix the
+> init race condition. I do not mind the global var. First patch is ok
+> too.
+
+Understood, thank you.
+
 >> Cheers,
 >> Luke.
+>>
+>>> Antheas
+>>>
+>>>> Cheers,
+>>>> Luke.
+>>>>
+>>>>> Powersave on/off, all firmware levels, back buttons, RGB, all work on
+>>>>> bazzite pretty much always. Which is why I was never in a rush to tell
+>>>>> people to update their firmware. But yes, doing that reorder in s2idle
+>>>>> is something that will take a lot of thought and care to upstream.
+>>>>>
+>>>>> Antheas
+>>>>>
+>>>>>> Cheers,
+>>>>>> Luke.
+>>>>>>
+>>>>>>> Best,
+>>>>>>> Antheas
+>>>>>>>
+>>>>>>>> +               acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE,
+>>>>>>>> +                                          ASUS_USB0_PWR_EC0_CSEE_OFF);
+>>>>>>>> +               msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+>>>>>>>> +       }
+>>>>>>>> +       return 0;
+>>>>>>>> +}
+>>>>>>>> +
+>>>>>>>> +/* Use only for Ally devices due to the wake_on_ac */
+>>>>>>>> +static struct acpi_s2idle_dev_ops asus_ally_s2idle_dev_ops = {
+>>>>>>>> +       .restore = asus_ally_s2idle_restore,
+>>>>>>>> +};
+>>>>>>>> +
+>>>>>>>>      static const struct dev_pm_ops asus_pm_ops = {
+>>>>>>>>             .thaw = asus_hotk_thaw,
+>>>>>>>>             .restore = asus_hotk_restore,
+>>>>>>>>             .resume = asus_hotk_resume,
+>>>>>>>> -       .resume_early = asus_hotk_resume_early,
+>>>>>>>>             .prepare = asus_hotk_prepare,
+>>>>>>>>      };
+>>>>>>>>
+>>>>>>>> @@ -5010,6 +5057,10 @@ static int asus_wmi_probe(struct platform_device *pdev)
+>>>>>>>>                             return ret;
+>>>>>>>>             }
+>>>>>>>>
+>>>>>>>> +       ret = acpi_register_lps0_dev(&asus_ally_s2idle_dev_ops);
+>>>>>>>> +       if (ret)
+>>>>>>>> +               pr_warn("failed to register LPS0 sleep handler in asus-wmi\n");
+>>>>>>>> +
+>>>>>>>>             return asus_wmi_add(pdev);
+>>>>>>>>      }
+>>>>>>>>
+>>>>>>>> @@ -5042,6 +5093,7 @@ EXPORT_SYMBOL_GPL(asus_wmi_register_driver);
+>>>>>>>>
+>>>>>>>>      void asus_wmi_unregister_driver(struct asus_wmi_driver *driver)
+>>>>>>>>      {
+>>>>>>>> +       acpi_unregister_lps0_dev(&asus_ally_s2idle_dev_ops);
+>>>>>>>>             platform_device_unregister(driver->platform_device);
+>>>>>>>>             platform_driver_unregister(&driver->platform_driver);
+>>>>>>>>             used = false;
+>>>>>>>> diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+>>>>>>>> index 783e2a336861..9ca408480502 100644
+>>>>>>>> --- a/include/linux/platform_data/x86/asus-wmi.h
+>>>>>>>> +++ b/include/linux/platform_data/x86/asus-wmi.h
+>>>>>>>> @@ -158,8 +158,21 @@
+>>>>>>>>      #define ASUS_WMI_DSTS_LIGHTBAR_MASK    0x0000000F
+>>>>>>>>
+>>>>>>>>      #if IS_REACHABLE(CONFIG_ASUS_WMI)
+>>>>>>>> +void set_ally_mcu_hack(bool enabled);
+>>>>>>>> +void set_ally_mcu_powersave(bool enabled);
+>>>>>>>> +int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval);
+>>>>>>>>      int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
+>>>>>>>>      #else
+>>>>>>>> +static inline void set_ally_mcu_hack(bool enabled)
+>>>>>>>> +{
+>>>>>>>> +}
+>>>>>>>> +static inline void set_ally_mcu_powersave(bool enabled)
+>>>>>>>> +{
+>>>>>>>> +}
+>>>>>>>> +static inline int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval)
+>>>>>>>> +{
+>>>>>>>> +       return -ENODEV;
+>>>>>>>> +}
+>>>>>>>>      static inline int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1,
+>>>>>>>>                                                u32 *retval)
+>>>>>>>>      {
+>>>>>>>> --
+>>>>>>>> 2.49.0
+>>>>>>>>
+>>>>>>
+>>>>
+>>
 
 
