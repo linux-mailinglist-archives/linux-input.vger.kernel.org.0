@@ -1,97 +1,100 @@
-Return-Path: <linux-input+bounces-11066-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11067-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE7DA6C766
-	for <lists+linux-input@lfdr.de>; Sat, 22 Mar 2025 04:24:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8D9A6C78B
+	for <lists+linux-input@lfdr.de>; Sat, 22 Mar 2025 05:05:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD55A3BCB63
-	for <lists+linux-input@lfdr.de>; Sat, 22 Mar 2025 03:24:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE432176606
+	for <lists+linux-input@lfdr.de>; Sat, 22 Mar 2025 04:05:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2562F12CD88;
-	Sat, 22 Mar 2025 03:23:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 071F3127E18;
+	Sat, 22 Mar 2025 04:05:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="0SEVZHld";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PRxypD27"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="TKTbJHfk";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="sHLOS6j+"
 X-Original-To: linux-input@vger.kernel.org
 Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB641487FA;
-	Sat, 22 Mar 2025 03:23:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45894BE49;
+	Sat, 22 Mar 2025 04:05:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742613839; cv=none; b=o4HnLS/QT0sy6ne6Fta+Lt6Irocg/deVnecvtIHk3+kluJLQdmsuhqn3z1kdQfRTDDuSy98eeWoxsYQTi51PqaCQxfqkNKVzTSBtswijboPO9aRQCnac5TX6Bu9i9QfvQ8iFpp1U12UvCUmKWrh0tMuFRYcy8AO9oRoOPkskuvE=
+	t=1742616330; cv=none; b=iG3Ry8IanTSWleeuP+qPd5BTnnQrmpdA2hzyVQEKMGdTMqFaoZY8SUBY/0H2MMKA73ahqYdXFoDrtrE7emQYOUn6wFThJ1iXkw/ABORDceV0mU1zqwQRIoxzZuT9WZAcvGlbh+Qd4/C25FKfj+YBrbNRfq6MJCcdzUxTmVhb3O4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742613839; c=relaxed/simple;
-	bh=zi/t+Rtxy1754FjeiauKsidM7oEZVPTje0+mbqoSNqg=;
+	s=arc-20240116; t=1742616330; c=relaxed/simple;
+	bh=N9BVmrMzorNn0fx0ANVbwA+JzT8gC49PrO2w8M8jXcw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KVaygAP3biM+ogBnTJ61KhysyTSm3n2NFX8r2kPKxG6G4m4YwvhEawdJt5Ap/mWI8uah3rMnZA3EqkxE8RZkAjmO+wrkj50b2a+hHVnXci1xWyw2Yf+EuvMiqpZfvbaeyculKXPK6rBx2xpuwb5hTKtP2BvXHK9kwd3nRtzwffI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=0SEVZHld; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PRxypD27; arc=none smtp.client-ip=202.12.124.149
+	 In-Reply-To:Content-Type; b=hXYE/YffRPq3Q7HROEB3d9VbCKL3Ivw1q5HPpxSPRGj08EQbFazhja8g0GBkDgW5VktfT2C5ZHWxReUWeuSMgazBlgdaGHSTtemJa+xf/hRmDk25TBmTl4ue2FptdJ1SIPXJKnZtZw59ftLUtlho8CC18kP5IKSOnpCKtzgFWLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=TKTbJHfk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=sHLOS6j+; arc=none smtp.client-ip=202.12.124.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 5F440114013D;
-	Fri, 21 Mar 2025 23:23:55 -0400 (EDT)
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfout.stl.internal (Postfix) with ESMTP id CCE2B114015D;
+	Sat, 22 Mar 2025 00:05:26 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Fri, 21 Mar 2025 23:23:55 -0400
+  by phl-compute-10.internal (MEProxy); Sat, 22 Mar 2025 00:05:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1742613835;
-	 x=1742700235; bh=tYFhnBcx+ImS004avHubQ9cGjbBOa7GA6N6Y8kx4O9c=; b=
-	0SEVZHld88ya3cKc8Tl8LVOfyeTpN7H4LVQHFvRq14rcivxOOXfhAZmHuV+8AR1X
-	bA9Y5mIFNfnvq1vLQlp7DHGHAdctEp59O30Q7HokXlefH2hOdvFKOCWAC1d6eFHO
-	Q2RJe1U0YOsaBappvEJmNJHgdVSrpnPwEQYBq1EGpkx4OO/aJbfQzpf+ewSaSzrC
-	nn+Pq6breeM88T6nZ0Nz05WddNAcif2cI6tiFQOD/lk3+njvfWlGSbatlO5GMgMJ
-	gWGl2O4cKuL3EYwjhySy1KQ0onciRGLGN+D7av9RXwiX2FzetzEzb437jnh6JPRw
-	G7m2NB6wi50JEZFqfqX4Fw==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1742616326;
+	 x=1742702726; bh=h5kwOAETkBnFt8TDlx2Lihx8IYE0TiWrutLpyOVX2wI=; b=
+	TKTbJHfk/FNbucDJ2vMLLjmPN3PMI8x8x11A1G0X9TMJG7lt7eciLXL7Xsw9b+dK
+	bE/412NRSNtHNfkIu92HloyU0HM/YTOnFgB3nI2pcmuMNH4glkQGgha0Fopb9z4z
+	IqlV+M834kReuSvIyJHSI4gFDG+t9/dYlIejFksn9aJm3EV2+5YHPQ10kbjKMA7w
+	2Ey5EMI4xcPS4To8nZNtU0emYwP2TWfD5eRROXdS4UnRBTN6COpu/l7lj5BBLtld
+	5BcTdbEBmVzzIvxnaPZmglY1zEOCK/k1HShcfjPrcvkZ7lRazFgUFYe23CL9eiY7
+	XeCNcLv/tsn1UcBsRLkVvg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742613835; x=
-	1742700235; bh=tYFhnBcx+ImS004avHubQ9cGjbBOa7GA6N6Y8kx4O9c=; b=P
-	RxypD27OaHPfdpM1J3SjOselFTRRYmXWr4mfk5f0Rqo4QWXD4Oek/WiDLnecfS4T
-	HZ5ZWynEaFsYr/wcKN9Ho63tZBvWZio6wjKkeFSD0LbO3jgtK3TfCUPLT3palRJ4
-	JEIKVQkm3QqY1Ip2SgSgu1bm4yQosS+g3BeBOuer+i3HrP9M7yL1V0TbWb3n/9N4
-	PIoQ4LFpz2jFJERXFgx/1VNy29XXuDznSRQGzFV1poGbS/RrxB4DqH71V2OwxTQv
-	vIS6ZPRJ/ROpsea6Q3+qdeeKFXWHYwABN7AO3A3yAAkcCN9XDCorhMD3F0KOggum
-	09aPkL+7RU9IOIbGa1SBg==
-X-ME-Sender: <xms:Si3eZ11ZeFIItHGtu5BtfzbZcDXeR14Z6_gIvpmz6Y2LbqSZCkRldA>
-    <xme:Si3eZ8G2OY3YG6KaENkwNUlbYai8qbQ35uL7Te89MiykeSJ9Ji3XBEF_DJgBJ_qoi
-    o0m4JYVxppNpQ3fdOs>
-X-ME-Received: <xmr:Si3eZ16OEMvSG9b-FTnqUeWEIOUBXqR5XGJH98_TdgrRxLMm2COUr9kmPYUyT8-4Yl140_IW>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduhedvkeekucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742616326; x=
+	1742702726; bh=h5kwOAETkBnFt8TDlx2Lihx8IYE0TiWrutLpyOVX2wI=; b=s
+	HLOS6j+LWrJgBR1AjJhm5EUzxCMVo4LHhkulK0D1n14wcioKasFTvZnGWwKL8Oq3
+	VeyzHOFXGisE5qQZgrPNFg7YLjadDSiCMUjPQ7/mqeIS416fJs564Nb76EjkFiOz
+	oY1d6pjzJZxPVopzhxtPy2nj49yLkA7uUnWVguGmzuD9TmFAfNHfE/DFunnGQxY8
+	QgLfTTeaFLLfz//aD9LWPvndfvctKs3zOJQvM3+rS4RwGtB+HYeSyW8ZxxPDIfp3
+	oNexrSZwy/u9sCIvu9TIt115QVuDBV8dDO1p3aC/lENJn3EY6FibXdmTmUIzWAjk
+	80vu/PWepuPIFHAN8N3JQ==
+X-ME-Sender: <xms:BTfeZ18kNs3eX0ROe1wZ5ZnrZJq3HE9B2E8fskUDMfvYojxBBlrX1g>
+    <xme:BTfeZ5vyRDatDp2EDHrWVeTzQk27ZGkLNLncy-UluSKsPQNUUljA4PxQw8ucyIqX9
+    ERvAmd4oHn_GW-r-LA>
+X-ME-Received: <xmr:BTfeZzDmlhU-9Tr_0ghGNK5Bk03xOpziUTBVXaMd7oWAj0eQbevl2Nxw7uE22HQJLu916DXX>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduhedvleeiucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
     pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
     gvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddt
     vdejnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehljhhonh
-    gvshdruggvvheqnecuggftrfgrthhtvghrnhepveduueevtdetgfehfeeliedvvdfhtdei
-    hfdtkeejuddvgeeivddtkeffgeekueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvhdpnhgspghrtghp
-    thhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhkmhhlsegrnhhthh
-    gvrghsrdguvghvpdhrtghpthhtohepphhlrghtfhhorhhmqdgurhhivhgvrhdqgiekiees
-    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhinhhpuhhtse
-    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghl
-    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhikhhosheskhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtohepsggvnhhtihhssheskhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtoheptghorhgvnhhtihhnrdgthhgrrhihsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
-    ephhguvghgohgvuggvsehrvgguhhgrthdrtghomhdprhgtphhtthhopehilhhpohdrjhgr
-    rhhvihhnvghnsehlihhnuhigrdhinhhtvghlrdgtohhm
-X-ME-Proxy: <xmx:Si3eZy1-gF11km2Y1lGyg62amNrdwxYpomFJp79CCyxJ6GY3JYlfoQ>
-    <xmx:Si3eZ4Hr0dSWL1WU7UDMJ5CzAS8h2eyaDlSRiAptQ4AXU7OLp9kO1w>
-    <xmx:Si3eZz_IybBkBII-eR6OrdBfo64DWe4yuIozmGJLzdhYdg6P8aES9g>
-    <xmx:Si3eZ1luhD5DsuSQ-QODIt5CvjplyfncQIrOL3aELb5P96shcDM7Fg>
-    <xmx:Sy3eZ2bKl6qqaaP2fgPGzpKcFq0isZ__Lb0LNau8e7GA0_1AdMT0vlgI>
+    gvshdruggvvheqnecuggftrfgrthhtvghrnhepveekffeuvdetheehgfehveejkeehvdeg
+    heduveeufefgkeetueeiudfhueeivdffnecuffhomhgrihhnpehlvggupggtuggvvhdrnh
+    grmhgvpdhkvghrnhgvlhdrohhrghdpmhhitghrohhsohhfthdrtghomhdpghhithhhuhgs
+    rdgtohhmpdhlihhghhhtihhnghdqugihnhgrmhhitgdqlhgrmhhprghrrhgrhidrmhgupd
+    hushgsrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
+    rhhomheplhhukhgvsehljhhonhgvshdruggvvhdpnhgspghrtghpthhtohepledpmhhoug
+    gvpehsmhhtphhouhhtpdhrtghpthhtoheplhhkmhhlsegrnhhthhgvrghsrdguvghvpdhr
+    tghpthhtohepphhlrghtfhhorhhmqdgurhhivhgvrhdqgiekieesvhhgvghrrdhkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhn
+    vghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrh
+    hnvghlrdhorhhgpdhrtghpthhtohepjhhikhhosheskhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtohepsggvnhhtihhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghorhgvnh
+    htihhnrdgthhgrrhihsehgmhgrihhlrdgtohhmpdhrtghpthhtohephhguvghgohgvuggv
+    sehrvgguhhgrthdrtghomhdprhgtphhtthhopehilhhpohdrjhgrrhhvihhnvghnsehlih
+    hnuhigrdhinhhtvghlrdgtohhm
+X-ME-Proxy: <xmx:BTfeZ5eOMt2wbk5HDwA3TlMVLuADKLdQMTPNArmMg6w-HVWzr0xXkg>
+    <xmx:BTfeZ6MkGjzTUYYa_-znqR3lIJiMc3zDOHxjAbviJ5i08Ktwsy-orw>
+    <xmx:BTfeZ7mnNrXe_oEn3jvJA3Pm9nAKiVkenN9Im9erJsp7CQiAiA5jOw>
+    <xmx:BTfeZ0sxH8KwSl36xx9NYvf6j3hs0MzB4BC-woiOOkFl_IGV7X7jMg>
+    <xmx:BjfeZ7i6iy4X6HtPV1Gssgg_AZMTXOmHxHeDEbhxiRoion2MMTLIAO7t>
 Feedback-ID: i5ec1447f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 21 Mar 2025 23:23:51 -0400 (EDT)
-Message-ID: <d06fbb28-6bec-42ed-a161-2456131ca32a@ljones.dev>
-Date: Sat, 22 Mar 2025 16:23:49 +1300
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 22 Mar 2025 00:05:21 -0400 (EDT)
+Message-ID: <976cc1c8-1c62-4c6a-ab15-056466b8ebac@ljones.dev>
+Date: Sat, 22 Mar 2025 17:05:19 +1300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -99,8 +102,7 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/11] platform/x86: asus-wmi: Add support for multiple
- kbd RGB handlers
+Subject: Re: [PATCH 10/11] HID: asus: add basic RGB support
 To: Antheas Kapenekakis <lkml@antheas.dev>,
  platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
@@ -109,282 +111,331 @@ Cc: linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
  Hans de Goede <hdegoede@redhat.com>,
  =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
 References: <20250320220924.5023-1-lkml@antheas.dev>
- <20250320220924.5023-6-lkml@antheas.dev>
+ <20250320220924.5023-11-lkml@antheas.dev>
 Content-Language: en-US
 From: "Luke D. Jones" <luke@ljones.dev>
-In-Reply-To: <20250320220924.5023-6-lkml@antheas.dev>
+In-Reply-To: <20250320220924.5023-11-lkml@antheas.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 21/03/25 11:09, Antheas Kapenekakis wrote:
-> Some devices, such as the Z13 have multiple AURA devices connected
-> to them by USB. In addition, they might have a WMI interface for
-> RGB. In Windows, Armoury Crate exposes a unified brightness slider
-> for all of them, with 3 brightness levels.
-> 
-> Therefore, to be synergistic in Linux, and support existing tooling
-> such as UPower, allow adding listeners to the RGB device of the WMI
-> interface. If WMI does not exist, lazy initialize the interface.
+> Adds basic RGB support to hid-asus through multi-index. The interface
+> works quite well, but has not gone through much stability testing.
+> Applied on demand, if userspace does not touch the RGB sysfs, not
+> even initialization is done. Ensuring compatibility with existing
+> userspace programs.
 > 
 > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 > ---
->   drivers/platform/x86/asus-wmi.c            | 100 ++++++++++++++++++---
->   include/linux/platform_data/x86/asus-wmi.h |  16 ++++
->   2 files changed, 104 insertions(+), 12 deletions(-)
+>   drivers/hid/hid-asus.c | 169 +++++++++++++++++++++++++++++++++++++----
+>   1 file changed, 155 insertions(+), 14 deletions(-)
 > 
-> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-> index 38ef778e8c19b..21e034be71b2f 100644
-> --- a/drivers/platform/x86/asus-wmi.c
-> +++ b/drivers/platform/x86/asus-wmi.c
-> @@ -254,6 +254,8 @@ struct asus_wmi {
->   	int tpd_led_wk;
->   	struct led_classdev kbd_led;
->   	int kbd_led_wk;
-> +	bool kbd_led_avail;
-> +	bool kbd_led_registered;
->   	struct led_classdev lightbar_led;
->   	int lightbar_led_wk;
->   	struct led_classdev micmute_led;
-> @@ -1487,6 +1489,46 @@ static void asus_wmi_battery_exit(struct asus_wmi *asus)
+> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+> index 546603f5193c7..5e87923b35520 100644
+> --- a/drivers/hid/hid-asus.c
+> +++ b/drivers/hid/hid-asus.c
+> @@ -30,6 +30,7 @@
+>   #include <linux/input/mt.h>
+>   #include <linux/usb.h> /* For to_usb_interface for T100 touchpad intf check */
+>   #include <linux/power_supply.h>
+> +#include <linux/led-class-multicolor.h>
+>   #include <linux/leds.h>
 >   
->   /* LEDs ***********************************************************************/
+>   #include "hid-ids.h"
+> @@ -85,6 +86,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+>   #define QUIRK_ROG_NKEY_KEYBOARD		BIT(11)
+>   #define QUIRK_ROG_CLAYMORE_II_KEYBOARD BIT(12)
+>   #define QUIRK_HANDLE_GENERIC		BIT(13)
+> +#define QUIRK_ROG_NKEY_RGB		BIT(14)
 >   
-> +LIST_HEAD(asus_brt_listeners);
-> +DEFINE_MUTEX(asus_brt_lock);
-> +struct asus_wmi *asus_brt_ref;
-
-Could these 3 items contained in a new static struct, it would make it 
-easier to see the associations since they're a group.
-
-> +int asus_brt_register_listener(struct asus_brt_listener *bdev)
+>   #define I2C_KEYBOARD_QUIRKS			(QUIRK_FIX_NOTEBOOK_REPORT | \
+>   						 QUIRK_NO_INIT_REPORTS | \
+> @@ -97,9 +99,15 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+>   
+>   struct asus_kbd_leds {
+>   	struct asus_brt_listener listener;
+> +	struct led_classdev_mc mc_led;
+> +	struct mc_subled subled_info[3];
+>   	struct hid_device *hdev;
+>   	struct work_struct work;
+>   	unsigned int brightness;
+> +	uint8_t rgb_colors[3];
+> +	bool rgb_init;
+> +	bool rgb_set;
+> +	bool rgb_registered;
+>   	spinlock_t lock;
+>   	bool removed;
+>   };
+> @@ -505,23 +513,67 @@ static void asus_schedule_work(struct asus_kbd_leds *led)
+>   	spin_unlock_irqrestore(&led->lock, flags);
+>   }
+>   
+> -static void asus_kbd_backlight_set(struct asus_brt_listener *listener,
+> +static void do_asus_kbd_backlight_set(struct asus_kbd_leds *led, int brightness)
 > +{
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&led->lock, flags);
+> +	led->brightness = brightness;
+> +	spin_unlock_irqrestore(&led->lock, flags);
+> +
+> +	asus_schedule_work(led);
+> +}
+> +
+> +static void asus_kbd_listener_set(struct asus_brt_listener *listener,
+>   				   int brightness)
+>   {
+>   	struct asus_kbd_leds *led = container_of(listener, struct asus_kbd_leds,
+>   						 listener);
+> +	do_asus_kbd_backlight_set(led, brightness);
+> +	if (led->rgb_registered) {
+> +		led->mc_led.led_cdev.brightness = brightness;
+> +		led_classdev_notify_brightness_hw_changed(&led->mc_led.led_cdev,
+> +							  brightness);
+> +	}
+> +}
+> +
+> +static void asus_kbd_brightness_set(struct led_classdev *led_cdev,
+> +				    enum led_brightness brightness)
+> +{
+> +	struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(led_cdev);
+> +	struct asus_kbd_leds *led = container_of(mc_cdev, struct asus_kbd_leds,
+> +						 mc_led);
+>   	unsigned long flags;
+>   
+>   	spin_lock_irqsave(&led->lock, flags);
+> -	led->brightness = brightness;
+> +	led->rgb_colors[0] = mc_cdev->subled_info[0].intensity;
+> +	led->rgb_colors[1] = mc_cdev->subled_info[1].intensity;
+> +	led->rgb_colors[2] = mc_cdev->subled_info[2].intensity;
+> +	led->rgb_set = true;
+>   	spin_unlock_irqrestore(&led->lock, flags);
+>   
+> -	asus_schedule_work(led);
+> +	do_asus_kbd_backlight_set(led, brightness);
+> +}
+> +
+> +static enum led_brightness asus_kbd_brightness_get(struct led_classdev *led_cdev)
+> +{
+> +	struct led_classdev_mc *mc_led;
+> +	struct asus_kbd_leds *led;
+> +	enum led_brightness brightness;
+> +	unsigned long flags;
+> +
+> +	mc_led = lcdev_to_mccdev(led_cdev);
+> +	led = container_of(mc_led, struct asus_kbd_leds, mc_led);
+> +
+> +	spin_lock_irqsave(&led->lock, flags);
+> +	brightness = led->brightness;
+> +	spin_unlock_irqrestore(&led->lock, flags);
+> +
+> +	return brightness;
+>   }
+>   
+> -static void asus_kbd_backlight_work(struct work_struct *work)
+> +static void asus_kbd_backlight_work(struct asus_kbd_leds *led)
+>   {
+> -	struct asus_kbd_leds *led = container_of(work, struct asus_kbd_leds, work);
+>   	u8 buf[] = { FEATURE_KBD_REPORT_ID, 0xba, 0xc5, 0xc4, 0x00 };
+>   	int ret;
+>   	unsigned long flags;
+> @@ -535,10 +587,69 @@ static void asus_kbd_backlight_work(struct work_struct *work)
+>   		hid_err(led->hdev, "Asus failed to set keyboard backlight: %d\n", ret);
+>   }
+>   
+> +static void asus_kbd_rgb_work(struct asus_kbd_leds *led)
+> +{
+> +	u8 rgb_buf[][7] = {
+> +		{ FEATURE_KBD_LED_REPORT_ID1, 0xB3 }, /* set mode */
+> +		{ FEATURE_KBD_LED_REPORT_ID1, 0xB5 }, /* apply mode */
+> +		{ FEATURE_KBD_LED_REPORT_ID1, 0xB4 }, /* save to mem */
+> +	};
+> +	unsigned long flags;
+> +	uint8_t colors[3];
+> +	bool rgb_init, rgb_set;
 > +	int ret;
 > +
-> +	mutex_lock(&asus_brt_lock);
-> +	list_add_tail(&bdev->list, &asus_brt_listeners);
-> +	if (asus_brt_ref) {
-
-ret is not initialised if this is false
-
-> +		if (asus_brt_ref->kbd_led_registered && asus_brt_ref->kbd_led_wk >= 0)
-> +			bdev->notify(bdev, asus_brt_ref->kbd_led_wk);
-> +		else {
-> +			asus_brt_ref->kbd_led_registered = true;
-> +			ret = led_classdev_register(
-> +				&asus_brt_ref->platform_device->dev,
-> +				&asus_brt_ref->kbd_led);
+> +	spin_lock_irqsave(&led->lock, flags);
+> +	rgb_init = led->rgb_init;
+> +	rgb_set = led->rgb_set;
+> +	led->rgb_set = false;
+> +	colors[0] = led->rgb_colors[0];
+> +	colors[1] = led->rgb_colors[1];
+> +	colors[2] = led->rgb_colors[2];
+> +	spin_unlock_irqrestore(&led->lock, flags);
+> +
+> +	if (!rgb_set)
+> +		return;
+> +
+> +	if (rgb_init) {
+> +		ret = asus_kbd_init(led->hdev, FEATURE_KBD_LED_REPORT_ID1);
+> +		if (ret < 0) {
+> +			hid_err(led->hdev, "Asus failed to init RGB: %d\n", ret);
+> +			return;
+> +		}
+> +		spin_lock_irqsave(&led->lock, flags);
+> +		led->rgb_init = false;
+> +		spin_unlock_irqrestore(&led->lock, flags);
+> +	}
+> +
+> +	/* Protocol is: 54b3 zone (0=all) mode (0=solid) RGB */
+> +	rgb_buf[0][4] = colors[0];
+> +	rgb_buf[0][5] = colors[1];
+> +	rgb_buf[0][6] = colors[2];
+> +
+> +	for (size_t i = 0; i < ARRAY_SIZE(rgb_buf); i++) {
+> +		ret = asus_kbd_set_report(led->hdev, rgb_buf[i], sizeof(rgb_buf[i]));
+> +		if (ret < 0) {
+> +			hid_err(led->hdev, "Asus failed to set RGB: %d\n", ret);
+> +			return;
 > +		}
 > +	}
-> +	mutex_unlock(&asus_brt_lock);
-> +
-> +	return ret;
 > +}
-> +EXPORT_SYMBOL_GPL(asus_brt_register_listener);
 > +
-> +void asus_brt_unregister_listener(struct asus_brt_listener *bdev)
+> +static void asus_kbd_work(struct work_struct *work)
 > +{
-> +	mutex_lock(&asus_brt_lock);
-> +	list_del(&bdev->list);
-> +
-> +	if (asus_brt_ref && asus_brt_ref->kbd_led_registered &&
-> +	    list_empty(&asus_brt_listeners) && !asus_brt_ref->kbd_led_avail) {
-> +		led_classdev_unregister(&asus_brt_ref->kbd_led);
-> +		asus_brt_ref->kbd_led_registered = false;
-> +	}
-> +	mutex_unlock(&asus_brt_lock);
+> +	struct asus_kbd_leds *led = container_of(work, struct asus_kbd_leds,
+> +						 work);
+> +	asus_kbd_backlight_work(led);
+> +	asus_kbd_rgb_work(led);
 > +}
-> +EXPORT_SYMBOL_GPL(asus_brt_unregister_listener);
 > +
->   /*
->    * These functions actually update the LED's, and are called from a
->    * workqueue. By doing this as separate work rather than when the LED
-> @@ -1566,6 +1608,7 @@ static int kbd_led_read(struct asus_wmi *asus, int *level, int *env)
->   
->   static void do_kbd_led_set(struct led_classdev *led_cdev, int value)
+>   static int asus_kbd_register_leds(struct hid_device *hdev)
 >   {
-> +	struct asus_brt_listener *listener;
->   	struct asus_wmi *asus;
->   	int max_level;
+>   	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
+>   	unsigned char kbd_func;
+> +	struct asus_kbd_leds *leds;
+> +	bool no_led;
+>   	int ret;
 >   
-> @@ -1573,7 +1616,12 @@ static void do_kbd_led_set(struct led_classdev *led_cdev, int value)
->   	max_level = asus->kbd_led.max_brightness;
+>   	ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
+> @@ -566,21 +677,51 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
+>   	if (!drvdata->kbd_backlight)
+>   		return -ENOMEM;
 >   
->   	asus->kbd_led_wk = clamp_val(value, 0, max_level);
-> -	kbd_led_update(asus);
+> -	drvdata->kbd_backlight->removed = false;
+> -	drvdata->kbd_backlight->brightness = 0;
+> -	drvdata->kbd_backlight->hdev = hdev;
+> -	drvdata->kbd_backlight->listener.notify = asus_kbd_backlight_set;
+> -	INIT_WORK(&drvdata->kbd_backlight->work, asus_kbd_backlight_work);
+> +	leds = drvdata->kbd_backlight;
+> +	leds->removed = false;
+> +	leds->brightness = 3;
+> +	leds->hdev = hdev;
+> +	leds->listener.notify = asus_kbd_listener_set;
 > +
-> +	if (asus->kbd_led_avail)
-> +		kbd_led_update(asus);
+> +	leds->rgb_colors[0] = 0;
+> +	leds->rgb_colors[1] = 0;
+> +	leds->rgb_colors[2] = 0;
+> +	leds->rgb_init = true;
+> +	leds->rgb_set = false;
+> +	leds->mc_led.led_cdev.name = devm_kasprintf(&hdev->dev, GFP_KERNEL,
+> +					"asus-%s-led",
+> +					strlen(hdev->uniq) ?
+> +					hdev->uniq : dev_name(&hdev->dev));
+> +	leds->mc_led.led_cdev.flags = LED_BRIGHT_HW_CHANGED;
+> +	leds->mc_led.led_cdev.max_brightness = 3,
+> +	leds->mc_led.led_cdev.brightness_set = asus_kbd_brightness_set,
+> +	leds->mc_led.led_cdev.brightness_get = asus_kbd_brightness_get,
+> +	leds->mc_led.subled_info = leds->subled_info,
+> +	leds->mc_led.num_colors = ARRAY_SIZE(leds->subled_info),
+> +	leds->subled_info[0].color_index = LED_COLOR_ID_RED;
+> +	leds->subled_info[1].color_index = LED_COLOR_ID_GREEN;
+> +	leds->subled_info[2].color_index = LED_COLOR_ID_BLUE;
 > +
-> +	list_for_each_entry(listener, &asus_brt_listeners, list)
-> +		listener->notify(listener, asus->kbd_led_wk);
->   }
+> +	INIT_WORK(&drvdata->kbd_backlight->work, asus_kbd_work);
+>   	spin_lock_init(&drvdata->kbd_backlight->lock);
 >   
->   static void kbd_led_set(struct led_classdev *led_cdev,
-> @@ -1583,15 +1631,21 @@ static void kbd_led_set(struct led_classdev *led_cdev,
->   	if (led_cdev->flags & LED_UNREGISTERING)
->   		return;
->   
-> +	mutex_lock(&asus_brt_lock);
->   	do_kbd_led_set(led_cdev, value);
-> +	mutex_unlock(&asus_brt_lock);
->   }
->   
->   static void kbd_led_set_by_kbd(struct asus_wmi *asus, enum led_brightness value)
->   {
-> -	struct led_classdev *led_cdev = &asus->kbd_led;
-> +	struct led_classdev *led_cdev;
+>   	ret = asus_brt_register_listener(&drvdata->kbd_backlight->listener);
+> +	no_led = !!ret;
 > +
-> +	mutex_lock(&asus_brt_lock);
-> +	led_cdev = &asus->kbd_led;
+> +	if (drvdata->quirks & QUIRK_ROG_NKEY_RGB) {
+> +		ret = devm_led_classdev_multicolor_register(
+> +			&hdev->dev, &leds->mc_led);
+> +		if (!ret)
+> +			leds->rgb_registered = true;
+> +		no_led &= !!ret;
+> +	}
 >   
->   	do_kbd_led_set(led_cdev, value);
->   	led_classdev_notify_brightness_hw_changed(led_cdev, asus->kbd_led_wk);
-> +	mutex_unlock(&asus_brt_lock);
->   }
->   
->   static enum led_brightness kbd_led_get(struct led_classdev *led_cdev)
-> @@ -1601,6 +1655,9 @@ static enum led_brightness kbd_led_get(struct led_classdev *led_cdev)
->   
->   	asus = container_of(led_cdev, struct asus_wmi, kbd_led);
->   
-> +	if (!asus->kbd_led_avail)
-> +		return asus->kbd_led_wk;
-> +
->   	retval = kbd_led_read(asus, &value, NULL);
->   	if (retval < 0)
->   		return retval;
-> @@ -1716,7 +1773,12 @@ static int camera_led_set(struct led_classdev *led_cdev,
->   
->   static void asus_wmi_led_exit(struct asus_wmi *asus)
->   {
-> -	led_classdev_unregister(&asus->kbd_led);
-> +	mutex_lock(&asus_brt_lock);
-> +	asus_brt_ref = NULL;
-> +	if (asus->kbd_led_registered)
-> +		led_classdev_unregister(&asus->kbd_led);
-> +	mutex_unlock(&asus_brt_lock);
-> +
->   	led_classdev_unregister(&asus->tpd_led);
->   	led_classdev_unregister(&asus->wlan_led);
->   	led_classdev_unregister(&asus->lightbar_led);
-> @@ -1730,6 +1792,7 @@ static void asus_wmi_led_exit(struct asus_wmi *asus)
->   static int asus_wmi_led_init(struct asus_wmi *asus)
->   {
->   	int rv = 0, num_rgb_groups = 0, led_val;
-> +	bool has_listeners;
->   
->   	if (asus->kbd_rgb_dev)
->   		kbd_rgb_mode_groups[num_rgb_groups++] = &kbd_rgb_mode_group;
-> @@ -1754,24 +1817,37 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
->   			goto error;
+> -	if (ret < 0) {
+> +	if (no_led) {
+>   		/* No need to have this still around */
+>   		devm_kfree(&hdev->dev, drvdata->kbd_backlight);
 >   	}
 >   
-> -	if (!kbd_led_read(asus, &led_val, NULL) && !dmi_check_system(asus_use_hid_led_dmi_ids)) {
-> -		pr_info("using asus-wmi for asus::kbd_backlight\n");
+> -	return ret;
+> +	return no_led ? -ENODEV : 0;
+>   }
+>   
+>   /*
+> @@ -1305,7 +1446,7 @@ static const struct hid_device_id asus_devices[] = {
+>   	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+>   	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+>   	    USB_DEVICE_ID_ASUSTEK_ROG_Z13_LIGHTBAR),
+> -	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+> +	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_RGB },
+>   	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+>   	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY),
+>   	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+> @@ -1334,7 +1475,7 @@ static const struct hid_device_id asus_devices[] = {
+>   	 */
+>   	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+>   		USB_VENDOR_ID_ASUSTEK, USB_DEVICE_ID_ASUSTEK_ROG_Z13_FOLIO),
+> -	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+> +	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_RGB },
+>   	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+>   		USB_VENDOR_ID_ASUSTEK, USB_DEVICE_ID_ASUSTEK_T101HA_KEYBOARD) },
+>   	{ }
 
-Okay so part of the reason the asus_use_hid_led_dmi_ids table was 
-created is that some of those laptops had both WMI method, and HID 
-method. The WMI method was given priority but on those laptops it didn't 
-actually work. What was done was a sort of "blanket" use-hid. I don't 
-know why ASUS did this.
+Hi Antheas,
 
-> +	asus->kbd_led.name = "asus::kbd_backlight";
+This is something I've wanted to do for a while now but a number of 
+things stopped me. I've supported 80+ laptops over the years with either 
+the 0x1866 or 0x19b6 PID, and now we have 4 new PID for devices using 
+the ITE MCU. In all of this over I think more than 7 years ASUS has been 
+remarkably consistent with the HID API so we're lucky there.. However:
 
-I'd like to see this changed to "asus:rgb:kbd_backlight" if RGB is 
-supported but this might not be so feasible for the bulk of laptops. 
-Given that the Z13 is using a new PID it may be okay there...
+- the PID I mention have been used for both white only, and RGB devices
+- MCU LED modes vary between all except I think the first 3
+- software mode (as asus calls it) LED addressing varies
 
-> +	asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
-> +	asus->kbd_led.brightness_set = kbd_led_set;
-> +	asus->kbd_led.brightness_get = kbd_led_get;
-> +	asus->kbd_led.max_brightness = 3;
-> +	asus->kbd_led_avail = !kbd_led_read(asus, &led_val, NULL);
+there's just no way to tell what each of the 80 plus models supports 
+besides the manual tracking I've been doing (and that is tiresome).
 
-Per the comment 2x above we will get some laptops returning "yes I 
-support this" even though it doesn't actually work. It raises two 
-questions for me:
-1. on machines where it *does* work and they also support HID, do we end 
-up with a race condition?
-2. what is the effect of that race?
+None of the above is an issue for the Z13 series using the 0x1a30 PID 
+though. Unless ASUS decides to release a white only LED version :(
 
-I suspect we might need that quirk table still. Unfortunately I 
-no-longer have a device where the WMI method was broken, but I will test 
-on one 0x1866 device (2019) and a few 0x19b6
+I've asked my contacts for some details about the HID protocol they're 
+using, especially for a method to get capabilities if one exits. You'll 
+be the first to know about it if I get the details as I'd very much like 
+to have first class RGB for all these devices. ASUS are a bit funny 
+though, I may get back a "No because security" or something equally 
+nonsense - depends on which internal team I need it from and what the 
+current politics between teams is.
 
-No other comments.
+In the meantime, maybe a NACK so we can get the rest of the series in 
+faster? We should definitely iterate on RGB with an eye to support all 
+devices if possible otherwise a patch just for Z13 would be fine if that 
+ends up not being feasible.
+
+Some things that might be of interest regarding LampArray for LED:
+- An implementation of virtual LampArray 
+https://lore.kernel.org/all/20250121225510.751444-2-wse@tuxedocomputers.com/
+- Windows blog: 
+https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/dynamic-lighting-devices
+- Windows docs: 
+https://github.com/MicrosoftDocs/windows-dev-docs/blob/docs/uwp/devices-sensors/lighting-dynamic-lamparray.md
+- PDF spec: 
+https://www.usb.org/sites/default/files/hutrr84_-_lighting_and_illumination_page.pdf
+
+LampArray is pretty new and I suspect your Z13 supports it. My G16 does 
+too I think. I've seen very little mentioning or using it besides Tuxedo 
+though so I'm not sure what use it is to us at this point, everything 
+I've seen so far expects userspace to use it, not the kernel. There's 
+been little interest anywhere I can see which is a shame as this is a 
+much better interface. Sorry about this part being a bit off topic.
 
 Cheers,
 Luke.
-
-> +
-> +	if (asus->kbd_led_avail)
->   		asus->kbd_led_wk = led_val;
-> -		asus->kbd_led.name = "asus::kbd_backlight";
-> -		asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
-> -		asus->kbd_led.brightness_set = kbd_led_set;
-> -		asus->kbd_led.brightness_get = kbd_led_get;
-> -		asus->kbd_led.max_brightness = 3;
-> +	else
-> +		asus->kbd_led_wk = -1;
-> +
-> +	if (asus->kbd_led_avail && num_rgb_groups != 0)
-> +		asus->kbd_led.groups = kbd_rgb_mode_groups;
->   
-> -		if (num_rgb_groups != 0)
-> -			asus->kbd_led.groups = kbd_rgb_mode_groups;
-> +	mutex_lock(&asus_brt_lock);
-> +	has_listeners = !list_empty(&asus_brt_listeners);
-> +	mutex_unlock(&asus_brt_lock);
->   
-> +	if (asus->kbd_led_avail || has_listeners) {
->   		rv = led_classdev_register(&asus->platform_device->dev,
->   					   &asus->kbd_led);
->   		if (rv)
->   			goto error;
-> +		asus->kbd_led_registered = true;
->   	}
->   
-> +	mutex_lock(&asus_brt_lock);
-> +	asus_brt_ref = asus;
-> +	mutex_unlock(&asus_brt_lock);
-> +
->   	if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_WIRELESS_LED)
->   			&& (asus->driver->quirks->wapf > 0)) {
->   		INIT_WORK(&asus->wlan_led_work, wlan_led_update);
-> diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-> index 783e2a336861b..42e963b70acdb 100644
-> --- a/include/linux/platform_data/x86/asus-wmi.h
-> +++ b/include/linux/platform_data/x86/asus-wmi.h
-> @@ -157,14 +157,30 @@
->   #define ASUS_WMI_DSTS_MAX_BRIGTH_MASK	0x0000FF00
->   #define ASUS_WMI_DSTS_LIGHTBAR_MASK	0x0000000F
->   
-> +struct asus_brt_listener {
-> +	struct list_head list;
-> +	void (*notify)(struct asus_brt_listener *listener, int brightness);
-> +};
-> +
->   #if IS_REACHABLE(CONFIG_ASUS_WMI)
->   int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
-> +
-> +int asus_brt_register_listener(struct asus_brt_listener *cdev);
-> +void asus_brt_unregister_listener(struct asus_brt_listener *cdev);
->   #else
->   static inline int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1,
->   					   u32 *retval)
->   {
->   	return -ENODEV;
->   }
-> +
-> +static inline int asus_brt_register_listener(struct asus_brt_listener *bdev)
-> +{
-> +	return -ENODEV;
-> +}
-> +static inline void asus_brt_unregister_listener(struct asus_brt_listener *bdev)
-> +{
-> +}
->   #endif
->   
->   /* To be used by both hid-asus and asus-wmi to determine which controls kbd_brightness */
 
 
