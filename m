@@ -1,65 +1,60 @@
-Return-Path: <linux-input+bounces-11098-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11099-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08B23A6C957
-	for <lists+linux-input@lfdr.de>; Sat, 22 Mar 2025 11:31:27 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6929CA6CCF0
+	for <lists+linux-input@lfdr.de>; Sat, 22 Mar 2025 22:59:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6FBC6880CF2
-	for <lists+linux-input@lfdr.de>; Sat, 22 Mar 2025 10:31:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C8AFB7A79CD
+	for <lists+linux-input@lfdr.de>; Sat, 22 Mar 2025 21:57:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 748B722D4FD;
-	Sat, 22 Mar 2025 10:28:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE1AF54654;
+	Sat, 22 Mar 2025 21:58:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="Mhxykj1w"
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="KZdpRUyt"
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72F222B595;
-	Sat, 22 Mar 2025 10:28:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E231E8325
+	for <linux-input@vger.kernel.org>; Sat, 22 Mar 2025 21:58:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742639337; cv=none; b=f/ccMaY++P8SB5NNqla/cBdTLcvwb6xYcHw+xQOBNAa9dfPrdfOyw1z82ZMoFItEbvaE8Vzc1MekDNEgDarcbElndqDdV+cIc2o9JwaWSpFP0o5pB8Anf9TggVxSWpkNFIU40COHv2L5EmedCS2pYDLpcA9t3n8DEJ9AJZIG8hQ=
+	t=1742680729; cv=none; b=WOvT6sQaHPfL5GDBBUIhPtUEek4ylEh0Sg5NGK3eCydKKnWSi48Zn8y1fNoWHBsLxYdC/0aH0G8tiuAcLoxLjrHHCmRVA9QF0u6+TBydgVApPmdp9ieSGYJJmQB7M4kYF2CpR+g4IZCqXBFjY2O87WFQ4/S4l2UB/X1X/FGmEP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742639337; c=relaxed/simple;
-	bh=jL5DQz8qHkexCrMb6QYqBBPKfMMNujuwTsWGKw4of2w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y5qjD3tZGzwYdkn4g90CrDfvlXvKmytQOIS1jmZvamvF/MNEVB+7V4BF6jSnQRZNjUm5mdMuwbXt7D9Ei2AAl44dINF5O4rnazxlIuPUS5E0dJtGLomFWQyGai+V56D1Y1AzW4sN11BbhanzwhaIkA6Qfxuvs+5yrC4yBkhXAr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=Mhxykj1w; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from localhost.localdomain (unknown [IPv6:2a05:f6c2:511b:0:cbc0:999f:73ad:33bd])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id 150F82E08B43;
-	Sat, 22 Mar 2025 12:28:52 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1742639333;
-	bh=OR3piOJfNn5L44ENd8GjKP/0V/PidG96RHulqcxsy6w=; h=From:To:Subject;
-	b=Mhxykj1wDR63LTkinytz230G23iWlVJD5lm6PiKtqrmUfIPI5vML6EkLn7bsOYhMD
-	 aFZVphRH+fGYMYdoQDdy66ulau7ch1LtaRNeSfOP0ZVpVRSssHIg8pNIVMkw6UUL8d
-	 IMyDp6WSQED9lesBrfQm0JknYyyJr0gh+bdtjnbQ=
-Authentication-Results: linux1587.grserver.gr;
-	spf=pass (sender IP is 2a05:f6c2:511b:0:cbc0:999f:73ad:33bd) smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: platform-driver-x86@vger.kernel.org,
-	linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v3 10/10] HID: asus: add RGB support to the ROG Ally units
-Date: Sat, 22 Mar 2025 11:28:04 +0100
-Message-ID: <20250322102804.418000-11-lkml@antheas.dev>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250322102804.418000-1-lkml@antheas.dev>
-References: <20250322102804.418000-1-lkml@antheas.dev>
+	s=arc-20240116; t=1742680729; c=relaxed/simple;
+	bh=1hy6mefMd9aPEX1qaFZtYW295KspH+vYVb54UHd5otQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lUCewb59e9+79Snf8bOhHVe0b6S35Pru6604lCupeY9L6LXs3pPi/7ZkH7Y7dbvpzAfU7DxdwSLZ0QW6NuT5AkSnyg46NNOyloAhMiueFYq7pdjiaMvNpe0NEt8KBlDNFIjaGPN8ye3CGGEt3DeqxKGDbE1DCeFmFVsfz6eO0sU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=KZdpRUyt; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 9017A240027
+	for <linux-input@vger.kernel.org>; Sat, 22 Mar 2025 22:58:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1742680718; bh=1hy6mefMd9aPEX1qaFZtYW295KspH+vYVb54UHd5otQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:From;
+	b=KZdpRUytyX4b3c1JCPzWF/S6OtEYR1TDfmg1+D47sI6aJ/eG9Iggr+uOE8/HUdf/Z
+	 JJmV+22u8ZkF4vCf2uYgd/j3YKILVG72Z/gOxFg80AncUgoCbN6jJhFx0/9LGRjUx6
+	 /GTqzCjmWRjC7YRYwF53lPDOPQn729Uj14nlEP4atWVRtk5obJofLvaDX1XcDKf6Kn
+	 XhPOrHQpOwv6HTuGoPhRWZYJGeLRteL8FoWaoeplo0A1+EiN/DPHWKCqVbOwFLO3BZ
+	 7ofHs+zS4lblHXLAXZ5zrmgQ+voHlpTsoHvLmmegIPZbFdlB8Ed+pwPxUx4j7Y8g4s
+	 SINM/VfHS6N7g==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4ZKtVj5Bmwz6tm8;
+	Sat, 22 Mar 2025 22:58:37 +0100 (CET)
+From: Andrei Amuraritei <andamu@posteo.net>
+To: andamu@posteo.net
+Cc: dmitry.torokhov@gmail.com,
+	linux-input@vger.kernel.org,
+	roderick.colenbrander@sony.com,
+	jkosina@suse.cz
+Subject: [PATCH] Input: joydev - blacklist PS5 controller motion sensors
+Date: Sat, 22 Mar 2025 21:58:27 +0000
+Message-ID: <20250322215830.39327-1-andamu@posteo.net>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -67,37 +62,54 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <174263933347.19413.3796302513110693159@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
 
-Apply the RGB quirk to the QOG Ally units to enable basic RGB support.
+Add PS5 controllers motion sensors to blacklist, same as with PS4
+controllers.
 
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+Requires the previous two commits, from hid.git#for-6.15/sony.
+
+e65990eb256a75a2ace95e80cf5028d81aad7c5d
+
+HID: Enable playstation driver for PlayStation 5 controllersfor-6.15/sony
+Without entries in the hid_have_special_driver table, PS5 controllers
+default to the hidraw driver instead of the hid-playstation driver.
+
+c5cd1f0f0e742922262977fd72ae3c4ff49b7a1d
+
+HID: Enable playstation driver independently of sony driver
+PlayStation 4 controllers use the hid-playstation driver now, but they
+are still not included in the hid_have_special_driver table unless the
+hid-sony driver is enabled. Split up that section of the table so that
+hid-playstation works even in the absence of hid-sony.
+
+Signed-off-by: Andrei Amuraritei <andamu@posteo.net>
 ---
- drivers/hid/hid-asus.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/input/joydev.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 9d8ccfde5912e..1a9cd7f513282 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -1433,10 +1433,10 @@ static const struct hid_device_id asus_devices[] = {
- 	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_RGB },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
- 	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY),
--	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-+	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_RGB },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
- 	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY_X),
--	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-+	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_RGB },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
- 	    USB_DEVICE_ID_ASUSTEK_ROG_CLAYMORE_II_KEYBOARD),
- 	  QUIRK_ROG_CLAYMORE_II_KEYBOARD },
+diff --git a/drivers/input/joydev.c b/drivers/input/joydev.c
+index ba2b17288bcd..f2fdbc814a8f 100644
+--- a/drivers/input/joydev.c
++++ b/drivers/input/joydev.c
+@@ -753,6 +753,8 @@ static void joydev_cleanup(struct joydev *joydev)
+ #define USB_DEVICE_ID_SONY_PS4_CONTROLLER		0x05c4
+ #define USB_DEVICE_ID_SONY_PS4_CONTROLLER_2		0x09cc
+ #define USB_DEVICE_ID_SONY_PS4_CONTROLLER_DONGLE	0x0ba0
++#define USB_DEVICE_ID_SONY_PS5_CONTROLLER		0x0ce6
++#define USB_DEVICE_ID_SONY_PS5_CONTROLLER_2		0x0df2
+ 
+ #define USB_VENDOR_ID_THQ			0x20d6
+ #define USB_DEVICE_ID_THQ_PS3_UDRAW			0xcb17
+@@ -793,6 +795,8 @@ static const struct input_device_id joydev_blacklist[] = {
+ 	ACCEL_DEV(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER),
+ 	ACCEL_DEV(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_2),
+ 	ACCEL_DEV(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_DONGLE),
++	ACCEL_DEV(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER),
++	ACCEL_DEV(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER_2),
+ 	ACCEL_DEV(USB_VENDOR_ID_THQ, USB_DEVICE_ID_THQ_PS3_UDRAW),
+ 	ACCEL_DEV(USB_VENDOR_ID_NINTENDO, USB_DEVICE_ID_NINTENDO_PROCON),
+ 	ACCEL_DEV(USB_VENDOR_ID_NINTENDO, USB_DEVICE_ID_NINTENDO_CHRGGRIP),
 -- 
-2.48.1
+2.49.0
 
 
