@@ -1,406 +1,306 @@
-Return-Path: <linux-input+bounces-11123-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11124-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB1F0A6CFCB
-	for <lists+linux-input@lfdr.de>; Sun, 23 Mar 2025 15:46:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8319CA6CFD8
+	for <lists+linux-input@lfdr.de>; Sun, 23 Mar 2025 16:16:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA0CE3B5ED7
-	for <lists+linux-input@lfdr.de>; Sun, 23 Mar 2025 14:46:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E667D16B715
+	for <lists+linux-input@lfdr.de>; Sun, 23 Mar 2025 15:16:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE9AE15E8B;
-	Sun, 23 Mar 2025 14:46:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D79D670831;
+	Sun, 23 Mar 2025 15:16:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="gcNADe+N"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QSKErXam"
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 299F017E;
-	Sun, 23 Mar 2025 14:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9F6EEA8;
+	Sun, 23 Mar 2025 15:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742741180; cv=none; b=dXkdyPwPtOX86Qgu+juFARj6Bjk7KKlh7QQQlyu9gomqywHHhJrAnyahi8MwMRnKaIP9L/1x/aqF4mYcu8AS6qOd70R4DLhcpQpBbfJy509ILlUu61MUfaf0Dlej9iUHxEQlNoXWAvN6pfi1cVvkpqbFVHy6BckhaPIMDy2ULiE=
+	t=1742742997; cv=none; b=h8j6FEDi/DkOYrc4A6WbistRwRtUZwFZ6uT4oZD8iROn0syU6tcbQPCTLczhCo9OGW3lYod0iSR3WAtQM61Vj+HJAjPKNuu7PbKK5bPvLES+uYPAMXhLOTEXdgHvSM76fJYClcSyEgu2hhsgoGk25CAHsZE4zb77AoWNVngd2jY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742741180; c=relaxed/simple;
-	bh=M28ISDlb1W5CK9exYOrD2QEmHKoXWE/iJ0qJbupBP7Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J3vXsLtfqO7dFh4vLLS5/i9GfMOSoVEh3xtiAzFJnLo9472P9ytvkK1BOQlVoGDMkYspzAH42x/dVq2/SCOEpIBMfd9nAhNODln/W+CpPbvzVS8S3DPffo7vTDCi3/id1T6+zAurILaM8zoxeoT7uw5GB4rhW854GQRfFWt/kIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=gcNADe+N; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id 6C6D42E0942E;
-	Sun, 23 Mar 2025 16:46:12 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1742741173;
-	bh=nIjuKIgZLgFsutZJraBZ+LXemw50XUzGA0wSmBwF9QY=;
-	h=Received:From:Subject:To;
-	b=gcNADe+NqBcTwLa3UWzSdqlZYPTzE5d5AxqhnEOA+NwsJSy3nnk4lT3wvyxkk65OF
-	 0wgokIogoXFe+y+qQ19zkpnUUzoCOK22EDttUZu3xZllKmvjR39XkNkCdkIXQ4sVgH
-	 8nhr1LJL/huEWDW4tzic/9vtn7hy0MtCJOoRCJ2Y=
-Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.208.171) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f171.google.com
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-30beedb99c9so35587231fa.3;
-        Sun, 23 Mar 2025 07:46:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVnU8fRiADqc71K68B0x4uVlTPq7516URZ1TvHvUB4J32MTwBxJHIoV+gVXtBkzQc4uSMajvQatM3ca0A==@vger.kernel.org,
- AJvYcCWpLUOnAnurW9bvOi2kF0eFeZr/pOI9+LIyMABajrTNJJGW1NqicxoRulwLhLp/qBouErnkg4S7uFtQOURl@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqlEKSDtH0DYEW6qrWEJAjOOvw5QxLnewdfGBQUhe/AGL1MysW
-	s+mKOAjIC9NAQBCcj0qFwnLSeEsr1SaV66t448bX2VFEKBTYNGtLnX55Ik+ztHBPg4Vdf26MPFa
-	YdajAe5Z+7B0UVtLv1aUgJKDi2Ro=
-X-Google-Smtp-Source: 
- AGHT+IEL8qGmkQT4CCogsoRN6Nf69Pj9GUcRts5DjSuBCJ2lcVmjQkt4ZcA+2StrWYI9ybKfAENX8vgoalCvitYFu1A=
-X-Received: by 2002:a2e:a78a:0:b0:30c:4610:9e9e with SMTP id
- 38308e7fff4ca-30d7e2d9f69mr40665261fa.35.1742741171466; Sun, 23 Mar 2025
- 07:46:11 -0700 (PDT)
+	s=arc-20240116; t=1742742997; c=relaxed/simple;
+	bh=z1iry3Q+ZuonlJJ0TwlMVAFT0se2HxhIpoPnsRsnLsc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QsC9avdn5V7N5OgzT8CTEP6aiIhHlKTSSf/2JUctaWs3+FJtTqrvuiNBRgTBVzgLWdUtCnZy/SbQ1MNAuzeFPudle/friGxj8oeC0KLJ1LlIjw6l3hz3pFV5xgEDyr+FzaU/BfW6zzbJewI6htLS7IxszzoSrxgdjxrBV76Jh88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QSKErXam; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-224019ad9edso86857995ad.1;
+        Sun, 23 Mar 2025 08:16:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742742995; x=1743347795; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8HAFSGGoHUlB/P//y8CRGPMxIiz2cZBE9oAiPUoftnU=;
+        b=QSKErXam2M/O3L3qT9hiT/LG33negg+IlgrywqMrof0yVzQPGEO8pMXP5NBg9zKyNB
+         5aQ5/axR7fELGSwcGzqs4Ls6A+MHtdFVxn41ScblbZgdJkRUKtsevNQO8AlqCu4yOUkB
+         IKOadC2A3ssnQ+qnuk6Hkd4cxOFkt7zTCfwJKyl9E2Mb8/R68s9igYXSguHsJgaUse0J
+         W70NvOTkGlTJFbH10x3O/LS2t1uJmBR/sLdMt9h7Zq2mX/t3C82wT4NSCfQSqxZbMbTS
+         bHLWM38cBHkpsrin3WcCBS5LjsZIhJkMMq9fimWdSNXK/gHIo9nvkrK1tQR668tLLUZy
+         GVrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742742995; x=1743347795;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8HAFSGGoHUlB/P//y8CRGPMxIiz2cZBE9oAiPUoftnU=;
+        b=IGeAD/cEFZTJXKjOtR4ucO07a3mkpPnft3u9FJua22FVRuRSE2h5ZH/y6M1bX+aBVh
+         V1jTNR9jEINon2X05IY2iQ9bfBk4eszjStGiYtYRqeaAczkDGxXJSJ7Q/G97jI8bgurv
+         9K6OSjSF3X0o5sIk+sxrmEyCiljC6qYIVuIK7SxoSERlDAJ8R6L6XoZiQMeoNWbSEQ2W
+         4uMz6NJyHEvBeRKERdYFR32pVXJdfZ/7XJe7AcX6TgIzQDLyL+cHdPWe8tpaD4lwuMTV
+         aKzscHDd4k7LYE9QmcGwZ8BqCnQ43IazbqX+UR8x7mH5yNJryEGK6d4xAqLxDOFZBrkW
+         mtKA==
+X-Forwarded-Encrypted: i=1; AJvYcCU2Xw0v9ojtIYehIb2kR/2XB9VwSSJsLzXDj5gLrE8/5Gdm38qEalMQBrKVMHyVBdzEdUpK9kjd@vger.kernel.org, AJvYcCVU+Of6USSioyxNuo5IdCIWATJYaooAenKr4eb9H0FJ2qkOJEy/j8NXeJUNoXxS6Gpb6kY1jKwMxNdOGTZh@vger.kernel.org, AJvYcCVpkkFUxqc/wuVqnvhZXtviLd4ZE5eXQw0DqeSGHbZhfPd5MzdqS2XrV35lOfv84UsWVHEDuNE5lI117kM=@vger.kernel.org, AJvYcCVydyj1nXFQDpP9SNTvjtwjhBDF9aVFoNHTtiboBvJfW0yhCm6zP3RpYb0ePJ3FTFSDn2XqsKm4cLJcR4xv@vger.kernel.org, AJvYcCWEZcxqia3gXCYnh/A1uKylw8vzZ7zRJgLi9od+59xx2q7aFI8H84T10Urx2+X9CK+IzZNqpXnl/0XJpe0=@vger.kernel.org, AJvYcCX4RCUaVzTmys5wL9bRAr8L4SMjYRJVLKojuHhZUcH1pP2lcfDv2U4VObBvCtxA+GxIWis=@vger.kernel.org, AJvYcCXBSVsKoSCWAz5VyiJBiroGSLFolKjHw/il9YFZB8T5a4g0K3X2Sl/7DErVEGvnzCpVXOVWw4glANRaOyAFeTo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2RtgMAPbYx6CnzlH8PsLPdxnWweF5gwOI3Fng/WImvzT0UhV1
+	YN4bf23XjMEEg1ODqXhb/5KDQcCCd+c2ZbIzTBKkKU0R6CFSbQmC
+X-Gm-Gg: ASbGnct2vr76XZkQJBvEoyPRw4a1ebYFUw5JGCw939jmiNz5BBQXXNWkBw+llyb6X8u
+	pOttVrNqsgECm1y1EibdqpevRNh/DjXvBsZpstVpabNiYLxaVfmnbLPHYF3B/uRSPI6iSLAwgs3
+	5SGQXjo22U96msYWio4ChHviJ8lgJKrmMKVTTEs2DqIYL1jGcU6pSdq2kA+o+RNOgOBRGCP3m74
+	e/wdpRda0YTUUDYqhWjh4lJixJ4a7nhJHKZcpcnZRZxrm/Ey1OHks4ssGA+9dh/te5fd8n8qxKq
+	/pt98mOAfF+61MmM766RVzD3WYrQmsRCjGi9tya794eqm0yNvLXtjyFCsz+xGomPlq3fn4WI
+X-Google-Smtp-Source: AGHT+IFu7aSko21Sw2wxa8CSJ3BoLCLGU4XDLggoCqJDcaLIBubWzqHl2YbchxgGWLxoXzaA2oGt1A==
+X-Received: by 2002:a17:902:db12:b0:216:3d72:1712 with SMTP id d9443c01a7336-22780e1a30emr184600615ad.48.1742742994925;
+        Sun, 23 Mar 2025 08:16:34 -0700 (PDT)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22781207f3csm52440875ad.247.2025.03.23.08.16.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Mar 2025 08:16:34 -0700 (PDT)
+Date: Sun, 23 Mar 2025 23:16:24 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>,
+	David Laight <david.laight.linux@gmail.com>,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
+	akpm@linux-foundation.org, alistair@popple.id.au,
+	andrew+netdev@lunn.ch, andrzej.hajda@intel.com,
+	arend.vanspriel@broadcom.com, awalls@md.metrocast.net, bp@alien8.de,
+	bpf@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
+	brcm80211@lists.linux.dev, dave.hansen@linux.intel.com,
+	davem@davemloft.net, dmitry.torokhov@gmail.com,
+	dri-devel@lists.freedesktop.org, eajames@linux.ibm.com,
+	edumazet@google.com, eleanor15x@gmail.com,
+	gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
+	jernej.skrabec@gmail.com, jirislaby@kernel.org, jk@ozlabs.org,
+	joel@jms.id.au, johannes@sipsolutions.net, jonas@kwiboo.se,
+	jserv@ccns.ncku.edu.tw, kuba@kernel.org, linux-fsi@lists.ozlabs.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-serial@vger.kernel.org, linux-wireless@vger.kernel.org,
+	linux@rasmusvillemoes.dk, louis.peens@corigine.com,
+	maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
+	mingo@redhat.com, miquel.raynal@bootlin.com, mripard@kernel.org,
+	neil.armstrong@linaro.org, netdev@vger.kernel.org,
+	oss-drivers@corigine.com, pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com, rfoss@kernel.org,
+	richard@nod.at, simona@ffwll.ch, tglx@linutronix.de,
+	tzimmermann@suse.de, vigneshr@ti.com, x86@kernel.org
+Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
+Message-ID: <Z+AlyB461xwMxMtG@visitorckw-System-Product-Name>
+References: <efc2ee9d-5382-457f-b471-f3c44b81a190@citrix.com>
+ <5A790652-1B22-4D13-AAC5-5D9931E90903@zytor.com>
+ <20250307195310.58abff8c@pumpkin>
+ <EB85C3C1-8A0D-4CB9-B501-BFEABDF3E977@zytor.com>
+ <Z824SgB9Dt5zdWYc@visitorckw-System-Product-Name>
+ <Z9CyuowYsZyez36c@thinkpad>
+ <80771542-476C-493E-858A-D2AF6A355CC1@zytor.com>
+ <Z9GtcNJie8TRKywZ@thinkpad>
+ <Z9G2Tyypb3iLoBjn@visitorckw-System-Product-Name>
+ <Z9KMKwnZXA2mkD2s@visitorckw-System-Product-Name>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250322102804.418000-1-lkml@antheas.dev>
- <20250322102804.418000-10-lkml@antheas.dev>
- <bb3071d4-7910-46c2-ab48-aed574bcd758@ljones.dev>
- <CAGwozwFZAenLmmDC8tVChQMfzHo7NVuxOeqVmE9OVfY+-tAByA@mail.gmail.com>
-In-Reply-To: 
- <CAGwozwFZAenLmmDC8tVChQMfzHo7NVuxOeqVmE9OVfY+-tAByA@mail.gmail.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Sun, 23 Mar 2025 15:45:59 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwGAFqbiFGdgrKOwc8rGBxQ47T7_vw=28R6FCxwn3MWDaQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JrkekyNZesdsDsJ0DpRSUBpiUXalEILEOFpMb31u6t9LVr4qKED2giuVCA
-Message-ID: 
- <CAGwozwGAFqbiFGdgrKOwc8rGBxQ47T7_vw=28R6FCxwn3MWDaQ@mail.gmail.com>
-Subject: Re: [PATCH v3 09/10] HID: asus: add basic RGB support
-To: "Luke D. Jones" <luke@ljones.dev>
-Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <174274117284.8549.12899156043005326554@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z9KMKwnZXA2mkD2s@visitorckw-System-Product-Name>
 
-On Sun, 23 Mar 2025 at 12:37, Antheas Kapenekakis <lkml@antheas.dev> wrote:
->
-> On Sun, 23 Mar 2025 at 07:40, Luke D. Jones <luke@ljones.dev> wrote:
-> >
-> > On 22/03/25 23:28, Antheas Kapenekakis wrote:
-> > > Adds basic RGB support to hid-asus through multi-index. The interface
-> > > works quite well, but has not gone through much stability testing.
-> > > Applied on demand, if userspace does not touch the RGB sysfs, not
-> > > even initialization is done. Ensuring compatibility with existing
-> > > userspace programs.
-> > >
-> > > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> > > ---
-> > >   drivers/hid/hid-asus.c | 169 +++++++++++++++++++++++++++++++++++++----
-> > >   1 file changed, 155 insertions(+), 14 deletions(-)
-> > >
-> > > diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> > > index 905453a4eb5b7..9d8ccfde5912e 100644
-> > > --- a/drivers/hid/hid-asus.c
-> > > +++ b/drivers/hid/hid-asus.c
-> > > @@ -30,6 +30,7 @@
-> > >   #include <linux/input/mt.h>
-> > >   #include <linux/usb.h> /* For to_usb_interface for T100 touchpad intf check */
-> > >   #include <linux/power_supply.h>
-> > > +#include <linux/led-class-multicolor.h>
-> > >   #include <linux/leds.h>
-> > >
-> > >   #include "hid-ids.h"
-> > > @@ -85,6 +86,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
-> > >   #define QUIRK_ROG_NKEY_KEYBOARD             BIT(11)
-> > >   #define QUIRK_ROG_CLAYMORE_II_KEYBOARD BIT(12)
-> > >   #define QUIRK_HANDLE_GENERIC                BIT(13)
-> > > +#define QUIRK_ROG_NKEY_RGB           BIT(14)
-> > >
-> > >   #define I2C_KEYBOARD_QUIRKS                 (QUIRK_FIX_NOTEBOOK_REPORT | \
-> > >                                                QUIRK_NO_INIT_REPORTS | \
-> > > @@ -97,9 +99,15 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
-> > >
-> > >   struct asus_kbd_leds {
-> > >       struct asus_hid_listener listener;
-> > > +     struct led_classdev_mc mc_led;
-> > > +     struct mc_subled subled_info[3];
-> > >       struct hid_device *hdev;
-> > >       struct work_struct work;
-> > >       unsigned int brightness;
-> > > +     uint8_t rgb_colors[3];
-> > > +     bool rgb_init;
-> > > +     bool rgb_set;
-> > > +     bool rgb_registered;
-> > >       spinlock_t lock;
-> > >       bool removed;
-> > >   };
-> > > @@ -504,23 +512,67 @@ static void asus_schedule_work(struct asus_kbd_leds *led)
-> > >       spin_unlock_irqrestore(&led->lock, flags);
-> > >   }
-> > >
-> > > -static void asus_kbd_backlight_set(struct asus_hid_listener *listener,
-> > > +static void do_asus_kbd_backlight_set(struct asus_kbd_leds *led, int brightness)
-> > > +{
-> > > +     unsigned long flags;
-> > > +
-> > > +     spin_lock_irqsave(&led->lock, flags);
-> > > +     led->brightness = brightness;
-> > > +     spin_unlock_irqrestore(&led->lock, flags);
-> > > +
-> > > +     asus_schedule_work(led);
-> > > +}
-> > > +
-> > > +static void asus_kbd_listener_set(struct asus_hid_listener *listener,
-> > >                                  int brightness)
-> > >   {
-> > >       struct asus_kbd_leds *led = container_of(listener, struct asus_kbd_leds,
-> > >                                                listener);
-> > > +     do_asus_kbd_backlight_set(led, brightness);
-> > > +     if (led->rgb_registered) {
-> > > +             led->mc_led.led_cdev.brightness = brightness;
-> > > +             led_classdev_notify_brightness_hw_changed(&led->mc_led.led_cdev,
-> > > +                                                       brightness);
-> > > +     }
-> > > +}
-> > > +
-> > > +static void asus_kbd_brightness_set(struct led_classdev *led_cdev,
-> > > +                                 enum led_brightness brightness)
-> > > +{
-> > > +     struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(led_cdev);
-> > > +     struct asus_kbd_leds *led = container_of(mc_cdev, struct asus_kbd_leds,
-> > > +                                              mc_led);
-> > >       unsigned long flags;
-> > >
-> > >       spin_lock_irqsave(&led->lock, flags);
-> > > -     led->brightness = brightness;
-> > > +     led->rgb_colors[0] = mc_cdev->subled_info[0].intensity;
-> > > +     led->rgb_colors[1] = mc_cdev->subled_info[1].intensity;
-> > > +     led->rgb_colors[2] = mc_cdev->subled_info[2].intensity;
-> > > +     led->rgb_set = true;
-> > >       spin_unlock_irqrestore(&led->lock, flags);
-> > >
-> > > -     asus_schedule_work(led);
-> > > +     do_asus_kbd_backlight_set(led, brightness);
-> > > +}
-> > > +
-> > > +static enum led_brightness asus_kbd_brightness_get(struct led_classdev *led_cdev)
-> > > +{
-> > > +     struct led_classdev_mc *mc_led;
-> > > +     struct asus_kbd_leds *led;
-> > > +     enum led_brightness brightness;
-> > > +     unsigned long flags;
-> > > +
-> > > +     mc_led = lcdev_to_mccdev(led_cdev);
-> > > +     led = container_of(mc_led, struct asus_kbd_leds, mc_led);
-> > > +
-> > > +     spin_lock_irqsave(&led->lock, flags);
-> > > +     brightness = led->brightness;
-> > > +     spin_unlock_irqrestore(&led->lock, flags);
-> > > +
-> > > +     return brightness;
-> > >   }
-> > >
-> > > -static void asus_kbd_backlight_work(struct work_struct *work)
-> > > +static void asus_kbd_backlight_work(struct asus_kbd_leds *led)
-> > >   {
-> > > -     struct asus_kbd_leds *led = container_of(work, struct asus_kbd_leds, work);
-> > >       u8 buf[] = { FEATURE_KBD_REPORT_ID, 0xba, 0xc5, 0xc4, 0x00 };
-> > >       int ret;
-> > >       unsigned long flags;
-> > > @@ -534,10 +586,69 @@ static void asus_kbd_backlight_work(struct work_struct *work)
-> > >               hid_err(led->hdev, "Asus failed to set keyboard backlight: %d\n", ret);
-> > >   }
-> > >
-> > > +static void asus_kbd_rgb_work(struct asus_kbd_leds *led)
-> > > +{
-> > > +     u8 rgb_buf[][7] = {
-> > > +             { FEATURE_KBD_LED_REPORT_ID1, 0xB3 }, /* set mode */
-> > > +             { FEATURE_KBD_LED_REPORT_ID1, 0xB5 }, /* apply mode */
-> > > +             { FEATURE_KBD_LED_REPORT_ID1, 0xB4 }, /* save to mem */
-> > > +     };
-> > > +     unsigned long flags;
-> > > +     uint8_t colors[3];
-> > > +     bool rgb_init, rgb_set;
-> > > +     int ret;
-> > > +
-> > > +     spin_lock_irqsave(&led->lock, flags);
-> > > +     rgb_init = led->rgb_init;
-> > > +     rgb_set = led->rgb_set;
-> > > +     led->rgb_set = false;
-> > > +     colors[0] = led->rgb_colors[0];
-> > > +     colors[1] = led->rgb_colors[1];
-> > > +     colors[2] = led->rgb_colors[2];
-> > > +     spin_unlock_irqrestore(&led->lock, flags);
-> > > +
-> > > +     if (!rgb_set)
-> > > +             return;
-> > > +
-> > > +     if (rgb_init) {
-> > > +             ret = asus_kbd_init(led->hdev, FEATURE_KBD_LED_REPORT_ID1);
-> > > +             if (ret < 0) {
-> > > +                     hid_err(led->hdev, "Asus failed to init RGB: %d\n", ret);
-> > > +                     return;
-> > > +             }
-> > > +             spin_lock_irqsave(&led->lock, flags);
-> > > +             led->rgb_init = false;
-> > > +             spin_unlock_irqrestore(&led->lock, flags);
-> > > +     }
-> > > +
-> > > +     /* Protocol is: 54b3 zone (0=all) mode (0=solid) RGB */
-> > > +     rgb_buf[0][4] = colors[0];
-> > > +     rgb_buf[0][5] = colors[1];
-> > > +     rgb_buf[0][6] = colors[2];
-> > > +
-> > > +     for (size_t i = 0; i < ARRAY_SIZE(rgb_buf); i++) {
-> > > +             ret = asus_kbd_set_report(led->hdev, rgb_buf[i], sizeof(rgb_buf[i]));
-> > > +             if (ret < 0) {
-> > > +                     hid_err(led->hdev, "Asus failed to set RGB: %d\n", ret);
-> > > +                     return;
-> > > +             }
-> > > +     }
-> > > +}
-> > > +
-> > > +static void asus_kbd_work(struct work_struct *work)
-> > > +{
-> > > +     struct asus_kbd_leds *led = container_of(work, struct asus_kbd_leds,
-> > > +                                              work);
-> > > +     asus_kbd_backlight_work(led);
-> > > +     asus_kbd_rgb_work(led);
-> > > +}
-> > > +
-> > >   static int asus_kbd_register_leds(struct hid_device *hdev)
-> > >   {
-> > >       struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
-> > >       unsigned char kbd_func;
-> > > +     struct asus_kbd_leds *leds;
-> > > +     bool no_led;
-> > >       int ret;
-> > >
-> > >       ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
-> > > @@ -565,21 +676,51 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
-> > >       if (!drvdata->kbd_backlight)
-> > >               return -ENOMEM;
-> > >
-> > > -     drvdata->kbd_backlight->removed = false;
-> > > -     drvdata->kbd_backlight->brightness = 0;
-> > > -     drvdata->kbd_backlight->hdev = hdev;
-> > > -     drvdata->kbd_backlight->listener.brightness_set = asus_kbd_backlight_set;
-> > > -     INIT_WORK(&drvdata->kbd_backlight->work, asus_kbd_backlight_work);
-> > > +     leds = drvdata->kbd_backlight;
-> > > +     leds->removed = false;
-> > > +     leds->brightness = 3;
-> > > +     leds->hdev = hdev;
-> > > +     leds->listener.brightness_set = asus_kbd_listener_set;
-> > > +
-> > > +     leds->rgb_colors[0] = 0;
-> > > +     leds->rgb_colors[1] = 0;
-> > > +     leds->rgb_colors[2] = 0;
-> > > +     leds->rgb_init = true;
-> > > +     leds->rgb_set = false;
-> > > +     leds->mc_led.led_cdev.name = devm_kasprintf(&hdev->dev, GFP_KERNEL,
-> > > +                                     "asus-%s-led",
-> > > +                                     strlen(hdev->uniq) ?
-> > > +                                     hdev->uniq : dev_name(&hdev->dev));
-> >
-> > A quick note. This breaks convention for LED names. The style guide is
-> > at Documentation/leds/leds-class.rst. Per my parallel email to this one
-> > I would like to see the mentioned naming scheme `asus:rgb:kbd_backlight`
-> > adopted.
->
-> Perhaps. It would be the first kbd_backlight driver to have "rgb" in
-> it. It is a bit out of scope for this series as I do not touch the
-> functionality of it but I can add a patch for it and a fixes
-> e305a71cea37a64c75 tag.
->
-> > Expanding further on one of the points there you might need to
-> > move the led_classdev_mc in to asus-wmi to fulfil having the single
-> > sysfs endpoint. Since you're using the listner pattern it shouldn't be
-> > much work.
->
-> I only want the brightness to sync, not the color. Only the brightness
-> between Aura devices needs to be the same. In this case
-> asus::kbd_backlight if it has a color controls the wmi color, and the
-> asus- devices control the usb.
->
-> Also, groups are not dynamic so this is not possible. E.g., if you
-> setup a WMI listener that does not have RGB, and then the USB keyboard
-> connects you can no longer change the groups unless you reconnect the
-> device.
+On Thu, Mar 13, 2025 at 03:41:49PM +0800, Kuan-Wei Chiu wrote:
+> On Thu, Mar 13, 2025 at 12:29:13AM +0800, Kuan-Wei Chiu wrote:
+> > On Wed, Mar 12, 2025 at 11:51:12AM -0400, Yury Norov wrote:
+> > > On Tue, Mar 11, 2025 at 03:24:14PM -0700, H. Peter Anvin wrote:
+> > > > On March 11, 2025 3:01:30 PM PDT, Yury Norov <yury.norov@gmail.com> wrote:
+> > > > >On Sun, Mar 09, 2025 at 11:48:26PM +0800, Kuan-Wei Chiu wrote:
+> > > > >> On Fri, Mar 07, 2025 at 12:07:02PM -0800, H. Peter Anvin wrote:
+> > > > >> > On March 7, 2025 11:53:10 AM PST, David Laight <david.laight.linux@gmail.com> wrote:
+> > > > >> > >On Fri, 07 Mar 2025 11:30:35 -0800
+> > > > >> > >"H. Peter Anvin" <hpa@zytor.com> wrote:
+> > > > >> > >
+> > > > >> > >> On March 7, 2025 10:49:56 AM PST, Andrew Cooper <andrew.cooper3@citrix.com> wrote:
+> > > > >> > >> >> (int)true most definitely is guaranteed to be 1.  
+> > > > >> > >> >
+> > > > >> > >> >That's not technically correct any more.
+> > > > >> > >> >
+> > > > >> > >> >GCC has introduced hardened bools that intentionally have bit patterns
+> > > > >> > >> >other than 0 and 1.
+> > > > >> > >> >
+> > > > >> > >> >https://gcc.gnu.org/gcc-14/changes.html
+> > > > >> > >> >
+> > > > >> > >> >~Andrew  
+> > > > >> > >> 
+> > > > >> > >> Bit patterns in memory maybe (not that I can see the Linux kernel using them) but
+> > > > >> > >> for compiler-generated conversations that's still a given, or the manager isn't C
+> > > > >> > >> or anything even remotely like it.
+> > > > >> > >> 
+> > > > >> > >
+> > > > >> > >The whole idea of 'bool' is pretty much broken by design.
+> > > > >> > >The underlying problem is that values other than 'true' and 'false' can
+> > > > >> > >always get into 'bool' variables.
+> > > > >> > >
+> > > > >> > >Once that has happened it is all fubar.
+> > > > >> > >
+> > > > >> > >Trying to sanitise a value with (say):
+> > > > >> > >int f(bool v)
+> > > > >> > >{
+> > > > >> > >	return (int)v & 1;
+> > > > >> > >}    
+> > > > >> > >just doesn't work (see https://www.godbolt.org/z/MEndP3q9j)
+> > > > >> > >
+> > > > >> > >I really don't see how using (say) 0xaa and 0x55 helps.
+> > > > >> > >What happens if the value is wrong? a trap or exception?, good luck recovering
+> > > > >> > >from that.
+> > > > >> > >
+> > > > >> > >	David
+> > > > >> > 
+> > > > >> > Did you just discover GIGO?
+> > > > >> 
+> > > > >> Thanks for all the suggestions.
+> > > > >> 
+> > > > >> I don't have a strong opinion on the naming or return type. I'm still a
+> > > > >> bit confused about whether I can assume that casting bool to int always
+> > > > >> results in 0 or 1.
+> > > > >> 
+> > > > >> If that's the case, since most people prefer bool over int as the
+> > > > >> return type and some are against introducing u1, my current plan is to
+> > > > >> use the following in the next version:
+> > > > >> 
+> > > > >> bool parity_odd(u64 val);
+> > > > >> 
+> > > > >> This keeps the bool return type, renames the function for better
+> > > > >> clarity, and avoids extra maintenance burden by having just one
+> > > > >> function.
+> > > > >> 
+> > > > >> If I can't assume that casting bool to int always results in 0 or 1,
+> > > > >> would it be acceptable to keep the return type as int?
+> > > > >> 
+> > > > >> Would this work for everyone?
+> > > > >
+> > > > >Alright, it's clearly a split opinion. So what I would do myself in
+> > > > >such case is to look at existing code and see what people who really
+> > > > >need parity invent in their drivers:
+> > > > >
+> > > > >                                     bool      parity_odd
+> > > > >static inline int parity8(u8 val)       -               -
+> > > > >static u8 calc_parity(u8 val)           -               -
+> > > > >static int odd_parity(u8 c)             -               +
+> > > > >static int saa711x_odd_parity           -               +
+> > > > >static int max3100_do_parity            -               -
+> > > > >static inline int parity(unsigned x)    -               -
+> > > > >static int bit_parity(u32 pkt)          -               -
+> > > > >static int oa_tc6_get_parity(u32 p)     -               -
+> > > > >static u32 parity32(__le32 data)        -               -
+> > > > >static u32 parity(u32 sample)           -               -
+> > > > >static int get_parity(int number,       -               -
+> > > > >                      int size)
+> > > > >static bool i2cr_check_parity32(u32 v,  +               -
+> > > > >                        bool parity)
+> > > > >static bool i2cr_check_parity64(u64 v)  +               -
+> > > > >static int sw_parity(__u64 t)           -               -
+> > > > >static bool parity(u64 value)           +               -
+> > > > >
+> > > > >Now you can refer to that table say that int parity(uXX) is what
+> > > > >people want to see in their drivers.
+> > > > >
+> > > > >Whichever interface you choose, please discuss it's pros and cons.
+> > > > >What bloat-o-meter says for each option? What's maintenance burden?
+> > > > >Perf test? Look at generated code?
+> > > > >
+> > > > >I personally for a macro returning boolean, something like I
+> > > > >proposed at the very beginning.
+> > > > >
+> > > > >Thanks,
+> > > > >Yury
+> > > > 
+> > > > Also, please at least provide a way for an arch to opt in to using the builtins, which seem to produce as good results or better at least on some architectures like x86 and probably with CPU options that imply fast popcnt is available.
+> > > 
+> > > Yeah. And because linux/bitops.h already includes asm/bitops.h
+> > > the simplest way would be wrapping generic implementation with
+> > > the #ifndef parity, similarly to how we handle find_next_bit case.
+> > > 
+> > > So:
+> > > 1. Kuan-Wei, please don't invent something like ARCH_HAS_PARITY;
+> > > 2. This may, and probably should, be a separate follow-up series,
+> > >    likely created by corresponding arch experts.
+> > > 
+> > I saw discussions in the previous email thread about both
+> > __builtin_parity and x86-specific implementations. However, from the
+> > discussion, I learned that before considering any optimization, we
+> > should first ask: which driver or subsystem actually cares about parity
+> > efficiency? If someone does, I can help with a micro-benchmark to
+> > provide performance numbers, but I don't have enough domain knowledge
+> > to identify hot paths where parity efficiency matters.
+> > 
+> IMHO,
+> 
+> If parity is never used in any hot path and we don't care about parity:
+> 
+> Then benchmarking its performance seems meaningless. In this case, a
+> function with a u64 argument would suffice, and we might not even need
+> a macro to optimize for different types—especially since the macro
+> requires special hacks to avoid compiler warnings. Also, I don't think
+> code size matters here. If it does, we should first consider making
+> parity a non-inline function in a .c file rather than an inline
+> function/macro in a header.
+> 
+> If parity is used in a hot path:
+> 
+> We need different handling for different type sizes. As previously
+> discussed, x86 assembly might use different instructions for u8 and
+> u16. This may sound stubborn, but I want to ask again: should we
+> consider using parity8/16/32/64 interfaces? Like in the i3c driver
+> example, if we only have a single parity macro that selects an
+> implementation based on type size, users must explicitly cast types.
+> If future users also need parity in a hot path, they might not be aware
+> of this requirement and end up generating suboptimal code. Since we
+> care about efficiency and generated code, why not follow hweight() and
+> provide separate implementations for different sizes?
+> 
+It seems no one will reply to my two emails. So, I have summarized
+different interface approaches. If there is a next version, I will send
+it after the merge window closes.
 
-Sorry, I confused the patches. Yes you are right. I cannot do
-kbd_backlight because userspace might pick the wrong handler. And with
-this patch series on the Z13 there are 3, one for the common
-backlight, one for the keyboard, and one for the lightbar.
+Interface 1: Single Function
+Description: bool parity_odd(u64)
+Pros: Minimal maintenance cost
+Cons: Difficult to integrate with architecture-specific implementations
+      due to the inability to optimize for different argument sizes
+Opinions: Jiri supports this approach
 
-I can do asus-UNIQ:rgb:peripheral though. There is no appropriate
-function that is close enough currently. Also, since there can be
-multiple devices, UNIQ or something similar needs to be added,
-otherwise the led handler will suffix _X.
+Interface 2: Single Macro
+Description: parity_odd() macro
+Pros: Allows type-specific implementation
+Cons: Requires hacks to avoid warnings; users may need explicit
+      casting; potential sub-optimal code on 32-bit x86
+Opinions: Yury supports this approach
 
-Antheas
+Interface 3: Multiple Functions
+Description: bool parity_odd8/16/32/64()
+Pros: No need for explicit casting; easy to integrate
+      architecture-specific optimizations; except for parity8(), all
+      functions are one-liners with no significant code duplication
+Cons: More functions may increase maintenance burden
+Opinions: Only I support this approach
 
-> > > +     leds->mc_led.led_cdev.flags = LED_BRIGHT_HW_CHANGED;
-> > > +     leds->mc_led.led_cdev.max_brightness = 3,
-> > > +     leds->mc_led.led_cdev.brightness_set = asus_kbd_brightness_set,
-> > > +     leds->mc_led.led_cdev.brightness_get = asus_kbd_brightness_get,
-> > > +     leds->mc_led.subled_info = leds->subled_info,
-> > > +     leds->mc_led.num_colors = ARRAY_SIZE(leds->subled_info),
-> > > +     leds->subled_info[0].color_index = LED_COLOR_ID_RED;
-> > > +     leds->subled_info[1].color_index = LED_COLOR_ID_GREEN;
-> > > +     leds->subled_info[2].color_index = LED_COLOR_ID_BLUE;
-> > > +
-> > > +     INIT_WORK(&drvdata->kbd_backlight->work, asus_kbd_work);
-> > >       spin_lock_init(&drvdata->kbd_backlight->lock);
-> > >
-> > >       ret = asus_hid_register_listener(&drvdata->kbd_backlight->listener);
-> > > +     no_led = !!ret;
-> > > +
-> > > +     if (drvdata->quirks & QUIRK_ROG_NKEY_RGB) {
-> > > +             ret = devm_led_classdev_multicolor_register(
-> > > +                     &hdev->dev, &leds->mc_led);
-> > > +             if (!ret)
-> > > +                     leds->rgb_registered = true;
-> > > +             no_led &= !!ret;
-> > > +     }
-> > >
-> > > -     if (ret < 0) {
-> > > +     if (no_led) {
-> > >               /* No need to have this still around */
-> > >               devm_kfree(&hdev->dev, drvdata->kbd_backlight);
-> > >       }
-> > >
-> > > -     return ret;
-> > > +     return no_led ? -ENODEV : 0;
-> > >   }
-> > >
-> > >   /*
-> > > @@ -1289,7 +1430,7 @@ static const struct hid_device_id asus_devices[] = {
-> > >         QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> > >       { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
-> > >           USB_DEVICE_ID_ASUSTEK_ROG_Z13_LIGHTBAR),
-> > > -       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> > > +       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_RGB },
-> > >       { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
-> > >           USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY),
-> > >         QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> > > @@ -1318,7 +1459,7 @@ static const struct hid_device_id asus_devices[] = {
-> > >        */
-> > >       { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-> > >               USB_VENDOR_ID_ASUSTEK, USB_DEVICE_ID_ASUSTEK_ROG_Z13_FOLIO),
-> > > -       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> > > +       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_RGB },
-> > >       { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-> > >               USB_VENDOR_ID_ASUSTEK, USB_DEVICE_ID_ASUSTEK_T101HA_KEYBOARD) },
-> > >       { }
-> >
+Regards,
+Kuan-Wei
 
