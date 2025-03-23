@@ -1,92 +1,95 @@
-Return-Path: <linux-input+bounces-11114-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11115-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC45EA6CDB8
-	for <lists+linux-input@lfdr.de>; Sun, 23 Mar 2025 03:35:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32BC4A6CDB4
+	for <lists+linux-input@lfdr.de>; Sun, 23 Mar 2025 03:34:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0030B1894F12
-	for <lists+linux-input@lfdr.de>; Sun, 23 Mar 2025 02:34:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 421FF175251
+	for <lists+linux-input@lfdr.de>; Sun, 23 Mar 2025 02:34:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73BE31F9F73;
-	Sun, 23 Mar 2025 02:34:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68B1C20010A;
+	Sun, 23 Mar 2025 02:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="gP7dpyR/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XDON8f9I"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="Gfx1Oi1O";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="2vZqE7VH"
 X-Original-To: linux-input@vger.kernel.org
 Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066F4FC08;
-	Sun, 23 Mar 2025 02:34:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0811FFC6E;
+	Sun, 23 Mar 2025 02:34:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742697274; cv=none; b=qVcld8CbsZGoC9jL1I94A1VetrQMyC8VOQargoW5A9zbFChOX5WzOSSqtfiHQVwVNEqorRFmVIcCWC9oWO4nwiseh3f4mJkVwAzqwD+PkGRNDujTqFF1QBVhjsgcsn2cUF9DUKtgi0xy/IKwJ3uqqxi3E2iZR5DYLl2CnI0M6B4=
+	t=1742697279; cv=none; b=NtWLcvfL5lwBZhXTRj0Ebcs16GWvxMcFcdX6qU9r572MfkWmHt/Smc2MCdnVntb2GX+opkm9xqbTQHaUTZOkBwAfd2/6+gJgLNjtT6o3iUwAJuBtZY10CBEL7aaOGd8QE8r4bJpjkQjsiDl+O5i+ZHNBGp92/cBzM8VJEf/R0qA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742697274; c=relaxed/simple;
-	bh=tqNUBKfJs6VrEwaQwi1yE2Cu7ZKjHLdCh7GouijZFHw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vBDXK4VGBEmSxpichy37Cy6VX9BDtNacQN058+d95HQrrJclI9+xqWKzBWPTxpU5dZYJuNyJjyhbdWPV3ZDpDbP3nojsOiO2N+fLw4VsSpJ/oFz8KPNBO+17nI9HGhNe+yuMhmeCZVBFTVDMgebNClCHinSsyclVeXGBSNzXhOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=gP7dpyR/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XDON8f9I; arc=none smtp.client-ip=202.12.124.147
+	s=arc-20240116; t=1742697279; c=relaxed/simple;
+	bh=ul0SCM1a1SBOw+pM4ehI3QlVax89fM+x7Ej8MRTtqNE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=caiCk4kRNgWIhrZAqhcGVv4anNs68ZYJZnl+FkSoQfNYoON0xRo4AAFHRnZdsuu5QqPi4hXhMydtdQkChATuLWRzMISVNwGcq/HBtaR+itJ/ZSS8ktnpTz/kl1uF+vR8x2+SdECQOkq/6uKS61zVm409Y/otk2Iv4CW9Ei43P0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=Gfx1Oi1O; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=2vZqE7VH; arc=none smtp.client-ip=202.12.124.147
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfout.stl.internal (Postfix) with ESMTP id ACB4A11400AD;
-	Sat, 22 Mar 2025 22:34:30 -0400 (EDT)
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfout.stl.internal (Postfix) with ESMTP id 4FA8911400AD;
+	Sat, 22 Mar 2025 22:34:36 -0400 (EDT)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Sat, 22 Mar 2025 22:34:30 -0400
+  by phl-compute-12.internal (MEProxy); Sat, 22 Mar 2025 22:34:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
 	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm3; t=1742697270; x=1742783670; bh=1eF9uC0DFW6sxuK63cmCj
-	1nHFDHjzBIOVvMZQecvkPI=; b=gP7dpyR/Q5HljTVuuJP5rdoraRb36hjW8mMsv
-	6flEevdHJRyZXYBbt9Q3btis5++3Zbf91cGcykwgM9UD6Pyr3ADlgEoGLv4d+40i
-	rR4HCsKYY4hzf985j+9Ms/7iwACFh2sI0IlvX/n2ea9yhrfNLsU1RHd6wl0L5YE3
-	ntLajZlSqBYxR1KIW6miM4SEHFdrVQxPISMgo8CMx38XVEJRnFKPz2Ixd1jz9XZd
-	593Mx89M85w5aF4+EFAzHKM6kAzVcvvD6eOnB+jvvE7R4roi18CEYKA99UtF6Mg7
-	NT3Jn4bg9rcBDBJtTAbBOXZ61f9E93rsAWWrormRUTJZso/4A==
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1742697276; x=
+	1742783676; bh=Y/GhYOg4JqfXJHzGwcRCLvEHQC1zVxrplBNn76M9WLQ=; b=G
+	fx1Oi1On46A44bHev1vqPumM/aCZfhLQ/z5eOBYWUYce3LPmUWB6vj7GMfZWLUyM
+	8zaUDoWm5B3iJpUfuILu1v8S3G0vzFOiczXnFzyUkIeVFeEGaZT+W8hlOHbv4mG+
+	JfCpnJ56AnqkyMNn/wfEifUNvVBwmJQ4LmAOAkb9m3I9xSX/OEIOlJdVZUnDUZfR
+	hwqHWjDjy/6l0msUWmM5YDGfi0orCcAxgK50F1PNsWEnLYxndmxzmomzKbAp0dGf
+	smZmymWJ94eiNnoi4Qy9DCvfMgN3Hyh7Xub0Gg6ITbiMrjKq4vmqJFGbvExEmC9G
+	g10h9gP0nZvxlkyEZxZjg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1742697270; x=1742783670; bh=1eF9uC0DFW6sxuK63cmCj1nHFDHjzBIOVvM
-	ZQecvkPI=; b=XDON8f9ICbRoGB576/pwY0kClguJ6Z04CtkBpLvWrNHZ0skRpfL
-	FwYneLNHubwMyaW/yb06PpUT/l1Wq3fUS+B9GyAZxW0YLfa5JBH3U/R5b48wiaSh
-	Jtaq1NBY2fbPPJmAVrUOrkTaUhNR39XFGVJSjwkJi1gOH4S827rU4ZeaDQsXYht6
-	R93xkClUFn/rB+hIZkTGU2vM8EixOsfblZ6aUr++GPQQ5O+kK07IqNSRKB415mHl
-	tQBPBCVjGdrj+/Ghk+McxOSHu8OBhrCIb7vOhRiyEqQkDzYxxZCIedVrXf9o7z5z
-	M85YyNH0Frsb68uSrcATLA3ZEKM85oyj8Og==
-X-ME-Sender: <xms:NnPfZ9Wft_PeZMCuysXj-A4lLPKQnRS2XeGtBNZGEQxpROPJ4p-7JQ>
-    <xme:NnPfZ9mHGhWM8bpDrFUgkqv4UZPJliK9vAoHK-Kf6omf1fqZkVNOIfhaC9oQ1H8NT
-    IQ1dgmU6uNv0GfOSGE>
-X-ME-Received: <xmr:NnPfZ5YlxTN3EiFDv2BbD6iBvh3AlMPNBTBkgv-TcO7xMi6RJAyLMRUJM-Q2_0yHrCI8n2i6z7jfqF50pw>
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1742697276; x=1742783676; bh=Y
+	/GhYOg4JqfXJHzGwcRCLvEHQC1zVxrplBNn76M9WLQ=; b=2vZqE7VHrcweGeFAf
+	WpuYgQLYpMs+KskMOMz5G8qv8qFBqZygEkmDC6Fvou3k1dGzkmokAqoXwSBt9gTE
+	w5Jc6XUt1sdkOkasrpPsAQtp4dblLqyWvy/+tZ6RZgnffKQTAwFU83JQNQQ037PM
+	pP1VXE8C285gsuIXziRN60nGK6tbeABojT+961LjZ+usIVlfldmwWwcL2Jx0qzEU
+	fwywZMdq8CRtNLnWeF03mEiAI9/3dKrvnU4aNnJlEvCWowFuubuuhcyngqUmd8uo
+	uI/07CpmTTgX93wtTNxR7ao4L6XJRIEQdtLa5pM9ifCCbZEVjqEucaADzhoQ69BQ
+	HVhxA==
+X-ME-Sender: <xms:O3PfZ8pUMBZjA-WRCqLGnWDXHErg_VwZDIvnvd9-qZoKEROZ5quz3g>
+    <xme:O3PfZyqy73wsY7d2QQgW4u_k-HbhpqR8PnRpQtbhsydfSuLwFReVv8V9Ib4mIxe_J
+    hmj0MQ6F7kkOeVbdos>
+X-ME-Received: <xmr:O3PfZxPwOC7EGDceySI8AHKp3NWokuHhQCdKIkr-COyuqJJaUcvgWb7RaWybohy7Ijfn3jTRrBbExkoYmA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduheehieejucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvf
-    evufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefnuhhkvgculfhonhgvshcuoehl
-    uhhkvgeslhhjohhnvghsrdguvghvqeenucggtffrrghtthgvrhhnpedtheeuleekgeehud
-    dufeduvdevffelgeffjeekieffuefghedvkeetgfffgfeifeenucffohhmrghinhepkhgv
-    rhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomheplhhukhgvsehljhhonhgvshdruggvvhdpnhgspghrtghpthhtohepuddtpdhm
-    ohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehhuggvghhovgguvgesrhgvughhrght
-    rdgtohhmpdhrtghpthhtohepihhlphhordhjrghrvhhinhgvnheslhhinhhugidrihhnth
-    gvlhdrtghomhdprhgtphhtthhopehplhgrthhfohhrmhdqughrihhvvghrqdigkeeisehv
-    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvh
-    hgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegsvghnthhishhssehkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtphhtth
-    hopehmrghrihhordhlihhmohhntghivghllhhosegrmhgurdgtohhmpdhrtghpthhtohep
-    lhhkmhhlsegrnhhthhgvrghsrdguvghv
-X-ME-Proxy: <xmx:NnPfZwUx4SmoiymXxADCbo4JJunCYHWm0c7BDIClY-VPq1ONvAr5xA>
-    <xmx:NnPfZ3khzOm_TVnAfBSYcQWWl1wFti-jv60ivsIMxKwiH8K2jeoVKA>
-    <xmx:NnPfZ9eSbzyoiiRw1V91O1zPwA10b_LJrYflv0sIySB93ZNWOK6wFw>
-    <xmx:NnPfZxFBQDwM7soNpVaNC9a77u_GolI3C4f--kgY4z0P-5RIkFTY2w>
-    <xmx:NnPfZwid6Jfyxbo2zzMyagyQAwg4i0PtAdZvvMcW4jqUKzlstEm-lYdw>
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredt
+    tdenucfhrhhomhepnfhukhgvucflohhnvghsuceolhhukhgvsehljhhonhgvshdruggvvh
+    eqnecuggftrfgrthhtvghrnhepueeuleeffeeihfelhffhheelfeffgeetuefhheevkeet
+    uedugfetfeetlefhieejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvhdpnhgspghrtghpthhtohepuddt
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvh
+    hgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehhuggvghhovgguvgesrhgvughh
+    rghtrdgtohhmpdhrtghpthhtohepihhlphhordhjrghrvhhinhgvnheslhhinhhugidrih
+    hnthgvlhdrtghomhdprhgtphhtthhopehplhgrthhfohhrmhdqughrihhvvghrqdigkeei
+    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqihhnphhuth
+    esvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegsvghnthhishhssehkvghr
+    nhgvlhdrohhrghdprhgtphhtthhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehmrghrihhordhlihhmohhntghivghllhhosegrmhgurdgtohhmpdhrtghpthht
+    oheplhhkmhhlsegrnhhthhgvrghsrdguvghv
+X-ME-Proxy: <xmx:O3PfZz62VuZtF9RWX2Xuvh9I7mfzoAnBFyOmDI_8VGrcR2TxiWVAZA>
+    <xmx:O3PfZ74QE_xjQLj5bF6BE_ng3NLPv_vDFsg-ydSpstmOCBFi-CNclw>
+    <xmx:O3PfZzhxNylSG5xfvf3ASSDKIAZ261FKue_vygbKE0AFBw1aS0pH-g>
+    <xmx:O3PfZ14Wkb6ElDYjQcgQA4yylyOz-bGJdOX44MCLIaohPAwc4BwzKA>
+    <xmx:PHPfZ4HinRq19SCzM9nhOSS-1Vdv7yFnu1SGfSwaCJI5fI1KQMSdpXYY>
 Feedback-ID: i5ec1447f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 22 Mar 2025 22:34:25 -0400 (EDT)
+ 22 Mar 2025 22:34:31 -0400 (EDT)
 From: Luke Jones <luke@ljones.dev>
 To: linux-kernel@vger.kernel.org
 Cc: hdegoede@redhat.com,
@@ -97,11 +100,13 @@ Cc: hdegoede@redhat.com,
 	jikos@kernel.org,
 	mario.limonciello@amd.com,
 	lkml@antheas.dev,
-	Luke Jones <luke@ljones.dev>
-Subject: [PATCH v4 0/2] hid-asus: asus-wmi: refactor Ally suspend/resume
-Date: Sun, 23 Mar 2025 15:34:19 +1300
-Message-ID: <20250323023421.78012-1-luke@ljones.dev>
+	"Luke D. Jones" <luke@ljones.dev>
+Subject: [PATCH v4 1/2] hid-asus: check ROG Ally MCU version and warn
+Date: Sun, 23 Mar 2025 15:34:20 +1300
+Message-ID: <20250323023421.78012-2-luke@ljones.dev>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250323023421.78012-1-luke@ljones.dev>
+References: <20250323023421.78012-1-luke@ljones.dev>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -110,49 +115,170 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This short series refactors the Ally suspend/resume functionality in the
-asus-wmi driver along with adding support for ROG Ally MCU version checking.
+From: "Luke D. Jones" <luke@ljones.dev>
 
-The version checking is then used to toggle the use of older CSEE call hacks
-that were initially used to combat Ally suspend/wake issues arising from the MCU
-not clearing a particular flag on resume. ASUS have since corrected this
-especially for Linux in newer firmware versions.
+ASUS have fixed suspend issues arising from a flag not being cleared in
+the MCU FW in both the ROG Ally 1 and the ROG Ally X.
 
-- hid-asus requests the MCU version and displays a warning if the version is
-  older than the one that fixes the issue.
-- hid-asus awill also toggle the CSEE hack off, and mcu_powersave to on if the
-version is high enough.
+Implement a check and a warning to encourage users to update the FW to
+a minimum supported version.
 
-*Note: In review it was requested by Mario that I try strsep() for parsing
-the version. I did try this and a few variations but the result was much
-more code due to having to check more edge cases due to the input being
-raw bytes. In the end the cleaned up while loop proved more robust.
+Signed-off-by: Luke D. Jones <luke@ljones.dev>
+---
+ drivers/hid/hid-asus.c | 107 ++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 105 insertions(+), 2 deletions(-)
 
-- Changelog:
-  + V2: https://lore.kernel.org/platform-driver-x86/20250226010129.32043-1-luke@ljones.dev/T/#t
-    - Adjust warning message to explicitly mention suspend issues
-    - Use switch/case block to set min_version
-      - Set min_version to 0 by default and toggle hacks off
-  + V3
-    - Remove noise (excess pr_info)
-    - Use kstrtoint, not kstrtolong
-    - Use __free(kfree) for allocated mem and drop goto + logging
-    - Use print_hex_dump() to show failed data after pr_err in mcu_request_version()
-    - Use pr_debug in set_ally_mcu_hack() and set_ally_mcu_powersave() plus
-      correct the message.
-  + V4
-    - Change use_ally_mcu_hack var to enum to track init state and
-      prevent a race condition
-
-Luke D. Jones (2):
-  hid-asus: check ROG Ally MCU version and warn
-  platform/x86: asus-wmi: Refactor Ally suspend/resume
-
- drivers/hid/hid-asus.c                     | 111 ++++++++++++++++-
- drivers/platform/x86/asus-wmi.c            | 133 +++++++++++++++------
- include/linux/platform_data/x86/asus-wmi.h |  19 +++
- 3 files changed, 222 insertions(+), 41 deletions(-)
-
+diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+index 46e3e42f9eb5..599c836507ff 100644
+--- a/drivers/hid/hid-asus.c
++++ b/drivers/hid/hid-asus.c
+@@ -52,6 +52,10 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+ #define FEATURE_KBD_LED_REPORT_ID1 0x5d
+ #define FEATURE_KBD_LED_REPORT_ID2 0x5e
+ 
++#define ROG_ALLY_REPORT_SIZE 64
++#define ROG_ALLY_X_MIN_MCU 313
++#define ROG_ALLY_MIN_MCU 319
++
+ #define SUPPORT_KBD_BACKLIGHT BIT(0)
+ 
+ #define MAX_TOUCH_MAJOR 8
+@@ -84,6 +88,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+ #define QUIRK_MEDION_E1239T		BIT(10)
+ #define QUIRK_ROG_NKEY_KEYBOARD		BIT(11)
+ #define QUIRK_ROG_CLAYMORE_II_KEYBOARD BIT(12)
++#define QUIRK_ROG_ALLY_XPAD		BIT(13)
+ 
+ #define I2C_KEYBOARD_QUIRKS			(QUIRK_FIX_NOTEBOOK_REPORT | \
+ 						 QUIRK_NO_INIT_REPORTS | \
+@@ -534,9 +539,99 @@ static bool asus_kbd_wmi_led_control_present(struct hid_device *hdev)
+ 	return !!(value & ASUS_WMI_DSTS_PRESENCE_BIT);
+ }
+ 
++/*
++ * We don't care about any other part of the string except the version section.
++ * Example strings: FGA80100.RC72LA.312_T01, FGA80100.RC71LS.318_T01
++ * The bytes "5a 05 03 31 00 1a 13" and possibly more come before the version
++ * string, and there may be additional bytes after the version string such as
++ * "75 00 74 00 65 00" or a postfix such as "_T01"
++ */
++static int mcu_parse_version_string(const u8 *response, size_t response_size)
++{
++	const u8 *end = response + response_size;
++	const u8 *p = response;
++	int dots, err, version;
++	char buf[4];
++
++	dots = 0;
++	while (p < end && dots < 2) {
++		if (*p++ == '.')
++			dots++;
++	}
++
++	if (dots != 2 || p >= end || (p + 3) >= end)
++		return -EINVAL;
++
++	memcpy(buf, p, 3);
++	buf[3] = '\0';
++
++	err = kstrtoint(buf, 10, &version);
++	if (err || version < 0)
++		return -EINVAL;
++
++	return version;
++}
++
++static int mcu_request_version(struct hid_device *hdev)
++{
++	u8 *response __free(kfree) = kzalloc(ROG_ALLY_REPORT_SIZE, GFP_KERNEL);
++	const u8 request[] = { 0x5a, 0x05, 0x03, 0x31, 0x00, 0x20 };
++	int ret;
++
++	if (!response)
++		return -ENOMEM;
++
++	ret = asus_kbd_set_report(hdev, request, sizeof(request));
++	if (ret < 0)
++		return ret;
++
++	ret = hid_hw_raw_request(hdev, FEATURE_REPORT_ID, response,
++				ROG_ALLY_REPORT_SIZE, HID_FEATURE_REPORT,
++				HID_REQ_GET_REPORT);
++	if (ret < 0)
++		return ret;
++
++	ret = mcu_parse_version_string(response, ROG_ALLY_REPORT_SIZE);
++	if (ret < 0) {
++		pr_err("Failed to parse MCU version: %d\n", ret);
++		print_hex_dump(KERN_ERR, "MCU: ", DUMP_PREFIX_NONE,
++			      16, 1, response, ROG_ALLY_REPORT_SIZE, false);
++	}
++
++	return ret;
++}
++
++static void validate_mcu_fw_version(struct hid_device *hdev, int idProduct)
++{
++	int min_version, version;
++
++	version = mcu_request_version(hdev);
++	if (version < 0)
++		return;
++
++	switch (idProduct) {
++	case USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY:
++		min_version = ROG_ALLY_MIN_MCU;
++		break;
++	case USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY_X:
++		min_version = ROG_ALLY_X_MIN_MCU;
++		break;
++	default:
++		min_version = 0;
++	}
++
++	if (version < min_version) {
++		hid_warn(hdev,
++			"The MCU firmware version must be %d or greater to avoid issues with suspend.\n",
++			min_version);
++	}
++}
++
+ static int asus_kbd_register_leds(struct hid_device *hdev)
+ {
+ 	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
++	struct usb_interface *intf;
++	struct usb_device *udev;
+ 	unsigned char kbd_func;
+ 	int ret;
+ 
+@@ -560,6 +655,14 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
+ 			if (ret < 0)
+ 				return ret;
+ 		}
++
++		if (drvdata->quirks & QUIRK_ROG_ALLY_XPAD) {
++			intf = to_usb_interface(hdev->dev.parent);
++			udev = interface_to_usbdev(intf);
++			validate_mcu_fw_version(hdev,
++				le16_to_cpu(udev->descriptor.idProduct));
++		}
++
+ 	} else {
+ 		/* Initialize keyboard */
+ 		ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
+@@ -1280,10 +1383,10 @@ static const struct hid_device_id asus_devices[] = {
+ 	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+ 	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY),
+-	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
++	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_ALLY_XPAD},
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+ 	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY_X),
+-	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
++	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_ALLY_XPAD },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+ 	    USB_DEVICE_ID_ASUSTEK_ROG_CLAYMORE_II_KEYBOARD),
+ 	  QUIRK_ROG_CLAYMORE_II_KEYBOARD },
 -- 
 2.49.0
 
