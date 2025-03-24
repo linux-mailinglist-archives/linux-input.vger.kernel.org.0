@@ -1,97 +1,86 @@
-Return-Path: <linux-input+bounces-11133-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11134-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBCB1A6D85F
-	for <lists+linux-input@lfdr.de>; Mon, 24 Mar 2025 11:34:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 808C7A6D926
+	for <lists+linux-input@lfdr.de>; Mon, 24 Mar 2025 12:31:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF6501889F9F
-	for <lists+linux-input@lfdr.de>; Mon, 24 Mar 2025 10:34:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1DA43AE9C9
+	for <lists+linux-input@lfdr.de>; Mon, 24 Mar 2025 11:31:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13E9A25DB02;
-	Mon, 24 Mar 2025 10:34:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E9DA25D8F4;
+	Mon, 24 Mar 2025 11:31:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="gbPC/B0K";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EYuipvf5"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hOiTSYFI"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94679433A8;
-	Mon, 24 Mar 2025 10:34:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F951CD1E4
+	for <linux-input@vger.kernel.org>; Mon, 24 Mar 2025 11:31:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742812443; cv=none; b=B69wwULe5V9R9oB3gZ6TRqHodgjS1LEjnZT+gUthp9zvrGDrtDSg3CQwrWoJvpObH5UhsvKWi30VjjS3nXTqoJqifSB1xnrpNPSRC/jUB0uN3Yfj1+ibnTptJn68ETqZzaUGofuXEEPpSUArmMb9z8nFP+b8y5c7iGqMQA4YWmc=
+	t=1742815885; cv=none; b=hW2wYwXsHL4D9NPQpR3TNQIypHhHMmPV4EEhcMReT2u9GviSLOXkfodeBed9sBCIWI3TsDnUNuTgO5dFIir9dALGuCiV0982a/iNmcVA9FZtgJo1u8gVGpwhARDNyXwAuxoMv3FdaHEJAM0J1pweimvtodEDkcBeoNnaBZY8Eso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742812443; c=relaxed/simple;
-	bh=MDaWS369zyU3ft/VPAGvF4/93oOsT0WshVGyyTRZSrI=;
+	s=arc-20240116; t=1742815885; c=relaxed/simple;
+	bh=KAAtuBE64BwzHEeogup0HNqAthm81DZxc8tTnHfoIB4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e03UIktGD3eaz6kfXMCRZnDP16terEWSkHFKhsm8F2TXO5eKCF3/YpDh8LLY5f53xm6c6l+JSQSe0RKSknrVHaIaKOh6AfairU8gS8cto7CC0FTwbouz5E/3UvU5LebIInExjTnqy6yPsDVXbD7G+O0dIE0YtiZHYFz9v1BNREs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=gbPC/B0K; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EYuipvf5; arc=none smtp.client-ip=202.12.124.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 3EC3125401BF;
-	Mon, 24 Mar 2025 06:33:59 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Mon, 24 Mar 2025 06:33:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1742812439;
-	 x=1742898839; bh=EU6NpT9oUCnxAd5/BZlw3N/2VuBMArT0EOYmB1+ztpw=; b=
-	gbPC/B0KKVvTVndlHSXDhXYKQZVRMjupHmAZgLQmT3x5q3I1NdTtsqyLPgx5JYWs
-	1Ey2BWIoujmL7KoUSPHkokjthtEwQU9ERi3A+yntgtbixiFJl0BVPhNbyvCZevtL
-	SQo2g1jOa2fs5c7jrNm+bEhURw+awiuRJ5ujZUoLaKTQOmRVCIxFmoHtc+SKiBHi
-	uan6x0q438KHRG2ps3sywCmz6D41SCYGnIppOZijAtPQd9emvtU0B09BcM6z3g4Q
-	5YIaJQxI3G0CPANDboHcKA72Pull3IdkNuTBwi6YwrFKDdXpnlDJvPI2sRT5MMMR
-	o09Zab/haa1fzzWAqzMXgg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1742812439; x=
-	1742898839; bh=EU6NpT9oUCnxAd5/BZlw3N/2VuBMArT0EOYmB1+ztpw=; b=E
-	Yuipvf5Ljq4mxTggUARgnUqQbb1IZvwCjuhXS42u3h7tjOwRyJFXEvGDJi1siYXu
-	PeMh6IAd3SdXuuO/8AUmicBGzPARCbBcUdhpujYSS2/V4NoqDpLHgRNIUraYWhCg
-	H1DiTtLTOdT1MLv3GbPnKGY6IlTPw2JQIQTioo+dGfB34n6BQEc9+LQyRPu0xFwr
-	vk1kwGZZw3CqbYidIjs/nAUWHzbOJK6SQguBjR7aUOS8NsmNh4mmxbE8T+gvXmnw
-	vOQ6Wlkmz4XAjXMs4M8RhbNfll0jo0P1DfE3D6gJV0PMI2mTEHK0fHuJMKV7mUFF
-	EbqUrgw/gRbo2j3ulzyBA==
-X-ME-Sender: <xms:FjXhZ9MFyh1fzVLbftTUZMh25anBRDeITzUmqGysmhjREN2O5QSDEA>
-    <xme:FjXhZ_8outC7TKMDUx8yeE5dhkNx3zV1GQEx_qGtfIU4bZvkTDgRrsBgTMzXOTbGd
-    sdAkKPlXcRxXoDDNBc>
-X-ME-Received: <xmr:FjXhZ8TmjATNuRQctBqAKf1YNU1PHn67HbKXHDombqDKx6tKe3IsKNQDsPhrG_sF5CH5FrX->
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduheelheehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefkff
-    ggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepfdfnuhhkvgcuffdrucfl
-    ohhnvghsfdcuoehluhhkvgeslhhjohhnvghsrdguvghvqeenucggtffrrghtthgvrhhnpe
-    eigeekveevffelfedtieegudfhkeefudeuleduhfehfffhtdekhfekffefteduvdenucff
-    ohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvhdpnhgspghrtghp
-    thhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhkmhhlsegrnhhthh
-    gvrghsrdguvghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgv
-    rhhnvghlrdhorhhgpdhrtghpthhtohephhguvghgohgvuggvsehrvgguhhgrthdrtghomh
-    dprhgtphhtthhopehilhhpohdrjhgrrhhvihhnvghnsehlihhnuhigrdhinhhtvghlrdgt
-    ohhmpdhrtghpthhtohepphhlrghtfhhorhhmqdgurhhivhgvrhdqgiekieesvhhgvghrrd
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhinhhpuhhtsehvghgvrhdr
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepsggvnhhtihhssheskhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtohepjhhikhhosheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgr
-    rhhiohdrlhhimhhonhgtihgvlhhlohesrghmugdrtghomh
-X-ME-Proxy: <xmx:FjXhZ5vF5YB2Lu_hD6Y1eBpvQBBiEmeB8NRq5p0TC-ay5eVUjCYrOg>
-    <xmx:FjXhZ1cphiLDqpiwJXR0xmRHAf1HrKSp5iwm2t9RmH2gh7PIBLCFLw>
-    <xmx:FjXhZ11gXkuBKutrpwUK0yxg4XcI6cj9VfHu6fN57I53_x-I3sCEmw>
-    <xmx:FjXhZx8nHNC8otTgLcLgBd7wJoXZKBkiDi3K42J9qLKBxa3j7Q92cQ>
-    <xmx:FzXhZ0wIE4rgD6ONYk6c3tz-cC-qmCQiPQwy2jlJGGNZUJjLeEsWkT-N>
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 24 Mar 2025 06:33:54 -0400 (EDT)
-Message-ID: <41bf9d87-be11-4814-bc3e-c6c9297e0cc4@ljones.dev>
-Date: Mon, 24 Mar 2025 23:33:52 +1300
+	 In-Reply-To:Content-Type; b=VviX3YJebtImA9m8fuQuVtK5U72e7NLyp9Gi0uhYOmCxkONoE5eqdaBF4aA7Scn6pO6nTX6NXrGF1IFv431eofrC4UCTPCM5HxeYcR2e+74k+dmtk3l7u99UHIp2SMnvQQ9u3A28aiVN3sPEQlmj/2eFD9v52Aj0PsUsO867vMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hOiTSYFI; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1742815882;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dggUHBckjaPdw6FWAtjj0p2FBMjWS+2b+l3ntJW3vZA=;
+	b=hOiTSYFIR09pStT7e/XxkTz5Qm+l3bOquj7LoChxJ1hAU9WS9qVLfOEbVdP66V4SShiHqf
+	arN2aUy1OlA7XDhD1vAfTcrhso7YaI9oMAQoQ6nsBGe1xg3NmaOg8uT+cNR7tUnSNOhlh5
+	y9dfFy8zKZzMvQ+ZV1uoDIGtTC8S/7w=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-14-23QO-hXfNqCFzEjDCx55lQ-1; Mon, 24 Mar 2025 07:31:20 -0400
+X-MC-Unique: 23QO-hXfNqCFzEjDCx55lQ-1
+X-Mimecast-MFC-AGG-ID: 23QO-hXfNqCFzEjDCx55lQ_1742815879
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-ac3c219371bso369828366b.0
+        for <linux-input@vger.kernel.org>; Mon, 24 Mar 2025 04:31:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742815879; x=1743420679;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dggUHBckjaPdw6FWAtjj0p2FBMjWS+2b+l3ntJW3vZA=;
+        b=OG5R9SvGYEEy01Wk0io8oR3G4k2e/9xDfCuILRMa5pep+se+uxjY0x1YMLdgfui7Be
+         yEEe7jTQqpv4q4iHC/vfedyk1o6D5k7hXCwQHKMXS8S1g/0z4eGnzRnMZQ4ZMiXfSkzP
+         sIZb2656H20fJiBcGceg/vr5kZfbF2yE44iIrD4tmkxcWXec7YdCVzYKyxpqgMHDQc/E
+         7mPrb9H6QQNwe6h3ai4bkhiPL8hukUXzrlYgJr+ESQqE/0Gh5XkK8C+CJnwVDGekhAkf
+         M8lHX+SZuJyL/ByStifLTDluJwcrGq1PGqLbR6HlHaPjdKA0nT2VMrFgc0O8Eg41+pEy
+         up6g==
+X-Forwarded-Encrypted: i=1; AJvYcCUA8HqWvh8893PL8JxmD0/Tbf2tWZWGqmXayfnQKKx8gauTJK7VVwl1N1qXy8mk2LrOIAdLbdcB2U98cQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyyR3xzSJ4OgRNLRl0KI3LI/LSi3vDYaUXVTxauvdyDBGtj2jPZ
+	vdeNRbGxP1MWjLXrwLEHTWTjJ0ocw1JKVapwhZWPjGrDXWb/qx0yMlBxCz++cNacEiK3ngP538n
+	OcV3Mo1RI09J8ULaeS7lw9wttqeyGqRPiwumm43+QoVmGHB/SS9TF5oCDoFNE
+X-Gm-Gg: ASbGncsC2NklKbKHsNn+Y7gfY/X0gpg2+3tdkb24nQ5d7fuKfEALoHooIh05oFIWrDk
+	ZLShQl/jLygN7hI4cl3QgSk5iuCIKTeJJkIzDdWJfeZJGtnSnEfEQL0vVEg6BEizZ03ERHfY4TV
+	xv6IGpceSbNG5kcHP5VCl7cMy0UA2VlT++eL8dxoibrmu+g9xUjeFZWPBp05us2R0AvRibkp+uq
+	RfrqrzaXJk+kkUAzaqowMy4W/bTvxrJl5+RDHB1H8yzCSfIMLw01M0XW0qWHIHNWPEiKIJc4cfI
+	oeR94K7qfzKDKok+874=
+X-Received: by 2002:a17:907:2ce6:b0:ac2:c41b:f32b with SMTP id a640c23a62f3a-ac3f229960dmr1202347266b.28.1742815879116;
+        Mon, 24 Mar 2025 04:31:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGfxWRopK4uIUuklOnmxlSXlcvi9BwXT+CEwa/DvSgMg6XDsSuOw4LxLQZRkmyIjkA7Qbb1FQ==
+X-Received: by 2002:a17:907:2ce6:b0:ac2:c41b:f32b with SMTP id a640c23a62f3a-ac3f229960dmr1202344266b.28.1742815878626;
+        Mon, 24 Mar 2025 04:31:18 -0700 (PDT)
+Received: from [10.40.98.122] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3efb51e74sm652660966b.115.2025.03.24.04.31.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Mar 2025 04:31:18 -0700 (PDT)
+Message-ID: <8666efcb-37b5-4201-ac47-0afde8881068@redhat.com>
+Date: Mon, 24 Mar 2025 12:31:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -99,113 +88,296 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/2] hid-asus: asus-wmi: refactor Ally suspend/resume
-To: Antheas Kapenekakis <lkml@antheas.dev>
-Cc: linux-kernel@vger.kernel.org, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
- linux-input@vger.kernel.org, bentiss@kernel.org, jikos@kernel.org,
- mario.limonciello@amd.com
-References: <20250323023421.78012-1-luke@ljones.dev>
- <CAGwozwE4oXmFMRO5jZJC4d11TstTqSC8ZUZ1CCkZMWYZKTKF_w@mail.gmail.com>
- <deeb4946-dd66-4a82-a8f0-5e8b1751899e@ljones.dev>
- <CAGwozwGPVJznyX4Vp5vNfb1JOP7AGoZV3vOkRwT_W=_0g+gkJQ@mail.gmail.com>
-Content-Language: en-US
-From: "Luke D. Jones" <luke@ljones.dev>
-In-Reply-To: <CAGwozwGPVJznyX4Vp5vNfb1JOP7AGoZV3vOkRwT_W=_0g+gkJQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v3 04/10] platform/x86: asus-wmi: Add support for multiple
+ kbd RGB handlers
+To: Antheas Kapenekakis <lkml@antheas.dev>,
+ platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones"
+ <luke@ljones.dev>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>
+References: <20250322102804.418000-1-lkml@antheas.dev>
+ <20250322102804.418000-5-lkml@antheas.dev>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20250322102804.418000-5-lkml@antheas.dev>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 24/03/25 21:11, Antheas Kapenekakis wrote:
-> On Mon, 24 Mar 2025 at 02:41, Luke D. Jones <luke@ljones.dev> wrote:
->>
->> On 24/03/25 00:41, Antheas Kapenekakis wrote:
->>> On Sun, 23 Mar 2025 at 03:34, Luke Jones <luke@ljones.dev> wrote:
->>>>
->>>> This short series refactors the Ally suspend/resume functionality in the
->>>> asus-wmi driver along with adding support for ROG Ally MCU version checking.
->>>>
->>>> The version checking is then used to toggle the use of older CSEE call hacks
->>>> that were initially used to combat Ally suspend/wake issues arising from the MCU
->>>> not clearing a particular flag on resume. ASUS have since corrected this
->>>> especially for Linux in newer firmware versions.
->>>>
->>>> - hid-asus requests the MCU version and displays a warning if the version is
->>>>     older than the one that fixes the issue.
->>>> - hid-asus awill also toggle the CSEE hack off, and mcu_powersave to on if the
->>>> version is high enough.
->>>>
->>>> *Note: In review it was requested by Mario that I try strsep() for parsing
->>>> the version. I did try this and a few variations but the result was much
->>>> more code due to having to check more edge cases due to the input being
->>>> raw bytes. In the end the cleaned up while loop proved more robust.
->>>>
->>>> - Changelog:
->>>>     + V2: https://lore.kernel.org/platform-driver-x86/20250226010129.32043-1-luke@ljones.dev/T/#t
->>>>       - Adjust warning message to explicitly mention suspend issues
->>>
->>> How did the testing go with this one, especially with mcu_powersave 0?
->>
->> Appears to be good. Checked a few reboots with powersave off - it is
->> setting on as I expect every time. Did modules unload/load also. And
->> tested with it set off after boot plus suspend resumes.
+Hi Antheas,
+
+Note not a full review, just taking a generic look at the new API
+between asus-wmi and asus-hid.
+
+On 22-Mar-25 11:27, Antheas Kapenekakis wrote:
+> Some devices, such as the Z13 have multiple AURA devices connected
+> to them by USB. In addition, they might have a WMI interface for
+> RGB. In Windows, Armoury Crate exposes a unified brightness slider
+> for all of them, with 3 brightness levels.
 > 
-> Did you test suspends with mcu_powersave to 0 and rgb on? I had a few
-> issues you can reference the previous version for and I want to see if
-> you have them.
+> Therefore, to be synergistic in Linux, and support existing tooling
+> such as UPower, allow adding listeners to the RGB device of the WMI
+> interface. If WMI does not exist, lazy initialize the interface.
 > 
-> Even with powersave set to 1, the RGB does not fade anymore without the quirk
-
-Yes I tested every scenario I could think of. I don't think the fade is 
-something to worry about - seems like it happening at all previously was 
-just due to suspend being held up for a bit longer and now that the hack 
-is disabled for new FW, it relies fully on Linux suspend (async? 
-Honestly it's never been fully clear how async it really is).
-
-I'd rather the faster suspend/resume. And so far I've heard no 
-complaints (although my userbase is smaller than bazzites).
-
-Cheers,
-Luke.
-
-> Antheas
+> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> ---
+>  drivers/platform/x86/asus-wmi.c            | 113 ++++++++++++++++++---
+>  include/linux/platform_data/x86/asus-wmi.h |  16 +++
+>  2 files changed, 117 insertions(+), 12 deletions(-)
 > 
->> Very much hope this is the end of that particular saga, and with
->> bazzites help we can hopefully get everyone on November MCU FW or later,
->> then finally remove the hack completely this year.
->>
->> A small side note - I expect ASUS to fully reuse the X hardware, or at
->> least the bios/acpi/mcu-fw for that new windows handheld they've doing,
->> so fingers crossed that they actually do, and there will be nomore
->> suspend issues with current kernels plus this patch.
->>
->> Cheers,
->> Luke.
->>
->>>>       - Use switch/case block to set min_version
->>>>         - Set min_version to 0 by default and toggle hacks off
->>>>     + V3
->>>>       - Remove noise (excess pr_info)
->>>>       - Use kstrtoint, not kstrtolong
->>>>       - Use __free(kfree) for allocated mem and drop goto + logging
->>>>       - Use print_hex_dump() to show failed data after pr_err in mcu_request_version()
->>>>       - Use pr_debug in set_ally_mcu_hack() and set_ally_mcu_powersave() plus
->>>>         correct the message.
->>>>     + V4
->>>>       - Change use_ally_mcu_hack var to enum to track init state and
->>>>         prevent a race condition
->>>>
->>>> Luke D. Jones (2):
->>>>     hid-asus: check ROG Ally MCU version and warn
->>>>     platform/x86: asus-wmi: Refactor Ally suspend/resume
->>>>
->>>>    drivers/hid/hid-asus.c                     | 111 ++++++++++++++++-
->>>>    drivers/platform/x86/asus-wmi.c            | 133 +++++++++++++++------
->>>>    include/linux/platform_data/x86/asus-wmi.h |  19 +++
->>>>    3 files changed, 222 insertions(+), 41 deletions(-)
->>>>
->>>> --
->>>> 2.49.0
->>>>
->>
+> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+> index 38ef778e8c19b..95ef9b1d321bb 100644
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+> @@ -254,6 +254,8 @@ struct asus_wmi {
+>  	int tpd_led_wk;
+>  	struct led_classdev kbd_led;
+>  	int kbd_led_wk;
+> +	bool kbd_led_avail;
+> +	bool kbd_led_registered;
+>  	struct led_classdev lightbar_led;
+>  	int lightbar_led_wk;
+>  	struct led_classdev micmute_led;
+> @@ -1487,6 +1489,53 @@ static void asus_wmi_battery_exit(struct asus_wmi *asus)
+>  
+>  /* LEDs ***********************************************************************/
+>  
+> +struct asus_hid_ref {
+> +	struct list_head listeners;
+> +	struct asus_wmi *asus;
+> +	spinlock_t lock;
+> +};
+> +
+> +struct asus_hid_ref asus_ref = {
+> +	.listeners = LIST_HEAD_INIT(asus_ref.listeners),
+> +	.asus = NULL,
+> +	.lock = __SPIN_LOCK_UNLOCKED(asus_ref.lock),
+> +};
+> +
+> +int asus_hid_register_listener(struct asus_hid_listener *bdev)
+> +{
+> +	unsigned long flags;
+> +	int ret = 0;
+> +
+> +	spin_lock_irqsave(&asus_ref.lock, flags);
+> +	list_add_tail(&bdev->list, &asus_ref.listeners);
+> +	if (asus_ref.asus) {
+> +		if (asus_ref.asus->kbd_led_registered && asus_ref.asus->kbd_led_wk >= 0)
+> +			bdev->brightness_set(bdev, asus_ref.asus->kbd_led_wk);
+> +
+> +		if (!asus_ref.asus->kbd_led_registered) {
+> +			ret = led_classdev_register(
+> +				&asus_ref.asus->platform_device->dev,
+> +				&asus_ref.asus->kbd_led);
+> +			if (!ret)
+> +				asus_ref.asus->kbd_led_registered = true;
+> +		}
+> +	}
+> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(asus_hid_register_listener);
+> +
+> +void asus_hid_unregister_listener(struct asus_hid_listener *bdev)
+> +{
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&asus_ref.lock, flags);
+> +	list_del(&bdev->list);
+> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
+> +}
+> +EXPORT_SYMBOL_GPL(asus_hid_unregister_listener);
+> +
+>  /*
+>   * These functions actually update the LED's, and are called from a
+>   * workqueue. By doing this as separate work rather than when the LED
+> @@ -1566,6 +1615,7 @@ static int kbd_led_read(struct asus_wmi *asus, int *level, int *env)
+>  
+>  static void do_kbd_led_set(struct led_classdev *led_cdev, int value)
+>  {
+> +	struct asus_hid_listener *listener;
+>  	struct asus_wmi *asus;
+>  	int max_level;
+>  
+> @@ -1573,25 +1623,39 @@ static void do_kbd_led_set(struct led_classdev *led_cdev, int value)
+>  	max_level = asus->kbd_led.max_brightness;
+>  
+>  	asus->kbd_led_wk = clamp_val(value, 0, max_level);
+> -	kbd_led_update(asus);
+> +
+> +	if (asus->kbd_led_avail)
+> +		kbd_led_update(asus);
+> +
+> +	list_for_each_entry(listener, &asus_ref.listeners, list)
+> +		listener->brightness_set(listener, asus->kbd_led_wk);
+>  }
+>  
+>  static void kbd_led_set(struct led_classdev *led_cdev,
+>  			enum led_brightness value)
+>  {
+> +	unsigned long flags;
+> +
+>  	/* Prevent disabling keyboard backlight on module unregister */
+>  	if (led_cdev->flags & LED_UNREGISTERING)
+>  		return;
+>  
+> +	spin_lock_irqsave(&asus_ref.lock, flags);
+>  	do_kbd_led_set(led_cdev, value);
+> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
+>  }
+>  
+>  static void kbd_led_set_by_kbd(struct asus_wmi *asus, enum led_brightness value)
+>  {
+> -	struct led_classdev *led_cdev = &asus->kbd_led;
+> +	struct led_classdev *led_cdev;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&asus_ref.lock, flags);
+> +	led_cdev = &asus->kbd_led;
+>  
+>  	do_kbd_led_set(led_cdev, value);
+>  	led_classdev_notify_brightness_hw_changed(led_cdev, asus->kbd_led_wk);
+> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
+>  }
+>  
+>  static enum led_brightness kbd_led_get(struct led_classdev *led_cdev)
+> @@ -1601,6 +1665,9 @@ static enum led_brightness kbd_led_get(struct led_classdev *led_cdev)
+>  
+>  	asus = container_of(led_cdev, struct asus_wmi, kbd_led);
+>  
+> +	if (!asus->kbd_led_avail)
+> +		return asus->kbd_led_wk;
+> +
+>  	retval = kbd_led_read(asus, &value, NULL);
+>  	if (retval < 0)
+>  		return retval;
+> @@ -1716,7 +1783,14 @@ static int camera_led_set(struct led_classdev *led_cdev,
+>  
+>  static void asus_wmi_led_exit(struct asus_wmi *asus)
+>  {
+> -	led_classdev_unregister(&asus->kbd_led);
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&asus_ref.lock, flags);
+> +	asus_ref.asus = NULL;
+> +	if (asus->kbd_led_registered)
+> +		led_classdev_unregister(&asus->kbd_led);
+> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
+> +
+>  	led_classdev_unregister(&asus->tpd_led);
+>  	led_classdev_unregister(&asus->wlan_led);
+>  	led_classdev_unregister(&asus->lightbar_led);
+> @@ -1730,6 +1804,8 @@ static void asus_wmi_led_exit(struct asus_wmi *asus)
+>  static int asus_wmi_led_init(struct asus_wmi *asus)
+>  {
+>  	int rv = 0, num_rgb_groups = 0, led_val;
+> +	unsigned long flags;
+> +	bool has_listeners;
+>  
+>  	if (asus->kbd_rgb_dev)
+>  		kbd_rgb_mode_groups[num_rgb_groups++] = &kbd_rgb_mode_group;
+> @@ -1754,24 +1830,37 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
+>  			goto error;
+>  	}
+>  
+> -	if (!kbd_led_read(asus, &led_val, NULL) && !dmi_check_system(asus_use_hid_led_dmi_ids)) {
+> -		pr_info("using asus-wmi for asus::kbd_backlight\n");
+> +	asus->kbd_led.name = "asus::kbd_backlight";
+> +	asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
+> +	asus->kbd_led.brightness_set = kbd_led_set;
+> +	asus->kbd_led.brightness_get = kbd_led_get;
+> +	asus->kbd_led.max_brightness = 3;
+> +	asus->kbd_led_avail = !kbd_led_read(asus, &led_val, NULL);
+> +
+> +	if (asus->kbd_led_avail)
+>  		asus->kbd_led_wk = led_val;
+> -		asus->kbd_led.name = "asus::kbd_backlight";
+> -		asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
+> -		asus->kbd_led.brightness_set = kbd_led_set;
+> -		asus->kbd_led.brightness_get = kbd_led_get;
+> -		asus->kbd_led.max_brightness = 3;
+> +	else
+> +		asus->kbd_led_wk = -1;
+> +
+> +	if (asus->kbd_led_avail && num_rgb_groups != 0)
+> +		asus->kbd_led.groups = kbd_rgb_mode_groups;
+>  
+> -		if (num_rgb_groups != 0)
+> -			asus->kbd_led.groups = kbd_rgb_mode_groups;
+> +	spin_lock_irqsave(&asus_ref.lock, flags);
+> +	has_listeners = !list_empty(&asus_ref.listeners);
+> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
+
+It seems to me that you should also call brightness_set()
+on all the kbds already in the list so that their brightness
+gets synced with the wmi kbd-backlight brightness when
+the wmi driver loads later then the hid driver ?
+
+>  
+> +	if (asus->kbd_led_avail || has_listeners) {
+>  		rv = led_classdev_register(&asus->platform_device->dev,
+>  					   &asus->kbd_led);
+>  		if (rv)
+>  			goto error;
+> +		asus->kbd_led_registered = true;
+>  	}
+>  
+> +	spin_lock_irqsave(&asus_ref.lock, flags);
+> +	asus_ref.asus = asus;
+
+There is race here where a hid keyboard might show up between
+the 2 places you take the lock, in that case if there is
+no wmi kbd-backlight then you will not register the led_classdev
+when asus_hid_register_listener() gets called between the unlock
+and the lock...  I'm not sure what the best way is to fix this.
+
+Regards,
+
+Hans
+
+
+
+> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
+> +
+>  	if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_WIRELESS_LED)
+>  			&& (asus->driver->quirks->wapf > 0)) {
+>  		INIT_WORK(&asus->wlan_led_work, wlan_led_update);
+> diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+> index 783e2a336861b..ec8b0c585a63f 100644
+> --- a/include/linux/platform_data/x86/asus-wmi.h
+> +++ b/include/linux/platform_data/x86/asus-wmi.h
+> @@ -157,14 +157,30 @@
+>  #define ASUS_WMI_DSTS_MAX_BRIGTH_MASK	0x0000FF00
+>  #define ASUS_WMI_DSTS_LIGHTBAR_MASK	0x0000000F
+>  
+> +struct asus_hid_listener {
+> +	struct list_head list;
+> +	void (*brightness_set)(struct asus_hid_listener *listener, int brightness);
+> +};
+> +
+>  #if IS_REACHABLE(CONFIG_ASUS_WMI)
+>  int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
+> +
+> +int asus_hid_register_listener(struct asus_hid_listener *cdev);
+> +void asus_hid_unregister_listener(struct asus_hid_listener *cdev);
+>  #else
+>  static inline int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1,
+>  					   u32 *retval)
+>  {
+>  	return -ENODEV;
+>  }
+> +
+> +static inline int asus_hid_register_listener(struct asus_hid_listener *bdev)
+> +{
+> +	return -ENODEV;
+> +}
+> +static inline void asus_hid_unregister_listener(struct asus_hid_listener *bdev)
+> +{
+> +}
+>  #endif
+>  
+>  /* To be used by both hid-asus and asus-wmi to determine which controls kbd_brightness */
 
 
