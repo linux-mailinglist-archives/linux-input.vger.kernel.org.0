@@ -1,344 +1,190 @@
-Return-Path: <linux-input+bounces-11143-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11144-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A88A6DF12
-	for <lists+linux-input@lfdr.de>; Mon, 24 Mar 2025 16:53:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3879BA6E211
+	for <lists+linux-input@lfdr.de>; Mon, 24 Mar 2025 19:09:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CBA217A5954
-	for <lists+linux-input@lfdr.de>; Mon, 24 Mar 2025 15:52:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 67EDF3A74B0
+	for <lists+linux-input@lfdr.de>; Mon, 24 Mar 2025 18:01:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4D9D26156F;
-	Mon, 24 Mar 2025 15:53:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80553264A85;
+	Mon, 24 Mar 2025 18:00:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jha6qwoE"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="TRdh2fja"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ixit.cz (ip-89-177-23-149.bb.vodafone.cz [89.177.23.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DFF143736;
-	Mon, 24 Mar 2025 15:53:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859E2264606;
+	Mon, 24 Mar 2025 18:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.177.23.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742831620; cv=none; b=XvzpPK35lE0sluQSc5+exwAUdZ9+t5a0oIbAzMHONVbWJsqE47cU5Jo3a+Y46XopWNiuLo4ZO5UFODkv5h0zV8GkjcvzbhHAvk0iOpAVptYHKYdLH511nYvi+Qw0Wi4Jhy5RyALQFZausAOtEJWas6SD6kC9CdJs5qZR82FWmNc=
+	t=1742839250; cv=none; b=u4yeYBnU0idYnHEqvm+oPy1Qnfcu89mzl3mkcTegvrZzczUx8f60RIebrJFoVED1bplahCvpGxz9UwKd6x0AZAX+KH8UMQDkSBzwMzkF0alRfP/2NxuHuZrBUncVuxc+2LkM5qK4JGQdTCI9zPrHS3BZgItdX9lKJaHiwibIu/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742831620; c=relaxed/simple;
-	bh=4jXCcTm30AJQi4N1CnuKV/ZoTyk5Joxp7KbG+aaJZ/E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N0w52R9rRhonp7RZYrx7BMJNYZoWjbNcf7whb36GQYbBzNxxCxoJhsQ+RfA2VH/qXELtix1SE6vrp+X7DDGLfMs5Xpwp5oft5+bXbdIgCDBDtWG5WmcDfRarTMjGyPzEOH9+iGeuWX4dH0HG9DPow0jDdeQ4Os6QAIf2SKub1v8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jha6qwoE; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2239c066347so103043735ad.2;
-        Mon, 24 Mar 2025 08:53:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742831618; x=1743436418; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=lnK90d9tJkBMNCcbTrjmAdHYPBfyopuTDuiHWu7djtw=;
-        b=jha6qwoEuOpOpN7nTl4pfYoeNPLPm2nfW6OdM5p1OspX62EFwSNb8uSoDNPsOwtys9
-         kx5dCL1A+I/XPo1ONKx9JnEIAESsPSqQJQ4B/easnxjXRkgx/VRkIpUhcDLyxgQccQLW
-         8tZqejAuD+5Kd3+5Dc6sPKUhdI7R4fKm5hrDZGDKfxoltscxhj9y8xF26sxazUxmQCS4
-         4E0TM2LTKMUdiog/vtospJeVH7/K5BOlzrpeBKtJLQ8evYNntC2EmV86WVsLu3De6NUZ
-         EbKzHHHnveWHphzKlRQh4qrg9IRqBT+yObQmNidKQ3CfG4OH9rWMx3V11XqRW2TFwSYq
-         AfZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742831618; x=1743436418;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lnK90d9tJkBMNCcbTrjmAdHYPBfyopuTDuiHWu7djtw=;
-        b=g/gh7wBToSDfZoDosp32BsmD26MnEOcYGwHPxTv5VowRdUV0NjZgMNZtL6tDN9A6aA
-         YsKVjAn0ILGyn6REIvN8JWMqFn9o+wyPFBrZdJBWfjVo5iNs7mZoYKRokIEOivdlUf4L
-         FIvOgnIUrGcviT6hg4IO2h2eMgbzYcXpvnnxdkvTTwacRVSOmU4p/n+3R7f6e1a5zgam
-         /fPfGjtY07dbDu3TUstL0q/adtFKpUVlCqBJ9LVdYfZn4/kP5RFOt8vteszqqJkezuFs
-         mo3jkvMJTtdf9OtsGPqKJc5JMoflipw1CdXqY+27B7AN2+0YB17Yi9OLClXvB7ZrZVcz
-         hckQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUD9XBoxXdsx7zUVw3GVew1xFjhPNHeOVYUhgKi0o4rfLQl7FreeU3Y9IXbKTYWx0GCJMYXMCQJ@vger.kernel.org, AJvYcCUqIs3sGFmx7KcglgVKiLkUfCEz+WX2D7WEAkB+XWooxC29qJiL76kshEDTwHY/0Ttf8aI8m825vixrbno=@vger.kernel.org, AJvYcCVdwKeQc8NVP6LSlpQzFWYOb71lx/MTe65/nw/XW9GtY7NB33+nDA7/k/3q5b/7af5kO8ep9WtCyMCDSm6E@vger.kernel.org, AJvYcCWCy2ya6DZms0NOuHIt7KI5M6VIiuzAtRRwaTxDoed+BWMX/zXyA73uBS514SwaL8vXrj1T9C5mgIF3u5Y4ozQ=@vger.kernel.org, AJvYcCWiZsjbelWRZ52rXcTV9nDZKme4wu+wrYLq8WCUqn3TCZadUMbTA+ZxzABsJvdXyr46bIWPIUHNaUKhMyEa@vger.kernel.org, AJvYcCXTwZkKG2qsYbnd/L2N6UwojqFJEHraGYvL770Pc3b9sJz3Aq+9NAYgtEW6I9IeYH6YerC/90rJ9bHsPQo=@vger.kernel.org, AJvYcCXxN3lia1h5R/XFzyrDTQapIsxiHBBODSNYdoTc6XRmWhMQaEsf9F25FicnzOIKk1gCO+U=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9/4ufDbSY+qA43M1ZPTX+/oe4pxWypYubuNdrobWFj2QDgyKT
-	CgbqXTMXJKBrEby242fSHYE9+Or04JcNzjp/R49ciKHk57EYJvr1
-X-Gm-Gg: ASbGncuwXHUGmfm0xCK9PSq/LsrnoRiOU7/R48vlezetWZQWhFkspYVpFQGwfmSq0+c
-	D0B4i3tpm+3epafEv+sHWMbyhQFI4rZZopRijA8LuM1yHSe7V/sw4FM/UkvEibzzaEiABzDD2G6
-	rRCiDXBT1d7jZf7/FHVoyC5tYQXn0waivZTjDOWs+JMxJUmeT7rGaK03EDE+FsWZZt+S7GHYMyu
-	t3w5LYWH9yxQ8fvaN+bs0MB2igKoI97pn3gSCcuOzdguE/yfWXS17hgs45I5s38gH5u8Eb07NVb
-	8t+Pf8EVtbYO+qvxElRON0jXBu8VHwVchnuLsbUvgFJ2+BsUSbeWuyvzztvwthhz8vE+4yjmeOF
-	1jrk=
-X-Google-Smtp-Source: AGHT+IF0G/P2idoIFxvn1IOSBSyy+/lpGPgy71fA+n6lIv43FiatMDA7/IWCIIb00BiyzdXZ3fQN0Q==
-X-Received: by 2002:aa7:9317:0:b0:736:a682:deb8 with SMTP id d2e1a72fcca58-7390596685bmr25612682b3a.8.1742831617683;
-        Mon, 24 Mar 2025 08:53:37 -0700 (PDT)
-Received: from localhost (maglev-oncall.nvidia.com. [216.228.125.128])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7390600a5f6sm8119083b3a.82.2025.03.24.08.53.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 08:53:36 -0700 (PDT)
-Date: Mon, 24 Mar 2025 11:53:35 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
-	akpm@linux-foundation.org, alistair@popple.id.au,
-	andrew+netdev@lunn.ch, andrzej.hajda@intel.com,
-	arend.vanspriel@broadcom.com, awalls@md.metrocast.net, bp@alien8.de,
-	bpf@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
-	brcm80211@lists.linux.dev, dave.hansen@linux.intel.com,
-	davem@davemloft.net, dmitry.torokhov@gmail.com,
-	dri-devel@lists.freedesktop.org, eajames@linux.ibm.com,
-	edumazet@google.com, eleanor15x@gmail.com,
-	gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
-	jernej.skrabec@gmail.com, jirislaby@kernel.org, jk@ozlabs.org,
-	joel@jms.id.au, johannes@sipsolutions.net, jonas@kwiboo.se,
-	jserv@ccns.ncku.edu.tw, kuba@kernel.org, linux-fsi@lists.ozlabs.org,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-serial@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linux@rasmusvillemoes.dk, louis.peens@corigine.com,
-	maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
-	mingo@redhat.com, miquel.raynal@bootlin.com, mripard@kernel.org,
-	neil.armstrong@linaro.org, netdev@vger.kernel.org,
-	oss-drivers@corigine.com, pabeni@redhat.com,
-	parthiban.veerasooran@microchip.com, rfoss@kernel.org,
-	richard@nod.at, simona@ffwll.ch, tglx@linutronix.de,
-	tzimmermann@suse.de, vigneshr@ti.com, x86@kernel.org
-Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
-Message-ID: <Z-F_96AECHpsCXsL@thinkpad>
-References: <20250307195310.58abff8c@pumpkin>
- <EB85C3C1-8A0D-4CB9-B501-BFEABDF3E977@zytor.com>
- <Z824SgB9Dt5zdWYc@visitorckw-System-Product-Name>
- <Z9CyuowYsZyez36c@thinkpad>
- <80771542-476C-493E-858A-D2AF6A355CC1@zytor.com>
- <Z9GtcNJie8TRKywZ@thinkpad>
- <Z9G2Tyypb3iLoBjn@visitorckw-System-Product-Name>
- <Z9KMKwnZXA2mkD2s@visitorckw-System-Product-Name>
- <Z+AlyB461xwMxMtG@visitorckw-System-Product-Name>
- <05F7AC70-E8E7-4D14-A4EB-880D92A96534@zytor.com>
+	s=arc-20240116; t=1742839250; c=relaxed/simple;
+	bh=ic/gD2e8FElvHjMYoVpKeuRsRXdNWE6ntV5CdKr+MG8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OElbk+qYo7bM8GrGyzqYHWKCLHdEFS50gXGCf+WB1gLcDToslVR/v1X8vjYCVG6uaCvAqJy/io7FUGyNttEgfbtSuLJi04jIqz1poafbmGtAHkVM0Ou2CGhbft/V27kQDtNnzZPfAbZAOtuB/4mD+ILMaHTfB2rkAMT1h11X4Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=TRdh2fja; arc=none smtp.client-ip=89.177.23.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+Received: from [10.0.0.228] (unknown [10.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 86FBA1669EF;
+	Mon, 24 Mar 2025 19:00:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1742839244;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=gPNjVLcsszAEW3wUXYkTHGhTLdJohQD4DxTgKx7WZSI=;
+	b=TRdh2fjaJTkxlKXRb/owPxslyZoUh7mVt07qI1Sj9dS5g8mrEXdYJy8m2qB91jndTKGTrF
+	UhFuy4CcwEgliOaK3muYkpFLGWW5dig4PKpWcL9BA66iYM6/SmPpBjb8/ccMKENMC62GXf
+	nsHMGP//gOXVPIzxwZcSACwBPpwMHd0=
+Message-ID: <3c5e12fc-eb91-46e8-a558-9896f0bdcab4@ixit.cz>
+Date: Mon, 24 Mar 2025 19:00:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <05F7AC70-E8E7-4D14-A4EB-880D92A96534@zytor.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/7] dt-bindings: input: syna,rmi4: document
+ syna,pdt-fallback-desc
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+ Vincent Huang <vincent.huang@tw.synaptics.com>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ Caleb Connolly <caleb.connolly@linaro.org>
+References: <20250308-synaptics-rmi4-v3-0-215d3e7289a2@ixit.cz>
+ <20250308-synaptics-rmi4-v3-1-215d3e7289a2@ixit.cz>
+ <20250310-hissing-vagabond-pegasus-cc8aed@krzk-bin>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <20250310-hissing-vagabond-pegasus-cc8aed@krzk-bin>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Mar 23, 2025 at 03:40:20PM -0700, H. Peter Anvin wrote:
-> On March 23, 2025 8:16:24 AM PDT, Kuan-Wei Chiu <visitorckw@gmail.com> wrote:
-> >On Thu, Mar 13, 2025 at 03:41:49PM +0800, Kuan-Wei Chiu wrote:
-> >> On Thu, Mar 13, 2025 at 12:29:13AM +0800, Kuan-Wei Chiu wrote:
-> >> > On Wed, Mar 12, 2025 at 11:51:12AM -0400, Yury Norov wrote:
-> >> > > On Tue, Mar 11, 2025 at 03:24:14PM -0700, H. Peter Anvin wrote:
-> >> > > > On March 11, 2025 3:01:30 PM PDT, Yury Norov <yury.norov@gmail.com> wrote:
-> >> > > > >On Sun, Mar 09, 2025 at 11:48:26PM +0800, Kuan-Wei Chiu wrote:
-> >> > > > >> On Fri, Mar 07, 2025 at 12:07:02PM -0800, H. Peter Anvin wrote:
-> >> > > > >> > On March 7, 2025 11:53:10 AM PST, David Laight <david.laight.linux@gmail.com> wrote:
-> >> > > > >> > >On Fri, 07 Mar 2025 11:30:35 -0800
-> >> > > > >> > >"H. Peter Anvin" <hpa@zytor.com> wrote:
-> >> > > > >> > >
-> >> > > > >> > >> On March 7, 2025 10:49:56 AM PST, Andrew Cooper <andrew.cooper3@citrix.com> wrote:
-> >> > > > >> > >> >> (int)true most definitely is guaranteed to be 1.  
-> >> > > > >> > >> >
-> >> > > > >> > >> >That's not technically correct any more.
-> >> > > > >> > >> >
-> >> > > > >> > >> >GCC has introduced hardened bools that intentionally have bit patterns
-> >> > > > >> > >> >other than 0 and 1.
-> >> > > > >> > >> >
-> >> > > > >> > >> >https://gcc.gnu.org/gcc-14/changes.html
-> >> > > > >> > >> >
-> >> > > > >> > >> >~Andrew  
-> >> > > > >> > >> 
-> >> > > > >> > >> Bit patterns in memory maybe (not that I can see the Linux kernel using them) but
-> >> > > > >> > >> for compiler-generated conversations that's still a given, or the manager isn't C
-> >> > > > >> > >> or anything even remotely like it.
-> >> > > > >> > >> 
-> >> > > > >> > >
-> >> > > > >> > >The whole idea of 'bool' is pretty much broken by design.
-> >> > > > >> > >The underlying problem is that values other than 'true' and 'false' can
-> >> > > > >> > >always get into 'bool' variables.
-> >> > > > >> > >
-> >> > > > >> > >Once that has happened it is all fubar.
-> >> > > > >> > >
-> >> > > > >> > >Trying to sanitise a value with (say):
-> >> > > > >> > >int f(bool v)
-> >> > > > >> > >{
-> >> > > > >> > >	return (int)v & 1;
-> >> > > > >> > >}    
-> >> > > > >> > >just doesn't work (see https://www.godbolt.org/z/MEndP3q9j)
-> >> > > > >> > >
-> >> > > > >> > >I really don't see how using (say) 0xaa and 0x55 helps.
-> >> > > > >> > >What happens if the value is wrong? a trap or exception?, good luck recovering
-> >> > > > >> > >from that.
-> >> > > > >> > >
-> >> > > > >> > >	David
-> >> > > > >> > 
-> >> > > > >> > Did you just discover GIGO?
-> >> > > > >> 
-> >> > > > >> Thanks for all the suggestions.
-> >> > > > >> 
-> >> > > > >> I don't have a strong opinion on the naming or return type. I'm still a
-> >> > > > >> bit confused about whether I can assume that casting bool to int always
-> >> > > > >> results in 0 or 1.
-> >> > > > >> 
-> >> > > > >> If that's the case, since most people prefer bool over int as the
-> >> > > > >> return type and some are against introducing u1, my current plan is to
-> >> > > > >> use the following in the next version:
-> >> > > > >> 
-> >> > > > >> bool parity_odd(u64 val);
-> >> > > > >> 
-> >> > > > >> This keeps the bool return type, renames the function for better
-> >> > > > >> clarity, and avoids extra maintenance burden by having just one
-> >> > > > >> function.
-> >> > > > >> 
-> >> > > > >> If I can't assume that casting bool to int always results in 0 or 1,
-> >> > > > >> would it be acceptable to keep the return type as int?
-> >> > > > >> 
-> >> > > > >> Would this work for everyone?
-> >> > > > >
-> >> > > > >Alright, it's clearly a split opinion. So what I would do myself in
-> >> > > > >such case is to look at existing code and see what people who really
-> >> > > > >need parity invent in their drivers:
-> >> > > > >
-> >> > > > >                                     bool      parity_odd
-> >> > > > >static inline int parity8(u8 val)       -               -
-> >> > > > >static u8 calc_parity(u8 val)           -               -
-> >> > > > >static int odd_parity(u8 c)             -               +
-> >> > > > >static int saa711x_odd_parity           -               +
-> >> > > > >static int max3100_do_parity            -               -
-> >> > > > >static inline int parity(unsigned x)    -               -
-> >> > > > >static int bit_parity(u32 pkt)          -               -
-> >> > > > >static int oa_tc6_get_parity(u32 p)     -               -
-> >> > > > >static u32 parity32(__le32 data)        -               -
-> >> > > > >static u32 parity(u32 sample)           -               -
-> >> > > > >static int get_parity(int number,       -               -
-> >> > > > >                      int size)
-> >> > > > >static bool i2cr_check_parity32(u32 v,  +               -
-> >> > > > >                        bool parity)
-> >> > > > >static bool i2cr_check_parity64(u64 v)  +               -
-> >> > > > >static int sw_parity(__u64 t)           -               -
-> >> > > > >static bool parity(u64 value)           +               -
-> >> > > > >
-> >> > > > >Now you can refer to that table say that int parity(uXX) is what
-> >> > > > >people want to see in their drivers.
-> >> > > > >
-> >> > > > >Whichever interface you choose, please discuss it's pros and cons.
-> >> > > > >What bloat-o-meter says for each option? What's maintenance burden?
-> >> > > > >Perf test? Look at generated code?
-> >> > > > >
-> >> > > > >I personally for a macro returning boolean, something like I
-> >> > > > >proposed at the very beginning.
-> >> > > > >
-> >> > > > >Thanks,
-> >> > > > >Yury
-> >> > > > 
-> >> > > > Also, please at least provide a way for an arch to opt in to using the builtins, which seem to produce as good results or better at least on some architectures like x86 and probably with CPU options that imply fast popcnt is available.
-> >> > > 
-> >> > > Yeah. And because linux/bitops.h already includes asm/bitops.h
-> >> > > the simplest way would be wrapping generic implementation with
-> >> > > the #ifndef parity, similarly to how we handle find_next_bit case.
-> >> > > 
-> >> > > So:
-> >> > > 1. Kuan-Wei, please don't invent something like ARCH_HAS_PARITY;
-> >> > > 2. This may, and probably should, be a separate follow-up series,
-> >> > >    likely created by corresponding arch experts.
-> >> > > 
-> >> > I saw discussions in the previous email thread about both
-> >> > __builtin_parity and x86-specific implementations. However, from the
-> >> > discussion, I learned that before considering any optimization, we
-> >> > should first ask: which driver or subsystem actually cares about parity
-> >> > efficiency? If someone does, I can help with a micro-benchmark to
-> >> > provide performance numbers, but I don't have enough domain knowledge
-> >> > to identify hot paths where parity efficiency matters.
-> >> > 
-> >> IMHO,
-> >> 
-> >> If parity is never used in any hot path and we don't care about parity:
-> >> 
-> >> Then benchmarking its performance seems meaningless. In this case, a
-> >> function with a u64 argument would suffice, and we might not even need
-> >> a macro to optimize for different types—especially since the macro
-> >> requires special hacks to avoid compiler warnings. Also, I don't think
-> >> code size matters here. If it does, we should first consider making
-> >> parity a non-inline function in a .c file rather than an inline
-> >> function/macro in a header.
-> >> 
-> >> If parity is used in a hot path:
-> >> 
-> >> We need different handling for different type sizes. As previously
-> >> discussed, x86 assembly might use different instructions for u8 and
-> >> u16. This may sound stubborn, but I want to ask again: should we
-> >> consider using parity8/16/32/64 interfaces? Like in the i3c driver
-> >> example, if we only have a single parity macro that selects an
-> >> implementation based on type size, users must explicitly cast types.
-> >> If future users also need parity in a hot path, they might not be aware
-> >> of this requirement and end up generating suboptimal code. Since we
-> >> care about efficiency and generated code, why not follow hweight() and
-> >> provide separate implementations for different sizes?
-> >> 
-> >It seems no one will reply to my two emails. So, I have summarized
-> >different interface approaches. If there is a next version, I will send
-> >it after the merge window closes.
-> >
-> >Interface 1: Single Function
-> >Description: bool parity_odd(u64)
-> >Pros: Minimal maintenance cost
-> >Cons: Difficult to integrate with architecture-specific implementations
-> >      due to the inability to optimize for different argument sizes
-
-How difficult? It's just as simple as find_next_bit(). I already
-pointed that.
-
-> >Opinions: Jiri supports this approach
-> >
-> >Interface 2: Single Macro
-> >Description: parity_odd() macro
-> >Pros: Allows type-specific implementation
-> >Cons: Requires hacks to avoid warnings; users may need explicit
-
-So if the hack is documented, it's OK. I don't know the other way to
-motivate compilers to get better other than pointing them to their
-bugs.
-
-> >      casting; potential sub-optimal code on 32-bit x86
-
-Any asm listings? Any real impact?
-
-> >Opinions: Yury supports this approach
-> >
-> >Interface 3: Multiple Functions
-> >Description: bool parity_odd8/16/32/64()
-> >Pros: No need for explicit casting; easy to integrate
-
-Explicit castings are sometimes better than implicit ones.
-
-> >      architecture-specific optimizations; except for parity8(), all
-> >      functions are one-liners with no significant code duplication
-> >Cons: More functions may increase maintenance burden
-
-s/may/will/
-
-> >Opinions: Only I support this approach
-> >
-> >Regards,
-> >Kuan-Wei
+On 10/03/2025 10:45, Krzysztof Kozlowski wrote:
+> On Sat, Mar 08, 2025 at 03:08:37PM +0100, David Heidelberg wrote:
+>> From: Caleb Connolly <caleb.connolly@linaro.org>
+>>
+>> This new property allows devices to specify some register values which
+>> are missing on units with third party replacement displays. These
+>> displays use unofficial touch ICs which only implement a subset of the
+>> RMI4 specification.
 > 
-> You can add me to the final option. I think it makes most sense
+> These are different ICs, so they have their own compatibles. Why this
+> cannot be deduced from the compatible?
 
-This is not a democracy, and we are not voting here. We are engineers.
-We share our expert opinions and choose the best one. I'll be happy to
-go with any solution, if we all make sure it's the best.
+Yes, but these identify as the originals.
 
-I'm for #2 because it 
- - generates better code than #1;
- - easier to use than #3; and
- - has less maintenance burden than #3.
+Some of them can be detected at runtime which is what this patchset 
+tries to do.
 
-Why exactly #3 makes the most sense to you? Most variables are ints
-and longs. How are you going to handle those with fixed-types parity()s?
+> 
+>>
+>> Signed-off-by: Caleb Connolly <caleb.connolly@linaro.org>
+>> Signed-off-by: David Heidelberg <david@ixit.cz>
+>> ---
+>>   Documentation/devicetree/bindings/input/syna,rmi4.yaml | 18 ++++++++++++++++++
+>>   1 file changed, 18 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/input/syna,rmi4.yaml b/Documentation/devicetree/bindings/input/syna,rmi4.yaml
+>> index b522c8d3ce0db719ff379f2fefbdca79e73d027c..a80ec0c052cb1b7278f0832dd18ebd3256bc0874 100644
+>> --- a/Documentation/devicetree/bindings/input/syna,rmi4.yaml
+>> +++ b/Documentation/devicetree/bindings/input/syna,rmi4.yaml
+>> @@ -49,6 +49,24 @@ properties:
+>>       description:
+>>         Delay to wait after powering on the device.
+>>   
+>> +  syna,pdt-fallback-desc:
+>> +    $ref: /schemas/types.yaml#/definitions/uint8-matrix
+>> +    description:
+>> +      This property provides fallback values for certain register fields that
+>> +      are missing on devices using third-party replacement displays.
+>> +      These unofficial displays contain touch controllers that claim RMI4
+>> +      compliance but fail to populate the function_number and function_version
+>> +      registers of their Page Descriptor Table (PDT) entries.
+>> +
+>> +      Since the number of required fallback entries depends on the number of
+>> +      Page Descriptor Tables supported by a given device, this property
+>> +      should be provided on a best-effort basis.
+>> +
+>> +    items:
+> 
+> min/maxItems here
 
-Thanks,
-Yury
+There is no hardcoded limit how many of these items will be provided, 
+should I put there some huge range as 1..1024?
+
+Thank you
+David
+
+> 
+>> +      items:
+>> +        - description: The 5th byte of the PDT entry (function number)
+>> +        - description: The 4th byte of the PDT entry (version value)
+> 
+> Best regards,
+> Krzysztof
+> 
+
+-- 
+David Heidelberg
+
 
