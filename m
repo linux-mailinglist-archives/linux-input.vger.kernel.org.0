@@ -1,383 +1,394 @@
-Return-Path: <linux-input+bounces-11134-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11135-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808C7A6D926
-	for <lists+linux-input@lfdr.de>; Mon, 24 Mar 2025 12:31:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A777A6D9D8
+	for <lists+linux-input@lfdr.de>; Mon, 24 Mar 2025 13:10:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1DA43AE9C9
-	for <lists+linux-input@lfdr.de>; Mon, 24 Mar 2025 11:31:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1AFF0188F693
+	for <lists+linux-input@lfdr.de>; Mon, 24 Mar 2025 12:10:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E9DA25D8F4;
-	Mon, 24 Mar 2025 11:31:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40AC419C542;
+	Mon, 24 Mar 2025 12:10:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hOiTSYFI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EGwmxknA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F951CD1E4
-	for <linux-input@vger.kernel.org>; Mon, 24 Mar 2025 11:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A96628E7;
+	Mon, 24 Mar 2025 12:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742815885; cv=none; b=hW2wYwXsHL4D9NPQpR3TNQIypHhHMmPV4EEhcMReT2u9GviSLOXkfodeBed9sBCIWI3TsDnUNuTgO5dFIir9dALGuCiV0982a/iNmcVA9FZtgJo1u8gVGpwhARDNyXwAuxoMv3FdaHEJAM0J1pweimvtodEDkcBeoNnaBZY8Eso=
+	t=1742818216; cv=none; b=BuBxMB0cBMOazc8PCFRIRg35thXIT9ES2PJ/+fU5gaz1vD+68J5zdfqq7eWZaBs0JvUkbkJ+C2qSmbucnbduVOxldjQSmj/9FMfQ/mcdcsB6FT2Lc38wMvQjeP9702PeyN7Ob+tYfcjaaAGT+RO1rSrCtNyBzTsQWUkfhiIIOYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742815885; c=relaxed/simple;
-	bh=KAAtuBE64BwzHEeogup0HNqAthm81DZxc8tTnHfoIB4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VviX3YJebtImA9m8fuQuVtK5U72e7NLyp9Gi0uhYOmCxkONoE5eqdaBF4aA7Scn6pO6nTX6NXrGF1IFv431eofrC4UCTPCM5HxeYcR2e+74k+dmtk3l7u99UHIp2SMnvQQ9u3A28aiVN3sPEQlmj/2eFD9v52Aj0PsUsO867vMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hOiTSYFI; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1742815882;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dggUHBckjaPdw6FWAtjj0p2FBMjWS+2b+l3ntJW3vZA=;
-	b=hOiTSYFIR09pStT7e/XxkTz5Qm+l3bOquj7LoChxJ1hAU9WS9qVLfOEbVdP66V4SShiHqf
-	arN2aUy1OlA7XDhD1vAfTcrhso7YaI9oMAQoQ6nsBGe1xg3NmaOg8uT+cNR7tUnSNOhlh5
-	y9dfFy8zKZzMvQ+ZV1uoDIGtTC8S/7w=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-14-23QO-hXfNqCFzEjDCx55lQ-1; Mon, 24 Mar 2025 07:31:20 -0400
-X-MC-Unique: 23QO-hXfNqCFzEjDCx55lQ-1
-X-Mimecast-MFC-AGG-ID: 23QO-hXfNqCFzEjDCx55lQ_1742815879
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-ac3c219371bso369828366b.0
-        for <linux-input@vger.kernel.org>; Mon, 24 Mar 2025 04:31:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742815879; x=1743420679;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dggUHBckjaPdw6FWAtjj0p2FBMjWS+2b+l3ntJW3vZA=;
-        b=OG5R9SvGYEEy01Wk0io8oR3G4k2e/9xDfCuILRMa5pep+se+uxjY0x1YMLdgfui7Be
-         yEEe7jTQqpv4q4iHC/vfedyk1o6D5k7hXCwQHKMXS8S1g/0z4eGnzRnMZQ4ZMiXfSkzP
-         sIZb2656H20fJiBcGceg/vr5kZfbF2yE44iIrD4tmkxcWXec7YdCVzYKyxpqgMHDQc/E
-         7mPrb9H6QQNwe6h3ai4bkhiPL8hukUXzrlYgJr+ESQqE/0Gh5XkK8C+CJnwVDGekhAkf
-         M8lHX+SZuJyL/ByStifLTDluJwcrGq1PGqLbR6HlHaPjdKA0nT2VMrFgc0O8Eg41+pEy
-         up6g==
-X-Forwarded-Encrypted: i=1; AJvYcCUA8HqWvh8893PL8JxmD0/Tbf2tWZWGqmXayfnQKKx8gauTJK7VVwl1N1qXy8mk2LrOIAdLbdcB2U98cQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyR3xzSJ4OgRNLRl0KI3LI/LSi3vDYaUXVTxauvdyDBGtj2jPZ
-	vdeNRbGxP1MWjLXrwLEHTWTjJ0ocw1JKVapwhZWPjGrDXWb/qx0yMlBxCz++cNacEiK3ngP538n
-	OcV3Mo1RI09J8ULaeS7lw9wttqeyGqRPiwumm43+QoVmGHB/SS9TF5oCDoFNE
-X-Gm-Gg: ASbGncsC2NklKbKHsNn+Y7gfY/X0gpg2+3tdkb24nQ5d7fuKfEALoHooIh05oFIWrDk
-	ZLShQl/jLygN7hI4cl3QgSk5iuCIKTeJJkIzDdWJfeZJGtnSnEfEQL0vVEg6BEizZ03ERHfY4TV
-	xv6IGpceSbNG5kcHP5VCl7cMy0UA2VlT++eL8dxoibrmu+g9xUjeFZWPBp05us2R0AvRibkp+uq
-	RfrqrzaXJk+kkUAzaqowMy4W/bTvxrJl5+RDHB1H8yzCSfIMLw01M0XW0qWHIHNWPEiKIJc4cfI
-	oeR94K7qfzKDKok+874=
-X-Received: by 2002:a17:907:2ce6:b0:ac2:c41b:f32b with SMTP id a640c23a62f3a-ac3f229960dmr1202347266b.28.1742815879116;
-        Mon, 24 Mar 2025 04:31:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGfxWRopK4uIUuklOnmxlSXlcvi9BwXT+CEwa/DvSgMg6XDsSuOw4LxLQZRkmyIjkA7Qbb1FQ==
-X-Received: by 2002:a17:907:2ce6:b0:ac2:c41b:f32b with SMTP id a640c23a62f3a-ac3f229960dmr1202344266b.28.1742815878626;
-        Mon, 24 Mar 2025 04:31:18 -0700 (PDT)
-Received: from [10.40.98.122] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3efb51e74sm652660966b.115.2025.03.24.04.31.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Mar 2025 04:31:18 -0700 (PDT)
-Message-ID: <8666efcb-37b5-4201-ac47-0afde8881068@redhat.com>
-Date: Mon, 24 Mar 2025 12:31:17 +0100
+	s=arc-20240116; t=1742818216; c=relaxed/simple;
+	bh=TZ/bjmULzUc368XSG6wqoRlNNvZVRDr974YDSjdgGxQ=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=HwtOd2J6W8VOTz5mPewugEbo6bMfAhBO1lP7aoBfKdOLN6NdZnNQ+ICcffcyGxuvKJ0geMBa4mekzTEJthleUK6UGVIGSSGizxneg9ORsYNXUupIIWYyIZ8XAPdeg1KWHAXj6Ko+30m0co1gHfZx+6W5fQxTVHR6B5sBmCmhb6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EGwmxknA; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742818214; x=1774354214;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=TZ/bjmULzUc368XSG6wqoRlNNvZVRDr974YDSjdgGxQ=;
+  b=EGwmxknAQcaXQkjsdIGlEpugdEUyVfYXhKM2aSF5JeFN44RKG9Feorkh
+   VwP2BDK6/0kWsEoVhwn7BFKa8MvgWjr8zrMK+sA8S1ILBWBJMcMNN6DyV
+   ZKM2V9oSrZA8Weg87e8NE5LNufPtraEb/USexvu8EmZZ4Uvv07ZEJi+PZ
+   KRDuAiOd9EC2ZiIJV/qzblDudLlNilqE0z8coGvCkzbcd66tv1bZ1ZII0
+   xtCuzfc9BwTFpwyqA0FoGJ9knULaR3EBYATVu0LVESibCJmW6ganjBBME
+   vNh9v8me4H/CIyFe7VLL5R9XW7gqyqfn14EhQRJCcTiH0o1ZMcVA57fsQ
+   A==;
+X-CSE-ConnectionGUID: L3cWXCFnT/u4bj/PE9ehyw==
+X-CSE-MsgGUID: pddmhYKsTb+lD15bmGLMkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="69373771"
+X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
+   d="scan'208";a="69373771"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 05:10:13 -0700
+X-CSE-ConnectionGUID: zDzdePVmTXufEtBvKtajRw==
+X-CSE-MsgGUID: /nxY4V70SqyikFdSo0d3qA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
+   d="scan'208";a="124487995"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.251])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 05:10:10 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 24 Mar 2025 14:10:07 +0200 (EET)
+To: Luke Jones <luke@ljones.dev>
+cc: LKML <linux-kernel@vger.kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
+    platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
+    bentiss@kernel.org, jikos@kernel.org, mario.limonciello@amd.com, 
+    lkml@antheas.dev
+Subject: Re: [PATCH v4 2/2] platform/x86: asus-wmi: Refactor Ally
+ suspend/resume
+In-Reply-To: <20250323023421.78012-3-luke@ljones.dev>
+Message-ID: <c1fb9727-e7f7-6871-5fc1-577d96799cc3@linux.intel.com>
+References: <20250323023421.78012-1-luke@ljones.dev> <20250323023421.78012-3-luke@ljones.dev>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 04/10] platform/x86: asus-wmi: Add support for multiple
- kbd RGB handlers
-To: Antheas Kapenekakis <lkml@antheas.dev>,
- platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones"
- <luke@ljones.dev>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>
-References: <20250322102804.418000-1-lkml@antheas.dev>
- <20250322102804.418000-5-lkml@antheas.dev>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20250322102804.418000-5-lkml@antheas.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Antheas,
+On Sun, 23 Mar 2025, Luke Jones wrote:
 
-Note not a full review, just taking a generic look at the new API
-between asus-wmi and asus-hid.
-
-On 22-Mar-25 11:27, Antheas Kapenekakis wrote:
-> Some devices, such as the Z13 have multiple AURA devices connected
-> to them by USB. In addition, they might have a WMI interface for
-> RGB. In Windows, Armoury Crate exposes a unified brightness slider
-> for all of them, with 3 brightness levels.
+> From: "Luke D. Jones" <luke@ljones.dev>
 > 
-> Therefore, to be synergistic in Linux, and support existing tooling
-> such as UPower, allow adding listeners to the RGB device of the WMI
-> interface. If WMI does not exist, lazy initialize the interface.
+> Adjust how the CSEE direct call hack is used.
 > 
-> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> The results of months of testing combined with help from ASUS to
+> determine the actual cause of suspend issues has resulted in this
+> refactoring which immensely improves the reliability for devices which
+> do not have the following minimum MCU FW version:
+> - ROG Ally X: 313
+> - ROG Ally 1: 319
+> 
+> For MCU FW versions that match the minimum or above the CSEE hack is
+> disabled and mcu_powersave set to on by default as there are no
+> negatives beyond a slightly slower device reinitialization due to the
+> MCU being powered off.
+> 
+> As this is set only at module load time, it is still possible for
+> mcu_powersave sysfs attributes to change it at runtime if so desired.
+> 
+> Signed-off-by: Luke D. Jones <luke@ljones.dev>
+
+This series update lost Mario's rev-bys (given in replies to v3). Was that 
+intentional??
+
+-- 
+ i.
+
 > ---
->  drivers/platform/x86/asus-wmi.c            | 113 ++++++++++++++++++---
->  include/linux/platform_data/x86/asus-wmi.h |  16 +++
->  2 files changed, 117 insertions(+), 12 deletions(-)
+>  drivers/hid/hid-asus.c                     |   4 +
+>  drivers/platform/x86/asus-wmi.c            | 133 +++++++++++++++------
+>  include/linux/platform_data/x86/asus-wmi.h |  19 +++
+>  3 files changed, 117 insertions(+), 39 deletions(-)
 > 
+> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+> index 599c836507ff..4b45e31f0bab 100644
+> --- a/drivers/hid/hid-asus.c
+> +++ b/drivers/hid/hid-asus.c
+> @@ -624,6 +624,9 @@ static void validate_mcu_fw_version(struct hid_device *hdev, int idProduct)
+>  		hid_warn(hdev,
+>  			"The MCU firmware version must be %d or greater to avoid issues with suspend.\n",
+>  			min_version);
+> +	} else {
+> +		set_ally_mcu_hack(ASUS_WMI_ALLY_MCU_HACK_DISABLED);
+> +		set_ally_mcu_powersave(true);
+>  	}
+>  }
+>  
+> @@ -1430,4 +1433,5 @@ static struct hid_driver asus_driver = {
+>  };
+>  module_hid_driver(asus_driver);
+>  
+> +MODULE_IMPORT_NS("ASUS_WMI");
+>  MODULE_LICENSE("GPL");
 > diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-> index 38ef778e8c19b..95ef9b1d321bb 100644
+> index 38ef778e8c19..27f11643a00d 100644
 > --- a/drivers/platform/x86/asus-wmi.c
 > +++ b/drivers/platform/x86/asus-wmi.c
-> @@ -254,6 +254,8 @@ struct asus_wmi {
->  	int tpd_led_wk;
->  	struct led_classdev kbd_led;
->  	int kbd_led_wk;
-> +	bool kbd_led_avail;
-> +	bool kbd_led_registered;
->  	struct led_classdev lightbar_led;
->  	int lightbar_led_wk;
->  	struct led_classdev micmute_led;
-> @@ -1487,6 +1489,53 @@ static void asus_wmi_battery_exit(struct asus_wmi *asus)
+> @@ -142,16 +142,20 @@ module_param(fnlock_default, bool, 0444);
+>  #define ASUS_MINI_LED_2024_STRONG	0x01
+>  #define ASUS_MINI_LED_2024_OFF		0x02
 >  
->  /* LEDs ***********************************************************************/
+> -/* Controls the power state of the USB0 hub on ROG Ally which input is on */
+>  #define ASUS_USB0_PWR_EC0_CSEE "\\_SB.PCI0.SBRG.EC0.CSEE"
+> -/* 300ms so far seems to produce a reliable result on AC and battery */
+> -#define ASUS_USB0_PWR_EC0_CSEE_WAIT 1500
+> +/*
+> + * The period required to wait after screen off/on/s2idle.check in MS.
+> + * Time here greatly impacts the wake behaviour. Used in suspend/wake.
+> + */
+> +#define ASUS_USB0_PWR_EC0_CSEE_WAIT	600
+> +#define ASUS_USB0_PWR_EC0_CSEE_OFF	0xB7
+> +#define ASUS_USB0_PWR_EC0_CSEE_ON	0xB8
 >  
-> +struct asus_hid_ref {
-> +	struct list_head listeners;
-> +	struct asus_wmi *asus;
-> +	spinlock_t lock;
-> +};
+>  static const char * const ashs_ids[] = { "ATK4001", "ATK4002", NULL };
+>  
+>  static int throttle_thermal_policy_write(struct asus_wmi *);
+>  
+> -static const struct dmi_system_id asus_ally_mcu_quirk[] = {
+> +static const struct dmi_system_id asus_rog_ally_device[] = {
+>  	{
+>  		.matches = {
+>  			DMI_MATCH(DMI_BOARD_NAME, "RC71L"),
+> @@ -274,9 +278,6 @@ struct asus_wmi {
+>  	u32 tablet_switch_dev_id;
+>  	bool tablet_switch_inverted;
+>  
+> -	/* The ROG Ally device requires the MCU USB device be disconnected before suspend */
+> -	bool ally_mcu_usb_switch;
+> -
+>  	enum fan_type fan_type;
+>  	enum fan_type gpu_fan_type;
+>  	enum fan_type mid_fan_type;
+> @@ -335,6 +336,9 @@ struct asus_wmi {
+>  	struct asus_wmi_driver *driver;
+>  };
+>  
+> +/* Global to allow setting externally without requiring driver data */
+> +static enum asus_ally_mcu_hack use_ally_mcu_hack = ASUS_WMI_ALLY_MCU_HACK_INIT;
 > +
-> +struct asus_hid_ref asus_ref = {
-> +	.listeners = LIST_HEAD_INIT(asus_ref.listeners),
-> +	.asus = NULL,
-> +	.lock = __SPIN_LOCK_UNLOCKED(asus_ref.lock),
-> +};
+>  /* WMI ************************************************************************/
+>  
+>  static int asus_wmi_evaluate_method3(u32 method_id,
+> @@ -549,7 +553,7 @@ static int asus_wmi_get_devstate(struct asus_wmi *asus, u32 dev_id, u32 *retval)
+>  	return 0;
+>  }
+>  
+> -static int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param,
+> +int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param,
+>  				 u32 *retval)
+>  {
+>  	return asus_wmi_evaluate_method(ASUS_WMI_METHODID_DEVS, dev_id,
+> @@ -1343,6 +1347,44 @@ static ssize_t nv_temp_target_show(struct device *dev,
+>  static DEVICE_ATTR_RW(nv_temp_target);
+>  
+>  /* Ally MCU Powersave ********************************************************/
 > +
-> +int asus_hid_register_listener(struct asus_hid_listener *bdev)
+> +/*
+> + * The HID driver needs to check MCU version and set this to false if the MCU FW
+> + * version is >= the minimum requirements. New FW do not need the hacks.
+> + */
+> +void set_ally_mcu_hack(enum asus_ally_mcu_hack status)
 > +{
-> +	unsigned long flags;
-> +	int ret = 0;
+> +	use_ally_mcu_hack = status;
+> +	pr_debug("%s Ally MCU suspend quirk\n",
+> +		 status == ASUS_WMI_ALLY_MCU_HACK_ENABLED ? "Enabled" : "Disabled");
+> +}
+> +EXPORT_SYMBOL_NS_GPL(set_ally_mcu_hack, "ASUS_WMI");
 > +
-> +	spin_lock_irqsave(&asus_ref.lock, flags);
-> +	list_add_tail(&bdev->list, &asus_ref.listeners);
-> +	if (asus_ref.asus) {
-> +		if (asus_ref.asus->kbd_led_registered && asus_ref.asus->kbd_led_wk >= 0)
-> +			bdev->brightness_set(bdev, asus_ref.asus->kbd_led_wk);
+> +/*
+> + * mcu_powersave should be enabled always, as it is fixed in MCU FW versions:
+> + * - v313 for Ally X
+> + * - v319 for Ally 1
+> + * The HID driver checks MCU versions and so should set this if requirements match
+> + */
+> +void set_ally_mcu_powersave(bool enabled)
+> +{
+> +	int result, err;
 > +
-> +		if (!asus_ref.asus->kbd_led_registered) {
-> +			ret = led_classdev_register(
-> +				&asus_ref.asus->platform_device->dev,
-> +				&asus_ref.asus->kbd_led);
-> +			if (!ret)
-> +				asus_ref.asus->kbd_led_registered = true;
+> +	err = asus_wmi_set_devstate(ASUS_WMI_DEVID_MCU_POWERSAVE, enabled, &result);
+> +	if (err) {
+> +		pr_warn("Failed to set MCU powersave: %d\n", err);
+> +		return;
+> +	}
+> +	if (result > 1) {
+> +		pr_warn("Failed to set MCU powersave (result): 0x%x\n", result);
+> +		return;
+> +	}
+> +
+> +	pr_debug("%s MCU Powersave\n",
+> +		 enabled ? "Enabled" : "Disabled");
+> +}
+> +EXPORT_SYMBOL_NS_GPL(set_ally_mcu_powersave, "ASUS_WMI");
+> +
+>  static ssize_t mcu_powersave_show(struct device *dev,
+>  				   struct device_attribute *attr, char *buf)
+>  {
+> @@ -4711,6 +4753,21 @@ static int asus_wmi_add(struct platform_device *pdev)
+>  	if (err)
+>  		goto fail_platform;
+>  
+> +	if (use_ally_mcu_hack == ASUS_WMI_ALLY_MCU_HACK_INIT) {
+> +		if (acpi_has_method(NULL, ASUS_USB0_PWR_EC0_CSEE)
+> +					&& dmi_check_system(asus_rog_ally_device))
+> +			use_ally_mcu_hack = ASUS_WMI_ALLY_MCU_HACK_ENABLED;
+> +		if (dmi_match(DMI_BOARD_NAME, "RC71")) {
+> +			/*
+> +			 * These steps ensure the device is in a valid good state, this is
+> +			 * especially important for the Ally 1 after a reboot.
+> +			 */
+> +			acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE,
+> +						   ASUS_USB0_PWR_EC0_CSEE_ON);
+> +			msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
 > +		}
 > +	}
-> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
 > +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(asus_hid_register_listener);
-> +
-> +void asus_hid_unregister_listener(struct asus_hid_listener *bdev)
+>  	/* ensure defaults for tunables */
+>  	asus->ppt_pl2_sppt = 5;
+>  	asus->ppt_pl1_spl = 5;
+> @@ -4723,8 +4780,6 @@ static int asus_wmi_add(struct platform_device *pdev)
+>  	asus->egpu_enable_available = asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_EGPU);
+>  	asus->dgpu_disable_available = asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_DGPU);
+>  	asus->kbd_rgb_state_available = asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_TUF_RGB_STATE);
+> -	asus->ally_mcu_usb_switch = acpi_has_method(NULL, ASUS_USB0_PWR_EC0_CSEE)
+> -						&& dmi_check_system(asus_ally_mcu_quirk);
+>  
+>  	if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_MINI_LED_MODE))
+>  		asus->mini_led_dev_id = ASUS_WMI_DEVID_MINI_LED_MODE;
+> @@ -4910,34 +4965,6 @@ static int asus_hotk_resume(struct device *device)
+>  	return 0;
+>  }
+>  
+> -static int asus_hotk_resume_early(struct device *device)
+> -{
+> -	struct asus_wmi *asus = dev_get_drvdata(device);
+> -
+> -	if (asus->ally_mcu_usb_switch) {
+> -		/* sleep required to prevent USB0 being yanked then reappearing rapidly */
+> -		if (ACPI_FAILURE(acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE, 0xB8)))
+> -			dev_err(device, "ROG Ally MCU failed to connect USB dev\n");
+> -		else
+> -			msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+> -	}
+> -	return 0;
+> -}
+> -
+> -static int asus_hotk_prepare(struct device *device)
+> -{
+> -	struct asus_wmi *asus = dev_get_drvdata(device);
+> -
+> -	if (asus->ally_mcu_usb_switch) {
+> -		/* sleep required to ensure USB0 is disabled before sleep continues */
+> -		if (ACPI_FAILURE(acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE, 0xB7)))
+> -			dev_err(device, "ROG Ally MCU failed to disconnect USB dev\n");
+> -		else
+> -			msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+> -	}
+> -	return 0;
+> -}
+> -
+>  static int asus_hotk_restore(struct device *device)
+>  {
+>  	struct asus_wmi *asus = dev_get_drvdata(device);
+> @@ -4978,11 +5005,34 @@ static int asus_hotk_restore(struct device *device)
+>  	return 0;
+>  }
+>  
+> +static void asus_ally_s2idle_restore(void)
 > +{
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&asus_ref.lock, flags);
-> +	list_del(&bdev->list);
-> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
+> +	if (use_ally_mcu_hack == ASUS_WMI_ALLY_MCU_HACK_ENABLED) {
+> +		acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE,
+> +					   ASUS_USB0_PWR_EC0_CSEE_ON);
+> +		msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+> +	}
 > +}
-> +EXPORT_SYMBOL_GPL(asus_hid_unregister_listener);
 > +
->  /*
->   * These functions actually update the LED's, and are called from a
->   * workqueue. By doing this as separate work rather than when the LED
-> @@ -1566,6 +1615,7 @@ static int kbd_led_read(struct asus_wmi *asus, int *level, int *env)
->  
->  static void do_kbd_led_set(struct led_classdev *led_cdev, int value)
->  {
-> +	struct asus_hid_listener *listener;
->  	struct asus_wmi *asus;
->  	int max_level;
->  
-> @@ -1573,25 +1623,39 @@ static void do_kbd_led_set(struct led_classdev *led_cdev, int value)
->  	max_level = asus->kbd_led.max_brightness;
->  
->  	asus->kbd_led_wk = clamp_val(value, 0, max_level);
-> -	kbd_led_update(asus);
+> +static int asus_hotk_prepare(struct device *device)
+> +{
+> +	if (use_ally_mcu_hack == ASUS_WMI_ALLY_MCU_HACK_ENABLED) {
+> +		acpi_execute_simple_method(NULL, ASUS_USB0_PWR_EC0_CSEE,
+> +					   ASUS_USB0_PWR_EC0_CSEE_OFF);
+> +		msleep(ASUS_USB0_PWR_EC0_CSEE_WAIT);
+> +	}
+> +	return 0;
+> +}
 > +
-> +	if (asus->kbd_led_avail)
-> +		kbd_led_update(asus);
+> +/* Use only for Ally devices due to the wake_on_ac */
+> +static struct acpi_s2idle_dev_ops asus_ally_s2idle_dev_ops = {
+> +	.restore = asus_ally_s2idle_restore,
+> +};
 > +
-> +	list_for_each_entry(listener, &asus_ref.listeners, list)
-> +		listener->brightness_set(listener, asus->kbd_led_wk);
->  }
+>  static const struct dev_pm_ops asus_pm_ops = {
+>  	.thaw = asus_hotk_thaw,
+>  	.restore = asus_hotk_restore,
+>  	.resume = asus_hotk_resume,
+> -	.resume_early = asus_hotk_resume_early,
+>  	.prepare = asus_hotk_prepare,
+>  };
 >  
->  static void kbd_led_set(struct led_classdev *led_cdev,
->  			enum led_brightness value)
->  {
-> +	unsigned long flags;
-> +
->  	/* Prevent disabling keyboard backlight on module unregister */
->  	if (led_cdev->flags & LED_UNREGISTERING)
->  		return;
->  
-> +	spin_lock_irqsave(&asus_ref.lock, flags);
->  	do_kbd_led_set(led_cdev, value);
-> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
->  }
->  
->  static void kbd_led_set_by_kbd(struct asus_wmi *asus, enum led_brightness value)
->  {
-> -	struct led_classdev *led_cdev = &asus->kbd_led;
-> +	struct led_classdev *led_cdev;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&asus_ref.lock, flags);
-> +	led_cdev = &asus->kbd_led;
->  
->  	do_kbd_led_set(led_cdev, value);
->  	led_classdev_notify_brightness_hw_changed(led_cdev, asus->kbd_led_wk);
-> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
->  }
->  
->  static enum led_brightness kbd_led_get(struct led_classdev *led_cdev)
-> @@ -1601,6 +1665,9 @@ static enum led_brightness kbd_led_get(struct led_classdev *led_cdev)
->  
->  	asus = container_of(led_cdev, struct asus_wmi, kbd_led);
->  
-> +	if (!asus->kbd_led_avail)
-> +		return asus->kbd_led_wk;
-> +
->  	retval = kbd_led_read(asus, &value, NULL);
->  	if (retval < 0)
->  		return retval;
-> @@ -1716,7 +1783,14 @@ static int camera_led_set(struct led_classdev *led_cdev,
->  
->  static void asus_wmi_led_exit(struct asus_wmi *asus)
->  {
-> -	led_classdev_unregister(&asus->kbd_led);
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&asus_ref.lock, flags);
-> +	asus_ref.asus = NULL;
-> +	if (asus->kbd_led_registered)
-> +		led_classdev_unregister(&asus->kbd_led);
-> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
-> +
->  	led_classdev_unregister(&asus->tpd_led);
->  	led_classdev_unregister(&asus->wlan_led);
->  	led_classdev_unregister(&asus->lightbar_led);
-> @@ -1730,6 +1804,8 @@ static void asus_wmi_led_exit(struct asus_wmi *asus)
->  static int asus_wmi_led_init(struct asus_wmi *asus)
->  {
->  	int rv = 0, num_rgb_groups = 0, led_val;
-> +	unsigned long flags;
-> +	bool has_listeners;
->  
->  	if (asus->kbd_rgb_dev)
->  		kbd_rgb_mode_groups[num_rgb_groups++] = &kbd_rgb_mode_group;
-> @@ -1754,24 +1830,37 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
->  			goto error;
+> @@ -5010,6 +5060,10 @@ static int asus_wmi_probe(struct platform_device *pdev)
+>  			return ret;
 >  	}
 >  
-> -	if (!kbd_led_read(asus, &led_val, NULL) && !dmi_check_system(asus_use_hid_led_dmi_ids)) {
-> -		pr_info("using asus-wmi for asus::kbd_backlight\n");
-> +	asus->kbd_led.name = "asus::kbd_backlight";
-> +	asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
-> +	asus->kbd_led.brightness_set = kbd_led_set;
-> +	asus->kbd_led.brightness_get = kbd_led_get;
-> +	asus->kbd_led.max_brightness = 3;
-> +	asus->kbd_led_avail = !kbd_led_read(asus, &led_val, NULL);
+> +	ret = acpi_register_lps0_dev(&asus_ally_s2idle_dev_ops);
+> +	if (ret)
+> +		pr_warn("failed to register LPS0 sleep handler in asus-wmi\n");
 > +
-> +	if (asus->kbd_led_avail)
->  		asus->kbd_led_wk = led_val;
-> -		asus->kbd_led.name = "asus::kbd_backlight";
-> -		asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
-> -		asus->kbd_led.brightness_set = kbd_led_set;
-> -		asus->kbd_led.brightness_get = kbd_led_get;
-> -		asus->kbd_led.max_brightness = 3;
-> +	else
-> +		asus->kbd_led_wk = -1;
-> +
-> +	if (asus->kbd_led_avail && num_rgb_groups != 0)
-> +		asus->kbd_led.groups = kbd_rgb_mode_groups;
+>  	return asus_wmi_add(pdev);
+>  }
 >  
-> -		if (num_rgb_groups != 0)
-> -			asus->kbd_led.groups = kbd_rgb_mode_groups;
-> +	spin_lock_irqsave(&asus_ref.lock, flags);
-> +	has_listeners = !list_empty(&asus_ref.listeners);
-> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
-
-It seems to me that you should also call brightness_set()
-on all the kbds already in the list so that their brightness
-gets synced with the wmi kbd-backlight brightness when
-the wmi driver loads later then the hid driver ?
-
+> @@ -5042,6 +5096,7 @@ EXPORT_SYMBOL_GPL(asus_wmi_register_driver);
 >  
-> +	if (asus->kbd_led_avail || has_listeners) {
->  		rv = led_classdev_register(&asus->platform_device->dev,
->  					   &asus->kbd_led);
->  		if (rv)
->  			goto error;
-> +		asus->kbd_led_registered = true;
->  	}
->  
-> +	spin_lock_irqsave(&asus_ref.lock, flags);
-> +	asus_ref.asus = asus;
-
-There is race here where a hid keyboard might show up between
-the 2 places you take the lock, in that case if there is
-no wmi kbd-backlight then you will not register the led_classdev
-when asus_hid_register_listener() gets called between the unlock
-and the lock...  I'm not sure what the best way is to fix this.
-
-Regards,
-
-Hans
-
-
-
-> +	spin_unlock_irqrestore(&asus_ref.lock, flags);
-> +
->  	if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_WIRELESS_LED)
->  			&& (asus->driver->quirks->wapf > 0)) {
->  		INIT_WORK(&asus->wlan_led_work, wlan_led_update);
+>  void asus_wmi_unregister_driver(struct asus_wmi_driver *driver)
+>  {
+> +	acpi_unregister_lps0_dev(&asus_ally_s2idle_dev_ops);
+>  	platform_device_unregister(driver->platform_device);
+>  	platform_driver_unregister(&driver->platform_driver);
+>  	used = false;
 > diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-> index 783e2a336861b..ec8b0c585a63f 100644
+> index 783e2a336861..8a515179113d 100644
 > --- a/include/linux/platform_data/x86/asus-wmi.h
 > +++ b/include/linux/platform_data/x86/asus-wmi.h
-> @@ -157,14 +157,30 @@
+> @@ -157,9 +157,28 @@
 >  #define ASUS_WMI_DSTS_MAX_BRIGTH_MASK	0x0000FF00
 >  #define ASUS_WMI_DSTS_LIGHTBAR_MASK	0x0000000F
 >  
-> +struct asus_hid_listener {
-> +	struct list_head list;
-> +	void (*brightness_set)(struct asus_hid_listener *listener, int brightness);
+> +enum asus_ally_mcu_hack {
+> +	ASUS_WMI_ALLY_MCU_HACK_INIT,
+> +	ASUS_WMI_ALLY_MCU_HACK_ENABLED,
+> +	ASUS_WMI_ALLY_MCU_HACK_DISABLED,
 > +};
 > +
 >  #if IS_REACHABLE(CONFIG_ASUS_WMI)
+> +void set_ally_mcu_hack(enum asus_ally_mcu_hack status);
+> +void set_ally_mcu_powersave(bool enabled);
+> +int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval);
 >  int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
-> +
-> +int asus_hid_register_listener(struct asus_hid_listener *cdev);
-> +void asus_hid_unregister_listener(struct asus_hid_listener *cdev);
 >  #else
->  static inline int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1,
->  					   u32 *retval)
->  {
->  	return -ENODEV;
->  }
-> +
-> +static inline int asus_hid_register_listener(struct asus_hid_listener *bdev)
+> +static inline void set_ally_mcu_hack(enum asus_ally_mcu_hack status)
+> +{
+> +}
+> +static inline void set_ally_mcu_powersave(bool enabled)
+> +{
+> +}
+> +static inline int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval)
 > +{
 > +	return -ENODEV;
 > +}
-> +static inline void asus_hid_unregister_listener(struct asus_hid_listener *bdev)
-> +{
-> +}
->  #endif
->  
->  /* To be used by both hid-asus and asus-wmi to determine which controls kbd_brightness */
-
+>  static inline int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1,
+>  					   u32 *retval)
+>  {
+> 
 
