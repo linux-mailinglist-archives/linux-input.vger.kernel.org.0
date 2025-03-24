@@ -1,305 +1,185 @@
-Return-Path: <linux-input+bounces-11128-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11129-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2990FA6D247
-	for <lists+linux-input@lfdr.de>; Sun, 23 Mar 2025 23:52:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59422A6D2DC
+	for <lists+linux-input@lfdr.de>; Mon, 24 Mar 2025 02:41:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EB6733ACBEB
-	for <lists+linux-input@lfdr.de>; Sun, 23 Mar 2025 22:48:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D6A3C188CCF6
+	for <lists+linux-input@lfdr.de>; Mon, 24 Mar 2025 01:42:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38D391D9A50;
-	Sun, 23 Mar 2025 22:45:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 304E479F5;
+	Mon, 24 Mar 2025 01:41:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="gpzvbk1/"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="uiqNJSNo";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="u+L0V146"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0CDBA53;
-	Sun, 23 Mar 2025 22:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47CA367;
+	Mon, 24 Mar 2025 01:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742769903; cv=none; b=EXQx/mtzicbN0ZghknNutBiLy8FVlBmTE/XEVT5137UaZKQ1fRH3GjNNGzJ7VNlHe1Alnh2cDj6VxeARYkpzZTWq9G5W5340NZrvs3GGb1J8M01KFdprSVuMTPS3lIcErqnyeuNBM0qcmFzG33xFPH0kceBFvHWHVBU067+YINI=
+	t=1742780510; cv=none; b=YBediygmzKi4c0kZHlYLz+Dj0WlO7x5M2Jegr1XiNVfehuLvmQevsU6JgnHZhuxR9J+XJtUFHslGEMzB8JOVYRZ4qTZ9DwIjd8Btmp4NH/rmC+eygMLQQwgamtroPvRyIKPAsnygRbOnIomTzFulLWbH+avFQVnkiXZT/6RmBLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742769903; c=relaxed/simple;
-	bh=xCqn5FiTDlk8VfRuuwEImn8dGmxcyVuO1Zhr3g0tNGI=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=e8wi+EwgAHPs2NSVtg4tAi5ws9ZdNv8lBxzcWwLmIhZvrgeV7swU95Crq5nj2CZBXbJ2HlM5LHHiOisvl2cHT9OANsW9yjTPML+7qqtTRkJSx+fBx6nDScLx9uWx6NFe1Tfl/sZI3m2OqFNE075ZPuE/lH08SpcCFjShtL3Pwdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=gpzvbk1/; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from [127.0.0.1] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52NMeKdo3968387
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Sun, 23 Mar 2025 15:40:20 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52NMeKdo3968387
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025032001; t=1742769629;
-	bh=jX8qvOcg5sHOYMzS8O1ZeFoLDzr4b9fAXnawD1sDsAQ=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=gpzvbk1/xbueYaRDkNUQItniaCPabNWQpBYkbzyWYtmr70CkFDr1QjiA+EEsvKZvw
-	 x+NlI2wYpRq9XIxDM3W6qyI4muMLrm74m6hk9SQZhj6u/678GeAxC2aHNwRAd8Fz02
-	 eaUD2juyAsarROcyXcOXSBJeY7WSazHhunwmvS0uaYtHesKXlr5cVrOSTOXia+d9ur
-	 x0GW78E2/YRSCfLq+CgCW5Ss3gdvaEyZxBcb+3QJlbHUizJ8HRUBm+f0VKsMTTNTOb
-	 biBm8UgyfdkV3Cldwh9ks4o9ztz33Hpie/nEjLEaxfg2nLmHMgLWNzA/75tuDFoxiX
-	 JvvTdqoR1VRZA==
-Date: Sun, 23 Mar 2025 15:40:20 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Kuan-Wei Chiu <visitorckw@gmail.com>, Yury Norov <yury.norov@gmail.com>
-CC: David Laight <david.laight.linux@gmail.com>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
-        akpm@linux-foundation.org, alistair@popple.id.au,
-        andrew+netdev@lunn.ch, andrzej.hajda@intel.com,
-        arend.vanspriel@broadcom.com, awalls@md.metrocast.net, bp@alien8.de,
-        bpf@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
-        brcm80211@lists.linux.dev, dave.hansen@linux.intel.com,
-        davem@davemloft.net, dmitry.torokhov@gmail.com,
-        dri-devel@lists.freedesktop.org, eajames@linux.ibm.com,
-        edumazet@google.com, eleanor15x@gmail.com, gregkh@linuxfoundation.org,
-        hverkuil@xs4all.nl, jernej.skrabec@gmail.com, jirislaby@kernel.org,
-        jk@ozlabs.org, joel@jms.id.au, johannes@sipsolutions.net,
-        jonas@kwiboo.se, jserv@ccns.ncku.edu.tw, kuba@kernel.org,
-        linux-fsi@lists.ozlabs.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-serial@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux@rasmusvillemoes.dk,
-        louis.peens@corigine.com, maarten.lankhorst@linux.intel.com,
-        mchehab@kernel.org, mingo@redhat.com, miquel.raynal@bootlin.com,
-        mripard@kernel.org, neil.armstrong@linaro.org, netdev@vger.kernel.org,
-        oss-drivers@corigine.com, pabeni@redhat.com,
-        parthiban.veerasooran@microchip.com, rfoss@kernel.org, richard@nod.at,
-        simona@ffwll.ch, tglx@linutronix.de, tzimmermann@suse.de,
-        vigneshr@ti.com, x86@kernel.org
-Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
-User-Agent: K-9 Mail for Android
-In-Reply-To: <Z+AlyB461xwMxMtG@visitorckw-System-Product-Name>
-References: <efc2ee9d-5382-457f-b471-f3c44b81a190@citrix.com> <5A790652-1B22-4D13-AAC5-5D9931E90903@zytor.com> <20250307195310.58abff8c@pumpkin> <EB85C3C1-8A0D-4CB9-B501-BFEABDF3E977@zytor.com> <Z824SgB9Dt5zdWYc@visitorckw-System-Product-Name> <Z9CyuowYsZyez36c@thinkpad> <80771542-476C-493E-858A-D2AF6A355CC1@zytor.com> <Z9GtcNJie8TRKywZ@thinkpad> <Z9G2Tyypb3iLoBjn@visitorckw-System-Product-Name> <Z9KMKwnZXA2mkD2s@visitorckw-System-Product-Name> <Z+AlyB461xwMxMtG@visitorckw-System-Product-Name>
-Message-ID: <05F7AC70-E8E7-4D14-A4EB-880D92A96534@zytor.com>
+	s=arc-20240116; t=1742780510; c=relaxed/simple;
+	bh=hNUA8ajXEF3jCVz2tTKvjz2TXG3YLE3+en1hSJz4f5c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AiDnKnmaCWceOZnB0/je19HvzNHiTv2LJTDyARU0MlxE+brI278pGmR56W7Ky5cxIOJU4GTeXQoNzTOdEKiAruDn+/WgT3Pi8RjSgk1OjxIyIIlJPNwoFZnA9EQrLQDTgq+wIW63ctbLhH3jeVfSCMx50JOjByeDCYkQT51xCOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=uiqNJSNo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=u+L0V146; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
+Received: from phl-compute-13.internal (phl-compute-13.phl.internal [10.202.2.53])
+	by mailfout.phl.internal (Postfix) with ESMTP id E26971381100;
+	Sun, 23 Mar 2025 21:41:46 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-13.internal (MEProxy); Sun, 23 Mar 2025 21:41:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1742780506;
+	 x=1742866906; bh=scMdHBPZ6vxqc2HSxuk39OMIToy9t5zqjIDcVZ1lF1c=; b=
+	uiqNJSNoUVxEQ26bQqgtsqkglWBs6asc25pHEWjBIsmsqG+eKYUOZsyl4Itz7HES
+	iYP8SKoJfsXOMronyCH3YdO57kLMXIWn5WxDSA/GLoAhSE1P253dYOfFSv2XkSYv
+	aKs3DMmAXf9fQlRcx6xQQfQ0afanFjLx/FhV4Kw0DdqO3xaCqJxQrKF40Div5hx6
+	7197YVa4YfxRHuCTdhcty+qBlgmnOMkKGYoOd0YLdIjIHIVaQnhFLoAZYFzSf5+V
+	FC4Yx9q2mjDiYQibY/RPwuZetzdj4bbIP4S2NzO47TFu0SHU1bpECZKBEC2wD2Ln
+	fUOZd2UBr2Qb8xPcCX0bFA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742780506; x=
+	1742866906; bh=scMdHBPZ6vxqc2HSxuk39OMIToy9t5zqjIDcVZ1lF1c=; b=u
+	+L0V146T5Szv+t/x0gfIf1AvZOdBzudx649nTh7S0+frElwKYmHpdkEAoVog0SuW
+	eePtyagIeh3iZc1mJ33q+kKOT+vBMSLMSlLwO4pAwqOjyTjHaOaXWQbXn7QQ0EG6
+	1L1WTnKTb//0N2HP85rDfriDcNdsKgIMLCBFGFQ7Enz9C4fxTKTOFYm+zyAK4z+o
+	EqkMnyddDMNvLFSi0lrvI4YfGffGzBj7DAgkdcl3VXzGio7gmINUvh0gTIN3JCuH
+	EUhFPrfR715yt71X7kDiCDIj48/AWTdkC1SP0LrGSS/XPVxphhDGGzRPvkgM/HN3
+	5CHbEnojivxqtmdbK/2aQ==
+X-ME-Sender: <xms:WbjgZyXIqyfUn-3bKDlELZ_VkcF_CHQ9ArfOpxVMa0qqp3dThfWWFw>
+    <xme:WbjgZ-mRBxqFgAayvnxhO775GyfGMQbLMuJ0PCoxQfGRoYrhbXNeIf4o9WtFAvf7X
+    Y8gybxuBzsP8kuEMoY>
+X-ME-Received: <xmr:WbjgZ2bOfGrJSfm4s8Yp9hfZgU7A0t0oZCZllH0EbMm1Y_hhATZKvL6Q1XzFKQSZkuXPsTkB>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduheekgeejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefkff
+    ggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepfdfnuhhkvgcuffdrucfl
+    ohhnvghsfdcuoehluhhkvgeslhhjohhnvghsrdguvghvqeenucggtffrrghtthgvrhhnpe
+    eigeekveevffelfedtieegudfhkeefudeuleduhfehfffhtdekhfekffefteduvdenucff
+    ohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvhdpnhgspghrtghp
+    thhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhkmhhlsegrnhhthh
+    gvrghsrdguvghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtohephhguvghgohgvuggvsehrvgguhhgrthdrtghomh
+    dprhgtphhtthhopehilhhpohdrjhgrrhhvihhnvghnsehlihhnuhigrdhinhhtvghlrdgt
+    ohhmpdhrtghpthhtohepphhlrghtfhhorhhmqdgurhhivhgvrhdqgiekieesvhhgvghrrd
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhinhhpuhhtsehvghgvrhdr
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepsggvnhhtihhssheskhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtohepjhhikhhosheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgr
+    rhhiohdrlhhimhhonhgtihgvlhhlohesrghmugdrtghomh
+X-ME-Proxy: <xmx:WbjgZ5XxfndmstQ103gs6YipU6cAU12Hep3KmJVWnE-nu7i-H5Uawg>
+    <xmx:WbjgZ8l-uBVlQQmj5P-1VISDwa4saDe4CNLLP4fsjgT938F_eCjCZA>
+    <xmx:WbjgZ-ctqbHDngBg8qFslnJiJh9QtabtaH0Q1VDSHpt9M8IocP9LZA>
+    <xmx:WbjgZ-Gm17nv31L2GwxgZcSxYYoUWwjlNEG9cAg0RCBFH2b-d2ZVVA>
+    <xmx:WrjgZ24cNAHX91OS066CezgpYMOk4ZQDze_pQCBLe1htB_itbE98K1hh>
+Feedback-ID: i5ec1447f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 23 Mar 2025 21:41:42 -0400 (EDT)
+Message-ID: <deeb4946-dd66-4a82-a8f0-5e8b1751899e@ljones.dev>
+Date: Mon, 24 Mar 2025 14:41:40 +1300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/2] hid-asus: asus-wmi: refactor Ally suspend/resume
+To: Antheas Kapenekakis <lkml@antheas.dev>
+Cc: linux-kernel@vger.kernel.org, hdegoede@redhat.com,
+ ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
+ linux-input@vger.kernel.org, bentiss@kernel.org, jikos@kernel.org,
+ mario.limonciello@amd.com
+References: <20250323023421.78012-1-luke@ljones.dev>
+ <CAGwozwE4oXmFMRO5jZJC4d11TstTqSC8ZUZ1CCkZMWYZKTKF_w@mail.gmail.com>
+Content-Language: en-US
+From: "Luke D. Jones" <luke@ljones.dev>
+In-Reply-To: <CAGwozwE4oXmFMRO5jZJC4d11TstTqSC8ZUZ1CCkZMWYZKTKF_w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On March 23, 2025 8:16:24 AM PDT, Kuan-Wei Chiu <visitorckw@gmail=2Ecom> wr=
-ote:
->On Thu, Mar 13, 2025 at 03:41:49PM +0800, Kuan-Wei Chiu wrote:
->> On Thu, Mar 13, 2025 at 12:29:13AM +0800, Kuan-Wei Chiu wrote:
->> > On Wed, Mar 12, 2025 at 11:51:12AM -0400, Yury Norov wrote:
->> > > On Tue, Mar 11, 2025 at 03:24:14PM -0700, H=2E Peter Anvin wrote:
->> > > > On March 11, 2025 3:01:30 PM PDT, Yury Norov <yury=2Enorov@gmail=
-=2Ecom> wrote:
->> > > > >On Sun, Mar 09, 2025 at 11:48:26PM +0800, Kuan-Wei Chiu wrote:
->> > > > >> On Fri, Mar 07, 2025 at 12:07:02PM -0800, H=2E Peter Anvin wro=
-te:
->> > > > >> > On March 7, 2025 11:53:10 AM PST, David Laight <david=2Elaig=
-ht=2Elinux@gmail=2Ecom> wrote:
->> > > > >> > >On Fri, 07 Mar 2025 11:30:35 -0800
->> > > > >> > >"H=2E Peter Anvin" <hpa@zytor=2Ecom> wrote:
->> > > > >> > >
->> > > > >> > >> On March 7, 2025 10:49:56 AM PST, Andrew Cooper <andrew=
-=2Ecooper3@citrix=2Ecom> wrote:
->> > > > >> > >> >> (int)true most definitely is guaranteed to be 1=2E =20
->> > > > >> > >> >
->> > > > >> > >> >That's not technically correct any more=2E
->> > > > >> > >> >
->> > > > >> > >> >GCC has introduced hardened bools that intentionally hav=
-e bit patterns
->> > > > >> > >> >other than 0 and 1=2E
->> > > > >> > >> >
->> > > > >> > >> >https://gcc=2Egnu=2Eorg/gcc-14/changes=2Ehtml
->> > > > >> > >> >
->> > > > >> > >> >~Andrew =20
->> > > > >> > >>=20
->> > > > >> > >> Bit patterns in memory maybe (not that I can see the Linu=
-x kernel using them) but
->> > > > >> > >> for compiler-generated conversations that's still a given=
-, or the manager isn't C
->> > > > >> > >> or anything even remotely like it=2E
->> > > > >> > >>=20
->> > > > >> > >
->> > > > >> > >The whole idea of 'bool' is pretty much broken by design=2E
->> > > > >> > >The underlying problem is that values other than 'true' and=
- 'false' can
->> > > > >> > >always get into 'bool' variables=2E
->> > > > >> > >
->> > > > >> > >Once that has happened it is all fubar=2E
->> > > > >> > >
->> > > > >> > >Trying to sanitise a value with (say):
->> > > > >> > >int f(bool v)
->> > > > >> > >{
->> > > > >> > >	return (int)v & 1;
->> > > > >> > >}   =20
->> > > > >> > >just doesn't work (see https://www=2Egodbolt=2Eorg/z/MEndP3=
-q9j)
->> > > > >> > >
->> > > > >> > >I really don't see how using (say) 0xaa and 0x55 helps=2E
->> > > > >> > >What happens if the value is wrong? a trap or exception?, g=
-ood luck recovering
->> > > > >> > >from that=2E
->> > > > >> > >
->> > > > >> > >	David
->> > > > >> >=20
->> > > > >> > Did you just discover GIGO?
->> > > > >>=20
->> > > > >> Thanks for all the suggestions=2E
->> > > > >>=20
->> > > > >> I don't have a strong opinion on the naming or return type=2E =
-I'm still a
->> > > > >> bit confused about whether I can assume that casting bool to i=
-nt always
->> > > > >> results in 0 or 1=2E
->> > > > >>=20
->> > > > >> If that's the case, since most people prefer bool over int as =
-the
->> > > > >> return type and some are against introducing u1, my current pl=
-an is to
->> > > > >> use the following in the next version:
->> > > > >>=20
->> > > > >> bool parity_odd(u64 val);
->> > > > >>=20
->> > > > >> This keeps the bool return type, renames the function for bett=
-er
->> > > > >> clarity, and avoids extra maintenance burden by having just on=
-e
->> > > > >> function=2E
->> > > > >>=20
->> > > > >> If I can't assume that casting bool to int always results in 0=
- or 1,
->> > > > >> would it be acceptable to keep the return type as int?
->> > > > >>=20
->> > > > >> Would this work for everyone?
->> > > > >
->> > > > >Alright, it's clearly a split opinion=2E So what I would do myse=
-lf in
->> > > > >such case is to look at existing code and see what people who re=
-ally
->> > > > >need parity invent in their drivers:
->> > > > >
->> > > > >                                     bool      parity_odd
->> > > > >static inline int parity8(u8 val)       -               -
->> > > > >static u8 calc_parity(u8 val)           -               -
->> > > > >static int odd_parity(u8 c)             -               +
->> > > > >static int saa711x_odd_parity           -               +
->> > > > >static int max3100_do_parity            -               -
->> > > > >static inline int parity(unsigned x)    -               -
->> > > > >static int bit_parity(u32 pkt)          -               -
->> > > > >static int oa_tc6_get_parity(u32 p)     -               -
->> > > > >static u32 parity32(__le32 data)        -               -
->> > > > >static u32 parity(u32 sample)           -               -
->> > > > >static int get_parity(int number,       -               -
->> > > > >                      int size)
->> > > > >static bool i2cr_check_parity32(u32 v,  +               -
->> > > > >                        bool parity)
->> > > > >static bool i2cr_check_parity64(u64 v)  +               -
->> > > > >static int sw_parity(__u64 t)           -               -
->> > > > >static bool parity(u64 value)           +               -
->> > > > >
->> > > > >Now you can refer to that table say that int parity(uXX) is what
->> > > > >people want to see in their drivers=2E
->> > > > >
->> > > > >Whichever interface you choose, please discuss it's pros and con=
-s=2E
->> > > > >What bloat-o-meter says for each option? What's maintenance burd=
-en?
->> > > > >Perf test? Look at generated code?
->> > > > >
->> > > > >I personally for a macro returning boolean, something like I
->> > > > >proposed at the very beginning=2E
->> > > > >
->> > > > >Thanks,
->> > > > >Yury
->> > > >=20
->> > > > Also, please at least provide a way for an arch to opt in to usin=
-g the builtins, which seem to produce as good results or better at least on=
- some architectures like x86 and probably with CPU options that imply fast =
-popcnt is available=2E
->> > >=20
->> > > Yeah=2E And because linux/bitops=2Eh already includes asm/bitops=2E=
-h
->> > > the simplest way would be wrapping generic implementation with
->> > > the #ifndef parity, similarly to how we handle find_next_bit case=
-=2E
->> > >=20
->> > > So:
->> > > 1=2E Kuan-Wei, please don't invent something like ARCH_HAS_PARITY;
->> > > 2=2E This may, and probably should, be a separate follow-up series,
->> > >    likely created by corresponding arch experts=2E
->> > >=20
->> > I saw discussions in the previous email thread about both
->> > __builtin_parity and x86-specific implementations=2E However, from th=
-e
->> > discussion, I learned that before considering any optimization, we
->> > should first ask: which driver or subsystem actually cares about pari=
-ty
->> > efficiency? If someone does, I can help with a micro-benchmark to
->> > provide performance numbers, but I don't have enough domain knowledge
->> > to identify hot paths where parity efficiency matters=2E
->> >=20
->> IMHO,
->>=20
->> If parity is never used in any hot path and we don't care about parity:
->>=20
->> Then benchmarking its performance seems meaningless=2E In this case, a
->> function with a u64 argument would suffice, and we might not even need
->> a macro to optimize for different types=E2=80=94especially since the ma=
-cro
->> requires special hacks to avoid compiler warnings=2E Also, I don't thin=
-k
->> code size matters here=2E If it does, we should first consider making
->> parity a non-inline function in a =2Ec file rather than an inline
->> function/macro in a header=2E
->>=20
->> If parity is used in a hot path:
->>=20
->> We need different handling for different type sizes=2E As previously
->> discussed, x86 assembly might use different instructions for u8 and
->> u16=2E This may sound stubborn, but I want to ask again: should we
->> consider using parity8/16/32/64 interfaces? Like in the i3c driver
->> example, if we only have a single parity macro that selects an
->> implementation based on type size, users must explicitly cast types=2E
->> If future users also need parity in a hot path, they might not be aware
->> of this requirement and end up generating suboptimal code=2E Since we
->> care about efficiency and generated code, why not follow hweight() and
->> provide separate implementations for different sizes?
->>=20
->It seems no one will reply to my two emails=2E So, I have summarized
->different interface approaches=2E If there is a next version, I will send
->it after the merge window closes=2E
->
->Interface 1: Single Function
->Description: bool parity_odd(u64)
->Pros: Minimal maintenance cost
->Cons: Difficult to integrate with architecture-specific implementations
->      due to the inability to optimize for different argument sizes
->Opinions: Jiri supports this approach
->
->Interface 2: Single Macro
->Description: parity_odd() macro
->Pros: Allows type-specific implementation
->Cons: Requires hacks to avoid warnings; users may need explicit
->      casting; potential sub-optimal code on 32-bit x86
->Opinions: Yury supports this approach
->
->Interface 3: Multiple Functions
->Description: bool parity_odd8/16/32/64()
->Pros: No need for explicit casting; easy to integrate
->      architecture-specific optimizations; except for parity8(), all
->      functions are one-liners with no significant code duplication
->Cons: More functions may increase maintenance burden
->Opinions: Only I support this approach
->
->Regards,
->Kuan-Wei
+On 24/03/25 00:41, Antheas Kapenekakis wrote:
+> On Sun, 23 Mar 2025 at 03:34, Luke Jones <luke@ljones.dev> wrote:
+>>
+>> This short series refactors the Ally suspend/resume functionality in the
+>> asus-wmi driver along with adding support for ROG Ally MCU version checking.
+>>
+>> The version checking is then used to toggle the use of older CSEE call hacks
+>> that were initially used to combat Ally suspend/wake issues arising from the MCU
+>> not clearing a particular flag on resume. ASUS have since corrected this
+>> especially for Linux in newer firmware versions.
+>>
+>> - hid-asus requests the MCU version and displays a warning if the version is
+>>    older than the one that fixes the issue.
+>> - hid-asus awill also toggle the CSEE hack off, and mcu_powersave to on if the
+>> version is high enough.
+>>
+>> *Note: In review it was requested by Mario that I try strsep() for parsing
+>> the version. I did try this and a few variations but the result was much
+>> more code due to having to check more edge cases due to the input being
+>> raw bytes. In the end the cleaned up while loop proved more robust.
+>>
+>> - Changelog:
+>>    + V2: https://lore.kernel.org/platform-driver-x86/20250226010129.32043-1-luke@ljones.dev/T/#t
+>>      - Adjust warning message to explicitly mention suspend issues
+> 
+> How did the testing go with this one, especially with mcu_powersave 0?
 
-You can add me to the final option=2E I think it makes most sense 
+Appears to be good. Checked a few reboots with powersave off - it is 
+setting on as I expect every time. Did modules unload/load also. And 
+tested with it set off after boot plus suspend resumes.
+
+Very much hope this is the end of that particular saga, and with 
+bazzites help we can hopefully get everyone on November MCU FW or later, 
+then finally remove the hack completely this year.
+
+A small side note - I expect ASUS to fully reuse the X hardware, or at 
+least the bios/acpi/mcu-fw for that new windows handheld they've doing, 
+so fingers crossed that they actually do, and there will be nomore 
+suspend issues with current kernels plus this patch.
+
+Cheers,
+Luke.
+
+>>      - Use switch/case block to set min_version
+>>        - Set min_version to 0 by default and toggle hacks off
+>>    + V3
+>>      - Remove noise (excess pr_info)
+>>      - Use kstrtoint, not kstrtolong
+>>      - Use __free(kfree) for allocated mem and drop goto + logging
+>>      - Use print_hex_dump() to show failed data after pr_err in mcu_request_version()
+>>      - Use pr_debug in set_ally_mcu_hack() and set_ally_mcu_powersave() plus
+>>        correct the message.
+>>    + V4
+>>      - Change use_ally_mcu_hack var to enum to track init state and
+>>        prevent a race condition
+>>
+>> Luke D. Jones (2):
+>>    hid-asus: check ROG Ally MCU version and warn
+>>    platform/x86: asus-wmi: Refactor Ally suspend/resume
+>>
+>>   drivers/hid/hid-asus.c                     | 111 ++++++++++++++++-
+>>   drivers/platform/x86/asus-wmi.c            | 133 +++++++++++++++------
+>>   include/linux/platform_data/x86/asus-wmi.h |  19 +++
+>>   3 files changed, 222 insertions(+), 41 deletions(-)
+>>
+>> --
+>> 2.49.0
+>>
+
 
