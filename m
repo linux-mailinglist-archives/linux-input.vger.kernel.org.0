@@ -1,104 +1,172 @@
-Return-Path: <linux-input+bounces-11223-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11224-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6BBA70171
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 14:24:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0CEAA701DD
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 14:32:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D2738456BE
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 13:16:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BABB017C257
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 13:23:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07AAD2641F0;
-	Tue, 25 Mar 2025 12:52:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 513552676E3;
+	Tue, 25 Mar 2025 13:13:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nAajHxx8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m1+v2VVw"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB8719E83E;
-	Tue, 25 Mar 2025 12:52:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291AD2676DE;
+	Tue, 25 Mar 2025 13:13:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742907165; cv=none; b=auo3oJrTSrsegcWxksY6zuuxgNA7SiL7RNwk0kJkLX8FS823yIq8Su0oG1cbft+FiiFMhK63++nx+9uHNN6vq4aF3wKnF3w+9POv3joqecZHZOYHUivy5aIE7k7ZAf6nf1QRmm657DyUfSkOHJ9i1IxBa9wjkVbp6OgL6abXvbE=
+	t=1742908385; cv=none; b=cpuZa/lEOgLoBx8HaQ6Knk5sdCOBe35VtP/5CZO53a+Uz2lPnx4H40aD1cE1BukcC7FTshlYULkU3GYy09t3n4dYBv9jZrI7jPhCOCpm0NX2I59jOq0b2DqpcZusu5OpopSDyyxy7TFBePcrKwQRzFJTsG8cbc7RJeTgDFA9t3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742907165; c=relaxed/simple;
-	bh=lfa/8ta4vYPO/+JeucS0YpPl8uLr+Mk0WRA+iVH7hUA=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=HtaLGQembPxg1Yr5WZLCESPVyvkGWqU4zWPBXgaroXhds9eXNXi/hg+DK0r5QfdrGMKD7b0HZDfCvhHuqVNJVVbQZq/U7IUYnTTob/RES77HBoxexHbhwAv0R3TlVdk9YFkOMeajXAJEdMtGWIFEcCuuAwKo/n2PVYjcazcweTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nAajHxx8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE642C4CEE4;
-	Tue, 25 Mar 2025 12:52:44 +0000 (UTC)
+	s=arc-20240116; t=1742908385; c=relaxed/simple;
+	bh=LbCFI+SPyht74Ijlp27Gug9FjyQ0K7+yJfydNyjPGuY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o3LYpI8EKZJ7GDOfAaTAy5pg42xdkXnViY9zMR1hK7ZQv1HptK88zeh9KyYcVUpTt+yRwssgEy9KAiSMC1Oc61SDxpptMmiY7+2qQT3P3ybn0xDHVb4jZ+fd003cU///Vl6sKvYgQUQnBnOM6TzHfL4Hy/XNtD/E04qrbF46OHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m1+v2VVw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33B2DC4CEE4;
+	Tue, 25 Mar 2025 13:13:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742907165;
-	bh=lfa/8ta4vYPO/+JeucS0YpPl8uLr+Mk0WRA+iVH7hUA=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=nAajHxx8XWm+QvC5X6u+BaKdw7/t6NBuVoB1Diqqau7NGm8MeWXevmFahioXrGcm3
-	 mrYlBE8Yv/tSoWFC0LC6Cqbn3JOYHJy/GIyq7vIU52ojzDxSPIj6wcvrh6H4FuIbz+
-	 F0F3y+GiBzthZ4mIzTY4HJCAWYuP5r0AQinzrbFDquwetB13wsTtxbt27PDZtwNCpU
-	 UVbXJIyT1n8fGsi1Db/0F17tHg3YlDWSOnUluN33QtmNCbmjYOEbQoODZQ2OovTRGR
-	 E9lO3JTjS/ToSivdOMBTXelL9iwMpF/YxfiBRrsSsbjwLMh8kuEuHQSVXUadJfC+UC
-	 cQvaPTR2/NTVQ==
-Date: Tue, 25 Mar 2025 13:52:42 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Aditya Garg <gargaditya08@live.com>, 
-    Benjamin Tissoires <benjamin.tissoires@redhat.com>
-cc: "bentiss@kernel.org" <bentiss@kernel.org>, 
-    Kerem Karabay <kekrby@gmail.com>, 
-    Orlando Chamberlain <orlandoch.dev@gmail.com>, 
-    Aun-Ali Zaidi <admin@kodeit.net>, 
-    Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-    "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: Re: [PATCH RESEND 0/5] HID: multitouch: Add support for Touch Bars
- on x86 MacBook Pros
-In-Reply-To: <ECE4880B-2A87-4147-B83B-2D832639F3B2@live.com>
-Message-ID: <67829qr8-op53-7q0s-n858-9psq5sqopo45@xreary.bet>
+	s=k20201202; t=1742908385;
+	bh=LbCFI+SPyht74Ijlp27Gug9FjyQ0K7+yJfydNyjPGuY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m1+v2VVwos/7AysiAFKWLbWz2klba90oMRBVsfbFWR4WBnuG8kNIsfHym941rtK8v
+	 oLLbTaXcO9FRT/gAOCaBEz/kxxSB6PXW6TPTCvdYSKnNKNU642FO6viK1oU8mx1qwb
+	 9pChwvI4Rk/ENVcr/TcNj2kLFWtpKGD62F+Yw5+nvUDuRMDQvcsYnPSMtw/QdxzE8c
+	 eItk9VXmKUdRgEYsIlsazmsfbIsBAXyTnwIz3LR18qD6xwlU5xWoV7VnPTI43Vplrj
+	 E/aaJ1HfjjpOVyob7L8/Y9ko8EVcGzdKPC/GqSc7tC2NZ5F0oyaeYdJTs5rIWTCb/Y
+	 Ic3IhkPma86yA==
+Date: Tue, 25 Mar 2025 14:13:00 +0100
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Jiri Kosina <jkosina@suse.com>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Kerem Karabay <kekrby@gmail.com>, 
+	Orlando Chamberlain <orlandoch.dev@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: [PATCH RESEND 5/5] HID: multitouch: add device ID for Apple
+ Touch Bar
+Message-ID: <vx6hvspvlfsv3palzvjpvsrmkl6s7qut366bhxq3tcwvyf7z63@drzftehh2rew>
 References: <ECE4880B-2A87-4147-B83B-2D832639F3B2@live.com>
+ <90644A22-3136-4D4E-864E-7F7210D0C713@live.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <90644A22-3136-4D4E-864E-7F7210D0C713@live.com>
 
-On Mon, 10 Mar 2025, Aditya Garg wrote:
+On Mar 10 2025, Aditya Garg wrote:
+> From: Kerem Karabay <kekrby@gmail.com>
+> 
+> This patch adds the device ID of Apple Touch Bar found on x86 MacBook Pros
+> to the hid-multitouch driver.
+> 
+> Note that this is device ID is for T2 Macs. Testing on T1 Macs would be
+> appreciated.
+> 
+> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
+> Co-developed-by: Aditya Garg <gargaditya08@live.com>
+> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+> ---
+>  drivers/hid/Kconfig          |  1 +
+>  drivers/hid/hid-multitouch.c | 25 +++++++++++++++++++++----
+>  2 files changed, 22 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> index dfc245867..727a2ed0d 100644
+> --- a/drivers/hid/Kconfig
+> +++ b/drivers/hid/Kconfig
+> @@ -743,6 +743,7 @@ config HID_MULTITOUCH
+>  	  Say Y here if you have one of the following devices:
+>  	  - 3M PCT touch screens
+>  	  - ActionStar dual touch panels
+> +	  - Apple Touch Bar on x86 MacBook Pros
+>  	  - Atmel panels
+>  	  - Cando dual touch panels
+>  	  - Chunghwa panels
+> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+> index 66e33a482..078ceef62 100644
+> --- a/drivers/hid/hid-multitouch.c
+> +++ b/drivers/hid/hid-multitouch.c
+> @@ -221,6 +221,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
+>  #define MT_CLS_GOOGLE				0x0111
+>  #define MT_CLS_RAZER_BLADE_STEALTH		0x0112
+>  #define MT_CLS_SMART_TECH			0x0113
+> +#define MT_CLS_APPLE_TOUCHBAR			0x0114
+>  #define MT_CLS_SIS				0x0457
+>  
+>  #define MT_DEFAULT_MAXCONTACT	10
+> @@ -406,6 +407,12 @@ static const struct mt_class mt_classes[] = {
+>  			MT_QUIRK_CONTACT_CNT_ACCURATE |
+>  			MT_QUIRK_SEPARATE_APP_REPORT,
+>  	},
+> +	{ .name = MT_CLS_APPLE_TOUCHBAR,
+> +		.quirks = MT_QUIRK_HOVERING |
+> +			MT_QUIRK_SLOT_IS_CONTACTID_MINUS_ONE |
+> +			MT_QUIRK_APPLE_TOUCHBAR,
+> +		.maxcontacts = 11,
+> +	},
+>  	{ .name = MT_CLS_SIS,
+>  		.quirks = MT_QUIRK_NOT_SEEN_MEANS_UP |
+>  			MT_QUIRK_ALWAYS_VALID |
+> @@ -1807,6 +1814,15 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>  		}
+>  	}
+>  
+> +	ret = hid_parse(hdev);
+> +	if (ret != 0)
+> +		return ret;
+> +
+> +	if (mtclass->name == MT_CLS_APPLE_TOUCHBAR &&
+> +	    !hid_find_field(hdev, HID_INPUT_REPORT,
+> +			    HID_DG_TOUCHPAD, HID_DG_TRANSDUCER_INDEX))
+> +		return -ENODEV;
+> +
 
-> Hi all!
-> 
-> This patch series aims to improve the Touch Bar support for x86 Macs.
-> 
-> Recently, the hid-appletb-kbd and hid-appletb-bl drivers were upstreamed
-> into the Linux kernel [1]. They enabled the Touch Bar to display a
-> predefined set of media and function keys, exactly the same it does on
-> Windows Bootcamp.
-> 
-> Now we are about to get support added for the DRM mode of the Touch Bar
-> as well [2].
-> 
-> The DRM mode enables the Touch Bar to act as a second display,
-> just like macOS. So now you can add a widget, put a clock or anything
-> else on the Touch Bar as long as you can develop a daemon.
-> 
-> Now via these patches, in the DRM mode, we can use the Touch Bar as a
-> touch screen. The Touch Bar seems to be not compliant with the HID spec,
-> thus via these patches several tweaks have been done under the cover of
-> a single quirk, MT_QUIRK_APPLE_TOUCHBAR.
-> 
-> For the case of T2 Macs, apple-bce [3], the driver for the T2 Security
-> Chip is also needed for all the peripherals, including the Touch Bar
-> to work. It is still WIP, and will be subsequently sent later to the
-> appropriate tree. Till then, I'll suggest for get the driver from [3],
-> or more preferably, get Linux support from https://t2linux.org/.
+That hunk and the one below make me very nervous. Is there any reason
+preventing you to keep hid_parse() at the same place?
 
-Benjamin, could you please Ack this series?
+The rest of the series looks fine as everything seems properly guarded
+by MT_CLS_APPLE_TOUCHBAR.
 
-Thanks,
+Cheers,
+Benjamin
 
--- 
-Jiri Kosina
-SUSE Labs
-
+>  	td = devm_kzalloc(&hdev->dev, sizeof(struct mt_device), GFP_KERNEL);
+>  	if (!td) {
+>  		dev_err(&hdev->dev, "cannot allocate multitouch data\n");
+> @@ -1854,10 +1870,6 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>  
+>  	timer_setup(&td->release_timer, mt_expired_timeout, 0);
+>  
+> -	ret = hid_parse(hdev);
+> -	if (ret != 0)
+> -		return ret;
+> -
+>  	if (mtclass->quirks & MT_QUIRK_FIX_CONST_CONTACT_ID)
+>  		mt_fix_const_fields(hdev, HID_DG_CONTACTID);
+>  
+> @@ -2339,6 +2351,11 @@ static const struct hid_device_id mt_devices[] = {
+>  		MT_USB_DEVICE(USB_VENDOR_ID_XIROKU,
+>  			USB_DEVICE_ID_XIROKU_CSR2) },
+>  
+> +	/* Apple Touch Bar */
+> +	{ .driver_data = MT_CLS_APPLE_TOUCHBAR,
+> +		HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
+> +			USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
+> +
+>  	/* Google MT devices */
+>  	{ .driver_data = MT_CLS_GOOGLE,
+>  		HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY, USB_VENDOR_ID_GOOGLE,
+> -- 
+> 2.43.0
+> 
 
