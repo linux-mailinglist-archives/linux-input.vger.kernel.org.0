@@ -1,152 +1,74 @@
-Return-Path: <linux-input+bounces-11251-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11252-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB100A707EA
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 18:20:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B656A70835
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 18:29:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 703337A2E3F
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 17:18:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A377216CC23
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 17:29:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E9B1261367;
-	Tue, 25 Mar 2025 17:19:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EF3419EEC2;
+	Tue, 25 Mar 2025 17:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lRch+M7M"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1896313633F;
-	Tue, 25 Mar 2025 17:19:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B7B84FAD;
+	Tue, 25 Mar 2025 17:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742923195; cv=none; b=JVnlwqVX6P2mPQEyZ+/VCGqJ4P18sGpLohEiLA42NvMdcuwFnvm6Gts6MotbeIPjngeCkr7IXavTEdHtxZ54NYjKzjnieHJbw52OYu20xq+NTnzQV8+qEdFr9x29mvagLSgEdt93kTrsER3utBA5TBu0NaZouBObCpg2MWJ/vlo=
+	t=1742923789; cv=none; b=tp6Hi691jpRjevCsppcSeWB4fowlux+oYYRU8Q1nrIrChTZBLGSF8BzkonGIj2SunVfELxYN0ntWmQ70zuccKtNqzi/8ftSzKHIyagZlQ0/o/zy9f6oS+ej5xYlRE49t+NeLvWhj0oAsF3+iE/IkIc+2otrs3drHjHyDh8AO+EQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742923195; c=relaxed/simple;
-	bh=XhmLROfnnL3FtaOH27gIOe9sbljr3QNEJt4khOaoGEw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=thXfkLpcysvlslOLNwAsjXCeCS6JfK6KctSbO2VGPV3RuKnyk0b5C13uS18qMml/OaXFTQll1YJumJb0xtEBlz6OVXMzXwT+u0OP1YIXmFUMXF7N6mj6jdKsM0A+dPbTQIyLF0c2blFZmvdsLhtgQIwwYgh2AD86/cle9R4yFAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.2.102] (213.87.136.199) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 25 Mar
- 2025 20:19:41 +0300
-Message-ID: <05fec753-cdaa-45a5-a029-b6435c30eb07@omp.ru>
-Date: Tue, 25 Mar 2025 20:19:39 +0300
+	s=arc-20240116; t=1742923789; c=relaxed/simple;
+	bh=BWhodHSI+9yK6kenSRuoJmYMWxeAmWE0pnPItawj8KE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tGSrbTvAYj0IfULCxiIug2k3AXiSj33wBiC6RGrJWzbz2PvKDClE5NJgCGr1mclJbWBDXawDVqf9pGQF8LvWgcVFIqq5jrZUKkSGYdTW7M1Y7G7mhOzkVJVSvAJCUIx8ds0xTJvr7uKZW9LmY3JhEj1V1QRST7gVxwc15306S4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lRch+M7M; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8422C4CEE4;
+	Tue, 25 Mar 2025 17:29:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742923788;
+	bh=BWhodHSI+9yK6kenSRuoJmYMWxeAmWE0pnPItawj8KE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lRch+M7MnA3RfGsLGSq09H/FM5LJ9tHz/GouR2XC/1ngxLJ0X2ylbxwJefF0kJs1S
+	 jTQbsOi5n0TJFmh4z70D4SsZM/YxQZl4dBFWTsAR/7Z4Bb4xhtVIPu4upPDZfif2qI
+	 DAdAiymzWL9BP5Q6MIsyh6GR0WPernBw1/kcyT/LTlhuZZU1Rli+d1r5osNCuTGR/z
+	 qzgk+4Nc3qW6I5ibxADok3BlEG1icz6Z+7vhz0RUXt0wKHhJYcysBQTrPRik8heC6G
+	 YnkJ43Rc0tlVamkaVZvs0b1j/ts3oN8ownJCNhLpIMZ1xCQep+4PSTMO7bHYKKv2Rw
+	 Ey01zBf1Mp9wQ==
+Date: Tue, 25 Mar 2025 18:29:44 +0100
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Aditya Garg <adityagarg1208@gmail.com>
+Cc: admin@kodeit.net, benjamin.tissoires@redhat.com, gargaditya08@live.com, 
+	jikos@kernel.org, jkosina@suse.com, kekrby@gmail.com, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, orlandoch.dev@gmail.com
+Subject: Re: [PATCH RESEND 5/5] HID: multitouch: add device ID for Apple
+ Touch Bar
+Message-ID: <bzb6rk7q7rs27kbonihpfftkgueievpux7vpqjgrgsud5pf5g2@tuxymj7vk3it>
+References: <02F14282-87DB-4EF8-80EA-3D0887F3C30E@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH V3 25/43] rv64ilp32_abi: exec: Adapt 64lp64 env and
- argv
-To: <guoren@kernel.org>, <arnd@arndb.de>, <gregkh@linuxfoundation.org>,
-	<torvalds@linux-foundation.org>, <paul.walmsley@sifive.com>,
-	<palmer@dabbelt.com>, <anup@brainfault.org>, <atishp@atishpatra.org>,
-	<oleg@redhat.com>, <kees@kernel.org>, <tglx@linutronix.de>,
-	<will@kernel.org>, <mark.rutland@arm.com>, <brauner@kernel.org>,
-	<akpm@linux-foundation.org>, <rostedt@goodmis.org>, <edumazet@google.com>,
-	<unicorn_wang@outlook.com>, <inochiama@outlook.com>, <gaohan@iscas.ac.cn>,
-	<shihua@iscas.ac.cn>, <jiawei@iscas.ac.cn>, <wuwei2016@iscas.ac.cn>,
-	<drew@pdp7.com>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	<ctsai390@andestech.com>, <wefu@redhat.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <josef@toxicpanda.com>, <dsterba@suse.com>,
-	<mingo@redhat.com>, <peterz@infradead.org>, <boqun.feng@gmail.com>,
-	<xiao.w.wang@intel.com>, <qingfang.deng@siflower.com.cn>,
-	<leobras@redhat.com>, <jszhang@kernel.org>, <conor.dooley@microchip.com>,
-	<samuel.holland@sifive.com>, <yongxuan.wang@sifive.com>,
-	<luxu.kernel@bytedance.com>, <david@redhat.com>, <ruanjinjie@huawei.com>,
-	<cuiyunhui@bytedance.com>, <wangkefeng.wang@huawei.com>,
-	<qiaozhe@iscas.ac.cn>
-CC: <ardb@kernel.org>, <ast@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-riscv@lists.infradead.org>, <kvm@vger.kernel.org>,
-	<kvm-riscv@lists.infradead.org>, <linux-mm@kvack.org>,
-	<linux-crypto@vger.kernel.org>, <bpf@vger.kernel.org>,
-	<linux-input@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-	<linux-serial@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-arch@vger.kernel.org>, <maple-tree@lists.infradead.org>,
-	<linux-trace-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-atm-general@lists.sourceforge.net>, <linux-btrfs@vger.kernel.org>,
-	<netfilter-devel@vger.kernel.org>, <coreteam@netfilter.org>,
-	<linux-nfs@vger.kernel.org>, <linux-sctp@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>, <linux-media@vger.kernel.org>
-References: <20250325121624.523258-1-guoren@kernel.org>
- <20250325121624.523258-26-guoren@kernel.org>
-Content-Language: en-US
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-In-Reply-To: <20250325121624.523258-26-guoren@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 03/25/2025 16:50:54
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 0
-X-KSE-AntiSpam-Info: Lua profiles 192097 [Mar 25 2025]
-X-KSE-AntiSpam-Info: Version: 6.1.1.11
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 51 0.3.51
- 68896fb0083a027476849bf400a331a2d5d94398
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info:
-	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: {Tracking_ip_hunter}
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.136.199
-X-KSE-AntiSpam-Info: Rate: 0
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 03/25/2025 16:52:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 3/25/2025 3:18:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <02F14282-87DB-4EF8-80EA-3D0887F3C30E@gmail.com>
 
-On 3/25/25 3:16 PM, guoren@kernel.org wrote:
+On Mar 25 2025, Aditya Garg wrote:
+> Yes I can move hid_find_field to the original location as well. But, I would not want to devm_kzalloc as well unnecessarily if the touchbar is in the basic mode instead of drm mode which will cause this -ENODEV to be executed right?
 
-> From: "Guo Ren (Alibaba DAMO Academy)" <guoren@kernel.org>
-> 
-> The rv64ilp32 abi reuses the env and argv memory layout of the
-> lp64 abi, so leave the space to fit the lp64 struct layout.
-> 
-> Signed-off-by: Guo Ren (Alibaba DAMO Academy) <guoren@kernel.org>
-> ---
->  fs/exec.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/fs/exec.c b/fs/exec.c
-> index 506cd411f4ac..548d18b7ae92 100644
-> --- a/fs/exec.c
-> +++ b/fs/exec.c
-> @@ -424,6 +424,10 @@ static const char __user *get_user_arg_ptr(struct user_arg_ptr argv, int nr)
->  	}
->  #endif
->  
-> +#if defined(CONFIG_64BIT) && (BITS_PER_LONG == 32)
+It shouldn't matter. hid_core calls devres_open_group() before calling
+.probe(), and calls devres_release_group() on failure. So yes, we'll
+allocate a piece of memory and release it after, but it's not something
+uncommon.
 
-   Parens don't seem necessary...
-
-> +	nr = nr * 2;
-
-   Why not nr *= 2?
-
-[...]
-
-MBR, Sergey
-
+Cheers,
+Benjamin
 
