@@ -1,202 +1,139 @@
-Return-Path: <linux-input+bounces-11163-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11164-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E207A6E9A7
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 07:34:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E41BA6EAAE
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 08:38:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED6B83AE9DE
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 06:34:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 39455188DEAC
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 07:37:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83137234969;
-	Tue, 25 Mar 2025 06:34:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82525253F04;
+	Tue, 25 Mar 2025 07:36:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y+8EcVa0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SBGhZyhs"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D8C20E6F7;
-	Tue, 25 Mar 2025 06:33:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD5C253B68;
+	Tue, 25 Mar 2025 07:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742884441; cv=none; b=X57/qS+IVdO55e5aKjAJZPawPQH1n/oZTXJy3NCfpcAttIcqykQ6tUaR8kTyjUvhED+LE9Xu4XXOucAZvbBe3BeDIA/3GRXqSocNgFg2hL42Nx3I50xkpQSe7x+twj793MMfwpScbWX5AhSqy2kNBNrTaTLqH01WVMc/I7DC884=
+	t=1742888191; cv=none; b=lN/PC+UMGDmJDGT6FVhxiJ8PqIH7UMfQ+vCpwOPjcNnQqVjbL27paTq9Vz9vaSQFuwsjeWZH+xuMzDz3xZyO5Gt46lTU8VM0bEQfd630hY3jzw6j08+5UMVJl1wTRBqjy5GyjAYkKbZ92BJ0YXau4NLtadBlsiTS2e5grc9XAkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742884441; c=relaxed/simple;
-	bh=9AmwvCBDzu9WR28vFl38+N6gLo043YVCwgjR3QF7otA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=brE0dxJ1iN4bR/nnGaJp9ICI0rm3t0kNGjMWQDLEjyxaS28VpfcmdxU9EVPoxw0VW6IngLDJoICI2zmkK9Goj1SW5JmkadtQpQeTXDmFIxR4uTc6u86rCfPxX2v9dAD5/PoEPbeg0GgOA6K6doGA52d076cEeLqlIeixe/zm0vA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y+8EcVa0; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742884440; x=1774420440;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9AmwvCBDzu9WR28vFl38+N6gLo043YVCwgjR3QF7otA=;
-  b=Y+8EcVa0c1DQrR2rjhjy8DalE96WtHPRsbTLUga7Xsgx0L+VPxZtmUcw
-   CFzT5dkEhsbg0jY61MRKTOBvnlrKqLDdGcWgLIYgk9uI2Y57BKPa3dQ0k
-   np5IM9Ko2tdIBOAnBMy+W+jxl2XOQTJ7bZFilCr+7jLqf9uXs4x3GSuED
-   lnJ0ru2KL7rsAwsCswSD3LyqCGxNdXP0aSkvKKGuD429/sNhtOoV36t/m
-   MwhUzLr8+QaAe1HHU2l1X8LyABZhtPzN9I0aAxV9piVcWH0+BIOiBCMeU
-   Ww7oCKNKSK4yQr2XknAzHq0y50II16daJQYWWSGNWazAfwyrZRKA+RTvd
-   A==;
-X-CSE-ConnectionGUID: Crz3J1YFTt2R9qPFACewig==
-X-CSE-MsgGUID: 71W1CB4hSr2ZPufpapFZ/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="66573555"
-X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; 
-   d="scan'208";a="66573555"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 23:33:59 -0700
-X-CSE-ConnectionGUID: 8Gs8zqMHSFSCR7zT/HNatQ==
-X-CSE-MsgGUID: Mk8E2JI+SpinTRZMRkHy+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; 
-   d="scan'208";a="128959997"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Mar 2025 23:33:56 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1twxrA-0004Ae-0t;
-	Tue, 25 Mar 2025 06:33:49 +0000
-Date: Tue, 25 Mar 2025 14:32:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Antheas Kapenekakis <lkml@antheas.dev>,
-	platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: Re: [PATCH v4 09/11] HID: asus: add basic RGB support
-Message-ID: <202503251316.lPXAIXIV-lkp@intel.com>
-References: <20250324210151.6042-10-lkml@antheas.dev>
+	s=arc-20240116; t=1742888191; c=relaxed/simple;
+	bh=448kB14eOCTQmz4QTqHOt7UiZQ0V5/amZmylJyoge28=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bltRQysc0EBcaD6EeXV3/sCoCHpADre+l5LX6c1g34EkuoYzuuYdiotAZdduYCGxBaKe75vHD4d0BCSCzz06S+mp5nHBcVTACSFoPt6ex0ARRBm2JGsFv3bghek3Idz7ZhQS82999XCsgXy9yfE3B+kVPJeUAisHnLuviNJg1bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SBGhZyhs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAEB0C4CEE8;
+	Tue, 25 Mar 2025 07:36:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742888190;
+	bh=448kB14eOCTQmz4QTqHOt7UiZQ0V5/amZmylJyoge28=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SBGhZyhsbN1ZIDLL8h8H6PuG7KZpa6aHo+Bx1VaFY7nzLFbU1uEO/KRexMGuuyL3A
+	 v51O9sqfOn7HBll/gOI2F2p5PhzsdZe38QwlknfTu1bLWS55vbBMbz+nrWFOCvRCbu
+	 GsjooB/oKXQvnGAsXBlWMXcwG3mOsAjmOsF+qjytbcX7ZXuNgrGttvUHFnkiNKry3X
+	 N2p3QLCVJ4Dmy1k7SzolAWNul4ZOxJgR1Wgye/9f0nnrNoAmFN0bafk87TjLk6uVp3
+	 eLlpuFateThpHKcEFePZd3t0rzrZL/Jk4NsYwnasqMcj/lszyfdojYDgaGqnoJFpVH
+	 sao/YoAALQg4w==
+Message-ID: <b3a5ec89-0125-4b01-8cca-69b9985b6089@kernel.org>
+Date: Tue, 25 Mar 2025 08:36:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250324210151.6042-10-lkml@antheas.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/7] dt-bindings: input: syna,rmi4: document
+ syna,pdt-fallback-desc
+To: David Heidelberg <david@ixit.cz>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+ Vincent Huang <vincent.huang@tw.synaptics.com>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ Caleb Connolly <caleb.connolly@linaro.org>
+References: <20250308-synaptics-rmi4-v3-0-215d3e7289a2@ixit.cz>
+ <20250308-synaptics-rmi4-v3-1-215d3e7289a2@ixit.cz>
+ <20250310-hissing-vagabond-pegasus-cc8aed@krzk-bin>
+ <3c5e12fc-eb91-46e8-a558-9896f0bdcab4@ixit.cz>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <3c5e12fc-eb91-46e8-a558-9896f0bdcab4@ixit.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Antheas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 38fec10eb60d687e30c8c6b5420d86e8149f7557]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Antheas-Kapenekakis/HID-asus-refactor-init-sequence-per-spec/20250325-051852
-base:   38fec10eb60d687e30c8c6b5420d86e8149f7557
-patch link:    https://lore.kernel.org/r/20250324210151.6042-10-lkml%40antheas.dev
-patch subject: [PATCH v4 09/11] HID: asus: add basic RGB support
-config: riscv-randconfig-002-20250325 (https://download.01.org/0day-ci/archive/20250325/202503251316.lPXAIXIV-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250325/202503251316.lPXAIXIV-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503251316.lPXAIXIV-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   riscv64-linux-ld: drivers/hid/hid-asus.o: in function `asus_kbd_register_leds':
->> drivers/hid/hid-asus.c:676:(.text+0x23f8): undefined reference to `devm_led_classdev_multicolor_register_ext'
+On 24/03/2025 19:00, David Heidelberg wrote:
+> On 10/03/2025 10:45, Krzysztof Kozlowski wrote:
+>> On Sat, Mar 08, 2025 at 03:08:37PM +0100, David Heidelberg wrote:
+>>> From: Caleb Connolly <caleb.connolly@linaro.org>
+>>>
+>>> This new property allows devices to specify some register values which
+>>> are missing on units with third party replacement displays. These
+>>> displays use unofficial touch ICs which only implement a subset of the
+>>> RMI4 specification.
+>>
+>> These are different ICs, so they have their own compatibles. Why this
+>> cannot be deduced from the compatible?
+> 
+> Yes, but these identify as the originals.
 
 
-vim +676 drivers/hid/hid-asus.c
+It does not matter how they identify. You have the compatible for them.
+If you cannot add compatible for them, how can you add dedicated
+property for them?
 
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  645  
-af22a610bc3850 Carlo Caione        2017-04-06  646  static int asus_kbd_register_leds(struct hid_device *hdev)
-af22a610bc3850 Carlo Caione        2017-04-06  647  {
-af22a610bc3850 Carlo Caione        2017-04-06  648  	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
-af22a610bc3850 Carlo Caione        2017-04-06  649  	unsigned char kbd_func;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  650  	struct asus_kbd_leds *leds;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  651  	bool no_led;
-af22a610bc3850 Carlo Caione        2017-04-06  652  	int ret;
-af22a610bc3850 Carlo Caione        2017-04-06  653  
-2c82a7b20f7b7a Luke D. Jones       2024-04-16  654  	ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
-2c82a7b20f7b7a Luke D. Jones       2024-04-16  655  	if (ret < 0)
-2c82a7b20f7b7a Luke D. Jones       2024-04-16  656  		return ret;
-2c82a7b20f7b7a Luke D. Jones       2024-04-16  657  
-3ebfeb18b44e01 Antheas Kapenekakis 2025-03-24  658  	/* Get keyboard functions */
-3ebfeb18b44e01 Antheas Kapenekakis 2025-03-24  659  	ret = asus_kbd_get_functions(hdev, &kbd_func, FEATURE_KBD_REPORT_ID);
-b92b80246e0626 Luke D Jones        2020-10-27  660  	if (ret < 0)
-b92b80246e0626 Luke D Jones        2020-10-27  661  		return ret;
-53078a736fbc60 Luke D. Jones       2025-01-11  662  
-53078a736fbc60 Luke D. Jones       2025-01-11  663  	if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
-53078a736fbc60 Luke D. Jones       2025-01-11  664  		ret = asus_kbd_disable_oobe(hdev);
-53078a736fbc60 Luke D. Jones       2025-01-11  665  		if (ret < 0)
-53078a736fbc60 Luke D. Jones       2025-01-11  666  			return ret;
-53078a736fbc60 Luke D. Jones       2025-01-11  667  	}
-af22a610bc3850 Carlo Caione        2017-04-06  668  
-af22a610bc3850 Carlo Caione        2017-04-06  669  	/* Check for backlight support */
-af22a610bc3850 Carlo Caione        2017-04-06  670  	if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
-af22a610bc3850 Carlo Caione        2017-04-06  671  		return -ENODEV;
-af22a610bc3850 Carlo Caione        2017-04-06  672  
-af22a610bc3850 Carlo Caione        2017-04-06  673  	drvdata->kbd_backlight = devm_kzalloc(&hdev->dev,
-af22a610bc3850 Carlo Caione        2017-04-06  674  					      sizeof(struct asus_kbd_leds),
-af22a610bc3850 Carlo Caione        2017-04-06  675  					      GFP_KERNEL);
-af22a610bc3850 Carlo Caione        2017-04-06 @676  	if (!drvdata->kbd_backlight)
-af22a610bc3850 Carlo Caione        2017-04-06  677  		return -ENOMEM;
-af22a610bc3850 Carlo Caione        2017-04-06  678  
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  679  	leds = drvdata->kbd_backlight;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  680  	leds->removed = false;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  681  	leds->brightness = 3;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  682  	leds->hdev = hdev;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  683  	leds->listener.brightness_set = asus_kbd_listener_set;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  684  
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  685  	leds->rgb_colors[0] = 0;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  686  	leds->rgb_colors[1] = 0;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  687  	leds->rgb_colors[2] = 0;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  688  	leds->rgb_init = true;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  689  	leds->rgb_set = false;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  690  	leds->mc_led.led_cdev.name = devm_kasprintf(&hdev->dev, GFP_KERNEL,
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  691  					"asus-%s:rgb:peripheral",
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  692  					strlen(hdev->uniq) ?
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  693  					hdev->uniq : dev_name(&hdev->dev));
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  694  	leds->mc_led.led_cdev.flags = LED_BRIGHT_HW_CHANGED;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  695  	leds->mc_led.led_cdev.max_brightness = 3,
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  696  	leds->mc_led.led_cdev.brightness_set = asus_kbd_brightness_set,
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  697  	leds->mc_led.led_cdev.brightness_get = asus_kbd_brightness_get,
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  698  	leds->mc_led.subled_info = leds->subled_info,
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  699  	leds->mc_led.num_colors = ARRAY_SIZE(leds->subled_info),
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  700  	leds->subled_info[0].color_index = LED_COLOR_ID_RED;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  701  	leds->subled_info[1].color_index = LED_COLOR_ID_GREEN;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  702  	leds->subled_info[2].color_index = LED_COLOR_ID_BLUE;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  703  
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  704  	INIT_WORK(&drvdata->kbd_backlight->work, asus_kbd_work);
-315c537068a13f Pietro Borrello     2023-02-12  705  	spin_lock_init(&drvdata->kbd_backlight->lock);
-af22a610bc3850 Carlo Caione        2017-04-06  706  
-d37db2009c913c Antheas Kapenekakis 2025-03-24  707  	ret = asus_hid_register_listener(&drvdata->kbd_backlight->listener);
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  708  	no_led = !!ret;
-d37db2009c913c Antheas Kapenekakis 2025-03-24  709  
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  710  	if (drvdata->quirks & QUIRK_ROG_NKEY_RGB) {
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  711  		ret = devm_led_classdev_multicolor_register(
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  712  			&hdev->dev, &leds->mc_led);
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  713  		if (!ret)
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  714  			leds->rgb_registered = true;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  715  		no_led &= !!ret;
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  716  	}
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  717  
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  718  	if (no_led) {
-af22a610bc3850 Carlo Caione        2017-04-06  719  		/* No need to have this still around */
-af22a610bc3850 Carlo Caione        2017-04-06  720  		devm_kfree(&hdev->dev, drvdata->kbd_backlight);
-af22a610bc3850 Carlo Caione        2017-04-06  721  	}
-af22a610bc3850 Carlo Caione        2017-04-06  722  
-312a522531f6e5 Antheas Kapenekakis 2025-03-24  723  	return no_led ? -ENODEV : 0;
-af22a610bc3850 Carlo Caione        2017-04-06  724  }
-af22a610bc3850 Carlo Caione        2017-04-06  725  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Krzysztof
 
