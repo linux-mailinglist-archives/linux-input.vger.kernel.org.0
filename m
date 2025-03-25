@@ -1,142 +1,189 @@
-Return-Path: <linux-input+bounces-11240-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11241-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C325A7066F
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 17:14:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A534A70672
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 17:15:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1344B3B62EC
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 16:12:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE2063BE040
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 16:12:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5283525D204;
-	Tue, 25 Mar 2025 16:11:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 638B825D91E;
+	Tue, 25 Mar 2025 16:11:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WN6t+BOI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gEspCC3e"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712061DF72C;
-	Tue, 25 Mar 2025 16:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0FF25D559;
+	Tue, 25 Mar 2025 16:11:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742919097; cv=none; b=A0r4X17s0GScrJLcTtfdXZ4k29O1DeDVsJt2U54Tu2YhLNUB7qaZulDUcyakkhfSCaOPVaToD5N2DYh3QAtyMmACBZGAE+x2Qw/isgTVAS42uRmjfDbtZmd+cQbGnkt8VWDvj2/x8A2qr9Agke3MBjceQh91xYnu/cU10RWZ8l4=
+	t=1742919108; cv=none; b=be3YTVpaLrd3K3uHm9vwrZC32BNOPT0P2sX1SNyAn3ZZrFcO0iNVCDS1WzvkYKaShuLd29iM4NjzdKXio5b/6objg4KYF3vo8/WIx2w80sqW0g5Lr0JNLPyrXb5lKkvkJqAPxIxnsTXViW7gxp6Y4CEoHCdshpGvdeoj105l1pM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742919097; c=relaxed/simple;
-	bh=jyHGvmbnbdeWa7XIMdLa87iQlVfILdAjrFO/D3rTsrc=;
+	s=arc-20240116; t=1742919108; c=relaxed/simple;
+	bh=m5jF2g8RoBZc4vVO3/GHC/ynrmEBlhwNcZTpzse4VGg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G2ZRd+MQK1sqeRMam5BlEaqXlBcoPbwPDNIEZFH4bU8l5dzS+rHtZYIn2KeOKwwvuU7rwRjYLixohkr3Wg0aKFtEKb89NJVGjtgfurUQ9J5BRaaS8C8UzvTCs+9T4LRwTX/c7jOXaNV98GYuZFW89OMvig1grAz4vdWJ3FmuCIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WN6t+BOI; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742919096; x=1774455096;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jyHGvmbnbdeWa7XIMdLa87iQlVfILdAjrFO/D3rTsrc=;
-  b=WN6t+BOI2ILhJi6g21x9bvapC6L7LHFFVgp1ERUNZqBBG31UH7CM7Cna
-   nXVwhTAlH/H121NjLL0zxE4pGl6KZu052JmGkq6rNkiF7/ioOrkCqQylK
-   2yM8SXDP03wUT8X/8nRFahSuG3aqcFuG2M0AijJ2uIoY3BfewBWCCqCKg
-   IBng2AnBWsd39EgwKwcUFjeCPLSrIfAPZj8vkTvoKKBpBV3aeTbHsiYM6
-   8Sbwd3GoyVz9koUeuHHXvGcQ4WCC2D927HGrENFfLBrZI+fcjI7cAFQYw
-   jhwa42MK/jHxB06S5mfKjgJJHmNaG8+mhnLCfSV0HnN3YN4OL7xgjTpym
-   w==;
-X-CSE-ConnectionGUID: pSXzvV05Qn2zyXvPpkPkqQ==
-X-CSE-MsgGUID: rFG9trlRRsSNTCZuSToYdg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="61700132"
-X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; 
-   d="scan'208";a="61700132"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 09:11:33 -0700
-X-CSE-ConnectionGUID: PhWCsTrISQKn7IZdH+GpnA==
-X-CSE-MsgGUID: 3rwQhTSyRQ+NR+krREQSCA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; 
-   d="scan'208";a="124891739"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 09:11:29 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1tx6sA-00000005nW6-0GLN;
-	Tue, 25 Mar 2025 18:11:26 +0200
-Date: Tue, 25 Mar 2025 18:11:25 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
-	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v5 10/11] input: misc: Add support for MAX7360 rotary
-Message-ID: <Z-LVrdvKCBI5x2wy@smile.fi.intel.com>
-References: <20250318-mdb-max7360-support-v5-0-fb20baf97da0@bootlin.com>
- <20250318-mdb-max7360-support-v5-10-fb20baf97da0@bootlin.com>
- <Z9q0eaxhecN0kGKI@smile.fi.intel.com>
- <D8PGXIKGXXK9.244NSFST6C0YD@bootlin.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=U5VDowfvZEKrKTJRaDdG9pyhDicgzmqMAX4zU7eNSGjtC1czmPeWfaZcLRnsfqkGFmRF9dHAvwSuCRj15Q2pYh3xr4AF5dByozhdujI8DLAbD9CCvk1iDWwcHYcVwfCBzsdRX8Hw0Cg3eQ6iv0sBBr9bHFHvvD4ePo/Pf0t4NCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gEspCC3e; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1AD7C4CEE4;
+	Tue, 25 Mar 2025 16:11:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742919107;
+	bh=m5jF2g8RoBZc4vVO3/GHC/ynrmEBlhwNcZTpzse4VGg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gEspCC3epxPmd1cz5Voz6c7pc7GkViUelUjOQt9T75ttc26SSaCWo2oz+H87fUgVz
+	 zpf0fppV1S8mytUaKg0VmreM7Ral7xvoZsdOTxOJY8M6Ed4+qeFsN2gY2MhEEw86TK
+	 LtP028a9TbShdLvgf4c7aPBRT1NCLgkGhZJZ9XByiKsqn59LdfKxSpTTGVAoh2U/zF
+	 3PggRUlyOf8OLrjOyNZQdB9baKGrdQ97X35DLGVXyHjChu9oJrs2s6PrfmG5LtKhSC
+	 36FhocuH8yxswJxCapwfNcbK5hZCTmyeb18hD+w8VcyoNEfOHJ4hgTUdIbJl9w7Jud
+	 WO4VRchOVz+CQ==
+Date: Tue, 25 Mar 2025 17:11:43 +0100
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Jiri Kosina <jkosina@suse.com>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Kerem Karabay <kekrby@gmail.com>, 
+	Orlando Chamberlain <orlandoch.dev@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: [PATCH RESEND 5/5] HID: multitouch: add device ID for Apple
+ Touch Bar
+Message-ID: <e3ejlqfxafqrojlaiz3fbbkcira7txbuk4cftrfxvotvbr3xd6@eaes6e6rywyn>
+References: <ECE4880B-2A87-4147-B83B-2D832639F3B2@live.com>
+ <90644A22-3136-4D4E-864E-7F7210D0C713@live.com>
+ <vx6hvspvlfsv3palzvjpvsrmkl6s7qut366bhxq3tcwvyf7z63@drzftehh2rew>
+ <PN3PR01MB95979F7D629681CBBCB763ACB8A72@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <D8PGXIKGXXK9.244NSFST6C0YD@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PN3PR01MB95979F7D629681CBBCB763ACB8A72@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 
-On Tue, Mar 25, 2025 at 04:56:20PM +0100, Mathieu Dubois-Briand wrote:
-> On Wed Mar 19, 2025 at 1:11 PM CET, Andy Shevchenko wrote:
-> > On Tue, Mar 18, 2025 at 05:26:26PM +0100, Mathieu Dubois-Briand wrote:
-
-...
-
-> > > +	int val;
-
-Btw, this has to be unsigned to match the API.
-
-> > > +	int ret;
-> > > +
-> > > +	ret = regmap_read(max7360_rotary->regmap, MAX7360_REG_RTR_CNT, &val);
-> > > +	if (ret < 0) {
-> > > +		dev_err(&max7360_rotary->input->dev,
-> > > +			"Failed to read rotary counter\n");
-> > > +		return IRQ_NONE;
-> > > +	}
-
-> > > +	input_report_rel(max7360_rotary->input, max7360_rotary->axis,
-> > > +			 (int8_t)val);
-> >
-> > This is strange:
-> > 1) why casting to begin with?
-> > 2) why to C type and not kernel (s8) type?
+On Mar 25 2025, Aditya Garg wrote:
 > 
-> I believe the cast is needed, as, while the value read with
-> regmap_read() is stored in an int, the underlying value is indeed a
-> signed 8 bits integer.
 > 
-> Without cast negative values will not be correct: -1 (0xFF) -> will be
-> interpreted as 255 (0x000000FF).
+> > On 25 Mar 2025, at 6:43 PM, Benjamin Tissoires <bentiss@kernel.org> wrote:
+> > 
+> > ﻿On Mar 10 2025, Aditya Garg wrote:
+> >> From: Kerem Karabay <kekrby@gmail.com>
+> >> 
+> >> This patch adds the device ID of Apple Touch Bar found on x86 MacBook Pros
+> >> to the hid-multitouch driver.
+> >> 
+> >> Note that this is device ID is for T2 Macs. Testing on T1 Macs would be
+> >> appreciated.
+> >> 
+> >> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
+> >> Co-developed-by: Aditya Garg <gargaditya08@live.com>
+> >> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+> >> ---
+> >> drivers/hid/Kconfig          |  1 +
+> >> drivers/hid/hid-multitouch.c | 25 +++++++++++++++++++++----
+> >> 2 files changed, 22 insertions(+), 4 deletions(-)
+> >> 
+> >> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> >> index dfc245867..727a2ed0d 100644
+> >> --- a/drivers/hid/Kconfig
+> >> +++ b/drivers/hid/Kconfig
+> >> @@ -743,6 +743,7 @@ config HID_MULTITOUCH
+> >>      Say Y here if you have one of the following devices:
+> >>      - 3M PCT touch screens
+> >>      - ActionStar dual touch panels
+> >> +      - Apple Touch Bar on x86 MacBook Pros
+> >>      - Atmel panels
+> >>      - Cando dual touch panels
+> >>      - Chunghwa panels
+> >> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+> >> index 66e33a482..078ceef62 100644
+> >> --- a/drivers/hid/hid-multitouch.c
+> >> +++ b/drivers/hid/hid-multitouch.c
+> >> @@ -221,6 +221,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
+> >> #define MT_CLS_GOOGLE                0x0111
+> >> #define MT_CLS_RAZER_BLADE_STEALTH        0x0112
+> >> #define MT_CLS_SMART_TECH            0x0113
+> >> +#define MT_CLS_APPLE_TOUCHBAR            0x0114
+> >> #define MT_CLS_SIS                0x0457
+> >> 
+> >> #define MT_DEFAULT_MAXCONTACT    10
+> >> @@ -406,6 +407,12 @@ static const struct mt_class mt_classes[] = {
+> >>            MT_QUIRK_CONTACT_CNT_ACCURATE |
+> >>            MT_QUIRK_SEPARATE_APP_REPORT,
+> >>    },
+> >> +    { .name = MT_CLS_APPLE_TOUCHBAR,
+> >> +        .quirks = MT_QUIRK_HOVERING |
+> >> +            MT_QUIRK_SLOT_IS_CONTACTID_MINUS_ONE |
+> >> +            MT_QUIRK_APPLE_TOUCHBAR,
+> >> +        .maxcontacts = 11,
+> >> +    },
+> >>    { .name = MT_CLS_SIS,
+> >>        .quirks = MT_QUIRK_NOT_SEEN_MEANS_UP |
+> >>            MT_QUIRK_ALWAYS_VALID |
+> >> @@ -1807,6 +1814,15 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+> >>        }
+> >>    }
+> >> 
+> >> +    ret = hid_parse(hdev);
+> >> +    if (ret != 0)
+> >> +        return ret;
+> >> +
+> >> +    if (mtclass->name == MT_CLS_APPLE_TOUCHBAR &&
+> >> +        !hid_find_field(hdev, HID_INPUT_REPORT,
+> >> +                HID_DG_TOUCHPAD, HID_DG_TRANSDUCER_INDEX))
+> >> +        return -ENODEV;
+> >> +
+> > 
+> > That hunk and the one below make me very nervous. Is there any reason
+> > preventing you to keep hid_parse() at the same place?
+> > 
+> Wouldn't we need to parse in order to do hid_find_field? Although I haven't tried putting it at the same place tbh.
 
-With the above fix it makes sense, but it's not clear for the reader still.
-What you want is most likely to call sign_extend32().
+Yes, you need hid_parse() to be able to call hid_find_field(). But you
+can put hid_find_field() after hid_parse() at the original location, no?
 
--- 
-With Best Regards,
-Andy Shevchenko
+Cheers,
+Benjamin
 
-
+> 
+> > The rest of the series looks fine as everything seems properly guarded
+> > by MT_CLS_APPLE_TOUCHBAR.
+> > 
+> > Cheers,
+> > Benjamin
+> > 
+> >>    td = devm_kzalloc(&hdev->dev, sizeof(struct mt_device), GFP_KERNEL);
+> >>    if (!td) {
+> >>        dev_err(&hdev->dev, "cannot allocate multitouch data\n");
+> >> @@ -1854,10 +1870,6 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+> >> 
+> >>    timer_setup(&td->release_timer, mt_expired_timeout, 0);
+> >> 
+> >> -    ret = hid_parse(hdev);
+> >> -    if (ret != 0)
+> >> -        return ret;
+> >> -
+> >>    if (mtclass->quirks & MT_QUIRK_FIX_CONST_CONTACT_ID)
+> >>        mt_fix_const_fields(hdev, HID_DG_CONTACTID);
+> >> 
+> >> @@ -2339,6 +2351,11 @@ static const struct hid_device_id mt_devices[] = {
+> >>        MT_USB_DEVICE(USB_VENDOR_ID_XIROKU,
+> >>            USB_DEVICE_ID_XIROKU_CSR2) },
+> >> 
+> >> +    /* Apple Touch Bar */
+> >> +    { .driver_data = MT_CLS_APPLE_TOUCHBAR,
+> >> +        HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
+> >> +            USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
+> >> +
+> >>    /* Google MT devices */
+> >>    { .driver_data = MT_CLS_GOOGLE,
+> >>        HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY, USB_VENDOR_ID_GOOGLE,
+> >> --
+> >> 2.43.0
+> >> 
 
