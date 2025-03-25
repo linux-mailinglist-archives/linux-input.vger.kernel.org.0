@@ -1,232 +1,138 @@
-Return-Path: <linux-input+bounces-11244-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11245-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE23FA706ED
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 17:31:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2204BA70732
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 17:43:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA7083B1587
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 16:27:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B06F816D8C9
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 16:40:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6984D25B690;
-	Tue, 25 Mar 2025 16:27:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9832525DCFC;
+	Tue, 25 Mar 2025 16:40:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bCAws/4E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YeeD7cF3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874C278F24;
-	Tue, 25 Mar 2025 16:27:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7451B19F13B;
+	Tue, 25 Mar 2025 16:40:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742920060; cv=none; b=kH8bF8Qiav24USWe5aow77c8+F1joYi4jDmcld3W1AJxTPu/481XslzLVEFyMzRgXnerl0o80WMFbmXP2+R4ZJJO9IKQNWtuuyGvkrdjbopA5UVmFVwplvbWYsofDB+0iYkZrTDgcWB1F23BEU9aGI3amaqnTFBIW8cCagluZrU=
+	t=1742920841; cv=none; b=c8z+nT3MHzljx34PWdlq6gS/BD20DeJXPMyOb2/PSk/X+VmDgTSaw19rQZUThhqEGjM9y6IaA3UiDK6daXhoGSNJl2IZqgnwpb936UDzkhpgQlh704gQK2V2WhSDBsNOYNvuJfz4HBdnYZDoyBr53C5anCUF0EYwWLhIVGc9r6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742920060; c=relaxed/simple;
-	bh=tJlzdJvvn50GZ/sbX4QRHPW0Nvdqdn08rXhb8dievTU=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Waw577t5iKuCX60cZlBrHfTcyvLYAJ3SEf4f/alVycSF3wtzolj3BnzkB0ZUFx7tNouvRy4WUqOrioHwt1pI4jWADg5H6mvIuGZ5hMZW3+IrCaNrHg36iHUxczt4OaDJAlRCHWT9Hkmc5JOK1xAJG4mRqxfN3QyaJvwufybzQXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bCAws/4E; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1742920841; c=relaxed/simple;
+	bh=YiWxemzCPcXInFipmbbXjiiIgfgNIEo4XpOPG15maUw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IDKgbx9rR0+dLRYd/AvTy7rCHS+niLETGzoX9FI7h3ovzGWzQ/NozDg92XWb2N3KqpjE30R5fxSvvSXLZv5GLcDd5GY+zXW/fiMpmG18sGidOKkEo6zFvz3gwDGyddonGLVh/b9iJKmRq8FoKSV6VwBVwBJHA6h8SKQkhqqe1Tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YeeD7cF3; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742920059; x=1774456059;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=tJlzdJvvn50GZ/sbX4QRHPW0Nvdqdn08rXhb8dievTU=;
-  b=bCAws/4E9ib38y7qMMDBJ6YcVW+h3IRcSgbLZhxH75NlvXzzHcttGNFc
-   K+duQkWCKXu5BuEp9JeGvae5U8VNONv7kHaS7V8mdO/5Y7PG6splC+CFf
-   1Gi4Pfs905evPkDkHl8N2Zcj2sqOex5bugjHFGAZ0yFRl1lNW+Uq5abBN
-   wpnJB9DRuasyx+JkzUsp+Gud8bNmGKb8elf1EHgCnz8D6HQc2zHgM/E4B
-   JdyVWYW72k0x2nO7m5By+raPsc4lZdxH4SeG4+dJM+Z1Nst4CQq3j0VDt
-   KVGmj7HkDc5tqJdWAN5NZE4SpJ60IboyFcCZ5b1dg+wSnCmTa/Imj71c1
+  t=1742920840; x=1774456840;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YiWxemzCPcXInFipmbbXjiiIgfgNIEo4XpOPG15maUw=;
+  b=YeeD7cF37TvuTRVwgG7PRRo6kXvr7Qyj9tLp0PBPMmnHbjbMogn+EUpR
+   DtSeozVjIfXOAv9kcotD1sbDXeX8L3nkrwuq701gAd89e6gQHAscX5oWM
+   eqt62l12ATmLcDLV3+AJpr25kF2sywOpObouJu4SWwuFR8axwJtiCkeTG
+   3svGCx4suiMYosjiPHFM03W1KH48HlQ68gWbVD8UjPN5Nz9XDUNC137B9
+   dILN+L93iRIST5bHi+OnsAxbkf1cnP83KmN5jMk6He2ttyRbG2eL/kN6K
+   ZwAQPNgxAWmp+0xICMXSSH6FFb70tcjIXKRDMyOnDXSlyiBEy/UYqApyK
    Q==;
-X-CSE-ConnectionGUID: itrhp2V/Sv6SoKXnbNp9bA==
-X-CSE-MsgGUID: qFserG0hQImZK1JLkR3Row==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="44103870"
+X-CSE-ConnectionGUID: jWdd0O1SROih+hy86e51yQ==
+X-CSE-MsgGUID: tM9ehbTqQbyOddy7KyZ6aw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="61571901"
 X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; 
-   d="scan'208";a="44103870"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 09:27:38 -0700
-X-CSE-ConnectionGUID: 0935cxWlRCaJvTpWnVRpLg==
-X-CSE-MsgGUID: H0iIP9+XQFyod2BiBEe8mg==
+   d="scan'208";a="61571901"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 09:40:39 -0700
+X-CSE-ConnectionGUID: aQj/cUsCSYO8/doZAHqAZg==
+X-CSE-MsgGUID: STQWoa1xQLWDZBx8Y3Ektg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; 
-   d="scan'208";a="124402118"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.158])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 09:27:35 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 25 Mar 2025 18:27:31 +0200 (EET)
-To: Antheas Kapenekakis <lkml@antheas.dev>
-cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-    Benjamin Tissoires <bentiss@kernel.org>, 
-    Corentin Chary <corentin.chary@gmail.com>, 
-    "Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v4 01/11] HID: asus: refactor init sequence per spec
-In-Reply-To: <20250324210151.6042-2-lkml@antheas.dev>
-Message-ID: <9ab75a7e-621d-1fb9-fc16-0a837d5c27ed@linux.intel.com>
-References: <20250324210151.6042-1-lkml@antheas.dev> <20250324210151.6042-2-lkml@antheas.dev>
+   d="scan'208";a="129618481"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 09:40:34 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1tx7KJ-00000005nye-09u0;
+	Tue, 25 Mar 2025 18:40:31 +0200
+Date: Tue, 25 Mar 2025 18:40:30 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v5 02/11] mfd: Add max7360 support
+Message-ID: <Z-Lcfm6eXMm1QzEl@smile.fi.intel.com>
+References: <20250318-mdb-max7360-support-v5-0-fb20baf97da0@bootlin.com>
+ <20250318-mdb-max7360-support-v5-2-fb20baf97da0@bootlin.com>
+ <Z9qmDkwSpZHxwuQj@smile.fi.intel.com>
+ <D8PHKDVTYTQ5.1HT80KX538PRQ@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <D8PHKDVTYTQ5.1HT80KX538PRQ@bootlin.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, 24 Mar 2025, Antheas Kapenekakis wrote:
+On Tue, Mar 25, 2025 at 05:26:12PM +0100, Mathieu Dubois-Briand wrote:
+> On Wed Mar 19, 2025 at 12:10 PM CET, Andy Shevchenko wrote:
+> > On Tue, Mar 18, 2025 at 05:26:18PM +0100, mathieu.dubois-briand@bootlin.com wrote:
+> > > From: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> > > +	ret = max7360_mask_irqs(regmap);
+> > > +	if (ret)
+> > > +		return dev_err_probe(dev, ret, "Could not mask interrupts\n");
+> >
+> > Hmm... As far as I can read this masks GPIO interrups. Does it do anything
+> > else? If it's covered by the GPIO/pin control drivers, one want probably to
+> > see that to be done there in the respective callback (init_hw_irq or alike,
+> > I don't remember the name by heart).
+> 
+> Hum, I'm not sure I can do that.
+> 
+> So the "inti" interrupt line is shared across the GPIO and the rotary
+> encoder functionalities.
+> 
+> On reset, GPIO interrupts are not masked. This means, if we do the
+> masking in the GPIO driver and the GPIO driver is not loaded but the
+> rotary encoder driver is, the rotary encoder driver might get a lot of
+> spurious interrupts.
+> 
+> So I believe it makes sense to mask the interrupts here, setting the
+> chip in a sane configuration, whatever child drivers are present.
+> 
+> Any thought about that?
 
-> Currently, asus_kbd_init() uses a reverse engineered init sequence
-> from Windows, which contains the handshakes from multiple programs.
-> Keep the main one, which is 0x5a (meant for brightness drivers).
-> 
-> In addition, perform a get_response and check if the response is the
-> same. To avoid regressions, print an error if the response does not
-> match instead of rejecting device.
-> 
-> Then, refactor asus_kbd_get_functions() to use the same ID it is called
-> with, instead of hardcoding it to 0x5a so that it may be used for 0x0d
-> in the future.
-> 
-> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> ---
->  drivers/hid/hid-asus.c | 82 +++++++++++++++++++++++-------------------
->  1 file changed, 46 insertions(+), 36 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> index 46e3e42f9eb5f..8d4df1b6f143b 100644
-> --- a/drivers/hid/hid-asus.c
-> +++ b/drivers/hid/hid-asus.c
-> @@ -48,7 +48,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
->  #define FEATURE_REPORT_ID 0x0d
->  #define INPUT_REPORT_ID 0x5d
->  #define FEATURE_KBD_REPORT_ID 0x5a
-> -#define FEATURE_KBD_REPORT_SIZE 16
-> +#define FEATURE_KBD_REPORT_SIZE 64
->  #define FEATURE_KBD_LED_REPORT_ID1 0x5d
->  #define FEATURE_KBD_LED_REPORT_ID2 0x5e
->  
-> @@ -388,14 +388,41 @@ static int asus_kbd_set_report(struct hid_device *hdev, const u8 *buf, size_t bu
->  
->  static int asus_kbd_init(struct hid_device *hdev, u8 report_id)
->  {
-> -	const u8 buf[] = { report_id, 0x41, 0x53, 0x55, 0x53, 0x20, 0x54,
-> -		     0x65, 0x63, 0x68, 0x2e, 0x49, 0x6e, 0x63, 0x2e, 0x00 };
-> +	/*
-> +	 * Asus handshake identifying us as a driver (0x5A)
-> +	 * 0x5A then ASCII for "ASUS Tech.Inc."
-> +	 * 0x5D is for userspace Windows applications.
-> +	 *
-> +	 * The handshake is first sent as a set_report, then retrieved
-> +	 * from a get_report to verify the response.
-> +	 */
-> +	const u8 buf[] = { report_id, 0x41, 0x53, 0x55, 0x53, 0x20,
-> +		0x54, 0x65, 0x63, 0x68, 0x2e, 0x49, 0x6e, 0x63, 0x2e, 0x00 };
-> +	u8 *readbuf;
->  	int ret;
->  
->  	ret = asus_kbd_set_report(hdev, buf, sizeof(buf));
-> -	if (ret < 0)
-> -		hid_err(hdev, "Asus failed to send init command: %d\n", ret);
-> +	if (ret < 0) {
-> +		hid_err(hdev, "Asus failed to send handshake: %d\n", ret);
-> +		return ret;
-> +	}
->  
-> +	readbuf = kzalloc(FEATURE_KBD_REPORT_SIZE, GFP_KERNEL);
-> +	if (!readbuf)
-> +		return -ENOMEM;
-> +
-> +	ret = hid_hw_raw_request(hdev, report_id, readbuf,
-> +				 FEATURE_KBD_REPORT_SIZE, HID_FEATURE_REPORT,
-> +				 HID_REQ_GET_REPORT);
-> +	if (ret < 0) {
-> +		hid_err(hdev, "Asus failed to receive handshake ack: %d\n", ret);
-> +	} else if (memcmp(readbuf, buf, sizeof(buf)) != 0) {
-> +		hid_err(hdev, "Asus handshake returned invalid response: %*ph\n",
-> +			FEATURE_KBD_REPORT_SIZE, readbuf);
-> +		// Do not return error if handshake is wrong to avoid regressions
-
-Should it be on warn/info level if the error is ignored.
-
-> +	}
-> +
-> +	kfree(readbuf);
->  	return ret;
->  }
->  
-> @@ -417,7 +444,7 @@ static int asus_kbd_get_functions(struct hid_device *hdev,
->  	if (!readbuf)
->  		return -ENOMEM;
->  
-> -	ret = hid_hw_raw_request(hdev, FEATURE_KBD_REPORT_ID, readbuf,
-> +	ret = hid_hw_raw_request(hdev, report_id, readbuf,
->  				 FEATURE_KBD_REPORT_SIZE, HID_FEATURE_REPORT,
->  				 HID_REQ_GET_REPORT);
->  	if (ret < 0) {
-> @@ -540,42 +567,25 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
->  	unsigned char kbd_func;
->  	int ret;
->  
-> -	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
-> -		/* Initialize keyboard */
-> -		ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
-> -		if (ret < 0)
-> -			return ret;
-> -
-> -		/* The LED endpoint is initialised in two HID */
-> -		ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID1);
-> -		if (ret < 0)
-> -			return ret;
-> -
-> -		ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID2);
-> -		if (ret < 0)
-> -			return ret;
-> +	ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
-> +	if (ret < 0)
-> +		return ret;
->  
-> -		if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
-> -			ret = asus_kbd_disable_oobe(hdev);
-> -			if (ret < 0)
-> -				return ret;
-> -		}
-> -	} else {
-> -		/* Initialize keyboard */
-> -		ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
-> -		if (ret < 0)
-> -			return ret;
-> +	/* Get keyboard functions */
-> +	ret = asus_kbd_get_functions(hdev, &kbd_func, FEATURE_KBD_REPORT_ID);
-> +	if (ret < 0)
-> +		return ret;
->  
-> -		/* Get keyboard functions */
-> -		ret = asus_kbd_get_functions(hdev, &kbd_func, FEATURE_KBD_REPORT_ID);
-> +	if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
-> +		ret = asus_kbd_disable_oobe(hdev);
->  		if (ret < 0)
->  			return ret;
-> -
-> -		/* Check for backlight support */
-> -		if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
-> -			return -ENODEV;
->  	}
->  
-> +	/* Check for backlight support */
-> +	if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
-> +		return -ENODEV;
-> +
->  	drvdata->kbd_backlight = devm_kzalloc(&hdev->dev,
->  					      sizeof(struct asus_kbd_leds),
->  					      GFP_KERNEL);
-> 
+Okay, this makes sense. I forgot if you have any comment in the code
+(probably not if I asked the question), but in any case the above can
+be added on top of the function explaining this.
 
 -- 
- i.
+With Best Regards,
+Andy Shevchenko
+
 
 
