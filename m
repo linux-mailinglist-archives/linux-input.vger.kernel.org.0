@@ -1,114 +1,151 @@
-Return-Path: <linux-input+bounces-11253-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11254-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E12ABA70840
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 18:31:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E8CA708A7
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 19:01:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B160218946C6
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 17:32:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47F833ADB5A
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 18:01:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F8E7234964;
-	Tue, 25 Mar 2025 17:31:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BB262641ED;
+	Tue, 25 Mar 2025 18:01:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QKDuDsEz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nMnFCm4J"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C45E19E971;
-	Tue, 25 Mar 2025 17:31:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927C725E802;
+	Tue, 25 Mar 2025 18:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742923909; cv=none; b=AsbKjL9bL9wfr20Ryp6XlpTOzpKKA1VECH5MunecSicwP0BLi6wcJfIUJd0svOIVuF2kDSFDOX4OMi/hUWyljCbZphqjqPKm//mOkbkF83j8eaZrPypbRoNsH6C1nn1JTJRBBsGjCnSkOc5Xz5z5izEHYdn9ux2swtWj45tXHZ0=
+	t=1742925710; cv=none; b=diNYqp4GwRZTuB9MilMg+rAp0toj5kSLeFPwMJSxRI7rwHOAkukq0KNb25ZZ16ypBHkQgMgb1hHfQr669R2ParrOwvspRCIF9MUA1nykhe75hMS7vLX/dTjprBmPX5/KJb5SC9sHTTQIaTzUVCoPrqfl5UG/a61Z9LenYHmzW3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742923909; c=relaxed/simple;
-	bh=dLf58HcvoCDMO7xEyKMr9WZxJir+JrD7Fikmuq9g5XY=;
-	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
-	 Cc:In-Reply-To:To; b=TyI3zEpKiEjm+8WI6Zq5sJK1k6ESuP0Y1GOvQvR4x9f/EOKFHICXLHUElN3SEtW5A9YYENaMwpuUQXxBWfbJIkrU1glSzSXY20yJFUYtKqHZIRQYfORs3A18nKufSPi2wmiWk6v6vsAl+Y7iIsu8yXSdqjacbRmfrPPPfq9sBwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QKDuDsEz; arc=none smtp.client-ip=209.85.222.177
+	s=arc-20240116; t=1742925710; c=relaxed/simple;
+	bh=qYMDHNy6x7LteSXyJourP/ZKJgw92Af9wGSpBcLqRb0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PEQrf1RqmNsMkGe93T75sEjW6rwJE+CnTeQ02wcYGD0elVNBaHaLgEXvj4RMFp9l8963YdlHbH/OShtNv9cFPCIYoc3VKASHMVJCeK3yw8TJXn6JDMoETHb54SL+3cf6bjiMeMzGkJFUx5wVA0EpQ1wqFU+kbdcA+SOnDgn6YCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nMnFCm4J; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7c55500d08cso560714785a.0;
-        Tue, 25 Mar 2025 10:31:47 -0700 (PDT)
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3011737dda0so7775932a91.1;
+        Tue, 25 Mar 2025 11:01:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742923907; x=1743528707; darn=vger.kernel.org;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dLf58HcvoCDMO7xEyKMr9WZxJir+JrD7Fikmuq9g5XY=;
-        b=QKDuDsEzIJnefp0B4u4YjFEW9+nnfy4gcHAwxcemHppdXmmqpEgLEhvjTfKqkI14wf
-         zXH1P0WywA+dAvk+GSW+e+mO+B3oxtxyIPRBOm0Pa2ZrWBXEe+RTPCF1zvRD6bmdeL8R
-         t+0pdBGFM/kVsOT8CwjPWvdjncPo4oHth94b87499zGXn/021Exk6kkBha866BBkaBE9
-         W2w++rtONc7lz8hLUil/8oniuG8iPA+6G8NoN4Pz2GALP6HMn1PEMBfDzJTOsJ1Ae9tF
-         zNk/jNVCQEOgppU8zT0klMsYk6cQzeif4CV8UcJfes5I29wauj53Zk5GoQZM0OM6OYo/
-         Mu6A==
+        d=gmail.com; s=20230601; t=1742925708; x=1743530508; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l8rvo4PVoMB8SeibvRLkn8Z5/SmePf793BhCpZf68DA=;
+        b=nMnFCm4JsAy6CEBi63gIjCNysHwj54CwFhwyBIeJ1lbgHK/xzxR9/H0Ts/9RQcZH3s
+         1dRzq8LKb1/U16zhEc8tVJD3WQVMVpLnG4u9eEq660lJd3bTSEvUumLr0Lp3DlFjYDPM
+         VcEKA30K5WZuxqMWr9IWEcQ8Sro/5bcMCYiwsWFL2uJV7BUzOC0u52uotwuWLUAIkeAL
+         p576gqltgaXW/K4NZ5lfb1JnbI60gBKaWMnIJOKQDrMD9Q3DImYD9qNe0oYUYT0ur00q
+         YFCDtgjg/ix9cBPo11XjBSkm62BLmdn0TrpqDGk1/MEVNQwi4vUPD4WvICd2QG+i1m4E
+         vTSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742923907; x=1743528707;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dLf58HcvoCDMO7xEyKMr9WZxJir+JrD7Fikmuq9g5XY=;
-        b=CeHa9K2I2FgpJ4t5NwZheOaP+jZCt48A8d+AVWwX4D+JRROAgUCTj1NV2vcLwAF0pr
-         jvx99lzINAi2LlhYHFg6eEqaaqDpXpqitC9Cf+hHyTyPDFnOY7O55OGDidVTea8JTsKB
-         QfAVyfXtRjB0fQbjs31XPVsXd8IM3GrwDM7Drvt1+Pd02/0itSSzAqaqgdkpKWCYCDzk
-         K6AZcTxvOVj1Nm3Ogp/L0hMi/BkqwyWYP0zZZVdCReixuEnxpL+h0z9ynnnGdW/r8pYy
-         jqk6zMvyXUU2QsfZoo0Qlangtyo7Ihatl/ffqCiw5K95cAj0BOJnWWoGyR181CfAfFzw
-         +KpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUaGMnFF96M9rzqIl019Z8yfxb7H4iFecjWvJI9qw/NDj+DNrL8HJ/S5PTA85H6MVmoU9WcxOVceNCVXg==@vger.kernel.org, AJvYcCXMPqZojq3ze1YxgNvnSoKt9fxvefDZbOkDsZVHgb15HRNH6T2PokiW+Yr8kKI9ysjA4kKC4LFndJQtkjdc@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyb/5Xt1u+0RnU+wjytCTGhSaPVN/ZlPFpglpy818RowZg3wWAg
-	TEMhZqciuo0QifNsJk+fNjw4q52n0ECQfXeAYL7wVky9ZqdcIwMm
-X-Gm-Gg: ASbGncs1CWeoYbitWrHa3Ov4Xbwx/g6HxS0Qb7NV8gxn9RnblcUrYTilqpWLuVPNjqY
-	2U4IUjX65kkPwkoOYFQb9GlsKvd6GAwf72e9EPRM8udlpD6pSE7WfKXCDVCoxuJuNUmz67mMFtu
-	Pcuf/abYGn/z4wEmTVt7nnziGkYlacs+yXZnr7nRUcW9gxg6ZDwfccVBYv/jdaH4xLfAFtDGuMs
-	xvkQA1g7izlCJPVSzkU3cwjVu03GmGfURsDBRi4rmXQNnHHMqgh8KgaHSX4gT6hgOniHDcvKxtr
-	yXWuBlVyfLq/T/VPByXkLskDOwW4XP/UfM5fL/zPA6IT1gJpqKyWY2KH4tVumitvgveyMSX4END
-	pfQ==
-X-Google-Smtp-Source: AGHT+IEZaPr3Q9rgN66crHhd92PHXzKB7jY1snL+mD2zoFbBbjV4DRiP87hbutRJY2CS7a42I3eqIw==
-X-Received: by 2002:a05:620a:3906:b0:7c5:4c44:db9a with SMTP id af79cd13be357-7c5ba1ee96emr2431514385a.37.1742923906653;
-        Tue, 25 Mar 2025 10:31:46 -0700 (PDT)
-Received: from smtpclient.apple ([2401:4900:5fb3:22d:b894:2ac5:970e:769c])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-86f9f384e49sm2139156241.4.2025.03.25.10.31.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Mar 2025 10:31:45 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Aditya Garg <adityagarg1208@gmail.com>
+        d=1e100.net; s=20230601; t=1742925708; x=1743530508;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l8rvo4PVoMB8SeibvRLkn8Z5/SmePf793BhCpZf68DA=;
+        b=JVo4670Fb/0EsRkcycFS7B67O8xrvbW5iW6ucykINXnDVJATPkvdPp9/lQxZ5ANHe1
+         yT0FybEcLHlek4fOS1wsba5D7bwv7w46qSdSY+9Hy1pEBsw+Sb6wbznRYmsSgNw6zVT2
+         oLa9Wq22tjG25ryEH9W0XrfyGE4iNEk29m8mDTRiI0VR/0vdiABtlpr4rvr4/icZ2ebw
+         wKuxhMoSlPOsMmkgJ528kcOt6A3YCv6S1F0TQhrhfeP1YWoCgAUblB29csemgPaV3jDR
+         3tibj1vmcyl6xI7P6sQPs5L9BSFeZ7OpEs0SSifveiB1nU4jYxbd9bQQ1AjuHWusd8Bi
+         G3VQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW6alXtVZsFlFpR3ZML0ccw8GEGgkiCRZD1hIKJn6tuuryppyGavjfz7GNi7S0JcIRqcz2K6bmws2N6kB5S@vger.kernel.org, AJvYcCWETQEk9AzzhPOPdpJ82rd16KgjFz1hc+5Dau1WN9XXfqCd2JfaQpXBy0ACSh0ICbMmw8BY/6lPtfHX1g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKd+uDfiKhA0xF7q3Nf91PrxYuz6PgssAr3CsLgOHp+hze1tmk
+	l2p/2h1oPAqK0HvJWWRjAuYQgA43YupMq4fq2JOeHLy8d+Obio29
+X-Gm-Gg: ASbGncsXohu8gT8g8CflKnzdijbb8ZQ6PCwDnugvN1t6KQ1I9r9CBQfbmp84N7pp7p5
+	XoOdkReLs+b/nsaeZIybHl0+dnl8hpT/mJnqGXig/Wjy0HVIxYXqsgwIrWSYp+pVUopS+jAiN+Q
+	hp6O6NIa2N7aKYc3cnwbpjX+o1J++MzIzMNqekzuUGZvicxKPqbJD4ewtuGzF3MRy5umiU+HCUS
+	opW+08o0y55rZlPOAWNUXk55CJVuuzahmrntVgdj3XFx02UJVL2uTP79r7j2nqUXiXsJHAV8sVZ
+	D4i4n52DPhSUd6uGY5vzri0X1/1CmN0RjiRpmpg4ZjILSIESxNznkWcyOaFljnvfiT0PgAVF5vD
+	ZD8d7EKVk/jcDEPToEMWsb0XMmm6y+0KM9FiwZI9covql/g==
+X-Google-Smtp-Source: AGHT+IH+8uJxRqDClMtWkj8EBCH2dLpeOyEIFLHzml5c1ywD55VVAPMOVPy9bwm0Qv2P2WBCDUitWw==
+X-Received: by 2002:a17:90b:5105:b0:2ea:37b4:5373 with SMTP id 98e67ed59e1d1-3030fea47e8mr30353796a91.10.1742925707548;
+        Tue, 25 Mar 2025 11:01:47 -0700 (PDT)
+Received: from codespaces-3dd663.dxrpqgqhlb3ehogrxrezr215ye.rx.internal.cloudapp.net ([20.192.21.52])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3030f5d8287sm10683796a91.15.2025.03.25.11.01.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Mar 2025 11:01:47 -0700 (PDT)
+From: adityagarg1208@gmail.com
+X-Google-Original-From: gargaditya08@live.com
+To: jikos@kernel.org,
+	jkosina@suse.com,
+	bentiss@kernel.org,
+	benjamin.tissoires@redhat.com
+Cc: gargaditya08@live.com,
+	kekrby@gmail.com,
+	orlandoch.dev@gmail.com,
+	admin@kodeit.net,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/5] HID: multitouch: Add support for Touch Bars on x86 MacBook Pros
+Date: Tue, 25 Mar 2025 17:57:23 +0000
+Message-ID: <20250325180138.15113-1-gargaditya08@live.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH RESEND 5/5] HID: multitouch: add device ID for Apple Touch Bar
-Date: Tue, 25 Mar 2025 23:01:31 +0530
-Message-Id: <219B5F93-611D-48FA-A4D9-F9B71401A57D@gmail.com>
-References: <bzb6rk7q7rs27kbonihpfftkgueievpux7vpqjgrgsud5pf5g2@tuxymj7vk3it>
-Cc: admin@kodeit.net, benjamin.tissoires@redhat.com, GARGADITYA08@live.com,
- jikos@kernel.org, jkosina@suse.com, kekrby@gmail.com,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- orlandoch.dev@gmail.com
-In-Reply-To: <bzb6rk7q7rs27kbonihpfftkgueievpux7vpqjgrgsud5pf5g2@tuxymj7vk3it>
-To: Benjamin Tissoires <bentiss@kernel.org>
-X-Mailer: iPad Mail (22D82)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
+From: Aditya Garg <gargaditya08@live.com>
 
+Hi all!
 
-> On 25 Mar 2025, at 10:59=E2=80=AFPM, Benjamin Tissoires <bentiss@kernel.or=
-g> wrote:
->=20
-> =EF=BB=BFOn Mar 25 2025, Aditya Garg wrote:
->> Yes I can move hid_find_field to the original location as well. But, I wo=
-uld not want to devm_kzalloc as well unnecessarily if the touchbar is in the=
- basic mode instead of drm mode which will cause this -ENODEV to be executed=
- right?
->=20
-> It shouldn't matter. hid_core calls devres_open_group() before calling
-> .probe(), and calls devres_release_group() on failure. So yes, we'll
-> allocate a piece of memory and release it after, but it's not something
-> uncommon.
+This patch series aims to improve the Touch Bar support for x86 Macs.
 
-Fair. I'll send a v2
+Recently, the hid-appletb-kbd and hid-appletb-bl drivers were upstreamed
+into the Linux kernel [1]. They enabled the Touch Bar to display a
+predefined set of media and function keys, exactly the same it does on
+Windows Bootcamp.
+
+Now we are about to get support added for the DRM mode of the Touch Bar
+as well [2].
+
+The DRM mode enables the Touch Bar to act as a second display,
+just like macOS. So now you can add a widget, put a clock or anything
+else on the Touch Bar as long as you can develop a daemon.
+
+Now via these patches, in the DRM mode, we can use the Touch Bar as a
+touch screen. The Touch Bar seems to be not compliant with the HID spec,
+thus via these patches several tweaks have been done under the cover of
+a single quirk, MT_QUIRK_APPLE_TOUCHBAR.
+
+For the case of T2 Macs, apple-bce [3], the driver for the T2 Security
+Chip is also needed for all the peripherals, including the Touch Bar
+to work. It is still WIP, and will be subsequently sent later to the
+appropriate tree. Till then, I'll suggest for get the driver from [3],
+or more preferably, get Linux support from https://t2linux.org/.
+
+Cheers
+Aditya
+
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/log/?h=for-6.15/apple
+[2]: https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0670c2f56e45b3f4541985a9ebe06d04308e43b0
+[3]: https://github.com/t2linux/apple-bce-drv
+
+Kerem Karabay (5):
+  HID: multitouch: Get the contact ID from HID_DG_TRANSDUCER_INDEX
+    fields in case of Apple Touch Bar
+  HID: multitouch: support getting the tip state from HID_DG_TOUCH
+    fields in Apple Touch Bar
+  HID: multitouch: take cls->maxcontacts into account for Apple Touch
+    Bar even without a HID_DG_CONTACTMAX field
+  HID: multitouch: specify that Apple Touch Bar is direct
+  HID: multitouch: add device ID for Apple Touch Bar
+
+ drivers/hid/Kconfig          |  1 +
+ drivers/hid/hid-multitouch.c | 62 +++++++++++++++++++++++++++++++++---
+ 2 files changed, 58 insertions(+), 5 deletions(-)
+
+-- 
+2.49.0
+
 
