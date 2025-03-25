@@ -1,111 +1,104 @@
-Return-Path: <linux-input+bounces-11220-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11223-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8FAFA6FFA9
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 14:07:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6BBA70171
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 14:24:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 800B919A399B
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 12:56:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D2738456BE
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 13:16:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10DDE293453;
-	Tue, 25 Mar 2025 12:26:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07AAD2641F0;
+	Tue, 25 Mar 2025 12:52:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GyTf87f2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nAajHxx8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3B8290BD0;
-	Tue, 25 Mar 2025 12:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB8719E83E;
+	Tue, 25 Mar 2025 12:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742905608; cv=none; b=hSQk0JZ4tUv8X/i5CsOJC+PZ1yoNSHo9C0V+4WqEU0Z7+ef3QqZJjU205CyeppBLisdHnqWqlON/wr8PVyTw8myWiVTCDg7JCdTQxGj41Udi/c29PJkYwUXhuYI2mCKPFd7/urHJDapHIVmQxWj6BMzivAEb/6GhDUm4iJf6g3I=
+	t=1742907165; cv=none; b=auo3oJrTSrsegcWxksY6zuuxgNA7SiL7RNwk0kJkLX8FS823yIq8Su0oG1cbft+FiiFMhK63++nx+9uHNN6vq4aF3wKnF3w+9POv3joqecZHZOYHUivy5aIE7k7ZAf6nf1QRmm657DyUfSkOHJ9i1IxBa9wjkVbp6OgL6abXvbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742905608; c=relaxed/simple;
-	bh=k1AqHL/hCEhNTElA4gLG22MgbOQAoG3oTM9Yq4VGSNg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jvDBffzK9QANJqEwIZHUXQlebLCE5jM8gY0iL4xVW3mRiZHKvWmVBe632AdBdOxf9Lo14yG4CUnLP8fC9KUxUizxuO6eQ4aX0iW9Trj1b5kLdz7pNaGBHWlR4rcEohcnuGWhExkBCAuuSasphEcz+MsBnKq1upfHrRsnnGsVvhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GyTf87f2; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=aE07qw8p05gx4/fCiHPMGKqKe68aws1wlk+gibM6tmc=; b=GyTf87f2iMAv3cbqNQbNZoj4X4
-	3ECSbOBKTbk42D/XUw6HFYgyzpi2H0XaF6DC0s0aIZZqXrnF9MC2TmEsxJIlvuWUq/eAZL1BrbfAF
-	F3V2nACC78/k3KFzFJO/DfHHw1KmKSlIkJEyTxNEaI2LPi4Bd1fXq0IcOOxB9kYHOJskFMVxjpmJP
-	dSl5PY+Wtr3orvfh7zP5W4wwNvXzhh3E7CJYNW5hTRReADEGCWY4ycf+mv14bIQDFivAV25NyMt9U
-	fIkyfFHsj8Q1Y9Ep8d6aLCInRZobt44L7QM9RkwdX3VqHS12/d4Uvthrf9yRwSsjnTxCCu8e5KfX1
-	3MipvKrA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tx3Mf-00000005Plb-0roV;
-	Tue, 25 Mar 2025 12:26:41 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id B98643004AF; Tue, 25 Mar 2025 13:26:40 +0100 (CET)
-Date: Tue, 25 Mar 2025 13:26:40 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: guoren@kernel.org
-Cc: arnd@arndb.de, gregkh@linuxfoundation.org,
-	torvalds@linux-foundation.org, paul.walmsley@sifive.com,
-	palmer@dabbelt.com, anup@brainfault.org, atishp@atishpatra.org,
-	oleg@redhat.com, kees@kernel.org, tglx@linutronix.de,
-	will@kernel.org, mark.rutland@arm.com, brauner@kernel.org,
-	akpm@linux-foundation.org, rostedt@goodmis.org, edumazet@google.com,
-	unicorn_wang@outlook.com, inochiama@outlook.com, gaohan@iscas.ac.cn,
-	shihua@iscas.ac.cn, jiawei@iscas.ac.cn, wuwei2016@iscas.ac.cn,
-	drew@pdp7.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-	ctsai390@andestech.com, wefu@redhat.com, kuba@kernel.org,
-	pabeni@redhat.com, josef@toxicpanda.com, dsterba@suse.com,
-	mingo@redhat.com, boqun.feng@gmail.com, xiao.w.wang@intel.com,
-	qingfang.deng@siflower.com.cn, leobras@redhat.com,
-	jszhang@kernel.org, conor.dooley@microchip.com,
-	samuel.holland@sifive.com, yongxuan.wang@sifive.com,
-	luxu.kernel@bytedance.com, david@redhat.com, ruanjinjie@huawei.com,
-	cuiyunhui@bytedance.com, wangkefeng.wang@huawei.com,
-	qiaozhe@iscas.ac.cn, ardb@kernel.org, ast@kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
-	linux-mm@kvack.org, linux-crypto@vger.kernel.org,
-	bpf@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-	maple-tree@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org, netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org, linux-nfs@vger.kernel.org,
-	linux-sctp@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: Re: [RFC PATCH V3 00/43] rv64ilp32_abi: Build CONFIG_64BIT
- kernel-self with ILP32 ABI
-Message-ID: <20250325122640.GK36322@noisy.programming.kicks-ass.net>
-References: <20250325121624.523258-1-guoren@kernel.org>
+	s=arc-20240116; t=1742907165; c=relaxed/simple;
+	bh=lfa/8ta4vYPO/+JeucS0YpPl8uLr+Mk0WRA+iVH7hUA=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=HtaLGQembPxg1Yr5WZLCESPVyvkGWqU4zWPBXgaroXhds9eXNXi/hg+DK0r5QfdrGMKD7b0HZDfCvhHuqVNJVVbQZq/U7IUYnTTob/RES77HBoxexHbhwAv0R3TlVdk9YFkOMeajXAJEdMtGWIFEcCuuAwKo/n2PVYjcazcweTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nAajHxx8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE642C4CEE4;
+	Tue, 25 Mar 2025 12:52:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742907165;
+	bh=lfa/8ta4vYPO/+JeucS0YpPl8uLr+Mk0WRA+iVH7hUA=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=nAajHxx8XWm+QvC5X6u+BaKdw7/t6NBuVoB1Diqqau7NGm8MeWXevmFahioXrGcm3
+	 mrYlBE8Yv/tSoWFC0LC6Cqbn3JOYHJy/GIyq7vIU52ojzDxSPIj6wcvrh6H4FuIbz+
+	 F0F3y+GiBzthZ4mIzTY4HJCAWYuP5r0AQinzrbFDquwetB13wsTtxbt27PDZtwNCpU
+	 UVbXJIyT1n8fGsi1Db/0F17tHg3YlDWSOnUluN33QtmNCbmjYOEbQoODZQ2OovTRGR
+	 E9lO3JTjS/ToSivdOMBTXelL9iwMpF/YxfiBRrsSsbjwLMh8kuEuHQSVXUadJfC+UC
+	 cQvaPTR2/NTVQ==
+Date: Tue, 25 Mar 2025 13:52:42 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: Aditya Garg <gargaditya08@live.com>, 
+    Benjamin Tissoires <benjamin.tissoires@redhat.com>
+cc: "bentiss@kernel.org" <bentiss@kernel.org>, 
+    Kerem Karabay <kekrby@gmail.com>, 
+    Orlando Chamberlain <orlandoch.dev@gmail.com>, 
+    Aun-Ali Zaidi <admin@kodeit.net>, 
+    Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+    "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: [PATCH RESEND 0/5] HID: multitouch: Add support for Touch Bars
+ on x86 MacBook Pros
+In-Reply-To: <ECE4880B-2A87-4147-B83B-2D832639F3B2@live.com>
+Message-ID: <67829qr8-op53-7q0s-n858-9psq5sqopo45@xreary.bet>
+References: <ECE4880B-2A87-4147-B83B-2D832639F3B2@live.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250325121624.523258-1-guoren@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
 
-On Tue, Mar 25, 2025 at 08:15:41AM -0400, guoren@kernel.org wrote:
-> From: "Guo Ren (Alibaba DAMO Academy)" <guoren@kernel.org>
+On Mon, 10 Mar 2025, Aditya Garg wrote:
+
+> Hi all!
 > 
-> Since 2001, the CONFIG_64BIT kernel has been built with the LP64 ABI,
-> but this patchset allows the CONFIG_64BIT kernel to use an ILP32 ABI
+> This patch series aims to improve the Touch Bar support for x86 Macs.
+> 
+> Recently, the hid-appletb-kbd and hid-appletb-bl drivers were upstreamed
+> into the Linux kernel [1]. They enabled the Touch Bar to display a
+> predefined set of media and function keys, exactly the same it does on
+> Windows Bootcamp.
+> 
+> Now we are about to get support added for the DRM mode of the Touch Bar
+> as well [2].
+> 
+> The DRM mode enables the Touch Bar to act as a second display,
+> just like macOS. So now you can add a widget, put a clock or anything
+> else on the Touch Bar as long as you can develop a daemon.
+> 
+> Now via these patches, in the DRM mode, we can use the Touch Bar as a
+> touch screen. The Touch Bar seems to be not compliant with the HID spec,
+> thus via these patches several tweaks have been done under the cover of
+> a single quirk, MT_QUIRK_APPLE_TOUCHBAR.
+> 
+> For the case of T2 Macs, apple-bce [3], the driver for the T2 Security
+> Chip is also needed for all the peripherals, including the Touch Bar
+> to work. It is still WIP, and will be subsequently sent later to the
+> appropriate tree. Till then, I'll suggest for get the driver from [3],
+> or more preferably, get Linux support from https://t2linux.org/.
 
-I'm thinking you're going to be finding a metric ton of assumptions
-about 'unsigned long' being 64bit when 64BIT=y throughout the kernel.
+Benjamin, could you please Ack this series?
 
-I know of a couple of places where 64BIT will result in different math
-such that a 32bit 'unsigned long' will trivially overflow.
+Thanks,
 
-Please, don't do this. This adds a significant maintenance burden on all
-of us.
+-- 
+Jiri Kosina
+SUSE Labs
+
 
