@@ -1,189 +1,269 @@
-Return-Path: <linux-input+bounces-11241-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11242-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A534A70672
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 17:15:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32161A706C1
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 17:26:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE2063BE040
-	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 16:12:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E815E3A9F9B
+	for <lists+linux-input@lfdr.de>; Tue, 25 Mar 2025 16:25:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 638B825D91E;
-	Tue, 25 Mar 2025 16:11:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1B2A25B694;
+	Tue, 25 Mar 2025 16:24:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gEspCC3e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pr7idbwk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0FF25D559;
-	Tue, 25 Mar 2025 16:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E778B1922FA;
+	Tue, 25 Mar 2025 16:24:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742919108; cv=none; b=be3YTVpaLrd3K3uHm9vwrZC32BNOPT0P2sX1SNyAn3ZZrFcO0iNVCDS1WzvkYKaShuLd29iM4NjzdKXio5b/6objg4KYF3vo8/WIx2w80sqW0g5Lr0JNLPyrXb5lKkvkJqAPxIxnsTXViW7gxp6Y4CEoHCdshpGvdeoj105l1pM=
+	t=1742919877; cv=none; b=lrepVTWwuiQonQswwDJe00hE4yJd8L1I9D5RfK8lxyStblmgqsFd0D8nmV7R6/08gDO9dwq3kZq+pkUNwRng7L/K7Ki/waLH6/pwsD9wuE1JKsJA1CWTYk2QdmbfBCh40k/NI9QSPZK/1QqQuijHyTEvSJQFzlEIdenqiz/h80g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742919108; c=relaxed/simple;
-	bh=m5jF2g8RoBZc4vVO3/GHC/ynrmEBlhwNcZTpzse4VGg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U5VDowfvZEKrKTJRaDdG9pyhDicgzmqMAX4zU7eNSGjtC1czmPeWfaZcLRnsfqkGFmRF9dHAvwSuCRj15Q2pYh3xr4AF5dByozhdujI8DLAbD9CCvk1iDWwcHYcVwfCBzsdRX8Hw0Cg3eQ6iv0sBBr9bHFHvvD4ePo/Pf0t4NCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gEspCC3e; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1AD7C4CEE4;
-	Tue, 25 Mar 2025 16:11:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742919107;
-	bh=m5jF2g8RoBZc4vVO3/GHC/ynrmEBlhwNcZTpzse4VGg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gEspCC3epxPmd1cz5Voz6c7pc7GkViUelUjOQt9T75ttc26SSaCWo2oz+H87fUgVz
-	 zpf0fppV1S8mytUaKg0VmreM7Ral7xvoZsdOTxOJY8M6Ed4+qeFsN2gY2MhEEw86TK
-	 LtP028a9TbShdLvgf4c7aPBRT1NCLgkGhZJZ9XByiKsqn59LdfKxSpTTGVAoh2U/zF
-	 3PggRUlyOf8OLrjOyNZQdB9baKGrdQ97X35DLGVXyHjChu9oJrs2s6PrfmG5LtKhSC
-	 36FhocuH8yxswJxCapwfNcbK5hZCTmyeb18hD+w8VcyoNEfOHJ4hgTUdIbJl9w7Jud
-	 WO4VRchOVz+CQ==
-Date: Tue, 25 Mar 2025 17:11:43 +0100
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: Jiri Kosina <jikos@kernel.org>, Jiri Kosina <jkosina@suse.com>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Kerem Karabay <kekrby@gmail.com>, 
-	Orlando Chamberlain <orlandoch.dev@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: Re: [PATCH RESEND 5/5] HID: multitouch: add device ID for Apple
- Touch Bar
-Message-ID: <e3ejlqfxafqrojlaiz3fbbkcira7txbuk4cftrfxvotvbr3xd6@eaes6e6rywyn>
-References: <ECE4880B-2A87-4147-B83B-2D832639F3B2@live.com>
- <90644A22-3136-4D4E-864E-7F7210D0C713@live.com>
- <vx6hvspvlfsv3palzvjpvsrmkl6s7qut366bhxq3tcwvyf7z63@drzftehh2rew>
- <PN3PR01MB95979F7D629681CBBCB763ACB8A72@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+	s=arc-20240116; t=1742919877; c=relaxed/simple;
+	bh=VukOGOtUlzZWpnsmi5rnmoaNAqhpZwHs73q9WhAm618=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=UkTs/EsiM4JHpiaj77mO0ifpuwKmTQ99tWCpbitk3Hcqly1VV2C3kDw3g0bASaMMS3n2Xz1lwOuNxVN5eOh535BIBRLY/Xo+7PkHrLhxJO7LmNHsnpW5ZBsGuFiA8Gw1Y+N/EQ95D/FoXXYSbkW+7+mDWiIR9fMV4q/s8KVx7B0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pr7idbwk; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742919876; x=1774455876;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=VukOGOtUlzZWpnsmi5rnmoaNAqhpZwHs73q9WhAm618=;
+  b=Pr7idbwkwEwHJzorjAd3N7r6wXtBXW0idJrHgTZUX1/Nu8roZ/xK5jRN
+   +ocrJyPUN3E+ELIHouUEf8KQ7osfkjISuu6iM1K0gNV8DpmhKcNG47qWk
+   cvRNFR5S2TRf4J+OBy1+gZMVAOBwZqSlGx4WehXcf9GughAPFIlELw/a3
+   palVZRc22TG0CFqOqkuT7dWELhps+EpoGRHW3oC5t3ienM22WpobZxzf8
+   7g8GkcpQJxpD+HxfDvPJmfc7HoW3lLI5JvAGhDT8O6VY1fisFsrFMZUOd
+   nISYuDrGGKMonlov1rWA6ZeJWrgJvfKCkN7HCGo1sSnHwF81j1BvkCqxl
+   A==;
+X-CSE-ConnectionGUID: PDZXwcD0Qs+MfOai37/BGQ==
+X-CSE-MsgGUID: sFMeiycxSm2DHr3XKP3FVA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="69538399"
+X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; 
+   d="scan'208";a="69538399"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 09:24:34 -0700
+X-CSE-ConnectionGUID: ljwZjIKoRFq5h0YESWwopw==
+X-CSE-MsgGUID: cJfoW89JSYGCpK9Lqhk5yQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; 
+   d="scan'208";a="124463536"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.158])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 09:24:30 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 25 Mar 2025 18:24:27 +0200 (EET)
+To: Antheas Kapenekakis <lkml@antheas.dev>
+cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
+    LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+    Benjamin Tissoires <bentiss@kernel.org>, 
+    Corentin Chary <corentin.chary@gmail.com>, 
+    "Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v4 02/11] HID: asus: prevent binding to all HID devices
+ on ROG
+In-Reply-To: <20250324210151.6042-3-lkml@antheas.dev>
+Message-ID: <bf0d12f4-f3ea-6a79-d155-b1e3abc3a156@linux.intel.com>
+References: <20250324210151.6042-1-lkml@antheas.dev> <20250324210151.6042-3-lkml@antheas.dev>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3PR01MB95979F7D629681CBBCB763ACB8A72@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=US-ASCII
 
-On Mar 25 2025, Aditya Garg wrote:
+On Mon, 24 Mar 2025, Antheas Kapenekakis wrote:
+
+> ROG keyboards are HID compliant and only care about the endpoint that
+> produces vendor events (e.g., fan mode) and has the keyboard backlight.
 > 
+> Therefore, handle all of the endpoints of ROG keyboards as compliant,
+> by adding HID_QUIRK_INPUT_PER_APP and, for devices other than the vendor
+> one, by adding QUIRK_HANDLE_GENERIC to stop mutating them.
 > 
-> > On 25 Mar 2025, at 6:43 PM, Benjamin Tissoires <bentiss@kernel.org> wrote:
-> > 
-> > ﻿On Mar 10 2025, Aditya Garg wrote:
-> >> From: Kerem Karabay <kekrby@gmail.com>
-> >> 
-> >> This patch adds the device ID of Apple Touch Bar found on x86 MacBook Pros
-> >> to the hid-multitouch driver.
-> >> 
-> >> Note that this is device ID is for T2 Macs. Testing on T1 Macs would be
-> >> appreciated.
-> >> 
-> >> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
-> >> Co-developed-by: Aditya Garg <gargaditya08@live.com>
-> >> Signed-off-by: Aditya Garg <gargaditya08@live.com>
-> >> ---
-> >> drivers/hid/Kconfig          |  1 +
-> >> drivers/hid/hid-multitouch.c | 25 +++++++++++++++++++++----
-> >> 2 files changed, 22 insertions(+), 4 deletions(-)
-> >> 
-> >> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> >> index dfc245867..727a2ed0d 100644
-> >> --- a/drivers/hid/Kconfig
-> >> +++ b/drivers/hid/Kconfig
-> >> @@ -743,6 +743,7 @@ config HID_MULTITOUCH
-> >>      Say Y here if you have one of the following devices:
-> >>      - 3M PCT touch screens
-> >>      - ActionStar dual touch panels
-> >> +      - Apple Touch Bar on x86 MacBook Pros
-> >>      - Atmel panels
-> >>      - Cando dual touch panels
-> >>      - Chunghwa panels
-> >> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> >> index 66e33a482..078ceef62 100644
-> >> --- a/drivers/hid/hid-multitouch.c
-> >> +++ b/drivers/hid/hid-multitouch.c
-> >> @@ -221,6 +221,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
-> >> #define MT_CLS_GOOGLE                0x0111
-> >> #define MT_CLS_RAZER_BLADE_STEALTH        0x0112
-> >> #define MT_CLS_SMART_TECH            0x0113
-> >> +#define MT_CLS_APPLE_TOUCHBAR            0x0114
-> >> #define MT_CLS_SIS                0x0457
-> >> 
-> >> #define MT_DEFAULT_MAXCONTACT    10
-> >> @@ -406,6 +407,12 @@ static const struct mt_class mt_classes[] = {
-> >>            MT_QUIRK_CONTACT_CNT_ACCURATE |
-> >>            MT_QUIRK_SEPARATE_APP_REPORT,
-> >>    },
-> >> +    { .name = MT_CLS_APPLE_TOUCHBAR,
-> >> +        .quirks = MT_QUIRK_HOVERING |
-> >> +            MT_QUIRK_SLOT_IS_CONTACTID_MINUS_ONE |
-> >> +            MT_QUIRK_APPLE_TOUCHBAR,
-> >> +        .maxcontacts = 11,
-> >> +    },
-> >>    { .name = MT_CLS_SIS,
-> >>        .quirks = MT_QUIRK_NOT_SEEN_MEANS_UP |
-> >>            MT_QUIRK_ALWAYS_VALID |
-> >> @@ -1807,6 +1814,15 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> >>        }
-> >>    }
-> >> 
-> >> +    ret = hid_parse(hdev);
-> >> +    if (ret != 0)
-> >> +        return ret;
-> >> +
-> >> +    if (mtclass->name == MT_CLS_APPLE_TOUCHBAR &&
-> >> +        !hid_find_field(hdev, HID_INPUT_REPORT,
-> >> +                HID_DG_TOUCHPAD, HID_DG_TRANSDUCER_INDEX))
-> >> +        return -ENODEV;
-> >> +
-> > 
-> > That hunk and the one below make me very nervous. Is there any reason
-> > preventing you to keep hid_parse() at the same place?
-> > 
-> Wouldn't we need to parse in order to do hid_find_field? Although I haven't tried putting it at the same place tbh.
-
-Yes, you need hid_parse() to be able to call hid_find_field(). But you
-can put hid_find_field() after hid_parse() at the original location, no?
-
-Cheers,
-Benjamin
-
+> Due to HID_QUIRK_INPUT_PER_APP, rgb register is moved into probe, as
+> the input_* functions are called multiple times (4 for the Z13).
 > 
-> > The rest of the series looks fine as everything seems properly guarded
-> > by MT_CLS_APPLE_TOUCHBAR.
-> > 
-> > Cheers,
-> > Benjamin
-> > 
-> >>    td = devm_kzalloc(&hdev->dev, sizeof(struct mt_device), GFP_KERNEL);
-> >>    if (!td) {
-> >>        dev_err(&hdev->dev, "cannot allocate multitouch data\n");
-> >> @@ -1854,10 +1870,6 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> >> 
-> >>    timer_setup(&td->release_timer, mt_expired_timeout, 0);
-> >> 
-> >> -    ret = hid_parse(hdev);
-> >> -    if (ret != 0)
-> >> -        return ret;
-> >> -
-> >>    if (mtclass->quirks & MT_QUIRK_FIX_CONST_CONTACT_ID)
-> >>        mt_fix_const_fields(hdev, HID_DG_CONTACTID);
-> >> 
-> >> @@ -2339,6 +2351,11 @@ static const struct hid_device_id mt_devices[] = {
-> >>        MT_USB_DEVICE(USB_VENDOR_ID_XIROKU,
-> >>            USB_DEVICE_ID_XIROKU_CSR2) },
-> >> 
-> >> +    /* Apple Touch Bar */
-> >> +    { .driver_data = MT_CLS_APPLE_TOUCHBAR,
-> >> +        HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
-> >> +            USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
-> >> +
-> >>    /* Google MT devices */
-> >>    { .driver_data = MT_CLS_GOOGLE,
-> >>        HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY, USB_VENDOR_ID_GOOGLE,
-> >> --
-> >> 2.43.0
-> >> 
+> Reviewed-by: Luke D. Jones <luke@ljones.dev>
+> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> ---
+>  drivers/hid/hid-asus.c | 69 ++++++++++++++++++++++++++++++++----------
+>  1 file changed, 53 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+> index 8d4df1b6f143b..96461321c191c 100644
+> --- a/drivers/hid/hid-asus.c
+> +++ b/drivers/hid/hid-asus.c
+> @@ -84,6 +84,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+>  #define QUIRK_MEDION_E1239T		BIT(10)
+>  #define QUIRK_ROG_NKEY_KEYBOARD		BIT(11)
+>  #define QUIRK_ROG_CLAYMORE_II_KEYBOARD BIT(12)
+> +#define QUIRK_HANDLE_GENERIC		BIT(13)
+>  
+>  #define I2C_KEYBOARD_QUIRKS			(QUIRK_FIX_NOTEBOOK_REPORT | \
+>  						 QUIRK_NO_INIT_REPORTS | \
+> @@ -120,7 +121,6 @@ struct asus_drvdata {
+>  	struct input_dev *tp_kbd_input;
+>  	struct asus_kbd_leds *kbd_backlight;
+>  	const struct asus_touchpad_info *tp;
+> -	bool enable_backlight;
+>  	struct power_supply *battery;
+>  	struct power_supply_desc battery_desc;
+>  	int battery_capacity;
+> @@ -326,6 +326,10 @@ static int asus_raw_event(struct hid_device *hdev,
+>  {
+>  	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
+>  
+> +	if (drvdata->quirks & QUIRK_HANDLE_GENERIC)
+> +		/* NOOP on generic HID devices to avoid side effects. */
+> +		return 0;
+> +
+>  	if (drvdata->battery && data[0] == BATTERY_REPORT_ID)
+>  		return asus_report_battery(drvdata, data, size);
+>  
+> @@ -774,6 +778,10 @@ static int asus_input_configured(struct hid_device *hdev, struct hid_input *hi)
+>  	struct input_dev *input = hi->input;
+>  	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
+>  
+> +	if (drvdata->quirks & QUIRK_HANDLE_GENERIC)
+> +		/* NOOP on generic HID devices to avoid side effects. */
+> +		return 0;
+
+You'd need braces for multiline indented constructs like this, however, I 
+think that comment can appear before the if line which wouldn't require 
+braces. The same applies to many cases below.
+
+> +
+>  	/* T100CHI uses MULTI_INPUT, bind the touchpad to the mouse hid_input */
+>  	if (drvdata->quirks & QUIRK_T100CHI &&
+>  	    hi->report->id != T100CHI_MOUSE_REPORT_ID)
+> @@ -827,11 +835,6 @@ static int asus_input_configured(struct hid_device *hdev, struct hid_input *hi)
+>  
+>  	drvdata->input = input;
+>  
+> -	if (drvdata->enable_backlight &&
+> -	    !asus_kbd_wmi_led_control_present(hdev) &&
+> -	    asus_kbd_register_leds(hdev))
+> -		hid_warn(hdev, "Failed to initialize backlight.\n");
+> -
+>  	return 0;
+>  }
+>  
+> @@ -851,6 +854,10 @@ static int asus_input_mapping(struct hid_device *hdev,
+>  		return -1;
+>  	}
+>  
+> +	if (drvdata->quirks & QUIRK_HANDLE_GENERIC)
+> +		/* NOOP on generic HID devices to avoid side effects. */
+> +		return 0;
+> +
+>  	/*
+>  	 * Ignore a bunch of bogus collections in the T100CHI descriptor.
+>  	 * This avoids a bunch of non-functional hid_input devices getting
+> @@ -901,15 +908,6 @@ static int asus_input_mapping(struct hid_device *hdev,
+>  			return -1;
+>  		}
+>  
+> -		/*
+> -		 * Check and enable backlight only on devices with UsagePage ==
+> -		 * 0xff31 to avoid initializing the keyboard firmware multiple
+> -		 * times on devices with multiple HID descriptors but same
+> -		 * PID/VID.
+> -		 */
+> -		if (drvdata->quirks & QUIRK_USE_KBD_BACKLIGHT)
+> -			drvdata->enable_backlight = true;
+> -
+>  		set_bit(EV_REP, hi->input->evbit);
+>  		return 1;
+>  	}
+> @@ -1026,8 +1024,10 @@ static int __maybe_unused asus_reset_resume(struct hid_device *hdev)
+>  
+>  static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>  {
+> -	int ret;
+> +	struct hid_report_enum *rep_enum;
+>  	struct asus_drvdata *drvdata;
+> +	struct hid_report *rep;
+> +	int ret, is_vendor = 0;
+>  
+>  	drvdata = devm_kzalloc(&hdev->dev, sizeof(*drvdata), GFP_KERNEL);
+>  	if (drvdata == NULL) {
+> @@ -1111,12 +1111,45 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>  		return ret;
+>  	}
+>  
+> +	/*
+> +	 * Check for the vendor interface (0xff31) to init the RGB.
+
+The next line seems to be continuation, is . extra?
+
+> +	 * and handle generic devices properly.
+> +	 */
+> +	rep_enum = &hdev->report_enum[HID_INPUT_REPORT];
+> +	list_for_each_entry(rep, &rep_enum->report_list, list) {
+> +		if ((rep->application & HID_USAGE_PAGE) == 0xff310000)
+
+Use a named define for the literal?
+
+> +			is_vendor = true;
+> +	}
+> +
+> +	/*
+> +	 * For ROG keyboards, make them hid compliant by
+> +	 * creating one input per application. For interfaces other than
+> +	 * the vendor one, disable hid-asus handlers.
+> +	 */
+> +	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
+> +		if (!is_vendor)
+> +			drvdata->quirks |= QUIRK_HANDLE_GENERIC;
+> +		hdev->quirks |= HID_QUIRK_INPUT_PER_APP;
+> +	}
+> +
+>  	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
+>  	if (ret) {
+>  		hid_err(hdev, "Asus hw start failed: %d\n", ret);
+>  		return ret;
+>  	}
+>  
+> +	if (is_vendor && (drvdata->quirks & QUIRK_USE_KBD_BACKLIGHT) &&
+> +	    !asus_kbd_wmi_led_control_present(hdev) &&
+> +	    asus_kbd_register_leds(hdev))
+> +		hid_warn(hdev, "Failed to initialize backlight.\n");
+> +
+> +	/*
+> +	 * For ROG keyboards, skip rename for consistency and
+> +	 * ->input check as some devices do not have inputs.
+
+Please reflow to 80 chars.
+
+> +	 */
+> +	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD)
+> +		return 0;
+> +
+>  	if (!drvdata->input) {
+>  		hid_err(hdev, "Asus input not registered\n");
+>  		ret = -ENOMEM;
+> @@ -1167,6 +1200,10 @@ static const __u8 *asus_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+>  {
+>  	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
+>  
+> +	if (drvdata->quirks & QUIRK_HANDLE_GENERIC)
+> +		/* NOOP on generic HID devices to avoid side effects. */
+> +		return rdesc;
+> +
+>  	if (drvdata->quirks & QUIRK_FIX_NOTEBOOK_REPORT &&
+>  			*rsize >= 56 && rdesc[54] == 0x25 && rdesc[55] == 0x65) {
+>  		hid_info(hdev, "Fixing up Asus notebook report descriptor\n");
+> 
+
+-- 
+ i.
+
 
