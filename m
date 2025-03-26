@@ -1,218 +1,168 @@
-Return-Path: <linux-input+bounces-11294-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11295-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5E3FA714C2
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 11:25:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EEB1A714C6
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 11:26:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A81B16E1C8
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 10:25:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B462816A7AB
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 10:26:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B47271B21B4;
-	Wed, 26 Mar 2025 10:25:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 888A01B21B4;
+	Wed, 26 Mar 2025 10:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QjKjprAo"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XPPhUaHM"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E401A5B9C;
-	Wed, 26 Mar 2025 10:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FED8191461
+	for <linux-input@vger.kernel.org>; Wed, 26 Mar 2025 10:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742984703; cv=none; b=p1kFFUU0OpvKOLBAvjmrM3iSrX60yDXBZg3ynNyH+t8c+7ebfjo/dXIUCOYxL0uh9Z5FuAw34ujLoSzVfwjHqDNLqgjLfQ/95bUTYB+RGAHBk9Ib6mbLixifxwZJ6J6wzYcS+s8NNSpIe2BBkPBwDJ++0WTJMQxhW1I6ZO62UHU=
+	t=1742984772; cv=none; b=Aa2b5k4Y+bUZxL1UzV+R5PrvdY041Lxn/HvdmkYaTQeb4DRE8pBHPLUq9Gn4qp8nCwd4GyYx4NNWn8anX9cb5BfKbq/5B499KlPNEk57NAWs4Ur9VuU/98HxVXnerepx91k0aXhuo/40F5w8DZBX4umbSAhpzm56emGdAhxbo5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742984703; c=relaxed/simple;
-	bh=HMpe+g8ayCMDDvXkSRNbqGD7K/UHAGzeFcPhq77IeGU=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=mhZUTNfYWp70PkHUsePZSTzmtSG2G9Y7rYXtln4Xpl6uWKJagO/IKS2dHP73qSU8CgwDlPmU4x4nkUFZOEb6uxoBJaz5N1KEFU2+y2hp78nxaTb8iFSLj4INsJIK6E3+xxuRcJfHnW4aqdbkhl7Dsqr0ADV+uduqncWaPWxhDEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QjKjprAo; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742984702; x=1774520702;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=HMpe+g8ayCMDDvXkSRNbqGD7K/UHAGzeFcPhq77IeGU=;
-  b=QjKjprAoExhvdTGZdQnLuL1vfHr1FMoEo9Cw1jfJS63LkgnCjIppF1qR
-   iIq2J3Rq1PfJyNuKGiTweZXBEthKERjGLYSjjjWgFoDrXvFu28pf+Wu/3
-   lW172vpq71o6jHwS3mkRMGwi2O69mg1Lefss8I48umn08uRoUrRpXm9wT
-   6v3WpZdz5AT2INGWGwwgrm+0qjlOd6t+RInkJNTGGABrQhmqCUFkRmJEV
-   a6MmKnDFUY9TCCQZf6qaBsurjA6pYk2ZY6QY2+LOMMO8czUQoFETHLOaJ
-   URTnidPEXuUer2/+E3iZTtgXBVcxzVFi93QFN14UX2Cq37w0xafj+c/7x
-   A==;
-X-CSE-ConnectionGUID: O7kMXzWITH6b//HbCVznXQ==
-X-CSE-MsgGUID: oeL1VnFzRqeoZUDg8+dQAA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="48140934"
-X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="48140934"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 03:25:01 -0700
-X-CSE-ConnectionGUID: NgYfe/fvSKuobzxo72HPeA==
-X-CSE-MsgGUID: mWSjzESDQai1nBTapwA3VQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="125234310"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.5])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 03:24:57 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 26 Mar 2025 12:24:53 +0200 (EET)
-To: Antheas Kapenekakis <lkml@antheas.dev>
-cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-    Benjamin Tissoires <bentiss@kernel.org>, 
-    Corentin Chary <corentin.chary@gmail.com>, 
-    "Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v5 09/11] HID: asus: add basic RGB support
-In-Reply-To: <CAGwozwF8PZczpqOFm3ONDdJTVCgcWOZ8mXrASbmiAXUhQvOhdg@mail.gmail.com>
-Message-ID: <43c4dd17-de34-804f-7080-b287ac4a0cac@linux.intel.com>
-References: <20250325184601.10990-1-lkml@antheas.dev> <20250325184601.10990-10-lkml@antheas.dev> <f04e6a59-cb72-9ca9-2c98-85702b6194fa@linux.intel.com> <CAGwozwF8PZczpqOFm3ONDdJTVCgcWOZ8mXrASbmiAXUhQvOhdg@mail.gmail.com>
+	s=arc-20240116; t=1742984772; c=relaxed/simple;
+	bh=VmZW3dYOkE+WcIdW+rTFDYurYECcNeudvlHZ1LESI8I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FwTKJ35wTsCKi3fBgAsq+IWmjdjcoSgc2duZWUdod10vNraDB41mhEkgbT+3JtCvBzQN3YWF0myukBSfM1+myx4NPDVxd6nM59pkhLp1FfF6mIRB384v+8PcpEYuqC+QImPykXhHxrGrHuihKAg5I8Ib6XgLoXwq00PcTnqQdWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XPPhUaHM; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cfe63c592so63824305e9.2
+        for <linux-input@vger.kernel.org>; Wed, 26 Mar 2025 03:26:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742984769; x=1743589569; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=98hcAito2MMtQTY1iL6KWHxMYRyo687ywiMmqIh+p7A=;
+        b=XPPhUaHMMHildxl7E/pGbg3LqEdcenwWvdjeuLPj1f8OT7a6BYtjs2bu24XtbAnFFY
+         s9+jVhzzy9BFkI3JMO+QBwfdpCUz6XYuPUqDbZPhh1GKp+3K27W5+fCppeyI/7od9GV5
+         scsDjSsDhiRkFPWlWeter1dzRKgY0BJ24tX0Zakn7d3gRB/jl78ONFJba5+ry4db+fqB
+         w+6iIB3FLjU3RMJ99bkzWnP317J2KjottjvJYV3+hj66I0kjq40id1xBzpo5I2EkX5wd
+         w/9qMcNz3WXfeWm2gcUcFe6Pwo2OXAUJ2wzYK+dfZXPPfP1ln1vMQLy1bUed15eH795l
+         DSVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742984769; x=1743589569;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=98hcAito2MMtQTY1iL6KWHxMYRyo687ywiMmqIh+p7A=;
+        b=KRRqihVkuT4YskUjbkYe+6Ul+5y8u0fsFcmMCyDXaGUMi6l0ratJOJdgpfY5guJRv4
+         ndDMlfkDW/9/JhMkz15Gvrw6+I7vJ1yQxAj9LDsvMOJVWH84fl1LO9tgkMBOyLS5ajHB
+         Q2RdYvfwYpMMED/tbNitB2wa9GAinmjKPEeJOlKb7MfEU6XVOc1Zyc8Q3MQKChI3AVAU
+         Wo0RsXsIgn9RZA6mbHSM1PCXuWOZjHfqHpP3MQCWzriOAThIq0oMILKshL8WvbqZtDoI
+         gqJiJKmcilCwkFgyd/jfIoMU+Pw5SAHjgXy+VBX0HG/n4X4NsaI/8gR0UeZT6XJ2o/qI
+         dvgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVtgD4Hri9LzBC8pNY5bCOCyhBVCwUIqJejhYzOz9tgkmRaNwfroZ669gMHs7OXODM/Pw8zcYIZ+PNAnQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjH1nqh8vKsAa2bzJW2L5+OiBQPvdwubP3qWWVzKz8PhCXj+7M
+	nS464v5UGr0ibEYwgUgJGVx8g7nFLi8hbl0ZgqeUUbBZUBVzlAat4qnraDLfFjM=
+X-Gm-Gg: ASbGncs6bLG+W/5atbRG61aRESklfUG1SnImSLOXrrGUt6+j6JtnTatw6uz+OHCUbVk
+	tmO7ndBsuJyjp3FjElP/zYVNcxhyW+706VrluIEuCyJC3cCKBUxdH7NWxKypAL1utj0vJwe/E83
+	pRp0EQWAbPTgL+IPhYfSmNomYGM+JPd4TJpW0adtwfVYf0NdpH8rlYWUx3oDUlF/djTwjvS09pv
+	9sHW+qcu5Mo9AZg0RoEkg2jxuV9jr16KMwsWzDgCWkZOuvY9qtyyfxy8KJGsXt/UwGqkHNn6EvQ
+	+Q+KgqgsNvnl8NLOja9PHQ+mtQPGsT/0cfVQ44b8AXP/Isyk8ukRd6BPl7+TeN3M0sB6b6CLtbs
+	=
+X-Google-Smtp-Source: AGHT+IFNIgbM5SxndZJ31+RxAuvmVblk7zrUQEK1IUI9dhFX9c6aTpE7fdxiqMV2lHxT/eOf35nkUw==
+X-Received: by 2002:a05:600c:c0d:b0:43d:738:4a9 with SMTP id 5b1f17b1804b1-43d50a33d03mr154416225e9.27.1742984768921;
+        Wed, 26 Mar 2025 03:26:08 -0700 (PDT)
+Received: from [192.168.1.38] (i5E863BED.versanet.de. [94.134.59.237])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3997f9e6651sm16436745f8f.75.2025.03.26.03.26.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Mar 2025 03:26:08 -0700 (PDT)
+Message-ID: <5060c248-3160-4d52-81ec-8e06bbd246bf@linaro.org>
+Date: Wed, 26 Mar 2025 11:26:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1308369930-1742984693=:942"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/7] dt-bindings: input: syna,rmi4: document
+ syna,pdt-fallback-desc
+To: Krzysztof Kozlowski <krzk@kernel.org>, David Heidelberg <david@ixit.cz>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+ Vincent Huang <vincent.huang@tw.synaptics.com>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+References: <20250308-synaptics-rmi4-v3-0-215d3e7289a2@ixit.cz>
+ <20250308-synaptics-rmi4-v3-1-215d3e7289a2@ixit.cz>
+ <20250310-hissing-vagabond-pegasus-cc8aed@krzk-bin>
+ <3c5e12fc-eb91-46e8-a558-9896f0bdcab4@ixit.cz>
+ <b3a5ec89-0125-4b01-8cca-69b9985b6089@kernel.org>
+ <48bb62eb-8aa9-465c-9e77-c0b375df0c9f@linaro.org>
+ <492da0ab-3a5c-4ee9-bc37-d66b007ffd81@kernel.org>
+Content-Language: en-US
+From: Caleb Connolly <caleb.connolly@linaro.org>
+In-Reply-To: <492da0ab-3a5c-4ee9-bc37-d66b007ffd81@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323328-1308369930-1742984693=:942
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Wed, 26 Mar 2025, Antheas Kapenekakis wrote:
-> On Wed, 26 Mar 2025 at 09:54, Ilpo J=C3=A4rvinen
-> <ilpo.jarvinen@linux.intel.com> wrote:
-> >
-> > On Tue, 25 Mar 2025, Antheas Kapenekakis wrote:
-> >
-> > > Adds basic RGB support to hid-asus through multi-index. The interface
-> > > works quite well, but has not gone through much stability testing.
-> > > Applied on demand, if userspace does not touch the RGB sysfs, not
-> > > even initialization is done. Ensuring compatibility with existing
-> > > userspace programs.
-> > >
-> > > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> > > ---
-> > >  drivers/hid/Kconfig    |   1 +
-> > >  drivers/hid/hid-asus.c | 171 +++++++++++++++++++++++++++++++++++++--=
---
-> > >  2 files changed, 156 insertions(+), 16 deletions(-)
-> > >
-> > > diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> > > index dfc245867a46a..d324c6ab997de 100644
+On 3/26/25 07:57, Krzysztof Kozlowski wrote:
+> On 25/03/2025 14:23, Caleb Connolly wrote:
+>>
+>>
+>> On 3/25/25 08:36, Krzysztof Kozlowski wrote:
+>>> On 24/03/2025 19:00, David Heidelberg wrote:
+>>>> On 10/03/2025 10:45, Krzysztof Kozlowski wrote:
+>>>>> On Sat, Mar 08, 2025 at 03:08:37PM +0100, David Heidelberg wrote:
+>>>>>> From: Caleb Connolly <caleb.connolly@linaro.org>
+>>>>>>
+>>>>>> This new property allows devices to specify some register values which
+>>>>>> are missing on units with third party replacement displays. These
+>>>>>> displays use unofficial touch ICs which only implement a subset of the
+>>>>>> RMI4 specification.
+>>>>>
+>>>>> These are different ICs, so they have their own compatibles. Why this
+>>>>> cannot be deduced from the compatible?
+>>>>
+>>>> Yes, but these identify as the originals.
+>>>
+>>>
+>>> It does not matter how they identify. You have the compatible for them.
+>>> If you cannot add compatible for them, how can you add dedicated
+>>> property for them?
+>>
+>> Hi Krzysztof,
+>>
+>> There are an unknown number of knock-off RMI4 chips which are sold in
+>> cheap replacement display panels from multiple vendors. We suspect
+>> there's more than one implementation.
+>>
+>> A new compatible string wouldn't help us, since we use the same DTB on
+>> fully original hardware as on hardware with replacement parts.
+>>
+>> The proposed new property describes configuration registers which are
+>> present on original RMI4 chips but missing on the third party ones, the
+>> contents of the registers is static.
+> 
+> 
+> So you want to add redundant information for existing compatible, while
+> claiming you cannot deduce it from that existing compatible... Well,
+> no.. you cannot be sure that only chosen boards will have touchscreens
+> replaced, thus you will have to add this property to every board using
+> this compatible making it equal to the compatible and we are back at my
+> original comment. This is deducible from the compatible. If not the new
+> one, then from old one.
 
-> > > +     };
-> > > +     unsigned long flags;
-> > > +     uint8_t colors[3];
-> > > +     bool rgb_init, rgb_set;
-> > > +     int ret;
-> > > +
-> > > +     spin_lock_irqsave(&led->lock, flags);
-> > > +     rgb_init =3D led->rgb_init;
-> > > +     rgb_set =3D led->rgb_set;
-> > > +     led->rgb_set =3D false;
-> > > +     colors[0] =3D led->rgb_colors[0];
-> > > +     colors[1] =3D led->rgb_colors[1];
-> > > +     colors[2] =3D led->rgb_colors[2];
-> > > +     spin_unlock_irqrestore(&led->lock, flags);
-> > > +
-> > > +     if (!rgb_set)
-> > > +             return;
-> > > +
-> > > +     if (rgb_init) {
-> > > +             ret =3D asus_kbd_init(led->hdev, FEATURE_KBD_LED_REPORT=
-_ID1);
-> > > +             if (ret < 0) {
-> > > +                     hid_err(led->hdev, "Asus failed to init RGB: %d=
-\n", ret);
-> > > +                     return;
-> > > +             }
-> > > +             spin_lock_irqsave(&led->lock, flags);
-> > > +             led->rgb_init =3D false;
-> > > +             spin_unlock_irqrestore(&led->lock, flags);
-> > > +     }
-> > > +
-> > > +     /* Protocol is: 54b3 zone (0=3Dall) mode (0=3Dsolid) RGB */
-> >
-> > BTW, this comment is very cryptic to me and I'm unable to connect it wi=
-th
-> > the code below. My only guess is that each non-parenthesized word is
-> > explaining one index but things don't add up given what rgb_buf[0][0] a=
-nd
-> > [0][1] have.
->=20
-> Maybe i fatfingered 54 and it should be 5a. Protocol is 54b3 zone mode
-> R G B. So colors go to indexes 4, 5, 6
+hmm I see, so instead we should add a compatible for the specific 
+variant (S3320 or something) of RMI4 in this device and handle this in 
+the driver? I think that makes sense.
 
-Ah. I suggest you add the spaces between the bytes to make it more=20
-obvious. Although, this could be a constructed as struct as well in which=
-=20
-case the struct itself would document the format without need to=20
-cryptic comments nor use of numeric indexes.
+> 
+> Best regards,
+> Krzysztof
 
-> > > +     rgb_buf[0][4] =3D colors[0];
-> > > +     rgb_buf[0][5] =3D colors[1];
-> > > +     rgb_buf[0][6] =3D colors[2];
-> > > +
-> > > +     for (size_t i =3D 0; i < ARRAY_SIZE(rgb_buf); i++) {
-> > > +             ret =3D asus_kbd_set_report(led->hdev, rgb_buf[i], size=
-of(rgb_buf[i]));
-> > > +             if (ret < 0) {
-> > > +                     hid_err(led->hdev, "Asus failed to set RGB: %d\=
-n", ret);
-> > > +                     return;
-> > > +             }
-> > > +     }
-> > > +}
+-- 
+Caleb (they/them)
 
-> > >       ret =3D asus_hid_register_listener(&drvdata->kbd_backlight->lis=
-tener);
-> > > -     if (ret < 0) {
-> > > -             /* No need to have this still around */
-> > > -             devm_kfree(&hdev->dev, drvdata->kbd_backlight);
-> > > +     /* Asus-wmi might not be accessible so this is not fatal. */
-> > > +     if (!ret)
-> > > +             hid_warn(hdev, "Asus-wmi brightness listener not regist=
-ered\n");
-> >
-> > Is the condition correct way around given the message?
->=20
-> You are right.
->=20
-> > Please also note that you don't need to send an update every day or so
-> > after minor comments like this. We're in merge window currently which
-> > means I likely won't be applying any next material until -rc1 has been
-> > released.
->=20
-> If this is 6.16 material I am happy to put a pause on this for the
-> next 1-3 weeks.
-
-You don't need to "pause" for the merge window, in some subsystem=20
-there's mandatory pause during merge window but I find that unnecessary.
-I know people on pdx86 do review during merge window so no need to wait=20
-when working with patches related to pdx86. Just don't expect patches=20
-get applied during the merge window or right after it (the latter tends to=
-=20
-be the most busiest time of cycle for me) :-).
-
-It's more about the frequency, how often to send a series which is=20
-relatively large. Large number of versions end up just filling inboxes=20
-(and patchwork's pending patches list) and we don't have time to read them=
-=20
-all through so I suggest waiting like 3 days at minimum between versions=20
-when the series is large or complex to give time to go through the series.
-
-This is not a hard rule, so if there are e.g. many significant changes,=20
-feel free to "violate" it in that case.
-
---=20
- i.
-
---8323328-1308369930-1742984693=:942--
 
