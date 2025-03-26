@@ -1,167 +1,405 @@
-Return-Path: <linux-input+bounces-11286-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11287-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB058A710DF
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 07:58:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31446A71322
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 09:55:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 89C231896998
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 06:58:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6C65F1886594
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 08:55:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60B0719D8B7;
-	Wed, 26 Mar 2025 06:57:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDB241A3031;
+	Wed, 26 Mar 2025 08:54:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MjaS5yUr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JgZ2J85D"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C02E1990B7;
-	Wed, 26 Mar 2025 06:57:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4824440C;
+	Wed, 26 Mar 2025 08:54:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742972246; cv=none; b=a4p3gFf4ceVwA8H5jWCyjd5j6U2OgZzNRW7ZaoPtIoXNFCYC45ufPKzDheKhbMeTx2OaZzuJ6dRkeAcQ+06CvX58VJZoeuLKB3gci7gwIj/KpubsEOsjSlevrBo3+91I8NJG4SjkvhyuFPu9fqQfLofWcdH4qCVJyZWsaL2CgyM=
+	t=1742979291; cv=none; b=oAlVO5wx1+tN7D278JH23elVdlw+lAAl6QQAz4M33YCChsrA1eLwolSMCwuuh+0KV/R4FGcZJt/FpGHkkTERY+xRvy85dcZ1hYUEV7um5mGNyJjJ6QDOcsW8Ipvzo2x2VZ0iXQk6qdazfQ4rJqwZFxUoJCCySJFH5bmB/VtknOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742972246; c=relaxed/simple;
-	bh=5edM3cdV/+75eEQTrQ/LXEZm/Jg8YlmkP78el+GFR4s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eH7gjbS+fRTJeiTczR9JxL9zM6tM1lTRoT6LwWV2CiyPn3W+hgDtB0BP2HyBiEVOqWRLyeGjDhTxNm0Kk0jaMwkeNXGgHBVEYk5mKLI+2BA75A/TKdaCUtxQx9F1iWUpdysbekKVIFVCNkEjoDorazMbWH9zzdRd/FTPgkkyXPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MjaS5yUr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC578C4CEED;
-	Wed, 26 Mar 2025 06:57:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742972245;
-	bh=5edM3cdV/+75eEQTrQ/LXEZm/Jg8YlmkP78el+GFR4s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MjaS5yUrwIRRQpEcqUrteJ6V/VpmKrDDXMBwUgYtmR95HFoaGV+dmGjFfN9wHHJky
-	 2LXis7MYWsUAH86eKbxaxoVqMkxbVVcRzBG/uVb/VcKWOn9qOHC1OpoW26P8iDtiW3
-	 PXFmE13XxjPSXuV//EWYrTdKvIpakWXeZ/7DSK8cgE/w5RfT3ThbQIdE/HiOWlB1KI
-	 tltRWfQ1EHhQAzA2TmqtKbryqfvnAfNFQsvhPbFdAWdnZ2vmfZJkOCMAafElD8H9Fq
-	 6yJesazDxTjO4zdrbsAouQHjiMAkyVNn1S4lphvICYvb+5nckjD1xPneoNflEGcATY
-	 gh9GgeknjfQhw==
-Message-ID: <492da0ab-3a5c-4ee9-bc37-d66b007ffd81@kernel.org>
-Date: Wed, 26 Mar 2025 07:57:16 +0100
+	s=arc-20240116; t=1742979291; c=relaxed/simple;
+	bh=ntJJMqYup2C7GnXqXY+2wcnT/Nc4wmEzP7fXkMK8CvU=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=Ng6jZQpmfzG+O9x41aBtY4ygN/W3KaghnhQVsxNXyKj5QHR5M+O3ktHPCsyDx6A4sXLWZrkYnadtqAQRdezzc0/pjDFPJSWbQv2yPLv8CvdvUfuspZ1i32iq0xSKshdeT+f8BBN8N0uMMqdt7Niz74Q/6bwIshHZyfZvnSrlkDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JgZ2J85D; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742979290; x=1774515290;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=ntJJMqYup2C7GnXqXY+2wcnT/Nc4wmEzP7fXkMK8CvU=;
+  b=JgZ2J85D6WzNaK41wyfam2Mlwr0o7Z2KpszFnz8lhaiJIHhMD/owaID6
+   iIZDP35Wnt4SG8Iant7KqRc429tqZBJe10X+fagApqj9AVP56vt+0v8cZ
+   DMGo1cyvebmvb8JeU2oA4imusKQQp/C3fbqjDGCUXEJToYGtnUktJBHL6
+   b2MfENPBvoyL58TeRy4IskUbdOSM3hZdWSv4qneRraykUgy7NM/MvxF4L
+   7GBvXgfl0FxlFYueCTwWzeIyl2QPWa6fLxjabOqnpc51dHRul3GKA6VHj
+   NOLyDUgBIgaEeBObppi5hZdNYRo9IrrFsVlnkg3gntpQkqJUSwVcs3dlu
+   Q==;
+X-CSE-ConnectionGUID: 2i4RowruQzqVV9qO/FExYQ==
+X-CSE-MsgGUID: hPUfSCLLRJ6kJpmOggrlRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="55250318"
+X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
+   d="scan'208";a="55250318"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 01:54:49 -0700
+X-CSE-ConnectionGUID: 1hUn08HHT2ykBVfxDeN2XA==
+X-CSE-MsgGUID: 6kfjFhWTSba48pspmud0OQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
+   d="scan'208";a="125494583"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.5])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 01:54:45 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 26 Mar 2025 10:54:41 +0200 (EET)
+To: Antheas Kapenekakis <lkml@antheas.dev>
+cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
+    LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+    Benjamin Tissoires <bentiss@kernel.org>, 
+    Corentin Chary <corentin.chary@gmail.com>, 
+    "Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v5 09/11] HID: asus: add basic RGB support
+In-Reply-To: <20250325184601.10990-10-lkml@antheas.dev>
+Message-ID: <f04e6a59-cb72-9ca9-2c98-85702b6194fa@linux.intel.com>
+References: <20250325184601.10990-1-lkml@antheas.dev> <20250325184601.10990-10-lkml@antheas.dev>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/7] dt-bindings: input: syna,rmi4: document
- syna,pdt-fallback-desc
-To: Caleb Connolly <caleb.connolly@linaro.org>,
- David Heidelberg <david@ixit.cz>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
- Vincent Huang <vincent.huang@tw.synaptics.com>, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20250308-synaptics-rmi4-v3-0-215d3e7289a2@ixit.cz>
- <20250308-synaptics-rmi4-v3-1-215d3e7289a2@ixit.cz>
- <20250310-hissing-vagabond-pegasus-cc8aed@krzk-bin>
- <3c5e12fc-eb91-46e8-a558-9896f0bdcab4@ixit.cz>
- <b3a5ec89-0125-4b01-8cca-69b9985b6089@kernel.org>
- <48bb62eb-8aa9-465c-9e77-c0b375df0c9f@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <48bb62eb-8aa9-465c-9e77-c0b375df0c9f@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-On 25/03/2025 14:23, Caleb Connolly wrote:
-> 
-> 
-> On 3/25/25 08:36, Krzysztof Kozlowski wrote:
->> On 24/03/2025 19:00, David Heidelberg wrote:
->>> On 10/03/2025 10:45, Krzysztof Kozlowski wrote:
->>>> On Sat, Mar 08, 2025 at 03:08:37PM +0100, David Heidelberg wrote:
->>>>> From: Caleb Connolly <caleb.connolly@linaro.org>
->>>>>
->>>>> This new property allows devices to specify some register values which
->>>>> are missing on units with third party replacement displays. These
->>>>> displays use unofficial touch ICs which only implement a subset of the
->>>>> RMI4 specification.
->>>>
->>>> These are different ICs, so they have their own compatibles. Why this
->>>> cannot be deduced from the compatible?
->>>
->>> Yes, but these identify as the originals.
->>
->>
->> It does not matter how they identify. You have the compatible for them.
->> If you cannot add compatible for them, how can you add dedicated
->> property for them?
-> 
-> Hi Krzysztof,
-> 
-> There are an unknown number of knock-off RMI4 chips which are sold in 
-> cheap replacement display panels from multiple vendors. We suspect 
-> there's more than one implementation.
-> 
-> A new compatible string wouldn't help us, since we use the same DTB on 
-> fully original hardware as on hardware with replacement parts.
-> 
-> The proposed new property describes configuration registers which are 
-> present on original RMI4 chips but missing on the third party ones, the 
-> contents of the registers is static.
+On Tue, 25 Mar 2025, Antheas Kapenekakis wrote:
 
+> Adds basic RGB support to hid-asus through multi-index. The interface
+> works quite well, but has not gone through much stability testing.
+> Applied on demand, if userspace does not touch the RGB sysfs, not
+> even initialization is done. Ensuring compatibility with existing
+> userspace programs.
+> 
+> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> ---
+>  drivers/hid/Kconfig    |   1 +
+>  drivers/hid/hid-asus.c | 171 +++++++++++++++++++++++++++++++++++++----
+>  2 files changed, 156 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> index dfc245867a46a..d324c6ab997de 100644
+> --- a/drivers/hid/Kconfig
+> +++ b/drivers/hid/Kconfig
+> @@ -151,6 +151,7 @@ config HID_APPLEIR
+>  config HID_ASUS
+>  	tristate "Asus"
+>  	depends on USB_HID
+> +	depends on LEDS_CLASS_MULTICOLOR
+>  	depends on LEDS_CLASS
+>  	depends on ASUS_WMI || ASUS_WMI=n
+>  	select POWER_SUPPLY
+> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+> index a4d1160460935..c135c9ff87b74 100644
+> --- a/drivers/hid/hid-asus.c
+> +++ b/drivers/hid/hid-asus.c
+> @@ -23,6 +23,7 @@
+>  /*
+>   */
+>  
+> +#include <linux/array_size.h>
+>  #include <linux/dmi.h>
+>  #include <linux/hid.h>
+>  #include <linux/module.h>
+> @@ -30,6 +31,7 @@
+>  #include <linux/input/mt.h>
+>  #include <linux/usb.h> /* For to_usb_interface for T100 touchpad intf check */
+>  #include <linux/power_supply.h>
+> +#include <linux/led-class-multicolor.h>
+>  #include <linux/leds.h>
+>  
+>  #include "hid-ids.h"
+> @@ -52,6 +54,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+>  #define FEATURE_KBD_REPORT_SIZE 64
+>  #define FEATURE_KBD_LED_REPORT_ID1 0x5d
+>  #define FEATURE_KBD_LED_REPORT_ID2 0x5e
+> +#define FEATURE_KBD_LED_REPORT_SIZE 7
+>  
+>  #define SUPPORT_KBD_BACKLIGHT BIT(0)
+>  
+> @@ -86,6 +89,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+>  #define QUIRK_ROG_NKEY_KEYBOARD		BIT(11)
+>  #define QUIRK_ROG_CLAYMORE_II_KEYBOARD BIT(12)
+>  #define QUIRK_HANDLE_GENERIC		BIT(13)
+> +#define QUIRK_ROG_NKEY_RGB		BIT(14)
+>  
+>  #define I2C_KEYBOARD_QUIRKS			(QUIRK_FIX_NOTEBOOK_REPORT | \
+>  						 QUIRK_NO_INIT_REPORTS | \
+> @@ -98,9 +102,15 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+>  
+>  struct asus_kbd_leds {
+>  	struct asus_hid_listener listener;
+> +	struct led_classdev_mc mc_led;
+> +	struct mc_subled subled_info[3];
+>  	struct hid_device *hdev;
+>  	struct work_struct work;
+>  	unsigned int brightness;
+> +	u8 rgb_colors[3];
+> +	bool rgb_init;
+> +	bool rgb_set;
+> +	bool rgb_registered;
+>  	spinlock_t lock;
+>  	bool removed;
+>  };
+> @@ -501,23 +511,67 @@ static void asus_schedule_work(struct asus_kbd_leds *led)
+>  	spin_unlock_irqrestore(&led->lock, flags);
+>  }
+>  
+> -static void asus_kbd_backlight_set(struct asus_hid_listener *listener,
+> +static void do_asus_kbd_backlight_set(struct asus_kbd_leds *led, int brightness)
+> +{
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&led->lock, flags);
+> +	led->brightness = brightness;
+> +	spin_unlock_irqrestore(&led->lock, flags);
+> +
+> +	asus_schedule_work(led);
+> +}
+> +
+> +static void asus_kbd_listener_set(struct asus_hid_listener *listener,
+>  				   int brightness)
+>  {
+>  	struct asus_kbd_leds *led = container_of(listener, struct asus_kbd_leds,
+>  						 listener);
+> +	do_asus_kbd_backlight_set(led, brightness);
+> +	if (led->rgb_registered) {
+> +		led->mc_led.led_cdev.brightness = brightness;
+> +		led_classdev_notify_brightness_hw_changed(&led->mc_led.led_cdev,
+> +							  brightness);
+> +	}
+> +}
+> +
+> +static void asus_kbd_brightness_set(struct led_classdev *led_cdev,
+> +				    enum led_brightness brightness)
+> +{
+> +	struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(led_cdev);
+> +	struct asus_kbd_leds *led = container_of(mc_cdev, struct asus_kbd_leds,
+> +						 mc_led);
+>  	unsigned long flags;
+>  
+>  	spin_lock_irqsave(&led->lock, flags);
+> -	led->brightness = brightness;
+> +	led->rgb_colors[0] = mc_cdev->subled_info[0].intensity;
+> +	led->rgb_colors[1] = mc_cdev->subled_info[1].intensity;
+> +	led->rgb_colors[2] = mc_cdev->subled_info[2].intensity;
+> +	led->rgb_set = true;
+>  	spin_unlock_irqrestore(&led->lock, flags);
+>  
+> -	asus_schedule_work(led);
+> +	do_asus_kbd_backlight_set(led, brightness);
+> +}
+> +
+> +static enum led_brightness asus_kbd_brightness_get(struct led_classdev *led_cdev)
+> +{
+> +	struct led_classdev_mc *mc_led;
+> +	struct asus_kbd_leds *led;
+> +	enum led_brightness brightness;
+> +	unsigned long flags;
+> +
+> +	mc_led = lcdev_to_mccdev(led_cdev);
+> +	led = container_of(mc_led, struct asus_kbd_leds, mc_led);
+> +
+> +	spin_lock_irqsave(&led->lock, flags);
+> +	brightness = led->brightness;
+> +	spin_unlock_irqrestore(&led->lock, flags);
+> +
+> +	return brightness;
+>  }
+>  
+> -static void asus_kbd_backlight_work(struct work_struct *work)
+> +static void asus_kbd_backlight_work(struct asus_kbd_leds *led)
+>  {
+> -	struct asus_kbd_leds *led = container_of(work, struct asus_kbd_leds, work);
+>  	u8 buf[] = { FEATURE_KBD_REPORT_ID, 0xba, 0xc5, 0xc4, 0x00 };
+>  	int ret;
+>  	unsigned long flags;
+> @@ -531,10 +585,68 @@ static void asus_kbd_backlight_work(struct work_struct *work)
+>  		hid_err(led->hdev, "Asus failed to set keyboard backlight: %d\n", ret);
+>  }
+>  
+> +static void asus_kbd_rgb_work(struct asus_kbd_leds *led)
+> +{
+> +	u8 rgb_buf[][FEATURE_KBD_LED_REPORT_SIZE] = {
+> +		{ FEATURE_KBD_LED_REPORT_ID1, 0xB3 }, /* set mode */
+> +		{ FEATURE_KBD_LED_REPORT_ID1, 0xB5 }, /* apply mode */
+> +		{ FEATURE_KBD_LED_REPORT_ID1, 0xB4 }, /* save to mem */
 
-So you want to add redundant information for existing compatible, while
-claiming you cannot deduce it from that existing compatible... Well,
-no.. you cannot be sure that only chosen boards will have touchscreens
-replaced, thus you will have to add this property to every board using
-this compatible making it equal to the compatible and we are back at my
-original comment. This is deducible from the compatible. If not the new
-one, then from old one.
+Hmm, I don't know why I didn't notice this the last scan... Since you're 
+anyway adding those comments to explain the literals (I assume), wouldn't 
+it be simply better to add defines for 0xB* and forgo the comments.
 
-Best regards,
-Krzysztof
+Usually when one adds any comment, it's always good to ask first oneself 
+if things could be named such that the code itself explains itself. This
+leaves comments mostly for places where something really 
+odd/tricky/complex occurs as the rest can be covered by simply naming 
+better.
+
+> +	};
+> +	unsigned long flags;
+> +	uint8_t colors[3];
+> +	bool rgb_init, rgb_set;
+> +	int ret;
+> +
+> +	spin_lock_irqsave(&led->lock, flags);
+> +	rgb_init = led->rgb_init;
+> +	rgb_set = led->rgb_set;
+> +	led->rgb_set = false;
+> +	colors[0] = led->rgb_colors[0];
+> +	colors[1] = led->rgb_colors[1];
+> +	colors[2] = led->rgb_colors[2];
+> +	spin_unlock_irqrestore(&led->lock, flags);
+> +
+> +	if (!rgb_set)
+> +		return;
+> +
+> +	if (rgb_init) {
+> +		ret = asus_kbd_init(led->hdev, FEATURE_KBD_LED_REPORT_ID1);
+> +		if (ret < 0) {
+> +			hid_err(led->hdev, "Asus failed to init RGB: %d\n", ret);
+> +			return;
+> +		}
+> +		spin_lock_irqsave(&led->lock, flags);
+> +		led->rgb_init = false;
+> +		spin_unlock_irqrestore(&led->lock, flags);
+> +	}
+> +
+> +	/* Protocol is: 54b3 zone (0=all) mode (0=solid) RGB */
+
+BTW, this comment is very cryptic to me and I'm unable to connect it with 
+the code below. My only guess is that each non-parenthesized word is 
+explaining one index but things don't add up given what rgb_buf[0][0] and 
+[0][1] have.
+
+> +	rgb_buf[0][4] = colors[0];
+> +	rgb_buf[0][5] = colors[1];
+> +	rgb_buf[0][6] = colors[2];
+> +
+> +	for (size_t i = 0; i < ARRAY_SIZE(rgb_buf); i++) {
+> +		ret = asus_kbd_set_report(led->hdev, rgb_buf[i], sizeof(rgb_buf[i]));
+> +		if (ret < 0) {
+> +			hid_err(led->hdev, "Asus failed to set RGB: %d\n", ret);
+> +			return;
+> +		}
+> +	}
+> +}
+> +
+> +static void asus_kbd_work(struct work_struct *work)
+> +{
+> +	struct asus_kbd_leds *led = container_of(work, struct asus_kbd_leds,
+> +						 work);
+> +	asus_kbd_backlight_work(led);
+> +	asus_kbd_rgb_work(led);
+> +}
+> +
+>  static int asus_kbd_register_leds(struct hid_device *hdev)
+>  {
+>  	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
+>  	unsigned char kbd_func;
+> +	struct asus_kbd_leds *leds;
+>  	int ret;
+>  
+>  	ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
+> @@ -562,20 +674,47 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
+>  	if (!drvdata->kbd_backlight)
+>  		return -ENOMEM;
+>  
+> -	drvdata->kbd_backlight->removed = false;
+> -	drvdata->kbd_backlight->brightness = 0;
+> -	drvdata->kbd_backlight->hdev = hdev;
+> -	drvdata->kbd_backlight->listener.brightness_set = asus_kbd_backlight_set;
+> -	INIT_WORK(&drvdata->kbd_backlight->work, asus_kbd_backlight_work);
+> +	leds = drvdata->kbd_backlight;
+> +	leds->removed = false;
+> +	leds->brightness = ASUS_EV_MAX_BRIGHTNESS;
+> +	leds->hdev = hdev;
+> +	leds->listener.brightness_set = asus_kbd_listener_set;
+> +
+> +	leds->rgb_colors[0] = 0;
+> +	leds->rgb_colors[1] = 0;
+> +	leds->rgb_colors[2] = 0;
+> +	leds->rgb_init = true;
+> +	leds->rgb_set = false;
+> +	leds->mc_led.led_cdev.name = devm_kasprintf(&hdev->dev, GFP_KERNEL,
+> +					"asus-%s:rgb:peripheral",
+> +					strlen(hdev->uniq) ?
+> +					hdev->uniq : dev_name(&hdev->dev));
+> +	leds->mc_led.led_cdev.flags = LED_BRIGHT_HW_CHANGED;
+> +	leds->mc_led.led_cdev.max_brightness = ASUS_EV_MAX_BRIGHTNESS;
+> +	leds->mc_led.led_cdev.brightness_set = asus_kbd_brightness_set;
+> +	leds->mc_led.led_cdev.brightness_get = asus_kbd_brightness_get;
+> +	leds->mc_led.subled_info = leds->subled_info;
+> +	leds->mc_led.num_colors = ARRAY_SIZE(leds->subled_info);
+> +	leds->subled_info[0].color_index = LED_COLOR_ID_RED;
+> +	leds->subled_info[1].color_index = LED_COLOR_ID_GREEN;
+> +	leds->subled_info[2].color_index = LED_COLOR_ID_BLUE;
+> +
+> +	INIT_WORK(&drvdata->kbd_backlight->work, asus_kbd_work);
+>  	spin_lock_init(&drvdata->kbd_backlight->lock);
+>  
+>  	ret = asus_hid_register_listener(&drvdata->kbd_backlight->listener);
+> -	if (ret < 0) {
+> -		/* No need to have this still around */
+> -		devm_kfree(&hdev->dev, drvdata->kbd_backlight);
+> +	/* Asus-wmi might not be accessible so this is not fatal. */
+> +	if (!ret)
+> +		hid_warn(hdev, "Asus-wmi brightness listener not registered\n");
+
+Is the condition correct way around given the message?
+
+Please also note that you don't need to send an update every day or so 
+after minor comments like this. We're in merge window currently which 
+means I likely won't be applying any next material until -rc1 has been 
+released.
+
+> +	if (drvdata->quirks & QUIRK_ROG_NKEY_RGB) {
+> +		ret = devm_led_classdev_multicolor_register(&hdev->dev, &leds->mc_led);
+> +		if (!ret)
+> +			leds->rgb_registered = true;
+> +		return ret;
+>  	}
+>  
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  /*
+> @@ -1282,7 +1421,7 @@ static const struct hid_device_id asus_devices[] = {
+>  	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+>  	    USB_DEVICE_ID_ASUSTEK_ROG_Z13_LIGHTBAR),
+> -	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+> +	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_RGB },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+>  	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY),
+>  	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+> @@ -1311,7 +1450,7 @@ static const struct hid_device_id asus_devices[] = {
+>  	 */
+>  	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+>  		USB_VENDOR_ID_ASUSTEK, USB_DEVICE_ID_ASUSTEK_ROG_Z13_FOLIO),
+> -	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+> +	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_NKEY_RGB },
+>  	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+>  		USB_VENDOR_ID_ASUSTEK, USB_DEVICE_ID_ASUSTEK_T101HA_KEYBOARD) },
+>  	{ }
+> 
+
+-- 
+ i.
+
 
