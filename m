@@ -1,134 +1,94 @@
-Return-Path: <linux-input+bounces-11290-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11291-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE61A71417
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 10:49:27 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A64AFA71433
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 10:55:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 954D8188F0BB
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 09:49:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C520172C95
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 09:55:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43F28185920;
-	Wed, 26 Mar 2025 09:49:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C34019E992;
+	Wed, 26 Mar 2025 09:54:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fndLlXfR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BxBm/3zm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852F2157A48;
-	Wed, 26 Mar 2025 09:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D062A1B2;
+	Wed, 26 Mar 2025 09:54:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742982542; cv=none; b=ckyFocqrPGKD63HTEajX4r6m/+j8exPB4hOMf1l3afwJGRTKl9zYw81XVXgWZkm2JCCjsNF5aDL4qRrHjUyzShLEKtoXJp7lw2RqUAKWZmRxazBCtwdgbR4+ZT2m8O1ihT7+q6UMEPYZ27r/1IREYSTD/5583FiJmuiuEiXCF4w=
+	t=1742982898; cv=none; b=uzzl5qNHP1gF2B7KVXQA6SMwoxscsdzVqDcM0AA4VFGeetJw5cKM24Q/SozCs9B7rlO05p5w38YS8P8W6QRxg23yfSnZpa1P6lHySLhbs2Luly9zJd9xHbZJZWfuNCFU0Z4qUhdQyokiGrZSB7BIvQj71i+DlriKs4SwGAF0mG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742982542; c=relaxed/simple;
-	bh=iTmKVXNVrbXmkoY13hcoVf2uIStc1QDurP/RRq9AHYs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ET49v21futqekhJtmgDOoJrSSXwUqK+YNYOtZ0y9zeI2PLTuEMOV2jo2fmTu47NurVyYaYk3yo137hJjlZJrScpiWKsJ8z1EwXBlK7GhepfhGN2duY8FrQOdoSBGdV13qnMoHLaP0xAbGRuszQuD4SatnAidsflAUbHoGREIqtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fndLlXfR; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742982541; x=1774518541;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iTmKVXNVrbXmkoY13hcoVf2uIStc1QDurP/RRq9AHYs=;
-  b=fndLlXfRXxLVn/OTetBX1uFL+DShV9rsCcuG2xUtJGvOnh3KP4VA9a8M
-   2V6xfZ0k9deTrOVc7nwc1/GGW/9nd3FtV5YccdBVLaHeXi3LzzCdZ1Jia
-   uTlM1xaTsiXPdBsBz7ee+3jvVLtnqy3adHJ6nBabbxNQgcL1A6uvbz/2b
-   2/EGnHAH6y4Z3r4Ez/pTceY/vTwqqxYCRDsVZlJ+w9L98oFe5au+igJgg
-   mwPOlo0Ti9loLN0SUUyNOpLjrQWoaDfyYZ1z+nlMl/Dt1+h8gR6JxlcjB
-   WfvohxIgk+BiYQJDGbipmJpinxpnSKiEduP0yVKwqJwmH3Hrejownx5Ke
-   w==;
-X-CSE-ConnectionGUID: tkC0kEdKRrOWiu+axYGblw==
-X-CSE-MsgGUID: IvZhKJNGRQmgTxkyVtoiPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="66717803"
-X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="66717803"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 02:49:00 -0700
-X-CSE-ConnectionGUID: xVWDOTWSSmm7Zbir545NcA==
-X-CSE-MsgGUID: x02ymUKXTLCQ55lKwv7TNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="125227193"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 02:48:59 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1txNNY-000000061zb-1DJo;
-	Wed, 26 Mar 2025 11:48:56 +0200
-Date: Wed, 26 Mar 2025 11:48:56 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
-Subject: Re: [PATCH v1 0/4] Input: Increase size of phys in the drivers
-Message-ID: <Z-PNiLByle1-9dib@smile.fi.intel.com>
-References: <20250228121147.242115-1-andriy.shevchenko@linux.intel.com>
- <Z8bulFaTKJ06YLrL@smile.fi.intel.com>
- <Z8f63ImfQMB-Wp5R@google.com>
- <Z8giINd3FySw44UO@smile.fi.intel.com>
+	s=arc-20240116; t=1742982898; c=relaxed/simple;
+	bh=Ov1AgyYh3kM4hCEm6V6qb5sdi+6O1RBZvGdEtbZlBnU=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=bchcsYllnrmrfBnnExEQCAWd8ASYQNUMQVYr6poNd5U0/Zri7DnWT+DrPQ4rNjrUbkjdVhH3e9StrHlIWsZKxrZ5vBARbxQ3Ldv6fEGqV2Xicef/bk5TW52gT8GaYMNB5FVzV3lf5u0MFBOzRSH/blppQJTQaCZIjXGDjPWbmkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BxBm/3zm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41EE3C4CEE2;
+	Wed, 26 Mar 2025 09:54:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742982896;
+	bh=Ov1AgyYh3kM4hCEm6V6qb5sdi+6O1RBZvGdEtbZlBnU=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=BxBm/3zmwoyfzil4KP1ekcmQhwFLh874LJq8SGnYExJvY+7ZDKuNTo9eeo2Gqf4Gz
+	 QWs5eH48XqvcMr+C0NSY2tbdj+JWPRoJeK5nTwTstf8vojgyaCrpIJubgiMvQ/0eEG
+	 4SGQQf2C4Rhxk9mhuYPMeW0d++3UieNW0TkhcwmghOI7EyulZOxpBpvXRsBYCOUPIV
+	 GZ0d08KcjZmN1cwA4J0wH2IVz1ZuqF0/zrsBZwhEYtdw56Oqz6zXA83nba0ve8R/Bn
+	 T7H3BmH+qcMiQ49qWglS45TPgGcpIyDBG2NaFnOtoRImVVw5EdTw5kwolR+x/aAytj
+	 01hFUS+/XcKcA==
+Date: Wed, 26 Mar 2025 10:54:53 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: Aditya Garg <gargaditya08@live.com>
+cc: Aditya Garg <adityagarg1208@gmail.com>, 
+    Benjamin Tissoires <bentiss@kernel.org>, 
+    "admin@kodeit.net" <admin@kodeit.net>, 
+    "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>, 
+    "kekrby@gmail.com" <kekrby@gmail.com>, 
+    "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, 
+    "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+    "orlandoch.dev@gmail.com" <orlandoch.dev@gmail.com>
+Subject: Re: [PATCH RESEND 5/5] HID: multitouch: add device ID for Apple
+ Touch Bar
+In-Reply-To: <PN3PR01MB95979ECF0C403CA6622E56D0B8A72@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Message-ID: <7rsn5334-npo6-408r-8442-6o3qo3qp05q7@xreary.bet>
+References: <bzb6rk7q7rs27kbonihpfftkgueievpux7vpqjgrgsud5pf5g2@tuxymj7vk3it> <219B5F93-611D-48FA-A4D9-F9B71401A57D@gmail.com> <PN3PR01MB95979ECF0C403CA6622E56D0B8A72@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z8giINd3FySw44UO@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=US-ASCII
 
-On Wed, Mar 05, 2025 at 12:06:25PM +0200, Andy Shevchenko wrote:
-> On Tue, Mar 04, 2025 at 11:18:52PM -0800, Dmitry Torokhov wrote:
-> > On Tue, Mar 04, 2025 at 02:14:12PM +0200, Andy Shevchenko wrote:
-> > > On Fri, Feb 28, 2025 at 02:07:43PM +0200, Andy Shevchenko wrote:
-> > > > The drivers are using local member of 32 bytes to hold up to 40 (one-byte)
-> > > > characters. GCC complains on that. This series fixes the issue in the affected
-> > > > input drivers. Note, this is currently the biggest part of the warnings that
-> > > > are being treated as errors with the default configurations on x86. With this
-> > > > being applied we become quite close to enable CONFIG_WERROR=y (which is default
-> > > > and basically reverted) in CIs. Clang, OTOH, has currently no issues with that.
-> > > 
-> > > Would be nice to have a comment on this rather sooner as this impacts
-> > > the compilation by `make W=1` with WERROR=y (which is default).
+On Tue, 25 Mar 2025, Aditya Garg wrote:
+
+> >>> Yes I can move hid_find_field to the original location as well. But, 
+> >>> I would not want to devm_kzalloc as well unnecessarily if the 
+> >>> touchbar is in the basic mode instead of drm mode which will cause 
+> >>> this -ENODEV to be executed right?
+> >> 
+> >> It shouldn't matter. hid_core calls devres_open_group() before calling
+> >> .probe(), and calls devres_release_group() on failure. So yes, we'll
+> >> allocate a piece of memory and release it after, but it's not something
+> >> uncommon.
 > > 
-> > I do not like the change.
+> > Fair. I'll send a v2
 > 
-> Independently on your opinion in this case GCC is correct.
-> We are trying to squeeze up to 40 bytes into 32-byte storage.
-> I.o.w. GCC can't prove that and reader of the code can't prove
-> that either.
-> 
-> > There are no bugs, only GCC being paranoid.
-> 
-> I'm not so sure. But probably it works because the user space is parsing full
-> "inputX" string in the names
-> 
-> > Are there any other ways to shut it up? In [1] Jeff says that switching
-> > to scnprintf() shuts GCC up...
-> 
-> I do not like this, because it's just a hiding the problem and not solving it.
-> At some point GCC may start issuing warning on those cases as well when it
-> realizes the above. If you like that solution, please fix in that way. We have
-> 4 drivers break the compilation currently.
+> I've sent a v2 from my gmail address. Outlook is being too fussy these 
+> days, so hopefully I don't have to sign off twice using gmail as well as 
+> outlook.
 
-Actually looking closer, the better fix (and which I'm not against) is to check
-for returned value of snprintf() and act accordingly. What do you think?
-
-> > [1] https://lore.kernel.org/r/Z3rIvp0hzS+yzvJA@nixie71
-> 
-> So, consider this series as a bug report that prevents compilation.
-> I would expect somebody to fix this rather sooner than later.
+Thanks. Please always make sure that either in the cover letter or in the 
+individual patches you otline the differences between individual patch 
+submissions.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Jiri Kosina
+SUSE Labs
 
 
