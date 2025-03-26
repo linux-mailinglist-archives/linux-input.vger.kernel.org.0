@@ -1,168 +1,102 @@
-Return-Path: <linux-input+bounces-11295-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11296-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EEB1A714C6
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 11:26:19 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F59A71533
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 12:00:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B462816A7AB
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 10:26:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9A38A7A5889
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 10:59:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 888A01B21B4;
-	Wed, 26 Mar 2025 10:26:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86D0B1A8F60;
+	Wed, 26 Mar 2025 11:00:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XPPhUaHM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dhqGxkjw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FED8191461
-	for <linux-input@vger.kernel.org>; Wed, 26 Mar 2025 10:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59677BA50;
+	Wed, 26 Mar 2025 11:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742984772; cv=none; b=Aa2b5k4Y+bUZxL1UzV+R5PrvdY041Lxn/HvdmkYaTQeb4DRE8pBHPLUq9Gn4qp8nCwd4GyYx4NNWn8anX9cb5BfKbq/5B499KlPNEk57NAWs4Ur9VuU/98HxVXnerepx91k0aXhuo/40F5w8DZBX4umbSAhpzm56emGdAhxbo5A=
+	t=1742986848; cv=none; b=VS5mXW1r3dQ3c6aoQI76KAnxHTBRBJ7KEZbOb9n7/WWf4T95K9iSypRie57CgSH23RGT/mwRKYsylJm/n27atjpgfKf7QUU4sYFVv+w/KZdmDqvaKHSHa9aKPumBAnnAOkCZ9MkZPWZQLs6W+e/Z9kqknP0Ubb6r4THrqWbX18g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742984772; c=relaxed/simple;
-	bh=VmZW3dYOkE+WcIdW+rTFDYurYECcNeudvlHZ1LESI8I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FwTKJ35wTsCKi3fBgAsq+IWmjdjcoSgc2duZWUdod10vNraDB41mhEkgbT+3JtCvBzQN3YWF0myukBSfM1+myx4NPDVxd6nM59pkhLp1FfF6mIRB384v+8PcpEYuqC+QImPykXhHxrGrHuihKAg5I8Ib6XgLoXwq00PcTnqQdWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XPPhUaHM; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cfe63c592so63824305e9.2
-        for <linux-input@vger.kernel.org>; Wed, 26 Mar 2025 03:26:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742984769; x=1743589569; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=98hcAito2MMtQTY1iL6KWHxMYRyo687ywiMmqIh+p7A=;
-        b=XPPhUaHMMHildxl7E/pGbg3LqEdcenwWvdjeuLPj1f8OT7a6BYtjs2bu24XtbAnFFY
-         s9+jVhzzy9BFkI3JMO+QBwfdpCUz6XYuPUqDbZPhh1GKp+3K27W5+fCppeyI/7od9GV5
-         scsDjSsDhiRkFPWlWeter1dzRKgY0BJ24tX0Zakn7d3gRB/jl78ONFJba5+ry4db+fqB
-         w+6iIB3FLjU3RMJ99bkzWnP317J2KjottjvJYV3+hj66I0kjq40id1xBzpo5I2EkX5wd
-         w/9qMcNz3WXfeWm2gcUcFe6Pwo2OXAUJ2wzYK+dfZXPPfP1ln1vMQLy1bUed15eH795l
-         DSVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742984769; x=1743589569;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=98hcAito2MMtQTY1iL6KWHxMYRyo687ywiMmqIh+p7A=;
-        b=KRRqihVkuT4YskUjbkYe+6Ul+5y8u0fsFcmMCyDXaGUMi6l0ratJOJdgpfY5guJRv4
-         ndDMlfkDW/9/JhMkz15Gvrw6+I7vJ1yQxAj9LDsvMOJVWH84fl1LO9tgkMBOyLS5ajHB
-         Q2RdYvfwYpMMED/tbNitB2wa9GAinmjKPEeJOlKb7MfEU6XVOc1Zyc8Q3MQKChI3AVAU
-         Wo0RsXsIgn9RZA6mbHSM1PCXuWOZjHfqHpP3MQCWzriOAThIq0oMILKshL8WvbqZtDoI
-         gqJiJKmcilCwkFgyd/jfIoMU+Pw5SAHjgXy+VBX0HG/n4X4NsaI/8gR0UeZT6XJ2o/qI
-         dvgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVtgD4Hri9LzBC8pNY5bCOCyhBVCwUIqJejhYzOz9tgkmRaNwfroZ669gMHs7OXODM/Pw8zcYIZ+PNAnQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjH1nqh8vKsAa2bzJW2L5+OiBQPvdwubP3qWWVzKz8PhCXj+7M
-	nS464v5UGr0ibEYwgUgJGVx8g7nFLi8hbl0ZgqeUUbBZUBVzlAat4qnraDLfFjM=
-X-Gm-Gg: ASbGncs6bLG+W/5atbRG61aRESklfUG1SnImSLOXrrGUt6+j6JtnTatw6uz+OHCUbVk
-	tmO7ndBsuJyjp3FjElP/zYVNcxhyW+706VrluIEuCyJC3cCKBUxdH7NWxKypAL1utj0vJwe/E83
-	pRp0EQWAbPTgL+IPhYfSmNomYGM+JPd4TJpW0adtwfVYf0NdpH8rlYWUx3oDUlF/djTwjvS09pv
-	9sHW+qcu5Mo9AZg0RoEkg2jxuV9jr16KMwsWzDgCWkZOuvY9qtyyfxy8KJGsXt/UwGqkHNn6EvQ
-	+Q+KgqgsNvnl8NLOja9PHQ+mtQPGsT/0cfVQ44b8AXP/Isyk8ukRd6BPl7+TeN3M0sB6b6CLtbs
-	=
-X-Google-Smtp-Source: AGHT+IFNIgbM5SxndZJ31+RxAuvmVblk7zrUQEK1IUI9dhFX9c6aTpE7fdxiqMV2lHxT/eOf35nkUw==
-X-Received: by 2002:a05:600c:c0d:b0:43d:738:4a9 with SMTP id 5b1f17b1804b1-43d50a33d03mr154416225e9.27.1742984768921;
-        Wed, 26 Mar 2025 03:26:08 -0700 (PDT)
-Received: from [192.168.1.38] (i5E863BED.versanet.de. [94.134.59.237])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3997f9e6651sm16436745f8f.75.2025.03.26.03.26.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Mar 2025 03:26:08 -0700 (PDT)
-Message-ID: <5060c248-3160-4d52-81ec-8e06bbd246bf@linaro.org>
-Date: Wed, 26 Mar 2025 11:26:06 +0100
+	s=arc-20240116; t=1742986848; c=relaxed/simple;
+	bh=w5ZDeSrpmvoiPAO5YbWZhVqSkFMVenT7cq89xSyl3iE=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=JQHUrWBus9BmeNDS4KgkXRm7y71Q4A3UDnqiU1nQh7PO/DC1ShYF4TbfgJ1GTqUdQNPlCBTK9iea7JPbdJdNcoAofV0xucPBpiFJ1WVWOkun2yuakFagLWoAbo73SHDJ0aSW9j+oSYtw++6KvnR757T/5P5Gh63Wby3KyOhnNt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dhqGxkjw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D4FCC4CEE2;
+	Wed, 26 Mar 2025 11:00:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742986847;
+	bh=w5ZDeSrpmvoiPAO5YbWZhVqSkFMVenT7cq89xSyl3iE=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=dhqGxkjwiExuPEr0Bgdsh/uea3lnohLdHmo0TBARQaeud4YiM9KI8tOcvqgUlhVNl
+	 HYjrA+ZauGKfmLV5l2FN/D/vf/bux88e6pahHuNSu9vxGwXef0DNt0HOHJmR/SQDaj
+	 lrGnaRPzB+qSzQ9ymHB6RhxZzLGItYxPTZsQSgIxFN18z1reKMa+oxqG/VeM4dJlUJ
+	 CR6M02KNLO7TI/7pbmkwQm6Yae4t6TMTBpVeL6QolYAz6qSXJ07T3gOULd7dp2C29S
+	 QStAnDLLGYDX/uCgyzwjyo1VxaVA2z+AIegcESVC1w2YHFBMZ5kb4rxHAlyoIXuFAs
+	 I0P/4iuj3W5kg==
+Date: Wed, 26 Mar 2025 12:00:45 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+cc: Antheas Kapenekakis <lkml@antheas.dev>, 
+    platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
+    LKML <linux-kernel@vger.kernel.org>, 
+    Benjamin Tissoires <bentiss@kernel.org>, 
+    Corentin Chary <corentin.chary@gmail.com>, 
+    "Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v5 09/11] HID: asus: add basic RGB support
+In-Reply-To: <43c4dd17-de34-804f-7080-b287ac4a0cac@linux.intel.com>
+Message-ID: <26s13395-1ro2-37o8-01q5-6r4p09p69174@xreary.bet>
+References: <20250325184601.10990-1-lkml@antheas.dev> <20250325184601.10990-10-lkml@antheas.dev> <f04e6a59-cb72-9ca9-2c98-85702b6194fa@linux.intel.com> <CAGwozwF8PZczpqOFm3ONDdJTVCgcWOZ8mXrASbmiAXUhQvOhdg@mail.gmail.com>
+ <43c4dd17-de34-804f-7080-b287ac4a0cac@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/7] dt-bindings: input: syna,rmi4: document
- syna,pdt-fallback-desc
-To: Krzysztof Kozlowski <krzk@kernel.org>, David Heidelberg <david@ixit.cz>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
- Vincent Huang <vincent.huang@tw.synaptics.com>, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20250308-synaptics-rmi4-v3-0-215d3e7289a2@ixit.cz>
- <20250308-synaptics-rmi4-v3-1-215d3e7289a2@ixit.cz>
- <20250310-hissing-vagabond-pegasus-cc8aed@krzk-bin>
- <3c5e12fc-eb91-46e8-a558-9896f0bdcab4@ixit.cz>
- <b3a5ec89-0125-4b01-8cca-69b9985b6089@kernel.org>
- <48bb62eb-8aa9-465c-9e77-c0b375df0c9f@linaro.org>
- <492da0ab-3a5c-4ee9-bc37-d66b007ffd81@kernel.org>
-Content-Language: en-US
-From: Caleb Connolly <caleb.connolly@linaro.org>
-In-Reply-To: <492da0ab-3a5c-4ee9-bc37-d66b007ffd81@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
+On Wed, 26 Mar 2025, Ilpo J=C3=A4rvinen wrote:
 
+> You don't need to "pause" for the merge window, in some subsystem=20
+> there's mandatory pause during merge window but I find that unnecessary.
+> I know people on pdx86 do review during merge window so no need to wait=
+=20
+> when working with patches related to pdx86. Just don't expect patches=20
+> get applied during the merge window or right after it (the latter tends t=
+o=20
+> be the most busiest time of cycle for me) :-).
+>=20
+> It's more about the frequency, how often to send a series which is=20
+> relatively large. Large number of versions end up just filling inboxes=20
+> (and patchwork's pending patches list) and we don't have time to read the=
+m=20
+> all through so I suggest waiting like 3 days at minimum between versions=
+=20
+> when the series is large or complex to give time to go through the series=
+=2E
+>=20
+> This is not a hard rule, so if there are e.g. many significant changes,=
+=20
+> feel free to "violate" it in that case.
 
-On 3/26/25 07:57, Krzysztof Kozlowski wrote:
-> On 25/03/2025 14:23, Caleb Connolly wrote:
->>
->>
->> On 3/25/25 08:36, Krzysztof Kozlowski wrote:
->>> On 24/03/2025 19:00, David Heidelberg wrote:
->>>> On 10/03/2025 10:45, Krzysztof Kozlowski wrote:
->>>>> On Sat, Mar 08, 2025 at 03:08:37PM +0100, David Heidelberg wrote:
->>>>>> From: Caleb Connolly <caleb.connolly@linaro.org>
->>>>>>
->>>>>> This new property allows devices to specify some register values which
->>>>>> are missing on units with third party replacement displays. These
->>>>>> displays use unofficial touch ICs which only implement a subset of the
->>>>>> RMI4 specification.
->>>>>
->>>>> These are different ICs, so they have their own compatibles. Why this
->>>>> cannot be deduced from the compatible?
->>>>
->>>> Yes, but these identify as the originals.
->>>
->>>
->>> It does not matter how they identify. You have the compatible for them.
->>> If you cannot add compatible for them, how can you add dedicated
->>> property for them?
->>
->> Hi Krzysztof,
->>
->> There are an unknown number of knock-off RMI4 chips which are sold in
->> cheap replacement display panels from multiple vendors. We suspect
->> there's more than one implementation.
->>
->> A new compatible string wouldn't help us, since we use the same DTB on
->> fully original hardware as on hardware with replacement parts.
->>
->> The proposed new property describes configuration registers which are
->> present on original RMI4 chips but missing on the third party ones, the
->> contents of the registers is static.
-> 
-> 
-> So you want to add redundant information for existing compatible, while
-> claiming you cannot deduce it from that existing compatible... Well,
-> no.. you cannot be sure that only chosen boards will have touchscreens
-> replaced, thus you will have to add this property to every board using
-> this compatible making it equal to the compatible and we are back at my
-> original comment. This is deducible from the compatible. If not the new
-> one, then from old one.
+Exactly. I am unlikely to do much review during the merge window myself,=20
+but I'll pick up the patchset and followup once the merge window is over,=
+=20
+so feel free to keep discussing and polishing it with me on CC :)
 
-hmm I see, so instead we should add a compatible for the specific 
-variant (S3320 or something) of RMI4 in this device and handle this in 
-the driver? I think that makes sense.
+Thanks,
 
-> 
-> Best regards,
-> Krzysztof
-
--- 
-Caleb (they/them)
+--=20
+Jiri Kosina
+SUSE Labs
 
 
