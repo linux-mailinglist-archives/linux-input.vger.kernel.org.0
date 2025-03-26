@@ -1,122 +1,130 @@
-Return-Path: <linux-input+bounces-11297-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11298-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04334A71535
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 12:01:09 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB12A717A6
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 14:39:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DAEDC3BB28A
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 11:00:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D4E21754F8
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 13:39:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7451A1C8626;
-	Wed, 26 Mar 2025 11:00:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF21D1E1DE5;
+	Wed, 26 Mar 2025 13:39:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TUF5oFvU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nFl3hxgg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCA31BEF74;
-	Wed, 26 Mar 2025 11:00:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E471A0BDB;
+	Wed, 26 Mar 2025 13:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742986858; cv=none; b=CTEtYU0gyTGGp7Swn5qvJU9NLTnEA0YOciD+hwBCsT4AAhS4yso+OD0sGcrUc52UREHVbkix//S6agpazfR4yGEC6i5uKt9i8v1XSTXtzTFEBUDT8InwiJGyM6ndFj5ijFXVDz/yFoDljreuT3ndpYaV/ZdbUPyeHjEFvb5xiFM=
+	t=1742996372; cv=none; b=eFII0J4zA0NowMqI1AOUT3NCzhx0lOrxvENwKK0/p0QPbRi8C88Dg2gNIh8DrfpqSceDqNgz6OtaS/UQHNdH7BYEZFWjDXPnWqyjS/QFPRpZhSnZqsG3UE5ynz+NFxZZ5d00U3ZqKFyHP1yeJiuuW+hKavZ0l4+7xQhYu8Ih9Io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742986858; c=relaxed/simple;
-	bh=GE2f5tN/qrs1osKm348JtdX/kYHC5v1SQLpJiAUSdtI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=XX7KwE4jgege/LKdpWUkoTWMERbPz5m36a8db38IhRs2tYjL8AbGqWOc2K8MWKkoCvbmUuXRQlzZf+bNWAVE7/JZLkESP7KvRBAbW5T1RSWyOeNHypbHPycFnLhO191HQFRfnS5cvPjeVi8ePxGn8cBZeI9B7cEJ5aew57KD0Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TUF5oFvU; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1BD5542E76;
-	Wed, 26 Mar 2025 11:00:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1742986848;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GE2f5tN/qrs1osKm348JtdX/kYHC5v1SQLpJiAUSdtI=;
-	b=TUF5oFvUP1UgmZ2BOnZCz9Z2G146wpzLM5itfJZLhwMpIglNkeM8OjYInfj+nz0r+iZb3Z
-	rl3v7ijxRThgN0RXQGNILrAEjMK+1F50TY/qa6VkiphCTby/owR1JcVZYXBH7vPQmYc7SJ
-	dOxEUcPgzYD1E4wbxn5vfaicvCibTchkV27Ph0wTyhn+AXjfc+aKsKyHSGU7Oytr1XL1/y
-	IoDTZSARXvoL8mlSmZRvXJqjCpgiWJw/ras4GN3dMeSJ+D1+KgZOnEoRZR67NC5jZps9GX
-	8BK0aiiQ9WJ64ZbyRqBJVdg+OGMZ/jcvlgV27rcXDxm/yQD5mxFpYiOrafDEhg==
+	s=arc-20240116; t=1742996372; c=relaxed/simple;
+	bh=G+1bPq00pfcw5FfGpQnUUBW55ek4LCDQ4SLjYNHQC1U=;
+	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
+	 Cc:In-Reply-To:To; b=kSF5iodjGxhEQEZzafBUWag3dtT8RTVjC6T93E/8aWPWgWL+QPtvvb76hydVRGKuEu4fnaK1OnYDd5jthF91IJncOUgs1RDXrd/y5mWEn0E3zrwg70tiFvFhckSTTaiH94JUEYXt4oO/+YxAk4XhwgjNUchfTbOUgNtmFwFh8Ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nFl3hxgg; arc=none smtp.client-ip=209.85.219.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e5dc299deb4so6561974276.1;
+        Wed, 26 Mar 2025 06:39:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742996370; x=1743601170; darn=vger.kernel.org;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G+1bPq00pfcw5FfGpQnUUBW55ek4LCDQ4SLjYNHQC1U=;
+        b=nFl3hxgg4qtS8MhKp5uVKlhmZzxOFb7EjRHyA6uricrrz9KDIGLyRVOvH39GFdLVRn
+         bHvSBoTL7wwtPweK6wzEx2Tw8C4eh5OdpNCbAccTLAO91jN8HhHiPTee0t0KmSMDma4h
+         pwinCF+QAeTvXN/YarCQb+FVZnxf/rRlpdW8W5bVW8z929XJwcy3Lzr96M4SiQ1CkNAX
+         oPZBgEvMGMZohHBPqDm2Oe1rtwb7P0V4LrbWw/JUIvgP7dJqU4FZV401/a62+MNXC9Jr
+         I9ZEDOlu3qFv4huBO0UaeFvwyb6EymcGBJMqLpn2wgAEhuGa/o4i+jeEpbPp1fmgQouc
+         84yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742996370; x=1743601170;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=G+1bPq00pfcw5FfGpQnUUBW55ek4LCDQ4SLjYNHQC1U=;
+        b=GV+mHxskOiDhtPmOHh+uf+Ptoeed0qfej9VSkKHSYrzOqsC++3H0SD5m3eHck6EiAN
+         bdd2+SpjthsFmyIWFfExUPWdpd/vdp1rr0mwcfV2ySBqvm9laLvIRyzpYkPiEexODzaq
+         kDYvzqEoJWL5ubAO9d5QxQgVwJ3DJtfbNCIq5NTTa9feG47+f6ra5E2kks+6mht+6GTz
+         yTa6OTLi0/yCHox78DF+Br+5FzX/2YcvlyvekoSSFElJ9NFHFGfLlh2cgng6rG1ftzjx
+         Ug/bSULGFGZDZ7uO7WwyYrLR3BDzuHD14WVNA+eEN3S9YgH7mNMUQ+YA6YIh9Rx7MoRy
+         4ZcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUuIAtsjJsCRmhtwWWRYrg2++ky3sjwSiExsVFvJ2bFRDQO6r33YdRtNoqV4Bv0eA5bercyb7rcJZbgsMrY@vger.kernel.org, AJvYcCVfTf6mgowzB+W6B1jMZYZTTTmU6j5XtoVVLnMx3gqlBQnwUDHtUypNXUiWtkwd9p+MsDthTj7B8DFcqQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyz4NvPn5Z46Aa12O//62LMvpGy17x7f5nSU3wV9+1bPsdumLXV
+	LqfDTgjULAYsDHvfHpx6QZfRvX5KcvjQbWy2vwQ1+y29VG9vN85oZsMT9dFE
+X-Gm-Gg: ASbGncu/iU0vQL7iSA026smPey1uyvpYpI+6YXmcdZJBmooP5m0eRx1/IxmnytX6494
+	sC0xOlynGbPez2se1DIfON5OXdkyuirVzViaVx+w+OGTAmtrZYKehLqTfNzhmoH1LVHa9vOaFJL
+	ObYB53dzFOpi6MqVjLLzN+5u4+CC6VAinYbDESFQBP9asw1NX+PDDrXIuyRgT8ZJ+XkGaUeROp6
+	/wImWtHyYeZk5v7zLiNywwzh/GcJS+YPq/u8HFPvMlm4quXapCYtxYZw8ibbmH5RHiZO+XMzztb
+	zLPieq3cMUWe6oFG+CwtVqxsYolBFZX4B8vrswbSoO4Zq7r6CIyRt0HnIH7TqbLfTil6CIxkFjr
+	f
+X-Google-Smtp-Source: AGHT+IG86fcKoiR1bNMN+dvMrq8PLxwv5hDITg/IDjKGisvGVwDdZViNu+LxypbQ2NlHjGuuF8VcNQ==
+X-Received: by 2002:a05:690c:c14:b0:700:a988:59dc with SMTP id 00721157ae682-700bad227e3mr277562707b3.31.1742996370017;
+        Wed, 26 Mar 2025 06:39:30 -0700 (PDT)
+Received: from smtpclient.apple ([2401:4900:5fb3:22d:130:8957:5645:7f3c])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-700ba76cb4fsm25124437b3.43.2025.03.26.06.39.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Mar 2025 06:39:29 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Aditya Garg <adityagarg1208@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 26 Mar 2025 12:00:46 +0100
-Message-Id: <D8Q59RC90U0H.SCFK1LVIKPGN@bootlin.com>
-Subject: Re: [PATCH v5 06/11] gpio: regmap: Allow to allocate regmap-irq
- device
-Cc: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, <andriy.shevchenko@intel.com>,
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Michael Walle" <mwalle@kernel.org>, "Lee Jones" <lee@kernel.org>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Kamel Bouhara"
- <kamel.bouhara@bootlin.com>, "Linus Walleij" <linus.walleij@linaro.org>,
- "Bartosz Golaszewski" <brgl@bgdev.pl>, "Dmitry Torokhov"
- <dmitry.torokhov@gmail.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, "Mark Brown" <broonie@kernel.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20250318-mdb-max7360-support-v5-0-fb20baf97da0@bootlin.com>
- <20250318-mdb-max7360-support-v5-6-fb20baf97da0@bootlin.com>
- <D8K23TCWC5TO.3T1YPKL3G0OY5@kernel.org>
- <D8KYF2DZOBT4.1337YU51E0ZKH@bootlin.com>
- <D8P6L65D69PS.1VQKHJJA8TNL4@kernel.org>
-In-Reply-To: <D8P6L65D69PS.1VQKHJJA8TNL4@kernel.org>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduieehfeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkufevhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekhfekieeftefhjeetveefudehuddvvdeuvddvudfgfffhveekffethfeuffdtudenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegvtdgrmegrieeimeefudektdemtgdtsggvmegslegrkeemvgehledvmeeirgeffhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemrgeiieemfedukedtmegttdgsvgemsgelrgekmegvheelvdemiegrfehfpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvvddprhgtphhtthhopehmfigrlhhlvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepr
- hhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgrmhgvlhdrsghouhhhrghrrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopegsrhhglhessghguggvvhdrphhl
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
-
-On Tue Mar 25, 2025 at 8:50 AM CET, Michael Walle wrote:
-> > > > +#ifdef CONFIG_GPIOLIB_IRQCHIP
-> > >
-> > > Why do we need this ifdef?
-> > >
-> >
-> > Hum yes, on second thought we probably need to depend on
-> > CONFIG_REGMAP_IRQ here.
->
-> But then, you'd also require the regmap_irq support for chips that
-> don't support IRQs at all. devm_regmap_add_irq_fwnode() seems to be
-> missing a stub version.
->
-
-Sorry, maybe my previous message was not clear, when I said "depend",
-what I meant is having an "#ifdef CONFIG_REGMAP_IRQ" here in place of
-"#ifdef CONFIG_GPIOLIB_IRQCHIP"
-
-If CONFIG_REGMAP_IRQ is enabled, drivers/base/regmap/regmap-irq.c is
-built, so we do have both devm_regmap_add_irq_chip_fwnode() and
-regmap_irq_get_domain(). So this code block should compile and link
-correctly.
-
-I did some build tests with and without CONFIG_GPIOLIB_IRQCHIP and I
-believe this is fine.
-
-Or am I missing something?
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH RESEND 5/5] HID: multitouch: add device ID for Apple Touch Bar
+Date: Wed, 26 Mar 2025 19:09:15 +0530
+Message-Id: <CB167906-8D50-44AE-B873-DDEA9A370066@gmail.com>
+References: <7rsn5334-npo6-408r-8442-6o3qo3qp05q7@xreary.bet>
+Cc: Aditya Garg <gargaditya08@live.com>,
+ Benjamin Tissoires <bentiss@kernel.org>, admin@kodeit.net,
+ benjamin.tissoires@redhat.com, kekrby@gmail.com, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, orlandoch.dev@gmail.com
+In-Reply-To: <7rsn5334-npo6-408r-8442-6o3qo3qp05q7@xreary.bet>
+To: Jiri Kosina <jikos@kernel.org>
+X-Mailer: iPad Mail (22D82)
 
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
+> On 26 Mar 2025, at 3:24=E2=80=AFPM, Jiri Kosina <jikos@kernel.org> wrote:
+>=20
+> =EF=BB=BFOn Tue, 25 Mar 2025, Aditya Garg wrote:
+>=20
+>>>>> Yes I can move hid_find_field to the original location as well. But,
+>>>>> I would not want to devm_kzalloc as well unnecessarily if the
+>>>>> touchbar is in the basic mode instead of drm mode which will cause
+>>>>> this -ENODEV to be executed right?
+>>>>=20
+>>>> It shouldn't matter. hid_core calls devres_open_group() before calling
+>>>> .probe(), and calls devres_release_group() on failure. So yes, we'll
+>>>> allocate a piece of memory and release it after, but it's not something=
+
+>>>> uncommon.
+>>>=20
+>>> Fair. I'll send a v2
+>>=20
+>> I've sent a v2 from my gmail address. Outlook is being too fussy these
+>> days, so hopefully I don't have to sign off twice using gmail as well as
+>> outlook.
+>=20
+> Thanks. Please always make sure that either in the cover letter or in the
+> individual patches you otline the differences between individual patch
+> submissions.
+>=20
+Sorry about that. I recently switched to git send-email and it took time for=
+ me to get familiar with it. Such minor mistakes do happen in such cases. In=
+ case a v3 is needed, I'll share the Changelog. For v2 that I sent, changelo=
+g is:
+
+v2: keep parse at original location in patch 5 as suggested by Benjamin
 
