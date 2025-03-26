@@ -1,102 +1,122 @@
-Return-Path: <linux-input+bounces-11296-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11297-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F59A71533
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 12:00:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04334A71535
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 12:01:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9A38A7A5889
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 10:59:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DAEDC3BB28A
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 11:00:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86D0B1A8F60;
-	Wed, 26 Mar 2025 11:00:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7451A1C8626;
+	Wed, 26 Mar 2025 11:00:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dhqGxkjw"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TUF5oFvU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59677BA50;
-	Wed, 26 Mar 2025 11:00:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCA31BEF74;
+	Wed, 26 Mar 2025 11:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742986848; cv=none; b=VS5mXW1r3dQ3c6aoQI76KAnxHTBRBJ7KEZbOb9n7/WWf4T95K9iSypRie57CgSH23RGT/mwRKYsylJm/n27atjpgfKf7QUU4sYFVv+w/KZdmDqvaKHSHa9aKPumBAnnAOkCZ9MkZPWZQLs6W+e/Z9kqknP0Ubb6r4THrqWbX18g=
+	t=1742986858; cv=none; b=CTEtYU0gyTGGp7Swn5qvJU9NLTnEA0YOciD+hwBCsT4AAhS4yso+OD0sGcrUc52UREHVbkix//S6agpazfR4yGEC6i5uKt9i8v1XSTXtzTFEBUDT8InwiJGyM6ndFj5ijFXVDz/yFoDljreuT3ndpYaV/ZdbUPyeHjEFvb5xiFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742986848; c=relaxed/simple;
-	bh=w5ZDeSrpmvoiPAO5YbWZhVqSkFMVenT7cq89xSyl3iE=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=JQHUrWBus9BmeNDS4KgkXRm7y71Q4A3UDnqiU1nQh7PO/DC1ShYF4TbfgJ1GTqUdQNPlCBTK9iea7JPbdJdNcoAofV0xucPBpiFJ1WVWOkun2yuakFagLWoAbo73SHDJ0aSW9j+oSYtw++6KvnR757T/5P5Gh63Wby3KyOhnNt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dhqGxkjw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D4FCC4CEE2;
-	Wed, 26 Mar 2025 11:00:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742986847;
-	bh=w5ZDeSrpmvoiPAO5YbWZhVqSkFMVenT7cq89xSyl3iE=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=dhqGxkjwiExuPEr0Bgdsh/uea3lnohLdHmo0TBARQaeud4YiM9KI8tOcvqgUlhVNl
-	 HYjrA+ZauGKfmLV5l2FN/D/vf/bux88e6pahHuNSu9vxGwXef0DNt0HOHJmR/SQDaj
-	 lrGnaRPzB+qSzQ9ymHB6RhxZzLGItYxPTZsQSgIxFN18z1reKMa+oxqG/VeM4dJlUJ
-	 CR6M02KNLO7TI/7pbmkwQm6Yae4t6TMTBpVeL6QolYAz6qSXJ07T3gOULd7dp2C29S
-	 QStAnDLLGYDX/uCgyzwjyo1VxaVA2z+AIegcESVC1w2YHFBMZ5kb4rxHAlyoIXuFAs
-	 I0P/4iuj3W5kg==
-Date: Wed, 26 Mar 2025 12:00:45 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-cc: Antheas Kapenekakis <lkml@antheas.dev>, 
-    platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, 
-    Benjamin Tissoires <bentiss@kernel.org>, 
-    Corentin Chary <corentin.chary@gmail.com>, 
-    "Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v5 09/11] HID: asus: add basic RGB support
-In-Reply-To: <43c4dd17-de34-804f-7080-b287ac4a0cac@linux.intel.com>
-Message-ID: <26s13395-1ro2-37o8-01q5-6r4p09p69174@xreary.bet>
-References: <20250325184601.10990-1-lkml@antheas.dev> <20250325184601.10990-10-lkml@antheas.dev> <f04e6a59-cb72-9ca9-2c98-85702b6194fa@linux.intel.com> <CAGwozwF8PZczpqOFm3ONDdJTVCgcWOZ8mXrASbmiAXUhQvOhdg@mail.gmail.com>
- <43c4dd17-de34-804f-7080-b287ac4a0cac@linux.intel.com>
+	s=arc-20240116; t=1742986858; c=relaxed/simple;
+	bh=GE2f5tN/qrs1osKm348JtdX/kYHC5v1SQLpJiAUSdtI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
+	 References:In-Reply-To; b=XX7KwE4jgege/LKdpWUkoTWMERbPz5m36a8db38IhRs2tYjL8AbGqWOc2K8MWKkoCvbmUuXRQlzZf+bNWAVE7/JZLkESP7KvRBAbW5T1RSWyOeNHypbHPycFnLhO191HQFRfnS5cvPjeVi8ePxGn8cBZeI9B7cEJ5aew57KD0Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TUF5oFvU; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1BD5542E76;
+	Wed, 26 Mar 2025 11:00:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1742986848;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GE2f5tN/qrs1osKm348JtdX/kYHC5v1SQLpJiAUSdtI=;
+	b=TUF5oFvUP1UgmZ2BOnZCz9Z2G146wpzLM5itfJZLhwMpIglNkeM8OjYInfj+nz0r+iZb3Z
+	rl3v7ijxRThgN0RXQGNILrAEjMK+1F50TY/qa6VkiphCTby/owR1JcVZYXBH7vPQmYc7SJ
+	dOxEUcPgzYD1E4wbxn5vfaicvCibTchkV27Ph0wTyhn+AXjfc+aKsKyHSGU7Oytr1XL1/y
+	IoDTZSARXvoL8mlSmZRvXJqjCpgiWJw/ras4GN3dMeSJ+D1+KgZOnEoRZR67NC5jZps9GX
+	8BK0aiiQ9WJ64ZbyRqBJVdg+OGMZ/jcvlgV27rcXDxm/yQD5mxFpYiOrafDEhg==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Date: Wed, 26 Mar 2025 12:00:46 +0100
+Message-Id: <D8Q59RC90U0H.SCFK1LVIKPGN@bootlin.com>
+Subject: Re: [PATCH v5 06/11] gpio: regmap: Allow to allocate regmap-irq
+ device
+Cc: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, <andriy.shevchenko@intel.com>,
+ =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Michael Walle" <mwalle@kernel.org>, "Lee Jones" <lee@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Kamel Bouhara"
+ <kamel.bouhara@bootlin.com>, "Linus Walleij" <linus.walleij@linaro.org>,
+ "Bartosz Golaszewski" <brgl@bgdev.pl>, "Dmitry Torokhov"
+ <dmitry.torokhov@gmail.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, "Mark Brown" <broonie@kernel.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20250318-mdb-max7360-support-v5-0-fb20baf97da0@bootlin.com>
+ <20250318-mdb-max7360-support-v5-6-fb20baf97da0@bootlin.com>
+ <D8K23TCWC5TO.3T1YPKL3G0OY5@kernel.org>
+ <D8KYF2DZOBT4.1337YU51E0ZKH@bootlin.com>
+ <D8P6L65D69PS.1VQKHJJA8TNL4@kernel.org>
+In-Reply-To: <D8P6L65D69PS.1VQKHJJA8TNL4@kernel.org>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduieehfeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkufevhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekhfekieeftefhjeetveefudehuddvvdeuvddvudfgfffhveekffethfeuffdtudenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegvtdgrmegrieeimeefudektdemtgdtsggvmegslegrkeemvgehledvmeeirgeffhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemrgeiieemfedukedtmegttdgsvgemsgelrgekmegvheelvdemiegrfehfpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvvddprhgtphhtthhopehmfigrlhhlvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepr
+ hhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgrmhgvlhdrsghouhhhrghrrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopegsrhhglhessghguggvvhdrphhl
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-On Wed, 26 Mar 2025, Ilpo J=C3=A4rvinen wrote:
+On Tue Mar 25, 2025 at 8:50 AM CET, Michael Walle wrote:
+> > > > +#ifdef CONFIG_GPIOLIB_IRQCHIP
+> > >
+> > > Why do we need this ifdef?
+> > >
+> >
+> > Hum yes, on second thought we probably need to depend on
+> > CONFIG_REGMAP_IRQ here.
+>
+> But then, you'd also require the regmap_irq support for chips that
+> don't support IRQs at all. devm_regmap_add_irq_fwnode() seems to be
+> missing a stub version.
+>
 
-> You don't need to "pause" for the merge window, in some subsystem=20
-> there's mandatory pause during merge window but I find that unnecessary.
-> I know people on pdx86 do review during merge window so no need to wait=
-=20
-> when working with patches related to pdx86. Just don't expect patches=20
-> get applied during the merge window or right after it (the latter tends t=
-o=20
-> be the most busiest time of cycle for me) :-).
->=20
-> It's more about the frequency, how often to send a series which is=20
-> relatively large. Large number of versions end up just filling inboxes=20
-> (and patchwork's pending patches list) and we don't have time to read the=
-m=20
-> all through so I suggest waiting like 3 days at minimum between versions=
-=20
-> when the series is large or complex to give time to go through the series=
-=2E
->=20
-> This is not a hard rule, so if there are e.g. many significant changes,=
-=20
-> feel free to "violate" it in that case.
+Sorry, maybe my previous message was not clear, when I said "depend",
+what I meant is having an "#ifdef CONFIG_REGMAP_IRQ" here in place of
+"#ifdef CONFIG_GPIOLIB_IRQCHIP"
 
-Exactly. I am unlikely to do much review during the merge window myself,=20
-but I'll pick up the patchset and followup once the merge window is over,=
-=20
-so feel free to keep discussing and polishing it with me on CC :)
+If CONFIG_REGMAP_IRQ is enabled, drivers/base/regmap/regmap-irq.c is
+built, so we do have both devm_regmap_add_irq_chip_fwnode() and
+regmap_irq_get_domain(). So this code block should compile and link
+correctly.
 
-Thanks,
+I did some build tests with and without CONFIG_GPIOLIB_IRQCHIP and I
+believe this is fine.
+
+Or am I missing something?
+
 
 --=20
-Jiri Kosina
-SUSE Labs
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
