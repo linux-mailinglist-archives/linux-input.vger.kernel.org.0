@@ -1,464 +1,139 @@
-Return-Path: <linux-input+bounces-11288-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11289-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36C4A7135B
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 10:11:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 772FBA71388
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 10:23:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 074641891DAC
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 09:10:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1607177FE2
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 09:23:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2AD11A4F3C;
-	Wed, 26 Mar 2025 09:09:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAE1C1AB52F;
+	Wed, 26 Mar 2025 09:22:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="JiMFdNXs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EF6XbPGe"
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05EA03D6A;
-	Wed, 26 Mar 2025 09:09:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B54182899;
+	Wed, 26 Mar 2025 09:22:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742980194; cv=none; b=sfsTb3DD3cQYyvnUj2txjxrsbMwcwM9KNQS8aonFNTXKKJLGY55VF+NTpHUkJ+P+RKD7qNe5D6uKZjFpeD0tOC2r/t3S7eAA+YWmm+Quz1RPq15GoMUXA2wrepKuvuz3fCJKFs3fp19zN58FoPGqxfjScviMt+MZwOyB11Z74f4=
+	t=1742980977; cv=none; b=mGR5bnMetfPQr2YQus+t9YLcE2Bca5g/OZpFBErzqqy0p0Z0vGrpJCPgxgxjh3HcTx0fu0fm94ozQo2JGr/YeADIiCPmHcRrjj+OvkjibpL1cCRXZn0KZ/4zD/CDAHsO7rsDAvSPY1IIznzRx91w0KoKWVjXSnj4jR01IrImaCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742980194; c=relaxed/simple;
-	bh=p0cKfEP+bjfl72KKkgTYkAWIZXt2jvtB5ODQm25PxgM=;
+	s=arc-20240116; t=1742980977; c=relaxed/simple;
+	bh=qxtF6khLwId9LK15aaIK1R6QxhmJS+7IKsOAe3rcYSQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aWt3qbGnT7LpQGEjzyeLU+M47VpoEzGPX2zSUzXa2jaTkQxTNIaLQVu3EKU8mgi86Y2kSjvtaV6NmhQwu5hstJY3QDGW1u9Rn7NmmWDnEz2Z2/JfXe+RvF+GqaHJUhAyn43dKB8JeDhO93+eGGLoc8olH3kebuWQUw7Xu9TJl3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=JiMFdNXs; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id 2AA0B2E00E60;
-	Wed, 26 Mar 2025 11:09:40 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1742980182;
-	bh=WKOnlopo2CQvGKLU16faGsYD05kWZcND2oYE3H1cQI4=;
-	h=Received:From:Subject:To;
-	b=JiMFdNXsoks89mU+I7PphMYzXyw0D1Q0L4BlJ+l+h2jfX8YAN9DsLCJ4cWMBomiCP
-	 zgM++pjp5/VbGLMTwYSRdTgnEGSK1IRGNNSuEQ7LpvVEpuZEHBh5vxqavDi0uA+pXP
-	 nXWEj5FjueEggDp8W7mTMlOtd0kBw5ZSEPlepthI=
-Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.208.169) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f169.google.com
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-30613802a6bso67941041fa.1;
-        Wed, 26 Mar 2025 02:09:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU2kOgWSN0G1N+mDFQINSSDwz3SK+W0OfP6HBqP1G7x+bINkM+iz2vQtYYFct0S7nFRUG+3kWNRpVShbhlT@vger.kernel.org,
- AJvYcCXnpjYJnXIiT2PeDeeJIWsSBj3Eoyz7NScmC42jvgmazHBJrzK3/+f2psJchkD37jf8E/s+Fl5l+1R3mA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrITU2pIsHoK5B0zK4JZJnICRkOquLwKfE0z9cltcwMe/XeEyP
-	LpBz+qUuecT0KhSyZSvgZBtcQXO0LPPewco6y1t6X2jrTgYDxgiEeaavHdRsBPySCuEEO9fFo+5
-	BuJC4lwyomqzGjW3oPdDsSGeJa/U=
-X-Google-Smtp-Source: 
- AGHT+IGhHbB9nQZa3dl2ypP5P7iRoqd9R0DRQQZd2tNZ0GbGcx55BSER33OO93H3b6vSxZbrM9UetLF/13tNm8HL+aw=
-X-Received: by 2002:a05:651c:230d:b0:30c:1308:1333 with SMTP id
- 38308e7fff4ca-30d7e230ed9mr57403201fa.13.1742980179382; Wed, 26 Mar 2025
- 02:09:39 -0700 (PDT)
+	 To:Cc:Content-Type; b=bX6ZRxDQ2Y/BJW612gg2WtSVWWKR6apYXjqlIvfreuGT5JkDy+zUqxcvdOwZBeDy52pc3p0DFzj6fguB4ZNxd2+vMWNKdjXheawpuEc1ArT2Kst6DRGL9pyy5AvFgMo6xVnsSLyAOP1x4eulSukgBJr2gQb1NQiBzqGDUwzw6wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EF6XbPGe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFF39C4CEF0;
+	Wed, 26 Mar 2025 09:22:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742980977;
+	bh=qxtF6khLwId9LK15aaIK1R6QxhmJS+7IKsOAe3rcYSQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=EF6XbPGeROx9ck2/wMy52MgkOBBSN6jJZgg+Qn7v2SpbfIjs3lPg5064JNPk7o+XB
+	 G1Tew5HffEconjh69vqk0mkBcJUkflqrA4iEgj8SLwf/seTS5HNbir1OII2p80HCq1
+	 +P6MGiOjaR7a5JVZ74K7sotrO+OjvMlB+74YwpsUUz/VCy+aqYWnTo4aU1OuAb4FgW
+	 0GHvjOa2MnJWvc/1Jq3iLVDexkOqxI841MEL1MoUTcRS71vj+1AwOZNNPn/RpUSODi
+	 EeA4LrZKsWryeAiFK73Wxu0fFqyV2Xsa003JAYcobxqu52MLjTaulBGXlKIgFqvHzf
+	 xi9mxcCv6ROpQ==
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-39141ffa9fcso5503473f8f.0;
+        Wed, 26 Mar 2025 02:22:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUc8gByDTA+y4jLrjnVT+D+NajkB6he05uMv2siTpZxYgUsfz5seIbGyva/6K0kTmszR3MMfOs91Agby2QuE029@vger.kernel.org, AJvYcCUcfMaoghdRcWHxzUVWOOPTrMi05nysSMoQ7VUXD4CNJNAqLES7JqBnC3XjqiAa2rD8xmEXJOM320jSwgKl@vger.kernel.org, AJvYcCUeKjUiGkWE+hed4XnAkV4zzvhvv1Oz0PWRfbB6tzFf360XqQ1A/2YqTmy7I1xFfSdwKVxkiZSo7zw8/fOyd/JrDQ==@vger.kernel.org, AJvYcCUqSjWDspjv89ZFAHNz/hsnKqT3GivklTcHUxTK7ACZRhPZ6NidplaS06nrmNZBhfYfO7mjkr3efI4h@vger.kernel.org, AJvYcCUzoucVGMxUVMGid7ICQEIsvTxDAsKf4Fstk/HUjHZI2QiRRmRWt70ILDF3t45Qh7oa9/JQuIqjQwte@vger.kernel.org, AJvYcCV7l/amYKZAlCn9WE8y/HWNGD5yKiskPL31/cPx1lVX7PxSQqOY2cJjKNYKOGh057r2LuuHf2R0uFf2+FFb@vger.kernel.org, AJvYcCVLEpjBmJKKs+tzOKGsWVC8siYoRVJSZofrDdnU0VqNde2j+m4o/0ai7UFnm9aG/3H43TMGfJnU4IDNpA==@vger.kernel.org, AJvYcCVMijWAPnjoL4ebc/BiOwwncKCxl+QMPzs6xZOkuil+GgDi6syib5l7VWaJB7GcQdcsISg4caqmoaazc0CW@vger.kernel.org, AJvYcCVQ9mvQu1CKA31sd7ieo5GezpS2fkQ8h0t+gQdgNaNMR/TZB3yrIKRb5Y1eBj0P8DCmFBfu28sqIuwi9IynxQ==@vger.kernel.org, AJvYcCVk
+ ByU2/arJn9n2P89h30P7eB2tBsB00l1AVTiZUVdjEqVz1sXJVEFwa9gu1QEA+bRirNXfEs7S@vger.kernel.org, AJvYcCVphGFTcH3OhfTweELZxIK5DflZp5lSEZgBJLmc2cDiukmXz1X6rGj15JW6DstYBnm0Q14=@vger.kernel.org, AJvYcCVtFk2dgMm9TiCEGhSzjKeEGU+llGh9YSzLT2wjsnar4nnBc6R4S8C5+i8R/yNMN6FK8IkKHRJ29aXLucq9xi99Xazi@vger.kernel.org, AJvYcCWyOeU1NO4cL27kHRCjyGZk+KB/BW7DrMaa/OfRFtpbJlIx8NDkdJEQWg+mUhyVyMVrm9MNfXnahdXvFQ==@vger.kernel.org, AJvYcCXQSKqv9X80fSM1PwiHgr3SGSAqS1eWJx3Cs4c3kBIIug5R8gdVn3v+5s7mRIjYqJYUJBEHBGFTMFpBwbY=@vger.kernel.org, AJvYcCXWpl539WuYSorncZC1i5EzXF0joC4CdmXh7T2XbRbaOdNTqbsTa31d3iAoEXKvvotCYexQ@vger.kernel.org, AJvYcCXXaRW4ZXnGHO0YAPZhjcQMdUTVzJkNIN5sNdNuqgyLYCUKHO5AVg/ilPUu9AicoM3h51yGOkwKAHJ14rM=@vger.kernel.org, AJvYcCXoYW+ZRkn9iifUedaybAZwpA9Mlj7s/BYGFl//TJUxAgllnbrmgXnQLOZLNlkP/7UAmhj9ZHzDEujhExs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdGiSNqHeHeWPgTZxC+sskj2+8tkqkh/TbxgyRyZJNskn1E61G
+	jvEh57bFmd8Yhp0AQrYFy1pLlaclsM+Hw/fnYVrMz7im2iUO9VdZNFHHFxfWfwcPG3FMTDwry9m
+	+hr1hgVqdd4cprwHNTZI+9fzdARk=
+X-Google-Smtp-Source: AGHT+IF3jZFlaB+ZbNTy99aWKHRW0ahCYMSSdgm6iKEF0x/RcYEZFdBlnTMpJzR5i/QwTCeteoihHBZi+8MLpfxSmpw=
+X-Received: by 2002:a05:6000:2a6:b0:391:20ef:6300 with SMTP id
+ ffacd0b85a97d-3997f93962dmr16836387f8f.37.1742980974678; Wed, 26 Mar 2025
+ 02:22:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250325184601.10990-1-lkml@antheas.dev>
- <20250325184601.10990-10-lkml@antheas.dev>
- <f04e6a59-cb72-9ca9-2c98-85702b6194fa@linux.intel.com>
-In-Reply-To: <f04e6a59-cb72-9ca9-2c98-85702b6194fa@linux.intel.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Wed, 26 Mar 2025 10:09:27 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwF8PZczpqOFm3ONDdJTVCgcWOZ8mXrASbmiAXUhQvOhdg@mail.gmail.com>
-X-Gm-Features: AQ5f1JofAUJskmm4ktV3rSUi2Ry3vFm3ingK2ts5rc-tcu_4Q5hpPTsWbG0PDSk
-Message-ID: 
- <CAGwozwF8PZczpqOFm3ONDdJTVCgcWOZ8mXrASbmiAXUhQvOhdg@mail.gmail.com>
-Subject: Re: [PATCH v5 09/11] HID: asus: add basic RGB support
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>
+References: <20250325121624.523258-1-guoren@kernel.org> <20250325121624.523258-26-guoren@kernel.org>
+ <05fec753-cdaa-45a5-a029-b6435c30eb07@omp.ru>
+In-Reply-To: <05fec753-cdaa-45a5-a029-b6435c30eb07@omp.ru>
+From: Guo Ren <guoren@kernel.org>
+Date: Wed, 26 Mar 2025 17:22:41 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTQTfD3yVCePWi_Jxu6Vc878K4P-quy4ZKw1OOF0X30UwQ@mail.gmail.com>
+X-Gm-Features: AQ5f1Joqx3oO-95jEhIdt3VHkcZ-PNWMEgaxjEOC2faFZmARHVgyLTPNu3C9X9I
+Message-ID: <CAJF2gTQTfD3yVCePWi_Jxu6Vc878K4P-quy4ZKw1OOF0X30UwQ@mail.gmail.com>
+Subject: Re: [RFC PATCH V3 25/43] rv64ilp32_abi: exec: Adapt 64lp64 env and argv
+To: Sergey Shtylyov <s.shtylyov@omp.ru>
+Cc: arnd@arndb.de, gregkh@linuxfoundation.org, torvalds@linux-foundation.org, 
+	paul.walmsley@sifive.com, palmer@dabbelt.com, anup@brainfault.org, 
+	atishp@atishpatra.org, oleg@redhat.com, kees@kernel.org, tglx@linutronix.de, 
+	will@kernel.org, mark.rutland@arm.com, brauner@kernel.org, 
+	akpm@linux-foundation.org, rostedt@goodmis.org, edumazet@google.com, 
+	unicorn_wang@outlook.com, inochiama@outlook.com, gaohan@iscas.ac.cn, 
+	shihua@iscas.ac.cn, jiawei@iscas.ac.cn, wuwei2016@iscas.ac.cn, drew@pdp7.com, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, ctsai390@andestech.com, 
+	wefu@redhat.com, kuba@kernel.org, pabeni@redhat.com, josef@toxicpanda.com, 
+	dsterba@suse.com, mingo@redhat.com, peterz@infradead.org, 
+	boqun.feng@gmail.com, xiao.w.wang@intel.com, qingfang.deng@siflower.com.cn, 
+	leobras@redhat.com, jszhang@kernel.org, conor.dooley@microchip.com, 
+	samuel.holland@sifive.com, yongxuan.wang@sifive.com, 
+	luxu.kernel@bytedance.com, david@redhat.com, ruanjinjie@huawei.com, 
+	cuiyunhui@bytedance.com, wangkefeng.wang@huawei.com, qiaozhe@iscas.ac.cn, 
+	ardb@kernel.org, ast@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-mm@kvack.org, 
+	linux-crypto@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, maple-tree@lists.infradead.org, 
+	linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-atm-general@lists.sourceforge.net, linux-btrfs@vger.kernel.org, 
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org, 
+	linux-nfs@vger.kernel.org, linux-sctp@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-PPP-Message-ID: 
- <174298018119.10401.9322238334048763819@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
 
-On Wed, 26 Mar 2025 at 09:54, Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
+On Wed, Mar 26, 2025 at 1:19=E2=80=AFAM Sergey Shtylyov <s.shtylyov@omp.ru>=
+ wrote:
 >
-> On Tue, 25 Mar 2025, Antheas Kapenekakis wrote:
+> On 3/25/25 3:16 PM, guoren@kernel.org wrote:
 >
-> > Adds basic RGB support to hid-asus through multi-index. The interface
-> > works quite well, but has not gone through much stability testing.
-> > Applied on demand, if userspace does not touch the RGB sysfs, not
-> > even initialization is done. Ensuring compatibility with existing
-> > userspace programs.
+> > From: "Guo Ren (Alibaba DAMO Academy)" <guoren@kernel.org>
 > >
-> > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> > The rv64ilp32 abi reuses the env and argv memory layout of the
+> > lp64 abi, so leave the space to fit the lp64 struct layout.
+> >
+> > Signed-off-by: Guo Ren (Alibaba DAMO Academy) <guoren@kernel.org>
 > > ---
-> >  drivers/hid/Kconfig    |   1 +
-> >  drivers/hid/hid-asus.c | 171 +++++++++++++++++++++++++++++++++++++----
-> >  2 files changed, 156 insertions(+), 16 deletions(-)
+> >  fs/exec.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
 > >
-> > diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> > index dfc245867a46a..d324c6ab997de 100644
-> > --- a/drivers/hid/Kconfig
-> > +++ b/drivers/hid/Kconfig
-> > @@ -151,6 +151,7 @@ config HID_APPLEIR
-> >  config HID_ASUS
-> >       tristate "Asus"
-> >       depends on USB_HID
-> > +     depends on LEDS_CLASS_MULTICOLOR
-> >       depends on LEDS_CLASS
-> >       depends on ASUS_WMI || ASUS_WMI=3Dn
-> >       select POWER_SUPPLY
-> > diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> > index a4d1160460935..c135c9ff87b74 100644
-> > --- a/drivers/hid/hid-asus.c
-> > +++ b/drivers/hid/hid-asus.c
-> > @@ -23,6 +23,7 @@
-> >  /*
-> >   */
-> >
-> > +#include <linux/array_size.h>
-> >  #include <linux/dmi.h>
-> >  #include <linux/hid.h>
-> >  #include <linux/module.h>
-> > @@ -30,6 +31,7 @@
-> >  #include <linux/input/mt.h>
-> >  #include <linux/usb.h> /* For to_usb_interface for T100 touchpad intf =
-check */
-> >  #include <linux/power_supply.h>
-> > +#include <linux/led-class-multicolor.h>
-> >  #include <linux/leds.h>
-> >
-> >  #include "hid-ids.h"
-> > @@ -52,6 +54,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
-> >  #define FEATURE_KBD_REPORT_SIZE 64
-> >  #define FEATURE_KBD_LED_REPORT_ID1 0x5d
-> >  #define FEATURE_KBD_LED_REPORT_ID2 0x5e
-> > +#define FEATURE_KBD_LED_REPORT_SIZE 7
-> >
-> >  #define SUPPORT_KBD_BACKLIGHT BIT(0)
-> >
-> > @@ -86,6 +89,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
-> >  #define QUIRK_ROG_NKEY_KEYBOARD              BIT(11)
-> >  #define QUIRK_ROG_CLAYMORE_II_KEYBOARD BIT(12)
-> >  #define QUIRK_HANDLE_GENERIC         BIT(13)
-> > +#define QUIRK_ROG_NKEY_RGB           BIT(14)
-> >
-> >  #define I2C_KEYBOARD_QUIRKS                  (QUIRK_FIX_NOTEBOOK_REPOR=
-T | \
-> >                                                QUIRK_NO_INIT_REPORTS | =
-\
-> > @@ -98,9 +102,15 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad"=
-);
-> >
-> >  struct asus_kbd_leds {
-> >       struct asus_hid_listener listener;
-> > +     struct led_classdev_mc mc_led;
-> > +     struct mc_subled subled_info[3];
-> >       struct hid_device *hdev;
-> >       struct work_struct work;
-> >       unsigned int brightness;
-> > +     u8 rgb_colors[3];
-> > +     bool rgb_init;
-> > +     bool rgb_set;
-> > +     bool rgb_registered;
-> >       spinlock_t lock;
-> >       bool removed;
-> >  };
-> > @@ -501,23 +511,67 @@ static void asus_schedule_work(struct asus_kbd_le=
-ds *led)
-> >       spin_unlock_irqrestore(&led->lock, flags);
-> >  }
-> >
-> > -static void asus_kbd_backlight_set(struct asus_hid_listener *listener,
-> > +static void do_asus_kbd_backlight_set(struct asus_kbd_leds *led, int b=
-rightness)
-> > +{
-> > +     unsigned long flags;
-> > +
-> > +     spin_lock_irqsave(&led->lock, flags);
-> > +     led->brightness =3D brightness;
-> > +     spin_unlock_irqrestore(&led->lock, flags);
-> > +
-> > +     asus_schedule_work(led);
-> > +}
-> > +
-> > +static void asus_kbd_listener_set(struct asus_hid_listener *listener,
-> >                                  int brightness)
-> >  {
-> >       struct asus_kbd_leds *led =3D container_of(listener, struct asus_=
-kbd_leds,
-> >                                                listener);
-> > +     do_asus_kbd_backlight_set(led, brightness);
-> > +     if (led->rgb_registered) {
-> > +             led->mc_led.led_cdev.brightness =3D brightness;
-> > +             led_classdev_notify_brightness_hw_changed(&led->mc_led.le=
-d_cdev,
-> > +                                                       brightness);
-> > +     }
-> > +}
-> > +
-> > +static void asus_kbd_brightness_set(struct led_classdev *led_cdev,
-> > +                                 enum led_brightness brightness)
-> > +{
-> > +     struct led_classdev_mc *mc_cdev =3D lcdev_to_mccdev(led_cdev);
-> > +     struct asus_kbd_leds *led =3D container_of(mc_cdev, struct asus_k=
-bd_leds,
-> > +                                              mc_led);
-> >       unsigned long flags;
-> >
-> >       spin_lock_irqsave(&led->lock, flags);
-> > -     led->brightness =3D brightness;
-> > +     led->rgb_colors[0] =3D mc_cdev->subled_info[0].intensity;
-> > +     led->rgb_colors[1] =3D mc_cdev->subled_info[1].intensity;
-> > +     led->rgb_colors[2] =3D mc_cdev->subled_info[2].intensity;
-> > +     led->rgb_set =3D true;
-> >       spin_unlock_irqrestore(&led->lock, flags);
-> >
-> > -     asus_schedule_work(led);
-> > +     do_asus_kbd_backlight_set(led, brightness);
-> > +}
-> > +
-> > +static enum led_brightness asus_kbd_brightness_get(struct led_classdev=
- *led_cdev)
-> > +{
-> > +     struct led_classdev_mc *mc_led;
-> > +     struct asus_kbd_leds *led;
-> > +     enum led_brightness brightness;
-> > +     unsigned long flags;
-> > +
-> > +     mc_led =3D lcdev_to_mccdev(led_cdev);
-> > +     led =3D container_of(mc_led, struct asus_kbd_leds, mc_led);
-> > +
-> > +     spin_lock_irqsave(&led->lock, flags);
-> > +     brightness =3D led->brightness;
-> > +     spin_unlock_irqrestore(&led->lock, flags);
-> > +
-> > +     return brightness;
-> >  }
-> >
-> > -static void asus_kbd_backlight_work(struct work_struct *work)
-> > +static void asus_kbd_backlight_work(struct asus_kbd_leds *led)
-> >  {
-> > -     struct asus_kbd_leds *led =3D container_of(work, struct asus_kbd_=
-leds, work);
-> >       u8 buf[] =3D { FEATURE_KBD_REPORT_ID, 0xba, 0xc5, 0xc4, 0x00 };
-> >       int ret;
-> >       unsigned long flags;
-> > @@ -531,10 +585,68 @@ static void asus_kbd_backlight_work(struct work_s=
-truct *work)
-> >               hid_err(led->hdev, "Asus failed to set keyboard backlight=
-: %d\n", ret);
-> >  }
-> >
-> > +static void asus_kbd_rgb_work(struct asus_kbd_leds *led)
-> > +{
-> > +     u8 rgb_buf[][FEATURE_KBD_LED_REPORT_SIZE] =3D {
-> > +             { FEATURE_KBD_LED_REPORT_ID1, 0xB3 }, /* set mode */
-> > +             { FEATURE_KBD_LED_REPORT_ID1, 0xB5 }, /* apply mode */
-> > +             { FEATURE_KBD_LED_REPORT_ID1, 0xB4 }, /* save to mem */
->
-> Hmm, I don't know why I didn't notice this the last scan... Since you're
-> anyway adding those comments to explain the literals (I assume), wouldn't
-> it be simply better to add defines for 0xB* and forgo the comments.
->
-> Usually when one adds any comment, it's always good to ask first oneself
-> if things could be named such that the code itself explains itself. This
-> leaves comments mostly for places where something really
-> odd/tricky/complex occurs as the rest can be covered by simply naming
-> better.
-
-I guess I can turn them into FEATURE_KBD_LED_CMD_SETMODE etc.
-
-> > +     };
-> > +     unsigned long flags;
-> > +     uint8_t colors[3];
-> > +     bool rgb_init, rgb_set;
-> > +     int ret;
-> > +
-> > +     spin_lock_irqsave(&led->lock, flags);
-> > +     rgb_init =3D led->rgb_init;
-> > +     rgb_set =3D led->rgb_set;
-> > +     led->rgb_set =3D false;
-> > +     colors[0] =3D led->rgb_colors[0];
-> > +     colors[1] =3D led->rgb_colors[1];
-> > +     colors[2] =3D led->rgb_colors[2];
-> > +     spin_unlock_irqrestore(&led->lock, flags);
-> > +
-> > +     if (!rgb_set)
-> > +             return;
-> > +
-> > +     if (rgb_init) {
-> > +             ret =3D asus_kbd_init(led->hdev, FEATURE_KBD_LED_REPORT_I=
-D1);
-> > +             if (ret < 0) {
-> > +                     hid_err(led->hdev, "Asus failed to init RGB: %d\n=
-", ret);
-> > +                     return;
-> > +             }
-> > +             spin_lock_irqsave(&led->lock, flags);
-> > +             led->rgb_init =3D false;
-> > +             spin_unlock_irqrestore(&led->lock, flags);
-> > +     }
-> > +
-> > +     /* Protocol is: 54b3 zone (0=3Dall) mode (0=3Dsolid) RGB */
->
-> BTW, this comment is very cryptic to me and I'm unable to connect it with
-> the code below. My only guess is that each non-parenthesized word is
-> explaining one index but things don't add up given what rgb_buf[0][0] and
-> [0][1] have.
-
-Maybe i fatfingered 54 and it should be 5a. Protocol is 54b3 zone mode
-R G B. So colors go to indexes 4, 5, 6
-
-> > +     rgb_buf[0][4] =3D colors[0];
-> > +     rgb_buf[0][5] =3D colors[1];
-> > +     rgb_buf[0][6] =3D colors[2];
-> > +
-> > +     for (size_t i =3D 0; i < ARRAY_SIZE(rgb_buf); i++) {
-> > +             ret =3D asus_kbd_set_report(led->hdev, rgb_buf[i], sizeof=
-(rgb_buf[i]));
-> > +             if (ret < 0) {
-> > +                     hid_err(led->hdev, "Asus failed to set RGB: %d\n"=
-, ret);
-> > +                     return;
-> > +             }
-> > +     }
-> > +}
-> > +
-> > +static void asus_kbd_work(struct work_struct *work)
-> > +{
-> > +     struct asus_kbd_leds *led =3D container_of(work, struct asus_kbd_=
-leds,
-> > +                                              work);
-> > +     asus_kbd_backlight_work(led);
-> > +     asus_kbd_rgb_work(led);
-> > +}
-> > +
-> >  static int asus_kbd_register_leds(struct hid_device *hdev)
-> >  {
-> >       struct asus_drvdata *drvdata =3D hid_get_drvdata(hdev);
-> >       unsigned char kbd_func;
-> > +     struct asus_kbd_leds *leds;
-> >       int ret;
-> >
-> >       ret =3D asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
-> > @@ -562,20 +674,47 @@ static int asus_kbd_register_leds(struct hid_devi=
-ce *hdev)
-> >       if (!drvdata->kbd_backlight)
-> >               return -ENOMEM;
-> >
-> > -     drvdata->kbd_backlight->removed =3D false;
-> > -     drvdata->kbd_backlight->brightness =3D 0;
-> > -     drvdata->kbd_backlight->hdev =3D hdev;
-> > -     drvdata->kbd_backlight->listener.brightness_set =3D asus_kbd_back=
-light_set;
-> > -     INIT_WORK(&drvdata->kbd_backlight->work, asus_kbd_backlight_work)=
-;
-> > +     leds =3D drvdata->kbd_backlight;
-> > +     leds->removed =3D false;
-> > +     leds->brightness =3D ASUS_EV_MAX_BRIGHTNESS;
-> > +     leds->hdev =3D hdev;
-> > +     leds->listener.brightness_set =3D asus_kbd_listener_set;
-> > +
-> > +     leds->rgb_colors[0] =3D 0;
-> > +     leds->rgb_colors[1] =3D 0;
-> > +     leds->rgb_colors[2] =3D 0;
-> > +     leds->rgb_init =3D true;
-> > +     leds->rgb_set =3D false;
-> > +     leds->mc_led.led_cdev.name =3D devm_kasprintf(&hdev->dev, GFP_KER=
-NEL,
-> > +                                     "asus-%s:rgb:peripheral",
-> > +                                     strlen(hdev->uniq) ?
-> > +                                     hdev->uniq : dev_name(&hdev->dev)=
-);
-> > +     leds->mc_led.led_cdev.flags =3D LED_BRIGHT_HW_CHANGED;
-> > +     leds->mc_led.led_cdev.max_brightness =3D ASUS_EV_MAX_BRIGHTNESS;
-> > +     leds->mc_led.led_cdev.brightness_set =3D asus_kbd_brightness_set;
-> > +     leds->mc_led.led_cdev.brightness_get =3D asus_kbd_brightness_get;
-> > +     leds->mc_led.subled_info =3D leds->subled_info;
-> > +     leds->mc_led.num_colors =3D ARRAY_SIZE(leds->subled_info);
-> > +     leds->subled_info[0].color_index =3D LED_COLOR_ID_RED;
-> > +     leds->subled_info[1].color_index =3D LED_COLOR_ID_GREEN;
-> > +     leds->subled_info[2].color_index =3D LED_COLOR_ID_BLUE;
-> > +
-> > +     INIT_WORK(&drvdata->kbd_backlight->work, asus_kbd_work);
-> >       spin_lock_init(&drvdata->kbd_backlight->lock);
-> >
-> >       ret =3D asus_hid_register_listener(&drvdata->kbd_backlight->liste=
-ner);
-> > -     if (ret < 0) {
-> > -             /* No need to have this still around */
-> > -             devm_kfree(&hdev->dev, drvdata->kbd_backlight);
-> > +     /* Asus-wmi might not be accessible so this is not fatal. */
-> > +     if (!ret)
-> > +             hid_warn(hdev, "Asus-wmi brightness listener not register=
-ed\n");
->
-> Is the condition correct way around given the message?
-
-You are right.
-
-> Please also note that you don't need to send an update every day or so
-> after minor comments like this. We're in merge window currently which
-> means I likely won't be applying any next material until -rc1 has been
-> released.
-
-If this is 6.16 material I am happy to put a pause on this for the
-next 1-3 weeks.
-
-Antheas
-
-> > +     if (drvdata->quirks & QUIRK_ROG_NKEY_RGB) {
-> > +             ret =3D devm_led_classdev_multicolor_register(&hdev->dev,=
- &leds->mc_led);
-> > +             if (!ret)
-> > +                     leds->rgb_registered =3D true;
-> > +             return ret;
+> > diff --git a/fs/exec.c b/fs/exec.c
+> > index 506cd411f4ac..548d18b7ae92 100644
+> > --- a/fs/exec.c
+> > +++ b/fs/exec.c
+> > @@ -424,6 +424,10 @@ static const char __user *get_user_arg_ptr(struct =
+user_arg_ptr argv, int nr)
 > >       }
+> >  #endif
 > >
-> > -     return ret;
-> > +     return 0;
-> >  }
-> >
-> >  /*
-> > @@ -1282,7 +1421,7 @@ static const struct hid_device_id asus_devices[] =
-=3D {
-> >         QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
-> >           USB_DEVICE_ID_ASUSTEK_ROG_Z13_LIGHTBAR),
-> > -       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> > +       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_N=
-KEY_RGB },
-> >       { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
-> >           USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY),
-> >         QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> > @@ -1311,7 +1450,7 @@ static const struct hid_device_id asus_devices[] =
-=3D {
-> >        */
-> >       { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-> >               USB_VENDOR_ID_ASUSTEK, USB_DEVICE_ID_ASUSTEK_ROG_Z13_FOLI=
-O),
-> > -       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-> > +       QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD | QUIRK_ROG_N=
-KEY_RGB },
-> >       { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-> >               USB_VENDOR_ID_ASUSTEK, USB_DEVICE_ID_ASUSTEK_T101HA_KEYBO=
-ARD) },
-> >       { }
-> >
+> > +#if defined(CONFIG_64BIT) && (BITS_PER_LONG =3D=3D 32)
+okay, #if defined(CONFIG_64BIT) && BITS_PER_LONG =3D=3D 32
+
 >
-> --
->  i.
+>    Parens don't seem necessary...
 >
+> > +     nr =3D nr * 2;
+>
+>    Why not nr *=3D 2?
+okay, nr *=3D 2;
+
+--=20
+Best Regards
+ Guo Ren
 
