@@ -1,236 +1,166 @@
-Return-Path: <linux-input+bounces-11301-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11302-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817C0A71DAF
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 18:49:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44DB6A71EF2
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 20:16:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6052A18957A4
-	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 17:46:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 10C6F3AD3CF
+	for <lists+linux-input@lfdr.de>; Wed, 26 Mar 2025 19:16:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FA9623FC48;
-	Wed, 26 Mar 2025 17:46:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 663F917A2FB;
+	Wed, 26 Mar 2025 19:16:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pwZBU/wr"
+	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="ptWLcIcZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from AS8PR03CU001.outbound.protection.outlook.com (mail-westeuropeazolkn19012057.outbound.protection.outlook.com [52.103.33.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D2623FC40;
-	Wed, 26 Mar 2025 17:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743011205; cv=none; b=sIZ3zQDGss3+l+KqykOAtQF0GH4FZNNmvSwo9o0zvxMZlfJtSknCIHFgeMqRyEbOd9iLxLuO59DXhifDDburwhe2vRk22x6S82yAq9Pis+0B3bhEZo+v+O9T1j8QoB7pMrLFu2qfN0qKucDFhIuPEnBwYD9PXzwsQp27y2L+EY0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743011205; c=relaxed/simple;
-	bh=AvNG/hFb03iHU1hJlpsi28BI0GT1J2rVhqAbx4wAt14=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EWc5EoclvlOUU6RWWwXPSnxipFyGYwgCG6trOuASJTfMNw6DK2jgmTMAAEUIUy3cIct4HCt8OGzMErqfeUkSlCrdDA7PHV7YY7EYYEnzW/ijRhlLfAt5gWfQ8fJc7fbUjqpyTsi48ZlijfZ4/QuamGD9jUBZWrLHJm4WQlxpzA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pwZBU/wr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 619E8C4CEE2;
-	Wed, 26 Mar 2025 17:46:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743011204;
-	bh=AvNG/hFb03iHU1hJlpsi28BI0GT1J2rVhqAbx4wAt14=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pwZBU/wrbL7pwOKX6uczn+NGSMx5r2yBaqpJczJjOvhbjR4Eioe5qxsFjonef8o21
-	 47K1BT1mtZkz8YDQ5fFIt8L+H9Ix5WWNzolBtzZbRYj6jMQralisv0f6e3kUHCQa9i
-	 rRfZfd1kt+vUYPsCAX5TPhCEisran3ayVI1h74u8bAqamtOWomzkpwhKv6fE0GJIUg
-	 UqcBOQY3dH/S2y6rj1gDaSiE6jFZZlLoxZ4auXInK7PF7T9goDzb5FkrWoPn0H3gdm
-	 NdXDV9mpbvyVPjUQiJuyQcIV9Bw1UT0kcCx6O2NUxC4qnAjNCk5QdAk/WAWBcT1lqp
-	 xLT+6/XFaprJA==
-Date: Wed, 26 Mar 2025 18:46:41 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Kamel Bouhara <kamel.bouhara@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	=?utf-8?Q?Gr=C3=A9gory?= Clement <gregory.clement@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v5 04/11] pwm: max7360: Add MAX7360 PWM support
-Message-ID: <b5los4qt7atc75phmurtswymgyeh4tojpu4nctmq6tcd45an6n@rjm3n53z3imx>
-References: <20250318-mdb-max7360-support-v5-0-fb20baf97da0@bootlin.com>
- <20250318-mdb-max7360-support-v5-4-fb20baf97da0@bootlin.com>
- <Z9qoGmNKcozbIjeH@smile.fi.intel.com>
- <hinocg3itjqizbmzgaxv6cfnhtus6wbykouiy6pa27cxnjjuuk@l5ppwh7md6ul>
- <Z9vydaUguJiVaHtU@smile.fi.intel.com>
- <D8PF958QL5AK.2JIE4F1N1NI0F@bootlin.com>
- <Z-LSHoYA1enEOeHC@smile.fi.intel.com>
- <D8QA116WPNUE.11VKIHSG9N0OZ@bootlin.com>
- <Z-Qh8yBMaCMhv_Ny@smile.fi.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D7C13C9A3;
+	Wed, 26 Mar 2025 19:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.33.57
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743016573; cv=fail; b=XTHR+fbiIvqarFOU9076/clIcQPhGIEehPPvOtXvCk8o0zy5Sd3SY202BD6ngCErEAI+V7L2B3tEhhcYfS4mcRF1gx2FjtmoyS21cqQRj+IDbKSRGvnWAo2qA6j8ldAApP7F+V43juRWcgc9qTQI2G2D2M1E02Ce8XyakIz7XMs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743016573; c=relaxed/simple;
+	bh=flgOyPNNP+9UZ7GrCLfMTu/QYG/XR/jP5HGu3KlPhRM=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=GERwg8aMYvBDEorFnGkIaNuJVKHzKlVdOrmAk8wIdydnMpBIi3IX8lwuWDyNjgkfEoDrprNAgxUwfCj01Jg5ozC5TaV4JD9gxLl6MIYsu6EWte+h1V3gDgF86g+9qjL4n8IzDacn6lPxPvSIYXWsWV6fJ4PGeMqA95klgAQNHUc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=ptWLcIcZ; arc=fail smtp.client-ip=52.103.33.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KSA/VWYsZbYuSvu2Mwie+xJP2+XNCfDw4uFl7zTx+yxD3bU+1rMRjMHVFY7mZAac4merxcYdQxv/aP83ghVNDBt2CvnqaDE4EQ0M9DEA5S8SMqqAC1/y7NQJ2uv1de7UyeDuRYKbQYJH4nWNAQ3EWhD5ML7uixtoGfOLY8T/FIW0/fgCghLL9t6dzm9YRYmLlwy5WG1JwQqgXSdzC1rZVIEzqjw7ZC0rUC11+MlgHzgQQsdBtpTHEl1q0+5sjVTURhT7h3v76rTXz3UyUrA036qt1m33+P9LjcDJM2RffRXn+W4QG0+88uuzJFC8T4eci4pnleAoCU7olqk1dS5CXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vor+PS7NOZuLQM9yD/ejH3iM9F2JK7Kkj/fvL4Kysk4=;
+ b=L2mAgeaXsKwqtMV3HC1u+SmGwzP9E8xqLf/qMNtxF1Esiu7coWO99ZXsgFCXMr34Kp7mTrShEvCrFS+wYuSwLefRFcJUeIpWu7R+OOXkNXnoXS0WJHB7lLlRnuX3PJaHLn4plis4msUDRnNqH/FDy4P2jCzaN03ozAgzGsdnGI7DaWAYdRffrB4clq/3rUYjejNLuOJXfhwWfsmTX7UG90G5mRBYtZbzaDCnHPdt/+sqEVtVWgzOgm/pmkQSoscDTkRaWMTBRVkcC4FbCmWLgfr4OyGAA7djL1K5iDdJ/58Wr0n8mmZGFnDufGngFps54qL7cFWwzfO8ANKQf+NANw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vor+PS7NOZuLQM9yD/ejH3iM9F2JK7Kkj/fvL4Kysk4=;
+ b=ptWLcIcZUD0Z8pL/eCQT/ZAtoGFTgcl+tL+uxzgTTn/pRX6jXYO0zKZzXKRZ/12dVUpohvhnD5povhcf1wQKgoISzFyc6f9PX7f0N1ZLTjtAsppTBF9UbDUzTv8SJSPlkwLw7cRsF6Rn2IwWjqNniW9W4S5hfijTAyP6H8c+7E2jOJDo9w9D9WJn5N3BBKqWnBqCwRuQhitUzuf28T96tfyC6jkzEJ3NmaUYJpAFXKIPzr7pjFQ+/HeyKw78XkUbxYLGSkactX9aZMiLeXa8shzzQWJ3wXQ8R2wrbp/wOLBTOyGj0ksZbT7zoiaQ9ygzVHaSW+523ojLPnh6cOBZpA==
+Received: from AS8PR02MB10217.eurprd02.prod.outlook.com
+ (2603:10a6:20b:63e::17) by DB4PR02MB9503.eurprd02.prod.outlook.com
+ (2603:10a6:10:3f5::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Wed, 26 Mar
+ 2025 19:16:08 +0000
+Received: from AS8PR02MB10217.eurprd02.prod.outlook.com
+ ([fe80::58c3:9b65:a6fb:b655]) by AS8PR02MB10217.eurprd02.prod.outlook.com
+ ([fe80::58c3:9b65:a6fb:b655%6]) with mapi id 15.20.8534.040; Wed, 26 Mar 2025
+ 19:16:08 +0000
+From: David Binderman <dcb314@hotmail.com>
+To: "even.xu@intel.com" <even.xu@intel.com>, "xinpeng.sun@intel.com"
+	<xinpeng.sun@intel.com>, "jikos@kernel.org" <jikos@kernel.org>,
+	"bentiss@kernel.org" <bentiss@kernel.org>, "linux-input@vger.kernel.org"
+	<linux-input@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: linux-6.14/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c bug
+ report
+Thread-Topic: linux-6.14/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c
+ bug report
+Thread-Index: AQHbnoMyJSSxnBJen0yPctJzXXDeUA==
+Date: Wed, 26 Mar 2025 19:16:06 +0000
+Message-ID:
+ <AS8PR02MB10217E34D616B6F5213660E1E9CA62@AS8PR02MB10217.eurprd02.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8PR02MB10217:EE_|DB4PR02MB9503:EE_
+x-ms-office365-filtering-correlation-id: b3bdcebf-60fc-4b5f-284f-08dd6c9aa86c
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|7092599003|19110799003|8060799006|8062599003|15030799003|15080799006|461199028|3412199025|440099028|102099032|21999032;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?TiOxDr/NwjAfxSacV8PEK6CxUiDxFeapVRCcjoz9C5H+XxgXYxncUin0L+?=
+ =?iso-8859-1?Q?GeWGXNWCeguwqJiJuL1PMAxSimgKTp98LF9hF6zbxp1HGkW5G21hq5bdnY?=
+ =?iso-8859-1?Q?Vrans5+HU6rUoBPuClPYjVWtSLXifrveEzecVhdTr0d6CYbiwNjU6IapAZ?=
+ =?iso-8859-1?Q?ZPtMPqLZDemoU1KPrZP1oT1jsPSZamJPR9XPgyZwo8RMgUJT4DMT2PsgzO?=
+ =?iso-8859-1?Q?bdFJRRsEyUA9EniW/yIIAH/6H4PqQ+Mo0Tk80z27BJK4TNkExk9SKIa9Dd?=
+ =?iso-8859-1?Q?Qw7XDrwYCbhNiYK5Tuk92U0ExTOEYGDDA5EHCsVh/6GVVA5TZX0h1jtPtq?=
+ =?iso-8859-1?Q?3V3uT2ViauEBVMzLNI5son8++HJB9Kvw7eGMQaYP3L7f/o6JnWJD1NtPGs?=
+ =?iso-8859-1?Q?rpJbv1/Xexw05opUmMajb7eoHafTzkul84m3vYgDZEzK+nTf6cC5ZVBLq1?=
+ =?iso-8859-1?Q?QWEx+Rb1vgmcaKbmBMvTrEeDYWsGEXVXC3WpqXdmeDaa32IAXMLwdkAbfR?=
+ =?iso-8859-1?Q?MnOf4LeHVCTacPimdAeKAUafHcvUSBQcTiLY1Bu2+BH4B9cxuSSYRXEeek?=
+ =?iso-8859-1?Q?OY/n1fl+v8VsD++BxN8x+PpluVSHy75YJL3NpkUXFmXnSs5mvili40A7vO?=
+ =?iso-8859-1?Q?0oGu6cx6Lbub5UAVdlmmtoNK0YSPgLP6iT6tz8YkEw8V3jwUvLNYB0VCe7?=
+ =?iso-8859-1?Q?F0cqS7ecKUFlkve9C/9j56KxdRbJIG7pst2v/XlUQv3gTMhC0cQ1PHzc14?=
+ =?iso-8859-1?Q?gw6k96oJ+/Iz2TxyM6ZiU+7I6hCNxWUKdXRZB6zub5BOT54oCY3Ti4AZhM?=
+ =?iso-8859-1?Q?xOEWT0GoIp4+q6t9nVKyzI2Uazabfm+mgCq02weCkRLyQZlBhOz5bPtn8q?=
+ =?iso-8859-1?Q?FgGcTH3wvty5h7RXF9z0WeWYKxrEzPsOTqwHAIMKrzERt6dlZpJ9oiIgDU?=
+ =?iso-8859-1?Q?ut12QH9mEZCKtW9x3RQAV8IPeM8cwcwcn6PPK2n2WWD2Nt8FlnAHoXReYN?=
+ =?iso-8859-1?Q?MNxYozxQMkDkldL7kIYwIZsK2A1Ql9/5G+Jrr2yvXezbyzP/ngOAjFSujf?=
+ =?iso-8859-1?Q?Vi8NaHP5uDf/WCxTHoeSBgJIQiCHhMi0grf3QGfVXWqh4iwK3fTZkZiYlZ?=
+ =?iso-8859-1?Q?T2kK8WVwZz/1R/gKpwwR0JDR5g67rTxYcVqZP3NG/qjbjK5PnfkeYyQFxV?=
+ =?iso-8859-1?Q?xdLE67eGuW/GjA=3D=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?NfBeA1X1TlDy7KYBh01FgG2z9ECaSQY8rnFSI7CYFsXlCXhz6EBEXqMiU2?=
+ =?iso-8859-1?Q?pIPPjjBzjavErsmRqA/lp7Xr+0RGYwYqu9QgVsOEusMkxg+1wM3wpQSNMq?=
+ =?iso-8859-1?Q?7DZfd3qkntmUYjwsFVhNPoJ2bFNIvOdfJ8roCdsrHVyqBLC5rX4VvoUzJj?=
+ =?iso-8859-1?Q?On7YLRLPiTTD5cWIgcyKHseYavr3Q1JuitJD9Jqof4QvJQg4kR8gvSIjKg?=
+ =?iso-8859-1?Q?FzAOvkI7JG1Rnpxz/CDm3z+lUJm2179CmdDFzPSbwzuTVt/ZOAVjlATHEn?=
+ =?iso-8859-1?Q?jf02QN8QqbyYF1gxdj190KOuTLbYRSbLxemI1BJrtIQgNqiYsBnkhZcXMa?=
+ =?iso-8859-1?Q?iZ312mKEDYVUY8WOCpr7V5vfGoLJPBm5POyMq175N/xocDWYhAbusqjLe6?=
+ =?iso-8859-1?Q?tyrO6ey43qubhn/Z71/6EVSK2Thu+dpXIY5OVRYs78/mPRTWZcRjMqduiu?=
+ =?iso-8859-1?Q?/K3gXfhFMOYbOTY2RuUkTkm5TTOptvVkW0+fuJqPY7U1dSsBNmcm+2cb14?=
+ =?iso-8859-1?Q?kJdlUvS36lk7Flbz37w6JYnvv0ZOHpwHkFPoZ8/GyXXESiaHtZoPNqvrJs?=
+ =?iso-8859-1?Q?9z6uov12t5Lt8IX1N/9lYPL4rc8JgJHOOYZ/Ph+xxRGGVBMaGPDZDYJWVL?=
+ =?iso-8859-1?Q?47vnFYB/e96WwMtA/8vd5+EU9xU67YBK3CwyLxQJEU9kWsPOPfMmbVtnJz?=
+ =?iso-8859-1?Q?MsM6ZO0bf2RPayK0G/1+WhoDpddr2bx3E67VvbzYc2MyCHkLS1sN4xtOLv?=
+ =?iso-8859-1?Q?XyL0BjDjtT7FcYwTTp5z1jHvGyvzgFMtE4A5/C3xHzgAigv8y2NuVx49+v?=
+ =?iso-8859-1?Q?9QdnijU/p49lwXQ5Dm8zanmwjDSJu1JWMlBSe7bnta8xtpSMxg3/VCBFQB?=
+ =?iso-8859-1?Q?X+IkEE17SwbOn1T0Mjo8o/5K0kor9aL+DV3CQc6rWhj5xYjvx7x9OewEy5?=
+ =?iso-8859-1?Q?EA4JvXTOqcjnAAcf5dZJ+2nSk8c4rMVEgzcKUVj75lu7sVmtkEB21G2t1h?=
+ =?iso-8859-1?Q?7RiDc0uXS+4vXi328kkmne4eXT6wl/SOAYvG2J+u0bZW0iPc7EZLsnZe+G?=
+ =?iso-8859-1?Q?WqLbkkjdJp7R5SB9ozkKEax7e8l6HpxnSZs58ItbhquwgL3nOkJyWJA9b6?=
+ =?iso-8859-1?Q?LszSwrKpFypw08uWL1Y5x0oqe4nfWgAelQV4LYsL0xns/EvdMGfz1NE//i?=
+ =?iso-8859-1?Q?ZhtUJaOoD56X91zM11kYLT2cp2bfb4HMM24B7sGcvqB+RSLNcexCAH83oe?=
+ =?iso-8859-1?Q?iPQr7h/A5sRnE8cocyUA=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5lu7dui2veijkixr"
-Content-Disposition: inline
-In-Reply-To: <Z-Qh8yBMaCMhv_Ny@smile.fi.intel.com>
+X-OriginatorOrg: sct-15-20-7828-19-msonline-outlook-12d23.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR02MB10217.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3bdcebf-60fc-4b5f-284f-08dd6c9aa86c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Mar 2025 19:16:06.2404
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR02MB9503
 
-
---5lu7dui2veijkixr
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 04/11] pwm: max7360: Add MAX7360 PWM support
-MIME-Version: 1.0
-
-On Wed, Mar 26, 2025 at 05:49:07PM +0200, Andy Shevchenko wrote:
-> On Wed, Mar 26, 2025 at 03:44:28PM +0100, Mathieu Dubois-Briand wrote:
-> > On Tue Mar 25, 2025 at 4:56 PM CET, Andy Shevchenko wrote:
-> > > On Tue, Mar 25, 2025 at 03:37:29PM +0100, Mathieu Dubois-Briand wrote:
-> > > > On Thu Mar 20, 2025 at 11:48 AM CET, Andy Shevchenko wrote:
-> > > > > On Thu, Mar 20, 2025 at 08:50:00AM +0100, Uwe Kleine-K=F6nig wrot=
-e:
-> > > > > > On Wed, Mar 19, 2025 at 01:18:50PM +0200, Andy Shevchenko wrote:
-> > > > > > > On Tue, Mar 18, 2025 at 05:26:20PM +0100, mathieu.dubois-bria=
-nd@bootlin.com wrote:
->=20
-> ...
->=20
-> > > > > > > > +	chip =3D devm_pwmchip_alloc(dev->parent, MAX7360_NUM_PWMS=
-, 0);
-> > > > > > >=20
-> > > > > > > This is quite worrying. The devm_ to parent makes a lot of as=
-sumptions that may
-> > > > > > > not be realised. If you really need this, it has to have a ve=
-ry good comment
-> > > > > > > explaining why and object lifetimes.
-> > > > > >=20
-> > > > > > Pretty sure this is broken. This results for example in the dev=
-ice link
-> > > > > > being created on the parent. So if the pwm devices goes away a =
-consumer
-> > > > > > might not notice (at least in the usual way). I guess this was =
-done to
-> > > > > > ensure that #pwm-cells is parsed from the right dt node? If so,=
- that
-> > > > > > needs a different adaption. That will probably involve calling
-> > > > > > device_set_of_node_from_dev().
-> > > > >
-> > > > > It's an MFD based driver, and MFD core cares about propagating fw=
-node by
-> > > > > default. I believe it should just work if we drop that '->parent'=
- part.
-> > > >=20
-> > > > Are you sure about that?
-> > >
-> > > Yes and no. If your DT looks like (pseudo code as I don't know
-> > > DTS syntax by heart):
-> > >
-> > > 	device: {
-> > > 		parent-property =3D value;
-> > > 		child0:
-> > > 			...
-> > > 		child1:
-> > > 			...
-> > > 	}
-> > >
-> > > the parent-property value is automatically accessible via fwnode API,
-> > > but I don't know what will happen to the cases when each of the child=
-ren
-> > > has its own compatible string. This might be your case, but again,
-> > > I'm not an expert in DT.
-> > >
-> >=20
-> > On my side:
-> > - Some MFD child do have a child node in the device tree, with an
-> >   associated compatible value. No problem for these, they do get correct
-> >   of_node/fwnode values pointing on the child device tree node.
-> > - Some MFD child do not have any node in the device tree, and for these,
-> >   they have to use properties from the parent (MFD) device tree node.
-> >   And here we do have some problems.
-> >=20
-> > > > On my side it does not work if I just drop the '->parent', this is =
-why I
-> > > > ended whit this (bad) pattern.
-> > >
-> > > > Now it does work if I do call device_set_of_node_from_dev() manuall=
-y,
-> > >
-> > > AFAICT, this is wrong API to be called in the children. Are you talki=
-ng about
-> > > parent code?
-> > >
-> >=20
-> > I believe I cannot do it in the parent code, as I would need to do it
-> > after the call to devm_mfd_add_devices(), and so it might happen after
-> > the probe. I still tried to see how it behaved, and it looks like PWM
-> > core really did not expect to get an of_node assigned to the device
-> > after adding the PWM device.
-> >=20
-> > So either I can do something in MFD core or in sub devices probe(), or I
-> > need to come with a different way to do things.
-> >=20
-> > > > so it's definitely better. But I believe the MFD core is not propag=
-ating
-> > > > OF data, and I did not find where it would do that in the code. Yet=
- it
-> > > > does something like this for ACPI in mfd_acpi_add_device(). Or mayb=
-e we
-> > > > do something bad in our MFD driver?
-> > >
-> > > ...or MFD needs something to have... Dunno.
-> >=20
-> > I have something working with a very simple change in mfd-core.c, but
-> > I'm really not confident it won't break anything else. I wish I could
-> > get some insights from an MFD expert.
-> >=20
-> > @@ -210,6 +210,8 @@ static int mfd_add_device(struct device *parent, in=
-t id,
-> >                 if (!pdev->dev.of_node)
-> >                         pr_warn("%s: Failed to locate of_node [id: %d]\=
-n",
-> >                                 cell->name, platform_id);
-> > +       } else if (IS_ENABLED(CONFIG_OF) && parent->of_node) {
-> > +               device_set_of_node_from_dev(&pdev->dev, parent);
->=20
-> The use of this API is inappropriate here AFAICT. It drops the parent ref=
-count
-> and on the second call to it you will have a warning from refcount librar=
-y.
-
-device_set_of_node_from_dev() does:
-
-	of_node_put(pdev->dev->of_node);
-	pdev->dev->of_node =3D of_node_get(parent->of_node);
-	pdev->dev->of_node_reused =3D true;
-
-Note that pdev isn't the platform device associated with the parent
-device but the just allocated one representing the subdevice so
-pdev->dev->of_node is NULL and the parent refcount isn't dropped.
-
-But I'm unsure if this is the right place to call it or if
-device_set_node() is indeed enough (also I wonder if
-device_set_of_node_from_dev() should care for fwnode). I'll keep that
-question for someone else.
-
-Best regards
-Uwe
-
---5lu7dui2veijkixr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmfkPXYACgkQj4D7WH0S
-/k4upQf6Axdao5zBz0Hz+STtYka9LKGhVF1UCfWMMwRHWmDbeIDAZCPDl/+rT/hu
-OSH3njTdWTwTU5hL3AIs7mJdtCh8xT+9OPFMuEVow3yAX0TMY4R5xl1V8wlH1tLH
-biRhSL2JC8OV3g52kT2HqPuE9m99ZmdXM6Ds8NsnKUILuXkElmMNkZ/rhwNljPob
-tuXUqo4fAUQvDYaoh6gMfPqlYH2s3DYyifQksS3GW84rxsij2ueSoZ/2mVBWU25H
-Hhjzxw/illE3NCs06OsCv06iYPyWIQFfgj25K/8ipW4SQPQ0KZ5sz8+PUGHd/flu
-1yV8XatGYEduOwHyDfteDk83GtkVyw==
-=XSI3
------END PGP SIGNATURE-----
-
---5lu7dui2veijkixr--
+Hello there,=0A=
+=0A=
+Static analyser cppcheck says:=0A=
+=0A=
+linux-6.14/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c:298:24: styl=
+e: Boolean result is used in bitwise operation. Clarify expression with par=
+entheses. [clarifyCondition]=0A=
+=0A=
+Source code is=0A=
+=0A=
+        if (!config->sgls[i] | !config->sgls_nent[i])=0A=
+=0A=
+Perhaps || was intended instead of | ?=0A=
+=0A=
+Regards=0A=
+=0A=
+David Binderman=0A=
+=0A=
+=0A=
 
