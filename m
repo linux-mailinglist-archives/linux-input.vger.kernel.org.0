@@ -1,96 +1,112 @@
-Return-Path: <linux-input+bounces-11305-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11306-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 111E7A728E5
-	for <lists+linux-input@lfdr.de>; Thu, 27 Mar 2025 03:58:52 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6602A7296B
+	for <lists+linux-input@lfdr.de>; Thu, 27 Mar 2025 05:10:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ED47E174700
-	for <lists+linux-input@lfdr.de>; Thu, 27 Mar 2025 02:58:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E01FF7A61CD
+	for <lists+linux-input@lfdr.de>; Thu, 27 Mar 2025 04:09:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5E911A5BAF;
-	Thu, 27 Mar 2025 02:58:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C71B195808;
+	Thu, 27 Mar 2025 04:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HsbGaAFK"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90E358479;
-	Thu, 27 Mar 2025 02:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231F5192D8A;
+	Thu, 27 Mar 2025 04:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743044326; cv=none; b=Ku+8d7WCDABEpoNRoG9ekTA49mwfQADzUF18YxSEbQOLoqrdjmxv6ZvE7A+JTtXbHSH0KYWHp8CwHMVicWK/n4L5OaF9r47s8QsU45O1y7FmX0SKuo+la1E2xq871GJbt4IW9SCaqAz8bekmYZkzRW+ttGETQZe+AviI7T/6fhQ=
+	t=1743048612; cv=none; b=DwwR1yOyoMovlwWwFf672N9XfeLFJE8643UP9AZFpq0BYdeOflOaNqb9H2XSVzxO7EY07zZO9cKJL7Sd59EAAhEKSvAKAcAY8h0bodx+8HZzNy6XNC/PyIcJTl7i7bxq08VNRRgHHtyLhWybrfOlVm6d+JYt70YMIOvvYOjr3K8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743044326; c=relaxed/simple;
-	bh=2cmGfu/5nXx+612IUO3LnA3MfzSO+Spn+rPWHrmVV5E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DRu+2ynttwHGO6wfuoH6kVeS9uPRoypzmTXjAdlvkiQ9qs25ERDkhCzlPJejX/jTQK1gFWk+iKvEhX8p0uKSfDf8qi/+z6CsvLRMZzdOfnx3KFOhOozgTG16jf6WSXf2eoQIdLmoKdZr4Y9SGqMd/9Evc+LGJBTuADDoG3E9zyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.40.54.180])
-	by gateway (Coremail) with SMTP id _____8DxvnPavuRnTcSnAA--.52120S3;
-	Thu, 27 Mar 2025 10:58:34 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.40.54.180])
-	by front1 (Coremail) with SMTP id qMiowMDxH+XZvuRnj3piAA--.31115S2;
-	Thu, 27 Mar 2025 10:58:33 +0800 (CST)
-From: Qunqin Zhao <zhaoqunqin@loongson.cn>
-To: dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chenhuacai@kernel.org,
-	Qunqin Zhao <zhaoqunqin@loongson.cn>
-Subject: [PATCH] input: atkbd: do not init atkbd_reset variable to true on Loongson
-Date: Thu, 27 Mar 2025 10:59:42 +0800
-Message-ID: <20250327025942.137057-1-zhaoqunqin@loongson.cn>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1743048612; c=relaxed/simple;
+	bh=VsP2LINTLSEPAAo1v2T23H2pdhv80iTCg3RDUSOAqrk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=i+9LU/pPA+vfnQLcR3a3f+jp/aA2roxKamssJwjX0+//4rDJaNjp1apzOEbJrzlYzzTqfd5BfS4Si29i0mlD02BZ05EjHP205zuh3+s36zcuWBRTI3t+QmdfWgzGqLKvf61YoJi+xZc4diNyQKouHm/uPM0h0H5Sw8sNVHhrhCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HsbGaAFK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 945A7C4CEE4;
+	Thu, 27 Mar 2025 04:10:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743048611;
+	bh=VsP2LINTLSEPAAo1v2T23H2pdhv80iTCg3RDUSOAqrk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=HsbGaAFKxORDa7bRPXk0vdB8Ib5k9qCdpuMz/JqEzZTWnSKGmPVI8dXi9sJzSI/At
+	 PhiAn5QeDrJLI61J8K+4TnP3nNDjAHx297MhSyvrb4ITG4xN0chLyXAodBfPVpW7Q5
+	 1/elazzW57C1ptZagCLxznediSv6PgXNsRTsGr6Mt0mofwPj8tuJHQ/E+WYl61o06W
+	 yiwC1mL4hkkdD6jAEcPoG2MUvLcA98gLbO5Dbgi1xdFp4Kp6A0XjVq9K7tsaU9r218
+	 NIbS8wjzAgANpVyFJ/6yc1t3+l4iWHt0bWpCGwNFSxD5cAKfGadiKRWKQb/71iEKoq
+	 3adLpRaE8FO6A==
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e6194e9d2cso982344a12.2;
+        Wed, 26 Mar 2025 21:10:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUJQBXa2QeRxdEI/NxjqQ2W3YwxHoDCyipQ4DIaUa3w2l97RqbUuWxxtONO77BUNJUyaQ8zu0hwvf+Gtw0u@vger.kernel.org, AJvYcCV/uRUtWX7m9JyCTsyAnr1ajrKr4wPPV/X+dPBrms1VhY7DMpZ0zN4epKltmUiyvr0ALMrdJooT8qVgxQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCOTNQgpcAqWx8vl5VsSTMbsFRnuJr1QxXgjx32C1qqSjn5ltN
+	QkyartFqMfviq1x13Q/o+JCeNQxctEsY2fcKBySCIMCFvaW5uaC6U743Ku+v7rKyOdopwlN/DGH
+	SIKPaYzBjI8z9nvdN5d167KB7Rtk=
+X-Google-Smtp-Source: AGHT+IHekdfhqfTEbi0R3sIOc9m67myxT68+2FIpnCXytzWt2xwF5CltI1KXllCxe1mJHHPGE9McAnt83fx+7ntJc+U=
+X-Received: by 2002:a17:907:6e90:b0:ac2:b1e2:4b85 with SMTP id
+ a640c23a62f3a-ac6fae493e7mr149312566b.3.1743048610166; Wed, 26 Mar 2025
+ 21:10:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowMDxH+XZvuRnj3piAA--.31115S2
-X-CM-SenderInfo: 52kd01pxqtx0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj9xXoW7Gw1xWw13CFWrtF47tw1fAFc_yoWfAwb_Ga
-	42vws7Wr4vkry2grs8twn3XFy7ur18ZF18ua4YgrySq348KrW5C34q9a45J3s8WrsxJF1r
-	Jw4UK3sYyrsIgosvyTuYvTs0mTUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvT
-	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
-	cSsGvfJTRUUUb28YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
-	vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	WUJVW8JwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
-	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AK
-	xVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7V
-	AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
-	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6x
-	IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAI
-	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2jsIEc7
-	CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UAMa8UUUUU=
+References: <20250327025942.137057-1-zhaoqunqin@loongson.cn>
+In-Reply-To: <20250327025942.137057-1-zhaoqunqin@loongson.cn>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Thu, 27 Mar 2025 12:10:00 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H785p1cc+_22HYMBqinv4B-tfYCO7i4VwyR2ki9fx4Oiw@mail.gmail.com>
+X-Gm-Features: AQ5f1JqNexFkWKHQV2imtO3dH-KNjTKxq__1nNSmJljcLFsB1OVwUXRAbpk2hvs
+Message-ID: <CAAhV-H785p1cc+_22HYMBqinv4B-tfYCO7i4VwyR2ki9fx4Oiw@mail.gmail.com>
+Subject: Re: [PATCH] input: atkbd: do not init atkbd_reset variable to true on Loongson
+To: Qunqin Zhao <zhaoqunqin@loongson.cn>
+Cc: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The keyboard will not be confused on Loongson platform, so do not need a
-full reset of the keyboard.
+Hi, Qunqin,
 
-Signed-off-by: Qunqin Zhao <zhaoqunqin@loongson.cn>
----
- drivers/input/keyboard/atkbd.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Thu, Mar 27, 2025 at 10:58=E2=80=AFAM Qunqin Zhao <zhaoqunqin@loongson.c=
+n> wrote:
+>
+> The keyboard will not be confused on Loongson platform, so do not need a
+> full reset of the keyboard.
+>
+> Signed-off-by: Qunqin Zhao <zhaoqunqin@loongson.cn>
+> ---
+>  drivers/input/keyboard/atkbd.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkb=
+d.c
+> index adf0f31199..f8ef3e929a 100644
+> --- a/drivers/input/keyboard/atkbd.c
+> +++ b/drivers/input/keyboard/atkbd.c
+> @@ -37,7 +37,8 @@ static int atkbd_set =3D 2;
+>  module_param_named(set, atkbd_set, int, 0);
+>  MODULE_PARM_DESC(set, "Select keyboard code set (2 =3D default, 3 =3D PS=
+/2 native)");
+>
+> -#if defined(__i386__) || defined(__x86_64__) || defined(__hppa__)
+> +#if defined(__i386__) || defined(__x86_64__) || defined(__hppa__) ||   \
+> +       defined(__loongarch__)
+No new line is needed, now there is no 80 columns limit.
+Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
 
-diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
-index adf0f31199..f8ef3e929a 100644
---- a/drivers/input/keyboard/atkbd.c
-+++ b/drivers/input/keyboard/atkbd.c
-@@ -37,7 +37,8 @@ static int atkbd_set = 2;
- module_param_named(set, atkbd_set, int, 0);
- MODULE_PARM_DESC(set, "Select keyboard code set (2 = default, 3 = PS/2 native)");
- 
--#if defined(__i386__) || defined(__x86_64__) || defined(__hppa__)
-+#if defined(__i386__) || defined(__x86_64__) || defined(__hppa__) ||	\
-+	defined(__loongarch__)
- static bool atkbd_reset;
- #else
- static bool atkbd_reset = true;
--- 
-2.45.2
 
+Huacai
+
+>  static bool atkbd_reset;
+>  #else
+>  static bool atkbd_reset =3D true;
+> --
+> 2.45.2
+>
 
