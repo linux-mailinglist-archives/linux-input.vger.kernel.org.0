@@ -1,164 +1,206 @@
-Return-Path: <linux-input+bounces-11313-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11314-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DFD6A73053
-	for <lists+linux-input@lfdr.de>; Thu, 27 Mar 2025 12:43:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23712A73278
+	for <lists+linux-input@lfdr.de>; Thu, 27 Mar 2025 13:47:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05BEA17C658
-	for <lists+linux-input@lfdr.de>; Thu, 27 Mar 2025 11:42:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E5401189B4E5
+	for <lists+linux-input@lfdr.de>; Thu, 27 Mar 2025 12:47:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CE1B2135D1;
-	Thu, 27 Mar 2025 11:42:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA9AE2080CB;
+	Thu, 27 Mar 2025 12:47:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Fflci9VP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ry+3lJ4j"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF0E1DFDE
-	for <linux-input@vger.kernel.org>; Thu, 27 Mar 2025 11:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7023B4C96;
+	Thu, 27 Mar 2025 12:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743075766; cv=none; b=GSay16pKWeFwT2uxfO0HudIGdd5MBdRX7Rxhl3yv2FVa/S4qr5bxeLBq6zEgP9OBzO2jZNfcFFxQe1e9Pwjz6f9M4QnRDUYOd5gmcJY1MA1UQZdJLKHE5acDFX8ISkUWqeZJBPbBzNZabsH6WC9vmekqKpXmx+fetaWog2Y+jo8=
+	t=1743079651; cv=none; b=EvAQMG5VESu7WGFcANCMq8XWSQ2ypSObJdG/8OQivYqTeVgXP5HzTziTSfSvJvtE6aRRLtqKFSiOFasws7eHyo1ZD+k90BQ/Df+zYjHLVpZFQMsqWTGXY434u1C9jksHTrCR9jzi/jmZygMgejsKlUaO4Vb8kp6qhT7q6N/e1/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743075766; c=relaxed/simple;
-	bh=eF+vO4HWF5WkZYoqiFRQYzuWAnQ6UlCJ4XBQjnS6q9k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NIwLByeGAT1snLuueanN2ytkPLRYTuVHkS0Ir1kGKaP25++Wc8GjnM5Pjw/qVDZUBUxyl4hMrrKBqIh3aPnCg6P97AnUPMqfDjvOSZQMA/8mw0I9rrMd4koVCampuipOHwmr27ov/nDmi20C3I67Bs9Qa3zXy14mawpLHEtFnK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Fflci9VP; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cf3192f3bso9271585e9.1
-        for <linux-input@vger.kernel.org>; Thu, 27 Mar 2025 04:42:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1743075762; x=1743680562; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hwGnmu50XyHLYTx+XRrSMtCI46qAB4IVnO+O6BeEDNs=;
-        b=Fflci9VP5xYYRiR5vNq4EM0cgs/2j9T0KnSLAwqUXQrkfAPbiUhTFSkdzQzsiG7dbS
-         jLQC+UjQuqNkpjpruMKSS9eqYOONBH7WbHPeemJYl8cw4xmGbiZhWfwVtf3x1Jo4HKOU
-         rcYW6nb18vm+woWHS37Jc+4lCAO0f+RGSHIm4X89b2Q4xz2IRb2riUVUtg/pzBhEZH5K
-         jurUM62XR8KX2XgaHLiKRQr0yUTLTuKth08PmlE+2ljVsPwtZzJ3CmxbVMYtaiHqAdCo
-         3KTcjZv5bhxsINmt//CE8u/wTMEwDdj8BdfrIvfkXpBa5uK4m2dArtWFgGfSOmAxls7o
-         ptgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743075762; x=1743680562;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hwGnmu50XyHLYTx+XRrSMtCI46qAB4IVnO+O6BeEDNs=;
-        b=T2CKqY4xsXur35K8jt8j/i66ujvs4sxeIP1vGPQrGwb3H1G6sL/yAfDS7W8UB+uWh7
-         /Q5ZSuHUqgspR+chfBUe9VrhBiC3jxrMJNX6kbQs7RTrLoRBrThVGZnfoY4Prj3b0XmZ
-         4FljfPtSOKPX14EwVpRvR4ckXCOXWyw14e3O+c7uw4vkHCAbyp7CvnxnlzNiLmK6XfsI
-         gZYZUaeW19rtJyOtjkbiPsf+CZPjHcyObIcxt8qOsqhpPWjtQSe6FN9IPT0M5nAid2mL
-         nR3Wx1hjHLRlvmgONkxP3Z1fRcWMWq4QtACyLUsK2euwEE5KcoJFa44OqLQPAI7v5ZMR
-         SYsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXN+CtyXP2ZvgKpezNDBRabE31zWd7dWxHR1wzMYd1BAH1xP1g4qIFso2Xjnbkv7SGpPj32qofiVLyYEg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoRXL4iweLW1QTUMj9V9SiR7feKoblNtBsPNcTC8zX18JD4q/b
-	2USKuVmYDJ20vTeQQVh/LNBIrG2icP0/ZkZIYquYotMIou0jU6v3awREswwOauk=
-X-Gm-Gg: ASbGncsXnnUJ67sQmaIOaIGx4VxvVWVD4WKClJ1st2UC3iVHAVglF5zaWoQzR6fC3Ne
-	NTA3dVuVYE7gxI2M+Rcgw8nMqRdKWkTegdPsx0+7em1iJMWfDEPjyjpAiBeTNWKWorHhp4R/DQ5
-	tFJLK+7BAa3zSfhKWJI1oBBn8erzts49TH7hX/ZOt/msAcHoWFHHuiXWvJlbheBTsuUGcD8Ypo3
-	4VorwuGM9d+uA6BLdCOifLndgiU0o+n1RSzKoZzhqKmCulp2EWLUzWrtoD6CIvgPXtzi8vYJJJ1
-	yZs4n8gzUBhZhJFoT1pXppNHNpdiBXy7/VaEmyFSAeKddqWCjYLVgNutnwdrUQegc2xJIjJzd44
-	17A/eg5LpEZzy1WsoAS1EwQ==
-X-Google-Smtp-Source: AGHT+IHxQud/sts4jUj3rWl7atpMgeW2AEZlo7j926k/DmxvMnse39hxq1AoC3ZKQcdcRrj3t9hXxQ==
-X-Received: by 2002:a05:600c:4f45:b0:43c:fe15:41c9 with SMTP id 5b1f17b1804b1-43d8d641abdmr4440155e9.9.1743075762504;
-        Thu, 27 Mar 2025 04:42:42 -0700 (PDT)
-Received: from ?IPV6:2001:a61:1394:8401:ac5f:98de:4c1b:7bf1? ([2001:a61:1394:8401:ac5f:98de:4c1b:7bf1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d82e836f2sm34897965e9.11.2025.03.27.04.42.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Mar 2025 04:42:42 -0700 (PDT)
-Message-ID: <04a011b5-a7fa-4270-a072-365b5abd2aec@suse.com>
-Date: Thu, 27 Mar 2025 12:42:41 +0100
+	s=arc-20240116; t=1743079651; c=relaxed/simple;
+	bh=tWRtgxQFfYLGIe+M3bP4npfrIUeWm1/2DsIIszdvZ1Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=k4S+jnDoUCWuvrSHqjDtgq+sqlvtRW/6KtExIwqX7DNH2wgZF2T25JuLZL4BJ+S3D77oX9pgflFDjXTpJS+i0f0kmBsSbhIzTdwX6YMKnAKJo9jEBl2pLn0ItHPJmkKzK3eApkIEqFphg4iD84nXNJgt5aGXasmbTRs6aOxaKuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ry+3lJ4j; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA731C4CEF5;
+	Thu, 27 Mar 2025 12:47:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743079650;
+	bh=tWRtgxQFfYLGIe+M3bP4npfrIUeWm1/2DsIIszdvZ1Y=;
+	h=References:In-Reply-To:From:Date:Subject:To:From;
+	b=ry+3lJ4jOXxi94y5mI1NbXnalzo+G/pnZhSjrID66dTcLVpvSN5jxYLjoTFSpm8t2
+	 RVmKewcN7zdZNd9LKSrvUmI7Bitb6RSvE7xtBxsyaXOJotG+IzA+4cSiX8s5XJcd4a
+	 Gflk19wroRN6hPkMWa+MtGfvaJAZL2ppLItlCErXCvjy0HVn2BGenZE8FkLMdyZJYX
+	 btnwncSVrJy5++ND3g+6x3gmSehP4lsafQ7UigXG8+8I+Idsw/U+sgz5n2nwr8zWSp
+	 H++QkUGRCbXL4b+bUxPVKQyPP9wfeJA4D52pvQD5Qmb8PrgNvDFT5Gco7rpxg0Rv5D
+	 +Xv0BqRwjjbZg==
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3913d129c1aso661635f8f.0;
+        Thu, 27 Mar 2025 05:47:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU5hcNep0PjlWuCjj4NMUHFm818rHYcrYyQ+DkL6NGKfFUJ4v/BcyFUrkel3sqzxPC+7UF4Gw0g7dKhWw==@vger.kernel.org, AJvYcCUpRF0LMC3Q/GxxnFl/SikHq8Eg1luCylG1nbvLCJPcP1H53E4fn+LAE7K8vpNsMPpG/fJCB/D7+PaJPcWB@vger.kernel.org, AJvYcCVsX2WU+aFIb+EtrTeOVhAhki8Xl8hnQccFte3jiXy7c+SoP336Isp5FOeu28FBGIlB2ROIeI3963eLc8op175jdLwY@vger.kernel.org, AJvYcCVsk9ryKBUmTtDTK3JMNACZZtZh3qUdTXBK9AUM7MpPooozj33rGfhHocYseLf3Hdvnbmv5iThAw60eV2s=@vger.kernel.org, AJvYcCW47Pl062oNYCMWE8maqYFeRsEBRX/OxIBtYxI+7yUwLObmkUp5z0ZRT6ORYTgwSsjyqPGDyRK1@vger.kernel.org, AJvYcCWMFNhPKyVBg8HzwapRAVSxnRnVozy30gmOACtgCyfhUIQf8mrsaEm6Sr0iSgGBOwVXrSe4RcIX6ekyUeg=@vger.kernel.org, AJvYcCWfBcnAb8xTLS1kbS+egemf7Ox6oWbJw8R88CXPeQ0Glbkxo3FEAp9vMhTnXT5oEvMPFPp8IajlFhVU@vger.kernel.org, AJvYcCWiTPAJ35xrAthksX8h3zgALJzAxpvYYIzj4lBvCXKn6jSapgtIYpu8ec64/MPLpAN6Lk/O4smDXiCYNlWYHlZrng==@vger.kernel.org, AJvYcCXAaymzApg5BY0elxAd++hiveDmgW/TXCPDnh29ZmDTNqH2o51O7w2VXjIPXhfRsvNGxrY=@vger.kernel.org, AJvYcCXHDwYP6ZaCTiL9My6z
+ 7yC6suW8qxpYc6dfkuhtoE/tOzDutoWCp0ns7baqRFBrVHzAXoQZ0151LFwp1WvP@vger.kernel.org, AJvYcCXL7YZFQf+f7P0qMC6EyEWiFbU79B0NU19DRu6ijcezGqQaBzbRmZ5mucWTZSA6w/8E70sTbVqSWZUdpnw=@vger.kernel.org, AJvYcCXbhSiKRWI9uyLNQQIsOEaFgZ/HxBAa7FVwybOlYAZASlseozeXHHaatK5zgAC488cNoZTwVseTG0h4VovH@vger.kernel.org, AJvYcCXc6FX30ucCj0pToZvuhkKqueU0sQe1vh6WfGO6OeFMjQYGCKQ709smTtbZe+9HllwgggFsuYuz695hqA==@vger.kernel.org, AJvYcCXd8kfvoPg1KTWlkTs6C90VCMZcmZaq9dnCLd/cBTgsqBFc5W0Cbbsci/9CyNUK3B65G5+bbV3X0RKSJF8U4ACe@vger.kernel.org, AJvYcCXgDYubmSZhvljBWKbJvpmcObj9oe/3BqtnZEQzuGIRwSlPUW2zpRQConp7qmzVn5I3i6VYXSB9+8ITYsFDTA==@vger.kernel.org, AJvYcCXjVLv+hm+wtOOo17m+XfrZWp3wVaANCLv+x+sHaEYWHFOqWt6rWdfRrUC8LpXl+CWVf08r@vger.kernel.org, AJvYcCXmUOIyGgfZKIULNMQLTqLSv8rJGp/ez2BeSn9pjUHExJDst1Bcq5xifH/YedVQF4xWXsxckkx1bYzA@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJoiSfrI8TdhC5XKmUGK85XKg9Y46zYQOWy/j6Hv+i2J0vqjyE
+	eSR/rKOCuNSh8OsxjIXx1kSpDAAggC3xYT7ED8pCXthmRDFmY4F1Whz1DfDNzZMcDuRKcQa6C4W
+	p0wmuvj1AH6Wi7z+BkqbF/M8p9Ss=
+X-Google-Smtp-Source: AGHT+IHmUYVhD/X+fFCk9mo6iUY3GGy6zSlwPlvt9V5E3bXgq4+AzDcNpwzxGBSsif+BeffRslEST7FtUwPlgXmmxiQ=
+X-Received: by 2002:a5d:5f43:0:b0:391:65c:1b05 with SMTP id
+ ffacd0b85a97d-39c099cd2bbmr115764f8f.11.1743079648810; Thu, 27 Mar 2025
+ 05:47:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: WARNING in cm109_urb_irq_callback/usb_submit_urb
-To: Alan Stern <stern@rowland.harvard.edu>, Oliver Neukum <oneukum@suse.com>
-Cc: =?UTF-8?B?55m954OB5YaJ?= <baishuoran@hrbeu.edu.cn>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Kun Hu <huk23@m.fudan.edu.cn>,
- Jiaji Qin <jjtan24@m.fudan.edu.cn>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- syzkaller@googlegroups.com
-References: <559eddf1.5c68.195b1d950ef.Coremail.baishuoran@hrbeu.edu.cn>
- <62d91b68-2137-4a3a-a78a-c765402edd35@suse.com>
- <a3f66f2e-a99e-47f2-a3ef-742b6903cc5d@rowland.harvard.edu>
- <7be81186-2d18-4d0e-8a93-d2dda20b02b2@suse.com>
- <07f2ec1a-0363-4734-97ff-a129699b1907@rowland.harvard.edu>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <07f2ec1a-0363-4734-97ff-a129699b1907@rowland.harvard.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250325121624.523258-1-guoren@kernel.org> <20250325121624.523258-32-guoren@kernel.org>
+ <4gph4xikdbg6loy2id72uyxgldsldecc7gquhymusl3vreiw3a@ephk5ahhrdw7>
+In-Reply-To: <4gph4xikdbg6loy2id72uyxgldsldecc7gquhymusl3vreiw3a@ephk5ahhrdw7>
+From: Guo Ren <guoren@kernel.org>
+Date: Thu, 27 Mar 2025 20:47:15 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTSR+jh04BT7rCjALL6eWek=VWm7nFTW57vzwshkTbrtVg@mail.gmail.com>
+X-Gm-Features: AQ5f1JoN57xvarY3Pp887PY64wPP4HS8fDT1YiKKfNiabWlzF5M2aRc4_YpAz7M
+Message-ID: <CAJF2gTSR+jh04BT7rCjALL6eWek=VWm7nFTW57vzwshkTbrtVg@mail.gmail.com>
+Subject: Re: [RFC PATCH V3 31/43] rv64ilp32_abi: maple_tree: Use BITS_PER_LONG
+ instead of CONFIG_64BIT
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, guoren@kernel.org, arnd@arndb.de, 
+	gregkh@linuxfoundation.org, torvalds@linux-foundation.org, 
+	paul.walmsley@sifive.com, palmer@dabbelt.com, anup@brainfault.org, 
+	atishp@atishpatra.org, oleg@redhat.com, kees@kernel.org, tglx@linutronix.de, 
+	will@kernel.org, mark.rutland@arm.com, brauner@kernel.org, 
+	akpm@linux-foundation.org, rostedt@goodmis.org, edumazet@google.com, 
+	unicorn_wang@outlook.com, inochiama@outlook.com, gaohan@iscas.ac.cn, 
+	shihua@iscas.ac.cn, jiawei@iscas.ac.cn, wuwei2016@iscas.ac.cn, drew@pdp7.com, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, ctsai390@andestech.com, 
+	wefu@redhat.com, kuba@kernel.org, pabeni@redhat.com, josef@toxicpanda.com, 
+	dsterba@suse.com, mingo@redhat.com, peterz@infradead.org, 
+	boqun.feng@gmail.com, xiao.w.wang@intel.com, qingfang.deng@siflower.com.cn, 
+	leobras@redhat.com, jszhang@kernel.org, conor.dooley@microchip.com, 
+	samuel.holland@sifive.com, yongxuan.wang@sifive.com, 
+	luxu.kernel@bytedance.com, david@redhat.com, ruanjinjie@huawei.com, 
+	cuiyunhui@bytedance.com, wangkefeng.wang@huawei.com, qiaozhe@iscas.ac.cn, 
+	ardb@kernel.org, ast@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-mm@kvack.org, 
+	linux-crypto@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, maple-tree@lists.infradead.org, 
+	linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-atm-general@lists.sourceforge.net, linux-btrfs@vger.kernel.org, 
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org, 
+	linux-nfs@vger.kernel.org, linux-sctp@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, Mar 26, 2025 at 3:10=E2=80=AFAM Liam R. Howlett <Liam.Howlett@oracl=
+e.com> wrote:
+>
+> * guoren@kernel.org <guoren@kernel.org> [250325 08:24]:
+> > From: "Guo Ren (Alibaba DAMO Academy)" <guoren@kernel.org>
+> >
+> > The Maple tree algorithm uses ulong type for each element. The
+> > number of slots is based on BITS_PER_LONG for RV64ILP32 ABI, so
+> > use BITS_PER_LONG instead of CONFIG_64BIT.
+> >
+> > Signed-off-by: Guo Ren (Alibaba DAMO Academy) <guoren@kernel.org>
+> > ---
+> >  include/linux/maple_tree.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/include/linux/maple_tree.h b/include/linux/maple_tree.h
+> > index cbbcd18d4186..ff6265b6468b 100644
+> > --- a/include/linux/maple_tree.h
+> > +++ b/include/linux/maple_tree.h
+> > @@ -24,7 +24,7 @@
+> >   *
+> >   * Nodes in the tree point to their parent unless bit 0 is set.
+> >   */
+> > -#if defined(CONFIG_64BIT) || defined(BUILD_VDSO32_64)
+> > +#if (BITS_PER_LONG =3D=3D 64) || defined(BUILD_VDSO32_64)
+>
+> This will break my userspace testing, if you do not update the testing as
+> well.  This can be found in tools/testing/radix-tree.  Please also look
+> at the Makefile as well since it will generate a build flag for the
+> userspace.
+I think you are talking about the following:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+../shared/shared.mk:
+ifndef LONG_BIT
+LONG_BIT :=3D $(shell getconf LONG_BIT)
+endif
 
-On 20.03.25 18:25, Alan Stern wrote:
+generated/bit-length.h: FORCE
+        @mkdir -p generated
+        @if ! grep -qws CONFIG_$(LONG_BIT)BIT generated/bit-length.h; then =
+  \
+                echo "Generating $@";                                      =
+  \
+                echo "#define CONFIG_$(LONG_BIT)BIT 1" > $@;               =
+  \
+                echo "#define CONFIG_PHYS_ADDR_T_$(LONG_BIT)BIT 1" >> $@;  =
+  \
+        fi
 
->> static void cm109_stop_traffic(struct cm109_dev *dev)
->> {
->>          dev->shutdown = 1;
->>          /*
->>           * Make sure other CPUs see this
->>           */
->>          smp_wmb();
->>          usb_kill_urb(dev->urb_ctl);
->>          usb_kill_urb(dev->urb_irq);
->>          cm109_toggle_buzzer_sync(dev, 0);
->>          dev->shutdown = 0;
->>          smp_wmb();
-> 
-> I don't know anything about this driver, but the placement of the second
-> smp_wmb() looks odd.  Should it really come before the line that sets
+$ grep CONFIG_64BIT * -r -A 2
+generated/bit-length.h:#define CONFIG_64BIT 1
+generated/bit-length.h-#define CONFIG_PHYS_ADDR_T_64BIT 1
+--
+maple.c:#if defined(CONFIG_64BIT)
+maple.c-static noinline void __init check_erase2_testset(struct maple_tree =
+*mt,
+maple.c-                const unsigned long *set, unsigned long size)
+--
+maple.c:#if CONFIG_64BIT
+maple.c-        MT_BUG_ON(mt, data_end !=3D mas_data_end(&mas));
+maple.c-#endif
+--
+maple.c:#if CONFIG_64BIT
+maple.c-        MT_BUG_ON(mt, data_end - 2 !=3D mas_data_end(&mas));
+maple.c-#endif
+--
+maple.c:#if CONFIG_64BIT
+maple.c-        MT_BUG_ON(mt, data_end - 4 !=3D mas_data_end(&mas));
+maple.c-#endif
+--
+maple.c:#if defined(CONFIG_64BIT)
+maple.c-        /* Captures from VMs that found previous errors */
+maple.c-        mt_init_flags(&tree, 0);
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Indeed. This driver is not written for comprehension. As far as I can tell
-it is not necessary at all. You need to set shutdown to zero before you
-resubmit the URBs. But I don't see how the barrier helps with that.
+First, we don't introduce rv64ilp32-abi user space, which means these
+testing codes can't run on rv64ilp32-abi userspace currently. So, the
+problem you mentioned doesn't exist.
 
-> dev->shutdown to 0?  In general, smp_wmb() is used to separate two sets
-> of stores; if it comes after all the relevant stores have been performed
-> then it won't accomplish anything.
+Second, CONFIG_32BIT is determined by LONG_BIT, so there's no issue in
+maple.c with future rv64ilp32-abi userspace.
+That means rv64ilp32-abi userspace would use CONFIG_32BIT to test
+radix-tree. It's okay.
 
-Don't we guarantee an interaction between smp_wmb() and taking a spinlock?
-> 
->> }
->>
->> This driver has a tough job as the two completion
->> handlers submitted each other's as well as their own
->> URBs based on the data they get.
->> That scheme is rather complex, but as far as I can tell correct,
->> but you need to test that flag everywhere.
-> 
-> However, it's quite noticeable that the code you want to change in
-> cm109_submit_buzz_toggle() doesn't have any memory barriers to pair with
-> the smb_wmb()'s above.  Shouldn't there at least be an smp_rmb() after
-> you read dev->shutdown?
+>
+> This raises other concerns as the code is found with a grep command, so
+> I'm not sure why it was missed and if anything else is missed?
+>
+> If you consider this email to be the (unasked) question about what to do
+> here, then please CC me, the maintainer of the files including the one
+> you are updating here.
+>
+> Thank you,
+> Liam
+>
 
-I think this driver assumes that the ctl_submit_lock spinlock makes
-it safe.
 
-> As long you're updating the synchronization, it might be a good idea to
-> also improve the comment describing the memory barriers.  "Make sure
-> other CPUs see this" doesn't mean anything -- of course all the other
-> CPUs will eventually see the changes made here.  The point is that they
-> should see the new value of dev->shutdown before seeing the final
-> completion of the two URBs.  Also, the comment should say which other
-> memory barriers pair with the ones here.
-
-Before the completion? AFAICT they need to see it before they try
-to submit an URB.
-
-	Regards
-		Oliver
-
+--=20
+Best Regards
+ Guo Ren
 
