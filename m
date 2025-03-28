@@ -1,86 +1,86 @@
-Return-Path: <linux-input+bounces-11333-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11332-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15EEA744C4
-	for <lists+linux-input@lfdr.de>; Fri, 28 Mar 2025 08:49:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED45FA744BE
+	for <lists+linux-input@lfdr.de>; Fri, 28 Mar 2025 08:48:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BC13C1892F87
-	for <lists+linux-input@lfdr.de>; Fri, 28 Mar 2025 07:49:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B28763A7DF5
+	for <lists+linux-input@lfdr.de>; Fri, 28 Mar 2025 07:48:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2D81212B2D;
-	Fri, 28 Mar 2025 07:49:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C87F4212F9F;
+	Fri, 28 Mar 2025 07:48:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PjgwztCl"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GhNKDRh+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16ABC211A35
-	for <linux-input@vger.kernel.org>; Fri, 28 Mar 2025 07:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D135212B0E
+	for <linux-input@vger.kernel.org>; Fri, 28 Mar 2025 07:48:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743148143; cv=none; b=uKyof1YzjvRIX8QGgINbYdwH0BKGRE6ffRwEeHcDHvWi00tMJa9pxhmBOOS975KuFDCz0Oz2VMxKgwj5m/6S6OT+xVBbLKMoW2ojXAZIFEZFSN2DAL4rFIrpHoBIvLAinoYOhoJUYNy+mWtxPwgnx1FyUBYbXJqwq2bXdel0zV0=
+	t=1743148099; cv=none; b=ieswJI22K2gI+E8bVNHIrNYVKws05pTS39BCbwMUvN+bbsugrpgNRt1OsFsqPU0FMGixw5CK+/fEshmBYySz7L5OunJLfJYdCDvv6E5nS78WluDU3Cy26JOX/shanINL1Sz8lWweJRt+qMVw/aLClx2eYJenjdid7wHwGgb0pRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743148143; c=relaxed/simple;
-	bh=qKnrR5bKdA5ZY0IYjXTXXtcdBWXqslK8kbHKGR2H1G4=;
+	s=arc-20240116; t=1743148099; c=relaxed/simple;
+	bh=1VRG5gptAlPsvHDNKA/iNCN3DmfzeGWVXmFnEWaIm8I=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lYaehnq5tV0z1PLZW57SqZ+GA/pHzT95x9JEawxupr8tbHyQvPN8TrskiNJAiMytTzMexNica0hEL1SNCapLllK07cOkdLs7/hbZd8N4zVWJsTCJCTdW92LLnULDv4SDoAXEwQla/aW1iuj1aClnnmcp9FbIB4tIAO04AcW+HKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PjgwztCl; arc=none smtp.client-ip=209.85.216.41
+	 To:Cc:Content-Type; b=dvxYWUBoJGBxAi6P8nrcRDuryHBOo04eJWpHoezkDdwKdY4cu04V1jNl6kfGmDowX7/6bXYlJWUmn1ed1B9oc3L5do88aro05nru1tOeH0qz4u9qpBjHhHrjAo0QgJ9H7hS5aGKN1ip2Pfbg2cF/nGvDeaApb1vP17dUvkfnQ58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GhNKDRh+; arc=none smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2ff85fec403so5933596a91.1
-        for <linux-input@vger.kernel.org>; Fri, 28 Mar 2025 00:49:01 -0700 (PDT)
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-30155bbbed9so2391297a91.1
+        for <linux-input@vger.kernel.org>; Fri, 28 Mar 2025 00:48:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1743148141; x=1743752941; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1743148096; x=1743752896; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=h7ELtixWISfVyPCCwdGnm5LZ7B55xHnCnByUBGZyAU8=;
-        b=PjgwztClnNPizNtgg+jZEQ1qCkhjTLE18Up55UPGxe/9eCWjD98EDYoeDzrf8wToLT
-         ETj0YEv56kcCLe1zqwC0Ztz6DqWvDFcC0AGLvPhgUD6UN7375nW/u/U37MpunUdbZbVg
-         PoGbWOJO51w2jWmnGClodnvi0MeRcq1g47q47zQAIxxEkdRGHmS5dh3SFV60DYJrGA3i
-         rMwYB7vbrUriXyKdtxw408nkWJGje369i8w6IuqwC9l9W/16PivrZBkAqIJCj9KseKZh
-         upYxQjhWI4rz0qU00wydxSPDOT7Q4RkeSOjfzSETh6BI4k8FIAiChQ1rciEKA8hwZo1A
-         lhAA==
+        bh=wRzjJUpNQVaJwaxONUg7oIZp4mvWCO0S0U577rY3xUE=;
+        b=GhNKDRh+8za6emkYm3zB+1svPtZsuKZfHMXkjR67qgoXb+RRsqj9TIUvo0IJOIEaMN
+         9XkY9jrSXp18Lp2nJOHLyGyhYjhbS7zyFGeT/L+4wFmRXfmvUnePmFUDvory/ork7SPa
+         wEfDBbb6U3kIp7/w/3FcCIDzT9/Xd8wqDMF0z7mtnQkPDavyDrp/PPLBbC9xp7OBR+rH
+         Kyje2oJGFqOJiIJZRmjEdj0Zxtmr+ZrnWHb8/BkFhNOGYROz1BjcWupoKvsXmQSsgIgF
+         wFA7vyvnxDqZUHbwKBikk3pa8Edr7eH9kaLj1am71FoIKmPKN5NsJlCDXL8WPip259gQ
+         TNKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743148141; x=1743752941;
+        d=1e100.net; s=20230601; t=1743148096; x=1743752896;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=h7ELtixWISfVyPCCwdGnm5LZ7B55xHnCnByUBGZyAU8=;
-        b=vMxTTiTX4k+4iY/aIv6hAp1sPn3PXIenLdzD7tm98cubt9Lnvug8Zd/Id68IB7R0uW
-         2NneczupPyq1wI8kBkUyKeBW4Tz68SJwNDcoMsD8KsbXil0LN0HURDydgQMBgBVqLkx+
-         C4NiwK3eLVF6bElE38Jo+YhwU/JSDi9v4b8I5EVtzkPcebIPKelaYhacWIlQzq1oIUDv
-         zSv1DvNhraDFAeE4DIAR7oSgYJ6imp2ugwcaewGNqmtUGEZIdMtnAgYjX9ukVSrynE6Z
-         OXDqn7oeurBOxM5d2tl92HYgrSp1XtD9fJ2w0T29ryZ2+2peBp6OXHPtq3unISyzyOul
-         p0LQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVD9HjdvY+sC0IZcvHgTAYitzE4ML3igiB1eDw4QRzXOgGZLEFBvkXaj4xG3HeLT9q3f6bPgsPECn/Mww==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdqcA98jxfHJhRIfIo9VK0tCltaAEcSC4sDr4pP2EOfQn3n6go
-	QPRraNOj2BxVeGRoIgdLfrZJXTJtcO+UbBgngEBtVXDHLLZGT3feqc3IEx4tlDJZg/fZxypG7cT
-	Evr4NVQDySIpW30c+wLI1IaV9SlP0Wl3PVSGUEA+PJcKMhcFQRQC3raw=
-X-Gm-Gg: ASbGncvcpmEIssrDlQ35Lkk0R9eHQ5CIYaN+dyDv/fDn5egiocKuUsmdTzD1l+YF1Ak
-	9Zp0VGYuMrQ7JmLm6l4YrOYIsld6sf8NA/xX2u7Tm4e7RTE0iTo2uqCHH76HSvgH2svSXB6JvFL
-	JgXSCCNYUkgF57YFBrBg2aFCfjv5CzqnVYOvI1P/wypqp9IHiOZ2qj8OIg
-X-Google-Smtp-Source: AGHT+IEbZ0qteYBHU5qhFmsOW68PoLBHHt2USrYRKQFaW1GqrElYp+1C0YMsYmQ1IWjIEbQX5zJvdTFc9EsKsjVT/4o=
-X-Received: by 2002:a17:90a:dfc7:b0:2fa:42f3:e3e4 with SMTP id
- 98e67ed59e1d1-3051c85e607mr3062834a91.3.1743148140746; Fri, 28 Mar 2025
- 00:49:00 -0700 (PDT)
+        bh=wRzjJUpNQVaJwaxONUg7oIZp4mvWCO0S0U577rY3xUE=;
+        b=RSvC3nfkMhFRpORB48LH7tsaesY+U5HMVG1OZz9z/DqDjGqrb57yYDW6cAbxhgqIAw
+         mOSelnvY/wE1RI3A3JPxL2YB/L3n6TO6DzvUmjNjWj47Y4M0HQw1hxdMszcE+BEHa92s
+         pHKs274P5nWGg5psf6LZtwk5+JNZ+wF78sVCu4m5e5tx89RGdKppcZxPDdotdwSxbSXr
+         mVmBaExrSUMYd3JAnehHlc2w3jhciEO9TIhzLxIEy8nUmFOcwYqU4pwrBVuPAQe7c2YJ
+         V2l2jgF8Xay0A/Wa/qVTtg/4YPhqMhB5T1MkN6r+oLNHEH9GXPFZGrf/+bxrturGLgql
+         0/gg==
+X-Forwarded-Encrypted: i=1; AJvYcCV+smTDpAaFcYUaq/sD0qFSob0e9ZTsIeo5jtQ1wImkBJxtc05PrJcMa63dvoWWtLfCUZPEkuqNsqTOvg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuigzelKCaZ7pmAhkHHcc+jnn/9rt4bTxLjOOOSsnFONXOBvy8
+	iz9ms3K8i9vaUJX4ctCK9eBgbPuFbk6IykL8YDiGw7uBMNM+fRwNXUVq7rFg3X/7Qhf2ExMrw5Y
+	fDQ0uRVNV8aXqPxaJ4kWj7OHna3C1c5h4OneN
+X-Gm-Gg: ASbGncsTP2Svg530CrilFqSU6D1PCwi5/tyXBfsKA3Bj1gVHQgvswTPoYKlqzpKGOwA
+	NlConvLcBk6KMIwgyISupmBxbBoofzZmJgca3AfxmlNAWvqY3Rrymz49072+Ff+o4+h33W8Tlbg
+	J87et3zMfRcZe+q1dY6mjXpcQ7nde7kqCoBR2eRyUZxDIPlTwim9lbIFmx
+X-Google-Smtp-Source: AGHT+IEBaxbL6HDDZL1bOaRlCywyrAoYUcEN4dxkxdnp4CwBP8mzj2N3dlVlnb1ED+EAow643ibowia8gXssCwa290c=
+X-Received: by 2002:a17:90b:2590:b0:2ee:bc7b:9237 with SMTP id
+ 98e67ed59e1d1-303a85c8a48mr9336414a91.27.1743148095893; Fri, 28 Mar 2025
+ 00:48:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com> <20250319005141.312805-9-quic_wcheng@quicinc.com>
-In-Reply-To: <20250319005141.312805-9-quic_wcheng@quicinc.com>
+References: <20250319005141.312805-1-quic_wcheng@quicinc.com> <20250319005141.312805-13-quic_wcheng@quicinc.com>
+In-Reply-To: <20250319005141.312805-13-quic_wcheng@quicinc.com>
 From: Puma Hsu <pumahsu@google.com>
-Date: Fri, 28 Mar 2025 15:47:00 +0800
-X-Gm-Features: AQ5f1JofWcF_GfjK5GKdSJic-DMlF-I_Ti_mbmoYNzFQEA4M7vpQFdiy9GHI5pc
-Message-ID: <CAGCq0LYs5=Re74G99n3=Vbdu1Q2M5-SKZqXTgPKJZYtSHjXZPA@mail.gmail.com>
-Subject: Re: [PATCH v36 08/31] ALSA: usb-audio: Export USB SND APIs for modules
+Date: Fri, 28 Mar 2025 15:48:00 +0800
+X-Gm-Features: AQ5f1JrlHT0yIgJWcDgTjea01A8oianDjLUwfLWklDsfjSug36IyOZb6G4iSTYk
+Message-ID: <CAGCq0LYvXsRpfhWrvWu0=hQHBVYqJ2ifnv0wEbPWtmTw7j6-CQ@mail.gmail.com>
+Subject: Re: [PATCH v36 12/31] ALSA: usb-audio: Introduce USB SND platform op callbacks
 To: Wesley Cheng <quic_wcheng@quicinc.com>
 Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz, 
 	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net, 
@@ -94,275 +94,144 @@ Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 19, 2025 at 8:52=E2=80=AFAM Wesley Cheng <quic_wcheng@quicinc.c=
+On Wed, Mar 19, 2025 at 8:56=E2=80=AFAM Wesley Cheng <quic_wcheng@quicinc.c=
 om> wrote:
 >
-> Some vendor modules will utilize useful parsing and endpoint management
-> APIs to start audio playback/capture.
+> Allow for different platforms to be notified on USB SND connect/disconnec=
+t
+> sequences.  This allows for platform USB SND modules to properly initiali=
+ze
+> and populate internal structures with references to the USB SND chip
+> device.
 >
-> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 
 Tested-by: Puma Hsu <pumahsu@google.com>
 
 > ---
->  sound/usb/card.c     |  4 +++
->  sound/usb/endpoint.c |  1 +
->  sound/usb/helper.c   |  1 +
->  sound/usb/pcm.c      | 75 +++++++++++++++++++++++++++++++-------------
->  sound/usb/pcm.h      | 11 +++++++
->  5 files changed, 71 insertions(+), 21 deletions(-)
+>  sound/usb/card.c | 49 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  sound/usb/card.h | 10 ++++++++++
+>  2 files changed, 59 insertions(+)
 >
 > diff --git a/sound/usb/card.c b/sound/usb/card.c
-> index 9c411b82a218..a0087bde684c 100644
+> index 6c5b0e02e57b..4ac7f2b8309a 100644
 > --- a/sound/usb/card.c
 > +++ b/sound/usb/card.c
-> @@ -1030,6 +1030,7 @@ int snd_usb_lock_shutdown(struct snd_usb_audio *chi=
-p)
->                 wake_up(&chip->shutdown_wait);
->         return err;
->  }
-> +EXPORT_SYMBOL_GPL(snd_usb_lock_shutdown);
->
->  /* autosuspend and unlock the shutdown */
->  void snd_usb_unlock_shutdown(struct snd_usb_audio *chip)
-> @@ -1038,6 +1039,7 @@ void snd_usb_unlock_shutdown(struct snd_usb_audio *=
-chip)
->         if (atomic_dec_and_test(&chip->usage_count))
->                 wake_up(&chip->shutdown_wait);
->  }
-> +EXPORT_SYMBOL_GPL(snd_usb_unlock_shutdown);
->
->  int snd_usb_autoresume(struct snd_usb_audio *chip)
->  {
-> @@ -1060,6 +1062,7 @@ int snd_usb_autoresume(struct snd_usb_audio *chip)
->         }
->         return 0;
->  }
-> +EXPORT_SYMBOL_GPL(snd_usb_autoresume);
->
->  void snd_usb_autosuspend(struct snd_usb_audio *chip)
->  {
-> @@ -1073,6 +1076,7 @@ void snd_usb_autosuspend(struct snd_usb_audio *chip=
-)
->         for (i =3D 0; i < chip->num_interfaces; i++)
->                 usb_autopm_put_interface(chip->intf[i]);
->  }
-> +EXPORT_SYMBOL_GPL(snd_usb_autosuspend);
->
->  static int usb_audio_suspend(struct usb_interface *intf, pm_message_t me=
-ssage)
->  {
-> diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-> index a29f28eb7d0c..1fed039b10ed 100644
-> --- a/sound/usb/endpoint.c
-> +++ b/sound/usb/endpoint.c
-> @@ -1524,6 +1524,7 @@ int snd_usb_endpoint_prepare(struct snd_usb_audio *=
-chip,
->         mutex_unlock(&chip->mutex);
->         return err;
->  }
-> +EXPORT_SYMBOL_GPL(snd_usb_endpoint_prepare);
->
->  /* get the current rate set to the given clock by any endpoint */
->  int snd_usb_endpoint_get_clock_rate(struct snd_usb_audio *chip, int cloc=
-k)
-> diff --git a/sound/usb/helper.c b/sound/usb/helper.c
-> index 72b671fb2c84..497d2b27fb59 100644
-> --- a/sound/usb/helper.c
-> +++ b/sound/usb/helper.c
-> @@ -62,6 +62,7 @@ void *snd_usb_find_csint_desc(void *buffer, int buflen,=
- void *after, u8 dsubtype
->         }
->         return NULL;
->  }
-> +EXPORT_SYMBOL_GPL(snd_usb_find_csint_desc);
->
->  /*
->   * Wrapper for usb_control_msg().
-> diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
-> index 08bf535ed163..18467da6fd9e 100644
-> --- a/sound/usb/pcm.c
-> +++ b/sound/usb/pcm.c
-> @@ -148,6 +148,16 @@ find_format(struct list_head *fmt_list_head, snd_pcm=
-_format_t format,
->         return found;
->  }
->
-> +const struct audioformat *
-> +snd_usb_find_format(struct list_head *fmt_list_head, snd_pcm_format_t fo=
-rmat,
-> +                   unsigned int rate, unsigned int channels, bool strict=
-_match,
-> +                   struct snd_usb_substream *subs)
-> +{
-> +       return find_format(fmt_list_head, format, rate, channels, strict_=
-match,
-> +                       subs);
-> +}
-> +EXPORT_SYMBOL_GPL(snd_usb_find_format);
-> +
->  static const struct audioformat *
->  find_substream_format(struct snd_usb_substream *subs,
->                       const struct snd_pcm_hw_params *params)
-> @@ -157,6 +167,14 @@ find_substream_format(struct snd_usb_substream *subs=
-,
->                            true, subs);
->  }
->
-> +const struct audioformat *
-> +snd_usb_find_substream_format(struct snd_usb_substream *subs,
-> +                             const struct snd_pcm_hw_params *params)
-> +{
-> +       return find_substream_format(subs, params);
-> +}
-> +EXPORT_SYMBOL_GPL(snd_usb_find_substream_format);
-> +
->  bool snd_usb_pcm_has_fixed_rate(struct snd_usb_substream *subs)
->  {
->         const struct audioformat *fp;
-> @@ -461,20 +479,9 @@ static void close_endpoints(struct snd_usb_audio *ch=
-ip,
->         }
->  }
->
-> -/*
-> - * hw_params callback
-> - *
-> - * allocate a buffer and set the given audio format.
-> - *
-> - * so far we use a physically linear buffer although packetize transfer
-> - * doesn't need a continuous area.
-> - * if sg buffer is supported on the later version of alsa, we'll follow
-> - * that.
-> - */
-> -static int snd_usb_hw_params(struct snd_pcm_substream *substream,
-> -                            struct snd_pcm_hw_params *hw_params)
-> +int snd_usb_hw_params(struct snd_usb_substream *subs,
-> +                     struct snd_pcm_hw_params *hw_params)
->  {
-> -       struct snd_usb_substream *subs =3D substream->runtime->private_da=
-ta;
->         struct snd_usb_audio *chip =3D subs->stream->chip;
->         const struct audioformat *fmt;
->         const struct audioformat *sync_fmt;
-> @@ -499,7 +506,7 @@ static int snd_usb_hw_params(struct snd_pcm_substream=
- *substream,
->         if (fmt->implicit_fb) {
->                 sync_fmt =3D snd_usb_find_implicit_fb_sync_format(chip, f=
-mt,
->                                                                 hw_params=
-,
-> -                                                               !substrea=
-m->stream,
-> +                                                               !subs->di=
-rection,
->                                                                 &sync_fix=
-ed_rate);
->                 if (!sync_fmt) {
->                         usb_audio_dbg(chip,
-> @@ -579,15 +586,28 @@ static int snd_usb_hw_params(struct snd_pcm_substre=
-am *substream,
->
->         return ret;
->  }
-> +EXPORT_SYMBOL_GPL(snd_usb_hw_params);
->
->  /*
-> - * hw_free callback
-> + * hw_params callback
->   *
-> - * reset the audio format and release the buffer
-> + * allocate a buffer and set the given audio format.
-> + *
-> + * so far we use a physically linear buffer although packetize transfer
-> + * doesn't need a continuous area.
-> + * if sg buffer is supported on the later version of alsa, we'll follow
-> + * that.
->   */
-> -static int snd_usb_hw_free(struct snd_pcm_substream *substream)
-> +static int snd_usb_pcm_hw_params(struct snd_pcm_substream *substream,
-> +                                struct snd_pcm_hw_params *hw_params)
->  {
->         struct snd_usb_substream *subs =3D substream->runtime->private_da=
-ta;
-> +
-> +       return snd_usb_hw_params(subs, hw_params);
-> +}
-> +
-> +int snd_usb_hw_free(struct snd_usb_substream *subs)
-> +{
->         struct snd_usb_audio *chip =3D subs->stream->chip;
->
->         snd_media_stop_pipeline(subs);
-> @@ -603,6 +623,19 @@ static int snd_usb_hw_free(struct snd_pcm_substream =
-*substream)
->
->         return 0;
->  }
-> +EXPORT_SYMBOL_GPL(snd_usb_hw_free);
+> @@ -118,6 +118,42 @@ MODULE_PARM_DESC(skip_validation, "Skip unit descrip=
+tor validation (default: no)
+>  static DEFINE_MUTEX(register_mutex);
+>  static struct snd_usb_audio *usb_chip[SNDRV_CARDS];
+>  static struct usb_driver usb_audio_driver;
+> +static struct snd_usb_platform_ops *platform_ops;
 > +
 > +/*
-> + * hw_free callback
+> + * Register platform specific operations that will be notified on events
+> + * which occur in USB SND.  The platform driver can utilize this path to
+> + * enable features, such as USB audio offloading, which allows for audio=
+ data
+> + * to be queued by an audio DSP.
 > + *
-> + * reset the audio format and release the buffer
+> + * Only one set of platform operations can be registered to USB SND.  Th=
+e
+> + * platform register operation is protected by the register_mutex.
 > + */
-> +static int snd_usb_pcm_hw_free(struct snd_pcm_substream *substream)
+> +int snd_usb_register_platform_ops(struct snd_usb_platform_ops *ops)
 > +{
-> +       struct snd_usb_substream *subs =3D substream->runtime->private_da=
-ta;
+> +       guard(mutex)(&register_mutex);
+> +       if (platform_ops)
+> +               return -EEXIST;
 > +
-> +       return snd_usb_hw_free(subs);
+> +       platform_ops =3D ops;
+> +       return 0;
 > +}
->
->  /* free-wheeling mode? (e.g. dmix) */
->  static int in_free_wheeling_mode(struct snd_pcm_runtime *runtime)
-> @@ -1746,8 +1779,8 @@ static int snd_usb_substream_capture_trigger(struct=
- snd_pcm_substream *substream
->  static const struct snd_pcm_ops snd_usb_playback_ops =3D {
->         .open =3D         snd_usb_pcm_open,
->         .close =3D        snd_usb_pcm_close,
-> -       .hw_params =3D    snd_usb_hw_params,
-> -       .hw_free =3D      snd_usb_hw_free,
-> +       .hw_params =3D    snd_usb_pcm_hw_params,
-> +       .hw_free =3D      snd_usb_pcm_hw_free,
->         .prepare =3D      snd_usb_pcm_prepare,
->         .trigger =3D      snd_usb_substream_playback_trigger,
->         .sync_stop =3D    snd_usb_pcm_sync_stop,
-> @@ -1758,8 +1791,8 @@ static const struct snd_pcm_ops snd_usb_playback_op=
-s =3D {
->  static const struct snd_pcm_ops snd_usb_capture_ops =3D {
->         .open =3D         snd_usb_pcm_open,
->         .close =3D        snd_usb_pcm_close,
-> -       .hw_params =3D    snd_usb_hw_params,
-> -       .hw_free =3D      snd_usb_hw_free,
-> +       .hw_params =3D    snd_usb_pcm_hw_params,
-> +       .hw_free =3D      snd_usb_pcm_hw_free,
->         .prepare =3D      snd_usb_pcm_prepare,
->         .trigger =3D      snd_usb_substream_capture_trigger,
->         .sync_stop =3D    snd_usb_pcm_sync_stop,
-> diff --git a/sound/usb/pcm.h b/sound/usb/pcm.h
-> index 388fe2ba346d..c096021adb2b 100644
-> --- a/sound/usb/pcm.h
-> +++ b/sound/usb/pcm.h
-> @@ -15,4 +15,15 @@ void snd_usb_preallocate_buffer(struct snd_usb_substre=
-am *subs);
->  int snd_usb_audioformat_set_sync_ep(struct snd_usb_audio *chip,
->                                     struct audioformat *fmt);
->
-> +const struct audioformat *
-> +snd_usb_find_format(struct list_head *fmt_list_head, snd_pcm_format_t fo=
-rmat,
-> +                   unsigned int rate, unsigned int channels, bool strict=
-_match,
-> +                   struct snd_usb_substream *subs);
-> +const struct audioformat *
-> +snd_usb_find_substream_format(struct snd_usb_substream *subs,
-> +                             const struct snd_pcm_hw_params *params);
+> +EXPORT_SYMBOL_GPL(snd_usb_register_platform_ops);
 > +
-> +int snd_usb_hw_params(struct snd_usb_substream *subs,
-> +                     struct snd_pcm_hw_params *hw_params);
-> +int snd_usb_hw_free(struct snd_usb_substream *subs);
->  #endif /* __USBAUDIO_PCM_H */
+> +/*
+> + * Unregisters the current set of platform operations.  This allows for
+> + * a new set to be registered if required.
+> + *
+> + * The platform unregister operation is protected by the register_mutex.
+> + */
+> +int snd_usb_unregister_platform_ops(void)
+> +{
+> +       guard(mutex)(&register_mutex);
+> +       platform_ops =3D NULL;
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(snd_usb_unregister_platform_ops);
+>
+>  /*
+>   * Checks to see if requested audio profile, i.e sample rate, # of
+> @@ -954,7 +990,11 @@ static int usb_audio_probe(struct usb_interface *int=
+f,
+>         chip->num_interfaces++;
+>         usb_set_intfdata(intf, chip);
+>         atomic_dec(&chip->active);
+> +
+> +       if (platform_ops && platform_ops->connect_cb)
+> +               platform_ops->connect_cb(chip);
+>         mutex_unlock(&register_mutex);
+> +
+>         return 0;
+>
+>   __error:
+> @@ -991,6 +1031,9 @@ static void usb_audio_disconnect(struct usb_interfac=
+e *intf)
+>         card =3D chip->card;
+>
+>         mutex_lock(&register_mutex);
+> +       if (platform_ops && platform_ops->disconnect_cb)
+> +               platform_ops->disconnect_cb(chip);
+> +
+>         if (atomic_inc_return(&chip->shutdown) =3D=3D 1) {
+>                 struct snd_usb_stream *as;
+>                 struct snd_usb_endpoint *ep;
+> @@ -1138,6 +1181,9 @@ static int usb_audio_suspend(struct usb_interface *=
+intf, pm_message_t message)
+>                 chip->system_suspend =3D chip->num_suspended_intf;
+>         }
+>
+> +       if (platform_ops && platform_ops->suspend_cb)
+> +               platform_ops->suspend_cb(intf, message);
+> +
+>         return 0;
+>  }
+>
+> @@ -1178,6 +1224,9 @@ static int usb_audio_resume(struct usb_interface *i=
+ntf)
+>
+>         snd_usb_midi_v2_resume_all(chip);
+>
+> +       if (platform_ops && platform_ops->resume_cb)
+> +               platform_ops->resume_cb(intf);
+> +
+>   out:
+>         if (chip->num_suspended_intf =3D=3D chip->system_suspend) {
+>                 snd_power_change_state(chip->card, SNDRV_CTL_POWER_D0);
+> diff --git a/sound/usb/card.h b/sound/usb/card.h
+> index cdafc9e9cecd..d8b8522e1613 100644
+> --- a/sound/usb/card.h
+> +++ b/sound/usb/card.h
+> @@ -209,7 +209,17 @@ struct snd_usb_stream {
+>         struct list_head list;
+>  };
+>
+> +struct snd_usb_platform_ops {
+> +       void (*connect_cb)(struct snd_usb_audio *chip);
+> +       void (*disconnect_cb)(struct snd_usb_audio *chip);
+> +       void (*suspend_cb)(struct usb_interface *intf, pm_message_t messa=
+ge);
+> +       void (*resume_cb)(struct usb_interface *intf);
+> +};
+> +
+>  struct snd_usb_stream *
+>  snd_usb_find_suppported_substream(int card_idx, struct snd_pcm_hw_params=
+ *params,
+>                                   int direction);
+> +
+> +int snd_usb_register_platform_ops(struct snd_usb_platform_ops *ops);
+> +int snd_usb_unregister_platform_ops(void);
+>  #endif /* __USBAUDIO_CARD_H */
 >
 
