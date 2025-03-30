@@ -1,145 +1,132 @@
-Return-Path: <linux-input+bounces-11363-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11364-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A13DA758F3
-	for <lists+linux-input@lfdr.de>; Sun, 30 Mar 2025 10:40:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1204CA75904
+	for <lists+linux-input@lfdr.de>; Sun, 30 Mar 2025 10:50:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BC2C3168EED
-	for <lists+linux-input@lfdr.de>; Sun, 30 Mar 2025 08:40:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B03D416943C
+	for <lists+linux-input@lfdr.de>; Sun, 30 Mar 2025 08:50:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31F871991CD;
-	Sun, 30 Mar 2025 08:40:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2165B1581F0;
+	Sun, 30 Mar 2025 08:49:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="RzV0fq7o"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PyjzPC7A"
 X-Original-To: linux-input@vger.kernel.org
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B5B17B418;
-	Sun, 30 Mar 2025 08:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99603433A4;
+	Sun, 30 Mar 2025 08:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743324005; cv=none; b=CQVkSUDTPXuS+uoPCGnqBIUd6YPBLzBnyOlmaKhpCNhGqBQaW94IS/9bSCN3Emr9phCnqFTfJBJAy5A+I5sbw2BIE7b9flENFX6KgOh9djF4nbEPxJuGZ1WvDNYhKV00Gdzl5rO4fH3yqYL1fTMctenfWpvqCV1TtK4348oKjAU=
+	t=1743324598; cv=none; b=Ko2HkQRHMEtfMEXkOrol2tcKBOuyRnkhsDa1PhCvJbGTFnevSu0EnBlSqHozX35ZEsHgpgXFYV/4celO0iLliv5SNEsNPgx9kDxuwNGdKFGnp8CPRadT8BqfYdUooEDN7rRHIIz97fdtwuVMSun9ED/SRW7zK9CyqZ0SBKXojvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743324005; c=relaxed/simple;
-	bh=8NFl9Rm+/neaLUUhF6x3kk32vpPnZ0g7mkwNz2mowVM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q+ws7vPVgI51cyPzNUSfzpUWdnrmWQUuU0joh/Y7DAKzqkt8FKgCcTOUVoO+VbV8728zyAkyT6U4iKxP2MFx4c2ZUQZDJGSE7fDLr1+35SID0AvFvxorjtqU8NW0fyICvEQdJpwduVtYSH60+OfdJ7BtvQ1A+hzR9ALdjVe2oZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=RzV0fq7o; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id 453832E02C63;
-	Sun, 30 Mar 2025 11:39:51 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1743323991;
-	bh=8NFl9Rm+/neaLUUhF6x3kk32vpPnZ0g7mkwNz2mowVM=;
-	h=Received:From:Subject:To;
-	b=RzV0fq7oT7DUunroLGA9rHPWnECB6Z+U93wO0tgkiseEpH8zkEj5qTujRb166vOI6
-	 cEpdsx25mvwH9aqiRZxtNEWAeLy2NVjYijQShNUf4QC9uHH+f40wovUWBBrOkRkRKM
-	 zgs6fo4t81Z3Odr6KknJjTG1rJWyw+Iy/30/1Fyc=
-Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.208.179) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f179.google.com
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-307c13298eeso40425401fa.0;
-        Sun, 30 Mar 2025 01:39:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVR9oRApgSafWb3gY26r3pJ/j9BtiM4rb5HqO1hVsudIA9DR507IcjC9cH53xunss1SQ0xU+iEIkXT6GQ==@vger.kernel.org,
- AJvYcCWiJojYEzhlIZFnk/4/feV6x2qYgCvllgdWp4DBd5vKwdcfnT7P5np77WsdqikIjkaw6rG/ghaDBuFueoRb5M5qNmegXg==@vger.kernel.org,
- AJvYcCXw99wky5o3bOcqiarzY2mxqle/kpRrsIRyQ6/xkjpP2eKBJ4fWOeDo2rtjyOnoMrALw7Zj2Jjr8Kdzf3ni@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9FTZ+HLlcrPAbnks3+Lk5zJu9sfhzXdbgS1XP5nWrkqSpTFjV
-	KIP1wX97vKEVnu0k9gMQYiKFTccQRW/8pcU16192i3BJ730Irelnp/yMU2uS85FrfTQQ7REpkM5
-	ODCTGnKaaoyGr7FloQ+1jf5/kQd4=
-X-Google-Smtp-Source: 
- AGHT+IERs4pT/k/49aQC65OzWEWwormi5XQVt1V4Fo2YyTJWPbmDq1/t81uPTRhJx0gJ1zThqnVkJxkNvqPiqIfbNls=
-X-Received: by 2002:a2e:9182:0:b0:30b:f0dd:9096 with SMTP id
- 38308e7fff4ca-30dd409e992mr28942311fa.12.1743323990661; Sun, 30 Mar 2025
- 01:39:50 -0700 (PDT)
+	s=arc-20240116; t=1743324598; c=relaxed/simple;
+	bh=+bKsd+lUz1xN+iEJQV8fzknCljZQm9eRGmS71BH0FEA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qp1n6xHeMKewFlwEOcLRrXOmQH76EMZiT00E2y4xze/u+S13tKtwOLRGIk37T8EXh4SamYkclHoP+4yEfdCH9WmyQB+g+1Daf5ZSi0QBPIU83dSuNUFMMhaivLWds2we4Q2v8fSv71kD/bCNV2rZ7vo1hRIar2nKn4rzzxZW6XA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PyjzPC7A; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2240b4de12bso38267185ad.2;
+        Sun, 30 Mar 2025 01:49:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743324596; x=1743929396; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EmzCxvsOduwulsT5Wgwx5bMOIAHj7o4CdA5a/pTT+Dk=;
+        b=PyjzPC7A0iOIIVe1HXPQmbnjqf15w3HmKsPeTMfIB1RR74TDfBQA5uS5+qvgwrgpAx
+         FozlLek54RTJ31qZcCUTyol2fDck1jpn3X/CVOl6aoKxWyk+7EfX4SuhSPS/TmUtyn0A
+         3UOWEHwbvY7kKXEZ6draVNElw7GR4CY9JMcZD6YtIiO3ZpAcKg1OBh66EroxtXaUuZoG
+         84T6c6XoomHoTl50rRr/Av1YYib/dEwXrqNRbmi2bFDeK/3xt2XbxCuuLSt6XQP8t9nb
+         rnHGtHgZL0jDilVKWOepkUuiLDDvkVFdPe4STVw4R8BZmUJlYjNgTdVsRl7RqqZ/7gW2
+         vijA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743324596; x=1743929396;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EmzCxvsOduwulsT5Wgwx5bMOIAHj7o4CdA5a/pTT+Dk=;
+        b=FLDb8IlqRHd8lfY8b38zF54l6AsCFr5MbBHCXbqwNMe6GKfCLkF8v4CA5lbqgawU2h
+         F+zgiCJc+uDxboBwS382qmG64Y2QtVxZuHitSLQPyNPmV0pBuqJXEufxXtLWOjplNMFS
+         f0yYh016IOiuqI0LMl7foeaLM7o35IkZ4wY3/DvhD7+pkujw1W1Xbew5ECg/HEKyOrxC
+         kWky2u6c+odmSXtlfouKlR1PIL1eGJ7KwvJ5tcpSgsaor6MG/BOy1+eEfu/SvgEyz/HY
+         vm+xXtJjUK2aqYvDXH7zrgXCUZ5XBc7i30v0hZ6RrHP4Y35GhW1BEZCZ2ZAU4sPUJu9L
+         7i/g==
+X-Forwarded-Encrypted: i=1; AJvYcCUEZWaLFZotsgyLHH3mWy6NFlJf0RNfDKlB1PpZncvvE9mMKdCjQItvidSZDui9JL2wojUHVyaFH8lVx2xX@vger.kernel.org, AJvYcCVEfdX97/edyNNV1dkXtY+re/5znfNaG9cgAn9kKwe2QX8sMLbaK62KeEniBpShOhN9JUjmCzpFvW8=@vger.kernel.org, AJvYcCWSTxrLye+bXR/xWZRMLRaKHqj9S0ERaa2vIn0fRIGTZYlPrdSh3ZO7GObyV0dovsopHBRyoCtHXYHaLoE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzwD9+jVKImanGV62CUKeiWbtEs0EQbEr4zh+DyQvJ/kzIkt/M
+	Ret/khRa/4qAmHn3EJdL1SaQehaeN/HINNKx5WVw3xGxIT048YmY
+X-Gm-Gg: ASbGncvyoyOMxPoA+vO9Mfp6065molzrpVwiSZ8+u77ZRw+6gVFJ3qjPbRzMkReAQsk
+	l8aC5RuKeFeQ8MocpONRwlndRVeEVHhPbbGQg2VOP4kBzOLDNcSfmA3uDlxBcII5WcTLdUeld8e
+	uv+OGeeVyCHE+0JOOhCqk7C+9QcSaqG8A0PQEVmjF1wsMNBJiJIsCI4v0cIErnMmNk/hQ99ewTy
+	lCmhCcb024tUt9+AaHBR0TdPCihvqD7BF5CRCOrVHmv1ARDX5+HxSbJgugu+47TGOlpKtPfJDW4
+	YRaXf9FAUnIUezo6JUQmr9grSx6PRsOYXh/XiBz5eRmkZMMZgHoXcdOJNuSL8HPjFvKt9HGiOfK
+	U
+X-Google-Smtp-Source: AGHT+IFSa6czLX5BHKoQR4RzOcx/YbmUF2SgaxAIgJ4HQT0OJsOtxycsYNBJibWU+vKZphORkcPWdw==
+X-Received: by 2002:a05:6a21:c94:b0:1f5:9175:2596 with SMTP id adf61e73a8af0-2009f607a8bmr8922370637.13.1743324595736;
+        Sun, 30 Mar 2025 01:49:55 -0700 (PDT)
+Received: from salmon-ASUS-TUF-Dash-F15-FX516PR.. ([2402:7500:a17:45d:8f98:c8e0:143a:d5da])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af93b8ae16esm4434055a12.61.2025.03.30.01.49.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Mar 2025 01:49:55 -0700 (PDT)
+From: Chih Yun Lin <noralin249@gmail.com>
+To: corbet@lwn.net
+Cc: jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chih Yun Lin <noralin249@gmail.com>
+Subject: [PATCH] docs: hid: Fix typo in intel-thc-hid.rst
+Date: Sun, 30 Mar 2025 16:45:18 +0800
+Message-ID: <20250330084518.20916-1-noralin249@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250325184601.10990-1-lkml@antheas.dev>
- <20250325184601.10990-10-lkml@antheas.dev>
- <f04e6a59-cb72-9ca9-2c98-85702b6194fa@linux.intel.com>
- <CAGwozwF8PZczpqOFm3ONDdJTVCgcWOZ8mXrASbmiAXUhQvOhdg@mail.gmail.com>
- <43c4dd17-de34-804f-7080-b287ac4a0cac@linux.intel.com>
- <26s13395-1ro2-37o8-01q5-6r4p09p69174@xreary.bet>
-In-Reply-To: <26s13395-1ro2-37o8-01q5-6r4p09p69174@xreary.bet>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Sun, 30 Mar 2025 10:39:38 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwHbZHk_eSe-ZEM6jYM2HC4GxwnUrreZSh=+xJrKquEi9g@mail.gmail.com>
-X-Gm-Features: AQ5f1Jra7sQb-aaz8rgqvtj8FVHUmYutqJvSPeAOe85u6LHamCT55MgFfnENILI
-Message-ID: 
- <CAGwozwHbZHk_eSe-ZEM6jYM2HC4GxwnUrreZSh=+xJrKquEi9g@mail.gmail.com>
-Subject: Re: [PATCH v5 09/11] HID: asus: add basic RGB support
-To: Jiri Kosina <jikos@kernel.org>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
-	Corentin Chary <corentin.chary@gmail.com>,
- "Luke D . Jones" <luke@ljones.dev>,
-	Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-PPP-Message-ID: 
- <174332399157.10109.13157866496455022773@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 
-On Wed, 26 Mar 2025 at 12:00, Jiri Kosina <jikos@kernel.org> wrote:
->
-> On Wed, 26 Mar 2025, Ilpo J=C3=A4rvinen wrote:
->
-> > You don't need to "pause" for the merge window, in some subsystem
-> > there's mandatory pause during merge window but I find that unnecessary=
-.
-> > I know people on pdx86 do review during merge window so no need to wait
-> > when working with patches related to pdx86. Just don't expect patches
-> > get applied during the merge window or right after it (the latter tends=
- to
-> > be the most busiest time of cycle for me) :-).
-> >
-> > It's more about the frequency, how often to send a series which is
-> > relatively large. Large number of versions end up just filling inboxes
-> > (and patchwork's pending patches list) and we don't have time to read t=
-hem
-> > all through so I suggest waiting like 3 days at minimum between version=
-s
-> > when the series is large or complex to give time to go through the seri=
-es.
-> >
-> > This is not a hard rule, so if there are e.g. many significant changes,
-> > feel free to "violate" it in that case.
->
-> Exactly. I am unlikely to do much review during the merge window myself,
-> but I'll pick up the patchset and followup once the merge window is over,
-> so feel free to keep discussing and polishing it with me on CC :)
->
-> Thanks,
+Corrected the spelling of "triggerred" to "triggered" and "flexiblity"
+to "flexibility".
 
-I think we have reached a good point with this series. We can pick up
-again when you guys are ready.
+Signed-off-by: Chih Yun Lin <noralin249@gmail.com>
+---
+ Documentation/hid/intel-thc-hid.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-I will switch gears and look a bit into msi-wmi-platform for the MSI
-Claw with Armin and we can revisit this come rc1.
+diff --git a/Documentation/hid/intel-thc-hid.rst b/Documentation/hid/intel-thc-hid.rst
+index 6c417205ac6a..dc9250787fc5 100644
+--- a/Documentation/hid/intel-thc-hid.rst
++++ b/Documentation/hid/intel-thc-hid.rst
+@@ -182,7 +182,7 @@ value and use PIO write (by setting SubIP write opcode) to do a write operation.
+ 
+ THC also includes two GPIO pins, one for interrupt and the other for device reset control.
+ 
+-Interrupt line can be configured to either level triggerred or edge triggerred by setting MMIO
++Interrupt line can be configured to either level triggered or edge triggered by setting MMIO
+ Control register.
+ 
+ Reset line is controlled by BIOS (or EFI) through ACPI _RST method, driver needs to call this
+@@ -302,10 +302,10 @@ waiting for interrupt ready then read out the data from system memory.
+ 3.3.2 Software DMA channel
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-THC supports a software triggerred RxDMA mode to read the touch data from touch IC. This SW RxDMA
++THC supports a software triggered RxDMA mode to read the touch data from touch IC. This SW RxDMA
+ is the 3rd THC RxDMA engine with the similar functionalities as the existing two RxDMAs, the only
+-difference is this SW RxDMA is triggerred by software, and RxDMA2 is triggerred by external Touch IC
+-interrupt. It gives a flexiblity to software driver to use RxDMA read Touch IC data in any time.
++difference is this SW RxDMA is triggered by software, and RxDMA2 is triggered by external Touch IC
++interrupt. It gives a flexibility to software driver to use RxDMA read Touch IC data in any time.
+ 
+ Before software starts a SW RxDMA, it shall stop the 1st and 2nd RxDMA, clear PRD read/write pointer
+ and quiesce the device interrupt (THC_DEVINT_QUIESCE_HW_STS = 1), other operations are the same with
+-- 
+2.43.0
 
-Let's try to get through it early in 6.16 so that Luke can also do
-what he wants to with the Ally, and let's push the oxpec move as well,
-so I can get those two off my plate.
-
-Antheas
-
-> --
-> Jiri Kosina
-> SUSE Labs
->
 
