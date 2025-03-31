@@ -1,50 +1,51 @@
-Return-Path: <linux-input+bounces-11407-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11408-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3BB3A769F0
-	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 17:21:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B4FA769D1
+	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 17:19:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 73CCF3AE502
-	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 15:13:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF9861892E24
+	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 15:13:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28A4523373C;
-	Mon, 31 Mar 2025 14:55:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6B16235341;
+	Mon, 31 Mar 2025 14:55:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fMixczB9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RAb7ydSS"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD57233733;
-	Mon, 31 Mar 2025 14:55:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9968B23498F;
+	Mon, 31 Mar 2025 14:55:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743432919; cv=none; b=JhTryThsd14IFDyJELlMvP2Zorp0U1IE3d01+jafB+kpoAyisUApHX0eC3Iqy5IKFmJ2+exkS0HUGJxTqbpOzOmPvYlhFo0Zg6GrPubADAMHzBGCSrnjjQ5Hm0PoS/8a6FZltNXeEpzzzyHv1fppI1QYCCA67FgXT/p0JMZsN1I=
+	t=1743432920; cv=none; b=A2gbeKcCKfr0RDQv1vTm5KRiViD+VhlY8vnniWELTKoDQED6SvLK9nrPDGKFHicaA2QZp2aK26L6XkiFSy/9EvPZ2HuP2c7TtVk4NQYHKt5Z8Rv/cX+tyhcuzk981OBRCg4GM9qR20+Wgzrf6F/qyjkXPZGwsZYhdTPD7dW1u5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743432919; c=relaxed/simple;
-	bh=0ylQr3AKNQSc4xCToTSW36HPdoK63vTJRJvNgCW1xtY=;
+	s=arc-20240116; t=1743432920; c=relaxed/simple;
+	bh=YX+fke5TVb5zvqruaHL2X8PcJVO3+RWq+xk6ZpI81lc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s9KxpJPGGtt1HQRmqZHQlxkKGwf2vZ2Ytgz8j3Uis05etSh+QdD4WFA0pp2UzE/lJg33IW5QaaUOrvIS4J6D1c4StZ8xDijYI17AjxwRCNUr26t0Kri56PxvtzEpAc7YiZzYTM5sUBbU32w49kPSVewyYW0k3oVXKNc74HUFszc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fMixczB9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3D4FC4CEE9;
-	Mon, 31 Mar 2025 14:55:16 +0000 (UTC)
+	 MIME-Version:Content-Type; b=iSZlC7EZ+4Okbvzr2yap7QrznEWoiaA+8TeEAggs9aNlt/wlOJWF7jBoflsQy6Q70W0FkegisByb/vzdpsQqwsUwRQundmj8acf2yZG+TQjIWJqTpA01XB4iaE4Vd2RYYReyuE5+6PpaFnX+MsXQfRSx2pEoAzUHX7+e8H+h7GE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RAb7ydSS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00366C4CEE4;
+	Mon, 31 Mar 2025 14:55:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743432918;
-	bh=0ylQr3AKNQSc4xCToTSW36HPdoK63vTJRJvNgCW1xtY=;
+	s=k20201202; t=1743432920;
+	bh=YX+fke5TVb5zvqruaHL2X8PcJVO3+RWq+xk6ZpI81lc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fMixczB9Bi/ycn93hUyQ/cKTTrMYugVtlXxbbhLsBdPEvYPNIxHPR9DTMa/KIrpLT
-	 PgAHEP1dHa2WcCy5YkwTsDT+RksXQrFoc2RsFSRY4+V1k93zpYCIpOfzre17jETMhX
-	 8DfICUcXTop3eL73Xb7b9IYw8sRfd8uaD+4QyrRX2d4l2XhediSOZEIMUwmuL5x1D9
-	 /ZsHD7VeMmQCeKIEd/ZoZaDriWay8Ukk/TTuDljRHm+tAbkBDJU4qFX4bk0spe2Jo/
-	 BfnV+eb3U4g06KADCSQ14Phr3LNWqd5kScxeCS66VSr1dFpuvBenK3L/ih4HhbH4o0
-	 VzSUTCOOevy5Q==
+	b=RAb7ydSScXoDvSDe7GqymdyIvGfQ8MfYhbahB9tZ/4LkSiu7UVlHAyjauUqUqOKu6
+	 aZ33XPvkLf56RUCKnGLD1g9evp8hX96xSQ6okwo4lVXcD7pueSLpRXb/HEc/9qmmVE
+	 I4kwDPaa9bMP8MleBAUv6Pt6A2yO8Zb3wcUMmV/+lQmIy4bQHzXySMYCVXUMySTinH
+	 /OzjbEZ5l/ElLRTkLyxFXWaUzi0dpFPX6j67C4uWOxPmekUDDDEm3QYLh3Cr4y30ok
+	 JDVsmHcLNqnYV3G95/MQ6jVJplQr/xJzdRKFOHfnn+YrjWXkyKIXRsgTuRsoDLbpgo
+	 gTmY6MQn2X46A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
+	Makarenko Oleg <oleg@makarenk.ooo>,
 	=?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>,
 	Paul Dino Jones <paul@spacefreak18.xyz>,
 	=?UTF-8?q?Crist=C3=B3ferson=20Bueno?= <cbueno81@gmail.com>,
@@ -55,9 +56,9 @@ Cc: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
 	bentiss@kernel.org,
 	linux-usb@vger.kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 04/23] HID: pidff: Do not send effect envelope if it's empty
-Date: Mon, 31 Mar 2025 10:54:50 -0400
-Message-Id: <20250331145510.1705478-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 05/23] HID: pidff: Add MISSING_DELAY quirk and its detection
+Date: Mon, 31 Mar 2025 10:54:51 -0400
+Message-Id: <20250331145510.1705478-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250331145510.1705478-1-sashal@kernel.org>
 References: <20250331145510.1705478-1-sashal@kernel.org>
@@ -75,30 +76,18 @@ Content-Transfer-Encoding: 8bit
 
 From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 
-[ Upstream commit 8876fc1884f5b39550c8387ff3176396c988541d ]
+[ Upstream commit 2d5c7ce5bf4cc27db41632f357f682d0ee4518e7 ]
 
-Envelope struct is always initialized, but the envelope itself is
-optional as described in USB PID Device class definition 1.0.
+A lot of devices do not include this field, and it's seldom used in force
+feedback implementations. I tested about three dozen applications and
+none of them make use of the delay.
 
-5.1.1.1 Type Specific Block Offsets
-...
-4) Effects that do not use Condition Blocks use 1 Parameter Block and
-an *optional* Envelope Block.
+This fixes initialization of a lot of PID wheels like Cammus, VRS, FFBeast
 
-Sending out "empty" envelope breaks force feedback on some devices with
-games that use SINE effect + offset to emulate constant force effect, as
-well as generally breaking Constant/Periodic effects. One of the affected
-brands is Moza Racing.
+This change has no effect on fully compliant devices
 
-This change prevents the envelope from being sent if it contains all
-0 values while keeping the old behavior of only sending it, if it differs
-from the old one.
-
-Changes in v6:
-- Simplify the checks to make them clearer
-- Fix possible null pointer dereference while calling
-  pidff_needs_set_envelope
-
+Co-developed-by: Makarenko Oleg <oleg@makarenk.ooo>
+Signed-off-by: Makarenko Oleg <oleg@makarenk.ooo>
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 Reviewed-by: Michał Kopeć <michal@nozomi.space>
 Reviewed-by: Paul Dino Jones <paul@spacefreak18.xyz>
@@ -108,84 +97,118 @@ Tested-by: Pablo Cisneros <patchkez@protonmail.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/usbhid/hid-pidff.c | 42 +++++++++++++++++++---------------
- 1 file changed, 24 insertions(+), 18 deletions(-)
+ drivers/hid/usbhid/hid-pidff.c | 33 ++++++++++++++++++++++++++++-----
+ include/linux/hid.h            |  3 +++
+ 2 files changed, 31 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index 5fe4422bb5bad..a01c1b2ab2f4c 100644
+index a01c1b2ab2f4c..929f5967e7cb1 100644
 --- a/drivers/hid/usbhid/hid-pidff.c
 +++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -262,10 +262,22 @@ static void pidff_set_envelope_report(struct pidff_device *pidff,
- static int pidff_needs_set_envelope(struct ff_envelope *envelope,
- 				    struct ff_envelope *old)
+@@ -185,6 +185,8 @@ struct pidff_device {
+ 	int operation_id[sizeof(pidff_effect_operation_status)];
+ 
+ 	int pid_id[PID_EFFECTS_MAX];
++
++	u32 quirks;
+ };
+ 
+ /*
+@@ -329,7 +331,10 @@ static void pidff_set_effect_report(struct pidff_device *pidff,
+ 	pidff->effect_direction->value[0] =
+ 		pidff_rescale(effect->direction, 0xffff,
+ 				pidff->effect_direction);
+-	pidff->set_effect[PID_START_DELAY].value[0] = effect->replay.delay;
++
++	/* Omit setting delay field if it's missing */
++	if (!(pidff->quirks & HID_PIDFF_QUIRK_MISSING_DELAY))
++		pidff->set_effect[PID_START_DELAY].value[0] = effect->replay.delay;
+ 
+ 	hid_hw_request(pidff->hid, pidff->reports[PID_SET_EFFECT],
+ 			HID_REQ_SET_REPORT);
+@@ -748,7 +753,10 @@ static void pidff_autocenter(struct pidff_device *pidff, u16 magnitude)
+ 	pidff->set_effect[PID_TRIGGER_REPEAT_INT].value[0] = 0;
+ 	pidff_set(&pidff->set_effect[PID_GAIN], magnitude);
+ 	pidff->set_effect[PID_DIRECTION_ENABLE].value[0] = 1;
+-	pidff->set_effect[PID_START_DELAY].value[0] = 0;
++
++	/* Omit setting delay field if it's missing */
++	if (!(pidff->quirks & HID_PIDFF_QUIRK_MISSING_DELAY))
++		pidff->set_effect[PID_START_DELAY].value[0] = 0;
+ 
+ 	hid_hw_request(pidff->hid, pidff->reports[PID_SET_EFFECT],
+ 			HID_REQ_SET_REPORT);
+@@ -771,6 +779,7 @@ static int pidff_find_fields(struct pidff_usage *usage, const u8 *table,
+ 			     struct hid_report *report, int count, int strict)
  {
--	return envelope->attack_level != old->attack_level ||
--	       envelope->fade_level != old->fade_level ||
-+	bool needs_new_envelope;
-+	needs_new_envelope = envelope->attack_level  != 0 ||
-+			     envelope->fade_level    != 0 ||
-+			     envelope->attack_length != 0 ||
-+			     envelope->fade_length   != 0;
-+
-+	if (!needs_new_envelope)
-+		return false;
-+
-+	if (!old)
-+		return needs_new_envelope;
-+
-+	return envelope->attack_level  != old->attack_level  ||
-+	       envelope->fade_level    != old->fade_level    ||
- 	       envelope->attack_length != old->attack_length ||
--	       envelope->fade_length != old->fade_length;
-+	       envelope->fade_length   != old->fade_length;
+ 	int i, j, k, found;
++	int return_value = 0;
+ 
+ 	for (k = 0; k < count; k++) {
+ 		found = 0;
+@@ -795,12 +804,17 @@ static int pidff_find_fields(struct pidff_usage *usage, const u8 *table,
+ 			if (found)
+ 				break;
+ 		}
+-		if (!found && strict) {
++		if (!found && table[k] == pidff_set_effect[PID_START_DELAY]) {
++			pr_debug("Delay field not found, but that's OK\n");
++			pr_debug("Setting MISSING_DELAY quirk\n");
++			return_value |= HID_PIDFF_QUIRK_MISSING_DELAY;
++		}
++		else if (!found && strict) {
+ 			pr_debug("failed to locate %d\n", k);
+ 			return -1;
+ 		}
+ 	}
+-	return 0;
++	return return_value;
  }
  
  /*
-@@ -580,11 +592,9 @@ static int pidff_upload_effect(struct input_dev *dev, struct ff_effect *effect,
- 			pidff_set_effect_report(pidff, effect);
- 		if (!old || pidff_needs_set_constant(effect, old))
- 			pidff_set_constant_force_report(pidff, effect);
--		if (!old ||
--		    pidff_needs_set_envelope(&effect->u.constant.envelope,
--					&old->u.constant.envelope))
--			pidff_set_envelope_report(pidff,
--					&effect->u.constant.envelope);
-+		if (pidff_needs_set_envelope(&effect->u.constant.envelope,
-+					old ? &old->u.constant.envelope : NULL))
-+			pidff_set_envelope_report(pidff, &effect->u.constant.envelope);
- 		break;
+@@ -1075,11 +1089,19 @@ static int pidff_find_effects(struct pidff_device *pidff,
+ static int pidff_init_fields(struct pidff_device *pidff, struct input_dev *dev)
+ {
+ 	int envelope_ok = 0;
++	int status = 0;
  
- 	case FF_PERIODIC:
-@@ -619,11 +629,9 @@ static int pidff_upload_effect(struct input_dev *dev, struct ff_effect *effect,
- 			pidff_set_effect_report(pidff, effect);
- 		if (!old || pidff_needs_set_periodic(effect, old))
- 			pidff_set_periodic_report(pidff, effect);
--		if (!old ||
--		    pidff_needs_set_envelope(&effect->u.periodic.envelope,
--					&old->u.periodic.envelope))
--			pidff_set_envelope_report(pidff,
--					&effect->u.periodic.envelope);
-+		if (pidff_needs_set_envelope(&effect->u.periodic.envelope,
-+					old ? &old->u.periodic.envelope : NULL))
-+			pidff_set_envelope_report(pidff, &effect->u.periodic.envelope);
- 		break;
+-	if (PIDFF_FIND_FIELDS(set_effect, PID_SET_EFFECT, 1)) {
++	/* Save info about the device not having the DELAY ffb field. */
++	status = PIDFF_FIND_FIELDS(set_effect, PID_SET_EFFECT, 1);
++	if (status == -1) {
+ 		hid_err(pidff->hid, "unknown set_effect report layout\n");
+ 		return -ENODEV;
+ 	}
++	pidff->quirks |= status;
++
++	if (status & HID_PIDFF_QUIRK_MISSING_DELAY)
++		hid_dbg(pidff->hid, "Adding MISSING_DELAY quirk\n");
++
  
- 	case FF_RAMP:
-@@ -637,11 +645,9 @@ static int pidff_upload_effect(struct input_dev *dev, struct ff_effect *effect,
- 			pidff_set_effect_report(pidff, effect);
- 		if (!old || pidff_needs_set_ramp(effect, old))
- 			pidff_set_ramp_force_report(pidff, effect);
--		if (!old ||
--		    pidff_needs_set_envelope(&effect->u.ramp.envelope,
--					&old->u.ramp.envelope))
--			pidff_set_envelope_report(pidff,
--					&effect->u.ramp.envelope);
-+		if (pidff_needs_set_envelope(&effect->u.ramp.envelope,
-+					old ? &old->u.ramp.envelope : NULL))
-+			pidff_set_envelope_report(pidff, &effect->u.ramp.envelope);
- 		break;
+ 	PIDFF_FIND_FIELDS(block_load, PID_BLOCK_LOAD, 0);
+ 	if (!pidff->block_load[PID_EFFECT_BLOCK_INDEX].value) {
+@@ -1323,6 +1345,7 @@ int hid_pidff_init(struct hid_device *hid)
+ 	ff->playback = pidff_playback;
  
- 	case FF_SPRING:
+ 	hid_info(dev, "Force feedback for USB HID PID devices by Anssi Hannula <anssi.hannula@gmail.com>\n");
++	hid_dbg(dev, "Active quirks mask: 0x%x\n", pidff->quirks);
+ 
+ 	hid_device_io_stop(hid);
+ 
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index dd33423012538..42e4111f43e76 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -1227,6 +1227,9 @@ int hid_pidff_init(struct hid_device *hid);
+ #define hid_pidff_init NULL
+ #endif
+ 
++/* HID PIDFF quirks */
++#define HID_PIDFF_QUIRK_MISSING_DELAY	BIT(0)
++
+ #define dbg_hid(fmt, ...) pr_debug("%s: " fmt, __FILE__, ##__VA_ARGS__)
+ 
+ #define hid_err(hid, fmt, ...)				\
 -- 
 2.39.5
 
