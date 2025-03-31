@@ -1,50 +1,52 @@
-Return-Path: <linux-input+bounces-11430-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11431-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B18A76A5C
-	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 17:29:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33057A76A44
+	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 17:26:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3720E16790A
-	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 15:26:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 476917A174F
+	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 15:25:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C561C24E4B2;
-	Mon, 31 Mar 2025 14:57:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E15FE24E4C1;
+	Mon, 31 Mar 2025 14:57:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K0uL/I4o"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R9bEGQ5b"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFC324E4AC;
-	Mon, 31 Mar 2025 14:57:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88DF24EA81;
+	Mon, 31 Mar 2025 14:57:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743433028; cv=none; b=Wu7ZJMoZMT5i4XJEaMXXrCfFvMylti1j+LFynysZRfEn6U80Uf79BccBK9h+Ia0vFXk4kuqpx0I+tkklXnBZdAkeZbBeP0poKxa8X/ALT6ruM559/DHwMwXbOpNn0b/FDV/sTFVYit49A+RE55nLk20d54RwHkA4d/aZqUR/iPY=
+	t=1743433030; cv=none; b=t+ynsFbsoSHOkBZuJVqQT8rNIDUc5SQ9+6Q5FuNLQki6THhGyPeS7pYyRdIz04iiN5TGnTSMHeMAxttXZjvIAV0GTQv9SDheKuqcHiK3OFREEr6xy0Is53E7jZA4LgbRfShKDNNtZrD5iFJOcgPoi/yrSTNnRzfkNpUtv6dcxZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743433028; c=relaxed/simple;
-	bh=0ylQr3AKNQSc4xCToTSW36HPdoK63vTJRJvNgCW1xtY=;
+	s=arc-20240116; t=1743433030; c=relaxed/simple;
+	bh=5Bd/k/fOQJvIJ1KchYOcmfdBHJlUk0IYZWrwlqh2EBk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mPcZZfifiBZrJYBK+IagToc3WCHgvqk3PKQZYDc6uevNM3vh5AYuqDFJ5/SRa7M/u5vlznJ6j5GSjBf6YDYX4q8aP6sbb449idtzPmA35yVmNwrfa97riaDt6nTPhmc10hw1RWRnH2q2TIijV79WmByc8+h1/fDXBSp8UeCRqOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K0uL/I4o; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4E72C4CEE3;
-	Mon, 31 Mar 2025 14:57:06 +0000 (UTC)
+	 MIME-Version:Content-Type; b=NaAhC9fhdULpqT4JFHm0ihT0sl7Ycs9+DEog43d63JQClFDZlUjEVoRegsOfe+PcSpfKWyUrHWFLCXOomo2+hqj4rUvJHLyvSy/dtGGGQpL2noNIXAVqf3BXJzThwkmJrV7tzjo2tkfFsJosb/OY7nSK/YQzmJhgAQRbRcLMFDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R9bEGQ5b; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9980FC4CEE4;
+	Mon, 31 Mar 2025 14:57:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743433028;
-	bh=0ylQr3AKNQSc4xCToTSW36HPdoK63vTJRJvNgCW1xtY=;
+	s=k20201202; t=1743433030;
+	bh=5Bd/k/fOQJvIJ1KchYOcmfdBHJlUk0IYZWrwlqh2EBk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=K0uL/I4oUqpTGADNuNVV1jG9MmhqnW+ewKd9Ol/Qg7KbbwZ4O/k6Dq57hUEbiCyGl
-	 dHUN70pFXcpFcvo4EM0S/7x0VflMKOhJmTS5Y89GfnbAIgaB35yhpC1AzcO4S2z2gu
-	 H0/PU8nBx9VnWCecx9xYcmJIxaqueGLBuFPmHtzpebqnIAGacRljM3SHu/2UtOh72f
-	 lj4BDeqZ7YHr+jEKmwu5pjcy7OmOS9gsvt+0MaIGXmF1e6UQiQh+eVCoDaD2UJiDXC
-	 xEgviKvVVLQNQ+EHL28VE+Zaec8YphnO2y7mJY2WYjo72Eo/cvhV1kyzvVH9DnjeRx
-	 ZcA5YkOJIPdjw==
+	b=R9bEGQ5bObYY9MUwR8ZZsVe60o+fPTAdKK4fh6JsL1d4Jlwf6e6uP8h772c5WlfLB
+	 kwGZMBDV/AJLkGncX9uOWZFbdKhb60//Uga4VDwMDk4rgqoHfqfr8KkBy5NVWRKYUL
+	 5wSjb2GoXCsEs5m7Qm/h9ERDoKFC0d0VN7M9aHeS9yh299Poxs+bDpcCZw0TomC22K
+	 uEmZnrwvkEmCITD4BzJwliXufO61nppm1nboD2K0ov9XRm/8i3TVEAzzuY+0Xbc6RS
+	 c5U2w+/pqz6vja0oZmiJdmdDUU9N+oHvUQKDvsCEjE48R7p+SC6uCueMI8OUgM5yys
+	 ZGz96cHrDKMxA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
+Cc: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <forest10pl@gmail.com>,
+	Nolan Nicholson <nolananicholson@gmail.com>,
+	=?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
 	=?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>,
 	Paul Dino Jones <paul@spacefreak18.xyz>,
 	=?UTF-8?q?Crist=C3=B3ferson=20Bueno?= <cbueno81@gmail.com>,
@@ -55,9 +57,9 @@ Cc: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
 	bentiss@kernel.org,
 	linux-usb@vger.kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 2/6] HID: pidff: Do not send effect envelope if it's empty
-Date: Mon, 31 Mar 2025 10:56:59 -0400
-Message-Id: <20250331145703.1706165-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 3/6] HID: pidff: Fix null pointer dereference in pidff_find_fields
+Date: Mon, 31 Mar 2025 10:57:00 -0400
+Message-Id: <20250331145703.1706165-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250331145703.1706165-1-sashal@kernel.org>
 References: <20250331145703.1706165-1-sashal@kernel.org>
@@ -73,32 +75,23 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.15.179
 Content-Transfer-Encoding: 8bit
 
-From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+From: Tomasz Pakuła <forest10pl@gmail.com>
 
-[ Upstream commit 8876fc1884f5b39550c8387ff3176396c988541d ]
+[ Upstream commit 22a05462c3d0eee15154faf8d13c49e6295270a5 ]
 
-Envelope struct is always initialized, but the envelope itself is
-optional as described in USB PID Device class definition 1.0.
+This function triggered a null pointer dereference if used to search for
+a report that isn't implemented on the device. This happened both for
+optional and required reports alike.
 
-5.1.1.1 Type Specific Block Offsets
-...
-4) Effects that do not use Condition Blocks use 1 Parameter Block and
-an *optional* Envelope Block.
+The same logic was applied to pidff_find_special_field and although
+pidff_init_fields should return an error earlier if one of the required
+reports is missing, future modifications could change this logic and
+resurface this possible null pointer dereference again.
 
-Sending out "empty" envelope breaks force feedback on some devices with
-games that use SINE effect + offset to emulate constant force effect, as
-well as generally breaking Constant/Periodic effects. One of the affected
-brands is Moza Racing.
+LKML bug report:
+https://lore.kernel.org/all/CAL-gK7f5=R0nrrQdPtaZZr1fd-cdAMbDMuZ_NLA8vM0SX+nGSw@mail.gmail.com
 
-This change prevents the envelope from being sent if it contains all
-0 values while keeping the old behavior of only sending it, if it differs
-from the old one.
-
-Changes in v6:
-- Simplify the checks to make them clearer
-- Fix possible null pointer dereference while calling
-  pidff_needs_set_envelope
-
+Reported-by: Nolan Nicholson <nolananicholson@gmail.com>
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 Reviewed-by: Michał Kopeć <michal@nozomi.space>
 Reviewed-by: Paul Dino Jones <paul@spacefreak18.xyz>
@@ -108,84 +101,37 @@ Tested-by: Pablo Cisneros <patchkez@protonmail.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/usbhid/hid-pidff.c | 42 +++++++++++++++++++---------------
- 1 file changed, 24 insertions(+), 18 deletions(-)
+ drivers/hid/usbhid/hid-pidff.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index 5fe4422bb5bad..a01c1b2ab2f4c 100644
+index a01c1b2ab2f4c..26cb331b646ca 100644
 --- a/drivers/hid/usbhid/hid-pidff.c
 +++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -262,10 +262,22 @@ static void pidff_set_envelope_report(struct pidff_device *pidff,
- static int pidff_needs_set_envelope(struct ff_envelope *envelope,
- 				    struct ff_envelope *old)
+@@ -770,6 +770,11 @@ static void pidff_set_autocenter(struct input_dev *dev, u16 magnitude)
+ static int pidff_find_fields(struct pidff_usage *usage, const u8 *table,
+ 			     struct hid_report *report, int count, int strict)
  {
--	return envelope->attack_level != old->attack_level ||
--	       envelope->fade_level != old->fade_level ||
-+	bool needs_new_envelope;
-+	needs_new_envelope = envelope->attack_level  != 0 ||
-+			     envelope->fade_level    != 0 ||
-+			     envelope->attack_length != 0 ||
-+			     envelope->fade_length   != 0;
++	if (!report) {
++		pr_debug("pidff_find_fields, null report\n");
++		return -1;
++	}
 +
-+	if (!needs_new_envelope)
-+		return false;
+ 	int i, j, k, found;
+ 
+ 	for (k = 0; k < count; k++) {
+@@ -883,6 +888,11 @@ static int pidff_reports_ok(struct pidff_device *pidff)
+ static struct hid_field *pidff_find_special_field(struct hid_report *report,
+ 						  int usage, int enforce_min)
+ {
++	if (!report) {
++		pr_debug("pidff_find_special_field, null report\n");
++		return NULL;
++	}
 +
-+	if (!old)
-+		return needs_new_envelope;
-+
-+	return envelope->attack_level  != old->attack_level  ||
-+	       envelope->fade_level    != old->fade_level    ||
- 	       envelope->attack_length != old->attack_length ||
--	       envelope->fade_length != old->fade_length;
-+	       envelope->fade_length   != old->fade_length;
- }
+ 	int i;
  
- /*
-@@ -580,11 +592,9 @@ static int pidff_upload_effect(struct input_dev *dev, struct ff_effect *effect,
- 			pidff_set_effect_report(pidff, effect);
- 		if (!old || pidff_needs_set_constant(effect, old))
- 			pidff_set_constant_force_report(pidff, effect);
--		if (!old ||
--		    pidff_needs_set_envelope(&effect->u.constant.envelope,
--					&old->u.constant.envelope))
--			pidff_set_envelope_report(pidff,
--					&effect->u.constant.envelope);
-+		if (pidff_needs_set_envelope(&effect->u.constant.envelope,
-+					old ? &old->u.constant.envelope : NULL))
-+			pidff_set_envelope_report(pidff, &effect->u.constant.envelope);
- 		break;
- 
- 	case FF_PERIODIC:
-@@ -619,11 +629,9 @@ static int pidff_upload_effect(struct input_dev *dev, struct ff_effect *effect,
- 			pidff_set_effect_report(pidff, effect);
- 		if (!old || pidff_needs_set_periodic(effect, old))
- 			pidff_set_periodic_report(pidff, effect);
--		if (!old ||
--		    pidff_needs_set_envelope(&effect->u.periodic.envelope,
--					&old->u.periodic.envelope))
--			pidff_set_envelope_report(pidff,
--					&effect->u.periodic.envelope);
-+		if (pidff_needs_set_envelope(&effect->u.periodic.envelope,
-+					old ? &old->u.periodic.envelope : NULL))
-+			pidff_set_envelope_report(pidff, &effect->u.periodic.envelope);
- 		break;
- 
- 	case FF_RAMP:
-@@ -637,11 +645,9 @@ static int pidff_upload_effect(struct input_dev *dev, struct ff_effect *effect,
- 			pidff_set_effect_report(pidff, effect);
- 		if (!old || pidff_needs_set_ramp(effect, old))
- 			pidff_set_ramp_force_report(pidff, effect);
--		if (!old ||
--		    pidff_needs_set_envelope(&effect->u.ramp.envelope,
--					&old->u.ramp.envelope))
--			pidff_set_envelope_report(pidff,
--					&effect->u.ramp.envelope);
-+		if (pidff_needs_set_envelope(&effect->u.ramp.envelope,
-+					old ? &old->u.ramp.envelope : NULL))
-+			pidff_set_envelope_report(pidff, &effect->u.ramp.envelope);
- 		break;
- 
- 	case FF_SPRING:
+ 	for (i = 0; i < report->maxfield; i++) {
 -- 
 2.39.5
 
