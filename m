@@ -1,201 +1,104 @@
-Return-Path: <linux-input+bounces-11380-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11381-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ACA6A762BA
-	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 10:48:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80637A76392
+	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 11:49:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EB7A33A9C9C
-	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 08:47:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB2E1188727F
+	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 09:49:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB0661D5160;
-	Mon, 31 Mar 2025 08:48:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D088B1D88A4;
+	Mon, 31 Mar 2025 09:49:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Da+8Anil"
+	dkim=pass (1024-bit key) header.d=swemel.ru header.i=@swemel.ru header.b="EQbFmIOz"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from mx.swemel.ru (mx.swemel.ru [95.143.211.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C3E15E5BB;
-	Mon, 31 Mar 2025 08:48:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828A57E107;
+	Mon, 31 Mar 2025 09:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.143.211.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743410886; cv=none; b=YjKNvoBpae/hNrOB7d+jlC4S785Ipqsb9uIL4C8pClno6Xt11fFBLtOx69u70IbvYWEr7gw0dB3HN2ej8sfjGjS4Q5DADkxCjLDOf+QjH+2K9QvDNpiDL9INiY20RP+T7t+m3hSKbaxvJfbVreD+wQABDJVXreghkrbBoR7Wehk=
+	t=1743414557; cv=none; b=JLw+Qp4jzRXibCm4P7fh4+n7crg+OAlTc4BUR+Id39DOv0BlTEqRkRBqJ9FSgEyA8rDWovIXiJWDTf4Gc57BAjaN30YfpF0gYLvnVRUTOLcRgMcTkwlOXDtptguzvBY6PezJZ40c2GuLsL1O8IixX9eTPsBi9ovogP+KwlrPDrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743410886; c=relaxed/simple;
-	bh=2Aph5r+ucMnFx8WbEX334zQY670ZD+b5koX2yPrT+io=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Subject:Cc:
-	 References:In-Reply-To; b=FDVgHu9x/003iuN74lThMncmORPPExtOv3PksZteVDAk2FcyrRfyQwFUAsxUJ2DbOWHINJ3xm84UO+WOw/KmQUJThL93CumDYiveyGRDsjYyxJauXXKNJ2JsFBJy9qzH3GWCzQOkzSgXGyoeLjaMJ7uPA6e59pUgrAww3xea3G8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Da+8Anil; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B7BF62047D;
-	Mon, 31 Mar 2025 08:47:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1743410881;
+	s=arc-20240116; t=1743414557; c=relaxed/simple;
+	bh=ZSDobHLDeQniFI9cGo0w73JBwy1stD8x5yEAdBby6jE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JGkQ9w/YXxaR0gbLGFlGfxlJL+j78uv68nnYgISy4nnbB3WKLfsSGD8QBCMAIbi8/0KbInmZVMMb9fejH2Awsqtpe83mYNs9UDKuC741V6JTMjQwVWSRNms+pszG/PmcxIOJy2E1xGhNlpvbX6PeI7VRwQ3j8uPeRXoCDHAY52o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=swemel.ru; spf=pass smtp.mailfrom=swemel.ru; dkim=pass (1024-bit key) header.d=swemel.ru header.i=@swemel.ru header.b=EQbFmIOz; arc=none smtp.client-ip=95.143.211.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=swemel.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=swemel.ru
+From: Denis Arefev <arefev@swemel.ru>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=swemel.ru; s=mail;
+	t=1743414543;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9aErTBB6XoGeVcpJbLF45VHi7cVLHU979KcrvGo1E0c=;
-	b=Da+8Anilt9Neby3nnfgRhzL9gqecwhYWYFRvTUXHkG/WEhbCA8z2Nr6aa6Kgpl+qrvfyDE
-	NoFKL/KBHHpdjYgv9CMUgWPAWDfu5HgkOezzhxKYANUYZGjhME8NPMRmQ7ONyXwXI6RJrl
-	g1+n1eBUZCndKJsxD5o4le4STCDdyT5ePYRiyidUKAlnJI4nKq1frCwgH3yEWStwbsi1FJ
-	SBcTvjfhPkeSbMz7ou3CL4jxggXzGcq6smV3uqkEeAk54/sjpl2gj/M896x0JKwXM61NrT
-	jk3MFf1aqSK5sGQBou9eV+sjb925zqptuFAe7E5ygQ8knVEN2egtCwfWbR1p1w==
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ty5s/dBTl3ZV4mH2v8vqQBCZlTfTYjyuubC67Hr4Ib8=;
+	b=EQbFmIOzrdHWnufAqk8K5OViNEfAQaUDFQizT9XGCpHDfMmThS3rdl28Af1vx9ylj9YHZk
+	h1DfZqAV9y86ost22xsJN9HkCbC3rPXrlrAh7oA8Vyi4a5S7YCMYmI1DkiXLLoQ6e5VY9n
+	PoqcLX/Wvca+Um/6M73F+feQ1vbRZ+Y=
+To: Michael Hennerich <michael.hennerich@analog.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: [PATCH] Input: adp5588-keys Add check on return code
+Date: Mon, 31 Mar 2025 12:49:02 +0300
+Message-ID: <20250331094903.9145-1-arefev@swemel.ru>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 31 Mar 2025 10:47:59 +0200
-Message-Id: <D8UBKT8USZ4U.1OOL1IJMPECFE@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>, "Lee Jones"
- <lee@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Kamel Bouhara"
- <kamel.bouhara@bootlin.com>, "Linus Walleij" <linus.walleij@linaro.org>,
- "Bartosz Golaszewski" <brgl@bgdev.pl>, "Dmitry Torokhov"
- <dmitry.torokhov@gmail.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, "Michael Walle" <mwalle@kernel.org>, "Mark Brown"
- <broonie@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, "Danilo Krummrich"
- <dakr@kernel.org>
-Subject: Re: [PATCH v5 01/11] dt-bindings: mfd: gpio: Add MAX7360
-Cc: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, <andriy.shevchenko@intel.com>,
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20250318-mdb-max7360-support-v5-0-fb20baf97da0@bootlin.com>
- <20250318-mdb-max7360-support-v5-1-fb20baf97da0@bootlin.com>
-In-Reply-To: <20250318-mdb-max7360-support-v5-1-fb20baf97da0@bootlin.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddujeelgeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkhffvufevofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehvedtkeffueelheektddvjefhiefhgedtudevgeehvdevlefgveetkeevleelteenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvfedprhgtphhtthhopehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhgvvgesk
- hgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgrmhgvlhdrsghouhhhrghrrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopegsrhhglhessghguggvvhdrphhl
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue Mar 18, 2025 at 5:26 PM CET, Mathieu Dubois-Briand wrote:
-> Add device tree bindings for Maxim Integrated MAX7360 device with
-> support for keypad, rotary, gpios and pwm functionalities.
->
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> ---
+The adp5588_read() function can return 0 or a negative value.
+If the function returns 0 then a buffer overflow  occurs.
+kpad->keycode[0 - 1].
 
-Hi,
+If the function returns a negative value, then the array kpad->keycode
+is accessed with an incorrectly calculated index.
 
-Following discussion we had under the PWM patch of this series, we might
-need to refactor a bit the device tree binding architecture, adding two
-new subnodes, one for pinctrl and one for PWM.
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-This will need create two new compatible values with associated bindings
-and modify a bit the properties of the maxim,max7360.yaml binding.
+Signed-off-by: Denis Arefev <arefev@swemel.ru>
+---
+ drivers/input/keyboard/adp5588-keys.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-Here is the example modified to reflect what I have in mind.
-
-> ...
->
-> diff --git a/Documentation/devicetree/bindings/mfd/maxim,max7360.yaml b/D=
-ocumentation/devicetree/bindings/mfd/maxim,max7360.yaml
-> new file mode 100644
-> index 000000000000..d3c09531dc5c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/maxim,max7360.yaml
-> @@ -0,0 +1,170 @@
->
-> ...
->
-> +examples:
-> +  - |
-> +    #include <dt-bindings/input/input.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    i2c {
-> +      #address-cells =3D <1>;
-> +      #size-cells =3D <0>;
-> +
-> +      io-expander@38 {
-> +        compatible =3D "maxim,max7360";
-> +        reg =3D <0x38>;
-> +
-> +        interrupt-parent =3D <&gpio1>;
-> +        interrupts =3D <23 IRQ_TYPE_LEVEL_LOW>,
-> +                     <24 IRQ_TYPE_LEVEL_LOW>;
-> +        interrupt-names =3D "inti", "intk";
-> +
-> +        keypad,num-rows =3D <8>;
-> +        keypad,num-columns =3D <4>;
-> +        linux,keymap =3D <
-> +          MATRIX_KEY(0x00, 0x00, KEY_F5)
-> +          MATRIX_KEY(0x01, 0x00, KEY_F4)
-> +          MATRIX_KEY(0x02, 0x01, KEY_F6)
-> +          >;
-> +        keypad-debounce-delay-ms =3D <10>;
-> +        autorepeat;
-> +
-> +        rotary-debounce-delay-ms =3D <2>;
-> +        linux,axis =3D <0>; /* REL_X */
-> +
-
-+ max7360_pwm: pwm {
-+         compatible =3D "maxim,max7360-pwm";
-
-> +        #pwm-cells =3D <3>;
-
-+ };
-
-> +
-> +        max7360_gpio: gpio {
-> +          compatible =3D "maxim,max7360-gpio";
-> +
-> +          gpio-controller;
-> +          #gpio-cells =3D <2>;
-> +          maxim,constant-current-disable =3D <0x06>;
-> +
-> +          interrupt-controller;
-> +          #interrupt-cells =3D <0x2>;
-> +        };
-> +
-> +        max7360_gpo: gpo {
-> +          compatible =3D "maxim,max7360-gpo";
-> +
-> +          gpio-controller;
-> +          #gpio-cells =3D <2>;
-> +        };
-
-+ pinctrl {
-+         compatible =3D "maxim,max7360-pinctrl";
-
-> +
-> +        backlight_pins: backlight-pins {
-> +          pins =3D "PORT2";
-> +          function =3D "pwm";
-> +        };
-
-+ };
-
-> +      };
-> +    };
-
-This would allow to assign a device tree node to both the pinctrl and
-the PWM devices in the kernel?
-
-Is there any comment regarding this proposal? Without any specific
-comment, I will send a new version with these changes in a few days.
-
-Best regards,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
+index dc734974ce06..e329320d4ae3 100644
+--- a/drivers/input/keyboard/adp5588-keys.c
++++ b/drivers/input/keyboard/adp5588-keys.c
+@@ -519,14 +519,19 @@ static void adp5588_report_events(struct adp5588_kpad *kpad, int ev_cnt)
+ 	int i;
+ 
+ 	for (i = 0; i < ev_cnt; i++) {
+-		int key = adp5588_read(kpad->client, KEY_EVENTA + i);
+-		int key_val = key & KEY_EV_MASK;
+-		int key_press = key & KEY_EV_PRESSED;
++		int key, key_val, key_press;
++
++		key = adp5588_read(kpad->client, KEY_EVENTA + i);
++		if (key < 0)
++			continue;
++
++		key_val = key & KEY_EV_MASK;
++		key_press = key & KEY_EV_PRESSED;
+ 
+ 		if (key_val >= GPI_PIN_BASE && key_val <= GPI_PIN_END) {
+ 			/* gpio line used as IRQ source */
+ 			adp5588_gpio_irq_handle(kpad, key_val, key_press);
+-		} else {
++		} else if (key_val > 0) {
+ 			int row = (key_val - 1) / ADP5588_COLS_MAX;
+ 			int col =  (key_val - 1) % ADP5588_COLS_MAX;
+ 			int code = MATRIX_SCAN_CODE(row, col, kpad->row_shift);
+-- 
+2.43.0
 
 
