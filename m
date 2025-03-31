@@ -1,104 +1,99 @@
-Return-Path: <linux-input+bounces-11381-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11382-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80637A76392
-	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 11:49:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C93C8A764AE
+	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 13:00:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB2E1188727F
-	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 09:49:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2EBD73A691D
+	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 11:00:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D088B1D88A4;
-	Mon, 31 Mar 2025 09:49:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 240F31DD0F2;
+	Mon, 31 Mar 2025 11:00:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=swemel.ru header.i=@swemel.ru header.b="EQbFmIOz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NobZKWzj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx.swemel.ru (mx.swemel.ru [95.143.211.150])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828A57E107;
-	Mon, 31 Mar 2025 09:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.143.211.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD88187550;
+	Mon, 31 Mar 2025 11:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743414557; cv=none; b=JLw+Qp4jzRXibCm4P7fh4+n7crg+OAlTc4BUR+Id39DOv0BlTEqRkRBqJ9FSgEyA8rDWovIXiJWDTf4Gc57BAjaN30YfpF0gYLvnVRUTOLcRgMcTkwlOXDtptguzvBY6PezJZ40c2GuLsL1O8IixX9eTPsBi9ovogP+KwlrPDrg=
+	t=1743418850; cv=none; b=UjQYoSox1NY38qVcBPtIwFkOUYkXmEL7muT4fP/XfHYDWFvnSvKaxw8pLDclyYHQFaxwuKS6YAiznOs6YokYl3WuYUpiBKlF5Km/jtHgwYiOnnWVAWv7HfWbYNTV0J20JsyBKsGFKsIq2CiDFP3xW2r4lhSh6cNyphYXB2j81Z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743414557; c=relaxed/simple;
-	bh=ZSDobHLDeQniFI9cGo0w73JBwy1stD8x5yEAdBby6jE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JGkQ9w/YXxaR0gbLGFlGfxlJL+j78uv68nnYgISy4nnbB3WKLfsSGD8QBCMAIbi8/0KbInmZVMMb9fejH2Awsqtpe83mYNs9UDKuC741V6JTMjQwVWSRNms+pszG/PmcxIOJy2E1xGhNlpvbX6PeI7VRwQ3j8uPeRXoCDHAY52o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=swemel.ru; spf=pass smtp.mailfrom=swemel.ru; dkim=pass (1024-bit key) header.d=swemel.ru header.i=@swemel.ru header.b=EQbFmIOz; arc=none smtp.client-ip=95.143.211.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=swemel.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=swemel.ru
-From: Denis Arefev <arefev@swemel.ru>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=swemel.ru; s=mail;
-	t=1743414543;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ty5s/dBTl3ZV4mH2v8vqQBCZlTfTYjyuubC67Hr4Ib8=;
-	b=EQbFmIOzrdHWnufAqk8K5OViNEfAQaUDFQizT9XGCpHDfMmThS3rdl28Af1vx9ylj9YHZk
-	h1DfZqAV9y86ost22xsJN9HkCbC3rPXrlrAh7oA8Vyi4a5S7YCMYmI1DkiXLLoQ6e5VY9n
-	PoqcLX/Wvca+Um/6M73F+feQ1vbRZ+Y=
-To: Michael Hennerich <michael.hennerich@analog.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH] Input: adp5588-keys Add check on return code
-Date: Mon, 31 Mar 2025 12:49:02 +0300
-Message-ID: <20250331094903.9145-1-arefev@swemel.ru>
+	s=arc-20240116; t=1743418850; c=relaxed/simple;
+	bh=hJr4QpKH1LU3ceS6tQ4gA/jKycBCVrwSUd5EO94VrcQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Hng2kVsvs44GtbHat7nbaHt2B/0kpOnZYljmK89BSe5x1ydg/A6JDVTAlf0wimuADu4aByDaO8p+52URQFolxVF/q5BC5q/X5L438C5bjv1ddsmnVOExi2IDFTnzUWFkbYfs4ucdfqx2DP04b28YtM7xmnf/IJyKOBl0bCSRmSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NobZKWzj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DD0FC4CEE3;
+	Mon, 31 Mar 2025 11:00:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743418849;
+	bh=hJr4QpKH1LU3ceS6tQ4gA/jKycBCVrwSUd5EO94VrcQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NobZKWzjIpu2P0mGmJXOGO2mDlGccUHMUuVrbE2rWE7LVP3ALHz38Mt6qGT8MT8st
+	 u+R/jKwLmKQZKdcdSKzLtsLgH4yiJV2j4rz7rhKM3HfVdNZEpRyhUksqlIazmtghsL
+	 IQImdkr+tDWcQTt+D3ozOc5+4LY+XyOzbRftODL79gcre/o9gGnKwitkdyHQqIzo5v
+	 DYeV/3p9n+GYSuTPPi/AvE1oigS6mSdsYA8uFMm/V6RE0Ao47THUiPKqOw4SSf7rNZ
+	 tj3IXTP/w7gTdePUgvaP9/20hDjngHvJqAgIyOfyn2T0QcUIDcIXEfEvV+pGKDsXuI
+	 JC3tpW7zEmkcA==
+Date: Mon, 31 Mar 2025 12:00:40 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Zhang Lixu <lixu.zhang@intel.com>
+Cc: linux-iio@vger.kernel.org, lars@metafoo.de, jikos@kernel.org,
+ srinivas.pandruvada@linux.intel.com, peterz@infradead.org,
+ gregkh@linuxfoundation.org, ribalda@chromium.org,
+ archana.patni@linux.intel.com, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, even.xu@intel.com
+Subject: Re: [PATCH 0/3] iio: hid-sensor-prox: fix SCALE and OFFSET
+ calculation
+Message-ID: <20250331120040.75d0577e@jic23-huawei>
+In-Reply-To: <20250331055022.1149736-1-lixu.zhang@intel.com>
+References: <20250331055022.1149736-1-lixu.zhang@intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The adp5588_read() function can return 0 or a negative value.
-If the function returns 0 then a buffer overflow  occurs.
-kpad->keycode[0 - 1].
+On Mon, 31 Mar 2025 13:50:19 +0800
+Zhang Lixu <lixu.zhang@intel.com> wrote:
 
-If the function returns a negative value, then the array kpad->keycode
-is accessed with an incorrectly calculated index.
+> This patch series addresses issues in the hid-sensor-prox driver related to
+> SCALE and OFFSET calculations. The changes include restoring lost scale
+> assignments, supporting multi-channel SCALE calculation, and fixing incorrect
+> OFFSET calculation.
+> 
+Hi.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Generally I prefer to see review tags (Srinivas' Acks here) given on list
+but in I trust Srinivas to have done a thorough review (or to shout when he
+sees this!) and the changes look correct to me, applied to the fixes-togreg-testing
+branch of iio.git.
 
-Signed-off-by: Denis Arefev <arefev@swemel.ru>
----
- drivers/input/keyboard/adp5588-keys.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+Odd point in merge cycle hence the odd temporary branch.
 
-diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
-index dc734974ce06..e329320d4ae3 100644
---- a/drivers/input/keyboard/adp5588-keys.c
-+++ b/drivers/input/keyboard/adp5588-keys.c
-@@ -519,14 +519,19 @@ static void adp5588_report_events(struct adp5588_kpad *kpad, int ev_cnt)
- 	int i;
- 
- 	for (i = 0; i < ev_cnt; i++) {
--		int key = adp5588_read(kpad->client, KEY_EVENTA + i);
--		int key_val = key & KEY_EV_MASK;
--		int key_press = key & KEY_EV_PRESSED;
-+		int key, key_val, key_press;
-+
-+		key = adp5588_read(kpad->client, KEY_EVENTA + i);
-+		if (key < 0)
-+			continue;
-+
-+		key_val = key & KEY_EV_MASK;
-+		key_press = key & KEY_EV_PRESSED;
- 
- 		if (key_val >= GPI_PIN_BASE && key_val <= GPI_PIN_END) {
- 			/* gpio line used as IRQ source */
- 			adp5588_gpio_irq_handle(kpad, key_val, key_press);
--		} else {
-+		} else if (key_val > 0) {
- 			int row = (key_val - 1) / ADP5588_COLS_MAX;
- 			int col =  (key_val - 1) % ADP5588_COLS_MAX;
- 			int code = MATRIX_SCAN_CODE(row, col, kpad->row_shift);
--- 
-2.43.0
+Jonathan
+
+> 
+> Zhang Lixu (3):
+>   iio: hid-sensor-prox: Restore lost scale assignments
+>   iio: hid-sensor-prox: support multi-channel SCALE calculation
+>   iio: hid-sensor-prox: Fix incorrect OFFSET calculation
+> 
+>  .../hid-sensors/hid-sensor-attributes.c       |  4 ++++
+>  drivers/iio/light/hid-sensor-prox.c           | 22 ++++++++++++-------
+>  2 files changed, 18 insertions(+), 8 deletions(-)
+> 
+> 
+> base-commit: e21edb1638e82460f126a6e49bcdd958d452929c
 
 
