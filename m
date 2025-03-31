@@ -1,52 +1,50 @@
-Return-Path: <linux-input+bounces-11428-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11429-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08227A76A66
-	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 17:30:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A73A76A3A
+	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 17:26:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 003781891A96
-	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 15:24:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 48BF07A175D
+	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 15:25:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D51BD24A051;
-	Mon, 31 Mar 2025 14:56:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83FE724E009;
+	Mon, 31 Mar 2025 14:57:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kx+mjOCl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W1SbEKA2"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA48C24A04A;
-	Mon, 31 Mar 2025 14:56:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F8F24E003;
+	Mon, 31 Mar 2025 14:57:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743433009; cv=none; b=dMOOFP+jghMG3VeZdImrPVH9i+9nSAF0iOmRiSdalMzR0Gfz2QvKkGJptDWLUrKUrMgs3FNCjA5xFAafD3v2XI95WvsL5nr/2c3a1FTbqNW3PPkaHGDpo0jQakCyLIEx81TvCsR7GwPAkmcUbvhXnSPvaDlrD0gMUxwD6VZXsP8=
+	t=1743433026; cv=none; b=Rc2Y4/cEShbyqAiGqnQSxWMGKKQj7vbY1JodZ48UV0s6tiCUd8X8dPm4zRrEgj7pILDEfjR3HmaDi7wTULDpuVf6O+gtZtzMBdy94M3a0SncX8pZUMSNnjazCoudftUXlxod9cf7H20MkhOn1huFI7h/E4+aBRBXA0A86wZlYLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743433009; c=relaxed/simple;
-	bh=5Bd/k/fOQJvIJ1KchYOcmfdBHJlUk0IYZWrwlqh2EBk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dArP8ig1oIFKBhhLsGddFFMr3auv3duYQYmMOZb0wvS7/EDJPar+H8z47993b0jTR4z1UB0YST/ddtEBHTaCdcC9IVpsb+v4FHuBc9v3BV5IeJfymFZamAP/mSk1coy3WjMLft9qXtwW7ilgAKvynSXiOY/4fp8mHW8c2A/hv1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kx+mjOCl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF9B3C4CEE9;
-	Mon, 31 Mar 2025 14:56:47 +0000 (UTC)
+	s=arc-20240116; t=1743433026; c=relaxed/simple;
+	bh=WwKf7qEzym3fm1+PYCXiS5nCEC8E5Q7PGj26QpqD5CM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=XVd5PTk0gHxE+EDcGqs41eHeMP+eTncyrnAnSIWe8kj3z5PodaVPy8HhHbCFPNSRPmDNexLhA6QGL9oH5H7krKWE0xzK4oVkEL5J9ivaOJpIX3uL3TjItfMfpEudN+qHVWtjHCp54TsG7MVSMu1kjuHEkfKTHB8/haqW2HdPO34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W1SbEKA2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B02C7C4CEE3;
+	Mon, 31 Mar 2025 14:57:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743433009;
-	bh=5Bd/k/fOQJvIJ1KchYOcmfdBHJlUk0IYZWrwlqh2EBk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kx+mjOClNXRYEMfcRkk1Yi1+zs3l+pSmErInXxgl94kfYBcUdAWf/PIfNEomSV+AD
-	 Nom+fmgWYp/G+Q7XOSTP9jSkHodCR4q1Kh4bbW+ZNdiwfMtboEaQgbMyeBKPkxo4NJ
-	 6NNxJALT1eacYYEHhYgSMMzB9a2om3HWR4f/QTg59n4GHH+T5fasW2joNHFDIlyDEV
-	 zqV6m2pTkRboMz8Pt1gstWpmY16sIuhOMg8z7aYexj9v1QaHGbw5aSAfSEEiz9lUqf
-	 g25yQz/STXBpMt5l4sqUKG5nZwrm5mhaCHrbSwmjHS1avgx4HBfhip0plTAJyRZwK1
-	 qzv5nx8bqcWRQ==
+	s=k20201202; t=1743433026;
+	bh=WwKf7qEzym3fm1+PYCXiS5nCEC8E5Q7PGj26QpqD5CM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=W1SbEKA2W2C6xBgR8BgDWZh51kFkx0dQvPBtvEPv2tL9yWU+oWPEBtu+Gfs8mbYy/
+	 qkJMlWNjYocipxnIOr9KT0PwiZKCA0rBnFffDGfHMC/9VKV4gf1V7LiGDSQrRFeRHF
+	 r80OVGxVgi2jpBYGc9uFXpksgkE45cESoqFSUpL7Vpul8gLZFlo7PPvOZSzk4t162P
+	 pnuHq0YQdqS0yvKNCmw7v6WSSF6KJQh7rwIMtGhVP468V3KQFw2EUwuX0bTPeDbSRy
+	 8FOiXVI0ABgfpOVuD8Vv/4qSCYnJe/MwOWIgLD15sTLlMVkDBwrpLw+ClGIozc74gT
+	 Y6QNtsCmrco7w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <forest10pl@gmail.com>,
-	Nolan Nicholson <nolananicholson@gmail.com>,
-	=?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
+Cc: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
+	Makarenko Oleg <oleg@makarenk.ooo>,
 	=?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>,
 	Paul Dino Jones <paul@spacefreak18.xyz>,
 	=?UTF-8?q?Crist=C3=B3ferson=20Bueno?= <cbueno81@gmail.com>,
@@ -57,12 +55,10 @@ Cc: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <forest10pl@gmail.com>,
 	bentiss@kernel.org,
 	linux-usb@vger.kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 3/9] HID: pidff: Fix null pointer dereference in pidff_find_fields
-Date: Mon, 31 Mar 2025 10:56:36 -0400
-Message-Id: <20250331145642.1706037-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 1/6] HID: pidff: Convert infinite length from Linux API to PID standard
+Date: Mon, 31 Mar 2025 10:56:58 -0400
+Message-Id: <20250331145703.1706165-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250331145642.1706037-1-sashal@kernel.org>
-References: <20250331145642.1706037-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -72,26 +68,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.132
+X-stable-base: Linux 5.15.179
 Content-Transfer-Encoding: 8bit
 
-From: Tomasz Pakuła <forest10pl@gmail.com>
+From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 
-[ Upstream commit 22a05462c3d0eee15154faf8d13c49e6295270a5 ]
+[ Upstream commit 37e0591fe44dce39d1ebc7a82d5b6e4dba1582eb ]
 
-This function triggered a null pointer dereference if used to search for
-a report that isn't implemented on the device. This happened both for
-optional and required reports alike.
+Software uses 0 as de-facto infinite lenght on Linux FF apis (SDL),
+Linux doesn't actually define anythi as of now, while USB PID defines
+NULL (0xffff). Most PID devices do not expect a 0-length effect and
+can't interpret it as infinite. This change fixes Force Feedback for
+most PID compliant devices.
 
-The same logic was applied to pidff_find_special_field and although
-pidff_init_fields should return an error earlier if one of the required
-reports is missing, future modifications could change this logic and
-resurface this possible null pointer dereference again.
+As most games depend on updating the values of already playing infinite
+effects, this is crucial to ensure they will actually work.
 
-LKML bug report:
-https://lore.kernel.org/all/CAL-gK7f5=R0nrrQdPtaZZr1fd-cdAMbDMuZ_NLA8vM0SX+nGSw@mail.gmail.com
+Previously, users had to rely on third-party software to do this conversion
+and make their PID devices usable.
 
-Reported-by: Nolan Nicholson <nolananicholson@gmail.com>
+Co-developed-by: Makarenko Oleg <oleg@makarenk.ooo>
+Signed-off-by: Makarenko Oleg <oleg@makarenk.ooo>
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 Reviewed-by: Michał Kopeć <michal@nozomi.space>
 Reviewed-by: Paul Dino Jones <paul@spacefreak18.xyz>
@@ -101,37 +98,35 @@ Tested-by: Pablo Cisneros <patchkez@protonmail.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/usbhid/hid-pidff.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/hid/usbhid/hid-pidff.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index a01c1b2ab2f4c..26cb331b646ca 100644
+index 3b4ee21cd8111..5fe4422bb5bad 100644
 --- a/drivers/hid/usbhid/hid-pidff.c
 +++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -770,6 +770,11 @@ static void pidff_set_autocenter(struct input_dev *dev, u16 magnitude)
- static int pidff_find_fields(struct pidff_usage *usage, const u8 *table,
- 			     struct hid_report *report, int count, int strict)
- {
-+	if (!report) {
-+		pr_debug("pidff_find_fields, null report\n");
-+		return -1;
-+	}
-+
- 	int i, j, k, found;
+@@ -21,6 +21,7 @@
+ #include "usbhid.h"
  
- 	for (k = 0; k < count; k++) {
-@@ -883,6 +888,11 @@ static int pidff_reports_ok(struct pidff_device *pidff)
- static struct hid_field *pidff_find_special_field(struct hid_report *report,
- 						  int usage, int enforce_min)
- {
-+	if (!report) {
-+		pr_debug("pidff_find_special_field, null report\n");
-+		return NULL;
-+	}
-+
- 	int i;
+ #define	PID_EFFECTS_MAX		64
++#define	PID_INFINITE		0xffff
  
- 	for (i = 0; i < report->maxfield; i++) {
+ /* Report usage table used to put reports into an array */
+ 
+@@ -301,7 +302,12 @@ static void pidff_set_effect_report(struct pidff_device *pidff,
+ 		pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0];
+ 	pidff->set_effect_type->value[0] =
+ 		pidff->create_new_effect_type->value[0];
+-	pidff->set_effect[PID_DURATION].value[0] = effect->replay.length;
++
++	/* Convert infinite length from Linux API (0)
++	   to PID standard (NULL) if needed */
++	pidff->set_effect[PID_DURATION].value[0] =
++		effect->replay.length == 0 ? PID_INFINITE : effect->replay.length;
++
+ 	pidff->set_effect[PID_TRIGGER_BUTTON].value[0] = effect->trigger.button;
+ 	pidff->set_effect[PID_TRIGGER_REPEAT_INT].value[0] =
+ 		effect->trigger.interval;
 -- 
 2.39.5
 
