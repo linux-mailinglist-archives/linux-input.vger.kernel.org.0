@@ -1,51 +1,50 @@
-Return-Path: <linux-input+bounces-11389-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11390-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB2F6A76963
-	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 17:08:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFD82A7690E
+	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 17:01:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1DAB3ABE0C
-	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 15:00:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B495916BCB0
+	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 15:01:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A53DA224221;
-	Mon, 31 Mar 2025 14:53:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82BA8224244;
+	Mon, 31 Mar 2025 14:53:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SiDf4laB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RoHvUMVP"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749C1224220;
-	Mon, 31 Mar 2025 14:53:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566D8224240;
+	Mon, 31 Mar 2025 14:53:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743432780; cv=none; b=LKnivR7cwQjCEcC5JXu0gLXHk0gxztxQA6HDQh3c/x0TCm+V4VRn5oO0vOcyj45BterIDbg4QEZdFXC7WvF6E2jfLFoaahAHx3rygH5w9LDr3M3Kl19ET+Q3yPlXOpAPirk0DBhlubKZJ5AkbWTyprvztwEpOPQWoRFW0bYNAq4=
+	t=1743432782; cv=none; b=rnuUgQDOQgUV3mDHGuqHT8k85+CnY0vVZSXt72ASTrAvRzHhNEXd722r2yWeh3FW0TOMS3VL6bJXhxzt/5+sv0p6HUqJEadWUImXck5vZ8ulVwOZk/b7+UAy7rUAyS/cfs6W7pSlQ2Jv11HGVLkfhTKVg8IKwMtC8Llx1XMSyPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743432780; c=relaxed/simple;
-	bh=6iN+0Wq8/ADFw6O9f3wuX6ijRfHwqlOe1wzOENbfbd0=;
+	s=arc-20240116; t=1743432782; c=relaxed/simple;
+	bh=bR9loiAosq18/UmjopG2hMorkY4VpSBlgHvbcZ/wMOY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IqIkJ+OtTfdWG04bhkinMYB38kIpcTaE4WCmv85uB3213QxgaTEyHA8+NlMhUlCauf976avY0k/yeFVrN+gy7I5nJjQa8HR2RIkaolYOXL4fHju9VHs9u0XN5Lt4GqYu13Bp6YgZrtq2Hoyqw+bK1KHYnsMxpKW9Ow6mlqOza7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SiDf4laB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ADB3C4CEED;
-	Mon, 31 Mar 2025 14:52:58 +0000 (UTC)
+	 MIME-Version:Content-Type; b=NK41cl52BF1Bo/zUPtbVK5XPIqrp1Hi0iINckPa9uJkjOJPJpWJ6aKGNNuyb5cZnnTUZo1lNM8WGI0i5osygI6OEwJE9ssOwm8CVg2MucrDDLaEf1Ktifr36co/wgqqXzkhK2iSQGikD/9k7RdMLhhjvefmaVQ23Ed+Yp6qT+kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RoHvUMVP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B899C4CEE4;
+	Mon, 31 Mar 2025 14:53:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743432779;
-	bh=6iN+0Wq8/ADFw6O9f3wuX6ijRfHwqlOe1wzOENbfbd0=;
+	s=k20201202; t=1743432781;
+	bh=bR9loiAosq18/UmjopG2hMorkY4VpSBlgHvbcZ/wMOY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SiDf4laBmBu9dlYmjcEAOTvOvegegbB7Rv5h7k9D1oJ+7pTzacWafND/wtOhCY1DL
-	 MwEu82s8HLCBANNorD/Os7rwkhVe9/ouK1jmPHtCkERg/T1YxM9Y4Ua3aMuWWygXqN
-	 4/Di3zLqSiBmMOJzqzx+FX3iVWbxCH3d+vDCulm6u0p3VWUDKnCuQyn2QRMfDvqF4Z
-	 ggRpAUPXo5YK4taAFUEgUusmUR36PUjT6348mK8FPIweLrh7uezO5xIlLOXQwCeFvT
-	 35NY604p727QbY+wzacyq9wdRIXVJgZAbvpo9bCawoh1jA4IzoCJGhmCLpkmAFpb8i
-	 xRqaxIAJ1iBnA==
+	b=RoHvUMVPCJnx7us232Ui6Zup+kYX/yQ5nKCwC28z+Wl9AIrhw25/dhRxIaAehbZyZ
+	 JhHDd3TRNxB2pfDOyuSSlGzZL1O0tRQlGQRgtt1c6iwgY4+RzQtTIlQWJwBTP1wCCj
+	 HRBQNykBc8VYAUXJwMnjLRV6PCN+nSQyIFpa473kYmSfLkTvwNYottqKVv+3vzX1HF
+	 dNZJiek4ohDKLx8CbVOfoNjr8xPR4ADdYIryJmsUgduQ+ljQornd/VmeznPT1AeA4Z
+	 UuHjmYEBYPQrcMoM627ITRHYILTP9M0gDDRDylzoPfhfy8xBWBN5wHxq23cAWQXulu
+	 jNFAUCU/C35hA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
-	Makarenko Oleg <oleg@makarenk.ooo>,
 	=?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>,
 	Paul Dino Jones <paul@spacefreak18.xyz>,
 	=?UTF-8?q?Crist=C3=B3ferson=20Bueno?= <cbueno81@gmail.com>,
@@ -56,9 +55,9 @@ Cc: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
 	bentiss@kernel.org,
 	linux-usb@vger.kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 07/27] HID: pidff: Add PERMISSIVE_CONTROL quirk
-Date: Mon, 31 Mar 2025 10:52:25 -0400
-Message-Id: <20250331145245.1704714-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 08/27] HID: pidff: Add hid_pidff_init_with_quirks and export as GPL symbol
+Date: Mon, 31 Mar 2025 10:52:26 -0400
+Message-Id: <20250331145245.1704714-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250331145245.1704714-1-sashal@kernel.org>
 References: <20250331145245.1704714-1-sashal@kernel.org>
@@ -76,22 +75,15 @@ Content-Transfer-Encoding: 8bit
 
 From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 
-[ Upstream commit a4119108d2530747e61c7cbf52e2affd089cb1f6 ]
+[ Upstream commit 36de0164bbaff1484288e84ac5df5cff00580263 ]
 
-With this quirk, a PID device isn't required to have a strict
-logical_minimum of 1 for the the PID_DEVICE_CONTROL usage page.
+This lays out a way to provide an initial set of quirks to enable before
+device initialization takes place. GPL symbol export needed for the
+possibility of building HID drivers which use this function as modules.
 
-Some devices come with weird values in their device descriptors and
-this quirk enables their initialization even if the logical minimum
-of the DEVICE_CONTROL page is not 1.
+Adding a wrapper function to ensure compatibility with the old behavior
+of hid_pidff_init.
 
-Fixes initialization of VRS Direct Force Pro
-
-Changes in v6:
-- Change quirk name to better reflect it's intention
-
-Co-developed-by: Makarenko Oleg <oleg@makarenk.ooo>
-Signed-off-by: Makarenko Oleg <oleg@makarenk.ooo>
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 Reviewed-by: Michał Kopeć <michal@nozomi.space>
 Reviewed-by: Paul Dino Jones <paul@spacefreak18.xyz>
@@ -101,40 +93,63 @@ Tested-by: Pablo Cisneros <patchkez@protonmail.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/usbhid/hid-pidff.c | 3 ++-
- include/linux/hid.h            | 5 +++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ drivers/hid/usbhid/hid-pidff.c | 15 ++++++++++++++-
+ include/linux/hid.h            |  2 ++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index 503b22feacdbb..5a57ba0d7026a 100644
+index 5a57ba0d7026a..b8c2ba0a930c2 100644
 --- a/drivers/hid/usbhid/hid-pidff.c
 +++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -969,7 +969,8 @@ static int pidff_find_special_fields(struct pidff_device *pidff)
- 					 0x57, 0);
- 	pidff->device_control =
- 		pidff_find_special_field(pidff->reports[PID_DEVICE_CONTROL],
--					 0x96, 1);
-+			0x96, !(pidff->quirks & HID_PIDFF_QUIRK_PERMISSIVE_CONTROL));
+@@ -1268,8 +1268,9 @@ static int pidff_check_autocenter(struct pidff_device *pidff,
+ 
+ /*
+  * Check if the device is PID and initialize it
++ * Set initial quirks
+  */
+-int hid_pidff_init(struct hid_device *hid)
++int hid_pidff_init_with_quirks(struct hid_device *hid, __u32 initial_quirks)
+ {
+ 	struct pidff_device *pidff;
+ 	struct hid_input *hidinput = list_entry(hid->inputs.next,
+@@ -1291,6 +1292,7 @@ int hid_pidff_init(struct hid_device *hid)
+ 		return -ENOMEM;
+ 
+ 	pidff->hid = hid;
++	pidff->quirks = initial_quirks;
+ 
+ 	hid_device_io_start(hid);
+ 
+@@ -1369,3 +1371,14 @@ int hid_pidff_init(struct hid_device *hid)
+ 	kfree(pidff);
+ 	return error;
+ }
++EXPORT_SYMBOL_GPL(hid_pidff_init_with_quirks);
 +
- 	pidff->block_load_status =
- 		pidff_find_special_field(pidff->reports[PID_BLOCK_LOAD],
- 					 0x8b, 1);
++/*
++ * Check if the device is PID and initialize it
++ * Wrapper made to keep the compatibility with old
++ * init function
++ */
++int hid_pidff_init(struct hid_device *hid)
++{
++	return hid_pidff_init_with_quirks(hid, 0);
++}
 diff --git a/include/linux/hid.h b/include/linux/hid.h
-index ea7ba8e4bfe49..89a4dee377292 100644
+index 89a4dee377292..31dfe9ed5394b 100644
 --- a/include/linux/hid.h
 +++ b/include/linux/hid.h
-@@ -1229,8 +1229,9 @@ int hid_pidff_init(struct hid_device *hid);
+@@ -1224,8 +1224,10 @@ void hid_quirks_exit(__u16 bus);
+ 
+ #ifdef CONFIG_HID_PID
+ int hid_pidff_init(struct hid_device *hid);
++int hid_pidff_init_with_quirks(struct hid_device *hid, __u32 initial_quirks);
+ #else
+ #define hid_pidff_init NULL
++#define hid_pidff_init_with_quirks NULL
  #endif
  
  /* HID PIDFF quirks */
--#define HID_PIDFF_QUIRK_MISSING_DELAY	BIT(0)
--#define HID_PIDFF_QUIRK_MISSING_PBO	BIT(1)
-+#define HID_PIDFF_QUIRK_MISSING_DELAY		BIT(0)
-+#define HID_PIDFF_QUIRK_MISSING_PBO		BIT(1)
-+#define HID_PIDFF_QUIRK_PERMISSIVE_CONTROL	BIT(2)
- 
- #define dbg_hid(fmt, ...) pr_debug("%s: " fmt, __FILE__, ##__VA_ARGS__)
- 
 -- 
 2.39.5
 
