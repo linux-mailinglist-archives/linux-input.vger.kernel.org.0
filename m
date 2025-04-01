@@ -1,74 +1,74 @@
-Return-Path: <linux-input+bounces-11445-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11446-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD48A77557
-	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 09:42:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5094BA7755F
+	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 09:42:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 292F31699EF
-	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 07:42:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 83993188B584
+	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 07:43:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0E1C1E98E1;
-	Tue,  1 Apr 2025 07:42:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0836D1A23A4;
+	Tue,  1 Apr 2025 07:42:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="el7jmsNc"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="QjyRLe/z"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50191E5739
-	for <linux-input@vger.kernel.org>; Tue,  1 Apr 2025 07:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FBD1E8353
+	for <linux-input@vger.kernel.org>; Tue,  1 Apr 2025 07:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743493334; cv=none; b=bUqXo7H6SU6FLpMVwWqaLoM9eqxLXLWUjxJdTGtMF9q0152HTrpY2MqJFEoGyIyTeYtLYtCXVAhmsrX3SnQ8U+lnZQLqotFpSAM1QMGi8YPM2IeTb/pxIa2kcrtI436VT+niQvN7lSuB2lybN9SNRJf+IqjrAf1B3mWmpcIV5zE=
+	t=1743493365; cv=none; b=Lpi4jlCKmoab0Dedpuu/gJ8+ePFe00+q5zhzalmMzJ73wFqP0FvFK2iu4upjRUZ3+otqVlNFCauXCaZTzA2p9HMb8NZg7u/SM1BHuugfYgxfxoa8v4kXZbdLOCxoI9O7YV8/2pL2d2YbMW8wPbFvw8h8Vhi/c/OAB+5FKNsOKKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743493334; c=relaxed/simple;
-	bh=tIFK+3yX1N52rVyVYsyrLS5V03imaENadYff5CElmVY=;
+	s=arc-20240116; t=1743493365; c=relaxed/simple;
+	bh=6q/HbpAweXnSeHcrIqfSUcyp8+9MUyCLzP+rvCO8oKw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
-	 Content-Type:References; b=Y6pzGBQGpLwoDA3ToxpX4Ztoif8eEbwY3Dem6EgpFYpLqQchucyjRnDgAmjx2516g/Ekn+hCkhCxrG4ISBIP2eopJfJtp66WhAyvmSrQtl7Lnjb06PO/Ynlap038cx3M7pXo5Qu7y7O+kdeLMaoM7ihROAHEOHLxEg0vmYMWlNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=el7jmsNc; arc=none smtp.client-ip=203.254.224.25
+	 Content-Type:References; b=MOBgNaxvqgga2BIPFqf6xZbiHVPjdppa429kLXT5GFwUPgZiw11EDRjBXA1yO2EYVz4xZuPKi3vm42wZWbNr3a4KDb3dXSocQtdAcbyJ/M4xlLXDmX82ke3J0C3ZH4wvc+AqoXgF9R9RyQeV4jdbXBlNgoZBlNFcOROAgfNgD3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=QjyRLe/z; arc=none smtp.client-ip=203.254.224.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20250401074211epoutp02798ed16afebc590ed5510ec8c1277604~yIfJ53hUK0910309103epoutp02B
-	for <linux-input@vger.kernel.org>; Tue,  1 Apr 2025 07:42:11 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20250401074211epoutp02798ed16afebc590ed5510ec8c1277604~yIfJ53hUK0910309103epoutp02B
+Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250401074241epoutp04311b98ee5a0f47d3758992828dccb1c7~yIfmTyYT12204022040epoutp04S
+	for <linux-input@vger.kernel.org>; Tue,  1 Apr 2025 07:42:41 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250401074241epoutp04311b98ee5a0f47d3758992828dccb1c7~yIfmTyYT12204022040epoutp04S
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1743493331;
-	bh=MslZtcObdYTc1VWJM7r15z8hIJ+NfbRaIHX9INRhToI=;
+	s=mail20170921; t=1743493361;
+	bh=ug5HtNeYPBYZI4JJIK62QeyGZ2VeFTryEqlDN2Ijxa0=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=el7jmsNc6ZpMRF8t/ibEwKQwl1UsBqNC2OLhFad2HDebcdTwTUGtqSSc3OpLD/qoj
-	 nAuI8CSUGMrFMpAKIWbbUCIBlvUHdUbFMR1VCJDlR0V9tvvdC0XboMyskQ6DDRge3R
-	 4+/DmWN95Pq2RZRUgxaU0OX31d4lQ2ZHAansp0EU=
-Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
-	epcas2p4.samsung.com (KnoxPortal) with ESMTPS id
-	20250401074210epcas2p4ce3ff86dc47cfb73b282542e22b15571~yIfJLO0gt2425924259epcas2p4F;
-	Tue,  1 Apr 2025 07:42:10 +0000 (GMT)
-Received: from epsmges2p2.samsung.com (unknown [182.195.36.70]) by
-	epsnrtp04.localdomain (Postfix) with ESMTP id 4ZRg1s4Dhzz6B9m7; Tue,  1 Apr
-	2025 07:42:09 +0000 (GMT)
-Received: from epcas2p3.samsung.com ( [182.195.41.55]) by
+	b=QjyRLe/z2RQEtTG1Wg01I54aXKWQnHv1gVp7stnhugWRpBmlgg/fP2rlFhXYHrLP3
+	 h/+isepfD3ws1M0cp39usnqFya3yohdg8vxFs1dn1Xnrx3jpWp6JxtCzT8XM8XAjJQ
+	 ySfizL1alu58DveXkZ2v3cP7C+elBaRsw/dW8goM=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas2p1.samsung.com (KnoxPortal) with ESMTPS id
+	20250401074240epcas2p1782b3fb2e23b536bba5281e0c6af962e~yIflVRfad3196431964epcas2p1w;
+	Tue,  1 Apr 2025 07:42:40 +0000 (GMT)
+Received: from epsmges2p2.samsung.com (unknown [182.195.36.102]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4ZRg2R6Hygz2SSKs; Tue,  1 Apr
+	2025 07:42:39 +0000 (GMT)
+Received: from epcas2p1.samsung.com ( [182.195.41.53]) by
 	epsmges2p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	D1.17.10159.1D89BE76; Tue,  1 Apr 2025 16:42:09 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas2p3.samsung.com (KnoxPortal) with ESMTPA id
-	20250401074209epcas2p3e12589ecd078b29271a0ada8fec64c17~yIfIAH_1S2348423484epcas2p3m;
-	Tue,  1 Apr 2025 07:42:09 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20250401074208epsmtrp29ea03c71ff8e27e7c91591a03197b388~yIfH_8Gwc1545715457epsmtrp2W;
-	Tue,  1 Apr 2025 07:42:08 +0000 (GMT)
-X-AuditID: b6c32a46-9e9ff700000027af-b1-67eb98d1e6b7
+	FC.67.10159.FE89BE76; Tue,  1 Apr 2025 16:42:39 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas2p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250401074239epcas2p1c482643c73b9cfe748b0d60a5ec694af~yIfj93cYT0439604396epcas2p1L;
+	Tue,  1 Apr 2025 07:42:39 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20250401074239epsmtrp18f8e490ac4d5263e0c0c0f367d4ae6b1~yIfj8ry6k2992429924epsmtrp1s;
+	Tue,  1 Apr 2025 07:42:39 +0000 (GMT)
+X-AuditID: b6c32a46-9fefd700000027af-35-67eb98ef51c9
 Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	DD.3B.19478.0D89BE76; Tue,  1 Apr 2025 16:42:08 +0900 (KST)
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	6E.AA.07818.EE89BE76; Tue,  1 Apr 2025 16:42:38 +0900 (KST)
 Received: from ubuntu (unknown [10.229.95.128]) by epsmtip1.samsung.com
 	(KnoxPortal) with ESMTPA id
-	20250401074208epsmtip18151212bb03f4882af326d8789bdc175~yIfHvsfC91475414754epsmtip1a;
-	Tue,  1 Apr 2025 07:42:08 +0000 (GMT)
-Date: Tue, 1 Apr 2025 16:51:21 +0900
+	20250401074238epsmtip19a872a548a4003ed0e6718da1fd90273~yIfjnxL6r1533515335epsmtip1M;
+	Tue,  1 Apr 2025 07:42:38 +0000 (GMT)
+Date: Tue, 1 Apr 2025 16:51:51 +0900
 From: Jung Daehwan <dh10.jung@samsung.com>
 To: Puma Hsu <pumahsu@google.com>
 Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
@@ -81,261 +81,207 @@ Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
 	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
 	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v36 02/31] usb: host: xhci-mem: Cleanup pending
- secondary event ring events
-Message-ID: <20250401075121.GC98772@ubuntu>
+Subject: Re: [PATCH v36 03/31] usb: host: xhci-mem: Allow for interrupter
+ clients to choose specific index
+Message-ID: <20250401075151.GD98772@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAGCq0LYh13qaPpuM0jPyu2LV+EXqJrfoKvD-TOuhkZYScFnTNg@mail.gmail.com>
+In-Reply-To: <CAGCq0LZBDa9H6wQhvmM3twAJwM_z_XWEy=-N9mp=HA4e+9Ee0g@mail.gmail.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Brightmail-Tracker: H4sIAAAAAAAAA01TfVCTdRzvt2d79oBOn6bAT6ig0dVBB26DsQeEtAvoIbXg0i7Tjp7gcZvA
-	tttLot0VBYEiESiUTFFg3CAOghtgbIGwjQjypCPESxM6BBbDw0iKF3uhbQ92/Pe5z8v35fe9
-	H4bwK7mBmEKpozVKKluA+rKvOMKkESPn78mEq1XBROXkNEo09wyziOm+IkBc7h/mEI66WUDk
-	G1tRwmWYQImlG6dYRHnvdS5RW1jPJm49WOIQo9aLKFHtrECIOtMnCJFvruAQp62fcYiHa04W
-	UdUSSpi/KeUQa91dXKJwYIBDNNX0cYm25RawJ4C0GMa5ZI1ZTxq7XSzS3HQaJe/c7EbJS0Np
-	ZG91M5c0lp7jkFfnTShZ3v0B2doxxiY7ehcBuWh+KpX3Vla8nKYyaU0IrcxQZSqUsgTB3tfT
-	X0qXxAhFEaJYQioIUVI5dIIgcV9qRLIi2726IOQ9KlvvplIprVaw84V4jUqvo0PkKq0uQUCr
-	M7PVUnWklsrR6pWySCWtixMJhWKJ2/hOlrx8pQNRf5qU+/MvjZw8MCYuBj4YxKPhZds5UAx8
-	MT7eBWD98m/AI/DxBwB+fD+KEdzYfqsBfZQwfV68brIAODDoz5imAay9mMf2CGz8GThhavMG
-	UDwcTqwMIh68HX8a/jFTxPIEEHyIDQft33orbcMpaPxx2Wvi4c9Dy7U+lMGPw6GqaW9RHzwN
-	Wkr6uMUAw/zcDeZsH3rqQLzdB04NTnGY6RJhgfkMl8Hb4Nx3Hes4EC7e71nfQAtv/+pEmHAB
-	gI1zBQgjREGDs8g7EILLYae1mONpBvFQ2H+bzdBb4CnHP1yG5sFThXwmGQq/GC1bH2EHtN0b
-	RhgLCetH2Mz7lLBg6U8laBkINmzYzLChmcEdQfAw2GrdydDBML/zAsLQQbDhX2yDowagTcCf
-	VmtzZLRWrBb/f/YMVY4ZeP9HeHIXqJhfiLQDFgbsAGKIYDvvzT9dMj4vkzpxktao0jX6bFpr
-	BxL3ycqRQL8MlfuDKXXpouhYYXRMjEgqlgilggCe/fcZGR+XUTo6i6bVtOZRjoX5BOax5Ir3
-	Ta7nQrIOhB992XIWWKJzd310OHlN7u4fZV+tcvjHH6m9VIUF6XcjgTFhXwPrV0502jRhrcav
-	LC4PG7H+pdiDfJu65q+Zg+Kk3Y6Rpe9/wAvIMefeQ1teXQVbbWlv1G2eWLyufDelfd9Zel75
-	Cn92yHVGd7OyKG7HpgRFjY+f1XVsU7d+ZfRQaebd5s13c088Fus7EH5s4XjjgRbJeEvj1i8v
-	xAWfnDp8BH+ttS2A6k3Z8zBJ//aqeth2ZxfrSbLh6kKYYj5l/7Nlx2eeuJYad1Qn6ez5u6GB
-	NmuDbhRlSVfzipQv7k87r5AkKh1+Frx6oGKocdA42aGYHZ9slwvYWjklCkc0Wuo/7fzoH6gE
-	AAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKIsWRmVeSWpSXmKPExsWy7bCSnO6FGa/TDS5tNLeY+vAJm8WaveeY
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTdxTHub3tvQXS5cpDf2NmsEIyLa+WUXolgnsouclcAjEZxBihlksh
+	lLb0FiZb3NwopRCeGSpUxQ425hpIZ1MJIMhzYAdrNtlLRDYVK4WQImjtYNKVXlz473O+v/M9
+	53d+Jz82HHQBDWMXyNWkSi6WcZEAZvfofmGss3lJym+Z4+Pn7s8jeOeAjYHPD1VC+JUxGwsf
+	bVuA8PJ2E4I79HMI7vpVx8AbB39C8a+0XzPxO6suFj7ddwnBL9ubYLytowLGy81NLLyqr56F
+	r3vsDLylKxI336hj4Z7+HhTXjo+zcKNhCMW/f94Fvb2H6NXfQwmDuYRo73cwCLOxCiFmf+9H
+	iFZrBjF4uRMl2uu+ZBE3lzsQorH/U8Jk+Y1JWAbXIGLN/Ho653jhwXxSnEuqIki5RJFbIJem
+	cN8/lv1etjCJL4gVHMBF3Ai5uIhM4R4+mh6bViDzjs6NKBXLSrxSupiiuPGpB1WKEjUZka+g
+	1ClcUpkrU4qUcZS4iCqRS+PkpDpZwOcnCL2JOYX57r9diNIgOG17cJ11FjJxqyF/NsASgWv1
+	LrMaCmAHYT0QmNXMwnSwCoHmodrtwAWB+uZvoJeWVuckgz4YgMDaReu2fx4Cd90PmFtZTCwK
+	3NE5kC1GMB6Yc9+CtzgEewM8fVTpc8OYlQlujfzgKxuMycDQuXXGFnOwaGAZuI3SvAtYW+Z9
+	Rf2xDDDVpfcymx3qbbA4/Bl9oxv+4F9PFs2HgdFp2b5pMFicsKA0hwFHvXabKTDz2O4bDWAa
+	CFxd1MD0wVtAb6/0mWEsH1y7rWFt9QJYJBibYdLyK0A3+gKlZQ7QaYNoZyS4MN3AovlVMLxk
+	265IAKO9AqHfp4YBKhZH0QYoXL9jMv2ObnpvWRjbD0x98bQcDsqvX4Rp+TXw7SZ7R4YBQozQ
+	blJJFUlJKkGZ8P/iJYoiM+T7Iby0HqhpeSVuBGKwoREIsGFuCCfrmUMaxMkVl31MqhTZqhIZ
+	SY1AQu/KGuGwUInC+8Xk6mxB4gF+YlKSQJQg5Iu4ezgjTx5JgzCpWE0WkqSSVL30Mdj+YWcZ
+	kkDBRlvaiuRmzZHNpJjyN3t3fyLqTX3IdHfYDSYupya5Lu9olMI2FbhrX1Z0aUFV3kTwZPGo
+	48SHxvjnkefhTEtAsqCuwvO5xoX+ol0Q86wJtsRu0wfK7ktXKb9rwfcdUYYTZgvH1dqp+jNl
+	r86J5o0vdkp+5q2fCuSf/vFdRtOZmMal0uBU4VR0cZRho0CSWZtT5nTovluJqK7cPNMo1V4p
+	u1ceuZDx5EjDyeLZ6YwZd/tyyGD4ST+537EJz5jfw9DazL/Uf0AerTCtvn59at/wXhfmdH1k
+	LZvcGI7J0zw9dNwd/8Ily+Y/VouGHYe0Q89ymt+p+uJUkpL3T46Gy6TyxQIerKLE/wFy0odi
+	qgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJIsWRmVeSWpSXmKPExsWy7bCSnO67Ga/TDS5PNraY+vAJm8WaveeY
 	LJ4caGe0mH/kHKvF4UUvGC2aF69ns3g56x6bxbcrHUwWE/efZbdY2LaExeLmp2+sFpd3zWGz
 	mPtsCrPFomWtzBbNm6awWnTu6me1+PX/GZPFzLXKFpt297Fa/N+zg92i7dgxVotVCw6wW2z4
 	vpbRQdxj56y77B4LNpV6LN7zkslj06pONo871/awecw7Geixf+4ado/FfZNZPfa9XcbmMXFP
-	ncf6LVdZPLbs/8zo8XmTXABvFJdNSmpOZllqkb5dAlfGo1OBBeudKlqnn2RpYJxs0MXIySEh
-	YCKxbFoXYxcjF4eQwHZGiS092xghEpISS+feYIewhSXutxxhhSh6xChxuKWPFSTBIqAicW/Z
-	BjYQm01AS+LejxPMILaIgKLEl6ftTCANzAInWSROHDoKNlVYIFFiy69HYA28AtoSO08fYIOY
-	2sMkMenRFKiEoMTJmU9YQGxmAXWJP/MuAU3lALKlJZb/44AIy0s0b50NtoxTIFBiZ88BdpAS
-	UaCDXh2sn8AoNAvJoFlIBs1CGDQLyaAFjCyrGEVTC4pz03OTCwz1ihNzi0vz0vWS83M3MYJT
-	glbQDsZl6//qHWJk4mA8xCjBwawkwhvx9WW6EG9KYmVValF+fFFpTmrxIUZpDhYlcV7lnM4U
-	IYH0xJLU7NTUgtQimCwTB6dUA9OaFWKxCZ6fYqctl+e+8rJ56c+S876fc1ufLpqir88y+buQ
-	l8EXXe4mv0OLDGe6zKvc/cTBctkRqQsZfaJzVofLH9aNU1BZE2d2PZvz67MygdLyy9+OiepY
-	Kt37xrDYQfXsZW8f+/d6sayc1+9+ip2wMn2JwJmPBxmTonafjpizaqLNfJ4llqoszs27dmoJ
-	TlNbfm5PmKEah8VdLra5OxniCrJ9Orh3H1L6ePHCin+19+KncuvMmuyzUUzlWP2U5efN/t+Q
-	OeWaPPHDq2nTrTNmlhelz3ovvf5FxE17yRiby5Z8R10+T4rqav3YkeHooNHSt//rbe/8/U2C
-	jRr+ibVdTK4lbiqzok+mn/WQdFFiKc5INNRiLipOBAAoLLaIeAMAAA==
-X-CMS-MailID: 20250401074209epcas2p3e12589ecd078b29271a0ada8fec64c17
+	ncf6LVdZPLbs/8zo8XmTXABvFJdNSmpOZllqkb5dAlfG60cnGQsO6VXcunuGvYHxrXwXIyeH
+	hICJxLz3p5lAbCGB3YwSvz4oQ8QlJZbOvcEOYQtL3G85wtrFyAVU84hRYtvDMywgCRYBFYmb
+	HS/ZQGw2AS2Jez9OMIPYIgKKEl+etjOBNDALnGSROHHoKCNIQlggR+LA1F9g23gFtCW27L3E
+	DjG1h0mib/d2RoiEoMTJmU/ANjALqEv8mXcJaCoHkC0tsfwfB0RYXqJ562ywZZwCgRJn1s5i
+	ASkRBTro1cH6CYxCs5AMmoVk0CyEQbOQDFrAyLKKUTK1oDg3PTfZsMAwL7Vcrzgxt7g0L10v
+	OT93EyM4NWhp7GB8961J/xAjEwfjIUYJDmYlEd6Iry/ThXhTEiurUovy44tKc1KLDzFKc7Ao
+	ifOuNIxIFxJITyxJzU5NLUgtgskycXBKNTCFH9o4//nE7aGHur8Uub3oSRGPrM9bIfn8RMEV
+	y1ahlyV31gf8eBnXa1eZud3c0d/lQA7H9ZUBqg5/r+kaR05+PE1l97NrRY9EGBNXvd5kyHa1
+	4cDttfFMp6SiyuSfvygWd2Pvf6h6QS3/0bSmras+nPWbtC11zrP4s0u23VX5nvCL+1bWqZqg
+	inlpzX1bbtlWb3W/yPyuSZkvZrn7Kcv/Hz7EWjJU32mu21ZS0HZKUtRtnmRbBIPuym+LD7Hc
+	26ljyBnZa5Fke657od6TrDfFHHkHmG5cY6yeFvzd+Y6ek+iEujNuKgUc2/gO5krmfN9ZZWQp
+	//Pgvd9/c0o1hRbcMvB7f052e2T9cfN7dUxKLMUZiYZazEXFiQB3x8GzfAMAAA==
+X-CMS-MailID: 20250401074239epcas2p1c482643c73b9cfe748b0d60a5ec694af
 X-Msg-Generator: CA
 Content-Type: multipart/mixed;
-	boundary="----BWvmtLGreXPtZv31XE49129YoyRr4_KGUd.k-ILdCyGA2LCZ=_6a90d_"
+	boundary="----BWvmtLGreXPtZv31XE49129YoyRr4_KGUd.k-ILdCyGA2LCZ=_6a925_"
 X-Sendblock-Type: AUTO_CONFIDENTIAL
 CMS-TYPE: 102P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250328074220epcas2p171e1c0fba466b1122033543ad11fb8d4
+X-CMS-RootMailID: 20250328074451epcas2p274baf04127875cef3a233c62d7e7e511
 References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
-	<20250319005141.312805-3-quic_wcheng@quicinc.com>
-	<CGME20250328074220epcas2p171e1c0fba466b1122033543ad11fb8d4@epcas2p1.samsung.com>
-	<CAGCq0LYh13qaPpuM0jPyu2LV+EXqJrfoKvD-TOuhkZYScFnTNg@mail.gmail.com>
+	<20250319005141.312805-4-quic_wcheng@quicinc.com>
+	<CGME20250328074451epcas2p274baf04127875cef3a233c62d7e7e511@epcas2p2.samsung.com>
+	<CAGCq0LZBDa9H6wQhvmM3twAJwM_z_XWEy=-N9mp=HA4e+9Ee0g@mail.gmail.com>
 
-------BWvmtLGreXPtZv31XE49129YoyRr4_KGUd.k-ILdCyGA2LCZ=_6a90d_
+------BWvmtLGreXPtZv31XE49129YoyRr4_KGUd.k-ILdCyGA2LCZ=_6a925_
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
 
-On Fri, Mar 28, 2025 at 03:42:00PM +0800, Puma Hsu wrote:
-> On Wed, Mar 19, 2025 at 8:53 AM Wesley Cheng <quic_wcheng@quicinc.com> wrote:
+On Fri, Mar 28, 2025 at 03:43:00PM +0800, Puma Hsu wrote:
+> On Wed, Mar 19, 2025 at 8:59 AM Wesley Cheng <quic_wcheng@quicinc.com> wrote:
 > >
-> > As part of xHCI bus suspend, the xHCI is halted.  However, if there are
-> > pending events in the secondary event ring, it is observed that the xHCI
-> > controller stops responding to further commands upon host or device
-> > initiated bus resume.  Iterate through all pending events and update the
-> > dequeue pointer to the beginning of the event ring.
+> > Some clients may operate only on a specific XHCI interrupter instance.
+> > Allow for the associated class driver to request for the interrupter that
+> > it requires.
 > >
 > > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 > 
 > Tested-by: Puma Hsu <pumahsu@google.com>
 > 
 
- Tested-by: Daehwan Jung <dh10.jung@samsung.com>
+Tested-by: Daehwan Jung <dh10.jung@samsung.com>
 
 > > ---
-> >  drivers/usb/host/xhci-mem.c  |  7 +++++-
-> >  drivers/usb/host/xhci-ring.c | 47 ++++++++++++++++++++++++++++++------
-> >  drivers/usb/host/xhci.c      |  2 +-
-> >  drivers/usb/host/xhci.h      |  7 ++++++
-> >  4 files changed, 54 insertions(+), 9 deletions(-)
+> >  drivers/usb/host/xhci-mem.c       | 24 ++++++++++++++----------
+> >  drivers/usb/host/xhci-sideband.c  |  5 +++--
+> >  drivers/usb/host/xhci.h           |  2 +-
+> >  include/linux/usb/xhci-sideband.h |  2 +-
+> >  4 files changed, 19 insertions(+), 14 deletions(-)
 > >
 > > diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-> > index d698095fc88d..daea0f76e844 100644
+> > index daea0f76e844..ed36df46b140 100644
 > > --- a/drivers/usb/host/xhci-mem.c
 > > +++ b/drivers/usb/host/xhci-mem.c
-> > @@ -1805,7 +1805,7 @@ xhci_remove_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
-> >                 tmp &= ERST_SIZE_MASK;
-> >                 writel(tmp, &ir->ir_set->erst_size);
+> > @@ -2331,14 +2331,15 @@ xhci_add_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
 > >
-> > -               xhci_write_64(xhci, ERST_EHB, &ir->ir_set->erst_dequeue);
-> > +               xhci_update_erst_dequeue(xhci, ir, true);
+> >  struct xhci_interrupter *
+> >  xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
+> > -                                 u32 imod_interval)
+> > +                                 u32 imod_interval, unsigned int intr_num)
+> >  {
+> >         struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+> >         struct xhci_interrupter *ir;
+> >         unsigned int i;
+> >         int err = -ENOSPC;
+> >
+> > -       if (!xhci->interrupters || xhci->max_interrupters <= 1)
+> > +       if (!xhci->interrupters || xhci->max_interrupters <= 1 ||
+> > +           intr_num >= xhci->max_interrupters)
+> >                 return NULL;
+> >
+> >         ir = xhci_alloc_interrupter(xhci, segs, GFP_KERNEL);
+> > @@ -2346,15 +2347,18 @@ xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
+> >                 return NULL;
+> >
+> >         spin_lock_irq(&xhci->lock);
+> > -
+> > -       /* Find available secondary interrupter, interrupter 0 is reserved for primary */
+> > -       for (i = 1; i < xhci->max_interrupters; i++) {
+> > -               if (xhci->interrupters[i] == NULL) {
+> > -                       err = xhci_add_interrupter(xhci, ir, i);
+> > -                       break;
+> > +       if (!intr_num) {
+> > +               /* Find available secondary interrupter, interrupter 0 is reserved for primary */
+> > +               for (i = 1; i < xhci->max_interrupters; i++) {
+> > +                       if (!xhci->interrupters[i]) {
+> > +                               err = xhci_add_interrupter(xhci, ir, i);
+> > +                               break;
+> > +                       }
+> >                 }
+> > +       } else {
+> > +               if (!xhci->interrupters[intr_num])
+> > +                       err = xhci_add_interrupter(xhci, ir, intr_num);
 > >         }
-> >  }
+> > -
+> >         spin_unlock_irq(&xhci->lock);
 > >
-> > @@ -1848,6 +1848,11 @@ void xhci_remove_secondary_interrupter(struct usb_hcd *hcd, struct xhci_interrup
-> >                 return;
+> >         if (err) {
+> > @@ -2370,7 +2374,7 @@ xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
+> >                           i, imod_interval);
+> >
+> >         xhci_dbg(xhci, "Add secondary interrupter %d, max interrupters %d\n",
+> > -                i, xhci->max_interrupters);
+> > +                ir->intr_num, xhci->max_interrupters);
+> >
+> >         return ir;
+> >  }
+> > diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
+> > index 19c58ae60414..742bbc6c2d9b 100644
+> > --- a/drivers/usb/host/xhci-sideband.c
+> > +++ b/drivers/usb/host/xhci-sideband.c
+> > @@ -259,7 +259,7 @@ EXPORT_SYMBOL_GPL(xhci_sideband_get_event_buffer);
+> >   */
+> >  int
+> >  xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
+> > -                                bool ip_autoclear, u32 imod_interval)
+> > +                                bool ip_autoclear, u32 imod_interval, int intr_num)
+> >  {
+> >         int ret = 0;
+> >
+> > @@ -273,7 +273,8 @@ xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
 > >         }
 > >
-> > +       /*
-> > +        * Cleanup secondary interrupter to ensure there are no pending events.
-> > +        * This also updates event ring dequeue pointer back to the start.
-> > +        */
-> > +       xhci_skip_sec_intr_events(xhci, ir->event_ring, ir);
-> >         intr_num = ir->intr_num;
-> >
-> >         xhci_remove_interrupter(xhci, ir);
-> > diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-> > index 5d64c297721c..bfef765dd78c 100644
-> > --- a/drivers/usb/host/xhci-ring.c
-> > +++ b/drivers/usb/host/xhci-ring.c
-> > @@ -3054,9 +3054,9 @@ static int xhci_handle_event_trb(struct xhci_hcd *xhci, struct xhci_interrupter
-> >   * - When all events have finished
-> >   * - To avoid "Event Ring Full Error" condition
-> >   */
-> > -static void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
-> > -                                    struct xhci_interrupter *ir,
-> > -                                    bool clear_ehb)
-> > +void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
-> > +                             struct xhci_interrupter *ir,
-> > +                             bool clear_ehb)
-> >  {
-> >         u64 temp_64;
-> >         dma_addr_t deq;
-> > @@ -3099,10 +3099,11 @@ static void xhci_clear_interrupt_pending(struct xhci_interrupter *ir)
-> >   * Handle all OS-owned events on an interrupter event ring. It may drop
-> >   * and reaquire xhci->lock between event processing.
-> >   */
-> > -static int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
-> > +static int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
-> > +                             bool skip_events)
-> >  {
-> >         int event_loop = 0;
-> > -       int err;
-> > +       int err = 0;
-> >         u64 temp;
-> >
-> >         xhci_clear_interrupt_pending(ir);
-> > @@ -3125,7 +3126,8 @@ static int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir
-> >
-> >         /* Process all OS owned event TRBs on this event ring */
-> >         while (unhandled_event_trb(ir->event_ring)) {
-> > -               err = xhci_handle_event_trb(xhci, ir, ir->event_ring->dequeue);
-> > +               if (!skip_events)
-> > +                       err = xhci_handle_event_trb(xhci, ir, ir->event_ring->dequeue);
-> >
-> >                 /*
-> >                  * If half a segment of events have been handled in one go then
-> > @@ -3152,6 +3154,37 @@ static int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir
-> >         return 0;
-> >  }
-> >
-> > +/*
-> > + * Move the event ring dequeue pointer to skip events kept in the secondary
-> > + * event ring.  This is used to ensure that pending events in the ring are
-> > + * acknowledged, so the xHCI HCD can properly enter suspend/resume.  The
-> > + * secondary ring is typically maintained by an external component.
-> > + */
-> > +void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
-> > +                              struct xhci_ring *ring,  struct xhci_interrupter *ir)
-> > +{
-> > +       union xhci_trb *current_trb;
-> > +       u64 erdp_reg;
-> > +       dma_addr_t deq;
-> > +
-> > +       /* disable irq, ack pending interrupt and ack all pending events */
-> > +       xhci_disable_interrupter(ir);
-> > +
-> > +       /* last acked event trb is in erdp reg  */
-> > +       erdp_reg = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
-> > +       deq = (dma_addr_t)(erdp_reg & ERST_PTR_MASK);
-> > +       if (!deq) {
-> > +               xhci_err(xhci, "event ring handling not required\n");
-> > +               return;
-> > +       }
-> > +
-> > +       current_trb = ir->event_ring->dequeue;
-> > +       /* read cycle state of the last acked trb to find out CCS */
-> > +       ring->cycle_state = le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE;
-> > +
-> > +       xhci_handle_events(xhci, ir, true);
-> > +}
-> > +
-> >  /*
-> >   * xHCI spec says we can get an interrupt, and if the HC has an error condition,
-> >   * we might get bad data out of the event ring.  Section 4.10.2.7 has a list of
-> > @@ -3196,7 +3229,7 @@ irqreturn_t xhci_irq(struct usb_hcd *hcd)
-> >         writel(status, &xhci->op_regs->status);
-> >
-> >         /* This is the handler of the primary interrupter */
-> > -       xhci_handle_events(xhci, xhci->interrupters[0]);
-> > +       xhci_handle_events(xhci, xhci->interrupters[0], false);
-> >  out:
-> >         spin_unlock(&xhci->lock);
-> >
-> > diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> > index 83a4adf57bae..61950a350432 100644
-> > --- a/drivers/usb/host/xhci.c
-> > +++ b/drivers/usb/host/xhci.c
-> > @@ -335,7 +335,7 @@ static int xhci_enable_interrupter(struct xhci_interrupter *ir)
-> >         return 0;
-> >  }
-> >
-> > -static int xhci_disable_interrupter(struct xhci_interrupter *ir)
-> > +int xhci_disable_interrupter(struct xhci_interrupter *ir)
-> >  {
-> >         u32 iman;
-> >
+> >         sb->ir = xhci_create_secondary_interrupter(xhci_to_hcd(sb->xhci),
+> > -                                                  num_seg, imod_interval);
+> > +                                                  num_seg, imod_interval,
+> > +                                                  intr_num);
+> >         if (!sb->ir) {
+> >                 ret = -ENOMEM;
+> >                 goto out;
 > > diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-> > index 39db228f0b84..3fa8669e3b2d 100644
+> > index 3fa8669e3b2d..7eaabe4f6c87 100644
 > > --- a/drivers/usb/host/xhci.h
 > > +++ b/drivers/usb/host/xhci.h
-> > @@ -1856,6 +1856,9 @@ xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
-> >                                   u32 imod_interval);
+> > @@ -1853,7 +1853,7 @@ void xhci_free_container_ctx(struct xhci_hcd *xhci,
+> >                 struct xhci_container_ctx *ctx);
+> >  struct xhci_interrupter *
+> >  xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
+> > -                                 u32 imod_interval);
+> > +                                 u32 imod_interval, unsigned int intr_num);
 > >  void xhci_remove_secondary_interrupter(struct usb_hcd
 > >                                        *hcd, struct xhci_interrupter *ir);
-> > +void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
-> > +                              struct xhci_ring *ring,
-> > +                              struct xhci_interrupter *ir);
-> >
-> >  /* xHCI host controller glue */
-> >  typedef void (*xhci_get_quirks_t)(struct device *, struct xhci_hcd *);
-> > @@ -1895,6 +1898,7 @@ int xhci_alloc_tt_info(struct xhci_hcd *xhci,
-> >                 struct usb_tt *tt, gfp_t mem_flags);
-> >  int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
-> >                                     u32 imod_interval);
-> > +int xhci_disable_interrupter(struct xhci_interrupter *ir);
-> >
-> >  /* xHCI ring, segment, TRB, and TD functions */
-> >  dma_addr_t xhci_trb_virt_to_dma(struct xhci_segment *seg, union xhci_trb *trb);
-> > @@ -1939,6 +1943,9 @@ unsigned int count_trbs(u64 addr, u64 len);
-> >  int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
-> >                             int suspend, gfp_t gfp_flags);
-> >  void xhci_process_cancelled_tds(struct xhci_virt_ep *ep);
-> > +void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
-> > +                             struct xhci_interrupter *ir,
-> > +                             bool clear_ehb);
-> >
-> >  /* xHCI roothub code */
-> >  void xhci_set_link_state(struct xhci_hcd *xhci, struct xhci_port *port,
+> >  void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
+> > diff --git a/include/linux/usb/xhci-sideband.h b/include/linux/usb/xhci-sideband.h
+> > index 4b382af892fa..f8722afb8a2d 100644
+> > --- a/include/linux/usb/xhci-sideband.h
+> > +++ b/include/linux/usb/xhci-sideband.h
+> > @@ -66,7 +66,7 @@ struct sg_table *
+> >  xhci_sideband_get_event_buffer(struct xhci_sideband *sb);
+> >  int
+> >  xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
+> > -                                bool ip_autoclear, u32 imod_interval);
+> > +                                bool ip_autoclear, u32 imod_interval, int intr_num);
+> >  void
+> >  xhci_sideband_remove_interrupter(struct xhci_sideband *sb);
+> >  int
 > >
 > 
 > 
 
-------BWvmtLGreXPtZv31XE49129YoyRr4_KGUd.k-ILdCyGA2LCZ=_6a90d_
+------BWvmtLGreXPtZv31XE49129YoyRr4_KGUd.k-ILdCyGA2LCZ=_6a925_
 Content-Type: text/plain; charset="utf-8"
 
 
-------BWvmtLGreXPtZv31XE49129YoyRr4_KGUd.k-ILdCyGA2LCZ=_6a90d_--
+------BWvmtLGreXPtZv31XE49129YoyRr4_KGUd.k-ILdCyGA2LCZ=_6a925_--
 
