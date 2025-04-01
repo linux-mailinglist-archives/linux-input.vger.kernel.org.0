@@ -1,247 +1,138 @@
-Return-Path: <linux-input+bounces-11452-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11453-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CAA2A7761D
-	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 10:16:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D062CA77641
+	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 10:21:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 72C43188814E
-	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 08:16:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8997C169DEF
+	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 08:21:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FBE01DC9B0;
-	Tue,  1 Apr 2025 08:16:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACCB21EA7C1;
+	Tue,  1 Apr 2025 08:21:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RhP/zcmu"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="FJmDqwPY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30EB61E261F
-	for <linux-input@vger.kernel.org>; Tue,  1 Apr 2025 08:16:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA691E9B1B;
+	Tue,  1 Apr 2025 08:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743495399; cv=none; b=oHAZFhn69uxxONbNUwJalZ4G9knO2Ed/dLk8iShtM7rU4rzaKjE3VbugRSFnWxBgnfeQJ/ujXOPvRiCper2rPFLkDN6RiNJW4jqCE2NEGKKyZiOnxZjJHtetUY+ZIMvpPgWznpeMNvRW+KJvg5E35JXBcDB+Ea6wfJQ1Rc3PdS8=
+	t=1743495673; cv=none; b=se0S1D9x1eNvIEryBZz0B6f7FKKgMi2m8rcdOeD+ytqVu4/ijWK8SHJ4c0VUJIFkk9U0b/bc4LEZmaQldkP5FyIvZpbpJZiPs+VYqt4PoOJPkueb0LuLq1i0Rw+Jxk80t8O67gonN7KF5b2mqZOSk6SqELztyK8uc2NpnNZvs4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743495399; c=relaxed/simple;
-	bh=eofPP7zphowVZVkOlN5trgp55mfN8GY1zjDnh4fRLYw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=evUCKY9BS90ZzGpnwnbsO12FVO1T8XmWKblXen+C2MSqPIKmwfzx8fZxNrHesDg6KY19NAkCGeFHsOqREp7seJKX6/OXiPvkwvaX/IPKfzRCedi5MQBNQ2FuXLcYAZvo2gZSTkXHqlxh7Krqnk52nXd9fgsJ49VQ/QaamQGz770=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RhP/zcmu; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ab78e6edb99so758005366b.2
-        for <linux-input@vger.kernel.org>; Tue, 01 Apr 2025 01:16:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743495395; x=1744100195; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PrVIKvgnOU4qD+Zbvm9Ig4ON8IklOf3INDhWzvDe65U=;
-        b=RhP/zcmuF2oktGZ9djneLZZIv8DrdOmYMf3/9v/fTfCH7S+uZWj9EnvhdKBsULP/Qm
-         nUILXTDPXbMbzevmseryy7BN24KkpEI/fRqoJTmd52+43QC3E9Q8aP70xcC+xnCt+OJA
-         FzRImPdI7RSFfhrz0i1ugscsLgMtOl/7zZWCCaK+ZAgEOUEvbvUZERnrqc34RuP0sZeG
-         cJ2dP1O4+a2xVv7tG0UIdZyPJRKuDJHXNr72Oelmf+x9quujf4dOLk9ZcudasdNmE6mn
-         M52YIkQFosR+6ZiaA5KYqpeJ+c63U9/EsXcdSRKRj5+8XZpsUsZZnB1EjYXDaI6exbna
-         Aj8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743495395; x=1744100195;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PrVIKvgnOU4qD+Zbvm9Ig4ON8IklOf3INDhWzvDe65U=;
-        b=qXcpJaDtGGh8Pm0yl1o5BL9IsXkfiM60AigzmYM63hHkAA3B6wJUERGI5Qo4ryLqJf
-         wvwVvD2x+/EN+Ry5OCj1tf6W6Z9VyKZSRow0n3sMc+MlXR8bCMkKM4oByK/EfoasNL2y
-         6Vb1Cb9NVf56MiZR6M96127WgM3aD03jjHRB+04hVdWHM5xAEuy8aKGmmBYFwcId7Kox
-         QC/DemaH4BEhTck5VyKqp7f0akCJhdVHiDgwsJnGfvOukodGyt59GsVbAbtGffomslRS
-         CFeb/vP80WFQfKANPzfYI1m4bEI+Ssy1OOK6FXbq+Yyl2zmDfZOVWekOIJAf/ROzAo4p
-         Jfcw==
-X-Forwarded-Encrypted: i=1; AJvYcCUAj8cq8zpZF1Aewr+T8/jn8Sq5ycgNGrvsNg2pqSmBKQaM5ij15nLMw3SJMBvd/nh6rM38ZeSZvVTLCw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdfR7IOjxyRoz5oS8Fn6PS3JL8Z+B+n5noqsDV0B+RcLFH8uRQ
-	xoo/t0BOCwUVsmMuO5T0yqRJFrAEbE64izvhNZ4TCBnVSHDHAB7+jOhtcKGOapd9+SIo9sxfc6E
-	8
-X-Gm-Gg: ASbGnct12F34bg9ce+sHjR0PxGdovyV/5Ai8dxg0boKcHkT5BPMdq9eHqkLof6wxSek
-	u0BXUXEEYF4+NuaP5dwczQdhkU9GpxvBwmAkYtVJXWAOjNcNI+3jzrRTa2+1U0F6RM9qYAEvdKV
-	WgLNDcESEumh6cT36hRIMyT1BQrr1MbedanBIyQs82Pepvei5KV+aCQ+QgLNzEqv0U9l05Wm2Wd
-	p97Xl1Cev/TaL1hw/V/1isbONmvdae9ME2ZKdwAXbTUykFBVN7/miLNA7tAtY+z25pHpGLuvZ4x
-	znSjWF3R05scWnEuqSwYdYI/IRbAd+P9Au+1MtmRbdDdNmVm/rT1Wh8=
-X-Google-Smtp-Source: AGHT+IH1NMpRelTCtWxZmplIIh8jUgx3dBuQ+5KnEzikK+mjlKQVyUDxOdR2qGWxJmqwwa8QNnWrYA==
-X-Received: by 2002:a17:907:868e:b0:ac3:5d68:c519 with SMTP id a640c23a62f3a-ac738c13dcbmr1172846266b.53.1743495395257;
-        Tue, 01 Apr 2025 01:16:35 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff21:ef30:ce6:8cc5:6e98:d576])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7196f55f9sm738659266b.177.2025.04.01.01.16.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 01:16:34 -0700 (PDT)
-Date: Tue, 1 Apr 2025 10:16:29 +0200
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
-	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>
-Subject: Re: [PATCH v36 22/31] ASoC: qcom: qdsp6: Introduce USB AFE port to
- q6dsp
-Message-ID: <Z-ug3YFwff8hWIRl@linaro.org>
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
- <20250319005141.312805-23-quic_wcheng@quicinc.com>
- <Z-J2WnrZHP6iMIhT@linaro.org>
- <871827f0-94ba-4565-865f-775cab9501eb@quicinc.com>
- <Z-PPlRD7gcUcNvNv@linaro.org>
- <200c08f7-3637-c2fb-2caa-002604b957ed@quicinc.com>
+	s=arc-20240116; t=1743495673; c=relaxed/simple;
+	bh=iDp3i76P7nltLE56CGPuQknvLt6dx4P35+X9ePCkn+E=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=VXN0zA5G2ui8TK2CAtQsuh3GspvHm4Z9D+iw90zKV7k2mHF0KmBqEnM32/hNDuEkK+Tnk3IyhqaDpFayeA1XZrNsil7/YRh3aqdDwReZkT0bkv0uJpIb7guDkieOvNWqhgCtNvz1DNldJSw6+5xXgTCMAUclOckS7q1zs76ifSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=FJmDqwPY; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1743495663; x=1744100463; i=markus.elfring@web.de;
+	bh=uC5wNSqw1TVoR6gwih/W0kkJUpvzGVmrpS7xhNb79n0=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=FJmDqwPYaCgxeiTnQH2BeTN1ZwqTAOiCUuRjQKjl4nG2ZT1e4xkskDg71P7A/eXT
+	 QP/uemlZ3XiWuhpD4DjNZ8wykR3h6og8CJtDqxWRmYl8qpeH+16anheqjDzsZXpJV
+	 b+Q4sIY9Md94qPSOP6xpo2rl1pgg8m3FZO6cq+BlHi/aQSPou+HK9Gv9+kRYcWvcf
+	 SR6pIeJFKAzmaKZHzOgJxkFR0TmEDDf0GuiqFRNDkZ0lKOcmBiYFm+kF3t+CAQRBu
+	 FnFBBjXeYtTJWtim2p4CVK2Q+RDC/30Tw41YzZbKEttXoJa5QC2ot8cyGREEa8c+p
+	 4njqG2RawF2A3qWAqw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.70.54]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MMXx5-1tiHMW0JjL-00LC1o; Tue, 01
+ Apr 2025 10:21:03 +0200
+Message-ID: <a73250f0-8fbd-40a7-b4b6-bc45050c9289@web.de>
+Date: Tue, 1 Apr 2025 10:21:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <200c08f7-3637-c2fb-2caa-002604b957ed@quicinc.com>
+User-Agent: Mozilla Thunderbird
+To: Henry Martin <bsdhenrymartin@gmail.com>, linux-input@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>
+References: <20250401063157.19655-1-bsdhenrymartin@gmail.com>
+Subject: Re: [PATCH v2] HID: uclogic: Add NULL check in
+ uclogic_input_configured
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250401063157.19655-1-bsdhenrymartin@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:858SxB372tSJkxHmXDAP//8ot2/jHXlBSCnO91dFuM7RXH3CzXn
+ fGAoJcIdv6ZvVQnFZDx7W22j7WRjrmZL3IhnlleOK4sHn6z0v9NPOl9/plBZNj6B8gOi49U
+ 3r1ISPX6NaRS3rwDwVIKwx30tzGvbrjG6fmFWh8C9xzrsFdpyyHjRdz4gM6TQ0bhVTD5ym4
+ o7g4rlsaxmj7auPPppX5g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Q4kB+EsBL+E=;e8VkyjdCBx3ODDNLfLSFlvpL7xe
+ wPqoKA9lWH3/r3HWPxpJ8xacZJZmZzhUkJA7bGBwq6gWv6dl5CvVANEGWBhm1UbWWBw1atzf/
+ MZkUp/ozdql/D4Jewat3wvsALAvqIkLIoyXQRhh79slWx2CyOG/wYFfqykEhy2sEs5bDr+XXq
+ a3aLMbTvtEwSq9YMtiVJFFk8mZDsh/cu7Y68Iax8CrAmWyGN/T/cznJ6++4Y4L3bF83ZNe1qW
+ TVH0sXy/Mnmcfc5Y1Qz2Thu3E9Jz6OyFfhegeTsklQytSPW2O81uXSw/U1UShwcwu+VgT3+VU
+ 3kA3HAh5oF0msMwErklef4M5NHyoq4Fzpx/uBA/VnCgCUqPRiZo6C9cTOUp8bp7x9wUop4dDN
+ I3z4z/6p2RaZauamzSh5JSZwPGJ8rBLtg88xFXzUBBZw2XLHGoqtT+JY3WwMmsQSbByZ9vipR
+ gbqZ1SsDtnQGS716dlOgAdFgbas1lFwc1yacfDl4EfZzpbjGvtRfjC76ZnBAXOWhtE5h+WhtX
+ X4soo2qJYju3e5wCe+gEbOwNLYwZRsNpnsGQ1nEMNGpROXZeH/7/ir+KBIvtLs+cXsuKJ46RN
+ vdBd3FvwnpPtpJAJIskUga3BmIgHreALriglywreL7F73IFWiYdCEVJUQ8qYOhxRD7ScbElfb
+ adbJebBDogUaBUL2HJA4jo5l697Og33XNuEe9tUzwNkked1QyIZGoEJsifBParBxXgCg2sXPy
+ Ek1NUvnmiAk8mRszQL5AIOkYD9Tbf6jP0/6O4Rnn3wyX753uz4WFYq1cYN0QfRWAz9knjS548
+ MZOzmll3Ac1RlK2uIcu5NDD6c+BRRERNh7CK2TmdhgtzFhL9vsrWl1p2ufT7Wylb/5q7Y2cf/
+ J+4qbn89WNXh+Qw2XgSq45DE+1e4byHF19PzAdCqwXXV5Zytjr+eVraUxv8gi7bbgAkXNo/8X
+ DWpzfRKGnpMMksa/LMtTvfMmusdVPZ4KIZYy3glndFveCYKEM0NuTJDLyBazz1trRUmNl36Lx
+ aQVpm5ySDShk1JCJzDTynZZBxMteANjbU4NORET8EOnYYbqfMg7685Q/eq6Ypo50UxsZa4g4E
+ mMc+i2+QfZp09N9r+b78VcrA/Q5rXsNOQl6LxGXBsJs13XABCa2xoQ1S7HlbJZYWO4aBquyq2
+ rnfrgdUZxMa13CreMEjrLfHl210GA4Bqhd6Mpk0sRVMV0n9PMdBIZo7zeTuSmNKBuSgQVwPoB
+ XSZCWSurK1mfATjywfblh3h95v4482vd4QA2nm8SNcWlzZWf4+gAhGUirkfVv6ENzGZZoE0Ll
+ cBv55udXpkXPyh0fvS4pSvZ1xw3fPv99qubyHAJ3sxtmZ2FeXy5DeIgOZx48HplpEaBFJe7YB
+ 5Bm6zrZlz3XalNXZzBlbdog44MJNePQhQeznuM63keiucRQWz3PeiyP5i/ymeuDCXXMhmFoVX
+ /DiRjNMepYv1a0zrxo49XuBfgs9nM4UUb3HWWEKOaDQIHYHcG
 
-Hi Wesley,
+> devm_kasprintf() return NULL if memory allocation fails. Currently,
+=E2=80=A6
+                call?                               failed?
 
-On Mon, Mar 31, 2025 at 12:52:19PM -0700, Wesley Cheng wrote:
-> On 3/26/2025 2:57 AM, Stephan Gerhold wrote:
-> > On Tue, Mar 25, 2025 at 04:18:03PM -0700, Wesley Cheng wrote:
-> > > On 3/25/2025 2:24 AM, Stephan Gerhold wrote:
-> > > > On Tue, Mar 18, 2025 at 05:51:32PM -0700, Wesley Cheng wrote:
-> > > > > The QC ADSP is able to support USB playback endpoints, so that the main
-> > > > > application processor can be placed into lower CPU power modes.  This adds
-> > > > > the required AFE port configurations and port start command to start an
-> > > > > audio session.
-> > > > > 
-> > > > > Specifically, the QC ADSP can support all potential endpoints that are
-> > > > > exposed by the audio data interface.  This includes isochronous data
-> > > > > endpoints, in either synchronous mode or asynchronous mode. In the latter
-> > > > > case both implicit or explicit feedback endpoints are supported.  The size
-> > > > > of audio samples sent per USB frame (microframe) will be adjusted based on
-> > > > > information received on the feedback endpoint.
-> > > > > 
-> > > > > Some pre-requisites are needed before issuing the AFE port start command,
-> > > > > such as setting the USB AFE dev_token.  This carries information about the
-> > > > > available USB SND cards and PCM devices that have been discovered on the
-> > > > > USB bus.  The dev_token field is used by the audio DSP to notify the USB
-> > > > > offload driver of which card and PCM index to enable playback on.
-> > > > > 
-> > > > > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> > > > > ---
-> > > > >  sound/soc/qcom/qdsp6/q6afe-dai.c         |  60 +++++++
-> > > > >  sound/soc/qcom/qdsp6/q6afe.c             | 192 ++++++++++++++++++++++-
-> > > > >  sound/soc/qcom/qdsp6/q6afe.h             |  36 ++++-
-> > > > >  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c |  23 +++
-> > > > >  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h |   1 +
-> > > > >  sound/soc/qcom/qdsp6/q6routing.c         |  32 +++-
-> > > > >  6 files changed, 341 insertions(+), 3 deletions(-)
-> > > > > 
-> > > [...]
-> > > > > diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6routing.c
-> > > > > index 90228699ba7d..b7439420b425 100644
-> > > > > --- a/sound/soc/qcom/qdsp6/q6routing.c
-> > > > > +++ b/sound/soc/qcom/qdsp6/q6routing.c
-> > > > > @@ -435,6 +435,26 @@ static struct session_data *get_session_from_id(struct msm_routing_data *data,
-> > > > >  	return NULL;
-> > > > >  }
-> > > > > +
-> > > > > +static bool is_usb_routing_enabled(struct msm_routing_data *data)
-> > > > > +{
-> > > > > +	int i;
-> > > > > +
-> > > > > +	/*
-> > > > > +	 * Loop through current sessions to see if there are active routes
-> > > > > +	 * to the USB_RX backend DAI.  The USB offload routing is designed
-> > > > > +	 * similarly to the non offload path.  If there are multiple PCM
-> > > > > +	 * devices associated with the ASoC platform card, only one active
-> > > > > +	 * path can be routed to the USB offloaded endpoint.
-> > > > > +	 */
-> > > > > +	for (i = 0; i < MAX_SESSIONS; i++) {
-> > > > > +		if (data->sessions[i].port_id == USB_RX)
-> > > > > +			return true;
-> > > > > +	}
-> > > > > +
-> > > > > +	return false;
-> > > > > +}
-> > > > 
-> > > > What is different about USB_RX compared to other output ports we have in
-> > > > Q6AFE? Obviously, we can only play one stream on an output port. But
-> > > > doesn't the ADSP mix streams together when you have multiple routes?
-> > > > 
-> > > 
-> > > This patch will limit the USB_RX from being able to be mixed to multiple
-> > > q6adm paths.
-> > > 
-> > > > Also, this doesn't actually check for *active* routes only. It just
-> > > > looks if any other MultiMedia DAI is configured to output to USB_RX.
-> > > > That doesn't mean they will ever be active at the same time.
-> > > > 
-> > > 
-> > > Yes, the main reason being that that is the mechanism we use to populate
-> > > the active offload path within the USB SND card mixer.
-> > > 
-> > > > I might for example want to have MultiMedia1 and MultiMedia2 both
-> > > > configured to output to USB_RX. Let's assume MultiMedia1 is a normal PCM
-> > > > DAI, MultiMedia2 is a compress offload DAI. When I want to playback
-> > > > normal audio, I go through MultiMedia1, when I want to play compressed
-> > > > audio, I go through MultiMedia2. Only one of them active at a time.
-> > > > Why can't I set this up statically in the mixers?
-> > > > 
-> > > > If you confirm that it is really impossible to have multiple streams
-> > > > mixed together to the USB_RX output in the ADSP, then this should be a
-> > > > runtime check instead when starting the stream IMO.
-> > > > 
-> > > 
-> > > We can have multiple streams being mixed together, but it will get
-> > > confusing because it changes the definition that we had discussed about in
-> > > the past about the overall design for the interaction w/ userspace.
-> > > Although we (QC) only support a single USB audio device for offloading,
-> > > there could be other situations where the audio DSP can support multiple
-> > > devices.  The assumption is that each MM path is assigned to a USB device.
-> > > 
-> > 
-> > Are you referring to the "USB Offload Playback Route PCM#*" mixers here?
-> > They could just refer to first of the configured MM paths, if someone
-> > decides to route multiple paths to the USB backend. Looking at
-> > q6usb_update_offload_route(), I think the implementation does that
-> > already.
-> > 
-> > I think it's fine that the userspace API for automatically "probing" the
-> > PCM device supports only a single path to the USB backend. But if
-> > someone wants to bypass the automatic probing and configure a more
-> > advanced setup, do we need to forbid that?
-> > 
-> > Asked differently: what would happen if we remove this check here and
-> > handle USB_RX like any other Q6AFE output port? Would anything break for
-> > the userspace interface?
-> > 
-> 
-> So I took a look at seeing how the Q6ADM/ASM interactions would work for
-> the situation where if user tried to start both MM1/2 streams at the same
-> time over the USB offload path.  In this scenario, we see that the Q6USB BE
-> DAI operations, ie startup, hw_params, etc... gets called one time for the
-> initial stream.  For example, if I start playback on MM1, then that
-> triggers the USB BE DAI to be brought up.
-> 
-> When I start playback on MM2, since MM1 already called
-> dpcm_be_dai_startup(), then be->dpcm[stream].users will be greater than
-> zero.  This would cause the __soc_pcm_open() to be skipped for the USB BE
-> DAI, so I wouldn't be able to check the runtime status at the Q6USB backend
-> DAI.  However, we do track current streaming sessions done over Q6 ADM and
-> it does save the AFE port associated to each COPP allocation, so I think its
-> reasonable to see if there is already a COPP entry for the USB AFE port, to
-> fail the open() call associated to the FE DAI.
-> 
 
-This sounds like a reasonable approach *if* we have to prevent multiple
-MM DAIs from streaming to the USB AFE port at the same time.
+> Add NULL check after devm_kasprintf() to prevent this issue.
 
-It's still unclear to me why we have to introduce this limitation in the
-first place. I think the questions from my previous email are still
-open. Can you check them again?
+Do you propose to improve this function implementation a bit more?
 
-Thanks,
-Stephan
+
+=E2=80=A6
+> ---
+> V1 -> V2:
+> Simplify the handing of the condition "suffix" with if/else suggested by=
+ =E2=80=A6
+
+* I imagine that there is a need to offer such adjustments
+  in separate update steps.
+  https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/t=
+ree/Documentation/process/submitting-patches.rst?h=3Dv6.14#n81
+
+* Can another tag become more helpful?
+  https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/t=
+ree/Documentation/process/submitting-patches.rst?h=3Dv6.14#n598
+
+
+> The current implementation (directly returning -ENOMEM) is reasonable be=
+cause:
+=E2=80=A6
+
+How much will such information influence the refinement of the change desc=
+ription?
+
+
+How do you think about to append parentheses to a function name
+also in the summary phrase?
+
+Regards,
+Markus
 
