@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-11461-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11462-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F84A77BFF
-	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 15:23:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D3DDA77C1A
+	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 15:30:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 44E2A3ABFAB
-	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 13:23:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16770168F96
+	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 13:30:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 267AC202C30;
-	Tue,  1 Apr 2025 13:23:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D75E61E47B3;
+	Tue,  1 Apr 2025 13:30:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cq2kZ99d"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R0nXnBHK"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8501F09B7;
-	Tue,  1 Apr 2025 13:23:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5D51F930;
+	Tue,  1 Apr 2025 13:30:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743513805; cv=none; b=M3NIiHyX0JuJM6st1ed68f916CcR0VyIRN1pB5TEnYDLatyPIG7QU+oWGfFKnWXGap6B193O/mAEEEfj1jjjioE9TO5tzzxwCelpTcszQ9S6r5bnFUrcQ0n8y1/Pw3cyPmnf/N+qAe0C1w7zrkRs5btnWF7qYO6SCg79SuoBMpk=
+	t=1743514251; cv=none; b=iRRQPn2z6TP0WryxBpwNccY480mT95cUU41pLydxvi/msgAu9bFuo1pIhBDBK+F3tz+L59uRUlc5mkZtegMWzeODvgbfRDUsDMzmIUwZO68qhmsnbY7pND7VjYZO1hp2Gs7qt+6ZXC0XCtWQb20/z/HH01auw/wHTSb7gQg09vI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743513805; c=relaxed/simple;
-	bh=6Nw24EbRgYYOy+DUPepq5IsFLUV2zOLDoEnzpik+ckQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=IlmsxQCE5bcXKzwqEGPalIXCJ2F3HY07Vaf4xjkm6H84JrqSL0kTyzhYqCevguD584Jno2NEERWkH8XLI8KB0mlDfWLYSlSIWeb+dyLCUxdXzPnbhzOexyInJj1xbcstyDcg4bkqP2bLyqxM08TMrui/Gp83oGoxW/PmtaOr0wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cq2kZ99d; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 850DBC4CEE4;
-	Tue,  1 Apr 2025 13:23:23 +0000 (UTC)
+	s=arc-20240116; t=1743514251; c=relaxed/simple;
+	bh=Ul6lJvNEHBV/pZeVWxl97I6QputJg4xYguuegwagemc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=pvM819CeKKrmCxS7j1GG+CSKBk0l6V0H+FdyNS8ByRjyotnOTdFbIsn3u8/1TCTdrf9UeABjjWebbU6j8EEAIOBiHPj4zT6ktlXrXgHA2VZVjy3sGLJpv5DyRZwA7Im0mTctipmCG9Sq/WOTWFhpY4DsIlwf0XaBPBg/z+RlrrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R0nXnBHK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2996C4CEE4;
+	Tue,  1 Apr 2025 13:30:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743513804;
-	bh=6Nw24EbRgYYOy+DUPepq5IsFLUV2zOLDoEnzpik+ckQ=;
+	s=k20201202; t=1743514251;
+	bh=Ul6lJvNEHBV/pZeVWxl97I6QputJg4xYguuegwagemc=;
 	h=From:Date:Subject:To:Cc:From;
-	b=cq2kZ99dvRPfIxGmTFv3MhgRx9esG0fmrnHDe/NgYY50SZvi+w5Lj0oaGCkqDK83x
-	 5mVIe4bL3WOZniMGFUg4q7kZG0YK4VmnrftqaxxQNjHXDgt0WRh8JEVk7aglUSCPYU
-	 gLeIbqX7d0PTEpSpLyHBHlJeug1A6GC1iggh2/rUp9tXr7qf7anuIDHv5J/I5PnYxS
-	 xbTAS5+KIgXaGPkPvznvV7B1jcBAKkDBgDN2cj0WLDnMczc+q+KPNAW7FQwKyf2ls6
-	 vdNvl07h+zFJ8bPM6tSs/egtAtSPhTWfZoAlX7zp02XATfi2qyHRsnDHWifFz+aA4O
-	 regtDvx7wxp+A==
+	b=R0nXnBHK+h56PKjMT/5qxNKseT3aIYCEfkg+iICdVnAYkSyVf+/sLwKvt+lgp7A6j
+	 21z3BlE6WMo64ddo54dH/lQBUyTaUC4+skd/Bi4vgl5mzyfE6ot6BQVQfRxqeI1blC
+	 LTILvkFOt/nMDIVd3zOUeBLOLA7nIq9Nw9OB2z5Kt7iD5yFCl9yHzFMeruBRdCw8S0
+	 4NqI/VlEitmpQ0b+XHJJF+G8Ks31zJCKYwg1eChqc6dWoqu/JrnoZ7tyNXzYsjDfDY
+	 AP2U1OFkVXY7tQ+IGjEcszhGRQ+AzTjLr76qgoqv6hgjjnoP6WPMBbqf98H0k7j1pB
+	 zioIngRf90MEA==
 From: Mattijs Korpershoek <mkorpershoek@kernel.org>
-Date: Tue, 01 Apr 2025 15:23:10 +0200
-Subject: [PATCH] MAINTAINERS: .mailmap: update Mattijs Korpershoek's email
+Date: Tue, 01 Apr 2025 15:30:37 +0200
+Subject: [PATCH] dt-bindings: mediatek,mt6779-keypad: Update Mattijs' email
  address
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -52,26 +52,32 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250401-mattijs-korg-v1-1-734a7ad8be1f@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAL3o62cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDEwND3dzEkpLMrGLd7PyidN00s0Rjk8Qkc/NkkzQloJaCotS0zAqwcdG
- xtbUARub+nV4AAAA=
-X-Change-ID: 20250401-mattijs-korg-f6a34ab77c4f
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- linux-input@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Mattijs Korpershoek <mkorpershoek@kernel.org>
+Message-Id: <20250401-mattijs-dts-korg-v1-1-0f8d96bf8a99@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAHzq62cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDEwND3dzEkpLMrGLdlJJi3ez8onRdQ4vUNEtzSwsLIxMzJaC2gqLUtMw
+ KsJHRsbW1ABsjdO5iAAAA
+X-Change-ID: 20250401-mattijs-dts-korg-18ef97988246
+To: Mattijs Korpershoek <mkorpershoek@baylibre.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, 
+ Mattijs Korpershoek <mkorpershoek@kernel.org>
 X-Mailer: b4 0.14.3-dev-94c79
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1580;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1074;
  i=mkorpershoek@kernel.org; h=from:subject:message-id;
- bh=6Nw24EbRgYYOy+DUPepq5IsFLUV2zOLDoEnzpik+ckQ=;
- b=owEBbQGS/pANAwAIARkNHbRmThk1AcsmYgBn6+jIx9a8LCkrFb7kmJXLDCuPk62m9kwIBzlmu9ZR
- Q+Ro0mOJATMEAAEIAB0WIQQu6UKnth9qvlMTrQAZDR20Zk4ZNQUCZ+voyAAKCRAZDR20Zk4ZNYbqB/
- 43jZtO9qIG3UXhKqKWSGO9KB10zS2goC2nTlptSgzAcelUtnRxXIjshqRDgSR8HInKxRD0+hJZqytt
- Et6JexuYQPk6mI1pkasSqHFS2HtTt8XxnAnf4KeUmjVIUUkHUMsgpNjXWblajmSSCjeQCShU1RvIG8
- NnFVzCO4IiTQqdRIbFEiE8VrVRAXJr6MJVxUu7g6BAtozeB/Hx5X92PI8qDBMtrpuykiezQL1QYOwC
- 9cG6ePFrx0kQDCdtpMTcHCrpzpcoTD+mTzwXOxOglItuoqN7VUTL3mDm+vnG7mr79YOsbBR/hEOg49
- gsEmTUdPH5qlpMBAskecPaeZE65NHO
+ bh=Ul6lJvNEHBV/pZeVWxl97I6QputJg4xYguuegwagemc=;
+ b=owEBbQGS/pANAwAIARkNHbRmThk1AcsmYgBn6+qIuKsPabzv/RSvLVVc64fSuzem7BVylb01dply
+ PyvhJXaJATMEAAEIAB0WIQQu6UKnth9qvlMTrQAZDR20Zk4ZNQUCZ+vqiAAKCRAZDR20Zk4ZNbvXCA
+ CJy+j4InTSuxmwJ0+YwXmooqhVHpiX5qNSmoiOGWB5L9p7+KtQPUq7HFvyg+NY6VlzVycvggb4WmHn
+ J+8es2yRg3QFdORFSfoTxGfPCeClajHC8TKmZ5gMmA1X9lzP1IzbGVVcF/9xlZ5aGH5X5pSDNU1x4q
+ a6hT5S9ForxGyuKHgwqMorY+CapbkDiYe+opCzp3XeBFfpVuBWvtPXIKzbdBrydalHk9OjuEAH79EN
+ S43cmUIYvLyNhSZSnRbIfpwxfkLhUZgx8+oa7XIawEj5TFjjNPzAjKhWj9HSHe9zOGPBmgphhrS1V6
+ 50Zm2XB1BtHJeXJnZ/va5BDtuVTMvj
 X-Developer-Key: i=mkorpershoek@kernel.org; a=openpgp;
  fpr=8234A35B45C0D26B31C1A2DA570338B018144F28
 
@@ -79,39 +85,26 @@ Update Mattijs Korpershoek's email address to @kernel.org.
 
 Signed-off-by: Mattijs Korpershoek <mkorpershoek@kernel.org>
 ---
- .mailmap    | 1 +
- MAINTAINERS | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.mailmap b/.mailmap
-index f485903803c6..d68de811b8e8 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -474,6 +474,7 @@ Matthias Fuchs <socketcan@esd.eu> <matthias.fuchs@esd.eu>
- Matthieu Baerts <matttbe@kernel.org> <matthieu.baerts@tessares.net>
- Matthieu CASTET <castet.matthieu@free.fr>
- Matti Vaittinen <mazziesaccount@gmail.com> <matti.vaittinen@fi.rohmeurope.com>
-+Mattijs Korpershoek <mkorpershoek@kernel.org> <mkorpershoek@baylibre.com>
- Matt Ranostay <matt@ranostay.sg> <matt.ranostay@konsulko.com>
- Matt Ranostay <matt@ranostay.sg> <matt@ranostay.consulting>
- Matt Ranostay <matt@ranostay.sg> Matthew Ranostay <mranostay@embeddedalley.com>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d5dfb9186962..50d6519d3b9d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15014,7 +15014,7 @@ F:	Documentation/devicetree/bindings/media/mediatek-jpeg-*.yaml
- F:	drivers/media/platform/mediatek/jpeg/
+diff --git a/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml b/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
+index 517a4ac1bea3..e365413732e7 100644
+--- a/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
++++ b/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
+@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ title: Mediatek's Keypad Controller
  
- MEDIATEK KEYPAD DRIVER
--M:	Mattijs Korpershoek <mkorpershoek@baylibre.com>
-+M:	Mattijs Korpershoek <mkorpershoek@kernel.org>
- S:	Supported
- F:	Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
- F:	drivers/input/keyboard/mt6779-keypad.c
+ maintainers:
+-  - Mattijs Korpershoek <mkorpershoek@baylibre.com>
++  - Mattijs Korpershoek <mkorpershoek@kernel.org>
+ 
+ allOf:
+   - $ref: /schemas/input/matrix-keymap.yaml#
 
 ---
 base-commit: 08733088b566b58283f0f12fb73f5db6a9a9de30
-change-id: 20250401-mattijs-korg-f6a34ab77c4f
+change-id: 20250401-mattijs-dts-korg-18ef97988246
 
 Best regards,
 -- 
