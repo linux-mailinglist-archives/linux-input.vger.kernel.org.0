@@ -1,74 +1,74 @@
-Return-Path: <linux-input+bounces-11449-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11450-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC0BA77570
-	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 09:44:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C92A7757D
+	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 09:45:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3BBC87A272D
-	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 07:43:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2FBDB3ABA00
+	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 07:44:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 485DE1E991C;
-	Tue,  1 Apr 2025 07:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B21C1E991D;
+	Tue,  1 Apr 2025 07:44:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Hal1TquI"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="gyC95Z5C"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177571E98E1
-	for <linux-input@vger.kernel.org>; Tue,  1 Apr 2025 07:43:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2731E98E7
+	for <linux-input@vger.kernel.org>; Tue,  1 Apr 2025 07:44:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743493441; cv=none; b=eJvpN5livQsfeQU1dFw5bJeVk56bRcEyDxPdgNedG8eQ1Iz4T/UQ2GOp0jcepIUk6rgdV/W9G4lLa8WIe91xvmIuO7MXCk6GpqEUb4tWhJEEp4srEXKtS4l+Bfoyz+1suOSa2eV0Mk3jtlLGwcJw8smmY71Ccyu+1uDyn6nQAZU=
+	t=1743493456; cv=none; b=BFkGHY2wTfWTkqRcrJrgALAfhhBYFNUVMUxy1GL6l6A49TeiljQ6tLI7h2DJtWOiYU42JHc6u6Iw4p5SGZUljQjgYHKmij7t1eefa3ltp1fQVHoQ1+xS6xIu6wVKCcSG544JemloJaXKXDYoNHsmXHPYeHeLwWC3KLGkXOafEAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743493441; c=relaxed/simple;
-	bh=lusxiB4Bjaj8R/c9BU47G8MCvRdyFszKY/L+YTNPDwU=;
+	s=arc-20240116; t=1743493456; c=relaxed/simple;
+	bh=hWmAheMtuhxFnyMRwswe4uXnr5FLHPcfRBwyhvpHn0g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
-	 Content-Type:References; b=KiTbIq1rWa7dpgEaO1vRmKmLyUJJHYVDFn4GPzwz29Fb0h08yV2+19FPuUsOUATeTBJoghL66DwexvELdoUdgSXQ3BbWQq0ed4Y1QohgebGJAEZlO4tZLsk204zcCtvHHZZiZjzGwYeLGCvfqtNRU8lw8gYpw8mKpW8ns1Fw/KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Hal1TquI; arc=none smtp.client-ip=203.254.224.24
+	 Content-Type:References; b=sN3PBK237bdHh7zWkZK/ROtCkdE/hMT27Djp5Its2RTG9WAsnVnanZEI0qtlv5nQumZDIo5wJ6nHbRnVIRIEa2Aa3UgtGR+F9so7/k+PKwyTLhpaBIkT6fvXkrNViy6PdmYJEf/MEInheKz2UvDwsAMvrmxF9hlKQMJou8GRAag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=gyC95Z5C; arc=none smtp.client-ip=203.254.224.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20250401074357epoutp015ffd2c902ea72900e63b5b833a138072~yIgs1cPdW1157611576epoutp012
-	for <linux-input@vger.kernel.org>; Tue,  1 Apr 2025 07:43:57 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20250401074357epoutp015ffd2c902ea72900e63b5b833a138072~yIgs1cPdW1157611576epoutp012
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20250401074412epoutp02994bbadee91eebdadbb7f49fc9867e51~yIg7Njzkg1018310183epoutp02g
+	for <linux-input@vger.kernel.org>; Tue,  1 Apr 2025 07:44:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20250401074412epoutp02994bbadee91eebdadbb7f49fc9867e51~yIg7Njzkg1018310183epoutp02g
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1743493437;
-	bh=q9tZFNfIbQkwSbFLLr9QuHBwTgnp8/iAM+LYD9NLzUw=;
+	s=mail20170921; t=1743493452;
+	bh=Xvybmv+rHSjh6SzMpmC/QRRcIPVm/J2ey1JPBENIdcY=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Hal1TquIwAUwF/ycGoKLQIy2gw7C2FC8iNda8Wmuy6j85oSBLQUmnaLHwbAYBqtv+
-	 WZzlm+KAPrRIFgyHWZ7P3CgPwS8GgV5F1P4BO98ryl5PkWY+ajjjKkrCROwrrSECRA
-	 a4ZRKp7O5NtAgIKuAr1U5lL/jp2MLqXNi68wZ87c=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas2p4.samsung.com (KnoxPortal) with ESMTPS id
-	20250401074356epcas2p4fc3e4e2f20ad12b7894c5fb6be31624d~yIgr3_c5W0326403264epcas2p4r;
-	Tue,  1 Apr 2025 07:43:56 +0000 (GMT)
-Received: from epsmgec2p1.samsung.com (unknown [182.195.36.69]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4ZRg3v46Brz6B9m9; Tue,  1 Apr
-	2025 07:43:55 +0000 (GMT)
+	b=gyC95Z5CYaahSwX5j1vTYc8aE2I5/7A/NArKb/QM7+kyCKMtiezuMrt4x+6PYIKuN
+	 P03a3sfl5T9M7v4+JIkvqGLpDcezyGT4Lc9I1QFfhxx+8orfIRRZhv20hL5rOhInYY
+	 kZnSg3ItMBDrO/6IqOk6TzyBLEEM9alBgXLtFY9E=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas2p3.samsung.com (KnoxPortal) with ESMTPS id
+	20250401074412epcas2p349de7002ef623ba085026c6658695545~yIg6qyKBr1639316393epcas2p3Y;
+	Tue,  1 Apr 2025 07:44:12 +0000 (GMT)
+Received: from epsmges2p1.samsung.com (unknown [182.195.36.92]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4ZRg4C3Nl2z2SSKZ; Tue,  1 Apr
+	2025 07:44:11 +0000 (GMT)
 Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
-	epsmgec2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	F0.BA.09780.B399BE76; Tue,  1 Apr 2025 16:43:55 +0900 (KST)
+	epsmges2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	0D.A7.09787.B499BE76; Tue,  1 Apr 2025 16:44:11 +0900 (KST)
 Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
-	20250401074354epcas2p46dd378281a462056317a4e265b54cbbb~yIgqkoVwR0326403264epcas2p4l;
-	Tue,  1 Apr 2025 07:43:54 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epcas2p2.samsung.com (KnoxPortal) with ESMTPA id
+	20250401074410epcas2p2f185dc1823c25a9105fbf355ad58ea18~yIg5lHKZw2021520215epcas2p2k;
+	Tue,  1 Apr 2025 07:44:10 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
 	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20250401074354epsmtrp19c5f4a69aef175a0e8b61bf5a7467b29~yIgqjhLBD3075130751epsmtrp1J;
-	Tue,  1 Apr 2025 07:43:54 +0000 (GMT)
-X-AuditID: b6c32a43-9b7fe70000002634-f6-67eb993b11e1
+	20250401074410epsmtrp176a4716e433a86d64b1ede40fc102ead~yIg5jzrTN3077930779epsmtrp1z;
+	Tue,  1 Apr 2025 07:44:10 +0000 (GMT)
+X-AuditID: b6c32a45-9d3ff7000000263b-81-67eb994b99e1
 Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	2C.DA.07818.A399BE76; Tue,  1 Apr 2025 16:43:54 +0900 (KST)
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	E7.23.08805.A499BE76; Tue,  1 Apr 2025 16:44:10 +0900 (KST)
 Received: from ubuntu (unknown [10.229.95.128]) by epsmtip1.samsung.com
 	(KnoxPortal) with ESMTPA id
-	20250401074354epsmtip14840f27b62e47e71aa24c0c0836242c6~yIgqSjJul1529515295epsmtip1j;
-	Tue,  1 Apr 2025 07:43:54 +0000 (GMT)
-Date: Tue, 1 Apr 2025 16:53:07 +0900
+	20250401074410epsmtip1c9c8c4701439d33857c47a477b89564e~yIg5U6Mw01220612206epsmtip1X;
+	Tue,  1 Apr 2025 07:44:10 +0000 (GMT)
+Date: Tue, 1 Apr 2025 16:53:23 +0900
 From: Jung Daehwan <dh10.jung@samsung.com>
 To: Puma Hsu <pumahsu@google.com>
 Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
@@ -81,82 +81,80 @@ Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
 	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
 	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v36 06/31] usb: dwc3: Specify maximum number of XHCI
- interrupters
-Message-ID: <20250401075307.GG98772@ubuntu>
+Subject: Re: [PATCH v36 08/31] ALSA: usb-audio: Export USB SND APIs for
+ modules
+Message-ID: <20250401075323.GH98772@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAGCq0LaDzCVau0jZ8WydSFF7FVAAXuUHaR=3gPcteew6X4kP=g@mail.gmail.com>
+In-Reply-To: <CAGCq0LYs5=Re74G99n3=Vbdu1Q2M5-SKZqXTgPKJZYtSHjXZPA@mail.gmail.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Tf1CTdRjvu/fdu4GhL6DyDS3G4K5EGBsy+EKAelC8JF5w1QUdhq/jdeMY
-	Y26jE8pagoDECZTibUQSoCjxIxEQYQQMRdAgCrLENLyQHyOvBQqWCQ1e6vzv83ye5/P8vIeP
-	OZ3kufKTVTpGo6KVQsIeb+nZgnxeNszIxfq/nkcn7o4TqLZjkIPGu3IBOnV5kIt6KqYAyqps
-	INC08Q6B5kfyOKi4c4CHvsypwtHN2XkuGm77nEBlE8cxVHHmCIayGo9z0dG2Qi76e2mCgwx1
-	Hqix/RgXLZlaeSint5eLasq7eOjrhTqww4W6ZLzNo8ob06lK0zSHaqw5SlC/3DAR1Bf9sVRn
-	WS2Pqjz2GZf65v4Zgio2fUg1NP2IU02dc4Caa3whxuGdlBAFQycxGgGjkqUlJavkocJdbySG
-	J0oDxBIfSRAKFApUdCoTKoyIjvF5NVlpG10oeI9WptuoGFqrFfqGhWjS0nWMQJGm1YUKGXWS
-	Uh2oFmnpVG26Si5SMbpgiVjsJ7UF7k1R5I4N4+r6Fw/OjMxx9OD85nzA50PSHxpOJOcDe74T
-	2QpgVunPOGvMAtg88ivBGvMA9llzefnAbkVh1D/AWEcHgKZb9wFrjANo+GESW47CSU9YMXQB
-	LGOC9IJ3HvWt8OtJd/jgXi5nWYCR/TjsM19ZCXIm34bm7w7jy9iB3Aobqn4DLHaE/YbxFd6O
-	jIWTnQPEcuMbbAUs3R8t54HkRTu4UDdMsO1FwILqEcBiZ2i52rTatiucLsxZxVo4OjmBseJs
-	AM9asjHWsQ0aJ3JXxBipgKN9Yzi7JQ94eRRn6bUwr+cJj6UdYF6OE6v0gCeHi7gsfg52zwyu
-	ZqTgkMW0usYCDqzTnyOKgJvxqdGMT1Uz2tJi5BbY0ObL0m4wq7kUY+lNsHqR/1REOSBqwEZG
-	rU2VMzI/teT/w8vSUhvByod4hbeCkVOLIjPg8IEZQD4mXO8Q93Ba7uSQRGdkMpq0RE26ktGa
-	gdR2s2LMdYMszfZiKl2ixD9I7B8QIAn0k4oDhS4O5j/vyZ1IOa1jUhhGzWj+03H4dq56zoDp
-	pU0Zjn6cyHUFReFTQ70d+qh3g8WG+IuiLK6i8PuMhHP9Q57bH3vVH5S+ZQTh05bYrfvQ1ddK
-	ftoWIO3KkT+Mev/uzV1B5/dm4KLX29+0ChZkVp/oa7fKCoMFGo6dS3WP77WdlGKNc6TM230h
-	r8q7ub9id1gpKn3lUXKITO4yP2vVl0ij3PeXebaIIsd8Z/Txt51arL097Yeo65e2Z368Y+dU
-	9oXOb29020ePlUy6XfeO/uBw8ZHY01bmkHNgAR8rodf+kb9uY4m67Nlget+TGUfl75Znvup8
-	vEd0trbpdBz4JDMirD5u8+IiMOzf8+mBhH/WWKoTpuIP5JeXXzEm714S4loFLfHCNFr6X80v
-	fn2qBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfVDLcRzHfX9P+9WZfi30TadYcxHSnD++59kfzs/JnegoD6dZPxNbamvS
-	zsOU8lw6605TSSVKXUwoRlmUzjV5yDEhylhRKHnK0rZz+u9978/r8/p8//jSuMBGjKNjYhM4
-	ZaxELqTciat1Qr/ps7O7ZCFZr6eirDcdFCq7acZQR+0BgE7fMZOoruADQCmFFRSy6V9RqP/J
-	QQxl1jTx0Jm0IgI9/9pPosfXcyiUa9XhqKA4FUcpBh2JDl3PINGvQSuGsssDkOFGOokGjVU8
-	lFZfT6LS/Foeuvi9HCz0Zqv1L3lsvkHNFhptGGsoPUSxrU+NFJvXGMbW5Jbx2ML0EyR761Mx
-	xWYa97AVlS0EW1nTC9heg98K/lr3udGcPGYHp5wxP8p9y2DXF15cs2hnw77nQAt6fA4DNxoy
-	s6Be24cfBu60gLkBYG13A+ka+MCzuc94ruwFX++/Q7qgtwDmNvU4IYIRwYLmy8CRKSYIvvpx
-	D3fk0cxE2PfuAOZYwJlGAt4z3XVCXswaaHqQTDgyn5kKK4ranb2AOYrBinMert4TNmZ3OBmc
-	CYQDeY+GpPRQ9oXn7LSr9ocpV045b7kxYfB9TRPlQMYMvafz9t7jQKAfJtIPE+n/i/TDRPmA
-	KAU+XJxKIVNIxXHiWC4xWCVRqNSxsmDpdoUBOH9D0OQq0N2fPMMEMBqYAKRx4Wh+xDebTMCP
-	liRpOOX2jUq1nFOZgC9NCL35JeIImYCRSRK4bRwXxyn/TTHabZwWozb1ZT6Kx1LvXzPHVI6V
-	i1fr382J1oZebY3a/PFtfq0uYCDQXsJZ+DrlBovVt5VsDzw9R3vJsnZk3sI8LxDgf5O6HWyn
-	Ty6JJ3b1R7bNfBCpafOwLFq67PEf0adOaG2OCEmgBr6cpDyPpTXEfw2SRu3uzAqGiZ/9fodU
-	tytHccYFGct9H07ZKNZJwi8WBq57olpgFbXAcLX0yKkJluJJuhFtt3beTeyRfm6ZV52UMwKT
-	Y8szpnsr1OnJl2yXPRJWhsX4nxesGj95Wkt55w7cXqYwM1Wa1N/pUy5ozCvWd9kzXyT97K3T
-	5LSN2esRqe02hh5jS+zYYtEVYuLWovokIaHaIhEH4UqV5C/Qe2kdfAMAAA==
-X-CMS-MailID: 20250401074354epcas2p46dd378281a462056317a4e265b54cbbb
+X-Brightmail-Tracker: H4sIAAAAAAAAA01TbUxTVxjOube9vZgUrwXkgBt0RbfBVmyRj4Mpcwk47mA/YLhkkxho4K5l
+	QNv0Foe4TRTkywVBcEoHDAVxEBmzgIGCFgoyWASzoE4MmMn4GCA6QRDnwLVcXPj3vM/7PM85
+	73lzSFz0ncCdTNIYGL1GmSIhNvGudHsjaWTZrEr2R5srOv1gnECXrg5iaLwzF6Afegb5qPv8
+	XwBlVTcSaNp4n0BLt/IwVGwZEKBzOTU8NDy/xEdD5nICVUyW4uh87XEcZZlK+SjffJKP/nk5
+	iaGyBi9kai/ko5cdrQKU09vLR/VVnQL087MG8L4r3WYcFdBVpjS6umMao031+QQ9cqeDoCv7
+	o2lLxSUBXV1YwqevzdUSdHHHN3Rj820e3WxZAPSCySNKuD9ZoWaUiYxezGgStIlJGlWIJDIm
+	LjQuIFAml8qDUZBErFGmMiGSsI+ipB8kpdhGl4gPKlPSbFSUkmUlO99T6LVpBkas1rKGEAmj
+	S0zRBel8WWUqm6ZR+WoYw265TOYXYBPGJ6vzH1h5upqY9N5SC54J2kMKgAMJKX84cuM2UQA2
+	kSKqFcB/j9XxuGIewJ6zTeudJQA7m8p5ryxTQy/WVVcBHBgpXy/GAVw1tQO7ikdthxcWVzE7
+	JigfeH+5D7djZ+oN+HQiF7MbcKqfB/us19cMTlQ0PPF4lF8ASFJIvQNrjm+100JqC+wvG187
+	2cEmGb65DOwSF1v+TNcRewykLA7wVlf1Gg+pMFjUmMFd1AnO/NIs4LA7nD6Zs45ZeG9qEue8
+	2QD+OJONc41d0DiZu3YdnFLD7CtHeVymF+y5x+NoR5jXvSLgaCHMyxFxTi94ZqiIz2E32DU7
+	uJ5Iw4W8AgH3PN9i8Gz1TaIIeBo3TGbccJrRFotT3rDRvJOjPWFWy/c4R2+DF1fJDYoqQNSD
+	rYyOTVUxrJ9O/v/eE7SpJrD2QXz2toKSub99rQAjgRVAEpc4Cz9dnFaJhInKQxmMXhunT0th
+	WCsIsG2sGHd3SdDafpjGECf3D5b5BwbKg/wCZEESV6H1yYRKRKmUBiaZYXSM/pUPIx3cMzFm
+	tg2v3DWc9iJRWZd5xGuzd4OiPTTOcb/Yb/BiUr02wNe931EayZjne9qCP1a0pApnDvqAp2IW
+	xlc+N+/JrPJa+rI79/T10vTdjlkubTeyJOGP+/YNXH5X5TG7zTgWihR7icY9itdWKt4+FN4k
+	jfgsj2ypLQy7W2/ad6E7/rdnX++Ido78/cnkw7uWrpykmICH9NGxjPQz8Hmzm7X3i3LZlMAp
+	J+PytRKzwWP5E7V0NDQ24sMIs0i0+VRd4p16+JX41ybydW2FIcOdV/6o6c10WubpPLeysqP2
+	sCmVCXSjog9PYI/OYQdijy1K39oyHzJ2wrr0uar7T+FPsQfaNeEx2yU8Vq2U++B6VvkfmhrQ
+	cKkEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrBIsWRmVeSWpSXmKPExsWy7bCSnK7XzNfpBstaTC2mPnzCZrFm7zkm
+	iycH2hkt5h85x2pxeNELRovmxevZLF7Ousdm8e1KB5PFxP1n2S0Wti1hsbj56RurxeVdc9gs
+	5j6bwmyxaFkrs0XzpimsFp27+lktfv1/xmQxc62yxabdfawW//fsYLdoO3aM1WLVggPsFhu+
+	r2V0EPfYOesuu8eCTaUei/e8ZPLYtKqTzePOtT1sHvNOBnrsn7uG3WNx32RWj31vl7F5TNxT
+	57F+y1UWjy37PzN6fN4kF8AbxWWTkpqTWZZapG+XwJWx7esjtoJjARVPdq9hamD8adXFyMkh
+	IWAi8fzyb5YuRi4OIYHdjBK7Zy5ihkhISiyde4MdwhaWuN9yhBXEFhJ4xCjxc6oEiM0ioCKx
+	9Os/JhCbTUBL4t6PE2C9IgKKEl+etjOBDGUWOMkiceLQUUaQhLBAoET3+7tAgzg4eAW0JZa0
+	ikEs7mGSaH29kQ2khldAUOLkzCcsIDazgLrEn3mXmEHqmQWkJZb/44AIy0s0b50NtosTaOTN
+	8z8YQUpEge55dbB+AqPQLCSDZiEZNAth0CwkgxYwsqxilEwtKM5Nzy02LDDKSy3XK07MLS7N
+	S9dLzs/dxAhODFpaOxj3rPqgd4iRiYPxEKMEB7OSCG/E15fpQrwpiZVVqUX58UWlOanFhxil
+	OViUxHm/ve5NERJITyxJzU5NLUgtgskycXBKNTBV7m7gcM58qOHZdOdf6XqXT3qRVk7bhGYL
+	hr077iVcoh66xGfms9cGFbwn6/VmzXi29duFrR8mzzB29ek7zLbXXjtn7UxtxkVv9iZcFP/v
+	p7fy8xW1kGczLMq7fyy1L3y19nQnr9Mjnm6vvtVSdrZ3/uZ+uXSlzGzjoV+GDFNCVT/rd3ys
+	tr597sNJvw8a1TV3+y7lpxud1m2+bTVNL7qq0c1MYH/N8sbbUocXsLjzX9N6qt3ZUX1sV+vn
+	b9eqmlVi5124tWnOjV8b05W2Wpf139M6wH383Y47K8VEYrelrJ0X9ecgW385b+kFTv3IE9/v
+	ffz/7vprk5nu7fPXiFby++646b2wauWiPPsrkbLGSizFGYmGWsxFxYkAy1x+/3sDAAA=
+X-CMS-MailID: 20250401074410epcas2p2f185dc1823c25a9105fbf355ad58ea18
 X-Msg-Generator: CA
 Content-Type: multipart/mixed;
-	boundary="----caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_6aabf_"
+	boundary="-----xErIy8MFyp5znNcbVfGOYxfVuB8z5fzEV-ls754GuccR_q1=_6ad0c_"
 X-Sendblock-Type: AUTO_CONFIDENTIAL
 CMS-TYPE: 102P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250328074801epcas2p2e7ee72ce6b89d36681558ecce65ba71f
+X-CMS-RootMailID: 20250328074925epcas2p41af613e944eade82e874e2d4b0110124
 References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
-	<20250319005141.312805-7-quic_wcheng@quicinc.com>
-	<CGME20250328074801epcas2p2e7ee72ce6b89d36681558ecce65ba71f@epcas2p2.samsung.com>
-	<CAGCq0LaDzCVau0jZ8WydSFF7FVAAXuUHaR=3gPcteew6X4kP=g@mail.gmail.com>
+	<20250319005141.312805-9-quic_wcheng@quicinc.com>
+	<CGME20250328074925epcas2p41af613e944eade82e874e2d4b0110124@epcas2p4.samsung.com>
+	<CAGCq0LYs5=Re74G99n3=Vbdu1Q2M5-SKZqXTgPKJZYtSHjXZPA@mail.gmail.com>
 
-------caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_6aabf_
+-------xErIy8MFyp5znNcbVfGOYxfVuB8z5fzEV-ls754GuccR_q1=_6ad0c_
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
 
-On Fri, Mar 28, 2025 at 03:46:00PM +0800, Puma Hsu wrote:
-> On Wed, Mar 19, 2025 at 8:53 AM Wesley Cheng <quic_wcheng@quicinc.com> wrote:
+On Fri, Mar 28, 2025 at 03:47:00PM +0800, Puma Hsu wrote:
+> On Wed, Mar 19, 2025 at 8:52 AM Wesley Cheng <quic_wcheng@quicinc.com> wrote:
 > >
-> > Allow for the DWC3 host driver to pass along XHCI property that defines
-> > how many interrupters to allocate.  This is in relation for the number of
-> > event rings that can be potentially used by other processors within the
-> > system.
+> > Some vendor modules will utilize useful parsing and endpoint management
+> > APIs to start audio playback/capture.
 > >
-> > Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> > Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 > > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 > 
 > Tested-by: Puma Hsu <pumahsu@google.com>
@@ -165,96 +163,242 @@ On Fri, Mar 28, 2025 at 03:46:00PM +0800, Puma Hsu wrote:
 Tested-by: Daehwan Jung <dh10.jung@samsung.com>
 
 > > ---
-> >  drivers/usb/dwc3/core.c | 12 ++++++++++++
-> >  drivers/usb/dwc3/core.h |  2 ++
-> >  drivers/usb/dwc3/host.c |  3 +++
-> >  3 files changed, 17 insertions(+)
+> >  sound/usb/card.c     |  4 +++
+> >  sound/usb/endpoint.c |  1 +
+> >  sound/usb/helper.c   |  1 +
+> >  sound/usb/pcm.c      | 75 +++++++++++++++++++++++++++++++-------------
+> >  sound/usb/pcm.h      | 11 +++++++
+> >  5 files changed, 71 insertions(+), 21 deletions(-)
 > >
-> > diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-> > index 66a08b527165..17ae5c13fe36 100644
-> > --- a/drivers/usb/dwc3/core.c
-> > +++ b/drivers/usb/dwc3/core.c
-> > @@ -1699,6 +1699,7 @@ static void dwc3_get_properties(struct dwc3 *dwc)
-> >         u8                      tx_thr_num_pkt_prd = 0;
-> >         u8                      tx_max_burst_prd = 0;
-> >         u8                      tx_fifo_resize_max_num;
-> > +       u16                     num_hc_interrupters;
+> > diff --git a/sound/usb/card.c b/sound/usb/card.c
+> > index 9c411b82a218..a0087bde684c 100644
+> > --- a/sound/usb/card.c
+> > +++ b/sound/usb/card.c
+> > @@ -1030,6 +1030,7 @@ int snd_usb_lock_shutdown(struct snd_usb_audio *chip)
+> >                 wake_up(&chip->shutdown_wait);
+> >         return err;
+> >  }
+> > +EXPORT_SYMBOL_GPL(snd_usb_lock_shutdown);
 > >
-> >         /* default to highest possible threshold */
-> >         lpm_nyet_threshold = 0xf;
-> > @@ -1719,6 +1720,9 @@ static void dwc3_get_properties(struct dwc3 *dwc)
-> >          */
-> >         tx_fifo_resize_max_num = 6;
+> >  /* autosuspend and unlock the shutdown */
+> >  void snd_usb_unlock_shutdown(struct snd_usb_audio *chip)
+> > @@ -1038,6 +1039,7 @@ void snd_usb_unlock_shutdown(struct snd_usb_audio *chip)
+> >         if (atomic_dec_and_test(&chip->usage_count))
+> >                 wake_up(&chip->shutdown_wait);
+> >  }
+> > +EXPORT_SYMBOL_GPL(snd_usb_unlock_shutdown);
 > >
-> > +       /* default to a single XHCI interrupter */
-> > +       num_hc_interrupters = 1;
-> > +
-> >         dwc->maximum_speed = usb_get_maximum_speed(dev);
-> >         dwc->max_ssp_rate = usb_get_maximum_ssp_rate(dev);
-> >         dwc->dr_mode = usb_get_dr_mode(dev);
-> > @@ -1765,6 +1769,12 @@ static void dwc3_get_properties(struct dwc3 *dwc)
-> >                                 &tx_thr_num_pkt_prd);
-> >         device_property_read_u8(dev, "snps,tx-max-burst-prd",
-> >                                 &tx_max_burst_prd);
-> > +       device_property_read_u16(dev, "num-hc-interrupters",
-> > +                                &num_hc_interrupters);
-> > +       /* DWC3 core allowed to have a max of 8 interrupters */
-> > +       if (num_hc_interrupters > 8)
-> > +               num_hc_interrupters = 8;
-> > +
-> >         dwc->do_fifo_resize = device_property_read_bool(dev,
-> >                                                         "tx-fifo-resize");
-> >         if (dwc->do_fifo_resize)
-> > @@ -1851,6 +1861,8 @@ static void dwc3_get_properties(struct dwc3 *dwc)
-> >         dwc->tx_max_burst_prd = tx_max_burst_prd;
+> >  int snd_usb_autoresume(struct snd_usb_audio *chip)
+> >  {
+> > @@ -1060,6 +1062,7 @@ int snd_usb_autoresume(struct snd_usb_audio *chip)
+> >         }
+> >         return 0;
+> >  }
+> > +EXPORT_SYMBOL_GPL(snd_usb_autoresume);
 > >
-> >         dwc->tx_fifo_resize_max_num = tx_fifo_resize_max_num;
-> > +
-> > +       dwc->num_hc_interrupters = num_hc_interrupters;
+> >  void snd_usb_autosuspend(struct snd_usb_audio *chip)
+> >  {
+> > @@ -1073,6 +1076,7 @@ void snd_usb_autosuspend(struct snd_usb_audio *chip)
+> >         for (i = 0; i < chip->num_interfaces; i++)
+> >                 usb_autopm_put_interface(chip->intf[i]);
+> >  }
+> > +EXPORT_SYMBOL_GPL(snd_usb_autosuspend);
+> >
+> >  static int usb_audio_suspend(struct usb_interface *intf, pm_message_t message)
+> >  {
+> > diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
+> > index a29f28eb7d0c..1fed039b10ed 100644
+> > --- a/sound/usb/endpoint.c
+> > +++ b/sound/usb/endpoint.c
+> > @@ -1524,6 +1524,7 @@ int snd_usb_endpoint_prepare(struct snd_usb_audio *chip,
+> >         mutex_unlock(&chip->mutex);
+> >         return err;
+> >  }
+> > +EXPORT_SYMBOL_GPL(snd_usb_endpoint_prepare);
+> >
+> >  /* get the current rate set to the given clock by any endpoint */
+> >  int snd_usb_endpoint_get_clock_rate(struct snd_usb_audio *chip, int clock)
+> > diff --git a/sound/usb/helper.c b/sound/usb/helper.c
+> > index 72b671fb2c84..497d2b27fb59 100644
+> > --- a/sound/usb/helper.c
+> > +++ b/sound/usb/helper.c
+> > @@ -62,6 +62,7 @@ void *snd_usb_find_csint_desc(void *buffer, int buflen, void *after, u8 dsubtype
+> >         }
+> >         return NULL;
+> >  }
+> > +EXPORT_SYMBOL_GPL(snd_usb_find_csint_desc);
+> >
+> >  /*
+> >   * Wrapper for usb_control_msg().
+> > diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
+> > index 08bf535ed163..18467da6fd9e 100644
+> > --- a/sound/usb/pcm.c
+> > +++ b/sound/usb/pcm.c
+> > @@ -148,6 +148,16 @@ find_format(struct list_head *fmt_list_head, snd_pcm_format_t format,
+> >         return found;
 > >  }
 > >
-> >  /* check whether the core supports IMOD */
-> > diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-> > index aaa39e663f60..fbe83914d9f9 100644
-> > --- a/drivers/usb/dwc3/core.h
-> > +++ b/drivers/usb/dwc3/core.h
-> > @@ -1083,6 +1083,7 @@ struct dwc3_scratchpad_array {
-> >   * @tx_max_burst_prd: max periodic ESS transmit burst size
-> >   * @tx_fifo_resize_max_num: max number of fifos allocated during txfifo resize
-> >   * @clear_stall_protocol: endpoint number that requires a delayed status phase
-> > + * @num_hc_interrupters: number of host controller interrupters
-> >   * @hsphy_interface: "utmi" or "ulpi"
-> >   * @connected: true when we're connected to a host, false otherwise
-> >   * @softconnect: true when gadget connect is called, false when disconnect runs
-> > @@ -1330,6 +1331,7 @@ struct dwc3 {
-> >         u8                      tx_max_burst_prd;
-> >         u8                      tx_fifo_resize_max_num;
-> >         u8                      clear_stall_protocol;
-> > +       u16                     num_hc_interrupters;
-> >
-> >         const char              *hsphy_interface;
-> >
-> > diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-> > index b48e108fc8fe..1c513bf8002e 100644
-> > --- a/drivers/usb/dwc3/host.c
-> > +++ b/drivers/usb/dwc3/host.c
-> > @@ -182,6 +182,9 @@ int dwc3_host_init(struct dwc3 *dwc)
-> >         if (DWC3_VER_IS_WITHIN(DWC3, ANY, 300A))
-> >                 props[prop_idx++] = PROPERTY_ENTRY_BOOL("quirk-broken-port-ped");
-> >
-> > +       props[prop_idx++] = PROPERTY_ENTRY_U16("num-hc-interrupters",
-> > +                                              dwc->num_hc_interrupters);
+> > +const struct audioformat *
+> > +snd_usb_find_format(struct list_head *fmt_list_head, snd_pcm_format_t format,
+> > +                   unsigned int rate, unsigned int channels, bool strict_match,
+> > +                   struct snd_usb_substream *subs)
+> > +{
+> > +       return find_format(fmt_list_head, format, rate, channels, strict_match,
+> > +                       subs);
+> > +}
+> > +EXPORT_SYMBOL_GPL(snd_usb_find_format);
 > > +
-> >         if (prop_idx) {
-> >                 ret = device_create_managed_software_node(&xhci->dev, props, NULL);
-> >                 if (ret) {
+> >  static const struct audioformat *
+> >  find_substream_format(struct snd_usb_substream *subs,
+> >                       const struct snd_pcm_hw_params *params)
+> > @@ -157,6 +167,14 @@ find_substream_format(struct snd_usb_substream *subs,
+> >                            true, subs);
+> >  }
+> >
+> > +const struct audioformat *
+> > +snd_usb_find_substream_format(struct snd_usb_substream *subs,
+> > +                             const struct snd_pcm_hw_params *params)
+> > +{
+> > +       return find_substream_format(subs, params);
+> > +}
+> > +EXPORT_SYMBOL_GPL(snd_usb_find_substream_format);
+> > +
+> >  bool snd_usb_pcm_has_fixed_rate(struct snd_usb_substream *subs)
+> >  {
+> >         const struct audioformat *fp;
+> > @@ -461,20 +479,9 @@ static void close_endpoints(struct snd_usb_audio *chip,
+> >         }
+> >  }
+> >
+> > -/*
+> > - * hw_params callback
+> > - *
+> > - * allocate a buffer and set the given audio format.
+> > - *
+> > - * so far we use a physically linear buffer although packetize transfer
+> > - * doesn't need a continuous area.
+> > - * if sg buffer is supported on the later version of alsa, we'll follow
+> > - * that.
+> > - */
+> > -static int snd_usb_hw_params(struct snd_pcm_substream *substream,
+> > -                            struct snd_pcm_hw_params *hw_params)
+> > +int snd_usb_hw_params(struct snd_usb_substream *subs,
+> > +                     struct snd_pcm_hw_params *hw_params)
+> >  {
+> > -       struct snd_usb_substream *subs = substream->runtime->private_data;
+> >         struct snd_usb_audio *chip = subs->stream->chip;
+> >         const struct audioformat *fmt;
+> >         const struct audioformat *sync_fmt;
+> > @@ -499,7 +506,7 @@ static int snd_usb_hw_params(struct snd_pcm_substream *substream,
+> >         if (fmt->implicit_fb) {
+> >                 sync_fmt = snd_usb_find_implicit_fb_sync_format(chip, fmt,
+> >                                                                 hw_params,
+> > -                                                               !substream->stream,
+> > +                                                               !subs->direction,
+> >                                                                 &sync_fixed_rate);
+> >                 if (!sync_fmt) {
+> >                         usb_audio_dbg(chip,
+> > @@ -579,15 +586,28 @@ static int snd_usb_hw_params(struct snd_pcm_substream *substream,
+> >
+> >         return ret;
+> >  }
+> > +EXPORT_SYMBOL_GPL(snd_usb_hw_params);
+> >
+> >  /*
+> > - * hw_free callback
+> > + * hw_params callback
+> >   *
+> > - * reset the audio format and release the buffer
+> > + * allocate a buffer and set the given audio format.
+> > + *
+> > + * so far we use a physically linear buffer although packetize transfer
+> > + * doesn't need a continuous area.
+> > + * if sg buffer is supported on the later version of alsa, we'll follow
+> > + * that.
+> >   */
+> > -static int snd_usb_hw_free(struct snd_pcm_substream *substream)
+> > +static int snd_usb_pcm_hw_params(struct snd_pcm_substream *substream,
+> > +                                struct snd_pcm_hw_params *hw_params)
+> >  {
+> >         struct snd_usb_substream *subs = substream->runtime->private_data;
+> > +
+> > +       return snd_usb_hw_params(subs, hw_params);
+> > +}
+> > +
+> > +int snd_usb_hw_free(struct snd_usb_substream *subs)
+> > +{
+> >         struct snd_usb_audio *chip = subs->stream->chip;
+> >
+> >         snd_media_stop_pipeline(subs);
+> > @@ -603,6 +623,19 @@ static int snd_usb_hw_free(struct snd_pcm_substream *substream)
+> >
+> >         return 0;
+> >  }
+> > +EXPORT_SYMBOL_GPL(snd_usb_hw_free);
+> > +
+> > +/*
+> > + * hw_free callback
+> > + *
+> > + * reset the audio format and release the buffer
+> > + */
+> > +static int snd_usb_pcm_hw_free(struct snd_pcm_substream *substream)
+> > +{
+> > +       struct snd_usb_substream *subs = substream->runtime->private_data;
+> > +
+> > +       return snd_usb_hw_free(subs);
+> > +}
+> >
+> >  /* free-wheeling mode? (e.g. dmix) */
+> >  static int in_free_wheeling_mode(struct snd_pcm_runtime *runtime)
+> > @@ -1746,8 +1779,8 @@ static int snd_usb_substream_capture_trigger(struct snd_pcm_substream *substream
+> >  static const struct snd_pcm_ops snd_usb_playback_ops = {
+> >         .open =         snd_usb_pcm_open,
+> >         .close =        snd_usb_pcm_close,
+> > -       .hw_params =    snd_usb_hw_params,
+> > -       .hw_free =      snd_usb_hw_free,
+> > +       .hw_params =    snd_usb_pcm_hw_params,
+> > +       .hw_free =      snd_usb_pcm_hw_free,
+> >         .prepare =      snd_usb_pcm_prepare,
+> >         .trigger =      snd_usb_substream_playback_trigger,
+> >         .sync_stop =    snd_usb_pcm_sync_stop,
+> > @@ -1758,8 +1791,8 @@ static const struct snd_pcm_ops snd_usb_playback_ops = {
+> >  static const struct snd_pcm_ops snd_usb_capture_ops = {
+> >         .open =         snd_usb_pcm_open,
+> >         .close =        snd_usb_pcm_close,
+> > -       .hw_params =    snd_usb_hw_params,
+> > -       .hw_free =      snd_usb_hw_free,
+> > +       .hw_params =    snd_usb_pcm_hw_params,
+> > +       .hw_free =      snd_usb_pcm_hw_free,
+> >         .prepare =      snd_usb_pcm_prepare,
+> >         .trigger =      snd_usb_substream_capture_trigger,
+> >         .sync_stop =    snd_usb_pcm_sync_stop,
+> > diff --git a/sound/usb/pcm.h b/sound/usb/pcm.h
+> > index 388fe2ba346d..c096021adb2b 100644
+> > --- a/sound/usb/pcm.h
+> > +++ b/sound/usb/pcm.h
+> > @@ -15,4 +15,15 @@ void snd_usb_preallocate_buffer(struct snd_usb_substream *subs);
+> >  int snd_usb_audioformat_set_sync_ep(struct snd_usb_audio *chip,
+> >                                     struct audioformat *fmt);
+> >
+> > +const struct audioformat *
+> > +snd_usb_find_format(struct list_head *fmt_list_head, snd_pcm_format_t format,
+> > +                   unsigned int rate, unsigned int channels, bool strict_match,
+> > +                   struct snd_usb_substream *subs);
+> > +const struct audioformat *
+> > +snd_usb_find_substream_format(struct snd_usb_substream *subs,
+> > +                             const struct snd_pcm_hw_params *params);
+> > +
+> > +int snd_usb_hw_params(struct snd_usb_substream *subs,
+> > +                     struct snd_pcm_hw_params *hw_params);
+> > +int snd_usb_hw_free(struct snd_usb_substream *subs);
+> >  #endif /* __USBAUDIO_PCM_H */
 > >
 > 
 > 
 
-------caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_6aabf_
+-------xErIy8MFyp5znNcbVfGOYxfVuB8z5fzEV-ls754GuccR_q1=_6ad0c_
 Content-Type: text/plain; charset="utf-8"
 
 
-------caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_6aabf_--
+-------xErIy8MFyp5znNcbVfGOYxfVuB8z5fzEV-ls754GuccR_q1=_6ad0c_--
 
