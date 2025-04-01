@@ -1,221 +1,165 @@
-Return-Path: <linux-input+bounces-11441-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11442-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E93A7729E
-	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 04:14:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C6DA7748A
+	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 08:32:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F24811888D9F
-	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 02:14:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 681C616AE16
+	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 06:32:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BAAC155393;
-	Tue,  1 Apr 2025 02:14:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D4E31D63F7;
+	Tue,  1 Apr 2025 06:32:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="TOuFEw4o"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yf+KqDdv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719B835949
-	for <linux-input@vger.kernel.org>; Tue,  1 Apr 2025 02:14:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8032AF14;
+	Tue,  1 Apr 2025 06:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743473673; cv=none; b=UdD5BqP1DxRmCKO+R4lWnMOYg4RnpT1T2YxoA9x/cCiG6ddzwJu8+FH2XPf4FwzCwQuD5qnWyYCwsN8nc+AX1faMIFxm5501c/irNlAmnLQu+/a85EDTVN2vD7U3Vqa/I9MKyE5Qi26JtEXESvfL/j+6vwS4VReGXQw3unjJNIc=
+	t=1743489127; cv=none; b=e0YORsyCRKfKqFJTA3Qp90ymZGc5V+3ldc5uqvGdmnb5GPhxJGg4kQlEwOomS5S6ZXxmsqc1QezGeOCvXm/tpjnr6URX51/ifyUGtuwQOoLOFfX2BAvGwwvTbvTg+dPPiwKOB0CXXYCP/szfujB/oqi0hlNli9N8URsYa+UgIDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743473673; c=relaxed/simple;
-	bh=btsx7G9oLe745AyCwE8EiMzW96Mm8fFPN0r5Nj09QU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
-	 Content-Type:References; b=M1LacD3iRF1XL9ZebOA8pONhT/gclf97nqhW36HxgBgQfZc9hfFNG4tJLwc0gWpkzPfcP1F6+AOr8f7q9+2FWQB/PrExhm7qiyIj7Zexz7jpkUiMV6fftj7WwlvDp/X2c7j2fnY67ZHhhTG8ynPeJmYd+9YxcS3aPgQ+XrZ0+vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=TOuFEw4o; arc=none smtp.client-ip=203.254.224.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20250401021429epoutp01f48addb704f43bd365cd2bc55509483b~yEBCwT0VA0760007600epoutp01G
-	for <linux-input@vger.kernel.org>; Tue,  1 Apr 2025 02:14:29 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20250401021429epoutp01f48addb704f43bd365cd2bc55509483b~yEBCwT0VA0760007600epoutp01G
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1743473669;
-	bh=7bcFPViTtsO+p+t1ZImtFXAyntpk+EDHZqlNKA6Gh6M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TOuFEw4olTPDU1ScHlbbM0LQWlYP2ZauWyXqgYfusBsztcO4uwO6Dbd94KZiUG3lY
-	 BoPzCCmNDuoJDw9+6ahHmScTn9JUDw+HByHeJq+GSysEe8cPpBHKo9M5PjRJQqVpO7
-	 YhRWUUXEvDlNBsPt8cb6Bzlijvi0kzAAxLmqJgj0=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas2p2.samsung.com (KnoxPortal) with ESMTPS id
-	20250401021429epcas2p2402906ff9dabc07ca417a98c05fd3182~yEBCN5tQm1409014090epcas2p2Y;
-	Tue,  1 Apr 2025 02:14:29 +0000 (GMT)
-Received: from epsmgec2p1-new.samsung.com (unknown [182.195.36.89]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4ZRWlm2pMzz2SSL3; Tue,  1 Apr
-	2025 02:14:28 +0000 (GMT)
-Received: from epcas2p1.samsung.com ( [182.195.41.53]) by
-	epsmgec2p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	CE.27.37303.40C4BE76; Tue,  1 Apr 2025 11:14:28 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
-	20250401021427epcas2p40616133da2f95585af5f83e355e0cab8~yEBBErT0m0916509165epcas2p4d;
-	Tue,  1 Apr 2025 02:14:27 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20250401021427epsmtrp28c03f61d7cb3ee24287566a1dd591f6b~yEBBDlwmU1626516265epsmtrp2C;
-	Tue,  1 Apr 2025 02:14:27 +0000 (GMT)
-X-AuditID: b6c32a4d-541ff700000091b7-49-67eb4c041e75
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	B1.C6.19478.30C4BE76; Tue,  1 Apr 2025 11:14:27 +0900 (KST)
-Received: from ubuntu (unknown [10.229.95.128]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20250401021427epsmtip160f3d75d1ab0c4c53dd0924e5eafe711~yEBAxHCur0673006730epsmtip1q;
-	Tue,  1 Apr 2025 02:14:27 +0000 (GMT)
-Date: Tue, 1 Apr 2025 11:23:36 +0900
-From: Jung Daehwan <dh10.jung@samsung.com>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: Puma Hsu <pumahsu@google.com>, Greg KH <gregkh@linuxfoundation.org>,
-	srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
-	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, robh@kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, Mathias Nyman
-	<mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH v36 01/31] xhci: sideband: add initial api to register a
- secondary interrupter entity
-Message-ID: <20250401022336.GA98772@ubuntu>
+	s=arc-20240116; t=1743489127; c=relaxed/simple;
+	bh=BDxF424ruMiZKsGkmqb60vQyLRBj+6kdl6qq3sR8Hgg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pf8jJhL+SsJKi/kIVpoX/5IGo4kwHmNPi0DUYIOMtnGsnqlenBRpYMi3PSMbmI+04Bnxfq3h/+SSrCHKipCGXyFKQrTDVyRZTg1MsQUt45HZR0cX5oB5NyRkRvGeOADsym3sjqX2Qb7X52uqd4oEprWuYiNNRqwWpVvL0/dNRmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yf+KqDdv; arc=none smtp.client-ip=209.85.214.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-2295d78b45cso9301955ad.0;
+        Mon, 31 Mar 2025 23:32:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743489125; x=1744093925; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wGw7xyNBu03x37lDi5ltAIq1oMX8Xxz184y1gqG3/+Y=;
+        b=Yf+KqDdvtGhtPzCirnM55MIAmI87SdsdIxlzi7KW2G2zfuAV1GDijdNkP6g3soew8S
+         QMAraQxclgHXObHdIlHVe4nCHoB7r2L7t0zESK8Mck0VQe2R9UfJTPIwprZ7SBeEq6RN
+         5QH7SfThzwWJdtyBsV3bn8tB+n6pvEjJuHsTxeAWbnGHpFOk6g2rCIZlosdmIvQ5sLgg
+         KJGeol8SNpKOKNSOign52hCaXoxrpzV6bb7PRShJ+C11aVlDwA5o9X9Q0rUqmUQjslAK
+         7856xYOfcxMlEJDZY17DlHP/Sp1OB3poTzDIziOX8cyGupilaaVXsTS+l0q80kCTnhe2
+         NPpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743489125; x=1744093925;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wGw7xyNBu03x37lDi5ltAIq1oMX8Xxz184y1gqG3/+Y=;
+        b=Iog9ANoCBphbVo8frTP4OhY1oWInarymuHouS+SVjPrXLVn7WuX3ASahxaAya2d/Jf
+         bmyTfaqLj22GHpsx5g2f/RxM1pVd1KjrODgvWXqZt5RAabmsVH3ngJZWqXg1xUrkouPQ
+         /1yGQEMy9PG85k7eCG6hzaK91hF3QO8o0irLYrRJhg4ZO0hf1uWOGyX1t7R2pvGWed93
+         vzS3t6f2exruqmTPC4LpDaGxYHdMSJ9lq6Nqh1c15kgHm4cyb4z5wgURhImNVzj8xioc
+         UYAj9gOKF1Y+JTwQyNZkLrlsNYJzkIB0lO1NhX/nIs0OwGdaufkabAgEpAqth9xKWroJ
+         HUBg==
+X-Forwarded-Encrypted: i=1; AJvYcCXva2+EPPjP1WT2QgpXF7cqadlmrY/Psa0gOOZtyCBChIJ6y+slNJ7titxZM+31I4TfCe1bh1ialtY1R/w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDQWPYilpjKLHQnU43Ybv4oZaeMTZmNGX2Wa4QT7BymbTeh/Ym
+	BK1/tsyvC5beG4o7w6VYNnQ6SrDdAgyXEDg3JsRaiskPptoaX7Q8pTi6HD8WUapllg==
+X-Gm-Gg: ASbGncs0ZQmJxrQGuMc5wCOuHP4/NXGnobgEIiE6lnfNuvlnG8BJJwuK8JxY+Md7wRq
+	4fRPflOHsJaDQVwkgRwBLv2nAnAr8KSF0n0eamBa+RedcikY75VqZ/BkX43p/3dOuSdRYsiLuue
+	kr2YKsRrPovtN7u5TkowBNYCUb/qGh5eOoDAbovSxhpBUhy31wTzFEJGjh04oBZRkmvgY1jpkSc
+	Xlqm4MS9lxPs5MYNWJ+xm7EGutavKGoeLviEMo7Tbw5rL+VAfzq8S4UpPlZNahHIu3XQBsqjmLl
+	VlbjelhQuWWlt0qoD8zrJeOhjsBBrI6g0iNzLc2RXCJcRgVGIbr0C5NqyAdS5Cspss+bJGU=
+X-Google-Smtp-Source: AGHT+IGJZEoqdwoeD23IjdthzmCGqvPXU4bgqGnajntJb6l7Akmfn++TOcm98QTRwEuaNF9iCAzftA==
+X-Received: by 2002:a17:903:40cb:b0:220:be86:a421 with SMTP id d9443c01a7336-2292f9e521bmr216475685ad.38.1743489125268;
+        Mon, 31 Mar 2025 23:32:05 -0700 (PDT)
+Received: from henry.localdomain ([111.202.148.167])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291f1cec2fsm80478415ad.117.2025.03.31.23.32.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Mar 2025 23:32:04 -0700 (PDT)
+From: Henry Martin <bsdhenrymartin@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Henry Martin <bsdhenrymartin@gmail.com>
+Subject: [PATCH v2] HID: uclogic: Add NULL check in uclogic_input_configured
+Date: Tue,  1 Apr 2025 14:31:57 +0800
+Message-Id: <20250401063157.19655-1-bsdhenrymartin@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <87746e66-84c1-4ff3-8b69-fbee1664eff6@quicinc.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TfUxTVxjGPb29t+Wjeim6HXGZTZnZYANa5OOwiS7RuEuGCWNLmPtj2MCl
-	MEpb2jKQkcGgfAZRBHHUMhg4QCZ28iGCRb4cDLaRZYqMDzFsUKWdToEVJgJruWr473ee932e
-	c95zcrgYv5Ljxo2Ta2iVXCITEo7sK30e/l7sUItUNJrtis5MzxDoYucwC8105wJUeWMYR33V
-	9wHKqjEQaE43RSDrrTwWKu76lYO+zTnPRmPzVhzd7NATqMJUiqHq2mwMZTWV4sjyKJON8jtO
-	4ujJuomFyhvdUdO1IhytG69yUE5/P44aqro56IelRvAupNp1dzhUVVMSVWOcY1FNDfkENXnb
-	SFDfDH5AdVVc5FA1RSU4df1BLUEVG7+kDC0jbKqlawFQC02vhvE+id8XS0uiaZWAlkcpouPk
-	0mDh+x9GHoz0DxCJvcRBKFAokEsS6GDhodAwr8NxMtv8QsHnElmSTQqTqNVCn/37VIokDS2I
-	Vag1wUJaGS1TBiq91ZIEdZJc6i2nNW+LRSJff1vjsfjYR+tWoLzumjKWmQcyQOO2AuDAhaQf
-	HGmYwO3MJ40Ariy5FABHG88D+Fh7nnixKKkoAc8d/ywvsZhCO4BT2macWcwAWDiazbZ3scnX
-	4N8npjeYID3h1PJPmJ2323hSfxfYDRj5HxtaTT0ce8GVjIc/VutYduaRb8KnX7dxGHaBg+Uz
-	G0EO5AF4qbLZ1sPl7rBtYO5Jt+dAss0BXiitwe06JA/B/Aw2c1JXaB5o4TDsBhcedhIMq+H4
-	PRPGeLUA1pu1GFPYC3Wm3I0xMTIWTq79jjGZ7vDGOJuRt8K8vlUOI/NgXg6fcbrDszdP4Qzv
-	hD2W4WeJFCw7eRsw99OCwQHTCfwU2K3bNJlu0246WyxGekBDhw8j74ZZreeeybtg3Rp3U0cV
-	IBqAG61UJ0jpKF+l2EtOJ794+yhFQhPY+CmeR64Ci2HVuxewuKAXQC4m3M77+N85KZ8XLTme
-	SqsUkaokGa3uBf62ZyvG3HZEKWxfTa6JFPsFifwCAsSBvv6iQOHLvN7Hs1I+KZVo6HiaVtKq
-	5z4W18Etg7U3fCVl3OKZdjlt8cFXT6e35sYM/VEWMRq362C4gZf1urN1LCER29p2obLklRjV
-	e7Mdvn7Oi/FbZO4Tp2vqe1dDvPsy/qrMuLKtfa7d5KTsc9Sp2W3JdUebs985nBmy80mbvmg0
-	2xLTHyW4I0inP9InDk2cqfs06OhsRNB36cWFVZedQ/lcY/6tcKehPa1arf6h44FUklw5VrYH
-	obP9RsfUxft/RnW+9LM5aEt9npewI9n6Fj+nOM3iPuUjMITXR1ocrzmL5fPEQEF6ueDeYq3R
-	xWO/Uyge8sXx3yRry0cSIwYv6TPNdz9L7U6pPbeWseyWNaLQFUabW3+RvfF9GTYiDxey1bES
-	sSemUkv+B4ufmJ6yBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrNIsWRmVeSWpSXmKPExsWy7bCSnC6zz+t0g22N6hZTHz5hs1iz9xyT
-	xZMD7YwW84+cY7U4vOgFo0Xz4vVsFi9n3WOz+Halg8li4v6z7BYL25awWNz89I3V4vKuOWwW
-	c59NYbZYtKyV2aJ50xRWi9cfmlgsOnf1s1r8+v+MyWLmWmWLTbv7WC3+79nBbtF27BirxaoF
-	B9gtNnxfy+gg4bFz1l12jwWbSj0W73nJ5LFpVSebx51re9g85p0M9Ng/dw27x+K+yawe+94u
-	Y/OYuKfOY/2WqyweW/Z/ZvT4vEkugDeKyyYlNSezLLVI3y6BK+Pe8qOMBQ8EKqYeeMDWwPia
-	p4uRk0NCwETi/Y/vTF2MXBxCAtsZJRoutbJCJCQlls69wQ5hC0vcbznCClH0iFFiz6lPzCAJ
-	FgEViTe9D1lAbDYBLYl7P06AxUWA7Dtz7jOCNDAL/GaRuL38DliRsEC2xNFFs5hAbF4BbYk/
-	M7azQ0zdwiyxb813VoiEoMTJmU/AGpgF1CX+zLsENJUDyJaWWP6PAyIsL9G8dTbYMk4Be4l1
-	8zczgZSIAh306mD9BEahWUgGzUIyaBbCoFlIBi1gZFnFKJpaUJybnptcYKhXnJhbXJqXrpec
-	n7uJEZwetIJ2MC5b/1fvECMTB+MhRgkOZiUR3oivL9OFeFMSK6tSi/Lji0pzUosPMUpzsCiJ
-	8yrndKYICaQnlqRmp6YWpBbBZJk4OKUamNx5nF6ozFZ4Gmqs7/737UExTW+Gs+6rr3/Sv/TT
-	4f30oOPsV+f4HVmbyfpoMZup1r2FT36dctf4qjvhepfNx+zpvxlmusU/2Fbeyqeb8tS8us1f
-	Z/K5qO6+iqeVZVtL4kproyYKvT8bnLcyXyRiVuX+H8IpWvrslfkshQ/eK35IC8ycbvL3Sdee
-	lIVr9NScNRSvvmldL7V7+nJbMWbWWXur9jl7ymty/f9aKFpUeuF9y6HOI4Ida6OiOwsagqqz
-	GYv5FT6J68lIdWXVWV8vUlXYlTB1Tnt7/u++fecqTyfkHGmdJNVxIvvXj8usL/lPvOl/8L3Y
-	hGu/1nHugFsmmUauT8TKT7PWxvz/L/lSiaU4I9FQi7moOBEADSCNCn4DAAA=
-X-CMS-MailID: 20250401021427epcas2p40616133da2f95585af5f83e355e0cab8
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_66d1f_"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250327161254epcas2p35ea7c80bdcefaefc645c061531dd6833
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
-	<20250319005141.312805-2-quic_wcheng@quicinc.com>
-	<CAGCq0LZoi0MOJLJYUeQJW6EfOU_Ch=v1Sg8L4_B-KhdDCx1fCw@mail.gmail.com>
-	<2025032734-reward-fantasize-dc16@gregkh>
-	<CAGCq0LamxvvE8b45VAshw9aWJNC2so_vK9t+pzXd3C7Y7tfYAg@mail.gmail.com>
-	<CGME20250327161254epcas2p35ea7c80bdcefaefc645c061531dd6833@epcas2p3.samsung.com>
-	<87746e66-84c1-4ff3-8b69-fbee1664eff6@quicinc.com>
-
-------caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_66d1f_
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
 
-On Thu, Mar 27, 2025 at 09:12:12AM -0700, Wesley Cheng wrote:
-> 
-> 
-> On 3/27/2025 3:14 AM, Puma Hsu wrote:
-> > On Thu, Mar 27, 2025 at 3:02 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >>
-> >> On Thu, Mar 27, 2025 at 02:27:00PM +0800, Puma Hsu wrote:
-> >>> Hi,
-> >>>
-> >>> We have implemented and verified the USB audio offloading feature with
-> >>> the xhci sideband driver on our Google Pixel products. We would
-> >>> appreciate it if this solution can be accepted. Thank you all for the
-> >>> work!
-> >>>
-> >>
-> >> Great, can you properly send a "Tested-by:" line for this against the
-> >> 00/XX email so that it will be properly saved?
-> >>
-> > 
-> > We(Google Pixel) only use the xhci sideband related changes and two
-> > changes in the sound card driver. For the details, what we actually
-> > tested are patch [01], [02], [03], [04], [05], [06], [08], and [12].
-> > Do I still send the "Tested-by:" line to 00/31 email? Or should I just
-> > send the "Tested-by:" line to the 8 changes above? (I added
-> > "Tested-by" line for this [01/31] first.)
-> > 
-> >> Also, I think a new version of the series is coming, can you test that
-> >> to verify it works properly?  We have to wait until after -rc1 is out
-> >> anyway.
-> >>
-> > 
-> > I think this v36 is the last version of the series as I discussed with
-> > QCOM Wesley. And for sure I will test it if they do have a new
-> > version.
-> > 
-> 
-> Hi Puma,
-> 
-> I'm discussing with Stephan on the QC specific stuff, so the common changes
-> won't change on v37.  Please provide your tested-by tags for each commit,
-> so I can carry them accordingly on the next submission.  If I do end up
-> making changes to any of the common patches, I will remove your tested by
-> tag, which means you might have to test it again.
-> 
-> Thanks
-> Wesley Cheng
-> 
-> 
-> 
+devm_kasprintf() returns NULL when memory allocation fails. Currently,
+uclogic_input_configured() does not check for this case, which results in a
+NULL pointer dereference.
 
-Hi Wesley,
+Add NULL check after devm_kasprintf() to prevent this issue.
 
-Thanks for your effort to upstream usb audio offload.
-I've also used your patchset like Puma.
-([01], [02], [03], [04], [05], [06], [08], and [12])
+Fixes: dd613a4e45f8 ("HID: uclogic: Correct devm device reference for hidinput input_dev name")
+Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
+---
+V1 -> V2: 
+Simplify the handing of the condition "suffix" with if/else suggested by
+Markus. 
+The current implementation (directly returning -ENOMEM) is reasonable because:
+1. pen_input is just a cached pointer - no resources are allocated
+2. evbit modification is a software-only configuration (hardware-independent)
+3. No critical state needs rollback on memory allocation failure
 
-It works well on Exynos. Please let me know if you need also
-"Tested-by:" on our side.
+ drivers/hid/hid-uclogic-core.c | 28 +++++++++++-----------------
+ 1 file changed, 11 insertions(+), 17 deletions(-)
 
-Best Regards,
-Jung Daehwan
+diff --git a/drivers/hid/hid-uclogic-core.c b/drivers/hid/hid-uclogic-core.c
+index d8008933c052..83625ec6a55a 100644
+--- a/drivers/hid/hid-uclogic-core.c
++++ b/drivers/hid/hid-uclogic-core.c
+@@ -118,35 +118,29 @@ static int uclogic_input_configured(struct hid_device *hdev,
+ 		}
+ 	}
+ 
+-	if (!suffix) {
++	if (!suffix && hi->report->maxfield > 0) {
+ 		field = hi->report->field[0];
+ 
+-		switch (field->application) {
+-		case HID_GD_KEYBOARD:
++		if (field->application == HID_GD_KEYBOARD)
+ 			suffix = "Keyboard";
+-			break;
+-		case HID_GD_MOUSE:
++		else if (field->application == HID_GD_MOUSE)
+ 			suffix = "Mouse";
+-			break;
+-		case HID_GD_KEYPAD:
++		else if (field->application == HID_GD_KEYPAD)
+ 			suffix = "Pad";
+-			break;
+-		case HID_DG_PEN:
+-		case HID_DG_DIGITIZER:
++		else if (field->application == HID_DG_PEN || field->application == HID_DG_DIGITIZER)
+ 			suffix = "Pen";
+-			break;
+-		case HID_CP_CONSUMER_CONTROL:
++		else if (field->application == HID_CP_CONSUMER_CONTROL)
+ 			suffix = "Consumer Control";
+-			break;
+-		case HID_GD_SYSTEM_CONTROL:
++		else if (field->application == HID_GD_SYSTEM_CONTROL)
+ 			suffix = "System Control";
+-			break;
+-		}
+ 	}
+ 
+-	if (suffix)
++	if (suffix) {
+ 		hi->input->name = devm_kasprintf(&hdev->dev, GFP_KERNEL,
+ 						 "%s %s", hdev->name, suffix);
++		if (!hi->input->name)
++			return -ENOMEM;
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.34.1
 
-------caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_66d1f_
-Content-Type: text/plain; charset="utf-8"
-
-
-------caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_66d1f_--
 
