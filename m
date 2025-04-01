@@ -1,244 +1,255 @@
-Return-Path: <linux-input+bounces-11439-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11440-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BE6A76DB3
-	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 21:53:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED9FA7729B
+	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 04:12:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B3522188A23A
-	for <lists+linux-input@lfdr.de>; Mon, 31 Mar 2025 19:53:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B0D1A16B52A
+	for <lists+linux-input@lfdr.de>; Tue,  1 Apr 2025 02:12:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7930219EAD;
-	Mon, 31 Mar 2025 19:52:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C4C9155393;
+	Tue,  1 Apr 2025 02:12:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dwSKtzUz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NQMQyA19"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E23C218E91;
-	Mon, 31 Mar 2025 19:52:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743450775; cv=none; b=S+VO9IiXaVa4/ElaFPHGYKZNCGnPikt6topDQyHGPHwN74WWeHNWZZTM4NfYxHHk8tmU4vKkhh8SiP8TojffjCGQl8VR9ojxHcWnx4///L9x9pjhEZr1FxSxd0yMSqNle0lEQS/JmruwpAZK3zDP/D0TlvMn6m3C/CToJqrjQz8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743450775; c=relaxed/simple;
-	bh=iAx6AiZOdcoVCQPaqkhovcXsqqfrJ9yKx5C+5ve//lE=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=XjGP91H8WVfQD6MsnOrBDFcnW+yxb+6yNEYkjgPWkgYTz+RaObHpah7HijqZbtzezZfRJ3k2ThtL5N5CrrktDdbdmNKYJhmWwge3uUHuhiXlXOxThiMRALWcaRvVAgSVTHZ/xQf6ywR5YokAtN7xCqcQatx1XXSpvfbbCgEBNSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dwSKtzUz; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52VFD05h007728;
-	Mon, 31 Mar 2025 19:52:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	4o/ga2++oE8EAz0HX/ke0EQAZIONMTuD1M7ohYe75Ak=; b=dwSKtzUzTLPRu4m5
-	SrGojQ/5eMLmmw+GvPHg64bkT5u+XS2hZESjvgsj3LtATk+lsmRN1zWhIBpPd++F
-	J/N0KnOLUxaQuB1gpPXmLZM/mbGG4Dj8LV0x/KEp5kPvlITZFV7/QNJ32S58CrrP
-	4w9wEPcPy5SBLquuaW1QlNszZBsaQcMfZbMfrtGWCISsDbO22YwewFaWw8PamI6e
-	R467QS8F5aF8+juNjDjI3V0uoh5qcitSI9J5b6X9a+0VxcbKQAvB/8t4zJNXbXLU
-	IzWHASjGF3AhWJdU4l9rhJa26L3aW9yLNpoXC0i+2fEgohJpJZvJeq3FkX3naGSk
-	8Y4xDA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45pa1nwcwb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 31 Mar 2025 19:52:26 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52VJqQWl015383
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 31 Mar 2025 19:52:26 GMT
-Received: from [10.110.31.20] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 31 Mar
- 2025 12:52:24 -0700
-Message-ID: <200c08f7-3637-c2fb-2caa-002604b957ed@quicinc.com>
-Date: Mon, 31 Mar 2025 12:52:19 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D909AEACE;
+	Tue,  1 Apr 2025 02:12:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743473570; cv=fail; b=U11YkpXoLTHEyarQ3u6gE4b3YceUP4tFxb8sQzKaCbPAdB2SzBULcukNuJ87CeRuG4eQjJHKtwFJxkXQ19h33/UP/+S7UwdeMiwyuOlqfOSHInDjepkxFE5N+ZuX+5whtU9c0zSqoMdXRUmlocCVDonqk+4/rZRG9gwnk9EyfLA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743473570; c=relaxed/simple;
+	bh=C3L9VzaasmWa2lZiCf00i39VEUl/rEdcLdesX5/TyvQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=NbxrQ9HjoLjVXwyLWEzJc1vqJ0LIkxm0CMBIm2ElCal7ZeDN2KdwrH5aaaN5TJ6zpC/oawSAEZhS4hL4ap7LMX2Dy58BkELYoenIynNwxeo/KOp3n5ALNCMooJ0Qt6gCWWZUI8Go+NalAb8H96uTbwmQKI+qkAMAeNd9sc2Iq9g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NQMQyA19; arc=fail smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743473569; x=1775009569;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=C3L9VzaasmWa2lZiCf00i39VEUl/rEdcLdesX5/TyvQ=;
+  b=NQMQyA19FwheSVgtVd7Ut1rTptuOPNHhoHYhMurlzMr4eL3r280yNuOc
+   vkXiuOPuToTUPXqu0cDaV7wreex6wD7WEBs5CQuKtOXO4i+U5PqBzKytO
+   HMcGlKnGjBxoscXquUoOioQtO+AUnuw/2W2O6jZtxc4cF62D5izLQlg9/
+   RWCBCga0XqCln+ZqTnspvaCmGKbCO+bJUH2RbYcibC6b+fBAJE+WVSKzu
+   LXohQ6iurBorKn47z18bOzZrKvMIpLNGS+XKkRgdPw6YkywvBzR7Ngl/j
+   BuD5nMM3a26gg1LWz6LiN4ZgY8EuRhNMBJiu4ONuPEPMrp+MBMFwZK5qz
+   w==;
+X-CSE-ConnectionGUID: 8zCoWX5lT6aL8EcGD/IYWg==
+X-CSE-MsgGUID: BAQACcT6TOuRqir6ucoshQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="48650973"
+X-IronPort-AV: E=Sophos;i="6.14,292,1736841600"; 
+   d="scan'208";a="48650973"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2025 19:12:48 -0700
+X-CSE-ConnectionGUID: RAfof4i+S6u7WHGJDRO4kw==
+X-CSE-MsgGUID: JWer+HJFRRKLG3ZXEaZwTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,292,1736841600"; 
+   d="scan'208";a="127156488"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2025 19:12:48 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Mon, 31 Mar 2025 19:12:47 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Mon, 31 Mar 2025 19:12:47 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.46) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Mon, 31 Mar 2025 19:12:47 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hEmmrYr57IWpHKCS+HSHBKEDUWF6bk8NE1jIiJMQGDqU8IZmj1huguJYWdlcEkpp+gK09be3gAb1gNED0JwrDw2UG0dits165NkQVDebTo94RT/O/nZlaB7D0gX631fOCMFYHpkHeIjdYjg9Y3vZvj9fd0dJvn8tkU7u21PjFPp3ulZAIeXc4K/+ExnMT5Rk5lfV7mDuWheP4hnyKbPi9Uy/X2DJRl9RIKTxDIajB2BIlrG9AjsVo8GMjrAFxGQO2OErGPhYV0YtvfKpc0jXkftdAAWbDVx1D+qEk0aKowNuGqnZDJ22JUOE5NcaMCwj8O9VenbHH5zP74vptaM0LQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C3L9VzaasmWa2lZiCf00i39VEUl/rEdcLdesX5/TyvQ=;
+ b=GcYGGxYbDwvulI1vmvm8e+WB7hSFcUyOdpIHAcZ04ifzik5cUnSIGfbBx83CnJd9r0ij3FoJ4BBqKZmA7qXjFfHDsiMkn4+RmbSewRDRz5Q+yGnvZFD/evXD9COfe/b8M8QvAizP+9djGnqYsp8CHGuWkTaR0f4UQHpy2cis0W1AkWE4uEncsC9bVDyUszG2DgZLDsvh2GevTsmyitsDcNkpz2LQ2IWw7BD+TfGu8WemhPOCugt8yEOYlj4Eoaa0UeECF+tmJIg3pTvw9pyIKPA3Za6jgDPGO6JqKbsCwKtsPdlAHqbPXiS9eiQwNajpDiqQd8QMtt9gJJ3C9NJ6eQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB5995.namprd11.prod.outlook.com (2603:10b6:8:5e::11) by
+ SN7PR11MB6797.namprd11.prod.outlook.com (2603:10b6:806:263::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8534.44; Tue, 1 Apr 2025 02:12:26 +0000
+Received: from DM4PR11MB5995.namprd11.prod.outlook.com
+ ([fe80::654c:a738:ac8:7908]) by DM4PR11MB5995.namprd11.prod.outlook.com
+ ([fe80::654c:a738:ac8:7908%5]) with mapi id 15.20.8534.045; Tue, 1 Apr 2025
+ 02:12:26 +0000
+From: "Zhang, Lixu" <lixu.zhang@intel.com>
+To: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>, "Jonathan
+ Cameron" <jic23@kernel.org>
+CC: "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>, "lars@metafoo.de"
+	<lars@metafoo.de>, "jikos@kernel.org" <jikos@kernel.org>,
+	"peterz@infradead.org" <peterz@infradead.org>, "gregkh@linuxfoundation.org"
+	<gregkh@linuxfoundation.org>, "ribalda@chromium.org" <ribalda@chromium.org>,
+	"archana.patni@linux.intel.com" <archana.patni@linux.intel.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, "Xu, Even"
+	<even.xu@intel.com>
+Subject: RE: [PATCH 0/3] iio: hid-sensor-prox: fix SCALE and OFFSET
+ calculation
+Thread-Topic: [PATCH 0/3] iio: hid-sensor-prox: fix SCALE and OFFSET
+ calculation
+Thread-Index: AQHbogCL2XoewIXLrk6o+7eq+v8RRrONFEYAgAA3zYCAAMalEA==
+Date: Tue, 1 Apr 2025 02:12:26 +0000
+Message-ID: <DM4PR11MB5995241F5F4D09B9723CE60193AC2@DM4PR11MB5995.namprd11.prod.outlook.com>
+References: <20250331055022.1149736-1-lixu.zhang@intel.com>
+	 <20250331120040.75d0577e@jic23-huawei>
+ <1563fdf418c33fd86a90ae295669f844b16ae66e.camel@linux.intel.com>
+In-Reply-To: <1563fdf418c33fd86a90ae295669f844b16ae66e.camel@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB5995:EE_|SN7PR11MB6797:EE_
+x-ms-office365-filtering-correlation-id: 893c85ad-9f6b-4a25-3cf4-08dd70c2a608
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|7416014|366016|376014|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?NWZRMlViaVZoMy9VMml6QXpRZjZQY0xPUXhERnZjUjQybjk2T0wxVEk1UjBY?=
+ =?utf-8?B?TEVIRUNveTRBd0ora3Q3RU9JY255ckVCOW80SnRnT0lySW1wVkFMK04wMGdU?=
+ =?utf-8?B?Q29xSFZPL2Q3OGZYRDBPRzZrRkdwb2w5S3V6N3Z3RC9GRjFTWGd6dE85SG9m?=
+ =?utf-8?B?aWkzYUdxWDdkaG92N2xNT0NtNGVVVXhZaUxsZGsyL2JYNW9JWmtLYk44dlFh?=
+ =?utf-8?B?UzBBcGo1SmtMSzNaNk9lWExRM0VlTGFqQ25YbE14N2liWGQ3bXhqNlBHa0NL?=
+ =?utf-8?B?aTBqenZ6N1ZEYU81RE03czBnOU85WHpwUlR6SXlJajJDNXpZeDE4bjRrK2xm?=
+ =?utf-8?B?RTNhU0VGOVdSUTF1Um55TldDdTZFaHJFK05JLzBTOXdLeUJYQmlhcjR6OXFX?=
+ =?utf-8?B?YXl0ZXdrK1FZQzlGYW5HSTIrUVRrRTl5MUk2cXpKWUlBZ2hnaHhSVnYzckdD?=
+ =?utf-8?B?VmIvOFBxUjZZT2FLNXp3ajc4WWpmelVtNG1aa3lZYWI2cUVYaHFDNHpzSHo3?=
+ =?utf-8?B?WW5zem9rYnBZcnVRSm04c0dlREpnR1hCV25neWZPNmdUazJxbFFiZHNKUHRX?=
+ =?utf-8?B?dkdxdHdUNHg1SjRwR09OTmgzRVNJeDdkVDhBN0ZPTk4xTUo0aWo0M21EdVdJ?=
+ =?utf-8?B?OTdiTlQxbjIyVWVBWDhhTEdMMGI2TVFiK1hHT2Z5VkxIWXpsU09jeXdxVU5z?=
+ =?utf-8?B?UDFOdWRxaWdxbWlHY2RqQkx2eXlyalFlR2JEQTBPZEdiOTU2NElJYkY0dUpw?=
+ =?utf-8?B?M2VqNER0UmZvSlBiWi9YS2lLcnROWkVGOWN0T0ljV0xEQ3JSRFArRDhPYlNN?=
+ =?utf-8?B?N3lWRndib3dIVU4yZ2JOWFEwREhabkY0ZVJuU3hXOGwrYWVjVWdhVWhRdHhO?=
+ =?utf-8?B?dm5uaE4rK3p3SFRTbmpha0tmNU1uamNmZ1lJVk9uZllVYmdlTXRLend1TzlK?=
+ =?utf-8?B?SGxNRDg2SGRsSU44b2xoRjczdmh2NW9UOXJnQmV5TzdmOUo0MUJRSjVvOFpG?=
+ =?utf-8?B?cjkvSDhkbHMrZDNlRFZTaXlGN1BnYzNaellzbk9RVXNSaXBmWDljd1E0RGpH?=
+ =?utf-8?B?SGsyc2o0T1g4UkVWQi9PcGlkTDl1QktzRmIwWWxVTVRZdmIvTXQ0b1AyWWdS?=
+ =?utf-8?B?K3hJWFBSZUNrNTFzRkZJZHRwNmR4b0ttTGdQaXRWeklpYUZwbHJ1eCtwWjNS?=
+ =?utf-8?B?bnU3OUhYMjdSbzZvZ3ozZllPSGhoblh1VTZSTnkxYloyajhETWVGVnFSQXRB?=
+ =?utf-8?B?RmtBa1pqaTcxdXBFU0pIMWdxcDNRZlppTkVCbkZweFJrdXZ2cnB0N2FjMGY4?=
+ =?utf-8?B?Qzh3MjhKRER4M0Y3bVhnby9YbVpyNXJhQXBJTnBMbkpvdFUyQXhxMS9LUHZ1?=
+ =?utf-8?B?NkVqdGEwdE01Y1BDWmFWVDFWelQ4UGh0dTNGSG9oOVhLU1U3akVKMHhoaHNO?=
+ =?utf-8?B?T2J4YUJIeTlmaEdNNlVkMGVQOTE2M1FEWkhKUHhWaDRoVEFKNGRvNm5sOElX?=
+ =?utf-8?B?cnRrN1RqUU9tcU8vNFFZWmVWbm1HQUxKVTlVWGxZRkFiN3lMdUlFdmUzbTFG?=
+ =?utf-8?B?UG1MYlUwUGNKN1UrZEhINldyYm1iWkFDcnZBMXJwUWtDSnhKdFJVYXRiUlRk?=
+ =?utf-8?B?Wm1EUVlDdzlDZ2Ywb29iZnRTVEt4cnBOT3I1bjY3eWhBbkhMOWJFTXV2dk01?=
+ =?utf-8?B?Vk1HK0dKaWQ4Qm9SbVBkVTROVzJrb2huMXA3U2hjVUg3SmNNUFRYbzVWakFz?=
+ =?utf-8?B?dDJGUFFhZjZuRUN2SHNLUGFJY0hPbkY3WXdmM1MvQTQ3ZGZtQW5INnRaVitO?=
+ =?utf-8?B?MUdXenJodm9EbncrbTllbC9VL3V1OFhxNDE1eFFGb3p0Q084U2ZHODlwUUVZ?=
+ =?utf-8?B?eUFDMEdmNm0wa3FRYU0wN2x0Uldqc2JFeFBsOERja0xGL1VLTUROclpzNmlU?=
+ =?utf-8?B?OW5PQlBZb09SV3dqbGZXWmhleEV3aHZneE82V3JuMk9IejdWeEYrK0xBYXYw?=
+ =?utf-8?B?cjN1RkYzMjhRPT0=?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MVJvdTNQU3RSVzYzNDZBeEg0YVZ2SHhVcHpQajdzRXRGbTlUK0dMNG9ya212?=
+ =?utf-8?B?dHNIUTN0VE9QS2lPSnlhRWpOL1NwU2t5aWgrb3JITTBQNnJjbVN5cW03Q2tK?=
+ =?utf-8?B?Ni9wSzIxOWljRUFRSExIMnV4S3VnYW5JZlR4ZTZmSE9YREZJMW94cDZOMEdV?=
+ =?utf-8?B?ZVFUYmgveFFpaHJ0UjA3VWc2VkRMRWtJeTJIWEJ4Sms0Q0RMTVFOSWlXQXlJ?=
+ =?utf-8?B?TnR5dXBjVjdOenJjZ00vdFBYRHFRZGwycVV5OXpraS9XUDR5a2JpNUh2WlVp?=
+ =?utf-8?B?djlBaXdIZENZM3lBcEVHTGdZdWErK1VTSVIwV1M3M0Q4clZUV2JEQ2krdlRF?=
+ =?utf-8?B?czBNWGhYSGZVK3JVSW5wVEYrUFB6Vlo4SnN3VHpTQWtycERjN0hHektVMi9y?=
+ =?utf-8?B?a1BsZmZXM2NLVXJBcURNWHU4RXUwY21HSCs5RHgxMWxrdW1jTFlhYjd1cWlZ?=
+ =?utf-8?B?ZzBWbXJhZERqdGlla3JlT1NPNmxMcXhmc1pDMmxxN3ZoTDhyYUl0MDBlMFZY?=
+ =?utf-8?B?YWVUdDRZZlVpTlJJTDlNbjZ3aTF0WnZ0dE9SblJ6M0hiSWY5dmtMbU8zZzB0?=
+ =?utf-8?B?bXRzZURjblBicmF4U2srNW1yK1JhZkpkODBZS1BqbW9PMXRURlA1amFJYXRW?=
+ =?utf-8?B?cGk3eEVnSENkYnJIMitlLzUwWk1JdGMxUFRRM1ZWVHliKzMxVkdsN2syVm9P?=
+ =?utf-8?B?d09PZzlZcjE4RVg0Y1hhV1AvTzZzbkZlRHpYdWJ4MFh0S1BiZVIxbWtlcUx5?=
+ =?utf-8?B?Y0hKYUIreU1PTi84bk9SQ2FCMXJmRGEvb3gzRUh0SldQTXdwd0hSZy9SQ2dv?=
+ =?utf-8?B?ZFppMG5YTEM3RmRnem4vaG0wMmFFcnF0bU96S3hYRWN2SHp5MEZrcW9INXQ2?=
+ =?utf-8?B?enE0ZllzcFRoczRSbVhlS0NqeWRGeDByM3h0ZkM2NHhPeVlkOXFpM1RVSjRQ?=
+ =?utf-8?B?NVVmakphOUJ2WXdEQXVnQnlJQitIZ09nMng2WDhpKy8vSGFLRW9CVW01VnlR?=
+ =?utf-8?B?SDFlbGxmZHhiQi9PR2p3c3huKzVsRDJ1Y1pEWElSWGs4MVlWTzhtR09sd3d1?=
+ =?utf-8?B?cUt1NHE1VCs1aUViYWlKT3JEOC9Nb2VUVTlFVi9yOFlmeFJpOVlGeDJNWm5p?=
+ =?utf-8?B?VTg4ZVpvcFFCVjFsVWtWdnBaYXA3enBEc29MRmNoRWgvWGFONW5qYmM1VmVk?=
+ =?utf-8?B?MXBNNWx5WHRlenB3YlNuWE1VaEFCTHhrT0JrZFJiSHFJTyswbGRHNzd2OVhj?=
+ =?utf-8?B?dmRHbE1aVjhJY0Z6N1ZOUVgyelFtR3BmUVltdXBLYnVsR09rY3NsOGQ2NE1G?=
+ =?utf-8?B?NlZqem5hcGpINmxCdHF1YUMza2RSQzVVRDRvTU1lUXpJa1pBSklhczd1UFVj?=
+ =?utf-8?B?cnpLYVlCa0NQdzZhQndSVkhWZVBHVjBVSzFVTDFOSFRsMUlRdFBCM0RmZld1?=
+ =?utf-8?B?TVIxWDFia3QraW53WkxiVk8zZDdMVjU3ZkJvbmdlQlA2TnpPSVZLU3VobGRn?=
+ =?utf-8?B?QlRmS2g3MDBvOHhPZ001enNPeXpOeG1qd09RQU1VUG1iMjJ5VmhNZ0VpZS9Y?=
+ =?utf-8?B?TDBmZjNhVU9MVEI5L2dRU1UzRzU4UnYyYWo3aHVaVU0waUZWS25mQnltUHA3?=
+ =?utf-8?B?K2RibUc0clB6VVp6WGdIemhOOTNYcERYaEg0RHRnYjk5eDlTbEVkQ21RYnZp?=
+ =?utf-8?B?cWtFdExqY2hGdjZacXpEODRSSkIwNTFuMk8wTUNhQUl2MXd4VlhWcnRYTUsx?=
+ =?utf-8?B?Sk1wWU82L0RtbWdheGtBMVJxeVFnRTlLQkhYZjNLWnR2N2h0cERPek5NRTFa?=
+ =?utf-8?B?U1dlK2EyazdZajB6YlBmSTFBRjNTeHVwRis0QXJ5bEVVRUg4ZE51UFQ1L2V6?=
+ =?utf-8?B?MU1XQlh3UHZsQlNKc3FJRk0xNTh6eWtYaTFlUHd5VmVGSW1QNGJEU1IrZTg4?=
+ =?utf-8?B?SWtjSU9WVnQ5b1lqSllRQmtSWUVaTG0xaHZJTURLVTduOG5uci8vOXVkQzE5?=
+ =?utf-8?B?ZmtHWTZDSS93d1BacjBNaEJkQ3RPWlR3dHZmclMzeDZvT3JsT2VFNDVONVJT?=
+ =?utf-8?B?UFFkN1FKTm9uUTdDUWNVYXpKcVVRbmRRVzkvSmR0M0M5UkFFdE1Mc0xvYTRm?=
+ =?utf-8?Q?4sez5lQV3Jb/4vFKvKEuXtwid?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: Re: [PATCH v36 22/31] ASoC: qcom: qdsp6: Introduce USB AFE port to
- q6dsp
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
-        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Luca Weiss
-	<luca.weiss@fairphone.com>
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
- <20250319005141.312805-23-quic_wcheng@quicinc.com>
- <Z-J2WnrZHP6iMIhT@linaro.org>
- <871827f0-94ba-4565-865f-775cab9501eb@quicinc.com>
- <Z-PPlRD7gcUcNvNv@linaro.org>
-Content-Language: en-US
-In-Reply-To: <Z-PPlRD7gcUcNvNv@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: GIw7Ik5soCn9yIsf1uJKEB1NenGOyaae
-X-Proofpoint-GUID: GIw7Ik5soCn9yIsf1uJKEB1NenGOyaae
-X-Authority-Analysis: v=2.4 cv=MPlgmNZl c=1 sm=1 tr=0 ts=67eaf27a cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=6AAXJ8fxLwfOIhd8QYgA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-31_09,2025-03-27_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 suspectscore=0 phishscore=0 spamscore=0 clxscore=1015
- bulkscore=0 mlxlogscore=999 impostorscore=0 mlxscore=0 adultscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503310138
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5995.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 893c85ad-9f6b-4a25-3cf4-08dd70c2a608
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Apr 2025 02:12:26.7600
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gjuTuEraVn5ndBM4wvkyPA1FRgJkXXvpnxNjPKlRuJEl2HrqrJDqMXTTMdgc5762NyOzX9Lo7E+7Hu4iDiwXng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6797
+X-OriginatorOrg: intel.com
 
-Hi Stephan,
-
-On 3/26/2025 2:57 AM, Stephan Gerhold wrote:
-> On Tue, Mar 25, 2025 at 04:18:03PM -0700, Wesley Cheng wrote:
->> On 3/25/2025 2:24 AM, Stephan Gerhold wrote:
->>> On Tue, Mar 18, 2025 at 05:51:32PM -0700, Wesley Cheng wrote:
->>>> The QC ADSP is able to support USB playback endpoints, so that the main
->>>> application processor can be placed into lower CPU power modes.  This adds
->>>> the required AFE port configurations and port start command to start an
->>>> audio session.
->>>>
->>>> Specifically, the QC ADSP can support all potential endpoints that are
->>>> exposed by the audio data interface.  This includes isochronous data
->>>> endpoints, in either synchronous mode or asynchronous mode. In the latter
->>>> case both implicit or explicit feedback endpoints are supported.  The size
->>>> of audio samples sent per USB frame (microframe) will be adjusted based on
->>>> information received on the feedback endpoint.
->>>>
->>>> Some pre-requisites are needed before issuing the AFE port start command,
->>>> such as setting the USB AFE dev_token.  This carries information about the
->>>> available USB SND cards and PCM devices that have been discovered on the
->>>> USB bus.  The dev_token field is used by the audio DSP to notify the USB
->>>> offload driver of which card and PCM index to enable playback on.
->>>>
->>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->>>> ---
->>>>  sound/soc/qcom/qdsp6/q6afe-dai.c         |  60 +++++++
->>>>  sound/soc/qcom/qdsp6/q6afe.c             | 192 ++++++++++++++++++++++-
->>>>  sound/soc/qcom/qdsp6/q6afe.h             |  36 ++++-
->>>>  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c |  23 +++
->>>>  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h |   1 +
->>>>  sound/soc/qcom/qdsp6/q6routing.c         |  32 +++-
->>>>  6 files changed, 341 insertions(+), 3 deletions(-)
->>>>
->> [...]
->>>> diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6routing.c
->>>> index 90228699ba7d..b7439420b425 100644
->>>> --- a/sound/soc/qcom/qdsp6/q6routing.c
->>>> +++ b/sound/soc/qcom/qdsp6/q6routing.c
->>>> @@ -435,6 +435,26 @@ static struct session_data *get_session_from_id(struct msm_routing_data *data,
->>>>  
->>>>  	return NULL;
->>>>  }
->>>> +
->>>> +static bool is_usb_routing_enabled(struct msm_routing_data *data)
->>>> +{
->>>> +	int i;
->>>> +
->>>> +	/*
->>>> +	 * Loop through current sessions to see if there are active routes
->>>> +	 * to the USB_RX backend DAI.  The USB offload routing is designed
->>>> +	 * similarly to the non offload path.  If there are multiple PCM
->>>> +	 * devices associated with the ASoC platform card, only one active
->>>> +	 * path can be routed to the USB offloaded endpoint.
->>>> +	 */
->>>> +	for (i = 0; i < MAX_SESSIONS; i++) {
->>>> +		if (data->sessions[i].port_id == USB_RX)
->>>> +			return true;
->>>> +	}
->>>> +
->>>> +	return false;
->>>> +}
->>>
->>> What is different about USB_RX compared to other output ports we have in
->>> Q6AFE? Obviously, we can only play one stream on an output port. But
->>> doesn't the ADSP mix streams together when you have multiple routes?
->>>
->>
->> This patch will limit the USB_RX from being able to be mixed to multiple
->> q6adm paths.
->>
->>> Also, this doesn't actually check for *active* routes only. It just
->>> looks if any other MultiMedia DAI is configured to output to USB_RX.
->>> That doesn't mean they will ever be active at the same time.
->>>
->>
->> Yes, the main reason being that that is the mechanism we use to populate
->> the active offload path within the USB SND card mixer.
->>
->>> I might for example want to have MultiMedia1 and MultiMedia2 both
->>> configured to output to USB_RX. Let's assume MultiMedia1 is a normal PCM
->>> DAI, MultiMedia2 is a compress offload DAI. When I want to playback
->>> normal audio, I go through MultiMedia1, when I want to play compressed
->>> audio, I go through MultiMedia2. Only one of them active at a time.
->>> Why can't I set this up statically in the mixers?
->>>
->>> If you confirm that it is really impossible to have multiple streams
->>> mixed together to the USB_RX output in the ADSP, then this should be a
->>> runtime check instead when starting the stream IMO.
->>>
->>
->> We can have multiple streams being mixed together, but it will get
->> confusing because it changes the definition that we had discussed about in
->> the past about the overall design for the interaction w/ userspace.
->> Although we (QC) only support a single USB audio device for offloading,
->> there could be other situations where the audio DSP can support multiple
->> devices.  The assumption is that each MM path is assigned to a USB device.
->>
-> 
-> Are you referring to the "USB Offload Playback Route PCM#*" mixers here?
-> They could just refer to first of the configured MM paths, if someone
-> decides to route multiple paths to the USB backend. Looking at
-> q6usb_update_offload_route(), I think the implementation does that
-> already.
-> 
-> I think it's fine that the userspace API for automatically "probing" the
-> PCM device supports only a single path to the USB backend. But if
-> someone wants to bypass the automatic probing and configure a more
-> advanced setup, do we need to forbid that?
-> 
-> Asked differently: what would happen if we remove this check here and
-> handle USB_RX like any other Q6AFE output port? Would anything break for
-> the userspace interface?
-> 
-
-So I took a look at seeing how the Q6ADM/ASM interactions would work for
-the situation where if user tried to start both MM1/2 streams at the same
-time over the USB offload path.  In this scenario, we see that the Q6USB BE
-DAI operations, ie startup, hw_params, etc... gets called one time for the
-initial stream.  For example, if I start playback on MM1, then that
-triggers the USB BE DAI to be brought up.
-
-When I start playback on MM2, since MM1 already called
-dpcm_be_dai_startup(), then be->dpcm[stream].users will be greater than
-zero.  This would cause the __soc_pcm_open() to be skipped for the USB BE
-DAI, so I wouldn't be able to check the runtime status at the Q6USB 
-backend DAI.  However, we do track current streaming sessions done over 
-Q6 ADM and it does save the AFE port associated to each COPP allocation, 
-so I think its reasonable to see if there is already a COPP entry for 
-the USB AFE port, to fail the open() call associated to the FE DAI.
-
-Thanks
-Wesley Cheng
+SGkgSm9uYXRoYW4gYW5kIFNyaW5pdmFzLA0KDQpOb3RlZC4gVGhhbmsgeW91IGZvciBtZXJnaW5n
+IHRoZSBwYXRjaGVzIGFuZCByZXZpZXdpbmcgdGhlIGNoYW5nZXMuDQoNClRoYW5rcywNCkxpeHUN
+Cg0KPi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogc3Jpbml2YXMgcGFuZHJ1dmFk
+YSA8c3Jpbml2YXMucGFuZHJ1dmFkYUBsaW51eC5pbnRlbC5jb20+DQo+U2VudDogTW9uZGF5LCBN
+YXJjaCAzMSwgMjAyNSAxMDoyMCBQTQ0KPlRvOiBKb25hdGhhbiBDYW1lcm9uIDxqaWMyM0BrZXJu
+ZWwub3JnPjsgWmhhbmcsIExpeHUgPGxpeHUuemhhbmdAaW50ZWwuY29tPg0KPkNjOiBsaW51eC1p
+aW9Admdlci5rZXJuZWwub3JnOyBsYXJzQG1ldGFmb28uZGU7IGppa29zQGtlcm5lbC5vcmc7DQo+
+cGV0ZXJ6QGluZnJhZGVhZC5vcmc7IGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnOyByaWJhbGRh
+QGNocm9taXVtLm9yZzsNCj5hcmNoYW5hLnBhdG5pQGxpbnV4LmludGVsLmNvbTsgbGludXgta2Vy
+bmVsQHZnZXIua2VybmVsLm9yZzsgbGludXgtDQo+aW5wdXRAdmdlci5rZXJuZWwub3JnOyBYdSwg
+RXZlbiA8ZXZlbi54dUBpbnRlbC5jb20+DQo+U3ViamVjdDogUmU6IFtQQVRDSCAwLzNdIGlpbzog
+aGlkLXNlbnNvci1wcm94OiBmaXggU0NBTEUgYW5kIE9GRlNFVCBjYWxjdWxhdGlvbg0KPg0KPk9u
+IE1vbiwgMjAyNS0wMy0zMSBhdCAxMjowMCArMDEwMCwgSm9uYXRoYW4gQ2FtZXJvbiB3cm90ZToN
+Cj4+IE9uIE1vbiwgMzEgTWFyIDIwMjUgMTM6NTA6MTkgKzA4MDANCj4+IFpoYW5nIExpeHUgPGxp
+eHUuemhhbmdAaW50ZWwuY29tPiB3cm90ZToNCj4+DQo+PiA+IFRoaXMgcGF0Y2ggc2VyaWVzIGFk
+ZHJlc3NlcyBpc3N1ZXMgaW4gdGhlIGhpZC1zZW5zb3ItcHJveCBkcml2ZXINCj4+ID4gcmVsYXRl
+ZCB0byBTQ0FMRSBhbmQgT0ZGU0VUIGNhbGN1bGF0aW9ucy4gVGhlIGNoYW5nZXMgaW5jbHVkZQ0K
+Pj4gPiByZXN0b3JpbmcgbG9zdCBzY2FsZSBhc3NpZ25tZW50cywgc3VwcG9ydGluZyBtdWx0aS1j
+aGFubmVsIFNDQUxFDQo+PiA+IGNhbGN1bGF0aW9uLCBhbmQgZml4aW5nIGluY29ycmVjdCBPRkZT
+RVQgY2FsY3VsYXRpb24uDQo+PiA+DQo+PiBIaS4NCj4+DQo+PiBHZW5lcmFsbHkgSSBwcmVmZXIg
+dG8gc2VlIHJldmlldyB0YWdzIChTcmluaXZhcycgQWNrcyBoZXJlKSBnaXZlbiBvbg0KPj4gbGlz
+dCBidXQgaW4gSSB0cnVzdCBTcmluaXZhcyB0byBoYXZlIGRvbmUgYSB0aG9yb3VnaCByZXZpZXcg
+KG9yIHRvDQo+PiBzaG91dCB3aGVuIGhlIHNlZXMgdGhpcyEpIGFuZCB0aGUgY2hhbmdlcyBsb29r
+IGNvcnJlY3QgdG8gbWUsIGFwcGxpZWQNCj4+IHRvIHRoZSBmaXhlcy0gdG9ncmVnLXRlc3Rpbmcg
+YnJhbmNoIG9mIGlpby5naXQuDQo+SGkgSm9uYXRoYW4sDQo+DQo+SSBoYXZlIHJldmlld2VkIHRo
+ZXNlIHBhdGNoZXMgaW50ZXJuYWxseS4gRnJvbSBuZXh0IHRpbWUsIEkgd2lsbCBtYWtlIHN1cmUg
+dGhhdCBJDQo+QUNLIG9uIHRoZSBwdWJsaWMgbGlzdHMuDQo+DQo+VGhhbmtzLA0KPlNyaW5pdmFz
+DQo+DQo+Pg0KPj4gT2RkIHBvaW50IGluIG1lcmdlIGN5Y2xlIGhlbmNlIHRoZSBvZGQgdGVtcG9y
+YXJ5IGJyYW5jaC4NCj4+DQo+PiBKb25hdGhhbg0KPj4NCj4+ID4NCj4+ID4gWmhhbmcgTGl4dSAo
+Myk6DQo+PiA+IMKgIGlpbzogaGlkLXNlbnNvci1wcm94OiBSZXN0b3JlIGxvc3Qgc2NhbGUgYXNz
+aWdubWVudHMNCj4+ID4gwqAgaWlvOiBoaWQtc2Vuc29yLXByb3g6IHN1cHBvcnQgbXVsdGktY2hh
+bm5lbCBTQ0FMRSBjYWxjdWxhdGlvbg0KPj4gPiDCoCBpaW86IGhpZC1zZW5zb3ItcHJveDogRml4
+IGluY29ycmVjdCBPRkZTRVQgY2FsY3VsYXRpb24NCj4+ID4NCj4+ID4gwqAuLi4vaGlkLXNlbnNv
+cnMvaGlkLXNlbnNvci1hdHRyaWJ1dGVzLmPCoMKgwqDCoMKgwqAgfMKgIDQgKysrKw0KPj4gPiDC
+oGRyaXZlcnMvaWlvL2xpZ2h0L2hpZC1zZW5zb3ItcHJveC5jwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+fCAyMiArKysrKysrKysrKystLS0NCj4+ID4gLS0tLQ0KPj4gPiDCoDIgZmlsZXMgY2hhbmdlZCwg
+MTggaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkNCj4+ID4NCj4+ID4NCj4+ID4gYmFzZS1j
+b21taXQ6IGUyMWVkYjE2MzhlODI0NjBmMTI2YTZlNDliY2RkOTU4ZDQ1MjkyOWMNCj4+DQoNCg==
 
