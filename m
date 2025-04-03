@@ -1,113 +1,110 @@
-Return-Path: <linux-input+bounces-11488-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11489-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5388BA79A5C
-	for <lists+linux-input@lfdr.de>; Thu,  3 Apr 2025 05:13:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B5DA79C21
+	for <lists+linux-input@lfdr.de>; Thu,  3 Apr 2025 08:36:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 44EA6189398E
-	for <lists+linux-input@lfdr.de>; Thu,  3 Apr 2025 03:13:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 036911731E2
+	for <lists+linux-input@lfdr.de>; Thu,  3 Apr 2025 06:36:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5240B191484;
-	Thu,  3 Apr 2025 03:13:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01CA71A23B6;
+	Thu,  3 Apr 2025 06:33:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hmO5Ip20"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rJu6QJgW"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B2B1898F8;
-	Thu,  3 Apr 2025 03:13:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A59190477;
+	Thu,  3 Apr 2025 06:33:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743649986; cv=none; b=OGH1QsZMDeXWl+gX3ooyU8dld8t7Nl78029wbLUs/MpaD4oIjV4suqBC1ZmHkHx6iPFO6da21/WM6R8KDJBnXlXtts8D6Shg4UX3KVn64eORJfBXJ6RDgxm19CwDbIi0j5vDmfQqX5tzG+lzc+OXlyAqm2dYWPemLz6bCMeC3Q8=
+	t=1743661999; cv=none; b=XAUe+geRr0dDV03iMVKyMO225ef3rDtxSwJCedKMQZr5FucBcOXLs/82yGmYL+k7MBkUhJGihDONR8yGG4XWptezERzqYW9DkdMJUREqNZcLVveDSVQIkbettBovfRSAvwhfJTRG2GJ4vsRXPGumQwyv5KubU4Q9CL9r9F7eRis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743649986; c=relaxed/simple;
-	bh=cfAz2y3DcHMdjlHZUxc+Uob2ZacBWNhyibtQ0HxKTfQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fuB0D6aED4v7l7IdqPQntTlUiXUopbhwZ0MGumgyJPNllzygV0PzHztn48n9CKSlpEQ6M5SO2FZQeL29hhngMckH93HFa2CaUx+RvLagRuN19kNjxVHJ2mfnKuVwkNNv5FoL7OxaIus8bP/hDz1Mlpb/mX6nr/BjHNrNBWq5iWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hmO5Ip20; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3342C4CEDD;
-	Thu,  3 Apr 2025 03:13:03 +0000 (UTC)
+	s=arc-20240116; t=1743661999; c=relaxed/simple;
+	bh=a791Ijrj4pxHIMDg2yMK6Vitj1r+VceYdbEDTVe5/A8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CwJQ2YMg6O2kM2rdHHa4R1vr2SmnWRgjM+Rm/HZGsLDazSLoihk2BHPWwlR1GqcHPrCrNbQyS2mVJOmXVQJEOSt7y1/Osr/6y4WP2+Dep+KiwGGOoWOt+ZwoZJBGqWVgaj8Zb9rcbvPA2gtfMPbg9RYb3hK75tQhdyBWiS8kChA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rJu6QJgW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67F83C4CEE3;
+	Thu,  3 Apr 2025 06:33:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743649984;
-	bh=cfAz2y3DcHMdjlHZUxc+Uob2ZacBWNhyibtQ0HxKTfQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hmO5Ip201G/sb1PUZQ94AzlM9NDgaApPlQ8AMRHMosnr4pFeM4aq/TykgN40mLCg+
-	 XW7cYX+eRkuFmfSGCq9HUG68qXGgH5qCWvoUzjFeK31uE4b/IQZnvHdSXw/gFRPe/+
-	 /moJVMcXr8YPaI9dOcfJ7I3e1BL5zlejgcJUX552PbQS9K2atc7BJUkDDhoU464KY3
-	 PIUMbfHWD4JeVVIOmEyo0n/KAH5Df0BWHmWOS7lFo0Zz/3cPknLwqd3QIaccgXLXCW
-	 M0sxVo5hQBOQG2gX0LKc0bCdoWq4QHgBCT44/Xz4DFCucnPL/omWq/KdjoGMTlGRjV
-	 gOx+YaXfGneyw==
-From: Mario Limonciello <superm1@kernel.org>
-To: mario.limonciello@amd.com,
-	basavaraj.natikar@amd.com,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	ilpo.jarvinen@linux.intel.com,
-	Shyam-sundar.S-k@amd.com,
-	akshata.mukundshetty@amd.com
-Cc: Yijun Shen <Yijun.Shen@dell.com>,
-	stable@vger.kernel.org,
-	linux-input@vger.kernel.org
-Subject: [PATCH] HID: amd_sfh: Fix SRA sensor when it's the only sensor
-Date: Wed,  2 Apr 2025 22:12:28 -0500
-Message-ID: <20250403031242.1267561-1-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=k20201202; t=1743661999;
+	bh=a791Ijrj4pxHIMDg2yMK6Vitj1r+VceYdbEDTVe5/A8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rJu6QJgWYL9WFNVdajsNsrLzLm7FW+H1Ikd8jh5JYpgIRkXWUodRdIPFx3MpV/cdh
+	 ipDXi4FrROjgpyqKDUxz6SSchMaIPAmX+HwpnKA/TYBO116Z2XMqlnXKVC2PHEahh3
+	 TRCrHwxqiMB2BmOnfi9tmROfQO6g5bkL1eELg4lpZl1Q9Ovp/nyEQ0RNoEwWY5wtC4
+	 dJX2+3fsvuiu3KKXYfQmH1ljOejAd18F7EgwgBDY0VPlbQWVlv9p7mX2WdimBseuUf
+	 QhFQ9vPD3u14uiYect9zUo5uXofWle8riAO+4wxRT2r1HHDke6G60rDN7DUTwEgUG6
+	 ToeE42DDL0vvw==
+Date: Thu, 3 Apr 2025 08:33:15 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: David Heidelberg <david@ixit.cz>
+Cc: Kaustabh Chakraborty <kauschluss@disroot.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	"Jason A. Donenfeld" <Jason@zx2c4.com>, Matthias Schiffer <matthias.schiffer@ew.tq-group.com>, 
+	Vincent Huang <vincent.huang@tw.synaptics.com>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Caleb Connolly <caleb.connolly@linaro.org>, 
+	phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH v4 1/7] dt-bindings: input: syna,rmi4: Document
+ syna,rmi4-s3706b-i2c
+Message-ID: <20250403-savvy-inquisitive-tamarin-9c14cd@krzk-bin>
+References: <20250402-synaptics-rmi4-v4-0-1bb95959e564@ixit.cz>
+ <20250402-synaptics-rmi4-v4-1-1bb95959e564@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250402-synaptics-rmi4-v4-1-1bb95959e564@ixit.cz>
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+On Wed, Apr 02, 2025 at 08:44:52PM +0200, David Heidelberg wrote:
+> Mostly irrelevant for authentic Synaptics touchscreens, but very important
+> for applying workarounds to cheap TS knockoffs.
+> 
+> These knockoffs work well with the downstream driver, and since the user
+> has no way to distinguish them, later in this patch set, we introduce
+> workarounds to ensure they function as well as possible.
+> 
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+>  Documentation/devicetree/bindings/input/syna,rmi4.yaml | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/syna,rmi4.yaml b/Documentation/devicetree/bindings/input/syna,rmi4.yaml
+> index b522c8d3ce0db719ff379f2fefbdca79e73d027c..855614718bfd1c6c41805d64e713cf5635c20f10 100644
+> --- a/Documentation/devicetree/bindings/input/syna,rmi4.yaml
+> +++ b/Documentation/devicetree/bindings/input/syna,rmi4.yaml
+> @@ -18,9 +18,14 @@ description: |
+>  
+>  properties:
+>    compatible:
+> -    enum:
+> -      - syna,rmi4-i2c
+> -      - syna,rmi4-spi
+> +    oneOf:
+> +      - enum:
+> +          - syna,rmi4-i2c
+> +          - syna,rmi4-spi
+> +      - items:
+> +          - enum:
+> +              - syna,rmi4-s3706b-i2c  # OnePlus 6/6T
 
-On systems that only have an SRA sensor connected to SFH the sensor
-doesn't get enabled due to a bad optimization condition of breaking
-the sensor walk loop.
+Drop i2c suffix.
 
-This optimization is unnecessary in the first place because if there
-is only one device then the loop only runs once. Drop the condition
-and explicitly mark sensor as enabled.
+With that:
 
-Reported-by: Yijun Shen <Yijun.Shen@dell.com>
-Fixes: d1c444b47100d ("HID: amd_sfh: Add support to export device operating states")
-Cc: stable@vger.kernel.org
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-index 25f0ebfcbd5f5..c1bdf1e0d44af 100644
---- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-+++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-@@ -134,9 +134,6 @@ static int amd_sfh1_1_hid_client_init(struct amd_mp2_dev *privdata)
- 	for (i = 0; i < cl_data->num_hid_devices; i++) {
- 		cl_data->sensor_sts[i] = SENSOR_DISABLED;
- 
--		if (cl_data->num_hid_devices == 1 && cl_data->sensor_idx[0] == SRA_IDX)
--			break;
--
- 		if (cl_data->sensor_idx[i] == SRA_IDX) {
- 			info.sensor_idx = cl_data->sensor_idx[i];
- 			writel(0, privdata->mmio + amd_get_p2c_val(privdata, 0));
-@@ -145,8 +142,10 @@ static int amd_sfh1_1_hid_client_init(struct amd_mp2_dev *privdata)
- 				(privdata, cl_data->sensor_idx[i], ENABLE_SENSOR);
- 
- 			cl_data->sensor_sts[i] = (status == 0) ? SENSOR_ENABLED : SENSOR_DISABLED;
--			if (cl_data->sensor_sts[i] == SENSOR_ENABLED)
-+			if (cl_data->sensor_sts[i] == SENSOR_ENABLED) {
-+				cl_data->is_any_sensor_enabled = true;
- 				privdata->dev_en.is_sra_present = true;
-+			}
- 			continue;
- 		}
- 
--- 
-2.43.0
+Best regards,
+Krzysztof
 
 
