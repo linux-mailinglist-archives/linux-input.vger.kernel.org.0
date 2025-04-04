@@ -1,66 +1,74 @@
-Return-Path: <linux-input+bounces-11504-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11529-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7D1A7B189
-	for <lists+linux-input@lfdr.de>; Thu,  3 Apr 2025 23:41:18 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C25A7B507
+	for <lists+linux-input@lfdr.de>; Fri,  4 Apr 2025 02:46:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A399189EBE9
-	for <lists+linux-input@lfdr.de>; Thu,  3 Apr 2025 21:37:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0F63C7A7CEA
+	for <lists+linux-input@lfdr.de>; Fri,  4 Apr 2025 00:40:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F21531A317E;
-	Thu,  3 Apr 2025 21:36:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20EA11F76B4;
+	Fri,  4 Apr 2025 00:28:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="u8lwSY1R"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="K72Ub4K9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE85219E4;
-	Thu,  3 Apr 2025 21:36:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B821F3D5D;
+	Fri,  4 Apr 2025 00:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743716170; cv=none; b=tVc/jnw8wKcnVxMGCGqjATtOgBQkgp747z0PkVCsUkAf73sZ8kDZ1l/vZ3V+TD05VKKqB9QRRbF3/vZSQQFVfmsbjAsGgkO1cqbjVo+8lIRsYwDvyqFabYYRYbwCuC6FEMrkjMeaDshEIsdqMz4dazaC0oWh40+F2mnH5YWLPos=
+	t=1743726491; cv=none; b=X0Ll+1ZqjiCtCMoCpIcrFiL2CYcL/kGwRkl5hMGQ6vrn3RX1l3OU3JUq9QxUde2zIJd02Xx8jZZso5ubXYiUQ2tRl2ecYps8q7MdMOf7xFnwji6aLvxWOAT5nuekDmu/XQsR7O+/FUxFls88gNTSKqAHqEbsC8SEz5TbxuHaYwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743716170; c=relaxed/simple;
-	bh=tOwFi7EFfGuCbuLEaIX+bjB3c6mY48Yzc7oa2T5Rt34=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=n8Xqdz3/DZIf5dsh1cagHNJrUp+orote6CvLrnuKaFovQ03EFXvMBG3lloN+5N/5uZLdBK68ohfTHzfAnjHTlL6M+yIlkEGtY8p0ZawsScbAvkqhTjb7yb8NQx9SckwWm7Qp41k7cg1B8sboVtVhyehGf0hYNA0H7hr3n4Ts7sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=u8lwSY1R; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from wse-pc.fritz.box (p5b164989.dip0.t-ipconnect.de [91.22.73.137])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 62F452FC007D;
-	Thu,  3 Apr 2025 23:29:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1743715780;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dp3Y4FBzRerDNLAMESUR5sTTDeRlO9Q/wXgE1Rg8RYQ=;
-	b=u8lwSY1R3dGBqFkOB07PcxFMME6BMH5Ez+pbJ3c9LkltZxkTGbtEgcJTB2vV2raQuPpoXt
-	igQv47Up1E0dM4pdM/qacKT28wzkY4aSDXNl9gqDY3ixY5/E/4twSlt8qxF1iqBeCZeqBx
-	NqdpVgQ3q7wjU90XdNAUGAiRL1v9m/k=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	bentiss@kernel.org,
-	Werner Sembach <wse@tuxedocomputers.com>
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Subject: [PATCH v6 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO NB04 devices
-Date: Thu,  3 Apr 2025 23:02:09 +0200
-Message-ID: <20250403212934.561943-2-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250403212934.561943-1-wse@tuxedocomputers.com>
-References: <20250403212934.561943-1-wse@tuxedocomputers.com>
+	s=arc-20240116; t=1743726491; c=relaxed/simple;
+	bh=9T0ur/GYnepprIIpIRAXPTAYfPTjyJP/Qu+x5FNftVk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MZGYtaVNTgdu91MmBEKtc3jvo9VYusg3pB2ZvfE67sOALiZgTjq7F/zKPg0eYc/L52RjkJjjCb6jwupyZ0atOrunhDYbXCQv7TFtvVzxsquOFIMVUjZ+Ex0k0u7Th3jB4xBT9q4NVUY4Sl4xaJJsNzckcy6RM0D9g2/ZhA/HIWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=K72Ub4K9; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 533NX9t6027079;
+	Fri, 4 Apr 2025 00:27:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=upaEFKtGCPeFKKtrzRFIST
+	j/xJ88OEO5+UDyURKknJ4=; b=K72Ub4K9S98/D49p2SXbhe3tXp+2iLbb1iPX8N
+	U+VAWcPPlX48CtQEf9FuPYZmBzTD4R2gCZL5hHEaQy4rWbPj3ShvlfGC7W4SoITY
+	9/oaWWClzcokzdse4+YG+9Nph+Z5Q/qJBSKv9BW7CARCHAv91aPtnEQKGUZ425a5
+	D2j8uMnwFSCuIawUnrpRWoIbqP5fP5n3VKucR3tojxaGtdWu/KNLG7Xq1oRiSAuo
+	cWMvf9cCx0kwHq5Hd6tf0MVdaU/cT/yY6VEnyrgad8x8LZszWY9p89An99oK226g
+	C0SVcomm8Fc4PGZ8nu5AK+26arh4uCti6TqG50SwH+LTLLPg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45t2deg8qv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 04 Apr 2025 00:27:40 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5340RdH8020283
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 4 Apr 2025 00:27:39 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 3 Apr 2025 17:27:38 -0700
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v37 00/31] Introduce QC USB SND audio offloading support
+Date: Thu, 3 Apr 2025 17:26:57 -0700
+Message-ID: <20250404002728.3590501-1-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -68,1214 +76,712 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: aLqhy46hHp-T1q4yu7H7tRKr85CR93JD
+X-Proofpoint-ORIG-GUID: aLqhy46hHp-T1q4yu7H7tRKr85CR93JD
+X-Authority-Analysis: v=2.4 cv=boxMBFai c=1 sm=1 tr=0 ts=67ef277c cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=3H110R4YSZwA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=YIDz7LGgFl_oPKHAzCgA:9 a=kJ6eQMnjrFa5BCT-:21
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-03_11,2025-04-03_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ lowpriorityscore=0 malwarescore=0 mlxlogscore=999 spamscore=0 phishscore=0
+ clxscore=1015 impostorscore=0 bulkscore=0 suspectscore=0 adultscore=0
+ mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504040001
 
-The TUXEDO Sirius 16 Gen1 and TUXEDO Sirius 16 Gen2 devices have a per-key
-controllable RGB keyboard backlight. The firmware API for it is implemented
-via WMI.
+Requesting to see if we can get some Acked-By tags, and merge on usb-next.
 
-To make the backlight userspace configurable this driver emulates a
-LampArray HID device and translates the input from hidraw to the
-corresponding WMI calls. This is a new approach as the leds subsystem lacks
-a suitable UAPI for per-key keyboard backlights, and like this no new UAPI
-needs to be established.
+Several Qualcomm based chipsets can support USB audio offloading to a
+dedicated audio DSP, which can take over issuing transfers to the USB
+host controller.  The intention is to reduce the load on the main
+processors in the SoC, and allow them to be placed into lower power modes.
+There are several parts to this design:
+  1. Adding ASoC binding layer
+  2. Create a USB backend for Q6DSP
+  3. Introduce XHCI interrupter support
+  4. Create vendor ops for the USB SND driver
 
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
----
- MAINTAINERS                                 |   6 +
- drivers/platform/x86/Kconfig                |   2 +
- drivers/platform/x86/Makefile               |   3 +
- drivers/platform/x86/tuxedo/Kconfig         |   8 +
- drivers/platform/x86/tuxedo/Makefile        |   8 +
- drivers/platform/x86/tuxedo/nb04/Kconfig    |  15 +
- drivers/platform/x86/tuxedo/nb04/Makefile   |  10 +
- drivers/platform/x86/tuxedo/nb04/wmi_ab.c   | 847 ++++++++++++++++++++
- drivers/platform/x86/tuxedo/nb04/wmi_util.c |  95 +++
- drivers/platform/x86/tuxedo/nb04/wmi_util.h | 109 +++
- 10 files changed, 1103 insertions(+)
- create mode 100644 drivers/platform/x86/tuxedo/Kconfig
- create mode 100644 drivers/platform/x86/tuxedo/Makefile
- create mode 100644 drivers/platform/x86/tuxedo/nb04/Kconfig
- create mode 100644 drivers/platform/x86/tuxedo/nb04/Makefile
- create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_ab.c
- create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_util.c
- create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_util.h
+      USB                          |            ASoC
+--------------------------------------------------------------------
+                                   |  _________________________
+                                   | |sm8250 platform card     |
+                                   | |_________________________|
+                                   |         |           |
+                                   |      ___V____   ____V____
+                                   |     |Q6USB   | |Q6AFE    |  
+                                   |     |"codec" | |"cpu"    |
+                                   |     |________| |_________|
+                                   |         ^  ^        ^
+                                   |         |  |________|
+                                   |      ___V____    |
+                                   |     |SOC-USB |   |
+   ________       ________               |        |   |
+  |USB SND |<--->|QC offld|<------------>|________|   |
+  |(card.c)|     |        |<----------                |
+  |________|     |________|___     | |                |
+      ^               ^       |    | |    ____________V_________
+      |               |       |    | |   |APR/GLINK             |
+   __ V_______________V_____  |    | |   |______________________|
+  |USB SND (endpoint.c)     | |    | |              ^
+  |_________________________| |    | |              |
+              ^               |    | |   ___________V___________
+              |               |    | |->|audio DSP              |
+   ___________V_____________  |    |    |_______________________|
+  |XHCI HCD                 |<-    |
+  |_________________________|      |
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 00e94bec401e1..c1f7460c246ad 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24217,6 +24217,12 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/lenb/linux.git turbostat
- F:	tools/power/x86/turbostat/
- F:	tools/testing/selftests/turbostat/
- 
-+TUXEDO DRIVERS
-+M:	Werner Sembach <wse@tuxedocomputers.com>
-+L:	platform-driver-x86@vger.kernel.org
-+S:	Supported
-+F:	drivers/platform/x86/tuxedo/
-+
- TW5864 VIDEO4LINUX DRIVER
- M:	Bluecherry Maintainers <maintainers@bluecherrydvr.com>
- M:	Andrey Utkin <andrey.utkin@corp.bluecherry.net>
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 0258dd879d64b..58b258cde4fdb 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -1186,6 +1186,8 @@ config SEL3350_PLATFORM
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called sel3350-platform.
- 
-+source "drivers/platform/x86/tuxedo/Kconfig"
-+
- endif # X86_PLATFORM_DEVICES
- 
- config P2SB
-diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-index e1b1429470674..1562dcd7ad9a5 100644
---- a/drivers/platform/x86/Makefile
-+++ b/drivers/platform/x86/Makefile
-@@ -153,3 +153,6 @@ obj-$(CONFIG_WINMATE_FM07_KEYS)		+= winmate-fm07-keys.o
- 
- # SEL
- obj-$(CONFIG_SEL3350_PLATFORM)		+= sel3350-platform.o
-+
-+# TUXEDO
-+obj-y					+= tuxedo/
-diff --git a/drivers/platform/x86/tuxedo/Kconfig b/drivers/platform/x86/tuxedo/Kconfig
-new file mode 100644
-index 0000000000000..80be0947dddc4
---- /dev/null
-+++ b/drivers/platform/x86/tuxedo/Kconfig
-@@ -0,0 +1,8 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+# Copyright (C) 2024-2025 Werner Sembach wse@tuxedocomputers.com
-+#
-+# TUXEDO X86 Platform Specific Drivers
-+#
-+
-+source "drivers/platform/x86/tuxedo/nb04/Kconfig"
-diff --git a/drivers/platform/x86/tuxedo/Makefile b/drivers/platform/x86/tuxedo/Makefile
-new file mode 100644
-index 0000000000000..0afe0d0f455e7
---- /dev/null
-+++ b/drivers/platform/x86/tuxedo/Makefile
-@@ -0,0 +1,8 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+# Copyright (C) 2024-2025 Werner Sembach wse@tuxedocomputers.com
-+#
-+# TUXEDO X86 Platform Specific Drivers
-+#
-+
-+obj-y	+= nb04/
-diff --git a/drivers/platform/x86/tuxedo/nb04/Kconfig b/drivers/platform/x86/tuxedo/nb04/Kconfig
-new file mode 100644
-index 0000000000000..411c46c9a1cf0
---- /dev/null
-+++ b/drivers/platform/x86/tuxedo/nb04/Kconfig
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+# Copyright (C) 2024-2025 Werner Sembach wse@tuxedocomputers.com
-+#
-+# TUXEDO X86 Platform Specific Drivers
-+#
-+
-+config TUXEDO_NB04_WMI_AB
-+	tristate "TUXEDO NB04 WMI AB Platform Driver"
-+	help
-+	  This driver implements the WMI AB device found on TUXEDO notebooks
-+	  with board vendor NB04. This enables keyboard backlight control via a
-+	  virtual HID LampArray device.
-+
-+	  When compiled as a module it will be called tuxedo_nb04_wmi_ab.
-diff --git a/drivers/platform/x86/tuxedo/nb04/Makefile b/drivers/platform/x86/tuxedo/nb04/Makefile
-new file mode 100644
-index 0000000000000..c963e0d605057
---- /dev/null
-+++ b/drivers/platform/x86/tuxedo/nb04/Makefile
-@@ -0,0 +1,10 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+# Copyright (C) 2024-2025 Werner Sembach wse@tuxedocomputers.com
-+#
-+# TUXEDO X86 Platform Specific Drivers
-+#
-+
-+tuxedo_nb04_wmi_ab-y			:= wmi_ab.o
-+tuxedo_nb04_wmi_ab-y			+= wmi_util.o
-+obj-$(CONFIG_TUXEDO_NB04_WMI_AB)	+= tuxedo_nb04_wmi_ab.o
-diff --git a/drivers/platform/x86/tuxedo/nb04/wmi_ab.c b/drivers/platform/x86/tuxedo/nb04/wmi_ab.c
-new file mode 100644
-index 0000000000000..cac52779f05a6
---- /dev/null
-+++ b/drivers/platform/x86/tuxedo/nb04/wmi_ab.c
-@@ -0,0 +1,847 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * This driver implements the WMI AB device found on TUXEDO notebooks with board
-+ * vendor NB04.
-+ *
-+ * Copyright (C) 2024-2025 Werner Sembach <wse@tuxedocomputers.com>
-+ */
-+
-+#include <linux/dmi.h>
-+#include <linux/hid.h>
-+#include <linux/minmax.h>
-+#include <linux/module.h>
-+#include <linux/wmi.h>
-+
-+#include "wmi_util.h"
-+
-+static const struct wmi_device_id tuxedo_nb04_wmi_ab_device_ids[] = {
-+	{ .guid_string = "80C9BAA6-AC48-4538-9234-9F81A55E7C85" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(wmi, tuxedo_nb04_wmi_ab_device_ids);
-+
-+enum {
-+	LAMP_ARRAY_ATTRIBUTES_REPORT_ID		= 0x01,
-+	LAMP_ATTRIBUTES_REQUEST_REPORT_ID	= 0x02,
-+	LAMP_ATTRIBUTES_RESPONSE_REPORT_ID	= 0x03,
-+	LAMP_MULTI_UPDATE_REPORT_ID		= 0x04,
-+	LAMP_RANGE_UPDATE_REPORT_ID		= 0x05,
-+	LAMP_ARRAY_CONTROL_REPORT_ID		= 0x06,
-+};
-+
-+static u8 tux_report_descriptor[327] = {
-+	0x05, 0x59,			// Usage Page (Lighting and Illumination)
-+	0x09, 0x01,			// Usage (Lamp Array)
-+	0xa1, 0x01,			// Collection (Application)
-+	0x85, LAMP_ARRAY_ATTRIBUTES_REPORT_ID, //  Report ID (1)
-+	0x09, 0x02,			//  Usage (Lamp Array Attributes Report)
-+	0xa1, 0x02,			//  Collection (Logical)
-+	0x09, 0x03,			//   Usage (Lamp Count)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x27, 0xff, 0xff, 0x00, 0x00,	//   Logical Maximum (65535)
-+	0x75, 0x10,			//   Report Size (16)
-+	0x95, 0x01,			//   Report Count (1)
-+	0xb1, 0x03,			//   Feature (Cnst,Var,Abs)
-+	0x09, 0x04,			//   Usage (Bounding Box Width In Micrometers)
-+	0x09, 0x05,			//   Usage (Bounding Box Height In Micrometers)
-+	0x09, 0x06,			//   Usage (Bounding Box Depth In Micrometers)
-+	0x09, 0x07,			//   Usage (Lamp Array Kind)
-+	0x09, 0x08,			//   Usage (Min Update Interval In Microseconds)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x27, 0xff, 0xff, 0xff, 0x7f,	//   Logical Maximum (2147483647)
-+	0x75, 0x20,			//   Report Size (32)
-+	0x95, 0x05,			//   Report Count (5)
-+	0xb1, 0x03,			//   Feature (Cnst,Var,Abs)
-+	0xc0,				//  End Collection
-+	0x85, LAMP_ATTRIBUTES_REQUEST_REPORT_ID, //  Report ID (2)
-+	0x09, 0x20,			//  Usage (Lamp Attributes Request Report)
-+	0xa1, 0x02,			//  Collection (Logical)
-+	0x09, 0x21,			//   Usage (Lamp Id)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x27, 0xff, 0xff, 0x00, 0x00,	//   Logical Maximum (65535)
-+	0x75, 0x10,			//   Report Size (16)
-+	0x95, 0x01,			//   Report Count (1)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0xc0,				//  End Collection
-+	0x85, LAMP_ATTRIBUTES_RESPONSE_REPORT_ID, //  Report ID (3)
-+	0x09, 0x22,			//  Usage (Lamp Attributes Response Report)
-+	0xa1, 0x02,			//  Collection (Logical)
-+	0x09, 0x21,			//   Usage (Lamp Id)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x27, 0xff, 0xff, 0x00, 0x00,	//   Logical Maximum (65535)
-+	0x75, 0x10,			//   Report Size (16)
-+	0x95, 0x01,			//   Report Count (1)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0x09, 0x23,			//   Usage (Position X In Micrometers)
-+	0x09, 0x24,			//   Usage (Position Y In Micrometers)
-+	0x09, 0x25,			//   Usage (Position Z In Micrometers)
-+	0x09, 0x27,			//   Usage (Update Latency In Microseconds)
-+	0x09, 0x26,			//   Usage (Lamp Purposes)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x27, 0xff, 0xff, 0xff, 0x7f,	//   Logical Maximum (2147483647)
-+	0x75, 0x20,			//   Report Size (32)
-+	0x95, 0x05,			//   Report Count (5)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0x09, 0x28,			//   Usage (Red Level Count)
-+	0x09, 0x29,			//   Usage (Green Level Count)
-+	0x09, 0x2a,			//   Usage (Blue Level Count)
-+	0x09, 0x2b,			//   Usage (Intensity Level Count)
-+	0x09, 0x2c,			//   Usage (Is Programmable)
-+	0x09, 0x2d,			//   Usage (Input Binding)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x26, 0xff, 0x00,		//   Logical Maximum (255)
-+	0x75, 0x08,			//   Report Size (8)
-+	0x95, 0x06,			//   Report Count (6)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0xc0,				//  End Collection
-+	0x85, LAMP_MULTI_UPDATE_REPORT_ID, //  Report ID (4)
-+	0x09, 0x50,			//  Usage (Lamp Multi Update Report)
-+	0xa1, 0x02,			//  Collection (Logical)
-+	0x09, 0x03,			//   Usage (Lamp Count)
-+	0x09, 0x55,			//   Usage (Lamp Update Flags)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x25, 0x08,			//   Logical Maximum (8)
-+	0x75, 0x08,			//   Report Size (8)
-+	0x95, 0x02,			//   Report Count (2)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0x09, 0x21,			//   Usage (Lamp Id)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x27, 0xff, 0xff, 0x00, 0x00,	//   Logical Maximum (65535)
-+	0x75, 0x10,			//   Report Size (16)
-+	0x95, 0x08,			//   Report Count (8)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x26, 0xff, 0x00,		//   Logical Maximum (255)
-+	0x75, 0x08,			//   Report Size (8)
-+	0x95, 0x20,			//   Report Count (32)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0xc0,				//  End Collection
-+	0x85, LAMP_RANGE_UPDATE_REPORT_ID, //  Report ID (5)
-+	0x09, 0x60,			//  Usage (Lamp Range Update Report)
-+	0xa1, 0x02,			//  Collection (Logical)
-+	0x09, 0x55,			//   Usage (Lamp Update Flags)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x25, 0x08,			//   Logical Maximum (8)
-+	0x75, 0x08,			//   Report Size (8)
-+	0x95, 0x01,			//   Report Count (1)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0x09, 0x61,			//   Usage (Lamp Id Start)
-+	0x09, 0x62,			//   Usage (Lamp Id End)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x27, 0xff, 0xff, 0x00, 0x00,	//   Logical Maximum (65535)
-+	0x75, 0x10,			//   Report Size (16)
-+	0x95, 0x02,			//   Report Count (2)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0x09, 0x51,			//   Usage (Red Update Channel)
-+	0x09, 0x52,			//   Usage (Green Update Channel)
-+	0x09, 0x53,			//   Usage (Blue Update Channel)
-+	0x09, 0x54,			//   Usage (Intensity Update Channel)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x26, 0xff, 0x00,		//   Logical Maximum (255)
-+	0x75, 0x08,			//   Report Size (8)
-+	0x95, 0x04,			//   Report Count (4)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0xc0,				//  End Collection
-+	0x85, LAMP_ARRAY_CONTROL_REPORT_ID, //  Report ID (6)
-+	0x09, 0x70,			//  Usage (Lamp Array Control Report)
-+	0xa1, 0x02,			//  Collection (Logical)
-+	0x09, 0x71,			//   Usage (Autonomous Mode)
-+	0x15, 0x00,			//   Logical Minimum (0)
-+	0x25, 0x01,			//   Logical Maximum (1)
-+	0x75, 0x08,			//   Report Size (8)
-+	0x95, 0x01,			//   Report Count (1)
-+	0xb1, 0x02,			//   Feature (Data,Var,Abs)
-+	0xc0,				//  End Collection
-+	0xc0				// End Collection
-+};
-+
-+static const u8 sirius_16_ansii_kbl_mapping[] = {
-+	0x29, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f, 0x40, 0x41, 0x42,
-+	0x43, 0x44, 0x45, 0xf1, 0x46, 0x4c,   0x4a, 0x4d, 0x4b, 0x4e,
-+	0x35, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26,
-+	0x27, 0x2d, 0x2e, 0x2a,               0x53, 0x55, 0x54, 0x56,
-+	0x2b, 0x14, 0x1a, 0x08, 0x15, 0x17, 0x1c, 0x18, 0x0c, 0x12,
-+	0x13, 0x2f, 0x30, 0x31,               0x5f, 0x60, 0x61,
-+	0x39, 0x04, 0x16, 0x07, 0x09, 0x0a, 0x0b, 0x0d, 0x0e, 0x0f,
-+	0x33, 0x34, 0x28,                     0x5c, 0x5d, 0x5e, 0x57,
-+	0xe1, 0x1d, 0x1b, 0x06, 0x19, 0x05, 0x11, 0x10, 0x36, 0x37,
-+	0x38, 0xe5, 0x52,                     0x59, 0x5a, 0x5b,
-+	0xe0, 0xfe, 0xe3, 0xe2, 0x2c, 0xe6, 0x65, 0xe4, 0x50, 0x51,
-+	0x4f,                                 0x62, 0x63, 0x58
-+};
-+
-+static const u32 sirius_16_ansii_kbl_mapping_pos_x[] = {
-+	 25000,  41700,  58400,  75100,  91800, 108500, 125200, 141900, 158600, 175300,
-+	192000, 208700, 225400, 242100, 258800, 275500,   294500, 311200, 327900, 344600,
-+	 24500,  42500,  61000,  79500,  98000, 116500, 135000, 153500, 172000, 190500,
-+	209000, 227500, 246000, 269500,                   294500, 311200, 327900, 344600,
-+	 31000,  51500,  70000,  88500, 107000, 125500, 144000, 162500, 181000, 199500,
-+	218000, 236500, 255000, 273500,                   294500, 311200, 327900,
-+	 33000,  57000,  75500,  94000, 112500, 131000, 149500, 168000, 186500, 205000,
-+	223500, 242000, 267500,                           294500, 311200, 327900, 344600,
-+	 37000,  66000,  84500, 103000, 121500, 140000, 158500, 177000, 195500, 214000,
-+	232500, 251500, 273500,                           294500, 311200, 327900,
-+	 28000,  47500,  66000,  84500, 140000, 195500, 214000, 234000, 255000, 273500,
-+	292000,                                           311200, 327900, 344600
-+};
-+
-+static const u32 sirius_16_ansii_kbl_mapping_pos_y[] = {
-+	 53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,
-+	 53000,  53000,  53000,  53000,  53000,  53000,    53000,  53000,  53000,  53000,
-+	 67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,
-+	 67500,  67500,  67500,  67500,                    67500,  67500,  67500,  67500,
-+	 85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,
-+	 85500,  85500,  85500,  85500,                    85500,  85500,  85500,
-+	103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500,
-+	103500, 103500, 103500,                           103500, 103500, 103500,  94500,
-+	121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500,
-+	121500, 121500, 129000,                           121500, 121500, 121500,
-+	139500, 139500, 139500, 139500, 139500, 139500, 139500, 139500, 147000, 147000,
-+	147000,                                           139500, 139500, 130500
-+};
-+
-+static const u32 sirius_16_ansii_kbl_mapping_pos_z[] = {
-+	  5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,
-+	  5000,   5000,   5000,   5000,   5000,   5000,     5000,   5000,   5000,   5000,
-+	  5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,
-+	  5250,   5250,   5250,   5250,                     5250,   5250,   5250,   5250,
-+	  5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,
-+	  5500,   5500,   5500,   5500,                     5500,   5500,   5500,
-+	  5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,
-+	  5750,   5750,   5750,                             5750,   5750,   5750,   5625,
-+	  6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,
-+	  6000,   6000,   6125,                             6000,   6000,   6000,
-+	  6250,   6250,   6250,   6250,   6250,   6250,   6250,   6250,   6375,   6375,
-+	  6375,                                             6250,   6250,   6125
-+};
-+
-+static const u8 sirius_16_iso_kbl_mapping[] = {
-+	0x29, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f, 0x40, 0x41, 0x42,
-+	0x43, 0x44, 0x45, 0xf1, 0x46, 0x4c,   0x4a, 0x4d, 0x4b, 0x4e,
-+	0x35, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26,
-+	0x27, 0x2d, 0x2e, 0x2a,               0x53, 0x55, 0x54, 0x56,
-+	0x2b, 0x14, 0x1a, 0x08, 0x15, 0x17, 0x1c, 0x18, 0x0c, 0x12,
-+	0x13, 0x2f, 0x30,                     0x5f, 0x60, 0x61,
-+	0x39, 0x04, 0x16, 0x07, 0x09, 0x0a, 0x0b, 0x0d, 0x0e, 0x0f,
-+	0x33, 0x34, 0x32, 0x28,               0x5c, 0x5d, 0x5e, 0x57,
-+	0xe1, 0x64, 0x1d, 0x1b, 0x06, 0x19, 0x05, 0x11, 0x10, 0x36,
-+	0x37, 0x38, 0xe5, 0x52,               0x59, 0x5a, 0x5b,
-+	0xe0, 0xfe, 0xe3, 0xe2, 0x2c, 0xe6, 0x65, 0xe4, 0x50, 0x51,
-+	0x4f,                                 0x62, 0x63, 0x58
-+};
-+
-+static const u32 sirius_16_iso_kbl_mapping_pos_x[] = {
-+	 25000,  41700,  58400,  75100,  91800, 108500, 125200, 141900, 158600, 175300,
-+	192000, 208700, 225400, 242100, 258800, 275500,   294500, 311200, 327900, 344600,
-+	 24500,  42500,  61000,  79500,  98000, 116500, 135000, 153500, 172000, 190500,
-+	209000, 227500, 246000, 269500,                   294500, 311200, 327900, 344600,
-+	 31000,  51500,  70000,  88500, 107000, 125500, 144000, 162500, 181000, 199500,
-+	218000, 234500, 251000,                           294500, 311200, 327900,
-+	 33000,  57000,  75500,  94000, 112500, 131000, 149500, 168000, 186500, 205000,
-+	223500, 240000, 256500, 271500,                   294500, 311200, 327900, 344600,
-+	 28000,  47500,  66000,  84500, 103000, 121500, 140000, 158500, 177000, 195500,
-+	214000, 232500, 251500, 273500,                   294500, 311200, 327900,
-+	 28000,  47500,  66000,  84500, 140000, 195500, 214000, 234000, 255000, 273500,
-+	292000,                                           311200, 327900, 344600
-+};
-+
-+static const u32 sirius_16_iso_kbl_mapping_pos_y[] = {
-+	 53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,
-+	 53000,  53000,  53000,  53000,  53000,  53000,    53000,  53000,  53000,  53000,
-+	 67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,
-+	 67500,  67500,  67500,  67500,                    67500,  67500,  67500,  67500,
-+	 85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,
-+	 85500,  85500,  85500,                            85500,  85500,  85500,
-+	103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500,
-+	103500, 103500, 103500,  94500,                   103500, 103500, 103500,  94500,
-+	121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500,
-+	121500, 121500, 121500, 129000,                   121500, 121500, 121500,
-+	139500, 139500, 139500, 139500, 139500, 139500, 139500, 139500, 147000, 147000,
-+	147000,                                           139500, 139500, 130500
-+};
-+
-+static const u32 sirius_16_iso_kbl_mapping_pos_z[] = {
-+	  5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,
-+	  5000,   5000,   5000,   5000, 5000, 5000,         5000,   5000,   5000,   5000,
-+	  5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,
-+	  5250,   5250,   5250,   5250,                     5250,   5250,   5250,   5250,
-+	  5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,
-+	  5500,   5500,   5500,                             5500,   5500,   5500,
-+	  5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,
-+	  5750,   5750,   5750,   5750,                     5750,   5750,   5750,   5625,
-+	  6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,
-+	  6000,   6000,   6000,   6125,                     6000,   6000,   6000,
-+	  6250,   6250,   6250,   6250,   6250,   6250,   6250,   6250,   6375,   6375,
-+	  6375,                                             6250,   6250,   6125
-+};
-+
-+struct tux_driver_data_t {
-+	struct hid_device *hdev;
-+};
-+
-+struct tux_hdev_driver_data_t {
-+	u8 keyboard_type;
-+	u8 lamp_count;
-+	u8 next_lamp_id;
-+	union tux_wmi_xx_496in_80out_in_t next_kbl_set_multiple_keys_in;
-+};
-+
-+static int tux_ll_start(struct hid_device *hdev)
-+{
-+	struct wmi_device *wdev = to_wmi_device(hdev->dev.parent);
-+	struct tux_hdev_driver_data_t *driver_data;
-+	union tux_wmi_xx_8in_80out_out_t out;
-+	union tux_wmi_xx_8in_80out_in_t in;
-+	int ret;
-+
-+	driver_data = devm_kzalloc(&hdev->dev, sizeof(*driver_data), GFP_KERNEL);
-+	if (!driver_data)
-+		return -ENOMEM;
-+
-+	in.get_device_status_in.device_type = WMI_AB_GET_DEVICE_STATUS_DEVICE_ID_KEYBOARD;
-+	ret = tux_wmi_xx_8in_80out(wdev, WMI_AB_GET_DEVICE_STATUS, &in, &out);
-+	if (ret)
-+		return ret;
-+
-+	driver_data->keyboard_type = out.get_device_status_out.keyboard_physical_layout;
-+	if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ANSII)
-+		driver_data->lamp_count = sizeof(sirius_16_ansii_kbl_mapping);
-+	else if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ISO)
-+		driver_data->lamp_count = sizeof(sirius_16_iso_kbl_mapping);
-+	else
-+		return -EINVAL;
-+	driver_data->next_lamp_id = 0;
-+
-+	dev_set_drvdata(&hdev->dev, driver_data);
-+
-+	return ret;
-+}
-+
-+static void tux_ll_stop(struct hid_device __always_unused *hdev)
-+{
-+}
-+
-+static int tux_ll_open(struct hid_device __always_unused *hdev)
-+{
-+	return 0;
-+}
-+
-+static void tux_ll_close(struct hid_device __always_unused *hdev)
-+{
-+}
-+
-+static int tux_ll_parse(struct hid_device *hdev)
-+{
-+	return hid_parse_report(hdev, tux_report_descriptor,
-+				sizeof(tux_report_descriptor));
-+}
-+
-+struct __packed lamp_array_attributes_report_t {
-+	const u8 report_id;
-+	u16 lamp_count;
-+	u32 bounding_box_width_in_micrometers;
-+	u32 bounding_box_height_in_micrometers;
-+	u32 bounding_box_depth_in_micrometers;
-+	u32 lamp_array_kind;
-+	u32 min_update_interval_in_microseconds;
-+};
-+
-+static int handle_lamp_array_attributes_report(struct hid_device *hdev,
-+					       struct lamp_array_attributes_report_t *rep)
-+{
-+	struct tux_hdev_driver_data_t *driver_data = dev_get_drvdata(&hdev->dev);
-+
-+	rep->lamp_count = driver_data->lamp_count;
-+	rep->bounding_box_width_in_micrometers = 368000;
-+	rep->bounding_box_height_in_micrometers = 266000;
-+	rep->bounding_box_depth_in_micrometers = 30000;
-+	/*
-+	 * LampArrayKindKeyboard, see "26.2.1 LampArrayKind Values" of
-+	 * "HID Usage Tables v1.5"
-+	 */
-+	rep->lamp_array_kind = 1;
-+	// Some guessed value for interval microseconds
-+	rep->min_update_interval_in_microseconds = 500;
-+
-+	return sizeof(*rep);
-+}
-+
-+struct __packed lamp_attributes_request_report_t {
-+	const u8 report_id;
-+	u16 lamp_id;
-+};
-+
-+static int handle_lamp_attributes_request_report(struct hid_device *hdev,
-+						 struct lamp_attributes_request_report_t *rep)
-+{
-+	struct tux_hdev_driver_data_t *driver_data = dev_get_drvdata(&hdev->dev);
-+
-+	if (rep->lamp_id < driver_data->lamp_count)
-+		driver_data->next_lamp_id = rep->lamp_id;
-+	else
-+		driver_data->next_lamp_id = 0;
-+
-+	return sizeof(*rep);
-+}
-+
-+struct __packed lamp_attributes_response_report_t {
-+	const u8 report_id;
-+	u16 lamp_id;
-+	u32 position_x_in_micrometers;
-+	u32 position_y_in_micrometers;
-+	u32 position_z_in_micrometers;
-+	u32 update_latency_in_microseconds;
-+	u32 lamp_purpose;
-+	u8 red_level_count;
-+	u8 green_level_count;
-+	u8 blue_level_count;
-+	u8 intensity_level_count;
-+	u8 is_programmable;
-+	u8 input_binding;
-+};
-+
-+static int handle_lamp_attributes_response_report(struct hid_device *hdev,
-+						  struct lamp_attributes_response_report_t *rep)
-+{
-+	struct tux_hdev_driver_data_t *driver_data = dev_get_drvdata(&hdev->dev);
-+	u16 lamp_id = driver_data->next_lamp_id;
-+
-+	const u32 *kbl_mapping_pos_x, *kbl_mapping_pos_y, *kbl_mapping_pos_z;
-+	const u8 *kbl_mapping;
-+
-+	rep->lamp_id = lamp_id;
-+	// Some guessed value for latency microseconds
-+	rep->update_latency_in_microseconds = 100;
-+	/*
-+	 * LampPurposeControl, see "26.3.1 LampPurposes Flags" of
-+	 * "HID Usage Tables v1.5"
-+	 */
-+	rep->lamp_purpose = 1;
-+	rep->red_level_count = 0xff;
-+	rep->green_level_count = 0xff;
-+	rep->blue_level_count = 0xff;
-+	rep->intensity_level_count = 0xff;
-+	rep->is_programmable = 1;
-+
-+	if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ANSII) {
-+		kbl_mapping = &sirius_16_ansii_kbl_mapping[0];
-+		kbl_mapping_pos_x = &sirius_16_ansii_kbl_mapping_pos_x[0];
-+		kbl_mapping_pos_y = &sirius_16_ansii_kbl_mapping_pos_y[0];
-+		kbl_mapping_pos_z = &sirius_16_ansii_kbl_mapping_pos_z[0];
-+	} else if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ISO) {
-+		kbl_mapping = &sirius_16_iso_kbl_mapping[0];
-+		kbl_mapping_pos_x = &sirius_16_iso_kbl_mapping_pos_x[0];
-+		kbl_mapping_pos_y = &sirius_16_iso_kbl_mapping_pos_y[0];
-+		kbl_mapping_pos_z = &sirius_16_iso_kbl_mapping_pos_z[0];
-+	} else {
-+		return -EINVAL;
-+	}
-+
-+	if (kbl_mapping[lamp_id] <= 0xe8)
-+		rep->input_binding = kbl_mapping[lamp_id];
-+	else
-+		/*
-+		 * Everything bigger is reserved/undefined, see
-+		 * "10 Keyboard/Keypad Page (0x07)" of "HID Usage Tables v1.5"
-+		 * and should return 0, see "26.8.3 Lamp Attributes" of the same
-+		 * document.
-+		 */
-+		rep->input_binding = 0;
-+	rep->position_x_in_micrometers = kbl_mapping_pos_x[lamp_id];
-+	rep->position_y_in_micrometers = kbl_mapping_pos_y[lamp_id];
-+	rep->position_z_in_micrometers = kbl_mapping_pos_z[lamp_id];
-+
-+	driver_data->next_lamp_id = (driver_data->next_lamp_id + 1) % driver_data->lamp_count;
-+
-+	return sizeof(*rep);
-+}
-+
-+#define LAMP_UPDATE_FLAGS_LAMP_UPDATE_COMPLETE	BIT(0)
-+
-+struct __packed lamp_multi_update_report_t {
-+	const u8 report_id;
-+	u8 lamp_count;
-+	u8 lamp_update_flags;
-+	u16 lamp_id[8];
-+	struct {
-+		u8 red;
-+		u8 green;
-+		u8 blue;
-+		u8 intensity;
-+	} update_channels[8];
-+};
-+
-+static int handle_lamp_multi_update_report(struct hid_device *hdev,
-+					   struct lamp_multi_update_report_t *rep)
-+{
-+	struct tux_hdev_driver_data_t *driver_data = dev_get_drvdata(&hdev->dev);
-+	union tux_wmi_xx_496in_80out_in_t *next = &driver_data->next_kbl_set_multiple_keys_in;
-+	struct wmi_device *wdev = to_wmi_device(hdev->dev.parent);
-+	u8 lamp_count = 0, key_id, key_id_j, intensity_i;
-+	union tux_wmi_xx_496in_80out_out_t out;
-+	int ret;
-+
-+	/* Catching missformated lamp_multi_update_report and fail silently
-+	 * according to "HID Usage Tables v1.5"
-+	 */
-+	for (unsigned int i = 0; i < rep->lamp_count; ++i) {
-+		if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ANSII)
-+			lamp_count = sizeof(sirius_16_ansii_kbl_mapping);
-+		else if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ISO)
-+			lamp_count = sizeof(sirius_16_ansii_kbl_mapping);
-+		else
-+			return -EINVAL;
-+
-+		if (rep->lamp_id[i] > lamp_count) {
-+			hid_dbg(hdev, "Out of bounds lamp_id in lamp_multi_update_report. Skippng whole report!\n");
-+			return sizeof(*rep);
-+		}
-+
-+		for (unsigned int j = i + 1; j < rep->lamp_count; ++j) {
-+			if (rep->lamp_id[i] == rep->lamp_id[j]) {
-+				hid_dbg(hdev, "Duplicate lamp_id in lamp_multi_update_report. Skippng whole report!\n");
-+				return sizeof(*rep);
-+			}
-+		}
-+	}
-+
-+	for (unsigned int i = 0; i < rep->lamp_count; ++i) {
-+		if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ANSII)
-+			key_id = sirius_16_ansii_kbl_mapping[rep->lamp_id[i]];
-+		else if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ISO)
-+			key_id = sirius_16_iso_kbl_mapping[rep->lamp_id[i]];
-+
-+		for (unsigned int j = 0;
-+		     j < WMI_AB_KBL_SET_MULTIPLE_KEYS_LIGHTING_SETTINGS_COUNT_MAX; ++j) {
-+			key_id_j = next->kbl_set_multiple_keys_in.lighting_settings[j].key_id;
-+			if (key_id_j == 0x00 || key_id_j == key_id) {
-+				if (key_id_j == 0x00)
-+					next->kbl_set_multiple_keys_in.lighting_setting_count =
-+						j + 1;
-+				next->kbl_set_multiple_keys_in.lighting_settings[j].key_id =
-+					key_id;
-+				/*
-+				 * While this driver respects
-+				 * intensity_update_channel according to "HID
-+				 * Usage Tables v1.5" also on RGB leds, the
-+				 * Microsoft MacroPad reference implementation
-+				 * (https://github.com/microsoft/RP2040MacropadHidSample
-+				 * 1d6c3ad) does not and ignores it. If it turns
-+				 * out that Windows writes intensity = 0 for RGB
-+				 * leds instead of intensity = 255, this driver
-+				 * should also ignore the
-+				 * intensity_update_channel.
-+				 */
-+				intensity_i = rep->update_channels[i].intensity;
-+				next->kbl_set_multiple_keys_in.lighting_settings[j].red =
-+					rep->update_channels[i].red * intensity_i / 0xff;
-+				next->kbl_set_multiple_keys_in.lighting_settings[j].green =
-+					rep->update_channels[i].green * intensity_i / 0xff;
-+				next->kbl_set_multiple_keys_in.lighting_settings[j].blue =
-+					rep->update_channels[i].blue * intensity_i / 0xff;
-+
-+				break;
-+			}
-+		}
-+	}
-+
-+	if (rep->lamp_update_flags & LAMP_UPDATE_FLAGS_LAMP_UPDATE_COMPLETE) {
-+		ret = tux_wmi_xx_496in_80out(wdev, WMI_AB_KBL_SET_MULTIPLE_KEYS,
-+					     next, &out);
-+		memset(next, 0, sizeof(union tux_wmi_xx_496in_80out_in_t));
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return sizeof(*rep);
-+}
-+
-+struct __packed lamp_range_update_report_t {
-+	const u8 report_id;
-+	u8 lamp_update_flags;
-+	u16 lamp_id_start;
-+	u16 lamp_id_end;
-+	u8 red_update_channel;
-+	u8 green_update_channel;
-+	u8 blue_update_channel;
-+	u8 intensity_update_channel;
-+};
-+
-+static int handle_lamp_range_update_report(struct hid_device *hdev,
-+					   struct lamp_range_update_report_t *rep)
-+{
-+	struct tux_hdev_driver_data_t *driver_data = dev_get_drvdata(&hdev->dev);
-+	u8 lamp_count;
-+	int ret;
-+
-+	struct lamp_multi_update_report_t lamp_multi_update_report = {
-+		.report_id = LAMP_MULTI_UPDATE_REPORT_ID
-+	};
-+
-+	/* Catching missformated lamp_range_update_report and fail silently
-+	 * according to "HID Usage Tables v1.5"
-+	 */
-+	if (rep->lamp_id_start > rep->lamp_id_end) {
-+		hid_dbg(hdev, "lamp_id_start > lamp_id_end in lamp_range_update_report. Skippng whole report!\n");
-+		return sizeof(*rep);
-+	}
-+
-+	if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ANSII)
-+		lamp_count = sizeof(sirius_16_ansii_kbl_mapping);
-+	else if (driver_data->keyboard_type == WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ISO)
-+		lamp_count = sizeof(sirius_16_iso_kbl_mapping);
-+	else
-+		return -EINVAL;
-+
-+	if (rep->lamp_id_end > lamp_count - 1) {
-+		hid_dbg(hdev, "Out of bounds lamp_id_end in lamp_range_update_report. Skippng whole report!\n");
-+		return sizeof(*rep);
-+	}
-+
-+	/* Break handle_lamp_range_update_report call down to multiple
-+	 * handle_lamp_multi_update_report calls to easily ensure that mixing
-+	 * handle_lamp_range_update_report and handle_lamp_multi_update_report
-+	 * does not break things.
-+	 */
-+	for (unsigned int i = rep->lamp_id_start; i < rep->lamp_id_end + 1; i = i + 8) {
-+		lamp_multi_update_report.lamp_count = min(rep->lamp_id_end + 1 - i, 8);
-+		if (i + lamp_multi_update_report.lamp_count == rep->lamp_id_end + 1)
-+			lamp_multi_update_report.lamp_update_flags |=
-+				LAMP_UPDATE_FLAGS_LAMP_UPDATE_COMPLETE;
-+
-+		for (unsigned int j = 0; j < lamp_multi_update_report.lamp_count; ++j) {
-+			lamp_multi_update_report.lamp_id[j] = i + j;
-+			lamp_multi_update_report.update_channels[j].red =
-+				rep->red_update_channel;
-+			lamp_multi_update_report.update_channels[j].green =
-+				rep->green_update_channel;
-+			lamp_multi_update_report.update_channels[j].blue =
-+				rep->blue_update_channel;
-+			lamp_multi_update_report.update_channels[j].intensity =
-+				rep->intensity_update_channel;
-+		}
-+
-+		ret = handle_lamp_multi_update_report(hdev, &lamp_multi_update_report);
-+		if (ret < 0)
-+			return ret;
-+		else if (ret != sizeof(struct lamp_multi_update_report_t))
-+			return -EIO;
-+	}
-+
-+	return sizeof(*rep);
-+}
-+
-+struct __packed lamp_array_control_report_t {
-+	const u8 report_id;
-+	u8 autonomous_mode;
-+};
-+
-+static int handle_lamp_array_control_report(struct hid_device __always_unused *hdev,
-+					    struct lamp_array_control_report_t __always_unused *rep)
-+{
-+	/*
-+	 * The keyboards firmware doesn't have any built in controls and the
-+	 * built in effects are not implemented so this is a NOOP.
-+	 * According to the HID Documentation (HID Usage Tables v1.5) this
-+	 * function is optional and can be removed from the HID Report
-+	 * Descriptor, but it should first be confirmed that userspace respects
-+	 * this possibility too. The Microsoft MacroPad reference implementation
-+	 * (https://github.com/microsoft/RP2040MacropadHidSample 1d6c3ad)
-+	 * already deviates from the spec at another point, see
-+	 * handle_lamp_*_update_report.
-+	 */
-+
-+	return sizeof(*rep);
-+}
-+
-+static int tux_ll_raw_request(struct hid_device *hdev, unsigned char reportnum,
-+			      __u8 *buf, size_t len, unsigned char rtype,
-+			      int reqtype)
-+{
-+	if (rtype != HID_FEATURE_REPORT)
-+		return -EINVAL;
-+
-+	switch (reqtype) {
-+	case HID_REQ_GET_REPORT:
-+		switch (reportnum) {
-+		case LAMP_ARRAY_ATTRIBUTES_REPORT_ID:
-+			if (len != sizeof(struct lamp_array_attributes_report_t))
-+				return -EINVAL;
-+			return handle_lamp_array_attributes_report(hdev,
-+				(struct lamp_array_attributes_report_t *)buf);
-+		case LAMP_ATTRIBUTES_RESPONSE_REPORT_ID:
-+			if (len != sizeof(struct lamp_attributes_response_report_t))
-+				return -EINVAL;
-+			return handle_lamp_attributes_response_report(hdev,
-+				(struct lamp_attributes_response_report_t *)buf);
-+		}
-+		break;
-+	case HID_REQ_SET_REPORT:
-+		switch (reportnum) {
-+		case LAMP_ATTRIBUTES_REQUEST_REPORT_ID:
-+			if (len != sizeof(struct lamp_attributes_request_report_t))
-+				return -EINVAL;
-+			return handle_lamp_attributes_request_report(hdev,
-+				(struct lamp_attributes_request_report_t *)buf);
-+		case LAMP_MULTI_UPDATE_REPORT_ID:
-+			if (len != sizeof(struct lamp_multi_update_report_t))
-+				return -EINVAL;
-+			return handle_lamp_multi_update_report(hdev,
-+				(struct lamp_multi_update_report_t *)buf);
-+		case LAMP_RANGE_UPDATE_REPORT_ID:
-+			if (len != sizeof(struct lamp_range_update_report_t))
-+				return -EINVAL;
-+			return handle_lamp_range_update_report(hdev,
-+				(struct lamp_range_update_report_t *)buf);
-+		case LAMP_ARRAY_CONTROL_REPORT_ID:
-+			if (len != sizeof(struct lamp_array_control_report_t))
-+				return -EINVAL;
-+			return handle_lamp_array_control_report(hdev,
-+				(struct lamp_array_control_report_t *)buf);
-+		}
-+		break;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static const struct hid_ll_driver tux_ll_driver = {
-+	.start = &tux_ll_start,
-+	.stop = &tux_ll_stop,
-+	.open = &tux_ll_open,
-+	.close = &tux_ll_close,
-+	.parse = &tux_ll_parse,
-+	.raw_request = &tux_ll_raw_request,
-+};
-+
-+static int tux_virt_lamparray_add_device(struct wmi_device *wdev,
-+					 struct hid_device **hdev_out)
-+{
-+	struct hid_device *hdev;
-+	int ret;
-+
-+	dev_dbg(&wdev->dev, "Adding TUXEDO NB04 Virtual LampArray device.\n");
-+
-+	hdev = hid_allocate_device();
-+	if (IS_ERR(hdev))
-+		return PTR_ERR(hdev);
-+	*hdev_out = hdev;
-+
-+	strscpy(hdev->name, "TUXEDO NB04 RGB Lighting", sizeof(hdev->name));
-+
-+	hdev->ll_driver = &tux_ll_driver;
-+	hdev->bus = BUS_VIRTUAL;
-+	hdev->vendor = 0x21ba;
-+	hdev->product = 0x0400;
-+	hdev->dev.parent = &wdev->dev;
-+
-+	ret = hid_add_device(hdev);
-+	if (ret)
-+		hid_destroy_device(hdev);
-+	return ret;
-+}
-+
-+static int tux_probe(struct wmi_device *wdev, const void __always_unused *context)
-+{
-+	struct tux_driver_data_t *driver_data;
-+
-+	driver_data = devm_kzalloc(&wdev->dev, sizeof(*driver_data), GFP_KERNEL);
-+	if (!driver_data)
-+		return -ENOMEM;
-+
-+	dev_set_drvdata(&wdev->dev, driver_data);
-+
-+	return tux_virt_lamparray_add_device(wdev, &driver_data->hdev);
-+}
-+
-+static void tux_remove(struct wmi_device *wdev)
-+{
-+	struct tux_driver_data_t *driver_data = dev_get_drvdata(&wdev->dev);
-+
-+	hid_destroy_device(driver_data->hdev);
-+}
-+
-+static struct wmi_driver tuxedo_nb04_wmi_tux_driver = {
-+	.driver = {
-+		.name = "tuxedo_nb04_wmi_ab",
-+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-+	},
-+	.id_table = tuxedo_nb04_wmi_ab_device_ids,
-+	.probe = tux_probe,
-+	.remove = tux_remove,
-+	.no_singleton = true,
-+};
-+
-+/*
-+ * We don't know if the WMI API is stable and how unique the GUID is for this
-+ * ODM. To be on the safe side we therefore only run this driver on tested
-+ * devices defined by this list.
-+ */
-+static const struct dmi_system_id tested_devices_dmi_table[] __initconst = {
-+	{
-+		// TUXEDO Sirius 16 Gen1
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "APX958"),
-+		},
-+	},
-+	{
-+		// TUXEDO Sirius 16 Gen2
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AHP958"),
-+		},
-+	},
-+	{ }
-+};
-+
-+static int __init tuxedo_nb04_wmi_tux_init(void)
-+{
-+	if (!dmi_check_system(tested_devices_dmi_table))
-+		return -ENODEV;
-+
-+	return wmi_driver_register(&tuxedo_nb04_wmi_tux_driver);
-+}
-+module_init(tuxedo_nb04_wmi_tux_init);
-+
-+static void __exit tuxedo_nb04_wmi_tux_exit(void)
-+{
-+	return wmi_driver_unregister(&tuxedo_nb04_wmi_tux_driver);
-+}
-+module_exit(tuxedo_nb04_wmi_tux_exit);
-+
-+MODULE_DESCRIPTION("Virtual HID LampArray interface for TUXEDO NB04 devices");
-+MODULE_AUTHOR("Werner Sembach <wse@tuxedocomputers.com>");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/platform/x86/tuxedo/nb04/wmi_util.c b/drivers/platform/x86/tuxedo/nb04/wmi_util.c
-new file mode 100644
-index 0000000000000..7c7727e4775e3
---- /dev/null
-+++ b/drivers/platform/x86/tuxedo/nb04/wmi_util.c
-@@ -0,0 +1,95 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * This code gives functions to avoid code duplication while interacting with
-+ * the TUXEDO NB04 wmi interfaces.
-+ *
-+ * Copyright (C) 2024-2025 Werner Sembach <wse@tuxedocomputers.com>
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/wmi.h>
-+
-+#include "wmi_util.h"
-+
-+static int __wmi_method_acpi_object_out(struct wmi_device *wdev,
-+					u32 wmi_method_id,
-+					u8 *in,
-+					acpi_size in_len,
-+					union acpi_object **out)
-+{
-+	struct acpi_buffer acpi_buffer_in = { in_len, in };
-+	struct acpi_buffer acpi_buffer_out = { ACPI_ALLOCATE_BUFFER, NULL };
-+
-+	dev_dbg(&wdev->dev, "Evaluate WMI method: %u in:\n", wmi_method_id);
-+	print_hex_dump_bytes("", DUMP_PREFIX_OFFSET, in, in_len);
-+
-+	acpi_status status = wmidev_evaluate_method(wdev, 0, wmi_method_id,
-+						    &acpi_buffer_in,
-+						    &acpi_buffer_out);
-+	if (ACPI_FAILURE(status)) {
-+		dev_err(&wdev->dev, "Failed to evaluate WMI method.\n");
-+		return -EIO;
-+	}
-+	if (!acpi_buffer_out.pointer) {
-+		dev_err(&wdev->dev, "Unexpected empty out buffer.\n");
-+		return -ENODATA;
-+	}
-+
-+	*out = acpi_buffer_out.pointer;
-+
-+	return 0;
-+}
-+
-+static int __wmi_method_buffer_out(struct wmi_device *wdev,
-+				   u32 wmi_method_id,
-+				   u8 *in,
-+				   acpi_size in_len,
-+				   u8 *out,
-+				   acpi_size out_len)
-+{
-+	int ret;
-+
-+	union acpi_object *acpi_object_out = NULL;
-+
-+	ret = __wmi_method_acpi_object_out(wdev, wmi_method_id,
-+					   in, in_len,
-+					   &acpi_object_out);
-+	if (ret)
-+		return ret;
-+
-+	if (acpi_object_out->type != ACPI_TYPE_BUFFER) {
-+		dev_err(&wdev->dev, "Unexpected out buffer type. Expected: %u Got: %u\n",
-+			ACPI_TYPE_BUFFER, acpi_object_out->type);
-+		goto err;
-+	}
-+	if (acpi_object_out->buffer.length < out_len) {
-+		dev_err(&wdev->dev, "Unexpected out buffer length.\n");
-+		goto err;
-+	}
-+
-+	memcpy(out, acpi_object_out->buffer.pointer, out_len);
-+	kfree(acpi_object_out);
-+
-+	return ret;
-+
-+err:
-+	kfree(acpi_object_out);
-+	return -EIO;
-+}
-+
-+int tux_wmi_xx_8in_80out(struct wmi_device *wdev,
-+			 enum tux_wmi_xx_8in_80out_methods method,
-+			 union tux_wmi_xx_8in_80out_in_t *in,
-+			 union tux_wmi_xx_8in_80out_out_t *out)
-+{
-+	return __wmi_method_buffer_out(wdev, method, in->raw, 8, out->raw, 80);
-+}
-+
-+int tux_wmi_xx_496in_80out(struct wmi_device *wdev,
-+			   enum tux_wmi_xx_496in_80out_methods method,
-+			   union tux_wmi_xx_496in_80out_in_t *in,
-+			   union tux_wmi_xx_496in_80out_out_t *out)
-+{
-+	return __wmi_method_buffer_out(wdev, method, in->raw, 496, out->raw, 80);
-+}
-diff --git a/drivers/platform/x86/tuxedo/nb04/wmi_util.h b/drivers/platform/x86/tuxedo/nb04/wmi_util.h
-new file mode 100644
-index 0000000000000..c9ce4405609d4
---- /dev/null
-+++ b/drivers/platform/x86/tuxedo/nb04/wmi_util.h
-@@ -0,0 +1,109 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * This code gives functions to avoid code duplication while interacting with
-+ * the TUXEDO NB04 wmi interfaces.
-+ *
-+ * Copyright (C) 2024-2025 Werner Sembach <wse@tuxedocomputers.com>
-+ */
-+
-+#ifndef TUXEDO_NB04_WMI_UTIL_H
-+#define TUXEDO_NB04_WMI_UTIL_H
-+
-+#include <linux/wmi.h>
-+
-+#define WMI_AB_GET_DEVICE_STATUS_DEVICE_ID_TOUCHPAD	1
-+#define WMI_AB_GET_DEVICE_STATUS_DEVICE_ID_KEYBOARD	2
-+#define WMI_AB_GET_DEVICE_STATUS_DEVICE_ID_APP_PAGES	3
-+
-+#define WMI_AB_GET_DEVICE_STATUS_KBL_TYPE_NONE		0
-+#define WMI_AB_GET_DEVICE_STATUS_KBL_TYPE_PER_KEY	1
-+#define WMI_AB_GET_DEVICE_STATUS_KBL_TYPE_FOUR_ZONE	2
-+#define WMI_AB_GET_DEVICE_STATUS_KBL_TYPE_WHITE_ONLY	3
-+
-+#define WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ANSII	0
-+#define WMI_AB_GET_DEVICE_STATUS_KEYBOARD_LAYOUT_ISO	1
-+
-+#define WMI_AB_GET_DEVICE_STATUS_COLOR_ID_RED		1
-+#define WMI_AB_GET_DEVICE_STATUS_COLOR_ID_GREEN		2
-+#define WMI_AB_GET_DEVICE_STATUS_COLOR_ID_YELLOW	3
-+#define WMI_AB_GET_DEVICE_STATUS_COLOR_ID_BLUE		4
-+#define WMI_AB_GET_DEVICE_STATUS_COLOR_ID_PURPLE	5
-+#define WMI_AB_GET_DEVICE_STATUS_COLOR_ID_INDIGO	6
-+#define WMI_AB_GET_DEVICE_STATUS_COLOR_ID_WHITE		7
-+
-+#define WMI_AB_GET_DEVICE_STATUS_APP_PAGES_DASHBOARD	BIT(0)
-+#define WMI_AB_GET_DEVICE_STATUS_APP_PAGES_SYSTEMINFOS	BIT(1)
-+#define WMI_AB_GET_DEVICE_STATUS_APP_PAGES_KBL		BIT(2)
-+#define WMI_AB_GET_DEVICE_STATUS_APP_PAGES_HOTKEYS	BIT(3)
-+
-+union tux_wmi_xx_8in_80out_in_t {
-+	u8 raw[8];
-+	struct __packed {
-+		u8 device_type;
-+		u8 reserved[7];
-+	} get_device_status_in;
-+};
-+
-+union tux_wmi_xx_8in_80out_out_t {
-+	u8 raw[80];
-+	struct __packed {
-+		u16 return_status;
-+		u8 device_enabled;
-+		u8 kbl_type;
-+		u8 kbl_side_bar_supported;
-+		u8 keyboard_physical_layout;
-+		u8 app_pages;
-+		u8 per_key_kbl_default_color;
-+		u8 four_zone_kbl_default_color_1;
-+		u8 four_zone_kbl_default_color_2;
-+		u8 four_zone_kbl_default_color_3;
-+		u8 four_zone_kbl_default_color_4;
-+		u8 light_bar_kbl_default_color;
-+		u8 reserved_0[1];
-+		u16 dedicated_gpu_id;
-+		u8 reserved_1[64];
-+	} get_device_status_out;
-+};
-+
-+enum tux_wmi_xx_8in_80out_methods {
-+	WMI_AB_GET_DEVICE_STATUS	= 2,
-+};
-+
-+#define WMI_AB_KBL_SET_MULTIPLE_KEYS_LIGHTING_SETTINGS_COUNT_MAX	120
-+
-+union tux_wmi_xx_496in_80out_in_t {
-+	u8 raw[496];
-+	struct __packed {
-+		u8 reserved[15];
-+		u8 lighting_setting_count;
-+		struct {
-+			u8 key_id;
-+			u8 red;
-+			u8 green;
-+			u8 blue;
-+		} lighting_settings[WMI_AB_KBL_SET_MULTIPLE_KEYS_LIGHTING_SETTINGS_COUNT_MAX];
-+	}  kbl_set_multiple_keys_in;
-+};
-+
-+union tux_wmi_xx_496in_80out_out_t {
-+	u8 raw[80];
-+	struct __packed {
-+		u8 return_value;
-+		u8 reserved[79];
-+	} kbl_set_multiple_keys_out;
-+};
-+
-+enum tux_wmi_xx_496in_80out_methods {
-+	WMI_AB_KBL_SET_MULTIPLE_KEYS	= 6,
-+};
-+
-+int tux_wmi_xx_8in_80out(struct wmi_device *wdev,
-+			 enum tux_wmi_xx_8in_80out_methods method,
-+			 union tux_wmi_xx_8in_80out_in_t *in,
-+			 union tux_wmi_xx_8in_80out_out_t *out);
-+int tux_wmi_xx_496in_80out(struct wmi_device *wdev,
-+			   enum tux_wmi_xx_496in_80out_methods method,
-+			   union tux_wmi_xx_496in_80out_in_t *in,
-+			   union tux_wmi_xx_496in_80out_out_t *out);
-+
-+#endif
--- 
-2.43.0
+
+Adding ASoC binding layer
+=========================
+soc-usb: Intention is to treat a USB port similar to a headphone jack.
+The port is always present on the device, but cable/pin status can be
+enabled/disabled.  Expose mechanisms for USB backend ASoC drivers to
+communicate with USB SND.
+
+Create a USB backend for Q6DSP
+==============================
+q6usb: Basic backend driver that will be responsible for maintaining the
+resources needed to initiate a playback stream using the Q6DSP.  Will
+be the entity that checks to make sure the connected USB audio device
+supports the requested PCM format.  If it does not, the PCM open call will
+fail, and userspace ALSA can take action accordingly.
+
+Introduce XHCI interrupter support
+==================================
+XHCI HCD supports multiple interrupters, which allows for events to be routed
+to different event rings.  This is determined by "Interrupter Target" field
+specified in Section "6.4.1.1 Normal TRB" of the XHCI specification.
+
+Events in the offloading case will be routed to an event ring that is assigned
+to the audio DSP.
+
+Create vendor ops for the USB SND driver
+========================================
+qc_audio_offload: This particular driver has several components associated
+with it:
+- QMI stream request handler
+- XHCI interrupter and resource management
+- audio DSP memory management
+
+When the audio DSP wants to enable a playback stream, the request is first
+received by the ASoC platform sound card.  Depending on the selected route,
+ASoC will bring up the individual DAIs in the path.  The Q6USB backend DAI
+will send an AFE port start command (with enabling the USB playback path), and
+the audio DSP will handle the request accordingly.
+
+Part of the AFE USB port start handling will have an exchange of control
+messages using the QMI protocol.  The qc_audio_offload driver will populate the
+buffer information:
+- Event ring base address
+- EP transfer ring base address
+
+and pass it along to the audio DSP.  All endpoint management will now be handed
+over to the DSP, and the main processor is not involved in transfers.
+
+Overall, implementing this feature will still expose separate sound card and PCM
+devices for both the platform card and USB audio device:
+ 0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
+                      SM8250-MTP-WCD9380-WSA8810-VA-DMIC
+ 1 [Audio          ]: USB-Audio - USB Audio
+                      Generic USB Audio at usb-xhci-hcd.1.auto-1.4, high speed
+
+This is to ensure that userspace ALSA entities can decide which route to take
+when executing the audio playback.  In the above, if card#1 is selected, then
+USB audio data will take the legacy path over the USB PCM drivers, etc...
+
+The current limitation is that the latest USB audio device that is identified
+will be automatically selected by the Q6USB BE DAI for offloading.  Future
+patches can be added to possibly add for more flexibility, but until the userpace
+applications can be better defined, having these mechanisms will complicate the
+overall implementation.
+
+USB offload Kcontrols
+=====================
+Part of the vendor offload package will have a mixer driver associated with it
+(mixer_usb_offload.c).  This entity will be responsible for coordinating with
+SOC USB and the Q6USB backend DAI to fetch information about the sound card
+and PCM device indices associated with the offload path.  The logic is done
+based on the current implementation of how paths are controlled within the QC
+ASoC implementation.
+
+QC ASoC Q6Routing
+-----------------
+Within the Q6 ASOC design, the registered ASoC platform card will expose a set
+of kcontrols for enabling the BE DAI links to the FE DAI link.  For example:
+
+tinymix -D 0 contents
+Number of controls: 1033
+ctl     type    num     name                                    value
+...
+1025    BOOL    1       USB Mixer MultiMedia1                   Off
+1026    BOOL    1       USB Mixer MultiMedia2                   Off
+1027    BOOL    1       USB Mixer MultiMedia3                   Off
+1028    BOOL    1       USB Mixer MultiMedia4                   Off
+1029    BOOL    1       USB Mixer MultiMedia5                   Off
+1030    BOOL    1       USB Mixer MultiMedia6                   Off
+1031    BOOL    1       USB Mixer MultiMedia7                   Off
+1032    BOOL    1       USB Mixer MultiMedia8                   Off
+
+Each of these kcontrols will enable the USB BE DAI link (q6usb) to be connected
+to a FE DAI link (q6asm).  Since each of these controls are DAPM widgets, when
+it is enabled, the DAPM widget's "connect" flag is updated accordingly.
+
+USB Offload Mapping
+-------------------
+Based on the Q6routing, the USB BE DAI link can determine which sound card and
+PCM device is enabled for offloading.  Fetching the ASoC platform sound card's
+information is fairly straightforward, and the bulk of the work goes to finding
+the corresponding PCM device index.  As mentioned above, the USB BE DAI can
+traverse the DAPM widgets to find the DAPM path that is related to the control
+for the "USB Mixer."  Based on which "USB Mixer" is enabled, it can find the
+corresponding DAPM widget associated w/ the FE DAI link (Multimedia*).  From there
+it can find the PCM device created for the Multimedia* stream.
+
+Only one BE DAI link can be enabled per FE DAI.  For example, if the HDMI path is
+enabled for Multimedia1, the USB Mixer will be disabled and switched over.
+
+Examples of kcontrol
+--------------------
+tinymix -D 0 contents
+Number of controls: 1033
+ctl     type    num     name 
+...
+1025    BOOL    1       USB Mixer MultiMedia1                   Off
+1026    BOOL    1       USB Mixer MultiMedia2                   On
+1027    BOOL    1       USB Mixer MultiMedia3                   Off
+1028    BOOL    1       USB Mixer MultiMedia4                   Off
+1029    BOOL    1       USB Mixer MultiMedia5                   Off
+1030    BOOL    1       USB Mixer MultiMedia6                   Off
+1031    BOOL    1       USB Mixer MultiMedia7                   Off
+1032    BOOL    1       USB Mixer MultiMedia8                   Off
+
+tinymix -D 2 contents
+Number of controls: 10
+ctl     type    num     name                                    value
+0       INT     2       Capture Channel Map                     0, 0 (range 0->36)
+1       INT     2       Playback Channel Map                    0, 0 (range 0->36)
+2       BOOL    1       Headset Capture Switch                  On
+3       INT     1       Headset Capture Volume                  10 (range 0->13)
+4       BOOL    1       Sidetone Playback Switch                On
+5       INT     1       Sidetone Playback Volume                4096 (range 0->8192)
+6       BOOL    1       Headset Playback Switch                 On
+7       INT     2       Headset Playback Volume                 20, 20 (range 0->24)
+8       INT     1       USB Offload Playback Card Route PCM#0   0 (range -1->32)
+9       INT     1       USB Offload Playback PCM Route PCM#0    1 (range -1->255)
+
+The example highlights that the userspace/application can utilize the offload path
+for the USB device on card#0 PCM device#1.
+
+When dealing with multiple USB audio devices, only the latest USB device identified
+is going to be selected for offload capable.
+
+tinymix -D 1 contents
+Number of controls: 9
+ctl     type    num     name                                    value
+0       INT     2       Capture Channel Map                     0, 0 (range 0->36)
+1       INT     2       Playback Channel Map                    0, 0 (range 0->36)
+2       BOOL    1       Headset Capture Switch                  On
+3       INT     1       Headset Capture Volume                  1 (range 0->4)
+4       BOOL    1       Sidetone Playback Switch                On
+5       INT     1       Sidetone Playback Volume                4096 (range 0->8192)
+6       BOOL    1       Headset Playback Switch                 On
+7       INT     2       Headset Playback Volume                 20, 20 (range 0->24)
+8       INT     1       USB Offload Playback Card Route PCM#0   -1 (range -1->32)
+9       INT     1       USB Offload Playback PCM Route PCM#0    -1 (range -1->255)
+
+"-1, -1" shows that this device has no route to the offload path.
+
+This feature was validated using:
+- tinymix: set/enable the multimedia path to route to USB backend
+- tinyplay: issue playback on platform card
+
+Changelog
+--------------------------------------------
+Changes in v37:
+- Added auxiliary device management between QC USB SND offload and the Q6 USB
+backend DAI.
+  - Allowed for simplier device references between the two drivers.  Removed the
+  need for usb_get_usb_backend() and the usb-soc-be property.
+- Removed limitation for the Q6 routing to only allow one FE path to USB offload.
+  - Fix for properly maintaining multiple Q6ADM streams will be followed up by
+  Stephan.
+- Compiling the QC USB offload mixer as part of the overall QC offload SW package.
+Removes the need for a separate kconfig.
+
+Changes in v36:
+- Removed the tristate definition for xHCI sideband, as the introduction of hooks
+to the xHCI sideband driver from xHCI HCD will have some depmod issues.  This is
+required so that xHCI is able to notify offloaded clients on specific sequences,
+such as EP ring free.  This is how Mathias initially defined the xHCI sideband
+module, so we are just reverting back to that submission.
+- Rebased on usb-next.
+
+Changes in v35:
+- Fixed kernel bot and sparse errors.
+
+Changes in v34:
+- Fixed comments to align to kernel doc format.
+- Rebased to usb-next
+
+Changes in v33:
+- Removed patch#1, which introduced the xhci skip_events flag.  Refactored this as
+  an argument to the xhci_handle_events() API.  Events will be skipped accordingly.
+- Updated patch#2 and patch#3 to accommodate for the patch#1 removal.
+- Replaced sec intr term from xHCI sideband commit message.
+
+Changes in v32:
+- Updated license year.  Happy new years, 2025!
+
+Changes in v31:
+- Rebased to usb-next, which required some minor updates to APIs and structures
+  changed upstream.
+- Moved USB SND offload mixer as part of the QCOM vendor USB offload package.
+- Have separate kcontrols for PCM and sound card offload mapping versus one kcontrol
+  returning a pair.
+- Added a xHCI sideband notifier into sideband client drivers, so that clients can
+  handle certain xHCI sequences properly.  Currently, track the xfer ring free, so
+  the client can ensure transfers are fully stopped by the DSP.
+- Updated documentation for #3
+- Removed SoC USB enable/disable sound jack calls, and replaced with direct calls to
+  SoC jack.
+
+Changes in v30:
+- Rebased to usb-next tip
+- Renamed the xhci-sideband driver to xhci-sec-intr to avoid confusion with the xHCI
+audio sideband feature mentioned within the spec.
+- Squashed the xhci-sec-intr change to set IMOD for secondary interrupters into the main
+patch that introduces the overall driver.
+
+Changes in v29:
+- Fixed some phrases/wording within the SOC USB documentation, and also added an output
+with aplay -l for the example output.
+- Fixed allocated string buffer for creating the USB SND offload mixer, and added
+a PCM index check to ensure that the pcm index is less than the expected number.
+- Added a complement enable jack call if USB backend DAI link drivers need access
+to it.
+
+Changes in v28:
+- Updated comments and commit log in the stop endpoint sync patch.  Clarified that
+the default stop endpoint completion routine won't fully run as expected since it
+has a completion associated w/ the command.
+- Added a null check for sb->xhci within xhci_sideband_create_interrupter().  This
+is to just ensure that caller has registered sideband before calling create
+interrupter.
+
+Changes in v27:
+- Added some comments and notes about the offload design.  Enforcing the q6routing
+to only allow one USB mixer (PCM device) to be enabled at a time.
+- Modified SND_JACK_USB notifications for all USB audio offloadable devices plugged
+in
+- Rebased on latest XHCI secondary interrupter IMOD changes upstream.  Modified the
+change in this series to allow for XHCI sideband to set the IMOD for sideband
+clients.
+- Updated documentation on how USB SND kcontrols are involved in the overall design.
+- Remove mutex locking from suspend/resume platform ops, as USB core ensures that the
+interface and device are in the RPM_ACTIVE state while disconnect is handled.
+
+Changes in v26:
+- Cleaned up drivers based on errors from checkpatch
+- Fixed several typos using codespell
+- Removed any vendor specific notation from USB SND offload mixer patch
+
+Changes in v25:
+- Cleanups on typos mentioned within the xHCI layers
+- Modified the xHCI interrupter search if clients specify interrupter index
+- Moved mixer_usb_offload into its own module, so that other vendor offload USB
+modules can utilize it also.
+- Added support for USB audio devices that may have multiple PCM streams, as
+previous implementation only assumed a single PCM device.  SOC USB will be
+able to handle an array of PCM indexes supported by the USB audio device.
+- Added some additional checks in the QC USB offload driver to check that device
+has at least one playback stream before allowing to bind
+- Reordered DT bindings to fix the error found by Rob's bot.  The patch that
+added USB_RX was after the example was updated.
+- Updated comments within SOC USB to clarify terminology and to keep it consistent
+- Added SND_USB_JACK type for notifying of USB device audio connections
+
+Changes in v24:
+- Simplified the kcontrols involved in determining how to utilize the offload
+path.
+    - There is one kcontrol registered to each USB audio device that will
+      output which card/pcm device it is mapped to for the offload route.
+    - Removed kcontrols to track offload status and device selection.
+    - Default to last USB audio device plugged in as offload capable.
+    - kcontrol will reside on USB SND device.
+- Reworked the tracking of connected USB devices from the Q6USB BE DAI link.
+Previously, it was convoluted by doing it over an array, but moved to using
+a list made it much simpler.  Logic is still unchanged in that the last USB
+headset plugged in will be selected for offloading.
+- Updated the USB SOC RST documentation accordingly with new kcontrol updates.
+- Added logic to fetch mapped ASoC card and pcm device index that the offload
+path is mapped to for the USB SND kcontrol (for offload route).
+- Re-ordered series to hopefully make reviews more readable by combining
+patches based on the layer modified (ie QC ASoC, ASoC, USB sound, and USB XHCI).
+
+Changes in v23:
+- Added MODULE_DESCRIPTION() fields to drivers that needed it.
+
+Changes in v22:
+- Removed components tag for the ASoC platform card, as the USB SND kcontrol for
+notifying userspace of offload capable card achieves similar results.
+- Due to the above, had to remove the review-by tag for the RST documentation,
+as changes were made to remove the components tag section.
+- Took in feedback to make the SOC USB add/remove ports void.
+- Fixed an issue w/ the USB SND kcontrol management for devices that have multi
+UAC interfaces. (would attempt to create the kcontrol more than once)
+- Modified SOC USB card and PCM index select to be based off the num_supported
+streams that is specified by the USB BE DAI.
+- Modified comments on selecting the latest USB headset for offloading.
+
+Changes in v21:
+- Added an offload jack disable path from the ASoC platform driver and SOC USB.
+- Refactored some of the existing SOC USB context look up APIs and created some
+new helpers to search for the USB context.
+- Renamed snd_soc_usb_find_format to snd_soc_usb_find_supported_format
+- Removed some XHCI sideband calls that would allow clients to actually enable
+the IRQ line associated w/ the secondary interrupter.  This is removed because
+there are other dependencies that are required for that to happen, which are not
+covered as part of this series, and to avoid confusion.
+- Due to the above, removed the need to export IMOD setting, and enable/disable
+interrupter APIs.
+
+Changes in v20:
+- Fixed up some formatting changes pointed out in the usb.rst
+- Added SB null check during XHCI sideband unregister in case caller passes
+improper argument (xhci_sideband_unregister())
+
+Changes in v19:
+- Rebased to usb-next to account for some new changes in dependent drivers.
+
+Changes in v18:
+- Rebased to usb-next, which merged in part of the series.  Removed these patches.
+- Reworked Kconfigs for the ASoC USB related components from QCOM Q6DSP drivers
+  to keep dependencies in place for SoC USB and USB SND.
+- Removed the repurposing of the stop ep sync API into existing XHCI operations.
+  This will be solely used by the XHCI sideband for now.
+
+Changes in v17:
+- Fixed an issue where one patch was squashed into another.
+- Re-added some kconfig checks for helpers exposed in USB SND for the soc usb
+  driver, after running different kconfigs.
+
+Changes in v16:
+- Modified some code layer dependencies so that soc usb can be split as a separate
+  module.
+  - Split the kcontrols from ASoC QCOM common layer into a separate driver
+- Reworked SOC USB kcontrols for controlling card + pcm offload routing and status
+  so that there are individual controls for card and pcm devices.
+- Added a kcontrol remove API in SOC USB to remove the controls on the fly.  This
+  required to add some kcontrol management to SOC USB.
+- Removed the disconnect work and workqueue for the QC USB offload as it is not
+  required, since QMI interface driver ensures events are handled in its own WQ.
+
+Changes in v15:
+- Removed some already merged XHCI changes
+- Separated SOC USB driver from being always compiled into SOC core.  Now
+  configurable from kconfig.
+- Fixed up ASoC kcontrol naming to fit guidelines.
+- Removed some unnecessary dummy ifdefs.
+- Moved usb snd offload capable kcontrol to be initialized by the platform offloading
+  driver.
+
+Changes in v14:
+- Cleaned up some USB SND related feedback:
+  - Renamed SNDUSB OFFLD playback available --> USB offload capable card
+  - Fixed locking while checking if stream is in use
+  - Replaced some mutex pairs with guard(mutex)
+
+Changes in v13:
+- Pulled in secondary/primary interrupter rework from Mathias from:
+  https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/drivers/usb/host?h=fix_eventhandling
+  - Did some cleanup and commit message updates, and tested on current code base.
+- Added mutex locking to xhci sideband to help prevent any race conditions, esp. for when accessing shared
+  references.
+- Addressed concerns from Hillf about gfp_flags and locking used in qc_usb_audio_offload.
+- Rebased onto usb-next
+
+Changes in v12:
+- Updated copyright year to 2024.  Happy new years!
+- Fixed newline format on mixer offload driver.
+
+Changes in v11:
+- Modified QMI format structures to be const
+
+Changes in v10:
+- Added new mixer for exposing kcontrol for sound card created by USB SND.  This
+allows for applications to know which platform sound card has offload support.
+Will return the card number.
+- Broke down and cleaned up some functions/APIs within qc_audio_offload driver.
+- Exported xhci_initialize_ring_info(), and modified XHCI makefile to allow for
+the XHCI sideband to exist as a module.
+- Reworked the jack registration and moved it to the QCOM platform card driver,
+ie sm8250.
+- Added an SOC USB API to fetch a standard component tag that can be appended to
+the platform sound card.  Added this tag to sm8250 if any USB path exists within
+the DT node.
+- Moved kcontrols that existed in the Q6USB driver, and made it a bit more generic,
+so that naming can be standardized across solutions.  SOC USB is now responsible
+for creation of these kcontrols.
+- Added a SOC USB RST document explaining some code flows and implementation details
+so that other vendors can utilize the framework.
+- Addressed a case where USB device connection events are lost if usb offload driver
+(qc_audio_offload) is not probed when everything else has been initialized, ie 
+USB SND, SOC USB and ASoC sound card.  Add a rediscover device call during module
+init, to ensure that connection events will be propagated.
+- Rebased to usb-next.
+
+Changes in v9:
+- Fixed the dt binding check issue with regards to num-hc-interrupters.
+
+Changes in v8:
+- Cleaned up snd_soc_usb_find_priv_data() based on Mark's feedback.  Removed some of
+the duplicate looping code that was present on previous patches.  Also renamed the API.
+- Integrated Mathias' suggestions on his new sideband changes:
+https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=feature_interrupters
+- Addressed some of Mathias' fixme tags, such as:
+ - Resetting transfer ring dequeue/enqueue pointers
+ - Issuing stop endpoint command during ep removal
+ - Reset ERDP properly to first segment ring during interrupter removal. (this is currently
+   just being cleared to 0, but should be pointing to a valid segment if controller is still
+   running.
+
+Changes in v7:
+- Fixed dt check error for q6usb bindings
+- Updated q6usb property from qcom,usb-audio-intr-num --> qcom,usb-audio-intr-idx
+- Removed separate DWC3 HC interrupters num property, and place limits to XHCI one.
+- Modified xhci_ring_to_sgtable() to use assigned IOVA/DMA address to fetch pages, as
+it is not ensured event ring allocated is always done in the vmalloc range.
+
+Changes in v6:
+- Fixed limits and description on several DT bindings (XHCI and Q6USB)
+- Fixed patch subjects to follow other ALSA/ASoC notations.
+
+USB SND
+- Addressed devices which expose multiple audio (UAC) interfaces.  These devices will
+create a single USB sound card with multiple audio streams, and receive multiple
+interface probe routines.  QC offload was not properly considering cases with multiple
+probe calls.
+- Renamed offload module name and kconfig to fit within the SND domain.
+- Renamed attach/detach endpoint API to keep the hw_params notation.
+
+Changes in v5:
+- Removed some unnecessary files that were included
+- Fixed some typos mentioned
+- Addressed dt-binding issues and added hc-interrupters definition to usb-xhci.yaml
+
+XHCI:
+- Moved secondary skip events API to xhci-ring and updated implementation
+   - Utilized existing XHCI APIs, such as inc_deq and xhci_update_erst_dequeue()
+
+USB SND
+- Renamed and reworked the APIs in "sound: usb: Export USB SND APIs for modules" patch to
+include suggestions to utilize snd_usb_hw_params/free and to avoid generic naming.
+- Added a resume_cb() op for completion sake.
+- Addressed some locking concerns with regards to when registering for platform hooks.
+- Added routine to disconnect all offloaded devices during module unbind.
+
+ASoC
+- Replaced individual PCM parameter arguments in snd_soc_usb_connect() with new
+snd_soc_usb_device structure to pass along PCM info.
+- Modified snd_jack set report to notify HEADPHONE event, as we do not support record path.
+
+Changes in v4:
+- Rebased to xhci/for-usb-next
+- Addressed some dt-bindings comments
+
+XHCI:
+- Pulled in latest changes from Mathias' feature_interrupters branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=feature_interrupters
+
+- Fixed commit text and signage for the XHCI sideband/interrupter related changes
+- Added some logic to address the FIXME tags mentioned throughout the commits, such
+as handling multi segment rings and building the SGT, locking concerns, and ep
+cleanup operations.
+- Removed some fixme tags for conditions that may not be needed/addressed.
+- Repurposed the new endpoint stop sync API to be utilized in other places.
+- Fixed potential compile issue if XHCI sideband config is not defined.
+
+ASoC:
+- Added sound jack control into the Q6USB driver.  Allows for userspsace to know when
+an offload capable device is connected.
+
+USB SND:
+- Avoided exporting _snd_pcm_hw_param_set based on Takashi's recommendation.
+- Split USB QMI packet header definitions into a separate commit.  This is used to
+properly allow the QMI interface driver to parse and route QMI packets accordingly
+- Added a "depends on" entry when enabling QC audio offload to avoid compile time
+issues.
+
+Changes in v3:
+- Changed prefix from RFC to PATCH
+- Rebased entire series to usb-next
+- Updated copyright years
+
+XHCI:
+- Rebased changes on top of XHCI changes merged into usb-next, and only added
+changes that were still under discussion.
+- Added change to read in the "num-hc-interrupters" device property.
+
+ASoC:
+- qusb6 USB backend
+  - Incorporated suggestions to fetch iommu information with existing APIs
+  - Added two new sound kcontrols to fetch offload status and offload device
+    selection.
+    - offload status - will return the card and pcm device in use
+        tinymix -D 0 get 1 --> 1, 0 (offload in progress on card#1 pcm#0)
+
+    - device selection - set the card and pcm device to enable offload on. Ex.:
+        tinymix -D 0 set 1 2 0  --> sets offload on card#2 pcm#0
+                                    (this should be the USB card)
+
+USB SND:
+- Fixed up some locking related concerns for registering platform ops.
+   - Moved callbacks under the register_mutex, so that 
+- Modified APIs to properly pass more information about the USB SND device, so
+that the Q6USB backend can build a device list/map, in order to monitor offload
+status and device selection.
+
+Changes in v2:
+
+XHCI:
+- Replaced XHCI and HCD changes with Mathias' XHCI interrupter changes
+in his tree:
+https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=feature_interrupters
+
+Adjustments made to Mathias' changes:
+  - Created xhci-intr.h to export/expose interrupter APIs versus exposing xhci.h.
+    Moved dependent structures to this file as well. (so clients can parse out
+    information from "struct xhci_interrupter")
+  - Added some basic locking when requesting interrupters.
+  - Fixed up some sanity checks.
+  - Removed clearing of the ERSTBA during freeing of the interrupter. (pending
+    issue where SMMU fault occurs if DMA addr returned is 64b - TODO)
+
+- Clean up pending events in the XHCI secondary interrupter.  While testing USB
+bus suspend, it was seen that on bus resume, the xHCI HC would run into a command
+timeout.
+- Added offloading APIs to xHCI to fetch transfer and event ring information.
+
+ASoC:
+- Modified soc-usb to allow for multiple USB port additions.  For this to work,
+the USB offload driver has to have a reference to the USB backend by adding
+a "usb-soc-be" DT entry to the device saved into XHCI sysdev.
+- Created separate dt-bindings for defining USB_RX port.
+- Increased APR timeout to accommodate the situation where the AFE port start
+command could be delayed due to having to issue a USB bus resume while
+handling the QMI stream start command.
+
+Mathias Nyman (1):
+  xhci: sideband: add initial api to register a secondary interrupter
+    entity
+
+Wesley Cheng (30):
+  usb: host: xhci-mem: Cleanup pending secondary event ring events
+  usb: host: xhci-mem: Allow for interrupter clients to choose specific
+    index
+  usb: host: xhci-plat: Set XHCI max interrupters if property is present
+  usb: host: xhci: Notify xHCI sideband on transfer ring free
+  usb: dwc3: Specify maximum number of XHCI interrupters
+  ALSA: Add USB audio device jack type
+  ALSA: usb-audio: Export USB SND APIs for modules
+  ALSA: usb-audio: Check for support for requested audio format
+  ALSA: usb-audio: Save UAC sample size information
+  ALSA: usb-audio: Prevent starting of audio stream if in use
+  ALSA: usb-audio: Introduce USB SND platform op callbacks
+  ALSA: usb-audio: Allow for rediscovery of connected USB SND devices
+  ASoC: Add SoC USB APIs for adding an USB backend
+  ASoC: usb: Add PCM format check API for USB backend
+  ASoC: usb: Create SOC USB SND jack kcontrol
+  ASoC: usb: Fetch ASoC card and pcm device information
+  ASoC: usb: Rediscover USB SND devices on USB port add
+  ASoC: doc: Add documentation for SOC USB
+  ASoC: dt-bindings: qcom,q6dsp-lpass-ports: Add USB_RX port
+  ASoC: dt-bindings: Update example for enabling USB offload on SM8250
+  ASoC: qcom: qdsp6: Introduce USB AFE port to q6dsp
+  ASoC: qcom: qdsp6: q6afe: Increase APR timeout
+  ASoC: qcom: qdsp6: Add USB backend ASoC driver for Q6
+  ASoC: qcom: qdsp6: Add headphone jack for offload connection status
+  ASoC: qcom: qdsp6: Fetch USB offload mapped card and PCM device
+  ALSA: usb-audio: qcom: Add USB QMI definitions
+  ALSA: usb-audio: qcom: Introduce QC USB SND offloading support
+  ALSA: usb-audio: qcom: Don't allow USB offload path if PCM device is
+    in use
+  ALSA: usb-audio: qcom: Add USB offload route kcontrol
+  ALSA: usb-audio: qcom: Notify USB audio devices on USB offload probing
+
+ .../bindings/sound/qcom,sm8250.yaml           |   15 +
+ Documentation/sound/soc/index.rst             |    1 +
+ Documentation/sound/soc/usb.rst               |  482 ++++
+ drivers/usb/dwc3/core.c                       |   12 +
+ drivers/usb/dwc3/core.h                       |    2 +
+ drivers/usb/dwc3/host.c                       |    3 +
+ drivers/usb/host/Kconfig                      |    9 +
+ drivers/usb/host/Makefile                     |    4 +
+ drivers/usb/host/xhci-mem.c                   |   31 +-
+ drivers/usb/host/xhci-plat.c                  |    2 +
+ drivers/usb/host/xhci-ring.c                  |   47 +-
+ drivers/usb/host/xhci-sideband.c              |  457 ++++
+ drivers/usb/host/xhci.c                       |    5 +-
+ drivers/usb/host/xhci.h                       |   13 +-
+ .../sound/qcom,q6dsp-lpass-ports.h            |    1 +
+ include/linux/mod_devicetable.h               |    2 +-
+ include/linux/usb/xhci-sideband.h             |  102 +
+ include/sound/jack.h                          |    4 +-
+ include/sound/q6usboffload.h                  |   20 +
+ include/sound/soc-usb.h                       |  138 ++
+ include/uapi/linux/input-event-codes.h        |    3 +-
+ sound/core/jack.c                             |    6 +-
+ sound/soc/Kconfig                             |   10 +
+ sound/soc/Makefile                            |    2 +
+ sound/soc/qcom/Kconfig                        |   16 +
+ sound/soc/qcom/Makefile                       |    2 +
+ sound/soc/qcom/qdsp6/Makefile                 |    1 +
+ sound/soc/qcom/qdsp6/q6afe-dai.c              |   60 +
+ sound/soc/qcom/qdsp6/q6afe.c                  |  194 +-
+ sound/soc/qcom/qdsp6/q6afe.h                  |   36 +-
+ sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c      |   23 +
+ sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h      |    1 +
+ sound/soc/qcom/qdsp6/q6routing.c              |   10 +-
+ sound/soc/qcom/qdsp6/q6usb.c                  |  417 ++++
+ sound/soc/qcom/sm8250.c                       |   24 +-
+ sound/soc/qcom/usb_offload_utils.c            |   56 +
+ sound/soc/qcom/usb_offload_utils.h            |   30 +
+ sound/soc/soc-usb.c                           |  322 +++
+ sound/usb/Kconfig                             |   14 +
+ sound/usb/Makefile                            |    2 +-
+ sound/usb/card.c                              |  106 +
+ sound/usb/card.h                              |   17 +
+ sound/usb/endpoint.c                          |    1 +
+ sound/usb/format.c                            |    1 +
+ sound/usb/helper.c                            |    1 +
+ sound/usb/pcm.c                               |  104 +-
+ sound/usb/pcm.h                               |   11 +
+ sound/usb/qcom/Makefile                       |    4 +
+ sound/usb/qcom/mixer_usb_offload.c            |  156 ++
+ sound/usb/qcom/mixer_usb_offload.h            |   11 +
+ sound/usb/qcom/qc_audio_offload.c             | 2004 +++++++++++++++++
+ sound/usb/qcom/usb_audio_qmi_v01.c            |  863 +++++++
+ sound/usb/qcom/usb_audio_qmi_v01.h            |  164 ++
+ 53 files changed, 5967 insertions(+), 55 deletions(-)
+ create mode 100644 Documentation/sound/soc/usb.rst
+ create mode 100644 drivers/usb/host/xhci-sideband.c
+ create mode 100644 include/linux/usb/xhci-sideband.h
+ create mode 100644 include/sound/q6usboffload.h
+ create mode 100644 include/sound/soc-usb.h
+ create mode 100644 sound/soc/qcom/qdsp6/q6usb.c
+ create mode 100644 sound/soc/qcom/usb_offload_utils.c
+ create mode 100644 sound/soc/qcom/usb_offload_utils.h
+ create mode 100644 sound/soc/soc-usb.c
+ create mode 100644 sound/usb/qcom/Makefile
+ create mode 100644 sound/usb/qcom/mixer_usb_offload.c
+ create mode 100644 sound/usb/qcom/mixer_usb_offload.h
+ create mode 100644 sound/usb/qcom/qc_audio_offload.c
+ create mode 100644 sound/usb/qcom/usb_audio_qmi_v01.c
+ create mode 100644 sound/usb/qcom/usb_audio_qmi_v01.h
 
 
