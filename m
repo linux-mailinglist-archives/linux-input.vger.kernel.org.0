@@ -1,157 +1,126 @@
-Return-Path: <linux-input+bounces-11548-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11549-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7ABA7CED2
-	for <lists+linux-input@lfdr.de>; Sun,  6 Apr 2025 17:55:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E791A7D292
+	for <lists+linux-input@lfdr.de>; Mon,  7 Apr 2025 05:47:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C31837A3E9B
-	for <lists+linux-input@lfdr.de>; Sun,  6 Apr 2025 15:54:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ECFD616D516
+	for <lists+linux-input@lfdr.de>; Mon,  7 Apr 2025 03:47:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CB8D13AD05;
-	Sun,  6 Apr 2025 15:55:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8548A21324F;
+	Mon,  7 Apr 2025 03:47:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eDzfE7vA"
+	dkim=pass (1024-bit key) header.d=m.fudan.edu.cn header.i=@m.fudan.edu.cn header.b="Y7iA9nao"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555FB23CB
-	for <linux-input@vger.kernel.org>; Sun,  6 Apr 2025 15:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C178C364BA;
+	Mon,  7 Apr 2025 03:47:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743954918; cv=none; b=OIg4vqlC4IgB2ZpgpAvuihTu5EJHWHEDjWi52KWJRvRHtpwrTT3rpcV9tpGHQeVvrYgXGjxRBFyPC25ylmnZUEU6ruEvcyOdcLIXs7c0ESmzIuuNSjqhvNugZmkg2xqRHPDGQY/ddKH8JTADFIkFYSt2iHaR+RKkcjlbnq5P1kM=
+	t=1743997643; cv=none; b=hHKmRpdX2UBZtB+dm+5oBcSi6SuJpQ3PxCyKgDktVl3XdSTeKo+ho2c/6aTAsuAh2Gmc53ZOqM35cBnyiqTdTilU7RKD89nNmp6EmtWPKFUIJMyNaChMYOAopQpLnsVmY3NWFTDk6BlFIoYTeBjV3VNwMlMve6rxPDJMDbL1TnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743954918; c=relaxed/simple;
-	bh=96wKEpADwha8G5Lxd2J7n6Wp8O3FAs9oTYl+k3K0wC4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
-	 In-Reply-To:Content-Type; b=BEhaudf1iaJpf5dkZtOY5uOqax/QyAq6HuI4YCd30tqyTPEDZeaKbHo60UOPx6Kq/Z0yIHG5bioSzJ72KlsuMRaLVZL7nTsdywHv8qV8BLa6xQsIlSlT9QUe48Gb8tjLRZmb8Yl1EaGxGqroIpOWQvjRHSoMkTQegakBD1QT4ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eDzfE7vA; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1743954915;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sASPzLhXV93WjatM7YLBkr/yAnoKSjxWzbTAvYXizic=;
-	b=eDzfE7vASW4pOAa/n2POQVy4sCwZx4zcNdrc7IKxNFFWs2CBUfFmOL1M9ZKgGOM6eTcIB7
-	xdn6PAGeajaqDO89+saxaRVqmh7u/tFWug0OvI1M25eTPumTPXvUuiMVqxQiq54IvXvvMs
-	wyXYuld5W+Hzpgb3vMvnAJQo4b/ATuA=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-486-TmwCKgv5PW2aTkNP_4BtIQ-1; Sun, 06 Apr 2025 11:55:13 -0400
-X-MC-Unique: TmwCKgv5PW2aTkNP_4BtIQ-1
-X-Mimecast-MFC-AGG-ID: TmwCKgv5PW2aTkNP_4BtIQ_1743954912
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-5e6c14c0a95so2861340a12.0
-        for <linux-input@vger.kernel.org>; Sun, 06 Apr 2025 08:55:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743954912; x=1744559712;
-        h=content-transfer-encoding:in-reply-to:cc:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sASPzLhXV93WjatM7YLBkr/yAnoKSjxWzbTAvYXizic=;
-        b=LAYduuy0nVXlu8MRu7ITSdj62jk07oW/0NlpgWj8yi0V8E6nAXQ5jpG2dBcAb81QS9
-         OCGQKHrZ2kmdIHMKNZhyu1LTbMGaDB1hhUlbRmuglCQhHDWsZLbBlekrERLWsiclzTwR
-         bwlzmxrldPc88jkSzfvcC0/uYwcNlssKuoPksFOwtBXj39dUWZEDUF/f9kie3EQ6f/84
-         XdhBwv4MbjPrMCaemxv4WR83RcjIPdmzEbxH5fZ+0p8rZebutwJjp8WXK0w0xtuogZrR
-         Q9YxsAmPVF7Ah9HolGe3aCuMERZJJnq2xG18DQITRxESCZjemAxFY4kDGY7xL+ZTimSE
-         rrlA==
-X-Gm-Message-State: AOJu0YyPxDwr34/H+9ESliSwfS+1fKeAHozwHgERoqWV7YSjlsUKr46h
-	OVop13QU7Op+jasSSUH6Vy5pK0+NzHfTsOCAQ7hLP84T8QtZWlEHvCGpw8npYlqzR7LEHj5nGhu
-	rYve7dsxfp6vVuVFrF0ycTzI90ttJWWziYSm1KU6/TycPOdRgOzllK51o47SM
-X-Gm-Gg: ASbGncuJ/9W3K7InkiY5WLmVoKnvuRwAZZ9sfGvOZSlJgS8AErw3kH7EbRjDhp9cJu1
-	snn7qpi8l5bEFqiTOZ1VJu3L+gIvZdrbOIcDT42o3FjkW32rkkEJxmgTGHd0V7+PCweEPcv3dDc
-	H53EGtO16wEzaO56oIrpdyy3JcMVoZJKRvdP4aZBO1ICo3veSmJwG3fSf1mNaPD969fgSvOklm1
-	+mVCqA6+MaClREASKrcXdRqAjmkUvLmp9xbrFt9tZjMEHPxFZLvULNX5lt1qvZIlHKgPk+FMgvA
-	u4PYamBHJh0GRZbUDtZRZCD9VXUd1G2q1N8L3xPP+3F6j6Gq4cbrI+8VCjqxPiouxLxzMBkXilS
-	CJCh3TtiIgT2KerwGhGRQKAFF+qw0TBPC5DtuXxQP853zisd6nNnBsrpuaPvc4c3b9Q==
-X-Received: by 2002:a05:6402:13d1:b0:5ec:cbf8:ab28 with SMTP id 4fb4d7f45d1cf-5f0b431080bmr8234802a12.22.1743954912240;
-        Sun, 06 Apr 2025 08:55:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHMfrUcdcRqTSNqbQTwm5PVcpUIgk9Ut3gasHOqbYOSUGLeYQ3+LbfzRuDtLV8qB9gou0hhFw==
-X-Received: by 2002:a05:6402:13d1:b0:5ec:cbf8:ab28 with SMTP id 4fb4d7f45d1cf-5f0b431080bmr8234787a12.22.1743954911773;
-        Sun, 06 Apr 2025 08:55:11 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f0880a4027sm5408252a12.73.2025.04.06.08.55.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Apr 2025 08:55:11 -0700 (PDT)
-Message-ID: <d0b9a381-b00c-437d-8e5e-38aa5de57f2d@redhat.com>
-Date: Sun, 6 Apr 2025 17:55:09 +0200
+	s=arc-20240116; t=1743997643; c=relaxed/simple;
+	bh=av44q1rYsp/AtchN3ThcrzvAT1OfT4epMdxLK3s6ET0=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=i++MfS+3iXkyZiGfBI/fDFN/xzrWPDFVg9xdniUa5Arbhi58cTXWQTBHXRhKzBY34YjE3KE6kcEzNg5r0XZNHmUnv2x66G0VLGmt5KX0GhUd6/svMbDrPdaehaZ1vjyfk12QBnNr9d0fZ3JyOYM/5tRaUVCV1xyqASahsiBtuuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=m.fudan.edu.cn; spf=pass smtp.mailfrom=m.fudan.edu.cn; dkim=pass (1024-bit key) header.d=m.fudan.edu.cn header.i=@m.fudan.edu.cn header.b=Y7iA9nao; arc=none smtp.client-ip=54.92.39.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=m.fudan.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m.fudan.edu.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=m.fudan.edu.cn;
+	s=sorc2401; t=1743997581;
+	bh=av44q1rYsp/AtchN3ThcrzvAT1OfT4epMdxLK3s6ET0=;
+	h=Mime-Version:Subject:From:Date:Message-Id:To;
+	b=Y7iA9nao7Mio9G6TjFM82PtODgwwAWBc9NkOrbepHObzwlnEzVNfZbemdQPT9A6Bv
+	 KYH18oB/g2YL18NzcCeSyFaHDP+3iZUVsL50H5cXXwWClLScN+V6EfXrCh1ZvKqWk9
+	 IaKsiFqHSQbB78D8TYnELbJX5Q0NL+HmupHyF6ik=
+X-QQ-mid: bizesmtpip4t1743997576t7187db
+X-QQ-Originating-IP: MlVPqRNBtqlehSWEyKUNjaKSp8r3taGDpfdzKSriZgI=
+Received: from smtpclient.apple ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 07 Apr 2025 11:46:14 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 4215720758617194204
+EX-QQ-RecipientCnt: 8
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Progess with GeoPad Tablet
-To: Henry Isaac <henry_isaac@live.com>
-References: <AM9PR03MB7712C3309E9C832FDAA3A9CFEDA82@AM9PR03MB7712.eurprd03.prod.outlook.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-Cc: linux-input <linux-input@vger.kernel.org>
-In-Reply-To: <AM9PR03MB7712C3309E9C832FDAA3A9CFEDA82@AM9PR03MB7712.eurprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-Hi Henry,
-
-On 5-Apr-25 6:12 PM, Henry Isaac wrote:
-> Hello Hans
-> 
-> Very sorry to email you directly again, I somehow lost the the emails with the community cc in, feel free to add them back or point me in that direction. No idea how I lost the emails. 
-> 
-> I think I may have made some progress. Before when running 
-> 
-> sudo i2cdetect -y -r 9 
-> 
-> We would get no output, just the lines all across. However withing the BIOS I found that settings for the touch panel could be changed. When switching from Goodix GT7385 device (which works in windows) to Goodix touch device when running the command again I get a new output 
-> 
-> Line 50 d 
-> 
-> Unsure if this is progress? 
-
-Yes this is definitely progress for some reason changing
-the BIOS option seems to have turned on the touchscreen.
-
-The output now looking like this:
-
-[henry@archlinux ~]$ sudo i2cdetect -y -r 9
-     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
-00:                         -- -- -- -- -- -- -- -- 
-10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-50: -- -- -- -- -- -- -- -- -- -- -- -- -- 5d -- -- 
-60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-70: -- -- -- -- -- -- -- --                         
-
-Indicates that the touchscreen is at the expected 0x5d
-address, which matches with the "Goodix GT7385 Device"
-option in the BIOS.
-
-I wonder what happens if you change the BIOS option back
-to "Goodix GT7385 Device" ?
-
-Does "sudo i2cdetect -y -r 9" still show the 5d entry
-then and/or does the touchscreen maybe start to work.
-
-> I'm wondering if the bios has 2 different options. One for windows driver and one for generic Linux? (If that's a thing) 
-
-No that is not it the "Goodix Touch Device" option
-you chose is for a different Goodix touchscreen
-at address 0x14. The touchscreen now showing up
-at address 0x5d matches with the original
-"Goodix GT7385 Device" selection.
-
-Regards,
-
-Hans
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3818.100.11.1.3\))
+Subject: Re: WARNING in cm109_urb_irq_callback/usb_submit_urb
+From: =?utf-8?B?6IOh54Sc?= <huk23@m.fudan.edu.cn>
+In-Reply-To: <3F7A182E-605F-4545-BF77-E739E7A624A4@m.fudan.edu.cn>
+Date: Mon, 7 Apr 2025 11:46:03 +0800
+Cc: =?utf-8?B?55m954OB5YaJ?= <baishuoran@hrbeu.edu.cn>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ "jjtan24@m.fudan.edu.cn" <jjtan24@m.fudan.edu.cn>,
+ linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org,
+ syzkaller@googlegroups.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <90A10616-43EF-42CB-A1B7-80D9E7FB9816@m.fudan.edu.cn>
+References: <559eddf1.5c68.195b1d950ef.Coremail.baishuoran@hrbeu.edu.cn>
+ <62d91b68-2137-4a3a-a78a-c765402edd35@suse.com>
+ <3F7A182E-605F-4545-BF77-E739E7A624A4@m.fudan.edu.cn>
+To: Oliver Neukum <oneukum@suse.com>
+X-Mailer: Apple Mail (2.3818.100.11.1.3)
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtpip:m.fudan.edu.cn:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: MdlxueOE7DMoh3Nri4Oqb1+tlp453cqgvMfGnhDzQbDcb8fcLGKUcnM3
+	dN90j6wL1SZ+Juy+5htG/x9SYKjoOKcTjD+tn3pgZSDkC1Sprq6i/kh27vOgUJ3+B2hbp/g
+	U8qG+X7H3nulk9sqrZy4PAfN94116fimSuQxkiczVxQ12m/mYnYkcO0ggH9UMVN3GBQEuiX
+	62Wxu6p8rGCzC5aSmWAWYDxWnXeGnU//2crXZJloqblaVPQHoTmOYTz0JYZxPVybYo+MPP3
+	eKGvUpSCNK48z+REUgH6RLKeSKoS7ELWV5TXthUw8ihMV6WEEQyiu4XkUZFzJSV9sU0aio7
+	QorZimg+iFqucAZGN7ohsNiqfBuqbUagJQr50yfneamk9Gaei5UP3dNLsEiE/q67WRvniOr
+	xNqw+1PUHelKyPF//iosj45A8gkzc7ozxNypxLaYQl1OuwDSbo+DBIESqki6uMKv/WStrtx
+	yZwaatxSeps602U71YNb9YdP6lTVVTPxNvrUoR/sNHSa0VNIbP4XIL2n7LMoY3FBNKtt070
+	qIRE0SLjKp+Jpw6JM4w7G3E1KD6MDQ6gcVVFB1L23/S43cdFJQgrK9zOtawa1pYvlU069tP
+	kC0Lk8gK+eGli+SL0S4V4TqYOLp9lc1igyGqeyKjQ0MwdZZPkD4kEoypu0f2xX1CjLTN71w
+	5pbqnpSs3HJj+h/aCLQYaFJ5fGjGU4iawLqhychuUStxdlsOQ0PGc3p2TGqVXKmv6OW4IrQ
+	vQghW6rFJjSXtpYvchYzgxv99WhmyCLQW/Xwq1hxosbXo/ZfEhXwB54zi7cLEvYWNzWE4C2
+	L9tcK8UKLnHKPe7YsA2j+FjpsNo8BhsJD23lIwHOR6uL6P1YIUa1nmZJWiHu4vffTPSRIx7
+	VGJGjoeBdSo10eUqvBcBA+D5tQ/89l1M07QOBj/3qvkna6QJK1ggK/ige05fb1g4Q+xfS84
+	tp0NZFXD/khlmQWh7Xrp4Lhk8
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+X-QQ-RECHKSPAM: 0
 
 
+>=20
+>=20
+> Hi Oliver,
+>=20
+> Sorry for late, our servers have been down for a few days and we just =
+managed to fix it today.
+>=20
+> We retested the patch you provided, but we found that the issue still =
+exists, but may be somewhat different from the call trace from the =
+previous issue. I have provided a screenshot in diff form and the full =
+call trace log in the attachment.
+>=20
+>=20
+> =E2=80=94=E2=80=94=E2=80=94=E2=80=94=E2=80=94=E2=80=94
+> Thanks,
+> Kun Hu
+>=20
+>=20
+> <call trace.txt><diff.jpg>
+
+
+Hi Oliver,
+
+Was the information on these tests helpful to you? Please let me know if =
+there are any tests you need.
+
+=E2=80=94=E2=80=94=E2=80=94=E2=80=94=E2=80=94
+Best,
+Kun=
 
