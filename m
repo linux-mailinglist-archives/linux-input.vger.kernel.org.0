@@ -1,80 +1,79 @@
-Return-Path: <linux-input+bounces-11553-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11551-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531A4A7D64F
-	for <lists+linux-input@lfdr.de>; Mon,  7 Apr 2025 09:42:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 406A4A7D5AF
+	for <lists+linux-input@lfdr.de>; Mon,  7 Apr 2025 09:26:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 769484216CE
-	for <lists+linux-input@lfdr.de>; Mon,  7 Apr 2025 07:35:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0602A16DBF7
+	for <lists+linux-input@lfdr.de>; Mon,  7 Apr 2025 07:24:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D743223E25B;
-	Mon,  7 Apr 2025 07:25:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1BF822ACFA;
+	Mon,  7 Apr 2025 07:19:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="EzwlF5jE"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="jIUPdJvK"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4145A23CF12
-	for <linux-input@vger.kernel.org>; Mon,  7 Apr 2025 07:25:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED1A227EA0
+	for <linux-input@vger.kernel.org>; Mon,  7 Apr 2025 07:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744010722; cv=none; b=gNdLg+l+IxvnXJIFgmQU7xec3vwMhdgR85Ia2ZC+OStZWy2kdpL9qJ2YZBzrqSrapr8JnF/Q1n0Tv4y47TR6pFsI4+g/uhr6yaBPpe8ZxMImWTiq+8cmpwhR6twEh1/IxRis2GlhuOEfNd5ffMG2869+aamFIcWA8zvZlFK0ZOM=
+	t=1744010363; cv=none; b=fq6T5KjxPTAMvM5/lmb+N9ObCxXdLl0MevWfoFesUj1I6v3D+s8brfxpMtkY2IDxO6nb0O1vFzphGE9iG/CIol+Q4CDQ+P/dZpUhnFXWNYoGnBGiTKjqg7FJ4oRWEe59vje4mXHKOUBReCvXtKLXG2RFrsGjhlO8QQsBNw8OHVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744010722; c=relaxed/simple;
-	bh=Q2hvduva6KqQkHASyRGukCcsvLKULC9rmnwEVzjrJTc=;
+	s=arc-20240116; t=1744010363; c=relaxed/simple;
+	bh=+deuLPSQkEJHMd1oN95jU1WrKRZsQUmYNkgMgUdiHfQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oAneQ+Ghi6hshizZcXmiizAREYwp5jhYiJEXCvsHEYCgE8CVDrP5B+Zduf9dji5fa4fGgLKkcIQYAdz0P8Yr/+JRHjKgagmJlKANJPGgLQhAoM3uQ4ARi2mEMdIsxqfhkSm66r7EiUbOt7Nklh/eCqAlsfjT60divPxiOTV0fKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=EzwlF5jE; arc=none smtp.client-ip=209.85.208.51
+	 In-Reply-To:To:Cc; b=SQ7GX5VvZdllaWqz5dnEfdeArWugn2buF47wr6l2Ll/b48XUWuWZQTLxnuUecgPRSsj5UPTDfzHjraEk9NphAIY5WcwjLVjFZS8eHi+j2RfH+cQfF+12xIUt5szpGf7W1kWU74lwfMZTFSt/p+KD2Hi11ZG1PGM1G4fZ34kMDf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=jIUPdJvK; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5e6ff035e9aso7876749a12.0
-        for <linux-input@vger.kernel.org>; Mon, 07 Apr 2025 00:25:20 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cf06eabdaso36793195e9.2
+        for <linux-input@vger.kernel.org>; Mon, 07 Apr 2025 00:19:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1744010719; x=1744615519; darn=vger.kernel.org;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1744010360; x=1744615160; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ibROZn0IFJz5QzV4WaY8wi22jP2cRYC3gjXYgtkdD7g=;
-        b=EzwlF5jEVGWVCn3Y5bgBpDUe43uqdtPNOlVD0i16T2RRv+3Lh+KnWrCrAfi3Atj+Yx
-         Cm06UUWJ013OBaec7uyecDo937OwwI1gDGSGvUPm6QAGFtzxsE33dCy3dnITN4VD1BIL
-         8q6fvDmVyuQrCjqZMStLX0HgfZYCWj9AME0NtvRc6b81EZdq0mM0c3Bwu/cF7TEjZO0X
-         EGtgtSXCimLDppbiDQM4gbg2hMPXYiyiw/VBhMw4DcF67mPLg7ckcYDbP2HE3Mx+GDFS
-         epiUumE9E76arqbb92dKWZW+NfvoEn0GMLh4JLHh30sC3wpgzQCsuPkIEVZ5yHXQkG3d
-         Ixow==
+        bh=ChXOA9p44Ws7ALTa8sIdL/yKUHK+mgWVc1wgenfZZQc=;
+        b=jIUPdJvKW0zUaPcv6jYIZw9bUSZquBFCMgkXHCx/MOgbnwdqQXYqyQrvhSGV4Ny7ok
+         e7qn0XOQzKLGR1Y2S/6ndt86fL9U1lL2Ur40pRuviqyLY5KxDkoFy0wt3pPPWOsqPWIp
+         arVdaRnskhRO+VMxRTmVj9yqmWDG7EBmgsxEGCAJGkXeJXrVOH6D1JY+YRhGfveb2tTv
+         3aq3M0rSucHP98Fn2QJEHoodNU/eyuoXmm8EAyAaabILY9meQtHJk2lNLubbWQsmINHd
+         Ky54dUmKDMiFkErbacL3gPvkhw61eshYf0WDU3p4/9B6KTka+UQ8UMeaxwLqkEHHMfBR
+         2efA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744010719; x=1744615519;
+        d=1e100.net; s=20230601; t=1744010360; x=1744615160;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ibROZn0IFJz5QzV4WaY8wi22jP2cRYC3gjXYgtkdD7g=;
-        b=PH2jhDtL9iG4ibSS6TLbrXXpJBdl+SW6l4TmhpuiAPNAMk4OBNcu7M2Go7q6Hsi192
-         QZUpQhUsaASJ4XAQ/YbGs+davMXX1AF0BjSuMl1VN+KeBRp9c9wHri8IFUz6OsQb+VCM
-         Y5nXBwejYS/TvP237mpsQRPIhEdXfC8MECYf60xFJ4UQtdvZNH0ZUdpAqrZFpKifO5ef
-         vf/NeZuS16AtX+aj8FuLGT+SAaceerMadMF3uH8Z7AZoIGlc4fCAy2R2W36k5Q7U8HOW
-         oxC98p7LJsO/HSvLle/i+3XrfjoXNVhbXwocjnk2gz3DMxpsK3Eko7attudXZKHwbdaE
-         Qv3g==
-X-Gm-Message-State: AOJu0YwC2hPRem39mJH/VGXUbmSdupQAULi5l/Ex9CIUfa+EzMEWlRyL
-	lytiWYXrDwzUPvI9YxIAB3PJu/Wk6SGLKdrCilmOrFnNUrlg2an2GAxwYW8HmslP1dwNWafzkFw
-	28/o=
-X-Gm-Gg: ASbGncuFmYyFbaW8fWYQR7tuegdXRFw8uOe6qKza0hxPA3znHTd/SLCDMhFC/0bukxA
-	kg4soLSkys39bwG9CMlBxdwBcpX912Qw5vK7MSyf6IDmLnt5lMXER4yivUpE8Q8QBHgsUHaZJhz
-	D/b5kYYTVAhaWOGGdzrRugk/iQZs2JXT6YzIEoE/2iOa67owgcjb73co3OS1xbXOwy4M0B3u4pn
-	21bBQu+wV8+fr0+eUMpDfsYQWX6K9hNURT5/xKDTFjH2T+sD7SKROvUN3nvfFTEvlYw4i4yCx21
-	l4A2dJFeBeMcDNt1DVStZeydnwBksYz7QYGegE26rTnY+iRU
-X-Google-Smtp-Source: AGHT+IEkHVJgOyU9xGp655NX5EHCzYygkvYDzVBi2Npjvs/0OWrQOPdns3JjSlF95Cj2KJnmKf8UhA==
-X-Received: by 2002:a05:600c:198b:b0:43c:f1b8:16ad with SMTP id 5b1f17b1804b1-43ecfa0572cmr131452905e9.30.1744010353699;
-        Mon, 07 Apr 2025 00:19:13 -0700 (PDT)
+        bh=ChXOA9p44Ws7ALTa8sIdL/yKUHK+mgWVc1wgenfZZQc=;
+        b=s4e9yUKKZQLACCCXCcVZ5CFz2WBfyaq1ElwQRY7w4E22nAlD1isY1RgqQxSz2QDxhU
+         NH8J3/qlZv9Ewvw/9LFm9EDZpgrPKRM0IQy0BMsDvEyGfq0+tLGMMl7ZPDzUSjiRDmZQ
+         7qu+GkVq1+AMqSBEtF3ZBC54AVHP1zdAWP6thpbSjiXmgtAKIm8IDGJa3oaHOfW5lQL1
+         wL/s4UjoeQca8YisgWtkqg0Xm0IUL6abhCkQS6/y+V2bG6uTvF6QhTjc8fWbf5gE8XK3
+         15JBCLO2VNndZxc1mwUtipIZ2iZP6Dx4t7DouMErOaY3MWM0As/30Id0UCxzQJESgBTx
+         j3ZA==
+X-Gm-Message-State: AOJu0YxeRpCRl7U3btLb4tnabR5/O4VhkLIspcx7JhUGAN6P3bCLHXAj
+	LpjmOSe0NDQHYJKKzZYKcJOXjRCXG1LQqcfMwERs5NbnoiA7bugje52j3l/+txM=
+X-Gm-Gg: ASbGncsQaG3MvQzvNqXOkZMjrZRKyblXtwRAegCHapeL8hWV1q5GEXZ8NlTiQmFOlMJ
+	kCLjmpgBxEAS1G6nfsDq/KS/fD9fyzoMUJHr/ECWGlFdToTUSgOUgjht4scJEiK1P9aI5MgXveo
+	2Q2dYBKwIAUpNrD0VTxbGT+2xpK1LcKQU+AdzjFTW9Zm2r9ANz6QG+F5nOO0QhyRgO/VJHB4UzI
+	waCnEcBEScgZrQNh54BAe3uz6bD0MCuZPfCyoxjPfIs+ZoHBtoNBpYNCf65KOVBE6+qTPa8RmyS
+	BJlB1PL8Uw/0UWMVDs0XmboOi9tOGrexErj0cA==
+X-Google-Smtp-Source: AGHT+IFV4P8oQ3nG1OU2BDLNtmclbNouSwMD4cLpZlwSZElcCaMEGPNksjQsv2nIGYL2m479ZPgS9g==
+X-Received: by 2002:a05:600c:1389:b0:43c:fa52:7d2d with SMTP id 5b1f17b1804b1-43ecf9c77c7mr84576565e9.20.1744010360289;
+        Mon, 07 Apr 2025 00:19:20 -0700 (PDT)
 Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:8c64:734d:705a:39a7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec364c959sm120215145e9.25.2025.04.07.00.19.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec364c959sm120215145e9.25.2025.04.07.00.19.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 00:19:12 -0700 (PDT)
+        Mon, 07 Apr 2025 00:19:19 -0700 (PDT)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 07 Apr 2025 09:19:10 +0200
-Subject: [PATCH 1/3] Input: ad7879 - use new GPIO line value setter
+Date: Mon, 07 Apr 2025 09:19:11 +0200
+Subject: [PATCH 2/3] Input: adp5588 - use new GPIO line value setter
  callbacks
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -84,7 +83,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250407-gpiochip-set-rv-input-v1-1-a8b45b18e79c@linaro.org>
+Message-Id: <20250407-gpiochip-set-rv-input-v1-2-a8b45b18e79c@linaro.org>
 References: <20250407-gpiochip-set-rv-input-v1-0-a8b45b18e79c@linaro.org>
 In-Reply-To: <20250407-gpiochip-set-rv-input-v1-0-a8b45b18e79c@linaro.org>
 To: Michael Hennerich <michael.hennerich@analog.com>, 
@@ -95,21 +94,21 @@ Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-gpio@vger.kernel.org, 
  Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1714;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1794;
  i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
- bh=foyELHbizbcWk/j9r8xiniRZm26jVuqeFRwl7mGDslU=;
- b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBn83xvMsVuyrAN8UuFJvWiCgwJIhVanOjs5RyNU
- f6v6R7ldHKJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCZ/N8bwAKCRARpy6gFHHX
- cjBhEADJTqfjnpnZK+R+cF6dWcfSD6GmueJNC9Q1SYVFVHW+TQvc3mi2GfaIHJIqqkmrqMSa7VV
- LWzNtodZD6j9I49JZvliGWrbph/MS2MniyULfTw/GMwmhPwZYpi9g5+4cwopCvfPbMUouldhvUO
- cp8vdggCPeBpOaWx/AmYIEeSB/Oy8RofO4vsuvh5/elW3GueigH8vQlas2CQYBndd0kk8OEgdZY
- e4/wFB5pNg5mKqxB7byMuFhmkDtdSEHWP+O1H5+66MQVXNJU/Iy++0DvU1fQJZumxIZxQPIFXCb
- k9yOgd6MtU4N3gcM5dtjsIt+BIVmmn+VDbGrlIvJrk6AmyD0JdtgwDITtnWE5BQTCLkbDtZXM8b
- q+B+ct9iHNr54/R3EPgziIWcCf7cW/FrGqWZE2g3gq/NVmo42KTfZxcY6L6BfW+N6QlI2UtiThG
- 62dx7KHW75jBQTWMU1nC6IX+5KC4S6XtY881B8phngJLNcmh3c9itLogh95f229if6u/ktqZIBK
- Mh9Tx8iQMLEyFE383FA6SQQYC2gghSl7zYDqqw5QZmdGbjpEaufAfPbZmRQC9a8pwGE/Dbf8Y1D
- W+9NBHCzUnLCeJtFZlh9Li4FwhHBoRNA1DbM1nJwK+1Br8ruCTsUWJ0mSgmUTC0INmrSfQsN5F6
- wJFGm3Ml2SPjJdg==
+ bh=o8UJdITbenIEBWagS9tbUTRGEbSz2Bo2wwxkVvQkfuo=;
+ b=owEBbAKT/ZANAwAKARGnLqAUcddyAcsmYgBn83xvqP9Ph+Wa7aamh/W98Tk8+U6/kt9q1kKzL
+ 05h47rIvU2JAjIEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCZ/N8bwAKCRARpy6gFHHX
+ cotzD/UbHDgftNnyNJ8HCygByrRKaQFZ3aVycjBz4aWVoHfft7cLF9QRClurpPH5B6EURB0jL1V
+ a0RXvV3COSo5AGBpew/77WVrjil5NBTUiZTan6AT2WF8JuKA4U+mkC/lAP88ylLZ8dtt19wDdAm
+ 5oqlO5wxa2+Idky0zIakj8SU8Zcy9VG6Kc1f3nBGFKgKmVDc5yYI54dwJu2RUK9j2TI0Dw4E4rF
+ QJOQ1sRCE9Ecqa2rcFyi50PZXKrx7Z87Wyqjyo4NWrkkpNCphgyGNXdwhr2hRn7VMB+VDzj95w4
+ MIuG+wuPGvjtRbdLG8XnM6SSSHpkTkIzDLqGFWJVWlbk7t3Yuk1RlPTEzoax3PzeicvlYK8MZii
+ fB8DzqERSRcDBy+ii/ZNgPEQwMfPaSs/XVKVMrQumqss35lI/D+bQ4Iw+dCpEVW5DT0xNMdfN0U
+ ermT0MKJknP5URBrPtN0+ua3StIuqDXebEqp50PvrHdHctcN1zie4uTrCoquTp8VMxEaGpaVykr
+ ++LB0/0XSElxUmX3LTa2b0EOyhDvgMijDA1xK10XqtQ48lr9rpJy8z84X/9xXbTn1+cFod47Qbm
+ ExQc9D9s/iia3aqiKqZxw914ArOYaV0BQRyOY3YnP7rDuXZ6aw6CSaRr735fSLigKVzdRy3QBIY
+ eOQws7vTqgCa3
 X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
  fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
 
@@ -121,48 +120,43 @@ them.
 
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 ---
- drivers/input/touchscreen/ad7879.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ drivers/input/keyboard/adp5588-keys.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/touchscreen/ad7879.c b/drivers/input/touchscreen/ad7879.c
-index f661e199b63c..12fc39f9e784 100644
---- a/drivers/input/touchscreen/ad7879.c
-+++ b/drivers/input/touchscreen/ad7879.c
-@@ -444,10 +444,11 @@ static int ad7879_gpio_get_value(struct gpio_chip *chip, unsigned gpio)
- 	return !!(val & AD7879_GPIO_DATA);
+diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
+index dc734974ce06..2b2aca08423a 100644
+--- a/drivers/input/keyboard/adp5588-keys.c
++++ b/drivers/input/keyboard/adp5588-keys.c
+@@ -232,8 +232,8 @@ static int adp5588_gpio_get_value(struct gpio_chip *chip, unsigned int off)
+ 	return !!(val & bit);
  }
  
--static void ad7879_gpio_set_value(struct gpio_chip *chip,
--				  unsigned gpio, int value)
-+static int ad7879_gpio_set_value(struct gpio_chip *chip, unsigned int gpio,
-+				 int value)
+-static void adp5588_gpio_set_value(struct gpio_chip *chip,
+-				   unsigned int off, int val)
++static int adp5588_gpio_set_value(struct gpio_chip *chip, unsigned int off,
++				  int val)
  {
- 	struct ad7879 *ts = gpiochip_get_data(chip);
-+	int ret;
- 
- 	mutex_lock(&ts->mutex);
- 	if (value)
-@@ -455,8 +456,10 @@ static void ad7879_gpio_set_value(struct gpio_chip *chip,
+ 	struct adp5588_kpad *kpad = gpiochip_get_data(chip);
+ 	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
+@@ -246,7 +246,8 @@ static void adp5588_gpio_set_value(struct gpio_chip *chip,
  	else
- 		ts->cmd_crtl2 &= ~AD7879_GPIO_DATA;
+ 		kpad->dat_out[bank] &= ~bit;
  
--	ad7879_write(ts, AD7879_REG_CTRL2, ts->cmd_crtl2);
-+	ret = ad7879_write(ts, AD7879_REG_CTRL2, ts->cmd_crtl2);
- 	mutex_unlock(&ts->mutex);
-+
-+	return ret;
+-	adp5588_write(kpad->client, GPIO_DAT_OUT1 + bank, kpad->dat_out[bank]);
++	return adp5588_write(kpad->client, GPIO_DAT_OUT1 + bank,
++			     kpad->dat_out[bank]);
  }
  
- static int ad7879_gpio_add(struct ad7879 *ts)
-@@ -472,7 +475,7 @@ static int ad7879_gpio_add(struct ad7879 *ts)
- 	ts->gc.direction_input = ad7879_gpio_direction_input;
- 	ts->gc.direction_output = ad7879_gpio_direction_output;
- 	ts->gc.get = ad7879_gpio_get_value;
--	ts->gc.set = ad7879_gpio_set_value;
-+	ts->gc.set_rv = ad7879_gpio_set_value;
- 	ts->gc.can_sleep = 1;
- 	ts->gc.base = -1;
- 	ts->gc.ngpio = 1;
+ static int adp5588_gpio_set_config(struct gpio_chip *chip,  unsigned int off,
+@@ -424,7 +425,7 @@ static int adp5588_gpio_add(struct adp5588_kpad *kpad)
+ 	kpad->gc.direction_input = adp5588_gpio_direction_input;
+ 	kpad->gc.direction_output = adp5588_gpio_direction_output;
+ 	kpad->gc.get = adp5588_gpio_get_value;
+-	kpad->gc.set = adp5588_gpio_set_value;
++	kpad->gc.set_rv = adp5588_gpio_set_value;
+ 	kpad->gc.set_config = adp5588_gpio_set_config;
+ 	kpad->gc.can_sleep = 1;
+ 
 
 -- 
 2.45.2
