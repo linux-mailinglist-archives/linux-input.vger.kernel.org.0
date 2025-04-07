@@ -1,200 +1,222 @@
-Return-Path: <linux-input+bounces-11567-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11568-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EEAEA7E4B2
-	for <lists+linux-input@lfdr.de>; Mon,  7 Apr 2025 17:37:42 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39554A7F096
+	for <lists+linux-input@lfdr.de>; Tue,  8 Apr 2025 01:00:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6CAA1899E59
-	for <lists+linux-input@lfdr.de>; Mon,  7 Apr 2025 15:31:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D60477A3E2A
+	for <lists+linux-input@lfdr.de>; Mon,  7 Apr 2025 22:59:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AE6D1FFC42;
-	Mon,  7 Apr 2025 15:30:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA430224241;
+	Mon,  7 Apr 2025 23:00:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="N3lXg1ZA"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="K3hJ/iwi"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2069.outbound.protection.outlook.com [40.107.244.69])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4DE91FBEB3
-	for <linux-input@vger.kernel.org>; Mon,  7 Apr 2025 15:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.69
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744039838; cv=fail; b=nC5yBz+k4Dnigk6dJl1IiyrimlyMXo5dRFDxh3JoKCe4bx7WdiUmRJYstDFw+Crp+2Qjz0CHg1Y133FP8DzT50fwRMaaE2c9DSgPYKiq0aEzRfxzDIgaL4d+qeR/wtJEuMmEHKmmJNTYG2WN3/LbOS7+nzaTWhg+KjIf4WMauhU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744039838; c=relaxed/simple;
-	bh=nCymk06A6YYqzXUo8WhkHxFP+56P70ggd6py0ICLGq4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=MxU+9oQcbgQ9+VJBghLc0OrVcrFvbwtm0LL1UU33N/pBamOTwF6GNVDczm+gVHLXEk7o3DevOP/zpwVPX5YI/QgAA7Ea/QO9qpHzqZhqFN/4iu0sdnp1Zj1glrF4l/JxRilVRE5s35ilDJedTFvxSx8RFMCi3iG+68Wign/4JBE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=N3lXg1ZA; arc=fail smtp.client-ip=40.107.244.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YFUyIzoPXBhT2Bgoj+P3LbKjROYodhSfPB5kJmcQWB4u1aXNXhDAfy0WrP5uzTBjeqOl/zpXmqtz27yj+IfK9rnp/SGBezevQdfj1W1sXfA91HAtnpLC0karGNI+zEmy6z4eKEHVmiD357+5KmEXX2DUqAm3pNzF7HUEqqnp9aKOzmmlYoBTGmKsjDIBYEXYnxKXbfbrllPv7JKTcYmr/lQqyN6TLWi+lXNw5bMuP486gVNXjNEgaobAXfzeaFC+4sx6buSsnsQzveF8575eYwxYobo9Tf5cOLhMaWnb374hKvS+VQRXwEbKBBE4eMj4w3mHK4T40ZlkhNzUc/jpRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G8va7iQ+iQD6LlAdpmgbFc34ngmIeI39vVk482ja1jg=;
- b=KMU3JSo3EBjqkzGV/nGq/G9cLKcf+Cfz/qMFA1BdSo7yWIU3S6zipEe9YWdpwtGXKtw0coDWkO9SMOmGIwIjPMmkdLNHwWh67q3/wnBtOS2Ic15po42BMOViNz4XAla6E7JjiXCFn2ux+f5YsYHiOhpkJK5b/JLlBm3PSsYUlfMRrOgXD558btmJtDWuGR/RNE6pA5lpMmvrV19ouEPYTdU5PeWgHpk/xFtte45YdmpYI7VplNKd8KoxzfYYVU0uFQYFz6ncXxS/s9ukLuoTxQ4eLG625/7HbgMtyq3pRGm4UYAfuFLdBg06rgLVbVC8NFq7asFmerKaNdqLYnyjHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G8va7iQ+iQD6LlAdpmgbFc34ngmIeI39vVk482ja1jg=;
- b=N3lXg1ZAgZLwe8n8wtn65Q/L8i1NMzCyH8h0DvtZCK0DVPaY4Ic/vhRXcf9gV1vEiVtiyfjKwhBGITpIu6En7R33ZLQzvH41M1hpSY/goJiH/6b2TQYS4ecvVR8hralH9SJz/fvGXSiVL8B9yxEFsx5C3o5h8ta4HMjfm1DVOZ0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by MN6PR12MB8543.namprd12.prod.outlook.com (2603:10b6:208:47b::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.29; Mon, 7 Apr
- 2025 15:30:34 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::a3dc:7ea1:9cc7:ce0f]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::a3dc:7ea1:9cc7:ce0f%4]) with mapi id 15.20.8606.029; Mon, 7 Apr 2025
- 15:30:33 +0000
-Message-ID: <5b435ddf-dd0a-4a50-a564-e9be3c1c9557@amd.com>
-Date: Mon, 7 Apr 2025 21:00:26 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/2] Fixes for SRA sensor handling
-To: Mario Limonciello <superm1@kernel.org>, mario.limonciello@amd.com,
- akshata.mukundshetty@amd.com, basavaraj.natikar@amd.com, bentiss@kernel.org,
- ilpo.jarvinen@linux.intel.com, jikos@kernel.org, Shyam-sundar.S-k@amd.com
-Cc: linux-input@vger.kernel.org
-References: <20250407151835.1200867-1-superm1@kernel.org>
-Content-Language: en-US
-From: Basavaraj Natikar <bnatikar@amd.com>
-In-Reply-To: <20250407151835.1200867-1-superm1@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BMXP287CA0022.INDP287.PROD.OUTLOOK.COM
- (2603:1096:b00:2c::33) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD49F15687D;
+	Mon,  7 Apr 2025 23:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744066831; cv=none; b=rd1ySJY68iDKcEVtDOvyM+syz+7YMQIFBuRGVCeqs/pzC0q46VjVc4Yf7zIVzi3HSymclRl+dayKT0sZNjoK5FXg6xmERwpNtV0qi/elP25f7JvPcWE1kXCsaaWTG3z5O4ip+oHaCAlh58klLiO8Ut/T1Ml0utJHH6myR8jnCOA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744066831; c=relaxed/simple;
+	bh=hRS+kMizGkPqXYHgEHzhS2iEQ3yYETNDaisS1kSjthM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=SBYA98ZZN69xtm1VmohCKESBP6XJD1HVrxvfqER3/TFbiINNSbnTMLwQ3eoUFi2S6BzdUNUDbc4p0wdunUzvNjGzwq3o+lWBiArhB2PUDOijqLaJddVOoqnSQR75WyObFMIsXzZrVF5YTWBJPWdVWQxYy14NpMm/oeOFy/+fcxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=K3hJ/iwi; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 537MVGQJ027956;
+	Mon, 7 Apr 2025 23:00:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Vh1NuIKsWZxQa9OlhJMGU2vga5oCE2rkTE1ygS51NT8=; b=K3hJ/iwiDlsc0rLZ
+	fSlCdLuT5RsiMXguOGGr8LuvfjXnydvf9Ilgs2kNBYgG01Y49TrM/KkznDMdpuZ4
+	lY0cQc5zSgfNbRf0tOxZHKVk2ivQlbsdeQR70NnbDwNMAbU3lyflgR5i43cxeFxk
+	lqI1ClXOKUBlBaVdoAoQD4C1K0M8uW/svJHx3GhEhhV4JrUP3U3eEc5/1ws1au7x
+	iKfabWEz9A75P1PddiegSbj1B5gJ9vaEOfsfdneIiJkFoC4s1bb7l4bzSRo1wb0E
+	DYgJPcw/GgRpy79kPjFWLMVvHpe322u2y5j3I0whMdy8Vc7sV0HXKF4Un4297X02
+	cgAmgQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twcywtrh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 07 Apr 2025 23:00:04 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 537N03qv026043
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 7 Apr 2025 23:00:03 GMT
+Received: from [10.110.75.38] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 7 Apr 2025
+ 16:00:02 -0700
+Message-ID: <0b8a77f4-2751-3982-3883-dec2ac5804e8@quicinc.com>
+Date: Mon, 7 Apr 2025 15:59:56 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|MN6PR12MB8543:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3850dfa5-a407-40fd-e69a-08dd75e922c5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Q2NSWUZFV0VJbUNKVGtSUE55WFVoNzJOZ3FXbXJSVnhZaUJvU1RTbUd6bVNP?=
- =?utf-8?B?bTVXSWFaSHNvazlQY2xHODJ1dldOK1pUMGhnL0dYVzMxdHphWDlxTEtPWDBM?=
- =?utf-8?B?QUk1RG02d1NEUkxka3VLQzRiV0VEWHZ6enY1REFKczR1OHBneEFFM3dBTDh6?=
- =?utf-8?B?NHFHMUMwSEUrVnpJY2lpbWp6a0V1SnRCaHdSSGxnQ3ZnZ2NxNUttRjdydE11?=
- =?utf-8?B?RVhKQmhUYVFsd2o3VzFsWWw4bHlMVTFNU2d6ZndDNTlMb0IzZG9tTk5PUm9T?=
- =?utf-8?B?UjhVc1FvK2pFV2Y4cDhpaVN5Smozc0lpTi9XaTRhak9yUkY4Qmd0VTV1Z0ZI?=
- =?utf-8?B?aDhTa0Y1ZjZBaTA3WUFQcm1XeUU0RitHTUdITTB4bmN4ZDhwbEcwcElYbFdI?=
- =?utf-8?B?TFhBdnhwU1QvUGJhYUxINFllL25GTkxmZWJXNTZBUDJVb0tyQVNYMCtVRHlU?=
- =?utf-8?B?a3c5TG00b3hUUSsyZHpKRjEzS2tEUUN2Y3N2VHYvdFJjWk81TlRsbTdBRWRN?=
- =?utf-8?B?dGxxRUtpQVBZQ1FNNkhHVUtlblJCSDd5L0x1WEU1MzdHL0owSDQxQ3VYc1Nt?=
- =?utf-8?B?SktpMU1oNUtDb1o3d2pTaHVtZzhOMFFzdzVBeGlLN1pVYmR2aHc3SGxkVVBI?=
- =?utf-8?B?SVFTdlJJc0M0RnozekVPZXZubHc1elFSbmpZRDZsdjV6RHNJd1g5Ny9RQ1lo?=
- =?utf-8?B?UkJ5SVZrMjhhc01LMDVML0hwUldlWSsyYUdTWFBET0o3YkhsLzBRdXU1MEtp?=
- =?utf-8?B?L2JGdGx6Q0FDL3ZoQTEyVkJBV2lVaFVtSzZPTmRPWHdlV0RWck5pNG1NWlMr?=
- =?utf-8?B?UkJtVm9aVWtTRkdDNnhEV2RaNnhKYVFpUHlPRVFWUUJkSlkxcEpXSTZGaTA0?=
- =?utf-8?B?bUNsNytFU3VMWlNNNEM0UHoyRFJrTXBsNDFwRDdyN05SRmtqdldCdFdtL3Jq?=
- =?utf-8?B?N2J4eEpjOEkzQjVsTThxdDl6bkUvbElSNkluaGovSnFvdW9rWW5PZFRJQmdk?=
- =?utf-8?B?eXlsaW1UUTBRLzlkMXVRSW1MMGZMV242ZmZwMUh3OElTOXZoNFFIOHR3eWdk?=
- =?utf-8?B?bC9kMTdpUnBPYTQ4d1J6MitKVTJyZnNHTE9laFA4WEU0Nmd5TklhOEdoeUVt?=
- =?utf-8?B?UkZmL0tpblBDaEdGWElGUnBUMDY3VzZNTUNzUndvOHlvZmRNYXBURXlMMUd4?=
- =?utf-8?B?MjdZcUpGc0dqYXVZQWQzbGtLS2xJbzFwTHBhMWIzNGVOMEFEeWRwckNhZDF1?=
- =?utf-8?B?M3UzbFhBbmlWY2VZdEhpNVR3TjJ2UGlyaGE1MUhQTXhuMWw3U1dzb2Jtc0xv?=
- =?utf-8?B?cUFUKzFKRUtNemVkK3dXdVFaZlJCcFd4aGVzTk1SNnFmT2ptYi96Mkh0b3Zh?=
- =?utf-8?B?elVqMGpWK1FTbGN0cUJlTnUyTEVrZm50Q2hBS1liZDFkeTFhcXovbjlLRDFv?=
- =?utf-8?B?WFVnMUVjcm9YYk1MQVBzOC9UcjlEVjVpSzN3bXE1VzAyVEhFUytBZGdndFJP?=
- =?utf-8?B?aS9tYmFVMDFPSHlWazVlRG1UeDI5VkpCSG12V1g4T2orZCtWZWVzT2gvV2d4?=
- =?utf-8?B?WGwyeWhtZEJ4WUI5NjdRNUNQSGphQlliL2RPRFRsWk5XK29KZm9sVEl0S2t2?=
- =?utf-8?B?OVlDQ214TnN3cWhMb2haOXZIQTZHRnArZ09ZQUFBZ1hmSjBKZ09rNDE3YTVS?=
- =?utf-8?B?blNhU2dwWHg0L0lsaFVobUkwSWczMTdBS1BSc3RLT0RNVEFxWUJLY0NUVWFw?=
- =?utf-8?B?YU5YSnhmL0NUVENNOFNhS3QxV25qVE9ya0VCVlJJR3piS1NzQ1VzZ3MyYkhM?=
- =?utf-8?B?TEo3ckdYNGRuYk8welpxZUxWZ01PUjB3c1cwV1k5Znd0algzN2hFM1BsSTVw?=
- =?utf-8?Q?znFaUu7t9Y22v?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZHNCQ3ZmNFJ3NGVJbTdEeXhka0xlZGl1YVgraytYRkVLRU1hUXBmajlZQ0tI?=
- =?utf-8?B?U2V6YnNqSjJuQlFXblp2NG5ST0FMbUY4dmpuTGs0M1dmVnZWbERCa1BDK0xn?=
- =?utf-8?B?Z0tjTFFoVk5mS05IcUpXY2dEYlprVkU5NkE3cDRZQlFqVVJ0VWFidittUkxF?=
- =?utf-8?B?N21YR0JUZjBRL3NZdEYwaDdBZjVPb3NhSFdxblpjdXFyVjZDekVmaWllUzQz?=
- =?utf-8?B?NGdpcVpEMmZtWnAzWGNqWUZFSFpqTnF6M0xSVzJ4RXRsUWk3SDJDaWdJWjUr?=
- =?utf-8?B?YVNNWnBaaXRUOXVkVmU5WnhpdGV4QkJYU3dJdHlwOXJQWG5XSm13WWl1SXZS?=
- =?utf-8?B?b2s4QTVoUzh1a3JLL3VpaWtnUXlVdVdjelc1Mng2UWZkZzRTWVFBZy85K2Nz?=
- =?utf-8?B?ZnIxVFNFZytQN2IwdUdxUVpPT2NzTU5hMTJDR0t6MlVFQkcrcFlBSDFGbXps?=
- =?utf-8?B?d3JTSkFGZTVCd3hrWU10U1ZiRkJUWUZGVlg4YjdtV0g1WkszYnhCbHNwQnhp?=
- =?utf-8?B?bVJKZUROa3pKcS9pM1dNejArZ3dvSmpSSXVnU2ZnbktJZjdpK3RIY1cyVWFp?=
- =?utf-8?B?YVFVdHN0cjZienBtRENkU1FPaGw2RFZlVGUzRWJJWGtjRVNLNThCOC9JY2VG?=
- =?utf-8?B?a2U2d2RYUHFBUGFHRFBEMFFpdWNxTmtkK2luOGdQUmErM1J0VHhwNlJwL3NX?=
- =?utf-8?B?WU5GbG5yV0cvSjZJa1h2bE8xSGhsUENhdzZKZGdNZUxpRk1hekpzSjRPb3BI?=
- =?utf-8?B?dUdRTmQ4Y3lvcG1FazluZDVTbElYRVVBQmhoWlpNM20zMm5ySzcydm5UUGFC?=
- =?utf-8?B?ek0vSm9vakdqWTNuYzJqSkRza1d5Nk1lUWdDOTRMeGx3TTBXaHZ1OC9TYWdV?=
- =?utf-8?B?UE4zeTZabVdvaVdBMFlFS2EwWiswcVE3YVRpaDRzczVOSmcyS1dTa2s4WHln?=
- =?utf-8?B?M0ZWRE13M3JpeEJUendWSHBESVVaZDliWElMdXk4ZnVJQ3pZV1dtSXYza1Iz?=
- =?utf-8?B?RDB5ak1nTjEzZUdHS1AzY2h4ZHJmT3Y4S2hVZnphWVYvVnAzbE9PR2t2b1dl?=
- =?utf-8?B?ZWRCbVdMM2V6dTRmUzFTKzBVNm1lVHpwUFBOY1FRVGVZdkw2NGNnQlZwRmph?=
- =?utf-8?B?dXBrT0w5TXJnVXc3enJPQndZazhwdmxJRnljZy9JVW1MZWlHVHBZWjNIMi95?=
- =?utf-8?B?L1JJWVNjRGc2cHBheHMrM1Qzczg3UkJKRnFUZlJCdVloTnRkV0gyNHJCZFVw?=
- =?utf-8?B?aFdGc3NHejdFMGdFMklFYVFDTEZjWWgwanhzYS8xUnZlb0pIbHNqTXV4UHFC?=
- =?utf-8?B?N1plMVVmUjJNYkNmV2FKT2g4NURGSUtwVmpQdUw0MExqYWd2emw4S3lNTGQw?=
- =?utf-8?B?N3BHTEpxdndzUUtEbmdCd2FkSzJTTGhySTQxOE9kSnVONDRBUThCdnUwSmty?=
- =?utf-8?B?Q0JFd1A4Y0ZnU0FqeFR6aGtvalZ2TmdEN3hPWE5iUjZwckcwcVNtWFh4OEhO?=
- =?utf-8?B?UkVZOXB4Mmtjc25qWXZuYVRReXhPeW9tSnVUU3hmRTBweFRRSUJRR3Yxbi9T?=
- =?utf-8?B?WjlkNUE1SGE0YzVWbldlWnZKaW1KVjJYNVAvK0NteUp0RWwwZ0wxL3VjTWdL?=
- =?utf-8?B?aDFCK0s2MGs2Z3J0WmdMb3pQeXU2QzcvZjlBK1RJWEgzV1JGbHM4NnFhYi9q?=
- =?utf-8?B?Z2lzbit0TjlETStJWU1lZTV2WG5sNGVEUGEyUTZWWC94Z1F1MWRFRS9iMGdt?=
- =?utf-8?B?NG8zU3Rza0RkNEZTZTFtSGQwdHgzeXhucGhRMTVDYmF1cVA4SEJNeFU0RDRV?=
- =?utf-8?B?a3ZxL0pQT3dkRUMzTXRjVnRaWWh4WlVmcnRJSEhjUmR3eUlZQzhLRGZscXZU?=
- =?utf-8?B?VC9LL0RRMUsweS9ueUt2UGVaeHdjZjZFd1RCNitrekc1OUw2Z056bWpZUTRa?=
- =?utf-8?B?ZElFMmVldm43cmprd1p4MHFEamkyYkdXazRuTDdyMmErTkNNblEzdDJ3N09z?=
- =?utf-8?B?VWx2eUJWVlhobG1xWHB5MFIzY1J2eTJGZ1FkcmRUV1E0SWxaZkJXYzRqZWdX?=
- =?utf-8?B?bmxwUGNCNkRpR0FxQ1lrTlMxU2d4M2ZvOGtaUVZnQk8rRStybzFsemFIQXpp?=
- =?utf-8?Q?A0Wzsr03RTBNSwz6JIymgkac/?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3850dfa5-a407-40fd-e69a-08dd75e922c5
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2025 15:30:33.1435
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tOKrrjN+4UuOeQoNuEX6kg1dtR2VotIzOX2HwwSt1rZHEU2D2zxf1fGPtbkm+370BYXBcKokszJ6BLXEY99hFQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8543
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v37 24/31] ASoC: qcom: qdsp6: Add USB backend ASoC driver
+ for Q6
+To: Stephan Gerhold <stephan.gerhold@linaro.org>
+CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20250404002728.3590501-1-quic_wcheng@quicinc.com>
+ <20250404002728.3590501-25-quic_wcheng@quicinc.com>
+ <Z--sQj-fXwXkk5iS@linaro.org>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <Z--sQj-fXwXkk5iS@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 1nl-DQhG9dzg8yTLK0FVSV7GtgsZ5IF9
+X-Authority-Analysis: v=2.4 cv=Q4vS452a c=1 sm=1 tr=0 ts=67f458f4 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=GBvyv-u1fKLaKHI2v8gA:9 a=QEXdDO2ut3YA:10
+ a=RVmHIydaz68A:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: 1nl-DQhG9dzg8yTLK0FVSV7GtgsZ5IF9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-07_07,2025-04-07_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 phishscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 mlxscore=0 suspectscore=0
+ mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504070161
 
+Hi Stephan,
 
-On 4/7/2025 8:47 PM, Mario Limonciello wrote:
-> From: Mario Limonciello <mario.limonciello@amd.com>
->
-> On systems with an SRA sensor there are some problems with both init
-> and failure paths.  This series accounts for both.
->
-> v3-v4:
->   * I got pinged offline with a missing cleanup case. As the patches
->     otherwise looked fine I added it to the second patch and sent it.
-> Mario Limonciello (2):
->    HID: amd_sfh: Fix SRA sensor when it's the only sensor
->    HID: amd_sfh: Avoid clearing reports for SRA sensor
->
->   drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 12 ++++++++----
->   1 file changed, 8 insertions(+), 4 deletions(-)
+On 4/4/2025 2:54 AM, Stephan Gerhold wrote:
+> On Thu, Apr 03, 2025 at 05:27:21PM -0700, Wesley Cheng wrote:
+>> Create a USB BE component that will register a new USB port to the ASoC USB
+>> framework.  This will handle determination on if the requested audio
+>> profile is supported by the USB device currently selected.
+>>
+>> Check for if the PCM format is supported during the hw_params callback.  If
+>> the profile is not supported then the userspace ALSA entity will receive an
+>> error, and can take further action.
+>>
+>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> ---
+>>   include/sound/q6usboffload.h  |  20 +++
+>>   sound/soc/qcom/Kconfig        |  12 ++
+>>   sound/soc/qcom/qdsp6/Makefile |   1 +
+>>   sound/soc/qcom/qdsp6/q6usb.c  | 278 ++++++++++++++++++++++++++++++++++
+>>   4 files changed, 311 insertions(+)
+>>   create mode 100644 include/sound/q6usboffload.h
+>>   create mode 100644 sound/soc/qcom/qdsp6/q6usb.c
+>>
+>> diff --git a/include/sound/q6usboffload.h b/include/sound/q6usboffload.h
+>> new file mode 100644
+>> index 000000000000..35ae26ba6509
+>> --- /dev/null
+>> +++ b/include/sound/q6usboffload.h
+>> @@ -0,0 +1,20 @@
+>> +/* SPDX-License-Identifier: GPL-2.0
+>> + *
+>> + * sound/q6usboffload.h -- QDSP6 USB offload
+>> + *
+>> + * Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + */
+>> +
+>> +/**
+>> + * struct q6usb_offload - USB backend DAI link offload parameters
+>> + * @dev: dev handle to usb be
+>> + * @domain: allocated iommu domain
+>> + * @sid: streamID for iommu
+>> + * @intr_num: usb interrupter number
+>> + **/
+>> +struct q6usb_offload {
+>> +	struct device *dev;
+>> +	struct iommu_domain *domain;
+>> +	long long sid;
+> 
+> "long long" feels like overkill for sid, given that it's essentially
+> either an u8 or -1. I see you just copied this from q6asm-dai.c, but
+> unlike q6asm-dai, you don't seem to check for sid < 0 in PATCH 28/31
+> (qc_audio_offload.c).
+> 
+> Looking at the logic in q6asm-dai.c, it feels like this could really
+> just be an "u8", since the -1 for "no iommus specified" is effectively
+> just handled like sid = 0.
+> 
 
-Looks good to me.
+Thanks for the detailed feedback and review.  Will change it accordingly 
+as you suggested.
 
-Acked-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+>> +	u16 intr_num;
+>> +};
+>> [...]
+>> diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
+>> new file mode 100644
+>> index 000000000000..cb8c4a62a816
+>> --- /dev/null
+>> +++ b/sound/soc/qcom/qdsp6/q6usb.c
+>> [...]
+>> +static int q6usb_dai_dev_probe(struct platform_device *pdev)
+>> +{
+>> +	struct device_node *node = pdev->dev.of_node;
+>> +	struct q6usb_port_data *data;
+>> +	struct device *dev = &pdev->dev;
+>> +	struct of_phandle_args args;
+>> +	int ret;
+>> +
+>> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+>> +	if (!data)
+>> +		return -ENOMEM;
+>> +
+>> +	ret = of_property_read_u16(node, "qcom,usb-audio-intr-idx",
+>> +				   &data->priv.intr_num);
+>> +	if (ret) {
+>> +		dev_err(&pdev->dev, "failed to read intr idx.\n");
+>> +		return ret;
+>> +	}
+>> +
+>> +	ret = of_parse_phandle_with_fixed_args(node, "iommus", 1, 0, &args);
+>> +	if (ret < 0)
+>> +		data->priv.sid = -1;
+>> +	else
+> 
+> Could just do if (ret == 0) here and drop the if branch above, if you
+> make sid an u8 like I suggested above.
+> 
 
-Thanks,
---
-Basavaraj
+Will do.
 
->
+>> +		data->priv.sid = args.args[0] & Q6_USB_SID_MASK;
+>> +
+>> +	data->priv.domain = iommu_get_domain_for_dev(&pdev->dev);
+>> +
+>> +	data->priv.dev = dev;
+>> +	INIT_LIST_HEAD(&data->devices);
+> 
+> I think you also need devm_mutex_init(&data->lock) or separate
+> mutex_init()/mutex_destroy() here, if someone enables
+> CONFIG_DEBUG_MUTEXES.
+> 
 
+Ah, yes, will explicitly initialize the mutex here.
+
+Thanks
+Wesley Cheng
 
