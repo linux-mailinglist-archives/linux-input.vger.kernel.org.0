@@ -1,212 +1,222 @@
-Return-Path: <linux-input+bounces-11580-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11581-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D6F2A8281D
-	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 16:38:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F0FA82869
+	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 16:46:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BEE117AE14
-	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 14:36:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 953F34A2A83
+	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 14:42:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AB92266595;
-	Wed,  9 Apr 2025 14:35:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5E0833EA;
+	Wed,  9 Apr 2025 14:42:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="jWttGV8w"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LXYsnlp0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19010008.outbound.protection.outlook.com [52.103.68.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641E425F7AE;
-	Wed,  9 Apr 2025 14:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744209352; cv=fail; b=EcxJJuO5FpPsPUWtu/rdQgzfz+Af7vKKfTSLtD7jsGkPeP4uha8HJddva+0bI1qSf6giwcFzdfIPo11qd5WAtIDZ2Czp8Gd4NkpBI9wFDSNURDR27BTfX4BF3nnJp0yo+DtxTNJDKn+UwgdQ1ErhPs+9kNmFGdYB8UbV+hgBVwo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744209352; c=relaxed/simple;
-	bh=XXsp8J1DDcS6xRtdcHjdZ2bEfZRGLNqT98ClGch/81c=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=IZtEiuBYZUhTOAu8bTB8+9MW9I69x+xVhe+nG8WdHJSX94kR69S7LJvso9KAPmYAIq+wey2rK5cx4fD92q3IndHyrrTQBKw/Qj2hbdtZ29f+OPk9TSDB6c4vJiKB3HdNVJnhEvLMcScfDq9s8Ag9wkSTFg7RCRM2A6pwMcV8GkY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=jWttGV8w; arc=fail smtp.client-ip=52.103.68.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mbaBX4y2/oSL/KwW0XhlhI6VdKpLGrteATqrFsYKBm+8APYc8npdNafU1KX39iEsf5UmcQMB7IgJEu7a0BWM6M/upRfiLQHJvbet1XzQmIjWyT3v7wGWDaiQSeYWMGrk9jhu5V9GDq55kv4aRRxNQ0y7F4kip9ncoGfhNBk7zQG9Z283RhLckTFfPr7WdGOvNc9dSTTlHdUE+peq/MTisxZ7JN2Kn7PIUr26w/AbtSywMaYhq6NSRiOxSRvB4LOrmAWOSjQFRlxSe/cG672HlwouhEWR1PEHzqm8s+kTVzCX5oMkzRzoIj0LAfm88hsYI9R+dZokDRhJK5z+1USx+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zXvoazKEDGu35pzyZVVtgxCgmvPaAqG8xSrVbyuikwM=;
- b=U1H2wwTuO6/DU75ORLT4IX+ZRaa0quCuV+ugOC+3xjrkdStIBPmV4EYKA9V+yH9XqKlAS94XKl4faAryK+ADDxRGLFModZJRCP32aQYWczwZIQxd4N4nHb90I97zu/bX8UFiqmNIDn85icAxvWK8nGlxGKwXxWDeVAzWSs4wBl2SqicxLHW0SHriMt3lX1emQJIkk0RrOZtdUYVzWl9WgEsK2ZnoxMWi3qjavYXEPjfAWd3mAdrekKF3ds3xD+MuBmY24+BS9SkAGSke7XMc8FBWcGkM3+sCP7yhe88D0/89wYrM/PTIakjcBG1ngvRmaOuXYD4QK1pdekoFFm4pDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zXvoazKEDGu35pzyZVVtgxCgmvPaAqG8xSrVbyuikwM=;
- b=jWttGV8wj5FXtQXKv5zDSQ7+fwLB+/ZWdsmgPMijEESSyBD05AKiba5TOZ5YBb5m/R/SsLHrzyI0uxDzYckhPzlv5B5VHH2voQoSaCneODynpkg/dwPThlhh3xj8cke52G2thfRL/h4QLvAVjpTQ5mDHhk8f+9axfMH0mTDP/w45FDX6oz9DIZO/swOW01/JJW33KBZtgKRZJhe1ZZKgIhlY7vrIKEV/80QeTt/RUeYlm5FL6f/O0mRaSoZD+Ou50DAz+jd5wAUg2MQhffx5A8osIx9PG4xUTTP4IUDXqbjbk5LKfMKwKLBCs9c3bx2wwlfk0XlnVwwlxIf35d8tcQ==
-Received: from PN0PR01MB9588.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:10c::9)
- by MAZPR01MB8872.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:d1::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.21; Wed, 9 Apr
- 2025 14:35:45 +0000
-Received: from PN0PR01MB9588.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::5b05:29d:5646:39aa]) by PN0PR01MB9588.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::5b05:29d:5646:39aa%3]) with mapi id 15.20.8606.033; Wed, 9 Apr 2025
- 14:35:45 +0000
-Message-ID:
- <PN0PR01MB95889912BB81D1B1B579C7FEB8B42@PN0PR01MB9588.INDPRD01.PROD.OUTLOOK.COM>
-Date: Wed, 9 Apr 2025 20:05:33 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] HID: HID_APPLETB_BL and HID_APPLETB_KBD should depend on
- X86
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
- Kerem Karabay <kekrby@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <4b046ce1cae2170453037c7ea006c91c12383dab.1744190441.git.geert+renesas@glider.be>
-Content-Language: en-US
-From: Aditya Garg <gargaditya08@live.com>
-In-Reply-To: <4b046ce1cae2170453037c7ea006c91c12383dab.1744190441.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN4PR01CA0045.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:279::11) To PN0PR01MB9588.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:10c::9)
-X-Microsoft-Original-Message-ID:
- <6e9866c7-038e-40aa-a56f-479647f3509d@live.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1ABD143C5D
+	for <linux-input@vger.kernel.org>; Wed,  9 Apr 2025 14:42:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744209725; cv=none; b=f5Y/su9iFC+PdMtx2BdVKlDa3+Z7L3BCKrKbgXMtsPJbd8q4fxh3jAuOo5jpDNawBcxpqJ8ZQdffKoo7X3bji9pCZqVmuD/hLDw3y5aMAMebQ9g51QxKLquwWrlOUz6yb2CaX9Scm9P4mpP3Yi1BTiBdSi+lpB5GMCQufQhmpNc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744209725; c=relaxed/simple;
+	bh=x4ZuBmGnMEJzNMxW7bG4YTJVFVzdoDIm4p6BmknUVkI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=BXCbo5+B63EQnm7BgAbFufHQAL0gNPQLGsMHazcu3UF6zFRQ0jPNjno2PM3KyMkFzYeiUudNT73TlTcWSO0b2+zkS2WRZy6tk57teb4HBIpZ7h1aSAnnTpMjXUlqCLbRkzN5LS6XglMVMUGH5N0zluE/bnVIm+yhp4TOhUeRzl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LXYsnlp0; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso46413355e9.2
+        for <linux-input@vger.kernel.org>; Wed, 09 Apr 2025 07:42:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744209722; x=1744814522; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0EH9J2Jn09GWrQkdTL8kONoEutlZGnTLLUCA5sDkT98=;
+        b=LXYsnlp0NKxZgsNNFsdIy1AejsdX6TKmZWhl545v0KcNhf9RNKWX3BMV5ZIenm3aCK
+         +Z8StqA7CdnEIw8pus7Zx/Xx74u19WkBFAcs6QYRDTu8bLJsLUakCDpHVCcQMHZ3mfu5
+         wqN/+e4cMdYGJPgvtoArapOya0YKZwJ22ROJkhvh+CE9B1aJBZYQqRuMaEyc9d1VeIlk
+         VY8sSkAsSQVSTpDVDB43ixqqlMQ3ExqOPCJbInVR5wlGdjLskkTZ7IgZGdsfrQ8fbb3Y
+         x5m/YUfYxtkVyZPUblpKa9psKEFrYN3atO4QdnIuLM5wqZoWs3pAfDAUcYnpFzREfm9J
+         tvWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744209722; x=1744814522;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0EH9J2Jn09GWrQkdTL8kONoEutlZGnTLLUCA5sDkT98=;
+        b=FG+pC8sF4HwzGAyLaJAV5UnZpLAfILh9YCPVqW5whFuGjmYjie0dMqxFuF2qc2A5A+
+         O2N/Lqaoi/KbKsHr+ib2lND+ygZve040903wuaKEq8pJWApt6vMLfNod7r3f58M75HPg
+         yuETvqAowcqRAQLuxISdm12O2bRlOEksmi/NW8z4MEY79mm/0LW231U1WXAOBoUQnTwF
+         RbYAzxvh5AZidvUgLt9Zh/20EL8yQHZZnnHzQBlI7CtLiielgnzt0umAREVmBfbu/wYK
+         kkNl7OB0dc7PJmnaFGwm7AUn0VtX5IZ+eyEJbtzcw+rNahPla0LDgXaWJNAVFGXVJ1Im
+         z7sg==
+X-Forwarded-Encrypted: i=1; AJvYcCWNHNf4pHrFk8yy8OCmNeILbkVtWyOIwWIGcPoW7f5LVP1m+KJPOStIsotQ/0HCTtmaB5D3HYa40eTmPg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSHBqjURwOSs2qW469HHUkdQ9fL7iLKlIZ7WPBtNv65p0iUtsT
+	RUZPd7SKj9aRZZOdXuHuQKya7PTEuPmCehY3haS7873MYquUoKwxAENB/b4UMvXGR9JMuRW94GN
+	zVQEbgVRlaa4JwKzIN3zYJr3TXaWhUFluwwY=
+X-Gm-Gg: ASbGncv8sS978cw6ovLCXvQJkT/oM8UptKGaXXfSMCqjWUsTp3cqmKt0PgWhbTRkdsN
+	QAoMoQjNhnZywrBF5iiX7tW9Nw+B1zGzJOHJ4N0SVSAFD+F/cbL269W2ISGr3jvSPdzyKgnOhWc
+	pN7zpyP7XxpLE+UMojrCTjAYQ=
+X-Google-Smtp-Source: AGHT+IFIj4H/oAyqOqiJocJl8yqTaRUecF3PwPvcQKewtPAkHq0voHm+0vD9s9yztfzHX4IgM3/q0PJSH9T/FV2znOw=
+X-Received: by 2002:a05:6000:1867:b0:397:5de8:6937 with SMTP id
+ ffacd0b85a97d-39d87cdcb8cmr2742412f8f.41.1744209722004; Wed, 09 Apr 2025
+ 07:42:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN0PR01MB9588:EE_|MAZPR01MB8872:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2927db22-b66e-4f39-2271-08dd7773ce75
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|19110799003|8060799006|8022599003|15080799006|6090799003|461199028|5072599009|7092599003|1602099012|440099028|10035399004|4302099013|3412199025;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NHdiMkRKaXdDd2tvQS9ENFl5bkx0WWZIR0FxREhYNGlaYThLQU1EamdzZ0di?=
- =?utf-8?B?L2dkQ3h3THhxSVdxNEppZk9BTDBCUkZYKy9xSXdDQlVXR0l3UTBsMHdMOGp2?=
- =?utf-8?B?cnIxaFZkdGc2dkhtdjUvVjMzWVZ2ZXFDdUU4eUlnSzlrR0dFTlArdHNoYU9L?=
- =?utf-8?B?UThjdGY4bXVXQ2tOZVRZVlcwV1YwZ0hneElDZzBsSTdGdHVTNndEMmVHVy9a?=
- =?utf-8?B?d0NkdVJ4eERvYWpyeTFLZ1JuT2JNZUtBTkF5Vkd2S3F1WnNPZnRKZkFHeWRM?=
- =?utf-8?B?MmtFbU0yYlU2OTJva05MTVNHckZ4SEJwTDFHRE5ZbnB6NzNBaUNsaXp1WThx?=
- =?utf-8?B?SjVRcEpmRWVyRU9VVEhVTzlKVHBwT0s5TCt1UmNjbzFKK0JjV3JISjZ6Nm1M?=
- =?utf-8?B?OVJLWlhpQXI4eXVjdzRSTGZKUG9va3ZpMFE5TDhlcUo4SWE5MVpMNmhxZ0Rp?=
- =?utf-8?B?RnYyVHpsR0g2NkZsd3lkbVlDNCtTWnhQQ3hYdXZqTDFrY1QvZTNtQVBOSHA3?=
- =?utf-8?B?WTl6UWV1YTc5MUlHV2c2RFJWbys4VWh2SlUyanVnMmZzTGRPOC9EbXd6dkow?=
- =?utf-8?B?ZHdBejhUNHZ3VEFjV3JFOEwwQTJkUXp2c2I3Y0Y3cUk3emNtWVE2c3RtQXJE?=
- =?utf-8?B?MEdxaC83Qll6SDRrVE80bzFQTVd1RVRMQ2tYdnNzeElkZ1I0SXhGRmZDclRs?=
- =?utf-8?B?SkIyZWUvT0M5SUNBVFpFM0NpaURhWjhJck9YM3g0Ym9HcUNWQTM1c1p1b2Zt?=
- =?utf-8?B?dXZtcXB6aHJ2RDlSVjR0Mm9rNWd2Vjh3UG9aU2tXN2lJRnpxU0o5cWtsNk9N?=
- =?utf-8?B?RUdEbG9wS2Ztalk5Qkp4RXgzcjE1SmtIbWJvUlBLbVdjakdUVkZGczJ2VURG?=
- =?utf-8?B?VlNpRUZyZlJvYTFzOWNSOWRhbk9hZjI1cVd0Y1lwT25rMVE5NURPMVoxeEtz?=
- =?utf-8?B?U0lod05MUUlHWFBCVzR6dEk5bU16a0wyUVpmbFZvbzVwS3U3ZnNiWTMxeDNU?=
- =?utf-8?B?a1RpNEZnVUxUUHYvN3BTTzVMcHV4K2I1M0JtYXQ5NmdSdmFqbHN1L2J5VWZL?=
- =?utf-8?B?WnVTNEdCR0l0ZHJNK3hQU25iMVgzWkVRdnBEU1pKNWwwMWNBWHNpZFFNLzFq?=
- =?utf-8?B?YlR4K0UxMm9vQkhKaDYwWDFibFpuVk9pcklaQnE0a0lPbDFjVWVCREdWbXVm?=
- =?utf-8?B?RjZvdml0QVl0S3VVSDBYeDBSQkF6SzRxaUtPOGhjbjQwWkh1MHJ1NDd1NllC?=
- =?utf-8?B?OHNKdzdWSStRckpxYUtXSmR5dm5aL1FpVWhrSVZiZlMwQytTN3VqdEhSTUN4?=
- =?utf-8?B?L1pjS0lvcy9WRSt6Sm41ak1rNVZVN2JvNW1FbEdGRU10TEt1RUJFUGg3c21o?=
- =?utf-8?B?NzZDRndSR0d6T3RMaGF5eDFZc25VQ0hwUUY1SFVUWi9XbG85akp1MmEvcTZa?=
- =?utf-8?B?bnNoaDFTeWNudzIvRnpmV0NNV1pDMmtIcThKMTROeDFnbVo1eWFEMlZwM0FJ?=
- =?utf-8?B?clBOMnp2Nzd4dWZUblIrSUF5c29uYmxMdm84dXlCVUR6Yk43QVhHKys4eVR5?=
- =?utf-8?B?aWxWT0lPWllQZmlDMHgxU2tUWU5YaDFsZkdpZDlIUzhnRTRUOTlEZUZUUnRH?=
- =?utf-8?B?ZG5GVDk5cXUyUG0vRUJKaFNieS9wUER6STlLeXMyZjRXdDZuTFliazQvUUdU?=
- =?utf-8?B?UkZZdmxZUXI1ZGNBc3pBaGx4eXNNTGZkallmSVl5MTNHcVcwUlZ5TnhtVWYv?=
- =?utf-8?B?LzgzanVySXZqVlE2aExGcnV5bG5BK1ppM1RBb0VMTEp1TTB4bXdsNEpYQzlw?=
- =?utf-8?B?N0gwYjNkRmlkdlBuekJNUT09?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?V3BTWmMyd2JXNytxYXpvY29pd1U2ZXZlT3NJZFZGekdtL0xjb0l2YkpMUjFm?=
- =?utf-8?B?b1dCOXJuT1NRY2Q4VGRRQmJMcE5zTlR3U3huM2lORXdnREpGaEVuQXYvSE9I?=
- =?utf-8?B?emlWc1BWMUxKNEw4aEZ3b1RwYTdCZzFyLzdRZzRIL2JCdVNJR3lteE9lNUln?=
- =?utf-8?B?d1Q1MDJpNmoxeThvYS9XV2lXVy9FSHZCRGFlTVhYRzBmeEVoVW5zMTlSOUU4?=
- =?utf-8?B?R1lzNG95NzBVT2RCbS9Xd1JHbHN0K2dsajVSZkNwSjZYRWd0OEJ4Tk9KKzdN?=
- =?utf-8?B?SThoU1lwV0hMRDA0Q2xwbmJiNHZlRXM4NVdVd2lFc0w5VDg3a2lFZVRuYjlG?=
- =?utf-8?B?Zkt2TXNOb3VxVzBGazJiazc5ZzFGdFRzNFlabWQ2TW96Z25TWFVxQjcxblRQ?=
- =?utf-8?B?V2M5VlVrdk5kMWM3cGdhSXlFWDV4cVp1bFZwL3FyemZMTFZocXREMkpBUEZP?=
- =?utf-8?B?S2xjWkxoeFpRQ0lZSlVuZm50OXN4TlpFSVUvNW1tQnJ3LzhEeDgraDlremdn?=
- =?utf-8?B?SytjVjE2R0lqdnNzZ2hpcFFCNCtGdkhYMWFJcEtOSmNaTTJ4dWVza3Z6WUdB?=
- =?utf-8?B?ZVJFQVFGWXhXTHpOSkpWTUtmbG9lZTEvclk2Ymt3WWNnYnBnU01jY3lUOG9z?=
- =?utf-8?B?eWhVSUM0eUxHalRNZ2Rjc3lWN3c0aGFuN2FWYklRbm1kYXhFaGtKblAvSkFx?=
- =?utf-8?B?NVczU0doSFBJQXFGdFFVTUcyWFBZRURTK0YwejhGT3I3RVpieVdTcGt0ZmFp?=
- =?utf-8?B?eFNhMUtBc2E4WVVFcDR3UDRLYjh5MGl6NjRxemNGb0xNYWZpR1dFV3UxajFz?=
- =?utf-8?B?aXBZdVprQ2pUS2QyYURtU0N0c3dvWnhOVnFyUUY3K0xPTjBrTWQ1Um9GeE9T?=
- =?utf-8?B?aHpTM2JUTWJkMGF1NS93dGtmZldJMTRwbkh2K0VtZWV3SHVRem5qdWlES2tU?=
- =?utf-8?B?SDdEQXZBR3VQODFRV242RktCYWNQaCtjWjcyUVZHeGpUMmhjVWVFQVUwRWli?=
- =?utf-8?B?WVlmREV3Y2JCMCt3bDRmN0ZuMDFuaVd4S0tqRytEMjh2YUIyTTB5a09hczNt?=
- =?utf-8?B?cCtwSTk5T1FmZVRWcjR3cXdmTDR6QzZKUnZWQUNiVUVIM3g2WENXL1loNC9B?=
- =?utf-8?B?cHVvb2NEeHlYa1EzUUZrczJhcFRrYy90VDFXWFZSRkk3K3Vnbmd1QXNPL2sv?=
- =?utf-8?B?Z1cwKzBkQjZNU21EcVNINmpsU0pvMGdYN0N6THJLbjN5aytxdTJjaklKTm81?=
- =?utf-8?B?aGxCdUVTL0h0aEcwL2hYWFZzejZSZ1dLK3RrWlNLeFB6Z3lOcWthYVFaTUhn?=
- =?utf-8?B?WXFmRkVrZWtVamY5bDhTMHFZQ3lKTlc5Z01SVnNZTkpvOGpGNDFaVjlSTzMr?=
- =?utf-8?B?a1p6blRsUFd5QzV0Y25zTkFKWlVhTXlsTUovRGhzUGljRy91TU1nanNjZWJz?=
- =?utf-8?B?bnlVemNkOEVnY2JQZGN4WVVJMkNIOTNsanVGZ0lKVTVRckdnckxkMXpJaDA4?=
- =?utf-8?B?K1FMc1dvMTNMTFE0SU1ZTjlzQVE0SXZld3ZuckJXTzVOcGJIUG9GczF1Q1hO?=
- =?utf-8?B?TnQ2ZGpYVDZRNG5ucmJUbmI4U3Jnc25Eb2phamhFVkdqODNyaWZpeXdhSFNB?=
- =?utf-8?B?QVZHWmRQRkI3ZHpNOVZHL3U2WERRUnJnV0Y1ZHNmemtFaGFXSlZqT1A5dDU2?=
- =?utf-8?B?NzVEOE9pQVluM21UWWd3L1FSTERNSmIxTnl2YXM3cjlYakRoZHZiNEFWWHpI?=
- =?utf-8?Q?U3T6juwqzKDrtrIQvOl8BfA3NnvCtraC/UUPKym?=
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2927db22-b66e-4f39-2271-08dd7773ce75
-X-MS-Exchange-CrossTenant-AuthSource: PN0PR01MB9588.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2025 14:35:45.3347
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZPR01MB8872
+References: <CAAbCkm+hdmJ4ozW4viBkwp+7QQPgymA+bfb5ddOUCB=kaBvF9w@mail.gmail.com>
+ <PN3PR01MB9597EA06B5B28C50A8CBBD3BB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+In-Reply-To: <PN3PR01MB9597EA06B5B28C50A8CBBD3BB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+From: jt <enopatch@gmail.com>
+Date: Wed, 9 Apr 2025 15:41:50 +0100
+X-Gm-Features: ATxdqUH9mKpKLKBOU23rdc4-RsvTELP1za5itOAfKmI4X-IKYYho4NhgZFtLZIk
+Message-ID: <CAAbCkm+v4EV2TgkfMSGjYNvy_HgXSYAm2cFYjjrA4tv+WqBREQ@mail.gmail.com>
+Subject: Re: PROBLEM: Synaptics TouchStyk (trackpoint) on HP EliteBook 850 G1
+ detected as "PS/2 Generic Mouse".
+To: Aditya Garg <gargaditya08@live.com>, linux-input@vger.kernel.org, 
+	dmitry.torokhov@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+
+On Tue, 8 Apr 2025 at 12:36, Aditya Garg <gargaditya08@live.com> wrote:
+> Is there a driver in the Linux kernel for your trackpad?
+
+I think that the driver for both the touchpad and the trackpoint is
+"psmouse". Here is the udevadm printout for the trackpoint node:
 
 
+$ udevadm info -a /dev/input/event5
+...
+  looking at device '/devices/platform/i8042/serio2/input/input9/event5':
+    KERNEL=="event5"
+    SUBSYSTEM=="input"
+    DRIVER==""
+    ATTR{power/async}=="disabled"
+    ATTR{power/control}=="auto"
+    ATTR{power/runtime_active_kids}=="0"
+    ATTR{power/runtime_active_time}=="0"
+    ATTR{power/runtime_enabled}=="disabled"
+    ATTR{power/runtime_status}=="unsupported"
+    ATTR{power/runtime_suspended_time}=="0"
+    ATTR{power/runtime_usage}=="0"
 
-On 09-04-2025 02:51 pm, Geert Uytterhoeven wrote:
-> The Apple Touch Bar is only present on x86 MacBook Pros.  Hence add a
-> dependency on X86, to prevent asking the user about this driver when
-> configuring a kernel for a different architecture.
-> 
-> Fixes: 1fd41e5e3d7cc556 ("HID: hid-appletb-bl: add driver for the backlight of Apple Touch Bars")
-> Fixes: 93a0fc48948107e0 ("HID: hid-appletb-kbd: add support for automatic brightness control while using the touchbar")
+  looking at parent device '/devices/platform/i8042/serio2/input/input9':
+    KERNELS=="input9"
+    SUBSYSTEMS=="input"
+    DRIVERS==""
+    ATTRS{capabilities/abs}=="0"
+    ATTRS{capabilities/ev}=="7"
+    ATTRS{capabilities/ff}=="0"
+    ATTRS{capabilities/key}=="70000 0 0 0 0"
+    ATTRS{capabilities/led}=="0"
+    ATTRS{capabilities/msc}=="0"
+    ATTRS{capabilities/rel}=="3"
+    ATTRS{capabilities/snd}=="0"
+    ATTRS{capabilities/sw}=="0"
+    ATTRS{id/bustype}=="0011"
+    ATTRS{id/product}=="0001"
+    ATTRS{id/vendor}=="0002"
+    ATTRS{id/version}=="0000"
+    ATTRS{inhibited}=="0"
+    ATTRS{name}=="PS/2 Generic Mouse"
+    ATTRS{phys}=="isa0060/serio2/input0"
+    ATTRS{power/async}=="disabled"
+    ATTRS{power/control}=="auto"
+    ATTRS{power/runtime_active_kids}=="0"
+    ATTRS{power/runtime_active_time}=="0"
+    ATTRS{power/runtime_enabled}=="disabled"
+    ATTRS{power/runtime_status}=="unsupported"
+    ATTRS{power/runtime_suspended_time}=="0"
+    ATTRS{power/runtime_usage}=="0"
+    ATTRS{properties}=="1"
+    ATTRS{uniq}==""
 
-Nit:
+  looking at parent device '/devices/platform/i8042/serio2':
+    KERNELS=="serio2"
+    SUBSYSTEMS=="serio"
+    DRIVERS=="psmouse"
+    ATTRS{bind_mode}=="auto"
+    ATTRS{description}=="i8042 AUX1 port"
+    ATTRS{drvctl}=="(not readable)"
+    ATTRS{firmware_id}=="PNP: SYN3003 SYN0100 SYN0002 PNP0f13"
+    ATTRS{id/extra}=="00"
+    ATTRS{id/id}=="00"
+    ATTRS{id/proto}=="00"
+    ATTRS{id/type}=="01"
+    ATTRS{power/async}=="disabled"
+    ATTRS{power/control}=="auto"
+    ATTRS{power/runtime_active_kids}=="0"
+    ATTRS{power/runtime_active_time}=="0"
+    ATTRS{power/runtime_enabled}=="disabled"
+    ATTRS{power/runtime_status}=="unsupported"
+    ATTRS{power/runtime_suspended_time}=="0"
+    ATTRS{power/runtime_usage}=="0"
+    ATTRS{power/wakeup}=="disabled"
+    ATTRS{power/wakeup_abort_count}==""
+    ATTRS{power/wakeup_active}==""
+    ATTRS{power/wakeup_active_count}==""
+    ATTRS{power/wakeup_count}==""
+    ATTRS{power/wakeup_expire_count}==""
+    ATTRS{power/wakeup_last_time_ms}==""
+    ATTRS{power/wakeup_max_time_ms}==""
+    ATTRS{power/wakeup_total_time_ms}==""
+    ATTRS{protocol}=="PS/2"
+    ATTRS{rate}=="100"
+    ATTRS{resetafter}=="5"
+    ATTRS{resolution}=="200"
+    ATTRS{resync_time}=="0"
 
-The commit SHA should have only the first 12 characters.
+  looking at parent device '/devices/platform/i8042':
+    KERNELS=="i8042"
+    SUBSYSTEMS=="platform"
+    DRIVERS=="i8042"
+    ATTRS{driver_override}=="(null)"
+    ATTRS{power/async}=="disabled"
+    ATTRS{power/control}=="auto"
+    ATTRS{power/runtime_active_kids}=="0"
+    ATTRS{power/runtime_active_time}=="0"
+    ATTRS{power/runtime_enabled}=="disabled"
+    ATTRS{power/runtime_status}=="unsupported"
+    ATTRS{power/runtime_suspended_time}=="0"
+    ATTRS{power/runtime_usage}=="0"
 
-https://docs.kernel.org/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
+  looking at parent device '/devices/platform':
+    KERNELS=="platform"
+    SUBSYSTEMS==""
+    DRIVERS==""
+    ATTRS{power/async}=="disabled"
+    ATTRS{power/control}=="auto"
+    ATTRS{power/runtime_active_kids}=="0"
+    ATTRS{power/runtime_active_time}=="0"
+    ATTRS{power/runtime_enabled}=="disabled"
+    ATTRS{power/runtime_status}=="unsupported"
+    ATTRS{power/runtime_suspended_time}=="0"
+    ATTRS{power/runtime_usage}=="0"
 
-Also, hid-appletb-kbd fix should be:
 
-Fixes: 8e9b9152cfbd ("HID: hid-appletb-kbd: add driver for the keyboard mode of Apple Touch Bars")
+> You also have simply emailed the mailing list without sending a mail to the kernel maintainers. So how will they contact you?
 
-I would also prefer having them as 2 separate patches.
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/hid/Kconfig | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> index a503252702b7b43c..43859fc757470caf 100644
-> --- a/drivers/hid/Kconfig
-> +++ b/drivers/hid/Kconfig
-> @@ -151,6 +151,7 @@ config HID_APPLEIR
->  config HID_APPLETB_BL
->  	tristate "Apple Touch Bar Backlight"
->  	depends on BACKLIGHT_CLASS_DEVICE
-> +	depends on X86 || COMPILE_TEST
->  	help
->  	  Say Y here if you want support for the backlight of Touch Bars on x86
->  	  MacBook Pros.
-> @@ -163,6 +164,7 @@ config HID_APPLETB_KBD
->  	depends on USB_HID
->  	depends on BACKLIGHT_CLASS_DEVICE
->  	depends on INPUT
-> +	depends on X86 || COMPILE_TEST
->  	select INPUT_SPARSEKMAP
->  	select HID_APPLETB_BL
->  	help
+I think that the relevant maintainer is Dmitry Torokhov so I will
+include his email in the recipient list for future emails. (Thank you
+for the nudge!)
 
+(Copied from your next email...)
+> Can you try adding psmouse.synaptics_intertouch=1 and i8042.nopnp to grub and restart?
+
+As requested, I have tried adding the following module parameters to
+the grub command line:
+
+psmouse.synaptics_intertouch=1 # just psmouse
+i8042.nopnp # just i8042
+psmouse.synaptics_intertouch=1 i8042.nopnp # both psmouse and i8042
+
+but each time, the results appear to be the same i.e. the device
+continues to be recognised as "PS/2 Generic Mouse".
 
