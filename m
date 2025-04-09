@@ -1,124 +1,142 @@
-Return-Path: <linux-input+bounces-11649-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11677-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E55EA830C3
-	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 21:49:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7A2FA832E3
+	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 22:58:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 77D7D19E7C6C
-	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 19:49:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF6203BF4E1
+	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 20:58:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCE8D214216;
-	Wed,  9 Apr 2025 19:48:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9347213E81;
+	Wed,  9 Apr 2025 20:58:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="e2S6XtIj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mwyy8DdU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240912101B3;
-	Wed,  9 Apr 2025 19:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAA81E5018;
+	Wed,  9 Apr 2025 20:58:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744228118; cv=none; b=Fi5IZB1ZEQbHplpTvvmyrjJv2sUdj2/k0GHL0cuJgOSRnwyD8qNTSJbvqlTL7rXk5oKqa1BukunhNBEXaI8fNq54xMI56lpWVK34BhqQ/4DvnRmwmkEq3z0o1u6hbOI3tRK/SIfM67mwanGfbf2WQWF+UvX0nSPCapKqeQ2S8VE=
+	t=1744232302; cv=none; b=lOs3m1FFP9K1C7FUPfeCtRRHyTRwSD8X4Zc8XRwSJ8x3vrbCmRUqEYORzx+s05i16fNadTyctC93nXBpz6u3HC1GhcWIjuZsDrXI/MzhweQ80A7MlyfKxbbcg8A8o8KD1Y9IuH3zfd1bMeIHLhMUIBk0ceBgUr69kJlVe3FGB70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744228118; c=relaxed/simple;
-	bh=iCtHLk33YvZVAWXt7i5RyMq9fMhcsg+qWem2feATC5g=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t7hT7bVaO7mSjZvNcRoXW6BR6Q11xIy2c5n3melxRPs6+n3IUgnkusWwoDKTlgKZIT9lPell+85dGJ31xkWZSPxpqFhQwTPF1nVptopCLYGlEyV3RU42QPzvpl2Aj9tZo3L++huDpD6C9Q/+0B8vuJsCxlSau080dVOrY/ylHTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=e2S6XtIj; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 539HE1fJ005921;
-	Wed, 9 Apr 2025 19:48:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	coBhNxrqtvBjPYHNF8KL0UPazsmtH2wkILUKTEDK9Ns=; b=e2S6XtIjbzWLlY6q
-	fo78D1uUsMyMxOYWpZpFxhOCCARzdl7gtnOj53Rdl5NISfNXMnxpL+wNkS3PjSgL
-	70tEo+M+3hg4xC0hMGnMvLL2d5t+d9SMSxs87U09EsqbZbkJTjL1flpu1nJEWpbu
-	rmwPcMu9ifoOcazPSOK/2R4xChDjn523xVqP5Hj4eXGA+3rDAAH8R9smBy/HmEaL
-	MKDHlV5LvWRMHS+QQb1C9y4E6jbMzrNW61NJYB18EI/S5ggeLZwPuit98n+AjQoH
-	aQ/7SeNwiIzmDniW9t/3jcqHYEwzdTbufT0kq1aJAtTNWmw3A+yl4Ak+uTBOEXX2
-	Hulo6w==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twtb4pc5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 09 Apr 2025 19:48:25 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 539JmOYE031475
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 9 Apr 2025 19:48:24 GMT
-Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 9 Apr 2025 12:48:24 -0700
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
-        <tiwai@suse.com>, <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v38 31/31] ALSA: usb-audio: qcom: Notify USB audio devices on USB offload probing
-Date: Wed, 9 Apr 2025 12:48:04 -0700
-Message-ID: <20250409194804.3773260-32-quic_wcheng@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250409194804.3773260-1-quic_wcheng@quicinc.com>
-References: <20250409194804.3773260-1-quic_wcheng@quicinc.com>
+	s=arc-20240116; t=1744232302; c=relaxed/simple;
+	bh=6ec0alS8XiULM/vgWxWgwfHpG7Je0oApq0VdXu9F0v4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iN0ZWi7qTMQSzlh0yu/4cX42feD/wZzLZnOwfAIg1/LeuvlrJM632V8rJ/LRTGI7krlHUwuhWbbVS4j+CpLqLZmlVyO40WDYgCD/VLTqONUSNaYvNuf2LSfMWTjk35qeOy8GrtMx2e7bOblNe6gkYBgKorVZm5Kog6jJSIn5k8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mwyy8DdU; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b03bc416962so35332a12.0;
+        Wed, 09 Apr 2025 13:58:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744232300; x=1744837100; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0anQ+IpqWVzDF/uK9u1Pq2W1Y/RyglC7ZuUoWh/6VYc=;
+        b=mwyy8DdUym2PNXB10h67fTadWN5VgDr4mhCoJJNNZ4s5FflNklIzbw95RZVFVSMhLt
+         2MLBQMgaXWjVbCpzlxI7aCrbdJjL4bAghLqCN7q+w9F7iGNM4mz135O0mPwDUpoN1v4b
+         qrfGockCdOiGVXfQLxryNGGuCAmvYvKRHWIPIg1BNsxaxefNdS5tx/M5eAKfakiWWXp7
+         qrfOSU3+1d/nCKIkRyeilRS7irC8XN0p/dpfg3i6+YFQ1tdLOc8QIeaG9hIUq6WYlZ1j
+         rZOLZvmfYE9/ZZXiyqgvsHL9f09rHhM6MxIYquZYayZfUDFpVYzljjv2yxZ/CVCM1v9B
+         cIjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744232300; x=1744837100;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0anQ+IpqWVzDF/uK9u1Pq2W1Y/RyglC7ZuUoWh/6VYc=;
+        b=nGYhDfEnsky7RKNmTwyFkB/21rLXy1PTg5jUG8xDPr80bSjue+2keOFa1n70bNLQhZ
+         vOTBdAMtnQqncPH4L0++xt4E9z46+OL387OInED5Sf8JvHOOlOqicTORFgI7RONM2zuj
+         dB3xVINDqd1AffmkEzf31C7hAlmR+MIxZuZcb+evgfXMwHa2XF3Lsdp6Kf9S0hltRuEr
+         bUHtuj9WZDh7b84hORDvCOS0Pgan+NJy/Qk8S3yKu6SesrUS12wybDF/q8/KFv3IZETf
+         LWMx3cnWxs0IVZEDSSPFWerpyt5aZBEnOJbTyyuOKxsjzdyEt/W3DKtqYaQHLnL2RVZf
+         mAFw==
+X-Forwarded-Encrypted: i=1; AJvYcCVCYhxoe5EHqHp2WZoI9vkMk32pmFll3aBPMCMV2IPKfuUsc2MWIDcJinUQo8bvmbs21wfmeQUyGz92Jw==@vger.kernel.org, AJvYcCVWD36u5hxYWPSTC8aDqblTveZR/QmkjnCgko8XEsIP7ej1Np4kQm7R6lwLgtnWN8DN8XMWRY2MuEfEnn+G@vger.kernel.org, AJvYcCVzaUIRo6+8u3dHBuoCvfpmohqE+jP71bMHj2r7vWJL376iYIp2Tdmv5BYWxTmwOPEmQoquGMzh3irA@vger.kernel.org, AJvYcCWEBAYghVCr/gZCdahZlwcV1s4ghAHxmwjXYt7w6uyJgGH2xrfOKlnrcBQAqqTBI4URslzf1pWngoczXZA=@vger.kernel.org, AJvYcCX3PXCEjeIUDZ2Ag/GVKb4S7mjlHeXAjnLb6bdbRzUByHLk/q7GasPBIm1KPV/vGv5J93Fz1bSaq3d8@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzqwrDNodHemZHSabqWdPiSq59WgiKTQ717fxMPe6I8m1vm3+f
+	0HXLlbDqoxSC7VsDotjXx3g3EvD9gR2MUDL92idJwb5tLJpFm/yE
+X-Gm-Gg: ASbGncvvdOqd3BHZcnXBoGPIpSW2T9V57FSAe/aoMXujNUp4K8nJIsVBWFizN4R8FFG
+	XXL5/5S1+7uYSXvAoro+YRdK8RncqkUWEPR+JVxOQsZ+zaaUm8uIMAZtftnBVLXXCFtD5z6mr/d
+	33zAMh3CoAdYmB8/TD81/57ojol37M57Tt9Bm7FAN43BqvVaxFg39fhCL6rS3eouAVxb2+OHMSG
+	S656+l8jqhEwCvzFxBVehmSPLG0bev1W1/q4+0UWlvNsp/xH9YFZD4FnrfmaQhDBrBucQ/Ii8fy
+	uYxKxHMk2Q1LgMYIe4tOH0ITfAIhrc1MQzykqv+W+g==
+X-Google-Smtp-Source: AGHT+IFpzhH7we9mCqBfCUsctssS5nONXoCjPZ/7FgmxJonyD7BwRkw3BofxA9xAGU2028ValekKbA==
+X-Received: by 2002:a17:90b:4a81:b0:2ff:6fc3:79c4 with SMTP id 98e67ed59e1d1-3072ba14733mr497341a91.27.1744232300372;
+        Wed, 09 Apr 2025 13:58:20 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:cff4:8871:54bb:4c97])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-306df08f63bsm1990940a91.24.2025.04.09.13.58.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 13:58:19 -0700 (PDT)
+Date: Wed, 9 Apr 2025 13:58:16 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Kamel Bouhara <kamel.bouhara@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	andriy.shevchenko@intel.com, =?utf-8?Q?Gr=C3=A9gory?= Clement <gregory.clement@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v6 01/12] dt-bindings: mfd: gpio: Add MAX7360
+Message-ID: <triuq2rqofk4psfauemu6uikizvphnqg7om5x4b6sjc3tjg2a4@5fvv5l4kollo>
+References: <20250409-mdb-max7360-support-v6-0-7a2535876e39@bootlin.com>
+ <20250409-mdb-max7360-support-v6-1-7a2535876e39@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: NyMvLVILQomADtA_HpADUenBomJUU4EG
-X-Authority-Analysis: v=2.4 cv=LLlmQIW9 c=1 sm=1 tr=0 ts=67f6cf09 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=3H110R4YSZwA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=0R9NKns1a96QCZ5VGfgA:9 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: NyMvLVILQomADtA_HpADUenBomJUU4EG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-09_06,2025-04-08_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
- clxscore=1015 mlxlogscore=999 malwarescore=0 phishscore=0
- lowpriorityscore=0 priorityscore=1501 mlxscore=0 spamscore=0 adultscore=0
- suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504090132
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250409-mdb-max7360-support-v6-1-7a2535876e39@bootlin.com>
 
-If the vendor USB offload class driver is not ready/initialized before USB
-SND discovers attached devices, utilize snd_usb_rediscover_devices() to
-find all currently attached devices, so that the ASoC entities are notified
-on available USB audio devices.
+Hi Mathieu,
 
-Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
----
- sound/usb/qcom/qc_audio_offload.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Wed, Apr 09, 2025 at 04:55:48PM +0200, Mathieu Dubois-Briand wrote:
+> Add device tree bindings for Maxim Integrated MAX7360 device with
+> support for keypad, rotary, gpios and pwm functionalities.
+> 
+> +
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      io-expander@38 {
+> +        compatible = "maxim,max7360";
+> +        reg = <0x38>;
+> +
+> +        interrupt-parent = <&gpio1>;
+> +        interrupts = <23 IRQ_TYPE_LEVEL_LOW>,
+> +                     <24 IRQ_TYPE_LEVEL_LOW>;
+> +        interrupt-names = "inti", "intk";
+> +
+> +        keypad,num-rows = <8>;
+> +        keypad,num-columns = <4>;
+> +        linux,keymap = <
+> +          MATRIX_KEY(0x00, 0x00, KEY_F5)
+> +          MATRIX_KEY(0x01, 0x00, KEY_F4)
+> +          MATRIX_KEY(0x02, 0x01, KEY_F6)
+> +          >;
+> +        keypad-debounce-delay-ms = <10>;
+> +        autorepeat;
+> +
+> +        rotary-debounce-delay-ms = <2>;
+> +        linux,axis = <0>; /* REL_X */
 
-diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-index 378249a264a3..5874eb5ba827 100644
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -1952,6 +1952,8 @@ static int qc_usb_audio_probe(struct auxiliary_device *auxdev,
- 	if (ret < 0)
- 		goto release_qmi;
- 
-+	snd_usb_rediscover_devices();
-+
- 	return 0;
- 
- release_qmi:
+Probably this has been already discussed, but shouldn't keyboard and
+rotary encoder be represented as sub-nodes here, similar to how GPIO
+block is represented?
+
+Thanks.
+
+-- 
+Dmitry
 
