@@ -1,195 +1,117 @@
-Return-Path: <linux-input+bounces-11616-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11611-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A257CA82BAC
-	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 18:02:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E60A82BA3
+	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 18:01:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 431B49A061F
-	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 15:52:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 33B6B9A33B1
+	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 15:50:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5209427BF6C;
-	Wed,  9 Apr 2025 15:47:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 935C3277010;
+	Wed,  9 Apr 2025 15:46:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QicgUccX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rtQKUrHW"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E60A267B15;
-	Wed,  9 Apr 2025 15:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE5E277007;
+	Wed,  9 Apr 2025 15:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744213628; cv=none; b=oZfxzAWfRxUbXmsHSFV3MIpm0CaKqWQfdbYH5Iq+RrzeR9fHL7rOTdBJOpTpq3GjnvzVhlZj5rTkwECY1i9TIpiiAK7l9cCpi9MmqF+TDpxCcCqpyifH4Tz4kTAmngWisztWBaX8ZFZlFr24gqHKp1O3RZwvI0GZPn9sKJ96pwc=
+	t=1744213571; cv=none; b=EDOQCCjOAchZJGfDheDbka07jGSwonw78PBGNw1XclG90Vm5KHKa7ZtW7dV3RBFp+cwy3QybEj3s0KrxSRWr2LKgse4rU4jXHVDT9jFr2eayEfElz2t6Bx1aoAoXDJMxvagSXyjWwIwlBq5JWKZHw9F8hXlXtKLJF9iRtXvdLDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744213628; c=relaxed/simple;
-	bh=glSAwwj1LCX2HcCq8CCc3CWcWjMh8MB3lFrgIi3HsrY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SSkRJlXKMBJrU2C9nnXT1HMInog8JMRoUG/bAgIUBNJIkpPgcLTZJOzbDJNBIQSkS6/muaNvE/RI5wNvt3+/7oFSv0znG0JJj9v+rWBy51zbCDHUnUtIx5qaF86BPG+F/aqMmqyBxJNgGoO6IyAgmq86HeOOcbi/4yQso0Y9onM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QicgUccX; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b00e3c87713so2134170a12.2;
-        Wed, 09 Apr 2025 08:47:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744213626; x=1744818426; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sCEd/+juUKZOFlQ/4SCoGPbjU2jFBlmcZeDTBbgWCik=;
-        b=QicgUccXfzEZQHfaQ+Z6C0vSi0+eY+adT6ctoCNNmuyDF7j09XL70yVvTloXj/Xn//
-         1ChFQ36umnZidj1lo6D631FOnWhNtICl/VgFEW35PZQ7+lPsjcOEu2cVGd9yFWAmhSzs
-         5bhrjDCJxHy11MgAsCbPDr1D1S0Z4z5knENVm6lhae9JYH9Gq3USPaBRp4+649zh90S4
-         TN2M4WwPuCBQXLrDdJfP5V5eXKNn43G3nrFN40qYXAHU3OcECoUEpOz216TNJ84V0WVQ
-         u/u58B0YGJXOWyJOQb8WV1ASwYUuJ2FiK8WqMJouvgTGt9uXvVAMl/oZO0LJXKkU/IPK
-         z6xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744213626; x=1744818426;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sCEd/+juUKZOFlQ/4SCoGPbjU2jFBlmcZeDTBbgWCik=;
-        b=KFktOBSLjMj5DQyrQThMaqkKGamHd6iIJs5yBfDNqQm7mz7Mr4tro1yaC19m3FshXS
-         FFdkYnMeoYwS6af9sJqFx6PRi8ECfi9xyuMoxAiXJZSf7U/L3Vo+nxnNAYKqvmaSNXnk
-         WbhbXK0rj/NP5LxeotNfoSych5kXP8nT/oOvR2BTOKVgSSHi1HwdXk8ZzesJhb/MHh0S
-         +evHGuTTuQDLvnpia5kXUqok+fFar0GGlggvv90TZTxCBqgeKYUpJel711m7m7fFDeP5
-         Bo+lKjQkUvMNKK7i0XtKTeP0fm76y/BpgzWUIqZgXeypHQkT1hucDvIwlEwpXf4LsIJb
-         btdg==
-X-Forwarded-Encrypted: i=1; AJvYcCU058AxZWdknk6y6nDxydX/l3Qn2EJ1rHCFco2RgLEjsDZKDRQUEN+6/TiMZb1PVBtbWZraVWdwD99ZFPw=@vger.kernel.org, AJvYcCU3DepfKf7cd33aNlqz6AuFTfBBGg07c2cCquftPSj8CCls+BJ9iZx9kfMaeFxcEydkMT8JWlgkOLhAzslD@vger.kernel.org, AJvYcCU6nOb/avaEgBf4czR9xQ/35jJdZFP1TQ9K694fpR6SrPv0p9I/HmgQjfsjAcM/08Cf3VNZirLhT6R8q3niSQU=@vger.kernel.org, AJvYcCUJPG0Rl5shr2gsf/41mqE9hZyJbsZaxsTg5FlhSSKeJZYnJ/NHfql5wXzV6Q77y6ceoew5Fg1/p8G53Yg=@vger.kernel.org, AJvYcCVWnbqnJBaGCfCL4mW+i0IREZSMNYsCZ3m+WGnmLND4DyLsrZwVlPH7nWpAuiCllk++3NKiGw1PnfnbUon0@vger.kernel.org, AJvYcCVpt7s6aY7EAhFiVO3d1aMsL6m2R6eNjiGYmsXLhV5yPN5JJrtp/14O1Tvv8We1q6lhwFzWcnjis78kvAo=@vger.kernel.org, AJvYcCWBGVuP3n2qm77HKwjdBbcuaJD/44rGL9xOYkGOy1KybNRLM4FAdzU/zqNt/eUQSDiONt9jlbJE@vger.kernel.org, AJvYcCWl/cdV/78F1k0BUQE+h+pIyWp5u4jDoNObiMSprsfKG5kYeFiL0ltpKA0hP7SB/l5T6PU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJqofMdisAOI0IY+vb7gJMzi9c9vTXmH8uYXM9+CIOp32EM/UO
-	qxkd3wpcfOduVME8yCm+eTbetMh6HOFmxTy/31NroOOvfzUKQOhm
-X-Gm-Gg: ASbGncut1NjBIZI4zpCkS2PodorKr++J6PZUV3qxHqYV9XOgXjiXoqumeaBgcNANEbq
-	QGai/q9ERB/Opx0d8wYTMTEq5OB7w4mK0QMSEY3qQxI8sGiMNke1w84ymzZCPcL2/C/Kc5uUsIg
-	0ZuOBvxAhlflEdloFU+zo7gTUCmEr+knxMUxOJkd3YetKlK2+oz4OHP871McpRFmbfwhAKOX8Cd
-	ZYKaZFILFawl8uheP1MLBLudWx/UqfmNVnm1VY4KNs4ODeJhclarj21yEsFGQVfRBbbW07mUH87
-	uxNderhMCD8EXny52lP8csb3OTxtbTrfUwo3rYWuUMBZlGu7ojnIZywchoTovxCVr7PiWGc=
-X-Google-Smtp-Source: AGHT+IF8SQ2JgM5sFunT9Xi0DOo/QXgkDUpLAzWqHE4Pm6PBSNMIs+CrkMQPqWas8YcuXm51yI9Ehg==
-X-Received: by 2002:a17:90b:58cf:b0:2f9:9ddd:68b9 with SMTP id 98e67ed59e1d1-306dbc0c8abmr4476592a91.26.1744213625892;
-        Wed, 09 Apr 2025 08:47:05 -0700 (PDT)
-Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-306dd171991sm1952304a91.37.2025.04.09.08.46.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 08:47:05 -0700 (PDT)
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	jk@ozlabs.org,
-	joel@jms.id.au,
-	eajames@linux.ibm.com,
-	andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org,
-	rfoss@kernel.org,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	dmitry.torokhov@gmail.com,
-	mchehab@kernel.org,
-	awalls@md.metrocast.net,
-	hverkuil@xs4all.nl,
-	miquel.raynal@bootlin.com,
-	richard@nod.at,
-	vigneshr@ti.com,
-	louis.peens@corigine.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	parthiban.veerasooran@microchip.com,
-	arend.vanspriel@broadcom.com,
-	johannes@sipsolutions.net,
-	gregkh@linuxfoundation.org,
-	jirislaby@kernel.org,
-	yury.norov@gmail.com,
-	akpm@linux-foundation.org,
-	jdelvare@suse.com,
-	linux@roeck-us.net,
-	alexandre.belloni@bootlin.com,
-	pgaj@cadence.com
-Cc: hpa@zytor.com,
-	alistair@popple.id.au,
-	linux@rasmusvillemoes.dk,
-	Laurent.pinchart@ideasonboard.com,
-	jonas@kwiboo.se,
-	jernej.skrabec@gmail.com,
-	kuba@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsi@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	oss-drivers@corigine.com,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com,
-	linux-serial@vger.kernel.org,
-	bpf@vger.kernel.org,
-	jserv@ccns.ncku.edu.tw,
-	Frank.Li@nxp.com,
-	linux-hwmon@vger.kernel.org,
-	linux-i3c@lists.infradead.org,
-	david.laight.linux@gmail.com,
-	andrew.cooper3@citrix.com,
-	Kuan-Wei Chiu <visitorckw@gmail.com>,
-	Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH v4 13/13] nfp: bpf: Replace open-coded parity calculation with parity_odd()
-Date: Wed,  9 Apr 2025 23:43:56 +0800
-Message-Id: <20250409154356.423512-14-visitorckw@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250409154356.423512-1-visitorckw@gmail.com>
-References: <20250409154356.423512-1-visitorckw@gmail.com>
+	s=arc-20240116; t=1744213571; c=relaxed/simple;
+	bh=vMJrlyFnjoqqmGoioQWBvWZ1yISZadfrxOaMgELN/sE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nsK1BrqeI5d/T4yg4AiL1WSlqbYjtMus7TXNVhmfE57khNYbJsTWiVPsI3pLNjvgIZows6lG3sKgS79j9VMZWyZbiwKNtA95pvnNq18tEccHYfY2LmlDTvQzw7lmDn83+zzTz+hYSCB3wN8x8N5AeDAtixR47pVj3Mxt+CGKewY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rtQKUrHW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EF76C4CEE7;
+	Wed,  9 Apr 2025 15:46:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744213571;
+	bh=vMJrlyFnjoqqmGoioQWBvWZ1yISZadfrxOaMgELN/sE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rtQKUrHWrZ2FSeQYFkcEV4CGuq/CYzfyJgUtdMPvbSuuWopwf18CFbnX6iiaeMC+F
+	 SX/zNt1LEM80SCx3aq2OE8R9y+R6anoOpS3vpbYdQcVoW7oRu+reD/2pUpsWUXo2LR
+	 iCNE/gJmyvbvpkBW3o8+fGMIN9doH3mbJkgubJfSbf9sihVaNJE5R2lRdFDJk/bQwh
+	 MQXZPzonSVoU/v1zZDgYhGw7x42Hf07pRQrnnCSyeGRoaEdCpuUeV/qF2TghtkCWC8
+	 4aGkvZdEAZS4cOF208CY3JI6qzFcetbedt1cU4pFYcr/5xi338lNywdl8V2azguFyh
+	 9cbiNbA405jCw==
+Date: Wed, 9 Apr 2025 16:46:04 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Michael Walle <mwalle@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v6 05/12] regmap: irq: Remove unreachable goto
+Message-ID: <7126e672-a829-489e-a0c0-8d6d64a8b2f4@sirena.org.uk>
+References: <20250409-mdb-max7360-support-v6-0-7a2535876e39@bootlin.com>
+ <20250409-mdb-max7360-support-v6-5-7a2535876e39@bootlin.com>
+ <1b280408-888e-48e1-8e6b-de4e7a913e74@sirena.org.uk>
+ <Z_aUeKm0k1zReS_D@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cQn7E9YAulFrDkPz"
+Content-Disposition: inline
+In-Reply-To: <Z_aUeKm0k1zReS_D@smile.fi.intel.com>
+X-Cookie: Words must be weighed, not counted.
 
-Refactor parity calculations to use the standard parity_odd() helper.
-This change eliminates redundant implementations.
 
-Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
-Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
-Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
----
- drivers/net/ethernet/netronome/nfp/nfp_asm.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+--cQn7E9YAulFrDkPz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/drivers/net/ethernet/netronome/nfp/nfp_asm.c b/drivers/net/ethernet/netronome/nfp/nfp_asm.c
-index 154399c5453f..2f8f78abb6f5 100644
---- a/drivers/net/ethernet/netronome/nfp/nfp_asm.c
-+++ b/drivers/net/ethernet/netronome/nfp/nfp_asm.c
-@@ -295,11 +295,6 @@ static const u64 nfp_ustore_ecc_polynomials[NFP_USTORE_ECC_POLY_WORDS] = {
- 	0x0daf69a46910ULL,
- };
- 
--static bool parity(u64 value)
--{
--	return hweight64(value) & 1;
--}
--
- int nfp_ustore_check_valid_no_ecc(u64 insn)
- {
- 	if (insn & ~GENMASK_ULL(NFP_USTORE_OP_BITS, 0))
-@@ -314,7 +309,7 @@ u64 nfp_ustore_calc_ecc_insn(u64 insn)
- 	int i;
- 
- 	for (i = 0; i < NFP_USTORE_ECC_POLY_WORDS; i++)
--		ecc |= parity(nfp_ustore_ecc_polynomials[i] & insn) << i;
-+		ecc |= parity_odd(nfp_ustore_ecc_polynomials[i] & insn) << i;
- 
- 	return insn | (u64)ecc << NFP_USTORE_OP_BITS;
- }
--- 
-2.34.1
+On Wed, Apr 09, 2025 at 06:38:32PM +0300, Andy Shevchenko wrote:
+> On Wed, Apr 09, 2025 at 04:19:27PM +0100, Mark Brown wrote:
 
+> > BUG() can be compiled out, CONFIG_BUG.
+
+> Yes, and it's still has unreachable() there. So, this change is correct.
+> See include/asm-generic/bug.h for the details of the implementation.
+> And yes, if we have an architecture that does not do this way, it has to
+> be fixed.
+
+unreachable() just annotates things, AFAICT it doesn't actually
+guarantee to do anything in particular if the annotation turns out to be
+incorrect.
+
+--cQn7E9YAulFrDkPz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEyBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmf2ljsACgkQJNaLcl1U
+h9BlaQf4gUpWNlETPHRZXjDQr/n4EFgXaLshmryE1reYNw7Jh07SJCohl7snptEs
+IRVt9+5+nNGtISlJs4QXa6Hkqr/ytOpw5rXRmTSBkKhhbvdStUJkUv9X7jkQiNy/
+1zhBb6ShA8nqUjHnZRhvjEO6JGKp4Cu1Iugs8pUjEfkDwLqU6NCq3yxqqqGnhGAY
+/t7uOcrizg3jQtZYzmaXjZZYGv4yKaujcVEffu2QyhtF5ulLGwNm9hYz7x5ZHLBq
+zJllpNQrrQp/6/GFZw/FY4J/8Xam5xUPHuxCe2ibHn0Xq1ym/JobQc2BjihrwKT+
+xQwyPXj7Kb9z78qnphRGjcRw4Oeo
+=pR1K
+-----END PGP SIGNATURE-----
+
+--cQn7E9YAulFrDkPz--
 
