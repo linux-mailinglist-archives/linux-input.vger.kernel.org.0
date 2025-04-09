@@ -1,133 +1,112 @@
-Return-Path: <linux-input+bounces-11573-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11574-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E225A81C91
-	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 08:05:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A2FA81E06
+	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 09:13:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BC13C7B51AE
-	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 06:03:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2BEC68812B8
+	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 07:11:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4DCD1AA786;
-	Wed,  9 Apr 2025 06:04:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kajvnHrf"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D35D8254B02;
+	Wed,  9 Apr 2025 07:11:31 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251BE3FFD;
-	Wed,  9 Apr 2025 06:04:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F7B253B41
+	for <linux-input@vger.kernel.org>; Wed,  9 Apr 2025 07:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744178689; cv=none; b=fRJwPm/U61dP295x5zWCsSfTJDjnoF7Vj5F7AZ0819MWd/kYT1yzLWpNrtwmEkisZAyLGG+nV6ND1wacOoj23QurrPDdDKqfayQCFCuDnNI+yoQXp0o+ALezwP1gBsmLfD5nk8xpsZWD/6eZ84hclh6X4kkgjBghi/VZMZESKis=
+	t=1744182691; cv=none; b=rKF+xEkWgFhzU8uqJrJnE8RmTZIOITcLG/ebXKdj4Xu2NOMn3LMFW+0vJrMHIQuvDoAYoNzN+dpFKXSY9tzy5FE6y6nKhOKbOdqS9rjThSgezvDSNBE4sP5ct4LKmu7mzcnoCfKYKDUAeLoXIGzZd+ZhqIPd4v0EU1kH7Fg3ycc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744178689; c=relaxed/simple;
-	bh=m4/mW/yD1FOsUz2/Xtq3pAZUmygrqnr24wXblD4T+o8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m/hWK+q+ke0T/hwHNWO6wk+b/ARbLiH29BweE3mcvjfy6p18JDoTmkkFkeqv1m9YHJrT7ZOvLQp3a8hFnKQCELBFwkwnQXD+UVo0D4a4+jt9heL3l2RbwIe7+lHSBNZkAf/VkqqzRcNRBEu8GvKzZViABJPC1NIkl4pJjloTzeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kajvnHrf; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-524038ba657so482608e0c.0;
-        Tue, 08 Apr 2025 23:04:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744178687; x=1744783487; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+V4ALGdx0ZvhM0ESKguXWcucuSIXI2xNRiiSByOwwaE=;
-        b=kajvnHrfBOf6hsCRMD7+niF75pqba5nEqDzqiYP1jmsoEtljlrHi+n9hw/oNIdT8UR
-         F4O9B6TB+61uuvrocp6EmAI8xvZ+WT6awSOOzT6XSy/oBH+LXYEiCmctdnrvDtlNny3r
-         fH9p5lD0YZx5XMz62NOVZWNe17X/5RWw+drNw1QUcYuK7SDDE9D9Lu6HA7jwiB3L+SJc
-         ZTqkC++nrEJdteXUFazO50cUqpHsQinssq/f2MxEViVH08dEN5OiZJdqEv7c79HV9pUR
-         RVFPBjHNDbxKepw41Rlqy33LfX+a/C3x4PX3LorfUYgiKYAATHTYzCes/E539DESxP3k
-         wdrA==
+	s=arc-20240116; t=1744182691; c=relaxed/simple;
+	bh=UTABSJgI/mjfBjdImq89ZN9QRtexK/VsD3sDKuVX/LA=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ZMutiqOaGCmBbNtr2lKS1XPmrfynUcohD9AaBB1YhYW/1VvPR3TowzsjOsGGXifyEKRHE7av1MqarmccOGRGBIlyZbzYMC47GxHsuJEq5+iKfudG+Bfbx4iFvjCKgq3b4tHP8iUNFrYoD03G4Vv7bukMMpVHWemM92u3GNulRng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-3ce8dadfb67so77832995ab.1
+        for <linux-input@vger.kernel.org>; Wed, 09 Apr 2025 00:11:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744178687; x=1744783487;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+V4ALGdx0ZvhM0ESKguXWcucuSIXI2xNRiiSByOwwaE=;
-        b=akb/pBvhooTUVp78HXcUokFmvRW/gck+dqzQmF9C/aB6c3kpdaIjPycwdKE0DWM8tl
-         vWkSEFwI2T+/UDV+PxZiB3VniF/rKGETOOBq/1zkqCvMEhvqZRXA0g4ZJ7hWOH9GNI/R
-         4w4eSicubCFayefw7kEXmifGT/mZEhRbgLf4yG0BQyO4IQBGUDByLyi8+cSysd4L+wYs
-         nViBboSKD/GaQDPJ4knyv8K2idf33GVQeqXMwg9N2BXOlRFsSG1eQ+Dp+B6OUDbK11pA
-         nfxe1yg8cgcWWUm5Dr4+p7g3CVw26rcpAVnHei1PitwDbkCsAAiHXtJYDXkA1hDPlp0M
-         6lhw==
-X-Forwarded-Encrypted: i=1; AJvYcCV0XkbGEWcYJqSGHau2usA5knZ+n0KSpLUu1oIATtGvELlmwNt0q9PjQD3UMhS1MiciTTHKQQhxqQv6KA==@vger.kernel.org, AJvYcCXaDXIhOapqNBdKg9p2JEacn7zpwV1cf3oH9TZ7W9uv/Mdine/A6yk8KEGqEtxBnQ4nXPVJKeX8pLCv5zdU@vger.kernel.org
-X-Gm-Message-State: AOJu0YztpL2gyoEsP4OsA6A5hQ8vAwduXJcXeprZFjrtMLboeohk3vUD
-	cLzJbmnEUipL3ABDR8QfJXQNDlHX+/aGMJEqOWm0q34WmCHdTdQm
-X-Gm-Gg: ASbGnctVkDgnK5fNJLPGvAdkCo0PUWc1A7dSrW9AqmfvsvqitU4Rx56JWR6iHG+HaUi
-	gGcoVW0AwXw9kHS9QcIwsjVdoBrOTRfM24Ifa6hm3pD+EAlOFsmK2Ad8P4XAj/VDQusj/Yj8Aym
-	ik9KKULkKhW3jPmJxKl60ALdXPrdmaU7HCZGYACYltqWNTxjlFN5hhTEtWKt6KLYXrq3FeTRHQy
-	UwaagIBqE4/2ziW9XbEPDPoNUcl57uXcVFOesBxeWX4VXSttfmer3qXE7VT6aObG93e27GohApc
-	KBdyeCzTffvmPAeZi7vY9D5arC/UOo2kKouluI3Oh6cPeMtNrhz3HA5TL6Vq4QgepsIDwj+yZPB
-	a
-X-Google-Smtp-Source: AGHT+IHwv4W8fgLGzlrXAXf4jygzq2dLL2QYjoAC/5xm7B4+8GUF26c/3eTljqp4QP/9LBBlmzf9oQ==
-X-Received: by 2002:a05:6122:410:b0:524:2fe0:3898 with SMTP id 71dfb90a1353d-5279ac99ae9mr4306442e0c.5.1744178686881;
-        Tue, 08 Apr 2025 23:04:46 -0700 (PDT)
-Received: from localhost.localdomain ([200.189.18.171])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-527abd4cb9esm99510e0c.6.2025.04.08.23.04.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 23:04:45 -0700 (PDT)
-From: miltonials <miltonjosue2001@gmail.com>
-To: jikos@kernel.org
-Cc: bentiss@kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Milton Barrera <miltonjosue2001@gmail.com>
-Subject: [PATCH] HID: quirks: Add ADATA XPG alpha wireless mouse support
-Date: Wed,  9 Apr 2025 00:04:28 -0600
-Message-ID: <20250409060428.1188-1-miltonjosue2001@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1744182689; x=1744787489;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FkTg065HiyjbCbK62p4YAcZCLi7YP3Obycu4jnTeIK0=;
+        b=paWp3GbbMIELLyTVpQb5xddJ1SA3oUQ67O/HfBKMg+g28dhwha1yQ88v9lYbojOy4X
+         h+LjvXjb+l1bwwyOI0MYEl0v8maH7C7nsJm6kw2F6ga/E9/oHOtmZ5JY2k3p36y97NcV
+         YhuA1c92w23EcElnO9X79jn/EOS/WO1cJ2BUF4e2CNQPnLlCojBkGz0Nw0CQlxv4yY0k
+         5pHNmtAzPJXv8qPI+oJMJaLq4Wkngl6JYCuNidhgR1rJhrs+GIdOaPAV6YlUZYpKTlkf
+         XBxYIgrBxanLvfIVm3r/zS8a2K3J7ob2gdWwq2pAWFSlnJOQ4XEQlXGLm6NJrtnzjSsZ
+         vAFg==
+X-Gm-Message-State: AOJu0Yx97rtMNbaRUB/M/EK8mzJ6+kW35qQum8AhVVoX/zw97DZbq4GQ
+	9sYISppV4ZQ2Zn5MBmUNXCVqIP6ZlNXqBYu9pWLCVlR1hU6YcovQeEnX8n6Y9KWt+p0ZiBr9Dzt
+	jEzBrcNaxd4GFgqNmEqhbNjF6+SX9nQ4yyyKFA60feIi63Ny0cOe7ldE=
+X-Google-Smtp-Source: AGHT+IHCI+Z2RCeNHpMEjvUQpmZ6Z0+B6oB+UFhIZMqNBuEN0C16EI2M45feZP+hv+vSk5MHCdNw5saZO5wWWppcsWTkvKGZ8dQR
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:1fcd:b0:3d0:21aa:a752 with SMTP id
+ e9e14a558f8ab-3d776c8284emr18791865ab.2.1744182689390; Wed, 09 Apr 2025
+ 00:11:29 -0700 (PDT)
+Date: Wed, 09 Apr 2025 00:11:29 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67f61da1.050a0220.258fea.0016.GAE@google.com>
+Subject: [syzbot] Monthly input report (Apr 2025)
+From: syzbot <syzbot+list5470fc8756c444c65f8e@syzkaller.appspotmail.com>
+To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: Milton Barrera <miltonjosue2001@gmail.com>
+Hello input maintainers/developers,
 
-This patch adds HID_QUIRK_ALWAYS_POLL for the ADATA XPG wireless gaming mouse (USB ID 125f:7505) and its USB dongle (USB ID 125f:7506). Without this quirk, the device does not generate input events properly.
+This is a 31-day syzbot report for the input subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/input
 
-Signed-off-by: Milton Barrera <miltonjosue2001@gmail.com>
+During the period, 3 new issues were detected and 0 were fixed.
+In total, 30 issues are still open and 58 have already been fixed.
+
+Some of the still happening issues:
+
+Ref  Crashes Repro Title
+<1>  1684    Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
+                   https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
+<2>  1043    No    possible deadlock in evdev_pass_values (2)
+                   https://syzkaller.appspot.com/bug?extid=13d3cb2a3dc61e6092f5
+<3>  679     Yes   WARNING in enable_work
+                   https://syzkaller.appspot.com/bug?extid=7053fbd8757fecbbe492
+<4>  229     Yes   KASAN: slab-out-of-bounds Read in mcp2221_raw_event
+                   https://syzkaller.appspot.com/bug?extid=52c1a7d3e5b361ccd346
+<5>  166     Yes   KASAN: stack-out-of-bounds Read in sched_show_task
+                   https://syzkaller.appspot.com/bug?extid=8d2757d62d403b2d9275
+<6>  51      Yes   WARNING in cm109_input_open/usb_submit_urb (3)
+                   https://syzkaller.appspot.com/bug?extid=ac0f9c4cc1e034160492
+<7>  36      Yes   possible deadlock in uinput_request_submit
+                   https://syzkaller.appspot.com/bug?extid=159077b1355b8cd72757
+<8>  22      Yes   INFO: rcu detected stall in do_syscall_64
+                   https://syzkaller.appspot.com/bug?extid=a3bc6ce74afdd295fe4b
+<9>  19      Yes   WARNING in bcm5974_start_traffic/usb_submit_urb (2)
+                   https://syzkaller.appspot.com/bug?extid=b064b5599f18f7ebb1e1
+<10> 4       Yes   WARNING in hanwang_open/usb_submit_urb
+                   https://syzkaller.appspot.com/bug?extid=9fe8f6caeb5661802ca2
+
 ---
- drivers/hid/hid-ids.h    | 4 ++++
- drivers/hid/hid-quirks.c | 2 ++
- 2 files changed, 6 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 288a2b864..106273131 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -41,6 +41,10 @@
- #define USB_VENDOR_ID_ACTIONSTAR	0x2101
- #define USB_DEVICE_ID_ACTIONSTAR_1011	0x1011
- 
-+#define USB_VENDOR_ID_ADATA_XPG 0x125f
-+#define USB_VENDOR_ID_ADATA_XPG_WL_GAMING_MOUSE 0x7505
-+#define USB_VENDOR_ID_ADATA_XPG_WL_GAMING_MOUSE_DONGLE 0x7506
-+
- #define USB_VENDOR_ID_ADS_TECH		0x06e1
- #define USB_DEVICE_ID_ADS_TECH_RADIO_SI470X	0xa155
- 
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 646171598..0731473cc 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -27,6 +27,8 @@
- static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AASHIMA, USB_DEVICE_ID_AASHIMA_GAMEPAD), HID_QUIRK_BADPAD },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AASHIMA, USB_DEVICE_ID_AASHIMA_PREDATOR), HID_QUIRK_BADPAD },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ADATA_XPG, USB_VENDOR_ID_ADATA_XPG_WL_GAMING_MOUSE), HID_QUIRK_ALWAYS_POLL },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ADATA_XPG, USB_VENDOR_ID_ADATA_XPG_WL_GAMING_MOUSE_DONGLE), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AFATECH, USB_DEVICE_ID_AFATECH_AF9016), HID_QUIRK_FULLSPEED_INTERVAL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AIREN, USB_DEVICE_ID_AIREN_SLIMPLUS), HID_QUIRK_NOGET },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AKAI_09E8, USB_DEVICE_ID_AKAI_09E8_MIDIMIX), HID_QUIRK_NO_INIT_REPORTS },
--- 
-2.43.0
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
 
