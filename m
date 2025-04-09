@@ -1,196 +1,133 @@
-Return-Path: <linux-input+bounces-11572-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11573-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905F9A80467
-	for <lists+linux-input@lfdr.de>; Tue,  8 Apr 2025 14:08:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E225A81C91
+	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 08:05:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57AE43A88C4
-	for <lists+linux-input@lfdr.de>; Tue,  8 Apr 2025 11:59:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BC13C7B51AE
+	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 06:03:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ECEE267F57;
-	Tue,  8 Apr 2025 11:59:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4DCD1AA786;
+	Wed,  9 Apr 2025 06:04:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="IXs7eNfZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kajvnHrf"
 X-Original-To: linux-input@vger.kernel.org
-Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazolkn19011035.outbound.protection.outlook.com [52.103.67.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C608267F5B
-	for <linux-input@vger.kernel.org>; Tue,  8 Apr 2025 11:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744113549; cv=fail; b=otMvemvThKa5Divy3ztc59AcBrBMeHCOjtJLQw/zLRdrsETQR5lw9jXgbfbkpzFeEDOUCC4+5snA1QICxd8xF6T58YIboZ1Q8uGlTb0F/XcP6A4ewj9kEgXT47i+nSttRzHDZ1rBalaHTSG4atA4+0BliQBpztDYpmBheNqdCew=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744113549; c=relaxed/simple;
-	bh=HpXXBAhS27IcaysRXWIG+MV0Sba2DSDto4G52DwMj+A=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ryUYuA2E8hFmtnZ+Idm65pI84GvucCiBL3e5tPB4/b9Ibn7GPHc+tcegdLbwCH00ySly/Vkqu1AeFJxyXqGAKe6yLcrmZC/C/xuQ8cy7DXkuNrMMEPbSkUw3ghwqF9sGd9FcYwZKmMNorLmV8G9x36Yi57XVxd+faluF31hGefc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=IXs7eNfZ; arc=fail smtp.client-ip=52.103.67.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=f2gJQzF2utYnLbqT4TNy++ACWkgwYYQEOaMvhrpBI+mAKe0+K3QoAzte/OvG50FKFDS04/N+0COK+ah1qtbMeSlHrSXOqbPRgvkAvRCdwEgEfrsGiJqsHbpXydwKTQyElrKDe+pOcdP5ojKR/L0E09J+wstgTQCfE7bYde6SVlFB1zVIk553sjXm2JvLH5rHYf2y0zOzzlFT2bLSsyu71bgig4M17YTz5L7HVtx/Ne0OYnBqri5xf1GQTKe+Q/riVnpqRdrndDG5HtNn0Of279gIu3BxyCaF2aqSZnJFH10fB3hHSevxlQJTtdg205RsLMlc8rbZyOfnI8On4j4log==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UGdqIIpDDT+Ywkyd27k+B4ze5X4PJ0sZxkS8mM/xb/g=;
- b=S6bPe5O5+FVoZwdyZOG9vVCtDqnGQpfc2s43p4Z8h2/7/q1WF8RCzqzRh//X2atqYQPyWDBAXErFsXouXrgwONDUlWTjZS4N+m2WVE4RlB1su7+upVA881w99VfcmYu+QdOHuhc+4osks18QjMV274sLq5ObeZcTIGtC97vMognnP8sCYBw9xRi71CUOYQc33shJE7MO1Wo55U9X7+zANCP7Z0K1sDBMX7zqb1Nt66FuF/ysB6tiJqoWI7ayAO5a7WRNGy/FPc/VvmvrQxsC2N9+BTi1WedtrrUxi8nD9dDTyofOH/PxCEaMBXM45UMfpBv+7eRuR2ORpeEz12qhcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UGdqIIpDDT+Ywkyd27k+B4ze5X4PJ0sZxkS8mM/xb/g=;
- b=IXs7eNfZ/V7RX6oq5isvatRfpU3s+WQs0I2Apr7Lj12/tADeTn64m5krWSE3k4wrD/gQ9ROx2cKRBKf2zPHH6VQKuKN75OlEg0u2mBDZhi1NaeFUJMBNnHRX4WfGJvw0Ba4qdToYJBJfuJjJkoDQYYvDpS9qg+VrkUHZBRxclEWTgcOgZ0Ang8pHCsAfLDPAvxX6SxNDofBcZ6rJlC4corulvvAVyKO1usD5pRy+myTo6Oz+o2r+Ei65iuMnbgIk3Ees+nNCF47AqXuDlF7F/ZCifCd8MXMbejUD0OGAXj4Zjv41n9XJMosvVJT/aIHeb9R0DBDynRBZRvNmzEIFYA==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by PN2PR01MB9873.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:12e::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.34; Tue, 8 Apr
- 2025 11:59:04 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8606.029; Tue, 8 Apr 2025
- 11:59:04 +0000
-Message-ID:
- <PN3PR01MB959714051C429C203FB1D97AB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Date: Tue, 8 Apr 2025 17:29:00 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: PROBLEM: Synaptics TouchStyk (trackpoint) on HP EliteBook 850 G1
- detected as "PS/2 Generic Mouse".
-To: jt <enopatch@gmail.com>, linux-input@vger.kernel.org
-References: <CAAbCkm+hdmJ4ozW4viBkwp+7QQPgymA+bfb5ddOUCB=kaBvF9w@mail.gmail.com>
-Content-Language: en-US
-From: Aditya Garg <gargaditya08@live.com>
-In-Reply-To: <CAAbCkm+hdmJ4ozW4viBkwp+7QQPgymA+bfb5ddOUCB=kaBvF9w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0171.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:de::14) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:f7::14)
-X-Microsoft-Original-Message-ID:
- <dea199d1-67de-4ff7-89c1-96fc35ea42cb@live.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251BE3FFD;
+	Wed,  9 Apr 2025 06:04:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744178689; cv=none; b=fRJwPm/U61dP295x5zWCsSfTJDjnoF7Vj5F7AZ0819MWd/kYT1yzLWpNrtwmEkisZAyLGG+nV6ND1wacOoj23QurrPDdDKqfayQCFCuDnNI+yoQXp0o+ALezwP1gBsmLfD5nk8xpsZWD/6eZ84hclh6X4kkgjBghi/VZMZESKis=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744178689; c=relaxed/simple;
+	bh=m4/mW/yD1FOsUz2/Xtq3pAZUmygrqnr24wXblD4T+o8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m/hWK+q+ke0T/hwHNWO6wk+b/ARbLiH29BweE3mcvjfy6p18JDoTmkkFkeqv1m9YHJrT7ZOvLQp3a8hFnKQCELBFwkwnQXD+UVo0D4a4+jt9heL3l2RbwIe7+lHSBNZkAf/VkqqzRcNRBEu8GvKzZViABJPC1NIkl4pJjloTzeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kajvnHrf; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-524038ba657so482608e0c.0;
+        Tue, 08 Apr 2025 23:04:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744178687; x=1744783487; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+V4ALGdx0ZvhM0ESKguXWcucuSIXI2xNRiiSByOwwaE=;
+        b=kajvnHrfBOf6hsCRMD7+niF75pqba5nEqDzqiYP1jmsoEtljlrHi+n9hw/oNIdT8UR
+         F4O9B6TB+61uuvrocp6EmAI8xvZ+WT6awSOOzT6XSy/oBH+LXYEiCmctdnrvDtlNny3r
+         fH9p5lD0YZx5XMz62NOVZWNe17X/5RWw+drNw1QUcYuK7SDDE9D9Lu6HA7jwiB3L+SJc
+         ZTqkC++nrEJdteXUFazO50cUqpHsQinssq/f2MxEViVH08dEN5OiZJdqEv7c79HV9pUR
+         RVFPBjHNDbxKepw41Rlqy33LfX+a/C3x4PX3LorfUYgiKYAATHTYzCes/E539DESxP3k
+         wdrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744178687; x=1744783487;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+V4ALGdx0ZvhM0ESKguXWcucuSIXI2xNRiiSByOwwaE=;
+        b=akb/pBvhooTUVp78HXcUokFmvRW/gck+dqzQmF9C/aB6c3kpdaIjPycwdKE0DWM8tl
+         vWkSEFwI2T+/UDV+PxZiB3VniF/rKGETOOBq/1zkqCvMEhvqZRXA0g4ZJ7hWOH9GNI/R
+         4w4eSicubCFayefw7kEXmifGT/mZEhRbgLf4yG0BQyO4IQBGUDByLyi8+cSysd4L+wYs
+         nViBboSKD/GaQDPJ4knyv8K2idf33GVQeqXMwg9N2BXOlRFsSG1eQ+Dp+B6OUDbK11pA
+         nfxe1yg8cgcWWUm5Dr4+p7g3CVw26rcpAVnHei1PitwDbkCsAAiHXtJYDXkA1hDPlp0M
+         6lhw==
+X-Forwarded-Encrypted: i=1; AJvYcCV0XkbGEWcYJqSGHau2usA5knZ+n0KSpLUu1oIATtGvELlmwNt0q9PjQD3UMhS1MiciTTHKQQhxqQv6KA==@vger.kernel.org, AJvYcCXaDXIhOapqNBdKg9p2JEacn7zpwV1cf3oH9TZ7W9uv/Mdine/A6yk8KEGqEtxBnQ4nXPVJKeX8pLCv5zdU@vger.kernel.org
+X-Gm-Message-State: AOJu0YztpL2gyoEsP4OsA6A5hQ8vAwduXJcXeprZFjrtMLboeohk3vUD
+	cLzJbmnEUipL3ABDR8QfJXQNDlHX+/aGMJEqOWm0q34WmCHdTdQm
+X-Gm-Gg: ASbGnctVkDgnK5fNJLPGvAdkCo0PUWc1A7dSrW9AqmfvsvqitU4Rx56JWR6iHG+HaUi
+	gGcoVW0AwXw9kHS9QcIwsjVdoBrOTRfM24Ifa6hm3pD+EAlOFsmK2Ad8P4XAj/VDQusj/Yj8Aym
+	ik9KKULkKhW3jPmJxKl60ALdXPrdmaU7HCZGYACYltqWNTxjlFN5hhTEtWKt6KLYXrq3FeTRHQy
+	UwaagIBqE4/2ziW9XbEPDPoNUcl57uXcVFOesBxeWX4VXSttfmer3qXE7VT6aObG93e27GohApc
+	KBdyeCzTffvmPAeZi7vY9D5arC/UOo2kKouluI3Oh6cPeMtNrhz3HA5TL6Vq4QgepsIDwj+yZPB
+	a
+X-Google-Smtp-Source: AGHT+IHwv4W8fgLGzlrXAXf4jygzq2dLL2QYjoAC/5xm7B4+8GUF26c/3eTljqp4QP/9LBBlmzf9oQ==
+X-Received: by 2002:a05:6122:410:b0:524:2fe0:3898 with SMTP id 71dfb90a1353d-5279ac99ae9mr4306442e0c.5.1744178686881;
+        Tue, 08 Apr 2025 23:04:46 -0700 (PDT)
+Received: from localhost.localdomain ([200.189.18.171])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-527abd4cb9esm99510e0c.6.2025.04.08.23.04.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Apr 2025 23:04:45 -0700 (PDT)
+From: miltonials <miltonjosue2001@gmail.com>
+To: jikos@kernel.org
+Cc: bentiss@kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Milton Barrera <miltonjosue2001@gmail.com>
+Subject: [PATCH] HID: quirks: Add ADATA XPG alpha wireless mouse support
+Date: Wed,  9 Apr 2025 00:04:28 -0600
+Message-ID: <20250409060428.1188-1-miltonjosue2001@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|PN2PR01MB9873:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0846216c-1719-46bb-9d58-08dd7694c228
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|461199028|6090799003|8060799006|19110799003|7092599003|5072599009|15080799006|10035399004|4302099013|3412199025|440099028|1602099012;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?b2FNZTk5ZTNzdmVtc0NqTzJLR1RpMklCU1pYYXp0cDI3eWFQTUJpSnF1eW1L?=
- =?utf-8?B?ZjMzVjBwS1h5WVVNQ2cvWEEyZUZKRlM2eU1BVVpRZDZudEdhcUM1cVpSc2hC?=
- =?utf-8?B?NEk5UStOenpNZmUveXAxUUFuY0NuNjlqYnhjL1ZSNmlueHBFSlNYZVV1VEt0?=
- =?utf-8?B?ME1kRnROa3hWVEJCdGpLNVpPbSswWGlON1UvM0xvbUNFZ0p2ZXYvOVpIQU9y?=
- =?utf-8?B?Ykx0OW5mTDd1aStDS1V5SFhmU0x2M242eVVNYm1ERlZNa3hYcVE5YUJZd1Rl?=
- =?utf-8?B?QnpGeEwrUFZkV2NvMmk2OHJndWZYVWE3Q1ozQTE1bUZJUytCK1liWmRMSkZl?=
- =?utf-8?B?MVVMVlI3bEkxRUh2OGtLdUVxNWhHaEluMWMzRUtPYkNPc2ZzdURMUGpLTmRT?=
- =?utf-8?B?c0hTMzhrOEtrQlVxRXVuTC9ZcDhBN0FyTms3N3RHb1RVd2NPd1QwanRsZko5?=
- =?utf-8?B?RnQ3ZUd1S3dCZGhJSnVzbkJ6UGRFdDZZUUh3eEg2SDB0MVNVdzRxc2Y4TGgr?=
- =?utf-8?B?UVliZEdSSGRmRXBhN2poWWNIbTBOTDd0KzIwd3E1Vmt3YlNHS0xSd3R3UkpE?=
- =?utf-8?B?MXhyV2laa0pKVlN2djRrUCttRXNpSDFka0ZHSFA1R2JwY1ZPVE1UKzVVMVB4?=
- =?utf-8?B?aVEyTW9BSlN1L1ZteDZsT2VkdUc4T2dNTzF3VHRoaXFKSE9tMzYwZXFFajJk?=
- =?utf-8?B?ejNBSmpGZjZhTkMvRkY5UyttVUh5Y0cybG82ZG9ZbVN1RXpPK3ZabFFvWUlL?=
- =?utf-8?B?ZUU4cGFEVGtncktORSt3MkJOYkdVOWtSaTZuRFM1SGJHY2g4WkhndDkwaWRs?=
- =?utf-8?B?a3QxNlhvTGlJYW9iME5MMVQrWDhnR1ZsbTRMUkhnOTVBV0lyQm5VOHo5T0Rr?=
- =?utf-8?B?elN2OVl3ZVpNV1VZNnZRZGRkcU9VUXVSUzRWbEMwdGN3bG1ycFFWVFE4WGIz?=
- =?utf-8?B?SS9NWi83RC9hUXRzUU14RzE2dXVITE1Da2xFc1pORC90SElYeFB0WDBLR01P?=
- =?utf-8?B?bmVvNWhUTlF6OFpqSFdoMFZsdTlzTHcvSTlCeDA0aTl2TmRsWkJnTEp3NUlu?=
- =?utf-8?B?QlBsVVFDTG56SndBKzBxc0ZSNU93MEZLUmFzbHVqRm8wSnB3bW12elhNUUVZ?=
- =?utf-8?B?Vm1KUmcyNTlacVQ0OTF5N2pVY3NMTEpXL01wVTNlNWt4czVDYjBnVVQ4d2gr?=
- =?utf-8?B?aGJqdytDODBSQnFvczBpWEdyUXRxQnB3KzFYVTYvaER6TmJGYlpnYXlDOGxV?=
- =?utf-8?B?MDhEVWNndHZyRHF0d25EMlpVaEphSzV1QmRKNVBjZWIwMWl2d2FSRkd5bDFt?=
- =?utf-8?B?WHNNSjNaUDlpeHRLYUpOcEpNTVVGdXU5VzZ3ZEZTaWVzSVBwYktzblJ4azA4?=
- =?utf-8?B?VXNXckpYMElQWWJLZS9MMXlvK1k2dFp4UWptY2VRak0reFhCdFpueXZKVDEv?=
- =?utf-8?B?RW5kNnNSTjZGVzFMb3JVeWdod3htWjNqWEJWU05DdEE3ZW9JK1IxUkxqd29i?=
- =?utf-8?B?WFIzR3I3RTdCeXRHQXZKMDVBSTNxQjdaRGpHS05FdmFEanAxb0FhRUl5RzZ0?=
- =?utf-8?B?cUZ4NXNJRm1lWkd3dE9nMUJEaUs2VWhGWnpKM0pmZW10N2s4TTRVcEpiNVpH?=
- =?utf-8?B?OUFyb1ExMzJDbUV1VndtVTN0eTJ3Q3kwdk16N3ltZWNjNHdNNENOK0IrVDZP?=
- =?utf-8?Q?WGrKUb7puYco9zxghnNc?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UDg5UnF6NVlGbGpjTVRnWU1JQ011aW1Jb0NDVGZpd1BoTkEzRWd2d21SWXMw?=
- =?utf-8?B?Sjh1cUNLMUlwVGhoWEJJTm93aDF4aSs5WXlKbVNJZVUxQ3ZMV2lPSzJLb1ZL?=
- =?utf-8?B?dDIydnF6U3d0UStYekNLL1ZlS1RMOEJRNnhFZU1ldE1rVkJsd1BTcE5IVWJX?=
- =?utf-8?B?SFh4bEU3SlBYanprN2p0K01haUJwLzFnMFdaT1RZd3pHendRbkhleS9KMjQy?=
- =?utf-8?B?UVZMYUhFbUc4U1JJY1VlV3Z2Z3lVVWZNbEEzZ3RldmpCSWVtQzNWeGh1M2ZX?=
- =?utf-8?B?K2tnSzU3OGRUa1hsWVBWSFBWSk80bXlzcnZ2K0JRQUlvR1paRzNiOW55TWRz?=
- =?utf-8?B?OGo1NmQwRzZqQ1FhU0pGRjJ2c2tWVjdUY0xYU2ovUmhFWXZuUUlxb0dHT1o1?=
- =?utf-8?B?aktpRjI3MG91OGJxV1FIdnZ1QU1zcDdnUU9XT0MxOGdCZk1hVi81a0x3QVN3?=
- =?utf-8?B?MGtibStmRmFVM0wyZ1hIMmczREJzU3haY3d1TTZlMU1RVlVKbVpkTW1UQ2hG?=
- =?utf-8?B?N2J4UHhZNHA0eHlIaWdRR1hYSzFIYjJ6OWNvM1BQd0dZcXQrUlR6RVRDeW1m?=
- =?utf-8?B?T2N2R2ZQME9pd0R3UlRqZ0l0RkFiWFptdUtKTTRTY1JYMjhYYmo0Uk1vYk9M?=
- =?utf-8?B?SUUxQXptbVloMnlRQ3Z2VkVVb24vZzZhK25EY0Z2dTdGWlVYUUgrZXhmSUNP?=
- =?utf-8?B?WGJtUGdrTHBTT0NSVUN3V3NudkQvOU8vdW81YVhBaldOb1U2ZEtiMUNBeUdh?=
- =?utf-8?B?WFAxbjBoMzBNbHcwb2lYYlhrTXdLeE5Hb0xLb1pXUmY0WEhaZFFaK0RKTlRP?=
- =?utf-8?B?Z2JVZGZoeEo3K2JlMlNiNGZ6UEZHdXpzdENiMWxiaWpuSUtNdGdSd29mb3N1?=
- =?utf-8?B?YWVyZWROMUZ3NXUrZXEvR0pST09uT3Zicy8vVzlwL1l4OEpqeUwyRmtqL0xJ?=
- =?utf-8?B?L1JwT3M2NHFrWk9SeEgyRVBhblIxVmhLNWg1MjBkTCt4ajZlNmRsNHM5dmxm?=
- =?utf-8?B?WXdoN1I5MkJtQUZFNkM4bXpvZExtejduMDlmYUU2OVhiUEtPOXJ1T0syaXll?=
- =?utf-8?B?MGhLbGdram1ucDlBS1REdGsvRzY2Sm5XaFlzWFZrN0wwbnVvMGRnQnFKUjV3?=
- =?utf-8?B?NGlaNU9FSzRnYXFoQWpYNGJZZHhrNU1iN2VPWkRzWUw0SHA3OG0vbHB4ekFq?=
- =?utf-8?B?RXdxWitmM3JZR1dIWFVWTjBsMUFKVUdjdXE4WGJicy9KbmJjdStDNThtY0FR?=
- =?utf-8?B?eUVIUWxUSTBpakp6QUxHK0dMdnpQZlpJQVQyZnFia0RIMTdCcTBSU2U0alFn?=
- =?utf-8?B?ZmxYMHM1MDR0YkFTMW1RaE5taFZIR3ZkUGRpUWZjeS82b2swUVZpQTJ2WC85?=
- =?utf-8?B?YmZ4T0hsNGc0WEM1N3gyTFYvM1luem5lMnI4WlVEbFc3SjlnbWZpMGRrN1dG?=
- =?utf-8?B?K3N2M0ttdTJ0VXhoSEZETHVnbzBTNldJK0ZWVFpOb0QvN1BXd05ic1lYMVU5?=
- =?utf-8?B?QVg5V3R1UXVXbXJmc09wTysxZ1RpSGdRRk5OUUlHd250UExMTzFGN1RNRnh5?=
- =?utf-8?B?UTVqU0ZQWlZRVnlRYi8zVnlBR0hxeDh4aVZVdEpSbkNIK0lTck1VNStmVHJv?=
- =?utf-8?B?UTQ2SmxFRHZJUEZ4TnFQS1REZEJyTmUyNTNiWTRMRTNxMUxGUmtqTjZ0YlhJ?=
- =?utf-8?B?M0JsUjliRGx2dGxXOTcxTGEzUVgzQzR0cHA3YTBxRTRXSzg2Ui9oa01VQ2JL?=
- =?utf-8?Q?eg3iZg/o7fVTho4pCxjYtqCusT3nrzLcB2st2MP?=
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0846216c-1719-46bb-9d58-08dd7694c228
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2025 11:59:04.3708
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2PR01MB9873
+Content-Transfer-Encoding: 8bit
 
+From: Milton Barrera <miltonjosue2001@gmail.com>
 
+This patch adds HID_QUIRK_ALWAYS_POLL for the ADATA XPG wireless gaming mouse (USB ID 125f:7505) and its USB dongle (USB ID 125f:7506). Without this quirk, the device does not generate input events properly.
 
-On 01-04-2025 09:02 pm, jt wrote:
-> Hi.
-> 
-> The trackpoint / touchpad combo on an HP EliteBook 850 G1 is detected
-> under Windows 7 as:
-> 
-> Synaptics TouchStyk V2.0 on PS/2 Port 1
-> Synaptics LuxPad V1.5 on SMB Port
-> 
-> Linux 6.13.9 (zabbly stable kernel on debian bookworm) detects these devices as:
-> 
-> PS/2 Generic Mouse
-> SynPS/2 Synaptics TouchPad
-> 
+Signed-off-by: Milton Barrera <miltonjosue2001@gmail.com>
+---
+ drivers/hid/hid-ids.h    | 4 ++++
+ drivers/hid/hid-quirks.c | 2 ++
+ 2 files changed, 6 insertions(+)
 
-
-Can you try adding psmouse.synaptics_intertouch=1 and i8042.nopnp to grub and restart?
-
-
-> I was unable to get libinput quirks working so I filed
-> https://gitlab.freedesktop.org/libinput/libinput/-/issues/1106 - Peter
-> Hutterer kindly explained that the problem is that linux does not set
-> the INPUT_PROP_POINTINGSTICK property on my trackpoint. He explained
-> the udev hwdb workaround and he also suggested that I send a mail to
-> this list.
-> 
-> For what it's worth, I think that this mis-detection occurs on many HP
-> laptop models.
-> 
-> $ cat /proc/version
-> Linux version 6.13.9-zabbly+ (root@gh-zabbly-linux-39666878469) (gcc
-> (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40)
-> #debian12 SMP PREEMPT_DYNAMIC Mon Mar 31 02:08:07 UTC 2025
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 288a2b864..106273131 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -41,6 +41,10 @@
+ #define USB_VENDOR_ID_ACTIONSTAR	0x2101
+ #define USB_DEVICE_ID_ACTIONSTAR_1011	0x1011
+ 
++#define USB_VENDOR_ID_ADATA_XPG 0x125f
++#define USB_VENDOR_ID_ADATA_XPG_WL_GAMING_MOUSE 0x7505
++#define USB_VENDOR_ID_ADATA_XPG_WL_GAMING_MOUSE_DONGLE 0x7506
++
+ #define USB_VENDOR_ID_ADS_TECH		0x06e1
+ #define USB_DEVICE_ID_ADS_TECH_RADIO_SI470X	0xa155
+ 
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 646171598..0731473cc 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -27,6 +27,8 @@
+ static const struct hid_device_id hid_quirks[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_AASHIMA, USB_DEVICE_ID_AASHIMA_GAMEPAD), HID_QUIRK_BADPAD },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_AASHIMA, USB_DEVICE_ID_AASHIMA_PREDATOR), HID_QUIRK_BADPAD },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ADATA_XPG, USB_VENDOR_ID_ADATA_XPG_WL_GAMING_MOUSE), HID_QUIRK_ALWAYS_POLL },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ADATA_XPG, USB_VENDOR_ID_ADATA_XPG_WL_GAMING_MOUSE_DONGLE), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_AFATECH, USB_DEVICE_ID_AFATECH_AF9016), HID_QUIRK_FULLSPEED_INTERVAL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_AIREN, USB_DEVICE_ID_AIREN_SLIMPLUS), HID_QUIRK_NOGET },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_AKAI_09E8, USB_DEVICE_ID_AKAI_09E8_MIDIMIX), HID_QUIRK_NO_INIT_REPORTS },
+-- 
+2.43.0
 
 
