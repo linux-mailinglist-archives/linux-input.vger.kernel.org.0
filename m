@@ -1,93 +1,114 @@
-Return-Path: <linux-input+bounces-11637-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11638-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47204A82F16
-	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 20:42:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F94A82F0B
+	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 20:41:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 190584A226A
-	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 18:41:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 12BF31B68307
+	for <lists+linux-input@lfdr.de>; Wed,  9 Apr 2025 18:41:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E65B1278159;
-	Wed,  9 Apr 2025 18:40:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8AAC27815E;
+	Wed,  9 Apr 2025 18:41:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NwSLT6GO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XbkaAKso"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FF2278141;
-	Wed,  9 Apr 2025 18:40:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDEFF2777FF;
+	Wed,  9 Apr 2025 18:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744224053; cv=none; b=fifHNuWBqOIZzVMf2St9Xr6fUCpy+3QVGF+HY4WzWi6TPptKgpUCggNYbxjtbzxVyzwQiED/RBa/1w4j+U0LJpDANiqSKBmcQA1ZWF2dWJtMR1bDBd6HKspqHiC/dTo89iXfMaI2P81YSf3+7iVKhdJETrKhnIaUOZAbVvQE68U=
+	t=1744224068; cv=none; b=nKGP7fbrwqgDIVxV012Baa2nsXg+KTqxnFfqw02Nl3rqJJF1TogjONyatY2ig64I+uEMgML8gSPacZWy9WIYesaw/Pki6hoMpKcM8piaGW7WoZozi4ZvjPtT6eSi9EldUym8c9uvWEacdMFFus7ZTcqtSCiGBLpE0kF4RqIM6PY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744224053; c=relaxed/simple;
-	bh=7ce31LOaktiwPuRBBPpSmmXKf6M/YMvZPR0T7UZBGh4=;
+	s=arc-20240116; t=1744224068; c=relaxed/simple;
+	bh=Px0VYlUsPOBY2ltEO2TpWLS9AYWWswCUY8Dh5/BwVEI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZK706aEs7/OOFr6ZcF12JgDmMUxq/UksY/fRos6Ou+Reg5uXNk2S9WCBA0M3257NLibar7qcL8cWtvHLqO1NCZcc5wt4wlH7xoZfOkTVeIBDxFPOwxACmGkYY9IQTyTa40d888T+/fokAp0fA90kUYRMBJIV1ADzH0PKvir1qZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NwSLT6GO; arc=none smtp.client-ip=209.85.214.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rh+kn2Bd95E6avreCodvEr2vq/kqyFWnNPJ9NFJiWX+PZLjBC/lb7weFbNYSB/gI6N4FBc2y54dBvW/m2lbHyF8WeHBvy0VWmoL0XanrG0xOSx9j0xqXx72spz+0OrQfhlHqNqLZAuS3oSxgfLAxUvfxZIS+E4ZEoFYC+Uk5bGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XbkaAKso; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-227d6b530d8so66216775ad.3;
-        Wed, 09 Apr 2025 11:40:51 -0700 (PDT)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-736c1138ae5so7076260b3a.3;
+        Wed, 09 Apr 2025 11:41:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744224051; x=1744828851; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1744224066; x=1744828866; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XKCylbKIjrgOfv1bOhlYLqzn746P08J59uI4yN7YCeY=;
-        b=NwSLT6GOJL7nuSu3848e0KNpM6ULT4lyMxJJYKoC0tXT6nJDPVQjUQCLxKz4lQg8cg
-         p4rjqv3/D5xHAeLWCwSn3KZ9TQyEYoxefYenYLi4Ff9n78ybSzKmwdtlJHLMAwPC48Im
-         f9uKVDBLz+h1w4JVnYodda/JdKzgAmbrE5YCsg5HAEOKnC9TuUSkUjxGz5hQNWcqIYsd
-         y58L1o2zWwSgqIrnG4en8I1dWrTGSgOCnLIE7ZwIkz/go3LcZ5sFpV5p25yS5XdvZwUN
-         pJg7RPWbSyI4JI0lD4xBEmy+F7UKp2IA4ls0tkN/VwQOaVgtE2YyE3DeWz/9ayqPJA9E
-         /8IQ==
+        bh=y9MRs+OpXV0ogJQHvE9axw548ilRfDN2nGQrTik2VzY=;
+        b=XbkaAKsovVrbyKzS7S6JtGY1PNiMUsSliBzg1Aw6cdStmss5NQNi6uAsiX1+8W0S4S
+         WSgWGG72ATf5ZND1UOxmf/qQQDBIFgvuvf0uriaeEaEUzK5MlH48/w0JnjTbEtiJ9mhg
+         mhG1r/lhVzHyExKJs2kG4vLmxuQkrocGC6QnOGfXuNH0PU9vCXs0edKHVpS8E9lLG5wT
+         vnta1SLAtrzq49AXa0TWG+Eu2Mz+G56oTlypmy0/jTyZ9G0d+66dRNwgc6SIcMyzZGfx
+         y+PwWxGQgAzEF2ZgXHovAZfgU/VZxnFTVKqnqm9+e4SVr9yEHCMAYzgXXhRpJbHdaI1K
+         gwNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744224051; x=1744828851;
+        d=1e100.net; s=20230601; t=1744224066; x=1744828866;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XKCylbKIjrgOfv1bOhlYLqzn746P08J59uI4yN7YCeY=;
-        b=NxNRTBz2f8PgtNq07rSPZriIaj1/UBLBTeCfkXoV4+Ki4L2/L5sWdaOeoO2ujroal/
-         NYwwN2f3KU/52osyY4JxoJEpZbi75BAtIPhfvfrdNKhuhTU2BsT9e32bFuekY4usJQQ5
-         Z+QR6lE0zBevT6SzntYozhCbZYaS/3lZR44F9yipgQFZ7tgYr3DbOjFFZXEfgHEuBGXJ
-         SN+dGu65jJo2axERhT2BODrncT+uhifeuxP8STcaybhsX6KTa6BYHMni8IY+ZFY5WGrq
-         6Ap4gVpnIY5BgCRCOOThkBAnAnTRBofFRKraJI0tYyJ2qwMX70IpN5biZy9MKAGH5vfJ
-         VEZw==
-X-Forwarded-Encrypted: i=1; AJvYcCU6Jh0JJ8+kBUMUgXx6gBB0X2iNSea1llHwosn9nGxa1tP3x+R7xi+K7eQXgnwA8D6ZAUY1Vlk2QS7Y@vger.kernel.org, AJvYcCUOWMIZPIzXHm60oduypPUykmviYSqUGPPlcIOq1Xw7POj/uq34gTxh9UrO8Yk6dfSOZQgoWXHT/OJHtw==@vger.kernel.org, AJvYcCUpTUPz5DtyJC/Dg3xYyblBIzFTt0wI8iSHwl/Y27EgH1ytXTkm6yeGiHluXJIHl2EMajxMpfMqbyuuKbMg@vger.kernel.org, AJvYcCVnuH74Tg8YQvhOlM5vnyJJmr/M4XO+tZxKly/TU5RGG9dEL3QVREUd/AZkLz2ahiucuLVPukJ+ZdiQc8w=@vger.kernel.org, AJvYcCWXbjZiKCyeCtue4ESjl3YQjChFvbc/mL7tI2ri7FJC/aFK3EpCf611BgxHNVXmtCw5d8qoe41KLNAs@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0DuhSWIzYtZ1TL41KhkYFfyG8WKF60mDgaWa94G2oqswgu5hl
-	CT9ZV793LclvNMzAx2Re/ugGZbbgeetiJCdQi2aKjE7X3Hx8e+Pk
-X-Gm-Gg: ASbGncvMNLkRbtCsvuvoxk133Tg612aHDxOiqCGN9fxX76HbJk4L+CCgzKXUMKlTRYL
-	t+7yqs8EnWlDNzCdtf+FU1zFT20vJ7IVS4OS709uzJlfaF6PPqmBqclCdHHlEexADrvVKtNfNn1
-	HS6F8N2qWycQtu+M2ZscgwzW2a/hsGTDdjoY8jFjcQg0naOam1siaO/fBXd3SQZ8lKUCt7hkc5f
-	wNeD4KzGEVh+GjUzRjeDJbBrb/RWB+ON+UckWVqg0iDT+NECN+SpUNF1PESiyaODpomuohJDWBk
-	S3vn3BZMrn6wnl8UP6ZaW9wEdpbL7IhORIy8wx/C1Q==
-X-Google-Smtp-Source: AGHT+IEvVcXJt7NNKX5SaeEVlcZaK6qMDnh8XmZ4fCAiKyzsL52qof/mXos31CnmY0ZKrW4CD72UiA==
-X-Received: by 2002:a17:902:d2ca:b0:224:1c41:a4cd with SMTP id d9443c01a7336-22ac296e7d5mr49925255ad.3.1744224051208;
-        Wed, 09 Apr 2025 11:40:51 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:cff4:8871:54bb:4c97])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7ccb5c5sm15464235ad.222.2025.04.09.11.40.49
+        bh=y9MRs+OpXV0ogJQHvE9axw548ilRfDN2nGQrTik2VzY=;
+        b=EOjw0jKCMGNXTE7Z8+GDz8flXoFZXuOtZ2xR9l3mdikiVtpVFf307UBf+K0X7rPcYY
+         gCk48XkunhmwOMbULnE6w8FAdtYGkq7D0xVLU0oqlceiYhUZUuhNWoC3aeuA53s6Cxlu
+         43edg+0n3u7gu0OTCIc1s2L2iPC4Mgmti8gDlAPGtIYuiLgNVszbBQabMjUn4IY4qHyk
+         6U0fj5y6q2yonIlDyVIT4n6cJU/yGuvNc5rxgt54lkox65usSk41uDFnoECCq0ePmZ7y
+         rFMId8EDUOIyc7Cm/QmGrN2uEBMPWJB+aHs3MfWw0yQfKO65fUX+LZ2y94wEboH1utR3
+         23zA==
+X-Forwarded-Encrypted: i=1; AJvYcCU+/B3soVclKuI+D92SD4wtKV060NvUDLFzrW2MgxDvCQNP9P1aaaYgFj2kvt2ZqxqtCwcA3W3R@vger.kernel.org, AJvYcCUBBe1oNVOVxDW6zMvOeI1nwHuywNuAfKhuqzfAPHY/g45ZOYnNxJS2VCTzu1AIX9WAlTuucXoP8qioTlA=@vger.kernel.org, AJvYcCVEG38W5apF6YYQokThXKzUO6yAo8+/Od3AixCEuk036P2a5riGhCysBs7hfdML16cRhJR3rfTW2mQJQXU=@vger.kernel.org, AJvYcCVuWTmMwiWMVaB5pJJ7UqpR6L0q/kMVv7SonlkD9x6r+tYjLidEN2skR4aobWYNxBNBGYixqr+5GHo1OChv@vger.kernel.org, AJvYcCVx9SQHnNvMvoBys4UkYfVQ6KqRJmpBqXjHybpYn4TRnZAdIWBIO/SGEWy5w3dM8VXtKx6PIUuDSgyzeE8=@vger.kernel.org, AJvYcCW8tGdiBp14i6fmpDjVLBgMoPU8ZfjSPw6OCbZBzMSBW4zerO+4NXu2T50deqYO6GKgLsU5Yz4tCq3dUsG1PYg=@vger.kernel.org, AJvYcCWPkv7RKb1v7zvHufZrx8bauULo+g4OGhaB4GNkKEVw5deJBhHcBaWzAat8BeZlUsG9x11oAQWfXv3zDD4h@vger.kernel.org, AJvYcCWhUaVzgkTAdHatdHLI/IZMgODiArLWUylPExeIgd/x0H0e/dTHV+fmZF6T8IVrqJZs8Is=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxBJIKk6iilSRCfYCWHciDWFu1BJvlObE9KYwDitrKaVXzbX6c
+	5lfAa8+sMGe9BcFrIW2eDspMF/nhBFIZh9+Fk/MtNYgCpB4eGKoT
+X-Gm-Gg: ASbGnct/mp9MXUOOjOu0uDxX8vebb5ayZ4xPDJL5jKrOkcEY4v5RBg97iwx6REycGg9
+	guDVZq1RN0g44UyjsNzFbb/I3oEXGGfu7P8TOYQt280gsrJb0LlZCZdQym1+PCedWxYP5NYoTc/
+	X1VfZgeYSFHoRwbhfVsSm4Y8RlSfQSvb0uHoSsJfNjRR1v0uBrmt+joDmfCQbE2DNBkM1d4KNfT
+	4vqOLbHbddWwfGFq/UdL3BTNbG/VQsHbBhubF6PzMmu6UAf0Zqd+Qj6wiybePAzsNxXmEighe61
+	cbW+g6+fxU+zB6EXlEGq7lbMsaBClNOuLaq3sfYRMRxg3xSJcEE=
+X-Google-Smtp-Source: AGHT+IFBplIB7lbzzonBtacivuTbdfAuDOBFrLzj0CEeoRBndpxGhIacjgtf4O10nP956h0EjBOoEg==
+X-Received: by 2002:a05:6a00:22c2:b0:736:5545:5b84 with SMTP id d2e1a72fcca58-73bafbbae8dmr4546648b3a.3.1744224066191;
+        Wed, 09 Apr 2025 11:41:06 -0700 (PDT)
+Received: from localhost ([216.228.127.131])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bb1e4f768sm1739807b3a.142.2025.04.09.11.41.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 11:40:50 -0700 (PDT)
-Date: Wed, 9 Apr 2025 11:40:47 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Kamel Bouhara <kamel.bouhara@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	andriy.shevchenko@intel.com, =?utf-8?Q?Gr=C3=A9gory?= Clement <gregory.clement@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v6 10/12] input: keyboard: Add support for MAX7360 keypad
-Message-ID: <chhnkepvlbiv6xvgh5zso526xsp4zk7tgzsqzoqe7b5jmvdyrw@afio6lmx55zv>
-References: <20250409-mdb-max7360-support-v6-0-7a2535876e39@bootlin.com>
- <20250409-mdb-max7360-support-v6-10-7a2535876e39@bootlin.com>
+        Wed, 09 Apr 2025 11:41:05 -0700 (PDT)
+Date: Wed, 9 Apr 2025 14:41:03 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+	joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	dmitry.torokhov@gmail.com, mchehab@kernel.org,
+	awalls@md.metrocast.net, hverkuil@xs4all.nl,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	louis.peens@corigine.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, akpm@linux-foundation.org, jdelvare@suse.com,
+	linux@roeck-us.net, alexandre.belloni@bootlin.com, pgaj@cadence.com,
+	hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, kuba@kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	oss-drivers@corigine.com, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw, Frank.Li@nxp.com,
+	linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
+	david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
+	Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v4 02/13] media: media/test_drivers: Replace open-coded
+ parity calculation with parity_odd()
+Message-ID: <Z_a_PzmNnvC2z7se@yury>
+References: <20250409154356.423512-1-visitorckw@gmail.com>
+ <20250409154356.423512-3-visitorckw@gmail.com>
+ <Z_aobrK3t7zdwZRK@yury>
+ <Z/a7DecDljuLtKeS@visitorckw-System-Product-Name>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -96,250 +117,60 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250409-mdb-max7360-support-v6-10-7a2535876e39@bootlin.com>
+In-Reply-To: <Z/a7DecDljuLtKeS@visitorckw-System-Product-Name>
 
-Hi Mathieu,
+On Thu, Apr 10, 2025 at 02:23:09AM +0800, Kuan-Wei Chiu wrote:
+> On Wed, Apr 09, 2025 at 01:03:42PM -0400, Yury Norov wrote:
+> > On Wed, Apr 09, 2025 at 11:43:45PM +0800, Kuan-Wei Chiu wrote:
+> > > Refactor parity calculations to use the standard parity_odd() helper.
+> > > This change eliminates redundant implementations.
+> > > 
+> > > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > > ---
+> > >  drivers/media/test-drivers/vivid/vivid-vbi-gen.c | 8 ++------
+> > >  1 file changed, 2 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-gen.c b/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
+> > > index 70a4024d461e..5e1b7b1742e4 100644
+> > > --- a/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
+> > > +++ b/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
+> > > @@ -5,6 +5,7 @@
+> > >   * Copyright 2014 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+> > >   */
+> > >  
+> > > +#include <linux/bitops.h>
+> > >  #include <linux/errno.h>
+> > >  #include <linux/kernel.h>
+> > >  #include <linux/ktime.h>
+> > > @@ -165,12 +166,7 @@ static const u8 vivid_cc_sequence2[30] = {
+> > >  
+> > >  static u8 calc_parity(u8 val)
+> > >  {
+> > > -	unsigned i;
+> > > -	unsigned tot = 0;
+> > > -
+> > > -	for (i = 0; i < 7; i++)
+> > > -		tot += (val & (1 << i)) ? 1 : 0;
+> > > -	return val | ((tot & 1) ? 0 : 0x80);
+> > > +	return val | (parity_odd(val) ? 0 : 0x80);
+> > 
+> > So, if val == 0 than parity_odd(val) is also 0, and this can be
+> > simplified just to:
+> >         return parity(val) ? 0 : 0x80;
+> > Or I miss something?
+> >
+> If val == 0x01, the return value of calc_parity() will remain 0x01.
+> If changed to return parity_odd(val) ? 0 : 0x80;, the return value will
+> be changed to 0x00.
 
-On Wed, Apr 09, 2025 at 04:55:57PM +0200, Mathieu Dubois-Briand wrote:
-> +struct max7360_keypad {
-> +	struct input_dev *input;
-> +	unsigned int rows;
-> +	unsigned int cols;
-> +	unsigned int debounce_ms;
-> +	int irq;
-> +	struct regmap *regmap;
-> +	unsigned short keycodes[MAX7360_MAX_KEY_ROWS * MAX7360_MAX_KEY_COLS];
-> +};
-> +
-> +static irqreturn_t max7360_keypad_irq(int irq, void *data)
-> +{
-> +	struct max7360_keypad *max7360_keypad = data;
-> +	unsigned int val;
-> +	unsigned int row, col;
-> +	unsigned int release;
-> +	unsigned int code;
-> +	int ret;
+Sorry, I meant
+        return val ? 0 : 0x80;
 
-int error;
+This 'val | (parity_odd(val)' is only false when val == 0, right?
+When val != 0, compiler will return true immediately, not even calling
+parity().
 
-> +
-> +	do {
-> +		ret = regmap_read(max7360_keypad->regmap, MAX7360_REG_KEYFIFO, &val);
-> +		if (ret) {
-> +			dev_err(&max7360_keypad->input->dev, "Failed to read max7360 FIFO");
-
-This will return name pf the input device, whereas logging name of the
-platform device (representing the hardware device) would be much more
-interesting. You can either use max7360_keypad->input->dev.parent, or,
-better yet, add *dev pointer to struct max7360_keypad.
-
-> +			return IRQ_NONE;
-> +		}
-> +
-> +		/* FIFO overflow: ignore it and get next event. */
-> +		if (val == MAX7360_FIFO_OVERFLOW)
-> +			dev_warn(&max7360_keypad->input->dev, "max7360 FIFO overflow");
-> +	} while (val == MAX7360_FIFO_OVERFLOW);
-> +
-> +	if (val == MAX7360_FIFO_EMPTY) {
-> +		dev_dbg(&max7360_keypad->input->dev, "Got a spurious interrupt");
-> +
-> +		return IRQ_NONE;
-> +	}
-> +
-> +	row = FIELD_GET(MAX7360_FIFO_ROW, val);
-> +	col = FIELD_GET(MAX7360_FIFO_COL, val);
-> +	release = val & MAX7360_FIFO_RELEASE;
-> +
-> +	code = MATRIX_SCAN_CODE(row, col, MAX7360_ROW_SHIFT);
-> +
-> +	dev_dbg(&max7360_keypad->input->dev, "key[%d:%d] %s\n", row, col,
-> +		release ? "release" : "press");
-> +
-> +	input_event(max7360_keypad->input, EV_MSC, MSC_SCAN, code);
-> +	input_report_key(max7360_keypad->input, max7360_keypad->keycodes[code], !release);
-> +	input_sync(max7360_keypad->input);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static int max7360_keypad_open(struct input_dev *pdev)
-> +{
-> +	struct max7360_keypad *max7360_keypad = input_get_drvdata(pdev);
-> +	int ret;
-
-"int error" for variables holding error codes or 0. Also elsewhere in
-the driver.
-
-> +
-> +	/* Somebody is using the device: get out of sleep. */
-> +	ret = regmap_write_bits(max7360_keypad->regmap, MAX7360_REG_CONFIG,
-> +				MAX7360_CFG_SLEEP, MAX7360_CFG_SLEEP);
-> +	if (ret)
-> +		dev_err(&max7360_keypad->input->dev, "Failed to write max7360 configuration\n");
-
-Log error code?
-
-Explicit error return please.
-		retrun error;
-	}
-> +
-> +	return ret;
-
-	return 0;
-
-> +}
-> +
-> +static void max7360_keypad_close(struct input_dev *pdev)
-> +{
-> +	struct max7360_keypad *max7360_keypad = input_get_drvdata(pdev);
-> +	int ret;
-> +
-> +	/* Nobody is using the device anymore: go to sleep. */
-> +	ret = regmap_write_bits(max7360_keypad->regmap, MAX7360_REG_CONFIG, MAX7360_CFG_SLEEP, 0);
-> +	if (ret)
-> +		dev_err(&max7360_keypad->input->dev,
-> +			"Failed to write max7360 configuration\n");
-
-Log error code?
-
-> +}
-> +
-> +static int max7360_keypad_hw_init(struct max7360_keypad *max7360_keypad)
-> +{
-> +	unsigned int val;
-> +	int ret;
-> +
-> +	val = max7360_keypad->debounce_ms - MAX7360_DEBOUNCE_MIN;
-> +	ret = regmap_write_bits(max7360_keypad->regmap, MAX7360_REG_DEBOUNCE,
-> +				MAX7360_DEBOUNCE,
-> +				FIELD_PREP(MAX7360_DEBOUNCE, val));
-> +	if (ret) {
-> +		return dev_err_probe(&max7360_keypad->input->dev, ret,
-> +			"Failed to write max7360 debounce configuration\n");
-> +	}
-
-No need for braces with single line statements.
-
-> +
-> +	ret = regmap_write_bits(max7360_keypad->regmap, MAX7360_REG_INTERRUPT,
-> +				MAX7360_INTERRUPT_TIME_MASK,
-> +				FIELD_PREP(MAX7360_INTERRUPT_TIME_MASK, 1));
-> +	if (ret) {
-> +		return dev_err_probe(&max7360_keypad->input->dev, ret,
-> +			"Failed to write max7360 keypad interrupt configuration\n");
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int max7360_keypad_build_keymap(struct max7360_keypad *max7360_keypad)
-> +{
-> +	struct input_dev *input_dev = max7360_keypad->input;
-> +	struct device *dev = input_dev->dev.parent->parent;
-> +	struct matrix_keymap_data keymap_data;
-> +	const char *propname = "linux,keymap";
-> +	unsigned int max_keys;
-> +	int size;
-> +	int ret;
-> +
-> +	size = device_property_count_u32(dev, propname);
-> +	if (size <= 0) {
-> +		dev_err(dev, "missing or malformed property %s: %d\n", propname, size);
-> +		return size < 0 ? size : -EINVAL;
-> +	}
-> +
-> +	max_keys = max7360_keypad->cols * max7360_keypad->rows;
-> +	if (size > max_keys) {
-> +		dev_err(dev, "%s size overflow (%d vs max %u)\n", propname, size, max_keys);
-> +		return -EINVAL;
-> +	}
-> +
-> +	u32 *keys __free(kfree) = kmalloc_array(size, sizeof(*keys), GFP_KERNEL);
-> +	if (!keys)
-> +		return -ENOMEM;
-> +
-> +	ret = device_property_read_u32_array(dev, propname, keys, size);
-> +	if (ret) {
-> +		dev_err(dev, "failed to read %s property: %d\n", propname, ret);
-> +		return ret;
-> +	}
-> +
-> +	keymap_data.keymap = keys;
-> +	keymap_data.keymap_size = size;
-> +	ret = matrix_keypad_build_keymap(&keymap_data, NULL, max7360_keypad->rows, max7360_keypad->cols,
-> +					 max7360_keypad->keycodes, max7360_keypad->input);
-
-What if it fails? Error handling please.
-
-Also, it looks like you are repeating what matrix_keypad_build_keymap()
-is already doing. If you pass NULL as keymap data, won't it do the right
-thing?
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int max7360_keypad_parse_fw(struct device *dev,
-> +				   struct max7360_keypad *max7360_keypad,
-> +				   bool *autorepeat)
-> +{
-> +	int ret;
-> +
-> +	ret = matrix_keypad_parse_properties(dev->parent, &max7360_keypad->rows,
-> +					     &max7360_keypad->cols);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!max7360_keypad->rows || !max7360_keypad->cols ||
-> +	    max7360_keypad->rows > MAX7360_MAX_KEY_ROWS ||
-> +	    max7360_keypad->cols > MAX7360_MAX_KEY_COLS) {
-> +		dev_err(dev, "Invalid number of columns or rows (%ux%u)\n",
-> +			max7360_keypad->cols, max7360_keypad->rows);
-> +		return -EINVAL;
-> +	}
-> +
-> +	*autorepeat = device_property_read_bool(dev->parent, "autorepeat");
-> +
-> +	max7360_keypad->debounce_ms = MAX7360_DEBOUNCE_MIN;
-> +	ret = device_property_read_u32(dev->parent, "keypad-debounce-delay-ms",
-> +				       &max7360_keypad->debounce_ms);
-> +	if (ret == -EINVAL) {
-> +		dev_info(dev, "Using default keypad-debounce-delay-ms: %u\n",
-> +			 max7360_keypad->debounce_ms);
-> +	} else if (ret < 0) {
-> +		dev_err(dev, "Failed to read keypad-debounce-delay-ms property\n");
-> +		return ret;
-> +	}
-> +
-> +	if (!in_range(max7360_keypad->debounce_ms, MAX7360_DEBOUNCE_MIN,
-> +		      MAX7360_DEBOUNCE_MAX - MAX7360_DEBOUNCE_MIN)) {
-> +		dev_err(dev, "Invalid keypad-debounce-delay-ms: %u, should be between %u and %u.\n",
-> +			max7360_keypad->debounce_ms, MAX7360_DEBOUNCE_MIN, MAX7360_DEBOUNCE_MAX);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int max7360_keypad_probe(struct platform_device *pdev)
-> +{
-> +	struct max7360_keypad *max7360_keypad;
-> +	struct device *dev = &pdev->dev;
-> +	struct input_dev *input;
-> +	struct regmap *regmap;
-> +	bool autorepeat;
-> +	int ret;
-> +	int irq;
-> +
-> +	regmap = dev_get_regmap(dev->parent, NULL);
-> +	if (!regmap)
-> +		dev_err_probe(dev, -ENODEV, "Could not get parent regmap\n");
-
-		return dev_err_probe(...) ?
-
-Thanks.
-
--- 
-Dmitry
+I think we need a comment from authors.
 
