@@ -1,44 +1,45 @@
-Return-Path: <linux-input+bounces-11694-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11693-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A03AA83CFA
-	for <lists+linux-input@lfdr.de>; Thu, 10 Apr 2025 10:31:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A405A83D0E
+	for <lists+linux-input@lfdr.de>; Thu, 10 Apr 2025 10:33:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD26E7A767C
-	for <lists+linux-input@lfdr.de>; Thu, 10 Apr 2025 08:30:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD9653AC425
+	for <lists+linux-input@lfdr.de>; Thu, 10 Apr 2025 08:31:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BADE520C46A;
-	Thu, 10 Apr 2025 08:31:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C901C20B7F0;
+	Thu, 10 Apr 2025 08:31:04 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72C91EF080
-	for <linux-input@vger.kernel.org>; Thu, 10 Apr 2025 08:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2DD1DF984
+	for <linux-input@vger.kernel.org>; Thu, 10 Apr 2025 08:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744273870; cv=none; b=ZBfd0gMahIVHf9e9Mvo9GcXRXdqm9b0VPm2rlbi4OBz8lwGI0wHcw0geX7XLuPCJXHK8qTy8oHJhOKIWThm4gJiZKGd5y0KYZRNWz5r10CNphIMNE4DvmpjJ23FsAJwkpXtVV5PpMyNofm3QZAoshyZ3H/L8JgwJ3vuMpZeF8/M=
+	t=1744273864; cv=none; b=ZkTqAvg8WYWjwTqeojq1cd9foqMhoS7ZKAnnUiLqRV4xBWbut72bOXhAuHke6xbWw0c64+y6znNQZSYx67E8yqqmxHT7Q1u1gbxj+MQ5ZEPJXXPaIw3UroCx6OEr2Y3gWRMTZJr9qNwkE/xrrMCW1wZdulogVnzseG969d9YKLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744273870; c=relaxed/simple;
-	bh=oQnUDeEZ2r8C9sjmNcaFJtnHOl/Ix9z6aHaoboLoVYI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lpWGGw7uDFGFnScy4yy1wZk9HeO0c92p2MsQDB0JfSVuaum80flnI+EQovrgZvuryZfdMSnHH+wKSOQUEPTjJ0PICsXSapBViMM2L4ctWgccbqQeeLSLWjnpuho3iOntI0sZrgZ9yDFSR4HS3adSx70K1BhZu18mjxuJJcsspAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
+	s=arc-20240116; t=1744273864; c=relaxed/simple;
+	bh=c3W3lYbW/FMvDBOJbYSIdkC4R/4qq0CQxdQuqipzVac=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cXoj1WYdIv4a4PjMwsbGa/aODRLK+Az4+RdLKOaNeXETtkG8me6Z8bI3rMXX81KNijQ7y5RTfaoWUT+wqYHi6WPQvlBhAkIsTK5RDetGL3/xbhbD//+PWIKj81lfP+N1pWAF4XjaYQRQzq43dBLaMu0xMCih9jGk7p26+4SX88Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:1f1c:893d:f419:6517])
-	by andre.telenet-ops.be with cmsmtp
-	id bLWz2E00L3xgA3j01LWzWw; Thu, 10 Apr 2025 10:31:00 +0200
+	by michel.telenet-ops.be with cmsmtp
+	id bLWz2E00H3xgA3j06LWzi7; Thu, 10 Apr 2025 10:31:00 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1u2nJK-00000000Gmv-2oem;
+	id 1u2nJK-00000000Gmx-2pZN;
 	Thu, 10 Apr 2025 10:30:59 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1u2nJL-00000009IPH-39Mj;
+	id 1u2nJL-00000009IPK-3F5b;
 	Thu, 10 Apr 2025 10:30:59 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Jiri Kosina <jikos@kernel.org>,
@@ -48,10 +49,12 @@ To: Jiri Kosina <jikos@kernel.org>,
 Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 0/2] HID: HID_APPLETB_KBD and HID_APPLETB_BL should depend on X86
-Date: Thu, 10 Apr 2025 10:30:55 +0200
-Message-ID: <cover.1744273511.git.geert+renesas@glider.be>
+Subject: [PATCH v2 1/2] HID: HID_APPLETB_KBD should depend on X86
+Date: Thu, 10 Apr 2025 10:30:56 +0200
+Message-ID: <8fb6c5995f0e72482bad6367d89d9ee5312dd409.1744273511.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1744273511.git.geert+renesas@glider.be>
+References: <cover.1744273511.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -60,39 +63,36 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi all,
+The Apple Touch Bar is only present on x86 MacBook Pros.  Hence add a
+dependency on X86, to prevent asking the user about this driver when
+configuring a kernel for a different architecture.
 
-The Apple Touch Bar is only present on x86 MacBook Pros.  Hence this
-patch series adds dependencies on X86, to prevent asking the user about
-its drivers when configuring a kernel for a different architecture.
+Fixes: 8e9b9152cfbdc2a9 ("HID: hid-appletb-kbd: add driver for the keyboard mode of Apple Touch Bars")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+This is v2 of "HID: HID_APPLETB_BL and HID_APPLETB_KBD should depend on
+X86".
 
-Changes compared to v1[1]:
+v2:
   - Split in two patches,
   - Correct Fixes.
+---
+ drivers/hid/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks!
-
-[1] "HID: HID_APPLETB_BL and HID_APPLETB_KBD should depend on X86"
-    https://lore.kernel.org/4b046ce1cae2170453037c7ea006c91c12383dab.1744190441.git.geert+renesas@glider.be
-
-Geert Uytterhoeven (2):
-  HID: HID_APPLETB_KBD should depend on X86
-  HID: HID_APPLETB_BL should depend on X86
-
- drivers/hid/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
-
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index a503252702b7b43c..119e5190a2df786e 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -163,6 +163,7 @@ config HID_APPLETB_KBD
+ 	depends on USB_HID
+ 	depends on BACKLIGHT_CLASS_DEVICE
+ 	depends on INPUT
++	depends on X86 || COMPILE_TEST
+ 	select INPUT_SPARSEKMAP
+ 	select HID_APPLETB_BL
+ 	help
 -- 
 2.43.0
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
 
