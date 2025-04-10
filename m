@@ -1,204 +1,161 @@
-Return-Path: <linux-input+bounces-11714-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11715-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA330A84717
-	for <lists+linux-input@lfdr.de>; Thu, 10 Apr 2025 16:58:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FA0FA84747
+	for <lists+linux-input@lfdr.de>; Thu, 10 Apr 2025 17:07:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 350C71B818A5
-	for <lists+linux-input@lfdr.de>; Thu, 10 Apr 2025 14:54:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 250727B3F87
+	for <lists+linux-input@lfdr.de>; Thu, 10 Apr 2025 15:06:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D684228CF67;
-	Thu, 10 Apr 2025 14:53:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 694271DE2DE;
+	Thu, 10 Apr 2025 15:07:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="QGKDnZMb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="amDTfSbD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazolkn19011031.outbound.protection.outlook.com [52.103.67.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E297A1DB366;
-	Thu, 10 Apr 2025 14:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744296795; cv=fail; b=VFsVtSheNICWa2w8jkmzY17FzA1zwxSbEUMJZUi5cPeIUzkrgEuNyTTgwWkH0wcOxpERc1TPndXRejSmYvYXDiymqceFNO9Xt2VsMfK4cAG2IHTaMzWRb9J4swu1r3Z/xSpiU9Dndzc27707jeLk6sXiOBg+EvTVqqiXL9azzh0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744296795; c=relaxed/simple;
-	bh=fi0Mb/JNGjr9IZ2sQ5c8cb6lopS9/lbaeYJNwI2GAQw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=mhCQJgS946G6R8K5coOCBr6Dzp0PqxOiXUBXiFSA009Xt2KPsMlWV+Bf5gI8jzTWbi22aL8lId7vy6GzhplV+L4IwnsNGaMrSRBfqGMjYpkLq8QBZpDi0ePTxprLB/GfmsnPHu/cc6X0yFZOjtni01JySNBQa1P3uKyxvO4/jY8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=QGKDnZMb; arc=fail smtp.client-ip=52.103.67.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F2ajvavMvoB3uMTdkhFLGFK8R+Ym64gjk0PlSojHZxzRoSNYDuB4eSQm4a6w2YjvSrRrSfddlRIZI+ZzGzspsDWiPsf8JkvieLP4xJtJUMRfyMgL+79be418zmH/RFQ5BbzHPtvmcl+xuiWRV5okMn8vSp05n9bKeJBaYwXlXtBBwDqbtAEgEJucP7Ylc15RrKKOkYZpF+aI7AbqKTZ4QvWf22wpoW83ho322OR03VCyB09tP1KxOzEpZDla780+J40LTiWwPQGOXWTIepnpUCgmu7TwlaHmcNR6ejKPny2ljlsUF3WB1WY8fREmDep8A22KgrY+ANRgPpgOmIu3GA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ijIk++SxwcY60Gq3R1JBICZkp/2TOaNRuXRTC/S3hvI=;
- b=Uys/1Dq+9t0vUu/Z0xcF0SfpiGeolEW0u/yJ2a7XwbVHMkNioLu9dGwW7mR7nJjpcXTpFH5S0DbSyDbtWIYzVqh4apjy4Rka27wUjALjRAoP5MZW9/vYgDy2btuzPwrcFjddnQjmYLtzxpMjQnGRsw9IUKCO/Nt7bM0JJBfEMv7caeeJNPV6f3KHv2ExSuwvOLVuboohjsz5nb34jiUJ76CcIXg2bXUr8GA4h6dUU9z8/ObNnn3KWLbtnfzeST5jdiXdrl8ZeeowEAzNzE3Uu8ixZRsA2Y90sOtMyCNOT2l3U5uqjOx/T2T9M6VLsFztbE+mvz7I2LKjMmcDHS0mNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ijIk++SxwcY60Gq3R1JBICZkp/2TOaNRuXRTC/S3hvI=;
- b=QGKDnZMbafnGCt3I18kP2T7GzUro0YjqvC2esgGHgozYu7OyblI0tR3AzkUp/bl+QYlxgRWmH7/Fz9NfLqJGubqn7RoWTxzVylSiq0kM3os/0rejLFxsW03eWfV8tJISPEuy/cEq2/QsVgzd8FWrb3H4Juv0x+0nCXlQi91+BPyqJFBZwg5k+gmBDyKrPrMo8TSFRERdw9HfPRDJnK9z3fqcFoq+Sv8uAOpvIMO3XnsUeucJrcixW5RI3eBKYpNcJe06jxfiNadFbC8lE7JvtyLHbY6qf1DhGIb6QMkQD1VkHnh3ZmguEQeRm4bV69ufkhcMLxbUA4+Ps4xrYFpsjg==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by MA1PR01MB4164.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:12::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.23; Thu, 10 Apr
- 2025 14:53:09 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%5]) with mapi id 15.20.8632.021; Thu, 10 Apr 2025
- 14:53:08 +0000
-Message-ID:
- <PN3PR01MB95973CC9AD4C05E8241116F3B8B72@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Date: Thu, 10 Apr 2025 20:23:06 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] HID: HID_APPLETB_KBD should depend on X86
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
- Kerem Karabay <kekrby@gmail.com>,
- "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <cover.1744273511.git.geert+renesas@glider.be>
- <8fb6c5995f0e72482bad6367d89d9ee5312dd409.1744273511.git.geert+renesas@glider.be>
- <PN3PR01MB9597160EE7E131BCC171FA39B8B72@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <CAMuHMdVYVpgS9fSMbB=S0cF=1QLyVQ993q9-JizBS2N6azSicA@mail.gmail.com>
-Content-Language: en-US
-From: Aditya Garg <gargaditya08@live.com>
-In-Reply-To: <CAMuHMdVYVpgS9fSMbB=S0cF=1QLyVQ993q9-JizBS2N6azSicA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN4P287CA0116.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:2b0::8) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:f7::14)
-X-Microsoft-Original-Message-ID:
- <e9221349-31d8-41e8-a1a6-4ee147a72118@live.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C114A1DD0F2;
+	Thu, 10 Apr 2025 15:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744297655; cv=none; b=WJpkS3pfTeWRpTZAWfQjJrFtQqpJ0y9644gItdMV7RYn15yFH4SycGf1MjUNkqvxQR0xlPOKC8a4QpNBiLAHUi+oYL3SD0orjsAUae1WdqjBGVoHFhQuQkW39E9QnrTIZPD+I7o0sLmxraTssnHjnmhpf42uHridDrF3m7SykkI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744297655; c=relaxed/simple;
+	bh=29zjlfK0mXnUdbnnsCXfS6Oi8Qrp5HNYmCj3Q7Up+6s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZFA8T5/E69kW2ox6TRFwZyRUP84kZPN1lVaB59MAnI4jQ2pRjrag3T/vyEpCa82OxjT1c1VYojosoK0TWZxB6FhZa+AQ/PDIXLHSjCRPQE0A5hIBaI/4Kn90cNLAZn6hjAjdD/p130JtWi7dentQLMFmZRoYNOHs9A13WxQjysc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=amDTfSbD; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7390d21bb1cso925995b3a.2;
+        Thu, 10 Apr 2025 08:07:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744297653; x=1744902453; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3D5EegHjNXWtRqs7oVUZyDcWwG0k9rfQtFHn9dOK4Lo=;
+        b=amDTfSbD53YThn8o+gHPCYOPaXb3ht5o+9iKLu1o8PGhl4GpZUUeanQNe27NLA8QqB
+         O4WVra5EoYRlYnIuhpRllVhR8IRIqI/2JiLnhZm/D7QD0t8pCjCQpp+THJGEXWLj3Qg8
+         OkZTXtaSwuzjyQZhtPFNBvEkOv5bBPo7Q9v+yFcMmjQfJwh1u8IC7aAyMvzgDUf4fiMp
+         7u1kVUArdSUPogbagebUmlDBxKcr15uUCVS2BPetFHz11bXGdg9YCXx/OTyrqOJiXM2f
+         +FS8Hr6MaSXRd4iikSg7hTTfnDZtHtKYwHBnK9FSzklkFdYGRDB9erLEXwDGwdwIdMkG
+         qRog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744297653; x=1744902453;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3D5EegHjNXWtRqs7oVUZyDcWwG0k9rfQtFHn9dOK4Lo=;
+        b=Rwbnt88uwAgdeZE/7/6ZPxWrmiAB5+XBCF5NxE64049+Lozqgcr8uVXedjUKTiVpCl
+         7/G3uVjQCIkbzgiGOnXhBDH3jQ++xuadQueY9ox5UGiJlYAgSn8oxvLXGNnCjhqFfY2M
+         GXiNQVCV9KvRKq5CyRE3d53loMR4aIEfIDdrwX02ZS1I+HguoxvLJPVGYF0I2FF3okCV
+         SbjdvXaITe8fnK/BE7ipjTkJXWCz4R8PyGJXNTLRrLl9zbXhsl2t9wyQcqFi5iUmmL6v
+         5kSiw49H0sRrRJjQIwOkpIJCWksNkEEyNSc+Q7hKwypqPZgr3y9t+sAsZw4V2j1X0j9o
+         Tqxw==
+X-Forwarded-Encrypted: i=1; AJvYcCUOXZc/jSHOaGYJZ8V9U3oGXV91M2rU7mUlsWvjjXce98piQd0KgaaUsC5biHt6u1HQBN/A8pnb6VxDFNo=@vger.kernel.org, AJvYcCUtV5dT5rk3w9GBdMX/eau0G0v3F2jG+O2VW4uINRyUHWb2/Qg+FS11+mJR7sfN3d+xvQlcQWErHRgozTlfyq8=@vger.kernel.org, AJvYcCUvp9CHFBXUToar8Pc6Id4+IT0PAhwXBfnNhDeCl1xFoyB4dxcVLqHm4aLo/UG47gAQlYi0LjO+YXmUJiA=@vger.kernel.org, AJvYcCV8/8EubvyJx+OkrdRqrgGX0xdbf6V4OtpPhaON/RaRLZNmVnf2dYSmy9bGeSKhweIGt+PAyUSQcNbZTvim@vger.kernel.org, AJvYcCVa6OSqmh4AqIVHFOKC7ASrcX+jCf4kOprby2u2Q8RyfNCU2+y5GVn5WnX7eE3t0ADQrZ9+HQWr@vger.kernel.org, AJvYcCWMEYGjekVzJ+XYFaYRw9Q5QiJsTdJBipT1nKrKqthRDzIVtwzuYVKiciVqSfyOGRYg8hXJEo4Gp35fuog=@vger.kernel.org, AJvYcCX40BhYTeD5D25GEcix4kPLNhNREHZW1Chb3JtiEzNqXXxqg8GGwYnJsKDx9tWWVm2q8es=@vger.kernel.org, AJvYcCXD8go/IeqNJ4ZtWOfTUg2nK00VdAJDxJI0jmEIhBI4ySF/0u3uVLOtFpbc2r0WUdfyu7aWoewHufQThMOm@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRNV0Ni7lrRayLQw40texyWx54h8br7248G9tHz1Eo4QJTICMS
+	EQ8ftGmiZwLPqb/q4lG59kQEHuFQfZEj05olQCzA0nndfiHRnM6K
+X-Gm-Gg: ASbGncsNSYc5k9RpBlkjv2zau/fW183kDN8nqJFcxJMoH4mXEQCezpJTmUtcGZrzaw6
+	krbqntr0f3+7VEO4fKCLNbBkoU5Cd5ZjA1HMyicVMoRHaw496/VQo3aB5oCDM5WPeSSpMakN/rC
+	iD8R5Knw8TmlxQYtOfQ9IlLVoeFug2RwuIPwRk3C0iLbegi4Q8zeKhZuq0uaglHklUf14BvKZVF
+	bnZLEQdAHlj+QUidSeLqx/NDqKtwcE2pGaB8nsPa8AHe/EtqUfa2AM045i/cZoxTa8iVa30eRNW
+	SvmP8diy5i4+3ZeAgQEXn7CeEmpSYNM1csAmLnzH
+X-Google-Smtp-Source: AGHT+IFy1ewRYIQi2QM4ZSLkQhokapTj0gR7Ltj5GpPkDsZlOlyCTjP19Ec1IKFhcZrwo1l74Iw4rg==
+X-Received: by 2002:a05:6a00:240a:b0:736:ab1d:83c4 with SMTP id d2e1a72fcca58-73bbec49f99mr4365817b3a.0.1744297652831;
+        Thu, 10 Apr 2025 08:07:32 -0700 (PDT)
+Received: from localhost ([216.228.127.131])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bb1e51f1csm3501019b3a.145.2025.04.10.08.07.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Apr 2025 08:07:31 -0700 (PDT)
+Date: Thu, 10 Apr 2025 11:07:29 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+	joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	dmitry.torokhov@gmail.com, mchehab@kernel.org,
+	awalls@md.metrocast.net, hverkuil@xs4all.nl,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	louis.peens@corigine.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, akpm@linux-foundation.org, jdelvare@suse.com,
+	linux@roeck-us.net, alexandre.belloni@bootlin.com, pgaj@cadence.com,
+	hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, kuba@kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	oss-drivers@corigine.com, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw, Frank.Li@nxp.com,
+	linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
+	david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
+	Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v4 02/13] media: media/test_drivers: Replace open-coded
+ parity calculation with parity_odd()
+Message-ID: <Z_fesYbCnSjAo-K4@yury>
+References: <20250409154356.423512-1-visitorckw@gmail.com>
+ <20250409154356.423512-3-visitorckw@gmail.com>
+ <Z_aobrK3t7zdwZRK@yury>
+ <Z/a7DecDljuLtKeS@visitorckw-System-Product-Name>
+ <Z_a_PzmNnvC2z7se@yury>
+ <Z/bC6cygo0hem5IO@visitorckw-System-Product-Name>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|MA1PR01MB4164:EE_
-X-MS-Office365-Filtering-Correlation-Id: 717e3580-df40-4d68-31d9-08dd783f6836
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|15080799006|7092599003|6090799003|5072599009|6072599003|19110799003|461199028|8060799006|1602099012|3412199025|440099028|10035399004|4302099013;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?YkxzdHh4ZFNpSzFPLzlodkdWNDdxYUV5WWxaN0IybWlyNmRDYUUxc3hibDBh?=
- =?utf-8?B?bDZTZ2RSZTJONVhTVHRFRzZBR20vRFN3RmxhZFhRbVdSTUpEdythNXRjeUZO?=
- =?utf-8?B?emJWOFdoMUg0NDVselczWVQvUFQ2M2hwbVl3T1EveEMweWxROXFtRnZ0eWJ2?=
- =?utf-8?B?aGRhRVQ5WmtaSUwzL3k0dmlUL2VLWHNtcWVsbmZyOXRLTUZGQ0l3ekU3VTlw?=
- =?utf-8?B?d1hKbHJldnRPTUVheDRxczBDSmhJRnFLbHExUG02QzA5YUtRSGR5eE5qRVJC?=
- =?utf-8?B?dkZ2TXYySG9SU0lZNkhQc1hkOGpienducTcyVDNWdDFScDFOOWNxWUtzOWYr?=
- =?utf-8?B?VXJVWXhnSnlVQTFTdmUyZC9GZnRqMm42NXkvTGtCYUJoNnJiV01lcUQ5cDlD?=
- =?utf-8?B?U3FPMWlOSm0rS3prdFQ3UnA5cW9Dc2xVQXpMSzc4d0U4b0tJNjl5TTloSENq?=
- =?utf-8?B?WjYwOWtlZ3dRWjhmS1FJR0JrSGRVaXltTmUvbWNsVzR1dkVRUWlicDZoY25O?=
- =?utf-8?B?Mmc1NnNDT3UrdzFtcStxSjdvQlB2SEhxL2JqeDJ2dnpEVnlwMnR2b0JibDJU?=
- =?utf-8?B?cmdrbFF1MkN4blE1NEZCYzV2OUFnWGs0UDB1NHRVU2dqdUJEVTZXM3F1U0l4?=
- =?utf-8?B?RjRsWUlweEVoVE1LUTQrMG5aZ3JxM2RLMlZwWFhGcVlPZ3MvV1dTWXlyZHRk?=
- =?utf-8?B?K0FrL2NVMGxnS1hNWitNTmhjU3NXMmJnMHFua3hSN1ZPb1ZsU2JXNS9CNEVu?=
- =?utf-8?B?UENZOTZvb1pSVGNUUFNzbWk0alZuRWxUSFVYa1VFMEYya0IyTmpFU2tLNk1q?=
- =?utf-8?B?UkMrWXdiWHN1SlF5NnZTRFpiWnlDeEQ3MU9XTkx5UDlkY08zeTJxZUptMmtV?=
- =?utf-8?B?NEszTTJtNXZybitKbk9jUnA1VWZ1dkd3ZlJOSDFhUmw3dzY1QnQ2V3BLN3hT?=
- =?utf-8?B?SW5SelV1VWVYeWZ5RStEamJOL0pXNm1UOVZpMHppTWF0YWg0OC82a1Fnak4v?=
- =?utf-8?B?bUFLVUU1MDYxaGdGOVpYQjZxVzIvV0xVbEpTRFNhWFkrdE5nU3h4dittSVJK?=
- =?utf-8?B?VVhXNkJzaUY0NDdEZzR0cXEyRmVEcEpUY1duSzhReWlydUJET0d2REN3NnBR?=
- =?utf-8?B?ZzJiOXZDSWQvQjJtNkZRWThTakR1Q2N2Yys0UXN4cTRBbjBsUkR3SkVsQUVt?=
- =?utf-8?B?eTlQZm9TVmdQSUpsSThQdU5Jak10UGNHZGtIdzB3dGVnQXMxV2Y1NmVPYTF3?=
- =?utf-8?B?aEprVkVCMFFQL0ZjQms4cmFGTFpoN1VpNTBPTXYwZmZxOWpKMzIzS2puYUhs?=
- =?utf-8?B?RDFhWXhOUHJEd0JjcWZyL3hlOFQybk9YZk9mWkh5dkZPOG5pWDZKekNGRVdP?=
- =?utf-8?B?UFdmWG4zczg1eWw0c0lzamZLczRHejJCdlVCTEQ0WGU0M0FpczVGeWhZZUtp?=
- =?utf-8?B?MHI1czQ5K1Y3YmRtd1g2TUVoY0hhQUYzc3RXdDAzMndRRWlFU3RyVElubFMr?=
- =?utf-8?B?aU9POG1EbUhxcS9YWWJtKzBBT3dlaE8zYkdNVXZ2V0V5aTBWMTh3TlJiOXZt?=
- =?utf-8?B?bjBuWC9VSnlwd2hKNCtweGcwNzYzQWZJSkVjc3BrOUlUR1JqS0c0cjY1eWNE?=
- =?utf-8?B?Y0VjazJteUVQTDI1SVV4Vkh3VmEwQ3lJMXUydDlYMUNzSjVzcVpYTzJoMXY3?=
- =?utf-8?B?Uk1kNzJYUU5FZWs2dmdxaTBSSGJUK0E5Rm0yYVBESkZtWWxIT21DbzFRVEd0?=
- =?utf-8?B?eW9XQWZQaXc1bkQzcm5vd3RrZmJCK0ZubHMvSXRPbVlhTUN5WVdlc3NhRzA5?=
- =?utf-8?B?dmxjaW1hUDBwQWZSU3F2dz09?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TWFURkd3dlJ4RWJLNzJDZ2UrcW1sOU5IdWNGQjBIWVlMeWtqZzlRNWlybmYz?=
- =?utf-8?B?QS9xb3prNVdiR0xXSXcvbGc2bHlCOTJEcVlvNVNtTktBZmFvbUZIbjMrVjdP?=
- =?utf-8?B?REFlYnE5SE52Wm5SZDQ0MDg0c2NTYi9KZDN4VE5FZE9qbnF2NlJ5ZlR6d3dJ?=
- =?utf-8?B?TWpjMVZ1Y0pDNDFtR0NtUEEwTDY5QXBLcGM3UU1uZjI5Q1QzNkZpL0ZzU3Uw?=
- =?utf-8?B?VjU5M0l0MzNhT240MHZ3QzJVQWN6Vzg2eWlOUExRbE9hTkVjZFptQXVPS3BF?=
- =?utf-8?B?OFM4enB4WWxIQUNxeTNXYTRTWGYxcGpWOFkwZHpsbFpyb3RJZkxuNE9SbkRY?=
- =?utf-8?B?WUpIQ0ZJZDBxSzZyUldXSGJVUkdHM05laDVreDZtL25zTEszYVYxVUNFcVpO?=
- =?utf-8?B?TGVKOHUyU2xWeVp6SFFCb1JtdEVGN1NuUmlteXN0VDlXUWR1Q1RLb3FycVlE?=
- =?utf-8?B?cktoU1FTZ04yMm1DSVZZaGVYdkR4cUZOaDNDUko2bmFKeGZDTFhJYmkweVdh?=
- =?utf-8?B?VFZ1bVVJZDd6cXN4emdLLzVpZHFZdHJtelJNNWtnRzl5NWY0YXE3WXY2dUpn?=
- =?utf-8?B?MWk4M28vZnhjUUtxZittRzVCeGRWZzYrRU8vcDdURUFFbjRUUDNTcFdnZ3Vq?=
- =?utf-8?B?MlVkOEJRQ2pyVWo2dWRlRkVmVEtCZjBVZWcrUmh2eXMzVU9HdEZ5RVFyWGdv?=
- =?utf-8?B?T0NLZlhta2QwUE1LS2l3ekhMRUd1TVlMMUxaOTNpTDRGeW9OTG9KeG5mdnZE?=
- =?utf-8?B?amdUMklXVU54SG5HRmVpSW9OTzUyaVBPSUlQbmlSZDRxRFBlZ0Y1VTYydmJm?=
- =?utf-8?B?QUx5eFlXc0RuMUh2cGZXSk03RjBTdm13Z0psbVhrU1NFVVFvbiszdHdsalVK?=
- =?utf-8?B?SUlWK1B2UzR1TGY1WmdPN0M5Y3RVdVNVbXVKV3hDNGNhY3d2M2FIdGUzUy9V?=
- =?utf-8?B?d1lUZ2xmcktyamZkYXM0bzlKbW94d21HMWs2akl3QTFmaVE1SSs5UGJsZGZp?=
- =?utf-8?B?bWhTdkErOXNVWmx3N0pmV3ByVEEwZ01IZnZsZm1RMG85U285dWpuQmVEQVFi?=
- =?utf-8?B?ci9PMVVSTWUzcDNSQ29sL0ZwN3NlNEVNUTBBcFFwNkZLSXBLRWoyakRkb3U4?=
- =?utf-8?B?V3RnWGNwdGdTaE1zang2aGZPV3l4WDkxT0k1Z3dseE9tUGFGUnhPdVo3aGFl?=
- =?utf-8?B?TzBLVDB6ajh4dkNGVW5Razc5empxT1VwVXZpQmJiMk5JOERncGoxOFVKcmxh?=
- =?utf-8?B?QW5RZE5sTmFHczVOLzVYaVBDK3czS2NEYzBpdUNTRjg3cEZPZDcxUFVRZFkr?=
- =?utf-8?B?dTV4SW5mYW92LzljcThCUis0NVN6RWlDM25uckcrUndYQkU2NXNRMW5iSFU3?=
- =?utf-8?B?L1ZXQzdkMkVlMzZLMVBabmxqTG1HbTB0ckdoNDVPUWxBM2g4M0dIUEN1OFJ0?=
- =?utf-8?B?WXUzbXUvNTZ1czAwOTJKR3d6YWtIRjZPTWkrSmZjTVZPODM2TTlWOE8rNndy?=
- =?utf-8?B?YVE4NitGK0NFcGZBVGlLY0xVTmRUWmxpVEFUaDBZTG9hbkZybWZoRFIvL09j?=
- =?utf-8?B?ZXBOd2ZTaVV4SW95cEhFdnp0RW5LWEw0RWhCT2NoQVNhY3Q3NE1PYUFPRjVU?=
- =?utf-8?B?NFJPaXJHa1hZVEVwU0g0a2lUTzN0bXBkTldEVDRkeDV4dkJlTTd1SVg0TGMv?=
- =?utf-8?B?Vlo4cnBibk4rUngyVEhva3Fva1NPZUZ3UnNYMVMvUHdPU1NoUUF6QXNtRHZH?=
- =?utf-8?Q?KuUmpmLQd53PsOrGhb8r2mHHaIVXOu+7dJk0I1z?=
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 717e3580-df40-4d68-31d9-08dd783f6836
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2025 14:53:08.7533
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA1PR01MB4164
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z/bC6cygo0hem5IO@visitorckw-System-Product-Name>
 
+On Thu, Apr 10, 2025 at 02:56:41AM +0800, Kuan-Wei Chiu wrote:
+> On Wed, Apr 09, 2025 at 02:41:03PM -0400, Yury Norov wrote:
+> > On Thu, Apr 10, 2025 at 02:23:09AM +0800, Kuan-Wei Chiu wrote:
+> > > On Wed, Apr 09, 2025 at 01:03:42PM -0400, Yury Norov wrote:
+> > > > On Wed, Apr 09, 2025 at 11:43:45PM +0800, Kuan-Wei Chiu wrote:
 
-
-On 10-04-2025 08:10 pm, Geert Uytterhoeven wrote:
-> Hi Aditya,
+> > > > So, if val == 0 than parity_odd(val) is also 0, and this can be
+> > > > simplified just to:
+> > > >         return parity(val) ? 0 : 0x80;
+> > > > Or I miss something?
+> > > >
+> > > If val == 0x01, the return value of calc_parity() will remain 0x01.
+> > > If changed to return parity_odd(val) ? 0 : 0x80;, the return value will
+> > > be changed to 0x00.
+> > 
+> > Sorry, I meant
+> >         return val ? 0 : 0x80;
+> > 
+> > This 'val | (parity_odd(val)' is only false when val == 0, right?
+> > When val != 0, compiler will return true immediately, not even calling
+> > parity().
+> >
+> I'm still confused.
 > 
-> On Thu, 10 Apr 2025 at 10:52, Aditya Garg <gargaditya08@live.com> wrote:
->>> On 10 Apr 2025, at 2:01 PM, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
->>> ﻿The Apple Touch Bar is only present on x86 MacBook Pros.  Hence add a
->>> dependency on X86, to prevent asking the user about this driver when
->>> configuring a kernel for a different architecture.
->>
->> There are a lot of spaces before Hence.
+> Maybe you're interpreting the code as:
 > 
-> That is intentional: double space between sentences.
-
-Interesting choice
-
+> 	(val | parity(val)) ? 0 : 0x80
 > 
->> Also, Apple Touch Bar is present on some Arm MacBooks as well, so probably mention that this driver is only for touchbars on x86 Macs and there is a separate driver for the Arm Macs.
+> But what we're trying to do is:
 > 
-> Why is there a separate driver for Arm Macs?
-
-Because it is a completely different hardware on M1 Macs. On x86 Macs, it is a USB device + has both keyboard and drm mode. The keyboard mode makes it display a predefined set of keys and was made for Windows Bootcamp. The DRM mode, makes it a separate display, made for macOS.
-
-On the M1s, it is not a USB device, nor has a keyboard mode. I forgot what exactly it used at the lower level, but it was quite different from the x86 Macs
-
-> Which driver is that?
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/adp/adp_drv.c?h=v6.15-rc1
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/input/touchscreen/apple_z2.c?h=v6.15-rc1
+> 	val | (parity(val) ? 0 : 0x80)
 > 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+> So, for example, if val == 0x06, the return value will be 0x86.
+> Only returning 0 or 0x80 seems wrong to me.
+> Or did I misunderstand something?
 
+I misread the whole construction. Sorry, you're right. Scratch this.
 
