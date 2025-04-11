@@ -1,100 +1,109 @@
-Return-Path: <linux-input+bounces-11740-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11742-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6B4A864FB
-	for <lists+linux-input@lfdr.de>; Fri, 11 Apr 2025 19:44:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F20CA86631
+	for <lists+linux-input@lfdr.de>; Fri, 11 Apr 2025 21:21:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2DADD19E7A14
-	for <lists+linux-input@lfdr.de>; Fri, 11 Apr 2025 17:43:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5284E7B9420
+	for <lists+linux-input@lfdr.de>; Fri, 11 Apr 2025 19:20:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FBA423A9A7;
-	Fri, 11 Apr 2025 17:43:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC83B1EDA05;
+	Fri, 11 Apr 2025 19:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="QJU/QS2A"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E7C23A99D
-	for <linux-input@vger.kernel.org>; Fri, 11 Apr 2025 17:43:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.126.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 825C627934B
+	for <linux-input@vger.kernel.org>; Fri, 11 Apr 2025 19:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744393422; cv=none; b=bKCyPN3hjOPfjegMbXl1TspyeDYCsfOGtZIwPQeMiQmQq8kEDch0EQyAG/nFr73hK/IjuRsFur+Hp0GIHO85NBAK079PdK4wfnK/7rOhyzFbNvJ78p5ZKqtSsXJ4rHEZmQBfnZH6AE6VOgBSmHQHtAggdOuAVd8mTfdtbi+sG8A=
+	t=1744399299; cv=none; b=VAdV6JXqIKSEfFk1KCtqREkU+kPDIlffsgYkYEyVgnan7zrR6l1ceXELoXscT6T6u9z0MhyaD6kI1Fgk1pBN7dUGUVAAeS5Il1qtOO5bNbdmlBOhVu77ScmADWO4DT2fG7HLXD4LxW6dCpcE6luJUc7V7CFGdZHzbZu9FOh3iGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744393422; c=relaxed/simple;
-	bh=omOs0FggSTPr19o4R8nyIDmG0k/atNDpo15CTv2oJDM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MQDD9xrX/OAqiLvvIS1BIQJvqjFrID0ppIrWexg2xujCETO6pQsWg9bNWhzFpTYmbmRWQW7ujIgg/5Flg2QkTud6v8iRrOW4XC0NZan3Ru08PiwZRlJvsIq5wnw6bww/YyIqUwVIqv/yn7dy1tegCxm8UYf+2MbVMd9/5sq9xwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=notsyncing.net; spf=pass smtp.mailfrom=notsyncing.net; arc=none smtp.client-ip=212.227.126.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=notsyncing.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=notsyncing.net
-Received: from [192.168.190.23] ([88.130.217.2]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MV2Sk-1teVxD3Fws-00Z750; Fri, 11 Apr 2025 19:38:13 +0200
-Message-ID: <1b73dde9-7c26-4b80-a355-64782355b97b@notsyncing.net>
-Date: Fri, 11 Apr 2025 19:38:12 +0200
+	s=arc-20240116; t=1744399299; c=relaxed/simple;
+	bh=VLj0DorodJLsW1PfHe9uJZQcECw3+7sxYtDU5mI64aU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NIJDfgEPb3ssP/IRfBVcm7MsaSFP8BUhQCy+aMr0kvFN8vTBok5kuu73jGaQXcnzdUj8Da1V1IXiy3EQsHKUzrtV2xWqgmh/4g1M6PsRyRmqpYyRi88iGYtzvCHSjsKF7ueRJWkykCSPH3ZmhdQJFXPXO+TYNuSLk5jyyKqJayo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=QJU/QS2A; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=VLj0
+	DorodJLsW1PfHe9uJZQcECw3+7sxYtDU5mI64aU=; b=QJU/QS2AMOaR++d2IEI4
+	JtwuYaaeh43p0fHCpD1J2LmJEQZXEeigpYtGfbVBzm9zbnJMsOMlcHQ1Qjlq1qSj
+	RJZ61vmc3nVw9DStVKWqFdS1zszq+1BB4WW+wdthIYhRNW+d56vybAeSbaCb5bNN
+	39hSSXEC0R4+qTSirRS6p9R2ijI18+bpsQ7FljpPFr1vShgNkIT36zEw7LF5ysGd
+	6RJqiah8Z3WeemmuYIeSJkH/Etx+4WElmTedaDKvITsUMr29mEGtk6TGAJ49FK8c
+	78M98B/h1mZRqjgrCRJ8GEiQQG2aWegummu84vikKOkUDn7U247s+wZ5KEIzdlYc
+	Mw==
+Received: (qmail 1401532 invoked from network); 11 Apr 2025 21:21:34 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Apr 2025 21:21:34 +0200
+X-UD-Smtp-Session: l3s3148p1@Q8lEnIUyVI4ujnsS
+Date: Fri, 11 Apr 2025 21:21:33 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Michael Opdenacker <michael.opdenacker@rootcommit.com>
+Cc: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Subject: Re: I2C: can't detect Adafruit Mini I2C Gamepad on Linux - other
+ devices detected
+Message-ID: <Z_lrvUzBh9oyPPci@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Michael Opdenacker <michael.opdenacker@rootcommit.com>,
+	Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+References: <24f08a7b-4a3c-4cd6-82b7-0f2c9ab4bbef@rootcommit.com>
+ <8d0c8005-57fa-4883-8a01-343ab9170643@rootcommit.com>
+ <Z_k74yFvIHRy7UpP@shikoro>
+ <57906b7b-5d4a-4571-a5b2-1ed51ff09824@rootcommit.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Input: fsia6b: Increase size of phys to hold full name
-To: dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org, kernel test robot <lkp@intel.com>
-References: <20250329172237.61874-1-markus@notsyncing.net>
-Content-Language: en-US
-From: Markus Koch <markus@notsyncing.net>
-Autocrypt: addr=markus@notsyncing.net; keydata=
- xjMEZkr5fBYJKwYBBAHaRw8BAQdA2811uCI4LSoFBnm7giRzIEYH98oaACrR0XVtrAu+l4bN
- I01hcmt1cyBLb2NoIDxtYXJrdXNAbm90c3luY2luZy5uZXQ+wpkEExYKAEEWIQRyGYZtJYIl
- tNxnIQBkSAaoKlp/RwUCZkr5fAIbAwUJLv4HgAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIX
- gAAKCRBkSAaoKlp/Ry6SAQDfjxeNXoyl8974QSfPXPG0CQqDbzM85azMBm9iiiP0pAEA4tIc
- Us08rnA6Rhhwk2LRTbWJjv21pV7aIU6ZIhrBbQvOOARmSvl8EgorBgEEAZdVAQUBAQdAPvCN
- zQBVy0o8ptJ0/JhBDSVasY/H/pJ0xhOEkvUqoDIDAQgHwn4EGBYKACYWIQRyGYZtJYIltNxn
- IQBkSAaoKlp/RwUCZkr5fAIbDAUJLv4HgAAKCRBkSAaoKlp/R0OgAP94uXzkd1S7eJE5viap
- HxUfS8zqDcczRQJUryEVSbjF0QD/YR29GdNzefyjlqkOlCAVgukz7lhe/FtIW/fdDI/6/wU=
-In-Reply-To: <20250329172237.61874-1-markus@notsyncing.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:PfW/wcXMyLKk7UjxFL5hT2PHSDCxGjPaQlyhilMLSWJokvgMo6p
- rLPSgLxgmw/VHA4EmGP00vFC9G6ESwzoswH5F/V/ag/vA5Meza5Te/kw5mwNg25CTjvUOQ7
- CKrDszhyIyTgmz6q2mx6Xp64ctljLcdEY1cWVGIusNZ7IeH3cfOoHd/t78baV0tU2Mo2stM
- ErbGshntHr1GRPz4KGeUg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:wZI61RKvMcM=;JIxhvo0F0UiI8Lt4ChguI/8Xk8K
- moeQH3owCcVCiLFonbU6OaPapN4Ce3LI/M7CbCJXR0xTXTvxU9ZaIkomn1Hk4zylLIKxnpcwY
- JKecMEfdvpIDO/u+JaPIjwDZBxYpHM0FUZVTA2mIBSrii+PDwSu0s0EmKyPhGwJgWA6H0QDUG
- 7bH7PSxV9kIlHE0dOryj694NTJFdL5PE/fHCCK+DWmpGIjaRb8E8bAtdixLR1LTdKbqpb4A5c
- PGI5NehW55yDPMQyyzWwP0jpvACiqwww57Phj0kO66Gs+CAor9jbDK7zUIO5TjBfwNL1jNfeJ
- 6xveYrJwD9cqbANJMEk+u9+V2Ydy2pAL+T3rO61VKT+rPb3F9os7bVaOUB9i/qpatOGBAlwSH
- 0slub1I+O+EfVJBEJDc8LDEGhKYw9C48tHlTnTB2W464AkTsrqmlzFWCUnv8xLZZnQlsvUr3J
- Z39qU/KssNiqH9wE6WVZH9migWWQSp4ceMnHCImgDZ7YWRDkDgdZm4tq5NnZJzDdO+nCcobk5
- /EvcgJ94KzNhKGmTqo7wxEDBL4d22fhvt+qNcOKzFaH+ik6RIqRYD2kgSFnezn8Ti7Tqbj6Gy
- qu3+6eeGT0HWQOOsQZdemwMvaBVDAQjQUs47y282TTROC8aQ/4Z6SRZ3yoK/SUo4U9tyIChYi
- fk3kerJTzzD/3xGt0nA0pDywqkOgBvQ5o0BS8Dis4TjHF2vMvnCYpJjURhOOQZf1D2beff9lv
- KQU4HsITra1inSCgNnh2h3nSFWPkAPKxzXvzlZTyOgMzdusupYIn4WPdOnRqKBAxcC7Qm3iNd
- xBBp+PAaoGEjNbFphxd1c2pJOfQ0EI/UE1ih4b83OknjlrbN/3Xt3TKMUmnxkXBWzrFq4piCQ
- 4cKIMjDDPcTqcap8H9+zDTFUxqxBC+wDumNA34Hw4P4vSKv/fGKtWOZhzhW3NLBF79UsVBqrg
- bC7XRj+0rhrFQTGRmM8KLFZOujxYKDRw0hnLcS0K2Yzf76bmopisspcWKA0DvRHkLw3lbbJg2
- ob4OZkq/Vmwm1lk6LQIHQhgIb9JtIneWWkh6jRrXvlrv7sBupONQdwx+Cwj6ZGj71bxuMPM/m
- lGSO8XQ6G4BoLk60VMMaSWIQPxgEgz2YRatZqep0EDd/0q1inQ++2NGAYswBIRyg8qQIJ4IaK
- Qe9iiIruod576pJR6DprM0CfvIQjA65AEO4+Atxs3zMqkU+BlhU0TOLZlU8zoNJoubYSf0lT3
- RzlVnF0rakTwBUqSKG3gQl/dHG/Vy32VvGJW4o11RiTjSyb8Pbzj1+uvTA95Xnc/ZIOgezR2t
- mPJ44brnYE/8z7Gndte/IUdiqBBdhGmAWH3NYohSGge9Ka/dm4qvtfUxfyTPYNMfp4DduhCsY
- RMI1TfwWVX/dAX5gC4+jNO2nFs92PUDSl9y48=
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="1AW+N8H8P4bjbUpu"
+Content-Disposition: inline
+In-Reply-To: <57906b7b-5d4a-4571-a5b2-1ed51ff09824@rootcommit.com>
 
-Hi,
 
-I sent a patch 2 weeks ago [1] and haven't heard back yet. The same happened for another patch I submitted at the end of last year [2], where in the meantime the patch of someone else (doing exactly the same) got merged. Therefore I have to ask:
+--1AW+N8H8P4bjbUpu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Am I doing something wrong? Is there a preferred way to submit patches for this subsystem that I'm missing (like Gitlab PRs or something)? I'm happy to change my workflow if it helps you.
 
-Thank you,
-Markus
+> The driver is drivers/input/joystick/adafruit-seesaw.c
 
-[1]: https://patchwork.kernel.org/project/linux-input/patch/20250329172237.61874-1-markus@notsyncing.net/
-[2]: https://patchwork.kernel.org/project/linux-input/patch/20241223153453.12924-3-markus@notsyncing.net/
+My bet: it is a firmware issue. I couldn't find the code from a glimpse
+at the github repo, but there could be a similar issue here:
+
+https://github.com/adafruit/Adafruit_Seesaw/issues/96
+
+
+--1AW+N8H8P4bjbUpu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf5a70ACgkQFA3kzBSg
+KbbfAQ//cH9p0V9/DG0Z7ZPL5yf+vIT9LloGtSPvdtvOnyYqZ5kv5fj5AaLiqvwq
+ozsFskDV5VTAP8OKdN1gLV3iiElHLszHGBnojoP7pnRIz3BAqoRhGHSWgznRT99W
+WiZZXsn2EWf/IWXLOWL6/uruL2PRd2LyvzYVIdC7jTzB0X4h2NLcaH8uHxVFW8kg
+0iQHgsCSEDYpMTI2/ECAkVxpAiwg20jAain+eDCOoyk+G4XjRG+oA0s7cQTI/xB8
+8OUMdzm6q7KmEpj+bZ02c2BgCJoXGnAnw5+yaYZI3PpQ8BH4TCoPnDd9tZ0eoA7e
+xCgnOSDr2uRsPFI/LFapAjEwG7SGNfNOkLu+Nz9GAYa0HOFsAca50+emIELcL7Rc
+7xacadWLjYO9YLAP75XHRcAbswyfbDZqSB1GWNjJWIkYskWlddghXLpwX6fg+kF3
+r5Oq3eT9P3LTOEGqGpCDoQhA9xd269Eu4gJa2ae3ctIvTpM5HNw+ZVvtk/KNlAzX
+DNBUz4+5RitQ+/6ggMJMAjytNNxxu+jOOrW6WPhIBDBgrgeDiX53wZlyRDmoX3/v
+HDVO3nrrTMcKogsnfDC8CWzHn6nbNi1qAtdK81oWlKhTCF6nTVWmcLiTUBBNEPFg
+dijRbN2/az0LeTuKqrQu7qg9prEtIkkDpb1xkSLBAD2v5rUcNUE=
+=0KHU
+-----END PGP SIGNATURE-----
+
+--1AW+N8H8P4bjbUpu--
 
