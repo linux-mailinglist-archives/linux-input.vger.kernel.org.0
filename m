@@ -1,102 +1,144 @@
-Return-Path: <linux-input+bounces-11747-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11748-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4748EA87933
-	for <lists+linux-input@lfdr.de>; Mon, 14 Apr 2025 09:42:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB79AA87DAF
+	for <lists+linux-input@lfdr.de>; Mon, 14 Apr 2025 12:29:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E368C171F1C
-	for <lists+linux-input@lfdr.de>; Mon, 14 Apr 2025 07:42:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C74691651B7
+	for <lists+linux-input@lfdr.de>; Mon, 14 Apr 2025 10:29:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8A2725A350;
-	Mon, 14 Apr 2025 07:40:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57967265CD2;
+	Mon, 14 Apr 2025 10:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CyLabfru"
 X-Original-To: linux-input@vger.kernel.org
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A631265622;
-	Mon, 14 Apr 2025 07:40:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94FF33997;
+	Mon, 14 Apr 2025 10:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744616410; cv=none; b=G/oSI4dpygY+E+is/WQgqkE+D+W+yDsTya4fBbySdD5IaExPlIAcDtvOVqZ4g0OIe3yGEy9HVmPsNRVB2KKkKJ+BZydPit4sUWeFqQSIedoWu3QOg1Te7edM7SVV926CYNpNYgxkTdoj4AzVrKWacD3IFY92s0DAqwatUepsT+Y=
+	t=1744626590; cv=none; b=lQLZb7aFB6bbpe2I/U+gQaBg1Ut+r0Hdrssjv0c727gJU1usaOdr4QMYgw4fPX9Qi5qqqXkRGB0AqSrEg/TWmPyl49lSny/IzmiTBiJmSaYjZI2lMk0dxGJTSV5OY6Upia50OdCuA/btcWzcLvt7boPXSktYvlfsXDjn9cDKrjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744616410; c=relaxed/simple;
-	bh=9E2qxErytjSnrPNbfHAsWh4YIUhM/c8A1tRX+fTXxdU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TKekE61KKH0iNgiyXv/JMVCnF6kvPhglRkr8bWUy42zZ196us5TgkMqtnpYrNIi608i/t9bpRBL/avp6i5H1eXrtZUJffjpQWhCQa/HkPVySDSWIpGxHVQd5574arIYxIIswoSHGj5Z45kdvKEEJWo5FhQBVwq7neJKkzhiotA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-05 (Coremail) with SMTP id zQCowAAnYgrUu_xnvr_nCA--.15082S2;
-	Mon, 14 Apr 2025 15:40:05 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] HID: corsair-void: Use to_delayed_work()
-Date: Mon, 14 Apr 2025 15:39:55 +0800
-Message-Id: <20250414073955.3954020-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1744626590; c=relaxed/simple;
+	bh=WXgwEdzSaX+Y4rUWpW9RwNeaypZtrXrH4OUahsqCvQs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pp5/NmfnhTg5fkMERIOORHtJFKXxkyAy3Eky6tEW71RlSMOM6NE09Q6Mt1dcaFSe4TPA5UG4k8UUVvg8DNraiRxLTRDIcau/8qGo8O9BPgU51RAiq0nJ4+X31z+1iX2KAhD7f7ieXM0f2M8G1eyEMSfB0SSnMxs8M65vjscj7D4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CyLabfru; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744626588; x=1776162588;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WXgwEdzSaX+Y4rUWpW9RwNeaypZtrXrH4OUahsqCvQs=;
+  b=CyLabfrufKaHrDiROU2pLM72MTWusrwRhxbKf5vraf42z5gIpaCjtj3L
+   vmFhksXiTG8iRBAwH+GpSBXYBSAm/vtLajkbKsuXBmUe2XzE0EA3chF+9
+   hgYDRBFnMMQ8byIbBLFyo0Nm9uqBs4T2SNfu3agd9tC4/kO12m3tZPm04
+   MwMiOGepSs5ucLdq9pcIGeQOW9XiEJUN7gFemrqXCsrBVPF8JBJnKLa71
+   zY7dHouHvR3tXbKwxqINy9kJbErLsrXATIFDGTrurkF9eByI8LVPvalg5
+   /p6m8dbapP0j888odLyuo8szltuEBuwz7gk1DpNwmo/6Q+Fm75GanUGNE
+   Q==;
+X-CSE-ConnectionGUID: fIkSATCiRwWXgC+MOO9jgg==
+X-CSE-MsgGUID: /wjse7vhTXi2V6G7JK8XaQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="33701338"
+X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; 
+   d="scan'208";a="33701338"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 03:29:47 -0700
+X-CSE-ConnectionGUID: Q1oHgF+hQ42aTWXeZ5VwYg==
+X-CSE-MsgGUID: CF7aM6O+QrSUlhJBHKpxtg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; 
+   d="scan'208";a="134755301"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 03:29:42 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1u4H4N-0000000CCxF-0A55;
+	Mon, 14 Apr 2025 13:29:39 +0300
+Date: Mon, 14 Apr 2025 13:29:38 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v6 07/12] gpio: regmap: Allow to allocate regmap-irq
+ device
+Message-ID: <Z_zjki8ShybzpWDk@smile.fi.intel.com>
+References: <20250409-mdb-max7360-support-v6-0-7a2535876e39@bootlin.com>
+ <20250409-mdb-max7360-support-v6-7-7a2535876e39@bootlin.com>
+ <Z_aiubEgXLaDpsoq@smile.fi.intel.com>
+ <D92U6CMH9WWM.3JLM1KLZF4WF8@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAAnYgrUu_xnvr_nCA--.15082S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Gw1xJF43KFy7AF4xXF4xJFb_yoWkZFb_u3
-	4xZr4jgF1jkw1fGF98ArsxZr95Jws7Zrn2grZYg398JayUAry5J3yUArsrCryfWr4IyFy3
-	Cr9xZa15Cws7tjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbskFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-	Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
-	AVWUtwCY02Avz4vE14v_GF4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
-	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
-	14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
-	IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
-	87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
-	IFyTuYvjfU1T5dDUUUU
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <D92U6CMH9WWM.3JLM1KLZF4WF8@bootlin.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Use to_delayed_work() instead of open-coding it.
+On Thu, Apr 10, 2025 at 11:03:46AM +0200, Mathieu Dubois-Briand wrote:
+> On Wed Apr 9, 2025 at 6:39 PM CEST, Andy Shevchenko wrote:
+> > On Wed, Apr 09, 2025 at 04:55:54PM +0200, Mathieu Dubois-Briand wrote:
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- drivers/hid/hid-corsair-void.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+...
 
-diff --git a/drivers/hid/hid-corsair-void.c b/drivers/hid/hid-corsair-void.c
-index afbd67aa9719..fee134a7eba3 100644
---- a/drivers/hid/hid-corsair-void.c
-+++ b/drivers/hid/hid-corsair-void.c
-@@ -507,7 +507,7 @@ static void corsair_void_status_work_handler(struct work_struct *work)
- 	struct delayed_work *delayed_work;
- 	int battery_ret;
- 
--	delayed_work = container_of(work, struct delayed_work, work);
-+	delayed_work = to_delayed_work(work);
- 	drvdata = container_of(delayed_work, struct corsair_void_drvdata,
- 			       delayed_status_work);
- 
-@@ -525,7 +525,7 @@ static void corsair_void_firmware_work_handler(struct work_struct *work)
- 	struct delayed_work *delayed_work;
- 	int firmware_ret;
- 
--	delayed_work = container_of(work, struct delayed_work, work);
-+	delayed_work = to_delayed_work(work);
- 	drvdata = container_of(delayed_work, struct corsair_void_drvdata,
- 			       delayed_firmware_work);
- 
+> >> +#ifdef CONFIG_REGMAP_IRQ
+> >> +	if (config->regmap_irq_chip) {
+> >> +		struct regmap_irq_chip_data *irq_chip_data;
+> >> +
+> >> +		ret = devm_regmap_add_irq_chip_fwnode(config->parent, dev_fwnode(config->parent),
+> >> +						      config->regmap, config->regmap_irq_irqno,
+> >> +						      config->regmap_irq_flags, 0,
+> >> +						      config->regmap_irq_chip, &irq_chip_data);
+> >> +		if (ret)
+> >> +			goto err_free_gpio;
+> >> +
+> >> +		irq_domain = regmap_irq_get_domain(irq_chip_data);
+> >> +	} else
+> >> +#endif
+> >> +	irq_domain = config->irq_domain;
+> >
+> >> +
+> >
+> > This is blank line is not needed, but I not mind either way.
+> 
+> I can remove it, but as the line above is potentially part of the
+> "else", I have a small preference for keeping it.
+
+Yes, but it's still coupled with the flow. But okay to leave as is.
+
+> >> +	if (irq_domain) {
+> >> +		ret = gpiochip_irqchip_add_domain(chip, irq_domain);
+> >>  		if (ret)
+> >>  			goto err_remove_gpiochip;
+> >>  	}
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
 
