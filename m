@@ -1,105 +1,102 @@
-Return-Path: <linux-input+bounces-11746-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11747-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4FFA877E3
-	for <lists+linux-input@lfdr.de>; Mon, 14 Apr 2025 08:30:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4748EA87933
+	for <lists+linux-input@lfdr.de>; Mon, 14 Apr 2025 09:42:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 178333AF78E
-	for <lists+linux-input@lfdr.de>; Mon, 14 Apr 2025 06:30:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E368C171F1C
+	for <lists+linux-input@lfdr.de>; Mon, 14 Apr 2025 07:42:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90F2219FA92;
-	Mon, 14 Apr 2025 06:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cjWxvZen"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8A2725A350;
+	Mon, 14 Apr 2025 07:40:10 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E9718DB05;
-	Mon, 14 Apr 2025 06:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A631265622;
+	Mon, 14 Apr 2025 07:40:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744612242; cv=none; b=nVsSGxeQSCbnZAilH6XVt3CUllOZua1Tht8CMe1LvcdFpllIOuw+gfuQ6KEKakyAXkVuf1f6JEiVPIqH9VMC3R1BUymNnK9u56izeDKYXb9zwPaHTAbDm7wzHGXQlcRI4eXwAlJlxDawD4anTMrUHQUxjAEPoObdQtxB1E3sSHc=
+	t=1744616410; cv=none; b=G/oSI4dpygY+E+is/WQgqkE+D+W+yDsTya4fBbySdD5IaExPlIAcDtvOVqZ4g0OIe3yGEy9HVmPsNRVB2KKkKJ+BZydPit4sUWeFqQSIedoWu3QOg1Te7edM7SVV926CYNpNYgxkTdoj4AzVrKWacD3IFY92s0DAqwatUepsT+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744612242; c=relaxed/simple;
-	bh=aT/4donNVn5uBD8KT5k0h2cbp19I4j5BAlV0bafHIz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oRovb6d+FkaESN5rD3+Xm6bAAJK6MoOmmCfLC36LnZjzE2M5AmH38kZDmLxc21dJrTM4K1qGlMlgo6run/cX4CEn/8tIeYKRUnyk+LoMOGDBdH8JR598pK5qiVNMEePgX0A6ua56QQ1L7DEI2T2rblJgR+sgYRdrLlq47u+LY0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cjWxvZen; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744612241; x=1776148241;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aT/4donNVn5uBD8KT5k0h2cbp19I4j5BAlV0bafHIz4=;
-  b=cjWxvZenA33FwonlXrwmpiy2zaYWTr5QmqW80DloFUP1iX385I1djUil
-   pp+86rmjACW/3JNpsKJmNBuB1fuBswZ4Xh/WaI35wceit4bkpaLkx2IN5
-   dy23UQhRiQLKAVnpBGYOFTVBDmg4x86kNwUWm+7pqUTjonc3SEhW/Pb7K
-   yQsdw0/iHutVzmECTOoiEu38fvvOONX+yEa/44FjFmWgo9IBAKNeVoDcW
-   1GlgjVVrZww1xta7RzBmJTqmbdv9GMhC0fEDYlwOeHTS6AfEU0LGZ+TPl
-   eZgdBcrYufA0ckt0EB+h+bvIT5AchLItsgFGPak7AYx8l4+X7t57WT49w
-   w==;
-X-CSE-ConnectionGUID: xS5fruHOSDOkXrS+qEqQKQ==
-X-CSE-MsgGUID: +psypVrdTbK51puxXVydag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="56726956"
-X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="56726956"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:30:40 -0700
-X-CSE-ConnectionGUID: 7c22gHSsSn2UTlaAa6MZLw==
-X-CSE-MsgGUID: rN+ehYh0SdWYEq/ncs4XTQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="129694190"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa006.jf.intel.com with ESMTP; 13 Apr 2025 23:30:38 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 073F6214; Mon, 14 Apr 2025 09:30:36 +0300 (EEST)
-Date: Mon, 14 Apr 2025 09:30:36 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH] HID: simplify code in fetch_item()
-Message-ID: <Z_yrjPBO_CPS8WX1@black.fi.intel.com>
-References: <ZvwYbESMZ667QZqY@google.com>
- <20241010222451.GA3571761@thelio-3990X>
+	s=arc-20240116; t=1744616410; c=relaxed/simple;
+	bh=9E2qxErytjSnrPNbfHAsWh4YIUhM/c8A1tRX+fTXxdU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TKekE61KKH0iNgiyXv/JMVCnF6kvPhglRkr8bWUy42zZ196us5TgkMqtnpYrNIi608i/t9bpRBL/avp6i5H1eXrtZUJffjpQWhCQa/HkPVySDSWIpGxHVQd5574arIYxIIswoSHGj5Z45kdvKEEJWo5FhQBVwq7neJKkzhiotA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost (unknown [124.16.138.129])
+	by APP-05 (Coremail) with SMTP id zQCowAAnYgrUu_xnvr_nCA--.15082S2;
+	Mon, 14 Apr 2025 15:40:05 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] HID: corsair-void: Use to_delayed_work()
+Date: Mon, 14 Apr 2025 15:39:55 +0800
+Message-Id: <20250414073955.3954020-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241010222451.GA3571761@thelio-3990X>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAAnYgrUu_xnvr_nCA--.15082S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Gw1xJF43KFy7AF4xXF4xJFb_yoWkZFb_u3
+	4xZr4jgF1jkw1fGF98ArsxZr95Jws7Zrn2grZYg398JayUAry5J3yUArsrCryfWr4IyFy3
+	Cr9xZa15Cws7tjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbskFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
+	AVWUtwCY02Avz4vE14v_GF4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
+	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
+	14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
+	IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
+	87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
+	IFyTuYvjfU1T5dDUUUU
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
-On Thu, Oct 10, 2024 at 03:24:51PM -0700, Nathan Chancellor wrote:
-> On Tue, Oct 01, 2024 at 08:42:36AM -0700, Dmitry Torokhov wrote:
+Use to_delayed_work() instead of open-coding it.
 
-...
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+---
+ drivers/hid/hid-corsair-void.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> Getting rid of the unreachable() in some way resolves the issue. I
-> tested using BUG() in lieu of unreachable() like the second change I
-> mentioned above, which resolves the issue cleanly, as the default case
-> clearly cannot happen. ...
-
-As Dmitry pointed out to this old discussion, I have a question about the above
-test. Have you tried to use BUG() while CONFIG_BUG=n? Does it _also_ solve the
-issue?
-
+diff --git a/drivers/hid/hid-corsair-void.c b/drivers/hid/hid-corsair-void.c
+index afbd67aa9719..fee134a7eba3 100644
+--- a/drivers/hid/hid-corsair-void.c
++++ b/drivers/hid/hid-corsair-void.c
+@@ -507,7 +507,7 @@ static void corsair_void_status_work_handler(struct work_struct *work)
+ 	struct delayed_work *delayed_work;
+ 	int battery_ret;
+ 
+-	delayed_work = container_of(work, struct delayed_work, work);
++	delayed_work = to_delayed_work(work);
+ 	drvdata = container_of(delayed_work, struct corsair_void_drvdata,
+ 			       delayed_status_work);
+ 
+@@ -525,7 +525,7 @@ static void corsair_void_firmware_work_handler(struct work_struct *work)
+ 	struct delayed_work *delayed_work;
+ 	int firmware_ret;
+ 
+-	delayed_work = container_of(work, struct delayed_work, work);
++	delayed_work = to_delayed_work(work);
+ 	drvdata = container_of(delayed_work, struct corsair_void_drvdata,
+ 			       delayed_firmware_work);
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
 
