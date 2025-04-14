@@ -1,86 +1,90 @@
-Return-Path: <linux-input+bounces-11755-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11756-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87B5EA88FE8
-	for <lists+linux-input@lfdr.de>; Tue, 15 Apr 2025 01:08:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DFDEA88FE9
+	for <lists+linux-input@lfdr.de>; Tue, 15 Apr 2025 01:08:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 883F717D00E
-	for <lists+linux-input@lfdr.de>; Mon, 14 Apr 2025 23:08:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9BD71189A00F
+	for <lists+linux-input@lfdr.de>; Mon, 14 Apr 2025 23:08:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B897C1F4180;
-	Mon, 14 Apr 2025 23:08:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AB171F4CBE;
+	Mon, 14 Apr 2025 23:08:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FpfVEWYs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hzYoGUPH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8751E1DE2;
-	Mon, 14 Apr 2025 23:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA271F30C3;
+	Mon, 14 Apr 2025 23:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744672106; cv=none; b=N6ivtjfBjPpoqdh4K3xTGyFKE3SMmVS5eOY3CJh3ygJzCcINGp+4TCSfWoVPsGtnhTMwwtawwFfzhjgdfxKcM0BaHj/4sbsViPWV6sQ88f8mubouQ6zDd60D+a4SrMx/BFSeOUAMF0MImYEQxdHKMI/h2mFTYGp1VCvmzqAYeOc=
+	t=1744672107; cv=none; b=OmcL+BQc/UtleM86VgvW/PuhANpxPB406PgvuYHjVL8OGrroxzzgZk+xYRPTs/HVA4+5WEr+QnfTmewAv9Ny4BPv55tBU86zgU9zQL/p/u4k5cnYC9iHGJSp4eVN6B9nHTVTDqgK8CmtK0/Zu0nZkfLENbpxRSlvBpnw0fBygho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744672106; c=relaxed/simple;
-	bh=XfD8ffN9Nm78fevyv/4fXWARJZ/tMed++zhRH5Nvkkk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iKZOzaGp0+h3V1xsTRTWFrjOFvORlzP4/bNJHar6endoin/mS+ZnGpGNHyANYAXiPr4OnqvsKmVqHpxVDcTSpONLScXNqdwyusfPkxl5ZAgrTkI2l0mH1wKPc0LweBmd2oavv1Iyr2R3X3exnhs96RtYUx7WNTVXW/VM/bn7qg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FpfVEWYs; arc=none smtp.client-ip=209.85.218.49
+	s=arc-20240116; t=1744672107; c=relaxed/simple;
+	bh=HF7Bt3TUi1sVz4PiT1om/GB2WHMxQ8Loa880O3DhKuI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GioxBvMUAJsPgv+FgKbeGn7vvF78axbDp4ZcQLi7qRCk5PfHNdMKsrBApUfD+epAHwPvB93EsyIewRDBm6+Wlisl5wAbdH2/Gv2gc8GrS2hsfAbbSSAMqzrFn45DnJuykR47vFlj/0znVuyMkv0KstNQEglPDv35ZKzO1PTolAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hzYoGUPH; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-acb03ad9213so25291766b.1;
-        Mon, 14 Apr 2025 16:08:24 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ac79fa6e1c2so77588666b.1;
+        Mon, 14 Apr 2025 16:08:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744672103; x=1745276903; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sJRMiweLG+hO/WGA08j/qE6jlnahNOBUB92vlz8iTTY=;
-        b=FpfVEWYsXEe/RGzmfTUbepwJboHPSGunU9anIxEwE4yfMMXzCeS7YpHDGaI23fBd4X
-         Qtid10OxS+c9OyUofmQd7MZP9oui0VYPtvXre9f6fKyyYytqqXlyer0xrLDtUOoeXNBz
-         OcpUo9tijXfOMzIiA8sd79woYLKMw6uhWAYYW15mgO8A/ppCMXD8nAfSxFZd6VIF/bb/
-         AgFG3+sN29LHnYtBZQQtCGdOhdcnuCUWkSYcSCRyJCn0nq/Izq5PdL48nFqtCzRMahny
-         9+qIavt2RFH6lEa5PqB2B7JsJ287KiXLmbuP0Vk2gdtNUgzRwVWXl9WWeQUZKtxFCK9z
-         Dosg==
+        d=gmail.com; s=20230601; t=1744672104; x=1745276904; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nUv6EEilc1Zm/5NTxEe/4QBAi5xz2kQ7QmAgCRsXgjs=;
+        b=hzYoGUPHluKT8Ks9V4Hv7GXQK+MagCmwsEQERyiAHZQS4A4SPwIK9ZN+77YKhM7KEl
+         caeefGBTfpHf2kKCKy/ULaqWxLucYfLXbxYcjkzXdjFjBUxviBlb+WvCVzJve/ZprUC9
+         x7e8sDdT0MJrNnzAAq1hHsa4S9jrHGUh8N0jKF1RRK58ExL0KERg9ovu+RYNAWebvS+l
+         uetBiUTWX3rzyIOszxOb55nXbiK1UxWQhppBG1M0eB2L/MtBSVIJN9I9dONcdybHmEIa
+         IscoUb7wcf5PUgyl5UQKE6We/7MiNkfPpIU+d/VTdjPTgNsFaeyDSslkp2Xin6BOVB8Y
+         zNdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744672103; x=1745276903;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sJRMiweLG+hO/WGA08j/qE6jlnahNOBUB92vlz8iTTY=;
-        b=PF8VVbSRWj6Ue8lR6KHIxUvn/8NPoK7jqyrztR/d/t/nfEQibCViSIDlaGC6wGRWMo
-         aM/vyaCeFQSkc1EQUph7kZGDDQ1zUZBcWm3UbxvpLx8srI5ag2r0DbgcP8ZhgngiKb64
-         XI8AKVCdtpb7qvkg56zswD7AB1O1vpgKGp6VfuxBD8VgMhYrOPlVxvTgLcfesCeUCFSc
-         DSItzZG+oN1g2ZtVX0ITUThK8jSoZSB1cvHV+y3oJkhXGFmBtRc+0iYFSriGn0f1f8aC
-         3h55/7WwM8MmNQ6VRO8HnOBu+UJ51L+Y9fpRI9CMXDn00Nl+odBx4/Lm61EP9FgWQCLR
-         U1Qg==
-X-Forwarded-Encrypted: i=1; AJvYcCUjCGSp+2C9tqQHNhkEK1Ifs3BADjKF4SULOrlp1W6gcL9jQ2mehIL/FP2jvvGbQlByNlFlZyirXe98@vger.kernel.org, AJvYcCVQjV6nPoZExFBV9pf87VCVqd4onPOtw6FWp03XHaRJKuEthV5KRr+Fvq22jlHLnl9Opnnbnhd3fwaipQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzcDAsL37/nICdzN8TSS3OtotsVWZcrI7eg9UEPOXoQj4sqJCA
-	TO3NzPF0R4pSwQ0DEL8VwMRipDcay4woGbdWNBDrQhq8qR2CCDy96x11Kw==
-X-Gm-Gg: ASbGnctclwnhU0N9/in/z3PDSUm3PzAOjlixpRH0R/hJOKm9t0jIs8baNTu1mgxHf1u
-	4PDWVQbzvBrTkkLdJTXKPbbfO9N4pCserkxZ3rsRYHWn4Hsy/gjiHsl2cruG21fOBU01qPOwe8Y
-	TSbQEYngI93O5rhtNGO1SNgogcbygZDl3B014p1aazLoq2CSlRDO1R1L0ADefNzr1uMwXb1ZEqQ
-	45c4bZWv3bBe1WNk0sSgtgoclPxsGBb1eFwO687ct94yGOQ5szI02yjC7xZHZaeAlfGe42KzIsJ
-	+xMjtRWCy0cUoTlaWvnnQ1Ft68t/W97VXDiW7Usf7SQuhwLjcGt+iLg6CMOEX16Hap7ORr8Xtp7
-	WLZQEovtSaSc=
-X-Google-Smtp-Source: AGHT+IEfIbf1o86N8Yf36KO8jpfnPUgRDeUMr3cQYTik16oJRURgK2gBLxxxT/zgBCAeAJBVQLFP7w==
-X-Received: by 2002:a17:907:c8a9:b0:ac7:390f:e36a with SMTP id a640c23a62f3a-acb1404db8amr40859366b.14.1744672102669;
-        Mon, 14 Apr 2025 16:08:22 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744672104; x=1745276904;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nUv6EEilc1Zm/5NTxEe/4QBAi5xz2kQ7QmAgCRsXgjs=;
+        b=T5lWmBUDzt7kyjREoYSSDlRJVTu3YAHQkRb6clxeSnw3NJBkMdnzIIsfs6e47j9Q/9
+         d+yL3FvKiXzr5eTqp0lB2KfUmTQ8R8SOxuWFB1TOHgQND3zQYT6b8umlb+SUWrnI54eB
+         5fdwzKTiAc6f5ZbnL7ipKDWumCDfPmIvWnNYAcbWR1fCM3K5p/KuVVrVtVEx3JDinl2s
+         sFP34qXMZJJ8tL1Yj5/fxohIRlXAAJSMNpPsbmDOYjXKCVgBb84+x1r+Ya/5kWpWE04z
+         Px4+pPJkE3z/YdHralTxYN1RCIJ1nUIhkTeAUmJThfDFHlXWtm7F/2zVpkxbH9rGQqt4
+         D4FQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUkKYoTca9+PBFWVSZagDph2A6jJ56mRJWRgviJCjvwRDqn/GjN1oeQTHEgAbUII74AIyHi3GzMH2IQ@vger.kernel.org, AJvYcCX0PnP1D9kj29vonsSvZWfOGrOm8/Cfnlr2rCU7m1X9C+XZNApDNY7hbUlL7UXAu2YPQxieZ6BCYyFv/g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGsDsA993s2wRFzJIJbXChDv+Dif1cmT0AD039NoziYBJPyfGi
+	ikJjq4a4QiwFiybuSZxdxDS7dw/1vtUgCB8sl10RurmO3AwfqNWAD1On+Q==
+X-Gm-Gg: ASbGncsWumB2XgANtf5MmHF5zyCN2Og+zfpaUA/G3fuTi5bGTBYmnqaRYQdB8az0Ntg
+	zw68BAHcn6ZfMCmoXyjvHHIbVTHNsqPPOS3ocfWiTyscgXOr6fRjV7P4cGw7l1G3S3vG3G/cfRQ
+	wWvkmdXCmw/SZ2oA5JyxIS2CCUvpB/dOGyDhRRqf+VFBAMAqAJ8EXsiH9oBcnjfFVZ+15eoRY3m
+	c29c7QyAgnUOjTsixpvpn9Oo0AmPwOjrYuctY7u2SechbaoN5hbny8ElVoSddN93ro16pafHhiP
+	/1rV0ShtEvloViTCoYQb0VE4VUNjNGLQfJjhXNYWi/trjSImt5EELvLFuLvv4oq2gRK2L9vdtsI
+	jfGofL/93gzI=
+X-Google-Smtp-Source: AGHT+IH2sQqccokmjctQNeA2XNtr1JbutIyHIEEl5UI9wjv0enFOsNxeWzv5bSGK3NWzeKj2NjxJdw==
+X-Received: by 2002:a17:907:948e:b0:ac2:e2bf:d440 with SMTP id a640c23a62f3a-acad31ef8dcmr460852166b.0.1744672103634;
+        Mon, 14 Apr 2025 16:08:23 -0700 (PDT)
 Received: from laptok.lan (89-64-31-184.dynamic.chello.pl. [89.64.31.184])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1bb3e08sm1001328166b.14.2025.04.14.16.08.21
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1bb3e08sm1001328166b.14.2025.04.14.16.08.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Apr 2025 16:08:22 -0700 (PDT)
+        Mon, 14 Apr 2025 16:08:23 -0700 (PDT)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org
 Cc: oleg@makarenk.ooo,
 	linux-input@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH RESEND 0/2] HID: pidff: checkpatch fixes
-Date: Tue, 15 Apr 2025 01:08:16 +0200
-Message-ID: <20250414230818.957678-1-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH RESEND 1/2] HID: hid-universal-pidff: Fix errors from checkpatch
+Date: Tue, 15 Apr 2025 01:08:17 +0200
+Message-ID: <20250414230818.957678-2-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250414230818.957678-1-tomasz.pakula.oficjalny@gmail.com>
+References: <20250414230818.957678-1-tomasz.pakula.oficjalny@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -90,22 +94,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-No reason to write too much. Fixing errors and warnings from checkpatch.
-Made on top of for-6.15/pidff. Applies cleanly on 6.15-rc2 as well.
+Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+---
+ drivers/hid/hid-universal-pidff.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-I apologize for not checking my patches earlier.
-
-Tomasz Pakuła (2):
-  HID: hid-universal-pidff: Fix errors from checkpatch
-  HID: pidff: Fix checkpatch errors and warnings
-
- drivers/hid/hid-universal-pidff.c |  10 +--
- drivers/hid/usbhid/hid-pidff.c    | 129 +++++++++++++-----------------
- drivers/hid/usbhid/hid-pidff.h    |   3 +-
- 3 files changed, 63 insertions(+), 79 deletions(-)
-
-
-base-commit: e2fa0bdf08a70623f24ed52f2037a330999d9800
+diff --git a/drivers/hid/hid-universal-pidff.c b/drivers/hid/hid-universal-pidff.c
+index 001a0f5efb9d..dc3ed69dac72 100644
+--- a/drivers/hid/hid-universal-pidff.c
++++ b/drivers/hid/hid-universal-pidff.c
+@@ -56,7 +56,8 @@ static int universal_pidff_input_mapping(struct hid_device *hdev,
+ static int universal_pidff_probe(struct hid_device *hdev,
+ 				 const struct hid_device_id *id)
+ {
+-	int i, error;
++	int error;
++
+ 	error = hid_parse(hdev);
+ 	if (error) {
+ 		hid_err(hdev, "HID parse failed\n");
+@@ -71,7 +72,7 @@ static int universal_pidff_probe(struct hid_device *hdev,
+ 
+ 	/* Check if device contains PID usage page */
+ 	error = 1;
+-	for (i = 0; i < hdev->collection_size; i++)
++	for (int i = 0; i < hdev->collection_size; i++)
+ 		if ((hdev->collection[i].usage & HID_USAGE_PAGE) == HID_UP_PID) {
+ 			error = 0;
+ 			hid_dbg(hdev, "PID usage page found\n");
+@@ -91,8 +92,8 @@ static int universal_pidff_probe(struct hid_device *hdev,
+ 
+ 	/* Check if HID_PID support is enabled */
+ 	int (*init_function)(struct hid_device *, u32);
+-	init_function = hid_pidff_init_with_quirks;
+ 
++	init_function = hid_pidff_init_with_quirks;
+ 	if (!init_function) {
+ 		hid_warn(hdev, "HID_PID support not enabled!\n");
+ 		return 0;
+@@ -114,14 +115,13 @@ static int universal_pidff_probe(struct hid_device *hdev,
+ static int universal_pidff_input_configured(struct hid_device *hdev,
+ 					    struct hid_input *hidinput)
+ {
+-	int axis;
+ 	struct input_dev *input = hidinput->input;
+ 
+ 	if (!input->absinfo)
+ 		return 0;
+ 
+ 	/* Decrease fuzz and deadzone on available axes */
+-	for (axis = ABS_X; axis <= ABS_BRAKE; axis++) {
++	for (int axis = ABS_X; axis <= ABS_BRAKE; axis++) {
+ 		if (!test_bit(axis, input->absbit))
+ 			continue;
+ 
 -- 
 2.49.0
 
