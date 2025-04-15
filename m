@@ -1,112 +1,108 @@
-Return-Path: <linux-input+bounces-11785-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11786-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01843A8A1CE
-	for <lists+linux-input@lfdr.de>; Tue, 15 Apr 2025 16:50:25 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A6FA8A29F
+	for <lists+linux-input@lfdr.de>; Tue, 15 Apr 2025 17:22:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B16319009AC
-	for <lists+linux-input@lfdr.de>; Tue, 15 Apr 2025 14:50:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6FE407A4B6D
+	for <lists+linux-input@lfdr.de>; Tue, 15 Apr 2025 15:20:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48B552BCF4E;
-	Tue, 15 Apr 2025 14:49:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B86BC1F416A;
+	Tue, 15 Apr 2025 15:21:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GSqfS8Nm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VzDXicC1"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8CA29B790;
-	Tue, 15 Apr 2025 14:49:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F781E1C2B;
+	Tue, 15 Apr 2025 15:21:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744728561; cv=none; b=PT1qb7dvsabD3AUFur+8dBA0WJocfdtrBpbWz+NOAW3RvlT7OIY/XBD+KM84P2wNjoRrfXIOc86FAAdd3TbL0ymr2GR/qwu0Ig+NMokIBGAwgXclaUneRjILj2Vdrb/oy3z5UwsuwBjixnDbdOLgs98x+j5U1OYxOVCmn720L88=
+	t=1744730514; cv=none; b=CpWq4h1q2LItEZXzTGPaB//zc+Zx9hxvxaZcWao5hJvPbaHKjCIj9tPoS+uFYDQjDfnYrtl1JdhqBEnKI0ayx+7Yl74wCEMezZ+IfzEG+4gMMV5JnDSElb4EFeLr6rofyLD+XMVi+M4rX124uRoJlt9LMTwQJC/ds3J4Be22YME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744728561; c=relaxed/simple;
-	bh=jqGE0xVu8yWKFkliI8yVbSzznb3JK3p4yllxFur7jU8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qp+riBP0AUkfSgiSU7rUdJChDvB1O2fopNWthINrsuQaECTY3QEn6IKLeE6OWimv7POTLt3GGpSOE1s4ZBpL8qiPxmLZDeGKPyJwzckSdKBAGUI88EpnZvQPb9uJVZxZal9xRJeZ0wyaDv3ZCh7nAPb1XUaSeDHXV9fTlzSedfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GSqfS8Nm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 48349C2BCC9;
-	Tue, 15 Apr 2025 14:49:20 +0000 (UTC)
+	s=arc-20240116; t=1744730514; c=relaxed/simple;
+	bh=nSgOXEwj53DRpt0VM3PBWBpPuMMiDEbUSyXxx0hDvis=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ldF3xVE2qEJ9d5KYvoyZJQMcXXVGU54H+zDB0y3/kHym7tTXWCIYAsh42e3sJFCcI7yvZ+cIHIhDEfL1ALDcYGqBWFnHZmRG5/n4O6vuChoylsgJmAOnt1qqd24Bpb8JB1Ul2vTxswPH1RayKq4N7cN2VjGw1W7BbwnfK78UUsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VzDXicC1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82B1EC4CEEB;
+	Tue, 15 Apr 2025 15:21:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744728560;
-	bh=jqGE0xVu8yWKFkliI8yVbSzznb3JK3p4yllxFur7jU8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=GSqfS8NmE9pkSUb5BD9VdrvsDOA342KHzo0j8CPPjuA7boatuzTCQS9JelfXiaScb
-	 MRcMMpINsvSLHWfFZc5oii55Vgn1Tt6XvkGjr6NyulbL2cSeavq6ktOdbOeIIdnVdd
-	 n/QKhYJ4/iSEeZ3D1JBlZpIxCnxqj+FzUIA6b9tR1zyivKoikrMF5zyaXncVKTYApm
-	 ePDw6kfhkY3mTlraFtJu+9bslBF4RX/HBwzBRaCU8WbzhKQKEtFAkR0JDDQOiQMdCy
-	 SCGzXhGZzgXEfTkEfq+ayo16vxNWR6fCZs27zZXxv13Ak+qtffuzQc3o1fEMEnDhxL
-	 BSVrlXbjSDKuQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3165DC369B8;
-	Tue, 15 Apr 2025 14:49:20 +0000 (UTC)
-From: =?utf-8?q?Nuno_S=C3=A1_via_B4_Relay?= <devnull+nuno.sa.analog.com@kernel.org>
-Date: Tue, 15 Apr 2025 15:49:33 +0100
-Subject: [PATCH v2 17/17] pwm: adp5585: make sure to include
- mod_devicetable.h
+	s=k20201202; t=1744730514;
+	bh=nSgOXEwj53DRpt0VM3PBWBpPuMMiDEbUSyXxx0hDvis=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VzDXicC1nr+hACB6teiknf6LfW34EStb67ajHC8PrLltLzjcexH4K+Hv8Xa8qUaKU
+	 jmep8gm3iPFAbZZQydFOPW5K0dIY6ZlJWHBm7TSGVGTz4sMJYl1rLKCns376MsNf9B
+	 uIzCqxvrGg8X4IXUtpvBAVNuJqmLxeDjFg8fDF3EUJuqprH8SQqlBPTOCt7KWvCfP1
+	 8Cbb+QAWpYoAsir1+uad0gy/iguqM9HVPnGUyReUgJf4ZXLwE8WPtLQw8Jl5hoxJe6
+	 OOrkr3nJ6zuQozL9yLgyCoF5A63aRCOzJQ33CAnPdW8MaOZuAVxC0RnuSbl0SJdqhr
+	 aFCLLiv+iPbeQ==
+Date: Tue, 15 Apr 2025 08:21:49 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH] HID: simplify code in fetch_item()
+Message-ID: <20250415152149.GB995325@ax162>
+References: <ZvwYbESMZ667QZqY@google.com>
+ <20241010222451.GA3571761@thelio-3990X>
+ <Z_yrjPBO_CPS8WX1@black.fi.intel.com>
+ <20250415003326.GA4164044@ax162>
+ <Z_4ApoWzgWSovgRi@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250415-dev-adp5589-fw-v2-17-3a799c3ed812@analog.com>
-References: <20250415-dev-adp5589-fw-v2-0-3a799c3ed812@analog.com>
-In-Reply-To: <20250415-dev-adp5589-fw-v2-0-3a799c3ed812@analog.com>
-To: linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-input@vger.kernel.org
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Liu Ying <victor.liu@nxp.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1744728560; l=672;
- i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
- bh=v3TMENAZmJN0myQWjbTc/kqchul9OyTcCJ5PkGOgx9M=;
- b=OjgEv0txZLX702otZ+LNkY9LUqm7zC6znXqY0Nwn0XHuWxDxlpDFu1UAY2W9H33MD6MD7/173
- DISti+oXRK0DheBq5ztqTVeuwfVdpb35Rg93oiYNHGywrjgwLRhkWGg
-X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
- pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
-X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
- auth_id=100
-X-Original-From: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
-Reply-To: nuno.sa@analog.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z_4ApoWzgWSovgRi@smile.fi.intel.com>
 
-From: Nuno Sá <nuno.sa@analog.com>
+On Tue, Apr 15, 2025 at 09:45:58AM +0300, Andy Shevchenko wrote:
+> On Mon, Apr 14, 2025 at 05:33:26PM -0700, Nathan Chancellor wrote:
+> > On Mon, Apr 14, 2025 at 09:30:36AM +0300, Andy Shevchenko wrote:
+> > > On Thu, Oct 10, 2024 at 03:24:51PM -0700, Nathan Chancellor wrote:
+> > > > On Tue, Oct 01, 2024 at 08:42:36AM -0700, Dmitry Torokhov wrote:
+> 
+> ...
+> 
+> > > > Getting rid of the unreachable() in some way resolves the issue. I
+> > > > tested using BUG() in lieu of unreachable() like the second change I
+> > > > mentioned above, which resolves the issue cleanly, as the default case
+> > > > clearly cannot happen. ...
+> > > 
+> > > As Dmitry pointed out to this old discussion, I have a question about the above
+> > > test. Have you tried to use BUG() while CONFIG_BUG=n? Does it _also_ solve the
+> > > issue?
+> > 
+> > Yes because x86 appears to always emit ud2 for BUG() regardless of
+> > whether CONFIG_BUG is set or not since HAVE_ARCH_BUG is always
+> > respected.
+> 
+> Thank you for the reply. But do you know if this is guaranteed on the rest of
+> supported architectures? I.o.w. may we assume that BUG() in lieu of unreachable()
+> will always fix the issue?
 
-Explicitly include mod_devicetable.h for struct platform_device_id.
+I don't know. As far as I can tell, BUG() is always better than a bare
+unreachable() because it is either the same as unreachable() if the
+architecture does not define HAVE_ARCH_BUG and CONFIG_BUG=n (and in the
+case of CONFIG_BUG=n, I think the user should get to pick up the pieces)
+or when CONFIG_BUG=y and/or HAVE_ARCH_BUG is defined, the unreachable()
+will truly be unreachable in the control flow graph because of the trap
+or __noreturn from BUG(), so no undefined behavior. I think you would
+only be able to find cases where BUG() was not sufficient to avoid
+undefined behavior at runtime instead of compile time, as objtool only
+supports loongarch and x86 right now and both ensure BUG() always traps.
+I might be missing something though.
 
-Signed-off-by: Nuno Sá <nuno.sa@analog.com>
----
- drivers/pwm/pwm-adp5585.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/pwm/pwm-adp5585.c b/drivers/pwm/pwm-adp5585.c
-index cc8ac8f9e5669b4ffca06d4117a29f030393f48f..85308257724a338da4d2416c8d01e48e08bd0856 100644
---- a/drivers/pwm/pwm-adp5585.c
-+++ b/drivers/pwm/pwm-adp5585.c
-@@ -20,6 +20,7 @@
- #include <linux/mfd/adp5585.h>
- #include <linux/minmax.h>
- #include <linux/module.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/platform_device.h>
- #include <linux/pwm.h>
- #include <linux/regmap.h>
-
--- 
-2.49.0
-
-
+Cheers,
+Nathan
 
