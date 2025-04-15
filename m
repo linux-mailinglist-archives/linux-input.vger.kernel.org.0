@@ -1,160 +1,119 @@
-Return-Path: <linux-input+bounces-11759-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11760-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45B46A8935E
-	for <lists+linux-input@lfdr.de>; Tue, 15 Apr 2025 07:28:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D590A8941A
+	for <lists+linux-input@lfdr.de>; Tue, 15 Apr 2025 08:46:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4B963AF6A0
-	for <lists+linux-input@lfdr.de>; Tue, 15 Apr 2025 05:27:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C16F93B7251
+	for <lists+linux-input@lfdr.de>; Tue, 15 Apr 2025 06:45:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB2CA2741AC;
-	Tue, 15 Apr 2025 05:27:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D11D2557A;
+	Tue, 15 Apr 2025 06:46:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Aap5Z13x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GI11/ETv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB2924C67A;
-	Tue, 15 Apr 2025 05:27:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E8AF4ED;
+	Tue, 15 Apr 2025 06:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744694877; cv=none; b=UJnwgJGdoWobdWnt7E+1p5xPlwA1hoBYf43xr2iWQA8S4dEe0bsF/W2ALpB3yORLlqS0KZiB8J3Ph/X9IS4jJi3Rgv6ldAebKFaf79wtvC3sq2dKlQjLseYd400UKjS2CfnQ5gkwiooyF4Dck4XJuvIuq6GbCIUjsrQs7/OgtzU=
+	t=1744699569; cv=none; b=QUEiPY/Bc4M94Q/8z2TUbJ9lOsoNTmHdI79PJo3Cpw7GyNswvKu10kMd0sblBclxpbEBiNkG8BzJell6qKEWCUPgqpWGZd8HZPjzcO9IMKlUbYI+spxQnghzNvWYlCCZStEPw9xqE6u1WZFwJzwO6gt+YRmlIzMohvQKxFycabs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744694877; c=relaxed/simple;
-	bh=GmWBW+f/luY62YqPGnQis1uDV16nDrQ2m3plRoAVeCU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=odpqrKLQD5b7iXzlC6Kea/W5g38Ys8RknaZ56+ouQOVW3zS8Q0ZWBbnvUypAidnz1gPy2/hxE9D8bchnmbsaFE7oWTXxVpz+/6+pEVtzvedVaO52H4X2jxFUvDOLq1Dpd3fXM4D0n891h0/2OIHI5bmsfdKo3zWyomV2jobE14U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Aap5Z13x; arc=none smtp.client-ip=52.59.177.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1744694734;
-	bh=ExqqTddKbfRBKLynAmSixO1VnWzyolDH80X+MNF3H6k=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=Aap5Z13xSbySM3E79BWeiHV73w2H9bvogefelHFZ1D17TaS5Qj5m/98WfIKDItLWr
-	 l03uUnMf4lA11dXBxGvaU/32fYsQDwRJNF9x2W4Q8zEHF3/q+MEfCnwEtb91E3Lt/Z
-	 NM5XnMnEwA3sc2LA6l7RUNS3orYLcUhYB0S/CB6Y=
-X-QQ-mid: zesmtpip4t1744694721tad383a9a
-X-QQ-Originating-IP: p4OQ8CJQP7O7PKTJSiyj2RGbhiBJ7XJmTAkr/7zSvI8=
-Received: from localhost.localdomain ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 15 Apr 2025 13:25:19 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 17417611640228889567
-EX-QQ-RecipientCnt: 11
-From: WangYuli <wangyuli@uniontech.com>
-To: dmitry.torokhov@gmail.com
-Cc: javier.carrasco.cruz@gmail.com,
-	wens@csie.org,
-	wangyuli@uniontech.com,
-	u.kleine-koenig@baylibre.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	davem@nuts.ninka.net,
-	zhanjun@uniontech.com,
-	niecheng1@uniontech.com,
-	guanwentao@uniontech.com
-Subject: [PATCH] Input: sparcspkr - Avoid unannotated fall-through
-Date: Tue, 15 Apr 2025 13:24:39 +0800
-Message-ID: <6730E40353C76908+20250415052439.155051-1-wangyuli@uniontech.com>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1744699569; c=relaxed/simple;
+	bh=SBEr8CwCyXVE2U80w9UyF6A35EP/6o196oB1OA0kh/U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tW/Dtv7aHYsGlQDvqTBshgLZ/57laotlG1s1P2Z7Kr8pUK6e7OpN0drV9QTg/MA6SoV7sFw8UHm5ulvbr8PaTqoel/4hUrDaoVec5dRYa+Ux7WKiQuVFoZtVBvkc26kKZnczFc6G5ZXnI92I6ZfRR/sKwzZ5NaO79zs7xxXBJ+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GI11/ETv; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744699564; x=1776235564;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SBEr8CwCyXVE2U80w9UyF6A35EP/6o196oB1OA0kh/U=;
+  b=GI11/ETvM6V1F9zFlCdfgVWdUFB+aFslHs8M+tOIFaXjZkQIfLhIp7Ln
+   vMX2H4wjaFWgnVWSMQTnRkVs6yupz8zGe6riia5TL282b7ip6MbNzrz+9
+   ALWH67bsSH8pOQtdRcMwZnB4fMPL0Oc5CUhFLf08oTqmixv2R35fPHBL7
+   POZwr1kHT3unpMqWVXMyf5w1L0bFAjyErX31p3ltnin0I9PYud1UzO68+
+   1K05/EwJlm2hvScy68Yw+hHQR8gcW9Kvhbqi+4kKObPny7KkBSQX/haD2
+   1Y6QQCNSdIGiBfCXG5LjM7oVigiiAAvHrmwTdwdSnTwFf8MzqGOykoOIC
+   w==;
+X-CSE-ConnectionGUID: VZUrCidmTHWW3lVIRQwu8w==
+X-CSE-MsgGUID: 48JXxhLHSA64rE0uwBLu6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="57182746"
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="57182746"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 23:46:04 -0700
+X-CSE-ConnectionGUID: K63iAaCpTzqDWGS1VbWsYw==
+X-CSE-MsgGUID: JTqxjqWGR7Gt9XIYIB8RqA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="130567637"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 23:46:02 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1u4a3T-0000000CSsu-0IkC;
+	Tue, 15 Apr 2025 09:45:59 +0300
+Date: Tue, 15 Apr 2025 09:45:58 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH] HID: simplify code in fetch_item()
+Message-ID: <Z_4ApoWzgWSovgRi@smile.fi.intel.com>
+References: <ZvwYbESMZ667QZqY@google.com>
+ <20241010222451.GA3571761@thelio-3990X>
+ <Z_yrjPBO_CPS8WX1@black.fi.intel.com>
+ <20250415003326.GA4164044@ax162>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NHsHeYamdwz3/jAh2vjTsrVz1ks9Xf3RXwHFa5dp/SVCt1FiY+6VUpqf
-	MOyRlPSfM7WnbFPgUXypm0lfDk//epW3iqaWJxKKDWAHtUtU9I42p9k7c0rlJfpwNt0JUfw
-	Wfi66wMyVBzCaLtxN5304L43dmDZJd+zAGad9L0Ypf3oghJWQI6cXs0CSCq1YhMuHC5OCTK
-	fr+dxHIFSuF+rrVppugaPMBXKwBY/tRmvBDyaC8dK/sG7a1/K3gg7L1s9UfnGUdNiVrR7HV
-	Tz9lwH6fgYaSHyV8hMRGm7kGVlK9I0PX/LvQDEeH3FU2id6R7ll6SAA5cgVIV5oMZUTRqQL
-	AtdrCyRfreMC+Gk+KwqNfDr4P01qYNsuh7y23FwlmiKlT6w0+r8+zb+giFIWK4G0Ml0gvNF
-	ni7jvgqc453/TTRZdK2UDDbicoVzfTR3PYuqh7RzMsNeVUBexSoErPGAyGkeHDyI4QGMY+U
-	0JzLVQdrFUJ59vVMdcTcOLivslItuw1DuNED0pLEKoEqM218vYhHWYGPv4woAGhjOmCWUz5
-	kfoqkXN6SeUidwEW25q5bRBsXfem1WEXxtRoJjjmG7/TF6Y7+LAUe5eeoDPRX+q3EYh3l8j
-	E70bVTlM3txEGlwy3gmvBZp2c4NJtQYWD3tdC/G7as8+iQiCiq5r40uQI8AOp4sRVX2DDDN
-	vwk+bDMP1C3Ozh8VfhUsarlUxMmoiYyEhM/uCCMW1XH6/O26Szb5zNMVBUzRGq0eEciMmuT
-	mZUiUz3nl1vh+YCzx1nBtQPzL3//aVr51nPaBfPNYX/HMN1ze+BOjpY03T78SUWOGlKd+jl
-	gB0yqzEc1o5E5PNqtUyRH9+G1XuxubI2uNbAr+MnxW0iTjP7uE/SYJx/2gS9i/PnyJvTuXW
-	E1kvUiQ+BAir7FM5qxaKrr26lI5aOQLOCZCqXKdv+NnxN7b52ez0CIGVb4temITjKFF7DY2
-	3a4eTu4zhFeCuRCHmL/dGtYlSKWNjMJmd4GmHd8PUb+tyqati8QCgtviHkpEpEX7wir2M5V
-	zaFqC1Pwt/oDVw3dYtpUsSMSTIAtOZN5vPn+xRZiS5OgjtDc4F
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250415003326.GA4164044@ax162>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-1. Fix follow warnings with clang-21:
-  drivers/input/misc/sparcspkr.c:78:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     78 |                 case SND_TONE: break;
-        |                 ^
-  drivers/input/misc/sparcspkr.c:78:3: note: insert 'break;' to avoid fall-through
-     78 |                 case SND_TONE: break;
-        |                 ^
-        |                 break;
-  drivers/input/misc/sparcspkr.c:113:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-    113 |                 case SND_TONE: break;
-        |                 ^
-  drivers/input/misc/sparcspkr.c:113:3: note: insert 'break;' to avoid fall-through
-    113 |                 case SND_TONE: break;
-        |                 ^
-        |                 break;
-  2 warnings generated.
-2. Reformat this code block to enhance readability.
+On Mon, Apr 14, 2025 at 05:33:26PM -0700, Nathan Chancellor wrote:
+> On Mon, Apr 14, 2025 at 09:30:36AM +0300, Andy Shevchenko wrote:
+> > On Thu, Oct 10, 2024 at 03:24:51PM -0700, Nathan Chancellor wrote:
+> > > On Tue, Oct 01, 2024 at 08:42:36AM -0700, Dmitry Torokhov wrote:
 
-Fixes: 215ea853a9 ("[INPUT]: Add EBUS/ISA speaker input driver for Sparc.")  #In history tree
-Signed-off-by: WangYuli <wangyuli@uniontech.com>
----
- drivers/input/misc/sparcspkr.c | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
+...
 
-diff --git a/drivers/input/misc/sparcspkr.c b/drivers/input/misc/sparcspkr.c
-index 8d7303fc13bc..1cfadd73829f 100644
---- a/drivers/input/misc/sparcspkr.c
-+++ b/drivers/input/misc/sparcspkr.c
-@@ -74,9 +74,14 @@ static int bbc_spkr_event(struct input_dev *dev, unsigned int type, unsigned int
- 		return -1;
- 
- 	switch (code) {
--		case SND_BELL: if (value) value = 1000;
--		case SND_TONE: break;
--		default: return -1;
-+	case SND_BELL:
-+		if (value)
-+			value = 1000;
-+		break;
-+	case SND_TONE:
-+		break;
-+	default:
-+		return -1;
- 	}
- 
- 	if (value > 20 && value < 32767)
-@@ -109,9 +114,14 @@ static int grover_spkr_event(struct input_dev *dev, unsigned int type, unsigned
- 		return -1;
- 
- 	switch (code) {
--		case SND_BELL: if (value) value = 1000;
--		case SND_TONE: break;
--		default: return -1;
-+	case SND_BELL:
-+		if (value)
-+			value = 1000;
-+		break;
-+	case SND_TONE:
-+		break;
-+	default:
-+		return -1;
- 	}
- 
- 	if (value > 20 && value < 32767)
+> > > Getting rid of the unreachable() in some way resolves the issue. I
+> > > tested using BUG() in lieu of unreachable() like the second change I
+> > > mentioned above, which resolves the issue cleanly, as the default case
+> > > clearly cannot happen. ...
+> > 
+> > As Dmitry pointed out to this old discussion, I have a question about the above
+> > test. Have you tried to use BUG() while CONFIG_BUG=n? Does it _also_ solve the
+> > issue?
+> 
+> Yes because x86 appears to always emit ud2 for BUG() regardless of
+> whether CONFIG_BUG is set or not since HAVE_ARCH_BUG is always
+> respected.
+
+Thank you for the reply. But do you know if this is guaranteed on the rest of
+supported architectures? I.o.w. may we assume that BUG() in lieu of unreachable()
+will always fix the issue?
+
 -- 
-2.49.0
+With Best Regards,
+Andy Shevchenko
+
 
 
