@@ -1,135 +1,243 @@
-Return-Path: <linux-input+bounces-11825-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11826-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD614A91EB2
-	for <lists+linux-input@lfdr.de>; Thu, 17 Apr 2025 15:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBADDA92680
+	for <lists+linux-input@lfdr.de>; Thu, 17 Apr 2025 20:14:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B92F8A11F6
-	for <lists+linux-input@lfdr.de>; Thu, 17 Apr 2025 13:51:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 276CB8A61B7
+	for <lists+linux-input@lfdr.de>; Thu, 17 Apr 2025 18:13:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0077A24EA92;
-	Thu, 17 Apr 2025 13:51:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A969C2566DF;
+	Thu, 17 Apr 2025 18:13:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="GldvO/F3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J2+ypom3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4004A24E00A;
-	Thu, 17 Apr 2025 13:51:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0542561A2;
+	Thu, 17 Apr 2025 18:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744897909; cv=none; b=XaxKqO+1/NLedPsNLmkiFGb0IIfxlXBeJUfs19wj16vh9qSnytS/d65p0kPlqGG7sPZez7T0SmdLeO59PBcFTjd4kIaMXMFnj/dBCA404+hqJRxsxMsVF09zp5XydZ27RG4o/4qJgzBRIOyvWf1pHwPT1lxrPJKjvfO/YIG5FEI=
+	t=1744913634; cv=none; b=BMZB0fNXoJmHN68VmBGeOgv+CU2ti1NWYy6Q6W8Oc05hPMLWDG2lk5L+25tL4+qPReRo+mPzclU5JNTwo6NT3apDaNIocJTI8asEuPsYFc9wGyQAvPTazYAI+0KD9mBH3MDGeGsKnaikEi9IThPON/cC+LY10EdVOAYsjwnMAhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744897909; c=relaxed/simple;
-	bh=kvDzvFLykr8zaiqq2xGfd9BwL+jtTVVfZKHIilgYdb8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UM5xbSsW2WOSN/ByRvCbONR9BdgUAp19HrWMyvQNTrz3bC1cJQf0NRSHx0Ih1puCNCMp1LhZWIv346h+xtXxexCxsgJYtguMN4yAl5UkAIV6BpkhY7t2R29jTMqpsK47XepISS8zVXRy/ZFBBabY1GyyouSupmGy4naxnCGrBO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=GldvO/F3; arc=none smtp.client-ip=18.194.254.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1744897843;
-	bh=Ns6Wz60bvg65EUaf96SxqpbEI3mWfKuVkE4GOkJviJg=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=GldvO/F36l6xO24szOvfSfNy9tPpqStJNQmuoZsAxxaPZ1JUePMyIX/ESAcDtrYdU
-	 FOQGFMA+RiFR9Pls0CiCuVR82RqShU6IaejVGhWcsfvw1t/kTkcOoeMsfmtOiRLVbV
-	 aTmGJsS3rzVnYXEhhAeMZiqwhuThlu/8o+C9j1/w=
-X-QQ-mid: zesmtpip3t1744897830tbf94db9b
-X-QQ-Originating-IP: Ioc86VluU8HiyFet5Pq+rt4In2cPZ1QrjoazMmwPlL4=
-Received: from localhost.localdomain ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 17 Apr 2025 21:50:28 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 14252534519279305629
-EX-QQ-RecipientCnt: 13
-From: WangYuli <wangyuli@uniontech.com>
-To: even.xu@intel.com,
-	xinpeng.sun@intel.com,
-	jikos@kernel.org,
-	bentiss@kernel.org
-Cc: mpearson-lenovo@squebb.ca,
-	srinivas.pandruvada@linux.intel.com,
-	guanwentao@uniontech.com,
-	phasta@kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zhanjun@uniontech.com,
-	niecheng1@uniontech.com,
-	WangYuli <wangyuli@uniontech.com>
-Subject: [PATCH] HID: intel-thc-hid: intel-quicki2c: pass correct arguments to acpi_evaluate_object
-Date: Thu, 17 Apr 2025 21:50:23 +0800
-Message-ID: <DA446911D078F45A+20250417135023.543707-1-wangyuli@uniontech.com>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1744913634; c=relaxed/simple;
+	bh=jhQcOuzugiusV1wCkewmVx873muTFqglAedGjPVY23w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tGLyzrJMRtVVId+tUM0tAPBgwDNz+rdmEQ/kLOwtOZpXeIZMiAHB2hag2cNcmLMTsA2Li795ipPHmp/1EsCXcmKSZTw8aAhofW51S3+QmzQ1r5OnqwYJSA3sVEQ60Amr28BRomfbYbfqENsyhciUnpKa7L1ZCkc6rnTWoxrtiDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J2+ypom3; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744913632; x=1776449632;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jhQcOuzugiusV1wCkewmVx873muTFqglAedGjPVY23w=;
+  b=J2+ypom3ybiab0tmxYnB4lG08kK+Sls0tZXWPEKIzA/pXXQjp5gFeWRG
+   3htAxfFt3Ql2uWW+7xjPgYeE0iE69HVOaW8EtHM+167pXwvMlbJc55dGO
+   J4HE5x1b+WGCsLgLD6++joEb1yg3NHkMf9eG5c+FSNNK/15H3ot+vV/h1
+   35OVMKVPUBwKLqjjvrspVIEGb6rQnNdD6vwX8BgFzl3QakrvLld/j9pUc
+   3m9NEu5NT4MHufqZ6WaQkOmWa7DCdqDczfRyQPHEHKkLe6saM2SnLmjw1
+   tRzlCF/Fu3DIal0g7XSvvDp3XWU9TY1Z+OzQ37SunEmb43agqed87ODGp
+   A==;
+X-CSE-ConnectionGUID: CwItz0+WRhiMj6vKMFjDjQ==
+X-CSE-MsgGUID: j5ERu+XMSha7JZ0j/Kax6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11406"; a="57516499"
+X-IronPort-AV: E=Sophos;i="6.15,219,1739865600"; 
+   d="scan'208";a="57516499"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 11:13:52 -0700
+X-CSE-ConnectionGUID: 8G43IVxDQH25aqgxxkbV7w==
+X-CSE-MsgGUID: QzEElvMvQuGTYcHTJLzjrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,219,1739865600"; 
+   d="scan'208";a="130843461"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 11:13:47 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1u5Tk7-0000000DHFe-3Nus;
+	Thu, 17 Apr 2025 21:13:43 +0300
+Date: Thu, 17 Apr 2025 21:13:43 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v6 09/12] gpio: max7360: Add MAX7360 gpio support
+Message-ID: <aAFE18Yn5rtnuooc@smile.fi.intel.com>
+References: <20250409-mdb-max7360-support-v6-0-7a2535876e39@bootlin.com>
+ <20250409-mdb-max7360-support-v6-9-7a2535876e39@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NnvXaJ5yySl8yLYlWckH/4W0jvQ20VLgPRTgTbRtPfX+PhALBf3qUW5b
-	EbaC+N9jz+b4dkhwUeiCaIMDyuE6m4KegSeyINwEW9y6s07dChQAlWK/W9axxcaIsNi/qbc
-	Sr//EfRp22hTWiodD2NGC7KVoHykpZeJqmTjKLAtcpGy98Jv4fuB03djHtx/P1E+pDfOfKZ
-	jSyBV+F9fhOnwLDlww4l4v+DVCCXDnX7lgnp1Fu7PBYf9JujtbFFt0xdC8Ev0bQuehlYQ96
-	l6gBtUaKuiPqMeKCAKy2tzrfBwIVcDuZVwvplNMvnIDStGP7wL+O03KSjmxes5YyGGQPL9z
-	puunYdrhtkxUtNCNYmIViq+EziTV9NiKTFKB0O98U4kIKeIQn8uhKnk7YUiYZTrJdY4G2ct
-	c7IdaRFWJGg9OpTLN1IN3gjL6UjeC5lzWrZCEi9yHG+oH7rh5dBwTWrytZVYTJgTvAiJa4J
-	OVfXP7lFUmpgOq0M/hBbYsgggamGErU97d5ClfawwxVXu8QUy1EhS8R/ouqYdJ4Tdzx8Kgo
-	/zCm4UCLo8mRPVqCOaGV50y3xyXsRli5NlcrZ0taMiA0URTDGm6DtW2T1vGQU4KXmKcCGbf
-	dr+nF4RLESlxOGGYi3CQJuwAiiPGNmrphjKpePAuso3Zu6hz1nZ5R6Q5yB0zrnBLzND9wZC
-	m54t4BdAsc/eGlX9+ZMfi1ff4aEEVv7CxgGFfpJYFvThk5oSDk7wZQh8mRZrlrbTlFL0MOx
-	Q4deUUhbRzyRVL79rniPqq3ulO1px40yu5vKAf4hgao1YBBqerQohH9EdZOyAE8iRfAQZrr
-	eRL7VWlydto94dp3Pbl8GKzXTynRcz6E+mlxbRTueClL15FfGFba3cGjrrkKxeZURhzuLmk
-	5v57d6RnlASWhjuE5vEYo0rWmpvW3OlxRqO3Zp8wPoFwpleJJh4QFpGebax7sB80mHKDPvW
-	w8Pwiy/cQ8LBpyXC01RgomXjwHgmfOFh9wOTpqW79GBugrm0+IgkRtwrDRFEUoGA5+DmEmU
-	NGfg/gQZCN5FqjAz4tGxuI3WmzWLwxCOr4Abxu20Zyu5KFIm2W
-X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250409-mdb-max7360-support-v6-9-7a2535876e39@bootlin.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-From: Wentao Guan <guanwentao@uniontech.com>
+On Wed, Apr 09, 2025 at 04:55:56PM +0200, Mathieu Dubois-Briand wrote:
+> Add driver for Maxim Integrated MAX7360 GPIO/GPO controller.
+> 
+> Two sets of GPIOs are provided by the device:
+> - Up to 8 GPIOs, shared with the PWM and rotary encoder functionalities.
+>   These GPIOs also provide interrupts on input changes.
+> - Up to 6 GPOs, on unused keypad columns pins.
 
-Delete unused argument, pass correct argument to acpi_evaluate_object.
+...
 
-Log:
-  intel_quicki2c 0000:00:10.0: enabling device (0000 -> 0002)
-  ACPI: \_SB.PC00.THC0.ICRS: 1 arguments were passed to a non-method ACPI object (Buffer) (20230628/nsarguments-211)
-  ACPI: \_SB.PC00.THC0.ISUB: 1 arguments were passed to a non-method ACPI object (Buffer) (20230628/nsarguments-211)
+> +#include <linux/bitfield.h>
+> +#include <linux/bitmap.h>
+> +#include <linux/err.h>
+> +#include <linux/gpio/driver.h>
+> +#include <linux/gpio/regmap.h>
+> +#include <linux/init.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/mfd/max7360.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/property.h>
+> +#include <linux/regmap.h>
 
-Fixes: 5282e45ccbfa ("HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C ACPI interfaces")
-Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
-Signed-off-by: WangYuli <wangyuli@uniontech.com>
----
- drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+> +#include <linux/slab.h>
 
-diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-index fa51155ebe39..8a8c4a46f927 100644
---- a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-+++ b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-@@ -82,15 +82,10 @@ static int quicki2c_acpi_get_dsd_property(struct acpi_device *adev, acpi_string
- {
- 	acpi_handle handle = acpi_device_handle(adev);
- 	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
--	union acpi_object obj = { .type = type };
--	struct acpi_object_list arg_list = {
--		.count = 1,
--		.pointer = &obj,
--	};
- 	union acpi_object *ret_obj;
- 	acpi_status status;
- 
--	status = acpi_evaluate_object(handle, dsd_method_name, &arg_list, &buffer);
-+	status = acpi_evaluate_object(handle, dsd_method_name, NULL, &buffer);
- 	if (ACPI_FAILURE(status)) {
- 		acpi_handle_err(handle,
- 				"Can't evaluate %s method: %d\n", dsd_method_name, status);
+I don't think you use this header directly.
+
+...
+
+> +static int max7360_gpio_probe(struct platform_device *pdev)
+> +{
+> +	struct regmap_irq_chip *irq_chip;
+> +	struct gpio_regmap_config gpio_config = { };
+> +	struct device *dev = &pdev->dev;
+> +	unsigned long gpio_function;
+> +	struct regmap *regmap;
+> +	unsigned int outconf;
+> +	int ret;
+> +
+> +	regmap = dev_get_regmap(dev->parent, NULL);
+> +	if (!regmap)
+> +		return dev_err_probe(dev, -ENODEV, "could not get parent regmap\n");
+
+> +	gpio_function = (uintptr_t)device_get_match_data(dev);
+
+Somebody pointed me out the Linus' rant on uintptr_t, so he prefers not to see
+this in the entire kernel. He suggested to use (unsigned long), but ideally one
+should operate with the info structures instead.
+
+...
+
+> +	if (gpio_function == MAX7360_GPIO_PORT) {
+> +		if (device_property_read_bool(dev, "interrupt-controller")) {
+> +			/*
+> +			 * Port GPIOs with interrupt-controller property: add IRQ
+> +			 * controller.
+> +			 */
+> +			gpio_config.regmap_irq_flags = IRQF_ONESHOT | IRQF_SHARED;
+> +			gpio_config.regmap_irq_irqno =
+> +				fwnode_irq_get_byname(dev_fwnode(dev->parent), "inti");
+> +			if (gpio_config.regmap_irq_irqno < 0)
+> +				return dev_err_probe(dev, gpio_config.regmap_irq_irqno,
+> +						     "Failed to get IRQ\n");
+> +
+> +			irq_chip = devm_kzalloc(dev, sizeof(*irq_chip), GFP_KERNEL);
+> +			gpio_config.regmap_irq_chip = irq_chip;
+> +			if (!irq_chip)
+> +				return -ENOMEM;
+> +
+> +			irq_chip->name = dev_name(dev);
+> +			irq_chip->status_base = MAX7360_REG_GPIOIN;
+> +			irq_chip->status_is_level = true;
+> +			irq_chip->num_regs = 1;
+> +			irq_chip->num_irqs = MAX7360_MAX_GPIO;
+> +			irq_chip->irqs = max7360_regmap_irqs;
+> +			irq_chip->handle_mask_sync = max7360_handle_mask_sync;
+> +			irq_chip->irq_drv_data = regmap;
+> +
+> +			for (unsigned int i = 0; i < MAX7360_MAX_GPIO; i++) {
+> +				ret = regmap_write_bits(regmap, MAX7360_REG_PWMCFG(i),
+> +							MAX7360_PORT_CFG_INTERRUPT_EDGES,
+> +							MAX7360_PORT_CFG_INTERRUPT_EDGES);
+> +				if (ret)
+> +					return dev_err_probe(dev, ret,
+> +							     "Failed to enable interrupts\n");
+> +			}
+> +		}
+> +
+> +		/*
+> +		 * Port GPIOs: set output mode configuration (constant-current or not).
+> +		 * This property is optional.
+> +		 */
+> +		outconf = 0;
+> +		ret = device_property_read_u32(dev, "maxim,constant-current-disable", &outconf);
+> +		if (!ret) {
+> +			ret = regmap_write(regmap, MAX7360_REG_GPIOOUTM, outconf);
+> +			if (ret)
+> +				return dev_err_probe(dev, ret,
+> +						     "Failed to set constant-current configuration\n");
+> +		}
+
+This will look better as if-else:
+
+		ret = device_property_read_u32(dev, "maxim,constant-current-disable", &outconf);
+		if (ret) {
+			outconf = 0;
+		} else {
+			ret = regmap_write(regmap, MAX7360_REG_GPIOOUTM, outconf);
+			if (ret)
+				return dev_err_probe(dev, ret,
+						     "Failed to set constant-current configuration\n");
+		}
+
+> +	}
+> +
+> +	/* Add gpio device. */
+> +	gpio_config.parent = dev;
+> +	gpio_config.regmap = regmap;
+> +	if (gpio_function == MAX7360_GPIO_PORT) {
+> +		gpio_config.ngpio = MAX7360_MAX_GPIO;
+> +		gpio_config.reg_dat_base = GPIO_REGMAP_ADDR(MAX7360_REG_GPIOIN);
+> +		gpio_config.reg_set_base = GPIO_REGMAP_ADDR(MAX7360_REG_PWMBASE);
+> +		gpio_config.reg_dir_out_base = GPIO_REGMAP_ADDR(MAX7360_REG_GPIOCTRL);
+> +		gpio_config.ngpio_per_reg = MAX7360_MAX_GPIO;
+> +		gpio_config.reg_mask_xlate = max7360_gpio_reg_mask_xlate;
+> +	} else {
+> +		ret = max7360_set_gpos_count(dev, regmap);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret, "Failed to set GPOS pin count\n");
+> +
+> +		gpio_config.reg_set_base = GPIO_REGMAP_ADDR(MAX7360_REG_PORTS);
+> +		gpio_config.ngpio = MAX7360_MAX_KEY_COLS;
+> +		gpio_config.init_valid_mask = max7360_gpo_init_valid_mask;
+> +	}
+> +
+> +	return PTR_ERR_OR_ZERO(devm_gpio_regmap_register(dev, &gpio_config));
+> +}
+
 -- 
-2.49.0
+With Best Regards,
+Andy Shevchenko
+
 
 
