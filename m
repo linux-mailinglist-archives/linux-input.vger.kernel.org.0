@@ -1,84 +1,152 @@
-Return-Path: <linux-input+bounces-11845-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11848-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0213A94489
-	for <lists+linux-input@lfdr.de>; Sat, 19 Apr 2025 18:19:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D60A9454F
+	for <lists+linux-input@lfdr.de>; Sat, 19 Apr 2025 21:46:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 522223BC9FE
-	for <lists+linux-input@lfdr.de>; Sat, 19 Apr 2025 16:19:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 697843B6245
+	for <lists+linux-input@lfdr.de>; Sat, 19 Apr 2025 19:46:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C38119D8AC;
-	Sat, 19 Apr 2025 16:18:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A12A61E32CF;
+	Sat, 19 Apr 2025 19:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HCwfrPct"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303EC1DED78;
-	Sat, 19 Apr 2025 16:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAE715CD74;
+	Sat, 19 Apr 2025 19:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745079527; cv=none; b=RjHRoAzk39d1AMyUGj7uWCmKwgl96Xy52b86utqqSe4DtnZ55OxbPmLpD56CbzvBf/4KUAuLrbS7u2zWid5xI7nrDGeKKyJ2SmP4eD3JOogzJd7MSHVCj5VubGD7Vx0HsXULpAiliNMXTsiJuOJT/fTICfYjK5N5VIm0yEpQWRQ=
+	t=1745091988; cv=none; b=lLaQ3kNXU+GXEY/oMzNaEg/54MfYrvp1FQ3d1HZOPnUuo5J7IlyKxGnrqb4oU9CT6dfIm4VtGpO/YDT6fxplYOWagl4zjjXiPShZA611WxFQ3bmnKJS1T1b2u6a3qx1aEm5+fbCtrMAnu7RXTxis/ibXvZmrxCA2jaO10j+0rmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745079527; c=relaxed/simple;
-	bh=3AUDxRjqXiN5/iBzAlsmWSy3p+UK1OTbGeJN1GZjWy8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gIN7DCGFE7YizAQeOFYPm0EVjjTNu+7jgdcAnECznGsLfIAAkEtwZjm/XV4uV73Ky7JYi915ptTN3pzzCwb5pUcaV960Oa5V55yoXEIb98UF54IWbozfNjI2vmGix2us7FHb7kuZxbkznKsJPMzvq0G/z2Zn1AgiHPN15/0xRC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: jqJ3XHkLSJSVJ3PEhnLvlw==
-X-CSE-MsgGUID: lSmXqZ7FTM2eFCGe8z4wFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="64213345"
-X-IronPort-AV: E=Sophos;i="6.15,224,1739865600"; 
-   d="scan'208";a="64213345"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 09:18:45 -0700
-X-CSE-ConnectionGUID: +UjQRgYSTUS70BtplKaDBg==
-X-CSE-MsgGUID: mT5x0cdkSm+T0TwY5bJXbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,224,1739865600"; 
-   d="scan'208";a="132239215"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 09:18:42 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andy@kernel.org>)
-	id 1u6Ats-0000000DrYN-0HwA;
-	Sat, 19 Apr 2025 19:18:40 +0300
-Date: Sat, 19 Apr 2025 19:18:39 +0300
-From: Andy Shevchenko <andy@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Jiri Kosina <jikos@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] iio: orientation: hid-sensor-rotation: remove
- unnecessary alignment
-Message-ID: <aAPM3yhLn_aEkrlH@smile.fi.intel.com>
-References: <20250418-iio-orientation-hid-sensor-rotation-remove-alignment-v1-1-6da68eae7ecf@baylibre.com>
+	s=arc-20240116; t=1745091988; c=relaxed/simple;
+	bh=74mO15uFIckJUXnXnTZxaEJt7loiHy0xGNx6hkYoLZA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZyZYC28UjUw0VtHpSJWUlz7oOHs1LGHIpOnVIEFtZPJ0rE+qMyBp2YaF2SNX2vfGKA85d6xW4xg/CdfvQz1XVMxOQIHln0Yrnz1wegRRiZ0OhxJ5CmTSmPmF3J/lk0YcijzgcSncmUmGW/nnvZk5YsIqwuccJEBhv8Z2ZIPWD70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HCwfrPct; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B07C8C4CEE7;
+	Sat, 19 Apr 2025 19:46:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745091987;
+	bh=74mO15uFIckJUXnXnTZxaEJt7loiHy0xGNx6hkYoLZA=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=HCwfrPctLCTsWA+uXc4CGeVYSg/Bjs6JeROHrYRKpfFcWnNHiZbh0A1PxSNiRc+Ci
+	 ralXOP6QbVoPf058iXXlg4R+nVPdAKD41w2ZzZ0xhHprbL8HAMNZUyLpq4yKoYRXnV
+	 +Y0rQhccLF1VKwVCdFaUN9M7wWgUQFT+mwggd9dhJNd1FbbKA7PGwbYMm84oSz+A/h
+	 Yg3AW3rSEfhjBmGEh4+rDjW20EH/uxSN+p+TFvHYKm+qeUtn+JGntE4YCvSuwO1Q33
+	 aThFwcmNRmC3v/L1gcc1D96Beb9c/SNdOkCWkPpn/WnG/yTLmktVbAQ5I13svlGwjr
+	 npG/dsST80VPQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A503C369CF;
+	Sat, 19 Apr 2025 19:46:27 +0000 (UTC)
+From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
+Subject: [PATCH v5 0/2] Add support for sound profile switching and
+ leverage for OnePlus 6 slider
+Date: Sat, 19 Apr 2025 21:46:23 +0200
+Message-Id: <20250419-op6-tri-state-v5-0-443127078517@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250418-iio-orientation-hid-sensor-rotation-remove-alignment-v1-1-6da68eae7ecf@baylibre.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAI/9A2gC/22MywrCMBBFf0VmbUISkz5c+R/iIrRjOyBNmcRgK
+ f130+4El+dyz1khIhNGuJ5WYMwUKUwF3PkE3einAQX1hcEo45TVrQhzJRKTiMknFNhrr5zXWhs
+ HxZkZn/Q5evdH4ZFiCrwc+Wz3FbqQkaWu6loZY7WVAyUZw4J8I37J8Q27mC+/56pxqtHtn/O2b
+ V9r8B5LxgAAAA==
+X-Change-ID: 20250419-op6-tri-state-ed1a05a11125
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>, 
+ Benjamin Tissoires <bentiss@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, Gergo Koteles <soyer@irl.hu>, 
+ David Heidelberg <david@ixit.cz>, Casey Connolly <casey@connolly.tech>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1873; i=david@ixit.cz;
+ h=from:subject:message-id;
+ bh=74mO15uFIckJUXnXnTZxaEJt7loiHy0xGNx6hkYoLZA=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBoA/2SkOtINWWfOxhOqR6NZROxrKFHxdFskpbDu
+ FNfy0HVQp+JAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaAP9kgAKCRBgAj/E00kg
+ ch7gD/429cSbsyDMFzlPEAsnkV+EoxRbi5H+Z04vttfsz+8YGmbLxZg5h3i99laliyXP1HJMBAT
+ 3zU/FYdRCH9O1xGML3n/I4Wb44Eno8gXsIcVdD5cZ5VQD+GBo7yEG2IWOoin+spVc9jjCr4oSmA
+ E0JoGJdlzKuGJ8K0Anf4XenzGfkzo7gOBms9e4qCWOoyrxzXIlBBpJJGP+cwkBYW/tSYEsRb3On
+ tcTElPPAIH98+2W35Q31o/3FKPZBejQfDGkR0g0H+fhC7zlpdwpVJ6FhXhAzr+O5scECjnA46nA
+ 3s/n0ZWsaI7CREY9BQnfqOrGXTbe4/rnQgFymttWICI5HIZmQp6dE1h4xxKX8Oo1hDPpSN/ofSf
+ jW0trUt4jp++VLAMdRn1sQp1gpidEwzfQR4u1WaUuImEh6UK4wPA+hwf1VPuAXBzlmDuPUBGgJU
+ w4YEv23EuurQkX0UEbj2GRT0DQakl+t9fdKjDRRm24Z80dBKuJ2rSJ0ve/kjJ1mbj8AhT3a9BkD
+ 0stv+1V3vmWx/EH31W7fojf6KWwfBsjcoPhjMmv6t+DBc3NQlILPBuknrDcYb9ulA33zdfYYV2A
+ 1yKnNX/IoI8NTaAvWG3VJivL9wIJXx7i4rlFAdVI9I9aaHwxxUkDGUO5+Xei7eW399gF9x8AnLV
+ bd6PX14Edlsf4jQ==
+X-Developer-Key: i=david@ixit.cz; a=openpgp;
+ fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
+X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
+X-Original-From: David Heidelberg <david@ixit.cz>
+Reply-To: david@ixit.cz
 
-On Fri, Apr 18, 2025 at 03:08:53PM -0500, David Lechner wrote:
-> Remove __aligned(16) in the scan data struct in the hid-sensor-rotation
-> driver. There is nothing in the code that requires this alignment.
+This code was tested for two years within the downstream Snapdragon 845 tree.
+It is now perfectly integrated with feedbackd in the Phosh environment.
 
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
+Changes in v5:
+- Dropped merged
+  "Input: gpio-keys - add support for linux,input-value DTS property"
+- Link to v4: https://lore.kernel.org/all/cover.1677022414.git.soyer@irl.hu/
 
+Changes in v4:
+- DTS: use default debounce-interval, order alphabetically
+- Link to v3: https://lore.kernel.org/lkml/cover.1676850819.git.soyer@irl.hu/
+
+Changes in v3:
+- rename tri-state-key to alert-slider, fix DTS warnings,
+
+Changes in v2:
+- rebase to qcom/for-next
+add SND_PROFILE_* identifiers to input-event-codes.h
+
+Gergo Koteles (3):
+  Input: gpio-keys - add support for linux,input-value DTS property
+  Input: add ABS_SND_PROFILE
+  arm64: dts: qcom: sdm845-oneplus: add alert-slider
+
+ Documentation/input/event-codes.rst           |  6 +++
+ .../boot/dts/qcom/sdm845-oneplus-common.dtsi  | 39 ++++++++++++++++++-
+ drivers/hid/hid-debug.c                       |  1 +
+ drivers/input/keyboard/gpio_keys.c            |  3 ++
+ include/uapi/linux/input-event-codes.h        |  9 +++++
+ 5 files changed, 56 insertions(+), 2 deletions(-)
+
+--
+2.39.2
+
+base-commit: 02ac8d2a011b630481d959298a1cc76ca0717f3e
+---
+Gergo Koteles (2):
+      Input: add ABS_SND_PROFILE
+      arm64: dts: qcom: sdm845-oneplus: Add alert-slider
+
+ Documentation/input/event-codes.rst                |  6 ++++
+ .../arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 39 ++++++++++++++++++++--
+ drivers/hid/hid-debug.c                            |  1 +
+ include/uapi/linux/input-event-codes.h             |  9 +++++
+ 4 files changed, 53 insertions(+), 2 deletions(-)
+---
+base-commit: bc8aa6cdadcc00862f2b5720e5de2e17f696a081
+change-id: 20250419-op6-tri-state-ed1a05a11125
+
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
+David Heidelberg <david@ixit.cz>
 
 
 
