@@ -1,139 +1,173 @@
-Return-Path: <linux-input+bounces-11835-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11836-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8F7A93EAF
-	for <lists+linux-input@lfdr.de>; Fri, 18 Apr 2025 22:09:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97BD8A940B1
+	for <lists+linux-input@lfdr.de>; Sat, 19 Apr 2025 03:02:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 312CD1B67010
-	for <lists+linux-input@lfdr.de>; Fri, 18 Apr 2025 20:09:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D0B68A80ED
+	for <lists+linux-input@lfdr.de>; Sat, 19 Apr 2025 01:02:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FBDC22DF8D;
-	Fri, 18 Apr 2025 20:09:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="NephII/j"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC56E13635C;
+	Sat, 19 Apr 2025 01:02:26 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+Received: from mail-il1-f207.google.com (mail-il1-f207.google.com [209.85.166.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC323126BF7
-	for <linux-input@vger.kernel.org>; Fri, 18 Apr 2025 20:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D37A132103
+	for <linux-input@vger.kernel.org>; Sat, 19 Apr 2025 01:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745006948; cv=none; b=YwTYqvt4HLbxW5+8/rzBPqHFSeE8Oi3kUGxV1bruw9ZiOShI33/yGw4GoLxkIBZoRQJBbkhGPmLsZgHNFTr2YLEkR9C06QUBUKuCHyC9xsc0RMQ0UTAzJWWiWeFbA9GmoP8Mr7uaR6XqWjDjJTshXowAh87ZpCMr4iRlmCNB2BU=
+	t=1745024546; cv=none; b=tmWohfDN+0xAgFPHctOYRenqitLK2DiUYuwnxpIUWUySx43g9fx9GT/TRCaQrYpipvsloHkgwK3QMv4I+JgaemBHksP+CHY3sJcGTr2Q1xPB0sZsLmrf1vnAWmEngw+BPrwKfcZK+wedNZ7JYp8Xxy2+mhNtc6aybQQ1ObMHnrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745006948; c=relaxed/simple;
-	bh=L4F5EwbRA26z/docfQ6qlY8GnMuFyTQLMa5cGJ2Xe9A=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Le9PTPDyTmxMdJGOhbX9dh9bPDYfsOrouTRWjnL8nLhz4IR+WC4SCOO7XM5j04lORbAjmQMQAi9NXby7MeeQaEWWn9VJj9VrjHuJGT1Frbg2LD1ZJADGNapCBYZO2L3/DjFvQjI7v9Vnn1T/hFyPnF8JZ0cL/5F7HQ04MYb0QG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=NephII/j; arc=none smtp.client-ip=209.85.160.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-2c759bf1b2eso961731fac.1
-        for <linux-input@vger.kernel.org>; Fri, 18 Apr 2025 13:09:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1745006945; x=1745611745; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TImxXgS9r7ImtMsTaUIikrjTho3myWjY6Bz/r5nCEMQ=;
-        b=NephII/jaH5mXpo7q3Wys0MGogWhOUr6QVeU48X7H8U3UlfCmIjCXKoiGiL/J51MJD
-         r25L8uQul1+AXFso7M5VM9751AOzAQyy743Lu171XGgr9BVZv2KRtHanOxHMb8trjUlO
-         0qNI9pGx6UmmVMOvcTjFx8A8mOWEjyVX7B7uyGU6pxIBjMpnjEcxk+WxRyzRXcmk79pL
-         tnCCtUP/0T9xcdCgD5ORj81/5C0qyb+HcA6B96ZBLo8OIe1oZw+gOhBSHythIRIj6hAK
-         2qVt71losFPQ9cXGEXFvsAW/4DhlPTcQx/lYY6kka1mQy5oNTZSC4817p+LnAAZj9/8G
-         c1dA==
+	s=arc-20240116; t=1745024546; c=relaxed/simple;
+	bh=RQVgUugy963GmRAuIU24mwoQ3JAxGFCjrlsCxUcM66k=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=hhtOWBZFT5El3gXa+mvN1I9SkSQDctULuRRcDTS4WLa1kqhVICa9P+RftX4B/cEzC1d0M3VWyL+H6KJT4RRUP179FxJlkSGIqXicyreggsBSDuW8gTCyzDE3GPK2tbOGJiwPUWYl/c7Guk6F0PfLzUDZJJTEmAZXtlqK8qC1yvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f207.google.com with SMTP id e9e14a558f8ab-3d586b968cfso43740955ab.1
+        for <linux-input@vger.kernel.org>; Fri, 18 Apr 2025 18:02:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745006945; x=1745611745;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TImxXgS9r7ImtMsTaUIikrjTho3myWjY6Bz/r5nCEMQ=;
-        b=dam9+H2Z89n1ZsyUABN033ao4vnYsSaLSTl3d5IfeaCKUlHkiHTA5tMbj5oJIvUZ6f
-         ZH7k0ynwHwgFHhmTPS+PVXXvup2EByvDlUeBQYArAySpe9IjVPiZK8RKwwToOyhDT3Ln
-         BczjH/zqGJwui2Nc0uBQ/Ij3gQFKSKI/i16kqpy+k9rF6BZYrPyCZRMxNTuhxpvlNHY3
-         PPBVeiNuiNNOMtZxGXJbxXkcVUS4BMi44+jrvEpTC6N3VkdXnr5aRfGwl0T2q/5UIk9n
-         Qj7wedjoTskTQu4LI/4kUZOAkU4yexztNAwmcZdPlYT2SmhahAcEBCFrk0s9z4UnPOKM
-         8KSQ==
-X-Gm-Message-State: AOJu0YxrC9Wh+MPh9fme6uG/KGABcTcxrB8AFnhJ10yRjBMMUkvjDwDX
-	V2IYJzCXCgkmIZDnPci+j39/PYucpz+ogPc7uJvPPxdTU8SvybhU8dwJBNmxxo1/YOHUHq2c1kj
-	Y5gk=
-X-Gm-Gg: ASbGncvb5imRmYdOssghOIv9Q8VcIidFmeu7o7SazBdQRBS82DVLnLMkz9N/kk1Tcvu
-	kJSEQjPt4V0s174gl6JCKVkywXIGwO0n+Ei9SItdlj+Tw1slQdl8T54CHj9eI+GEmFcnQi1dWqU
-	WFQ3uvoO2pyWAko3J3qL+hQQ3x/vdjolqgDudcbt71DOom0TUI/nzi2Q8KGL1LJMoW/navJOQOP
-	t8BM+A7hpCvuaEBoC8tb0Bs7UClFGYyZVMgAMwvXDLrhepNRiA/SPZ1tARhdqsj81N6QeqX6+hX
-	8PSvJgq9gZcK9ZR7BV2wt2RXtIyQee1b6A7v0z49Lq1Z0qs=
-X-Google-Smtp-Source: AGHT+IGELMZ7J/ePbqESlA6PYkY4CF3MBrFtLR8CHAfpqUNFo4ZD01t+Cxfx8+4R6IR0IR50Pk5inQ==
-X-Received: by 2002:a05:6871:ba0a:b0:2d5:4899:90c with SMTP id 586e51a60fabf-2d5489a2887mr597975fac.7.1745006944745;
-        Fri, 18 Apr 2025 13:09:04 -0700 (PDT)
-Received: from [127.0.1.1] ([2600:8803:e7e4:1d00:dcdf:46e0:18e5:c279])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2d521828250sm600235fac.42.2025.04.18.13.09.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 13:09:04 -0700 (PDT)
-From: David Lechner <dlechner@baylibre.com>
-Date: Fri, 18 Apr 2025 15:08:53 -0500
-Subject: [PATCH] iio: orientation: hid-sensor-rotation: remove unnecessary
- alignment
+        d=1e100.net; s=20230601; t=1745024544; x=1745629344;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hM6P49dJm6vl0w3v7GjFV81UKDrPm3M8REUpMzZgx8Y=;
+        b=gcri+ApjZNKXwOw8YljOKUhpRlBm8W71YZb6j2dKONfKFHwTjSKMFReYPxkuHgXoas
+         SKaVugbSTSskvV0kLCexu3I3wg8Qvq18MWL3heSnJRSBFtBXLtXwcYYWD7zdpZbnVlxp
+         ib5b0Bik1O3n81n0dP/h902oxRzUmp8+8f2m1J2l7ZZ5DEB4uQeaZ05O0prgk6Wbn5Su
+         Z1kbWgn0c8PYtp6mONPrnNGCV9FW0V1MwW0K0lt2aUfPP0bW4KLsKoP5tWsjDlzs+i8t
+         UVpiWC6QVGOgj7yv6sn+ClqxmKFQ8Q4vihVSgNr7JWNtJZOktOMgMag79NrrB5W1aIZh
+         aexw==
+X-Forwarded-Encrypted: i=1; AJvYcCUznijCcIbj+qEDjQCXc+CSwtJgg3K0d4DFgrEuZhVmFiXeV3knBLlYH4AYuAosSNZ+oR1R3f3aiL8b9A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzK1esuYeOkalmpMQfaN0KiMkwrB8YCTRW/rboyw/iov4GjEnYa
+	SjFQOBaHRCLYmYA+UwcsbVKdMz7qaHMXISJAVbXXSRk6sh5l5nVsNO/1ZxN0yxKACyA4cofIJrZ
+	zJ8FXFOu1rTHnRtGTp71cus7BrcrfLREUdCQji0sSvylnBSeBPBL9h+o=
+X-Google-Smtp-Source: AGHT+IEcnaE1u5cJGQs8sWYQ9yQKbGPhq+59W9xriXSkY/LMuJzF7WtwWph1VmUtb945O45Hd/KvWwd1xfgDkuSAhg5DCndk0EhT
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250418-iio-orientation-hid-sensor-rotation-remove-alignment-v1-1-6da68eae7ecf@baylibre.com>
-X-B4-Tracking: v=1; b=H4sIAFSxAmgC/y2NwQqDQAxEf0VybsBdLF36K6WHpRs1UJOSiAjiv
- zeUMqcZ3swc4GRMDvfuAKONnVXCpEsHr7nKRMgtPOQ+X/shFWRW1KjIWtdgceaGTuJqaPrPjBb
- dCOubJ1mCxNLKGEpDu2WI6Y/RyPvv9vE8zy9Ad4/ehgAAAA==
-X-Change-ID: 20250418-iio-orientation-hid-sensor-rotation-remove-alignment-8d8f8f814d72
-To: Jiri Kosina <jikos@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Andy Shevchenko <andy@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-iio@vger.kernel.org, 
- linux-kernel@vger.kernel.org, David Lechner <dlechner@baylibre.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1107; i=dlechner@baylibre.com;
- h=from:subject:message-id; bh=L4F5EwbRA26z/docfQ6qlY8GnMuFyTQLMa5cGJ2Xe9A=;
- b=owEBbQGS/pANAwAKAcLMIAH/AY/AAcsmYgBoArFXbMwDN9LdHChb/jSQJDCMVvugvhTCjL/E2
- DHMzPRP116JATMEAAEKAB0WIQTsGNmeYg6D1pzYaJjCzCAB/wGPwAUCaAKxVwAKCRDCzCAB/wGP
- wFCTCACd9IyrNS8mNqd4CSFpfnZY0A++prwhteHofu7ywGaGyv9gvklYUdqOwV3MF2MX3pgRTLd
- WCKuAhXbqoBx6MCWQGpPqvpyVWV/S1NOxG44YGoZwOIQhcwySt1JR51qNxwFcvNmIwSsaXbk45h
- jF5nBwLfBjZe69qsOLD7xfuOzcF6hdFfkVYpq/5JqnqVs/4OVBJgKUM20w3uLmmbP5Z6Tqq/dd2
- D/fUKBwjzBCRkcCbIFd4gqlISYjNXa525EYp+khY9mcALQ2IiuAYEzMpM8w1T921dyqWncU8r4N
- I00cWLkrRvlaAag/1ehiX9AMhTcb4P52ut9Bj1YJsR6xa+lk
-X-Developer-Key: i=dlechner@baylibre.com; a=openpgp;
- fpr=8A73D82A6A1F509907F373881F8AF88C82F77C03
+X-Received: by 2002:a05:6e02:2189:b0:3d4:2409:ce6 with SMTP id
+ e9e14a558f8ab-3d88ed7c3e6mr49180905ab.5.1745024544275; Fri, 18 Apr 2025
+ 18:02:24 -0700 (PDT)
+Date: Fri, 18 Apr 2025 18:02:24 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6802f620.050a0220.297747.0014.GAE@google.com>
+Subject: [syzbot] [input?] [usb?] UBSAN: shift-out-of-bounds in wacom_parse_and_register
+From: syzbot <syzbot+190a37ea67b45020ca3d@syzkaller.appspotmail.com>
+To: bentiss@kernel.org, jikos@kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Remove __aligned(16) in the scan data struct in the hid-sensor-rotation
-driver. There is nothing in the code that requires this alignment.
+Hello,
 
-Signed-off-by: David Lechner <dlechner@baylibre.com>
+syzbot found the following issue on:
+
+HEAD commit:    169263214645 USB: core: Correct API usb_(enable|disable)_a..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=14a4f398580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=56596400f3d8a772
+dashboard link: https://syzkaller.appspot.com/bug?extid=190a37ea67b45020ca3d
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/6cdf1b67cebe/disk-16926321.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/2ea16f6d604a/vmlinux-16926321.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/16c854b44a95/bzImage-16926321.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+190a37ea67b45020ca3d@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+UBSAN: shift-out-of-bounds in ./include/linux/log2.h:57:13
+shift exponent 64 is too large for 64-bit type 'long unsigned int'
+CPU: 0 UID: 0 PID: 9 Comm: kworker/0:0 Not tainted 6.15.0-rc1-syzkaller-00068-g169263214645 #0 PREEMPT(voluntary) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x16c/0x1f0 lib/dump_stack.c:120
+ wacom_devm_kfifo_alloc drivers/hid/wacom_sys.c:1308 [inline]
+ wacom_parse_and_register+0x28e/0x5d10 drivers/hid/wacom_sys.c:2368
+ wacom_probe+0xa1c/0xe10 drivers/hid/wacom_sys.c:2867
+ __hid_device_probe drivers/hid/hid-core.c:2717 [inline]
+ hid_device_probe+0x354/0x710 drivers/hid/hid-core.c:2754
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:830
+ __device_attach_driver+0x1df/0x310 drivers/base/dd.c:958
+ bus_for_each_drv+0x156/0x1e0 drivers/base/bus.c:462
+ __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1030
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:537
+ device_add+0x1148/0x1a70 drivers/base/core.c:3666
+ hid_add_device+0x373/0xa60 drivers/hid/hid-core.c:2900
+ usbhid_probe+0xd38/0x13f0 drivers/hid/usbhid/hid-core.c:1432
+ usb_probe_interface+0x300/0x9c0 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:830
+ __device_attach_driver+0x1df/0x310 drivers/base/dd.c:958
+ bus_for_each_drv+0x156/0x1e0 drivers/base/bus.c:462
+ __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1030
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:537
+ device_add+0x1148/0x1a70 drivers/base/core.c:3666
+ usb_set_configuration+0x1187/0x1e20 drivers/usb/core/message.c:2210
+ usb_generic_driver_probe+0xb1/0x110 drivers/usb/core/generic.c:250
+ usb_probe_device+0xec/0x3e0 drivers/usb/core/driver.c:291
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:830
+ __device_attach_driver+0x1df/0x310 drivers/base/dd.c:958
+ bus_for_each_drv+0x156/0x1e0 drivers/base/bus.c:462
+ __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1030
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:537
+ device_add+0x1148/0x1a70 drivers/base/core.c:3666
+ usb_new_device+0xd07/0x1a20 drivers/usb/core/hub.c:2663
+ hub_port_connect drivers/usb/core/hub.c:5535 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5675 [inline]
+ port_event drivers/usb/core/hub.c:5835 [inline]
+ hub_event+0x2f85/0x5030 drivers/usb/core/hub.c:5917
+ process_one_work+0x9cc/0x1b70 kernel/workqueue.c:3238
+ process_scheduled_works kernel/workqueue.c:3319 [inline]
+ worker_thread+0x6c8/0xf10 kernel/workqueue.c:3400
+ kthread+0x3c2/0x780 kernel/kthread.c:464
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:153
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+---[ end trace ]---
+
+
 ---
- drivers/iio/orientation/hid-sensor-rotation.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/iio/orientation/hid-sensor-rotation.c b/drivers/iio/orientation/hid-sensor-rotation.c
-index c4b18fd0fa76c17318b262ea9f44ea5c40170298..e759f91a710a2cdec8b708faab49c557e3418146 100644
---- a/drivers/iio/orientation/hid-sensor-rotation.c
-+++ b/drivers/iio/orientation/hid-sensor-rotation.c
-@@ -19,7 +19,7 @@ struct dev_rot_state {
- 	struct hid_sensor_common common_attributes;
- 	struct hid_sensor_hub_attribute_info quaternion;
- 	struct {
--		s32 sampled_vals[4] __aligned(16);
-+		s32 sampled_vals[4];
- 		aligned_s64 timestamp;
- 	} scan;
- 	int scale_pre_decml;
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
----
-base-commit: aff301f37e220970c2f301b5c65a8bfedf52058e
-change-id: 20250418-iio-orientation-hid-sensor-rotation-remove-alignment-8d8f8f814d72
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-Best regards,
--- 
-David Lechner <dlechner@baylibre.com>
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
