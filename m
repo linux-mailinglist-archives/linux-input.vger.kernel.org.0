@@ -1,82 +1,89 @@
-Return-Path: <linux-input+bounces-11843-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11844-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA66A9431A
-	for <lists+linux-input@lfdr.de>; Sat, 19 Apr 2025 13:32:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1058A94388
+	for <lists+linux-input@lfdr.de>; Sat, 19 Apr 2025 15:13:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B6A1317FDE9
-	for <lists+linux-input@lfdr.de>; Sat, 19 Apr 2025 11:32:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0211417BA9C
+	for <lists+linux-input@lfdr.de>; Sat, 19 Apr 2025 13:13:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59E452E401;
-	Sat, 19 Apr 2025 11:32:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 046A11D86FF;
+	Sat, 19 Apr 2025 13:13:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mFNMhcF2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UDQSpBv5"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B0C259C
-	for <linux-input@vger.kernel.org>; Sat, 19 Apr 2025 11:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867381C3F0C;
+	Sat, 19 Apr 2025 13:13:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745062326; cv=none; b=QU2XEtSf5T0tklqrcJ6SkJHpqe37IuKIYZFjN6it50s7Tnarg7m97JEU68AcWyYiHGzcIgPt4/A/lYfX/kNJ4X0uQb+CeZvowvgoUvNyIuQNT7COEgFEYzgGlCkNOOUaDiY1L/zhJmlof/TNrWRgDvV2OA5VP24CSXtigXMohtg=
+	t=1745068413; cv=none; b=AgxJhSfNUHjgKzY+KiwZIfupCBtkrW9Qbz5e6TvB3+uKnImOSx98iH+Wfsc4F+eK8Nl2ji6/n0aBnSL7uu08cv4ZH1UGbFHBAAaTMxR9QMsWfUoK0xXNP014mnFHq1YtzePo9CU1u1xi5wThfLLKtPVRMw/FDWIyy+jRrMNVBfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745062326; c=relaxed/simple;
-	bh=Bwx42kYah7uaN/uURZx/ZqiolAexM1DDnPEM2ISVQIk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dO9g5M0Gr7dp1IIlPY8iqHU5q1DZcYn/RsVkwi4tlIKlrTqxD/s1leLz8l4ChXRQtpNGFi3u+mApvDEMevG+xnhN6tUjq6TzeRuI5eY21sBLgEFw9j3J1BMuDR/9x9FHwlf61xMznMu1Aui3KuSvNXiE0WTTLq93Awv3VGKFTSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mFNMhcF2; arc=none smtp.client-ip=209.85.214.172
+	s=arc-20240116; t=1745068413; c=relaxed/simple;
+	bh=tuDFBHWxPx3EkLh0gLTcA0QzK/y7dpVMNz99kPwyUWk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JNH9uzLGvfwTfJlRa2NeLf34/sITiJdd/6H0sX4K86P3MYpfMcUo+xy3iSSNCt61KkFDij886FIle2cERZjDUGSOXE8mz+dexFfMPF5NDEjUrkILDPU5tXgW2pdw9ESWunsOTAKEx6ZdqCg1ToQKQ1nizfMf+NAgvA0Y73Bbj3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UDQSpBv5; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-225477548e1so26174005ad.0
-        for <linux-input@vger.kernel.org>; Sat, 19 Apr 2025 04:32:04 -0700 (PDT)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-225477548e1so26542095ad.0;
+        Sat, 19 Apr 2025 06:13:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745062324; x=1745667124; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1745068412; x=1745673212; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7aWRLySlsQU3rVwrKCjxh2TzOAKwg0UAz+XkSqowjq0=;
-        b=mFNMhcF2TNB/YxKxoQixIxorQ2Ja/O5OpNcuNm+ULb83NKpfwpkXFzjEpiAWy31He7
-         U/4rqXxD6MRq4CWYXtsURjIsX8LAS4VEvh1757or36wx17J4mRhKFj/TKOA1lNClb3II
-         +NT7V8g9NOm3Sp/YDZO23SLgtY4WacLlCDG3T91eXYQT0ND4n2FTU8AvnHeOIoUfs8WZ
-         kbBfgoScbYwN6xAnjMXYW8AC8D6/fKRv6MlWppsevRjzdSCdp7QE/+1pW77qzzDBrBPu
-         yTjA3JuU0xVmo+FuNR+8o9S8A85r390YfpIDvzydCAzlLLuurpkBQUt354PEPFk+S4h+
-         m1tw==
+        bh=SxRJBQp+/o/jC677CucO0qPNfksZQQtd1FtjH+R8IFU=;
+        b=UDQSpBv5t/vPIBRtMstdPxjY/6GRukUX4V16JtuF6X5YjW8cuDyIg86LA7UShM0JZ4
+         1+YKpV/dRPoZDCadWJlgHYiYNICB8eb92kD46/nT8qsG4ST+Jg3ONK+v3urxAYJR6Q2u
+         vUMzJrbzatxElKLVCcHarZayTCXjjO/yas5e43x7qAksiJjnop0eZV4MKdYhscrO3ITg
+         iJOLxAs7siUEBLO6jDubYc7JGtZQ87WZ9EBPSop8HI9STAkLYUYsE0yK9PjEAyVIyQlD
+         0nu7MmpWXoGXdMlBzK5EtmUG5zlSt/PszJsc60wTB2DYW4xDuXLXjDKjOaCOZOtWq70n
+         VEtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745062324; x=1745667124;
+        d=1e100.net; s=20230601; t=1745068412; x=1745673212;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7aWRLySlsQU3rVwrKCjxh2TzOAKwg0UAz+XkSqowjq0=;
-        b=GIlLnp3oUfWQSjmjp6pl2HWXZbtaF5WMIh9JcuFgj/lQcxYmkxx/SRNDtoc6BNtNZn
-         1nXN/2dDYbZjxcXPOpoyOIMrsJVBGgtPhjSF7riu6+27+wESKjz14iRph70I+M+yVg+L
-         NFyf9wdz5bhN1ZyiWAqgaiV/M7lp+DiTLQn+Dhwp9GjSGU8Q5t23rut4h49NOuelE2p0
-         Hfvrqll3jBYPUS8jfHWatKk5YzMl7OORkf0L6uKi/PBeoGcqIQrWL2FbgtIi6kEuS5/X
-         2babxSLGp3teTlcNHC3Pu5sk0dRBoyrrV0P/Lx0Ro902TUPN2Q/uYdq+xlm8z7XMGf7F
-         qLFg==
-X-Gm-Message-State: AOJu0YyHr+/KmvtdcLNO9W8b7pYQ13xkk363JDAvNnj9rTZajMIFFf1R
-	4ScLJClkv07hhuaSOoR1s/xsP5glBBM8NteWbGjfHfHMOoCJnZsh6o42nto1
-X-Gm-Gg: ASbGncu0SgB4UjifJXxIX8qrOTP+tCyn2jXHCY5eaqZldF289PvLgbaTwH8miF4HLRS
-	dejaLiaV9qCr78fGfXnRu6HIwd+rx9sw9DDtlvLW3POyhQUXGB/9y0paiwWsYQjZ1FL5CeRTeLk
-	SLvNFBfWuUeZMLHxrRJMeZKSZu6cGWmz5HnT/nFlv4yOzOhGbBKN4/6GgcJJ2c+5gRCnole4aYz
-	McSS0jcZY+qeZgsaLYTgNBUw0nK8UGXxGZLnWU4wbtXpmGkVwTO25d2Q1UlqDu13Hyxtk3YgQy1
-	G2Ei6PlSK+nGpt0sYklzW0A6gJADnhDKDOMj/NFpag==
-X-Google-Smtp-Source: AGHT+IGdRpyU5Xy/OaJT/YulC/13baNN75yTnociYbdydi9llH2rDtLnz/B4bAz2wXmNzgYVntji/A==
-X-Received: by 2002:a17:902:e5c9:b0:220:d601:a704 with SMTP id d9443c01a7336-22c5357f3a7mr67653495ad.18.1745062324101;
-        Sat, 19 Apr 2025 04:32:04 -0700 (PDT)
-Received: from glados.. ([2804:d51:49ad:6800:440e:4d60:f7c:332d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73dbf8bf7ecsm3133251b3a.31.2025.04.19.04.32.02
+        bh=SxRJBQp+/o/jC677CucO0qPNfksZQQtd1FtjH+R8IFU=;
+        b=LpQNLr8Fx9J+Hy4icPma9WfxlDjwfR/5/W9X2GpyllItHHeQ6ISLB3Q+YRdWqVbASK
+         lZ9LRu/z/usjsGojCBHt/HuZlW0doa7bfckrsOTGjT1V9P4TGW3OjVIy4NX2vmVFBFOI
+         28iUIn6Rq1gBU4lpgEqQ3/M0UUIzWigdfiF3zzJ6whLHdojqvxRIJGHQKKRqaBj7Toys
+         4eGnm8YWznIlV8KlJs1rpX5v5N/g7XVAj3IwCqO2Ht8CBsAukjSjae17hbZRPjkPGI2D
+         2shXfTYK+zFOVtWemZcCnKKNIifSoz2/JFzV0aH0noy6TvxvdPtd6jNBbRt3+lNeRQL3
+         5X0g==
+X-Forwarded-Encrypted: i=1; AJvYcCURdBdCDafVyJZD1OK5Bu4SIcYatdaFO5pY8yGx9o+AmQHsZsAlqt5HGbhHr7omkgE55J2UwugZH2O04A==@vger.kernel.org, AJvYcCUyGGlWBC+A/t0HFsus1XLsnSu8595YeNaxcTf761IXuGjV7GwKBJiVN4+y7V5YtHGpUToFujZb20ot60Cj@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKNHl8PxHPsOfbqpKpWZzuSLt/ojPMjhjxDRbA7D4FkjEGyxRA
+	08lrLLA0AkJNYCtObaYGuTUZj49wIUjwqatfoz1WEe+982OAIhQu
+X-Gm-Gg: ASbGncvQqWdXGG+m/buYoqMOK8AeH+wriTrJ2+btJVvBM/sFQocAA37JYHN+/FbMUh6
+	cPy+d7CS+QnI9HFgZD7Qv1kucps0Ib787EtDGX/SMrAhIVYlcYvSo3lUsrUMnSvVfc8O0Jvl03j
+	3SdFvAOVBeByyMrrI1HpjnT/S+FHQlmdJicZCUEoY7aWpHZIBjGJo+/ItzO4khVqXx7c/XDinDc
+	i86SGyJgwZktZ6GOb/w1Le5APjiDpqyE8dfKME3sECLSrgc1Sg1eM4VFae/bp4YM5Il+yeaUq97
+	gEygQJQbQuTZdRHqdniEtL+veabXflUsJVJhLDAMasTIObEPFCdp9JAAA9ATB3j9fdvKy2Hdm1g
+	=
+X-Google-Smtp-Source: AGHT+IHDihZqqRqFeHMyIOVZFs/uwOGi0O2bdn1FPZFo/3A7mt1ETIE3WFULowboo0fTFrs3tg1O1w==
+X-Received: by 2002:a17:902:f54f:b0:224:1781:a950 with SMTP id d9443c01a7336-22c5357eda2mr86812665ad.14.1745068411649;
+        Sat, 19 Apr 2025 06:13:31 -0700 (PDT)
+Received: from purva-IdeaPad-Gaming-3-15IHU6.. ([2409:4080:218:8190:588e:b51d:c905:529b])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73dbfa59a97sm3360161b3a.94.2025.04.19.06.13.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Apr 2025 04:32:03 -0700 (PDT)
-From: Marcos Alano <marcoshalano@gmail.com>
+        Sat, 19 Apr 2025 06:13:31 -0700 (PDT)
+From: Purva Yeshi <purvayeshi550@gmail.com>
 To: dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org,
-	Marcos Alano <marcoshalano@gmail.com>
-Subject: [PATCH] Add keycode to Dell G-Mode key
-Date: Sat, 19 Apr 2025 08:31:18 -0300
-Message-ID: <20250419113132.36504-1-marcoshalano@gmail.com>
-X-Mailer: git-send-email 2.49.0
+Cc: yujiaoliang@vivo.com,
+	jkeeping@inmusicbrands.com,
+	oliver.graute@kococonnector.com,
+	viro@zeniv.linux.org.uk,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Purva Yeshi <purvayeshi550@gmail.com>
+Subject: [PATCH] input: ili210x: Fix uninitialized symbols in ili251x_firmware_to_buffer
+Date: Sat, 19 Apr 2025 18:43:15 +0530
+Message-Id: <20250419131315.24897-1-purvayeshi550@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -85,29 +92,40 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This key exists in some Alienware and Dell machines.
-On Windows it activates the performance mode.
+Fix Smatch-detected issue:
 
-Signed-off-by: Marcos Alano <marcoshalano@gmail.com>
+drivers/input/touchscreen/ili210x.c:621 ili251x_firmware_to_buffer()
+error: uninitialized symbol 'fw_addr'.
+drivers/input/touchscreen/ili210x.c:621 ili251x_firmware_to_buffer()
+error: uninitialized symbol 'fw_len'.
+
+Initialize 'fw_addr' and 'fw_len' to 0 in ili251x_firmware_to_buffer()
+to avoid uninitialized use warnings reported by smatch.
+
+Although the while loop ensures both variables are always assigned before
+use, initializing them silences false positives.
+
+Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
 ---
- include/uapi/linux/input-event-codes.h | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/input/touchscreen/ili210x.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 5a199f3d4a26..85c6a612ee84 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -765,6 +765,9 @@
- #define KEY_KBD_LCD_MENU4		0x2bb
- #define KEY_KBD_LCD_MENU5		0x2bc
+diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+index fa38d70aded7..10b52d87c41a 100644
+--- a/drivers/input/touchscreen/ili210x.c
++++ b/drivers/input/touchscreen/ili210x.c
+@@ -586,8 +586,8 @@ static const u8 *ili251x_firmware_to_buffer(const struct firmware *fw,
+ 					    u16 *ac_end, u16 *df_end)
+ {
+ 	const struct ihex_binrec *rec;
+-	u32 fw_addr, fw_last_addr = 0;
+-	u16 fw_len;
++	u32 fw_addr = 0, fw_last_addr = 0;
++	u16 fw_len = 0;
  
-+/* G-Mode key present in some Alienware and Dell machines */
-+#define KEY_GMODE			0x2bd
-+
- #define BTN_TRIGGER_HAPPY		0x2c0
- #define BTN_TRIGGER_HAPPY1		0x2c0
- #define BTN_TRIGGER_HAPPY2		0x2c1
+ 	/*
+ 	 * The firmware ihex blob can never be bigger than 64 kiB, so make this
 -- 
-2.49.0
+2.34.1
 
 
