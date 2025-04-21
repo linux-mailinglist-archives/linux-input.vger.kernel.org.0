@@ -1,91 +1,81 @@
-Return-Path: <linux-input+bounces-11903-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11904-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4EBDA9565F
-	for <lists+linux-input@lfdr.de>; Mon, 21 Apr 2025 20:59:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19356A957FA
+	for <lists+linux-input@lfdr.de>; Mon, 21 Apr 2025 23:32:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D384C18960DB
-	for <lists+linux-input@lfdr.de>; Mon, 21 Apr 2025 18:59:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F098A7A6896
+	for <lists+linux-input@lfdr.de>; Mon, 21 Apr 2025 21:31:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F8AF1E231E;
-	Mon, 21 Apr 2025 18:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E00211F09A7;
+	Mon, 21 Apr 2025 21:32:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dgqHsREg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a0e76SPF"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ACF141C69;
-	Mon, 21 Apr 2025 18:59:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F091E9916;
+	Mon, 21 Apr 2025 21:32:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745261977; cv=none; b=vCQ+v1mJpsBlqj0hrzlmYTnROoEs9Bagc8h9Ag6znwrxK/rUf2IqEvBI7wCRYoMvriM+R4+32FM4kLsB2A9QqxDkT46dP7CdMo8mIWBP3Y1Ctt4rFeveYWKoWS6yZO/6YtYWMuVfrXfh76dSRLheWFwIBRbd/Cx5V7TxTLEMBMc=
+	t=1745271142; cv=none; b=YL8Rgm9AFWWdqaNkTt3F/dZco3Dp3+yCqM2cuUbnGJLanUlabtwntBDS0tYHIVJpUFvTQtwgDdJUYE924H9I354q3XTmvnn6kWceTPdoOtHBfMF4lK4+pw1nipbf75GN3km+KwPcoUzJzKWANetbSKdtujoazue9gQ0lmJQ009o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745261977; c=relaxed/simple;
-	bh=CFk6Z7FZXx37yf9mMuNjTrwa2SXeuJ5JCnJbDuFR+iw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ehtundBvOkh0dKBWzP713ddLTGR9t3eNPfgc5JW8jJ0ldmgyuVCEtUI+YKtWeSzuy/elE5uQQAqkwuVFz2Og38y4JXYgz0zfD6NIkA+/HZeQh6PkzjJBjvExdESh+sC4pX9qARWn0CC0GDab2dDS3r4k7NA6HEvatqg3h6T8p+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dgqHsREg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 731CEC4CEE4;
-	Mon, 21 Apr 2025 18:59:36 +0000 (UTC)
+	s=arc-20240116; t=1745271142; c=relaxed/simple;
+	bh=7k5SrfzednksLuDcqLkNO+vrUZCu5xJak0tKi6gH72k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l2mrqHtvbcbPmcXXnqPeQ7oTBmgg6YomEOSjL0yhFhlc5RsUMWq21IZOb4P5xcFXMPYlCVX/QDlbPZhIXNcVQ+Y/R0uwtpule5wRm8jz2bSRI0aW1612Oejvss/NS/epdXCyyBGGkHlJcpRgsXDB2yiwBux1BMXzWnBDccBFql0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a0e76SPF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D5D0C4CEE4;
+	Mon, 21 Apr 2025 21:32:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745261976;
-	bh=CFk6Z7FZXx37yf9mMuNjTrwa2SXeuJ5JCnJbDuFR+iw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dgqHsREgj0KUR7iOxrjGoGSOOXZlSb+0sjtSyrDwRZpMjRNwxYw4qkxadYy2rCHfY
-	 KyKvKWPjNF9loFfFrr8yZn2jluAFRYmCZj6tBiNGJOcO7qClxyS0ht1Evq5c1moSOh
-	 hYNaYTHwxXSMRG8TdOSNZ377WMUo7PD9bCY+fV63Na11LxvztEm1Ih+DXysNFa+wjE
-	 Q9ilSjDsB23+DjJy3kllnaN5k7YO4YjT2iV8N3V1fMoluc/AWiYjMiCZwYTkkzs+ha
-	 KSOWNj+UYRF6r0R+DJcjvXn1xGSRd2P7kUTu+nqNWiI8xHYzoQW7A5/+iDAxSjMPLF
-	 zgaH67HBgGC3Q==
-Date: Mon, 21 Apr 2025 13:59:34 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
-Cc: Lee Jones <lee@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
-	linux-input@vger.kernel.org,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Liu Ying <victor.liu@nxp.com>, Conor Dooley <conor+dt@kernel.org>,
-	linux-pwm@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-gpio@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	devicetree@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH v2 05/17] dt-bindings: mfd: adp5585: document adp5589 I/O
- expander
-Message-ID: <174526197404.2623384.13566679975477936352.robh@kernel.org>
-References: <20250415-dev-adp5589-fw-v2-0-3a799c3ed812@analog.com>
- <20250415-dev-adp5589-fw-v2-5-3a799c3ed812@analog.com>
+	s=k20201202; t=1745271142;
+	bh=7k5SrfzednksLuDcqLkNO+vrUZCu5xJak0tKi6gH72k=;
+	h=From:To:Cc:Subject:Date:From;
+	b=a0e76SPFDifFT1pGCOFQsuv+7Rg71UCvfrVPfurGGLOT0tbZKsxP5omA5fWnzl8uA
+	 0R7fUL+wvSLWwon6R/9Gz4M5DVXhLIqDVBYat+3Iv4phAihbuzIYu5I3dX1pHq7/w3
+	 TeKE9BTN4phkSNV5nDDN8EYPTrFmvU/sAl2D/HDh3Jorpdk6FkHLFA5DA5+J74q9em
+	 9VJKq/9AvB5pmCKYskfT6EIt4vI/GOfJYuRyl5+5h5dyhqJrm/oeGz477AYdcItcs6
+	 fKCepr9UYjc+SpcyXWTXNllKBDRZP4l+RrRVq/kAxWsvSU7/iZoPnFI0wh9xftN6r1
+	 KcyWrrcPAXeOg==
+From: Mario Limonciello <superm1@kernel.org>
+To: Basavaraj Natikar <basavaraj.natikar@amd.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-kernel@vger.kernel.org (open list),
+	linux-input@vger.kernel.org (open list:AMD SENSOR FUSION HUB DRIVER),
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v4 RESEND 0/2] Fixes for SRA sensor handling
+Date: Mon, 21 Apr 2025 16:32:08 -0500
+Message-ID: <20250421213210.1160665-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250415-dev-adp5589-fw-v2-5-3a799c3ed812@analog.com>
 
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-On Tue, 15 Apr 2025 15:49:21 +0100, Nuno Sá wrote:
-> The ADP5589 is a 19 I/O port expander with built-in keypad matrix decoder,
-> programmable logic, reset generator, and PWM generator.
-> 
-> We can't really have adp5589 devices fallback to adp5585 (which have
-> less pins) because there are some significant differences in the register
-> map.
-> 
-> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
-> ---
->  .../devicetree/bindings/mfd/adi,adp5585.yaml       | 47 +++++++++++++++++-----
->  .../devicetree/bindings/trivial-devices.yaml       |  2 -
->  2 files changed, 38 insertions(+), 11 deletions(-)
-> 
+On systems with an SRA sensor there are some problems with both init
+and failure paths.  This series accounts for both.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+This is resend of V4 which ahsn't gotten any movement the past two
+weeks:
+Link: https://patchwork.kernel.org/project/linux-input/cover/20250407151835.1200867-1-superm1@kernel.org/
+
+Mario Limonciello (2):
+  HID: amd_sfh: Fix SRA sensor when it's the only sensor
+  HID: amd_sfh: Avoid clearing reports for SRA sensor
+
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+-- 
+2.43.0
 
 
