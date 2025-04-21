@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-11905-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11906-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801BDA957FB
-	for <lists+linux-input@lfdr.de>; Mon, 21 Apr 2025 23:32:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C129A95800
+	for <lists+linux-input@lfdr.de>; Mon, 21 Apr 2025 23:32:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BCDD91748BF
-	for <lists+linux-input@lfdr.de>; Mon, 21 Apr 2025 21:32:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C5D7A3B5F08
+	for <lists+linux-input@lfdr.de>; Mon, 21 Apr 2025 21:32:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B80AA21931B;
-	Mon, 21 Apr 2025 21:32:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1494321A44D;
+	Mon, 21 Apr 2025 21:32:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DpD1ME8P"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eo9RYHb8"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887512192F8;
-	Mon, 21 Apr 2025 21:32:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E082D21A43C;
+	Mon, 21 Apr 2025 21:32:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745271143; cv=none; b=K0lyLf7FKae88VA9fuNVvNSur9WbhdXqd1upQP8kVxvWFBE8IU5NRxnPGXcw0ySmXaItxFbUu8xa5uAfdBXMPjo2HC425OaN/xDLhZt3UXXe629vT5ooxUM0fg8aDfsv5CZx+/jI+Sdi8CSykbb30xm1NbXdXmGOHb0AomTWh9I=
+	t=1745271145; cv=none; b=BAfIDDRT/W7z0ajF/tl39fEwMMSnHJWwyrD3FBdIggwW2tQxnN124MPFyQu4dbIeOHgIMIW2nrXZXgdirz18Is1P21MH6r/f7hJ7I0a8SC2s93tOgyPuw0d8hwYkyx4jItZAHEr7BkrY1uM2lkTB/YbMrYa8wwNDU75VCdMSsd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745271143; c=relaxed/simple;
-	bh=FROZRIdHapvR9KBbWNJFi61sURkGI86NKSTJeiz6PUs=;
+	s=arc-20240116; t=1745271145; c=relaxed/simple;
+	bh=ce3ClsriXC8LZWlvmEpmiJgErfC2vJ+4DZ1F22z7qGs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h/n0BxvXX4bFNJuWtxxXekVRlZvOA8o/0pl4ZXnBG5GChMx8aRLSRunJFVbFpxNaRW2FbvoLCIpeMkOqXlMs3+lmp52BNF2Y3kWDto6VgMZXLSt1lf0NTIwfpoQwjucMqS+6tbNro/0WhBEJaHpltvfaldvsLEcjntpaD9J/nds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DpD1ME8P; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EAD6C4CEEB;
-	Mon, 21 Apr 2025 21:32:22 +0000 (UTC)
+	 MIME-Version; b=P5OwGsuzppx9bVwgjHopDPRgAq/MhLG3y9S0SpPh/106Sc/BfkUmEJ+xSKu1e4x6+XIzzxUcgqadlG347RMurPEDhafpgQ+MbxQEPRc49PvDROcDvgQxEXQz1A15QBB3i9xc9CsbhGhhg837iM/p5v400spH38cz1hC8D1rhrag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eo9RYHb8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D06C4CEEA;
+	Mon, 21 Apr 2025 21:32:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745271143;
-	bh=FROZRIdHapvR9KBbWNJFi61sURkGI86NKSTJeiz6PUs=;
+	s=k20201202; t=1745271144;
+	bh=ce3ClsriXC8LZWlvmEpmiJgErfC2vJ+4DZ1F22z7qGs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DpD1ME8PT4m0JD2ZGC3hqZCodl6sWTvMkLJB2eWegTD6oMgsRH/Z5XKr9ro1aEidR
-	 /wUFprTdVFBwIoGtybHElQqG6jg3bSofhHMFRwtWpIs23w1ccfHCWvb1fqv1KbkTJz
-	 fDAWC0WHN1JiaA9kCeD8M5Vet0zLdI03eVTpfxJpSkLj4/LjrJwFLx2xwd2Uz5i02b
-	 ML2pfDOTBDUeZK6x+F9FveypHtCr7SknU1OzKigFzwsYJRv9eZ1+T3GAgJrPr2c7jr
-	 nPGQbdc3akq77zuSHBsvfWZ76PjNenqgmu+fxwCZpAomXabjx8sDFYht5zycdTIfPp
-	 i1f2cBwdxx6vg==
+	b=eo9RYHb8TpLMATn+OsvZHsObuPK9BShm+8CHk7OavKKZd7juoYHDNsxkxYFxf1pnO
+	 mwEn/BiTjm/W0WZ0qMDhJT3d3mIsCLvfEwvGYpv9YKeYdNM/jSkCf4RGWSF+gqMouZ
+	 uwYiJ2ib+GscW6VdW3LUo7uEHc8fk5X1RjJgOegxwEjcx/GdyfD+XOUm4aklGgmHag
+	 Cf63tELcDLC5VePIk1P8xIBS2KvGcJwkU51wco+JhNb8xr6qJ6gcXBlu4d8WJB0In4
+	 c03SIUZW10d/1FEt85HV4zgNSbBjRwR0ixulEDZY368N3zPtm0K59RvihAO0wwCUPd
+	 ESfr0GJVcQgbA==
 From: Mario Limonciello <superm1@kernel.org>
 To: Basavaraj Natikar <basavaraj.natikar@amd.com>,
 	Jiri Kosina <jikos@kernel.org>,
@@ -48,12 +48,10 @@ To: Basavaraj Natikar <basavaraj.natikar@amd.com>,
 Cc: linux-kernel@vger.kernel.org (open list),
 	linux-input@vger.kernel.org (open list:AMD SENSOR FUSION HUB DRIVER),
 	Mario Limonciello <mario.limonciello@amd.com>,
-	Yijun Shen <Yijun.Shen@dell.com>,
-	Yijun Shen <Yijun_Shen@Dell.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v4 RESEND 1/2] HID: amd_sfh: Fix SRA sensor when it's the only sensor
-Date: Mon, 21 Apr 2025 16:32:09 -0500
-Message-ID: <20250421213210.1160665-2-superm1@kernel.org>
+	Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Subject: [PATCH v4 RESEND 2/2] HID: amd_sfh: Avoid clearing reports for SRA sensor
+Date: Mon, 21 Apr 2025 16:32:10 -0500
+Message-ID: <20250421213210.1160665-3-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250421213210.1160665-1-superm1@kernel.org>
 References: <20250421213210.1160665-1-superm1@kernel.org>
@@ -67,52 +65,45 @@ Content-Transfer-Encoding: 8bit
 
 From: Mario Limonciello <mario.limonciello@amd.com>
 
-On systems that only have an SRA sensor connected to SFH the sensor
-doesn't get enabled due to a bad optimization condition of breaking
-the sensor walk loop.
+SRA sensor doesn't allocate any memory for reports.  Skip
+trying to clear memory for that sensor in cleanup path.
 
-This optimization is unnecessary in the first place because if there
-is only one device then the loop only runs once. Drop the condition
-and explicitly mark sensor as enabled.
-
-Reported-by: Yijun Shen <Yijun.Shen@dell.com>
-Tested-By: Yijun Shen <Yijun_Shen@Dell.com>
-Fixes: d1c444b47100d ("HID: amd_sfh: Add support to export device operating states")
-Cc: stable@vger.kernel.org
+Suggested-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
+v4:
+ * One more case for amd_sfh_hid_client_deinit()
+v3:
+ * Less changes as amd_sfh_hid_client_deinit() covers a lot
 v2:
- * Add tag
+ * New patch
 ---
- drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-index 25f0ebfcbd5f5..c1bdf1e0d44af 100644
+index c1bdf1e0d44af..0a9b44ce4904e 100644
 --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
 +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-@@ -134,9 +134,6 @@ static int amd_sfh1_1_hid_client_init(struct amd_mp2_dev *privdata)
- 	for (i = 0; i < cl_data->num_hid_devices; i++) {
- 		cl_data->sensor_sts[i] = SENSOR_DISABLED;
- 
--		if (cl_data->num_hid_devices == 1 && cl_data->sensor_idx[0] == SRA_IDX)
--			break;
--
- 		if (cl_data->sensor_idx[i] == SRA_IDX) {
- 			info.sensor_idx = cl_data->sensor_idx[i];
- 			writel(0, privdata->mmio + amd_get_p2c_val(privdata, 0));
-@@ -145,8 +142,10 @@ static int amd_sfh1_1_hid_client_init(struct amd_mp2_dev *privdata)
- 				(privdata, cl_data->sensor_idx[i], ENABLE_SENSOR);
- 
- 			cl_data->sensor_sts[i] = (status == 0) ? SENSOR_ENABLED : SENSOR_DISABLED;
--			if (cl_data->sensor_sts[i] == SENSOR_ENABLED)
-+			if (cl_data->sensor_sts[i] == SENSOR_ENABLED) {
-+				cl_data->is_any_sensor_enabled = true;
- 				privdata->dev_en.is_sra_present = true;
-+			}
- 			continue;
+@@ -83,6 +83,9 @@ static int amd_sfh_hid_client_deinit(struct amd_mp2_dev *privdata)
+ 		case ALS_IDX:
+ 			privdata->dev_en.is_als_present = false;
+ 			break;
++		case SRA_IDX:
++			privdata->dev_en.is_sra_present = false;
++			break;
  		}
  
+ 		if (cl_data->sensor_sts[i] == SENSOR_ENABLED) {
+@@ -237,6 +240,8 @@ static int amd_sfh1_1_hid_client_init(struct amd_mp2_dev *privdata)
+ cleanup:
+ 	amd_sfh_hid_client_deinit(privdata);
+ 	for (i = 0; i < cl_data->num_hid_devices; i++) {
++		if (cl_data->sensor_idx[i] == SRA_IDX)
++			continue;
+ 		devm_kfree(dev, cl_data->feature_report[i]);
+ 		devm_kfree(dev, in_data->input_report[i]);
+ 		devm_kfree(dev, cl_data->report_descr[i]);
 -- 
 2.43.0
 
