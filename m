@@ -1,110 +1,147 @@
-Return-Path: <linux-input+bounces-11906-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11907-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C129A95800
-	for <lists+linux-input@lfdr.de>; Mon, 21 Apr 2025 23:32:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4B0A958E4
+	for <lists+linux-input@lfdr.de>; Tue, 22 Apr 2025 00:04:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C5D7A3B5F08
-	for <lists+linux-input@lfdr.de>; Mon, 21 Apr 2025 21:32:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AEC4B3B4FE1
+	for <lists+linux-input@lfdr.de>; Mon, 21 Apr 2025 22:04:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1494321A44D;
-	Mon, 21 Apr 2025 21:32:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 527E2221F3A;
+	Mon, 21 Apr 2025 22:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eo9RYHb8"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a8BO/IX5"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E082D21A43C;
-	Mon, 21 Apr 2025 21:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7633221F0A;
+	Mon, 21 Apr 2025 22:03:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745271145; cv=none; b=BAfIDDRT/W7z0ajF/tl39fEwMMSnHJWwyrD3FBdIggwW2tQxnN124MPFyQu4dbIeOHgIMIW2nrXZXgdirz18Is1P21MH6r/f7hJ7I0a8SC2s93tOgyPuw0d8hwYkyx4jItZAHEr7BkrY1uM2lkTB/YbMrYa8wwNDU75VCdMSsd4=
+	t=1745273018; cv=none; b=ESPd8xWdZQ5ODy1Ofgjt4E4N7TJIF13S6TmeNh3iVpAdkTy1EWQovBjt4oDtxRPMPkxRLIIg+0iJCBwsUFwcCHiMz7YLz0FCv6eFaI0pseZ2rr+h7FS8NWk7Qx0BuqeakV9hjfOwixyVhkp28R7MwQWJHef6e9MaYkP+dkobQC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745271145; c=relaxed/simple;
-	bh=ce3ClsriXC8LZWlvmEpmiJgErfC2vJ+4DZ1F22z7qGs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P5OwGsuzppx9bVwgjHopDPRgAq/MhLG3y9S0SpPh/106Sc/BfkUmEJ+xSKu1e4x6+XIzzxUcgqadlG347RMurPEDhafpgQ+MbxQEPRc49PvDROcDvgQxEXQz1A15QBB3i9xc9CsbhGhhg837iM/p5v400spH38cz1hC8D1rhrag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eo9RYHb8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D06C4CEEA;
-	Mon, 21 Apr 2025 21:32:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745271144;
-	bh=ce3ClsriXC8LZWlvmEpmiJgErfC2vJ+4DZ1F22z7qGs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eo9RYHb8TpLMATn+OsvZHsObuPK9BShm+8CHk7OavKKZd7juoYHDNsxkxYFxf1pnO
-	 mwEn/BiTjm/W0WZ0qMDhJT3d3mIsCLvfEwvGYpv9YKeYdNM/jSkCf4RGWSF+gqMouZ
-	 uwYiJ2ib+GscW6VdW3LUo7uEHc8fk5X1RjJgOegxwEjcx/GdyfD+XOUm4aklGgmHag
-	 Cf63tELcDLC5VePIk1P8xIBS2KvGcJwkU51wco+JhNb8xr6qJ6gcXBlu4d8WJB0In4
-	 c03SIUZW10d/1FEt85HV4zgNSbBjRwR0ixulEDZY368N3zPtm0K59RvihAO0wwCUPd
-	 ESfr0GJVcQgbA==
-From: Mario Limonciello <superm1@kernel.org>
-To: Basavaraj Natikar <basavaraj.natikar@amd.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-kernel@vger.kernel.org (open list),
-	linux-input@vger.kernel.org (open list:AMD SENSOR FUSION HUB DRIVER),
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Subject: [PATCH v4 RESEND 2/2] HID: amd_sfh: Avoid clearing reports for SRA sensor
-Date: Mon, 21 Apr 2025 16:32:10 -0500
-Message-ID: <20250421213210.1160665-3-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250421213210.1160665-1-superm1@kernel.org>
-References: <20250421213210.1160665-1-superm1@kernel.org>
+	s=arc-20240116; t=1745273018; c=relaxed/simple;
+	bh=L4Vm17wQXJt18C/sghPsQAjFU4r6TeOLbu1yYf7tbM4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aibYZGcBo4VYtKo29jU91CwNonLiggMk1sFEWnmxWxrmyH1j08iiGOBMDQZX5oNIfZjfkDpwcg23P7FKFwz7SPbIbb81UhU6VtMktZXvTZVE5yLHaKbjtpkKqhttVFZSFlWBINPfMW7Q1L1Mw3nn8OrVWE9cIAbOqArqaNkvRBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a8BO/IX5; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BBB10F01;
+	Tue, 22 Apr 2025 00:01:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1745272887;
+	bh=L4Vm17wQXJt18C/sghPsQAjFU4r6TeOLbu1yYf7tbM4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a8BO/IX52LNbxPTSI8RPpLv5mqe8JTQvgdkJE/68qzmONPMzE3XLo2f2aLcNddFhs
+	 TIkb7OvPuB/wBhVg65fCTnrbZfunWW3rzBsciPMHY1HV6VzyCJg7jfj23gr5Zvr3ic
+	 UhiAttG0hGeDYco1X6yNOI1cAIHyF2W/EsxSH2Kw=
+Date: Tue, 22 Apr 2025 01:03:32 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+Cc: nuno.sa@analog.com, linux-gpio@vger.kernel.org,
+	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH v2 02/17] mfd: adp5585: enable oscilator during probe
+Message-ID: <20250421220332.GU17813@pendragon.ideasonboard.com>
+References: <20250415-dev-adp5589-fw-v2-0-3a799c3ed812@analog.com>
+ <20250415-dev-adp5589-fw-v2-2-3a799c3ed812@analog.com>
+ <20250421085758.GB29968@pendragon.ideasonboard.com>
+ <aadec5eae6645e3e9c2f8f09dcf842510515122f.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <aadec5eae6645e3e9c2f8f09dcf842510515122f.camel@gmail.com>
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+Hi Nuno,
 
-SRA sensor doesn't allocate any memory for reports.  Skip
-trying to clear memory for that sensor in cleanup path.
+On Mon, Apr 21, 2025 at 01:14:28PM +0100, Nuno Sá wrote:
+> On Mon, 2025-04-21 at 11:57 +0300, Laurent Pinchart wrote:
+> > On Tue, Apr 15, 2025 at 03:49:18PM +0100, Nuno Sá via B4 Relay wrote:
+> > > From: Nuno Sá <nuno.sa@analog.com>
+> > > 
+> > > Make sure to enable the oscillator in the top device. This will allow to
+> > > not control this in the child PWM device as that would not work with
+> > > future support for keyboard matrix where the oscillator needs to be
+> > > always enabled (and so cannot be disabled by disabling PWM).
+> > 
+> > Setting this bit unconditionally increases power consumption. It should
+> > only be set when needed.
+> 
+> Well, not sure if the effort for that pays off... The only usecase were it would
+> make sense to do that would be for PWM. For the other devices (and assuming I'm
+> right with the GPI case) we need this always set.
 
-Suggested-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
-v4:
- * One more case for amd_sfh_hid_client_deinit()
-v3:
- * Less changes as amd_sfh_hid_client_deinit() covers a lot
-v2:
- * New patch
----
- drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 5 +++++
- 1 file changed, 5 insertions(+)
+For the keypad, can't the device be kept powered off if the input device
+exposed to userspace is not open ? And for GPIOs, OSC_EN isn't needed
+when all requested GPIOs are configured as outputs, as far as I can
+tell.
 
-diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-index c1bdf1e0d44af..0a9b44ce4904e 100644
---- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-+++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-@@ -83,6 +83,9 @@ static int amd_sfh_hid_client_deinit(struct amd_mp2_dev *privdata)
- 		case ALS_IDX:
- 			privdata->dev_en.is_als_present = false;
- 			break;
-+		case SRA_IDX:
-+			privdata->dev_en.is_sra_present = false;
-+			break;
- 		}
- 
- 		if (cl_data->sensor_sts[i] == SENSOR_ENABLED) {
-@@ -237,6 +240,8 @@ static int amd_sfh1_1_hid_client_init(struct amd_mp2_dev *privdata)
- cleanup:
- 	amd_sfh_hid_client_deinit(privdata);
- 	for (i = 0; i < cl_data->num_hid_devices; i++) {
-+		if (cl_data->sensor_idx[i] == SRA_IDX)
-+			continue;
- 		devm_kfree(dev, cl_data->feature_report[i]);
- 		devm_kfree(dev, in_data->input_report[i]);
- 		devm_kfree(dev, cl_data->report_descr[i]);
+I'm fine addressing this issue on top of this series.
+
+> > > Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+> > > ---
+> > >  drivers/mfd/adp5585.c | 16 ++++++++++++++++
+> > >  1 file changed, 16 insertions(+)
+> > > 
+> > > diff --git a/drivers/mfd/adp5585.c b/drivers/mfd/adp5585.c
+> > > index
+> > > 160e0b38106a6d78f7d4b7c866cb603d96ea673e..f17b5f2474cac6a403556694066f438288
+> > > 264a49 100644
+> > > --- a/drivers/mfd/adp5585.c
+> > > +++ b/drivers/mfd/adp5585.c
+> > > @@ -110,6 +110,13 @@ static const struct regmap_config adp5585_regmap_configs[] = {
+> > >  	},
+> > >  };
+> > >  
+> > > +static void adp5585_osc_disable(void *data)
+> > > +{
+> > > +	const struct adp5585_dev *adp5585 = data;
+> > > +
+> > > +	regmap_write(adp5585->regmap, ADP5585_GENERAL_CFG, 0);
+> > > +}
+> > > +
+> > >  static int adp5585_i2c_probe(struct i2c_client *i2c)
+> > >  {
+> > >  	const struct regmap_config *regmap_config;
+> > > @@ -138,6 +145,15 @@ static int adp5585_i2c_probe(struct i2c_client *i2c)
+> > >  		return dev_err_probe(&i2c->dev, -ENODEV,
+> > >  				     "Invalid device ID 0x%02x\n", id);
+> > >  
+> > > +	ret = regmap_set_bits(adp5585->regmap, ADP5585_GENERAL_CFG,
+> > > +			      ADP5585_OSC_EN);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	ret = devm_add_action_or_reset(&i2c->dev, adp5585_osc_disable, adp5585);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > >  	ret = devm_mfd_add_devices(&i2c->dev, PLATFORM_DEVID_AUTO,
+> > >  				   adp5585_devs, ARRAY_SIZE(adp5585_devs),
+> > >  				   NULL, 0, NULL);
+
 -- 
-2.43.0
+Regards,
 
+Laurent Pinchart
 
