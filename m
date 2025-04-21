@@ -1,74 +1,74 @@
-Return-Path: <linux-input+bounces-11867-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11868-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A4FA94F37
-	for <lists+linux-input@lfdr.de>; Mon, 21 Apr 2025 12:13:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E09AA94F3C
+	for <lists+linux-input@lfdr.de>; Mon, 21 Apr 2025 12:13:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B28681890559
-	for <lists+linux-input@lfdr.de>; Mon, 21 Apr 2025 10:13:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 74624189226A
+	for <lists+linux-input@lfdr.de>; Mon, 21 Apr 2025 10:13:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19ED4261575;
-	Mon, 21 Apr 2025 10:13:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D95872620F5;
+	Mon, 21 Apr 2025 10:13:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nrNsPetc"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EI7lMEoC"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8451020C016
-	for <linux-input@vger.kernel.org>; Mon, 21 Apr 2025 10:13:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94FB82620C6
+	for <linux-input@vger.kernel.org>; Mon, 21 Apr 2025 10:13:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745230391; cv=none; b=ipr8FUXSKnTJA6YFLJ7ogf3E6aQIwsVE5AsyqmGap1cuYwIoYo9zlmW+kbYrTeWg9Ai7ywMqlAJmTyJVb4DymIXGLccutBrwsFkm/uctsRZDjgmmIsFRpERFjkuLNvORne/WwaMSRkryW/eUegmRXGehk5dhVzyxrZeD5X7FGWo=
+	t=1745230394; cv=none; b=cJ3nhYSg2qyQ60wnWi52q6sJ20Iu9M8wBNpf/hMxqyvHK3SeJlgVAUpphXcCzGQBHlVZSjms/wBw74eawETCztodVGjs2VQdJUdb05aMFtB2YkDtLmkbEFmub4N/YL/vV+7Hf7g1ECFwEBCkaIHR8BsAsKvTSADoPlrVaMlktyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745230391; c=relaxed/simple;
-	bh=/aJIi6jFMkCKzafBM/nNKdpS5PB1CaOQsX/+a6oYEE8=;
+	s=arc-20240116; t=1745230394; c=relaxed/simple;
+	bh=FR04IaMx5M3reYvC9Ul0vGkqy5dkFbswq922BLXpjDc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q/GbCIOO7TSarGiYaTcDa2twltGJNvIl9oPrnACWUx3cGkqxEqNsQpAmeqFDlnDJ/E+dTGBqUKZ6Lj9DOd2e1jmQ4aB9eJGCZEPgrdiYTvzftrnoLyXHzpG1EK215iTHqxMStFiVoUxLzeVCWYxPifmIQkFEWe5BKu1BaIBqjBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nrNsPetc; arc=none smtp.client-ip=209.85.214.174
+	 MIME-Version; b=YmPY9zF28x+IGbW7VT06ahiyOHh9dSdlIoI5BjDQRbu/uSXst0t3Kfta+rKPDObhsjZt6L2st3gPQqI38GAg1XYDMRuRvOkcIqZayW/bYILiworqy2rtv/tEVnAbLCSeh3BUz4AIblsEPUn1jlfbn5zVsXrEewkcqkqg35Ui+lA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EI7lMEoC; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-223fd89d036so46038025ad.1
-        for <linux-input@vger.kernel.org>; Mon, 21 Apr 2025 03:13:09 -0700 (PDT)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-22401f4d35aso41611475ad.2
+        for <linux-input@vger.kernel.org>; Mon, 21 Apr 2025 03:13:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1745230389; x=1745835189; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1745230392; x=1745835192; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5gUKhgL8xbYN2S+4GVogDZp2nilBSVWla8H/MwRjdFI=;
-        b=nrNsPetc1P6pjHcKQE6jVWfeBbcIqd2YzbVeDnQeRiGGcXGGyA6hazixZY/aMsSHNr
-         U7x1TwQN4c10LhBHIKBE4R4G5JLOMatYkOO8OVxxBjMBqGFWi3s5ephs9/IfU3pZCCAn
-         hrzmRlYIlXVK8xFRILuMDhgsBAW7j0FFsagGQ=
+        bh=sTVdf/HTR/Pq03sjtrVZQf/ywmAoP72Oaa16LKk/YT0=;
+        b=EI7lMEoC4eos4V7Mtya/yyQHK8GjlXRZkOM9WyEVG1h2dOGy9uNgh/SVB1j3fTtP0N
+         iRm4W1dQfuhufPcv7QpNFmJBAyS5dAa6aALvoW5EKWgD3gfA9Rhjprgw7G8ecUSnsrRX
+         AverPwptbkKKCMF5Yo9Mr5JR03gIlGw/PdtUo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745230389; x=1745835189;
+        d=1e100.net; s=20230601; t=1745230392; x=1745835192;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5gUKhgL8xbYN2S+4GVogDZp2nilBSVWla8H/MwRjdFI=;
-        b=ncLAQ10oh04nfJDSZG+YK8V+9ogeWmwor315fmoqcexweCmXCpQFH7R5D/02PsapFP
-         jrJCQJZCazT1BEsT777K8MTcqNHJj+eLA4d6ERz/iUwQtxtT3V7BIQNLvIObQG/pCjJQ
-         TNT8IpQrSDtpsTB8ThtBBLGrE6xe/vjtsbhd0oS8TxeT39qAPhEzK07uedF9XicbRGv5
-         tibmWQ111zc93rrOWa1xzFKeGrjNtnkGz49fdDw7CUHNuQBPrtX01T68aIHq9q08Sdhy
-         +5G32bR63L9yPuAkKiThIJf9+dokUmKpRONP1HoMAQ4oKybOC9y9lKLZnbBuabeTrrxX
-         6aBw==
-X-Forwarded-Encrypted: i=1; AJvYcCW4pDo0qiX7S7TvGhHsf0L5uKcuFBvF6RCWp9IGyzUeFWTxP/CkJdzt7IXQQxeMRBSC7C1cznmKP46VLg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzma7NO1YVxfcSYaQGOYDOsZ0/gUamg9CaSFHCb8ZrVttzFZY7B
-	gdO7J9t2lVoZCa8hWdUBNuBoyCQyvvLEgPaetkBjOXa+hP+Ge6N7b7Sf9z/JYw==
-X-Gm-Gg: ASbGncuWTMAVkyzu5TjxdqtjgdhAPM15rVPoJJhlUrfvNXCbbk2/Hjjd+2v1zeYKlAq
-	Ex51TzOj1+lY3rDtePP/NI9GHTJQHSOySwsYAZlUsqFqv5UzToYQWdbQ0eOoSRU65Lq4gBfzHQJ
-	3nKL1KpVdVNEM8+ZIL1cPAEcsotnY9INCc1QOtumgkUukE1Fqnxt6xfX5qMFS9EH541eGN5tB9F
-	Eo1JqsubIzMS4aA+1I4qi1ZKF+Dr+mqpN9PRslNznbHV2ujnQXijnSo8gzx2DIu4/WGT5FEqZUf
-	Nuur/K7I7tBbO84fqDOKoZAZ6avD8AjmTHi563BwzxkgB/xnyu30+BaoK8k=
-X-Google-Smtp-Source: AGHT+IEkr0EFkCj5J6CNLSHPTa49yKoitttF/R1BiDswDnBiG+hklRUae4FmkHmy3Ilt86P50nrk5g==
-X-Received: by 2002:a17:902:f78c:b0:215:9bc2:42ec with SMTP id d9443c01a7336-22c5361fcedmr148300365ad.47.1745230388644;
-        Mon, 21 Apr 2025 03:13:08 -0700 (PDT)
+        bh=sTVdf/HTR/Pq03sjtrVZQf/ywmAoP72Oaa16LKk/YT0=;
+        b=lDo8C33icfW7zidJfRc/IpfGjN9B6xLJrZm0V5+k6efOEo9NeY9ci8r/crkRFT7pOY
+         Bh5xgIntK47Z0ad0nXvKfuXduXYPEmyDv9lPl0lvcv5IzLaSuRsuYRVYIxLI9Yl8gXqG
+         uGS96q7YsYfwuxDC0WCYxjfe1xP5FC6RXvlMsGCu6aLaomTOO2LX1Nr3uBlKs3JEY7tL
+         oIelCoEGqop8GbhvBRDO5Rdk7a8oxURJ3gZObHqpT0DWfvXU2P/1MpTTzX2zaB2NxTXO
+         0B3/EuukVgOSwHQXbTLx6dn9FdXeP6Ji3+AnSdgqfkskUSlL2QBWbDt/+KVnaKJdawJa
+         Xbpg==
+X-Forwarded-Encrypted: i=1; AJvYcCXQvAfvhTlx7lzvlSGcsQSctGWn8n9HSWKLuDVwtfyqZG1d8f/hQZUkYn5neHPSUKhcQXlffH5Nuurseg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyX6nRvRizGdaKw61amEHI4hxmahwyl9JUCOUCZxlXPnY4Ls7oM
+	xG7K3DVgMIrHngrQ2q+v/d5Kn8pI4gdIUJ4JVbjyldspePBsErRnCRJYQEN61w==
+X-Gm-Gg: ASbGnctMC/NIiCfxMledAJ5uYcoETawADvhhaXeeo1j6fZd/7qaos5DonxfN9jsfN3u
+	vApERqCvFTFB5djlxIvCNTL0PVEcCI7rGwGhZX/f6YbkoQ6Hi9ybKfE7nnMDVxfux3aVQX78EJa
+	rR+agoQupioFFzG5IaNsgkSm0jeSP8QyguS7wunE/fjxox0FjoxEeoXLhNuBgLXvssrfXuBXCPn
+	EN0bo/U6KFtoGBajohgzUgth22zZrmhSuvKZlPvuj77utgW5Rs3to988nc8UGOc8owaLTV2qVIH
+	AiUBWT8nYRmz7hh4OIhJnk9ED1zGqCwuoAyS13XPIDyFMNQPD0Kcs16qE30=
+X-Google-Smtp-Source: AGHT+IEzP8P3BuI4W7WctpJECwx8nzR8w2GBK/ppnOU1J4/hN4o5Y1Q6ZPLjik3RIkoMMrSDGxWajA==
+X-Received: by 2002:a17:903:19eb:b0:223:5e56:a1ce with SMTP id d9443c01a7336-22c536063e3mr184062165ad.32.1745230391767;
+        Mon, 21 Apr 2025 03:13:11 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:7633:f42a:d31d:3f9c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22d78db8b04sm38985205ad.238.2025.04.21.03.13.05
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22d78db8b04sm38985205ad.238.2025.04.21.03.13.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Apr 2025 03:13:08 -0700 (PDT)
+        Mon, 21 Apr 2025 03:13:11 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -86,9 +86,9 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	chrome-platform@lists.linux.dev,
 	linux-input@vger.kernel.org,
 	Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v2 1/8] dt-bindings: HID: i2c-hid: elan: Introduce Elan eKTH8D18
-Date: Mon, 21 Apr 2025 18:12:39 +0800
-Message-ID: <20250421101248.426929-2-wenst@chromium.org>
+Subject: [PATCH v2 2/8] dt-bindings: arm: mediatek: Merge MT8186 Voltorb entries
+Date: Mon, 21 Apr 2025 18:12:40 +0800
+Message-ID: <20250421101248.426929-3-wenst@chromium.org>
 X-Mailer: git-send-email 2.49.0.805.g082f7c87e0-goog
 In-Reply-To: <20250421101248.426929-1-wenst@chromium.org>
 References: <20250421101248.426929-1-wenst@chromium.org>
@@ -100,71 +100,37 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Elan eKTH8D18 touchscreen controller is an I2C HID device with a
-longer boot-up time. Power sequence timing wise it is compatible with
-the eKTH6A12NAY, with a power-on delay of at least 5ms, 20ms
-out-of-reset for I2C ack response, and 150ms out-of-reset for I2C HID
-enumeration, both shorter than what the eKTH6A12NAY requires.
-Enumeration and subsequent operation follows the I2C HID standard.
+There are only two different SKUs of Voltorb, and the only difference
+between them is whether a touchscreen is present or not. This can be
+detected by a simple I2C transfer to the address, instead of having
+separate compatible strings and device trees.
 
-Add a compatible string for it with the ekth6a12nay one as a fallback.
-No enum was used as it is rare to actually add new entries. These
-chips are commonly completely backward compatible, and unless the
-power sequencing delays change, there is no real effort being made to
-keep track of new parts, which come out constantly.
-
-Also drop the constraints on the I2C address since it's not really
-part of the binding.
+Drop the SKU-specific compatible strings and just keep the generic
+"google,voltorb" one.
 
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
 Changes since v1:
-- Reworded commit message
-- Dropped the enum for the new compatible string entry
-- Dropped constraint on I2C address completely
+- Added Rob's ack
 ---
- .../devicetree/bindings/input/elan,ekth6915.yaml     | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ Documentation/devicetree/bindings/arm/mediatek.yaml | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-index cb3e1801b0d3..0840e4ab28b7 100644
---- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-+++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-@@ -4,14 +4,14 @@
- $id: http://devicetree.org/schemas/input/elan,ekth6915.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
--title: Elan eKTH6915 touchscreen controller
-+title: Elan I2C-HID touchscreen controllers
- 
- maintainers:
-   - Douglas Anderson <dianders@chromium.org>
- 
- description:
--  Supports the Elan eKTH6915 touchscreen controller.
--  This touchscreen controller uses the i2c-hid protocol with a reset GPIO.
-+  Supports the Elan eKTH6915 and other I2C-HID touchscreen controllers.
-+  These touchscreen controller use the i2c-hid protocol with a reset GPIO.
- 
- allOf:
-   - $ref: /schemas/input/touchscreen/touchscreen.yaml#
-@@ -23,12 +23,14 @@ properties:
-           - enum:
-               - elan,ekth5015m
-           - const: elan,ekth6915
-+      - items:
-+          - const: elan,ekth8d18
-+          - const: elan,ekth6a12nay
-       - enum:
-           - elan,ekth6915
-           - elan,ekth6a12nay
- 
--  reg:
--    const: 0x10
-+  reg: true
- 
-   interrupts:
-     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/arm/mediatek.yaml b/Documentation/devicetree/bindings/arm/mediatek.yaml
+index 108ae5e0185d..49ddc504c160 100644
+--- a/Documentation/devicetree/bindings/arm/mediatek.yaml
++++ b/Documentation/devicetree/bindings/arm/mediatek.yaml
+@@ -339,9 +339,6 @@ properties:
+           - const: mediatek,mt8186
+       - description: Google Voltorb (Acer Chromebook 311 C723/C732T)
+         items:
+-          - enum:
+-              - google,voltorb-sku589824
+-              - google,voltorb-sku589825
+           - const: google,voltorb
+           - const: mediatek,mt8186
+       - items:
 -- 
 2.49.0.805.g082f7c87e0-goog
 
