@@ -1,168 +1,132 @@
-Return-Path: <linux-input+bounces-11915-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11916-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7822A960AB
-	for <lists+linux-input@lfdr.de>; Tue, 22 Apr 2025 10:13:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC83A96390
+	for <lists+linux-input@lfdr.de>; Tue, 22 Apr 2025 11:08:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0FE841799B6
-	for <lists+linux-input@lfdr.de>; Tue, 22 Apr 2025 08:13:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E72143A8379
+	for <lists+linux-input@lfdr.de>; Tue, 22 Apr 2025 09:02:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63678250C18;
-	Tue, 22 Apr 2025 08:12:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AD791EFF80;
+	Tue, 22 Apr 2025 09:02:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HlkX56DV"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="027B8Z6j"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A2623A995;
-	Tue, 22 Apr 2025 08:12:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751C61EB199
+	for <linux-input@vger.kernel.org>; Tue, 22 Apr 2025 09:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745309534; cv=none; b=bjH5FVKHuKSmtA911hYjHUjw1tRcnkyIlCvInTzceR1x0Aetke6f1/epmIP8No+puBDD+3iwR9uLcWYOsoezy3S+OmiQCj9nu38VOgdUxo8lDHajGdiR5Hyb/FwJsSaqhBoE9G6S9nbmdzPBxVD6ojHdO90s7crwGPc4slIUhJs=
+	t=1745312535; cv=none; b=OtVDGFS+6m6tM/2oiK0190MXykyq2jQtRQ21AnmZmIe6XdNjVxMCdZcOEvla86FaRdefTjLI9ETRSshGB+H2tAv39vZ8Pq78qHhG5vKrUteg5wKfpMY5fTfkNZgnX8hUe9fMLHfFb8NQ1t+sGXLq/QyZevTZdDqIrQM6aN795XU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745309534; c=relaxed/simple;
-	bh=o+B7DdcdLb05OfWKQ1SLmlisRPFRM/Y/beB3LDCwcbw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sLmSg7Ase/4ccU7v6iV6JY0y6Eni0AKqo7+BbHBTiZOTGOko/lIJ3Gutt4mctr/kmNC33PYGCMb6FYbBX1udioltOCvySayPACloPjx7TOXvgjl7eftFsyqCHEh2JZpdT5N/6g9Wvo1/Ovol4fW3h/Dg+NvsoMYca10p+ZsfHPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HlkX56DV; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-39c1ee0fd43so4374841f8f.0;
-        Tue, 22 Apr 2025 01:12:12 -0700 (PDT)
+	s=arc-20240116; t=1745312535; c=relaxed/simple;
+	bh=dc4xZ3axdxlBmzoeUihfiSwNKtoX4SuR4oNDF5k5NTc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mJjzEuTZFmENMtzdUN7NhYuYn+4gAEiddFGUUBnoYgRUCaSpn1E8+xv1SjX80iFS+308KXFglJVqvoDFrB3guhTNQhGgRRZ7N+oMtwwiiRT9P23zhPyhjWjvrUrFMiddowBqnUMMVEv2q1fkEXBKTwJjFXdgITTbZ4Ih6v9OZtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=027B8Z6j; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30db3f3c907so44214821fa.1
+        for <linux-input@vger.kernel.org>; Tue, 22 Apr 2025 02:02:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745309531; x=1745914331; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=K9Pqd0JSg3R3Rl01mQeS60ptj7Wfk7YCDGdP4JNmo6A=;
-        b=HlkX56DVfMJUKJqgWisnSk/o8thED3aXlFFghYngIBQlOc7BzlRS7oxLA+71HVgO27
-         4JFA78uo0mIOSQdAuVBdO2vDoT8oCN+nbr/ECLiTwz3RQpJutRsf8MhcBUF6IbvWjC1R
-         PU3X1RznU9uU7qMIBRhGz7ym7EdFfvzvL5fInpe4NGcVsgp2A28/HHkOThSgfByAR4/E
-         u2/TuE/MO4hC3QKp6J9+vIYDYXYeFqZA/p56v0bJ1B7YIr+4iBZbgrvVG9QPPpnmUbVu
-         9p5HZzupnWcx8Uc3gX+GigJMJ2yzUoUboAOePnNWIVvvA+mmmoe88dxgXHG5doVxY9g+
-         wqTw==
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1745312531; x=1745917331; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dc4xZ3axdxlBmzoeUihfiSwNKtoX4SuR4oNDF5k5NTc=;
+        b=027B8Z6jYlj4S+ujHVi12BHBpykJkHuSDloRBE6V5FhH8FQhOdPxTp+ucpj9IuVIkv
+         DpcSTQbGIAYL+Lfo6zWNX3n75lSD95HF571XLTnDyX/2kH8J7uiMbHLI6c4oP3jiN8dq
+         vGujJdt12N8Mik+ZdyAalwD1jgtzH6O+xS/0Xwj7PgIt7rx+EZCfrbMjG33kXD82SZPi
+         ekY1k9itD53wLASNI4EdePI7psmcF8xeFUgH22qez2v0nOT4CXEPtEWbpXoUkiBcoE6r
+         9Kh+rg5B4qz1PwFyHpZqyOW2li2SqCYMMhh94+0kfNN6B6IE6zJiQdoYaSe/jFZpwDTL
+         /cwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745309531; x=1745914331;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=K9Pqd0JSg3R3Rl01mQeS60ptj7Wfk7YCDGdP4JNmo6A=;
-        b=FiEd9gbtiKG99kAWM7Ea6iTE0YMdT805omoyPT56IluVOChDFD2hW7Ucv2RV3oCH1q
-         i6KG2UQB4a1/qhAIc6P17nfgm59adANh6oDb7UV2YnosiMhO5rV6LdNUcze5s3wsGi3j
-         /GYf+4PZDoZCr4w0hufvZEitT+f7KvlmiKI9M3sCNJJTHQ0c643cC3rDiRSDvxYjhwqM
-         U/0L+D0/jsUtxgWH0qU+0ClKLXG0FWgp39pJMtRttgRB6C33wKQ3g0DSimeiJLn0zGED
-         IbKayRPfvTO0cpCvdbXcyPKezoa0J17YJXH8j749HyCvFfy/XI80QeBzlPOygXbWQz5j
-         /2gQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU8wadAYbdCT4WlpGGzDwcDiHl6HUxlt3TgzSJmM0/bhPVLUgHfJWq1bc6/3bCnzNyIADtg/MG1jfSJRQ==@vger.kernel.org, AJvYcCUyANcITJvJteYMNUF3xK8Poa9k0iL1ONPxBq9XpDZmoPY+Rne5NRyqdLY92gsutFGZ1yudPLR0wb2Z@vger.kernel.org, AJvYcCW+Zfr+tejQ9I7Rs7Hgss6qA2NvnV5c1jz0Xmr5rWmKYcBx4tL8OabrG3Jye6C/0KzAluTsrwVu7E4cutM=@vger.kernel.org, AJvYcCX3KvTlIIl3vo08XzP5RL3cMs4J221thBoUFM0CBnTWjTWHXVMpwqPBvtKTVTv/7p/QpgjNyiZbnKfX@vger.kernel.org
-X-Gm-Message-State: AOJu0YytWBzb/oPBzyylFMbm8HGWshcAurtbfhLQiWuWHUaieSvnKVBu
-	z0fIrCcuXdsL7vbECCs0t13QjXqS6pLaWyo85s+sLMKQPOem7rdJ
-X-Gm-Gg: ASbGncuIf2Nl98i6aXMPTK3Hz0MMeg6dJr7aGX0mJKKeDEmcRSkDIuFVcszIr4uhnme
-	JFjxFfPonSk/I/SJDTtATb+MJ/uPpEm6ycTWh3fg3B5ayBL1JqQt0p6XyyLbRbkua04D9VsxDPH
-	J24hRqkTYb+vsGYDjg9BLZ96tUc9h1ssh1x5X4ijrMLE8Bpi+vkqkArpZOi0Net7LCPdNDal+HB
-	6mO6tXA8zOzLnfnHQ2Wiv4eZ+dKrZrd3mWVdedz8yFVLu3osxfqZaXdkvRKd61+nGa/YvOdloY3
-	SsF2EfwdnPIgq0G4g9UYMmpvk9wpNEsxZXKwBO2PS/YzNGaJzmAaVe3yiVxCTuU2yObwL0iheJ2
-	CYC7C3l3Z8e0S
-X-Google-Smtp-Source: AGHT+IGJAhEWq5tlxAZXl4C6CEztLTvqQ2FPHJA9DjgMTsfu+hDE1w1zinbdPhB9uqP2oll3Q8Q0Kg==
-X-Received: by 2002:a05:6000:18a8:b0:391:3915:cffb with SMTP id ffacd0b85a97d-39efbadf01fmr11000991f8f.43.1745309530758;
-        Tue, 22 Apr 2025 01:12:10 -0700 (PDT)
-Received: from ?IPv6:2001:818:ea8e:7f00:2575:914:eedd:620e? ([2001:818:ea8e:7f00:2575:914:eedd:620e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d6db117sm163051775e9.26.2025.04.22.01.12.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Apr 2025 01:12:10 -0700 (PDT)
-Message-ID: <aeebf7ddc3bcbb9697ed50565dd1b7ee3eb93479.camel@gmail.com>
-Subject: Re: [PATCH v2 14/17] mfd: adp5585: support getting vdd regulator
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: nuno.sa@analog.com, linux-gpio@vger.kernel.org,
- linux-pwm@vger.kernel.org, 	devicetree@vger.kernel.org,
- linux-input@vger.kernel.org, Lee Jones <lee@kernel.org>,  Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,  Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=	
- <ukleinek@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Liu Ying <victor.liu@nxp.com>
-Date: Tue, 22 Apr 2025 09:12:13 +0100
-In-Reply-To: <20250421220958.GW17813@pendragon.ideasonboard.com>
-References: <20250415-dev-adp5589-fw-v2-0-3a799c3ed812@analog.com>
-	 <20250415-dev-adp5589-fw-v2-14-3a799c3ed812@analog.com>
-	 <20250421094801.GM29968@pendragon.ideasonboard.com>
-	 <dd63c35315c2e8252b1451fd44423c0c79e5be45.camel@gmail.com>
-	 <20250421220958.GW17813@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0 
+        d=1e100.net; s=20230601; t=1745312531; x=1745917331;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dc4xZ3axdxlBmzoeUihfiSwNKtoX4SuR4oNDF5k5NTc=;
+        b=VzpMCCEcYi6S/VCPdvY7upVLaREGD22aKvJ7LkYJuDDVl6T7I7PlQMP5N6DnLokwTj
+         AMS122j8UVp0bdNqk/aJRpX739kMBbWq4BQVDsbjgDy0A8qQQ62hirFdWUE0LwptwsV8
+         TlnJY667z4bIHysv9IycX/qExcrKydx3j2mr7+000VMIX/SAjujTe/RKLl6guL3kyWbr
+         UeCtMXii2CA5vDaNI47ZOvzqVISywXuWJt+Ji3ZYZGmJ9LSEOk5yp/RKZSCCxtTv730O
+         OoJf6G+GsqDevd/6fj2X79u8yuV2QvuKfv9lH8dS88JsAFX+/bzcCzc8oXBqv1Vkqp1j
+         3MaA==
+X-Forwarded-Encrypted: i=1; AJvYcCWTixwPzP1yAEsCgHLAV6or64JLwwtG8JmhzlMvSZGkoofOVn5tnKu9HTKJo3CDrFZZ83g+6w6ZtMwCCw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGZsXmeBDfroNLF+0nuPsEYldjc2M7FXflB+yVTdYCNNSmP9MU
+	Ix38y70RPZQO7Kqp52PYfFKlqZqyfZkLYWG7K4QnnUKNlDA/8AXpv/MUhHrMU2ZRfoSpzfaKlsq
+	MGqSNJe440O9O+kbmT8Lu24JBBWP9pvulw/W/CQ==
+X-Gm-Gg: ASbGncuXTnfUSkL/7oJ8PPEpftvr4m7fCbzFvbVCnsYxweikQiViH8/hbRbHzID4rKJ
+	mqA1zbsNPuUJ1i4BWgnEF58Exee46UTWLMN/UNBvuWYta/oDQasVFoSysdxrwPrJJzy4uDYgnqL
+	Mo0ES8rPW1RCIcqrKoIwvU6Rb9O8lXXEu7/G7fnG4gBRtVOImg+G3hTA==
+X-Google-Smtp-Source: AGHT+IHXSN/8gRyaTry5GtiHwesoyr/kZzwfBfVcH37VqAhFNMUYYlznpyD7bdjOzOI5Q3wO1WKwnhzNohwl7Ztd4W8=
+X-Received: by 2002:a2e:8e8c:0:b0:30b:f469:47ef with SMTP id
+ 38308e7fff4ca-310905bacd4mr38362531fa.23.1745312531271; Tue, 22 Apr 2025
+ 02:02:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20250407-gpiochip-set-rv-input-v1-0-a8b45b18e79c@linaro.org>
+ <20250407-gpiochip-set-rv-input-v1-3-a8b45b18e79c@linaro.org>
+ <4cd7b1ea029f7cdb6312f61b1008116b58b85efe.camel@gmail.com> <CAMRc=Mcd=6tgk-NwqrSxes96tkV1PmxKFNwDV==XAUkLtDKj-Q@mail.gmail.com>
+In-Reply-To: <CAMRc=Mcd=6tgk-NwqrSxes96tkV1PmxKFNwDV==XAUkLtDKj-Q@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 22 Apr 2025 11:01:59 +0200
+X-Gm-Features: ATxdqUHl6k-99FjEYSZJEDU0K_B9nBaJmH013ky1sQlNl-LzWnGU-Cxp14xGbos
+Message-ID: <CAMRc=MfBsyovZ6dVLZcDC37aTG1XeGvTMaUTRGfUcEhkVXHyng@mail.gmail.com>
+Subject: Re: [PATCH 3/3] Input: adp5589 - use new GPIO line value setter callbacks
+To: =?UTF-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Michael Hennerich <michael.hennerich@analog.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2025-04-22 at 01:09 +0300, Laurent Pinchart wrote:
-> Hi Nuno,
->=20
-> On Mon, Apr 21, 2025 at 01:38:47PM +0100, Nuno S=C3=A1 wrote:
-> > On Mon, 2025-04-21 at 12:48 +0300, Laurent Pinchart wrote:
-> > > On Tue, Apr 15, 2025 at 03:49:30PM +0100, Nuno S=C3=A1 via B4 Relay w=
-rote:
-> > > > From: Nuno S=C3=A1 <nuno.sa@analog.com>
-> > > >=20
-> > > > Make sure we get and enable the VDD supply (if available).
-> > >=20
-> > > Can the regulator be enabled only when needed ?
-> > >=20
-> >=20
-> > Hmm, I guess we could do that for the case where only the PWM device is
-> > "enabled". That said, I don't think the extra complexity for that reall=
-y
-> > pays
-> > off...
->=20
-> Or when no GPIO is requested, or when the input device for the keypad is
-> not open ? Then can be handled with power optimization for OSC_EN on top
-> of this series.
->=20
+On Thu, Apr 17, 2025 at 2:31=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
+ wrote:
+>
+> On Tue, Apr 15, 2025 at 11:06=E2=80=AFAM Nuno S=C3=A1 <noname.nuno@gmail.=
+com> wrote:
+> >
+> > On Mon, 2025-04-07 at 09:19 +0200, Bartosz Golaszewski wrote:
+> > > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> > >
+> > > struct gpio_chip now has callbacks for setting line values that retur=
+n
+> > > an integer, allowing to indicate failures. Convert the driver to usin=
+g
+> > > them.
+> > >
+> > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> > > ---
+> >
+> > Let's maybe drop this one? I'll send a new version of this [1] that wil=
+l drop
+> > this driver...
+> >
+> > BTW, I can already change my v2 and use .set_rv()...
+> >
+> > [1]: https://lore.kernel.org/linux-input/20250313-dev-adp5589-fw-v1-13-=
+20e80d4bd4ea@analog.com/
+> >
+>
+> Sure, as long as the new variant is used, I don't care.
+>
+> Bart
 
-I guess it can go sideways with enabling/disabling OSC_EN, yes...
+Dmitry,
 
+Can you still pick up patches 1 and 2 please?
 
-> > > > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-> > > > ---
-> > > > =C2=A0drivers/mfd/adp5585.c | 5 +++++
-> > > > =C2=A01 file changed, 5 insertions(+)
-> > > >=20
-> > > > diff --git a/drivers/mfd/adp5585.c b/drivers/mfd/adp5585.c
-> > > > index
-> > > > c1d51d50dca6c9367d4a1b98a4f8bbec12dbf90b..667cc5bd0745f64eec60837ec=
-3c000
-> > > > 57af
-> > > > 0cddeb 100644
-> > > > --- a/drivers/mfd/adp5585.c
-> > > > +++ b/drivers/mfd/adp5585.c
-> > > > @@ -18,6 +18,7 @@
-> > > > =C2=A0#include <linux/mod_devicetable.h>
-> > > > =C2=A0#include <linux/module.h>
-> > > > =C2=A0#include <linux/regmap.h>
-> > > > +#include <linux/regulator/consumer.h>
-> > > > =C2=A0#include <linux/types.h>
-> > > > =C2=A0
-> > > > =C2=A0static const struct mfd_cell adp5585_devs[] =3D {
-> > > > @@ -849,6 +850,10 @@ static int adp5585_i2c_probe(struct i2c_client
-> > > > *i2c)
-> > > > =C2=A0	adp5585->dev =3D &i2c->dev;
-> > > > =C2=A0	adp5585->irq =3D i2c->irq;
-> > > > =C2=A0
-> > > > +	ret =3D devm_regulator_get_enable(&i2c->dev, "vdd");
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > =C2=A0	adp5585->regmap =3D devm_regmap_init_i2c(i2c, info-
-> > > > >regmap_config);
-> > > > =C2=A0	if (IS_ERR(adp5585->regmap))
-> > > > =C2=A0		return dev_err_probe(&i2c->dev, PTR_ERR(adp5585-
-> > > > >regmap),
+Bartosz
 
