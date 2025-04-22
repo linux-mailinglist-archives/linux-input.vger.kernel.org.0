@@ -1,132 +1,146 @@
-Return-Path: <linux-input+bounces-11916-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11917-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CC83A96390
-	for <lists+linux-input@lfdr.de>; Tue, 22 Apr 2025 11:08:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E91A96D67
+	for <lists+linux-input@lfdr.de>; Tue, 22 Apr 2025 15:49:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E72143A8379
-	for <lists+linux-input@lfdr.de>; Tue, 22 Apr 2025 09:02:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EBD6916ED90
+	for <lists+linux-input@lfdr.de>; Tue, 22 Apr 2025 13:49:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AD791EFF80;
-	Tue, 22 Apr 2025 09:02:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A023728368B;
+	Tue, 22 Apr 2025 13:49:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="027B8Z6j"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dKBk8lAN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751C61EB199
-	for <linux-input@vger.kernel.org>; Tue, 22 Apr 2025 09:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB1F28150B
+	for <linux-input@vger.kernel.org>; Tue, 22 Apr 2025 13:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745312535; cv=none; b=OtVDGFS+6m6tM/2oiK0190MXykyq2jQtRQ21AnmZmIe6XdNjVxMCdZcOEvla86FaRdefTjLI9ETRSshGB+H2tAv39vZ8Pq78qHhG5vKrUteg5wKfpMY5fTfkNZgnX8hUe9fMLHfFb8NQ1t+sGXLq/QyZevTZdDqIrQM6aN795XU=
+	t=1745329755; cv=none; b=YHx1P7rw7vd8BJptiB+4V/fcZIT4xOhg0OD2HUYpiIjFvTC1v2JUliWzgV/IIy6CeWLEp+u+aEdvCcYdtPZ/TPWbA2bzwMlHOyYVgeAECZ5gbVp9gRNYH9qCyjKy6KH0+6fwOe/p3KKc+ntiA1/J31p2IgLpAyidzsTiXUaQKB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745312535; c=relaxed/simple;
-	bh=dc4xZ3axdxlBmzoeUihfiSwNKtoX4SuR4oNDF5k5NTc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mJjzEuTZFmENMtzdUN7NhYuYn+4gAEiddFGUUBnoYgRUCaSpn1E8+xv1SjX80iFS+308KXFglJVqvoDFrB3guhTNQhGgRRZ7N+oMtwwiiRT9P23zhPyhjWjvrUrFMiddowBqnUMMVEv2q1fkEXBKTwJjFXdgITTbZ4Ih6v9OZtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=027B8Z6j; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30db3f3c907so44214821fa.1
-        for <linux-input@vger.kernel.org>; Tue, 22 Apr 2025 02:02:13 -0700 (PDT)
+	s=arc-20240116; t=1745329755; c=relaxed/simple;
+	bh=t/nsZtQzJkxlxWAeLmLAOPfvM3imWBmvJSy//xCxPXk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sp9xzzEQ2ntPLcSYg4OuYABXN7Qc36ZMNxGC8xg+gA0OHTCdKpwQrSfnGcgak/KibQgwyMbxlneLwDgzTD+Lksd/XhSimgLjN1bWgeHKqQeG+hmjllu/ktgt/OHAgtH0YGPTyg0bXBeGvBWYQdDBzZerWBZ4u/Jei1TCR7zkepo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dKBk8lAN; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-736c1138ae5so4599846b3a.3
+        for <linux-input@vger.kernel.org>; Tue, 22 Apr 2025 06:49:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1745312531; x=1745917331; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dc4xZ3axdxlBmzoeUihfiSwNKtoX4SuR4oNDF5k5NTc=;
-        b=027B8Z6jYlj4S+ujHVi12BHBpykJkHuSDloRBE6V5FhH8FQhOdPxTp+ucpj9IuVIkv
-         DpcSTQbGIAYL+Lfo6zWNX3n75lSD95HF571XLTnDyX/2kH8J7uiMbHLI6c4oP3jiN8dq
-         vGujJdt12N8Mik+ZdyAalwD1jgtzH6O+xS/0Xwj7PgIt7rx+EZCfrbMjG33kXD82SZPi
-         ekY1k9itD53wLASNI4EdePI7psmcF8xeFUgH22qez2v0nOT4CXEPtEWbpXoUkiBcoE6r
-         9Kh+rg5B4qz1PwFyHpZqyOW2li2SqCYMMhh94+0kfNN6B6IE6zJiQdoYaSe/jFZpwDTL
-         /cwA==
+        d=gmail.com; s=20230601; t=1745329753; x=1745934553; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vOAx4lAsu+XGGKSdrHD8VhSjBDkm2ZpEvZ8hWaIZOg0=;
+        b=dKBk8lANLTRJB212MPdqbzNraM+IGOBZHitx1x3CiSypr8tTeidRc3Pbqb8pkbz9fS
+         9Q5Z6DEQsnhUc/l9flDBhCYhUrMLt9YQA40hZff229rQDEm86gxHAMRZfShwa+vKKkH1
+         /YL50mThGYa/KCEHr0E8ycIL1z9oaTDeC8/4F7qOZSYp8DEaWl4Uiq2lYOummGeu4Vj8
+         BpRKMY3gxyDFHYT74Tq9WWKl+/jHLY/1Ot/vnLHW9X2CzRGg5AkH9F/4GBP662lEkUcO
+         X0kqq4S1+EyDKctHTHa74EwSi/9MyJRMxrTWcgGmEVtll7OUHciTRR/+15GwEAmP/6qY
+         C3wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745312531; x=1745917331;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dc4xZ3axdxlBmzoeUihfiSwNKtoX4SuR4oNDF5k5NTc=;
-        b=VzpMCCEcYi6S/VCPdvY7upVLaREGD22aKvJ7LkYJuDDVl6T7I7PlQMP5N6DnLokwTj
-         AMS122j8UVp0bdNqk/aJRpX739kMBbWq4BQVDsbjgDy0A8qQQ62hirFdWUE0LwptwsV8
-         TlnJY667z4bIHysv9IycX/qExcrKydx3j2mr7+000VMIX/SAjujTe/RKLl6guL3kyWbr
-         UeCtMXii2CA5vDaNI47ZOvzqVISywXuWJt+Ji3ZYZGmJ9LSEOk5yp/RKZSCCxtTv730O
-         OoJf6G+GsqDevd/6fj2X79u8yuV2QvuKfv9lH8dS88JsAFX+/bzcCzc8oXBqv1Vkqp1j
-         3MaA==
-X-Forwarded-Encrypted: i=1; AJvYcCWTixwPzP1yAEsCgHLAV6or64JLwwtG8JmhzlMvSZGkoofOVn5tnKu9HTKJo3CDrFZZ83g+6w6ZtMwCCw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGZsXmeBDfroNLF+0nuPsEYldjc2M7FXflB+yVTdYCNNSmP9MU
-	Ix38y70RPZQO7Kqp52PYfFKlqZqyfZkLYWG7K4QnnUKNlDA/8AXpv/MUhHrMU2ZRfoSpzfaKlsq
-	MGqSNJe440O9O+kbmT8Lu24JBBWP9pvulw/W/CQ==
-X-Gm-Gg: ASbGncuXTnfUSkL/7oJ8PPEpftvr4m7fCbzFvbVCnsYxweikQiViH8/hbRbHzID4rKJ
-	mqA1zbsNPuUJ1i4BWgnEF58Exee46UTWLMN/UNBvuWYta/oDQasVFoSysdxrwPrJJzy4uDYgnqL
-	Mo0ES8rPW1RCIcqrKoIwvU6Rb9O8lXXEu7/G7fnG4gBRtVOImg+G3hTA==
-X-Google-Smtp-Source: AGHT+IHXSN/8gRyaTry5GtiHwesoyr/kZzwfBfVcH37VqAhFNMUYYlznpyD7bdjOzOI5Q3wO1WKwnhzNohwl7Ztd4W8=
-X-Received: by 2002:a2e:8e8c:0:b0:30b:f469:47ef with SMTP id
- 38308e7fff4ca-310905bacd4mr38362531fa.23.1745312531271; Tue, 22 Apr 2025
- 02:02:11 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745329753; x=1745934553;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vOAx4lAsu+XGGKSdrHD8VhSjBDkm2ZpEvZ8hWaIZOg0=;
+        b=oLAm6jgxknWnQDzJIqeZ2pSPIOODZ5X0460kiQAczHjj3jhIASYJyohAjXtAznkGC9
+         8nkEPeJ3IcPFLGuK9puDj4ZxyTx+fsCUgxSV228etCTfYGRxpjIR5oKo7EY3UP9mEPcW
+         W2fpxFm4uuB+Hcx3HExPrKeBHb9fN//lLxE+u7r03bY6K462sCPSyhMmsFeVfbgDRz05
+         jlyw4N1I9hYkgaGQAKl8WKtsHIAfhZn59z/mRhh5D54Wza0cDjSA4zBoJS61NG1717Wl
+         zsimtKRP9cLnJ4IB2P6Vfl24Brm4zWvT7WG4RfYV6ASeAoDTW4CR6reuKsRD2GCpVY/p
+         A9jQ==
+X-Gm-Message-State: AOJu0YxLD6ksBCPWPY5aLcKUzx6ZdT6UZMkJBs9p8gyS5IDYJaa7mtF+
+	+twXC/4rG/n7T239jnAoK833Q3IK6sG2s7cOR3l5Ep9nodFYhEBs
+X-Gm-Gg: ASbGnctf2UPGNijdJi7B1KeMxcHw+Npgax2jWVurFAwr2dPgolK8IYyiPeA3B3Fz1Ke
+	SPZWKY09waDI/vYKxycLB9aldlx2z7MOqxSr6AIRiUq5hcNqcg4B/8PQ5YLpzQs/BlITnWog32P
+	wQQss78CrGW02Q2q2rY18Iz+nKJXCOTAnjYaMqk9mfCJOxf7Ao9R5i/fMayRH0PQCXV8YJ4Zvjb
+	gwWmM0afWKAi44rZm/86KF0GkkeshFLE7TbJCSklFEaNiUl2N6B+k2zWJ72ISDitIHYmgj7HXx6
+	3Sqyy8y8LKOZTvTDZ+DZOtIv/GP1O0md7PhknTt3B3vBi7QUHkU90TaWYK7Wi5NKhOnvCD/MVLm
+	BAHK+YHHp/b3igeih
+X-Google-Smtp-Source: AGHT+IFQdrJD7aGoR7bzPrCfr6Lp1G/sMPWB5uoYuTXr5yvEzTlo5Yu4oQk7F0e+Vziz9XQXCF8A4g==
+X-Received: by 2002:a05:6a00:4606:b0:736:a77d:5412 with SMTP id d2e1a72fcca58-73dc14cd331mr19458555b3a.12.1745329753126;
+        Tue, 22 Apr 2025 06:49:13 -0700 (PDT)
+Received: from ?IPV6:2804:d51:49ad:6800:615e:be5e:6da8:965c? ([2804:d51:49ad:6800:615e:be5e:6da8:965c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73dbf8e0bbesm8636095b3a.37.2025.04.22.06.49.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Apr 2025 06:49:12 -0700 (PDT)
+Message-ID: <c332518c-f997-49bd-a2cd-4612def52b81@gmail.com>
+Date: Tue, 22 Apr 2025 10:49:09 -0300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250407-gpiochip-set-rv-input-v1-0-a8b45b18e79c@linaro.org>
- <20250407-gpiochip-set-rv-input-v1-3-a8b45b18e79c@linaro.org>
- <4cd7b1ea029f7cdb6312f61b1008116b58b85efe.camel@gmail.com> <CAMRc=Mcd=6tgk-NwqrSxes96tkV1PmxKFNwDV==XAUkLtDKj-Q@mail.gmail.com>
-In-Reply-To: <CAMRc=Mcd=6tgk-NwqrSxes96tkV1PmxKFNwDV==XAUkLtDKj-Q@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 22 Apr 2025 11:01:59 +0200
-X-Gm-Features: ATxdqUHl6k-99FjEYSZJEDU0K_B9nBaJmH013ky1sQlNl-LzWnGU-Cxp14xGbos
-Message-ID: <CAMRc=MfBsyovZ6dVLZcDC37aTG1XeGvTMaUTRGfUcEhkVXHyng@mail.gmail.com>
-Subject: Re: [PATCH 3/3] Input: adp5589 - use new GPIO line value setter callbacks
-To: =?UTF-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Michael Hennerich <michael.hennerich@analog.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Add keycode to Dell G-Mode key
+Content-Language: en-US
+To: dmitry.torokhov@gmail.com
+Cc: linux-input@vger.kernel.org
+References: <20250419113132.36504-1-marcoshalano@gmail.com>
+From: Marcos Alano <marcoshalano@gmail.com>
+In-Reply-To: <20250419113132.36504-1-marcoshalano@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 17, 2025 at 2:31=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
- wrote:
->
-> On Tue, Apr 15, 2025 at 11:06=E2=80=AFAM Nuno S=C3=A1 <noname.nuno@gmail.=
-com> wrote:
-> >
-> > On Mon, 2025-04-07 at 09:19 +0200, Bartosz Golaszewski wrote:
-> > > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > >
-> > > struct gpio_chip now has callbacks for setting line values that retur=
-n
-> > > an integer, allowing to indicate failures. Convert the driver to usin=
-g
-> > > them.
-> > >
-> > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > > ---
-> >
-> > Let's maybe drop this one? I'll send a new version of this [1] that wil=
-l drop
-> > this driver...
-> >
-> > BTW, I can already change my v2 and use .set_rv()...
-> >
-> > [1]: https://lore.kernel.org/linux-input/20250313-dev-adp5589-fw-v1-13-=
-20e80d4bd4ea@analog.com/
-> >
->
-> Sure, as long as the new variant is used, I don't care.
->
-> Bart
+On 19/04/2025 08:31, Marcos Alano wrote:
+> This key exists in some Alienware and Dell machines.
+> On Windows it activates the performance mode.
+> 
+I noticed just now the missing of a rationale about my patch. Sorry 
+about that.
 
-Dmitry,
+This patch is part of a multiple stage plans to enable the G-Mode key on 
+Linux.
+The most important part is this patch, that will define an exclusive key 
+code for the key.
+There will be necessary a newer version for libevdev, specially the 
+Python support, using the newer headers with the key code I'm adding in 
+there.
+Subsequently, I will update my change in systemd so the scan code for 
+this key, 0x68, returns `KEY_GMODE` (today is returning a very generic 
+key code).
+Finally, I will release a simple Python code I developed that is 
+responsible for monitoring event devices, /dev/input/event* (since I 
+doubt that I have how to know what is the keyboard device).
+When detect `KEY_GMODE` it will enable performance mode, and when press 
+again, it will disable.
+Today I'm using D-Bus to call power-profiles-daemon, but the idea in the 
+future, with a quite set in stone key code, any user-space tool, like 
+power-profiles-daemon, can use and manage the key by themselves.
 
-Can you still pick up patches 1 and 2 please?
+Please let me know about any doubts or considerations.
 
-Bartosz
+
+> Signed-off-by: Marcos Alano <marcoshalano@gmail.com>
+> ---
+>   include/uapi/linux/input-event-codes.h | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+> index 5a199f3d4a26..85c6a612ee84 100644
+> --- a/include/uapi/linux/input-event-codes.h
+> +++ b/include/uapi/linux/input-event-codes.h
+> @@ -765,6 +765,9 @@
+>   #define KEY_KBD_LCD_MENU4		0x2bb
+>   #define KEY_KBD_LCD_MENU5		0x2bc
+>   
+> +/* G-Mode key present in some Alienware and Dell machines */
+> +#define KEY_GMODE			0x2bd
+> +
+>   #define BTN_TRIGGER_HAPPY		0x2c0
+>   #define BTN_TRIGGER_HAPPY1		0x2c0
+>   #define BTN_TRIGGER_HAPPY2		0x2c1
+
+-- 
+Marcos Alano
+
 
