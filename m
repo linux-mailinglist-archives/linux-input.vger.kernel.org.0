@@ -1,183 +1,141 @@
-Return-Path: <linux-input+bounces-11937-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11938-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C902A980F6
-	for <lists+linux-input@lfdr.de>; Wed, 23 Apr 2025 09:32:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A23A5A98460
+	for <lists+linux-input@lfdr.de>; Wed, 23 Apr 2025 10:56:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BDA8917A39D
-	for <lists+linux-input@lfdr.de>; Wed, 23 Apr 2025 07:32:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D3C7F17A04A
+	for <lists+linux-input@lfdr.de>; Wed, 23 Apr 2025 08:56:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C26B21FF54;
-	Wed, 23 Apr 2025 07:30:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7317C1F09AA;
+	Wed, 23 Apr 2025 08:55:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=KoCoConnector.onmicrosoft.com header.i=@KoCoConnector.onmicrosoft.com header.b="FgdKIE5t"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="C9EehWtc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2120.outbound.protection.outlook.com [40.107.249.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA7A2741BC;
-	Wed, 23 Apr 2025 07:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.249.120
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745393426; cv=fail; b=Eo5O39K24oaU7L/VJCdhlMfNR+VK0U8USpqDZkxuEg/KUosQkzLpI5KkW4etxvKKFpvw1/Mv0FWXtCCmErQlD4cbKXwXA4Hlv3VzRLMOpK7dvfV8eWIenp3MkjYsJ6SzCXKjR2uKidC9InoU2DVwAiwFDlU2ApBtEm+UwR1UojQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745393426; c=relaxed/simple;
-	bh=yr/mlTQitDdRDfgfc2RFHbREIIu+0tJzyhcL7Ntb8js=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=rjnR2Q4eqeRUKE2n5IYm36iLsZG7z1qhNFvhsTa8LzT6OSHwqA04ddLQMeytEvNfKfmAAg5VHuLppBH8tqS53eyLVLblfG3KW0h63vNwuNoxO8YLNApA9Z8TKqUhfQTYuE1DpV/FnIZ7CZOZAox/3TF6OCrKmEAziJx2FGQt/r4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kococonnector.com; spf=pass smtp.mailfrom=kococonnector.com; dkim=pass (1024-bit key) header.d=KoCoConnector.onmicrosoft.com header.i=@KoCoConnector.onmicrosoft.com header.b=FgdKIE5t; arc=fail smtp.client-ip=40.107.249.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kococonnector.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kococonnector.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LB+sZdX+h7thu+5tSY+tfEGR1WErgHzb4jF2NTxH7JWynVIcv5pp2bltJnqHihcDJgUO1itlP9GFwvd1EdxyQBleA9Kirz72HPmIXg0pdjdTVTVgIwbK9JeE5V+DM7KUNIjS5cV2WZ3IDi1ahWhxPACBiSkkgiElPXSKM4Muo6sc8Ad+Qf4G/BDzWzd/fZxOoG5Ao3BNZT4vY/MIfR1f1ezs19X+D+BJaqouLnvohCSG7STq95ArWIPm1j3kn9sAHXFU87XB7a8yEOFr1ogayGOMsenqHmz8+dkl8S0XSjurzyRZymm/+wrw7DfFMvlh7A7ZaewPlKkAX0i5CuFayw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yr/mlTQitDdRDfgfc2RFHbREIIu+0tJzyhcL7Ntb8js=;
- b=t2XlYrpaLABltNFvguacS8irSQoyihDJMj9vjububnBSU8gknRqHhaQVnytAc3NwrKdEQUfX+beP8pdm5MWt/sx/P286s7/WsAtgcGNb/ETUrS7yZ6ksdzF8Tfa4Ccs0olI28XjlGx5yyDCuZ1tNDQWApnINFpyolJNPwpo8KFrAoNmhwHznYDWN5KY38uNOo89RwcNe7BbIUD1Xx5fg2ySOZPXqW9Q/fq0YI1xfBVECrHpk0s3HObeJDUA+wGYZOPC7cJlJ6eKcyYf1LgN7+rmEeOhml00WlXmqZcXS7tyKr5gjXHrN0qfyRfmu+vgB/86QQytUkhoaAwSfB0Cxhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kococonnector.com; dmarc=pass action=none
- header.from=kococonnector.com; dkim=pass header.d=kococonnector.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762AC1EF0AA
+	for <linux-input@vger.kernel.org>; Wed, 23 Apr 2025 08:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745398551; cv=none; b=byHj1Xq7hEdS+4dmrfA+AJN9yuem33bW+PVpJHFG0h7kk/WVbfe1eV3us/c5/jMBsTUxGx0mIL6heSlPGCZzONZIASwlG05cmETC7B8l6ZppXu6dl97bypKRvTcbHr054mtx+hkeXDTqVR40y7bjv24RUhg9bMKYPAp2SfQP4as=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745398551; c=relaxed/simple;
+	bh=R8ZNwu5x168vpV/MCptUTwqCm5enTGYy8Br+CBDDLqE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Iw47TXxQjrVdnkZwAqLw/AMupYq0F5aM/1AwDae6Nz2nlq24wuiujY524ktasOdvphgOwZt2NahcDS9uQoO0pgxElVqn2j7hIiyy7rSK9NNK0iXJ6rfQK7ZLXcw0M/0DnpCtqOAABUR9ZCHS0pKJdBdaCrFbL/14GeUT0JSql8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=C9EehWtc; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43d2d952eb1so44767665e9.1
+        for <linux-input@vger.kernel.org>; Wed, 23 Apr 2025 01:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=KoCoConnector.onmicrosoft.com; s=selector2-KoCoConnector-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yr/mlTQitDdRDfgfc2RFHbREIIu+0tJzyhcL7Ntb8js=;
- b=FgdKIE5ty4cJZ4Z3EFw7OwkV+q2IHEccAiH9shzkXtKSqcfMRdawKWmX1FnbwsqD4CGPcrXlMNQHvyQJcg0w87/CP5eG7cylZ4ZZVGRrhwEVd0ZlJu82D5Y3bC+WnhcQ9kDdKjWE55p2us+f1EgpCudGq3m4s1vBO1o32F4aKdE=
-Received: from AS8PR09MB6459.eurprd09.prod.outlook.com (2603:10a6:20b:5a6::14)
- by AM0PR09MB4036.eurprd09.prod.outlook.com (2603:10a6:208:19f::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.22; Wed, 23 Apr
- 2025 07:30:19 +0000
-Received: from AS8PR09MB6459.eurprd09.prod.outlook.com
- ([fe80::b21d:696c:59b2:f0fe]) by AS8PR09MB6459.eurprd09.prod.outlook.com
- ([fe80::b21d:696c:59b2:f0fe%4]) with mapi id 15.20.8655.033; Wed, 23 Apr 2025
- 07:30:19 +0000
-From: Oliver Graute <oliver.graute@kococonnector.com>
-To: Purva Yeshi <purvayeshi550@gmail.com>
-CC: "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-	"yujiaoliang@vivo.com" <yujiaoliang@vivo.com>, "jkeeping@inmusicbrands.com"
-	<jkeeping@inmusicbrands.com>, "viro@zeniv.linux.org.uk"
-	<viro@zeniv.linux.org.uk>, "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] input: ili210x: Fix uninitialized symbols in
- ili251x_firmware_to_buffer
-Thread-Topic: [PATCH] input: ili210x: Fix uninitialized symbols in
- ili251x_firmware_to_buffer
-Thread-Index: AQHbsSzck6TNt0OyZEy93VeveSJz6bOw4GyA
-Date: Wed, 23 Apr 2025 07:30:18 +0000
-Message-ID: <aAiWvzzSSWraeRdr@graute-macos>
-References: <20250419131315.24897-1-purvayeshi550@gmail.com>
-In-Reply-To: <20250419131315.24897-1-purvayeshi550@gmail.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kococonnector.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR09MB6459:EE_|AM0PR09MB4036:EE_
-x-ms-office365-filtering-correlation-id: b66d5c33-beb8-4007-ca53-08dd8238b322
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?R34ECQKJDAgnPmhZmwl5iIZH3CY5/k4119yXFv6YYn2MlIrlf8FPFiqgjhV3?=
- =?us-ascii?Q?UCzftWjzhRUPPt2ivLG4yI3tzE5NqPvRpUN6NoBRp3br7oIyZoKr53DsgMbS?=
- =?us-ascii?Q?PVydUj7kNvDqpBrhTcjAv6oXnfvknDiQGpnDfBsWepGKm5+/hLsrTQ5QIY4h?=
- =?us-ascii?Q?0OvuXNc7VPaM8Q+kdsZZ+P2FkhJ+g55ik9ZMdj30THKo7Z/91z/J+plHVL/4?=
- =?us-ascii?Q?eeR8TXH62eNACMuWl7AtTxSBxX8PfuaaahOxSACtL3ftRe3XtSQ4m1RjNt8O?=
- =?us-ascii?Q?HTudBl9kXottow7cAq1MSD9716ukLrz2qiBP0QzyIyB15XnvIXdiuSQxPFKh?=
- =?us-ascii?Q?n8+g5GoULFRyPzYCnc7i4VvlUa6yEdgmq7bZpw26QrlzEPXDec14EF3k3Nd0?=
- =?us-ascii?Q?L0lsF9VepyJ57evEn4/2m0CJ/gVz8wAm5IutGFd42L3tc3Udr3QZ/nXmc9+m?=
- =?us-ascii?Q?38eif7DlEQmRPUhxlRJtGAlZzhqu//Bd9mMbeFKO9xqPls7/G21lxxjBMQor?=
- =?us-ascii?Q?97v+QhqAbrqD8fYM4EJaIurg8nQ24T9kXEfOszigputdhWdljRwu7BE6CdTc?=
- =?us-ascii?Q?b60uZpk0wQSY6kVCPukfViwN9lUCQH7xiLJSmeNnY3WcQT2QiiOmELxWoj5H?=
- =?us-ascii?Q?XX1Cv6u/DEoYc+Vt0w1EBO0E367gDBImbS6qf0BAfGD8T3eSlMkxjhxwfRgY?=
- =?us-ascii?Q?QUFFXi6o310uOJbaMYzS+8/f19PmZevQ/4tDU8mDn25vr89JWUZ71d2yEZKJ?=
- =?us-ascii?Q?NLqENqPq1EuMp1T1zMQj8HxWxPCi73vac3brwzvNJ17bD/uw1DClSx1N74QE?=
- =?us-ascii?Q?ICQZNoA0K+O70cerk7TeBm3N2bj9qM5abnHm7Zr28PblzwXg/vsHr0NiNZNe?=
- =?us-ascii?Q?mhKUif8hKuz99YW6WCXpYmmPmrP/IXIDDu8lIQ6zrozxWVLzlg2VZgewv0Kw?=
- =?us-ascii?Q?YRRG51ZU9Sd4dlElBbImNSmwJaYfZVerAhHsX6kMjejDjmXBZ97ERn9f1AXS?=
- =?us-ascii?Q?u5uGjRt6OoZg847I6jlVOqEGXTDL68CXtx6gB929okqybTtzeg7beHd81yPw?=
- =?us-ascii?Q?IlRLrgGb9v81Od/VVcjv4zCzuAuUYd9GNmKtwnzO9LtJn2dObQXIjODGs30s?=
- =?us-ascii?Q?3wYV1AcrgRqdmIzMtWSLZM324UhMVsMGglkOuxgRs3IYkX0zkR+eBeLyb5OK?=
- =?us-ascii?Q?GAx8fwzWR6rZoViq+jpeApzKci8bON4lhsIV1ap2SjgyMB4WgXI/MHhI+1Ht?=
- =?us-ascii?Q?hjKMvmsDuzin6JtMkLyyBRnuUhz/HbDhy5vath12tC9KrkrjOcXYxJUr6PAD?=
- =?us-ascii?Q?V01RBkNs9XDqOJAIEoXfI9WieNf2gmDdS/77dhvUzQB5v64VQvlIkVxClaCD?=
- =?us-ascii?Q?pd7+xT2vsMDQGLyVpx5Z7WLtw+AzFqFkb+RHjpRz1v2V59ogEWvGsqPnubrJ?=
- =?us-ascii?Q?KZVQH9Ay6ZLCjQ1ZVQP36wLsrRH4w/kDnS9GaY26PUC2A9JEKo9kVw=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR09MB6459.eurprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?PG22yHT+nI/yzsnhlP2CiEayy1Y1VWjQVpPH5g6KYIfeWn9/0T9R7u7yA52y?=
- =?us-ascii?Q?qblTJBdHy1Fb5gOduP1ADQsY7YvXZr2TIAgCHDt0E5JQ779f99+vScoP26XI?=
- =?us-ascii?Q?AbFX5ivKCjBa8/9+1Nl1c+m4jSvw4Puw7Cw8CEKSXBQRydT9v6a8R4r4TH2/?=
- =?us-ascii?Q?bTPUCadnPnkbhawtC/ia5yS3XvREBiozFr276Q6CyJSOLGqxXwRLIGQNGxHY?=
- =?us-ascii?Q?0jKUcl399iYguv9zvHmVu5FCpaYsibzyV5U0fKoBg2l8ZTxLSqvtZzQR5Uep?=
- =?us-ascii?Q?uCuRsHtZN8wSpG6tMemeZNsIFZm8DlyVbIrFO3DdI2pK8AmcbgvzEdVY/Ujz?=
- =?us-ascii?Q?/9272gUy4CwwhlcJZqaNlFFILW0DPdgSDHpMZ5RkpOJbgvXkB3dOwGuWhuOt?=
- =?us-ascii?Q?BOdhmDshVsj03Z1810MG8qkit9SKIKo/ZOIFKPtDYvCUB8hQ3JmMclQ/2ATN?=
- =?us-ascii?Q?B6hN6iDSTcEIVvTwiuWnjAOF0OmQYWOgdmOVMtruDLZxmuzJz7/bgy9Ui0xW?=
- =?us-ascii?Q?S4Bj89A8vWfKUIKvjidwjt3p2fNRYg1IHO2Oivg05etA16WHIygjRhR/QxI8?=
- =?us-ascii?Q?jRBEiM2Fpx8NQ3FDtBzVRPBGtVywM/y+qJAzK/9QbMkhw/z0HHMfeNgE+BbR?=
- =?us-ascii?Q?lKhUKuKjbotus64HpGe5Y55LNB5Wo4H+KK6BxG3MWcPBT4kMJSfQc/cGjOSt?=
- =?us-ascii?Q?1BRwQMJJQXH96DWvw2apYzVUDKWinfUIDkqeY2TvDPI+GQMtBgmA9At22O+W?=
- =?us-ascii?Q?/OnCMSygzR38aS72ukVQ2Sax59CpBkKMWVcKqDBb7DUJxzzl+dr4wK6D2jCG?=
- =?us-ascii?Q?LTN5Du7FvM8gUSav9xHGvFEQ+64ZJywLxF2mK4bMknA6eZE1qV4n82JmMLuV?=
- =?us-ascii?Q?TlpBd8fNEXRDQaGOEsqskBne0sqSEv80qK8krVRjca83kfSNmmkNXK7wEc+4?=
- =?us-ascii?Q?t6sCsbbDvm/l1+ayOHFQLBPUy5qe1fR6aoY8+TYlTO62qc5TChMVEBtXpCaK?=
- =?us-ascii?Q?1sEYvslPnTtet9K4+qoIs/QGIjK6YlxWbMmiC5RjVd4m3ihksudt+gLEvBIE?=
- =?us-ascii?Q?uC2XcCpGcyWm9Du8uj8zlasEvYCLSA/MIa9unQUhfGA105IvhIU/4mFeo36X?=
- =?us-ascii?Q?vot+ayL5YRAwPQglEAPRKweA1oj7XIEu9HFfckqtUd7ZgrOCXHEcog6c922u?=
- =?us-ascii?Q?W61+avcS5iKLjQ1+4zFlS2e7ipFVYZJz9USLJHLfN8eSvlwX2ZZ6Cqxl58iB?=
- =?us-ascii?Q?QgYl4XS5QYGhrVmxhAgR6pjCCL6W31iBQ6kwjBaLpqSHvvoO5+ik/u9DE2gJ?=
- =?us-ascii?Q?4kWTkbNf7Q+7JFKBvXoKL+AC7TFkW4hvPApol73sV4Sw2754IBoInStWZ6en?=
- =?us-ascii?Q?JSNQGYWKUjVmNZP2ciC5Byg3qVdGsj/gJIKj/i0j4NYrYEzwTh05Eorn2yZb?=
- =?us-ascii?Q?eFm0hZZ3qOprQv0y+r7H66hntjGIFP/dx9rCZ55ev9Y+q0AL71edvbaAN0lL?=
- =?us-ascii?Q?TjU0JSGO6WLmKB/5yU7QyZ5JylF3XsRppguTKqFkRAKJ0GfTQxW33MVNf8AY?=
- =?us-ascii?Q?x7lGrssaCXY3TfL7jITVBSr/YNnXll2hu3XzoYLmDBPFRSGR5k/nZAXTTgJf?=
- =?us-ascii?Q?ph2k+ARFGEKI/DvI4LSN0x8=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <5ED86221BF6C7241B42BC09C16A5637D@eurprd09.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1745398548; x=1746003348; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5ZZT+RjnP8LcrwMxAWFd3uqoJkvxMjDmtxoYeFys9Lo=;
+        b=C9EehWtcwdTKoUgG9wg0CFiy0gVskhD+fcwahnKJwDJrjvHJH0LeHTkkN9PrrBWWps
+         uNDLFhmdaQhQr4L6l+EVrPWqmNVFOAxfbSjGYFyvpEp57Tcoz339H+EapU7xiDjWOx6l
+         FIudznRxkxlrO/NnAriN7j2cuG2IcnuwzWxflS9z0Yx0rkXYHbi8E6H9E0YA/XiNZicl
+         g7ycZHiC34hPpEFyQQlK+ERS7YjxsxuB5St7Hfs2DsW34+GhmfhLNWM81pWG2KBvw5ak
+         fUly9usrBYyf3Y+ma4tzyBiq9LHzUZ2L8FnlRIuGfkV3qh7KZzPkIGL13F2u5KALaXOe
+         u73A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745398548; x=1746003348;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5ZZT+RjnP8LcrwMxAWFd3uqoJkvxMjDmtxoYeFys9Lo=;
+        b=N84nA18Ctpy/2ItARxscL8fhFFAmQYH1UiRC6Sa32NGCOnHGNSNBMQdBJ66i0hexEP
+         Ln72fJ6Kn2DG3Ja5OhMsPt7UFIW4eRQY9pYuN63yp+Unhyi7GUxX3PsJoHhDiiVxhT10
+         c3okApC7AL+cj0PYArSyzzpj6J5zJoRwxYjNppy/YaXjNKbu4CHVB2vga+vuLBFeBd/k
+         JOWlunMtYf9nyhIAlb1brrv1qodSeaRtono4lydsUZYcdzP4LGW2lZNc8R73cwG5rRb+
+         nkdF87Unc+HyUuFI4uPjGdDeAgr5+/LaPbhCZi4DH+064wFY3zE4Sc3ZYpe59tsQMjCz
+         MEtQ==
+X-Gm-Message-State: AOJu0YxuenGWTAX8Hx05qw93crsm39s/ITXZfOtdHIL7BXYQnALXGu57
+	rjAsH7OjgNGFASsFpLLA4QN7UjNGeOkhwvmAU1hGH7DRODDA7Nw5Z638CGfLHjBvRZosADlhSCX
+	tQ6w=
+X-Gm-Gg: ASbGncveeMwMJo224xA9HoNUAxg8iK0Ss7yTSRd43ZA60hLowKXYLrzVZir5vnaip7q
+	W7f5IgoGCZW4Q1LPF1Y4tWKVVKSDGn6rQ9x5aKqKM6byUnKcpf5Hp5xBUe6TI9sfsL0B5DAKZ7/
+	I4ydZzYnCNq1urfQjUZsVWZYFNssi63mEW0wqfqOJPNq7PRi6ut2NaqHG/N44uowEd5lytkLkVR
+	yYSDoWiWnHJLqBoC8kWQG0nc283wF/IqahHqxCdN14YgS5f6jRAsaAVDl0B3oMifmBbljyj2nJD
+	QClZLdQpay/4998B/2c5/mBTX/xjOYMSRQ==
+X-Google-Smtp-Source: AGHT+IF6EErb6GE3RICZulpSyKmwq1CotLfCNrXTNCW+UYhDDpcD9ZdcThz8FNdTVwmcgfhO04cX1w==
+X-Received: by 2002:a05:600c:4fcd:b0:43d:5ec:b2f4 with SMTP id 5b1f17b1804b1-440711cca44mr165848615e9.10.1745398547694;
+        Wed, 23 Apr 2025 01:55:47 -0700 (PDT)
+Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:74b0:71bd:6dda:dcc1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-44092d3654dsm17731685e9.28.2025.04.23.01.55.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Apr 2025 01:55:47 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: [PATCH 0/6] hid: use new GPIO setter callbacks
+Date: Wed, 23 Apr 2025 10:55:38 +0200
+Message-Id: <20250423-gpiochip-set-rv-hid-v1-0-2e6762b582f6@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: kococonnector.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR09MB6459.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b66d5c33-beb8-4007-ca53-08dd8238b322
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Apr 2025 07:30:18.5762
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 59845429-0644-4099-bd7e-17fba65a2f2b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 72LCvnVKGy4R+64V6WDxfy14nPzepaolAo+4sCUt45Ow5mUbn/uVwLDKzXyO/rFu1I5RwrXNSxnmmdOpxCiiMtUZKuJ2AV9OeToaEBiXTx0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB4036
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAqrCGgC/x3MQQqAIBBA0avErBtQM4quEi0yR52NiUYE0t2Tl
+ m/xf4VCmanA0lXIdHPhMzbIvoMj7NETsm0GJdQotBrQJz6PwAkLXZhvDGxxlkZOzmljDUErUyb
+ Hz39dt/f9AEJnbPdlAAAA
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Rishi Gupta <gupt21@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1191;
+ i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
+ bh=R8ZNwu5x168vpV/MCptUTwqCm5enTGYy8Br+CBDDLqE=;
+ b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBoCKsN9hyTCku5LqR/IlguLY3GIMFRc3HrEOm5T
+ ZsPtM+1kZ2JAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCaAirDQAKCRARpy6gFHHX
+ crrzD/0SCyzMiqdqE+nw6rTvJRdZ5WXXgndasY9VsQbcZdK0uukujFQ77zX3ehRhKnRdwNlCsuM
+ pecxSljUwVe5TrDyeGfUOGSQ4MkF8/41a7+GDPRRlrNBTptUIPtsxzi1QjyYcRS0miA5/ISnpMA
+ MVdjz5EbMqwvJvr9+0LWS/Qsb3ig2pjJxsrK67KDeemGd3EGx4BaRTC9/UIptPr/MLWVxwNEyc1
+ m/5tayas+TnR29RaDegwnpVYbG4CDiGE14d8HyIVxu2YSA2afB2aF3T+4pdkYkLyq8gTK+V5y/C
+ tWBlHNWoc7rkfnhPqfjUaC8xWzOUyzI5tTrZ9YAiu7fJXiaS7kW6+KLBHsTiMfsZDTXUZQ8dmLW
+ YFcdGMsvrGhKfcgwCRaYNuTOzQErWR0dGw8IzmDPQjtOULzogMFO/GJpL7FHpXEPDCiCs90KIRG
+ L3PrS0zJKWK0mbdMYSuPIvQEuT7W3dO3bs9e4ZAsE1ro6Zsj0/4uyqOxpm4KzXZqgrmfMb32EY2
+ gFwIFrBN62c5g+3FPma8gM+EhN9dBnO/Hg3iqxg6R/9H3fs2luDhrWBkNtHQqbgvKqX2ZMV6EnZ
+ rZZ8Whzy4g+Yr/cUDbm4RnpFED77Wte3H06fsIST+fMjBcU/l4zCw0Da7NJ/xMvsJf8YvUkAw5i
+ CwQSDBI61EULyCQ==
+X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
 
-On 19/04/25, Purva Yeshi wrote:
-> Fix Smatch-detected issue:
->=20
-> drivers/input/touchscreen/ili210x.c:621 ili251x_firmware_to_buffer()
-> error: uninitialized symbol 'fw_addr'.
-> drivers/input/touchscreen/ili210x.c:621 ili251x_firmware_to_buffer()
-> error: uninitialized symbol 'fw_len'.
->=20
-> Initialize 'fw_addr' and 'fw_len' to 0 in ili251x_firmware_to_buffer()
-> to avoid uninitialized use warnings reported by smatch.
->=20
-> Although the while loop ensures both variables are always assigned before
-> use, initializing them silences false positives.
->=20
-> Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
+Commit 98ce1eb1fd87e ("gpiolib: introduce gpio_chip setters that return
+values") added new line setter callbacks to struct gpio_chip. They allow
+to indicate failures to callers. We're in the process of converting all
+GPIO controllers to using them before removing the old ones. This series
+converts all GPIO drivers under drivers/hid/.
 
-Reviewed-by: Oliver Graute <oliver.graute@kococonnector.com>=
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+---
+Bartosz Golaszewski (6):
+      hid: cp2112: destroy mutex on driver detach
+      hid: cp2112: hold the lock for the entire direction_output() call
+      hid: cp2112: use lock guards
+      hid: cp2112: use new line value setter callbacks
+      hid: mcp2200: use new line value setter callbacks
+      hid: mcp2221: use new line value setter callbacks
+
+ drivers/hid/hid-cp2112.c  | 66 +++++++++++++++++++++++------------------------
+ drivers/hid/hid-mcp2200.c | 23 ++++++++++-------
+ drivers/hid/hid-mcp2221.c | 10 ++++---
+ 3 files changed, 52 insertions(+), 47 deletions(-)
+---
+base-commit: 2c9c612abeb38aab0e87d48496de6fd6daafb00b
+change-id: 20250423-gpiochip-set-rv-hid-81b17ff4bdbe
+
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+
 
