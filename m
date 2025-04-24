@@ -1,56 +1,55 @@
-Return-Path: <linux-input+bounces-11953-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11954-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 267D2A9A78E
-	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 11:20:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91B98A9A7A0
+	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 11:24:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4A9D3AA2C0
-	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 09:20:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AFFA01B8248E
+	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 09:24:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17E651F150F;
-	Thu, 24 Apr 2025 09:20:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5127215173;
+	Thu, 24 Apr 2025 09:24:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mkh2rTUq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ea35RHUT"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1925D528;
-	Thu, 24 Apr 2025 09:20:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBF2215160;
+	Thu, 24 Apr 2025 09:24:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745486426; cv=none; b=unSBOOzWh/irtp/S17PtQujf6yBHa6C67HUPvdxePeYiclmYxcTxVoHoDuDhm4MW02nm2I/rf3cpR+zU3m5NBqkFJT3KfaKJqAt5n2QDlPccE8QebYE7pGhZd4EUajtxtXFmgiPV+017TiyX6pJMpyyB/0obHdEXOKMMJarL+pQ=
+	t=1745486646; cv=none; b=MYfkK0r25GWySQByW4uJAtBCv2KYGnGUdBC/Af9Lv7T8HoawhXMlgH8Hy93rXKcn1Q2RIO5RTSwZRGf/gXqsW63tButR9lX6C56PQgmMkCo3LC1zhJA541VqpPbHzppF64/ABsGrN5mRCQE+MEIOGQBAR9nu5rMylJFUwWt8fOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745486426; c=relaxed/simple;
-	bh=J+s2IDD97hzCAXuo10wy9fNsBAoFpA6MdfthgasVkrM=;
+	s=arc-20240116; t=1745486646; c=relaxed/simple;
+	bh=7Y+eASNpiqFkr49pRKO3BzO8QH26d7PJVbyrQ8uzyZs=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=KZVpLce9n6BhIUgO9ixfsn1DhfwExnUUtrrwzWlhXn+ZqIZDDjzmFjSEXqrMBkHpgQs/HJYZOw7aT/f8dOdPUaT87OWmP4IbfnFHP0IP0TDToplYF72mKPGXqAoXfcFfPRB6RZ3LTIvi0FVg6Z1mjvzq3SGPFdJPewsCEiM1jIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mkh2rTUq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4B46C4CEE3;
-	Thu, 24 Apr 2025 09:20:24 +0000 (UTC)
+	 MIME-Version:Content-Type; b=D3XHz4o+Bhys//X5mKlW9p0q6Kl/g4HMauZ2Pyf1vgOu9fhuOY9DFADg9X4ZgkEy1yuO/2+mvSrxyvzyisO0l9FoyAWN8XYnZ3+xllUVWzujl8xV80kcQjlblE5kFKGVyc8LxtIXI5GCUc9ISrxWg9f6W4gEwEg2EoucKdSpkuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ea35RHUT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE34EC4CEEA;
+	Thu, 24 Apr 2025 09:24:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745486425;
-	bh=J+s2IDD97hzCAXuo10wy9fNsBAoFpA6MdfthgasVkrM=;
+	s=k20201202; t=1745486646;
+	bh=7Y+eASNpiqFkr49pRKO3BzO8QH26d7PJVbyrQ8uzyZs=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=Mkh2rTUqx5+5DEVfdDlxz4LmNS+te3IrDaAudUo9R8VMmQJQgT0G20pvAyuQAEdPw
-	 2+2b1bflmUwxxPHDetb3iCVkLqyixWXNars/t6powJiMDBOUZI3iHLEeO3MUVd7zXO
-	 U2cAeNMr3QKZhqTRUybLKIJ86bBridbWNcfmfDzHJFXJIICUyZhr/FU/3hbwBR+Y1q
-	 nFxH+Ka3sNEjEXH+7y2QZhBY7kVd+YN0qh2dz2HsefBAAfxyCZakwvfreQCLgSOF4O
-	 P08Ebo1H7cMM9e4IZ/10oONzH0RQqtExWQtL4P2YsqAr9FzAcdPJFBUptCfjAhmmcp
-	 mthOenrGSzdvA==
-Date: Thu, 24 Apr 2025 11:20:22 +0200 (CEST)
+	b=Ea35RHUTX0pg86MecjFnn4A0mOleORo0yTCFXuUaf7QhDAmtLcePi+5ED07YWSL7m
+	 imHAPnsQ7XG7weI0lgLV0RfKUuKyUwtmUnSfH3wSC8aVIDgqgOxUxRK0D2LwXPPl2w
+	 yDYSHHBTkQ7GIW2x6DK37cIFJ2EqNe6nxUb2GbjAJ56AsXQJWWENKfCWGIyW5gUT16
+	 KKPF9JmIJjOBSttzNK7zlM0tiDAddafQzO+b5nqPS2QdgjKOMRZBaEF4Tx+Gz5rSlb
+	 FmXS2OJFIfrsQbbSLlapm70SCcOxOEXxRDmirqzpALAkVZGeqt3jwXw9uO3iaar4+l
+	 BSsjRnb52d3JQ==
+Date: Thu, 24 Apr 2025 11:24:03 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Werner Sembach <wse@tuxedocomputers.com>
-cc: Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, 
+To: Lode Willems <me@lodewillems.com>
+cc: linux-input@vger.kernel.org, bentiss@kernel.org, 
     linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] Disable touchpad on firmware level while not in
- use
-In-Reply-To: <df09a3f9-6131-435a-ad68-4cea71237e42@tuxedocomputers.com>
-Message-ID: <9q411092-1170-qr2r-27or-96594p19qrqo@xreary.bet>
-References: <20250211133950.422232-1-wse@tuxedocomputers.com> <20250211133950.422232-2-wse@tuxedocomputers.com> <df09a3f9-6131-435a-ad68-4cea71237e42@tuxedocomputers.com>
+Subject: Re: [PATCH] HID: Kysona: Add periodic online check
+In-Reply-To: <20250303123118.31627-1-me@lodewillems.com>
+Message-ID: <4610npp2-3rs9-4sqp-250n-n20r5pp044p7@xreary.bet>
+References: <20250303123118.31627-1-me@lodewillems.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -59,28 +58,18 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Tue, 4 Mar 2025, Werner Sembach wrote:
+On Mon, 3 Mar 2025, Lode Willems wrote:
 
-> > Using the new on_hid_hw_open and on_hid_hw_close functions to disable the
-> > touchpad on firmware level while not being in use.
-> >
-> > This safes some battery and triggers touchpad-disabled-leds hardwired to
-> > the touchpads firmware, that exist for example on some TongFang barebones.
-> >
-> > For a lengthy discussion with all the details see
-> > https://gitlab.freedesktop.org/libinput/libinput/-/issues/558
+> This patch adds a periodic online check at the same interval the battery
+> status gets requested.
+> With this change the driver can detect when the mouse is turned off while
+> the dongle is still plugged in.
 > 
-> Any comments if this is a good idea or not?
+> Tested with a Kysona M600 V-HUB Special Edition.
+> 
+> Signed-off-by: Lode Willems <me@lodewillems.com>
 
-Sorry for the delay.
-
-To me this looks like generally a good idea; Benjamin, any comments on the 
-hid-mt part?
-
-BTW you'd need to adjust the Subject line of the patches to conform to the 
-subsystem style (i.e. HID: core: ....)
-
-Thanks,
+Applied, thanks.
 
 -- 
 Jiri Kosina
