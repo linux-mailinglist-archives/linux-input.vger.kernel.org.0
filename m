@@ -1,56 +1,58 @@
-Return-Path: <linux-input+bounces-11982-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11983-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59408A9AB4F
-	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 13:02:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F4CDA9AB65
+	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 13:07:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9ADAE7A4604
-	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 11:01:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 10D231940809
+	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 11:07:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B58D91E1DE5;
-	Thu, 24 Apr 2025 11:02:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0A3220A5E1;
+	Thu, 24 Apr 2025 11:07:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IBf3Bm8S"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GiNSZop+"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6F85BAF0;
-	Thu, 24 Apr 2025 11:02:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B507DA6D;
+	Thu, 24 Apr 2025 11:07:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745492544; cv=none; b=KXYpRrgw9Twd7vsr6CAv2mMg7xeTiw23cBfbZ59q1kM9t6TS1fQVsUmO+rE7W2oRdsEwOYaCSGOdIpewPFF7O8g/+wz/p+yQDCk6z4tvlvdRVW8tcaxFeAJD4PlaecXyXp7EGluBXKvcWx8e0kZVqi+X97cORI9Cajw6kyBwEhg=
+	t=1745492827; cv=none; b=bTzXmVS0y5XxoJJ+c1FT9F8DDPRrLdKbK6+MrQhrDuwnXBrQ6JfecJNGXs477bJZA0to7s8dtjxRxo5/woWX/+8gbb2l2rJ8En5tBc+FMWRC4xCNDWO7z0IJ5H+EWc3tCNsXd5vshCOu11mze1WswLYEe8JstldhYiM0sd3tahk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745492544; c=relaxed/simple;
-	bh=Y31huZTy0JsfYOW2OBig52J+szL/TvDRga6oAaTBo+s=;
+	s=arc-20240116; t=1745492827; c=relaxed/simple;
+	bh=Pbr2p5W20PdU5e46mEF/v3mwKfArHsjLRw1TSYR1/io=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=L3imEJd1xzg2DhZqK0MX/rW1d7UyQycF2eVC1MuRDkv5DfBVN7dSKYnatXJDxMqWIJJQFidoetnf6hFL6B3KR/ACvc1avdY28IcbSpiv7ritZUfVUClIVJBkBDA4rhX2TdXfcRz4E4FeYqX2jIUrzelVKledaBg6RCipOFlsoqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IBf3Bm8S; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66EC5C4CEE3;
-	Thu, 24 Apr 2025 11:02:23 +0000 (UTC)
+	 MIME-Version:Content-Type; b=VIUqSAjCCR8xMrx9nOCASOn8V/oJt9Trk1rxeo8NX8kDphly4mOls5cjd4V2XE4rPo+auq6F+BP5LBxMtjJYd6ulq3B0BDnJo1yIzQxUgH7YxrvK86NUYNLRYUOK6L5WI5p1242VYX5xRpdE2X9utiQIABHhkXLzDfwzMAX1H9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GiNSZop+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 302F0C4CEE3;
+	Thu, 24 Apr 2025 11:07:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745492544;
-	bh=Y31huZTy0JsfYOW2OBig52J+szL/TvDRga6oAaTBo+s=;
+	s=k20201202; t=1745492827;
+	bh=Pbr2p5W20PdU5e46mEF/v3mwKfArHsjLRw1TSYR1/io=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=IBf3Bm8S0HAcsSL/wQIgcXL2FTUCYR1hQJjr9Q0ETVuTSzG8l+VKYCtgcTPRK9hRb
-	 OdMmiOwOEWKXmdE/W6qxY+a19eD4Vc5QIu1B8ndg5hnBus1ETvPyt2fBFGDT9bJ3dy
-	 9M09KC6+MzoyRzrrxZ7ff4sPdKyKzWgvonnI+O2FEV8IB4eQLWmMweFKf/o64cIr8D
-	 FOsHrwx64aj1vW8K0VKaeXIAAAKG/iCMiO4uphwjgfvEsz/UD5DtwC0HRu/PEOp8a4
-	 8L/R7I5cQbs9iiDklGAage1GOLs9xGVRsa0j20uCLi+L7q0rlN0oo9cvre1rnkuC94
-	 CwyqOxUXIvgHA==
-Date: Thu, 24 Apr 2025 13:02:20 +0200 (CEST)
+	b=GiNSZop+jcb6yNa97bE5pYzzQQUjf6moY1g3EJG0ThuJaaPAi94AjH07Cn2nxkbJT
+	 sT05YDIXI2NPWSpcd+uGlxE2MsHTGDutdHFSHycdQIzc3wqw3Y66Tkg54DoHJyW6vD
+	 jM2i3izIo6WPtn3Q661Df08BOUxWTKTL8TCC5ZyxNSEur9YXfXYExXEWijeRHPA2Z8
+	 +9j4p0OuPAD0erMPV3A0DSxcT/8jkC9OyEZm5DQ5ey1jjIm5Jz/WEHh8M7sF2F4m6B
+	 VBhdPfKrq7e+K/28VD/gSPt03rqvlX/PdUe/vt7b5TddhjNIHnRJ5fPJ4xKFNVbGvw
+	 O5jT3D5L7ii6g==
+Date: Thu, 24 Apr 2025 13:07:04 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: miltonials <miltonjosue2001@gmail.com>
-cc: bentiss@kernel.org, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: quirks: Add ADATA XPG alpha wireless mouse
- support
-In-Reply-To: <20250409060428.1188-1-miltonjosue2001@gmail.com>
-Message-ID: <89rpq7r8-or9p-76p1-o462-35q10666n816@xreary.bet>
-References: <20250409060428.1188-1-miltonjosue2001@gmail.com>
+To: Basavaraj Natikar <bnatikar@amd.com>
+cc: Denis Benato <benato.denis96@gmail.com>, 
+    Basavaraj Natikar <basavaraj.natikar@amd.com>, 
+    Benjamin Tissoires <bentiss@kernel.org>, "Luke D. Jones" <luke@ljones.dev>, 
+    Ivan Dovgal <iv.dovg@gmail.com>, Adrian Freund <adrian@freund.io>, 
+    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/1] HID: amd_sfh: Add support for tablet mode
+In-Reply-To: <db1d95be-e92a-4328-b43e-8214a0b520be@amd.com>
+Message-ID: <oq1r309s-85p5-36s2-160n-87o8o7q78s9p@xreary.bet>
+References: <20250309194934.1759953-1-benato.denis96@gmail.com> <19norq05-rp74-9qrr-382r-40q9r59p1pnn@xreary.bet> <db1d95be-e92a-4328-b43e-8214a0b520be@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -59,17 +61,41 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Wed, 9 Apr 2025, miltonials wrote:
+On Thu, 24 Apr 2025, Basavaraj Natikar wrote:
 
-> From: Milton Barrera <miltonjosue2001@gmail.com>
+> >> Recently there has been a renewed interest in this patch: ASUS has launched
+> >> a new z13 model
+> >> and many more users requested tablet mode support for previous models.
+> >>
+> >> I have made required adjustments to apply cleanly on top of linux-next:
+> >> nothing substantial, a macro has been changed from 5 to 6 upstream as
+> >> the previous patch also did and a few line changed their position.
+> >>
+> >> Given there were no functional changes at all I took
+> >> the liberty to retain previous tags.
+> >>
+> >> Denis Benato (1):
+> >>    HID: amd_sfh: Add support for tablet mode switch sensors
+> >>
+> >>   drivers/hid/amd-sfh-hid/amd_sfh_client.c      |  2 ++
+> >>   drivers/hid/amd-sfh-hid/amd_sfh_pcie.c        |  4 +++
+> >>   drivers/hid/amd-sfh-hid/amd_sfh_pcie.h        |  1 +
+> >>   .../hid_descriptor/amd_sfh_hid_desc.c         | 27 +++++++++++++++++++
+> >>   .../hid_descriptor/amd_sfh_hid_desc.h         |  8 ++++++
+> >>   .../hid_descriptor/amd_sfh_hid_report_desc.h  | 20 ++++++++++++++
+> >>   6 files changed, 62 insertions(+)
+> > Basavaraj, could you please provide your Acked-by/Reviewed-by: for this
+> > (or any other sort of feedback)?
 > 
-> This patch adds HID_QUIRK_ALWAYS_POLL for the ADATA XPG wireless gaming 
-> mouse (USB ID 125f:7505) and its USB dongle (USB ID 125f:7506). Without 
-> this quirk, the device does not generate input events properly.
+> Sure, Jiri, I will get back to this patch soon.
 > 
-> Signed-off-by: Milton Barrera <miltonjosue2001@gmail.com>
+> We are reviewing similar features and related issues,
+> and we may need some more time to investigate them internally.
+> 
+> Therefore, I would like to hold off on this patch for a little longer
+> before providing feedback.
 
-Applied, thank you.
+Fair enough, thanks for the update.
 
 -- 
 Jiri Kosina
