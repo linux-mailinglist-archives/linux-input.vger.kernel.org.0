@@ -1,103 +1,162 @@
-Return-Path: <linux-input+bounces-11951-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11952-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC649A9945E
-	for <lists+linux-input@lfdr.de>; Wed, 23 Apr 2025 18:13:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A47A9A519
+	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 10:00:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 41656923A19
-	for <lists+linux-input@lfdr.de>; Wed, 23 Apr 2025 15:57:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E86D83A8336
+	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 07:59:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C943B27FD42;
-	Wed, 23 Apr 2025 15:45:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CE7D1F7586;
+	Thu, 24 Apr 2025 08:00:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R0f0eh/2"
+	dkim=pass (2048-bit key) header.d=alistair23.me header.i=@alistair23.me header.b="a1R9o3BD";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AqO9ssO0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A092135D0;
-	Wed, 23 Apr 2025 15:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9CE1F5616;
+	Thu, 24 Apr 2025 08:00:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745423145; cv=none; b=Ke8c0kmO+axNV5w/OC5U4kMOlItiqvriTFToYQHLmn3mQj01DRipfUE/FswH4ya9HxQJJzt4q5wHn6gcQz59Ez43c+H1mdyh2YKRKgIM6J7sQbVYs72Z4zawsWZ9XlIgXZMDbBneV8hpQzJRi+YMTtXK3ojqzTk+deBJPjvOCrU=
+	t=1745481607; cv=none; b=KZjpezBuqwuCxhRjAQG+3DRyk2QTptrgY/gtudxW1aCvT2OwhgEhr9nTNwdYE2flT2vETTkOxd/m66M8tcMGOUQkshkvzl6W3XuELlw+4HijmRaDed36SCVWE6eXi9doitlLWcDsOO79stRHKbXoqNoRTYPcZC8bmp6+rsPDxLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745423145; c=relaxed/simple;
-	bh=uXGY1VAD0ezdy/ybNS4JN/GqOzUTWI23//dv6QmQUdA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FCwtNAtPOrg2q3f61In6tpOOGPWSJfb/8NkpJiMq2tW2B8xC+Q60L4zusnFTDF0O1Izj6gETnuu74d/9lHnZLKniuB4dnPxtIuDHZPCb5NC6vPXUcWsVusuUWAcKvIBswoDZzjxJOVRps3Ec2tgQ2+4dtzZFHG4rZLZkVSECzUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R0f0eh/2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3897C4CEE2;
-	Wed, 23 Apr 2025 15:45:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745423144;
-	bh=uXGY1VAD0ezdy/ybNS4JN/GqOzUTWI23//dv6QmQUdA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R0f0eh/2LvsfL4iutKlrnN7chSnjyw9pMqdFl73WtrDzgT2ZydtvcA8ApMRrfVIYy
-	 0CZgrRPJS++EmO8LsVSliQHDPcJ4RjdLHd80VCSoQOqGK2G/sxQPoZ0XojLkat0gbl
-	 X9euuD1yjltFR9FrI4sj7wt/r4snbcmpPCPgsfGpPE6QkuX0XI/6o5kEQETPqu2/NC
-	 34NzBeNuKsBs5HwcJNh7E93sOIpOuLw5h5wZ4lGRL6HeCBSSF4EK6B1Vxc96zgxjOV
-	 XwqUIMgq4hiEEAgxXOvGPFodHikCT0z4VCIUYX0Ma0thcWjIropdyYMZw+iZRxy4cb
-	 R0dclULDW9zZA==
-Date: Wed, 23 Apr 2025 10:45:42 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: linux-mediatek@lists.infradead.org, linux-input@vger.kernel.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH v2 1/8] dt-bindings: HID: i2c-hid: elan: Introduce Elan
- eKTH8D18
-Message-ID: <174542314188.576994.12974029497689302557.robh@kernel.org>
-References: <20250421101248.426929-1-wenst@chromium.org>
- <20250421101248.426929-2-wenst@chromium.org>
+	s=arc-20240116; t=1745481607; c=relaxed/simple;
+	bh=oc7MkbyEHI0jmohHyp3HOjrz/Rq49FEipRcCOk3Ft4c=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=HXZ5CLrD+P/y1lvJ8gAnqWuNyxrQJsi6kutg5nSpwBUiJ+512qjLo0O5aPh0NKVCmXvSTU9pDgUJDrcAfR1F38tErSbtaPHfsYG1ukzmGjYp3IXQw7S1Izh1pmBZaB9QQO7f0HZes2ci404k+dIRHTSbNOEe6B8OSqPrPmHdwYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alistair23.me; spf=pass smtp.mailfrom=alistair23.me; dkim=pass (2048-bit key) header.d=alistair23.me header.i=@alistair23.me header.b=a1R9o3BD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AqO9ssO0; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alistair23.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alistair23.me
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 343301140083;
+	Thu, 24 Apr 2025 04:00:04 -0400 (EDT)
+Received: from phl-imap-01 ([10.202.2.91])
+  by phl-compute-04.internal (MEProxy); Thu, 24 Apr 2025 04:00:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+	 t=1745481604; x=1745568004; bh=D9BxmcOlj48skfTkt5tTv4HRI52Kr3br
+	Pmi2tjpeVrs=; b=a1R9o3BDj43M5ULYH0efGR5bqc6K9OTMot7Vc0LLRwlWz/NW
+	w+itHYaPgsfBd1lu9HLGEFB6+FpOr142EdmyM3ZM0D9vnfqRVLxEILPcVdlpW0+y
+	FNVwYkFSS/ySKw5RAaqI2qnLp/zb9+D9reObD6azG+o86BfxoILtge7zfLIDQbpJ
+	JPmIkEP9runnRZcnKP6l7B5FrhjJxKbjHDZ6EuXNweYC2Ddi2DP/xyvZ0fa06wXw
+	KSEXur6+M8MMlRManClAd/eKAqvP/nR8a5Yg/3eQ/4U9mcO39dF6u9EoJtXhMtyW
+	pcNem2A+YFT/rs+RXmgIMaeBGHrohCKQJoqDOw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1745481604; x=
+	1745568004; bh=D9BxmcOlj48skfTkt5tTv4HRI52Kr3brPmi2tjpeVrs=; b=A
+	qO9ssO0DkSiUpjH/ieHbj9ZvuK5vo2tbqaOALMv78uunf/cUxueFDWkY2nx+d43g
+	KMihbJ6TIJbBBVI8pn/eERYSNHwsflCekckWMzfKg4rl8GZbBC5QT2b2qAxnzgm/
+	7tFksBepi+5GAy/Q3cuAeg6EyGJhBudl3XSRNT91UBMr8ZU69VqP+OC/JVnQGqDu
+	f0m7U9OEH4TeWihwQzizCSyxZsnKVdH1u1e/VPbdFiTc3WhbFXjPfn0Mp087I5xG
+	C7Qp17awNCoBX/bfaLcoFY1IgD7YGYoc7yu4hPRhbfFTgXNq9Og/weUODXLtAPdn
+	+MjNyvS36NQM7dtsynh+Q==
+X-ME-Sender: <xms:g-8JaAn-Xv7-FKukOTiSfay5mCemT1Qn-kW58XMOJi1R4oDWDZr3Cg>
+    <xme:g-8JaP1b8Oxs6VMsTgzb95liJooxtVN3qxKyQjaD1WACF_gZyZA6r1QkgexKKhsUQ
+    8IbYSXvOwOCej4g8Rw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvgeekleefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpeetlhhishhtrghirhcuoegrlhhishhtrghirhesrghlihhsthgrih
+    hrvdefrdhmvgeqnecuggftrfgrthhtvghrnhepheejffegleelgfffhfetheevvdfhkeef
+    feeluedvheduiedtudevgefgiefggeffnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomheprghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgv
+    pdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehhvh
+    hilhhlvghnvghuvhgvseguihhmohhnohhffhdrtghomhdprhgtphhtthhopehmghhonhgv
+    lhhlrggsohhlughutgesughimhhonhhofhhfrdgtohhmpdhrtghpthhtohepughmihhtrh
+    ihrdhtohhrohhkhhhovhesghhmrghilhdrtghomhdprhgtphhtthhopehhuhhgoheshhhu
+    ghhovhhilhdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrg
+    hrohdrohhrghdprhgtphhtthhopehmfigvihhgrghnugesmhifvghighgrnhgurdhnvght
+    pdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+    dprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:g-8JaOrQmP-TQEbJPiYlVSUoufRiDvr3ZLtHk-hlbGsBUJXjdPSUzg>
+    <xmx:g-8JaMmbXuj1voDF0RF-qtOPX4t93NWRmfgdYZuot7D5RY1YPTyylw>
+    <xmx:g-8JaO2uzhdQt3I-u5ClnqGf7QuGItdsfFJS6rzvfxXuHHPTP5aOPg>
+    <xmx:g-8JaDsFjB0GZuNj_QTErCml1SZ-BYHNYAlfTR9NeOGZhJnrlr6i3A>
+    <xmx:hO8JaLdWQ1ZrLU0tfCieulk6DoJHx5StThSkoEL_g6FYq3z7NTfy22UN>
+Feedback-ID: ifd214418:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B6254336007E; Thu, 24 Apr 2025 04:00:03 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250421101248.426929-2-wenst@chromium.org>
+X-ThreadId: T59643a954d2ed3f9
+Date: Thu, 24 Apr 2025 18:00:02 +1000
+From: Alistair <alistair@alistair23.me>
+To: "Hugo Villeneuve" <hugo@hugovil.com>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ "Maximilian Weigand" <mweigand@mweigand.net>
+Cc: "Mikael Gonella-Bolduc" <mgonellabolduc@dimonoff.com>,
+ stable@vger.kernel.org, "Hugo Villeneuve" <hvilleneuve@dimonoff.com>,
+ linux-input@vger.kernel.org,
+ "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>
+Message-Id: <ed682022-509e-452b-b4f8-7ddeb17a2475@app.fastmail.com>
+In-Reply-To: <20250423135243.1261460-1-hugo@hugovil.com>
+References: <20250423135243.1261460-1-hugo@hugovil.com>
+Subject: Re: [PATCH v2] Input: cyttsp5 - fix power control issue on wakeup
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
+On Wed, 23 Apr 2025, at 11:52 PM, Hugo Villeneuve wrote:
+> From: Mikael Gonella-Bolduc <mgonellabolduc@dimonoff.com>
+> 
+> The power control function ignores the "on" argument when setting the
+> report ID, and thus is always sending HID_POWER_SLEEP. This causes a
+> problem when trying to wakeup.
+> 
+> Fix by sending the state variable, which contains the proper HID_POWER_ON or
+> HID_POWER_SLEEP based on the "on" argument.
+> 
+> Fixes: 3c98b8dbdced ("Input: cyttsp5 - implement proper sleep and wakeup procedures")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> Signed-off-by: Mikael Gonella-Bolduc <mgonellabolduc@dimonoff.com>
 
-On Mon, 21 Apr 2025 18:12:39 +0800, Chen-Yu Tsai wrote:
-> The Elan eKTH8D18 touchscreen controller is an I2C HID device with a
-> longer boot-up time. Power sequence timing wise it is compatible with
-> the eKTH6A12NAY, with a power-on delay of at least 5ms, 20ms
-> out-of-reset for I2C ack response, and 150ms out-of-reset for I2C HID
-> enumeration, both shorter than what the eKTH6A12NAY requires.
-> Enumeration and subsequent operation follows the I2C HID standard.
-> 
-> Add a compatible string for it with the ekth6a12nay one as a fallback.
-> No enum was used as it is rare to actually add new entries. These
-> chips are commonly completely backward compatible, and unless the
-> power sequencing delays change, there is no real effort being made to
-> keep track of new parts, which come out constantly.
-> 
-> Also drop the constraints on the I2C address since it's not really
-> part of the binding.
-> 
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+Reviewed-by: Alistair Francis <alistair@alistair23.me>
+
+Alistair
+
 > ---
-> Changes since v1:
-> - Reworded commit message
-> - Dropped the enum for the new compatible string entry
-> - Dropped constraint on I2C address completely
-> ---
->  .../devicetree/bindings/input/elan,ekth6915.yaml     | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
+> Changes for v2:
+> - Add Mikael SOB tag
 > 
-
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-
+> drivers/input/touchscreen/cyttsp5.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/touchscreen/cyttsp5.c b/drivers/input/touchscreen/cyttsp5.c
+> index eafe5a9b89648..86edcacb4ab3e 100644
+> --- a/drivers/input/touchscreen/cyttsp5.c
+> +++ b/drivers/input/touchscreen/cyttsp5.c
+> @@ -580,7 +580,7 @@ static int cyttsp5_power_control(struct cyttsp5 *ts, bool on)
+> int rc;
+>  
+> SET_CMD_REPORT_TYPE(cmd[0], 0);
+> - SET_CMD_REPORT_ID(cmd[0], HID_POWER_SLEEP);
+> + SET_CMD_REPORT_ID(cmd[0], state);
+> SET_CMD_OPCODE(cmd[1], HID_CMD_SET_POWER);
+>  
+> rc = cyttsp5_write(ts, HID_COMMAND_REG, cmd, sizeof(cmd));
+> 
+> base-commit: 7adf8b1afc14832de099f9e178f08f91dc0dd6d0
+> -- 
+> 2.39.5
+> 
+> 
 
