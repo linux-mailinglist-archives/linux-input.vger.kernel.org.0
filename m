@@ -1,56 +1,64 @@
-Return-Path: <linux-input+bounces-11956-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11957-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F130DA9A7B7
-	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 11:29:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FD36A9A84B
+	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 11:39:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4191A4429E8
-	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 09:29:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1397E7AA86F
+	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 09:37:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4403721FF2B;
-	Thu, 24 Apr 2025 09:29:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95BD4222575;
+	Thu, 24 Apr 2025 09:31:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j9mhJGqa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tNiXQcRY"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19AAA215160;
-	Thu, 24 Apr 2025 09:29:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E1882222C8;
+	Thu, 24 Apr 2025 09:31:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745486977; cv=none; b=AizFsswum4tfVayN4dC6uffZFy1HJMiW2jY35qLssS5Wq8oooDu+yitvlt67aP1xhxL2yedfZCBogLoYWkUIZniLwVeDfzDsscB3XFxvZ08xo/qjrB5uuK2ADh17hBc4aLohDiz2Ys9291sWFORMfBejAwLC50M/xE0ndsiDXU8=
+	t=1745487113; cv=none; b=CC5m3B+ntqJoW8gU5uxd/eEiha3dxCoCASuL9/I8ArQZCDmmZFST90TZ8IbyCHachnyAiZPoyNZyAPakZmEwPKVX8dtImJuJ+GTcoIQK7ObKhD4RpQlJFyY2EFXmO8cpG46a15ff6qYK7wpZitblwzwGyxzmYo7pnKYOLQDDGIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745486977; c=relaxed/simple;
-	bh=mfeCcXFSUEV+RTnqle7bb/IIg22D0C5n7aVqcoTgifk=;
+	s=arc-20240116; t=1745487113; c=relaxed/simple;
+	bh=qCufCvxDi1+MqzijsET6fq/x9n2E81MIiZiD/rfpgRk=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=kzqtNEwWrQqIi8Lb+XchdIo1tZbTyzFR2Q7HSIDI7WHasAMzbMM2nRlZ4/EsYErNi3/27pKd5euXfIQUnQLB3pE8siFqmndbXp73v+JF/cFcLILQpLE2XRxvdQl9soTXoNZU3CJO33cAuNJEZ+9cXkdvMm/AS2q6K3khacaQxiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j9mhJGqa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F340FC4CEE3;
-	Thu, 24 Apr 2025 09:29:35 +0000 (UTC)
+	 MIME-Version:Content-Type; b=VoWE+LdQ9CjBYr22ySwzNQ8VL7k8NTTTmhZ5pYGNibKQls8qdEmUrMTCfmDDW4xKca476+SGae+c0+cOr15VRBmFZlG0IEXdQpPkfXdJb+LWJrvYCJBiqDaPsJQKJDy+/3VbgYXTbLDMJl/0bgb9aoD4DUsSBYivbIOVCpo6p0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tNiXQcRY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F085C4CEE3;
+	Thu, 24 Apr 2025 09:31:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745486976;
-	bh=mfeCcXFSUEV+RTnqle7bb/IIg22D0C5n7aVqcoTgifk=;
+	s=k20201202; t=1745487112;
+	bh=qCufCvxDi1+MqzijsET6fq/x9n2E81MIiZiD/rfpgRk=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=j9mhJGqacugISBGmT0Kl6bE52iRL2p6d5TUvfxOVkpBJ+IeB84fWDXePhxcjR5EKx
-	 Iz9zHz8DPjvVrnhjOJAOLp5Ix6fV6QKQPe5S1L/q9MMLkdA55gttUW14ut1UC/A/g6
-	 HL38MUklR4SvlOorZjCfUhVCQ4f+rve77fGjTS3VttFyAzPF8Ds349m3YQ3e/GmCjf
-	 5UybVUhESwvhbYDuYlXrH3QawrmC7Um4AvAWDY1k5W48NLh7+lC+01MkgN6nVZKsCm
-	 0yTcL/hGHD4ol59lyhMy5HH40Pny6I96aAE0IuYApRO/Shk23cFbtqvvsuVuAdN2Mf
-	 2Vz91TQ9SvTIQ==
-Date: Thu, 24 Apr 2025 11:29:33 +0200 (CEST)
+	b=tNiXQcRYE3abNCB8tT3I2WPZjSHSXQis/7GPR5re2Tl55/j7D1jxysGcXfrdRWRsb
+	 vEtgABQcd7bgXpaFmStU5vvaVgPFiRaf8IY1YRGQJF4A9VtNSpOnAlPhPmnF9hdq+x
+	 yUD2xatpyMO6hu1ehVIWDnecG94LYsywNvd13DhC5relKlk+DwD73iyotc+5j2kEd+
+	 Qpc3vHX3ivVHpUg60TXqlXH87n50QLmg8CuDpSf0Sm1UcXWKWqTFhbvKHXv83ezEws
+	 hhlgelXlovG+5lHW2bnmnLzbf+ztABNSu17futNGiD7oeQZqWIujutByW+m193AkA4
+	 5DcO1DS2aKKXA==
+Date: Thu, 24 Apr 2025 11:31:49 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
-cc: Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: quirks: Add quirk for Chicony Electronics HP 5MP
- Camera
-In-Reply-To: <20250312063532.551938-1-acelan.kao@canonical.com>
-Message-ID: <s3ns5747-ps0n-1no0-1qqq-prq39onr7o79@xreary.bet>
-References: <20250312063532.551938-1-acelan.kao@canonical.com>
+To: Terry Junge <linuxhid@cosmicgizmosystems.com>
+cc: Benjamin Tissoires <bentiss@kernel.org>, 
+    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    Nikita Zhandarovich <n.zhandarovich@fintech.ru>, 
+    Alan Stern <stern@rowland.harvard.edu>, Kees Cook <kees@kernel.org>, 
+    "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-input@vger.kernel.org, 
+    linux-usb@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
+    syzkaller-bugs@googlegroups.com, lvc-project@linuxtesting.org, 
+    syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com, 
+    stable@vger.kernel.org
+Subject: Re: [PATCH v2] HID: usbhid: Eliminate recurrent out-of-bounds bug
+ in usbhid_parse()
+In-Reply-To: <20250312222333.2296363-1-linuxhid@cosmicgizmosystems.com>
+Message-ID: <727o0521-q24p-s0qq-66n0-sn436rpqqr1p@xreary.bet>
+References: <20250307045449.745634-1-linuxhid@cosmicgizmosystems.com> <20250312222333.2296363-1-linuxhid@cosmicgizmosystems.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -59,48 +67,31 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Wed, 12 Mar 2025, Chia-Lin Kao (AceLan) wrote:
+On Wed, 12 Mar 2025, Terry Junge wrote:
 
-> The Chicony Electronics HP 5MP Camera (USB ID 04F2:B82C) reports a HID
-> sensor interface that is not actually implemented. Attempting to access
-> this non-functional sensor via iio_info causes system hangs as runtime PM
-> tries to wake up an unresponsive sensor.
+> Update struct hid_descriptor to better reflect the mandatory and
+> optional parts of the HID Descriptor as per USB HID 1.11 specification.
+> Note: the kernel currently does not parse any optional HID class
+> descriptors, only the mandatory report descriptor.
 > 
-> Add this device to the HID ignore list since the sensor interface is
-> non-functional by design and should not be exposed to userspace.
+> Update all references to member element desc[0] to rpt_desc.
 > 
-> Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
-> ---
->  drivers/hid/hid-ids.h    | 1 +
->  drivers/hid/hid-quirks.c | 1 +
->  2 files changed, 2 insertions(+)
+> Add test to verify bLength and bNumDescriptors values are valid.
 > 
-> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> index 7e400624908e..5fdea9116a3e 100644
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -297,6 +297,7 @@
->  #define USB_DEVICE_ID_ASUS_AK1D		0x1125
->  #define USB_DEVICE_ID_CHICONY_TOSHIBA_WT10A	0x1408
->  #define USB_DEVICE_ID_CHICONY_ACER_SWITCH12	0x1421
-> +#define USB_DEVICE_ID_CHICONY_HP_5MB_CAMERA	0xb82c
->  
->  #define USB_VENDOR_ID_CHUNGHWAT		0x2247
->  #define USB_DEVICE_ID_CHUNGHWAT_MULTITOUCH	0x0001
-> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-> index 5d7a418ccdbe..452fac15550b 100644
-> --- a/drivers/hid/hid-quirks.c
-> +++ b/drivers/hid/hid-quirks.c
-> @@ -370,6 +370,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_WIRELESS2) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_ASUS_AK1D) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_ACER_SWITCH12) },
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_HP_5MB_CAMERA) },
+> Replace the for loop with direct access to the mandatory HID class
+> descriptor member for the report descriptor. This eliminates the
+> possibility of getting an out-of-bounds fault.
+> 
+> Add a warning message if the HID descriptor contains any unsupported
+> optional HID class descriptors.
+> 
+> Reported-by: syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=c52569baf0c843f35495
+> Fixes: f043bfc98c19 ("HID: usbhid: fix out-of-bounds bug")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Terry Junge <linuxhid@cosmicgizmosystems.com>
 
-Given the changelog, did you mean to add this device to hid_ignore_list[] 
-instead of hid_have_special_driver[]?
-
-Thanks,
+Applied, thanks.
 
 -- 
 Jiri Kosina
