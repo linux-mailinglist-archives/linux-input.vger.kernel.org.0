@@ -1,58 +1,56 @@
-Return-Path: <linux-input+bounces-11976-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11977-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90157A9A9E4
-	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 12:18:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7428CA9A9F2
+	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 12:20:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE0FE189D576
-	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 10:18:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 72D6C1B6755B
+	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 10:20:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B288221712;
-	Thu, 24 Apr 2025 10:18:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0477221260;
+	Thu, 24 Apr 2025 10:20:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KwVpHHwT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EhCIFdtU"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30639221708;
-	Thu, 24 Apr 2025 10:18:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A0C19F40B;
+	Thu, 24 Apr 2025 10:20:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745489911; cv=none; b=mbf9Blccxgxd5KQi254i7qxhyhTzWGm0EW8iNYg0Cjwep/JFV5su/nkds52ZpLhX3EDB+7y/hbUdStuBeEwcHaVbvqCmRBrarr7Rx9Vjc1rojMS/emOnH0fPNz4NqQs0uZve47nS2dFwZBoGuGxP89ikiEhkQ0TKzHIWAX5l8O8=
+	t=1745490033; cv=none; b=JZroSnj1OFPOoTkCjas/BaXewkT2CUr/6jF0z5X6aXhSv14I9ZlW3xjaHWP4+Ru6lOK79FM/6PSBcQ+IXjoxnSoyhPgAEfXvFo/G/xTvOFq7TMB+5nyninq96TMjQMvClMn0s91f334AaqdIFp05+VwwqK8SbtX43/EEY68+PYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745489911; c=relaxed/simple;
-	bh=Ddk2Iu+rBULTGkPSu8ho2jYg8FUvYGgr3tZBN1sB5oY=;
+	s=arc-20240116; t=1745490033; c=relaxed/simple;
+	bh=ylaAx5opMqeYfZu8A3uF5GKQeSacubIL0auxBuPWB6E=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=EjcWssb2SJGolcIO2Sjng3rv0gkaZ1Eq0A5R2MMu2KHXaVqks3YHSmlCoK0YIhFC5JfUsubpWbDrBgP3XEwIf1awsONm9EL1QxZMlsZ554vFIb01/BfWi2gn5ugjPnr/2V2WAiIrkOPgRwQ9TknvoQ+qS51X6n4R9DsmwR2uVBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KwVpHHwT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07002C4CEE3;
-	Thu, 24 Apr 2025 10:18:29 +0000 (UTC)
+	 MIME-Version:Content-Type; b=pR4dUrdiE05M3QnBEpIcnOxiO6+0EfbRLdjsKNU3YYtgNUae/Db3xde1AjjAclH88eTS+fMEtcGeGov9P1PNJO7UCvhN9oALDU+GdaQwCjeXQ1WB7VUo0/pZ3wmldVodTnI/tUEiA6t167eqbeEouCg9uA1ovx2ciT75CaeofIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EhCIFdtU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8C4FC4CEE3;
+	Thu, 24 Apr 2025 10:20:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745489910;
-	bh=Ddk2Iu+rBULTGkPSu8ho2jYg8FUvYGgr3tZBN1sB5oY=;
+	s=k20201202; t=1745490033;
+	bh=ylaAx5opMqeYfZu8A3uF5GKQeSacubIL0auxBuPWB6E=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=KwVpHHwT61wNUke+EUsvfIxAkmFpICKZRxGhcvNF3xyeTLiAwTgzA1/XxvaMqdr+M
-	 WAqot3oBTRTVGI2J9HS/82ukmgst2+b+741NEzMqWZ7Pee1apyOq7J0LmvCkYX4wWI
-	 ouWlc9QCYv6j4Cqs/bU1/R4R5WyEi18V2HU4EAWLOuO22+hZRmkWtPpeWW9e8HkOLa
-	 Xa0UM39kKFmpOAiCIKjQoPAz7OReBlthETZkE4Z5pAvER5hXigGHzDEjM4pUxrgjc5
-	 n/Zc4kKjxFT8F+QOZzDRI+ywyzHS/9R6P69959MbYykMT1F7G8THnfyCxFNMKcZoWa
-	 19eRtCoVNGRzQ==
-Date: Thu, 24 Apr 2025 12:18:27 +0200 (CEST)
+	b=EhCIFdtU7jNAQUHpDaFUxKGyRNriMMhll95pMRxe35sSQtNMAilhnGFqvSjtxwrO6
+	 CeNPawdeAvPIFkvjgmlwoGEfVAqWo4SwsnLwVquWPSWtYXDVVcW+PBmVzLR7qccizi
+	 of9x26uhtGyFBaJc3T74K1IdxtGRYyOwTt+tZ9WC4Ff8P71jcRN560VV+o1YN71hT9
+	 +/sDjcoNi7YX6b3bR4K1LnGlPF1WAcfuo5WkLHvXQdMjB2XglaTdXaRuLDeJPZZNVk
+	 pSyqy297yUOZmXYw2e63v16/3fHEzhyV/AGqfKrNyQNBeOfrD/VZmBnDmT+GCnzO2i
+	 thdBzJbFUdzZw==
+Date: Thu, 24 Apr 2025 12:20:30 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Mario Limonciello <superm1@kernel.org>
-cc: Basavaraj Natikar <basavaraj.natikar@amd.com>, 
-    Benjamin Tissoires <bentiss@kernel.org>, 
-    open list <linux-kernel@vger.kernel.org>, 
-    "open list:AMD SENSOR FUSION HUB DRIVER" <linux-input@vger.kernel.org>, 
-    Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v4 RESEND 0/2] Fixes for SRA sensor handling
-In-Reply-To: <20250421213210.1160665-1-superm1@kernel.org>
-Message-ID: <oo62srr7-0128-p33p-9073-ro2rq99919n6@xreary.bet>
-References: <20250421213210.1160665-1-superm1@kernel.org>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+cc: Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: appletb-kbd: Use secs_to_jiffies() instead of
+ msecs_to_jiffies()
+In-Reply-To: <20250407082930.742229-2-thorsten.blum@linux.dev>
+Message-ID: <4675r5rp-s218-8r10-q1q3-rosr80p36969@xreary.bet>
+References: <20250407082930.742229-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -61,25 +59,20 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 21 Apr 2025, Mario Limonciello wrote:
+On Mon, 7 Apr 2025, Thorsten Blum wrote:
 
-> From: Mario Limonciello <mario.limonciello@amd.com>
+> Use secs_to_jiffies() instead of msecs_to_jiffies() and avoid scaling
+> the module params 'appletb_tb_idle_timeout' and 'appletb_tb_dim_timeout'
+> to milliseconds. secs_to_jiffies() expands to simpler code and reduces
+> the size of 'hid-appletb-kbd.ko'.
 > 
-> On systems with an SRA sensor there are some problems with both init
-> and failure paths.  This series accounts for both.
+> Reformat the code to silence multiple checkpatch warnings.
 > 
-> This is resend of V4 which ahsn't gotten any movement the past two
-> weeks:
-> Link: https://patchwork.kernel.org/project/linux-input/cover/20250407151835.1200867-1-superm1@kernel.org/
+> No functional changes intended.
 > 
-> Mario Limonciello (2):
->   HID: amd_sfh: Fix SRA sensor when it's the only sensor
->   HID: amd_sfh: Avoid clearing reports for SRA sensor
-> 
->  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 
-Sorry, I previously reponded to v1 by mistake. v4 has been applied.
+Applied, thanks.
 
 -- 
 Jiri Kosina
