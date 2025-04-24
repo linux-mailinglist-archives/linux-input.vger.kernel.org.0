@@ -1,55 +1,57 @@
-Return-Path: <linux-input+bounces-11961-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11962-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9054A9A89D
-	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 11:44:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31414A9A8EC
+	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 11:51:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F00B7445E4B
-	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 09:44:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 507AC1B873BE
+	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 09:51:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFCB821FF5D;
-	Thu, 24 Apr 2025 09:37:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48A991F09B1;
+	Thu, 24 Apr 2025 09:46:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N218jrY2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ln+ZZjWb"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F3721FF3E;
-	Thu, 24 Apr 2025 09:37:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7AD1C8639;
+	Thu, 24 Apr 2025 09:46:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745487426; cv=none; b=tBhqa7hdKU24MO09bmeJy/kL133j+XwLIaQ8tnApJz9DgMxN6tB1DpKhzJBahOjFFk6ksQrW2ag4NqszoXELDCHkuodjcmFOXgkjHPNhM7CGXpZPmpOuO1IyeC6nUCPd+C3m8MrTBiJBPKWeIJvpgakNK08E9+xkfyU+18VhNyU=
+	t=1745487990; cv=none; b=s9Tv3atYqIaP87ChPIUgChQWrPoGqrsG81ayyRyS5acBPnN4rRvoRnW7+fY/M42GMvWC9mP6Cw5nU1i7Wf5lidKheJL/9dSZC/lMvkG036blH/kDqZntv8HTXL/oCLw+TVSgmsPoZldYcYBaOBKt2xiYCat4KMzbIlIRqLcMfyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745487426; c=relaxed/simple;
-	bh=UdRUxgrNizbeQEksu12Ms+MCRZ7rtTm5faobax2tEMw=;
+	s=arc-20240116; t=1745487990; c=relaxed/simple;
+	bh=uca3DzKEeUbSCJq/fctKEUcbaJvic++E3d5Iiv6h37M=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=jjMeG6HFoGWZbKOn9m9cTQ8Uy8t5knQ32WLqocYsjac48FQQ53cW8fY/UkgKLR6ncOo+cJMtDAm5xbAT/9GY9LE0QsZYVwEPoSXMyY7oJQN+k1BD34zhHK98oD3dwvlc4Pv7d8D28moccgLKpTHY0i7EiQZ98qyvcY2wu/TRoyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N218jrY2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90903C4CEE3;
-	Thu, 24 Apr 2025 09:37:04 +0000 (UTC)
+	 MIME-Version:Content-Type; b=gA7uTqUHPETCyRq357Y+fBWM6edp4euTuykf2H3v7iV2HCRlrzDXZzk0Li+6BZtG8FeOaaan7JgWYqBZVYou+V4ZEV2IpLu4K19YoQb6jj8nAsOtXdjWJTsQCaQWPfOqrrzzjqGXsOIAPC58TCg84psOp73Z5og/ZLejPCS2cAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ln+ZZjWb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31103C4CEE3;
+	Thu, 24 Apr 2025 09:46:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745487425;
-	bh=UdRUxgrNizbeQEksu12Ms+MCRZ7rtTm5faobax2tEMw=;
+	s=k20201202; t=1745487989;
+	bh=uca3DzKEeUbSCJq/fctKEUcbaJvic++E3d5Iiv6h37M=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=N218jrY2yQW3SVQBVj85rvky6nPJO2UxT8z0GQR9kfUt0yPL43tMUG+HmIsk/hllh
-	 Asp+VyvrCN/0T40umdzZBL+DcTEUHOB2U4r4D5RjMPLF+ip3aC6V6kDrvyO2sDHkOq
-	 wqelitoGeDPdNriv1bS4qFxypuCqxqVUVwSAnyWUXehmm3LKgmB3wdSB4hQxJaZTd+
-	 KPY24o/8C3lH+u59XzKlTNG9wR0plcFUYxHnPWMKdh/uJbMGMddajpkCc/kRbm3sTL
-	 KRmEi9FyAj5z2uDwfRZ3X8TOjf0q76e47AqRTGkmSmMSKRzEqcUDKk7iT8lxXeFxL+
-	 ghPy1FatY63bg==
-Date: Thu, 24 Apr 2025 11:37:02 +0200 (CEST)
+	b=ln+ZZjWbTUv/zQ+LbcV1yLbxPuhdDlgTsSEke3iafrQ3oCUrj1XCBX/JrvYH42L6j
+	 J0RYG33HIksrUVqXTz8ND+Nh5Q2EarZeawGgQ9v05mTYkUW684LVwqxWRAXI4PwyGg
+	 BDb+rWhj/d3lEM2jMKR+vc5vsw/ZLExrm2qHP7ASEelpdp5chDrRloW0KWbtzMV0F8
+	 xu0I+1JiuMzQOn83iKf+9d7miQX9+HQo6KI5E+QDjHCZmpnoARJ+L27RvS4SPL/4Vl
+	 07f1bnLEVZuE7EAPdtE8qzZEAHOETDQXEMI0De5+zV6eCHenMC+5eIEg3YiURi7wAd
+	 TbMY+7IfA9T2A==
+Date: Thu, 24 Apr 2025 11:46:26 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Peter Hutterer <peter.hutterer@who-t.net>
-cc: Benjamin Tissoires <bentiss@kernel.org>, linux-kernel@vger.kernel.org, 
+To: Aditya Garg <gargaditya08@live.com>
+cc: Benjamin Tissoires <bentiss@kernel.org>, benjamin.tissoires@redhat.com, 
+    Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
     linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: bpf: fix BTN_STYLUS for the XP Pen ACK05 remote
-In-Reply-To: <20250324053625.GA79579@quokka>
-Message-ID: <59oo0905-nn07-o18o-7537-9pp3204255nr@xreary.bet>
-References: <20250324053625.GA79579@quokka>
+Subject: Re: [PATCH RESEND] HID: hid-appletb-kbd: Fix wrong date and kernel
+ version in sysfs interface docs
+In-Reply-To: <PN3PR01MB95971412A515ED896F8536E6B8B42@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Message-ID: <rn5472n5-rqoq-n79s-r992-s4n3n626qs8p@xreary.bet>
+References: <PN3PR01MB95971412A515ED896F8536E6B8B42@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -58,18 +60,35 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 24 Mar 2025, Peter Hutterer wrote:
+On Wed, 9 Apr 2025, Aditya Garg wrote:
 
-> Usage_Dig_BarrelSwitch was applied in the UsagePage_Button
-> which incorrectly mapped to BTN_TOOL_PENCIL
+> From: Aditya Garg <gargaditya08@live.com>
 > 
-> Link: https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_requests/193
-> Fixes: 834da375 ("bpf: add a v6.11+ compatible BPF fixup for the XPPen ACK05 remote")
-> Link: https://patchwork.kernel.org/project/linux-input/patch/20250207-bpf-import-2025-02-07-v1-7-6048fdd5a206@kernel.org/
+> The driver hid-appletb-kbd was upstreamed in kernel 6.15. But, due to an
+> oversight on my part, I didn't change the kernel version and expected
+> date while upstreaming the driver, thus it remained as 6.5, the original
+> kernel version when the driver was developed for downstream. This commit
+> should fix this.
 > 
-> Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+> ---
+>  Documentation/ABI/testing/sysfs-driver-hid-appletb-kbd | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-driver-hid-appletb-kbd b/Documentation/ABI/testing/sysfs-driver-hid-appletb-kbd
+> index 2a19584d0..8c9718d83 100644
+> --- a/Documentation/ABI/testing/sysfs-driver-hid-appletb-kbd
+> +++ b/Documentation/ABI/testing/sysfs-driver-hid-appletb-kbd
+> @@ -1,6 +1,6 @@
+>  What:		/sys/bus/hid/drivers/hid-appletb-kbd/<dev>/mode
+> -Date:		September, 2023
+> -KernelVersion:	6.5
+> +Date:		March, 2025
+> +KernelVersion:	6.15
+>  Contact:	linux-input@vger.kernel.org
+>  Description:
 
-Applied, thanks Peter.
+Applied, thanks.
 
 -- 
 Jiri Kosina
