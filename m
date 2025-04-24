@@ -1,56 +1,57 @@
-Return-Path: <linux-input+bounces-11977-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11978-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7428CA9A9F2
-	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 12:20:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E278AA9AA83
+	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 12:37:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 72D6C1B6755B
-	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 10:20:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AFE33AC4F1
+	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 10:37:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0477221260;
-	Thu, 24 Apr 2025 10:20:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2AE620B80D;
+	Thu, 24 Apr 2025 10:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EhCIFdtU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vQrn9u08"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A0C19F40B;
-	Thu, 24 Apr 2025 10:20:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EBF221FBD;
+	Thu, 24 Apr 2025 10:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745490033; cv=none; b=JZroSnj1OFPOoTkCjas/BaXewkT2CUr/6jF0z5X6aXhSv14I9ZlW3xjaHWP4+Ru6lOK79FM/6PSBcQ+IXjoxnSoyhPgAEfXvFo/G/xTvOFq7TMB+5nyninq96TMjQMvClMn0s91f334AaqdIFp05+VwwqK8SbtX43/EEY68+PYE=
+	t=1745490747; cv=none; b=iTfTOz8LkfQH5gezItbMf1htzIpneUeus91cKEirHa0ljPslsNKWtrrmA8rczgziHzVQzy7oOGYCIpBUkH5RC42NXooCWmo6hdaeKvGLkyXjGc0L3hRLhEvpVkGYgkLrLMlnpewO98JKBzQ0dIJ5JPBa/XB3aNb+N1sxVHubkm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745490033; c=relaxed/simple;
-	bh=ylaAx5opMqeYfZu8A3uF5GKQeSacubIL0auxBuPWB6E=;
+	s=arc-20240116; t=1745490747; c=relaxed/simple;
+	bh=6Qv7UjRVby4F88uw4e5xnM2GBBt0ugEJ1k4Issm05y4=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=pR4dUrdiE05M3QnBEpIcnOxiO6+0EfbRLdjsKNU3YYtgNUae/Db3xde1AjjAclH88eTS+fMEtcGeGov9P1PNJO7UCvhN9oALDU+GdaQwCjeXQ1WB7VUo0/pZ3wmldVodTnI/tUEiA6t167eqbeEouCg9uA1ovx2ciT75CaeofIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EhCIFdtU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8C4FC4CEE3;
-	Thu, 24 Apr 2025 10:20:32 +0000 (UTC)
+	 MIME-Version:Content-Type; b=U0J9fFHQCV2dVbnMMyU7SYVTZDkBUF771XmNYX78WqFjoVaABKZq3cDPKY1P9iH+/9cWR5TztkhHhc+kf6ABF8yrepmerMjQWTO3gEo3/0UeewsqA95JjzKt+jLoiDdQD+1hIEkCIqo6zyQiCTD6i8FeVxTfjhubjM3pHsOEQLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vQrn9u08; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF38FC4CEE3;
+	Thu, 24 Apr 2025 10:32:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745490033;
-	bh=ylaAx5opMqeYfZu8A3uF5GKQeSacubIL0auxBuPWB6E=;
+	s=k20201202; t=1745490747;
+	bh=6Qv7UjRVby4F88uw4e5xnM2GBBt0ugEJ1k4Issm05y4=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=EhCIFdtU7jNAQUHpDaFUxKGyRNriMMhll95pMRxe35sSQtNMAilhnGFqvSjtxwrO6
-	 CeNPawdeAvPIFkvjgmlwoGEfVAqWo4SwsnLwVquWPSWtYXDVVcW+PBmVzLR7qccizi
-	 of9x26uhtGyFBaJc3T74K1IdxtGRYyOwTt+tZ9WC4Ff8P71jcRN560VV+o1YN71hT9
-	 +/sDjcoNi7YX6b3bR4K1LnGlPF1WAcfuo5WkLHvXQdMjB2XglaTdXaRuLDeJPZZNVk
-	 pSyqy297yUOZmXYw2e63v16/3fHEzhyV/AGqfKrNyQNBeOfrD/VZmBnDmT+GCnzO2i
-	 thdBzJbFUdzZw==
-Date: Thu, 24 Apr 2025 12:20:30 +0200 (CEST)
+	b=vQrn9u08igOyWA0Xwopa0LwzuFXvmVCt/S+I8bZ5+NIQUSmVSTr06ugwURzjZ348Y
+	 UNbUIH/xjDE8E2a+5Vlwq5AXieIObD8y9/sV//HF2XJOJH3J1IboD1ygfRQrHd7pn6
+	 KRCrDlCznn4F4AR/TMjKmgVvj5PElqXWEtIRtaOgXyb2dIkfu2aniFQSF3xENsfhgb
+	 jasPk6E1yXvQghbhf4o1ciWo2mHshH8AJgUQES573++4iOgvSLSBqsbehqMzFnMSfa
+	 ri2ljn8NbXDxYMyzJmnRDm+bn26KGdzSNb9NLzopKjyBTB+s/RosVf8ktMlKgFcus3
+	 9F4KR8yI77rbA==
+Date: Thu, 24 Apr 2025 12:32:24 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-cc: Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: appletb-kbd: Use secs_to_jiffies() instead of
- msecs_to_jiffies()
-In-Reply-To: <20250407082930.742229-2-thorsten.blum@linux.dev>
-Message-ID: <4675r5rp-s218-8r10-q1q3-rosr80p36969@xreary.bet>
-References: <20250407082930.742229-2-thorsten.blum@linux.dev>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+cc: Benjamin Tissoires <bentiss@kernel.org>, 
+    Aditya Garg <gargaditya08@live.com>, Kerem Karabay <kekrby@gmail.com>, 
+    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] HID: HID_APPLETB_KBD and HID_APPLETB_BL should
+ depend on X86
+In-Reply-To: <cover.1744273511.git.geert+renesas@glider.be>
+Message-ID: <07p22q96-1r81-061q-2nns-q40q51nqp9sr@xreary.bet>
+References: <cover.1744273511.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -59,18 +60,29 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 7 Apr 2025, Thorsten Blum wrote:
+On Thu, 10 Apr 2025, Geert Uytterhoeven wrote:
 
-> Use secs_to_jiffies() instead of msecs_to_jiffies() and avoid scaling
-> the module params 'appletb_tb_idle_timeout' and 'appletb_tb_dim_timeout'
-> to milliseconds. secs_to_jiffies() expands to simpler code and reduces
-> the size of 'hid-appletb-kbd.ko'.
+> 	Hi all,
 > 
-> Reformat the code to silence multiple checkpatch warnings.
+> The Apple Touch Bar is only present on x86 MacBook Pros.  Hence this
+> patch series adds dependencies on X86, to prevent asking the user about
+> its drivers when configuring a kernel for a different architecture.
 > 
-> No functional changes intended.
+> Changes compared to v1[1]:
+>   - Split in two patches,
+>   - Correct Fixes.
 > 
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+> Thanks!
+> 
+> [1] "HID: HID_APPLETB_BL and HID_APPLETB_KBD should depend on X86"
+>     https://lore.kernel.org/4b046ce1cae2170453037c7ea006c91c12383dab.1744190441.git.geert+renesas@glider.be
+> 
+> Geert Uytterhoeven (2):
+>   HID: HID_APPLETB_KBD should depend on X86
+>   HID: HID_APPLETB_BL should depend on X86
+> 
+>  drivers/hid/Kconfig | 2 ++
+>  1 file changed, 2 insertions(+)
 
 Applied, thanks.
 
