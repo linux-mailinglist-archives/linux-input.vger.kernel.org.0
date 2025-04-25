@@ -1,176 +1,256 @@
-Return-Path: <linux-input+bounces-12000-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12001-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9589AA9C241
-	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 10:54:20 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C812A9C30E
+	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 11:14:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5ECAE3BF74C
-	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 08:52:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5E4737A4AC7
+	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 09:12:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B69DA21D59B;
-	Fri, 25 Apr 2025 08:52:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 304B621D5B6;
+	Fri, 25 Apr 2025 09:13:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wevCCglA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74EDB1EB182;
-	Fri, 25 Apr 2025 08:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100AE2153C7;
+	Fri, 25 Apr 2025 09:13:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745571130; cv=none; b=vGm3VyQZTdiUFwrwGE7OXWEMT2jRnli/dqKZ6PiqmnVZYi96NEC+X4j+P0lUXozWcnLFO4lapYrUnhZi56g325arM1ML5ja/2JixDYx0t1qj+qNeO2JQthop80FUgfk5Z26lk+FVXOkpj1JDIJKvl2tL6vkntEH7YhQEiq0VolA=
+	t=1745572438; cv=none; b=WDxI2UAaMmydp6CTT0zsnx0LwL52c5BPWo3D8pO0hAtVzyD+gPrRfnH0+rjjbFz3TUCr+7waUYabLMgdUwaGrMopa0izt6/VdlsJvIZBp6DW0FUQpoKrpolzFaiT1IfnjIOqLCKfY611f8+9O8q6WEG6h+W09C3VEKdRUBP6fvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745571130; c=relaxed/simple;
-	bh=8ZH6zMNlcpVLFG6magXR7gpafd8wfFKx+N3DPWKz6bw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CEwDdLeyvL2a6pqxqKdFSfZckYLALdJ6MQoNvWBZHzrPnYlbZSsUvdrBu+V5HTGDXI5N+FAsiobwl/9udzjGKK/neqfgXXZ0azA/MeZkSkd/obcEaudrNMhD9aXW9Tsi1D/9Db5K2FeZ53M+G91ruG7NZLaQCVxyOOtjxk17vPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BAE6C4CEE4;
-	Fri, 25 Apr 2025 08:51:58 +0000 (UTC)
-Message-ID: <8c1e6d90-c394-4d98-96f9-eff526a987ed@xs4all.nl>
-Date: Fri, 25 Apr 2025 10:51:56 +0200
+	s=arc-20240116; t=1745572438; c=relaxed/simple;
+	bh=IgeJAqgcuSThMaHuwjtA6Dk/yX8c+T7sRRiWPhVcyyY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eliDSkkF/bcTfARnx2S1pHH3VoQSbSjC9LyorrBQ4U7G89LWQql4n2/yhOJnrCmpNc1qf0qfBRVW92FZ+4ZP2/iGi1vk3nPX1HNU/piiPoYS3bsQ0QIK/ulQkUnJcNZi3g7u7cfI8Sj5EB2bppmffNani6G8NRlKr28nZ8QeYZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wevCCglA; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 89B8A605;
+	Fri, 25 Apr 2025 11:13:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1745572431;
+	bh=IgeJAqgcuSThMaHuwjtA6Dk/yX8c+T7sRRiWPhVcyyY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=wevCCglAXOWamnksvZss+XzkcbTkx5gmYogDNssAasbtJ06q1Y8FMT3wfyDmWX7Ru
+	 R9zJqW+o7ZMR+F0kAC5KKyllweI4B0Dbji4MdvS5Wr/DGhQ0MHj8OpCH1sVyg+UT+E
+	 0fUcFPcSeOP/rSOc0BmERy65ERM8Fc2P7ajI5BF8=
+Date: Fri, 25 Apr 2025 12:13:51 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Lee Jones <lee@kernel.org>
+Cc: nuno.sa@analog.com, linux-gpio@vger.kernel.org,
+	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH v2 06/17] mfd: adp5585: add support for adp5589
+Message-ID: <20250425091351.GO18085@pendragon.ideasonboard.com>
+References: <20250415-dev-adp5589-fw-v2-0-3a799c3ed812@analog.com>
+ <20250415-dev-adp5589-fw-v2-6-3a799c3ed812@analog.com>
+ <20250424161838.GM8734@google.com>
+ <20250424163024.GL18085@pendragon.ideasonboard.com>
+ <20250424163830.GO8734@google.com>
+ <20250424193931.GM18085@pendragon.ideasonboard.com>
+ <20250425075859.GQ8734@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 04/13] media: saa7115: Replace open-coded parity
- calculation with parity_odd()
-To: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
- jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
- mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com, parthiban.veerasooran@microchip.com,
- arend.vanspriel@broadcom.com, johannes@sipsolutions.net,
- gregkh@linuxfoundation.org, jirislaby@kernel.org, yury.norov@gmail.com,
- akpm@linux-foundation.org, jdelvare@suse.com, linux@roeck-us.net,
- alexandre.belloni@bootlin.com, pgaj@cadence.com
-Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
- linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
- linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Frank.Li@nxp.com, linux-hwmon@vger.kernel.org,
- linux-i3c@lists.infradead.org, david.laight.linux@gmail.com,
- andrew.cooper3@citrix.com, Yu-Chun Lin <eleanor15x@gmail.com>
-References: <20250409154356.423512-1-visitorckw@gmail.com>
- <20250409154356.423512-5-visitorckw@gmail.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20250409154356.423512-5-visitorckw@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250425075859.GQ8734@google.com>
 
-On 09/04/2025 17:43, Kuan-Wei Chiu wrote:
-> Refactor parity calculations to use the standard parity_odd() helper.
-> This change eliminates redundant implementations.
+Hi Lee,
+
+On Fri, Apr 25, 2025 at 08:58:59AM +0100, Lee Jones wrote:
+> On Thu, 24 Apr 2025, Laurent Pinchart wrote:
+> > On Thu, Apr 24, 2025 at 05:38:30PM +0100, Lee Jones wrote:
+> > > On Thu, 24 Apr 2025, Laurent Pinchart wrote:
+> > > > On Thu, Apr 24, 2025 at 05:18:38PM +0100, Lee Jones wrote:
+> > > > > On Tue, 15 Apr 2025, Nuno Sá via B4 Relay wrote:
+> > > > > 
+> > > > > > From: Nuno Sá <nuno.sa@analog.com>
+> > > > > > 
+> > > > > > The ADP5589 is a 19 I/O port expander with built-in keypad matrix decoder,
+> > > > > > programmable logic, reset generator, and PWM generator.
+> > > > > > 
+> > > > > > This patch adds the foundation to add support for the adp5589 gpio and pwm
+> > > > > > drivers. Most importantly, we need to differentiate between some
+> > > > > > registers addresses. It also hints to future keymap support.
+> > > > > > 
+> > > > > > Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+> > > > > > ---
+> > > > > >  drivers/mfd/adp5585.c       | 223 +++++++++++++++++++++++++++++++++++++++++---
+> > > > > >  include/linux/mfd/adp5585.h |  57 ++++++++++-
+> > > > > >  2 files changed, 268 insertions(+), 12 deletions(-)
+> > > > > 
+> > > > > [...]
+> > > > > 
+> > > > > > + * Bank 0 covers pins "GPIO 1/R0" to "GPIO 8/R7", numbered 0 to 7 by the
+> > > > > > + * driver, bank 1 covers pins "GPIO 9/C0" to "GPIO 16/C7", numbered 8 to
+> > > > > > + * 15 and bank 3 covers pins "GPIO 17/C8" to "GPIO 19/C10", numbered 16 to 18.
+> > > > > > + */
+> > > > > > +#define ADP5589_BANK(n)			((n) >> 3)
+> > > > > > +#define ADP5589_BIT(n)			BIT((n) & 0x7)
+> > > > > > +
+> > > > > > +struct adp5585_regs {
+> > > > > > +	unsigned int debounce_dis_a;
+> > > > > > +	unsigned int rpull_cfg_a;
+> > > > > > +	unsigned int gpo_data_a;
+> > > > > > +	unsigned int gpo_out_a;
+> > > > > > +	unsigned int gpio_dir_a;
+> > > > > > +	unsigned int gpi_stat_a;
+> > > > > > +	unsigned int pwm_cfg;
+> > > > > > +	unsigned int pwm_offt_low;
+> > > > > > +	unsigned int pwm_ont_low;
+> > > > > > +	unsigned int gen_cfg;
+> > > > > > +	unsigned int ext_cfg;
+> > > > > > +};
+> > > > > > +
+> > > > > > +struct adp5585_info {
+> > > > > > +	const struct mfd_cell *adp5585_devs;
+> > > > > 
+> > > > > Okay, we are never doing this.  Either use OF for platform registration
+> > > > > or use MFD (or ACPI or PCI), but please do not pass MFD data through OF.
+> > > > 
+> > > > When I upstreamed the initial driver, I modelled the different functions
+> > > > through child nodes in DT, with a compatible string for each child. I
+> > > > was told very strongly to remove that. We have therefore no other choice
+> > > > than constructing the name of the cells based on the model of the main
+> > > > device.
+> > > 
+> > > It's okay to add this information statically in this driver.  It's not
+> > > okay to then pass it through the OF API.  You can pass an identifier
+> > > through the .data attribute to match on, but we are not passing MFD cell
+> > > data through like this.
+> > 
+> > Sorry, I'm not following you. What's the issue with the .data field
+> > pointing to an instance of a structure that lists properties related to
+> > the device model ?
 > 
-> Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> There isn't one.  By all means place any type of platform data you want
+> in there.  Similar to the information you'd find in Device Tree or the
+> old board-files type pdata.  You can even extract the platform data you
+> pass through the OF API and place it into MFD platform data.  The line
+> is being drawn on passing through one type of initialisation API with
+> another, MFD through OF in this case.  MFD cells containing device
+> registration data (including platform data!) is not itself platform
+> data.
 
-Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
+I'm still not following you. The issue will likely go away in the next
+version anyway, as the MFD cells registration code needs to be rewritten
+to be more dynamic.
 
+> > > > > > +	const struct regmap_config *regmap_config;
+> > > > > > +	const struct adp5585_regs *regs;
+> > > > > > +	unsigned int n_devs;
+> > > > > > +	unsigned int id;
+> > > > > 
+> > > > > What ID is this?  We already have platform IDs and MFD cell IDs.
+> > > > 
+> > > > That's the value of the hardware model ID read-only register, it is used
+> > > > as a safety check to verify that the connected device corresponds to the
+> > > > compatible string.
+> > > 
+> > > I suggest changing the nomenclature to be more forthcoming.
+> > > 
+> > > 'model', 'version', 'hwid', 'chipid', etc.
+> > > 
+> > > Why is it being stored?  Is it used to match on at a later date?
+> > 
+> > The adp5585_info structure contains static information the describe each
+> > device model. There's one global static const instance per device model,
+> > and they are referenced from device id structures (e.g. of_device_id).
+> > The driver gets an info pointer corresponding to the model reported by
+> > the platform firmware (e.g. DT). It reads the device ID from the device
+> > at probe time, and compares it with the value stored in the structure as
+> > a safety check to ensure there's no mismatch.
+> 
+> I think the current implementation (as a whole, not just the IDs) needs
+> a rethink.  Very few attributes are changing here, both between the 2
+> platforms and the several variants you're trying to support, leading to
+> masses of repetition.
+> 
+> Looking at the static configuration here, this is starting to look like
+> 2 pieces of hardware with the only variation within each being the
+> default register values.  Is that a correct assumption?
+
+The variants of the ADP5585 differ mainly by how they handle the default
+configuration of pull-up and pull-down resistors. The consequence on the
+driver side is limited to default register values, yes.
+
+ADP5589 differs more significantly from the ADP5585. Differences between
+the ADP5589 variants are small as far as I understand (datasheets are
+public, should you want to have a look).
+
+> If so, does
+> mean all of this added complexity is just to configure a few register
+> values such that the two platforms can be used for different things?  Or
+> are these really 6 true hardware variants of one another?
+
+They are different physical chips with different product numbers.
+
+> Either way, this approach doesn't scale.  Instead of multiplying the
+> amount of platforms / variants together and creating that number of
+> static structs, I'd suggest using templating and only adapting what
+> actually changes.
+> 
+> For instance, the following attributes in 'struct regmap_config' never
+> change; reg_bits, val_bits, and cache_type.  And max_register only
+> changes between the 2 hardware platforms.  The reg_defaults_raw values
+> can be changed in a switch statement.
+
+All the fields of the adp5585_info structure that you would like to
+dynamically set would then need to be stored in the adp5585 structure.
+The would essentially trade static const data for dynamic data and more
+code. Is that a personal coding style preference, or are there clear
+advantages ?
+
+> Same goes for 'struct adp5585_info'.  Only regmap_config changes between
+> variants.  Everything else is exactly the same.
+
+I assume this comment relates only to the different variants of the info
+structure for the same model (e.g. ADP5585 or ADP5589). There are more
+differences between the ADP5585 and ADP5589 entries.
+
+> So, with the use of a
+> few of templates and a couple of succinct switch cases, you can control
+> all of the differentiation you need.  And for every variant you wish to
+> add, it's a couple of extra lines rather than many, leading to a
+> much more scaleable implementation.
+
+That also seems like a personal coding style preference :-) Adding a new
+compatible variant with the existing approach only requires adding an
+instance of the info structure, while your proposal would require
+changes in multiple places. It seems more work to me (from a personal
+preference point of view).
+
+Of course, if the new variant requires developing abstractions that
+don't exist (such as supporting large differences in the registers
+layout as needed for the ADP5589), refactoring of the code will always
+be required. This seems a bit of a theoretical concern though, as I'm
+not aware of any other chip that would require such development.
+
+In any case, let's see how the next version will look like, after
+reworking the MFD cells registration code. Maybe it will make everybody
+happy :-)
+
+-- 
 Regards,
 
-	Hans
-
-> ---
->  drivers/media/i2c/saa7115.c | 12 ++----------
->  1 file changed, 2 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/saa7115.c b/drivers/media/i2c/saa7115.c
-> index a1c71187e773..a7886269dcfc 100644
-> --- a/drivers/media/i2c/saa7115.c
-> +++ b/drivers/media/i2c/saa7115.c
-> @@ -25,6 +25,7 @@
->  
->  #include "saa711x_regs.h"
->  
-> +#include <linux/bitops.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> @@ -664,15 +665,6 @@ static const unsigned char saa7115_init_misc[] = {
->  	0x00, 0x00
->  };
->  
-> -static int saa711x_odd_parity(u8 c)
-> -{
-> -	c ^= (c >> 4);
-> -	c ^= (c >> 2);
-> -	c ^= (c >> 1);
-> -
-> -	return c & 1;
-> -}
-> -
->  static int saa711x_decode_vps(u8 *dst, u8 *p)
->  {
->  	static const u8 biphase_tbl[] = {
-> @@ -1227,7 +1219,7 @@ static int saa711x_decode_vbi_line(struct v4l2_subdev *sd, struct v4l2_decode_vb
->  		vbi->type = V4L2_SLICED_TELETEXT_B;
->  		break;
->  	case 4:
-> -		if (!saa711x_odd_parity(p[0]) || !saa711x_odd_parity(p[1]))
-> +		if (!parity_odd(p[0]) || !parity_odd(p[1]))
->  			return 0;
->  		vbi->type = V4L2_SLICED_CAPTION_525;
->  		break;
-
+Laurent Pinchart
 
