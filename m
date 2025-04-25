@@ -1,166 +1,154 @@
-Return-Path: <linux-input+bounces-12004-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12005-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C66A9C806
-	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 13:45:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F281BA9CE25
+	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 18:30:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D1F2746507D
-	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 11:44:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 44A981892468
+	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 16:30:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F30A424466C;
-	Fri, 25 Apr 2025 11:44:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C429819F130;
+	Fri, 25 Apr 2025 16:29:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ouzF2G+L"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O0Gcn+8m"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E65231A2D
-	for <linux-input@vger.kernel.org>; Fri, 25 Apr 2025 11:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888DC19E7FA;
+	Fri, 25 Apr 2025 16:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745581488; cv=none; b=S+kTAcMFBLfQZ1VBmpuFPeGyto92HhNHzJ/VRREpPZ3JY7J7GZAb7gWBf+t1q/iDZc2nKt3hpdKC8x4/Ppv3o4UUrwIk2/RHWtatftzI+AFgUcZaFR+5+ODPUl4isOFcyAwYfQBYmxitnNA727gBu3Aw5uedZC8KsgOZV92QbtQ=
+	t=1745598599; cv=none; b=rZtN40BwhCm0OXuHbrOta2mAuHc6TEMFfesRNkJT4fhqxZu/ftE0zRyzJeWgSEhAJbl4NXSXEFRI6uOtbl1Wgg7+rH1iTliY4mwQ1q6pM+THz8Ix4/7rdklMW9IWqb+Y6Vhy6l2dQ5CBOFrQM5hPjOpQXZ6JI5Ro8BRrZhVBzS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745581488; c=relaxed/simple;
-	bh=gMa3ssEUpcVwgHPMOV8wk/GlL9ZwJKDD2E7AauYhnRY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KrFYM1BHkd0A8eEOueeY0/4lFMMLiaAx5bc6BBd5oqZFfsS2H0zmaZq5qdjFkVQA279hvLjpi0O0wB67t3Sm4nuAeVBMcprdKuET/v/m34qoPAD86Sx7RJErD/pbXTO5as58JChPMACKEP2jqeqwrjsBUB7miQnvG5UOkUeMqrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ouzF2G+L; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-702599fa7c5so25339057b3.1
-        for <linux-input@vger.kernel.org>; Fri, 25 Apr 2025 04:44:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745581486; x=1746186286; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=esSq99zt7CxJ83pdRXGK5NP+KblKe1C6+QRELy9ZoFs=;
-        b=ouzF2G+LZrCOZLC574/PEekAqN7gkXjoJYTRjN8N1B9uTUbKq6/et8vpsReI+/jtBH
-         3Pg8a1bJ9+5KvzyLljCxWiVo0FKjNR7bPS3jnuCVHFSmNpKgmwO1cfu+LwbFwkuThP/K
-         2zt05cZYwiYVAP5YNmvqDzUp5/WpwL6XkXYrgmqGM1O7j7G+MnJ7BNf/OPZXjkSEdg6q
-         QzX54MImkhmCDZvPpdKuBHOCOMi7Fimc87FMAIQsQ2WM7GeH9xQyzhrp+AyXIl0/kYqN
-         Rz2EYME+n6YQiyAi5RNxQXPl6/v3TtnHnhsaryOEoz5mtaphafYHf/Q0ySwJJNVgIFGA
-         zUCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745581486; x=1746186286;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=esSq99zt7CxJ83pdRXGK5NP+KblKe1C6+QRELy9ZoFs=;
-        b=mnyVqncP1aKuAv2SnVZmkFHeWR5IvHzTGbHzWsegznFS4ahpPRFiEwcwNpfeT8m3lN
-         H8sDT2Zy11YhNDkIUme2Bqnph4kdKAb8UzTs9y6qXc1Z5kqCKDn9iO1R9hgeNmNFrY+H
-         NNP742HxiRDGI8btM8gwG8OD6eZgep4jjMFQ3VH9lYNv+sUeC72WJJ9FlGwyFfHzghEJ
-         734p0Tnmo0ec2xe0NV+s2f0iS518OJOzPq+l2Hjhg7UTMqhqjNL3vObPrwEf9YDhQFHS
-         qFXuHsjujKDJPLCOgJwKcQ3U77asle4DDcj4eLCsehCn5YZB8iqFdBPL8LpKGXqZBTFj
-         26CA==
-X-Gm-Message-State: AOJu0Yz0L5TPl3BF7QpbBONJNCUcMnAReiRt/WFSq1etOCE5KYaNuc9f
-	Amq8E0K6S5SZr5nWCV6gCXcxCR0++hj0fAHTrryNzcR2Nzg6gX8biQHf2yoTEjftrsMMZoPbnIh
-	B99oCnZ1wupef4uOTtUADKITSL/LcN/oqxwVIJA==
-X-Gm-Gg: ASbGncutSldQLgqV97cek2wN+K9B5Emch8FS9FcWDfyjkJ2v1QM6kie2AwAICenQ/s7
-	lhZ92uZ5PnCVGd/+pHWnS68eZt6iD7LhU+QqPH3YWEfKrobWuEAFGzPOSLvMpETiDW/z7PIr8zW
-	IIhbHtFA0eBPC1hnScse22eFLkxU7GtAj4dA==
-X-Google-Smtp-Source: AGHT+IEL3N0R1jVxvkTRj2zeMmdPph9d/Vt7V+IZqwZArjRPQ0F6K/RnSoN7cuZ54z2colfHGXbhgejnQ88r07obhQM=
-X-Received: by 2002:a05:690c:3403:b0:703:b200:9f08 with SMTP id
- 00721157ae682-708543aff69mr21890897b3.4.1745581486092; Fri, 25 Apr 2025
- 04:44:46 -0700 (PDT)
+	s=arc-20240116; t=1745598599; c=relaxed/simple;
+	bh=VeIFEZPzptyxK0aweTFRev1zaQWjdMOGLjt9qd/lfs0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W+SdwZAg+11PqG3CzjPF8gef0q5ij2CIBtvdGRb9Fv6y/EKZPMi2H/BsLlnLgOa7GvivnMW0nQg5EaPX2LtukTgqYI8e7vM6qEHnhrVXBwyZhKE7MDDMqOeSM9/CrvkFMw9NkR5f79oSfE1K9eun2JQlWqKMjYQhblKSgUslp9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O0Gcn+8m; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A2EEC4CEE4;
+	Fri, 25 Apr 2025 16:29:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745598599;
+	bh=VeIFEZPzptyxK0aweTFRev1zaQWjdMOGLjt9qd/lfs0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=O0Gcn+8mzypG2k50DgEwM7QrvxgTRqLW8l64qoj+8cFJinWa6cJ5vsNeaYS/Z3FE+
+	 nvp1VvMBQALpd9DKU6HAHL8pA8zfnHP+2K/tCeVlhIRJxhJFUDEw2DBmhaL1D6LV0O
+	 TXEL9RjudLHRfzI1hQkRJ0VcQkwab5m6a6x8kTImLjAKzIjqijyo1FYOCoGZ1/I5NP
+	 WZ1J++UsQ84MaFha4sLA1i6dK6b1PnGyLQSFV3bw4Udi2uo1HzgkVyQ7qT1UXtLRlA
+	 rYvbgH9HqDVAaXymCi/gqLiQf6c3Vz5jgpkowhLTRb77CeRDdCt6w4M7DVlMwbU8ct
+	 iFHKoMDm8P6KQ==
+From: Mario Limonciello <superm1@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...),
+	linux-kernel@vger.kernel.org (open list),
+	platform-driver-x86@vger.kernel.org (open list:AMD PMF DRIVER),
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Armin Wolf <W_Armin@gmx.de>
+Subject: [PATCH v4 1/2] Input: Add a Kconfig to emulate KEY_SCREENLOCK with META + L
+Date: Fri, 25 Apr 2025 11:29:48 -0500
+Message-ID: <20250425162949.2021325-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250306115021.797426-1-ulf.hansson@linaro.org>
- <Z8_Fgx4YWwdpB1XK@google.com> <CAPDyKFqp0874O500j1StQgVyr_fQud6eJTqzQW_GqEj49Yt6bA@mail.gmail.com>
-In-Reply-To: <CAPDyKFqp0874O500j1StQgVyr_fQud6eJTqzQW_GqEj49Yt6bA@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 25 Apr 2025 13:44:10 +0200
-X-Gm-Features: ATxdqUG1CWJrrgR6i9i4qMve8TXVlsm2c5EfOVYPWVNwMDvFx09cSzSOZOTI9wQ
-Message-ID: <CAPDyKFq7Es8rP9JGjLQ=70=OX3vWtt=69kcf6kQsDSvZOnr1tw@mail.gmail.com>
-Subject: Re: [PATCH] Input: hisi_powerkey: Enable system-wakeup for s2idle
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	"Rafael J. Wysocki" <rafael@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 12 Mar 2025 at 17:37, Ulf Hansson <ulf.hansson@linaro.org> wrote:
->
-> On Tue, 11 Mar 2025 at 06:09, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> >
-> > Hi Ulf,
-> >
-> > On Thu, Mar 06, 2025 at 12:50:21PM +0100, Ulf Hansson wrote:
-> > > To wake up the system from s2idle when pressing the power-button, let's
-> > > convert from using pm_wakeup_event() to pm_wakeup_dev_event(), as it allows
-> > > us to specify the "hard" in-parameter, which needs to be set for s2idle.
-> >
-> > I was looking at pm_wakeup_event() and pm_wakeup_dev_event() and I am
-> > afraid I do not understand the distinction. Why would we want to
-> > abort suspend by only by some wakeup sources and not by others? And why
-> > does a driver need to know whether a system uses s2idle or some other
-> > implementation of low power state?
->
-> Good question!
->
-> In regards to waking up. The CPU that wakes up from suspend-to-idle
-> may actually decide to just go back to idle, without doing a full
-> system resume - unless there is a wakeup that requires the system to
-> resume.
->
-> In suspend-to-ram a wakeup will always trigger a full system resume.
->
-> In most cases a driver doesn't really need to distinguish between
-> these cases, yet the wakeup APIs are designed to allow it. That's the
-> reason why pm_system_wakeup() needs to be called (controlled by "hard"
-> in-parameter to pm_wakeup_dev_event()).
->
-> >
-> > FWIW we have Chromebooks that use S0ix and Chromebooks that use S3 as
-> > well as ARM Chromebooks and I do not think they use
-> > pm_wakeup_dev_event() variant.
-> >
-> > I'm cc-ing Rafael to give us some guidance.
->
-> Good, let's see if there is something I failed to explain.
->
-> >
-> > >
-> > > Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
-> > > ---
-> > >  drivers/input/misc/hisi_powerkey.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/input/misc/hisi_powerkey.c b/drivers/input/misc/hisi_powerkey.c
-> > > index d3c293a95d32..d315017324d9 100644
-> > > --- a/drivers/input/misc/hisi_powerkey.c
-> > > +++ b/drivers/input/misc/hisi_powerkey.c
-> > > @@ -30,7 +30,7 @@ static irqreturn_t hi65xx_power_press_isr(int irq, void *q)
-> > >  {
-> > >       struct input_dev *input = q;
-> > >
-> > > -     pm_wakeup_event(input->dev.parent, MAX_HELD_TIME);
-> > > +     pm_wakeup_dev_event(input->dev.parent, MAX_HELD_TIME, true);
-> > >       input_report_key(input, KEY_POWER, 1);
-> > >       input_sync(input);
-> > >
-> > > --
-> > > 2.43.0
-> > >
-> >
-> > Thanks.
-> >
-> > --
-> > Dmitry
->
-> Kind regards
-> Uffe
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-Dmitry, is there anything else I can do to make you queue this one?
+In the PC industry KEY_SCREENLOCK isn't used as frequently as it used
+to be. Modern versions of Windows [1], GNOME and KDE support "META" + "L"
+to lock the screen. Modern hardware [2] also sends this sequence of
+events for keys with a silkscreen for screen lock.
 
-S2idle is currently broken for Hikey and - it's rather annoying.
+Introduced a new Kconfig option that will change KEY_SCREENLOCK when
+emitted by driver to META + L.
 
-Kind regards
-Uffe
+Link: https://support.microsoft.com/en-us/windows/keyboard-shortcuts-in-windows-dcc61a57-8ff0-cffe-9796-cb9706c75eec [1]
+Link: https://www.logitech.com/en-us/shop/p/k860-split-ergonomic.920-009166 [2]
+Suggested-by: Armin Wolf <W_Armin@gmx.de>
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+v4:
+ * Add a break to avoid the device actually supporting KEY_SCREENLOCK
+---
+ drivers/input/Kconfig |  8 ++++++++
+ drivers/input/input.c | 20 ++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
+
+diff --git a/drivers/input/Kconfig b/drivers/input/Kconfig
+index 88ecdf5218ee9..ffb4163fe315f 100644
+--- a/drivers/input/Kconfig
++++ b/drivers/input/Kconfig
+@@ -174,6 +174,14 @@ config INPUT_APMPOWER
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called apm-power.
+ 
++config INPUT_SCREENLOCK_EMULATION
++	bool "Pass KEY_SCREENLOCK as META + L"
++	help
++	  Say Y here if you want KEY_SCREENLOCK to be passed to userspace as
++	  META + L.
++
++	  If unsure, say Y.
++
+ comment "Input Device Drivers"
+ 
+ source "drivers/input/keyboard/Kconfig"
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index dfeace85c4710..983e3c0f88e5f 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -370,6 +370,13 @@ void input_handle_event(struct input_dev *dev,
+ 	}
+ }
+ 
++static void handle_screenlock_as_meta_l(struct input_dev *dev, unsigned int type,
++					int value)
++{
++	input_handle_event(dev, type, KEY_LEFTMETA, value);
++	input_handle_event(dev, type, KEY_L, value);
++}
++
+ /**
+  * input_event() - report new input event
+  * @dev: device that generated the event
+@@ -392,6 +399,12 @@ void input_event(struct input_dev *dev,
+ {
+ 	if (is_event_supported(type, dev->evbit, EV_MAX)) {
+ 		guard(spinlock_irqsave)(&dev->event_lock);
++#ifdef CONFIG_INPUT_SCREENLOCK_EMULATION
++		if (code == KEY_SCREENLOCK) {
++			handle_screenlock_as_meta_l(dev, type, value);
++			return;
++		}
++#endif
+ 		input_handle_event(dev, type, code, value);
+ 	}
+ }
+@@ -2134,6 +2147,13 @@ void input_set_capability(struct input_dev *dev, unsigned int type, unsigned int
+ 
+ 	switch (type) {
+ 	case EV_KEY:
++#ifdef CONFIG_INPUT_SCREENLOCK_EMULATION
++		if (code == KEY_SCREENLOCK) {
++			__set_bit(KEY_L, dev->keybit);
++			__set_bit(KEY_LEFTMETA, dev->keybit);
++			break;
++		}
++#endif
+ 		__set_bit(code, dev->keybit);
+ 		break;
+ 
+-- 
+2.43.0
+
 
