@@ -1,45 +1,46 @@
-Return-Path: <linux-input+bounces-12005-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12006-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F281BA9CE25
-	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 18:30:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B9A9A9CE29
+	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 18:30:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 44A981892468
-	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 16:30:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FD539E4AE9
+	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 16:29:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C429819F130;
-	Fri, 25 Apr 2025 16:29:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDF261A2393;
+	Fri, 25 Apr 2025 16:30:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O0Gcn+8m"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KtgNqyPq"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888DC19E7FA;
-	Fri, 25 Apr 2025 16:29:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF961A0BCA;
+	Fri, 25 Apr 2025 16:30:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745598599; cv=none; b=rZtN40BwhCm0OXuHbrOta2mAuHc6TEMFfesRNkJT4fhqxZu/ftE0zRyzJeWgSEhAJbl4NXSXEFRI6uOtbl1Wgg7+rH1iTliY4mwQ1q6pM+THz8Ix4/7rdklMW9IWqb+Y6Vhy6l2dQ5CBOFrQM5hPjOpQXZ6JI5Ro8BRrZhVBzS0=
+	t=1745598600; cv=none; b=eM0nNJusUul86f+CWmOOypRgkQgbkG7QovmT38OQXQPuTZdl+9aVIxjD+ayVFV7FBDbo18TWa28bIN/ibV6VSs+IZZp/SAYka9xOVoJbCu8Lp4yFoQCh6wCToKLIE1gkJVeBLXUWm3y7ROwpqMCnoGlHspGK7pl/eIT0Rr61ZnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745598599; c=relaxed/simple;
-	bh=VeIFEZPzptyxK0aweTFRev1zaQWjdMOGLjt9qd/lfs0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W+SdwZAg+11PqG3CzjPF8gef0q5ij2CIBtvdGRb9Fv6y/EKZPMi2H/BsLlnLgOa7GvivnMW0nQg5EaPX2LtukTgqYI8e7vM6qEHnhrVXBwyZhKE7MDDMqOeSM9/CrvkFMw9NkR5f79oSfE1K9eun2JQlWqKMjYQhblKSgUslp9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O0Gcn+8m; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A2EEC4CEE4;
-	Fri, 25 Apr 2025 16:29:58 +0000 (UTC)
+	s=arc-20240116; t=1745598600; c=relaxed/simple;
+	bh=7i4/x8IKTcwtudhB9CjmkK5JX9DdTZYqVkkUUgqIi7I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pAglxSYXmN9Z0mfZe9oSNCJQ32TfwrYdkhUvw42rup0VWu0aypzbVoPtK2u9fzU3/xNorV//Q5T/1Lh85FGZMXxYwiAYX96zsTaUTg/1zrdGngmXwwyYMUvcbUp0eOc05C0Tpq4CfjXE4JYJHgapO678KOZsCBNfmKmlyyuksuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KtgNqyPq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4101DC4CEE8;
+	Fri, 25 Apr 2025 16:29:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745598599;
-	bh=VeIFEZPzptyxK0aweTFRev1zaQWjdMOGLjt9qd/lfs0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=O0Gcn+8mzypG2k50DgEwM7QrvxgTRqLW8l64qoj+8cFJinWa6cJ5vsNeaYS/Z3FE+
-	 nvp1VvMBQALpd9DKU6HAHL8pA8zfnHP+2K/tCeVlhIRJxhJFUDEw2DBmhaL1D6LV0O
-	 TXEL9RjudLHRfzI1hQkRJ0VcQkwab5m6a6x8kTImLjAKzIjqijyo1FYOCoGZ1/I5NP
-	 WZ1J++UsQ84MaFha4sLA1i6dK6b1PnGyLQSFV3bw4Udi2uo1HzgkVyQ7qT1UXtLRlA
-	 rYvbgH9HqDVAaXymCi/gqLiQf6c3Vz5jgpkowhLTRb77CeRDdCt6w4M7DVlMwbU8ct
-	 iFHKoMDm8P6KQ==
+	s=k20201202; t=1745598600;
+	bh=7i4/x8IKTcwtudhB9CjmkK5JX9DdTZYqVkkUUgqIi7I=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KtgNqyPqNOcaZ+x6QsbkaghX45RndHZw/CILJqa0WUxcNQOyMn7Q58z8F9hZ5C27x
+	 yXBWFipXNODPTla4BlO/OfMuoqm38GO6KoOtSOLBEFAqOXp/OEM5vYIVKydNmlcxgl
+	 ME9xT6KtqER6LMsff6JYuDurju/LWr2idLyfyMhg0jxMOpbvDNPXfaNWMM0bPFsYwn
+	 edA00cur7DpEOgnz6QDq2AR+tq9vAUuG/vcSyxb+iyGZO2MzNY7Du45RcJ+x4zkHHb
+	 eIi/nzMm05y2yGgFmd14hMtuvtNzASoNnsfxM9w1NMJZmZQ9OJZFmlk6TWQge2z8Et
+	 Aiiryfp2m1lcQ==
 From: Mario Limonciello <superm1@kernel.org>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
@@ -48,12 +49,13 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...),
 	linux-kernel@vger.kernel.org (open list),
 	platform-driver-x86@vger.kernel.org (open list:AMD PMF DRIVER),
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Armin Wolf <W_Armin@gmx.de>
-Subject: [PATCH v4 1/2] Input: Add a Kconfig to emulate KEY_SCREENLOCK with META + L
-Date: Fri, 25 Apr 2025 11:29:48 -0500
-Message-ID: <20250425162949.2021325-1-superm1@kernel.org>
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v4 2/2] platform/x86/amd: pmf: Use META + L for screen lock command
+Date: Fri, 25 Apr 2025 11:29:49 -0500
+Message-ID: <20250425162949.2021325-2-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250425162949.2021325-1-superm1@kernel.org>
+References: <20250425162949.2021325-1-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -64,90 +66,34 @@ Content-Transfer-Encoding: 8bit
 
 From: Mario Limonciello <mario.limonciello@amd.com>
 
-In the PC industry KEY_SCREENLOCK isn't used as frequently as it used
-to be. Modern versions of Windows [1], GNOME and KDE support "META" + "L"
-to lock the screen. Modern hardware [2] also sends this sequence of
-events for keys with a silkscreen for screen lock.
+In practice userspace software doesn't react to KEY_SCREENLOCK by default.
+So any time that the PMF policies would suggest to lock the screen (for
+example from an HPD sensor event) userspace isn't configured to do it.
 
-Introduced a new Kconfig option that will change KEY_SCREENLOCK when
-emitted by driver to META + L.
+However userspace is configured for META + L as this is the default
+in the PC ecosystem. Adjust the PMF driver to select the Kconfig option
+that makes the input core send META + L.
 
-Link: https://support.microsoft.com/en-us/windows/keyboard-shortcuts-in-windows-dcc61a57-8ff0-cffe-9796-cb9706c75eec [1]
-Link: https://www.logitech.com/en-us/shop/p/k860-split-ergonomic.920-009166 [2]
-Suggested-by: Armin Wolf <W_Armin@gmx.de>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
-v4:
- * Add a break to avoid the device actually supporting KEY_SCREENLOCK
+v3:
+    * Use Kconfig from linux-input
 ---
- drivers/input/Kconfig |  8 ++++++++
- drivers/input/input.c | 20 ++++++++++++++++++++
- 2 files changed, 28 insertions(+)
+ drivers/platform/x86/amd/pmf/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/input/Kconfig b/drivers/input/Kconfig
-index 88ecdf5218ee9..ffb4163fe315f 100644
---- a/drivers/input/Kconfig
-+++ b/drivers/input/Kconfig
-@@ -174,6 +174,14 @@ config INPUT_APMPOWER
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called apm-power.
- 
-+config INPUT_SCREENLOCK_EMULATION
-+	bool "Pass KEY_SCREENLOCK as META + L"
-+	help
-+	  Say Y here if you want KEY_SCREENLOCK to be passed to userspace as
-+	  META + L.
-+
-+	  If unsure, say Y.
-+
- comment "Input Device Drivers"
- 
- source "drivers/input/keyboard/Kconfig"
-diff --git a/drivers/input/input.c b/drivers/input/input.c
-index dfeace85c4710..983e3c0f88e5f 100644
---- a/drivers/input/input.c
-+++ b/drivers/input/input.c
-@@ -370,6 +370,13 @@ void input_handle_event(struct input_dev *dev,
- 	}
- }
- 
-+static void handle_screenlock_as_meta_l(struct input_dev *dev, unsigned int type,
-+					int value)
-+{
-+	input_handle_event(dev, type, KEY_LEFTMETA, value);
-+	input_handle_event(dev, type, KEY_L, value);
-+}
-+
- /**
-  * input_event() - report new input event
-  * @dev: device that generated the event
-@@ -392,6 +399,12 @@ void input_event(struct input_dev *dev,
- {
- 	if (is_event_supported(type, dev->evbit, EV_MAX)) {
- 		guard(spinlock_irqsave)(&dev->event_lock);
-+#ifdef CONFIG_INPUT_SCREENLOCK_EMULATION
-+		if (code == KEY_SCREENLOCK) {
-+			handle_screenlock_as_meta_l(dev, type, value);
-+			return;
-+		}
-+#endif
- 		input_handle_event(dev, type, code, value);
- 	}
- }
-@@ -2134,6 +2147,13 @@ void input_set_capability(struct input_dev *dev, unsigned int type, unsigned int
- 
- 	switch (type) {
- 	case EV_KEY:
-+#ifdef CONFIG_INPUT_SCREENLOCK_EMULATION
-+		if (code == KEY_SCREENLOCK) {
-+			__set_bit(KEY_L, dev->keybit);
-+			__set_bit(KEY_LEFTMETA, dev->keybit);
-+			break;
-+		}
-+#endif
- 		__set_bit(code, dev->keybit);
- 		break;
- 
+diff --git a/drivers/platform/x86/amd/pmf/Kconfig b/drivers/platform/x86/amd/pmf/Kconfig
+index 25b8f7ae3abde..10089c69ce582 100644
+--- a/drivers/platform/x86/amd/pmf/Kconfig
++++ b/drivers/platform/x86/amd/pmf/Kconfig
+@@ -12,6 +12,7 @@ config AMD_PMF
+ 	depends on TEE && AMDTEE
+ 	depends on AMD_SFH_HID
+ 	depends on HAS_IOMEM
++	select INPUT_SCREENLOCK_EMULATION
+ 	help
+ 	  This driver provides support for the AMD Platform Management Framework.
+ 	  The goal is to enhance end user experience by making AMD PCs smarter,
 -- 
 2.43.0
 
