@@ -1,168 +1,97 @@
-Return-Path: <linux-input+bounces-11995-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-11996-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B7AA9B861
-	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 21:39:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2F71A9BCC4
+	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 04:21:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6D2697A7839
-	for <lists+linux-input@lfdr.de>; Thu, 24 Apr 2025 19:38:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 605FB1BA5C08
+	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 02:21:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B193C290BD7;
-	Thu, 24 Apr 2025 19:39:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B07E615B543;
+	Fri, 25 Apr 2025 02:20:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FLrAhCTw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dFuKctuT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C5F2820A3;
-	Thu, 24 Apr 2025 19:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3FE156C69;
+	Fri, 25 Apr 2025 02:20:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745523580; cv=none; b=ZA4Avb8U2kBsoC3lbXHLyw2LEiaxmkJPC9snet6h2uPuzVuGA4kFMCxgOXZ1fIo+SQ6crjCkiKdf/MvzO+fLqi/Ts5ARxB8QMez5F+GFJI3KbTmGrk0CO8ldgAtT42T4b5kjnvrlQwJ1iA8w+iWyCdWXJ01RCbyLkQOH4STHoQE=
+	t=1745547655; cv=none; b=gWsqi+c8o/2fFGWPgCe7F0LHu1bnl3LpjXuMcZI/kVwJuEL2cR177RTn95SkOzqphtQpdR79ZGB387cXyWp5ew7cTX5EMA/E1SQFkNU5GR524LxDvC2HFCBOHzDgUTPtS6VY9JYbpFzk1xLZoa3LmML7wwjKxfCzLyQUcP3rdi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745523580; c=relaxed/simple;
-	bh=QK8LMZcWNVSvVADahLdBSm+Pf+LwdXcAz3enJv8MT8M=;
+	s=arc-20240116; t=1745547655; c=relaxed/simple;
+	bh=vjhWnE+yweRc5pNFfcwxO1w2ynyuzXYUEPFlulFeJ2I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mScOiXcA8wjmtQPpfJCWVGW26GLNr7MZCEZiJbiwJod5mLWu9BGGXOUiIO0Lj5fy+W/eb70OVrJFbmBQZn9LcZTyT5VFqoEwaBRK6beWAQSdRTECrTVkVa4to4K+0HkYHKQiXppgpCE7Q6x0ujK1dg3Xh+hdyg+lEf/rUvRoIss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FLrAhCTw; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BC95F16A;
-	Thu, 24 Apr 2025 21:39:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1745523572;
-	bh=QK8LMZcWNVSvVADahLdBSm+Pf+LwdXcAz3enJv8MT8M=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=flkCuuYkt0+22Y3/WaujFsr2tV9cLYP8Wsgsh7Cakbtxt7GBLW4TeDiCtSWTW1PX6F+SH2LZdfkuw7GSfvfyiDmDS+d3gUtjmmlsna0ULZTNU0r5rdzKj1vO1QUQ7Hc/WtBZqkSorTO/8ECEYAjpQZKJ9aG4y7C6hvzIkB6L9jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dFuKctuT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C24A5C4CEEB;
+	Fri, 25 Apr 2025 02:20:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745547655;
+	bh=vjhWnE+yweRc5pNFfcwxO1w2ynyuzXYUEPFlulFeJ2I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FLrAhCTwc7DGB1jyHGpStkTh8HORYL0PrIWGEw6vWxSiNKtWaFAXU5kduuUBeC3+C
-	 w8RWaDcN8G9yXZWOl9eLN9vl1I1nJD1c2stQLG2hBuDi9vp4yrZxGBXg1k6VDruBD1
-	 PshSkkeAxUC70RrQ8dEgiSJWoL001h68WJQkjh6M=
-Date: Thu, 24 Apr 2025 22:39:31 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Lee Jones <lee@kernel.org>
-Cc: nuno.sa@analog.com, linux-gpio@vger.kernel.org,
-	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-input@vger.kernel.org, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	b=dFuKctuTRC/wLg2WplGSQaP3gn0tPb1bIpva9sc7+v5tf5gi9XbehbR9D9Hyu+NG8
+	 3FGiJSvA7lbYEqpCNJJka2LngmB+muAaZwoCxKOmvUH1dGRd7Q0WhDAfbETuwzA91G
+	 Rb7zTo3fH+zlvnj6AjFBsZP4kvTppCOQE9jLwhmg4pPYX2BOOP7/F0vISy2SznbRGV
+	 YEBq5X/rw1b31LpFU6khV8CEnNagoBDz8apMe4zf6QI20rNXIPM9N4A7l50HlUaL/8
+	 1FZS8P9m+pSifbhUT4bt0OvBdLWjaukoFkYLXRlSl+DcXScZPDGk0mVgIgBTAlNBv9
+	 9jnG8QCTAVk2A==
+Date: Fri, 25 Apr 2025 02:20:50 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benson Leung <bleung@chromium.org>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v2 06/17] mfd: adp5585: add support for adp5589
-Message-ID: <20250424193931.GM18085@pendragon.ideasonboard.com>
-References: <20250415-dev-adp5589-fw-v2-0-3a799c3ed812@analog.com>
- <20250415-dev-adp5589-fw-v2-6-3a799c3ed812@analog.com>
- <20250424161838.GM8734@google.com>
- <20250424163024.GL18085@pendragon.ideasonboard.com>
- <20250424163830.GO8734@google.com>
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>
+Subject: Re: (subset) [PATCH v2 0/8] arm64: mediatek: mt8186-corsola:
+ Consolidate and add new devices
+Message-ID: <aArxgrBkFvHwr_Gj@google.com>
+References: <20250421101248.426929-1-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250424163830.GO8734@google.com>
+In-Reply-To: <20250421101248.426929-1-wenst@chromium.org>
 
-On Thu, Apr 24, 2025 at 05:38:30PM +0100, Lee Jones wrote:
-> On Thu, 24 Apr 2025, Laurent Pinchart wrote:
-> > On Thu, Apr 24, 2025 at 05:18:38PM +0100, Lee Jones wrote:
-> > > On Tue, 15 Apr 2025, Nuno Sá via B4 Relay wrote:
-> > > 
-> > > > From: Nuno Sá <nuno.sa@analog.com>
-> > > > 
-> > > > The ADP5589 is a 19 I/O port expander with built-in keypad matrix decoder,
-> > > > programmable logic, reset generator, and PWM generator.
-> > > > 
-> > > > This patch adds the foundation to add support for the adp5589 gpio and pwm
-> > > > drivers. Most importantly, we need to differentiate between some
-> > > > registers addresses. It also hints to future keymap support.
-> > > > 
-> > > > Signed-off-by: Nuno Sá <nuno.sa@analog.com>
-> > > > ---
-> > > >  drivers/mfd/adp5585.c       | 223 +++++++++++++++++++++++++++++++++++++++++---
-> > > >  include/linux/mfd/adp5585.h |  57 ++++++++++-
-> > > >  2 files changed, 268 insertions(+), 12 deletions(-)
-> > > 
-> > > [...]
-> > > 
-> > > > + * Bank 0 covers pins "GPIO 1/R0" to "GPIO 8/R7", numbered 0 to 7 by the
-> > > > + * driver, bank 1 covers pins "GPIO 9/C0" to "GPIO 16/C7", numbered 8 to
-> > > > + * 15 and bank 3 covers pins "GPIO 17/C8" to "GPIO 19/C10", numbered 16 to 18.
-> > > > + */
-> > > > +#define ADP5589_BANK(n)			((n) >> 3)
-> > > > +#define ADP5589_BIT(n)			BIT((n) & 0x7)
-> > > > +
-> > > > +struct adp5585_regs {
-> > > > +	unsigned int debounce_dis_a;
-> > > > +	unsigned int rpull_cfg_a;
-> > > > +	unsigned int gpo_data_a;
-> > > > +	unsigned int gpo_out_a;
-> > > > +	unsigned int gpio_dir_a;
-> > > > +	unsigned int gpi_stat_a;
-> > > > +	unsigned int pwm_cfg;
-> > > > +	unsigned int pwm_offt_low;
-> > > > +	unsigned int pwm_ont_low;
-> > > > +	unsigned int gen_cfg;
-> > > > +	unsigned int ext_cfg;
-> > > > +};
-> > > > +
-> > > > +struct adp5585_info {
-> > > > +	const struct mfd_cell *adp5585_devs;
-> > > 
-> > > Okay, we are never doing this.  Either use OF for platform registration
-> > > or use MFD (or ACPI or PCI), but please do not pass MFD data through OF.
-> > 
-> > When I upstreamed the initial driver, I modelled the different functions
-> > through child nodes in DT, with a compatible string for each child. I
-> > was told very strongly to remove that. We have therefore no other choice
-> > than constructing the name of the cells based on the model of the main
-> > device.
+On Mon, Apr 21, 2025 at 06:12:38PM +0800, Chen-Yu Tsai wrote:
+> This is v2 of my "component probe for Corsola devices" series.
 > 
-> It's okay to add this information statically in this driver.  It's not
-> okay to then pass it through the OF API.  You can pass an identifier
-> through the .data attribute to match on, but we are not passing MFD cell
-> data through like this.
-
-Sorry, I'm not following you. What's the issue with the .data field
-pointing to an instance of a structure that lists properties related to
-the device model ?
-
-> > > > +	const struct regmap_config *regmap_config;
-> > > > +	const struct adp5585_regs *regs;
-> > > > +	unsigned int n_devs;
-> > > > +	unsigned int id;
-> > > 
-> > > What ID is this?  We already have platform IDs and MFD cell IDs.
-> > 
-> > That's the value of the hardware model ID read-only register, it is used
-> > as a safety check to verify that the connected device corresponds to the
-> > compatible string.
+> Changes since v1:
+> - Reworded commit message for Elan I2C-HID binding change
+> - Dropped I2C address constraint from Elan I2C-HID binding completely
+> - Dropped enum from new compatible string entry in Elan I2C-HID binding
+> - Picked up Rob's ack on two binding changes
+> - Rebased onto next-20250417, resolving conflicts with "spherion
+>   component prober" changes
+> - Link to v1:
+>   https://lore.kernel.org/all/20250312104344.3084425-1-wenst@chromium.org/
 > 
-> I suggest changing the nomenclature to be more forthcoming.
-> 
-> 'model', 'version', 'hwid', 'chipid', etc.
-> 
-> Why is it being stored?  Is it used to match on at a later date?
+> [...]
 
-The adp5585_info structure contains static information the describe each
-device model. There's one global static const instance per device model,
-and they are referenced from device id structures (e.g. of_device_id).
-The driver gets an info pointer corresponding to the model reported by
-the platform firmware (e.g. DT). It reads the device ID from the device
-at probe time, and compares it with the value stored in the structure as
-a safety check to ensure there's no mismatch.
+Applied to
 
--- 
-Regards,
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
-Laurent Pinchart
+[7/8] platform/chrome: of_hw_prober: Support trackpad probing on Corsola family
+      commit: 73d32c3e74e1bd679617b9b9c06d806dedd7c055
+[8/8] platform/chrome: of_hw_prober: Support touchscreen probing on Squirtle
+      commit: fb8bfb48a4d11efb9b3e492d7c5e9ae7478786ce
+
+Thanks!
 
