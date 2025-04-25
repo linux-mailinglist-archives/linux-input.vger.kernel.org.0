@@ -1,130 +1,125 @@
-Return-Path: <linux-input+bounces-12008-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12009-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49492A9D202
-	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 21:41:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A05A9D3B1
+	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 23:01:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E15B99E1EC1
-	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 19:40:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BCAEE16E030
+	for <lists+linux-input@lfdr.de>; Fri, 25 Apr 2025 21:01:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A76521D011;
-	Fri, 25 Apr 2025 19:38:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E94721CC49;
+	Fri, 25 Apr 2025 21:00:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="C+Rdr/oo"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="SIq5p77C"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878D1219313;
-	Fri, 25 Apr 2025 19:38:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27DC7FBA1;
+	Fri, 25 Apr 2025 21:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745609905; cv=none; b=RJkCCWtQbTHW5iG8Nht5ylDWcurQ3rtGeCF+deZTfjAwgGZEcGXOFYbsuCoKtiSShRINF33YKQM/PdhxEQMnwWj1gT0VAwHS9bAl5E+BCS8PoMtWSX2WVf90RjJwaOcSwSv6NeN8vbU/DAH51qsGOd8OJF0dwguotg5hP7hz0TQ=
+	t=1745614857; cv=none; b=RSeU2ugYZR0S9cWuZhXBbinu5RDSdjLT57wG+ruZeFc0eeUWzKS866Q6hsmRDaqMLJSP60NccEeiThF5Ssn4c/wLJkj7NZc4mXP6ozp1wZwGtS6gTXkRJ7eBpldha8Aleq1oIjl0NYYc/qnhlQN8EQKnQIcnO+4jeaxp7Qn92k4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745609905; c=relaxed/simple;
-	bh=wjYY8hD1aR6U/hYht1xTDSyyUul+5U2cO03JezuRPjo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vEWmgvDpDPkBUf8jmpy/uw0O1MD+IPBri652szM5dLGoa947zRNV08gL4TvyxdoLCasdoLDJX98a/YVQwz2U9uL574fzbVPlcULr3DAI19rFAKhpm1YYwCsYTQevUWC4EUlq/Ux0yDjVNV9LkF7ZJnIGnN4Rg2fA6nx4UUxwur4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=C+Rdr/oo; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from [IPV6:2601:646:8081:1f93:3f9b:137e:d2cb:73f7] ([IPv6:2601:646:8081:1f93:3f9b:137e:d2cb:73f7])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53PJXQqR3199422
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 25 Apr 2025 12:33:27 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53PJXQqR3199422
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025042001; t=1745609615;
-	bh=OLByDl2k8QS7+vMeXGAQllfp+4VYlTCCje7Ox6Pfa4g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=C+Rdr/oohHcjiYl3k1s0a/jc7dixN5R0Mv5Px2j8kDdwJbPFLv4mJw8by+4Oto+F1
-	 tveW9WpgN8ttlpQLpdXcxTyaag9b/7TVjdH+TFVTrbHGQKwFJgak240662L863NwH8
-	 vgd5rhQsraf4buOHAZcbX5elWx80ZG9egeLnGj+ScCeWi6QGr1XXyAHAVnHwSmGqjn
-	 GkUO/NnNKAj8Q2mW/Ez/Vn8NVAPQB+fwhPjMvNjg1RQgr6hZA7HmxZl5MiRxUlxIY9
-	 uDj0XpVrhXq3zSB+OYJgYqNwOTX2giqyzWvO0pM/qCL4rFHYBzL4YJWj3wXsa2EaH3
-	 7hq16GNhLhdyg==
-Message-ID: <8571fd6f-4e71-4a6d-b2e8-16d9d72fa56e@zytor.com>
-Date: Fri, 25 Apr 2025 12:33:21 -0700
+	s=arc-20240116; t=1745614857; c=relaxed/simple;
+	bh=py4Mr8ZhYttK82+/VOKKCG8+er46k3cOwQkiGy7ZSqo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bN88YVPh4RvlAhyr8g7ATCvt9doySL5GSfYwj4qf4nK36qEQzaf2aV/jaxztlR4p3rQApwh659Sq2UwAwK9P+Ul2dRGgHdZrcUnW+z0Z1ub5GAzwtHGnHE5owgHRXZpp5wnu0sXVAAhkoYiR3q9D+1IDnYnOrFjpE2RJbsl7ngQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=SIq5p77C; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from wse-pc.fritz.box (host-88-217-226-44.customer.m-online.net [88.217.226.44])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 197112FC0052;
+	Fri, 25 Apr 2025 23:00:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1745614845;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=L693lwnxdntwJ9NnwBHhT2YiPwQuMglplqIIMjIpokk=;
+	b=SIq5p77CD5Su1ClFFvcOijC3zFSqEIvay+35Qlb4J2hyQRxCUxhCsiJaUuRgFLvlakznOw
+	FoHKCCqmxsHd92g20Rq5jmuauzI85ldkTARHwfSfHfr476A7dvjkLMIoDsqu7oQgvB3ObI
+	Efgp1qFAl8+lJRKRF0SpomlZ1t/zBeU=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	Werner Sembach <wse@tuxedocomputers.com>
+Subject: [PATCH v9 0/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO NB04 devices
+Date: Fri, 25 Apr 2025 22:53:28 +0200
+Message-ID: <20250425210043.342288-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/13] Introduce parity_odd() and refactor redundant
- parity code
-To: Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: Yury Norov <yury.norov@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
-        andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-        dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
-        hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
-        vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
-        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-        parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
-        johannes@sipsolutions.net, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, akpm@linux-foundation.org, jdelvare@suse.com,
-        linux@roeck-us.net, alexandre.belloni@bootlin.com, pgaj@cadence.com,
-        alistair@popple.id.au, linux@rasmusvillemoes.dk,
-        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-        jernej.skrabec@gmail.com, kuba@kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-        oss-drivers@corigine.com, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-        brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-        bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw, Frank.Li@nxp.com,
-        linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
-        david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
-        Yu-Chun Lin <eleanor15x@gmail.com>
-References: <20250409154356.423512-1-visitorckw@gmail.com>
- <Z_amQp3gK5Dm8Qz3@yury> <Z/a5Qh/OeLT8JBS4@visitorckw-System-Product-Name>
- <Z_a9YpE46Xf8581l@yury> <e97a83a2-dabd-4dc3-b69a-840ca17d70b5@zytor.com>
- <Z/lEkDwefWvw4ZA3@visitorckw-System-Product-Name>
-Content-Language: en-US
-From: "H. Peter Anvin" <hpa@zytor.com>
-In-Reply-To: <Z/lEkDwefWvw4ZA3@visitorckw-System-Product-Name>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 4/11/25 09:34, Kuan-Wei Chiu wrote:
->>
->> In either case, instead of packing the cascade into one function, make good
->> use of it.
->>
->> In the latter case, __builtin_constant_p() isn't necessary as it puts the
->> onus on the architecture to separate out const and non-const cases, if it
->> matters -- which it doesn't if the architecture simply wants to use
->> __builtin_parity:
->>
->> #define parity8(x)  ((bool) __builtin_parity((u8)(x)))
->> #define parity16(x) ((bool) __builtin_parity((u16)(x)))
->> #define parity32(x) ((bool) __builtin_parity((u32)(x)))
->> #define parity64(x) ((bool) __builtin_parityll((u64)(x)))
->>
->> As stated before, I don't really see that the parity function itself would
->> be very suitable for a generic helper, but if it were to, then using the
->> "standard" macro construct for it would seem to be the better option.
->>
->> (And I would be very much in favor of not open-coding the helper everywhere
->> but to macroize it; effectively creating a C++ template equivalent. It is
->> out of scope for this project, though.)
->>
-> IIUC, you prefer using the parity8/16/32/64() interface with
-> __builtin_parity(), regardless of whether there are users on the hot
-> path?
+Note that I'm away from my work PC for the next week so expect my next
+response the monday after.
 
-As a per-architecture opt-in, yes.
+v2: - Integrated Armins feedback and fixed kernel test robot warnings.
+v3: - Fixed borked subject line of v2.
+v4: - Remove unrequired WMI mutex.
+    - Move device checking from probe to init.
+    - Fix device checking working exactly reverse as it should.
+    - Fix null pointer dereference because,
+        hdev->driver_data != hdev->dev.driver_data.
+v5: - Move everything to subfolder nb04 in preparation for the eventual
+        upstreaming of other tuxedo-driver parts.
+    - Integrated Ilpos coding style feedback.
+    - Use dev_set/get_drvdata() based on Armins feedback.
+v6: - Integrated more of Ilpo coding style feedback from a different LKML
+        patch-thread (less files, local functions prefixed with a short
+        string).
+v7: - Integrated more of Ilpos feedback e.g.:
+        - Use cleanup.h
+        - replace some if cases with a pointer in driver_data
+        - coding style oversights
+v8: - Integrated more of Ilpos feedback
+    - Typo fix spotted by Alok
+v9: - Introduce lamp_rgbi_tuple_t to group some values
+    - Introduce LAMP_MULTI_UPDATE_REPORT_LAMP_COUNT_MAX to not manually set
+      a fixed number at multiple places
+    - Move lamp_multi_update_report initialization in
+      handle_lamp_range_update_report out of the loop again as a small
+      performance optimization as the unused entries do not actually be
+      zeroed (I mixed up the spec of this devices wmi interface and the HID
+      spec)
 
-	-hpa
+Werner Sembach (1):
+  platform/x86/tuxedo: Add virtual LampArray for TUXEDO NB04 devices
+
+ MAINTAINERS                                 |   6 +
+ drivers/platform/x86/Kconfig                |   2 +
+ drivers/platform/x86/Makefile               |   3 +
+ drivers/platform/x86/tuxedo/Kconfig         |   8 +
+ drivers/platform/x86/tuxedo/Makefile        |   8 +
+ drivers/platform/x86/tuxedo/nb04/Kconfig    |  15 +
+ drivers/platform/x86/tuxedo/nb04/Makefile   |  10 +
+ drivers/platform/x86/tuxedo/nb04/wmi_ab.c   | 923 ++++++++++++++++++++
+ drivers/platform/x86/tuxedo/nb04/wmi_util.c |  91 ++
+ drivers/platform/x86/tuxedo/nb04/wmi_util.h | 109 +++
+ 10 files changed, 1175 insertions(+)
+ create mode 100644 drivers/platform/x86/tuxedo/Kconfig
+ create mode 100644 drivers/platform/x86/tuxedo/Makefile
+ create mode 100644 drivers/platform/x86/tuxedo/nb04/Kconfig
+ create mode 100644 drivers/platform/x86/tuxedo/nb04/Makefile
+ create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_ab.c
+ create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_util.c
+ create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_util.h
+
+-- 
+2.43.0
 
 
