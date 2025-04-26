@@ -1,171 +1,167 @@
-Return-Path: <linux-input+bounces-12011-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12012-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873B4A9D932
-	for <lists+linux-input@lfdr.de>; Sat, 26 Apr 2025 10:02:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D17FA9D944
+	for <lists+linux-input@lfdr.de>; Sat, 26 Apr 2025 10:15:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C09E01BC7924
-	for <lists+linux-input@lfdr.de>; Sat, 26 Apr 2025 08:02:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6A69E922957
+	for <lists+linux-input@lfdr.de>; Sat, 26 Apr 2025 08:15:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F9241CAA98;
-	Sat, 26 Apr 2025 08:02:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BAF2193086;
+	Sat, 26 Apr 2025 08:15:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gehealthcare.com header.i=@gehealthcare.com header.b="DnT/rlz5"
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="FiOHQD92"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2085.outbound.protection.outlook.com [40.107.220.85])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B6C86348;
-	Sat, 26 Apr 2025 08:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745654548; cv=fail; b=HwWiCCVKPky3FinEfhvYknc2vDsecUiQ/lEZtKGyUrK4JHc/+O/BkYblwVEHLgj91U+bTExpJ4EJvPEyfWPha04sWLaWQJy0xOPJKf7q/CbhYP4lTwNjmTCLDiO6s9gHfe6XCdUmVkCgytvkmrgivRWdnjWy+oiwEwojdsQGAE8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745654548; c=relaxed/simple;
-	bh=U+8FP/x9LZle2iCgbYh1dEAD3pb/exuq8lkYcBj1G4g=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A728C1A256E;
+	Sat, 26 Apr 2025 08:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745655322; cv=none; b=r3A37zDF1K8RpZ/bekoCE7wlbrNQZnkaBN3+1uOZ4xi8UvXOOnmU1S2HPumgVWdLJK7ZG4gb7ogxuxRHeEZj6JVbT/Z6QOO+8nvUkyzB2uwNMuAq3lWAzTHEkV1RYvDWAFibk2keNHs7NZMX9+ucdThcqV6Bex+5r3M+UefDvYc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745655322; c=relaxed/simple;
+	bh=7hCpdRrHPG5AnrvBhsmUCpwkT+h/yAAlPnblQqDEZqs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T/987j0milhU6KTJmFH5X86iV4R7uVyQu1c4HdcZg6j5AH0CbDBI97IRsJDw5S3jn7giTiZXr2OwHS9043P1lbwDqhxMDZTXnZVBHvCRMcn/Q/1fpTHzocXShF6rYrmFZGq/UYZFKASWJG1YOiSiPOvumrD/hXRLDyCzCAdfODw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gehealthcare.com; spf=pass smtp.mailfrom=gehealthcare.com; dkim=pass (2048-bit key) header.d=gehealthcare.com header.i=@gehealthcare.com header.b=DnT/rlz5; arc=fail smtp.client-ip=40.107.220.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gehealthcare.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gehealthcare.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MAyHeJVsxD2h5TJ9fRF2FFgTYIfNW9KeD0uZgY5dy1iHAN544FETYN99/GOZPJuk86D7ZcR48IxxKbmUnIN8ciM676uGQsBiq7LFnU8zMvTAKKyXSZkBvAn9ETCpykJGVCJy6vFihsT5CITlBtq0UR7lHhCXtG9mCaVuqyxpUX3rsXZtCrfzvAjY+YbqtKviwPzeQT+/dRZEKraZjr9WOKFHf12zKm3CC/ECyLv+CHvNs7NRpt/dbeXIZdyoCVVYkidSjRoHIqNfriVs9kJIdD0S+lAEiy0hb9407iYW9lKpbhAwL67ovyfe47BsmHWCJyRRakKO+p7qkS3coKvQaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l9iKqXQnkMA6z5k7QiSf/jiqjOgw71113zOXIOODwtE=;
- b=NSF+3x9isyeiWK8GcCu3Fg1A/4qAFlxn7IJsO/EXqYWuxFhOIjWXjK54ZaCez1FRQactUhs6SidP2egDekDbTk3VYaTK7lsWKiCMqwwFnmAGST3su4QvF3BKWv8acCwe1CCMf0d6ZgKLjw8YIPPIvndSiRP0UBgfCFfzb42lzuxmkx2xvy+35HpqJkDpAPHT6BJhVmviIFAKCAl2pNmfuaWExLJEDWt/H9toeHdiIJ5456xhFGjJcWThbWjhWkkE1MZ+MYlQMo4GraULv84YqkDLqB2VM+Sf5QQBZX7GMJTdONb6SL1sJyePuuvkja8PmjnpqhFz/x6ZIhZaqs7Jmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 165.85.157.49) smtp.rcpttodomain=vger.kernel.org
- smtp.mailfrom=gehealthcare.com; dmarc=fail (p=quarantine sp=quarantine
- pct=100) action=quarantine header.from=gehealthcare.com; dkim=none (message
- not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gehealthcare.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l9iKqXQnkMA6z5k7QiSf/jiqjOgw71113zOXIOODwtE=;
- b=DnT/rlz51BDfYf8pF24YA97t+FVPriFbQB0JM80AlW5s41xzuHiaVYD9jkZqiV2SkucqoLSrT51SpX36w6aPBbXhVUmQ1uXbMAd6h5fWPPMWSFvEmMDCjwA/3iSPKhlreHxNzQ1i/1Fn6H7sT6zMNqXIEjVi8W+do/IIYyNAMK7noprL9sfRTgO8O2HoXZy1RWcCQfuGeJmFf9lQKbrj/4E8b9mckjHDX0bMT+hcLH+FfoMs2aRcKVmFjRJO+GTjp+MpYh4ZeG5S2WX642ZEiqevR0ju6QplJPMh8Azg7msSCACo87ynVc/mm8qy14dyu8oq1g1PBSEyxZokfNGa1w==
-Received: from DM6PR02CA0058.namprd02.prod.outlook.com (2603:10b6:5:177::35)
- by EA2PR22MB5357.namprd22.prod.outlook.com (2603:10b6:303:250::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.27; Sat, 26 Apr
- 2025 08:02:23 +0000
-Received: from DS2PEPF0000343F.namprd02.prod.outlook.com
- (2603:10b6:5:177:cafe::1b) by DM6PR02CA0058.outlook.office365.com
- (2603:10b6:5:177::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.37 via Frontend Transport; Sat,
- 26 Apr 2025 08:02:23 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 165.85.157.49)
- smtp.mailfrom=gehealthcare.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=gehealthcare.com;
-Received-SPF: Fail (protection.outlook.com: domain of gehealthcare.com does
- not designate 165.85.157.49 as permitted sender)
- receiver=protection.outlook.com; client-ip=165.85.157.49;
- helo=mkerelay2.compute.ge-healthcare.net;
-Received: from mkerelay2.compute.ge-healthcare.net (165.85.157.49) by
- DS2PEPF0000343F.mail.protection.outlook.com (10.167.18.42) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8655.12 via Frontend Transport; Sat, 26 Apr 2025 08:02:23 +0000
-Received: from adaf8b6b5b83 (zoo13.fihel.lab.ge-healthcare.net [10.168.174.111])
-	by builder1.fihel.lab.ge-healthcare.net (Postfix) with SMTP id B98B3CFB47;
-	Sat, 26 Apr 2025 11:02:20 +0300 (EEST)
-Date: Sat, 26 Apr 2025 11:02:20 +0300
-From: Ian Ray <ian.ray@gehealthcare.com>
-To: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] Input: snvs_pwrkey - add configurable force
- shutdown time
-Message-ID: <aAyTDCEW47LzAxHR@adaf8b6b5b83>
-References: <20250315093455.1100-1-ian.ray@gehealthcare.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=GKwiuK/LLUO55Yw0lu8ySL8lwRUFisVTPicwYfpInDMnltjeqnIWJ69zpSwWe6TFdHv9Ou9ueaQvxLbEZfc4iI3TfWId6TpyJ1S8FS+NnAl8KQc+JqXDpHjklWD5ZtZl+KKNhfWgqKOtfE1TgXxugJWZqveEq/1bYSqZOg7SSE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=FiOHQD92; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id A08B91C00B2; Sat, 26 Apr 2025 10:15:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1745655316;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k53jycQ1Z1Eu66/LQMNEr9yLtX94D7f7ZDVDMYc63pY=;
+	b=FiOHQD92UDWxgvy+h8JIRPjndClKxi/cQcGvDS8O8GUrf2YR/o3mh7/4pHG2/t3HQZzMu6
+	xJlhRjqiltiNVV5QsxpT9E3mTgsjGE+ogMsug8ZAHTPLcoyJ9wHmvTtVCrcBy9cRzs+6K7
+	adcerje2Cq0OTBU0rgDxcCM0p0Y+uDA=
+Date: Sat, 26 Apr 2025 10:15:16 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Mario Limonciello <superm1@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:AMD PMF DRIVER" <platform-driver-x86@vger.kernel.org>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Armin Wolf <W_Armin@gmx.de>
+Subject: Re: [PATCH v4 1/2] Input: Add a Kconfig to emulate KEY_SCREENLOCK
+ with META + L
+Message-ID: <aAyWFI+o/kU9hDVs@duo.ucw.cz>
+References: <20250425162949.2021325-1-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="i07FpDtmzUu2qUCx"
+Content-Disposition: inline
+In-Reply-To: <20250425162949.2021325-1-superm1@kernel.org>
+
+
+--i07FpDtmzUu2qUCx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250315093455.1100-1-ian.ray@gehealthcare.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF0000343F:EE_|EA2PR22MB5357:EE_
-X-MS-Office365-Filtering-Correlation-Id: 99594bad-9c64-4d94-038a-08dd8498ad42
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?9Iu10ODDjkbNfZ/0pJ7700vOK/wyMIUHN7Q9pkE3vDPKKYGJZEQYh8Tz2kUF?=
- =?us-ascii?Q?O5Y+ATfqbvFZKSwqkldp1G74W7Ql3euXhVmUq+kOV1CqYFscQOBaSY4SmPJZ?=
- =?us-ascii?Q?OVku4OJLBobFvfvAqKXmAlbcT2POrBDD76ksgsWdrcfa5EMRc08QLy0H5SeM?=
- =?us-ascii?Q?azAuOWLTkwcQ8VTLKrVyp+eIpd7J9wpVwEP+rWWPQCkD28IwPsgGCbdRoSO9?=
- =?us-ascii?Q?uMOinWXSeoTuUwG+whcV4ZUZV4XY8HiWmFHHOg7cZz4fyzo8WVagrIKp4esy?=
- =?us-ascii?Q?sXl8zoz4+B9lBlcIyupDjEgaU6+60p0rU4G5uRgk7k0ykwUUACJr/12PQM5F?=
- =?us-ascii?Q?CypONAJVMFLziUHQqhcEfcFPKj6mCjfZgdnnp8J78aM0+oo9QmDJFYiDY7W8?=
- =?us-ascii?Q?Wh3qQ33fOpiTFucYTXGFWgcgZi1X5i3rt87L9awh0vb67YyB7ctVxX/v/9YO?=
- =?us-ascii?Q?LL16hLzFf57N7HlSH39hcX/SJknTO0Bpb0ZZBVPnrLvgLL8requlWP3RnxRM?=
- =?us-ascii?Q?Itf4XKryOUCvfHgrGJe0qC3bLN2JrszbNasYngUPasGwR6wJ5thRYdEckhfa?=
- =?us-ascii?Q?zqzhJKHqrMam+CyGFmbMf3p1ZcgKrMjws/cqGXiecLFonJSoOpz5LzLItvqR?=
- =?us-ascii?Q?0MTdH2SezUMsMqRDW9tLGzGSXzd8EshB629C5G6tedbvhtuV51QK/0rCl/gg?=
- =?us-ascii?Q?8SXtDkFijAT3ZekUxm93qeyRhhbQy3qYAP8nq4p0SjzK1I8hIoenTNLHT+3y?=
- =?us-ascii?Q?zel89ykjW2wCAp3zt8u92gegwuWmh3j4rtFVRd69PsJfaxxsTfy/cy2uy5n3?=
- =?us-ascii?Q?hSgWpH09+0GE3cV23e+GsiblFrTWn4KwC4w+CYkl6U4Sj5FkR49BVGYkodlp?=
- =?us-ascii?Q?cll/YsPbxnla+0klE3xPXNxjRx/Y7OfXjEseTj+T+L2UCxG2dkxlS5mUpdoF?=
- =?us-ascii?Q?w7sT3gVl58B3cu38AHcOr4mkBAEDmf3Ir9VKTygvHL7FkPg+kjIXr/X7Fb/B?=
- =?us-ascii?Q?aiURKQrKIRXHCWl9aqH2LA4fOmrARwpOquAQr0IdpkYJMXJxuyezGxLmTk+9?=
- =?us-ascii?Q?NHdYiQj3FksAKQv+fHrri74rIsYWppsaBbA82K/7cTq8m671F4YJx/kTS41O?=
- =?us-ascii?Q?jQNmoZBCzfe3hr92A4l0xj58x5ls+VKYPMJXnhuRaNFqY5CaRnlUcE3AGMXN?=
- =?us-ascii?Q?Ypxa9TWEtVUihfThFWP6O7jMuz541TVpp8QDGRWKqnFtPNPIa9/yDtlu+pfb?=
- =?us-ascii?Q?XkA1iRbZ0m4oFqe8T/7c6Hh487tFGvw/nOZdQ6LUK6Mx5TOYfkExZfZ9ritc?=
- =?us-ascii?Q?Et0NobcqSYZKvFWDWmi7p0onv4PMVWnUXerSzXQzTFi8Fnu3/U49LespPLil?=
- =?us-ascii?Q?R3Qfr1mDSazGar5bjDHtJupIVazi5awFCh/uCyjiiKmNcKJBilT41A6CbEww?=
- =?us-ascii?Q?SMUFsNFycfnwd0LHwf7XMknKiKKi2xjrlu5VsjtqAhz7mLut4U/UYFUFj4Hh?=
- =?us-ascii?Q?VWuqW7Ca51/rLq1JTUDK1Pz5l9NNq0nyiPXW?=
-X-Forefront-Antispam-Report:
-	CIP:165.85.157.49;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mkerelay2.compute.ge-healthcare.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: gehealthcare.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2025 08:02:23.0679
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99594bad-9c64-4d94-038a-08dd8498ad42
-X-MS-Exchange-CrossTenant-Id: 9a309606-d6ec-4188-a28a-298812b4bbbf
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=9a309606-d6ec-4188-a28a-298812b4bbbf;Ip=[165.85.157.49];Helo=[mkerelay2.compute.ge-healthcare.net]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS2PEPF0000343F.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: EA2PR22MB5357
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 15, 2025 at 11:34:53AM +0200, Ian Ray wrote:
-> PATCH 1 - update binding
-> PATCH 2 - add support to driver
+On Fri 2025-04-25 11:29:48, Mario Limonciello wrote:
+> From: Mario Limonciello <mario.limonciello@amd.com>
+>=20
+> In the PC industry KEY_SCREENLOCK isn't used as frequently as it used
+> to be. Modern versions of Windows [1], GNOME and KDE support "META" + "L"
+> to lock the screen. Modern hardware [2] also sends this sequence of
+> events for keys with a silkscreen for screen lock.
+>=20
+> Introduced a new Kconfig option that will change KEY_SCREENLOCK when
+> emitted by driver to META + L.
 
-Hello there,
+Fix gnome and kde, do not break kernel...
+									Pavel
 
-Would there be any more comments?
+> =20
+> +config INPUT_SCREENLOCK_EMULATION
+> +	bool "Pass KEY_SCREENLOCK as META + L"
+> +	help
+> +	  Say Y here if you want KEY_SCREENLOCK to be passed to userspace as
+> +	  META + L.
+> +
+> +	  If unsure, say Y.
+> +
+>  comment "Input Device Drivers"
+> =20
+>  source "drivers/input/keyboard/Kconfig"
+> diff --git a/drivers/input/input.c b/drivers/input/input.c
+> index dfeace85c4710..983e3c0f88e5f 100644
+> --- a/drivers/input/input.c
+> +++ b/drivers/input/input.c
+> @@ -370,6 +370,13 @@ void input_handle_event(struct input_dev *dev,
+>  	}
+>  }
+> =20
+> +static void handle_screenlock_as_meta_l(struct input_dev *dev, unsigned =
+int type,
+> +					int value)
+> +{
+> +	input_handle_event(dev, type, KEY_LEFTMETA, value);
+> +	input_handle_event(dev, type, KEY_L, value);
+> +}
+> +
+>  /**
+>   * input_event() - report new input event
+>   * @dev: device that generated the event
+> @@ -392,6 +399,12 @@ void input_event(struct input_dev *dev,
+>  {
+>  	if (is_event_supported(type, dev->evbit, EV_MAX)) {
+>  		guard(spinlock_irqsave)(&dev->event_lock);
+> +#ifdef CONFIG_INPUT_SCREENLOCK_EMULATION
+> +		if (code =3D=3D KEY_SCREENLOCK) {
+> +			handle_screenlock_as_meta_l(dev, type, value);
+> +			return;
+> +		}
+> +#endif
+>  		input_handle_event(dev, type, code, value);
+>  	}
+>  }
+> @@ -2134,6 +2147,13 @@ void input_set_capability(struct input_dev *dev, u=
+nsigned int type, unsigned int
+> =20
+>  	switch (type) {
+>  	case EV_KEY:
+> +#ifdef CONFIG_INPUT_SCREENLOCK_EMULATION
+> +		if (code =3D=3D KEY_SCREENLOCK) {
+> +			__set_bit(KEY_L, dev->keybit);
+> +			__set_bit(KEY_LEFTMETA, dev->keybit);
+> +			break;
+> +		}
+> +#endif
+>  		__set_bit(code, dev->keybit);
+>  		break;
+> =20
 
-Thanks,
-Ian
+--=20
+I don't work for Nazis and criminals, and neither should you.
+Boycott Putin, Trump, and Musk!
 
+--i07FpDtmzUu2qUCx
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> Changes since v2:
-> * Fix dtbs_check (thank you, Krzysztof, for pointing this out)
-> 
-> Changes since v1:
-> * Drop binding
-> 
-> Ian Ray (2):
->   dt-bindings: crypto: fsl,sec-v4.0-mon: Add "power-off-time-sec"
->   Input: snvs_pwrkey - support power-off-time-sec
-> 
->  .../bindings/crypto/fsl,sec-v4.0-mon.yaml     |  5 +++++
->  drivers/input/keyboard/snvs_pwrkey.c          | 22 +++++++++++++++++++
->  2 files changed, 27 insertions(+)
-> 
-> -- 
-> 2.39.5
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCaAyWFAAKCRAw5/Bqldv6
+8uhKAKCjfvAZFk7Uua0kfLuXA45ZnzJbnQCcD/rUkXDBqsEQKK8A86UKF0DFdzA=
+=OY5R
+-----END PGP SIGNATURE-----
+
+--i07FpDtmzUu2qUCx--
 
