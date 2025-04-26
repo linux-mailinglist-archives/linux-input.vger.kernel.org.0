@@ -1,160 +1,158 @@
-Return-Path: <linux-input+bounces-12015-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12016-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33DAAA9D9A5
-	for <lists+linux-input@lfdr.de>; Sat, 26 Apr 2025 11:14:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9753A9DAD9
+	for <lists+linux-input@lfdr.de>; Sat, 26 Apr 2025 15:00:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 850DA3B56BC
-	for <lists+linux-input@lfdr.de>; Sat, 26 Apr 2025 09:14:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B099E1BC0AD7
+	for <lists+linux-input@lfdr.de>; Sat, 26 Apr 2025 13:00:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C088D24EAB9;
-	Sat, 26 Apr 2025 09:14:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C30A3AC1C;
+	Sat, 26 Apr 2025 13:00:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="baMaB2TE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SSiYylpS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9D91C36;
-	Sat, 26 Apr 2025 09:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF4F12B73;
+	Sat, 26 Apr 2025 13:00:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745658883; cv=none; b=PfjN9q7+Sum2uGRPAsJKSXpZIl+Xd7//hrZHbb0KVZ6s7MugpcstRYqtuUspBi48q035F8r6JJUpKG4OsGPrkQ4VeWLPhw2vIPx9D4+LkwrpmXugqFv3RImBi/+jNFweQuSWKCJtfyXQUzCD1+741e6HV3i6UUTGUKs6ikimQFc=
+	t=1745672416; cv=none; b=At8aoJt8vhSaMMlKEkaLT79RtCSjB0Tcwrs/N1sSWnJ+JcziABCsi7aDtDvZPuz+KTJb+dmOqjnzOHDzj6wImy6Nr/CYGAAPXvR/6hV/L0AYuussT6TtMxSHu6gRd/Ytig7hvwRBgYMWti/9ltQsA/PKbPcpozRRuRmDOy9y2yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745658883; c=relaxed/simple;
-	bh=ajA2/KThvOLmdGQMQlMZ8JSc3s7TdqFCTO4mxSXZP2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bWfBx05yVWw5DGWEceUyIj9Qe29A1yxv6ETxf+Z7Uc1qFsceOCmAoJDxEx0gM8CDt0P6HSY0izNe6/+xe5DE1jo88XmbRJNuhNAZjM8FU0vnlPDWLm31+TGbvtkpD68jO6FkyTlt5pjsw/9K0ygqu+O837fR94kJHoa5gaX2GFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=baMaB2TE; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-7376dd56eccso3383664b3a.0;
-        Sat, 26 Apr 2025 02:14:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745658881; x=1746263681; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dpw6EJump0TSOrBYBam8lLy7cnOl6Tzi7s2IdyQv1Eo=;
-        b=baMaB2TELWaNJ+72R5Y0/2CcMD+vTQDoO5alQ9SD7HHMjv8TEso9p6i5BZV3GoKmRz
-         PW2/dD8d+Ab+8WNQEo3TqNUWg4Bd2m1PAqwY0QDBmMSbtXs7mWfYVvcILfXmN/NaC87R
-         KUY+qKogKD4N40rQe+2G/GbS+ZRzMwe6rgkydDP8A+SkJ14hAbRYTvTuz1cmZ+8CfnS3
-         KePlJoih4lDtBA9m8FbgABqn4RsIttUhhvmjGMrzHuL4NnvPTgXqu2x2wN3zbqUuJ2mQ
-         tYonrB1gItZuNPs6pgrsXpBIcyDVia2FMradrNnFC6wBC3fc3nFwONC1dHAtV5hGz1Pt
-         ffkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745658881; x=1746263681;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dpw6EJump0TSOrBYBam8lLy7cnOl6Tzi7s2IdyQv1Eo=;
-        b=LXD1xOUqjFHbItrm/xdFH5zVZJ8+St6JuaAJpGv1lUr1hIqJprvbJoAUpsLzUBlWrW
-         3RZUQONwoQt5KeP2aIJCrrTqR/xvpHwQunZ3vSztZSNk1xN2Z3KEvgYesYBAlGMOAMdm
-         2q+DS5UpzbwhT/H66OwqBQ1vyc2J/sqwgP+cmc90cuQ0jAipqfJlGrcv7LAJmoUumehO
-         Gcs+SDRGoubh4MtxHVCmmCn3ALbchaSdByG8njuN6Av35/obvZQ1hecLkYGA3B3QINxN
-         f40OG62+iJu+CE6//nnrYxFkN5SoPDBOAul5wfX/vP+ravajLk+/OQzXvBrkW8E0UGzg
-         z89g==
-X-Forwarded-Encrypted: i=1; AJvYcCUHmL3MRTyYH53zJFe/FhMjs8CZ5eH/cTRDHpJhh+zy+kRfrMQAJ/69rBJ9vcc0D/qCBQZcutkMITJDGTN4@vger.kernel.org, AJvYcCUO9jFbvNWjMknO+qYdcoau2GLV2IQ5vQm7lBUSPqvS6tLfV6OFY1PzdfIVZkyu8aaX5IcQvFgQ@vger.kernel.org, AJvYcCUmd4TUIeNWuF+Q2w3tLWqIPGamN2dNRcAvVHsA1sOhgBT2MW/U821B23VGxUmzCYjbK39wZmantsruUyc=@vger.kernel.org, AJvYcCV1wffdBc8IUd/bf/uNLA2GIG5CSBVcWe5c8tdaAvROagmS6uGGD3bFlR0Jd72P4vDcZSlKSE3AYoSVweQ=@vger.kernel.org, AJvYcCVGl+JkgkKgU8T8EmZcg2A0Nfx2z3yeX4V1HOyZGhb/rsUwgD/6MY45W7EPNEuHvWB0lIiYFkOdLvyEYiM8hto=@vger.kernel.org, AJvYcCVvn79c+RkbUr3SC5Xe6rPXRemTpf7Y/8O4c2YrBFF5T3/I1OeIX2N8gZS2Fpli2tFXIfw=@vger.kernel.org, AJvYcCW6g7RQE8FGKLeSdrXZTFQFx/6kCbL+5MhDOIaoUyofezzQHryrdnIyzwNmOCxPfoQFr9CaeabIhfLaz4sL@vger.kernel.org, AJvYcCXdna5tYEyZPZUZzQ4M+eDzjKLPKABxy2rus/XGxcZeF7mImgw/YGOO4DminwC3/1C9hzGA4qPNu0K7Vqo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy19PXovEmwjPh5CceM33CLQCN9uRdvC0SFT0VY2UW3HXc9Wv1U
-	3EiAP3D/inaCfGXiNNL3TeMeQTdth26A4Dk/mNO/e88ntO4da4hx
-X-Gm-Gg: ASbGncvfkEqpBZOp6NmoidGmlOg/H6Alef5TOOMeFS3BhqEg/xm6stFwQ2Fg1o+sS6L
-	0iaG4xBzrNjQIfmYgh92t1cwgCkf7ulfXo4SNev4FHsa+PckPQuhn6XMzabQ4AEKKgxDfYSJs+d
-	jra33XU8hzClUiPmKKTENCxlfxMbG68/bzIyKntuQrsTtXVVOHOQc2u4b9ALYMLCbVYYF7kZ5lu
-	gnaDC0PLj8/vYXRtHWCAqk6d9WsOWag2lXOE13yKzpDSN6IMUM3R8Or8VCLmP3qDraTaLl0WTLx
-	aZvoZo4NF7Zt0yQ9PM7eRPrdvbPhZLEMylq4g8qjrInS2vljmT9FwKVfGnJ1iXHzdY8H
-X-Google-Smtp-Source: AGHT+IFgnshRXYAm4vLgOrmgYGZWM8t1SObZHkSRdPxsGHvAJ5uKKQ60xC74a/vGxL92untQtleJTA==
-X-Received: by 2002:a05:6a00:1306:b0:736:73ad:365b with SMTP id d2e1a72fcca58-73fd74c23c4mr7475320b3a.14.1745658881199;
-        Sat, 26 Apr 2025 02:14:41 -0700 (PDT)
-Received: from visitorckw-System-Product-Name ([140.113.216.168])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e259412b2sm4594535b3a.66.2025.04.26.02.14.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Apr 2025 02:14:40 -0700 (PDT)
-Date: Sat, 26 Apr 2025 17:14:29 +0800
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: "H. Peter Anvin" <hpa@zytor.com>, Yury Norov <yury.norov@gmail.com>
-Cc: Yury Norov <yury.norov@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
-	andrzej.hajda@intel.com, neil.armstrong@linaro.org,
-	rfoss@kernel.org, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	simona@ffwll.ch, dmitry.torokhov@gmail.com, mchehab@kernel.org,
-	awalls@md.metrocast.net, hverkuil@xs4all.nl,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	louis.peens@corigine.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
-	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, akpm@linux-foundation.org, jdelvare@suse.com,
-	linux@roeck-us.net, alexandre.belloni@bootlin.com, pgaj@cadence.com,
-	alistair@popple.id.au, linux@rasmusvillemoes.dk,
-	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, kuba@kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-	oss-drivers@corigine.com, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw, Frank.Li@nxp.com,
-	linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
-	david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
-	Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH v4 00/13] Introduce parity_odd() and refactor redundant
- parity code
-Message-ID: <aAyj9SMvYrN9tXZC@visitorckw-System-Product-Name>
-References: <20250409154356.423512-1-visitorckw@gmail.com>
- <Z_amQp3gK5Dm8Qz3@yury>
- <Z/a5Qh/OeLT8JBS4@visitorckw-System-Product-Name>
- <Z_a9YpE46Xf8581l@yury>
- <e97a83a2-dabd-4dc3-b69a-840ca17d70b5@zytor.com>
- <Z/lEkDwefWvw4ZA3@visitorckw-System-Product-Name>
- <8571fd6f-4e71-4a6d-b2e8-16d9d72fa56e@zytor.com>
+	s=arc-20240116; t=1745672416; c=relaxed/simple;
+	bh=8lzPKSvLL4xki+UzGTVEQf754K7mp3zBbel/pXCugbc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ctwCC81eSunxlG3w+20csBbAi/yWm7cfObXsjeIcHbO8rku7eCu2/6bGCTeffnh+i48KsJTLlEOXEq8NCDgPpAL6yKWSveDyyaSjbQ58Iom2OrR+L0dolaLOtSQPW6PXceX29f7VDhfJfumXZMg4YVWjYOAAPFSLRX9cX6SqNsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SSiYylpS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9175FC4CEE2;
+	Sat, 26 Apr 2025 13:00:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745672414;
+	bh=8lzPKSvLL4xki+UzGTVEQf754K7mp3zBbel/pXCugbc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SSiYylpSkUnY4vU6FWLD53bdXMb8K4/xbF7keJtMniGrZGt2QiNuvhYRbGDO/HQUN
+	 vlYEBODjW3cBYi96AG3GAj90UeBQ1b7HILIdpyE3fL44wJ/DfVgelqT7PbruguU+J9
+	 qZ2U865ygnV6yy/ww/ig75AMri4siLaNKsthxbx/+Rl5n1LHdB+CDWY+JUrGd6hNCv
+	 K5AGmSzjgDuRNqQjaf2x6Pm1zhIPciPP4aMUdhTJO1ekR8r+ZYxEVMFMS6pZIrBvRM
+	 zFvnbjkA+zbB9MLt+ygHX2RpPDJXrHyd/SdOzCg6rcPd4QB6W/RNHhgArjHZuxXLo8
+	 ub2zW177r8Nxw==
+Message-ID: <b4bc07aa-e4b5-4a2a-a4ad-91c1e5071f00@kernel.org>
+Date: Sat, 26 Apr 2025 08:00:09 -0500
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8571fd6f-4e71-4a6d-b2e8-16d9d72fa56e@zytor.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] Input: Add a Kconfig to emulate KEY_SCREENLOCK
+ with META + L
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..."
+ <linux-input@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ "open list:AMD PMF DRIVER" <platform-driver-x86@vger.kernel.org>,
+ Mario Limonciello <mario.limonciello@amd.com>, Armin Wolf <W_Armin@gmx.de>
+References: <20250425162949.2021325-1-superm1@kernel.org>
+ <aAyWFI+o/kU9hDVs@duo.ucw.cz>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <aAyWFI+o/kU9hDVs@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 25, 2025 at 12:33:21PM -0700, H. Peter Anvin wrote:
-> On 4/11/25 09:34, Kuan-Wei Chiu wrote:
-> > > 
-> > > In either case, instead of packing the cascade into one function, make good
-> > > use of it.
-> > > 
-> > > In the latter case, __builtin_constant_p() isn't necessary as it puts the
-> > > onus on the architecture to separate out const and non-const cases, if it
-> > > matters -- which it doesn't if the architecture simply wants to use
-> > > __builtin_parity:
-> > > 
-> > > #define parity8(x)  ((bool) __builtin_parity((u8)(x)))
-> > > #define parity16(x) ((bool) __builtin_parity((u16)(x)))
-> > > #define parity32(x) ((bool) __builtin_parity((u32)(x)))
-> > > #define parity64(x) ((bool) __builtin_parityll((u64)(x)))
-> > > 
-> > > As stated before, I don't really see that the parity function itself would
-> > > be very suitable for a generic helper, but if it were to, then using the
-> > > "standard" macro construct for it would seem to be the better option.
-> > > 
-> > > (And I would be very much in favor of not open-coding the helper everywhere
-> > > but to macroize it; effectively creating a C++ template equivalent. It is
-> > > out of scope for this project, though.)
-> > > 
-> > IIUC, you prefer using the parity8/16/32/64() interface with
-> > __builtin_parity(), regardless of whether there are users on the hot
-> > path?
-> 
-> As a per-architecture opt-in, yes.
-> 
-I'd prefer to see Yury agree first, otherwise there's a high risk of a
-maintainer NAK after the next submission.
 
-Regards,
-Kuan-Wei
+
+On 4/26/25 03:15, Pavel Machek wrote:
+> On Fri 2025-04-25 11:29:48, Mario Limonciello wrote:
+>> From: Mario Limonciello <mario.limonciello@amd.com>
+>>
+>> In the PC industry KEY_SCREENLOCK isn't used as frequently as it used
+>> to be. Modern versions of Windows [1], GNOME and KDE support "META" + "L"
+>> to lock the screen. Modern hardware [2] also sends this sequence of
+>> events for keys with a silkscreen for screen lock.
+>>
+>> Introduced a new Kconfig option that will change KEY_SCREENLOCK when
+>> emitted by driver to META + L.
+> 
+> Fix gnome and kde, do not break kernel...
+
+I'm sorry; fix them to do what exactly?  Switch to KEY_SCREENLOCK?
+
+That's going to break modern hardware lockscreen keys.  They've all 
+obviously moved to META+L because that's what hardware today uses.
+
+That's also what earlier versions of my series tried to change just 
+amd-pmf over to use, but Armin Wolf said this should be done in the 
+input subsystem for all drivers instead.
+
+> 									Pavel
+> 
+>>   
+>> +config INPUT_SCREENLOCK_EMULATION
+>> +	bool "Pass KEY_SCREENLOCK as META + L"
+>> +	help
+>> +	  Say Y here if you want KEY_SCREENLOCK to be passed to userspace as
+>> +	  META + L.
+>> +
+>> +	  If unsure, say Y.
+>> +
+>>   comment "Input Device Drivers"
+>>   
+>>   source "drivers/input/keyboard/Kconfig"
+>> diff --git a/drivers/input/input.c b/drivers/input/input.c
+>> index dfeace85c4710..983e3c0f88e5f 100644
+>> --- a/drivers/input/input.c
+>> +++ b/drivers/input/input.c
+>> @@ -370,6 +370,13 @@ void input_handle_event(struct input_dev *dev,
+>>   	}
+>>   }
+>>   
+>> +static void handle_screenlock_as_meta_l(struct input_dev *dev, unsigned int type,
+>> +					int value)
+>> +{
+>> +	input_handle_event(dev, type, KEY_LEFTMETA, value);
+>> +	input_handle_event(dev, type, KEY_L, value);
+>> +}
+>> +
+>>   /**
+>>    * input_event() - report new input event
+>>    * @dev: device that generated the event
+>> @@ -392,6 +399,12 @@ void input_event(struct input_dev *dev,
+>>   {
+>>   	if (is_event_supported(type, dev->evbit, EV_MAX)) {
+>>   		guard(spinlock_irqsave)(&dev->event_lock);
+>> +#ifdef CONFIG_INPUT_SCREENLOCK_EMULATION
+>> +		if (code == KEY_SCREENLOCK) {
+>> +			handle_screenlock_as_meta_l(dev, type, value);
+>> +			return;
+>> +		}
+>> +#endif
+>>   		input_handle_event(dev, type, code, value);
+>>   	}
+>>   }
+>> @@ -2134,6 +2147,13 @@ void input_set_capability(struct input_dev *dev, unsigned int type, unsigned int
+>>   
+>>   	switch (type) {
+>>   	case EV_KEY:
+>> +#ifdef CONFIG_INPUT_SCREENLOCK_EMULATION
+>> +		if (code == KEY_SCREENLOCK) {
+>> +			__set_bit(KEY_L, dev->keybit);
+>> +			__set_bit(KEY_LEFTMETA, dev->keybit);
+>> +			break;
+>> +		}
+>> +#endif
+>>   		__set_bit(code, dev->keybit);
+>>   		break;
+>>   
+> 
+
 
