@@ -1,102 +1,98 @@
-Return-Path: <linux-input+bounces-12018-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12019-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17604A9DDE9
-	for <lists+linux-input@lfdr.de>; Sun, 27 Apr 2025 01:45:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EAB9A9DE9C
+	for <lists+linux-input@lfdr.de>; Sun, 27 Apr 2025 04:12:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F1A192204A
-	for <lists+linux-input@lfdr.de>; Sat, 26 Apr 2025 23:44:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7542F171835
+	for <lists+linux-input@lfdr.de>; Sun, 27 Apr 2025 02:12:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAFC920012C;
-	Sat, 26 Apr 2025 23:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o8tI9OZ1"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 414A91FDA8C;
+	Sun, 27 Apr 2025 02:12:26 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B131F91C5;
-	Sat, 26 Apr 2025 23:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408E37081E;
+	Sun, 27 Apr 2025 02:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745711097; cv=none; b=Nu4DlLTC0SxNvHsc3hUPhdlWYT4MeYEPbFjc5EIwqYsjJZ/kANLTO+QDKI0yazOcxkjPyUF3Ze2dyV3mG5sYOB3rKkl0ZuP4OxwiNPtjo5OWY75Si4fxBCS1Nv2IXXpOuzpEouaDVYu6hO4xSY+8mrNlEDQoUqqfRGgazYw0+co=
+	t=1745719946; cv=none; b=bW0X6aJe6c9zEa3ufEp91uwwgEOSXCYYaPw/SHWgrXK0lprkfk6yotEPVBDVcKSPp2qvPWfS6PqPC7MEBqY3GvYg2nQT5rvYdvDesJMYUM9n+2KmRNx+Zmz7b43oL+8tYlNrryQKWqYvTdSayoTZ1XtPBbm8o0esr4ztl7lbXOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745711097; c=relaxed/simple;
-	bh=Z+x5OL3loGNtZxv+I+o8XuUEcM5SymU6va2mq7wvSAA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hWaI10mnVBlQd0Cxi/Sm3HE0/+SrwH3DoTZrA5SSoP0+ezWLpWqiBvMhDhB5TKo34c7C6lmry1yW6BbWvq/AIqvoZfVlnpxgxNxsLK9glM5pxlX+OefGuo2qnuGb0ROxWGxaa1AP+X5eTvMjsNMcNbVJrQHZ5tye/Ew79WIqQWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o8tI9OZ1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C8CAC4CEE2;
-	Sat, 26 Apr 2025 23:44:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745711096;
-	bh=Z+x5OL3loGNtZxv+I+o8XuUEcM5SymU6va2mq7wvSAA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=o8tI9OZ1KhAIL0v4EmPtqmAFUod1FNjZtZnIhwio+J9mPL/bDiPhRE4tMQWDsLNRy
-	 MqfOc3pBiFXwEpURZridf6eUsrGlTq2CoYkBb57S9dpXUVr/bn8GR4ysuPf/C5crji
-	 5Aix0gkkqb3+hTRw2Np7fp0Dze0Ya/xL3Ee3SB+Nw8NYNvPsD3QS9FT+mwuNB8Oz/v
-	 5KLk7BJ58OYYuzzq5QzmP1i1T+DPArC2dOWD7ol0ijI522ibyvN9YEssAGsHoduhb8
-	 0sf7WiUIkJrsVzgdZF3FJqRUN1MEdJ19AFvg0+0tfoNa9xTYcwcfhdJWufpI4COesZ
-	 fTgy1vXXjZTVg==
-Message-ID: <db4dfc85-ce8b-4922-9558-670c3bb6eff2@kernel.org>
-Date: Sat, 26 Apr 2025 18:44:54 -0500
+	s=arc-20240116; t=1745719946; c=relaxed/simple;
+	bh=8SlZx8IDK4mrOVwOhaBkfuNILVycHluTOoS33F7tk/o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nTm35kQdo8XKm+9FqeTHkPsdqnuSkyQqwBtbB8efgtfPIBO+ACRVtOfZzTmlTcE+gPjWUXLeLY2z1JU38r10vqqSFMG4tdMOP+XxpaVBESCqdF2Uoqp+DQsyZqj0wecNwwCqy2eIDiJjZcHkJr2N6OEMsKrPI3STwH8qIW/U0rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 051703be230d11f0b29709d653e92f7d-20250427
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:f5da28e7-f15c-4baa-b8d3-4f661a13e098,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:6493067,CLOUDID:26e37ef5d2fd9291bbbd5166ffbfe02f,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:5,IP:nil,URL
+	:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SP
+	R:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 051703be230d11f0b29709d653e92f7d-20250427
+Received: from node4.com.cn [(10.44.16.170)] by mailgw.kylinos.cn
+	(envelope-from <aichao@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 562180624; Sun, 27 Apr 2025 10:12:07 +0800
+Received: from node4.com.cn (localhost [127.0.0.1])
+	by node4.com.cn (NSMail) with SMTP id 5C05016003841;
+	Sun, 27 Apr 2025 10:12:07 +0800 (CST)
+X-ns-mid: postfix-680D9277-121054143
+Received: from kylin-pc.. (unknown [172.25.130.133])
+	by node4.com.cn (NSMail) with ESMTPA id A643A16003840;
+	Sun, 27 Apr 2025 02:12:06 +0000 (UTC)
+From: Ai Chao <aichao@kylinos.cn>
+To: rydberg@bitmath.org,
+	dmitry.torokhov@gmail.com
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ai Chao <aichao@kylinos.cn>
+Subject: [PATCH] Input: MT - add input sync to refresh touch points after screen locked
+Date: Sun, 27 Apr 2025 10:12:03 +0800
+Message-ID: <20250427021203.1888063-1-aichao@kylinos.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] Input: Add a Kconfig to emulate KEY_SCREENLOCK
- with META + L
-To: Pavel Machek <pavel@ucw.cz>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Hans de Goede <hdegoede@redhat.com>,
- "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..."
- <linux-input@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- "open list:AMD PMF DRIVER" <platform-driver-x86@vger.kernel.org>,
- Mario Limonciello <mario.limonciello@amd.com>, Armin Wolf <W_Armin@gmx.de>
-References: <20250425162949.2021325-1-superm1@kernel.org>
- <aAyWFI+o/kU9hDVs@duo.ucw.cz>
- <b4bc07aa-e4b5-4a2a-a4ad-91c1e5071f00@kernel.org>
- <aA0o2SWGtd/iMYM2@duo.ucw.cz>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <aA0o2SWGtd/iMYM2@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
+If the touchscreen support ten-figers press it to lock touchscreen. When
+the touchscreen is locked, the ABS_MT_TRACKING_ID event remains
+buffered. We need to used input-sync to refresh the event buffer.
 
+Signed-off-by: Ai Chao <aichao@kylinos.cn>
+---
+ drivers/input/input-mt.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 4/26/25 13:41, Pavel Machek wrote:
-> Hi!
-> 
->>>> In the PC industry KEY_SCREENLOCK isn't used as frequently as it used
->>>> to be. Modern versions of Windows [1], GNOME and KDE support "META" + "L"
->>>> to lock the screen. Modern hardware [2] also sends this sequence of
->>>> events for keys with a silkscreen for screen lock.
->>>>
->>>> Introduced a new Kconfig option that will change KEY_SCREENLOCK when
->>>> emitted by driver to META + L.
->>>
->>> Fix gnome and kde, do not break kernel...
->>
->> I'm sorry; fix them to do what exactly?  Switch to KEY_SCREENLOCK?
->>
->> That's going to break modern hardware lockscreen keys.  They've all
->> obviously moved to META+L because that's what hardware today uses.
-> 
-> Gnome / KDE should accept either META+L _or_ KEY_SCREENLOCK to do the
-> screen locking, no?
-> 
+diff --git a/drivers/input/input-mt.c b/drivers/input/input-mt.c
+index 337006dd9dcf..659d752ca830 100644
+--- a/drivers/input/input-mt.c
++++ b/drivers/input/input-mt.c
+@@ -147,6 +147,7 @@ bool input_mt_report_slot_state(struct input_dev *dev=
+,
+=20
+ 	if (!active) {
+ 		input_event(dev, EV_ABS, ABS_MT_TRACKING_ID, -1);
++		input_sync(dev);
+ 		return false;
+ 	}
+=20
+--=20
+2.47.1
 
-This was actually the first path I looked down before I even started the 
-kernel patch direction for this problem.
-
-GNOME doesn't support assigning more than one shortcut key for an action.
 
