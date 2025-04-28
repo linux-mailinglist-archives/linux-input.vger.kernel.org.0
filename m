@@ -1,128 +1,165 @@
-Return-Path: <linux-input+bounces-12040-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12043-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D79A9F00A
-	for <lists+linux-input@lfdr.de>; Mon, 28 Apr 2025 13:59:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0A8BA9F2BB
+	for <lists+linux-input@lfdr.de>; Mon, 28 Apr 2025 15:50:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6B39E1652E9
-	for <lists+linux-input@lfdr.de>; Mon, 28 Apr 2025 11:59:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1978516D6D0
+	for <lists+linux-input@lfdr.de>; Mon, 28 Apr 2025 13:50:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 057A026981E;
-	Mon, 28 Apr 2025 11:57:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00AF42686B7;
+	Mon, 28 Apr 2025 13:50:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RdQAQH0H"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WffDrwpx"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE54267B1D;
-	Mon, 28 Apr 2025 11:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5EA716A94A;
+	Mon, 28 Apr 2025 13:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745841472; cv=none; b=HlKzcIsKwFgB7ZVpgfJBwZ23+8IJABmpDs91QpNAUmvWA+aCmlL0v2mCRhI4ER+6H7U94KYNyVrniNX8kZ3uP+4vnm+84NxzA7kU9sr1ZuiLqTtBRU5q6BzOiM2NdgvU4JSoD9a+LYFW4vamPLBUzv7vqZ3KW+qp2gHnJNQsdVU=
+	t=1745848249; cv=none; b=eg+W+MAvuz55iDSGKlHd8HZ+ThpROSosrRQWXipnsQWyqye9aMyPnvGQ6EXzxjuTm/Suf1wPQeQUi9hpIgyZvf5qC/hyscjFmGsoAVTpo0vplXk0cnVQHd+9hAhoM4uwrrINv+Cyu6ckSOHpeKrap7GEVhqpjqKqACUI8yy5aew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745841472; c=relaxed/simple;
-	bh=I2IGpxO4NgZXl0L9/MiKk9oiYXyeKXn3CCspfz4IRaE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EcpqYDAG03FNrrk788lao+/NEavjEG6UlEHGxAmuyfU9s97uEnM8ms85BSnH0pWNB01PoOOSlnbv/9nsr7rPiUBQJGWu3YlqUWOdKp4uf4MQ3iTNXah4Jiao4K5p7wl+g2WKtA1zSriWntQqAgiu2HVEEbIpFnGCoBobTxB8Ipg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RdQAQH0H; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B10CA43A1C;
-	Mon, 28 Apr 2025 11:57:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1745841468;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sjYgqfQk6Hv0GvUwtR8/B8fufceEeOL7XN50xFEMFlY=;
-	b=RdQAQH0H9gmiKbVIR8b4mta0+7NFOBBJdAsLaCby5C1o0/KJaMGq2183yJx8NRhRZE0nuk
-	APWzR3+UOaUXE03tgUpcKxSrOvOOMWiEEQdInUCjEoJlM/JAj7VqJymaxcKboeAkoXkiuw
-	1mVl6+f0RWzlO2yuqUAkldN3JG5eh1bhbZHrZrB11xcHuiAXf8bwsy5kqEK4IqOP0QBpOe
-	DTXhzd+Wv/mPNp9Sp2y8pK829py6FLzAiA4Un3EsN2WM+TkBDDxvGCVWk7NejOG0QpsCbs
-	2pDrsgGxLB1IEvoAGM5ZKqiXHw2bA7qgircEcigAOsVDZ/RHTgam25nTw8BxaA==
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Mon, 28 Apr 2025 13:57:29 +0200
-Subject: [PATCH v7 11/11] MAINTAINERS: Add entry on MAX7360 driver
+	s=arc-20240116; t=1745848249; c=relaxed/simple;
+	bh=/EUQY98NFzeIEIUFDQZR6dkrXp0+5Uo3ivzFJbutpQU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p7G6ojXaBywmoebNP+WeimC83MiXtfiESTczHhBoKAmofeesmV3zW3STDeOBAdlTURoXmzPt+2C6V9spDy0KZSvGCOnho0FHCu2LU5Tde3ro8BoGfwtgep+SenfIaQTNJTVi1nMoqMCZ6sIu66YlpFClZHHXEd7A4iE1vXj8tio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WffDrwpx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 468BBC4CEE4;
+	Mon, 28 Apr 2025 13:50:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745848249;
+	bh=/EUQY98NFzeIEIUFDQZR6dkrXp0+5Uo3ivzFJbutpQU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=WffDrwpxJBR6sKe7djK8zG6L8beJGTvRL4uFGMOX1XekZO84Dxt9hvuAWYcgr9Itm
+	 A5dwuBOIIL8YW/4CjUCZQ27q8j4D2zB63rTtoQyu+JdnAedvhKC6Cuv8ecr9XCaaWy
+	 nV8z3N+ZYF307mIcNoSZ92Y9b9be9khlhIyELyRd6B9ncNmyt+e4XyfV9c6ezfeR1F
+	 kL9abguIPcPmGI7D0T46UDgLG5nHV2Amvx8icDl8J5iU+wPIe0DRzQo8idTR4EP5XH
+	 twJr30Hib0vtMvop1V/Umo8tsd/3FcKdtCslh7t52sk9x/LDRp6o/WT6H5YB5D0Vat
+	 FSxRc1nt83GFQ==
+Message-ID: <a7e82a84-2610-4132-90a8-42b371f57fb0@kernel.org>
+Date: Mon, 28 Apr 2025 08:50:46 -0500
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] Input: Add a Kconfig to emulate KEY_SCREENLOCK
+ with META + L
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..."
+ <linux-input@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ "open list:AMD PMF DRIVER" <platform-driver-x86@vger.kernel.org>,
+ Mario Limonciello <mario.limonciello@amd.com>, Armin Wolf <W_Armin@gmx.de>
+References: <20250425162949.2021325-1-superm1@kernel.org>
+ <aAyWFI+o/kU9hDVs@duo.ucw.cz>
+ <b4bc07aa-e4b5-4a2a-a4ad-91c1e5071f00@kernel.org>
+ <aA0o2SWGtd/iMYM2@duo.ucw.cz>
+ <db4dfc85-ce8b-4922-9558-670c3bb6eff2@kernel.org>
+ <aA3KXNCKKH17mb+a@duo.ucw.cz>
+ <63fbf7e7-8d61-4942-b401-51366705252b@kernel.org>
+ <7tnn7sa654c3irqxprnqgbxawl6pnvuuonps3t5qkhso3h6fp6@fc3ph7fkukgm>
+ <owigkmidrmavvcdewxx3fvqyp4klvchklgwbtpzncqiado4kwb@akuzxqxp5jpm>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <owigkmidrmavvcdewxx3fvqyp4klvchklgwbtpzncqiado4kwb@akuzxqxp5jpm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250428-mdb-max7360-support-v7-11-4e0608d0a7ff@bootlin.com>
-References: <20250428-mdb-max7360-support-v7-0-4e0608d0a7ff@bootlin.com>
-In-Reply-To: <20250428-mdb-max7360-support-v7-0-4e0608d0a7ff@bootlin.com>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Kamel Bouhara <kamel.bouhara@bootlin.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-pwm@vger.kernel.org, andriy.shevchenko@intel.com, 
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1745841456; l=1082;
- i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=I2IGpxO4NgZXl0L9/MiKk9oiYXyeKXn3CCspfz4IRaE=;
- b=yllQ9Rpln2gM7JVCLhlqoA6n3/eX7A0a2MKjXnPySIpV3LtOFOKUhcwYums55rbwCgRFtI91q
- 9l4UtnzF1JPDQS2XVR3kyyHY7M/62H9dka3S9yeCDohWLgq7sqYEYIc
-X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
- pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddviedtkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedthfegtedvvdehjeeiheehheeuteejleektdefheehgfefgeelhfetgedttdfhteenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplgduvdejrddtrddurddungdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvfedprhgtphhtthhopehlvggvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehukhhlvghinhgvkheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrk
- hgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgrhgvghhorhihrdgtlhgvmhgvnhhtsegsohhothhlihhnrdgtohhmpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepughmihhtrhihrdhtohhrohhkhhhovhesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrgh
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 
-Add myself as maintainer of Maxim MAX7360 driver and device-tree bindings.
+On 4/28/2025 12:51 AM, Dmitry Torokhov wrote:
+> On Sun, Apr 27, 2025 at 10:30:24PM -0700, Dmitry Torokhov wrote:
+>> Apologies for extended absence...
+>>
+>> On Sun, Apr 27, 2025 at 07:15:31AM -0500, Mario Limonciello wrote:
+>>>
+>>>
+>>> On 4/27/25 01:10, Pavel Machek wrote:
+>>>> Hi!
+>>>>
+>>>>>>>>> In the PC industry KEY_SCREENLOCK isn't used as frequently as it used
+>>>>>>>>> to be. Modern versions of Windows [1], GNOME and KDE support "META" + "L"
+>>>>>>>>> to lock the screen. Modern hardware [2] also sends this sequence of
+>>>>>>>>> events for keys with a silkscreen for screen lock.
+>>>>>>>>>
+>>>>>>>>> Introduced a new Kconfig option that will change KEY_SCREENLOCK when
+>>>>>>>>> emitted by driver to META + L.
+>>>>>>>>
+>>>>>>>> Fix gnome and kde, do not break kernel...
+>>>>>>>
+>>>>>>> I'm sorry; fix them to do what exactly?  Switch to KEY_SCREENLOCK?
+>>>>>>>
+>>>>>>> That's going to break modern hardware lockscreen keys.  They've all
+>>>>>>> obviously moved to META+L because that's what hardware today uses.
+>>
+>> Vendors do all kind of weird things. They want to ship their
+>> peripherals here and now and they do not care of shortcuts will change a
+>> few years down the road.
+>>
+>> FWIW there are plenty of external keyboards that use KEY_SCREENLOCK and
+>> do not emit any shortcurts. Anything that is "Woks with Chromebooks"
+>> will use KEY_SCREENLOCK.
+>>
+>>
+>>>>>>
+>>>>>> Gnome / KDE should accept either META+L _or_ KEY_SCREENLOCK to do the
+>>>>>> screen locking, no?
+>>
+>> KDE by default recognizes Meta+L combination (which used to be
+>> Alt+Ctrl+L), Screensaver key, and allows users to define their custom
+>> shortcuts.
+>>
+>> I also wonder how many other DEs beside Gnome do not recognize
+>> KEY_SCREENLOCK.
+> 
+> So I poked around Gnome a bit. According to the gnome-settings-daemon
+> source code KEY_SCREENLOCK should be recognized. It is set up as
+> "screensaver-static" key which is hidden and shoudl not be changed by
+> user:
+> 
+> https://github.com/GNOME/gnome-settings-daemon/blob/master/data/org.gnome.settings-daemon.plugins.media-keys.gschema.xml.in#L504
+> 
+>      <key name="screensaver-static" type="as">
+>        <default>['XF86ScreenSaver']</default>
+>        <summary>Lock screen</summary>
+>        <description>Static binding to lock the screen.</description>
+>      </key>
+> 
+> 
+> 
+>>
+>>>>>
+>>>>> This was actually the first path I looked down before I even started the
+>>>>> kernel patch direction for this problem.
+>>>>>
+>>>>> GNOME doesn't support assigning more than one shortcut key for an action.
+> 
+> It sure does even if it is not shown in UI. Poke around with
+> dconf-editor and look in /org/gnome/settings-daemon/plugins/media-keys/
+> and you will see plenty of "*-static" keys with multiple
+> keycodes/shortcuts assigned.
+> 
+> "touchpad-toggle-static" - ['XF86TouchpadToggle', '<Ctrl><Super>XF86TouchpadToggle']
+> "rotate-video-lock-static" - ['<Super>o', 'XF86RotationLockToggle']
+> 
+> and so on...
+> 
+> Maybe Gnome broke screen lock key in recent release?
+> 
+> Thanks.
+> 
 
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
----
- MAINTAINERS | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Thanks for your feedback and looking into what GNOME is doing.  It sure 
+/sounds/ like this should have worked with no kernel changes and GNOME 
+has a bug with the lock screen key.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3cbf9ac0d83f..e08d531494e4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14576,6 +14576,19 @@ L:	linux-iio@vger.kernel.org
- S:	Maintained
- F:	drivers/iio/temperature/max30208.c
- 
-+MAXIM MAX7360 KEYPAD LED MFD DRIVER
-+M:	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/gpio/maxim,max7360-gpio.yaml
-+F:	Documentation/devicetree/bindings/mfd/maxim,max7360.yaml
-+F:	drivers/gpio/gpio-max7360.c
-+F:	drivers/input/keyboard/max7360-keypad.c
-+F:	drivers/input/misc/max7360-rotary.c
-+F:	drivers/mfd/max7360.c
-+F:	drivers/pinctrl/pinctrl-max7360.c
-+F:	drivers/pwm/pwm-max7360.c
-+F:	include/linux/mfd/max7360.h
-+
- MAXIM MAX77650 PMIC MFD DRIVER
- M:	Bartosz Golaszewski <brgl@bgdev.pl>
- L:	linux-kernel@vger.kernel.org
-
--- 
-2.39.5
-
+I'll abandon the kernel series.
 
