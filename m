@@ -1,139 +1,164 @@
-Return-Path: <linux-input+bounces-12051-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12052-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 071A5A9F98D
-	for <lists+linux-input@lfdr.de>; Mon, 28 Apr 2025 21:33:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8396BA9F9C3
+	for <lists+linux-input@lfdr.de>; Mon, 28 Apr 2025 21:38:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 30FEE7ADAA1
-	for <lists+linux-input@lfdr.de>; Mon, 28 Apr 2025 19:31:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FD5D5A1B97
+	for <lists+linux-input@lfdr.de>; Mon, 28 Apr 2025 19:38:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D7552973A9;
-	Mon, 28 Apr 2025 19:32:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 703FE2973D1;
+	Mon, 28 Apr 2025 19:38:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FfA2BkEw"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3htoiUbD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1969B1A00E7
-	for <linux-input@vger.kernel.org>; Mon, 28 Apr 2025 19:32:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE7F2980AE
+	for <linux-input@vger.kernel.org>; Mon, 28 Apr 2025 19:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745868779; cv=none; b=eAyA3AeKkPVE6fVoPjqkqvbUA29OcVizMviGDBem+XqIh8thdQRQmx8uNJzrgYKDG11qecm5XGTt6rRAzhcygq9/RP3HVi7YjRHLgW5eNKkQvLXoO5ebInwnkphfmsRLomXR0OVu+Xwd7W0/zG1wRBMW2e9VYTk9x3TMpuHNDXo=
+	t=1745869090; cv=none; b=Wuso61CIxgB+mPtiAfsCwi0LcVU3pMeQc4TqHb0K7OKolSg1rj6gy135/nazEGM4A1BTwW+4J5d5AOI3XTMEmvoOm1UgeBAKHPgkbUsgH8W+kLNcAiw3gJxxeO03txZBMgxBKtUwgsDaK0/6s+jtJ2q68Yu5scPnRB774543z+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745868779; c=relaxed/simple;
-	bh=Y6n23dawAWFH2JLNBPqMIuR/bd0pb0K07Z82KXD09aQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EHdQy0+4izlHZ8q6kqWmZBd7thmqYcRpeCDeHfcbQJ6+uQudg4693QMmeM8ol0x2GIBDUOVFvNj35YRaYb56q6YItblinvD/1qBySAWvcUdpSSf6svvqFTAdl/S/MvP+oUr6I4/si491Zpf+7nJsoE+1jhQuxXJgi6iic98BVHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FfA2BkEw; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-73bb647eb23so4350689b3a.0
-        for <linux-input@vger.kernel.org>; Mon, 28 Apr 2025 12:32:57 -0700 (PDT)
+	s=arc-20240116; t=1745869090; c=relaxed/simple;
+	bh=ti1qMv4NvH9CmMP3OH0AQa2stewX9HPWI7ryLNxsa5k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dDcsPHnWUXV9yK6sTkCw3cHNmoLcXqVNkm58GWoIuT17zETjbpjlGq/5UZ+abnZ9HQo0tXe2YNLJ3NTZjg+wUzk57RDUSrMHMiH+csbmVMB2EvfGWft0pwx6s09mA/qo9xIwIpfpt5CCb8u17VyZY+ExoIrIHV6QdeDA3InKW7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3htoiUbD; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2254e0b4b79so78607195ad.2
+        for <linux-input@vger.kernel.org>; Mon, 28 Apr 2025 12:38:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1745868774; x=1746473574; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mfzpR+XCt8jA2E6ve9YtKygB0tbO6iFuLJbvzZ6DwIk=;
-        b=FfA2BkEwTwr9KOQ8KAZbQeysdT8UIDJ4djqzsKw+g7gpvN520khg2X8rk0UTcTpjFc
-         AQI8G//evY5QKjp+SUUgNrE2DYOJ2bZFxK7hajmpgeYGuHDkE/ygJgRz/atwVR6/OWYY
-         yV8DYAzW+sl3GHkEvqxP+WmHwN0fydyAn1DsQ=
+        d=google.com; s=20230601; t=1745869088; x=1746473888; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kZL+y4O4nVB6WkTciMzCG9+Q8Gw1aprj/ilNSB+S7lA=;
+        b=3htoiUbD9sQAUmBhJtglS4FV+B3cGwD+CXGCHvYQ78DFuZ5GNMIxILk6yG1JrjB2Ls
+         23U62VAX28J5FTYGYnNFdWMwo6revluYyYsz3WMbRhnSs3M9lGOKACdR/L8P0shTN5OX
+         qO5N0N+RQwjjk4vp1H3Qq28qNV5G67tH1KF3PBfkmNdRVZSpdmR5qqBL2GA6EOyQ5DrI
+         H3UZMzPbE0gzVM7NgId0ZzFomOvQVFzWlaZXNsmvi9j2bwSjABWQGtnFHV8BOLEkFUdn
+         iQJIQiPmP3+Ch7FvFwE/5oenvcKeRD1AuLSAlO2BGYfh0PvN+vw/ApS6HIh80XUhbb/W
+         Ti3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745868774; x=1746473574;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mfzpR+XCt8jA2E6ve9YtKygB0tbO6iFuLJbvzZ6DwIk=;
-        b=fg+blsznqmXXn9gIFB2HmmFErtnHNo/aSXMXMXm73nC5980cr0kder1sUy3JlVQ1qi
-         WWX9g2rF7stQqporhxbpTY/wRmhygKU+Vd/XY6SuhXbJpvLC34L72UP3IhP6QaUIrKft
-         oUVvF02KVvBvOpynZYrkrIOy9I7MmFwua8Z3w0vz5svQSUVsYEg48LHXsLLSKlVXHSE3
-         9rvsqi/tB2oDNIT6exXixZALzABDVYSTmgpwQyZr5XTUZW/UjsLQTyKYJh+WW0+ZqvgO
-         gAV52Id0JkiAVG04cnQafln8YIjJtW+KBSEON1JhTqWdyEAFEHPUFvAXX9u8HFqrUd04
-         0yHw==
-X-Forwarded-Encrypted: i=1; AJvYcCV/qA9JXtc0CpG0i2x0CDofGoLw3VuAjtUxcxxYUgqdqLdkeG5/mRO9dTzeefu37luUJbi3ZPHq/1HQAA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywf6Y72nEolY/GccxtykVQDYWfVRqN6QNWJnt+73GuNHsd/563v
-	UAU+/QBuvCInVehsTXYl1T+O+CWrAohmXOzqf89vBkkOSfLQu782xx42wWa/mNRJZ4f8aTDpPDQ
+        d=1e100.net; s=20230601; t=1745869088; x=1746473888;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kZL+y4O4nVB6WkTciMzCG9+Q8Gw1aprj/ilNSB+S7lA=;
+        b=usX82iLeaomK8ek/FWTi2WtAnwQDsARBGVcsRL1e/l14Ae9Gv60W0YWH4YCjKQq56h
+         YGWnWPOmsNw0FynfC0CxcwISF3HCb2Fuz3noIHeSdynBAFYsR0StNSGizdfaP717Yprt
+         5Qjh508FZQNnZa3XKCUHnHv15ENGQKgHx/qF9nf/rdnLCN1+R/IskPKhNcuZgM/G8/oE
+         VAMmCfykmmG5FHCD5k9Ij2Lr7wul7snxQELwOUmlukPmpMfmfdMO8pcmnVxY0LJ9LCOr
+         eX37FlfW7L8xWBOCIefWSjluMTw1Lsc1Fj0+6uAAK3ne1BHkYITDp0kAbDml1nXP/jch
+         x65A==
+X-Forwarded-Encrypted: i=1; AJvYcCWsC2NXyEbu7JbDWvZEeNnRkm/fg92z/Tc7bIGabNb9Vxy7gFT0IUFYdBZHLtafxu5Ll3SQNE542AG9DQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+gEcgGiRpCgOFuXXXnt7jWQiNcTv3VQGjEinAIsqYkEE0veNH
+	MTXBGMLOExD5aZx/pE7OTCndLrKeDeudtqJBOrYXLGlyDnNhJpZaZr5q7oUfnw==
+X-Gm-Gg: ASbGncvYKjeNYKDGxyakwhJ3V56X8eOLcyDgf7qF5Tyw9NKUDaGttlyX+/OvoB+qbg6
+	SbRNS69sN0x2+HVriNxWiy6m3opDqQW6D/09nHws8JQiQl52wkmWqNiu2JZ7c0Ul7/g6e4s+W2S
+	8eCLHLZm6f+3XLNlnrIBi9KVESwq3UTePvDyg7cTyd+unCyMo2oOKRjl7xeF/VYxzZGohopYJiF
+	4p6CJiO3TAeLIR+Ch9g5nm9wUGWTkubt7WBvvDZuR8nwCYNhjj8LDODZCWth+vjPOElX22xEr6/
+	9RSf4Rf+YQHjEilqZ93bc0QJbtBULqkT2+rINe8xG4rppFZ7UFsT2rWtWVMo3rgxOz5y6V6lYg=
 	=
-X-Gm-Gg: ASbGncsJozjs8Qgac0O6dRRvpReGUwgEgo1VMk1Kh3PDfuA5wdkZ1ULadGIBtOkKUTB
-	l8nd3LkpTxKXP/sbBTwSUjVrnU4Wyaq2adY/AXfmEHaCBfdron3rv+koMgfyQPOqTElMj4dv/So
-	hO5DzR2/xUU/YiniP99wqmHrjRR3OgpcqfeJq3UwWSOgF7g02iNPFq2rvuKdG4txE8jYjz/WKlK
-	QCD6mJKzw43Uaa30i2LZPjjHv2oMvzSB3+7EmptJLFhWojsJTmdnwcNuRP6ahDN6Q5WsaBFP9Fu
-	A3libN176C4wxXxAtUDbui2uIo5nkA2G5OTZ5jbqysVSrQlDgBqk4lrMbD3r5L43Qw6/t/G/VMr
-	pmcTmwf8P
-X-Google-Smtp-Source: AGHT+IFsSvabXu/tx74PiOoOQee89NtMfGGiFnIMTtranCHYIr0UA87r2ShKjaBaIn7VBVkyoGsd/w==
-X-Received: by 2002:aa7:8889:0:b0:736:5c8e:bab8 with SMTP id d2e1a72fcca58-73ff7247e46mr14098432b3a.3.1745868773719;
-        Mon, 28 Apr 2025 12:32:53 -0700 (PDT)
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com. [209.85.215.178])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25912325sm8729210b3a.14.2025.04.28.12.32.51
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Apr 2025 12:32:51 -0700 (PDT)
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-af5085f7861so3876283a12.3
-        for <linux-input@vger.kernel.org>; Mon, 28 Apr 2025 12:32:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVSoLtHN6xHMjPleWyJGxSkMJsc48bkh/5EvMrUMuLMHD0HOQZceM/CgeFy9uwojH5esu8kZ3lXwWb0MQ==@vger.kernel.org
-X-Received: by 2002:a17:90b:5490:b0:309:f5c6:4c5c with SMTP id
- 98e67ed59e1d1-30a01398884mr14674637a91.25.1745868770606; Mon, 28 Apr 2025
- 12:32:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEb7sjPxHBoM6DBUpDHrBYIpIDFqqlG7FLfEAc+dm0pnpCG2yrmeVJ4VnqTunSOtGlfHUdVJg==
+X-Received: by 2002:a17:903:4405:b0:21f:164d:93fe with SMTP id d9443c01a7336-22de608f23emr13724175ad.53.1745869087882;
+        Mon, 28 Apr 2025 12:38:07 -0700 (PDT)
+Received: from google.com (28.67.125.34.bc.googleusercontent.com. [34.125.67.28])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db4dbdb4bsm87169915ad.92.2025.04.28.12.38.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Apr 2025 12:38:06 -0700 (PDT)
+Date: Mon, 28 Apr 2025 19:38:02 +0000
+From: Benson Leung <bleung@google.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v2 2/8] dt-bindings: arm: mediatek: Merge MT8186 Voltorb
+ entries
+Message-ID: <aA_ZGndUwSLY9yQ3@google.com>
+References: <20250421101248.426929-1-wenst@chromium.org>
+ <20250421101248.426929-3-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250421101248.426929-1-wenst@chromium.org> <20250421101248.426929-2-wenst@chromium.org>
-In-Reply-To: <20250421101248.426929-2-wenst@chromium.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 28 Apr 2025 12:32:39 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XLonF5qM+f6diESvnqAHKm4Y7wwPsNssdNqZfkn2OzSw@mail.gmail.com>
-X-Gm-Features: ATxdqUEnTKoRxhC-TaBEXil7UFoCr2GvfRCzsqwspS2g_INzWAwlvG_Di1SAl68
-Message-ID: <CAD=FV=XLonF5qM+f6diESvnqAHKm4Y7wwPsNssdNqZfkn2OzSw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/8] dt-bindings: HID: i2c-hid: elan: Introduce Elan eKTH8D18
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev, 
-	linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="coaj1VmWJVD9+zVN"
+Content-Disposition: inline
+In-Reply-To: <20250421101248.426929-3-wenst@chromium.org>
+
+
+--coaj1VmWJVD9+zVN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Mon, Apr 21, 2025 at 3:13=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> w=
-rote:
->
-> The Elan eKTH8D18 touchscreen controller is an I2C HID device with a
-> longer boot-up time. Power sequence timing wise it is compatible with
-> the eKTH6A12NAY, with a power-on delay of at least 5ms, 20ms
-> out-of-reset for I2C ack response, and 150ms out-of-reset for I2C HID
-> enumeration, both shorter than what the eKTH6A12NAY requires.
-> Enumeration and subsequent operation follows the I2C HID standard.
->
-> Add a compatible string for it with the ekth6a12nay one as a fallback.
-> No enum was used as it is rare to actually add new entries. These
-> chips are commonly completely backward compatible, and unless the
-> power sequencing delays change, there is no real effort being made to
-> keep track of new parts, which come out constantly.
->
-> Also drop the constraints on the I2C address since it's not really
-> part of the binding.
->
+On Mon, Apr 21, 2025 at 06:12:40PM +0800, Chen-Yu Tsai wrote:
+> There are only two different SKUs of Voltorb, and the only difference
+> between them is whether a touchscreen is present or not. This can be
+> detected by a simple I2C transfer to the address, instead of having
+> separate compatible strings and device trees.
+>=20
+> Drop the SKU-specific compatible strings and just keep the generic
+> "google,voltorb" one.
+>=20
 > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+
+Reviewed-by: Benson Leung <bleung@chromium.org>
+
 > ---
 > Changes since v1:
-> - Reworded commit message
-> - Dropped the enum for the new compatible string entry
-> - Dropped constraint on I2C address completely
+> - Added Rob's ack
 > ---
->  .../devicetree/bindings/input/elan,ekth6915.yaml     | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
+>  Documentation/devicetree/bindings/arm/mediatek.yaml | 3 ---
+>  1 file changed, 3 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/arm/mediatek.yaml b/Docume=
+ntation/devicetree/bindings/arm/mediatek.yaml
+> index 108ae5e0185d..49ddc504c160 100644
+> --- a/Documentation/devicetree/bindings/arm/mediatek.yaml
+> +++ b/Documentation/devicetree/bindings/arm/mediatek.yaml
+> @@ -339,9 +339,6 @@ properties:
+>            - const: mediatek,mt8186
+>        - description: Google Voltorb (Acer Chromebook 311 C723/C732T)
+>          items:
+> -          - enum:
+> -              - google,voltorb-sku589824
+> -              - google,voltorb-sku589825
+>            - const: google,voltorb
+>            - const: mediatek,mt8186
+>        - items:
+> --=20
+> 2.49.0.805.g082f7c87e0-goog
+>=20
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+--coaj1VmWJVD9+zVN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCaA/ZGgAKCRBzbaomhzOw
+wnOoAQDrlivFR72rlTsDjXpRDqb5IDQN68oHJxMoVtwn/gvj5QEAwGk6b5hoLf1D
+239knHKArUipas1DEpyXfJVjZk3+VQ0=
+=L6Rm
+-----END PGP SIGNATURE-----
+
+--coaj1VmWJVD9+zVN--
 
