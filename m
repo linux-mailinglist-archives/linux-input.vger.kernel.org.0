@@ -1,181 +1,122 @@
-Return-Path: <linux-input+bounces-12055-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12056-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E789A9F9E1
-	for <lists+linux-input@lfdr.de>; Mon, 28 Apr 2025 21:46:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9794A9FDBD
+	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 01:30:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8FB11465761
-	for <lists+linux-input@lfdr.de>; Mon, 28 Apr 2025 19:46:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 42E69189CC29
+	for <lists+linux-input@lfdr.de>; Mon, 28 Apr 2025 23:30:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B71E127A119;
-	Mon, 28 Apr 2025 19:45:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBF261531DB;
+	Mon, 28 Apr 2025 23:30:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dymBWsXw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fK2TGywV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31451297A46
-	for <linux-input@vger.kernel.org>; Mon, 28 Apr 2025 19:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C328F6C;
+	Mon, 28 Apr 2025 23:30:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745869546; cv=none; b=pCEEpY6WwgInUn0KlfZXh2N+gVS25+MpMCUuXnfhw284dGRmCB0a+OEclyqs5mGCutuwhyoqVOUWOg5I1vnKOOwrz0KGNruTYv1/HniB4BtUBrQbBwRJLmQWZb4hT3jACPW1fI6H2DFCtjJAb5raGtu4/+0TgWeflVWrtqDzMqI=
+	t=1745883018; cv=none; b=QQ6SUf4ncHjYnHlyYDBGrs33isDwXTnqj6NPz7bZeCfFSh8EKEiD203E5Y19i5OX6w3DNcp5RZlgGbk6QG1B02zxT1cweSDeTqMjH/Gv06E5yaoNZLKPVoMhtRQT+g9XHvaPH7QwhJy/Fmzr/+CJzR3YFJJahcuH6bq20n/CZBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745869546; c=relaxed/simple;
-	bh=YggQZ1TyVDh4eowW2USUjCGtu+akNt8AE6k6QX1iIxw=;
+	s=arc-20240116; t=1745883018; c=relaxed/simple;
+	bh=F7nAHUG1vlKvXc+NSAIN7inrJkz5k8PT0zsRKXQ7UVU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YxBUcnDJRJxXDzEpjSsO9zTak1oSnsA37/TgH1mV/okkKY4Zpss00sLy7zTPwb7uhzBJHw8qDLN0/1iDQ7PishsSjHVhinxrn0VRoKEawsqje6rsZLiUNA6NvTFKcgzs9Ru0msAY/BXprB8DexI15y2733aIdlilqdzgPwKuPHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dymBWsXw; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-72d3b48d2ffso4824506b3a.2
-        for <linux-input@vger.kernel.org>; Mon, 28 Apr 2025 12:45:43 -0700 (PDT)
+	 Content-Type:Content-Disposition:In-Reply-To; b=niJpI15mSjix3IEIFo9G0VfGzEc2zofu2zAcVEehFtpkVitQ8FXP1BdyuX5pAnH+5LPir7ai6SqGXx413Ktexjn5BYEEu5kUXZx3Chp67BItFI9df+LRGTtfqMErgUCxLHJDcBYg3Ej3cJaBAxweduAIaOuA1rSY7nFFX7756vE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fK2TGywV; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-73c17c770a7so7260284b3a.2;
+        Mon, 28 Apr 2025 16:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745869543; x=1746474343; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1745883016; x=1746487816; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XGHxp6lqAYRQInWBjVpHf7WApOQAlT577yEtZ4eKCyA=;
-        b=dymBWsXwqBIy1keTzhg/91DiYUnQ6jpsEXNDd/G+AL+VjL+jFaiDZ5QJ8dDaqH7HFN
-         7Q4x874LFFgGg+XrF9PpmHOMHZS14SqoBv2mOh/u7y63xYlm/kFlsRkVA0OSSHQ5rciy
-         mYpSJKyvBmkZ425DOScbinCVll82fjqarqMgbBZAsZOPLaNppSDt2lGC7l4BREU85c6M
-         R4i39yBzerbRPPl0WrVbokEsimxAsDrtvxj+cftuM0zBjzl+nh2eWOIDdO1UD+XOfQdF
-         De3dg35p6yTBNxAoQDoh5EYrRt5qj1q6P66c/1RoEuNNRLamhF2kQUAcFXUSFPE1eIzj
-         oGoQ==
+        bh=329DdKPNLhWNu0yFa3+5T6Ux91V9gVZ7UmzQBNCxNx4=;
+        b=fK2TGywVakT2A6wu4din6eurbLvmg8GETyPiZKoMQEAeghkMo/Lty4L12JFN4dKtVk
+         GyWZIY6kxJq3F5z50CGqHGtqjObGeYk2AHrL1bupUQm0RGTP2YgNh+jiL/KgdESXMeYL
+         tqrBOWcbOtmeV0mQ2rrfD6ofbJM3BKsTJdyi5s4E8TFfvAS9z/Xil/54tvO+HzxeSl7N
+         XKqHmAVdMTCcD7Nsk9dbpoIxlefHk9L4PPBTjP51bwUnFXBjmz+lhJ6g2TGBOCIkeBTA
+         cFB2tO5+Ly08K0XPWwaTQAGP/FDE6qfVP8K7JivOk+mjzMpjFfiGiD7gcZMIoeRFIYz3
+         VOwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745869543; x=1746474343;
+        d=1e100.net; s=20230601; t=1745883016; x=1746487816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XGHxp6lqAYRQInWBjVpHf7WApOQAlT577yEtZ4eKCyA=;
-        b=bGTSO8YuYB7/kuSZsXsVcV45Wa6O3wX682yCL/PAENjdgAsnSdPX+USQ+FUupY4NaY
-         wcWBFBHLtJdhVHJ/o1/OwGaZwqLVC2/P+VNjWxUlba9CqUyoMXuTIPE/5kjftxqIc4WP
-         2BPjn3FuLfUhKSE39g2BaSJfc66Nun87yLuL3oqI37QzXwQBi15OnW1Yb8M8s2kL/bwW
-         qRdv5trOFbL4+NHvpee/E5sYzVmqhrVXzA2a8lGfbJtcNGgA8LazOfYMg2Puz6wQWswb
-         +TjsINen2ZnUJEKbOWdTk2oORBa2l+X7UqpnEJ9I06qKewugJYzTOGXR9yi5bC6X7gm1
-         0R7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWC+0MlKJZT8pMqM0MIdbQNPuTjQXkgDOvAqa9tAVgiZMG8IUffgwIz1b76vo+wyo9sXVRFj8EUn4hWoQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz01Ddpy2wHWgo1x18AbnWyJ6siIUQ9RrYiwn7rKPtP5+6/hO4w
-	9ynU2QX6RShtcxFfuZmXDSExQZTPe7RjCiim5smovaLfw8YQRO8Fmo0O0jwevQ==
-X-Gm-Gg: ASbGncsREPjJ+LJrUplJJyz+eXE3hm28K1jo0fcp0LE8Yuz8eCsxWvpohBkTU2tXr6K
-	e43lSXYJ7YUQlKzavJAt1vffhmxkGpkr800J+x6ya/GGKspsKEAhiy0VSRGmvtr3unnEg46v8eg
-	Wqq6WVxs8f3Cfp60Jf27o5UBGnV7sEMkN/ACJQ8UDc2OELnw11r19BWqfNyUNqDPj3nAvcyNtzL
-	v5xAxsSnHEVazokj+EQKP4P/31A+UwMnZUFn+ApHXRXvUTrs8PROU7z9lnw6MW5L8oRZTJu2NP/
-	iF3/NCExwDKb0ZXgHOrtdDueFGuujRFntLE7JHgB85FlN3HLmne4jufjID9XZLHfZCD+Huoa2ox
-	z2CehTTNd
-X-Google-Smtp-Source: AGHT+IFYlvYhne57m4K5klZLGQL12xu5rF8UHasgAgtYn7L+ZI+rW0iA6PRZDAtjG6kMT4NaEVhDYg==
-X-Received: by 2002:a05:6a00:4644:b0:736:4d05:2e2e with SMTP id d2e1a72fcca58-73ff7280114mr12876072b3a.6.1745869543146;
-        Mon, 28 Apr 2025 12:45:43 -0700 (PDT)
-Received: from google.com (28.67.125.34.bc.googleusercontent.com. [34.125.67.28])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e2593f621sm8429207b3a.39.2025.04.28.12.45.41
+        bh=329DdKPNLhWNu0yFa3+5T6Ux91V9gVZ7UmzQBNCxNx4=;
+        b=Xs/uHn9MmDMaVAqJSS7ZUJKi9FBDUUJd+0olbWNXbQR+OH8aX2HLtmET8nYwSQTmX3
+         deVY7bZT2ErbrFZ0WzF9tIlQV05hPYB47KCkfv1QxbV630rGGnf5eEuaV7whauK4wrQ6
+         sVuUTKWzqL5/b5ck4HcYLmCx4IFE9JCeycT7vNDdgoAfL2qxK+OKfp4NuWtqsPSeUqqk
+         7alYApCjdopdSEiGeSsjJRpsRTST0ms333bgS1c3sfFYyO1IjkrbrIIBLr9AuxdY0vB+
+         hmc8KLCk8wfwnloa7+V//Yq862No7nqG3kILI4e7IJgnFjLBiAC7xVi+d5WzgRBBQwKH
+         Hniw==
+X-Forwarded-Encrypted: i=1; AJvYcCUt8AvlPqDiMeVf5WYyL6CoimpII0cc9emyYT37PUXacEP7FsqYqoSUSE3CdKxx/HAjN6VHkz4Gjwb/V7U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9/BXw9bGMHPh8q/3pygd8PVoIZezbCho3yX7wUyNtDlWhaoYP
+	jDRqKQHUv5uSyhCDx1rc4E6mh9zEqaNTVpONFHhSTNxRmX6DM5Ct
+X-Gm-Gg: ASbGncuCvyGO6xRJZymWh1vFs/k7+OCuZrYUVoH2TIs/q55iMv+vnowoCKNqYomPNpn
+	ihrLe6P+lPAJ7WMhenRbLXB0WoJQW+VPdthF1Qn0sa/52R243oda0GQGdFmnhY3p2srk1WXJOnq
+	oVCr2IBH5ICeyzp3kF2Ay9BVCcpQpMZho92kixtX+VfloOfL2VgIvAqrqpqzbcaEG4g36n4iAco
+	ejRn+MOv91Ja+wKpJzLd/N4NwI7G18rhUZHhxe7H5Tdkw91wK4KPjZRdailFEYX2gbus7MuLf9N
+	SEF9x2sWVwBEnRp04g0W0jNgFqA5T9FeNNQO9nlz
+X-Google-Smtp-Source: AGHT+IED5O60hq0KpHF5uKP5cHq6Mugo5SLPYclGsTgHjYasQquAhjcqADeNrr8vHqGI2Tdmmu0Bug==
+X-Received: by 2002:a05:6a21:3a88:b0:1f5:8cc8:9cc5 with SMTP id adf61e73a8af0-2093e029812mr2343382637.34.1745883016546;
+        Mon, 28 Apr 2025 16:30:16 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:67d:4372:d1e6:def0])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25aa0acfsm8584146b3a.152.2025.04.28.16.30.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 12:45:41 -0700 (PDT)
-Date: Mon, 28 Apr 2025 19:45:37 +0000
-From: Benson Leung <bleung@google.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev,
-	linux-input@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v2 7/8] platform/chrome: of_hw_prober: Support trackpad
- probing on Corsola family
-Message-ID: <aA_a4Whqm35-pdKk@google.com>
-References: <20250421101248.426929-1-wenst@chromium.org>
- <20250421101248.426929-8-wenst@chromium.org>
+        Mon, 28 Apr 2025 16:30:16 -0700 (PDT)
+Date: Mon, 28 Apr 2025 16:30:13 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+Subject: Re: [PATCH v1 1/1] Input: ALPS - bail out when device path can't fit
+ buffer
+Message-ID: <ybenmz2fmjxjpo3zhnrh2ptquikxrtb63664qbhhfv5d4ezx5n@c3p2tbosx2tz>
+References: <20250422185645.1949391-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="8X7Hm8zNZQujXZIe"
-Content-Disposition: inline
-In-Reply-To: <20250421101248.426929-8-wenst@chromium.org>
-
-
---8X7Hm8zNZQujXZIe
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250422185645.1949391-1-andriy.shevchenko@linux.intel.com>
 
-On Mon, Apr 21, 2025 at 06:12:45PM +0800, Chen-Yu Tsai wrote:
-> Various MT8186 Corsola Chromebooks (squirtle, steelix and voltorb
-> families) have second source trackpads that need to be probed.
-> The power supply for these are always on and their reset/enable
-> lines are not exposed.
->=20
-> Add them to the probing list.
->=20
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+Hi Andy,
 
-Reviewed-by: Benson Leung <bleung@chromium.org>
+On Tue, Apr 22, 2025 at 09:56:45PM +0300, Andy Shevchenko wrote:
+> @@ -3094,6 +3101,16 @@ int alps_init(struct psmouse *psmouse)
+>  
+>  	if (priv->flags & ALPS_DUALPOINT) {
+>  		struct input_dev *dev2;
+> +		int n;
+> +
+> +		n = snprintf(priv->phys2, sizeof(priv->phys2), "%s/input1",
+> +			     psmouse->ps2dev.serio->phys);
+> +		if (n >= sizeof(priv->phys2)) {
+> +			psmouse_err(psmouse,
+> +				    "failed to prepare path to the trackstick device\n");
+> +			error = -E2BIG;
+> +			goto init_fail;
 
-> ---
-> Changes since v1:
-> - Rebased and resolved conflicts with "spherion" trackpad prober
-> ---
->  drivers/platform/chrome/chromeos_of_hw_prober.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->=20
-> diff --git a/drivers/platform/chrome/chromeos_of_hw_prober.c b/drivers/pl=
-atform/chrome/chromeos_of_hw_prober.c
-> index 019578bc7ad0..10dbaede0541 100644
-> --- a/drivers/platform/chrome/chromeos_of_hw_prober.c
-> +++ b/drivers/platform/chrome/chromeos_of_hw_prober.c
-> @@ -57,6 +57,7 @@ static int chromeos_i2c_component_prober(struct device =
-*dev, const void *_data)
->  	}
-> =20
->  DEFINE_CHROMEOS_I2C_PROBE_DATA_DUMB_BY_TYPE(touchscreen);
-> +DEFINE_CHROMEOS_I2C_PROBE_DATA_DUMB_BY_TYPE(trackpad);
-> =20
->  DEFINE_CHROMEOS_I2C_PROBE_CFG_SIMPLE_BY_TYPE(trackpad);
-> =20
-> @@ -88,6 +89,18 @@ static const struct hw_prober_entry hw_prober_platform=
-s[] =3D {
->  		.compatible =3D "google,spherion",
->  		.prober =3D chromeos_i2c_component_prober,
->  		.data =3D &chromeos_i2c_probe_hana_trackpad,
-> +	}, {
-> +		.compatible =3D "google,squirtle",
-> +		.prober =3D chromeos_i2c_component_prober,
-> +		.data =3D &chromeos_i2c_probe_dumb_trackpad,
-> +	}, {
-> +		.compatible =3D "google,steelix",
-> +		.prober =3D chromeos_i2c_component_prober,
-> +		.data =3D &chromeos_i2c_probe_dumb_trackpad,
-> +	}, {
-> +		.compatible =3D "google,voltorb",
-> +		.prober =3D chromeos_i2c_component_prober,
-> +		.data =3D &chromeos_i2c_probe_dumb_trackpad,
->  	},
->  };
-> =20
-> --=20
-> 2.49.0.805.g082f7c87e0-goog
->=20
+So you just broke touchpad of some poor guy who had it working just fine 
+for many years. For maximum impact you should add BUG() or panic()
+here.
 
---8X7Hm8zNZQujXZIe
-Content-Type: application/pgp-signature; name="signature.asc"
+In all seriousness, it is OK to have truncated phys, rarely anyone looks
+at it and if we get a report of it being truncated then we can consider
+addressing the size (or we can decide to live with it truncated).
 
------BEGIN PGP SIGNATURE-----
+Thanks.
 
-iHUEABYIAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCaA/a4QAKCRBzbaomhzOw
-wjG2AP4ijnSVnwRAZNpFtMiKPIOjyp13MuNiw9PMzfMbCr+MRwEA9hFqvOc+hmFl
-cJV85xxmxWaYDZTsW2Gw5ByJNl+JBAo=
-=LvH0
------END PGP SIGNATURE-----
-
---8X7Hm8zNZQujXZIe--
+-- 
+Dmitry
 
