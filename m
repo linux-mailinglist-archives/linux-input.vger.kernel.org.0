@@ -1,189 +1,140 @@
-Return-Path: <linux-input+bounces-12049-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12050-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E536A9F961
-	for <lists+linux-input@lfdr.de>; Mon, 28 Apr 2025 21:24:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC19AA9F985
+	for <lists+linux-input@lfdr.de>; Mon, 28 Apr 2025 21:30:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 65A2E1A81AAE
-	for <lists+linux-input@lfdr.de>; Mon, 28 Apr 2025 19:24:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 351B817912A
+	for <lists+linux-input@lfdr.de>; Mon, 28 Apr 2025 19:30:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CA562951DD;
-	Mon, 28 Apr 2025 19:24:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 802AA190072;
+	Mon, 28 Apr 2025 19:30:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="AbTbbDYR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ha6hfHDr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D66293B6A;
-	Mon, 28 Apr 2025 19:24:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AED42AA6;
+	Mon, 28 Apr 2025 19:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745868249; cv=none; b=mR4R9yEElxL6ilXCNfQkkqEtnfkOpdid01DaeZMmta2b8DV7wx0GTBGbhVVJXhf53Bd9MwYLdmHqXQOGCX9JF+sNAn9YFh9GFjQxJId60GNh6z/oa6byxnFOBQ0bSGzsG2J6KJ1y9JEnlURTQsR+EvXcsj4s+y/16DpPXvOjs+U=
+	t=1745868653; cv=none; b=H8xZqarW7IhRN3CytiqdZo7LJRUdeUv2QEnzhjNMBaeD4gJpgP9keo5c4qAefB0FOdxMLnh6DbHtp4GQBbDn5P0f7JLU3mc8HP+pByAwzumUbh4dmWufXLybn2wyQnGuIuqDBXmlnDrqLY+pIsVmXEEd7YazyzekNbA/IAG35BA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745868249; c=relaxed/simple;
-	bh=ukZGbYHvylISOm2wikgcSrTFayBuY5PwwwA5MqvAmRM=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=IvvxDPaOomstd/T790zbA0FXEMueFAtrnUPNlz0Dcy9Xo1Vmo6xXam55LmrA1iGgQiJZoav+ugskheKlCN0nTRrydlHfdCFuDr9OXGl2Wbh3vLTdl6FrPLa+aSXiaN4udBah6SHqavGtUw/e7LA23fh/1m7zNVcFB04qQun1xt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=AbTbbDYR; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1745868244; x=1746473044; i=markus.elfring@web.de;
-	bh=WxND/54K1k9Lc6QWwai2eS+JTZ03ZFV5RKUVe8NbtAo=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
-	 Subject:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=AbTbbDYR3ZCaoM6ytCAqCJWzeAOUvBVFPo7AzCFwNluTbbInXiNtS7pLdwiElUQQ
-	 DxCaxd4Xiz4B73U78rVbmnRqJ1A+9JUp2B9vdSKAsr9dl40HXQqdjniCKEPsQ2zgh
-	 EiFBxjXmCsDDWJOhQ7hcmBBIFQRXOijzapxWJUyL2ubQ6SObTlJuFbZOoux8t+M4/
-	 a7/voPBxQo8IkpzUdrXrUlP0LVCF3bzjvs2MVMjczGevz+5UvgOQEIC4+JpsWMPvJ
-	 pGQzzeu0QasW1gl8IqQNrSs/DaOdgqQNo2OPcGo3uQkn3rjbj2e46TP5bDwkgvDAM
-	 sUt14sNToKg7SQsv8w==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.70.68]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mvsq5-1uy95v2Ipr-00ywz5; Mon, 28
- Apr 2025 21:24:04 +0200
-Message-ID: <d431f727-894a-48e3-bca6-3f2aa971d7be@web.de>
-Date: Mon, 28 Apr 2025 21:23:53 +0200
+	s=arc-20240116; t=1745868653; c=relaxed/simple;
+	bh=TwYt1P/LJlat0M9t+rVzFLvzyCeNVLRnTX5hC5Wb38o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iKfw07fzKXI6t6ePLF5b1HVtw1O/5Uj3SSZvHs5WD3uxuOsPHnwFiTSdPwMl+G0B4GeUUVGWXVY1DA//2P4LlEHwn6JY1/h6SdVuRSuUAd4gcA+qlo1FsffDn68reuPpYf/7nLb+I31gPMvzLsDoecnz6EYYDklkOPNBW3bU3k0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ha6hfHDr; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b07d607dc83so4586417a12.1;
+        Mon, 28 Apr 2025 12:30:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745868651; x=1746473451; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tpk6VzszwWxTTij49TZSclL6cNM9y9IHMjKw/7hWAFc=;
+        b=Ha6hfHDr/ATdAOCxZmtvBQ6nptL1mJpAt2idHpRda4XyXyr3JHXN2ARabj3mHyUYAu
+         DQ/bmzfrfcHXKrG10J864a8k2BIacQ+p+qHaHjRrv4nh3neFygRLNwoKzdAkdoQ3Ki2Q
+         qFqw2dBiIQTv6PRy82Atz0dfgYg7wraqBD0MUThWRHBOkkcuiHNrMlJb5l+ZJc1WesPi
+         evIYd8ent20RfQp14u+WR4Y4Y1gqWjiNmEZZsrlr1pl9VTmgcYhPa9XqKz1+qJ68zA2o
+         /C0S7kkhDNEe+W47/2Ljz1ygcIkGsw9MWahNkj5DpnnPQu+ulrp4EbfsB17umDAh9171
+         DnTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745868651; x=1746473451;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Tpk6VzszwWxTTij49TZSclL6cNM9y9IHMjKw/7hWAFc=;
+        b=Qlq5vNQgguCZtlFMMwaJhllLCJwVn57gHohYvluaB5OPMBYvJ574s5Buc7AZPtcQ5J
+         8ThRFEWrtdiJ1gjy99Zx0F0oqM9ccBTBGWvR8M0eKX3Pm2fMsnYWD05kua2DhnLxsLsB
+         EzsYnKxO4/6a/pYYZK/qRXyFvEByz7uvUuQqLqro+Ez6TspIiIBOH3lWtdDoq5Es/0Pg
+         YhKP90uJBCrp7SMl7K1bnpEMteEFwjaYZmXh4Qaimd2ouAlpEx0GBdZ8ibD5eqFW7acD
+         UZD0Kmz03ahcJmfVb1vvhZoUKWPZV0nkDikn4sw52rfHRXNq1r7O6EzL/qvARgGNu9af
+         QcOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV+RpPstFvpIvSbyPW/Vyw1EA04AlWPYPIIUcJW+uzGLj9Dy9duoyh8hhavicVjgTyG4fd+Wa73u6WT@vger.kernel.org, AJvYcCVGhFADZFA9ehv/IxK0/yZ2JjA7DR2RdvrkkODkfvlxNWPgFEBaOorpSlYMZX4gWx0UbEMT9ThJJSH34fU=@vger.kernel.org, AJvYcCVdR1dWhpkNDIPGqoboVWvSFge6gMQbxqngR5fPxK9TrpXv1yGsTJI8zk4EgMZSC8B9UwF7ORe8l0U2dQg0@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0SUbG3WqTHe4bz72El9Nqytjw37KQ9yHSil4sGvcaApaMlx9e
+	PNosou26UhqrxYTLEsH6UsgUcbLUPx6s6cMX5HRRr4UUHxOHHOVU
+X-Gm-Gg: ASbGncvKvF8aMgtSx4Mi1nLKVx5N6BFeI4fAdCx1QvaAKk48XqXN8r1JKLY6K2w6EID
+	tFgCQ7rEULy7yB0APYSzkHal1/lPWFymxZwOIIyXQxwbAZ1Ur1moRtPFbqr6UE/HteWSCYJIUBY
+	dSLLD/IMr+hgAXxtEMFzUC/lHXYcmJmwQ+tjJOdgTqTv2v6zaxtwlhJ9rqChfrn/LocF5Bo7JsO
+	jkGHF22fFv6P64+CGE44rQzV/vA5RCoNn8rVNkTlmKFrkgHjKn9O/p0/rFjeufjp/qYUhkfBMfM
+	rDuVA7C5KDuD8LhCw0IXsOfTHyil1KInFdssZCHe
+X-Google-Smtp-Source: AGHT+IEbca48Y0EHHhxNixOZyjB2dSXXAABzJVN1lWbW/1bawIUzxMMkYSur8t5IQFCnd7qluqebnA==
+X-Received: by 2002:a17:90b:53cc:b0:2f8:b2c:5ef3 with SMTP id 98e67ed59e1d1-30a21550733mr1642662a91.14.1745868650995;
+        Mon, 28 Apr 2025 12:30:50 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:67d:4372:d1e6:def0])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db50e7636sm87291995ad.117.2025.04.28.12.30.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Apr 2025 12:30:50 -0700 (PDT)
+Date: Mon, 28 Apr 2025 12:30:47 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Esben Haabendal <esben@geanix.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: input: touchscreen: goodix: Add
+ no-reset-pull-up property
+Message-ID: <23onpttl3w2wo3625c7flbljahojipsb4xznrx6xynr7rrzofr@2bcvjji7dpu6>
+References: <20250422-goodix-no-reset-pull-up-v1-0-3983bb65a1bf@geanix.com>
+ <20250422-goodix-no-reset-pull-up-v1-1-3983bb65a1bf@geanix.com>
+ <20250428-logical-successful-spoonbill-cd1c6b@kuoka>
+ <zkDFUv9azjyXaS--ufxgROyruM2mpckWkDNeHtAO160rM2DuaJthpjgN0c_L8QgTk8bNA7Km0UewYmp1rWENwg2x4ngP-8C1rYhHMgAz0OA=@geanix.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: linux-input@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Qasim Ijaz <qasdev00@gmail.com>
-Content-Language: en-GB, de-DE
-Cc: LKML <linux-kernel@vger.kernel.org>
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] HID: thrustmaster: Use scope-based resource management in
- thrustmaster_interrupts()
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:UoUgiAshSxeLZHSday19ijFln7vTlDcjGC++EyjCoB2Lbt1emJU
- mkgR9m8BYYfADwdPPw6/hk0u3i1NaZpJISWLJ5Qr8WulKpxIlGLW/DgWRCPbviKP36P7xqF
- Yp1bVqqriqPkyOpX7gDO8oXRvMQmrQo/JJjgSG/mTUU1RaOuxsFJ1lpiIMZBIQWNmzAGJiI
- HPmoQLdcPNV817X6U9zsw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:XSFitPko9qY=;nv2ERlI4XC8GYye4i4o7gpCT9zh
- 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
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <zkDFUv9azjyXaS--ufxgROyruM2mpckWkDNeHtAO160rM2DuaJthpjgN0c_L8QgTk8bNA7Km0UewYmp1rWENwg2x4ngP-8C1rYhHMgAz0OA=@geanix.com>
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Mon, 28 Apr 2025 21:12:14 +0200
+On Mon, Apr 28, 2025 at 07:58:55AM +0000, Esben Haabendal wrote:
+> On Monday, April 28th, 2025 at 09:48, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > On Tue, Apr 22, 2025 at 05:15:02PM GMT, Esben Haabendal wrote:
+> > 
+> > > This should be added for boards where there is no pull-up on the reset pin,
+> > > as the driver will otherwise switch the reset signal to high-impedance to
+> > > save power, which obviously not safe without pull-up.
+> > > 
+> > > Signed-off-by: Esben Haabendal esben@geanix.com
+> > > ---
+> > > Documentation/devicetree/bindings/input/touchscreen/goodix.yaml | 4 ++++
+> > > 1 file changed, 4 insertions(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+> > > index eb4992f708b70fef93bd4b59b9565123f7c6ad5d..7e5c4b98f2cb1ef61798252ea5c573068a46d4aa 100644
+> > > --- a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+> > > +++ b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+> > > @@ -45,6 +45,10 @@ properties:
+> > > reset-gpios:
+> > > maxItems: 1
+> > > 
+> > > + no-reset-pull-up:
+> > 
+> > Is this common property? Where is it defined? Otherwise missing vendor
+> > prefix.
+> 
+> Good question. When is something a common property?
+> 
+> The idea of marking something as not having a pull-up on the reset pin could be considered a common thing I guess.
+> But for now, I am defining it for the goodix driver only, as I am only aware of these devices needing to handle it in a special way.
+> 
+> Should I rename it to goodix,no-reset-pull-up?
 
-Scope-based resource management became supported for some
-programming interfaces by contributions of Peter Zijlstra on 2023-05-26.
-See also the commit 54da6a0924311c7cf5015533991e44fb8eb12773 ("locking:
-Introduce __cleanup() based infrastructure").
+We already have GPIO_PULL_UP/GPIO_PULL_DOWN flags available in GPIO
+bindings. So maybe the correct way is to have the driver rely on them
+and only leave the reset line in high-impedance mode if GPIO tells it
+that there is a pull-up?
 
-* Thus use the attribute =E2=80=9C__free(kfree)=E2=80=9D.
+Thanks.
 
-* Omit four kfree() calls accordingly.
-
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/hid/hid-thrustmaster.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
-
-diff --git a/drivers/hid/hid-thrustmaster.c b/drivers/hid/hid-thrustmaster=
-.c
-index 0bf70664c35e..c4d74c1d5ddd 100644
-=2D-- a/drivers/hid/hid-thrustmaster.c
-+++ b/drivers/hid/hid-thrustmaster.c
-@@ -150,7 +150,7 @@ static const struct usb_ctrlrequest change_request =3D=
- {
- static void thrustmaster_interrupts(struct hid_device *hdev)
- {
- 	int ret, trans, i, b_ep;
--	u8 *send_buf =3D kmalloc(256, GFP_KERNEL);
-+	u8 *send_buf __free(kfree) =3D kmalloc(256, GFP_KERNEL);
- 	struct usb_host_endpoint *ep;
- 	struct device *dev =3D &hdev->dev;
- 	struct usb_interface *usbif =3D to_usb_interface(dev->parent);
-@@ -162,7 +162,6 @@ static void thrustmaster_interrupts(struct hid_device =
-*hdev)
- 	}
-=20
- 	if (usbif->cur_altsetting->desc.bNumEndpoints < 2) {
--		kfree(send_buf);
- 		hid_err(hdev, "Wrong number of endpoints?\n");
- 		return;
- 	}
-@@ -174,7 +173,6 @@ static void thrustmaster_interrupts(struct hid_device =
-*hdev)
- 	u8 ep_addr[2] =3D {b_ep, 0};
-=20
- 	if (!usb_check_int_endpoints(usbif, ep_addr)) {
--		kfree(send_buf);
- 		hid_err(hdev, "Unexpected non-int endpoint\n");
- 		return;
- 	}
-@@ -191,12 +189,9 @@ static void thrustmaster_interrupts(struct hid_device=
- *hdev)
-=20
- 		if (ret) {
- 			hid_err(hdev, "setup data couldn't be sent\n");
--			kfree(send_buf);
- 			return;
- 		}
- 	}
--
--	kfree(send_buf);
- }
-=20
- static void thrustmaster_change_handler(struct urb *urb)
-=2D-=20
-2.49.0
-
+-- 
+Dmitry
 
