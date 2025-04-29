@@ -1,94 +1,124 @@
-Return-Path: <linux-input+bounces-12071-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12072-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D9BAA0FFD
-	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 17:04:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3074AA1089
+	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 17:32:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D26E189181F
-	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 15:04:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 18B625A198F
+	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 15:31:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1077A21CC49;
-	Tue, 29 Apr 2025 15:04:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEBC521ADC4;
+	Tue, 29 Apr 2025 15:31:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kcWcj2ox"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BAeJQYpT"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D105421B9E4;
-	Tue, 29 Apr 2025 15:04:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA5E21A43D;
+	Tue, 29 Apr 2025 15:31:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745939041; cv=none; b=f49vkQnNKQtTQeobbUU86oPvk3MdRvP998ZUF/dJKo6AOE0RAVafgRE6TkcExpkEx/9kj4lj5kumsqCX7h3IOxJWRRDa9x+FLHNg+Nt8usCyCcoyR2HNPsj4XHckNdguxWlQfqOvPfkU+jnh1F2CX99DtHUtK9ApMBMXZsN1yhs=
+	t=1745940716; cv=none; b=i9O/9bxQxeD722yAdnljfs0x5h/Ymu0b1P0O6RKbuALFrRaqcBJdYfKjlsRxbKzW52pRwAK47MyHcEezVqq6AVFZqwJYiZW0DpPw12bORxtpvbzA0q16BHilDa4TlI0y+U1rtD+W8s/ZyUWDw0fRvJZHcwhLc3xmcUKu8k5f2+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745939041; c=relaxed/simple;
-	bh=NQ6rs0gAx8UaaZKGMW2O3mPB21o1FM4k1lKYkEfoXVU=;
+	s=arc-20240116; t=1745940716; c=relaxed/simple;
+	bh=IJceQHsA6xTRZyfgNBSrAnK9DQ/MkTpj3aI3tErDl3M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aRYsIJQ8Sk7N6WQxnmkDKkDrrnMx35TZGJWYv5gikbCfu18bApGtKWS+5XvRlHBlIElYWyXPsml/NNLHl6yZj0/pc30l2zLUIyQpHUQN47MxrNyhUUmjpgcfmiMYnqZWpsH3FWTq8RtSYZMfrCevzy3qAwEdGCr6U8Pfd17gBH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kcWcj2ox; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1229AC4CEED;
-	Tue, 29 Apr 2025 15:04:00 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=KHvTPvKVR9vyUXuWnBYWl+H1ei1d/yzcTLbGK++WFCJ6AeBG9U0wJYu7oB09AQPKtRf1S3ikwkGYFkti2X6VQyOYZsKmJZE9k3XyV9fox8MJyjywLhKEzxUSsq4qaHcxNVfF3fVEP3Rt4rgstXZRXurvE4kiAaM81YxMv+S12Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BAeJQYpT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43314C4CEE3;
+	Tue, 29 Apr 2025 15:31:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745939041;
-	bh=NQ6rs0gAx8UaaZKGMW2O3mPB21o1FM4k1lKYkEfoXVU=;
+	s=k20201202; t=1745940715;
+	bh=IJceQHsA6xTRZyfgNBSrAnK9DQ/MkTpj3aI3tErDl3M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kcWcj2oxSKexKkkqMX8hZCj4YEE9wEd9S/JhZdWwGmLgv2jdVtQRf4v3fpIwy950z
-	 fqVM7VrLb0NWWejI+JG9skw+1NXGPRE2vkhHqLsx/4uiTfbW0FsgISn6M0RxlTP5iT
-	 69/kgPexmOGnXSERLBmIbhrMgKAsOYKeTYqiVLZrgTawahlZayC1mWOTOj6hTfjjTL
-	 b1AYc8LseV5boePdNcwCbZYdzs/0e5fD8nTbbiSBkDWXiRperUDgBLX4JDxOsFsqSZ
-	 OizxN/yets15PN1snTDYCHQykS4KFjx4Gz6rSXYAQLPGsGE5ct+FkAKno1HKcTOCAP
-	 6AOUf4UpOQuCw==
-Date: Tue, 29 Apr 2025 10:03:59 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
-Cc: devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+	b=BAeJQYpTndZDSSAWc68j3NqsTTOeQ525PCypz4BlaTnCmK0DFoMVvLZhsOtv3GPMB
+	 RPYjX661wJ8Y1qujurGR2guRfOMNvw42PV+Mwr6BPclTtgRzWHhlUbh75i1JY/8RH0
+	 Y+/KW4oceS6pVigAaYJJLHWc247Nn5emOJSpsNitfibdZ3GKqWNTvo5TggJBBo1c5j
+	 y6h4lORns4KWKK89g35+ONumBj5raGlkwCyHeGTCr3BllqQRWjb46sQpbE9vgtCoF+
+	 bgAcGPJ5z1GY3emoEIrVSWJCSxG2HWTekje4rGgsy+7AliTNke9/IvUONdW/Ya08Fu
+	 MqplVqUD1S5rQ==
+Date: Tue, 29 Apr 2025 16:31:51 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Esben Haabendal <esben@geanix.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liu Ying <victor.liu@nxp.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Lee Jones <lee@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH v2 09/17] dt-bindings: mfd: adp5585: add properties for
- input events
-Message-ID: <174593903898.4100627.2373563890493878506.robh@kernel.org>
-References: <20250415-dev-adp5589-fw-v2-0-3a799c3ed812@analog.com>
- <20250415-dev-adp5589-fw-v2-9-3a799c3ed812@analog.com>
+	Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: goodix: Add
+ no-reset-pull-up property
+Message-ID: <20250429-effects-subscript-58eb41737816@spud>
+References: <20250429-goodix-no-reset-pull-up-v2-0-0687a4ad5a04@geanix.com>
+ <20250429-goodix-no-reset-pull-up-v2-1-0687a4ad5a04@geanix.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="WTOJJw+4zWH0HCQ2"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250415-dev-adp5589-fw-v2-9-3a799c3ed812@analog.com>
+In-Reply-To: <20250429-goodix-no-reset-pull-up-v2-1-0687a4ad5a04@geanix.com>
 
 
-On Tue, 15 Apr 2025 15:49:25 +0100, Nuno Sá wrote:
-> Add properties related to input events. These devices can act as
-> keyboards and can support events either via a keymap Matrix or through
-> GPIs. Note that the device needs to be an interrupt controller for GPIs
-> based events.
-> 
-> We specifically need a property specifying the pins used by the keymap
-> matrix since these devices have no requirement for rows and columns to be
-> contiguous without holes which is enforced by the standard input
-> properties.
-> 
-> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+--WTOJJw+4zWH0HCQ2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Apr 29, 2025 at 11:56:11AM +0200, Esben Haabendal wrote:
+> This should be added for boards where there is no pull-up on the reset pi=
+n,
+> as the driver will otherwise switch the reset signal to high-impedance to
+> save power, which obviously not safe without pull-up.
+>=20
+> Signed-off-by: Esben Haabendal <esben@geanix.com>
 > ---
->  .../devicetree/bindings/mfd/adi,adp5585.yaml       | 188 ++++++++++++++++++++-
->  1 file changed, 186 insertions(+), 2 deletions(-)
-> 
+>  Documentation/devicetree/bindings/input/touchscreen/goodix.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix.y=
+aml b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+> index eb4992f708b70fef93bd4b59b9565123f7c6ad5d..21ac13046b6e021eeb403d854=
+aabc945801dd29f 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+> @@ -45,6 +45,10 @@ properties:
+>    reset-gpios:
+>      maxItems: 1
+> =20
+> +  goodix,no-reset-pull-up:
+> +    type: boolean
+> +    description: There is no pull-up on reset pin
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+I have to wonder, why are these system using the reset property if the
+reset is not usable? Shouldn't the property be omitted?
 
+> +
+>    AVDD28-supply:
+>      description: Analog power supply regulator on AVDD28 pin
+> =20
+>=20
+> --=20
+> 2.49.0
+>=20
+
+--WTOJJw+4zWH0HCQ2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaBDw5wAKCRB4tDGHoIJi
+0jfOAP9rWyHCAKzOu8+HRHfQl2Fd3V+shjm+zH/CfafuVGc37gD+Ia+k5GKQ2r4e
+a6a/vzPb3KoWOhwjAyJjbE9AGP6wmAI=
+=hL4J
+-----END PGP SIGNATURE-----
+
+--WTOJJw+4zWH0HCQ2--
 
