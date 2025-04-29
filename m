@@ -1,95 +1,156 @@
-Return-Path: <linux-input+bounces-12061-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12062-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C596FAA0192
-	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 07:02:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7D7AA02A7
+	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 08:12:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F0A717E293
-	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 05:02:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 105661B63170
+	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 06:12:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD58E20C48E;
-	Tue, 29 Apr 2025 05:02:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D3EB274FCA;
+	Tue, 29 Apr 2025 06:11:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J9cUakIU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fgw22-7.mail.saunalahti.fi (fgw22-7.mail.saunalahti.fi [62.142.5.83])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05111DE8B2
-	for <linux-input@vger.kernel.org>; Tue, 29 Apr 2025 05:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60464274658;
+	Tue, 29 Apr 2025 06:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745902953; cv=none; b=shktUt4w4P/8DdBnyFExargQAKnUuLvY+Zd/CGyG4EV+tt1hcf2Wo8hLi+wZLL1l6CfzJHvK4oAL6QM/thVZ30GiSVF0DALVhXX9tDoCwBCChkmFxbBhsMuRkYj24RXFU/3IvozzUivvB9jDFCS3q2iTo4UJcerUeHLU0TQ+jPk=
+	t=1745907119; cv=none; b=Izy/upOwERStz3Wb1t7ycOUhP5hJ2ZW+JAldaTAGnrBxMRrvUxDJLd96wWSYRydaTpyrzusSVRfEpgxe7XI5fu99cyUQxFgDVUv9YRaZmOfo6xvTatp+TXp9A5Lug4Bu4ZUIf11e1J+IMnLcidPq7risHwS3bEF44f7Zae/u0uM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745902953; c=relaxed/simple;
-	bh=9fWrwTu/pKD6etmx4FOBE9CwAgENRpHBHUT4MY7cQHs=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Azk95V3rPydLBYxbwKfaQK9mpkuSe07lx48mYirVaafL0UnQ0d/cId1WV1yBU0ETOyFLmLZpCIBKYV8xgjj6RADLOot5xWX9V6XqHTXOuPTOsCbXc6Pa2bS073nOw5VMAd12vZOa12K0TQ9//NTqrepSrDDXP46Q4ZNijXrou/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-Received: from localhost (88-113-26-232.elisa-laajakaista.fi [88.113.26.232])
-	by fgw20.mail.saunalahti.fi (Halon) with ESMTP
-	id f79c0c62-24b6-11f0-ac77-005056bd6ce9;
-	Tue, 29 Apr 2025 08:01:10 +0300 (EEST)
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 29 Apr 2025 08:01:10 +0300
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
-Subject: Re: [PATCH v1 1/1] Input: ALPS - bail out when device path can't fit
- buffer
-Message-ID: <aBBdFoBbdl8GI6da@surfacebook.localdomain>
-References: <20250422185645.1949391-1-andriy.shevchenko@linux.intel.com>
- <ybenmz2fmjxjpo3zhnrh2ptquikxrtb63664qbhhfv5d4ezx5n@c3p2tbosx2tz>
+	s=arc-20240116; t=1745907119; c=relaxed/simple;
+	bh=QH9BrCzldPjHuztYNYhhzYq5T7NvKyX+PKNkHLsJAso=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MBvK3E8dzNUPsbSzM4hsrwy8HQXN/EO3esaaRJSJ1+gHJXyRzDwWqHPExoLYdLDHZLdXoleVxhZmxnpw7FaTWCygiCuzj6VkkkNF+KzkCCLn1N9QhT6/nJ/CJkAeJukKF/3MP7CYurEHgCebTrmOeb4NBJtKonaPB0dnRJRWk6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J9cUakIU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7E57C4CEE3;
+	Tue, 29 Apr 2025 06:11:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745907118;
+	bh=QH9BrCzldPjHuztYNYhhzYq5T7NvKyX+PKNkHLsJAso=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=J9cUakIUlqO0bF36AFw8YAW/nAvsTHHsgZ5eW/a8GVDzNEtD2GTtscvy+V6dDUjBb
+	 fISYVfqLgElmwoX4VvQFPj2n35lNbTXYqBGDTiNrD2nWva4c++7Xm9oZ63NTwNZGmD
+	 rJ8uyJ7wP4xRDm2Ucl74IF2dmRA7LaxdRBFtzkPjFFIoDQJXVP08lAYKfIovJ39h8j
+	 JGgxOmAUdJiPfJpDtLhWPxZAEcPp8bj+RLM+XYDqvjbzruWCSay8H8o5x9jl3OQ1qx
+	 9T+WcU1X9GPEs+mW15urAQovQuIXG4Nbd1AIgava28XSjxe3HupHmBsZIZVxOkYcCl
+	 mJS8d9mm4EZfA==
+Message-ID: <713fcd68-af57-4cf9-84ad-a3fdff8c3f76@kernel.org>
+Date: Tue, 29 Apr 2025 08:11:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ybenmz2fmjxjpo3zhnrh2ptquikxrtb63664qbhhfv5d4ezx5n@c3p2tbosx2tz>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: input: touchscreen: goodix: Add
+ no-reset-pull-up property
+To: Esben Haabendal <esben@geanix.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250422-goodix-no-reset-pull-up-v1-0-3983bb65a1bf@geanix.com>
+ <20250422-goodix-no-reset-pull-up-v1-1-3983bb65a1bf@geanix.com>
+ <20250428-logical-successful-spoonbill-cd1c6b@kuoka>
+ <zkDFUv9azjyXaS--ufxgROyruM2mpckWkDNeHtAO160rM2DuaJthpjgN0c_L8QgTk8bNA7Km0UewYmp1rWENwg2x4ngP-8C1rYhHMgAz0OA=@geanix.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <zkDFUv9azjyXaS--ufxgROyruM2mpckWkDNeHtAO160rM2DuaJthpjgN0c_L8QgTk8bNA7Km0UewYmp1rWENwg2x4ngP-8C1rYhHMgAz0OA=@geanix.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Mon, Apr 28, 2025 at 04:30:13PM -0700, Dmitry Torokhov kirjoitti:
-> On Tue, Apr 22, 2025 at 09:56:45PM +0300, Andy Shevchenko wrote:
-> > @@ -3094,6 +3101,16 @@ int alps_init(struct psmouse *psmouse)
-> >  
-> >  	if (priv->flags & ALPS_DUALPOINT) {
-> >  		struct input_dev *dev2;
-> > +		int n;
-> > +
-> > +		n = snprintf(priv->phys2, sizeof(priv->phys2), "%s/input1",
-> > +			     psmouse->ps2dev.serio->phys);
-> > +		if (n >= sizeof(priv->phys2)) {
-> > +			psmouse_err(psmouse,
-> > +				    "failed to prepare path to the trackstick device\n");
-> > +			error = -E2BIG;
-> > +			goto init_fail;
+On 28/04/2025 09:58, Esben Haabendal wrote:
+> On Monday, April 28th, 2025 at 09:48, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>> On Tue, Apr 22, 2025 at 05:15:02PM GMT, Esben Haabendal wrote:
+>>
+>>> This should be added for boards where there is no pull-up on the reset pin,
+>>> as the driver will otherwise switch the reset signal to high-impedance to
+>>> save power, which obviously not safe without pull-up.
+>>>
+>>> Signed-off-by: Esben Haabendal esben@geanix.com
+>>> ---
+>>> Documentation/devicetree/bindings/input/touchscreen/goodix.yaml | 4 ++++
+>>> 1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+>>> index eb4992f708b70fef93bd4b59b9565123f7c6ad5d..7e5c4b98f2cb1ef61798252ea5c573068a46d4aa 100644
+>>> --- a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+>>> +++ b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+>>> @@ -45,6 +45,10 @@ properties:
+>>> reset-gpios:
+>>> maxItems: 1
+>>>
+>>> + no-reset-pull-up:
+>>
+>> Is this common property? Where is it defined? Otherwise missing vendor
+>> prefix.
 > 
-> So you just broke touchpad of some poor guy who had it working just fine 
-> for many years. For maximum impact you should add BUG() or panic()
-> here.
+> Good question. When is something a common property?
 
-Ha-ha. You know that your speculation most likely so far from the truth.
+When is defined in common schema and used by more than 2 devices.
 
-> In all seriousness, it is OK to have truncated phys, rarely anyone looks
-> at it and if we get a report of it being truncated then we can consider
-> addressing the size (or we can decide to live with it truncated).
-
-In all seriousness, while I agree on the statement, the 4 drivers in Input
-subsystem break the build. It's the biggest obstacle now to enable WERROR=y,
-which is default, builds on `make W=1`. So, I already gave you chance to fix,
-instead I hear nothing back for a months (to be precise 2 months and a day
-passed from my first attempt that you didn't like), the problem still exists.
-Please, address this the way you like.
-
--- 
-With Best Regards,
-Andy Shevchenko
+> 
+> The idea of marking something as not having a pull-up on the reset pin could be considered a common thing I guess.
+> But for now, I am defining it for the goodix driver only, as I am only aware of these devices needing to handle it in a special way.
+> 
+> Should I rename it to goodix,no-reset-pull-up?
 
 
+Yes
+
+
+Best regards,
+Krzysztof
 
