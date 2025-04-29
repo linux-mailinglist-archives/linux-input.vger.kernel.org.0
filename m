@@ -1,128 +1,128 @@
-Return-Path: <linux-input+bounces-12069-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12070-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9A2AA0B9E
-	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 14:28:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B772AA0E77
+	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 16:15:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E4F9484453
-	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 12:28:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E92621B678B0
+	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 14:13:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E22E729DB74;
-	Tue, 29 Apr 2025 12:28:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C3542D3A91;
+	Tue, 29 Apr 2025 14:12:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TegnK+wG"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b="C8sz6Hri"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-244107.protonmail.ch (mail-244107.protonmail.ch [109.224.244.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30963175A5
-	for <linux-input@vger.kernel.org>; Tue, 29 Apr 2025 12:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0002D3A7C
+	for <linux-input@vger.kernel.org>; Tue, 29 Apr 2025 14:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745929702; cv=none; b=XUxyCVdJX3CU0RUQb96ET6vJezEv3KknMINR2Tpy0t7D4/s90T7rooHQ2NFVIYobEH9dGYp8teZ6KViZcKMl4Py+5tVYJ9x7Cenp23zh4kIJUxBN71dAmpGKrTBJzm6HXdSKAhWZhJaxNc4zpbXQlxL0l6EgdOVj2gvdI6Ww7kc=
+	t=1745935921; cv=none; b=DEwT1Ty7eBlumvJZfVT7JmJ0+Vmh97KQ2LbshhVwpgViTe+QR9QWVJ0iKFWVqDvyy07Hh4dYLc4MGvhbFt7tNbBMVEq+6al69tPHsy+4NsP+SRzk4SmV2i3GtDHya4drC21fWzmnjQjdwyUa/SWgOQMwIVQmK5yrxjlNkwxZpdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745929702; c=relaxed/simple;
-	bh=NmF8yS/LxdAbYcspSM7wM1E23FgaPA0F1ktxVtmS+Ao=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aUJTFZM+ocolX4d4nUK2M1ymBorCojddrta3QMGjWxICpYoOOo/VQjNNEhHSDfnua6GaUi1pWOodHMUijDZ9ZkGkt9hger5DNtZKFbrnJ3DAMatq2kD3+sOig5hzshgGgCy66CoMA3663hv5/mJjtGM1pM60sHv5w513FVtrFYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TegnK+wG; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ac7bd86f637so1327386066b.1
-        for <linux-input@vger.kernel.org>; Tue, 29 Apr 2025 05:28:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745929699; x=1746534499; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=koN3i9u1yWXLoLucqgVgrkyci1pR0i09zyThj3OeDXw=;
-        b=TegnK+wGnKXleT3TcpazA6IB3/nqVd3m2vlSMEK6iieXe4+OZ3M2lJY/QoVOJGreAU
-         7r9Ij9ygHqG+0Nm/LZ+rZAvWZD17hrwGSGXGfBMEWcvIx5sJF3Lvsmv1rMcHB1pVOcfP
-         1uD/e4nXd1gag0u/cKJrHTNQ4CIEMgR1qXAAakGV19MmJpGIeT6W8I4jE+v0OvbDzsKi
-         /1mUOEh+2/b3fAvgMNBDfr2LeO34hGo2VyIqPWYuItE3YYUl76m/C42vKWj92KLYC/lO
-         ahZuWswjqVqMU7D8alZqTZ3CRTmrh3KflUkDvAfxXq3N2jV0pkisnZhMF+wQAB0GKB7v
-         pq9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745929699; x=1746534499;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=koN3i9u1yWXLoLucqgVgrkyci1pR0i09zyThj3OeDXw=;
-        b=upiL/ZWegUGOLzN2CZKqKcYtCnPTDPqxtu1mxN5DhpjLR0Rojd75nwVq8v0KFZS6i7
-         0Xpdo9vJSoDt5+XzoneL3U7gKabxnJHJtY6ygT4a3zwes5EFIJWyZJR7/SEtI7MsiIN8
-         tiyUiQsz1sXepZmJ7/w8jnHRffqnmSyfpayTOxgVQQI+L/xBHyWVje88md6RtWHpvZi7
-         +g7bjalDw5FcbW/txdhdYZIxbEWJUuNuISJiBajVlutA+P9tdWdVpA91eDO6qCKzQV5v
-         iZ0ljwZD9ZEo0+ESH/6tGt05j3a05caeZSGgu885U5/V6Mw72lvPi8MjffE7aWuKLNV9
-         Z/ig==
-X-Forwarded-Encrypted: i=1; AJvYcCVwO9E+gRDmBVolTce3FOfX2A+Mvgpsfad/31rHh5w78WQPKQ99SepNOt5B31JccYhcZZ6hhSCKqQeGpA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYLyghGyuivvXN4hzAHr/bvphGeNEnArs5GwOFcI6R6asV1SU6
-	cUap1jVcSg+M9+7Rjq3F7xVppdyuziUY/wR/3dlwi2U5/ovEsAu/
-X-Gm-Gg: ASbGnctRA4kLQN6cWcjeK3nj8KHFpCgD1SssGppn1fmNgPW7RM+nnyGwAGUE2C6m8+h
-	3Hu8WQmHRCQ7TwKP/tylQKHbBROwpn344cFZ1tTodiWVD8fIUYNzliSzDAlJjGQKE1b9htdIbRL
-	/C44fJSJMQZpi+hcHR6BEZwyvbszxcW/TSjlfA8YKLguymDDVA/piDrOvQSoTcJlu9n1iwLHi3A
-	+bh8y8i2ueFEhqdA5Zd3P+rmcf6yM7nO7uzmN/znrza/XudXy5U++yi/bPX907R0+GyW+DsjlWB
-	RJF1svewy4X8QSBK4g4WYLo9V3B3c4b1d4ANY9eMkc5rFCOtzLCATWHRhQP1sg9sBJj5vHQs0w=
-	=
-X-Google-Smtp-Source: AGHT+IG1cQ9kMKsOk9UcxUNfRkjZe36IRUreA2Ii4HOx5L8MjlYzzS9/KmX0g0YbwebVrk2HrnGwpQ==
-X-Received: by 2002:a17:907:1ca4:b0:ac7:b1eb:8283 with SMTP id a640c23a62f3a-acec6a4958dmr286707466b.17.1745929699093;
-        Tue, 29 Apr 2025 05:28:19 -0700 (PDT)
-Received: from p1g2.lan (128-78-204-97.abo.bbox.fr. [128.78.204.97])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ace6ecf77dasm768290566b.87.2025.04.29.05.28.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Apr 2025 05:28:18 -0700 (PDT)
-From: Gary Bisson <bisson.gary@gmail.com>
-To: angelogioacchino.delregno@collabora.com,
-	matthias.bgg@gmail.com
-Cc: dmitry.torokhov@gmail.com,
-	linux-input@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	Gary Bisson <bisson.gary@gmail.com>
-Subject: [PATCH] Input: mtk-pmic-keys - fix possible null pointer dereference
-Date: Tue, 29 Apr 2025 14:28:15 +0200
-Message-ID: <20250429122815.72724-1-bisson.gary@gmail.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1745935921; c=relaxed/simple;
+	bh=EedXxP4H/gP9dZwClr0nJhcaeU3loAc85FlGQSOdHXo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Tvi55hYjJEhdwrmdgCiO3jKEIHjRXyO5mHsxhJEBIQS+qSct3uu60XCcH7VDP4m3pSy1mKE7PMazpUDRPuBMHrwzulkHO/W2T11s6e0bUpiQ3PZygXFj6yT6SVuSdus96qa4H6/9nMF4/iJ9d75fOxj+gJ/tUKqk2RYQa/HbrAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=geanix.com; spf=pass smtp.mailfrom=geanix.com; dkim=pass (2048-bit key) header.d=geanix.com header.i=@geanix.com header.b=C8sz6Hri; arc=none smtp.client-ip=109.224.244.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=geanix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=geanix.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=geanix.com;
+	s=protonmail; t=1745935911; x=1746195111;
+	bh=EedXxP4H/gP9dZwClr0nJhcaeU3loAc85FlGQSOdHXo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:From:To:
+	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
+	 List-Unsubscribe:List-Unsubscribe-Post;
+	b=C8sz6Hri6mhi7xT+Mx/PB/QQLCwvYIlcemsD0Dpvu366TnBRw6uQ8jtJBvMv0J9ZI
+	 LDcxJldaQyPWeEhWwDOFqZe20NYDkgUAbj2o3xSiLf1IgQ6rHbwt/NoNN+S9Wqy3S5
+	 t9wtOQWsHQkW4QV/sdyCdaIBrqMCWdfvix3mZNzYxYkf5qiwdnnJ3PGR911jgqXaSu
+	 T+ElYKfDScUICac9Xp5vS8fXp4qmCQ8xIx5bd1FrGRaHwnCjDTTrDjBDZgAOTgodfC
+	 7EaEMLHsrEgHstlpM2kUu3PlCHJOuUgwXUREyQ/UfXVfFp6m6QhZoIHF2JMUeaazNV
+	 psbjOxvbkQNqw==
+X-Pm-Submission-Id: 4Zn2LY4yQxz4wx0L
+From: Esben Haabendal <esben@geanix.com>
+To: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
+Cc: "Krzysztof Kozlowski" <krzk@kernel.org>,  "Rob Herring"
+ <robh@kernel.org>,  "Krzysztof Kozlowski" <krzk+dt@kernel.org>,  "Conor
+ Dooley" <conor+dt@kernel.org>,  "Hans de Goede" <hdegoede@redhat.com>,
+  <linux-input@vger.kernel.org>,  <devicetree@vger.kernel.org>,
+  <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: input: touchscreen: goodix: Add
+ no-reset-pull-up property
+In-Reply-To: <23onpttl3w2wo3625c7flbljahojipsb4xznrx6xynr7rrzofr@2bcvjji7dpu6>
+	(Dmitry Torokhov's message of "Mon, 28 Apr 2025 12:30:47 -0700")
+References: <20250422-goodix-no-reset-pull-up-v1-0-3983bb65a1bf@geanix.com>
+	<20250422-goodix-no-reset-pull-up-v1-1-3983bb65a1bf@geanix.com>
+	<20250428-logical-successful-spoonbill-cd1c6b@kuoka>
+	<zkDFUv9azjyXaS--ufxgROyruM2mpckWkDNeHtAO160rM2DuaJthpjgN0c_L8QgTk8bNA7Km0UewYmp1rWENwg2x4ngP-8C1rYhHMgAz0OA=@geanix.com>
+	<gIFipXKkfBDfbZfwOS6mcggLQSkovy0HQrNkBpcZQNS4wc5y3ET_IR85NKxw5FB6_PDFgQaFgB0z3CRVvvNTSQ==@protonmail.internalid>
+	<23onpttl3w2wo3625c7flbljahojipsb4xznrx6xynr7rrzofr@2bcvjji7dpu6>
+Date: Tue, 29 Apr 2025 16:11:48 +0200
+Message-ID: <87wmb3t5uj.fsf@geanix.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-In mtk_pmic_keys_probe, the regs parameter is only set if the button is
-parsed in the device tree. However, on hardware where the button is left
-floating, that node will most likely be removed not to enable that
-input. In that case the code will try to dereference a null pointer.
+"Dmitry Torokhov" <dmitry.torokhov@gmail.com> writes:
 
-Let's use the regs struct instead as it is defined for all supported
-platforms. Note that it is ok setting the key reg even if that latter is
-disabled as the interrupt won't be enabled anyway.
+> On Mon, Apr 28, 2025 at 07:58:55AM +0000, Esben Haabendal wrote:
+>> On Monday, April 28th, 2025 at 09:48, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>> > On Tue, Apr 22, 2025 at 05:15:02PM GMT, Esben Haabendal wrote:
+>> >
+>> > > This should be added for boards where there is no pull-up on the reset pin,
+>> > > as the driver will otherwise switch the reset signal to high-impedance to
+>> > > save power, which obviously not safe without pull-up.
+>> > >
+>> > > Signed-off-by: Esben Haabendal esben@geanix.com
+>> > > ---
+>> > > Documentation/devicetree/bindings/input/touchscreen/goodix.yaml | 4 ++++
+>> > > 1 file changed, 4 insertions(+)
+>> > >
+>> > > diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+>> > > index eb4992f708b70fef93bd4b59b9565123f7c6ad5d..7e5c4b98f2cb1ef61798252ea5c573068a46d4aa 100644
+>> > > --- a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+>> > > +++ b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+>> > > @@ -45,6 +45,10 @@ properties:
+>> > > reset-gpios:
+>> > > maxItems: 1
+>> > >
+>> > > + no-reset-pull-up:
+>> >
+>> > Is this common property? Where is it defined? Otherwise missing vendor
+>> > prefix.
+>>
+>> Good question. When is something a common property?
+>>
+>> The idea of marking something as not having a pull-up on the reset pin could be considered a common thing I guess.
+>> But for now, I am defining it for the goodix driver only, as I am only aware of these devices needing to handle it in a special way.
+>>
+>> Should I rename it to goodix,no-reset-pull-up?
+>
+> We already have GPIO_PULL_UP/GPIO_PULL_DOWN flags available in GPIO
+> bindings. So maybe the correct way is to have the driver rely on them
+> and only leave the reset line in high-impedance mode if GPIO tells it
+> that there is a pull-up?
 
-Fixes: b581acb49aec5 ("Input: mtk-pmic-keys - transfer per-key bit in
-mtk_pmic_keys_regs")
+As I understand GPIO_PULL_UP/GPIO_PULL_DOWN flags in bindings, they
+indicate that pull-up/pull-down is to be configured for the gpio.
 
-Signed-off-by: Gary Bisson <bisson.gary@gmail.com>
----
- drivers/input/keyboard/mtk-pmic-keys.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This is different to what I am expressing with goodix,no-reset-pull-up,
+as I am expressing the lack of external pull-up on the signal. Without
+that, the goodix driver assumes that an external pull-up is mounted, and
+that the gpio pin can be set to high impedance, and the external pull-up
+will ensure that it stays high.
 
-diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
-index 5ad6be9141603..061d48350df66 100644
---- a/drivers/input/keyboard/mtk-pmic-keys.c
-+++ b/drivers/input/keyboard/mtk-pmic-keys.c
-@@ -147,8 +147,8 @@ static void mtk_pmic_keys_lp_reset_setup(struct mtk_pmic_keys *keys,
- 	u32 value, mask;
- 	int error;
- 
--	kregs_home = keys->keys[MTK_PMIC_HOMEKEY_INDEX].regs;
--	kregs_pwr = keys->keys[MTK_PMIC_PWRKEY_INDEX].regs;
-+	kregs_home = &regs->keys_regs[MTK_PMIC_HOMEKEY_INDEX];
-+	kregs_pwr = &regs->keys_regs[MTK_PMIC_PWRKEY_INDEX];
- 
- 	error = of_property_read_u32(keys->dev->of_node, "power-off-time-sec",
- 				     &long_press_debounce);
--- 
-2.47.2
+How do you propose that we can use GPIO_PULL_UP/GPIO_PULL_DOWN flags for
+this purpose?
 
+/Esben
 
