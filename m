@@ -1,91 +1,85 @@
-Return-Path: <linux-input+bounces-12075-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12076-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E03AAA1154
-	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 18:10:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 989BEAA118A
+	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 18:29:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6DD554A6955
-	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 16:10:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 900BF3AA24E
+	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 16:29:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96FDD242D94;
-	Tue, 29 Apr 2025 16:10:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5E493D561;
+	Tue, 29 Apr 2025 16:29:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J0ftIZUC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fuI4IVmA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FA4217F27;
-	Tue, 29 Apr 2025 16:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CFC227E9E
+	for <linux-input@vger.kernel.org>; Tue, 29 Apr 2025 16:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745943004; cv=none; b=KsbJoQsV1DKnG4eeYU4IIetV9o6s1hXSKpL5MXJbAjk6PSoz+pLhXfuqJ/RK0/accC8sytSdLrtDInY+vzXTFLmPvygk2hEz+DHdY7SoTDlUJie82Uo9Up6nCqXCxNKZCOieVfZJATVbVnS6Lrkl1JhT+yif2f56V0vBEpw1YT0=
+	t=1745944185; cv=none; b=NW4bdb0U88CC1rA88Lvn4ltA3BqwmJ2jNtopRsvrqyvv7YPWoPvm3YrT9ApWaVidb8Aik2BfVzlGbTOpszy04C+/yGJHixRJN51h8ef4LsKe9LyNbA7hbmOSrOowKq7dtAKkwCrpp3R7L94J7l8IvV94W9xnWV4irVf5mlx4vEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745943004; c=relaxed/simple;
-	bh=gQOECnHyi5YsqI/wovKB8htGE1EJ1z9Hy2iScY6OoZ8=;
+	s=arc-20240116; t=1745944185; c=relaxed/simple;
+	bh=oWnPuwv9rQYenfRDvn7G+/N0ceTGATxEw4goA/UKyHs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ThKsvqd7t7B0CJ9aO8uiortxCrVxXJzLoRJwhgndXSrv/eQEqkTcVqdY9FO4Thu4SOBQP4WymkX059CAlrjUQN04pEggWKyp33GJHgZg7fLDjW/FxAycHHJLQKmSIhId7ZjnszoVZnxoviA6jREA110sisPGEgx6fyak5yVhEGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J0ftIZUC; arc=none smtp.client-ip=209.85.210.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=a/wqgAAhpMdAS75vUMVSFT202nojWOAWFdI2HzS4oaJtyqnd6Rqod/cElsMbKiprHkMuaYRyVti1INWp0edFf9BcSU6c0w5uN36cK/YqXLUJwwiVI6kwAc8qnAsYotLQZzez4zSo81rLmUDJGW+qjcVuasHgM2YoH9s1nhcZ+DM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fuI4IVmA; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-739be717eddso5137767b3a.2;
-        Tue, 29 Apr 2025 09:10:02 -0700 (PDT)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2260c91576aso52732705ad.3
+        for <linux-input@vger.kernel.org>; Tue, 29 Apr 2025 09:29:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745943002; x=1746547802; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1745944183; x=1746548983; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2B5qENygMidXKJeYIpIMae3o3JEApgWUkkNB4KGW/vo=;
-        b=J0ftIZUC1zPPzmi1vvs+vyZhxgEO8oK0saRrb8YR6JgRu/uCiQGY+YBPqFsg/Fb+Ed
-         FcKgP34llx9qomAEVoj2AZRy/91iM640rUGgnHYe7RARAHfjzCR0e/95hrSJFbr6dtjk
-         vlzFwA/JxMXolf51ENlUxPeQy7M1A+yG+nYUG/KC8jOSyWJL7abCil9dcrHSpAOrq1vb
-         twsNqRJs2a71ZXj3vRnPzThddH3xOm9kOkDNrkwqmc98pphDCk5O1uQzJwzNlYeYvr+X
-         svidb6SEFSWmkrK1oTMayGGhULLUwt8c54baFVd92aIhfxSRPd7D95v657562/UlsIpP
-         phOA==
+        bh=kV54NwFT6iZkwZlyhbM/53RtCc7p3xgDGL6ZU6s+YaI=;
+        b=fuI4IVmA9hRnojAWHQwUQZ/DXV81BW4ijF2fzrP7qRmpZKdQRnf3evxIKKAxz4iXGj
+         68r9JNgM1egh2q2fitQ9bpMfqZY7WzAe1Dr1h0qEjhO2/7CIgULXjFCAv+lVixFd3qt8
+         2xJk6CeNfO74g5TL80nwCHW9n6/tFHCN/dfx3qv3WMD5lHsedfkY3t+mc53dHroMGnv1
+         i8AaEGCxJ/YvcYsrlx1xFBJxPNVDx/dVQqOaTzfdhom4NOufvIwFsNry9CGEgi3+Sk7h
+         CkhETNhZ0fB3HdzYXAjme9zS07mUSl0sBhJENeFIZT5GafYqQygmcZ05foVkuaRik5P3
+         cqMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745943002; x=1746547802;
+        d=1e100.net; s=20230601; t=1745944183; x=1746548983;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2B5qENygMidXKJeYIpIMae3o3JEApgWUkkNB4KGW/vo=;
-        b=vTo/qMIN25AwP3iFvgVbXHVYNWqzHw2EVrjKpmXDzzNQMB845LEiH3gKXaZ9PYx1SE
-         OZ10pOEAhc1gfmu0ScJtJh4TU+u5CyckBB8VIp7NXDjDSH7/Y6w8+Mc5zgmS71m0hvoC
-         b6QVoWEBHh3hAllNztoeECc5Bj+zqPgkaw2F1g/JqGUKczLgO3+HBeUdv4Kvh/4Q/cZl
-         kTdHTjFgFvt3YqIhKh1oYxohTwVMmVOp5w1buOY5xT4pnOX+F1bAt34FxUfQjyBNeIIz
-         ScP5QLurXErFyyc1M/1ubndwPo7BHjXcbyfmitvwnAMhMmzz3ihRpfsnYCX3gcFYQH+x
-         ULwg==
-X-Forwarded-Encrypted: i=1; AJvYcCU7JzxfvCUiifexbV0uAJO8ezwllaDjtyeIzIDhMp5bZ32GbZJzTzz/2aUm6fkBucvJY/f8RCgAw276dfo=@vger.kernel.org, AJvYcCX19OpcjU19w7csTnYVv7hFO38Vd40TTSzXtEXwdIp7RCoqti/p3EhlaZmY6npc5MHioaAdzuLXRNTKD79Z@vger.kernel.org, AJvYcCXWzKKDPUk4MsXY9/W9xW+w4oc0ly2SnRsneOJDJUOwgGxNMnnVb1DowhdNNJdk9n5OOEq51QANIc1b@vger.kernel.org
-X-Gm-Message-State: AOJu0YySH0h843u/XutHCRKCYuM3RJtcFtWt7eJNfWN1fAlnaVi/8/NL
-	qQIEIMq9fgHIPPY30utVawGQqbDC/DwGfyUZfFUswDsc21XPfx2c
-X-Gm-Gg: ASbGncvH1gWDI/3kekZ6I/w6iP4ICktO2aUi2nWtV+Xz22Wp3BbO9QEVHoPqcVZJZf4
-	FNfNIc892RSFyy9m+zex+VpNpd+6JaqApRL4mMNNzbxBFzev70BOsOCxHLCQcjcbssGGiLMwciW
-	OXem0o9I8JVGmuWFSGuUD860HJ0Cnni8+IMkTbEGPJAxkNEoZzeS5LFyjMjzvtmJG6M04Lsh/Kz
-	cNprLS4vNOtPhco71W3Rq6RVW1ctRYwShP2+OG6jFR2l5iyom8YaeDAr77Qn/Fx3k9MOLPFsaR+
-	GvrlqSQkgprW/bZRnLJFxzwkcrI1hgIo7k2lQTxHTg==
-X-Google-Smtp-Source: AGHT+IFJXA+JUl9XZQeMm1jD33AZmNE9lmmbmnwd59z6JU57Fzy/YxxJ4Z562yGuwuW+5My+9fiFzA==
-X-Received: by 2002:a05:6a00:ac5:b0:739:4a93:a5df with SMTP id d2e1a72fcca58-740294703dcmr4534450b3a.12.1745943001926;
-        Tue, 29 Apr 2025 09:10:01 -0700 (PDT)
+        bh=kV54NwFT6iZkwZlyhbM/53RtCc7p3xgDGL6ZU6s+YaI=;
+        b=BTZN4cgLfKjZ9A10LQHIMdrrwwKgqp8BdEgrVhlXpnXO139idyX4clfeuazVJBnLyy
+         322WCw01hKQiLFqUTzbMpiLACcgf/b8TzB6628EOyPy265t0YZZlCx8TplOY0xGXua0u
+         ItoZMzB0zzeR9d8sw+KI43qkrUMdGtuFceWnII2CPpqMwAWooBas4qylwW+1vCtqNSP8
+         iu6mzcTnktEiqz1tqnwPVZ+YXDKE/+RrUKH+CY2F3J1PJwojeFUAhQub9qc8mkdSKC/D
+         JXoSacycFbMwmc/eXIpXvrbKX6W6qb875Z61ZkiPfWP3nShnT2avE+92xXNMpEiLo919
+         fdSA==
+X-Forwarded-Encrypted: i=1; AJvYcCUDSH9rn/rVRWMXxaqb9l7M5DcgnK0Y0vstWFnmg2OYxaRhlxxRfYbgzKxnEUUG63ubVw6+T+ysC9TKiw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyENjGciYIRZECIWCWuTnhEsWODubGeeWqtP1qZR8yRsH8WsVye
+	CE+Nnjkh9ZjERqBZTBjyPBfqtdu3ALuHf41hboUbKiaoktjTlX+P
+X-Gm-Gg: ASbGncsFKdY+TBI2k+uurnt1fO+VBdugszM5/OPDfKDCBa8g+SvgCj0nzl8Y0OWNHhn
+	wyxnoiV3+6+J4aganBOmc/vnZo0wa4Za1KxibhDM2K2VBqtJQaihnduyh1+1/LAejWC1jwamDzG
+	E71WmbttPxWy21vzlxvqwvPkgIfzOnzUT+tzVDqflA6tTHs4UTWYdcKkr01VAKwtVushcvW8urV
+	MH2UHpCxF1y+yGF+Uw0/aNARZSzuOnTGcySq3z7dIuY+KO5+EokTfuvnckp4YT49FD+x1gJLfmp
+	nkqAFZjfQJZF050kkuSUnom7hX6qRdAaDG3vf6T75g==
+X-Google-Smtp-Source: AGHT+IH7S2ba85QY5A3S71xSkb4HSg57bgRGtTvcCIed7g4fF8lrRFgDVMh3VVGTcfWTqLUWKDpqOQ==
+X-Received: by 2002:a17:903:32c9:b0:223:53fb:e1dd with SMTP id d9443c01a7336-22df3534f10mr200405ad.9.1745944183295;
+        Tue, 29 Apr 2025 09:29:43 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:adc2:8397:4f51:d5a0])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b15fa80fa6asm9150594a12.61.2025.04.29.09.10.00
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db4dbd6ebsm104941775ad.80.2025.04.29.09.29.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Apr 2025 09:10:01 -0700 (PDT)
-Date: Tue, 29 Apr 2025 09:09:58 -0700
+        Tue, 29 Apr 2025 09:29:42 -0700 (PDT)
+Date: Tue, 29 Apr 2025 09:29:40 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Esben Haabendal <esben@geanix.com>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: goodix: Add
- no-reset-pull-up property
-Message-ID: <2qwfe6yw3pil5tumibiagikqhgwct27vevi674fklfieabzozc@hzjwatn3vjss>
-References: <20250429-goodix-no-reset-pull-up-v2-0-0687a4ad5a04@geanix.com>
- <20250429-goodix-no-reset-pull-up-v2-1-0687a4ad5a04@geanix.com>
- <qql72NifdMmJKSRJmT2927URaXnbRAbz9Yjzn9lBrOwjka7NxVvy5YKJUSLmBp435aYJiTkPqeuW1hMDcKKC4g==@protonmail.internalid>
- <20250429-effects-subscript-58eb41737816@spud>
- <87selrt1vl.fsf@geanix.com>
+To: Gary Bisson <bisson.gary@gmail.com>
+Cc: angelogioacchino.delregno@collabora.com, matthias.bgg@gmail.com, 
+	linux-input@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] Input: mtk-pmic-keys - fix possible null pointer
+ dereference
+Message-ID: <3hpxs4acz4bgef7t3mvdhc2xr6o54vsxthwrpobmaxljo6lryw@lxpeojs5afk2>
+References: <20250429122815.72724-1-bisson.gary@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -94,46 +88,24 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87selrt1vl.fsf@geanix.com>
+In-Reply-To: <20250429122815.72724-1-bisson.gary@gmail.com>
 
-On Tue, Apr 29, 2025 at 05:37:34PM +0200, Esben Haabendal wrote:
-> "Conor Dooley" <conor@kernel.org> writes:
+On Tue, Apr 29, 2025 at 02:28:15PM +0200, Gary Bisson wrote:
+> In mtk_pmic_keys_probe, the regs parameter is only set if the button is
+> parsed in the device tree. However, on hardware where the button is left
+> floating, that node will most likely be removed not to enable that
+> input. In that case the code will try to dereference a null pointer.
 > 
-> > On Tue, Apr 29, 2025 at 11:56:11AM +0200, Esben Haabendal wrote:
-> >> This should be added for boards where there is no pull-up on the reset pin,
-> >> as the driver will otherwise switch the reset signal to high-impedance to
-> >> save power, which obviously not safe without pull-up.
-> >> 
-> >> Signed-off-by: Esben Haabendal <esben@geanix.com>
-> >> ---
-> >>  Documentation/devicetree/bindings/input/touchscreen/goodix.yaml | 4 ++++
-> >>  1 file changed, 4 insertions(+)
-> >> 
-> >> diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-> >> index eb4992f708b70fef93bd4b59b9565123f7c6ad5d..21ac13046b6e021eeb403d854aabc945801dd29f 100644
-> >> --- a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-> >> +++ b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-> >> @@ -45,6 +45,10 @@ properties:
-> >>    reset-gpios:
-> >>      maxItems: 1
-> >>  
-> >> +  goodix,no-reset-pull-up:
-> >> +    type: boolean
-> >> +    description: There is no pull-up on reset pin
-> >
-> > I have to wonder, why are these system using the reset property if the
-> > reset is not usable? Shouldn't the property be omitted?
+> Let's use the regs struct instead as it is defined for all supported
+> platforms. Note that it is ok setting the key reg even if that latter is
+> disabled as the interrupt won't be enabled anyway.
 > 
-> The reset are fully functional. It just have to be controlled in
-> push-pull mode.
+> Fixes: b581acb49aec5 ("Input: mtk-pmic-keys - transfer per-key bit in
+> mtk_pmic_keys_regs")
 > 
-> Because of the lack of external pull-up, configuring the reset gpio as
-> input (to save power) puts the reset pin in an unknown state.
+> Signed-off-by: Gary Bisson <bisson.gary@gmail.com>
 
-How much power do we save by doing this? I don't recall other drivers
-trying to switch reset GPIO into input mode after performing reset...
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
