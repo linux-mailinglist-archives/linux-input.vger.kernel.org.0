@@ -1,85 +1,92 @@
-Return-Path: <linux-input+bounces-12076-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-12077-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989BEAA118A
-	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 18:29:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE0B5AA1197
+	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 18:33:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 900BF3AA24E
-	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 16:29:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4653F9248B5
+	for <lists+linux-input@lfdr.de>; Tue, 29 Apr 2025 16:31:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5E493D561;
-	Tue, 29 Apr 2025 16:29:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A374C2459FF;
+	Tue, 29 Apr 2025 16:32:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fuI4IVmA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j58TMmJA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CFC227E9E
-	for <linux-input@vger.kernel.org>; Tue, 29 Apr 2025 16:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208252746A
+	for <linux-input@vger.kernel.org>; Tue, 29 Apr 2025 16:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745944185; cv=none; b=NW4bdb0U88CC1rA88Lvn4ltA3BqwmJ2jNtopRsvrqyvv7YPWoPvm3YrT9ApWaVidb8Aik2BfVzlGbTOpszy04C+/yGJHixRJN51h8ef4LsKe9LyNbA7hbmOSrOowKq7dtAKkwCrpp3R7L94J7l8IvV94W9xnWV4irVf5mlx4vEs=
+	t=1745944325; cv=none; b=ghuy+UITem9IZtwwnbzSAIQ6L+g5bNGgFWN1rXV+RZt0wuUQlLRXbwwAS1KYK6HC16rKDCMU0m6FMaZM7VjOusXuthVUN5kpAaamak1O2G3zuyLDXJyuLNUuOqAHXqvLSyn/GHvV4EE8EGmULU8kseoPbOg3/3w+Zss6jKFDTb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745944185; c=relaxed/simple;
-	bh=oWnPuwv9rQYenfRDvn7G+/N0ceTGATxEw4goA/UKyHs=;
+	s=arc-20240116; t=1745944325; c=relaxed/simple;
+	bh=TaKFxe2hssq5Kcxfx9jB4lJIIjkRkV1AwL1s0kSu4/g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a/wqgAAhpMdAS75vUMVSFT202nojWOAWFdI2HzS4oaJtyqnd6Rqod/cElsMbKiprHkMuaYRyVti1INWp0edFf9BcSU6c0w5uN36cK/YqXLUJwwiVI6kwAc8qnAsYotLQZzez4zSo81rLmUDJGW+qjcVuasHgM2YoH9s1nhcZ+DM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fuI4IVmA; arc=none smtp.client-ip=209.85.214.180
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ext+BBsGXOfrVTxViakFcC+ekID6UrsA6775wY3/iXuy66oKIQPa0wjIAILI95jf9rDu7HTtQ8zqfDPC5dDmrltj1wvAlArGBe0jbBj8uvUEGUyKhIcJnJlqD9txT6tLYvFeoseZ/IBVVWIhq+wRiCb4GFtNERXwAe4jZq6qfew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j58TMmJA; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2260c91576aso52732705ad.3
-        for <linux-input@vger.kernel.org>; Tue, 29 Apr 2025 09:29:43 -0700 (PDT)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-227c7e57da2so53538345ad.0
+        for <linux-input@vger.kernel.org>; Tue, 29 Apr 2025 09:32:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745944183; x=1746548983; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1745944323; x=1746549123; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kV54NwFT6iZkwZlyhbM/53RtCc7p3xgDGL6ZU6s+YaI=;
-        b=fuI4IVmA9hRnojAWHQwUQZ/DXV81BW4ijF2fzrP7qRmpZKdQRnf3evxIKKAxz4iXGj
-         68r9JNgM1egh2q2fitQ9bpMfqZY7WzAe1Dr1h0qEjhO2/7CIgULXjFCAv+lVixFd3qt8
-         2xJk6CeNfO74g5TL80nwCHW9n6/tFHCN/dfx3qv3WMD5lHsedfkY3t+mc53dHroMGnv1
-         i8AaEGCxJ/YvcYsrlx1xFBJxPNVDx/dVQqOaTzfdhom4NOufvIwFsNry9CGEgi3+Sk7h
-         CkhETNhZ0fB3HdzYXAjme9zS07mUSl0sBhJENeFIZT5GafYqQygmcZ05foVkuaRik5P3
-         cqMg==
+        bh=oORyFqbDz3vR3+ZORqG2mVQcDwRWHnBpYg/mivLmELc=;
+        b=j58TMmJAderVshIsMr4NW7V7rX7tLhwdVZAfJ/42Bp+DyKmPlb5tz1xHv8MrcyC2OR
+         lPCBu14JsyfG/o6apbHumneulCbRIKH3HYqyJV5p1sHbLUCk4sRILA3RUrjcRP/JfxZP
+         foujKDk59GH6vqBbIdGSqKcerWJLPXFDupoX6032PkPCin0eEwAc9/o6aTfEkvS4ZcV1
+         +uvEFqsWMjuXrvIN37T+W7ofuCkzNPUb0R/J/WJancPDpNoWSbCHiYtT0+dMiLOXykr7
+         M9cF6Q+Z/EhLlDdhEtjDYUbBZ0Vm4Ohir5aihtm/+H1td2t4QXZOgZtoorfyksOKb4Lk
+         l5Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745944183; x=1746548983;
+        d=1e100.net; s=20230601; t=1745944323; x=1746549123;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kV54NwFT6iZkwZlyhbM/53RtCc7p3xgDGL6ZU6s+YaI=;
-        b=BTZN4cgLfKjZ9A10LQHIMdrrwwKgqp8BdEgrVhlXpnXO139idyX4clfeuazVJBnLyy
-         322WCw01hKQiLFqUTzbMpiLACcgf/b8TzB6628EOyPy265t0YZZlCx8TplOY0xGXua0u
-         ItoZMzB0zzeR9d8sw+KI43qkrUMdGtuFceWnII2CPpqMwAWooBas4qylwW+1vCtqNSP8
-         iu6mzcTnktEiqz1tqnwPVZ+YXDKE/+RrUKH+CY2F3J1PJwojeFUAhQub9qc8mkdSKC/D
-         JXoSacycFbMwmc/eXIpXvrbKX6W6qb875Z61ZkiPfWP3nShnT2avE+92xXNMpEiLo919
-         fdSA==
-X-Forwarded-Encrypted: i=1; AJvYcCUDSH9rn/rVRWMXxaqb9l7M5DcgnK0Y0vstWFnmg2OYxaRhlxxRfYbgzKxnEUUG63ubVw6+T+ysC9TKiw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyENjGciYIRZECIWCWuTnhEsWODubGeeWqtP1qZR8yRsH8WsVye
-	CE+Nnjkh9ZjERqBZTBjyPBfqtdu3ALuHf41hboUbKiaoktjTlX+P
-X-Gm-Gg: ASbGncsFKdY+TBI2k+uurnt1fO+VBdugszM5/OPDfKDCBa8g+SvgCj0nzl8Y0OWNHhn
-	wyxnoiV3+6+J4aganBOmc/vnZo0wa4Za1KxibhDM2K2VBqtJQaihnduyh1+1/LAejWC1jwamDzG
-	E71WmbttPxWy21vzlxvqwvPkgIfzOnzUT+tzVDqflA6tTHs4UTWYdcKkr01VAKwtVushcvW8urV
-	MH2UHpCxF1y+yGF+Uw0/aNARZSzuOnTGcySq3z7dIuY+KO5+EokTfuvnckp4YT49FD+x1gJLfmp
-	nkqAFZjfQJZF050kkuSUnom7hX6qRdAaDG3vf6T75g==
-X-Google-Smtp-Source: AGHT+IH7S2ba85QY5A3S71xSkb4HSg57bgRGtTvcCIed7g4fF8lrRFgDVMh3VVGTcfWTqLUWKDpqOQ==
-X-Received: by 2002:a17:903:32c9:b0:223:53fb:e1dd with SMTP id d9443c01a7336-22df3534f10mr200405ad.9.1745944183295;
-        Tue, 29 Apr 2025 09:29:43 -0700 (PDT)
+        bh=oORyFqbDz3vR3+ZORqG2mVQcDwRWHnBpYg/mivLmELc=;
+        b=j1nqdslKYmrhxzjR8w/wOaiK3NQ8yPr61SvEz6eE6AHD2A3n5+ilEWQsxEioB0zkdf
+         Sx4voomTSroT3T6PBkJInrqsqlIMAyZg3D4Db5w/LSh67begl3Pr8i645csQU+D5LVGG
+         2iZY0jo6avSkp3dqBoSyydRPm9je24Nqylm8FCk8nD8/Fyf6LmF0eCmUjFPaaC9Pb71C
+         bu4gjLmmBPeHdreF0e8bcWAPRygyS5gyMzwei+ecEVpIllokgfJj4su8iWaEK1WnsN58
+         XqmvNVf9JgSLT5C8AbEhyHEsvzWTqK7zC0Da1gj39bNDQOYRdYngYZA2qWzErTGjyGzY
+         8/Lg==
+X-Forwarded-Encrypted: i=1; AJvYcCVsdC2CLx2l3iDIGTRdFM+pd9N5bM3+NrD0G3nl54Za1y7f39m+ThZK8K8OUmrtPpYh57v7eDmhDcN5Kg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzdG04AwEbLLfJYuJo0ig+O4auo8NXLDLhdGPIfLuyEn4dMifKI
+	S67UL41UV1QkfrE6L0UigKEA8FhJWhXaCgd5YdKyZadG1PLbVymfv8unKg==
+X-Gm-Gg: ASbGncsoVKDgYDwDPIdaHgjHJxZF3ThpTM3LrglfhdcsXsXoj8mC0V2JO62joGIDGzc
+	cZ2l2V74rblSlZ+rQA5TDLmNV7uADZ2aQ5bddNZ0UeM1m14dxMMtJc4Ssa5ZzB23YrLsPtulMbm
+	15K8l09VoyYjGV4JDUhhEBGt0A34zp9UYIop2t8NbL0rA32OwYWQO0THJHetyvdYh5Ya1psjUSL
+	iDw8fclFeVr28PoNsPzivLZHCMCjRFbp1gndhm6OhhrvbQ1jPJsV3g2ssTsC+QOXjfQG59mT9oY
+	rnbOAh9AKW9LY1FJ3rWorHeFmw8YZe+d1qyp0wmcDA==
+X-Google-Smtp-Source: AGHT+IF4e6Ez64UmVln7ZoSh7WHUSTrrdOMIyw9nf40SxEzzxVePYaLLhzUwhWOU02PQQjficBnNAQ==
+X-Received: by 2002:a17:902:e80d:b0:21f:6a36:7bf3 with SMTP id d9443c01a7336-22df34b8588mr610855ad.12.1745944323164;
+        Tue, 29 Apr 2025 09:32:03 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:adc2:8397:4f51:d5a0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db4dbd6ebsm104941775ad.80.2025.04.29.09.29.42
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b1d59d45835sm3155795a12.67.2025.04.29.09.32.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Apr 2025 09:29:42 -0700 (PDT)
-Date: Tue, 29 Apr 2025 09:29:40 -0700
+        Tue, 29 Apr 2025 09:32:02 -0700 (PDT)
+Date: Tue, 29 Apr 2025 09:32:00 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Gary Bisson <bisson.gary@gmail.com>
-Cc: angelogioacchino.delregno@collabora.com, matthias.bgg@gmail.com, 
-	linux-input@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] Input: mtk-pmic-keys - fix possible null pointer
- dereference
-Message-ID: <3hpxs4acz4bgef7t3mvdhc2xr6o54vsxthwrpobmaxljo6lryw@lxpeojs5afk2>
-References: <20250429122815.72724-1-bisson.gary@gmail.com>
+To: jt <enopatch@gmail.com>, Peter Hutterer <peter.hutterer@who-t.net>
+Cc: Aditya Garg <gargaditya08@live.com>, linux-input@vger.kernel.org
+Subject: Re: PROBLEM: Synaptics TouchStyk (trackpoint) on HP EliteBook 850 G1
+ detected as "PS/2 Generic Mouse".
+Message-ID: <sgkvmguwmongfjofsgxd4ev56whnythfxkg3dltfajcac3jpyk@tol7oavqk6cq>
+References: <CAAbCkm+hdmJ4ozW4viBkwp+7QQPgymA+bfb5ddOUCB=kaBvF9w@mail.gmail.com>
+ <PN3PR01MB9597EA06B5B28C50A8CBBD3BB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <CAAbCkm+v4EV2TgkfMSGjYNvy_HgXSYAm2cFYjjrA4tv+WqBREQ@mail.gmail.com>
+ <sxipdsuhfffda56hwlvajai3pfxamcefbvyu6mcwr4nmgsri6a@hfblyrc3hxau>
+ <CAAbCkmJVWu9x4=68aKM+LNrU1BZ1bJm5TVoye3qGryw3yfF43A@mail.gmail.com>
+ <g7xqjium63zvujt55nng3imurlan5smkv56ad7em4kfnzmmseg@a3lcjlmzcowh>
+ <CAAbCkmLbj_w_UzTt8mMYnfA1P02x0cK46jWZyhiRzpRNHEBRwg@mail.gmail.com>
+ <CAAbCkm+cnYCoe0+40rvHT8yt06N06fjq6P_mZOZvO0kXn6v=rQ@mail.gmail.com>
+ <7dzdsnr555tdnmwwp4n2bbycq7dbk6l32r7cz7i4arnln5qy3m@rmzvahhxk4dv>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -88,24 +95,55 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250429122815.72724-1-bisson.gary@gmail.com>
+In-Reply-To: <7dzdsnr555tdnmwwp4n2bbycq7dbk6l32r7cz7i4arnln5qy3m@rmzvahhxk4dv>
 
-On Tue, Apr 29, 2025 at 02:28:15PM +0200, Gary Bisson wrote:
-> In mtk_pmic_keys_probe, the regs parameter is only set if the button is
-> parsed in the device tree. However, on hardware where the button is left
-> floating, that node will most likely be removed not to enable that
-> input. In that case the code will try to dereference a null pointer.
+On Mon, Apr 28, 2025 at 06:19:07PM -0700, Dmitry Torokhov wrote:
+> On Thu, Apr 24, 2025 at 08:18:00PM +0100, jt wrote:
+> > On Thu, 10 Apr 2025 at 20:48, jt <enopatch@gmail.com> wrote:
+> > >
+> > > On Thu, 10 Apr 2025 at 10:02, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+> > > > And please send me another dmesg of boot with the above config and
+> > > > i8042.debug=1.
+> > >
+> > > My first attempt was with "i8042.nomux=1
+> > > psmouse.synaptics_intertouch=1 i8042.debug=1". With this combination
+> > > of parameters, libinput only sees 1 pointing device which it describes
+> > > as "PS/2 Generic Mouse". However, both the touchpad and the trackpoint
+> > > are able to move the pointer under xorg.
+> > >
+> > > I then thought to try removing the "i8042.nomux=1", leaving only
+> > > "psmouse.synaptics_intertouch=1 i8042.debug=1". libinput now shows 2
+> > > pointing devices: a "Synaptics TM2769-001" and a "PS/2 Generic Mouse".
+> > >
+> > > I have attached both dmesg outputs for the above. I can attach as many
+> > > different dmesg outputs as would be helpful to you - just let me know
+> > > exactly which different parameter combinations you would like me to
+> > > try.
+> > 
+> > Hi Dmitry. It has been a couple of weeks since I sent this, and I just
+> > wanted to make sure that you had received it.
 > 
-> Let's use the regs struct instead as it is defined for all supported
-> platforms. Note that it is ok setting the key reg even if that latter is
-> disabled as the interrupt won't be enabled anyway.
+> Sorry about the delay. I looked at the device initialization and the
+> "TouchStyk" device does not respond to the Trackpoint protocol queries,
+> so from the kernel point of view there is nothing distinguishing it from
+> a barebones PS/2 mouse.
 > 
-> Fixes: b581acb49aec5 ("Input: mtk-pmic-keys - transfer per-key bit in
-> mtk_pmic_keys_regs")
-> 
-> Signed-off-by: Gary Bisson <bisson.gary@gmail.com>
+> Peter, is there a way to add a quick based on system info to libinput to
 
-Applied, thank you.
+Meant to say "quirk" here.
+
+> identify that PS/2 device as a trackpoint variant? Unfortunately HP used
+> the same PNP IDs for the main touchpad and the trackpoint...
+
+Well, I forgot to CC Peter. Let's do this now.
+
+> 
+> As far as the main touchpad module goes I am about to send out a patch
+> to add it to the list of SMBus-enabled variants. Would you like to be
+> credited as "reported by"? If so what should I use as name/email?
+> 
+> Thanks.
+> 
 
 -- 
 Dmitry
